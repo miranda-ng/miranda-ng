@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 HINSTANCE g_hInst = 0;
-PLUGINLINK * pluginLink;
 CLIST_INTERFACE* pcli = NULL;
 int hLangpack;
 
@@ -159,16 +158,16 @@ static ClcCacheEntryBase* fnCreateCacheItem( HANDLE hContact )
 	return (ClcCacheEntryBase*)p;
 }
 
-extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
+extern "C" int __declspec(dllexport) CListInitialise()
 {
 	int rc = 0;
-	pluginLink = link;
 
 	// get the internal malloc/free()
 	__try {
 
 		OutputDebugStringA("CListInitialise ClistMW\r\n");
-		mir_getLP( &pluginInfo );
+		mir_getLP( &pluginInfo );
+
 		pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
 		if ( (INT_PTR)pcli == CALLSERVICE_NOTFOUND ) {
 LBL_Error:
@@ -231,11 +230,11 @@ LBL_Error:
 }
 
 // never called by a newer plugin loader.
-extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
+extern "C" int __declspec(dllexport) Load(void)
 {
 	OutputDebugStringA("Load ClistMW\r\n");
 	MessageBoxA(0,"You Running Old Miranda, use >30-10-2004 version!","MultiWindow Clist",0);
-	CListInitialise(link);
+	CListInitialise();
 	return 1;
 }
 

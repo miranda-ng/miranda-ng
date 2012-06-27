@@ -18,7 +18,7 @@
 
 const int vf_default = VF_VS|VF_HFL|VF_IGN|VF_CID|VF_SHOWID|VF_RECV|VF_STAT|VF_SMNAME|VF_CIDN|VF_CIP;
 
-PLUGINLINK *pluginLink;
+
 MUUID interfaces[] = {MIID_MENUEX, MIID_LAST};
 HINSTANCE hinstance;
 HANDLE hmenuVis,hmenuOff,hmenuHide,hmenuIgnore,hmenuProto,hmenuAdded,hmenuAuthReq;
@@ -1358,9 +1358,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 	hHooks[7] = HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
 	return 0;

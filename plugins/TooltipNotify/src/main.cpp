@@ -20,10 +20,6 @@ static int ContactSettingChanged(WPARAM wParam,LPARAM lParam);
 static int ProtoAck(WPARAM,LPARAM);
 static int ProtoContactIsTyping(WPARAM wParam,LPARAM lParam);
 
-
-// Globals
-PLUGINLINK *pluginLink;	// cannot be static since it is used for mim service calls
-
 static HANDLE g_hContactSettingChanged = 0;
 static HANDLE g_hOptionsInitialize = 0;
 static HANDLE g_hModulesLoaded = 0;
@@ -94,20 +90,16 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &sPluginInfo;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *pLink)
+extern "C" int __declspec(dllexport) Load(void)
 {
-
 	if (!g_bRightModule) return 0;
 
-
-	pluginLink = pLink;
 	mir_getLP(&sPluginInfo);
 
 	g_pTooltipNotify = new CTooltipNotify(g_hInstDLL);
 	assert(g_pTooltipNotify!=0);
 	
 	g_hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-
 	return 0;
 }
 

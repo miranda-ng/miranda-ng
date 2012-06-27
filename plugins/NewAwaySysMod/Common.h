@@ -37,8 +37,7 @@
 #include <crtdbg.h>
 #include <tchar.h>
 #include <stdarg.h>
-#include "AggressiveOptimize.h"
-#include "resource.h"
+
 #include "newpluginapi.h"
 #include "m_clist.h"
 #include "m_system.h"
@@ -52,6 +51,7 @@
 #include "m_plugins.h"
 #include "m_awaymsg.h"
 #include "m_utils.h"
+#include "m_system_cpp.h"
 #include "m_history.h"
 #include "m_message.h"
 #include "m_userinfo.h"
@@ -59,6 +59,8 @@
 #define THEMEAPI // we don't need no uxtheme defines :-/ they break everything when trying to include tmschema.h later
 #include "win2k.h"
 #undef THEMEAPI
+
+#include "resource.h"
 
 #include "m_variables.h"
 //#include "m_toptoolbar.h"

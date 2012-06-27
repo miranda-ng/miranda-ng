@@ -1,7 +1,6 @@
 #include "autorun.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
 HANDLE hHookOptionInit = NULL;
 int hLangpack;
 
@@ -130,9 +129,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
 	mir_getLP(&pluginInfoEx);
 	hHookOptionInit = HookEvent(ME_OPT_INITIALISE, AutorunOptInitialise);
 	return 0;

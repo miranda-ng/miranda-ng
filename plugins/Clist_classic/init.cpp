@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 HINSTANCE g_hInst = 0;
-PLUGINLINK *pluginLink;
 CLIST_INTERFACE* pcli = NULL;
 HIMAGELIST himlCListClc = NULL;
 int hLangpack;
@@ -136,11 +135,8 @@ static INT_PTR GetStatusMode(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // main clist initialization routine
 
-extern "C" __declspec(dllexport) int CListInitialise(PLUGINLINK * link)
+extern "C" __declspec(dllexport) int CListInitialise()
 {
-	pluginLink = link;
-
-	// get the internal malloc/free()
 	mir_getLP( &pluginInfo );
 
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
@@ -170,7 +166,7 @@ LBL_Error:
 /////////////////////////////////////////////////////////////////////////////////////////
 // a plugin loader aware of CList exports will never call this.
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	return 1;
 }

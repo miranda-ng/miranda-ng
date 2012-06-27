@@ -61,7 +61,7 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return gInterfaces;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK * Link)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&gPluginInfoEx);
 	return 1;

@@ -29,7 +29,7 @@ int hLangpack;
 
 CommonData commonData = {0};
 
-PLUGINLINK *pluginLink;
+
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -61,10 +61,10 @@ extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces()
 
 #include <commctrl.h>
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
 	Log("%s", "Entering function " __FUNCTION__);
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 
 	INITCOMMONCONTROLSEX icex;

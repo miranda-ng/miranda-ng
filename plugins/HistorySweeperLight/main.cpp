@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink; 
-
 
 static HANDLE hHooks[5];
 int hLangpack;
@@ -153,9 +151,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

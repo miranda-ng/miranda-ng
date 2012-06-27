@@ -45,8 +45,6 @@ Last change by : $Author: rainwater $
 
 #include "../Source/libpng/png.h"
 
-PLUGINLINK *pluginLink = NULL;
-
 static const PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -1228,9 +1226,8 @@ static int IMGSERVICE_Load()
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
 	return IMGSERVICE_Load();
 }
 

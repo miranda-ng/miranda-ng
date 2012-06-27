@@ -89,7 +89,7 @@ void MText_InitFormatting1(TextObject *text) {
 // thus enabling devs to fully utilize the mtextcontrol API.
 // All functions will be exported as miranda services for compatibility.
 //
-// the interface is populated during the Load(PLUGINLINK *link) handler, so you can assume it is ready when Miranda
+// the interface is populated during the Load(void) handler, so you can assume it is ready when Miranda
 // throw the ME_SYSTEM_MODULESLOADED event and you can generate a warning in your ModulesLoaded() when
 // it depends on the mtextcontrol interface and the mtextcontrol plugin is missing.
 // 

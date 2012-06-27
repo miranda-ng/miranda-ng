@@ -44,7 +44,7 @@ static HANDLE hImportService = NULL;
 INT_PTR CALLBACK WizardDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 static HWND hwndWizard = NULL;
 
 PLUGININFOEX pluginInfo = {
@@ -126,9 +126,9 @@ static int OnExit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP( &pluginInfo );
 
 	hImportService = CreateServiceFunction(IMPORT_SERVICE, ImportCommand);

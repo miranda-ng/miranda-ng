@@ -42,7 +42,7 @@ static PLUGININFOEX pluginInfo = {
 };
 
 HINSTANCE g_hInst=NULL;
-PLUGINLINK *pluginLink;
+
 
 static int getCapability( int flag )
 {
@@ -115,15 +115,10 @@ static int grokHeader( char * profile, int * error )
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
-static int LoadDatabase( char * profile, void * plink )
+static int LoadDatabase(char * profile)
 {
-	PLUGINLINK *link = (PLUGINLINK *)plink;
-
 	// don't need thread notifications
 	strncpy(szDbPath, profile, sizeof(szDbPath));
-
-	// this is like Load()'s pluginLink
-	pluginLink=link;
 
 	// set the memory, lists & UTF8 manager
 	mir_getLP( &pluginInfo );
@@ -177,7 +172,7 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	return 1;
 }

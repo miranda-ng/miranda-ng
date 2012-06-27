@@ -22,8 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "irc.h"
 #include "version.h"
 
-PLUGINLINK*    pluginLink;
-HINSTANCE      hInst = NULL;
+HINSTANCE hInst = NULL;
 
 int hLangpack;
 
@@ -94,9 +93,9 @@ static int ircProtoUninit( CIrcProto* ppro )
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load( PLUGINLINK *link )
+extern "C" int __declspec(dllexport) Load(  )
 {
-	pluginLink = link;
+
 	mir_getLP( &pluginInfo );
 
 	AddIcons();

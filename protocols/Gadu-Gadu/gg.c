@@ -42,7 +42,7 @@ static const MUUID interfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
 // Other variables
 HINSTANCE hInstance;
-PLUGINLINK *pluginLink;
+
 XML_API xi;
 SSL_API si;
 CLIST_INTERFACE *pcli;
@@ -562,12 +562,12 @@ static int gg_proto_uninit(PROTO_INTERFACE *proto)
 
 //////////////////////////////////////////////////////////
 // When plugin is loaded
-int __declspec(dllexport) Load(PLUGINLINK * link)
+int __declspec(dllexport) Load(void)
 {
 	WSADATA wsaData;
 	PROTOCOLDESCRIPTOR pd;
 
-	pluginLink = link;
+
 	mir_getXI(&xi);
 	mir_getLP(&pluginInfo);
 

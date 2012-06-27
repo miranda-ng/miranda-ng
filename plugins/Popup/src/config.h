@@ -144,7 +144,6 @@ void LoadOptions();
 //===== General Plugin =====
 extern HINSTANCE hInst;
 extern HANDLE hMainThread;
-extern PLUGINLINK *pluginLink;
 extern HANDLE hSemaphore;
 extern BOOL closing;
 extern HANDLE folderId;

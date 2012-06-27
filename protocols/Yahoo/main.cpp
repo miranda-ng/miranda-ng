@@ -21,7 +21,6 @@
  * Global Variables
  */
 HINSTANCE   hInstance;
-PLUGINLINK* pluginLink;
 
 HANDLE g_hNetlibUser;
 
@@ -66,7 +65,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinst,DWORD /*fdwReason*/,LPVOID /*lpvR
  
 //=====================================================
 // Name : Load
-// Parameters: PLUGINLINK *link
+// Parameters: 
 // Returns : int
 // Description : Called when plugin is loaded into Miranda
 //=====================================================
@@ -95,13 +94,8 @@ static int yahooProtoUninit( CYahooProto* ppro )
 	return 0;
 }
 
-extern "C" int __declspec(dllexport)Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport)Load(void)
 {
- 	pluginLink = link;
-	
-	/**
-	 * Grab the interface handles (through pluginLink)
-	 */
 	mir_getLP( &pluginInfo );
 	
 	PROTOCOLDESCRIPTOR pd = { 0 };

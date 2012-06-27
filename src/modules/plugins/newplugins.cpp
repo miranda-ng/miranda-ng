@@ -296,7 +296,7 @@ void Plugin_Uninit(pluginEntry* p, bool bDynamic)
 	if (p->pclass & PCLASS_DB)
 		p->bpi.dblink->Unload(p->pclass & PCLASS_OK);
 
-	// if the basic API check had passed, call Unload if Load() was ever called
+	// if the basic API check had passed, call Unload if Load(void) was ever called
 	if (p->pclass & PCLASS_LOADED)
 		p->bpi.Unload();
 
@@ -660,7 +660,7 @@ int LoadNewPluginsModule(void)
 				Plugin_Uninit(pluginList_freeimg);
 	}	}
 
-	// first load the clist cos alot of plugins need that to be present at Load()
+	// first load the clist cos alot of plugins need that to be present at Load(void)
 	for (useWhiteList = 1; useWhiteList >= 0 && clist == NULL; useWhiteList--)
 		clist=getCListModule(exe, slice, useWhiteList);
 	/* the loop above will try and get one clist DLL to work, if all fail then just bail now */
@@ -748,7 +748,7 @@ int LoadNewPluginsModuleInfos(void)
 	// the database will select which db plugin to use, or fail if no profile is selected
 	if (LoadDatabaseModule()) return 1;
 	InitIni();
-	//  could validate the plugin entries here but internal modules arent loaded so can't call Load() in one pass
+	//  could validate the plugin entries here but internal modules arent loaded so can't call Load(void) in one pass
 	return 0;
 }
 

@@ -225,7 +225,7 @@
 
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 
 DWORD IDThread = 0;
@@ -1139,10 +1139,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
-	mir_getLP(&pluginInfo);
+
+	mir_getLP(&pluginInfo);
+
 	GetWindowsVersion();
 	OpenKeyboardDevice();
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

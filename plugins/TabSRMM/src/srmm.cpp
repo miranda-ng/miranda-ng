@@ -37,10 +37,10 @@
 extern int 	LoadSendRecvMessageModule(void);
 extern int 	SplitmsgShutdown(void);
 extern void LogErrorMessage(HWND hwndDlg, struct TWindowData *dat, int i, TCHAR *szMsg);
-extern int  Chat_Load(PLUGINLINK *link), Chat_Unload();
+extern int  Chat_Load(), Chat_Unload();
 extern void FreeLogFonts();
 
-PLUGINLINK *pluginLink;
+
 HINSTANCE g_hInst;
 LOGFONT lfDefault = {0};
 
@@ -87,14 +87,14 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
+extern "C" int __declspec(dllexport) Load(void)
 {
 	if (WinVerMajor() < 5) {
 		MessageBox(0, _T("This version of tabSRMM requires Windows 2000 or later."), _T("tabSRMM"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
-	pluginLink = link;
+
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 
@@ -102,7 +102,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
 
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
 
-	Chat_Load(pluginLink);
+	Chat_Load();
 
 	return LoadSendRecvMessageModule();
 }

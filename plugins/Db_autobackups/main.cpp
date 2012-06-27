@@ -3,7 +3,7 @@
 #include "m_trigger.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 TCHAR* profilePath;
 
@@ -167,9 +167,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink=link;
+
 	SysInit();
 	return 0;
 }

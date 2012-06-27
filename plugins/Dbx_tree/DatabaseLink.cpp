@@ -29,7 +29,7 @@ static int getCapability(int);
 static int getFriendlyName(char*, size_t, int);
 static int makeDatabase(char*, int*);
 static int grokHeader(char*, int*);
-static int Load(char*, void*);
+static int Load(char*);
 static int Unload(int);
 
 DATABASELINK gDBLink = {
@@ -42,9 +42,7 @@ DATABASELINK gDBLink = {
 	Unload,
 };
 
-PLUGINLINK *pluginLink = NULL;
 HANDLE hSystemModulesLoaded = 0;
-
 
 static int SystemModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
@@ -141,12 +139,11 @@ Affect: Tell the database to create all services/hooks that a 3.xx legecy databa
 	which is a PLUGINLINK structure
 Returns: 0 on success, nonzero on failure
 */
-static int Load(char* profile, void* link)
+static int Load(char* profile)
 {
 	if (gDataBase) delete gDataBase;
 	gDataBase = new CDataBase(profile);
 
-	pluginLink = (PLUGINLINK*)link;
 	RegisterServices();
 	CompatibilityRegister();
 
@@ -158,7 +155,7 @@ static int Load(char* profile, void* link)
 /*
 Affect: The database plugin should shutdown, unloading things from the core and freeing internal structures
 Returns: 0 on success, nonzero on failure
-Note: Unload() might be called even if Load() was never called, wasLoaded is set to 1 if Load() was ever called.
+Note: Unload() might be called even if Load(void) was never called, wasLoaded is set to 1 if Load(void) was ever called.
 */
 static int Unload(int wasLoaded)
 {

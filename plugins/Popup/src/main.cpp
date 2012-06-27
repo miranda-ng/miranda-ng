@@ -489,10 +489,10 @@ static int OkToExit(WPARAM wParam, LPARAM lParam)
 //===== Load =====
 //Initializes the services provided and the link to those needed
 //Called when the plugin is loaded into Miranda
-MIRAPI int Load(PLUGINLINK *link)
+MIRAPI int Load(void)
 {
 	char ver[1024];
-	pluginLink=link;
+
 
 	g_popup.isOsUnicode = (GetVersion() & 0x80000000) == 0;
 

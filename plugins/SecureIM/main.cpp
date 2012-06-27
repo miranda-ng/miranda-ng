@@ -1,6 +1,6 @@
 #include "commonheaders.h"
 
-PLUGINLINK *pluginLink;
+
 int hLangpack = 0;
 
 extern "C" BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
@@ -79,9 +79,9 @@ HANDLE AddSubItem(HANDLE rootid,LPCSTR name,int pos,int poppos,LPCSTR service,WP
 }
 
 
-int __cdecl Load(PLUGINLINK *link) {
+int __cdecl Load(void) {
 
-	pluginLink = link;
+
 	DisableThreadLibraryCalls(g_hInst);
 	InitializeCriticalSection(&localQueueMutex);
 

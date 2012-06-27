@@ -24,8 +24,8 @@
    mistag for GamerStatus,  BigMuscle for his code to use AAA
   Thanx to Tornado, orignal developer of AwaySys.
   Please note that some code from the Miranda's original away module (SRAway) is used around
-  AwaySys. I tried to mention it wherever possible, but I might have forgotten a few. Kudos to Miranda's authors.
-  The Read-Away-Msg part was practically copied from Miranda, not proud of it, but since I really can't see how can I make it better, there
+  AwaySys. i tried to mention it wherever possible, but i might have forgotten a few. Kudos to Miranda's authors.
+  The Read-Away-Msg part was practically copied from Miranda, not proud of it, but since i really can't see how can i make it better, there
   was no point in rewriting it all.
 */
 
@@ -48,9 +48,9 @@
 #include <process.h> // needed for MSVC 7 msvcr7*.dll patch
 
 HINSTANCE g_hInstance;
-PLUGINLINK *pluginLink;
+
 int hLangpack = 0;
-TMyArray<HANDLE> hHooks, hServices;
+LIST<void> hHooks(5), hServices(5);
 HANDLE g_hContactMenuItem = NULL, g_hReadStatMenuItem = NULL, /*g_hTopToolbarbutton = NULL, */g_hToggleSOEMenuItem = NULL, g_hToggleSOEContactMenuItem = NULL, g_hAutoreplyOnContactMenuItem = NULL, g_hAutoreplyOffContactMenuItem = NULL, g_hAutoreplyUseDefaultContactMenuItem = NULL;
 bool g_fNoProcessing = false; // tells the status change proc not to do anything
 int g_bIsIdle = false;
@@ -189,7 +189,7 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 	}
 	if (CContactSettings(iMode, hContactForSettings).Ignore)
 	{
-		CallAllowedPS_SETAWAYMSG(szProto, iMode, ""); // currently NULL makes ICQ to ignore _any_ further status message requests until the next PS_SETAWAYMSG, so I can't use it here..
+		CallAllowedPS_SETAWAYMSG(szProto, iMode, ""); // currently NULL makes ICQ to ignore _any_ further status message requests until the next PS_SETAWAYMSG, so i can't use it here..
 		return 0; // move along, sir
 	}
 
@@ -272,10 +272,10 @@ MIRANDAHOOK StatusMsgReqHooks[] = {StatusMsgReq1, StatusMsgReq2, StatusMsgReq3, 
 
 int IsAnICQProto(char *szProto)
 {
-	int I;
-	for (I = 0; I < MAXICQACCOUNTS; I++)
+	int i;
+	for (i = 0; i < MAXICQACCOUNTS; i++)
 	{
-		if (ICQProtoList[I] == (const char*)szProto)
+		if (ICQProtoList[i] == (const char*)szProto)
 		{
 			return true;
 		}
@@ -307,13 +307,13 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 		PROTOCOLDESCRIPTOR **proto;
 		int iProtoCount = 0;
 		CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&iProtoCount, (LPARAM)&proto);
-		int I;
-		for (I = 0; I < iProtoCount; I++)
+		int i;
+		for (i = 0; i < iProtoCount; i++)
 		{
-			if (proto[I]->type == PROTOTYPE_PROTOCOL)
+			if (proto[i]->type == PROTOTYPE_PROTOCOL)
 			{
-				Flag1 |= CallProtoService(proto[I]->szName, PS_GETCAPS, PFLAGNUM_1, 0);
-				Flag3 |= CallProtoService(proto[I]->szName, PS_GETCAPS, PFLAGNUM_3, 0);
+				Flag1 |= CallProtoService(proto[i]->szName, PS_GETCAPS, PFLAGNUM_1, 0);
+				Flag3 |= CallProtoService(proto[i]->szName, PS_GETCAPS, PFLAGNUM_3, 0);
 			}
 		}
 	}
@@ -326,21 +326,21 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 		SetForegroundWindow(g_SetAwayMsgPage.GetWnd());
 		return 0;
 	}
-	int I;
-	for (I = lengthof(StatusModeList) - 1; I >= 0; I--)
+	int i;
+	for (i = lengthof(StatusModeList) - 1; i >= 0; i--)
 	{
-		if (wParam == StatusModeList[I].Status)
+		if (wParam == StatusModeList[i].Status)
 		{
 			break;
 		}
 	}
-	if (I < 0)
+	if (i < 0)
 	{
 		return 0;
 	}
 	BOOL bScreenSaverRunning;
 	SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &bScreenSaverRunning, 0);
-	if (bScreenSaverRunning || g_MoreOptPage.GetDBValueCopy(StatusModeList[I].DontShowDialogCtlID))
+	if (bScreenSaverRunning || g_MoreOptPage.GetDBValueCopy(StatusModeList[i].DontShowDialogCtlID))
 	{
 		CProtoSettings((char*)lParam).SetMsgFormat(SMF_PERSONAL, CProtoSettings((char*)lParam).GetMsgFormat(GMF_LASTORDEFAULT));
 		ChangeProtoMessages((char*)lParam, wParam, TCString());
@@ -368,17 +368,17 @@ int CSStatusChange(WPARAM wParam, LPARAM lParam) // CommonStatus plugins (Startu
 		return -1;
 	}
 	LogMessage("ME_CS_STATUSCHANGEEX event:");
-	int I;
-	for (I = 0; I < g_CSProtoCount; I++)
+	int i;
+	for (i = 0; i < g_CSProtoCount; i++)
 	{
-		LogMessage("%d: cbSize=%d, szProto=%s, status=%d, lastStatus=%d, szMsg:", I + 1, ps[I]->cbSize, ps[I]->szName ? (char*)ps[I]->szName : "NULL", ps[I]->status, ps[I]->lastStatus, ps[I]->szMsg ? ps[I]->szMsg : "NULL");
-		if (ps[I]->status != ID_STATUS_DISABLED)
+		LogMessage("%d: cbSize=%d, szProto=%s, status=%d, lastStatus=%d, szMsg:", i + 1, ps[i]->cbSize, ps[i]->szName ? (char*)ps[i]->szName : "NULL", ps[i]->status, ps[i]->lastStatus, ps[i]->szMsg ? ps[i]->szMsg : "NULL");
+		if (ps[i]->status != ID_STATUS_DISABLED)
 		{
-			if (ps[I]->status != ID_STATUS_CURRENT)
+			if (ps[i]->status != ID_STATUS_CURRENT)
 			{
-				g_ProtoStates[ps[I]->szName].Status = (ps[I]->status == ID_STATUS_LAST) ? ps[I]->lastStatus : ps[I]->status;
+				g_ProtoStates[ps[i]->szName].Status = (ps[i]->status == ID_STATUS_LAST) ? ps[i]->lastStatus : ps[i]->status;
 			}
-			CProtoSettings(ps[I]->szName).SetMsgFormat(SMF_TEMPORARY, ps[I]->szMsg ? ANSI2TCHAR(ps[I]->szMsg) : CProtoSettings(ps[I]->szName).GetMsgFormat(GMF_LASTORDEFAULT));
+			CProtoSettings(ps[i]->szName).SetMsgFormat(SMF_TEMPORARY, ps[i]->szMsg ? ANSI2TCHAR(ps[i]->szMsg) : CProtoSettings(ps[i]->szName).GetMsgFormat(GMF_LASTORDEFAULT));
 		}
 	}
 	return 0;
@@ -417,15 +417,15 @@ int PreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 	TCHAR szSetStr[256], szReadStr[256];
 	if (szProto)
 	{
-		int I;
-		for (I = lengthof(StatusModeList) - 1; I >= 0; I--)
+		int i;
+		for (i = lengthof(StatusModeList) - 1; i >= 0; i--)
 		{
-			if (iMode == StatusModeList[I].Status)
+			if (iMode == StatusModeList[i].Status)
 			{
 				break;
 			}
 		}
-		if ((Flag1 & PF1_MODEMSGSEND && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iMode)) || ((Flag1 & PF1_IM) == PF1_IM && (I < 0 || !g_AutoreplyOptPage.GetDBValueCopy(StatusModeList[I].DisableReplyCtlID))))
+		if ((Flag1 & PF1_MODEMSGSEND && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iMode)) || ((Flag1 & PF1_IM) == PF1_IM && (i < 0 || !g_AutoreplyOptPage.GetDBValueCopy(StatusModeList[i].DisableReplyCtlID))))
 		{ // the protocol supports status message sending for current status, or autoreplying
 			mir_sntprintf(szSetStr, SIZEOF(szSetStr), TranslateT("Set %s message for the contact"), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iMode, GSMDF_TCHAR), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
 			miSetMsg.ptszName = szSetStr;
@@ -740,12 +740,12 @@ INT_PTR srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 		COptPage MsgTreeData(g_MsgTreePage);
 		COptItem_TreeCtrl *TreeCtrl = (COptItem_TreeCtrl*)MsgTreeData.Find(IDV_MSGTREE);
 		TreeCtrl->DBToMem(CString(MOD_NAME));
-		int I;
-		for (I = 0; I < TreeCtrl->Value.GetSize(); I++)
+		int i;
+		for (i = 0; i < TreeCtrl->Value.GetSize(); i++)
 		{
-			if (!(TreeCtrl->Value[I].Flags & TIF_GROUP) && !_tcsicmp(TreeCtrl->Value[I].Title, ai->targv[1]))
+			if (!(TreeCtrl->Value[i].Flags & TIF_GROUP) && !_tcsicmp(TreeCtrl->Value[i].Title, ai->targv[1]))
 			{
-				Result = TreeCtrl->Value[I].User_Str1;
+				Result = TreeCtrl->Value[i].User_Str1;
 				break;
 			}
 		}
@@ -836,44 +836,44 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, false, 0);
 	int iProtoCount = 0;
 	CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&iProtoCount, (LPARAM)&proto);
-	int I;
+	int i;
 	int CurProtoIndex;
-	for (I = 0, CurProtoIndex = 0; I < iProtoCount && CurProtoIndex < MAXICQACCOUNTS; I++)
+	for (i = 0, CurProtoIndex = 0; i < iProtoCount && CurProtoIndex < MAXICQACCOUNTS; i++)
 	{
-		if (proto[I]->type == PROTOTYPE_PROTOCOL)
+		if (proto[i]->type == PROTOTYPE_PROTOCOL)
 		{
-			HANDLE hHook = HookEvent(CString(proto[I]->szName) + ME_ICQ_STATUSMSGREQ, StatusMsgReqHooks[CurProtoIndex]);
+			HANDLE hHook = HookEvent(CString(proto[i]->szName) + ME_ICQ_STATUSMSGREQ, StatusMsgReqHooks[CurProtoIndex]);
 			if (hHook)
 			{
-				hHooks.AddElem(hHook);
-				ICQProtoList[CurProtoIndex] = proto[I]->szName;
+				hHooks.insert(hHook);
+				ICQProtoList[CurProtoIndex] = proto[i]->szName;
 				CurProtoIndex++;
 			}
 		}
 	}
-	hServices.AddElem(CreateServiceFunction(MS_AWAYSYS_SETCONTACTSTATMSG, SetContactStatMsg));
-	hServices.AddElem(CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_TOGGLE, ToggleSendOnEvent));
-	hServices.AddElem(CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_ON, srvAutoreplyOn));
-	hServices.AddElem(CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_OFF, srvAutoreplyOff));
-	hServices.AddElem(CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_USEDEFAULT, srvAutoreplyUseDefault));
-	hServices.AddElem(CreateServiceFunction(MS_NAS_GETSTATEA, GetStateA));
-	hServices.AddElem(CreateServiceFunction(MS_NAS_SETSTATEA, SetStateA));
-	hServices.AddElem(CreateServiceFunction(MS_NAS_GETSTATEW, GetStateW));
-	hServices.AddElem(CreateServiceFunction(MS_NAS_SETSTATEW, SetStateW));
-	hServices.AddElem(CreateServiceFunction(MS_NAS_INVOKESTATUSWINDOW, InvokeStatusWindow));
-	hServices.AddElem(CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSG, GetStatusMsg));
+	hServices.insert(CreateServiceFunction(MS_AWAYSYS_SETCONTACTSTATMSG, SetContactStatMsg));
+	hServices.insert(CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_TOGGLE, ToggleSendOnEvent));
+	hServices.insert(CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_ON, srvAutoreplyOn));
+	hServices.insert(CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_OFF, srvAutoreplyOff));
+	hServices.insert(CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_USEDEFAULT, srvAutoreplyUseDefault));
+	hServices.insert(CreateServiceFunction(MS_NAS_GETSTATEA, GetStateA));
+	hServices.insert(CreateServiceFunction(MS_NAS_SETSTATEA, SetStateA));
+	hServices.insert(CreateServiceFunction(MS_NAS_GETSTATEW, GetStateW));
+	hServices.insert(CreateServiceFunction(MS_NAS_SETSTATEW, SetStateW));
+	hServices.insert(CreateServiceFunction(MS_NAS_INVOKESTATUSWINDOW, InvokeStatusWindow));
+	hServices.insert(CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSG, GetStatusMsg));
 // and old AwaySysMod service, for compatibility reasons
-	hServices.AddElem(CreateServiceFunction(MS_AWAYSYS_SETSTATUSMODE, SetStatusMode));
+	hServices.insert(CreateServiceFunction(MS_AWAYSYS_SETSTATUSMODE, SetStatusMode));
 //NightFox: none;
-//	hHooks.AddElem(HookEvent(ME_TTB_MODULELOADED, Create_TopToolbar));
-	hHooks.AddElem(HookEvent(ME_OPT_INITIALISE, OptsDlgInit));
-	hHooks.AddElem(HookEvent(ME_CLIST_STATUSMODECHANGE, StatusChanged));
-	hHooks.AddElem(HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChange)); // for compatibility with StartupStatus and AdvancedAutoAway
-	hHooks.AddElem(HookEvent(ME_DB_EVENT_FILTER_ADD, MsgEventAdded));
-	hHooks.AddElem(HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PreBuildContactMenu));
-	hHooks.AddElem(HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged));
-	hHooks.AddElem(HookEvent(ME_IDLE_CHANGED, IdleChangeEvent));
-	hHooks.AddElem(HookEvent(ME_CONTACTSETTINGS_INITIALISE, ContactSettingsInit));
+//	hHooks.insert(HookEvent(ME_TTB_MODULELOADED, Create_TopToolbar));
+	hHooks.insert(HookEvent(ME_OPT_INITIALISE, OptsDlgInit));
+	hHooks.insert(HookEvent(ME_CLIST_STATUSMODECHANGE, StatusChanged));
+	hHooks.insert(HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChange)); // for compatibility with StartupStatus and AdvancedAutoAway
+	hHooks.insert(HookEvent(ME_DB_EVENT_FILTER_ADD, MsgEventAdded));
+	hHooks.insert(HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PreBuildContactMenu));
+	hHooks.insert(HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged));
+	hHooks.insert(HookEvent(ME_IDLE_CHANGED, IdleChangeEvent));
+	hHooks.insert(HookEvent(ME_CONTACTSETTINGS_INITIALISE, ContactSettingsInit));
 	g_hReadWndList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
 
@@ -934,7 +934,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	}
 	// add that funky thingy (just tweaked a bit, was spotted in Miranda's src code)
 	// we have to read the status message from contacts too... err
-	hServices.AddElem(CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetContactStatMsg));
+	hServices.insert(CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetContactStatMsg));
 
 	SkinAddNewSoundEx(AWAYSYS_STATUSMSGREQUEST_SOUND, NULL, LPGEN("NewAwaySys: Incoming status message request"));
 
@@ -955,19 +955,19 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 			_T(VAR_PREDEFINEDMESSAGE), LPGEN("New Away System\t(x)\tReturns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)"), TRF_FUNCTION,
 			_T(VAR_PROTOCOL), LPGEN("New Away System\tCurrent protocol name"), TRF_FIELD | TRF_FUNCTION
 		};
-		hServices.AddElem(CreateServiceFunction(MS_AWAYSYS_FREEVARMEM, srvFreeVarMem));
-		hServices.AddElem(CreateServiceFunction(MS_AWAYSYS_VARIABLESHANDLER, srvVariablesHandler));
+		hServices.insert(CreateServiceFunction(MS_AWAYSYS_FREEVARMEM, srvFreeVarMem));
+		hServices.insert(CreateServiceFunction(MS_AWAYSYS_VARIABLESHANDLER, srvVariablesHandler));
 		TOKENREGISTER tr = {0};
 		tr.cbSize = sizeof(TOKENREGISTER);
 		tr.szService = MS_AWAYSYS_VARIABLESHANDLER;
 		tr.szCleanupService = MS_AWAYSYS_FREEVARMEM;
 		tr.memType = TR_MEM_OWNER;
-		int I;
-		for (I = 0; I < lengthof(Variables); I++)
+		int i;
+		for (i = 0; i < lengthof(Variables); i++)
 		{
-			tr.flags = Variables[I].Flags | TRF_CALLSVC | TRF_TCHAR;
-			tr.tszTokenString = Variables[I].Name;
-			tr.szHelpText = Variables[I].Descr;
+			tr.flags = Variables[i].Flags | TRF_CALLSVC | TRF_TCHAR;
+			tr.tszTokenString = Variables[i].Name;
+			tr.szHelpText = Variables[i].Descr;
 			CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 		}
 	}
@@ -1000,21 +1000,18 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 }
 
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP( &pluginInfo );
 
-	hHooks.AddElem(HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded));
+	hHooks.insert(HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded));
 	if (DBGetContactSettingString(NULL, "KnownModules", "New Away System", (char*)NULL) == NULL)
 		DBWriteContactSettingString(NULL, "KnownModules", "New Away System", MOD_NAME);
 
 	InitCommonControls();
 	InitOptions(); // must be called before we hook CallService
-	g_OldCallService = pluginLink->CallService; // looks like this hack is currently the only way to handle all calls to PS_SETSTATUS and PS_SETAWAYMSG properly. I must know when someone calls it, and there's no any "standard" way to know the real value passed as wParam to it (protocol module often replaces it by another, _supported_ status; for example, Jabber replaces Occupied by DND), so we're intercepting the service here
-// and we need to know the real wParam value just to set proper status message (an example: changing the global status to Out to lunch makes Jabber go Away. I guess, the user wants Jabber status message to be "I've been having lunch..." too, like for other protocols, rather than the default Away message "Gone since...")
-	pluginLink->CallService = MyCallService;
-
+	
 	logservice_register(LOG_ID, LPGENT("New Away System"), _T("NewAwaySys?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log"), TranslateTS(_T("`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %") _T(VAR_STATDESC) _T("% message:\r\n%extratext%\r\n\r\n")));
 
 	if (DBGetContactSettingByte(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1)
@@ -1042,26 +1039,13 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 
 extern "C" int __declspec(dllexport) Unload()
 {
-	_ASSERT(pluginLink->CallService == MyCallService);
-	if (pluginLink->CallService == MyCallService)
-	{
-		pluginLink->CallService = g_OldCallService;
-	}
 	CloseHandle(hMainThread);
-	int I;
-	for (I = 0; I < hHooks.GetSize(); I++)
-	{
-		if (hHooks[I])
-		{
-			UnhookEvent(hHooks[I]);
-		}
-	}
-	for (I = 0; I < hServices.GetSize(); I++)
-	{
-		if (hServices[I])
-		{
-			DestroyServiceFunction(hServices[I]);
-		}
-	}
+	int i;
+	for (i = 0; i < hHooks.getCount(); i++)
+		UnhookEvent(hHooks[i]);
+
+	for (i = 0; i < hServices.getCount(); i++)
+		DestroyServiceFunction(hServices[i]);
+
 	return 0;
 }

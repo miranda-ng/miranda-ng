@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "m_updater.h"
 
-PLUGINLINK *pluginLink;
+
 CLIST_INTERFACE* pcli;
 
 HINSTANCE g_hInstance;
@@ -114,9 +114,9 @@ int OnModulesLoaded(WPARAM,LPARAM)
 
 static HANDLE g_hEvents[1];
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 
 	pcli = reinterpret_cast<CLIST_INTERFACE*>( CallService(

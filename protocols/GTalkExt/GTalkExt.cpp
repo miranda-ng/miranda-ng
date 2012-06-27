@@ -28,7 +28,7 @@
 #include "avatar.h"
 #include "menu.h"
 
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 
 #define MIID_PLUGINIFACE {0x08B86253, 0xEC6E, 0x4d09, { 0xB7, 0xA9, 0x64, 0xAC, 0xDF, 0x06, 0x27, 0xB8 }}
@@ -71,11 +71,11 @@ extern "C" int __declspec(dllexport) Unload(void)
 HICON g_hPopupIcon = 0;
 extern HINSTANCE hInst;
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
 	g_hPopupIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_POPUP));
 
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 	if (
 		!mir_getXI(&xi) ||

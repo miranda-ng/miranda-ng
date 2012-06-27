@@ -41,7 +41,6 @@ PLUGININFOEX pluginInfo = {
 };
 
 HINSTANCE g_hInst = 0;
-PLUGINLINK *pluginLink;
 int hLangpack;
 
 StatusItems_t *StatusItems;
@@ -943,9 +942,8 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-    pluginLink = link;
 	mir_getLP(&pluginInfo);
    return(LoadModule());
 }

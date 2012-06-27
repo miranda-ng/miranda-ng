@@ -36,7 +36,7 @@ Last change by : $Author: Merlin_de $
 HINSTANCE hInst;
 HANDLE hMainThread;
 //MNOTIFYLINK *notifyLink;	//deprecatet
-PLUGINLINK *pluginLink;
+
 HANDLE hSemaphore;
 BOOL closing = FALSE;
 MTEXT_INTERFACE		MText = {0};

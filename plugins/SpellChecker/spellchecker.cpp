@@ -58,7 +58,7 @@ static IconStruct iconList[] =
 #define HOTKEY_ACTION_TOGGLE 1
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 int hLangpack = 0;
 
 HANDLE hHooks[6];
@@ -153,9 +153,9 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 }
 
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link) 
+extern "C" int __declspec(dllexport) Load(void) 
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 
 	// hooks

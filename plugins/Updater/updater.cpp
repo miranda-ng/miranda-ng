@@ -5,7 +5,7 @@
 #include "m_toolbar.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 
 HANDLE hNetlibUser, hNetlibHttp;
 HANDLE hEventOptInit, hEventModulesLoaded, hEventIdleChanged, hToolBarLoaded;
@@ -211,9 +211,9 @@ static int ToolbarModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 
 	// save global status from clist - will be restored after update check if that option is enabled, or in modules loaded if not

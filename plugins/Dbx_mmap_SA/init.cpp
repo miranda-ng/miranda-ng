@@ -28,7 +28,7 @@ int hLangpack;
 extern char szDbPath[MAX_PATH];
 
 HINSTANCE g_hInst = NULL;
-PLUGINLINK *pluginLink;
+
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -116,17 +116,10 @@ static int grokHeader( char * profile, int * error )
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
-static int LoadDatabase( char * profile, void * plink )
+static int LoadDatabase(char *profile)
 {
-	PLUGINLINK *link = (PLUGINLINK *)plink;
-#ifdef _DEBUG
-	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
 	// don't need thread notifications
 	strncpy(szDbPath, profile, sizeof(szDbPath));
-
-	// this is like Load()'s pluginLink
-	pluginLink=link;
 
 	// set the memory, lists & UTF8 manager
 	mir_getLP( &pluginInfo );
@@ -141,14 +134,14 @@ static int LoadDatabase( char * profile, void * plink )
 		{
 			// We are running under damn violators
 			void (*f)();
-			
+
 			MessageBox(0, TranslateT("Running mmap_sa is forbidden under license violating products, sorry"), TranslateT("Warning!"), MB_OK);
-			
+
 			f = NULL;
 			f();
 		}
 		/* end of protected code */
-	}	
+	}
 
 	// inject all APIs and hooks into the core
 	return LoadDatabaseModule();
@@ -199,7 +192,7 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	return 1;
 }

@@ -14,7 +14,7 @@ http://www.miranda-im.org/
 #include "res\resource.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 static HANDLE hEventSoundSettingChange, hEventStatusModeChange, hEventOptionsInitialize, hAckEvent, hSoundMenu;
 CLISTMENUITEM mi;
 HGENMENU noSoundMenu;
@@ -241,9 +241,9 @@ static INT_PTR NoSoundMenuCommand(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 
 	//The menu item - begin

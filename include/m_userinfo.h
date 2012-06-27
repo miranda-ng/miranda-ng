@@ -39,7 +39,7 @@ wParam=addInfo
 lParam=(LPARAM)hContact
 addInfo should be passed straight to the wParam of userinfo/addpage
 NB: The built-in userinfo module is loaded after all plugins, so calling
-HookEvent() in your plugin's Load() function will fail if you specify this
+HookEvent() in your plugin's Load(void) function will fail if you specify this
 hook. Look up core/m_system.h:me_system_modulesloaded.
 */
 #define ME_USERINFO_INITIALISE   "UserInfo/Initialise"

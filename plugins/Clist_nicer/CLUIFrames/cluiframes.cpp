@@ -639,7 +639,6 @@ int CLUIFramesGetalClientFrame(void)
 			alclientFrame = i;
 			return i;
 		}
-	//pluginLink
 	return -1;
 }
 
@@ -2309,7 +2308,7 @@ int CLUIFramesResize(const RECT newsize)
 
 INT_PTR CLUIFramesUpdateFrame(WPARAM wParam, LPARAM lParam)
 {
-	int pos;  
+	int pos;
 	if (FramesSysNotStarted)
 		return -1;
 	if (wParam == -1) {

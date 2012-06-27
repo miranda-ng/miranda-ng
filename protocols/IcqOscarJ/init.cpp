@@ -38,7 +38,6 @@
 #include "m_extraicons.h"
 
 HINSTANCE hInst;
-PLUGINLINK* pluginLink;
 int hLangpack;
 
 DWORD MIRANDA_VERSION;
@@ -104,9 +103,9 @@ static int OnModulesLoaded( WPARAM, LPARAM )
 }
 
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP( &pluginInfo );
 
 	// Get Miranda version

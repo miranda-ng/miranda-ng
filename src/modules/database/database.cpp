@@ -428,7 +428,7 @@ static int FindDbPluginForProfile(const char*, DATABASELINK * dblink, LPARAM lPa
 		int err = 0;
 		if (dblink->grokHeader(szProfile, &err) == 0) {
 			// added APIs?
-			if ( !dblink->Load(szProfile, &pluginCoreLink)) {
+			if ( !dblink->Load(szProfile)) {
 				fillProfileName(tszProfile);
 				res = DBPE_DONE;
 			}
@@ -465,7 +465,7 @@ static int FindDbPluginAutoCreate(const char*, DATABASELINK * dblink, LPARAM lPa
 		char *szProfile = makeFileName(tszProfile);
 		if (dblink->makeDatabase(szProfile, &err) == 0) {
 			dbCreated = true;
-			if ( !dblink->Load(szProfile, &pluginCoreLink)) {
+			if ( !dblink->Load(szProfile)) {
 				fillProfileName(tszProfile);
 				res = DBPE_DONE;
 			}

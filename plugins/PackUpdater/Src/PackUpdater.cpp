@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 #include "common.h"
 
 HINSTANCE hInst = NULL;
-PLUGINLINK *pluginLink;
+
 HANDLE hOptHook = NULL, hLoadHook = NULL, hPackUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL, hOnPreShutdown = NULL;
 TCHAR tszRoot[MAX_PATH] = {0};
 int hLangpack;
@@ -51,10 +51,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	CLISTMENUITEM mi;
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 	TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\"DEFAULT_UPDATES_FOLDER));
 	lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));

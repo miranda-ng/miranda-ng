@@ -1,7 +1,7 @@
 
 #include "commonheaders.h"
 
-PLUGINLINK *pluginLink;
+
 HINSTANCE hInst;
 int hLangpack;
 
@@ -38,9 +38,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 int LoadModernOptsModule();
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 
 	LoadModernOptsModule();

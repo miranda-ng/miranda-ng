@@ -57,7 +57,7 @@ DWORD session_list_recovered[255];
 int count = 0;
 unsigned int ses_count = 0;
 
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 
 int OptionsInit(WPARAM,LPARAM);
@@ -1066,9 +1066,9 @@ BOOL WINAPI DllMain(HINSTANCE hinst,DWORD fdwReason,LPVOID lpvReserved)
 	return 1;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink=link;
+
 	mir_getLP(&pluginInfo);
 
 	hEventDbPluginsLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);

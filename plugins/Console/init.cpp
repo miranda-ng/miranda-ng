@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-PLUGINLINK *pluginLink;
 DWORD mirandaVer;
 int hLangpack;
 HINSTANCE hInst;
@@ -60,9 +59,8 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
 	mir_getLP(&pluginInfoEx);
 
 	InitCommonControls();

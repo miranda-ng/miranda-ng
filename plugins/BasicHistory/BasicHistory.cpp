@@ -28,7 +28,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define MS_HISTORY_DELETEALLCONTACTHISTORY       "BasicHistory/DeleteAllContactHistory"
 #define MS_HISTORY_EXECUTE_TASK       "BasicHistory/ExecuteTask"
 
-PLUGINLINK *pluginLink;
 HCURSOR     hCurSplitNS, hCurSplitWE;
 HANDLE  g_hMainThread=NULL;
 
@@ -371,10 +370,9 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
 	hTaskMainMenu = NULL;
-	pluginLink = link;
 	DuplicateHandle(GetCurrentProcess(),GetCurrentThread(),GetCurrentProcess(),&g_hMainThread,0,FALSE,DUPLICATE_SAME_ACCESS);
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);

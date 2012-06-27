@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 static HANDLE hHookModulesLoaded;
 int hLangpack;
 
@@ -111,9 +111,9 @@ static int LangManModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-__declspec(dllexport) int Load(PLUGINLINK *link)
+__declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP( &pluginInfo );
 	
 	/* existance of MS_SYSTEM_GETVERSION and MS_LANGPACK_TRANSLATESTRING

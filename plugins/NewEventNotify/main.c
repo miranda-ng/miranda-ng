@@ -51,7 +51,7 @@ extern PLUGIN_DATA* PopUpList[20];
 
 HINSTANCE hInst;
 PLUGIN_OPTIONS pluginOptions;
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -216,11 +216,12 @@ __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK *link)
+int __declspec(dllexport) Load(void)
 {
-  pluginLink = link;
+
   hHookedInit = HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
-  hHookedOpt = HookEvent(ME_OPT_INITIALISE, HookedOptions);  mir_getLP(&pluginInfo);
+  hHookedOpt = HookEvent(ME_OPT_INITIALISE, HookedOptions);
+  mir_getLP(&pluginInfo);
 
   InitI18N();
 

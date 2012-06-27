@@ -34,7 +34,6 @@
 #include "../cluiframes/cluiframes.h"
 
 HINSTANCE g_hInst = 0;
-PLUGINLINK *pluginLink;
 CLIST_INTERFACE* pcli = NULL;
 int hLangpack;
 
@@ -214,14 +213,13 @@ static int fnIconFromStatusMode( const char* szProto, int status, HANDLE hContac
 {	return IconFromStatusMode( szProto, status, hContact, NULL );
 }
 
-extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
+extern "C" int __declspec(dllexport) CListInitialise()
 {
 	int rc = 0;
 	DBVARIANT dbv;
 	int       i;
 	char	    szProfilePath[MAX_PATH];
 
-	pluginLink = link;
 	mir_getTMI(&tmi);
 	mir_getLP( &pluginInfo );
 
@@ -373,7 +371,7 @@ LBL_Error:
 }
 
 // a plugin loader aware of CList exports will never call this.
-extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
+extern "C" int __declspec(dllexport) Load(void)
 {
 	return 1;
 }

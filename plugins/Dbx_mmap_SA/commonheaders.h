@@ -60,8 +60,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "resource.h"
 #include "version.h"
 
-extern PLUGINLINK *pluginLink;
-
 extern CRITICAL_SECTION csDbAccess;
 extern struct DBHeader dbHeader;
 extern HANDLE hDbFile;

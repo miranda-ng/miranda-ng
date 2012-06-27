@@ -72,7 +72,6 @@ static HANDLE ghModernToolBarLoaded		= NULL;
 static HANDLE ghShutdownHook			= NULL;
 static HANDLE ghPrebuildStatusMenu		= NULL;
 int hLangpack;
-PLUGINLINK*		pluginLink	= NULL;
 
 /*
 ============================================================================================
@@ -293,13 +292,13 @@ extern "C" INT __declspec(dllexport) Unload(VOID)
  *
  * @return	0
  **/
-extern "C" INT __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" INT __declspec(dllexport) Load(void)
 {
 	INITCOMMONCONTROLSEX ccEx;
 
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
-	if (link && CoreCheck())
+	if (CoreCheck())
 	{
 		// init common controls
 		ccEx.dwSize = sizeof(ccEx);

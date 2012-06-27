@@ -99,7 +99,6 @@ extern BOOL isVista;
 
 // shared vars
 extern HINSTANCE g_hInst;
-extern PLUGINLINK *pluginLink;
 extern PLUGININFOEX pluginInfoEx;
 extern MUUID interfaces[];
 

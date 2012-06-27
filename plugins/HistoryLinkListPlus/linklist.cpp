@@ -20,7 +20,7 @@
 // Global variables
 HINSTANCE hInst;                                    
 HINSTANCE hRichEdit;                                
-PLUGINLINK *pluginLink;
+
 HANDLE hWindowList;
 HCURSOR splitCursor;
 int hLangpack;
@@ -45,12 +45,12 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	CLISTMENUITEM linklistmenuitem;
 	WNDCLASS wndclass;
 
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 	//  Load Rich Edit control
 	hRichEdit = LoadLibrary(_T("RICHED32.DLL"));

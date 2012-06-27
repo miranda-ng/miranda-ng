@@ -1515,8 +1515,6 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 
 
 extern HINSTANCE g_hInst;
-extern PLUGINLINK *pluginLink;
-extern struct MM_INTERFACE mmi;
 
 char **bkgrList = NULL;
 int bkgrCount = 0;

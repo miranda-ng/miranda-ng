@@ -143,7 +143,7 @@ extern MUUID interfaces[];
 
 extern "C" {
 
- DLLEXPORT int Load(PLUGINLINK *);
+ DLLEXPORT int Load(void);
  DLLEXPORT PLUGININFOEX *MirandaPluginInfoEx(DWORD);
  DLLEXPORT MUUID* MirandaPluginInterfaces(void);
  DLLEXPORT int Unload();

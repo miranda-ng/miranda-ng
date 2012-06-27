@@ -7,7 +7,7 @@
 int nProtocol = 0;
 static HANDLE g_hEventModulesLoaded = NULL, hEventOptionsInitialize = NULL, g_hIcon = NULL, g_hEventDbWindowEvent = NULL, g_hEventToolbarLoaded = NULL, g_hEventButtonPressed = NULL, g_hEventAccountsChanged = NULL;
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 NudgeElementList *NudgeList = NULL;
 CNudgeElement DefaultNudge;
 CShake shake;
@@ -493,9 +493,9 @@ int AccListChanged(WPARAM wParam,LPARAM lParam)
 }
 
 HANDLE hShakeClist=NULL,hShakeChat=NULL,hNudgeSend=NULL,hNudgeShowMenu=NULL;
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 
 	g_hEventModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);

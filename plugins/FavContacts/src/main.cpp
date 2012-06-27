@@ -20,9 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
-DWORD		g_mirandaVersion;
-PLUGINLINK* pluginLink = NULL;
-HINSTANCE   g_hInst;
+DWORD     g_mirandaVersion;
+HINSTANCE g_hInst;
 
 int hLangpack;
 
@@ -296,10 +295,8 @@ int ProcessOptInitialise(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
-
 	if (!CoreCheck()) return 1;
 	mir_getLP(&pluginInfo);
 

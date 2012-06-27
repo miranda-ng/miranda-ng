@@ -1632,7 +1632,7 @@ create_it:
  * it calls ReadItems() to read additional skin information like image items,
  * buttons and icons.
  */
-void CSkin::Load()
+void CSkin::Load(void)
 {
 	if(warnToClose() == false)
 		return;

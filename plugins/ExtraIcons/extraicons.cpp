@@ -36,7 +36,7 @@ PLUGININFOEX pluginInfo = {
 };
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 
 vector<HANDLE> hHooks;
@@ -81,9 +81,9 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 
 	DWORD ret = CallService(MS_CLUI_GETCAPS, CLUICAPS_FLAGS2, 0);

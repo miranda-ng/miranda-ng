@@ -20,7 +20,7 @@
 #include "buildnumber.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 DWORD g_mirandaVersion;
 int hLangpack = 0;
 
@@ -78,9 +78,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load - plugin's entry point
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	if (UnicodeCheck(pluginInfoEx.shortName, FALSE))
 		return 0;
 	mir_getLP( &pluginInfoEx );

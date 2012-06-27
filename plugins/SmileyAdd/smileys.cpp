@@ -795,9 +795,7 @@ void SmileyCategoryListType::ClearAndLoadAll(void)
 	m_pSmileyPackStore->ClearAndFreeAll();
 
 	for (int i = 0; i < m_SmileyCategories.getCount(); i++)
-	{
 		m_SmileyCategories[i].Load();
-	}
 }
 
 
@@ -847,9 +845,7 @@ void SmileyCategoryListType::AddAndLoad(const bkstring& name, const bkstring& di
 	AddCategory(name, displayName, smcExt);
 	// Load only if other smileys have been loaded already
 	if (m_SmileyCategories.getCount() > 1)
-	{
 		m_SmileyCategories[m_SmileyCategories.getCount()-1].Load();
-	}
 }
 
 

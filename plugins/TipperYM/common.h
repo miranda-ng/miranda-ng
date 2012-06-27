@@ -94,7 +94,6 @@ Boston, MA 02111-1307, USA.
 #define DEFAULT_SKIN_FOLDER		"Skins\\Tipper"
 
 extern HMODULE hInst;
-extern PLUGINLINK *pluginLink;
 
 extern HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;
 extern COLORREF	colTitle, colLabels, colBg, colValues;

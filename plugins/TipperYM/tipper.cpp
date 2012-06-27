@@ -27,7 +27,7 @@ Boston, MA 02111-1307, USA.
 #include "str_utils.h"
 
 HMODULE hInst;
-PLUGINLINK *pluginLink;
+
 char szMetaModuleName[256] = {0};
 
 FontIDT fontTitle, fontLabels, fontValues, fontTrayTitle;
@@ -341,9 +341,9 @@ int Shutdown(WPARAM wParam, LPARAM lParam)
 
 HANDLE hEventPreShutdown, hEventModulesLoaded;
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 
 	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
 	mir_getTMI(&tmi);

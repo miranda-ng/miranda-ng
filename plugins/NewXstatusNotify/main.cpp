@@ -28,7 +28,7 @@
 #include "xstatus.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 
 LIST<DBEVENT> eventList( 10 );
 LIST<XSTATUSCHANGE> xstatusList( 10 );
@@ -1372,9 +1372,9 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 
 	//"Service" Hook, used when the DB settings change: we'll monitor the "status" setting.

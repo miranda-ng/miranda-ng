@@ -23,8 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int LoadSendRecvMessageModule(void);
 int SplitmsgShutdown(void);
 
-PLUGINLINK* pluginLink;
-HINSTANCE   g_hInst;
+HINSTANCE g_hInst;
 int hLangpack;
 
 TIME_API tmi;
@@ -60,9 +59,9 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 

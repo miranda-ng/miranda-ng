@@ -237,7 +237,7 @@ void Options::Unload()
 	DeleteCriticalSection(&criticalSection);
 }
 
-void Options::Load()
+void Options::Load(void)
 {
 	InitializeCriticalSection(&criticalSection);
 	FontIDT fid = {0};

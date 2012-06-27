@@ -13,7 +13,6 @@ There is no warranty.
 #include <m_skin.h>
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -59,7 +58,6 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	CLISTMENUITEM mi;
 
-	pluginLink=link;
 	CreateServiceFunction("TestPlug/MenuCommand",PluginMenuCommand);
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize=sizeof(mi);

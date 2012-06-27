@@ -53,7 +53,6 @@ TalkBot* bot = NULL;
 #define MAX_MIND_FILE    1024
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
 BOOL blInit = FALSE;
 UINT pTimer = 0;
 TCHAR *path;
@@ -622,9 +621,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
 	mir_getLP(&pluginInfo);
 
 	path = new TCHAR[MAX_PATH];

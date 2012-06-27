@@ -34,7 +34,7 @@ extern LIST<void> menuHandleArray;
 
 char* metaProtoName;
 
-PLUGINLINK *pluginLink;
+
 
 //static globals
 static HANDLE hHooks[7];
@@ -117,9 +117,9 @@ static int MirandaShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 
 	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS))

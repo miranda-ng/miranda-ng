@@ -22,7 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <io.h>
 
 HINSTANCE g_hInst;
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 PROTOACCOUNTS *accounts;
 
@@ -2161,9 +2161,9 @@ static INT_PTR sttGetAwayMessage(WPARAM wParam, LPARAM lParam)
 }
 
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 	hwndSAMsgDialog	= NULL;
 	accounts = (PROTOACCOUNTS *)mir_alloc(sizeof(PROTOACCOUNTS));

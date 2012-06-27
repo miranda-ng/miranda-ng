@@ -263,7 +263,7 @@ public:
 	}
 
 	void			Init(bool fStartup = false);
-	void			Load();
+	void			Load(void);
 	void			Unload();
 	void			UnloadAeroTabs();
 	void			setFileName();

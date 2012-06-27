@@ -26,7 +26,7 @@
 #include "headers.h"
 
 HINSTANCE hInst = 0;
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 
 static HMODULE hUserDll = NULL;
@@ -392,10 +392,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
-	mir_getLP(&pluginInfo);
+
+	mir_getLP(&pluginInfo);
+
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	hSystemOKToExit = HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
 

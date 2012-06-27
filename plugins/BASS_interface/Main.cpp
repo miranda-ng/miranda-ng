@@ -5,7 +5,6 @@ Copyright (C) 2010, 2011 tico-tico
 #include "bass_interface.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
 int hLangpack;
 
 PLUGININFOEX pluginInfo={
@@ -472,10 +471,10 @@ int OnShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfo);
+
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	hHooks[1] = HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	hHooks[2] = HookEvent(ME_TB_MODULELOADED, OnToolbarLoaded);

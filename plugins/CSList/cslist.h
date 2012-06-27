@@ -327,7 +327,7 @@ template< class T > struct ListItem
 {
 	T* item;
 	ListItem* next;
-	
+
 	ListItem( )
 	{
 		this->item = NULL;
@@ -338,7 +338,7 @@ template< class T > struct ListItem
 	{
 		delete this->item;
 	}
-	
+
 	ListItem( StatusItem* si )
 	{
 		this->item = si;
@@ -358,7 +358,7 @@ template< class T > struct List
 private:
 	ListItem< T >* items;
 	unsigned int count;
-	
+
 public:
 	typedef int ( *compareFunc )( const T* p1, const T* p2 );
 	compareFunc compare;
@@ -448,7 +448,7 @@ public:
 		this->count--;
 		return position;
 	}
-	
+
 	T* get( const unsigned int item )
 	{
 		ListItem< T >* help = items;
@@ -625,9 +625,9 @@ BOOL CSList::bAccountsSupported = FALSE;
 
 static const MUUID interfaces[] = { PLUGIN_GUUID, MIID_LAST };
 
-PLUGINLINK*  pluginLink = NULL;
-PLUGININFOEX pluginInfoEx = {
-    sizeof(PLUGININFOEX),
+PLUGININFOEX pluginInfoEx =
+{
+	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
@@ -642,7 +642,6 @@ PLUGININFOEX pluginInfoEx = {
 
 CSList* cslist = NULL;
 
-
 // ====[ INIT STUFF ]=========================================================
 
 BOOL WINAPI DllMain( HINSTANCE, DWORD, LPVOID );
@@ -650,7 +649,7 @@ BOOL WINAPI DllMain( HINSTANCE, DWORD, LPVOID );
 extern "C" __declspec( dllexport ) PLUGININFOEX* MirandaPluginInfoEx( DWORD );
 extern "C" __declspec( dllexport ) const MUUID* MirandaPluginInterfaces( void );
 
-extern "C" __declspec( dllexport ) int Load( PLUGINLINK* );
+extern "C" __declspec( dllexport ) int Load(void);
 extern "C" __declspec( dllexport ) int Unload( void );
 
 

@@ -26,7 +26,6 @@
 
 HINSTANCE hInst;
 
-PLUGINLINK *pluginLink;
 int hLangpack;
 
 int g_NewProtoAPI = TRUE;
@@ -284,12 +283,11 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
 	mir_getLP(&pluginInfo);
-  InitCommonControls();
-  InitI18N();
+	InitCommonControls();
+  	InitI18N();
 
   { // Are we running under unicode Miranda core ?
     char szVer[MAX_PATH];

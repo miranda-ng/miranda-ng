@@ -23,7 +23,7 @@ PLUGININFOEX pluginInfoEx = {
 	MIID_STOPSPAM
 };
 
-PLUGINLINK *pluginLink;
+
 HINSTANCE hInst;
 
 _inline unsigned int MakeVer(int a,int b,int c,int d)
@@ -42,11 +42,12 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 	return TRUE;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
 	CLISTMENUITEM mi;
-	pluginLink = link;
-	mir_getLP(&pluginInfoEx);
+
+	mir_getLP(&pluginInfoEx);
+
 	plSets=new Settings;
 
 	hFunc = CreateServiceFunction(MS_STOPSPAM_CONTACTPASSED, IsContactPassed);

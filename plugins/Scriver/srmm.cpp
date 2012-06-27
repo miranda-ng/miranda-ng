@@ -27,7 +27,7 @@ int OnUnloadModule(void);
 
 TIME_API tmi;
 
-PLUGINLINK *pluginLink;
+
 HINSTANCE g_hInst;
 int hLangpack;
 
@@ -64,9 +64,9 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+
 
 	// set the memory manager
 	mir_getTMI(&tmi);

@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //wParam=0
 //lParam=(PROTOCOLDESCRIPTOR*)&descriptor
 //returns 0 on success, nonzero on failure
-//This service must be called in your module's Load() routine.
+//This service must be called in your module's Load(void) routine.
 //descriptor.type can be a value other than the PROTOTYPE_ constants specified
 //above to provide more precise positioning information for the contact
 //protocol lists. It is strongly recommended that you give values relative to

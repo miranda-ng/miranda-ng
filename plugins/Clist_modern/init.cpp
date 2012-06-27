@@ -34,7 +34,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CHECKRES(sub) if (sub!=S_OK) return S_FALSE;
 
 HINSTANCE g_hInst = 0;
-PLUGINLINK * pluginLink=NULL;
 CLIST_INTERFACE *pcli=NULL;
 CLIST_INTERFACE corecli={0};
 CLUIDATA g_CluiData={0};
@@ -89,14 +88,8 @@ PLUGININTERFACE PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 	return &pluginInfo;
 }
 
-PLUGININTERFACE int CListInitialise(PLUGINLINK * link)
+PLUGININTERFACE int CListInitialise()
 {
-	pluginLink=link;
-/*
-#ifdef _DEBUG
-	_CrtSetBreakAlloc(11166);
-#endif
-*/
 	HMODULE hKernel = GetModuleHandleA( "kernel32.dll" );
 	fnTryEnterCriticalSection = ( pfnTryEnterCriticalSection )GetProcAddress( hKernel, "TryEnterCriticalSection" );
 
@@ -130,7 +123,7 @@ PLUGININTERFACE int CListInitialise(PLUGINLINK * link)
 }
 
 // never called by a newer plugin loader.
-PLUGININTERFACE int Load(PLUGINLINK * link)
+PLUGININTERFACE int Load(void)
 {
 	MessageBoxA(0,"You Running Old Miranda, use " MINIMAL_COREVERSION_STR " version!","Modern Clist",0);
 	return 1;

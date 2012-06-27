@@ -28,7 +28,6 @@
 #include "options.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
 int hLangpack;
 
 DWORD timer_id = 0;
@@ -884,10 +883,10 @@ int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
 	return 0;	
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
-	mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfo);
+
 	setlocale(LC_ALL, "English"); // Set English locale
 
 	InitOptions();

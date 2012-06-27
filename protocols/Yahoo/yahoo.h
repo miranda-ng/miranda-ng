@@ -15,11 +15,6 @@
 
 #define MIRANDA_VER 0x0A00
 
-extern "C"
-{
-	extern struct tagPLUGINLINK* pluginLink;
-};
-
 #ifdef _MSC_VER
 	#define snprintf  _snprintf
 #endif

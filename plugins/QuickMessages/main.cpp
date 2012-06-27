@@ -34,7 +34,7 @@ BOOL g_bRClickAuto=0;
 BOOL g_bLClickAuto=0;
 BOOL g_bQuickMenu=0;
 
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -368,10 +368,10 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 	return 1;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
 
-	pluginLink=link;
+
 	mir_getLP(&pluginInfo);
 
 	hEventDbPluginsLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);

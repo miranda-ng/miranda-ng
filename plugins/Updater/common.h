@@ -113,7 +113,6 @@ typedef OBJLIST<FileNameStruct> FilenameMap;
 #define MODULE			"Updater"
 
 extern HINSTANCE hInst;
-extern PLUGINLINK *pluginLink;
 extern PLUGININFOEX pluginInfo;
 
 extern bool is_idle;

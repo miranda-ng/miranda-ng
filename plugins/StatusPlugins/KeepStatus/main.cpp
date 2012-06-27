@@ -32,7 +32,7 @@ HANDLE hStopRecon = NULL, hEnableProto = NULL, hIsProtoEnabled = NULL, hAnnounce
 
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // dll entry point
@@ -78,9 +78,9 @@ INT_PTR EnableProtocolService(WPARAM wParam, LPARAM lParam);
 INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam);
 INT_PTR AnnounceStatusChangeService(WPARAM wParam, LPARAM lParam);
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP( &pluginInfoEx );
 
 	InitCommonStatus();

@@ -363,7 +363,6 @@ BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 	case WM_INITDIALOG:
 		{
 			HWND hwndCtrl;
-//			if(pluginLink && ServiceExists(MS_LANGPACK_TRANSLATEDIALOG))
 			TranslateDialogDefault(hDlg);
 
 			hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
@@ -448,7 +447,6 @@ BOOL CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 	{
 	case WM_INITDIALOG:
 		{
-			//if(pluginLink && ServiceExists(MS_LANGPACK_TRANSLATEDIALOG))
 			TranslateDialogDefault(hDlg);
 
 			hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
@@ -534,7 +532,6 @@ BOOL CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 	{
 	case WM_INITDIALOG:
 		{
-			//if(pluginLink && ServiceExists(MS_LANGPACK_TRANSLATEDIALOG))
 			TranslateDialogDefault(hDlg);
 
 			hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));

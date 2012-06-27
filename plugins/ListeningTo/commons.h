@@ -80,7 +80,6 @@ Boston, MA 02111-1307, USA.
 
 // Global Variables
 extern HINSTANCE hInst;
-extern PLUGINLINK *pluginLink;
 extern BOOL loaded;
 
 

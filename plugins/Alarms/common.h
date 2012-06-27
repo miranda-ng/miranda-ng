@@ -46,23 +46,22 @@
 #define MODULE	"Alarm"
 
 extern HINSTANCE hInst;
-extern PLUGINLINK *pluginLink;
 
 extern HANDLE hTopToolbarButton;
 
 typedef struct ALARM_tag {
-	unsigned short id;			
+	unsigned short id;
 	TCHAR *szTitle;
 	TCHAR *szDesc;
 	Occurrence occurrence;
-	BOOL snoozer;				
-	SYSTEMTIME time;			
-	unsigned short action;		
-	TCHAR *szCommand;			
-	TCHAR *szCommandParams;		
-	BYTE sound_num;				
+	BOOL snoozer;
+	SYSTEMTIME time;
+	unsigned short action;
+	TCHAR *szCommand;
+	TCHAR *szCommandParams;
+	BYTE sound_num;
 	int flags;
-	DWORD trigger_id;			
+	DWORD trigger_id;
 } ALARM;
 
 #ifndef MIID_ALARMS

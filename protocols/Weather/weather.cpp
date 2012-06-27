@@ -58,7 +58,7 @@ BOOL ThreadRunning;
 BOOL ModuleLoaded;
 
 
-PLUGINLINK *pluginLink;
+
 
 // plugin info
 // VER = version, AUTH = author, defined in weather.h
@@ -213,12 +213,12 @@ extern "C" int __declspec(dllexport) Unload(void)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link) 
+extern "C" int __declspec(dllexport) Load(void) 
 {
 	PROTOCOLDESCRIPTOR pd = {0};
 	DWORD lastver;
 
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 
 	// initialize global variables

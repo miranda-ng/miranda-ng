@@ -106,7 +106,6 @@ PLUGININFOEX pluginInfo={
 };
 
 HINSTANCE hInstance;	//!< Global reference to the application
-PLUGINLINK *pluginLink;	//!< Link between Miranda and this plugin
 
 /** Called by Miranda to get the information associated to this plugin.
 * It only returns the PLUGININFO structure, without any test on the version
@@ -154,12 +153,12 @@ BOOL IsUnicodeOS()
 /** Initializes the services provided and the link to those needed
 * Called when the plugin is loaded into Miranda
 */
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	PROTOCOLDESCRIPTOR pd;
 	DBVARIANT dbv;
 	
-	pluginLink=link;
+
 	mir_getLP(&pluginInfo);
 
 	os_unicode_enabled = IsUnicodeOS();

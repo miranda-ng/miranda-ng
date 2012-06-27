@@ -134,7 +134,7 @@ int LoadDefaultModules(void)
 	if ( LoadContactsModule()) return 1;
 	if ( LoadContactListModule()) return 1;
 	if ( LoadAddContactModule()) return 1;
-	if ( LoadNewPluginsModule()) return 1;    // will call Load() on everything, clist will load first
+	if ( LoadNewPluginsModule()) return 1;    // will call Load(void) on everything, clist will load first
 
 	LangPackDropUnusedItems();
 

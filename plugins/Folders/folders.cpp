@@ -33,7 +33,7 @@ int hLangpack;
 
 CFoldersList &lstRegisteredFolders = CFoldersList(10); //the list
 
-PLUGINLINK *pluginLink;
+
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -170,12 +170,12 @@ extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces()
 	return interfaces;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
 #if _MSC_VER >= 1300
 	Log("%s", "Entering function " __FUNCTION__);
 #endif
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 	
 	Log("%s", "Creating service functions ...");

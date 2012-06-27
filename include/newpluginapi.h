@@ -220,12 +220,12 @@ typedef struct {
 		which is a PLUGINLINK structure
 	Returns: 0 on success, nonzero on failure
 	*/
-	int (*Load) (char * profile, void * link);
+	int (*Load) (char * profile);
 
 	/*
 	Affect: The database plugin should shutdown, unloading things from the core and freeing internal structures
 	Returns: 0 on success, nonzero on failure
-	Note: Unload() might be called even if Load() was never called, wasLoaded is set to 1 if Load() was ever called.
+	Note: Unload() might be called even if Load(void) was never called, wasLoaded is set to 1 if Load(void) was ever called.
 	*/
 	int (*Unload) (int wasLoaded);
 

@@ -69,7 +69,7 @@ static int sortfunc(const void *a,const void *b)
 }
 
 
-// == == == == ==  == 
+//============
 #define CLUIFRAMESSETALIGN				"CLUIFramesSetAlign"
 
 #define CLUIFRAMESSETALIGNALTOP				"CLUIFramesSetAlignalTop"
@@ -626,14 +626,12 @@ int CLUIFramesGetalClientFrame(void)
 			return i;
 		}
 
-	//pluginLink
 	return -1;
 }
 
 HMENU CLUIFramesCreateMenuForFrame(int frameid,int root,int popuppos,HGENMENU (*pfnAdd )( CLISTMENUITEM* ))
 {
 	CLISTMENUITEM mi;
-	//TMO_MenuItem tmi;
 	HANDLE menuid;
 	int framepos = id2pos(frameid);
 
@@ -1279,7 +1277,7 @@ INT_PTR CLUIFramesSetUnSetBorder(WPARAM wParam,LPARAM lParam)
 		ulockfrm();
 		return -1;
 	}
-	
+
 	boolean flt = oldflags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS,MAKEWPARAM(FO_FLAGS,wParam),0);
 	if (oldflags & F_NOBORDER)
 		oldflags &= (~F_NOBORDER);
@@ -1376,7 +1374,7 @@ INT_PTR CLUIFramesCollapseUnCollapseFrame(WPARAM wParam,LPARAM lParam)
 							sumheight += (Frames[i].height)+(TitleBarH*btoint(Frames[i].TitleBar.ShowTitleBar))+2;
 							return FALSE;
 						}
-						
+
 						if (sumheight>ContactListHeight-0-2)
 							Frames[FrameId].height = (ContactListHeight-0-2)-sumheight;
 					}
@@ -1624,7 +1622,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam,LPARAM lParam)
 
 	Frames[nFramescount].oldstyles = GetWindowLongPtr(Frames[nFramescount].hWnd,GWL_STYLE);
 	Frames[nFramescount].TitleBar.oldstyles = GetWindowLongPtr(Frames[nFramescount].TitleBar.hwnd,GWL_STYLE);
-	//Frames[nFramescount].FloatingPos.x = 
+	//Frames[nFramescount].FloatingPos.x =
 
 	retval = Frames[nFramescount].id;
 	Frames[nFramescount].order = nFramescount+1;
@@ -2044,7 +2042,7 @@ void DrawBackGroundTTB(HWND hwnd,HDC mhdc)
 	hOldBmp = (HBITMAP)SelectObject(hdcMem,hBmpOsb);
 	oFont = (HFONT)SelectObject(hdcMem,hFont);
 	SetBkMode(hdcMem,TRANSPARENT);
-	{	
+	{
 		HBRUSH hBrush = CreateSolidBrush(bkColour);
 		HBRUSH hoBrush = (HBRUSH)SelectObject(hdcMem,hBrush);
 		FillRect(hdcMem,rcPaint,hBrush);
@@ -2268,7 +2266,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				lockfrm();
 				if (framepos == -1){ulockfrm();break;}
 				hmenu = CreatePopupMenu();
-				
+
 				AppendMenu(hmenu,MF_STRING|MF_DISABLED|MF_GRAYED,15,Frames[framepos].name);
 				AppendMenu(hmenu,MF_SEPARATOR,16,_T(""));
 
@@ -2351,7 +2349,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			POINT pt,pt2;
 			RECT wndr;
 			int pos;
-			
+
 			char TBcapt[255];
 
 			lockfrm();

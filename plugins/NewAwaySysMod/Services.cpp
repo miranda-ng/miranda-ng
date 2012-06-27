@@ -47,12 +47,12 @@ __inline void PSSetStatus(char *szProto, WORD Status, int bNoClistSetStatusMode 
 /*		int ProtoCount;
 		PROTOCOLDESCRIPTOR **proto;
 		CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&ProtoCount, (LPARAM)&proto);
-		int I;
-		for (I = 0; I < ProtoCount; I++)
+		int i;
+		for (i = 0; i < ProtoCount; i++)
 		{
-			if (proto[I]->type == PROTOTYPE_PROTOCOL)
+			if (proto[i]->type == PROTOTYPE_PROTOCOL)
 			{
-				CallProtoService(proto[I]->szName, PS_SETSTATUS, Status, 0);
+				CallProtoService(proto[i]->szName, PS_SETSTATUS, Status, 0);
 			}
 		}*/
 		g_fNoProcessing = true;
@@ -68,9 +68,6 @@ INT_PTR GetStatusMsg(WPARAM wParam, LPARAM lParam) // called by GamerStatus and 
 // MS_AWAYMSG_GETSTATUSMSG "SRAway/GetStatusMessage"
 {
 	LogMessage("MS_AWAYMSG_GETSTATUSMSG called. status=%d", wParam);
-	struct MM_INTERFACE mm;
-	mm.cbSize = sizeof(mm);
-	CallService(MS_SYSTEM_GET_MMI, 0, (LPARAM)&mm);
 	CString Msg(TCHAR2ANSI(GetDynamicStatMsg(INVALID_HANDLE_VALUE, NULL, 0, wParam)));
 	char *szMsg;
 	if (Msg == NULL)
@@ -78,7 +75,7 @@ INT_PTR GetStatusMsg(WPARAM wParam, LPARAM lParam) // called by GamerStatus and 
 		szMsg = NULL;
 	} else
 	{
-		szMsg = (char*)mm.mmi_malloc(Msg.GetLen() + 1);
+		szMsg = (char*)mir_alloc(Msg.GetLen() + 1);
 		lstrcpyA(szMsg, Msg);
 	}
 	LogMessage("returned szMsg:\n%s", szMsg ? szMsg : "NULL");
@@ -111,45 +108,33 @@ int GetState(WPARAM wParam, LPARAM lParam, int Widechar)
 {
 	NAS_PROTOINFO *pi = (NAS_PROTOINFO*)wParam;
 	LogMessage("MS_NAS_GETSTATE called with %d items and Widechar=%d:", lParam, Widechar);
-	struct MM_INTERFACE mm;
-	mm.cbSize = sizeof(mm);
-	CallService(MS_SYSTEM_GET_MMI, 0, (LPARAM)&mm);
-	int I;
-	for (I = 0; I < lParam; I++)
+	for (int i = 0; i < lParam; i++)
 	{
 		if (pi->cbSize < sizeof(NAS_PROTOINFO) && pi->cbSize != sizeof(NAS_PROTOINFOv1))
-		{
 			return 1;
-		}
+
 		int Flags = (pi->cbSize > sizeof(NAS_PROTOINFOv1)) ? pi->Flags : 0;
-		LogMessage("%d (received): cbSize=%d, status=%d, szProto=%s, Flags=0x%x", I + 1, pi->cbSize, pi->status, pi->szProto ? pi->szProto : "NULL", Flags);
+		LogMessage("%d (received): cbSize=%d, status=%d, szProto=%s, Flags=0x%x", i + 1, pi->cbSize, pi->status, pi->szProto ? pi->szProto : "NULL", Flags);
 		if ((pi->status >= ID_STATUS_ONLINE && pi->status <= ID_STATUS_OUTTOLUNCH) || !pi->status)
 		{
 			TCString Msg(pi->status ? CProtoSettings(pi->szProto, pi->status).GetMsgFormat(GMF_LASTORDEFAULT) : CProtoSettings(pi->szProto).GetMsgFormat(((Flags & PIF_NOTTEMPORARY) ? 0 : GMF_TEMPORARY) | GMF_PERSONAL));
 			if (Msg != NULL)
 			{
-				pi->szMsg = (char*)mm.mmi_malloc(Msg.GetLen() + 1);
+				pi->szMsg = (char*)mir_alloc(Msg.GetLen() + 1);
 				_ASSERT(pi->szMsg);
 				if (Widechar)
-				{
 					lstrcpyW(pi->wszMsg, TCHAR2WCHAR(Msg));
-				} else
-				{
+				else
 					lstrcpyA(pi->szMsg, TCHAR2ANSI(Msg));
-				}
-			} else
-			{
-				pi->szMsg = NULL;
 			}
+			else pi->szMsg = NULL;
+
 			if (!pi->status)
-			{
 				pi->status = g_ProtoStates[pi->szProto].Status;
-			}
-		} else
-		{
-			pi->szMsg = NULL;
 		}
-		LogMessage("%d (returned): status=%d, Flags=0x%x, szMsg:\n%s", I + 1, pi->status, (pi->cbSize > sizeof(NAS_PROTOINFOv1)) ? pi->Flags : 0, pi->szMsg ? (Widechar ? WCHAR2ANSI(pi->wszMsg) : pi->szMsg) : "NULL");
+		else pi->szMsg = NULL;
+
+		LogMessage("%d (returned): status=%d, Flags=0x%x, szMsg:\n%s", i + 1, pi->status, (pi->cbSize > sizeof(NAS_PROTOINFOv1)) ? pi->Flags : 0, pi->szMsg ? (Widechar ? WCHAR2ANSI(pi->wszMsg) : pi->szMsg) : "NULL");
 		*(char**)&pi += pi->cbSize;
 	}
 	return 0;
@@ -175,32 +160,24 @@ int SetState(WPARAM wParam, LPARAM lParam, int Widechar)
 {
 	NAS_PROTOINFO *pi = (NAS_PROTOINFO*)wParam;
 	LogMessage("MS_NAS_SETSTATE called with %d items and Widechar=%d:", lParam, Widechar);
-	struct MM_INTERFACE mm;
-	mm.cbSize = sizeof(mm);
-	CallService(MS_SYSTEM_GET_MMI, 0, (LPARAM)&mm);
-	int I;
-	for (I = 0; I < lParam; I++)
+	for (int i = 0; i < lParam; i++)
 	{
 		_ASSERT(pi->szMsg != (char*)(-1));
 		if (pi->cbSize < sizeof(NAS_PROTOINFO) && pi->cbSize != sizeof(NAS_PROTOINFOv1))
-		{
 			return 1;
-		}
+
 		int Flags = (pi->cbSize > sizeof(NAS_PROTOINFOv1)) ? pi->Flags : 0;
-		LogMessage("%d: cbSize=%d, status=%d, szProto=%s, Flags=0x%x, szMsg:\n%s", I + 1, pi->cbSize, pi->status, pi->szProto ? pi->szProto : "NULL", Flags, pi->szMsg ? (Widechar ? WCHAR2ANSI(pi->wszMsg) : pi->szMsg) : "NULL");
+		LogMessage("%d: cbSize=%d, status=%d, szProto=%s, Flags=0x%x, szMsg:\n%s", i + 1, pi->cbSize, pi->status, pi->szProto ? pi->szProto : "NULL", Flags, pi->szMsg ? (Widechar ? WCHAR2ANSI(pi->wszMsg) : pi->szMsg) : "NULL");
 		if (pi->status)
-		{
 			PSSetStatus(pi->szProto, pi->status, Flags & PIF_NO_CLIST_SETSTATUSMODE);
-		} else
-		{
+		else
 			pi->status = g_ProtoStates[pi->szProto].Status;
-		}
+
 		CProtoSettings(pi->szProto).SetMsgFormat((Flags & PIF_NOTTEMPORARY) ? SMF_PERSONAL : SMF_TEMPORARY, Widechar ? WCHAR2TCHAR(pi->wszMsg) : ANSI2TCHAR(pi->szMsg));
 		if (pi->szMsg || !(Flags & PIF_NO_CLIST_SETSTATUSMODE))
-		{
 			ChangeProtoMessages(pi->szProto, pi->status, TCString());
-		}
-		mm.mmi_free(pi->szMsg);
+
+		mir_free(pi->szMsg);
 		pi->szMsg = (char*)(-1);
 		*(char**)&pi += pi->cbSize;
 	}

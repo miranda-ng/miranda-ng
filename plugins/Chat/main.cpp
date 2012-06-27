@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //globals
 HINSTANCE   g_hInst;
-PLUGINLINK  *pluginLink;
 HANDLE      g_hWindowList;
 HMENU       g_hMenu = NULL;
 int         hLangpack;
@@ -82,10 +81,9 @@ extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	BOOL bFlag = FALSE;
-	pluginLink = link;
 
 	// set the memory & utf8 managers
 	mir_getLP( &pluginInfo );

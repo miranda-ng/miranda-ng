@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "CVersionInfo.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 
 HICON hiVIIcon;
@@ -84,10 +84,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink=link;
-	mir_getLP(&pluginInfo);
+
+	mir_getLP(&pluginInfo);
+
 	InitServices();
 	HookEvents();
 	

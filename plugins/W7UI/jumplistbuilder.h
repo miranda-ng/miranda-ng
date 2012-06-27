@@ -4,7 +4,7 @@
 class CJumpListBuilder
 {
 public:
-	static void Load()
+	static void Load(void)
 	{
 		m_instance = new CJumpListBuilder;
 	}

@@ -26,7 +26,7 @@
 #include "commonheaders.h"
 
 HINSTANCE g_hInst;
-PLUGINLINK *pluginLink;
+
 static HANDLE hHookModulesLoaded = NULL, hSystemOKToExit = NULL, hOptInitialise = NULL, hIcoLibIconsChanged = NULL;
 static HANDLE hHookExtraIconsRebuild = NULL, hHookExtraIconsApply = NULL, hContactMenu = NULL;
 static HANDLE hContactMenuMale = NULL, hContactMenuFemale = NULL, hContactMenuNotDef = NULL, hHookPrebuildContactMenu = NULL;
@@ -428,9 +428,9 @@ int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 	
 	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);

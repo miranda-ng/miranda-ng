@@ -43,7 +43,7 @@ PLUGININFOEX pluginInfo={
 	{ 0xefd15f16, 0x7ae4, 0x40d7, { 0xa8, 0xe3, 0xa4, 0x11, 0xed, 0x74, 0x7b, 0xd5 } } // {EFD15F16-7AE4-40d7-A8E3-A411ED747BD5}
 };
 
-PLUGINLINK *pluginLink;
+
 
 
 extern "C" BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
@@ -228,8 +228,8 @@ int PreShutdown(WPARAM wParam, LPARAM lParam) {
 
 HANDLE hEventPreShutdown, hEventModulesLoaded;
 
-extern "C" int POPUPS2_API Load(PLUGINLINK *link) {
-	pluginLink = link;
+extern "C" int POPUPS2_API Load(void) {
+
 	mir_getLP(&pluginInfo);
 
 	InitMessagePump();

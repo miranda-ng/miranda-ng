@@ -29,7 +29,7 @@ static HANDLE
 	hGetProfileNameService;
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 
 int hLangpack = 0;
 
@@ -73,9 +73,9 @@ static INT_PTR SrvGetProfile( WPARAM wParam, LPARAM lParam )
 {	return GetProfile(( int )wParam, *(TSettingsList*)lParam );
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP( &pluginInfoEx );
 
 	if ( DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETPROFILE, 1) ||

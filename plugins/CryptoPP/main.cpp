@@ -51,9 +51,8 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 }
 
 
-int Load(PLUGINLINK *link) {
-
-	pluginLink = link;
+int Load(PLUGINLINK *link)
+{
 	DisableThreadLibraryCalls(g_hInst);
 
 	// get memoryManagerInterface address
@@ -73,7 +72,8 @@ int Load(PLUGINLINK *link) {
 }
 
 
-int Unload() {
+int Unload()
+{
 	return 0;
 }
 

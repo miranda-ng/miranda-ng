@@ -21,8 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "addcontactplus.h"
 
 HINSTANCE hInst;
-PLUGINLINK* pluginLink;
-int hLangpack; 
+int hLangpack;
 static HANDLE hModulesLoaded = 0, hChangedIcons = 0, hAccListChanged = 0,
 			  hMainMenuItem = 0, hToolBarItem = 0, hService = 0;
 HANDLE hIconLibItem;
@@ -177,9 +176,8 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK* link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
 	mir_getLP(&pluginInfo);
 
 	INITCOMMONCONTROLSEX icex = {0};

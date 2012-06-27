@@ -41,7 +41,7 @@ Last change by : $Author: borkra $
 #include "m_extraicons.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 
 int g_cbCountries;
@@ -224,9 +224,9 @@ static int jabberProtoUninit( CJabberProto* ppro )
 	return 0;
 }
 
-extern "C" int __declspec( dllexport ) Load( PLUGINLINK *link )
+extern "C" int __declspec( dllexport ) Load(  )
 {
-	pluginLink = link;
+
 
 	// set the memory, lists & utf8 managers
 	mir_getXI( &xi );

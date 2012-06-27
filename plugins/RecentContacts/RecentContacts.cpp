@@ -8,7 +8,6 @@ static const basic_string <char>::size_type npos = -1;
 
 char *szProto;
 HINSTANCE hInst = NULL;
-PLUGINLINK *pluginLink = NULL;
 int hLangpack = 0;
 
 
@@ -634,10 +633,11 @@ INT_PTR ToggleIgnore (WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
-	mir_getLP( &pluginInfo );
+
+	mir_getLP( &pluginInfo );
+
 	CoInitialize(NULL);
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 

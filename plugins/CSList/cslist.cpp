@@ -72,10 +72,8 @@ extern "C" __declspec( dllexport ) const MUUID* MirandaPluginInterfaces( void )
 
 // ====[ LOADER ]=============================================================
 
-extern "C" __declspec( dllexport ) int Load( PLUGINLINK *link )
+extern "C" __declspec( dllexport ) int Load(  )
 {
-	// link plugin
-	pluginLink = link;
 	mir_getLP(&pluginInfoEx);
 	servicesList = List_Create(0, 10);
 

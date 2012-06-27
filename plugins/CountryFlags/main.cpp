@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
 int nCountriesCount;
 struct CountryListEntry *countries;
 int hLangpack;
@@ -87,9 +86,8 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink=link;
 	mir_getLP(&pluginInfo);
 
 	/* existance of MS_SYSTEM_GETVERSION and MS_LANGPACK_TRANSLATESTRING

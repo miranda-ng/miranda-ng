@@ -67,9 +67,8 @@ BOOL __inline WildCompareProcW(LPWSTR name, LPWSTR mask);
 #define WildCompare		WildCompareW
 #define GetIconsIndexes	GetIconsIndexesW
 
-HINSTANCE		g_hInst;
-PLUGINLINK*		pluginLink;
-int hLangpack;
+HINSTANCE g_hInst;
+int       hLangpack;
 
 BOOL g_bExtraIcon_Register_ServiceExist		= FALSE;
 BOOL g_bCList_Extra_Set_Icon_ServiceExist	= FALSE;
@@ -153,9 +152,9 @@ extern "C"		__declspec(dllexport) const MUUID* MirandaPluginInterfaces()
 	return interfaces;
 }
 
-extern "C" int	__declspec(dllexport) Load(PLUGINLINK* link)
+extern "C" int	__declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 
 	hStaticHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

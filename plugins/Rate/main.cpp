@@ -43,7 +43,7 @@
 #include "commonheaders.h"
 
 HINSTANCE g_hInst;
-PLUGINLINK *pluginLink;
+
 static HANDLE hHookModulesLoaded = NULL, hSystemOKToExit = NULL, hOptInitialise = NULL, hIcoLibIconsChanged = NULL;
 static HANDLE hHookExtraIconsRebuild = NULL, hHookExtraIconsApply = NULL, hContactSettingChanged = NULL;
 static HANDLE hPrebuildContactMenu = NULL;
@@ -261,10 +261,11 @@ int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 }
 
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink=link;
-	mir_getLP(&pluginInfo);
+
+	mir_getLP(&pluginInfo);
+
    hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
    hSystemOKToExit = HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
    hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);

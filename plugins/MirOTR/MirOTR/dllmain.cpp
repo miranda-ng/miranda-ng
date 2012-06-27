@@ -7,7 +7,7 @@
 
 HANDLE hEventWindow;
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 char* g_metaproto;
 
@@ -129,10 +129,10 @@ int NewContact(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-DLLFUNC int Load(PLUGINLINK *link)
+DLLFUNC int Load(void)
 {
 	DEBUGOUT_T("LOAD MIROTR")
-	pluginLink=link;
+
 	mir_getLP( &pluginInfo );
 	/* for timezones
 	 mir_getTMI(&tmi);  */

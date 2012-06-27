@@ -54,7 +54,7 @@ char		*pszActiveWndModule = 0;
  * load the group chat module
  */
 
-int Chat_Load(PLUGINLINK *link)
+int Chat_Load()
 {
 	if(M->GetByte("forceDisableMUC", 0)) {
 		PluginConfig.m_chat_enabled = false;

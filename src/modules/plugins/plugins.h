@@ -37,7 +37,7 @@ typedef struct { // can all be NULL
 #define PCLASS_DB	 	 0x4    // has DatabasePluginInfo() and is valid as can be, and PCLASS_BASICAPI has to be set too
 #define PCLASS_LAST		 0x8    // this plugin should be unloaded after everything else
 #define PCLASS_OK		 0x10   // plugin should be loaded, if DB means nothing
-#define PCLASS_LOADED	 0x20   // Load() has been called, Unload() should be called.
+#define PCLASS_LOADED	 0x20   // Load(void) has been called, Unload() should be called.
 #define PCLASS_STOPPED   0x40 	// wasn't loaded cos plugin name not on white list
 #define PCLASS_CLIST 	 0x80   // a CList implementation
 #define PCLASS_SERVICE 	 0x100  // has Service Mode implementation

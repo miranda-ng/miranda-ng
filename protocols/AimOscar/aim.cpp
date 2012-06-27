@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 char AIM_CAP_MIRANDA[16] = "MirandaA";
 
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 
 HINSTANCE hInstance;
@@ -108,9 +108,9 @@ static int protoUninit(PROTO_INTERFACE* ppro)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 
 	hMooduleLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

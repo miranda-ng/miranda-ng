@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 char *ieviewModuleName;
 HINSTANCE hInstance;
-PLUGINLINK *pluginLink;
+
 char *workingDirUtf8;
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam);
 static int PreShutdown(WPARAM wParam, LPARAM lParam);
@@ -65,7 +65,7 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
 	char text[_MAX_PATH];
 	char *p, *q;
@@ -85,7 +85,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	ieviewModuleName = _strdup(p);
 	_strupr(ieviewModuleName);
 
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 
 	Utils::hookEvent_Ex(ME_OPT_INITIALISE, IEViewOptInit);

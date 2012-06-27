@@ -149,7 +149,7 @@ public:
 	void Save();
 	void SaveTasks(std::list<TaskOptions>* tasks);
 	void SaveTaskTime(TaskOptions& to);
-	void Load();
+	void Load(void);
 	void LoadTasks();
 	void Unload();
 

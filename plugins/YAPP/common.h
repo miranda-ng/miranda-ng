@@ -60,7 +60,6 @@
 #define MODULE			"YAPP"
 
 extern HMODULE hInst;
-extern PLUGINLINK *pluginLink;
 
 extern HFONT hFontFirstLine, hFontSecondLine, hFontTime;
 extern COLORREF	colFirstLine, colSecondLine, colBg, colTime, colBorder, colSidebar, colTitleUnderline;

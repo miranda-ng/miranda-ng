@@ -39,7 +39,6 @@
 
 #define MIIM_STRING	0x00000040
 
-extern PLUGINLINK *pluginLink;
 extern PLUGININFOEX pluginInfoEx;
 extern MUUID interfaces[];
 

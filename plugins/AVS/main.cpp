@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 HINSTANCE g_hInst = 0;
-PLUGINLINK *pluginLink;
 int hLangpack;
 
 static TCHAR   g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
@@ -2468,11 +2467,10 @@ extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
+extern "C" int __declspec(dllexport) Load(void)
 {
 	INT_PTR result = CALLSERVICE_NOTFOUND;
 
-	pluginLink = link;
 	mir_getLP( &pluginInfoEx );
 
 	if (ServiceExists(MS_IMG_GETINTERFACE))

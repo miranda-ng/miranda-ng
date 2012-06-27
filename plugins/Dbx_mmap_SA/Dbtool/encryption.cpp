@@ -48,12 +48,12 @@ void zero_fill(BYTE * pBuf, size_t bufSize)
 
 void InitSecurity()
 {
-	HMODULE hLib;	
+	HMODULE hLib;
 	WIN32_FIND_DATAA fd;
 
-	Cryptor* (__stdcall *GetCryptor)();	
+	Cryptor* (__stdcall *GetCryptor)();
 
-	{	
+	{
 		TCHAR szMirandaDir[MAX_PATH];
 		szMirandaDir[ 0 ] = 0;
 		TCHAR *str2;
@@ -63,30 +63,30 @@ void InitSecurity()
 			*str2=0;
 		_tchdir(szMirandaDir);
 	}
-	
-	HANDLE hFile = FindFirstFileA(".\\plugins\\cryptors\\*.dll", &fd);	
+
+	HANDLE hFile = FindFirstFileA(".\\plugins\\cryptors\\*.dll", &fd);
 
 	AddToStatus(STATUS_MESSAGE,TranslateT("Scanning cryptors directory"));
-	
+
 	ModulesCount = 0;
 	while (hFile != INVALID_HANDLE_VALUE)
-	{	
+	{
 		char tmp[MAX_PATH], buf[255];
 		strcpy(tmp, ".\\plugins\\cryptors\\");
 		strcat(tmp, fd.cFileName);
-		
+
 		hLib = LoadLibraryA(tmp);
 		if(hLib){
 			GetCryptor = (Cryptor* (__stdcall *)()) GetProcAddress(hLib, "GetCryptor");
 			if(GetCryptor){
 				TCHAR Name[100], Version[100], DllName[100];
-				
+
 
 				Modules[ModulesCount] = (CryptoModule*) malloc(sizeof(CryptoModule));
 				Modules[ModulesCount]->cryptor = GetCryptor();
 				strcpy(Modules[ModulesCount]->dllname, fd.cFileName);
 				Modules[ModulesCount]->hLib = hLib;
-				
+
 				_snprintf(buf,SIZEOF(buf),"%d.%d.%d.%d", HIBYTE(HIWORD(Modules[ModulesCount]->cryptor->Version)), LOBYTE(HIWORD(Modules[ModulesCount]->cryptor->Version)), HIBYTE(LOWORD(Modules[ModulesCount]->cryptor->Version)), LOBYTE(LOWORD(Modules[ModulesCount]->cryptor->Version)));
 
 				mbstowcs(Name, Modules[ModulesCount]->cryptor->Name, 100);
@@ -94,7 +94,7 @@ void InitSecurity()
 				mbstowcs(DllName, Modules[ModulesCount]->dllname, 100);
 
 				AddToStatus(STATUS_MESSAGE,TranslateT("Cryptor loaded: %s [%s] (%s)"), Name, Version, DllName);
-				
+
 				ModulesCount++;
 			}else{
 				FreeLibrary(hLib);
@@ -112,7 +112,7 @@ void UnloadSecurity()
 	int i;
 
 	if(CryptoEngine) CryptoEngine->FreeKey(key);
-	
+
 	for(i = 0; i < ModulesCount; i++)
 	{
 		FreeLibrary(Modules[i]->hLib);
@@ -229,11 +229,10 @@ BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 	case WM_INITDIALOG:
 		{
 			HWND hwndCtrl;
-//			if(pluginLink && ServiceExists(MS_LANGPACK_TRANSLATEDIALOG))
 			TranslateDialogDefault(hDlg);
 
 			if(lParam && !wrongPass) SetDlgItemTextA(hDlg, IDC_DBNAME, (LPCSTR)lParam);
-			if(wrongPass) 
+			if(wrongPass)
 			{
 				if (wrongPass > 2)
 				{
@@ -241,7 +240,7 @@ BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 					EnableWindow(hwndCtrl, FALSE);
 					hwndCtrl = GetDlgItem(hDlg, IDOK);
 					EnableWindow(hwndCtrl, FALSE);
-					
+
 					SetDlgItemText(hDlg, IDC_LOGININFO, TranslateT("Too many errors!"));
 
 				}
@@ -278,7 +277,7 @@ BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 					encryptKeyLength = GetDlgItemTextA(hDlg, IDC_USERPASS, encryptKey, 254);
 					EndDialog(hDlg,IDOK);
 				}else{
-					
+
 				}
 			}else if(uid == IDCANCEL){
 				EndDialog(hDlg,IDCANCEL);

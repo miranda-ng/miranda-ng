@@ -31,7 +31,6 @@ Last change by : $Author: Merlin_de $
 #include "headers.h"
 
 HINSTANCE hInst = 0;
-PLUGINLINK *pluginLink = 0;
 int hLangpack;
 
 HMODULE hMsfteditDll = 0;
@@ -66,9 +65,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 
 	//6.0A SDK is missing RichEd20.lib for x64

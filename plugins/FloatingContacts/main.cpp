@@ -79,7 +79,6 @@ WNDPROC oldMirandaWndProc;
 
 HINSTANCE	hInst				 =  NULL;
 HMODULE		hUserDll			 =  NULL;
-PLUGINLINK	*pluginLink			 =  NULL;
 HFONT		hFont[FLT_FONTIDS]	 =  {NULL};
 COLORREF	tColor[FLT_FONTIDS]	 =  {0};
 HIMAGELIST	himl				 =  NULL;
@@ -190,11 +189,11 @@ BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved )
 	return( TRUE );
 }
 
-extern "C" int __declspec(dllexport) Load( PLUGINLINK *link )
+extern "C" int __declspec(dllexport) Load(  )
 {
 	SetLastError( 0 );
 	InitOptions();
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 
 	hevModules = HookEvent( ME_SYSTEM_MODULESLOADED,  OnModulesLoded );

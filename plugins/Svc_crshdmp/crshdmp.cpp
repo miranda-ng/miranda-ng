@@ -75,7 +75,7 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-PLUGINLINK *pluginLink;
+
 
 HANDLE hHooks[5];
 HANDLE hServices[6];
@@ -389,9 +389,9 @@ static int PreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 
 	clsdates = DBGetContactSettingByte(NULL, PluginName, "ClassicDates", 1) != 0;
 

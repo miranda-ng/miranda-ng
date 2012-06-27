@@ -26,10 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int LoadW7UI();
 int UnloadW7UI();
 
-PLUGINLINK* pluginLink;
-HINSTANCE   g_hInst;
-
-int hLangpack;
+HINSTANCE g_hInst;
+int       hLangpack;
 
 // {3625ACB8-794C-4727-88EA-76DBBAC6D200}
 #define MIID_W7UI	{ 0x3625acb8, 0x794c, 0x4727, { 0x88, 0xea, 0x76, 0xdb, 0xba, 0xc6, 0xd2, 0x0 } }
@@ -67,11 +65,11 @@ extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	if (!IsWinVer7Plus()) return 1;
 
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 
 	LoadW7UI();

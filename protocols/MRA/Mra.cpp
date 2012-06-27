@@ -1,6 +1,6 @@
 #include "Mra.h"
 
-PLUGINLINK *pluginLink;
+
 MRA_SETTINGS masMraSettings;
 int hLangpack;
 
@@ -62,7 +62,7 @@ extern "C" MRA_API const MUUID* MirandaPluginInterfaces()
 }
 
 
-extern "C" MRA_API int Load(PLUGINLINK *link)
+extern "C" MRA_API int Load(void)
 {
 	SIZE_T dwBuffLen;
 	WCHAR szBuff[MAX_FILEPATH];
@@ -70,8 +70,9 @@ extern "C" MRA_API int Load(PLUGINLINK *link)
 	LPWSTR lpwszFileName;
 	PROTOCOLDESCRIPTOR pd={0};
 
-	pluginLink=link;
-	mir_getLP(&pluginInfoEx);
+
+	mir_getLP(&pluginInfoEx);
+
 
 	// Get module name from DLL file name
 	if (GetModuleFileName(masMraSettings.hInstance,szBuff,MAX_FILEPATH))

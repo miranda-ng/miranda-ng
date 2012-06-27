@@ -21,7 +21,6 @@
 #include "MirandaContact.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
 int hLangpack = 0;
 
 PLUGININFOEX pluginInfoEx={
@@ -56,10 +55,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 //------------------------------------------------------------------------------
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	//system inits:
-	pluginLink = link;
 	mir_getLP(&pluginInfoEx);
 
 	//plugin inits: PLACE IT ONLY AFTER THIS LINE

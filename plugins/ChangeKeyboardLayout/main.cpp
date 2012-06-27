@@ -1,6 +1,5 @@
 #include "commonheaders.h"
 
-PLUGINLINK *pluginLink;
 int hLangpack;
 LPTSTR ptszLayStrings[20];
 HANDLE hChangeLayout, hGetLayoutOfText, hChangeTextLayout;
@@ -46,9 +45,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {	
-	pluginLink = link;
 	mir_getLP(&pluginInfoEx);
 	ZeroMemory(hklLayouts, 20 * sizeof(HKL));
 	bLayNum = GetKeyboardLayoutList(20,hklLayouts);

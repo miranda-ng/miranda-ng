@@ -209,7 +209,7 @@ public:
 		1,1). If the returns values are 0 or less, then the parser does not have
 		a row and column value.
 
-		Generally, the row and column value will be set when the TiXmlDocument::Load(),
+		Generally, the row and column value will be set when the TiXmlDocument::Load(void),
 		TiXmlDocument::LoadFile(), or any TiXmlNode::Parse() is called. It will NOT be set
 		when the DOM was created from operator>>.
 

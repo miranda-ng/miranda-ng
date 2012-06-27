@@ -20,7 +20,7 @@ There is no warranty.
 #include "resource.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 TCHAR fn[MAX_PATH];
 TCHAR lmn[MAX_PATH];
 TCHAR* pathn;
@@ -71,10 +71,10 @@ static INT_PTR LoadPM(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	CLISTMENUITEM mi;
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 
 	hLoadPM = CreateServiceFunction("Database/LoadPM", LoadPM);

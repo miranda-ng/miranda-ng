@@ -3,7 +3,7 @@
 #include "version.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 HANDLE hHookTTBModuleLoaded;
 int hLangpack;
 
@@ -41,9 +41,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfo);
 
 	LoadToolbarModule();

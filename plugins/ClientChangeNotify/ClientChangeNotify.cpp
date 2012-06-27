@@ -34,7 +34,6 @@
 HINSTANCE g_hInstance;
 HANDLE g_hMainThread;
 HANDLE g_hTogglePopupsMenuItem;
-PLUGINLINK *pluginLink;
 int hLangpack;
 TMyArray<HANDLE> hHooks, hServices;
 COptPage *g_PreviewOptPage; // we need to show popup even for the NULL contact if g_PreviewOptPage is not NULL (used for popup preview)
@@ -445,9 +444,8 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 }
 
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
 	mir_getLP( &pluginInfo );
 
 	hHooks.AddElem(HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded));

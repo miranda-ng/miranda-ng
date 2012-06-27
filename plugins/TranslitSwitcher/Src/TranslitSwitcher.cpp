@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 #include "TranslitSwitcher.h"
 
 HINSTANCE hInst = NULL;
-PLUGINLINK *pluginLink;
+
 HANDLE hOnButtonPressed;
 int hLangpack;
 
@@ -183,9 +183,9 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 //-------------------------------------------------------------------------------------------------------
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
 
 	hHook = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

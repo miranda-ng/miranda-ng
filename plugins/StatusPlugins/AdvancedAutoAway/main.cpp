@@ -28,7 +28,7 @@
 #define MIID_ADVAUTOAWAY { 0xf0fdf73a, 0x753d, 0x499d, { 0x8d, 0xba, 0x33, 0x6d, 0xb7, 0x9c, 0xdd, 0x41 } }
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 
 
 HANDLE hCSModuleLoadedHook;
@@ -71,9 +71,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 /////////////////////////////////////////////////////////////////////////////////////////
 // plugin's entry point
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP( &pluginInfoEx );
 
 	InitCommonStatus();

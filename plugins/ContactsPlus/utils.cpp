@@ -1,20 +1,20 @@
 // ---------------------------------------------------------------------------
 //                Contacts+ for Miranda Instant Messenger
 //                _______________________________________
-// 
-// Copyright © 2002 Dominus Procellarum 
+//
+// Copyright © 2002 Dominus Procellarum
 // Copyright © 2004-2008 Joe Kucera
-// 
+//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -23,39 +23,34 @@
 
 #include "contacts.h"
 
-
 int SRCCallProtoService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
 {
-  if (!g_NewProtoAPI)
-  {
-    char str[MAXMODULELABELLENGTH];
-    strcpy(str,szModule);
-    strcat(str,szService);
-    return CallService(str,wParam,lParam);
-  }
-  else // this will call pluginLink.CallProtoService (only 0.8.0.8+)
-    return CallProtoService(szModule, szService, wParam, lParam);
+	if (!g_NewProtoAPI)
+	{
+		char str[MAXMODULELABELLENGTH];
+		strcpy(str,szModule);
+		strcat(str,szService);
+		return CallService(str,wParam,lParam);
+	}
+	return CallProtoService(szModule, szService, wParam, lParam);
 }
-
 
 int SRCCallContactService(HANDLE hContact, const char *szProtoService, WPARAM wParam, LPARAM lParam)
 {
-  if (!g_NewProtoAPI)
-  {
-    CCSDATA ccs;
-    ccs.hContact=hContact;
-    ccs.szProtoService=szProtoService;
-    ccs.wParam=wParam;
-    ccs.lParam=lParam;
-    return CallService(MS_PROTO_CALLCONTACTSERVICE,0,(LPARAM)&ccs);
-  }
-  else // this will call pluginLink.CallContactService (only 0.8.0.8+)
-    return CallContactService(hContact, szProtoService, wParam, lParam);
+	if (!g_NewProtoAPI)
+	{
+		CCSDATA ccs;
+		ccs.hContact=hContact;
+		ccs.szProtoService=szProtoService;
+		ccs.wParam=wParam;
+		ccs.lParam=lParam;
+		return CallService(MS_PROTO_CALLCONTACTSERVICE,0,(LPARAM)&ccs);
+	}
+
+	return CallContactService(hContact, szProtoService, wParam, lParam);
 }
 
-
 int utf8_decode(const unsigned char *from, char **to);
-
 
 /* a strlennull() that likes NULL */
 size_t __fastcall strlennull(const char *string)
@@ -112,19 +107,19 @@ char *GetContactUID(HANDLE hContact, int bTchar)
   char *szUid = NULL;
 
   char *szProto = GetContactProto(hContact);
-  char *uid = (char*)SRCCallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0); // v0.3+ only 
+  char *uid = (char*)SRCCallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0); // v0.3+ only
 
   if (((int)uid != CALLSERVICE_NOTFOUND) && uid)
   { // it worked, yeah :)
-    if (!DBGetContactSettingT(hContact, szProto, uid, &vrUid)) 
+    if (!DBGetContactSettingT(hContact, szProto, uid, &vrUid))
     {
-      if (vrUid.type == DBVT_DWORD) 
+      if (vrUid.type == DBVT_DWORD)
       {
         szUid = (char*)_alloca(17);
         szUid[0] = 0; // empty string
         _itoa(vrUid.dVal, szUid, 10);
-      }  
-      else if (vrUid.type == DBVT_ASCIIZ) 
+      }
+      else if (vrUid.type == DBVT_ASCIIZ)
       {
         szUid = (char*)_alloca(strlennull(vrUid.pszVal) + 1);
         strcpy(szUid, vrUid.pszVal);
@@ -183,12 +178,12 @@ TCHAR* DBGetContactSettingStringT(HANDLE hContact, const char *szModule, const c
   {
     if (DBGetContactSettingWString(hContact, szModule, szSetting, &dbv))
       return strdupT(szDef);
-    
+
     szRes = strdupT(dbv.ptszVal);
     DBFreeVariant(&dbv);
   }
   else
-  { 
+  {
     if (DBGetContactSettingT(hContact, szModule, szSetting, &dbv))
       return strdupT(szDef);
 
@@ -213,7 +208,7 @@ int DBWriteContactSettingStringT(HANDLE hContact, const char *szModule, const ch
 
 
 
-void DialogAddContactExecute(HWND hwndDlg, HANDLE hNewContact) 
+void DialogAddContactExecute(HWND hwndDlg, HANDLE hNewContact)
 {
   ADDCONTACTSTRUCT acs={0};
 
@@ -228,7 +223,7 @@ void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, HANDLE hContact)
 {
   LPDRAWITEMSTRUCT dis=(LPDRAWITEMSTRUCT)lParam;
 
-  if (dis->hwndItem==GetDlgItem(hwndDlg, IDC_PROTOCOL)) 
+  if (dis->hwndItem==GetDlgItem(hwndDlg, IDC_PROTOCOL))
   {
     HICON hIcon = LoadContactProtoIcon(hContact);
     if (hIcon)
@@ -248,10 +243,10 @@ void UpdateDialogTitle(HWND hwndDlg, HANDLE hContact, char* pszTitleStart)
   TCHAR *szStatus;
   char *szProto;
 
-  if (hContact) 
+  if (hContact)
   {
     szProto = GetContactProto(hContact);
-    if (szProto) 
+    if (szProto)
     {
       TCHAR *uid = GetContactUID(hContact, TRUE);
       TCHAR *contactName = GetContactDisplayNameT(hContact);
@@ -284,7 +279,7 @@ void UpdateDialogTitle(HWND hwndDlg, HANDLE hContact, char* pszTitleStart)
 
 void UpdateDialogAddButton(HWND hwndDlg, HANDLE hContact)
 {
-  int bVisible = DBGetContactSettingByte(hContact,"CList","NotOnList",0); 
+  int bVisible = DBGetContactSettingByte(hContact,"CList","NotOnList",0);
 
   ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), bVisible?SW_SHOW:SW_HIDE);
 }
@@ -608,11 +603,11 @@ unsigned char *make_utf8_string(const wchar_t *unicode)
   c = unicode[index++];
   while (c)
   {
-    if (c < 0x0080) 
+    if (c < 0x0080)
       size += 1;
-    else if (c < 0x0800) 
+    else if (c < 0x0800)
       size += 2;
-    else 
+    else
       size += 3;
     c = unicode[index++];
   }
@@ -625,11 +620,11 @@ unsigned char *make_utf8_string(const wchar_t *unicode)
   c = unicode[index++];
   while (c)
   {
-    if (c < 0x080) 
+    if (c < 0x080)
     {
       out[out_index++] = (unsigned char)c;
     }
-    else if (c < 0x800) 
+    else if (c < 0x800)
     {
       out[out_index++] = 0xc0 | (c >> 6);
       out[out_index++] = 0x80 | (c & 0x3f);
@@ -659,13 +654,13 @@ WCHAR *make_unicode_string(const unsigned char *utf8)
 
   /* first calculate the size of the target string */
   c = utf8[index++];
-  while (c) 
+  while (c)
   {
-    if ((c & 0x80) == 0) 
+    if ((c & 0x80) == 0)
     {
       index += 0;
     }
-    else if ((c & 0xe0) == 0xe0) 
+    else if ((c & 0xe0) == 0xe0)
     {
       index += 2;
     }
@@ -685,11 +680,11 @@ WCHAR *make_unicode_string(const unsigned char *utf8)
   c = utf8[index++];
   while (c)
   {
-    if ((c & 0x80) == 0) 
+    if ((c & 0x80) == 0)
     {
       out[out_index++] = c;
-    } 
-    else if ((c & 0xe0) == 0xe0) 
+    }
+    else if ((c & 0xe0) == 0xe0)
     {
       out[out_index] = (c & 0x1F) << 12;
       c = utf8[index++];
@@ -856,7 +851,7 @@ TCHAR* utf8_to_tchar(const unsigned char* utf)
   {
     char* szAnsi = NULL;
 
-    if (utf8_decode(utf, &szAnsi)) 
+    if (utf8_decode(utf, &szAnsi))
       return (TCHAR*)szAnsi;
     else
       return NULL; // Failure

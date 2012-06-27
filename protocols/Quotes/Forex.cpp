@@ -31,7 +31,6 @@
 #include "m_Quotes.h"
 #include "version.h"
 
-PLUGINLINK* pluginLink = NULL;
 int hLangpack;
 
 HANDLE g_hEventWorkThreadStop;
@@ -435,9 +434,9 @@ extern "C"
 		return interfaces;
 	}
 
-	int __declspec(dllexport) Load(PLUGINLINK *link)
+	int __declspec(dllexport) Load(void)
 	{
-		pluginLink = link;
+
 		mir_getLP(&Global_pluginInfo);
 // 		if ((mirandaVersion >= 0x0800) && (1 == mir_getXI(&xi)))
 // 		{

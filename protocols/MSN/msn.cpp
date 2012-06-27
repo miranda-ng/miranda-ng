@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 TIME_API tmi;
 
@@ -112,9 +112,9 @@ static int msnProtoUninit(CMsnProto* ppro)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Performs a primary set of actions upon plugin loading
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK* link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 

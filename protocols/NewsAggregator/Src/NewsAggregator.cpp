@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 #include "Common.h"
 
 HINSTANCE hInst = NULL;
-PLUGINLINK *pluginLink;
+
 int hLangpack;
 HANDLE hOptHook = NULL,  hLoadHook = NULL, hOnPreShutdown = NULL, hPrebuildMenuHook = NULL, hPackUpdaterFolder = NULL;
 HANDLE hProtoService[7];
@@ -65,11 +65,12 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+
 	mir_getLP(&pluginInfoEx);
-	mir_getXI(&xi);
+	mir_getXI(&xi);
+
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 	{
 		hPackUpdaterFolder = FoldersRegisterCustomPathT("News Aggregator", "Avatars", MIRANDA_USERDATAT _T("\\Avatars\\")_T(DEFAULT_AVATARS_FOLDER));

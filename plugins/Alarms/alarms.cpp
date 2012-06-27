@@ -20,7 +20,6 @@ There is no warranty.
 TCHAR szGamePrefix[] = COMMANDPREFIX;
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
 int hLangpack;
 
 HANDLE hTopToolbarButton;
@@ -300,11 +299,10 @@ static int MainDeInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+	mir_getLP(&pluginInfo);
 
-	mir_getLP(&pluginInfo);
 	// ensure datetime picker is loaded
 	INITCOMMONCONTROLSEX ccx;
 	ccx.dwSize = sizeof(ccx);

@@ -17,7 +17,7 @@ Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
 #include "Common.h"
 
 HINSTANCE hinstance;
-PLUGINLINK *pluginLink;
+
 HANDLE hPreBuildHook = NULL, hAddEventHook = NULL, hOptHook = NULL, hCheckDefHook = NULL, hOnPreShutdown = NULL, hToggleEnable = NULL, hToggleAutoanswer = NULL;
 HANDLE hToggle = NULL, hEnableMenu = NULL;
 CLISTMENUITEM mi;
@@ -313,9 +313,9 @@ INT OnPreShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport)Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport)Load(void)
 {
-	pluginLink=link;
+
 	mir_getLP(&pluginInfoEx);
 
 	hToggleEnable = CreateServiceFunction(protocolname"/ToggleEnable", ToggleEnable);
