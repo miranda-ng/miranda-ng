@@ -76,7 +76,7 @@ void          SetActiveSession(const TCHAR* pszID, const char* pszModule);
 void          SetActiveSessionEx(SESSION_INFO* si);
 SESSION_INFO* GetActiveSession(void);
 SESSION_INFO* SM_AddSession(const TCHAR* pszID, const char* pszModule);
-int           SM_RemoveSession(const TCHAR* pszID, const char* pszModule);
+int           SM_RemoveSession(const TCHAR* pszID, const char* pszModule, bool removeContact);
 SESSION_INFO* SM_FindSession(const TCHAR* pszID, const char* pszModule);
 USERINFO*     SM_AddUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID, const TCHAR* pszNick, WORD wStatus);
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent);

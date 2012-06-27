@@ -219,8 +219,10 @@ void CYahooProto::logout()
 {
 	LOG(("[yahoo_logout]"));
 
-	if (m_bLoggedIn)
+	if (m_bLoggedIn) {
+		ChatLeaveAll();
 		yahoo_logoff(m_id);
+	}
 
 	/* need to stop the server and close all the connections */
 	poll_loop = 0;
@@ -282,15 +284,13 @@ void CYahooProto::AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg)
 
 HANDLE CYahooProto::getbuddyH(const char *yahoo_id)
 {
-	char  *szProto;
 	HANDLE hContact;
 
 	for ( hContact = ( HANDLE )YAHOO_CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 		hContact != NULL;
 		hContact = ( HANDLE )YAHOO_CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 ))
 	{
-		szProto = ( char* )YAHOO_CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM )hContact, 0 );
-		if ( szProto != NULL && !lstrcmpA( szProto, m_szModuleName ))
+		if (IsMyContact(hContact))
 		{
 			DBVARIANT dbv;
 			if (GetString(hContact, YAHOO_LOGINID, &dbv))
@@ -557,7 +557,7 @@ void CYahooProto::ext_status_logon(const char *who, int protocol, int stat, cons
 		if (cksum == 0 || cksum == -1) {
 			// no avatar
 			DBWriteContactSettingDword(hContact, m_szModuleName, "PictCK", 0);
-		} else if (DBGetContactSettingDword(hContact, m_szModuleName,"PictCK", 0) != cksum) {
+		} else if (DBGetContactSettingDword(hContact, m_szModuleName,"PictCK", 0) != (unsigned)cksum) {
 			//char szFile[MAX_PATH];
 			
 			// Save new Checksum
@@ -614,7 +614,6 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 	char **s;
 	int found = 0;
 	char **stealth = NULL;
-	char  *szProto;
 	HANDLE hContact;
 
 	LOG(("[ext_got_stealth] list: %s", stealthlist));
@@ -626,8 +625,7 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 		   hContact != NULL;
 			hContact = ( HANDLE )YAHOO_CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 ))
 	{
-		szProto = ( char* )YAHOO_CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM )hContact, 0 );
-		if ( szProto != NULL && !lstrcmpA( szProto, m_szModuleName )) {
+		if (IsMyContact(hContact)) {
 			DBVARIANT dbv;
 			if (GetString( hContact, YAHOO_LOGINID, &dbv))
 				continue;

@@ -301,7 +301,7 @@ void CYahooProto::ShowError(const char *title, const char *buff)
 			ShowNotification(title, buff, NIIF_ERROR);
 }
 
-INT_PTR __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
+int __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 
@@ -320,6 +320,14 @@ INT_PTR __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	return 0;
+}
+
+bool CYahooProto::IsMyContact(HANDLE hContact)
+{
+	if (!hContact) return false;
+
+	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	return szProto && !strcmp(szProto, m_szModuleName);
 }
 
 char* YAHOO_GetContactName( HANDLE hContact )

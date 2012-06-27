@@ -28,7 +28,7 @@ extern "C"
 }
 #else
 	typedef void    ( __cdecl CYahooProto::*YThreadFunc )( void* );
-	typedef INT_PTR ( __cdecl CYahooProto::*YEventFunc )( WPARAM, LPARAM );
+	typedef int     ( __cdecl CYahooProto::*YEventFunc )( WPARAM, LPARAM );
 	typedef INT_PTR ( __cdecl CYahooProto::*YServiceFunc )( WPARAM, LPARAM );
 	typedef INT_PTR ( __cdecl CYahooProto::*YServiceFuncParam )( WPARAM, LPARAM, LPARAM );
 #endif
@@ -98,12 +98,14 @@ struct CYahooProto : public PROTO_INTERFACE
 	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
 
 	//====| Events |======================================================================
-	INT_PTR __cdecl OnContactDeleted( WPARAM, LPARAM );
-	INT_PTR __cdecl OnIdleEvent( WPARAM, LPARAM );
-	INT_PTR __cdecl OnModulesLoadedEx( WPARAM, LPARAM );
-	INT_PTR __cdecl OnOptionsInit( WPARAM, LPARAM );
-	INT_PTR __cdecl OnSettingChanged( WPARAM, LPARAM );
+	int     __cdecl OnContactDeleted( WPARAM, LPARAM );
+	int     __cdecl OnIdleEvent( WPARAM, LPARAM );
+	int     __cdecl OnModulesLoadedEx( WPARAM, LPARAM );
+	int     __cdecl OnOptionsInit( WPARAM, LPARAM );
+	int     __cdecl OnSettingChanged( WPARAM, LPARAM );
+	int     __cdecl OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam);
 
+	//====| Services |====================================================================
 	INT_PTR __cdecl OnABCommand( WPARAM, LPARAM );
 	INT_PTR __cdecl OnCalendarCommand( WPARAM, LPARAM );
 	INT_PTR __cdecl OnEditMyProfile( WPARAM, LPARAM );
@@ -111,13 +113,14 @@ struct CYahooProto : public PROTO_INTERFACE
 	INT_PTR __cdecl OnRefreshCommand( WPARAM, LPARAM );
 	INT_PTR __cdecl OnShowMyProfileCommand( WPARAM, LPARAM );
 	INT_PTR __cdecl OnShowProfileCommand( WPARAM, LPARAM );
-	INT_PTR __cdecl OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam);
 	
-	//====| Services |====================================================================
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl GetUnreadEmailCount( WPARAM, LPARAM );
 	INT_PTR __cdecl SendNudge( WPARAM, LPARAM );
 	INT_PTR __cdecl SetMyAvatar( WPARAM, LPARAM );
+
+	INT_PTR __cdecl CreateConference(WPARAM /*wParam*/, LPARAM /*lParam*/);
+
 
 	void   BroadcastStatus(int s);
 	void   LoadYahooServices( void );
@@ -129,6 +132,24 @@ struct CYahooProto : public PROTO_INTERFACE
 	BOOL   m_bLoggedIn;
 	YList *m_connections;
 	unsigned int m_connection_tags;
+
+	struct ChatRoom
+	{
+		char *name;
+		YList *members;
+
+		ChatRoom(const char* name, YList *members) 
+			: name(strdup(name)), members(members) {}
+
+		~ChatRoom()
+		{ for (YList *l = members; l; l = l->next) free(l->data);
+		  free(name); y_list_free(members); }
+
+		static int compare(const ChatRoom* c1, const ChatRoom* c2) 
+		{ return strcmp(c1->name, c2->name); }
+	};
+
+	OBJLIST <ChatRoom> m_chatrooms;
 	
 	char*  m_startMsg;
 
@@ -162,6 +183,16 @@ struct CYahooProto : public PROTO_INTERFACE
 
 	void   SendAvatar(const TCHAR *szFile);
 	void   GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, int cbLen, int type);
+
+	//====| chat.cpp |====================================================================
+	void ChatRegister(void);
+	void ChatStart(const char* room);
+	void ChatEvent(const char* room, const char* who, int evt, const TCHAR* msg = NULL);
+	void ChatLeave(const char* room);
+	void ChatLeaveAll(void);
+
+	int __cdecl OnGCEventHook(WPARAM, LPARAM lParam);
+	int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);
 
 	//====| filetransfer.cpp |============================================================
 	void __cdecl recv_filethread(void *psf);
@@ -215,7 +246,7 @@ struct CYahooProto : public PROTO_INTERFACE
 	INT_PTR __cdecl  SetCustomStatCommand( WPARAM, LPARAM );
 
 	//====| user_info.cpp |===============================================================
-	INT_PTR __cdecl  OnUserInfoInit( WPARAM wParam, LPARAM lParam );
+	int     __cdecl  OnUserInfoInit( WPARAM wParam, LPARAM lParam );
 	
 	//====| util.cpp |====================================================================
 	int  GetByte( const char* valueName, int parDefltValue );
@@ -247,6 +278,7 @@ struct CYahooProto : public PROTO_INTERFACE
 	int    ShowNotification(const char *title, const char *info, DWORD flags);
 	void   ShowError(const char *title, const char *buff);
 	int    ShowPopup( const char* nickname, const char* msg, const char *szURL );
+	bool   IsMyContact(HANDLE hContact);
 
 	#ifdef __GNUC__
 		int DebugLog( const char *fmt, ... ) __attribute__ ((format(printf,2,3)));
@@ -312,7 +344,7 @@ private:
 
 	HGENMENU mainMenuRoot;
 	HGENMENU hShowProfileMenuItem;
-	HGENMENU menuItemsAll[ 7 ];
+	HGENMENU menuItemsAll[ 8 ];
 
 	HANDLE hYahooAvatarsFolder;
 	bool   InitCstFldRan;

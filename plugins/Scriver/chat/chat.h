@@ -338,7 +338,7 @@ void          SetActiveSession(const TCHAR* pszID, const char* pszModule);
 void          SetActiveSessionEx(SESSION_INFO* si);
 SESSION_INFO* GetActiveSession(void);
 SESSION_INFO* SM_AddSession(const TCHAR* pszID, const char* pszModule);
-int           SM_RemoveSession(const TCHAR* pszID, const char* pszModule);
+int           SM_RemoveSession(const TCHAR* pszID, const char* pszModule, BOOL removeContact);
 SESSION_INFO* SM_FindSession(const TCHAR* pszID, const char* pszModule);
 HWND          SM_FindWindowByContact(HANDLE hContact);
 USERINFO*     SM_AddUser(SESSION_INFO* si, const TCHAR* pszUID, const TCHAR* pszNick, WORD wStatus);

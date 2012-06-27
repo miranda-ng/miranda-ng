@@ -30,6 +30,8 @@
 
 #define IDD_SETCUSTSTAT                 186
 #define IDD_OPT_YAHOO_POPUP             187
+#define IDD_CHATROOM_INVITE             188
+#define IDD_CHATROOM_INVITE_REQ         189
 
 #define IDC_CUSTSTATBUSY                1000
 #define IDC_CUSTSTAT                    1001
@@ -58,6 +60,13 @@
 #define IDC_SHOW_AVATARS                1479
 #define IDC_MAIL_AUTOLOGIN              1480
 #define IDC_YAHOO_JAPAN					1481
+#define IDC_MSG							1482
+#define IDC_ROOMNAME					1483
+#define IDC_CCLIST						1484
+#define IDC_EDITSCR						1485
+#define IDC_ADDSCR						1486
+#define IDC_SCREENNAME					1487
+#define IDC_MSG2						1488
 
 /*
  * Ignore Options
@@ -84,8 +93,3 @@
  */
 #define	IDD_USER_INFO					500
 #define IDC_NFO_CLIENT					501
-
-/*
- *
- */
-#define IDC_STATIC                      -1

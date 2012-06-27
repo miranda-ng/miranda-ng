@@ -98,7 +98,7 @@ SESSION_INFO* SM_AddSession(const TCHAR* pszID, const char* pszModule)
 	return NULL;
 }
 
-int SM_RemoveSession(const TCHAR* pszID, const char* pszModule)
+int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, bool removeContact)
 {
 	SESSION_INFO* pTemp = m_WndList, *pLast = NULL;
 
@@ -134,6 +134,9 @@ int SM_RemoveSession(const TCHAR* pszID, const char* pszModule)
 			DBWriteContactSettingString(pTemp->hContact, pTemp->pszModule , "Topic", "");
 			DBWriteContactSettingString(pTemp->hContact, pTemp->pszModule, "StatusBar", "");
 			DBDeleteContactSetting(pTemp->hContact, "CList", "StatusMsg");
+
+			if (removeContact)
+				CallService(MS_DB_CONTACT_DELETE, (WPARAM)pTemp->hContact, 0);
 
 			mir_free(pTemp->pszModule);
 			mir_free(pTemp->ptszID);

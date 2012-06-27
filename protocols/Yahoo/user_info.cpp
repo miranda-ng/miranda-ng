@@ -122,15 +122,12 @@ INT_PTR __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 	odp.dwInitParam = ( LPARAM )this;
 
 	HANDLE hContact = ( HANDLE )lParam;
-	if ( hContact ) {
-		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
-		if ( szProto != NULL && !strcmp( szProto, m_szModuleName )) {
-			odp.pfnDlgProc = YahooUserInfoDlgProc;
-			odp.position = -1900000000;
-			odp.pszTemplate = MAKEINTRESOURCEA( IDD_USER_INFO );
-			odp.pszTitle = m_szModuleName;
-			UserInfo_AddPage(wParam, &odp);
-		}
+	if ( IsMyContact(hContact)) {
+		odp.pfnDlgProc = YahooUserInfoDlgProc;
+		odp.position = -1900000000;
+		odp.pszTemplate = MAKEINTRESOURCEA( IDD_USER_INFO );
+		odp.pszTitle = m_szModuleName;
+		UserInfo_AddPage(wParam, &odp);
 	} 
 
 	return 0;

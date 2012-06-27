@@ -111,12 +111,6 @@ void __cdecl CYahooProto::server_main(void *empty)
 		}
 		recvResult = CallService(MS_NETLIB_SELECTEX, (WPARAM) 0, (LPARAM)&nls);
 
-		/* Check for Miranda Exit Status */
-		if (Miranda_Terminated()) {
-			DebugLog("Miranda Exiting... stopping the loop.");
-			break;
-		}
-
 		/* do the timer check */
 		if (m_id > 0) {
 #ifdef	HTTP_GATEWAY			
@@ -190,12 +184,15 @@ void __cdecl CYahooProto::server_main(void *empty)
 						}
 					} // if c->fd == nls
 				}// for i = 0
-				
 			}
-			
-			
+
 		}// for l=connections
 
+		/* Check for Miranda Exit Status */
+		if (Miranda_Terminated()) {
+			DebugLog("Miranda Exiting... stopping the loop.");
+			break;
+		}
 	}
 	DebugLog("Exited loop");
 

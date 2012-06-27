@@ -349,7 +349,7 @@ static int DoControl(GCEVENT * gce, WPARAM wp)
 				break;
 			}
 			case SESSION_TERMINATE:
-				return SM_RemoveSession(gce->pDest->ptszID, gce->pDest->pszModule);
+				return SM_RemoveSession(gce->pDest->ptszID, gce->pDest->pszModule, (gce->dwFlags & GCEF_REMOVECONTACT) != 0);
 		}
 		SM_SendMessage(gce->pDest->ptszID, gce->pDest->pszModule, GC_EVENT_CONTROL + WM_USER + 500, wp, 0);
 	}

@@ -29,7 +29,9 @@
 #endif
 
 CYahooProto::CYahooProto( const char* aProtoName, const TCHAR* aUserName ) :
-	m_bLoggedIn( FALSE ), poll_loop( 0 )
+	m_bLoggedIn( FALSE ), 
+	poll_loop( 0 ),
+	m_chatrooms(3, ChatRoom::compare) 
 {
 	m_iVersion = 2;
 	m_tszUserName = mir_tstrdup( aUserName );
@@ -58,7 +60,8 @@ CYahooProto::~CYahooProto()
 	DestroyHookableEvent(hYahooNudge);
 
 	MenuUninit();
-
+	
+	m_chatrooms.destroy();
 	mir_free( m_szModuleName );
 	mir_free( m_tszUserName );
 
@@ -71,9 +74,7 @@ CYahooProto::~CYahooProto()
 ////////////////////////////////////////////////////////////////////////////////////////
 // OnModulesLoadedEx - performs hook registration
 
-//static COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-
-INT_PTR CYahooProto::OnModulesLoadedEx( WPARAM, LPARAM )
+int CYahooProto::OnModulesLoadedEx( WPARAM, LPARAM )
 {
 	YHookEvent( ME_USERINFO_INITIALISE, 		&CYahooProto::OnUserInfoInit );
 	YHookEvent( ME_IDLE_CHANGED, 				&CYahooProto::OnIdleEvent);
