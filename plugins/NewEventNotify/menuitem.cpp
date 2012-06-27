@@ -63,7 +63,7 @@ int MenuitemInit(BOOL bStatus)
 	menuitem.ptszPopupName = TranslateT("PopUps");
 	menuitem.pszService = MS_NEN_MENUNOTIFY;
 	menuitem.flags = CMIF_KEEPUNTRANSLATED | CMIF_TCHAR;
-	hMenuitemNotify = Menu_AddContactMenuItem(&menuitem);
+	hMenuitemNotify = Menu_AddMainMenuItem(&menuitem);
 
 	bNotify = bStatus;
 	MenuitemUpdate(bNotify);
