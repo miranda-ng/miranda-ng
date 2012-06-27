@@ -351,15 +351,6 @@ int NetlibHttpGatewayRecv(struct NetlibConnection *nlc, char *buf, int len, int 
 		{
 			nlhrReply->pData = (char*)nlc->nlu->user.pfnHttpGatewayUnwrapRecv(nlhrReply, 
 				(PBYTE)nlhrReply->pData, nlhrReply->dataLength, &nlhrReply->dataLength, mir_realloc);
-/*
-			if (newBuffer == NULL) 
-			{
-				NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
-				return SOCKET_ERROR;
-			}
-			else
-				nlhrReply->pData = (char*)newBuffer;
-*/
 		}
 
 		if (nlhrReply->resultCode >= 300)

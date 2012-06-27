@@ -579,7 +579,7 @@ MIR_CORE_DLL(void) LangPackDropUnusedItems(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int LoadLangPackModule(void)
+MIR_CORE_DLL(int) LoadLangPackModule(void)
 {
 	bModuleInitialized = TRUE;
 

@@ -25,10 +25,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_CORE_H__ 1
 
 #ifdef MIR_CORE_EXPORTS
-	#define MIR_CORE_DLL(T) __declspec(dllexport) T __cdecl
+	#define MIR_CORE_EXPORT __declspec(dllexport)
 #else
-	#define MIR_CORE_DLL(T) __declspec(dllimport) T __cdecl
+	#define MIR_CORE_EXPORT __declspec(dllimport)
 #endif
+
+#define MIR_CORE_DLL(T) MIR_CORE_EXPORT T __stdcall
+#define MIR_C_CORE_DLL(T) MIR_CORE_EXPORT T __cdecl
 
 #if defined(__cplusplus)
 extern "C"
@@ -90,8 +93,8 @@ MIR_CORE_DLL(void)    KillObjectServices(void* pObject);
 __declspec(dllexport) INT_PTR CallContactService(HANDLE, const char *, WPARAM, LPARAM);
 __declspec(dllexport) INT_PTR CallProtoService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 #else
-MIR_CORE_DLL(INT_PTR) CallContactService(HANDLE, const char *, WPARAM, LPARAM);
-MIR_CORE_DLL(INT_PTR) CallProtoService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
+MIR_C_CORE_DLL(INT_PTR) CallContactService(HANDLE, const char *, WPARAM, LPARAM);
+MIR_C_CORE_DLL(INT_PTR) CallProtoService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -217,10 +220,11 @@ MIR_CORE_DLL(void) mir_md5_hash(const mir_md5_byte_t *data, int len, mir_md5_byt
 ///////////////////////////////////////////////////////////////////////////////
 // memory functions
 
-MIR_CORE_DLL(void*)  mir_alloc(size_t);
-MIR_CORE_DLL(void*)  mir_calloc(size_t);
-MIR_CORE_DLL(void*)  mir_realloc(void* ptr, size_t);
-MIR_CORE_DLL(void)   mir_free(void* ptr);
+MIR_C_CORE_DLL(void*)  mir_alloc(size_t);
+MIR_C_CORE_DLL(void*)  mir_calloc(size_t);
+MIR_C_CORE_DLL(void*)  mir_realloc(void* ptr, size_t);
+MIR_C_CORE_DLL(void)   mir_free(void* ptr);
+
 MIR_CORE_DLL(char*)  mir_strdup(const char* str);
 MIR_CORE_DLL(WCHAR*) mir_wstrdup(const WCHAR* str);
 MIR_CORE_DLL(char*)  mir_strndup(const char* str, size_t len);
@@ -372,9 +376,13 @@ typedef void (__cdecl *pThreadFunc)(void*);
 typedef unsigned (__stdcall *pThreadFuncEx)(void*);
 typedef unsigned (__cdecl *pThreadFuncOwner)(void *owner, void* param);
 
-MIR_CORE_DLL(INT_PTR) UnwindThreadPush(WPARAM wParam, LPARAM lParam);
-MIR_CORE_DLL(INT_PTR) UnwindThreadPop(WPARAM, LPARAM);
-MIR_CORE_DLL(void)    UnwindThreadWait(void);
+#if defined( __cplusplus )
+MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner=NULL);
+#else
+MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner);
+#endif
+MIR_CORE_DLL(INT_PTR) Thread_Pop(void);
+MIR_CORE_DLL(void)    Thread_Wait(void);
 
 MIR_CORE_DLL(UINT_PTR) forkthread(pThreadFunc, unsigned long stacksize, void *arg);
 MIR_CORE_DLL(UINT_PTR) forkthreadex(void *sec, unsigned stacksize, pThreadFuncEx, void* owner, void *arg, unsigned *thraddr);

@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project, 
+Copyright 2000-2012 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -126,27 +126,6 @@ static INT_PTR ForkThreadServiceEx(WPARAM wParam, LPARAM lParam)
 typedef LONG (WINAPI *pNtQIT)(HANDLE, LONG, PVOID, ULONG, PULONG);
 #define ThreadQuerySetWin32StartAddress 9
 
-void* GetCurrentThreadEntryPoint()
-{
-	LONG  ntStatus;
-	HANDLE hDupHandle, hCurrentProcess;
-	DWORD_PTR dwStartAddress;
-
-	pNtQIT NtQueryInformationThread = (pNtQIT)GetProcAddress(GetModuleHandle(_T("ntdll.dll")), "NtQueryInformationThread");
-	if (NtQueryInformationThread == NULL) return 0;
-
-	hCurrentProcess = GetCurrentProcess();
-	if ( !DuplicateHandle(hCurrentProcess, GetCurrentThread(), hCurrentProcess, &hDupHandle, THREAD_QUERY_INFORMATION, FALSE, 0)) {
-		SetLastError(ERROR_ACCESS_DENIED);
-		return NULL;
-	}
-	ntStatus = NtQueryInformationThread(hDupHandle, ThreadQuerySetWin32StartAddress, &dwStartAddress, sizeof(DWORD_PTR), NULL);
-	CloseHandle(hDupHandle);
-
-	if (ntStatus != ERROR_SUCCESS) return 0;
-	return (void*)dwStartAddress;
-}
-
 INT_PTR MirandaIsTerminated(WPARAM, LPARAM)
 {
 	return WaitForSingleObject(hMirandaShutdown, 0) == WAIT_OBJECT_0;
@@ -246,8 +225,8 @@ void ParseCommandLine()
 		if (hProcess) {
 			DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WAITRESTART), NULL, WaitForProcessDlgProc, (LPARAM)hProcess);
 			CloseHandle(hProcess);
-		}	
-	}	
+		}
+	}
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
@@ -367,7 +346,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 				DWORD pid = 0;
 				checkIdle(&msg);
 				if (h != NULL && GetWindowThreadProcessId(h, &pid) && pid == myPid && GetClassLongPtr(h, GCW_ATOM) == 32770)
-					if (IsDialogMessage(h, &msg)) 
+					if (IsDialogMessage(h, &msg))
 						continue;
 
 				TranslateMessage(&msg);
@@ -381,7 +360,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 				NotifyEventHooks(hPreShutdownEvent, 0, 0);
 
 				// this spins and processes the msg loop, objects and APC.
-				UnwindThreadWait();
+				Thread_Wait();
 				NotifyEventHooks(hShutdownEvent, 0, 0);
 				// if the hooks generated any messages, it'll get processed before the second WM_QUIT
 				PostQuitMessage(0);
@@ -418,19 +397,16 @@ static INT_PTR OkToExit(WPARAM, LPARAM)
 static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
 {
 	TCHAR filename[MAX_PATH];
-	DWORD unused;
-	DWORD verInfoSize;
-	UINT blockSize;
-	PVOID pVerInfo;
-	VS_FIXEDFILEINFO *vsffi;
-	DWORD ver;
-
 	GetModuleFileName(NULL, filename, SIZEOF(filename));
-	verInfoSize=GetFileVersionInfoSize(filename, &unused);
-	pVerInfo=mir_alloc(verInfoSize);
+
+	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
+	PVOID pVerInfo = mir_alloc(verInfoSize);
 	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
+
+	UINT blockSize;
+	VS_FIXEDFILEINFO *vsffi;
 	VerQueryValue(pVerInfo, _T("\\"), (PVOID*)&vsffi, &blockSize);
-	ver=(((vsffi->dwProductVersionMS>>16)&0xFF)<<24)|
+	DWORD ver = (((vsffi->dwProductVersionMS>>16)&0xFF)<<24)|
 		((vsffi->dwProductVersionMS&0xFF)<<16)|
 		(((vsffi->dwProductVersionLS>>16)&0xFF)<<8)|
 		(vsffi->dwProductVersionLS&0xFF);
@@ -464,7 +440,7 @@ INT_PTR WaitOnHandle(WPARAM wParam, LPARAM lParam)
 {
 	if (waitObjectCount >= MAXIMUM_WAIT_OBJECTS-1)
 		return 1;
-	
+
 	hWaitObjects[waitObjectCount] = (HANDLE)wParam;
 	pszWaitServices[waitObjectCount] = (char*)lParam;
 	waitObjectCount++;
@@ -476,7 +452,7 @@ static INT_PTR RemoveWait(WPARAM wParam, LPARAM)
 	int i;
 
 	for (i=0;i<waitObjectCount;i++)
-		if (hWaitObjects[i] == (HANDLE)wParam) 
+		if (hWaitObjects[i] == (HANDLE)wParam)
 			break;
 
 	if (i == waitObjectCount)
@@ -490,165 +466,17 @@ static INT_PTR RemoveWait(WPARAM wParam, LPARAM)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct MM_INTERFACE
-{
-	size_t cbSize;
-	void* (*mmi_malloc) (size_t);
-	void* (*mmi_realloc) (void*, size_t);
-	void  (*mmi_free) (void*);
+static INT_PTR UnwindThreadPush(WPARAM wParam, LPARAM lParam)
+{	Thread_Push((HINSTANCE)lParam, (void*)wParam);
+	return 0;
+}
 
-	void*    (*mmi_calloc) (size_t);
-	char*    (*mmi_strdup) (const char *src);
-	wchar_t* (*mmi_wstrdup) (const wchar_t *src);
-	int      (*mir_snprintf) (char *buffer, size_t count, const char* fmt, ...);
-	int      (*mir_sntprintf) (TCHAR *buffer, size_t count, const TCHAR* fmt, ...);
-	int      (*mir_vsnprintf) (char *buffer, size_t count, const char* fmt, va_list va);
-	int      (*mir_vsntprintf) (TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va);
-
-	wchar_t* (*mir_a2u_cp) (const char* src, int codepage);
-	wchar_t* (*mir_a2u)(const char* src);
-	char*    (*mir_u2a_cp)(const wchar_t* src, int codepage);
-	char*    (*mir_u2a)(const wchar_t* src);
-};
-
-#define MS_SYSTEM_GET_MMI  "Miranda/System/GetMMI"
-
-INT_PTR GetMemoryManagerInterface(WPARAM, LPARAM lParam)
-{
-	struct MM_INTERFACE *mmi = (struct MM_INTERFACE*) lParam;
-	if (mmi == NULL)
-		return 1;
-
-	mmi->mmi_malloc = mir_alloc;
-	mmi->mmi_realloc = mir_realloc;
-	mmi->mmi_free = mir_free;
-
-	switch(mmi->cbSize) {
-	case sizeof(struct MM_INTERFACE):
-		mmi->mir_snprintf = mir_snprintf;
-		mmi->mir_sntprintf = mir_sntprintf;
-		mmi->mir_vsnprintf = mir_vsnprintf;
-		mmi->mir_vsntprintf = mir_vsntprintf;
-		mmi->mir_a2u_cp = mir_a2u_cp;
-		mmi->mir_a2u = mir_a2u;
-		mmi->mir_u2a_cp = mir_u2a_cp;
-		mmi->mir_u2a = mir_u2a;
-		// fall through
-
-	case MMI_SIZE_V2:
-		mmi->mmi_calloc = mir_calloc;
-		mmi->mmi_strdup = mir_strdup;
-		mmi->mmi_wstrdup = mir_wstrdup;
-		// fall through
-
-	case MMI_SIZE_V1:
-		break;
-
-	default:
-#if defined(_DEBUG)
-		DebugBreak();
-#endif
-		return 1;
-	}
-
+static INT_PTR UnwindThreadPop(WPARAM, LPARAM)
+{	Thread_Pop();
 	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-
-struct LIST_INTERFACE
-{
-	size_t    cbSize;
-
-	SortedList* (*List_Create)(int, int);
-	void        (*List_Destroy)(SortedList*);
-
-	void* (*List_Find)(SortedList*, void*);
-	int   (*List_GetIndex)(SortedList*, void*, int*);
-	int   (*List_Insert)(SortedList*, void*, int);
-	int   (*List_Remove)(SortedList*, int);
-	int   (*List_IndexOf)(SortedList*, void*);
-
-	int   (*List_InsertPtr)(SortedList* list, void* p);
-	int   (*List_RemovePtr)(SortedList* list, void* p);
-
-	void  (*List_Copy)(SortedList* src, SortedList* dst, size_t);
-	void  (*List_ObjCopy)(SortedList* src, SortedList* dst, size_t);
-};
-
-#define MS_SYSTEM_GET_LI  "Miranda/System/GetLI"
-
-INT_PTR GetListInterface(WPARAM, LPARAM lParam)
-{
-	struct LIST_INTERFACE *li = (struct LIST_INTERFACE*) lParam;
-	if (li == NULL)
-		return 1;
-
-	li->List_Copy      = List_Copy;
-	li->List_ObjCopy   = List_ObjCopy;
-	li->List_InsertPtr = List_InsertPtr;
-	li->List_RemovePtr = List_RemovePtr;
-	li->List_Create    = List_Create;
-	li->List_Destroy   = List_Destroy;
-	li->List_Find      = List_Find;
-	li->List_GetIndex  = List_GetIndex;
-	li->List_Insert    = List_Insert;
-	li->List_Remove    = List_Remove;
-	li->List_IndexOf   = List_IndexOf;
-	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-struct UTF8_INTERFACE
-{
-	size_t cbSize;
-
-	// decodes utf8 and places the result back into the same buffer.
-	// if the second parameter is present, the additional wchar_t* string gets allocated,
-	// and filled with the decoded utf8 content without any information loss.
-	// this string should be freed using mir_free()
-	char* (*utf8_decode)(char* str, wchar_t** ucs2);
-	char* (*utf8_decodecp)(char* str, int codepage, wchar_t** ucs2);
-
-	// encodes an ANSI string into a utf8 format using the current langpack code page,
-	// or CP_ACP, if lanpack is missing
-	// the resulting string should be freed using mir_free
-	char* (*utf8_encode)(const char* src);
-	char* (*utf8_encodecp)(const char* src, int codepage);
-
-	// encodes an WCHAR string into a utf8 format
-	// the resulting string should be freed using mir_free
-	char* (*utf8_encodeW)(const wchar_t* src);
-
-	// decodes utf8 and returns the result as wchar_t* that should be freed using mir_free()
-	// the input buffer remains unchanged
-	wchar_t* (*utf8_decodeW)(const char* str);
-
-	// returns the predicted length of the utf-8 string
-	int (*utf8_lenW)(const wchar_t* src);
-};
-
-#define MS_SYSTEM_GET_UTFI  "Miranda/System/GetUTFI"
-
-INT_PTR GetUtfInterface(WPARAM, LPARAM lParam)
-{
-	struct UTF8_INTERFACE *utfi = (struct UTF8_INTERFACE*) lParam;
-	if (utfi == NULL)
-		return 1;
-
-	if (utfi->cbSize != sizeof(UTF8_INTERFACE))
-		return 1;
-
-	utfi->utf8_decode   = Utf8Decode;
-	utfi->utf8_decodecp = Utf8DecodeCP;
-	utfi->utf8_encode   = Utf8Encode;
-	utfi->utf8_encodecp = Utf8EncodeCP;
-	utfi->utf8_encodeW  = Utf8EncodeW;
-	utfi->utf8_decodeW = Utf8DecodeW;
-	utfi->utf8_lenW = Ucs2toUtf8Len;
-	return 0;
-}
 
 int LoadSystemModule(void)
 {
@@ -670,9 +498,6 @@ int LoadSystemModule(void)
 	CreateServiceFunction(MS_SYSTEM_GETVERSIONTEXT, GetMirandaVersionText);
 	CreateServiceFunction(MS_SYSTEM_WAITONHANDLE, WaitOnHandle);
 	CreateServiceFunction(MS_SYSTEM_REMOVEWAIT, RemoveWait);
-	CreateServiceFunction(MS_SYSTEM_GET_LI, GetListInterface);
-	CreateServiceFunction(MS_SYSTEM_GET_MMI, GetMemoryManagerInterface);
-	CreateServiceFunction(MS_SYSTEM_GET_UTFI, GetUtfInterface);
 	CreateServiceFunction(MS_SYSTEM_GETEXCEPTFILTER, srvGetExceptionFilter);
 	CreateServiceFunction(MS_SYSTEM_SETEXCEPTFILTER, srvSetExceptionFilter);
 	return 0;

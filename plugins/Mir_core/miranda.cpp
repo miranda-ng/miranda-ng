@@ -65,7 +65,7 @@ struct THREAD_WAIT_ENTRY
 	HANDLE hThread;
 	HINSTANCE hOwner;
 	void* pObject;
-	PVOID addr;
+	//PVOID addr;
 };
 
 static LIST<THREAD_WAIT_ENTRY> threads(10, NumericKeySortT);
@@ -197,6 +197,8 @@ static int MirandaWaitForMutex(HANDLE hEvent)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static void CALLBACK KillAllThreads(HWND, UINT, UINT_PTR, DWORD)
 {
 	if ( MirandaWaitForMutex(hStackMutex)) {
@@ -252,7 +254,9 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 	}
 }
 
-MIR_CORE_DLL(void) UnwindThreadWait(void)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_CORE_DLL(void) Thread_Wait(void)
 {
 	// acquire the list and wake up any alertable threads
 	if ( MirandaWaitForMutex(hStackMutex)) {
@@ -274,29 +278,7 @@ MIR_CORE_DLL(void) UnwindThreadWait(void)
 typedef LONG (WINAPI *pNtQIT)(HANDLE, LONG, PVOID, ULONG, PULONG);
 #define ThreadQuerySetWin32StartAddress 9
 
-MIR_CORE_DLL(void*) GetCurrentThreadEntryPoint()
-{
-	LONG  ntStatus;
-	HANDLE hDupHandle, hCurrentProcess;
-	DWORD_PTR dwStartAddress;
-
-	pNtQIT NtQueryInformationThread = (pNtQIT)GetProcAddress(GetModuleHandle(_T("ntdll.dll")), "NtQueryInformationThread");
-	if (NtQueryInformationThread == NULL)
-		return 0;
-
-	hCurrentProcess = GetCurrentProcess();
-	if ( !DuplicateHandle(hCurrentProcess, GetCurrentThread(), hCurrentProcess, &hDupHandle, THREAD_QUERY_INFORMATION, FALSE, 0)) {
-		SetLastError(ERROR_ACCESS_DENIED);
-		return NULL;
-	}
-	ntStatus = NtQueryInformationThread(hDupHandle, ThreadQuerySetWin32StartAddress, &dwStartAddress, sizeof(DWORD_PTR), NULL);
-	CloseHandle(hDupHandle);
-
-	if (ntStatus != ERROR_SUCCESS) return 0;
-	return (void*)dwStartAddress;
-}
-
-MIR_CORE_DLL(INT_PTR) UnwindThreadPush(WPARAM wParam, LPARAM lParam)
+MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 {
 	ResetEvent(hThreadQueueEmpty); // thread list is not empty
 	if ( WaitForSingleObject(hStackMutex, INFINITE) == WAIT_OBJECT_0) {
@@ -304,9 +286,8 @@ MIR_CORE_DLL(INT_PTR) UnwindThreadPush(WPARAM wParam, LPARAM lParam)
 
 		DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &p->hThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
 		p->dwThreadId = GetCurrentThreadId();
-		p->pObject = (void*)wParam;
-		p->hOwner = GetInstByAddress((void*)lParam);
-		p->addr = (void*)lParam;
+		p->pObject = pOwner;
+		p->hOwner = hInst;
 		threads.insert(p);
 
 		ReleaseMutex(hStackMutex);
@@ -314,7 +295,9 @@ MIR_CORE_DLL(INT_PTR) UnwindThreadPush(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-MIR_CORE_DLL(INT_PTR) UnwindThreadPop(WPARAM, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_CORE_DLL(INT_PTR) Thread_Pop()
 {
 	if ( WaitForSingleObject(hStackMutex, INFINITE) == WAIT_OBJECT_0) {
 		DWORD dwThreadId = GetCurrentThreadId();

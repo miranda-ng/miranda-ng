@@ -101,6 +101,7 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>miranda32.def</ModuleDefinitionFile>
     </Link>
     <PreBuildEvent>
       <Command>..\bin10\make_ver.bat</Command>
@@ -170,6 +171,7 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>miranda32.def</ModuleDefinitionFile>
     </Link>
     <PreBuildEvent>
       <Command>..\bin10\make_ver.bat</Command>
@@ -523,9 +525,6 @@
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\utils\imgconv.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\utils\md5.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\utils\openurl.cpp">

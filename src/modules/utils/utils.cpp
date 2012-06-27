@@ -37,9 +37,6 @@ void InitXmlApi(void);
 void InitTimeZones(void);
 void UninitTimeZones(void);
 
-INT_PTR GetMD5Interface(WPARAM, LPARAM);
-INT_PTR GetSHA1Interface(WPARAM, LPARAM);
-
 static BOOL bModuleInitialized = FALSE;
 
 static struct CountryListEntry countries[]={
@@ -476,7 +473,6 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYLIST, GetCountryList);
 	CreateServiceFunction(MS_UTILS_GETRANDOM, GenerateRandom);
 	CreateServiceFunction(MS_SYSTEM_RESTART, RestartMiranda);
-	CreateServiceFunction(MS_SYSTEM_GET_MD5I, GetMD5Interface);
 	InitOpenUrl();
 	InitWindowList();
 	InitHyperlink();

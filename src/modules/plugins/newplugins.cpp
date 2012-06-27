@@ -47,7 +47,6 @@ const int pluginBannedListCount = SIZEOF(pluginBannedList);
 
 static BOOL bModuleInitialized = FALSE;
 
-PLUGINLINK pluginCoreLink;
 TCHAR   mirandabootini[MAX_PATH];
 static DWORD mirandaVersion;
 static int serviceModeIdx = -1;
@@ -182,8 +181,7 @@ int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int ch
 	// fontservice plugin is built into the core now
 	TCHAR* p = _tcsrchr(plugin, '\\');
 	if (p != NULL && ++p) {
-		int i;
-		for (i = 0; i < SIZEOF(modulesToSkip); i++)
+		for (int i = 0; i < SIZEOF(modulesToSkip); i++)
 			if (lstrcmpi(p, modulesToSkip[i]) == 0)
 				return 0;
 	}
@@ -494,7 +492,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 			}
 
 			RegisterModule(p->bpi.hInst);
-			if (bpi.Load(&pluginCoreLink) != 0)
+			if (bpi.Load() != 0)
 				return false;
 
 			p->pclass |= PCLASS_LOADED;
@@ -520,7 +518,7 @@ static pluginEntry* getCListModule(TCHAR * exe, TCHAR * slice, int useWhiteList)
 				p->bpi = bpi;
 				p->pclass |= PCLASS_LAST | PCLASS_OK | PCLASS_BASICAPI;
 				RegisterModule(p->bpi.hInst);
-				if (bpi.clistlink(&pluginCoreLink) == 0) {
+				if (bpi.clistlink() == 0) {
 					p->bpi = bpi;
 					p->pclass |= PCLASS_LOADED;
 					return p;
@@ -588,7 +586,7 @@ int LoadServiceModePlugin(void)
 
 	while (p != NULL) {
 		if (serviceModeIdx == i++) {
-			if (p->bpi.Load(&pluginCoreLink) == 0) {
+			if (p->bpi.Load() == 0) {
 				p->pclass |= PCLASS_LOADED;
 				if (CallService(MS_SERVICEMODE_LAUNCH, 0, 0) != CALLSERVICE_NOTFOUND)
 					return 1;
@@ -641,7 +639,7 @@ int LoadNewPluginsModule(void)
 	// if Crash Dumper is present, load it to provide Crash Reports
 	if (pluginList_crshdmp != NULL && isPluginOnWhiteList(pluginList_crshdmp->pluginname))
     {
-		if (pluginList_crshdmp->bpi.Load(&pluginCoreLink) == 0)
+		if (pluginList_crshdmp->bpi.Load() == 0)
 			pluginList_crshdmp->pclass |= PCLASS_LOADED | PCLASS_LAST;
 		else
 			Plugin_Uninit(pluginList_crshdmp);
@@ -654,7 +652,7 @@ int LoadNewPluginsModule(void)
 		if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 			pluginList_freeimg->bpi = bpi;
 			pluginList_freeimg->pclass |= PCLASS_OK | PCLASS_BASICAPI;
-			if (bpi.Load(&pluginCoreLink) == 0)
+			if (bpi.Load() == 0)
 				pluginList_freeimg->pclass |= PCLASS_LOADED;
 			else
 				Plugin_Uninit(pluginList_freeimg);
@@ -713,33 +711,6 @@ int LoadNewPluginsModuleInfos(void)
 
 	CreateServiceFunction(MS_PLUGINS_ENUMDBPLUGINS, PluginsEnum);
 	CreateServiceFunction(MS_PLUGINS_GETDISABLEDEFAULTARRAY, PluginsGetDefaultArray);
-
-	// make sure plugins can get internal core APIs
-	pluginCoreLink.CallService                    = CallService;
-	pluginCoreLink.ServiceExists                  = ServiceExists;
-	pluginCoreLink.CreateServiceFunction          = CreateServiceFunction;
-	pluginCoreLink.CreateServiceFunctionParam     = CreateServiceFunctionParam;
-	pluginCoreLink.CreateServiceFunctionObj       = CreateServiceFunctionObj;
-	pluginCoreLink.CreateServiceFunctionObjParam  = CreateServiceFunctionObjParam;
-	pluginCoreLink.CreateTransientServiceFunction = CreateServiceFunction;
-	pluginCoreLink.DestroyServiceFunction         = DestroyServiceFunction;
-	pluginCoreLink.CreateHookableEvent            = CreateHookableEvent;
-	pluginCoreLink.DestroyHookableEvent           = DestroyHookableEvent;
-	pluginCoreLink.HookEvent                      = HookEvent;
-	pluginCoreLink.HookEventParam                 = HookEventParam;
-	pluginCoreLink.HookEventObj                   = HookEventObj;
-	pluginCoreLink.HookEventObjParam              = HookEventObjParam;
-	pluginCoreLink.HookEventMessage               = HookEventMessage;
-	pluginCoreLink.UnhookEvent                    = UnhookEvent;
-	pluginCoreLink.NotifyEventHooks               = NotifyEventHooks;
-	pluginCoreLink.SetHookDefaultForHookableEvent = SetHookDefaultForHookableEvent;
-	pluginCoreLink.CallServiceSync                = CallServiceSync;
-	pluginCoreLink.CallFunctionAsync              = CallFunctionAsync;
-	pluginCoreLink.NotifyEventHooksDirect         = CallHookSubscribers;
-	pluginCoreLink.CallProtoService               = CallProtoService;
-	pluginCoreLink.CallContactService             = CallContactService;
-	pluginCoreLink.KillObjectServices             = KillObjectServices;
-	pluginCoreLink.KillObjectEventHooks           = KillObjectEventHooks;
 
 	// remember where the mirandaboot.ini goes
 	PathToAbsoluteT(_T("mirandaboot.ini"), mirandabootini, NULL);

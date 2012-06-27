@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "profilemanager.h"
 #include "../srfile/file.h"
 
-// from the plugin loader, hate extern but the db frontend is pretty much tied
-extern PLUGINLINK pluginCoreLink;
 // contains the location of mirandaboot.ini
 extern TCHAR mirandabootini[MAX_PATH];
 bool dbCreated;

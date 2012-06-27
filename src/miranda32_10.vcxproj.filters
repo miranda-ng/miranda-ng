@@ -674,9 +674,6 @@
     <ClCompile Include="modules\utils\utils.cpp">
       <Filter>Modules\utils</Filter>
     </ClCompile>
-    <ClCompile Include="modules\utils\md5.cpp">
-      <Filter>Modules\utils</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\_blank.ico">

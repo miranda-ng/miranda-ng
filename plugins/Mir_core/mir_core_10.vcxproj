@@ -144,7 +144,7 @@
       <ModuleDefinitionFile>mir_core.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>$(IntDir)$(TargetName)64.lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>
@@ -208,7 +208,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>$(IntDir)$(TargetName)64.lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>

@@ -63,7 +63,7 @@ static int CheckBlock(void* blk)
 
 /******************************************************************************/
 
-MIR_CORE_DLL(void*) mir_alloc(size_t size)
+MIR_C_CORE_DLL(void*) mir_alloc(size_t size)
 {
 	if (size == 0)
 		return NULL;
@@ -85,7 +85,7 @@ MIR_CORE_DLL(void*) mir_alloc(size_t size)
 
 /******************************************************************************/
 
-MIR_CORE_DLL(void*) mir_calloc(size_t size)
+MIR_C_CORE_DLL(void*) mir_calloc(size_t size)
 {
 	void* p = mir_alloc(size);
 	if (p != NULL)
@@ -95,7 +95,7 @@ MIR_CORE_DLL(void*) mir_calloc(size_t size)
 
 /******************************************************************************/
 
-MIR_CORE_DLL(void*) mir_realloc(void* ptr, size_t size)
+MIR_C_CORE_DLL(void*) mir_realloc(void* ptr, size_t size)
 {
 	char* p;
 
@@ -123,7 +123,7 @@ MIR_CORE_DLL(void*) mir_realloc(void* ptr, size_t size)
 
 /******************************************************************************/
 
-MIR_CORE_DLL(void) mir_free(void* ptr)
+MIR_C_CORE_DLL(void) mir_free(void* ptr)
 {
 	char* p;
 	DWORD size;
