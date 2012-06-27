@@ -23,20 +23,6 @@
 */
 
 #include "neweventnotify.h"
-#include <m_skin.h>
-#include <m_clist.h>
-#include <m_system.h>
-#include <m_protocols.h>
-//needed for ICQEVENTTYPE_* (Webpager & Emailexpress)
-#include <m_protosvc.h>
-#include <m_icq.h>
-//needed for reply instead of read
-#include <m_message.h>
-#include <m_popup.h>
-#include <string.h>
-#include <time.h>
-
-#define SIZEOF(X) (sizeof(X)/(g_UnicodeCore?sizeof(WCHAR):sizeof(char)))
 
 extern int g_IsServiceAvail;
 
@@ -99,12 +85,12 @@ static void FreePopupEventData(PLUGIN_DATA* pdata)
 		if (eventData->next)
 		{
 			eventData = eventData->next;
-			mir_free(eventData->prev);
+			free(eventData->prev);
 			eventData->prev = NULL;
 		}
 		else
 		{
-			mir_free(eventData);
+			free(eventData);
 			eventData = NULL;
 		}
 	}		
@@ -195,7 +181,7 @@ static BOOL CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
       break;
 		case UM_FREEPLUGINDATA:
 			PopupCount--;
-      mir_free(pdata);
+      free(pdata);
 			return TRUE;
 		case UM_INITPOPUP:
 			pdata->hWnd = hWnd;
@@ -226,99 +212,100 @@ static BOOL CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 		default:
 			break;
   }
-  if (g_UnicodeCore)
-    return DefWindowProcW(hWnd, message, wParam, lParam);
-  else
-    return DefWindowProcA(hWnd, message, wParam, lParam);
-}
-
-static TCHAR* event_to_tchar(char* pBlob, DWORD flags)
-{
-//  if (flags & DBEF_UTF)
-//    return utf8_to_tchar(pBlob);
-//  else
-    return ansi_to_tchar(pBlob);
+	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
 static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 {
-  TCHAR* comment1 = NULL;
-  TCHAR* comment2 = NULL;
-  TCHAR* commentFix = NULL;
+	TCHAR* comment1 = NULL;
+	TCHAR* comment2 = NULL;
+	TCHAR* commentFix = NULL;
 
-  //now get text
-  switch (dbei->eventType)
-  {
-    case EVENTTYPE_MESSAGE:
-    {
-      if (dbei->pBlob)
-      {
-        if (dbei->flags & DBEF_UTF)
-        { // utf-8 in blob
-          comment1 = utf8_to_tchar(dbei->pBlob);
-        } 
-        else if (dbei->cbBlob == (strlennull((char *)dbei->pBlob)+1)*(sizeof(WCHAR)+1))
-        { // wchar in blob (the old hack)
-          if (g_UnicodeCore)
-            comment1 = strdupT((TCHAR*)(dbei->pBlob + strlennull((char *)dbei->pBlob) + 1));
-          else
-            comment1 = strdupT((TCHAR*)dbei->pBlob);
-        } 
-        else
-          comment1 = (TCHAR *)(dbei->pBlob);
-      }
-      commentFix = POPUP_COMMENT_MESSAGE;
-      break;
-    }
+	//now get text
+	switch (dbei->eventType)
+	{
+		case EVENTTYPE_MESSAGE:
+		{
+			if (dbei->pBlob)
+			{
+				if (dbei->flags & DBEF_UTF)
+				{ // utf-8 in blob
+					char* com = mir_utf8encodeT((TCHAR*)dbei->pBlob);
+					comment1 = _A2T(com);
+					mir_free(com);
+				}
+				else if (dbei->cbBlob == (_tcslen((TCHAR *)dbei->pBlob)+1)*(sizeof(TCHAR)+1))
+				{ // wchar in blob (the old hack)
+					comment1 = mir_tstrdup((TCHAR*)dbei->pBlob);
+				}
+				else
+					comment1 = _A2T((char *)dbei->pBlob);
+			}
+			commentFix = _T(POPUP_COMMENT_MESSAGE);
+			break;
+		}
 
 		case EVENTTYPE_URL:
-      // url
-			if (dbei->pBlob) comment2 = (TCHAR *)(dbei->pBlob);
-      // comment
-			if (dbei->pBlob) comment1 = (TCHAR *)(dbei->pBlob + strlennull((char *)dbei->pBlob) + 1);
-			commentFix = POPUP_COMMENT_URL;
+			// url
+			if (dbei->pBlob) comment2 = _A2T((char *)dbei->pBlob);
+			// comment
+			if (dbei->pBlob) comment1 = _A2T((char *)dbei->pBlob + strlen((char *)dbei->pBlob) + 1);
+			commentFix = _T(POPUP_COMMENT_URL);
 			break;
 
 		case EVENTTYPE_FILE:
-      // filenames
-			if (dbei->pBlob) comment2 = event_to_tchar((char *)dbei->pBlob + 4, dbei->flags);
-      // description
-			if (dbei->pBlob) comment1 = event_to_tchar((char *)dbei->pBlob + strlennull((char *)dbei->pBlob + 4) + 1, dbei->flags);
-			commentFix = POPUP_COMMENT_FILE;
+			// filenames
+			if (dbei->pBlob)
+			{
+				if (dbei->flags & DBEF_UTF)
+				{
+					char* com = mir_utf8encode((char*)dbei->pBlob + 4);
+					comment2 = _A2T(com);
+					mir_free(com);
+				}
+				else
+					comment2 = _A2T((char*)dbei->pBlob + 4);
+			}
+			// description
+			if (dbei->pBlob)
+			{
+				if (dbei->flags & DBEF_UTF)
+				{
+					char* com = mir_utf8encode((char *)dbei->pBlob + strlen((char *)dbei->pBlob + 4) + 1);
+					comment1 = _A2T(com);
+					mir_free(com);
+				}
+				else
+					comment1 = _A2T((char *)dbei->pBlob + strlen((char *)dbei->pBlob + 4) + 1);
+			}
+			commentFix = _T(POPUP_COMMENT_FILE);
 			break;
 
-//blob format is:
-//ASCIIZ    nick
-//ASCIIZ    UID
-    case EVENTTYPE_CONTACTS:
-      if (dbei->pBlob)
-      { // count contacts in event
-        char* pcBlob = (char *)dbei->pBlob;
-        char* pcEnd = (char *)dbei->pBlob + dbei->cbBlob;
-        int nContacts;
-        TCHAR szBuf[512];
-        WCHAR szTmp[512];
+		//blob format is:
+		//ASCIIZ    nick
+		//ASCIIZ    UID
+		case EVENTTYPE_CONTACTS:
+			if (dbei->pBlob)
+			{ // count contacts in event
+				char* pcBlob = (char *)dbei->pBlob;
+				char* pcEnd = (char *)(dbei->pBlob + dbei->cbBlob);
+				int nContacts;
+				TCHAR szBuf[512];
 
-        for (nContacts = 1; ; nContacts++)
-        { // Nick
-          pcBlob += strlennull(pcBlob) + 1;
-          // UIN
-          pcBlob += strlennull(pcBlob) + 1;
-          // check for end of contacts
-          if (pcBlob >= pcEnd)
-            break;
-        }
-        if (g_UnicodeCore)
-        {
-          _sntprintf((WCHAR*)szBuf, SIZEOF(szBuf), (WCHAR*)NENTranslateT("Received %d contacts.", szTmp), nContacts);
-          ((WCHAR*)szBuf)[255] = 0;
-        }
-        else
-          _snprintfT(szBuf, SIZEOF(szBuf), (char *)NENTranslateT("Received %d contacts.", szTmp), nContacts);
-        comment1 = strdupT(szBuf);
-      }
-      commentFix = POPUP_COMMENT_CONTACTS;
-      break;
+				for (nContacts = 1; ; nContacts++)
+				{ // Nick
+					pcBlob += strlen(pcBlob) + 1;
+					// UIN
+					pcBlob += strlen(pcBlob) + 1;
+					// check for end of contacts
+					if (pcBlob >= pcEnd)
+						break;
+				}
+				mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Received %d contacts."), nContacts);
+				comment1 = mir_tstrdup(szBuf);
+			}
+			commentFix = _T(POPUP_COMMENT_CONTACTS);
+			break;
 
 //blob format is:
 //DWORD     numeric uin (ICQ only afaik)
@@ -330,61 +317,93 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
     case EVENTTYPE_ADDED:
       if (dbei->pBlob)
       {
-        TCHAR szUin[16];
+        char szUin[16];
         TCHAR szBuf[2048];
         TCHAR* szNick = NULL;
-        TCHAR *pszNick = (TCHAR *)dbei->pBlob + 8;
-        TCHAR *pszFirst = pszNick + strlennull((char *)pszNick) + 1;
-        TCHAR *pszLast = pszFirst + strlennull((char *)pszFirst) + 1;
-        TCHAR *pszEmail = pszLast + strlennull((char *)pszLast) + 1;
+        char *pszNick = (char *)dbei->pBlob + 8;
+        char *pszFirst = pszNick + strlen(pszNick) + 1;
+        char *pszLast = pszFirst + strlen(pszFirst) + 1;
+        char *pszEmail = pszLast + strlen(pszLast) + 1;
 
-        _sntprintf(szUin, 16, _T("%d"), *((DWORD*)dbei->pBlob));
-        if (strlennull((char *)pszNick) > 0)
-          szNick = pszNick;
-        else if (strlennull((char *)pszEmail) > 0)
-          szNick = pszEmail;
+        _snprintf(szUin, 16, "%d", *((DWORD*)dbei->pBlob));
+        if (strlen(pszNick) > 0)
+		{
+			if (dbei->flags & DBEF_UTF)
+			{
+				char *nick = mir_utf8encode(pszNick);
+				szNick = _A2T(nick);
+				mir_free(nick);
+			}
+			else
+				szNick = _A2T(pszNick);
+		}
+        else if (strlen(pszEmail) > 0)
+		{
+			if (dbei->flags & DBEF_UTF)
+			{
+				char *nick = mir_utf8encode(pszEmail);
+				szNick = _A2T(nick);
+				mir_free(nick);
+			}
+			else
+				szNick = _A2T(pszEmail);
+		}
         else if (*((DWORD*)dbei->pBlob) > 0)
-          szNick = szUin;
+          szNick = _A2T(szUin);
 
         if (szNick)
         {
-          strcpyT(szBuf, szNick);
-          strcatT(szBuf, NENTranslateT(" added you to the contact list", (WCHAR*)szBuf + strlenT(szBuf) + 1));
-          mir_free(szNick);
-          comment1 = strdupT(szBuf);
+          _tcscpy(szBuf, szNick);
+          _tcscat(szBuf, TranslateT(" added you to the contact list"));
+          free(szNick);
+          comment1 = mir_tstrdup(szBuf);
         }
       }
-      commentFix = POPUP_COMMENT_ADDED;
+      commentFix = _T(POPUP_COMMENT_ADDED);
 		  break;
 
 		case EVENTTYPE_AUTHREQUEST:
       if (dbei->pBlob)
       {
-        TCHAR szUin[16];
+        char szUin[16];
         TCHAR szBuf[2048];
         TCHAR* szNick = NULL;
-        TCHAR *pszNick = (TCHAR *)dbei->pBlob + 8;
-        TCHAR *pszFirst = pszNick + strlennull((char *)pszNick) + 1;
-        TCHAR *pszLast = pszFirst + strlennull((char *)pszFirst) + 1;
-        TCHAR *pszEmail = pszLast + strlennull((char *)pszLast) + 1;
+        char *pszNick = (char *)dbei->pBlob + 8;
+        char *pszFirst = pszNick + strlen(pszNick) + 1;
+        char *pszLast = pszFirst + strlen(pszFirst) + 1;
+        char *pszEmail = pszLast + strlen(pszLast) + 1;
 
-        _snwprintf(szUin, 16, _T("%d"), *((DWORD*)dbei->pBlob));
-        if (strlennull((char *)pszNick) > 0)
-          szNick = pszNick;
-        else if (strlennull((char *)pszEmail) > 0)
-          szNick = pszEmail;
+        _snprintf(szUin, 16, "%d", *((DWORD*)dbei->pBlob));
+        if (strlen(pszNick) > 0)
+			if (dbei->flags & DBEF_UTF)
+			{
+				char *nick = mir_utf8encode(pszNick);
+				szNick = _A2T(nick);
+				mir_free(nick);
+			}
+			else
+				szNick = _A2T(pszNick);
+        else if (strlen(pszEmail) > 0)
+			if (dbei->flags & DBEF_UTF)
+			{
+				char *nick = mir_utf8encode(pszEmail);
+				szNick = _A2T(nick);
+				mir_free(nick);
+			}
+			else
+				szNick = _A2T(pszEmail);
         else if (*((DWORD*)dbei->pBlob) > 0)
-          szNick = szUin;
+          szNick = _A2T(szUin);
 
         if (szNick)
         {
-          strcpyT(szBuf, szNick);
-          strcatT(szBuf, NENTranslateT(" requested authorization", (WCHAR*)szBuf + strlenT(szBuf) + 1));
-          mir_free(szNick);
-          comment1 = strdupT(szBuf);
+          _tcscpy(szBuf, szNick);
+          _tcscat(szBuf, TranslateT(" requested authorization"));
+          free(szNick);
+          comment1 = mir_tstrdup(szBuf);
         }
       }
-		  commentFix = POPUP_COMMENT_AUTH;
+		  commentFix = _T(POPUP_COMMENT_AUTH);
 		  break;
 
 //blob format is:
@@ -392,9 +411,9 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 //ASCIIZ    from name
 //ASCIIZ    from e-mail
     case ICQEVENTTYPE_WEBPAGER:
-			if (dbei->pBlob) comment1 = (TCHAR *)(dbei->pBlob);
+			if (dbei->pBlob) comment1 = _A2T((const char *)dbei->pBlob);
 //			if (dbei->pBlob) comment1 = dbei->pBlob + strlennull(comment2) + 1;
-		  commentFix = POPUP_COMMENT_WEBPAGER;
+		  commentFix = _T(POPUP_COMMENT_WEBPAGER);
 		  break;
 
 //blob format is:
@@ -402,59 +421,55 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 //ASCIIZ    from name
 //ASCIIZ    from e-mail
     case ICQEVENTTYPE_EMAILEXPRESS:
-			if (dbei->pBlob) comment1 = (TCHAR *)(dbei->pBlob);
+			if (dbei->pBlob) comment1 = _A2T((const char *)dbei->pBlob);
 //			if (dbei->pBlob) comment1 = dbei->pBlob + strlennull(comment2) + 1;
-		  commentFix = POPUP_COMMENT_EMAILEXP;
+		  commentFix = _T(POPUP_COMMENT_EMAILEXP);
       break;
 
     default:
     {
       if (ServiceExists(MS_DB_EVENT_GETTYPE))
       {
-        DBEVENTTYPEDESCR *pei = (DBEVENTTYPEDESCR *)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
-		if ((pei && pei->cbSize) >= DBEVENTTYPEDESCR_SIZE)
+        DBEVENTTYPEDESCR* pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+        if (pei && pei->cbSize >= DBEVENTTYPEDESCR_SIZE_V1)
         { // support for custom database event types
           if (dbei->pBlob)
           { // preview requested
-            DBEVENTGETTEXT svc = {dbei, g_UnicodeCore ? DBVT_WCHAR : DBVT_ASCIIZ, CP_ACP};
-            char *pet = (char *)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&svc);
+            DBEVENTGETTEXT svc = {dbei, DBVT_TCHAR, CP_ACP};
+            TCHAR *pet = (TCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&svc);
             if (pet)
             { // we've got event text, move to our memory space
-              comment1 = strdupT((TCHAR *)pet);
-              mir_free(&pet);
+              comment1 = mir_tstrdup(pet);
+              mir_free(pet);
             }
           }
-          commentFix = (TCHAR *)pei->descr;
+          commentFix = _A2T(pei->descr);
         }
         else
-          commentFix = POPUP_COMMENT_OTHER;
-		
-		break;
-	  }
-     // else
-       // commentFix = POPUP_COMMENT_OTHER;
+          commentFix = _T(POPUP_COMMENT_OTHER);
+      }
+      else
+        commentFix = _T(POPUP_COMMENT_OTHER);
 
-
+      break;
     }
   }
 
-  if (strlenT(comment1) > 0)
+  if (_tcslen(comment1) > 0)
   {
-    mir_free(comment2);
+    free(comment2);
     return comment1;
   }
-  if (strlenT(comment2) > 0)
+  if (_tcslen(comment2) > 0)
   {
-    mir_free(comment1);
+    free(comment1);
     return comment2;
   }
-  mir_free(comment1);
-  mir_free(comment2);
+  free(comment1);
+  free(comment2);
 
   {
-    WCHAR tmp[MAX_PATH];
-
-    return strdupT(NENTranslateT((char *)commentFix, tmp));
+    return TranslateTS(commentFix);
   }
 }
 
@@ -465,7 +480,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
   PLUGIN_DATA* pdata;
   DBEVENTINFO dbe = {0};
 	EVENT_DATA_EX* eventData;
-	char* sampleEvent;
+	TCHAR* sampleEvent;
 	long iSeconds;
   
 	//there has to be a maximum number of popups shown at the same time
@@ -485,7 +500,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 				pudw.colorBack = pluginOptions->bDefaultColorMsg ? 0 : pluginOptions->colBackMsg;
 				pudw.colorText = pluginOptions->bDefaultColorMsg ? 0 : pluginOptions->colTextMsg;
 				iSeconds = pluginOptions->iDelayMsg;
-				sampleEvent = LPGEN("This is a sample message event :-)");
+				sampleEvent = TranslateT("This is a sample message event :-)");
         break;
       case EVENTTYPE_URL:
         if (!(pluginOptions->maskNotify&MASK_URL)) return 1;
@@ -493,7 +508,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 				pudw.colorBack = pluginOptions->bDefaultColorUrl ? 0 : pluginOptions->colBackUrl;
 				pudw.colorText = pluginOptions->bDefaultColorUrl ? 0 : pluginOptions->colTextUrl;
 				iSeconds = pluginOptions->iDelayUrl;
-				sampleEvent = LPGEN("This is a sample URL event ;-)");
+				sampleEvent = TranslateT("This is a sample URL event ;-)");
         break;
       case EVENTTYPE_FILE:
         if (!(pluginOptions->maskNotify&MASK_FILE)) return 1;
@@ -501,7 +516,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 				pudw.colorBack = pluginOptions->bDefaultColorFile ? 0 : pluginOptions->colBackFile;
 				pudw.colorText = pluginOptions->bDefaultColorFile ? 0 : pluginOptions->colTextFile;
 				iSeconds = pluginOptions->iDelayFile;
-				sampleEvent = LPGEN("This is a sample file event :-D");
+				sampleEvent = TranslateT("This is a sample file event :-D");
         break;
       default:
         if (!(pluginOptions->maskNotify&MASK_OTHER)) return 1;
@@ -509,7 +524,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 				pudw.colorBack = pluginOptions->bDefaultColorOthers ? 0 : pluginOptions->colBackOthers;
 				pudw.colorText = pluginOptions->bDefaultColorOthers ? 0 : pluginOptions->colTextOthers;
 				iSeconds = pluginOptions->iDelayOthers;
-				sampleEvent = LPGEN("This is a sample other event ;-D");
+				sampleEvent = TranslateT("This is a sample other event ;-D");
    			break;
     }
 
@@ -552,17 +567,17 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 	// if hContact is NULL, && hEvent is NULL then popup is only Test
 	if ((hContact == NULL) && (hEvent == NULL))
 	{
-		strncpyT((TCHAR*)pudw.lptzContactName, NENTranslateT("Plugin Test", pudw.lpwzContactName), MAX_CONTACTNAME);
-		strncpyT((TCHAR*)pudw.lptzText, NENTranslateT((char *)sampleEvent, pudw.lpwzText), MAX_SECONDLINE);
+		_tcsncpy((TCHAR*)pudw.lptzContactName, TranslateT("Plugin Test"), MAX_CONTACTNAME);
+		_tcsncpy((TCHAR*)pudw.lptzText, TranslateTS(sampleEvent), MAX_SECONDLINE);
 	}
 	else
 	{	// get the needed event data
     TCHAR* szEventPreview;
 
-    strncpyT((TCHAR*)pudw.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, g_UnicodeCore ? GCDNF_UNICODE : 0), MAX_CONTACTNAME);
+    _tcsncpy((TCHAR*)pudw.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
     szEventPreview = GetEventPreview(&dbe);
-		strncpyT((TCHAR*)pudw.lptzText, szEventPreview, MAX_SECONDLINE);
-    mir_free(szEventPreview);
+		_tcsncpy((TCHAR*)pudw.lptzText, szEventPreview, MAX_SECONDLINE);
+    free(szEventPreview);
 	}
     
 	PopupCount++;
@@ -570,13 +585,13 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 	PopUpList[NumberPopupData(NULL, -1)] = pdata;
 	// send data to popup plugin
 
-	if (g_UnicodeCore && ServiceExists(MS_POPUP_ADDPOPUPW))
+	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 	{
 		pdata->isUnicode = 1;
-		if (CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pudw, 0) < 0)
+		if (CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pudw, 0) < 0)
 		{ // popup creation failed, release popupdata
 			FreePopupEventData(pdata);
-			mir_free(pdata);
+			free(pdata);
 		}
 	}
 	else // convert to ansi
@@ -592,27 +607,27 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
     {
       char* szAnsi;
 
-      szAnsi = tchar_to_ansi((TCHAR*)pudw.lptzContactName);
+      szAnsi = _T2A((TCHAR*)pudw.lptzContactName);
       if (szAnsi)
         strncpy(puda.lpzContactName, szAnsi, MAX_CONTACTNAME);
       else
         strcpy(puda.lpzContactName, "");
-      mir_free(szAnsi);
-      szAnsi = tchar_to_ansi((TCHAR*)pudw.lptzText);
+      free(szAnsi);
+      szAnsi = _T2A((TCHAR*)pudw.lptzText);
       if (szAnsi)
         strncpy(puda.lpzText, szAnsi, MAX_SECONDLINE);
       else
         strcpy(puda.lpzText, "");
-      mir_free(szAnsi);
+      free(szAnsi);
     }
 		if (CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&puda, 0) < 0)
 		{ // popup creation failed, release popupdata
 			FreePopupEventData(pdata);
-			mir_free(pdata);
+			free(pdata);
 		}
 	}
 	if (dbe.pBlob)
-		mir_free(dbe.pBlob);
+		free(dbe.pBlob);
 
 	return 0;
 }
@@ -636,7 +651,7 @@ int PopupUpdate(HANDLE hContact, HANDLE hEvent)
 	{
 		pdata->countEvent++;
 
-		pdata->lastEventData->next = malloc(sizeof(EVENT_DATA_EX));
+		pdata->lastEventData->next = (EVENT_DATA_EX *)malloc(sizeof(EVENT_DATA_EX));
 		pdata->lastEventData->next->prev = pdata->lastEventData;
 		pdata->lastEventData = pdata->lastEventData->next;
 		pdata->lastEventData->hEvent = hEvent;
@@ -651,16 +666,14 @@ int PopupUpdate(HANDLE hContact, HANDLE hEvent)
 
 	if (pdata->pluginOptions->bShowHeaders)
 	{
-		WCHAR tmp[MAX_PATH];
-
-		_snprintfT(lpzText, SIZEOF(lpzText), "[b]%s %d[/b]\n", NENTranslateT("Number of new message: ", tmp), pdata->countEvent);
+		mir_sntprintf(lpzText, SIZEOF(lpzText), _T("[b]%s %d[/b]\n"), TranslateT("Number of new message: "), pdata->countEvent);
 	}
 
 	doReverse = pdata->pluginOptions->bShowON;
 
 	if ((pdata->firstShowEventData != pdata->firstEventData && doReverse) ||
 		  (pdata->firstShowEventData != pdata->lastEventData && !doReverse))
-		_snprintfT(lpzText, SIZEOF(lpzText), "%s...\n", lpzText);
+		mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s...\n"), lpzText);
 
 
 	//take the active event as starting one
@@ -698,20 +711,17 @@ int PopupUpdate(HANDLE hContact, HANDLE hEvent)
 				strncpy(formatTime, "%Y.%m.%d ", sizeof(formatTime));
 			if (pdata->pluginOptions->bShowTime)
 				strncat(formatTime, "%H:%M", sizeof(formatTime));
-			strftime(timestamp,sizeof(timestamp), formatTime, localtime((time_t *)&dbe.timestamp));
-			if (g_UnicodeCore)
-				_snprintfT(lpzText, SIZEOF(lpzText), "%s[b][i]%S[/i][/b]\n", lpzText, timestamp);
-			else
-				_snprintfT(lpzText, SIZEOF(lpzText), "%s[b][i]%s[/i][/b]\n", lpzText, timestamp);
+			strftime(timestamp,sizeof(timestamp), formatTime, localtime((const time_t *)&dbe.timestamp));
+			mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s[b][i]%s[/i][/b]\n"), lpzText, timestamp);
 		}
     { // prepare event preview
 			TCHAR* szEventPreview = GetEventPreview(&dbe);
 
-			_snprintfT(lpzText, SIZEOF(lpzText), "%s%s", lpzText, szEventPreview);
-			mir_free(szEventPreview);
+			mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s%s"), lpzText, szEventPreview);
+			free(szEventPreview);
 		}
 		if (dbe.pBlob)
-			mir_free(dbe.pBlob);
+			free(dbe.pBlob);
 		if (doReverse)
 		{
 			if ((iEvent >= pdata->pluginOptions->iNumberMsg && pdata->pluginOptions->iNumberMsg) || !eventData->next)
@@ -723,11 +733,11 @@ int PopupUpdate(HANDLE hContact, HANDLE hEvent)
 				break;
 		}
 
-		_snprintfT(lpzText, SIZEOF(lpzText), "%s\n", lpzText);
+		mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s\n"), lpzText);
 	}
 	if ((doReverse && eventData->next) || (!doReverse && eventData->prev))
 	{
-		_snprintfT(lpzText, SIZEOF(lpzText), "%s\n...", lpzText);
+		mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s\n..."), lpzText);
 	}
 	if (pdata->isUnicode)
 	{
@@ -735,9 +745,9 @@ int PopupUpdate(HANDLE hContact, HANDLE hEvent)
 	}
 	else
 	{
-		char* szAnsi = tchar_to_ansi(lpzText);
+		char* szAnsi = _T2A(lpzText);
 		CallService(MS_POPUP_CHANGETEXT, (WPARAM)pdata->hWnd, (LPARAM)szAnsi);
-		mir_free(szAnsi);
+		free(szAnsi);
 	}
 	return 0;
 }

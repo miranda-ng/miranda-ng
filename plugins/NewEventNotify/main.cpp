@@ -23,35 +23,16 @@
 */
 
 #include "neweventnotify.h"
-#include <m_skin.h>
-#include <m_clist.h>
-#include <m_system.h>
-#include <m_protocols.h>
-//needed for ICQEVENTTYPE_* (Webpager & Emailexpress)
-#include <m_protosvc.h>
-//needed for reply instead of read
-#include <m_message.h>
-#include <m_metacontacts.h>
-#include <m_popup.h>
-
-#include <m_options.h>
-
-#include <string.h>
-#include <time.h>
 
 int g_IsSrmmServiceAvail = 0;
 int g_IsSrmmWindowAPI = 0;
-int g_UnicodeCore = 0;
-
 extern PLUGIN_DATA* PopUpList[20];
 
 //---------------------------
 //---Some global variables for the plugin
 
-
 HINSTANCE hInst;
 PLUGIN_OPTIONS pluginOptions;
-
 int hLangpack;
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -64,7 +45,7 @@ PLUGININFOEX pluginInfo = {
 	"jokusoftware@miranda-im.org",
 	"GNU GPL",
 	"http://addons.miranda-im.org/details.php?action=viewfile&id=3637",
-	0,
+	UNICODE_AWARE,
 	0,
 	{0x3503D584, 0x6234, 0x4BEF, {0xA5, 0x53, 0x6C, 0x1B, 0x9C, 0xD4, 0x71, 0xF2 } } // {3503D584-6234-4BEF-A553-6C1B9CD471F2}
 };
@@ -83,17 +64,17 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 //wParam: contact-handle
 //lParam: dbevent-handle
 {
-  HANDLE hContact = (HANDLE)wParam;
-  DBEVENTINFO dbe = {0};
-  PLUGIN_DATA* pdata;
-  DBEVENTTYPEDESCR* pei;
+	HANDLE hContact = (HANDLE)wParam;
+	DBEVENTINFO dbe = {0};
+	PLUGIN_DATA* pdata;
+	DBEVENTTYPEDESCR* pei;
 
-  //are popups currently enabled?
-  if (pluginOptions.bDisable)
-    return 0;
+	//are popups currently enabled?
+	if (pluginOptions.bDisable)
+		return 0;
 
-  //get DBEVENTINFO without pBlob
-  dbe.cbSize = sizeof(dbe);
+	//get DBEVENTINFO without pBlob
+	dbe.cbSize = sizeof(dbe);
 	CallService(MS_DB_EVENT_GET, (WPARAM)lParam, (LPARAM)&dbe);
 
 	// Nightwish (no popups for RSS contacts at all...)
@@ -113,48 +94,46 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 	if (dbe.eventType == 25368)
 		return 0;
 
-  //custom database event types
-  if (ServiceExists(MS_DB_EVENT_GETTYPE))
-  {
-    pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbe.szModule, (LPARAM)dbe.eventType);
-    if (pei && pei->cbSize >= DBEVENTTYPEDESCR_SIZE)
-    { // ignore events according to flags
-      if (pei->flags & DETF_NONOTIFY)
-        return 0;
+	//custom database event types
+	if (ServiceExists(MS_DB_EVENT_GETTYPE))
+	{
+		pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbe.szModule, (LPARAM)dbe.eventType);
+		if (pei && pei->cbSize >= DBEVENTTYPEDESCR_SIZE && pei->flags & DETF_NONOTIFY)
+		// ignore events according to flags
+			return 0;
     }
-  }
 
 	//if event was allready read don't show it
 	if (pluginOptions.bReadCheck && (dbe.flags & DBEF_READ))
 		return 0;
 
 	//is it an event sent by the user? -> don't show
-  if (dbe.flags & DBEF_SENT)
-  {
-    if (pluginOptions.bHideSend && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1)
-    { // JK, only message event, do not influence others
-      pdata = PopUpList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
-      PopupAct(pdata->hWnd, MASK_DISMISS, pdata); // JK, only dismiss, i.e. do not kill event (e.g. file transfer)
+	if (dbe.flags & DBEF_SENT)
+	{
+		if (pluginOptions.bHideSend && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1)
+		{ // JK, only message event, do not influence others
+			pdata = PopUpList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
+			PopupAct(pdata->hWnd, MASK_DISMISS, pdata); // JK, only dismiss, i.e. do not kill event (e.g. file transfer)
 		}		
-	  return 0; 
+		return 0; 
 	}
-  //which status do we have, are we allowed to post popups?
-  //UNDER CONSTRUCTION!!!
-  CallService(MS_CLIST_GETSTATUSMODE, 0, 0); /// TODO: JK: ????
+	//which status do we have, are we allowed to post popups?
+	//UNDER CONSTRUCTION!!!
+	CallService(MS_CLIST_GETSTATUSMODE, 0, 0); /// TODO: JK: ????
 	
 	if (dbe.eventType == EVENTTYPE_MESSAGE && (pluginOptions.bMsgWindowCheck && hContact && CheckMsgWnd(hContact)))
 		return 0;
 
 	//is another popup for this contact already present? -> merge message popups if enabled
 	if (dbe.eventType == EVENTTYPE_MESSAGE && (pluginOptions.bMergePopup && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1))
-  { // JK, only merge with message events, do not mess with others
+	{ // JK, only merge with message events, do not mess with others
 		PopupUpdate(hContact, (HANDLE)lParam);
 	}
 	else
 	{	//now finally show a popup
 		PopupShow(&pluginOptions, hContact, (HANDLE)lParam, (UINT)dbe.eventType);
 	}
-  return 0;
+	return 0;
 }
 
 //---Called when all the modules are loaded
@@ -181,72 +160,46 @@ int HookedInit(WPARAM wParam, LPARAM lParam)
 //---Called when an options dialog has to be created
 int HookedOptions(WPARAM wParam, LPARAM lParam)
 {
-  OptionsAdd(hInst, wParam);
+	OptionsAdd(hInst, wParam);
 
-  return 0;
+	return 0;
 }
 
 //---------------------------
 //---Exported Functions
 
-PLUGININFOEX* handleMirandaPluginInfo(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-  if (mirandaVersion >= PLUGIN_MAKE_VERSION(0, 3, 3, 0))
-  { // Are we running under Unicode Windows version ?
-    if ((GetVersion() & 0x80000000) == 0)
-    {
-      pluginInfo.flags = 1; // UNICODE_AWARE
-    }
-	  return &pluginInfo;
-  }
-  else
-    return NULL;
-}
-
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{
-  pluginInfo.cbSize = sizeof(PLUGININFOEX);
-
-  return handleMirandaPluginInfo(mirandaVersion);
+	return &pluginInfo;
 }
 
 static const MUUID interfaces[] = {MIID_EVENTNOTIFY, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
 
-int __declspec(dllexport) Load(void)
+extern "C" __declspec(dllexport) int Load(void)
 {
+	hHookedInit = HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
+	hHookedOpt = HookEvent(ME_OPT_INITIALISE, HookedOptions);
 
-  hHookedInit = HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
-  hHookedOpt = HookEvent(ME_OPT_INITIALISE, HookedOptions);
-  mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfo);
 
-  InitI18N();
+	OptionsInit(&pluginOptions);
+	pluginOptions.hInst = hInst;
 
-  { // Are we running under unicode Miranda core ?
-    char szVer[MAX_PATH];
-
-    CallService(MS_SYSTEM_GETVERSIONTEXT, MAX_PATH, (LPARAM)szVer);
-    _strlwr(szVer); // make sure it is lowercase
-    g_UnicodeCore = (strstr(szVer, "unicode") != NULL);
-  }
-
-  OptionsInit(&pluginOptions);
-  pluginOptions.hInst = hInst;
-
-  if (pluginOptions.bMenuitem)
-    MenuitemInit(!pluginOptions.bDisable);
+	if (pluginOptions.bMenuitem)
+		MenuitemInit(!pluginOptions.bDisable);
 
 	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
-  UnhookEvent(hHookedNewEvent);
-  UnhookEvent(hHookedOpt);
-  UnhookEvent(hHookedInit);
+	UnhookEvent(hHookedNewEvent);
+	UnhookEvent(hHookedOpt);
+	UnhookEvent(hHookedInit);
 	return 0;
 }
 
@@ -286,38 +239,35 @@ int CheckMsgWnd(HANDLE hContact)
 		else 
 			return 0;
 	}
-	/*else 
+	else 
 	{	// old way: find it by using the window class & title
-		TCHAR *newtitle = _T("");
-		TCHAR *szStatus, *contactName;
+		TCHAR newtitle[256];
 		char *szProto;
+		TCHAR *contactName, *szStatus;
 
-		szProto= (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact,0);
-		contactName= (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact,0);
-		szStatus= (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto ? DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE) : ID_STATUS_OFFLINE,0);
+		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		contactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+		szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto?DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE):ID_STATUS_OFFLINE, GSMDF_TCHAR);
 
-	// vj: This code was added by preeze and it does not work:
-	// vlko: it maybe work with other plugins 
-		_sntprintf(newtitle,sizeof(newtitle),_T("%s  (%s)"),contactName,szStatus);
-		if(FindWindowA("TMsgWindow",(char *)newtitle))
+		// vj: This code was added by preeze and it does not work:
+		// vlko: it maybe work with other plugins 
+		mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s  (%s)"), contactName, szStatus);
+		if(FindWindow(_T("TMsgWindow"), newtitle))
 			return 2;
 
-		_sntprintf(newtitle,sizeof(newtitle),_T("[%s  (%s)]"),contactName,szStatus);
-		if(FindWindowA("TfrmContainer",(char *)newtitle))
+		mir_sntprintf(newtitle, SIZEOF(newtitle), _T("[%s  (%s)]"), contactName, szStatus);
+		if(FindWindow(_T("TfrmContainer"), newtitle))
 			return 1;
 
-	// vj: I have restored this code from original plugin's source: (NewEventNotify 0.0.4)
-		_sntprintf(newtitle,sizeof(newtitle),_T("%s (%s): %s"),contactName,szStatus,Translate("Message Session"));
-		if(FindWindowA("#32770",(char *)newtitle)) // JK, this works for old SRMMs (1.0.4.x) and for mine SRMMJ
+		// vj: I have restored this code from original plugin's source: (NewEventNotify 0.0.4)
+		mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message Session"));
+		if(FindWindow(_T("#32770"), newtitle)) // JK, this works for old SRMMs (1.0.4.x) and for mine SRMMJ
 			return 1;
 
-		_sntprintf(newtitle,sizeof(newtitle),_T("%s (%s): %s"),contactName,szStatus,Translate("Message Received"));
-		if(FindWindowA("#32770",(char *)newtitle))
+		mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message Received"));
+		if(FindWindow(_T("#32770"), newtitle))
 			return 2;
 
 		return 0;
-	}*/
-	return 1;
+	}
 }
-
-

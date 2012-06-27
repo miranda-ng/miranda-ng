@@ -28,14 +28,32 @@
 #define _CRT_NONSTDC_NO_DEPRECATE
 
 #include <stdio.h>
+#include <stddef.h>
 #include <windows.h>
 #include <commctrl.h>
-#include "resource.h"
+#include <string.h>
+#include <time.h>
+#include <malloc.h>
+
+#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_langpack.h>
 #include <m_contacts.h>
 #include <m_popup.h>
+#include <m_skin.h>
+#include <m_clist.h>
+#include <m_system.h>
+#include <m_protocols.h>
+#include <m_protosvc.h>
+#include <m_message.h>
+#include <m_options.h>
+#include <m_icq.h>
+#include <m_utils.h>
+
+#include <m_metacontacts.h>
+
+#include "resource.h"
 
 //VERY_PUBLIC Begin ... will be moved to m_neweventnotify.h
 #define MS_NEN_MENUNOTIFY "NewEventNotify/MenuitemNotifyCommand"
@@ -118,15 +136,15 @@
 //---------------------------
 //---Translateable Strings
 
-#define POPUP_COMMENT_MESSAGE _T("Message")
-#define POPUP_COMMENT_URL _T("URL")
-#define POPUP_COMMENT_FILE _T("File")
-#define POPUP_COMMENT_CONTACTS _T("Contacts")
-#define POPUP_COMMENT_ADDED _T("You were added!")
-#define POPUP_COMMENT_AUTH _T("Requests your authorisation")
-#define POPUP_COMMENT_WEBPAGER _T("ICQ Web pager")
-#define POPUP_COMMENT_EMAILEXP _T("ICQ Email express")
-#define POPUP_COMMENT_OTHER _T("Unknown Event")
+#define POPUP_COMMENT_MESSAGE "Message"
+#define POPUP_COMMENT_URL "URL"
+#define POPUP_COMMENT_FILE "File"
+#define POPUP_COMMENT_CONTACTS "Contacts"
+#define POPUP_COMMENT_ADDED "You were added!"
+#define POPUP_COMMENT_AUTH "Requests your authorisation"
+#define POPUP_COMMENT_WEBPAGER "ICQ Web pager"
+#define POPUP_COMMENT_EMAILEXP "ICQ Email express"
+#define POPUP_COMMENT_OTHER "Unknown Event"
 
 #define OPTIONS_GROUP "PopUps"
 #define OPTIONS_TITLE "Event Notify"
@@ -201,10 +219,6 @@ typedef struct PLUGIN_DATA_struct {
 } PLUGIN_DATA;
 
 //---------------------------
-//---Global Variables
-extern int g_UnicodeCore;
-
-//---------------------------
 //---External Procedure Definitions
 
 int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UINT eventType);
@@ -220,25 +234,3 @@ int NumberPopupData(HANDLE hContact, int eventType);
 int CheckMsgWnd(HANDLE hContact);
 
 extern HINSTANCE hInst;
-
-// utils.c
-BOOL __fastcall NENGetSettingBool(char* szSetting, BOOL bDef);
-int __fastcall NENWriteSettingBool(char* szSetting, BOOL bValue);
-
-size_t __fastcall strlennull(const char *string);
-
-size_t __fastcall strlenT(const TCHAR *string);
-TCHAR* __fastcall strdupT(const TCHAR *string);
-TCHAR* __fastcall strcpyT(TCHAR* dest, const TCHAR* src);
-TCHAR* __fastcall strncpyT(TCHAR* dest, const TCHAR* src, size_t len);
-TCHAR* __fastcall strcatT(TCHAR* dest, const TCHAR* src);
-int _snprintfT(TCHAR *buffer, size_t count, const char* fmt, ...);
-
-
-TCHAR* __fastcall NENTranslateT(const char* src, const WCHAR* unibuf);
-
-void InitI18N(void);
-TCHAR* ansi_to_tchar(const char* string);
-char* tchar_to_ansi(const TCHAR* src);
-TCHAR* utf8_to_tchar(const unsigned char* utf);
-

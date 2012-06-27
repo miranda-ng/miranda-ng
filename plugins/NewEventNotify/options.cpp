@@ -23,21 +23,19 @@
 */
 
 #include "neweventnotify.h"
-#include <m_options.h>
-#include <m_utils.h>
 
 PLUGIN_OPTIONS* options;
 BOOL bWmNotify;
 
 int OptionsRead(void)
 {
-  options->bDisable = NENGetSettingBool(OPT_DISABLE, FALSE);
-  options->bPreview = NENGetSettingBool(OPT_PREVIEW, TRUE);
-  options->bMenuitem = NENGetSettingBool(OPT_MENUITEM, FALSE);
-  options->bDefaultColorMsg = NENGetSettingBool(OPT_COLDEFAULT_MESSAGE, FALSE);
-  options->bDefaultColorUrl = NENGetSettingBool(OPT_COLDEFAULT_URL, FALSE);
-  options->bDefaultColorFile = NENGetSettingBool(OPT_COLDEFAULT_FILE, FALSE);
-  options->bDefaultColorOthers = NENGetSettingBool(OPT_COLDEFAULT_OTHERS, FALSE);
+  options->bDisable = DBGetContactSettingByte(NULL, MODULE, OPT_DISABLE, FALSE);
+  options->bPreview = DBGetContactSettingByte(NULL, MODULE, OPT_PREVIEW, TRUE);
+  options->bMenuitem = DBGetContactSettingByte(NULL, MODULE, OPT_MENUITEM, FALSE);
+  options->bDefaultColorMsg = DBGetContactSettingByte(NULL, MODULE, OPT_COLDEFAULT_MESSAGE, FALSE);
+  options->bDefaultColorUrl = DBGetContactSettingByte(NULL, MODULE, OPT_COLDEFAULT_URL, FALSE);
+  options->bDefaultColorFile = DBGetContactSettingByte(NULL, MODULE, OPT_COLDEFAULT_FILE, FALSE);
+  options->bDefaultColorOthers = DBGetContactSettingByte(NULL, MODULE, OPT_COLDEFAULT_OTHERS, FALSE);
   options->colBackMsg = (COLORREF)DBGetContactSettingDword(NULL, MODULE, OPT_COLBACK_MESSAGE, DEFAULT_COLBACK);
   options->colTextMsg = (COLORREF)DBGetContactSettingDword(NULL, MODULE, OPT_COLTEXT_MESSAGE, DEFAULT_COLTEXT);
   options->colBackUrl = (COLORREF)DBGetContactSettingDword(NULL, MODULE, OPT_COLBACK_URL, DEFAULT_COLBACK);
@@ -50,34 +48,34 @@ int OptionsRead(void)
   options->maskActL = (UINT)DBGetContactSettingByte(NULL, MODULE, OPT_MASKACTL, DEFAULT_MASKACTL);
   options->maskActR = (UINT)DBGetContactSettingByte(NULL, MODULE, OPT_MASKACTR, DEFAULT_MASKACTR);
   options->maskActTE = (UINT)DBGetContactSettingByte(NULL, MODULE, OPT_MASKACTTE, DEFAULT_MASKACTE);
-  options->bMsgWindowCheck = NENGetSettingBool(OPT_MSGWINDOWCHECK, TRUE);
-  options->bMsgReplyWindow = NENGetSettingBool(OPT_MSGREPLYWINDOW, FALSE);
-  options->bMergePopup = NENGetSettingBool(OPT_MERGEPOPUP, TRUE);
+  options->bMsgWindowCheck = DBGetContactSettingByte(NULL, MODULE, OPT_MSGWINDOWCHECK, TRUE);
+  options->bMsgReplyWindow = DBGetContactSettingByte(NULL, MODULE, OPT_MSGREPLYWINDOW, FALSE);
+  options->bMergePopup = DBGetContactSettingByte(NULL, MODULE, OPT_MERGEPOPUP, TRUE);
   options->iDelayMsg = (int)DBGetContactSettingDword(NULL, MODULE, OPT_DELAY_MESSAGE, DEFAULT_DELAY);
   options->iDelayUrl = (int)DBGetContactSettingDword(NULL, MODULE, OPT_DELAY_URL, DEFAULT_DELAY);
   options->iDelayFile = (int)DBGetContactSettingDword(NULL, MODULE, OPT_DELAY_FILE, DEFAULT_DELAY);
   options->iDelayOthers = (int)DBGetContactSettingDword(NULL, MODULE, OPT_DELAY_OTHERS, DEFAULT_DELAY);
   options->iDelayDefault = (int)DBGetContactSettingRangedWord(NULL, "PopUp", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
-  options->bShowDate = NENGetSettingBool(OPT_SHOW_DATE, TRUE);
-  options->bShowTime = NENGetSettingBool(OPT_SHOW_TIME, TRUE);
-  options->bShowHeaders = NENGetSettingBool(OPT_SHOW_HEADERS, TRUE);
+  options->bShowDate = DBGetContactSettingByte(NULL, MODULE, OPT_SHOW_DATE, TRUE);
+  options->bShowTime = DBGetContactSettingByte(NULL, MODULE, OPT_SHOW_TIME, TRUE);
+  options->bShowHeaders = DBGetContactSettingByte(NULL, MODULE, OPT_SHOW_HEADERS, TRUE);
   options->iNumberMsg = (BYTE)DBGetContactSettingByte(NULL, MODULE, OPT_NUMBER_MSG, TRUE);
-  options->bShowON = NENGetSettingBool(OPT_SHOW_ON, TRUE);
-  options->bHideSend = NENGetSettingBool(OPT_HIDESEND, TRUE);
-  options->bNoRSS = NENGetSettingBool(OPT_NORSS, FALSE);
-  options->bReadCheck = NENGetSettingBool(OPT_READCHECK, FALSE);
+  options->bShowON = DBGetContactSettingByte(NULL, MODULE, OPT_SHOW_ON, TRUE);
+  options->bHideSend = DBGetContactSettingByte(NULL, MODULE, OPT_HIDESEND, TRUE);
+  options->bNoRSS = DBGetContactSettingByte(NULL, MODULE, OPT_NORSS, FALSE);
+  options->bReadCheck = DBGetContactSettingByte(NULL, MODULE, OPT_READCHECK, FALSE);
   return 0;
 }
 
 int OptionsWrite(void)
 {
-  NENWriteSettingBool(OPT_DISABLE,  options->bDisable);
-  NENWriteSettingBool(OPT_PREVIEW,  options->bPreview);
-  NENWriteSettingBool(OPT_MENUITEM, options->bMenuitem);
-  NENWriteSettingBool(OPT_COLDEFAULT_MESSAGE, options->bDefaultColorMsg);
-  NENWriteSettingBool(OPT_COLDEFAULT_URL,     options->bDefaultColorUrl);
-  NENWriteSettingBool(OPT_COLDEFAULT_FILE,    options->bDefaultColorFile);
-  NENWriteSettingBool(OPT_COLDEFAULT_OTHERS,  options->bDefaultColorOthers);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_DISABLE,  options->bDisable);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_PREVIEW,  options->bPreview);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_MENUITEM, options->bMenuitem);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_COLDEFAULT_MESSAGE, options->bDefaultColorMsg);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_COLDEFAULT_URL,     options->bDefaultColorUrl);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_COLDEFAULT_FILE,    options->bDefaultColorFile);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_COLDEFAULT_OTHERS,  options->bDefaultColorOthers);
   DBWriteContactSettingDword(NULL, MODULE, OPT_COLBACK_MESSAGE, (DWORD)options->colBackMsg);
   DBWriteContactSettingDword(NULL, MODULE, OPT_COLTEXT_MESSAGE, (DWORD)options->colTextMsg);
   DBWriteContactSettingDword(NULL, MODULE, OPT_COLBACK_URL, (DWORD)options->colBackUrl);
@@ -90,21 +88,21 @@ int OptionsWrite(void)
   DBWriteContactSettingByte(NULL, MODULE, OPT_MASKACTL, (BYTE)options->maskActL);
   DBWriteContactSettingByte(NULL, MODULE, OPT_MASKACTR, (BYTE)options->maskActR);
   DBWriteContactSettingByte(NULL, MODULE, OPT_MASKACTTE, (BYTE)options->maskActTE);
-  NENWriteSettingBool(OPT_MSGWINDOWCHECK, options->bMsgWindowCheck);
-  NENWriteSettingBool(OPT_MSGREPLYWINDOW, options->bMsgReplyWindow);
-  NENWriteSettingBool(OPT_MERGEPOPUP,     options->bMergePopup);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_MSGWINDOWCHECK, options->bMsgWindowCheck);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_MSGREPLYWINDOW, options->bMsgReplyWindow);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_MERGEPOPUP,     options->bMergePopup);
   DBWriteContactSettingDword(NULL, MODULE, OPT_DELAY_MESSAGE, (DWORD)options->iDelayMsg);
   DBWriteContactSettingDword(NULL, MODULE, OPT_DELAY_URL, (DWORD)options->iDelayUrl);
   DBWriteContactSettingDword(NULL, MODULE, OPT_DELAY_FILE, (DWORD)options->iDelayFile);
   DBWriteContactSettingDword(NULL, MODULE, OPT_DELAY_OTHERS, (DWORD)options->iDelayOthers);
-  NENWriteSettingBool(OPT_SHOW_DATE,    options->bShowDate);
-  NENWriteSettingBool(OPT_SHOW_TIME,    options->bShowTime);
-  NENWriteSettingBool(OPT_SHOW_HEADERS, options->bShowHeaders);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_SHOW_DATE,    options->bShowDate);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_SHOW_TIME,    options->bShowTime);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_SHOW_HEADERS, options->bShowHeaders);
   DBWriteContactSettingByte(NULL, MODULE, OPT_NUMBER_MSG, (BYTE)options->iNumberMsg);
-  NENWriteSettingBool(OPT_SHOW_ON,    options->bShowON);
-  NENWriteSettingBool(OPT_HIDESEND,   options->bHideSend);
-  NENWriteSettingBool(OPT_NORSS,      options->bNoRSS);
-  NENWriteSettingBool(OPT_READCHECK,  options->bReadCheck);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_SHOW_ON,    options->bShowON);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_HIDESEND,   options->bHideSend);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_NORSS,      options->bNoRSS);
+  DBWriteContactSettingByte(NULL, MODULE, OPT_READCHECK,  options->bReadCheck);
   return 0;
 }
 
@@ -299,25 +297,18 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 int OptionsAdd(HINSTANCE hInst, WPARAM addInfo)
 {
 	OPTIONSDIALOGPAGE odp;
-	WCHAR wsTitle[MAX_PATH];
-	WCHAR wsGroup[MAX_PATH];
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+		odp.cbSize = sizeof(odp);
+		odp.hInstance = hInst;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
+		odp.ptszTitle = TranslateT(OPTIONS_TITLE);
+		odp.ptszGroup = TranslateT(OPTIONS_GROUP);
+		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+		odp.pfnDlgProc = OptionsDlgProc;
+		Options_AddPage( addInfo, &odp);
+	}
 
-//  if (ServiceExists(MS_POPUP_ADDPOPUP)) {
-//  do we need this dialog if popup.dll is not there???
-
-	odp.cbSize = sizeof(odp);
-//	odp.position = 100000000;
-	odp.hInstance = hInst;
-	odp.pszTemplate = (char *)MAKEINTRESOURCE(IDD_OPT);
-	odp.ptszTitle = NENTranslateT(OPTIONS_TITLE, wsTitle);
-	odp.ptszGroup = NENTranslateT(OPTIONS_GROUP, wsGroup);
-//	odp.groupPosition = 910000000;
-	odp.flags = ODPF_BOLDGROUPS;
-	if (g_UnicodeCore) odp.flags |= ODPF_UNICODE;
-	odp.pfnDlgProc = OptionsDlgProc;
-	Options_AddPage( addInfo, &odp);
-
-  return 0;
+	return 0;
 }
 
 int OptionsInit(PLUGIN_OPTIONS* pluginOptions)

@@ -23,8 +23,6 @@
 */
 
 #include "neweventnotify.h"
-#include <m_clist.h>
-
 
 CLISTMENUITEM menuitem;
 HANDLE hMenuitemNotify;
@@ -32,24 +30,23 @@ BOOL bNotify;
 
 static INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
 {
-  bNotify = !bNotify;
-  MenuitemUpdate(bNotify);
+	bNotify = !bNotify;
+	MenuitemUpdate(bNotify);
 
-  //write changes to options->bDisable and into database
-  Opt_DisableNEN(!bNotify);
-  return 0;
+	//write changes to options->bDisable and into database
+	Opt_DisableNEN(!bNotify);
+	return 0;
 }
 
 int MenuitemUpdate(BOOL bStatus)
 {
-	WCHAR tmp[MAX_PATH];
-
 	//menuitem.flags = CMIM_FLAGS | (bStatus ? CMIF_CHECKED : 0);
 	menuitem.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(bStatus ? IDI_ENABLED : IDI_DISABLED));
-	menuitem.ptszName = NENTranslateT(bStatus ? MENUITEM_DISABLE : MENUITEM_ENABLE, tmp);
-	menuitem.flags = CMIM_ICON | CMIM_NAME | CMIF_KEEPUNTRANSLATED;
-	if (g_UnicodeCore)
-		menuitem.flags |= CMIF_UNICODE;
+	if (bStatus)
+		menuitem.ptszName = TranslateT(MENUITEM_DISABLE);
+	else
+		menuitem.ptszName = TranslateT(MENUITEM_ENABLE);
+	menuitem.flags = CMIM_ICON | CMIM_NAME | CMIF_KEEPUNTRANSLATED | CMIF_TCHAR;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuitemNotify, (LPARAM)&menuitem);
 
 	return 0;
@@ -57,19 +54,15 @@ int MenuitemUpdate(BOOL bStatus)
 
 int MenuitemInit(BOOL bStatus)
 {
-	WCHAR tmp[MAX_PATH];
-
 	CreateServiceFunction(MS_NEN_MENUNOTIFY, MenuitemNotifyCmd);
 
 	ZeroMemory(&menuitem, sizeof(menuitem));
 	menuitem.cbSize = sizeof(CLISTMENUITEM);
 	menuitem.position = 1;
 	menuitem.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
-	menuitem.ptszPopupName = NENTranslateT("PopUps", tmp);
+	menuitem.ptszPopupName = TranslateT("PopUps");
 	menuitem.pszService = MS_NEN_MENUNOTIFY;
-	menuitem.flags = CMIF_KEEPUNTRANSLATED;
-	if (g_UnicodeCore)
-		menuitem.flags |= CMIF_UNICODE;
+	menuitem.flags = CMIF_KEEPUNTRANSLATED | CMIF_TCHAR;
 	hMenuitemNotify = Menu_AddContactMenuItem(&menuitem);
 
 	bNotify = bStatus;
