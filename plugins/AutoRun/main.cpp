@@ -14,7 +14,8 @@ PLUGININFOEX pluginInfoEx=
 	"",
 	"Copyright © 2002-2007 Sergey V. Gershovich a.k.a. Jazzy$",
 	"http://miranda-im.org/download/index.php?action=viewfile&id=285",
-	0, 0,
+	UNICODE_AWARE,
+	0,
 	MIID_AUTORUN
 };
 
@@ -116,8 +117,8 @@ static int AutorunOptInitialise(WPARAM wParam,LPARAM lParam)
 	odp.position = 100100000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTORUN);
-	odp.ptszTitle = _T(ModuleName);
-	odp.ptszGroup = LPGENT("Plugins");
+	odp.pszTitle = LPGEN(ModuleName);
+	odp.pszGroup = LPGEN("Plugins");
 	odp.pfnDlgProc = DlgProcAutorunOpts;
 	odp.flags = ODPF_BOLDGROUPS;	
 	Options_AddPage(wParam, &odp);
