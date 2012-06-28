@@ -85,7 +85,7 @@ void __cdecl forkthread_r(void * arg)
 	struct FORK_ARG * fa = (struct FORK_ARG *) arg;
 	void (*callercode)(void*)=fa->threadcode;
 	void * cookie=fa->arg;
-	CallService(MS_SYSTEM_THREAD_PUSH, 0, (LPARAM)callercode);
+	Thread_Push(( HINSTANCE)callercode);
 	SetEvent(fa->hEvent);
 	__try
 	{
@@ -96,7 +96,7 @@ void __cdecl forkthread_r(void * arg)
 	}
 
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
-	CallService(MS_SYSTEM_THREAD_POP, 0, 0);
+	Thread_Pop();
 	return;
 }
 
@@ -127,7 +127,7 @@ unsigned __stdcall forkthreadex_r(void * arg)
 	void *owner = fa->owner;
 	unsigned long rc = 0;
 
-	CallService(MS_SYSTEM_THREAD_PUSH, (WPARAM)fa->owner, (LPARAM)threadcode);
+	Thread_Push((HINSTANCE)threadcode, fa->owner);
 	SetEvent(fa->hEvent);
 	__try
 	{
@@ -141,7 +141,7 @@ unsigned __stdcall forkthreadex_r(void * arg)
 	}
 
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
-	CallService(MS_SYSTEM_THREAD_POP, 0, 0);
+	Thread_Pop();
 	return rc;
 }
 
@@ -278,6 +278,27 @@ MIR_CORE_DLL(void) Thread_Wait(void)
 typedef LONG (WINAPI *pNtQIT)(HANDLE, LONG, PVOID, ULONG, PULONG);
 #define ThreadQuerySetWin32StartAddress 9
 
+static void* GetCurrentThreadEntryPoint()
+{
+	LONG  ntStatus;
+	HANDLE hDupHandle, hCurrentProcess;
+	DWORD_PTR dwStartAddress;
+
+	pNtQIT NtQueryInformationThread = (pNtQIT)GetProcAddress(GetModuleHandle(_T("ntdll.dll")), "NtQueryInformationThread" );
+	if(NtQueryInformationThread == NULL) return 0;
+
+	hCurrentProcess = GetCurrentProcess();
+	if(!DuplicateHandle(hCurrentProcess, GetCurrentThread(), hCurrentProcess, &hDupHandle, THREAD_QUERY_INFORMATION, FALSE, 0)){
+		SetLastError(ERROR_ACCESS_DENIED);
+		return NULL;
+	}
+	ntStatus = NtQueryInformationThread(hDupHandle, ThreadQuerySetWin32StartAddress, &dwStartAddress, sizeof(DWORD_PTR), NULL);
+	CloseHandle(hDupHandle);
+
+	if(ntStatus != ERROR_SUCCESS) return 0;
+	return ( void* )dwStartAddress;
+}
+
 MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 {
 	ResetEvent(hThreadQueueEmpty); // thread list is not empty
@@ -287,7 +308,11 @@ MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 		DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &p->hThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
 		p->dwThreadId = GetCurrentThreadId();
 		p->pObject = pOwner;
-		p->hOwner = hInst;
+		if (pluginListAddr.getIndex(hInst) != -1)
+			p->hOwner = hInst;
+		else
+			p->hOwner = GetInstByAddress(( hInst != NULL ) ? (PVOID)hInst : GetCurrentThreadEntryPoint());
+			
 		threads.insert(p);
 
 		ReleaseMutex(hStackMutex);

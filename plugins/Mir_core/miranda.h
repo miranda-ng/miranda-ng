@@ -77,6 +77,8 @@ struct THook
 	CRITICAL_SECTION csHook;
 };
 
+extern LIST<HINSTANCE__> pluginListAddr;
+
 /**** langpack.cpp *********************************************************************/
 
 char*  LangPackTranslateString(struct LangPackMuuid* pUuid, const char *szEnglish, const int W);

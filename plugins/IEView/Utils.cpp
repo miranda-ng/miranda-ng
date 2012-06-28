@@ -339,10 +339,10 @@ static void __cdecl forkthread_r(struct FORK_ARG *fa)
 {
 	void (*callercode)(void*) = fa->threadcode;
 	void *arg = fa->arg;
-	CallService(MS_SYSTEM_THREAD_PUSH, 0, 0);
+	Thread_Push((HINSTANCE)callercode);
 	SetEvent(fa->hEvent);
 	callercode(arg);
-	CallService(MS_SYSTEM_THREAD_POP, 0, 0);
+	Thread_Pop();
 	return;
 }
 

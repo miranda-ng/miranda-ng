@@ -124,7 +124,7 @@ struct AVACHANGED {
 
 VOID CALLBACK CallSetAvatar(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
 {
-	CallService(MS_SYSTEM_THREAD_PUSH, 0, 0);
+	Thread_Push(0);
 	__try {
 		AVACHANGED *ach = (AVACHANGED*)lpParameter;
 		__try {
@@ -136,7 +136,7 @@ VOID CALLBACK CallSetAvatar(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
 		}
 	}
 	__finally {
-		CallService(MS_SYSTEM_THREAD_POP, 0, 0);
+		Thread_Pop();
 	}
 }
 

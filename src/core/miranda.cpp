@@ -101,27 +101,6 @@ static INT_PTR srvSetExceptionFilter(WPARAM, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// forkthread - starts a new thread
-
-static INT_PTR ForkThreadService(WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)forkthread((pThreadFunc)wParam, 0, (void*)lParam);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// forkthreadex - starts a new thread with the extended info and returns the thread id
-
-static INT_PTR ForkThreadServiceEx(WPARAM wParam, LPARAM lParam)
-{
-	FORK_THREADEX_PARAMS* params = (FORK_THREADEX_PARAMS*)lParam;
-	if (params == NULL)
-		return 0;
-
-	UINT threadID;
-	return forkthreadex(NULL, params->iStackSize, params->pFunc, (void*)wParam, params->arg, params->threadID ? params->threadID : &threadID);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 typedef LONG (WINAPI *pNtQIT)(HANDLE, LONG, PVOID, ULONG, PULONG);
 #define ThreadQuerySetWin32StartAddress 9
@@ -133,15 +112,15 @@ INT_PTR MirandaIsTerminated(WPARAM, LPARAM)
 
 static void __cdecl compactHeapsThread(void*)
 {
-	while ( !Miranda_Terminated())
-	{
+	while ( !Miranda_Terminated()) {
 		HANDLE hHeaps[256];
 		DWORD hc;
 		SleepEx((1000*60)*5, TRUE); // every 5 minutes
 		hc=GetProcessHeaps(255, (PHANDLE)&hHeaps);
 		if (hc != 0 && hc < 256) {
 			DWORD j;
-			for (j=0;j<hc;j++) HeapCompact(hHeaps[j], 0);
+			for (j=0; j < hc; j++)
+				HeapCompact(hHeaps[j], 0);
 		}
 	} //while
 }
@@ -185,8 +164,7 @@ static int SystemShutdownProc(WPARAM, LPARAM)
 #define MIRANDA_PROCESS_WAIT_STEPS          (MIRANDA_PROCESS_WAIT_TIMEOUT/MIRANDA_PROCESS_WAIT_RESOLUTION)
 static INT_PTR CALLBACK WaitForProcessDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
@@ -198,16 +176,14 @@ static INT_PTR CALLBACK WaitForProcessDlgProc(HWND hwnd, UINT msg, WPARAM wParam
 	case WM_TIMER:
 		if ( SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_STEPIT, 0, 0) == MIRANDA_PROCESS_WAIT_STEPS)
 			EndDialog(hwnd, 0);
-		if ( WaitForSingleObject((HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA), 1) != WAIT_TIMEOUT)
-		{
+		if ( WaitForSingleObject((HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA), 1) != WAIT_TIMEOUT) {
 			SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_SETPOS, MIRANDA_PROCESS_WAIT_STEPS, 0);
 			EndDialog(hwnd, 0);
 		}
 		break;
 
 	case WM_COMMAND:
-		if ( HIWORD(wParam) == IDCANCEL)
-		{
+		if ( HIWORD(wParam) == IDCANCEL) {
 			SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_SETPOS, MIRANDA_PROCESS_WAIT_STEPS, 0);
 			EndDialog(hwnd, 0);
 		}
@@ -466,18 +442,6 @@ static INT_PTR RemoveWait(WPARAM wParam, LPARAM)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR UnwindThreadPush(WPARAM wParam, LPARAM lParam)
-{	Thread_Push((HINSTANCE)lParam, (void*)wParam);
-	return 0;
-}
-
-static INT_PTR UnwindThreadPop(WPARAM, LPARAM)
-{	Thread_Pop();
-	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 int LoadSystemModule(void)
 {
 	hMirandaShutdown = CreateEvent(NULL, TRUE, FALSE, NULL);
@@ -488,10 +452,6 @@ int LoadSystemModule(void)
 	hModulesLoadedEvent = CreateHookableEvent(ME_SYSTEM_MODULESLOADED);
 	hOkToExitEvent = CreateHookableEvent(ME_SYSTEM_OKTOEXIT);
 
-	CreateServiceFunction(MS_SYSTEM_FORK_THREAD, ForkThreadService);
-	CreateServiceFunction(MS_SYSTEM_FORK_THREAD_EX, ForkThreadServiceEx);
-	CreateServiceFunction(MS_SYSTEM_THREAD_PUSH, UnwindThreadPush);
-	CreateServiceFunction(MS_SYSTEM_THREAD_POP, UnwindThreadPop);
 	CreateServiceFunction(MS_SYSTEM_TERMINATED, MirandaIsTerminated);
 	CreateServiceFunction(MS_SYSTEM_OKTOEXIT, OkToExit);
 	CreateServiceFunction(MS_SYSTEM_GETVERSION, GetMirandaVersion);

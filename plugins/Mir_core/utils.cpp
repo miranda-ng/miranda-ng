@@ -118,7 +118,7 @@ static int sttComparePlugins(const HINSTANCE__* p1, const HINSTANCE__* p2)
 	return (p1 < p2) ? -1 : 1;
 }
 
-static LIST<HINSTANCE__> pluginListAddr(10, sttComparePlugins);
+LIST<HINSTANCE__> pluginListAddr(10, sttComparePlugins);
 
 MIR_CORE_DLL(void) RegisterModule(HINSTANCE hInst)
 {
