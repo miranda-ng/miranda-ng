@@ -559,8 +559,8 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 				b->pszService = _strdup(lpTTB->pszService);
 			}
 
-			if (changed)
-				;// save button setting
+//			if (changed)
+//				;// save button setting
 
 			b->lParamUp = lpTTB->lParamUp;
 			b->wParamUp = lpTTB->wParamUp;
