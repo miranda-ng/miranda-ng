@@ -392,6 +392,9 @@ static void LoadSystemModule(void)
 
 static void UnloadSystemModule(void)
 {
+	DestroyWindow(hAPCWindow);
+	CloseHandle(hStackMutex);
+
 	DestroyModularEngine();
 	UnloadLangPackModule();
 }
