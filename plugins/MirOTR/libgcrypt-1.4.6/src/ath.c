@@ -224,7 +224,7 @@ ath_read (int fd, void *buf, size_t nbytes)
   if (ops_set && ops.read)
     return (*ops.read) (fd, buf, nbytes);
   else
-    return read (fd, buf, nbytes);
+    return _read (fd, buf, nbytes);
 }
 
 
@@ -234,7 +234,7 @@ ath_write (int fd, const void *buf, size_t nbytes)
   if (ops_set && ops.write)
     return (*ops.write) (fd, buf, nbytes);
   else
-    return write (fd, buf, nbytes);
+    return _write (fd, buf, nbytes);
 }
 
 

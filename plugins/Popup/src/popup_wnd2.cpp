@@ -1818,7 +1818,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(HWND hwnd, UINT message, WPARAM wParam, L
 
 void	WindowThread(void *arg)
 {
-	CallService(MS_SYSTEM_THREAD_PUSH, 0, 0);
+	Thread_Push(0);
 	OleInitialize(NULL); // we may need OLE in this thread for smiley substitution
 
 	PopupWnd2 *wnd = (PopupWnd2 *)arg;
@@ -1833,7 +1833,7 @@ void	WindowThread(void *arg)
 		DispatchMessage(&msg);
 	}
 
-	CallService(MS_SYSTEM_THREAD_POP, 0, 0);
+	Thread_Pop();
 	_endthread();
 }
 

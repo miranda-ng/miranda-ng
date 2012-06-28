@@ -315,7 +315,7 @@ static void __cdecl PopupThread(void *arg)
 	}
 
 	// Increment Miranda thread counter
-	CallService(MS_SYSTEM_THREAD_PUSH, 0, 0);
+	Thread_Push(0);
 
 	// Create manager window
 	DWORD err;
@@ -353,7 +353,7 @@ static void __cdecl PopupThread(void *arg)
 	ReleaseMutex(hThreadMutex);
 
 	// Decrement Miranda thread counter
-	CallService(MS_SYSTEM_THREAD_POP, 0, 0);
+	Thread_Pop();
 
 	// Ok, now we can kill this thread
 	_endthread();

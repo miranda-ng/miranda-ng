@@ -299,8 +299,9 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	return FALSE;
 }
 
-static unsigned int CALLBACK regen_key_thread(void* param) {
-	CallService(MS_SYSTEM_THREAD_PUSH, 0, 0);
+static unsigned int CALLBACK regen_key_thread(void* param)
+{
+	Thread_Push(0);
 	PROTOREGENKEYOPTIONS *opts = (PROTOREGENKEYOPTIONS *)param;
 	TCHAR *buff = (TCHAR*) mir_alloc(512*sizeof(TCHAR));
 	mir_sntprintf(buff, 512, TranslateT(LANG_OTR_ASK_NEWKEY), opts->proto);
@@ -326,7 +327,7 @@ static unsigned int CALLBACK regen_key_thread(void* param) {
 	}
 	EnableWindow(opts->refresh, TRUE);
 	delete opts;
-	CallService(MS_SYSTEM_THREAD_POP, 0, 0);
+	Thread_Pop();
 	return 0;
 }
 

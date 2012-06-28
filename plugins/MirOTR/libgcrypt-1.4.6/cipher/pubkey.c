@@ -231,10 +231,10 @@ gcry_pk_lookup_func_name (void *spec, void *data)
   gcry_pk_spec_t *pubkey = (gcry_pk_spec_t *) spec;
   char *name = (char *) data;
   const char **aliases = pubkey->aliases;
-  int ret = stricmp (name, pubkey->name);
+  int ret = _stricmp (name, pubkey->name);
 
   while (ret && *aliases)
-    ret = stricmp (name, *aliases++);
+    ret = _stricmp (name, *aliases++);
 
   return ! ret;
 }
@@ -2712,7 +2712,7 @@ _gcry_pk_get_elements (int algo, char **enc, char **sig)
 
   if (enc)
     {
-      enc_cp = strdup (spec->elements_enc);
+      enc_cp = _strdup (spec->elements_enc);
       if (! enc_cp)
 	{
 	  err = gpg_err_code_from_errno (errno);
@@ -2722,7 +2722,7 @@ _gcry_pk_get_elements (int algo, char **enc, char **sig)
   
   if (sig)
     {
-      sig_cp = strdup (spec->elements_sig);
+      sig_cp = _strdup (spec->elements_sig);
       if (! sig_cp)
 	{
 	  err = gpg_err_code_from_errno (errno);

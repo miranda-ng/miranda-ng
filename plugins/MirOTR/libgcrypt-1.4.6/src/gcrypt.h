@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <tchar.h>
 
 #include <gpg-error.h>
 

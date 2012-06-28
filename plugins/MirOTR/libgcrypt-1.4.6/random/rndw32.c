@@ -258,16 +258,16 @@ init_system_rng (void)
   system_rng_available = 0;
   hRNGProv = NULL;
 
-  hAdvAPI32 = GetModuleHandle ("AdvAPI32.dll");
+  hAdvAPI32 = GetModuleHandleA("AdvAPI32.dll");
   if (!hAdvAPI32)
     return;
 
   pCryptAcquireContext = (CRYPTACQUIRECONTEXT)
-    GetProcAddress (hAdvAPI32, "CryptAcquireContextA");
+    GetProcAddress(hAdvAPI32, "CryptAcquireContextA");
   pCryptGenRandom = (CRYPTGENRANDOM)
-    GetProcAddress (hAdvAPI32, "CryptGenRandom");
+    GetProcAddress(hAdvAPI32, "CryptGenRandom");
   pCryptReleaseContext = (CRYPTRELEASECONTEXT)
-    GetProcAddress (hAdvAPI32, "CryptReleaseContext");
+    GetProcAddress(hAdvAPI32, "CryptReleaseContext");
   
   /* Get a pointer to the native randomness function if it's available.  
      This isn't exported by name, so we have to get it by ordinal.  */
@@ -336,7 +336,7 @@ read_mbm_data (void (*add)(const void*, size_t, enum random_origins),
   HANDLE hMBMData;
   SharedData *mbmDataPtr;
 
-  hMBMData = OpenFileMapping (FILE_MAP_READ, FALSE, "$M$B$M$5$S$D$" );
+  hMBMData = OpenFileMapping (FILE_MAP_READ, FALSE, _T("$M$B$M$5$S$D$"));
   if (hMBMData)
     {
       mbmDataPtr = (SharedData*)MapViewOfFile (hMBMData, FILE_MAP_READ,0,0,0);
@@ -425,7 +425,7 @@ registry_poll (void (*add)(const void*, size_t, enum random_origins),
       if ( debug_me )
         log_debug ("rndw32#slow_gatherer_nt: get perf data\n" );
 
-      status = RegQueryValueEx (HKEY_PERFORMANCE_DATA, "Global", NULL,
+      status = RegQueryValueEx (HKEY_PERFORMANCE_DATA, _T("Global"), NULL,
                                 NULL, (LPBYTE) pPerfData, &dwSize);
       if (status == ERROR_SUCCESS)
         {
@@ -488,7 +488,7 @@ slow_gatherer ( void (*add)(const void*, size_t, enum random_origins),
         log_debug ("rndw32#slow_gatherer: init toolkit\n" );
       /* Find out whether this is an NT server or workstation if necessary */
       if (RegOpenKeyEx (HKEY_LOCAL_MACHINE,
-                        "SYSTEM\\CurrentControlSet\\Control\\ProductOptions",
+                        _T("SYSTEM\\CurrentControlSet\\Control\\ProductOptions"),
                         0, KEY_READ, &hKey) == ERROR_SUCCESS)
         {
           BYTE szValue[32 + 8];
@@ -497,9 +497,9 @@ slow_gatherer ( void (*add)(const void*, size_t, enum random_origins),
           if ( debug_me )
             log_debug ("rndw32#slow_gatherer: check product options\n" );
 
-          status = RegQueryValueEx (hKey, "ProductType", 0, NULL,
+          status = RegQueryValueEx (hKey, _T("ProductType"), 0, NULL,
                                     szValue, &dwSize);
-          if (status == ERROR_SUCCESS && stricmp (szValue, "WinNT"))
+          if (status == ERROR_SUCCESS && _stricmp (szValue, "WinNT"))
             {
               /* Note: There are (at least) three cases for ProductType:
                  WinNT = NT Workstation, ServerNT = NT Server, LanmanNT =
@@ -516,7 +516,7 @@ slow_gatherer ( void (*add)(const void*, size_t, enum random_origins),
       /* readPnPData ();  - we have not implemented that.  */
 
       /* Initialize the NetAPI32 function pointers if necessary */
-      hNetAPI32 = LoadLibrary ("NETAPI32.DLL");
+      hNetAPI32 = LoadLibraryA("NETAPI32.DLL");
       if (hNetAPI32)
         {
           if (debug_me)
@@ -537,7 +537,7 @@ slow_gatherer ( void (*add)(const void*, size_t, enum random_origins),
         }
 
       /* Initialize the NT kernel native API function pointers if necessary */
-      hNTAPI = GetModuleHandle ("NTDll.dll");
+      hNTAPI = GetModuleHandleA("NTDll.dll");
       if (hNTAPI)
         {
           /* Get a pointer to the NT native information query functions */
@@ -590,7 +590,7 @@ slow_gatherer ( void (*add)(const void*, size_t, enum random_origins),
       /* Check whether we can access this device.  */
       snprintf (szDevice, sizeof szDevice, "\\\\.\\PhysicalDrive%d",
                 drive_no);
-      hDevice = CreateFile (szDevice, 0, FILE_SHARE_READ | FILE_SHARE_WRITE,
+      hDevice = CreateFileA(szDevice, 0, FILE_SHARE_READ | FILE_SHARE_WRITE,
                             NULL, OPEN_EXISTING, 0, NULL);
       if (hDevice == INVALID_HANDLE_VALUE)
         break; /* No more drives.  */

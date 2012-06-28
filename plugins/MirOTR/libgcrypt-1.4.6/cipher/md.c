@@ -207,7 +207,7 @@ gcry_md_lookup_func_name (void *spec, void *data)
   gcry_md_spec_t *digest = (gcry_md_spec_t *) spec;
   char *name = (char *) data;
 
-  return (! stricmp (digest->name, name));
+  return (!_stricmp (digest->name, name));
 }
 
 /* Internal callback function.  Used via _gcry_module_lookup.  */
@@ -222,7 +222,7 @@ gcry_md_lookup_func_oid (void *spec, void *data)
   if (oid_specs)
     {
       for (i = 0; oid_specs[i].oidstring && (! ret); i++)
-        if (! stricmp (oid, oid_specs[i].oidstring))
+        if (!_stricmp (oid, oid_specs[i].oidstring))
           ret = 1;
     }
 
@@ -313,7 +313,7 @@ search_oid (const char *oid, int *algorithm, gcry_md_oid_spec_t *oid_spec)
       int i;
 
       for (i = 0; digest->oids[i].oidstring && !ret; i++)
-	if (! stricmp (oid, digest->oids[i].oidstring))
+	if (!_stricmp (oid, digest->oids[i].oidstring))
 	  {
 	    if (algorithm)
 	      *algorithm = module->mod_id;

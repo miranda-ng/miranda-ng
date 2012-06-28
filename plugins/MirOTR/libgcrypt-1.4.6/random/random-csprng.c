@@ -743,9 +743,9 @@ read_seed_file (void)
 	return 0;
   
 #ifdef HAVE_DOSISH_SYSTEM
-  fd = open( seed_file_name, O_RDONLY | O_BINARY );
+  fd = _open( seed_file_name, O_RDONLY | O_BINARY );
 #else
-  fd = open( seed_file_name, O_RDONLY );
+  fd = _open( seed_file_name, O_RDONLY );
 #endif
   if( fd == -1 && errno == ENOENT)
 	{
@@ -760,49 +760,49 @@ read_seed_file (void)
 	}
   if (lock_seed_file (fd, seed_file_name, 0))
 	{
-	  close (fd);
+	  _close (fd);
 	  return 0;
 	}
   if (fstat( fd, &sb ) )
 	{
 	  log_info(_("can't stat `%s': %s\n"), seed_file_name, strerror(errno) );
-	  close(fd);
+	  _close(fd);
 	  return 0;
 	}
   if (!S_ISREG(sb.st_mode) )
 	{
 	  log_info(_("`%s' is not a regular file - ignored\n"), seed_file_name );
-	  close(fd);
+	  _close(fd);
 	  return 0;
 	}
   if (!sb.st_size )
 	{
 	  log_info(_("note: random_seed file is empty\n") );
-	  close(fd);
+	  _close(fd);
 	  allow_seed_file_update = 1;
 	  return 0;
 	}
   if (sb.st_size != POOLSIZE ) 
 	{
 	  log_info(_("warning: invalid size of random_seed file - not used\n") );
-	  close(fd);
+	  _close(fd);
 	  return 0;
 	}
 
   do
 	{
-	  n = read( fd, buffer, POOLSIZE );
+	  n = _read( fd, buffer, POOLSIZE );
 	} 
   while (n == -1 && errno == EINTR );
 
   if (n != POOLSIZE)
 	{
 	  log_fatal(_("can't read `%s': %s\n"), seed_file_name,strerror(errno) );
-	  close(fd);/*NOTREACHED*/
+	  _close(fd);/*NOTREACHED*/
 	  return 0;
 	}
   
-  close(fd);
+  _close(fd);
 
   add_randomness( buffer, POOLSIZE, RANDOM_ORIGIN_INIT );
   /* add some minor entropy to the pool now (this will also force a mixing) */
@@ -870,13 +870,13 @@ _gcry_rngcsprng_update_seed_file (void)
   mix_pool(keypool); rndstats.mixkey++;
 
 #if defined(HAVE_DOSISH_SYSTEM) || defined(__CYGWIN__)
-  fd = open (seed_file_name, O_WRONLY|O_CREAT|O_TRUNC|O_BINARY,
+  fd = _open (seed_file_name, O_WRONLY|O_CREAT|O_TRUNC|O_BINARY,
 			 S_IRUSR|S_IWUSR );
 #else
 # if LOCK_SEED_FILE
-	fd = open (seed_file_name, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR );
+	fd = _open (seed_file_name, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR );
 # else
-	fd = open (seed_file_name, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR );
+	fd = _open (seed_file_name, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR );
 # endif
 #endif
 
@@ -884,7 +884,7 @@ _gcry_rngcsprng_update_seed_file (void)
 	log_info (_("can't create `%s': %s\n"), seed_file_name, strerror(errno) );
   else if (lock_seed_file (fd, seed_file_name, 1))
 	{
-	  close (fd);
+	  _close (fd);
 	}
 #if LOCK_SEED_FILE
   else if (ftruncate (fd, 0))
@@ -897,12 +897,12 @@ _gcry_rngcsprng_update_seed_file (void)
 	{
 	  do
 		{
-		  i = write (fd, keypool, POOLSIZE );
+		  i = _write (fd, keypool, POOLSIZE );
 		} 
 	  while (i == -1 && errno == EINTR);
 	  if (i != POOLSIZE) 
 		log_info (_("can't write `%s': %s\n"),seed_file_name, strerror(errno));
-	  if (close(fd))
+	  if (_close(fd))
 		log_info (_("can't close `%s': %s\n"),seed_file_name, strerror(errno));
 	}
   

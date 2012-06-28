@@ -633,8 +633,6 @@ static DWORD __stdcall waitThread(logthread_info* infoParam)
 
 int UpdateValues(WPARAM wparam,LPARAM lparam)
 {
-	FORK_THREADEX_PARAMS params;
-	DWORD dwThreadId;
 	DBCONTACTWRITESETTING *cws;
 	BOOL isIdleEvent;
 	// to make this code faster
@@ -715,16 +713,9 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 			if (!(index = isContactQueueActive((HANDLE)wparam))) {
 				index = addContactToQueue((HANDLE)wparam);
 				strncpy(contactQueue[index]->sProtoName,cws->szModule,MAXMODULELABELLENGTH);
-				//forkthreadex(NULL, 0, waitThread, contactQueue[index], 0, 0);
-				params.pFunc      = (pThreadFuncEx)waitThread;
-			    params.arg        = contactQueue[index];
-			    params.iStackSize = 0;
-  			    params.threadID   = (unsigned int *)&dwThreadId;
-				CallService(MS_SYSTEM_FORK_THREAD_EX, 0, (LPARAM)&params);
-  
-
-//			} else {
-//				MessageBox(0,"Already in contact queue",cws->szModule,0);
+	
+				unsigned int dwThreadId;
+				forkthreadex(NULL, 0, (pThreadFuncEx)waitThread, contactQueue[index], 0, &dwThreadId);
 			}
 			contactQueue[index]->courStatus = isIdleEvent ? DBGetContactSettingWord((HANDLE)wparam, cws->szModule, "Status", ID_STATUS_OFFLINE) : cws->value.wVal;
 	}	}	
@@ -785,8 +776,6 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 {
 	ACKDATA *ack;
 	WORD isetting=0;
-	FORK_THREADEX_PARAMS params;
-    DWORD dwThreadId;
 
 	ack=(ACKDATA *)lparam;
 
@@ -812,13 +801,9 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 			strncpy(info->sProtoName,courProtoName,MAXMODULELABELLENGTH);
 			info->hContact = 0;
 			info->courStatus = 0;
-			//forkthreadex(NULL, 0, cleanThread, info, 0, 0);
-			params.pFunc      = (pThreadFuncEx)cleanThread;
-			params.arg        = info;
-			params.iStackSize = 0;
-			params.threadID   = (unsigned int *)&dwThreadId;
-			CallService(MS_SYSTEM_FORK_THREAD_EX, 0, (LPARAM)&params);
 
+			unsigned int dwThreadId;
+			forkthreadex(NULL, 0, (pThreadFuncEx)cleanThread, info, 0, &dwThreadId);
 		}
 	} else if ((isetting==ID_STATUS_OFFLINE)&&((WORD)ack->hProcess>ID_STATUS_OFFLINE)) {
 		//we have just loged-off

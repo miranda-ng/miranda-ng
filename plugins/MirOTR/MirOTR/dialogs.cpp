@@ -719,8 +719,9 @@ INT_PTR CALLBACK DlgProcVerifyContext(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-unsigned int CALLBACK verify_context_thread(void *param) {
-	CallService(MS_SYSTEM_THREAD_PUSH, 0, 0);
+unsigned int CALLBACK verify_context_thread(void *param)
+{
+	Thread_Push( 0 );
 
 	if (param) {
 		ConnContext *context = (ConnContext *)param;
@@ -750,6 +751,6 @@ unsigned int CALLBACK verify_context_thread(void *param) {
 		}
 	}
 
-	CallService(MS_SYSTEM_THREAD_POP, 0, 0);
+	Thread_Pop();
 	return 0; 
 }

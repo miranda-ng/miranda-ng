@@ -128,7 +128,7 @@ _gcry_initialize_fips_mode (int force)
      file.  The filename is hardwired so that there won't be any
      confusion on whether /etc/gcrypt/ or /usr/local/etc/gcrypt/ is
      actually used.  The file itself may be empty.  */
-  if ( !access (FIPS_FORCE_FILE, F_OK) )
+  if ( !_access (FIPS_FORCE_FILE, F_OK) )
     {
       gcry_assert (!no_fips_mode_required);
       goto leave;
@@ -156,7 +156,7 @@ _gcry_initialize_fips_mode (int force)
       }
     else if ((saved_errno = errno) != ENOENT
              && saved_errno != EACCES
-             && !access ("/proc/version", F_OK) )
+             && !_access ("/proc/version", F_OK) )
       {
         /* Problem reading the fips file despite that we have the proc
            file system.  We better stop right away. */
