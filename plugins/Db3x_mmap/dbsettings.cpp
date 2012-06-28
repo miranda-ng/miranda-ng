@@ -975,6 +975,13 @@ static int stringCompare2( char* p1, char* p2 )
 	return strcmp( p1, p2);
 }
 
+static int OnPreShutdown(WPARAM, LPARAM)
+{
+	DestroyHookableEvent(hSettingChangeEvent);
+	hSettingChangeEvent = 0;
+	return 0;
+}
+
 int InitSettings(void)
 {
 	CreateServiceFunction(MS_DB_CONTACT_GETSETTING,GetContactSetting);
@@ -987,7 +994,8 @@ int InitSettings(void)
 	CreateServiceFunction(MS_DB_SETSETTINGRESIDENT,SetSettingResident);
 	CreateServiceFunction("DB/ResidentSettings/Enum",EnumResidentSettings);
 
-	hSettingChangeEvent=CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
+	hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
 	hCacheHeap = HeapCreate(0, 0, 0);
 	lSettings.sortFunc = (FSortFunc)stringCompare;

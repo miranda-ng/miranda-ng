@@ -26,44 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 DWORD GetModuleNameOfs(const char *szName);
 char *GetModuleNameByOfs(DWORD ofs);
 
-static INT_PTR GetEventCount(WPARAM wParam,LPARAM lParam);
-static INT_PTR AddEvent(WPARAM wParam,LPARAM lParam);
-static INT_PTR DeleteEvent(WPARAM wParam,LPARAM lParam);
-static INT_PTR GetBlobSize(WPARAM wParam,LPARAM lParam);
-static INT_PTR GetEvent(WPARAM wParam,LPARAM lParam);
-static INT_PTR MarkEventRead(WPARAM wParam,LPARAM lParam);
-static INT_PTR GetEventContact(WPARAM wParam,LPARAM lParam);
-static INT_PTR FindFirstEvent(WPARAM wParam,LPARAM lParam);
-static INT_PTR FindFirstUnreadEvent(WPARAM wParam,LPARAM lParam);
-static INT_PTR FindLastEvent(WPARAM wParam,LPARAM lParam);
-static INT_PTR FindNextEvent(WPARAM wParam,LPARAM lParam);
-static INT_PTR FindPrevEvent(WPARAM wParam,LPARAM lParam);
-
 static HANDLE hEventDeletedEvent,hEventAddedEvent,hEventFilterAddedEvent;
-
-int InitEvents(void)
-{
-	CreateServiceFunction(MS_DB_EVENT_GETCOUNT,GetEventCount);
-	CreateServiceFunction(MS_DB_EVENT_ADD,AddEvent);
-	CreateServiceFunction(MS_DB_EVENT_DELETE,DeleteEvent);
-	CreateServiceFunction(MS_DB_EVENT_GETBLOBSIZE,GetBlobSize);
-	CreateServiceFunction(MS_DB_EVENT_GET,GetEvent);
-	CreateServiceFunction(MS_DB_EVENT_MARKREAD,MarkEventRead);
-	CreateServiceFunction(MS_DB_EVENT_GETCONTACT,GetEventContact);
-	CreateServiceFunction(MS_DB_EVENT_FINDFIRST,FindFirstEvent);
-	CreateServiceFunction(MS_DB_EVENT_FINDFIRSTUNREAD,FindFirstUnreadEvent);
-	CreateServiceFunction(MS_DB_EVENT_FINDLAST,FindLastEvent);
-	CreateServiceFunction(MS_DB_EVENT_FINDNEXT,FindNextEvent);
-	CreateServiceFunction(MS_DB_EVENT_FINDPREV,FindPrevEvent);
-	hEventDeletedEvent=CreateHookableEvent(ME_DB_EVENT_DELETED);
-	hEventAddedEvent=CreateHookableEvent(ME_DB_EVENT_ADDED);
-	hEventFilterAddedEvent=CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
-	return 0;
-}
-
-void UninitEvents(void)
-{
-}
 
 static INT_PTR GetEventCount(WPARAM wParam,LPARAM lParam)
 {
@@ -432,4 +395,31 @@ static INT_PTR FindPrevEvent(WPARAM wParam,LPARAM lParam)
 	else ret=(INT_PTR)dbe->ofsPrev;
 	LeaveCriticalSection(&csDbAccess);
 	return ret;
+}
+
+int InitEvents(void)
+{
+	CreateServiceFunction(MS_DB_EVENT_GETCOUNT,GetEventCount);
+	CreateServiceFunction(MS_DB_EVENT_ADD,AddEvent);
+	CreateServiceFunction(MS_DB_EVENT_DELETE,DeleteEvent);
+	CreateServiceFunction(MS_DB_EVENT_GETBLOBSIZE,GetBlobSize);
+	CreateServiceFunction(MS_DB_EVENT_GET,GetEvent);
+	CreateServiceFunction(MS_DB_EVENT_MARKREAD,MarkEventRead);
+	CreateServiceFunction(MS_DB_EVENT_GETCONTACT,GetEventContact);
+	CreateServiceFunction(MS_DB_EVENT_FINDFIRST,FindFirstEvent);
+	CreateServiceFunction(MS_DB_EVENT_FINDFIRSTUNREAD,FindFirstUnreadEvent);
+	CreateServiceFunction(MS_DB_EVENT_FINDLAST,FindLastEvent);
+	CreateServiceFunction(MS_DB_EVENT_FINDNEXT,FindNextEvent);
+	CreateServiceFunction(MS_DB_EVENT_FINDPREV,FindPrevEvent);
+	hEventDeletedEvent=CreateHookableEvent(ME_DB_EVENT_DELETED);
+	hEventAddedEvent=CreateHookableEvent(ME_DB_EVENT_ADDED);
+	hEventFilterAddedEvent=CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
+	return 0;
+}
+
+void UninitEvents(void)
+{
+	DestroyHookableEvent(hEventAddedEvent); hEventAddedEvent = 0;
+	DestroyHookableEvent(hEventDeletedEvent); hEventDeletedEvent = 0;
+	DestroyHookableEvent(hEventFilterAddedEvent); hEventFilterAddedEvent = 0;
 }

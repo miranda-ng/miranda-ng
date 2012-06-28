@@ -139,6 +139,7 @@ Affect: Tell the database to create all services/hooks that a 3.xx legecy databa
 	which is a PLUGINLINK structure
 Returns: 0 on success, nonzero on failure
 */
+
 static int Load(char* profile)
 {
 	if (gDataBase) delete gDataBase;
