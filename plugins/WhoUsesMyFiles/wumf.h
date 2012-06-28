@@ -15,6 +15,7 @@
 #include "m_utils.h"
 #include "m_skin.h"
 #include "m_popup.h"
+
 #include "m_toptoolbar.h"
 
 #include "resource.h"
@@ -124,7 +125,6 @@ void process_file(SESSION_INFO_1 s_info, FILE_INFO_3 f_info);
 void printError(DWORD res);
 
 #define msg(X) MessageBox(NULL, X, "WUMF", MB_OK|MB_ICONSTOP)
-#define __EXP __declspec(dllexport) 
 #define MS_WUMF_SWITCHPOPUP 	"WUMF/SwitchPopup"
 #define MS_WUMF_CONNECTIONSSHOW "WUMF/ShowConnections"
 
@@ -164,4 +164,3 @@ typedef struct {
 } UTILRESIZEDIALOG;
 
 #endif
-

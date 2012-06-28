@@ -33,7 +33,7 @@ void AddToList(HWND hList, PWumf w)
 	lvi.iItem=ListView_GetItemCount(hList)+1;
 	lvi.mask= LVIF_PARAM|LVIF_TEXT;
 	lvi.pszText = w->szID;
-	lvi.cchTextMax = strlen(w->szID);
+	lvi.cchTextMax = (int)_tcslen(w->szID);
 	lvi.lParam = (LPARAM)w;
 	ListView_InsertItem(hList,&lvi);
 }
@@ -196,8 +196,8 @@ void LogWumf(PWumf w)
 	GetDateFormat(LOCALE_USER_DEFAULT,DATE_SHORTDATE, &time,NULL, lpDateStr, 20);
 	GetTimeFormat(LOCALE_USER_DEFAULT,TIME_FORCE24HOURFORMAT|TIME_NOTIMEMARKER, &time,NULL, lpTimeStr, 20);
 	wsprintf(str ,"%s %s %20s\t%s\r\n\0",lpDateStr, lpTimeStr, w->szUser, w->szPath);
-	SetFilePointer (hLog, 0, NULL, FILE_END) ; ;
-	WriteFile(hLog, str ,strlen(str),&bytes,NULL);
+	SetFilePointer (hLog, 0, NULL, FILE_END);
+	WriteFile(hLog, str, (DWORD)_tcslen(str), &bytes, NULL);
 }
 
 /*

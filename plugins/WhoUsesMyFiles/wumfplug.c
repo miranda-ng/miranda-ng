@@ -1,7 +1,6 @@
 #include "wumf.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
 WUMF_OPTIONS WumfOptions = { 0 };
 const char ModuleName[] = "WUMF Plugin";
 HANDLE hMenuItem = 0;
@@ -9,9 +8,10 @@ extern HANDLE hLog;
 static HWND hDlg;
 static int hWumfBut;
 extern PWumf list;
+int hLangpack;
 
-static PLUGININFO pluginInfo = {
-	sizeof(PLUGININFO), 
+static PLUGININFOEX pluginInfo = {
+	sizeof(PLUGININFOEX), 
 	"WUMF: Who Use My Files?", 
 	PLUGIN_MAKE_VERSION(0,1,0,1),
 	"Scans for network users of your shared files and notify you with popups. Uses PopUps Interoperability by Luca Santarelli. PopUps plugin must be activated!",
@@ -19,8 +19,10 @@ static PLUGININFO pluginInfo = {
 	"nike000@users.sf.net",
 	"© 2003 Nike. Freeware. Please mail me all bugs & your suggestions.",	
 	"http://miranda-im.org",
+	UNICODE_AWARE,
 	0,
-	0
+	// {80DCA515-973A-4A7E-8B85-5D8EC88FC5A7}
+	{ 0x80dca515, 0x973a, 0x4a7e, { 0x8b, 0x85, 0x5d, 0x8e, 0xc8, 0x8f, 0xc5, 0xa7 } }
 };
 
 void LoadOptions()
@@ -257,7 +259,7 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
 }
 
 
-static int WumfShowConnections(WPARAM wParam,LPARAM lParam)
+static INT_PTR WumfShowConnections(WPARAM wParam,LPARAM lParam)
 {
 	DWORD threadID = 0;
 	CloseHandle(CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadProc, (LPVOID)NULL,0,&threadID));
@@ -266,7 +268,7 @@ static int WumfShowConnections(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int WumfMenuCommand(WPARAM wParam,LPARAM lParam)
+static INT_PTR WumfMenuCommand(WPARAM wParam,LPARAM lParam)
 {
 	BOOL MajorTo0121 = FALSE;
 	int iResult = 0;
@@ -291,7 +293,7 @@ static int WumfMenuCommand(WPARAM wParam,LPARAM lParam)
 	return iResult;
 }
 
-__EXP  PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
+__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
@@ -352,7 +354,7 @@ void ChooseFile(HWND hDlg)
 
 };
 
-BOOL CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lparam)
+INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lparam)
 {
 	WORD wControlId = LOWORD(wparam);
 	WORD wNotifyCode = HIWORD(wparam);
@@ -546,20 +548,21 @@ BOOL CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lparam)
 	}
 	return 0;
 }
+
 int InitTopToolbar(WPARAM wparam,LPARAM lparam)
 {
     TTBButton ttb = { 0 };
     char buttonname[] = "WUMF: Show connections list";
     ttb.cbSize = sizeof(ttb);
-	ttb.hbBitmapUp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_DRIVE));
-	ttb.hbBitmapDown = ttb.hbBitmapUp;
-	ttb.pszServiceUp = MS_WUMF_CONNECTIONSSHOW;
-	ttb.pszServiceDown = MS_WUMF_CONNECTIONSSHOW;;
-	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP|TTBBF_DRAWBORDER;
+	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDB_DRIVE));
+	ttb.hIconDn = ttb.hIconUp;
+	ttb.pszService = MS_WUMF_CONNECTIONSSHOW;
+	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
 	ttb.name = buttonname;
 	hWumfBut = CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttb,(LPARAM)0);
 	return 0;
 }
+
 int OptionsInit(WPARAM wparam,LPARAM lparam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
@@ -573,22 +576,22 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
     odp.pfnDlgProc=OptionsDlgProc;
 	odp.pszGroup=Translate("Plugins");
 	odp.flags=ODPF_BOLDGROUPS;
-    CallService(MS_OPT_ADDPAGE,wparam,(LPARAM)&odp);
+    Options_AddPage(wparam, &odp);
 	return 0;
 }
 
-int __EXP  Load(PLUGINLINK *link)
+__declspec(dllexport) int Load(void)
 {
     CLISTMENUITEM mi = { 0 };
 
-	pluginLink=link;
+	mir_getLP(&pluginInfo);
 
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	LoadOptions();
 
-	CreateServiceFunction(MS_WUMF_SWITCHPOPUP,WumfMenuCommand);
-	CreateServiceFunction(MS_WUMF_CONNECTIONSSHOW,WumfShowConnections);
+	CreateServiceFunction(MS_WUMF_SWITCHPOPUP, WumfMenuCommand);
+	CreateServiceFunction(MS_WUMF_CONNECTIONSSHOW, WumfShowConnections);
 	if (WumfOptions.PopupsEnabled == FALSE) 
 	{ 
 		mi.pszName = Translate("Enable WUMF popups");
@@ -602,14 +605,14 @@ int __EXP  Load(PLUGINLINK *link)
 	mi.pszService = MS_WUMF_SWITCHPOPUP;
 	mi.popupPosition = 1999990000;
 	mi.pszPopupName = Translate("PopUps");
-	hMenuItem = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, (WPARAM)0, (LPARAM)&mi);
+	hMenuItem = (HANDLE)Menu_AddMainMenuItem(&mi);
 
 	mi.pszName = Translate("WUMF: Show connections");
 	mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE));
 	mi.pszService = MS_WUMF_CONNECTIONSSHOW;
 	mi.popupPosition = 1999990000;
 	mi.pszPopupName = NULL;
-	CallService(MS_CLIST_ADDMAINMENUITEM, (WPARAM)0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	HookEvent(ME_OPT_INITIALISE,OptionsInit);
 	HookEvent(ME_TTB_MODULELOADED, InitTopToolbar);
@@ -620,7 +623,7 @@ int __EXP  Load(PLUGINLINK *link)
 
 }
 
-int __EXP  Unload(void)
+__declspec(dllexport) int Unload(void)
 {
     KillTimer(NULL, 777);
     CloseHandle(hLog);
