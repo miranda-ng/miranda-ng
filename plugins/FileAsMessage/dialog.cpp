@@ -1,8 +1,4 @@
 #include"main.h"
-#include"dialog.h"
-#include"resource.h"
-
-#include"crc32.cpp"
 
 char *szFEMode[] =
 {
@@ -321,7 +317,7 @@ void FILEECHO::setState(DWORD state)
 	iState = state;
 	int indx;
 
-	for(indx = 0; indx < ARRAY_SIZE(controlEnabled); indx++)
+	for(indx = 0; indx < SIZEOF(controlEnabled); indx++)
 	{
 		EnableWindow(GetDlgItem(hDlg, controlEnabled[indx][0]), (iState & controlEnabled[indx][1]) != 0);
 	}
@@ -430,7 +426,7 @@ int FILEECHO::createTransfer()
 		{
 			uint freq_table[256];
 			uchar *data;
-			uint len, chunk_offset, chunk_size, out_size;
+			uint len, chunk_offset, chunk_size, out_size, indx;
 			int chunk_count_limit;
 
 			codeSymb = 1;
@@ -476,6 +472,7 @@ int FILEECHO::createTransfer()
 		{
 			int EncodedMaxLen = Base64_GetEncodedBufferSize(Base64_GetDecodedBufferSize(chunkMaxLen));
 			int DecodedMaxLen = Base64_GetDecodedBufferSize(EncodedMaxLen);
+			int indx = 0;
 
 			codeSymb = '-';
 			chunkCount = (fileSize + DecodedMaxLen - 1) / DecodedMaxLen;
@@ -812,7 +809,7 @@ void FILEECHO::cmdDATA(char *param)
 		uchar *temp_buffer;
 
 		nlb.pszEncoded = param;
-		nlb.cchEncoded = strlen(param);
+		nlb.cchEncoded = (int)_tcslen(param);
 		temp_buffer = (uchar*)malloc(nlb.cchEncoded);
 		nlb.pbDecoded = temp_buffer;
 		nlb.cbDecoded = nlb.cchEncoded;
@@ -988,9 +985,9 @@ int FILEECHO::sendCmd(int id, int cmd, char *szParam, char *szPrefix)
 {
 	char *buf;
 	int retval;
-	int buflen = strlen(szServicePrefix) + strlen(szParam) + 2;
+	int buflen = (int)_tcslen(szServicePrefix) + (int)_tcslen(szParam) + 2;
 	if(szPrefix != NULL)
-		buflen += strlen(szPrefix);
+		buflen += (int)_tcslen(szPrefix);
 	
 	buf = (char*)malloc(buflen);
 	if(szPrefix == NULL)
@@ -1021,11 +1018,11 @@ void CreateDirectoryTree(char *szDir)
 
 void SubclassWnd(HWND hwnd, WNDPROC lpfnWndProc)
 {
-	SetWindowLong(hwnd, GWL_USERDATA, (LONG)GetWindowLong(hwnd, GWL_WNDPROC));
-	SetWindowLong(hwnd, GWL_WNDPROC, (LONG)lpfnWndProc);
+	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG)GetWindowLongPtr(hwnd, GWLP_WNDPROC));
+	SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG)lpfnWndProc);
 }
 #define CallSubclassed(hwnd, uMsg, wParam, lParam)\
-	CallWindowProc((WNDPROC)GetWindowLong(hwnd, GWL_USERDATA), hwnd, uMsg, wParam, lParam)
+	CallWindowProc((WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA), hwnd, uMsg, wParam, lParam)
 
 LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -1042,7 +1039,7 @@ LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			HBRUSH frameBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
 			struct FILEECHO *dat;
 
-			dat = (struct FILEECHO*)GetWindowLong(GetParent(hwnd), GWL_USERDATA);
+			dat = (struct FILEECHO*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 			//if(dat == NULL)
 			//	return CallSubclassed(hwnd, uMsg, wParam, lParam);
 			GetClientRect(hwnd, &rc);
@@ -1137,7 +1134,7 @@ LRESULT CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 {
 	struct FILEECHO *dat;
 
-	dat = (struct FILEECHO*)GetWindowLong(hDlg, GWL_USERDATA);
+	dat = (struct FILEECHO*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	switch( uMsg )
 	{
 		case WM_INITDIALOG:
@@ -1148,7 +1145,7 @@ LRESULT CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 			dat->updateTitle();
 
 			CreateStatusWindow(WS_CHILD|WS_VISIBLE, "", hDlg, IDC_STATUS);
-			SetWindowLong(hDlg, GWL_USERDATA, (LONG)dat);
+			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG)dat);
 			WindowList_Add(hFileList, hDlg, dat->hContact);
 			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcons[ICON_MAIN]);
 			SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcons[ICON_MAIN]);

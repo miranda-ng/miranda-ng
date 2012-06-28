@@ -1,10 +1,4 @@
 #include "main.h"
-#include "resource.h"
-
-#include <commctrl.h>
-
-#pragma comment(lib, "comctl32.lib")
-
 
 DWORD settingDefault[] =
 {
@@ -49,7 +43,7 @@ LRESULT CALLBACK OptionsDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		{	
 			TranslateDialogDefault(hwndDlg);
 			
-			for(int indx = 0; indx < ARRAY_SIZE(settingId); indx++)
+			for(int indx = 0; indx < SIZEOF(settingId); indx++)
 				if(settingId[indx] > 0)
 					SendDlgItemMessage(hwndDlg, settingId[indx], CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, SERVICE_NAME, settingName[indx], settingDefault[indx]));
 				else
@@ -65,7 +59,7 @@ LRESULT CALLBACK OptionsDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if(//MAKEWPARAM(IDC_AUTO, BN_CLICKED) != wParam || 
 			   MAKEWPARAM(IDC_ALPHANUM, BN_CLICKED) != wParam)
 			{	
-				for(int indx = 0; indx < ARRAY_SIZE(settingId); indx++)
+				for(int indx = 0; indx < SIZEOF(settingId); indx++)
 				{
 					if(LOWORD(wParam) == abs(settingId[indx]))
 					{
@@ -94,7 +88,7 @@ LRESULT CALLBACK OptionsDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				int value;
 				BOOL succ;
 				
-				for(int indx = 0; indx < ARRAY_SIZE(settingId); indx++)
+				for(int indx = 0; indx < SIZEOF(settingId); indx++)
 				{
 					if(settingId[indx] > 0)
 						value = SendDlgItemMessage(hwndDlg, settingId[indx], CPM_GETCOLOUR, 0, 0);

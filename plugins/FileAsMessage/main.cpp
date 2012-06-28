@@ -1,27 +1,24 @@
 #include "main.h"
-#include "dialog.h"
-#include "resource.h"
 
-
-#include <stdio.h>
-#include <time.h>
-
-PLUGINLINK *pluginLink;
 PLUGININFOEX pluginInfo =
 {
-	sizeof( PLUGININFOEX ),
+	sizeof(PLUGININFOEX),
 	SERVICE_TITLE,
 	PLUGIN_MAKE_VERSION( 0,0,2,4 ),
-	"file tranfer by using the messaging services - as plain text",
+	"File tranfer by using the messaging services - as plain text",
 	"Denis Stanishevskiy // StDenis",
 	"stdenformiranda(at)fromru(dot)com",
 	"Copyright (c) 2004, Denis Stanishevskiy",
 	PLUGIN_URL,
-	0, 0
+	UNICODE_AWARE,
+	0,
+	// {34B5A402-1B79-4246-B041-43D0B590AE2C}
+	{ 0x34b5a402, 0x1b79, 0x4246, { 0xb0, 0x41, 0x43, 0xd0, 0xb5, 0x90, 0xae, 0x2c } }
 };
 
 HANDLE hFileList;
 HINSTANCE hInst;
+int hLangpack;
 
 char *szServiceTitle = SERVICE_TITLE;
 char *szServicePrefix = SERVICE_PREFIX;
@@ -79,7 +76,7 @@ int OnSkinIconsChanged(WPARAM wParam,LPARAM lParam)
 		}
 	}
 */
-	for(indx = 0; indx < ARRAY_SIZE(hIcons); indx++)
+	for(indx = 0; indx < SIZEOF(hIcons); indx++)
 		hIcons[indx] = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szIconId[indx]);
 
 	WindowList_Broadcast(hFileList, WM_FE_SKINCHANGE, 0,0);
@@ -106,7 +103,7 @@ int OnContactAdded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int OnRecvFile(WPARAM wParam, LPARAM lParam)
+INT_PTR OnRecvFile(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd;
 	CLISTEVENT *clev = (CLISTEVENT*)lParam;
@@ -137,7 +134,7 @@ int OnRecvFile(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-int OnSendFile(WPARAM wParam, LPARAM lParam)
+INT_PTR OnSendFile(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd;
 
@@ -164,7 +161,7 @@ int OnSendFile(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-int OnRecvMessage( WPARAM wParam, LPARAM lParam )
+INT_PTR OnRecvMessage( WPARAM wParam, LPARAM lParam )
 {
 	CCSDATA *pccsd = (CCSDATA *)lParam;
 	PROTORECVEVENT *ppre = ( PROTORECVEVENT * )pccsd->lParam;
@@ -205,7 +202,7 @@ int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pszGroup = Translate("Plugins");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = (DLGPROC)OptionsDlgProc;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }
@@ -214,15 +211,8 @@ int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 // MirandaPluginInfo()
 // Called by Miranda to get Version
 //
-PLUGININFO *MirandaPluginInfo( DWORD dwVersion )
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD dwVersion)
 {
-/*
-	if(MessageBox(0,
-		"Achtung! This plugin is technology demo only. It didn't tested carefully.\n"
-		"Do you want to continue usage of this plugin?", SERVICE_TITLE,
-		MB_YESNO) != IDYES) return 0;
-//*/
-	if( dwVersion < PLUGIN_MAKE_VERSION( 0,3,3,0 ))return 0;
 	return &pluginInfo;
 }
 /*
@@ -238,35 +228,27 @@ DWORD CreateSetting(char *name, DWORD defvalue)
 
 int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
 {
-	if(!ServiceExists(MS_SKIN2_ADDICON))
-	{
-		for(int indx = 0; indx < ARRAY_SIZE(hIcons); indx++)
-			hIcons[indx] = (HICON)LoadImage(hInst,MAKEINTRESOURCE(idIcons[indx]),IMAGE_ICON,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0);
-	}
-	else
-	{
-		int indx;
-		SKINICONDESC sid;
-		char ModuleName[MAX_PATH];
+	int indx;
+	SKINICONDESC sid;
+	char ModuleName[MAX_PATH];
 
-		ZeroMemory(&sid, sizeof(sid));
-		sid.cbSize = sizeof(sid);
-		sid.pszSection = Translate("fileAsMessage");
-		GetModuleFileName(hInst, ModuleName, sizeof(ModuleName));
-		for(indx = 0; indx < ARRAY_SIZE(hIcons); indx++)
-		{
-			//sid.pszSection = szIconGroup[indx];
-			sid.pszName = szIconId[indx];
-			sid.pszDescription = szIconName[indx];
-			sid.pszDefaultFile = ModuleName;
-			sid.iDefaultIndex = iIconId[indx];
-			CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-		}
-		for(indx = 0; indx < ARRAY_SIZE(hIcons); indx++)
-			hIcons[indx] = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szIconId[indx]);
-
-		hHookSkinIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnSkinIconsChanged);
+	ZeroMemory(&sid, sizeof(sid));
+	sid.cbSize = sizeof(sid);
+	sid.pszSection = Translate("fileAsMessage");
+	GetModuleFileName(hInst, ModuleName, sizeof(ModuleName));
+	for(indx = 0; indx < SIZEOF(hIcons); indx++)
+	{
+		//sid.pszSection = szIconGroup[indx];
+		sid.pszName = szIconId[indx];
+		sid.pszDescription = szIconName[indx];
+		sid.pszDefaultFile = ModuleName;
+		sid.iDefaultIndex = iIconId[indx];
+		Skin_AddIcon(&sid);
 	}
+	for(indx = 0; indx < SIZEOF(hIcons); indx++)
+		hIcons[indx] = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szIconId[indx]);
+
+	hHookSkinIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnSkinIconsChanged);
 	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while(hContact)
 	{
@@ -284,7 +266,7 @@ int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
 	mi.pszService = SERVICE_NAME "/FESendFile";
 	mi.pszContactOwner = NULL;
 	mi.flags = CMIF_NOTOFFLINE;
-	CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, ( LPARAM )&mi);
+	Menu_AddContactMenuItem(&mi);
 
 	return 0;
 }
@@ -292,9 +274,9 @@ int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
 //
 // Startup initializing
 //
-int Load( PLUGINLINK *link )
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+	mir_getLP(&pluginInfo);
 
 	InitCRC32();
 
@@ -328,14 +310,10 @@ int Load( PLUGINLINK *link )
 // Unload()
 // Called by Miranda when Plugin is unloaded.
 //
-int Unload( void )
+extern "C" __declspec(dllexport) int Unload(void)
 {
 //	if(hFileList)
 //		WindowList_Broadcast(hFileList, WM_CLOSE, 0,0);
-	if(!ServiceExists(MS_SKIN2_ADDICON))
-		for(int indx = 0; indx < ARRAY_SIZE(hIcons); indx++)
-			DestroyIcon(hIcons[indx]);
-
 	if(hHookSkinIconsChanged != NULL)
 		UnhookEvent(hHookSkinIconsChanged);
 	UnhookEvent(hHookDbSettingChange);
@@ -350,9 +328,5 @@ int Unload( void )
 int WINAPI DllMain( HINSTANCE hInstance, DWORD dwReason, LPVOID pReserved )
 {
 	hInst = hInstance;
-
-	if( dwReason == DLL_PROCESS_ATTACH )
-		DisableThreadLibraryCalls(hInstance);
-
 	return 1;
 }

@@ -1,11 +1,11 @@
-//#include "AggressiveOptimize.h"
-
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_DEPRECATE
-
 #define _WIN32_WINNT 0x0501
+
 #include <windows.h>
 #include <stdio.h>
+#include <time.h>
+#include <commctrl.h>
 
 #include "newpluginapi.h"
 #include "m_system.h"
@@ -27,10 +27,11 @@
 #include "m_file.h"
 #include "win2k.h"
 
-#define ARRAY_SIZE(n)	(sizeof(n)/sizeof(n[0]))
+#include "dialog.h"
+#include "resource.h"
 
 #define MAXBUFSIZE 4096
-#define SERVICE_TITLE "file As Message"
+#define SERVICE_TITLE "File As Message"
 #define SERVICE_NAME "FileAsMessage"
 
 #define SERVICE_PREFIX "<%fAM-0023%>"
@@ -41,6 +42,7 @@
 						 PLUGIN_URL " for more information and download."
 extern char *szServiceTitle;
 extern char *szServicePrefix;
+extern const ulong INITCRC;
 
 #define WM_FE_MESSAGE		WM_USER+100
 #define WM_FE_STATUSCHANGE	WM_USER+101
@@ -52,12 +54,4 @@ extern HANDLE hEventNewFile;
 
 extern HICON hIcons[5];
 
-#ifdef __cplusplus
-extern "C" {
-#endif 
-int __declspec(dllexport) Load( PLUGINLINK *link );
-int __declspec(dllexport) Unload( void );
-    __declspec(dllexport) PLUGININFOEX *MirandaPluginInfo( DWORD dwVersion );
-#ifdef __cplusplus
-}
-#endif 
+ulong memcrc32(uchar *ptr, int size, ulong crc );
