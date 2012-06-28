@@ -332,7 +332,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewEventNotify", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mir_core", "..\plugins\Mir_core\mir_core_10.vcxproj", "{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileAsMessage", "..\plugins\FileAsMessage\fileecho.vcxproj", "{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhoUsesMyFiles", "..\plugins\WhoUsesMyFiles\wumf.vcxproj", "{F29CCB9B-79CF-4341-AA05-3626A036D3E3}"
+EndProject
 Global
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
@@ -1663,11 +1670,24 @@ Global
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}.Release|Win32.Build.0 = Release|Win32
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}.Release|x64.ActiveCfg = Release|x64
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}.Release|x64.Build.0 = Release|x64
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Debug|Win32.Build.0 = Debug|Win32
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Debug|x64.ActiveCfg = Debug|x64
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Debug|x64.Build.0 = Debug|x64
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|Win32.ActiveCfg = Release|Win32
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|Win32.Build.0 = Release|Win32
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|x64.ActiveCfg = Release|x64
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|x64.Build.0 = Release|x64
+		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Debug|Win32.Build.0 = Debug|Win32
+		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Debug|x64.ActiveCfg = Debug|x64
+		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Debug|x64.Build.0 = Debug|x64
+		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Release|Win32.ActiveCfg = Release|Win32
+		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Release|Win32.Build.0 = Release|Win32
+		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Release|x64.ActiveCfg = Release|x64
+		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
-		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
 	EndGlobalSection
 EndGlobal
