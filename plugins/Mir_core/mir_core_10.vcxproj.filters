@@ -43,6 +43,9 @@
     <ClCompile Include="sha1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="db.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaders.h">
@@ -61,6 +64,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\m_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\m_database.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -305,7 +305,7 @@ static int clcHookDbEventAdded(WPARAM wParam,LPARAM lParam)
 		if(dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
 		{
 			PDNCE pdnce=(PDNCE)pcli->pfnGetCacheEntry((HANDLE)wParam);
-			ModernWriteSettingDword((HANDLE)wParam, "CList", "mf_lastmsg", dbei.timestamp);
+			db_set_dw((HANDLE)wParam, "CList", "mf_lastmsg", dbei.timestamp);
 			if (pdnce)
 				pdnce->dwLastMsgTime=dbei.timestamp;
 		}
@@ -451,18 +451,18 @@ static LRESULT clcOnCreate(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPar
 	RowHeights_Initialize(dat);
 
 	dat->NeedResort=1;
-	dat->MetaIgnoreEmptyExtra=ModernGetSettingByte(NULL,"CLC","MetaIgnoreEmptyExtra",SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);
+	dat->MetaIgnoreEmptyExtra=db_get_b(NULL,"CLC","MetaIgnoreEmptyExtra",SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);
 
 	dat->IsMetaContactsEnabled=(!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE)) &&
-		g_szMetaModuleName && ModernGetSettingByte(NULL,g_szMetaModuleName,"Enabled",1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
+		g_szMetaModuleName && db_get_b(NULL,g_szMetaModuleName,"Enabled",1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
 
-	dat->expandMeta=ModernGetSettingByte(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT);		
-	dat->useMetaIcon=ModernGetSettingByte(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT);
-	dat->drawOverlayedStatus=ModernGetSettingByte(NULL,"CLC","DrawOverlayedStatus",SETTING_DRAWOVERLAYEDSTATUS_DEFAULT);
-	g_CluiData.bSortByOrder[0]=ModernGetSettingByte(NULL,"CList","SortBy1",SETTING_SORTBY1_DEFAULT);
-	g_CluiData.bSortByOrder[1]=ModernGetSettingByte(NULL,"CList","SortBy2",SETTING_SORTBY2_DEFAULT);
-	g_CluiData.bSortByOrder[2]=ModernGetSettingByte(NULL,"CList","SortBy3",SETTING_SORTBY3_DEFAULT);
-	g_CluiData.fSortNoOfflineBottom=ModernGetSettingByte(NULL,"CList","NoOfflineBottom",SETTING_NOOFFLINEBOTTOM_DEFAULT);
+	dat->expandMeta=db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT);		
+	dat->useMetaIcon=db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT);
+	dat->drawOverlayedStatus=db_get_b(NULL,"CLC","DrawOverlayedStatus",SETTING_DRAWOVERLAYEDSTATUS_DEFAULT);
+	g_CluiData.bSortByOrder[0]=db_get_b(NULL,"CList","SortBy1",SETTING_SORTBY1_DEFAULT);
+	g_CluiData.bSortByOrder[1]=db_get_b(NULL,"CList","SortBy2",SETTING_SORTBY2_DEFAULT);
+	g_CluiData.bSortByOrder[2]=db_get_b(NULL,"CList","SortBy3",SETTING_SORTBY3_DEFAULT);
+	g_CluiData.fSortNoOfflineBottom=db_get_b(NULL,"CList","NoOfflineBottom",SETTING_NOOFFLINEBOTTOM_DEFAULT);
 	dat->menuOwnerID=-1;
 	dat->menuOwnerType=CLCIT_INVALID;
 	//InitDisplayNameCache(&dat->lCLCContactsCache);
@@ -732,7 +732,7 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 						struct ClcContact * ht=NULL;
 						KillTimer(hwnd,TIMERID_SUBEXPAND);
 						contact->SubExpanded=0;
-						ModernWriteSettingByte(contact->hContact,"CList","Expanded",0);
+						db_set_b(contact->hContact,"CList","Expanded",0);
 						ht=contact;
 						dat->NeedResort=1;
 						pcli->pfnSortCLC(hwnd,dat,1);		
@@ -749,7 +749,7 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 						struct ClcContact * ht=NULL;
 						KillTimer(hwnd,TIMERID_SUBEXPAND);
 						contact->SubExpanded=1;
-						ModernWriteSettingByte(contact->hContact,"CList","Expanded",1);
+						db_set_b(contact->hContact,"CList","Expanded",1);
 						ht=contact;
 						dat->NeedResort=1;
 						pcli->pfnSortCLC(hwnd,dat,1);		
@@ -871,7 +871,7 @@ static LRESULT clcOnTimer(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPara
 			if (hitcontact && dat->expandMeta)
 			{
 				if (hitcontact->SubExpanded) hitcontact->SubExpanded=0; else hitcontact->SubExpanded=1;
-				ModernWriteSettingByte(hitcontact->hContact,"CList","Expanded",hitcontact->SubExpanded);
+				db_set_b(hitcontact->hContact,"CList","Expanded",hitcontact->SubExpanded);
 				if (hitcontact->SubExpanded)
 					ht=&(hitcontact->subcontacts[hitcontact->SubAllocated-1]);
 			}
@@ -1006,7 +1006,7 @@ static LRESULT clcOnLButtonDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM
 		if(hit!=-1 && !(hitFlags&CLCHT_NOWHERE) && contact->type==CLCIT_CONTACT && contact->SubAllocated && !contact->isSubcontact)
 			if(hitFlags&CLCHT_ONITEMICON && dat->expandMeta) 
 			{
-				BYTE doubleClickExpand=ModernGetSettingByte(NULL,"CLC","MetaDoubleClick",SETTING_METAAVOIDDBLCLICK_DEFAULT);
+				BYTE doubleClickExpand=db_get_b(NULL,"CLC","MetaDoubleClick",SETTING_METAAVOIDDBLCLICK_DEFAULT);
 
 				hitcontact=contact;				
 				HitPoint.x= (short)LOWORD(lParam);
@@ -1368,7 +1368,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 
 	if (hitcontact!=NULL && dat->expandMeta)
 	{ 
-		BYTE doubleClickExpand=ModernGetSettingByte(NULL,"CLC","MetaDoubleClick",SETTING_METAAVOIDDBLCLICK_DEFAULT);
+		BYTE doubleClickExpand=db_get_b(NULL,"CLC","MetaDoubleClick",SETTING_METAAVOIDDBLCLICK_DEFAULT);
 		CLUI_SafeSetTimer(hwnd,TIMERID_SUBEXPAND,GetDoubleClickTime()*doubleClickExpand,NULL);
 	}
 	else if (dat->iHotTrack==-1 && dat->iDragItem==-1)
@@ -1667,7 +1667,7 @@ static LRESULT clcOnIntmGroupChanged(struct ClcData *dat, HWND hwnd, UINT msg, W
 		flags = contact->flags;
 	}
 	pcli->pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
-	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !ModernGetSettingByte((HANDLE) wParam, "CList", "Hidden", 0)) {
+	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b((HANDLE) wParam, "CList", "Hidden", 0)) {
 		NMCLISTCONTROL nm;
 		pcli->pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
 		if (pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
@@ -1947,7 +1947,7 @@ static LRESULT clcOnIntmStatusChanged(struct ClcData *dat, HWND hwnd, UINT msg, 
 
 
 	}
-	if (ModernGetSettingByte(NULL,"CList","PlaceOfflineToRoot",SETTING_PLACEOOFLINETOROOT_DEFAULT))
+	if (db_get_b(NULL,"CList","PlaceOfflineToRoot",SETTING_PLACEOOFLINETOROOT_DEFAULT))
 	{
 		SendMessage(hwnd,CLM_AUTOREBUILD,0,0);	
 	}
@@ -1997,9 +1997,9 @@ int ClcUnloadModule()
 		ModernUnhookEvent(hIconChangedHook);
 
 	if ( g_CluiData.bOldUseGroups != (BYTE)-1 )
-		ModernWriteSettingByte(NULL,"CList","UseGroups",(BYTE)g_CluiData.bOldUseGroups );
+		db_set_b(NULL,"CList","UseGroups",(BYTE)g_CluiData.bOldUseGroups );
 	if ( g_CluiData.boldHideOffline != (BYTE)-1 )
-		ModernWriteSettingByte(NULL,"CList","HideOffline",(BYTE)g_CluiData.boldHideOffline );
+		db_set_b(NULL,"CList","HideOffline",(BYTE)g_CluiData.boldHideOffline );
 
 	return 0;
 }
@@ -2031,10 +2031,10 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 		if (ack->result==ACKRESULT_SUCCESS && ack->lParam) {
 			{//Do not change DB if it is IRC protocol    
 				if (ack->szModule!= NULL) 
-					if(ModernGetSettingByte(ack->hContact, ack->szModule, "ChatRoom", 0) != 0) return 0;
+					if(db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0) return 0;
 			}
 
-			ModernWriteSettingTString(ack->hContact,"CList","StatusMsg",(const TCHAR *)ack->lParam);
+			db_set_ws(ack->hContact,"CList","StatusMsg",(const TCHAR *)ack->lParam);
 			gtaRenewText(ack->hContact);
 		} 
 		else
@@ -2043,15 +2043,15 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 			//char a='\0';
 			{//Do not change DB if it is IRC protocol    
 				if (ack->szModule!= NULL) 
-					if(ModernGetSettingByte(ack->hContact, ack->szModule, "ChatRoom", 0) != 0) return 0;
+					if(db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0) return 0;
 			}
 			if (ack->hContact) 
 			{
-				char * val= ModernGetStringA(ack->hContact,"CList","StatusMsg");
+				char * val= db_get_sa(ack->hContact,"CList","StatusMsg");
 				if (val) 
 				{
 					if (!mir_bool_strcmpi(val,""))
-						ModernWriteSettingString(ack->hContact,"CList","StatusMsg","");
+						db_set_s(ack->hContact,"CList","StatusMsg","");
 					else
 						gtaRenewText(ack->hContact);
 					mir_free_and_nill(val);

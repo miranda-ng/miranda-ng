@@ -203,25 +203,25 @@ HRESULT IniParser::WriteStrToDb( const char * szSection, const char * szName, co
 		{
 			BYTE P;
 			P=(BYTE)atoi(szValue+1);
-			ModernWriteSettingByte(NULL,szSection,szName,P);
+			db_set_b(NULL,szSection,szName,P);
 		}
 		break;
 	case 'w':
 		{
 			WORD P;
 			P=(WORD)atoi(szValue+1);
-			ModernWriteSettingWord(NULL,szSection,szName,P);
+			db_set_w(NULL,szSection,szName,P);
 		}
 		break;
 	case 'd':
 		{
 			DWORD P;
 			P=(DWORD)atoi(szValue+1);
-			ModernWriteSettingDword(NULL,szSection,szName,P);
+			db_set_dw(NULL,szSection,szName,P);
 		}
 		break;
 	case 's':
-		ModernWriteSettingString(NULL,szSection,szName,szValue+1);
+		db_set_s(NULL,szSection,szName,szValue+1);
 		break;
 	case 'f':
 		if (szFileName)
@@ -236,7 +236,7 @@ HRESULT IniParser::WriteStrToDb( const char * szSection, const char * szName, co
 				if (i>0) fn[i]='\0';
 			}                      
 			_snprintf(bb,SIZEOF(bb),"%s\\%s",fn,szValue+1);
-			ModernWriteSettingString(NULL,szSection,szName,bb);
+			db_set_s(NULL,szSection,szName,bb);
 		}
 		break;
 	}
@@ -1784,7 +1784,7 @@ void ske_PreMultiplyChanells(HBITMAP hbmp,BYTE Mult)
 int ske_GetFullFilename(char * buf, char *file, char * skinfolder,BOOL madeAbsolute)
 {
 	char b2[MAX_PATH]={0};
-	char *SkinPlace= ModernGetStringA(NULL,SKIN,"SkinFolder");
+	char *SkinPlace= db_get_sa(NULL,SKIN,"SkinFolder");
 	if (!SkinPlace) SkinPlace=mir_strdup("\\Skin\\default");
 	if (file[0]!='\\' && file[1]!=':') 
 		_snprintf(b2, MAX_PATH,"%s\\%s",(skinfolder==NULL)?SkinPlace:((INT_PTR)skinfolder!=-1)?skinfolder:"",file);
@@ -2285,7 +2285,7 @@ static int ske_ProcessLoadindString(const char * szSetting, char *szValue)
 static int ske_enumdb_SkinObjectsProc (const char *szSetting,LPARAM lParam)
 {   
 	char *value;
-	value= ModernGetStringA(NULL,SKIN,szSetting);
+	value= db_get_sa(NULL,SKIN,szSetting);
 	ske_ProcessLoadindString(szSetting,value);
 	mir_free_and_nill(value);
 
@@ -2357,7 +2357,7 @@ static int ske_GetSkinFromDB(char * szSection, SKINOBJECTSLIST * Skin)
 {
 	if (Skin==NULL) return 0;
 	ske_UnloadSkin(Skin);
-	g_CluiData.fDisableSkinEngine=ModernGetSettingByte(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT);
+	g_CluiData.fDisableSkinEngine=db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT);
 	//window borders
 	if (g_CluiData.fDisableSkinEngine) {
 		g_CluiData.LeftClientMargin=0;
@@ -2366,18 +2366,18 @@ static int ske_GetSkinFromDB(char * szSection, SKINOBJECTSLIST * Skin)
 		g_CluiData.BottomClientMargin=0;
 	} else {
 		//window borders
-		g_CluiData.LeftClientMargin=(int)ModernGetSettingByte(NULL,"CLUI","LeftClientMargin",SETTING_LEFTCLIENTMARIGN_DEFAULT);
-		g_CluiData.RightClientMargin=(int)ModernGetSettingByte(NULL,"CLUI","RightClientMargin",SETTING_RIGHTCLIENTMARIGN_DEFAULT); 
-		g_CluiData.TopClientMargin=(int)ModernGetSettingByte(NULL,"CLUI","TopClientMargin",SETTING_TOPCLIENTMARIGN_DEFAULT);
-		g_CluiData.BottomClientMargin=(int)ModernGetSettingByte(NULL,"CLUI","BottomClientMargin",SETTING_BOTTOMCLIENTMARIGN_DEFAULT);
+		g_CluiData.LeftClientMargin=(int)db_get_b(NULL,"CLUI","LeftClientMargin",SETTING_LEFTCLIENTMARIGN_DEFAULT);
+		g_CluiData.RightClientMargin=(int)db_get_b(NULL,"CLUI","RightClientMargin",SETTING_RIGHTCLIENTMARIGN_DEFAULT); 
+		g_CluiData.TopClientMargin=(int)db_get_b(NULL,"CLUI","TopClientMargin",SETTING_TOPCLIENTMARIGN_DEFAULT);
+		g_CluiData.BottomClientMargin=(int)db_get_b(NULL,"CLUI","BottomClientMargin",SETTING_BOTTOMCLIENTMARIGN_DEFAULT);
 	}
 
 	if (g_CluiData.fDisableSkinEngine) return 0;
 
 	Skin->pMaskList=(LISTMODERNMASK*)mir_alloc(sizeof(LISTMODERNMASK));
 	memset(Skin->pMaskList,0,sizeof(LISTMODERNMASK));
-	Skin->szSkinPlace= ModernGetStringA(NULL,SKIN,"SkinFolder");
-	if (!Skin->szSkinPlace || (strchr(Skin->szSkinPlace, '%') && !ModernGetSettingByte(NULL,SKIN,"Modified",0))) 
+	Skin->szSkinPlace= db_get_sa(NULL,SKIN,"SkinFolder");
+	if (!Skin->szSkinPlace || (strchr(Skin->szSkinPlace, '%') && !db_get_b(NULL,SKIN,"Modified",0))) 
 	{
 		BOOL bOnlyObjects=FALSE;
 		if (Skin->szSkinPlace && strchr(Skin->szSkinPlace, '%'))
@@ -2406,7 +2406,7 @@ static int ske_GetSkinFromDB(char * szSection, SKINOBJECTSLIST * Skin)
 void ske_LoadSkinFromDB(void) 
 { 
 	ske_GetSkinFromDB(SKIN,&g_SkinObjectList); 
-	g_CluiData.dwKeyColor=ModernGetSettingDword(NULL,"ModernSettings","KeyColor",(DWORD)SETTING_KEYCOLOR_DEFAULT);
+	g_CluiData.dwKeyColor=db_get_dw(NULL,"ModernSettings","KeyColor",(DWORD)SETTING_KEYCOLOR_DEFAULT);
 }
 
 
@@ -2498,9 +2498,9 @@ static BOOL ske_ParseLineOfIniFile(char * Line, BOOL bOnlyObjects)
 //	DWORD retu=GetPrivateProfileSectionNamesA(bsn,MAXSN_BUFF_SIZE,szFileName);
 //	ske_DeleteAllSettingInSection("ModernSkin");
 //	ske_GetSkinFolder(szFileName,t2);
-//	ModernWriteSettingString(NULL,SKIN,"SkinFolder",t2);
+//	db_set_s(NULL,SKIN,"SkinFolder",t2);
 //	CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)szFileName, (LPARAM)t3);
-//	ModernWriteSettingString(NULL,SKIN,"SkinFile",t3);
+//	db_set_s(NULL,SKIN,"SkinFile",t3);
 //	Buff=bsn;
 //	AllowedSection[0]=0;
 //	do         
@@ -2544,7 +2544,7 @@ static BOOL ske_ParseLineOfIniFile(char * Line, BOOL bOnlyObjects)
 //							//                            char ba[255];
 //							s3=s2+1;
 //							P=(BYTE)atoi(s3);
-//							ModernWriteSettingByte(NULL,Buff,s1,P);
+//							db_set_b(NULL,Buff,s1,P);
 //						}
 //						break;
 //					case 'w':
@@ -2553,7 +2553,7 @@ static BOOL ske_ParseLineOfIniFile(char * Line, BOOL bOnlyObjects)
 //							//                           char ba[255];
 //							s3=s2+1;
 //							P=(WORD)atoi(s3);
-//							ModernWriteSettingWord(NULL,Buff,s1,P);
+//							db_set_w(NULL,Buff,s1,P);
 //						}break;
 //					case 'd':
 //						{
@@ -2561,7 +2561,7 @@ static BOOL ske_ParseLineOfIniFile(char * Line, BOOL bOnlyObjects)
 //
 //							s3=s2+1;
 //							P=(DWORD)atoi(s3);
-//							ModernWriteSettingDword(NULL,Buff,s1,P);
+//							db_set_dw(NULL,Buff,s1,P);
 //						}break;
 //					case 's':
 //						{
@@ -2569,7 +2569,7 @@ static BOOL ske_ParseLineOfIniFile(char * Line, BOOL bOnlyObjects)
 //							char bb[255];
 //							s3=s2+1;
 //							strncpy(bb,s3,sizeof(bb));
-//							ModernWriteSettingString(NULL,Buff,s1,s3);
+//							db_set_s(NULL,Buff,s1,s3);
 //						}break;
 //					case 'f': //file
 //						{
@@ -2590,7 +2590,7 @@ static BOOL ske_ParseLineOfIniFile(char * Line, BOOL bOnlyObjects)
 //									}
 //								}                      
 //								sprintf(bb,"%s\\%s",fn,s3);
-//								ModernWriteSettingString(NULL,Buff,s1,bb);
+//								db_set_s(NULL,Buff,s1,bb);
 //							}
 //						}break;
 //					}
@@ -2614,8 +2614,8 @@ static int ske_LoadSkinFromResource(BOOL bOnlyObjects)
 	if ( !parser.CheckOK()) return 0;
 
 	ske_DeleteAllSettingInSection("ModernSkin");
-	ModernWriteSettingString(NULL,SKIN,"SkinFolder","%Default%");
-	ModernWriteSettingString(NULL,SKIN,"SkinFile","%Default%");
+	db_set_s(NULL,SKIN,"SkinFolder","%Default%");
+	db_set_s(NULL,SKIN,"SkinFile","%Default%");
 	parser.Parse( IniParser::WriteStrToDb, 0 );	
 	return 0;
 }
@@ -2635,8 +2635,8 @@ int ske_LoadSkinFromIniFile(TCHAR * szFileName, BOOL bOnlyObjects)
 	IniParser::GetSkinFolder(szFileName,skinFolder);
 	CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)szFileName, (LPARAM)skinFile);
 
-	ModernWriteSettingTString(NULL,SKIN,"SkinFolder", skinFolder);
-	ModernWriteSettingTString(NULL,SKIN,"SkinFile", skinFile);
+	db_set_ws(NULL,SKIN,"SkinFolder", skinFolder);
+	db_set_ws(NULL,SKIN,"SkinFile", skinFile);
 
 	parser.Parse( IniParser::WriteStrToDb, 1 );
 
@@ -2670,7 +2670,7 @@ static int ske_DeleteAllSettingInSection(char * SectionName)
 		int i;
 		for (i=0;i<nArrayLen;i++)
 		{
-			ModernDeleteSetting(0,SectionName,pszSettingName[i]);
+			db_unset(0,SectionName,pszSettingName[i]);
 			free(pszSettingName[i]);
 		};
 		free(pszSettingName);
@@ -2973,10 +2973,10 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 	if ( _tables_empty )
 	{
 		// fill tables
-		double gammaCfPw = 1000 / (double)ModernGetSettingRangedWord(NULL,"ModernData","AlphaTextOutGamma", 700, 1, 5000 );
-		BYTE blueCf    = ModernGetSettingByte(NULL,"ModernData","AlphaTextOutBlueCorrection", 28 );
-		BYTE redCf     = ModernGetSettingByte(NULL,"ModernData","AlphaTextOutRed Correction", 77 );
-		BYTE greenCf   = ModernGetSettingByte(NULL,"ModernData","AlphaTextOutGreen Correction", 151 );
+		double gammaCfPw = 1000 / (double)DBGetContactSettingRangedWord(NULL,"ModernData","AlphaTextOutGamma", 700, 1, 5000 );
+		BYTE blueCf    = db_get_b(NULL,"ModernData","AlphaTextOutBlueCorrection", 28 );
+		BYTE redCf     = db_get_b(NULL,"ModernData","AlphaTextOutRed Correction", 77 );
+		BYTE greenCf   = db_get_b(NULL,"ModernData","AlphaTextOutGreen Correction", 151 );
 
 		for ( int i = 0; i < 256; i++ )
 		{
@@ -4801,13 +4801,13 @@ BOOL SkinDBGetContactSetting(HANDLE hContact, const char* szSection, const char*
 	if (!hContact) {  //only for not contact settings
 		char * szSkinKey;
 		NEWJOINEDSTR(szSkinKey,szSection,"@",szKey);
-		if ( !ModernGetSetting(hContact, SKINSETSECTION, szSkinKey, retdbv))	{
+		if ( !db_get(hContact, SKINSETSECTION, szSkinKey, retdbv))	{
 			if (bSkined) *bSkined=TRUE;
 			return FALSE;
-		}	}
+	}	}
 	// not skinned
 	if (bSkined) bSkined=FALSE;
-	return ModernGetSetting(hContact, szSection, szKey, retdbv);
+	return db_get(hContact, szSection, szKey, retdbv);
 }
 
 BYTE SkinDBGetContactSettingByte(HANDLE hContact, const char* szSection, const char*szKey, BYTE bDefault)
@@ -4818,11 +4818,11 @@ BYTE SkinDBGetContactSettingByte(HANDLE hContact, const char* szSection, const c
 		if (dbv.type==DBVT_BYTE)
 		{
 			BYTE retVal=dbv.bVal;
-			ModernDBFreeVariant(&dbv);
+			db_free(&dbv);
 			return retVal;
 		} else {
-			ModernDBFreeVariant(&dbv);
-			if (!bSkined) return ModernGetSettingByte(hContact, szSection, szKey, bDefault);
+			db_free(&dbv);
+			if (!bSkined) return db_get_b(hContact, szSection, szKey, bDefault);
 		}
 	}
 	return bDefault;
@@ -4835,11 +4835,11 @@ WORD SkinDBGetContactSettingWord(HANDLE hContact, const char* szSection, const c
 	if ( !SkinDBGetContactSetting(hContact, szSection, szKey, &dbv, &bSkined)) {
 		if (dbv.type==DBVT_WORD)	{
 			WORD retVal=dbv.wVal;
-			ModernDBFreeVariant(&dbv);
+			db_free(&dbv);
 			return retVal;
 		} else {
-			ModernDBFreeVariant(&dbv);
-			if (!bSkined) return ModernGetSettingWord(hContact, szSection, szKey, wDefault);
+			db_free(&dbv);
+			if (!bSkined) return db_get_w(hContact, szSection, szKey, wDefault);
 		}	
 	}
 	return wDefault;
@@ -4852,11 +4852,11 @@ DWORD SkinDBGetContactSettingDword(HANDLE hContact, const char* szSection, const
 	if ( !SkinDBGetContactSetting(hContact, szSection, szKey, &dbv, &bSkined)) {
 		if (dbv.type==DBVT_DWORD)	{
 			DWORD retVal=dbv.dVal;
-			ModernDBFreeVariant(&dbv);
+			db_free(&dbv);
 			return retVal;
 		} else {
-			ModernDBFreeVariant(&dbv);
-			if (!bSkined) return ModernGetSettingDword(hContact, szSection, szKey, dwDefault);
+			db_free(&dbv);
+			if (!bSkined) return db_get_dw(hContact, szSection, szKey, dwDefault);
 		}	
 	}
 	return dwDefault;

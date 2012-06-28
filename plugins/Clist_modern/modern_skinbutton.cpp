@@ -145,21 +145,21 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 				{
 				case 's':
 					{
-						Value= ModernGetStringA(NULL,section,key);
+						Value= db_get_sa(NULL,section,key);
 						if (!Value)
 							Value=mir_strdup(bct->ValueTypeDef+1);
 						break;
 					}         
 				case 'd':
-					defval=ModernGetSettingDword(NULL,section,key,defval);
+					defval=db_get_dw(NULL,section,key,defval);
 					Value=mir_strdup(_ltoa(defval,buf,SIZEOF(buf)));
 					break;
 				case 'w':
-					defval=ModernGetSettingWord(NULL,section,key,defval);
+					defval=db_get_w(NULL,section,key,defval);
 					Value=mir_strdup(_ltoa(defval,buf,SIZEOF(buf)));
 					break;
 				case 'b':
-					defval=ModernGetSettingByte(NULL,section,key,defval);
+					defval=db_get_b(NULL,section,key,defval);
 					Value=mir_strdup(_ltoa(defval,buf,SIZEOF(buf)));
 					break;
 				}
@@ -245,29 +245,29 @@ static int ModernSkinButtonToggleDBValue(char * ValueDBSection,char *ValueTypeDe
 		{
 		case 's':
 			{
-				Value= ModernGetStringA(NULL,section,key);
+				Value= db_get_sa(NULL,section,key);
 				if (!Value ||(Value && mir_bool_strcmpi(Value,val2)))
 					Value=mir_strdup(val);
 				else 
 					Value=mir_strdup(val2);
-				ModernWriteSettingString(NULL,section,key,Value);
+				db_set_s(NULL,section,key,Value);
 				mir_free_and_nill(Value);
 				break;
 			}         
 		case 'd':
-			curval=ModernGetSettingDword(NULL,section,key,l2);
+			curval=db_get_dw(NULL,section,key,l2);
 			curval=(curval==l2)?l1:l2;
-			ModernWriteSettingDword(NULL,section,key,(DWORD)curval);
+			db_set_dw(NULL,section,key,(DWORD)curval);
 			break;
 		case 'w':
-			curval=ModernGetSettingWord(NULL,section,key,l2);
+			curval=db_get_w(NULL,section,key,l2);
 			curval=(curval==l2)?l1:l2;
-			ModernWriteSettingWord(NULL,section,key,(WORD)curval);            
+			db_set_w(NULL,section,key,(WORD)curval);            
 			break;
 		case 'b':
-			curval=ModernGetSettingByte(NULL,section,key,l2);
+			curval=db_get_b(NULL,section,key,l2);
 			curval=(curval==l2)?l1:l2;
-			ModernWriteSettingByte(NULL,section,key,(BYTE)curval);            
+			db_set_b(NULL,section,key,(BYTE)curval);            
 			break;
 		}       
 		mir_free_and_nill(section);

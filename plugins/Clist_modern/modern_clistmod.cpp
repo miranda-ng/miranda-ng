@@ -71,7 +71,7 @@ HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 	HICON hIcon=NULL;
 	HICON hXIcon=NULL;
 	// check if options is turned on
-	BYTE trayOption=ModernGetSettingByte(NULL,"CLUI","XStatusTray",SETTING_TRAYOPTION_DEFAULT);
+	BYTE trayOption=db_get_b(NULL,"CLUI","XStatusTray",SETTING_TRAYOPTION_DEFAULT);
 	if (trayOption&3 && szProto!=NULL)
 	{
 		// check service exists
@@ -143,7 +143,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
        char AdvancedService[255]={0};
        int  nActStatus=nStatus;
        HANDLE hActContact=hContact;
-       if (!ModernGetSettingByte(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) && g_szMetaModuleName && !mir_strcmp(szActProto,g_szMetaModuleName))
+       if (!db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) && g_szMetaModuleName && !mir_strcmp(szActProto,g_szMetaModuleName))
        {
             // substitute params by mostonline contact datas
            HANDLE hMostOnlineContact=(HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hActContact,0);
@@ -198,7 +198,7 @@ INT_PTR GetContactIcon(WPARAM wParam,LPARAM lParam)
 	if (szProto == NULL)
 		status = ID_STATUS_OFFLINE;
 	else
-		status = ModernGetSettingWord((HANDLE) wParam, szProto, "Status", ID_STATUS_OFFLINE);
+		status = db_get_w((HANDLE) wParam, szProto, "Status", ID_STATUS_OFFLINE);
     res=ExtIconFromStatusMode((HANDLE)wParam,szProto,szProto==NULL?ID_STATUS_OFFLINE:status); //by FYR
     if (lParam==0 && res!=-1) res&=0xFFFF;
     return res;
@@ -357,7 +357,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY) {
 	
 	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
 		return GWVS_HIDDEN;
-	else if ( ModernGetSettingByte(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT) || !ModernGetSettingByte(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
+	else if ( db_get_b(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT) || !db_get_b(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
 		return GWVS_VISIBLE;
 	else if ( hwndFocused == pcli->hwndContactList || GetParent(hwndFocused) == pcli->hwndContactList )
 		return GWVS_VISIBLE;
@@ -474,10 +474,10 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 
 	int iVisibleState = GetWindowVisibleState(pcli->hwndContactList,0,0);
 	int method;
-	method=ModernGetSettingByte(NULL, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT);; //(0-none, 1-leftedge, 2-rightedge);
+	method=db_get_b(NULL, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT);; //(0-none, 1-leftedge, 2-rightedge);
 	if (method)
 	{
-		if (ModernGetSettingByte(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT)==0 && lParam!=1)
+		if (db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT)==0 && lParam!=1)
 		{
 			//hide
 			CLUI_HideBehindEdge();
@@ -490,13 +490,13 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 		iVisibleState=GWVS_HIDDEN;
 	}
 
-	if (!method && ModernGetSettingByte(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT)>0)
+	if (!method && db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT)>0)
 	{
-		g_CluiData.bBehindEdgeSettings=ModernGetSettingByte(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT);
+		g_CluiData.bBehindEdgeSettings=db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT);
 		CLUI_ShowFromBehindEdge();
 		g_CluiData.bBehindEdgeSettings=0;
 		g_CluiData.nBehindEdgeState=0;
-		ModernDeleteSetting(NULL, "ModernData", "BehindEdge");
+		db_unset(NULL, "ModernData", "BehindEdge");
 	}
 
 	//bShow is FALSE when we enter the switch if no hide behind edge.
@@ -518,12 +518,12 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 		Sync( CLUIFrames_ActivateSubContainers, TRUE );
 		CLUI_ShowWindowMod(pcli->hwndContactList, SW_RESTORE);
 
-		if (!ModernGetSettingByte(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT))
+		if (!db_get_b(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT))
 		{
 			Sync(CLUIFrames_OnShowHide, pcli->hwndContactList,1);	//TO BE PROXIED
 			SetWindowPos(pcli->hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE |SWP_NOACTIVATE);
 			g_bCalledFromShowHide=1;
-			if (!ModernGetSettingByte(NULL,"CList","OnTop",SETTING_ONTOP_DEFAULT))
+			if (!db_get_b(NULL,"CList","OnTop",SETTING_ONTOP_DEFAULT))
 				SetWindowPos(pcli->hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 			g_bCalledFromShowHide=0;
 		}
@@ -533,7 +533,7 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 			Sync(CLUIFrames_OnShowHide, pcli->hwndContactList,1);
 			SetForegroundWindow(pcli->hwndContactList);
 		}
-		ModernWriteSettingByte(NULL,"CList","State",SETTING_STATE_NORMAL);
+		db_set_b(NULL,"CList","State",SETTING_STATE_NORMAL);
 
 		RECT rcWindow;
 		GetWindowRect(pcli->hwndContactList,&rcWindow);
@@ -551,18 +551,18 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 		if (GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)
 		{
 			CListMod_HideWindow(pcli->hwndContactList, SW_HIDE);
-			ModernWriteSettingByte(NULL,"CList","State",SETTING_STATE_HIDDEN);
+			db_set_b(NULL,"CList","State",SETTING_STATE_HIDDEN);
 		}
 		else
 		{
-			if (ModernGetSettingByte(NULL,"CList","Min2Tray",SETTING_MIN2TRAY_DEFAULT)) {
+			if (db_get_b(NULL,"CList","Min2Tray",SETTING_MIN2TRAY_DEFAULT)) {
 				CLUI_ShowWindowMod(pcli->hwndContactList, SW_HIDE);
-				ModernWriteSettingByte(NULL,"CList","State",SETTING_STATE_HIDDEN);
+				db_set_b(NULL,"CList","State",SETTING_STATE_HIDDEN);
 			}
 			else
 			{
 				CLUI_ShowWindowMod(pcli->hwndContactList, SW_MINIMIZE);
-				ModernWriteSettingByte(NULL,"CList","State",SETTING_STATE_MINIMIZED);
+				db_set_b(NULL,"CList","State",SETTING_STATE_MINIMIZED);
 			}
 		}
 

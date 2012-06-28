@@ -79,7 +79,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 {
 	CLISTMENUITEM mi;
 	BOOL NeedFree=FALSE;
-	BYTE bContactRate=ModernGetSettingByte((HANDLE)wParam, "CList", "Rate",0);
+	BYTE bContactRate=db_get_b((HANDLE)wParam, "CList", "Rate",0);
 	//if (hFavoriteContactMenu)
 
 	static TCHAR * FAVMENUROOTNAME =_T("&Contact rate");
@@ -171,7 +171,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 		
 		mi.hIcon=NULL;
 		mi.ptszName=_T("Show even if offline");
-		mi.flags=CMIF_CHILDPOPUP|CMIF_TCHAR|(ModernGetSettingByte((HANDLE)wParam,"CList","noOffline",0)?CMIF_CHECKED:0);
+		mi.flags=CMIF_CHILDPOPUP|CMIF_TCHAR|(db_get_b((HANDLE)wParam,"CList","noOffline",0)?CMIF_CHECKED:0);
 		mi.pszService=CLUI_FAVTOGGLESHOWOFFLINE;
 		mi.popupPosition=i+100000000;
 		mi.position=-100000000;
@@ -188,7 +188,7 @@ INT_PTR FAV_SetRate(WPARAM hContact, LPARAM nRate)
 {
 	if (hContact)
 	{
-		ModernWriteSettingByte((HANDLE)hContact, "CList", "Rate",(BYTE)nRate);
+		db_set_b((HANDLE)hContact, "CList", "Rate",(BYTE)nRate);
 	}
 	return 0;
 }
@@ -197,8 +197,8 @@ INT_PTR FAV_ToggleShowOffline(WPARAM hContact,LPARAM lParam)
 {
 	if (hContact)
 	{
-		ModernWriteSettingByte((HANDLE)hContact,"CList","noOffline",
-			ModernGetSettingByte((HANDLE)hContact,"CList","noOffline",0)?0:1);
+		db_set_b((HANDLE)hContact,"CList","noOffline",
+			db_get_b((HANDLE)hContact,"CList","noOffline",0)?0:1);
 	}
 	return 0;
 }

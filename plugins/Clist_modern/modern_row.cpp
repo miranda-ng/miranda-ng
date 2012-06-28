@@ -68,10 +68,10 @@ ROWCELL *cppInitModernRow(ROWCELL	** tabAccess)
 	ROWCELL * RowRoot=NULL;
 	FILE * hFile;
 	int i=0;
-	if (!ModernGetSettingByte(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT)) return NULL;
+	if (!db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT)) return NULL;
 	tmplbuf=NULL;
-	if (ModernGetSettingByte(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT)==1)
-		tmplbuf= ModernGetStringA(NULL,"ModernData","RowTemplate");
+	if (db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT)==1)
+		tmplbuf= db_get_sa(NULL,"ModernData","RowTemplate");
 	if (tmplbuf)
 	{
 		rowParse(RowRoot, RowRoot, tmplbuf, i, seq,tabAccess);
@@ -88,7 +88,7 @@ ROWCELL *cppInitModernRow(ROWCELL	** tabAccess)
 		tmplbuf[i] = 0;
 		i = 0;
 		rowParse(RowRoot, RowRoot, tmplbuf, i, seq,tabAccess);
-		ModernWriteSettingString(NULL,"ModernData","RowTemplate",tmplbuf);
+		db_set_s(NULL,"ModernData","RowTemplate",tmplbuf);
 		free(tmplbuf);
 		fclose(hFile);
 		return RowRoot;

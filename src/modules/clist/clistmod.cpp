@@ -13,12 +13,12 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
@@ -123,15 +123,13 @@ static INT_PTR GetStatusModeDescription(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR* buf1 = cli.pfnGetStatusModeDescription(wParam, lParam);
 
-	if ( !(lParam & GSMDF_TCHAR))
-	{
+	if ( !(lParam & GSMDF_TCHAR)) {
 		static char szMode[64];
 		char *buf2 = mir_u2a(buf1);
 		mir_snprintf(szMode, SIZEOF(szMode), "%s", buf2);
 		mir_free(buf2);
 		return (INT_PTR)szMode;
 	}
-	
 
 	return (INT_PTR)buf1;
 }
@@ -139,26 +137,24 @@ static INT_PTR GetStatusModeDescription(WPARAM wParam, LPARAM lParam)
 static int ProtocolAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *) lParam;
-
 	if (ack->type != ACKTYPE_STATUS)
 		return 0;
+	
 	CallService(MS_CLUI_PROTOCOLSTATUSCHANGED, ack->lParam, (LPARAM) ack->szModule);
 
 	if ((int) ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
-		DWORD caps;
-		caps = (DWORD) CallProtoServiceInt(NULL,ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
+		DWORD caps = (DWORD)CallProtoServiceInt(NULL,ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (caps & PF1_SERVERCLIST) {
-			HANDLE hContact;
-			char *szProto;
-
-			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+			HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 			while (hContact) {
-				szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+				char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 				if (szProto != NULL && !strcmp(szProto, ack->szModule))
 					if (DBGetContactSettingByte(hContact, "CList", "Delete", 0))
 						CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
 				hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
-	}	}	}
+			}
+		}
+	}
 
 	cli.pfnTrayIconUpdateBase(ack->szModule);
 	return 0;
@@ -183,7 +179,7 @@ int fnIconFromStatusMode(const char *szProto, int status, HANDLE)
 		return index + 1;
 	for (i = 0; i < protoIconIndex.getCount(); i++) {
 		if (strcmp(szProto, protoIconIndex[i].szProto) == 0)
-		    return protoIconIndex[i].iIconBase + index;
+			return protoIconIndex[i].iIconBase + index;
 	}
 	return 1;
 }
@@ -199,23 +195,23 @@ static INT_PTR GetContactIcon(WPARAM wParam, LPARAM)
 
 static void AddProtoIconIndex(PROTOACCOUNT* pa)
 {
-    ProtoIconIndex *pii = new ProtoIconIndex;
-    pii->szProto = pa->szModuleName;
+	ProtoIconIndex *pii = new ProtoIconIndex;
+	pii->szProto = pa->szModuleName;
 	for (int i = 0; i < SIZEOF(statusModeList); i++) {
 		int iImg = ImageList_AddIcon_ProtoIconLibLoaded(hCListImages, pa->szModuleName, statusModeList[i]);
 		if (i == 0)
 			pii->iIconBase = iImg;
 	}
-    protoIconIndex.insert(pii);
+	protoIconIndex.insert(pii);
 }
 
 static void RemoveProtoIconIndex(PROTOACCOUNT* pa)
 {
 	for (int i = 0; i < protoIconIndex.getCount(); i++) 
-        if (strcmp(protoIconIndex[i].szProto, pa->szModuleName) == 0) {
-            protoIconIndex.remove(i);
-            break;
-        }
+		if (strcmp(protoIconIndex[i].szProto, pa->szModuleName) == 0) {
+			protoIconIndex.remove(i);
+			break;
+		}
 }
 
 static int ContactListModulesLoaded(WPARAM, LPARAM)
@@ -240,17 +236,16 @@ static int ContactListModulesLoaded(WPARAM, LPARAM)
 
 static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 {
-    switch (eventCode) 
-    { 
-    case PRAC_ADDED:
-        AddProtoIconIndex((PROTOACCOUNT*)lParam);
-        break;
+	switch (eventCode) { 
+	case PRAC_ADDED:
+		AddProtoIconIndex((PROTOACCOUNT*)lParam);
+		break;
 
-    case PRAC_REMOVED:
-        RemoveProtoIconIndex((PROTOACCOUNT*)lParam);
-        break;
-    }
-    cli.pfnReloadProtoMenus();
+	case PRAC_REMOVED:
+		RemoveProtoIconIndex((PROTOACCOUNT*)lParam);
+		break;
+	}
+	cli.pfnReloadProtoMenus();
 	cli.pfnTrayIconIconsChanged();
 	cli.pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
 	cli.pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
@@ -319,6 +314,7 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 		SetLastError(0x00000006);       //Wrong handle
 		return -1;
 	}
+
 	//Some defaults now. The routine is designed for thin and tall windows.
 	if (iStepX <= 0)
 		iStepX = 4;
@@ -327,49 +323,49 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 
 	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
 		return GWVS_HIDDEN;
-	else 
-	{
-		if (CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0))
-			return GWVS_VISIBLE;
 
-		GetWindowRect(hWnd, &rcWin);
+	if (CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0))
+		return GWVS_VISIBLE;
 
-		SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
-		if (MyMonitorFromWindow)
-		{
-			HMONITOR hMon = MyMonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
-			MONITORINFO mi;
-			mi.cbSize = sizeof(mi);
-			if (MyGetMonitorInfo(hMon, &mi))
-				rcWorkArea = mi.rcWork;
-		}
+	GetWindowRect(hWnd, &rcWin);
 
-		IntersectRect(&rc, &rcWin, &rcWorkArea);
-
-		width = rc.right - rc.left;
-		height = rc.bottom - rc.top;
-
-		for (i = rc.top; i < rc.bottom; i += (height / iStepY)) {
-			pt.y = i;
-			for (j = rc.left; j < rc.right; j += (width / iStepX)) {
-				pt.x = j;
-				hAux = WindowFromPoint(pt);
-				while (GetParent(hAux) != NULL)
-					hAux = GetParent(hAux);
-				if (hAux != hWnd && hAux != NULL)       //There's another window!
-					bPartiallyCovered = TRUE;
-				else
-					iNotCoveredDots++;  //Let's count the not covered dots.
-				iCountedDots++; //Let's keep track of how many dots we checked.
-			}
-		}
-		if (iNotCoveredDots == iCountedDots)    //Every dot was not covered: the window is visible.
-			return GWVS_VISIBLE;
-		else if (iNotCoveredDots == 0)  //They're all covered!
-			return GWVS_COVERED;
-		else                    //There are dots which are visible, but they are not as many as the ones we counted: it's partially covered.
-			return GWVS_PARTIALLY_COVERED;
+	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
+	if (MyMonitorFromWindow) {
+		HMONITOR hMon = MyMonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
+		MONITORINFO mi;
+		mi.cbSize = sizeof(mi);
+		if (MyGetMonitorInfo(hMon, &mi))
+			rcWorkArea = mi.rcWork;
 	}
+
+	IntersectRect(&rc, &rcWin, &rcWorkArea);
+
+	width = rc.right - rc.left;
+	height = rc.bottom - rc.top;
+
+	for (i = rc.top; i < rc.bottom; i += (height / iStepY)) {
+		pt.y = i;
+		for (j = rc.left; j < rc.right; j += (width / iStepX)) {
+			pt.x = j;
+			hAux = WindowFromPoint(pt);
+			while (GetParent(hAux) != NULL)
+				hAux = GetParent(hAux);
+			if (hAux != hWnd && hAux != NULL)       //There's another window!
+				bPartiallyCovered = TRUE;
+			else
+				iNotCoveredDots++;  //Let's count the not covered dots.
+			iCountedDots++; //Let's keep track of how many dots we checked.
+		}
+	}
+
+	if (iNotCoveredDots == iCountedDots)    //Every dot was not covered: the window is visible.
+		return GWVS_VISIBLE;
+
+	if (iNotCoveredDots == 0)  //They're all covered!
+		return GWVS_COVERED;
+		
+	//There are dots which are visible, but they are not as many as the ones we counted: it's partially covered.
+	return GWVS_PARTIALLY_COVERED;
 }
 
 int fnShowHide(WPARAM, LPARAM)
@@ -394,6 +390,7 @@ int fnShowHide(WPARAM, LPARAM)
 	case -1:               //We can't get here, both cli.hwndContactList and iStepX and iStepY are right.
 		return 0;
 	}
+
 	if (bShow == TRUE) {
 		RECT rcWindow;
 
@@ -408,21 +405,18 @@ int fnShowHide(WPARAM, LPARAM)
 
 		//this forces the window onto the visible screen
 		GetWindowRect(cli.hwndContactList, &rcWindow);
-		if (Utils_AssertInsideScreen(&rcWindow) == 1)
-		{
+		if (Utils_AssertInsideScreen(&rcWindow) == 1) {
 			MoveWindow(cli.hwndContactList, rcWindow.left, rcWindow.top, 
 				rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 		}
 	}
 	else {                      //It needs to be hidden
 		if (DBGetContactSettingByte(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) || 
-			DBGetContactSettingByte(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT))
-		{
+			DBGetContactSettingByte(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
 			ShowWindow(cli.hwndContactList, SW_HIDE);
 			DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 		}
-		else
-		{
+		else {
 			ShowWindow(cli.hwndContactList, SW_MINIMIZE);
 			DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
 		}
@@ -508,6 +502,7 @@ int LoadContactListModule2(void)
 	hProtoAckHook = (HANDLE) HookEvent(ME_PROTO_ACK, ProtocolAck);
 	hContactDoubleClicked = CreateHookableEvent(ME_CLIST_DOUBLECLICKED);
 	hContactIconChangedEvent = CreateHookableEvent(ME_CLIST_CONTACTICONCHANGED);
+
 	CreateServiceFunction(MS_CLIST_CONTACTDOUBLECLICKED, ContactDoubleClicked);
 	CreateServiceFunction(MS_CLIST_CONTACTFILESDROPPED, ContactFilesDropped);
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODEDESCRIPTION, GetStatusModeDescription);
@@ -523,7 +518,9 @@ int LoadContactListModule2(void)
 	CreateServiceFunction(MS_CLIST_DOCKINGISDOCKED, Docking_IsDocked);
 	CreateServiceFunction(MS_CLIST_HOTKEYSPROCESSMESSAGE, HotkeysProcessMessageStub);
 	CreateServiceFunction(MS_CLIST_GETCONTACTICON, GetContactIcon);
+
 	MySetProcessWorkingSetSize = (BOOL(WINAPI *) (HANDLE, SIZE_T, SIZE_T)) GetProcAddress(GetModuleHandleA("kernel32"), "SetProcessWorkingSetSize");
+
 	InitDisplayNameCache();
 	InitCListEvents();
 	InitGroupServices();
@@ -535,12 +532,9 @@ int LoadContactListModule2(void)
 
 	ImageList_AddIcon_NotShared(hCListImages, MAKEINTRESOURCE(IDI_BLANK));
 
-	{
-		int i;
-		//now all core skin icons are loaded via icon lib. so lets release them
-		for (i = 0; i < SIZEOF(statusModeList); i++)
-			ImageList_AddIcon_IconLibLoaded(hCListImages, skinIconStatusList[i]);
-	}
+	//now all core skin icons are loaded via icon lib. so lets release them
+	for (int i = 0; i < SIZEOF(statusModeList); i++)
+		ImageList_AddIcon_IconLibLoaded(hCListImages, skinIconStatusList[i]);
 
 	//see IMAGE_GROUP... in clist.h if you add more images above here
 	ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPOPEN);
@@ -550,19 +544,21 @@ int LoadContactListModule2(void)
 
 void UnloadContactListModule()
 {
-	if (hCListImages) {
-		//remove transitory contacts
-		HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-		while (hContact != NULL) {
-			HANDLE hNext = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
-			if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
-				CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
-			hContact = hNext;
-		}
-		ImageList_Destroy(hCListImages);
-		UnhookEvent(hProtoAckHook);
-		UninitCListEvents();
-		protoIconIndex.destroy();
-		DestroyHookableEvent(hContactDoubleClicked);
-		UnhookEvent(hContactSettingChanged);
-}	}
+	if (!hCListImages)
+		return;
+
+	//remove transitory contacts
+	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	while (hContact != NULL) {
+		HANDLE hNext = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
+		hContact = hNext;
+	}
+	ImageList_Destroy(hCListImages);
+	UnhookEvent(hProtoAckHook);
+	UninitCListEvents();
+	protoIconIndex.destroy();
+	DestroyHookableEvent(hContactDoubleClicked);
+	UnhookEvent(hContactSettingChanged);
+}

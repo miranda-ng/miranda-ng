@@ -340,9 +340,9 @@ TCString DBGetContactSettingString(HANDLE hContact, const char *szModule, const 
 int DBGetContactSettingString(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
 #ifdef _DEBUG
-	return DBGetContactSettingString_Helper(hContact, szModule, szSetting, dbv, __FILE__, __LINE__, DBVT_ASCIIZ);
+	return db_get_s(hContact, szModule, szSetting, dbv, DBVT_ASCIIZ);
 #else
-	return DBGetContactSettingString_Helper(hContact, szModule, szSetting, dbv, DBVT_ASCIIZ);
+	return db_get_s(hContact, szModule, szSetting, dbv, DBVT_ASCIIZ);
 #endif	
 }
 

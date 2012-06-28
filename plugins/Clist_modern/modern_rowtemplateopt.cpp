@@ -383,7 +383,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			HWND htree = GetDlgItem(hwndDlg,IDC_ROWTREE);
 
 			TranslateDialogDefault(hwndDlg);	
-			rowOptTmplStr =  ModernGetStringA(NULL, "ModernData", "RowTemplate");
+			rowOptTmplStr =  db_get_sa(NULL, "ModernData", "RowTemplate");
 			if (!rowOptTmplStr) rowOptTmplStr=mir_strdup("<TR />");
 			{	
 				//HIMAGELIST himlTreeIcons;

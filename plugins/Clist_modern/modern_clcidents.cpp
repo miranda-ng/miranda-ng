@@ -59,7 +59,7 @@ int cliGetRowsPriorTo(struct ClcGroup *group,struct ClcGroup *subgroup,int conta
 	int count=0;
 	BYTE k;
 	int subcontactscount=0;
-	k=ModernGetSettingByte(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT);
+	k=db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT);
 	group->scanIndex=0;
 	for (;;) {
 		if(group->scanIndex==group->cl.count) {

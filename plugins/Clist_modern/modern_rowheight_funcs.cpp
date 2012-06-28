@@ -264,7 +264,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
           // Draw extra icons
 
           if (contact->type == CLCIT_CONTACT && 
-            (!contact->isSubcontact || ModernGetSettingByte(NULL,"CLC","MetaHideExtra",SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0))
+            (!contact->isSubcontact || db_get_b(NULL,"CLC","MetaHideExtra",SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0))
           {
             BOOL hasExtra=FALSE;
             int k;
@@ -295,7 +295,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
 	  case TC_EXTRA9:
 		  {
 			if (contact->type == CLCIT_CONTACT && 
-				(!contact->isSubcontact || ModernGetSettingByte(NULL,"CLC","MetaHideExtra",SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0))
+				(!contact->isSubcontact || db_get_b(NULL,"CLC","MetaHideExtra",SETTING_METAHIDEEXTRA_DEFAULT) == 0 && dat->extraColumnsCount > 0))
 			{
 				int eNum=gl_RowTabAccess[i]->type-TC_EXTRA1;
 				if (eNum<dat->extraColumnsCount)

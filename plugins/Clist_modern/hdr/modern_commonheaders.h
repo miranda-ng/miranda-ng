@@ -358,26 +358,12 @@ void pdnce___SetStatus( pdisplayNameCacheEntry pdnce, WORD wStatus );
 /* move to list module */
 typedef void (*ItemDestuctor)(void*);
 
-
 void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor);
 void li_RemoveDestruct(SortedList *pList, int index, ItemDestuctor pItemDestructor);
 void li_RemovePtrDestruct(SortedList *pList, void * ptr, ItemDestuctor pItemDestructor);
 void li_SortList(SortedList *pList, FSortFunc pSortFunct);
 
 #define mir_safe_free(a) if(a) mir_free(a)
-
-#ifdef _UNICODE
-#define mir_t2a(s) mir_u2a(s)
-#define mir_a2t(s) mir_a2u(s)
-#define mir_t2u(s) mir_wstrdup(s)
-#define mir_u2t(s) mir_wstrdup(s)
-#else
-#define mir_t2a(s) mir_strdup(s)
-#define mir_a2t(s) mir_strdup(s)
-#define mir_t2u(s) mir_a2u(s)
-#define mir_u2t(s) mir_u2a(s)
-#endif
-
 
 template <class T> class INIT : public T
 {
@@ -479,52 +465,6 @@ public:
 		{	return ( first < second ); }
 	};
 };
-
-#ifdef _UNICODE
-#define ModernGetStringT ModernGetStringW
-#else
-#define ModernGetStringT ModernGetStringA
-#endif
-
-char *	   ModernGetStringA			( HANDLE hContact, const char *szModule, const char *szSetting );
-wchar_t *  ModernGetStringW			( HANDLE hContact, const char *szModule, const char *szSetting );
-
-WORD	ModernGetSettingRangedWord  ( HANDLE hContact, const char *szModule, const char *szSetting, WORD errorValue, WORD minValue, WORD maxValue);
-
-
-#define ModernGetSetting(a,b,c,d)             ModernGetSetting_Helper(a,b,c,d,__FILE__,__LINE__)
-#define ModernGetSettingByte(a,b,c,d)         ModernGetSettingByte_Helper(a,b,c,d,__FILE__,__LINE__)
-#define ModernGetSettingWord(a,b,c,d)         ModernGetSettingWord_Helper(a,b,c,d,__FILE__,__LINE__)
-#define ModernGetSettingDword(a,b,c,d)        ModernGetSettingDword_Helper(a,b,c,d,__FILE__,__LINE__)
-#define ModernGetSettingString(a,b,c,d)       ModernGetSettingString_Helper(a,b,c,d,__FILE__,__LINE__,DBVT_ASCIIZ)
-#define ModernGetSettingWString(a,b,c,d)      ModernGetSettingString_Helper(a,b,c,d,__FILE__,__LINE__,DBVT_WCHAR)
-#define ModernGetSettingUTF8String(a,b,c,d)   ModernGetSettingString_Helper(a,b,c,d,__FILE__,__LINE__,DBVT_UTF8)
-
-int  __cdecl ModernGetSettingByte_Helper   ( HANDLE hContact, const char *szModule, const char *szSetting, int errorValue, const char *szFile, const int nLine);
-int  __cdecl ModernGetSettingWord_Helper   ( HANDLE hContact, const char *szModule, const char *szSetting, int errorValue, const char *szFile, const int nLine);
-int  __cdecl ModernGetSettingDword_Helper  ( HANDLE hContact, const char *szModule, const char *szSetting, int errorValue, const char *szFile, const int nLine);
-int  __cdecl ModernGetSettingString_Helper ( HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const char *szFile, const int nLine, const int nType);
-int  __cdecl ModernGetSetting_Helper       ( HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const char *szFile, const int nLine);
-
-int __cdecl ModernWriteSettingByte       ( HANDLE hContact, const char *szModule, const char *szSetting, BYTE  val  );
-int __cdecl ModernWriteSettingWord       ( HANDLE hContact, const char *szModule, const char *szSetting, WORD  val  );
-int __cdecl ModernWriteSettingDword      ( HANDLE hContact, const char *szModule, const char *szSetting, DWORD val  );
-int __cdecl ModernWriteSettingString     ( HANDLE hContact, const char *szModule, const char *szSetting, const char *val  );
-
-
-int __cdecl ModernDeleteSetting     ( HANDLE hContact, const char *szModule, const char *szSetting);
-int __cdecl ModernDBFreeVariant     ( DBVARIANT *dbv );
-
-
-#ifdef _UNICODE
-	int __cdecl ModernWriteSettingWString    ( HANDLE hContact, const char *szModule, const char *szSetting, const WCHAR *val );
-	#define ModernWriteSettingTString(a,b,c,d) ModernWriteSettingWString( a,b,c,d )
-    #define ModernGetSettingTString(a,b,c,d)   ModernGetSettingWString(a,b,c,d)
-#else
-    #define ModernWriteSettingTString(a,b,c,d) ModernWriteSettingString( a,b,c,d )
-    #define ModernGetSettingTString(a,b,c,d)   ModernGetSettingString(a,b,c,d)
-#endif //_UNICODE
-
 
 #define EXTRACOLUMNCOUNT 10
 

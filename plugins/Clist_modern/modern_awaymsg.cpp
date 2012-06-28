@@ -209,7 +209,7 @@ void amRequestAwayMsg(HANDLE hContact)
 		return;
 	//Do not re-ask for chat rooms   
 	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-	if (szProto == NULL || ModernGetSettingByte(hContact, szProto, "ChatRoom", 0) != 0) 	
+	if (szProto == NULL || db_get_b(hContact, szProto, "ChatRoom", 0) != 0) 	
 		return;
 	amAddHandleToChain(hContact);        
 }

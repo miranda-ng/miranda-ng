@@ -221,7 +221,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, PDNCE pdnce, TCHAR * s
     {
         sp.Protocolname = pdnce->m_cache_cszProto;
 
-        if (ModernGetSettingByte(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) != 1 && pdnce->m_cache_cszProto != NULL && g_szMetaModuleName && strcmp(pdnce->m_cache_cszProto, g_szMetaModuleName) == 0)
+        if (db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) != 1 && pdnce->m_cache_cszProto != NULL && g_szMetaModuleName && strcmp(pdnce->m_cache_cszProto, g_szMetaModuleName) == 0)
         {
             HANDLE hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (LPARAM)pdnce->m_cache_hContact, 0);
             if (hContact != 0)
@@ -329,11 +329,11 @@ int GetStatusName(TCHAR *text, int text_size, PDNCE pdnce, BOOL xstatus_has_prio
     if (!noAwayMsg&& !noXstatus&& xstatus_has_priority && pdnce->m_cache_hContact && pdnce->m_cache_cszProto)
     {
         DBVARIANT dbv={0};
-        if (!ModernGetSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) 
+        if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) 
         {
             //lstrcpyn(text, dbv.pszVal, text_size);
             CopySkipUnprintableChars(text, dbv.ptszVal, text_size-1);
-            ModernDBFreeVariant(&dbv);
+            db_free(&dbv);
 
             if (text[0] != '\0')
                 return -1;
@@ -353,11 +353,11 @@ int GetStatusName(TCHAR *text, int text_size, PDNCE pdnce, BOOL xstatus_has_prio
     if (!noAwayMsg && !noXstatus && !xstatus_has_priority && pdnce->m_cache_hContact && pdnce->m_cache_cszProto)
     {
         DBVARIANT dbv={0};
-        if (!ModernGetSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) 
+        if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) 
         {
             //lstrcpyn(text, dbv.pszVal, text_size);
             CopySkipUnprintableChars(text, dbv.ptszVal, text_size-1);
-            ModernDBFreeVariant(&dbv);
+            db_free(&dbv);
 
             if (text[0] != '\0')
                 return -1;
@@ -379,10 +379,10 @@ void GetListeningTo(TCHAR *text, int text_size,  PDNCE pdnce)
     if (wStatus==ID_STATUS_OFFLINE || wStatus==0)
         return;
 
-    if (!ModernGetSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "ListeningTo", &dbv)) 
+    if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "ListeningTo", &dbv)) 
     {
         CopySkipUnprintableChars(text, dbv.ptszVal, text_size-1);
-        ModernDBFreeVariant(&dbv);
+        db_free(&dbv);
     }
 }
 
@@ -403,11 +403,11 @@ int GetStatusMessage(TCHAR *text, int text_size,  PDNCE pdnce, BOOL xstatus_has_
     if (!noAwayMsg &&xstatus_has_priority && pdnce->m_cache_hContact && pdnce->m_cache_cszProto)
     {
         // Try to get XStatusMsg
-        if (!ModernGetSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) 
+        if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) 
         {
             //lstrcpyn(text, dbv.pszVal, text_size);
             CopySkipUnprintableChars(text, dbv.ptszVal, text_size-1);
-            ModernDBFreeVariant(&dbv);
+            db_free(&dbv);
 
             if (text[0] != '\0')
                 return -1;
@@ -417,11 +417,11 @@ int GetStatusMessage(TCHAR *text, int text_size,  PDNCE pdnce, BOOL xstatus_has_
     // Get StatusMsg
     if (pdnce->m_cache_hContact && text[0] == '\0')
     {
-        if (!ModernGetSettingTString(pdnce->m_cache_hContact, "CList", "StatusMsg", &dbv)) 
+        if (!DBGetContactSettingTString(pdnce->m_cache_hContact, "CList", "StatusMsg", &dbv)) 
         {
             //lstrcpyn(text, dbv.pszVal, text_size);
             CopySkipUnprintableChars(text, dbv.ptszVal, text_size-1);
-            ModernDBFreeVariant(&dbv);
+            db_free(&dbv);
 
             if (text[0] != '\0')
                 return 1;
@@ -432,11 +432,11 @@ int GetStatusMessage(TCHAR *text, int text_size,  PDNCE pdnce, BOOL xstatus_has_
     if (!noAwayMsg && !xstatus_has_priority && pdnce->m_cache_hContact && pdnce->m_cache_cszProto && text[0] == '\0')
     {
         // Try to get XStatusMsg
-        if (!ModernGetSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) 
+        if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) 
         {
             //lstrcpyn(text, dbv.pszVal, text_size);
             CopySkipUnprintableChars(text, dbv.ptszVal, text_size-1);
-            ModernDBFreeVariant(&dbv);
+            db_free(&dbv);
 
             if (text[0] != '\0')
                 return -1;
@@ -464,7 +464,7 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
                 DBVARIANT dbv={0};
 
                 // Try to get XStatusMsg
-                if (!ModernGetSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) 
+                if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) 
                 {
                     if (dbv.ptszVal != NULL && dbv.ptszVal[0] != 0)
                     {
@@ -473,7 +473,7 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
                         mir_free_and_nill(tmp);
                         CopySkipUnprintableChars(text, text, text_size-1);
                     }
-                    ModernDBFreeVariant(&dbv);
+                    db_free(&dbv);
                 }
             }
 
@@ -484,10 +484,10 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
             if (pdnce->m_cache_hContact && pdnce->m_cache_cszProto)
             {
                 DBVARIANT dbv={0};
-                if (!ModernGetSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "Nick", &dbv)) 
+                if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "Nick", &dbv)) 
                 {
                     lstrcpyn(text, dbv.ptszVal, text_size);
-                    ModernDBFreeVariant(&dbv);
+                    db_free(&dbv);
                     CopySkipUnprintableChars(text, text, text_size-1);
                 }
             }
@@ -501,7 +501,7 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
                 DBVARIANT dbv={0};
 
                 // Try to get XStatusName
-                if (!ModernGetSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) 
+                if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) 
                 {
                     if (dbv.pszVal != NULL && dbv.pszVal[0] != 0)
                     {
@@ -511,19 +511,19 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
                         mir_free_and_nill(tmp);
                     }
                     CopySkipUnprintableChars(text, text, text_size-1);
-                    ModernDBFreeVariant(&dbv);
+                    db_free(&dbv);
                 }
             }
             else if (use_name_and_message_for_xstatus && xstatus_has_priority)
             {
                 DBVARIANT dbv={0};
                 // Try to get XStatusName
-                if (!ModernGetSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) 
+                if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) 
                 {
                     if (dbv.pszVal != NULL && dbv.pszVal[0] != 0)
                         mir_sntprintf(text, text_size, TEXT("%s"), dbv.pszVal);
                     CopySkipUnprintableChars(text, text, text_size-1);
-                    ModernDBFreeVariant(&dbv);
+                    db_free(&dbv);
                 }
             }
 
@@ -588,11 +588,11 @@ void Cache_GetFirstLineText(struct ClcData *dat, struct ClcContact *contact)
     TCHAR *name = pcli->pfnGetContactDisplayName(contact->hContact,0);
     if (dat->first_line_append_nick && (!dat->force_in_dialog)) {
         DBVARIANT dbv = {0};
-        if (!ModernGetSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "Nick", &dbv)) 
+        if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "Nick", &dbv)) 
         {
             TCHAR nick[SIZEOF(contact->szText)];
             lstrcpyn(nick, dbv.ptszVal, SIZEOF(contact->szText));
-            ModernDBFreeVariant(&dbv);
+            db_free(&dbv);
 
            if (_tcsicmp(name, nick) == 0) {
                // They are the same -> use the name to keep the case
@@ -984,7 +984,7 @@ void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)
     }
     if (dat->use_avatar_service && ServiceExists(MS_AV_GETAVATARBITMAP))
     {
-        if (dat->avatars_show && !ModernGetSettingByte(contact->hContact, "CList", "HideContactAvatar", 0))
+        if (dat->avatars_show && !db_get_b(contact->hContact, "CList", "HideContactAvatar", 0))
         {
             contact->avatar_data = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)contact->hContact, 0);
             if (contact->avatar_data == NULL || contact->avatar_data->cbSize != sizeof(struct avatarCacheEntry) 
@@ -1007,10 +1007,10 @@ void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)
     else
     {
         contact->avatar_pos = AVATAR_POS_DONT_HAVE;
-        if (dat->avatars_show && !ModernGetSettingByte(contact->hContact, "CList", "HideContactAvatar", 0))
+        if (dat->avatars_show && !db_get_b(contact->hContact, "CList", "HideContactAvatar", 0))
         {
             DBVARIANT dbv;
-            if (!ModernGetSettingTString(contact->hContact, "ContactPhoto", "File", &dbv))
+            if (!DBGetContactSettingTString(contact->hContact, "ContactPhoto", "File", &dbv))
             {
                 HBITMAP hBmp = (HBITMAP) CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)dbv.ptszVal);
                 if (hBmp != NULL)
@@ -1091,7 +1091,7 @@ void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)
                     DeleteObject(hBmp);
                 } //if (hBmp != NULL)
             }
-            ModernDBFreeVariant(&dbv);
+            db_free(&dbv);
         }
 
         // Remove avatar if needed

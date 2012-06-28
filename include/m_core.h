@@ -39,6 +39,65 @@ extern "C"
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
+// database functions
+
+// DBVARIANT: used by db/contact/getsetting and db/contact/writesetting
+#define DBVT_DELETED 0    //this setting just got deleted, no other values are valid
+#define DBVT_BYTE   1	  //bVal and cVal are valid
+#define DBVT_WORD   2	  //wVal and sVal are valid
+#define DBVT_DWORD  4	  //dVal and lVal are valid
+#define DBVT_ASCIIZ 255	  //pszVal is valid
+#define DBVT_BLOB   254	  //cpbVal and pbVal are valid
+#define DBVT_UTF8   253   //pszVal is valid
+#define DBVT_WCHAR  252   //pszVal is valid
+#if defined(_UNICODE)
+  #define DBVT_TCHAR DBVT_WCHAR
+#else
+  #define DBVT_TCHAR DBVT_ASCIIZ
+#endif
+#define DBVTF_VARIABLELENGTH  0x80
+#define DBVTF_DENYUNICODE     0x10000
+typedef struct {
+	BYTE type;
+	union {
+		BYTE bVal; char cVal;
+		WORD wVal; short sVal;
+		DWORD dVal; long lVal;
+		struct {
+			union {
+				char *pszVal;
+				TCHAR *ptszVal;
+				WCHAR *pwszVal;
+			};
+			WORD cchVal;   //only used for db/contact/getsettingstatic
+		};
+		struct {
+			WORD cpbVal;
+			BYTE *pbVal;
+		};
+	};
+} DBVARIANT;
+
+MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv);
+MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, const char *szModule, const char *szSetting);
+
+MIR_CORE_DLL(int)     db_get_b(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue);
+MIR_CORE_DLL(int)     db_get_w(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue);
+MIR_CORE_DLL(DWORD)   db_get_dw(HANDLE hContact, const char *szModule, const char *szSetting, DWORD errorValue);
+MIR_CORE_DLL(INT_PTR) db_get(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
+MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType);
+MIR_CORE_DLL(char*)   db_get_sa(HANDLE hContact, const char *szModule, const char *szSetting);
+MIR_CORE_DLL(WCHAR*)  db_get_wsa(HANDLE hContact, const char *szModule, const char *szSetting);
+
+MIR_CORE_DLL(INT_PTR) db_set_b(HANDLE hContact, const char *szModule, const char *szSetting, BYTE val);
+MIR_CORE_DLL(INT_PTR) db_set_w(HANDLE hContact, const char *szModule, const char *szSetting, WORD val);
+MIR_CORE_DLL(INT_PTR) db_set_dw(HANDLE hContact, const char *szModule, const char *szSetting, DWORD val);
+MIR_CORE_DLL(INT_PTR) db_set_s(HANDLE hContact, const char *szModule, const char *szSetting, const char *val);
+MIR_CORE_DLL(INT_PTR) db_set_ws(HANDLE hContact, const char *szModule, const char *szSetting, const WCHAR *val);
+MIR_CORE_DLL(INT_PTR) db_set_utf(HANDLE hContact, const char *szModule, const char *szSetting, const char *val);
+MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const char *szSetting, void *val, unsigned len);
+
+///////////////////////////////////////////////////////////////////////////////
 // events, hooks & services
 
 #define MAXMODULELABELLENGTH 64

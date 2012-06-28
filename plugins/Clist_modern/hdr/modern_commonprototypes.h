@@ -212,7 +212,6 @@ INT_PTR	CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 INT_PTR	CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);	//RowTemplate.c
 BOOL	FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);	//GenMenu.c
 BOOL	MatchMask(char * name, char * mask);												//mod_skin_selector.c
-char*   DBGetStringA(HANDLE hContact,const char *szModule,const char *szSetting);			//commonheaders.c
 char*   GetContactCachedProtocol(HANDLE hContact);											//clistsettings.c
 char*   GetParamN(char * string, char * buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);  //mod_skin_selector.c
 DWORD	CompareContacts2_getLMTime(HANDLE u);												//contact.c

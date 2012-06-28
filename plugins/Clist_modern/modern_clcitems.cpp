@@ -33,7 +33,7 @@ void AddSubcontacts(struct ClcData *dat, struct ClcContact * cont, BOOL showOffl
 	HANDLE hsub;
 	pdisplayNameCacheEntry cacheEntry;
 	cacheEntry=(pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(cont->hContact);
-	cont->SubExpanded=(ModernGetSettingByte(cont->hContact,"CList","Expanded",0) && (ModernGetSettingByte(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT)));
+	cont->SubExpanded=(db_get_b(cont->hContact,"CList","Expanded",0) && (db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT)));
 	subcount=(int)CallService(MS_MC_GETNUMCONTACTS,(WPARAM)cont->hContact,0);
 
 	if (subcount <= 0) {
@@ -54,7 +54,7 @@ void AddSubcontacts(struct ClcData *dat, struct ClcContact * cont, BOOL showOffl
 		hsub=(HANDLE)CallService(MS_MC_GETSUBCONTACT,(WPARAM)cont->hContact,j);
 		cacheEntry=(pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hsub);
 		wStatus=pdnce___GetStatus( cacheEntry );
-		if (showOfflineHereGroup||(!(ModernGetSettingByte(NULL,"CLC","MetaHideOfflineSub",SETTING_METAHIDEOFFLINESUB_DEFAULT) && ModernGetSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)) ||
+		if (showOfflineHereGroup||(!(db_get_b(NULL,"CLC","MetaHideOfflineSub",SETTING_METAHIDEOFFLINESUB_DEFAULT) && db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)) ||
 			wStatus!=ID_STATUS_OFFLINE )
 			//&&
 			//(!cacheEntry->Hidden || style&CLS_SHOWHIDDEN)
@@ -228,7 +228,7 @@ static void _LoadDataToContact(struct ClcContact * cont, struct ClcGroup *group,
 	Cache_GetText(dat,cont,1);
 	Cache_GetTimezone(dat,cont->hContact);
 	cont->iImage=CallService(MS_CLIST_GETCONTACTICON,(WPARAM)hContact,1);
-	cont->bContactRate=ModernGetSettingByte(hContact, "CList", "Rate",0);
+	cont->bContactRate=db_get_b(hContact, "CList", "Rate",0);
 }
 
 static struct ClcContact * AddContactToGroup(struct ClcData *dat,struct ClcGroup *group, pdisplayNameCacheEntry cacheEntry)
@@ -278,7 +278,7 @@ void * AddTempGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flag
 		mir_snprintf(buf,SIZEOF(buf),"%d",(i-1));
 		mir_sntprintf(b2,SIZEOF(b2),_T("#%s"),szName);
 		b2[0]=1|GROUPF_EXPANDED;
-		ModernWriteSettingTString(NULL,"CListGroups",buf,b2);
+		db_set_ws(NULL,"CListGroups",buf,b2);
 		pcli->pfnGetGroupName(i,&groupFlags);      
 		res=cli_AddGroup(hwnd,dat,szName,groupFlags,i,0);
 		return res;
@@ -366,7 +366,7 @@ void cliRebuildEntireList(HWND hwnd,struct ClcData *dat)
 	struct ClcGroup *group;
     static int rebuildCounter=0;
 
-    BOOL PlaceOfflineToRoot=ModernGetSettingByte(NULL,"CList","PlaceOfflineToRoot",SETTING_PLACEOFFLINETOROOT_DEFAULT);
+    BOOL PlaceOfflineToRoot=db_get_b(NULL,"CList","PlaceOfflineToRoot",SETTING_PLACEOFFLINETOROOT_DEFAULT);
 	KillTimer(hwnd,TIMERID_REBUILDAFTER);
 	
 	ClearRowByIndexCache();
@@ -376,14 +376,14 @@ void cliRebuildEntireList(HWND hwnd,struct ClcData *dat)
     TRACEVAR("Rebuild Entire List %d times\n",++rebuildCounter);
   
 	dat->list.expanded=1;
-	dat->list.hideOffline=ModernGetSettingByte(NULL,"CLC","HideOfflineRoot",SETTING_HIDEOFFLINEATROOT_DEFAULT) && style&CLS_USEGROUPS;
+	dat->list.hideOffline=db_get_b(NULL,"CLC","HideOfflineRoot",SETTING_HIDEOFFLINEATROOT_DEFAULT) && style&CLS_USEGROUPS;
 	dat->list.cl.count = dat->list.cl.limit = 0;
 	dat->list.cl.increment = 50;
 	dat->NeedResort=1;
 
 	HANDLE hSelected = SaveSelection( dat );
 	dat->selection=-1;
-	dat->HiLightMode=ModernGetSettingByte(NULL,"CLC","HiLightMode",SETTING_HILIGHTMODE_DEFAULT);
+	dat->HiLightMode=db_get_b(NULL,"CLC","HiLightMode",SETTING_HILIGHTMODE_DEFAULT);
 	{
 		int i;
 		TCHAR *szGroupName;
@@ -752,7 +752,7 @@ int cliGetGroupContentsCount(struct ClcGroup *group, int visibleOnly)
 
 int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struct ClcData *dat)
 {
-	int dbHidden = ModernGetSettingByte(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
+	int dbHidden = db_get_b(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
 	int filterResult = 1;
 	DBVARIANT dbv = {0};
 	char szTemp[64];
@@ -762,7 +762,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 	BOOL fEmbedded=dat->force_in_dialog;
 	// always hide subcontacts (but show them on embedded contact lists)
 	
-	if(g_CluiData.bMetaAvail && dat != NULL && dat->IsMetaContactsEnabled && g_szMetaModuleName && ModernGetSettingByte(hContact, g_szMetaModuleName, "IsSubcontact", 0))
+	if(g_CluiData.bMetaAvail && dat != NULL && dat->IsMetaContactsEnabled && g_szMetaModuleName && db_get_b(hContact, g_szMetaModuleName, "IsSubcontact", 0))
 		return -1; //subcontact
     if (pdnce && pdnce->isUnknown && !fEmbedded)    
         return 1; //'Unknown Contact'
@@ -773,10 +773,10 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 		// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
 		if(g_CluiData.bFilterEffective & CLVM_STICKY_CONTACTS) 
         {
-			if ((dwLocalMask = ModernGetSettingDword(hContact, CLVM_MODULE, g_CluiData.current_viewmode, 0)) != 0) {
+			if ((dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode, 0)) != 0) {
 				if(g_CluiData.bFilterEffective & CLVM_FILTER_STICKYSTATUS) 
                 {
-					WORD wStatus = ModernGetSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+					WORD wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 					return !((1 << (wStatus - ID_STATUS_OFFLINE)) & HIWORD(dwLocalMask));
 				}
 				return 0;
@@ -788,7 +788,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 			filterResult = strstr(g_CluiData.protoFilter, szTemp) ? 1 : 0;
 		}
 		if(g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
-			if (!ModernGetSettingTString(hContact, "CList", "Group", &dbv)) {
+			if (!DBGetContactSettingTString(hContact, "CList", "Group", &dbv)) {
 				mir_sntprintf(szGroupMask, SIZEOF(szGroupMask), _T("%s|"), &dbv.ptszVal[0]);
 				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (_tcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (_tcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0));
 				mir_free(dbv.ptszVal);
@@ -799,7 +799,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? filterResult : filterResult & 0;
 		}
 		if(g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) {
-			WORD wStatus = ModernGetSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			WORD wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			filterResult = (g_CluiData.filterFlags & CLVM_GROUPSTATUS_OP) ? ((filterResult | ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0))) : (filterResult & ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0));
 		}
 		if(g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG) 

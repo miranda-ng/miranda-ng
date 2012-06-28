@@ -67,7 +67,7 @@ int SkinOptInit( WPARAM wParam, LPARAM lParam )
 		odp.pszTab = LPGEN( "Load/Save" );
 		Options_AddPage(wParam, &odp);
 
-		if ( ModernGetSettingByte( NULL, "ModernData", "EnableSkinEditor", SETTING_ENABLESKINEDITOR_DEFAULT )) {
+		if ( db_get_b( NULL, "ModernData", "EnableSkinEditor", SETTING_ENABLESKINEDITOR_DEFAULT )) {
 			odp.flags |= ODPF_EXPERTONLY;
 			odp.pfnDlgProc = DlgSkinEditorOpts;
 			odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_SKINEDITOR );
@@ -202,10 +202,10 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					}
 					if ( g_hCLUIOptionsWnd )
 					{
-						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT ));
-						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT ));
-						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT ));
-						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT ));
+						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT ));
+						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT ));
+						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT ));
+						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT ));
 					}
 				}
 				break;
@@ -476,7 +476,7 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 	HTREEITEM res = (HTREEITEM)-1;
 	TCHAR path[MAX_PATH];//, mask[MAX_PATH];
 	int attrib;
-	TCHAR *SkinsFolder = ModernGetStringT( NULL, "ModernData", "SkinsFolder" );
+	TCHAR *SkinsFolder = DBGetStringT( NULL, "ModernData", "SkinsFolder" );
 	if ( !SkinsFolder ) SkinsFolder = mir_tstrdup( _T("Skins"));
 
 	CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )SkinsFolder, ( LPARAM )path );
@@ -489,7 +489,7 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 	{
 		TCHAR * skinfile;
 		TCHAR skinfull[MAX_PATH];
-		skinfile = ModernGetStringT( NULL, SKIN, "SkinFile" );
+		skinfile = DBGetStringT( NULL, SKIN, "SkinFile" );
 		if ( skinfile )
 		{
 			CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )skinfile, ( LPARAM )skinfull );
@@ -680,7 +680,7 @@ INT_PTR SvcActiveSkin(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *skinfile;
 	TCHAR skinfull[MAX_PATH];
-	skinfile = ModernGetStringT( NULL, SKIN, "SkinFile" );
+	skinfile = DBGetStringT( NULL, SKIN, "SkinFile" );
 	if ( skinfile )
 	{
 		CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )skinfile, ( LPARAM )skinfull );
@@ -708,10 +708,10 @@ INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam)
 	}
 	if ( g_hCLUIOptionsWnd )
 	{
-		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT ));
-		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT ));
-		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT ));
-		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT ));
+		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT ));
+		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT ));
+		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT ));
+		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT ));
 	}
 	return 0;
 }

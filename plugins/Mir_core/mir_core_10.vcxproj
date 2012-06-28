@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\m_core.h" />
+    <ClInclude Include="..\..\include\m_database.h" />
     <ClInclude Include="..\..\include\m_system.h" />
     <ClInclude Include="commonheaders.h" />
     <ClInclude Include="forkthread.h" />
@@ -33,6 +34,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="db.cpp" />
     <ClCompile Include="langpack.cpp" />
     <ClCompile Include="lists.cpp" />
     <ClCompile Include="md5.cpp" />
@@ -149,6 +151,7 @@
       <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4197 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -213,6 +216,7 @@
       <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4197 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

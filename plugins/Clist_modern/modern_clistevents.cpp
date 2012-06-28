@@ -132,7 +132,7 @@ struct CListEvent* cli_AddEvent(CLISTEVENT *cle)
 				nmi = (struct NotifyMenuItemExData *) malloc(sizeof(struct NotifyMenuItemExData));
 				if (nmi) {
 					TCHAR szBuffer[128];
-					TCHAR* szStatus = pcli->pfnGetStatusModeDescription(ModernGetSettingWord(p->cle.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+					TCHAR* szStatus = pcli->pfnGetStatusModeDescription(db_get_w(p->cle.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 					TCHAR szwProto[64];
 					MultiByteToWideChar(CP_ACP, 0, szProto, -1, szwProto, 64);
 					szwProto[63] = 0;
@@ -284,14 +284,14 @@ static int  ehhEventAreaBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 	{
 		DBVARIANT dbv;
 		event_area.bkColour=sttGetColor("EventArea","BkColour",CLCDEFAULT_BKCOLOUR);
-		if(ModernGetSettingByte(NULL,"EventArea","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if (!ModernGetSettingString(NULL,"EventArea","BkBitmap",&dbv)) {
+		if(db_get_b(NULL,"EventArea","UseBitmap",CLCDEFAULT_USEBITMAP)) {
+			if (!DBGetContactSettingString(NULL,"EventArea","BkBitmap",&dbv)) {
 				event_area.hBmpBackground=(HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
-				ModernDBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
-		event_area.useWinColors = ModernGetSettingByte(NULL, "EventArea", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
-		event_area.backgroundBmpUse = ModernGetSettingWord(NULL, "EventArea", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+		event_area.useWinColors = db_get_b(NULL, "EventArea", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
+		event_area.backgroundBmpUse = db_get_w(NULL, "EventArea", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}	
 	PostMessage(pcli->hwndContactList,WM_SIZE,0,0);
 	return 0;
@@ -302,8 +302,8 @@ void EventArea_ConfigureEventArea()
 	int iCount = pcli->events.count;
   
     g_CluiData.dwFlags&=~(CLUI_FRAME_AUTOHIDENOTIFY|CLUI_FRAME_SHOWALWAYS);
-    if (ModernGetSettingByte(NULL,"CLUI","EventArea",SETTING_EVENTAREAMODE_DEFAULT)==1) g_CluiData.dwFlags|=CLUI_FRAME_AUTOHIDENOTIFY;
-    if (ModernGetSettingByte(NULL,"CLUI","EventArea",SETTING_EVENTAREAMODE_DEFAULT)==2) g_CluiData.dwFlags|=CLUI_FRAME_SHOWALWAYS;
+    if (db_get_b(NULL,"CLUI","EventArea",SETTING_EVENTAREAMODE_DEFAULT)==1) g_CluiData.dwFlags|=CLUI_FRAME_AUTOHIDENOTIFY;
+    if (db_get_b(NULL,"CLUI","EventArea",SETTING_EVENTAREAMODE_DEFAULT)==2) g_CluiData.dwFlags|=CLUI_FRAME_SHOWALWAYS;
 
 	if (g_CluiData.dwFlags & CLUI_FRAME_SHOWALWAYS)
 		g_CluiData.bNotifyActive = 1;
@@ -451,7 +451,7 @@ int EventArea_Create(HWND hCluiWnd)
     Frame.hWnd=g_CluiData.hwndEventFrame;
     Frame.align=alBottom;
     Frame.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-    Frame.Flags=(ModernGetSettingByte(NULL,"CLUI","ShowEventArea",SETTING_SHOWEVENTAREAFRAME_DEFAULT)?F_VISIBLE:0)|F_LOCKED|F_NOBORDER|F_NO_SUBCONTAINER|F_TCHAR;
+    Frame.Flags=(db_get_b(NULL,"CLUI","ShowEventArea",SETTING_SHOWEVENTAREAFRAME_DEFAULT)?F_VISIBLE:0)|F_LOCKED|F_NOBORDER|F_NO_SUBCONTAINER|F_TCHAR;
     Frame.height=h;
     Frame.tname=_T("EventArea"); //do not translate
     Frame.TBtname=TranslateT("Event Area");
