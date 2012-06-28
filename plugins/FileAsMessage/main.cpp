@@ -2,15 +2,14 @@
 #include "dialog.h"
 #include "resource.h"
 
-#include "IcoLib.h"
 
 #include <stdio.h>
 #include <time.h>
 
 PLUGINLINK *pluginLink;
-PLUGININFO pluginInfo =
+PLUGININFOEX pluginInfo =
 {
-	sizeof( PLUGININFO ),
+	sizeof( PLUGININFOEX ),
 	SERVICE_TITLE,
 	PLUGIN_MAKE_VERSION( 0,0,2,4 ),
 	"file tranfer by using the messaging services - as plain text",

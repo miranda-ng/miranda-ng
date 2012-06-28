@@ -1,0 +1,209 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CONNLIST DIALOGEX 0, 0, 330, 230
+STYLE WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | 
+    WS_THICKFRAME
+EXSTYLE WS_EX_NOPARENTNOTIFY
+CAPTION "WUMF: Current connections"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,276,212,50,14
+    CONTROL         "List1",IDC_CONNLIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SORTASCENDING | WS_TABSTOP,4,4,322,
+                    200,WS_EX_CLIENTEDGE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_CONNLIST, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 326
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 226
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_DRIVE               BITMAP  DISCARDABLE     "res\\drive.bmp"
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 330, 246
+STYLE DS_MODALFRAME | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTEXTHELP | WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Popup delay settings",IDC_STATIC,9,9,153,93,WS_GROUP
+    EDITTEXT        IDC_DELAY_SEC,17,23,20,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "PopUp Delay (seconds)",IDC_TX_DELAY_SEC,39,25,94,8
+    CONTROL         "",IDC_COLOR_BACK,"ColourPicker",WS_TABSTOP,187,24,39,12
+    LTEXT           "Background color",IDC_STATIC,231,26,76,8,SS_CENTERIMAGE | 
+                    NOT WS_GROUP
+    CONTROL         "",IDC_COLOR_TEXT,"ColourPicker",WS_TABSTOP,187,39,39,12
+    LTEXT           "Text color",IDC_STATIC,231,42,76,8,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    PUSHBUTTON      "Previe&w",IDC_PREVIEW,270,231,50,15
+    CONTROL         "Show infinitely",IDC_DELAY_INF,"Button",
+                    BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,17,50,61,10
+    CONTROL         "Default PopUp delay",IDC_DELAY_DEF,"Button",
+                    BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,17,61,81,10
+    CONTROL         "Choose delay time",IDC_DELAY_SET,"Button",
+                    BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,17,39,73,10
+    GROUPBOX        "Popup color settings",IDC_STATIC,167,9,153,93,WS_GROUP
+    CONTROL         "Use windows colors",IDC_COLOR_WIN,"Button",
+                    BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,187,63,79,10
+    CONTROL         "Use default PopUp colors",IDC_COLOR_DEF,"Button",
+                    BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,187,74,97,10
+    CONTROL         "Choose colors",IDC_COLOR_SET,"Button",
+                    BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,187,52,61,10
+    GROUPBOX        "File access filter && logging settings",IDC_STATIC,9,
+                    106,311,101
+    CTEXT           "Please note that this settings has effect only with PopUps Interoperability plugin version 1.0.1.9 or higher",
+                    IDC_DELAY_NOTE,14,73,143,26,SS_SUNKEN | WS_DISABLED | 
+                    NOT WS_GROUP
+    EDITTEXT        IDC_FILE,83,123,210,12,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
+    PUSHBUTTON      "...",IDC_SEL_FILE,299,123,14,12
+    CONTROL         "Log into text file",IDC_LOG_INTO_FILE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,14,123,64,12
+    CONTROL         "Log folders access",IDC_LOG_FOLDER,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,14,143,75,12
+    CONTROL         "Alerts on folders access",IDC_ALERT_FOLDER,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,165,143,91,12
+    CONTROL         "Log files and folders in UNC format",IDC_LOG_UNC,"Button",
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,14,163,125,12
+    CONTROL         "Alert files && folders in UNC format",IDC_ALERT_UNC,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,165,
+                    163,119,12
+    CONTROL         "Log computer name with username",IDC_LOG_COMP,"Button",
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,14,183,126,10
+    CONTROL         "Alert computer name with username",IDC_ALERT_COMP,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,165,
+                    183,128,10
+    LTEXT           "Disabled options will be available in the next version",
+                    IDC_STATIC,83,194,199,9
+    PUSHBUTTON      "Show current connections",IDC_CONN,162,231,104,15
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 320
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_POPUP               ICON    DISCARDABLE     "res\\popup.ico"
+IDI_NOPOPUP             ICON    DISCARDABLE     "res\\popup_no.ico"
+IDI_DRIVE               ICON    DISCARDABLE     "res\\drive.ico"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

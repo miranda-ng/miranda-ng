@@ -2,8 +2,6 @@
 #include"dialog.h"
 #include"resource.h"
 
-#include "m_Snapping_windows.h"
-
 #include"crc32.cpp"
 
 char *szFEMode[] =
@@ -1140,8 +1138,7 @@ LRESULT CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 	struct FILEECHO *dat;
 
 	dat = (struct FILEECHO*)GetWindowLong(hDlg, GWL_USERDATA);
-	CallSnappingWindowProc(hDlg,uMsg,wParam,lParam);
-    switch( uMsg )
+	switch( uMsg )
 	{
 		case WM_INITDIALOG:
 		{
