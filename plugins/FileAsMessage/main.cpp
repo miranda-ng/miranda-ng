@@ -24,7 +24,7 @@ char *szServiceTitle = SERVICE_TITLE;
 char *szServicePrefix = SERVICE_PREFIX;
 HANDLE hHookDbSettingChange, hHookContactAdded, hHookSkinIconsChanged;
 
-extern LRESULT CALLBACK OptionsDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam );
+extern INT_PTR CALLBACK OptionsDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 int idIcons[5] = {IDI_PLAY, IDI_PAUSE, IDI_REFRESH, IDI_STOP, IDI_SMALLICON};
 HICON hIcons[5];
@@ -87,9 +87,8 @@ int OnSkinIconsChanged(WPARAM wParam,LPARAM lParam)
 int OnSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	HWND hwnd;
 
-	hwnd = WindowList_Find(hFileList,(HANDLE)wParam);
+	HWND hwnd = WindowList_Find(hFileList,(HANDLE)wParam);
 	PostMessage(hwnd, WM_FE_STATUSCHANGE, 0,0);
 	//OnSkinIconsChanged(0,0);
 	//PostMessage(hwnd, WM_FE_SKINCHANGE, 0,0);
@@ -105,10 +104,9 @@ int OnContactAdded(WPARAM wParam,LPARAM lParam)
 
 INT_PTR OnRecvFile(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd;
 	CLISTEVENT *clev = (CLISTEVENT*)lParam;
 
-	hwnd = WindowList_Find(hFileList,(HANDLE)clev->hContact);
+	HWND hwnd = WindowList_Find(hFileList,(HANDLE)clev->hContact);
 	if(IsWindow(hwnd))
 	{
 		ShowWindow(hwnd, SW_SHOWNORMAL);
@@ -136,9 +134,7 @@ INT_PTR OnRecvFile(WPARAM wParam, LPARAM lParam)
 
 INT_PTR OnSendFile(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd;
-
-	hwnd = WindowList_Find(hFileList,(HANDLE)wParam);
+	HWND hwnd = WindowList_Find(hFileList,(HANDLE)wParam);
 	if(IsWindow(hwnd))
 	{
 		SetForegroundWindow(hwnd);
@@ -149,7 +145,7 @@ INT_PTR OnSendFile(WPARAM wParam, LPARAM lParam)
 		if(hwnd != 0) WindowList_Remove(hFileList, hwnd);
 		FILEECHO *fe = new FILEECHO((HANDLE)wParam);
 		fe->inSend = TRUE;
-		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), NULL, (DLGPROC)DialogProc, (LPARAM)fe);
+		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), NULL, DialogProc, (LPARAM)fe);
 		if(hwnd == NULL)
 		{
 			delete fe;
@@ -165,18 +161,17 @@ INT_PTR OnRecvMessage( WPARAM wParam, LPARAM lParam )
 {
 	CCSDATA *pccsd = (CCSDATA *)lParam;
 	PROTORECVEVENT *ppre = ( PROTORECVEVENT * )pccsd->lParam;
-	HWND hwnd;
 
 	if(strncmp(ppre->szMessage, szServicePrefix, strlen(szServicePrefix)))
 		return CallService( MS_PROTO_CHAINRECV, wParam, lParam );
 
-	hwnd = (HWND)WindowList_Find(hFileList, (HANDLE)pccsd->hContact);
+	HWND hwnd = WindowList_Find(hFileList, (HANDLE)pccsd->hContact);
 	if(!IsWindow(hwnd))
 	{
 		if(hwnd != 0) WindowList_Remove(hFileList, hwnd);
 		FILEECHO *fe = new FILEECHO((HANDLE)pccsd->hContact);
 		fe->inSend = FALSE;
-		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), NULL, (DLGPROC)DialogProc, (LPARAM)fe);
+		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), NULL, DialogProc, (LPARAM)fe);
 		if(hwnd == NULL)
 		{
 			delete fe;
@@ -197,11 +192,11 @@ int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
-	odp.pszTitle = Translate(SERVICE_TITLE);
-	odp.pszGroup = Translate("Plugins");
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = (DLGPROC)OptionsDlgProc;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.ptszTitle = _T(SERVICE_TITLE);
+	odp.ptszGroup = _T("Plugins");
+	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.pfnDlgProc = OptionsDlgProc;
 	Options_AddPage(wParam, &odp);
 
 	return 0;

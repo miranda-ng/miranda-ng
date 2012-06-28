@@ -5,7 +5,7 @@ extern HINSTANCE hInst;
 
 int getMsgId(char *msg);
 
-LRESULT CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam );
+INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 #ifdef _DEBUG
 	#define CHECKPOINT

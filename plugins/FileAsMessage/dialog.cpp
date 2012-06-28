@@ -1130,11 +1130,9 @@ LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 	return CallSubclassed(hwnd, uMsg, wParam, lParam);
 }
 
-LRESULT CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
+INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-	struct FILEECHO *dat;
-
-	dat = (struct FILEECHO*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	struct FILEECHO *dat = (struct FILEECHO*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	switch( uMsg )
 	{
 		case WM_INITDIALOG:
