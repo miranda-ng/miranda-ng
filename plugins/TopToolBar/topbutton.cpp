@@ -107,22 +107,22 @@ void TopButtonInt::LoadSettings()
 	}
 }
 
-void TopButtonInt::SaveSettings(int &SepCnt, int &LaunchCnt)
+void TopButtonInt::SaveSettings(int *SepCnt, int *LaunchCnt)
 {
 	char buf[255];
 
-	if ((dwFlags & TTBBF_ISSEPARATOR) && (dwFlags & TTBBF_INTERNAL)) {
+	if (SepCnt && (dwFlags & TTBBF_ISSEPARATOR) && (dwFlags & TTBBF_INTERNAL)) {
 		char buf1[10];
-		_itoa(++SepCnt, buf1, 10);
+		_itoa(SepCnt[0]++, buf1, 10);
 		char buf2[20];
 		AS(buf2, "Sep", buf1);
 
 		DBWriteContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), arrangedpos);
 		DBWriteContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), dwFlags & TTBBF_VISIBLE);
 	}
-	else if ((dwFlags & TTBBF_ISLBUTTON ) && (dwFlags & TTBBF_INTERNAL)) {
+	else if (LaunchCnt && (dwFlags & TTBBF_ISLBUTTON ) && (dwFlags & TTBBF_INTERNAL)) {
 		char buf1[10];
-		_itoa(++LaunchCnt, buf1, 10);
+		_itoa(LaunchCnt[0]++, buf1, 10);
 		char buf2[20];
 		AS(buf2, "Launch", buf1);
 

@@ -139,7 +139,7 @@ int SaveAllButtonsOptions()
 	int LaunchCnt = 0;
 
 	for (int i = 0; i < Buttons.getCount(); i++)
-		Buttons[i]->SaveSettings(SeparatorCnt,LaunchCnt);
+		Buttons[i]->SaveSettings(&SeparatorCnt, &LaunchCnt);
 
 	DBWriteContactSettingByte(0, TTB_OPTDIR, "SepCnt", SeparatorCnt);
 	DBWriteContactSettingByte(0, TTB_OPTDIR, "LaunchCnt", LaunchCnt);

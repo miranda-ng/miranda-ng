@@ -55,7 +55,7 @@ struct TopButtonInt
 	DWORD CheckFlags(DWORD Flags);
 	void  CreateWnd(void);
 	void  LoadSettings(void);
-	void  SaveSettings(int &SepCnt, int &LaunchCnt);
+	void  SaveSettings(int *SepCnt, int *LaunchCnt);
 	void  SetBitmap(void);
 
 	__inline bool isSep() const
