@@ -503,6 +503,8 @@ __forceinline char* mir_utf8decodeA(const char* src)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+MIR_CORE_DLL(void) UnloadCoreModule(void);
+
 #if defined(__cplusplus)
 }
 #endif

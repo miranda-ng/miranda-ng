@@ -42,6 +42,7 @@ void DestroyModularEngine(void);
 int InitPathUtils(void);
 
 extern HINSTANCE hInst;
+extern HWND hAPCWindow;
 
 /**** modules.cpp **********************************************************************/
 

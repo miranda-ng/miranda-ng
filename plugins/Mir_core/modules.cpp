@@ -81,24 +81,35 @@ static HANDLE hMainThread;
 static HANDLE hMissingService;
 static THook *pLastHook = NULL;
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int QueueMainThread(PAPCFUNC pFunc, void* pParam, HANDLE hDoneEvent)
+{
+	int result = QueueUserAPC(pFunc, hMainThread, (ULONG_PTR)pParam);
+	PostMessage(hAPCWindow, WM_NULL, 0, 0); // let this get processed in its own time
+	if (hDoneEvent) {
+		WaitForSingleObject(hDoneEvent, INFINITE);
+		CloseHandle(hDoneEvent);
+	}
+	return result;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // HOOKS
 
 MIR_CORE_DLL(HANDLE) CreateHookableEvent(const char *name)
 {
-	THook* ret;
-	int    idx;
-
 	if (name == NULL)
 		return NULL;
 
 	EnterCriticalSection(&csHooks);
+	int idx;
 	if ((idx = hooks.getIndex((THook*)name)) != -1) {
 		LeaveCriticalSection(&csHooks);
 		return NULL;
 	}
 
-	ret = (THook*)mir_alloc(sizeof(THook));
+	THook* ret = (THook*)mir_alloc(sizeof(THook));
 	strncpy(ret->name, name, sizeof(ret->name)); ret->name[ MAXMODULELABELLENGTH-1 ] = 0;
 	ret->id = hookId++;
 	ret->subscriberCount = 0;
@@ -242,24 +253,16 @@ static void CALLBACK HookToMainAPCFunc(ULONG_PTR dwParam)
 
 MIR_CORE_DLL(int) NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 {
-	extern HWND hAPCWindow;
+	if ( GetCurrentThreadId() == mainThreadId)
+		return (checkHook(hEvent) == -1) ? -1 : CallHookSubscribers(hEvent, wParam, lParam);
 
-	if ( GetCurrentThreadId() != mainThreadId) {
-		THookToMainThreadItem item;
-
-		item.hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-		item.hook = (THook*)hEvent;
-		item.wParam = wParam;
-		item.lParam = lParam;
-
-		QueueUserAPC(HookToMainAPCFunc, hMainThread, (ULONG_PTR)&item);
-		PostMessage(hAPCWindow, WM_NULL, 0, 0); // let it process APC even if we're in a common dialog
-		WaitForSingleObject(item.hDoneEvent, INFINITE);
-		CloseHandle(item.hDoneEvent);
-		return item.result;
-	}
-
-	return (checkHook(hEvent) == -1) ? -1 : CallHookSubscribers(hEvent, wParam, lParam);
+	mir_ptr<THookToMainThreadItem> item;
+	item->hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	item->hook = (THook*)hEvent;
+	item->wParam = wParam;
+	item->lParam = lParam;
+	QueueMainThread(HookToMainAPCFunc, item, item->hDoneEvent);
+	return item->result;
 }
 
 static HANDLE HookEventInt(int type, const char* name, MIRANDAHOOK hookProc, void* object, LPARAM lParam)
@@ -548,23 +551,18 @@ static void CALLBACK CallServiceToMainAPCFunc(ULONG_PTR dwParam)
 
 MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam, LPARAM lParam)
 {
-	extern HWND hAPCWindow;
-
 	if (name == NULL) return CALLSERVICE_NOTFOUND;
 	// the service is looked up within the main thread, since the time it takes
 	// for the APC queue to clear the service being called maybe removed.
 	// even thou it may exists before the call, the critsec can't be locked between calls.
 	if (GetCurrentThreadId() != mainThreadId) {
-		TServiceToMainThreadItem item;
-		item.wParam = wParam;
-		item.lParam = lParam;
-		item.name = name;
-		item.hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-		QueueUserAPC(CallServiceToMainAPCFunc, hMainThread, (ULONG_PTR) &item);
-		PostMessage(hAPCWindow, WM_NULL, 0, 0); // let this get processed in its own time
-		WaitForSingleObject(item.hDoneEvent, INFINITE);
-		CloseHandle(item.hDoneEvent);
-		return item.result;
+		mir_ptr<TServiceToMainThreadItem> item;
+		item->wParam = wParam;
+		item->lParam = lParam;
+		item->name = name;
+		item->hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+		QueueMainThread(CallServiceToMainAPCFunc, &item, item->hDoneEvent);
+		return item->result;
 	}
 
    return CallService(name, wParam, lParam);
@@ -572,10 +570,8 @@ MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam, LPARAM lP
 
 MIR_CORE_DLL(int) CallFunctionAsync(void (__stdcall *func)(void *), void *arg)
 {
-	extern HWND hAPCWindow;
-	int r = QueueUserAPC((void (__stdcall *)(ULONG_PTR))func, hMainThread, (ULONG_PTR)arg);
-	PostMessage(hAPCWindow, WM_NULL, 0, 0);
-	return r;
+	QueueMainThread((PAPCFUNC)func, arg, 0);
+	return 0;
 }
 
 MIR_CORE_DLL(void) KillModuleServices(HINSTANCE hInst)

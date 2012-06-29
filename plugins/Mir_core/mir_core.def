@@ -123,3 +123,4 @@ db_set_s                      @119
 db_set_utf                    @120
 db_set_w                      @121
 db_set_ws                     @122
+UnloadCoreModule              @123

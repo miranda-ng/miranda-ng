@@ -348,6 +348,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 
 exit:
 	UnloadNewPluginsModule();
+	UnloadCoreModule();
 	CloseHandle(hMirandaShutdown);
 	CloseHandle(hThreadQueueEmpty);
 

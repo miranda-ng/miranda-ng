@@ -350,6 +350,9 @@ MIR_CORE_DLL(INT_PTR) Thread_Pop()
 	return 1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// module init
+
 static LRESULT CALLBACK APCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_NULL) SleepEx(0, TRUE);
@@ -358,10 +361,7 @@ static LRESULT CALLBACK APCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// module init
-
-static void LoadSystemModule(void)
+static void LoadCoreModule(void)
 {
 	INITCOMMONCONTROLSEX icce = {0};
 	icce.dwSize = sizeof(icce);
@@ -390,7 +390,7 @@ static void LoadSystemModule(void)
 	InitialiseModularEngine();
 }
 
-static void UnloadSystemModule(void)
+MIR_CORE_DLL(void) UnloadCoreModule(void)
 {
 	DestroyWindow(hAPCWindow);
 	CloseHandle(hStackMutex);
@@ -406,9 +406,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
 		hInst = hinstDLL;
-		LoadSystemModule();
+		LoadCoreModule();
 	}
-	else if(fdwReason == DLL_PROCESS_DETACH)
-		UnloadSystemModule();
 	return TRUE;
 }
