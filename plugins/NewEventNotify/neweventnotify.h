@@ -146,9 +146,6 @@
 #define POPUP_COMMENT_EMAILEXP "ICQ Email express"
 #define POPUP_COMMENT_OTHER "Unknown Event"
 
-#define OPTIONS_GROUP "PopUps"
-#define OPTIONS_TITLE "Event Notify"
-
 #define MENUITEM_NAME "Notify of new events"
 
 #define MENUITEM_ENABLE "Enable new event notification"

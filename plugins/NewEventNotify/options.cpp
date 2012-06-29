@@ -296,14 +296,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 int OptionsAdd(HINSTANCE hInst, WPARAM addInfo)
 {
-	OPTIONSDIALOGPAGE odp;
 	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.cbSize = sizeof(odp);
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-		odp.ptszTitle = TranslateT(OPTIONS_TITLE);
-		odp.ptszGroup = TranslateT(OPTIONS_GROUP);
-		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+		odp.pszTitle = LPGEN("Event Notify");
+		odp.pszGroup = LPGEN("PopUps");
+		odp.flags = ODPF_BOLDGROUPS;
 		odp.pfnDlgProc = OptionsDlgProc;
 		Options_AddPage( addInfo, &odp);
 	}
