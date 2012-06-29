@@ -85,7 +85,7 @@ void TopButtonInt::LoadSettings()
 		if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
 			dwFlags |= TTBBF_VISIBLE;
 	}
-	else if (dwFlags & TTBBF_ISLBUTTON) {
+	else if ((dwFlags & TTBBF_ISLBUTTON ) && (dwFlags & TTBBF_INTERNAL)) {
 		char buf1[10];
 		_itoa(wParamDown, buf1, 10);
 		char buf2[20];

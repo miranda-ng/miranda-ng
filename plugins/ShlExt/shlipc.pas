@@ -101,8 +101,7 @@ const
   HIPC_NOICONS = 1;
 
 procedure ipcPrepareRequests(ipcPacketSize: int; pipch: PHeaderIPC; fRequests: Cardinal);
-function ipcSendRequest(hSignal, hWaitFor: THandle; pipch: PHeaderIPC; dwTimeoutMsecs: DWORD)
-  : Cardinal;
+function ipcSendRequest(hSignal, hWaitFor: THandle; pipch: PHeaderIPC; dwTimeoutMsecs: DWORD): Cardinal;
 function ipcAlloc(pipch: PHeaderIPC; nSize: Integer): PSlotIPC;
 procedure ipcFixupAddresses(FromServer: LongBool; pipch: PHeaderIPC);
 
@@ -141,7 +140,7 @@ type
   end;
 
 function AllocGroupNode(list: PGroupNodeList; Root: PGroupNode; Depth: Integer): PGroupNode;
-function FindGroupNode(P: PGroupNode; const Hash, Depth: Integer): PGroupNode;
+function FindGroupNode(P: PGroupNode; const Hash, Depth: dword): PGroupNode;
 
 type
 
@@ -173,9 +172,7 @@ type
 
 implementation
 
-{$INCLUDE m_helpers.inc}
-
-function FindGroupNode(P: PGroupNode; const Hash, Depth: Integer): PGroupNode;
+function FindGroupNode(P: PGroupNode; const Hash, Depth: dword): PGroupNode;
 begin
   Result := P;
   while Result <> nil do
@@ -242,15 +239,14 @@ begin
   // maybe used on the client side and are translated by the server side.
   // ipcAlloc() is used on the client side when transferring filenames
   // to the ST thread.
-  int_ptr(pipch^.DataPtr) := int_ptr(pipch) + sizeof(THeaderIPC);
-  int_ptr(pipch^.DataPtrEnd) := int_ptr(pipch^.DataPtr) + pipch^.DataSize;
+  uint_ptr(pipch^.DataPtr) := uint_ptr(pipch) + sizeof(THeaderIPC);
+  uint_ptr(pipch^.DataPtrEnd) := uint_ptr(pipch^.DataPtr) + pipch^.DataSize;
   pipch^.DataFramePtr := pipch^.DataPtr;
   // fill the data area
   FillChar(pipch^.DataPtr^, pipch^.DataSize, 0);
 end;
 
-function ipcSendRequest(hSignal, hWaitFor: THandle; pipch: PHeaderIPC; dwTimeoutMsecs: DWORD)
-  : Cardinal;
+function ipcSendRequest(hSignal, hWaitFor: THandle; pipch: PHeaderIPC; dwTimeoutMsecs: DWORD): Cardinal;
 begin
   { signal ST to work }
   SetEvent(hSignal);
@@ -277,13 +273,13 @@ end;
 
 function ipcAlloc(pipch: PHeaderIPC; nSize: Integer): PSlotIPC;
 var
-  PSP: int;
+  PSP: uint_ptr;
 begin
   Result := nil;
   { nSize maybe zero, in that case there is no string section --- }
-  PSP := int(pipch^.DataFramePtr) + sizeof(TSlotIPC) + nSize;
+  PSP := uint_ptr(pipch^.DataFramePtr) + sizeof(TSlotIPC) + nSize;
   { is it past the end? }
-  If PSP >= int(pipch^.DataPtrEnd) then
+  If PSP >= uint_ptr(pipch^.DataPtrEnd) then
     Exit;
   { return the pointer }
   Result := pipch^.DataFramePtr;
@@ -310,25 +306,27 @@ begin
   // fix up all the pointers in the header
   if pipch^.IconsBegin <> nil then
   begin
-    int_ptr(pipch^.IconsBegin) := (int_ptr(pipch^.IconsBegin) - iServerBase) + iClientBase;
+    uint_ptr(pipch^.IconsBegin) := (uint_ptr(pipch^.IconsBegin) - iServerBase) + iClientBase;
   end; // if
+
   if pipch^.ContactsBegin <> nil then
   begin
-    int_ptr(pipch^.ContactsBegin) := (int_ptr(pipch^.ContactsBegin) - iServerBase) +
-      iClientBase;
+    uint_ptr(pipch^.ContactsBegin) := (uint_ptr(pipch^.ContactsBegin) - iServerBase) + iClientBase;
   end; // if
+
   if pipch^.GroupsBegin <> nil then
   begin
-    int_ptr(pipch^.GroupsBegin) := (int_ptr(pipch^.GroupsBegin) - iServerBase) + iClientBase;
+    uint_ptr(pipch^.GroupsBegin) := (uint_ptr(pipch^.GroupsBegin) - iServerBase) + iClientBase;
   end; // if
+
   if pipch^.NewIconsBegin <> nil then
   begin
-    int_ptr(pipch^.NewIconsBegin) := (int_ptr(pipch^.NewIconsBegin) - iServerBase) +
+    uint_ptr(pipch^.NewIconsBegin) := (uint_ptr(pipch^.NewIconsBegin) - iServerBase) +
       iClientBase;
   end;
-  int_ptr(pipch^.DataPtr) := (int_ptr(pipch^.DataPtr) - iServerBase) + iClientBase;
-  int_ptr(pipch^.DataPtrEnd) := (int_ptr(pipch^.DataPtrEnd) - iServerBase) + iClientBase;
-  int_ptr(pipch^.DataFramePtr) := (int_ptr(pipch^.DataFramePtr) - iServerBase) + iClientBase;
+  uint_ptr(pipch^.DataPtr) := (uint_ptr(pipch^.DataPtr) - iServerBase) + iClientBase;
+  uint_ptr(pipch^.DataPtrEnd) := (uint_ptr(pipch^.DataPtrEnd) - iServerBase) + iClientBase;
+  uint_ptr(pipch^.DataFramePtr) := (uint_ptr(pipch^.DataFramePtr) - iServerBase) + iClientBase;
   // and the link list
   pct := pipch^.DataPtr;
   while (pct <> nil) do
@@ -338,7 +336,7 @@ begin
     q := @pct^.Next;
     if q^ <> nil then
     begin
-      int_ptr(q^) := (int_ptr(q^) - iServerBase) + iClientBase;
+      uint_ptr(q^) := (uint_ptr(q^) - iServerBase) + iClientBase;
     end; // if
     pct := q^;
   end; // while

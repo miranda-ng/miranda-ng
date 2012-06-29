@@ -57,7 +57,7 @@ type
   PGUID = ^TGUID;
 
   TGUID = record
-    D1: Longint;
+    D1: Longword;
     D2: Word;
     D3: Word;
     D4: array [0 .. 7] of Byte;
@@ -69,20 +69,13 @@ type
   TStgMedium = record
     tymed: Longint;
     case Integer of
-      0:
-        (hBitmap: hBitmap; unkForRelease: Pointer { IUnknown } );
-      1:
-        (hMetaFilePict: THandle);
-      2:
-        (hEnhMetaFile: THandle);
-      3:
-        (hGlobal: hGlobal);
-      4:
-        (lpszFileName: Pointer { POleStr } );
-      5:
-        (stm: Pointer { IUnknown } );
-      6:
-        (stg: Pointer { IStorage } );
+      0: (hBitmap: hBitmap; unkForRelease: Pointer { IUnknown } );
+      1: (hMetaFilePict: THandle);
+      2: (hEnhMetaFile: THandle);
+      3: (hGlobal: hGlobal);
+      4: (lpszFileName: Pointer { POleStr } );
+      5: (stm: Pointer { IUnknown } );
+      6: (stg: Pointer { IStorage } );
   end;
 
   PFormatEtc = ^TFormatEtc;

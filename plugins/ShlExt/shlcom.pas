@@ -33,13 +33,12 @@ function ExtractIcon(hInst: THandle; pszExe: PChar; nIndex: Integer): HICON; std
 implementation
 
 var
+  dllpublic: record
+    FactoryCount: Integer;
+    ObjectCount: Integer;
+  end;
 
-  dllpublic: record FactoryCount: Integer;
-  ObjectCount: Integer;
-end;
-
-VistaOrLater:
-Boolean;
+  VistaOrLater:Boolean;
 
 {$DEFINE COMAPI}
 {$INCLUDE shlc.inc}
@@ -99,7 +98,10 @@ type
 
   { completely stolen from modules.c: 'NameHashFunction' modified slightly }
 
-function StrHash(const szStr: PChar): DWORD; cdecl;
+function StrHash(const szStr: PChar): DWORD;// cdecl;
+begin
+  result:=mir_hash(szStr,strlen(szStr));
+{
 asm
   // esi content has to be preserved with basm
   push esi
@@ -108,7 +110,7 @@ asm
   mov  esi,szStr
   mov  al,[esi]
   xor  cl,cl
-@@lph_top:	                // only 4 of 9 instructions in here don't use AL, so optimal pipe use is impossible
+@@lph_top:	    // only 4 of 9 instructions in here don't use AL, so optimal pipe use is impossible
   xor  edx,eax
   inc  esi
   xor  eax,eax
@@ -121,6 +123,7 @@ asm
   jnz  @@lph_top      // 5 clock tick loop. not bad.
   xor  eax,edx
   pop  esi
+}
 end;
 
 function CreateProcessUID(const pid: Cardinal): string;
@@ -168,8 +171,7 @@ type
     AddRef: function(Self: Pointer): Cardinal; stdcall;
     Release: function(Self: Pointer): Cardinal; stdcall;
     { IDataObject }
-    GetData: function(Self: Pointer; var formatetcIn: TFormatEtc; var medium: TStgMedium)
-      : HResult; stdcall;
+    GetData: function(Self:Pointer; var formatetcIn:TFormatEtc; var medium:TStgMedium): HResult; stdcall;
     GetDataHere: Pointer;
     QueryGetData: Pointer;
     GetCanonicalFormatEtc: Pointer;
@@ -329,12 +331,11 @@ begin
   end;
 end;
 
-procedure DecideMenuItemInfo(pct: PSlotIPC; pg: PGroupNode; var mii: TMenuItemInfo;
-  lParam: PEnumData);
+procedure DecideMenuItemInfo(pct: PSlotIPC; pg: PGroupNode; var mii: TMenuItemInfo; lParam: PEnumData);
 var
   psd: PMenuDrawInfo;
   hDllHeap: THandle;
-  j, c: Cardinal;
+  c: Cardinal;
   pp: ^TSlotProtoIconsArray;
 begin
   mii.wID := lParam^.idCmdFirst;
@@ -346,7 +347,7 @@ begin
   begin
     psd^.cch := pct^.cbStrSection - 1; // no null;
     psd^.szText := HeapAlloc(hDllHeap, 0, pct^.cbStrSection);
-    lstrcpya(psd^.szText, PChar(Integer(pct) + sizeof(TSlotIPC)));
+    lstrcpya(psd^.szText, PChar(uint_ptr(pct) + sizeof(TSlotIPC)));
     psd^.hContact := pct^.hContact;
     psd^.fTypes := [dtContact];
     // find the protocol icon array to use and which status
@@ -377,7 +378,7 @@ begin
   psd^.wID := mii.wID;
   psd^.szProfile := nil;
   // store
-  mii.dwItemData := Integer(psd);
+  mii.dwItemData := uint_ptr(psd);
 
   if ((lParam^.bOwnerDrawSupported) and (lParam^.bShouldOwnerDraw)) then
   begin
@@ -390,7 +391,7 @@ begin
     mii.fType := MFT_STRING;
     if pct <> nil then
     begin
-      int_ptr(mii.dwTypeData) := int_ptr(pct) + sizeof(TSlotIPC);
+      uint_ptr(mii.dwTypeData) := uint_ptr(pct) + sizeof(TSlotIPC);
     end
     else
     begin
@@ -447,7 +448,7 @@ begin
       // this is faster than the old version since we only ever walk one or at most two levels of the tree
       // per tokenised section, and it doesn't matter if two levels use the same group name (which is valid)
       // as the tokens processed is equatable to depth of the tree
-      str.szStr := PChar(Integer(pct) + sizeof(TSlotIPC) + pct^.cbStrSection + 1);
+      str.szStr := PChar(uint_ptr(pct) + sizeof(TSlotIPC) + uint_ptr(pct^.cbStrSection) + 1);
       sz := StrTok(str);
       // restore the root
       pg := group;
@@ -570,14 +571,12 @@ var
   hBaseMenu: hMenu;
   hGroupMenu: hMenu;
   pg: PSlotIPC;
-  szProf: PChar;
   mii: TMenuItemInfo;
   j: TGroupNodeList;
   p, q: PGroupNode;
   Depth, Hash: Cardinal;
   Token: PChar;
   tk: TStrTokRec;
-  szBuf: PChar;
   hDllHeap: THandle;
   psd: PMenuDrawInfo;
   c: Cardinal;
@@ -599,7 +598,7 @@ begin
     Depth := 0;
     p := j.First; // start at root again
     // get the group
-    int_ptr(tk.szStr) := (int_ptr(pg) + sizeof(TSlotIPC));
+    uint_ptr(tk.szStr) := (uint_ptr(pg) + sizeof(TSlotIPC));
     // find each word between \ and create sub groups if needed.
     Token := StrTok(tk);
     while Token <> nil do
@@ -687,7 +686,7 @@ begin
     psd^.wID := mii.wID;
     // this is needed because there is a clear list command per each process.
     psd^.pid := lParam^.pid;
-    mii.dwItemData := Integer(psd);
+    Pointer(mii.dwItemData) := psd;
     InsertMenuitem(lParam^.Self^.hRecentMenu, $FFFFFFFF, True, mii);
 
     // insert MRU submenu into group menu (with) ownerdraw support as needed
@@ -699,7 +698,7 @@ begin
     psd^.szText := HeapAlloc(hDllHeap, 0, psd^.cch + 1);
     lstrcpyn(psd^.szText, lParam^.ipch^.MRUMenuName, sizeof(lParam^.ipch^.MRUMenuName) - 1);
 
-    mii.dwItemData := Integer(psd);
+    pointer(mii.dwItemData) := psd;
     if (lParam^.bOwnerDrawSupported) and (lParam^.bShouldOwnerDraw) then
     begin
       mii.fType := MFT_OWNERDRAW;
@@ -746,7 +745,7 @@ begin
   if ((pg <> nil) and (pg^.Status = STATUS_PROFILENAME)) then
   begin
     psd^.szProfile := HeapAlloc(hDllHeap, 0, pg^.cbStrSection);
-    lstrcpya(psd^.szProfile, PChar(Integer(pg) + sizeof(TSlotIPC)));
+    lstrcpya(psd^.szProfile, PChar(uint_ptr(pg) + sizeof(TSlotIPC)));
   end; // if
   // owner draw menus need ID's
   mii.wID := lParam^.idCmdFirst;
@@ -768,7 +767,7 @@ begin
       break;
     end; // if
   end; // while
-  mii.dwItemData := Integer(psd);
+  pointer(mii.dwItemData) := psd;
   if ((lParam^.bOwnerDrawSupported) and (lParam^.bShouldOwnerDraw)) then
   begin
     mii.fType := MFT_OWNERDRAW;
@@ -800,7 +799,7 @@ begin
   begin
     if (pct^.cbSize <> sizeof(TSlotIPC)) or (pct^.fType <> REQUEST_NEWICONS) then
       break;
-    int_ptr(p) := int_ptr(pct) + sizeof(TSlotIPC);
+    uint_ptr(p) := uint_ptr(pct) + sizeof(TSlotIPC);
     ReAllocMem(Self^.ProtoIcons, (Self^.ProtoIconsCount + 1) * sizeof(TSlotProtoIcons));
     d := @Self^.ProtoIcons[Self^.ProtoIconsCount];
     CopyMemory(d, p, sizeof(TSlotProtoIcons));
@@ -845,7 +844,6 @@ var
   pid: Integer;
   hMirandaWorkEvent: THandle;
   replyBits: Integer;
-  hScreenDC: THandle;
   szBuf: array [0 .. MAX_PATH] of Char;
 begin
   Result := True;
@@ -904,8 +902,7 @@ begin
   end; // if
 end;
 
-function TShlComRec_QueryInterface(Self: PCommon_Interface; const IID: TIID; var Obj)
-  : HResult; stdcall;
+function TShlComRec_QueryInterface(Self: PCommon_Interface; const IID: TIID; var Obj): HResult; stdcall;
 begin
   Pointer(Obj) := nil;
   { IShellExtInit is given when the TShlRec is created }
@@ -1143,8 +1140,7 @@ begin
   Result := E_NOTIMPL;
 end;
 
-function ipcGetFiles(pipch: PHeaderIPC; pDataObject: PDataObject_Interface;
-  const hContact: THandle): Integer;
+function ipcGetFiles(pipch: PHeaderIPC; pDataObject: PDataObject_Interface; const hContact: THandle): Integer;
 type
   TDragQueryFile = function(hDrop: THandle; fileIndex: Integer; FileName: PChar;
     cbSize: Integer): Integer; stdcall;
@@ -1193,8 +1189,7 @@ begin
             // store the hContact
             pct^.hContact := hContact;
             // copy it to the buffer
-            DragQueryFile(stgm.hGlobal, iFile, PChar(Integer(pct) + sizeof(TSlotIPC)),
-              pct^.cbStrSection);
+            DragQueryFile(stgm.hGlobal, iFile, PChar(uint_ptr(pct) + sizeof(TSlotIPC)), pct^.cbStrSection);
             // next file
             inc(iFile);
           end; // while
@@ -1228,7 +1223,7 @@ begin
   if GetMenuItemInfo(Self^.hRootMenu, Self^.idCmdFirst + idxCmd, False, mii) then
   begin
     // get the pointer
-    int_ptr(psd) := mii.dwItemData;
+    uint_ptr(psd) := mii.dwItemData;
     // the ID stored in the item pointer and the ID for the menu must match
     if (psd = nil) or (psd^.wID <> mii.wID) then
     begin
@@ -1251,8 +1246,7 @@ begin
     if hTransfer <> 0 then
     begin
       // map the ipc file again
-      hMap := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READWRITE, 0, IPC_PACKET_SIZE,
-        IPC_PACKET_NAME);
+      hMap := CreateFileMapping(INVALID_HANDLE_VALUE,nil,PAGE_READWRITE,0,IPC_PACKET_SIZE,IPC_PACKET_NAME);
       if (hMap <> 0) and (GetLastError <> ERROR_ALREADY_EXISTS) then
       begin
         // map it to process
@@ -1308,7 +1302,7 @@ end;
 function TShlComRec_InvokeCommand(Self: PContextMenu3_Interface;
   var lpici: TCMInvokeCommandInfo): HResult; stdcall;
 begin
-  Result := RequestTransfer(Self^.ptrInstance, LOWORD(Integer(lpici.lpVerb)));
+  Result := RequestTransfer(Self^.ptrInstance, LOWORD(uint_ptr(lpici.lpVerb)));
 end;
 
 function TShlComRec_HandleMenuMsgs(Self: PContextMenu3_Interface; uMsg: UINT; wParam: wParam;
@@ -1334,7 +1328,7 @@ begin
   begin
     // either a main sub menu, a group menu or a contact
     dwi := PDrawItemStruct(lParam);
-    int_ptr(psd) := dwi^.itemData;
+    uint_ptr(psd) := dwi^.itemData;
     // don't fill
     SetBkMode(dwi^.HDC, TRANSPARENT);
     // where to draw the icon?
@@ -1437,7 +1431,7 @@ begin
   begin
     // don't check if it's really a menu
     msi := PMeasureItemStruct(lParam);
-    int_ptr(psd) := msi^.itemData;
+    uint_ptr(psd) := msi^.itemData;
     ncm.cbSize := sizeof(TNonClientMetrics);
     SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, @ncm, 0);
     // create the font used in menus, this font should be cached somewhere really
@@ -1571,8 +1565,7 @@ type
     RefCount: LongInt;
   end;
 
-function TClassFactoryRec_QueryInterface(Self: PClassFactoryRec; const IID: TIID; var Obj)
-  : HResult; stdcall;
+function TClassFactoryRec_QueryInterface(Self: PClassFactoryRec; const IID: TIID; var Obj): HResult; stdcall;
 begin
   Pointer(Obj) := nil;
   Result := E_NOTIMPL;
@@ -1754,7 +1747,8 @@ var
   p: Pointer;
   hMainThread: THandle;
 begin
-  Thread_Push(0,0);
+  result:=0;
+  Thread_Push(0,nil);
   hMainThread := THandle(pipch^.Param);
   GetCurrentDirectory(sizeof(szBuf), szBuf);
   args.count := 0;
@@ -1765,7 +1759,7 @@ begin
   begin
     if (pct^.cbSize <> sizeof(TSlotIPC)) then
       break;
-    args.szFile := PChar(Integer(pct) + sizeof(TSlotIPC));
+    args.szFile := PChar(uint_ptr(pct) + sizeof(TSlotIPC));
     args.hContact := pct^.hContact;
     args.cch := pct^.cbStrSection + 1;
     bQuit := AddToList(args);
@@ -1781,7 +1775,7 @@ begin
     if (not bQuit) then
     begin
       args.hEvent := CreateEvent(nil, True, False, nil);
-      QueueUserAPC(@MainThreadIssueTransfer, hMainThread, DWORD(@args));
+      QueueUserAPC(@MainThreadIssueTransfer, hMainThread, uint_ptr(@args));
       while True do
       begin
         if WaitForSingleObjectEx(args.hEvent, INFINITE, True) <> WAIT_IO_COMPLETION then
@@ -1891,7 +1885,7 @@ begin
               spi.hIcons[j] := LoadSkinnedProtoIcon(pp^.szName, ID_STATUS_OFFLINE + j);
             end; // for
             pct^.fType := REQUEST_NEWICONS;
-            CopyMemory(Pointer(Integer(pct) + sizeof(TSlotIPC)), @spi, sizeof(TSlotProtoIcons));
+            CopyMemory(Pointer(uint_ptr(pct) + sizeof(TSlotIPC)), @spi, sizeof(TSlotProtoIcons));
             if ipch^.NewIconsBegin = nil then
               ipch^.NewIconsBegin := pct;
           end; // if
@@ -1909,7 +1903,7 @@ begin
     spi.hProto := 0; // no protocol
     spi.hIcons[0] := LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
     pct^.fType := REQUEST_NEWICONS;
-    CopyMemory(Pointer(Integer(pct) + sizeof(TSlotIPC)), @spi, sizeof(TSlotProtoIcons));
+    CopyMemory(Pointer(uint_ptr(pct) + sizeof(TSlotIPC)), @spi, sizeof(TSlotProtoIcons));
     if ipch^.NewIconsBegin = nil then
       ipch^.NewIconsBegin := pct;
   end; // if
@@ -1957,7 +1951,7 @@ begin
     if i >= dwContacts then
       break;
     (* do they have a running protocol? *)
-    int_ptr(szProto) := CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
+    uint_ptr(szProto) := CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
     if szProto <> nil then
     begin
       (* does it support file sends? *)
@@ -2027,8 +2021,7 @@ begin
   // create an IPC slot for each contact and store display name, etc
   while i < dwContacts do
   begin
-    int_ptr(szContact) := CallService(MS_CLIST_GETCONTACTDISPLAYNAME,
-      pContacts^[i].hContact, 0);
+    uint_ptr(szContact) := CallService(MS_CLIST_GETCONTACTDISPLAYNAME,pContacts^[i].hContact, 0);
     if (szContact <> nil) then
     begin
       n := 0;
@@ -2050,7 +2043,7 @@ begin
       end;
       // lie about the actual size of the TSlotIPC
       pct^.cbStrSection := cch;
-      szSlot := PChar(Integer(pct) + sizeof(TSlotIPC));
+      szSlot := PChar(uint_ptr(pct) + sizeof(TSlotIPC));
       lstrcpya(szSlot, szContact);
       pct^.fType := REQUEST_CONTACTS;
       pct^.hContact := pContacts^[i].hContact;
@@ -2090,7 +2083,8 @@ function ClearMRUThread(notused: Pointer): Cardinal; stdcall;
 var
   hContact: THandle;
 begin
-  Thread_Push(0,0);
+  result:=0;
+  Thread_Push(0,nil);
 
   begin
     hContact := CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
@@ -2116,16 +2110,11 @@ var
   pMMT: PHeaderIPC;
   hSignal: THandle;
   pct: PSlotIPC;
-  hContact: THandle;
-  szContact: PChar;
-  Status: int;
   szBuf: PChar;
   iSlot: Integer;
   szGroupStr: array [0 .. 31] of Char;
   dbv: TDBVariant;
   bits: pint;
-  HICON: THandle;
-  i: Integer;
   bGroupMode: Boolean;
   tid: Cardinal;
   cloned: PHeaderIPC;
@@ -2210,7 +2199,7 @@ begin
         begin
           // will actually return with .dat if there's space for it, not what the docs say
           pct^.Status := STATUS_PROFILENAME;
-          CallService(MS_DB_GETPROFILENAME, 49, Integer(pct) + sizeof(TSlotIPC));
+          CallService(MS_DB_GETPROFILENAME, 49, uint_ptr(pct) + sizeof(TSlotIPC));
         end; // if
       end; // if
       if (bits^ and REQUEST_NEWICONS) = REQUEST_NEWICONS then
@@ -2233,7 +2222,7 @@ begin
               pMMT^.GroupsBegin := pct;
             pct^.fType := REQUEST_GROUPS;
             pct^.hContact := 0;
-            int_ptr(szBuf) := int_ptr(pct) + sizeof(TSlotIPC); // get the end of the slot
+            uint_ptr(szBuf) := uint_ptr(pct) + sizeof(TSlotIPC); // get the end of the slot
             lstrcpya(szBuf, dbv.szVal.a + 1);
             pct^.hGroup := 0;
             DBFreeVariant(@dbv); // free the string
@@ -2287,7 +2276,8 @@ stdcall;
 var
   hEvent: THandle;
 begin
-  Thread_Push(0,0);
+  result:=0;
+  Thread_Push(0,nil);
   hEvent := CreateEvent(nil, False, False, PChar(CreateProcessUID(GetCurrentProcessId())));
   while True do
   begin

@@ -74,8 +74,7 @@ type
 
 function ARGB_GetWorker: PImageFactory_Interface;
 
-function ARGB_BitmapFromIcon(Factory: PImageFactory_Interface; hdc: Windows.hdc; hIcon: hIcon)
-  : HBitmap;
+function ARGB_BitmapFromIcon(Factory: PImageFactory_Interface; hdc: Windows.hdc; hIcon: hIcon): HBitmap;
 
 implementation
 
@@ -111,8 +110,7 @@ begin
     IID_WICImagingFactory, Result);
 end;
 
-function ARGB_BitmapFromIcon(Factory: PImageFactory_Interface; hdc: Windows.hdc;
-  hIcon: hIcon): HBitmap;
+function ARGB_BitmapFromIcon(Factory: PImageFactory_Interface; hdc: Windows.hdc; hIcon: hIcon): HBitmap;
 var
   bmi: BITMAPINFO;
   hr: HResult;
@@ -132,7 +130,7 @@ begin
 
   bmi.bmiHeader.biBitCount := 32;
 
-  hr := Factory^.ptrVTable^.CreateBitmapFromHICON(Factory, hIcon, bitmap);
+  hr := Factory^.ptrVTable^.CreateBitmapFromHICON(Factory, hIcon, pointer(bitmap));
   if hr = S_OK then
   begin
     hr := bitmap^.ptrVTable^.GetSize(bitmap, cx, cy);
@@ -142,7 +140,7 @@ begin
       bmi.bmiHeader.biWidth := cx;
       bmi.bmiHeader.biHeight := -cy;
 
-      hBmp := CreateDIBSection(hdc, bmi, DIB_RGB_COLORS, pbBuffer, 0, 0);
+      hBmp := CreateDIBSection(hdc, bmi, DIB_RGB_COLORS, pointer(pbBuffer), 0, 0);
       if hBmp <> 0 then
       begin
         cbStride := cx * sizeof(DWORD); // ARGB = DWORD

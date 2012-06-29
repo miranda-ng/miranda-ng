@@ -504,7 +504,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 			b->SetBitmap();
 		if (retval & TTBBF_VISIBLE) {
 			ArrangeButtons();
-			// save button setting
+			b->SaveSettings(0,0);
 		}
 				
 		retval = 1;
@@ -541,26 +541,23 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 			if (changed)
 				b->SetBitmap();
 
-			changed = 0;
 			if (retval & TTBBF_VISIBLE) {
 				ArrangeButtons();
-				changed = 1;
+				b->SaveSettings(0,0);
 			}
 
 			if (b->dwFlags & TTBBF_ISLBUTTON) {
 				if (b->program != NULL)
 					free(b->program);
 				b->program = _tcsdup(lpTTB->program);
-				changed = 1; // for launch buttons from user, not options (options don't share handles)
+//				don't save program changing in use buttons
+//				changed = 1; // for launch buttons from user, not options (options don't share handles)
 			}
 			else {
 				if (b->pszService != NULL)
 					free(b->pszService);
 				b->pszService = _strdup(lpTTB->pszService);
 			}
-
-//			if (changed)
-//				;// save button setting
 
 			b->lParamUp = lpTTB->lParamUp;
 			b->wParamUp = lpTTB->wParamUp;

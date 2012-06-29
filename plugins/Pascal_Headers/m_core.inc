@@ -498,6 +498,9 @@ function forkthread(func:pThreadFunc; stacksize:uint; arg:pointer):uint_ptr; std
 function forkthreadex(sec:pointer; stacksize:uint; func:pThreadFuncEx; owner:pointer; arg:pointer; thraddr:puint_ptr):uint_ptr; stdcall;
                       external CoreDLL name 'forkthreadex';
 
+procedure Thread_SetName(dwThreadID:dword; const szThreadName:pAnsiChar); stdcall;
+                            external CoreDLL name 'Thread_SetName';
+
 procedure KillObjectThreads(pObject:pointer); stdcall;
                             external CoreDLL name 'KillObjectThreads';
 
@@ -544,5 +547,8 @@ function mir_utf8lenW(const src:pWideChar):int; stdcall;
 
 
 ///////////////////////////////////////////////////////////////////////////////
+
+procedure UnloadCoreModule(); stdcall;
+                           external CoreDLL name 'UnloadCoreModule';
 
 {$ENDIF}

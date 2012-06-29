@@ -12,7 +12,6 @@
 library shlext;
 
 uses
-
   Windows, shlcom, shlipc, m_api;
 
 // use the registry to store the COM information needed by the shell
@@ -28,13 +27,11 @@ begin
 {$ELSE}
   // progID
   szData := 'shlext (1.0.6.6) - shell context menu support for Miranda v0.3.0.0+';
-  if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT, 'miranda.shlext', REG_SZ, szData,
-    Length(szData)) then
+  if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT, 'miranda.shlext', REG_SZ, szData, Length(szData)) then
   begin
     // CLSID related to ProgID
     szData := '{72013A26-A94C-11d6-8540-A5E62932711D}';
-    if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT, 'miranda.shlext\CLSID', REG_SZ, szData,
-      Length(szData)) then
+    if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT, 'miranda.shlext\CLSID', REG_SZ, szData, Length(szData)) then
     begin
       // CLSID link back to progID
       szData := 'miranda.shlext';
@@ -44,14 +41,12 @@ begin
         // CLSID link back to ProgID under \ProgID again?
         szData := 'miranda.shlext';
         if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT,
-          'CLSID\{72013A26-A94C-11d6-8540-A5E62932711D}\ProgID', REG_SZ, szData, Length(szData))
-        then
+          'CLSID\{72013A26-A94C-11d6-8540-A5E62932711D}\ProgID', REG_SZ, szData, Length(szData)) then
         begin
           GetMem(szData, MAX_PATH);
           GetModuleFileName(hInstance, szData, MAX_PATH - 1);
           Result := RegSetValue(HKEY_CLASSES_ROOT,
-            'CLSID\{72013A26-A94C-11d6-8540-A5E62932711D}\InprocServer32', REG_SZ, szData,
-            Length(szData));
+            'CLSID\{72013A26-A94C-11d6-8540-A5E62932711D}\InprocServer32', REG_SZ, szData, Length(szData));
           FreeMem(szData);
           if Result = ERROR_SUCCESS then
           begin
@@ -62,15 +57,13 @@ begin
             if Result = ERROR_SUCCESS then
             begin
               szData := 'Apartment';
-              RegSetValueEx(hRegKey, 'ThreadingModel', 0, REG_SZ, PByte(szData),
-                Length(szData) + 1);
+              RegSetValueEx(hRegKey, 'ThreadingModel', 0, REG_SZ, PByte(szData), Length(szData) + 1);
               RegCloseKey(hRegKey);
               // write which file types to show under
               szData := '{72013A26-A94C-11d6-8540-A5E62932711D}';
               // note that *\ should use AllFilesystemObjects for 4.71+
               if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT,
-                '*\shellex\ContextMenuHandlers\miranda.shlext', REG_SZ, szData, Length(szData))
-              then
+                '*\shellex\ContextMenuHandlers\miranda.shlext', REG_SZ, szData, Length(szData)) then
               begin
                 // don't support directories
                 if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT,
@@ -176,8 +169,7 @@ begin
   SetWindowPos(hwnd, HWND_BOTTOM, 0, 0, tS.cx + 10, tS.cy, SWP_NOMOVE or SWP_FRAMECHANGED);
 end;
 
-function OptDialogProc(hwndDlg: THandle; wMsg: Integer; wParam: wParam; lParam: lParam)
-  : BOOL; stdcall;
+function OptDialogProc(hwndDlg: THandle; wMsg: Integer; wParam: wParam; lParam: lParam): BOOL; stdcall;
 // don't wanna bring in CommCtrl just for a few constants
 const
 {$IFNDEF FPC}
@@ -254,18 +246,18 @@ begin
         iCheck := DBGetContactSettingByte(0, SHLExt_Name, SHLExt_UseGroups, BST_UNCHECKED);
         CheckDlgButton(hwndDlg, IDC_USEGROUPS, iCheck);
         EnableWindow(GetDlgItem(hwndDlg, IDC_CLISTGROUPS), iCheck = BST_CHECKED);
-        CheckDlgButton(hwndDlg, IDC_CLISTGROUPS, DBGetContactSettingByte(0, SHLExt_Name,
-          SHLExt_UseCListSetting, BST_UNCHECKED));
-        CheckDlgButton(hwndDlg, IDC_NOPROF, DBGetContactSettingByte(0, SHLExt_Name,
-          SHLExt_ShowNoProfile, BST_UNCHECKED));
-        CheckDlgButton(hwndDlg, IDC_SHOWFULL, DBGetContactSettingByte(0, SHLExt_Name,
-          SHLExt_UseHITContacts, BST_UNCHECKED));
-        CheckDlgButton(hwndDlg, IDC_SHOWINVISIBLES, DBGetContactSettingByte(0, SHLExt_Name,
-          SHLExt_UseHIT2Contacts, BST_UNCHECKED));
-        CheckDlgButton(hwndDlg, IDC_USEOWNERDRAW, DBGetContactSettingByte(0, SHLExt_Name,
-          SHLExt_ShowNoIcons, BST_UNCHECKED));
-        CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE, DBGetContactSettingByte(0, SHLExt_Name,
-          SHLExt_ShowNoOffline, BST_UNCHECKED));
+        CheckDlgButton(hwndDlg, IDC_CLISTGROUPS,
+            DBGetContactSettingByte(0, SHLExt_Name, SHLExt_UseCListSetting, BST_UNCHECKED));
+        CheckDlgButton(hwndDlg, IDC_NOPROF,
+            DBGetContactSettingByte(0, SHLExt_Name, SHLExt_ShowNoProfile, BST_UNCHECKED));
+        CheckDlgButton(hwndDlg, IDC_SHOWFULL,
+            DBGetContactSettingByte(0, SHLExt_Name, SHLExt_UseHITContacts, BST_UNCHECKED));
+        CheckDlgButton(hwndDlg, IDC_SHOWINVISIBLES,
+            DBGetContactSettingByte(0, SHLExt_Name, SHLExt_UseHIT2Contacts, BST_UNCHECKED));
+        CheckDlgButton(hwndDlg, IDC_USEOWNERDRAW,
+            DBGetContactSettingByte(0, SHLExt_Name, SHLExt_ShowNoIcons, BST_UNCHECKED));
+        CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE,
+            DBGetContactSettingByte(0, SHLExt_Name, SHLExt_ShowNoOffline, BST_UNCHECKED));
         // give the Remove button a Vista icon
         SendMessage(GetDlgItem(hwndDlg, IDC_REMOVE), BCM_SETSHIELD, 0, 1);
       end;
@@ -284,33 +276,33 @@ begin
             end; // if
           IDC_REMOVE:
             begin
-              if IDYES = MessageBox(0,
-                Translate(
+              if IDYES = MessageBoxW(0,
+                TranslateW(
                 'Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer'),
-                Translate('Disable/Remove shlext'), MB_YESNO or MB_ICONQUESTION) then
+                TranslateW('Disable/Remove shlext'), MB_YESNO or MB_ICONQUESTION) then
               begin
                 cgs.szModule := SHLExt_Name;
 
                 cgs.szSetting := SHLExt_UseGroups;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
 
                 cgs.szSetting := SHLExt_UseCListSetting;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
 
                 cgs.szSetting := SHLExt_UseHITContacts;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
 
                 cgs.szSetting := SHLExt_UseHIT2Contacts;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
 
                 cgs.szSetting := SHLExt_ShowNoProfile;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
 
                 cgs.szSetting := SHLExt_ShowNoIcons;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
 
                 cgs.szSetting := SHLExt_ShowNoOffline;
-                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, TLPARAM(@cgs));
 
                 (* remove from Explorer *)
                 // DllUnregisterServer();
@@ -346,39 +338,34 @@ begin
   optDialog.hInstance := System.hInstance;
 {$ENDIF}
   optDialog.pfnDlgProc := @OptDialogProc;
-  CallService(MS_OPT_ADDPAGE, wParam, Integer(@optDialog));
-end;
 
-var
-	PLUGININFOEX: TPLUGININFOEX;
+  Options_AddPage(wParam,@optDialog);
+end;
 
 function MirandaPluginInfoEx(mirandaVersion: DWORD): PPLUGININFOEX; cdecl;
 begin
   Result := nil;
-  { only support v0.3.0.0+ }
-  if PLUGIN_MAKE_VERSION(0, 3, 0, 0) > mirandaVersion then
-    Exit;
   { fill in plugininfo }
-  PLUGININFOEX.cbSize := sizeof(PLUGININFOEX);
-  PLUGININFOEX.shortName := 'Shell context menus for transfers';
-  PLUGININFOEX.version := PLUGIN_MAKE_VERSION(2, 0, 1, 2);
+  PluginInfo.cbSize := sizeof(PluginInfo);
+  PluginInfo.shortName := 'Shell context menus for transfers';
+  PluginInfo.version := PLUGIN_MAKE_VERSION(2, 0, 1, 2);
 {$IFDEF FPC}
-  PLUGININFOEX.description :=
+  PluginInfo.description :=
     'Click ''n'' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to. Built on ' +
   {$I %DATE%} +' at ' + {$I %TIME%} +' with FPC ' + {$I %FPCVERSION%};
 {$ELSE}
-  PLUGININFOEX.description := '';
+  PluginInfo.description := '';
 {$ENDIF}
-  PLUGININFOEX.author := 'egoDust';
-  PLUGININFOEX.authorEmail := 'egodust@users.sourceforge.net';
-  PLUGININFOEX.copyright := '(c) 2009 Sam Kothari (egoDust)';
-  PLUGININFOEX.homePage := 'http://addons.miranda-im.org/details.php?action=viewfile&id=534';
-  PLUGININFOEX.flags := 0;
-  PLUGININFOEX.replacesDefaultModule := 0;
+  PluginInfo.author := 'egoDust';
+  PluginInfo.authorEmail := 'egodust@users.sourceforge.net';
+  PluginInfo.copyright := '(c) 2009 Sam Kothari (egoDust)';
+  PluginInfo.homePage := 'http://addons.miranda-im.org/details.php?action=viewfile&id=534';
+  PluginInfo.flags := 0;
+  PluginInfo.replacesDefaultModule := 0;
   { This UUID is fetched twice }
-  CopyMemory(@PLUGININFOEX.uuid, @CLSID_ISHLCOM, sizeof(TMUUID));
+  CopyMemory(@PluginInfo.uuid, @CLSID_ISHLCOM, sizeof(TMUUID));
   { return info }
-  Result := @PLUGININFOEX;
+  Result := @PluginInfo;
 end;
 
 function Load(): int; cdecl;
