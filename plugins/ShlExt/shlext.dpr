@@ -1,379 +1,411 @@
 {$IFDEF FPC}
-    {$PACKRECORDS 4}
-    {$MODE Delphi}
-    {$ASMMODE intel}
-    {$INLINE ON}
-    {$MACRO ON}
-    {$APPTYPE GUI}
-	{$IMAGEBASE $49ac0000}
+{$PACKRECORDS 4}
+{$MODE Delphi}
+{$ASMMODE intel}
+{$INLINE ON}
+{$MACRO ON}
+{$APPTYPE GUI}
+{$IMAGEBASE $49ac0000}
 {$ELSE}
-    {$IMAGEBASE $49ac0000} // this is ignored with FPC, must be set via the command line
+{$IMAGEBASE $49ac0000} // this is ignored with FPC, must be set via the command line
 {$ENDIF}
-
 library shlext;
+
 uses
 
-    Windows, shlcom, shlipc, m_globaldefs;
+  Windows, shlcom, shlipc, m_api;
 
-    // use the registry to store the COM information needed by the shell
+// use the registry to store the COM information needed by the shell
 
-    function DllRegisterServer: HResult; stdcall;
-    var
-        szData: PChar;
-        hRegKey: HKEY;
+function DllRegisterServer: HResult; stdcall;
+var
+  szData: PChar;
+  hRegKey: HKEY;
+begin
+
+{$IFDEF INSTALLER_REGISTER}
+  Result := S_OK;
+{$ELSE}
+  // progID
+  szData := 'shlext (1.0.6.6) - shell context menu support for Miranda v0.3.0.0+';
+  if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT, 'miranda.shlext', REG_SZ, szData,
+    Length(szData)) then
+  begin
+    // CLSID related to ProgID
+    szData := '{72013A26-A94C-11d6-8540-A5E62932711D}';
+    if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT, 'miranda.shlext\CLSID', REG_SZ, szData,
+      Length(szData)) then
     begin
-	
-    {$IFDEF INSTALLER_REGISTER}
-        Result := S_OK;
-    {$ELSE}
-        // progID
-        szData := 'shlext (1.0.6.6) - shell context menu support for Miranda v0.3.0.0+';
-        if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT, 'miranda.shlext', REG_SZ, szData, Length(szData)) then
+      // CLSID link back to progID
+      szData := 'miranda.shlext';
+      if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT,
+        'CLSID\{72013A26-A94C-11d6-8540-A5E62932711D}', REG_SZ, szData, Length(szData)) then
+      begin
+        // CLSID link back to ProgID under \ProgID again?
+        szData := 'miranda.shlext';
+        if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT,
+          'CLSID\{72013A26-A94C-11d6-8540-A5E62932711D}\ProgID', REG_SZ, szData, Length(szData))
+        then
         begin
-            // CLSID related to ProgID
-            szData := '{72013A26-A94C-11d6-8540-A5E62932711D}';
-            if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT, 'miranda.shlext\CLSID', REG_SZ, szData, Length(szData)) then
+          GetMem(szData, MAX_PATH);
+          GetModuleFileName(hInstance, szData, MAX_PATH - 1);
+          Result := RegSetValue(HKEY_CLASSES_ROOT,
+            'CLSID\{72013A26-A94C-11d6-8540-A5E62932711D}\InprocServer32', REG_SZ, szData,
+            Length(szData));
+          FreeMem(szData);
+          if Result = ERROR_SUCCESS then
+          begin
+            // have to add threading model
+            szData := 'CLSID\{72013A26-A94C-11d6-8540-A5E62932711D}\InprocServer32';
+            Result := RegCreateKeyEx(HKEY_CLASSES_ROOT, szData, 0, nil, 0,
+              KEY_SET_VALUE or KEY_CREATE_SUB_KEY, nil, hRegKey, nil);
+            if Result = ERROR_SUCCESS then
             begin
-                // CLSID link back to progID
-                szData := 'miranda.shlext';
-                if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT, 'CLSID\{72013A26-A94C-11d6-8540-A5E62932711D}', REG_SZ, szData, Length(szData)) then
+              szData := 'Apartment';
+              RegSetValueEx(hRegKey, 'ThreadingModel', 0, REG_SZ, PByte(szData),
+                Length(szData) + 1);
+              RegCloseKey(hRegKey);
+              // write which file types to show under
+              szData := '{72013A26-A94C-11d6-8540-A5E62932711D}';
+              // note that *\ should use AllFilesystemObjects for 4.71+
+              if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT,
+                '*\shellex\ContextMenuHandlers\miranda.shlext', REG_SZ, szData, Length(szData))
+              then
+              begin
+                // don't support directories
+                if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT,
+                  'Directory\shellex\ContextMenuHandlers\miranda.shlext', REG_SZ, szData,
+                  Length(szData)) then
                 begin
-                    // CLSID link back to ProgID under \ProgID again?
-                    szData := 'miranda.shlext';
-                    if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT, 'CLSID\{72013A26-A94C-11d6-8540-A5E62932711D}\ProgID', REG_SZ, szData, Length(szData)) then
-                    begin
-                        GetMem(szData, MAX_PATH);
-                        GetModuleFileName(hInstance, szData, MAX_PATH-1);
-                        Result := RegSetValue(HKEY_CLASSES_ROOT, 'CLSID\{72013A26-A94C-11d6-8540-A5E62932711D}\InprocServer32', REG_SZ, szData, Length(szData));
-                        FreeMem(szData);
-                        if Result = ERROR_SUCCESS then
-                        begin
-                            // have to add threading model
-                            szData := 'CLSID\{72013A26-A94C-11d6-8540-A5E62932711D}\InprocServer32';
-                            Result := RegCreateKeyEx(HKEY_CLASSES_ROOT, szData, 0, nil, 0, KEY_SET_VALUE or KEY_CREATE_SUB_KEY, nil, hRegKey, nil);
-                            if Result = ERROR_SUCCESS then
-                            begin
-                                szData := 'Apartment';
-                                RegSetValueEx(hRegKey, 'ThreadingModel', 0, REG_SZ, PByte(szData), Length(szData)+1);
-                                RegCloseKey(hRegKey);
-                                // write which file types to show under
-                                szData := '{72013A26-A94C-11d6-8540-A5E62932711D}';
-                                // note that *\ should use AllFilesystemObjects for 4.71+
-                                if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT, '*\shellex\ContextMenuHandlers\miranda.shlext', REG_SZ, szData, Length(szData)) then
-                                begin
-                                    // don't support directories
-                                    if ERROR_SUCCESS = RegSetValue(HKEY_CLASSES_ROOT, 'Directory\shellex\ContextMenuHandlers\miranda.shlext', REG_SZ, szData, Length(szData)) then
-                                    begin
-                                        Result := S_OK;
-                                        // have to add to the approved list under NT/2000/XP with {CLSID}="<description>"
-                                        szData := 'SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved';
-                                        Result := RegCreateKeyEx(HKEY_LOCAL_MACHINE, szData, 0, nil, 0, KEY_SET_VALUE or KEY_CREATE_SUB_KEY, nil, hRegKey, nil);
-                                        if Result = ERROR_SUCCESS then
-                                        begin
-                                            szData := 'shlext (1.0.6.6) - context menu support for Miranda v0.3.0.0+';
-                                            RegSetValueEx(hRegKey, '{72013A26-A94C-11d6-8540-A5E62932711D}', 0, REG_SZ, PByte(szData), Length(szData)+1);
-                                            RegCloseKey(hRegKey);
-                                        end; //if
-                                    end else Result := E_FAIL;
-                                end else Result := E_FAIL;
-                            end else Result := E_FAIL;
-                        end else Result := E_FAIL;
-                    end else Result := E_FAIL;
-                end else Result := E_FAIL;
-            end else Result := E_FAIL;
-        end else Result := E_FAIL;
-        //
-    {$ENDIF}
+                  Result := S_OK;
+                  // have to add to the approved list under NT/2000/XP with {CLSID}="<description>"
+                  szData := 'SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved';
+                  Result := RegCreateKeyEx(HKEY_LOCAL_MACHINE, szData, 0, nil, 0,
+                    KEY_SET_VALUE or KEY_CREATE_SUB_KEY, nil, hRegKey, nil);
+                  if Result = ERROR_SUCCESS then
+                  begin
+                    szData := 'shlext (1.0.6.6) - context menu support for Miranda v0.3.0.0+';
+                    RegSetValueEx(hRegKey, '{72013A26-A94C-11d6-8540-A5E62932711D}', 0, REG_SZ,
+                      PByte(szData), Length(szData) + 1);
+                    RegCloseKey(hRegKey);
+                  end; // if
+                end
+                else
+                  Result := E_FAIL;
+              end
+              else
+                Result := E_FAIL;
+            end
+            else
+              Result := E_FAIL;
+          end
+          else
+            Result := E_FAIL;
+        end
+        else
+          Result := E_FAIL;
+      end
+      else
+        Result := E_FAIL;
+    end
+    else
+      Result := E_FAIL;
+  end
+  else
+    Result := E_FAIL;
+  //
+{$ENDIF}
+end;
 
-    end;
+function DllUnregisterServer: HResult; stdcall;
+begin
+  Result := RemoveCOMRegistryEntries();
+end;
 
-    function DllUnregisterServer: HResult; stdcall;
-	begin
-		Result := RemoveCOMRegistryEntries();
-    end;
-
-    // - miranda section ----
-
-    {$include m_options.inc}
-    {$include m_system.inc}
-    {$include m_database.inc}
-    {$include m_file.inc}
-    {$include m_langpack.inc}
-    {$include m_helpers.inc}
-	{$include m_v8.inc}
+// - miranda section ----
 
 const
 
-    COMREG_UNKNOWN  = $00000000;
-    COMREG_OK       = $00000001;
-    COMREG_APPROVED = $00000002;
+  COMREG_UNKNOWN = $00000000;
+  COMREG_OK = $00000001;
+  COMREG_APPROVED = $00000002;
 
-    function IsCOMRegistered: Integer;
-    var
-        hRegKey: HKEY;
-        lpType: Integer;
+function IsCOMRegistered: Integer;
+var
+  hRegKey: HKEY;
+  lpType: Integer;
+begin
+  Result := 0;
+  // these arent the BEST checks in the world
+  if ERROR_SUCCESS = RegOpenKeyEx(HKEY_CLASSES_ROOT, 'miranda.shlext', 0, KEY_READ, hRegKey)
+  then
+  begin
+    Result := Result or COMREG_OK;
+    RegCloseKey(hRegKey);
+  end; // if
+  lpType := REG_SZ;
+  if ERROR_SUCCESS = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+    'Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved', 0, KEY_READ, hRegKey)
+  then
+  begin
+    if ERROR_SUCCESS = RegQueryValueEx(hRegKey, '{72013A26-A94C-11d6-8540-A5E62932711D}', nil,
+      @lpType, nil, nil) then
     begin
-        Result := 0;
-        // these arent the BEST checks in the world
-        if ERROR_SUCCESS = RegOpenKeyEx(HKEY_CLASSES_ROOT, 'miranda.shlext', 0, KEY_READ, hRegKey) then
+      Result := Result or COMREG_APPROVED;
+    end; // if
+    RegCloseKey(hRegKey);
+  end; // if
+end;
+
+procedure AutoSize(hwnd: THandle);
+var
+  szBuf: array [0 .. MAX_PATH] of Char;
+  DC: HDC;
+  tS: TSize;
+  i: Integer;
+  hFont, hOldFont: THandle;
+begin
+  DC := GetDC(hwnd);
+  hFont := GetStockObject(DEFAULT_GUI_FONT);
+  hOldFont := SelectObject(DC, hFont);
+  i := GetWindowText(hwnd, szBuf, MAX_PATH);
+  GetTextExtentPoint32(DC, szBuf, i, tS);
+  SelectObject(DC, hOldFont);
+  DeleteObject(hFont);
+  ReleaseDC(hwnd, DC);
+  SetWindowPos(hwnd, HWND_BOTTOM, 0, 0, tS.cx + 10, tS.cy, SWP_NOMOVE or SWP_FRAMECHANGED);
+end;
+
+function OptDialogProc(hwndDlg: THandle; wMsg: Integer; wParam: wParam; lParam: lParam)
+  : BOOL; stdcall;
+// don't wanna bring in CommCtrl just for a few constants
+const
+{$IFNDEF FPC}
+  WM_INITDIALOG = $0110;
+  WM_COMMAND = $0111;
+  WM_USER = $0400;
+  WM_NOTIFY = $004E;
+{$ENDIF}
+  { propsheet notifications/msessages }
+  // PSN_APPLY                = (-200) - 2;
+  PSM_CHANGED = WM_USER + 104;
+  { button styles }
+  BCM_SETSHIELD = ( { BCM_FIRST } $1600 + $000C);
+  { hotkey }
+  // bring in the IDC's and storage key names
+{$DEFINE SHL_IDC}
+{$DEFINE SHL_KEYS}
+{$INCLUDE shlc.inc}
+{$UNDEF SHL_KEYS}
+{$UNDEF SHL_IDC}
+const
+  COM_OKSTR: array [Boolean] of PChar = ('Problem, registration missing/deleted.',
+    'Successfully created shell registration.');
+  COM_APPROVEDSTR: array [Boolean] of PChar = ('Not Approved', 'Approved');
+var
+  comReg: Integer;
+  iCheck: Integer;
+  szBuf: array [0 .. MAX_PATH] of Char;
+  cgs: TDBCONTACTGETSETTING;
+begin
+  Result := wMsg = WM_INITDIALOG;
+  case wMsg of
+    WM_NOTIFY:
+      begin
+        { * FP 2.2.2 seems to have a bug, 'Code' is supposed to be signed
+          but isn't signed, so when comparing -202 (=PSN_APPLY) It doesn't work
+          so here, -202 is converted into hex, what you are looking at is the
+          code == PSN_APPLY check. * }
+        if $FFFFFF36 = pNMHDR(lParam)^.code then
         begin
-			Result := Result or COMREG_OK;
-            RegCloseKey(hRegKey);
-        end; //if
-        lpType := REG_SZ;
-        if ERROR_SUCCESS = RegOpenKeyEx(HKEY_LOCAL_MACHINE, 'Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved', 0, KEY_READ, hRegKey) then
-        begin
-            if ERROR_SUCCESS = RegQueryValueEx(hRegKey, '{72013A26-A94C-11d6-8540-A5E62932711D}', nil, @lpType, nil, nil) then
-            begin
-                Result := Result or COMREG_APPROVED;
-            end; //if
-            RegCloseKey(hRegKey);
+          DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_UseGroups,
+            IsDlgButtonChecked(hwndDlg, IDC_USEGROUPS));
+          DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_UseCListSetting,
+            IsDlgButtonChecked(hwndDlg, IDC_CLISTGROUPS));
+          DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_ShowNoProfile,
+            IsDlgButtonChecked(hwndDlg, IDC_NOPROF));
+          DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_UseHITContacts,
+            IsDlgButtonChecked(hwndDlg, IDC_SHOWFULL));
+          DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_UseHIT2Contacts,
+            IsDlgButtonChecked(hwndDlg, IDC_SHOWINVISIBLES));
+          DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_ShowNoIcons,
+            IsDlgButtonChecked(hwndDlg, IDC_USEOWNERDRAW));
+          DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_ShowNoOffline,
+            IsDlgButtonChecked(hwndDlg, IDC_HIDEOFFLINE));
         end; // if
-    end;
-
-    procedure AutoSize(hwnd: THandle);
-    var
-        szBuf: array[0..MAX_PATH] of Char;
-        DC: HDC;
-        tS: TSize;
-        i: Integer;
-        hFont, hOldFont: THandle;
-    begin
-        DC := GetDC(hwnd);
-        hFont := GetStockObject(DEFAULT_GUI_FONT);
-        hOldFont := SelectObject(DC, hFont);
-        i := GetWindowText(hwnd, szBuf, MAX_PATH);
-        GetTextExtentPoint32(DC, szBuf, i, tS);
-        SelectObject(DC, hOldFont);
-        DeleteObject(hFont);
-        ReleaseDC(hwnd, DC);
-        SetWindowPos(hwnd, HWND_BOTTOM, 0, 0, tS.cx + 10, tS.cy, SWP_NOMOVE or SWP_FRAMECHANGED);
-    end;
-	
-    function OptDialogProc(hwndDlg: THandle; wMsg: Integer; wParam: WPARAM; lParam: LPARAM): BOOL; stdcall;
-    // don't wanna bring in CommCtrl just for a few constants
-    const
-        {$IFNDEF FPC}
-        WM_INITDIALOG            = $0110;
-        WM_COMMAND               = $0111;
-        WM_USER                  = $0400;
-        WM_NOTIFY                = $004E;
-        {$ENDIF}
-        { propsheet notifications/msessages }
-        //PSN_APPLY                = (-200) - 2;
-        PSM_CHANGED              = WM_USER + 104;
-		{ button styles }
-		BCM_SETSHIELD = ({BCM_FIRST}$1600 + $000C);
-        { hotkey }
-        // bring in the IDC's and storage key names
-        {$define SHL_IDC}
-        {$define SHL_KEYS}
-            {$include shlc.inc}
-        {$undef SHL_KEYS}
-        {$undef SHL_IDC}
-    const
-        COM_OKSTR: array[Boolean] of PChar = (
-            'Problem, registration missing/deleted.',
-            'Successfully created shell registration.'
-        );
-        COM_APPROVEDSTR: array[Boolean] of PChar = (
-            'Not Approved',
-            'Approved'
-        );
-    var
-        comReg: Integer;
-        iCheck: Integer;
-        szBuf: array[0..MAX_PATH] of Char;
-        cgs: TDBCONTACTGETSETTING;
-    begin
-        Result := wMsg = WM_INITDIALOG;
-        case wMsg of
-            WM_NOTIFY:
+      end;
+    WM_INITDIALOG:
+      begin
+        TranslateDialogDefault(hwndDlg);
+        comReg := IsCOMRegistered();
+        FillChar(szBuf, MAX_PATH, 0);
+        lstrcat(szBuf, Translate(COM_OKSTR[comReg and COMREG_OK = COMREG_OK]));
+        lstrcat(szBuf, ' (');
+        lstrcat(szBuf, Translate(COM_APPROVEDSTR[comReg and
+          COMREG_APPROVED = COMREG_APPROVED]));
+        lstrcat(szBuf, ')');
+        SetWindowText(GetDlgItem(hwndDlg, IDC_STATUS), szBuf);
+        // auto size the static windows to fit their text
+        // they're rendering in a font not selected into the DC.
+        AutoSize(GetDlgItem(hwndDlg, IDC_CAPMENUS));
+        AutoSize(GetDlgItem(hwndDlg, IDC_CAPSTATUS));
+        AutoSize(GetDlgItem(hwndDlg, IDC_CAPSHLSTATUS));
+        // show all the options
+        iCheck := DBGetContactSettingByte(0, SHLExt_Name, SHLExt_UseGroups, BST_UNCHECKED);
+        CheckDlgButton(hwndDlg, IDC_USEGROUPS, iCheck);
+        EnableWindow(GetDlgItem(hwndDlg, IDC_CLISTGROUPS), iCheck = BST_CHECKED);
+        CheckDlgButton(hwndDlg, IDC_CLISTGROUPS, DBGetContactSettingByte(0, SHLExt_Name,
+          SHLExt_UseCListSetting, BST_UNCHECKED));
+        CheckDlgButton(hwndDlg, IDC_NOPROF, DBGetContactSettingByte(0, SHLExt_Name,
+          SHLExt_ShowNoProfile, BST_UNCHECKED));
+        CheckDlgButton(hwndDlg, IDC_SHOWFULL, DBGetContactSettingByte(0, SHLExt_Name,
+          SHLExt_UseHITContacts, BST_UNCHECKED));
+        CheckDlgButton(hwndDlg, IDC_SHOWINVISIBLES, DBGetContactSettingByte(0, SHLExt_Name,
+          SHLExt_UseHIT2Contacts, BST_UNCHECKED));
+        CheckDlgButton(hwndDlg, IDC_USEOWNERDRAW, DBGetContactSettingByte(0, SHLExt_Name,
+          SHLExt_ShowNoIcons, BST_UNCHECKED));
+        CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE, DBGetContactSettingByte(0, SHLExt_Name,
+          SHLExt_ShowNoOffline, BST_UNCHECKED));
+        // give the Remove button a Vista icon
+        SendMessage(GetDlgItem(hwndDlg, IDC_REMOVE), BCM_SETSHIELD, 0, 1);
+      end;
+    WM_COMMAND:
+      begin
+        // don't send the changed message if remove is clicked
+        if LOWORD(wParam) <> IDC_REMOVE then
+        begin
+          SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+        end; // if
+        case LOWORD(wParam) of
+          IDC_USEGROUPS:
             begin
-				{* FP 2.2.2 seems to have a bug, 'Code' is supposed to be signed
-				but isn't signed, so when comparing -202 (=PSN_APPLY) It doesn't work
-				so here, -202 is converted into hex, what you are looking at is the
-				code == PSN_APPLY check. *}
-                if $FFFFFF36 = pNMHDR(lParam)^.code then
-                begin
-                    DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_UseGroups, IsDlgButtonChecked(hwndDlg, IDC_USEGROUPS));
-                    DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_UseCListSetting, IsDlgButtonChecked(hwndDlg, IDC_CLISTGROUPS));
-                    DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_ShowNoProfile, IsDlgButtonChecked(hwndDlg, IDC_NOPROF));
-                    DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_UseHITContacts, IsDlgButtonChecked(hwndDlg, IDC_SHOWFULL));
-                    DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_UseHIT2Contacts, IsDlgButtonChecked(hwndDlg, IDC_SHOWINVISIBLES));
-					DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_ShowNoIcons, IsDlgButtonChecked(hwndDlg, IDC_USEOWNERDRAW));
-					DBWriteContactSettingByte(0, SHLExt_Name, SHLExt_ShowNoOffline, IsDlgButtonChecked(hwndDlg, IDC_HIDEOFFLINE));
-                end; //if
-            end;			
-            WM_INITDIALOG:
+              EnableWindow(GetDlgItem(hwndDlg, IDC_CLISTGROUPS),
+                BST_CHECKED = IsDlgButtonChecked(hwndDlg, IDC_USEGROUPS));
+            end; // if
+          IDC_REMOVE:
             begin
-                TranslateDialogDefault(hwndDlg);
-                comReg := IsCOMRegistered();
-                FillChar(szBuf, MAX_PATH, 0);
-                lstrcat(szBuf, Translate(COM_OKSTR[comReg and COMREG_OK = COMREG_OK]));
-                lstrcat(szBuf, ' (');
-                lstrcat(szBuf, Translate(COM_APPROVEDSTR[comReg and COMREG_APPROVED = COMREG_APPROVED]));
-                lstrcat(szBuf, ')');
-                SetWindowText(GetDlgItem(hwndDlg, IDC_STATUS), szBuf);
-                // auto size the static windows to fit their text
-                // they're rendering in a font not selected into the DC.
-                AutoSize(GetDlgItem(hwndDlg, IDC_CAPMENUS));
-                AutoSize(GetDlgItem(hwndDlg, IDC_CAPSTATUS));
-                AutoSize(GetDlgItem(hwndDlg, IDC_CAPSHLSTATUS));
-                // show all the options
-                iCheck := DBGetContactSettingByte(0, SHLExt_Name, SHLExt_UseGroups, BST_UNCHECKED);
-                CheckDlgButton(hwndDlg, IDC_USEGROUPS, iCheck);
-                EnableWindow(GetDlgItem(hwndDlg, IDC_CLISTGROUPS), iCheck = BST_CHECKED);
-                CheckDlgButton(hwndDlg, IDC_CLISTGROUPS, DBGetContactSettingByte(0, SHLExt_Name, SHLExt_UseCListSetting, BST_UNCHECKED));
-                CheckDlgButton(hwndDlg, IDC_NOPROF, DBGetContactSettingByte(0, SHLExt_Name, SHLExt_ShowNoProfile, BST_UNCHECKED));
-                CheckDlgButton(hwndDlg, IDC_SHOWFULL, DBGetContactSettingByte(0, SHLExt_Name, SHLExt_UseHITContacts, BST_UNCHECKED));
-                CheckDlgButton(hwndDlg, IDC_SHOWINVISIBLES, DBGetContactSettingByte(0, SHLExt_Name, SHLExt_UseHIT2Contacts, BST_UNCHECKED));
-				CheckDlgButton(hwndDlg, IDC_USEOWNERDRAW, DBGetContactSettingByte(0, SHLExt_Name, SHLExt_ShowNoIcons, BST_UNCHECKED));
-				CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE, DBGetContactSettingByte(0, SHLExt_Name, SHLExt_ShowNoOffline, BST_UNCHECKED));				
-				// give the Remove button a Vista icon
-				SendMessage(GetDlgItem(hwndDlg, IDC_REMOVE), BCM_SETSHIELD, 0, 1);
-            end;
-            WM_COMMAND:
-            begin
-                // don't send the changed message if remove is clicked
-                if LOWORD(wParam) <> IDC_REMOVE then
-                begin
-                    SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-                end; //if
-                case LOWORD(wParam) of
-                    IDC_USEGROUPS:
-                    begin
-                        EnableWindow(GetDlgItem(hwndDlg, IDC_CLISTGROUPS), BST_CHECKED = IsDlgButtonChecked(hwndDlg, IDC_USEGROUPS));
-                    end; //if
-                    IDC_REMOVE:
-                    begin
-                        if IDYES = MessageBox(0, Translate('Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer'), Translate('Disable/Remove shlext'), MB_YESNO or MB_ICONQUESTION) then
-                        begin
-                            cgs.szModule := SHLExt_Name;
+              if IDYES = MessageBox(0,
+                Translate(
+                'Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer'),
+                Translate('Disable/Remove shlext'), MB_YESNO or MB_ICONQUESTION) then
+              begin
+                cgs.szModule := SHLExt_Name;
 
-                            cgs.szSetting := SHLExt_UseGroups;
-                            CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
+                cgs.szSetting := SHLExt_UseGroups;
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
 
-                            cgs.szSetting := SHLExt_UseCListSetting;
-                            CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
+                cgs.szSetting := SHLExt_UseCListSetting;
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
 
-                            cgs.szSetting := SHLExt_UseHITContacts;
-                            CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
+                cgs.szSetting := SHLExt_UseHITContacts;
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
 
-                            cgs.szSetting := SHLExt_UseHIT2Contacts;
-                            CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
+                cgs.szSetting := SHLExt_UseHIT2Contacts;
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
 
-                            cgs.szSetting := SHLExt_ShowNoProfile;
-                            CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
-							
-							cgs.szSetting := SHLExt_ShowNoIcons;
-							CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
-						
-							cgs.szSetting := SHLExt_ShowNoOffline;
-							CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));						
+                cgs.szSetting := SHLExt_ShowNoProfile;
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
 
-                            (* remove from Explorer *)
-                            //DllUnregisterServer();
-							CheckUnregisterServer();
-                            (* show all the settings have gone... *)
-                            SendMessage(hwndDlg, WM_INITDIALOG, 0, 0);
-                        end; //if
-                    end; //if
-                end; //case
-                // LOWORD(wParam) == IDC_*
-            end;{outercase}
-        end; //case
-    end;
+                cgs.szSetting := SHLExt_ShowNoIcons;
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
 
-    function InitialiseOptionPages(wParam: WPARAM; lParam: LPARAM): int; cdecl;
-    const
-        IDD_SHLOPTS = 101;
-    var
-        optDialog: TOPTIONSDIALOGPAGE;
-    begin
-        Result := 0;
-        FillChar(optDialog, sizeof(TOPTIONSDIALOGPAGE), 0);
-        optDialog.cbSize := sizeof(TOPTIONSDIALOGPAGE);
-        optDialog.flags := ODPF_BOLDGROUPS;
-        optDialog.groupPosition := 0;
-        optDialog.pszGroup := 'Plugins';
-        optDialog.position := -1066;
-        optDialog.pszTitle := Translate('Shell context menus');
-        optDialog.pszTemplate := MAKEINTRESOURCE(IDD_SHLOPTS);
-        {$ifdef VER140}
-        optDialog.hInstance := HInstance;
-        {$else}
-        optDialog.hInstance := System.hInstance;
-        {$endif}
-        optDialog.pfnDlgProc := @OptDialogProc;
-        PluginLink^.CallService(MS_OPT_ADDPAGE, wParam, Integer(@optDialog));
-    end;
+                cgs.szSetting := SHLExt_ShowNoOffline;
+                CallService(MS_DB_CONTACT_DELETESETTING, 0, Integer(@cgs));
 
-    function MirandaPluginInfoEx(mirandaVersion: DWORD): PPLUGININFOEX; cdecl;
-    begin
-        Result := nil;
-        { only support v0.3.0.0+ }
-        if PLUGIN_MAKE_VERSION(0,3,0,0) > MirandaVersion then Exit;
-        { fill in plugininfo }
-        PLUGININFOEX.cbSize := sizeof(PLUGININFOEX);
-        PLUGININFOEX.shortName := 'Shell context menus for transfers';
-        PLUGININFOEX.version := PLUGIN_MAKE_VERSION(2,0,1,2);
-        {$ifdef FPC}
-        PLUGININFOEX.description := 'Click ''n'' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to. Built on ' + {$I %DATE%} + ' at ' + {$I %TIME%} + ' with FPC ' + {$I %FPCVERSION%};
-        {$else}
-        PLUGININFOEX.description := '';
-        {$endif}
-        PLUGININFOEX.author := 'egoDust';
-        PLUGININFOEX.authorEmail := 'egodust@users.sourceforge.net';
-        PLUGININFOEX.copyright := '(c) 2009 Sam Kothari (egoDust)';
-        PLUGININFOEX.homePage := 'http://addons.miranda-im.org/details.php?action=viewfile&id=534';
-        PLUGININFOEX.isTransient := 0;
-        PLUGININFOEX.replacesDefaultModule := 0;
-		{ This UUID is fetched twice }
-		CopyMemory(@PLUGININFOEX.uuid, @CLSID_ISHLCOM, sizeof(TMUUID));
-        { return info }
-        Result := @PLUGININFOEX;
-    end;
-		
-	function MirandaPluginInterfaces: PMUUID; cdecl;
-	const
-		ifaces: array[0..1] of TMUUID = 
-		(
-			// same as CLSID_ISHLCOM
-			(a: $72013a26; b: $a94c; c: $11d6; d: ($85,$40,$a5,$e6,$29,$32,$71,$1d) ),
-			
-			// MUUID_LASTPLUGIN
-			(a: 0; b: 0; c: 0; d:(0,0,0,0,0,0,0,0) )
-		);
-	begin
-		Result := @ifaces;
-	end;
+                (* remove from Explorer *)
+                // DllUnregisterServer();
+                CheckUnregisterServer();
+                (* show all the settings have gone... *)
+                SendMessage(hwndDlg, WM_INITDIALOG, 0, 0);
+              end; // if
+            end; // if
+        end; // case
+        // LOWORD(wParam) == IDC_*
+      end; { outercase }
+  end; // case
+end;
 
-    function Load(link: PPLUGINLINK): int; cdecl;
-    begin
-        Result := 0;
-        PLUGINLINK := Pointer(link);
-		InvokeThreadServer;
-        PluginLink^.HookEvent(ME_OPT_INITIALISE, InitialiseOptionPages);        
-		DllRegisterServer();
-		CheckRegisterServer();
-        //DisableThreadLibraryCalls(System.hInstance);
-    end;
+function InitialiseOptionPages(wParam: wParam; lParam: lParam): int; cdecl;
+const
+  IDD_SHLOPTS = 101;
+var
+  optDialog: TOPTIONSDIALOGPAGE;
+begin
+  Result := 0;
+  FillChar(optDialog, sizeof(TOPTIONSDIALOGPAGE), 0);
+  optDialog.cbSize := sizeof(TOPTIONSDIALOGPAGE);
+  optDialog.flags := ODPF_BOLDGROUPS;
+  optDialog.groupPosition := 0;
+  optDialog.szGroup.a := 'Plugins';
+  optDialog.position := -1066;
+  optDialog.szTitle.a := Translate('Shell context menus');
+  optDialog.pszTemplate := MAKEINTRESOURCE(IDD_SHLOPTS);
+{$IFDEF VER140}
+  optDialog.hInstance := hInstance;
+{$ELSE}
+  optDialog.hInstance := System.hInstance;
+{$ENDIF}
+  optDialog.pfnDlgProc := @OptDialogProc;
+  CallService(MS_OPT_ADDPAGE, wParam, Integer(@optDialog));
+end;
 
-    function Unload: int; cdecl;
-    begin
-        Result := 0;
-    end;
+var
+	PLUGININFOEX: TPLUGININFOEX;
 
-    {$R shldlgs.res}
+function MirandaPluginInfoEx(mirandaVersion: DWORD): PPLUGININFOEX; cdecl;
+begin
+  Result := nil;
+  { only support v0.3.0.0+ }
+  if PLUGIN_MAKE_VERSION(0, 3, 0, 0) > mirandaVersion then
+    Exit;
+  { fill in plugininfo }
+  PLUGININFOEX.cbSize := sizeof(PLUGININFOEX);
+  PLUGININFOEX.shortName := 'Shell context menus for transfers';
+  PLUGININFOEX.version := PLUGIN_MAKE_VERSION(2, 0, 1, 2);
+{$IFDEF FPC}
+  PLUGININFOEX.description :=
+    'Click ''n'' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to. Built on ' +
+  {$I %DATE%} +' at ' + {$I %TIME%} +' with FPC ' + {$I %FPCVERSION%};
+{$ELSE}
+  PLUGININFOEX.description := '';
+{$ENDIF}
+  PLUGININFOEX.author := 'egoDust';
+  PLUGININFOEX.authorEmail := 'egodust@users.sourceforge.net';
+  PLUGININFOEX.copyright := '(c) 2009 Sam Kothari (egoDust)';
+  PLUGININFOEX.homePage := 'http://addons.miranda-im.org/details.php?action=viewfile&id=534';
+  PLUGININFOEX.flags := 0;
+  PLUGININFOEX.replacesDefaultModule := 0;
+  { This UUID is fetched twice }
+  CopyMemory(@PLUGININFOEX.uuid, @CLSID_ISHLCOM, sizeof(TMUUID));
+  { return info }
+  Result := @PLUGININFOEX;
+end;
 
-    exports
+function Load(): int; cdecl;
+begin
+  Result := 0;
+  InvokeThreadServer;
+  HookEvent(ME_OPT_INITIALISE, InitialiseOptionPages);
+  DllRegisterServer();
+  CheckRegisterServer();
+  // DisableThreadLibraryCalls(System.hInstance);
+end;
 
-        MirandaPluginInfoEx, MirandaPluginInterfaces, Load, Unload;
+function Unload: int; cdecl;
+begin
+  Result := 0;
+end;
 
-    exports
+{$R shldlgs.res}
 
-        DllGetClassObject, DllCanUnloadNow, DllRegisterServer, DllUnregisterServer;
+exports
+
+  MirandaPluginInfoEx, Load, Unload;
+
+exports
+
+  DllGetClassObject, DllCanUnloadNow, DllRegisterServer, DllUnregisterServer;
 
 begin
+
 end.
