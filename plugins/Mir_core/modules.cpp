@@ -555,17 +555,16 @@ MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam, LPARAM lP
 	// the service is looked up within the main thread, since the time it takes
 	// for the APC queue to clear the service being called maybe removed.
 	// even thou it may exists before the call, the critsec can't be locked between calls.
-	if (GetCurrentThreadId() != mainThreadId) {
-		mir_ptr<TServiceToMainThreadItem> item;
-		item->wParam = wParam;
-		item->lParam = lParam;
-		item->name = name;
-		item->hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-		QueueMainThread(CallServiceToMainAPCFunc, &item, item->hDoneEvent);
-		return item->result;
-	}
+	if (GetCurrentThreadId() == mainThreadId)
+	   return CallService(name, wParam, lParam);
 
-   return CallService(name, wParam, lParam);
+	mir_ptr<TServiceToMainThreadItem> item;
+	item->wParam = wParam;
+	item->lParam = lParam;
+	item->name = name;
+	item->hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	QueueMainThread(CallServiceToMainAPCFunc, item, item->hDoneEvent);
+	return item->result;
 }
 
 MIR_CORE_DLL(int) CallFunctionAsync(void (__stdcall *func)(void *), void *arg)
