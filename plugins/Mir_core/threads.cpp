@@ -354,12 +354,12 @@ typedef struct tagTHREADNAME_INFO
 } THREADNAME_INFO;
 #pragma pack(pop)
 
-MIR_CORE_DLL(void) Thread_SetName(DWORD dwThreadID, const char *szThreadName)
+MIR_CORE_DLL(void) Thread_SetName(const char *szThreadName)
 {
 	THREADNAME_INFO info;
 	info.dwType = 0x1000;
 	info.szName = szThreadName;
-	info.dwThreadID = dwThreadID;
+	info.dwThreadID = GetCurrentThreadId();
 	info.dwFlags = 0;
 
 	__try

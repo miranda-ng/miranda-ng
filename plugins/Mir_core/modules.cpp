@@ -236,7 +236,7 @@ static bool checkHook(HANDLE hHook)
 	{
 		if (p->secretSignature != HOOK_SECRET_SIGNATURE)
 			ret = false;
-		else if (p->subscriberCount == 0)
+		else if (p->subscriberCount == 0 && p->pfnHook == NULL)
 			ret = false;
 		else
 			ret = true;
