@@ -1,0 +1,78 @@
+Avatar History
+
+Changelog:
+
+. 0.0.3.3
++ Added Updater support
+
+. 0.0.3.2
+-Show contact display name in save dialog
+-Added hidden debug setting:
+Add BYTE "Debug" in "AvatarHistory" module to show debug popups.
+ATTENTION: This is only recommended for advanced users to find problems,
+in normal usage they tend to become annoying
+-Fixed popups for removed avatars
+-Updated m_folders.h
+-Allow plugin to load in Miranda 0.9.50
+
+
+. 0.0.3.1
++ Show Contact Name in Avatar History dialog title
++ Show picture path in avatar history dialog
++ support for WindowList
+* fixed some issues reported by borkra
++ updated m_folders.h
+* fixed duplicate avatar notifications (thanks xaos)
+
+. 0.0.3.0
+THIS REQUIRES MIRANDA IM 0.10 ALPHA #3 OR ABOVE!!
+  + added x64 version
+  + improved unicode support
+  + added sounds
+  + added more debug information
+  * save position of avatar history dialog
+  ! fixed crash with empty avatar history
+  * BMP files are not converted to PNG any more
+  * fixed Updater support
+
+
+. 0.0.2.10
+  * Fix for get event text
+
+. 0.0.2.9
+  + Depends on history events to add events to history
+
+. 0.0.2.8
+  * Fix for radios in first run dialog
+
+. 0.0.2.7
+  + Added first run dialog and option to store avatars as version 1
+  * Changed to stop using avs services and use freeiamge services (requires miranda 0.7 #28)
+
+. 0.0.2.6
+  * Changed to always use online proto icon as base for popup icon
+
+. 0.0.2.5
+  + Added support for Miranda 0.8
+
+. 0.0.2.4
+  * Try to fix blank images
+
+. 0.0.2.3
+  + Hide contact menu item for disabled protocols
+  + Create shortcuts for metacontacts if it is a enabled protocol
+
+. 0.0.2.2
+  * Bug fixes (thanks borkra)
+  + Use shortcuts in avatar history dialog when history log is disabled (thanks Let)
+  + Option to delete only the entry or it and the avatar image
+  * Moved default place of menu entry to bellow View History
+  * Using default Miranda icon for History if possible
+  * Using icon based on avs for overlay
+  * Small changes in options dialog
+
+. 0.0.2.0
+  * Changed to store avatars in a proto dir (lost compatibility with old version)
+  * Changes in options and avatar dialog
+  + Keep only one copy of an image (even if contact switchs back to it)
+  + Updater support

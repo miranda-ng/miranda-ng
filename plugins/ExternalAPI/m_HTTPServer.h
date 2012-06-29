@@ -100,6 +100,18 @@ typedef struct {
 
 #define MS_HTTP_GET_ALL_SHARES	"HTTPServer/GetAllShares"
 
+/////////////////////////////////////////////
+////   Service MS_HTTP_GET_LINK         /////
+/////////////////////////////////////////////
+//
+// wParam = (char*)pszSrvPath;
+// lParam = 0
+// Return URL Link on success, 0 on failure
+// Return pointer must be mir_free by caller
+//
+// Return the URL link to the pszSrvPath
+
+#define MS_HTTP_GET_LINK	"HTTPServer/GetLink"
 
 
 #endif

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<installscript>
+ <info>
+  <name>Tlen Protocol</name>
+  <author>Santithorn Bunchua</author>
+  <version>0.1.0.2</version>
+  <type>Plugin</type>
+ </info>
+
+ <packageinfo>
+  <title>Main Files</title>
+  <file>tlen.dll</file>
+  <file>tlen_czaty.dll</file>
+ </packageinfo>
+
+ <packageinfo>
+  <optional/>
+  <title>Documentation</title>
+  <file>readme_tlen.txt</file>
+  <document/>
+ </packageinfo>
+
+ <autorun>
+  <file>readme_tlen.txt</file>
+  <document/>
+ </autorun>
+</installscript>

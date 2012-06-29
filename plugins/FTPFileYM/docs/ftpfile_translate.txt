@@ -1,0 +1,103 @@
+;FTP File YM
+;=============
+
+;Main
+;------
+[FTP File]
+
+;Open file dialog
+;------------------
+[FTP File - Select files]
+
+;Error messages
+;----------------
+[FTP File Error]
+[Aborting file upload...]
+[Error occurred when opening local file.\nAborting file upload...]
+[Error occurred when initializing libcurl.\nAborting file upload...]
+[You have to fill FTP server setting before upload file.]
+[FTP error occurred.\n%s]
+
+;Upload dialog 
+;---------------
+[Upload manager - %d file(s)]
+[Sending for:]
+[Upload info]
+[File:]
+[Speed:]
+[Completed:]
+[Remaining:]
+[Download url:]
+[Copy link to clipboard]
+[Options]
+[Close]
+[Automatically delete file after...]
+[Disabled]
+
+;File manager
+;---------------
+[FTP File manager]
+[Select all]
+[Deselect all]
+[Delete from FTP]
+[Delete from list]
+[Copy link]
+[Download file]
+
+;Dialogs
+;---------------
+[Enter file name]
+[File exists - %s]
+[File with the same name alredy exists on the server.]
+[How to procced?]
+[Rename]
+[Overwrite]
+[Copy URL]
+[Cancel]
+
+;Sounds
+;--------
+[File upload complete]
+[Upload canceled]
+
+;Icons
+;--------
+[Send file]
+[Clipboard]
+[FTP Server %d]
+
+;Options page - Accounts
+;-----------------------
+[Accounts]
+[FTP account]
+[Account name]
+[Default FTP server]
+[Protocol]
+[FTP (Standard)]
+[FTP+SSL (Explicit)]
+[FTP+SSL (Implicit)]
+[SFTP (Secure FTP ove SSH)]
+[Host name]
+[Port]
+[Use passive mode]
+[User]
+[Password]
+[Command after upload]
+[Directory on server]
+[URL]
+
+;Options page - Advanced
+;-----------------------
+[Advanced]
+[File download link]
+[Copy download link to message log]
+[Autosend download link to contact]
+[Menu items]
+[Use submenu (restart required)]
+[Hide inactive accounts]
+[Other]
+[ZIP support]
+[Enter archive name manually]
+[Compression level:]
+[Close dialog after upload finishes]
+[Automatically delete file from FTP server after (experimental):]

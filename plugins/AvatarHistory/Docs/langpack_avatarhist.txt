@@ -1,0 +1,114 @@
+; Avatar History
+; Author: MattJ and Pescuma
+
+[Avatar History]
+
+; Menu
+
+[View Avatar History]
+
+; Custom folders
+
+[Avatars]
+
+; Options
+
+[History]
+[Avatar]
+
+[ Logging options ]
+[Store old avatars on disk]
+[Also create per contact folders with shortcuts]
+[Log avatar changes to history]
+
+[ History templates ]
+[Avatar change:]
+[Track when contacts remove their avatars too]
+[Avatar removal:]
+
+[ Protocols ]
+[Enable tracking for these protocols:]
+[Keep all in same folder]
+
+[Popups]
+[Avatar Change]
+
+[Show popup when a contact change his avatar]
+
+[ Colours ]
+[Background colour]
+[Text colour]
+[Use Windows colours]
+[Use default colours]
+
+[ Delay ]
+[From popup plugin]
+[Custom]
+[Permanent]
+
+[ Actions ]
+[On right click:]
+[On left click:]
+[Do nothing]
+[Close popup]
+[Show avatar history]
+[Show contact history]
+
+[Preview]
+
+
+; Test popup
+
+[Test Contact]
+[Test description]
+
+
+; First run dialog
+
+[Avatar History: Select how to store history avatars]
+[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
+[Store history in miranda history and all history avatars in same folder]
+[History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
+[All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
+[Store history in miranda history and history avatars in per protocol folders]
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>]
+[Store history in miranda history and history avatars in per contact folders using shortcuts]
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
+[Store history avatars in per contact folders using shortcut]
+[History is stored only in disk. It can be seen by Avatar History internal viewer.]
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
+[Store history avatars in per contact folders]
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
+[OK]
+
+; Avatar dialog
+
+[Open Folder]
+[Save]
+[Delete]
+[<]
+[>]
+[Store this user's old avatars in disk]
+[Log this user's avatars changes to history]
+[Show popups for this user]
+[OK]
+[Save As...]
+[Delete this entry]
+[Delete this entry and the bitmap file]
+
+
+; Others
+
+[Please select an avatar from the list]
+[No avatar selected]
+
+[Delete avatar log?]
+[Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
+[Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
+
+[Delete avatar?]
+[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
+[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
+
+[Unknown Protocol]
+[Unknown UIN]

@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SAR", "SAR.vcxproj", "{C71749EF-EBA8-4317-9F9E-327E1A7366EC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lualib", "..\lualib\lualib.vcxproj", "{6DB53D29-2EA9-407B-84F3-06E8031F3314}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C71749EF-EBA8-4317-9F9E-327E1A7366EC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C71749EF-EBA8-4317-9F9E-327E1A7366EC}.Debug|Win32.Build.0 = Debug|Win32
+		{C71749EF-EBA8-4317-9F9E-327E1A7366EC}.Release|Win32.ActiveCfg = Release|Win32
+		{C71749EF-EBA8-4317-9F9E-327E1A7366EC}.Release|Win32.Build.0 = Release|Win32
+		{6DB53D29-2EA9-407B-84F3-06E8031F3314}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6DB53D29-2EA9-407B-84F3-06E8031F3314}.Debug|Win32.Build.0 = Debug|Win32
+		{6DB53D29-2EA9-407B-84F3-06E8031F3314}.Release|Win32.ActiveCfg = Release|Win32
+		{6DB53D29-2EA9-407B-84F3-06E8031F3314}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

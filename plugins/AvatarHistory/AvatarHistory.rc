@@ -1,0 +1,236 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU
+BEGIN
+    POPUP "Avatar List Popup"
+    BEGIN
+        MENUITEM "Save As...",                  ID_AVATARLISTPOPUP_SAVEAS
+        MENUITEM "Delete this entry",           ID_AVATARLISTPOPUP_DELETE
+        MENUITEM "Delete this entry and the bitmap file", ID_AVATARLISTPOPUP_DELETE_BOTH
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_AVATARDLG DIALOGEX 0, 0, 216, 195
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Avatar History"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LISTBOX         IDC_AVATARLIST,7,7,110,74,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_AVATAR,"Static",SS_BITMAP | SS_NOTIFY | SS_CENTERIMAGE | SS_REALSIZEIMAGE | SS_SUNKEN,125,7,84,74
+    LTEXT           "Static",IDC_AVATARPATH,7,105,204,26
+    PUSHBUTTON      "Open Folder",IDC_OPENFOLDER,6,81,49,14
+    PUSHBUTTON      "<",IDC_BACK,138,82,31,10,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      ">",IDC_NEXT,172,82,31,10,BS_CENTER | BS_VCENTER
+    CONTROL         "Store this user's old avatars in disk",IDC_LOGUSER,
+                    "Button",BS_AUTO3STATE | WS_TABSTOP,7,135,202,10
+    CONTROL         "Log this user's avatars changes to history",IDC_HISTORYUSER,
+                    "Button",BS_AUTO3STATE | WS_TABSTOP,7,147,202,10
+    CONTROL         "Show popups for this user",IDC_POPUPUSER,"Button",BS_AUTO3STATE | WS_TABSTOP,7,159,202,10
+    DEFPUSHBUTTON   "OK",IDOK,73,169,50,14
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 314, 173
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Protocols",IDC_PROTOCOLS_G,3,3,308,157
+    LTEXT           "Enable tracking for these protocols:",IDC_PROTOCOLS_L,13,17,157,11
+    CONTROL         "List1",IDC_PROTOCOLS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,12,31,158,119
+    LTEXT           "MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)",IDC_STATIC,181,31,124,119
+END
+
+IDD_POPUPS DIALOGEX 0, 0, 314, 235
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Show popup when a contact change his avatar",IDC_POPUPS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,3,308,12
+    GROUPBOX        "Colours",IDC_COLOURS_G,3,25,158,75
+    CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,12,37,34,14
+    LTEXT           "Background colour",IDC_BGCOLOR_L,55,41,89,8
+    CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",WS_TABSTOP,12,55,34,14
+    LTEXT           "Text colour",IDC_TEXTCOLOR_L,55,59,89,8
+    CONTROL         "Use Windows colours",IDC_WINCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,74,132,10
+    CONTROL         "Use default colours",IDC_DEFAULTCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,84,132,10
+    GROUPBOX        "Delay",IDC_DELAY_G,166,25,145,75
+    CONTROL         "From popup plugin",IDC_DELAYFROMPU,"Button",BS_AUTORADIOBUTTON | WS_GROUP,174,38,131,10
+    CONTROL         "Custom",IDC_DELAYCUSTOM,"Button",BS_AUTORADIOBUTTON,174,52,131,10
+    CONTROL         "Permanent",IDC_DELAYPERMANENT,"Button",BS_AUTORADIOBUTTON,174,82,131,10
+    EDITTEXT        IDC_DELAY,208,65,31,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_DELAY_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,239,67,11,11
+    GROUPBOX        "Actions",IDC_ACTIONS_G,3,103,308,47
+    RTEXT           "On right click:",IDC_RIGHT_ACTION_L,13,118,131,9
+    COMBOBOX        IDC_RIGHT_ACTION,149,116,156,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "On left click:",IDC_LEFT_ACTION_L,13,132,131,9
+    COMBOBOX        IDC_LEFT_ACTION,149,132,156,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Track",IDC_TRACK_G,3,153,308,47
+    CONTROL         "Avatar change:",IDC_CHANGED_L,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,166,89,10
+    EDITTEXT        IDC_CHANGED,105,166,200,13,ES_AUTOHSCROLL
+    CONTROL         "Avatar removal:",IDC_REMOVED_L,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,183,89,10
+    EDITTEXT        IDC_REMOVED,105,183,200,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Preview",IDC_PREV,132,206,50,14
+END
+
+IDD_FIRST_RUN DIALOGEX 0, 0, 451, 253
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Avatar History: Select how to store history avatars"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.",IDC_STATIC,15,7,416,23
+    CONTROL         "Store history in miranda history and all history avatars in same folder",IDC_MIR_SAME,
+                    "Button",BS_AUTORADIOBUTTON | WS_GROUP,15,32,416,11
+    CONTROL         "Store history in miranda history and history avatars in per protocol folders",IDC_MIR_PROTO,
+                    "Button",BS_AUTORADIOBUTTON,15,66,416,11
+    CONTROL         "Store history in miranda history and history avatars in per contact folders using shortcuts",IDC_MIR_SHORT,
+                    "Button",BS_AUTORADIOBUTTON,15,99,416,11
+    CONTROL         "Store history avatars in per contact folders using shortcuts",IDC_SHORT,
+                    "Button",BS_AUTORADIOBUTTON,15,140,416,11
+    CONTROL         "Store history avatars in per contact folders",IDC_DUP,
+                    "Button",BS_AUTORADIOBUTTON,15,181,416,11
+    LTEXT           "History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.",IDC_STATIC,15,44,416,10
+    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>",IDC_STATIC,15,54,416,10
+    LTEXT           "History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.",IDC_STATIC,15,77,416,10
+    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>",IDC_STATIC,15,87,416,10
+    LTEXT           "History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.",IDC_STATIC,15,110,416,10
+    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>",IDC_STATIC,15,120,416,18
+    LTEXT           "History is stored only in disk. It can be seen by Avatar History internal viewer.",IDC_STATIC,15,151,416,10
+    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>",IDC_STATIC,15,161,416,18
+    LTEXT           "History is stored only in disk. It can be seen by Avatar History internal viewer.",IDC_STATIC,15,192,416,10
+    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)",IDC_STATIC,15,203,416,18
+    DEFPUSHBUTTON   "OK",IDOK,151,232,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_AVATARDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 209
+        VERTGUIDE, 203
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 159
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 311
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 171
+        HORZGUIDE, 150
+    END
+
+    IDD_POPUPS, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 311
+        VERTGUIDE, 12
+        VERTGUIDE, 144
+        VERTGUIDE, 174
+        VERTGUIDE, 305
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 225
+    END
+
+    IDD_FIRST_RUN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 443
+        VERTGUIDE, 15
+        VERTGUIDE, 431
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 246
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United Kingdom) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United Kingdom) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

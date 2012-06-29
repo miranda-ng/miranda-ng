@@ -1,0 +1,10 @@
+Special thanks to Michael Kunz aka "Protogenes"
+for helping me with 1001 tips and suggestions
+to design the program code.
+http://www-user.tu-chemnitz.de/~kunmi/?dbx_tree&lang=de
+
+Thanks to the "UserinfoEx" programmers group
+for the nice button class code.
+http://code.google.com/p/userinfoex/
+
+and special thanks to all beta-testers...

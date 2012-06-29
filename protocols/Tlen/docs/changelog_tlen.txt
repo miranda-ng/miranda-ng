@@ -1,0 +1,269 @@
+Version 2.0.5.0
+-------
+* Project cleanup
+ + change mucc.dll to tlen_czaty.dll
+ + compile tlen_czaty in Unicode and x64
+*  fix warnings, project files changes
+Version 2.0.4.1
+-------
+- fix accounts... dialog
+Version 2.0.4.0
+-------
++ x64 version
+* set timeout to NETLIBOPENCONNECTION (patch by piotrw)
+* fix for display texts at comboboxes in unicode (patch by piotrw)
+* fixes in Find/Add Contacts search (by piotrw, dezeath and wsx22)
+* fix warnings, project files changes (add VS2010)
+Version 2.0.3.2
+-------
+* update PolarSSL library to polarssl-1.0.0
+* change compile options to not require microsoft visual studio runtime libs on user system, (100KB larger file but no problems with msvcr90.dll not found on user system)
+Version 2.0.2.0
+-------
+* "Leave status message after disconnection", "Send and receive client version information" and  "Log alerts as messages" options enabled by default (AL|EN suggestion)
+Version 2.0.1.0
+-------
+merge changes from wsx22 mod
+* fix in typing notify message handling
+* fix in logging to server message
+Version 2.0.0.0
+-------
++ Image transfer
+* other bug fixes and improvements
+Version 1.8.0.2
+-------
+improved icons handling
+minor fixes on account unloading
+1.8.0.1
+-------
+* bugfix: removed ME_SYSTEM_MODULESLOADED hook
+1.8.0.0
+-------
++ support for account manager (requires MIM 0.8)
+* many bugfixes and small improvements
+1.1.0.0
+-------
+* avatar support improvements
+1.0.9.2
+-------
+* avatar management UI changes
+* user info page changes
+* some clean-up and bugfixes
+* fix for advertisement blocking
+* fix for file transfers
+1.0.9.1
+-------
+* avatar management improvements
+1.0.9.0
+-------
++ message encryption
+* improved search (up to 200 results displayed)
+* some avatar-related fixes
+* MIM 0.7 compatibility
+1.0.7.7
+-------
+* new icons by Angelika
+1.0.7.6
+-------
++ support for Tlen avatars
+1.0.7.5
+-------
+* bugfix: settings changes were not loaded properly
+1.0.7.4
+-------
+* p2p connections refactoring
+* UPnP support
+* managed services/hooks
+* support for IcoLib
+* new icons
+* support for Miranda Memory Manager
+1.0.7.3
+--------
+* bugfix: offline status message
+1.0.7.2
+--------
+! fixed compatibility issues with new versions of IEView (1.0.9.0 or higher)
++ support for Nudge plugin
+* improved avatar support
+* improved sending/receiving client version info
+1.0.7.1
+---------
+* bugfix: sending/receiving client version info
+1.0.7.0
+---------
++ full support for avatars (compatible with tAvatar 0.0.2.1 or higher)
++ sending and receiving full client version info
+* optimized DB usage
+* code cleanup
+1.0.6.9
+---------
++ experimental client recognition
++ voice chat notification sound
+* bugfix: offline message timestamp
+* code clean-up
+1.0.6.8
+---------
+* bugfix: compatibility with Unicode contact lists
+* bugfix: user login is always converted to lower case
+* bugfix: typing notifications
+* other bugfixes
+1.0.6.7
+---------
++ possibility to send files to offline users
++ public status visibility settings
+* bugfixes
+1.0.6.6
+---------
+* fixed IEView support (text scrolling issue)
+* code cleanup
+1.0.6.5
+---------
++ option to ignore advertisements
+* bugfixes
+1.0.6.4
+---------
++ alert, voice chat and group chat policies
++ received alerts are logged as messages
+* offline message timestamp improvements (thanks to Atay for the idea)
+* removed obsolete, Jabber-specific code
+* a lot of more or less important bugfixes
+1.0.6.3
+---------
++ group names encoding
++ log saving in IEView mode
+* simplified option page
+1.0.6.2
+---------
++ support for IEView group chats (IEView 1.0.3.0 or later)
++ improvements of group chats in RichEdit mode (context menu, better scrolling)
+1.0.6.1
+---------
+* bugfix: proper filename encoding
+* options page rearranged
+* code cleanup, other fixes and improvements
+1.0.6.0
+---------
++ group chat window flashing
++ message icons in tabbed mode
++ web messages grouped as a single contact
+* offline message timestamp handling fixed (again)
+1.0.5.10 RC2
+---------
++ tabbed mode available in group chat window
++ saving chat log to file
++ smiley selection button in group chat window
++ new shortcuts: ctrl+w (close), ctrl+a (select all)
++ saving chat fonts setting
++ new menu items: request and grant authorization
+* several bugfixes in MUCC plugin, better MUCC architecture
+1.0.5.9 RC
+---------
++ voice chat improvements (better sound quality and smarter delay reduction, bugfixes)
++ separate group for Global Owners in chat user list
+* bugfix: web messages receiving (fix by MoMaT)
+1.0.5.8
+---------
++ playback and recording device selection
++ sending and receiving alerts (use <alert> to send)
++ enabling/disabling Always Visible support
+* bugfixes
+1.0.5.7
+---------
++ chat room administration window (user administration and browser)
++ unban option
++ dynamic user groups
++ voice chat p2p connection negotiation
++ voice chat status display
++ incoming voice chat invitation dialog
++ removing contacts from roster on authorization denial
++ offline status message selection
+* a lot of fixes in group chats interface
+1.0.5.6
+---------
++ voice chats ! (experimental)
++ chat room administration: destroying room, changing users' roles, kick & ban
++ MUCC option: send on Enter
++ status messages of offline contacts (use mToolTip to read them)
+* bugfix: contact name encoding when adding new contact
+* bugfix: offline messages time ('more inteligent' Daylight Saving Time handling)
+* bugfix: closing all file transfers at shutdown
+* other minor fixes
+1.0.5.5
+---------
++ improved file transfer (p2p connection negotiation, error notification)
++ MUCC options page (fonts, colors, default filters)
++ chat room events logging (user has joined etc.)
++ registering and uregistering nick names
++ creating chat rooms
++ chat room topic displaying and setting
++ improved errors handling
+* look & feel improvements
+* bugfix: correct chat room name returned by search
+* bugfix: removing users from contact list groups
+* source code refactoring
+1.0.5.4
+---------
++ group chats error handling
++ message log formatting options
++ chat room searching
++ list of contacts in 'invite to group chat' dialog
++ Multi-User Conference item in contact menu
++ some look & feel improvements (better resizing, new icons)
++ internal history of messages
+* a lot of bugfixes and code improvements
+* code clean-up
+1.0.5.3
+---------
++ full text formatting (font name, font size)
++ private messaging sessions
++ displaying user details (administrator/moderator/registered nickname)
++ displaying chat room details icons (moderated/members only/anonymous nicknames not allowed)
++ browsing own chat rooms/registered nicknames
+* code clean-up
+* bugfixes
+1.0.5.2
+---------
++ text formatting (bold, italic, underline, text color for now)
++ chat rooms browsing page by page
+* bugfixes and code clean-up
+1.0.5.1
+---------
++ initial multi-user conferences and chats support
++ MUCC plugin responsible for chats GUI (manager window (groups/rooms), messanging window, helper dialogs)
+
+2004-09-23 Version 1.0.4.0
+	Jabber and Tlen now have separate source trees (Tlen plugin is compliant with GCC now)
+	File transfer with forwarding and SOCKS4/5 proxy support
+	vCard viewing and editing
+	Web messages receiving
+	Incoming email notification through the popup plugin and sounds
+	User typing notification (patch by Adam Libura)
+	Searching users by login
+	New user details page
+	Invisible status message
+	Option to leave offline status message
+	Option to show offline users with status message as invisible
+	Link to create new account
+	Fixed bug: adjust offline message time
+	A lot of other fixes and improvements
+
+2003-08-19 Version 0.1.0.2
+	Fixed bug: crash when receiving some invisible presence
+	Fixed bug: incorrect newline encoding/decoding (tlen uses \r\n while jabber uses \n)
+	Fixed bug: User detail text is not decoded
+	Use new invisible presence (now conform to Jabber invisible presence)
+	Advanced search
+	Based on Jabber plugin 0.1.1.2
+
+2003-05-12 Version 0.1.0.1
+	Fixed bug: slightly incorrect online presence
+	Based on Jabber plugin 0.1.1.0
+
+2003-01-19 Version 0.1.0.0
+	Based on Jabber plugin 0.1.0.7
+	Tlen basic user info
+	Tlen invisible status
+	Tlen visible/invisible list
+	Option to show invisible users as invisible
+	Find/add users using tlen user database
+	Rebase DLL to 0x32600000

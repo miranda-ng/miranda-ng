@@ -1,0 +1,1 @@
+del *.o *.ppu *.dll *.a fpc-res.res *.or

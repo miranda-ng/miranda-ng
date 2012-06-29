@@ -1,0 +1,253 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <winres.h>
+#include <m_utils.h>
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Englisch (GB) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "#include <winres.h>\r\n"
+    "#include <m_utils.h>\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "#include ""version.rc""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_SHUTDOWN DIALOGEX 0, 0, 201, 190
+STYLE DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Shutdown",IDC_STATIC,3,1,196,45
+    CONTROL         "&Show confirmation dialog before shutdown",
+                    IDC_CHECK_SHOWCONFIRMDLG,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,12,14,182,10
+    LTEXT           "&Countdown starts at:",IDC_TEXT_COUNTDOWNSTARTS,24,29,
+                    79,8
+    EDITTEXT        IDC_EDIT_CONFIRMDLGCOUNTDOWN,109,27,32,12,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "",IDC_SPIN_CONFIRMDLGCOUNTDOWN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK | 
+                    WS_TABSTOP,137,27,9,11
+    LTEXT           "seconds",IDC_TEXT_SECONDS,146,29,48,8,NOT WS_GROUP
+    GROUPBOX        "Shutdown Events",IDC_STATIC,3,51,196,66,WS_GROUP
+    CONTROL         "&Activate automatic shutdown with the same settings again if Miranda IM was closed with automatic shutdown enabled",
+                    IDC_CHECK_REMEMBERONRESTART,"Button",BS_AUTOCHECKBOX | 
+                    BS_TOP | BS_MULTILINE | WS_TABSTOP,12,64,182,27
+    CONTROL         "&Ignore hidden or temporary contacts when watching for all contacts being offline",
+                    IDC_CHECK_SMARTOFFLINECHECK,"Button",BS_AUTOCHECKBOX | 
+                    BS_TOP | BS_MULTILINE | WS_TABSTOP,12,93,182,20
+    GROUPBOX        "Critical Shutdown Events",IDC_STATIC,3,123,196,66
+    LTEXT           "Automatically shutdown the computer and turn the power off when one of the following occurs:",
+                    IDC_STATIC,12,135,182,18,SS_NOPREFIX
+    CONTROL         "&Thunderstorm warning is issued  (Weather)",
+                    IDC_CHECK_WEATHER,"Button",BS_AUTOCHECKBOX | BS_TOP | 
+                    WS_DISABLED | WS_TABSTOP,12,157,182,11
+    CONTROL         "&Harddrive overheats (HDD Info)",IDC_CHECK_HDDOVERHEAT,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,12,
+                    172,182,10
+END
+
+IDD_SETTINGS DIALOGEX 0, 0, 239, 286
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | 
+    WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Automatic Shutdown"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "",IDC_RECT_HEADER,0,0,243,25,NOT WS_GROUP
+    ICON            "",IDC_ICON_HEADER,7,3,20,20,SS_CENTERIMAGE | WS_GROUP,
+                    WS_EX_TRANSPARENT
+    LTEXT           "Automatic Shutdown",IDC_TEXT_HEADER,34,4,201,8,
+                    SS_NOPREFIX,WS_EX_TRANSPARENT
+    LTEXT           "Select the automatic shutdown event",
+                    IDC_TEXT_HEADERDESC,43,12,192,8,SS_NOPREFIX,
+                    WS_EX_TRANSPARENT
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,25,243,1
+    CONTROL         "Shutdown at &specific time",IDC_CHECK_SPECIFICTIME,
+                    "Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,13,35,
+                    212,10
+    CONTROL         "Shutdown a&t:",IDC_RADIO_STTIME,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,25,49,68,8
+    CONTROL         "",IDC_TIME_TIMESTAMP,"SysDateTimePick32",DTS_UPDOWN | 
+                    WS_TABSTOP | 0x8,95,47,62,13
+    CONTROL         "",IDC_DATE_TIMESTAMP,"SysDateTimePick32",WS_TABSTOP,159,
+                    47,66,13
+    CONTROL         "Shutdown i&n:",IDC_RADIO_STCOUNTDOWN,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,25,64,68,8
+    EDITTEXT        IDC_EDIT_COUNTDOWN,95,62,62,13,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "",IDC_SPIN_COUNTDOWN,"msctls_updown32",UDS_WRAP | 
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,146,62,12,
+                    14
+    COMBOBOX        IDC_COMBO_COUNTDOWNUNIT,159,62,66,114,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Shutdown when a &message is received containing the following text:",
+                    IDC_CHECK_MESSAGE,"Button",BS_AUTOCHECKBOX | BS_TOP | 
+                    BS_MULTILINE | WS_GROUP | WS_TABSTOP,13,78,211,18
+    EDITTEXT        IDC_EDIT_MESSAGE,25,96,199,21,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    CONTROL         "Shutdown when Miranda IM becomes &idle",IDC_CHECK_IDLE,
+                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | 
+                    WS_GROUP | WS_TABSTOP,13,123,164,9
+    CONTROL         "Configure",IDC_URL_IDLE,"Hyperlink",WS_TABSTOP,179,124,
+                    46,9
+    CONTROL         "Shutdown when &prozessor usage drops below:",
+                    IDC_CHECK_CPUUSAGE,"Button",BS_AUTOCHECKBOX | BS_TOP | 
+                    BS_MULTILINE | WS_GROUP | WS_TABSTOP,13,139,159,22
+    EDITTEXT        IDC_EDIT_CPUUSAGE,179,140,32,13,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "",IDC_SPIN_CPUUSAGE,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS | UDS_HOTTRACK,205,140,11,14
+    LTEXT           "%",IDC_TEXT_PERCENT,215,140,15,13,SS_NOPREFIX | 
+                    SS_CENTERIMAGE | NOT WS_GROUP
+    LTEXT           "(current: 0%)",IDC_TEXT_CURRENTCPU,179,154,60,8,
+                    SS_NOPREFIX | NOT WS_GROUP
+    CONTROL         "Shutdown when all contacts are &offline",
+                    IDC_CHECK_STATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | 
+                    WS_GROUP | WS_TABSTOP,13,162,211,9
+    CONTROL         "Shutdown when all &file transfers are finished",
+                    IDC_CHECK_FILETRANSFER,"Button",BS_AUTOCHECKBOX | BS_TOP | 
+                    WS_GROUP | WS_TABSTOP,13,177,211,10
+    LTEXT           "&Action:",IDC_STATIC,15,199,209,8
+    COMBOBOX        IDC_COMBO_SHUTDOWNTYPE,14,209,210,103,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "",IDC_TEXT_SHUTDOWNTYPE,15,225,208,25,NOT WS_GROUP
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,258,245,1
+    DEFPUSHBUTTON   "OK",IDOK,123,266,50,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,179,266,50,14
+END
+
+IDD_SHUTDOWNNOW DIALOGEX 0, 0, 204, 98
+STYLE DS_MODALFRAME | DS_NOIDLEMSG | DS_SETFOREGROUND | DS_FIXEDSYS | 
+    DS_NOFAILCREATE | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST
+CAPTION "Automatic Shutdown"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    ICON            "",IDC_ICON_HEADER,6,7,20,20,SS_CENTERIMAGE | WS_GROUP,
+                    WS_EX_TRANSPARENT
+    LTEXT           "",IDC_TEXT_HEADER,34,8,162,18,SS_NOPREFIX | NOT 
+                    WS_GROUP
+    LTEXT           "Unsaved data in open applications except Miranda IM might get lost.",
+                    IDC_TEXT_UNSAVEDWARNING,33,31,161,17,SS_NOPREFIX | NOT 
+                    WS_VISIBLE
+    LTEXT           "Please click ""Cancel"" if you would like to abort the process.",
+                    IDC_STATIC,33,49,161,17,SS_NOPREFIX
+    PUSHBUTTON      "&Now!",IDC_BUTTON_SHUTDOWNNOW,32,75,67,14,WS_GROUP
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,103,75,68,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_OPT_SHUTDOWN, DIALOG
+    BEGIN
+        VERTGUIDE, 3
+        VERTGUIDE, 12
+        VERTGUIDE, 194
+        VERTGUIDE, 199
+        HORZGUIDE, 27
+        HORZGUIDE, 39
+    END
+
+    IDD_SETTINGS, DIALOG
+    BEGIN
+        VERTGUIDE, 13
+        VERTGUIDE, 25
+        VERTGUIDE, 95
+        VERTGUIDE, 159
+        VERTGUIDE, 179
+        VERTGUIDE, 224
+        HORZGUIDE, 266
+        HORZGUIDE, 280
+    END
+
+    IDD_SHUTDOWNNOW, DIALOG
+    BEGIN
+        VERTGUIDE, 34
+        VERTGUIDE, 196
+        HORZGUIDE, 8
+        HORZGUIDE, 31
+        HORZGUIDE, 75
+        HORZGUIDE, 89
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ACTIVE              ICON    DISCARDABLE     "res/active.ico"
+IDI_HEADER              ICON    DISCARDABLE     "res/header.ico"
+IDI_INACTIVE            ICON    DISCARDABLE     "res/inactive.ico"
+#endif    // Englisch (GB) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "version.rc"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
