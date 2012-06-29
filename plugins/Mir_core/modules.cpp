@@ -575,10 +575,8 @@ MIR_CORE_DLL(int) CallFunctionAsync(void (__stdcall *func)(void *), void *arg)
 
 MIR_CORE_DLL(void) KillModuleServices(HINSTANCE hInst)
 {
-	int i;
-
 	EnterCriticalSection(&csServices);
-	for (i = services.getCount()-1; i >= 0; i--) {
+	for (int i = services.getCount()-1; i >= 0; i--) {
 		if (services[i]->hOwner == hInst) {
 			char szModuleName[ MAX_PATH ];
 			GetModuleFileNameA(services[i]->hOwner, szModuleName, sizeof(szModuleName));
@@ -590,10 +588,8 @@ MIR_CORE_DLL(void) KillModuleServices(HINSTANCE hInst)
 
 MIR_CORE_DLL(void) KillObjectServices(void* pObject)
 {
-	int i;
-
 	EnterCriticalSection(&csServices);
-	for (i = services.getCount()-1; i >= 0; i--)
+	for (int i = services.getCount()-1; i >= 0; i--)
 		if (services[i]->object == pObject)
 			DestroyServiceFunction((HANDLE)services[i]->nameHash);
 

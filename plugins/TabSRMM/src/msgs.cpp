@@ -447,7 +447,7 @@ int SplitmsgShutdown(void)
 #if defined(__USE_EX_HANDLERS)
 	}
 	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"SHUTDOWN_STAGE3", false)) {
-		return(0);
+		return 0;
 	}
 #endif
 	return 0;
@@ -480,13 +480,13 @@ int AvatarChanged(WPARAM wParam, LPARAM lParam)
 		struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		if (dat) {
 			dat->ace = ace;
-			if(dat->hTaskbarIcon)
+			if (dat->hTaskbarIcon)
 				DestroyIcon(dat->hTaskbarIcon);
 			dat->hTaskbarIcon = 0;
 			DM_RecalcPictureSize(dat);
 			if (dat->showPic == 0 || dat->showInfoPic == 0)
 				GetAvatarVisibility(hwnd, dat);
-			if(dat->hwndPanelPic) {
+			if (dat->hwndPanelPic) {
 				dat->panelWidth = -1;				// force new size calculations (not for flash avatars)
 				SendMessage(dat->hwnd, WM_SIZE, 0, 1);
 			}
@@ -569,9 +569,9 @@ int LoadSendRecvMessageModule(void)
 {
 	INITCOMMONCONTROLSEX 	icex;
 
-	if(FIF == 0) {
+	if (FIF == 0) {
 		MessageBox(0, TranslateT("The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled."), TranslateT("TabSRMM fatal error"), MB_OK | MB_ICONERROR);
-		return(1);
+		return 1;
 	}
 	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
 	icex.dwICC   = ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_LISTVIEW_CLASSES;;
@@ -658,7 +658,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 			 * the container was hidden can make this necessary
              */
 			BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0);
-			if(wp.showCmd == SW_SHOWMAXIMIZED)
+			if (wp.showCmd == SW_SHOWMAXIMIZED)
 				ShowWindow(pContainer->hwnd, SW_SHOWMAXIMIZED);
 			else {
 				ShowWindow(pContainer->hwnd, SW_SHOWNA);
@@ -790,9 +790,9 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 	/*
 	 * switchbar support
 	 */
-	if(pContainer->dwFlags & CNT_SIDEBAR) {
+	if (pContainer->dwFlags & CNT_SIDEBAR) {
 		TWindowData *dat = (TWindowData *)GetWindowLongPtr(hwndNew, GWLP_USERDATA);
-		if(dat)
+		if (dat)
 			pContainer->SideBar->addSession(dat, pContainer->iTabIndex);
 	}
 	SendMessage(pContainer->hwnd, WM_SIZE, 0, 0);
@@ -831,21 +831,21 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 		GetWindowPlacement(pContainer->hwnd, &wp);
 
 		BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0);			// make sure all tabs will re-check layout on activation
-		if(wp.showCmd == SW_SHOWMAXIMIZED)
+		if (wp.showCmd == SW_SHOWMAXIMIZED)
 			ShowWindow(pContainer->hwnd, SW_SHOWMAXIMIZED);
 		else {
-			if(bPopupContainer)
+			if (bPopupContainer)
 				ShowWindow(pContainer->hwnd, SW_SHOWNORMAL);
 			else
 				ShowWindow(pContainer->hwnd, SW_SHOWMINNOACTIVE);
 		}
 		SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
 	}
-	if(PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled) // && !M->GetByte("forceAeroPeek", 0))
+	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled) // && !M->GetByte("forceAeroPeek", 0))
 		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING|MB_OK);
 
-	if(ServiceExists(MS_HPP_EG_EVENT) && ServiceExists(MS_IEVIEW_EVENT) && M->GetByte(0, "HistoryPlusPlus", "IEViewAPI", 0)) {
-		if(IDYES == CWarning::show(CWarning::WARN_HPP_APICHECK, MB_ICONWARNING|MB_YESNO))
+	if (ServiceExists(MS_HPP_EG_EVENT) && ServiceExists(MS_IEVIEW_EVENT) && M->GetByte(0, "HistoryPlusPlus", "IEViewAPI", 0)) {
+		if (IDYES == CWarning::show(CWarning::WARN_HPP_APICHECK, MB_ICONWARNING|MB_YESNO))
 			M->WriteByte(0, "HistoryPlusPlus", "IEViewAPI", 0);
 	}
 	return hwndNew;		// return handle of the new dialog
@@ -1075,7 +1075,7 @@ static int TSAPI SetupIconLibConfig()
 			sid.pszDescription = ICONBLOCKS[n].idesc[i].szDesc;
 			sid.iDefaultIndex = ICONBLOCKS[n].idesc[i].uId == -IDI_HISTORY ? 0 : ICONBLOCKS[n].idesc[i].uId;        // workaround problem /w icoLib and a resource id of 1 (actually, a Windows problem)
 			i++;
-			if(n>0&&n<4)
+			if (n>0&&n<4)
 				PluginConfig.g_buttonBarIconHandles[j++] = Skin_AddIcon(&sid);
 			else
 				Skin_AddIcon(&sid);

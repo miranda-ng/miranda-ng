@@ -67,7 +67,7 @@ void* Utils::safeAlloc(const size_t size)
 		return(reinterpret_cast<void*>(_p));
 	}
 	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MEMORY_ALLOCATION", false)) {
-		return(0);
+		return 0;
 	}
 }
 
@@ -79,7 +79,7 @@ void* Utils::safeCalloc(const size_t size)
 		return(_p);
 	}
 	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MEMORY_ALLOCATION", false)) {
-		return(0);
+		return 0;
 	}
 }
 
@@ -92,7 +92,7 @@ void* Utils::safeMirAlloc(const size_t size)
 		return(reinterpret_cast<void*>(_p));
 	}
 	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MIR_MEMORY_ALLOCATION", false)) {
-		return(0);
+		return 0;
 	}
 }
 
@@ -104,7 +104,7 @@ void* Utils::safeMirCalloc(const size_t size)
 		return(_p);
 	}
 	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MIR_MEMORY_ALLOCATION", false)) {
-		return(0);
+		return 0;
 	}
 }
 
@@ -164,7 +164,7 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 	if (haveMathMod && mathModDelimiter[0] && message.find(mathModDelimiter) != message.npos)
 		return(message.c_str());
 
-	if(dwFlags & MWF_LOG_BBCODE) {
+	if (dwFlags & MWF_LOG_BBCODE) {
 		if (haveMathMod && mathModDelimiter[0]) {
 			INT_PTR mark = 0;
 			int      nrDelims = 0;
@@ -339,19 +339,19 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 	INT_PTR tempmark = 0;
 	TCHAR szTemp[512];
 
-	if(dat == 0)
-		return(0);
+	if (dat == 0)
+		return 0;
 
 	tstring title(szFormat);
 
 	for ( size_t curpos = 0; curpos < title.length(); ) {
-		if(title[curpos] != '%') {
+		if (title[curpos] != '%') {
 			curpos++;
 			continue;
 		}
 		tempmark = curpos;
 		curpos++;
-		if(title[curpos] == 0)
+		if (title[curpos] == 0)
 			break;
 
 		switch (title[curpos]) {
@@ -457,17 +457,17 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			case 'T': {
 				TCHAR	*tszStatusMsg = dat->cache->getNormalizedStatusMsg(dat->cache->getStatusMsg(), true);
 
-				if(tszStatusMsg) {
+				if (tszStatusMsg) {
 					title.insert(tempmark + 2, tszStatusMsg);
 					curpos = tempmark + lstrlen(tszStatusMsg);
 				}
-				else if(title[curpos] == 't') {
+				else if (title[curpos] == 't') {
 					const TCHAR* tszStatusMsg = TranslateT("No status message");
 					title.insert(tempmark + 2, tszStatusMsg);
 					curpos = tempmark + lstrlen(tszStatusMsg);
 				}
 				title.erase(tempmark, 2);
-				if(tszStatusMsg)
+				if (tszStatusMsg)
 					mir_free(tszStatusMsg);
 				break;
 			}
@@ -551,7 +551,7 @@ TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
 	TCHAR*	 p = 0, cSaved;
 	bool	 fEllipsis = false;
 
-	if(_tcslen(szText) <= iMaxLen)
+	if (_tcslen(szText) <= iMaxLen)
 		uRequired = _tcslen(szText) + 4;
 	else {
 		TCHAR *p = &szText[iMaxLen - 1];
@@ -559,7 +559,7 @@ TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
 
 		while(p >= szText && *p != ' ')
 			p--;
-		if(p == szText)
+		if (p == szText)
 			p = szText + iMaxLen - 1;
 
 		cSaved = *p;
@@ -569,7 +569,7 @@ TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
 	TCHAR *szResult = reinterpret_cast<TCHAR *>(mir_alloc(uRequired * sizeof(TCHAR)));
 	mir_sntprintf(szResult, uRequired, fEllipsis ? _T("%s...") : _T("%s"), szText);
 
-	if(p)
+	if (p)
 		*p = cSaved;
 
 	return(szResult);
@@ -726,28 +726,28 @@ int Utils::ReadContainerSettingsFromDB(const HANDLE hContact, TContainerSettings
 
 	CopyMemory(cs, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 
-	if(0 == DBGetContactSetting(hContact, SRMSGMOD_T, szKey ? szKey : CNT_KEYNAME, &dbv)) {
-		if(dbv.type == DBVT_BLOB && dbv.cpbVal > 0 && dbv.cpbVal <= sizeof(TContainerSettings)) {
+	if (0 == DBGetContactSetting(hContact, SRMSGMOD_T, szKey ? szKey : CNT_KEYNAME, &dbv)) {
+		if (dbv.type == DBVT_BLOB && dbv.cpbVal > 0 && dbv.cpbVal <= sizeof(TContainerSettings)) {
 			::CopyMemory((void *)cs, (void *)dbv.pbVal, dbv.cpbVal);
 			::DBFreeVariant(&dbv);
-			if(hContact == 0 && szKey == 0)
+			if (hContact == 0 && szKey == 0)
 				cs->fPrivate = false;
-			return(0);
+			return 0;
 		}
 		cs->fPrivate = false;
 		DBFreeVariant(&dbv);
-		return(1);
+		return 1;
 	}
 	else {
 		cs->fPrivate = false;
-		return(1);
+		return 1;
 	}
 }
 
 int Utils::WriteContainerSettingsToDB(const HANDLE hContact, TContainerSettings *cs, const char *szKey)
 {
 	DBWriteContactSettingBlob(hContact, SRMSGMOD_T, szKey ? szKey : CNT_KEYNAME, cs, sizeof(TContainerSettings));
-	return(0);
+	return 0;
 }
 
 void Utils::SettingsToContainer(TContainerData *pContainer)
@@ -779,8 +779,8 @@ void Utils::ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce
 
 	mir_snprintf(szCname, 40, "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
 	Utils::ReadContainerSettingsFromDB(0, &csTemp, szCname);
-	if(csTemp.fPrivate || fForce) {
-		if(pContainer->settings == 0 || pContainer->settings == &PluginConfig.globalContainerSettings)
+	if (csTemp.fPrivate || fForce) {
+		if (pContainer->settings == 0 || pContainer->settings == &PluginConfig.globalContainerSettings)
 			pContainer->settings = (TContainerSettings *)malloc(sizeof(TContainerSettings));
 		CopyMemory((void *)pContainer->settings, (void *)&csTemp, sizeof(TContainerSettings));
 		pContainer->settings->fPrivate = true;
@@ -794,13 +794,13 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 	char	szCName[50];
 
 	pContainer->dwFlags &= ~(CNT_DEFERREDCONFIGURE | CNT_CREATE_MINIMIZED | CNT_DEFERREDSIZEREQUEST | CNT_CREATE_CLONED);
-	if(pContainer->settings->fPrivate) {
+	if (pContainer->settings->fPrivate) {
 		_snprintf(szCName, 40, "%s%d_Blob", szSetting, pContainer->iContainerIndex);
 		WriteContainerSettingsToDB(0, pContainer->settings, szCName);
 	}
 	mir_snprintf(szCName, 40, "%s%d_theme", szSetting, pContainer->iContainerIndex);
 	if (lstrlen(pContainer->szRelThemeFile) > 1) {
-		if(pContainer->fPrivateThemeChanged == TRUE) {
+		if (pContainer->fPrivateThemeChanged == TRUE) {
 			M->pathToRelative(pContainer->szRelThemeFile, pContainer->szAbsThemeFile);
 			M->WriteTString(NULL, SRMSGMOD_T, szCName, pContainer->szAbsThemeFile);
 			pContainer->fPrivateThemeChanged = FALSE;
@@ -857,13 +857,13 @@ HICON Utils::iconFromAvatar(const TWindowData *dat)
 	HICON		hIcon = 0;
 
 	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
-		return(0);
+		return 0;
 
-	if(dat) {
+	if (dat) {
 		AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)dat->hContact, 0);
 		LONG	lIconSize = Win7Taskbar->getIconSize();
 
-		if(ace && ace->hbmPic) {
+		if (ace && ace->hbmPic) {
 			scaleAvatarHeightLimited(ace->hbmPic, dNewWidth, dNewHeight, lIconSize);
 			/*
 			 * resize picture to fit it on the task bar, use an image list for converting it to
@@ -898,7 +898,7 @@ HICON Utils::iconFromAvatar(const TWindowData *dat)
 			::DeleteDC(dc);
 
 			::SelectObject(dcResized, hbmOldResized);
-			if(hbmResized != ace->hbmPic)
+			if (hbmResized != ace->hbmPic)
 				::DeleteObject(hbmResized);
 			::DeleteDC(dcResized);
 			hIcon = ::ImageList_GetIcon(hIml_c, 0, ILD_NORMAL);
@@ -911,10 +911,10 @@ HICON Utils::iconFromAvatar(const TWindowData *dat)
 
 AVATARCACHEENTRY* Utils::loadAvatarFromAVS(const HANDLE hContact)
 {
-	if(ServiceExists(MS_AV_GETAVATARBITMAP))
+	if (ServiceExists(MS_AV_GETAVATARBITMAP))
 		return(reinterpret_cast<AVATARCACHEENTRY *>(CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0)));
 	else
-		return(0);
+		return 0;
 }
 
 void Utils::getIconSize(HICON hIcon, int& sizeX, int& sizeY)
@@ -956,13 +956,13 @@ void Utils::addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const TC
 int	TSAPI Utils::mustPlaySound(const TWindowData *dat)
 {
 	if (!dat)
-		return(0);
+		return 0;
 
-	if(dat->pContainer->fHidden)		// hidden container is treated as closed, so play the sound
-		return(1);
+	if (dat->pContainer->fHidden)		// hidden container is treated as closed, so play the sound
+		return 1;
 
-	if(dat->pContainer->dwFlags & CNT_NOSOUND || nen_options.iNoSounds)
-		return(0);
+	if (dat->pContainer->dwFlags & CNT_NOSOUND || nen_options.iNoSounds)
+		return 0;
 
 	bool fActiveWindow = (dat->pContainer->hwnd == ::GetForegroundWindow() ? true : false);
 	bool fActiveTab = (dat->pContainer->hwndActive == dat->hwnd ? true : false);
@@ -971,14 +971,14 @@ int	TSAPI Utils::mustPlaySound(const TWindowData *dat)
 	/*
 	 * window minimized, check if sound has to be played
 	 */
-	if(fIconic)
+	if (fIconic)
 		return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_MINIMIZED ? 1 : 0);
 
 	/*
 	 * window in foreground
 	 */
-	if(fActiveWindow) {
-		if(fActiveTab)
+	if (fActiveWindow) {
+		if (fActiveTab)
 			return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_FOCUSED ? 1 : 0);
 		else
 			return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_INACTIVETABS ? 1 : 0);
@@ -986,7 +986,7 @@ int	TSAPI Utils::mustPlaySound(const TWindowData *dat)
 	else
 		return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_UNFOCUSED ? 1 : 0);
 
-	return(1);
+	return 1;
 }
 
 /**
@@ -1036,15 +1036,15 @@ void TSAPI Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *
 
 	hRes = FindResource(h, MAKEINTRESOURCE(uID), tszName);
 
-	if(hRes) {
+	if (hRes) {
 		hResource = LoadResource(h, hRes);
-		if(hResource) {
+		if (hResource) {
 			HANDLE  hFile;
 			char 	*pData = (char *)LockResource(hResource);
 			DWORD	dwSize = SizeofResource(g_hInst, hRes), written = 0;
 			mir_sntprintf(szFilename, MAX_PATH, _T("%s%s"), tszPath, tszFilename);
 			if (!fForceOverwrite) {
-				if(PathFileExists(szFilename))
+				if (PathFileExists(szFilename))
 					return;
 			}
 			if ((hFile = CreateFile(szFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0)) != INVALID_HANDLE_VALUE) {
@@ -1070,7 +1070,7 @@ const wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRi
 
 	::SendMessageW(hwndRich, EM_EXGETSEL, 0, (LPARAM) & sel);
 	if (sel.cpMin != sel.cpMax)
-		return(0);
+		return 0;
 
 	tr.chrg = _e->chrg;
 	tr.lpstrText = (wchar_t *)mir_alloc(2 * (tr.chrg.cpMax - tr.chrg.cpMin + 8));
@@ -1090,20 +1090,20 @@ LRESULT Utils::CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, 
 {
 	switch(uType) {
 		case CMD_CONTAINER:
-			if(pContainer && hwndDlg)
+			if (pContainer && hwndDlg)
 				return(DM_ContainerCmdHandler(pContainer, cmd, wParam, lParam));
 			break;
 		case CMD_MSGDIALOG:
-			if(pContainer && hwndDlg && dat)
+			if (pContainer && hwndDlg && dat)
 				return(DM_MsgWindowCmdHandler(hwndDlg, pContainer, dat, cmd, wParam, lParam));
 			break;
 		case CMD_INFOPANEL:
-			if(MsgWindowMenuHandler(dat, cmd, MENU_LOGMENU) == 0) {
+			if (MsgWindowMenuHandler(dat, cmd, MENU_LOGMENU) == 0) {
 				return(DM_MsgWindowCmdHandler(hwndDlg, pContainer, dat, cmd, wParam, lParam));
 			}
 			break;
 	}
-	return(0);
+	return 0;
 }
 
 /**
@@ -1131,7 +1131,7 @@ void Utils::sanitizeFilename(wchar_t* tszFilename)
  */
 void Utils::ensureTralingBackslash(wchar_t *szPathname)
 {
-	if(szPathname[lstrlenW(szPathname) - 1] != '\\')
+	if (szPathname[lstrlenW(szPathname) - 1] != '\\')
 		wcscat(szPathname, L"\\");
 }
 
@@ -1147,21 +1147,21 @@ HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename)
 	HMODULE		_h = 0;
 
 	try {
-		if(0 == ::GetSystemDirectoryW(sysPathName, MAX_PATH))
+		if (0 == ::GetSystemDirectoryW(sysPathName, MAX_PATH))
 			throw(CRTException("Error while loading system library", szFilename));
 
 		sysPathName[MAX_PATH - 1] = 0;
-		if(wcslen(sysPathName) + wcslen(szFilename) >= MAX_PATH)
+		if (wcslen(sysPathName) + wcslen(szFilename) >= MAX_PATH)
 			throw(CRTException("Error while loading system library", szFilename));
 
 		lstrcatW(sysPathName, szFilename);
 		_h = LoadLibraryW(sysPathName);
-		if(0 == _h)
+		if (0 == _h)
 			throw(CRTException("Error while loading system library", szFilename));
 	}
 	catch(CRTException& ex) {
 		ex.display();
-		return(0);
+		return 0;
 	}
 	return(_h);
 }
@@ -1218,7 +1218,7 @@ CWarning::~CWarning()
 	delete m_szText;
 	delete m_szTitle;
 
-	if(m_hFontCaption)
+	if (m_hFontCaption)
 		::DeleteObject(m_hFontCaption);
 
 #if defined(__LOGDEBUG_)
@@ -1230,7 +1230,7 @@ LRESULT CWarning::ShowDialog() const
 {
 	if (!m_fIsModal) {
 		::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), 0, stubDlgProc, reinterpret_cast<LPARAM>(this));
-		return(0);
+		return 0;
 	}
 	else {
 		LRESULT res = ::DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), 0, stubDlgProc, reinterpret_cast<LPARAM>(this));
@@ -1258,7 +1258,7 @@ __int64 CWarning::getMask()
  */
 void CWarning::destroyAll()
 {
-	if(hWindowList)
+	if (hWindowList)
 		WindowList_Broadcast(hWindowList, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
 }
 /**
@@ -1273,21 +1273,21 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 	LRESULT 	result = 0;
 	wchar_t*	_s = 0;
 
-	if(0 == hWindowList)
+	if (0 == hWindowList)
 		hWindowList = reinterpret_cast<HANDLE>(::CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0));
 
 	/*
 	 * don't open new warnings when shutdown was initiated (modal ones will otherwise
 	 * block the shutdown)
 	 */
-	if(CMimAPI::m_shutDown)
+	if (CMimAPI::m_shutDown)
 		return(-1);
 
-	if(tszTxt)
+	if (tszTxt)
 		_s = const_cast<wchar_t *>(tszTxt);
 	else {
-		if(uId != -1) {
-			if(dwFlags & CWF_UNTRANSLATED)
+		if (uId != -1) {
+			if (dwFlags & CWF_UNTRANSLATED)
 				_s = TranslateTS(warnings[uId]);
 			else {
 				/*
@@ -1296,7 +1296,7 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 				*/
 				_s = TranslateTS(warnings[uId]);
 
-				if(wcslen(_s) < 3 || 0 == wcschr(_s, '|'))
+				if (wcslen(_s) < 3 || 0 == wcschr(_s, '|'))
 					_s = TranslateTS(warnings[uId]);
 			}
 		}
@@ -1310,20 +1310,20 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 
 	if ((wcslen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != 0)) {
 
-		if(uId >= 0) {
+		if (uId >= 0) {
 			mask = getMask();
 			val = ((__int64)1L) << uId;
 		}
 		else
 			mask = val = 0;
 
-		if(0 == (mask & val) || dwFlags & CWF_NOALLOWHIDE) {
+		if (0 == (mask & val) || dwFlags & CWF_NOALLOWHIDE) {
 
 			wchar_t *s = reinterpret_cast<wchar_t *>(mir_alloc((wcslen(_s) + 1) * 2));
 			wcscpy(s, _s);
 			separator_pos = wcschr(s, '|');
 
-			if(separator_pos) {
+			if (separator_pos) {
 				separator_pos[0] = 0;
 
 				CWarning *w = new CWarning(s, &separator_pos[1], uId, dwFlags);
@@ -1350,13 +1350,13 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 INT_PTR CALLBACK CWarning::stubDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CWarning	*w = reinterpret_cast<CWarning *>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
-	if(w)
+	if (w)
 		return(w->dlgProc(hwnd, msg, wParam, lParam));
 
 	switch(msg) {
 		case WM_INITDIALOG: {
 			w = reinterpret_cast<CWarning *>(lParam);
-			if(w) {
+			if (w) {
 				::SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 				return(w->dlgProc(hwnd, msg, wParam, lParam));
 			}
@@ -1419,9 +1419,9 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 			::SetDlgItemTextW(hwnd, IDC_CAPTION, m_szTitle->c_str());
 
-			if(m_dwFlags & CWF_NOALLOWHIDE)
+			if (m_dwFlags & CWF_NOALLOWHIDE)
 				Utils::showDlgControl(hwnd, IDC_DONTSHOWAGAIN, SW_HIDE);
-			if(m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL) {
+			if (m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL) {
 				Utils::showDlgControl(hwnd, IDOK, SW_HIDE);
 				::SetFocus(::GetDlgItem(hwnd, IDCANCEL));
 			}
@@ -1431,16 +1431,16 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				Utils::showDlgControl(hwnd, IDNO, SW_HIDE);
 				::SetFocus(::GetDlgItem(hwnd, IDOK));
 			}
-			if(m_dwFlags & MB_ICONERROR || m_dwFlags & MB_ICONHAND)
+			if (m_dwFlags & MB_ICONERROR || m_dwFlags & MB_ICONHAND)
 				uResId = 32513;
-			else if(m_dwFlags & MB_ICONEXCLAMATION || m_dwFlags & MB_ICONWARNING)
+			else if (m_dwFlags & MB_ICONEXCLAMATION || m_dwFlags & MB_ICONWARNING)
 				uResId = 32515;
-			else if(m_dwFlags & MB_ICONASTERISK || m_dwFlags & MB_ICONINFORMATION)
+			else if (m_dwFlags & MB_ICONASTERISK || m_dwFlags & MB_ICONINFORMATION)
 				uResId = 32516;
-			else if(m_dwFlags & MB_ICONQUESTION)
+			else if (m_dwFlags & MB_ICONQUESTION)
 				uResId = 32514;
 
-			if(uResId)
+			if (uResId)
 				hIcon = reinterpret_cast<HICON>(::LoadImage(0, MAKEINTRESOURCE(uResId), IMAGE_ICON, 0, 0, LR_SHARED | LR_DEFAULTSIZE));
 			else
 				hIcon = ::LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
@@ -1456,7 +1456,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		case WM_CTLCOLORSTATIC: {
 			HWND hwndChild = reinterpret_cast<HWND>(lParam);
 			UINT id = ::GetDlgCtrlID(hwndChild);
-			if(0 == m_hFontCaption) {
+			if (0 == m_hFontCaption) {
 				HFONT hFont = reinterpret_cast<HFONT>(::SendDlgItemMessage(hwnd, IDC_CAPTION, WM_GETFONT, 0, 0));
 				LOGFONT lf = {0};
 
@@ -1466,12 +1466,12 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				::SendDlgItemMessage(hwnd, IDC_CAPTION, WM_SETFONT, (WPARAM)m_hFontCaption, FALSE);
 			}
 
-			if(IDC_CAPTION == id) {
+			if (IDC_CAPTION == id) {
 				::SetTextColor(reinterpret_cast<HDC>(wParam), ::GetSysColor(COLOR_HIGHLIGHT));
 				::SendMessage(hwndChild, WM_SETFONT, (WPARAM)m_hFontCaption, FALSE);
 			}
 
-			if(IDC_WARNGROUP != id && IDC_DONTSHOWAGAIN != id) {
+			if (IDC_WARNGROUP != id && IDC_DONTSHOWAGAIN != id) {
 				::SetBkColor((HDC)wParam, ::GetSysColor(COLOR_WINDOW));
 				return reinterpret_cast<INT_PTR>(::GetSysColorBrush(COLOR_WINDOW));
 			}
@@ -1524,7 +1524,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 							ENLINK* 		e = reinterpret_cast<ENLINK *>(lParam);
 
 							const wchar_t*	wszUrl = Utils::extractURLFromRichEdit(e, ::GetDlgItem(hwnd, IDC_WARNTEXT));
-							if(wszUrl) {
+							if (wszUrl) {
 								char* szUrl = mir_t2a(wszUrl);
 
 								CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);

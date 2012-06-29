@@ -47,7 +47,7 @@ static void ReloadGlobalContainerSettings(bool fForceReconfig)
 	while (pC) {
 		if (!pC->settings->fPrivate) {
 			Utils::SettingsToContainer(pC);
-			if(fForceReconfig)
+			if (fForceReconfig)
 				SendMessage(pC->hwnd, DM_CONFIGURECONTAINER, 0, 0);
 			else
 				SendMessage(pC->hwnd, WM_SIZE, 0, 1);
@@ -106,7 +106,7 @@ void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT m
 			BroadCastContainer(pContainer, DM_SETINFOPANEL, 0, 0);
 	}
 
-	if(fForceResize)
+	if (fForceResize)
 		SendMessage(pContainer->hwnd, WM_SIZE, 0, 1);
 
 	BroadCastContainer(pContainer, DM_BBNEEDUPDATE, 0, 0);
@@ -147,10 +147,10 @@ static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
 	Utils::showDlgControl(hwndDlg, IDC_O_EXPLAINGLOBALNOTIFY, (iPage == 3 && nen_options.bWindowCheck) ? SW_SHOW : SW_HIDE);
 
 #if !defined(__FEAT_EXP_AUTOSPLITTER)
-	if(iPage == 0)
+	if (iPage == 0)
 		Utils::showDlgControl(hwndDlg, IDC_AUTOSPLITTER, SW_HIDE);
 #endif
-	if(iPage == 8 && !IsWinVer7Plus())
+	if (iPage == 8 && !IsWinVer7Plus())
 		Utils::showDlgControl(hwndDlg, IDC_AVATARSONTASKBAR, SW_HIDE);
 }
 
@@ -239,7 +239,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			SendDlgItemMessage(hwndDlg, IDC_TITLEBOX, WM_SETFONT, (WPARAM)hFont, TRUE);
 
-			if(pContainer->isCloned && pContainer->hContactFrom != 0) {
+			if (pContainer->isCloned && pContainer->hContactFrom != 0) {
 				Utils::showDlgControl(hwndDlg, IDC_CNTPRIVATE, SW_HIDE);
 				Utils::showDlgControl(hwndDlg, IDC_O_CNTPRIVATE, SW_HIDE);
 			}
@@ -252,11 +252,11 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			HWND hwndChild = (HWND)lParam;
 			UINT id = GetDlgCtrlID(hwndChild);
 
-			if(hwndChild == GetDlgItem(hwndDlg, IDC_TITLEBOX)) {
+			if (hwndChild == GetDlgItem(hwndDlg, IDC_TITLEBOX)) {
 				::SetTextColor((HDC)wParam, RGB(60, 60, 150));
-			} else if(hwndChild == GetDlgItem(hwndDlg, IDC_DESC))
+			} else if (hwndChild == GetDlgItem(hwndDlg, IDC_DESC))
 				::SetTextColor((HDC)wParam, RGB(160, 50, 50));
-			if(id == IDC_TSLABEL_REOPENWARN)
+			if (id == IDC_TSLABEL_REOPENWARN)
 				break;
 			SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
 			return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
@@ -272,7 +272,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			break;
 
 		case WM_HSCROLL:
-			if((HWND)lParam == GetDlgItem(hwndDlg, IDC_TRANSPARENCY_ACTIVE) || (HWND)lParam == GetDlgItem(hwndDlg, IDC_TRANSPARENCY_INACTIVE))
+			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_TRANSPARENCY_ACTIVE) || (HWND)lParam == GetDlgItem(hwndDlg, IDC_TRANSPARENCY_INACTIVE))
 				Utils::enableDlgControl(hwndDlg, IDC_APPLY, TRUE);
 			break;
 
@@ -280,12 +280,12 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			switch (LOWORD(wParam)) {
 				case IDC_CNTPRIVATE: {
 
-					if(IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
+					if (IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
 						Utils::ReadPrivateContainerSettings(pContainer, true);
 						pContainer->settings->fPrivate = true;
 					}
 					else {
-						if(pContainer->settings != &PluginConfig.globalContainerSettings) {
+						if (pContainer->settings != &PluginConfig.globalContainerSettings) {
 							char szCname[40];
 							mir_snprintf(szCname, 40, "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
 							pContainer->settings->fPrivate = false;
@@ -364,7 +364,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 						szFilename[MAX_PATH - 1] = 0;
 						M->pathToAbsolute(szFilename, szFinalThemeFile);
 
-						if(_tcscmp(szFilename, pContainer->szRelThemeFile))
+						if (_tcscmp(szFilename, pContainer->szRelThemeFile))
 						   pContainer->fPrivateThemeChanged = TRUE;
 
 						if (PathFileExists(szFinalThemeFile))
@@ -425,7 +425,7 @@ do_apply:
 			int  isTrans;
 			BOOL fAllowTrans = FALSE;
 
-			if(PluginConfig.m_WinVerMajor >= 6)
+			if (PluginConfig.m_WinVerMajor >= 6)
 				fAllowTrans = TRUE;
 			else
 				fAllowTrans = (!CSkin::m_skinEnabled);
@@ -512,7 +512,7 @@ do_apply:
 			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSUNFOCUSED, enable);
 			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSMINIMIZED, enable);
 			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSFOCUSED, enable);
-			return(0);
+			return 0;
 		}
 
 		case DM_SC_BUILDLIST: {
@@ -549,7 +549,7 @@ do_apply:
 
 			dwNewFlagsEx = 0;
 
-			if(iTabMode < 2)
+			if (iTabMode < 2)
 				dwNewFlags = ((iTabMode == 1) ? (dwNewFlags | CNT_TABSBOTTOM) : (dwNewFlags & ~CNT_TABSBOTTOM));
 			else {
 				dwNewFlags &= ~CNT_TABSBOTTOM;

@@ -235,7 +235,7 @@ void CGlobals::reloadSystemModulesChanged()
 	g_MetaContactsAvail = (ServiceExists(MS_MC_GETDEFAULTCONTACT) ? 1 : 0);
 
 
-	if(g_MetaContactsAvail) {
+	if (g_MetaContactsAvail) {
 		mir_snprintf(szMetaName, 256, "%s", (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0));
 		bMetaEnabled = abs(M->GetByte(0, szMetaName, "Enabled", -1));
 	}
@@ -313,23 +313,23 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_visualMessageSizeIndicator = 		M->GetByte("msgsizebar", 0);
 	m_autoSplit = 						M->GetByte("autosplit", 0);
 	m_FlashOnMTN = 						M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH);
-	if(m_MenuBar == 0) {
+	if (m_MenuBar == 0) {
 		m_MenuBar = ::LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENUBAR));
 		TranslateMenu(m_MenuBar);
 	}
 
 	m_ipBackgroundGradient = 			M->GetDword(FONTMODULE, "ipfieldsbg", 0x62caff);
-	if(0 == m_ipBackgroundGradient)
+	if (0 == m_ipBackgroundGradient)
 		m_ipBackgroundGradient = 0x62caff;
 
 	m_ipBackgroundGradientHigh = 		M->GetDword(FONTMODULE, "ipfieldsbgHigh", 0xf0f0f0);
-	if(0 == m_ipBackgroundGradientHigh)
+	if (0 == m_ipBackgroundGradientHigh)
 		m_ipBackgroundGradientHigh = 0xf0f0f0;
 
 	m_tbBackgroundHigh = 				M->GetDword(FONTMODULE, "tbBgHigh", 0);
 	m_tbBackgroundLow = 				M->GetDword(FONTMODULE, "tbBgLow", 0);
 	m_fillColor =						M->GetDword(FONTMODULE, "fillColor", 0);
-	if(CSkin::m_BrushFill) {
+	if (CSkin::m_BrushFill) {
 		::DeleteObject(CSkin::m_BrushFill);
 		CSkin::m_BrushFill = 0;
 	}
@@ -339,7 +339,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	::CopyMemory(&globalContainerSettings, &_cnt_default, sizeof(TContainerSettings));
 	Utils::ReadContainerSettingsFromDB(0, &globalContainerSettings);
 	globalContainerSettings.fPrivate = false;
-	if(fReloadSkins)
+	if (fReloadSkins)
 		Skin->setupAeroSkins();
 }
 
@@ -353,7 +353,7 @@ void CGlobals::reloadAdv()
 	m_dontUseDefaultKbd = M->GetByte("adv_leaveKeyboardAlone", 1);
 	g_bClientInStatusBar = M->GetByte("adv_ClientIconInStatusBar", 0);
 
-	if(g_bSoundOnTyping && m_TypingSoundAdded == false) {
+	if (g_bSoundOnTyping && m_TypingSoundAdded == false) {
 		SkinAddNewSoundEx("SoundOnTyping", LPGEN("Other"), LPGEN("TABSRMM: Typing"));
 		m_TypingSoundAdded = true;
 	}
@@ -362,7 +362,7 @@ void CGlobals::reloadAdv()
 
 const HMENU CGlobals::getMenuBar()
 {
-	if(m_MenuBar == 0) {
+	if (m_MenuBar == 0) {
 		m_MenuBar = ::LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENUBAR));
 		TranslateMenu(m_MenuBar);
 	}
@@ -446,7 +446,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.pszService = MS_TABMSG_SETUSERPREFS;
 	PluginConfig.m_UserMenuItem = Menu_AddContactMenuItem(&mi);
 
-	if(sendLater->isAvail()) {
+	if (sendLater->isAvail()) {
 		mi.cbSize = sizeof(mi);
 		mi.position = -500050006;
 		mi.hIcon = 0;
@@ -462,7 +462,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	::RegisterFontServiceFonts();
 	::CacheLogFonts();
 	::Chat_ModulesLoaded(wParam, lParam);
-	if(PluginConfig.g_PopupWAvail||PluginConfig.g_PopupAvail)
+	if (PluginConfig.g_PopupWAvail||PluginConfig.g_PopupAvail)
 		TN_ModuleInit();
 
 	m_event_SettingChanged 	= HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
@@ -470,7 +470,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	m_event_Dispatch 		= HookEvent(ME_DB_EVENT_ADDED, CMimAPI::DispatchNewEvent);
 	m_event_EventAdded 		= HookEvent(ME_DB_EVENT_ADDED, CMimAPI::MessageEventAdded);
-	if(PluginConfig.g_MetaContactsAvail) {
+	if (PluginConfig.g_MetaContactsAvail) {
 		m_event_ME_MC_SUBCONTACTSCHANGED = HookEvent(ME_MC_SUBCONTACTSCHANGED, MetaContactEvent);
 		m_event_ME_MC_FORCESEND			 = HookEvent(ME_MC_FORCESEND, MetaContactEvent);
 		m_event_ME_MC_UNFORCESEND		 = HookEvent(ME_MC_UNFORCESEND, MetaContactEvent);
@@ -499,25 +499,25 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (hwnd == 0 && wParam != 0) {     // we are not interested in this event if there is no open message window/tab
 		if (!strcmp(setting, "Status") || !strcmp(setting, "MyHandle") || !strcmp(setting, "Nick") || !strcmp(cws->szModule, SRMSGMOD_T)) {
 			c = CContactCache::getContactCache((HANDLE)wParam);
-			if(c) {
+			if (c) {
 				fChanged = c->updateStatus();
-				if(strcmp(setting, "Status"))
+				if (strcmp(setting, "Status"))
 					c->updateNick();
 				if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
 					c->updateFavorite();
 			}
 		}
-		return(0);
+		return 0;
 	}
 
 	if (wParam == 0 && !strcmp("Nick", setting)) {
 		M->BroadcastMessage(DM_OWNNICKCHANGED, 0, (LPARAM)cws->szModule);
-		return(0);
+		return 0;
 	}
 
-	if(wParam) {
+	if (wParam) {
 		c = CContactCache::getContactCache((HANDLE)wParam);
-		if(c) {
+		if (c) {
 			szProto = c->getProto();
 			if (!strcmp(cws->szModule, SRMSGMOD_T)) {					// catch own relevant settings
 				if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
@@ -526,29 +526,29 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	if(wParam == 0 && !lstrcmpA(setting, "Enabled")) {
-		if(PluginConfig.g_MetaContactsAvail && !lstrcmpA(cws->szModule, PluginConfig.szMetaName)) { 		// catch the disabled meta contacts
+	if (wParam == 0 && !lstrcmpA(setting, "Enabled")) {
+		if (PluginConfig.g_MetaContactsAvail && !lstrcmpA(cws->szModule, PluginConfig.szMetaName)) { 		// catch the disabled meta contacts
 			PluginConfig.bMetaEnabled = abs(M->GetByte(0, PluginConfig.szMetaName, "Enabled", -1));
 			cacheUpdateMetaChanged();
 		}
 	}
 
 	if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto)))
-		return(0);
+		return 0;
 
 	if (PluginConfig.g_MetaContactsAvail && !lstrcmpA(cws->szModule, PluginConfig.szMetaName)) {
-		if(wParam != 0 && !lstrcmpA(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
-			return(0);
+		if (wParam != 0 && !lstrcmpA(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
+			return 0;
 	}
 
 	if (hwnd) {
-		if(c) {
+		if (c) {
 			fChanged = c->updateStatus();
 			fNickChanged = c->updateNick();
 		}
 		if (lstrlenA(setting) > 6 && lstrlenA(setting) < 9 && !strncmp(setting, "Status", 6)) {
 			fChanged = true;
-			if(c) {
+			if (c) {
 				c->updateMeta(true);
 				c->updateUIN();
 			}
@@ -556,35 +556,35 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 		else if (!strcmp(setting, "MirVer"))
 			PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);
 		else if (!strcmp(setting, "display_uid")) {
-			if(c)
+			if (c)
 				c->updateUIN();
 			PostMessage(hwnd, DM_UPDATEUIN, 0, 0);
 		}
-		else if(lstrlenA(setting) > 6 && strstr("StatusMsg,XStatusMsg,XStatusName,XStatusId,ListeningTo", setting)) {
-			if(c) {
+		else if (lstrlenA(setting) > 6 && strstr("StatusMsg,XStatusMsg,XStatusName,XStatusId,ListeningTo", setting)) {
+			if (c) {
 				c->updateStatusMsg(setting);
 				fExtendedStatusChange = true;
 			}
 		}
-		if(fChanged || fNickChanged || fExtendedStatusChange)
+		if (fChanged || fNickChanged || fExtendedStatusChange)
 			PostMessage(hwnd, DM_UPDATETITLE, 0, 1);
-		if(fExtendedStatusChange)
+		if (fExtendedStatusChange)
 			PostMessage(hwnd, DM_UPDATESTATUSMSG, 0, 0);
-		if(fChanged) {
-			if(c && c->getStatus() == ID_STATUS_OFFLINE) {			// clear typing notification in the status bar when contact goes offline
+		if (fChanged) {
+			if (c && c->getStatus() == ID_STATUS_OFFLINE) {			// clear typing notification in the status bar when contact goes offline
 				TWindowData* dat = c->getDat();
-				if(dat) {
+				if (dat) {
 					dat->nTypeSecs = 0;
 					dat->showTyping = 0;
 					dat->szStatusBar[0] = 0;
 					PostMessage(c->getHwnd(), DM_UPDATELASTMESSAGE, 0, 0);
 				}
 			}
-			if(c)
+			if (c)
 				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_LOGSTATUSCHANGE, MAKELONG(c->getStatus(), c->getOldStatus()), (LPARAM)c);
 		}
 	}
-	return(0);
+	return 0;
 }
 
 /**
@@ -593,9 +593,9 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 
 int CGlobals::DBContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	if(wParam) {
+	if (wParam) {
 		CContactCache *c = CContactCache::getContactCache((HANDLE)wParam);
-		if(c)
+		if (c)
 			c->deletedHandler();
 	}
 	return 0;
@@ -608,17 +608,17 @@ int CGlobals::DBContactDeleted(WPARAM wParam, LPARAM lParam)
  */
 int CGlobals::MetaContactEvent(WPARAM wParam, LPARAM lParam)
 {
-	if(wParam) {
+	if (wParam) {
 		CContactCache *c = CContactCache::getContactCache((HANDLE)wParam);
-		if(c) {
+		if (c) {
 			c->updateMeta(true);
-			if(c->getHwnd()) {
+			if (c->getHwnd()) {
 				c->updateUIN();								// only do this for open windows, not needed normally
 				::PostMessage(c->getHwnd(), DM_UPDATETITLE, 0, 0);
 			}
 		}
 	}
-	return(0);
+	return 0;
 }
 
 int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
@@ -647,7 +647,7 @@ int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 		}
 
 		for(i = 0; i < SERVICE_LAST; i++) {
-			if(PluginConfig.hSvc[i])
+			if (PluginConfig.hSvc[i])
 				DestroyServiceFunction(PluginConfig.hSvc[i]);
 		}
 
@@ -671,7 +671,7 @@ int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 #if defined(__USE_EX_HANDLERS)
 	}
 	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"SHUTDOWN_STAGE2", false)) {
-		return(0);
+		return 0;
 	}
 #endif
 	return 0;
@@ -702,16 +702,16 @@ int CGlobals::OkToExit(WPARAM wParam, LPARAM lParam)
 		UnhookEvent(m_event_IcoLibChanged);
 		UnhookEvent(m_event_IconsChanged);
 
-		if(m_event_SmileyAdd)
+		if (m_event_SmileyAdd)
 			UnhookEvent(m_event_SmileyAdd);
 
-		if(m_event_IEView)
+		if (m_event_IEView)
 			UnhookEvent(m_event_IEView);
 
-		if(m_event_FoldersChanged)
+		if (m_event_FoldersChanged)
 			UnhookEvent(m_event_FoldersChanged);
 
-		if(m_event_ME_MC_FORCESEND) {
+		if (m_event_ME_MC_FORCESEND) {
 			UnhookEvent(m_event_ME_MC_FORCESEND);
 			UnhookEvent(m_event_ME_MC_SUBCONTACTSCHANGED);
 			UnhookEvent(m_event_ME_MC_UNFORCESEND);
@@ -722,7 +722,7 @@ int CGlobals::OkToExit(WPARAM wParam, LPARAM lParam)
 #if defined(__USE_EX_HANDLERS)
 	}
 	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"SHUTDOWN_STAGE1", false)) {
-		return(0);
+		return 0;
 	}
 #endif
 	return 0;
@@ -753,7 +753,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact) {
 
-		if(M->GetDword(hContact, "SendLater", "count", 0))
+		if (M->GetDword(hContact, "SendLater", "count", 0))
 		   sendLater->addContact(hContact);
 
 		hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM) hContact, 0);
@@ -780,7 +780,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 
 void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 {
-	if(c == 0)
+	if (c == 0)
 		return;
 
 	HANDLE	hContact = c->getContact();
@@ -791,11 +791,11 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 
 	bool	fLocal = ((dwMask & MWF_LOG_STATUSCHANGES) ? (dwFlags & MWF_LOG_STATUSCHANGES ? true : false) : false);
 
-	if(fGlobal || fLocal) {
+	if (fGlobal || fLocal) {
 		/*
 		 * don't log them if WE are logging off
 		 */
-		if(CallProtoService(c->getProto(), PS_GETSTATUS, 0, 0) == ID_STATUS_OFFLINE)
+		if (CallProtoService(c->getProto(), PS_GETSTATUS, 0, 0) == ID_STATUS_OFFLINE)
 			return;
 
 		WORD	wStatus, wOldStatus;
@@ -803,7 +803,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 		wStatus = LOWORD(wParam);
 		wOldStatus = HIWORD(wParam);
 
-		if(wStatus == wOldStatus)
+		if (wStatus == wOldStatus)
 			return;
 
 		DBEVENTINFO 	dbei;
@@ -813,7 +813,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 		TCHAR*	szOldStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wOldStatus, GSMDF_TCHAR);
 		TCHAR*	szNewStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wStatus, GSMDF_TCHAR);
 
-		if(szOldStatus == 0 || szNewStatus == 0)
+		if (szOldStatus == 0 || szNewStatus == 0)
 			return;
 
 		if (c->isValid()) {
@@ -853,19 +853,19 @@ void CGlobals::cacheUpdateMetaChanged()
 	bool			fMetaActive = (PluginConfig.g_MetaContactsAvail && PluginConfig.bMetaEnabled) ? true : false;
 
 	while(c) {
-		if(c->isMeta() && PluginConfig.bMetaEnabled == false) {
+		if (c->isMeta() && PluginConfig.bMetaEnabled == false) {
 			c->closeWindow();
 			c->resetMeta();
 		}
 
 		// meta contacts are enabled, but current contact is a subcontact - > close window
 
-		if(fMetaActive && c->isSubContact())
+		if (fMetaActive && c->isSubContact())
 			c->closeWindow();
 
 		// reset meta contact information, if metacontacts protocol became avail
 
-		if(fMetaActive && !strcmp(c->getProto(), PluginConfig.szMetaName))
+		if (fMetaActive && !strcmp(c->getProto(), PluginConfig.szMetaName))
 			c->resetMeta();
 
 		c = c->m_next;
@@ -880,8 +880,8 @@ void CGlobals::cacheUpdateMetaChanged()
  */
 bool CGlobals::haveAutoSwitch()
 {
-	if(m_bIsWin7) {
-		if(m_useAeroPeek && !CSkin::m_skinEnabled)
+	if (m_bIsWin7) {
+		if (m_useAeroPeek && !CSkin::m_skinEnabled)
 			return(false);
 	}
 	return(m_AutoSwitchTabs ? true : false);
@@ -961,7 +961,7 @@ int CGlobals::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line
 	m_exLine = line;
 	m_exLastResult = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EXCEPTION), 0, CGlobals::Ex_DlgProc, 0);
 	m_exAllowContinue = fAllowContinue;
-	if(IDCANCEL == m_exLastResult)
+	if (IDCANCEL == m_exLastResult)
 		ExitProcess(1);
 	return 1;
 }

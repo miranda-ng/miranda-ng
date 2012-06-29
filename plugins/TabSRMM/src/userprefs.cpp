@@ -110,12 +110,12 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETITEMDATA, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETITEMDATA, 1, 1);
 
-			if(have_hpp) {
+			if (have_hpp) {
 				SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Force History++"));
 				SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETITEMDATA, 2, 2);
 			}
 
-			if(have_ieview) {
+			if (have_ieview) {
 				SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Force IEView"));
 				SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETITEMDATA, have_hpp ? 3 : 2, 3);
 			}
@@ -125,9 +125,9 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			else if (bIEView == 0xff && bHPP == 0xff)
 				SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETCURSEL, 1, 0);
 			else {
-				if(bHPP == 1)
+				if (bHPP == 1)
 					SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETCURSEL, have_hpp ? 2 : 0, 0);
-				if(bIEView == 1)
+				if (bIEView == 1)
 					SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETCURSEL, (have_hpp && have_ieview) ? 3 : (have_ieview ? 2 : 0), 0);
 			}
 
@@ -224,7 +224,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 						if (hWnd && dat) {
 							iNewIEView = GetIEViewMode(hWnd, dat->hContact);
 							if (iNewIEView != iOldIEView) {
-								if(pdwActionToTake)
+								if (pdwActionToTake)
 									*pdwActionToTake |= UPREF_ACTION_SWITCHLOGVIEWER;
 							}
 						}
@@ -261,7 +261,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					M->WriteByte(hContact, RTLTEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_RTLTEMPLOVERRIDE)));
 
 					bAvatarVisible = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_GETCURSEL, 0, 0);
-					if(bAvatarVisible == 0)
+					if (bAvatarVisible == 0)
 						DBDeleteContactSetting(hContact, SRMSGMOD_T, "hideavatar");
 					else
 						M->WriteByte(hContact, SRMSGMOD_T, "hideavatar", (BYTE)(bAvatarVisible == 1 ? 1 : 0));
@@ -352,15 +352,15 @@ int TSAPI LoadLocalFlags(HWND hwnd, struct TWindowData *dat)
 	DWORD	dwGlobal = M->GetDword("mwflags", 0);
 	DWORD	maskval;
 
-	if(dat) {
+	if (dat) {
 		dat->dwFlags &= ~MWF_LOG_ALL;
-		if(dat->pContainer->theme.isPrivate)
+		if (dat->pContainer->theme.isPrivate)
 			dat->dwFlags |= (dat->pContainer->theme.dwFlags & MWF_LOG_ALL);
 		else
 			dat->dwFlags |= (dwGlobal & MWF_LOG_ALL);
 		while(checkboxes[i].uId) {
 			maskval = checkboxes[i].uFlag;
-			if(dwMask & maskval)
+			if (dwMask & maskval)
 				dat->dwFlags = (dwLocal & maskval) ? dat->dwFlags | maskval : dat->dwFlags & ~maskval;
 			i++;
 		}
@@ -401,7 +401,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 					while(checkboxes[i].uId) {
 						maskval = checkboxes[i].uFlag;
 
-						if(dwLocalMask & maskval)
+						if (dwLocalMask & maskval)
 							CheckDlgButton(hwndDlg, checkboxes[i].uId, (dwLocalFlags & maskval) ? BST_CHECKED : BST_UNCHECKED);
 						else
 							CheckDlgButton(hwndDlg, checkboxes[i].uId, BST_INDETERMINATE);
@@ -416,20 +416,20 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 					struct	TWindowData *dat = NULL;
 					DWORD	*dwActionToTake = (DWORD *)lParam, dwMask = 0, dwFlags = 0, maskval;
 
-					if(hwnd)
+					if (hwnd)
 						dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 					while(checkboxes[i].uId) {
 						maskval = checkboxes[i].uFlag;
 
 						state = IsDlgButtonChecked(hwndDlg, checkboxes[i].uId);
-						if(state != BST_INDETERMINATE) {
+						if (state != BST_INDETERMINATE) {
 							dwMask |= maskval;
 							dwFlags = (state == BST_CHECKED) ? (dwFlags | maskval) : (dwFlags & ~maskval);
 						}
 						i++;
 					}
-					if(dwMask) {
+					if (dwMask) {
 						M->WriteDword(hContact, SRMSGMOD_T, "mwmask", dwMask);
 						M->WriteDword(hContact, SRMSGMOD_T, "mwflags", dwFlags);
 					}
@@ -437,8 +437,8 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 						DBDeleteContactSetting(hContact, SRMSGMOD_T, "mwmask");
 						DBDeleteContactSetting(hContact, SRMSGMOD_T, "mwflags");
 					}
-					if(hwnd && dat) {
-						if(dwMask)
+					if (hwnd && dat) {
+						if (dwMask)
 							*dwActionToTake |= (DWORD)UPREF_ACTION_REMAKELOG;
 						if ((dat->dwFlags & MWF_LOG_RTL) != (dwFlags & MWF_LOG_RTL))
 							*dwActionToTake |= (DWORD)UPREF_ACTION_APPLYOPTIONS;
@@ -549,14 +549,14 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), i, &tci);
 						SendMessage((HWND)tci.lParam, WM_COMMAND, WM_USER + 100, (LPARAM)&dwActionToTake);
 					}
-					if(hwnd) {
+					if (hwnd) {
 						struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-						if(dat) {
+						if (dat) {
 							DWORD	dwOldFlags = (dat->dwFlags & MWF_LOG_ALL);
 
 							SetDialogToType(hwnd);
 #if defined(__FEAT_DEPRECATED_DYNAMICSWITCHLOGVIEWER)
-							if(dwActionToTake & UPREF_ACTION_SWITCHLOGVIEWER) {
+							if (dwActionToTake & UPREF_ACTION_SWITCHLOGVIEWER) {
 								unsigned int mode = GetIEViewMode(hwndDlg, dat->hContact);
 								SwitchMessageLog(dat, mode);
 							}
@@ -565,13 +565,13 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							if ((dat->dwFlags & MWF_LOG_ALL) != dwOldFlags) {
 								BOOL	fShouldHide = TRUE;
 
-								if(IsIconic(dat->pContainer->hwnd))
+								if (IsIconic(dat->pContainer->hwnd))
 									fShouldHide = FALSE;
 								else
 									ShowWindow(dat->pContainer->hwnd, SW_HIDE);
 								SendMessage(hwnd, DM_OPTIONSAPPLIED, 0, 0);
 								SendMessage(hwnd, DM_DEFERREDREMAKELOG, (WPARAM)hwnd, 0);
-								if(fShouldHide)
+								if (fShouldHide)
 									ShowWindow(dat->pContainer->hwnd, SW_SHOWNORMAL);
 							}
 						}

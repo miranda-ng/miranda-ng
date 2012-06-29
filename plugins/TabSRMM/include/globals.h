@@ -88,7 +88,7 @@ public:
 
 	~CGlobals()
 	{
-		if(m_MenuBar)
+		if (m_MenuBar)
 			::DestroyMenu(m_MenuBar);
 
 		CContactCache* c = CContactCache::m_cCache, *cTemp;

@@ -60,7 +60,7 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData* dat)
 		event.count = 0;
 		event.codepage = 0;
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
-	} else if(dat) {
+	} else if (dat) {
 		TCHAR  szInitialDir[MAX_PATH + 2];
 
 		mir_sntprintf(szFilter, SIZEOF(szFilter), _T("%s%c*.rtf%c%c"), TranslateT("Rich Edit file"), 0, 0, 0);
@@ -99,14 +99,14 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData* dat)
  */
 void TSAPI DM_CheckAutoHide(const TWindowData* dat, WPARAM wParam, LPARAM lParam)
 {
-	if(dat && lParam) {
+	if (dat && lParam) {
 		BOOL	*fResult = (BOOL *)lParam;
 
-		if(GetWindowTextLengthA(GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE)) > 0) {
+		if (GetWindowTextLengthA(GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE)) > 0) {
 			*fResult = FALSE;
 			return;				// text entered in the input area -> prevent autohide/cose
 		}
-		if(dat->dwUnread) {
+		if (dat->dwUnread) {
 			*fResult = FALSE;
 			return;				// unread events, do not hide or close the container
 		}
@@ -127,10 +127,10 @@ void TSAPI DM_DismissTip(TWindowData *dat, const POINT& pt)
 		return;
 
 	GetWindowRect(dat->hwndTip, &rc);
-	if(PtInRect(&rc, pt))
+	if (PtInRect(&rc, pt))
 		return;
 
-	if(abs(pt.x - dat->ptTipActivation.x) > 5 || abs(pt.y - dat->ptTipActivation.y) > 5) {
+	if (abs(pt.x - dat->ptTipActivation.x) > 5 || abs(pt.y - dat->ptTipActivation.y) > 5) {
 		SendMessage(dat->hwndTip, TTM_TRACKACTIVATE, FALSE, 0);
 		dat->ptTipActivation.x = dat->ptTipActivation.y = 0;
 	}
@@ -168,42 +168,42 @@ LRESULT TSAPI DM_GenericHotkeysCheck(MSG *message, TWindowData *dat)
 	switch(mim_hotkey_check) {
 		case TABSRMM_HK_PASTEANDSEND:
 			HandlePasteAndSend(dat);
-			return(1);
+			return 1;
 		case TABSRMM_HK_HISTORY:
 			SendMessage(hwndDlg, WM_COMMAND, IDC_HISTORY, 0);
-			return(1);
+			return 1;
 		case TABSRMM_HK_CONTAINEROPTIONS:
 			if (dat->pContainer->hWndOptions == 0)
 				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), dat->pContainer->hwnd,
 								  DlgProcContainerOptions, (LPARAM)dat->pContainer);
-			return(1);
+			return 1;
 		case TABSRMM_HK_SEND:
 			if (!(GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE), GWL_STYLE) & ES_READONLY)) {
 				PostMessage(hwndDlg, WM_COMMAND, IDOK, 0);
-				return(1);
+				return 1;
 			}
 			break;
 		case TABSRMM_HK_TOGGLEINFOPANEL:
 			dat->Panel->setActive(dat->Panel->isActive() ? FALSE : TRUE);
 			dat->Panel->showHide();
-			return(1);
+			return 1;
 		case TABSRMM_HK_EMOTICONS:
 			SendMessage(hwndDlg, WM_COMMAND, IDC_SMILEYBTN, 0);
-			return(1);
+			return 1;
 		case TABSRMM_HK_TOGGLETOOLBAR:
 			SendMessage(hwndDlg, WM_COMMAND, IDC_TOGGLETOOLBAR, 0);
-			return(1);
+			return 1;
 		case TABSRMM_HK_CLEARLOG:
 			ClearLog(dat);
-			return(1);
+			return 1;
 		case TABSRMM_HK_TOGGLESIDEBAR:
-			if(dat->pContainer->SideBar->isActive())
+			if (dat->pContainer->SideBar->isActive())
 				SendMessage(hwndDlg, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
-			return(1);
+			return 1;
 		default:
 			break;
 	}
-	return(0);
+	return 0;
 }
 
 LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer, TWindowData *dat, UINT cmd, WPARAM wParam, LPARAM lParam)
@@ -518,7 +518,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 					dat->sendMode ^= SMODE_FORCEANSI;
 					break;
 				case ID_SENDMENU_SENDLATER:
-					if(sendLater->isAvail())
+					if (sendLater->isAvail())
 						dat->sendMode ^= SMODE_SENDLATER;
 					else
 						CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
@@ -562,9 +562,9 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			GetClientRect(hwndDlg, &rc);
 
 			dat->fEditNotesActive = !dat->fEditNotesActive;
-			if(dat->fEditNotesActive) {
+			if (dat->fEditNotesActive) {
 				int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
-				if(iLen != 0) {
+				if (iLen != 0) {
 					SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)TranslateT("You cannot edit user notes when there are unsent messages"));
 					dat->fEditNotesActive = false;
 					break;
@@ -578,7 +578,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 
 				DBVARIANT dbv = {0};
 
-				if(0 == M->GetTString(dat->hContact, "UserInfo", "MyNotes", &dbv)) {
+				if (0 == M->GetTString(dat->hContact, "UserInfo", "MyNotes", &dbv)) {
 					SetDlgItemText(hwndDlg, IDC_MESSAGE, dbv.ptszVal);
 					mir_free(dbv.ptszVal);
 				}
@@ -601,7 +601,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 						 SWP_NOMOVE|SWP_NOSIZE|SWP_NOCOPYBITS);
 			RedrawWindow(hwndDlg, 0, 0, RDW_INVALIDATE|RDW_ERASE|RDW_FRAME|RDW_UPDATENOW|RDW_ALLCHILDREN);
 
-			if(dat->fEditNotesActive)
+			if (dat->fEditNotesActive)
 				CWarning::show(CWarning::WARN_EDITUSERNOTES, MB_OK|MB_ICONINFORMATION);
 			break;
 		}
@@ -613,13 +613,13 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			int  iSel = 0;
 
 			HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) dat->hContact, 0);
-			if(lParam == 0)
+			if (lParam == 0)
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_PROTOCOL/*IDC_NAME*/), &rc);
 			else
 				GetWindowRect((HWND)lParam, &rc);
 			iSel = TrackPopupMenu(hMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
 
-			if(iSel)
+			if (iSel)
 				CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSel), MPCF_CONTACTMENU), (LPARAM) dat->hContact);
 
 			DestroyMenu(hMenu);
@@ -647,15 +647,15 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			}
 			break;
 		default:
-			return(0);
+			return 0;
 	}
-	return(1);
+	return 1;
 }
 
 LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARAM wParam, LPARAM lParam)
 {
 	if (!pContainer)
-		return(0);
+		return 0;
 
 	HWND hwndDlg = pContainer->hwnd;
 
@@ -753,7 +753,7 @@ LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARA
 		}
 		case ID_VIEW_INFOPANEL: {
 			TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-			if(dat) {
+			if (dat) {
 				RECT	rc;
 				POINT	pt;
 				GetWindowRect(pContainer->hwndActive, &rc);
@@ -761,7 +761,7 @@ LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARA
 				pt.y = rc.top + dat->Panel->getHeight() - 10;
 				dat->Panel->invokeConfigDialog(pt);
 			}
-			return(0);
+			return 0;
 		}
 		/*
 		 * commands from the message log popup will be routed to the
@@ -771,9 +771,9 @@ LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARA
 		case ID_MESSAGELOGSETTINGS_GLOBAL: {
 			struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 
-			if(dat) {
+			if (dat) {
 				MsgWindowMenuHandler(dat, (int)LOWORD(wParam), MENU_LOGMENU);
-				return(1);
+				return 1;
 			}
 			break;
 		}
@@ -781,9 +781,9 @@ LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARA
 			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ABOUT), 0, DlgProcAbout, 0);
 			break;
 		default:
-			return(0); 		// not handled
+			return 0; 		// not handled
 	}
-	return(1);				// handled
+	return 1;				// handled
 }
 
 /**
@@ -818,7 +818,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	SendMessage(hwndLog, EM_SETBKGNDCOLOR, 0, colour);
 	SendMessage(hwndEdit, EM_SETBKGNDCOLOR, 0, dat->inputbg);
 
-	if(fIsChat)
+	if (fIsChat)
 		LoadLogfont(MSGFONTID_MESSAGEAREA, &lf, &inputcharcolor, FONTMODULE);
 	else {
 		lf = dat->pContainer->theme.logFonts[MSGFONTID_MESSAGEAREA];
@@ -833,7 +833,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 				inputcharcolor = RGB(GetRValue(inputcharcolor), GetGValue(inputcharcolor), GetBValue(inputcharcolor) == 0 ? GetBValue(inputcharcolor) + 1 : GetBValue(inputcharcolor) - 1);
 		}
 	}
-	if(fIsChat) {
+	if (fIsChat) {
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_ITALIC | CFM_BACKCOLOR;
 		cf2.cbSize = sizeof(cf2);
 		cf2.crTextColor = inputcharcolor;
@@ -1140,7 +1140,7 @@ static unsigned __stdcall LoadKLThread(LPVOID vParam)
 		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SETLOCALE, (WPARAM)hContact, (LPARAM)hkl);
 		DBFreeVariant(&dbv);
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -1315,7 +1315,7 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 	if (!sendLater->isAvail()) {
 		CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
 		dat->sendMode &= ~SMODE_MULTIPLE;
-		return(0);
+		return 0;
 	}
 	HWND hwndClist = CreateWindowExA(0, "CListControl", "", WS_TABSTOP | WS_VISIBLE | WS_CHILD | 0x248,
 									 184, 0, 30, 30, dat->hwnd, (HMENU)IDC_CLIST, g_hInst, NULL);
@@ -1345,7 +1345,7 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 		SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, (WPARAM) FALSE, 0);
 	SendMessage(hwndClist, CLM_FIRST + 106, 0, 1);
 	SendMessage(hwndClist, CLM_AUTOREBUILD, 0, 0);
-	if(hwndClist)
+	if (hwndClist)
 		RedrawWindow(hwndClist, 0, 0, RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW);
 	return hwndClist;
 }
@@ -1378,7 +1378,7 @@ LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, struct TWindowDat
 		GetWindowRect(GetDlgItem(mwdat->hwnd, IDC_LIST), &rcNicklist);
 		if (PtInRect(&rcNicklist, pt)) {
 			SendMessage(GetDlgItem(mwdat->hwnd, IDC_LIST), WM_MOUSEWHEEL, wParam, lParam);
-			return(0);
+			return 0;
 		}
 	}
 	if (mwdat->hwndIEView)
@@ -1416,17 +1416,17 @@ LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, struct TWindowDat
 
 void TSAPI DM_FreeTheme(TWindowData *dat)
 {
-	if(dat) {
+	if (dat) {
 		if (CMimAPI::m_pfnCloseThemeData) {
-			if(dat->hTheme) {
+			if (dat->hTheme) {
 				CMimAPI::m_pfnCloseThemeData(dat->hTheme);
 				dat->hTheme = 0;
 			}
-			if(dat->hThemeIP) {
+			if (dat->hThemeIP) {
 				CMimAPI::m_pfnCloseThemeData(dat->hThemeIP);
 				dat->hThemeIP = 0;
 			}
-			if(dat->hThemeToolbar) {
+			if (dat->hThemeToolbar) {
 				CMimAPI::m_pfnCloseThemeData(dat->hThemeToolbar);
 				dat->hThemeToolbar = 0;
 			}
@@ -1477,7 +1477,7 @@ void TSAPI DM_NotifyTyping(struct TWindowData *dat, int mode)
 	if (dat && dat->hContact) {
 		DeletePopupsForContact(dat->hContact, PU_REMOVE_ON_TYPE);
 
-		if(dat->bIsMeta){
+		if (dat->bIsMeta){
 			szProto = dat->cache->getActiveProto();
 			hContact = dat->cache->getActiveContact();
 		}
@@ -1489,7 +1489,7 @@ void TSAPI DM_NotifyTyping(struct TWindowData *dat, int mode)
 		/*
 		 * editing user notes or preparing a message for queued delivery -> don't send MTN
 		 */
-		if(dat->fEditNotesActive || dat->sendMode & SMODE_SENDLATER)
+		if (dat->fEditNotesActive || dat->sendMode & SMODE_SENDLATER)
 			return;
 
 		/*
@@ -1538,7 +1538,7 @@ void TSAPI DM_NotifyTyping(struct TWindowData *dat, int mode)
 
 void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
-	if(dat == 0)
+	if (dat == 0)
 		return;
 
 	HWND 				hwndDlg = dat->hwnd;
@@ -1591,7 +1591,7 @@ void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 {
-	if(dat == 0)
+	if (dat == 0)
 		return;
 
 	HWND	hwndDlg = dat->hwnd;
@@ -1615,7 +1615,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 
 				mir_sntprintf(dat->szStatusBar, safe_sizeof(dat->szStatusBar),
 						  TranslateT("%s has entered text."), dat->cache->getNick());
-				if(hwndStatus && dat->pContainer->hwndActive == hwndDlg)
+				if (hwndStatus && dat->pContainer->hwndActive == hwndDlg)
 					SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM) dat->szStatusBar);
 			}
 			SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
@@ -1628,7 +1628,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 			if (!(dat->pContainer->dwFlags & CNT_NOFLASH) && PluginConfig.m_FlashOnMTN)
 				ReflashContainer(dat->pContainer);
 		}
-	} else if(dat->showTyping == 2) {
+	} else if (dat->showTyping == 2) {
 		if (dat->nTypeSecs > 0)
 			dat->nTypeSecs--;
 		else {
@@ -1685,53 +1685,53 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	bool			fCntGlobal = (!dat->pContainer->settings->fPrivate ? true : false);
 
 #if defined(__FEAT_EXP_AUTOSPLITTER)
-	if(dat->fIsAutosizingInput)
-		return(0);
+	if (dat->fIsAutosizingInput)
+		return 0;
 #endif
 
 	GetWindowRect(dat->hwnd, &rcWin);
 
-	if(wParam == 0 && lParam == 0) {
+	if (wParam == 0 && lParam == 0) {
 		if ((dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE) && dat != srcDat)
-			return(0);
+			return 0;
 
-		if(srcDat->bType == dat->bType)
+		if (srcDat->bType == dat->bType)
 			newPos = PluginConfig.lastSPlitterPos.pos;
-		else if(srcDat->bType == SESSIONTYPE_IM && dat->bType == SESSIONTYPE_CHAT)
+		else if (srcDat->bType == SESSIONTYPE_IM && dat->bType == SESSIONTYPE_CHAT)
 			newPos = PluginConfig.lastSPlitterPos.pos + PluginConfig.lastSPlitterPos.off_im;
-		else if(srcDat->bType == SESSIONTYPE_CHAT && dat->bType == SESSIONTYPE_IM)
+		else if (srcDat->bType == SESSIONTYPE_CHAT && dat->bType == SESSIONTYPE_IM)
 			newPos = PluginConfig.lastSPlitterPos.pos + PluginConfig.lastSPlitterPos.off_im;
 
-		if(dat == srcDat) {
-			if(dat->bType == SESSIONTYPE_IM) {
+		if (dat == srcDat) {
+			if (dat->bType == SESSIONTYPE_IM) {
 				dat->pContainer->settings->splitterPos = dat->splitterY;
-				if(fCntGlobal) {
+				if (fCntGlobal) {
 					SaveSplitter(dat);
-					if(PluginConfig.lastSPlitterPos.bSync)
+					if (PluginConfig.lastSPlitterPos.bSync)
 						g_Settings.iSplitterY = dat->splitterY - DPISCALEY_S(23);
 				}
 			}
-			if(dat->bType == SESSIONTYPE_CHAT) {
+			if (dat->bType == SESSIONTYPE_CHAT) {
 				SESSION_INFO *si = dat->si;
-				if(si) {
+				if (si) {
 					dat->pContainer->settings->splitterPos = si->iSplitterY + DPISCALEY_S(23);
-					if(fCntGlobal) {
+					if (fCntGlobal) {
 						g_Settings.iSplitterY = si->iSplitterY;
-						if(PluginConfig.lastSPlitterPos.bSync)
+						if (PluginConfig.lastSPlitterPos.bSync)
 							M->WriteDword(SRMSGMOD_T, "splitsplity", (DWORD)si->iSplitterY + DPISCALEY_S(23));
 					}
 				}
 			}
-			return(0);
+			return 0;
 		}
 
 		if (!fCntGlobal && dat->pContainer != srcCnt)
-			return(0);
-		if(srcCnt->settings->fPrivate && dat->pContainer != srcCnt)
-			return(0);
+			return 0;
+		if (srcCnt->settings->fPrivate && dat->pContainer != srcCnt)
+			return 0;
 
 		if (!PluginConfig.lastSPlitterPos.bSync && dat->bType != srcDat->bType)
-			return(0);
+			return 0;
 
 		/*
 		 * for inactive sessions, delay the splitter repositioning until they become
@@ -1741,7 +1741,7 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			dat->dwFlagsEx |= MWF_EX_DELAYEDSPLITTER;
 			dat->wParam = newPos;
 			dat->lParam = PluginConfig.lastSPlitterPos.lParam;
-			return(0);
+			return 0;
 		}
 	}
 	else
@@ -1749,23 +1749,23 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 	newMessagePos = (short)rcWin.bottom - (short)newPos;
 
-	if(dat->bType == SESSIONTYPE_IM) {
+	if (dat->bType == SESSIONTYPE_IM) {
 		LoadSplitter(dat);
 		AdjustBottomAvatarDisplay(dat);
 		DM_RecalcPictureSize(dat);
 		SendMessage(dat->hwnd, WM_SIZE, 0, 0);
 		DM_ScrollToBottom(dat, 1,1);
-		if(dat != srcDat)
+		if (dat != srcDat)
 			CSkin::UpdateToolbarBG(dat);
 	}
 	else {
 		SESSION_INFO *si = dat->si;
-		if(si) {
+		if (si) {
 			si->iSplitterY = g_Settings.iSplitterY;
 			SendMessage(dat->hwnd, WM_SIZE, 0, 0);
 		}
 	}
-	return(0);
+	return 0;
 }
 
 /**
@@ -1803,13 +1803,13 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
 			dat->lastMessage = dbei.timestamp;
 			dat->szStatusBar[0] = 0;
-			if(dat->showTyping) {
+			if (dat->showTyping) {
 				dat->nTypeSecs = 0;
 				DM_Typing(dat, true);
 				dat->showTyping = 0;
 			}
 			HandleIconFeedback(dat, (HICON)-1);
-			if(m_pContainer->hwndStatus)
+			if (m_pContainer->hwndStatus)
 				PostMessage(hwndDlg, DM_UPDATELASTMESSAGE, 0, 0);
 		}
 		/*
@@ -1830,7 +1830,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			tabSRMM_ShowPopup(wParam, lParam, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto(), dat);
-			if(IsWindowVisible(m_pContainer->hwnd))
+			if (IsWindowVisible(m_pContainer->hwnd))
 				m_pContainer->fHidden = false;
 		}
 		dat->cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
@@ -1885,7 +1885,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		* never switch for status changes...
 		*/
 		if (!(dbei.flags & DBEF_SENT) && !fIsStatusChangeEvent) {
-			if(PluginConfig.haveAutoSwitch() && m_pContainer->hwndActive != hwndDlg) {
+			if (PluginConfig.haveAutoSwitch() && m_pContainer->hwndActive != hwndDlg) {
 				if ((IsIconic(hwndContainer) && !IsZoomed(hwndContainer)) || (PluginConfig.m_HideOnClose && !IsWindowVisible(m_pContainer->hwnd))) {
 					int iItem = GetTabIndexFromHWND(GetParent(hwndDlg), hwndDlg);
 					if (iItem >= 0) {
@@ -1913,37 +1913,37 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT)))
 			PostMessage(hwndDlg, DM_PLAYINCOMINGSOUND, 0, 0);
 
-		if(dat->pWnd)
+		if (dat->pWnd)
 			dat->pWnd->Invalidate();
 	}
 }
 
 void TSAPI DM_HandleAutoSizeRequest(TWindowData *dat, REQRESIZE* rr)
 {
-	if(dat && rr && GetForegroundWindow() == dat->pContainer->hwnd) {
-		if(dat->fIsAutosizingInput && dat->iInputAreaHeight != -1) {
+	if (dat && rr && GetForegroundWindow() == dat->pContainer->hwnd) {
+		if (dat->fIsAutosizingInput && dat->iInputAreaHeight != -1) {
 			LONG heightLimit = M->GetDword("autoSplitMinLimit", 0);
 			LONG iNewHeight = rr->rc.bottom - rr->rc.top;
 
-			if(CSkin::m_skinEnabled && !SkinItems[ID_EXTBKINPUTAREA].IGNORED)
+			if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKINPUTAREA].IGNORED)
 				iNewHeight += (SkinItems[ID_EXTBKINPUTAREA].MARGIN_TOP + SkinItems[ID_EXTBKINPUTAREA].MARGIN_BOTTOM - 2);
 
-			if(heightLimit && iNewHeight < heightLimit)
+			if (heightLimit && iNewHeight < heightLimit)
 				iNewHeight = heightLimit;
 
-			if(iNewHeight != dat->iInputAreaHeight) {
+			if (iNewHeight != dat->iInputAreaHeight) {
 				RECT	rc;
 
 				GetClientRect(dat->hwnd, &rc);
 				LONG cy = rc.bottom - rc.top;
 				LONG panelHeight = (dat->Panel->isActive() ? dat->Panel->getHeight() : 0);
 
-				if(iNewHeight > (cy - panelHeight) / 2)
+				if (iNewHeight > (cy - panelHeight) / 2)
 					iNewHeight = (cy - panelHeight) / 2;
 
-				if(dat->bType == SESSIONTYPE_IM) {
+				if (dat->bType == SESSIONTYPE_IM) {
 					dat->dynaSplitter = rc.bottom - (rc.bottom - iNewHeight + DPISCALEY_S(2));
-					if(dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR)
+					if (dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR)
 						dat->dynaSplitter += DPISCALEY_S(22);
 					dat->splitterY = dat->dynaSplitter + DPISCALEY_S(34);
 					DM_RecalcPictureSize(dat);
@@ -2043,12 +2043,12 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			_tcsncpy(dat->newtitle, newtitle, safe_sizeof(dat->newtitle));
 			dat->newtitle[127] = 0;
 			item.cchTextMax = 127;
-			if(dat->pWnd)
+			if (dat->pWnd)
 				dat->pWnd->updateTitle(dat->cache->getNick());
 		}
 		if (dat->iTabID  >= 0) {
 			TabCtrl_SetItem(hwndTab, dat->iTabID, &item);
-			if(m_pContainer->dwFlags & CNT_SIDEBAR)
+			if (m_pContainer->dwFlags & CNT_SIDEBAR)
 				m_pContainer->SideBar->updateSession(dat);
 		}
 		if (m_pContainer->hwndActive == hwndDlg && lParam)
@@ -2064,7 +2064,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		}
 
 		dat->Panel->Invalidate();
-		if(dat->pWnd)
+		if (dat->pWnd)
 			dat->pWnd->Invalidate();
 
 		if (PluginConfig.g_FlashAvatarAvail) {
@@ -2375,9 +2375,9 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 		SendMessage(dat->pContainer->hwndActive, WM_COMMAND, IDC_SELFTYPING, 0);
 		InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
 	} else if ((int)iconNum == list_icons + 2) {
-		if(code == NM_CLICK)
+		if (code == NM_CLICK)
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_LBUTTONUP);
-		else if(code == NM_RCLICK)
+		else if (code == NM_RCLICK)
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_RBUTTONUP);
 	} else if (clicked) {
 		sicd.cbSize = sizeof(StatusIconClickData);

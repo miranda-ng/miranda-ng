@@ -79,7 +79,7 @@ public:
 	CTip													(const HWND hwndParent, const HANDLE hContact, const TCHAR *pszText = 0, const CInfoPanel *panel = 0);
 	~CTip()
 	{
-		if(m_pszText)
+		if (m_pszText)
 			mir_free(m_pszText);
 	}
 	void						show						(const RECT& rc, POINT& pt, const HICON hIcon = 0, const TCHAR *szTitle = 0);
@@ -135,7 +135,7 @@ public:
 	};
 	CInfoPanel(TWindowData *dat)
 	{
-		if(dat) {
+		if (dat) {
 			m_dat = dat;
 			m_isChat = dat->bType == SESSIONTYPE_CHAT ? true : false;
 		}
@@ -148,7 +148,7 @@ public:
 
 	~CInfoPanel()
 	{
-		if(m_hwndConfig)
+		if (m_hwndConfig)
 			::DestroyWindow(m_hwndConfig);
 		saveHeight(true);
 	}

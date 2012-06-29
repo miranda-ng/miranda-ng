@@ -195,25 +195,25 @@ const TCHAR* CMimAPI::StriStr(const TCHAR *szString, const TCHAR *szSearchFor)
 {
 	assert(szString != 0 && szSearchFor != 0);
 
-	if(szString && *szString) {
+	if (szString && *szString) {
 		if (0 == szSearchFor || 0 == *szSearchFor)
 			return(szString);
 
 		for (; *szString; ++szString) {
-			if(_totupper(*szString) == _totupper(*szSearchFor)) {
+			if (_totupper(*szString) == _totupper(*szSearchFor)) {
 				const TCHAR *h, *n;
 				for(h = szString, n = szSearchFor; *h && *n; ++h, ++n) {
-					if(_totupper(*h) != _totupper(*n))
+					if (_totupper(*h) != _totupper(*n))
 						break;
 				}
 				if (!*n)
 					return(szString);
 			}
 		}
-		return(0);
+		return 0;
 	}
 	else
-		return(0);
+		return 0;
 }
 
 int CMimAPI::pathIsAbsolute(const TCHAR *path) const
@@ -240,7 +240,7 @@ size_t CMimAPI::pathToRelative(const TCHAR *pSrc, TCHAR *pOut, const TCHAR *szBa
 
 		mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s"), pSrc);
 		if (StriStr(szTmp, tszBase)) {
-			if(tszBase[lstrlen(tszBase) - 1] == '\\')
+			if (tszBase[lstrlen(tszBase) - 1] == '\\')
 				mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc + lstrlen(tszBase));
 			else {
 				mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc + lstrlen(tszBase)  + 1 );
@@ -337,7 +337,7 @@ INT_PTR CMimAPI::foldersPathChanged()
 {
 	TCHAR szTemp[MAX_PATH + 2] = {'\0'};
 
-	if(m_hDataPath) {
+	if (m_hDataPath) {
 		FoldersGetCustomPathT(m_hDataPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getDataPath()));
 		mir_sntprintf(m_szProfilePath, MAX_PATH, _T("%s"), szTemp);
 
@@ -367,7 +367,7 @@ INT_PTR CMimAPI::foldersPathChanged()
 #if defined(_FOLDER_LOCKING)
 	mir_sntprintf(szTemp, MAX_PATH, L"%sfolder.lck", m_szChatLogsPath);
 
-	if(m_hChatLogLock != INVALID_HANDLE_VALUE)
+	if (m_hChatLogLock != INVALID_HANDLE_VALUE)
 		CloseHandle(m_hChatLogLock);
 
 	m_hChatLogLock = CreateFile(szTemp, GENERIC_WRITE, 0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_HIDDEN, 0);
@@ -380,7 +380,7 @@ INT_PTR CMimAPI::foldersPathChanged()
 
 const TCHAR* CMimAPI::getUserDir()
 {
-	if(m_userDir[0] == 0) {
+	if (m_userDir[0] == 0) {
 		wchar_t*	userdata;
 		if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 			userdata = L"%%miranda_userdata%%";
@@ -413,7 +413,7 @@ bool CMimAPI::getAeroState()
 {
 	BOOL result = FALSE;
 	m_isAero = m_DwmActive = false;
-	if(IsWinVerVistaPlus()) {
+	if (IsWinVerVistaPlus()) {
 		m_DwmActive = (m_pfnDwmIsCompositionEnabled && (m_pfnDwmIsCompositionEnabled(&result) == S_OK) && result) ? true : false;
 		m_isAero = (CSkin::m_skinEnabled == false) && GetByte("useAero", 1) && CSkin::m_fAeroSkinsValid && m_DwmActive;
 
@@ -490,7 +490,7 @@ void CMimAPI::InitAPI()
 		/*
 		 * additional uxtheme APIs (Vista+)
 		 */
-		if(m_hUxTheme) {
+		if (m_hUxTheme) {
 			m_pfnDrawThemeTextEx = (PDTTE)GetProcAddress(m_hUxTheme, "DrawThemeTextEx");
 			m_pfnBeginBufferedPaint = (BBP)GetProcAddress(m_hUxTheme, "BeginBufferedPaint");
 			m_pfnEndBufferedPaint = (EBP)GetProcAddress(m_hUxTheme, "EndBufferedPaint");
@@ -498,7 +498,7 @@ void CMimAPI::InitAPI()
 			m_pfnBufferedPaintUninit = (BPU)GetProcAddress(m_hUxTheme, "BufferedPaintUnInit");
 			m_pfnBufferedPaintSetAlpha = (BPSA)GetProcAddress(m_hUxTheme, "BufferedPaintSetAlpha");
 			m_haveBufferedPaint = (m_pfnBeginBufferedPaint != 0 && m_pfnEndBufferedPaint != 0) ? true : false;
-			if(m_haveBufferedPaint)
+			if (m_haveBufferedPaint)
 				m_pfnBufferedPaintInit();
 		}
 		m_pfnGetLocaleInfoEx = (GLIX)GetProcAddress(GetModuleHandleA("kernel32"), "GetLocaleInfoEx");
@@ -518,7 +518,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 	struct			TContainerData *pContainer = NULL;
 	BOOL			fShowOnClist = TRUE;
 
-	if(wParam) {
+	if (wParam) {
 
 		if ((hwnd = M->FindWindow((HANDLE) wParam)) && M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
 			preTyping = SendMessage(hwnd, DM_TYPING, 0, lParam);
@@ -529,16 +529,16 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 			foundWin = 0;
 
 
-		if(hwnd) {
+		if (hwnd) {
 			SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-			if(pContainer == NULL)
+			if (pContainer == NULL)
 				return 0;					// should never happen
 		}
 
-		if(M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
+		if (M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
 			if (!hwnd && !M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
 				fShowOnClist = FALSE;
-			if(hwnd && !M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1))
+			if (hwnd && !M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1))
 				fShowOnClist = FALSE;
 		}
 		else
@@ -551,7 +551,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 				SkinPlaySound("TNStop");
 		}
 
-		if(M->GetByte(SRMSGMOD, "ShowTypingPopup", 0)) {
+		if (M->GetByte(SRMSGMOD, "ShowTypingPopup", 0)) {
 			BOOL	fShow = FALSE;
 			int		iMode = M->GetByte("MTN_PopupMode", 0);
 
@@ -564,19 +564,19 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 						fShow = TRUE;
 					break;
 				case 2:
-					if(hwnd == 0)
+					if (hwnd == 0)
 						fShow = TRUE;
 					else {
-						if(PluginConfig.m_HideOnClose) {
+						if (PluginConfig.m_HideOnClose) {
 							struct	TContainerData *pContainer = 0;
 							SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-							if(pContainer && pContainer->fHidden)
+							if (pContainer && pContainer->fHidden)
 								fShow = TRUE;
 						}
 					}
 					break;
 			}
-			if(fShow)
+			if (fShow)
 				TN_TypingMessage(wParam, lParam);
 		}
 
@@ -594,7 +594,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 				tn.uTimeout = 1000 * 4;
 				CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) & tn);
 			}
-			if(fShowOnClist) {
+			if (fShowOnClist) {
 				CLISTEVENT cle;
 
 				ZeroMemory(&cle, sizeof(cle));
@@ -740,7 +740,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		wp.length = sizeof(wp);
 		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pTargetContainer);
 
-		if(pTargetContainer && PluginConfig.m_HideOnClose && !IsWindowVisible(pTargetContainer->hwnd))	{
+		if (pTargetContainer && PluginConfig.m_HideOnClose && !IsWindowVisible(pTargetContainer->hwnd))	{
 			GetWindowPlacement(pTargetContainer->hwnd, &wp);
 			GetContainerNameForContact((HANDLE) wParam, szName, CONTAINER_NAMELEN);
 
@@ -753,8 +753,8 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 
 			if (bAutoPopup || bAutoCreate) {
 				BOOL bActivate = TRUE, bPopup = TRUE;
-				if(bAutoPopup) {
-					if(wp.showCmd == SW_SHOWMAXIMIZED)
+				if (bAutoPopup) {
+					if (wp.showCmd == SW_SHOWMAXIMIZED)
 						ShowWindow(pTargetContainer->hwnd, SW_SHOWMAXIMIZED);
 					else
 						ShowWindow(pTargetContainer->hwnd, SW_SHOWNOACTIVATE);
@@ -765,14 +765,14 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 					bPopup = (BOOL) M->GetByte("cpopup", 0);
 					pContainer = FindContainerByName(szName);
 					if (pContainer != NULL) {
-						if(bAutoContainer) {
+						if (bAutoContainer) {
 							ShowWindow(pTargetContainer->hwnd, SW_SHOWMINNOACTIVE);
 							return 0;
 						}
 						else goto nowindowcreate;
 					}
 					else {
-						if(bAutoContainer) {
+						if (bAutoContainer) {
 							ShowWindow(pTargetContainer->hwnd, SW_SHOWMINNOACTIVE);
 							return 0;
 						}
@@ -783,9 +783,9 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		else
 			return 0;
 	} else {
-		if(dbei.eventType == EVENTTYPE_FILE) {
+		if (dbei.eventType == EVENTTYPE_FILE) {
 			tabSRMM_ShowPopup(wParam, lParam, dbei.eventType, 0, 0, 0, dbei.szModule, 0);
-			return(0);
+			return 0;
 		}
 	}
 

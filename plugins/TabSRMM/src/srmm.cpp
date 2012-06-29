@@ -127,7 +127,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 #if defined(__USE_EX_HANDLERS)
 	}
 	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"SHUTDOWN_STAGE_UNLOAD", false)) {
-		return(0);
+		return 0;
 	}
 #endif
 	return iRet;

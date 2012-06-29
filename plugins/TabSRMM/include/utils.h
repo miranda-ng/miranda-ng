@@ -120,7 +120,7 @@ public:
 		HGLOBAL	hData;
 
 		if (!OpenClipboard(hwndOwner) || _t == 0)
-			return(0);
+			return 0;
 
 		std::basic_string<T> *s = new std::basic_string<T>(_t);
 		size_t _s = sizeof(T);
@@ -144,7 +144,7 @@ public:
 		*pppFiles = (T**)mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(T*));
 		(*pppFiles)[*totalCount] = NULL;
 
-		if(_s == 1)
+		if (_s == 1)
 			(*pppFiles)[*totalCount-1] = reinterpret_cast<T *>(mir_t2a(szFilename));
 		else
 			(*pppFiles)[*totalCount-1] = reinterpret_cast<T *>(mir_tstrdup(szFilename));
@@ -184,8 +184,8 @@ public:
 		while(s < maxlen && *(src++))
 			s++;
 
-		if(s >= maxlen && *src != 0)
-			return(0);
+		if (s >= maxlen && *src != 0)
+			return 0;
 		else
 			return(s);
 	}

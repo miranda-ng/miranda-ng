@@ -259,7 +259,7 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 		lf->lfOrientation = 0;
 		wsprintfA(str, "Font%dSty", i);
 		style = M->GetByte(szMod, str, fol[j].defStyle);
-		if(i == MSGFONTID_MESSAGEAREA && section == FONTSECTION_IM && M->GetByte(0, SRMSGMOD_T, "inputFontFix", 1) == 1) {
+		if (i == MSGFONTID_MESSAGEAREA && section == FONTSECTION_IM && M->GetByte(0, SRMSGMOD_T, "inputFontFix", 1) == 1) {
 			lf->lfWeight = FW_NORMAL;
 			lf->lfItalic = 0;
 			lf->lfUnderline = 0;
@@ -781,7 +781,7 @@ void RegisterFontServiceFonts() {
 		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style&FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
 		fid.deffontsettings.charset = lf.lfCharSet;
 		_tcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
-		if(i==IPFONTCOUNT-1){
+		if (i==IPFONTCOUNT-1){
 			_tcsncpy(fid.backgroundGroup, _T(""), SIZEOF(fid.backgroundGroup));
 			_tcsncpy(fid.backgroundName, _T(""), SIZEOF(fid.backgroundName));
 			_tcsncpy(fid.group, _T("TabSRMM"), SIZEOF(fid.group));
@@ -808,7 +808,7 @@ void RegisterFontServiceFonts() {
 		_tcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
 		_tcsncpy(fid.backgroundGroup, _T("TabSRMM/Group Chats"), SIZEOF(fid.backgroundGroup));
 		_tcsncpy(fid.backgroundName, _T("Group chat log background"), SIZEOF(fid.backgroundName));
-		if(i == 18 || i == 19)
+		if (i == 18 || i == 19)
 			_tcsncpy(fid.backgroundName, _T("Userlist background"), SIZEOF(fid.backgroundName));
 		FontRegisterT(&fid);
 	}
@@ -850,7 +850,7 @@ void RegisterFontServiceFonts() {
 		_tcsncpy(cid.group, _clrs[i].tszGroup, SIZEOF(fid.group));
 	 	_tcsncpy(cid.name, _clrs[i].tszName, SIZEOF(cid.name));
 	 	strncpy(cid.setting, _clrs[i].szSetting, SIZEOF(cid.setting));
-	 	if(_clrs[i].def & 0xff000000)
+	 	if (_clrs[i].def & 0xff000000)
 	 		cid.defcolour = GetSysColor(_clrs[i].def & 0x000000ff);
 	 	else
 	 		cid.defcolour = _clrs[i].def;
@@ -867,7 +867,7 @@ void RegisterFontServiceFonts() {
 		_tcsncpy(cid.group, _tabclrs[i].tszGroup, SIZEOF(fid.group));
 	 	_tcsncpy(cid.name, _tabclrs[i].tszName, SIZEOF(cid.name));
 	 	strncpy(cid.setting, _tabclrs[i].szSetting, SIZEOF(cid.setting));
-	 	if(_tabclrs[i].def & 0xff000000)
+	 	if (_tabclrs[i].def & 0xff000000)
 	 		cid.defcolour = GetSysColor(_tabclrs[i].def & 0x000000ff);
 	 	else
 	 		cid.defcolour = _tabclrs[i].def;
@@ -1025,7 +1025,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					}
 
 					mir_sntprintf(tszInitialDir, MAX_PATH, _T("%s%s"), M->getChatLogPath(), p);
-					if(PathFileExists(tszInitialDir))
+					if (PathFileExists(tszInitialDir))
 						ofn.lpstrInitialDir = tszInitialDir;
 					else {
 						mir_sntprintf(tszInitialDir, MAX_PATH, _T("%s"), M->getChatLogPath());
@@ -1192,7 +1192,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			}
 			break;
 		case WM_TIMER:
-			if(IsWindow(hPathTip))
+			if (IsWindow(hPathTip))
 				KillTimer(hPathTip, 4); // It will prevent tooltip autoclosing
 			break;
 		case WM_DESTROY:
@@ -1247,7 +1247,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				DWORD dwLogFlags = M->GetDword("Chat", "DiskLogFlags", GC_EVENT_ALL);
 
 				for(int i = 0; _eventorder[i]; i++) {
-					if(_eventorder[i] != GC_EVENT_HIGHLIGHT) {
+					if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
 						CheckDlgButton(hwndDlg, IDC_1 + i, dwFilterFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
 						CheckDlgButton(hwndDlg, IDC_L1 + i, dwLogFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
 					}
@@ -1279,7 +1279,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 								dwPopupFlags = 0, dwLogFlags = 0;
 
 							for(int i = 0; _eventorder[i]; i++) {
-								if(_eventorder[i] != GC_EVENT_HIGHLIGHT) {
+								if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
 									dwFilterFlags |= (IsDlgButtonChecked(hwndDlg, IDC_1 + i) ? _eventorder[i] : 0);
 									dwLogFlags |= (IsDlgButtonChecked(hwndDlg, IDC_L1 + i) ? _eventorder[i] : 0);
 								}
@@ -1391,7 +1391,7 @@ void LoadGlobalSettings(void)
 
 	// nicklist
 
-	if(g_Settings.UserListFont) {
+	if (g_Settings.UserListFont) {
 		DeleteObject(g_Settings.UserListFont);
 		DeleteObject(g_Settings.UserListHeadingsFont);
 	}
@@ -1426,7 +1426,7 @@ static void FreeGlobalSettings(void)
 	mir_free(g_Settings.pszTimeStampLog);
 	mir_free(g_Settings.pszIncomingNick);
 	mir_free(g_Settings.pszOutgoingNick);
-	if(g_Settings.UserListFont) {
+	if (g_Settings.UserListFont) {
 		DeleteObject(g_Settings.UserListFont);
 		DeleteObject(g_Settings.UserListHeadingsFont);
 	}
@@ -1451,10 +1451,10 @@ int OptionsInit(void)
 	ZeroMemory(&g_Settings, sizeof(TMUCSettings));
 	g_Settings.NameFont = CreateFontIndirect(&lf);
 	g_Settings.iSplitterX = DBGetContactSettingWord(NULL, "Chat", "SplitterX", 105);
-	if(g_Settings.iSplitterX <= 50)
+	if (g_Settings.iSplitterX <= 50)
 		g_Settings.iSplitterX = 105;
 	g_Settings.iSplitterY = DBGetContactSettingWord(NULL, "Chat", "splitY", 50);
-	if(g_Settings.iSplitterY <= 20)
+	if (g_Settings.iSplitterY <= 20)
 		g_Settings.iSplitterY = 50;
 	g_Settings.hGroup = 0;
 	LoadGlobalSettings();

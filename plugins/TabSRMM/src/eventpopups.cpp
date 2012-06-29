@@ -54,7 +54,7 @@ BOOL        bWmNotify = TRUE;
 
 static const PLUGIN_DATAT* PU_GetByContact(const HANDLE hContact)
 {
-	if(PopupList.size()) {
+	if (PopupList.size()) {
 		PopupListIterator it = PopupList.begin();
 		while(it != PopupList.end()) {
 			if ((*it)->hContact == hContact)
@@ -62,7 +62,7 @@ static const PLUGIN_DATAT* PU_GetByContact(const HANDLE hContact)
 			it++;
 		}
 	}
-	return(0);
+	return 0;
 }
 
 /**
@@ -72,10 +72,10 @@ static const PLUGIN_DATAT* PU_GetByContact(const HANDLE hContact)
  */
 static void PU_CleanUp()
 {
-	if(PopupList.size()) {
+	if (PopupList.size()) {
 		PopupListIterator it = PopupList.begin();
 		while(it != PopupList.end()) {
-			if(PopupList.size() == 0)
+			if (PopupList.size() == 0)
 				break;
 			if ((*it)->hContact == 0) {
 				//_DebugTraceW(_T("found stale popup %s"), (*it)->eventData->szText);
@@ -285,9 +285,9 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 					}
 					default: {
 
-						if(IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_MUC))
+						if (IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_MUC))
 							g_Settings.iPopupStyle = 2;
-						else if(IsDlgButtonChecked(hWnd, IDC_MUC_LOGCOLORS))
+						else if (IsDlgButtonChecked(hWnd, IDC_MUC_LOGCOLORS))
 							g_Settings.iPopupStyle = 1;
 						else
 							g_Settings.iPopupStyle = 3;
@@ -501,7 +501,7 @@ static BOOL CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 
 			GetCursorPos(&pt);
 			GetWindowRect(hWnd, &rc);
-			if(PtInRect(&rc, pt))
+			if (PtInRect(&rc, pt))
 				break;
 
 			if (pdata->iSeconds > 0)
@@ -532,15 +532,15 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 
 	int		iPreviewLimit = nen_options.iLimitPreview;
 
-	if(iPreviewLimit > 500 || iPreviewLimit == 0)
+	if (iPreviewLimit > 500 || iPreviewLimit == 0)
 		iPreviewLimit = 500;
 
 	switch (eventType) {
 		case EVENTTYPE_MESSAGE:
 			if (pBlob) {
-				if(nen_options.bPreview) {
+				if (nen_options.bPreview) {
 					TCHAR* buf = DbGetEventTextT(dbe, CP_ACP);
-					if(lstrlen(buf) > iPreviewLimit) {
+					if (lstrlen(buf) > iPreviewLimit) {
 						fAddEllipsis = true;
 						int iIndex = iPreviewLimit;
 						int iWordThreshold = 20;
@@ -550,7 +550,7 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 						buf[iIndex] = 0;
 					}
 					buf = (TCHAR *)mir_realloc(buf, (lstrlen(buf) + 5) * sizeof(TCHAR));
-					if(fAddEllipsis)
+					if (fAddEllipsis)
 						_tcscat(buf, _T("..."));
 					return(buf);
 				}
@@ -558,17 +558,17 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 			commentFix = mir_tstrdup(TranslateT("Message"));
 			break;
 		case EVENTTYPE_FILE:
-			if(pBlob) {
+			if (pBlob) {
 				if (!nen_options.bPreview) {
 					commentFix = mir_tstrdup(TranslateT("Incoming file"));
 					break;
 				}
-				if(dbe->cbBlob > 5) {			// min valid size = (sizeof(DWORD) + 1 character file name + terminating 0)
+				if (dbe->cbBlob > 5) {			// min valid size = (sizeof(DWORD) + 1 character file name + terminating 0)
 					char* szFileName = (char *)dbe->pBlob + sizeof(DWORD);
 					char* szDescr = 0;
 					size_t namelength = Utils::safe_strlen(szFileName, dbe->cbBlob - sizeof(DWORD));
 
-					if(dbe->cbBlob > (sizeof(DWORD) + namelength + 1))
+					if (dbe->cbBlob > (sizeof(DWORD) + namelength + 1))
 						szDescr = szFileName + namelength + 1;
 
 					TCHAR* tszFileName = DbGetEventStringT(dbe, szFileName );
@@ -577,7 +577,7 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 					if (szDescr && Utils::safe_strlen(szDescr, dbe->cbBlob - sizeof(DWORD) - namelength - 1) > 0) {
 						TCHAR* tszDescr = DbGetEventStringT(dbe, szDescr);
 
-						if(tszFileName && tszDescr) {
+						if (tszFileName && tszDescr) {
 							size_t uRequired = sizeof(TCHAR) * (_tcslen(TranslateT("Incoming file")) + namelength + _tcslen(tszDescr) + 10);
 							buf = (TCHAR *)mir_alloc(uRequired);
 							mir_sntprintf(buf, uRequired, _T("%s: %s (%s)"), TranslateT("Incoming file"),
@@ -588,7 +588,7 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 						}
 					}
 
-					if(tszFileName) {
+					if (tszFileName) {
 						size_t uRequired = sizeof(TCHAR) * (_tcslen(TranslateT("Incoming file")) + namelength +
 								_tcslen(TranslateT("No description given")) + 10);
 						buf = (TCHAR *)mir_alloc(uRequired);
@@ -596,7 +596,7 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 									  tszFileName, TranslateT("No description given"));
 						mir_free(tszFileName);
 					}
-					if(buf)
+					if (buf)
 						return(buf);
 				}
 			}
@@ -624,7 +624,7 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 	pdata = const_cast<PLUGIN_DATAT *>(PU_GetByContact(hContact));
 
 	if (!pdata)
-		return(1);
+		return 1;
 
 	ZeroMemory((void *)&dbe, sizeof(dbe));
 
@@ -687,7 +687,7 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 
 		CallService(MS_POPUP_CHANGETEXTT, (WPARAM)pdata->hWnd, (LPARAM)lpzText);
 	}
-	return(0);
+	return 0;
 }
 
 static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent, UINT eventType, HWND hContainer)
@@ -699,7 +699,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	TCHAR 			*szPreview = NULL;
 
 	//there has to be a maximum number of popups shown at the same time
-	if(PopupList.size() >= MAX_POPUPS)
+	if (PopupList.size() >= MAX_POPUPS)
 		return(2);
 
 	if (!PluginConfig.g_PopupAvail)
@@ -734,7 +734,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 		dbe.cbBlob = 0;
 	CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbe);
 
-	if(hEvent == 0 && hContact == 0)
+	if (hEvent == 0 && hContact == 0)
 		dbe.szModule = Translate("Unknown module or contact");
 
 	pdata = (PLUGIN_DATAT *)mir_alloc(sizeof(PLUGIN_DATAT));
@@ -856,8 +856,8 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 
 		tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : 0);
 
-		if(tszFinalProto == 0)
-			return(0);									// should also NOT happen
+		if (tszFinalProto == 0)
+			return 0;									// should also NOT happen
 
 		wMyStatus = (wStatus == 0) ? DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE) : wStatus;
 		szMyStatus = (szStatus == NULL) ? (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wMyStatus, GSMDF_TCHAR) : szStatus;
@@ -913,7 +913,7 @@ int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOp
 	int heFlags;
 
 	if (nen_options.iDisable)                         // no popups at all. Period
-		return(0);
+		return 0;
 
 	PU_CleanUp();
 
@@ -922,7 +922,7 @@ int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOp
 		return 0;
 
 	if (nen_options.bDisableNonMessage && eventType != EVENTTYPE_MESSAGE)
-		return(0);
+		return 0;
 
 	/*
 	 * check the status mode against the status mask
@@ -941,7 +941,7 @@ int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOp
 	//
 	if (windowOpen && pContainer != 0) {               // message window is open, need to check the container config if we want to see a popup nonetheless
 		if (nen_options.bWindowCheck && windowOpen)                  // no popups at all for open windows... no exceptions
-			return(0);
+			return 0;
 		if (pContainer->dwFlags & CNT_DONTREPORT && (IsIconic(pContainer->hwnd)))        // in tray counts as "minimised"
 			goto passed;
 		if (pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED) {
@@ -963,8 +963,8 @@ passed:
 	if (!(PluginConfig.g_PopupAvail && PluginConfig.g_PopupWAvail))
 		return 0;
 
-	if(PU_GetByContact((HANDLE)wParam) && nen_options.bMergePopup && eventType == EVENTTYPE_MESSAGE) {
-		if(PopupUpdateT((HANDLE)wParam, (HANDLE)lParam) != 0)
+	if (PU_GetByContact((HANDLE)wParam) && nen_options.bMergePopup && eventType == EVENTTYPE_MESSAGE) {
+		if (PopupUpdateT((HANDLE)wParam, (HANDLE)lParam) != 0)
 			PopupShowT(&nen_options, (HANDLE)wParam, (HANDLE)lParam, (UINT)eventType, pContainer ? pContainer->hwnd : 0);
 	}
 	else

@@ -262,7 +262,7 @@ extern 	NEN_OPTIONS	nen_options;
 #endif
 
 #if defined(__GNUG__)
-#define __except(x) if(x)
+#define __except(x) if (x)
 #define __try
 #define __finally
 

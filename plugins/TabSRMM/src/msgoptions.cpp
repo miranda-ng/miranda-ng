@@ -129,17 +129,17 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 	HANDLE h = FindFirstFile(tszMask, &fd);
 
 	while(h != INVALID_HANDLE_VALUE) {
-		if(lstrlen(fd.cFileName) >= 5 && !_tcsnicmp(fd.cFileName + lstrlen(fd.cFileName) - 4, _T(".tsk"), 4)) {
+		if (lstrlen(fd.cFileName) >= 5 && !_tcsnicmp(fd.cFileName + lstrlen(fd.cFileName) - 4, _T(".tsk"), 4)) {
 			fValid = true;
 			break;
 		}
-	    if(FindNextFile(h, &fd) == 0)
+	    if (FindNextFile(h, &fd) == 0)
 	    	break;
 	}
-	if(h != INVALID_HANDLE_VALUE)
+	if (h != INVALID_HANDLE_VALUE)
 		FindClose(h);
 
-	if(fValid) {
+	if (fValid) {
 		TCHAR	tszFinalName[MAX_PATH], tszRel[MAX_PATH];
 		LRESULT lr;
 		TCHAR	szBuf[255];
@@ -160,7 +160,7 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 			SendMessage(hwndCombobox, CB_SETITEMDATA, lr, (LPARAM)idata);
 		}
 	}
-	return(0);
+	return 0;
 }
 
 /**
@@ -189,25 +189,25 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 
 	HANDLE h = FindFirstFile(tszFindMask, &fd);
 	while (h != INVALID_HANDLE_VALUE) {
-		if(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY && fd.cFileName[0] != '.') {
+		if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY && fd.cFileName[0] != '.') {
 			TCHAR	tszSubDir[MAX_PATH];
 			mir_sntprintf(tszSubDir, MAX_PATH, _T("%s%s\\"), tszSkinRoot, fd.cFileName);
 			ScanSkinDir(tszSubDir, hwndCombobox);
 		}
-	    if(FindNextFile(h, &fd) == 0)
+	    if (FindNextFile(h, &fd) == 0)
 	    	break;
 	}
-	if(h != INVALID_HANDLE_VALUE)
+	if (h != INVALID_HANDLE_VALUE)
 		FindClose(h);
 
 
 	SendMessage(hwndCombobox, CB_SETCURSEL, 0, 0);
-	if(0 == M->GetTString(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
+	if (0 == M->GetTString(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
 		LRESULT lr = SendMessage(hwndCombobox, CB_GETCOUNT, 0, 0);
 		for(int i = 1; i < lr; i++) {
 
 			TCHAR* idata = (TCHAR *)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
-			if(idata && idata != (TCHAR *)CB_ERR) {
+			if (idata && idata != (TCHAR *)CB_ERR) {
 				if (!_tcsicmp(dbv.ptszVal, idata)) {
 					SendMessage(hwndCombobox, CB_SETCURSEL, i, 0);
 					break;
@@ -216,7 +216,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 		}
 		DBFreeVariant(&dbv);
 	}
-	return(0);
+	return 0;
 }
 
 /**
@@ -230,7 +230,7 @@ static void TSAPI FreeComboData(HWND hwndCombobox)
 	for(int i = 1; i < lr; i++) {
 		void *idata = (void *)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
 
-		if(idata && idata != (void *)CB_ERR)
+		if (idata && idata != (void *)CB_ERR)
 			free(idata);
 	}
 }
@@ -261,7 +261,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case WM_CTLCOLORSTATIC:
 			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SKIN_WARN)) {
 				SetTextColor((HDC)wParam, RGB(255, 50, 50));
-				return(0);
+				return 0;
 			}
 			break;
 
@@ -280,11 +280,11 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 			Utils::showDlgControl(hwndDlg, IDC_SKIN_WARN, fWindowsOpen ? SW_SHOW : SW_HIDE);
 			Utils::showDlgControl(hwndDlg, IDC_SKIN_CLOSENOW, fWindowsOpen ? SW_SHOW : SW_HIDE);
-			return(0);
+			return 0;
 		}
 
 		case WM_TIMER:
-			if(wParam == 1000)
+			if (wParam == 1000)
 				SendMessage(hwndDlg, WM_USER + 100, 0, 0);
 			break;
 
@@ -334,15 +334,15 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				case IDC_THEMEIMPORT: {
 					LRESULT r;
 
-					if(CSkin::m_skinEnabled) {
+					if (CSkin::m_skinEnabled) {
 						r = CWarning::show(CWarning::WARN_THEME_OVERWRITE, MB_YESNOCANCEL|MB_ICONQUESTION);
-						if(r == IDNO || r == IDCANCEL)
-							return(0);
+						if (r == IDNO || r == IDCANCEL)
+							return 0;
 					}
 
 					r = CWarning::show(CWarning::WARN_OPTION_CLOSE, MB_YESNOCANCEL|MB_ICONQUESTION);
-					if(r == IDNO || r == IDCANCEL)
-						return(0);
+					if (r == IDNO || r == IDCANCEL)
+						return 0;
 
 					const wchar_t*	szFilename = GetThemeFileName(0);
 					DWORD dwFlags = THEME_READ_FONTS;
@@ -377,7 +377,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					PluginConfig.m_HideOnClose = FALSE;
 
 					while(pFirstContainer) {
-						if(pFirstContainer->hwnd)
+						if (pFirstContainer->hwnd)
 							SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
 					}
 
@@ -385,20 +385,20 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					break;
 				}
 				case IDC_SKINNAME: {
-					if(HIWORD(wParam) == CBN_SELCHANGE) {
+					if (HIWORD(wParam) == CBN_SELCHANGE) {
 						LRESULT lr = SendDlgItemMessage(hwndDlg, IDC_SKINNAME, CB_GETCURSEL, 0 ,0);
-						if(lr != CB_ERR && lr > 0) {
+						if (lr != CB_ERR && lr > 0) {
 							TCHAR	*tszRelPath = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_SKINNAME, CB_GETITEMDATA, lr, 0);
-							if(tszRelPath && tszRelPath != (TCHAR *)CB_ERR)
+							if (tszRelPath && tszRelPath != (TCHAR *)CB_ERR)
 								M->WriteTString(0, SRMSGMOD_T, "ContainerSkin", tszRelPath);
 							SendMessage(hwndDlg, WM_COMMAND, IDC_RELOADSKIN, 0);
 						}
-						else if(lr == 0) {		// selected the <no skin> entry
+						else if (lr == 0) {		// selected the <no skin> entry
 							DBDeleteContactSetting(0, SRMSGMOD_T, "ContainerSkin");
 							Skin->Unload();
 							SendMessage(hwndTabConfig, WM_USER + 100, 0, 0);
 						}
-						return(0);
+						return 0;
 					}
 					break;
 				}
@@ -691,7 +691,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			Utils::showDlgControl(hwndDlg, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
 			for(i = 0; i < safe_sizeof(__ctrls); i++)
 				Utils::enableDlgControl(hwndDlg, __ctrls[i], r == 0 ? TRUE : FALSE);
-			return(0);
+			return 0;
 		}
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
@@ -1189,7 +1189,7 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 			Utils::enableDlgControl(hwndDlg, IDC_AEROEFFECT, PluginConfig.m_bIsVista ? TRUE : FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_USEAERO, PluginConfig.m_bIsVista ? TRUE : FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_USEAEROPEEK, PluginConfig.m_bIsWin7 ? TRUE : FALSE);
-			if(PluginConfig.m_bIsVista)
+			if (PluginConfig.m_bIsVista)
 				Utils::enableDlgControl(hwndDlg, IDC_AEROEFFECT, IsDlgButtonChecked(hwndDlg, IDC_USEAERO) ? 1 : 0);
 
 			return TRUE;
@@ -1233,7 +1233,7 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 							M->WriteByte(0, SRMSGMOD_T, "useAeroPeek", IsDlgButtonChecked(hwndDlg, IDC_USEAEROPEEK) ? 1 : 0);
 							CSkin::setAeroEffect(SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_GETCURSEL, 0, 0));
 
-							if(M->getAeroState() != fOldAeroState) {
+							if (M->getAeroState() != fOldAeroState) {
 								SendMessage(PluginConfig.g_hwndHotkeyHandler, WM_DWMCOMPOSITIONCHANGED, 0, 0);	// simulate aero state change
 								SendMessage(PluginConfig.g_hwndHotkeyHandler, WM_DWMCOLORIZATIONCOLORCHANGED, 0, 0);	// simulate aero state change
 							}
@@ -1274,7 +1274,7 @@ struct {
 
 static int OptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	if(PluginConfig.g_PopupWAvail||PluginConfig.g_PopupAvail)
+	if (PluginConfig.g_PopupWAvail||PluginConfig.g_PopupAvail)
 		TN_OptionsInitialize(wParam, lParam);
 
 	OPTIONSDIALOGPAGE odp = { 0 };

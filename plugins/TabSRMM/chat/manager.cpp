@@ -80,7 +80,7 @@ SESSION_INFO* SM_AddSession(const TCHAR* pszID, const char* pszModule)
 
 		MODULEINFO *mi = MM_FindModule(pszModule);
 
-		if(mi) {
+		if (mi) {
 			mi->idleTimeStamp = time(0);
 			SM_BroadcastMessage(pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);
 		}
@@ -687,7 +687,7 @@ BOOL SM_ChangeNick(const TCHAR* pszID, const char* pszModule, GCEVENT * gce)
 				SM_MoveUser(pTemp->ptszID, pTemp->pszModule, ui->pszUID);
 				if (pTemp->hWnd) {
 					SendMessage(pTemp->hWnd, GC_UPDATENICKLIST, 0, 0);
-					if(pTemp->dat)
+					if (pTemp->dat)
 						GetMyNick(pTemp->dat);
 					SendMessage(pTemp->hWnd, GC_UPDATESTATUSBAR, 0, 0);
 				}
@@ -1040,7 +1040,7 @@ BOOL MM_RemoveAll(void)
 		MODULEINFO *pLast = m_ModList->next;
 		mir_free(m_ModList->pszModule);
 		mir_free(m_ModList->ptszModDispName);
-		if(m_ModList->pszHeader)
+		if (m_ModList->pszHeader)
 			mir_free(m_ModList->pszHeader);
 		mir_free(m_ModList->crColors);
 

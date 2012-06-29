@@ -103,14 +103,14 @@ static int TabCtrl_TestForCloseButton(const TabControlData *tabdat, HWND hwnd, P
 
 	ScreenToClient(hwnd, &tci.pt);
 	iTab = TabCtrl_HitTest(hwnd, &tci);
-	if(iTab != -1) {
+	if (iTab != -1) {
 		RECT  rcTab;
 
-		if(tci.flags & TCHT_NOWHERE)
+		if (tci.flags & TCHT_NOWHERE)
 			return(-1);
 
 		TabCtrl_GetItemRect(hwnd, iTab, &rcTab);
-		if(tabdat->dwStyle & TCS_BUTTONS) {
+		if (tabdat->dwStyle & TCS_BUTTONS) {
 			rcTab.right -= 1;
 			rcTab.left = rcTab.right - 18;
 		}
@@ -120,7 +120,7 @@ static int TabCtrl_TestForCloseButton(const TabControlData *tabdat, HWND hwnd, P
 		}
 		rcTab.bottom -= 4;
 		rcTab.top += 4;
-		if(PtInRect(&rcTab, tci.pt))
+		if (PtInRect(&rcTab, tci.pt))
 			return(iTab);
 	}
 	return(-1);
@@ -197,12 +197,12 @@ void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData* dat
 {
 	unsigned clrIndex;
 
-	if(dat && dat->mayFlashTab)
+	if (dat && dat->mayFlashTab)
 		clrIndex = 7;
 	else
 		clrIndex = (iStateId == PBS_PRESSED ? 5 : (iStateId == PBS_HOT ? 6 : 4));
 
-	if(PluginConfig.tabConfig.colors[clrIndex] != PluginConfig.m_fillColor)
+	if (PluginConfig.tabConfig.colors[clrIndex] != PluginConfig.m_fillColor)
 		FillRect(hdc, rc, PluginConfig.tabConfig.m_brushes[clrIndex - 4]);
 	else
 		CSkin::FillBack(hdc, rc);
@@ -231,7 +231,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 
 		InflateRect(rcItem, -2, -2);
 
-		if(dat->mayFlashTab)
+		if (dat->mayFlashTab)
 			clrIndex = 3;
 		else
 			clrIndex = (nHint & HINT_ACTIVE_ITEM ? 1 : (nHint & HINT_HOTTRACK ? 2 : 0));
@@ -272,8 +272,8 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 
 		rcItem->left += (iSize + 2 + tabdat->m_xpad);
 
-		if(tabdat->fCloseButton) {
-			if(tabdat->iHoveredCloseIcon != nItem)
+		if (tabdat->fCloseButton) {
+			if (tabdat->iHoveredCloseIcon != nItem)
 				CSkin::m_default_bf.SourceConstantAlpha = 150;
 
 			CMimAPI::m_MyAlphaBlend(dc, rcItem->right - 16 - tabdat->m_xpad, (rcItem->bottom + rcItem->top - 16) / 2, 16, 16, CSkin::m_tabCloseHDC,
@@ -324,12 +324,12 @@ static void DrawItemRect(struct TabControlData *tabdat, HDC dc, RECT *rcItem, in
 				rcItem->top++;
 
 			rcItem->right += 6;
-			if(tabdat->fAeroTabs) {
-				if(M->isAero()) {
+			if (tabdat->fAeroTabs) {
+				if (M->isAero()) {
 					InflateRect(rcItem, 2, 0);
 					FillRect(dc, rcItem, CSkin::m_BrushBack);
 				}
-				else if(dat) {
+				else if (dat) {
 					int iStateId = (nHint & HINT_ACTIVE_ITEM ? PBS_PRESSED : 0) | (nHint & HINT_HOTTRACK ? PBS_HOT : 0);
 
 					InflateRect(rcItem, 1, 0);
@@ -339,10 +339,10 @@ static void DrawItemRect(struct TabControlData *tabdat, HDC dc, RECT *rcItem, in
 				CSkin::m_switchBarItem->Render(dc, rcItem, true);
 
 
-				if(nHint & HINT_ACTIVE_ITEM || nHint & HINT_HOTTRACK) {
+				if (nHint & HINT_ACTIVE_ITEM || nHint & HINT_HOTTRACK) {
 					RECT rcGlow = *rcItem;
 
-					if(dwStyle & TCS_BOTTOM)
+					if (dwStyle & TCS_BOTTOM)
 						rcGlow.top++;
 					else
 						rcGlow.bottom--;
@@ -351,7 +351,7 @@ static void DrawItemRect(struct TabControlData *tabdat, HDC dc, RECT *rcItem, in
 					tabdat->helperGlowItem->Render(dc, &rcGlow, true);
 				}
 			}
-			else if(bClassicDraw) {
+			else if (bClassicDraw) {
 				if (CSkin::m_skinEnabled) {
 					CSkinItem *item = nHint & HINT_ACTIVE_ITEM ? &SkinItems[ID_EXTBKBUTTONSPRESSED] : (nHint & HINT_HOTTRACK ? &SkinItems[ID_EXTBKBUTTONSMOUSEOVER] : &SkinItems[ID_EXTBKBUTTONSNPRESSED]);
 
@@ -370,7 +370,7 @@ b_nonskinned:
 						DrawEdge(dc, rcItem, EDGE_RAISED, BF_RECT | BF_SOFT);
 				}
 			} else {
-				if(M->isAero() && !(dwStyle & TCS_BOTTOM))
+				if (M->isAero() && !(dwStyle & TCS_BOTTOM))
 					FillRect(dc, rcItem, CSkin::m_BrushBack);
 				else
 					CSkin::FillBack(dc, rcItem);
@@ -463,25 +463,25 @@ static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int
 	HRESULT hResult = 0;
 	bool	fAero = M->isAero();
 
-	if(tabdat->fAeroTabs) {
-		if(tabdat->dwStyle & TCS_BOTTOM)
+	if (tabdat->fAeroTabs) {
+		if (tabdat->dwStyle & TCS_BOTTOM)
 			prcBox->top += (fAero ? 2 : iStateId == PBS_PRESSED ? (M->isVSThemed() ? 1 : -1) : 0);
 		else if (!fAero)
 			prcBox->bottom -= (iStateId == PBS_PRESSED ? (M->isVSThemed() ? 1 : -1) : 0);
 
-		if(fAero)
+		if (fAero)
 			FillRect(hDC, prcBox, CSkin::m_BrushBack);
-		else if(dat)
+		else if (dat)
 			FillTabBackground(hDC, iStateId, dat, prcBox);
 
 		tabdat->helperItem->setAlphaFormat(AC_SRC_ALPHA, iStateId == PBS_PRESSED ? 255 : (fAero ? 240 : 255));
 		tabdat->helperItem->Render(hDC, prcBox, true);
 		tabdat->helperGlowItem->setAlphaFormat(AC_SRC_ALPHA, iStateId == PBS_PRESSED ? 220 : 180);
 
-		if(iStateId != PBS_NORMAL)
+		if (iStateId != PBS_NORMAL)
 			tabdat->helperGlowItem->Render(hDC, prcBox, true);
 	}
-	else if(CMimAPI::m_pfnDrawThemeBackground) {
+	else if (CMimAPI::m_pfnDrawThemeBackground) {
 		if (tabdat->hTheme != 0)
 			hResult = CMimAPI::m_pfnDrawThemeBackground(tabdat->hTheme, hDC, iPartId, iStateId, prcBox, NULL);
 	}
@@ -535,7 +535,7 @@ static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, 
 
 	if (!bBottom) {
 		if (bBody) {
-			if(PluginConfig.m_bIsVista) {
+			if (PluginConfig.m_bIsVista) {
 				rcItem->right += 2;							// hide right tab sheet shadow (only draw the actual border line)
 				rcItem->bottom += 1;
 			}
@@ -546,7 +546,7 @@ static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, 
 		}
 		return;
 	}
-	else if(tabdat->fAeroTabs && !bBody) {
+	else if (tabdat->fAeroTabs && !bBody) {
 		int iStateId = bSel ? 3 : (bHot ? 2 : 1);                       // leftmost item has different part id
 		DrawThemesPartWithAero(tabdat, pDC, rcItem->left < 20 ? 2 : 1, iStateId, rcItem, dat);
 		return;
@@ -638,7 +638,7 @@ static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, 
 		CImageItem tempItem(10, 10, 10, 10, hdcTemp, 0, IMAGE_FLAG_DIVIDED | IMAGE_FILLSOLID,
 							GetSysColorBrush(COLOR_3DFACE), 255, 30, 80, 50, 100);
 
-		if(PluginConfig.m_bIsVista)	{								// hide right tab sheet shadow (only draw the actual border line)
+		if (PluginConfig.m_bIsVista)	{								// hide right tab sheet shadow (only draw the actual border line)
 			rcItem->right += 2;
 		}
 
@@ -782,7 +782,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			}
 			break;
 		case WM_NCDESTROY:
-			if(tabdat) {
+			if (tabdat) {
 				mir_free(tabdat);
 				SetWindowLongPtr(hwnd, GWLP_USERDATA, 0L);
 			}
@@ -807,7 +807,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				tabdat->fTipActive = FALSE;
 			}
 			KillTimer(hwnd, TIMERID_HOVER_T);
-			if(tabdat->pContainer && (!tabdat->pContainer->SideBar->isActive() && (TabCtrl_GetItemCount(hwnd) > 1 || !(tabdat->pContainer->dwFlags & CNT_HIDETABS))))
+			if (tabdat->pContainer && (!tabdat->pContainer->SideBar->isActive() && (TabCtrl_GetItemCount(hwnd) > 1 || !(tabdat->pContainer->dwFlags & CNT_HIDETABS))))
 				SetTimer(hwnd, TIMERID_HOVER_T, 750, 0);
 			break;
 		}
@@ -929,11 +929,11 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					}
 				}
 			}
-			if(tabdat->fCloseButton) {
+			if (tabdat->fCloseButton) {
 				POINT	pt;
 				GetCursorPos(&pt);
 
-				if(TabCtrl_TestForCloseButton(tabdat, hwnd, pt) != -1)
+				if (TabCtrl_TestForCloseButton(tabdat, hwnd, pt) != -1)
 					return(TRUE);
 			}
 		}
@@ -959,13 +959,13 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				ScreenToClient(hwnd, &tci.pt);
 				ImageList_DragMove(tci.pt.x, tci.pt.y);
 			}
-			if(tabdat->fCloseButton) {
+			if (tabdat->fCloseButton) {
 				POINT	pt;
 
 				GetCursorPos(&pt);
 				int iOldHovered = tabdat->iHoveredCloseIcon;
 				tabdat->iHoveredCloseIcon = TabCtrl_TestForCloseButton(tabdat, hwnd, pt);
-				if(tabdat->iHoveredCloseIcon != iOldHovered)
+				if (tabdat->iHoveredCloseIcon != iOldHovered)
 					InvalidateRect(hwnd, NULL, FALSE);
 			}
 		}
@@ -995,12 +995,12 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					tabdat->himlDrag = 0;
 				}
 			}
-			if(tabdat->fCloseButton) {
+			if (tabdat->fCloseButton) {
 				POINT	pt;
 
 				GetCursorPos(&pt);
 				int iItem = TabCtrl_TestForCloseButton(tabdat, hwnd, pt);
-				if(iItem != -1)
+				if (iItem != -1)
 					SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
 			}
 		}
@@ -1009,7 +1009,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		case WM_ERASEBKGND:
 			if (tabdat->pContainer && (CSkin::m_skinEnabled || M->isAero()))
 				return TRUE;
-			return(0);
+			return 0;
 		case WM_PAINT: {
 			PAINTSTRUCT ps;
 			HDC hdcreal, hdc;
@@ -1029,7 +1029,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			bool  isAero = M->isAero();
 			HANDLE hpb = 0;
 			BOOL bClassicDraw = !isAero && (tabdat->m_VisualStyles == FALSE || CSkin::m_skinEnabled);
-			if(GetUpdateRect(hwnd, NULL, TRUE) == 0)
+			if (GetUpdateRect(hwnd, NULL, TRUE) == 0)
 				break;
 
 			item.mask = TCIF_PARAM;
@@ -1039,9 +1039,9 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 			tabdat->helperDat = 0;
 
-			if(tabdat->fAeroTabs && tabdat->pContainer) {
+			if (tabdat->fAeroTabs && tabdat->pContainer) {
 				TWindowData *dat = (TWindowData *)GetWindowLongPtr(tabdat->pContainer->hwndActive, GWLP_USERDATA);
-				if(dat) {
+				if (dat) {
 					tabdat->helperDat = dat;
 				}
 				else
@@ -1062,10 +1062,10 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			 */
 
 			if ((tabdat->pContainer->dwFlags & CNT_SIDEBAR) || (nCount == 1 && tabdat->pContainer->dwFlags & CNT_HIDETABS)) {
-				if(nCount == 0)
+				if (nCount == 0)
 					FillRect(hdcreal, &ps.rcPaint, GetSysColorBrush(COLOR_3DFACE)); // avoid flickering/ugly black background during container creation
 				EndPaint(hwnd, &ps);
-				return(0);
+				return 0;
 			}
 
 			GetClientRect(hwnd, &rctPage);
@@ -1079,7 +1079,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			 * draw everything to a memory dc to avoid flickering
 			 */
 
-			if(CMimAPI::m_haveBufferedPaint)
+			if (CMimAPI::m_haveBufferedPaint)
 				hpb = tabdat->hbp = CSkin::InitiateBufferedPaint(hdcreal, rctPage, hdc);
 			else {
 				hdc = CreateCompatibleDC(hdcreal);
@@ -1139,7 +1139,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					uiFlags |= uiBottom;
 				} else
 					rcClient.top = rctPage.top;
-				if(PluginConfig.m_fillColor)
+				if (PluginConfig.m_fillColor)
 					DrawCustomTabPage(hdc, rcClient);
 				else 
 					DrawThemesXpTabItem(hdc, -1, &rcClient, uiFlags, tabdat, 0);	// TABP_PANE=9,0,'TAB'
@@ -1169,7 +1169,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 							rectTemp.bottom--;
 							rectTemp.top++;
 						}
-						if(PluginConfig.m_fillColor)
+						if (PluginConfig.m_fillColor)
 							DrawCustomTabPage(hdc, rectTemp);
 						else {
 							MoveToEx(hdc, rectTemp.left, rectTemp.bottom, &pt);
@@ -1181,7 +1181,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 						}
 					} else {
 						rectTemp = rctPage;
-						if(PluginConfig.m_fillColor)
+						if (PluginConfig.m_fillColor)
 							DrawCustomTabPage(hdc, rectTemp);
 						else {
 							MoveToEx(hdc, rectTemp.left, rectTemp.bottom - 1, &pt);
@@ -1236,12 +1236,12 @@ page_done:
 			 * if aero is active _and_ the infopanel is visible in the current window, we "flatten" out the top area
 			 * of the tab page by overpainting it black (thus it will appear transparent)
 			 */
-			if(isAero && tabdat->helperDat) {
+			if (isAero && tabdat->helperDat) {
 				RECT	rcLog, rcPage;
 				POINT	pt;
 
 				GetClientRect(hwnd, &rcPage);
-				if(dwStyle & TCS_BOTTOM) {
+				if (dwStyle & TCS_BOTTOM) {
 					GetWindowRect(tabdat->helperDat->hwnd, &rcLog);
 					pt.y = rcLog.bottom;
 					pt.x = rcLog.left;
@@ -1275,7 +1275,7 @@ page_done:
 
 				if (i != iActive) {
 					TabCtrl_GetItem(hwnd, i, &item);
-					if(item.lParam)
+					if (item.lParam)
 						dat = (TWindowData *)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
 					TabCtrl_GetItemRect(hwnd, i, &rcItem);
 					if (!bClassicDraw && uiBottom) {
@@ -1288,7 +1288,7 @@ page_done:
 							DrawThemesXpTabItem(hdc, i, &rcItem, uiFlags | uiBottom | (i == hotItem ? 4 : 0), tabdat, dat);
 							DrawItem(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), i, dat);
 						} else {
-							if(tabdat->fAeroTabs && !CSkin::m_skinEnabled && !(dwStyle & TCS_BUTTONS))
+							if (tabdat->fAeroTabs && !CSkin::m_skinEnabled && !(dwStyle & TCS_BUTTONS))
 								DrawThemesPartWithAero(tabdat, hdc, 0, (i == hotItem ? PBS_HOT : PBS_NORMAL), &rcItem, dat);
 							else
 								DrawItemRect(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), i, dat);
@@ -1310,7 +1310,7 @@ page_done:
 
 				rcItem = rctActive;
 				TabCtrl_GetItem(hwnd, iActive, &item);
-				if(item.lParam)
+				if (item.lParam)
 					dat = (TWindowData *)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
 
 				if (!bClassicDraw && !(dwStyle & TCS_BUTTONS)) {
@@ -1325,8 +1325,8 @@ page_done:
 						} else
 							InflateRect(&rcItem, 2, 0);
 					}
-					if(tabdat->fAeroTabs && !CSkin::m_skinEnabled && !(dwStyle & TCS_BUTTONS)) {
-						if(dwStyle & TCS_BOTTOM)
+					if (tabdat->fAeroTabs && !CSkin::m_skinEnabled && !(dwStyle & TCS_BUTTONS)) {
+						if (dwStyle & TCS_BOTTOM)
 							rcItem.bottom+= 2;
 						else
 							rcItem.top-= 2;
@@ -1348,7 +1348,7 @@ skip_tabs:
 			if (!tabdat->bRefreshWithoutClip)
 				ExcludeClipRect(hdcreal, rctClip.left, rctClip.top, rctClip.right, rctClip.bottom);
 
-			if(hpb)
+			if (hpb)
 				CSkin::FinalizeBufferedPaint(hpb, &rctOrig);
 				//CMimAPI::m_pfnEndBufferedPaint(hpb, TRUE);
 			else {
@@ -1455,20 +1455,20 @@ void TSAPI FreeTabConfig()
 {
 	int i;
 
-	if(PluginConfig.tabConfig.m_hPenItemShadow)
+	if (PluginConfig.tabConfig.m_hPenItemShadow)
 		DeleteObject(PluginConfig.tabConfig.m_hPenItemShadow);
 
-	if(PluginConfig.tabConfig.m_hPenLight)
+	if (PluginConfig.tabConfig.m_hPenLight)
 		DeleteObject(PluginConfig.tabConfig.m_hPenLight);
 
-	if(PluginConfig.tabConfig.m_hPenShadow)
+	if (PluginConfig.tabConfig.m_hPenShadow)
 		DeleteObject(PluginConfig.tabConfig.m_hPenShadow);
 
-	if(PluginConfig.tabConfig.m_hMenuFont)
+	if (PluginConfig.tabConfig.m_hMenuFont)
 		DeleteObject(PluginConfig.tabConfig.m_hMenuFont);
 
 	for(i = 0; i < 4; i++) {
-		if(PluginConfig.tabConfig.m_brushes[i]) {
+		if (PluginConfig.tabConfig.m_brushes[i]) {
 			DeleteObject(PluginConfig.tabConfig.m_brushes[i]);
 			PluginConfig.tabConfig.m_brushes[i] = 0;
 		}
@@ -1580,7 +1580,7 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					break;
 
 			}
-			if(tconfig_init)
+			if (tconfig_init)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 

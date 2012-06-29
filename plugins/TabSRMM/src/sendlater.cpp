@@ -59,10 +59,10 @@ bool CSendLaterJob::isPersistentJob()
  */
 bool CSendLaterJob::mustDelete()
 {
-	if(fSuccess)
+	if (fSuccess)
 		return(true);
-	else if(fFailed) {
-		if(bCode == JOB_REMOVABLE)
+	else if (fFailed) {
+		if (bCode == JOB_REMOVABLE)
 			return(true);
 	}
 	return(false);
@@ -73,12 +73,12 @@ bool CSendLaterJob::mustDelete()
  */
 void CSendLaterJob::cleanDB()
 {
-	if(isPersistentJob()) {
+	if (isPersistentJob()) {
 		char	szKey[100];
 
 		DBDeleteContactSetting(hContact, "SendLater", szId);
 		int iCount = M->GetDword(hContact, "SendLater", "count", 0);
-		if(iCount)
+		if (iCount)
 			iCount--;
 		M->WriteDword(hContact, "SendLater", "count", iCount);
 		/*
@@ -95,14 +95,14 @@ void CSendLaterJob::cleanDB()
  */
 void CSendLaterJob::readFlags()
 {
-	if(isPersistentJob()) {
+	if (isPersistentJob()) {
 		char	szKey[100];
 		DWORD	localFlags;
 
 		mir_snprintf(szKey, 100, "$%s", szId);
 		localFlags = M->GetDword(hContact, "SendLater", szKey, 0);
 
-		if(localFlags & SLF_SUSPEND)
+		if (localFlags & SLF_SUSPEND)
 			bCode = JOB_HOLD;
 	}
 }
@@ -113,7 +113,7 @@ void CSendLaterJob::readFlags()
  */
 void CSendLaterJob::writeFlags()
 {
-	if(isPersistentJob()) {
+	if (isPersistentJob()) {
 		DWORD localFlags = (bCode == JOB_HOLD ? SLF_SUSPEND : 0);
 		char	szKey[100];
 
@@ -127,13 +127,13 @@ void CSendLaterJob::writeFlags()
  */
 CSendLaterJob::~CSendLaterJob()
 {
-	if(fSuccess || fFailed) {
+	if (fSuccess || fFailed) {
 		POPUPDATAT_V2 ppd = {0};
 
 		if ((sendLater->haveErrorPopups() && fFailed) || (sendLater->haveSuccessPopups() && fSuccess)) {
 			bool fShowPopup = true;
 
-			if(fFailed && bCode == JOB_REMOVABLE)	// no popups for jobs removed on user's request
+			if (fFailed && bCode == JOB_REMOVABLE)	// no popups for jobs removed on user's request
 				fShowPopup = false;
 			/*
 			 * show a popup notification, unless they are disabled
@@ -146,12 +146,12 @@ CSendLaterJob::~CSendLaterJob()
 				ppd.cbSize = sizeof(ppd);
 				mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, _T("%s"), tszName ? tszName : TranslateT("'(Unknown Contact)'"));
 				TCHAR *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<TCHAR *>(&pBuf[lstrlenA((char *)pBuf) + 1]), 100);
-				if(fSuccess) {
+				if (fSuccess) {
 					mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("A send later job completed successfully.\nThe original message: %s"),
 								  msgPreview);
 					mir_free(msgPreview);
 				}
-				else if(fFailed) {
+				else if (fFailed) {
 					mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("A send later job failed to complete.\nThe original message: %s"),
 						msgPreview);
 					mir_free(msgPreview);
@@ -168,7 +168,7 @@ CSendLaterJob::~CSendLaterJob()
 				CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, 0);
 			}
 		}
-		if(fFailed && (bCode == JOB_AGE || bCode == JOB_REMOVABLE) && szId[0] == 'S')
+		if (fFailed && (bCode == JOB_AGE || bCode == JOB_REMOVABLE) && szId[0] == 'S')
 			cleanDB();
 		mir_free(sendBuffer);
 		mir_free(pBuf);
@@ -194,10 +194,10 @@ CSendLater::CSendLater()
  */
 CSendLater::~CSendLater()
 {
-	if(m_hwndDlg)
+	if (m_hwndDlg)
 		::DestroyWindow(m_hwndDlg);
 
-	if(m_sendLaterJobList.empty())
+	if (m_sendLaterJobList.empty())
 		return;
 
 	SendLaterJobIterator it = m_sendLaterJobList.begin();
@@ -232,7 +232,7 @@ void CSendLater::startJobListProcess()
  */
 bool CSendLater::processCurrentJob()
 {
-	if(m_sendLaterJobList.empty() || m_jobIterator == m_sendLaterJobList.end())
+	if (m_sendLaterJobList.empty() || m_jobIterator == m_sendLaterJobList.end())
 		return(false);
 
 	if ((*m_jobIterator)->fSuccess || (*m_jobIterator)->fFailed) {
@@ -269,7 +269,7 @@ void CSendLater::processSingleContact(const HANDLE hContact)
 {
 	int iCount = M->GetDword(hContact, "SendLater", "count", 0);
 
-	if(iCount) {
+	if (iCount) {
 		DBCONTACTENUMSETTINGS ces = {0};
 
 		ces.pfnEnumProc = CSendLater::addStub;
@@ -286,7 +286,7 @@ void CSendLater::processSingleContact(const HANDLE hContact)
  */
 void CSendLater::processContacts()
 {
-	if(m_fAvail && !m_sendLaterContactList.empty()) {
+	if (m_fAvail && !m_sendLaterContactList.empty()) {
 		std::vector<HANDLE>::iterator it = m_sendLaterContactList.begin();
 		while(it != m_sendLaterContactList.end()) {
 			processSingleContact(*it);
@@ -314,10 +314,10 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	char		*szOrig_Utf = 0;
 
 	if (!m_fAvail || !szSetting || !strcmp(szSetting, "count") || lstrlenA(szSetting) < 8)
-		return(0);
+		return 0;
 
-	if(szSetting[0] != 'S' && szSetting[0] != 'M')
-		return(0);
+	if (szSetting[0] != 'S' && szSetting[0] != 'M')
+		return 0;
 
 	SendLaterJobIterator it = m_sendLaterJobList.begin();
 
@@ -326,26 +326,26 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	 */
 	while(it != m_sendLaterJobList.end()) {
 		if ((*it)->hContact == hContact && !strcmp((*it)->szId, szSetting)) {
-			return(0);
+			return 0;
 		}
 		it++;
 	}
 
-	if(szSetting[0] == 'S') {
-		if(0 == DBGetContactSettingString(hContact, "SendLater", szSetting, &dbv))
+	if (szSetting[0] == 'S') {
+		if (0 == DBGetContactSettingString(hContact, "SendLater", szSetting, &dbv))
 			szOrig_Utf = dbv.pszVal;
 		else
-			return(0);
+			return 0;
 	}
-	else if(szSetting[0] == 'M') {
+	else if (szSetting[0] == 'M') {
 		char *szSep = strchr(const_cast<char *>(szSetting), '|');
 		if (!szSep)
-			return(0);
+			return 0;
 		*szSep = 0;
 		szOrig_Utf = szSep + 1;
 	}
 	else
-		return(0);
+		return 0;
 
 	CSendLaterJob *job = new CSendLaterJob;
 
@@ -369,7 +369,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 
 	szAnsi = mir_utf8decodecp(szOrig_Utf, CP_ACP, &szWchar);
 	iLen = lstrlenA(szAnsi);
-	if(szWchar)
+	if (szWchar)
 		required = iLen + 1 + ((lstrlenW(szWchar) + 1) * sizeof(wchar_t));
 	else
 		required = iLen + 1;
@@ -378,17 +378,17 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 
 	strncpy((char *)job->pBuf, szAnsi, iLen);
 	job->pBuf[iLen] = 0;
-	if(szWchar)
+	if (szWchar)
 		wcsncpy((wchar_t *)&job->pBuf[iLen + 1], szWchar, lstrlenW(szWchar));
 
-	if(szSetting[0] == 'S')
+	if (szSetting[0] == 'S')
 		DBFreeVariant(&dbv);
 
 	mir_free(szWchar);
 	job->readFlags();
 	m_sendLaterJobList.push_back(job);
 	qMgrUpdate();
-	return(1);
+	return 1;
 }
 
 /**
@@ -405,44 +405,44 @@ int CSendLater::sendIt(CSendLaterJob *job)
 	const char* szProto = 0;
 
 
-	if(job->bCode == CSendLaterJob::JOB_HOLD || job->bCode == CSendLaterJob::JOB_DEFERRED || job->fSuccess || job->fFailed || job->lastSent > now)
-		return(0);											// this one is frozen or done (will be removed soon), don't process it now.
+	if (job->bCode == CSendLaterJob::JOB_HOLD || job->bCode == CSendLaterJob::JOB_DEFERRED || job->fSuccess || job->fFailed || job->lastSent > now)
+		return 0;											// this one is frozen or done (will be removed soon), don't process it now.
 
-	if(now - job->created > SENDLATER_AGE_THRESHOLD) {		// too old, this will be discarded and user informed by popup
+	if (now - job->created > SENDLATER_AGE_THRESHOLD) {		// too old, this will be discarded and user informed by popup
 		job->fFailed = true;
 		job->bCode = CSendLaterJob::JOB_AGE;
-		return(0);
+		return 0;
 	}
 
 	/*
 	 * mark job as deferred (5 unsuccessful sends). Job will not be removed, but 
 	 * the user must manually reset it in order to trigger a new send attempt.
 	 */
-	if(job->iSendCount == 5) {
+	if (job->iSendCount == 5) {
 		job->bCode = CSendLaterJob::JOB_DEFERRED;
-		return(0);
+		return 0;
 	}
 
-	if(job->iSendCount > 0 && (now - job->lastSent < SENDLATER_RESEND_THRESHOLD)) {
+	if (job->iSendCount > 0 && (now - job->lastSent < SENDLATER_RESEND_THRESHOLD)) {
 		//_DebugTraceA("Send it: message %s for %s RESEND but not old enough", job->szId, (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0));
-		return(0);											// this one was sent, but probably failed. Resend it after a while
+		return 0;											// this one was sent, but probably failed. Resend it after a while
 	}
 
 	CContactCache *c = CContactCache::getContactCache(hContact);
 	if (!c)
-		return(0);						// should not happen
+		return 0;						// should not happen
 
 	if (!c->isValid()) {
 		job->fFailed = true;
 		job->bCode = CSendLaterJob::INVALID_CONTACT;
-		return(0);						// can happen (contact has been deleted). mark the job as failed
+		return 0;						// can happen (contact has been deleted). mark the job as failed
 	}
 
 	hContact = c->getActiveContact();
 	szProto = c->getActiveProto();
 
 	if (!hContact || szProto == 0)
-		return(0);
+		return 0;
 
 	WORD wMyStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 	WORD wContactStatus = c->getActiveStatus();
@@ -450,19 +450,19 @@ int CSendLater::sendIt(CSendLaterJob *job)
 	/*
 	 * status mode checks
 	 */
-	if(wMyStatus == ID_STATUS_OFFLINE) {
+	if (wMyStatus == ID_STATUS_OFFLINE) {
 		job->bCode = CSendLaterJob::JOB_MYSTATUS;
-		return(0);
+		return 0;
 	}
-	if(job->szId[0] == 'S') {
+	if (job->szId[0] == 'S') {
 		if (!(wMyStatus == ID_STATUS_ONLINE || wMyStatus == ID_STATUS_FREECHAT)) {
 			job->bCode = CSendLaterJob::JOB_MYSTATUS;
-			return(0);
+			return 0;
 		}
 	}
-	if(wContactStatus == ID_STATUS_OFFLINE) {
+	if (wContactStatus == ID_STATUS_OFFLINE) {
 		job->bCode = CSendLaterJob::JOB_STATUS;
-		return(0);
+		return 0;
 	}
 
 	dwFlags = IsUtfSendAvailable(hContact) ? PREF_UTF : U_PREF_UNICODE;
@@ -474,11 +474,11 @@ int CSendLater::sendIt(CSendLaterJob *job)
 	job->hTargetContact = hContact;
 	job->bCode = CSendLaterJob::JOB_WAITACK;
 
-	if(dwFlags & PREF_UTF)
+	if (dwFlags & PREF_UTF)
 		job->hProcess = (HANDLE)CallContactService(hContact, svcName, dwFlags, (LPARAM)job->sendBuffer);
 	else
 		job->hProcess = (HANDLE)CallContactService(hContact, svcName, dwFlags, (LPARAM)job->pBuf);
-	return(0);
+	return 0;
 }
 
 /*
@@ -494,7 +494,7 @@ void CSendLater::addContact(const HANDLE hContact)
 
 	std::vector<HANDLE>::iterator it = m_sendLaterContactList.begin();
 
-	if(m_sendLaterContactList.empty()) {
+	if (m_sendLaterContactList.empty()) {
 		m_sendLaterContactList.push_back(hContact);
 		m_last_sendlater_processed = 0;								// force processing at next tick
 		return;
@@ -522,8 +522,8 @@ void CSendLater::addContact(const HANDLE hContact)
  */
 HANDLE CSendLater::processAck(const ACKDATA *ack)
 {
-	if(m_sendLaterJobList.empty() || !m_fAvail)
-		return(0);
+	if (m_sendLaterJobList.empty() || !m_fAvail)
+		return 0;
 
 	SendLaterJobIterator it = m_sendLaterJobList.begin();
 
@@ -548,11 +548,11 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 			(*it)->hProcess = (HANDLE)-1;
 			(*it)->bCode = '-';
 			qMgrUpdate();
-			return(0);
+			return 0;
 		}
 		it++;
 	}
-	return(0);
+	return 0;
 }
 
 /*
@@ -561,8 +561,8 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 
 void CSendLater::qMgrUpdate(bool fReEnable)
 {
-	if(m_hwndDlg) {
-		if(fReEnable)
+	if (m_hwndDlg) {
+		if (fReEnable)
 			Utils::enableDlgControl(m_hwndDlg, IDC_QMGR_LIST, true);
 		::SendMessage(m_hwndDlg, WM_USER + 100, 0, 0);		// if qmgr is open, tell it to update
 	}
@@ -573,10 +573,10 @@ LRESULT CSendLater::qMgrAddFilter(const HANDLE hContact, const TCHAR* tszNick)
 	LRESULT lr;
 
 	lr = ::SendMessage(m_hwndFilter, CB_FINDSTRING, 0, reinterpret_cast<LPARAM>(tszNick));
-	if(lr == CB_ERR) {
+	if (lr == CB_ERR) {
 		lr = ::SendMessage(m_hwndFilter, CB_INSERTSTRING, -1, reinterpret_cast<LPARAM>(tszNick));
 		::SendMessage(m_hwndFilter, CB_SETITEMDATA, lr, reinterpret_cast<LPARAM>(hContact));
-		if(hContact == m_hFilter)
+		if (hContact == m_hFilter)
 			m_sel = lr;
 	}
 	return(m_sel);
@@ -598,7 +598,7 @@ void CSendLater::qMgrFillList(bool fClear)
 	const TCHAR*	tszStatusText = 0;
 	BYTE			bCode = '-';
 
-	if(fClear) {
+	if (fClear) {
 		::SendMessage(m_hwndList, LVM_DELETEALLITEMS, 0, 0);
 		::SendMessage(m_hwndFilter, CB_RESETCONTENT, 0, 0);
 	}
@@ -615,11 +615,11 @@ void CSendLater::qMgrFillList(bool fClear)
 	while(it != m_sendLaterJobList.end()) {
 
 		c = CContactCache::getContactCache((*it)->hContact);
-		if(c) {
+		if (c) {
 			const TCHAR*	tszNick = c->getNick();
 			TCHAR			tszBuf[255];
 
-			if(m_hFilter && m_hFilter != (*it)->hContact) {
+			if (m_hFilter && m_hFilter != (*it)->hContact) {
 				qMgrAddFilter(c->getContact(), tszNick);
 				it++;
 				continue;
@@ -690,7 +690,7 @@ void CSendLater::qMgrFillList(bool fClear)
 		}
 		it++;
 	}
-	if(m_hFilter == 0)
+	if (m_hFilter == 0)
 		::SendMessage(m_hwndFilter, CB_SETCURSEL, 0, 0);
 	else
 		::SendMessage(m_hwndFilter, CB_SETCURSEL, m_sel, 0);
@@ -715,7 +715,7 @@ void CSendLater::qMgrSetupColumns()
 	::GetWindowRect(m_hwndList, &rcList);
 	cxList = rcList.right - rcList.left;
 
-	if(0 == M->GetString(0, SRMSGMOD_T, "qmgrListColumns", &dbv)) {
+	if (0 == M->GetString(0, SRMSGMOD_T, "qmgrListColumns", &dbv)) {
 		sscanf(dbv.pszVal, szColFormat, &nWidths[0], &nWidths[1], &nWidths[2], &nWidths[3], &nWidths[4]);
 		DBFreeVariant(&dbv);
 	}
@@ -768,7 +768,7 @@ INT_PTR CALLBACK CSendLater::DlgProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPA
 {
 	CSendLater *s = reinterpret_cast<CSendLater *>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
-	if(s)
+	if (s)
 		return(s->DlgProc(hwnd, msg, wParam, lParam));
 
 	switch(msg) {
@@ -797,7 +797,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			::SendMessage(m_hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_LABELTIP|LVS_EX_DOUBLEBUFFER);
 			qMgrSetupColumns();
 			qMgrFillList();
-			if(PluginConfig.g_PopupAvail) {
+			if (PluginConfig.g_PopupAvail) {
 				::CheckDlgButton(m_hwndDlg, IDC_QMGR_SUCCESSPOPUPS, m_fSuccessPopups ? BST_CHECKED : BST_UNCHECKED);
 				::CheckDlgButton(m_hwndDlg, IDC_QMGR_ERRORPOPUPS, m_fErrorPopups ? BST_CHECKED : BST_UNCHECKED);
 			}
@@ -811,7 +811,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		case WM_NOTIFY:	{
 			NMHDR*	pNMHDR = reinterpret_cast<NMHDR *>(lParam);
 
-			if(pNMHDR->hwndFrom == m_hwndList) {
+			if (pNMHDR->hwndFrom == m_hwndList) {
 				switch(pNMHDR->code) {
 					case NM_RCLICK: {
 						HMENU hMenu = ::LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_TABCONTEXT));
@@ -828,7 +828,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 						m_fIsInteractive = true;
 						int selection = ::TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwndDlg, NULL);
-						if(selection == ID_QUEUEMANAGER_CANCELALLMULTISENDJOBS) {
+						if (selection == ID_QUEUEMANAGER_CANCELALLMULTISENDJOBS) {
 							SendLaterJobIterator it = m_sendLaterJobList.begin();
 							while(it != m_sendLaterJobList.end()) {
 								if ((*it)->szId[0] == 'M') {
@@ -838,7 +838,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 								it++;
 							}
 						}
-						else if(selection != 0) {
+						else if (selection != 0) {
 							::SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDC_QMGR_REMOVE, LOWORD(selection)), 0);
 							m_last_sendlater_processed = 0;			// force a queue check
 						}
@@ -854,9 +854,9 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 		case WM_COMMAND:
-			if(HIWORD(wParam) == CBN_SELCHANGE && reinterpret_cast<HWND>(lParam) == m_hwndFilter) {
+			if (HIWORD(wParam) == CBN_SELCHANGE && reinterpret_cast<HWND>(lParam) == m_hwndFilter) {
 				LRESULT lr = ::SendMessage(m_hwndFilter, CB_GETCURSEL, 0, 0);
-				if(lr != CB_ERR) {
+				if (lr != CB_ERR) {
 					m_hFilter = reinterpret_cast<HANDLE>(::SendMessage(m_hwndFilter, CB_GETITEMDATA, lr, 0));
 					qMgrFillList();
 				}
@@ -894,17 +894,17 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						item.mask = LVIF_STATE|LVIF_PARAM;
 						item.stateMask = LVIS_SELECTED;
 
-						if(HIWORD(wParam) != ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD) {
-							if(MessageBox(0, TranslateT("You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone."), TranslateT("Queue manager"),
+						if (HIWORD(wParam) != ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD) {
+							if (MessageBox(0, TranslateT("You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone."), TranslateT("Queue manager"),
 										  MB_ICONQUESTION | MB_OKCANCEL) == IDCANCEL)
 								break;
 						}
 						for(LRESULT i = 0; i < items; i++) {
 							item.iItem = i;
 							::SendMessage(m_hwndList, LVM_GETITEM, 0, reinterpret_cast<LPARAM>(&item));
-							if(item.state & LVIS_SELECTED) {
+							if (item.state & LVIS_SELECTED) {
 								CSendLaterJob* job = reinterpret_cast<CSendLaterJob *>(item.lParam);
-								if(job) {
+								if (job) {
 									switch(HIWORD(wParam)) {
 										case ID_QUEUEMANAGER_MARKSELECTEDFORREMOVAL:
 											job->bCode = CSendLaterJob::JOB_REMOVABLE;
@@ -929,11 +929,11 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 										 * so they can be resent at next processing
 										 */
 										case ID_QUEUEMANAGER_RESETSELECTED: {
-											if(job->bCode == CSendLaterJob::JOB_DEFERRED) {
+											if (job->bCode == CSendLaterJob::JOB_DEFERRED) {
 												job->iSendCount = 0;
 												job->bCode = '-';
 											}
-											else if(job->bCode == CSendLaterJob::JOB_AGE) {
+											else if (job->bCode == CSendLaterJob::JOB_AGE) {
 												job->fFailed = false;
 												job->bCode = '-';
 												job->created = time(0);
@@ -970,7 +970,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
  */
 void CSendLater::invokeQueueMgrDlg()
 {
-	if(m_hwndDlg == 0)
+	if (m_hwndDlg == 0)
 		m_hwndDlg = ::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SENDLATER_QMGR), 0, CSendLater::DlgProcStub, 
 										reinterpret_cast<LPARAM>(this));
 }
@@ -982,7 +982,7 @@ void CSendLater::invokeQueueMgrDlg()
 INT_PTR CSendLater::svcQMgr(WPARAM wParam, LPARAM lParam)
 {
 	sendLater->invokeQueueMgrDlg();
-	return(0);
+	return 0;
 }
 
 

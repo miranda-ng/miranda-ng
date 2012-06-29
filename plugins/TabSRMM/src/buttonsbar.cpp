@@ -640,22 +640,22 @@ void TSAPI BB_RedrawButtons(TWindowData *dat)
 
 	for (i = 0; i < LButtonsList->realCount; i++) {
 		cbd = reinterpret_cast<CustomButtonData *>(LButtonsList->items[i]);
-		if(cbd) {
+		if (cbd) {
 			hwnd = GetDlgItem(dat->hwnd, cbd->dwButtonCID);
-			if(hwnd)
+			if (hwnd)
 				InvalidateRect(hwnd, 0, TRUE);
 		}
 	}
 	for (i = 0; i < RButtonsList->realCount; i++) {
 		cbd = reinterpret_cast<CustomButtonData *>(RButtonsList->items[i]);
-		if(cbd) {
+		if (cbd) {
 			hwnd = GetDlgItem(dat->hwnd, cbd->dwButtonCID);
-			if(hwnd)
+			if (hwnd)
 				InvalidateRect(hwnd, 0, TRUE);
 		}
 	}
 	HWND hwndToggleSideBar = GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_TOGGLESIDEBAR : IDC_CHAT_TOGGLESIDEBAR);
-	if(hwndToggleSideBar && IsWindow(hwndToggleSideBar))
+	if (hwndToggleSideBar && IsWindow(hwndToggleSideBar))
 		InvalidateRect(hwndToggleSideBar, 0, TRUE);
 }
 

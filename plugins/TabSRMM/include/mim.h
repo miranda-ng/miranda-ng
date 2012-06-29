@@ -117,7 +117,7 @@ public:
 		if	(m_haveBufferedPaint)
 			m_pfnBufferedPaintUninit();
 
-		if(m_hChatLogLock != INVALID_HANDLE_VALUE)
+		if (m_hChatLogLock != INVALID_HANDLE_VALUE)
 			CloseHandle(m_hChatLogLock);
 	}
 
@@ -292,7 +292,7 @@ inline void CMimAPI::stopTimer(const char *szMsg)
 {
 	::QueryPerformanceCounter((LARGE_INTEGER *)&m_tStop);
 
-	if(szMsg)
+	if (szMsg)
 		timerMsg(szMsg);
 }
 

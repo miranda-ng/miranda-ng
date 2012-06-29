@@ -108,7 +108,7 @@ public:
 	void											flushQueue() { m_last_sendlater_processed = 0; }
 	bool											haveJobs() const
 		{
-			if(m_sendLaterJobList.empty() || m_jobIterator == m_sendLaterJobList.end())
+			if (m_sendLaterJobList.empty() || m_jobIterator == m_sendLaterJobList.end())
 				return(false);
 			else
 				return(true);

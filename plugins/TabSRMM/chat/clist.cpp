@@ -55,13 +55,13 @@ static HANDLE Clist_GroupExists(TCHAR *tszGroup)
 		if (!result) {
 			match = (!_tcscmp(tszGroup, &dbv.ptszVal[1]) && (lstrlen(tszGroup) == lstrlen(&dbv.ptszVal[1])));
 			DBFreeVariant(&dbv);
-			if(match)
+			if (match)
 				return((HANDLE)(i + 1));
 		}
 		i++;
 	}
 	while(result == 0);
-	return(0);
+	return 0;
 }
 
 HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType)
@@ -170,9 +170,9 @@ int CList_RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 					fCreate = true;
 
 				ShowRoom(si, WINDOW_VISIBLE, TRUE);
-				if(lParam && fCreate) {
+				if (lParam && fCreate) {
 					SendMessage(si->hWnd, DM_ACTIVATEME, 0, 0);
-					if(si->dat)
+					if (si->dat)
 						SetForegroundWindow(si->dat->pContainer->hwnd);
 				}
 			}
@@ -260,10 +260,10 @@ void CList_CreateGroup(TCHAR* group)
 
 	g_Settings.hGroup = Clist_GroupExists(group);
 
-	if(g_Settings.hGroup == 0) {
+	if (g_Settings.hGroup == 0) {
 		g_Settings.hGroup = (HANDLE)CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)group);
 
-		if(g_Settings.hGroup) {
+		if (g_Settings.hGroup) {
 			CallService(MS_CLUI_GROUPADDED, (WPARAM)g_Settings.hGroup, 0);
 			CallService(MS_CLIST_GROUPSETEXPANDED, (WPARAM)g_Settings.hGroup, 1);
 		}

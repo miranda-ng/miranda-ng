@@ -770,7 +770,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 	// ### RTF HEADER
 
-	if(0 == mi->pszHeader)
+	if (0 == mi->pszHeader)
 		mi->pszHeader = Log_CreateRtfHeader(mi);
 
 	header = mi->pszHeader;

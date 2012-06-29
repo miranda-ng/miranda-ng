@@ -290,7 +290,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 									SetForegroundWindow(pLastActiveContainer->hwnd);
 									SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
 								} else {
-									if(PluginConfig.m_HideOnClose)
+									if (PluginConfig.m_HideOnClose)
 										ShowWindow(pLastActiveContainer->hwnd, SW_HIDE);
 									else
 										SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
@@ -395,7 +395,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			 * if lParam == NULL, don't consider clist events, just open the message tab
 			 */
 
-			if(lParam == 0) {
+			if (lParam == 0) {
 				HandleMenuEntryFromhContact((int)wParam);
 				break;
 			}
@@ -454,20 +454,20 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendMessageCommand_W(wParam, lParam);
 			if (lParam)
 				free((void *)lParam);
-			return(0);
+			return 0;
 
 		case DM_SENDMESSAGECOMMAND:
 			SendMessageCommand(wParam, lParam);
 			if (lParam)
 				free((void *)lParam);
-			return(0);
+			return 0;
 			/*
 			* sent from the popup to "dismiss" the event. we should do this in the main thread
 			*/
 		case DM_REMOVECLISTEVENT:
 			CallService(MS_CLIST_REMOVEEVENT, wParam, lParam);
 			CallService(MS_DB_EVENT_MARKREAD, wParam, lParam);
-			return(0);
+			return 0;
 
 		case DM_SETLOCALE: {
 			HKL 	hkl = (HKL)lParam;
@@ -475,23 +475,23 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			HWND	hWnd = M->FindWindow(hContact);
 
-			if(hWnd) {
+			if (hWnd) {
 				TWindowData *dat = (TWindowData *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-				if(dat) {
+				if (dat) {
 					DBVARIANT  dbv;
 
-					if(hkl) {
+					if (hkl) {
 						dat->hkl = hkl;
 						PostMessage(dat->hwnd, DM_SETLOCALE, 0, 0);
 					}
-					if(0 == M->GetTString(hContact, SRMSGMOD_T, "locale", &dbv)) {
+					if (0 == M->GetTString(hContact, SRMSGMOD_T, "locale", &dbv)) {
 						GetLocaleID(dat, dbv.ptszVal);
 						DBFreeVariant(&dbv);
 						UpdateReadChars(dat);
 					}
 				}
 			}
-			return(0);
+			return 0;
 		}
 		/*
 		 * react to changes in the desktop composition state
@@ -504,15 +504,15 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			TContainerData *pContainer = pFirstContainer;
 
 			while (pContainer) {
-				if(fNewAero)
+				if (fNewAero)
 					SetAeroMargins(pContainer);
 				else {
 					MARGINS m = {0};
 
-					if(M->m_pfnDwmExtendFrameIntoClientArea)
+					if (M->m_pfnDwmExtendFrameIntoClientArea)
 						M->m_pfnDwmExtendFrameIntoClientArea(pContainer->hwnd, &m);
 				}
-				if(pContainer->SideBar->isActive())
+				if (pContainer->SideBar->isActive())
 					RedrawWindow(GetDlgItem(pContainer->hwnd, 5000), NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW);			// the container for the sidebar buttons
 				RedrawWindow(pContainer->hwnd, NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 				pContainer = pContainer->pNextContainer;
@@ -576,26 +576,26 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case DM_LOGSTATUSCHANGE:
 			CGlobals::logStatusChange(wParam, reinterpret_cast<CContactCache *>(lParam));
-			return(0);
+			return 0;
 
 		case DM_MUCFLASHWORKER: {
 			FLASH_PARAMS *p = reinterpret_cast<FLASH_PARAMS*>(lParam);
 
-			if(1 == wParam) {
+			if (1 == wParam) {
 				CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)p->hContact, 1);
 				p->bActiveTab = TRUE;
 				p->bInactive = FALSE;
 				p->bMustAutoswitch = p->bMustFlash = FALSE;
 			}
 
-			if(2 == wParam) {
+			if (2 == wParam) {
 				p->bActiveTab = TRUE;
 				p->bInactive = FALSE;
 				p->bMustAutoswitch = p->bMustFlash = FALSE;
 				SendMessage(p->hWnd, DM_ACTIVATEME, 0, 0);
 			}
 			DoFlashAndSoundWorker(p);
-			return(0);
+			return 0;
 		}
 
 		case WM_POWERBROADCAST:
@@ -625,7 +625,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return 0;
 
 		case WM_TIMER:
-			if(wParam == TIMERID_SENDLATER) {
+			if (wParam == TIMERID_SENDLATER) {
 				/*
 				 * send heartbeat to each open container (to manage autoclose
 				 * feature)
@@ -642,7 +642,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				/*
 				 * process send later contacts and jobs, if enough time has elapsed
 				 */
-				if(sendLater->isAvail() && !sendLater->isInteractive() && (time(0) - sendLater->lastProcessed()) > CSendLater::SENDLATER_PROCESS_INTERVAL) {
+				if (sendLater->isAvail() && !sendLater->isInteractive() && (time(0) - sendLater->lastProcessed()) > CSendLater::SENDLATER_PROCESS_INTERVAL) {
 					sendLater->setLastProcessed(time(0));
 
 					/*
@@ -666,7 +666,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			 * TODO better timings, possibly slow down when many jobs are in the
 			 * queue.
 			 */
-			else if(wParam == TIMERID_SENDLATER_TICK) {
+			else if (wParam == TIMERID_SENDLATER_TICK) {
 				if (!sendLater->haveJobs()) {
 					KillTimer(hwndDlg, wParam);
 					SetTimer(hwndDlg, TIMERID_SENDLATER, TIMEOUT_SENDLATER, 0);

@@ -73,7 +73,7 @@ TCHAR* RemoveFormatting(const TCHAR* pszWord, bool fToLower, bool fStripCR, TCHA
 	TCHAR*			szTemp = 0;
 	size_t			_buflen = 0;
 
-	if(0 == buf) {
+	if (0 == buf) {
 		szTemp = _szTemp;
 		_buflen = 20000;
 	} else {
@@ -124,8 +124,8 @@ TCHAR* RemoveFormatting(const TCHAR* pszWord, bool fToLower, bool fStripCR, TCHA
 					break;
 			}
 		} else {
-			if(fStripCR) {
-				if(0x0a == pszWord[i] || 0x0c == pszWord[i]) {
+			if (fStripCR) {
+				if (0x0a == pszWord[i] || 0x0c == pszWord[i]) {
 					szTemp[j++] = ' ';
 					i++;
 					continue;
@@ -136,7 +136,7 @@ TCHAR* RemoveFormatting(const TCHAR* pszWord, bool fToLower, bool fStripCR, TCHA
 			i++;
 		}
 	}
-	if(fToLower) {
+	if (fToLower) {
 		_wsetlocale(LC_ALL, L"");
 		wcslwr(szTemp);
 	}
@@ -174,8 +174,8 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			if (HIWORD(wParam) == STN_CLICKED) {
 				SESSION_INFO* si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)0);;
 
-				if(si) {
-					if(nen_options.maskActL & MASK_OPEN)
+				if (si) {
+					if (nen_options.maskActL & MASK_OPEN)
 						Chat_OpenPopup(si, hWnd);
 					else
 						Chat_DismissPopup(si, hWnd);
@@ -186,8 +186,8 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		case WM_CONTEXTMENU: {
 			SESSION_INFO* si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)0);
 
-			if(si && si->hContact) {
-				if(nen_options.maskActR & MASK_OPEN)
+			if (si && si->hContact) {
+				if (nen_options.maskActR & MASK_OPEN)
 					Chat_OpenPopup(si, hWnd);
 				else
 					Chat_DismissPopup(si, hWnd);
@@ -338,10 +338,10 @@ static BOOL DoPopup(SESSION_INFO* si, GCEVENT* gce, struct TWindowData* dat)
 		if (dat && pContainer != 0) {                // message window is open, need to check the container config if we want to see a popup nonetheless
 			if (nen_options.bWindowCheck) {                  // no popups at all for open windows... no exceptions
 				if (!PluginConfig.m_HideOnClose)
-					return(0);
-				if(pContainer->fHidden)
+					return 0;
+				if (pContainer->fHidden)
 					goto passed;
-				return(0);
+				return 0;
 			}
 			if (pContainer->dwFlags & CNT_DONTREPORT && IsIconic(pContainer->hwnd))        // in tray counts as "minimised"
 				goto passed;
@@ -442,7 +442,7 @@ void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
 	SESSION_INFO*		si = SM_FindSessionByHCONTACT(p->hContact);
 	TWindowData* dat = 0;
 
-	if(si == 0)
+	if (si == 0)
 		return;
 
 	if (si->hWnd) {
@@ -454,7 +454,7 @@ void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
 		if (p->sound && Utils::mustPlaySound(si->dat))
 			SkinPlaySound(p->sound);
 	}
-	else if(p->sound)
+	else if (p->sound)
 		SkinPlaySound(p->sound);
 
 	if (dat) {
@@ -473,7 +473,7 @@ void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
 				SetTimer(si->hWnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, NULL);
 			}
 		}
-		if(dat->pWnd) {
+		if (dat->pWnd) {
 			dat->pWnd->updateIcon(p->hNotifyIcon);
 			dat->pWnd->setOverlayIcon(p->hNotifyIcon, true);
 		}
@@ -539,7 +539,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 	params = (FLASH_PARAMS*)calloc(1, sizeof(FLASH_PARAMS));
 	params->hContact = si->hContact;
 	params->bInactive = TRUE;
-	if(si->hWnd && si->dat) {
+	if (si->hWnd && si->dat) {
 		dat = si->dat;
 		if ((si->hWnd == si->dat->pContainer->hwndActive) && GetForegroundWindow() == si->dat->pContainer->hwnd)
 			params->bInactive = FALSE;
@@ -560,10 +560,10 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 
 		/* TODO fix for 3.0 final !!! */
 #if !defined(__DELAYED_FOR_3_1)
-		if(g_Settings.CreateWindowOnHighlight && 0 == dat)
+		if (g_Settings.CreateWindowOnHighlight && 0 == dat)
 			wParamForHighLight = 1;
 
-		if(dat && g_Settings.AnnoyingHighlight && params->bInactive && dat->pContainer->hwnd != GetForegroundWindow()) {
+		if (dat && g_Settings.AnnoyingHighlight && params->bInactive && dat->pContainer->hwnd != GetForegroundWindow()) {
 			wParamForHighLight = 2;
 			params->hWnd = dat->hwnd;
 		}
@@ -580,7 +580,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 		// do blinking icons in tray
 		if (params->bInactive || !g_Settings.TrayIconInactiveOnly) {
 			DoTrayIcon(si, gce);
-			if(params->iEvent == GC_EVENT_MESSAGE)
+			if (params->iEvent == GC_EVENT_MESSAGE)
 				fFlagUnread = true;
 		}
 		// stupid thing to not create multiple popups for a QUIT event for instance
@@ -687,9 +687,9 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 			params->hNotifyIcon = hIcons[ICON_MESSAGE];
 		}
 	}
-	if(dat && fFlagUnread) {
+	if (dat && fFlagUnread) {
 		dat->dwUnread++;
-		if(dat->pWnd)
+		if (dat->pWnd)
 			dat->pWnd->Invalidate();
 	}
 	PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_MUCFLASHWORKER, wParamForHighLight, (LPARAM)params);
@@ -1284,13 +1284,13 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 
 	TCHAR *tszNow = MakeTimeStamp(_T("%a%d%m%Y"), tTime);
 
-	if(_tcscmp(tszOldTimeStamp, tszNow)) {
+	if (_tcscmp(tszOldTimeStamp, tszNow)) {
 		   _tcsncpy(tszOldTimeStamp, tszNow, 30);
 		   tszOldTimeStamp[29] = 0;
 		   fReparse = true;
 	}
 
-	if(fReparse || 0 == si->pszLogFileName[0]) {
+	if (fReparse || 0 == si->pszLogFileName[0]) {
 		rva[0].lptzKey = _T("d");
 		rva[0].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%#d"), tTime));
 		// day 01-31

@@ -38,16 +38,16 @@
 
 void CMUCHighlight::cleanup()
 {
-	if(m_NickPatternString)
+	if (m_NickPatternString)
 		mir_free(m_NickPatternString);
-	if(m_TextPatternString)
+	if (m_TextPatternString)
 		mir_free(m_TextPatternString);
 
 	m_TextPatternString = m_NickPatternString = 0;
 
-	if(m_NickPatterns)
+	if (m_NickPatterns)
 		mir_free(m_NickPatterns);
-	if(m_TextPatterns)
+	if (m_TextPatterns)
 		mir_free(m_TextPatterns);
 
 	m_iNickPatterns = m_iTextPatterns = 0;
@@ -58,18 +58,18 @@ void CMUCHighlight::init()
 {
 	DBVARIANT dbv = {0};
 
-	if(m_fInitialized)
+	if (m_fInitialized)
 		cleanup();							// clean up first, if we were already initialized
 
 	m_fInitialized = true;
 
-	if(0 == M->GetTString(0, "Chat", "HighlightWords", &dbv)) {
+	if (0 == M->GetTString(0, "Chat", "HighlightWords", &dbv)) {
 		m_TextPatternString = dbv.ptszVal;
 		_wsetlocale(LC_ALL, L"");
 		wcslwr(m_TextPatternString);
 	}
 
-	if(0 == M->GetTString(0, "Chat", "HighlightNames", &dbv))
+	if (0 == M->GetTString(0, "Chat", "HighlightNames", &dbv))
 		m_NickPatternString = dbv.ptszVal;
 
 	m_dwFlags = M->GetByte("Chat", "HighlightEnabled", MATCH_TEXT);
@@ -86,7 +86,7 @@ void CMUCHighlight::init()
 
 void CMUCHighlight::tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr)
 {
-	if(tszString == 0)
+	if (tszString == 0)
 		return;
 
 	TCHAR	*p = tszString;
@@ -133,8 +133,8 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 {
 	int 	result = 0, nResult = 0;
 
-	if(pgce == 0 || m_Valid == false)
-		return(0);
+	if (pgce == 0 || m_Valid == false)
+		return 0;
 
 	__try {
 		if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != 0) {
@@ -148,14 +148,14 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 			UINT	i = 0;
 
 			TCHAR	*tszMe = ((psi && psi->pMe) ? mir_tstrdup(psi->pMe->pszNick) : 0);
-			if(tszMe) {
+			if (tszMe) {
 				_wsetlocale(LC_ALL, L"");
 				wcslwr(tszMe);
 			}
 
-			if(m_fHighlightMe && tszMe) {
+			if (m_fHighlightMe && tszMe) {
 				result = wcsstr(p, tszMe) ? MATCH_TEXT : 0;
-				if(0 == m_iTextPatterns)
+				if (0 == m_iTextPatterns)
 					goto skip_textpatterns;
 			}
 			while(p && !result) {
@@ -175,7 +175,7 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 					for(i = 0; i < m_iTextPatterns && !result; i++)
 						result = wildmatch(m_TextPatterns[i], p) ? MATCH_TEXT : 0;
 
-					if(p1) {
+					if (p1) {
 						*p1 = ' ';
 						p = p1 + 1;
 					}
@@ -192,13 +192,13 @@ skip_textpatterns:
 
 	#ifdef __HLT_PERFSTATS
 			M->stopTimer(0);
-			if(psi && psi->dat) {
+			if (psi && psi->dat) {
 				mir_sntprintf(psi->dat->szStatusBar, 100, _T("PERF text match: %d ticks = %f msec (%d words, %d patterns)"), (int)M->getTicks(), M->getMsec(), words, m_iTextPatterns);
-				if(psi->dat->pContainer->hwndStatus)
+				if (psi->dat->pContainer->hwndStatus)
 					::SendMessage(psi->dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)psi->dat->szStatusBar);
 			}
 	#endif
-			if(tszMe)
+			if (tszMe)
 				mir_free(tszMe);
 		}
 
@@ -207,7 +207,7 @@ skip_textpatterns:
 		 */
 		if ((m_dwFlags & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->ptszNick && m_iNickPatterns > 0) {
 			for(UINT i = 0; i < m_iNickPatterns && !nResult; i++) {
-				if(pgce->ptszNick)
+				if (pgce->ptszNick)
 					nResult = wildmatch(m_NickPatterns[i], pgce->ptszNick) ? MATCH_NICKNAME : 0;
 				if ((m_dwFlags & MATCH_UIN) && pgce->ptszUserInfo)
 					nResult = wildmatch(m_NickPatterns[i], pgce->ptszUserInfo) ? MATCH_NICKNAME : 0;
@@ -218,9 +218,9 @@ skip_textpatterns:
 	}
 	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"MUC_HIGHLIGHT_EXCEPTION", false)) {
 		m_Valid = false;
-		return(0);
+		return 0;
 	}
-	return(0);
+	return 0;
 }
 
 int CMUCHighlight::wildmatch(const TCHAR *pattern, const TCHAR *tszString) {
@@ -272,12 +272,12 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			TranslateDialogDefault(hwndDlg);
 
-			if(0 == M->GetTString(0, "Chat", "HighlightWords", &dbv)) {
+			if (0 == M->GetTString(0, "Chat", "HighlightWords", &dbv)) {
 				::SetDlgItemTextW(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN, dbv.ptszVal);
 				::DBFreeVariant(&dbv);
 			}
 
-			if(0 == M->GetTString(0, "Chat", "HighlightNames", &dbv)) {
+			if (0 == M->GetTString(0, "Chat", "HighlightNames", &dbv)) {
 				::SetDlgItemTextW(hwndDlg, IDC_HIGHLIGHTNICKPATTERN, dbv.ptszVal);
 				::DBFreeVariant(&dbv);
 			}
@@ -326,14 +326,14 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 							wchar_t*	szBuf = 0;
 							int			iLen = ::GetWindowTextLengthW(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTNICKPATTERN));
 
-							if(iLen) {
+							if (iLen) {
 								szBuf = reinterpret_cast<wchar_t *>(mir_alloc((iLen + 2) * sizeof(wchar_t)));
 								::GetDlgItemTextW(hwndDlg, IDC_HIGHLIGHTNICKPATTERN, szBuf, iLen + 1);
 								M->WriteTString(0, "Chat", "HighlightNames",szBuf);
 							}
 
 							iLen = ::GetWindowTextLengthW(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN));
-							if(iLen) {
+							if (iLen) {
 								szBuf = reinterpret_cast<TCHAR *>(mir_realloc(szBuf, sizeof(wchar_t) * (iLen + 2)));
 								::GetDlgItemTextW(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN, szBuf, iLen + 1);
 								M->WriteTString(0, "Chat", "HighlightWords", szBuf);
@@ -345,7 +345,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 							BYTE dwFlags = (::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTNICKENABLE) ? MATCH_NICKNAME : 0) |
 								(::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTTEXTENABLE) ? MATCH_TEXT : 0);
 
-							if(dwFlags & MATCH_NICKNAME)
+							if (dwFlags & MATCH_NICKNAME)
 								dwFlags |= (::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTNICKUID) ? MATCH_UIN : 0);
 
 							M->WriteByte("Chat", "HighlightEnabled", dwFlags);
@@ -384,7 +384,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProcAdd(HWND hwndDlg, UINT msg, WPARAM wParam
 			hFont = ::CreateFontIndirectW(&lf);
 
 			::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTTITLE, WM_SETFONT, (WPARAM)hFont, FALSE);
-			if(the->uCmd == THighLightEdit::CMD_ADD) {
+			if (the->uCmd == THighLightEdit::CMD_ADD) {
 				Utils::showDlgControl(hwndDlg, IDC_ADDHIGHLIGHTEDITLIST, SW_HIDE);
 				::SetDlgItemTextW(hwndDlg, IDC_ADDHIGHLIGHTTITLE, TranslateT("Add user to highlight list"));
 				::SendDlgItemMessageW(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_INSERTSTRING, -1, (LPARAM)the->ui->pszNick);
@@ -404,14 +404,14 @@ INT_PTR CALLBACK CMUCHighlight::dlgProcAdd(HWND hwndDlg, UINT msg, WPARAM wParam
 			HWND hwndChild = (HWND)lParam;
 			UINT id = ::GetDlgCtrlID(hwndChild);
 
-			if(hwndChild == ::GetDlgItem(hwndDlg, IDC_ADDHIGHLIGHTTITLE))
+			if (hwndChild == ::GetDlgItem(hwndDlg, IDC_ADDHIGHLIGHTTITLE))
 				::SetTextColor((HDC)wParam, RGB(60, 60, 150));
 			::SetBkColor((HDC)wParam, ::GetSysColor(COLOR_WINDOW));
 			return (INT_PTR)::GetSysColorBrush(COLOR_WINDOW);
 		}
 
 		case WM_COMMAND: {
-			if(LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+			if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
 			   ::DestroyWindow(hwndDlg);
 			break;
 		}

@@ -696,7 +696,7 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\ltrpar");
 
 	/* OnO: highlight start */
-	if(fIsStatusChangeEvent)
+	if (fIsStatusChangeEvent)
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\highlight%d\\cf%d", MSGDLGFONTCOUNT + 7, MSGDLGFONTCOUNT + 7);
 	else
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\highlight%d\\cf%d", MSGDLGFONTCOUNT + (dat->isHistory?5:1) + ((isSent) ? 1 : 0), MSGDLGFONTCOUNT + (dat->isHistory?5:1) + ((isSent) ? 1 : 0));

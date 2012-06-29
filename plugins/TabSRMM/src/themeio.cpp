@@ -329,7 +329,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 					GetPrivateProfileIntA(_extSettings[i].szIniSection, _extSettings[i].szIniName, _extSettings[i].dwDef, szIniFilename));
 			}
 
-			if(version >= 5) {
+			if (version >= 5) {
 				for(i = 0; i < safe_sizeof(_extSettings_v5); i++) {
 					M->WriteDword(_extSettings_v5[i].szDbModule, _extSettings_v5[i].szDbSetting,
 						GetPrivateProfileIntA(_extSettings_v5[i].szIniSection, _extSettings_v5[i].szIniName, _extSettings_v5[i].dwDef, szIniFilename));

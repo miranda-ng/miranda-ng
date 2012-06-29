@@ -142,10 +142,10 @@ public:
 		m_IconSize = 0;
 		m_isEnabled = IsWinVer7Plus() ? true : false;
 
-		if(m_isEnabled) {
+		if (m_isEnabled) {
 			::CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&m_pTaskbarInterface);
 			updateMetrics();
-			if(0 == m_pTaskbarInterface)
+			if (0 == m_pTaskbarInterface)
 				m_isEnabled = false;
 		}
 
@@ -164,7 +164,7 @@ public:
 
 	~CTaskbarInteract()
 	{
-		if(m_isEnabled && m_pTaskbarInterface) {
+		if (m_isEnabled && m_pTaskbarInterface) {
 			m_pTaskbarInterface->Release();
 			m_pTaskbarInterface = 0;
 			m_isEnabled = false;

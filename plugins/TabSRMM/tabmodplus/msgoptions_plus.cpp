@@ -160,15 +160,15 @@ INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 		break;
 
 	case WM_COMMAND:
-		if(LOWORD(wParam) == IDC_PLUS_HELP) {
+		if (LOWORD(wParam) == IDC_PLUS_HELP) {
 			CallService(MS_UTILS_OPENURL, 0, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/AdvancedTweaks");
 			break;
 		}
-		else if(LOWORD(wParam) == IDC_PLUS_REVERT) {		// revert to defaults...
+		else if (LOWORD(wParam) == IDC_PLUS_REVERT) {		// revert to defaults...
 			TOptionListItem *lvItems = CTranslator::getTree(CTranslator::TREE_MODPLUS);
 
 			for (int i=0; lvItems[i].szName; i++)
-				if(lvItems[i].uType == LOI_TYPE_SETTING)
+				if (lvItems[i].uType == LOI_TYPE_SETTING)
 					M->WriteByte(SRMSGMOD_T, (char *)lvItems[i].lParam, (BYTE)lvItems[i].id);
 
 			TreeView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE));

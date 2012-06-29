@@ -267,7 +267,7 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 
 	PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, (WPARAM)0, (LPARAM)szProto);
 
-	if(acc && acc->tszAccountName) {
+	if (acc && acc->tszAccountName) {
 		mii.cbSize = sizeof(mii);
 		mir_sntprintf(szMenuEntry, safe_sizeof(szMenuEntry), _T("%s: %s (%s)"), acc->tszAccountName, szFinalNick, szStatus);
 		if (mode) {
