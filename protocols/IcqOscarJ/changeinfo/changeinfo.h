@@ -20,18 +20,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/changeinfo/changeinfo.h $
-// Revision       : $Revision: 12945 $
-// Last change on : $Date: 2010-10-13 06:48:50 +0200 (Ср, 13 окт 2010) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  ChangeInfo Plugin stuff
 //
 // -----------------------------------------------------------------------------
-
 
 #ifndef __CHANGEINFO_H
 #define __CHANGEINFO_H

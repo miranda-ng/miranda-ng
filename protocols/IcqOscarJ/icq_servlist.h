@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_servlist.h $
-// Revision       : $Revision: 11805 $
-// Last change on : $Date: 2010-05-20 23:54:42 +0300 (Чт, 20 май 2010) $
-// Last change by : $Author: jokusoftware $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Describe me here please...
 //
 // -----------------------------------------------------------------------------
-
 #ifndef __ICQ_SERVLIST_H
 #define __ICQ_SERVLIST_H
 

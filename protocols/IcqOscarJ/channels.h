@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/channels.h $
-// Revision       : $Revision: 11353 $
-// Last change on : $Date: 2010-03-10 02:21:03 +0200 (Ср, 10 мар 2010) $
-// Last change by : $Author: jokusoftware $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Header for FLAP Channel packet handlers
 //
 // -----------------------------------------------------------------------------
-
 #ifndef __CHANNELS_H
 #define __CHANNELS_H
 

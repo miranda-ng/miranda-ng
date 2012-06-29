@@ -458,6 +458,8 @@ __inline HANDLE mir_forkthreadowner(pThreadFuncOwner aFunc, void* owner, void* a
 {	return (HANDLE)forkthreadex(NULL, 0, (pThreadFuncEx)aFunc, owner, arg, pThreadID);
 }
 
+MIR_CORE_DLL(void) Thread_SetName(DWORD dwThreadID, const char *szThreadName);
+
 MIR_CORE_DLL(void) KillObjectThreads(void* pObject);
 
 ///////////////////////////////////////////////////////////////////////////////

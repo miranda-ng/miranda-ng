@@ -22,18 +22,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icqosc_svcs.h $
-// Revision       : $Revision: 9261 $
-// Last change on : $Date: 2009-03-28 22:16:39 +0300 (Сб, 28 мар 2009) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Describe me here please...
 //
 // -----------------------------------------------------------------------------
-
 #ifndef __ICQOSC_SVCS_H
 #define __ICQOSC_SVCS_H
 

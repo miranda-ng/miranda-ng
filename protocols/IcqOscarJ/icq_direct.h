@@ -22,18 +22,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_direct.h $
-// Revision       : $Revision: 10352 $
-// Last change on : $Date: 2009-07-18 01:39:53 +0300 (Сб, 18 июл 2009) $
-// Last change by : $Author: jokusoftware $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Describe me here please...
 //
 // -----------------------------------------------------------------------------
-
 #ifndef __ICQ_DIRECT_H
 #define __ICQ_DIRECT_H
 

@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_xtraz.cpp $
-// Revision       : $Revision: 13678 $
-// Last change on : $Date: 2011-07-04 00:53:23 +0300 (Пн, 04 июл 2011) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Internal Xtraz API
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

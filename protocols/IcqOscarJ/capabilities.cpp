@@ -22,13 +22,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/capabilities.cpp $
-// Revision       : $Revision: 13324 $
-// Last change on : $Date: 2011-01-23 17:58:59 +0200 (Вс, 23 янв 2011) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Contains helper functions to handle oscar user capabilities. Scanning and
 //  adding capabilities are assumed to be more timecritical than looking up
@@ -38,7 +32,6 @@
 //  adding process too much.
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

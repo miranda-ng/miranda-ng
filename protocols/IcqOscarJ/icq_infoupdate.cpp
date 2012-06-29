@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_infoupdate.cpp $
-// Revision       : $Revision: 13091 $
-// Last change on : $Date: 2010-11-01 21:07:18 +0200 (Пн, 01 ноя 2010) $
-// Last change by : $Author: george.hazan $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Background thread for automatic update of user details
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 
@@ -401,13 +394,14 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 	NetLog_Server("%s thread ended.", "Info-Update");
 }
 
-
 // Clean up before exit
 void CIcqProto::icq_InfoUpdateCleanup(void)
 {
 	bInfoUpdateRunning = FALSE;
 	SetEvent(hInfoQueueEvent); // break queue loop
-	if (hInfoThread) ICQWaitForSingleObject(hInfoThread, INFINITE, TRUE);
+	if (hInfoThread)
+		ICQWaitForSingleObject(hInfoThread, INFINITE, TRUE);
+
 	// Uninit mutex
 	SAFE_DELETE(&infoUpdateMutex);
 	CloseHandle(hInfoQueueEvent);

@@ -22,16 +22,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: icq_menu.cpp $
-// Revision       : $Revision: 0 $
-// Last change on : $Date: 2009-12-21 19:52:36 +0300 $
-// Last change by : $Author: Unsane $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 #include <m_skin.h>

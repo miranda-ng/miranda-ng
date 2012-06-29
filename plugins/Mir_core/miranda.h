@@ -43,6 +43,7 @@ int InitPathUtils(void);
 
 extern HINSTANCE hInst;
 extern HWND hAPCWindow;
+extern HANDLE hStackMutex, hThreadQueueEmpty;
 
 /**** modules.cpp **********************************************************************/
 
@@ -68,6 +69,8 @@ struct THookSubscriber
 	};
 };
 
+#define HOOK_SECRET_SIGNATURE 0xDEADBABA
+
 struct THook
 {
 	char name[ MAXMODULELABELLENGTH ];
@@ -75,6 +78,7 @@ struct THook
 	int  subscriberCount;
 	THookSubscriber* subscriber;
 	MIRANDAHOOK pfnHook;
+	DWORD secretSignature;
 	CRITICAL_SECTION csHook;
 };
 

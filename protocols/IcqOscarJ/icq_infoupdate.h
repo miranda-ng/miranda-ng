@@ -22,13 +22,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_infoupdate.h $
-// Revision       : $Revision: 7500 $
-// Last change on : $Date: 2008-03-24 20:07:37 +0200 (Пн, 24 мар 2008) $
-// Last change by : $Author: jokusoftware $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Describe me here please...
 //

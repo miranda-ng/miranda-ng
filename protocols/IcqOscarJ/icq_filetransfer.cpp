@@ -22,18 +22,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_filetransfer.cpp $
-// Revision       : $Revision: 12331 $
-// Last change on : $Date: 2010-08-18 16:59:50 +0300 (Ср, 18 авг 2010) $
-// Last change by : $Author: george.hazan $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Describe me here please...
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

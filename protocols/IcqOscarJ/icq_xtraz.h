@@ -22,18 +22,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_xtraz.h $
-// Revision       : $Revision: 7484 $
-// Last change on : $Date: 2008-03-21 11:43:39 +0200 (Пт, 21 мар 2008) $
-// Last change by : $Author: ghazan $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Describe me here please...
 //
 // -----------------------------------------------------------------------------
-
 #ifndef __ICQ_XTRAZ_H
 #define __ICQ_XTRAZ_H
 

@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/fam_01service.cpp $
-// Revision       : $Revision: 14141 $
-// Last change on : $Date: 2012-03-09 22:52:15 +0200 (Пт, 09 мар 2012) $
-// Last change by : $Author: george.hazan $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Handles packets from Service family
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 extern capstr capXStatus[];

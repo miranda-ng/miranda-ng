@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_db.cpp $
-// Revision       : $Revision: 12062 $
-// Last change on : $Date: 2010-06-25 10:49:28 +0300 (Пт, 25 июн 2010) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Internal Database API
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

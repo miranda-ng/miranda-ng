@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_avatar.cpp $
-// Revision       : $Revision: 14141 $
-// Last change on : $Date: 2012-03-09 22:52:15 +0200 (Пт, 09 мар 2012) $
-// Last change by : $Author: george.hazan $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Manages Avatar connection, provides internal service for handling avatars
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 #include "m_folders.h"
 

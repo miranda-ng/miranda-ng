@@ -22,18 +22,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_popups.cpp $
-// Revision       : $Revision: 14148 $
-// Last change on : $Date: 2012-03-10 00:01:01 +0200 (Сб, 10 мар 2012) $
-// Last change by : $Author: george.hazan $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  PopUp Plugin stuff
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 BOOL bPopUpService = FALSE;

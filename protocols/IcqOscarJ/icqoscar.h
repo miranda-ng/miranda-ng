@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icqoscar.h $
-// Revision       : $Revision: 14085 $
-// Last change on : $Date: 2012-02-13 12:55:56 +0200 (Пн, 13 фев 2012) $
-// Last change by : $Author: george.hazan $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 // Includes all header files that should be precompiled to speed up compilation.
 //
 // -----------------------------------------------------------------------------
-
 #define MIRANDA_VER 0x0A00
 
 #define _WIN32_WINNT 0x0501

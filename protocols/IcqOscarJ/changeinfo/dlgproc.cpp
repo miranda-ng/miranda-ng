@@ -20,18 +20,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/changeinfo/dlgproc.cpp $
-// Revision       : $Revision: 14148 $
-// Last change on : $Date: 2012-03-10 00:01:01 +0200 (Сб, 10 мар 2012) $
-// Last change by : $Author: george.hazan $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  ChangeInfo Plugin stuff
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

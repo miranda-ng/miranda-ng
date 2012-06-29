@@ -21,18 +21,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $Source: /cvsroot/miranda/miranda/protocols/IcqOscarJ/icq_advsearch.h,v $
-// Revision       : $Revision: 9261 $
-// Last change on : $Date: 2009-03-28 22:16:39 +0300 (Сб, 28 мар 2009) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Describe me here please...
 //
 // -----------------------------------------------------------------------------
-
 
 
 INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM lParam);

@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/oscar_filetransfer.cpp $
-// Revision       : $Revision: 14229 $
-// Last change on : $Date: 2012-05-14 03:26:21 +0300 (Пн, 14 май 2012) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  OSCAR File-Transfers implementation
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 struct oscarthreadstartinfo 

@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/fam_02location.cpp $
-// Revision       : $Revision: 13284 $
-// Last change on : $Date: 2011-01-17 00:42:01 +0200 (Пн, 17 янв 2011) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Handles packets from Location family
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

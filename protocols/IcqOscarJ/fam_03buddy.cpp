@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/fam_03buddy.cpp $
-// Revision       : $Revision: 13414 $
-// Last change on : $Date: 2011-03-09 15:17:26 +0200 (Ср, 09 мар 2011) $
-// Last change by : $Author: ashpynov@gmail.com $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Handles packets from Buddy family
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

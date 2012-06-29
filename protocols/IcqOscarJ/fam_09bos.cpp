@@ -22,18 +22,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/fam_09bos.cpp $
-// Revision       : $Revision: 8822 $
-// Last change on : $Date: 2009-01-11 19:17:05 +0200 (Вс, 11 янв 2009) $
-// Last change by : $Author: jokusoftware $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Describe me here please...
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 void CIcqProto::handleBosFam(unsigned char *pBuffer, WORD wBufferLength, snac_header* pSnacHeader)

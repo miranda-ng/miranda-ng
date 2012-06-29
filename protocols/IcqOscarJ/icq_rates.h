@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_rates.h $
-// Revision       : $Revision: 11570 $
-// Last change on : $Date: 2010-04-11 16:58:57 +0300 (Вс, 11 апр 2010) $
-// Last change by : $Author: jokusoftware $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Rate management
 //
 // -----------------------------------------------------------------------------
-
 #ifndef __ICQ_RATES_H
 #define __ICQ_RATES_H
 

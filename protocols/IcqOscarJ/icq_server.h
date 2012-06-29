@@ -22,18 +22,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_server.h $
-// Revision       : $Revision: 13213 $
-// Last change on : $Date: 2010-12-22 08:54:39 +0200 (Ср, 22 дек 2010) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Declarations for server thread
 //
 // -----------------------------------------------------------------------------
-
 #ifndef __ICQ_SERVER_H
 #define __ICQ_SERVER_H
 

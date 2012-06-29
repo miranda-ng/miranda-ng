@@ -20,18 +20,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/changeinfo/editstring.cpp $
-// Revision       : $Revision: 11081 $
-// Last change on : $Date: 2009-12-22 00:10:01 +0200 (Вт, 22 дек 2009) $
-// Last change by : $Author: jokusoftware $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  ChangeInfo Plugin stuff
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

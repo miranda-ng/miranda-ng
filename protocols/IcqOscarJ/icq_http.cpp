@@ -22,18 +22,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $Source: /cvsroot/miranda/miranda/protocols/IcqOscarJ/icq_http.c,v $
-// Revision       : $Revision: 12606 $
-// Last change on : $Date: 2010-09-06 15:38:27 +0300 (Пн, 06 сен 2010) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  HTTP Gateway Handling routines
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 int icq_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr)

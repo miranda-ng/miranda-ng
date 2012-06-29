@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/i18n.h $
-// Revision       : $Revision: 11599 $
-// Last change on : $Date: 2010-04-19 09:00:16 +0300 (Пн, 19 апр 2010) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Helper functions to convert text messages between different character sets.
 //
 // -----------------------------------------------------------------------------
-
 
 #ifndef __I18N_H
 #define __I18N_H

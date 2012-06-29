@@ -83,7 +83,7 @@ HANDLE hShutdownEvent, hPreShutdownEvent;
 static HANDLE hWaitObjects[MAXIMUM_WAIT_OBJECTS-1];
 static char *pszWaitServices[MAXIMUM_WAIT_OBJECTS-1];
 static int waitObjectCount = 0;
-HANDLE hMirandaShutdown, hThreadQueueEmpty;
+HANDLE hMirandaShutdown;
 HINSTANCE hInst;
 int hLangpack = 0;
 
@@ -350,7 +350,6 @@ exit:
 	UnloadNewPluginsModule();
 	UnloadCoreModule();
 	CloseHandle(hMirandaShutdown);
-	CloseHandle(hThreadQueueEmpty);
 
 	if (pTaskbarInterface)
 		pTaskbarInterface->Release();
@@ -446,7 +445,6 @@ static INT_PTR RemoveWait(WPARAM wParam, LPARAM)
 int LoadSystemModule(void)
 {
 	hMirandaShutdown = CreateEvent(NULL, TRUE, FALSE, NULL);
-	hThreadQueueEmpty = CreateEvent(NULL, TRUE, TRUE, NULL);
 
 	hShutdownEvent = CreateHookableEvent(ME_SYSTEM_SHUTDOWN);
 	hPreShutdownEvent = CreateHookableEvent(ME_SYSTEM_PRESHUTDOWN);

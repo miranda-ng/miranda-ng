@@ -22,19 +22,12 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/i18n.cpp $
-// Revision       : $Revision: 11818 $
-// Last change on : $Date: 2010-05-23 15:37:24 +0300 (Вс, 23 май 2010) $
-// Last change by : $Author: jokusoftware $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Contains helper functions to convert text messages between different
 //  character sets.
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

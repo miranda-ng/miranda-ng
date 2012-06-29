@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icqosc_svcs.cpp $
-// Revision       : $Revision: 14152 $
-// Last change on : $Date: 2012-03-10 19:53:00 +0200 (Сб, 10 мар 2012) $
-// Last change by : $Author: george.hazan $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  High-level code for exported API services
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

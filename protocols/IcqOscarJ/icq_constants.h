@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_constants.h $
-// Revision       : $Revision: 14075 $
-// Last change on : $Date: 2012-02-11 16:41:20 +0200 (Сб, 11 фев 2012) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Global constants and default settings are defined here
 //
 // -----------------------------------------------------------------------------
-
 // Most of the protocol constants follow the naming conventions of the
 // Oscar documentation at http://iserverd.khstu.ru/oscar/index.html
 // BIG THANKS to Alexandr for maintaining this site and to everyone

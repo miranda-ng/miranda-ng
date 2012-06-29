@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/cookies.cpp $
-// Revision       : $Revision: 14075 $
-// Last change on : $Date: 2012-02-11 16:41:20 +0200 (Сб, 11 фев 2012) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Handles packet & message cookies
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_servlist.cpp $
-// Revision       : $Revision: 14146 $
-// Last change on : $Date: 2012-03-09 23:54:49 +0200 (Пт, 09 мар 2012) $
-// Last change by : $Author: george.hazan $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Functions that handles list of used server IDs, sends low-level packets for SSI information
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

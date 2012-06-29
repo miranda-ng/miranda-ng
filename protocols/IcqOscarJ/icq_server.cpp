@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_server.cpp $
-// Revision       : $Revision: 13324 $
-// Last change on : $Date: 2011-01-23 17:58:59 +0200 (Вс, 23 янв 2011) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Manages main server connection, low-level communication
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 
@@ -79,7 +72,6 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 				return;
 			}
 		}
-
 	}
 
 	// Login error
@@ -225,7 +217,8 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 
 	servlistPendingFlushOperations(); // clear pending operations list
 
-	{ // release rates queues
+	// release rates queues
+	{
 		icq_lock l(m_ratesMutex);
 
 		SAFE_DELETE((void_struct**)&m_ratesQueue_Request);

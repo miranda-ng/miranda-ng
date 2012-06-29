@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/iconlib.cpp $
-// Revision       : $Revision: 13324 $
-// Last change on : $Date: 2011-01-23 17:58:59 +0200 (Вс, 23 янв 2011) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Support for IcoLib plug-in
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 #include "m_icolib.h"
 

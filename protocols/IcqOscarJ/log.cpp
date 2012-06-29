@@ -22,18 +22,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/log.cpp $
-// Revision       : $Revision: 10574 $
-// Last change on : $Date: 2009-08-18 20:20:42 +0300 (Вт, 18 авг 2009) $
-// Last change by : $Author: jokusoftware $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Describe me here please...
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 extern BOOL bPopUpService;

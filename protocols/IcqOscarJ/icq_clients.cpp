@@ -22,18 +22,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_clients.cpp $
-// Revision       : $Revision: 13847 $
-// Last change on : $Date: 2011-09-07 22:12:32 +0300 (Ср, 07 сен 2011) $
-// Last change by : $Author: george.hazan $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Provides capability & signature based client detection
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 

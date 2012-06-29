@@ -22,23 +22,15 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/icq_proto.cpp $
-// Revision       : $Revision: 14148 $
-// Last change on : $Date: 2012-03-10 00:01:01 +0200 (Сб, 10 мар 2012) $
-// Last change by : $Author: george.hazan $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Protocol Interface Implementation
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 #include "m_icolib.h"
 #include "m_updater.h"
-
 
 extern PLUGININFOEX pluginInfo;
 extern HANDLE hExtraXStatus;
@@ -249,15 +241,6 @@ CIcqProto::~CIcqProto()
 	m_bXStatusEnabled = 10; // block clist changing
 	m_bMoodsEnabled = 10;
 
-	// Make sure all connections are closed
-	CloseContactDirectConns(NULL);
-	while ( true ) {
-		if ( !directConns.getCount())
-			break;
-
-		Sleep(10);     /* yeah, ugly */
-	}
-
 	// Serv-list update board clean-up
 	FlushServerIDs();
 	/// TODO: make sure server-list handler thread is not running
@@ -382,6 +365,9 @@ int CIcqProto::OnPreShutdown(WPARAM wParam,LPARAM lParam)
 {
 	// all threads should be terminated here
 	icq_InfoUpdateCleanup();
+
+	// Make sure all connections are closed
+	CloseContactDirectConns(NULL);
 	return 0;
 }
 

@@ -22,18 +22,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/init.h $
-// Revision       : $Revision: 13284 $
-// Last change on : $Date: 2011-01-17 00:42:01 +0200 (Пн, 17 янв 2011) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Describe me here please...
 //
 // -----------------------------------------------------------------------------
-
 // Debug defines
 #define DBG_CAPHTML
 #define DBG_CAPMTN

@@ -22,18 +22,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/chan_04close.cpp $
-// Revision       : $Revision: 13324 $
-// Last change on : $Date: 2011-01-23 17:58:59 +0200 (Вс, 23 янв 2011) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Describe me here please...
 //
 // -----------------------------------------------------------------------------
-
 #include "icqoscar.h"
 
 
@@ -104,7 +97,7 @@ void CIcqProto::handleLoginReply(BYTE *buf, WORD datalen, serverthread_info *inf
 		handleSignonError(wError);
 
 		// we return only if the server did not gave us cookie (possible to connect with soft error)
-		if (!chain->getLength(0x06, 1)) 
+		if (!chain->getLength(0x06, 1))
 		{
 			disposeChain(&chain);
 			SetCurrentStatus(ID_STATUS_OFFLINE);
@@ -171,7 +164,7 @@ int CIcqProto::connectNewServer(serverthread_info *info)
 		}
 
 		if (hServerConn)
-		{ 
+		{
 			/* Time to recreate the packet receiver */
 			info->hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hServerConn, 0x2400);
 			if (!info->hPacketRecver)

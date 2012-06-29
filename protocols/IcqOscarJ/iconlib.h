@@ -22,18 +22,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/iconlib.h $
-// Revision       : $Revision: 11719 $
-// Last change on : $Date: 2010-05-09 01:01:13 +0300 (Вс, 09 май 2010) $
-// Last change by : $Author: borkra $
-//
-// DESCRIPTION:
+//  DESCRIPTION:
 //
 //  Headers for IconLib Plugin / module support
 //
 // -----------------------------------------------------------------------------
-
 #ifndef __ICONLIB_H
 #define __ICONLIB_H
 
