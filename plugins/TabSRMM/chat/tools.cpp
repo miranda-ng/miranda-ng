@@ -536,7 +536,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 	if (gce == 0 || si == 0 || gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
 
-	params = (FLASH_PARAMS*)mir_calloc(1, sizeof(FLASH_PARAMS));
+	params = (FLASH_PARAMS*)calloc(1, sizeof(FLASH_PARAMS));
 	params->hContact = si->hContact;
 	params->bInactive = TRUE;
 	if (si->hWnd && si->dat) {

@@ -29,7 +29,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		TranslateDialogDefault(hwndDlg);
 		{
 			DBVARIANT dbv;
-			if ( !DBGetContactSettingTString( NULL, MODULENAME, SETTING_STARTUPTEXT, &dbv )) {
+			if (!DBGetContactSettingTString( NULL, MODULENAME, SETTING_STARTUPTEXT, &dbv )) {
 				SetDlgItemText(hwndDlg, IDC_FORMATTEXT, dbv.ptszVal);
 				DBFreeVariant(&dbv);
 			}
@@ -44,7 +44,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		break;
 
 	case WM_COMMAND:
-		if ( (HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED)) {
+		if ((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED)) {
 			switch (LOWORD(wParam)) {
 			case IDC_PARSEATSTARTUP:
 			case IDC_STRIPCRLF:
@@ -57,7 +57,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 				gParseOpts.bStripAll = IsDlgButtonChecked(hwndDlg, IDC_STRIPALL);
 				break;
 			}
-			if ( LOWORD(wParam) == IDC_FORMATTEXT && IsDlgButtonChecked( hwndDlg, IDC_AUTOPARSE ))
+			if (LOWORD(wParam) == IDC_FORMATTEXT && IsDlgButtonChecked( hwndDlg, IDC_AUTOPARSE ))
 				SendMessage(hwndDlg, VARM_PARSE, 0, 0);
 		}
 		switch (LOWORD(wParam)) {
@@ -67,7 +67,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 
 		case IDC_AUTOPARSE:
 			SendMessage(hwndDlg, VARM_PARSE, 0, 0);
-			if ( IsDlgButtonChecked( hwndDlg, IDC_AUTOPARSE ))
+			if (IsDlgButtonChecked( hwndDlg, IDC_AUTOPARSE ))
 				SetTimer(hwndDlg, IDT_PARSE, 1000, NULL);
 			else
 				KillTimer(hwndDlg, IDT_PARSE);

@@ -30,7 +30,7 @@ int ProtoServiceExists(const char *szModule, const char *szService) {
 char *Hlp_GetProtocolNameA(const char *proto) {
 
 	char protoname[256];
-	if ( (!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)))
+	if ((!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)))
 		return NULL;
 
 	return mir_strdup(protoname);
@@ -39,7 +39,7 @@ char *Hlp_GetProtocolNameA(const char *proto) {
 TCHAR *Hlp_GetProtocolName(const char *proto) {
 
 	char protoname[256];
-	if ( (!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)))
+	if ((!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)))
 		return NULL;
 
 	return mir_a2t(protoname);
@@ -210,7 +210,7 @@ int AddErrorLogMessage(const TCHAR* fmt, ...) {
 //
 int ttoi(TCHAR *string)
 {
-	return ( string == NULL ) ? 0 : _ttoi( string );
+	return ( string == NULL) ? 0 : _ttoi( string );
 }
 
 TCHAR *itot(int num) {
@@ -237,7 +237,7 @@ int Hlp_UnicodeCheck(char *szPluginName, BOOL bForce, const char *szModule) {
 	if (!CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)sizeof(szVersionText), (LPARAM)szVersionText)) {
 		ptr = strstr(szVersionText, "Unicode");
 
-		if ( (ptr == NULL) && (!DBGetContactSettingByte(NULL, szModule, SETTING_NOENCODINGCHECK, 0))) {
+		if ((ptr == NULL) && (!DBGetContactSettingByte(NULL, szModule, SETTING_NOENCODINGCHECK, 0))) {
 			if (bForce) {
 				MessageBoxA(NULL, "You are running the ANSI version Miranda. Please use the ANSI build of this plugin.", szPluginName, MB_OK);
 				

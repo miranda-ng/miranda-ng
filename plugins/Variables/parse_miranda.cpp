@@ -79,35 +79,29 @@ static int getContactInfoFlags(TCHAR *tszDesc)
 
 static TCHAR *parseContact(ARGUMENTSINFO *ai)
 {
-	CONTACTSINFO ci;
-	int count, n;
-	HANDLE hContact;
-
-	if ( ai->argc < 3 || ai->argc > 4 )
+	if (ai->argc < 3 || ai->argc > 4 )
 		return NULL;
 
-	n = 0;
-	if ( ai->argc == 4 && *ai->targv[3] != _T('r'))
+	int n = 0;
+	if (ai->argc == 4 && *ai->targv[3] != _T('r'))
 		n = ttoi(ai->targv[3]) - 1;
 
-	ZeroMemory(&ci, sizeof(ci));
+	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = getContactInfoFlags(ai->targv[2]);
-	count = getContactFromString( &ci );
-	if ( count == 0 || ci.hContacts == NULL )
+	int count = getContactFromString( &ci );
+	if (count == 0 || ci.hContacts == NULL)
 		return NULL;
 
-	if ( ai->argc == 4 && *ai->targv[3] == _T('r'))
+	if (ai->argc == 4 && *ai->targv[3] == _T('r'))
 		n = rand() % count;
 
-	if ( count != 1 && ai->argc != 4 ) {
-		if ( ci.hContacts != NULL )
-			mir_free(ci.hContacts);
-
+	if (count != 1 && ai->argc != 4 ) {
+		mir_free(ci.hContacts);
 		return NULL;
 	}
-	hContact = ci.hContacts[n];
+	HANDLE hContact = ci.hContacts[n];
 	log_debugA("contact: %x", hContact);
 	mir_free(ci.hContacts);
 
@@ -124,7 +118,7 @@ static TCHAR *parseContactCount(ARGUMENTSINFO *ai)
 	ci.tszContact = ai->targv[1];
 	ci.flags = getContactInfoFlags(ai->targv[2]);
 	int count = getContactFromString( &ci );
-	if ( count != 0 && ci.hContacts != NULL )
+	if (count != 0 && ci.hContacts != NULL)
 		mir_free(ci.hContacts);
 
 	return itot(count);
@@ -132,30 +126,24 @@ static TCHAR *parseContactCount(ARGUMENTSINFO *ai)
 
 static TCHAR *parseContactInfo(ARGUMENTSINFO *ai)
 {
-	HANDLE hContact;
-	CONTACTSINFO ci;
-	int count;
-	BYTE type;
-
 	if (ai->argc != 3)
 		return NULL;
 
-	hContact = NULL;
-	ZeroMemory(&ci, sizeof(ci));
+	HANDLE hContact = NULL;
+	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
-	count = getContactFromString( &ci );
-	if ( count == 1 && ci.hContacts != NULL ) {
+	int count = getContactFromString( &ci );
+	if (count == 1 && ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
 	}
 	else {
-		if (ci.hContacts != NULL)
-			mir_free(ci.hContacts);
+		mir_free(ci.hContacts);
 		return NULL;
 	}
-	type = getContactInfoType(ai->targv[2]);
+	BYTE type = getContactInfoType(ai->targv[2]);
 	if (type == 0)
 		return NULL;
 
@@ -164,32 +152,30 @@ static TCHAR *parseContactInfo(ARGUMENTSINFO *ai)
 
 static TCHAR *parseDBProfileName(ARGUMENTSINFO *ai)
 {
-	char name[MAX_PATH];
-
 	if (ai->argc != 1)
 		return NULL;
 
-	if (CallService(MS_DB_GETPROFILENAME, SIZEOF(name), (LPARAM)name))
+	TCHAR name[MAX_PATH];
+	if (CallService(MS_DB_GETPROFILENAMET, SIZEOF(name), (LPARAM)name))
 		return NULL;
 
-	return mir_a2t(name);
+	return mir_tstrdup(name);
 }
 
-static TCHAR *parseDBProfilePath(ARGUMENTSINFO *ai) {
-
-	char path[MAX_PATH];
-
+static TCHAR *parseDBProfilePath(ARGUMENTSINFO *ai)
+{
 	if (ai->argc != 1)
 		return NULL;
 
-	if (CallService(MS_DB_GETPROFILEPATH, SIZEOF(path), (LPARAM)path))
+	TCHAR path[MAX_PATH];
+	if (CallService(MS_DB_GETPROFILEPATHT, SIZEOF(path), (LPARAM)path))
 		return NULL;
 	
-	return mir_a2t(path);
+	return mir_tstrdup(path);
 }
 
-static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* defaultValue) {
-
+static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* defaultValue)
+{
 	DBVARIANT dbv;
 	if (DBGetContactSettingW(hContact, module, setting, &dbv))
 		return defaultValue;
@@ -209,7 +195,7 @@ static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* 
 		var = mir_a2t(dbv.pszVal);
 		break;
 	case DBVT_WCHAR:
-		var = _wcsdup(dbv.pwszVal);
+		var = mir_wstrdup(dbv.pwszVal);
 		break;
 	case DBVT_UTF8:
 		Utf8Decode(dbv.pszVal, &var);
@@ -222,42 +208,35 @@ static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* 
 
 static TCHAR *parseDBSetting(ARGUMENTSINFO *ai)
 {
-	CONTACTSINFO ci;
-	HANDLE hContact;
-	int count;
-	char *szModule, *szSetting;
-	TCHAR *res, *szDefaultValue;
-
 	if (ai->argc < 4)
 		return NULL;
 
-	res = NULL;
-	hContact = NULL;
-	szDefaultValue = NULL;
-	if (_tcslen(ai->targv[1]) > 0) {
-		ZeroMemory(&ci, sizeof(ci));
+	TCHAR *res = NULL, *szDefaultValue = NULL;
+	HANDLE hContact = NULL;
+	
+	if ( _tcslen(ai->targv[1]) > 0) {
+		CONTACTSINFO ci = { 0 };
 		ci.cbSize = sizeof(ci);
 		ci.tszContact = ai->targv[1];
 		ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
-		count = getContactFromString( &ci );
-		if ( count == 1 && ci.hContacts != NULL ) {
+		int count = getContactFromString( &ci );
+		if (count == 1 && ci.hContacts != NULL) {
 			hContact = ci.hContacts[0];
 			mir_free(ci.hContacts);
 		}
 		else {
-			if (ci.hContacts != NULL)
-				mir_free(ci.hContacts);
+			mir_free(ci.hContacts);
 			return NULL;
 		}
 	}
 
-	szModule = mir_t2a(ai->targv[2]);
-	szSetting = mir_t2a(ai->targv[3]);
+	char *szModule = mir_t2a(ai->targv[2]);
+	char *szSetting = mir_t2a(ai->targv[3]);
 
-	if ( ai->argc > 4 && _tcslen(ai->targv[4]) > 0 )
+	if (ai->argc > 4 && _tcslen(ai->targv[4]) > 0)
 		szDefaultValue = mir_tstrdup(ai->targv[4]);
 
-	if ( szModule != NULL && szSetting != NULL ) {
+	if (szModule != NULL && szSetting != NULL) {
 		res = getDBSetting(hContact, szModule, szSetting, szDefaultValue);
 		mir_free(szModule);
 		mir_free(szSetting);
@@ -267,23 +246,16 @@ static TCHAR *parseDBSetting(ARGUMENTSINFO *ai)
 
 static TCHAR *parseLastSeenDate(ARGUMENTSINFO *ai)
 {
-	HANDLE hContact;
-	CONTACTSINFO ci;
-	int count, len;
-	SYSTEMTIME lsTime;
-	TCHAR *szFormat, *res;
-	char *szModule;
-
 	if (ai->argc <= 1)
 		return NULL;
 
-	hContact = NULL;
-	ZeroMemory(&ci, sizeof(ci));
+	HANDLE hContact = NULL;
+	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
-	count = getContactFromString( &ci );
-	if ( count == 1 && ci.hContacts != NULL ) {
+	int count = getContactFromString( &ci );
+	if (count == 1 && ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
 	}
@@ -292,13 +264,15 @@ static TCHAR *parseLastSeenDate(ARGUMENTSINFO *ai)
 			mir_free(ci.hContacts);
 		return NULL;
 	}
-	if ( ai->argc == 2 || (ai->argc > 2 && _tcslen(ai->targv[2]) == 0))
+
+	TCHAR *szFormat;
+	if (ai->argc == 2 || (ai->argc > 2 && _tcslen(ai->targv[2]) == 0))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[2];
 
-	ZeroMemory(&lsTime, sizeof(lsTime));
-	szModule = CEX_MODULE;
+	SYSTEMTIME lsTime = { 0 };
+	char *szModule = CEX_MODULE;
 	lsTime.wYear = DBGetContactSettingWord(hContact, szModule, "Year", 0);
 	if (lsTime.wYear == 0)
 		szModule = SEEN_MODULE;
@@ -315,8 +289,8 @@ static TCHAR *parseLastSeenDate(ARGUMENTSINFO *ai)
 	lsTime.wDayOfWeek = DBGetContactSettingWord(hContact, szModule, "WeekDay", 0);
 	lsTime.wMonth = DBGetContactSettingWord(hContact, szModule, "Month", 0);
 
-	len = GetDateFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
-	res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+	int len = GetDateFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
+	TCHAR *res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -330,38 +304,33 @@ static TCHAR *parseLastSeenDate(ARGUMENTSINFO *ai)
 
 static TCHAR *parseLastSeenTime(ARGUMENTSINFO *ai)
 {
-	HANDLE hContact;
-	CONTACTSINFO ci;
-	int count, len;
-	SYSTEMTIME lsTime;
-	TCHAR *szFormat, *res;
-	char *szModule;
-
 	if (ai->argc <= 1)
 		return NULL;
 
-	hContact = NULL;
-	ZeroMemory(&ci, sizeof(ci));
+	HANDLE hContact = NULL;
+
+	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
-	count = getContactFromString( &ci );
-	if ( count == 1 && ci.hContacts != NULL ) {
+	int count = getContactFromString( &ci );
+	if (count == 1 && ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
 	}
 	else {
-		if (ci.hContacts != NULL)
-			mir_free(ci.hContacts);
+		mir_free(ci.hContacts);
 		return NULL;
 	}
-	if ( ai->argc == 2 || (ai->argc > 2 && _tcslen(ai->targv[2]) == 0))
+
+	TCHAR *szFormat;
+	if (ai->argc == 2 || (ai->argc > 2 && _tcslen(ai->targv[2]) == 0))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[2];
 
-	ZeroMemory(&lsTime, sizeof(lsTime));
-	szModule = CEX_MODULE;
+	SYSTEMTIME lsTime = { 0 };
+	char *szModule = CEX_MODULE;
 	lsTime.wYear = DBGetContactSettingWord(hContact, szModule, "Year", 0);
 	if (lsTime.wYear == 0)
 		szModule = SEEN_MODULE;
@@ -379,8 +348,8 @@ static TCHAR *parseLastSeenTime(ARGUMENTSINFO *ai)
 	lsTime.wMonth = DBGetContactSettingWord(hContact, szModule, "Month", 0);
 	lsTime.wYear = DBGetContactSettingWord(hContact, szModule, "Year", 0);
 
-	len = GetTimeFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
-	res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+	int len = GetTimeFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
+	TCHAR *res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -392,34 +361,27 @@ static TCHAR *parseLastSeenTime(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR *parseLastSeenStatus(ARGUMENTSINFO *ai) {
-
-	HANDLE hContact;
-	CONTACTSINFO ci;
-	int count, status;
-	char *szModule;
-	TCHAR *szStatus;
-
+static TCHAR *parseLastSeenStatus(ARGUMENTSINFO *ai)
+{
 	if (ai->argc != 2)
 		return NULL;
 
-	hContact = NULL;
-	ZeroMemory(&ci, sizeof(ci));
+	HANDLE hContact = NULL;
+	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
-	count = getContactFromString( &ci );
-	if ( (count == 1) && (ci.hContacts != NULL)) {
+	int count = getContactFromString( &ci );
+	if ((count == 1) && (ci.hContacts != NULL)) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
 	}
 	else {
-		if (ci.hContacts != NULL)
-			mir_free(ci.hContacts);
+		mir_free(ci.hContacts);
 		return NULL;
 	}
-	szModule = CEX_MODULE;
-	status = DBGetContactSettingWord(hContact, szModule, "Status", 0);
+	char *szModule = CEX_MODULE;
+	int status = DBGetContactSettingWord(hContact, szModule, "Status", 0);
 	if (status == 0)
 		szModule = SEEN_MODULE;
 
@@ -427,46 +389,38 @@ static TCHAR *parseLastSeenStatus(ARGUMENTSINFO *ai) {
 	if (status == 0)
 		return NULL;
 
-	szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_UNICODE);
+	TCHAR *szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
 	if (szStatus != NULL)
 		return mir_tstrdup(szStatus);
 
 	return NULL;
 }
 
-static TCHAR *parseMirandaPath(ARGUMENTSINFO *ai) {
-
-	TCHAR path[MAX_PATH];
-
+static TCHAR *parseMirandaPath(ARGUMENTSINFO *ai)
+{
 	if (ai->argc != 1)
 		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
+	TCHAR path[MAX_PATH];
 	if (GetModuleFileName(NULL, path, SIZEOF(path)) == 0)
 		return NULL;
 
 	return mir_tstrdup(path);
 }
 
-static TCHAR *parseMyStatus(ARGUMENTSINFO *ai) {
-
-	int status;
-	char *szProto;
-	TCHAR *szStatus;
-
+static TCHAR *parseMyStatus(ARGUMENTSINFO *ai)
+{
 	if (ai->argc > 2)
 		return NULL;
 
-	if ( ai->argc == 1 || _tcslen(ai->targv[1]) == 0 )
+	int status;
+	if (ai->argc == 1 || _tcslen(ai->targv[1]) == 0 )
 		status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
-	else {
+	else
+		status = CallProtoService( _T2A(ai->targv[1]), PS_GETSTATUS, 0, 0);
 
-		szProto = mir_t2a(ai->targv[1]);
-
-		status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-		mir_free(szProto);
-	}
-	szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_UNICODE);
+	TCHAR *szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_UNICODE);
 	if (szStatus != NULL)
 		return mir_tstrdup(szStatus);
 
@@ -475,49 +429,40 @@ static TCHAR *parseMyStatus(ARGUMENTSINFO *ai) {
 
 static TCHAR *parseProtoInfo(ARGUMENTSINFO *ai)
 {
-	TCHAR *tszRes;
-	char *szProto, *szRes;
-
 	if (ai->argc != 3)
 		return NULL;
 
-	szRes = NULL;
-	tszRes = NULL;
-
-	szProto = mir_t2a(ai->targv[1]);
+	char *szRes = NULL;
+	TCHAR *tszRes = NULL;
+	char *szProto = mir_t2a(ai->targv[1]);
 
 	if (!_tcscmp(ai->targv[2], _T(STR_PINAME)))
 		tszRes = Hlp_GetProtocolName(szProto);
 	else if (!_tcscmp(ai->targv[2], _T(STR_PIUIDTEXT))) {
-		char *szText;
-
 		if (!ProtoServiceExists(szProto, PS_GETCAPS))
 			return NULL;
 
-		szText = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDTEXT, 0);
+		char *szText = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDTEXT, 0);
 		if (szText != NULL)
 			szRes = _strdup(szText);
 	}
 	else if (!_tcscmp(ai->targv[2], _T(STR_PIUIDSETTING))) {
-		char *szText;
 		if (!ProtoServiceExists(szProto, PS_GETCAPS))
 			return NULL;
 
-		szText = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
+		char *szText = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
 		if (szText != NULL)
 			szRes = _strdup(szText);
 	}
 	mir_free(szProto);
-	if ( szRes == NULL && tszRes == NULL )
+	if (szRes == NULL && tszRes == NULL)
 		return NULL;
 
-	if ( szRes != NULL && tszRes == NULL ) {
-		
-			tszRes = mir_a2t(szRes);
-			mir_free(szRes);
-		
+	if (szRes != NULL && tszRes == NULL) {
+		tszRes = mir_a2t(szRes);
+		mir_free(szRes);
 	}
-	else if ( szRes != NULL && tszRes != NULL )
+	else if (szRes != NULL && tszRes != NULL)
 		mir_free(szRes);
 
 	return tszRes;
@@ -525,16 +470,13 @@ static TCHAR *parseProtoInfo(ARGUMENTSINFO *ai)
 
 static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
 {
-	char *szProto;
-	TCHAR *szUniqueID, *res, *tszProto;
-
-	if ( ai->argc != 1 || ai->fi->hContact == NULL )
+	if (ai->argc != 1 || ai->fi->hContact == NULL)
 		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
-	res = NULL;
-	szUniqueID = NULL;
-	szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ai->fi->hContact, 0);
+	TCHAR *res = NULL;
+	TCHAR *szUniqueID = NULL;
+	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ai->fi->hContact, 0);
 	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, ai->fi->hContact, 1);
 
@@ -543,7 +485,7 @@ static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
 		//szUniqueID = itot((INT_PTR)ai->fi->hContact);
 		szUniqueID = (TCHAR*)mir_alloc(32);
 		_stprintf(szUniqueID, _T("%p"), ai->fi->hContact);
-		if ( szProto == NULL || szUniqueID == NULL )
+		if (szProto == NULL || szUniqueID == NULL)
 			return NULL;
 	}
 
@@ -553,11 +495,8 @@ static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	
-		tszProto = mir_a2t(szProto);
-	
-
-	if ( tszProto != NULL && szUniqueID != NULL ) {
+	TCHAR *tszProto = mir_a2t(szProto);
+	if (tszProto != NULL && szUniqueID != NULL) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
 		mir_free(szUniqueID);
 		mir_free(tszProto);
@@ -595,9 +534,9 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 		dbe.cbBlob = 0;
 		dbe.pBlob = NULL;
 		if (hContact != NULL) {
-			if ( (flags & DBE_FIRST) && (flags & DBE_UNREAD)) {
+			if ((flags & DBE_FIRST) && (flags & DBE_UNREAD)) {
 				hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0);
-				if ( hDbEvent == NULL && (flags & DBE_READ))
+				if (hDbEvent == NULL && (flags & DBE_READ))
 					hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
 			}
 			else if (flags & DBE_FIRST)
@@ -672,7 +611,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
 						if (!CallService(MS_DB_EVENT_GET, (WPARAM)hSearchEvent, (LPARAM)&dbe)) {
-							if ( ((dbe.timestamp > matchTimestamp) || (matchTimestamp == 0)) && (dbe.timestamp < priorTimestamp)) {
+							if (((dbe.timestamp > matchTimestamp) || (matchTimestamp == 0)) && (dbe.timestamp < priorTimestamp)) {
 								hMatchEvent = hSearchEvent;
 								matchTimestamp = dbe.timestamp;
 							}
@@ -698,44 +637,11 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 				flags &= ~DBE_LAST;
 			}
 		}
-	} while ( (!bEventOk) && (hDbEvent != NULL));
+	}
+		while ( (!bEventOk) && (hDbEvent != NULL));
 
 	return hDbEvent;
 }
-
-// modified from history.c
-static TCHAR *GetMessageDescription(DBEVENTINFO *dbei)
-{
-	TCHAR *tszRes;
-
-	if ( ServiceExists( MS_DB_EVENT_GETTEXT )) {
-		// Miranda 0.7
-		TCHAR *buf = DbGetEventTextT(dbei, CP_ACP);
-		tszRes = mir_tstrdup(buf);
-		mir_free(buf);
-	}
-	else {
-		char *pszSrc = ( char* )dbei->pBlob;
-		size_t len = strlen(( char* )dbei->pBlob )+1;
-		
-			if ( dbei->cbBlob > len ) {
-				int len2 = dbei->cbBlob - len;
-
-				tszRes = ( TCHAR* )mir_calloc(len2);
-				memcpy(tszRes, &dbei->pBlob[ len ], len2);
-			}
-			else {
-				char *szRes = ( char* )mir_calloc(len);
-				strncpy(szRes, ( const char* )pszSrc, len);
-				tszRes = mir_a2t(szRes);
-				mir_free(szRes);
-			}
-		
-	}
-
-	return tszRes;
-}
-// end: from history.c
 
 // ?message(%subject%,last|first,sent|recv,read|unread)
 static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
@@ -782,7 +688,7 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
 	int count = getContactFromString( &ci );
-	if ( (count == 1) && (ci.hContacts != NULL)) {
+	if ((count == 1) && (ci.hContacts != NULL)) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
 	}
@@ -801,7 +707,8 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 		mir_free(dbe.pBlob);
 		return NULL;
 	}
-	TCHAR *res = GetMessageDescription(&dbe);
+
+	TCHAR *res = DbGetEventTextT(&dbe, CP_ACP);
 	mir_free(dbe.pBlob);
 	return res;
 }
@@ -873,10 +780,10 @@ static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai)
 
 static TCHAR *parseMirSrvExists(ARGUMENTSINFO *ai)
 {
-	if ( ai->argc != 2 )
+	if (ai->argc != 2 )
 		return NULL;
 
-	if ( !ServiceExists( _T2A( ai->targv[1] )))
+	if (!ServiceExists( _T2A( ai->targv[1] )))
 		ai->flags |= AIF_FALSE;
 
 	return mir_tstrdup(_T(""));

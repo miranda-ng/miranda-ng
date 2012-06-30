@@ -69,7 +69,7 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai) {
 	if (ai->argc != 2)
 		return NULL;
 
-	if (_tcslen(ai->targv[1]) == 0)
+	if ( _tcslen(ai->targv[1]) == 0)
 		szCounter = mir_tstrdup(_T("\\Processor(_Total)\\% Processor Time"));
 	else {
 		szCounter = ( TCHAR* )mir_alloc((_tcslen(ai->targv[1]) + 32)*sizeof(TCHAR));
@@ -136,7 +136,7 @@ static TCHAR *parseCurrentDate(ARGUMENTSINFO *ai) {
 	int len;
 	TCHAR *szFormat, *res;
 
-	if ( ai->argc == 1 || (ai->argc > 1 && _tcslen(ai->targv[1]) == 0 ))
+	if (ai->argc == 1 || (ai->argc > 1 && _tcslen(ai->targv[1]) == 0 ))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[1];
@@ -159,7 +159,7 @@ static TCHAR *parseCurrentTime(ARGUMENTSINFO *ai) {
 	int len;
 	TCHAR *szFormat, *res;
 
-	if ( ai->argc == 1 || (ai->argc > 1) && (_tcslen(ai->targv[1]) == 0))
+	if (ai->argc == 1 || (ai->argc > 1) && (_tcslen(ai->targv[1]) == 0))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[1];
@@ -182,7 +182,7 @@ static TCHAR *parseDirectory(ARGUMENTSINFO *ai) {
 	int depth;
 	TCHAR *res, *ecur, *scur;
 
-	if ( ai->argc < 2 || ai->argc > 3 )
+	if (ai->argc < 2 || ai->argc > 3 )
 		return NULL;
 
 	depth = 1;
@@ -227,7 +227,7 @@ static TCHAR *parseDirectory2(ARGUMENTSINFO *ai) {
 	int depth;
 	TCHAR *res, *ecur;
 
-	if ( ai->argc < 2 || ai->argc > 3 )
+	if (ai->argc < 2 || ai->argc > 3 )
 		return NULL;
 
 	depth = 1;
@@ -456,12 +456,12 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai) {
 	if (hFind == INVALID_HANDLE_VALUE) {
 		return NULL;
 	}
-	if ( ((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
+	if (((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
 		tszRes = ( TCHAR* )mir_alloc((_tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
 		_tcscpy(tszRes, ffd.cFileName);
 	}
 	while (FindNextFile(hFind, &ffd) != 0) {
-		if ( ((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
+		if (((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
 			if (tszRes != NULL) {
 				_tcscat(tszRes, tszSeperator);
 				tszRes = ( TCHAR* )mir_realloc(tszRes, (_tcslen(tszRes) + _tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
@@ -484,7 +484,7 @@ static BOOL CALLBACK MyProcessEnumerator(DWORD dwPID, WORD wTask, char *szProces
 	char **szProc;
 
 	szProc = (char **)lParam;
-	if ( (*szProc != NULL) && (!_stricmp(*szProc, szProcess))) {
+	if ((*szProc != NULL) && (!_stricmp(*szProc, szProcess))) {
 		*szProc = NULL;
 	}
 
@@ -558,7 +558,7 @@ static TCHAR *parseRegistryValue(ARGUMENTSINFO *ai) {
 	}
 	ZeroMemory(res, len);
 	err = RegQueryValueEx(hKey, ai->targv[2], NULL, &type, (BYTE*)res, &len);
-	if ( (err != ERROR_SUCCESS) || (type != REG_SZ)) {
+	if ((err != ERROR_SUCCESS) || (type != REG_SZ)) {
 		RegCloseKey(hKey);
 		mir_free(res);
 		return NULL;
@@ -602,7 +602,7 @@ static TCHAR *parseTimestamp2Date(ARGUMENTSINFO *ai) {
 	if (timestamp == 0) {
 		return NULL;
 	}
-	if ( (ai->argc == 2) || ((ai->argc > 2) && (_tcslen(ai->targv[2]) == 0))) {
+	if ((ai->argc == 2) || ((ai->argc > 2) && (_tcslen(ai->targv[2]) == 0))) {
 		szFormat = NULL;
 	}
 	else {
@@ -638,7 +638,7 @@ static TCHAR *parseTimestamp2Time(ARGUMENTSINFO *ai) {
 	if (timestamp == 0) {
 		return NULL;
 	}
-	if ( (ai->argc == 2) || ((ai->argc > 2) && (_tcslen(ai->targv[2]) == 0))) {
+	if ((ai->argc == 2) || ((ai->argc > 2) && (_tcslen(ai->targv[2]) == 0))) {
 		szFormat = NULL;
 	}
 	else {
@@ -796,7 +796,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 				}
 			}
 		}
-		if ( ((tUC) && (*(TCHAR *)pCur == _T('\r'))) || ((!tUC) && (*(char *)pCur == '\r'))) {
+		if (((tUC) && (*(TCHAR *)pCur == _T('\r'))) || ((!tUC) && (*(char *)pCur == '\r'))) {
 			// in case the \r was at the end of the buffer, \n could be next
 			SetFilePointer(hFile, -1*csz, NULL, FILE_CURRENT);
 			totalReadSz -= csz;
@@ -843,7 +843,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 				return res;
 			}
 		}
-		if ( ((DWORD)(linePos+(pCur-pBuf)) == fileSz)) { // eof
+		if (((DWORD)(linePos+(pCur-pBuf)) == fileSz)) { // eof
 			CloseHandle(hFile);
 
 			if (tUC) {
@@ -859,7 +859,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 		if (readSz == bufSz-csz) {
 			// buffer must be increased
 			bufSz += TXTFILEBUFSZ*csz;
-			if ( ((tUC) && (*(TCHAR *)pCur == _T('\r'))) || ((!tUC) && (*(char *)pCur == '\r'))) {
+			if (((tUC) && (*(TCHAR *)pCur == _T('\r'))) || ((!tUC) && (*(char *)pCur == '\r'))) {
 				pCur -= csz;
 			}
 			icur = pCur - pBuf;
@@ -996,7 +996,7 @@ int registerSystemTokens() {
 #if _WIN32_WINNT>=0x0500
 	registerIntToken(_T(UPTIME), parseUpTime, TRF_FIELD, "System Functions\tuptime in seconds");
 #endif
-	if ( !ServiceExists( MS_UTILS_REPLACEVARS ))
+	if (!ServiceExists( MS_UTILS_REPLACEVARS ))
 		registerIntToken(_T(ENVIRONMENTVARIABLE), parseEnvironmentVariable, TRF_FUNCTION	, "Miranda Core OS\t(%xxxxxxx%)\tany environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)");
 	else {
 		registerIntToken(_T(ENVIRONMENTVARIABLE), parseEnvironmentVariable, TRF_FUNCTION	, "System Functions\t(x)\texpand environment variable x");

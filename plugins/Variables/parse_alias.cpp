@@ -29,7 +29,7 @@ static ALIASREGISTER *searchAliasRegister(TCHAR *szAlias) {
 	unsigned int i;
 
 	res = NULL;
-	if ( (szAlias == NULL) || (_tcslen(szAlias) == 0)) {
+	if ((szAlias == NULL) || (_tcslen(szAlias) == 0)) {
 		return NULL;
 	}
 	EnterCriticalSection(&csAliasRegister);
@@ -50,18 +50,18 @@ static TCHAR *replaceArguments(TCHAR *res, TCHAR *tArg, TCHAR *rArg) {
 
 	unsigned int cur, ecur;
 
-	if (_tcslen(tArg) == 0)
+	if ( _tcslen(tArg) == 0)
 		return res;
 
 	cur = ecur = 0;
 	while (*(res+cur) != _T('\0')) {
-		if ( (*(res+cur) == _T('(')) || (*(res+cur) == _T(','))) {
+		if ((*(res+cur) == _T('(')) || (*(res+cur) == _T(','))) {
 			ecur = ++cur;
 			while ( (*(res+ecur) != _T(')')) && (*(res+ecur) != _T(','))) {
 				ecur++;
 			}
-			if ( ((signed int)_tcslen(tArg) == (ecur-cur)) && (!_tcsncmp(tArg, res+cur, _tcslen(tArg)))) {
-				if (_tcslen(rArg) > _tcslen(tArg)) {
+			if (((signed int)_tcslen(tArg) == (ecur-cur)) && (!_tcsncmp(tArg, res+cur, _tcslen(tArg)))) {
+				if ( _tcslen(rArg) > _tcslen(tArg)) {
 					res = ( TCHAR* )mir_realloc(res, (_tcslen(res) + (_tcslen(rArg)-_tcslen(tArg)) + 1)*sizeof(TCHAR));
 					if (res == NULL)
 						return NULL;
@@ -83,7 +83,7 @@ static TCHAR *parseTranslateAlias(ARGUMENTSINFO *ai) {
 	ALIASREGISTER *areg;
 	
 	areg = searchAliasRegister(ai->targv[0]);
-	if ( (areg == NULL) || (areg->argc != ai->argc-1)) {
+	if ((areg == NULL) || (areg->argc != ai->argc-1)) {
 		return NULL;
 	}
 	res = mir_tstrdup(areg->szTranslation);
@@ -101,7 +101,7 @@ static int addToAliasRegister(TCHAR *szAlias, unsigned int argc, TCHAR** argv, T
 
 	unsigned int i, j;
 
-	if ( szAlias == NULL || szTranslation == NULL || _tcslen(szAlias) == 0 )
+	if (szAlias == NULL || szTranslation == NULL || _tcslen(szAlias) == 0 )
 		return -1;
 
 	EnterCriticalSection(&csAliasRegister);
@@ -188,7 +188,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 		if (i != argc-1)
 			_tcscat(szArgs, _T(","));
 	}
-	if ( (szArgs != NULL) && (argc > 0)) {
+	if ((szArgs != NULL) && (argc > 0)) {
 
 		szArgsA = mir_t2a(szArgs);
 

@@ -78,7 +78,7 @@ static INT_PTR CALLBACK extratextDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 		return TRUE;
 
 	case WM_SIZE:
-		if ( !IsIconic( hwndDlg )) {
+		if (!IsIconic( hwndDlg )) {
 			UTILRESIZEDIALOG urd = { 0 };
 			urd.cbSize = sizeof(urd);
 			urd.hInstance = hInst;
@@ -163,7 +163,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				mir_free(tszContact);
 		}	}
 
-		if ( (hContact != INVALID_HANDLE_VALUE) && (hContact != NULL))
+		if ((hContact != INVALID_HANDLE_VALUE) && (hContact != NULL))
 			hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		else
 			hItem = NULL;
@@ -184,7 +184,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		return TRUE;
 
 	case WM_SIZE:
-		if ( !IsIconic( hwndDlg )) {
+		if (!IsIconic( hwndDlg )) {
 			UTILRESIZEDIALOG urd = { 0 };
 			urd.cbSize = sizeof(urd);
 			urd.hInstance = hInst;
@@ -373,12 +373,12 @@ static int CALLBACK compareTokenHelp(LPARAM lParam1, LPARAM lParam2, LPARAM lPar
 	res = 0;
 	tr1 = (TOKENREGISTEREX *)lParam1;
 	tr2 = (TOKENREGISTEREX *)lParam2;
-	if ( tr1 == NULL || tr2 == NULL )
+	if (tr1 == NULL || tr2 == NULL)
 		return 0;
 
 	cat1 = getTokenCategory(tr1);
 	cat2 = getTokenCategory(tr2);
-	if ( cat1 != NULL && cat2 != NULL ) {
+	if (cat1 != NULL && cat2 != NULL) {
 		res = _tcscmp(cat1, cat2);
 		mir_free(cat1);
 		mir_free(cat2);
@@ -386,7 +386,7 @@ static int CALLBACK compareTokenHelp(LPARAM lParam1, LPARAM lParam2, LPARAM lPar
 		if (res != 0)
 			return res;
 
-		if ( tr1->tszTokenString == NULL || tr2->tszTokenString == NULL )
+		if (tr1->tszTokenString == NULL || tr2->tszTokenString == NULL)
 			return 0;
 
 		return _tcscmp(tr1->tszTokenString, tr2->tszTokenString);
@@ -429,7 +429,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 			i += 1;
 			tszHelpDesc = tszTokenDesc = NULL;
 			tr = getTokenRegister(i);
-			if ( (tr == NULL) || (tr->tszTokenString == NULL)) {
+			if ((tr == NULL) || (tr->tszTokenString == NULL)) {
 				continue;
 			}
 			else if (hdd != NULL) {
@@ -498,7 +498,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 			else {
 				text = NULL;
 			}
-			if ( (text != NULL) && ((last == NULL) || (_tcsicmp(last, text)))) {
+			if ((text != NULL) && ((last == NULL) || (_tcsicmp(last, text)))) {
 				lvItem.mask = LVIF_TEXT;
 				lvItem.pszText = text;
 				ListView_InsertItem(hList, &lvItem);
@@ -521,7 +521,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 	}
 
 	case WM_NOTIFY:
-		if ( (((NMHDR*)lParam)->idFrom == IDC_TOKENLIST) && (((NMHDR*)lParam)->code == NM_DBLCLK)) {
+		if ((((NMHDR*)lParam)->idFrom == IDC_TOKENLIST) && (((NMHDR*)lParam)->code == NM_DBLCLK)) {
 			HWND hList, hwndInputDlg;
 			LVITEM lvItem;
 			int len, item;
@@ -575,7 +575,7 @@ static INT_PTR CALLBACK tokenHelpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 		break;
 
 	case WM_SIZE:
-		if ( !IsIconic( hwndDlg )) {
+		if (!IsIconic( hwndDlg )) {
 			UTILRESIZEDIALOG urd = { 0 };
 			urd.cbSize = sizeof(urd);
 			urd.hInstance = hInst;
@@ -723,7 +723,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				dat->splitterPos = rc.bottom - pt.y + 223;
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_TESTSTRING), &rcTeststring);
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_RESULT), &rcResult);
-				if ( (((rcTeststring.bottom - rcTeststring.top) - (dat->splitterPos - oldSplitterY)) < dat->minInputSize.y) || (((rcResult.bottom - rcResult.top) + (dat->splitterPos - oldSplitterY)) < dat->minResultSize.y)) 
+				if ((((rcTeststring.bottom - rcTeststring.top) - (dat->splitterPos - oldSplitterY)) < dat->minInputSize.y) || (((rcResult.bottom - rcResult.top) + (dat->splitterPos - oldSplitterY)) < dat->minResultSize.y)) 
 					dat->splitterPos = oldSplitterY;
 		}	}
 
@@ -749,7 +749,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		break;
 
 	case WM_SIZE:
-		if ( !IsIconic( hwndDlg )) {
+		if (!IsIconic( hwndDlg )) {
 			UTILRESIZEDIALOG urd = { 0 };
 			urd.cbSize = sizeof(urd);
 			urd.hInstance = hInst;
@@ -784,7 +784,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				TCHAR *newString = variables_parsedup(string, extraText, (HANDLE)SendMessage(GetParent(hwndDlg), VARM_GETSUBJECT, 0, 0));
 				if (newString != NULL) {
 					TCHAR *oldString = Hlp_GetDlgItemText(hwndDlg, IDC_RESULT);
-					if ( oldString == NULL || _tcscmp(oldString, newString))
+					if (oldString == NULL || _tcscmp(oldString, newString))
 						SetWindowText(GetDlgItem(hwndDlg, IDC_RESULT), newString);
 
 					mir_free(newString);
@@ -859,7 +859,7 @@ For example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The 
 		break;
 
 	case WM_SIZE:
-		if ( !IsIconic( hwndDlg )) {
+		if (!IsIconic( hwndDlg )) {
 			UTILRESIZEDIALOG urd = { 0 };
 			urd.cbSize = sizeof(urd);
 			urd.hInstance = hInst;
@@ -940,7 +940,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			ShowWindow(hPage, SW_HIDE);
 			TabCtrl_InsertItem(hTab, tabCount++, &tci);
 			hShow = hShow==0?hPage:hShow;
-			if ( (dat->vhs->fi != NULL) && (dat->vhs->fi->szFormat != NULL)) {
+			if ((dat->vhs->fi != NULL) && (dat->vhs->fi->szFormat != NULL)) {
 				if (dat->vhs->fi->flags & FIF_UNICODE)
 					SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)dat->vhs->fi->tszFormat);
 				else {
@@ -955,17 +955,17 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 				TCHAR *tszText;
 
 				tszText = Hlp_GetWindowText(dat->vhs->hwndCtrl);
-				if ( tszText != NULL ) {
+				if (tszText != NULL) {
 					SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)tszText);
 					mir_free(tszText);
 				}
 			}
-			if ( dat->vhs->fi != NULL || dat->vhs->hwndCtrl != NULL ) {
+			if (dat->vhs->fi != NULL || dat->vhs->hwndCtrl != NULL) {
 				SetWindowText(GetDlgItem(hwndDlg, IDC_CANCEL), TranslateT("Cancel"));
 				ShowWindow(GetDlgItem(hwndDlg, IDC_OK), SW_SHOW);
 			}
 		}
-		if ( (dat->vhs->flags&VHF_SUBJECT) ||
+		if ((dat->vhs->flags&VHF_SUBJECT) ||
 			((dat->vhs->flags&VHF_INPUT) && (((dat->vhs->fi != NULL) && (dat->vhs->fi->hContact != NULL)) || (dat->vhs->flags&VHF_SETLASTSUBJECT)))) {
 			// subject window is created, but not necessarily shown
 			dat->hwndSubjectDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CLIST_DIALOG), hwndDlg, clistDlgProc, (LPARAM)GetParent(hwndDlg));
@@ -990,7 +990,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 				hShow = hShow==0?hPage:hShow;
 			}
 		}
-		if ( (dat->vhs->flags&VHF_EXTRATEXT) ||
+		if ((dat->vhs->flags&VHF_EXTRATEXT) ||
 			((dat->vhs->flags&VHF_INPUT) && (dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL))) {
 			// extratext window is created, but not necessarily shown
 			dat->hwndExtraTextDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EXTRATEXT_DIALOG), hwndDlg, extratextDlgProc, (LPARAM)GetParent(hwndDlg));
@@ -999,7 +999,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 
 			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
 			ShowWindow(hPage, SW_HIDE);
-			if ( (dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL)) {
+			if ((dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL)) {
 				if (dat->vhs->fi->flags & FIF_UNICODE)
 					SendMessage(hwndDlg, VARM_SETEXTRATEXT, 0, (LPARAM)dat->vhs->fi->tszExtraText);
 				else {
@@ -1042,7 +1042,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_OK:
-			if ( (dat->vhs->fi != NULL) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT))) {
+			if ((dat->vhs->fi != NULL) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT))) {
 				int len = SendMessage(hwndDlg, VARM_GETINPUTTEXTLENGTH, 0, 0);
 				if (len > 0) {
 
@@ -1081,7 +1081,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 					(LPARAM)dat->vhs->hwndCtrl);
 			}
 
-			if ( (dat->vhs->flags&VHF_FULLFILLSTRUCT) && (dat->vhs->fi != NULL)) {
+			if ((dat->vhs->flags&VHF_FULLFILLSTRUCT) && (dat->vhs->fi != NULL)) {
 				int len;
 
 				len = SendMessage(hwndDlg, VARM_GETEXTRATEXTLENGTH, 0, 0);
@@ -1217,7 +1217,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 	}
 
 	case WM_NOTIFY:
-		if ( (((NMHDR*)lParam)->idFrom == IDC_TABS)) {
+		if ((((NMHDR*)lParam)->idFrom == IDC_TABS)) {
 			if (((NMHDR*)lParam)->code == TCN_SELCHANGING) {
 				TCITEM tci;
 
@@ -1252,7 +1252,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			int count = TabCtrl_GetItemCount(hTab);
 			for ( int i=0; i < count; i++ ) {
 				TabCtrl_GetItem(hTab, i, &tci);
-				if ( ((HWND)tci.lParam != dat->hwndSubjectDlg) && ((HWND)tci.lParam != dat->hwndExtraTextDlg))
+				if (((HWND)tci.lParam != dat->hwndSubjectDlg) && ((HWND)tci.lParam != dat->hwndExtraTextDlg))
 					DestroyWindow((HWND)tci.lParam);
 		}	}
 

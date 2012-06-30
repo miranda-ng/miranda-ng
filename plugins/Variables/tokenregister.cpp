@@ -46,7 +46,7 @@ static TokenRegisterEntry* FindTokenRegisterByName(TCHAR *name)
 	int idx;
 	TokenRegisterEntry temp;
 	temp.nameHash = NameHashFunction( name );
-	if ( List_GetIndex(( SortedList* )&tokens, &temp, &idx ))
+	if (List_GetIndex(( SortedList* )&tokens, &temp, &idx ))
 		return tokens.items[ idx ];
 
 	return NULL;
@@ -75,7 +75,7 @@ int deRegisterToken(TCHAR *token)
 
 	EnterCriticalSection(&csRegister);
 	tre = FindTokenRegisterByName( token );
-	if ( tre == NULL ) {
+	if (tre == NULL) {
 		LeaveCriticalSection(&csRegister);
 		return -1;
 	}
@@ -83,16 +83,16 @@ int deRegisterToken(TCHAR *token)
 	List_RemovePtr(( SortedList* )&tokens, tre );
 	LeaveCriticalSection(&csRegister);
 
-	if ( !( tre->tr.flags & TRF_PARSEFUNC ) && tre->tr.szService != NULL )
+	if (!( tre->tr.flags & TRF_PARSEFUNC ) && tre->tr.szService != NULL)
 		mir_free( tre->tr.szService );
 
-	if ( tre->tr.tszTokenString != NULL )
+	if (tre->tr.tszTokenString != NULL)
 		mir_free( tre->tr.tszTokenString );
 
-	if ( tre->tr.szHelpText != NULL )
+	if (tre->tr.szHelpText != NULL)
 		mir_free( tre->tr.szHelpText );
 
-	if ( (tre->tr.flags & TRF_CLEANUP ) && !( tre->tr.flags & TRF_CLEANUPFUNC ) && tre->tr.szCleanupService != NULL )
+	if ((tre->tr.flags & TRF_CLEANUP ) && !( tre->tr.flags & TRF_CLEANUPFUNC ) && tre->tr.szCleanupService != NULL)
 		mir_free( tre->tr.szCleanupService );
 
 	mir_free( tre );
@@ -106,10 +106,10 @@ INT_PTR registerToken(WPARAM wParam, LPARAM lParam)
 	TokenRegisterEntry *tre;
 
 	TOKENREGISTEREX *newVr = ( TOKENREGISTEREX* )lParam;
-	if ( newVr == NULL || newVr->szTokenString == NULL || newVr->cbSize <= 0 )
+	if (newVr == NULL || newVr->szTokenString == NULL || newVr->cbSize <= 0 )
 		return -1;
 
-	if ( newVr->flags & TRF_TCHAR ) {
+	if (newVr->flags & TRF_TCHAR ) {
 		deRegisterToken( newVr->tszTokenString );
 		hash = NameHashFunction( newVr->tszTokenString );
 	}
@@ -125,28 +125,28 @@ INT_PTR registerToken(WPARAM wParam, LPARAM lParam)
 	}
 
 	tre = ( TokenRegisterEntry* )mir_alloc( sizeof( TokenRegisterEntry ));
-	if ( tre == NULL )
+	if (tre == NULL)
 		return -1;
 
 	memcpy( &tre->tr, newVr, newVr->cbSize );
 	tre->nameHash = hash;
-	if ( !_tcscmp( newVr->tszTokenString, _T("alias")))
+	if (!_tcscmp( newVr->tszTokenString, _T("alias")))
 		log_debugA("alias");
 
-	if ( !( newVr->flags & TRF_PARSEFUNC ) && newVr->szService != NULL )
+	if (!( newVr->flags & TRF_PARSEFUNC ) && newVr->szService != NULL)
 		tre->tr.szService = mir_strdup( newVr->szService );
 
-	if ( newVr->flags & TRF_TCHAR )
+	if (newVr->flags & TRF_TCHAR )
 		tre->tr.tszTokenString = mir_tstrdup( newVr->tszTokenString );
 	else
 
 		tre->tr.tszTokenString = mir_a2t( newVr->szTokenString );
 
 
-	if ( newVr->szHelpText != NULL )
+	if (newVr->szHelpText != NULL)
 		tre->tr.szHelpText = mir_strdup( newVr->szHelpText );
 
-	if (( newVr->flags & TRF_CLEANUP ) && !( newVr->flags & TRF_CLEANUPFUNC ) && newVr->szCleanupService != NULL )
+	if (( newVr->flags & TRF_CLEANUP ) && !( newVr->flags & TRF_CLEANUPFUNC ) && newVr->szCleanupService != NULL)
 		tre->tr.szCleanupService = mir_strdup( newVr->szCleanupService );
 
 	EnterCriticalSection(&csRegister);
@@ -162,12 +162,12 @@ TOKENREGISTEREX *searchRegister(TCHAR *tvar, int type)
 	TokenRegisterEntry *tre;
 	TOKENREGISTEREX *retVr;
 
-	if ( tvar == NULL )
+	if (tvar == NULL)
 		return 0;
 
 	EnterCriticalSection( &csRegister );
 	tre = FindTokenRegisterByName( tvar );
-	if ( tre == NULL || ( type != 0 && (tre->tr.flags & ( TRF_FIELD | TRF_FUNCTION )) != 0 && !( tre->tr.flags & type )))
+	if (tre == NULL || ( type != 0 && (tre->tr.flags & ( TRF_FIELD | TRF_FUNCTION )) != 0 && !( tre->tr.flags & type )))
 		retVr = NULL;
 	else
 		retVr = &tre->tr;
@@ -178,7 +178,7 @@ TOKENREGISTEREX *searchRegister(TCHAR *tvar, int type)
 
 TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 {
-	if ( ai == NULL || ai->argc == 0 || ai->targv[0] == NULL)
+	if (ai == NULL || ai->argc == 0 || ai->targv[0] == NULL)
 		return NULL;
 
 	INT_PTR callRes = 0;
@@ -188,7 +188,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 
 	/* note the following limitation: you cannot add/remove tokens during a call from a different thread */
 	TOKENREGISTEREX *thisVr = searchRegister( ai->targv[0], 0 );
-	if ( thisVr == NULL ) {
+	if (thisVr == NULL) {
 		LeaveCriticalSection(&csRegister);
 		return NULL;
 	}
@@ -196,7 +196,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 	TOKENREGISTEREX trCopy = *thisVr;
 
 	// ai contains WCHARs, convert to chars because the tr doesn't support WCHARs
-	if ( !( thisVr->flags & TRF_TCHAR )) {
+	if (!( thisVr->flags & TRF_TCHAR )) {
 		// unicode variables calls a non-unicode plugin
 		unsigned int j;
 		ARGUMENTSINFO cAi;
@@ -206,41 +206,41 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 		for ( j=0; j < ai->argc; j++ )
 			cAi.argv[j] = mir_t2a( ai->targv[j] );
 
-		if ( thisVr->flags & TRF_PARSEFUNC )
+		if (thisVr->flags & TRF_PARSEFUNC )
 			callRes = (INT_PTR)thisVr->parseFunction( &cAi );
-		else if ( thisVr->szService != NULL)
+		else if (thisVr->szService != NULL)
 			callRes = CallService( thisVr->szService, (WPARAM)0, (LPARAM)&cAi );
 
 		for ( j=0; j < cAi.argc; j++ )
-			if ( cAi.argv[j] != NULL )
+			if (cAi.argv[j] != NULL)
 				mir_free( cAi.argv[j] );
 
-		if ((char *)callRes != NULL )
+		if ((char *)callRes != NULL)
 			res = mir_a2t(( char* )callRes );
 	}
 	else {
 		// unicode variables calls unicode plugin
-		if ( thisVr->flags & TRF_PARSEFUNC )
+		if (thisVr->flags & TRF_PARSEFUNC )
 			callRes = (INT_PTR)thisVr->parseFunctionT( ai );
-		else if ( thisVr->szService != NULL )
+		else if (thisVr->szService != NULL)
 			callRes = CallService( thisVr->szService, (WPARAM)0, (LPARAM)ai );
 
-		if (( TCHAR* )callRes != NULL )
+		if (( TCHAR* )callRes != NULL)
 			res = mir_tstrdup(( TCHAR* )callRes );
 	}
 
 
-	if (( void* )callRes != NULL ) {
-		if ( trCopy.flags & TRF_CLEANUP ) {
-			if ( trCopy.flags & TRF_CLEANUPFUNC )
+	if (( void* )callRes != NULL) {
+		if (trCopy.flags & TRF_CLEANUP ) {
+			if (trCopy.flags & TRF_CLEANUPFUNC )
 				trCopy.cleanupFunctionT(( TCHAR* )callRes );
-			else if ( trCopy.szCleanupService != NULL )
+			else if (trCopy.szCleanupService != NULL)
 				CallService( trCopy.szCleanupService, 0, (LPARAM)callRes );
 		}
-		if ( trCopy.flags & TRF_FREEMEM ) {
-			if ( trCopy.memType == TR_MEM_MIRANDA )
+		if (trCopy.flags & TRF_FREEMEM ) {
+			if (trCopy.memType == TR_MEM_MIRANDA )
 				mir_free(( void* )callRes );
-//			else if ( trCopy.memType == TR_MEM_VARIABLES )
+//			else if (trCopy.memType == TR_MEM_VARIABLES )
 //				mir_free((void *)callRes);
 		}
 	}
@@ -274,7 +274,7 @@ int getTokenRegisterCount()
 
 static int CompareTokens( const TokenRegisterEntry* p1, const TokenRegisterEntry* p2 )
 {
-	if ( p1->nameHash == p2->nameHash )
+	if (p1->nameHash == p2->nameHash )
 		return 0;
 
 	return ( p1->nameHash < p2->nameHash ) ? -1 : 1;
@@ -296,16 +296,16 @@ int deinitTokenRegister()
 
 	for ( i=0; i < tokens.count; i++ ) {
 		TokenRegisterEntry *tre = tokens.items[ i ];
-		if ( !( tre->tr.flags & TRF_PARSEFUNC ) && tre->tr.szService != NULL )
+		if (!( tre->tr.flags & TRF_PARSEFUNC ) && tre->tr.szService != NULL)
 			mir_free( tre->tr.szService );
 
-		if ( tre->tr.tszTokenString != NULL )
+		if (tre->tr.tszTokenString != NULL)
 			mir_free( tre->tr.tszTokenString );
 
-		if ( tre->tr.szHelpText != NULL )
+		if (tre->tr.szHelpText != NULL)
 			mir_free( tre->tr.szHelpText );
 
-		if (( tre->tr.flags & TRF_CLEANUP ) && !( tre->tr.flags & TRF_CLEANUPFUNC ) && tre->tr.szCleanupService != NULL )
+		if (( tre->tr.flags & TRF_CLEANUP ) && !( tre->tr.flags & TRF_CLEANUPFUNC ) && tre->tr.szCleanupService != NULL)
 			mir_free( tre->tr.szCleanupService );
 
 		mir_free( tre );

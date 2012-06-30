@@ -35,7 +35,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
 	int count = getContactFromString( &ci );
-	if ( count == 1 && ci.hContacts != NULL ) {
+	if (count == 1 && ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
 	}
@@ -52,16 +52,16 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	TCHAR* res = NULL;
 	TCHAR* szUniqueID = NULL;
 	char* szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	if ( szProto != NULL )
+	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact, 1);
 
-	if ( szUniqueID == NULL )
+	if (szUniqueID == NULL)
 	{
 		szProto = PROTOID_HANDLE;
 		//szUniqueID = itot((INT_PTR)hContact);
 		szUniqueID = (TCHAR*)mir_alloc(32);
 		_stprintf(szUniqueID, _T("%p"), hContact);
-		if ( szProto == NULL || szUniqueID == NULL )
+		if (szProto == NULL || szUniqueID == NULL)
 			return NULL;
 	}
 
@@ -76,7 +76,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 		tszProto = mir_a2t(szProto);
 	
 
-	if ( tszProto != NULL && szUniqueID != NULL ) {
+	if (tszProto != NULL && szUniqueID != NULL) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
 		mir_free(szUniqueID);
 		mir_free(tszProto);
@@ -97,7 +97,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
 	int count = getContactFromString( &ci );
-	if ( count == 1 && ci.hContacts != NULL ) {
+	if (count == 1 && ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
 	}
@@ -108,7 +108,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 	}
 
 	hContact = (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
-	if ( hContact == NULL )
+	if (hContact == NULL)
 		return NULL;
 
 	TCHAR* res = NULL;
@@ -122,7 +122,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 		//szUniqueID = itot((INT_PTR)hContact);
 		szUniqueID = (TCHAR*)mir_alloc(32);
 		_stprintf(szUniqueID, _T("%p"), hContact);
-		if ( szProto == NULL || szUniqueID == NULL )
+		if (szProto == NULL || szUniqueID == NULL)
 			return NULL;
 	}
 
@@ -137,7 +137,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 		tszProto = mir_a2t(szProto);
 	
 
-	if ( tszProto != NULL && szUniqueID != NULL ) {
+	if (tszProto != NULL && szUniqueID != NULL) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
 		mir_free(szUniqueID);
 		mir_free(tszProto);
@@ -158,12 +158,12 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
 	int count = getContactFromString( &ci );
-	if ( count == 1 && ci.hContacts != NULL ) {
+	if (count == 1 && ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
 		mir_free( ci.hContacts );
 	}
 	else {
-		if ( ci.hContacts != NULL )
+		if (ci.hContacts != NULL)
 			mir_free( ci.hContacts );
 		return NULL;
 	}
@@ -183,7 +183,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 		//szUniqueID = itot((INT_PTR)hContact);
 		szUniqueID = (TCHAR*)mir_alloc(32);
 		_stprintf(szUniqueID, _T("%p"), hContact);
-		if ( szProto == NULL || szUniqueID == NULL )
+		if (szProto == NULL || szUniqueID == NULL)
 			return NULL;
 	}
 
@@ -198,7 +198,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 		tszProto = mir_a2t(szProto);
 	
 
-	if ( tszProto != NULL && szUniqueID != NULL ) {
+	if (tszProto != NULL && szUniqueID != NULL) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
 		mir_free(szUniqueID);
 		mir_free(tszProto);
@@ -209,7 +209,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 
 int registerMetaContactsTokens() 
 {
-	if ( ServiceExists( MS_MC_GETPROTOCOLNAME )) {
+	if (ServiceExists( MS_MC_GETPROTOCOLNAME )) {
 		registerIntToken( _T(MC_GETPARENT), parseGetParent, TRF_FUNCTION, "MetaContacts\t(x)\tget parent metacontact of contact x");
 		registerIntToken( _T(MC_GETDEFAULT), parseGetDefault, TRF_FUNCTION, "MetaContacts\t(x)\tget default subcontact x");
 		registerIntToken( _T(MC_GETMOSTONLINE), parseGetMostOnline, TRF_FUNCTION, "MetaContacts\t(x)\tget the 'most online' subcontact x");

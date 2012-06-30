@@ -73,7 +73,7 @@ static TCHAR *parseWinampSong(ARGUMENTSINFO *ai) {
 	}
 	scur = _tcschr(szTitle, _T('.'));
 	cur = _tcsstr(scur, _T(" - Winamp"));
-	if ( (scur == NULL) || (cur == NULL) || (scur >= cur) || (scur > (szTitle + _tcslen(szTitle) - 2)) || (cur > (szTitle + _tcslen(szTitle)))) {
+	if ((scur == NULL) || (cur == NULL) || (scur >= cur) || (scur > (szTitle + _tcslen(szTitle) - 2)) || (cur > (szTitle + _tcslen(szTitle)))) {
 		mir_free(szTitle);
 		return NULL;
 	}
@@ -101,15 +101,15 @@ static TCHAR *parseWinampState(ARGUMENTSINFO *ai) {
 	}
 	scur = _tcschr(szTitle, _T('.'));
 	cur = _tcsstr(scur, _T(" - Winamp"));
-	if ( (scur == NULL) || (cur == NULL)) {
+	if ((scur == NULL) || (cur == NULL)) {
 		mir_free(szTitle);
 		return mir_tstrdup(TranslateT("Stopped"));
 	}
-	if ( (!_tcsncmp(cur+10, _T("[Stopped]"), 9))) {
+	if ((!_tcsncmp(cur+10, _T("[Stopped]"), 9))) {
 		mir_free(szTitle);
 		return mir_tstrdup(TranslateT("Stopped"));
 	}
-	if ( (!_tcsncmp(cur+10, _T("[Paused]"), 8))) {
+	if ((!_tcsncmp(cur+10, _T("[Paused]"), 8))) {
 		mir_free(szTitle);
 		return mir_tstrdup(TranslateT("Paused"));
 	}

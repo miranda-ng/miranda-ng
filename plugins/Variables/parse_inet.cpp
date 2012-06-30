@@ -37,7 +37,7 @@ static TCHAR *parseUrlEnc(ARGUMENTSINFO *ai) {
 	}
 	cur = 0;
 	while (cur < strlen(res)) {
-		if ( ( (*(res+cur) >= '0') && (*(res+cur) <= '9')) || ( (*(res+cur) >= 'a') && (*(res+cur) <= 'z')) || ( (*(res+cur) >= 'A') && (*(res+cur) <= 'Z')) ) {
+		if (( (*(res+cur) >= '0') && (*(res+cur) <= '9')) || ( (*(res+cur) >= 'a') && (*(res+cur) <= 'z')) || ( (*(res+cur) >= 'A') && (*(res+cur) <= 'Z')) ) {
 			cur++;
 			continue;
 		}
@@ -75,7 +75,7 @@ static TCHAR *parseUrlDec(ARGUMENTSINFO *ai) {
 	}
 	cur = 0;
 	while (cur < strlen(res)) {
-		if ( (*(res+cur) == '%') && (strlen(res+cur) >= 3)) {
+		if ((*(res+cur) == '%') && (strlen(res+cur) >= 3)) {
 			memset(hex, '\0', sizeof(hex));
 			strncpy(hex, res+cur+1, 2);
 			*(res+cur) = (char)strtol(hex, NULL, 16);

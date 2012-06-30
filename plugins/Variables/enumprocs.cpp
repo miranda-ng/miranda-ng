@@ -192,7 +192,7 @@ BOOL WINAPI EnumProcs(PROCENUMPROC lpProc, LPARAM lParam) {
                break;
 
             // Did we just bump into an NTVDM?
-            if (_stricmp(szFileName, "NTVDM.EXE") == 0) {
+            if ( _stricmp(szFileName, "NTVDM.EXE") == 0) {
 
                // Fill in some info for the 16-bit enum proc.
                sInfo.dwPID = lpdwPIDs[dwIndex];
@@ -288,7 +288,7 @@ BOOL WINAPI EnumProcs(PROCENUMPROC lpProc, LPARAM lParam) {
                   (char *)procentry.szExeFile, lParam)) {
 
                // Did we just bump into an NTVDM?
-               if (_stricmp((char *)procentry.szExeFile, "NTVDM.EXE") == 0) {
+               if ( _stricmp((char *)procentry.szExeFile, "NTVDM.EXE") == 0) {
 
                   // Fill in some info for the 16-bit enum proc.
                   sInfo.dwPID = procentry.th32ProcessID;

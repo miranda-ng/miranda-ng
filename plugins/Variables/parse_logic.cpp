@@ -141,7 +141,7 @@ static TCHAR *parseIfequal(ARGUMENTSINFO *ai)
 	tszFirst = formatString(&fi);
 	fi.szFormat = ai->argv[2];
 	tszSecond = formatString(&fi);
-	if ( (tszFirst == NULL) || (tszSecond == NULL)) {
+	if ((tszFirst == NULL) || (tszSecond == NULL)) {
 		if (tszFirst != NULL)
 			mir_free(tszFirst);
 
@@ -150,7 +150,7 @@ static TCHAR *parseIfequal(ARGUMENTSINFO *ai)
 
 		return NULL;
 	}
-	if ( (ttoi(tszFirst)) == (ttoi(tszSecond))) {
+	if ((ttoi(tszFirst)) == (ttoi(tszSecond))) {
 		mir_free(tszFirst);
 		mir_free(tszSecond);
 		return mir_tstrdup(ai->targv[3]);
@@ -176,7 +176,7 @@ static TCHAR *parseIfgreater(ARGUMENTSINFO *ai) {
 	tszFirst = formatString(&fi);
 	fi.szFormat = ai->argv[2];
 	tszSecond = formatString(&fi);
-	if ( (tszFirst == NULL) || (tszSecond == NULL)) {
+	if ((tszFirst == NULL) || (tszSecond == NULL)) {
 		if (tszFirst != NULL) {
 			mir_free(tszFirst);
 		}
@@ -185,7 +185,7 @@ static TCHAR *parseIfgreater(ARGUMENTSINFO *ai) {
 		}
 		return NULL;
 	}
-	if ( (ttoi(tszFirst)) > (ttoi(tszSecond))) {
+	if ((ttoi(tszFirst)) > (ttoi(tszSecond))) {
 		mir_free(tszFirst);
 		mir_free(tszSecond);
 		return mir_tstrdup(ai->targv[3]);
@@ -210,7 +210,7 @@ static TCHAR *parseIflonger(ARGUMENTSINFO *ai) {
 	tszFirst = formatString(&fi);
 	fi.szFormat = ai->argv[2];
 	tszSecond = formatString(&fi);
-	if ( (tszFirst == NULL) || (tszSecond == NULL)) {
+	if ((tszFirst == NULL) || (tszSecond == NULL)) {
 		if (tszFirst != NULL) {
 			mir_free(tszFirst);
 		}
@@ -280,7 +280,7 @@ static TCHAR *parseEqual(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	if ( ttoi(ai->targv[1]) != ttoi( ai->targv[2] ))
+	if (ttoi(ai->targv[1]) != ttoi( ai->targv[2] ))
 		ai->flags |= AIF_FALSE;
 
 	return mir_tstrdup(_T(""));
@@ -291,7 +291,7 @@ static TCHAR *parseGreater(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	if ( ttoi(ai->targv[1]) <= ttoi(ai->targv[2] ))
+	if (ttoi(ai->targv[1]) <= ttoi(ai->targv[2] ))
 		ai->flags |= AIF_FALSE;
 
 	return mir_tstrdup(_T(""));

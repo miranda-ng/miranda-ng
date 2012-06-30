@@ -73,7 +73,7 @@ TCHAR *getArguments(TCHAR *string, TCHAR ***aargv, int *aargc) {
 			break;
 
 		case _T(','):
-			if ( (!bDontParse) && (brackets == 0)) {
+			if ((!bDontParse) && (brackets == 0)) {
 				bNewArg = TRUE;
 			}
 			break;
@@ -85,10 +85,10 @@ TCHAR *getArguments(TCHAR *string, TCHAR ***aargv, int *aargc) {
 			break;
 
 		case _T(')'):
-			if ( (brackets == 0) && (!bDontParse)) {
+			if ((brackets == 0) && (!bDontParse)) {
 				bDone = bNewArg = TRUE;
 			}
-			else if ( (brackets > 0) && (!bDontParse)) {
+			else if ((brackets > 0) && (!bDontParse)) {
 				brackets -= 1;
 			}
 			break;
@@ -207,12 +207,12 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			continue;
 		}
 		// remove end of lines
-		else if ( (!_tcsncmp(cur, _T("\r\n"), 2)) && (gParseOpts.bStripEOL)) {
+		else if ((!_tcsncmp(cur, _T("\r\n"), 2)) && (gParseOpts.bStripEOL)) {
 			MoveMemory(cur, cur+2, (_tcslen(cur+2)+1)*sizeof(TCHAR));
 			pos = cur-string-1;
 			continue;
 		}
-		else if ( ((*cur == _T('\n')) && (gParseOpts.bStripEOL)) || ((*cur == _T(' ')) && (gParseOpts.bStripWS))) {
+		else if (((*cur == _T('\n')) && (gParseOpts.bStripEOL)) || ((*cur == _T(' ')) && (gParseOpts.bStripWS))) {
 			MoveMemory(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
 			pos = cur - string - 1;
 			continue;
@@ -232,7 +232,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			pos = scur-string-1;
 			continue;
 		}
-		else if ( (*cur != _T(FIELD_CHAR)) && (*cur != _T(FUNC_CHAR)) && (*cur != _T(FUNC_ONCE_CHAR))) {
+		else if ((*cur != _T(FIELD_CHAR)) && (*cur != _T(FUNC_CHAR)) && (*cur != _T(FUNC_ONCE_CHAR))) {
 			if (gParseOpts.bStripAll) {
 				MoveMemory(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
 				pos = cur - string - 1;
@@ -283,12 +283,12 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			}
  			cur += len+1;
 		}
-		else if ( (*cur == _T(FUNC_CHAR)) || (*cur == _T(FUNC_ONCE_CHAR))) {
+		else if ((*cur == _T(FUNC_CHAR)) || (*cur == _T(FUNC_ONCE_CHAR))) {
 			TCHAR *argcur;
 
 			cur += _tcslen(tr->tszTokenString)+1;
 			argcur = getArguments(cur, &argv, &argc);
-			if ( (argcur == cur) || (argcur == NULL)) {
+			if ((argcur == cur) || (argcur == NULL)) {
 				fi->eCount += 1;
 				// error getting arguments
 				continue;
@@ -326,7 +326,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
  			ai.argc = argc+1;
  			ai.targv = pargv;
  			ai.fi = fi;
- 			if ( (*scur == _T(FUNC_ONCE_CHAR)) || (*scur == _T(FIELD_CHAR)))
+ 			if ((*scur == _T(FUNC_ONCE_CHAR)) || (*scur == _T(FIELD_CHAR)))
  				ai.flags |= AIF_DONTPARSE;
 
  			parsedToken = parseFromRegister(&ai);
@@ -340,7 +340,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		}
 
 		//replaced a var
-		if ( ai.flags & AIF_FALSE )
+		if (ai.flags & AIF_FALSE )
 			fi->eCount++;
 		else
 			fi->pCount++;
@@ -387,17 +387,17 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 
 		pos--; // parse the same pos again, it changed
 
- 		if ( tr == NULL )
+ 		if (tr == NULL)
  			parsedToken = NULL; // To avoid mir_free
 	}
 	if (parsedToken != NULL)
 		mir_free(parsedToken);
 
 	for ( i=0; i < argc; i++ )
-		if ( argv[i] != NULL )
+		if (argv[i] != NULL)
 			mir_free( argv[i] );
 
-	if ( argv != NULL )
+	if (argv != NULL)
 		mir_free(argv);
 
 	return ( TCHAR* )mir_realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
@@ -556,7 +556,7 @@ int LoadVarModule() {
 
 	HMODULE hUxTheme;
 
-	if ( (initTokenRegister() != 0) || (initContactModule() != 0)) {
+	if ((initTokenRegister() != 0) || (initContactModule() != 0)) {
 
 		return -1;
 	}
