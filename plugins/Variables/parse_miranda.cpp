@@ -22,14 +22,11 @@
 
 static TCHAR *parseCodeToStatus(ARGUMENTSINFO *ai)
 {
-	TCHAR *szStatus;
-	unsigned int status;
-
 	if (ai->argc != 2)
 		return NULL;
 
-	status = ttoi(ai->targv[1]);
-	szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
+	unsigned int status = ttoi(ai->targv[1]);
+	TCHAR *szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
 	if (szStatus != NULL)
 		return mir_tstrdup(szStatus);
 
@@ -38,10 +35,8 @@ static TCHAR *parseCodeToStatus(ARGUMENTSINFO *ai)
 
 static int getContactInfoFlags(TCHAR *tszDesc)
 {
-	int flags;
 	TCHAR *cur;
-
-	flags = 0;
+	int flags = 0;
 	for (cur=tszDesc;(cur < (tszDesc+_tcslen(tszDesc)));cur++) {
 		if (!_tcsnicmp(cur, _T(STR_PROTOID), _tcslen(_T(STR_PROTOID)))) {
 			flags|=CI_PROTOID;
@@ -121,17 +116,14 @@ static TCHAR *parseContact(ARGUMENTSINFO *ai)
 
 static TCHAR *parseContactCount(ARGUMENTSINFO *ai)
 {
-	CONTACTSINFO ci;
-	int count;
-
 	if (ai->argc != 3)
 		return NULL;
 
-	ZeroMemory(&ci, sizeof(ci));
+	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = getContactInfoFlags(ai->targv[2]);
-	count = getContactFromString( &ci );
+	int count = getContactFromString( &ci );
 	if ( count != 0 && ci.hContacts != NULL )
 		mir_free(ci.hContacts);
 
@@ -183,26 +175,26 @@ static TCHAR *parseDBProfileName(ARGUMENTSINFO *ai)
 	return mir_a2t(name);
 }
 
-static TCHAR *parseDBProfilePath(ARGUMENTSINFO *ai)
-{
+static TCHAR *parseDBProfilePath(ARGUMENTSINFO *ai) {
+
+	char path[MAX_PATH];
+
 	if (ai->argc != 1)
 		return NULL;
 
-	char path[MAX_PATH];
 	if (CallService(MS_DB_GETPROFILEPATH, SIZEOF(path), (LPARAM)path))
 		return NULL;
-
+	
 	return mir_a2t(path);
 }
 
 static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* defaultValue) {
 
 	DBVARIANT dbv;
-	TCHAR* var = NULL;
-
 	if (DBGetContactSettingW(hContact, module, setting, &dbv))
 		return defaultValue;
 
+	TCHAR* var = NULL;
 	switch (dbv.type) {
 	case DBVT_BYTE:
 		var = itot(dbv.bVal);
@@ -217,7 +209,7 @@ static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* 
 		var = mir_a2t(dbv.pszVal);
 		break;
 	case DBVT_WCHAR:
-		var = mir_tstrdup(dbv.pwszVal);
+		var = _wcsdup(dbv.pwszVal);
 		break;
 	case DBVT_UTF8:
 		Utf8Decode(dbv.pszVal, &var);
@@ -259,10 +251,8 @@ static TCHAR *parseDBSetting(ARGUMENTSINFO *ai)
 		}
 	}
 
-	
-		szModule = mir_t2a(ai->targv[2]);
-		szSetting = mir_t2a(ai->targv[3]);
-	
+	szModule = mir_t2a(ai->targv[2]);
+	szSetting = mir_t2a(ai->targv[3]);
 
 	if ( ai->argc > 4 && _tcslen(ai->targv[4]) > 0 )
 		szDefaultValue = mir_tstrdup(ai->targv[4]);
@@ -506,7 +496,7 @@ static TCHAR *parseProtoInfo(ARGUMENTSINFO *ai)
 
 		szText = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDTEXT, 0);
 		if (szText != NULL)
-			szRes = mir_strdup(szText);
+			szRes = _strdup(szText);
 	}
 	else if (!_tcscmp(ai->targv[2], _T(STR_PIUIDSETTING))) {
 		char *szText;
@@ -515,7 +505,7 @@ static TCHAR *parseProtoInfo(ARGUMENTSINFO *ai)
 
 		szText = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
 		if (szText != NULL)
-			szRes = mir_strdup(szText);
+			szRes = _strdup(szText);
 	}
 	mir_free(szProto);
 	if ( szRes == NULL && tszRes == NULL )
@@ -732,11 +722,11 @@ static TCHAR *GetMessageDescription(DBEVENTINFO *dbei)
 				int len2 = dbei->cbBlob - len;
 
 				tszRes = ( TCHAR* )mir_calloc(len2);
-				memcpy( tszRes, &dbei->pBlob[ len ], len2 );
+				memcpy(tszRes, &dbei->pBlob[ len ], len2);
 			}
 			else {
 				char *szRes = ( char* )mir_calloc(len);
-				strncpy( szRes, ( const char* )pszSrc, len );
+				strncpy(szRes, ( const char* )pszSrc, len);
 				tszRes = mir_a2t(szRes);
 				mir_free(szRes);
 			}
@@ -750,17 +740,10 @@ static TCHAR *GetMessageDescription(DBEVENTINFO *dbei)
 // ?message(%subject%,last|first,sent|recv,read|unread)
 static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 {
-	int flags, count;
-	HANDLE hContact;
-	HANDLE hDbEvent;
-	DBEVENTINFO dbe;
-	CONTACTSINFO ci;
-	TCHAR *res;
-
 	if (ai->argc != 5)
 		return NULL;
 
-	flags = DBE_MESSAGE;
+	int flags = DBE_MESSAGE;
 	switch (*ai->targv[2]) {
 	case _T('f'):
 		flags |= DBE_FIRST;
@@ -791,12 +774,14 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 		flags |= DBE_READ|DBE_UNREAD;
 		break;
 	}
-	hContact = NULL;
-	ZeroMemory(&ci, sizeof(ci));
+	
+	HANDLE hContact = NULL;
+
+	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
-	count = getContactFromString( &ci );
+	int count = getContactFromString( &ci );
 	if ( (count == 1) && (ci.hContacts != NULL)) {
 		hContact = ci.hContacts[0];
 		mir_free(ci.hContacts);
@@ -804,11 +789,11 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 	else if (ci.hContacts != NULL)
 		mir_free(ci.hContacts);
 
-	hDbEvent = findDbEvent(hContact, NULL, flags);
+	HANDLE hDbEvent = findDbEvent(hContact, NULL, flags);
 	if (hDbEvent == NULL)
 		return NULL;
 
-	ZeroMemory(&dbe, sizeof(DBEVENTINFO));
+	DBEVENTINFO dbe = { 0 };
 	dbe.cbSize = sizeof(DBEVENTINFO);
 	dbe.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
 	dbe.pBlob = ( PBYTE )mir_calloc(dbe.cbBlob);
@@ -816,9 +801,8 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 		mir_free(dbe.pBlob);
 		return NULL;
 	}
-	res = GetMessageDescription(&dbe);
+	TCHAR *res = GetMessageDescription(&dbe);
 	mir_free(dbe.pBlob);
-
 	return res;
 }
 
@@ -831,31 +815,26 @@ static TCHAR *parseTranslate(ARGUMENTSINFO *ai)
 	return (res == NULL) ? NULL : mir_tstrdup(res);
 }
 
-static TCHAR *parseVersionString(ARGUMENTSINFO *ai) {
-
-	char versionString[128];
-
+static TCHAR *parseVersionString(ARGUMENTSINFO *ai)
+{
 	if (ai->argc != 1)
 		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
+	char versionString[128];
 	if (CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)sizeof(versionString), (LPARAM)versionString))
 		return NULL;
 
-	
-		return mir_a2t(versionString);
-	
+	return mir_a2t(versionString);
 }
 
 static TCHAR *parseContactNameString(ARGUMENTSINFO *ai)
 {
- 	TCHAR *ret;
-
  	if (ai->argc != 1 || ai->fi->hContact == NULL)
  		return NULL;
  
  	ai->flags |= AIF_DONTPARSE;
- 	ret = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) ai->fi->hContact, GCDNF_TCHAR);
+ 	TCHAR *ret = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) ai->fi->hContact, GCDNF_TCHAR);
  	if (ret == NULL)
  		return NULL;
 
@@ -864,13 +843,13 @@ static TCHAR *parseContactNameString(ARGUMENTSINFO *ai)
 
 static TCHAR *parseMirDateString(ARGUMENTSINFO *ai)
 {
- 	TCHAR ret[128];
- 	DBTIMETOSTRINGT tst = {0};
-
  	if (ai->argc != 1)
  		return NULL;
 
  	ai->flags |= AIF_DONTPARSE;
+
+ 	TCHAR ret[128];
+	DBTIMETOSTRINGT tst = {0};
  	tst.szFormat = _T("d s");
  	tst.szDest = ret;
  	tst.cbDest = 128;
@@ -880,22 +859,16 @@ static TCHAR *parseMirDateString(ARGUMENTSINFO *ai)
 	return mir_tstrdup(ret);
 }
 
-static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai) {
-
-	TCHAR path[MAX_PATH], corevar[MAX_PATH];
-	TCHAR* tmpPath;
-
+static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai)
+{
 	if (ai->argc != 1)
 		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
 
+	TCHAR corevar[MAX_PATH];
 	mir_sntprintf(corevar, MAX_PATH,_T("%%%s%%"), ai->targv[0]);
-	tmpPath = Utils_ReplaceVarsT(corevar);
-	mir_sntprintf(path, sizeof(path)-1, _T("%s"), tmpPath);
-	mir_free(tmpPath);
-
-	return mir_tstrdup(path);
+	return Utils_ReplaceVarsT(corevar);
 }
 
 static TCHAR *parseMirSrvExists(ARGUMENTSINFO *ai)
@@ -903,17 +876,8 @@ static TCHAR *parseMirSrvExists(ARGUMENTSINFO *ai)
 	if ( ai->argc != 2 )
 		return NULL;
 
-	char* serviceName;
-	
-		serviceName = mir_t2a( ai->targv[1] );
-	
-
-	if ( !ServiceExists( serviceName ))
+	if ( !ServiceExists( _T2A( ai->targv[1] )))
 		ai->flags |= AIF_FALSE;
-
-
-		mir_free( serviceName );
-	
 
 	return mir_tstrdup(_T(""));
 }
@@ -951,8 +915,8 @@ int registerMirandaTokens() {
 	registerIntToken(_T(SUBJECT), parseSpecialContact, TRF_FIELD, "Miranda Related\tretrieves the subject, depending on situation");
 	registerIntToken(_T(TRANSLATE), parseTranslate, TRF_FUNCTION, "Miranda Related\t(x)\ttranslates x");
 	registerIntToken(_T(VERSIONSTRING), parseVersionString, TRF_FIELD, "Miranda Related\tget the version of Miranda");
- 	registerIntToken(_T(CONTACT_NAME), parseContactNameString, TRF_FIELD, "Miranda Related\tget the contact display name");
- 	registerIntToken(_T(MIR_DATE), parseMirDateString, TRF_FIELD, "Miranda Related\tget the date and time (using Miranda format)");
+	registerIntToken(_T(CONTACT_NAME), parseContactNameString, TRF_FIELD, "Miranda Related\tget the contact display name");
+	registerIntToken(_T(MIR_DATE), parseMirDateString, TRF_FIELD, "Miranda Related\tget the date and time (using Miranda format)");
 	registerIntToken(_T(SRVEXISTS), parseMirSrvExists,	TRF_FUNCTION, "Miranda Related\t(x)\tTRUE if service function is exists");
 
 	return 0;
