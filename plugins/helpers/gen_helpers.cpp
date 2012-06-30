@@ -65,7 +65,7 @@ TCHAR *Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
 	if (len < 0)
 		return NULL;
 
-	TCHAR *res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 	ZeroMemory(res, (len+1)*sizeof(TCHAR));
 	GetDlgItemText(hwndDlg, nIDDlgItem, res, len+1);
 
@@ -91,7 +91,7 @@ TCHAR *Hlp_GetWindowText(HWND hwndDlg)
 	if (len < 0)
 		return NULL;
 
-	TCHAR *res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 	ZeroMemory(res, (len+1)*sizeof(TCHAR));
 	GetWindowText(hwndDlg, res, len+1);
 

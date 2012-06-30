@@ -30,7 +30,7 @@ static int DBRemoveEnumProc(const char *szSetting, LPARAM lParam) {
 
 	rs = (struct RemoveSettings *)lParam;
 	if (!strncmp(szSetting, rs->szPrefix, strlen(rs->szPrefix))) {
-		rs->szSettings = ( char** )realloc(rs->szSettings, (rs->count+1)*sizeof(char *));
+		rs->szSettings = ( char** )mir_realloc(rs->szSettings, (rs->count+1)*sizeof(char *));
 		rs->szSettings[rs->count] = mir_strdup(szSetting);
 		rs->count += 1;
 	}
