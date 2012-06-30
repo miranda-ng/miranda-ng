@@ -146,7 +146,7 @@ static int SetStatusList(HWND hwndDlg)
 			if ( msg != NULL ) {
 				TCHAR* fMsg = variables_parsedup( msg, confirmSettings[i].tszAccName, NULL );
 				ListView_SetItemText(hList, lvItem.iItem, 2, fMsg);
-				free(fMsg);
+				mir_free(fMsg);
 				mir_free(msg);
 			}
 			else ListView_SetItemText(hList, lvItem.iItem, 2, TranslateT("<n/a>"));

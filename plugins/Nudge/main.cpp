@@ -285,33 +285,17 @@ int TriggerActionRecv( DWORD actionID, REPORTINFO *ri)
 			ShakeClist(NULL,NULL);
 		if(bshakeChat && (hContact != NULL))
 			ShakeChat((WPARAM)hContact,NULL);
-
-	/*	// Actually show the message box
-		DBVARIANT dbv;
-		TCHAR *tszMsg;
-
-		// Retrieve the correct settings for this action ID
-		if (!DBGetActionSettingTString(actionID, NULL, MODULENAME, SETTING_TEXT, &dbv)) {
-			// Parse by Variables, if available (notice extratext and subject are given).
-			tszMsg = variables_parsedup(dbv.ptszVal, ((ri->td!=NULL)&&(ri->td->dFlags&DF_TEXT))?ri->td->tszText:NULL, ((ri->td!=NULL)&&(ri->td->dFlags&DF_CONTACT))?ri->td->hContact:NULL);
-			if (tszMsg != NULL) {
-				// Show the message box
-				MessageBox(NULL, tszMsg, TranslateT("ExampleAction"), MB_OK);
-				free(tszMsg);
-			}
-			DBFreeVariant(&dbv);
-		}
-		*/
 	}
-	if (ri->flags&ACT_CLEANUP) { // request to delete all associated settings
+
+	if (ri->flags&ACT_CLEANUP) // request to delete all associated settings
 		RemoveAllActionSettings(actionID, "Nudge");
-	}
+
 	return FALSE;
 }
 
 int TriggerActionSend( DWORD actionID, REPORTINFO *ri)
 {
-	if (ri->flags&ACT_PERFORM) {
+	if (ri->flags & ACT_PERFORM) {
 		HANDLE hContact = ((ri->td!=NULL)&&(ri->td->dFlags&DF_CONTACT))?ri->td->hContact:NULL;
 		if(hContact != NULL)
 			NudgeSend((WPARAM)hContact,NULL);

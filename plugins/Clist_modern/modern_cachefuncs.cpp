@@ -454,124 +454,104 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
                       BOOL show_status_if_no_away, BOOL show_listening_if_no_away, BOOL use_name_and_message_for_xstatus, 
                       BOOL pdnce_time_show_only_if_different)
 {
-    text[0] = '\0';
-    switch(type)
-    {
-    case TEXT_STATUS:
-        {
-            if (GetStatusName(text, text_size, pdnce, xstatus_has_priority) == -1 && use_name_and_message_for_xstatus)
-            {
-                DBVARIANT dbv={0};
+	text[0] = '\0';
+	switch(type) {
+	case TEXT_STATUS:
+		if (GetStatusName(text, text_size, pdnce, xstatus_has_priority) == -1 && use_name_and_message_for_xstatus) {
+			DBVARIANT dbv={0};
 
-                // Try to get XStatusMsg
-                if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) 
-                {
-                    if (dbv.ptszVal != NULL && dbv.ptszVal[0] != 0)
-                    {
-                        TCHAR *tmp = mir_tstrdup(text);
-                        mir_sntprintf(text, text_size, TEXT("%s: %s"), tmp, dbv.pszVal);
-                        mir_free_and_nill(tmp);
-                        CopySkipUnprintableChars(text, text, text_size-1);
-                    }
-                    db_free(&dbv);
-                }
-            }
+			// Try to get XStatusMsg
+			if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) {
+				if (dbv.ptszVal != NULL && dbv.ptszVal[0] != 0) {
+					TCHAR *tmp = mir_tstrdup(text);
+					mir_sntprintf(text, text_size, TEXT("%s: %s"), tmp, dbv.pszVal);
+					mir_free_and_nill(tmp);
+					CopySkipUnprintableChars(text, text, text_size-1);
+				}
+				db_free(&dbv);
+			}
+		}
 
-            return TEXT_STATUS;
-        }
-    case TEXT_NICKNAME:
-        {
-            if (pdnce->m_cache_hContact && pdnce->m_cache_cszProto)
-            {
-                DBVARIANT dbv={0};
-                if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "Nick", &dbv)) 
-                {
-                    lstrcpyn(text, dbv.ptszVal, text_size);
-                    db_free(&dbv);
-                    CopySkipUnprintableChars(text, text, text_size-1);
-                }
-            }
+		return TEXT_STATUS;
 
-            return TEXT_NICKNAME;
-        }
-    case TEXT_STATUS_MESSAGE:
-        {
-            if (GetStatusMessage(text, text_size, pdnce, xstatus_has_priority) == -1 && use_name_and_message_for_xstatus)
-            {
-                DBVARIANT dbv={0};
+	case TEXT_NICKNAME:
+		if (pdnce->m_cache_hContact && pdnce->m_cache_cszProto) {
+			DBVARIANT dbv={0};
+			if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "Nick", &dbv)) {
+				lstrcpyn(text, dbv.ptszVal, text_size);
+				db_free(&dbv);
+				CopySkipUnprintableChars(text, text, text_size-1);
+			}
+		}
 
-                // Try to get XStatusName
-                if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) 
-                {
-                    if (dbv.pszVal != NULL && dbv.pszVal[0] != 0)
-                    {
-                        TCHAR *tmp = mir_tstrdup(text);
-                        
-                        mir_sntprintf(text, text_size, TEXT("%s: %s"), dbv.pszVal, tmp);                        
-                        mir_free_and_nill(tmp);
-                    }
-                    CopySkipUnprintableChars(text, text, text_size-1);
-                    db_free(&dbv);
-                }
-            }
-            else if (use_name_and_message_for_xstatus && xstatus_has_priority)
-            {
-                DBVARIANT dbv={0};
-                // Try to get XStatusName
-                if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) 
-                {
-                    if (dbv.pszVal != NULL && dbv.pszVal[0] != 0)
-                        mir_sntprintf(text, text_size, TEXT("%s"), dbv.pszVal);
-                    CopySkipUnprintableChars(text, text, text_size-1);
-                    db_free(&dbv);
-                }
-            }
+		return TEXT_NICKNAME;
 
-            if (text[0] == '\0')
-            {
-                if (show_listening_if_no_away)
-                {
-                    Cache_GetLineText(pdnce, TEXT_LISTENING_TO, text, text_size, variable_text, xstatus_has_priority, 0, 0, use_name_and_message_for_xstatus, pdnce_time_show_only_if_different);
-                    if (text[0] != '\0')
-                        return TEXT_LISTENING_TO;
-                }
+	case TEXT_STATUS_MESSAGE:
+		if (GetStatusMessage(text, text_size, pdnce, xstatus_has_priority) == -1 && use_name_and_message_for_xstatus) {
+			DBVARIANT dbv={0};
 
-                if (show_status_if_no_away)
-                {
-                    //re-request status if no away
-                    return Cache_GetLineText(pdnce, TEXT_STATUS, text, text_size, variable_text, xstatus_has_priority, 0, 0, use_name_and_message_for_xstatus, pdnce_time_show_only_if_different);		
-                }
-            }
-            return TEXT_STATUS_MESSAGE;
-        }
-    case TEXT_LISTENING_TO:
-        {
-            GetListeningTo(text, text_size, pdnce);
-            return TEXT_LISTENING_TO;
-        }
-    case TEXT_TEXT:
-        {
-            TCHAR *tmp = variables_parsedup(variable_text, pdnce->m_cache_tcsName, pdnce->m_cache_hContact);
-            lstrcpyn(text, tmp, text_size);
-            if (tmp) free(tmp);
-            CopySkipUnprintableChars(text, text, text_size-1);
+			// Try to get XStatusName
+			if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) {
+				if (dbv.pszVal != NULL && dbv.pszVal[0] != 0) {
+					TCHAR *tmp = mir_tstrdup(text);
 
-            return TEXT_TEXT;
-        }
-    case TEXT_CONTACT_TIME:
-        {
-            if (pdnce->hTimeZone)
-            {
-                // Get pdnce time
-                text[0] = 0;
-                tmi.printDateTime( pdnce->hTimeZone, _T("t"), text, text_size, 0);
-            }
+					mir_sntprintf(text, text_size, TEXT("%s: %s"), dbv.pszVal, tmp);                        
+					mir_free_and_nill(tmp);
+				}
+				CopySkipUnprintableChars(text, text, text_size-1);
+				db_free(&dbv);
+			}
+		}
+		else if (use_name_and_message_for_xstatus && xstatus_has_priority) {
+			DBVARIANT dbv={0};
+			// Try to get XStatusName
+			if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) {
+				if (dbv.pszVal != NULL && dbv.pszVal[0] != 0)
+					mir_sntprintf(text, text_size, TEXT("%s"), dbv.pszVal);
+				CopySkipUnprintableChars(text, text, text_size-1);
+				db_free(&dbv);
+			}
+		}
 
-            return TEXT_CONTACT_TIME;
-        }
-    }
+		if (text[0] == '\0') {
+			if (show_listening_if_no_away) {
+				Cache_GetLineText(pdnce, TEXT_LISTENING_TO, text, text_size, variable_text, xstatus_has_priority, 0, 0, use_name_and_message_for_xstatus, pdnce_time_show_only_if_different);
+				if (text[0] != '\0')
+					return TEXT_LISTENING_TO;
+			}
 
-    return TEXT_EMPTY;
+			if (show_status_if_no_away) {
+				//re-request status if no away
+				return Cache_GetLineText(pdnce, TEXT_STATUS, text, text_size, variable_text, xstatus_has_priority, 0, 0, use_name_and_message_for_xstatus, pdnce_time_show_only_if_different);		
+			}
+		}
+		return TEXT_STATUS_MESSAGE;
+
+	case TEXT_LISTENING_TO:
+		GetListeningTo(text, text_size, pdnce);
+		return TEXT_LISTENING_TO;
+
+	case TEXT_TEXT:
+		{
+			TCHAR *tmp = variables_parsedup(variable_text, pdnce->m_cache_tcsName, pdnce->m_cache_hContact);
+			lstrcpyn(text, tmp, text_size);
+			if (tmp) 
+				mir_free(tmp);
+			CopySkipUnprintableChars(text, text, text_size-1);
+		}
+		return TEXT_TEXT;
+
+	case TEXT_CONTACT_TIME:
+		if (pdnce->hTimeZone) {
+			// Get pdnce time
+			text[0] = 0;
+			tmi.printDateTime( pdnce->hTimeZone, _T("t"), text, text_size, 0);
+		}
+
+		return TEXT_CONTACT_TIME;
+	}
+
+	return TEXT_EMPTY;
 }
 
 /*

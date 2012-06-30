@@ -27,37 +27,33 @@ static TRG_VAR_CACHE *tvc = NULL;
 static int tvcCount = 0;
 static unsigned int stringChangeTimerID = 0;
 
-static int addToCache(DWORD triggerID) {
-
+static int addToCache(DWORD triggerID)
+{
 	/* triggerID must be in the DB */
 	DBVARIANT dbv;
-	int i;
 
-	for (i=0;i<tvcCount;i++) {
+	for (int i=0; i < tvcCount; i++) {
 		if (tvc[i].triggerID == triggerID) {
 			mir_free(tvc[i].parsedText);
 			MoveMemory(&tvc[i], &tvc[tvcCount-1], sizeof(TRG_VAR_CACHE));
 			tvcCount -= 1;
 		}
 	}
-	if (!DBGetTriggerSettingTString(triggerID, NULL, MODULENAME, SETTING_TRIGGERTEXT, &dbv)) {
-		tvc = ( TRG_VAR_CACHE* )mir_realloc(tvc, (tvcCount+1)*sizeof(TRG_VAR_CACHE));
-		if (tvc == NULL) {
-			return -1;
-		}
-		tvc[tvcCount].triggerID = triggerID;
-		tvc[tvcCount].parsedText = variables_parsedup(dbv.ptszVal, NULL, NULL);
-		// it stays in our own mem space!
-		if (tvc[tvcCount].parsedText == NULL) {
-			return -1;
-		}
-		tvcCount += 1;
-		DBFreeVariant(&dbv);
-	}
-	else {
+	if ( DBGetTriggerSettingTString(triggerID, NULL, MODULENAME, SETTING_TRIGGERTEXT, &dbv))
 		return -1;
-	}
 
+	tvc = ( TRG_VAR_CACHE* )mir_realloc(tvc, (tvcCount+1)*sizeof(TRG_VAR_CACHE));
+	if (tvc == NULL)
+		return -1;
+
+	tvc[tvcCount].triggerID = triggerID;
+	tvc[tvcCount].parsedText = variables_parsedup(dbv.ptszVal, NULL, NULL);
+	// it stays in our own mem space!
+	if (tvc[tvcCount].parsedText == NULL)
+		return -1;
+
+	tvcCount += 1;
+	DBFreeVariant(&dbv);
 	return 0;
 }
 
@@ -76,144 +72,131 @@ static int removeFromCache(DWORD triggerID) {
 	return 0;
 }
 
-static VOID CALLBACK checkStringsTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime) {
-
-	int i;
-	TCHAR *parsedText;
-	REPORTINFO ri;
-	TRIGGERDATA td;
-	DBVARIANT dbv;
-	DWORD triggerID;
-
-	triggerID = 0;
+static VOID CALLBACK checkStringsTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime)
+{
+	DWORD triggerID = 0;
 	do {
 		triggerID = (DWORD)CallService(MS_TRIGGER_FINDNEXTTRIGGERID, triggerID, (LPARAM)TRIGGERNAME);
 		if (triggerID == 0) {
 			continue;
 		}
-		for (i=0;i<tvcCount;i++) {
-			if (triggerID != tvc[i].triggerID) {
+		for (int i=0; i < tvcCount; i++) {
+			if (triggerID != tvc[i].triggerID)
 				continue;
-			}
+
+			DBVARIANT dbv;
 			if (!DBGetTriggerSettingTString(tvc[i].triggerID, NULL, MODULENAME, SETTING_TRIGGERTEXT, &dbv)) {
-				parsedText = variables_parsedup(dbv.ptszVal, NULL, NULL);
-				if (parsedText == NULL) {
+				TCHAR *parsedText = variables_parsedup(dbv.ptszVal, NULL, NULL);
+				if (parsedText == NULL)
 					continue;
-				}
+
 				if (!_tcscmp(tvc[i].parsedText, parsedText)) {
 					mir_free(parsedText);
 					continue;
 				}
-				else {
-					ZeroMemory(&td, sizeof(td));
-					td.cbSize = sizeof(td);
-					td.dFlags = DF_TEXT;
-					td.tszText = parsedText;
+
+				TRIGGERDATA td = { 0 };
+				td.cbSize = sizeof(td);
+				td.dFlags = DF_TEXT;
+				td.tszText = parsedText;
 					
-					ZeroMemory(&ri, sizeof(REPORTINFO));
-					ri.cbSize = sizeof(REPORTINFO);
-					ri.triggerID = tvc[i].triggerID;
-					ri.pszName = TRIGGERNAME;
-					ri.flags = TRG_PERFORM;
-					ri.td = &td;
+				REPORTINFO ri = { 0 };
+				ri.cbSize = sizeof(REPORTINFO);
+				ri.triggerID = tvc[i].triggerID;
+				ri.pszName = TRIGGERNAME;
+				ri.flags = TRG_PERFORM;
+				ri.td = &td;
 					
-					CallService(MS_TRIGGER_REPORTEVENT, 0, (LPARAM)&ri);
-					mir_free(tvc[i].parsedText);
-					tvc[i].parsedText = parsedText;
-				}
+				CallService(MS_TRIGGER_REPORTEVENT, 0, (LPARAM)&ri);
+				mir_free(tvc[i].parsedText);
+				tvc[i].parsedText = parsedText;
 				DBFreeVariant(&dbv);
 			}
 		}
-	} while (triggerID != 0);
+	}
+		while (triggerID != 0);
 }
 
 INT_PTR CALLBACK DlgProcOptsStringChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
 
     switch (msg) {
-	case WM_INITDIALOG: {
-		DBVARIANT dbv;
-		DWORD triggerID;
-		
+	case WM_INITDIALOG: 
 		TranslateDialogDefault(hwndDlg);
-		triggerID = (DWORD)lParam;
-		if (!DBGetTriggerSetting(triggerID, NULL, MODULENAME, SETTING_TRIGGERTEXT, &dbv)) {
-			SetDlgItemTextA(hwndDlg, IDC_FORMATTEXT, dbv.pszVal);
-			DBFreeVariant(&dbv);
+		{
+			DBVARIANT dbv;
+			DWORD triggerID;
+
+			triggerID = (DWORD)lParam;
+			if (!DBGetTriggerSetting(triggerID, NULL, MODULENAME, SETTING_TRIGGERTEXT, &dbv)) {
+				SetDlgItemTextA(hwndDlg, IDC_FORMATTEXT, dbv.pszVal);
+				DBFreeVariant(&dbv);
+			}
+			variables_skin_helpbutton(hwndDlg, IDC_SHOWHELP);
 		}
-		variables_skin_helpbutton(hwndDlg, IDC_SHOWHELP);
 		break;
-						}
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-			case IDC_SHOWHELP: {
-				variables_showhelp(hwndDlg, IDC_FORMATTEXT, VHF_FULLDLG|VHF_SETLASTSUBJECT, NULL, NULL);
-				break;
-							   }
+		case IDC_SHOWHELP:
+			variables_showhelp(hwndDlg, IDC_FORMATTEXT, VHF_FULLDLG|VHF_SETLASTSUBJECT, NULL, NULL);
+			break;
 		}
 		break;
 
-	case TM_ADDTRIGGER: {
+	case TM_ADDTRIGGER:
 		// wParam = trigger ID
 		// lParam = (TRIGGERREGISTER *)
-		DWORD triggerID;
-		TCHAR *tszFormatText;
-
-		triggerID = (DWORD)wParam;
-		tszFormatText = Hlp_GetDlgItemText(hwndDlg, IDC_FORMATTEXT);
-		if (tszFormatText != NULL) {
-			DBWriteTriggerSettingTString(triggerID, NULL, MODULENAME, SETTING_TRIGGERTEXT, tszFormatText);
-			mir_free(tszFormatText);
+		{
+			DWORD triggerID = (DWORD)wParam;
+			TCHAR *tszFormatText = Hlp_GetDlgItemText(hwndDlg, IDC_FORMATTEXT);
+			if (tszFormatText != NULL) {
+				DBWriteTriggerSettingTString(triggerID, NULL, MODULENAME, SETTING_TRIGGERTEXT, tszFormatText);
+				mir_free(tszFormatText);
+			}
+			addToCache(triggerID);
 		}
-		addToCache(triggerID);
 		break;
-						}
 	
-	case TM_DELTRIGGER: {
+	case TM_DELTRIGGER:
 		// wParam = triggerID
 		// lParam = (TRIGGEREGISTER *) may be 0
-		DWORD triggerID;
-		REMOVETRIGGERSETTINGS rts;
-		
-		triggerID = (DWORD)wParam;
-		removeFromCache(triggerID);
-		rts.cbSize = sizeof(REMOVETRIGGERSETTINGS);
-		rts.prefix = PREFIX_TRIGGERID;
-		rts.id = triggerID;
-		rts.hContact = NULL;
-		rts.szModule = MODULENAME;
-		CallService(MS_TRIGGER_REMOVESETTINGS, 0, (LPARAM)&rts);
+		{
+			REMOVETRIGGERSETTINGS rts;
+
+			DWORD triggerID = (DWORD)wParam;
+			removeFromCache(triggerID);
+			rts.cbSize = sizeof(REMOVETRIGGERSETTINGS);
+			rts.prefix = PREFIX_TRIGGERID;
+			rts.id = triggerID;
+			rts.hContact = NULL;
+			rts.szModule = MODULENAME;
+			CallService(MS_TRIGGER_REMOVESETTINGS, 0, (LPARAM)&rts);
+		}
 		break;
-						}
 	}
 
-    return FALSE;
+	return FALSE;
 }
 
-int initTriggerModule() {
-
-	CONDITIONREGISTER cr;
-	TRIGGERREGISTER tr;
-	ACTIONREGISTER ar;
-	int res;
-	DWORD triggerID;
-
+int initTriggerModule()
+{
 	log_debugA("Variables: initTriggerModule");
 	if (!ServiceExists(MS_TRIGGER_REGISTERTRIGGER)) {
 		log_debugA("Variables: %s does not exist", MS_TRIGGER_REGISTERTRIGGER);
 		return -1;
 	}
-	ZeroMemory(&tr, sizeof(tr));
+
+	TRIGGERREGISTER tr = { 0 };
 	tr.cbSize = sizeof(tr);
 	tr.pszName = TRIGGERNAME;
 	tr.hInstance = hInst;
 	tr.pfnDlgProc = DlgProcOptsStringChange;
 	tr.pszTemplate = MAKEINTRESOURCEA(IDD_TRG_STRINGCHANGE);
 	tr.dFlags = DF_TEXT|DF_TCHAR;
-	res = CallService(MS_TRIGGER_REGISTERTRIGGER, 0, (LPARAM)&tr);
+	int res = CallService(MS_TRIGGER_REGISTERTRIGGER, 0, (LPARAM)&tr);
 	log_debugA("Variables: %s registered (%d)", TRIGGERNAME, res);
 
-	ZeroMemory(&ar, sizeof(ACTIONREGISTER));
+	ACTIONREGISTER ar = { 0 };
 	ar.cbSize = sizeof(ACTIONREGISTER);
 	ar.pszName = "Variables: Parse string";
 	ar.hInstance = hInst;
@@ -223,7 +206,7 @@ int initTriggerModule() {
 	ar.flags = ARF_FUNCTION|ARF_TCHAR;
 	CallService(MS_TRIGGER_REGISTERACTION, 0, (LPARAM)&ar);
 
-	ZeroMemory(&cr, sizeof(CONDITIONREGISTER));
+	CONDITIONREGISTER cr = { 0 };
 	cr.cbSize = sizeof(CONDITIONREGISTER);
 	cr.pszName = "Variables: Condition";
 	cr.hInstance = hInst;
@@ -234,15 +217,16 @@ int initTriggerModule() {
 	CallService(MS_TRIGGER_REGISTERCONDITION, 0, (LPARAM)&cr);
 
 	// fill cache
-	triggerID = 0;
+	DWORD triggerID = 0;
 	do {
 		triggerID = (DWORD)CallService(MS_TRIGGER_FINDNEXTTRIGGERID, triggerID, (LPARAM)TRIGGERNAME);
 		if (triggerID == 0) {
 			continue;
 		}
 		addToCache(triggerID);
-	} while (triggerID != 0);
+	} 
+		while (triggerID != 0);
+	
 	stringChangeTimerID = SetTimer(NULL, 0, CHECKSTRINGDELAY, checkStringsTimer);
-
 	return res;
 }

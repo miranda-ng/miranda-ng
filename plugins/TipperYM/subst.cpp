@@ -568,8 +568,7 @@ bool GetRawSubstText(HANDLE hContact, char *szRawSpec, TCHAR *buff, int bufflen)
 bool ApplySubst(HANDLE hContact, const TCHAR *swzSource, bool parseTipperVarsFirst, TCHAR *swzDest, int iDestLen) 
 {
 	// hack - allow empty strings before passing to variables (note - zero length strings return false after this)
-	if (swzDest && swzSource && _tcslen(swzSource) == 0) 
-	{
+	if (swzDest && swzSource && _tcslen(swzSource) == 0) {
 		swzDest[0] = 0;
 		return true;
 	}
@@ -579,7 +578,7 @@ bool ApplySubst(HANDLE hContact, const TCHAR *swzSource, bool parseTipperVarsFir
 	if (parseTipperVarsFirst == false)
 		swzVarSrc = variables_parsedup((TCHAR *)swzSource, 0, hContact);
 	else
-		swzVarSrc = _tcsdup(swzSource);
+		swzVarSrc = mir_tstrdup(swzSource);
 
 	size_t iSourceLen = _tcslen(swzVarSrc);
 	size_t si = 0, di = 0, v = 0;
@@ -779,14 +778,14 @@ bool ApplySubst(HANDLE hContact, const TCHAR *swzSource, bool parseTipperVarsFir
 		di++;
 	}
 
-	free(swzVarSrc);
+	mir_free(swzVarSrc);
 	swzDest[di] = 0;
 
 	if (parseTipperVarsFirst)
 	{
 		swzVarSrc = variables_parsedup((TCHAR *)swzDest, 0, hContact);
 		_tcscpy(swzDest, swzVarSrc);
-		free(swzVarSrc);
+		mir_free(swzVarSrc);
 	}
 
 
@@ -800,13 +799,13 @@ bool ApplySubst(HANDLE hContact, const TCHAR *swzSource, bool parseTipperVarsFir
 	return false;
 
 empty:
-	free(swzVarSrc);
+	mir_free(swzVarSrc);
 	return false;
 
 error:
 	swzDest[0] = _T('*');
 	swzDest[1] = 0;
-	free(swzVarSrc);
+	mir_free(swzVarSrc);
 	return true;
 }
 
