@@ -41,7 +41,7 @@ static TCHAR *parseUrlEnc(ARGUMENTSINFO *ai) {
 			cur++;
 			continue;
 		}
-		res = ( char* )realloc(res, strlen(res)+4);
+		res = ( char* )mir_realloc(res, strlen(res)+4);
 		if (res == NULL)
 			return NULL;
 
@@ -83,7 +83,7 @@ static TCHAR *parseUrlDec(ARGUMENTSINFO *ai) {
 		}
 		cur++;
 	}
-	res = ( char* )realloc(res, strlen(res)+1);
+	res = ( char* )mir_realloc(res, strlen(res)+1);
 
 	tres = mir_a2t(res);
 

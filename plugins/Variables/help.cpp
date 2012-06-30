@@ -267,7 +267,7 @@ static TCHAR *getTokenCategory(TOKENREGISTEREX *tr) {
 	while (*cur != _T('\0')) {
 		if (*cur == _T('\t')) {
 			*cur = _T('\0');
-			helpText = ( char* )realloc(helpText, strlen(helpText)+1);
+			helpText = ( char* )mir_realloc(helpText, strlen(helpText)+1);
 
 			res = mir_a2t(helpText);
 			mir_free(helpText);

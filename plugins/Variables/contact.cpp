@@ -484,7 +484,7 @@ int getContactFromString( CONTACTSINFO* ci )
 			}
 		}
 		if (bMatch) {
-			ci->hContacts = ( HANDLE* )realloc(ci->hContacts, (count+1)*sizeof(HANDLE));
+			ci->hContacts = ( HANDLE* )mir_realloc(ci->hContacts, (count+1)*sizeof(HANDLE));
 			if (ci->hContacts == NULL) {
 
 				return -1;
@@ -497,7 +497,7 @@ int getContactFromString( CONTACTSINFO* ci )
 
 	if (count == 1) { /* cache the found result */
 		EnterCriticalSection(&csContactCache);
-		cce = ( CONTACTCE* )realloc(cce, (cacheSize+1)*sizeof(CONTACTCE));
+		cce = ( CONTACTCE* )mir_realloc(cce, (cacheSize+1)*sizeof(CONTACTCE));
 		if (cce == NULL) {
 			LeaveCriticalSection(&csContactCache);
 			return count;
@@ -546,7 +546,7 @@ static int contactSettingChanged(WPARAM wParam, LPARAM lParam)
 			mir_free(cce[i].tszContact);
 			if (cacheSize > 1) {
 				MoveMemory(&cce[i], &cce[cacheSize-1], sizeof(CONTACTCE));
-				cce = ( CONTACTCE* )realloc(cce, (cacheSize-1)*sizeof(CONTACTCE));
+				cce = ( CONTACTCE* )mir_realloc(cce, (cacheSize-1)*sizeof(CONTACTCE));
 				cacheSize -= 1;
 			}
 			else {

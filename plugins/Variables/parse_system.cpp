@@ -863,7 +863,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 				pCur -= csz;
 			}
 			icur = pCur - pBuf;
-			pBuf = ( PBYTE )realloc(pBuf, bufSz);
+			pBuf = ( PBYTE )mir_realloc(pBuf, bufSz);
 			pCur = pBuf+icur;
 			ZeroMemory(pCur+1, TXTFILEBUFSZ*csz);
 		}

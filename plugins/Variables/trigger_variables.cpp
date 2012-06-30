@@ -41,7 +41,7 @@ static int addToCache(DWORD triggerID) {
 		}
 	}
 	if (!DBGetTriggerSettingTString(triggerID, NULL, MODULENAME, SETTING_TRIGGERTEXT, &dbv)) {
-		tvc = ( TRG_VAR_CACHE* )realloc(tvc, (tvcCount+1)*sizeof(TRG_VAR_CACHE));
+		tvc = ( TRG_VAR_CACHE* )mir_realloc(tvc, (tvcCount+1)*sizeof(TRG_VAR_CACHE));
 		if (tvc == NULL) {
 			return -1;
 		}

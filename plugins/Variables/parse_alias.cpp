@@ -62,7 +62,7 @@ static TCHAR *replaceArguments(TCHAR *res, TCHAR *tArg, TCHAR *rArg) {
 			}
 			if ( ((signed int)_tcslen(tArg) == (ecur-cur)) && (!_tcsncmp(tArg, res+cur, _tcslen(tArg)))) {
 				if (_tcslen(rArg) > _tcslen(tArg)) {
-					res = ( TCHAR* )realloc(res, (_tcslen(res) + (_tcslen(rArg)-_tcslen(tArg)) + 1)*sizeof(TCHAR));
+					res = ( TCHAR* )mir_realloc(res, (_tcslen(res) + (_tcslen(rArg)-_tcslen(tArg)) + 1)*sizeof(TCHAR));
 					if (res == NULL)
 						return NULL;
 				}
@@ -115,7 +115,7 @@ static int addToAliasRegister(TCHAR *szAlias, unsigned int argc, TCHAR** argv, T
 				}
 			}
 			ar[i].argc = argc;
-			ar[i].argv = ( TCHAR** )realloc(ar[i].argv, argc * sizeof(TCHAR *));
+			ar[i].argv = ( TCHAR** )mir_realloc(ar[i].argv, argc * sizeof(TCHAR *));
 			if (ar[i].argv == NULL) {
 				LeaveCriticalSection(&csAliasRegister);
 				return -1;
@@ -130,7 +130,7 @@ static int addToAliasRegister(TCHAR *szAlias, unsigned int argc, TCHAR** argv, T
 			return 0;
 		}
 	}
-	ar = ( ALIASREGISTER* )realloc(ar, (arCount+1)*sizeof(ALIASREGISTER));
+	ar = ( ALIASREGISTER* )mir_realloc(ar, (arCount+1)*sizeof(ALIASREGISTER));
 	if (ar == NULL) {
 		LeaveCriticalSection(&csAliasRegister);
 		return -1;
@@ -182,7 +182,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 		if (i == 0)
 			szArgs = ( TCHAR* )mir_calloc(( _tcslen(argv[i])+2)*sizeof(TCHAR));
 		else
-			szArgs = ( TCHAR* )realloc(szArgs, (_tcslen(szArgs) + _tcslen(argv[i]) + 2)*sizeof(TCHAR));
+			szArgs = ( TCHAR* )mir_realloc(szArgs, (_tcslen(szArgs) + _tcslen(argv[i]) + 2)*sizeof(TCHAR));
 
 		_tcscat(szArgs, argv[i]);
 		if (i != argc-1)

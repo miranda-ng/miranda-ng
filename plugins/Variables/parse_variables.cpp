@@ -41,7 +41,7 @@ static int addToVariablesRegister(TCHAR *szName, TCHAR *szText) {
 			return 0;
 		}
 	}
-	vr = ( VARIABLEREGISTER* )realloc(vr, (vrCount+1)*sizeof(VARIABLEREGISTER));
+	vr = ( VARIABLEREGISTER* )mir_realloc(vr, (vrCount+1)*sizeof(VARIABLEREGISTER));
 	if (vr == NULL) {
 		LeaveCriticalSection(&csVarRegister);
 		return -1;
@@ -89,7 +89,7 @@ int clearVariableRegister() {
 			mir_free(vr[i].szText);
 			if (vrCount > 1) {
 				memcpy(&vr[i], &vr[vrCount-1], sizeof(VARIABLEREGISTER));
-				vr = ( VARIABLEREGISTER* )realloc(vr, (vrCount-1)*sizeof(VARIABLEREGISTER));
+				vr = ( VARIABLEREGISTER* )mir_realloc(vr, (vrCount-1)*sizeof(VARIABLEREGISTER));
 				if (vr == NULL) {
 					LeaveCriticalSection(&csVarRegister);
 					return -1;
