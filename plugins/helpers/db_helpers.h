@@ -134,13 +134,13 @@ __inline static TCHAR *Hlp_DBGetContactSettingTString(HANDLE hContact,const char
 	}
 #endif
 	if (rc == 0) {
-		res = _tcsdup(dbv.ptszVal);
+		res = mir_tstrdup(dbv.ptszVal);
 		DBFreeVariant(&dbv);
 		return res;
 	}
 	else {
 		DBFreeVariant(&dbv);
-		return errVal!=NULL?_tcsdup(errVal):NULL;
+		return errVal!=NULL?mir_tstrdup(errVal):NULL;
 	}
 }
 
