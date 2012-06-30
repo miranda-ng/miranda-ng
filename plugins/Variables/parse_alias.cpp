@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -86,7 +86,7 @@ static TCHAR *parseTranslateAlias(ARGUMENTSINFO *ai) {
 	if ( (areg == NULL) || (areg->argc != ai->argc-1)) {
 		return NULL;
 	}
-	res = _tcsdup(areg->szTranslation);
+	res = mir_tstrdup(areg->szTranslation);
 	for (i=0;i<areg->argc;i++) {
 		res = replaceArguments(res, areg->argv[i], ai->targv[i+1]);
 		if (res == NULL) {
@@ -107,11 +107,11 @@ static int addToAliasRegister(TCHAR *szAlias, unsigned int argc, TCHAR** argv, T
 	EnterCriticalSection(&csAliasRegister);
 	for (i=0;i<arCount;i++) {
 		if (!_tcscmp(ar[i].szAlias, szAlias)) {
-			free(ar[i].szTranslation);
-			ar[i].szTranslation = _tcsdup(szTranslation);
+			mir_free(ar[i].szTranslation);
+			ar[i].szTranslation = mir_tstrdup(szTranslation);
 			for (j=0;j<ar[i].argc;j++) {
 				if (ar[i].argv[j] != NULL) {
-					free(ar[i].argv[j]);
+					mir_free(ar[i].argv[j]);
 				}
 			}
 			ar[i].argc = argc;
@@ -122,7 +122,7 @@ static int addToAliasRegister(TCHAR *szAlias, unsigned int argc, TCHAR** argv, T
 			}
 			for (j=0;j<argc;j++) {
 				if (argv[j] != NULL)
-					ar[i].argv[j] = _tcsdup(argv[j]);
+					ar[i].argv[j] = mir_tstrdup(argv[j]);
 				else
 					ar[i].argv[j] = NULL;
 			}
@@ -135,17 +135,17 @@ static int addToAliasRegister(TCHAR *szAlias, unsigned int argc, TCHAR** argv, T
 		LeaveCriticalSection(&csAliasRegister);
 		return -1;
 	}
-	ar[arCount].szAlias = _tcsdup(szAlias);
-	ar[arCount].szTranslation = _tcsdup(szTranslation);
+	ar[arCount].szAlias = mir_tstrdup(szAlias);
+	ar[arCount].szTranslation = mir_tstrdup(szTranslation);
 	ar[arCount].argc = argc;
-	ar[arCount].argv = ( TCHAR** )malloc(argc * sizeof(TCHAR *));
+	ar[arCount].argv = ( TCHAR** )mir_alloc(argc * sizeof(TCHAR *));
 	if (ar[arCount].argv == NULL) {
 		LeaveCriticalSection(&csAliasRegister);
 		return -1;
 	}
 	for (j=0;j<ar[arCount].argc;j++) {
 		if (argv[j] != NULL)
-			ar[arCount].argv[j] = _tcsdup(argv[j]);
+			ar[arCount].argv[j] = mir_tstrdup(argv[j]);
 		else
 			ar[arCount].argv[j] = NULL;
 	}
@@ -169,7 +169,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 	while (isValidTokenChar(*cur))
 		cur++;
 
-	alias = ( TCHAR* )calloc(((cur-ai->targv[1])+1), sizeof(TCHAR));
+	alias = ( TCHAR* )mir_calloc(((cur-ai->targv[1])+1)*sizeof(TCHAR));
 	if (alias == NULL)
 		return NULL;
 
@@ -180,7 +180,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 	szArgs = NULL;
 	for (i=0;i<argc;i++) {
 		if (i == 0)
-			szArgs = ( TCHAR* )calloc( _tcslen(argv[i])+2, sizeof(TCHAR));
+			szArgs = ( TCHAR* )mir_calloc(( _tcslen(argv[i])+2)*sizeof(TCHAR));
 		else
 			szArgs = ( TCHAR* )realloc(szArgs, (_tcslen(szArgs) + _tcslen(argv[i]) + 2)*sizeof(TCHAR));
 
@@ -190,24 +190,24 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 	}
 	if ( (szArgs != NULL) && (argc > 0)) {
 
-		szArgsA = u2a(szArgs);
+		szArgsA = mir_t2a(szArgs);
 
-		szHelp = ( char* )malloc(32 + strlen(szArgsA));
+		szHelp = ( char* )mir_alloc(32 + strlen(szArgsA));
 		memset(szHelp, '\0', 32 + strlen(szArgsA));
 		sprintf(szHelp, "Alias\t(%s)\tuser defined", szArgsA);
 		res = registerIntToken(alias, parseTranslateAlias, TRF_FUNCTION|TRF_UNPARSEDARGS, szHelp);
-		free(szArgsA);
+		mir_free(szArgsA);
 	}
 	else {
-		szHelp = ( char* )malloc(32);
+		szHelp = ( char* )mir_alloc(32);
 		memset(szHelp, '\0', 32);
 		sprintf(szHelp, "Alias\t\tuser defined");
 		res = registerIntToken(alias, parseTranslateAlias, TRF_FIELD|TRF_UNPARSEDARGS, szHelp);
 	}
-	free(szArgs);
-	free(szHelp);
+	mir_free(szArgs);
+	mir_free(szHelp);
 	
-	return res==0?_tcsdup(_T("")):NULL;
+	return res==0?mir_tstrdup(_T("")):NULL;
 }
 
 int registerAliasTokens()

@@ -478,7 +478,7 @@ struct DBHeader* GetHeader(HANDLE hDbFile)
 	struct DBHeader* pdbHeader;
 	DWORD dwBytesRead;
 
-	if (( pdbHeader = (DBHeader*)calloc(1, sizeof(struct DBHeader))) == NULL )
+	if (( pdbHeader = (DBHeader*)mir_calloc(1, sizeof(struct DBHeader))) == NULL )
 		return NULL;
 
 	// Goto start of file
@@ -675,7 +675,7 @@ BOOL GetSettingsGroup(HANDLE hDbFile, DWORD dwOffset, struct DBContactSettings**
 
 	// ** Read the struct and the following blob
 	dwBlobSize = pSettings.cbBlob;
-	if (!(*pDbSettings = (DBContactSettings *)calloc(1, sizeof(struct DBContactSettings) + dwBlobSize)))
+	if (!(*pDbSettings = (DBContactSettings *)mir_calloc(1, sizeof(struct DBContactSettings) + dwBlobSize)))
 		return FALSE;
 
 	memcpy(*pDbSettings, &pSettings, dwHead );
@@ -772,7 +772,7 @@ int GetSettingValue(char* pBlob, DBVARIANT* dbv)
 {
 	#ifdef _LOGGING
 	{
-		char* pszName = calloc((*pBlob)+1, 1);
+		char* pszName = mir_calloc((*pBlob)+1, 1);
 		memcpy(pszName, pBlob+1, *pBlob);
 		AddMessage( LPGEN("Getting type %u value for setting: %s"), (BYTE)*(pBlob+(*pBlob)+1), pszName );
 		free(pszName);
@@ -800,7 +800,7 @@ int GetSettingValue(char* pBlob, DBVARIANT* dbv)
 	case DBVT_ASCIIZ:
 	case DBVT_UTF8:
 		dbv->cchVal = *(WORD*)pBlob;
-		dbv->pszVal = (char *)calloc( dbv->cchVal+1, sizeof( char ));
+		dbv->pszVal = (char *)mir_calloc( dbv->cchVal+1, sizeof( char ));
 		memcpy( dbv->pszVal, pBlob+2, dbv->cchVal );
 		dbv->pszVal[ dbv->cchVal ] = 0;
 		return TRUE;
@@ -808,7 +808,7 @@ int GetSettingValue(char* pBlob, DBVARIANT* dbv)
 	case DBVTF_VARIABLELENGTH:
 	case DBVT_BLOB:
 		dbv->cpbVal = *(WORD*)pBlob;
-		dbv->pbVal  = (BYTE *)calloc( dbv->cpbVal+1, sizeof( char ));
+		dbv->pbVal  = (BYTE *)mir_calloc( dbv->cpbVal+1, sizeof( char ));
 		memcpy( dbv->pbVal, pBlob+2, dbv->cpbVal );
 		dbv->pbVal[ dbv->cpbVal ] = 0;
 		return TRUE;

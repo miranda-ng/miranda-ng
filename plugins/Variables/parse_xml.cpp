@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -64,8 +64,8 @@ static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 
-	szStyleSheet = u2a(ai->targv[1]);
-	szDoc = u2a(ai->targv[2]);
+	szStyleSheet = mir_t2a(ai->targv[1]);
+	szDoc = mir_t2a(ai->targv[2]);
 
 
 	log_debugA("calling xsltParseMemory");
@@ -116,12 +116,12 @@ static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
 	pXmlFreeDoc(res);
 	log_debugA("calling xsltFreeDoc");
 	pXmlFreeDoc(doc);
-	log_debugA("calling free");
-	free(szStyleSheet);
-	log_debugA("calling free");
-	free(szDoc);
+	log_debugA("calling mir_free");
+	mir_free(szStyleSheet);
+	log_debugA("calling mir_free");
+	mir_free(szDoc);
 
-	tszRes = a2u((char *)xmlChRes);
+	tszRes = mir_a2t((char *)xmlChRes);
 
 	log_debugA("calling xmlFree");
 	pXmlFree(xmlChRes);
@@ -145,8 +145,8 @@ static TCHAR *parseXsltf(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 
-	szStyleSheet = u2a(ai->targv[1]);
-	szDoc = u2a(ai->targv[2]);
+	szStyleSheet = mir_t2a(ai->targv[1]);
+	szDoc = mir_t2a(ai->targv[2]);
 
 
 	log_debugA("xslt with %s and %s", szStyleSheet, szDoc);
@@ -196,10 +196,10 @@ static TCHAR *parseXsltf(ARGUMENTSINFO *ai) {
 	//log_debug("calling xmlCleanupParser");
     //pXmlCleanupParser();
 
-	free(szStyleSheet);
-	free(szDoc);
+	mir_free(szStyleSheet);
+	mir_free(szDoc);
 
-	tszRes = a2u((char *)xmlChRes);
+	tszRes = mir_a2t((char *)xmlChRes);
 
 	log_debugA("calling xmlFree");
 	pXmlFree(xmlChRes);

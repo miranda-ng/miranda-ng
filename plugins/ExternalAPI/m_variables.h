@@ -21,15 +21,19 @@
 #define __M_VARS
 
 #if !defined(_TCHAR_DEFINED)
-#include <tchar.h>
+	#include <tchar.h>
+#endif
+
+#if !defined(M_CORE_H__)
+	#include <m_core.h>
 #endif
 
 #ifndef VARIABLES_NOHELPER
-#include <m_button.h>
+	#include <m_button.h>
 #endif
 
 #ifndef SIZEOF
-#include <win2k.h>
+	#include <win2k.h>
 #endif
 
 // --------------------------------------------------------------------------
@@ -190,12 +194,12 @@ __inline static TCHAR *variables_parsedup(TCHAR *tszFormat, TCHAR *tszExtraText,
     fi.flags |= FIF_TCHAR;
     tszParsed = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
     if (tszParsed) {
-      tszResult = _tcsdup(tszParsed);
+      tszResult = mir_tstrdup(tszParsed);
       CallService(MS_VARS_FREEMEMORY, (WPARAM)tszParsed, 0);
       return tszResult;
     }
   }
-  return tszFormat?_tcsdup(tszFormat):tszFormat;
+  return tszFormat?mir_tstrdup(tszFormat):tszFormat;
 }
 
 __inline static TCHAR *variables_parsedup_ex(TCHAR *tszFormat, TCHAR *tszExtraText, HANDLE hContact,
@@ -215,12 +219,12 @@ __inline static TCHAR *variables_parsedup_ex(TCHAR *tszFormat, TCHAR *tszExtraTe
     fi.cbTemporaryVarsSize = cbTemporaryVarsSize;
     tszParsed = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
     if (tszParsed) {
-      tszResult = _tcsdup(tszParsed);
+      tszResult = mir_tstrdup(tszParsed);
       CallService(MS_VARS_FREEMEMORY, (WPARAM)tszParsed, 0);
       return tszResult;
     }
   }
-  return tszFormat?_tcsdup(tszFormat):tszFormat;
+  return tszFormat?mir_tstrdup(tszFormat):tszFormat;
 }
 #endif
 

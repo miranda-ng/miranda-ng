@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -26,7 +26,7 @@ static TCHAR *parseCaps(ARGUMENTSINFO *ai) {
 	if (ai->argc != 2)
 		return NULL;
 
-	res = _tcsdup(ai->targv[1]);
+	res = mir_tstrdup(ai->targv[1]);
 	cur = res;
 	CharLower(res);
 	*cur = (TCHAR)CharUpper((LPTSTR)*cur);
@@ -53,7 +53,7 @@ static TCHAR *parseCaps2(ARGUMENTSINFO *ai) {
 	if (ai->argc != 2)
 		return NULL;
 
-	res = _tcsdup(ai->targv[1]);
+	res = mir_tstrdup(ai->targv[1]);
 	cur = res;
 	*cur = (TCHAR)CharUpper((LPTSTR)*cur);
 	cur++;
@@ -72,7 +72,7 @@ static TCHAR *parseCrlf(ARGUMENTSINFO *ai) {
 
 	ai->flags |= AIF_DONTPARSE;
 	
-	return _tcsdup(_T("\r\n"));
+	return mir_tstrdup(_T("\r\n"));
 }
 
 static TCHAR *parseEolToCrlf(ARGUMENTSINFO *ai) {
@@ -83,7 +83,7 @@ static TCHAR *parseEolToCrlf(ARGUMENTSINFO *ai) {
 	if (ai->argc != 2) {
 		return NULL;
 	}
-	res = _tcsdup(ai->targv[1]);
+	res = mir_tstrdup(ai->targv[1]);
 	cur = res;
 	do {
 		cur = _tcschr(cur, _T('\n'));
@@ -120,10 +120,10 @@ static TCHAR *parseFixeol(ARGUMENTSINFO *ai) {
 		cur++;
 	}
 	if (*cur == '\0') {
-		return _tcsdup(ai->targv[1]);
+		return mir_tstrdup(ai->targv[1]);
 	}
 	cur--;
-	res = ( TCHAR* )malloc((cur-ai->targv[1] + _tcslen(szReplacement) + 1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((cur-ai->targv[1] + _tcslen(szReplacement) + 1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return res;
 	}
@@ -139,7 +139,7 @@ static TCHAR *parseFixeol2(ARGUMENTSINFO *ai) {
 	TCHAR *res, *cur, *szEol, *szReplacement;
 
 	unsigned int pos = 0;
-	res = _tcsdup(ai->targv[1]);
+	res = mir_tstrdup(ai->targv[1]);
 	switch( ai->argc ) {
 		case 2:	szReplacement = _T(" ");	break;
 		case 3:  szReplacement = ai->targv[2];  break;
@@ -183,7 +183,7 @@ static TCHAR *parseInsert(ARGUMENTSINFO *ai) {
 	if (pos > _tcslen(ai->targv[1])) {
 		return NULL;
 	}
-	res = ( TCHAR* )malloc((_tcslen(ai->targv[1]) + _tcslen(ai->targv[2]) + 1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((_tcslen(ai->targv[1]) + _tcslen(ai->targv[2]) + 1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -208,7 +208,7 @@ static TCHAR *parseLeft(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	len = min(len, (signed int)_tcslen(ai->targv[1]));
-	res = ( TCHAR* )malloc((len + 1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((len + 1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -261,7 +261,7 @@ static TCHAR *parseLower(ARGUMENTSINFO *ai) {
 	if (ai->argc != 2) {
 		return NULL;
 	}
-	res = _tcsdup(ai->targv[1]);
+	res = mir_tstrdup(ai->targv[1]);
 	if (res == NULL) {
 		return NULL;
 	}
@@ -282,7 +282,7 @@ static TCHAR *parseLongest(ARGUMENTSINFO *ai) {
 			iLong = i;
 		}
 	}
-	return _tcsdup(ai->targv[iLong]);
+	return mir_tstrdup(ai->targv[iLong]);
 }
 
 static TCHAR *parseNoOp(ARGUMENTSINFO *ai) {
@@ -291,7 +291,7 @@ static TCHAR *parseNoOp(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	
-	return _tcsdup(ai->targv[1]);
+	return mir_tstrdup(ai->targv[1]);
 }
 
 static TCHAR *parsePad(ARGUMENTSINFO *ai) {
@@ -311,7 +311,7 @@ static TCHAR *parsePad(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	addcount = max(padding - (signed int)_tcslen(ai->targv[1]), 0);
-	res = ( TCHAR* )malloc((addcount + _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((addcount + _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -341,7 +341,7 @@ static TCHAR *parsePadright(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	addcount = max(padding - (signed int)_tcslen(ai->targv[1]), 0);
-	res = ( TCHAR* )malloc((addcount + _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((addcount + _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -370,7 +370,7 @@ static TCHAR *parsePadcut(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	addcount = max(padding - (signed int)_tcslen(ai->targv[1]), 0);
-	res = ( TCHAR* )malloc((padding + 1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((padding + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -401,7 +401,7 @@ static TCHAR *parsePadcutright(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	addcount = max(padding - (signed int)_tcslen(ai->targv[1]), 0);
-	res = ( TCHAR* )malloc((padding + 1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((padding + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -428,7 +428,7 @@ static TCHAR *parseRepeat(ARGUMENTSINFO *ai) {
 	if (count < 0) {
 		return NULL;
 	}
-	res = ( TCHAR* )malloc((count * _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((count * _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -449,7 +449,7 @@ static TCHAR *parseReplace(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	pos = 0;
-	res = _tcsdup(ai->targv[1]);
+	res = mir_tstrdup(ai->targv[1]);
 	for (i=2;i<ai->argc;i+=2) {
 		if (_tcslen(ai->targv[i]) == 0) {
 			continue;
@@ -485,7 +485,7 @@ static TCHAR *parseRight(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	len = min(len, (signed int)_tcslen(ai->targv[1]));
-	res = ( TCHAR* )malloc((len+1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -508,14 +508,14 @@ static TCHAR *parseScroll(ARGUMENTSINFO *ai) {
 	}
 	if (_tcslen(ai->targv[1]) == 0) {
 	
-		return _tcsdup(ai->targv[1]);
+		return mir_tstrdup(ai->targv[1]);
 	}
 	move = ttoi(ai->targv[3])%_tcslen(ai->targv[1]);
 	display = ttoi(ai->targv[2]);
 	if (display > _tcslen(ai->targv[1])) {
 		display = _tcslen(ai->targv[1]);
 	}
-	res = ( TCHAR* )malloc((2*_tcslen(ai->targv[1])+1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((2*_tcslen(ai->targv[1])+1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -543,7 +543,7 @@ static TCHAR *parseShortest(ARGUMENTSINFO *ai) {
 		}
 	}
 
-	return _tcsdup(ai->targv[iShort]);
+	return mir_tstrdup(ai->targv[iShort]);
 }
 
 static TCHAR *parseStrchr(ARGUMENTSINFO *ai) {
@@ -557,7 +557,7 @@ static TCHAR *parseStrchr(ARGUMENTSINFO *ai) {
 	ZeroMemory(szVal, sizeof(szVal));
 	c = _tcschr(ai->targv[1], *ai->targv[2]);
 	if ( (c == NULL) || (*c == _T('\0'))) {
-		return _tcsdup(_T("0"));
+		return mir_tstrdup(_T("0"));
 	}
 
 	return itot(c-ai->targv[1]+1);
@@ -572,7 +572,7 @@ static TCHAR *parseStrcmp(ARGUMENTSINFO *ai) {
 		ai->flags |= AIF_FALSE;
 	}
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 static TCHAR *parseStrmcmp(ARGUMENTSINFO *ai) {
@@ -590,7 +590,7 @@ static TCHAR *parseStrmcmp(ARGUMENTSINFO *ai) {
 		}
 	}
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 static TCHAR *parseStrncmp(ARGUMENTSINFO *ai) {
@@ -608,7 +608,7 @@ static TCHAR *parseStrncmp(ARGUMENTSINFO *ai) {
 		ai->flags |= AIF_FALSE;
 	}
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 static TCHAR *parseStricmp(ARGUMENTSINFO *ai) {
@@ -621,7 +621,7 @@ static TCHAR *parseStricmp(ARGUMENTSINFO *ai) {
 		ai->flags |= AIF_FALSE;
 	}
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 static TCHAR *parseStrnicmp(ARGUMENTSINFO *ai) {
@@ -639,7 +639,7 @@ static TCHAR *parseStrnicmp(ARGUMENTSINFO *ai) {
 		ai->flags |= AIF_FALSE;
 	}
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 	
 static TCHAR *parseStrrchr(ARGUMENTSINFO *ai) {
@@ -651,7 +651,7 @@ static TCHAR *parseStrrchr(ARGUMENTSINFO *ai) {
 	}
 	c = _tcsrchr(ai->targv[1], *ai->targv[2]);
 	if ( (c == NULL) || (*c == _T('\0'))) {
-		return _tcsdup(_T("0"));
+		return mir_tstrdup(_T("0"));
 	}
 
 	return itot(c-ai->targv[1]+1);
@@ -666,7 +666,7 @@ static TCHAR *parseStrstr(ARGUMENTSINFO *ai) {
 	}
 	c = _tcsstr(ai->targv[1], ai->targv[2]);
 	if ( (c == NULL) || (*c == _T('\0'))) {
-		return _tcsdup(_T("0"));
+		return mir_tstrdup(_T("0"));
 	}
 
 	return itot(c-ai->targv[1]+1);
@@ -690,7 +690,7 @@ static TCHAR *parseSubstr(ARGUMENTSINFO *ai) {
 	if (to < from) {
 		return NULL;
 	}
-	res = ( TCHAR* )malloc((to-from+1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((to-from+1)*sizeof(TCHAR));
 	ZeroMemory(res, (to-from+1)*sizeof(TCHAR));
 	_tcsncpy(res, ai->targv[1]+from, to-from);
 
@@ -709,7 +709,7 @@ static TCHAR *parseSelect(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	
-	return _tcsdup(ai->targv[n+1]);
+	return mir_tstrdup(ai->targv[n+1]);
 }
 
 static TCHAR *parseSwitch(ARGUMENTSINFO *ai) {
@@ -721,7 +721,7 @@ static TCHAR *parseSwitch(ARGUMENTSINFO *ai) {
 	}
 	for (i=2;i<ai->argc;i+=2) {
 		if (!_tcscmp(ai->targv[1], ai->targv[i])) {
-			return _tcsdup(ai->targv[i+1]);
+			return mir_tstrdup(ai->targv[i+1]);
 		}
 	}
 	return NULL;
@@ -743,9 +743,9 @@ static TCHAR *parseTrim(ARGUMENTSINFO *ai) {
 		ecur--;
 	}
 	if (scur >= ecur) {
-		return _tcsdup(_T(""));
+		return mir_tstrdup(_T(""));
 	}
-	res = ( TCHAR* )malloc((ecur-scur+2)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((ecur-scur+2)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -767,7 +767,7 @@ static TCHAR *parseTab(ARGUMENTSINFO *ai) {
 	if (count < 0) {
 		return NULL;
 	}
-	res = ( TCHAR* )malloc((count+1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((count+1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -787,7 +787,7 @@ static TCHAR *parseUpper(ARGUMENTSINFO *ai) {
 	if (ai->argc != 2) {
 		return NULL;
 	}
-	res = _tcsdup(ai->targv[1]);
+	res = mir_tstrdup(ai->targv[1]);
 	if (res == NULL) {
 		return NULL;
 	}
@@ -827,7 +827,7 @@ static TCHAR *getNthWord(TCHAR *szString, int w) {
 	while ( (*ecur != _T(' ')) && (*ecur != _T('\0'))) {
 		ecur++;
 	}
-	res = ( TCHAR* )malloc((ecur-scur+1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((ecur-scur+1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -870,9 +870,9 @@ static TCHAR *parseWord(ARGUMENTSINFO *ai) {
 				_tcscat(res, szWord);
 			}
 		}
-		else res = _tcsdup(szWord);
+		else res = mir_tstrdup(szWord);
 
-		free(szWord);
+		mir_free(szWord);
 	}
 
 	return res;
@@ -885,7 +885,7 @@ static TCHAR *parseExtratext(ARGUMENTSINFO *ai)
 
 	ai->flags |= AIF_DONTPARSE;
 	if (ai->fi->szExtraText != NULL)
-		return _tcsdup(ai->fi->tszExtraText);
+		return mir_tstrdup(ai->fi->tszExtraText);
 
 	return NULL;
 }

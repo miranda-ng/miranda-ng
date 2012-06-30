@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -179,9 +179,9 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 	for (pos = 0;pos < _tcslen(string);pos++) {
 		// string may move in memory, iterate by remembering the position in the string
 		cur = string+pos;
-		// free memory from last iteration, this way we can bail out at any time in the loop
+		// mir_free memory from last iteration, this way we can bail out at any time in the loop
 		if (parsedToken != NULL)
-			free(parsedToken);
+			mir_free(parsedToken);
 
 		for (i=0;i<argc;i++)
 			if (argv[i] != NULL)
@@ -247,7 +247,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			fi->eCount += 1;
 			continue;
 		}
-		token = ( TCHAR* )malloc((tcur-scur+1)*sizeof(TCHAR));
+		token = ( TCHAR* )mir_alloc((tcur-scur+1)*sizeof(TCHAR));
 		if (token == NULL) {
 			fi->eCount += 1;
 			return NULL;
@@ -267,7 +267,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
  		}
  		if (tmpVarPos < 0)
  			tr = searchRegister(token, (*cur==_T(FIELD_CHAR))?TRF_FIELD:TRF_FUNCTION);
- 		free(token);
+ 		mir_free(token);
  		if (tmpVarPos < 0 && tr == NULL) {
 			fi->eCount += 1;
 			// token not found, continue
@@ -388,10 +388,10 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		pos--; // parse the same pos again, it changed
 
  		if ( tr == NULL )
- 			parsedToken = NULL; // To avoid free
+ 			parsedToken = NULL; // To avoid mir_free
 	}
 	if (parsedToken != NULL)
-		free(parsedToken);
+		mir_free(parsedToken);
 
 	for ( i=0; i < argc; i++ )
 		if ( argv[i] != NULL )
@@ -440,11 +440,11 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam) {
 
 	if (!(fi->flags&FIF_TCHAR)) {
  		copied = TRUE;
-		log_debugA("a2u (%s)", fi->szExtraText);
-		tszFormat = fi->szFormat!=NULL?a2u(fi->szFormat):NULL;
-		tszSource = fi->szExtraText!=NULL?a2u(fi->szExtraText):NULL;
+		log_debugA("mir_a2t (%s)", fi->szExtraText);
+		tszFormat = fi->szFormat!=NULL?mir_a2t(fi->szFormat):NULL;
+		tszSource = fi->szExtraText!=NULL?mir_a2t(fi->szExtraText):NULL;
  		for(i = 0; i < fi->cbTemporaryVarsSize; i++) {
- 			fi->tszaTemporaryVars[i] = fi->szaTemporaryVars[i]!=NULL?a2u(fi->szaTemporaryVars[i]):NULL;
+ 			fi->tszaTemporaryVars[i] = fi->szaTemporaryVars[i]!=NULL?mir_a2t(fi->szaTemporaryVars[i]):NULL;
  		}
 	}
 	else {
@@ -468,14 +468,14 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam) {
 
  	if (copied) {
  		if (tszFormat != NULL) {
- 			free(tszFormat);
+ 			mir_free(tszFormat);
  		}
  		if (tszSource != NULL) {
- 			free(tszSource);
+ 			mir_free(tszSource);
  		}
  		for(i = 0; i < fi->cbTemporaryVarsSize; i++) {
  			if (fi->tszaTemporaryVars != NULL) {
- 				free(fi->tszaTemporaryVars);
+ 				mir_free(fi->tszaTemporaryVars);
  			}
  		}
  	}
@@ -619,7 +619,7 @@ int LoadVarModule() {
 		fi.tszFormat = db_gets(SETTING_STARTUPTEXT, NULL);
 		if (fi.tszFormat != NULL) {
 			freeMemory((WPARAM)formatString(&fi), 0);
-			free(fi.tszFormat);
+			mir_free(fi.tszFormat);
 		}
 	}
 	log_debugA("Variables: Init done");

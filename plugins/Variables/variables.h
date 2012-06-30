@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -167,8 +167,6 @@ INT_PTR  showHelpExService(WPARAM wParam, LPARAM lParam);
 INT_PTR  getSkinItemService(WPARAM wParam, LPARAM lParam);
 int  iconsChanged(WPARAM wParam, LPARAM lParam);
 
-char* u2a( wchar_t* src );
-wchar_t* a2u( char* src );
 int ttoi(TCHAR *string);
 TCHAR *itot(int num);
 

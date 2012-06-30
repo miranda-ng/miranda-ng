@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -46,29 +46,29 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai) {
 	}
 	ai->flags = AIF_FALSE;
 
-	arg1 = u2a(ai->targv[1]);
-	arg2 = u2a(ai->targv[2]);
+	arg1 = mir_t2a(ai->targv[1]);
+	arg2 = mir_t2a(ai->targv[2]);
 
 	ppat = pcreCompile(arg1, 0, &err, &erroffset, NULL);
 	if (ppat == NULL) {
-		free(arg1);
-		free(arg2);
+		mir_free(arg1);
+		mir_free(arg2);
 		return NULL;
 	}
 	extra = pcreStudy(ppat, 0, &err);
 	nmat = pcreExec(ppat, extra, arg2, strlen(arg2), 0, 0, offsets, 99);
-	free(arg1);
-	free(arg2);
+	mir_free(arg1);
+	mir_free(arg2);
 	if (nmat > 0) {
 		ai->flags &= ~AIF_FALSE;
 		_ltoa(nmat, szVal, 10);
 
-		res = a2u(szVal);
+		res = mir_a2t(szVal);
 
 		return res;
 	}
 
-	return _tcsdup(_T("0"));
+	return mir_tstrdup(_T("0"));
 }
 
 /*
@@ -88,23 +88,23 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 
-	arg1 = u2a(ai->targv[1]);
-	arg2 = u2a(ai->targv[2]);
-	arg3 = u2a(ai->targv[3]);
+	arg1 = mir_t2a(ai->targv[1]);
+	arg2 = mir_t2a(ai->targv[2]);
+	arg3 = mir_t2a(ai->targv[3]);
 
 	number = atoi(arg3);
 	if (number < 0) {
-		free(arg1);
-		free(arg2);
-		free(arg3);
+		mir_free(arg1);
+		mir_free(arg2);
+		mir_free(arg3);
 		return NULL;
 	}
 	ai->flags = AIF_FALSE;	
 	ppat = pcreCompile(arg1, 0, &err, &erroffset, NULL);
 	if (ppat == NULL) {
-		free(arg1);
-		free(arg2);
-		free(arg3);
+		mir_free(arg1);
+		mir_free(arg2);
+		mir_free(arg3);
 		return NULL;
 	}
 	extra = pcreStudy(ppat, 0, &err);
@@ -116,24 +116,24 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai) {
 		ai->flags |= AIF_FALSE;
 	}
 	else {
-		res = _strdup(substring);
+		res = mir_strdup(substring);
 		pcreFreeSubstring(substring);
 
 
-		tres = a2u(res);
+		tres = mir_a2t(res);
 
-		free(res);
-		free(arg1);
-		free(arg2);
-		free(arg3);
+		mir_free(res);
+		mir_free(arg1);
+		mir_free(arg2);
+		mir_free(arg3);
 
 		return tres;
 	}
-	free(arg1);
-	free(arg2);
-	free(arg3);
+	mir_free(arg1);
+	mir_free(arg2);
+	mir_free(arg3);
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 int initPcre() {

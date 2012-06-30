@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -34,8 +34,8 @@ static int addToVariablesRegister(TCHAR *szName, TCHAR *szText) {
 	EnterCriticalSection(&csVarRegister);
 	for (i=0;i<vrCount;i++) {
 		if ( (!_tcscmp(vr[i].szName, szName))) { // && (vr[i].dwOwnerThread == GetCurrentThreadId())) {
-			free(vr[i].szText);
-			vr[i].szText = _tcsdup(szText);
+			mir_free(vr[i].szText);
+			vr[i].szText = mir_tstrdup(szText);
 			LeaveCriticalSection(&csVarRegister);
 			
 			return 0;
@@ -46,8 +46,8 @@ static int addToVariablesRegister(TCHAR *szName, TCHAR *szText) {
 		LeaveCriticalSection(&csVarRegister);
 		return -1;
 	}
-	vr[vrCount].szName = _tcsdup(szName);
-	vr[vrCount].szText = _tcsdup(szText);
+	vr[vrCount].szName = mir_tstrdup(szName);
+	vr[vrCount].szText = mir_tstrdup(szText);
 	vr[vrCount].dwOwnerThread = GetCurrentThreadId();
 	vrCount += 1;
 	LeaveCriticalSection(&csVarRegister);
@@ -67,7 +67,7 @@ static TCHAR *searchVariableRegister(TCHAR *szName) {
 	EnterCriticalSection(&csVarRegister);
 	for (i=0;i<vrCount;i++) {
 		if ( (!_tcscmp(vr[i].szName, szName))) { // && (vr[i].dwOwnerThread == GetCurrentThreadId())) {
-			res = _tcsdup(vr[i].szText);
+			res = mir_tstrdup(vr[i].szText);
 			LeaveCriticalSection(&csVarRegister);
 			return res;
 		}
@@ -85,8 +85,8 @@ int clearVariableRegister() {
 	EnterCriticalSection(&csVarRegister);
 	for (i=0;i<vrCount;i++) {
 		if (vr[i].dwOwnerThread == GetCurrentThreadId()) {
-			free(vr[i].szName);
-			free(vr[i].szText);
+			mir_free(vr[i].szName);
+			mir_free(vr[i].szText);
 			if (vrCount > 1) {
 				memcpy(&vr[i], &vr[vrCount-1], sizeof(VARIABLEREGISTER));
 				vr = ( VARIABLEREGISTER* )realloc(vr, (vrCount-1)*sizeof(VARIABLEREGISTER));
@@ -97,7 +97,7 @@ int clearVariableRegister() {
 				vrCount -= 1;
 			}
 			else {
-				free(vr);
+				mir_free(vr);
 				vr = NULL;
 				vrCount = 0;
 			}
@@ -138,7 +138,7 @@ static TCHAR *parsePuts(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 	
 static TCHAR *parseGet(ARGUMENTSINFO *ai) {

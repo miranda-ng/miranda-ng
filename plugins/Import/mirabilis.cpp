@@ -1056,7 +1056,7 @@ BOOL ImportExtendedMessage(DWORD dwOffset)
 	// Convert timestamp
 	dbei.timestamp = footer->timestamp + nUCTOffset;
 	dbei.cbBlob = wLength;
-	dbei.pBlob = (PBYTE)calloc(wLength,1);
+	dbei.pBlob = (PBYTE)mir_calloc(wLength,1);
 	CopyMemory(dbei.pBlob, pszText, dbei.cbBlob);
 	dbei.pBlob[dbei.cbBlob - 1] = 0;
 

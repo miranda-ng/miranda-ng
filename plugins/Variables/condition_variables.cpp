@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -39,7 +39,7 @@ int ParseStringCondition(DWORD conditionID, REPORTINFO *ri) {
 			fi.tszExtraText = ((ri->td!=NULL)&&(ri->td->dFlags&DF_TEXT))?ri->td->tszText:NULL;
 			fi.hContact = ((ri->td!=NULL)&&(ri->td->dFlags&DF_CONTACT))?ri->td->hContact:NULL;
 			fi.flags |= FIF_TCHAR;
-			free((TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0));
+			mir_free((TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0));
 			log_debugA("err: %d", fi.eCount);
 			res = fi.eCount==0?CRV_TRUE:CRV_FALSE;
 			DBFreeVariant(&dbv);
@@ -116,7 +116,7 @@ INT_PTR CALLBACK DlgProcOptsCondition(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		tszText = Hlp_GetDlgItemText(hwndDlg, IDC_PARSESTRING);
 		if (tszText != NULL) {
 			DBWriteConditionSettingTString(conditionID, NULL, MODULENAME, SETTING_PARSESTRING, tszText);
-			free(tszText);
+			mir_free(tszText);
 		}
 		break;
 					   }

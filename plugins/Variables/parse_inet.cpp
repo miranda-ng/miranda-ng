@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -30,7 +30,7 @@ static TCHAR *parseUrlEnc(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 
-	res = u2a(ai->targv[1]);
+	res = mir_t2a(ai->targv[1]);
 
 	if (res == NULL) {
 		return NULL;
@@ -51,9 +51,9 @@ static TCHAR *parseUrlEnc(ARGUMENTSINFO *ai) {
 		cur+=strlen(hex);
 	}
 
-	tres = a2u(res);
+	tres = mir_a2t(res);
 
-	free(res);
+	mir_free(res);
 
 	return tres;
 }
@@ -68,7 +68,7 @@ static TCHAR *parseUrlDec(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 
-	res = u2a(ai->targv[1]);
+	res = mir_t2a(ai->targv[1]);
 
 	if (res == NULL) {
 		return NULL;
@@ -85,9 +85,9 @@ static TCHAR *parseUrlDec(ARGUMENTSINFO *ai) {
 	}
 	res = ( char* )realloc(res, strlen(res)+1);
 
-	tres = a2u(res);
+	tres = mir_a2t(res);
 
-	free(res);
+	mir_free(res);
 	
 	return tres;
 }
@@ -105,7 +105,7 @@ static TCHAR *parseNToA(ARGUMENTSINFO *ai) {
 	res = inet_ntoa(in);
 	if (res != NULL) {
 
-		return a2u(res);
+		return mir_a2t(res);
 
 	}
 
@@ -125,7 +125,7 @@ static TCHAR *parseHToA(ARGUMENTSINFO *ai) {
 	res = inet_ntoa(in);
 	if (res != NULL) {
 
-		return a2u(res);
+		return mir_a2t(res);
 
 	}
 

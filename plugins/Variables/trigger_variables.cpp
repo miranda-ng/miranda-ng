@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -35,7 +35,7 @@ static int addToCache(DWORD triggerID) {
 
 	for (i=0;i<tvcCount;i++) {
 		if (tvc[i].triggerID == triggerID) {
-			free(tvc[i].parsedText);
+			mir_free(tvc[i].parsedText);
 			MoveMemory(&tvc[i], &tvc[tvcCount-1], sizeof(TRG_VAR_CACHE));
 			tvcCount -= 1;
 		}
@@ -67,7 +67,7 @@ static int removeFromCache(DWORD triggerID) {
 
 	for (i=0;i<tvcCount;i++) {
 		if (tvc[i].triggerID == triggerID) {
-			free(tvc[i].parsedText);
+			mir_free(tvc[i].parsedText);
 			MoveMemory(&tvc[i], &tvc[tvcCount-1], sizeof(TRG_VAR_CACHE));
 			tvcCount -= 1;
 		}
@@ -101,7 +101,7 @@ static VOID CALLBACK checkStringsTimer(HWND hwnd,UINT message,UINT_PTR idEvent,D
 					continue;
 				}
 				if (!_tcscmp(tvc[i].parsedText, parsedText)) {
-					free(parsedText);
+					mir_free(parsedText);
 					continue;
 				}
 				else {
@@ -118,7 +118,7 @@ static VOID CALLBACK checkStringsTimer(HWND hwnd,UINT message,UINT_PTR idEvent,D
 					ri.td = &td;
 					
 					CallService(MS_TRIGGER_REPORTEVENT, 0, (LPARAM)&ri);
-					free(tvc[i].parsedText);
+					mir_free(tvc[i].parsedText);
 					tvc[i].parsedText = parsedText;
 				}
 				DBFreeVariant(&dbv);
@@ -163,7 +163,7 @@ INT_PTR CALLBACK DlgProcOptsStringChange(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		tszFormatText = Hlp_GetDlgItemText(hwndDlg, IDC_FORMATTEXT);
 		if (tszFormatText != NULL) {
 			DBWriteTriggerSettingTString(triggerID, NULL, MODULENAME, SETTING_TRIGGERTEXT, tszFormatText);
-			free(tszFormatText);
+			mir_free(tszFormatText);
 		}
 		addToCache(triggerID);
 		break;

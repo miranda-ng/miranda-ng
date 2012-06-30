@@ -4,7 +4,7 @@ lookup3.c, by Bob Jenkins, May 2006, Public Domain.
 These are functions for producing 32-bit hashes for hash table lookup.
 hashword(), hashlittle(), hashbig(), mix(), and final() are externally 
 useful functions.  Routines to test the hash are included if SELF_TEST 
-is defined.  You can use this free for any purpose.  It has no warranty.
+is defined.  You can use this mir_free for any purpose.  It has no warranty.
 
 You probably want to use hashlittle().  hashlittle() and hashbig()
 hash byte arrays.  hashlittle() is is faster than hashbig() on
@@ -210,7 +210,7 @@ If you are hashing n strings (uint8 **)k, do it like this:
   for (i=0, h=0; i<n; ++i) h = hashlittle( k[i], len[i], h);
 
 By Bob Jenkins, 2006.  bob_jenkins@burtleburtle.net.  You may use this
-code any way you wish, private, educational, or commercial.  It's free.
+code any way you wish, private, educational, or commercial.  It's mir_free.
 
 Use for hash table lookup, or anything where one collision in 2^^32 is
 acceptable.  Do NOT use for cryptographic purposes.

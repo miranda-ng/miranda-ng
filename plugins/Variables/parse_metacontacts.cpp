@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -37,11 +37,11 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	int count = getContactFromString( &ci );
 	if ( count == 1 && ci.hContacts != NULL ) {
 		hContact = ci.hContacts[0];
-		free(ci.hContacts);
+		mir_free(ci.hContacts);
 	}
 	else {
 		if (ci.hContacts != NULL)
-			free(ci.hContacts);
+			mir_free(ci.hContacts);
 		return NULL;
 	}
 
@@ -65,7 +65,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 			return NULL;
 	}
 
-	res = ( TCHAR* )malloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szUniqueID);
 		return NULL;
@@ -73,13 +73,13 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 
 	TCHAR* tszProto;
 	
-		tszProto = a2u(szProto);
+		tszProto = mir_a2t(szProto);
 	
 
 	if ( tszProto != NULL && szUniqueID != NULL ) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
 		mir_free(szUniqueID);
-		free(tszProto);
+		mir_free(tszProto);
 	}
 
 	return res;
@@ -99,11 +99,11 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 	int count = getContactFromString( &ci );
 	if ( count == 1 && ci.hContacts != NULL ) {
 		hContact = ci.hContacts[0];
-		free(ci.hContacts);
+		mir_free(ci.hContacts);
 	}
 	else {
 		if (ci.hContacts != NULL)
-			free(ci.hContacts);
+			mir_free(ci.hContacts);
 		return NULL;
 	}
 
@@ -126,7 +126,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 			return NULL;
 	}
 
-	res = ( TCHAR* )malloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szUniqueID);
 		return NULL;
@@ -134,13 +134,13 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 
 	TCHAR* tszProto;
 
-		tszProto = a2u(szProto);
+		tszProto = mir_a2t(szProto);
 	
 
 	if ( tszProto != NULL && szUniqueID != NULL ) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
 		mir_free(szUniqueID);
-		free(tszProto);
+		mir_free(tszProto);
 	}
 
 	return res;
@@ -160,11 +160,11 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 	int count = getContactFromString( &ci );
 	if ( count == 1 && ci.hContacts != NULL ) {
 		hContact = ci.hContacts[0];
-		free( ci.hContacts );
+		mir_free( ci.hContacts );
 	}
 	else {
 		if ( ci.hContacts != NULL )
-			free( ci.hContacts );
+			mir_free( ci.hContacts );
 		return NULL;
 	}
 
@@ -187,7 +187,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 			return NULL;
 	}
 
-	res = ( TCHAR* )malloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szUniqueID);
 		return NULL;
@@ -195,13 +195,13 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 
 	TCHAR* tszProto;
 	
-		tszProto = a2u(szProto);
+		tszProto = mir_a2t(szProto);
 	
 
 	if ( tszProto != NULL && szUniqueID != NULL ) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
 		mir_free(szUniqueID);
-		free(tszProto);
+		mir_free(tszProto);
 	}
 
 	return res;

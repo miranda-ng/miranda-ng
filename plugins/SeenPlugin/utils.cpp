@@ -615,8 +615,6 @@ static DWORD __stdcall waitThread(logthread_info* infoParam)
 	return 0;
 }
 
-
-
 int UpdateValues(WPARAM wparam,LPARAM lparam)
 {
 	DBCONTACTWRITESETTING *cws;

@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -37,11 +37,11 @@ static TCHAR *parseAnd(ARGUMENTSINFO *ai) {
 		//if (fi.pCount <= 0) {
 		if (fi.eCount > 0) {
 			ai->flags |= AIF_FALSE;
-			return _tcsdup(_T(""));
+			return mir_tstrdup(_T(""));
 		}
 	}
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 static TCHAR *parseFalse(ARGUMENTSINFO *ai) {
@@ -51,7 +51,7 @@ static TCHAR *parseFalse(ARGUMENTSINFO *ai) {
 	}
 	ai->flags |= AIF_FALSE;
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 static TCHAR *parseIf(ARGUMENTSINFO *ai) {
@@ -70,10 +70,10 @@ static TCHAR *parseIf(ARGUMENTSINFO *ai) {
 	mir_free(szCondition);
 	//if (fi.pCount > 0) {
 	if (fi.eCount == 0) {
-		return _tcsdup(ai->targv[2]);
+		return mir_tstrdup(ai->targv[2]);
 	}
 	else {
-		return _tcsdup(ai->targv[3]);
+		return mir_tstrdup(ai->targv[3]);
 	}
 }
 
@@ -99,7 +99,7 @@ static TCHAR *parseIf2(ARGUMENTSINFO *ai) {
 //			ai->flags |= AIF_DONTPARSE;
 			mir_free(szCondition);
 		}
-		return _tcsdup(ai->targv[2]);
+		return mir_tstrdup(ai->targv[2]);
 	}
 }
 
@@ -153,12 +153,12 @@ static TCHAR *parseIfequal(ARGUMENTSINFO *ai)
 	if ( (ttoi(tszFirst)) == (ttoi(tszSecond))) {
 		mir_free(tszFirst);
 		mir_free(tszSecond);
-		return _tcsdup(ai->targv[3]);
+		return mir_tstrdup(ai->targv[3]);
 	}
 	mir_free(tszFirst);
 	mir_free(tszSecond);
 
-	return _tcsdup(ai->targv[4]);
+	return mir_tstrdup(ai->targv[4]);
 }
 
 static TCHAR *parseIfgreater(ARGUMENTSINFO *ai) {
@@ -188,12 +188,12 @@ static TCHAR *parseIfgreater(ARGUMENTSINFO *ai) {
 	if ( (ttoi(tszFirst)) > (ttoi(tszSecond))) {
 		mir_free(tszFirst);
 		mir_free(tszSecond);
-		return _tcsdup(ai->targv[3]);
+		return mir_tstrdup(ai->targv[3]);
 	}
 	mir_free(tszFirst);
 	mir_free(tszSecond);
 
-	return _tcsdup(ai->targv[4]);
+	return mir_tstrdup(ai->targv[4]);
 }
 
 static TCHAR *parseIflonger(ARGUMENTSINFO *ai) {
@@ -222,12 +222,12 @@ static TCHAR *parseIflonger(ARGUMENTSINFO *ai) {
 	if ( _tcslen(tszFirst) > _tcslen(tszSecond)) {
 		mir_free(tszFirst);
 		mir_free(tszSecond);
-		return _tcsdup(ai->targv[3]);
+		return mir_tstrdup(ai->targv[3]);
 	}
 	mir_free(tszFirst);
 	mir_free(tszSecond);
 
-	return _tcsdup(ai->targv[4]);
+	return mir_tstrdup(ai->targv[4]);
 }
 
 /*
@@ -243,7 +243,7 @@ static TCHAR *parseFor(ARGUMENTSINFO *ai) {
 	if (ai->argc != 5) {
 		return NULL;
 	}
-	res = _tcsdup(_T(""));
+	res = mir_tstrdup(_T(""));
 //	ai->flags |= AIF_DONTPARSE;
 	ZeroMemory(&fi, sizeof(fi));
 	CopyMemory(&fi, ai->fi, sizeof(fi));
@@ -283,7 +283,7 @@ static TCHAR *parseEqual(ARGUMENTSINFO *ai)
 	if ( ttoi(ai->targv[1]) != ttoi( ai->targv[2] ))
 		ai->flags |= AIF_FALSE;
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 static TCHAR *parseGreater(ARGUMENTSINFO *ai)
@@ -294,7 +294,7 @@ static TCHAR *parseGreater(ARGUMENTSINFO *ai)
 	if ( ttoi(ai->targv[1]) <= ttoi(ai->targv[2] ))
 		ai->flags |= AIF_FALSE;
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 static TCHAR *parseLonger(ARGUMENTSINFO *ai)
@@ -305,7 +305,7 @@ static TCHAR *parseLonger(ARGUMENTSINFO *ai)
 	if ( _tcslen(ai->targv[1]) <= _tcslen(ai->targv[2]))
 		ai->flags |= AIF_FALSE;
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 static TCHAR *parseNot(ARGUMENTSINFO *ai) {
@@ -326,7 +326,7 @@ static TCHAR *parseNot(ARGUMENTSINFO *ai) {
 		ai->flags |= AIF_FALSE;
 	}
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 static TCHAR *parseOr(ARGUMENTSINFO *ai) {
@@ -352,7 +352,7 @@ static TCHAR *parseOr(ARGUMENTSINFO *ai) {
 		}
 	}
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 static TCHAR *parseTrue(ARGUMENTSINFO *ai) {
@@ -361,7 +361,7 @@ static TCHAR *parseTrue(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 static TCHAR *parseXor(ARGUMENTSINFO *ai) {
@@ -388,7 +388,7 @@ static TCHAR *parseXor(ARGUMENTSINFO *ai) {
 	val2 = fi.eCount == 0;
 	ai->flags |= ((val1&AIF_FALSE)==!(val2&AIF_FALSE))?0:AIF_FALSE;
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 int registerLogicTokens() {

@@ -2,7 +2,7 @@
     Helper functions for Miranda-IM (www.miranda-im.org)
     Copyright 2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -30,23 +30,19 @@ int ProtoServiceExists(const char *szModule, const char *szService) {
 char *Hlp_GetProtocolNameA(const char *proto) {
 
 	char protoname[256];
-
-	if ( (!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname))) {
+	if ( (!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)))
 		return NULL;
-	}
 
-	return _strdup(protoname);
+	return mir_strdup(protoname);
 }
 
 TCHAR *Hlp_GetProtocolName(const char *proto) {
 
 	char protoname[256];
-
-	if ( (!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname))) {
+	if ( (!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)))
 		return NULL;
-	}
 
-	return a2u(protoname);
+	return mir_a2t(protoname);
 
 }
 
@@ -56,7 +52,7 @@ char *Hlp_GetDlgItemTextA(HWND hwndDlg, int nIDDlgItem) {
 	if (len < 0)
 		return NULL;
 
-	char *res = ( char* )malloc((len+1));
+	char *res = ( char* )mir_alloc((len+1));
 	ZeroMemory(res, (len+1));
 	GetDlgItemTextA(hwndDlg, nIDDlgItem, res, len+1);
 
@@ -69,33 +65,33 @@ TCHAR *Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
 	if (len < 0)
 		return NULL;
 
-	TCHAR *res = ( TCHAR* )malloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
 	ZeroMemory(res, (len+1)*sizeof(TCHAR));
 	GetDlgItemText(hwndDlg, nIDDlgItem, res, len+1);
 
 	return res;
 }
 
-char *Hlp_GetWindowTextA(HWND hwndDlg) {
-
+char *Hlp_GetWindowTextA(HWND hwndDlg)
+{
 	int len = SendMessageA(hwndDlg, WM_GETTEXTLENGTH, 0, 0);
 	if (len < 0)
 		return NULL;
 
-	char *res = ( char* )malloc((len+1));
+	char *res = ( char* )mir_alloc((len+1));
 	ZeroMemory(res, (len+1));
 	GetWindowTextA(hwndDlg, res, len+1);
 
 	return res;
 }
 
-TCHAR *Hlp_GetWindowText(HWND hwndDlg) {
-
+TCHAR *Hlp_GetWindowText(HWND hwndDlg)
+{
 	int len = SendMessage(hwndDlg, WM_GETTEXTLENGTH, 0, 0);
 	if (len < 0)
 		return NULL;
 
-	TCHAR *res = ( TCHAR* )malloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
 	ZeroMemory(res, (len+1)*sizeof(TCHAR));
 	GetWindowText(hwndDlg, res, len+1);
 
@@ -106,51 +102,13 @@ TCHAR *Hlp_GetWindowText(HWND hwndDlg) {
  * Modified from Miranda CList, clistsettings.c
  **/
 
-char* u2a( wchar_t* src )
-{
-	int cbLen;
-	char* result;
-
-	if (src == NULL) {
-		return NULL;
-	}
-	cbLen = WideCharToMultiByte( CP_ACP, 0, src, -1, NULL, 0, NULL, NULL );
-	result = ( char* )malloc( cbLen+1 );
-	if ( result == NULL )
-		return NULL;
-
-	WideCharToMultiByte( CP_ACP, 0, src, -1, result, cbLen, NULL, NULL );
-	result[ cbLen ] = 0;
-	return result;
-}
-
-wchar_t* a2u( char* src )
-{
-	int cbLen;
-	wchar_t* result;
-	
-	if (src == NULL) {
-		return NULL;
-	}
-	cbLen = MultiByteToWideChar( CP_ACP, 0, src, -1, NULL, 0 );
-	result = ( wchar_t* )malloc( sizeof( wchar_t )*(cbLen+1));
-	if ( result == NULL )
-		return NULL;
-
-	MultiByteToWideChar( CP_ACP, 0, src, -1, result, cbLen );
-	result[ cbLen ] = 0;
-	return result;
-}
-
 // Logging
 static int WriteToDebugLogA(const char *szMsg) {
 
-	int res;
-
-	res = 0;
-	if (ServiceExists(MS_NETLIB_LOG)) {
+	int res = 0;
+	if (ServiceExists(MS_NETLIB_LOG))
 		res = CallService(MS_NETLIB_LOG, (WPARAM)NULL, (LPARAM)szMsg);
-	} else {
+	else {
 		OutputDebugStringA(szMsg);
 		OutputDebugStringA("\r\n");
 	}
@@ -158,8 +116,8 @@ static int WriteToDebugLogA(const char *szMsg) {
 	return res;
 }
 
-int AddDebugLogMessageA(const char* fmt, ...) {
-	
+int AddDebugLogMessageA(const char* fmt, ...)
+{	
 	int res;
 	char szText[MAX_DEBUG], szFinal[MAX_DEBUG];
 	va_list va;
@@ -194,10 +152,10 @@ int AddDebugLogMessage(const TCHAR* fmt, ...) {
 #endif
 
 
-	szFinal = u2a(tszFinal);
+	szFinal = mir_t2a(tszFinal);
 
 	res = WriteToDebugLogA(szFinal);
-	free(szFinal);
+	mir_free(szFinal);
 
 	return res;
 }
@@ -239,11 +197,11 @@ int AddErrorLogMessage(const TCHAR* fmt, ...) {
 #endif
 
 
-	szFinal = u2a(tszFinal);
+	szFinal = mir_t2a(tszFinal);
 
 	res = WriteToDebugLogA(szFinal);
 	MessageBoxA(NULL, szFinal, "Error", MB_OK|MB_ICONERROR);
-	free(szFinal);
+	mir_free(szFinal);
 
 	return res;
 }
@@ -263,7 +221,7 @@ TCHAR *itot(int num) {
 	_itoa(num, tRes, 10);
 
 
-	return a2u(tRes);
+	return mir_a2t(tRes);
 
 }
 

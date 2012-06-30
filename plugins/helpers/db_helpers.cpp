@@ -2,7 +2,7 @@
     Helper functions for Miranda-IM (www.miranda-im.org)
     Copyright 2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -31,7 +31,7 @@ static int DBRemoveEnumProc(const char *szSetting, LPARAM lParam) {
 	rs = (struct RemoveSettings *)lParam;
 	if (!strncmp(szSetting, rs->szPrefix, strlen(rs->szPrefix))) {
 		rs->szSettings = ( char** )realloc(rs->szSettings, (rs->count+1)*sizeof(char *));
-		rs->szSettings[rs->count] = _strdup(szSetting);
+		rs->szSettings[rs->count] = mir_strdup(szSetting);
 		rs->count += 1;
 	}
 	
@@ -61,10 +61,10 @@ int Hlp_RemoveDatabaseSettings(HANDLE hContact, char *szModule, char *szPrefix) 
 				if (!DBDeleteContactSetting(hContact, szModule, rs.szSettings[i])) {
 					count += 1;
 				}
-				free(rs.szSettings[i]);
+				mir_free(rs.szSettings[i]);
 			}
 		}
-		free(rs.szSettings);
+		mir_free(rs.szSettings);
 	}
 
 	return count;

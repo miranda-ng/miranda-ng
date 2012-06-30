@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -34,15 +34,15 @@ static void parseStringThread(void *arg) {
 	tszParsed = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)fi, 0);
 	log_debugA("parseStringThread: %s > %s", fi->tszFormat, tszParsed);
 	if (tszParsed != NULL) {
-		free(tszParsed);
+		mir_free(tszParsed);
 	}
 	if (fi->tszFormat != NULL) {
-		free(fi->tszFormat);
+		mir_free(fi->tszFormat);
 	}
 	if (fi->tszExtraText != NULL) {
-		free(fi->tszExtraText);
+		mir_free(fi->tszExtraText);
 	}
-	free(fi);
+	mir_free(fi);
 }
 
 
@@ -55,18 +55,18 @@ int ParseStringAction(DWORD actionID, REPORTINFO *ri) {
 			if (DBGetActionSettingByte(actionID, NULL, MODULENAME, SETTING_PARSEASYNC, 0)) {
 				FORMATINFO *fi;
 				
-				fi = ( FORMATINFO* )malloc(sizeof(FORMATINFO));
+				fi = ( FORMATINFO* )mir_alloc(sizeof(FORMATINFO));
 				ZeroMemory(fi, sizeof(FORMATINFO));
 				fi->cbSize = sizeof(FORMATINFO);
-				fi->tszFormat = _tcsdup(dbv.ptszVal);
-				fi->tszExtraText = ((ri->td!=NULL)&&(ri->td->dFlags&DF_TEXT))?_tcsdup(ri->td->tszText):NULL;
+				fi->tszFormat = mir_tstrdup(dbv.ptszVal);
+				fi->tszExtraText = ((ri->td!=NULL)&&(ri->td->dFlags&DF_TEXT))?mir_tstrdup(ri->td->tszText):NULL;
 				fi->hContact = ((ri->td!=NULL)&&(ri->td->dFlags&DF_CONTACT))?ri->td->hContact:NULL;
 				fi->flags |= FIF_TCHAR;
 				//forkthread(parseStringThread, 0, fi);
 				mir_forkthread(parseStringThread, fi);
 			}
 			else {
-				free(variables_parsedup(dbv.ptszVal, ((ri->td!=NULL)&&(ri->td->dFlags&DF_TEXT))?ri->td->tszText:NULL, ((ri->td!=NULL)&&(ri->td->dFlags&DF_CONTACT))?ri->td->hContact:NULL));
+				mir_free(variables_parsedup(dbv.ptszVal, ((ri->td!=NULL)&&(ri->td->dFlags&DF_TEXT))?ri->td->tszText:NULL, ((ri->td!=NULL)&&(ri->td->dFlags&DF_CONTACT))?ri->td->hContact:NULL));
 			}
 			DBFreeVariant(&dbv);
 		}
@@ -146,7 +146,7 @@ INT_PTR CALLBACK DlgProcOptsParseString(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		tszText = Hlp_GetDlgItemText(hwndDlg, IDC_PARSESTRING);
 		if (tszText != NULL) {
 			DBWriteActionSettingTString(actionID, NULL, MODULENAME, SETTING_PARSESTRING, tszText);
-			free(tszText);
+			mir_free(tszText);
 		}
 		DBWriteActionSettingByte(actionID, NULL, MODULENAME, SETTING_PARSEASYNC, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PARSEASYNC));
 		break;

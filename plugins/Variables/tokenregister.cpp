@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -66,13 +66,13 @@ int registerIntToken(TCHAR *szToken, TCHAR *(*parseFunction)(ARGUMENTSINFO *ai),
 	return registerToken(0, (LPARAM)&tr);
 }
 
-int deRegisterToken(TCHAR *token) {
-
+int deRegisterToken(TCHAR *token)
+{
 	TokenRegisterEntry *tre;
 
-	if (token == NULL) {
+	if (token == NULL)
 		return -1;
-	}
+
 	EnterCriticalSection(&csRegister);
 	tre = FindTokenRegisterByName( token );
 	if ( tre == NULL ) {
@@ -84,18 +84,18 @@ int deRegisterToken(TCHAR *token) {
 	LeaveCriticalSection(&csRegister);
 
 	if ( !( tre->tr.flags & TRF_PARSEFUNC ) && tre->tr.szService != NULL )
-		free( tre->tr.szService );
+		mir_free( tre->tr.szService );
 
 	if ( tre->tr.tszTokenString != NULL )
-		free( tre->tr.tszTokenString );
+		mir_free( tre->tr.tszTokenString );
 
 	if ( tre->tr.szHelpText != NULL )
-		free( tre->tr.szHelpText );
+		mir_free( tre->tr.szHelpText );
 
 	if ( (tre->tr.flags & TRF_CLEANUP ) && !( tre->tr.flags & TRF_CLEANUPFUNC ) && tre->tr.szCleanupService != NULL )
-		free( tre->tr.szCleanupService );
+		mir_free( tre->tr.szCleanupService );
 
-	free( tre );
+	mir_free( tre );
 	return 0;
 }
 
@@ -117,14 +117,14 @@ INT_PTR registerToken(WPARAM wParam, LPARAM lParam)
 
 		WCHAR *wtoken;
 
-		wtoken = a2u( newVr->szTokenString );
+		wtoken = mir_a2t( newVr->szTokenString );
 		deRegisterToken( wtoken );
 		hash = NameHashFunction( wtoken );
-		free( wtoken );
+		mir_free( wtoken );
 
 	}
 
-	tre = ( TokenRegisterEntry* )malloc( sizeof( TokenRegisterEntry ));
+	tre = ( TokenRegisterEntry* )mir_alloc( sizeof( TokenRegisterEntry ));
 	if ( tre == NULL )
 		return -1;
 
@@ -134,20 +134,20 @@ INT_PTR registerToken(WPARAM wParam, LPARAM lParam)
 		log_debugA("alias");
 
 	if ( !( newVr->flags & TRF_PARSEFUNC ) && newVr->szService != NULL )
-		tre->tr.szService = _strdup( newVr->szService );
+		tre->tr.szService = mir_strdup( newVr->szService );
 
 	if ( newVr->flags & TRF_TCHAR )
-		tre->tr.tszTokenString = _tcsdup( newVr->tszTokenString );
+		tre->tr.tszTokenString = mir_tstrdup( newVr->tszTokenString );
 	else
 
-		tre->tr.tszTokenString = a2u( newVr->szTokenString );
+		tre->tr.tszTokenString = mir_a2t( newVr->szTokenString );
 
 
 	if ( newVr->szHelpText != NULL )
-		tre->tr.szHelpText = _strdup( newVr->szHelpText );
+		tre->tr.szHelpText = mir_strdup( newVr->szHelpText );
 
 	if (( newVr->flags & TRF_CLEANUP ) && !( newVr->flags & TRF_CLEANUPFUNC ) && newVr->szCleanupService != NULL )
-		tre->tr.szCleanupService = _strdup( newVr->szCleanupService );
+		tre->tr.szCleanupService = mir_strdup( newVr->szCleanupService );
 
 	EnterCriticalSection(&csRegister);
 	List_GetIndex(( SortedList* )&tokens, tre, &idx );
@@ -178,27 +178,22 @@ TOKENREGISTEREX *searchRegister(TCHAR *tvar, int type)
 
 TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 {
-	int callRes;
-	TCHAR *temp, *res;
-	TOKENREGISTEREX *thisVr, trCopy;
-
-	if ( (ai == NULL) || (ai->argc == 0) || (ai->targv[0] == NULL)) {
+	if ( ai == NULL || ai->argc == 0 || ai->targv[0] == NULL)
 		return NULL;
-	}
-	callRes = 0;
-	temp = res = NULL;
-	thisVr = NULL;
+
+	INT_PTR callRes = 0;
+	TCHAR *temp = NULL, *res = NULL;
+
 	EnterCriticalSection(&csRegister);
 
 	/* note the following limitation: you cannot add/remove tokens during a call from a different thread */
-	thisVr = searchRegister( ai->targv[0], 0 );
+	TOKENREGISTEREX *thisVr = searchRegister( ai->targv[0], 0 );
 	if ( thisVr == NULL ) {
 		LeaveCriticalSection(&csRegister);
 		return NULL;
 	}
 
-	trCopy = *thisVr;
-
+	TOKENREGISTEREX trCopy = *thisVr;
 
 	// ai contains WCHARs, convert to chars because the tr doesn't support WCHARs
 	if ( !( thisVr->flags & TRF_TCHAR )) {
@@ -207,9 +202,9 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 		ARGUMENTSINFO cAi;
 
 		memcpy(&cAi, ai, sizeof(ARGUMENTSINFO));
-		cAi.argv = ( char** )malloc(ai->argc*sizeof(char *));
+		cAi.argv = ( char** )mir_alloc(ai->argc*sizeof(char *));
 		for ( j=0; j < ai->argc; j++ )
-			cAi.argv[j] = u2a( ai->targv[j] );
+			cAi.argv[j] = mir_t2a( ai->targv[j] );
 
 		if ( thisVr->flags & TRF_PARSEFUNC )
 			callRes = (INT_PTR)thisVr->parseFunction( &cAi );
@@ -218,10 +213,10 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 
 		for ( j=0; j < cAi.argc; j++ )
 			if ( cAi.argv[j] != NULL )
-				free( cAi.argv[j] );
+				mir_free( cAi.argv[j] );
 
 		if ((char *)callRes != NULL )
-			res = a2u(( char* )callRes );
+			res = mir_a2t(( char* )callRes );
 	}
 	else {
 		// unicode variables calls unicode plugin
@@ -231,7 +226,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 			callRes = CallService( thisVr->szService, (WPARAM)0, (LPARAM)ai );
 
 		if (( TCHAR* )callRes != NULL )
-			res = _tcsdup(( TCHAR* )callRes );
+			res = mir_tstrdup(( TCHAR* )callRes );
 	}
 
 
@@ -246,7 +241,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 			if ( trCopy.memType == TR_MEM_MIRANDA )
 				mir_free(( void* )callRes );
 //			else if ( trCopy.memType == TR_MEM_VARIABLES )
-//				free((void *)callRes);
+//				mir_free((void *)callRes);
 		}
 	}
 	LeaveCriticalSection(&csRegister);
@@ -302,18 +297,18 @@ int deinitTokenRegister()
 	for ( i=0; i < tokens.count; i++ ) {
 		TokenRegisterEntry *tre = tokens.items[ i ];
 		if ( !( tre->tr.flags & TRF_PARSEFUNC ) && tre->tr.szService != NULL )
-			free( tre->tr.szService );
+			mir_free( tre->tr.szService );
 
 		if ( tre->tr.tszTokenString != NULL )
-			free( tre->tr.tszTokenString );
+			mir_free( tre->tr.tszTokenString );
 
 		if ( tre->tr.szHelpText != NULL )
-			free( tre->tr.szHelpText );
+			mir_free( tre->tr.szHelpText );
 
 		if (( tre->tr.flags & TRF_CLEANUP ) && !( tre->tr.flags & TRF_CLEANUPFUNC ) && tre->tr.szCleanupService != NULL )
-			free( tre->tr.szCleanupService );
+			mir_free( tre->tr.szCleanupService );
 
-		free( tre );
+		mir_free( tre );
 	}
 	List_Destroy(( SortedList* )&tokens );
 

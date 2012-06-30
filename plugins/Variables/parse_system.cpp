@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -70,9 +70,9 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	if (_tcslen(ai->targv[1]) == 0)
-		szCounter = _tcsdup(_T("\\Processor(_Total)\\% Processor Time"));
+		szCounter = mir_tstrdup(_T("\\Processor(_Total)\\% Processor Time"));
 	else {
-		szCounter = ( TCHAR* )malloc((_tcslen(ai->targv[1]) + 32)*sizeof(TCHAR));
+		szCounter = ( TCHAR* )mir_alloc((_tcslen(ai->targv[1]) + 32)*sizeof(TCHAR));
 		if (szCounter == NULL)
 			return NULL;
 
@@ -80,23 +80,23 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai) {
 	}
 	pdhStatus = PdhValidatePath(szCounter);
 	if (pdhStatus != ERROR_SUCCESS) {
-		free(szCounter);
+		mir_free(szCounter);
 		return NULL;
 	}
 	pdhStatus = PdhOpenQuery(NULL, 0, &hQuery);
 	if (pdhStatus != ERROR_SUCCESS) {
-		free(szCounter);
+		mir_free(szCounter);
 		return NULL;
 	}
 	pdhStatus = PdhAddCounter(hQuery, szCounter, 0, &hCounter);
 	if (pdhStatus != ERROR_SUCCESS) {
-		free(szCounter);
+		mir_free(szCounter);
 		pdhStatus = PdhCloseQuery(hQuery);
 		return NULL;
 	}
 	pdhStatus = PdhCollectQueryData(hQuery);
 	if (pdhStatus != ERROR_SUCCESS) {
-		free(szCounter);
+		mir_free(szCounter);
 		PdhRemoveCounter(hCounter);
 		pdhStatus = PdhCloseQuery(hQuery);
 		return NULL;
@@ -104,20 +104,20 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai) {
 	Sleep(100);
 	pdhStatus = PdhCollectQueryData(hQuery);
 	if (pdhStatus != ERROR_SUCCESS) {
-		free(szCounter);
+		mir_free(szCounter);
 		PdhRemoveCounter(hCounter);
 		pdhStatus = PdhCloseQuery(hQuery);
 		return NULL;
 	}
 	pdhStatus = PdhGetFormattedCounterValue(hCounter, PDH_FMT_DOUBLE, (LPDWORD)NULL, &cValue);
 	if (pdhStatus != ERROR_SUCCESS) {
-		free(szCounter);
+		mir_free(szCounter);
 		PdhRemoveCounter(hCounter);
 		pdhStatus = PdhCloseQuery(hQuery);
 		return NULL;
 	}
 	if (cValue.CStatus != ERROR_SUCCESS) {
-		free(szCounter);
+		mir_free(szCounter);
 		PdhRemoveCounter(hCounter);
 		pdhStatus = PdhCloseQuery(hQuery);
 		return NULL;
@@ -125,7 +125,7 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai) {
 	mir_sntprintf(szVal, SIZEOF(szVal), _T("%.0f"), cValue.doubleValue);
 	//PdhRemoveCounter(*hCounter);
 	PdhCloseQuery(hQuery);
-	free(szCounter);
+	mir_free(szCounter);
 		
 	return mir_tstrdup(szVal);
 }
@@ -457,7 +457,7 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	if ( ((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
-		tszRes = ( TCHAR* )malloc((_tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
+		tszRes = ( TCHAR* )mir_alloc((_tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
 		_tcscpy(tszRes, ffd.cFileName);
 	}
 	while (FindNextFile(hFind, &ffd) != 0) {
@@ -520,7 +520,7 @@ static TCHAR *parseRegistryValue(ARGUMENTSINFO *ai) {
 	if (ai->argc != 3) {
 		return NULL;
 	}
-	key = subKey = _tcsdup(ai->targv[1]);
+	key = subKey = mir_tstrdup(ai->targv[1]);
 	if (subKey == NULL) {
 		return NULL;
 	}
@@ -542,15 +542,15 @@ static TCHAR *parseRegistryValue(ARGUMENTSINFO *ai) {
 		hKey = HKEY_USERS;
 	}
 	else {
-		free(key);
+		mir_free(key);
 		return NULL;
 	}
 	subKey = cur+1;
 	if (RegOpenKeyEx(hKey, subKey, 0, KEY_READ, &hKey) != ERROR_SUCCESS) {
-		free(key);
+		mir_free(key);
 		return NULL;
 	}
-	free(key);
+	mir_free(key);
 	len = MAX_REGVALUE_LENGTH+1;
 	res = ( TCHAR* )mir_alloc(len*sizeof(TCHAR));
 	if (res == NULL) {
@@ -714,15 +714,15 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 			res = (TCHAR *)pBuf;
 		}
 		else {
-			res = mir_a2u((char *)pBuf);
-			free(pBuf);
+			res = mir_a2t((char *)pBuf);
+			mir_free(pBuf);
 		}
 
 
 		return res;
 	}
 	bufSz = TXTFILEBUFSZ*csz;
-	pBuf = ( PBYTE )calloc(bufSz, 1);
+	pBuf = ( PBYTE )mir_calloc(bufSz);
 	if (pBuf == NULL) {
 		return NULL;
 	}
@@ -731,7 +731,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 		ZeroMemory(pBuf, bufSz);
 		if (ReadFile(hFile, pBuf, bufSz-csz, &readSz, NULL) == 0) {
 			CloseHandle(hFile);
-			free(pBuf);
+			mir_free(pBuf);
 			return NULL;
 		}
 		totalReadSz += readSz;
@@ -804,12 +804,12 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 	} while ( (totalReadSz < fileSz) && (readSz > 0));
 	if (linePos < 0) {
 		CloseHandle(hFile);
-		free(pBuf);
+		mir_free(pBuf);
 		return NULL;
 	}
 	if (SetFilePointer(hFile, linePos, NULL, FILE_BEGIN) != linePos) {
 		CloseHandle(hFile);
-		free(pBuf);
+		mir_free(pBuf);
 		return NULL;
 	}
 	ZeroMemory(pBuf, bufSz);
@@ -817,7 +817,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 	do {
 		icur = 0;
 		if (ReadFile(hFile, pBuf, bufSz-csz, &readSz, NULL) == 0) {
-			free(pBuf);
+			mir_free(pBuf);
 			CloseHandle(hFile);
 			return NULL;
 		}
@@ -836,8 +836,8 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 					res = (TCHAR *)pBuf;
 				}
 				else {
-					res = a2u((char *)pBuf);
-					free(pBuf);
+					res = mir_a2t((char *)pBuf);
+					mir_free(pBuf);
 				}
 
 				return res;
@@ -850,8 +850,8 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 				res = (TCHAR *)pBuf;
 			}
 			else {
-				res = a2u((char *)pBuf);
-				free(pBuf);
+				res = mir_a2t((char *)pBuf);
+				mir_free(pBuf);
 			}
 
 			return res;

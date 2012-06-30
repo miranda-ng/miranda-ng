@@ -34,7 +34,7 @@ struct CMsnProto : public PROTO_INTERFACE
 	~CMsnProto();
 
 	__inline void* operator new(size_t size)
-	{	return calloc(1, size);
+	{	return mir_calloc(1, size);
 	}
 	__inline void operator delete(void* p)
 	{	free(p);

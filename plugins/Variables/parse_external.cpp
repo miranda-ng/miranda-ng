@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -39,22 +39,22 @@ static TCHAR *getFullWinampTitleText() {
 	if (hwndWinamp == NULL)
 		return NULL;
 
-	szWinText = ( TCHAR* )malloc((GetWindowTextLength(hwndWinamp) + 1)*sizeof(TCHAR));
+	szWinText = ( TCHAR* )mir_alloc((GetWindowTextLength(hwndWinamp) + 1)*sizeof(TCHAR));
 	if (szWinText == NULL)
 		return NULL;
 
 	if (GetWindowText(hwndWinamp, szWinText, GetWindowTextLength(hwndWinamp)+1) == 0) {
-		free(szWinText);
+		mir_free(szWinText);
 		return NULL;
 	}
-	szTitle = ( TCHAR* )malloc((2*_tcslen(szWinText)+1)*sizeof(TCHAR));
+	szTitle = ( TCHAR* )mir_alloc((2*_tcslen(szWinText)+1)*sizeof(TCHAR));
 	if (szTitle == NULL) {
-		free(szWinText);
+		mir_free(szWinText);
 		return NULL;
 	}
 	_tcscpy(szTitle, szWinText);
 	_tcscpy(szTitle+_tcslen(szTitle), szWinText);
-	free(szWinText);
+	mir_free(szWinText);
 
 	return szTitle;
 }
@@ -74,14 +74,14 @@ static TCHAR *parseWinampSong(ARGUMENTSINFO *ai) {
 	scur = _tcschr(szTitle, _T('.'));
 	cur = _tcsstr(scur, _T(" - Winamp"));
 	if ( (scur == NULL) || (cur == NULL) || (scur >= cur) || (scur > (szTitle + _tcslen(szTitle) - 2)) || (cur > (szTitle + _tcslen(szTitle)))) {
-		free(szTitle);
+		mir_free(szTitle);
 		return NULL;
 	}
 	scur++;
 	scur++;
 	*cur = '\0';
-	res = _tcsdup(scur);
-	free(szTitle);
+	res = mir_tstrdup(scur);
+	mir_free(szTitle);
 	ai->flags |= AIF_DONTPARSE;
 	
 	return res;
@@ -102,19 +102,19 @@ static TCHAR *parseWinampState(ARGUMENTSINFO *ai) {
 	scur = _tcschr(szTitle, _T('.'));
 	cur = _tcsstr(scur, _T(" - Winamp"));
 	if ( (scur == NULL) || (cur == NULL)) {
-		free(szTitle);
-		return _tcsdup(TranslateT("Stopped"));
+		mir_free(szTitle);
+		return mir_tstrdup(TranslateT("Stopped"));
 	}
 	if ( (!_tcsncmp(cur+10, _T("[Stopped]"), 9))) {
-		free(szTitle);
-		return _tcsdup(TranslateT("Stopped"));
+		mir_free(szTitle);
+		return mir_tstrdup(TranslateT("Stopped"));
 	}
 	if ( (!_tcsncmp(cur+10, _T("[Paused]"), 8))) {
-		free(szTitle);
-		return _tcsdup(TranslateT("Paused"));
+		mir_free(szTitle);
+		return mir_tstrdup(TranslateT("Paused"));
 	}
-	free(szTitle);
-	return _tcsdup(_T("Playing"));
+	mir_free(szTitle);
+	return mir_tstrdup(_T("Playing"));
 }
 
 static unsigned int checkAMIP() {
@@ -154,7 +154,7 @@ static TCHAR *parseAMIPEval(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 
-	cmd = u2a(ai->targv[1]);
+	cmd = mir_t2a(ai->targv[1]);
 
 	if (checkAMIP() != 0) {
 		log_debugA("checkAMIP failed");
@@ -164,13 +164,13 @@ static TCHAR *parseAMIPEval(ARGUMENTSINFO *ai) {
 	ZeroMemory(&szRes, sizeof(szRes));
 	if (AC_ERR_NOERROR == acEval(cmd, szRes)) {
 
-		tszRes = a2u(szRes);
+		tszRes = mir_a2t(szRes);
 
 	}
 	else {
 		lastAMIPFailure = GetTickCount();
 	}
-	free(cmd);
+	mir_free(cmd);
 
 	return tszRes;
 }
@@ -186,7 +186,7 @@ static TCHAR *parseAMIPFormat(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 
-	cmd = u2a(ai->targv[1]);
+	cmd = mir_t2a(ai->targv[1]);
 
 	if (checkAMIP() != 0) {
 	
@@ -194,13 +194,13 @@ static TCHAR *parseAMIPFormat(ARGUMENTSINFO *ai) {
 	}
 	if (AC_ERR_NOERROR == acFormat(cmd, szRes)) {
 
-		tszRes = a2u(szRes);
+		tszRes = mir_a2t(szRes);
 
 	}
 	else {
 		lastAMIPFailure = GetTickCount();
 	}
-	free(cmd);
+	mir_free(cmd);
 
 	return tszRes;
 }

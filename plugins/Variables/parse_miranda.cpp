@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -31,7 +31,7 @@ static TCHAR *parseCodeToStatus(ARGUMENTSINFO *ai)
 	status = ttoi(ai->targv[1]);
 	szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
 	if (szStatus != NULL)
-		return _tcsdup(szStatus);
+		return mir_tstrdup(szStatus);
 
 	return NULL;
 }
@@ -108,13 +108,13 @@ static TCHAR *parseContact(ARGUMENTSINFO *ai)
 
 	if ( count != 1 && ai->argc != 4 ) {
 		if ( ci.hContacts != NULL )
-			free(ci.hContacts);
+			mir_free(ci.hContacts);
 
 		return NULL;
 	}
 	hContact = ci.hContacts[n];
 	log_debugA("contact: %x", hContact);
-	free(ci.hContacts);
+	mir_free(ci.hContacts);
 
 	return encodeContactToString(hContact);
 }
@@ -133,7 +133,7 @@ static TCHAR *parseContactCount(ARGUMENTSINFO *ai)
 	ci.flags = getContactInfoFlags(ai->targv[2]);
 	count = getContactFromString( &ci );
 	if ( count != 0 && ci.hContacts != NULL )
-		free(ci.hContacts);
+		mir_free(ci.hContacts);
 
 	return itot(count);
 }
@@ -156,11 +156,11 @@ static TCHAR *parseContactInfo(ARGUMENTSINFO *ai)
 	count = getContactFromString( &ci );
 	if ( count == 1 && ci.hContacts != NULL ) {
 		hContact = ci.hContacts[0];
-		free(ci.hContacts);
+		mir_free(ci.hContacts);
 	}
 	else {
 		if (ci.hContacts != NULL)
-			free(ci.hContacts);
+			mir_free(ci.hContacts);
 		return NULL;
 	}
 	type = getContactInfoType(ai->targv[2]);
@@ -180,24 +180,19 @@ static TCHAR *parseDBProfileName(ARGUMENTSINFO *ai)
 	if (CallService(MS_DB_GETPROFILENAME, SIZEOF(name), (LPARAM)name))
 		return NULL;
 
-
-		return a2u(name);
-	
+	return mir_a2t(name);
 }
 
-static TCHAR *parseDBProfilePath(ARGUMENTSINFO *ai) {
-
-	char path[MAX_PATH];
-
+static TCHAR *parseDBProfilePath(ARGUMENTSINFO *ai)
+{
 	if (ai->argc != 1)
 		return NULL;
 
+	char path[MAX_PATH];
 	if (CallService(MS_DB_GETPROFILEPATH, SIZEOF(path), (LPARAM)path))
 		return NULL;
 
-	
-		return a2u(path);
-	
+	return mir_a2t(path);
 }
 
 static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* defaultValue) {
@@ -219,19 +214,13 @@ static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* 
 		var = itot(dbv.dVal);
 		break;
 	case DBVT_ASCIIZ:
-		
-			var = a2u(dbv.pszVal);
-		
+		var = mir_a2t(dbv.pszVal);
 		break;
 	case DBVT_WCHAR:
-	
-			var = _wcsdup(dbv.pwszVal);
-	
+		var = mir_tstrdup(dbv.pwszVal);
 		break;
 	case DBVT_UTF8:
-	
-			Utf8Decode(dbv.pszVal, &var);
-		
+		Utf8Decode(dbv.pszVal, &var);
 		break;
 	}
 
@@ -261,27 +250,27 @@ static TCHAR *parseDBSetting(ARGUMENTSINFO *ai)
 		count = getContactFromString( &ci );
 		if ( count == 1 && ci.hContacts != NULL ) {
 			hContact = ci.hContacts[0];
-			free(ci.hContacts);
+			mir_free(ci.hContacts);
 		}
 		else {
 			if (ci.hContacts != NULL)
-				free(ci.hContacts);
+				mir_free(ci.hContacts);
 			return NULL;
 		}
 	}
 
 	
-		szModule = u2a(ai->targv[2]);
-		szSetting = u2a(ai->targv[3]);
+		szModule = mir_t2a(ai->targv[2]);
+		szSetting = mir_t2a(ai->targv[3]);
 	
 
 	if ( ai->argc > 4 && _tcslen(ai->targv[4]) > 0 )
-		szDefaultValue = _tcsdup(ai->targv[4]);
+		szDefaultValue = mir_tstrdup(ai->targv[4]);
 
 	if ( szModule != NULL && szSetting != NULL ) {
 		res = getDBSetting(hContact, szModule, szSetting, szDefaultValue);
-		free(szModule);
-		free(szSetting);
+		mir_free(szModule);
+		mir_free(szSetting);
 	}
 	return res;
 }
@@ -306,11 +295,11 @@ static TCHAR *parseLastSeenDate(ARGUMENTSINFO *ai)
 	count = getContactFromString( &ci );
 	if ( count == 1 && ci.hContacts != NULL ) {
 		hContact = ci.hContacts[0];
-		free(ci.hContacts);
+		mir_free(ci.hContacts);
 	}
 	else {
 		if (ci.hContacts != NULL)
-			free(ci.hContacts);
+			mir_free(ci.hContacts);
 		return NULL;
 	}
 	if ( ai->argc == 2 || (ai->argc > 2 && _tcslen(ai->targv[2]) == 0))
@@ -337,12 +326,12 @@ static TCHAR *parseLastSeenDate(ARGUMENTSINFO *ai)
 	lsTime.wMonth = DBGetContactSettingWord(hContact, szModule, "Month", 0);
 
 	len = GetDateFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
-	res = ( TCHAR* )malloc((len+1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
 	if (GetDateFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, res, len) == 0) {
-		free(res);
+		mir_free(res);
 		return NULL;
 	}
 
@@ -369,11 +358,11 @@ static TCHAR *parseLastSeenTime(ARGUMENTSINFO *ai)
 	count = getContactFromString( &ci );
 	if ( count == 1 && ci.hContacts != NULL ) {
 		hContact = ci.hContacts[0];
-		free(ci.hContacts);
+		mir_free(ci.hContacts);
 	}
 	else {
 		if (ci.hContacts != NULL)
-			free(ci.hContacts);
+			mir_free(ci.hContacts);
 		return NULL;
 	}
 	if ( ai->argc == 2 || (ai->argc > 2 && _tcslen(ai->targv[2]) == 0))
@@ -401,12 +390,12 @@ static TCHAR *parseLastSeenTime(ARGUMENTSINFO *ai)
 	lsTime.wYear = DBGetContactSettingWord(hContact, szModule, "Year", 0);
 
 	len = GetTimeFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
-	res = ( TCHAR* )malloc((len+1)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
 	if (GetTimeFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, res, len) == 0) {
-		free(res);
+		mir_free(res);
 		return NULL;
 	}
 
@@ -432,11 +421,11 @@ static TCHAR *parseLastSeenStatus(ARGUMENTSINFO *ai) {
 	count = getContactFromString( &ci );
 	if ( (count == 1) && (ci.hContacts != NULL)) {
 		hContact = ci.hContacts[0];
-		free(ci.hContacts);
+		mir_free(ci.hContacts);
 	}
 	else {
 		if (ci.hContacts != NULL)
-			free(ci.hContacts);
+			mir_free(ci.hContacts);
 		return NULL;
 	}
 	szModule = CEX_MODULE;
@@ -450,7 +439,7 @@ static TCHAR *parseLastSeenStatus(ARGUMENTSINFO *ai) {
 
 	szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_UNICODE);
 	if (szStatus != NULL)
-		return _tcsdup(szStatus);
+		return mir_tstrdup(szStatus);
 
 	return NULL;
 }
@@ -466,7 +455,7 @@ static TCHAR *parseMirandaPath(ARGUMENTSINFO *ai) {
 	if (GetModuleFileName(NULL, path, SIZEOF(path)) == 0)
 		return NULL;
 
-	return _tcsdup(path);
+	return mir_tstrdup(path);
 }
 
 static TCHAR *parseMyStatus(ARGUMENTSINFO *ai) {
@@ -482,14 +471,14 @@ static TCHAR *parseMyStatus(ARGUMENTSINFO *ai) {
 		status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 	else {
 
-		szProto = u2a(ai->targv[1]);
+		szProto = mir_t2a(ai->targv[1]);
 
 		status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-		free(szProto);
+		mir_free(szProto);
 	}
 	szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_UNICODE);
 	if (szStatus != NULL)
-		return _tcsdup(szStatus);
+		return mir_tstrdup(szStatus);
 
 	return NULL;
 }
@@ -505,7 +494,7 @@ static TCHAR *parseProtoInfo(ARGUMENTSINFO *ai)
 	szRes = NULL;
 	tszRes = NULL;
 
-	szProto = u2a(ai->targv[1]);
+	szProto = mir_t2a(ai->targv[1]);
 
 	if (!_tcscmp(ai->targv[2], _T(STR_PINAME)))
 		tszRes = Hlp_GetProtocolName(szProto);
@@ -517,7 +506,7 @@ static TCHAR *parseProtoInfo(ARGUMENTSINFO *ai)
 
 		szText = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDTEXT, 0);
 		if (szText != NULL)
-			szRes = _strdup(szText);
+			szRes = mir_strdup(szText);
 	}
 	else if (!_tcscmp(ai->targv[2], _T(STR_PIUIDSETTING))) {
 		char *szText;
@@ -526,20 +515,20 @@ static TCHAR *parseProtoInfo(ARGUMENTSINFO *ai)
 
 		szText = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
 		if (szText != NULL)
-			szRes = _strdup(szText);
+			szRes = mir_strdup(szText);
 	}
-	free(szProto);
+	mir_free(szProto);
 	if ( szRes == NULL && tszRes == NULL )
 		return NULL;
 
 	if ( szRes != NULL && tszRes == NULL ) {
 		
-			tszRes = a2u(szRes);
-			free(szRes);
+			tszRes = mir_a2t(szRes);
+			mir_free(szRes);
 		
 	}
 	else if ( szRes != NULL && tszRes != NULL )
-		free(szRes);
+		mir_free(szRes);
 
 	return tszRes;
 }
@@ -568,20 +557,20 @@ static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
 			return NULL;
 	}
 
-	res = ( TCHAR* )malloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
+	res = ( TCHAR* )mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szUniqueID);
 		return NULL;
 	}
 
 	
-		tszProto = a2u(szProto);
+		tszProto = mir_a2t(szProto);
 	
 
 	if ( tszProto != NULL && szUniqueID != NULL ) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
 		mir_free(szUniqueID);
-		free(tszProto);
+		mir_free(tszProto);
 	}
 
 	return res;
@@ -732,7 +721,7 @@ static TCHAR *GetMessageDescription(DBEVENTINFO *dbei)
 	if ( ServiceExists( MS_DB_EVENT_GETTEXT )) {
 		// Miranda 0.7
 		TCHAR *buf = DbGetEventTextT(dbei, CP_ACP);
-		tszRes = _tcsdup(buf);
+		tszRes = mir_tstrdup(buf);
 		mir_free(buf);
 	}
 	else {
@@ -742,14 +731,14 @@ static TCHAR *GetMessageDescription(DBEVENTINFO *dbei)
 			if ( dbei->cbBlob > len ) {
 				int len2 = dbei->cbBlob - len;
 
-				tszRes = ( TCHAR* )calloc(len2, 1);
+				tszRes = ( TCHAR* )mir_calloc(len2);
 				memcpy( tszRes, &dbei->pBlob[ len ], len2 );
 			}
 			else {
-				char *szRes = ( char* )calloc(len, sizeof(char));
+				char *szRes = ( char* )mir_calloc(len);
 				strncpy( szRes, ( const char* )pszSrc, len );
-				tszRes = a2u(szRes);
-				free(szRes);
+				tszRes = mir_a2t(szRes);
+				mir_free(szRes);
 			}
 		
 	}
@@ -810,10 +799,10 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 	count = getContactFromString( &ci );
 	if ( (count == 1) && (ci.hContacts != NULL)) {
 		hContact = ci.hContacts[0];
-		free(ci.hContacts);
+		mir_free(ci.hContacts);
 	}
 	else if (ci.hContacts != NULL)
-		free(ci.hContacts);
+		mir_free(ci.hContacts);
 
 	hDbEvent = findDbEvent(hContact, NULL, flags);
 	if (hDbEvent == NULL)
@@ -822,13 +811,13 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 	ZeroMemory(&dbe, sizeof(DBEVENTINFO));
 	dbe.cbSize = sizeof(DBEVENTINFO);
 	dbe.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
-	dbe.pBlob = ( PBYTE )calloc(dbe.cbBlob, 1);
+	dbe.pBlob = ( PBYTE )mir_calloc(dbe.cbBlob);
 	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbe)) {
-		free(dbe.pBlob);
+		mir_free(dbe.pBlob);
 		return NULL;
 	}
 	res = GetMessageDescription(&dbe);
-	free(dbe.pBlob);
+	mir_free(dbe.pBlob);
 
 	return res;
 }
@@ -839,7 +828,7 @@ static TCHAR *parseTranslate(ARGUMENTSINFO *ai)
 		return NULL;
 
 	TCHAR* res = TranslateTS(ai->targv[1]);
-	return (res == NULL) ? NULL : _tcsdup(res);
+	return (res == NULL) ? NULL : mir_tstrdup(res);
 }
 
 static TCHAR *parseVersionString(ARGUMENTSINFO *ai) {
@@ -854,7 +843,7 @@ static TCHAR *parseVersionString(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	
-		return a2u(versionString);
+		return mir_a2t(versionString);
 	
 }
 
@@ -870,7 +859,7 @@ static TCHAR *parseContactNameString(ARGUMENTSINFO *ai)
  	if (ret == NULL)
  		return NULL;
 
-	return _tcsdup(ret);
+	return mir_tstrdup(ret);
 }
 
 static TCHAR *parseMirDateString(ARGUMENTSINFO *ai)
@@ -888,7 +877,7 @@ static TCHAR *parseMirDateString(ARGUMENTSINFO *ai)
  	if (CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM) time(NULL), (LPARAM) &tst))
  		return NULL;
 
-	return _tcsdup(ret);
+	return mir_tstrdup(ret);
 }
 
 static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai) {
@@ -906,7 +895,7 @@ static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai) {
 	mir_sntprintf(path, sizeof(path)-1, _T("%s"), tmpPath);
 	mir_free(tmpPath);
 
-	return _tcsdup(path);
+	return mir_tstrdup(path);
 }
 
 static TCHAR *parseMirSrvExists(ARGUMENTSINFO *ai)
@@ -916,17 +905,17 @@ static TCHAR *parseMirSrvExists(ARGUMENTSINFO *ai)
 
 	char* serviceName;
 	
-		serviceName = u2a( ai->targv[1] );
+		serviceName = mir_t2a( ai->targv[1] );
 	
 
 	if ( !ServiceExists( serviceName ))
 		ai->flags |= AIF_FALSE;
 
 
-		free( serviceName );
+		mir_free( serviceName );
 	
 
-	return _tcsdup(_T(""));
+	return mir_tstrdup(_T(""));
 }
 
 int registerMirandaTokens() {

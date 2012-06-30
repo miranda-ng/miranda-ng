@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -131,7 +131,7 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 			return NULL;
 
 		if ( type & CNF_UNICODE )
-			return (TCHAR *)mir_a2u(szProto);
+			return (TCHAR *)mir_a2t(szProto);
 		return (TCHAR *)mir_strdup(szProto);
 
 	case CCNF_ACCOUNT:
@@ -155,7 +155,7 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 			return NULL;
 
 		if ( type & CNF_UNICODE )
-			return (TCHAR *)mir_a2u(protoname);
+			return (TCHAR *)mir_a2t(protoname);
 
 		return (TCHAR *)mir_strdup(protoname);
 
@@ -200,14 +200,14 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 				return NULL;
 
 			if ( type & CNF_UNICODE )
-				return (TCHAR *)mir_a2u(dotted);
+				return (TCHAR *)mir_a2t(dotted);
 			return (TCHAR *)mir_strdup(dotted);
 		}
 
 	case CCNF_GROUP:
 		if (!DBGetContactSetting(hContact, "CList", "Group", &dbv)) {
 			if ( type & CNF_UNICODE )
-				res = (TCHAR *)mir_a2u(dbv.pszVal);
+				res = (TCHAR *)mir_a2t(dbv.pszVal);
 			else
 				res = (TCHAR *)mir_strdup(dbv.pszVal);
 
@@ -258,7 +258,7 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 			if (type & CNF_UNICODE) {
 				TCHAR *ptszVal;
 
-				ptszVal = (TCHAR *)mir_a2u((char *)ci.pszVal);
+				ptszVal = (TCHAR *)mir_a2t((char *)ci.pszVal);
 				mir_free(ci.pszVal);
 				return ptszVal;
 			}
@@ -276,7 +276,7 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 
 		szVal[0] = (char)ci.bVal;
 		if ( type & CNF_UNICODE )
-			return (TCHAR *)a2u(szVal);
+			return (TCHAR *)mir_a2t(szVal);
 		return (TCHAR *)mir_strdup(szVal);
 
 	case CNFT_WORD:
@@ -333,9 +333,9 @@ int getContactFromString( CONTACTSINFO* ci )
 	}
 	else {
 	
-			WCHAR* tmp = a2u(ci->szContact);
+			WCHAR* tmp = mir_a2t(ci->szContact);
 			tszContact = NEWTSTR_ALLOCA(tmp);
-			free(tmp);
+			mir_free(tmp);
 		
 	}
 	if ( (tszContact == NULL) || (_tcslen(tszContact) == 0))
@@ -348,7 +348,7 @@ int getContactFromString( CONTACTSINFO* ci )
 	for (i=0;i<cacheSize;i++) {
 		if ( (!_tcscmp(cce[i].tszContact, tszContact)) && (ci->flags == cce[i].flags)) {
 			/* found in cache */
-			ci->hContacts = ( HANDLE* )malloc(sizeof(HANDLE));
+			ci->hContacts = ( HANDLE* )mir_alloc(sizeof(HANDLE));
 			if (ci->hContacts == NULL) {
 				LeaveCriticalSection(&csContactCache);
 				return -1;
@@ -395,20 +395,20 @@ int getContactFromString( CONTACTSINFO* ci )
 			}
 			else
 			{
-				szFind = ( TCHAR* )malloc((_tcslen(cInfo) + strlen(szProto) + 4)*sizeof(TCHAR));
+				szFind = ( TCHAR* )mir_alloc((_tcslen(cInfo) + strlen(szProto) + 4)*sizeof(TCHAR));
 				if (szFind != NULL)
 				{
-					tszProto = a2u(szProto);
+					tszProto = mir_a2t(szProto);
 
 					if ( (tszProto != NULL) && (szFind != NULL))
 					{
 						wsprintf(szFind, _T("<%s:%s>"), tszProto, cInfo);
 						mir_free(cInfo);
-						free(tszProto);
+						mir_free(tszProto);
 						if (!_tcsncmp(tszContact, szFind, _tcslen(tszContact)))
 							bMatch = TRUE;
 
-						free(szFind);
+						mir_free(szFind);
 					}
 				}
 			}
@@ -505,7 +505,7 @@ int getContactFromString( CONTACTSINFO* ci )
 
 		cce[cacheSize].hContact = ci->hContacts[0];
 		cce[cacheSize].flags = ci->flags;
-		cce[cacheSize].tszContact = _tcsdup(tszContact);
+		cce[cacheSize].tszContact = mir_tstrdup(tszContact);
 		if (cce[cacheSize].tszContact != NULL)
 			cacheSize += 1;
 
@@ -543,14 +543,14 @@ static int contactSettingChanged(WPARAM wParam, LPARAM lParam)
 			 (( ((INT_PTR)uid != CALLSERVICE_NOTFOUND) && (uid != NULL)) && (!strcmp(dbw->szSetting, uid)) && (cce[i].flags & CI_UNIQUEID)))
 		{
 			/* remove from cache */
-			free(cce[i].tszContact);
+			mir_free(cce[i].tszContact);
 			if (cacheSize > 1) {
 				MoveMemory(&cce[i], &cce[cacheSize-1], sizeof(CONTACTCE));
 				cce = ( CONTACTCE* )realloc(cce, (cacheSize-1)*sizeof(CONTACTCE));
 				cacheSize -= 1;
 			}
 			else {
-				free(cce);
+				mir_free(cce);
 				cce = NULL;
 				cacheSize = 0;
 			}
@@ -600,7 +600,7 @@ TCHAR *encodeContactToString(HANDLE hContact)
 	if (tszResult == NULL)
 		return NULL;
 
-	tszProto = mir_a2u(szProto);
+	tszProto = mir_a2t(szProto);
 	
 	if (tszProto == NULL)
 		return NULL;
@@ -628,13 +628,13 @@ HANDLE *decodeContactFromString(TCHAR *tszContact)
 	count = getContactFromString( &ci );
 	if (count != 1) {
 		if (ci.hContacts != NULL)
-			free(ci.hContacts);
+			mir_free(ci.hContacts);
 
 		return ( HANDLE* )hContact;
 	}
 	if (ci.hContacts != NULL) {
 		hContact = ci.hContacts[0];
-		free(ci.hContacts);
+		mir_free(ci.hContacts);
 	}
 
 	return ( HANDLE* )hContact;

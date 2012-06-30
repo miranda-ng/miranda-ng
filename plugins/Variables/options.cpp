@@ -2,7 +2,7 @@
     Variables Plugin for Miranda-IM (www.miranda-im.org)
     Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
+    This program is mir_free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
@@ -88,14 +88,14 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			int len = SendDlgItemMessage(hwndDlg, IDC_FORMATTEXT, WM_GETTEXTLENGTH, 0, 0);
 			if (len >= 0) {
-				TCHAR *szFormatText = ( TCHAR* )calloc((len+1), sizeof(TCHAR));
+				TCHAR *szFormatText = ( TCHAR* )mir_calloc((len+1)* sizeof(TCHAR));
 				if (szFormatText == NULL)
 					break;
 
 				if (GetDlgItemText(hwndDlg, IDC_FORMATTEXT, szFormatText, len+1) != 0)
 					db_sets(SETTING_STARTUPTEXT, szFormatText);
 
-				free(szFormatText);
+				mir_free(szFormatText);
 			}
 			db_setb(SETTING_PARSEATSTARTUP, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PARSEATSTARTUP)?1:0));
 			db_setb(SETTING_STRIPCRLF, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPCRLF)?1:0));
@@ -111,9 +111,9 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 				TCHAR *newString = variables_parsedup(string, NULL, NULL);
 				if (newString != NULL) {
 					SetWindowText(GetDlgItem(hwndDlg, IDC_RESULT), newString);
-					free(newString);
+					mir_free(newString);
 				}
-				free(string);
+				mir_free(string);
 		}	}	
 		break;
 
