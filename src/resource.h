@@ -423,6 +423,7 @@
 #define IDC_UPGRADE                     1645
 #define IDC_FULLSCREEN                  1645
 #define IDC_IDLE1STTIME                 1646
+#define IDC_IDLESOUNDSOFF               1647
 #define IDC_IDLEPRIVATE                 1649
 #define IDC_AASTATUS                    1650
 #define IDC_AASHORTIDLE                 1651

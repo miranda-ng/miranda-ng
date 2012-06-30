@@ -388,14 +388,11 @@ int OptInit(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-
-#define DBGetString			DBGetContactSettingTString
-#define DBWriteString		DBWriteContactSettingTString
-
-
-void InitOptionsMenuItems() {
+void InitOptionsMenuItems()
+{
 	if(options.restart_menu_item)
 		add_restart_menu_item();
+
 	if(options.update_and_exit_menu_item)
 		add_update_and_exit_menu_item();
 }

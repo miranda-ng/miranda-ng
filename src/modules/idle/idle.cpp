@@ -35,6 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IDL_IDLESTATUSLOCK "IdleStatusLock" // IDC_IDLESTATUSLOCK
 #define IDL_AAENABLE      "AAEnable"
 #define IDL_AASTATUS      "AAStatus"
+#define IDL_IDLESOUNDSOFF "IdleSoundsOff"
 
 #define IdleObject_IsIdle(obj) (obj->state&0x1)
 #define IdleObject_SetIdle(obj) (obj->state|=0x1)
@@ -152,6 +153,7 @@ typedef struct {
 	unsigned int mouseidle;
 	int aastatus;
 	int idleType;
+	int aasoundsoff;
 }
 	IdleObject;
 
@@ -168,6 +170,10 @@ static void IdleObject_ReadSettings(IdleObject * obj)
 	obj->useridlecheck = DBGetContactSettingByte(NULL, IDLEMOD, IDL_USERIDLECHECK, 0);
 	obj->minutes = DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLETIME1ST, 10);
 	obj->aastatus = !DBGetContactSettingByte(NULL, IDLEMOD, IDL_AAENABLE, 0) ? 0 : DBGetContactSettingWord(NULL, IDLEMOD, IDL_AASTATUS, 0);
+	if (DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, 1))
+		obj->aasoundsoff = 1;
+	else
+		obj->aasoundsoff = 0;
 	if (DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEMETHOD, 0)) IdleObject_UseMethod1(obj);
 	else IdleObject_UseMethod0(obj);
 	if (DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONSAVER, 0)) IdleObject_SetSaverCheck(obj);
@@ -358,6 +364,7 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLETERMINAL), FALSE);
 		else
 			CheckDlgButton(hwndDlg, IDC_IDLETERMINAL, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONTSDC, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IDLESOUNDSOFF, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, 1) ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_IDLE1STTIME), 0);
 		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETRANGE32, 1, 60);
 		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETPOS, 0, MAKELONG((short) DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLETIME1ST, 10), 0));
@@ -404,6 +411,7 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					DBWriteContactSettingWord(NULL, IDLEMOD, IDL_AASTATUS, (WORD)(aa_Status[curSel]));
 				}
 			}
+			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLESOUNDSOFF) == BST_CHECKED));
 			// destroy any current idle and reset settings.
 			IdleObject_Destroy(&gIdleObject);
 			IdleObject_Create(&gIdleObject);
@@ -461,6 +469,7 @@ static INT_PTR IdleGetInfo(WPARAM, LPARAM lParam)
 	mii->privacy = gIdleObject.state&0x10;
 	mii->aaStatus = gIdleObject.aastatus;
 	mii->aaLock = gIdleObject.state&0x20;
+	mii->idlesoundsoff = gIdleObject.aasoundsoff;
 
 	if (mii->cbSize == sizeof(MIRANDA_IDLE_INFO))
 		mii->idleType = gIdleObject.idleType;

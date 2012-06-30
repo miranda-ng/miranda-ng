@@ -462,9 +462,7 @@ void replaceTreeItem(HWND hwnd, HANDLE hContact, const char *module, const char 
 
 		TreeView_InsertItem(hwnd, &tvi);
 	}
-
 }
-
 
 void refreshTree(int restore)
 {
@@ -473,7 +471,6 @@ void refreshTree(int restore)
 	populating = 1;
 	forkthread(PopulateModuleTreeThreadFunc,0,(HWND)restore);
 }
-
 
 void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 {

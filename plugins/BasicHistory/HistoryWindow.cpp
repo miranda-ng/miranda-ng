@@ -39,8 +39,8 @@ extern char* metaContactProto;
 
 void ResetCList(HWND hWnd);
 
-HistoryWindow::HistoryWindow(HANDLE _hContact)
-	: isDestroyed(true),
+HistoryWindow::HistoryWindow(HANDLE _hContact) :
+	isDestroyed(true),
 	OldSplitterProc(0),
 	splitterY(0),
 	splitterOrgY(0),

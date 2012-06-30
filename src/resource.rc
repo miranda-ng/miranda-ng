@@ -840,7 +840,7 @@ BEGIN
     LTEXT           "You will always be asked about files from people not on your contact list", IDC_STATIC, 212, 198, 90, 24
 END
 
-IDD_OPT_IDLE DIALOGEX 0, 0, 312, 190
+IDD_OPT_IDLE DIALOGEX 0, 0, 312, 193
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_BORDER
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -865,9 +865,10 @@ BEGIN
     CONTROL         "Change my status mode to:", IDC_AASHORTIDLE, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 147, 132, 11
     CONTROL         "Do not set status back to online when returning from idle", IDC_IDLESTATUSLOCK,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 35, 164, 254, 10
-    GROUPBOX        "Idle Options", IDC_STATIC, 3, 3, 304, 182
+    GROUPBOX        "Idle Options", IDC_STATIC, 3, 1, 304, 192
     CONTROL         "Become idle if application full screen", IDC_FULLSCREEN,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 94, 265, 9
+    CONTROL         "Disable sounds on idle", IDC_IDLESOUNDSOFF, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 177, 265, 9
 END
 
 IDD_PROFILE_SELECTION DIALOGEX 0, 0, 386, 142

@@ -57,6 +57,7 @@ typedef struct {
 	int aaStatus;			 // status to go to when user is auto away
 	int aaLock;				 // the status shouldn't be unset if its set
 	int idleType;
+	int idlesoundsoff;
 }
 	MIRANDA_IDLE_INFO;
 

@@ -207,12 +207,11 @@ static void BeginSearchFailed(void * arg)
 
 int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const char *szSearchService, DWORD requiredCapability, void *pvSearchParams)
 {
-	int i;
 	if (szProto == NULL) {
 		int failures = 0;
 		dat->searchCount = 0;
 		dat->search = (struct ProtoSearchInfo*)mir_calloc(sizeof(struct ProtoSearchInfo) * accounts.getCount());
-		for (i=0; i < accounts.getCount();i++) {
+		for (int i=0; i < accounts.getCount();i++) {
 			PROTOACCOUNT* pa = accounts[i];
 			if ( !Proto_IsAccountEnabled(pa)) continue;
 			DWORD caps=(DWORD)CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -229,7 +228,8 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 				mir_free(dat->search);
 				dat->search=NULL;
 				return 1;
-		}	}
+			}
+		}
 	}
 	else {
 		dat->search=(struct ProtoSearchInfo*)mir_alloc(sizeof(struct ProtoSearchInfo));
@@ -238,7 +238,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		dat->search[0].szProto=szProto;
 		if (dat->search[0].hProcess == NULL) {
 			//infuriatingly vague error message. fixme.
-            PROTOACCOUNT* pa = Proto_GetAccount(szProto);
+			PROTOACCOUNT* pa = Proto_GetAccount(szProto);
 			forkthread(BeginSearchFailed, 0, mir_tstrdup(pa->tszAccountName));
 			mir_free(dat->search);
 			dat->search=NULL;

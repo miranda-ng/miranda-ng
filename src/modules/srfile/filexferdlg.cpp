@@ -684,10 +684,11 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 									vstsi->returnCode = -1;
 								}
 								SetFtStatus(hwndDlg, LPGENT("Scanning for viruses..."), FTS_TEXT);
-								if (vstsi) forkthread((void (*)(void*))RunVirusScannerThread, 0, vstsi);
-							} else {
-								dat->fs=NULL; /* protocol will free structure */
-							}
+								if (vstsi)
+									forkthread((void (*)(void*))RunVirusScannerThread, 0, vstsi);
+							} 
+							else dat->fs=NULL; /* protocol will free structure */
+
 							dat->transferStatus.currentFileNumber=dat->transferStatus.totalFiles;
 						} // else dat->send
 						

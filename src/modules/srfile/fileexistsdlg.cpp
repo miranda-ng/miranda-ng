@@ -139,6 +139,7 @@ struct loadiconsstartinfo {
 	HWND hwndDlg;
 	TCHAR *szFilename;
 };
+
 void __cdecl LoadIconsAndTypesThread(void* param)
 {
 	loadiconsstartinfo *info = (loadiconsstartinfo*)param;
@@ -167,9 +168,8 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 		SetDlgItemText(info->hwndDlg, IDC_NEWTYPE, fileInfo.szTypeName);
 		SendDlgItemMessage(info->hwndDlg, IDC_EXISTINGICON, STM_SETICON, (WPARAM)fileInfo.hIcon, 0);
 		szIconFile[0]='\0';
-		if ( !lstrcmp(szExtension, _T("EXE"))) {
+		if ( !lstrcmp(szExtension, _T("EXE")))
 			SRFile_GetRegValue(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons"), _T("2"), szIconFile, SIZEOF(szIconFile));
-		}
 		else {
 			TCHAR szTypeName[MAX_PATH];
 			if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, pszExtension, NULL, szTypeName, SIZEOF(szTypeName))) {
@@ -181,15 +181,9 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 		}	}	}
 
 		if (szIconFile[0]) {
-			int iconIndex;
-			HICON hIcon;
 			TCHAR *pszComma = _tcsrchr(szIconFile, ',');
-			if (pszComma == NULL)
-				iconIndex=0;
-			else {
-				iconIndex = _ttoi(pszComma+1); *pszComma='\0';
-			}
-			hIcon = ExtractIcon(hInst, szIconFile, iconIndex);
+			int iconIndex = (pszComma == NULL) ? 0 :_ttoi(pszComma+1); *pszComma='\0';
+			HICON hIcon = ExtractIcon(hInst, szIconFile, iconIndex);
 			if (hIcon)
 				fileInfo.hIcon = hIcon;
 		}

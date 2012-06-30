@@ -596,36 +596,22 @@ int addContactToQueue(HANDLE hContact){
 
 static DWORD __stdcall waitThread(logthread_info* infoParam)
 {
-//	char str[MAXMODULELABELLENGTH];
-//	sprintf(str,"In Thread: %s; %s; %s\n",
-//		infoParam->sProtoName,
-//		(char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)infoParam->hContact,0),
-//		(const char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)infoParam->courStatus,0)
-//	);
-//	OutputDebugStringA(str);
 	WORD prevStatus = DBGetContactSettingWord(infoParam->hContact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE);
 	Sleep(1500); // I hope in 1.5 second all the needed info will be set
-	if (includeIdle){
-		if (DBGetContactSettingDword(infoParam->hContact,infoParam->sProtoName,"IdleTS",0)) {
+	if (includeIdle)
+		if (DBGetContactSettingDword(infoParam->hContact,infoParam->sProtoName,"IdleTS",0))
 			infoParam->courStatus &=0x7FFF;
-		}
-	}
+
 	if (infoParam->courStatus != prevStatus){
 		DBWriteContactSettingWord(infoParam->hContact,S_MOD,"OldStatus",(WORD)(prevStatus|0x8000));
-		if (includeIdle){
+		if (includeIdle)
 			DBWriteContactSettingByte(infoParam->hContact,S_MOD,"OldIdle",(BYTE)((prevStatus&0x8000)==0));
-		}
+
 		DBWriteContactSettingWord(infoParam->hContact,S_MOD,"StatusTriger",infoParam->courStatus);
 	}
-//	sprintf(str,"OutThread: %s; %s; %s\n",
-//		infoParam->sProtoName,
-//		(char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)infoParam->hContact,0),
-//		(const char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)infoParam->courStatus,0)
-//	);
-//	infoParam->hContact = 0; //declare the slot as empty
+
 	contactQueue[infoParam->queueIndex] = 0;
 	free(infoParam);
-//	OutputDebugStringA(str);
 	return 0;
 }
 

@@ -184,6 +184,8 @@ typedef struct {
 
 static void FillHistoryThread(void* param)
 {
+	Thread_SetName("HistoryWindow::FillHistoryThread");
+	
 	TCHAR str[200], eventText[256], strdatetime[64];
 	HANDLE hDbEvent;
 	DBEVENTINFO dbei;

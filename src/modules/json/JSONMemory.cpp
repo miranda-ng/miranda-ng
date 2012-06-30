@@ -58,7 +58,7 @@ void * JSONMemory::json_malloc(size_t siz){
 		  JSON_ASSERT(result, JSON_TEXT("out of memory"));
 		  return result;
 	   #else
-		  return mymalloc(siz);
+		  return mymalloc((unsigned long)siz);
 	   #endif
     }
     #ifdef JSON_DEBUG  //in debug mode, see if the malloc was successful
@@ -77,7 +77,7 @@ void * JSONMemory::json_realloc(void * ptr, size_t siz){
 		  JSON_ASSERT(result, JSON_TEXT("out of memory"));
 		  return result;
 	   #else
-		  return myrealloc(ptr, siz);
+		  return myrealloc(ptr, (unsigned long)siz);
 	   #endif
     }
     #ifdef JSON_DEBUG  //in debug mode, see if the malloc was successful

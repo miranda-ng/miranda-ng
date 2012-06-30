@@ -64,6 +64,14 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 					Proto_SetStatus(pa->szModuleName, ID_STATUS_ONLINE);
 	}	}	}
 
+	if ((lParam&IDF_ISIDLE) && mii.idlesoundsoff && DBGetContactSettingByte(0, "Skin", "UseSound", 1)) {
+		BYTE oldsound = DBGetContactSettingByte(0, "Skin", "UseSound", 1);
+		DBWriteContactSettingByte(NULL, "Skin", "UseSound", 0);
+		DBWriteContactSettingByte(NULL, AA_MODULE, "OldSound", oldsound);
+	}
+	else if (!(lParam & IDF_ISIDLE) && mii.idlesoundsoff)
+		DBWriteContactSettingByte(NULL, "Skin", "UseSound", DBGetContactSettingByte(NULL, AA_MODULE, "OldSound", 1));
+
 	return 0;
 }
 

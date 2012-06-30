@@ -112,6 +112,8 @@ INT_PTR MirandaIsTerminated(WPARAM, LPARAM)
 
 static void __cdecl compactHeapsThread(void*)
 {
+	Thread_SetName("compactHeapsThread");
+
 	while ( !Miranda_Terminated()) {
 		HANDLE hHeaps[256];
 		DWORD hc;
