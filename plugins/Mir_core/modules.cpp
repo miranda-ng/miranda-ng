@@ -213,12 +213,14 @@ MIR_CORE_DLL(int) CallHookSubscribers(HANDLE hEvent, WPARAM wParam, LPARAM lPara
 			case 5:	returnVal = SendMessage(s->hwnd, s->message, wParam, lParam); break;
 			default: continue;
 		}
-		if (returnVal)
-			break;
+		if (returnVal) {
+			LeaveCriticalSection(&p->csHook);
+			return returnVal;
+		}
 	}
 
-	// check for no hooks and call the default hook if any
-	if (p->subscriberCount == 0 && p->pfnHook != 0)
+	// call the default hook if any
+	if (p->pfnHook != 0)
 		returnVal = p->pfnHook(wParam, lParam);
 
 	LeaveCriticalSection(&p->csHook);

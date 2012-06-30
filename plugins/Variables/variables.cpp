@@ -552,26 +552,22 @@ int setParseOptions(struct ParseOptions *po) {
 	return 0;
 }
 
-int LoadVarModule() {
-
-	HMODULE hUxTheme;
-
-	if ((initTokenRegister() != 0) || (initContactModule() != 0)) {
-
+int LoadVarModule()
+{
+	if (initTokenRegister() != 0 || initContactModule() != 0)
 		return -1;
-	}
+
 	setParseOptions(NULL);
 	hFormatStringService = CreateServiceFunction(MS_VARS_FORMATSTRING, formatStringService);
 	hFreeMemoryService = CreateServiceFunction(MS_VARS_FREEMEMORY, freeMemory);
 	hRegisterVariableService = CreateServiceFunction(MS_VARS_REGISTERTOKEN, registerToken);
 	// help dialog
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
-	hUxTheme = NULL;
+
 	if(IsWinVerXPPlus()) {
-		hUxTheme = GetModuleHandle(_T("uxtheme.dll"));
-		if (hUxTheme) {
+		HMODULE hUxTheme = GetModuleHandle(_T("uxtheme.dll"));
+		if (hUxTheme)
 			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-		}
 	}
 	hShowHelpService = CreateServiceFunction(MS_VARS_SHOWHELP, showHelpService);
 	hShowHelpExService = CreateServiceFunction(MS_VARS_SHOWHELPEX, showHelpExService);
@@ -612,9 +608,7 @@ int LoadVarModule() {
 	log_debugA("Variables: Internal tokens registered");
 
 	if (db_getb(SETTING_PARSEATSTARTUP, 0)) {
-		FORMATINFO fi;
-
-		ZeroMemory(&fi, sizeof(fi));
+		FORMATINFO fi = { 0 };
 		fi.cbSize = sizeof(fi);
 		fi.tszFormat = db_gets(SETTING_STARTUPTEXT, NULL);
 		if (fi.tszFormat != NULL) {
