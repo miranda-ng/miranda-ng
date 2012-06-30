@@ -92,7 +92,7 @@ static TCHAR *parseEolToCrlf(ARGUMENTSINFO *ai) {
 		}
 		log_debug(cur);
 		loc = cur - res;
-		res = ( TCHAR* )realloc(res, (_tcslen(res)+2)*sizeof(TCHAR));
+		res = (TCHAR*)mir_realloc(res, (_tcslen(res)+2)*sizeof(TCHAR));
 		cur = res + loc;
 		MoveMemory(cur+2, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
 		CopyMemory(cur, _T("\r\n"), 2*sizeof(TCHAR));
@@ -123,7 +123,7 @@ static TCHAR *parseFixeol(ARGUMENTSINFO *ai) {
 		return mir_tstrdup(ai->targv[1]);
 	}
 	cur--;
-	res = ( TCHAR* )mir_alloc((cur-ai->targv[1] + _tcslen(szReplacement) + 1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((cur-ai->targv[1] + _tcslen(szReplacement) + 1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return res;
 	}
@@ -157,7 +157,7 @@ static TCHAR *parseFixeol2(ARGUMENTSINFO *ai) {
 		}
 		if (szEol != NULL) {
 			if ( _tcslen(szReplacement) > _tcslen(szEol)) {
-				res = ( TCHAR* )realloc(res, (_tcslen(res) + _tcslen(szReplacement) - _tcslen(szEol) + 1)*sizeof(TCHAR));
+				res = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(szReplacement) - _tcslen(szEol) + 1)*sizeof(TCHAR));
 				cur = res+pos;
 			}
 			MoveMemory(cur+_tcslen(szReplacement), cur+_tcslen(szEol), (_tcslen(cur+_tcslen(szEol))+1)*sizeof(TCHAR));
@@ -165,7 +165,7 @@ static TCHAR *parseFixeol2(ARGUMENTSINFO *ai) {
 			pos += _tcslen(szReplacement) - 1;
 		}
 	}
-	res = ( TCHAR* )realloc(res, (_tcslen(res)+1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_realloc(res, (_tcslen(res)+1)*sizeof(TCHAR));
 	
 	return res;
 }
@@ -183,7 +183,7 @@ static TCHAR *parseInsert(ARGUMENTSINFO *ai) {
 	if (pos > _tcslen(ai->targv[1])) {
 		return NULL;
 	}
-	res = ( TCHAR* )mir_alloc((_tcslen(ai->targv[1]) + _tcslen(ai->targv[2]) + 1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((_tcslen(ai->targv[1]) + _tcslen(ai->targv[2]) + 1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -208,7 +208,7 @@ static TCHAR *parseLeft(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	len = min(len, (signed int)_tcslen(ai->targv[1]));
-	res = ( TCHAR* )mir_alloc((len + 1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -311,7 +311,7 @@ static TCHAR *parsePad(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	addcount = max(padding - (signed int)_tcslen(ai->targv[1]), 0);
-	res = ( TCHAR* )mir_alloc((addcount + _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((addcount + _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -341,7 +341,7 @@ static TCHAR *parsePadright(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	addcount = max(padding - (signed int)_tcslen(ai->targv[1]), 0);
-	res = ( TCHAR* )mir_alloc((addcount + _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((addcount + _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -370,7 +370,7 @@ static TCHAR *parsePadcut(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	addcount = max(padding - (signed int)_tcslen(ai->targv[1]), 0);
-	res = ( TCHAR* )mir_alloc((padding + 1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((padding + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -401,7 +401,7 @@ static TCHAR *parsePadcutright(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	addcount = max(padding - (signed int)_tcslen(ai->targv[1]), 0);
-	res = ( TCHAR* )mir_alloc((padding + 1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((padding + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -428,7 +428,7 @@ static TCHAR *parseRepeat(ARGUMENTSINFO *ai) {
 	if (count < 0) {
 		return NULL;
 	}
-	res = ( TCHAR* )mir_alloc((count * _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((count * _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -458,7 +458,7 @@ static TCHAR *parseReplace(ARGUMENTSINFO *ai) {
 			cur = res+pos;
 			if (!_tcsncmp(cur, ai->targv[i], _tcslen(ai->targv[i]))) {
 				if ( _tcslen(ai->targv[i+1]) > _tcslen(ai->targv[i])) {
-					res = ( TCHAR* )realloc(res, (_tcslen(res) + _tcslen(ai->targv[i+1]) - _tcslen(ai->targv[i]) + 1)*sizeof(TCHAR));
+					res = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(ai->targv[i+1]) - _tcslen(ai->targv[i]) + 1)*sizeof(TCHAR));
 					cur = res+pos;
 				}
 				MoveMemory(cur+_tcslen(ai->targv[i+1]), cur+_tcslen(ai->targv[i]), (_tcslen(cur+_tcslen(ai->targv[i]))+1)*sizeof(TCHAR));
@@ -466,7 +466,7 @@ static TCHAR *parseReplace(ARGUMENTSINFO *ai) {
 				pos += _tcslen(ai->targv[i+1]) - 1;
 			}
 		}
-		res = ( TCHAR* )realloc(res, (_tcslen(res)+1)*sizeof(TCHAR));
+		res = (TCHAR*)mir_realloc(res, (_tcslen(res)+1)*sizeof(TCHAR));
 	}
 
 	return res;
@@ -485,7 +485,7 @@ static TCHAR *parseRight(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	len = min(len, (signed int)_tcslen(ai->targv[1]));
-	res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -515,7 +515,7 @@ static TCHAR *parseScroll(ARGUMENTSINFO *ai) {
 	if (display > _tcslen(ai->targv[1])) {
 		display = _tcslen(ai->targv[1]);
 	}
-	res = ( TCHAR* )mir_alloc((2*_tcslen(ai->targv[1])+1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((2*_tcslen(ai->targv[1])+1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -524,7 +524,7 @@ static TCHAR *parseScroll(ARGUMENTSINFO *ai) {
 	_tcscat(res, ai->targv[1]);
 	MoveMemory(res, res+move, (_tcslen(res+move)+1)*sizeof(TCHAR));
 	*(res + display) = _T('\0');	
-	res = ( TCHAR* )realloc(res, (_tcslen(res)+1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_realloc(res, (_tcslen(res)+1)*sizeof(TCHAR));
 	
 	return res;
 }			
@@ -690,7 +690,7 @@ static TCHAR *parseSubstr(ARGUMENTSINFO *ai) {
 	if (to < from) {
 		return NULL;
 	}
-	res = ( TCHAR* )mir_alloc((to-from+1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((to-from+1)*sizeof(TCHAR));
 	ZeroMemory(res, (to-from+1)*sizeof(TCHAR));
 	_tcsncpy(res, ai->targv[1]+from, to-from);
 
@@ -745,7 +745,7 @@ static TCHAR *parseTrim(ARGUMENTSINFO *ai) {
 	if (scur >= ecur) {
 		return mir_tstrdup(_T(""));
 	}
-	res = ( TCHAR* )mir_alloc((ecur-scur+2)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((ecur-scur+2)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -767,7 +767,7 @@ static TCHAR *parseTab(ARGUMENTSINFO *ai) {
 	if (count < 0) {
 		return NULL;
 	}
-	res = ( TCHAR* )mir_alloc((count+1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((count+1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -827,7 +827,7 @@ static TCHAR *getNthWord(TCHAR *szString, int w) {
 	while ( (*ecur != _T(' ')) && (*ecur != _T('\0'))) {
 		ecur++;
 	}
-	res = ( TCHAR* )mir_alloc((ecur-scur+1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((ecur-scur+1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -837,8 +837,8 @@ static TCHAR *getNthWord(TCHAR *szString, int w) {
 	return res;
 }
 
-static TCHAR *parseWord(ARGUMENTSINFO *ai) {
-
+static TCHAR *parseWord(ARGUMENTSINFO *ai)
+{
 	int i, from, to;
 	TCHAR *res, *szWord;
 
@@ -864,7 +864,7 @@ static TCHAR *parseWord(ARGUMENTSINFO *ai) {
 			return res;
 
 		if (res != NULL) {
-			res = ( TCHAR* )realloc(res, (_tcslen(res) + _tcslen(szWord) + 2)*sizeof(TCHAR));
+			res = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(szWord) + 2)*sizeof(TCHAR));
 			if (res != NULL) {
 				_tcscat(res, _T(" "));
 				_tcscat(res, szWord);

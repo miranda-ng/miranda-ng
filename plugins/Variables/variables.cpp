@@ -94,12 +94,12 @@ TCHAR *getArguments(TCHAR *string, TCHAR ***aargv, int *aargc) {
 			break;
 		}
 		if (bNewArg) {
-			argv = ( TCHAR** )mir_realloc(argv, (argc+1)*sizeof(TCHAR *));
+			argv = ( TCHAR** )mir_realloc(argv, (argc+1)*sizeof(TCHAR*));
 			if (argv == NULL) {
 				return NULL;
 			}
 			if (cur > scur) {
-				argv[argc] = ( TCHAR* )mir_alloc((cur-scur+2)*sizeof(TCHAR));
+				argv[argc] = (TCHAR*)mir_alloc((cur-scur+2)*sizeof(TCHAR));
 				if (argv[argc] == NULL) {
 					return NULL;
 				}
@@ -225,7 +225,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 
 			if (*cur == _T('\0')) {
 				*scur = _T('\0');
-				string = ( TCHAR* )mir_realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
+				string = (TCHAR*)mir_realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
 				continue;
 			}
 			MoveMemory(scur, cur, (_tcslen(cur)+1)*sizeof(TCHAR));
@@ -247,7 +247,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			fi->eCount += 1;
 			continue;
 		}
-		token = ( TCHAR* )mir_alloc((tcur-scur+1)*sizeof(TCHAR));
+		token = (TCHAR*)mir_alloc((tcur-scur+1)*sizeof(TCHAR));
 		if (token == NULL) {
 			fi->eCount += 1;
 			return NULL;
@@ -312,7 +312,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		}
 		// cur should now point at the character after FIELD_CHAR or after the last ')'
  		if (tr != NULL) {
- 			pargv = ( TCHAR** )mir_alloc((argc+1)*sizeof(TCHAR *));
+ 			pargv = ( TCHAR** )mir_alloc((argc+1)*sizeof(TCHAR*));
  			if (pargv == NULL) {
  				fi->eCount += 1;
  				return NULL;
@@ -349,7 +349,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		// if the var contains the escape character, this character must be doubled, we don't want it to act as an esacpe char
 		/*for (tcur=parsedToken;*tcur != '\0';tcur++) {
 			if (*tcur == DONTPARSE_CHAR) {//|| (*(var+pos) == ')')) {
-				parsedToken = realloc(parsedToken, strlen(parsedToken) + 2);
+				parsedToken = mir_realloc(parsedToken, strlen(parsedToken) + 2);
 				if (parsedToken == NULL) {
 					fi->err = EMEM;
 					return NULL;
@@ -366,7 +366,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		curPos = cur-string;
 		if (tokenLen < parsedTokenLen) {
 			// string needs more memory
-			string = ( TCHAR* )mir_realloc(string, (initStrLen-tokenLen+parsedTokenLen+1)*sizeof(TCHAR));
+			string = (TCHAR*)mir_realloc(string, (initStrLen-tokenLen+parsedTokenLen+1)*sizeof(TCHAR));
 			if (string == NULL) {
 				fi->eCount += 1;
 				return NULL;
@@ -380,7 +380,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			int len;
 
 			len = _tcslen(string);
-			string = ( TCHAR* )mir_realloc(string, (len+1)*sizeof(TCHAR));
+			string = (TCHAR*)mir_realloc(string, (len+1)*sizeof(TCHAR));
 		}
 		if (( ai.flags & AIF_DONTPARSE ) || tmpVarPos >= 0)
 			pos += parsedTokenLen;
@@ -400,7 +400,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 	if (argv != NULL)
 		mir_free(argv);
 
-	return ( TCHAR* )mir_realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
+	return (TCHAR*)mir_realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
 }
 
 /*

@@ -181,7 +181,7 @@ BOOL WINAPI EnumProcs(PROCENUMPROC lpProc, LPARAM lParam) {
 
                   // Get the module name
                   if (!lpfGetModuleBaseName(hProcess, hMod,
-                        (TCHAR *)szFileName, sizeof(szFileName)))
+                        (TCHAR*)szFileName, sizeof(szFileName)))
                      szFileName[0] = 0;
                }
                CloseHandle(hProcess);

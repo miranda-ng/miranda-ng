@@ -26,7 +26,7 @@ static TCHAR *parseCodeToStatus(ARGUMENTSINFO *ai)
 		return NULL;
 
 	unsigned int status = ttoi(ai->targv[1]);
-	TCHAR *szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
+	TCHAR *szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
 	if (szStatus != NULL)
 		return mir_tstrdup(szStatus);
 
@@ -290,7 +290,7 @@ static TCHAR *parseLastSeenDate(ARGUMENTSINFO *ai)
 	lsTime.wMonth = DBGetContactSettingWord(hContact, szModule, "Month", 0);
 
 	int len = GetDateFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
-	TCHAR *res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -349,7 +349,7 @@ static TCHAR *parseLastSeenTime(ARGUMENTSINFO *ai)
 	lsTime.wYear = DBGetContactSettingWord(hContact, szModule, "Year", 0);
 
 	int len = GetTimeFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
-	TCHAR *res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -389,7 +389,7 @@ static TCHAR *parseLastSeenStatus(ARGUMENTSINFO *ai)
 	if (status == 0)
 		return NULL;
 
-	TCHAR *szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
+	TCHAR *szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
 	if (szStatus != NULL)
 		return mir_tstrdup(szStatus);
 
@@ -420,7 +420,7 @@ static TCHAR *parseMyStatus(ARGUMENTSINFO *ai)
 	else
 		status = CallProtoService( _T2A(ai->targv[1]), PS_GETSTATUS, 0, 0);
 
-	TCHAR *szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_UNICODE);
+	TCHAR *szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_UNICODE);
 	if (szStatus != NULL)
 		return mir_tstrdup(szStatus);
 
@@ -489,7 +489,7 @@ static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
 			return NULL;
 	}
 
-	res = ( TCHAR* )mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szUniqueID);
 		return NULL;
@@ -702,7 +702,7 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 	DBEVENTINFO dbe = { 0 };
 	dbe.cbSize = sizeof(DBEVENTINFO);
 	dbe.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
-	dbe.pBlob = ( PBYTE )mir_calloc(dbe.cbBlob);
+	dbe.pBlob = (PBYTE)mir_calloc(dbe.cbBlob);
 	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbe)) {
 		mir_free(dbe.pBlob);
 		return NULL;
@@ -741,7 +741,7 @@ static TCHAR *parseContactNameString(ARGUMENTSINFO *ai)
  		return NULL;
  
  	ai->flags |= AIF_DONTPARSE;
- 	TCHAR *ret = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) ai->fi->hContact, GCDNF_TCHAR);
+ 	TCHAR *ret = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) ai->fi->hContact, GCDNF_TCHAR);
  	if (ret == NULL)
  		return NULL;
 

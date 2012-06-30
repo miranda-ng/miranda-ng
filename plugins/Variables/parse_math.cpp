@@ -64,7 +64,7 @@ static TCHAR *parseHex(ARGUMENTSINFO *ai) {
 	padding = ttoi(ai->targv[2]);
 	mir_sntprintf(szVal, SIZEOF(szVal), _T("%x"), val);
 	zeros = max(padding - (signed int)_tcslen(szVal), 0);
-	res = ( TCHAR* )mir_alloc((zeros + _tcslen(szVal) + 3)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((zeros + _tcslen(szVal) + 3)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -170,7 +170,7 @@ static TCHAR *parseNum(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	zeros = max(padding - (signed int)_tcslen(szVal), 0);
-	res = ( TCHAR* )mir_alloc((zeros + _tcslen(szVal) + 1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((zeros + _tcslen(szVal) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 

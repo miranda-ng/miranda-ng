@@ -39,7 +39,7 @@ static TCHAR *getFullWinampTitleText() {
 	if (hwndWinamp == NULL)
 		return NULL;
 
-	szWinText = ( TCHAR* )mir_alloc((GetWindowTextLength(hwndWinamp) + 1)*sizeof(TCHAR));
+	szWinText = (TCHAR*)mir_alloc((GetWindowTextLength(hwndWinamp) + 1)*sizeof(TCHAR));
 	if (szWinText == NULL)
 		return NULL;
 
@@ -47,7 +47,7 @@ static TCHAR *getFullWinampTitleText() {
 		mir_free(szWinText);
 		return NULL;
 	}
-	szTitle = ( TCHAR* )mir_alloc((2*_tcslen(szWinText)+1)*sizeof(TCHAR));
+	szTitle = (TCHAR*)mir_alloc((2*_tcslen(szWinText)+1)*sizeof(TCHAR));
 	if (szTitle == NULL) {
 		mir_free(szWinText);
 		return NULL;

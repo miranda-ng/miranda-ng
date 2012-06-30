@@ -131,8 +131,8 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 			return NULL;
 
 		if (type & CNF_UNICODE )
-			return (TCHAR *)mir_a2t(szProto);
-		return (TCHAR *)mir_strdup(szProto);
+			return (TCHAR*)mir_a2t(szProto);
+		return (TCHAR*)mir_strdup(szProto);
 
 	case CCNF_ACCOUNT:
 		if (g_mirandaVersion < PLUGIN_MAKE_VERSION( 0,8,0,0 ))
@@ -155,9 +155,9 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 			return NULL;
 
 		if (type & CNF_UNICODE )
-			return (TCHAR *)mir_a2t(protoname);
+			return (TCHAR*)mir_a2t(protoname);
 
-		return (TCHAR *)mir_strdup(protoname);
+		return (TCHAR*)mir_strdup(protoname);
 
 	case CCNF_STATUS:
 		szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
@@ -169,7 +169,7 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 			return NULL;
 
 		if (type & CNF_UNICODE) {
-			szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, (LPARAM)GSMDF_UNICODE);
+			szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, (LPARAM)GSMDF_UNICODE);
 			if (szStatus == NULL)
 				return NULL;
 
@@ -180,7 +180,7 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 			if (aszStatus == NULL)
 				return NULL;
 
-			return (TCHAR *)mir_strdup(aszStatus);
+			return (TCHAR*)mir_strdup(aszStatus);
 		}
 
 	case CCNF_INTERNALIP:
@@ -200,25 +200,25 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 				return NULL;
 
 			if (type & CNF_UNICODE )
-				return (TCHAR *)mir_a2t(dotted);
-			return (TCHAR *)mir_strdup(dotted);
+				return (TCHAR*)mir_a2t(dotted);
+			return (TCHAR*)mir_strdup(dotted);
 		}
 
 	case CCNF_GROUP:
 		if (!DBGetContactSetting(hContact, "CList", "Group", &dbv)) {
 			if (type & CNF_UNICODE )
-				res = (TCHAR *)mir_a2t(dbv.pszVal);
+				res = (TCHAR*)mir_a2t(dbv.pszVal);
 			else
-				res = (TCHAR *)mir_strdup(dbv.pszVal);
+				res = (TCHAR*)mir_strdup(dbv.pszVal);
 
 			DBFreeVariant(&dbv);
 			return res;
 		}
 		if (!DBGetContactSettingW(hContact, "CList", "Group", &dbv)) {
 			if (type & CNF_UNICODE )
-				res = (TCHAR *)mir_wstrdup(dbv.pwszVal);
+				res = (TCHAR*)mir_wstrdup(dbv.pwszVal);
 			else
-				res = (TCHAR *)mir_u2a(dbv.pwszVal);
+				res = (TCHAR*)mir_u2a(dbv.pwszVal);
 
 			DBFreeVariant(&dbv);
 			return res;
@@ -258,12 +258,12 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 			if (type & CNF_UNICODE) {
 				TCHAR *ptszVal;
 
-				ptszVal = (TCHAR *)mir_a2t((char *)ci.pszVal);
+				ptszVal = (TCHAR*)mir_a2t((char *)ci.pszVal);
 				mir_free(ci.pszVal);
 				return ptszVal;
 			}
 			else {
-				res = (TCHAR *)mir_strdup((char *)ci.pszVal);
+				res = (TCHAR*)mir_strdup((char *)ci.pszVal);
 				mir_free(ci.pszVal);
 				return res;
 	}	}	}
@@ -276,8 +276,8 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 
 		szVal[0] = (char)ci.bVal;
 		if (type & CNF_UNICODE )
-			return (TCHAR *)mir_a2t(szVal);
-		return (TCHAR *)mir_strdup(szVal);
+			return (TCHAR*)mir_a2t(szVal);
+		return (TCHAR*)mir_strdup(szVal);
 
 	case CNFT_WORD:
 		return itot(ci.wVal);
@@ -290,7 +290,7 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 			if (type&CNF_UNICODE)
 				res = mir_tstrdup(ci.pszVal);
 			else
-				res = (TCHAR *)mir_strdup((char *)ci.pszVal);
+				res = (TCHAR*)mir_strdup((char *)ci.pszVal);
 
 			mir_free(ci.pszVal);
 		}
@@ -381,7 +381,7 @@ int getContactFromString( CONTACTSINFO* ci )
 				cInfo = (TCHAR*)mir_alloc(32);
 				//cInfo = itot((INT_PTR)hContact);
 				_stprintf(cInfo, _T("%p"), hContact);
-				szFind = ( TCHAR* )mir_alloc((_tcslen(cInfo) + _tcslen(_T(PROTOID_HANDLE)) + 4)*sizeof(TCHAR));
+				szFind = (TCHAR*)mir_alloc((_tcslen(cInfo) + _tcslen(_T(PROTOID_HANDLE)) + 4)*sizeof(TCHAR));
 				if (szFind != NULL)
 				{
 					wsprintf(szFind, _T("<%s:%s>"), _T(PROTOID_HANDLE), cInfo);
@@ -395,7 +395,7 @@ int getContactFromString( CONTACTSINFO* ci )
 			}
 			else
 			{
-				szFind = ( TCHAR* )mir_alloc((_tcslen(cInfo) + strlen(szProto) + 4)*sizeof(TCHAR));
+				szFind = (TCHAR*)mir_alloc((_tcslen(cInfo) + strlen(szProto) + 4)*sizeof(TCHAR));
 				if (szFind != NULL)
 				{
 					tszProto = mir_a2t(szProto);
@@ -596,7 +596,7 @@ TCHAR *encodeContactToString(HANDLE hContact)
 	if (szProto == NULL || tszUniqueId == NULL)
 		return NULL;
 
-	tszResult = ( TCHAR* )mir_alloc((_tcslen(tszUniqueId) + strlen(szProto) + 4) * sizeof(TCHAR));
+	tszResult = (TCHAR*)mir_calloc((_tcslen(tszUniqueId) + strlen(szProto) + 4) * sizeof(TCHAR));
 	if (tszResult == NULL)
 		return NULL;
 

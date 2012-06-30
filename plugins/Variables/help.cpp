@@ -342,7 +342,7 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 	else args = NULL;
 
 	len = _tcslen(tr->tszTokenString) + (args!=NULL?strlen(args):0) + 3;
-	desc = ( TCHAR* )mir_calloc(len * sizeof(TCHAR));
+	desc = (TCHAR*)mir_calloc(len * sizeof(TCHAR));
 	if (desc == NULL)
 		return NULL;
 
@@ -549,7 +549,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 			if (len < 0) {
 				break;
 			}
-			tokenString = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+			tokenString = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 			if (tokenString == NULL) {
 				break;
 			}
@@ -775,7 +775,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 			TCHAR *string = Hlp_GetDlgItemText(hwndDlg, IDC_TESTSTRING), *extraText;
 			int len = SendMessage(GetParent(hwndDlg), VARM_GETEXTRATEXTLENGTH, 0, 0);
 			if (len > 0) {
-				extraText = ( TCHAR* )mir_calloc((len+1)* sizeof(TCHAR));
+				extraText = (TCHAR*)mir_calloc((len+1)* sizeof(TCHAR));
 				SendMessage(GetParent(hwndDlg), VARM_GETEXTRATEXT, (WPARAM)len+1, (LPARAM)extraText);
 			}
 			else extraText = NULL;
@@ -1045,10 +1045,9 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			if ((dat->vhs->fi != NULL) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT))) {
 				int len = SendMessage(hwndDlg, VARM_GETINPUTTEXTLENGTH, 0, 0);
 				if (len > 0) {
-
 					if ((dat->vhs->fi != NULL) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT))) {
 						if (dat->vhs->fi->flags&FIF_UNICODE) {
-							dat->vhs->fi->tszFormat = ( TCHAR* )mir_calloc((len+1)*sizeof(WCHAR));
+							dat->vhs->fi->tszFormat = (TCHAR*)mir_calloc((len+1)*sizeof(WCHAR));
 							SendMessage(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->tszFormat);
 						}
 						else {
@@ -1056,18 +1055,15 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 							SendMessageA(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->szFormat);
 						}
 					}
-
 				}
 			}
 
 			if (dat->vhs->hwndCtrl != NULL) {
-				int len;
-
-				len = SendMessage(hwndDlg, VARM_GETINPUTTEXTLENGTH, 0, 0);
+				int len = SendMessage(hwndDlg, VARM_GETINPUTTEXTLENGTH, 0, 0);
 				if (len > 0) {
 					TCHAR *tszText;
 
-					tszText = ( TCHAR* )mir_calloc((len+1)*sizeof(TCHAR));
+					tszText = (TCHAR*)mir_calloc((len+1)*sizeof(TCHAR));
 					if (tszText != NULL) {
 						SendMessage(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len+1, (LPARAM)tszText);
 						SetWindowText(dat->vhs->hwndCtrl, tszText);
@@ -1082,20 +1078,16 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			}
 
 			if ((dat->vhs->flags&VHF_FULLFILLSTRUCT) && (dat->vhs->fi != NULL)) {
-				int len;
-
-				len = SendMessage(hwndDlg, VARM_GETEXTRATEXTLENGTH, 0, 0);
+				int len = SendMessage(hwndDlg, VARM_GETEXTRATEXTLENGTH, 0, 0);
 				if (len > 0) {
-
 					if (dat->vhs->fi->flags&FIF_UNICODE) {
-						dat->vhs->fi->tszExtraText = ( TCHAR* )mir_calloc((len+1)*sizeof(WCHAR));
+						dat->vhs->fi->tszExtraText = (TCHAR*)mir_calloc((len+1)*sizeof(WCHAR));
 						SendMessage(hwndDlg, VARM_GETEXTRATEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->tszExtraText);
 					}
 					else {
 						dat->vhs->fi->szExtraText = ( char* )mir_calloc(len+1);
 						SendMessageA(hwndDlg, VARM_GETEXTRATEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->szExtraText);
 					}
-
 				}
 				dat->vhs->fi->hContact = (HANDLE)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
 			}
@@ -1158,30 +1150,31 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 		}
 		break;
 
-	case WM_GETMINMAXINFO: {
-		int i, count;
-		TCITEM tci;
-		RECT rcParent;
-		HWND hTab;
-		MINMAXINFO pageMinMax;
+	case WM_GETMINMAXINFO:
+		{
+			int i, count;
+			TCITEM tci;
+			RECT rcParent;
+			HWND hTab;
+			MINMAXINFO pageMinMax;
 
-		GetWindowRect(hwndDlg, &rcParent);
-		// defaults
-		((MINMAXINFO*)lParam)->ptMinTrackSize.x = 400;
-		((MINMAXINFO*)lParam)->ptMinTrackSize.y = 400;
-		hTab = GetDlgItem(hwndDlg, IDC_TABS);
-		tci.mask = TCIF_PARAM;
-		count = TabCtrl_GetItemCount(hTab);
-		// return the largest of all pages
-		for (i=0;i<count;i++) {
-			TabCtrl_GetItem(hTab, i, &tci);
-			ZeroMemory(&pageMinMax, sizeof(pageMinMax));
-			SendMessage((HWND)tci.lParam, WM_GETMINMAXINFO, wParam, (LPARAM)&pageMinMax);
-			((MINMAXINFO*)lParam)->ptMinTrackSize.x = max(((MINMAXINFO*)lParam)->ptMinTrackSize.x, pageMinMax.ptMinTrackSize.x);
-			((MINMAXINFO*)lParam)->ptMinTrackSize.y = max(((MINMAXINFO*)lParam)->ptMinTrackSize.y, pageMinMax.ptMinTrackSize.y);
+			GetWindowRect(hwndDlg, &rcParent);
+			// defaults
+			((MINMAXINFO*)lParam)->ptMinTrackSize.x = 400;
+			((MINMAXINFO*)lParam)->ptMinTrackSize.y = 400;
+			hTab = GetDlgItem(hwndDlg, IDC_TABS);
+			tci.mask = TCIF_PARAM;
+			count = TabCtrl_GetItemCount(hTab);
+			// return the largest of all pages
+			for (i=0;i<count;i++) {
+				TabCtrl_GetItem(hTab, i, &tci);
+				ZeroMemory(&pageMinMax, sizeof(pageMinMax));
+				SendMessage((HWND)tci.lParam, WM_GETMINMAXINFO, wParam, (LPARAM)&pageMinMax);
+				((MINMAXINFO*)lParam)->ptMinTrackSize.x = max(((MINMAXINFO*)lParam)->ptMinTrackSize.x, pageMinMax.ptMinTrackSize.x);
+				((MINMAXINFO*)lParam)->ptMinTrackSize.y = max(((MINMAXINFO*)lParam)->ptMinTrackSize.y, pageMinMax.ptMinTrackSize.y);
+			}
 		}
 		break;
-	}
 
 	case WM_SIZE: {
 		TCITEM tci;

@@ -88,7 +88,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			int len = SendDlgItemMessage(hwndDlg, IDC_FORMATTEXT, WM_GETTEXTLENGTH, 0, 0);
 			if (len >= 0) {
-				TCHAR *szFormatText = ( TCHAR* )mir_calloc((len+1)* sizeof(TCHAR));
+				TCHAR *szFormatText = (TCHAR*)mir_calloc((len+1)* sizeof(TCHAR));
 				if (szFormatText == NULL)
 					break;
 

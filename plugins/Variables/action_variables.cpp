@@ -31,7 +31,7 @@ static void parseStringThread(void *arg) {
 	if (arg == NULL) {
 		return;
 	}
-	tszParsed = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)fi, 0);
+	tszParsed = (TCHAR*)CallService(MS_VARS_FORMATSTRING, (WPARAM)fi, 0);
 	log_debugA("parseStringThread: %s > %s", fi->tszFormat, tszParsed);
 	if (tszParsed != NULL) {
 		mir_free(tszParsed);

@@ -39,7 +39,7 @@ int ParseStringCondition(DWORD conditionID, REPORTINFO *ri) {
 			fi.tszExtraText = ((ri->td!=NULL)&&(ri->td->dFlags&DF_TEXT))?ri->td->tszText:NULL;
 			fi.hContact = ((ri->td!=NULL)&&(ri->td->dFlags&DF_CONTACT))?ri->td->hContact:NULL;
 			fi.flags |= FIF_TCHAR;
-			mir_free((TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0));
+			mir_free((TCHAR*)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0));
 			log_debugA("err: %d", fi.eCount);
 			res = fi.eCount==0?CRV_TRUE:CRV_FALSE;
 			DBFreeVariant(&dbv);

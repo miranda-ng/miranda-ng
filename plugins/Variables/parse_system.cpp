@@ -43,7 +43,7 @@ static TCHAR *parseComputerName(ARGUMENTSINFO *ai) {
 
 	ai->flags |= AIF_DONTPARSE;
 	len = MAX_COMPUTERNAME_LENGTH;
-	res = ( TCHAR* )mir_alloc((len + 1) * sizeof(TCHAR));
+	res = (TCHAR*)mir_calloc((len + 1) * sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -72,7 +72,7 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai) {
 	if ( _tcslen(ai->targv[1]) == 0)
 		szCounter = mir_tstrdup(_T("\\Processor(_Total)\\% Processor Time"));
 	else {
-		szCounter = ( TCHAR* )mir_alloc((_tcslen(ai->targv[1]) + 32)*sizeof(TCHAR));
+		szCounter = (TCHAR*)mir_alloc((_tcslen(ai->targv[1]) + 32)*sizeof(TCHAR));
 		if (szCounter == NULL)
 			return NULL;
 
@@ -142,7 +142,7 @@ static TCHAR *parseCurrentDate(ARGUMENTSINFO *ai) {
 		szFormat = ai->targv[1];
 
 	len = GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL, szFormat, NULL, 0);
-	res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -165,7 +165,7 @@ static TCHAR *parseCurrentTime(ARGUMENTSINFO *ai) {
 		szFormat = ai->targv[1];
 
 	len = GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, szFormat, NULL, 0);
-	res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -210,7 +210,7 @@ static TCHAR *parseDirectory(ARGUMENTSINFO *ai) {
 	if (*scur == _T('\\'))
 		scur++;
 
-	res = ( TCHAR* )mir_alloc((ecur-scur)+2 * sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((ecur-scur+2) * sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -222,22 +222,19 @@ static TCHAR *parseDirectory(ARGUMENTSINFO *ai) {
 	path, depth
 	returns complete path up to "path depth - depth"
 */
-static TCHAR *parseDirectory2(ARGUMENTSINFO *ai) {
-
-	int depth;
-	TCHAR *res, *ecur;
-
+static TCHAR *parseDirectory2(ARGUMENTSINFO *ai)
+{
 	if (ai->argc < 2 || ai->argc > 3 )
 		return NULL;
 
-	depth = 1;
+	int depth = 1;
 	if (ai->argc == 3)
 		depth = ttoi(ai->targv[2]);
 
 	if (depth <= 0)
 		return NULL;
 
-	ecur = ai->targv[1]+_tcslen(ai->targv[1]);
+	TCHAR *ecur = ai->targv[1]+_tcslen(ai->targv[1]);
 	while (depth > 0) {
 		while ( (*ecur != _T('\\')) && (ecur > ai->targv[1]))
 			ecur--;
@@ -248,7 +245,7 @@ static TCHAR *parseDirectory2(ARGUMENTSINFO *ai) {
 		depth -= 1;
 		ecur--;
 	}
-	res = ( TCHAR* )mir_alloc((ecur-ai->targv[1])+2 * sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_calloc((ecur-ai->targv[1]+2) * sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -358,7 +355,7 @@ static TCHAR *parseEnvironmentVariable(ARGUMENTSINFO *ai) {
 	if (len <= 0) {
 		return NULL;
 	}
-	res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -401,7 +398,7 @@ static TCHAR *parseFindWindow(ARGUMENTSINFO *ai) {
 
 	len = SendMessage(hWin, WM_GETTEXTLENGTH, 0, 0);
 	if (len >= 0) {
-		res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+		res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 		ZeroMemory(res, (len+1)*sizeof(TCHAR));
 		GetWindowText(hWin, res, len+1);
 		return res;
@@ -457,17 +454,17 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	if (((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
-		tszRes = ( TCHAR* )mir_alloc((_tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
+		tszRes = (TCHAR*)mir_alloc((_tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
 		_tcscpy(tszRes, ffd.cFileName);
 	}
 	while (FindNextFile(hFind, &ffd) != 0) {
 		if (((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
 			if (tszRes != NULL) {
 				_tcscat(tszRes, tszSeperator);
-				tszRes = ( TCHAR* )mir_realloc(tszRes, (_tcslen(tszRes) + _tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
+				tszRes = (TCHAR*)mir_realloc(tszRes, (_tcslen(tszRes) + _tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
 			}
 			else {
-				tszRes = ( TCHAR* )mir_alloc((_tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
+				tszRes = (TCHAR*)mir_alloc((_tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
 				_tcscpy(tszRes, _T(""));
 			}
 			_tcscat(tszRes, ffd.cFileName);
@@ -552,7 +549,7 @@ static TCHAR *parseRegistryValue(ARGUMENTSINFO *ai) {
 	}
 	mir_free(key);
 	len = MAX_REGVALUE_LENGTH+1;
-	res = ( TCHAR* )mir_alloc(len*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc(len*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -612,7 +609,7 @@ static TCHAR *parseTimestamp2Date(ARGUMENTSINFO *ai) {
 		return NULL;
 	}	
 	len = GetDateFormat(LOCALE_USER_DEFAULT, 0, &sysTime, szFormat, NULL, 0);
-	res = ( TCHAR* )mir_alloc((len+1) * sizeof(TCHAR));
+	res = (TCHAR*)mir_calloc((len+1) * sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -648,7 +645,7 @@ static TCHAR *parseTimestamp2Time(ARGUMENTSINFO *ai) {
 		return NULL;
 	}	
 	len = GetTimeFormat(LOCALE_USER_DEFAULT, 0, &sysTime, szFormat, NULL, 0);
-	res = ( TCHAR* )mir_alloc((len+1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 	if (res == NULL) {
 		return NULL;
 	}
@@ -699,7 +696,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 	if (*ai->targv[2] == _T('0')) {
 		// complete file
 		bufSz = fileSz + csz;
-		pBuf = ( PBYTE )mir_alloc(1 * bufSz);
+		pBuf = (PBYTE)mir_calloc(bufSz);
 		if (pBuf == NULL)
 			return NULL;
 
@@ -711,7 +708,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 		CloseHandle(hFile);
 
 		if (tUC) {
-			res = (TCHAR *)pBuf;
+			res = (TCHAR*)pBuf;
 		}
 		else {
 			res = mir_a2t((char *)pBuf);
@@ -722,7 +719,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 		return res;
 	}
 	bufSz = TXTFILEBUFSZ*csz;
-	pBuf = ( PBYTE )mir_calloc(bufSz);
+	pBuf = (PBYTE)mir_calloc(bufSz);
 	if (pBuf == NULL) {
 		return NULL;
 	}
@@ -737,11 +734,11 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 		totalReadSz += readSz;
 		for (pCur = pBuf;*pCur != '\0';pCur += csz) {
 			if (tUC) {
-				if (!_tcsncmp((TCHAR *)pCur, _T("\r\n"), 2)) {
+				if (!_tcsncmp((TCHAR*)pCur, _T("\r\n"), 2)) {
 					lineCount += 1;
 					pCur += csz;
 				}
-				else if (*(TCHAR *)pCur == _T('\n')) {
+				else if (*(TCHAR*)pCur == _T('\n')) {
 					lineCount += 1;
 				}
 			}
@@ -778,11 +775,11 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 				linePos = (tUC?csz:0) + totalReadSz - readSz + pCur - pBuf;
 			}
 			if (tUC) {
-				if (!_tcsncmp((TCHAR *)pCur, _T("\r\n"), 2)) {
+				if (!_tcsncmp((TCHAR*)pCur, _T("\r\n"), 2)) {
 					lineCount += 1;
 					pCur += csz;
 				}
-				else if (*(TCHAR *)pCur == _T('\n')) {
+				else if (*(TCHAR*)pCur == _T('\n')) {
 					lineCount += 1;
 				}
 			}
@@ -796,7 +793,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 				}
 			}
 		}
-		if (((tUC) && (*(TCHAR *)pCur == _T('\r'))) || ((!tUC) && (*(char *)pCur == '\r'))) {
+		if (((tUC) && (*(TCHAR*)pCur == _T('\r'))) || ((!tUC) && (*(char *)pCur == '\r'))) {
 			// in case the \r was at the end of the buffer, \n could be next
 			SetFilePointer(hFile, -1*csz, NULL, FILE_CURRENT);
 			totalReadSz -= csz;
@@ -822,18 +819,18 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 			return NULL;
 		}
 		for (pCur = pBuf;(pCur < pBuf+readSz);pCur+=csz) {
-			if ((tUC) && ((!_tcsncmp((TCHAR *)pCur, _T("\r\n"), 2)) || (*(TCHAR *)pCur == _T('\n'))) || 
+			if ((tUC) && ((!_tcsncmp((TCHAR*)pCur, _T("\r\n"), 2)) || (*(TCHAR*)pCur == _T('\n'))) || 
 				((!tUC) && (((!strncmp((char *)pCur, "\r\n", 2)) || (*(char *)pCur == '\n'))))) {
 				CloseHandle(hFile);
 				if (tUC) {
-					*(TCHAR *)pCur = _T('\0');
+					*(TCHAR*)pCur = _T('\0');
 				}
 				else {
 					*(char *)pCur = '\0';
 				}
 
 				if (tUC) {
-					res = (TCHAR *)pBuf;
+					res = (TCHAR*)pBuf;
 				}
 				else {
 					res = mir_a2t((char *)pBuf);
@@ -847,7 +844,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 			CloseHandle(hFile);
 
 			if (tUC) {
-				res = (TCHAR *)pBuf;
+				res = (TCHAR*)pBuf;
 			}
 			else {
 				res = mir_a2t((char *)pBuf);
@@ -859,11 +856,11 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 		if (readSz == bufSz-csz) {
 			// buffer must be increased
 			bufSz += TXTFILEBUFSZ*csz;
-			if (((tUC) && (*(TCHAR *)pCur == _T('\r'))) || ((!tUC) && (*(char *)pCur == '\r'))) {
+			if (((tUC) && (*(TCHAR*)pCur == _T('\r'))) || ((!tUC) && (*(char *)pCur == '\r'))) {
 				pCur -= csz;
 			}
 			icur = pCur - pBuf;
-			pBuf = ( PBYTE )mir_realloc(pBuf, bufSz);
+			pBuf = (PBYTE)mir_realloc(pBuf, bufSz);
 			pCur = pBuf+icur;
 			ZeroMemory(pCur+1, TXTFILEBUFSZ*csz);
 		}
@@ -925,7 +922,7 @@ static TCHAR *parseUserName(ARGUMENTSINFO *ai) {
 	}
 	ai->flags |= AIF_DONTPARSE;
 	len = UNLEN;
-	res = ( TCHAR* )mir_alloc(len + 1);
+	res = (TCHAR*)mir_alloc(len + 1);
 	if (res == NULL) {
 		return NULL;
 	}

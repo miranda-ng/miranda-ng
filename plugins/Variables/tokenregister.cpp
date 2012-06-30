@@ -225,15 +225,15 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 		else if (thisVr->szService != NULL)
 			callRes = CallService( thisVr->szService, (WPARAM)0, (LPARAM)ai );
 
-		if (( TCHAR* )callRes != NULL)
-			res = mir_tstrdup(( TCHAR* )callRes );
+		if ((TCHAR*)callRes != NULL)
+			res = mir_tstrdup((TCHAR*)callRes );
 	}
 
 
 	if (( void* )callRes != NULL) {
 		if (trCopy.flags & TRF_CLEANUP ) {
 			if (trCopy.flags & TRF_CLEANUPFUNC )
-				trCopy.cleanupFunctionT(( TCHAR* )callRes );
+				trCopy.cleanupFunctionT((TCHAR*)callRes );
 			else if (trCopy.szCleanupService != NULL)
 				CallService( trCopy.szCleanupService, 0, (LPARAM)callRes );
 		}

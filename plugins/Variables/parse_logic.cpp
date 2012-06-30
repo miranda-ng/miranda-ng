@@ -257,11 +257,11 @@ static TCHAR *parseFor(ARGUMENTSINFO *ai) {
 		parsed = formatString(&fi);
 		if (parsed != NULL) {
 			if (res == NULL) {
-				res = ( TCHAR* )mir_alloc( _tcslen(parsed)+1 * sizeof(TCHAR));
+				res = (TCHAR*)mir_alloc( _tcslen(parsed)+1 * sizeof(TCHAR));
 				if (res == NULL)
 					return NULL;
 			}
-			else res = ( TCHAR* )mir_realloc(res, (_tcslen(res)+_tcslen(parsed)+1)*sizeof(TCHAR));
+			else res = (TCHAR*)mir_realloc(res, (_tcslen(res)+_tcslen(parsed)+1)*sizeof(TCHAR));
 
 			_tcscat(res, parsed);
 		}
