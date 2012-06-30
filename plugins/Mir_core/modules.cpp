@@ -227,7 +227,7 @@ MIR_CORE_DLL(int) CallHookSubscribers(HANDLE hEvent, WPARAM wParam, LPARAM lPara
 	return returnVal;
 }
 
-static bool checkHook(HANDLE hHook)
+__forceinline bool checkHook(HANDLE hHook, bool& bIsValid)
 {
 	THook* p = (THook*)hHook;
 	if (p == NULL)
@@ -237,15 +237,15 @@ static bool checkHook(HANDLE hHook)
 	__try
 	{
 		if (p->secretSignature != HOOK_SECRET_SIGNATURE)
-			ret = false;
+			bIsValid = ret = false;
 		else if (p->subscriberCount == 0 && p->pfnHook == NULL)
-			ret = false;
+			bIsValid = true, ret = false;
 		else
 			ret = true;
 	}
 	__except(EXCEPTION_EXECUTE_HANDLER)
 	{
-		ret = false;
+		bIsValid = ret = false;
 	}
 
 	return ret;
@@ -260,8 +260,9 @@ static void CALLBACK HookToMainAPCFunc(ULONG_PTR dwParam)
 
 MIR_CORE_DLL(int) NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 {
-	if ( !checkHook(hEvent))
-		return -1;
+	bool bIsValid;
+	if ( !checkHook(hEvent, bIsValid))
+		return (bIsValid) ? 0 : -1;
 
 	if ( GetCurrentThreadId() == mainThreadId)
 		return CallHookSubscribers(hEvent, wParam, lParam);
