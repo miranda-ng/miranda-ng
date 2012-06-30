@@ -33,7 +33,7 @@ static TCHAR *parseAnd(ARGUMENTSINFO *ai) {
 	for (i=1;i<ai->argc;i++) {
 		fi.tszFormat = ai->targv[i];
 		szCondition = formatString(&fi);
-		free(szCondition);
+		mir_free(szCondition);
 		//if (fi.pCount <= 0) {
 		if (fi.eCount > 0) {
 			ai->flags |= AIF_FALSE;
@@ -67,7 +67,7 @@ static TCHAR *parseIf(ARGUMENTSINFO *ai) {
 	fi.eCount = fi.pCount = 0;
 	fi.tszFormat = ai->targv[1];
 	szCondition = formatString(&fi);
-	free(szCondition);
+	mir_free(szCondition);
 	//if (fi.pCount > 0) {
 	if (fi.eCount == 0) {
 		return _tcsdup(ai->targv[2]);
@@ -97,7 +97,7 @@ static TCHAR *parseIf2(ARGUMENTSINFO *ai) {
 	else {
 		if (szCondition != NULL) {
 //			ai->flags |= AIF_DONTPARSE;
-			free(szCondition);
+			mir_free(szCondition);
 		}
 		return _tcsdup(ai->targv[2]);
 	}
@@ -121,7 +121,7 @@ static TCHAR *parseIf3(ARGUMENTSINFO *ai) {
 			return szCondition;
 		}
 		if (szCondition != NULL) {
-			free(szCondition);
+			mir_free(szCondition);
 		}
 	}
 	
@@ -143,20 +143,20 @@ static TCHAR *parseIfequal(ARGUMENTSINFO *ai)
 	tszSecond = formatString(&fi);
 	if ( (tszFirst == NULL) || (tszSecond == NULL)) {
 		if (tszFirst != NULL)
-			free(tszFirst);
+			mir_free(tszFirst);
 
 		if (tszSecond != NULL)
-			free(tszSecond);
+			mir_free(tszSecond);
 
 		return NULL;
 	}
 	if ( (ttoi(tszFirst)) == (ttoi(tszSecond))) {
-		free(tszFirst);
-		free(tszSecond);
+		mir_free(tszFirst);
+		mir_free(tszSecond);
 		return _tcsdup(ai->targv[3]);
 	}
-	free(tszFirst);
-	free(tszSecond);
+	mir_free(tszFirst);
+	mir_free(tszSecond);
 
 	return _tcsdup(ai->targv[4]);
 }
@@ -178,20 +178,20 @@ static TCHAR *parseIfgreater(ARGUMENTSINFO *ai) {
 	tszSecond = formatString(&fi);
 	if ( (tszFirst == NULL) || (tszSecond == NULL)) {
 		if (tszFirst != NULL) {
-			free(tszFirst);
+			mir_free(tszFirst);
 		}
 		if (tszSecond != NULL) {
-			free(tszSecond);
+			mir_free(tszSecond);
 		}
 		return NULL;
 	}
 	if ( (ttoi(tszFirst)) > (ttoi(tszSecond))) {
-		free(tszFirst);
-		free(tszSecond);
+		mir_free(tszFirst);
+		mir_free(tszSecond);
 		return _tcsdup(ai->targv[3]);
 	}
-	free(tszFirst);
-	free(tszSecond);
+	mir_free(tszFirst);
+	mir_free(tszSecond);
 
 	return _tcsdup(ai->targv[4]);
 }
@@ -212,20 +212,20 @@ static TCHAR *parseIflonger(ARGUMENTSINFO *ai) {
 	tszSecond = formatString(&fi);
 	if ( (tszFirst == NULL) || (tszSecond == NULL)) {
 		if (tszFirst != NULL) {
-			free(tszFirst);
+			mir_free(tszFirst);
 		}
 		if (tszSecond != NULL) {
-			free(tszSecond);
+			mir_free(tszSecond);
 		}
 		return NULL;
 	}
 	if ( _tcslen(tszFirst) > _tcslen(tszSecond)) {
-		free(tszFirst);
-		free(tszSecond);
+		mir_free(tszFirst);
+		mir_free(tszSecond);
 		return _tcsdup(ai->targv[3]);
 	}
-	free(tszFirst);
-	free(tszSecond);
+	mir_free(tszFirst);
+	mir_free(tszSecond);
 
 	return _tcsdup(ai->targv[4]);
 }
@@ -249,27 +249,27 @@ static TCHAR *parseFor(ARGUMENTSINFO *ai) {
 	CopyMemory(&fi, ai->fi, sizeof(fi));
 	fi.eCount = fi.pCount = 0;
 	fi.tszFormat = ai->targv[1];
-	free(formatString(&fi));
+	mir_free(formatString(&fi));
 	fi.tszFormat = ai->targv[2];
-	free(formatString(&fi));
+	mir_free(formatString(&fi));
 	while (fi.eCount == 0) {
 		fi.tszFormat = ai->targv[4];
 		parsed = formatString(&fi);
 		if (parsed != NULL) {
 			if (res == NULL) {
-				res = ( TCHAR* )calloc( _tcslen(parsed)+1, sizeof(TCHAR));
+				res = ( TCHAR* )mir_alloc( _tcslen(parsed)+1 * sizeof(TCHAR));
 				if (res == NULL)
 					return NULL;
 			}
-			else res = ( TCHAR* )realloc(res, (_tcslen(res)+_tcslen(parsed)+1)*sizeof(TCHAR));
+			else res = ( TCHAR* )mir_realloc(res, (_tcslen(res)+_tcslen(parsed)+1)*sizeof(TCHAR));
 
 			_tcscat(res, parsed);
 		}
 		fi.tszFormat = ai->targv[3];
-		free(formatString(&fi));
+		mir_free(formatString(&fi));
 		fi.eCount = 0;
 		fi.tszFormat = ai->targv[2];
-		free(formatString(&fi));
+		mir_free(formatString(&fi));
 	}
 
 	return res;
@@ -320,7 +320,7 @@ static TCHAR *parseNot(ARGUMENTSINFO *ai) {
 	memcpy(&fi, ai->fi, sizeof(fi));
 	fi.tszFormat = ai->targv[1];
 	szCondition = formatString(&fi);
-	free(szCondition);
+	mir_free(szCondition);
 	//if (fi.pCount > 0) {
 	if (fi.eCount == 0) {
 		ai->flags |= AIF_FALSE;
@@ -345,7 +345,7 @@ static TCHAR *parseOr(ARGUMENTSINFO *ai) {
 		fi.tszFormat = ai->targv[i];
 		fi.eCount = 0;
 		szCondition = formatString(&fi);
-		free(szCondition);
+		mir_free(szCondition);
 		//if (fi.pCount > 0) {
 		if (fi.eCount == 0) {
 			ai->flags &= ~AIF_FALSE;
@@ -378,12 +378,12 @@ static TCHAR *parseXor(ARGUMENTSINFO *ai) {
 	ai->flags = AIF_FALSE;
 	fi.tszFormat = ai->targv[0];
 	szCondition = formatString(&fi);
-	free(szCondition);
+	mir_free(szCondition);
 	//val1 = fi.pCount > 0;
 	val1 = fi.eCount == 0;
 	fi.tszFormat = ai->targv[1];
 	szCondition = formatString(&fi);
-	free(szCondition);
+	mir_free(szCondition);
 	//val2 = fi.pCount > 0;
 	val2 = fi.eCount == 0;
 	ai->flags |= ((val1&AIF_FALSE)==!(val2&AIF_FALSE))?0:AIF_FALSE;

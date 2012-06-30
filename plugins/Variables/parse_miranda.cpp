@@ -561,14 +561,16 @@ static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
-		szUniqueID = itot((int)ai->fi->hContact);
+		//szUniqueID = itot((INT_PTR)ai->fi->hContact);
+		szUniqueID = (TCHAR*)mir_alloc(32);
+		_stprintf(szUniqueID, _T("%p"), ai->fi->hContact);
 		if ( szProto == NULL || szUniqueID == NULL )
 			return NULL;
 	}
 
 	res = ( TCHAR* )malloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
 	if (res == NULL) {
-		free(szUniqueID);
+		mir_free(szUniqueID);
 		return NULL;
 	}
 
@@ -578,7 +580,7 @@ static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
 
 	if ( tszProto != NULL && szUniqueID != NULL ) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
-		free(szUniqueID);
+		mir_free(szUniqueID);
 		free(tszProto);
 	}
 

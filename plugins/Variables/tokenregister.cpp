@@ -57,7 +57,8 @@ int registerIntToken(TCHAR *szToken, TCHAR *(*parseFunction)(ARGUMENTSINFO *ai),
 	TOKENREGISTEREX tr = { 0 };
 	tr.cbSize = sizeof(tr);
 	tr.flags = TRF_FREEMEM|TRF_TCHAR|TRF_PARSEFUNC|extraFlags;
-	tr.memType = TR_MEM_VARIABLES;
+	//tr.memType = TR_MEM_VARIABLES;
+	tr.memType = TR_MEM_MIRANDA;
 	tr.szHelpText = szHelpText;
 	tr.tszTokenString = szToken;
 	tr.parseFunctionT = parseFunction;
@@ -211,7 +212,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 			cAi.argv[j] = u2a( ai->targv[j] );
 
 		if ( thisVr->flags & TRF_PARSEFUNC )
-			callRes = (int)thisVr->parseFunction( &cAi );
+			callRes = (INT_PTR)thisVr->parseFunction( &cAi );
 		else if ( thisVr->szService != NULL)
 			callRes = CallService( thisVr->szService, (WPARAM)0, (LPARAM)&cAi );
 
@@ -225,7 +226,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 	else {
 		// unicode variables calls unicode plugin
 		if ( thisVr->flags & TRF_PARSEFUNC )
-			callRes = (int)thisVr->parseFunctionT( ai );
+			callRes = (INT_PTR)thisVr->parseFunctionT( ai );
 		else if ( thisVr->szService != NULL )
 			callRes = CallService( thisVr->szService, (WPARAM)0, (LPARAM)ai );
 
@@ -244,8 +245,8 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 		if ( trCopy.flags & TRF_FREEMEM ) {
 			if ( trCopy.memType == TR_MEM_MIRANDA )
 				mir_free(( void* )callRes );
-			else if ( trCopy.memType == TR_MEM_VARIABLES )
-				free((void *)callRes);
+//			else if ( trCopy.memType == TR_MEM_VARIABLES )
+//				free((void *)callRes);
 		}
 	}
 	LeaveCriticalSection(&csRegister);

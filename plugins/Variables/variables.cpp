@@ -94,12 +94,12 @@ TCHAR *getArguments(TCHAR *string, TCHAR ***aargv, int *aargc) {
 			break;
 		}
 		if (bNewArg) {
-			argv = ( TCHAR** )realloc(argv, (argc+1)*sizeof(TCHAR *));
+			argv = ( TCHAR** )mir_realloc(argv, (argc+1)*sizeof(TCHAR *));
 			if (argv == NULL) {
 				return NULL;
 			}
 			if (cur > scur) {
-				argv[argc] = ( TCHAR* )malloc((cur-scur+2)*sizeof(TCHAR));
+				argv[argc] = ( TCHAR* )mir_alloc((cur-scur+2)*sizeof(TCHAR));
 				if (argv[argc] == NULL) {
 					return NULL;
 				}
@@ -107,7 +107,7 @@ TCHAR *getArguments(TCHAR *string, TCHAR ***aargv, int *aargc) {
 				_tcsncpy(argv[argc], scur+1, cur-(scur+1));
 			}
 			else {
-				argv[argc] = _tcsdup(_T(""));
+				argv[argc] = mir_tstrdup(_T(""));
 			}
 			argc += 1;
 			bNewArg = FALSE;
@@ -123,10 +123,10 @@ TCHAR *getArguments(TCHAR *string, TCHAR ***aargv, int *aargc) {
 	else {
 		for (i=0;i<argc;i++) {
 			if (argv[i] != NULL) {
-				free(argv[i]);
+				mir_free(argv[i]);
 			}
 		}
-		free(argv);
+		mir_free(argv);
 		*aargv = NULL;
 		*aargc = 0;
 		cur = NULL;
@@ -167,7 +167,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 	TOKENREGISTEREX *tr;
 	ARGUMENTSINFO ai = { 0 };
 
-	string = _tcsdup(szTemplate);
+	string = mir_tstrdup(szTemplate);
 	if (string == NULL)
 		return NULL;
 
@@ -185,10 +185,10 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 
 		for (i=0;i<argc;i++)
 			if (argv[i] != NULL)
-				free(argv[i]);
+				mir_free(argv[i]);
 
 		if (argv != NULL)
-			free(argv);
+			mir_free(argv);
 
 		argc = parsedTokenLen = initStrLen = tokenLen = 0;
 		tcur = scur = token = parsedToken = NULL;
@@ -225,7 +225,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 
 			if (*cur == _T('\0')) {
 				*scur = _T('\0');
-				string = ( TCHAR* )realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
+				string = ( TCHAR* )mir_realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
 				continue;
 			}
 			MoveMemory(scur, cur, (_tcslen(cur)+1)*sizeof(TCHAR));
@@ -303,16 +303,16 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 						argv[i] = formatString(&afi);
 						fi->eCount += afi.eCount;
 						fi->pCount += afi.pCount;
-						free(afi.szFormat);
+						mir_free(afi.szFormat);
 					}
 				}
 				if (argv[i] == NULL)
-					argv[i] = _tcsdup(_T(""));
+					argv[i] = mir_tstrdup(_T(""));
 			}
 		}
 		// cur should now point at the character after FIELD_CHAR or after the last ')'
  		if (tr != NULL) {
- 			pargv = ( TCHAR** )malloc((argc+1)*sizeof(TCHAR *));
+ 			pargv = ( TCHAR** )mir_alloc((argc+1)*sizeof(TCHAR *));
  			if (pargv == NULL) {
  				fi->eCount += 1;
  				return NULL;
@@ -330,7 +330,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
  				ai.flags |= AIF_DONTPARSE;
 
  			parsedToken = parseFromRegister(&ai);
- 			free(pargv);
+ 			mir_free(pargv);
  		}
  		else parsedToken = fi->tszaTemporaryVars[tmpVarPos + 1];
 
@@ -366,7 +366,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		curPos = cur-string;
 		if (tokenLen < parsedTokenLen) {
 			// string needs more memory
-			string = ( TCHAR* )realloc(string, (initStrLen-tokenLen+parsedTokenLen+1)*sizeof(TCHAR));
+			string = ( TCHAR* )mir_realloc(string, (initStrLen-tokenLen+parsedTokenLen+1)*sizeof(TCHAR));
 			if (string == NULL) {
 				fi->eCount += 1;
 				return NULL;
@@ -380,7 +380,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			int len;
 
 			len = _tcslen(string);
-			string = ( TCHAR* )realloc(string, (len+1)*sizeof(TCHAR));
+			string = ( TCHAR* )mir_realloc(string, (len+1)*sizeof(TCHAR));
 		}
 		if (( ai.flags & AIF_DONTPARSE ) || tmpVarPos >= 0)
 			pos += parsedTokenLen;
@@ -395,12 +395,12 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 
 	for ( i=0; i < argc; i++ )
 		if ( argv[i] != NULL )
-			free( argv[i] );
+			mir_free( argv[i] );
 
 	if ( argv != NULL )
-		free(argv);
+		mir_free(argv);
 
-	return ( TCHAR* )realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
+	return ( TCHAR* )mir_realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
 }
 
 /*
@@ -408,7 +408,8 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 */
 static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam) {
 
- 	int res, i;
+ 	INT_PTR res;
+ 	int i;
  	BOOL copied;
 	FORMATINFO *fi, tempFi;
 	FORMATINFOV1 *fiv1;
@@ -458,11 +459,11 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam) {
 	tRes = formatString(fi);
 
 	if (!(fi->flags&FIF_TCHAR)) {
-		res = (int)u2a(tRes);
-		free(tRes);
+		res = (INT_PTR)mir_u2a(tRes);
+		mir_free(tRes);
 	}
 	else {
-		res = (int)tRes;
+		res = (INT_PTR)tRes;
 	}
 
  	if (copied) {
@@ -508,12 +509,12 @@ TCHAR *formatString(FORMATINFO *fi) {
 	if ((fi == NULL) || (fi->tszFormat == NULL)) {
 		return NULL;
 	}
-	string = _tcsdup(fi->tszFormat);
+	string = mir_tstrdup(fi->tszFormat);
 	if (string == NULL) {
 		return NULL;
 	}
 	formattedString = replaceDynVars(string, fi);
-	free(string);
+	mir_free(string);
 	if (formattedString == NULL) {
 		return NULL;
 	}
@@ -529,7 +530,7 @@ static INT_PTR freeMemory(WPARAM wParam, LPARAM lParam) {
 	if ((void*)wParam == NULL) {
 		return -1;
 	}
-	free((void*)wParam);
+	mir_free((void*)wParam);
 
 	return 0;
 }

@@ -20,6 +20,7 @@
 
 extern HINSTANCE hInst;
 extern struct ParseOptions gParseOpts;
+extern int hLangpack;
 
 static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {

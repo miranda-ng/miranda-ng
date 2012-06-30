@@ -677,7 +677,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		ZeroMemory(dat, sizeof(INPUTDLGDATA));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 		// splitter things
-		dat->splitterPos = (int)db_getd(SETTING_SPLITTERPOS, -1);
+		dat->splitterPos = (INT_PTR)db_getd(SETTING_SPLITTERPOS, -1);
 		{
 			RECT rc;
 			POINT pt;
@@ -1319,7 +1319,7 @@ INT_PTR getSkinItemService(WPARAM wParam, LPARAM lParam)
 {
 	int item = lParam;
 	if (item == 0)
-		return (int)NULL;
+		return (INT_PTR)NULL;
 
 	switch (item) {
 	case VSI_HELPICON:
@@ -1331,13 +1331,13 @@ INT_PTR getSkinItemService(WPARAM wParam, LPARAM lParam)
 				hHelpIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_V), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 		}
 
-		return (int)hHelpIcon;
+		return (INT_PTR)hHelpIcon;
 
 	case VSI_HELPTIPTEXT:
-		return (int)Translate("Open String Formatting Help");
+		return (INT_PTR)Translate("Open String Formatting Help");
 	}
 
-	return (int)NULL;
+	return (INT_PTR)NULL;
 }
 
 int iconsChanged(WPARAM wParam, LPARAM lParam)
