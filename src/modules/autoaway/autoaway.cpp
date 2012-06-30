@@ -26,6 +26,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void Proto_SetStatus(const char* szProto, unsigned status);
 
+static int iBreakSounds = 0;
+
+static int AutoAwaySound(WPARAM, LPARAM lParam)
+{
+	return iBreakSounds;
+}
+
 static int AutoAwayEvent(WPARAM, LPARAM lParam)
 {
 	int i;
@@ -63,20 +70,15 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 				if ( !mii.aaLock)
 					Proto_SetStatus(pa->szModuleName, ID_STATUS_ONLINE);
 	}	}	}
-
-	if ((lParam&IDF_ISIDLE) && mii.idlesoundsoff && DBGetContactSettingByte(0, "Skin", "UseSound", 1)) {
-		BYTE oldsound = DBGetContactSettingByte(0, "Skin", "UseSound", 1);
-		DBWriteContactSettingByte(NULL, "Skin", "UseSound", 0);
-		DBWriteContactSettingByte(NULL, AA_MODULE, "OldSound", oldsound);
-	}
-	else if (!(lParam & IDF_ISIDLE) && mii.idlesoundsoff)
-		DBWriteContactSettingByte(NULL, "Skin", "UseSound", DBGetContactSettingByte(NULL, AA_MODULE, "OldSound", 1));
+	if (mii.idlesoundsoff)
+		iBreakSounds = (lParam&IDF_ISIDLE) != 0;
 
 	return 0;
 }
 
 int LoadAutoAwayModule(void)
 {
+	HookEvent(ME_SKIN_PLAYINGSOUND, AutoAwaySound);
 	HookEvent(ME_IDLE_CHANGED, AutoAwayEvent);
 	return 0;
 }
