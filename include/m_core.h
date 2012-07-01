@@ -97,6 +97,14 @@ MIR_CORE_DLL(INT_PTR) db_set_ws(HANDLE hContact, const char *szModule, const cha
 MIR_CORE_DLL(INT_PTR) db_set_utf(HANDLE hContact, const char *szModule, const char *szSetting, const char *val);
 MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const char *szSetting, void *val, unsigned len);
 
+#ifdef _UNICODE
+	#define db_get_tsa db_get_wsa
+	#define db_set_ts  db_set_ws
+#else
+	#define db_get_tsa db_get_sa
+	#define db_set_ts  db_set_s
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////
 // events, hooks & services
 

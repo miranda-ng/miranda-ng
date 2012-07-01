@@ -27,8 +27,8 @@
 #include <m_toptoolbar.h>
 #include <m_toolbar.h>
 #include "version.h"
+
 #define MODULENAME						"StartupStatus"
-#include "../../helpers/db_helpers.h"
 
 struct TSSSetting : public PROTOCOLSETTINGEX
 {
@@ -131,6 +131,7 @@ typedef struct {
 
 // options
 int OptionsInit(WPARAM wparam,LPARAM lparam);
+char* OptName(int i, const char* setting);
 
 // startupstatus
 int LoadMainOptions();

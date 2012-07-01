@@ -541,9 +541,9 @@ int setParseOptions(struct ParseOptions *po) {
 		po = &gParseOpts;
 	}
 	ZeroMemory(po, sizeof(struct ParseOptions));
-	if (!db_getb(SETTING_STRIPALL, 0)) {
-		po->bStripEOL = db_getb(SETTING_STRIPCRLF, 0);
-		po->bStripWS = db_getb(SETTING_STRIPWS, 0);
+	if (!db_get_b(NULL, MODULENAME, SETTING_STRIPALL, 0)) {
+		po->bStripEOL = db_get_b(NULL, MODULENAME, SETTING_STRIPCRLF, 0);
+		po->bStripWS = db_get_b(NULL, MODULENAME, SETTING_STRIPWS, 0);
 	}
 	else {
 		po->bStripAll = TRUE;
@@ -607,10 +607,10 @@ int LoadVarModule()
 
 	log_debugA("Variables: Internal tokens registered");
 
-	if (db_getb(SETTING_PARSEATSTARTUP, 0)) {
+	if (db_get_b(NULL, MODULENAME, SETTING_PARSEATSTARTUP, 0)) {
 		FORMATINFO fi = { 0 };
 		fi.cbSize = sizeof(fi);
-		fi.tszFormat = db_gets(SETTING_STARTUPTEXT, NULL);
+		fi.tszFormat = db_get_tsa(NULL, MODULENAME, SETTING_STARTUPTEXT);
 		if (fi.tszFormat != NULL) {
 			freeMemory((WPARAM)formatString(&fi), 0);
 			mir_free(fi.tszFormat);

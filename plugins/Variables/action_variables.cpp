@@ -139,11 +139,8 @@ INT_PTR CALLBACK DlgProcOptsParseString(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case TM_ADDACTION: {
 		// wParam = action ID
 		// lParam = 0
-		DWORD actionID;
-		TCHAR *tszText;
-
-		actionID = (DWORD)wParam;
-		tszText = Hlp_GetDlgItemText(hwndDlg, IDC_PARSESTRING);
+		DWORD actionID = (DWORD)wParam;
+		TCHAR *tszText = Hlp_GetDlgItemText(hwndDlg, IDC_PARSESTRING);
 		if (tszText != NULL) {
 			DBWriteActionSettingTString(actionID, NULL, MODULENAME, SETTING_PARSESTRING, tszText);
 			mir_free(tszText);

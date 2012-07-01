@@ -80,9 +80,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
-	if (UnicodeCheck(pluginInfoEx.shortName, FALSE))
-		return 0;
 	mir_getLP( &pluginInfoEx );
 
 	hExitHook = HookEvent(ME_SYSTEM_OKTOEXIT, Exit);

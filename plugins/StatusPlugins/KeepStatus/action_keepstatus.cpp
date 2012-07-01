@@ -2,7 +2,6 @@
 #include "keepstatus.h"
 #include "../resource.h"
 #include "m_trigger.h"
-#include "../../helpers/db_helpers.h"
 
 extern HINSTANCE hInst;
 
@@ -13,12 +12,12 @@ static BOOL ProtocolEnabled(DWORD id, char *szPrefix, REPORTINFO *ri, char *szPr
 {
 	char dbSetting[128];
 	_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s_%s", szPrefix, id, szProto, SETTING_PROTO_ENABLED);
-	if (db_getb(dbSetting, 0))
+	if ( db_get_b(NULL, MODULENAME, dbSetting, 0))
 		return TRUE;
 
 	if ( ri != NULL && ri->td != NULL && (ri->td->dFlags & DF_PROTO) && !strcmp(szProto, ri->td->szProto)) {
 		_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s_%s", szPrefix, id, STR_PROTOFROMTRIGGER, SETTING_PROTO_ENABLED);
-		return db_getb(dbSetting, 0);
+		return db_get_b(NULL, MODULENAME, dbSetting, 0);
 	}
 
 	return FALSE;
@@ -53,7 +52,7 @@ static void BuildProtoList(HWND hList, BOOL bFromTrigger, char* szPrefix, DWORD 
 		ListView_InsertItem(hList, &lvItem);
 
 		_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s_%s", szPrefix, id, protos[i]->szModuleName, SETTING_PROTO_ENABLED);
-		ListView_SetCheckState(hList, lvItem.iItem, db_getb(dbSetting, 0));
+		ListView_SetCheckState(hList, lvItem.iItem, db_get_b(NULL, MODULENAME, dbSetting, 0));
 		ListView_SetItem(hList, &lvItem);
 		lvItem.iItem++;
 		if (lvItem.pszText != NULL)
@@ -64,7 +63,7 @@ static void BuildProtoList(HWND hList, BOOL bFromTrigger, char* szPrefix, DWORD 
 		ListView_InsertItem(hList, &lvItem);
 		lvItem.lParam = (LPARAM)STR_PROTOFROMTRIGGER;
 		_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s_%s", szPrefix, id, STR_PROTOFROMTRIGGER, SETTING_PROTO_ENABLED);
-		ListView_SetCheckState(hList, lvItem.iItem, db_getb(dbSetting, 0));
+		ListView_SetCheckState(hList, lvItem.iItem, db_get_b(NULL, MODULENAME, dbSetting, 0));
 		ListView_SetItem(hList, &lvItem);
 		lvItem.iItem++;
 	}
@@ -84,10 +83,10 @@ static void SaveProtoList(HWND hList, char *szPrefix, DWORD id)
 		char dbSetting[128];
 		_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s_%s", szPrefix, id, (const char*)lvItem.lParam, SETTING_PROTO_ENABLED);
 		if (ListView_GetCheckState(hList, lvItem.iItem))
-			db_setb(dbSetting, TRUE);
+			db_set_b(NULL, MODULENAME, dbSetting, TRUE);
 		else {
 			log_debugA("deleting: %s", dbSetting);
-			db_del(dbSetting);
+			db_unset(NULL, MODULENAME, dbSetting);
 		}
 	}
 }

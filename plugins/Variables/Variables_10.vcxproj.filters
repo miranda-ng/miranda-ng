@@ -94,9 +94,6 @@
     <ClCompile Include="trigger_variables.cpp">
       <Filter>TriggerPlugin</Filter>
     </ClCompile>
-    <ClCompile Include="..\helpers\db_helpers.cpp">
-      <Filter>External</Filter>
-    </ClCompile>
     <ClCompile Include="..\helpers\gen_helpers.cpp">
       <Filter>External</Filter>
     </ClCompile>

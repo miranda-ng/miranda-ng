@@ -148,14 +148,13 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		break;
 
 	case VARM_SETSUBJECT: {
-		TCHAR *tszContact;
 		LPARAM res = 0;
 		HANDLE hContact, hItem;
 
 		hContact = (HANDLE)wParam;
 		log_debugA("VARM_SETSUBJECT: %u", hContact);
 		if (hContact == INVALID_HANDLE_VALUE) {
-			tszContact = db_gets(SETTING_SUBJECT, NULL);
+			TCHAR *tszContact = db_get_tsa(NULL, MODULENAME, SETTING_SUBJECT);
 			log_debugA("VARM_SETSUBJECT: %s", tszContact);
 			if (tszContact != NULL) {
 				hContact = decodeContactFromString(tszContact);
@@ -233,13 +232,13 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		break;
 
 	case WM_DESTROY:
-		db_del(SETTING_SUBJECT);
+		db_unset(NULL, MODULENAME, SETTING_SUBJECT);
 		{
 			HANDLE hContact = (HANDLE)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
 			if (hContact != NULL) {
 				TCHAR *tszContact = encodeContactToString(hContact);
 				if (tszContact != NULL) {
-					db_sets(SETTING_SUBJECT, tszContact);
+					db_set_ts(NULL, MODULENAME, SETTING_SUBJECT, tszContact);
 					mir_free(tszContact);
 		}	}	}
 		break;
@@ -677,7 +676,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		ZeroMemory(dat, sizeof(INPUTDLGDATA));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 		// splitter things
-		dat->splitterPos = (INT_PTR)db_getd(SETTING_SPLITTERPOS, -1);
+		dat->splitterPos = (INT_PTR)db_get_dw(NULL, MODULENAME, SETTING_SPLITTERPOS, -1);
 		{
 			RECT rc;
 			POINT pt;
@@ -816,7 +815,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case WM_DESTROY:
 		KillTimer(hwndDlg, IDT_PARSE);
-		db_setd(SETTING_SPLITTERPOS, dat->splitterPos);
+		db_set_dw(NULL, MODULENAME, SETTING_SPLITTERPOS, dat->splitterPos);
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_SPLITTER), GWLP_WNDPROC, (LONG_PTR) OldSplitterProc);
 		if (dat != NULL) {
 			mir_free(dat);

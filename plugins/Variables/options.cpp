@@ -34,10 +34,10 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 				DBFreeVariant(&dbv);
 			}
 		}
-		CheckDlgButton(hwndDlg, IDC_PARSEATSTARTUP, db_getb(SETTING_PARSEATSTARTUP, 0));
-		CheckDlgButton(hwndDlg, IDC_STRIPCRLF, db_getb(SETTING_STRIPCRLF, 0));
-		CheckDlgButton(hwndDlg, IDC_STRIPWS, db_getb(SETTING_STRIPWS, 0));
-		CheckDlgButton(hwndDlg, IDC_STRIPALL, db_getb(SETTING_STRIPALL, 0));
+		CheckDlgButton(hwndDlg, IDC_PARSEATSTARTUP, db_get_b(NULL, MODULENAME, SETTING_PARSEATSTARTUP, 0));
+		CheckDlgButton(hwndDlg, IDC_STRIPCRLF, db_get_b(NULL, MODULENAME, SETTING_STRIPCRLF, 0));
+		CheckDlgButton(hwndDlg, IDC_STRIPWS, db_get_b(NULL, MODULENAME, SETTING_STRIPWS, 0));
+		CheckDlgButton(hwndDlg, IDC_STRIPALL, db_get_b(NULL, MODULENAME, SETTING_STRIPALL, 0));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_STRIPCRLF), IsDlgButtonChecked(hwndDlg, IDC_STRIPALL)?FALSE:TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_STRIPWS), IsDlgButtonChecked(hwndDlg, IDC_STRIPALL)?FALSE:TRUE);
 		variables_skin_helpbutton(hwndDlg, IDC_SHOWHELP);
@@ -93,14 +93,14 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 					break;
 
 				if (GetDlgItemText(hwndDlg, IDC_FORMATTEXT, szFormatText, len+1) != 0)
-					db_sets(SETTING_STARTUPTEXT, szFormatText);
+					db_set_ts(NULL, MODULENAME, SETTING_STARTUPTEXT, szFormatText);
 
 				mir_free(szFormatText);
 			}
-			db_setb(SETTING_PARSEATSTARTUP, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PARSEATSTARTUP)?1:0));
-			db_setb(SETTING_STRIPCRLF, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPCRLF)?1:0));
-			db_setb(SETTING_STRIPWS, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPWS)?1:0));
-			db_setb(SETTING_STRIPALL, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPALL)?1:0));
+			db_set_b(NULL, MODULENAME, SETTING_PARSEATSTARTUP, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PARSEATSTARTUP)?1:0));
+			db_set_b(NULL, MODULENAME, SETTING_STRIPCRLF, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPCRLF)?1:0));
+			db_set_b(NULL, MODULENAME, SETTING_STRIPWS, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPWS)?1:0));
+			db_set_b(NULL, MODULENAME, SETTING_STRIPALL, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPALL)?1:0));
 		}
 		break;
 

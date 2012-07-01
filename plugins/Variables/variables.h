@@ -21,6 +21,7 @@
 #define MIRANDA_VER 0x0A00
 
 #include <tchar.h> 
+#include <malloc.h>
 
 #include <windows.h>
 #include <commctrl.h>
@@ -43,11 +44,10 @@
 #include <m_utils.h>
 #include <m_icolib.h>
 #include "m_variables.h"
-//#include "dbhelpers.h"
+
 #define MODULENAME				"Variables"
-//#define LOGLEVEL	__LOGLEVEL_DEBUG
+
 #include "../helpers/gen_helpers.h"
-#include "../helpers/db_helpers.h"
 
 #define SETTING_STARTUPTEXT		"StartupText"
 #define SETTING_STRIPCRLF		"StripCRLF"

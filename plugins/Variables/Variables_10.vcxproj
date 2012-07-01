@@ -208,9 +208,6 @@
     <ClCompile Include="action_variables.cpp" />
     <ClCompile Include="condition_variables.cpp" />
     <ClCompile Include="trigger_variables.cpp" />
-    <ClCompile Include="..\helpers\db_helpers.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="..\helpers\gen_helpers.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>

@@ -39,6 +39,7 @@
 #include <m_database.h>
 #include <m_protosvc.h>
 #include <m_clist.h>
+#include <m_clistint.h>
 #include <m_langpack.h>
 #include <m_popup.h>
 #include <m_variables.h>

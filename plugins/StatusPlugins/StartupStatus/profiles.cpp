@@ -98,12 +98,12 @@ static int CreateMainMenuItems(WPARAM wParam, LPARAM lParam)
 	mi.popupPosition = 2000100000;
 	mcount = 0;
 	count = GetProfileCount(0, 0);
-	for (i=0;i<count;i++) {
-		if ( !dbi_getb(i, SETTING_CREATEMMITEM, 0) || GetProfileName((WPARAM)i, (LPARAM)profilename))
+	for (i=0; i < count; i++) {
+		if ( !db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), 0) || GetProfileName((WPARAM)i, (LPARAM)profilename))
 			continue;
 
-		if (dbi_getb(i, SETTING_INSUBMENU, 1))
-			mi.pszPopupName = Translate("StatusProfiles");
+		if ( db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1))
+			mi.pszPopupName = "StatusProfiles";
 
 		mi.pszName = profilename;
 		mi.position = 2000100000 + mcount;
@@ -315,10 +315,10 @@ static int RegisterHotKeys()
 
 	int count = GetProfileCount(0, 0);
 	for ( int i=0; i < count; i++ ) {
-		if (!dbi_getb(i, SETTING_REGHOTKEY, 0))
+		if (!db_get_b(NULL, MODULENAME, OptName(i, SETTING_REGHOTKEY), 0))
 			continue;
 
-		WORD wHotKey = dbi_getw(i, SETTING_HOTKEY, 0);
+		WORD wHotKey = db_get_w(NULL, MODULENAME, OptName(i, SETTING_HOTKEY), 0);
 		hkInfo = ( HKINFO* )realloc(hkInfo, (hkiCount+1)*sizeof(HKINFO));
 		if (hkInfo == NULL)
 			return -1;

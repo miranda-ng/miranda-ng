@@ -16,6 +16,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 #include "../commonstatus.h"
 #include "startupstatus.h"
 #include "../resource.h"
@@ -552,19 +553,19 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 					if ( ar[j].szMsg != NULL)
 						ar[j].szMsg = _strdup( ar[j].szMsg );
 
-				dat[i].szName = dbi_getAs(i, SETTING_PROFILENAME, NULL);
+				dat[i].szName = db_get_sa(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME));
 				if (dat[i].szName == NULL) {
 					if (i == defProfile)
 						dat[i].szName = _strdup(Translate("default"));
 					else
 						dat[i].szName = _strdup(Translate("unknown"));
 				}
-				dat[i].createTtb = dbi_getb(i, SETTING_CREATETTBBUTTON, 0);
-				dat[i].showDialog = dbi_getb(i, SETTING_SHOWCONFIRMDIALOG, 0);
-				dat[i].createMmi = dbi_getb(i, SETTING_CREATEMMITEM, 0);
-				dat[i].inSubMenu = dbi_getb(i, SETTING_INSUBMENU, 1);
-				dat[i].regHotkey = dbi_getb(i, SETTING_REGHOTKEY, 0);
-				dat[i].hotKey = dbi_getw(i, SETTING_HOTKEY, MAKEWORD((char)('0'+i), HOTKEYF_CONTROL|HOTKEYF_SHIFT));
+				dat[i].createTtb = db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATETTBBUTTON), 0);
+				dat[i].showDialog = db_get_b(NULL, MODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), 0);
+				dat[i].createMmi = db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), 0);
+				dat[i].inSubMenu = db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1);
+				dat[i].regHotkey = db_get_b(NULL, MODULENAME, OptName(i, SETTING_REGHOTKEY), 0);
+				dat[i].hotKey = db_get_w(NULL, MODULENAME, OptName(i, SETTING_HOTKEY), MAKEWORD((char)('0'+i), HOTKEYF_CONTROL|HOTKEYF_SHIFT));
 			}
 		}
 		if ( !ServiceExists( MS_TTB_ADDBUTTON ) && !ServiceExists( MS_TB_ADDBUTTON ))
@@ -847,21 +848,21 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				ClearDatabase(setting);
 			}
 			for (i=0;i<profileCount;i++) {
-				dbi_setb(i, SETTING_SHOWCONFIRMDIALOG, dat[i].showDialog);
-				dbi_setb(i, SETTING_CREATETTBBUTTON, dat[i].createTtb);
-				dbi_setb(i, SETTING_CREATEMMITEM, dat[i].createMmi);
-				dbi_setb(i, SETTING_INSUBMENU, dat[i].inSubMenu);
-				dbi_setb(i, SETTING_REGHOTKEY, dat[i].regHotkey);
-				dbi_setw(i, SETTING_HOTKEY, dat[i].hotKey);
-				dbi_setAs(i, SETTING_PROFILENAME, dat[i].szName);
+				db_set_b(NULL, MODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), dat[i].showDialog);
+				db_set_b(NULL, MODULENAME, OptName(i, SETTING_CREATETTBBUTTON), dat[i].createTtb);
+				db_set_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), dat[i].createMmi);
+				db_set_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), dat[i].inSubMenu);
+				db_set_b(NULL, MODULENAME, OptName(i, SETTING_REGHOTKEY), dat[i].regHotkey);
+				db_set_w(NULL, MODULENAME, OptName(i, SETTING_HOTKEY), dat[i].hotKey);
+				db_set_s(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME), dat[i].szName);
 
 				TSettingsList& ar = *dat[i].ps;
 				for ( j=0; j < ar.getCount(); j++ ) {
 					if ( ar[j].szMsg != NULL ) {
 						mir_snprintf(setting, sizeof(setting), "%s_%s", ar[j].szName, SETTING_PROFILE_STSMSG);
-						dbi_setAs(i, setting, ar[j].szMsg);
+						db_set_s(NULL, MODULENAME, OptName(i, setting), ar[j].szMsg);
 					}
-					dbi_setw(i, ar[j].szName, ar[j].status);
+					db_set_w(NULL, MODULENAME, OptName(i, ar[j].szName), ar[j].status);
 				}
 			}
 			DBWriteContactSettingWord(NULL, MODULENAME, SETTING_PROFILECOUNT, (WORD)profileCount);
@@ -988,7 +989,7 @@ static int ClearDatabase(char* filter)
 	dbces.lParam = (LPARAM)&settings;
 	dbces.pfnEnumProc = DeleteSetting;
 	CallService(MS_DB_CONTACT_ENUMSETTINGS,(WPARAM)NULL,(LPARAM)&dbces);
-	for (i=0;i<settingCount;i++) {
+	for (i=0; i < settingCount; i++) {
 		if ((filter == NULL) || (!strncmp(filter, settings[i], strlen(filter))))
 			DBDeleteContactSetting(NULL, MODULENAME, settings[i]);
 		free(settings[i]);
@@ -1015,4 +1016,11 @@ static int DeleteSetting(const char *szSetting,LPARAM lParam)
 	settingIndex += 1;
 	
 	return 0;
+}
+
+char* OptName(int i, const char* setting)
+{
+	static char buf[100];
+	mir_snprintf(buf, sizeof(buf), "%d_%s", i, setting);
+	return buf;
 }
