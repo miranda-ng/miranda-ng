@@ -136,7 +136,7 @@ MIR_CORE_DLL(HINSTANCE) GetInstByAddress(void* codePtr)
 		return NULL;
 
 	int idx;
-	List_GetIndex((SortedList*)&pluginListAddr, &codePtr, &idx);
+	List_GetIndex((SortedList*)&pluginListAddr, codePtr, &idx);
 	if (idx > 0)
 		idx--;
 
