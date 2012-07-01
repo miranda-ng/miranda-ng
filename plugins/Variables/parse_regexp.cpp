@@ -18,15 +18,8 @@
 */
 #include "variables.h"
 #include "parse_regexp.h"
-#include <pcre.h>
-
-static void (*pcreFree)(void *);
-static pcre_extra *(*pcreStudy)(const pcre *, int, const char **);
-static pcre *(*pcreCompile)(const char *, int, const char **, int *, const unsigned char *);
-static int  (*pcreExec)(const pcre *, const pcre_extra *, const char *, int, int, int, int *, int);
-static void *(*pcreMalloc)(size_t);
-static void (*pcreFreeSubstring)(const char *);
-static int  (*pcreGetSubstring)(const char *, int *, int, int, const char **);
+#define PCRE_STATIC
+#include "pcre.h"
 
 /*
 	pattern, subject
@@ -49,14 +42,14 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai) {
 	arg1 = mir_t2a(ai->targv[1]);
 	arg2 = mir_t2a(ai->targv[2]);
 
-	ppat = pcreCompile(arg1, 0, &err, &erroffset, NULL);
+	ppat = pcre_compile(arg1, 0, &err, &erroffset, NULL);
 	if (ppat == NULL) {
 		mir_free(arg1);
 		mir_free(arg2);
 		return NULL;
 	}
-	extra = pcreStudy(ppat, 0, &err);
-	nmat = pcreExec(ppat, extra, arg2, strlen(arg2), 0, 0, offsets, 99);
+	extra = pcre_study(ppat, 0, &err);
+	nmat = pcre_exec(ppat, extra, arg2, strlen(arg2), 0, 0, offsets, 99);
 	mir_free(arg1);
 	mir_free(arg2);
 	if (nmat > 0) {
@@ -100,24 +93,24 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	ai->flags = AIF_FALSE;	
-	ppat = pcreCompile(arg1, 0, &err, &erroffset, NULL);
+	ppat = pcre_compile(arg1, 0, &err, &erroffset, NULL);
 	if (ppat == NULL) {
 		mir_free(arg1);
 		mir_free(arg2);
 		mir_free(arg3);
 		return NULL;
 	}
-	extra = pcreStudy(ppat, 0, &err);
-	nmat = pcreExec(ppat, extra, arg2, strlen(arg2), 0, 0, offsets, 99);
+	extra = pcre_study(ppat, 0, &err);
+	nmat = pcre_exec(ppat, extra, arg2, strlen(arg2), 0, 0, offsets, 99);
 	if (nmat >= 0) {
 		ai->flags &= ~AIF_FALSE;
 	}
-	if (pcreGetSubstring(arg2, offsets, nmat, number, &substring) < 0) {
+	if (pcre_get_substring(arg2, offsets, nmat, number, &substring) < 0) {
 		ai->flags |= AIF_FALSE;
 	}
 	else {
 		res = mir_strdup(substring);
-		pcreFreeSubstring(substring);
+		pcre_free_substring(substring);
 
 
 		tres = mir_a2t(res);
@@ -136,51 +129,7 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai) {
 	return mir_tstrdup(_T(""));
 }
 
-int initPcre() {
-
-	HMODULE hModule;
-	
-	hModule = LoadLibraryA("pcre.dll");
-	if (hModule == NULL) {
-		char path[MAX_PATH];
-		char *cur;
-
-		GetModuleFileNameA(NULL, path, sizeof(path));
-		cur = strrchr(path, '\\');
-		if (cur != NULL)
-			strcpy(cur+1, "pcre.dll");
-		else
-			strcpy(path, "pcre.dll");
-		hModule = LoadLibraryA(path);
-		if (hModule == NULL) {
-			if (cur != NULL)
-				strcpy(cur+1, "pcre3.dll");
-			else
-				strcpy(path, "pcre3.dll");
-			hModule = LoadLibraryA(path);
-		}
-	}
-	if (hModule == NULL) {
-		return -1;
-	}
-	pcreMalloc = (void *(__cdecl *)(size_t))GetProcAddress(hModule, "pcre_malloc");
-	pcreFree = (void (__cdecl *)(void *))GetProcAddress(hModule, "pcre_free");
-	pcreStudy = (struct pcre_extra *(__cdecl *)(const struct real_pcre *,int ,const char ** ))GetProcAddress(hModule, "pcre_study");
-	pcreCompile = (struct real_pcre *(__cdecl *)(const char *,int ,const char ** ,int *,const unsigned char *))GetProcAddress(hModule, "pcre_compile");
-	pcreExec = (int (__cdecl *)(const struct real_pcre *,const struct pcre_extra *,const char *,int ,int ,int ,int *,int ))GetProcAddress(hModule, "pcre_exec");
-	pcreFreeSubstring = (void (__cdecl *)(const char *))GetProcAddress(hModule, "pcre_free_substring");
-	pcreGetSubstring = (int (__cdecl *)(const char *,int *,int ,int ,const char ** ))GetProcAddress(hModule, "pcre_get_substring");
-
-	return 0;
-}
-
 int registerRegExpTokens() {
-
-	if (initPcre() != 0) {
-		log_infoA("Variables: pcre.dll for PCRE not found");
-		return -1;
-	}
-
 
 	registerIntToken(_T(REGEXPCHECK), parseRegExpCheck, TRF_FUNCTION, "Regular Expressions\t(x,y)\t(ANSI input only) the number of substring matches found in y with pattern x");
 	registerIntToken(_T(REGEXPSUBSTR), parseRegExpSubstr, TRF_FUNCTION, "Regular Expressions\t(x,y,z)\t(ANSI input only) substring match number z found in subject y with pattern x");
