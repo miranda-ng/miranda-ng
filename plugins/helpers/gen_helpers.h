@@ -94,28 +94,4 @@ static __inline int log_fatalA(const char* fmt, ...) { return 0; }
 static __inline int log_fatal(const TCHAR* fmt, ...) { return 0; }
 #endif
 
-int Hlp_UnicodeCheck(char *szPluginName, BOOL bFore, const char *szModule);
-#define UnicodeCheck(x, y)	Hlp_UnicodeCheck(x, y, MODULENAME)
-
-static __inline char *variables_parsedupA(char *szFormat, char *szExtraText, HANDLE hContact) {
-
-  if (ServiceExists(MS_VARS_FORMATSTRING)) {
-    FORMATINFO fi;
-    char *szParsed, *szResult;
-    
-    ZeroMemory(&fi, sizeof(fi));
-    fi.cbSize = sizeof(fi);
-    fi.szFormat = szFormat;
-    fi.szExtraText = szExtraText;
-    fi.hContact = hContact;
-	szParsed = (char *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
-    if (szParsed) {
-      szResult = _strdup(szParsed);
-      CallService(MS_VARS_FREEMEMORY, (WPARAM)szParsed, 0);
-      return szResult;
-    }
-  }
-  return szFormat?_strdup(szFormat):szFormat;
-}
-
 #endif

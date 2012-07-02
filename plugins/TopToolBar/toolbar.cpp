@@ -16,7 +16,7 @@ COLORREF bkColour;
 HBITMAP hBmpBackground, hBmpSeparator;
 int backgroundBmpUse;
 
-static CRITICAL_SECTION csButtonsHook;
+CRITICAL_SECTION csButtonsHook;
 static int hFrameTopWindow = -1;
 
 int sortfunc(const TopButtonInt* a, const TopButtonInt* b)
@@ -26,24 +26,11 @@ int sortfunc(const TopButtonInt* a, const TopButtonInt* b)
 
 LIST<TopButtonInt> Buttons(8, sortfunc);
 
-void lockbut()
+static void SetAllBitmaps()
 {
-	EnterCriticalSection(&csButtonsHook);
-}
-
-void ulockbut()
-{
-	LeaveCriticalSection(&csButtonsHook);
-}
-
-int SetAllBitmaps()
-{
-	lockbut();
+	mir_cslock lck(csButtonsHook);
 	for (int i = 0; i < Buttons.getCount(); i++)
 		Buttons[i]->SetBitmap();
-
-	ulockbut();
-	return 0;
 }
 
 static TopButtonInt* idtopos(int id, int* pPos=NULL)
@@ -74,8 +61,7 @@ void LoadAllSButs()
 {
 	//must be locked
 	int cnt = DBGetContactSettingByte(0, TTB_OPTDIR, "ServiceCnt", 0);
-	if (cnt > 0)
-	{
+	if (cnt > 0) {
 		for (int i = 1; i<=cnt; i++)
 		InsertSBut(i);
 	}
@@ -137,16 +123,15 @@ void LoadAllSeparators()
 
 int SaveAllButtonsOptions()
 {
-	lockbut();
 	int SeparatorCnt = 0;
 	int LaunchCnt = 0;
-
-	for (int i = 0; i < Buttons.getCount(); i++)
-		Buttons[i]->SaveSettings(&SeparatorCnt, &LaunchCnt);
-
+	{
+		mir_cslock lck(csButtonsHook);
+		for (int i = 0; i < Buttons.getCount(); i++)
+			Buttons[i]->SaveSettings(&SeparatorCnt, &LaunchCnt);
+	}
 	DBWriteContactSettingByte(0, TTB_OPTDIR, "SepCnt", SeparatorCnt);
 	DBWriteContactSettingByte(0, TTB_OPTDIR, "LaunchCnt", LaunchCnt);
-	ulockbut();
 	return 0;
 }
 
@@ -178,14 +163,12 @@ int ttbOptionsChanged()
 
 INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 {
-	lockbut();
+	mir_cslock lck(csButtonsHook);
 
 	int idx;
 	TopButtonInt* b = idtopos(wParam, &idx);
-	if (b == NULL) {
-		ulockbut();
+	if (b == NULL)
 		return -1;
-	}
 	
 	RemoveFromOptions(b->id);
 
@@ -193,16 +176,17 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 	delete b;
 
 	ArrangeButtons();
-	ulockbut();
 	return 0;
 }
 
-bool nameexists(const char *name)
+static bool nameexists(const char *name)
 {
-	if (name != NULL)
-		for (int i = 0; i < Buttons.getCount(); i++)
-			if ( !lstrcmpA(Buttons[i]->name, name))
-				return true;
+	if (name == NULL)
+		return false;
+
+	for (int i = 0; i < Buttons.getCount(); i++)
+		if ( !lstrcmpA(Buttons[i]->name, name))
+			return true;
 
 	return false;
 }
@@ -224,19 +208,22 @@ HICON LoadIconFromLibrary(char *Name, HICON hIcon, HANDLE& phIcolib)
 	return Skin_GetIconByHandle(phIcolib);
 }
 
-int RecreateWindows()
+static void ReloadIcons()
 {
-	lockbut();
+	mir_cslock lck(csButtonsHook);
 	for (int i = 0; i < Buttons.getCount(); i++) {
-		TopButtonInt *b = Buttons[i];
-		if (b->hwnd) {
-			DestroyWindow(b->hwnd);
-			b->CreateWnd();
+		TopButtonInt* b = Buttons[i];
+
+		char buf[256];
+		if (b->hIconHandleUp) {
+			sprintf(buf, "%s_up", b->name);
+			b->hIconUp = LoadIconFromLibrary(buf, b->hIconUp, b->hIconHandleUp);
+		}
+		if (b->hIconHandleDn) {
+			sprintf(buf, "%s_dn", b->name);
+			b->hIconDn = LoadIconFromLibrary(buf, b->hIconDn, b->hIconHandleDn);
 		}
 	}
-	
-	ulockbut();
-	return (0);
 }
 
 TopButtonInt* CreateButton(TTBButton* but)
@@ -306,27 +293,22 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 	if (hwndContactList == 0)
 		return -1;
 
-	lockbut();
+	TopButtonInt* b;
+	{	
+		mir_cslock lck(csButtonsHook);
 
-	TTBButton *but = (TTBButton*)wParam;
-	if ((but->cbSize != sizeof(TTBButton)) ||
-			(!(but->dwFlags && TTBBF_ISLBUTTON) && nameexists(but->name))) {
-		ulockbut();
-		return -1;
+		TTBButton *but = (TTBButton*)wParam;
+		if (but->cbSize != sizeof(TTBButton) || (!(but->dwFlags && TTBBF_ISLBUTTON) && nameexists(but->name)))
+			return -1;
+
+		b = CreateButton(but);
+		b->LoadSettings();
+		Buttons.insert(b);
+		b->CreateWnd();
 	}
 
-	TopButtonInt* b = CreateButton(but);
-
-	b->LoadSettings();
-	Buttons.insert(b);
-	b->CreateWnd();
-
-	ulockbut();
 	ArrangeButtons();
-//	OptionsPageRebuild();
-
 	AddToOptions(b);
-
 	return b->id;
 }
 
@@ -335,7 +317,7 @@ int ArrangeButtons()
 	if (StopArrange == TRUE)
 		return 0;
 
-	lockbut();
+	mir_cslock lck(csButtonsHook);
 
 	RECT winrc;
 	GetClientRect(hwndTopToolBar, &winrc);
@@ -381,8 +363,6 @@ int ArrangeButtons()
 
 	}
 	StopArrange = false;
-
-	ulockbut();
 	return 1;
 }
 
@@ -393,18 +373,15 @@ int ArrangeButtons()
 //lparam = state 
 INT_PTR TTBSetState(WPARAM wParam, LPARAM lParam)
 {
-	lockbut();
+	mir_cslock lck(csButtonsHook);
 
 	TopButtonInt* b = idtopos(wParam);
-	if (b == NULL) {
-		ulockbut();
+	if (b == NULL)
 		return -1;
-	}
 
 	b->bPushed = (lParam&TTBST_PUSHED)?TRUE:FALSE;
 	b->bPushed = (lParam&TTBST_RELEASED)?FALSE:TRUE;
 	b->SetBitmap();
-	ulockbut();
 	return 0;
 }
 
@@ -413,15 +390,12 @@ INT_PTR TTBSetState(WPARAM wParam, LPARAM lParam)
 //return = state
 INT_PTR TTBGetState(WPARAM wParam, LPARAM lParam)
 {
-	lockbut();
+	mir_cslock lck(csButtonsHook);
 	TopButtonInt* b = idtopos(wParam);
-	if (b == NULL) {
-		ulockbut();
+	if (b == NULL)
 		return -1;
-	}
 
 	int retval = (b->bPushed == TRUE) ? TTBST_PUSHED : TTBST_RELEASED;
-	ulockbut();
 	return retval;
 }
 
@@ -429,12 +403,10 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR retval;
 
-	lockbut();
+	mir_cslock lck(csButtonsHook);
 	TopButtonInt* b = idtopos(wParam);
-	if (b == NULL) {
-		ulockbut();
+	if (b == NULL)
 		return -1;
-	}
 
 	switch(LOWORD(wParam)) {
 	case TTBO_FLAGS:
@@ -479,7 +451,6 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	
-	ulockbut();
 	return retval;
 }
 
@@ -487,12 +458,10 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 {
 	int retval;
 
-	lockbut();
+	mir_cslock lck(csButtonsHook);
 	TopButtonInt* b = idtopos(wParam);
-	if (b == NULL) {
-		ulockbut();
+	if (b == NULL)
 		return -1;
-	}
 
 	switch(LOWORD(wParam)) {
 	case TTBO_FLAGS:
@@ -574,7 +543,6 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	
-	ulockbut();
 	return retval;
 }
 
@@ -717,12 +685,10 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		if ((HIWORD(wParam) == STN_CLICKED || HIWORD(wParam) == STN_DBLCLK)) {
 			int id = GetWindowLongPtr((HWND)lParam, GWLP_USERDATA);
 			if (id != 0) {
-				lockbut();
+				mir_cslock lck(csButtonsHook);
 				TopButtonInt* b = idtopos(id);
-				if (b == NULL || b->isSep()) {
-					ulockbut();
+				if (b == NULL || b->isSep())
 					return 0;
-				}
 
 				// flag inversion inside condition coz we uses Up -> Down for non-push buttons
 				// condition and inversion can be moved to main condition end
@@ -744,7 +710,6 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				}
 
 				b->SetBitmap();
-				ulockbut();
 			}
 		}
 		break;
@@ -796,22 +761,7 @@ static INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 
 int OnIconChange(WPARAM wParam, LPARAM lParam)
 {
-	lockbut();
-	for (int i = 0; i < Buttons.getCount(); i++) {
-		TopButtonInt* b = Buttons[i];
-
-		char buf[256];
-		if (b->hIconHandleUp) {
-			sprintf(buf, "%s_up", b->name);
-			b->hIconUp = LoadIconFromLibrary(buf, b->hIconUp, b->hIconHandleUp);
-		}
-		if (b->hIconHandleDn) {
-			sprintf(buf, "%s_dn", b->name);
-			b->hIconDn = LoadIconFromLibrary(buf, b->hIconDn, b->hIconHandleDn);
-		}
-	}
-	ulockbut();
-
+	ReloadIcons();
 	SetAllBitmaps();
 	return 0;
 }

@@ -1,6 +1,42 @@
 #include "common.h"
 
-HWND OptionshWnd = 0;
+static HWND OptionshWnd;
+
+void AddToOptions(TopButtonInt* b)
+{
+	if (OptionshWnd) {
+		HWND hTree = GetDlgItem(OptionshWnd, IDC_BUTTONORDERTREE);
+		OrderData *dat = (struct OrderData*)GetWindowLongPtr(hTree, GWLP_USERDATA);
+		AddLine(hTree, b, TVI_LAST, dat->himlButtonIcons);
+	}
+}
+
+void RemoveFromOptions(int id)
+{
+	if (OptionshWnd) {
+		HWND hTree = GetDlgItem(OptionshWnd, IDC_BUTTONORDERTREE);
+		TVITEM tvi = { 0 };
+		tvi.hItem = TreeView_GetRoot(hTree);
+		tvi.mask = TVIF_PARAM | TVIF_HANDLE;
+
+		TopButtonInt* btn;
+		while(tvi.hItem != NULL) {
+			TreeView_GetItem(hTree, &tvi);
+			btn = (TopButtonInt*)tvi.lParam;
+			if (btn->id == id) {
+			  // delete if was changed
+				if (btn->dwFlags & TTBBF_OPTIONAL)
+					delete btn;
+				TreeView_DeleteItem(hTree,tvi.hItem);
+				break;
+			}
+
+			tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 struct OrderData
 {
@@ -9,7 +45,7 @@ struct OrderData
 	HIMAGELIST himlButtonIcons;
 };
 
-HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST il)
+static HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST il)
 {
 	TVINSERTSTRUCT tvis = { 0 };
 	tvis.hInsertAfter = hItem;
@@ -46,7 +82,7 @@ HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST il)
 	return hti;
 }
 
-int BuildTree(HWND hwndDlg)
+static int BuildTree(HWND hwndDlg)
 {
 	HWND hTree = GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE);
 	OrderData *dat = (struct OrderData*)GetWindowLongPtr(hTree, GWLP_USERDATA);
@@ -64,51 +100,7 @@ int BuildTree(HWND hwndDlg)
 	return TRUE;
 }
 
-void AddToOptions(TopButtonInt* b)
-{
-	if (OptionshWnd) {
-		HWND hTree = GetDlgItem(OptionshWnd, IDC_BUTTONORDERTREE);
-		OrderData *dat = (struct OrderData*)GetWindowLongPtr(hTree, GWLP_USERDATA);
-		AddLine(hTree, b, TVI_LAST, dat->himlButtonIcons);
-	}
-}
-
-void RemoveFromOptions(int id)
-{
-	if (OptionshWnd) {
-		HWND hTree = GetDlgItem(OptionshWnd, IDC_BUTTONORDERTREE);
-		TVITEM tvi = { 0 };
-		tvi.hItem = TreeView_GetRoot(hTree);
-		tvi.mask = TVIF_PARAM | TVIF_HANDLE;
-
-		TopButtonInt* btn;
-		while(tvi.hItem != NULL) {
-			TreeView_GetItem(hTree, &tvi);
-			btn = (TopButtonInt*)tvi.lParam;
-			if (btn->id == id) {
-			  // delete if was changed
-				if (btn->dwFlags & TTBBF_OPTIONAL)
-					delete btn;
-				TreeView_DeleteItem(hTree,tvi.hItem);
-				break;
-			}
-
-			tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
-		}
-	}
-}
-
-/*
-//call this when options opened and buttons added/removed
-int OptionsPageRebuild()
-{
-	if (OptionshWnd)
-		BuildTree(OptionshWnd);
-
-	return 0;
-}
-*/
-void SaveTree(HWND hwndDlg)
+static void SaveTree(HWND hwndDlg)
 {
 	HWND hTree = GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE);
 
@@ -135,15 +127,14 @@ void SaveTree(HWND hwndDlg)
 		tmpList.insert(btn);
 		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
 	}
+	{
+		mir_cslock lck(csButtonsHook);
+		for (int i=0; i < Buttons.getCount(); i++)
+			delete Buttons[i];
 
-	lockbut();
-	for (int i=0; i < Buttons.getCount(); i++)
-		delete Buttons[i];
-
-	Buttons = tmpList;
-	tmpList.destroy();	
-
-	ulockbut();
+		Buttons = tmpList;
+		tmpList.destroy();	
+	}
 	SaveAllButtonsOptions();
 }
 
@@ -165,6 +156,18 @@ void CancelProcess(HWND hwndDlg)
 			delete btn;
 
 		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
+	}
+}
+
+static void RecreateWindows()
+{
+	mir_cslock lck(csButtonsHook);
+	for (int i = 0; i < Buttons.getCount(); i++) {
+		TopButtonInt *b = Buttons[i];
+		if (b->hwnd) {
+			DestroyWindow(b->hwnd);
+			b->CreateWnd();
+		}
 	}
 }
 
@@ -400,7 +403,8 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						break;
 
 					TopButtonInt *btn = (TopButtonInt*)((LPNMTREEVIEW)lParam)->itemNew.lParam;
-					lockbut();
+
+					mir_cslock lck(csButtonsHook);
 
 					if (btn->dwFlags & TTBBF_ISLBUTTON) {
 						bool enable = (btn->dwFlags & TTBBF_INTERNAL) !=0;
@@ -428,7 +432,6 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						SetDlgItemTextA(hwndDlg, IDC_ENAME, "");
 						SetDlgItemTextA(hwndDlg, IDC_EPATH, "");
 					}
-					ulockbut();
 				}
 			}
 			break;

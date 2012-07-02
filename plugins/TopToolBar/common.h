@@ -92,7 +92,6 @@ TopButtonInt* CreateButton(TTBButton* but);
 int ttbOptionsChanged();
 
 int ArrangeButtons();
-int RecreateWindows();
 
 #define DEFBUTTWIDTH	20
 #define DEFBUTTHEIGHT	16
@@ -102,19 +101,16 @@ int RecreateWindows();
 
 extern LIST<TopButtonInt> Buttons;
 extern bool StopArrange;
-extern HWND OptionshWnd, hwndTopToolBar;
+extern HWND hwndTopToolBar;
 extern HANDLE hHookTTBModuleLoaded;
 extern HINSTANCE hInst;
 extern LIST<void> arHooks, arServices;
 extern HBITMAP hBmpBackground, hBmpSeparator;
 extern int BUTTWIDTH, BUTTHEIGHT, BUTTGAP;
+extern CRITICAL_SECTION csButtonsHook;
 
 void AddToOptions(TopButtonInt* b);
 void RemoveFromOptions(int id);
-
-//int OptionsPageRebuild();
-void lockbut();
-void ulockbut();
 
 //append string
 char *AS(char *str, const char *setting, char *addstr)
@@ -128,21 +124,18 @@ char *AS(char *str, const char *setting, char *addstr)
 
 #define TTB_LAUNCHSERVICE "TTB/LaunchSerice"
 
-int LoadInternalButtons( HWND );
-int UnLoadInternalButtons( void );
-
-int LoadToolbarModule( void );
-int UnloadToolbarModule( void );
-
-int SetAllBitmaps( void );
-int SaveAllLButs( void );
-int SaveAllButtonsOptions( void );
-
-void lockbut();
-void ulockbut();
-
 INT_PTR TTBAddButton(WPARAM, LPARAM);
 INT_PTR TTBRemoveButton(WPARAM, LPARAM);
+
+int  LoadInternalButtons( HWND );
+int  UnLoadInternalButtons( void );
+
+int  LoadToolbarModule( void );
+int  UnloadToolbarModule( void );
+
+void SetAllBitmaps( void );
+int  SaveAllLButs( void );
+int  SaveAllButtonsOptions( void );
 
 void InsertSeparator( int i );
 void DeleteSeparator(int i);

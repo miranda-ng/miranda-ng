@@ -33,9 +33,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #if defined(__cplusplus)
 
-#define	NumericKeySortT -1
-#define	HandleKeySortT  -2
-#define	PtrKeySortT     -3
+///////////////////////////////////////////////////////////////////////////////
+// mir_ptr - automatic pointer for buffers, allocated using mir_alloc/mir_calloc
 
 template<class T> class mir_ptr
 {
@@ -50,6 +49,25 @@ public:
 	__inline operator T*() const { return data; }
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
 };
+
+///////////////////////////////////////////////////////////////////////////////
+// mir_cslock - automatic locker for the critical sections
+
+class mir_cslock
+{
+	CRITICAL_SECTION& cs;
+
+public:
+	__inline mir_cslock(CRITICAL_SECTION& _cs) : cs(_cs) { EnterCriticalSection(&cs); }
+	__inline ~mir_cslock() { LeaveCriticalSection(&cs); }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// general lists' templates
+
+#define	NumericKeySortT -1
+#define	HandleKeySortT  -2
+#define	PtrKeySortT     -3
 
 template<class T> struct LIST
 {
