@@ -203,7 +203,7 @@ LPSTR __cdecl gpg_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 	szEncMsg = p_gpg_encrypt(szPlainMsg,(LPCSTR)p->gpgKeyID);
 	if (!szEncMsg) return 0;
 
-	ptr->tmp = (LPSTR) strdup(szEncMsg);
+	ptr->tmp = (LPSTR)_strdup(szEncMsg);
 	LocalFree((LPVOID)szEncMsg);
 
 	return ptr->tmp;
@@ -223,7 +223,7 @@ LPSTR __cdecl gpg_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 		if (!szPlainMsg) return NULL;
     }*/
 
-    ptr->tmp = (LPSTR) strdup(szPlainMsg);
+    ptr->tmp = (LPSTR)_strdup(szPlainMsg);
     LocalFree((LPVOID)szPlainMsg);
 
     return ptr->tmp;
@@ -301,7 +301,7 @@ int __cdecl gpg_set_keyid(HANDLE context, LPCSTR RemoteKeyID)
    	ptr->error = ERROR_NONE;
 
    	SAFE_FREE(p->gpgKeyID);
-	p->gpgKeyID = (PBYTE) strdup(RemoteKeyID);
+	p->gpgKeyID = (PBYTE)_strdup(RemoteKeyID);
 
    	return 1;
 }
