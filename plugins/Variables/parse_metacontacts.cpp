@@ -58,7 +58,6 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL)
 	{
 		szProto = PROTOID_HANDLE;
-		//szUniqueID = itot((INT_PTR)hContact);
 		szUniqueID = (TCHAR*)mir_alloc(32);
 		_stprintf(szUniqueID, _T("%p"), hContact);
 		if (szProto == NULL || szUniqueID == NULL)
@@ -119,7 +118,6 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
-		//szUniqueID = itot((INT_PTR)hContact);
 		szUniqueID = (TCHAR*)mir_alloc(32);
 		_stprintf(szUniqueID, _T("%p"), hContact);
 		if (szProto == NULL || szUniqueID == NULL)
