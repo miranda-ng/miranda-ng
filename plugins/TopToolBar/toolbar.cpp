@@ -46,12 +46,15 @@ int SetAllBitmaps()
 	return 0;
 }
 
-TopButtonInt* idtopos(int id)
+static TopButtonInt* idtopos(int id, int* pPos=NULL)
 {
 	for ( int i = 0; i < Buttons.getCount(); i++)
-		if (Buttons[i]->id == id)
+		if (Buttons[i]->id == id) {
+			if (pPos) *pPos = i;
 			return Buttons[i];
+		}
 
+	if (pPos) *pPos = -1;
 	return NULL;
 }
 
@@ -177,7 +180,8 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 {
 	lockbut();
 
-	TopButtonInt* b = idtopos(wParam);
+	int idx;
+	TopButtonInt* b = idtopos(wParam, &idx);
 	if (b == NULL) {
 		ulockbut();
 		return -1;
@@ -185,14 +189,11 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 	
 	RemoveFromOptions(b->id);
 
-	int idx = Buttons.getIndex(b);
-	if (idx != -1)
-		Buttons.remove(idx);
+	Buttons.remove(idx);
 	delete b;
 
 	ArrangeButtons();
 	ulockbut();
-//	OptionsPageRebuild();
 	return 0;
 }
 
