@@ -246,6 +246,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileAsMessage", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhoUsesMyFiles", "..\plugins\WhoUsesMyFiles\wumf.vcxproj", "{F29CCB9B-79CF-4341-AA05-3626A036D3E3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CryptoPP", "..\plugins\CryptoPP\cryptopp_10.vcxproj", "{4AC1E062-0236-4E49-AA04-F732043D2DCF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60} = {290C5ED4-71A7-4040-AD26-4820CF7A9E60}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cryptlib", "..\plugins\CryptoPP\crypto\cryptlib_10.vcxproj", "{290C5ED4-71A7-4040-AD26-4820CF7A9E60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1233,6 +1240,20 @@ Global
 		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Release|Win32.Build.0 = Release|Win32
 		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Release|x64.ActiveCfg = Release|x64
 		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Release|x64.Build.0 = Release|x64
+		{4AC1E062-0236-4E49-AA04-F732043D2DCF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4AC1E062-0236-4E49-AA04-F732043D2DCF}.Debug|Win32.Build.0 = Debug|Win32
+		{4AC1E062-0236-4E49-AA04-F732043D2DCF}.Debug|x64.ActiveCfg = Debug|Win32
+		{4AC1E062-0236-4E49-AA04-F732043D2DCF}.Release|Win32.ActiveCfg = Release|Win32
+		{4AC1E062-0236-4E49-AA04-F732043D2DCF}.Release|Win32.Build.0 = Release|Win32
+		{4AC1E062-0236-4E49-AA04-F732043D2DCF}.Release|x64.ActiveCfg = Release|x64
+		{4AC1E062-0236-4E49-AA04-F732043D2DCF}.Release|x64.Build.0 = Release|x64
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Debug|Win32.ActiveCfg = Debug|Win32
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Debug|Win32.Build.0 = Debug|Win32
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Debug|x64.ActiveCfg = Debug|Win32
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Release|Win32.ActiveCfg = Release|Win32
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Release|Win32.Build.0 = Release|Win32
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Release|x64.ActiveCfg = Release|x64
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
