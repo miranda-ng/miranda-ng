@@ -1,0 +1,140 @@
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+//#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+#include <winres.h>
+#include <windows.h>
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1250)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_MAIN DIALOGEX 0, 0, 285, 225
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Settings",IDC_STATIC,7,5,274,220
+    COMBOBOX        IDC_WEBLIST,134,20,135,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Default web page",IDC_STATIC,14,23,117,8
+    COMBOBOX        IDC_CODEPAGE,134,43,135,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Default file encoding",IDC_STATIC,14,45,114,8
+    CONTROL         "Auto-detect UTF-8",IDC_AUTOUTF,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,66,236,10
+    CONTROL         "Show confirmation dialog box",IDC_CONFDLG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,80,236,10
+    CONTROL         "Autosend download link to contact",IDC_AUTOSEND,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,94,236,10
+END
+
+IDD_OPT_PAGES DIALOGEX 0, 0, 285, 225
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Web page settings",IDC_STATIC,7,30,274,195
+    COMBOBOX        IDC_WEBPAGE,145,7,135,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Web page to configure",IDC_STATIC,14,10,125,8
+    COMBOBOX        IDC_DEFFORMAT,138,43,80,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON       "Configure",IDC_CONFIGURE,223,43,50,14
+    LTEXT           "Default formatting",IDC_STATIC,14,45,120,8
+    CONTROL         "Auto-detect format from file extension",IDC_AUTOFORMAT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,66,236,10
+    CONTROL         "Public paste",IDC_PUBLICPASTE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,66,236,10
+    COMBOBOX        IDC_COMBO1,138,83,135,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "",IDC_COMBO1_DESC,14,86,120,8
+    CONTROL         "Login as guest",IDC_GUEST,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,106,236,10
+    EDITTEXT        IDC_PASTEBIN_KEY,138,123,135,12,WS_TABSTOP|ES_AUTOHSCROLL
+    LTEXT           "User key",IDC_PASTEBIN_KEY_DESC,14,126,90,8
+    PUSHBUTTON      "Get user key",IDC_PASTEBIN_LOGIN,14,143,80,14, BS_MULTILINE
+END
+
+IDD_DLG_CONFIGURE DIALOGEX 0, 0, 214, 178
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Configure formatting"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON    "OK",IDOK,120,159,40,14
+    PUSHBUTTON       "Cancel",IDCANCEL,164,159,40,14
+    LISTBOX          IDC_FORMATTING,10,10,150,144, WS_VSCROLL | LBS_WANTKEYBOARDINPUT
+    PUSHBUTTON       "Up",IDC_UP,164,10,40,14
+    PUSHBUTTON       "Down",IDC_DOWN,164,26,40,14
+    PUSHBUTTON       "Delete",IDC_DELETE,164,42,40,14
+    PUSHBUTTON       "Restore defaults",IDC_RESTORE,164,90,40,28, BS_MULTILINE
+    PUSHBUTTON       "Download more",IDC_DOWNLOAD,164,120,40,28, BS_MULTILINE
+END
+
+IDD_DLG_PASTEBIN_LOGIN DIALOGEX 0, 0, 154, 60
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Login to pastebin.com"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_PASTEBIN_USER,70,10,75,12,WS_TABSTOP|ES_AUTOHSCROLL
+    LTEXT           "User name",IDC_STATIC,10,13,55,8
+    EDITTEXT        IDC_PASTEBIN_PASSWORD,70,25,75,12,WS_TABSTOP|ES_PASSWORD|ES_AUTOHSCROLL
+    LTEXT           "Password",IDC_STATIC,10,28,55,8
+    DEFPUSHBUTTON    "OK",IDOK,60,40,40,14
+    PUSHBUTTON       "Cancel",IDCANCEL,104,40,40,14
+END
+
+IDD_DLG_FROM_CLIPBOARD DIALOGEX 0, 0, 214, 178
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Paste It"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON    "OK",IDOK,120,159,40,14
+    PUSHBUTTON       "Cancel",IDCANCEL,164,159,40,14
+    EDITTEXT        IDC_CLIPBOARD_DATA,10,10,194,129,WS_HSCROLL | WS_VSCROLL | ES_READONLY | ES_MULTILINE
+    COMBOBOX        IDC_FORMAT,65,142,139,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Format",IDC_STATIC,10,144,50,8
+END
+
+IDD_DLG_FROM_FILE DIALOGEX 0, 0, 214, 208
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Paste It"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON    "OK",IDOK,120,189,40,14
+    PUSHBUTTON       "Cancel",IDCANCEL,164,189,40,14
+    EDITTEXT        IDC_FILE_PATH,10,10,194,12,ES_READONLY | ES_AUTOHSCROLL
+    EDITTEXT        IDC_FILE_DATA,10,27,194,112,WS_HSCROLL | WS_VSCROLL | ES_READONLY | ES_MULTILINE
+    COMBOBOX        IDC_CODEPAGE,65,142,139,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Encoding",IDC_STATIC,10,144,50,8
+    CONTROL         "Auto-detect format from file extension",IDC_AUTOFORMAT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,159,180,10
+    COMBOBOX        IDC_FORMAT,65,172,139,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Format",IDC_FORMATTEXT,10,174,50,8
+    PUSHBUTTON       "Recode",IDC_RECODE,10,189,60,14
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MENU                ICON                    "icons\\Paste.ico"
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+

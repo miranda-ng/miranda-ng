@@ -1,0 +1,94 @@
+;Paste It
+;==========
+
+;To jest tylko czêœciowe t³umaczenie
+;Nale¿y go dodaæ do koñca pliku langpack_polish.txt
+
+;Main
+;------
+[Paste It]
+Wklej To
+[Uploads the text to web page and sends the URL to your friends.]
+Umieszcza tekst na stronie www i wysy³a link do twoich przyjació³.
+[Paste It - Select file]
+Wklej To - Wybierz plik
+[Paste It HTTP connections]
+Wklej To po³¹czenia HTTP
+
+;Error messages
+;----------------
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Wprowadzi³eœ nieprawid³ow¹ stronê kodow¹. Wybierz j¹ z combo boxa lub wprowadŸ poprawn¹ liczbê.
+[Invalid codepage]
+Nieprawid³owa strona kodowa
+[You can only paste 1 file]
+Mo¿esz wkleiæ tylko 1 plik
+[Cannot get data from clipboard]
+Nie mo¿na pobraæ danych ze schowka
+[File size is %dKB, do you realy want to paste such large file?]
+Rozmiar pliku wynosi %dKB, napewno chcesz wkleiæ tak du¿y plik?
+[Cannot read file '%s']
+Nie mo¿na wczytaæ pliku '%s'
+[File size is larger then 10MB, cannot be send]
+Rozmiar pliku jest wiêkszy ni¿ 10MB, nie mo¿e zostaæ wys³any
+[Cannot open file '%s']
+Nie mo¿na otworzyæ pliku '%s'
+[File '%s' is empty]
+Plik '%s' jest pusty
+[Error during sending text to web page: %s]
+B³¹d podczas wysy³ania tekstu do strony www: %s
+[Error during sending text to web page]
+B³¹d podczas wysy³ania tekstu do strony www
+[Error during getting user key from web page: %s]
+B³¹d podczas pobierania klucza u¿ytkownika ze strony www: %s
+
+;Options and Menus
+;-------------------
+[Paste from clipboard]
+Wklej ze schowka
+[Paste from file]
+Wklej z pliku
+[Default web page]
+Domyœlna strona www
+[Default file encoding]
+Domyœlne kodowanie pliku
+[Auto-detect UTF-8]
+Auto-wykrywanie UTF-8
+[Show confirmation dialog box]
+Poka¿ okno potwierdzenia
+[Web page settings]
+Ustawienia strony www
+[Web page to configure]
+Strona www do konfiguracji
+[Default formatting]
+Domyœlne formatowanie
+[Auto-detect format from file extension]
+Auto-wykrywanie formatu z rozszerzenia pliku
+[Public paste]
+Publiczna wklejka
+[Paste expire date]
+Data wa¿noœci wklejki
+[Login as guest]
+Zaloguj siê jako goœæ
+[User key]
+Klucz u¿ytkownika
+[Get user key]
+Pobierz klucz
+[Configure formatting]
+Konfiguruj formatowanie
+[Download more]
+Pobierz wiêcej
+[Login to pastebin.com]
+Logowanie do pastebin.com
+[Encoding]
+Kodowanie
+[Recode]
+Zmieñ kodowanie
+[10 minutes]
+10 munut
+[1 hour]
+1 godzina
+[1 day]
+1 dzieñ
+[1 month]
+1 miesi¹c
