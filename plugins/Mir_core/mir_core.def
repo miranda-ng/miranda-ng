@@ -6,7 +6,6 @@ CallProtoService                @2
 LangPackLookupUuid              @3 NONAME
 LangPackMarkPluginLoaded        @4 NONAME
 CallFunctionAsync               @5
-CallHookSubscribers             @6
 CallPluginEventHook             @7
 CallService                     @8
 CallServiceSync                 @9

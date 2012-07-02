@@ -398,7 +398,7 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	}
 
 	LOGMSG logMsg = { szHead, pszMsg };
-	CallHookSubscribers(hLogEvent, (WPARAM)nlu, (LPARAM)&logMsg);
+	NotifyEventHooks(hLogEvent, (WPARAM)nlu, (LPARAM)&logMsg);
 
 	SetLastError(dwOriginalLastError);
 	return 1;

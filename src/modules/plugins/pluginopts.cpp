@@ -167,7 +167,7 @@ LBL_Error:
 		goto LBL_Error;
 
 	dat->hInst = pPlug->bpi.hInst;
-	CallHookSubscribers(hevLoadModule, (WPARAM)pPlug->bpi.InfoEx, (LPARAM)pPlug->bpi.hInst);
+	NotifyEventHooks(hevLoadModule, (WPARAM)pPlug->bpi.InfoEx, (LPARAM)pPlug->bpi.hInst);
 	return TRUE;
 }
 
@@ -184,7 +184,7 @@ static int UnloadPluginDynamically(PluginListItemData* dat)
 	if (CallPluginEventHook(pPlug->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
 		return FALSE;
 
-	CallHookSubscribers(hevUnloadModule, (WPARAM)pPlug->bpi.InfoEx, (LPARAM)pPlug->bpi.hInst);
+	NotifyEventHooks(hevUnloadModule, (WPARAM)pPlug->bpi.InfoEx, (LPARAM)pPlug->bpi.hInst);
 
 	CallPluginEventHook(pPlug->bpi.hInst, hPreShutdownEvent, 0, 0);
 	CallPluginEventHook(pPlug->bpi.hInst, hShutdownEvent, 0, 0);

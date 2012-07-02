@@ -193,13 +193,12 @@ MIR_CORE_DLL(int) CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wPa
 	return returnVal;
 }
 
-MIR_CORE_DLL(int) CallHookSubscribers(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
+static int CallHookSubscribers(THook* p, WPARAM wParam, LPARAM lParam)
 {
-	int returnVal = 0;
-	THook* p = (THook*)hEvent;
 	if (p == NULL)
 		return -1;
 
+	int returnVal = 0;
 	EnterCriticalSection(&p->csHook);
 
 	// NOTE: We've got the critical section while all this lot are called. That's mostly safe, though.
@@ -227,25 +226,26 @@ MIR_CORE_DLL(int) CallHookSubscribers(HANDLE hEvent, WPARAM wParam, LPARAM lPara
 	return returnVal;
 }
 
-__forceinline bool checkHook(HANDLE hHook, bool& bIsValid)
-{
-	THook* p = (THook*)hHook;
-	if (p == NULL)
-		return false;
+enum { hookOk, hookEmpty, hookInvalid };
 
-	bool ret;
+__forceinline int checkHook(THook* p)
+{
+	if (p == NULL)
+		return hookInvalid;
+
+	int ret;
 	__try
 	{
 		if (p->secretSignature != HOOK_SECRET_SIGNATURE)
-			bIsValid = ret = false;
+			ret = hookInvalid;
 		else if (p->subscriberCount == 0 && p->pfnHook == NULL)
-			bIsValid = true, ret = false;
+			ret = hookEmpty;
 		else
-			ret = true;
+			ret = hookOk;
 	}
 	__except(EXCEPTION_EXECUTE_HANDLER)
 	{
-		bIsValid = ret = false;
+		ret = hookInvalid;
 	}
 
 	return ret;
@@ -260,12 +260,13 @@ static void CALLBACK HookToMainAPCFunc(ULONG_PTR dwParam)
 
 MIR_CORE_DLL(int) NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 {
-	bool bIsValid;
-	if ( !checkHook(hEvent, bIsValid))
-		return (bIsValid) ? 0 : -1;
+	switch ( checkHook((THook*)hEvent)) {
+		case hookInvalid: return -1;
+		case hookEmpty: return 0;
+	}
 
 	if ( GetCurrentThreadId() == mainThreadId)
-		return CallHookSubscribers(hEvent, wParam, lParam);
+		return CallHookSubscribers((THook*)hEvent, wParam, lParam);
 
 	mir_ptr<THookToMainThreadItem> item;
 	item->hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);

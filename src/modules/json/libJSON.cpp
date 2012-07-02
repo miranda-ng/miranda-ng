@@ -195,9 +195,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     JSONNODE * json_new_b(const json_char * name, int value){
 	   JSON_ASSERT_SAFE(name, JSON_TEXT("null name to json_new_b"), name = EMPTY_CSTRING;);
 	   #ifdef JSON_MEMORY_CALLBACKS
-		  return MANAGER_INSERT(new(json_malloc<JSONNode>(1)) JSONNode(name, (bool)value));
+		  return MANAGER_INSERT(new(json_malloc<JSONNode>(1)) JSONNode(name, value != 0 ));
 	   #else
-		  return MANAGER_INSERT(new JSONNode(name, (bool)value));
+		  return MANAGER_INSERT(new JSONNode(name, (bool)value)) != 0;
 	   #endif
     }
 
@@ -242,7 +242,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
     void json_set_b(JSONNODE * node, int value){
 	   JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_set_b"), return;);
-	   *((JSONNode*)node) = (bool)value;
+	   *((JSONNode*)node) = value != 0;
     }
 
     void json_set_n(JSONNODE * node, const JSONNODE * orig){
@@ -250,7 +250,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	   JSON_ASSERT_SAFE(orig, JSON_TEXT("null node to json_set_n"), return;);
 	   *((JSONNode*)node) = *((JSONNode*)orig);
     }
-
 
     //inspectors
     char json_type(const JSONNODE * node){

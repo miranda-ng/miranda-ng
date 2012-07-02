@@ -1068,11 +1068,10 @@ BOOL WINAPI DllMain(HINSTANCE hinst,DWORD fdwReason,LPVOID lpvReserved)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 
-	hEventDbPluginsLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
-	hEventDbOkToExit=HookEvent(ME_SYSTEM_OKTOEXIT,OkToExit);
-	hEventDbPreShutdown=HookEvent(ME_SYSTEM_PRESHUTDOWN,SessionPreShutdown);
+	hEventDbPluginsLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
+	hEventDbOkToExit = HookEvent(ME_SYSTEM_OKTOEXIT,OkToExit);
+	hEventDbPreShutdown= HookEvent(ME_SYSTEM_PRESHUTDOWN,SessionPreShutdown);
 	return 0;
 }
