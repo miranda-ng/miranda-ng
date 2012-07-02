@@ -71,7 +71,7 @@ HANDLE __cdecl cpp_create_context(int mode) {
 void __cdecl cpp_delete_context(HANDLE context) {
 
 	pCNTX tmp = get_context_on_id(context);
-	if(tmp) { // помечаем на удаление
+	if (tmp) { // помечаем на удаление
 		tmp->deleted = gettime()+10; // будет удален через 10 секунд
 	}
 }
@@ -81,7 +81,7 @@ void __cdecl cpp_delete_context(HANDLE context) {
 void __cdecl cpp_reset_context(HANDLE context) {
 
 	pCNTX tmp = get_context_on_id(context);
-	if(tmp)	cpp_free_keys(tmp);
+	if (tmp)	cpp_free_keys(tmp);
 }
 
 

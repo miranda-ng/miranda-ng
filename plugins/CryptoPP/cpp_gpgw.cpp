@@ -125,7 +125,7 @@ int __cdecl gpg_init()
 		if ( isVista )	load_gpg_dll(hgpg);
 		else			load_gpg_mem(hgpg);
 		r = p_gpg_init();
-		if(r) {
+		if (r) {
 			return r;
 		}
 		if ( isVista ) {
@@ -147,7 +147,7 @@ int __cdecl gpg_init()
 int __cdecl gpg_done()
 {
     int r = 0;
-    if(hgpg) {
+    if (hgpg) {
     	r = p_gpg_done();
 		if ( isVista ) {
 			FreeLibrary(hgpg);
@@ -218,7 +218,7 @@ LPSTR __cdecl gpg_decrypt(pCNTX ptr, LPCSTR szEncMsg)
     LPSTR szPlainMsg = p_gpg_decrypt(szEncMsg);
 /*	if (!szPlainMsg) {
 	    ptr = get_context_on_id(hPGPPRIV); // find private pgp keys
-    	if(ptr && ptr->pgpKey)
+    	if (ptr && ptr->pgpKey)
 			szPlainMsg = p_gpg_decrypt_key(szEncMsg,(LPCSTR)ptr->pgpKey);
 		if (!szPlainMsg) return NULL;
     }*/
@@ -259,7 +259,7 @@ LPSTR __cdecl gpg_decode(HANDLE context, LPCSTR szEncMsg)
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = gpg_decrypt(ptr, szEncMsg);
 
-	if(szOldMsg) {
+	if (szOldMsg) {
 		if ( !is_7bit_string(szOldMsg) && !is_utf8_string(szOldMsg) ) {
 			int slen = strlen(szOldMsg)+1;
 			LPWSTR wszMsg = (LPWSTR) alloca(slen*sizeof(WCHAR));

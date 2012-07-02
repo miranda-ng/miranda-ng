@@ -31,7 +31,7 @@ char *base16decode(const char *inBuffer, int *count) {
 	}
 	while(*count>1){
 		BYTE c0,c1;
-		if(big_endian) {
+		if (big_endian) {
 			c1 = decode16(*--inBuffer);
 			c0 = decode16(*--inBuffer);
 		}

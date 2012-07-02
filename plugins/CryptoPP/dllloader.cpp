@@ -98,12 +98,12 @@ HMODULE MemLoadLibrary(PBYTE data)
         pOptionalHeader->SizeOfImage,
         MEM_RESERVE,PAGE_NOACCESS);
 
-    if(ImageBase==NULL)
+    if (ImageBase==NULL)
     {
         ImageBase=(PCHAR)VirtualAlloc(NULL,
             pOptionalHeader->SizeOfImage,
             MEM_RESERVE,PAGE_NOACCESS);
-        if(ImageBase==NULL)
+        if (ImageBase==NULL)
             return NULL;
     }
 

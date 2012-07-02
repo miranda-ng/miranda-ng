@@ -2,7 +2,7 @@
 
 /*
 void m_check(void *ptr, const char *module) {
-    if(ptr==NULL) {
+    if (ptr==NULL) {
     	char buffer[128];
     	strcpy(buffer,module); strcat(buffer,": NULL pointer detected !");
 	MessageBoxA(0,buffer,szModuleName,MB_OK|MB_ICONSTOP);
@@ -23,7 +23,7 @@ void *m_alloc(size_t size) {
 
 void m_free(void *ptr) {
 //    m_check(ptr,"m_free");
-    if(ptr) {
+    if (ptr) {
 	free(ptr);
     }
 }
@@ -59,7 +59,7 @@ void operator delete[](void *p) {
 
 
 char *m_strdup(const char *str) {
-    if(str==NULL) return NULL;
+    if (str==NULL) return NULL;
     int len = (int)strlen(str)+1;
 	char *dup = (char*) m_alloc(len);
 	MoveMemory((void*)dup,(void*)str,len);

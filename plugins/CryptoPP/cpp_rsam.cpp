@@ -252,10 +252,10 @@ int __cdecl rsa_connect(HANDLE context) {
 	Sent_NetLog("rsa_connect: %08x", context);
 #endif
 	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
-	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); if(p->state) return p->state;
+	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); if (p->state) return p->state;
 	pRSAPRIV r = rsa_get_priv(ptr);
 
-        if(ptr->mode&MODE_RSA_ONLY) {
+        if (ptr->mode&MODE_RSA_ONLY) {
 		inject_msg(context,0x0D,tlv(0,0)+tlv(1,r->pub_k)+tlv(2,p->pub_s));
 		p->state = 0x0D;
         }
@@ -456,7 +456,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 int __cdecl rsa_send(HANDLE context, LPCSTR msg) {
 
 	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
-	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); if(p->state!=0 && p->state!=7) return 0;
+	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); if (p->state!=0 && p->state!=7) return 0;
 
 	if ( p->state == 7 ) // сессия установлена, шифруем AES и отправляем
 		inject_msg(context,0x70,encode_msg(1,p,string(msg)));
@@ -653,7 +653,7 @@ void rsa_timeout(HANDLE context, pRSADATA p) {
 int __cdecl rsa_encrypt_file(HANDLE context,LPCSTR file_in,LPCSTR file_out) {
 
 	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
-	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); if(p->state!=7) return 0;
+	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); if (p->state!=7) return 0;
 
 	try {
 		CBC_Mode<AES>::Encryption enc((PBYTE)p->aes_k.data(),p->aes_k.length(),(PBYTE)p->aes_v.data());
@@ -670,7 +670,7 @@ int __cdecl rsa_encrypt_file(HANDLE context,LPCSTR file_in,LPCSTR file_out) {
 int __cdecl rsa_decrypt_file(HANDLE context,LPCSTR file_in,LPCSTR file_out) {
 
 	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
-	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); if(p->state!=7) return 0;
+	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); if (p->state!=7) return 0;
 
 	try {
 		CBC_Mode<AES>::Decryption dec((PBYTE)p->aes_k.data(),p->aes_k.length(),(PBYTE)p->aes_v.data());

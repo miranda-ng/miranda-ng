@@ -115,7 +115,7 @@ BOOL load_pgp_sdk(int type, int id)
 		if ( isVista )	load_pgpsdk_dll(hpgpsdk);
 		else			load_pgpsdk_mem(hpgpsdk);
 		r = p_pgp_init();
-		if(r) {
+		if (r) {
 			pgpVer = p_pgp_get_version();
 			return r;
 		}
@@ -157,7 +157,7 @@ int __cdecl pgp_done()
 {
     int r = 0;
     pgpVer = 0;
-    if(hpgpsdk) {
+    if (hpgpsdk) {
     	r = p_pgp_done();
 		if ( isVista ) {
 			FreeLibrary(hpgpsdk);
@@ -204,7 +204,7 @@ LPSTR __cdecl pgp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 	SAFE_FREE(ptr->tmp);
 
 	LPSTR szEncMsg;
-	if(p->pgpKey) 
+	if (p->pgpKey) 
 		szEncMsg = p_pgp_encrypt_key(szPlainMsg,(LPCSTR)p->pgpKey);
 	else
 		szEncMsg = p_pgp_encrypt_keydb(szPlainMsg,p->pgpKeyID);
@@ -225,9 +225,9 @@ LPSTR __cdecl pgp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
     LPSTR szPlainMsg = p_pgp_decrypt_keydb(szEncMsg);
     if (!szPlainMsg) {
 	ptr = get_context_on_id(hPGPPRIV); // find private pgp keys
-    	if(ptr) {
+    	if (ptr) {
 	    pPGPDATA p = (pPGPDATA) ptr->pdata;
-    	    if(p->pgpKey)
+    	    if (p->pgpKey)
 		szPlainMsg = p_pgp_decrypt_key(szEncMsg,(LPCSTR)p->pgpKey);
 	}
 	if (!szPlainMsg) return NULL;
@@ -259,7 +259,7 @@ LPSTR __cdecl pgp_decode(HANDLE context, LPCSTR szEncMsg)
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = pgp_decrypt(ptr, szEncMsg);
 
-	if(szOldMsg) {
+	if (szOldMsg) {
 		if ( !is_7bit_string(szOldMsg) && !is_utf8_string(szOldMsg) ) {
 			int slen = strlen(szOldMsg)+1;
 			LPWSTR wszMsg = (LPWSTR) alloca(slen*sizeof(WCHAR));

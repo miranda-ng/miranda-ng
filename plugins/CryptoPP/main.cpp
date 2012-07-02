@@ -12,7 +12,7 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
 		GetTempPath(sizeof(temp),temp);
 		GetLongPathName(temp,TEMP,sizeof(TEMP));
 		TEMP_SIZE = strlen(TEMP);
-		if(TEMP[TEMP_SIZE-1]=='\\') {
+		if (TEMP[TEMP_SIZE-1]=='\\') {
 			TEMP_SIZE--;
 			TEMP[TEMP_SIZE]='\0';
 		}

@@ -89,7 +89,7 @@ void InitNetlib() {
 }
 
 void DeinitNetlib() {
-	if(hNetlibUser)
+	if (hNetlibUser)
 		CallService(MS_NETLIB_CLOSEHANDLE, (WPARAM)hNetlibUser, 0);
 }
 
@@ -101,7 +101,7 @@ int Sent_NetLog(const char *fmt,...)
   va_start(va,fmt);
   mir_vsnprintf(szText,sizeof(szText),fmt,va);
   va_end(va);
-  if(hNetlibUser)
+  if (hNetlibUser)
       return CallService(MS_NETLIB_LOG,(WPARAM)hNetlibUser,(LPARAM)szText);
   return 0;
 }
