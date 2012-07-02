@@ -513,78 +513,78 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 	return FALSE;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+static OBJLIST<PROFILEOPTIONS> arProfiles(5);
+
 static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam) 
 {
-	static PROFILEOPTIONS *dat = NULL;
-	static int profileCount = 0;
 	static BOOL bNeedRebuildMenu = FALSE;
 	static BOOL bInitDone = FALSE;
 	
-	dat = (PROFILEOPTIONS *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch(msg) {
-	case WM_INITDIALOG: {
-		int i, j, defProfile;
-
+	case WM_INITDIALOG:
 		bInitDone = false;
 
 		TranslateDialogDefault(hwndDlg);
 		SetDlgItemText(hwndDlg, IDC_CREATEMMI, TranslateT("Create a status menu item"));
-
-		profileCount = GetProfileCount((WPARAM)&defProfile, 0);
-		if (profileCount == 0) {
-			profileCount = 1;
-			defProfile = 0;
-		}
-		dat = ( PROFILEOPTIONS* )malloc(profileCount*sizeof(PROFILEOPTIONS));
-		ZeroMemory(dat, profileCount*sizeof(PROFILEOPTIONS));
-		for (i=0;i<profileCount;i++) {
-			dat[i].ps = GetCurrentProtoSettings();
-			TSettingsList& ar = *dat[i].ps;
-
-			if ( GetProfile( i, ar ) == -1) {
-				/* create an empty profile */
-				if (i == defProfile)
-					dat[i].szName = _strdup(Translate("default"));
-				else 
-					dat[i].szName = _strdup(Translate("unknown"));
+		{
+			int defProfile;
+			int profileCount = GetProfileCount((WPARAM)&defProfile, 0);
+			if (profileCount == 0) {
+				profileCount = 1;
+				defProfile = 0;
 			}
-			else {
-				for ( j=0; j < ar.getCount(); j++ )
-					if ( ar[j].szMsg != NULL)
-						ar[j].szMsg = _strdup( ar[j].szMsg );
 
-				dat[i].szName = db_get_sa(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME));
-				if (dat[i].szName == NULL) {
+			for (int i=0; i < profileCount; i++) {
+				PROFILEOPTIONS* ppo = new PROFILEOPTIONS;
+				ppo->ps = GetCurrentProtoSettings();
+				TSettingsList& ar = *ppo->ps;
+
+				if ( GetProfile(i, ar) == -1) {
+					/* create an empty profile */
 					if (i == defProfile)
-						dat[i].szName = _strdup(Translate("default"));
-					else
-						dat[i].szName = _strdup(Translate("unknown"));
+						ppo->szName = mir_strdup(Translate("default"));
+					else 
+						ppo->szName = mir_strdup(Translate("unknown"));
 				}
-				dat[i].createTtb = db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATETTBBUTTON), 0);
-				dat[i].showDialog = db_get_b(NULL, MODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), 0);
-				dat[i].createMmi = db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), 0);
-				dat[i].inSubMenu = db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1);
-				dat[i].regHotkey = db_get_b(NULL, MODULENAME, OptName(i, SETTING_REGHOTKEY), 0);
-				dat[i].hotKey = db_get_w(NULL, MODULENAME, OptName(i, SETTING_HOTKEY), MAKEWORD((char)('0'+i), HOTKEYF_CONTROL|HOTKEYF_SHIFT));
-			}
-		}
-		if ( !ServiceExists( MS_TTB_ADDBUTTON ) && !ServiceExists( MS_TB_ADDBUTTON ))
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CREATETTB), FALSE);
+				else {
+					for (int j=0; j < ar.getCount(); j++)
+						if ( ar[j].szMsg != NULL)
+							ar[j].szMsg = _strdup( ar[j].szMsg );
 
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-		SendMessage(hwndDlg, UM_REINITPROFILES, 0, 0);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), ServiceExists(MS_VARS_SHOWHELPEX)?SW_SHOW:SW_HIDE);
-		bInitDone = true;
+					ppo->szName = db_get_sa(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME));
+					if (ppo->szName == NULL) {
+						if (i == defProfile)
+							ppo->szName = mir_strdup(Translate("default"));
+						else
+							ppo->szName = mir_strdup(Translate("unknown"));
+					}
+					ppo->createTtb = db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATETTBBUTTON), 0);
+					ppo->showDialog = db_get_b(NULL, MODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), 0);
+					ppo->createMmi = db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), 0);
+					ppo->inSubMenu = db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1);
+					ppo->regHotkey = db_get_b(NULL, MODULENAME, OptName(i, SETTING_REGHOTKEY), 0);
+					ppo->hotKey = db_get_w(NULL, MODULENAME, OptName(i, SETTING_HOTKEY), MAKEWORD((char)('0'+i), HOTKEYF_CONTROL|HOTKEYF_SHIFT));
+				}
+				arProfiles.insert(ppo);
+			}
+			if ( !ServiceExists( MS_TTB_ADDBUTTON ) && !ServiceExists( MS_TB_ADDBUTTON ))
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CREATETTB), FALSE);
+
+			SendMessage(hwndDlg, UM_REINITPROFILES, 0, 0);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), ServiceExists(MS_VARS_SHOWHELPEX)?SW_SHOW:SW_HIDE);
+			bInitDone = true;
+		}
 		break;
-	}
 
 	case UM_REINITPROFILES: 
 		bInitDone = false;
 		{
 			// creates profile combo box according to 'dat'
 			SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_RESETCONTENT, 0, 0);
-			for (int i=0; i < profileCount; i++ ) {
-				int item = SendDlgItemMessageA(hwndDlg, IDC_PROFILE, CB_ADDSTRING, 0, (LPARAM)dat[i].szName);
+			for (int i=0; i < arProfiles.getCount(); i++ ) {
+				int item = SendDlgItemMessageA(hwndDlg, IDC_PROFILE, CB_ADDSTRING, 0, (LPARAM)arProfiles[i].szName);
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_SETITEMDATA, (WPARAM)item, (LPARAM)i);
 			}
 			SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_SETCURSEL, 0, 0);
@@ -597,18 +597,18 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		{
 			int sel = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, 
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
-			CheckDlgButton(hwndDlg, IDC_CREATETTB, dat[sel].createTtb?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOWDIALOG, dat[sel].showDialog?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CREATEMMI, dat[sel].createMmi?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_INSUBMENU, dat[sel].inSubMenu?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CREATETTB, arProfiles[sel].createTtb?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWDIALOG, arProfiles[sel].showDialog?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CREATEMMI, arProfiles[sel].createMmi?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_INSUBMENU, arProfiles[sel].inSubMenu?BST_CHECKED:BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_INSUBMENU), IsDlgButtonChecked(hwndDlg, IDC_CREATEMMI));
-			CheckDlgButton(hwndDlg, IDC_REGHOTKEY, dat[sel].regHotkey?BST_CHECKED:BST_UNCHECKED);
-			SendDlgItemMessage(hwndDlg, IDC_HOTKEY, HKM_SETHOTKEY, dat[sel].hotKey, 0);
+			CheckDlgButton(hwndDlg, IDC_REGHOTKEY, arProfiles[sel].regHotkey?BST_CHECKED:BST_UNCHECKED);
+			SendDlgItemMessage(hwndDlg, IDC_HOTKEY, HKM_SETHOTKEY, arProfiles[sel].hotKey, 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_HOTKEY), IsDlgButtonChecked(hwndDlg, IDC_REGHOTKEY));
 			SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_RESETCONTENT, 0, 0);
 
 			// fill proto list
-			TSettingsList& ar = *dat[sel].ps;
+			TSettingsList& ar = *arProfiles[sel].ps;
 			for ( int i=0; i < ar.getCount(); i++ ) {
 				int item = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_ADDSTRING, 0, (LPARAM)ar[i].tszAccName );
 				SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_SETITEMDATA, (WPARAM)item, (LPARAM)&ar[i]);
@@ -680,42 +680,32 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 			if (szName == NULL)
 				break;
 
-			dat = ( PROFILEOPTIONS* )realloc(dat, (profileCount+1)*sizeof(PROFILEOPTIONS));
-			ZeroMemory(&dat[profileCount], sizeof(PROFILEOPTIONS));
-			dat[profileCount].szName = _strdup(szName);
-			dat[profileCount].ps = GetCurrentProtoSettings();
-			profileCount += 1;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
+			PROFILEOPTIONS* ppo = new PROFILEOPTIONS;
+			ppo->szName = _strdup(szName);
+			ppo->ps = GetCurrentProtoSettings();
+			arProfiles.insert(ppo);
+
 			SendMessage(hwndDlg, UM_REINITPROFILES, 0, 0);
 		}
 		break;
 
 	case UM_DELPROFILE: {
 		// wparam == profile no
-		int i, defProfile;
+		int i=(int)wParam;
 
-		i = (int)wParam;
-		if (profileCount == 1) {
+		if ( arProfiles.getCount() == 1) {
 			MessageBox(NULL, TranslateT("At least one profile must exist"), TranslateT("StartupStatus"), MB_OK);
 			break;
 		}
 
-		if (dat[i].ps != NULL)
-			dat[i].ps->destroy();
-
-		if (dat[i].szName != NULL)
-			free(dat[i].szName);
-
-		MoveMemory(&dat[i], &dat[i+1], (profileCount-i-1)*sizeof(PROFILEOPTIONS));		
-		dat = ( PROFILEOPTIONS* )realloc(dat, (profileCount-1)*sizeof(PROFILEOPTIONS));
-		profileCount -= 1;
+		arProfiles.remove(i);
+		
+		int defProfile;
 		GetProfileCount((WPARAM)&defProfile, 0);
 		if (i == defProfile) {
 			MessageBox(NULL, TranslateT("Your default profile will be changed"), TranslateT("StartupStatus"), MB_OK);
 			DBWriteContactSettingWord(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
-			defProfile = 0;
 		}
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 		SendMessage(hwndDlg, UM_REINITPROFILES, 0, 0);
 		break;
 	}
@@ -798,13 +788,13 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		case IDC_CREATETTB:
 		case IDC_SHOWDIALOG:
 			{
-				int sel = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, 
-					SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
-				dat[sel].createMmi = IsDlgButtonChecked(hwndDlg, IDC_CREATEMMI);
-				dat[sel].inSubMenu = IsDlgButtonChecked(hwndDlg, IDC_INSUBMENU);
-				dat[sel].createTtb = IsDlgButtonChecked(hwndDlg, IDC_CREATETTB);
-				dat[sel].regHotkey = IsDlgButtonChecked(hwndDlg, IDC_REGHOTKEY);
-				dat[sel].showDialog = IsDlgButtonChecked(hwndDlg, IDC_SHOWDIALOG);
+				int sel = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
+				PROFILEOPTIONS& po = arProfiles[sel];
+				po.createMmi = IsDlgButtonChecked(hwndDlg, IDC_CREATEMMI);
+				po.inSubMenu = IsDlgButtonChecked(hwndDlg, IDC_INSUBMENU);
+				po.createTtb = IsDlgButtonChecked(hwndDlg, IDC_CREATETTB);
+				po.regHotkey = IsDlgButtonChecked(hwndDlg, IDC_REGHOTKEY);
+				po.showDialog = IsDlgButtonChecked(hwndDlg, IDC_SHOWDIALOG);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_HOTKEY), IsDlgButtonChecked(hwndDlg, IDC_REGHOTKEY));
 			}
 			break;
@@ -813,7 +803,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 			if (HIWORD(wParam) == EN_CHANGE) {
 				int sel = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, 
 					SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
-				dat[sel].hotKey = (WORD)SendDlgItemMessage(hwndDlg, IDC_HOTKEY, HKM_GETHOTKEY, 0, 0);
+				arProfiles[sel].hotKey = (WORD)SendDlgItemMessage(hwndDlg, IDC_HOTKEY, HKM_GETHOTKEY, 0, 0);
 			}
 			break;
 		
@@ -847,16 +837,17 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				mir_snprintf(setting, sizeof(setting), "%d_", i);
 				ClearDatabase(setting);
 			}
-			for (i=0;i<profileCount;i++) {
-				db_set_b(NULL, MODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), dat[i].showDialog);
-				db_set_b(NULL, MODULENAME, OptName(i, SETTING_CREATETTBBUTTON), dat[i].createTtb);
-				db_set_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), dat[i].createMmi);
-				db_set_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), dat[i].inSubMenu);
-				db_set_b(NULL, MODULENAME, OptName(i, SETTING_REGHOTKEY), dat[i].regHotkey);
-				db_set_w(NULL, MODULENAME, OptName(i, SETTING_HOTKEY), dat[i].hotKey);
-				db_set_s(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME), dat[i].szName);
+			for (i=0; i < arProfiles.getCount(); i++) {
+				PROFILEOPTIONS& po = arProfiles[i];
+				db_set_b(NULL, MODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), po.showDialog);
+				db_set_b(NULL, MODULENAME, OptName(i, SETTING_CREATETTBBUTTON), po.createTtb);
+				db_set_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), po.createMmi);
+				db_set_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), po.inSubMenu);
+				db_set_b(NULL, MODULENAME, OptName(i, SETTING_REGHOTKEY), po.regHotkey);
+				db_set_w(NULL, MODULENAME, OptName(i, SETTING_HOTKEY), po.hotKey);
+				db_set_s(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME), po.szName);
 
-				TSettingsList& ar = *dat[i].ps;
+				TSettingsList& ar = *po.ps;
 				for ( j=0; j < ar.getCount(); j++ ) {
 					if ( ar[j].szMsg != NULL ) {
 						mir_snprintf(setting, sizeof(setting), "%s_%s", ar[j].szName, SETTING_PROFILE_STSMSG);
@@ -865,7 +856,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 					db_set_w(NULL, MODULENAME, OptName(i, ar[j].szName), ar[j].status);
 				}
 			}
-			DBWriteContactSettingWord(NULL, MODULENAME, SETTING_PROFILECOUNT, (WORD)profileCount);
+			DBWriteContactSettingWord(NULL, MODULENAME, SETTING_PROFILECOUNT, (WORD)arProfiles.getCount());
 
 			if (bNeedRebuildMenu) {
 				// Rebuild status menu
@@ -878,16 +869,9 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		break;
 
 	case WM_DESTROY:
-		{
-			for ( int i=0; i < profileCount; i++ ) {
-				delete dat[i].ps;
-
-				if (dat[i].szName != NULL)
-					free(dat[i].szName);
-			}
-			free( dat ); dat = NULL;
-			break;
-	}	}
+		arProfiles.destroy();
+		break;
+	}
 	
 	return 0;
 }

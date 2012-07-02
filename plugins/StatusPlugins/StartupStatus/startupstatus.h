@@ -42,13 +42,24 @@ struct TSSSetting : public PROTOCOLSETTINGEX
 
 typedef OBJLIST<TSSSetting> TSettingsList;
 
-typedef struct {
+struct PROFILECE
+{
 	int profile;
 	char *szProto;
 	char *msg;
-} PROFILECE;
+};
 
-typedef struct {
+struct PROFILEOPTIONS
+{
+	__inline void* operator new( size_t size ) {	return mir_calloc(size); }
+	__inline void operator delete( void* p ) { mir_free(p); }
+	__inline ~PROFILEOPTIONS()
+	{
+		delete ps;
+		if (szName != NULL)
+			mir_free(szName);
+	}
+
 	char *szName;
 	TSettingsList* ps;
 	BOOL showDialog;
@@ -57,7 +68,7 @@ typedef struct {
 	BOOL inSubMenu;
 	BOOL regHotkey;
 	WORD hotKey;
-} PROFILEOPTIONS;
+};
 
 typedef struct {
 	ATOM id;
