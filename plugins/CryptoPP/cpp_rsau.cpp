@@ -103,7 +103,7 @@ int str2int(string& s) {
 
 string hash(string& b)
 {
-	return hash((PBYTE)b.data(),b.length());
+	return ::hash((PBYTE)b.data(),b.length());
 }
 
 

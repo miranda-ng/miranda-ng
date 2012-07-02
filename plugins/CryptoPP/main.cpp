@@ -3,10 +3,11 @@
 int hLangpack;
 
 // dllmain
-BOOL WINAPI DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
-	g_hInst = hInst;
+BOOL WINAPI DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
+{
 	if ( dwReason == DLL_PROCESS_ATTACH ) {
-		{
+		g_hInst = hInst;
+	
 		char temp[MAX_PATH];
 		GetTempPath(sizeof(temp),temp);
 		GetLongPathName(temp,TEMP,sizeof(TEMP));
@@ -14,7 +15,6 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
 		if(TEMP[TEMP_SIZE-1]=='\\') {
 			TEMP_SIZE--;
 			TEMP[TEMP_SIZE]='\0';
-		}
 		}
 		InitializeCriticalSection(&localQueueMutex);
 		InitializeCriticalSection(&localContextMutex);
@@ -38,18 +38,14 @@ MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-
-int onModulesLoaded(WPARAM wParam,LPARAM lParam) {
-    // updater plugin support
+int onModulesLoaded(WPARAM wParam,LPARAM lParam)
+{
+	// updater plugin support
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	InitNetlib();
 #endif
-	if(ServiceExists(MS_UPDATE_REGISTERFL)) {
-		CallService(MS_UPDATE_REGISTERFL, (WPARAM)2669, (LPARAM)&pluginInfo);
-	}
 	return 0;
 }
-
 
 int Load(PLUGINLINK *link)
 {

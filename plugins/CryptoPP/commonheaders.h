@@ -2,21 +2,16 @@
 
 #define WIN32_LEAN_AND_MEAN
 #define NETLIB_LOG
+#define CRYPTOPP_DEFAULT_NO_DLL
 
 #ifdef _MSC_VER
-#pragma once
-#define _CRT_SECURE_NO_WARNINGS
-#define _SCL_SECURE_NO_WARNINGS
-#if _MSC_VER >= 1300
-//#pragma comment (compiler,"/GS-")
-//#pragma comment (linker,"/NODEFAULTLIB:libcmt.lib")
-//#pragma comment (lib,"../../lib/msvcrt.lib")
-//#pragma comment (lib,"../../lib/msvcrt71.lib")
-#else
-#ifndef _DEBUG
-#pragma optimize("gsy", on)
-#endif
-#endif
+	#pragma once
+	#define _CRT_SECURE_NO_WARNINGS
+	#define _SCL_SECURE_NO_WARNINGS
+	#define NOMINMAX
+	#ifndef WIN64
+		#define _USE_32BIT_TIME_T
+	#endif
 #endif
 
 #ifndef _WIN32_WINNT
@@ -27,36 +22,20 @@
 #define _WIN32_IE 0x0501
 #endif
 
+#include <limits>
+
 #define MIRANDA_VER 0x0A00
 #include <m_stdhdr.h>
 
-#if _MSC_VER > 1000
 #include <windows.h>
-#else
-#include <afxwin.h>
-#endif
-#include <process.h>
+#include <wincrypt.h>
 #include <winsock2.h>
+
+#include <process.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-//#pragma comment(linker,"/filealign:16")
-//#pragma comment(linker,"/align:16")
-//#pragma optimize("gsy", on)
-#ifdef _DEBUG
-#if _MSC_VER >= 1300
-#pragma comment(lib,"crypto/Debug9/cryptlib.lib")
-#else
-#pragma comment(lib,"crypto/Debug/cryptlib.lib")
-#endif
-#else
-#if _MSC_VER >= 1300
-#pragma comment(lib,"crypto/Release9/cryptlib.lib")
-#else
-#pragma comment(lib,"crypto/Release/cryptlib.lib")
-#endif
-#endif
 #pragma comment(lib,"kernel32.lib")
 #pragma comment(lib,"user32.lib")
 
@@ -64,16 +43,17 @@
 #define M_API_H__
 
 // Miranda API
-#include "newpluginapi.h"
-#include "m_stdhdr.h"
-#include "m_plugins.h"
-#include "m_system.h"
-#include "m_database.h"
-#include "m_protomod.h"
-#include "m_protosvc.h"
-#include "m_utils.h"
-#include "m_netlib.h"
-#include "sdk/m_updater.h"
+#include <newpluginapi.h>
+#include <m_stdhdr.h>
+#include <m_plugins.h>
+#include <m_system.h>
+#include <m_database.h>
+#include <m_langpack.h>
+#include <m_protomod.h>
+#include <m_protosvc.h>
+#include <m_utils.h>
+#include <m_netlib.h>
+#include <m_updater.h>
 
 #endif
 
@@ -93,7 +73,7 @@
 
 extern LPCSTR szModuleName;
 extern LPCSTR szVersionStr;
-extern char TEMP[MAX_PATH];
+extern TCHAR TEMP[MAX_PATH];
 extern int  TEMP_SIZE;
 extern BOOL isVista;
 
@@ -127,7 +107,6 @@ PBYTE cpp_alloc_pdata(pCNTX);
 extern "C" {
 
  DLLEXPORT int Load(PLUGINLINK *);
- DLLEXPORT PLUGININFO *MirandaPluginInfo(DWORD);
  DLLEXPORT PLUGININFOEX *MirandaPluginInfoEx(DWORD);
  DLLEXPORT MUUID* MirandaPluginInterfaces(void);
  DLLEXPORT int Unload();

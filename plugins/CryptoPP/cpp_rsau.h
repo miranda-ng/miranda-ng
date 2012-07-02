@@ -88,7 +88,7 @@ string hash256(LPSTR);
 string hash256(PBYTE,int);
 
 Integer BinaryToInteger(const string&);
-string	IntegerToBinary(const Integer&);
+string  IntegerToBinary(const Integer&);
 
 AutoSeededRandomPool& GlobalRNG();
 

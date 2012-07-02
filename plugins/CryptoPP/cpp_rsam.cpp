@@ -4,7 +4,7 @@
 
 #define RAND_SIZE (256/8)
 
-RSA_EXPORT exp = {
+RSA_EXPORT exports = {
     rsa_gen_keypair,
     rsa_get_keypair,
     rsa_get_keyhash,
@@ -51,7 +51,7 @@ int __cdecl rsa_init(pRSA_EXPORT* e, pRSA_IMPORT i) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_init");
 #endif
-	*e = &exp;
+	*e = &exports;
 	imp = i;
 	if ( !hRSA4096 ) {
 		// create context for private rsa keys
@@ -238,7 +238,7 @@ int __cdecl rsa_get_hash(PBYTE pubKey, int pubKeyLen, PBYTE pubHash, int* pubHas
 	Sent_NetLog("rsa_get_hash: %d", pubKeyLen);
 #endif
 	string sig;
-	sig = hash(pubKey, pubKeyLen);
+	sig = ::hash(pubKey, pubKeyLen);
 
 	*pubHashLen = sig.length();
 	if ( pubHash ) sig.copy((char*)pubHash, *pubHashLen);
@@ -281,7 +281,7 @@ int __cdecl rsa_disconnect(HANDLE context) {
 
 	PBYTE buffer=(PBYTE) alloca(RAND_SIZE);
 	GlobalRNG().GenerateBlock(buffer,RAND_SIZE);
-	inject_msg(context,0xF0,encode_msg(0,p,hash(buffer,RAND_SIZE)));
+	inject_msg(context,0xF0,encode_msg(0,p,::hash(buffer,RAND_SIZE)));
 
 	p->state = 0;
 	imp->rsa_notify(context,-3); // соединение разорвано вручную
@@ -383,7 +383,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 		}
 		PBYTE buffer=(PBYTE) alloca(RAND_SIZE);
 		GlobalRNG().GenerateBlock(buffer,RAND_SIZE);
-        	inject_msg(context,0x60,encode_msg(0,p,hash(buffer,RAND_SIZE)));
+        	inject_msg(context,0x60,encode_msg(0,p,::hash(buffer,RAND_SIZE)));
 		p->state=7; p->time=0;
 		rsa_free_thread( p ); // удалим трэд и очередь сообщений
 		imp->rsa_notify(context,1);	// заебися, криптосессия установлена
@@ -486,7 +486,7 @@ string encode_msg(short z, pRSADATA p, string& msg) {
 	Sent_NetLog("encode_msg: %s", msg.c_str());
 #endif
 	string zlib = (z) ? cpp_zlibc(msg) : msg;
-	string sig = hash(zlib);
+	string sig = ::hash(zlib);
 
 	string ciphered;
 	try {
@@ -517,7 +517,7 @@ string decode_msg(pRSADATA p, string& msg) {
 		cbcDecryptor.Put((PBYTE)ciphered.data(),ciphered.length());
 		cbcDecryptor.MessageEnd();
 
-		if ( sig == hash(zlib) ) {
+		if ( sig == ::hash(zlib) ) {
 			unciphered = (t1==1) ? cpp_zlibd(zlib) : zlib;
 		}
 	}
@@ -579,7 +579,7 @@ string gen_aes_key_iv(short m, pRSADATA p, pRSAPRIV r) {
 void init_priv(pRSAPRIV r, string& priv) {
 
 	r->priv_k = priv;
-	r->priv_s = hash(priv);
+	r->priv_s = ::hash(priv);
 
 	int t;
 	string tmp, n, e, d, p, q, dp, dq, u;
@@ -601,7 +601,7 @@ void init_priv(pRSAPRIV r, string& priv) {
 	// if ( !empty );
 
 	r->pub_k = tlv(1,n)+tlv(2,e);
-	r->pub_s = hash(r->pub_k);
+	r->pub_s = ::hash(r->pub_k);
 
 	r->priv.Initialize(BinaryToInteger(n),BinaryToInteger(e),
 			   BinaryToInteger(d),BinaryToInteger(p),BinaryToInteger(q),
@@ -612,7 +612,7 @@ void init_priv(pRSAPRIV r, string& priv) {
 void init_pub(pRSADATA p, string& pub) {
 
 	p->pub_k = pub;
-	p->pub_s = hash(pub);
+	p->pub_s = ::hash(pub);
 
 	int t;
 	string tmp, n, e;
@@ -733,7 +733,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 	{
 		int features; string pub;
 		un_tlv(un_tlv(data,t[0],features),t[1],pub);
-		string sig = hash(pub);
+		string sig = ::hash(pub);
 		if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
 			p->state=0; p->time=0;
 			null_msg(context,0x00,-type); // сессия разорвана по ошибке
@@ -760,7 +760,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 	{
 		int features; string pub;
 		un_tlv(un_tlv(data,t[0],features),t[1],pub);
-		string sig = hash(pub);
+		string sig = ::hash(pub);
 		if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
 			p->state=0; p->time=0;
 			null_msg(context,0x00,-type); // сессия разорвана по ошибке
@@ -780,7 +780,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 	{
 		string pub;
 		un_tlv(data,t[0],pub);
-		string sig = hash(pub);
+		string sig = ::hash(pub);
 		if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
 			p->state=0; p->time=0;
 			null_msg(context,0x00,-type); // сессия разорвана по ошибке
@@ -809,7 +809,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 		un_tlv(key,t[1],p->aes_v);
 		PBYTE buffer=(PBYTE) alloca(RAND_SIZE);
 		GlobalRNG().GenerateBlock(buffer,RAND_SIZE);
-		inject_msg(context,0x50,encode_msg(0,p,hash(buffer,RAND_SIZE)));
+		inject_msg(context,0x50,encode_msg(0, p, ::hash(buffer,RAND_SIZE)));
 		p->state=6;
 	} break;
 
@@ -819,7 +819,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 		int features; string pub,sha;
 		un_tlv(un_tlv(un_tlv(data,t[0],features),t[1],pub),t[2],sha);
 		if ( p->pub_k!=pub ) { // пришел новый паблик
-			string sig = hash(pub);
+			string sig = ::hash(pub);
 			if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
 				p->state=0; p->time=0;
 				null_msg(context,0x00,-type); // сессия разорвана по ошибке
@@ -959,7 +959,7 @@ int __cdecl rsa_export_keypair(short mode, LPSTR privKey, LPSTR pubKey, LPSTR pa
 			return 0;
 		}
 		
-		priv = tlv(1,ciphered) + tlv(2,hash(ciphered));
+		priv = tlv(1,ciphered) + tlv(2,::hash(ciphered));
 		priv = priv_beg + crlf + add_delim(base64encode(priv),crlf,65) + priv_end + crlf;
 
 		strcpy(privKey, priv.c_str());
@@ -991,7 +991,7 @@ int __cdecl rsa_import_keypair(short mode, LPSTR privKey, LPSTR passPhrase) {
 	    if ( found != string::npos ) {
 		priv = base64decode(priv.substr(0,found));
 		TLV k(priv);
-		if ( k.exist(1) && k.exist(2) && hash(k.get(1)) == k.get(2) ) {
+		if ( k.exist(1) && k.exist(2) && ::hash(k.get(1)) == k.get(2) ) {
 		    priv = k.get(1);
 		    
 		    string key = hash256(passPhrase);
@@ -1061,7 +1061,7 @@ int __cdecl rsa_import_pubkey(HANDLE context, LPSTR pubKey) {
 	    if ( found != string::npos ) {
 		pub = base64decode(pub.substr(0,found));
 		TLV k(pub);
-		if ( k.exist(3) && k.exist(4) && hash(k.get(3)) == k.get(4) ) {
+		if ( k.exist(3) && k.exist(4) && ::hash(k.get(3)) == k.get(4) ) {
 		    init_pub(p,k.get(3));
 		    return 1;
 		}
