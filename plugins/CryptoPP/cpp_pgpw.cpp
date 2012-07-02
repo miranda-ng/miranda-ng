@@ -37,12 +37,10 @@ LPSTR (__cdecl *p_pgp_decrypt_key)(LPCSTR,LPCSTR);
 
 
 #define GPA(x)                                              \
-  {                                                         \
-    *((PVOID*)&p##x) = (PVOID)GetProcAddress(mod, TEXT(#x)); \
-    if (!p##x) {                                            \
-      return 0;                                             \
-    }                                                       \
-  }
+{                                                         \
+	*((PVOID*)&p##x) = (PVOID)GetProcAddress(mod, TEXT(#x)); \
+	if (!p##x) return 0;                                    \
+}
 
 int load_pgpsdk_dll(HMODULE mod) {
 
@@ -56,7 +54,6 @@ int load_pgpsdk_dll(HMODULE mod) {
 	GPA(_pgp_select_keyid);
 	GPA(_pgp_encrypt_keydb);
 	GPA(_pgp_decrypt_keydb);
-//	GPA(_pgp_check_key);
 	GPA(_pgp_encrypt_key);
 	GPA(_pgp_decrypt_key);
 
@@ -67,12 +64,12 @@ int load_pgpsdk_dll(HMODULE mod) {
 
 
 #define GPA(x)                                              \
-  {                                                         \
-    *((PVOID*)&p##x) = (PVOID)MemGetProcAddress(mod, TEXT(#x)); \
-    if (!p##x) {                                            \
-      return 0;                                             \
-    }                                                       \
-  }
+{                                                         \
+	*((PVOID*)&p##x) = (PVOID)MemGetProcAddress(mod, TEXT(#x)); \
+	if (!p##x) {                                            \
+	return 0;                                             \
+	}                                                       \
+}
 
 int load_pgpsdk_mem(HMODULE mod) {
 
@@ -86,7 +83,6 @@ int load_pgpsdk_mem(HMODULE mod) {
 	GPA(_pgp_select_keyid);
 	GPA(_pgp_encrypt_keydb);
 	GPA(_pgp_decrypt_keydb);
-//	GPA(_pgp_check_key);
 	GPA(_pgp_encrypt_key);
 	GPA(_pgp_decrypt_key);
 
@@ -155,10 +151,10 @@ int __cdecl pgp_init()
 
 int __cdecl pgp_done()
 {
-    int r = 0;
-    pgpVer = 0;
-    if (hpgpsdk) {
-    	r = p_pgp_done();
+	int r = 0;
+	pgpVer = 0;
+	if (hpgpsdk) {
+		r = p_pgp_done();
 		if ( isVista ) {
 			FreeLibrary(hpgpsdk);
 		}
@@ -168,7 +164,7 @@ int __cdecl pgp_done()
 			FreeResource( pRS_pgp );
 		}
 		hpgpsdk = 0;
-    }
+	}
 	return r;
 }
 
@@ -190,16 +186,14 @@ int __cdecl pgp_get_version()
 	return pgpVer;
 }
 
-
 LPSTR __cdecl pgp_get_error()
 {
 	return p_pgp_get_error();
 }
 
-
 LPSTR __cdecl pgp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 {
-   	ptr->error = ERROR_NONE;
+	ptr->error = ERROR_NONE;
 	pPGPDATA p = (pPGPDATA) ptr->pdata;
 	SAFE_FREE(ptr->tmp);
 
@@ -219,24 +213,24 @@ LPSTR __cdecl pgp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 
 LPSTR __cdecl pgp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 {
-    ptr->error = ERROR_NONE;
-    SAFE_FREE(ptr->tmp);
+	ptr->error = ERROR_NONE;
+	SAFE_FREE(ptr->tmp);
 
-    LPSTR szPlainMsg = p_pgp_decrypt_keydb(szEncMsg);
-    if (!szPlainMsg) {
-	ptr = get_context_on_id(hPGPPRIV); // find private pgp keys
-    	if (ptr) {
-	    pPGPDATA p = (pPGPDATA) ptr->pdata;
-    	    if (p->pgpKey)
-		szPlainMsg = p_pgp_decrypt_key(szEncMsg,(LPCSTR)p->pgpKey);
+	LPSTR szPlainMsg = p_pgp_decrypt_keydb(szEncMsg);
+	if (!szPlainMsg) {
+		ptr = get_context_on_id(hPGPPRIV); // find private pgp keys
+		if (ptr) {
+			pPGPDATA p = (pPGPDATA) ptr->pdata;
+			if (p->pgpKey)
+				szPlainMsg = p_pgp_decrypt_key(szEncMsg,(LPCSTR)p->pgpKey);
+		}
+		if (!szPlainMsg) return NULL;
 	}
-	if (!szPlainMsg) return NULL;
-    }
 
-    ptr->tmp = (LPSTR) _strdup(szPlainMsg);
-    LocalFree((LPVOID)szPlainMsg);
+	ptr->tmp = (LPSTR) _strdup(szPlainMsg);
+	LocalFree((LPVOID)szPlainMsg);
 
-    return ptr->tmp;
+	return ptr->tmp;
 }
 
 
@@ -244,7 +238,10 @@ LPSTR __cdecl pgp_encode(HANDLE context, LPCSTR szPlainMsg)
 {
 	pCNTX ptr = get_context_on_id(context); if (!ptr) return NULL;
 	pPGPDATA p = (pPGPDATA) cpp_alloc_pdata(ptr);
-	if ( !p->pgpKeyID && !p->pgpKey ) { ptr->error = ERROR_NO_PGP_KEY; return NULL; }
+	if ( !p->pgpKeyID && !p->pgpKey ) {
+		ptr->error = ERROR_NO_PGP_KEY;
+		return NULL;
+	}
 
 	// utf8 message: encrypt.
 	return pgp_encrypt(ptr, szPlainMsg);
@@ -266,9 +263,7 @@ LPSTR __cdecl pgp_decode(HANDLE context, LPCSTR szEncMsg)
 			MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wszMsg, slen*sizeof(WCHAR));
 			szNewMsg = _strdup(utf8encode(wszMsg));
 		}
-		else {
-			szNewMsg = _strdup(szOldMsg);
-		}
+		else szNewMsg = _strdup(szOldMsg);
 	}
 	SAFE_FREE(ptr->tmp);
 	ptr->tmp = szNewMsg;
@@ -278,7 +273,7 @@ LPSTR __cdecl pgp_decode(HANDLE context, LPCSTR szEncMsg)
 
 int __cdecl pgp_set_priv_key(LPCSTR LocalKey)
 {
-        return pgp_set_key(hPGPPRIV,LocalKey);
+	return pgp_set_key(hPGPPRIV,LocalKey);
 }
 
 
@@ -286,28 +281,26 @@ int __cdecl pgp_set_key(HANDLE context, LPCSTR RemoteKey)
 {
 	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pPGPDATA p = (pPGPDATA) cpp_alloc_pdata(ptr);
-   	ptr->error = ERROR_NONE;
+	ptr->error = ERROR_NONE;
 
-//   	if (!p_pgp_check_key(RemoteKey)) return 0;
-
-   	SAFE_FREE(p->pgpKey);
+	SAFE_FREE(p->pgpKey);
 	p->pgpKey = (PBYTE) _strdup(RemoteKey);
 
-   	return 1;
+	return 1;
 }
 
 
 int __cdecl pgp_set_keyid(HANDLE context, PVOID RemoteKeyID)
 {
-    	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pPGPDATA p = (pPGPDATA) cpp_alloc_pdata(ptr);
-   	ptr->error = ERROR_NONE;
+	ptr->error = ERROR_NONE;
 
-   	SAFE_FREE(p->pgpKeyID);
+	SAFE_FREE(p->pgpKeyID);
 	p->pgpKeyID = (PBYTE) malloc(p_pgp_size_keyid());
 	memcpy(p->pgpKeyID,RemoteKeyID,p_pgp_size_keyid());
 
-   	return 1;
+	return 1;
 }
 
 

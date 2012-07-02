@@ -261,6 +261,10 @@ NAMESPACE_END
 #define CRYPTOPP_DISABLE_SSE2
 #endif
 
+#ifdef WIN64
+#define CRYPTOPP_DISABLE_ASM
+#endif
+
 #if !defined(CRYPTOPP_DISABLE_ASM) && ((defined(_MSC_VER) && defined(_M_IX86)) || (defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))))
 	#define CRYPTOPP_X86_ASM_AVAILABLE
 
