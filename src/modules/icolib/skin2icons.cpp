@@ -503,7 +503,7 @@ HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid)
 	bool utf = (sid->flags & SIDF_UNICODE) != 0;
 	bool utf_path = (sid->flags & SIDF_PATH_UNICODE) != 0;
 
-	EnterCriticalSection(&csIconList);
+	mir_cslock lck(csIconList);
 
 	IconItem* item = IcoLib_FindIcon(sid->pszName);
 	if (!item) {
@@ -565,7 +565,6 @@ HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid)
 	if (item->section)
 		item->section->flags = sid->flags & SIDF_SORTED;
 
-	LeaveCriticalSection(&csIconList);
 	return item;
 }
 
@@ -575,9 +574,9 @@ HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid)
 static INT_PTR IcoLib_RemoveIcon(WPARAM, LPARAM lParam)
 {
 	if (lParam) {
-		int indx;
-		EnterCriticalSection(&csIconList);
+		mir_cslock lck(csIconList);
 
+		int indx;
 		if ((indx = iconList.getIndex((IconItem*)&lParam)) != -1) {
 			IconItem *item = iconList[ indx ];
 			IcoLib_FreeIcon(item);
@@ -585,7 +584,6 @@ static INT_PTR IcoLib_RemoveIcon(WPARAM, LPARAM lParam)
 			SAFE_FREE((void**)&item);
 		}
 
-		LeaveCriticalSection(&csIconList);
 		return (indx == -1) ? 1 : 0;
 	}
 	return 1; // Failed
@@ -678,20 +676,12 @@ HICON IconItem_GetIcon(IconItem* item, bool big)
 
 HICON IcoLib_GetIcon(const char* pszIconName, bool big)
 {
-	IconItem* item;
-	HICON result = NULL;
-
 	if ( !pszIconName)
 		return hIconBlank;
 
-	EnterCriticalSection(&csIconList);
-
-	item = IcoLib_FindIcon(pszIconName);
-	if (item) {
-		result = IconItem_GetIcon(item, big);
-	}
-	LeaveCriticalSection(&csIconList);
-	return result;
+	mir_cslock lck(csIconList);
+	IconItem* item = IcoLib_FindIcon(pszIconName);
+	return (item) ? IconItem_GetIcon(item, big) : NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -700,16 +690,11 @@ HICON IcoLib_GetIcon(const char* pszIconName, bool big)
 
 HANDLE IcoLib_GetIconHandle(const char* pszIconName)
 {
-	IconItem* item;
-
 	if ( !pszIconName)
 		return NULL;
 
-	EnterCriticalSection(&csIconList);
-	item = IcoLib_FindIcon(pszIconName);
-	LeaveCriticalSection(&csIconList);
-
-	return (HANDLE)item;
+	mir_cslock lck(csIconList);
+	return IcoLib_FindIcon(pszIconName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -722,23 +707,12 @@ HICON IcoLib_GetIconByHandle(HANDLE hItem, bool big)
 	if (hItem == NULL)
 		return NULL;
 
-	HICON result = hIconBlank;
+	mir_cslock lck(csIconList);
 	IconItem* pi = (IconItem*)hItem;
+	if ( iconList.getIndex(pi) != -1)
+		return IconItem_GetIcon(pi, big);
 
-	EnterCriticalSection(&csIconList);
-
-	// we can get any junk here... but getIndex() is MUCH faster than indexOf().
-	__try
-	{
-		if (iconList.getIndex(pi) != -1)
-			result = IconItem_GetIcon(pi, big);
-	}
-	__except(EXCEPTION_EXECUTE_HANDLER)
-	{
-	}
-
-	LeaveCriticalSection(&csIconList);
-	return result;
+	return hIconBlank;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -748,20 +722,17 @@ HICON IcoLib_GetIconByHandle(HANDLE hItem, bool big)
 
 HANDLE IcoLib_IsManaged(HICON hIcon)
 {
-	IconItem* item;
-
-	EnterCriticalSection(&csIconList);
+	mir_cslock lck(csIconList);
 
 	bool big;
-	item = IcoLib_FindHIcon(hIcon, big);
+	IconItem* item = IcoLib_FindHIcon(hIcon, big);
 	if (item) {
 		IconSourceItem* source = big && !item->cx ? item->source_big : item->source_small;
 		if (source->icon_ref_count == 0)
 			item = NULL;
 	}
 
-	LeaveCriticalSection(&csIconList);
-	return NULL;
+	return item;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -771,7 +742,7 @@ HANDLE IcoLib_IsManaged(HICON hIcon)
 
 static INT_PTR IcoLib_AddRef(WPARAM wParam, LPARAM)
 {
-	EnterCriticalSection(&csIconList);
+	mir_cslock lck(csIconList);
 
 	bool big;
 	IconItem *item = IcoLib_FindHIcon((HICON)wParam, big);
@@ -785,7 +756,6 @@ static INT_PTR IcoLib_AddRef(WPARAM wParam, LPARAM)
 		}
 	}
 
-	LeaveCriticalSection(&csIconList);
 	return res;
 }
 

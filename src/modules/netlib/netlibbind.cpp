@@ -25,97 +25,86 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn)
 {
-    SOCKADDR_IN sin = {0};
-   	sin.sin_family = AF_INET;
+	SOCKADDR_IN sin = {0};
+	sin.sin_family = AF_INET;
 
-    SOCKADDR_IN6 sin6 = {0};
-   	sin6.sin6_family = AF_INET6;
+	SOCKADDR_IN6 sin6 = {0};
+	sin6.sin6_family = AF_INET6;
 
-	EnterCriticalSection(&csNetlibUser);
+	mir_cslock lck(csNetlibUser);
 
-    if (--*portn < 0 && (s != INVALID_SOCKET || s6 != INVALID_SOCKET))
-    {
-        BindSocketToPort(szPorts, INVALID_SOCKET, INVALID_SOCKET, portn);
-        if (*portn == 0)
-        {
-            LeaveCriticalSection(&csNetlibUser);
-            return false;
-        }
-        WORD num;
-        CallService(MS_UTILS_GETRANDOM, sizeof(WORD), (LPARAM)&num);
-        *portn = num % *portn;
-    }
+	if (--*portn < 0 && (s != INVALID_SOCKET || s6 != INVALID_SOCKET)) {
+		BindSocketToPort(szPorts, INVALID_SOCKET, INVALID_SOCKET, portn);
+		if (*portn == 0)
+			return false;
 
-    bool before=false;
-    for (;;)
-    {
-	    const char *psz;
-	    char *pszEnd;
-	    int portMin, portMax, port, portnum = 0;
+		WORD num;
+		CallService(MS_UTILS_GETRANDOM, sizeof(WORD), (LPARAM)&num);
+		*portn = num % *portn;
+	}
 
-        for (psz=szPorts;*psz;) 
-		{
-	        while (*psz == ' ' || *psz == ',') psz++;
-	        portMin = strtol(psz, &pszEnd, 0);
-	        if (pszEnd == psz) break;
-	        while (*pszEnd == ' ') pszEnd++;
-	        if (*pszEnd == '-') 
-			{
-		        psz = pszEnd + 1;
-		        portMax = strtol(psz, &pszEnd, 0);
-		        if (pszEnd == psz) portMax = 65535;
-		        if (portMin > portMax) 
-				{
-			        port = portMin;
-			        portMin = portMax;
-			        portMax = port;
-		        }
-	        }
-	        else portMax = portMin;
-	        if (portMax >= 1) 
-            {
-		        if (portMin <= 0) portMin = 1;
-		        for (port = portMin; port <= portMax; port++) 
-                {
-			        if (port > 65535) break;
+	bool before=false;
+	while (true) {
+		const char *psz;
+		char *pszEnd;
+		int portMin, portMax, port, portnum = 0;
 
-                    ++portnum;
+		for (psz=szPorts;*psz;)  {
+			while (*psz == ' ' || *psz == ',') psz++;
+			portMin = strtol(psz, &pszEnd, 0);
+			if (pszEnd == psz)
+				break;
+			while (*pszEnd == ' ')
+				pszEnd++;
+			if (*pszEnd == '-') {
+				psz = pszEnd + 1;
+				portMax = strtol(psz, &pszEnd, 0);
+				if (pszEnd == psz) portMax = 65535;
+				if (portMin > portMax) {
+					port = portMin;
+					portMin = portMax;
+					portMax = port;
+				}
+			}
+			else portMax = portMin;
+			if (portMax >= 1) {
+				if (portMin <= 0) portMin = 1;
+				for (port = portMin; port <= portMax; port++) {
+					if (port > 65535)
+						break;
 
-                    if (s == INVALID_SOCKET) continue;
-                    if ( !before && portnum <= *portn) continue;
-                    if (before  && portnum >= *portn) 
-                    {
-	                    LeaveCriticalSection(&csNetlibUser);
-                        return false;
-                    }
+					++portnum;
 
-                    sin.sin_port = htons((WORD)port);
+					if (s == INVALID_SOCKET) continue;
+					if ( !before && portnum <= *portn) continue;
+					if (before  && portnum >= *portn) 
+						return false;
+
+					sin.sin_port = htons((WORD)port);
 					bool bV4Mapped = s == INVALID_SOCKET || bind(s, (SOCKADDR*)&sin, sizeof(sin)) == 0;
 
 					sin6.sin6_port = htons((WORD)port);
 					bool bV6Mapped = s6 == INVALID_SOCKET || bind(s6, (PSOCKADDR)&sin6, sizeof(sin6)) == 0;
 
-					if (bV4Mapped && bV6Mapped) 
-                    {
-	                    LeaveCriticalSection(&csNetlibUser);
-                        *portn = portnum + 1;
-                        return true;
-                    }
-		        }
-	        }
-	        psz = pszEnd;
-        }
-        if (*portn < 0) 
-        {
-           *portn = portnum;
-	        LeaveCriticalSection(&csNetlibUser);
-            return true;
-        }
-        else if (*portn >= portnum)
-            *portn = 0;
-        else
-            before = true;
-   }
+					if (bV4Mapped && bV6Mapped) {
+						*portn = portnum + 1;
+						return true;
+					}
+				}
+			}
+			psz = pszEnd;
+		}
+
+		if (*portn < 0) {
+			*portn = portnum;
+			return true;
+		}
+
+		if (*portn >= portnum)
+			*portn = 0;
+		else
+			before = true;
+	}
 }
 
 int NetlibFreeBoundPort(struct NetlibBoundPort *nlbp)
@@ -174,8 +163,9 @@ static unsigned __stdcall NetlibBindAcceptThread(void* param)
 		nlc->hOkToCloseEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
 		NetlibInitializeNestedCS(&nlc->ncsSend);
 		NetlibInitializeNestedCS(&nlc->ncsRecv);
-		
-		if (nlbp->pfnNewConnectionV2) nlbp->pfnNewConnectionV2(nlc, ntohl(sin.Ipv4.sin_addr.S_un.S_addr), nlbp->pExtra);
+
+		if (nlbp->pfnNewConnectionV2)
+			nlbp->pfnNewConnectionV2(nlc, ntohl(sin.Ipv4.sin_addr.S_un.S_addr), nlbp->pExtra);
 	}
 	NetlibUPnPDeletePortMapping(nlbp->wExPort, "TCP");
 	return 0;
@@ -204,7 +194,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	nlbp->handleType = NLH_BOUNDPORT;
 	nlbp->nlu = nlu;
 	nlbp->pfnNewConnectionV2 = nlb->pfnNewConnectionV2;
-	
+
 	nlbp->s = socket(PF_INET, SOCK_STREAM, 0);
 	nlbp->s6 = socket(PF_INET6, SOCK_STREAM, 0);
 	nlbp->pExtra = (nlb->cbSize != NETLIBBIND_SIZEOF_V1) ? nlb->pExtra : NULL;

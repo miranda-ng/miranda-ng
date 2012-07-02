@@ -264,19 +264,16 @@ struct HttpSecurityContext
 		char* szAuthHdr = NULL;
 		bool justCreated = false;
 
-		if (m_hNtlmSecurity)
-		{
+		if (m_hNtlmSecurity) {
 			bool newAuth = !m_szProvider || !szProvider || _stricmp(m_szProvider, szProvider);
 			newAuth = newAuth || (m_szHost != szHost && ( !m_szHost || !szHost || _stricmp(m_szHost, szHost)));
 			if (newAuth)
 				Destroy();
 		}
 
-		if (m_hNtlmSecurity == NULL)
-		{
+		if (m_hNtlmSecurity == NULL) {
 			char szSpnStr[256] = "";
-			if (szHost && _stricmp(szProvider, "Basic"))
-			{
+			if (szHost && _stricmp(szProvider, "Basic")) {
 				unsigned long ip = inet_addr(szHost);
 				PHOSTENT host = (ip == INADDR_NONE) ? gethostbyname(szHost) : gethostbyaddr((char*)&ip, 4, AF_INET);
 				mir_snprintf(szSpnStr, SIZEOF(szSpnStr), "HTTP/%s", host && host->h_name ? host->h_name : szHost);
@@ -284,31 +281,26 @@ struct HttpSecurityContext
 				NetlibLogf(nlc->nlu, "Host SPN: %s", szSpnStr);
 			}
 			m_hNtlmSecurity = NetlibInitSecurityProvider(szProvider, szSpnStr[0] ? szSpnStr : NULL);
-			if (m_hNtlmSecurity)
-			{
+			if (m_hNtlmSecurity) {
 				m_szProvider = mir_strdup(szProvider);
 				m_szHost = mir_strdup(szHost);
 				justCreated = true;
 			}
 		}
 
-		if (m_hNtlmSecurity)
-		{
+		if (m_hNtlmSecurity) {
 			TCHAR *szLogin = NULL, *szPassw = NULL;
 
-			if (nlc->nlu->settings.useProxyAuth)
-			{
-				EnterCriticalSection(&csNetlibUser);
+			if (nlc->nlu->settings.useProxyAuth) {
+				mir_cslock lck(csNetlibUser);
 				szLogin = mir_a2t(nlc->nlu->settings.szProxyAuthUser);
 				szPassw = mir_a2t(nlc->nlu->settings.szProxyAuthPassword);
-				LeaveCriticalSection(&csNetlibUser);
 			}
 
 			szAuthHdr = NtlmCreateResponseFromChallenge(m_hNtlmSecurity, 
 				szChallenge, szLogin, szPassw, true, complete);
 
-			if ( !szAuthHdr)
-			{
+			if ( !szAuthHdr) {
 				NetlibLogf(NULL, "Security login %s failed, user: " TCHAR_STR_PARAM " pssw: " TCHAR_STR_PARAM, 
 					szProvider, szLogin ? szLogin : _T("(no user)"), szPassw ? _T("(exist)") : _T("(no psw)"));
 			}
@@ -318,8 +310,7 @@ struct HttpSecurityContext
 			mir_free(szLogin);
 			mir_free(szPassw);
 		}
-		else
-			complete = 1;
+		else complete = 1;
 
 		return szAuthHdr;
 	}

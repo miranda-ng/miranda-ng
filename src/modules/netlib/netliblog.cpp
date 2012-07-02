@@ -210,7 +210,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				DBWriteContactSettingTString(NULL, "Netlib", "RunAtStart", str);
 				DBWriteContactSettingByte(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
 
-				EnterCriticalSection(&logOptions.cs);
+				mir_cslock lck(logOptions.cs);
 
 				mir_free(logOptions.szUserFile);
 				GetWindowText(GetDlgItem(hwndDlg, IDC_FILENAME), str, MAX_PATH);
@@ -230,8 +230,6 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				logOptions.showUser=IsDlgButtonChecked(hwndDlg, IDC_SHOWNAMES);
 				logOptions.toOutputDebugString=IsDlgButtonChecked(hwndDlg, IDC_TOOUTPUTDEBUGSTRING);
 				logOptions.toFile=IsDlgButtonChecked(hwndDlg, IDC_TOFILE);
-
-				LeaveCriticalSection(&logOptions.cs);
 			}
 			{
 				HWND hwndFilter = GetDlgItem(logOptions.hwndOpts, IDC_FILTER);
@@ -369,32 +367,26 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	else
 		szHead[0]=0;
 
-	if (logOptions.toOutputDebugString) 
-	{
+	if (logOptions.toOutputDebugString) {
 	    if (szHead[0])
 			OutputDebugStringA(szHead);
 		OutputDebugStringA(pszMsg);
 		OutputDebugStringA("\n");
 	}
 
-	if (logOptions.toFile && logOptions.szFile[0]) 
-	{
-		EnterCriticalSection(&logOptions.cs);
+	if (logOptions.toFile && logOptions.szFile[0]) {
+		mir_cslock lck(logOptions.cs);
 
-		FILE *fp;
-		fp = _tfopen(logOptions.szFile, _T("ab"));
-		if ( !fp) 
-		{
+		FILE *fp = _tfopen(logOptions.szFile, _T("ab"));
+		if ( !fp) {
 			CreatePathToFileT(logOptions.szFile);
 			fp = _tfopen(logOptions.szFile, _T("at"));
 		}
-		if (fp) 
-		{
+		if (fp) {
 			size_t len = strlen(pszMsg);
 			fprintf(fp, "%s%s%s", szHead, pszMsg, pszMsg[len-1] == '\n' ? "" : "\r\n");
 			fclose(fp);
 		}	
-		LeaveCriticalSection(&logOptions.cs);
 	}
 
 	LOGMSG logMsg = { szHead, pszMsg };

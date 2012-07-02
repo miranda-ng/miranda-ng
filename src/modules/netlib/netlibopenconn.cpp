@@ -868,12 +868,11 @@ INT_PTR NetlibOpenConnection(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (iUPnPCleanup == 0) {
-		EnterCriticalSection(&csNetlibUser);
+		mir_cslock lck(csNetlibUser);
 		if (iUPnPCleanup == 0) {
 			iUPnPCleanup = 1;
 			forkthread(NetlibUPnPCleanup, 0, NULL);
 		}
-		LeaveCriticalSection(&csNetlibUser);
 	}
 
 	return (INT_PTR)nlc;

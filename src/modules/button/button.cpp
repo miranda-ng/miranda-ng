@@ -306,14 +306,12 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 					TTooltips tt;
 					tt.ThreadId = GetCurrentThreadId();
 
-					EnterCriticalSection(&csTips);
+					mir_cslock lck(csTips);
 					if ((idx = lToolTips.getIndex(&tt)) != -1) {
 						mir_free(lToolTips[idx]);
 						lToolTips.remove(idx);
 						DestroyWindow(bct->hwndToolTips);
 					}
-					LeaveCriticalSection(&csTips);
-
 					bct->hwndToolTips = NULL;
 				}
 			}
@@ -489,7 +487,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 				TTooltips tt;
 				tt.ThreadId = GetCurrentThreadId();
 
-				EnterCriticalSection(&csTips);
+				mir_cslock lck(csTips);
 				if ((idx = lToolTips.getIndex(&tt)) != -1)
 					bct->hwndToolTips = lToolTips[idx]->hwnd;
 				else {
@@ -499,7 +497,6 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 					lToolTips.insert(ptt);
 					bct->hwndToolTips = ptt->hwnd;
 				}
-				LeaveCriticalSection(&csTips);
 			}
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND;
@@ -646,10 +643,11 @@ int LoadButtonModule(void)
 
 void UnloadButtonModule()
 {
-	if (bModuleInitialized) {
-		EnterCriticalSection(&csTips);
+	if ( !bModuleInitialized)
+		return;
+
+	{	mir_cslock lck(csTips);
 		lToolTips.destroy();
-		LeaveCriticalSection(&csTips);
-		DeleteCriticalSection(&csTips);
-	}
+	}		
+	DeleteCriticalSection(&csTips);
 }

@@ -800,18 +800,16 @@ void NetlibUPnPCleanup(void*)
 		return;
 
 	{
-		int i, incoming = 0;
-		EnterCriticalSection(&csNetlibUser);
-		for (i = 0; i < netlibUser.getCount(); ++i)
-		{
-			if (netlibUser[i]->user.flags & NUF_INCOMING)
-			{
+		int incoming = 0;
+		mir_cslock lck(csNetlibUser);
+		for (int i = 0; i < netlibUser.getCount(); ++i)
+			if (netlibUser[i]->user.flags & NUF_INCOMING) {
 				incoming = 1;
 				break;
 			}
-		}
-		LeaveCriticalSection(&csNetlibUser);
-		if ( !incoming) return;
+
+		if ( !incoming)
+			return;
 	}
 
 	if (findUPnPGateway())

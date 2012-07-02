@@ -953,14 +953,14 @@ void fnUninitTray(void)
 	fTrayInited=FALSE;
 	DeleteCriticalSection(&trayLockCS);
 }
-void   fnLockTray(void)
+void fnLockTray(void)
 {
 //	return;				//stub to be removed
 	initcheck;
 	EnterCriticalSection(&trayLockCS);
 }
 
-void   fnUnlockTray(void)
+void fnUnlockTray(void)
 {
 //	return;				//stub to be removed
 	initcheck;

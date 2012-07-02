@@ -52,16 +52,14 @@ static int HttpGatewayReadSetResult(NetlibConnection *nlc, char *buf, int num, i
 
 void HttpGatewayRemovePacket(NetlibConnection *nlc, int pck)
 {
-	EnterCriticalSection(&nlc->csHttpSequenceNums);
-	while (pck-- && nlc->pHttpProxyPacketQueue != NULL)
-	{
+	mir_cslock lck(nlc->csHttpSequenceNums);
+	while (pck-- && nlc->pHttpProxyPacketQueue != NULL) {
 		NetlibHTTPProxyPacketQueue *p = nlc->pHttpProxyPacketQueue;
 		nlc->pHttpProxyPacketQueue = nlc->pHttpProxyPacketQueue->next;
 		
 		mir_free(p->dataBuffer);
 		mir_free(p);
 	}
-	LeaveCriticalSection(&nlc->csHttpSequenceNums);
 }
 
 
@@ -89,18 +87,14 @@ static bool NetlibHttpGatewaySend(struct NetlibConnection *nlc, RequestType reqT
 	case reqOldGet:
 		nlhrSend.requestType = REQUEST_GET;
 		nlhrSend.timeout = -1;
-		if ((nlc->nlhpi.flags & NLHPIF_USEGETSEQUENCE) && (nlc->nlhpi.szHttpGetUrl != NULL)) 
-		{
-			EnterCriticalSection(&nlc->csHttpSequenceNums);
-
+		if ((nlc->nlhpi.flags & NLHPIF_USEGETSEQUENCE) && (nlc->nlhpi.szHttpGetUrl != NULL)) {
+			mir_cslock lck(nlc->csHttpSequenceNums);
 			mir_snprintf(szUrl, SIZEOF(szUrl), "%s%u", nlc->nlhpi.szHttpGetUrl, nlc->nlhpi.firstGetSequence++);
-			if (nlc->nlhpi.flags & NLHPIF_GETPOSTSAMESEQUENCE) nlc->nlhpi.firstPostSequence++;
-
-			LeaveCriticalSection(&nlc->csHttpSequenceNums);
+			if (nlc->nlhpi.flags & NLHPIF_GETPOSTSAMESEQUENCE)
+				nlc->nlhpi.firstPostSequence++;
 			nlhrSend.szUrl = szUrl;
 		}
-		else 
-			nlhrSend.szUrl = nlc->nlhpi.szHttpGetUrl;
+		else nlhrSend.szUrl = nlc->nlhpi.szHttpGetUrl;
 		break;
 
 	case reqOldPost:
@@ -157,26 +151,25 @@ static bool NetlibHttpGatewaySend(struct NetlibConnection *nlc, RequestType reqT
 static bool NetlibHttpGatewayStdPost(NetlibConnection *nlc, int& numPackets)
 {
 	int np = 0, len = 0;
-	
-	EnterCriticalSection(&nlc->csHttpSequenceNums);
-
-	NetlibHTTPProxyPacketQueue *p = nlc->pHttpProxyPacketQueue;
-	while (p != NULL && np < nlc->nlhpi.combinePackets) { ++np; len += p->dataBufferLen;  p = p->next;}
-
-	char *buf = (char*)alloca(len);
-	
-	numPackets = np;
-	int dlen = 0;
-
-	p = nlc->pHttpProxyPacketQueue;
-	while (np--) 
+	char *buf;
 	{
-		memcpy(buf + dlen, p->dataBuffer, p->dataBufferLen);
-		dlen += p->dataBufferLen;
-		p = p->next;
-	}
+		mir_cslock lck(nlc->csHttpSequenceNums);
 
-	LeaveCriticalSection(&nlc->csHttpSequenceNums);
+		NetlibHTTPProxyPacketQueue *p = nlc->pHttpProxyPacketQueue;
+		while (p != NULL && np < nlc->nlhpi.combinePackets) { ++np; len += p->dataBufferLen;  p = p->next;}
+
+		buf = (char*)alloca(len);
+	
+		numPackets = np;
+		int dlen = 0;
+
+		p = nlc->pHttpProxyPacketQueue;
+		while (np--) {
+			memcpy(buf + dlen, p->dataBuffer, p->dataBufferLen);
+			dlen += p->dataBufferLen;
+			p = p->next;
+		}
+	}
 
 	return NetlibHttpGatewaySend(nlc, reqNewPost, buf, len);
 }
@@ -203,20 +196,16 @@ static bool NetlibHttpGatewayOscarPost(NetlibConnection *nlc, const char *buf, i
 	NetlibInitializeNestedCS(&nlcSend.ncsSend);
 
 	bool res = NetlibHttpGatewaySend(&nlcSend, reqOldPost, buf, len);
-	if (res)
-	{
+	if (res) {
 		NETLIBHTTPREQUEST *nlhrReply = NetlibHttpRecv(&nlcSend, flags | MSG_RAW | MSG_DUMPPROXY, MSG_RAW | MSG_DUMPPROXY);
-		if (nlhrReply != NULL)
-		{
-			if (nlhrReply->resultCode != 200) 
-			{
+		if (nlhrReply != NULL) {
+			if (nlhrReply->resultCode != 200) {
 				NetlibHttpSetLastErrorUsingHttpResult(nlhrReply->resultCode);
 				res = false;
 			}
 			NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
 		}
-		else
-			res = false;
+		else res = false;
 	}
 
 	NetlibDeleteNestedCS(&nlcSend.ncsSend);
@@ -226,24 +215,18 @@ static bool NetlibHttpGatewayOscarPost(NetlibConnection *nlc, const char *buf, i
 	nlc->s2 = nlcSend.s;
 	mir_free((char*)nlcSend.nloc.szHost);
 
-	EnterCriticalSection(&nlc->csHttpSequenceNums);
-
+	mir_cslock lck(nlc->csHttpSequenceNums);
 	nlc->nlhpi.firstPostSequence++;
-	if (nlc->nlhpi.flags & NLHPIF_GETPOSTSAMESEQUENCE) nlc->nlhpi.firstGetSequence++;
-
-	LeaveCriticalSection(&nlc->csHttpSequenceNums);
+	if (nlc->nlhpi.flags & NLHPIF_GETPOSTSAMESEQUENCE) 
+		nlc->nlhpi.firstGetSequence++;
 
 	return res;
 }
 
  int NetlibHttpGatewayPost(struct NetlibConnection *nlc, const char *buf, int len, int flags)
 {
-	struct NetlibHTTPProxyPacketQueue *p;
- 
 	if (nlc->nlhpi.szHttpGetUrl != NULL)
-	{
 		return NetlibHttpGatewayOscarPost(nlc, buf, len, flags) ? len : SOCKET_ERROR;
-	}
 
 	/*
 	 * Gena01 - many changes here, do compare against the other version.
@@ -256,7 +239,7 @@ static bool NetlibHttpGatewayOscarPost(NetlibConnection *nlc, const char *buf, i
 	 *         with the new plugins that use this code.
 	 */
 
-	 p = (NetlibHTTPProxyPacketQueue*)mir_alloc(sizeof(struct NetlibHTTPProxyPacketQueue));
+	 NetlibHTTPProxyPacketQueue *p = (NetlibHTTPProxyPacketQueue*)mir_alloc(sizeof(struct NetlibHTTPProxyPacketQueue));
 	 p->dataBuffer = (PBYTE)mir_alloc(len);
 	 memcpy(p->dataBuffer, buf, len);
 	 p->dataBufferLen = len;
@@ -265,19 +248,16 @@ static bool NetlibHttpGatewayOscarPost(NetlibConnection *nlc, const char *buf, i
 	 /*
 	  * Now check to see where to insert this in our queue
 	  */
-	EnterCriticalSection(&nlc->csHttpSequenceNums);
-	if (nlc->pHttpProxyPacketQueue == NULL) 
-	{
-		nlc->pHttpProxyPacketQueue = p;
-	} 
-	else 
-	{
-		struct NetlibHTTPProxyPacketQueue *t = nlc->pHttpProxyPacketQueue;
 
-		while (t->next != NULL)	t = t->next;
+	mir_cslock lck(nlc->csHttpSequenceNums);
+	if (nlc->pHttpProxyPacketQueue == NULL) 
+		nlc->pHttpProxyPacketQueue = p;
+	else {
+		NetlibHTTPProxyPacketQueue *t = nlc->pHttpProxyPacketQueue;
+		while (t->next != NULL)
+			t = t->next;
 		t->next = p;
 	}
-	LeaveCriticalSection(&nlc->csHttpSequenceNums);
 
 	/*
 	 * Gena01 - fake a Send!! tell 'em all is ok. We catch errors in Recv.

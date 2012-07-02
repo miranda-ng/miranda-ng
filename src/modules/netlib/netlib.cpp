@@ -130,8 +130,6 @@ static char *GetNetlibUserSettingString(const char *szUserModule, const char *sz
 static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 {
 	NETLIBUSER *nlu=(NETLIBUSER*)lParam;
-	struct NetlibUser *thisUser;
-
 	if (nlu == NULL || nlu->cbSize != sizeof(NETLIBUSER) || nlu->szSettingsModule == NULL
 	   || ( !(nlu->flags&NUF_NOOPTIONS) && nlu->szDescriptiveName == NULL)
 	   || (nlu->flags&NUF_HTTPGATEWAY && (nlu->pfnHttpGatewayInit == NULL))) {
@@ -139,19 +137,20 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 		return 0;
 	}
 
-	thisUser = (struct NetlibUser*)mir_calloc(sizeof(struct NetlibUser));
+	NetlibUser *thisUser = (struct NetlibUser*)mir_calloc(sizeof(struct NetlibUser));
 	thisUser->handleType = NLH_USER;
 	thisUser->user = *nlu;
 
-	EnterCriticalSection(&csNetlibUser);
-	if (netlibUser.getIndex(thisUser) >= 0) 
+	int idx;
 	{
-		LeaveCriticalSection(&csNetlibUser);
+		mir_cslock lck(csNetlibUser);
+		idx = netlibUser.getIndex(thisUser);
+	}
+	if (idx != -1) {
 		mir_free(thisUser);
 		SetLastError(ERROR_DUP_NAME);
 		return 0;
 	}
-	LeaveCriticalSection(&csNetlibUser);
 
 	if (nlu->szDescriptiveName) {
 		thisUser->user.ptszDescriptiveName = (thisUser->user.flags&NUF_UNICODE ? mir_u2t((WCHAR*)nlu->ptszDescriptiveName) : mir_a2t(nlu->szDescriptiveName));
@@ -193,9 +192,8 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 
 	thisUser->toLog=GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLlog", 1);
 
-	EnterCriticalSection(&csNetlibUser);
+	mir_cslock lck(csNetlibUser);
 	netlibUser.insert(thisUser);
-	LeaveCriticalSection(&csNetlibUser);
 	return (INT_PTR)thisUser;
 }
 
@@ -247,12 +245,12 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 		case NLH_USER:
 		{	
 			struct NetlibUser *nlu=(struct NetlibUser*)wParam;
-			int i;
-			
-			EnterCriticalSection(&csNetlibUser);
-			i = netlibUser.getIndex(nlu);
-			if (i >= 0) netlibUser.remove(i);
-			LeaveCriticalSection(&csNetlibUser);
+			{
+				mir_cslock lck(csNetlibUser);
+				int i = netlibUser.getIndex(nlu);
+				if (i >= 0)
+					netlibUser.remove(i);
+			}
 
 			NetlibFreeUserSettingsStruct(&nlu->settings);
 			mir_free(nlu->user.szSettingsModule);
