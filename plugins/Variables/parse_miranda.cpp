@@ -147,7 +147,7 @@ static TCHAR *parseContactInfo(ARGUMENTSINFO *ai)
 	if (type == 0)
 		return NULL;
 
-	return getContactInfoT(type, hContact, 1);
+	return getContactInfoT(type, hContact);
 }
 
 static TCHAR *parseDBProfileName(ARGUMENTSINFO *ai)
@@ -478,11 +478,10 @@ static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
 	TCHAR *szUniqueID = NULL;
 	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ai->fi->hContact, 0);
 	if (szProto != NULL)
-		szUniqueID = getContactInfoT(CNF_UNIQUEID, ai->fi->hContact, 1);
+		szUniqueID = getContactInfoT(CNF_UNIQUEID, ai->fi->hContact);
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
-		//szUniqueID = itot((INT_PTR)ai->fi->hContact);
 		szUniqueID = (TCHAR*)mir_alloc(32);
 		_stprintf(szUniqueID, _T("%p"), ai->fi->hContact);
 		if (szProto == NULL || szUniqueID == NULL)

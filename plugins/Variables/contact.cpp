@@ -164,7 +164,7 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 		if (szProto == NULL)
 			return NULL;
 
-		status = DBGetContactSettingWord(hContact, szProto, "Status", 0);
+		status = DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		if (status == 0)
 			return NULL;
 
@@ -300,14 +300,9 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 	return res;
 }
 
-TCHAR *getContactInfoT(BYTE type, HANDLE hContact, int tchar)
+TCHAR *getContactInfoT(BYTE type, HANDLE hContact)
 {
-	if (tchar)
-	{
-			return getContactInfo((BYTE)(type | CNF_UNICODE), hContact);
-	}
-
-	return getContactInfo(type, hContact);
+	return getContactInfo((BYTE)(type | CNF_UNICODE), hContact);
 }
 
 /*
@@ -374,12 +369,11 @@ int getContactFromString( CONTACTSINFO* ci )
 		// <proto:id> (exact)
 		if (ci->flags&CI_PROTOID)
 		{
-			cInfo = getContactInfoT(CNF_UNIQUEID, hContact, ci->flags&CI_TCHAR);
+			cInfo = getContactInfoT(CNF_UNIQUEID, hContact);
 			if (cInfo == NULL)
 			{
 				// <HANDLE:hContact>
 				cInfo = (TCHAR*)mir_alloc(32);
-				//cInfo = itot((INT_PTR)hContact);
 				_stprintf(cInfo, _T("%p"), hContact);
 				szFind = (TCHAR*)mir_alloc((_tcslen(cInfo) + _tcslen(_T(PROTOID_HANDLE)) + 4)*sizeof(TCHAR));
 				if (szFind != NULL)
@@ -415,7 +409,7 @@ int getContactFromString( CONTACTSINFO* ci )
 		}
 		// id (exact)
 		if ((ci->flags&CI_UNIQUEID) && (!bMatch)) {
-			szFind = getContactInfoT(CNF_UNIQUEID, hContact, ci->flags&CI_TCHAR);
+			szFind = getContactInfoT(CNF_UNIQUEID, hContact);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind))
 					bMatch = TRUE;
@@ -425,7 +419,7 @@ int getContactFromString( CONTACTSINFO* ci )
 		}
 		// nick (not exact)
 		if ((ci->flags&CI_NICK) && (!bMatch)) {
-			szFind = getContactInfoT(CNF_NICK, hContact, ci->flags&CI_TCHAR);
+			szFind = getContactInfoT(CNF_NICK, hContact);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind))
 					bMatch = TRUE;
@@ -435,7 +429,7 @@ int getContactFromString( CONTACTSINFO* ci )
 		}
 		// list name (not exact)
 		if ((ci->flags&CI_LISTNAME) && (!bMatch)) {
-			szFind = getContactInfoT(CNF_DISPLAY, hContact, ci->flags&CI_TCHAR);
+			szFind = getContactInfoT(CNF_DISPLAY, hContact);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind))
 					bMatch = TRUE;
@@ -445,7 +439,7 @@ int getContactFromString( CONTACTSINFO* ci )
 		}
 		// firstname (exact)
 		if ((ci->flags&CI_FIRSTNAME) && (!bMatch)) {
-			szFind = getContactInfoT(CNF_FIRSTNAME, hContact, ci->flags&CI_TCHAR);
+			szFind = getContactInfoT(CNF_FIRSTNAME, hContact);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind)) {
 					bMatch = TRUE;
@@ -455,7 +449,7 @@ int getContactFromString( CONTACTSINFO* ci )
 		}
 		// lastname (exact)
 		if ((ci->flags&CI_LASTNAME) && (!bMatch)) {
-			szFind = getContactInfoT(CNF_LASTNAME, hContact, ci->flags&CI_TCHAR);
+			szFind = getContactInfoT(CNF_LASTNAME, hContact);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind)) {
 					bMatch = TRUE;
@@ -465,7 +459,7 @@ int getContactFromString( CONTACTSINFO* ci )
 		}
 		// email (exact)
 		if ((ci->flags&CI_EMAIL) && (!bMatch)) {
-			szFind = getContactInfoT(CNF_EMAIL, hContact, ci->flags&CI_TCHAR);
+			szFind = getContactInfoT(CNF_EMAIL, hContact);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind)) {
 					bMatch = TRUE;
@@ -475,7 +469,7 @@ int getContactFromString( CONTACTSINFO* ci )
 		}
 		// CNF_ (exact)
 		if ((ci->flags&CI_CNFINFO) && (!bMatch)) {
-			szFind = getContactInfoT((BYTE)(ci->flags&~(CI_CNFINFO|CI_TCHAR)), hContact, ci->flags&CI_TCHAR);
+			szFind = getContactInfoT((BYTE)(ci->flags&~(CI_CNFINFO|CI_TCHAR)), hContact);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind)) {
 					bMatch = TRUE;
@@ -592,7 +586,7 @@ TCHAR *encodeContactToString(HANDLE hContact)
 
 	ZeroMemory(&dbv, sizeof(DBVARIANT));
 	szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	tszUniqueId = getContactInfoT(CNF_UNIQUEID, hContact, CI_TCHAR);
+	tszUniqueId = getContactInfoT(CNF_UNIQUEID, hContact);
 	if (szProto == NULL || tszUniqueId == NULL)
 		return NULL;
 

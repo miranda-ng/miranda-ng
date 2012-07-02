@@ -125,7 +125,7 @@ int  initTokenRegister();
 int  deinitTokenRegister();
 // contact.c
 BYTE getContactInfoType(TCHAR* type);
-TCHAR* getContactInfoT(BYTE type, HANDLE hContact, int tchar);
+TCHAR* getContactInfoT(BYTE type, HANDLE hContact);
 int  getContactFromString( CONTACTSINFO* );
 int  initContactModule();
 int  deinitContactModule();

@@ -53,7 +53,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	TCHAR* szUniqueID = NULL;
 	char* szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	if (szProto != NULL)
-		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact, 1);
+		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
 	if (szUniqueID == NULL)
 	{
@@ -115,7 +115,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 	TCHAR* szUniqueID = NULL;
 	char* szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	if (szProto != NULL)
-		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact, 1);
+		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
@@ -176,11 +176,10 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 	TCHAR* szUniqueID = NULL;
 	char* szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	if (szProto != NULL)
-		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact, 1);
+		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
-		//szUniqueID = itot((INT_PTR)hContact);
 		szUniqueID = (TCHAR*)mir_alloc(32);
 		_stprintf(szUniqueID, _T("%p"), hContact);
 		if (szProto == NULL || szUniqueID == NULL)
