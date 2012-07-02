@@ -375,7 +375,6 @@ static INT_PTR AssertInsideScreen(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-
 static INT_PTR RestoreWindowPosition(WPARAM wParam, LPARAM lParam)
 {
 	SAVEWINDOWPOS *swp=(SAVEWINDOWPOS*)lParam;
@@ -415,7 +414,6 @@ static INT_PTR RestoreWindowPosition(WPARAM wParam, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
 static INT_PTR RestartMiranda(WPARAM, LPARAM)
 {
 	TCHAR mirandaPath[ MAX_PATH ], cmdLine[ 100 ];
@@ -424,6 +422,7 @@ static INT_PTR RestartMiranda(WPARAM, LPARAM)
 	si.cb = sizeof(si);
 	GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
 	mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("/restart:%d"), GetCurrentProcessId());
+	CallService("CloseAction", 0, 0);
 	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 	return 0;
 }
@@ -434,33 +433,32 @@ typedef BOOL (APIENTRY *PGENRANDOM)(PVOID, ULONG);
 
 static INT_PTR GenerateRandom(WPARAM wParam, LPARAM lParam)
 {
-    if (wParam == 0 || lParam == 0) return 0;
+	if (wParam == 0 || lParam == 0) return 0;
 
-    PGENRANDOM pfnRtlGenRandom = NULL;
-    HMODULE hModule = GetModuleHandleA("advapi32");
-    if (hModule)
-    {
-        pfnRtlGenRandom = (PGENRANDOM)GetProcAddress(hModule, "SystemFunction036");
-        if (pfnRtlGenRandom)
-        {
-            if ( !pfnRtlGenRandom((PVOID)lParam, wParam)) 
-                pfnRtlGenRandom = NULL;
-        }
-    }
-    if (pfnRtlGenRandom == NULL)
-    {
-        srand(GetTickCount());
-        unsigned short* buf = (unsigned short*)lParam;
-        for (; (long)(wParam-=2) >= 0;)
-            *(buf++) = (unsigned short)rand();
-        if (lParam < 0)
-            *(char*)buf = (char)(rand() & 0xFF);
-    }
-    return 0;
+	PGENRANDOM pfnRtlGenRandom = NULL;
+	HMODULE hModule = GetModuleHandleA("advapi32");
+	if (hModule)
+	{
+		pfnRtlGenRandom = (PGENRANDOM)GetProcAddress(hModule, "SystemFunction036");
+		if (pfnRtlGenRandom)
+		{
+			if ( !pfnRtlGenRandom((PVOID)lParam, wParam))
+				pfnRtlGenRandom = NULL;
+		}
+	}
+	if (pfnRtlGenRandom == NULL)
+	{
+		srand(GetTickCount());
+		unsigned short* buf = (unsigned short*)lParam;
+		for (; (long)(wParam-=2) >= 0;)
+			*(buf++) = (unsigned short)rand();
+		if (lParam < 0)
+			*(char*)buf = (char)(rand() & 0xFF);
+	}
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
 int LoadUtilsModule(void)
 {
 	bModuleInitialized = TRUE;
