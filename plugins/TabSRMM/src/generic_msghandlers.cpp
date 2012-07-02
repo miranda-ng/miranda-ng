@@ -2173,6 +2173,10 @@ static INT_PTR SI_ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = (HANDLE)wParam;
 
 	StatusIconData *sid = (StatusIconData *)lParam;
+
+	// return 0 on stupid calls :-P
+	if(!hContact || !sid || !sid->szModule) return 0;
+
 	struct TStatusBarIconNode *current = status_icon_list;
 
 	while (current) {
