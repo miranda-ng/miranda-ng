@@ -2,48 +2,14 @@
 
 static HWND OptionshWnd;
 
-void AddToOptions(TopButtonInt* b)
-{
-	if (OptionshWnd) {
-		HWND hTree = GetDlgItem(OptionshWnd, IDC_BUTTONORDERTREE);
-		OrderData *dat = (struct OrderData*)GetWindowLongPtr(hTree, GWLP_USERDATA);
-		AddLine(hTree, b, TVI_LAST, dat->himlButtonIcons);
-	}
-}
-
-void RemoveFromOptions(int id)
-{
-	if (OptionshWnd) {
-		HWND hTree = GetDlgItem(OptionshWnd, IDC_BUTTONORDERTREE);
-		TVITEM tvi = { 0 };
-		tvi.hItem = TreeView_GetRoot(hTree);
-		tvi.mask = TVIF_PARAM | TVIF_HANDLE;
-
-		TopButtonInt* btn;
-		while(tvi.hItem != NULL) {
-			TreeView_GetItem(hTree, &tvi);
-			btn = (TopButtonInt*)tvi.lParam;
-			if (btn->id == id) {
-			  // delete if was changed
-				if (btn->dwFlags & TTBBF_OPTIONAL)
-					delete btn;
-				TreeView_DeleteItem(hTree,tvi.hItem);
-				break;
-			}
-
-			tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
-		}
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 struct OrderData
 {
 	int dragging;
 	HTREEITEM hDragItem;
 	HIMAGELIST himlButtonIcons;
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST il)
 {
@@ -85,7 +51,7 @@ static HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST
 static int BuildTree(HWND hwndDlg)
 {
 	HWND hTree = GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE);
-	OrderData *dat = (struct OrderData*)GetWindowLongPtr(hTree, GWLP_USERDATA);
+	OrderData *dat = (OrderData*)GetWindowLongPtr(hTree, GWLP_USERDATA);
 
 	dat->himlButtonIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
 	TreeView_SetImageList(hTree, dat->himlButtonIcons, TVSIL_NORMAL);
@@ -172,17 +138,54 @@ static void RecreateWindows()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// external functions
+
+void AddToOptions(TopButtonInt* b)
+{
+	if (OptionshWnd) {
+		HWND hTree = GetDlgItem(OptionshWnd, IDC_BUTTONORDERTREE);
+		OrderData *dat = (OrderData*)GetWindowLongPtr(hTree, GWLP_USERDATA);
+		AddLine(hTree, b, TVI_LAST, dat->himlButtonIcons);
+	}
+}
+
+void RemoveFromOptions(int id)
+{
+	if (OptionshWnd) {
+		HWND hTree = GetDlgItem(OptionshWnd, IDC_BUTTONORDERTREE);
+		TVITEM tvi = { 0 };
+		tvi.hItem = TreeView_GetRoot(hTree);
+		tvi.mask = TVIF_PARAM | TVIF_HANDLE;
+
+		TopButtonInt* btn;
+		while(tvi.hItem != NULL) {
+			TreeView_GetItem(hTree, &tvi);
+			btn = (TopButtonInt*)tvi.lParam;
+			if (btn->id == id) {
+			  // delete if was changed
+				if (btn->dwFlags & TTBBF_OPTIONAL)
+					delete btn;
+				TreeView_DeleteItem(hTree,tvi.hItem);
+				break;
+			}
+
+			tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Options window: main
 
 static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hTree = GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE);
-	struct OrderData *dat = (struct OrderData*)GetWindowLongPtr(hTree, GWLP_USERDATA);
+	OrderData *dat = (OrderData*)GetWindowLongPtr(hTree, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		dat = (struct OrderData*)malloc(sizeof(struct OrderData));
+		dat = (OrderData*)malloc( sizeof(OrderData));
 		SetWindowLongPtr(hTree, GWLP_USERDATA, (LONG)dat);
 		dat->dragging = 0;
 
