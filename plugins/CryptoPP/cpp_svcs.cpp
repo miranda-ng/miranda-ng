@@ -128,7 +128,7 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 			ptr->tmp = (LPSTR) cpp_gunzip((PBYTE)unciphered.data(),unciphered.length(),clen);
 			ptr->tmp[clen] = 0;
 		}
-		else ptr->tmp = (LPSTR) strdup(unciphered.c_str());
+		else ptr->tmp = (LPSTR) _strdup(unciphered.c_str());
 
 		ptr->error = ERROR_NONE;
 		return ptr->tmp;
