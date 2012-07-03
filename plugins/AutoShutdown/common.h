@@ -64,13 +64,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_clc.h>
 #include <m_genmenu.h>
 #include <m_button.h>
+#include <m_hotkeys.h>
 
 #include <m_weather.h>
 #include <m_hddinfo.h>
 #include <m_toptoolbar.h>
-#include <m_hotkey.h>
-#include <m_hotkeysplus.h>
-#include <m_hotkeysservice.h>
 #include <m_trigger.h>
 #include <m_mwclc.h>
 #include <m_autoreplacer.h>

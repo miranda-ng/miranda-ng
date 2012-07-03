@@ -80,15 +80,9 @@ static void InstallFile(const TCHAR *pszFileName,const TCHAR *pszDestSubDir)
 
 static int ShutdownModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
 	if(ServiceExists("DBEditorpp/RegisterSingleModule"))
 		CallService("DBEditorpp/RegisterSingleModule",(WPARAM)"AutoShutdown",0);
-	/* merged thundershutdown plugin */
-	if(GetModuleHandleA("tshutdown.dll")) { 
-		DBWriteContactSettingByte(NULL,"PluginDisable","tshutdown.dll",1);
-		DBWriteContactSettingByte(NULL,"AutoShutdown","WeatherShutdown",1);
-	}
+
 	return 0;
 }
 
@@ -122,12 +116,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitSettingsDlg();
 	InitOptions();
 
-	/* installation */
-	InstallFile(_T("Shutdown-Readme.txt"),_T("Docs\\"));
-	InstallFile(_T("Shutdown-License.txt"),_T("Docs\\"));
-	InstallFile(_T("Shutdown-SDK.zip"),_T("Docs\\"));
-	InstallFile(_T("countdown.wav"),_T("Sounds\\"));
-	hHookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,ShutdownModulesLoaded);
+	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ShutdownModulesLoaded);
 	return 0;
 }
 

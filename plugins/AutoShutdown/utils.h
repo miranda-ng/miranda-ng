@@ -45,4 +45,4 @@ HANDLE IcoLib_AddIconRes(const char *pszDbName,const TCHAR *pszSection,const TCH
 HICON IcoLib_GetIcon(const char *pszDbName);
 int IcoLib_ReleaseIcon(HICON hIcon);
 int SkinAddNewSoundBundled(const char *pszDbName,const char *pszSection,const char *pszDesc,const char *pszSubDir,const char *pszDefaultFile);
-int SkinAddNewHotkey(const char *pszDbName,const char* pszSection,const char *pszDescription,UINT vk,UINT hotkeyfModifiers,const char *pszServiceName);
+void AddHotkey();

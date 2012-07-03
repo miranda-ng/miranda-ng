@@ -47,21 +47,7 @@ static BOOL WinNT_PerfStatsSwitch(TCHAR *pszServiceName,BOOL fDisable)
 	return fSwitched;
 }
 
-#if !defined(_UNICODE)
-static void Win9x_PerfStatsSwitch(HKEY hKey,char *pszAction,char *pszName)
-{
-	DWORD dwData,dwSize;
-	dwSize=sizeof(dwData);
-	if(!RegOpenKeyExA(hKey,pszAction,0,KEY_QUERY_VALUE,&hKey)) {
-		/* a simple query does the trick (data and size must not be NULL!) */
-		RegQueryValueExA(hKey,pszName,NULL,NULL,(BYTE*)&dwData,&dwSize);
-		RegCloseKey(hKey);
-	}
-}
-#endif
-
 /************************* Poll Thread ********************************/
-
 struct CpuUsageThreadParams {
 	DWORD dwDelayMillis;
 	CPUUSAGEAVAILPROC pfnDataAvailProc;
@@ -84,38 +70,6 @@ static BOOL CallBackAndWait(struct CpuUsageThreadParams *param,BYTE nCpuUsage)
 	SleepEx(param->dwDelayMillis,TRUE);
 	return !Miranda_Terminated();
 }
-
-#if !defined(_UNICODE)
-static void Win9x_PollThread(struct CpuUsageThreadParams *param)
-{
-	HKEY hKeyStats,hKeyData;
-	DWORD dwBufferSize,dwData;
-
-	if(!RegOpenKeyExA(HKEY_DYN_DATA,"PerfStats",0,KEY_QUERY_VALUE,&hKeyStats)) {
-		/* start query */
-		/* not needed for kernel
-		 * Win9x_PerfStatsSwitch(hKeyStats,"StartSrv","KERNEL"); */
-		Win9x_PerfStatsSwitch(hKeyStats,"StartStat","KERNEL\\CPUUsage");
-		/* retrieve cpu usage */
-		if(!RegOpenKeyExA(hKeyStats,"StatData",0,KEY_QUERY_VALUE,&hKeyData)) {
-			dwBufferSize=sizeof(dwData);
-			while(!RegQueryValueExA(hKeyData,"KERNEL\\CPUUsage",NULL,NULL,(BYTE*)&dwData,&dwBufferSize)) {
-				dwBufferSize=sizeof(dwData);
-				if(!CallBackAndWait(param,(BYTE)dwData)) break;
-			}
-			RegCloseKey(hKeyData);
-		}
-		/* stop query */
-		Win9x_PerfStatsSwitch(hKeyStats,"StopStat","KERNEL\\CPUUsage");
-		/* not needed for kernel
-		 * Win9x_PerfStatsSwitch(hKeyStats,"StopSrv","KERNEL"); */
-		RegCloseKey(hKeyStats);
-	}
-	/* return error for PollCpuUsage() if never succeeded */
-	if(param->hFirstEvent!=NULL) SetEvent(param->hFirstEvent);
-	mir_free(param);
-}
-#endif /* !_UNICODE */
 
 static void WinNT_PollThread(void *vparam)
 {

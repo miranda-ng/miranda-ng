@@ -31,7 +31,7 @@ static HANDLE hHookModulesLoaded;
 
 #define M_ENABLE_SUBCTLS  (WM_APP+111)
 
-static int CALLBACK ShutdownOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg) {
 		case WM_INITDIALOG:
@@ -106,7 +106,6 @@ static int CALLBACK ShutdownOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 static int ShutdownOptInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp;
-	UNREFERENCED_PARAMETER(lParam);
 	ZeroMemory(&odp,sizeof(odp));
 	odp.cbSize=sizeof(odp);
 	odp.hInstance=hInst;
@@ -116,7 +115,7 @@ static int ShutdownOptInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszTitle=_T("Automatic Shutdown"); /* autotranslated */
 	odp.ptszTab=_T("Automatic Shutdown");  /* autotranslated, can be made a tab */
 	odp.flags=ODPF_BOLDGROUPS|ODPF_EXPERTONLY|ODPF_TCHAR;
-	odp.pfnDlgProc=ShutdownOptDlgProc;
+	odp.pfnDlgProc = ShutdownOptDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
@@ -125,7 +124,6 @@ static int ShutdownOptInit(WPARAM wParam,LPARAM lParam)
 
 static int __stdcall ActionProc(DWORD idAction,REPORTINFO *ri,int shutdownType)
 {
-	UNREFERENCED_PARAMETER(ri);
 	if(idAction&ACT_PERFORM) ServiceShutdown(shutdownType,TRUE);
 	return 0;
 }
@@ -143,8 +141,6 @@ static int HangupActionProc(DWORD id,REPORTINFO *ri)     ActionProcJmp(SDSDT_CLO
 
 static int TriggerRegisterActions(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
 	/* new trigger API (0.2.0.69+) */
 	if(ServiceExists(MS_TRIGGER_REGISTERCONDITION)) {
 		ACTIONREGISTER ar;

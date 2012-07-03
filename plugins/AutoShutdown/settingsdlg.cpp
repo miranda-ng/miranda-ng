@@ -64,7 +64,7 @@ static BOOL AnyProtoHasCaps(DWORD caps1)
 #define M_ENABLE_SUBCTLS       (WM_APP+111)
 #define M_UPDATE_SHUTDOWNDESC  (WM_APP+112)
 #define M_CHECK_DATETIME       (WM_APP+113)
-static BOOL CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg) {
 		case WM_INITDIALOG:
@@ -392,15 +392,13 @@ static BOOL CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 /************************* Services ***********************************/
 
-static int ServiceShowSettingsDialog(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceShowSettingsDialog(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
 	if(hwndSettingsDlg!=NULL) { /* already opened, bring to front */
 		SetForegroundWindow(hwndSettingsDlg);
 		return 0;
 	}
-	return (CreateDialog(hInst,MAKEINTRESOURCE(IDD_SETTINGS),NULL,SettingsDlgProc)==NULL);
+	return (CreateDialog(hInst, MAKEINTRESOURCE(IDD_SETTINGS), NULL, SettingsDlgProc) == NULL);
 }
 
 /************************* Toolbar ************************************/
@@ -410,8 +408,6 @@ static WORD hToolbarButton;
 static int ToolbarLoaded(WPARAM wParam,LPARAM lParam)
 {
 	TTBButton ttbb;
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
 
 	ZeroMemory(&ttbb,sizeof(ttbb));
 	ttbb.cbSize=sizeof(ttbb);
@@ -470,10 +466,8 @@ void SetShutdownMenuItem(BOOL fActive)
 	IcoLib_ReleaseIcon(cmi.hIcon);
 }
 
-static int MenuItemCommand(WPARAM wParam,LPARAM lParam)
+static INT_PTR MenuItemCommand(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
 	/* toggle between StopWatcher and ShowSettingsDdialog */
 	if(ServiceIsWatcherEnabled(0,0))
 		ServiceStopWatcher(0,0);
@@ -487,17 +481,17 @@ static int MenuItemCommand(WPARAM wParam,LPARAM lParam)
 void InitSettingsDlg(void)
 {
 	/* Menu Item */
-	hServiceMenuCommand=CreateServiceFunction("AutoShutdown/MenuCommand",MenuItemCommand);
+	hServiceMenuCommand = CreateServiceFunction("AutoShutdown/MenuCommand", MenuItemCommand);
 	hMainMenuItem=hTrayMenuItem=NULL;
 	SetShutdownMenuItem(FALSE);
 	/* Toolbar Item */
 	hToolbarButton=0;
 	hHookToolbarLoaded=HookEvent(ME_TTB_MODULELOADED,ToolbarLoaded); /* no service to check for */
 	/* Hotkey */
-	SkinAddNewHotkey("AutoShutdown_Toggle",Translate("Main"),Translate("Toggle Automatic Shutdown"),'T',HOTKEYF_CONTROL|HOTKEYF_SHIFT,"AutoShutdown/MenuCommand");
+	AddHotkey();
 	/* Services */
 	hwndSettingsDlg=NULL;
-	hServiceShowDlg=CreateServiceFunction(MS_AUTOSHUTDOWN_SHOWSETTINGSDIALOG,ServiceShowSettingsDialog);
+	hServiceShowDlg = CreateServiceFunction(MS_AUTOSHUTDOWN_SHOWSETTINGSDIALOG, ServiceShowSettingsDialog);
 }
 
 void UninitSettingsDlg(void)

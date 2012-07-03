@@ -20,9 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 /* Services */
-int ServiceStartWatcher(WPARAM wParam,LPARAM lParam);
-int ServiceStopWatcher(WPARAM wParam,LPARAM lParam);
-int ServiceIsWatcherEnabled(WPARAM wParam,LPARAM lParam);
+INT_PTR ServiceStartWatcher(WPARAM wParam,LPARAM lParam);
+INT_PTR ServiceStopWatcher(WPARAM wParam,LPARAM lParam);
+INT_PTR ServiceIsWatcherEnabled(WPARAM wParam,LPARAM lParam);
 
 /* Misc */
 void InitWatcher(void);

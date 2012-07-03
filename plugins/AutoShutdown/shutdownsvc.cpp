@@ -52,13 +52,7 @@ static BOOL WinNT_SetPrivilege(TCHAR *pszPrivName,BOOL bEnable)
 static void BroadcastEndSession(DWORD dwRecipients,LPARAM lParam)
 {
 	LONG (WINAPI *pfnBroadcastSystemMessage)(DWORD,DWORD*,UINT,WPARAM,LPARAM);
-#if defined(_UNICODE)
 	*(PROC*)&pfnBroadcastSystemMessage=GetProcAddress(GetModuleHandleA("USER32"),"BroadcastSystemMessageW");
-#else
-	*(PROC*)&pfnBroadcastSystemMessage=GetProcAddress(GetModuleHandleA("USER32"),"BroadcastSystemMessageA");
-	if(!pfnBroadcastSystemMessage) /* Win95 has undecorated API */
-		*(PROC*)&pfnBroadcastSystemMessage=GetProcAddress(GetModuleHandleA("USER32"),"BroadcastSystemMessage");
-#endif
 	if(pfnBroadcastSystemMessage)
 		pfnBroadcastSystemMessage(BSF_FORCEIFHUNG,&dwRecipients,WM_ENDSESSION,TRUE,lParam);
 }
@@ -76,23 +70,7 @@ static BOOL WinNT_IsWorkStationLocked(void)
 	return bLocked;
 } 
 
-#if !defined(_UNICODE)
-static void Win9x_TerminateExplorer(void)
-{
-	HANDLE hProcess;
-	DWORD idProcess;
-	if(GetWindowThreadProcessId(GetDesktopWindow(),&idProcess)) {
-		hProcess=OpenProcess(PROCESS_TERMINATE,FALSE,idProcess);
-		if(hProcess!=NULL) {
-			TerminateProcess(hProcess,0);
-			CloseHandle(hProcess);
-		}
-	}
-}
-#endif
-
 /************************* Workers ************************************/
-
 static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 {
 	BOOL bReturn=FALSE;
@@ -247,15 +225,9 @@ static DWORD ShutdownNow(BYTE shutdownType)
 					DWORD (APIENTRY *pfnRasEnumConnections)(RASCONN*,DWORD*,DWORD*);
 					DWORD (APIENTRY *pfnRasHangUp)(HRASCONN);
 					DWORD (APIENTRY *pfnRasGetConnectStatus)(HRASCONN,RASCONNSTATUS*);
-					#if defined(_UNICODE)
-						*(PROC*)&pfnRasEnumConnections=GetProcAddress(hRasApiDLL,"RasEnumConnectionsW");
-						*(PROC*)&pfnRasHangUp=GetProcAddress(hRasApiDLL,"RasHangUpW");
-						*(PROC*)&pfnRasGetConnectStatus=GetProcAddress(hRasApiDLL,"RasGetConnectStatusW");
-					#else
-						*(PROC*)&pfnRasEnumConnections=GetProcAddress(hRasApiDLL,"RasEnumConnectionsA");
-						*(PROC*)&pfnRasHangUp=GetProcAddress(hRasApiDLL,"RasHangUpA");
-						*(PROC*)&pfnRasGetConnectStatus=GetProcAddress(hRasApiDLL,"RasGetConnectStatusA");
-					#endif
+					*(PROC*)&pfnRasEnumConnections=GetProcAddress(hRasApiDLL,"RasEnumConnectionsW");
+					*(PROC*)&pfnRasHangUp=GetProcAddress(hRasApiDLL,"RasHangUpW");
+					*(PROC*)&pfnRasGetConnectStatus=GetProcAddress(hRasApiDLL,"RasGetConnectStatusW");
 					if(pfnRasEnumConnections && pfnRasGetConnectStatus && pfnRasHangUp) {
 						RASCONN *paConn;
 						RASCONN *paConnBuf;
@@ -322,13 +294,8 @@ static DWORD ShutdownNow(BYTE shutdownType)
 			/* WinNT4/2000/XP */
 			{	BOOL (WINAPI *pfnInitiateSystemShutdownEx)(const TCHAR*,const TCHAR*,DWORD,BOOL,BOOL,DWORD);
 				BOOL (WINAPI *pfnInitiateSystemShutdown)(const TCHAR*,const TCHAR*,DWORD,BOOL,BOOL);
-				#if defined(_UNICODE)
-					*(PROC*)&pfnInitiateSystemShutdownEx=GetProcAddress(GetModuleHandleA("ADVAPI32"),"InitiateSystemShutdownExW");
-					*(PROC*)&pfnInitiateSystemShutdown=GetProcAddress(GetModuleHandleA("ADVAPI32"),"InitiateSystemShutdownW");
-				#else
-					*(PROC*)&pfnInitiateSystemShutdownEx=GetProcAddress(GetModuleHandleA("ADVAPI32"),"InitiateSystemShutdownExA");
-					*(PROC*)&pfnInitiateSystemShutdown=GetProcAddress(GetModuleHandleA("ADVAPI32"),"InitiateSystemShutdownA");
-				#endif
+				*(PROC*)&pfnInitiateSystemShutdownEx=GetProcAddress(GetModuleHandleA("ADVAPI32"),"InitiateSystemShutdownExW");
+				*(PROC*)&pfnInitiateSystemShutdown=GetProcAddress(GetModuleHandleA("ADVAPI32"),"InitiateSystemShutdownW");
 				if(pfnInitiateSystemShutdownEx!=NULL || pfnInitiateSystemShutdown!=NULL) {
 					WinNT_SetPrivilege(SE_SHUTDOWN_NAME,TRUE);
 			
@@ -372,9 +339,6 @@ static DWORD ShutdownNow(BYTE shutdownType)
 					 * Enter Windows Password dialog box, however, the user's desktop remains.)
 					 * To log off the user forcibly, terminate the Explorer process before calling
 					 * ExitWindowsEx with EWX_LOGOFF and EWX_FORCE. */
-					#if !defined(_UNICODE)
-						if(shutdownType==SDSDT_LOGOFF && !IsWinVerNT()) Win9x_TerminateExplorer();
-					#endif
 				}
 				if(!ExitWindowsEx(flags,SHTDN_REASON_MAJOR_OTHER|SHTDN_REASON_MINOR_OTHER|SHTDN_REASON_FLAG_PLANNED))
 					dwErrCode=GetLastError();
@@ -390,16 +354,16 @@ static DWORD ShutdownNow(BYTE shutdownType)
 
 #define M_START_SHUTDOWN    (WM_APP+111)
 #define M_UPDATE_COUNTDOWN  (WM_APP+112)
-static BOOL CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
-	BYTE shutdownType=(BYTE)GetWindowLong(hwndDlg,DWL_USER);
-	WORD countdown=(WORD)GetWindowLong(GetDlgItem(hwndDlg,IDC_TEXT_HEADER),GWL_USERDATA);
+	BYTE shutdownType=(BYTE)GetWindowLongPtr(hwndDlg, DWLP_USER);
+	WORD countdown=(WORD)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA);
 	static BOOL (WINAPI *pfnLockSetForegroundWindow)(UINT);
 
 	switch(msg) {
 		case WM_INITDIALOG:
 			hwndShutdownDlg=hwndDlg;
-			SetWindowLong(hwndDlg,DWL_USER,(LONG)lParam);
+			SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG)lParam);
 			TranslateDialogDefault(hwndDlg);
 			
 			if(lParam==SDSDT_SHUTDOWN || lParam==SDSDT_REBOOT || lParam==SDSDT_LOGOFF)
@@ -413,11 +377,11 @@ static BOOL CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				}
 				else hBoldFont=NULL;
 				SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_SETFONT,(WPARAM)hBoldFont,FALSE);
-				SetWindowLong(GetDlgItem(hwndDlg,IDC_TEXT_HEADER),GWL_USERDATA,(LONG)hBoldFont);
+				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA, (LONG)hBoldFont);
 			}
 			{	WORD countdown=DBGetContactSettingWord(NULL,"AutoShutdown","ConfirmDlgCountdown",SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT);
 				if(countdown<3) countdown=SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT;
-				SetWindowLong(GetDlgItem(hwndDlg,IDC_TEXT_HEADER),GWL_USERDATA,countdown);
+				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA, countdown);
 				SendMessage(hwndDlg,M_UPDATE_COUNTDOWN,0,countdown);
 			}
 			SkinPlaySound("AutoShutdown_Countdown");
@@ -465,7 +429,7 @@ static BOOL CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		case WM_TIMER:
 			if(countdown) {
 				--countdown;
-				SetWindowLong(GetDlgItem(hwndDlg,IDC_TEXT_HEADER),GWL_USERDATA,countdown);
+				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA, countdown);
 				if(countdown==27 || countdown==24 || countdown==21 || countdown==19 ||
 				   countdown==17 || countdown==15 || countdown==13 || countdown==11 ||
 				   countdown<=10)
@@ -495,7 +459,7 @@ static BOOL CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 			switch(LOWORD(wParam)) {
 				case IDC_BUTTON_SHUTDOWNNOW:
 					KillTimer(hwndDlg,1);
-					SetWindowLong(GetDlgItem(hwndDlg,IDC_TEXT_HEADER),GWL_USERDATA,0);
+					SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA, 0);
 					SendMessage(hwndDlg,M_UPDATE_COUNTDOWN,0,(LONG)0);
 					PostMessage(hwndDlg,M_START_SHUTDOWN,0,0);
 					return TRUE;
@@ -513,7 +477,7 @@ static BOOL CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 /************************* Services ***********************************/
 
-int ServiceShutdown(WPARAM wParam,LPARAM lParam)
+INT_PTR ServiceShutdown(WPARAM wParam,LPARAM lParam)
 {
 	/* passing 0 as wParam is only to be used internally, undocumented */
 	if(!wParam) wParam=DBGetContactSettingByte(NULL,"AutoShutdown","ShutdownType",SETTING_SHUTDOWNTYPE_DEFAULT);
@@ -529,7 +493,7 @@ int ServiceShutdown(WPARAM wParam,LPARAM lParam)
 	NotifyEventHooks(hEventShutdown,wParam,lParam);
 	/* show dialog */
 	if(lParam && DBGetContactSettingByte(NULL,"AutoShutdown","ShowConfirmDlg",SETTING_SHOWCONFIRMDLG_DEFAULT))
-		if(CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_SHUTDOWNNOW),NULL,ShutdownDlgProc,(LPARAM)(BYTE)wParam)!=NULL)
+		if(CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SHUTDOWNNOW), NULL, ShutdownDlgProc, (LPARAM)(BYTE)wParam) != NULL)
 			return 0;
 	/* show error */
 	{	DWORD dwErrCode;
@@ -545,13 +509,12 @@ int ServiceShutdown(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int ServiceIsTypeEnabled(WPARAM wParam,LPARAM lParam)
+INT_PTR ServiceIsTypeEnabled(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(lParam);
 	return IsShutdownTypeEnabled((BYTE)wParam); /* does shutdownType range check */
 }
 
-int ServiceGetTypeDescription(WPARAM wParam,LPARAM lParam)
+INT_PTR ServiceGetTypeDescription(WPARAM wParam,LPARAM lParam)
 {
 	TCHAR *pszDesc;
 	const TCHAR *apszShort[]={_T("Close Miranda IM"),_T("Set Miranda IM offline"),_T("Log off user"),
@@ -574,25 +537,14 @@ int ServiceGetTypeDescription(WPARAM wParam,LPARAM lParam)
 	pszDesc=(TCHAR*)((lParam&GSTDF_LONGDESC)?apszLong:apszShort)[wParam-1];
 	if(!(lParam&GSTDF_UNTRANSLATED)) pszDesc=TranslateTS(pszDesc);
 	/* convert as needed */
-	#if defined(_UNICODE)
-		if(!(lParam&GSTDF_UNICODE)) {
-			static char szConvBuf[128];
-			char *buf=u2a(pszDesc);
-			if(buf==NULL) return (int)NULL;
-			lstrcpynA(szConvBuf,buf,sizeof(szConvBuf));
-			mir_free(buf);
-			return (int)szConvBuf;
-		}
-	#else
-		if(lParam&GSTDF_UNICODE) {
-			static WCHAR szConvBuf[128];
-			WCHAR *buf=a2u(pszDesc);
-			if(buf==NULL) return (int)NULL;
-			lstrcpynW(szConvBuf,buf,SIZEOF(szConvBuf));
-			mir_free(buf);
-			return (int)szConvBuf;
-		}
-	#endif
+	if(!(lParam&GSTDF_UNICODE)) {
+		static char szConvBuf[128];
+		char *buf=u2a(pszDesc);
+		if(buf==NULL) return (int)NULL;
+		lstrcpynA(szConvBuf,buf,sizeof(szConvBuf));
+		mir_free(buf);
+		return (int)szConvBuf;
+	}
 	return (int)pszDesc;
 }
 
@@ -606,9 +558,9 @@ void InitShutdownSvc(void)
 	/* Services */
 	hEventOkToShutdown=CreateHookableEvent(ME_AUTOSHUTDOWN_OKTOSHUTDOWN);
 	hEventShutdown=CreateHookableEvent(ME_AUTOSHUTDOWN_SHUTDOWN);
-	hServiceShutdown=CreateServiceFunction(MS_AUTOSHUTDOWN_SHUTDOWN,ServiceShutdown);
-	hServiceIsTypeEnabled=CreateServiceFunction(MS_AUTOSHUTDOWN_ISTYPEENABLED,ServiceIsTypeEnabled);
-	hServiceGetTypeDesc=CreateServiceFunction(MS_AUTOSHUTDOWN_GETTYPEDESCRIPTION,ServiceGetTypeDescription);
+	hServiceShutdown = CreateServiceFunction(MS_AUTOSHUTDOWN_SHUTDOWN, ServiceShutdown);
+	hServiceIsTypeEnabled = CreateServiceFunction(MS_AUTOSHUTDOWN_ISTYPEENABLED, ServiceIsTypeEnabled);
+	hServiceGetTypeDesc = CreateServiceFunction(MS_AUTOSHUTDOWN_GETTYPEDESCRIPTION, ServiceGetTypeDescription);
 }
 
 void UninitShutdownSvc(void)

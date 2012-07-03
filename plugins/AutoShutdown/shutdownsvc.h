@@ -20,9 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 /* Services */
-int ServiceShutdown(WPARAM wParam,LPARAM lParam);
-int ServiceIsTypeEnabled(WPARAM wParam,LPARAM lParam);
-int ServiceGetTypeDescription(WPARAM wParam,LPARAM lParam);
+INT_PTR ServiceShutdown(WPARAM wParam,LPARAM lParam);
+INT_PTR ServiceIsTypeEnabled(WPARAM wParam,LPARAM lParam);
+INT_PTR ServiceGetTypeDescription(WPARAM wParam,LPARAM lParam);
 
 /* Misc */
 void InitShutdownSvc(void);

@@ -76,7 +76,7 @@ static LRESULT CALLBACK ProgressBarSubclassProc(HWND hwndProgress,UINT msg,WPARA
 		case WM_LBUTTONDBLCLK:
 			return SendMessage(GetParent(hwndProgress),msg,wParam,lParam);
 	}
-	return CallWindowProc((WNDPROC)GetWindowLong(hwndProgress,GWL_USERDATA),hwndProgress,msg,wParam,lParam); 
+	return CallWindowProc((WNDPROC)GetWindowLongPtr(hwndProgress, GWLP_USERDATA), hwndProgress, msg, wParam, lParam); 
 } 
 
 /************************* Window Class *******************************/
@@ -117,12 +117,12 @@ struct CountdownFrameWndData {  /* sizeof=57, max cbClsExtra=40 on Win32 */
 
 static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARAM lParam)
 {
-	struct CountdownFrameWndData *dat=(struct CountdownFrameWndData*)GetWindowLong(hwndFrame,GWL_USERDATA);
+	struct CountdownFrameWndData *dat=(struct CountdownFrameWndData*)GetWindowLongPtr(hwndFrame, GWLP_USERDATA);
 	
 	switch(msg) {
 		case WM_NCCREATE:  /* init window data */
 			dat=(struct CountdownFrameWndData*)mir_calloc(sizeof(*dat));
-			SetWindowLong(hwndFrame,GWL_USERDATA,(LONG)dat);
+			SetWindowLongPtr(hwndFrame, GWLP_USERDATA, (LONG)dat);
 			if(dat==NULL) return FALSE; /* creation failed */
 			dat->fTimeFlags=*(WORD*)((CREATESTRUCT*)lParam)->lpCreateParams;
 			dat->flags=FWPDF_COUNTDOWNINVALID;
@@ -153,7 +153,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					NULL);
 			if(dat->hwndProgress==NULL) return -1; /* creation failed, calls WM_DESTROY */
 			SendMessage(dat->hwndProgress,PBM_SETSTEP,(WPARAM)1,0);
-			SetWindowLong(dat->hwndProgress,GWL_USERDATA,SetWindowLong(dat->hwndProgress,GWL_WNDPROC,(LONG)ProgressBarSubclassProc));
+			SetWindowLongPtr(dat->hwndProgress, GWLP_USERDATA, SetWindowLongPtr(dat->hwndProgress, GWLP_WNDPROC, (LONG)ProgressBarSubclassProc));
 			dat->hwndDesc=CreateWindowEx(WS_EX_NOPARENTNOTIFY,
 					_T("Static"),
 					(dat->fTimeFlags&SDWTF_ST_TIME)?TranslateT("Shutdown at:"):TranslateT("Time left:"),
@@ -243,7 +243,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			if(dat->hFont!=NULL) DeleteObject(dat->hFont);
 			if(dat->hbrBackground!=NULL) DeleteObject(dat->hbrBackground);
 			mir_free(dat);
-			SetWindowLong(hwndFrame,GWL_USERDATA,(LONG)NULL);
+			SetWindowLongPtr(hwndFrame, GWLP_USERDATA, (LONG)NULL);
 			break; 
 		case WM_SIZE:
 		{	RECT rc;
@@ -391,7 +391,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			dat->flags|=FWPDF_COUNTDOWNINVALID;
 			/* step up to upper range */
 			SendMessage(dat->hwndProgress,PBM_SETPOS,SendMessage(dat->hwndProgress,PBM_GETRANGE,FALSE,0),0);
-			SetWindowLong(dat->hwndProgress,GWL_STYLE,GetWindowLong(dat->hwndProgress,GWL_STYLE)|PBM_SETMARQUEE);
+			SetWindowLongPtr(dat->hwndProgress, GWL_STYLE, GetWindowLongPtr(dat->hwndProgress, GWL_STYLE) | PBM_SETMARQUEE);
 			SendMessage(dat->hwndProgress,PBM_SETMARQUEE,TRUE,10); /* marquee for rest of time */
 			return 0;
 		case M_PAUSE_COUNTDOWN:
@@ -477,15 +477,15 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 						if(dat->flags&FWPDF_TIMEISCLIPPED && (HWND)wParam==dat->hwndTime && IsWinVer2000Plus()) {
 							RECT rc;
 							if(GetWindowRect(dat->hwndTime,&rc)) {
-								SetWindowLong(dat->hwndToolTip,GWL_STYLE,GetWindowLong(dat->hwndToolTip,GWL_STYLE)|TTS_NOANIMATE);
-								SetWindowLong(dat->hwndToolTip,GWL_EXSTYLE,GetWindowLong(dat->hwndToolTip,GWL_EXSTYLE)|WS_EX_TRANSPARENT);
+								SetWindowLongPtr(dat->hwndToolTip, GWL_STYLE, GetWindowLongPtr(dat->hwndToolTip, GWL_STYLE) | TTS_NOANIMATE);
+								SetWindowLongPtr(dat->hwndToolTip, GWL_EXSTYLE, GetWindowLongPtr(dat->hwndToolTip, GWL_EXSTYLE) | WS_EX_TRANSPARENT);
 								SendMessage(dat->hwndToolTip,TTM_ADJUSTRECT,TRUE,(LPARAM)&rc);
 								SetWindowPos(dat->hwndToolTip,NULL,rc.left,rc.top,0,0,SWP_NOSIZE|SWP_NOZORDER|SWP_NOACTIVATE);
 								return TRUE; /* self-defined position */
 							}
 						}
-						SetWindowLong(dat->hwndToolTip,GWL_STYLE,GetWindowLong(dat->hwndToolTip,GWL_STYLE)&(~TTS_NOANIMATE));
-						SetWindowLong(dat->hwndToolTip,GWL_EXSTYLE,GetWindowLong(dat->hwndToolTip,GWL_EXSTYLE)&(~WS_EX_TRANSPARENT));
+						SetWindowLongPtr(dat->hwndToolTip, GWL_STYLE, GetWindowLongPtr(dat->hwndToolTip, GWL_STYLE) & (~TTS_NOANIMATE));
+						SetWindowLongPtr(dat->hwndToolTip, GWL_EXSTYLE, GetWindowLongPtr(dat->hwndToolTip, GWL_EXSTYLE) & (~WS_EX_TRANSPARENT));
 						return 0;
 					case TTN_POP:
 						/* workaround #5: frame does not get redrawn after
@@ -592,8 +592,6 @@ void CloseCountdownFrame(void)
 
 static int FrameModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
 	if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		LOGFONT lf;
 		COLORREF clr;

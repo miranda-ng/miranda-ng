@@ -65,7 +65,6 @@ static void __inline ShutdownAndStopWatcher(void)
 // ppBlob might get reallocated, must have been allocated using mir_alloc()
 static TCHAR* GetMessageText(BYTE **ppBlob,DWORD *pcbBlob)
 {
-#if defined(_UNICODE)
 	DWORD cb;
 	(*ppBlob)[*pcbBlob]=0;
 	cb=lstrlenA((char*)*ppBlob);
@@ -88,15 +87,10 @@ static TCHAR* GetMessageText(BYTE **ppBlob,DWORD *pcbBlob)
 		((WCHAR*)buf)[len-1]=0;
 		return (WCHAR*)buf;
 	}
-#else
-	(*ppBlob)[*pcbBlob]=0;
-	return (char*)*ppBlob;
-#endif
 }
 
 static int MsgEventAdded(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
 	if(currentWatcherType&SDWTF_MESSAGE) {
 		DBEVENTINFO dbe;
 		dbe.cbSize=sizeof(dbe);
@@ -128,7 +122,6 @@ static int nTransfersCount;
 static int ProtoAck(WPARAM wParam,LPARAM lParam)
 {
 	ACKDATA *ack=(ACKDATA*)lParam;
-	UNREFERENCED_PARAMETER(wParam);
 	if(ack->type==ACKTYPE_FILE)
 		switch(ack->result) {
 			case ACKRESULT_DATA:
@@ -174,7 +167,6 @@ static int ProtoAck(WPARAM wParam,LPARAM lParam)
 
 static int IdleChanged(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
 	if(currentWatcherType&SDWTF_IDLE && lParam&IDF_ISIDLE)
 		ShutdownAndStopWatcher();
 	return 0;
@@ -258,8 +250,6 @@ static int WeatherUpdated(WPARAM wParam,LPARAM lParam)
 
 static int HddOverheat(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
 	if(DBGetContactSettingByte(NULL,"AutoShutdown","HddOverheatShutdown",SETTING_HDDOVERHEATSHUTDOWN_DEFAULT))
 		ServiceShutdown(SDSDT_SHUTDOWN,TRUE);
 	return 0;
@@ -267,10 +257,8 @@ static int HddOverheat(WPARAM wParam,LPARAM lParam)
 
 /************************* Services ***********************************/
 
-int ServiceStartWatcher(WPARAM wParam,LPARAM lParam)
+INT_PTR ServiceStartWatcher(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
-
 	/* passing watcherType as lParam is only to be used internally, undocumented */
 	if(lParam==0) lParam=(LPARAM)DBGetContactSettingWord(NULL,"AutoShutdown","WatcherFlags",0);
 
@@ -304,10 +292,8 @@ int ServiceStartWatcher(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int ServiceStopWatcher(WPARAM wParam,LPARAM lParam)
+INT_PTR ServiceStopWatcher(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
 	if(currentWatcherType==0) return 1;
 
 	/* Time Shutdown */
@@ -323,10 +309,8 @@ int ServiceStopWatcher(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int ServiceIsWatcherEnabled(WPARAM wParam,LPARAM lParam)
+INT_PTR ServiceIsWatcherEnabled(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
 	return currentWatcherType!=0;
 }
 
@@ -334,9 +318,6 @@ int ServiceIsWatcherEnabled(WPARAM wParam,LPARAM lParam)
 
 static int WatcherModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
-
 	/* Weather Shutdown */
 	if(ServiceExists(MS_WEATHER_UPDATE))
 		hHookWeatherUpdated=HookEvent(ME_WEATHER_UPDATED,WeatherUpdated);
@@ -372,9 +353,9 @@ void InitWatcher(void)
 	hHookHddOverheat=NULL;
 	/* Services */
 	hEventWatcherChanged=CreateHookableEvent(ME_AUTOSHUTDOWN_WATCHERCHANGED);
-	hServiceStartWatcher=CreateServiceFunction(MS_AUTOSHUTDOWN_STARTWATCHER,ServiceStartWatcher);
- 	hServiceStopWatcher=CreateServiceFunction(MS_AUTOSHUTDOWN_STOPWATCHER,ServiceStopWatcher);
-	hServiceIsEnabled=CreateServiceFunction(MS_AUTOSHUTDOWN_ISWATCHERENABLED,ServiceIsWatcherEnabled);
+	hServiceStartWatcher = CreateServiceFunction(MS_AUTOSHUTDOWN_STARTWATCHER, ServiceStartWatcher);
+ 	hServiceStopWatcher = CreateServiceFunction(MS_AUTOSHUTDOWN_STOPWATCHER, ServiceStopWatcher);
+	hServiceIsEnabled = CreateServiceFunction(MS_AUTOSHUTDOWN_ISWATCHERENABLED, ServiceIsWatcherEnabled);
 	/* Misc */
 	hHookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,WatcherModulesLoaded);
 }

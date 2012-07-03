@@ -24,28 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /************************* String *********************************/
 
 // mir_free() the return value
-#if !defined(_UNICODE)
-WCHAR* a2u(const char *pszAnsi)
-{
-	int codepage,cch;
-	WCHAR *psz;
-	
-	if(pszAnsi==NULL) return NULL;
-	codepage=CallService(MS_LANGPACK_GETCODEPAGE,0,0);
-	cch=MultiByteToWideChar(codepage,0,pszAnsi,-1,NULL,0);
-	if(!cch) return NULL;
-
-	psz=(WCHAR*)mir_alloc(cch*sizeof(WCHAR));
-	if(psz!=NULL && !MultiByteToWideChar(codepage,0,pszAnsi,-1,psz,cch)) {
-		mir_free(psz);
-		return NULL;
-	}
-	return psz;
-}
-#endif
-
-// mir_free() the return value
-#if defined(_UNICODE)
 char* u2a(const WCHAR *pszUnicode)
 {
 	int codepage,cch;
@@ -66,7 +44,6 @@ char* u2a(const WCHAR *pszUnicode)
 	}
 	return psz;
 }
-#endif
 
 void TrimString(TCHAR *pszStr)
 {
@@ -182,28 +159,17 @@ BOOL GetFormatedCountdown(TCHAR *pszOut,int nSize,time_t countdown)
 {
 	static BOOL fInited=FALSE;
 	static int (WINAPI *pfnStrFromTimeInterval)(TCHAR*,UINT,DWORD,int);
-	#if defined(_UNICODE)
 	static int (WINAPI *pfnGetDurationFormat)(LCID,DWORD,const SYSTEMTIME*,double,WCHAR*,WCHAR*,int); 
-	#endif
 	/* Init */
 	if(!fInited) {
-		#if defined(_UNICODE)
 		*(PROC*)&pfnGetDurationFormat=GetProcAddress(GetModuleHandleA("KERNEL32"),"GetDurationFormat");
 		if(pfnGetDurationFormat==NULL) {
-		#endif
 			HMODULE hShlwDLL=LoadLibraryA("SHLWAPI"); /* all ascii */
-			#if defined(_UNICODE)
-				*(PROC*)&pfnStrFromTimeInterval=GetProcAddress(hShlwDLL,"StrFromTimeIntervalW");
-			#else
-				*(PROC*)&pfnStrFromTimeInterval=GetProcAddress(hShlwDLL,"StrFromTimeIntervalA");
-			#endif
-		#if defined(_UNICODE)
+			*(PROC*)&pfnStrFromTimeInterval=GetProcAddress(hShlwDLL,"StrFromTimeIntervalW");
 		}
-		#endif
 		fInited=TRUE;
 	}
 	/* WinVista */
-	#if defined(_UNICODE)
 	if(pfnGetDurationFormat!=NULL) {
 		SYSTEMTIME st;
 		LCID locale;
@@ -213,7 +179,6 @@ BOOL GetFormatedCountdown(TCHAR *pszOut,int nSize,time_t countdown)
 				return TRUE;
 		return FALSE;
 	}
-	#endif
 	/* Win9x/NT/XP */
 	if(pfnStrFromTimeInterval!=NULL)
 		return pfnStrFromTimeInterval(pszOut,nSize,(countdown>(MAXDWORD/1000))?MAXDWORD:(countdown*1000),10)!=0;
@@ -362,101 +327,16 @@ int SkinAddNewSoundBundled(const char *pszDbName,const char *pszSection,const ch
 	return 0;
 }
 
-/* workaround for 'Hotkey Service' plugin because it has needs an event catcher */
-static char szHotkeyService[MAXMODULELABELLENGTH];
-static int moduleId,itemId;
-static int HotkeysServiceHotkeyPressed(WPARAM wParam,LPARAM lParam)
+void AddHotkey()
 {
-	UNREFERENCED_PARAMETER(lParam);
-	if(((THKSEvent*)wParam)->moduleId==moduleId && ((THKSEvent*)wParam)->itemId==LOWORD(itemId))
-		CallService(szHotkeyService,0,0);
-	return 0;
-}
-
-/* defines for 'Hotkey Manager' */
-#define HK_ACT_OVERWRITE  0
-#define HKF_GLOBAL        0x00000001
-#define HKF_WPARNUM       0x00000008
-#define HKF_HEX           0x00000200
-#define HKF_LCURRENT      0x00001000
-#define HKT_SERVICE       2
-typedef struct {
-	void *reserved1;
-	void *reserved2;
-	int hotkey;
-	WCHAR* descr;
-	DWORD flags;
-	ATOM reserved3;
-	DWORD _type;
-	char* service;
-	WPARAM wparam;
-	LPARAM lparam;
-} HOTKEYREC;
-#define MS_HK_ADDHOTKEY  "HotKey/AddHotkey"
-
-int SkinAddNewHotkey(const char *pszDbName,const char *pszSection,const char *pszDescription,UINT vk,UINT hotkeyfModifiers,const char *pszServiceName)
-{
-	if(ServiceExists(MS_SKIN_ADDHOTKEY)) { /* clist_mw, clist_modern */
-		SKINHOTKEYDESCEX shd;
-		ZeroMemory(&shd,sizeof(shd));
-		shd.cbSize=sizeof(shd);
-		shd.pszName=(char*)pszDbName;
-		shd.pszDescription=(char*)pszDescription;
-		shd.pszSection=(char*)pszSection;
-		shd.pszService=(char*)pszServiceName;
-		shd.DefHotKey=MAKEWORD(vk,hotkeyfModifiers);
-		CallService(MS_SKIN_ADDHOTKEY,0,(LPARAM)&shd);
-		/* no return */
-	}
-	if(ServiceExists(MS_HOTKEYSPLUS_ADDKEY)) /* 'Hotkeys Plus' */
-		return CallService(MS_HOTKEYSPLUS_ADDKEY,(WPARAM)pszServiceName,(LPARAM)pszDescription);
-	if(ServiceExists(HKS_REGISTERFUNCTION)) { /* mHotKey */
-		KEYHASH kh;
-		kh.isShift=(hotkeyfModifiers&HOTKEYF_SHIFT)!=0;
-		kh.isCtrl=(hotkeyfModifiers&HOTKEYF_CONTROL)!=0;
-		kh.isAlt=(hotkeyfModifiers&HOTKEYF_ALT)!=0;
-		kh.vkCode=vk;
-		return !CallService(HKS_REGISTERFUNCTION,(WPARAM)&kh,(LPARAM)pszServiceName);
-	}
-	if(ServiceExists(MS_HK_ADDHOTKEY)) { /* 'Hotkey Manager' */
-		HOTKEYREC hkr;
-		ZeroMemory(&hkr,sizeof(hkr));
-		hkr.hotkey=(int)MAKEWORD(vk,hotkeyfModifiers);
-		#if defined(_UNICODE)
-			hkr.descr=(WCHAR*)pszDescription;
-		#else
-			hkr.descr=(WCHAR*)a2u(pszDescription);
-		#endif
-		hkr.flags=HKF_GLOBAL|HKF_WPARNUM|HKF_LCURRENT|HKF_HEX;
-		hkr._type=HKT_SERVICE;
-		hkr.service=(char*)pszServiceName;
-		CallService(MS_HK_ADDHOTKEY,(WPARAM)&hkr,HK_ACT_OVERWRITE);
-		#if !defined(_UNICODE)
-			mir_free(hkr.descr);
-		#endif
-		return 0;
-	}
-	if(ServiceExists(MS_HKS_REGISTER_ITEM)) { /* 'Hotkeys Service' */
-		THKSItem item;
-		ZeroMemory(&item,sizeof(item));
-		item.name=(char*)pszSection;
-		item.itemType=HKS_ITEM_MODULE;
-		item.owner=LOWORD(CallService(MS_HKS_REGISTER_ITEM,(WPARAM)&item,0));
-		item.name=(char*)pszDescription;
-		item.itemType=HKS_ITEM_ACTION;
-		item.hotkey.key=(WORD)vk;
-		item.hotkey.modifiers=MOD_GLOBAL;
-		if(hotkeyfModifiers&HOTKEYF_ALT) item.hotkey.modifiers|=MOD_ALT;
-		if(hotkeyfModifiers&HOTKEYF_CONTROL) item.hotkey.modifiers|=MOD_CONTROL;
-		if(hotkeyfModifiers&HOTKEYF_SHIFT) item.hotkey.modifiers|=MOD_SHIFT;
-		if(hotkeyfModifiers&HOTKEYF_EXT) item.hotkey.modifiers|=MOD_WIN;
-		/* no possibility to specify a service to call,
-		 * all processing needs to be done in the plugins */
-		moduleId=item.owner;
-		mir_snprintf(szHotkeyService,sizeof(szHotkeyService),"%s",pszServiceName); // only allows for one hotkey as a whole
-		HookEvent(ME_HKS_KEY_PRESSED,HotkeysServiceHotkeyPressed);
-		itemId=CallService(MS_HKS_REGISTER_ITEM,(WPARAM)&item,0);
-		return HIWORD(itemId);
-	}
-	return 1;
+	HOTKEYDESC hkd = {0};
+	hkd.cbSize = sizeof(hkd);
+	hkd.dwFlags = HKD_TCHAR;
+	hkd.pszName = "AutoShutdown_Toggle";
+	hkd.ptszDescription = _T("Toggle Automatic Shutdown");
+	hkd.ptszSection = _T("Main");
+	hkd.pszService = "AutoShutdown/MenuCommand";
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'T') | HKF_MIRANDA_LOCAL;
+	hkd.lParam = FALSE;
+	Hotkey_Register(&hkd);
 }
