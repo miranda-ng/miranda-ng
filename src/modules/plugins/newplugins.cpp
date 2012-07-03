@@ -186,20 +186,13 @@ static const TCHAR* expiredModulesToSkip[] =
 
 static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 {
-	int bHasValidInfo = FALSE;
-
 	if (pi == NULL)
 		return FALSE;
 
-	if (bpi->InfoEx) {
-		if (pi->cbSize == sizeof(PLUGININFOEX))
-			if ( !validInterfaceList(bpi->Interfaces) || isPluginBanned(pi->uuid, pi->version))
-				return FALSE;
+	if (bpi->InfoEx == NULL || pi->cbSize != sizeof(PLUGININFOEX))
+		return FALSE;
 
-		bHasValidInfo = TRUE;
-	}
-
-	if ( !bHasValidInfo)
+	if ( !validInterfaceList(bpi->Interfaces) || isPluginBanned(pi->uuid, pi->version))
 		return FALSE;
 
 	if (pi->shortName == NULL || pi->description == NULL || pi->author == NULL  ||
