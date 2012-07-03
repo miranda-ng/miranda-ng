@@ -80,7 +80,7 @@ int LoadFontserviceModule(void)
 	CreateServiceFunction(MS_COLOUR_GETW, GetColourW);
 
 	CreateServiceFunction("Effect/Register", RegisterEffect);
-	CreateServiceFunction("Effect/Register", RegisterEffectW);
+	CreateServiceFunction("Effect/RegisterW", RegisterEffectW);
 	CreateServiceFunction(MS_EFFECT_GET, GetEffect);
 	CreateServiceFunction(MS_EFFECT_GETW, GetEffectW);
 
