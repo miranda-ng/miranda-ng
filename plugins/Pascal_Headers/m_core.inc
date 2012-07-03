@@ -169,8 +169,6 @@ function SetHookDefaultForHookableEvent(hEvent:THANDLE; pfnHook:TMIRANDAHOOK):in
                                         external CoreDLL name 'SetHookDefaultForHookableEvent';
 function CallPluginEventHook(hInst:HINST; hEvent:THANDLE; wParam:WPARAM; lParam:LPARAM):int; stdcall;
                              external CoreDLL name 'CallPluginEventHook';
-function CallHookSubscribers(hEvent:THANDLE; wParam:WPARAM; lParam:LPARAM):int; stdcall;
-                             external CoreDLL name 'CallHookSubscribers';
 function NotifyEventHooks(hEvent:THANDLE; wParam:WPARAM; lParam:LPARAM): int; stdcall;
                           external CoreDLL name 'NotifyEventHooks';
 
@@ -498,8 +496,8 @@ function forkthread(func:pThreadFunc; stacksize:uint; arg:pointer):uint_ptr; std
 function forkthreadex(sec:pointer; stacksize:uint; func:pThreadFuncEx; owner:pointer; arg:pointer; thraddr:puint_ptr):uint_ptr; stdcall;
                       external CoreDLL name 'forkthreadex';
 
-procedure Thread_SetName(dwThreadID:dword; const szThreadName:pAnsiChar); stdcall;
-                            external CoreDLL name 'Thread_SetName';
+procedure Thread_SetName(const szThreadName:pAnsiChar); stdcall;
+                         external CoreDLL name 'Thread_SetName';
 
 procedure KillObjectThreads(pObject:pointer); stdcall;
                             external CoreDLL name 'KillObjectThreads';
@@ -507,7 +505,7 @@ procedure KillObjectThreads(pObject:pointer); stdcall;
 
 ///////////////////////////////////////////////////////////////////////////////
 // utf8 interface
-
+{ commented to avoid newer Delphi version conflicts
 function Utf8Decode(str:PAnsiChar; var ucs2:pWideChar):PAnsiChar;stdcall;
                     external CoreDLL name 'Utf8Decode';
 function Utf8DecodeCP(str:PAnsiChar; codepage:int; var ucs2:pWideChar):PAnsiChar;stdcall;
@@ -526,6 +524,7 @@ function Utf8EncodeW(const src:PWideChar):PAnsiChar;stdcall;
 
 function Ucs2toUtf8Len(const src:pWideChar):int; stdcall;
                        external CoreDLL name 'Ucs2toUtf8Len';
+}
 // aliases
 function mir_utf8decode(str:PAnsiChar; var ucs2:pWideChar):PAnsiChar;stdcall;
                        external CoreDLL name 'Utf8Decode';

@@ -2,430 +2,408 @@ unit general;
 
 interface
 
-uses Windows,Messages,SysUtils,IniFiles,
-     m_api,
-     ImportT,
-     ImportTU;
-
-var MirVers:DWORD;
-    IsMirandaUnicode:boolean;
-    cp:cardinal;
+uses
+  Windows, Messages, SysUtils, IniFiles,
+  m_api,
+  ImportT,
+  ImportTU;
 
 var
-   AppPath:array[0..MAX_PATH] of char;
-   TxtPatterns: array of RTxtPattern;
-   PatternNames: array of PChar;
-   PatternsCount:integer;
-   Protocols:array of TDestProto;
-   ProtoCount: integer;
-   CheckForDuplicates:boolean;
-   ShowDuplicates:boolean;
-
-const
-  BIN_PROCEDURE_COUNT=6; //количество реализованых процедур бинарного импорта 
-
-const
-  {$EXTERNALSYM PBM_SETRANGE}
-  PBM_SETRANGE            = WM_USER+1;
-  {$EXTERNALSYM PBM_SETPOS}
-  PBM_SETPOS              = WM_USER+2;
-
-const
-  IMPORT_TXT_MODULE=  'ImportTXT';
-  IMPORT_TXT_SERVICE= IMPORT_TXT_MODULE+'/Import';
-  IMPORT_WIZ_SERVICE= IMPORT_TXT_MODULE+'/Wizard';
-
-  //keys
-  IMPORT_TXT_AS=      'AutoStart';
-  IMPORT_TXT_LP=      'LastPattern';
-
-type TOnAccountListChange = procedure ();
+  cp: cardinal;
 
 var
-  OnAccountListChange:TOnAccountListChange;
+  AppPath: array [0 .. MAX_PATH] of Char;
+  TxtPatterns: array of RTxtPattern;
+  Protocols: array of TDestProto;
+  ProtoCount: integer;
+  CheckForDuplicates: boolean;
+  ShowDuplicates: boolean;
 
-function ReadPattern(FileName: string):boolean;
+const
+  BIN_PROCEDURE_COUNT = 6; // количество реализованых процедур бинарного импорта
+
+const
+{$EXTERNALSYM PBM_SETRANGE}
+  PBM_SETRANGE = WM_USER + 1;
+{$EXTERNALSYM PBM_SETPOS}
+  PBM_SETPOS = WM_USER + 2;
+
+const
+  IMPORT_TXT_MODULE = 'ImportTXT';
+  IMPORT_TXT_SERVICE = IMPORT_TXT_MODULE + '/Import';
+  IMPORT_WIZ_SERVICE = IMPORT_TXT_MODULE + '/Wizard';
+
+  // keys
+  IMPORT_TXT_AS = 'AutoStart';
+  IMPORT_TXT_LP = 'LastPattern';
+
+type
+  TOnAccountListChange = procedure();
+
+var
+  OnAccountListChange: TOnAccountListChange;
+
 procedure ReadPatterns;
-procedure ExtractFilePath(fName:PChar);
-function fIsMirandaUnicode:boolean;
-function GetContactProto(hContact: THandle): String;
-function GetContactByUID(proto:string;id:string):THandle;
-function GetContactByNick(Proto:string;Nick:string):THandle;
+procedure ExtractFilePath(fName: PAnsiChar);
+function GetContactProto(hContact: THandle): AnsiString;
+function GetContactByUID(const proto: AnsiString; const id: AnsiString): THandle;
+function GetContactByNick(const proto: AnsiString; const Nick: WideString): THandle;
 procedure EnumProtocols;
-function GetContactID(hContact: THandle; Proto: String = ''; Contact: boolean = false): String;
-function GetContactNick(hContact: THandle; Proto: String = ''; Contact: boolean = false): String;
-function DBReadByte (hContact:THANDLE;szModule:PChar;szSetting:PChar;default:byte =0):byte;
-function DBWriteByte (hContact:THANDLE;szModule:PChar;szSetting:PChar;val:Byte ):Integer;
-procedure SetLastPattern(lp:byte);
-function GetLastPattern:byte;
-function TimeStampToWStr(ts:dword):WideString;
-function StrToTimeStamp(STime:PChar;len:integer):dword;
+function GetContactID(hContact: THandle; proto: AnsiString = ''; Contact: boolean = false): WideString;
+function GetContactNick(hContact: THandle; proto: AnsiString = ''; Contact: boolean = false): WideString;
+function DBReadByte(hContact: THandle; szModule: PAnsiChar; szSetting: PAnsiChar; default: byte = 0): byte;
+function DBWriteByte(hContact: THandle; szModule: PAnsiChar; szSetting: PAnsiChar; val: byte): integer;
+procedure SetLastPattern(lp: byte);
+function GetLastPattern: byte;
+function TimeStampToWStr(ts: DWORD): WideString;
+function StrToTimeStamp(STime: PAnsiChar; len: integer): DWORD;
 
-function RLWord(adr:integer):word;
-function RLInteger(adr:integer):integer;
+function RLWord(adr: integer): word;
+function RLInteger(adr: integer): integer;
 
 implementation
 
-
-procedure ExtractFilePath(fName:PChar);
-var p:PChar;
+procedure ExtractFilePath(fName: PAnsiChar);
+var
+  p: PAnsiChar;
 begin
-  p:=fName;
-  if p<>nil then
-   begin
-    while p^<>#0 do inc(p);
-    while p^<>'\' do dec(p);
+  p := fName;
+  if p <> nil then
+  begin
+    while p^ <> #0 do
+      inc(p);
+    while p^ <> '\' do
+      dec(p);
     inc(p);
-    p^:=#0;
-   end;
+    p^ := #0;
+  end;
 end;
 
-function ReadPattern(FileName: string):boolean;
-var TI: TIniFile;
-    h:integer;
-    Err:boolean;
-    tempstr:string;
+function ReadPattern(const FileName: String): boolean;
+var
+  TI: TIniFile;
+  tempstr: String;
+  pattern:pRTxtPattern;
 begin
- err:=false;
- TI:=TIniFile.Create(FileName);
- try
-  h:=High(TxtPatterns);
-  if not TI.SectionExists('General') then begin result:=true; exit; end;
-    //if "General" exists
-    if TI.ValueExists('General','Name') then TxtPatterns[h].Name:=TI.ReadString('General','Name','')
-                                        else err:=true;
-    if TI.ValueExists('General','Type') then TxtPatterns[h].IType:=TI.ReadInteger('General','Type',1)
-                                        else err:=true;
-    case TxtPatterns[h].IType of
-    1:
-     begin
-      if TI.ValueExists('General','Charset') then
-       begin
-        tempstr:=TI.ReadString('General','Charset','UTF8');
-         if tempstr='ANSI' then TxtPatterns[h].Charset:=inANSI
-                           else
-         if tempstr='UTF8' then TxtPatterns[h].Charset:=inUTF8
-                           else
-         if tempstr='UCS2' then TxtPatterns[h].Charset:=inUCS2
-                           else err:=true;
-       end
-                                             else err:=true;
-      if TxtPatterns[h].Charset=inANSI then
-       begin
-        TxtPatterns[h].Codepage:= TI.ReadInteger('General','Codepage',0);
-        if not IsValidCodePage(TxtPatterns[h].Codepage) then TxtPatterns[h].Codepage:=0;
-       end;
-      TxtPatterns[h].UseHeader:=TI.ReadInteger('General','UseHeader',0);
-      TxtPatterns[h].UsePreMsg:=TI.ReadBool('General','UsePreMsg',false);
-      // Read message section
-      if TI.SectionExists('Message') then
-       begin
-        if TI.ValueExists('Message','Pattern') then TxtPatterns[h].Msg.Pattern:=TI.ReadString('Message','Pattern','')
-                                               else err:=true;
-        TxtPatterns[h].Msg.Incoming:=TI.ReadString('Message','In','');
-        TxtPatterns[h].Msg.Outgoing:=TI.ReadString('Message','Out','');
-        if TI.ValueExists('Message','Direction') then TxtPatterns[h].Msg.Direction:=TI.ReadInteger('Message','Direction',0)
-                                                 else err:=true;
-        if TI.ValueExists('Message','Day') then TxtPatterns[h].Msg.Day:=TI.ReadInteger('Message','Day',0)
-                                           else err:=true;
-        if TI.ValueExists('Message','Month') then TxtPatterns[h].Msg.Month:=TI.ReadInteger('Message','Month',0)
-                                             else err:=true;
-        if TI.ValueExists('Message','Year') then TxtPatterns[h].Msg.Year:=TI.ReadInteger('Message','Year',0)
-                                            else err:=true;
-        if TI.ValueExists('Message','Hours') then TxtPatterns[h].Msg.Hours:=TI.ReadInteger('Message','Hours',0)
-                                             else err:=true;
-        if TI.ValueExists('Message','Minutes') then TxtPatterns[h].Msg.Minutes:=TI.ReadInteger('Message','Minutes',0)
-                                               else err:=true;
-        TxtPatterns[h].Msg.Seconds:=TI.ReadInteger('Message','Seconds',0)
-       end
-                                      else err:=true;
-      // if need read header section
-      if (TxtPatterns[h].UseHeader>0) then
-       if TI.SectionExists('Header') then
+  TI := TIniFile.Create(FileName);
+  try
+    if not TI.SectionExists('General') then
+      exit;
+
+    pattern:=@TxtPatterns[High(TxtPatterns)];
+    // if "General" exists
+    if TI.ValueExists('General', 'Name') then
+      pattern^.Name := TI.ReadString('General', 'Name', '')
+    else
+      exit;
+    if TI.ValueExists('General', 'Type') then
+      pattern^.IType := TI.ReadInteger('General', 'Type', 1)
+    else
+      exit;
+    case pattern^.IType of
+      1:
         begin
-         if TI.ValueExists('Header','Pattern') then TxtPatterns[h].Header.Pattern:=TI.ReadString('Header','Pattern','')
-                                               else err:=true;
-         if (not TI.ValueExists('Header','In')) and ((TxtPatterns[h].UseHeader and 1)=1) then err:=true;
-         TxtPatterns[h].Header.Incoming:=TI.ReadInteger('Header','In',0);
-         TxtPatterns[h].Header.Outgoing:=TI.ReadInteger('Header','Out',0);
-         TxtPatterns[h].Header.InNick:=TI.ReadInteger('Header','InNick',0);
-         TxtPatterns[h].Header.OutNick:=TI.ReadInteger('Header','OutNick',0);
-         TxtPatterns[h].Header.InUID:=TI.ReadInteger('Header','InUID',0);
-         TxtPatterns[h].Header.OutUID:=TI.ReadInteger('Header','OutUID',0);
-         if ((TxtPatterns[h].UseHeader and 2)=2) then
-           if (TxtPatterns[h].Header.InNick=0) and (TxtPatterns[h].Header.InUID=0) then err:=true;
-        end
-                                     else err:=true;
-      // if nead read PreMessage section
-      if TxtPatterns[h].UsePreMsg then
-      if TI.SectionExists('PreMessage') then
-       begin
-        TxtPatterns[h].PreMsg.PreRN:=TI.ReadInteger('PreMessage','PreRN',-1);
-        TxtPatterns[h].PreMsg.AfterRN:=TI.ReadInteger('PreMessage','AfterRN',-1);
-        TxtPatterns[h].PreMsg.PreSP:=TI.ReadInteger('PreMessage','PreSP',0);
-        TxtPatterns[h].PreMsg.AfterSP:=TI.ReadInteger('PreMessage','AfterSP',0);
-       end
-                                        else err:=true;
-     end; //1
-    2:
-     begin
-      TxtPatterns[h].BinProc:= TI.ReadInteger('General','BinProcedure',0);
-      if (TxtPatterns[h].BinProc>BIN_PROCEDURE_COUNT) then err:=true;
-     end;
-    end; //case
-  TxtPatterns[h].DefExtension:=TI.ReadString('General','DefaultExtension','txt');
-  TxtPatterns[h].UseFileName:=TI.ReadBool('General','UseFileName',false);
-  // if nead read FileName section
-  if TxtPatterns[h].UseFileName then
-   if TI.SectionExists('FileName') then
-    begin
-     if TI.ValueExists('FileName','Pattern') then TxtPatterns[h].FName.Pattern:=TI.ReadString('FileName','Pattern','')
-                                             else err:=true;
-     TxtPatterns[h].FName.InNick:=TI.ReadInteger('FileName','InNick',0);
-     TxtPatterns[h].FName.InUID:=TI.ReadInteger('FileName','InUID',0);
-     if (TxtPatterns[h].FName.InNick=0) and (TxtPatterns[h].FName.InUID=0) then err:=true;
-     TxtPatterns[h].FName.OutNick:=TI.ReadInteger('FileName','OutNick',0);
-     TxtPatterns[h].FName.OutUID:=TI.ReadInteger('FileName','OutUID',0);
-    end
-                                 else err:=true;
- finally
-  TI.Free;
- end;
- Result:=err;
+          if TI.ValueExists('General', 'Charset') then
+          begin
+            tempstr := TI.ReadString('General', 'Charset', 'UTF8');
+            if tempstr = 'ANSI' then
+              pattern^.Charset := inANSI
+            else if tempstr = 'UTF8' then
+              pattern^.Charset := inUTF8
+            else if tempstr = 'UCS2' then
+              pattern^.Charset := inUCS2
+            else
+              exit;
+          end
+          else
+            exit;
+          if pattern^.Charset = inANSI then
+          begin
+            pattern^.Codepage := TI.ReadInteger('General', 'Codepage', 0);
+            if not IsValidCodePage(pattern^.Codepage) then
+              pattern^.Codepage := 0;
+          end;
+          pattern^.UseHeader := TI.ReadInteger('General', 'UseHeader', 0);
+          pattern^.UsePreMsg := TI.ReadBool('General', 'UsePreMsg', false);
+          // Read message section
+          if TI.SectionExists('Message') then
+          begin
+            if TI.ValueExists('Message', 'Pattern') then
+              pattern^.Msg.Pattern := TI.ReadString('Message', 'Pattern', '')
+            else
+              exit;
+            pattern^.Msg.Incoming := TI.ReadString('Message', 'In', '');
+            pattern^.Msg.Outgoing := TI.ReadString('Message', 'Out', '');
+            if TI.ValueExists('Message', 'Direction') then
+              pattern^.Msg.Direction := TI.ReadInteger('Message', 'Direction', 0)
+            else
+              exit;
+            if TI.ValueExists('Message', 'Day') then
+              pattern^.Msg.Day := TI.ReadInteger('Message', 'Day', 0)
+            else
+              exit;
+            if TI.ValueExists('Message', 'Month') then
+              pattern^.Msg.Month := TI.ReadInteger('Message', 'Month', 0)
+            else
+              exit;
+            if TI.ValueExists('Message', 'Year') then
+              pattern^.Msg.Year := TI.ReadInteger('Message', 'Year', 0)
+            else
+              exit;
+            if TI.ValueExists('Message', 'Hours') then
+              pattern^.Msg.Hours := TI.ReadInteger('Message', 'Hours', 0)
+            else
+              exit;
+            if TI.ValueExists('Message', 'Minutes') then
+              pattern^.Msg.Minutes := TI.ReadInteger('Message', 'Minutes', 0)
+            else
+              exit;
+            pattern^.Msg.Seconds := TI.ReadInteger('Message', 'Seconds', 0)
+          end
+          else
+            exit;
+          // if need read header section
+          if (pattern^.UseHeader > 0) then
+            if TI.SectionExists('Header') then
+            begin
+              if TI.ValueExists('Header', 'Pattern') then
+                pattern^.Header.Pattern := TI.ReadString('Header', 'Pattern', '')
+              else
+                exit;
+              if (not TI.ValueExists('Header', 'In')) and
+                 ((pattern^.UseHeader and 1) = 1) then
+                exit;
+              pattern^.Header.Incoming := TI.ReadInteger('Header', 'In', 0);
+              pattern^.Header.Outgoing := TI.ReadInteger('Header', 'Out', 0);
+              pattern^.Header.InNick := TI.ReadInteger('Header', 'InNick', 0);
+              pattern^.Header.OutNick := TI.ReadInteger('Header', 'OutNick', 0);
+              pattern^.Header.InUID := TI.ReadInteger('Header', 'InUID', 0);
+              pattern^.Header.OutUID := TI.ReadInteger('Header', 'OutUID', 0);
+              if ((pattern^.UseHeader and 2) = 2) then
+                if (pattern^.Header.InNick = 0) and
+                   (pattern^.Header.InUID = 0) then
+                  exit;
+            end
+            else
+              exit;
+          // if nead read PreMessage section
+          if pattern^.UsePreMsg then
+            if TI.SectionExists('PreMessage') then
+            begin
+              pattern^.PreMsg.PreRN := TI.ReadInteger('PreMessage', 'PreRN', -1);
+              pattern^.PreMsg.AfterRN := TI.ReadInteger('PreMessage', 'AfterRN', -1);
+              pattern^.PreMsg.PreSP := TI.ReadInteger('PreMessage', 'PreSP', 0);
+              pattern^.PreMsg.AfterSP := TI.ReadInteger('PreMessage', 'AfterSP', 0);
+            end
+            else
+              exit;
+        end; // 1
+      2:
+        begin
+          pattern^.BinProc := TI.ReadInteger('General', 'BinProcedure', 0);
+          if (pattern^.BinProc > BIN_PROCEDURE_COUNT) then
+            exit;
+        end;
+    end; // case
+    pattern^.DefExtension := TI.ReadString('General', 'DefaultExtension', 'txt');
+    pattern^.UseFileName := TI.ReadBool('General', 'UseFileName', false);
+    // if nead read FileName section
+    if pattern^.UseFileName then
+      if TI.SectionExists('FileName') then
+      begin
+        if TI.ValueExists('FileName', 'Pattern') then
+          pattern^.fName.Pattern := TI.ReadString('FileName', 'Pattern', '')
+        else
+          exit;
+        pattern^.fName.InNick := TI.ReadInteger('FileName', 'InNick', 0);
+        pattern^.fName.InUID := TI.ReadInteger('FileName', 'InUID', 0);
+        if (pattern^.fName.InNick = 0) and (pattern^.fName.InUID = 0) then
+          exit;
+        pattern^.fName.OutNick := TI.ReadInteger('FileName', 'OutNick', 0);
+        pattern^.fName.OutUID := TI.ReadInteger('FileName', 'OutUID', 0);
+      end
+      else
+        exit;
+  finally
+    TI.Free;
+    result := true;
+  end;
+  result := false;
 end;
 
 procedure ReadPatterns;
 var
   SR: TSearchRec;
-  FileAttrs: Integer;
-  i:integer;
+  FileAttrs: integer;
+  i: integer;
 begin
- FileAttrs:=faAnyFile;
- i:=0;
- if FindFirst(AppPath+'\importtxt\*.ini',FileAttrs,SR)=0 then
-    begin
-     repeat
-      SetLength(TxtPatterns,i+1);
-      SetLength(PatternNames,i+1);
-      if not ReadPattern(AppPath+'\importtxt\'+SR.Name) then
-             begin
-            PatternNames[i]:= PChar(TxtPatterns[i].Name);
-            inc(i);
-             end;
-     until FindNext(SR) <> 0 ;
-     FindClose(SR);
-    end;
- PatternsCount:=i;
+  FileAttrs := faAnyFile;
+  i := 0;
+  if FindFirst(AppPath + '\importtxt\*.ini', FileAttrs, SR) = 0 then
+  begin
+    repeat
+      SetLength(TxtPatterns, i+1);
+      if not ReadPattern(AppPath + '\importtxt\' + SR.Name) then
+        inc(i);
+    until FindNext(SR) <> 0;
+    FindClose(SR);
+  end;
+  // cut unneded
+  SetLength(TxtPatterns, i);
 end;
 
-
-function GetContactByUID(proto:string;id:string):THandle;
+function GetContactByUID(const proto: AnsiString; const id: AnsiString): THandle;
 var
-  contact:THandle;
-  otherproto:string;
-  ci:TCONTACTINFO;
-  idnum:integer;
-  tempwstr:PWideChar;
-  ws:WideString;
+  Contact: THandle;
+  otherproto: AnsiString;
+  ci: TCONTACTINFO;
+  idnum: integer;
+  tempwstr: PWideChar;
+  ws: WideString;
 begin
-  if not TryStrToInt(id,idnum) then idnum:=0;
-  if IsMirandaUnicode then
-    begin
-     tempwstr:=UTF8ToWide(PChar(id),tempwstr);
-     ws :=tempwstr;
-     FreeMem(tempwstr);
-    end;
-  result:=INVALID_HANDLE_VALUE;
-  contact:=pluginlink^.CallService(MS_DB_CONTACT_FINDFIRST, 0, 0 );
-  while (contact<>0) do
+  if not TryStrToInt(id, idnum) then
+    idnum := 0;
+  tempwstr := UTF8ToWide(PAnsiChar(id), tempwstr);
+  ws := tempwstr;
+  FreeMem(tempwstr);
+  Contact := CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+  while (Contact <> 0) do
   begin
-    otherproto:=PChar(pluginlink^.CallService(MS_PROTO_GETCONTACTBASEPROTO,contact,0));
-    if otherproto=proto then
+    otherproto := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, Contact, 0));
+    if otherproto = proto then
     begin
-      ci.cbSize:=SizeOf(ci);
-      ci.dwFlag:=CNF_UNIQUEID;
-      if IsMirandaUnicode then ci.dwFlag:=ci.dwFlag or CNF_UNICODE;
-      ci.hContact:=contact;
-      ci.szProto:=PChar(otherproto);
-      if pluginlink^.CallService(MS_CONTACT_GETCONTACTINFO,0,integer(@ci))=0 then
+      ci.cbSize := SizeOf(ci);
+      ci.dwFlag := CNF_UNIQUEID or CNF_UNICODE;
+      ci.hContact := Contact;
+      ci.szProto := PAnsiChar(otherproto);
+      if CallService(MS_CONTACT_GETCONTACTINFO, 0, lparam(@ci)) = 0 then
       begin
-        case ( ci._type ) of
-        CNFT_BYTE:   if ci.retval.bVal = idnum then
-         begin
-          result:=contact;
-          break;
-         end;
-        CNFT_WORD:   if ci.retval.wVal = idnum then
-         begin
-          result:=contact;
-          break;
-         end;
-        CNFT_DWORD:  if ci.retval.dVal = DWORD(idnum) then
-         begin
-          result:=contact;
-          break;
-         end;
-        CNFT_ASCIIZ:
-        if IsMirandaUnicode then
-        if ws=ci.retval.szVal.w then
-         begin
-          result:=contact;
-          break;
-         end else
-                            else
-        if id=ci.retval.szVal.a then
-         begin
-          result:=contact;
-          break;
-         end;
-        end; //case
-      end; //if
-    end; //if
-    contact:= Pluginlink^.CallService(MS_DB_CONTACT_FINDNEXT,contact,0);
-  end; //while
+        case (ci._type) of
+          CNFT_BYTE:   if ci.retval.bVal = idnum then break;
+          CNFT_WORD:   if ci.retval.wVal = idnum then break;
+          CNFT_DWORD:  if ci.retval.dVal = DWORD(idnum) then break;
+          CNFT_ASCIIZ: if ws = ci.retval.szVal.w then break;
+        end; // case
+      end; // if
+    end; // if
+    Contact := CallService(MS_DB_CONTACT_FINDNEXT, Contact, 0);
+  end; // while
+  if Contact=0 then
+    result := INVALID_HANDLE_VALUE
+  else
+    result := Contact;
 end;
 
-function GetContactByNick(Proto:string;Nick:string):THandle;
+function GetContactByNick(const proto: AnsiString; const Nick: WideString): THandle;
 var
-  contact:THandle;
-  otherproto:string;
-  ci:TCONTACTINFO;
-  tempwstr:PWideChar;
-  ws:WideString;
+  Contact: THandle;
+  otherproto: AnsiString;
+  ci: TCONTACTINFO;
 begin
-  if IsMirandaUnicode then
-    begin
-     tempwstr:=UTF8ToWide(PChar(Nick),tempwstr);
-     ws :=tempwstr;
-     FreeMem(tempwstr);
-    end;
-  result:=INVALID_HANDLE_VALUE;
-  contact:=pluginlink^.CallService(MS_DB_CONTACT_FINDFIRST, 0, 0 );
-  while (contact<>0) do
+  result := INVALID_HANDLE_VALUE;
+  Contact := CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+  while (Contact <> 0) do
   begin
-    otherproto:=PChar(pluginlink^.CallService(MS_PROTO_GETCONTACTBASEPROTO,contact,0));
-    if otherproto=proto then
+    otherproto := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, Contact, 0));
+    if otherproto = proto then
     begin
-      ci.cbSize:=SizeOf(ci);
-      ci.dwFlag:=CNF_NICK;
-      if IsMirandaUnicode then ci.dwFlag:=ci.dwFlag or CNF_UNICODE;
-      ci.hContact:=contact;
-      ci.szProto:=PChar(otherproto);
-      if pluginlink^.CallService(MS_CONTACT_GETCONTACTINFO,0,integer(@ci))=0 then
+      ci.cbSize := SizeOf(ci);
+      ci.dwFlag := CNF_NICK;
+      ci.dwFlag := ci.dwFlag or CNF_UNICODE;
+      ci.hContact := Contact;
+      ci.szProto := PAnsiChar(otherproto);
+      if CallService(MS_CONTACT_GETCONTACTINFO, 0, lparam(@ci)) = 0 then
       begin
-        if IsMirandaUnicode then
-         begin
-          if ws=ci.retval.szVal.w then
-           begin
-            result:=contact;
-            break;
-           end;
-         end
-                            else
-         begin
-          if Nick=ci.retval.szVal.a then
-           begin
-            result:=contact;
-            break;
-           end;
-         end;
-      end; //if
-    end; //if
-    contact:= Pluginlink^.CallService(MS_DB_CONTACT_FINDNEXT,contact,0);
-  end; //while
+        if Nick = ci.retval.szVal.w then
+        begin
+          result := Contact;
+          break;
+        end;
+      end; // if
+    end; // if
+    Contact := CallService(MS_DB_CONTACT_FINDNEXT, Contact, 0);
+  end; // while
 end;
 
 procedure EnumProtocols;
-var i,iProtoCount:integer;
-    ppAccounts:^PPROTOACCOUNT;
-    temps:string;
-begin
- ProtoCount:=0;
- SetLength(Protocols,30);
- if MirVers> $080000 then pluginLink^.CallService(MS_PROTO_ENUMACCOUNTS,int(@iProtoCount),int(@ppAccounts))
-                     else pluginLink^.CallService(MS_PROTO_ENUMPROTOCOLS,int(@iProtoCount),int(@ppAccounts));
- for i:=1 to iProtoCount do
-   begin
-    if (ppAccounts^^._type=PROTOTYPE_PROTOCOL) then
-     begin
-      temps:=GetContactID(0,ppAccounts^^.szModuleName,false);
-      if temps<>'' then
-       begin
-        protocols[ProtoCount].ProtoName:=ppAccounts^^.szModuleName;
-        protocols[ProtoCount].ProtoUID:=temps;
-        protocols[ProtoCount].ProtoNick:=GetContactNick(0,ppAccounts^^.szModuleName,false);
-        inc(ProtoCount);
-       end;
-     end;
-    inc(ppAccounts);
-   end;
- SetLength(Protocols,ProtoCount);
-end;
-
-function fIsMirandaUnicode:boolean;
-var ver:ShortString;
-begin
- Result:=true;
- SetLength(ver,255);
- if PluginLink.CallService(MS_SYSTEM_GETVERSIONTEXT,wParam(255),lParam(@ver[1]))=0 then
-      Result:=Pos('Unicode',ver)>0;
-end;
-
-function GetContactProto(hContact: THandle): String;
-begin
-  Result := PChar(PluginLink.CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0));
-end;
-
-function DBFreeVariant(dbv:PDBVARIANT):integer;
-begin
-  Result:=PluginLink^.CallService(MS_DB_CONTACT_FREEVARIANT,0,lParam(dbv));
-end;
-
-function GetContactID(hContact: THandle; Proto: String = ''; Contact: boolean = false): String;
 var
-  uid: PChar;
+  i, iProtoCount: integer;
+  ppAccounts: ^PPROTOACCOUNT;
+  temps: WideString;
+begin
+  ProtoCount := 0;
+  SetLength(Protocols, 30);
+  CallService(MS_PROTO_ENUMACCOUNTS, int(@iProtoCount), int(@ppAccounts));
+  for i := 1 to iProtoCount do
+  begin
+    if (ppAccounts^^._type = PROTOTYPE_PROTOCOL) then
+    begin
+      temps := GetContactID(0, ppAccounts^^.szModuleName, false);
+      if temps <> '' then
+      begin
+        Protocols[ProtoCount].ProtoName := ppAccounts^^.szModuleName;
+        Protocols[ProtoCount].ProtoUID := temps;
+        Protocols[ProtoCount].ProtoNick := GetContactNick(0, ppAccounts^^.szModuleName, false);
+        inc(ProtoCount);
+      end;
+    end;
+    inc(ppAccounts);
+  end;
+  SetLength(Protocols, ProtoCount);
+end;
+
+function GetContactProto(hContact: THandle): AnsiString;
+begin
+  result := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0));
+end;
+
+function DBFreeVariant(dbv: PDBVARIANT): integer;
+begin
+  result := CallService(MS_DB_CONTACT_FREEVARIANT, 0, lParam(dbv));
+end;
+
+function GetContactID(hContact: THandle; proto: AnsiString = '';
+  Contact: boolean = false): WideString;
+var
+  uid: PAnsiChar;
   dbv: TDBVARIANT;
   cgs: TDBCONTACTGETSETTING;
-  tempstr:PChar;
+  tempstr: PWideChar;
 begin
-  Result := '';
-  if not ((hContact = 0) and Contact) then begin
-    if Proto = '' then Proto := GetContactProto(hContact);
-    uid := PChar(CallProtoService(PChar(Proto),PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
-    if (Cardinal(uid) <> CALLSERVICE_NOTFOUND) and (uid <> nil) then begin
-      cgs.szModule := PChar(Proto);
+  result := '';
+  if not((hContact = 0) and Contact) then
+  begin
+    if proto = '' then
+      proto := GetContactProto(hContact);
+    uid := PAnsiChar(CallProtoService(PAnsiChar(proto), PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0));
+    if (uint_ptr(uid) <> CALLSERVICE_NOTFOUND) and (uid <> nil) then
+    begin
+      cgs.szModule := PAnsiChar(proto);
       cgs.szSetting := uid;
       cgs.pValue := @dbv;
-      if PluginLink^.CallService(MS_DB_CONTACT_GETSETTING,hContact,LPARAM(@cgs)) = 0 then begin
+      if CallService(MS_DB_CONTACT_GETSETTING, hContact, lParam(@cgs)) = 0 then
+      begin
         case dbv._type of
           DBVT_BYTE:
-            Result := intToStr(dbv.bVal);
+            result := intToStr(dbv.bVal);
           DBVT_WORD:
-            Result := intToStr(dbv.wVal);
+            result := intToStr(dbv.wVal);
           DBVT_DWORD:
-            Result := intToStr(dbv.dVal);
+            result := intToStr(dbv.dVal);
           DBVT_ASCIIZ:
-            if IsMirandaUnicode then
-              begin
-               tempstr:=ANSIToUTF8(dbv.szVal.a,tempstr,cp);
-               Result :=tempstr;
-               FreeMem(tempstr);
-              end else Result := dbv.szVal.a;
-          DBVT_UTF8:
-            if IsMirandaUnicode then Result :=dbv.szVal.a
-                                else
-             begin
-              tempstr:=UTF8ToANSI(dbv.szVal.a,tempstr,cp);
-              Result :=tempstr;
-              FreeMem(tempstr);
-             end;
-          DBVT_WCHAR:
             begin
-             if IsMirandaUnicode then tempstr:=WideToUTF8(dbv.szVal.w,tempstr)
-                                 else tempstr:=WideToAnsi(dbv.szVal.w,tempstr,cp);
-             Result:=tempstr;
-             FreeMem(tempstr);
+              tempstr := ANSIToWide(dbv.szVal.a, tempstr, cp);
+              result := tempstr;
+              FreeMem(tempstr);
             end;
+          DBVT_UTF8:
+            begin
+              tempstr := UTF8ToWide(dbv.szVal.a, tempstr);
+              result := tempstr;
+              FreeMem(tempstr);
+            end;
+          DBVT_WCHAR:
+            result := dbv.szVal.w;
         end;
         // free variant
         DBFreeVariant(@dbv);
@@ -434,129 +412,131 @@ begin
   end;
 end;
 
-function GetContactNick(hContact: THandle; Proto: String = ''; Contact: boolean = false): String;
+function GetContactNick(hContact: THandle; proto: AnsiString = '';
+  Contact: boolean = false): WideString;
 var
   dbv: TDBVARIANT;
   cgs: TDBCONTACTGETSETTING;
-  tempstr:PChar;
+  tempstr: PWideChar;
 begin
-  Result := '';
-  if not ((hContact = 0) and Contact) then begin
-    if Proto = '' then Proto := GetContactProto(hContact);
-      cgs.szModule := PChar(Proto);
-      cgs.szSetting := 'Nick';
-      cgs.pValue := @dbv;
-      if PluginLink^.CallService(MS_DB_CONTACT_GETSETTING,hContact,LPARAM(@cgs)) = 0 then begin
-        case dbv._type of
-          DBVT_BYTE:
-            Result := intToStr(dbv.bVal);
-          DBVT_WORD:
-            Result := intToStr(dbv.wVal);
-          DBVT_DWORD:
-            Result := intToStr(dbv.dVal);
-          DBVT_ASCIIZ:
-            if IsMirandaUnicode then
-              begin
-               tempstr:=ANSIToUTF8(dbv.szVal.a,tempstr,cp);
-               Result :=tempstr;
-               FreeMem(tempstr);
-              end else Result := dbv.szVal.a;
-          DBVT_UTF8:
-            if IsMirandaUnicode then Result :=dbv.szVal.a
-                                else
-             begin
-              tempstr:=UTF8ToANSI(dbv.szVal.a,tempstr,cp);
-              Result :=tempstr;
-              FreeMem(tempstr);
-             end;
-          DBVT_WCHAR:
-            begin
-             if IsMirandaUnicode then tempstr:=WideToUTF8(dbv.szVal.w,tempstr)
-                                 else tempstr:=WideToAnsi(dbv.szVal.w,tempstr,cp);
-             Result:=tempstr;
-             FreeMem(tempstr);
-            end;
-        end;
-        // free variant
-        DBFreeVariant(@dbv);
+  result := '';
+  if not((hContact = 0) and Contact) then
+  begin
+    if proto = '' then
+      proto := GetContactProto(hContact);
+    cgs.szModule := PAnsiChar(proto);
+    cgs.szSetting := 'Nick';
+    cgs.pValue := @dbv;
+    if CallService(MS_DB_CONTACT_GETSETTING, hContact, lParam(@cgs)) = 0 then
+    begin
+      case dbv._type of
+        DBVT_BYTE:
+          result := intToStr(dbv.bVal);
+        DBVT_WORD:
+          result := intToStr(dbv.wVal);
+        DBVT_DWORD:
+          result := intToStr(dbv.dVal);
+        DBVT_ASCIIZ:
+          begin
+            tempstr := ANSIToWide(dbv.szVal.a, tempstr, cp);
+            result := tempstr;
+            FreeMem(tempstr);
+          end;
+        DBVT_UTF8:
+          begin
+            tempstr := UTF8ToWide(dbv.szVal.a, tempstr);
+            result := tempstr;
+            FreeMem(tempstr);
+          end;
+        DBVT_WCHAR:
+          result := dbv.szVal.w;
       end;
+      // free variant
+      DBFreeVariant(@dbv);
+    end;
   end;
 end;
 
-function DBReadByte(hContact:THANDLE;szModule:PChar;szSetting:PChar;default:byte=0):byte;
+function DBReadByte(hContact: THandle; szModule: PAnsiChar;
+  szSetting: PAnsiChar; default: byte = 0): byte;
 var
-  dbv:TDBVARIANT;
-  cgs:TDBCONTACTGETSETTING;
+  dbv: TDBVARIANT;
+  cgs: TDBCONTACTGETSETTING;
 begin
-  cgs.szModule :=szModule;
-  cgs.szSetting:=szSetting;
-  cgs.pValue   :=@dbv;
-  If PluginLink^.CallService(MS_DB_CONTACT_GETSETTING,hContact,lParam(@cgs))<>0 then
-    Result:=default
+  cgs.szModule := szModule;
+  cgs.szSetting := szSetting;
+  cgs.pValue := @dbv;
+  If CallService(MS_DB_CONTACT_GETSETTING, hContact, lParam(@cgs)) <> 0 then
+    result := default
   else
-    Result:=dbv.bVal;
+    result := dbv.bVal;
 end;
 
-function DBWriteByte(hContact:THANDLE;szModule:PChar;szSetting:PChar;val:Byte):Integer;
+function DBWriteByte(hContact: THandle; szModule: PAnsiChar; szSetting: PAnsiChar; val: byte): integer;
 var
-  cws:TDBCONTACTWRITESETTING;
+  cws: TDBCONTACTWRITESETTING;
 begin
-  cws.szModule   :=szModule;
-  cws.szSetting  :=szSetting;
-  cws.value._type:=DBVT_BYTE;
-  cws.value.bVal :=Val;
-  Result:=PluginLink^.CallService(MS_DB_CONTACT_WRITESETTING,hContact,lParam(@cws));
+  cws.szModule := szModule;
+  cws.szSetting := szSetting;
+  cws.value._type := DBVT_BYTE;
+  cws.value.bVal := val;
+  result := CallService(MS_DB_CONTACT_WRITESETTING, hContact, lParam(@cws));
 end;
 
-procedure SetLastPattern(lp:byte);
+procedure SetLastPattern(lp: byte);
 begin
- DBWriteByte(0,IMPORT_TXT_MODULE,IMPORT_TXT_LP,lp);
+  DBWriteByte(0, IMPORT_TXT_MODULE, IMPORT_TXT_LP, lp);
 end;
 
-function GetLastPattern:byte;
+function GetLastPattern: byte;
 begin
- result:=DBReadByte(0,IMPORT_TXT_MODULE,IMPORT_TXT_LP,0);
- if result>=PatternsCount then result:=0;
+  result := DBReadByte(0, IMPORT_TXT_MODULE, IMPORT_TXT_LP, 0);
+  if result >= Length(TxtPatterns) then
+    result := 0;
 end;
 
-function TimeStampToWStr(ts:dword):WideString;
-var dbtts:TDBTIMETOSTRING;
-    s:WideString;
+function TimeStampToWStr(ts: DWORD): WideString;
+var
+  dbtts: TDBTIMETOSTRING;
+  s: WideString;
 begin
- SetLength(s,20);
- dbtts.szFormat.w:='d s';
- dbtts.szDest.w:=PWideChar(s);
- dbtts.cbDest:=20;
- pluginlink^.CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT,ts,Int(@dbtts));
- result:=s;
+  SetLength(s, 20);
+  dbtts.szFormat.w := 'd s';
+  dbtts.szDest.w := PWideChar(s);
+  dbtts.cbDest := 20;
+  CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, ts, int(@dbtts));
+  result := s;
 end;
 
-function StrToTimeStamp(STime:PChar;len:integer):dword;
-var hour, min, sec, day, month, year: integer;
+function StrToTimeStamp(STime: PAnsiChar; len: integer): DWORD;
+var
+  hour, min, sec, Day, Month, Year: integer;
 begin
- sec:=0;
- day:=(ord(stime[0])-$30)*10+(ord(stime[1])-$30);
- month:=(ord(stime[3])-$30)*10+(ord(stime[4])-$30);
- year:=(ord(stime[6])-$30)*1000+(ord(stime[7])-$30)*100+(ord(stime[8])-$30)*10+(ord(stime[9])-$30);
- hour:=(ord(stime[11])-$30)*10+(ord(stime[12])-$30);
- min:=(ord(stime[14])-$30)*10+(ord(stime[15])-$30);
- if len>15 then sec:=(ord(stime[17])-$30)*10+(ord(stime[18])-$30);
-  result:=Timestamp(year,month,day,hour,min,sec);
+  sec := 0;
+  Day := (ord(STime[0]) - $30) * 10 + (ord(STime[1]) - $30);
+  Month := (ord(STime[3]) - $30) * 10 + (ord(STime[4]) - $30);
+  Year := (ord(STime[6]) - $30) * 1000 + (ord(STime[7]) - $30) * 100 +
+    (ord(STime[8]) - $30) * 10 + (ord(STime[9]) - $30);
+  hour := (ord(STime[11]) - $30) * 10 + (ord(STime[12]) - $30);
+  min := (ord(STime[14]) - $30) * 10 + (ord(STime[15]) - $30);
+  if len > 15 then
+    sec := (ord(STime[17]) - $30) * 10 + (ord(STime[18]) - $30);
+  result := Timestamp(Year, Month, Day, hour, min, sec);
 end;
 
-function RLWord(adr:integer):word;
+function RLWord(adr: integer): word;
 begin
- Result:=PByte(adr+1)^ + (PByte(adr)^ *$100);
+  result := PByte(adr + 1)^ + (PByte(adr)^ * $100);
 end;
 
-function RLInteger(adr:integer):integer;
+function RLInteger(adr: integer): integer;
 begin
-  Result:=PByte(adr+3)^ + (PByte(adr+2)^*$100) +
- (PByte(adr+1)^ * $10000) + (PByte(adr)^ *$1000000);
+  result := PByte(adr + 3)^ + (PByte(adr + 2)^ * $100) +
+    (PByte(adr + 1)^ * $10000) + (PByte(adr)^ * $1000000);
 end;
 
 begin
-  GetModuleFileName(hInstance,@AppPath[0],MAX_PATH);
-  ExtractFilePath(AppPath);
+  GetModuleFileName(hInstance, @AppPath[0], MAX_PATH);
+  ExtractFilePath(@AppPath);
   ReadPatterns;
 end.

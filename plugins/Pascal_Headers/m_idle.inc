@@ -53,13 +53,14 @@ const
 type
   PMIRANDA_IDLE_INFO = ^TMIRANDA_IDLE_INFO;
   TMIRANDA_IDLE_INFO = record
-    cbSize  : int;   // sizeof()
-    idleTime: int;   // idle in mins, if zero then disabled
-    privacy : int;   // user doesnt want other people seeing anything more than they are idle
-    aaStatus: int;   // status to go to when user is auto away
-    aaLock  : int;   // the status shouldn't be unset if its set
-    idleType: int;
-  end;
+    cbSize       : int;   // sizeof()
+    idleTime     : int;   // idle in mins, if zero then disabled
+    privacy      : int;   // user doesnt want other people seeing anything more than they are idle
+    aaStatus     : int;   // status to go to when user is auto away
+    aaLock       : int;   // the status shouldn't be unset if its set
+    idleType     : int;
+    idlesoundsoff: int;
+	  end;
   {
     wParam; 0
     lParam: address of MIRANDA_IDLE_INFO

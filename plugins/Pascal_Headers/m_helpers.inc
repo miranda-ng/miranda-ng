@@ -3,7 +3,7 @@
 function ProtoServiceExists(const proto,service: PAnsiChar): int;
 
 function CreateVersionString(version:dword;buf:PAnsiChar):PAnsiChar;
-function CreateVersionStringPlugin(pluginInfo:PPluginInfo;buf:PAnsiChar):PAnsiChar;
+function CreateVersionStringPlugin(pluginInfo:PPluginInfoEx;buf:PAnsiChar):PAnsiChar;
 function PLUGIN_MAKE_VERSION(a,b,c,d: Cardinal): int;
 function PLUGIN_CMP_VERSION(verA: LongInt; verB: LongInt): int;
 
@@ -35,6 +35,7 @@ function Translate(sz: PAnsiChar): PAnsiChar;
 function Translatew(sz: PWideChar): PWideChar;
 function TranslateString(const sz: AnsiString): AnsiString;
 function TranslateWideString(const sz:WideString):WideString;
+function TranslateUnicodeString(sz: String): String;{$ifdef FPC}inline;{$endif}
 procedure TranslateDialogDefault(hwndDlg: THandle);
 procedure TranslateMenu(hMenu: HMENU);
 function Langpack_PCharToTChar(astr:PAnsiChar):int_ptr;
@@ -100,7 +101,7 @@ begin
   result:=buf;
 end;
 
-function CreateVersionStringPlugin(pluginInfo:PPluginInfo;buf:PAnsiChar):PAnsiChar;
+function CreateVersionStringPlugin(pluginInfo:PPluginInfoEx;buf:PAnsiChar):PAnsiChar;
 begin
   result:=CreateVersionString(pluginInfo^.version,buf);
 end;
@@ -297,6 +298,11 @@ function TranslateWideString(const sz:WideString):WideString;
 begin
   Result:=WideString(PWideChar(
     CallService(MS_LANGPACK_TRANSLATESTRING, LANG_UNICODE, lParam(sz))));
+end;
+
+function TranslateUnicodeString(sz: String): String;{$ifdef FPC}inline;{$endif}
+begin
+  Result := String(PChar(CallService(MS_LANGPACK_TRANSLATESTRING, LANG_UNICODE, lParam(sz))));
 end;
 
 procedure TranslateDialogDefault(hwndDlg: THandle);

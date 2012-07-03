@@ -12,10 +12,11 @@ implementation
 uses shlobj, activex, SysUtils, CommDlg;
 
 function OpenDialogExecute(hDlg:hWnd; flg:cardinal; var nFO:integer; const DefExt:string):WideString;  //Диалог открытия файла
-var OpenFilename:TOpenFilenameW;
-    TempFilename:WideString;
-    Temp1,Temp2:WideString;
-    res:bool;
+var
+  OpenFilename:TOpenFilenameW;
+  TempFilename:WideString;
+  Temp1,Temp2:WideString;
+  res:bool;
 begin
  nFO:=0;
  FillChar(OpenFileName, SizeOf(OpenFileName), 0);
@@ -37,11 +38,12 @@ begin
   end;
   res:=GetOpenFileNameW(OpenFileName);
   if res then
-   begin
+  begin
     Result:=TempFilename;
     nFO:=OpenFilename.nFileOffset;
-   end
-    else Result:='';
+  end
+  else
+    Result:='';
 end;
 
 //***Awkward - author of this procedures************
@@ -106,7 +108,7 @@ var
   tpwc:PWideChar;
   tws:WideString;
 begin
- if SelectDirectory(PWideChar(TranslateWideString('Select folder for import...')),tpwc,hdlg,true) then
+ if SelectDirectory(TranslateW('Select folder for import...'),tpwc,hdlg,true) then
   begin
    result:=tpwc;
    result:=result+#0;

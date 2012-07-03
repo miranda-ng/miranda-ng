@@ -22,15 +22,25 @@
 library importtxt;
 
 uses
-  m_api,
   Windows,
-  General,
-  ImportTxtDlg,
-  ImportTxtWiz;
+  Messages,
+  SysUtils,
+  Inifiles,
+  m_api,// in '.\inc\m_api.pas',
+{ используются в ImportThrd
+  KOL in '.\kol\kol.pas',
+  err in '.\kol\err.pas',
+  KOLedb in '.\kol\KOLEdb.pas',
+}
+  General in 'general.pas',
+  ImportT in 'ImportT.pas',
+  ImportTU in 'ImportTU.pas',
+  ImportThrd in 'ImportThrd.pas',
+  PerlRegEx in 'PerlRegEx.pas',
+  ImportTxtDlg in 'ImportTxtDlg.pas',
+  ImportTxtWiz in 'ImportTxtWiz.pas';
 
 {$R imptxt_ver.res}
-{$include m_helpers.inc}
-
 
 const
   PluginInfo:TPLUGININFOEX=(
@@ -58,145 +68,128 @@ const
   BetaChangelogURL  = nil;
 
 var
-  PluginInterfaces:array [0..1] of MUUID;
   hwndWizard:HWND;
   hwndDialog:HWND;
   //Services
-  SrvITxt,SrvIWiz:Cardinal;
+  SrvITxt,SrvIWiz:THANDLE;
   //hooks
-  onLoadHook:Cardinal;
-  onAccChangHook:Cardinal;
-
-function MirandaPluginInfo(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
-begin
-  MirVers:=mirandaVersion;
-  result:=@PluginInfo;
-  //PluginInfo.cbSize:=SizeOf(TPLUGININFO);
-end;
+  onLoadHook:THANDLE;
+  onAccChangHook:THANDLE;
 
 function MirandaPluginInfoEx(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
 begin
-  MirVers:=mirandaVersion;
-  result:=@PluginInfo;
-  //PluginInfo.cbSize:=SizeOf(TPLUGININFOEX);
+  result := @PluginInfo;
+  // PluginInfo.cbSize:=SizeOf(TPLUGININFOEX);
 end;
 
-function ContactMenuCommand(wParam: WPARAM; lParam: LPARAM): Integer; cdecl;
+function ContactMenuCommand(wParam: wParam; lParam: lParam): int_ptr; cdecl;
 begin
-  Result := 0;
+  result := 0;
   if IsWindow(hwndDialog) then
-   begin
-    SetForegroundWindow(hwndDialog);
-		BringWindowToTop(hwndDialog);
-   end
-                          else
-   hwndDialog:=CreateDialogParamW(hInstance,MAKEINTRESOURCEW(IDD_IMPDIALOG),0,@IDMainWndProc, wParam);
-end;
-
-function MainMenuCommand(wParam: WPARAM; lParam: LPARAM): Integer; cdecl;
-begin
- Result:=0;
- if (IsWindow(hwndWizard)) then
-   begin
-		SetForegroundWindow(hwndWizard);
-		BringWindowToTop(hwndWizard);
-	 end
-	                         else
-   hwndWizard:=CreateDialogW(hInstance, MAKEINTRESOURCEW(IDD_IMPWIZARD), 0, @WizardDlgProc);
-end;
-
-function OnAccountChanged(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-begin
-  Result:=0;
-  EnumProtocols;
-  if Assigned(OnAccountListChange) then OnAccountListChange;
-end;
-
-function OnModulesLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var upd: TUpdate;
-    buf:array [0..63] of char;
-begin
- PluginLink^.UnhookEvent(onloadhook);
- Result:=0;
- EnumProtocols;
- // Register in updater
- if Boolean(PluginLink.ServiceExists(MS_UPDATE_REGISTER)) then
   begin
-   ZeroMemory(@upd,SizeOf(upd));
-   upd.cpbVersion := SizeOf(upd);
-   upd.szComponentName := PluginInfo.ShortName;;
-   upd.pbVersion := CreateVersionStringPlugin(@pluginInfo,buf);
-   upd.cpbVersion := lstrlen(upd.pbVersion);
-   upd.szUpdateURL := UpdateURL;
-   upd.szVersionURL := VersionURL;
-   upd.pbVersionPrefix := VersionPrefix;
-   upd.cpbVersionPrefix := Length(VersionPrefix);
-   upd.szBetaUpdateURL := BetaUpdateURL;
-   upd.szBetaVersionURL := BetaVersionURL;
-   upd.pbBetaVersionPrefix := BetaVersionPrefix;
-   upd.cpbBetaVersionPrefix := length(upd.pbBetaVersionPrefix);
-   upd.szBetaChangelogURL := BetaChangelogURL;
-   PluginLink.CallService(MS_UPDATE_REGISTER, 0, DWORD(@upd));
-  end;
- //check for AutoStart
- if (DBReadByte(0,IMPORT_TXT_MODULE,IMPORT_TXT_AS)=1) and
-    (ProtoCount>0) then
-    begin
-    pluginLink^.CallService(IMPORT_WIZ_SERVICE,0,0);
-    DBWriteByte(0,IMPORT_TXT_MODULE,IMPORT_TXT_AS,0);
-    end;
+    SetForegroundWindow(hwndDialog);
+    BringWindowToTop(hwndDialog);
+  end
+  else
+    hwndDialog := CreateDialogParamW(hInstance, MAKEINTRESOURCEW(IDD_IMPDIALOG),
+      0, @IDMainWndProc, wParam);
 end;
 
-
-function Load(link: PPLUGINLINK): int; cdecl;
-var
-   mi: TCListMenuItem;
+function MainMenuCommand(wParam: wParam; lParam: lParam): int_ptr; cdecl;
 begin
-  PLUGINLINK := Pointer(link);
-  IsMirandaUnicode:=fIsMirandaUnicode;
-  cp:=pluginLink^.CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
-  SrvITxt:=pluginLink^.CreateServiceFunction(IMPORT_TXT_SERVICE, @ContactMenuCommand);
-  SrvIWiz:=pluginLink^.CreateServiceFunction(IMPORT_WIZ_SERVICE, @MainMenuCommand);
+  result := 0;
+  if (IsWindow(hwndWizard)) then
+  begin
+    SetForegroundWindow(hwndWizard);
+    BringWindowToTop(hwndWizard);
+  end
+  else
+    hwndWizard := CreateDialogW(hInstance, MAKEINTRESOURCEW(IDD_IMPWIZARD), 0, @WizardDlgProc);
+end;
+
+function OnAccountChanged(wParam: wParam; lParam: lParam): int; cdecl;
+begin
+  result := 0;
+  EnumProtocols;
+  if Assigned(OnAccountListChange) then
+    OnAccountListChange;
+end;
+
+function OnModulesLoaded(wParam: wParam; lParam: lParam): int; cdecl;
+var
+  upd: TUpdate;
+  buf: array [0 .. 63] of char;
+begin
+  UnhookEvent(onLoadHook);
+  result := 0;
+  EnumProtocols;
+  // Register in updater
+  if Boolean(ServiceExists(MS_UPDATE_REGISTER)) then
+  begin
+    ZeroMemory(@upd, sizeof(upd));
+    upd.cpbVersion := sizeof(upd);
+    upd.szComponentName := PluginInfo.shortName;;
+    upd.pbVersion := CreateVersionStringPlugin(@PluginInfo, @buf);
+    upd.cpbVersion := lstrlena(upd.pbVersion);
+    upd.szUpdateURL := UpdateURL;
+    upd.szVersionURL := VersionURL;
+    upd.pbVersionPrefix := VersionPrefix;
+    upd.cpbVersionPrefix := Length(VersionPrefix);
+    upd.szBetaUpdateURL := BetaUpdateURL;
+    upd.szBetaVersionURL := BetaVersionURL;
+    upd.pbBetaVersionPrefix := BetaVersionPrefix;
+    upd.cpbBetaVersionPrefix := Length(upd.pbBetaVersionPrefix);
+    upd.szBetaChangelogURL := BetaChangelogURL;
+    CallService(MS_UPDATE_REGISTER, 0, tlparam(@upd));
+  end;
+  // check for AutoStart
+  if (DBReadByte(0, IMPORT_TXT_MODULE, IMPORT_TXT_AS) = 1) and (ProtoCount > 0) then
+  begin
+    CallService(IMPORT_WIZ_SERVICE, 0, 0);
+    DBWriteByte(0, IMPORT_TXT_MODULE, IMPORT_TXT_AS, 0);
+  end;
+end;
+
+function Load(): int; cdecl;
+var
+  mi: TCListMenuItem;
+begin
+  cp := CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+  SrvITxt := CreateServiceFunction(IMPORT_TXT_SERVICE, @ContactMenuCommand);
+  SrvIWiz := CreateServiceFunction(IMPORT_WIZ_SERVICE, @MainMenuCommand);
   FillChar(mi, sizeof(mi), 0);
   mi.cbSize := sizeof(mi);
   mi.flags := 0;
   mi.position := 1000090050;
-  mi.hIcon := LoadIcon(hInstance,MAKEINTRESOURCE(IDI_DEFAULT));
+  mi.hIcon := LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DEFAULT));
   mi.szName.a := 'Import history';
   mi.pszService := IMPORT_TXT_SERVICE;
-  mi.pszContactOwner:=nil;  //All contacts
-  pluginLink^.CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, int(@mi));
+  mi.pszContactOwner := nil; // All contacts
+  Menu_AddContacTMenuItem(@mi);
+
   mi.position := 500050010;
   mi.pszService := IMPORT_WIZ_SERVICE;
-  mi.pszContactOwner:=nil;
-  pluginLink^.CallService(MS_CLIST_ADDMAINMENUITEM, 0, int(@mi));
-  onloadhook:=PluginLink^.HookEvent(ME_SYSTEM_MODULESLOADED,@OnModulesLoaded);
-  if MirVers>080000 then onAccChangHook:=pluginLink^.HookEvent(ME_PROTO_ACCLISTCHANGED,@OnAccountChanged);
-  Result := 0;
+  mi.pszContactOwner := nil;
+  Menu_AddMainMenuItem(@mi);
+
+  onLoadHook := HookEvent(ME_SYSTEM_MODULESLOADED, @OnModulesLoaded);
+  onAccChangHook := HookEvent(ME_PROTO_ACCLISTCHANGED, @OnAccountChanged);
+  result := 0;
 end;
 
 function Unload: int; cdecl;
 begin
-  if MirVers>080000 then pluginLink^.UnhookEvent(onAccChangHook);
-  pluginlink^.DestroyServiceFunction(SrvITxt);
-  pluginlink^.DestroyServiceFunction(SrvIWiz);
+  UnhookEvent(onAccChangHook);
+  DestroyServiceFunction(SrvITxt);
+  DestroyServiceFunction(SrvIWiz);
   Result := 0;
-end;
-
-function MirandaPluginInterfaces:PMUUID; cdecl;
-begin
-  PluginInterfaces[0]:=PluginInfo.uuid;
-  PluginInterfaces[1]:=MIID_LAST;
-  result:=@PluginInterfaces;
 end;
 
 
 exports
 
   Load, Unload,
-  MirandaPluginInfo,
-  MirandaPluginInfoEx,
-  MirandaPluginInterfaces;
+  MirandaPluginInfoEx;
 
 begin
 end.

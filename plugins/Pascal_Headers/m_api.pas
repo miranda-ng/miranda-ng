@@ -92,27 +92,6 @@ const
 const
   UNICODE_AWARE = 1;
 
-type
-  PPLUGININFO = ^TPLUGININFO;
-  TPLUGININFO = record
-    cbSize     :int;
-    shortName  :PAnsiChar;
-    version    :DWORD;
-    description:PAnsiChar; // [TRANSLATED-BY-CORE]
-    author     :PAnsiChar;
-    authorEmail:PAnsiChar;
-    copyright  :PAnsiChar;
-    homepage   :PAnsiChar;
-    flags      :Byte;  // right now the only flag, UNICODE_AWARE, is recognized here
-    { one of the DEFMOD_* consts in m_plugin or zero, if non zero, this will
-    suppress loading of the specified builtin module }
-    replacesDefaultModule: int;
-  end;
-
-{
- 0.7+
-   New plugin loader implementation
-}
 // The UUID structure below is used to for plugin UUID's and module type definitions
 type
   PMUUID = ^TMUUID;
@@ -168,14 +147,14 @@ const
   { Database plugin stuff  }
 
   // grokHeader() error codes
-  const
-     EGROKPRF_NOERROR   = 0;
-     EGROKPRF_CANTREAD  = 1; // can't open the profile for reading
-     EGROKPRF_UNKHEADER = 2; // header not supported, not a supported profile
-     EGROKPRF_VERNEWER  = 3; // header correct, version in profile newer than reader/writer
-     EGROKPRF_DAMAGED   = 4; // header/version fine, other internal data missing, damaged.
- // makeDatabase() error codes
-     EMKPRF_CREATEFAILED = 1; // for some reason CreateFile() didnt like something
+const
+   EGROKPRF_NOERROR   = 0;
+   EGROKPRF_CANTREAD  = 1; // can't open the profile for reading
+   EGROKPRF_UNKHEADER = 2; // header not supported, not a supported profile
+   EGROKPRF_VERNEWER  = 3; // header correct, version in profile newer than reader/writer
+   EGROKPRF_DAMAGED   = 4; // header/version fine, other internal data missing, damaged.
+// makeDatabase() error codes
+   EMKPRF_CREATEFAILED = 1; // for some reason CreateFile() didnt like something
 
 type
   PDATABASELINK = ^TDATABASELINK;
@@ -215,8 +194,7 @@ type
     }
     grokHeader : function (profile:PAnsiChar; error:Pint):int; cdecl;
     {
-      Affect: Tell the database to create all services/hooks that a 3.xx legecy database might support into link,
-        which is a PLUGINLINK structure
+      Affect: Tell the database to create all services/hooks that a 3.xx legecy database might support into link
       Returns: 0 on success, nonzero on failure
     }
     Load : function (profile:PAnsiChar):int; cdecl;

@@ -1,10 +1,12 @@
 unit ImportT;
 interface
 
+uses windows;
+
 type
 
  RHeader = record
-   Pattern:string;
+   Pattern:String;
    Incoming:integer;
    Outgoing:integer;
    InNick:integer;
@@ -21,9 +23,9 @@ type
    end;
 
  RMessage = record
-   Pattern:string;
-   Incoming:string;
-   Outgoing:string;
+   Pattern:String;
+   Incoming:String;
+   Outgoing:String;
    Direction:integer;
    Day:integer;
    Month:integer;
@@ -34,19 +36,20 @@ type
    end;
    
  RFileName = record
-   Pattern:string;
+   Pattern:String;
    InNick:integer;
    OutNick:integer;
    InUID:integer;
    OutUID:integer;
    end;
 
+ pRTxtPattern = ^RTxtPattern;
  RTxtPattern = record
-   Name:string;
+   Name:String;
    IType:byte; //1 -text,2- binary, 3 - ...
    Charset:word;
    Codepage:Cardinal;
-   DefExtension:string;
+   DefExtension:String;
    BinProc:word;
    UseHeader:Byte;
    UseFileName:ByteBool;
@@ -62,20 +65,22 @@ const
   inUTF8 = 2;
   inUCS2 = 3;
 
-type PDestProto = ^TDestProto;
-     TDestProto = record
-      ProtoName: string;
-      ProtoUID: string;
-      ProtoNick: string;
-     end;
+type
+  PDestProto = ^TDestProto;
+  TDestProto = record
+    ProtoName: AnsiString;
+    ProtoUID: WideString;
+    ProtoNick: WideString;
+  end;
 
-type PDestContact = ^TDestContact;
-     TDestContact = record
-      hContact: THandle;
-      ProtoName: string;
-      ContactUID: string;
-      ContactNick: string;
-     end;
+type
+  PDestContact = ^TDestContact;
+  TDestContact = record
+    hContact: THandle;
+    ProtoName: AnsiString;
+    ContactUID: AnsiString;
+    ContactNick: WideString;
+  end;
 
 implementation  
 
