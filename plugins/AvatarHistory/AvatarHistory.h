@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+#define MIRANDA_VER 0x0A00
 #include <tchar.h>
 #include <windows.h>
 #include <stdio.h>
@@ -8,8 +10,6 @@
 #include <ShObjIdl.h>
 #include <ShlGuid.h>
 
-
-#define MIRANDA_VER 0x0900
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_skin.h>
@@ -21,26 +21,25 @@
 #include <m_popup.h>
 #include <m_options.h>
 #include <m_utils.h>
-#include <m_folders.h>
 #include <m_langpack.h>
-#include <m_metacontacts.h>
 #include <m_history.h>
-#include <m_updater.h>
 #include <m_imgsrvc.h>
 #include <m_icolib.h>
+
+#include <m_folders.h>
+#include <m_metacontacts.h>
+#include <m_updater.h>
+#include "m_avatarhist.h"
+#include "m_historyevents.h"
+
+#include "resource.h"
+#include "../utils/mir_buffer.h"
 
 // Globals
 extern HINSTANCE hInst;
 extern HANDLE hMenu;
 extern DWORD mirVer;
 extern HANDLE hAvatarWindowsList;
-
-#include "resource.h"
-#include "m_avatarhist.h"
-
-#include "../utils/mir_buffer.h"
-
-#include "../historyevents/m_historyevents.h"
 
 #define MODULE_NAME "AvatarHistory"
 

@@ -41,9 +41,6 @@
     <ClInclude Include="AvatarHistory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_avatarhist.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\utils\mir_buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>

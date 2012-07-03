@@ -230,9 +230,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_mw", "..\plugins\Clis
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EkHtml", "..\plugins\MirOTR\ekhtml\EkHtml.vcxproj", "{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgcrypt", "..\plugins\MirOTR\libgcrypt-1.4.6\libgcrypt146lib.vcxproj", "{40FE7861-E54E-4DA9-BE4D-A5178014E477}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Libgcrypt", "..\plugins\MirOTR\libgcrypt-1.4.6\libgcrypt146lib.vcxproj", "{40FE7861-E54E-4DA9-BE4D-A5178014E477}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libotr", "..\plugins\MirOTR\libotr-3.2.0\libotr320.vcxproj", "{1423FC8F-AA52-4562-8275-4BF0838CA378}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Libotr", "..\plugins\MirOTR\libotr-3.2.0\libotr320.vcxproj", "{1423FC8F-AA52-4562-8275-4BF0838CA378}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirOTR", "..\plugins\MirOTR\MirOTR\MirOTR.vcxproj", "{53F841E8-284F-4545-9176-B131896E43F8}"
 EndProject
@@ -251,9 +251,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CryptoPP", "..\plugins\Cryp
 		{290C5ED4-71A7-4040-AD26-4820CF7A9E60} = {290C5ED4-71A7-4040-AD26-4820CF7A9E60}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cryptlib", "..\plugins\CryptoPP\crypto\cryptlib_10.vcxproj", "{290C5ED4-71A7-4040-AD26-4820CF7A9E60}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cryptlib", "..\plugins\CryptoPP\crypto\cryptlib_10.vcxproj", "{290C5ED4-71A7-4040-AD26-4820CF7A9E60}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoShutdown", "..\plugins\AutoShutdown\shutdown.vcxproj", "{F8776664-EFE8-CDD6-ACFD-3136E7FE2724}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AvatarHistory", "..\plugins\AvatarHistory\AvatarHistory.vcxproj", "{7A50C5F4-866B-B8BD-D5FA-0EE6745194C6}"
 EndProject
 Global
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
@@ -1256,11 +1263,24 @@ Global
 		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Release|Win32.Build.0 = Release|Win32
 		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Release|x64.ActiveCfg = Release|x64
 		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Release|x64.Build.0 = Release|x64
+		{F8776664-EFE8-CDD6-ACFD-3136E7FE2724}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F8776664-EFE8-CDD6-ACFD-3136E7FE2724}.Debug|Win32.Build.0 = Debug|Win32
+		{F8776664-EFE8-CDD6-ACFD-3136E7FE2724}.Debug|x64.ActiveCfg = Debug|x64
+		{F8776664-EFE8-CDD6-ACFD-3136E7FE2724}.Debug|x64.Build.0 = Debug|x64
+		{F8776664-EFE8-CDD6-ACFD-3136E7FE2724}.Release|Win32.ActiveCfg = Release|Win32
+		{F8776664-EFE8-CDD6-ACFD-3136E7FE2724}.Release|Win32.Build.0 = Release|Win32
+		{F8776664-EFE8-CDD6-ACFD-3136E7FE2724}.Release|x64.ActiveCfg = Release|x64
+		{F8776664-EFE8-CDD6-ACFD-3136E7FE2724}.Release|x64.Build.0 = Release|x64
+		{7A50C5F4-866B-B8BD-D5FA-0EE6745194C6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7A50C5F4-866B-B8BD-D5FA-0EE6745194C6}.Debug|Win32.Build.0 = Debug|Win32
+		{7A50C5F4-866B-B8BD-D5FA-0EE6745194C6}.Debug|x64.ActiveCfg = Debug|x64
+		{7A50C5F4-866B-B8BD-D5FA-0EE6745194C6}.Debug|x64.Build.0 = Debug|x64
+		{7A50C5F4-866B-B8BD-D5FA-0EE6745194C6}.Release|Win32.ActiveCfg = Release|Win32
+		{7A50C5F4-866B-B8BD-D5FA-0EE6745194C6}.Release|Win32.Build.0 = Release|Win32
+		{7A50C5F4-866B-B8BD-D5FA-0EE6745194C6}.Release|x64.ActiveCfg = Release|x64
+		{7A50C5F4-866B-B8BD-D5FA-0EE6745194C6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
-		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
 	EndGlobalSection
 EndGlobal

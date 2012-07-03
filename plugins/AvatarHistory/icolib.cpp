@@ -70,7 +70,7 @@ void SetupIcoLib()
 
    		GetModuleFileName(hInst, path, sizeof(path));
 
-		sid.cbSize = SKINICONDESC_SIZE;
+		sid.cbSize = sizeof(sid);
 		sid.ptszSection = LPGENT("Avatar History");
 		sid.ptszDefaultFile = path;
 		sid.flags = SIDF_ALL_TCHAR;
@@ -82,7 +82,7 @@ void SetupIcoLib()
 				sid.ptszDescription = iconList[i].szDescr;
 				sid.pszName = iconList[i].szName;
 				sid.iDefaultIndex = -iconList[i].defIconID;
-				CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+				Skin_AddIcon(&sid);
 			}
 		}
 	}

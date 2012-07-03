@@ -551,7 +551,7 @@ void InitMenuItem()
 	mi.position = 1000090010;
 	mi.hIcon = createDefaultOverlayedIcon(FALSE);
 	mi.pszService = MS_AVATARHISTORY_SHOWDIALOG;
-	hMenu = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	hMenu = Menu_AddContactMenuItem(&mi);
 	DestroyIcon(mi.hIcon);
 }
 

@@ -36,8 +36,6 @@ char *metacontacts_proto = NULL;
 
 TCHAR profilePath[MAX_PATH];		// database profile path (read at startup only)
 TCHAR basedir[MAX_PATH];
-MM_INTERFACE mmi;
-UTF8_INTERFACE utfi;
 int hLangpack = 0;
 HANDLE hAvatarWindowsList = NULL;
 
@@ -60,32 +58,18 @@ static INT_PTR GetCachedAvatar(WPARAM wParam, LPARAM lParam);
 TCHAR * GetCachedAvatar(char *proto, TCHAR *hash);
 BOOL CreateShortcut(TCHAR *file, TCHAR *shortcut);
 
-
-
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-#ifdef _WIN64
-	"Avatar History (x64)",
-#elif _UNICODE
-	"Avatar History (Unicode)",
-#else
-	"Avatar History (Ansi)",
-#endif
+	"Avatar History",
 	PLUGIN_MAKE_VERSION(0,0,3,3),
-	"This plugin keeps backups of all your contacts' avatar changes and/or shows popups",
+	"This plugin keeps backups of all your contacts' avatar changes and/or shows popups.",
 	"Matthew Wild (MattJ), Ricardo Pescuma Domenecci",
 	"mwild1@gmail.com",
 	"© 2006-2012 Matthew Wild, Ricardo Pescuma Domenecci",
 	"http://pescuma.org/miranda/avatarhist",
 	UNICODE_AWARE,
 	0,		//doesn't replace anything built-in
-#ifdef _WIN64
-	{ 0xe04702a2, 0x379, 0x4c69, { 0xbf, 0x8a, 0x84, 0xd5, 0xd0, 0xc9, 0x19, 0xcc } } // {E04702A2-0379-4C69-BF8A-84D5D0C919CC}
-#elif _UNICODE
 	{ 0xdbe8c990, 0x7aa0, 0x458d, { 0xba, 0xb7, 0x33, 0xeb, 0x7, 0x23, 0x8e, 0x71 } } // {DBE8C990-7AA0-458d-BAB7-33EB07238E71}
-#else
-	{ 0x4079923c, 0x8aa1, 0x4a2e, { 0x95, 0x8b, 0x9d, 0xc, 0xd0, 0xe8, 0x2e, 0xb2 } } // {4079923C-8AA1-4a2e-958B-9D0CD0E82EB2}
-#endif
 };
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
@@ -96,16 +80,11 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvRese
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if(mirandaVersion < PLUGIN_MAKE_VERSION(0,9,50,3))
-	{
-		MessageBox(NULL,_T("AvatarHistory requires Miranda IM 0.9.50 or later."),_T("Avatar History"),MB_OK);
-		return NULL;
-	}
-	mirVer = mirandaVersion;
 	return &pluginInfo;
 }
 
 static const MUUID interfaces[] = { MIID_AVATAR_CHANGE_LOGGER, MIID_AVATAR_CHANGE_NOTIFIER, MIID_LAST };
+
 extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
@@ -159,20 +138,8 @@ static INT_PTR CALLBACK FirstRunDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM
 	return FALSE;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink=link;
-
-	if(mir_getMMI(&mmi))
-	{
-		MessageBox(NULL,_T("Avatar History"),_T("Miranda Memory manager not initialized, plugin cannot load.\nPlease update Miranda IM to the latest version."),MB_OK | MB_TOPMOST);
-		return 1;
-	}
-	if(mir_getUTFI(&utfi))
-	{
-		MessageBox(NULL,_T("Avatar History"),_T("Miranda UTF8 interface not initialized, plugin cannot load.\nPlease update Miranda IM to the latest version."),MB_OK | MB_TOPMOST);
-		return 1;
-	}
 	mir_getLP(&pluginInfo);
 
 	// Is first run?
@@ -318,7 +285,6 @@ BOOL ProtocolEnabled(const char *proto)
 	mir_snprintf(setting, sizeof(setting), "%sEnabled", proto);
 	return (BOOL) DBGetContactSettingByte(NULL, MODULE_NAME, setting, TRUE);
 }
-
 
 BOOL ContactEnabled(HANDLE hContact, char *setting, int def) 
 {
@@ -621,7 +587,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	return 0;
 }
