@@ -1,7 +1,7 @@
 /*
 
 IEView Plugin for Miranda IM
-Copyright (C) 2005-2008  Piotr Piastucki
+Copyright (C) 2005-2008 Piotr Piastucki
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -10,12 +10,12 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 */
 #include "SRMMHTMLBuilder.h"
@@ -143,7 +143,7 @@ void SRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
 		bkgColor= (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
 		inColor = outColor = bkgColor;
 		if (protoSettings->getSRMMFlags() & Options::LOG_IMAGE_ENABLED) {
-			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
+			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-attachment: %s; background-color: #%06X; background-image: url('%s'); overflow: auto;}\n",
 			protoSettings->getSRMMFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int) bkgColor, protoSettings->getSRMMBackgroundFilename());
 		} else {
 			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n",
@@ -163,7 +163,7 @@ void SRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
 			Utils::appendText(&output, &outputSize, "%s {font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
 			classNames[i],
 			lf.lfFaceName,
-			abs((signed char)lf.lfHeight) *  74 /logPixelSY ,
+			abs((signed char)lf.lfHeight) * 74 /logPixelSY ,
 			lf.lfWeight >= FW_BOLD ? "bold" : "normal",
 			(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
 			lf.lfItalic ? "font-style: italic;" : "");

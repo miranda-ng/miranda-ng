@@ -1,7 +1,7 @@
 /*
 
 IEView Plugin for Miranda IM
-Copyright (C) 2005-2010  Piotr Piastucki
+Copyright (C) 2005-2010 Piotr Piastucki
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -10,12 +10,12 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 */
 #include "Template.h"
@@ -321,7 +321,6 @@ static TokenDef templateNames[] = {
 	TokenDef("<!--hMessageOutGroupEndRTL-->")
 };
 
-
 TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename, bool onlyInfo) {
 	FILE* fh;
 	char lastTemplate[1024], tmp2[1024];
@@ -367,11 +366,11 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 		} else if (wasTemplate) {
 			Utils::appendText(&templateText, &templateTextSize, "%s", store);
 		}
-  	}
-  	if (wasTemplate) {
+	}
+	if (wasTemplate) {
 		tmap->addTemplate(lastTemplate, templateText);
 	}
-  	fclose(fh);
+	fclose(fh);
 	static const char *groupTemplates[] = {"MessageInGroupStart", "MessageInGroupInner",
 										   "hMessageInGroupStart", "hMessageInGroupInner",
 										   "MessageOutGroupStart", "MessageOutGroupInner",

@@ -1,7 +1,7 @@
 /*
 
 IEView Plugin for Miranda IM
-Copyright (C) 2005-2010  Piotr Piastucki
+Copyright (C) 2005-2010 Piotr Piastucki
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -10,20 +10,15 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 */
 #include "TemplateHTMLBuilder.h"
-
-#include <io.h>
-#include <fcntl.h>
-#include "Utils.h"
-#include "m_avatars.h"
 
 #define EVENTTYPE_STATUSCHANGE 25368
 
@@ -52,7 +47,7 @@ char *TemplateHTMLBuilder::getAvatar(HANDLE hContact, const char * szProto) {
 	TCHAR *result = NULL;
 
 	if (Options::getAvatarServiceFlags() == Options::AVATARSERVICE_PRESENT) {
-		struct avatarCacheEntry *ace  = NULL;
+		struct avatarCacheEntry *ace = NULL;
 		if (hContact == NULL) {
 			ace = (struct avatarCacheEntry *)CallService(MS_AV_GETMYAVATAR, (WPARAM)0, (LPARAM)szProto);
 		} else {
@@ -106,7 +101,7 @@ const char *TemplateHTMLBuilder::getFlashAvatar(const TCHAR *file, int index) {
 			_close(src);
 			urlBuf = strstr(pBuf, "<URL>");
 			if(urlBuf) {
-				flashAvatars[index]  = Utils::dupString(strtok(urlBuf + 5, "<\t\n\r"));
+				flashAvatars[index] = Utils::dupString(strtok(urlBuf + 5, "<\t\n\r"));
 			}
 		}
 	}
@@ -285,7 +280,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 			}
 			if (tokenVal != NULL) {
 				if (token->getEscape()) {
-					char *escapedToken  = Utils::escapeString(tokenVal);
+					char *escapedToken = Utils::escapeString(tokenVal);
 					Utils::appendText(&output, &outputSize, "%s", escapedToken);
 					delete escapedToken;
 				} else {
@@ -418,11 +413,11 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		char *output;
 		output = NULL;
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE || eventData->iType == IEED_EVENT_FILE || eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_SYSTEM) {
-			int isSent = (eventData->dwFlags & IEEDF_SENT);
-			int isRTL = (eventData->dwFlags & IEEDF_RTL) && tmpm->isRTL();
-			int isHistory = (eventData->time < (DWORD)getStartedTime() && (eventData->dwFlags & IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
-			int isGroupBreak = TRUE;
- 		  	if ((getFlags(protoSettings) & Options::LOG_GROUP_MESSAGES) && eventData->dwFlags == LOWORD(getLastEventType())
+			bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
+			bool isRTL = (eventData->dwFlags & IEEDF_RTL) && tmpm->isRTL();
+			bool isHistory = (eventData->time < (DWORD)getStartedTime() && (eventData->dwFlags & IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
+			bool isGroupBreak = TRUE;
+ 			if ((getFlags(protoSettings) & Options::LOG_GROUP_MESSAGES) && eventData->dwFlags == LOWORD(getLastEventType())
 			  && eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE
 			  && (isSameDate(eventData->time, getLastEventTime()))
 //			  && ((eventData->time < today) == (getLastEventTime() < today))
@@ -451,12 +446,12 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			}
 			if (eventData->dwFlags & IEEDF_UNICODE_TEXT) {
 				szText = encodeUTF8(event->hContact, szRealProto, eventData->pszTextW, eventData->iType == IEED_EVENT_MESSAGE ? ENF_ALL : 0, isSent);
-   			} else {
+			} else {
 				szText = encodeUTF8(event->hContact, szRealProto, eventData->pszText, event->codepage, eventData->iType == IEED_EVENT_MESSAGE ? ENF_ALL : 0, isSent);
 			}
 			if (eventData->dwFlags & IEEDF_UNICODE_TEXT2) {
 				szFileDesc = encodeUTF8(event->hContact, szRealProto, eventData->pszText2W, 0, isSent);
-   			} else {
+			} else {
 				szFileDesc = encodeUTF8(event->hContact, szRealProto, eventData->pszText2, event->codepage, 0, isSent);
 			}
 			if ((eventData->iType == IEED_EVENT_MESSAGE)) {
@@ -532,13 +527,13 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 								tokenVal = "&nbsp;";
 							}
 							break;
-	  					case Token::TEXT:
+						case Token::TEXT:
 							tokenVal = szText;
 							break;
-	  					case Token::AVATAR:
+						case Token::AVATAR:
 							tokenVal = szAvatar;
 							break;
-	  					case Token::CID:
+						case Token::CID:
 							tokenVal = szCID;
 							break;
 						case Token::BASE:
@@ -599,7 +594,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 					}
 					if (tokenVal != NULL) {
 						if (token->getEscape()) {
-							char *escapedToken  = Utils::escapeString(tokenVal);
+							char *escapedToken = Utils::escapeString(tokenVal);
 							Utils::appendText(&output, &outputSize, "%s", escapedToken);
 							delete escapedToken;
 						} else {
@@ -638,5 +633,3 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 time_t TemplateHTMLBuilder::getStartedTime() {
 	return startedTime;
 }
-
-

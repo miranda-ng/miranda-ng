@@ -19,13 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#ifdef __MINGW32__
-	#define WINVER 0x500
-	#define _WIN32_IE 0x500
-	#define __try
-	#define __except(a)
-#endif
-
 #ifndef IEVIEW_COMMON_H
 #define IEVIEW_COMMON_H
 
@@ -39,13 +32,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <process.h>
 #include <shlguid.h>
 #include <oleauto.h>
-#ifdef __MINGW32__
-	#include <exdisp.h>
-	#include <servprov.h>
-#endif
 #include <mshtml.h>
-
-#include <win2k.h>
+#include <io.h>
+#include <fcntl.h>
 
 #include <newpluginapi.h>
 #include <m_utils.h>
@@ -59,9 +48,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_skin.h>
 #include <m_message.h>
 #include <m_contacts.h>
+#include <win2k.h>
+#include "m_avatars.h"
+
 #include "m_smileyadd.h"
 #include "m_ieview.h"
+
 #include "IEView.h"
+#include "Utils.h"
 
 extern HINSTANCE hInstance;
 extern IEView *debugView;
