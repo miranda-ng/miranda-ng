@@ -2,7 +2,7 @@
 
 Jabber Protocol Plugin for Miranda IM
 Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-11  George Hazan
+Copyright ( C ) 2005-12  George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,10 +17,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-Revision       : $Revision: 14060 $
-Last change on : $Date: 2012-02-06 18:41:59 +0200 (Пн, 06 фев 2012) $
-Last change by : $Author: george.hazan $
 
 */
 
@@ -1050,15 +1046,6 @@ TCHAR* CJabberProto::GetClientJID( const TCHAR* jid, TCHAR* dest, size_t destLen
 	dest[ len ] = '\0';
 
 	TCHAR* p = _tcschr( dest, '/' );
-
-	JABBER_LIST_ITEM* LI = ListGetItemPtr( LIST_ROSTER, jid );
-	if ( LI && LI->resourceCount == 1 && LI->resource[ 0 ].szCapsNode &&
-		_tcsicmp( LI->resource[ 0 ].szCapsNode, _T( "http://talk.google.com/xmpp/bot/caps")) == 0)
-	{
-		if ( p ) *p = 0; 
-		return dest;
-	}
-
 	if ( p == NULL ) {
 		TCHAR* resource = ListGetBestResourceNamePtr( jid );
 		if ( resource != NULL )

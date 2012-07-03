@@ -2,7 +2,7 @@
 
 Jabber Protocol Plugin for Miranda IM
 Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-11  George Hazan
+Copyright ( C ) 2005-12  George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,10 +17,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-Revision       : $Revision: 13898 $
-Last change on : $Date: 2011-11-02 05:38:43 +0200 (Ср, 02 ноя 2011) $
-Last change by : $Author: borkra $
 
 */
 
@@ -307,10 +303,10 @@ void CJabberProto::GroupchatJoinRoom( const TCHAR* server, const TCHAR* room, co
 		info.saveRecent(0);
 	}
 
-	TCHAR text[512];
-	mir_sntprintf( text, SIZEOF(text), _T("%s@%s/%s"), room, server, nick );
+	TCHAR jid[512];
+	mir_sntprintf( jid, SIZEOF(jid), _T("%s@%s/%s"), room, server, nick );
 
-	JABBER_LIST_ITEM* item = ListAdd( LIST_CHATROOM, text );
+	JABBER_LIST_ITEM* item = ListAdd( LIST_CHATROOM, jid );
 	item->bAutoJoin = autojoin;
 	replaceStr( item->nick, nick );
 	replaceStr( item->password, info.password );
@@ -321,21 +317,16 @@ void CJabberProto::GroupchatJoinRoom( const TCHAR* server, const TCHAR* room, co
 		x << XCHILD( _T("password"), info.password );
 
 	if (m_options.GcLogChatHistory) {
-		char setting[MAXMODULELABELLENGTH];
-		mir_snprintf(setting, SIZEOF(setting), "muc_%s@%s_lastevent", _T2A(room), _T2A(server));
-		time_t lasteventtime = this->JGetDword( NULL, setting, 0 );
-		if ( lasteventtime > 0 ) {
-			_tzset();
-			lasteventtime += _timezone + 1;
-			struct tm* time = localtime(&lasteventtime);
+		HANDLE hContact = ChatRoomHContactFromJID(jid);
+		time_t lasteventtime = JGetDword(hContact, "muc_lastevent", 0);
+		if (hContact && lasteventtime) {
 			TCHAR lasteventdate[40];
-			mir_sntprintf(lasteventdate, SIZEOF(lasteventdate), _T("%04d-%02d-%02dT%02d:%02d:%02dZ"), 
-				time->tm_year+1900, time->tm_mon+1, time->tm_mday, time->tm_hour, time->tm_min, time->tm_sec);
+			tmi.printTimeStamp(UTC_TIME_HANDLE, lasteventtime, _T("I"), lasteventdate, SIZEOF(lasteventdate), 0);
 			x << XCHILD( _T("history")) << XATTR( _T("since"), lasteventdate);
 		}
 	}
 
-	SendPresenceTo( status, text, x );
+	SendPresenceTo( status, jid, x );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1245,17 +1236,8 @@ void CJabberProto::GroupchatProcessMessage( HXML node )
 	for ( int i = 1; ( xNode = xmlGetNthChild( node, _T("x"), i )) != NULL; i++ )
 		if (( p = xmlGetAttrValue( xNode, _T("xmlns"))) != NULL )
 			if ( !_tcscmp( p, _T("jabber:x:delay")) && msgTime==0 )
-				if (( p = xmlGetAttrValue( xNode, _T("stamp"))) != NULL ) {
+				if (( p = xmlGetAttrValue( xNode, _T("stamp"))) != NULL )
 					msgTime = JabberIsoToUnixTime( p );
-					if (m_options.GcLogChatHistory && msgTime > 0 ) {
-						char setting[MAXMODULELABELLENGTH];
-						mir_snprintf(setting, sizeof(setting), "muc_%s_lastevent", _T2A(gcd.ptszID));
-						this->JSetDword(NULL, setting, msgTime);
-				}	}
-
-	time_t now = time( NULL );
-	if ( msgTime == 0 || msgTime > now )
-		msgTime = now;
 
 	if ( resource != NULL ) {
 		JABBER_RESOURCE_STATUS* r = GcFindResource(item, resource);
@@ -1263,6 +1245,10 @@ void CJabberProto::GroupchatProcessMessage( HXML node )
 	}
 	else
 		nick = NULL;
+
+	time_t now = time( NULL );
+	if ( msgTime == 0 || msgTime > now )
+		msgTime = now;
 
 	GCEVENT gce = {0};
 	gce.cbSize = sizeof(GCEVENT);

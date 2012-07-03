@@ -2,7 +2,7 @@
 
 Jabber Protocol Plugin for Miranda IM
 Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-11  George Hazan
+Copyright ( C ) 2005-12  George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,10 +17,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-Revision       : $Revision: 13898 $
-Last change on : $Date: 2011-11-02 05:38:43 +0200 (Ср, 02 ноя 2011) $
-Last change by : $Author: borkra $
 
 */
 
@@ -376,6 +372,11 @@ void CJabberProto::GcQuit( JABBER_LIST_ITEM* item, int code, HXML reason )
 	if ( reason != NULL && xmlGetText( reason ) != NULL )
 		szReason = xmlGetText( reason );
 
+	if (m_options.GcLogChatHistory) {
+		HANDLE hContact = ChatRoomHContactFromJID(item->jid);
+		JSetDword(hContact, "muc_lastevent", time(NULL));
+	}
+
 	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
 	gcd.ptszID = item->jid;
 	GCEVENT gce = {0};
@@ -681,7 +682,8 @@ int CJabberProto::JabberGcMenuHook( WPARAM, LPARAM lParam )
 			sttSetupGcMenuItem(gcmi, 0, TRUE);
 			gcmi->Item[2].uType = 0;
 			sttShowGcMenuItems(gcmi, sttRJidItems, 0);
-	}	}
+		}
+	}
 
 	return 0;
 }

@@ -2,7 +2,7 @@
 
 Jabber Protocol Plugin for Miranda IM
 Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-11  George Hazan
+Copyright ( C ) 2005-12  George Hazan
 Copyright ( C ) 2007     Artem Shpynov
 
 Module implements a search according to XEP-0055: Jabber Search
@@ -21,10 +21,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-Revision       : $Revision: 13618 $
-Last change on : $Date: 2011-04-22 17:09:42 +0300 (Пт, 22 апр 2011) $
-Last change by : $Author: borkra $
 
 */
 

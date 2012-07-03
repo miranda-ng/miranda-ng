@@ -2,7 +2,7 @@
 
 Jabber Protocol Plugin for Miranda IM
 Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-11  George Hazan
+Copyright ( C ) 2005-12  George Hazan
 Copyright ( C ) 2007     Maxim Mluhov
 
 This program is free software; you can redistribute it and/or
@@ -18,10 +18,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-Revision       : $Revision: 7044 $
-Last change on : $Date: 2008-01-04 22:42:50 +0300 (Пт, 04 янв 2008) $
-Last change by : $Author: m_mluhov $
 
 */
 
@@ -1094,10 +1090,10 @@ HANDLE __cdecl CJabberProto::SendFile( HANDLE hContact, const TCHAR* szDescripti
 		return 0;
 	}
 
-	JabberCapsBits jcb = GetResourceCapabilites( item->jid, TRUE );
-	if ( jcb == JABBER_RESOURCE_CAPS_IN_PROGRESS ) {
+	JabberCapsBits jcb = GetTotalJidCapabilites( item->jid );
+	if (( jcb & JABBER_RESOURCE_CAPS_IN_PROGRESS ) == JABBER_RESOURCE_CAPS_IN_PROGRESS ) {
 		Sleep(600);
-		jcb = GetResourceCapabilites( item->jid, TRUE );
+		jcb = GetTotalJidCapabilites( item->jid );
 	}
 
 	// fix for very smart clients, like gajim
@@ -1241,10 +1237,6 @@ int __cdecl CJabberProto::SendMsg( HANDLE hContact, int flags, const char* pszSr
 
 		TCHAR szClientJid[ JABBER_MAX_JID_LEN ];
 		GetClientJID( dbv.ptszVal, szClientJid, SIZEOF( szClientJid ));
-
-		JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID( szClientJid );
-		if ( r )
-			r->bMessageSessionActive = TRUE;
 
 		JabberCapsBits jcb = GetResourceCapabilites( szClientJid, TRUE );
 

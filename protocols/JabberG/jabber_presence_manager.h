@@ -20,10 +20,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-Revision       : $Revision: 7173 $
-Last change on : $Date: 2008-01-28 15:32:35 +0200 $
-Last change by : $Author: dchervov $
-
 */
 
 #ifndef _JABBER_PRESENCE_MANAGER_H_

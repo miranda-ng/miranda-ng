@@ -2,7 +2,7 @@
 
 Jabber Protocol Plugin for Miranda IM
 Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-11  George Hazan
+Copyright ( C ) 2005-12  George Hazan
 Copyright ( C ) 2007     Maxim Mluhov
 
 This program is free software; you can redistribute it and/or
@@ -19,10 +19,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-Revision       : $Revision: 13905 $
-Last change on : $Date: 2011-11-06 01:31:18 +0200 (Вс, 06 ноя 2011) $
-Last change by : $Author: borkra $
-
 */
 
 #include "jabber.h"
@@ -38,7 +34,6 @@ Last change by : $Author: borkra $
 
 #include "m_toolbar.h"
 
-#define MENUITEM_LASTSEEN	1
 #define MENUITEM_SERVER		2
 #define MENUITEM_RESOURCES	10
 
@@ -59,7 +54,6 @@ static HGENMENU g_hMenuRefresh;
 static HGENMENU g_hMenuCommands;
 static HGENMENU g_hMenuSendNote;
 static HGENMENU g_hMenuResourcesRoot;
-static HGENMENU g_hMenuResourcesActive;
 static HGENMENU g_hMenuResourcesServer;
 
 static struct
@@ -342,20 +336,12 @@ void g_MenuInit( void )
 	mi.icolibItem = g_GetIconHandle( IDI_JABBER );
 	g_hMenuResourcesRoot = Menu_AddContactMenuItem(&mi);
 
-	mi.pszService = "Jabber/UseResource_last";
-	mi.pszName = LPGEN("Last Active");
-	mi.position = -1999901000;
-	mi.hParentMenu = g_hMenuResourcesRoot;
-	mi.icolibItem = g_GetIconHandle( IDI_JABBER );
-	mi.flags |= CMIF_ROOTHANDLE;
-	g_hMenuResourcesActive = Menu_AddContactMenuItem(&mi);
-	List_InsertPtr( &arServices, CreateServiceFunctionParam( mi.pszService, JabberMenuHandleResource, MENUITEM_LASTSEEN ));
-
 	mi.pszService = "Jabber/UseResource_server";
 	mi.pszName = LPGEN("Server's Choice");
 	mi.position = -1999901000;
-	mi.pszPopupName = (char *)g_hMenuResourcesRoot;
+	mi.hParentMenu = g_hMenuResourcesRoot;
 	mi.icolibItem = g_GetIconHandle( IDI_NODE_SERVER );
+	mi.flags |= CMIF_ROOTHANDLE;
 	g_hMenuResourcesServer = Menu_AddContactMenuItem(&mi);
 	List_InsertPtr( &arServices, CreateServiceFunctionParam( mi.pszService, JabberMenuHandleResource, MENUITEM_SERVER ));
 }
@@ -455,7 +441,6 @@ int CJabberProto::OnPrebuildContactMenu( WPARAM wParam, LPARAM )
 				mi.flags = CMIM_ICON|CMIM_FLAGS;
 				mi.icolibItem = GetIconHandle( IDI_JABBER );
 				CallService(MS_CLIST_MODIFYMENUITEM, ( WPARAM )g_hMenuResourcesRoot, ( LPARAM )&mi );
-				CallService(MS_CLIST_MODIFYMENUITEM, ( WPARAM )g_hMenuResourcesActive, ( LPARAM )&mi );
 
 				int nMenuResourceItemsNew = m_nMenuResourceItems;
 				if ( m_nMenuResourceItems < item->resourceCount ) {
@@ -489,7 +474,7 @@ int CJabberProto::OnPrebuildContactMenu( WPARAM wParam, LPARAM )
 						CLISTMENUITEM clmi = {0};
 						clmi.cbSize = sizeof(CLISTMENUITEM);
 						clmi.flags = CMIM_NAME|CMIM_FLAGS | CMIF_CHILDPOPUP|CMIF_TCHAR;
-						if ((item->resourceMode == RSMODE_MANUAL) && (item->manualResource == i))
+						if ((item->resourceMode == RSMODE_MANUAL) && (item->manualResource == &item->resource[i]))
 							clmi.flags |= CMIF_CHECKED;
 						if (ServiceExists( "Fingerprint/GetClientIcon" )) {
 							clmi.flags |= CMIM_ICON;
@@ -511,10 +496,6 @@ int CJabberProto::OnPrebuildContactMenu( WPARAM wParam, LPARAM )
 
 				ZeroMemory(&mi, sizeof(mi));
 				mi.cbSize = sizeof(CLISTMENUITEM);
-
-				mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP|CMIF_ICONFROMICOLIB |
-					((item->resourceMode == RSMODE_LASTSEEN) ? CMIF_CHECKED : 0);
-				CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )g_hMenuResourcesActive, ( LPARAM )&mi );
 
 				mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP|CMIF_ICONFROMICOLIB |
 					((item->resourceMode == RSMODE_SERVER) ? CMIF_CHECKED : 0);
@@ -1126,8 +1107,8 @@ int CJabberProto::OnProcessSrmmEvent( WPARAM, LPARAM lParam )
 
 			JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID( jid );
 
-			if ( r && r->bMessageSessionActive ) {
-				r->bMessageSessionActive = FALSE;
+			if ( r && r->uMessageSessionActive ) {
+				r->uMessageSessionActive = 0;
 				JabberCapsBits jcb = GetResourceCapabilites( jid, TRUE );
 
 				if ( jcb & JABBER_CAPS_CHATSTATES ) {
@@ -1164,35 +1145,35 @@ int CJabberProto::OnProcessSrmmIconClick( WPARAM wParam, LPARAM lParam )
 	TCHAR buf[256];
 
 	mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), TranslateT("Last active"),
-		((LI->lastSeenResource>=0) && (LI->lastSeenResource < LI->resourceCount)) ?
-			LI->resource[LI->lastSeenResource].resourceName : TranslateT("No activity yet, use server's choice"));
-	AppendMenu(hMenu, MF_STRING, MENUITEM_LASTSEEN, buf);
+		LI->lastSeenResource ? LI->lastSeenResource->resourceName : 
+		TranslateT("No activity yet, use server's choice"));
 
-	AppendMenu(hMenu, MF_STRING, MENUITEM_SERVER, TranslateT("Highest priority (server's choice)"));
+	AppendMenu(hMenu, MF_STRING, MENUITEM_SERVER, TranslateT("Standard"));
 
 	AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
-	for (int i = 0; i < LI->resourceCount; ++i)
+	int manInd = -1;
+	for (int i = 0; i < LI->resourceCount; ++i) {
 		AppendMenu(hMenu, MF_STRING, MENUITEM_RESOURCES+i, LI->resource[i].resourceName);
+		if (&LI->resource[i] == LI->manualResource)
+			manInd = i;
+	}
 
-	if (LI->resourceMode == RSMODE_LASTSEEN)
-		CheckMenuItem(hMenu, MENUITEM_LASTSEEN, MF_BYCOMMAND|MF_CHECKED);
-	else if (LI->resourceMode == RSMODE_SERVER)
-		CheckMenuItem(hMenu, MENUITEM_SERVER, MF_BYCOMMAND|MF_CHECKED);
+	if (LI->resourceMode == RSMODE_MANUAL)
+		CheckMenuItem(hMenu, MENUITEM_RESOURCES + manInd, MF_BYCOMMAND|MF_CHECKED);
 	else
-		CheckMenuItem(hMenu, MENUITEM_RESOURCES+LI->manualResource, MF_BYCOMMAND|MF_CHECKED);
+		CheckMenuItem(hMenu, MENUITEM_SERVER, MF_BYCOMMAND|MF_CHECKED);
 
 	int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, WindowList_Find(hDialogsList, hContact), NULL);
 
-	if ( res == MENUITEM_LASTSEEN ) {
-		LI->manualResource = -1;
-		LI->resourceMode = RSMODE_LASTSEEN;
-	}
-	else if (res == MENUITEM_SERVER) {
-		LI->manualResource = -1;
+	if (res == MENUITEM_SERVER) {
+		LI->manualResource = NULL;
 		LI->resourceMode = RSMODE_SERVER;
+
+		for ( int i=0; i<LI->resourceCount; i++ )
+			LI->resource[i].uMessageSessionActive = 0;
 	}
 	else if (res >= MENUITEM_RESOURCES) {
-		LI->manualResource = res - MENUITEM_RESOURCES;
+		LI->manualResource = &LI->resource[res - MENUITEM_RESOURCES];
 		LI->resourceMode = RSMODE_MANUAL;
 	}
 
@@ -1219,16 +1200,15 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleResource(WPARAM wParam, LPARAM, LPARAM
 	if ( !LI )
 		return 0;
 
-	if ( res == MENUITEM_LASTSEEN ) {
-		LI->manualResource = -1;
-		LI->resourceMode = RSMODE_LASTSEEN;
-	}
-	else if (res == MENUITEM_SERVER) {
-		LI->manualResource = -1;
+	if (res == MENUITEM_SERVER) {
+		LI->manualResource = NULL;
 		LI->resourceMode = RSMODE_SERVER;
+
+		for ( int i=0; i<LI->resourceCount; i++ )
+			LI->resource[i].uMessageSessionActive = 0;
 	}
 	else if (res >= MENUITEM_RESOURCES) {
-		LI->manualResource = res - MENUITEM_RESOURCES;
+		LI->manualResource = &LI->resource[res - MENUITEM_RESOURCES];
 		LI->resourceMode = RSMODE_MANUAL;
 	}
 

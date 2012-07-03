@@ -2,7 +2,7 @@
 
 Jabber Protocol Plugin for Miranda IM
 Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-11  George Hazan
+Copyright ( C ) 2005-12  George Hazan
 Copyright ( C ) 2007     Maxim Mluhov
 
 This program is free software; you can redistribute it and/or
@@ -18,10 +18,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-Revision       : $Revision: 13898 $
-Last change on : $Date: 2006-07-13 16:11:29 +0400
-Last change by : $Author: borkra $
 
 */
 
@@ -471,15 +467,10 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 
 	Log("JabberUpdateMirVer: for jid " TCHAR_STR_PARAM, item->jid);
 
-	int resource = -1;
-	if (item->resourceMode == RSMODE_LASTSEEN)
-		resource = item->lastSeenResource;
-	else if (item->resourceMode == RSMODE_MANUAL)
-		resource = item->manualResource;
-	if ((resource < 0) || (resource >= item->resourceCount))
-		return;
+	JABBER_RESOURCE_STATUS *resource = item->resourceMode == RSMODE_MANUAL ? item->manualResource : item->lastSeenResource;
+	if (resource == NULL) resource = &item->resource[0];
 
-	UpdateMirVer( hContact, &item->resource[resource] );
+	UpdateMirVer( hContact, resource );
 }
 
 void CJabberProto::FormatMirVer(JABBER_RESOURCE_STATUS *resource, TCHAR *buf, int bufSize)
