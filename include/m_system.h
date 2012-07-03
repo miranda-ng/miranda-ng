@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <tchar.h>
 
-#include <m_core.h>
 
 #ifndef MIRANDANAME
 	#define MIRANDANAME "Miranda IM"
@@ -46,7 +45,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#define __forceinline static FORCEINLINE
 #else
 	#pragma warning(disable:4244 4245)
-#endif
+#endif
+#include <m_core.h>
+
 
 //miranda/system/modulesloaded
 //called after all modules have been successfully initialised

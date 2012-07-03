@@ -210,7 +210,7 @@ MIR_CORE_DLL(void)   TranslateDialog_LP(HWND hDlg, int hLang);
 MIR_CORE_DLL(unsigned int) mir_hash(const void * key, unsigned int len);
 
 #pragma optimize("gt", on)
-__inline unsigned int mir_hashstr(const char * key)
+__forceinline unsigned int mir_hashstr(const char * key)
 {
 	if (key == NULL) return 0;
 	else {
@@ -218,7 +218,7 @@ __inline unsigned int mir_hashstr(const char * key)
 		return mir_hash(key, len);
 }	}
 
-__inline unsigned int mir_hashstrW(const wchar_t * key)
+__forceinline unsigned int mir_hashstrW(const wchar_t * key)
 {
 	if (key == NULL) return 0;
 	else {
@@ -366,8 +366,8 @@ MIR_CORE_DLL(char*) ltrimp(char *str);  // returns pointer to the trimmed portio
 
 MIR_CORE_DLL(int)   wildcmp(char *name, char *mask);
 
-__inline char* lrtrim(char* str) { return ltrim(rtrim(str)); };
-__inline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
+__forceinline char* lrtrim(char* str) { return ltrim(rtrim(str)); };
+__forceinline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
 
 ///////////////////////////////////////////////////////////////////////////////
 // text conversion functions
@@ -453,15 +453,15 @@ MIR_CORE_DLL(void)    Thread_Wait(void);
 MIR_CORE_DLL(UINT_PTR) forkthread(pThreadFunc, unsigned long stacksize, void *arg);
 MIR_CORE_DLL(UINT_PTR) forkthreadex(void *sec, unsigned stacksize, pThreadFuncEx, void* owner, void *arg, unsigned *thraddr);
 
-_inline HANDLE mir_forkthread(pThreadFunc aFunc, void* arg)
+__forceinline HANDLE mir_forkthread(pThreadFunc aFunc, void* arg)
 {	return (HANDLE)forkthread(aFunc, 0, arg);
 }
 
-__inline HANDLE mir_forkthreadex(pThreadFuncEx aFunc, void* arg, int stackSize, unsigned* pThreadID)
+__forceinline HANDLE mir_forkthreadex(pThreadFuncEx aFunc, void* arg, int stackSize, unsigned* pThreadID)
 {	return (HANDLE)forkthreadex(NULL, stackSize, aFunc, NULL, arg, pThreadID);
 }
 
-__inline HANDLE mir_forkthreadowner(pThreadFuncOwner aFunc, void* owner, void* arg, unsigned* pThreadID)
+__forceinline HANDLE mir_forkthreadowner(pThreadFuncOwner aFunc, void* owner, void* arg, unsigned* pThreadID)
 {	return (HANDLE)forkthreadex(NULL, 0, (pThreadFuncEx)aFunc, owner, arg, pThreadID);
 }
 
