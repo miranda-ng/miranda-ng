@@ -1090,10 +1090,10 @@ HANDLE __cdecl CJabberProto::SendFile( HANDLE hContact, const TCHAR* szDescripti
 		return 0;
 	}
 
-	JabberCapsBits jcb = GetTotalJidCapabilites( item->jid );
-	if (( jcb & JABBER_RESOURCE_CAPS_IN_PROGRESS ) == JABBER_RESOURCE_CAPS_IN_PROGRESS ) {
+	JabberCapsBits jcb = GetResourceCapabilites( item->jid, TRUE );
+	if ( jcb == JABBER_RESOURCE_CAPS_IN_PROGRESS ) {
 		Sleep(600);
-		jcb = GetTotalJidCapabilites( item->jid );
+		jcb = GetResourceCapabilites( item->jid, TRUE );
 	}
 
 	// fix for very smart clients, like gajim
@@ -1237,6 +1237,10 @@ int __cdecl CJabberProto::SendMsg( HANDLE hContact, int flags, const char* pszSr
 
 		TCHAR szClientJid[ JABBER_MAX_JID_LEN ];
 		GetClientJID( dbv.ptszVal, szClientJid, SIZEOF( szClientJid ));
+
+		JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID( szClientJid );
+		if ( r )
+			r->bMessageSessionActive = TRUE;
 
 		JabberCapsBits jcb = GetResourceCapabilites( szClientJid, TRUE );
 

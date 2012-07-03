@@ -1046,6 +1046,15 @@ TCHAR* CJabberProto::GetClientJID( const TCHAR* jid, TCHAR* dest, size_t destLen
 	dest[ len ] = '\0';
 
 	TCHAR* p = _tcschr( dest, '/' );
+
+	JABBER_LIST_ITEM* LI = ListGetItemPtr( LIST_ROSTER, jid );
+	if ( LI && LI->resourceCount == 1 && LI->resource[ 0 ].szCapsNode &&
+		_tcsicmp( LI->resource[ 0 ].szCapsNode, _T( "http://talk.google.com/xmpp/bot/caps")) == 0)
+	{
+		if ( p ) *p = 0; 
+		return dest;
+	}
+
 	if ( p == NULL ) {
 		TCHAR* resource = ListGetBestResourceNamePtr( jid );
 		if ( resource != NULL )

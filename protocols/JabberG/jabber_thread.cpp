@@ -1114,7 +1114,7 @@ HANDLE CJabberProto::CreateTemporaryContact( const TCHAR *szJid, JABBER_LIST_ITE
 void CJabberProto::OnProcessMessage( HXML node, ThreadData* info )
 {
 	HXML subjectNode, xNode, inviteNode, idNode, n;
-	LPCTSTR from, type, idStr;
+	LPCTSTR from, type, idStr, fromResource;
 	HANDLE hContact;
 
 	if ( !xmlGetName( node ) || _tcscmp( xmlGetName( node ), _T("message"))) 
@@ -1211,11 +1211,8 @@ void CJabberProto::OnProcessMessage( HXML node, ThreadData* info )
 		JCallService( MS_PROTO_CONTACTISTYPING, ( WPARAM )hContact, PROTOTYPE_CONTACTTYPING_OFF );
 
 	// chatstates inactive event
-	if ( hContact && xmlGetChildByTag( node, "inactive", "xmlns", _T( JABBER_FEAT_CHATSTATES ))) {
+	if ( hContact && xmlGetChildByTag( node, "inactive", "xmlns", _T( JABBER_FEAT_CHATSTATES )))
 		JCallService( MS_PROTO_CONTACTISTYPING, ( WPARAM )hContact, PROTOTYPE_CONTACTTYPING_OFF );
-		if ( resourceStatus )
-			resourceStatus->uMessageSessionActive = 0;
-	}
 
 	// message receipts delivery notification
 	if ( n = xmlGetChildByTag( node, "received", "xmlns", _T( JABBER_FEAT_MESSAGE_RECEIPTS ))) {
@@ -1255,20 +1252,17 @@ void CJabberProto::OnProcessMessage( HXML node, ThreadData* info )
 	}
 
 	// chatstates gone event
-	if ( hContact && xmlGetChildByTag( node, "gone", "xmlns", _T( JABBER_FEAT_CHATSTATES ))) {
-		if ( resourceStatus ) resourceStatus->uMessageSessionActive = 0;
-		if ( m_options.LogChatstates ) {
-			DBEVENTINFO dbei;
-			BYTE bEventType = JABBER_DB_EVENT_CHATSTATES_GONE; // gone event
-			dbei.cbSize = sizeof(dbei);
-			dbei.pBlob = &bEventType;
-			dbei.cbBlob = 1;
-			dbei.eventType = JABBER_DB_EVENT_TYPE_CHATSTATES;
-			dbei.flags = DBEF_READ;
-			dbei.timestamp = time(NULL);
-			dbei.szModule = m_szModuleName;
-			CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
-		}
+	if ( hContact && xmlGetChildByTag( node, "gone", "xmlns", _T( JABBER_FEAT_CHATSTATES )) && m_options.LogChatstates ) {
+		DBEVENTINFO dbei;
+		BYTE bEventType = JABBER_DB_EVENT_CHATSTATES_GONE; // gone event
+		dbei.cbSize = sizeof(dbei);
+		dbei.pBlob = &bEventType;
+		dbei.cbBlob = 1;
+		dbei.eventType = JABBER_DB_EVENT_TYPE_CHATSTATES;
+		dbei.flags = DBEF_READ;
+		dbei.timestamp = time(NULL);
+		dbei.szModule = m_szModuleName;
+		CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
 	}
 
 	if (( n = xmlGetChildByTag( node, "confirm", "xmlns", _T( JABBER_FEAT_HTTP_AUTH ))) && m_options.AcceptHttpAuth ) {
@@ -1474,26 +1468,25 @@ void CJabberProto::OnProcessMessage( HXML node, ThreadData* info )
 		if (( szMessage = JabberUnixToDosT( szMessage )) == NULL )
 			szMessage = mir_tstrdup( _T(""));
 
-		char* buf = mir_utf8encodeW(szMessage);
+			char* buf = mir_utf8encodeW( szMessage );
 		
 		if ( item != NULL ) {
+			if ( resourceStatus ) resourceStatus->bMessageSessionActive = TRUE;
 			if ( hContact != NULL )
 				JCallService( MS_PROTO_CONTACTISTYPING, ( WPARAM ) hContact, PROTOTYPE_CONTACTTYPING_OFF );
 
-			if (item->resourceMode != RSMODE_MANUAL && resourceStatus != item->lastSeenResource) {
-				item->lastSeenResource = resourceStatus;
-				UpdateMirVer(item);
-			}
-			else item->lastSeenResource = resourceStatus;
-			
-			if ( resourceStatus && resourceStatus->uMessageSessionActive == 0 ) {
-				for ( int i=0; i<item->resourceCount; i++ )
-					if ( &item->resource[i] != resourceStatus )
-						item->resource[i].uMessageSessionActive = 0;
-			}
-			if ( resourceStatus )
-				resourceStatus->uMessageSessionActive = time(NULL);
-		}
+			// no we will monitor last resource in all modes
+			if ( /*item->resourceMode==RSMODE_LASTSEEN &&*/ ( fromResource = _tcschr( from, '/' ))!=NULL ) {
+				fromResource++;
+				if ( *fromResource != '\0' ) {
+					for ( int i=0; i<item->resourceCount; i++ ) {
+						if ( !lstrcmp( item->resource[i].resourceName, fromResource )) {
+							int nLastSeenResource = item->lastSeenResource;
+							item->lastSeenResource = i;
+							if ((item->resourceMode==RSMODE_LASTSEEN) && (i != nLastSeenResource))
+								UpdateMirVer(item);
+							break;
+		}	}	}	}	}
 
 		// Create a temporary contact
 		if ( hContact == NULL )
