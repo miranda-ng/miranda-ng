@@ -91,7 +91,6 @@ PLUGININFOEX pluginInfo = {
 	"© 2010 NightFox; © 2005-2007 Chervov Dmitry; © 2004-2005 Iksaif; © 2002-2003 Goblineye Entertainment",
 	"http://MyiEd.org/packs",
 	UNICODE_AWARE,
-	DEFMOD_SRAWAY,		// mwawawawa.
 	{0xb2dd9270, 0xce5e, 0x11df, {0xbd, 0x3d, 0x8, 0x0, 0x20, 0xc, 0x9a, 0x66}}
 };
 
@@ -978,17 +977,9 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	update.szComponentName = pluginInfo.shortName;
 	update.pbVersion = (BYTE*)CreateVersionString(my_make_version(PRODUCTVER), szVersion);
 	update.cpbVersion = strlen((char*)update.pbVersion);
-	update.szUpdateURL = "http://myied.org/packs/NAS"
-
-		"W"
-
-		".zip";
+	update.szUpdateURL = "http://myied.org/packs/NASW.zip";
 	update.szVersionURL = "http://myied.org/packs/NAS/updaterinfo.php";
-	update.pbVersionPrefix = (BYTE*)"New Away System Mod"
-
-		" Unicode"
-
-		" version ";
+	update.pbVersionPrefix = (BYTE*)"New Away System Mod";
 	update.cpbVersionPrefix = strlen((char*)update.pbVersionPrefix);
 	CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
 	

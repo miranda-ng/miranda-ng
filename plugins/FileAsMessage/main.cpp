@@ -11,7 +11,6 @@ PLUGININFOEX pluginInfo =
 	"Copyright (c) 2004, Denis Stanishevskiy",
 	PLUGIN_URL,
 	UNICODE_AWARE,
-	0,
 	// {34B5A402-1B79-4246-B041-43D0B590AE2C}
 	{ 0x34b5a402, 0x1b79, 0x4246, { 0xb0, 0x41, 0x43, 0xd0, 0xb5, 0x90, 0xae, 0x2c } }
 };

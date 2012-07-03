@@ -38,7 +38,6 @@ PLUGININFOEX pluginInfo = {
 	"Copyright 2000-2012 Miranda IM project",
 	"http://www.miranda-im.org",
 	UNICODE_AWARE,
-	DEFMOD_SRMESSAGE,            // replace internal version (if any)
 	{0x657fe89b, 0xd121, 0x40c2, { 0x8a, 0xc9, 0xb9, 0xfa, 0x57, 0x55, 0xb3, 0xc }} //{657FE89B-D121-40c2-8AC9-B9FA5755B30C}
 };
 

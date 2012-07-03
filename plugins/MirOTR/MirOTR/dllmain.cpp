@@ -21,8 +21,7 @@ PLUGININFOEX pluginInfo={
 	AUTHOR_MAIL,
 	LEGAL_COPYRIGHT_LONG,
 	HOMEPAGE,
-	UNICODE_AWARE,		// not transient
-	0,					// doesn't replace anything built-in
+	UNICODE_AWARE,
 	MIID_OTRPLUGIN		// ANSI and Unicode have different IDs
 };
 
@@ -50,7 +49,7 @@ DLLFUNC PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	if(ServiceExists(MS_MC_GETPROTOCOLNAME))
 		g_metaproto = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-	
+
 	// DISABLED UPDATE CHECK FOR NOW
 	/*
 	if(ServiceExists(MS_UPDATE_REGISTER)) {
@@ -66,15 +65,15 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 		update.szBetaChangelogURL = "http://code.google.com/p/mirotr/source/list";
 
 		update.szUpdateURL = UPDATER_AUTOREGISTER;
-		
-		// these are the three lines that matter - the archive, the page containing the version string, and the text (or data) 
+
+		// these are the three lines that matter - the archive, the page containing the version string, and the text (or data)
 		// before the version that we use to locate it on the page
 		// (note that if the update URL and the version URL point to standard file listing entries, the backend xml
 		// data will be used to check for updates rather than the actual web page - this is not true for beta urls)
 		update.szBetaUpdateURL = "http://www.progandy.co.cc/mirotr/download.php"; // redirection script to current release on GoogleCode
 		update.szBetaVersionURL = "http://www.progandy.co.cc/mirotr/version.txt";
 		update.pbBetaVersionPrefix = "MirOTR version: ";
-		
+
 		update.cpbBetaVersionPrefix = strlen(update.pbBetaVersionPrefix);
 
 		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
@@ -86,7 +85,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	lib_cs_lock();
 	otr_user_state = otrl_userstate_create();
 	lib_cs_unlock();
-	
+
 	// this calls ReadPrivkeyFiles (above) to set filename values (also called on ME_FOLDERS_PATH_CHANGED)
 	InitOptions();
 
@@ -107,7 +106,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	if (!options.bHaveSRMMIcons) {
 		MessageBox(0, _T("OTR Info"), _T("Your SRMM plugin does not support status icons. Not all OTR-functions are available!"), 0x30);
 	}
-	
+
 	// HookEvent(ME_OPT_INITIALISE, OptInit);
 
 	// hook setting changed to monitor status
@@ -125,7 +124,7 @@ int NewContact(WPARAM wParam, LPARAM lParam) {
 	// add filter
 	HANDLE hContact = (HANDLE)wParam;
 	CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM )hContact, ( LPARAM )MODULENAME );
-	
+
 	return 0;
 }
 
@@ -136,7 +135,7 @@ DLLFUNC int Load(void)
 	mir_getLP( &pluginInfo );
 	/* for timezones
 	 mir_getTMI(&tmi);  */
-	
+
 	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(MODULENAME "/TrustLevel"));
 
 	/////////////
@@ -151,12 +150,12 @@ DLLFUNC int Load(void)
 	if(DBGetContactSettingByte(0, MODULENAME, "FilterOrderFix", 0) != 2) {
 		HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 		while ( hContact != NULL ) {
-			CallService( MS_PROTO_REMOVEFROMCONTACT, ( WPARAM )hContact, ( LPARAM )MODULENAME );	
+			CallService( MS_PROTO_REMOVEFROMCONTACT, ( WPARAM )hContact, ( LPARAM )MODULENAME );
 			hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
-		}	
+		}
 		DBWriteContactSettingByte(0, MODULENAME, "FilterOrderFix", 2);
 	}
-	
+
 	// add us as a filter to all contacts
 	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 	char *proto;
@@ -165,21 +164,21 @@ DLLFUNC int Load(void)
 
 		// do not add filter to a chatoom
 		if ( !(proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0)) )
-			CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM )hContact, ( LPARAM )MODULENAME );	
+			CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM )hContact, ( LPARAM )MODULENAME );
 
 		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
-	}	
+	}
 	HookEvent(ME_DB_CONTACT_ADDED, NewContact);
 
 	// create our services
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, SVC_OTRSendMessage);
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE"W", SVC_OTRSendMessageW);
 	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, SVC_OTRRecvMessage);
-	
+
 
 	// hook modules loaded for updater support
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	
+
 	return 0;
 }
 

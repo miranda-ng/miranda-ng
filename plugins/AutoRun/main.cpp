@@ -15,7 +15,6 @@ PLUGININFOEX pluginInfoEx=
 	"Copyright © 2002-2007 Sergey V. Gershovich a.k.a. Jazzy$",
 	"http://miranda-im.org/download/index.php?action=viewfile&id=285",
 	UNICODE_AWARE,
-	0,
 	MIID_AUTORUN
 };
 

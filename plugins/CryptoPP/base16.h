@@ -44,7 +44,7 @@ static const byte asciiToBin16[] =
 static const byte binToAscii16[] = "0123456789ABCDEF";
 
 char *base16encode(const char *, const int);
-char *base16decode(const char *, int *);
+char *base16decode(const char *, size_t *);
 char *base16decode(const char *);
 
 #define encode16(data) binToAscii16[data]

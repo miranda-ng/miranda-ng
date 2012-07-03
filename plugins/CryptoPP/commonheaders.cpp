@@ -24,7 +24,7 @@ PLUGININFOEX pluginInfoEx = {
 		"baloo@bk.ru",
 		"© 2006-09 Baloo",
 		"http://miranda-im.org/download/details.php?action=viewfile&id=2669",
-		0, 0,
+		0,
 		MIID_CRYPTOPP
 };
 
@@ -58,8 +58,8 @@ void ExtractFile( char *FileName, int ResType, int ResId )
 }
 
 
-int rtrim(LPCSTR str) {
-	int len = strlen(str);
+size_t rtrim(LPCSTR str) {
+	size_t len = strlen(str);
 	LPSTR ptr = (LPSTR)str+len-1;
 
 	while( len ) {

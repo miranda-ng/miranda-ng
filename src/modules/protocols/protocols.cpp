@@ -714,7 +714,7 @@ int LoadProtocolsModule(void)
 {
 	bModuleInitialized = TRUE;
 
-	if (LoadProtoChains())
+	if ( LoadProtoChains())
 		return 1;
 
 	InsertServiceListItem( 1, PS_ADDTOLIST);

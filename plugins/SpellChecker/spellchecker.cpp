@@ -33,7 +33,6 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	0,		//doesn't replace anything built-in
 	{ 0x36753ae3, 0x840b, 0x4797, { 0x94, 0xa5, 0xfd, 0x9f, 0x58, 0x52, 0xb9, 0x42 } } // {36753AE3-840B-4797-94A5-FD9F5852B942}
 };
 
@@ -1691,14 +1690,12 @@ void AddMenuForWord(Dialog *dlg, TCHAR *word, CHARRANGE &pos, HMENU hMenu, BOOL 
 
 	data.hReplaceSubMenu = CreatePopupMenu();
 
-	InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, 
-			base + AUTOREPLACE_MENU_ID_BASE + suggestions.count, TranslateT("Other..."));
+	InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, base + AUTOREPLACE_MENU_ID_BASE + suggestions.count, TranslateT("Other..."));
 	if (suggestions.count > 0)
 	{
 		InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
 		for (int i = suggestions.count - 1; i >= 0; i--) 
-			InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, 
-					base + AUTOREPLACE_MENU_ID_BASE + i, suggestions.words[i]);
+			InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, base + AUTOREPLACE_MENU_ID_BASE + i, suggestions.words[i]);
 	}
 
 	AppendSubmenu(hMenu, data.hReplaceSubMenu, TranslateT("Always replace with"));

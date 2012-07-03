@@ -104,7 +104,6 @@ PLUGININFOEX pluginInfoEx = {
 	"Copyright 2000-2012 Miranda-IM project",
 	"http://www.miranda-im.org",
 	UNICODE_AWARE,
-	0,
 // {E00F1643-263C-4599-B84B-053E5C511D29}
 	{ 0xe00f1643, 0x263c, 0x4599, { 0xb8, 0x4b, 0x5, 0x3e, 0x5c, 0x51, 0x1d, 0x29 } }
 };

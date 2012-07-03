@@ -10,8 +10,7 @@ LPSTR __cdecl cpp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 	pSIMDATA p = (pSIMDATA) ptr->pdata;
 
 	BYTE dataflag = 0;
-	int clen,slen;
-	slen = strlen(szPlainMsg);
+	size_t clen, slen = strlen(szPlainMsg);
 
 	LPSTR szMsg;
 	if (ptr->features & FEATURES_GZIP) {
@@ -69,7 +68,7 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 		ptr->error = ERROR_SEH;
 		pSIMDATA p = (pSIMDATA) ptr->pdata;
 
-		int clen = strlen(szEncMsg);
+		size_t clen = strlen(szEncMsg);
 
 		if (ptr->features & FEATURES_BASE64)
 			ciphered = base64decode(szEncMsg,&clen);

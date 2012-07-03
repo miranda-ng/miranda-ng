@@ -168,8 +168,8 @@ extern HINSTANCE g_hInst;
 pCNTX get_context_on_id(int);
 pCNTX get_context_on_id(HANDLE);
 void cpp_free_keys(pCNTX);
-BYTE *cpp_gzip(BYTE*,int,int&);
-BYTE *cpp_gunzip(BYTE*,int,int&);
+BYTE *cpp_gzip(BYTE*,size_t,size_t&);
+BYTE *cpp_gunzip(BYTE*,size_t,size_t&);
 string cpp_zlibc(string&);
 string cpp_zlibd(string&);
 

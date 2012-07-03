@@ -48,9 +48,7 @@ PLUGININFOEX pluginInfo = {
 	"© (2002-2004 majvan) 2005-2007 tweety y_b Miranda community", 
 	"http://www.miranda-im.org/download/details.php?action = viewfile&id = 3411", //"http://www.majvan.host.sk/Projekty/YAMN?fm = soft", 
 	UNICODE_AWARE, 
-	0, 		//doesn't replace anything built-in
 	{ 0xb047a7e5, 0x27a, 0x4cfc, { 0x8b, 0x18, 0xed, 0xa8, 0x34, 0x5d, 0x27, 0x90 } } // {B047A7E5-027A-4cfc-8B18-EDA8345D2790}
-
 };
 
 HANDLE hNewMailHook;

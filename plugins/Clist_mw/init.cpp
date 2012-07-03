@@ -85,8 +85,8 @@ PLUGININFOEX pluginInfo = {
 	"Copyright 2000-2010 Miranda-IM project ["__DATE__" "__TIME__"]",
 	"http://www.miranda-im.org",
 	UNICODE_AWARE,
-	DEFMOD_CLISTALL,
-	{0x2a417ab9, 0x16f2, 0x472d, { 0x9a, 0xe3, 0x41, 0x51, 0x3, 0xc7, 0x8a, 0x64 }} //{2A417AB9-16F2-472d-9AE3-415103C78A64}
+	//{2A417AB9-16F2-472d-9AE3-415103C78A64}
+	{0x2a417ab9, 0x16f2, 0x472d, { 0x9a, 0xe3, 0x41, 0x51, 0x3, 0xc7, 0x8a, 0x64 }}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
@@ -112,21 +112,13 @@ int LoadCLCModule(void);
 int LoadCLUIModule();
 int InitSkinHotKeys();
 
-static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	__try	{
-		int *disableDefaultModule = 0;
-		disableDefaultModule = (int*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY,0,0);
-		if (!disableDefaultModule[DEFMOD_UICLUI]) if ( LoadCLUIModule()) return 1;
-	}
-	__except (exceptFunction(GetExceptionInformation()))
-	{
-		return 0;
-	}
+	if ( LoadCLUIModule())
+		return 1;
 
 	InitSkinHotKeys();
 	RegisterCListFonts();
-
 	return 0;
 }
 
@@ -216,7 +208,7 @@ LBL_Error:
 		rc = LoadContactListModule();
 		if (rc == 0) rc = LoadCLCModule();
 
-		HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);
+		HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 		BGModuleLoad();
 
 		OutputDebugStringA("CListInitialise ClistMW...Done\r\n");

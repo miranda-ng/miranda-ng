@@ -315,8 +315,7 @@ PLUGININFOEX pluginInfo={
 	"tioduke@yahoo.ca",
 	"© 2002-2003 M.Öberg, 2004 Std, 2005-2008 TioDuke",
 	"http://addons.miranda-im.org/",
-	UNICODE_AWARE,
-	0,		//doesn't replace anything built-in
+	UNICODE_AWARE,		//doesn't replace anything built-in
 	MIID_KBDNOTIFY //{119D7288-2050-448d-9900-D86AC70426BF}
 };
 

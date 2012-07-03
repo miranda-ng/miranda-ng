@@ -18,7 +18,7 @@ char *base16encode(const char *inBuffer, int count) {
 }
 
 
-char *base16decode(const char *inBuffer, int *count) {
+char *base16decode(const char *inBuffer, size_t *count) {
 
 	char *outBuffer = (char *) malloc(*count);
 	BYTE *outBufferPtr = (BYTE *) outBuffer;
@@ -54,9 +54,9 @@ char *base16decode(const char *inBuffer, int *count) {
 }
 
 
-char *base16decode(const char *inBuffer) {
-
-    int count = (int)strlen(inBuffer);
+char *base16decode(const char *inBuffer)
+{
+	size_t count = strlen(inBuffer);
 	return base16decode(inBuffer, &count);
 }
 

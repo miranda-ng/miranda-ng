@@ -36,13 +36,8 @@ PLUGININFOEX pluginInfo={
 	"woobind@ukr.net",
 	"© 2008 - 2010 Roman Gemini",
 	"http://code.google.com/p/alfamar/",
-	UNICODE_AWARE,		//not transient
-	0,		//doesn't replace anything built-in
-    // Generate your own unique id for your plugin.
-    // Do not use this UUID!
-    // Use uuidgen.exe to generate the uuuid
+	UNICODE_AWARE,
 	{0x7eeeb55e, 0x9d83, 0x4e1a, { 0xa1, 0x2f, 0x8f, 0x13, 0xf1, 0xa1, 0x24, 0xfb } }
-
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)

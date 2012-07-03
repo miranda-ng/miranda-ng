@@ -20,8 +20,7 @@ PLUGININFOEX pluginInfo={
 	"chaos.persei@gmail.com",
 	__COPYRIGHTS,
 	"http://mods.mirandaim.ru/",
-	UNICODE_AWARE,
-	0,		//doesn't replace anything built-in
+	UNICODE_AWARE,		//doesn't replace anything built-in
     // Generate your own unique id for your plugin.
     // Do not use this UUID!
     // Use uuidgen.exe to generate the uuuid

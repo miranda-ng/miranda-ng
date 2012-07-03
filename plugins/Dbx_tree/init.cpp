@@ -42,8 +42,7 @@ static PLUGININFOEX gPluginInfoEx = {
 	gCopyright,
 	"http://www-user.tu-chemnitz.de/~kunmi/?dbx_tree&lang=en",
 	UNICODE_AWARE,
-	DEFMOD_DB,
-  gGUID
+	gGUID
 };
 
 extern "C" __declspec(dllexport) DATABASELINK* DatabasePluginInfo(void * Reserved)

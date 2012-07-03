@@ -48,7 +48,6 @@ PLUGININFOEX pluginInfo = {
 	"© 2006-2008 Chervov Dmitry",
 	"http://deathdemon.int.ru/",
 	UNICODE_AWARE,
-	0,
 	// {B68A8906-748B-435d-930E-21CC6E8F3B3F}
 	{0xb68a8906, 0x748b, 0x435d, {0x93, 0xe, 0x21, 0xcc, 0x6e, 0x8f, 0x3b, 0x3f}}
 };

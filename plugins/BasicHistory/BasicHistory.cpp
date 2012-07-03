@@ -46,9 +46,10 @@ bool g_SmileyAddAvail = false;
 char* metaContactProto = NULL;
 const IID IID_ITextDocument={0x8CC497C0, 0xA1DF, 0x11ce, {0x80, 0x98, 0x00, 0xAA, 0x00, 0x47, 0xBE, 0x5D}};
 
-#define MODULE				"BasicHistory"
+#define MODULE "BasicHistory"
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = 
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -58,7 +59,6 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	DEFMOD_UIHISTORY,
 	MIID_BASICHISTORY
 };
 

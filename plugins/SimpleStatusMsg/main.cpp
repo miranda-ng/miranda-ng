@@ -43,7 +43,6 @@ PLUGININFOEX pluginInfo = {
 	"© 2006-2011 Bartosz Bia³ek, © 2005 Harven",
 	"http://code.google.com/p/dezeath",
 	UNICODE_AWARE,
-	DEFMOD_SRAWAY,
 	// {768CE156-34AC-45a3-B53B-0083C47615C4}
 	{ 0x768ce156, 0x34ac, 0x45a3, { 0xb5, 0x3b, 0x0, 0x83, 0xc4, 0x76, 0x15, 0xc4 } }
 };

@@ -14,12 +14,8 @@ PLUGININFOEX pluginInfo={
 	"yasnovidyashii@gmail.com",
 	"© 2009 Mikhail Yuriev",
 	"http://miranda-im.org/",
-	UNICODE_AWARE,		//not transient
-	0,		//doesn't replace anything built-in
-    // Generate your own unique id for your plugin.
-    // Do not use this UUID!
-    // Use uuidgen.exe to generate the uuuid
-    MIID_USERGUIDE
+	UNICODE_AWARE,
+	MIID_USERGUIDE
 };
 
 static INT_PTR ShowGuideFile(WPARAM wParam,LPARAM lParam)

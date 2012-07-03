@@ -33,8 +33,7 @@ PLUGININFOEX pluginInfoEx={
 	PLG_COPYRIGHT,
 	PLG_HOMEPAGE,
 	PLG_FLAGS,
-	PLG_REPLACESDEFMODULE,
-	MIID_V_CYRTRANSLIT,
+	MIID_V_CYRTRANSLIT
 };
 
 //------------------------------------------------------------------------------

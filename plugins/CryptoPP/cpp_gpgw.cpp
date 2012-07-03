@@ -240,7 +240,7 @@ LPSTR __cdecl gpg_encode(HANDLE context, LPCSTR szPlainMsg)
 	LPSTR szUtfMsg;
 	if ( ptr->mode & MODE_GPG_ANSI ) {
 		LPWSTR wszMsg = utf8decode(szPlainMsg);
-		int wlen = wcslen(wszMsg)+1;
+		size_t wlen = wcslen(wszMsg)+1;
 		szUtfMsg = (LPSTR) alloca(wlen);
 		WideCharToMultiByte(CP_ACP, 0, wszMsg, -1, szUtfMsg, wlen, 0, 0);
 	}
@@ -261,7 +261,7 @@ LPSTR __cdecl gpg_decode(HANDLE context, LPCSTR szEncMsg)
 
 	if (szOldMsg) {
 		if ( !is_7bit_string(szOldMsg) && !is_utf8_string(szOldMsg) ) {
-			int slen = strlen(szOldMsg)+1;
+			size_t slen = strlen(szOldMsg)+1;
 			LPWSTR wszMsg = (LPWSTR) alloca(slen*sizeof(WCHAR));
 			MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wszMsg, slen*sizeof(WCHAR));
 			szNewMsg = _strdup(utf8encode(wszMsg));

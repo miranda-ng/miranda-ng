@@ -68,11 +68,9 @@ PLUGININFOEX pluginInfo={
    "kostia@ngs.ru",
    "© 2006-2009 Kostia Romanov, based on AuthState by Alexander Turyak",
    "http://kildor.miranda.im/",
-   UNICODE_AWARE,      // is not unicode
-   0,      //doesn't replace anything built-in
+   UNICODE_AWARE,
+	// 45230488-977b-405b-856d-ea276d7083b7
    {0x45230488, 0x977b, 0x405b, {0x85, 0x6d, 0xea, 0x27, 0x6d, 0x70, 0x83, 0xb7}}
-/* 45230488-977b-405b-856d-ea276d7083b7 */
-
 };
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)

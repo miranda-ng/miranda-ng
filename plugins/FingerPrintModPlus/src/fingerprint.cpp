@@ -114,7 +114,6 @@ PLUGININFOEX pluginInfoEx = {
 	__LEGAL_COPYRIGHT_STRING,
 	"http://code.google.com/p/fingerprintmod/",
 	UNICODE_AWARE,
-	0,
 	MIID_THIS_PLUGIN
 };
 

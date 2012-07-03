@@ -21,7 +21,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "commonheaders.h"
-#include <m_plugins.h>
+
+#include "../modules/plugins/plugins.h"
 
 // other static variables
 static BOOL bServiceMode = FALSE;
@@ -93,6 +94,7 @@ void UnloadErrorsModule(void);
 int LoadIcoTabsModule();
 int LoadHeaderbarModule();
 int LoadDescButtonModule();
+
 int LoadDefaultModules(void)
 {
     //load order is very important for these
@@ -112,15 +114,11 @@ int LoadDefaultModules(void)
 //	if ( LoadErrorsModule()) return 1;
 
 	bServiceMode = LoadServiceModePlugin();
-	switch (bServiceMode)
-	{
+	switch (bServiceMode) {
 		case 1:	return 0; // stop loading here
 		case 0: break;
 		default: return 1;
 	}
-
-	//this info will be available at LoadNewPluginsModule()
-	INT_PTR *disableDefaultModule=(INT_PTR*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY, 0, 0);
 
 	if ( LoadSkinSounds()) return 1;
 	if ( LoadSkinHotkeys()) return 1;
@@ -129,8 +127,10 @@ int LoadDefaultModules(void)
 	if ( LoadDescButtonModule()) return 1;
 	if ( LoadOptionsModule()) return 1;
 	if ( LoadNetlibModule()) return 1;
+	if ( LoadSslModule()) return 1;
+	     NetlibInitSsl();
 	if ( LoadProtocolsModule()) return 1;
-	    LoadDbAccounts();                    // retrieves the account array from a database
+	     LoadDbAccounts();                    // retrieves the account array from a database
 	if ( LoadContactsModule()) return 1;
 	if ( LoadContactListModule()) return 1;
 	if ( LoadAddContactModule()) return 1;
@@ -138,27 +138,25 @@ int LoadDefaultModules(void)
 
 	LangPackDropUnusedItems();
 
-	if ( !disableDefaultModule[DEFMOD_SSL]) if (LoadSslModule()) return 1;
-	NetlibInitSsl();
-
-	if (LoadAccountsModule()) return 1;
+	if ( LoadAccountsModule()) return 1;
 
     //order becomes less important below here
-	if ( !disableDefaultModule[DEFMOD_UIFINDADD]) if (LoadFindAddModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_UIUSERINFO]) if (LoadUserInfoModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_SRURL]) if (LoadSendRecvUrlModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_SREMAIL]) if (LoadSendRecvEMailModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_SRAUTH]) if (LoadSendRecvAuthModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_SRFILE]) if (LoadSendRecvFileModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_UIHELP]) if (LoadHelpModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_UIHISTORY]) if (LoadHistoryModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_RNDIDLE]) if (LoadIdleModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_RNDAUTOAWAY]) if (LoadAutoAwayModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_RNDUSERONLINE]) if (LoadUserOnlineModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_SRAWAY]) if (LoadAwayMsgModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_RNDIGNORE]) if (LoadIgnoreModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_UIVISIBILITY]) if (LoadVisibilityModule()) return 1;
-	if ( !disableDefaultModule[DEFMOD_UPDATENOTIFY]) if (LoadUpdateNotifyModule()) return 1;
+	if ( LoadFindAddModule()) return 1;
+	if ( LoadAwayMsgModule()) return 1;
+	if ( LoadIgnoreModule()) return 1;
+	if ( LoadVisibilityModule()) return 1;
+
+	if ( !pluginDefault[ 0].pImpl) if ( LoadUserInfoModule()) return 1;
+	if ( !pluginDefault[ 1].pImpl) if ( LoadSendRecvUrlModule()) return 1;
+	if ( !pluginDefault[ 2].pImpl) if ( LoadSendRecvEMailModule()) return 1;
+	if ( !pluginDefault[ 3].pImpl) if ( LoadSendRecvAuthModule()) return 1;
+	if ( !pluginDefault[ 4].pImpl) if ( LoadSendRecvFileModule()) return 1;
+	if ( !pluginDefault[ 5].pImpl) if ( LoadHelpModule()) return 1;
+	if ( !pluginDefault[ 6].pImpl) if ( LoadHistoryModule()) return 1;
+	if ( !pluginDefault[ 7].pImpl) if ( LoadIdleModule()) return 1;
+	if ( !pluginDefault[ 8].pImpl) if ( LoadAutoAwayModule()) return 1;
+	if ( !pluginDefault[ 9].pImpl) if ( LoadUserOnlineModule()) return 1;
+	if ( !pluginDefault[10].pImpl) if ( LoadUpdateNotifyModule()) return 1;
 	return 0;
 }
 

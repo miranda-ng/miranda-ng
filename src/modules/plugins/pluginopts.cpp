@@ -26,6 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "plugins.h"
 
+#define IS_DATABASE (1 << 14)
+
+extern MUUID miid_clist, miid_database;
 extern HANDLE hShutdownEvent, hPreShutdownEvent;
 static HANDLE hevLoadModule, hevUnloadModule;
 
@@ -58,8 +61,8 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 	if (checkAPI(buf, &pi, MIRANDA_VERSION_CORE, CHECKAPI_NONE) == 0)
 		return TRUE;
 
-	int isdb = pi.pluginInfo->replacesDefaultModule == DEFMOD_DB;
-	int isclist = pi.pluginInfo->replacesDefaultModule == DEFMOD_CLISTALL;
+	int isdb = hasMuuid(pi, miid_database);
+	int isclist = hasMuuid(pi, miid_clist);
 
 	PluginListItemData* dat = (PluginListItemData*)mir_alloc(sizeof(PluginListItemData));
 	dat->hInst = hInst;
@@ -85,7 +88,16 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 
 		ListView_SetItemText(hwndList, iRow, 2, fd->cFileName);
 
-		dat->flags = pi.pluginInfo->replacesDefaultModule;
+		dat->flags = 0;
+		if (pi.Interfaces) {
+			MUUID *piface = pi.Interfaces();
+			for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
+				int idx = getDefaultPluginIdx( piface[i] );
+				if (idx != -1 ) {
+					dat->flags |= (1 << idx);
+					break;
+		}	}	}
+
 		dat->author = mir_strdup(pi.pluginInfo->author);
 		dat->authorEmail = mir_strdup(pi.pluginInfo->authorEmail);
 		dat->copyright = mir_strdup(pi.pluginInfo->copyright);
@@ -211,7 +223,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 				PluginListItemData* dat = (PluginListItemData*)lvi.lParam;
 				if (lvi.iImage == 3) {
-					if (LoadPluginDynamically(dat)) {
+					if ( LoadPluginDynamically(dat)) {
 						lvi.iImage = 2;
 						ListView_SetItem(hwnd, &lvi);
 					}
@@ -301,7 +313,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						break;
 
 					PluginListItemData* dat = (PluginListItemData*)it.lParam;
-					if (dat->flags == DEFMOD_DB) {
+					if (dat->flags & IS_DATABASE) {
 						ListView_SetItemState(hwndList, hdr->iItem, 0x3000, LVIS_STATEIMAGEMASK);
 						return FALSE;
 					}
@@ -314,7 +326,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 								dt.iItem = iRow;
 								if (ListView_GetItem(hwndList, &dt)) {
 									PluginListItemData* dat2 = (PluginListItemData*)dt.lParam;
-									if (dat2->flags == dat->flags) {
+									if (dat2->flags & dat->flags) {
 										// the lParam is unset, so when the check is unset the clist block doesnt trigger
 										int lParam = dat2->flags;
 										dat2->flags = 0;

@@ -377,9 +377,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		MoveMemory(scur + parsedTokenLen, cur, (_tcslen(cur)+1)*sizeof(TCHAR));
 		CopyMemory(scur, parsedToken, parsedTokenLen*sizeof(TCHAR));
 		{
-			int len;
-
-			len = _tcslen(string);
+			size_t len = _tcslen(string);
 			string = (TCHAR*)mir_realloc(string, (len+1)*sizeof(TCHAR));
 		}
 		if (( ai.flags & AIF_DONTPARSE ) || tmpVarPos >= 0)

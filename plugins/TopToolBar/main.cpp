@@ -29,8 +29,7 @@ PLUGININFOEX pluginInfo  =
 	__PLUGIN_EMAIL,
 	__PLUGIN_RIGHTS,
 	__PLUGIN_AUTHORWEB,
-	UNICODE_AWARE,
-	0, 		//doesn't replace anything built-in
+	UNICODE_AWARE, 		//doesn't replace anything built-in
 	MIID_TTB
 };
 

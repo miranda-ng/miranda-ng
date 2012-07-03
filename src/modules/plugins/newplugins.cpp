@@ -43,7 +43,26 @@ static const pluginBannedList[] =
 	{{0xe00f1643, 0x263c, 0x4599, { 0xb8, 0x4b, 0x05, 0x3e, 0x5c, 0x51, 0x1d, 0x28 }}, MAX_MIR_VER}, // loadavatars (unicode)
 	{{0xc9e01eb0, 0xa119, 0x42d2, { 0xb3, 0x40, 0xe8, 0x67, 0x8f, 0x5f, 0xea, 0xd9 }}, MAX_MIR_VER}, // loadavatars (ansi)
 };
-const int pluginBannedListCount = SIZEOF(pluginBannedList);
+
+MuuidReplacement pluginDefault[] = 
+{
+	{	MIID_UIUSERINFO,      NULL },  // 0
+	{	MIID_SRURL,           NULL },  // 1
+	{	MIID_SREMAIL,         NULL },  // 2
+	{	MIID_SRAUTH,          NULL },  // 3
+	{	MIID_SRFILE,          NULL },  // 4
+	{	MIID_UIHELP,          NULL },  // 5
+	{	MIID_UIHISTORY,       NULL },  // 6
+	{	MIID_IDLE,            NULL },  // 7
+	{	MIID_AUTOAWAY,        NULL },  // 8
+	{	MIID_USERONLINE,      NULL },  // 9
+	{	MIID_UPDATENOTIFY,    NULL },  // 10
+
+	{	MIID_CLIST,           NULL },  // 11
+	{	MIID_CHAT,            NULL },  // 12
+	{	MIID_SRMM,            NULL },  // 13
+	{	MIID_DATABASE,        NULL },  // 14
+};
 
 static BOOL bModuleInitialized = FALSE;
 
@@ -56,7 +75,6 @@ static pluginEntry * pluginListUI;
 static pluginEntry * pluginList_freeimg;
 static pluginEntry * pluginList_crshdmp;
 static HANDLE hPluginListHeap = NULL;
-static pluginEntry * pluginDefModList[DEFMOD_HIGHEST+1]; // do not free this memory
 static int askAboutIgnoredPlugins;
 
 int  InitIni(void);
@@ -68,9 +86,10 @@ int LoadDatabaseModule(void);
 
 char* GetPluginNameByInstance(HINSTANCE hInstance)
 {
-	int i = 0;
-	if (pluginList.getCount() == 0) return NULL;
-	for (i = 0; i <  pluginList.getCount(); i++) {
+	if (pluginList.getCount() == 0) 
+		return NULL;
+
+	for (int i = 0; i <  pluginList.getCount(); i++) {
 		pluginEntry* pe = pluginList[i];
 		if (pe->bpi.pluginInfo && pe->bpi.hInst == hInstance)
 			return pe->bpi.pluginInfo->shortName;
@@ -83,7 +102,31 @@ int equalUUID(const MUUID& u1, const MUUID& u2)
 	return memcmp(&u1, &u2, sizeof(MUUID))?0:1;
 }
 
+bool hasMuuid(const BASIC_PLUGIN_INFO& bpi, const MUUID& uuid)
+{
+	if (bpi.Interfaces) {
+		MUUID *piface = bpi.Interfaces();
+		for (int i=0; !equalUUID(miid_last, piface[i]); i++)
+			if ( equalUUID(uuid, piface[i]))
+				return true;
+	}
+	return false;
+}
+
+int getDefaultPluginIdx(const MUUID& muuid)
+{
+	for (int i=0; i < SIZEOF(pluginDefault); i++)
+		if (equalUUID(muuid, pluginDefault[i].uuid))
+			return i;
+
+	return -1;
+}
+
 MUUID miid_last = MIID_LAST;
+MUUID miid_chat = MIID_CHAT;
+MUUID miid_srmm = MIID_SRMM;
+MUUID miid_clist = MIID_CLIST;
+MUUID miid_database = MIID_DATABASE;
 MUUID miid_servicemode = MIID_SERVICEMODE;
 
 static bool validInterfaceList(Miranda_Plugin_Interfaces ifaceProc)
@@ -104,11 +147,9 @@ static bool validInterfaceList(Miranda_Plugin_Interfaces ifaceProc)
 
 static int isPluginBanned(MUUID u1, DWORD dwVersion)
 {
-	int i;
-
-	for (i=0; i<pluginBannedListCount; i++) {
-		if (equalUUID(pluginBannedList[i].uuid, u1)) {
-			if (dwVersion<pluginBannedList[i].maxVersion)
+	for (int i=0; i < SIZEOF(pluginBannedList); i++) {
+		if ( equalUUID(pluginBannedList[i].uuid, u1)) {
+			if (dwVersion < pluginBannedList[i].maxVersion)
 				return 1;
 			return 0;
 		}
@@ -163,11 +204,6 @@ static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 
 	if (pi->shortName == NULL || pi->description == NULL || pi->author == NULL  ||
 		  pi->authorEmail == NULL || pi->copyright == NULL || pi->homepage == NULL)
-		return FALSE;
-
-	if (pi->replacesDefaultModule > DEFMOD_HIGHEST  ||
-		  pi->replacesDefaultModule == DEFMOD_REMOVED_UIPLUGINOPTS  ||
-		  pi->replacesDefaultModule == DEFMOD_REMOVED_PROTOCOLNETLIB)
 		return FALSE;
 
 	return TRUE;
@@ -362,11 +398,6 @@ static INT_PTR PluginsEnum(WPARAM, LPARAM lParam)
 	return pluginListDb != NULL ? 1 : -1;
 }
 
-static INT_PTR PluginsGetDefaultArray(WPARAM, LPARAM)
-{
-	return (INT_PTR)&pluginDefModList;
-}
-
 pluginEntry* OpenPlugin(TCHAR* tszFileName, TCHAR* path)
 {
 	int isdb = validguess_db_name(tszFileName);
@@ -402,17 +433,11 @@ pluginEntry* OpenPlugin(TCHAR* tszFileName, TCHAR* path)
 		if (checkAPI(buf, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 			p->pclass |= (PCLASS_OK | PCLASS_BASICAPI);
 			p->bpi = bpi;
-			if (bpi.Interfaces) {
-				int i = 0;
-				MUUID *piface = bpi.Interfaces();
-				while ( !equalUUID(miid_last, piface[i])) {
-					if ( !equalUUID(miid_servicemode, piface[i++]))
-						continue;
-					p->pclass |= (PCLASS_SERVICE);
-					if (pluginListSM != NULL) p->nextclass = pluginListSM;
-					pluginListSM = p;
-					break;
-				}
+			if ( hasMuuid(bpi, miid_servicemode)) {
+				p->pclass |= (PCLASS_SERVICE);
+				if (pluginListSM != NULL)
+					p->nextclass = pluginListSM;
+				pluginListSM = p;
 			}
 		}
 		else
@@ -482,13 +507,18 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 		if ( !checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_NONE))
 			p->pclass |= PCLASS_FAILED;
 		else {
-			int rm = bpi.pluginInfo->replacesDefaultModule;
 			p->bpi = bpi;
 			p->pclass |= PCLASS_OK | PCLASS_BASICAPI;
 
-			if (pluginDefModList[rm] != NULL) {
-				SetPluginOnWhiteList(p->pluginname, 0);
-				return false;
+			if (p->bpi.Interfaces) {
+				MUUID *piface = bpi.Interfaces();
+				for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
+					int idx = getDefaultPluginIdx( piface[i] );
+					if (idx != -1 && pluginDefault[idx].pImpl) {
+						SetPluginOnWhiteList(p->pluginname, 0);
+						return false;
+					}
+				}
 			}
 
 			RegisterModule(p->bpi.hInst);
@@ -496,7 +526,14 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 				return false;
 
 			p->pclass |= PCLASS_LOADED;
-			if (rm) pluginDefModList[rm]=p;
+			if (p->bpi.Interfaces) {
+				MUUID *piface = bpi.Interfaces();
+				for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
+					int idx = getDefaultPluginIdx( piface[i] );
+					if (idx != -1)
+						pluginDefault[idx].pImpl = p;
+				}
+			}
 		}
 	}
 	else if (p->bpi.hInst != NULL) {
@@ -686,7 +723,7 @@ int LoadNewPluginsModule(void)
 			i--;
 		}
 		else if (p->pclass & PCLASS_LOADED)
-			msgModule |= (p->bpi.pluginInfo->replacesDefaultModule == DEFMOD_SRMESSAGE);
+			msgModule |= hasMuuid(p->bpi, miid_srmm);
 	}
 
 	if ( !msgModule)
@@ -710,14 +747,13 @@ int LoadNewPluginsModuleInfos(void)
 	mirandaVersion = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0);
 
 	CreateServiceFunction(MS_PLUGINS_ENUMDBPLUGINS, PluginsEnum);
-	CreateServiceFunction(MS_PLUGINS_GETDISABLEDEFAULTARRAY, PluginsGetDefaultArray);
 
 	// remember where the mirandaboot.ini goes
 	PathToAbsoluteT(_T("mirandaboot.ini"), mirandabootini, NULL);
 	// look for all *.dll's
 	enumPlugins(scanPluginsDir, 0, 0);
 	// the database will select which db plugin to use, or fail if no profile is selected
-	if (LoadDatabaseModule()) return 1;
+	if ( LoadDatabaseModule()) return 1;
 	InitIni();
 	//  could validate the plugin entries here but internal modules arent loaded so can't call Load(void) in one pass
 	return 0;

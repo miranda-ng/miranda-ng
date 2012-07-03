@@ -40,8 +40,7 @@ PLUGININFOEX pluginInfo = {
 	"Copyright 2000-2011 Miranda IM project, FYR, chaos.persei, induction, nullbie",
 	"http://dbmmapmod.googlecode.com/",
 	UNICODE_AWARE,
-	DEFMOD_DB,
-    // {28FF9B91-3E4D-4f1c-B47C-C641B037FF40}
+	// {28FF9B91-3E4D-4f1c-B47C-C641B037FF40}
 	{ 0x28ff9b91, 0x3e4d, 0x4f1c, { 0xb4, 0x7c, 0xc6, 0x41, 0xb0, 0x37, 0xff, 0x40 } }
 };
 

@@ -55,7 +55,6 @@ static const PLUGININFOEX pluginInfoEx = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	0,
 	// {7C070F7C-459E-46b7-8E6D-BC6EFAA22F78}
 	{ 0x7c070f7c, 0x459e, 0x46b7, { 0x8e, 0x6d, 0xbc, 0x6e, 0xfa, 0xa2, 0x2f, 0x78 } }
 };

@@ -97,16 +97,15 @@ static const ii[] = {
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-		MODULENAME,
-		__VERSION_DWORD,
-		__DESC,
-		__AUTHORS,
-		__EMAIL,
-		__COPYRIGHTS,
-		__WEB __PLUGIN_ID_STR,
-		UNICODE_AWARE, 
-		0,
-		MIID_MENUEX
+	MODULENAME,
+	__VERSION_DWORD,
+	__DESC,
+	__AUTHORS,
+	__EMAIL,
+	__COPYRIGHTS,
+	__WEB __PLUGIN_ID_STR,
+	UNICODE_AWARE, 
+	MIID_MENUEX
 };
 
 struct ModSetLinkLinkItem { // code from dbe++ plugin by Bio

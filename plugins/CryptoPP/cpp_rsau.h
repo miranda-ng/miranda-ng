@@ -30,7 +30,7 @@ public:
 		}
 	};
 
-	u_int count() { return data.size(); };
+	size_t count() { return data.size(); };
 	bool exist(u_char t) { return (data.find(t) != data.end()); };
 	string get(u_char t) { return data[t]; };
 	void put(u_char t, string& v) { data[t]=v; };

@@ -27,17 +27,16 @@ HANDLE g_hNetlibUser;
 int hLangpack;
 
 PLUGININFOEX pluginInfo={
-		sizeof(PLUGININFOEX),
-		"Yahoo Protocol",
-		__VERSION_DWORD,
-		"Yahoo Protocol support via libyahoo2 library. [Built: "__DATE__" "__TIME__"]",
-		"Gennady Feldman",
-		"gena01@miranda-im.org",
-		"© 2003-2010 Gennady Feldman, Laurent Marechal",
-		"http://www.miranda-im.org",
-		UNICODE_AWARE, //not transient
-		0, //DEFMOD_PROTOCOLYAHOO - no core yahoo protocol
-        {0xaa7bfea, 0x1fc7, 0x45f0, {0x90, 0x6e, 0x2a, 0x46, 0xb6, 0xe1, 0x19, 0xcf}} // {0AA7BFEA-1FC7-45f0-906E-2A46B6E119CF}
+	sizeof(PLUGININFOEX),
+	"Yahoo Protocol",
+	__VERSION_DWORD,
+	"Yahoo Protocol support via libyahoo2 library. [Built: "__DATE__" "__TIME__"]",
+	"Gennady Feldman",
+	"gena01@miranda-im.org",
+	"© 2003-2010 Gennady Feldman, Laurent Marechal",
+	"http://www.miranda-im.org",
+	UNICODE_AWARE,
+	{0xaa7bfea, 0x1fc7, 0x45f0, {0x90, 0x6e, 0x2a, 0x46, 0xb6, 0xe1, 0x19, 0xcf}} // {0AA7BFEA-1FC7-45f0-906E-2A46B6E119CF}
 };
 
 void YmsgrLinksInit(void);

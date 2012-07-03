@@ -24,11 +24,10 @@ PLUGININFOEX pluginInfo={
 	"© 2002 J. Random Hacker",
 	"http://miranda-icq.sourceforge.net/",
 	0,		//not transient
-	0,		//doesn't replace anything built-in
-    // Generate your own unique id for your plugin.
-    // Do not use this UUID!
-    // Use uuidgen.exe to generate the uuuid
-    {0x8b86253, 0xec6e, 0x4d09, { 0xb7, 0xa9, 0x64, 0xac, 0xdf, 0x6, 0x27, 0xb8 }} //{08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
+   // Generate your own unique id for your plugin.
+   // Do not use this UUID!
+   // Use uuidgen.exe to generate the uuuid
+   {0x8b86253, 0xec6e, 0x4d09, { 0xb7, 0xa9, 0x64, 0xac, 0xdf, 0x6, 0x27, 0xb8 }} //{08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)

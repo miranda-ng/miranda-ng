@@ -39,7 +39,6 @@ static PLUGININFOEX pluginInfoEx =
 	"© 2002-2003 Sergey V. Gershovich a.k.a. Jazzy$, 2006-2009 Boris Krasnovskiy, 2010, 2011 tico-tico",
 	"",
 	UNICODE_AWARE,
-	0,
 	MIID_HISTORYSWEEPERLIGHT
 };
 

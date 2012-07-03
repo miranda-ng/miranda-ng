@@ -21,9 +21,9 @@ PLUGININFOEX pluginInfoEx = {
 	"Yasnovidyashii@gmail.com",
 	"© 2006-2009 Mikhail Yur'ev",
 	"http://lemnews.com/forum/viewtopic.php?t = 1493",
-	0,		//not transient
 	UNICODE_AWARE,		//doesn't replace anything built-in
-	{0xc5ef53a8, 0x80d4, 0x4ce9, { 0xb3, 0x41, 0xec, 0x90, 0xd3, 0xec, 0x91, 0x56 }} //{c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+	// {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+	{0xc5ef53a8, 0x80d4, 0x4ce9, { 0xb3, 0x41, 0xec, 0x90, 0xd3, 0xec, 0x91, 0x56 }}
 };
 
 LPCTSTR ptszKeybEng = _T("`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?");

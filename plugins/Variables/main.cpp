@@ -65,7 +65,6 @@ PLUGININFOEX pluginInfoEx = {
 	"© 2003-2008 P. Boon, Ricardo Pescuma, George Hazan",
 	"http://www.miranda-im.org/",
 	UNICODE_AWARE,
-	0,
 	MIID_VARIABLES
 };
 

@@ -20,7 +20,9 @@ typedef int (__cdecl * CList_Initialise) (void);
 // Interface support
 typedef MUUID * (__cdecl * Miranda_Plugin_Interfaces) (void);
 
-typedef struct { // can all be NULL
+// can all be NULL
+struct BASIC_PLUGIN_INFO
+{
 	HINSTANCE hInst;
 	Miranda_Plugin_Load Load;
 	Miranda_Plugin_Unload Unload;
@@ -30,7 +32,7 @@ typedef struct { // can all be NULL
 	CList_Initialise clistlink;
 	PLUGININFOEX * pluginInfo;	 // must be freed if hInst == NULL then its a copy
 	DATABASELINK * dblink;		 // only valid during module being in memory
-} BASIC_PLUGIN_INFO;
+};
 
 #define PCLASS_FAILED	 0x1  	// not a valid plugin, or API is invalid, pluginname is valid
 #define PCLASS_BASICAPI  0x2  	// has Load, Unload, MirandaPluginInfo() -> PLUGININFO seems valid, this dll is in memory.
@@ -60,6 +62,8 @@ void UnloadPluginOptions();
 int isPluginOnWhiteList(const TCHAR* pluginname);
 void SetPluginOnWhiteList(const TCHAR* pluginname, int allow);
 
+int getDefaultPluginIdx(const MUUID& muuid);
+bool hasMuuid(const BASIC_PLUGIN_INFO&, const MUUID&);
 int equalUUID(const MUUID& u1, const MUUID& u2);
 int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int checkTypeAPI);
 pluginEntry* OpenPlugin(TCHAR* tszFileName, TCHAR* path);
@@ -68,3 +72,11 @@ void Plugin_Uninit(pluginEntry* p, bool bDynamic=false);
 
 typedef BOOL (*SCAN_PLUGINS_CALLBACK) (WIN32_FIND_DATA * fd, TCHAR * path, WPARAM wParam, LPARAM lParam);
 void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam);
+
+struct MuuidReplacement
+{
+	MUUID uuid;  // default interface plugin
+	pluginEntry* pImpl; // replacement plugin
+};
+
+extern MuuidReplacement pluginDefault[];

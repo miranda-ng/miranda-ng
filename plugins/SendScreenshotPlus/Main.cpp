@@ -53,8 +53,7 @@ PLUGININFOEX pluginInfo={
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	UNICODE_AWARE,
-	0,		//doesn't replace anything built-in
+	UNICODE_AWARE,		//doesn't replace anything built-in
 	MIID_PLUGIN
 };
 

@@ -50,7 +50,6 @@ typedef struct _MUUID {
 
 /* Replaceable internal modules interface ids */
 #define MIID_HISTORY        {0x5ca0cbc1, 0x999a, 0x4ea2, {0x8b, 0x44, 0xf8, 0xf6, 0x7d, 0x7f, 0x8e, 0xbe}}
-#define MIID_UIFINDADD      {0xb22c528d, 0x6852, 0x48eb, {0xa2, 0x94, 0x0e, 0x26, 0xa9, 0x16, 0x12, 0x13}}
 #define MIID_UIUSERINFO     {0x570b931c, 0x9af8, 0x48f1, {0xad, 0x9f, 0xc4, 0x49, 0x8c, 0x61, 0x8a, 0x77}}
 #define MIID_SRURL          {0x5192445c, 0xf5e8, 0x46c0, {0x8f, 0x9e, 0x2b, 0x6d, 0x43, 0xe5, 0xc7, 0x53}}
 #define MIID_SRAUTH         {0x377780b9, 0x2b3b, 0x405b, {0x9f, 0x36, 0xb3, 0xc4, 0x87, 0x8e, 0x6f, 0x33}}
@@ -112,11 +111,7 @@ typedef struct PLUGININFOEX_tag
 	char *copyright;
 	char *homepage;
 	BYTE flags;	   // right now the only flag, UNICODE_AWARE, is recognized here
-	int replacesDefaultModule;		   //one of the DEFMOD_ constants in m_plugins.h or zero
-	         //if non-zero, this will supress the loading of the specified built-in module
-			 //with the implication that this plugin provides back-end-compatible features
-             /***********  WILL BE DEPRECATED in 0.8 * *************/
-    MUUID uuid; // Not required until 0.8.
+	MUUID uuid;    // plugin's unique identifier
 }
 	PLUGININFOEX;
 

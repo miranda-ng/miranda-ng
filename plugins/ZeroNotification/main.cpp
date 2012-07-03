@@ -46,8 +46,7 @@ PLUGININFOEX pluginInfoEx = {
 	"",
 	COPYRIGHT,
 	"",
-	UNICODE_AWARE,		//not transient
-	0,
+	UNICODE_AWARE,
 	UID
 };
 
@@ -125,7 +124,7 @@ static int SetNotify(const long status){
 
 	mi.flags |= CMIM_NAME;
 	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)noSoundMenu,(LPARAM)&mi);
-	
+
 	return 0;
 }
 
@@ -148,14 +147,14 @@ static int ProtoAck(WPARAM wParam, LPARAM lParam)
 		SetNotify(status);
 
 		return 0;
-	} 
+	}
 
 	return 0;
 }
 
 static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	DWORD test; 
+	DWORD test;
 	switch (msg)
 	{
 	case WM_INITDIALOG:
@@ -203,7 +202,7 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				DBWriteContactSettingDword(NULL,PLUGINNAME_SHORT,"NoSound",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOSOUND)));
 				DBWriteContactSettingDword(NULL,PLUGINNAME_SHORT,"NoBlink",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOBLINK)));
 				DBWriteContactSettingDword(NULL,PLUGINNAME_SHORT,"NoCLCBlink",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOCLCBLINK)));
-				
+
 				test = DBGetContactSettingWord(NULL,"CList","Status",0);
 				SetNotify(Proto_Status2Flag(DBGetContactSettingWord(NULL,"CList","Status",0)));
 				return TRUE;

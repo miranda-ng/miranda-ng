@@ -66,8 +66,8 @@ PLUGININFOEX pluginInfo = {
 	"Copyright 2000-2008 Miranda IM project",
 	"http://www.miranda-im.org",
 	UNICODE_AWARE,
-	DEFMOD_CLISTALL,
-    {0x240a91dc, 0x9464, 0x457a, { 0x97, 0x87, 0xff, 0x1e, 0xa8, 0x8e, 0x77, 0xe3 }} //{240A91DC-9464-457a-9787-FF1EA88E77E3}
+	//{240A91DC-9464-457a-9787-FF1EA88E77E3}
+    {0x240a91dc, 0x9464, 0x457a, { 0x97, 0x87, 0xff, 0x1e, 0xa8, 0x8e, 0x77, 0xe3 }} 
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)

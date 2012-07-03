@@ -57,8 +57,7 @@ PLUGININFOEX pluginInfoEx =
 	"yaho@miranda-easy.net",
 	"© 2005-2007 Scott Ellis, 2007-2011 Jan Holub",
 	"http://miranda-easy.net/mods.php",
-	UNICODE_AWARE,
-	0,					//doesn't replace anything built-in
+	UNICODE_AWARE,					//doesn't replace anything built-in
 	MIID_TIPPER
 };
 

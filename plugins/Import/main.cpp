@@ -59,8 +59,7 @@ PLUGININFOEX pluginInfo = {
 	"info@miranda-im.org",
 	"© 2000-2010 Martin Öberg, Richard Hughes, Dmitry Kuzkin, George Hazan",
 	"http://www.miranda-im.org",
-	UNICODE_AWARE,
-	0,	//{2D77A746-00A6-4343-BFC5-F808CDD772EA}
+	UNICODE_AWARE,	//{2D77A746-00A6-4343-BFC5-F808CDD772EA}
       {0x2d77a746, 0xa6, 0x4343, { 0xbf, 0xc5, 0xf8, 0x8, 0xcd, 0xd7, 0x72, 0xea }}
 };
 

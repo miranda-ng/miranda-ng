@@ -37,7 +37,6 @@ static PLUGININFOEX pluginInfo = {
 	"Copyright 2000-2011 Miranda IM project",
 	"",
 	UNICODE_AWARE,
-	DEFMOD_DB,
     {0x1394a3ab, 0x2585, 0x4196, { 0x8f, 0x72, 0xe, 0xae, 0xc2, 0x45, 0xe, 0x11 }} //{1394A3AB-2585-4196-8F72-0EAEC2450E11}
 };
 

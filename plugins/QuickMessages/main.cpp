@@ -47,7 +47,6 @@ PLUGININFOEX pluginInfo = {
 	"© 2008 Danil Mozhar",
 	"http://miranda.radicaled.ru/index.php?plugin=3",
 	UNICODE_AWARE,
-	0,
 	// {37ED754B-6CF9-40ed-9EB6-0FEF8E822475}
 	{ 0x37ed754b, 0x6cf9, 0x40ed, { 0x9e, 0xb6, 0xf, 0xef, 0x8e, 0x82, 0x24, 0x75 } }
 };

@@ -1,7 +1,7 @@
 #include "commonheaders.h"
 
 // gzip data
-BYTE *cpp_gzip(BYTE *pData, int nLen, int& nCompressedLen) {
+BYTE *cpp_gzip(BYTE *pData, size_t nLen, size_t& nCompressedLen) {
 
 	string zipped;
 	Gzip gzip(new StringSink(zipped),5);    // 1 is fast, 9 is slow
@@ -16,7 +16,7 @@ BYTE *cpp_gzip(BYTE *pData, int nLen, int& nCompressedLen) {
 }
 
 // gunzip data
-BYTE *cpp_gunzip(BYTE *pCompressedData, int nCompressedLen, int& nLen) {
+BYTE *cpp_gunzip(BYTE *pCompressedData, size_t nCompressedLen, size_t& nLen) {
 
 	string unzipped;
 	Gunzip gunzip(new StringSink(unzipped));

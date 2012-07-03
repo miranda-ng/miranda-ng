@@ -38,8 +38,8 @@ void MsnLinks_Destroy(void);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Global variables
 
-bool	msnHaveChatDll;
-int		avsPresent = -1;
+bool msnHaveChatDll;
+int  avsPresent = -1;
 
 static const PLUGININFOEX pluginInfo =
 {
@@ -52,8 +52,8 @@ static const PLUGININFOEX pluginInfo =
 	"© 2001-2012 Richard Hughes, George Hazan, Boris Krasnovskiy",
 	"http://miranda-im.org",
 	UNICODE_AWARE,	
-	0,
-	{0x97724af9, 0xf3fb, 0x47d3, {0xa3, 0xbf, 0xea, 0xa9, 0x35, 0xc7, 0x4e, 0x6d}} // {97724AF9-F3FB-47d3-A3BF-EAA935C74E6D}
+	// {97724AF9-F3FB-47d3-A3BF-EAA935C74E6D}
+	{0x97724af9, 0xf3fb, 0x47d3, {0xa3, 0xbf, 0xea, 0xa9, 0x35, 0xc7, 0x4e, 0x6d}}
 };
 
 int MSN_GCEventHook(WPARAM wParam, LPARAM lParam);

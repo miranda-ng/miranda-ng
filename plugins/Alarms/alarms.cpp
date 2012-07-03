@@ -38,8 +38,7 @@ PLUGININFOEX pluginInfo={
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	UNICODE_AWARE,		//not transient
-	0,		//doesn't replace anything built-in
+	UNICODE_AWARE,
 	{ 0x4dd7762b, 0xd612, 0x4f84, { 0xaa, 0x86, 0x6, 0x8f, 0x17, 0x85, 0x9b, 0x6d } } // {4DD7762B-D612-4f84-AA86-068F17859B6D}
 };
 

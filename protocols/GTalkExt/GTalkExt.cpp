@@ -42,8 +42,7 @@ PLUGININFOEX pluginInfo={
 	"bems@vingrad.ru",
 	COPYRIGHT_STRING,
 	"http://miranda-planet.com/forum/index.php?autocom=downloads&showfile=1400",
-	UNICODE_AWARE,
-	0,		//doesn't replace anything built-in
+	UNICODE_AWARE,		//doesn't replace anything built-in
 	MIID_PLUGINIFACE //{08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
 };
 

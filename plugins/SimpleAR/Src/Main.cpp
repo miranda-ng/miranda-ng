@@ -44,7 +44,6 @@ PLUGININFOEX pluginInfoEx = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	0,
 	// {46BF191F-8DFB-4656-88B2-4C20BE4CFA44}
 	{0x46bf191f, 0x8dfb, 0x4656, { 0x88, 0xb2, 0x4c, 0x20, 0xbe, 0x4c, 0xfa, 0x44}}
 };

@@ -621,7 +621,7 @@ static void LoadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
 
 	for (int i=0; i < opi.pageCount; i++) {
 		OptionsPageData* opd = (OptionsPageData*)mir_calloc(sizeof(OptionsPageData));
-		if (LoadOptionsPage(&opi.odp[i], opd))
+		if ( LoadOptionsPage(&opi.odp[i], opd))
 			dat->arOpd.insert(opd);
 		else
 			mir_free(opd);

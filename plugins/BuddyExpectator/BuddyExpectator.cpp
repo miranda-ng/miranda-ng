@@ -70,7 +70,6 @@ PLUGININFOEX pluginInfo = {
 	"© 2005 Anar Ibragimoff, © 2006 Scott Ellis, © 2007-2009 Alexander Turyak",
 	"http://thief.miranda.im",
 	UNICODE_AWARE,
-	0,
 	{0xddf8aec9, 0x7d37, 0x49af, {0x9d, 0x22, 0xbb, 0xbc, 0x92, 0x0e, 0x6f, 0x05}} //{DDF8AEC9-7D37-49AF-9D22-BBBC920E6F05}
 };
 

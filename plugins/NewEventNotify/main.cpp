@@ -46,7 +46,6 @@ PLUGININFOEX pluginInfo = {
 	"GNU GPL",
 	"http://addons.miranda-im.org/details.php?action=viewfile&id=3637",
 	UNICODE_AWARE,
-	0,
 	{0x3503D584, 0x6234, 0x4BEF, {0xA5, 0x53, 0x6C, 0x1B, 0x9C, 0xD4, 0x71, 0xF2 } } // {3503D584-6234-4BEF-A553-6C1B9CD471F2}
 };
 

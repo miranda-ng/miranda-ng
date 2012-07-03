@@ -55,7 +55,6 @@ PLUGININFOEX pluginInfoEx = {
 	"© 2001-2004 Luca Santarelli, 2005-2007 Vasilich, 2007-2011 yaho",
 	"http://miranda-easy.net/mods.php",
 	UNICODE_AWARE,
-	DEFMOD_RNDUSERONLINE,
 	MIID_NXSN
 };
 

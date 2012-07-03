@@ -37,7 +37,6 @@ static PLUGININFOEX pluginInfo = {
 	"© 2005-2007 H. Herkenrath", 
 	PLUGIN_WEBSITE, 
 	UNICODE_AWARE, 
-	0, 
 	// {D4BDD1EB-56F1-4a87-A187-67246EE919A2}
 	{0xd4bdd1eb, 0x56f1, 0x4a87, {0xa1, 0x87, 0x67, 0x24, 0x6e, 0xe9, 0x19, 0xa2}}, 
 };

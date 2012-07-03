@@ -73,7 +73,7 @@ int __cdecl cpp_init_keyb(HANDLE context, LPCSTR key) {
 	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pSIMDATA p = (pSIMDATA) cpp_alloc_pdata(ptr);
 
-	int clen = rtrim(key);
+	size_t clen = rtrim(key);
 	ptr->features = 0;
 
 	LPSTR pub_binary;

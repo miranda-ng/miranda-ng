@@ -24,8 +24,7 @@ PLUGININFOEX pluginInfo={
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	UNICODE_AWARE,		//not transient
-	0,						//doesn't replace anything built-in
+	UNICODE_AWARE,
 	{ 0x66dceb80, 0x384, 0x4507, { 0x97, 0x74, 0xcc, 0x20, 0xa7, 0xef, 0x1d, 0x6d } } // {66DCEB80-0384-4507-9774-CC20A7EF1D6D}
 };
 
@@ -70,7 +69,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	LoadOptions();
 
 	InitOptionsMenuItems();
-	
+
 	InitNetlib();
 	InitPopups();
 
@@ -105,7 +104,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	update.cpbVersion = (int)strlen((char *)update.pbVersion);
 	update.szBetaChangelogURL = "https://server.scottellis.com.au/wsvn/mim_plugs/updater/?op=log&rev=0&sc=0&isdir=1";
 
-	
+
 
 
 #ifdef REGISTER_AUTO
@@ -140,7 +139,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 
 	hEventIdleChanged = HookEvent(ME_IDLE_CHANGED, IdleChanged);
 
-	if (ServiceExists(MS_TRIGGER_REGISTERACTION)) 
+	if (ServiceExists(MS_TRIGGER_REGISTERACTION))
 	{
 		// create update action for triggerplugin
 		ACTIONREGISTER ar = {0};
@@ -160,19 +159,19 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	shk.pszName = "Update";
 	shk.pszService = MS_UPDATE_CHECKFORUPDATES;
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, 'U') | HKF_MIRANDA_LOCAL;
-	Hotkey_Register(&shk);	
+	Hotkey_Register(&shk);
 
 	shk.pszDescription = LPGEN("Restart");
 	shk.pszName = "Restart";
 	shk.pszService = MS_UPDATE_MENURESTART;
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, 'R') | HKF_MIRANDA_LOCAL;
-	Hotkey_Register(&shk);	
+	Hotkey_Register(&shk);
 
 	shk.pszDescription = LPGEN("Update and Exit");
 	shk.pszName = "UpdateAndExit";
 	shk.pszService = MS_UPDATE_MENUUPDATEANDEXIT;
 	shk.DefHotKey = 0;
-	Hotkey_Register(&shk);	
+	Hotkey_Register(&shk);
 
 	return 0;
 }
@@ -218,10 +217,10 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// save global status from clist - will be restored after update check if that option is enabled, or in modules loaded if not
 	options.start_offline = (DBGetContactSettingByte(0, MODULE, "StartOffline", 0) == 1); // load option here - rest loading in modulesloaded
-	if (options.start_offline) 
+	if (options.start_offline)
 	{
 		WORD saved_status = DBGetContactSettingWord(0, "CList", "Status", ID_STATUS_OFFLINE);
-		if (saved_status != ID_STATUS_OFFLINE) 
+		if (saved_status != ID_STATUS_OFFLINE)
 		{
 			DBWriteContactSettingWord(0, MODULE, "SavedGlobalStatus", saved_status);
 			DBWriteContactSettingWord(0, "CList", "Status", ID_STATUS_OFFLINE);
@@ -229,7 +228,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 
 	hEventOptInit = HookEvent(ME_OPT_INITIALISE, OptInit);
-	hEventModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded); 
+	hEventModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	hToolBarLoaded = HookEvent(ME_TB_MODULELOADED, ToolbarModulesLoaded);
 
 	InitServices();

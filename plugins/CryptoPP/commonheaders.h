@@ -89,7 +89,7 @@ extern CRITICAL_SECTION localQueueMutex;
 extern CRITICAL_SECTION localContextMutex;
 
 void ExtractFile(char*,int,int);
-int rtrim(LPCSTR);
+size_t rtrim(LPCSTR);
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 extern HANDLE hNetlibUser;

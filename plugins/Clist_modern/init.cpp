@@ -66,8 +66,8 @@ PLUGININFOEX pluginInfo = {
 	"Copyright 2000-2010 Miranda-IM project",
 	"http://miranda-im.org/development",
 	UNICODE_AWARE,
-	DEFMOD_CLISTALL,
-	{0x43909b6, 0xaad8, 0x4d82, { 0x8e, 0xb5, 0x9f, 0x64, 0xcf, 0xe8, 0x67, 0xcd }} //{043909B6-AAD8-4d82-8EB5-9F64CFE867CD}
+	//{043909B6-AAD8-4d82-8EB5-9F64CFE867CD}
+	{0x43909b6, 0xaad8, 0x4d82, { 0x8e, 0xb5, 0x9f, 0x64, 0xcf, 0xe8, 0x67, 0xcd }}
 };
 static const MUUID interfaces[] = {MIID_CLIST, MIID_LAST};
 

@@ -34,9 +34,9 @@ PLUGININFOEX pluginInfo = {
 	"gureedo@gmail.com",
 	"© 2010-2011 gureedo",
 	"http://www.miranda-im.org",
-	UNICODE_AWARE,		//not transient
-	0,		//doesn't replace anything built-in
-	{ 0xDA0B09F5, 0x9C66, 0x488C, { 0xAE, 0x37, 0x8A, 0x5F, 0x19, 0x1C, 0x90, 0x79 } } // {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+	UNICODE_AWARE,
+	// {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+	{ 0xDA0B09F5, 0x9C66, 0x488C, { 0xAE, 0x37, 0x8A, 0x5F, 0x19, 0x1C, 0x90, 0x79 } }
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)

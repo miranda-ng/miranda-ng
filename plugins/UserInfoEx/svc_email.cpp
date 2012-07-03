@@ -386,12 +386,7 @@ VOID SvcEMailOnModulesLoaded()
  **/
 VOID SvcEMailLoadModule()
 {
-	if (DB::Setting::GetByte(SET_EXTENDED_EMAILSERVICE, TRUE)) 
-	{
-		// prevent default email module from loading
-		PINT_PTR disableDefaultModule = (PINT_PTR)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY, 0, 0);
-		disableDefaultModule[DEFMOD_SREMAIL] = TRUE;
-			
+	if (DB::Setting::GetByte(SET_EXTENDED_EMAILSERVICE, TRUE)) {
 		// create own email send command
 		if (!myDestroyServiceFunction(MS_EMAIL_SENDEMAIL))
 			myCreateServiceFunction(MS_EMAIL_SENDEMAIL, MenuCommand);

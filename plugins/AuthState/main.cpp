@@ -56,8 +56,7 @@ PLUGININFOEX pluginInfo={
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	UNICODE_AWARE,
-	0, //doesn't replace anything built-in
+	UNICODE_AWARE, //doesn't replace anything built-in
 	{0xdace7d41, 0xdfa9, 0x4772, {0x89, 0xae, 0xa5, 0x9a, 0x61, 0x53, 0xe6, 0xb2}}
 /* DACE7D41-DFA9-4772-89AE-A59A6153E6B2 */
 };

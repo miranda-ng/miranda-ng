@@ -156,7 +156,6 @@ PLUGININFOEX pluginInfoEx  = {
 		__COPYRIGHT,
 		__AUTHORWEB,
 		UNICODE_AWARE,
-		0,
 		MIID_FLTCONT
 };
 

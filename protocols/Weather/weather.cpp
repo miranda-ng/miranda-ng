@@ -73,7 +73,6 @@ static const PLUGININFOEX pluginInfoEx =
 	"(c) 2002-2005 NoName, 2005-2010 Boris Krasnovskiy",
 	"http://addons.miranda-im.org/details.php?action=viewfile&id=2322",
 	UNICODE_AWARE,
-	0,
 	MIID_WEATHER
 };
 
