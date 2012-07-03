@@ -43,8 +43,9 @@ static HANDLE hHookModulesLoaded;
 
 static WORD currentWatcherType;
 
-static void __stdcall MainThreadMapping(HANDLE *phDoneEvent)
+static void __stdcall MainThreadMapping(void *param)
 {
+	HANDLE *phDoneEvent = (HANDLE*)param;
 	ServiceShutdown(0,TRUE); /* ensure main thread (for cpu usage shutdown) */
 	ServiceStopWatcher(0,0);
 	if(*phDoneEvent!=NULL) SetEvent(*phDoneEvent);
@@ -54,7 +55,7 @@ static void __inline ShutdownAndStopWatcher(void)
 {
 	HANDLE hDoneEvent;
 	hDoneEvent=CreateEvent(NULL,FALSE,FALSE,NULL);
-	if(CallFunctionAsync(MainThreadMapping,&hDoneEvent))
+	if(CallFunctionAsync(MainThreadMapping, &hDoneEvent))
 		if(hDoneEvent!=NULL) WaitForSingleObject(hDoneEvent,INFINITE);
 	if(hDoneEvent!=NULL) CloseHandle(hDoneEvent);
 }

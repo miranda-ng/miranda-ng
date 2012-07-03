@@ -87,7 +87,7 @@ static LRESULT CALLBACK ProgressBarSubclassProc(HWND hwndProgress,UINT msg,WPARA
 struct CountdownFrameWndData {  /* sizeof=57, max cbClsExtra=40 on Win32 */
 	time_t countdown,settingLastTime;
 	HANDLE hHookColorsChanged,hHookFontsChanged,hHookIconsChanged;
-	HANDLE hwndIcon,hwndProgress,hwndDesc,hwndTime,hwndToolTip;
+	HWND hwndIcon,hwndProgress,hwndDesc,hwndTime,hwndToolTip;
 	HBRUSH hbrBackground;
 	COLORREF clrBackground,clrText;
 	HFONT hFont;
@@ -459,7 +459,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					hdc=GetDC(dat->hwndTime);
 					if(hdc!=NULL) {
 						if(dat->hFont!=NULL)
-							hFontPrev=SelectObject(hdc,dat->hFont);
+							hFontPrev = (HFONT)SelectObject(hdc,dat->hFont);
 						if(GetTextExtentPoint32(hdc,szOutput,lstrlen(szOutput),&size))
 							if(size.cx>=(rc.right-rc.left))
 								dat->flags&=FWPDF_TIMEISCLIPPED;

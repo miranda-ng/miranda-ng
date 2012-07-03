@@ -117,8 +117,10 @@ static void Win9x_PollThread(struct CpuUsageThreadParams *param)
 }
 #endif /* !_UNICODE */
 
-static void WinNT_PollThread(struct CpuUsageThreadParams *param)
+static void WinNT_PollThread(void *vparam)
 {
+	CpuUsageThreadParams *param = (CpuUsageThreadParams*)vparam;
+
 	DWORD dwBufferSize=0,dwCount;
 	BYTE *pBuffer=NULL;
 	PERF_DATA_BLOCK *pPerfData=NULL; 
@@ -143,8 +145,8 @@ static void WinNT_PollThread(struct CpuUsageThreadParams *param)
 		dwCounterId=240;            /* '% Total processor time' counter */
 		pwszInstanceName=NULL;
 	}
-	_itow(dwObjectId,wszValueName,10);
-	fSwitched=WinNT_PerfStatsSwitch(_T("PerfOS"),FALSE);
+	_itot_s(dwObjectId, wszValueName, 10);
+	fSwitched = WinNT_PerfStatsSwitch(_T("PerfOS"), FALSE);
 
 	/* poll */
 	for(;;) {
@@ -245,13 +247,10 @@ DWORD PollCpuUsage(CPUUSAGEAVAILPROC pfnDataAvailProc,LPARAM lParam,DWORD dwDela
 		return 0;
 	}
 	/* start thread */
-#if defined(_UNICODE)
-	if(mir_forkthread(WinNT_PollThread,param)!=-1)
-#else
-	if(mir_forkthread(IsWinVerNT()?WinNT_PollThread:Win9x_PollThread,param)!=-1)
-#endif
+	if((int)mir_forkthread(WinNT_PollThread, param) != -1)
 		WaitForSingleObject(hFirstEvent,INFINITE); /* wait for first success */
-	else mir_free(param); /* thread not started */
+	else
+		mir_free(param); /* thread not started */
 	CloseHandle(hFirstEvent);
 	return idThread;
 }

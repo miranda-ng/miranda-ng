@@ -21,16 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <stdio.h>  /* for mir_sntprintf() */
 #include <time.h>   /* for mktime(),time() */
-#include <wchar.h>  /* for _itow() */
 #include <tchar.h>
-
-#define _WIN32_WINNT  0x0700
-#define __RPCASYNC_H__         /* VC6 shows warning there */
 #include <windows.h>
-#pragma warning(disable:4201)  /* nonstandard extension used : nameless struct/union */
 #include <commctrl.h>
-#pragma warning(default:4201)  /* nonstandard extension used : nameless struct/union */
-#include <win2k.h>
 
 /* WinXP+: shutdown reason codes */
 #if defined(EWX_RESTARTAPPS)   /* new MS Platform SDK */
@@ -47,7 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <ras.h>       /* for RasEnumConnections(), RasHangUp() */
 #include <raserror.h>  /* error codes for RAS */
 
-#define MIRANDA_VER  0x0702
+#define MIRANDA_VER  0x0A00
 #include <newpluginapi.h>
 #include <m_utils.h>
 #include <m_database.h>
@@ -63,26 +56,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_message.h>
 #include <m_file.h>
 #include <m_idle.h>
-#include <m_weather.h>
-#include <m_hddinfo.h>
+#include <win2k.h>
 #include <m_cluiframes.h>
 #include <m_clistint.h>
-#include <m_toptoolbar.h>
 #include <m_fontservice.h>
-#include <m_hotkey.h>
-#include <m_hotkeysplus.h>
-#include <m_hotkeysservice.h>
 #include <m_icolib.h>
 #include <m_clc.h>
 #include <m_genmenu.h>
+#include <m_button.h>
+
+#include <m_weather.h>
+#include <m_hddinfo.h>
+#include <m_toptoolbar.h>
+#include <m_hotkey.h>
+#include <m_hotkeysplus.h>
+#include <m_hotkeysservice.h>
 #include <m_trigger.h>
 #include <m_mwclc.h>
-#include <m_button.h>
 #include <m_autoreplacer.h>
 #include <m_magneticwindows.h>
 #include <m_snappingwindows.h>
-
 #include "m_shutdown.h"
+
 #include "cpuusage.h"
 #include "frame.h"
 #include "options.h"

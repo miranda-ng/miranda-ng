@@ -120,7 +120,7 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 				bReturn=TRUE;
 				if(RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer"),0,KEY_QUERY_VALUE,&hKey)==ERROR_SUCCESS) {
 					dwSize=sizeof(dwSetting);
-					if(RegQueryValueEx(hKey,_T("NoLogOff"),0,NULL,(void*)&dwSetting,&dwSize)==ERROR_SUCCESS)
+					if(RegQueryValueEx(hKey, _T("NoLogOff"), 0, NULL, (LPBYTE)&dwSetting, &dwSize) == ERROR_SUCCESS)
 						if(dwSetting) bReturn=FALSE;
 					RegCloseKey(hKey);
 				}
@@ -136,7 +136,7 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 					bReturn=TRUE;
 					if(RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System"),0,KEY_QUERY_VALUE,&hKey)==ERROR_SUCCESS) {
 						dwSize=sizeof(dwSetting);
-						if(!RegQueryValueEx(hKey,_T("DisableLockWorkstation"),0,NULL,(void*)&dwSetting,&dwSize))
+						if(!RegQueryValueEx(hKey, _T("DisableLockWorkstation"), 0, NULL, (LPBYTE)&dwSetting, &dwSize))
 							if(dwSetting) bReturn=FALSE;
 						RegCloseKey(hKey);
 					}
@@ -216,23 +216,23 @@ static DWORD ShutdownNow(BYTE shutdownType)
 							/* save old settings */
 							dwSize=sizeof(szScreenSaveActive); /* in bytes */
 							ZeroMemory(&szScreenSaveActive,dwSize);
-							RegQueryValueEx(hKey,_T("ScreenSaveActive"),0,NULL,(void*)szScreenSaveActive,&dwSize);
+							RegQueryValueEx(hKey, _T("ScreenSaveActive"), 0, NULL, (LPBYTE)szScreenSaveActive, &dwSize);
 							dwSize=sizeof(szScreenSaverIsSecure); /* in bytes */
 							ZeroMemory(&szScreenSaverIsSecure, dwSize);
-							RegQueryValueEx(hKey,_T("ScreenSaverIsSecure"),0,NULL,(void*)szScreenSaverIsSecure,&dwSize);
+							RegQueryValueEx(hKey, _T("ScreenSaverIsSecure"), 0, NULL, (LPBYTE)szScreenSaverIsSecure, &dwSize);
 							dwSize=sizeof(szScrnsaveExe); /* in bytes */
-							ZeroMemory(&szScrnsaveExe,dwSize);
-							RegQueryValueEx(hKey,_T("SCRNSAVE.EXE"),0,NULL,(void*)szScrnsaveExe,&dwSize);
+							ZeroMemory(&szScrnsaveExe, dwSize);
+							RegQueryValueEx(hKey, _T("SCRNSAVE.EXE"), 0, NULL, (LPBYTE)szScrnsaveExe, &dwSize);
 							/* set LOGON.SCR data */
-							if(!RegSetValueEx(hKey,_T("ScreenSaveActive"),0,REG_SZ,(void*)_T("1"),2) &&
-							   !RegSetValueEx(hKey,_T("ScreenSaverIsSecure"),0,REG_SZ,(void*)"1",2) &&
-							   !RegSetValueEx(hKey,_T("SCRNSAVE.EXE"),0,REG_SZ,(void*)_T("LOGIN.SCR"),10))
-									SendMessage(GetForegroundWindow(),WM_SYSCOMMAND,SC_SCREENSAVE,0);
+							if(!RegSetValueEx(hKey, _T("ScreenSaveActive"), 0, REG_SZ, (LPBYTE)_T("1"), 2) &&
+							   !RegSetValueEx(hKey, _T("ScreenSaverIsSecure"), 0, REG_SZ, (LPBYTE)"1", 2) &&
+							   !RegSetValueEx(hKey, _T("SCRNSAVE.EXE"), 0, REG_SZ, (LPBYTE)_T("LOGIN.SCR"), 10))
+									SendMessage(GetForegroundWindow(), WM_SYSCOMMAND, SC_SCREENSAVE, 0);
 							else dwErrCode=GetLastError();
 							/* restore old settings */
-							RegSetValueEx(hKey,_T("ScreenSaveActive"),0,REG_SZ,(void*)szScreenSaveActive,(lstrlen(szScreenSaveActive)+1)*sizeof(TCHAR));
-							RegSetValueEx(hKey,_T("ScreenSaverIsSecure"),0,REG_SZ,(void*)szScreenSaverIsSecure,(lstrlen(szScreenSaverIsSecure)+1)*sizeof(TCHAR));
-							RegSetValueEx(hKey,_T("SCRNSAVE.EXE"),0,REG_SZ,(void*)szScrnsaveExe,(lstrlen(szScrnsaveExe)+1)*sizeof(TCHAR));
+							RegSetValueEx(hKey, _T("ScreenSaveActive"), 0, REG_SZ, (BYTE*)szScreenSaveActive, (lstrlen(szScreenSaveActive)+1)*sizeof(TCHAR));
+							RegSetValueEx(hKey, _T("ScreenSaverIsSecure"), 0, REG_SZ, (BYTE*)szScreenSaverIsSecure, (lstrlen(szScreenSaverIsSecure)+1)*sizeof(TCHAR));
+							RegSetValueEx(hKey, _T("SCRNSAVE.EXE"), 0, REG_SZ, (BYTE*)szScrnsaveExe, (lstrlen(szScrnsaveExe)+1)*sizeof(TCHAR));
 							RegCloseKey(hKey);
 						} else dwErrCode=GetLastError();
 					} else dwErrCode=GetLastError();

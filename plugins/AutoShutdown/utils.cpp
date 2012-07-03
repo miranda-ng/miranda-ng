@@ -87,8 +87,9 @@ void TrimString(TCHAR *pszStr)
 
 /************************* Error Output ***************************/
 
-static void MessageBoxIndirectFree(MSGBOXPARAMSA *mbp)
+static void MessageBoxIndirectFree(void *param)
 {
+	MSGBOXPARAMSA *mbp = (MSGBOXPARAMSA*)param;
 	MessageBoxIndirectA(mbp);
 	mir_free((char*)mbp->lpszCaption); /* does NULL check */
 	mir_free((char*)mbp->lpszText);    /* does NULL check */
@@ -129,7 +130,7 @@ void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...)
 		case NIIF_WARNING: mbp->dwStyle|=MB_ICONWARNING; break;
 		case NIIF_ERROR:   mbp->dwStyle|=MB_ICONERROR;
 	}
-	mir_forkthread(MessageBoxIndirectFree,mbp);
+	mir_forkthread(MessageBoxIndirectFree, mbp);
 }
 
 // LocalFree() the return value
@@ -163,8 +164,8 @@ BOOL SystemTimeToTimeStamp(SYSTEMTIME *st,time_t *timestamp)
 
 BOOL TimeStampToSystemTime(time_t timestamp,SYSTEMTIME *st)
 {
-	struct tm *ts;
-	ts=localtime(&timestamp);  /* statically alloced, local time correction */
+	struct tm *ts = {0};
+	localtime_s(ts, &timestamp);  /* statically alloced, local time correction */
 	if(ts==NULL) return FALSE;
 	st->wMilliseconds=0;                 /* 0-999 (not given in tm) */
 	st->wSecond=(WORD)ts->tm_sec;       /* 0-59 */
@@ -265,7 +266,8 @@ int FontService_RegisterFont(const char *pszDbModule,const char *pszDbName,const
 		fid.deffontsettings.charset=plfDefault->lfCharSet;
 		lstrcpyn(fid.deffontsettings.szFace,plfDefault->lfFaceName,SIZEOF(fid.deffontsettings.szFace)); /* buffer safe */
 	}
-	return CallService(MS_FONT_REGISTERT,(WPARAM)&fid,(LPARAM)&fid);
+	FontRegisterT(&fid);
+	return 0;
 }
 
 int FontService_GetFont(const TCHAR *pszSection,const TCHAR *pszDescription,COLORREF *pclr,LOGFONT *plf)
@@ -288,7 +290,8 @@ int FontService_RegisterColor(const char *pszDbModule,const char *pszDbName,cons
 	lstrcpynA(cid.setting,pszDbName,sizeof(cid.setting)); /* buffer safe */
 	lstrcpyn(cid.group,pszSection,SIZEOF(cid.group)); /* buffer safe */
 	lstrcpyn(cid.name,pszDescription,SIZEOF(cid.name)); /* buffer safe */
-	return CallService(MS_COLOUR_REGISTERT,(WPARAM)&cid,0);
+	ColourRegisterT(&cid);
+	return 0;
 }
 
 int FontService_GetColor(const TCHAR *pszSection,const TCHAR *pszDescription,COLORREF *pclr)
@@ -320,7 +323,7 @@ HANDLE IcoLib_AddIconRes(const char *pszDbName,const TCHAR *pszSection,const TCH
 	sid.flags=SIDF_SORTED|SIDF_ALL_TCHAR;
 	if(!GetModuleFileName(hInst,szFileName,SIZEOF(szFileName)))
 		return NULL;
-	return (HANDLE)CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+	return Skin_AddIcon(&sid);
 }
 
 HICON IcoLib_GetIcon(const char *pszDbName)
@@ -355,7 +358,8 @@ int SkinAddNewSoundBundled(const char *pszDbName,const char *pszSection,const ch
 			CloseHandle(hFile);
 		}
 	}
-	return CallService(MS_SKIN_ADDNEWSOUND,0,(LPARAM)&ssd);
+	Skin_AddSound(&ssd);
+	return 0;
 }
 
 /* workaround for 'Hotkey Service' plugin because it has needs an event catcher */

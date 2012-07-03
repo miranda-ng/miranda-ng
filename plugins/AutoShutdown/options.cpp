@@ -117,7 +117,7 @@ static int ShutdownOptInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszTab=_T("Automatic Shutdown");  /* autotranslated, can be made a tab */
 	odp.flags=ODPF_BOLDGROUPS|ODPF_EXPERTONLY|ODPF_TCHAR;
 	odp.pfnDlgProc=ShutdownOptDlgProc;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

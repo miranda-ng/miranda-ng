@@ -409,7 +409,7 @@ static WORD hToolbarButton;
 
 static int ToolbarLoaded(WPARAM wParam,LPARAM lParam)
 {
-	TTBButtonV2 ttbb;
+	TTBButton ttbb;
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
 
@@ -418,7 +418,7 @@ static int ToolbarLoaded(WPARAM wParam,LPARAM lParam)
 	/* toptoolbar offers icolib support */
 	ttbb.hIconUp=(HICON)LoadImage(hInst,MAKEINTRESOURCE(IDI_ACTIVE),IMAGE_ICON,0,0,0);
 	ttbb.hIconDn=(HICON)LoadImage(hInst,MAKEINTRESOURCE(IDI_INACTIVE),IMAGE_ICON,0,0,0);
-	ttbb.pszServiceUp=ttbb.pszServiceDown="AutoShutdown/MenuCommand";
+	ttbb.pszService="AutoShutdown/MenuCommand";
 	ttbb.dwFlags=TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
 	ttbb.name=Translate("Start/Stop automatic shutdown");
 
@@ -457,7 +457,7 @@ void SetShutdownMenuItem(BOOL fActive)
 		cmi.flags|=CMIM_NAME|CMIM_ICON;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMainMenuItem,(LPARAM)&cmi);
 	}
-	else hMainMenuItem=(HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&cmi);
+	else hMainMenuItem = Menu_AddMainMenuItem(&cmi);
 
 	/* tray menu */
 	cmi.position=899999;
@@ -465,7 +465,7 @@ void SetShutdownMenuItem(BOOL fActive)
 		cmi.flags|=CMIM_NAME|CMIM_ICON;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hTrayMenuItem,(LPARAM)&cmi);
 	}
-	else hTrayMenuItem=(HANDLE)CallService(MS_CLIST_ADDTRAYMENUITEM,0,(LPARAM)&cmi);
+	else hTrayMenuItem = Menu_AddTrayMenuItem(&cmi);
 
 	IcoLib_ReleaseIcon(cmi.hIcon);
 }

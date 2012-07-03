@@ -19,22 +19,6 @@ along with this program (Shutdown-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define NEEDED_MIRANDA_VERSION      PLUGIN_MAKE_VERSION(0,7,0,16)
-#define NEEDED_MIRANDA_VERSION_STR  "0.7 alpha build #16"
 #define PLUGIN_VERSION              PLUGIN_MAKE_VERSION(1,4,0,2)
 #define FILE_VERSION                1,4,0,2
-
-#if defined(_DEBUG)
- #define FILE_VERSION_STR           "1.4.0.3 alpha"
-#else
- #define FILE_VERSION_STR           "1.4.0.2"
-#endif
-
-#define PLUGIN_EMAIL                "hrathh users.sourceforge.net"
-#define PLUGIN_EMAIL_ATT_POS        7  /* position of the @-sign in the email adress above */
-
-#if defined(_UNICODE)
- #define PLUGIN_WEBSITE             "http://addons.miranda-im.org/details.php?action=viewfile&id=3056"
-#else
- #define PLUGIN_WEBSITE             "http://addons.miranda-im.org/details.php?action=viewfile&id=1086"
-#endif
+#define FILE_VERSION_STR           "1.4.0.2"
