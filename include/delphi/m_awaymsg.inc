@@ -1,5 +1,4 @@
-(*
-
+{
 Miranda IM: the free IM client for Microsoft* Windows*
 
 Copyright 2000-2003 Miranda ICQ/IM project,
@@ -19,22 +18,29 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-*)
+}
 
 {$IFNDEF M_AWAYMSG}
 {$DEFINE M_AWAYMSG}
 
 const
+  {
+    wParam : HCONTACT
+    lParam : 0
+    Affect : Show the away/na/etc message for a contact
+    Returns: 0 on success, non zero on failure, see notes
+    notes  : returns without waiting for the message to be shown.
+    version: v0.1.0.1+
+  }
+  MS_AWAYMSG_SHOWAWAYMSG:PAnsiChar = 'SRAway/GetMessage';
 
-    {
-        wParam : HCONTACT
-        lParam : 0
-        Affect : Show the away/na/etc message for a contact
-        Returns: 0 on success, non zero on failure, see notes
-        notes  : returns without waiting for the message to be shown.
-        version: v0.1.0.1+
-    }
-    MS_AWAYMSG_SHOWAWAYMSG          = 'SRAway/GetMessage';
+  {
+    returns: the default status message for a status
+    wParam=status
+    lParam=szProto
+    notes: returns status msg. Remember to free the return value
+  }
+  MS_AWAYMSG_GETSTATUSMSG :PAnsiChar = 'SRAway/GetStatusMessage';
+  MS_AWAYMSG_GETSTATUSMSGW:PAnsiChar = 'SRAway/GetStatusMessageW';
 
 {$ENDIF}

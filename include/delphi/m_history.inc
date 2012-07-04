@@ -1,5 +1,4 @@
-(*
-
+{
 Miranda IM: the free IM client for Microsoft* Windows*
 
 Copyright 2000-2003 Miranda ICQ/IM project,
@@ -19,19 +18,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+}
 
-*)
 {$IFNDEF M_HISTORY}
 {$DEFINE M_HISTORY}
 
 const
-
-    {
-        wParam : HCONTACT
-        lParam : 0
-        Affects: Show's the history dialog box for a contact, see notes
-        Notes  : HCONTACT can be NULL(0) to show system messages
-    }
-    MS_HISTORY_SHOWCONTACTHISTORY       = 'History/ShowContactHistory';
+  {
+    wParam : HCONTACT
+    lParam : 0
+    Affects: Show's the history dialog box for a contact, see notes
+    Notes  : HCONTACT can be NULL(0) to show system messages
+  }
+  MS_HISTORY_SHOWCONTACTHISTORY:PAnsiChar = 'History/ShowContactHistory';
 
 {$ENDIF}

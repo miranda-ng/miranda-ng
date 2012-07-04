@@ -45,29 +45,29 @@ Returns 0 on success, nonzero otherwise.
 type
   PFILETYPEDESC = ^TFILETYPEDESC;
   TFILETYPEDESC = record
-    cbSize: Integer;         // size of this structure, in bytes
+    cbSize: Integer;        // size of this structure, in bytes
 
-    pszDescription: PAnsiChar;   // description for options dialog and in registry.
-                             // please Translate().
+    szDescription: TChar; // description for options dialog and in registry.
+                            // please Translate().
 
-    hInstance: HINST;        // instance where the icon resource is located
+    hInstance: HINST;       // instance where the icon resource is located
 
-    nIconResID: UINT;        // resource id of an icon to use for the file type.
-                             // this icon should contain icons of all sizes and color depths
-                             // needed by Windows.
-                             // set this to 0 to use the generic 'miranda file' icon
-                             // provided by assocmgr.
+    nIconResID: UINT;       // resource id of an icon to use for the file type.
+                            // this icon should contain icons of all sizes and color depths
+                            // needed by Windows.
+                            // set this to 0 to use the generic 'miranda file' icon
+                            // provided by assocmgr.
 
-    pszService: PAnsiChar;   // service to call when a file is opened
-                             // this service will be called with lParam set to
-                             // the file name being opened including path.
-                             // it can be assumed that the provided file name 
-                             // is always the long path name.
-                             // return zero on suceess, nonzero on error.
-                             // Note: set this to nil to pass the file name as
-                             // commandline argument to miranda32.exe (db file).
+    pszService: PAnsiChar;  // service to call when a file is opened
+                            // this service will be called with lParam set to
+                            // the file name being opened including path.
+                            // it can be assumed that the provided file name 
+                            // is always the long path name.
+                            // return zero on suceess, nonzero on error.
+                            // Note: set this to nil to pass the file name as
+                            // commandline argument to miranda32.exe (db file).
 
-    flags: DWORD;            // see FTDF_* flags below
+    flags: DWORD;           // see FTDF_* flags below
 
     pszFileExt: PAnsiChar;  // file extension, e.g. ".ext"
                             // first character must be a dot, assumed to be all lower case.
@@ -76,7 +76,7 @@ type
     pszMimeType: PAnsiChar; // MIME type of the file, e.g. "application/x-icq"
                             // may only consist of ascii characters.
 
-    pszVerbDesc: PAnsiChar;     // description for the open verb e.g. "&Install".
+    szVerbDesc: TChar;      // description for the open verb e.g. "&Install".
                             // set this to nil to use the default description "Open".
                             // include an ampersand (&) character for a mnemonic key.
                             // please Translate().
@@ -101,6 +101,10 @@ const
   FTDF_ISTEXT          = $0008; // tells Windows that this file can be opened
                                 // as a text file using e.g Notepad.
                                 // only has an effect on Windows XP and higher.
+
+ FTDF_ISSHORTCUT       = $0010; // file type behaves as shortcut, this means a
+                                // small overlay arrow is applied and the extension is never shown
+
 
 { Remove a file type   v0.1.0.0+
 Remove a file type registered previously using
@@ -128,7 +132,7 @@ type
   TURLTYPEDESC = record
     cbSize: Integer;           // size of this structure, in bytes
 
-    pszDescription: PAnsiChar;     // description for options dialog and in registry.
+    pszDescription: TChar;     // description for options dialog and in registry.
                                // please Translate().
 
     hInstance: HINST;          // instance where the icon resource is located
@@ -152,11 +156,11 @@ type
   end;
 
 const
-  UTDF_UNICODE         = $0001;  // pszDescription in struct is Unicode.
-                                 // the specified service is called with Unicode parameters.
+  UTDF_UNICODE         = $0001; // pszDescription in struct is Unicode.
+                                // the specified service is called with Unicode parameters.
 
-  UTDF_DEFAULTDISABLED = $0002;  // url type is not registered by default, it needs to be
-                                 // enabled explicitly on the options page.
+  UTDF_DEFAULTDISABLED = $0002; // url type is not registered by default, it needs to be
+                                // enabled explicitly on the options page.
 
 { Remove an url protocol type   v0.1.0.0+
 Remove an url registered previously using

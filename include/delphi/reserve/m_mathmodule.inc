@@ -35,8 +35,8 @@ const
   { handle of richedit. }
   { NULL: replace all. }
 type
-  PTMathRicheditInfo = ^TTMathRicheditInfo;
-  TTMathRicheditInfo = record
+  PMathRicheditInfo = ^TMathRicheditInfo;
+  TMathRicheditInfo = record
     hwndRichEditControl : HWND;
     sel                 : PCHARRANGE;
     disableredraw       : int;

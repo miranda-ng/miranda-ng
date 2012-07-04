@@ -39,7 +39,7 @@ const
   DAM_SR_UNKNOWN         = 7; // unknown error
 
 // Return values for DAM_SENDRESULTPROC
-   DAM_SRA_RETRY = 1;
+  DAM_SRA_RETRY = 1;
 
 type
 // hContact, szDataType and SessionID fields correspond to the fields of the

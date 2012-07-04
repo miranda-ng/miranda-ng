@@ -25,11 +25,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 type
   HSSL = THANDLE;
+  TSOCKET = uint_ptr; // from Winsock.pas
 
 type
   SSL_API = record
 	  cbSize:int;
-    connect  : function(s:dword{TSOCKET}; const host:PAnsiChar; verify:int):HSSL; cdecl;
+    connect  : function(s:TSOCKET; const host:PAnsiChar; verify:int):HSSL; cdecl;
     pending  : function(ssl:HSSL):BOOL; cdecl;
     read     : function(ssl:HSSL; buf:pAnsiChar; num:int; peek:int):int; cdecl;
     write    : function(ssl:HSSL; const buf:pAnsiChar; num:int):int; cdecl;

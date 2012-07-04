@@ -1,9 +1,8 @@
-(*
-
+{
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
-all portions of this codebase are copyrighted to the people
+Copyright 2000-2006 Miranda ICQ/IM project, 
+all portions of this codebase are copyrighted to the people 
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -19,66 +18,61 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-*)
+}
 
 {$IFNDEF M_USERINFO}
 {$DEFINE M_USERINFO}
 
+{$include m_options.inc}
+
 const
+{
+  show the User Details dialog box
+  wParam=(WPARAM)(HANDLE)hContact
+  lParam=0
+}
+  MS_USERINFO_SHOWDIALOG:PAnsiChar = 'UserInfo/ShowDialog';
 
-    {
-        wParam : HCONTACT
-        lParam : 0
-        Affects: Show the user details dialog box for a contact, see notes
-        Notes  : I think this can be used to display "My User Details"... if NULL(0) is used
-    }
-    MS_USERINFO_SHOWDIALOG          = 'UserInfo/ShowDialog';
+{ UserInfo/Initialise      v0.1.2.0+
+ The user opened a details dialog. Modules should do whatever initialisation
+ they need and call userinfo/addpage one or more times if they want pages
+ displayed in the options dialog
+ wParam=addInfo
+ lParam=(LPARAM)hContact
+ addInfo should be passed straight to the wParam of userinfo/addpage
+ NB: The built-in userinfo module is loaded after all plugins, so calling
+ HookEvent() in your plugin's Load() function will fail if you specify this
+ hook. Look up core/m_system.h:me_system_modulesloaded.
+}
+  ME_USERINFO_INITIALISE:PAnsiChar = 'UserInfo/Initialise';
 
-    {
-        wParam : 0
-        lParam : HCONTACT
-        Affects: The details dialog box was opened for a contact maybe NULL(0)
-                 showing the user details -- see notes
-        Notes  : The module should do whatever initialisation they need and
-                 call MS_USERINFO_ADDPAGE one or more times if they want
-                 pages displayed in the options dialog -- wParam should be passed
-                 straight as the wParam of MS_USERINFO_ADDPAGE.
-                 -
-                 The builtin userinfo module is not loaded til after all plugins
-                 have loaded -- therefore a HookEvent() for this event will fail,
-                 use ME_SYSTEM_MODULESLOADED event to know when everything has
-                 loaded and it's okay to hook this event.
-        Version: v0.1.2.0+
-    }
-    ME_USERINFO_INITIALISE          = 'UserInfo/Initialise';
+{ UserInfo/AddPage        v0.1.2.0+
+ Must only be called during an userinfo/initialise hook
+ Adds a page to the details dialog
+ wParam=addInfo
+ lParam=(LPARAM)(OPTIONSDIALOGPAGE*)odp
+ addInfo must have come straight from the wParam of userinfo/initialise
+ Pages in the details dialog operate just like pages in property sheets. See the
+ Microsoft documentation for info on how they operate.
+ When the pages receive WM_INITDIALOG, lParam=(LPARAM)hContact
+ Strings in the structure can be released as soon as the service returns, but
+ icons must be kept around. This is not a problem if you're loading them from a
+ resource
+ The 3 'group' elements in the structure are ignored, and will always be ignored
+ Unlike the options dialog, the details dialog does not resize to fit its
+ largest page. Details dialog pages should be 222x132 dlus.
+ The details dialog (currently) has no Cancel button. I'm waiting to see if it's
+ sensible to have one.
+ Pages will be sent PSN_INFOCHANGED through WM_NOTIFY (idFrom=0) when a protocol
+ ack is broadcast for the correct contact and with type=ACKTYPE_GETINFO.
+ To help you out, PSN_INFOCHANGED will also be sent to each page just after it's
+ created.
+ All PSN_ WM_NOTIFY messages have PSHNOTIFY.lParam=(LPARAM)hContact
+}
+  PSN_INFOCHANGED  = 1;
+  PSN_PARAMCHANGED = 2;
 
-    {
-        wParam : wParam from ME_USERINFO_INITIALISE
-        lParam : pointer to an initialised OPTIONSDIALOGPAGE (see m_options.inc)
-        Affects: Adds a page to the details dialog, see notes
-        Notes  : this service should only be called within the ME_USERINFO_INITIALISE
-                 event -- when the pages get (WM_INITDIALOG lParam=HCONTACT) strings
-                 in the passed dialog structure can be freed soon as the service returns
-                 icons must be kept around (not a problem if you're loading from resource).
-                 -
-                 The group elements within the OPTIONSDIALOGPAGE are ignored,
-                 details dialog page should be 222x132 DLU's -- the details dialog
-                 box currently has no cancel button, pages will be sent PSN_INFOCHANGED
-                 thru WM_NOTIFY (idFrom=0) when a protocol ACK is broadcast for
-                 the correct contact with the type ACKTYPE_GETINFO.
-                 -
-                 PSN_INFOCHANGED will also be sent just after the page is created
-                 to help you out.
-                 -
-                 All PSN_* WM_NOTIFY messages have PSHNOTIFY.lParam=(LPARAM)hContact
-        Version: v0.1.2.0+
-    }
-
-    PSN_INFOCHANGED                 = 1;
-    { force-send a PSN_INFOCHANGED to all pages }
-    PSM_FORCECHANGED                = ($0400 + 100);
-
-    MS_USERINFO_ADDPAGE             = 'UserInfo/AddPage';
+  PSM_FORCECHANGED = (WM_USER+100);   //force-send a PSN_INFOCHANGED to all pages
+  MS_USERINFO_ADDPAGE:PAnsiChar = 'UserInfo/AddPage';
 
 {$ENDIF}

@@ -1,9 +1,8 @@
-(*
-
+{
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
-all portions of this codebase are copyrighted to the people
+Copyright 2000-2006 Miranda ICQ/IM project, 
+all portions of this codebase are copyrighted to the people 
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -19,64 +18,98 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-*)
+}
 
 {$IFNDEF M_LANGPACK}
 {$DEFINE M_LANGPACK}
 
 const
 
-    {
-        wParam : 0
-        lParam : pointer to a null terminated string
-        Affects: Returns a pointer to a localised string, if there is no known
-                 translation it will return lParam, the return value does *not*
-                 have to be freed in anyway (if successful) -- see notes
-        Returns: a pointer to a null terminated string
-        Notes  : No check is done to see if Miranda has the required version
-        Version: v0.1.1.0+
-    }
-    MS_LANGPACK_TRANSLATESTRING         = 'LangPack/TranslateString';
-
-    {
-        wParam : 0
-        lParam : Pointer to a LANGPACKTRANSLATEDIALOG initialised structure, see notes
-        Affects: Translates a dialog into the user's local language
-        Returns: 0 on successs [non zero] on failure
-        Notes  : this service only knows about the following window classes/elements:
-                 Window titles, STATIC, EDIT, Hyperlink, BUTTON.
-        Version: v0.1.1.0+
-    }
-
+{
+ translates a single string into the user's local language    v0.1.1.0+
+ wParam=LANG_* flags
+ lParam=(LPARAM)(const AnsiChar*)szEnglish
+ returns a pointer to the localised string. If there is no known translation
+ it will return szEnglish. The return value does not need to be freed in any way
+ Note that the Translate() macro as defined below will crash plugins that are
+ loaded into Miranda 0.1.0.1 and earlier. If anyone's actually using one of
+ these versions, I pity them.
+}
+  MS_LANGPACK_TRANSLATESTRING:PAnsiChar = 'LangPack/TranslateString';
+(*
+{
+ translates a dialog into the user's local language    v0.1.1.0+
+ wParam=0
+ lParam=(LPARAM)(LANGPACKTRANSLATEDIALOG* )&lptd
+ returns 0 on success, nonzero on failure
+ This service only knows about the following controls:
+ Window titles, STATIC, EDIT, Hyperlink, BUTTON
+}
 type
-
-    PLANGPACKTRANSLATEDIALOG = ^TLANGPACKTRANSLATEDIALOG;
-    TLANGPACKTRANSLATEDIALOG = record
-        cbSize: int;
-        flags: DWORD;
-        hwndDlg: THandle;
-        ignoreControls: ^Integer;       // pointer to an array of integers? mebbe?
-    end;
+  IntArray = array [0..1000] of integer;
+  PLANGPACKTRANSLATEDIALOG = ^TLANGPACKTRANSLATEDIALOG;
+  TLANGPACKTRANSLATEDIALOG = record
+    cbSize        :int;
+    flags         :DWORD;
+    hwndDlg       :HWND;
+    ignoreControls:^IntArray; // zero-terminated list of control IDs *not* to translate
+  end;
 
 const
+  LPTDF_NOIGNOREEDIT = 1; // translate all edit controls. By default
+                          // non-read-only edit controls are not translated
+  LPTDF_NOTITLE      = 2; //do not translate the title of the dialog
 
-    { translate all edit controls, by default non-read-only edit controls are not }
-    LPTDF_NOIGNOREEDIT = 1;
-    { don't translate the title of the dialog }
-    LPTDF_NOTITLE      = 2;
+const
+ MS_LANGPACK_TRANSLATEDIALOG:PAnsiChar = 'LangPack/TranslateDialog';
+*)
+{
+ translates a menu into the user's local language    v0.1.1.0+
+ wParam=(WPARAM)(HMENU)hMenu
+ lParam=0
+ returns 0 on success, nonzero on failure
+}
+  MS_LANGPACK_TRANSLATEMENU:PAnsiChar = 'LangPack/TranslateMenu';
 
-    MS_LANGPACK_TRANSLATEDIALOG         = 'LangPack/TranslateDialog';
+{
+ returns the codepage used in the language pack     v0.4.3.0+
+ wParam=0
+ lParam=0
+ returns the codepage stated in the langpack, or CP_ACP if no langpack is present
+}
+  MS_LANGPACK_GETCODEPAGE:PAnsiChar = 'LangPack/GetCodePage';
 
-    {
-        wParam : HMENU handle (WinAPI handle to a menu)
-        lParam : 0
-        Affects: Translates a menu into the user's local language -- see notes
-        Returns: 0 on success [non zero] on failure
-        Notes  : This doesn't work with owner draw menus that store their
-                 captions in a structure known by the owner -- something to be aware of ;)
-        version: v0.1.1.0+
-    }
-    MS_LANGPACK_TRANSLATEMENU           = 'LangPack/TranslateMenu';
+{
+  returns the locale id associated with the language pack    v0.4.3.0+
+  wParam=0
+  lParam=0
+  returns the Windows locale id stated in the langpack, or LOCALE_USER_DEFAULT if no langpack is present
+}
+  MS_LANGPACK_GETLOCALE:PAnsiChar = 'LangPack/GetLocale';
+
+{
+  returns the strdup/wcsdup of lparam according to the langpack  v0.4.3.0+
+  wParam=0
+  lParam=(LPARAM)(AnsiChar*)source string
+  returns a string converted from AnsiChar* to TCHAR* using the langpack codepage. 
+  This string should be freed using mir_free() then
+}
+  MS_LANGPACK_PCHARTOTCHAR:PAnsiChar = 'LangPack/PcharToTchar';
+
+{
+  initializes the plugin-specific translation context  v0.10.0+
+  wParam=pointer to the langpack handle
+  lParam=PLUGININFOEX* of the caller plugin
+  always returns 0
+}
+  MS_LANGPACK_REGISTER:PAnsiChar = 'LangPack/Register';
+
+{
+  reloads langpack
+  wParam=0 (ignored)
+  lParam=(LPARAM)(TCHAR*)langpack file name or NULL to reload the current one
+  always returns 0
+}
+  MS_LANGPACK_RELOAD:PAnsiChar = 'LangPack/Reload';
 
 {$ENDIF}

@@ -1,5 +1,4 @@
-(*
-
+{
 Miranda IM: the free IM client for Microsoft* Windows*
 
 Copyright 2000-2003 Miranda ICQ/IM project,
@@ -19,20 +18,19 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+}
 
-*)
 {$IFNDEF M_FINDADD}
 {$DEFINE M_FINDADD}
 
 const
-
-    {
-        wParam : 0
-        lParam : 0
-        Affects: Openss the find/add users dialog box, or gives it focus if it's
-                 already open.
-        Returns: Always returns 0
-    }
-    MS_FINDADDFINDADD       = 'FindAdd/FindAddCommand';
+  {
+    wParam : 0
+    lParam : 0
+    Affects: Opens the find/add users dialog box, or gives it focus if it's
+             already open.
+    Returns: Always returns 0
+  }
+  MS_FINDADDFINDADD:PAnsiChar = 'FindAdd/FindAddCommand';
 
 {$ENDIF}

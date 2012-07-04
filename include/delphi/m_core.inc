@@ -239,14 +239,14 @@ function SetExceptionFilter(pMirandaExceptFilter:pfnExceptionFilter):pfnExceptio
 const
   LANG_UNICODE = $1000;
 
-procedure LangPackDropUnusedItems(); stdcall;
-                                  external CoreDLL name 'LangPackDropUnusedItems';
-function LangPackGetDefaultCodePage():int; stdcall;
-                                  external CoreDLL name 'LangPackGetDefaultCodePage';
-function LangPackGetDefaultLocale():int; stdcall;
-                                  external CoreDLL name 'LangPackGetDefaultLocale';
-function LangPackPcharToTchar(const pszStr:pAnsiChar):pWideChar; stdcall;
-                              external CoreDLL name 'LangPackPcharToTchar';
+procedure Langpack_SortDuplicates(); stdcall;
+                                  external CoreDLL name 'Langpack_SortDuplicates';
+function Langpack_GetDefaultCodePage():int; stdcall;
+                                  external CoreDLL name 'Langpack_GetDefaultCodePage';
+function Langpack_GetDefaultLocale():int; stdcall;
+                                  external CoreDLL name 'Langpack_GetDefaultLocale';
+function Langpack_PcharToTchar(const pszStr:pAnsiChar):pWideChar; stdcall;
+                              external CoreDLL name 'Langpack_PcharToTchar';
 
 function LoadLangPackModule():int; stdcall;
                             external CoreDLL name 'LoadLangPackModule';
