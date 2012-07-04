@@ -941,13 +941,6 @@ static int stringCompare2( DBCachedGlobalValue* p1, DBCachedGlobalValue* p2 )
 	return strcmp( p1->name, p2->name );
 }
 
-static int OnPreShutdown(WPARAM, LPARAM)
-{
-	DestroyHookableEvent(hSettingChangeEvent);
-	hSettingChangeEvent = 0;
-	return 0;
-}
-
 int InitSettings(void)
 {
 	CreateServiceFunction(MS_DB_CONTACT_GETSETTING,GetContactSetting);
@@ -958,9 +951,8 @@ int InitSettings(void)
 	CreateServiceFunction(MS_DB_CONTACT_DELETESETTING,DeleteContactSetting);
 	CreateServiceFunction(MS_DB_CONTACT_ENUMSETTINGS,EnumContactSettings);
 	CreateServiceFunction(MS_DB_SETSETTINGRESIDENT,SetSettingResident);
-	
+
 	hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
 	mirCp = CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 );
 

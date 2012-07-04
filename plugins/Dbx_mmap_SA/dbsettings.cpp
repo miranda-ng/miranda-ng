@@ -991,7 +991,7 @@ void EncodeContactSettings(HANDLE hContact)
 	if(contact -> ofsFirstSettings){
 		setting = (struct DBContactSettings *)DBRead(contact -> ofsFirstSettings, sizeof(struct DBContactSettings), NULL);
 		offset = contact -> ofsFirstSettings;
-		do{			
+		do{
 			DWORD ofsBlobPtr;
 			PBYTE pBlob;
 			int bytesRemaining;
@@ -1009,21 +1009,21 @@ void EncodeContactSettings(HANDLE hContact)
 				NeedBytes(1+pBlob[0]);
 				//CopyMemory(szSetting,pBlob+1,pBlob[0]); szSetting[pBlob[0]]=0;
 				MoveAlong(1+pBlob[0]);
-				
+
 				NeedBytes(5);
-				
+
 				switch(pBlob[0]) {
 					case DBVT_DELETED: break;
 					case DBVT_BYTE: break;
-					case DBVT_WORD: 	
-						{	
+					case DBVT_WORD:
+						{
 							CryptoEngine->EncryptMem(pBlob+1, 2, key);
 							break;
 						}
-					case DBVT_DWORD: 
-						{	
+					case DBVT_DWORD:
+						{
 							CryptoEngine->EncryptMem(pBlob+1, 4, key);
-							break;	
+							break;
 						}
 					case DBVT_UTF8:
 					case DBVT_ASCIIZ:
@@ -1035,7 +1035,7 @@ void EncodeContactSettings(HANDLE hContact)
 							CryptoEngine->EncryptMem(pBlob+3, len, key);
 							break;
 						}
-				}				
+				}
 				NeedBytes(3);
 				MoveAlong(1+GetSettingValueLength(pBlob));
 				NeedBytes(1);
@@ -1050,21 +1050,21 @@ void EncodeContactSettings(HANDLE hContact)
 		}while(1);
 	}
 
-	
+
 }
 void DecodeContactSettings(HANDLE hContact)
 {
 	struct DBContact * contact;
 	struct DBContactSettings * setting;
 	DWORD offset;
-	
+
 
 	if (!hContact) hContact = (HANDLE)dbHeader.ofsUser;
 	contact = (struct DBContact *)DBRead((DWORD)hContact, sizeof(struct DBContact), NULL);
 	if(contact -> ofsFirstSettings){
 		setting = (struct DBContactSettings *)DBRead(contact -> ofsFirstSettings, sizeof(struct DBContactSettings), NULL);
 		offset = contact -> ofsFirstSettings;
-		do{			
+		do{
 			DWORD ofsBlobPtr;
 			PBYTE pBlob;
 			int bytesRemaining;
@@ -1076,21 +1076,21 @@ void DecodeContactSettings(HANDLE hContact)
 				NeedBytes(1+pBlob[0]);
 				//CopyMemory(szSetting,pBlob+1,pBlob[0]); szSetting[pBlob[0]]=0;
 				MoveAlong(1+pBlob[0]);
-				
+
 				NeedBytes(5);
-				
+
 				switch(pBlob[0]) {
 					case DBVT_DELETED: break;
 					case DBVT_BYTE: break;
-					case DBVT_WORD: 	
-						{	
+					case DBVT_WORD:
+						{
 							CryptoEngine->DecryptMem(pBlob+1, 2, key);
 							break;
 						}
-					case DBVT_DWORD: 
-						{	
+					case DBVT_DWORD:
+						{
 							CryptoEngine->DecryptMem(pBlob+1, 4, key);
-							break;	
+							break;
 						}
 					case DBVT_UTF8:
 					case DBVT_ASCIIZ:
@@ -1102,7 +1102,7 @@ void DecodeContactSettings(HANDLE hContact)
 							CryptoEngine->DecryptMem(pBlob+3, len, key);
 							break;
 						}
-				}				
+				}
 				NeedBytes(3);
 				MoveAlong(1+GetSettingValueLength(pBlob));
 				NeedBytes(1);
@@ -1132,13 +1132,6 @@ static int stringCompare2( char* p1, char* p2 )
 	return strcmp( p1, p2);
 }
 
-static int OnPreShutdown(WPARAM, LPARAM)
-{
-	DestroyHookableEvent(hSettingChangeEvent);
-	hSettingChangeEvent = 0;
-	return 0;
-}
-
 int InitSettings(void)
 {
 	CreateServiceFunction(MS_DB_CONTACT_GETSETTING, GetContactSetting);
@@ -1152,7 +1145,6 @@ int InitSettings(void)
 	CreateServiceFunction("DB/ResidentSettings/Enum", EnumResidentSettings);
 
 	hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
 	hCacheHeap = HeapCreate(0, 0, 0);
 	lSettings.sortFunc = (FSortFunc)stringCompare;

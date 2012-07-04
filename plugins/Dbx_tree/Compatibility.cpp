@@ -807,21 +807,8 @@ INT_PTR CompGetProfilePath(WPARAM cbBytes, LPARAM pszName)
 	return gDataBase->getProfilePath(cbBytes, reinterpret_cast<char*>(pszName));
 }
 
-int OnPreShutdown(WPARAM, LPARAM)
-{
-	DestroyHookableEvent(hEventDeletedEvent);
-	DestroyHookableEvent(hEventAddedEvent);
-	DestroyHookableEvent(hEventFilterAddedEvent);
-	DestroyHookableEvent(hSettingChangeEvent);
-	DestroyHookableEvent(hContactDeletedEvent);
-	DestroyHookableEvent(hContactAddedEvent);
-	return 0;
-}
-
 bool CompatibilityRegister()
 {
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
-
 	gCompServices[ 0] = CreateServiceFunction(MS_DB_CONTACT_GETCOUNT,         CompGetContactCount);
 	gCompServices[ 1] = CreateServiceFunction(MS_DB_CONTACT_FINDFIRST,        CompFindFirstContact);
 	gCompServices[ 2] = CreateServiceFunction(MS_DB_CONTACT_FINDNEXT,         CompFindNextContact);
@@ -868,11 +855,12 @@ bool CompatibilityRegister()
 	hContactAddedEvent     = CreateHookableEvent(ME_DB_CONTACT_ADDED);
 	return true;
 }
-
 bool CompatibilityUnRegister()
 {
-	for (int i = 0; i < SIZEOF(gCompServices); ++i)
+	int i;
+	for (i = 0; i < sizeof(gCompServices) / sizeof(gCompServices[0]); ++i)
+	{
 		DestroyServiceFunction(gCompServices[i]);
-
+	}
 	return true;
 }
