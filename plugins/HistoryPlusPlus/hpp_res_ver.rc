@@ -1,0 +1,28 @@
+1 VERSIONINFO
+FILEVERSION 1, 5, 1, 5
+PRODUCTVERSION 1, 5, 1, 5
+FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+FILEOS VOS__WINDOWS32
+FILETYPE VFT_DLL
+{
+  BLOCK "StringFileInfo"
+  {
+    BLOCK "000004b0"
+    {
+      VALUE "CompanyName", "Miranda Open Source Project\000"
+      VALUE "FileDescription", "History++ plugin for Miranda IM\000"
+      VALUE "FileVersion", "1.5.1.5\000"
+      VALUE "InternalName", "historypp\000"
+      VALUE "LegalCopyright", "© 2006-2009 theMIROn, 2003-2006 Art Fedorov.\000"
+      VALUE "LegalTrademarks", "Gnu General Public License V2\000"
+      VALUE "OriginalFilename", "historypp.dll\000"
+      VALUE "ProductName", "History PlusPlus Module\000"
+      VALUE "ProductVersion", "1.5.1.5\000"
+      VALUE "Comments", "Easy, fast and feature complete history viewer\000"
+    }
+  }
+  BLOCK "VarFileInfo"
+  {
+    VALUE "Translation", 0x0, 1200
+  }
+}

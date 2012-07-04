@@ -1,0 +1,1 @@
+Broken history export (in HTML mode at least) - text exports in wrong (comparing with header) encoding
