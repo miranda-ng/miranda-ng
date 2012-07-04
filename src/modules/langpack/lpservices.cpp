@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
 
-MIR_CORE_DLL(int) LangPackMarkPluginLoaded(PLUGININFOEX* pInfo);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR srvTranslateString(WPARAM wParam, LPARAM lParam)
@@ -45,7 +43,7 @@ static INT_PTR srvTranslateMenu(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR srvRegisterLP(WPARAM wParam, LPARAM lParam)
 {
-	*(int*)wParam = LangPackMarkPluginLoaded((PLUGININFOEX*)lParam);
+	*(int*)wParam = Langpack_MarkPluginLoaded((PLUGININFOEX*)lParam);
 	return 0;
 }
 
@@ -53,14 +51,14 @@ static INT_PTR srvRegisterLP(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR srvGetDefaultCodePage(WPARAM, LPARAM)
 {
-	return LangPackGetDefaultCodePage();
+	return Langpack_GetDefaultCodePage();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR srvGetDefaultLocale(WPARAM, LPARAM)
 {
-	return LangPackGetDefaultLocale();
+	return Langpack_GetDefaultLocale();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +71,7 @@ static INT_PTR srvPcharToTchar(WPARAM wParam, LPARAM lParam)
 
 	int len = (int)strlen(pszStr);
 	TCHAR* result = (TCHAR*)alloca((len+1)*sizeof(TCHAR));
-	MultiByteToWideChar(LangPackGetDefaultCodePage(), 0, pszStr, -1, result, len);
+	MultiByteToWideChar(Langpack_GetDefaultCodePage(), 0, pszStr, -1, result, len);
 	result[len] = 0;
 	return (INT_PTR)mir_wstrdup( TranslateW_LP(result, wParam));
 }

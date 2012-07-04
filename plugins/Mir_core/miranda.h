@@ -30,9 +30,13 @@ struct LangPackMuuid
 	PLUGININFOEX* pInfo;
 };
 
-MIR_CORE_DLL(int) LangPackMarkPluginLoaded(PLUGININFOEX* pInfo);
+extern "C" 
+{
+	MIR_CORE_DLL(int) Langpack_GetPluginHandle(PLUGININFOEX* pInfo);
+	MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo);
+};
 
-MIR_CORE_DLL(LangPackMuuid*) LangPackLookupUuid(WPARAM wParam);
+MIR_CORE_DLL(LangPackMuuid*) Langpack_LookupUuid(WPARAM wParam);
 
 void UnloadLangPackModule(void);
 

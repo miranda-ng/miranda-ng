@@ -67,7 +67,7 @@ static int OnPreShutdown(WPARAM, LPARAM)
 
 int LoadFontserviceModule(void)
 {
-	code_page = LangPackGetDefaultCodePage();
+	code_page = Langpack_GetDefaultCodePage();
 
 	CreateServiceFunction("Font/Register", RegisterFont);
 	CreateServiceFunction("Font/RegisterW", RegisterFontW);

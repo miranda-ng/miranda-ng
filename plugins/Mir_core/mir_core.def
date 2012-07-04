@@ -3,8 +3,8 @@ LIBRARY mir_core
 EXPORTS
 CallContactService              @1
 CallProtoService                @2
-LangPackLookupUuid              @3 NONAME
-LangPackMarkPluginLoaded        @4 NONAME
+Langpack_LookupUuid             @3
+Langpack_MarkPluginLoaded       @4
 CallFunctionAsync               @5
 CallPluginEventHook             @7
 CallService                     @8
@@ -32,10 +32,10 @@ KillModuleServices             @29
 KillObjectEventHooks           @30
 KillObjectServices             @31
 KillObjectThreads              @32
-LangPackDropUnusedItems        @33
-LangPackGetDefaultCodePage     @34
-LangPackGetDefaultLocale       @35
-LangPackPcharToTchar           @36
+Langpack_SortDuplicates        @33
+Langpack_GetDefaultCodePage    @34
+Langpack_GetDefaultLocale      @35
+Langpack_PcharToTchar          @36
 List_Copy                      @37
 List_Create                    @38
 List_Destroy                   @39
@@ -124,4 +124,4 @@ db_set_w                      @121
 db_set_ws                     @122
 UnloadCoreModule              @123
 Thread_SetName                @124
-
+Langpack_GetPluginHandle      @125

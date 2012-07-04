@@ -252,7 +252,7 @@ MIR_CORE_DLL(wchar_t*) mir_a2u_cp(const char* src, int codepage)
 
 MIR_CORE_DLL(wchar_t*) mir_a2u(const char* src)
 {
-	return mir_a2u_cp(src, LangPackGetDefaultCodePage());
+	return mir_a2u_cp(src, Langpack_GetDefaultCodePage());
 }
 
 /******************************************************************************/
@@ -276,5 +276,5 @@ MIR_CORE_DLL(char*) mir_u2a_cp(const wchar_t* src, int codepage)
 
 MIR_CORE_DLL(char*) mir_u2a(const wchar_t* src)
 {
-	return mir_u2a_cp(src, LangPackGetDefaultCodePage());
+	return mir_u2a_cp(src, Langpack_GetDefaultCodePage());
 }

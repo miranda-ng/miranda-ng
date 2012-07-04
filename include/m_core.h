@@ -178,10 +178,10 @@ MIR_CORE_DLL(pfnExceptionFilter) SetExceptionFilter(pfnExceptionFilter pMirandaE
 
 extern int hLangpack;
 
-MIR_CORE_DLL(void)   LangPackDropUnusedItems(void);
-MIR_CORE_DLL(int)    LangPackGetDefaultCodePage( void );
-MIR_CORE_DLL(int)    LangPackGetDefaultLocale(void);
-MIR_CORE_DLL(TCHAR*) LangPackPcharToTchar(const char* pszStr);
+MIR_CORE_DLL(void)   Langpack_SortDuplicates(void);
+MIR_CORE_DLL(int)    Langpack_GetDefaultCodePage( void );
+MIR_CORE_DLL(int)    Langpack_GetDefaultLocale(void);
+MIR_CORE_DLL(TCHAR*) Langpack_PcharToTchar(const char* pszStr);
 
 MIR_CORE_DLL(int)    LoadLangPackModule(void);
 MIR_CORE_DLL(int)    LoadLangPack(const TCHAR *szLangPack);

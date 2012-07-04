@@ -145,7 +145,7 @@ static int BuildMenuObjectsTree(HWND hwndDlg)
 			continue;
 
 		tvis.item.lParam  = (LPARAM)g_menus[i]->id;
-		tvis.item.pszText = LangPackPcharToTchar(g_menus[i]->Name);
+		tvis.item.pszText = Langpack_PcharToTchar(g_menus[i]->Name);
 		tvis.item.iImage  = tvis.item.iSelectedImage = TRUE;
 		TreeView_InsertItem(hTree, &tvis);
 		mir_free(tvis.item.pszText);

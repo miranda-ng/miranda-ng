@@ -142,8 +142,8 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 		if (odp->flags & ODPF_DONTTRANSLATE)
 			dst->ptszTitle = (odp->pszTitle == 0) ? NULL : mir_a2t(odp->pszTitle);
 		else
-			dst->ptszTitle = (odp->pszTitle == 0) ? NULL : LangPackPcharToTchar(odp->pszTitle);
-		dst->ptszTab = ( !(odp->flags & ODPF_USERINFOTAB) || !odp->pszTab) ? NULL : LangPackPcharToTchar(odp->pszTab);
+			dst->ptszTitle = (odp->pszTitle == 0) ? NULL : Langpack_PcharToTchar(odp->pszTitle);
+		dst->ptszTab = ( !(odp->flags & ODPF_USERINFOTAB) || !odp->pszTab) ? NULL : Langpack_PcharToTchar(odp->pszTab);
 	}
 
 	dst->pszGroup = NULL;

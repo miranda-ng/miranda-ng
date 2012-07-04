@@ -509,7 +509,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 			if (lParam & BATF_UNICODE)
 				ti.lpszText = mir_wstrdup(TranslateW((WCHAR*)wParam));
 			else
-				ti.lpszText = LangPackPcharToTchar((char*)wParam);
+				ti.lpszText = Langpack_PcharToTchar((char*)wParam);
 			if (bct->pAccPropServices) {
 				wchar_t *tmpstr = mir_t2u(ti.lpszText);
 				bct->pAccPropServices->SetHwndPropStr(bct->hwnd, OBJID_CLIENT, 

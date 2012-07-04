@@ -247,3 +247,11 @@ public:
 #define StrConvTu(x) x
 #define StrConvA(x) StrConvAT(x)
 #define StrConvU(x) x
+
+///////////////////////////////////////////////////////////////////////////////
+
+extern "C"
+{
+	MIR_CORE_DLL(int) Langpack_GetPluginHandle(PLUGININFOEX* pInfo);
+	MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo);
+};

@@ -305,7 +305,7 @@ MIR_CORE_DLL(char*) Utf8DecodeCP(char* str, int codepage, wchar_t** ucs2)
 
 MIR_CORE_DLL(char*) Utf8Decode(char* str, wchar_t** ucs2)
 {
-	return Utf8DecodeCP(str, LangPackGetDefaultCodePage(), ucs2);
+	return Utf8DecodeCP(str, Langpack_GetDefaultCodePage(), ucs2);
 }
 
 MIR_CORE_DLL(wchar_t*) Utf8DecodeW(const char* str)
@@ -379,7 +379,7 @@ MIR_CORE_DLL(char*) Utf8EncodeCP(const char* src, int codepage)
 
 MIR_CORE_DLL(char*) Utf8Encode(const char* src)
 {
-	return Utf8EncodeCP(src, LangPackGetDefaultCodePage());
+	return Utf8EncodeCP(src, Langpack_GetDefaultCodePage());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

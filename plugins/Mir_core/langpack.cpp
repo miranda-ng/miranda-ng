@@ -423,24 +423,24 @@ static char *LangPackTranslateString(LangPackMuuid* pUuid, const char *szEnglish
 	return W ? (char *)entry->wlocal : entry->local;
 }
 
-MIR_CORE_DLL(int) LangPackGetDefaultCodePage()
+MIR_CORE_DLL(int) Langpack_GetDefaultCodePage()
 {
 	return langPack.defaultANSICp;
 }
 
-MIR_CORE_DLL(int) LangPackGetDefaultLocale()
+MIR_CORE_DLL(int) Langpack_GetDefaultLocale()
 {
 	return (langPack.localeID == 0) ? LOCALE_USER_DEFAULT : langPack.localeID;
 }
 
-MIR_CORE_DLL(TCHAR*) LangPackPcharToTchar(const char* pszStr)
+MIR_CORE_DLL(TCHAR*) Langpack_PcharToTchar(const char* pszStr)
 {
 	if (pszStr == NULL)
 		return NULL;
 
 	{	int len = (int)strlen(pszStr);
 		TCHAR* result = (TCHAR*)alloca((len+1)*sizeof(TCHAR));
-		MultiByteToWideChar(LangPackGetDefaultCodePage(), 0, pszStr, -1, result, len);
+		MultiByteToWideChar(Langpack_GetDefaultCodePage(), 0, pszStr, -1, result, len);
 		result[len] = 0;
 		return mir_wstrdup(TranslateW(result));
 	}
@@ -450,17 +450,17 @@ MIR_CORE_DLL(TCHAR*) LangPackPcharToTchar(const char* pszStr)
 
 MIR_CORE_DLL(char*) TranslateA_LP(const char* str, int hLangpack)
 {
-	return (char*)LangPackTranslateString(LangPackLookupUuid(hLangpack), str, FALSE);
+	return (char*)LangPackTranslateString(Langpack_LookupUuid(hLangpack), str, FALSE);
 }
 
 MIR_CORE_DLL(WCHAR*) TranslateW_LP(const WCHAR* str, int hLangpack)
 {
-	return (WCHAR*)LangPackTranslateString(LangPackLookupUuid(hLangpack), (LPCSTR)str, TRUE);
+	return (WCHAR*)LangPackTranslateString(Langpack_LookupUuid(hLangpack), (LPCSTR)str, TRUE);
 }
 
 MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, int hLangpack)
 {
-	LangPackMuuid* uuid = LangPackLookupUuid(hLangpack);
+	LangPackMuuid* uuid = Langpack_LookupUuid(hLangpack);
 
 	MENUITEMINFO mii;
 	mii.cbSize = MENUITEMINFO_V4_SIZE;
@@ -505,7 +505,7 @@ static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd, LPARAM lParam)
 	TCHAR szClass[32];
 	int id = GetDlgCtrlID(hwnd);
 
-	LangPackMuuid* uuid = LangPackLookupUuid(hLangpack);
+	LangPackMuuid* uuid = Langpack_LookupUuid(hLangpack);
 
 	GetClassName(hwnd, szClass, SIZEOF(szClass));
 	if ( !lstrcmpi(szClass, _T("static")) || !lstrcmpi(szClass, _T("hyperlink")) || !lstrcmpi(szClass, _T("button")) || !lstrcmpi(szClass, _T("MButtonClass")) || !lstrcmpi(szClass, _T("MHeaderbarCtrl")))
@@ -519,19 +519,29 @@ static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd, LPARAM lParam)
 
 MIR_CORE_DLL(void) TranslateDialog_LP(HWND hDlg, int hLangpack)
 {
-	TranslateWindow(LangPackLookupUuid(hLangpack), hDlg);
+	TranslateWindow( Langpack_LookupUuid(hLangpack), hDlg);
 	EnumChildWindows(hDlg, TranslateDialogEnumProc, hLangpack);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(LangPackMuuid*) LangPackLookupUuid(WPARAM wParam)
+MIR_CORE_DLL(LangPackMuuid*) Langpack_LookupUuid(WPARAM wParam)
 {
 	int idx = (wParam >> 16) & 0xFFFF;
 	return (idx > 0 && idx <= lMuuids.getCount()) ? lMuuids[ idx-1 ] : NULL;
 }
 
-MIR_CORE_DLL(int) LangPackMarkPluginLoaded(PLUGININFOEX* pInfo)
+MIR_CORE_DLL(int) Langpack_GetPluginHandle(PLUGININFOEX* pInfo)
+{
+	LangPackMuuid tmp; tmp.muuid = pInfo->uuid;
+	int idx = lMuuids.getIndex(&tmp);
+	if (idx == -1)
+		return 0;
+
+	return (idx+1) << 16;
+}
+
+MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo)
 {
 	LangPackMuuid tmp; tmp.muuid = pInfo->uuid;
 	int idx = lMuuids.getIndex(&tmp);
@@ -542,7 +552,7 @@ MIR_CORE_DLL(int) LangPackMarkPluginLoaded(PLUGININFOEX* pInfo)
 	return (idx+1) << 16;
 }
 
-MIR_CORE_DLL(void) LangPackDropUnusedItems(void)
+MIR_CORE_DLL(void) Langpack_SortDuplicates(void)
 {
 	if (langPack.entryCount == 0)
 		return;
@@ -636,5 +646,5 @@ MIR_CORE_DLL(void) ReloadLangpack(TCHAR *pszStr)
 
 	UnloadLangPackModule();
 	LoadLangPack(pszStr);
-	LangPackDropUnusedItems();
+	Langpack_SortDuplicates();
 }

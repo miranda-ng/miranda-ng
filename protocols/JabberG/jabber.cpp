@@ -76,7 +76,6 @@ HANDLE hModulesLoaded, hModulesLoadedTB;
 HANDLE hExtraActivity = NULL;
 HANDLE hExtraMood = NULL;
 
-
 void JabberUserInfoInit(void);
 
 int bSecureIM;
@@ -219,10 +218,8 @@ static int jabberProtoUninit( CJabberProto* ppro )
 	return 0;
 }
 
-extern "C" int __declspec( dllexport ) Load(  )
+extern "C" int __declspec( dllexport ) Load()
 {
-
-
 	// set the memory, lists & utf8 managers
 	mir_getXI( &xi );
 	mir_getTMI( &tmi );

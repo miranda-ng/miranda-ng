@@ -266,6 +266,33 @@ LBL_Ok:
 	goto LBL_Error;
 }
 
+// perform any API related tasks to freeing
+void Plugin_Uninit(pluginEntry* p, bool bDynamic)
+{
+	if (bDynamic && p->bpi.hInst)
+		CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0);
+
+	// if it was an installed database plugin, call its unload
+	if (p->pclass & PCLASS_DB)
+		p->bpi.dblink->Unload(p->pclass & PCLASS_OK);
+
+	// if the basic API check had passed, call Unload if Load(void) was ever called
+	if (p->pclass & PCLASS_LOADED)
+		p->bpi.Unload();
+
+	// release the library
+	if (p->bpi.hInst != NULL) {
+		// we need to kill all resources which belong to that DLL before calling FreeLibrary
+		KillModuleEventHooks(p->bpi.hInst);
+		KillModuleServices(p->bpi.hInst);
+
+		FreeLibrary(p->bpi.hInst);
+		ZeroMemory(&p->bpi, sizeof(p->bpi));
+	}
+	UnregisterModule(p->bpi.hInst);
+	pluginList.remove(p);
+}
+
 // returns true if the given file is <anything>.dll exactly
 static int valid_library_name(TCHAR *name)
 {
@@ -311,33 +338,6 @@ static int validguess_servicemode_name(TCHAR * name)
 	rc = lstrcmpi(name, _T("svc_")) == 0;
 	name[4] = x;
 	return rc;
-}
-
-// perform any API related tasks to freeing
-void Plugin_Uninit(pluginEntry* p, bool bDynamic)
-{
-	if (bDynamic && p->bpi.hInst)
-		CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0);
-
-	// if it was an installed database plugin, call its unload
-	if (p->pclass & PCLASS_DB)
-		p->bpi.dblink->Unload(p->pclass & PCLASS_OK);
-
-	// if the basic API check had passed, call Unload if Load(void) was ever called
-	if (p->pclass & PCLASS_LOADED)
-		p->bpi.Unload();
-
-	// release the library
-	if (p->bpi.hInst != NULL) {
-		// we need to kill all resources which belong to that DLL before calling FreeLibrary
-		KillModuleEventHooks(p->bpi.hInst);
-		KillModuleServices(p->bpi.hInst);
-
-		FreeLibrary(p->bpi.hInst);
-		ZeroMemory(&p->bpi, sizeof(p->bpi));
-	}
-	UnregisterModule(p->bpi.hInst);
-	pluginList.remove(p);
 }
 
 void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
@@ -393,12 +393,11 @@ static INT_PTR PluginsEnum(WPARAM, LPARAM lParam)
 
 pluginEntry* OpenPlugin(TCHAR* tszFileName, TCHAR* path)
 {
-	int isdb = validguess_db_name(tszFileName);
 	BASIC_PLUGIN_INFO bpi;
 	pluginEntry* p = (pluginEntry*)HeapAlloc(hPluginListHeap, HEAP_NO_SERIALIZE | HEAP_ZERO_MEMORY, sizeof(pluginEntry));
 	_tcsncpy(p->pluginname, tszFileName, SIZEOF(p->pluginname));
 	// plugin name suggests its a db module, load it right now
-	if (isdb) {
+	if ( validguess_db_name(tszFileName)) {
 		TCHAR buf[MAX_PATH];
 		mir_sntprintf(buf, SIZEOF(buf), _T("%s\\Plugins\\%s"), path, tszFileName);
 		if (checkAPI(buf, &bpi, mirandaVersion, CHECKAPI_DB)) {
@@ -414,13 +413,13 @@ pluginEntry* OpenPlugin(TCHAR* tszFileName, TCHAR* path)
 			// didn't have basic APIs or DB exports - failed.
 			p->pclass |= PCLASS_FAILED;
 	}
-	else if (validguess_clist_name(tszFileName)) {
+	else if ( validguess_clist_name(tszFileName)) {
 		// keep a note of this plugin for later
 		if (pluginListUI != NULL) p->nextclass=pluginListUI;
 		pluginListUI=p;
 		p->pclass |= PCLASS_CLIST;
 	}
-	else if (validguess_servicemode_name(tszFileName)) {
+	else if ( validguess_servicemode_name(tszFileName)) {
 		TCHAR buf[MAX_PATH];
 		mir_sntprintf(buf, SIZEOF(buf), _T("%s\\Plugins\\%s"), path, tszFileName);
 		if (checkAPI(buf, &bpi, mirandaVersion, CHECKAPI_NONE)) {
@@ -538,33 +537,31 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 
 static pluginEntry* getCListModule(TCHAR * exe, TCHAR * slice, int useWhiteList)
 {
-	pluginEntry * p = pluginListUI;
-	BASIC_PLUGIN_INFO bpi;
-	while (p != NULL) {
+	for (pluginEntry *p = pluginListUI; p != NULL; p = p->nextclass) {
 		mir_sntprintf(slice, &exe[MAX_PATH] - slice, _T("\\Plugins\\%s"), p->pluginname);
 		CharLower(p->pluginname);
-		if (useWhiteList ? isPluginOnWhiteList(p->pluginname) : 1) {
-			if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_CLIST)) {
+		if (useWhiteList && !isPluginOnWhiteList(p->pluginname))
+			continue;
+
+		BASIC_PLUGIN_INFO bpi;
+		if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_CLIST)) {
+			p->bpi = bpi;
+			p->pclass |= PCLASS_LAST | PCLASS_OK | PCLASS_BASICAPI;
+			RegisterModule(p->bpi.hInst);
+			if (bpi.clistlink() == 0) {
 				p->bpi = bpi;
-				p->pclass |= PCLASS_LAST | PCLASS_OK | PCLASS_BASICAPI;
-				RegisterModule(p->bpi.hInst);
-				if (bpi.clistlink() == 0) {
-					p->bpi = bpi;
-					p->pclass |= PCLASS_LOADED;
-					return p;
-				}
-				else Plugin_Uninit(p);
-			} //if
-		} //if
-		p = p->nextclass;
+				p->pclass |= PCLASS_LOADED;
+				return p;
+			}
+			Plugin_Uninit(p);
+		}
 	}
 	return NULL;
 }
 
 int UnloadPlugin(TCHAR* buf, int bufLen)
 {
-	int i;
-	for (i = pluginList.getCount()-1; i >= 0; i--) {
+	for (int i = pluginList.getCount()-1; i >= 0; i--) {
 		pluginEntry* p = pluginList[i];
 		if ( !_tcsicmp(p->pluginname, buf)) {
 			GetModuleFileName(p->bpi.hInst, buf, bufLen);
@@ -690,7 +687,7 @@ int LoadNewPluginsModule(void)
 
 	// first load the clist cos alot of plugins need that to be present at Load(void)
 	for (useWhiteList = 1; useWhiteList >= 0 && clist == NULL; useWhiteList--)
-		clist=getCListModule(exe, slice, useWhiteList);
+		clist = getCListModule(exe, slice, useWhiteList);
 	/* the loop above will try and get one clist DLL to work, if all fail then just bail now */
 	if (clist == NULL) {
 		// result = 0, no clist_* can be found

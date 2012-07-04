@@ -123,7 +123,7 @@ static int FindDbProviders(const char*, DATABASELINK * dblink, LPARAM lParam)
 
 	if (dblink->getFriendlyName(szName, SIZEOF(szName), 1) == 0) {
 		// add to combo box
-		TCHAR* p = LangPackPcharToTchar(szName);
+		TCHAR* p = Langpack_PcharToTchar(szName);
 		LRESULT index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)p);
 		mir_free(p);
 		SendMessage(hwndCombo, CB_SETITEMDATA, index, (LPARAM)dblink);
@@ -607,7 +607,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 				SendMessage(hwndCombo, CB_SETITEMDATA, index, (LPARAM)-1);
 				SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
 				while (list[i]) {
-					TCHAR *str = LangPackPcharToTchar(list[i]);
+					TCHAR *str = Langpack_PcharToTchar(list[i]);
 					index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)str);
 					mir_free(str);
 					SendMessage(hwndCombo, CB_SETITEMDATA, index, (LPARAM)i);
@@ -780,7 +780,7 @@ static int AddProfileManagerPage(struct DetailsPageInit * opi, OPTIONSDIALOGPAGE
 		p->hInstance     = odp->hInstance;
 		p->pfnDlgProc    = odp->pfnDlgProc;
 		p->position      = odp->position;
-		p->ptszTitle     = LangPackPcharToTchar(odp->pszTitle);
+		p->ptszTitle     = Langpack_PcharToTchar(odp->pszTitle);
 		p->pszGroup      = NULL;
 		p->groupPosition = odp->groupPosition;
 		p->hGroupIcon    = odp->hGroupIcon;
