@@ -20,23 +20,23 @@
 /*
  * Global Variables
  */
-HINSTANCE   hInstance;
+HINSTANCE hInstance;
 
 HANDLE g_hNetlibUser;
 
 int hLangpack;
 
 PLUGININFOEX pluginInfo={
-	sizeof(PLUGININFOEX),
-	"Yahoo Protocol",
-	__VERSION_DWORD,
-	"Yahoo Protocol support via libyahoo2 library. [Built: "__DATE__" "__TIME__"]",
-	"Gennady Feldman",
-	"gena01@miranda-im.org",
-	"© 2003-2010 Gennady Feldman, Laurent Marechal",
-	"http://www.miranda-im.org",
-	UNICODE_AWARE,
-	{0xaa7bfea, 0x1fc7, 0x45f0, {0x90, 0x6e, 0x2a, 0x46, 0xb6, 0xe1, 0x19, 0xcf}} // {0AA7BFEA-1FC7-45f0-906E-2A46B6E119CF}
+		sizeof(PLUGININFOEX),
+		"Yahoo Protocol",
+		__VERSION_DWORD,
+		"Yahoo Protocol support via libyahoo2 library.",
+		"Gennady Feldman",
+		"gena01@miranda-im.org",
+		"© 2003-2010 Gennady Feldman, Laurent Marechal",
+		"http://www.miranda-im.org",
+		UNICODE_AWARE, //not transient
+		{0xaa7bfea, 0x1fc7, 0x45f0, {0x90, 0x6e, 0x2a, 0x46, 0xb6, 0xe1, 0x19, 0xcf}} // {0AA7BFEA-1FC7-45f0-906E-2A46B6E119CF}
 };
 
 void YmsgrLinksInit(void);
@@ -107,7 +107,7 @@ extern "C" int __declspec(dllexport)Load(void)
 
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
-  	nlu.flags = NUF_TCHAR | NUF_OUTGOING | NUF_HTTPCONNS;
+	nlu.flags = NUF_TCHAR | NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = "YAHOO/libyahoo2";
 	nlu.ptszDescriptiveName = TranslateT("YAHOO plugin HTTP connections");
 	g_hNetlibUser = ( HANDLE )YAHOO_CallService( MS_NETLIB_REGISTERUSER, 0, ( LPARAM )&nlu );
