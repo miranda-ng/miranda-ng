@@ -49,6 +49,21 @@ static int CompareSounds(const SoundItem* p1, const SoundItem* p2)
 
 static OBJLIST<SoundItem> arSounds(10, CompareSounds);
 
+///////////////////////////////////////////////////////////////////////////////
+
+void KillModuleSounds(int hLangpack)
+{
+	for (int i=arSounds.getCount()-1; i >= 0; i--) {
+		SoundItem& p = arSounds[i];
+		if (p.hLangpack == hLangpack) {
+			p.clear();
+			arSounds.remove(i);
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 static BOOL bModuleInitialized = FALSE;
 static HANDLE hPlayEvent = NULL;
 

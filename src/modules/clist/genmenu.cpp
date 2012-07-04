@@ -80,6 +80,8 @@ LPTSTR GetMenuItemText(PMO_IntMenuItem pimi)
 	return TranslateTH(pimi->mi.hLangpack, pimi->mi.ptszName);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
 PMO_IntMenuItem MO_RecursiveWalkMenu(PMO_IntMenuItem parent, pfnWalkFunc func, void* param)
 {
 	if (parent == NULL)
@@ -102,6 +104,7 @@ PMO_IntMenuItem MO_RecursiveWalkMenu(PMO_IntMenuItem parent, pfnWalkFunc func, v
 	return FALSE;
 }
 
+///////////////////////////////////////////////////////////////////////////////
 //wparam=0
 //lparam=LPMEASUREITEMSTRUCT
 int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis)
@@ -128,6 +131,7 @@ int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis)
 	return TRUE;
 }
 
+///////////////////////////////////////////////////////////////////////////////
 //wparam=0
 //lparam=LPDRAWITEMSTRUCT
 int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis)
@@ -453,16 +457,13 @@ int MO_SetOptionsMenuItem(PMO_IntMenuItem aHandle, int setting, INT_PTR value)
 
 int MO_SetOptionsMenuObject(HANDLE handle, int setting, INT_PTR value)
 {
-	int  pimoidx;
-	int  res = 0;
-
 	if ( !bIsGenMenuInited)
 		return -1;
 
 	mir_cslock lck(csMenuHook);
 
-	pimoidx = GetMenuObjbyId((int)handle);
-	res = pimoidx != -1;
+	int pimoidx = GetMenuObjbyId((int)handle);
+	int res = pimoidx != -1;
 	if (res) {
 		TIntMenuObject* pmo = g_menus[pimoidx];
 
@@ -553,6 +554,25 @@ INT_PTR MO_RemoveMenuItem(WPARAM wParam, LPARAM)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+int KillMenuItems(PMO_IntMenuItem pimi, void* param)
+{
+	if (pimi->hLangpack == (int)param)
+		MO_RemoveMenuItem((WPARAM)pimi, 0);
+	return FALSE;
+}
+
+void KillModuleMenus(int hLangpack)
+{
+	if (bIsGenMenuInited) {
+		mir_cslock lck(csMenuHook);
+
+		for (int i=0; i < g_menus.getCount(); i++)
+			MO_RecursiveWalkMenu(g_menus[i]->m_items.first, KillMenuItems, (void*)hLangpack);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // we presume that this function is being called inside csMenuHook only
 
 static int PackMenuItems(PMO_IntMenuItem pimi, void*)
@@ -600,6 +620,7 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 	p->iconId = -1;
 	p->OverrideShow = TRUE;
 	p->originalPosition = pmi->position;
+	p->hLangpack = pmi->hLangpack;
 
 	if (pmi->flags & CMIF_UNICODE) 
 		p->mi.ptszName = mir_tstrdup(pmi->ptszName);
@@ -1039,7 +1060,7 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 
 		mir_snprintf(iconame, sizeof(iconame), "genmenu_%s_%s", pmi->parent->Name, uname && *uname ? uname : descr);
 
-		SKINICONDESC sid={0};
+		SKINICONDESC sid = { 0 };
 		sid.cbSize = sizeof(sid);
 		sid.cx = 16;
 		sid.cy = 16;
@@ -1054,14 +1075,12 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 		if (hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)iconame)) {
 			ImageList_ReplaceIcon(pmi->parent->m_hMenuIcons, pmi->iconId, hIcon);
 			IconLib_ReleaseIcon(hIcon, 0);
-	}	}
+		}
+	}
 
-	
-		if ( !pmi->UniqName)
-			mir_free(uname);
-		mir_free(descr);
-
-
+	if ( !pmi->UniqName)
+		mir_free(uname);
+	mir_free(descr);
 	return FALSE;
 }
 

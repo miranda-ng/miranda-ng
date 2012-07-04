@@ -130,7 +130,6 @@ static int OnExit(WPARAM wParam, LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP( &pluginInfo );
 
 	hImportService = CreateServiceFunction(IMPORT_SERVICE, ImportCommand);

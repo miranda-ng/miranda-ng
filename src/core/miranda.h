@@ -115,6 +115,14 @@ extern LPFN_WSAADDRESSTOSTRINGA MyWSAAddressToString;
 
 void PushFileEvent(HANDLE hContact, HANDLE hdbe, LPARAM lParam);
 
+/**** fontService.cpp ******************************************************************/
+
+void KillModuleFonts(int hLangpack);
+void KillModuleColours(int hLangpack);
+void KillModuleEffects(int hLangpack);
+void KillModuleHotkeys(int hLangpack);
+void KillModuleSounds(int hLangpack);
+
 /**** miranda.cpp **********************************************************************/
 
 extern HINSTANCE hInst;
@@ -142,6 +150,8 @@ HICON  IcoLib_GetIcon(const char* pszIconName, bool big);
 HICON  IcoLib_GetIconByHandle(HANDLE hItem, bool big);
 HANDLE IcoLib_IsManaged(HICON hIcon);
 int    IcoLib_ReleaseIcon(HICON hIcon, char* szIconName, bool big);
+
+void   KillModuleIcons(int hLangpack);
 
 /**** skinicons.cpp ********************************************************************/
 
@@ -177,6 +187,8 @@ extern const int skinIconStatusList[ MAX_STATUS_COUNT ];
 extern const int skinIconStatusFlags[ MAX_STATUS_COUNT ];
 
 int TryProcessDoubleClick(HANDLE hContact);
+
+void KillModuleMenus(int hLangpack);
 
 /**** protocols.cpp *********************************************************************/
 
@@ -224,7 +236,7 @@ public:
 	StrConvUT(const char* pSrc) :
 		m_body(mir_a2u(pSrc)) {}
 
-    ~StrConvUT() {  mir_free(m_body); }
+	~StrConvUT() {  mir_free(m_body); }
 	operator const wchar_t* () const { return m_body; }
 };
 
@@ -237,7 +249,7 @@ public:
 	StrConvAT(const wchar_t* pSrc) :
 		m_body(mir_u2a(pSrc)) {}
 
-    ~StrConvAT() {  mir_free(m_body); }
+	~StrConvAT() {  mir_free(m_body); }
 	operator const char*  () const { return m_body; }
 	operator const wchar_t* () const { return (wchar_t*)m_body; }  // type cast to fake the interface definition
 	operator const LPARAM () const { return (LPARAM)m_body; }

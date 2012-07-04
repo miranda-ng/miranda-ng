@@ -369,6 +369,15 @@ INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void KillModuleFonts(int hLangpack)
+{
+	for (int i=font_id_list.getCount()-1; i >= 0; i--)
+		if ( font_id_list[i].hLangpack == hLangpack)
+			font_id_list.remove(i);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // RegisterColour service
 
 void UpdateColourSettings(ColourIDW* colour_id, COLORREF *colour)
@@ -434,6 +443,15 @@ INT_PTR GetColour(WPARAM wParam, LPARAM)
 	return sttGetColourWorker(&temp);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void KillModuleColours(int hLangpack)
+{
+	for (int i=colour_id_list.getCount()-1; i >= 0; i--)
+		if (colour_id_list[i].hLangpack == hLangpack)
+			colour_id_list.remove(i);
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Effects
 
@@ -451,7 +469,7 @@ void UpdateEffectSettings(EffectIDW* effect_id, FONTEFFECT* effectsettings)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// RegisterFont service
+// RegisterEffect service
 
 static INT_PTR sttRegisterEffectWorker(EffectIDW* effect_id, int hLangpack)
 {
@@ -515,4 +533,13 @@ INT_PTR GetEffect(WPARAM wParam, LPARAM lParam)
 	EffectIDW temp;
 	if ( !ConvertEffectID((EffectID*)wParam, &temp)) return -1;
 	return sttGetEffectWorker(&temp, (FONTEFFECT*)lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void KillModuleEffects(int hLangpack)
+{
+	for (int i=effect_id_list.getCount()-1; i >= 0; i--)
+		if (effect_id_list[i].hLangpack == hLangpack)
+			effect_id_list.remove(i);
 }

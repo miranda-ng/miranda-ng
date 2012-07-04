@@ -1193,7 +1193,7 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
 				mir_free(ptszName);	
 			}
 			if (pRoot == NULL) {
-				TMO_MenuItem tmi = { 0 };
+				memset(&tmi, 0, sizeof(tmi));
 				tmi.cbSize = sizeof(tmi);
 				tmi.flags = (mi->flags & CMIF_UNICODE) | CMIF_ROOTHANDLE;
 				tmi.position = 1001;
@@ -1233,12 +1233,9 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
 		smep->hMenuItem = menuHandle;
 
 	char buf[MAX_PATH+64];
-	
-	{
-		char* p = (pRoot) ? mir_t2a(pRoot->mi.ptszName) : NULL;
-		mir_snprintf(buf, SIZEOF(buf), "%s/%s", (p) ? p : "", mi->pszService ? mi->pszService : "");
-		mir_free(p);
-	}
+	char* p = (pRoot) ? mir_t2a(pRoot->mi.ptszName) : NULL;
+	mir_snprintf(buf, SIZEOF(buf), "%s/%s", (p) ? p : "", mi->pszService ? mi->pszService : "");
+	mir_free(p);
 	
 	MO_SetOptionsMenuItem(menuHandle, OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
 

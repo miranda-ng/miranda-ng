@@ -66,16 +66,13 @@ MuuidReplacement pluginDefault[] =
 
 static BOOL bModuleInitialized = FALSE;
 
-TCHAR   mirandabootini[MAX_PATH];
+TCHAR  mirandabootini[MAX_PATH];
 static DWORD mirandaVersion;
 static int serviceModeIdx = -1;
-static pluginEntry * pluginListSM;
-static pluginEntry * pluginListDb;
-static pluginEntry * pluginListUI;
-static pluginEntry * pluginList_freeimg;
-static pluginEntry * pluginList_crshdmp;
 static HANDLE hPluginListHeap = NULL;
 static int askAboutIgnoredPlugins;
+
+static pluginEntry *pluginListSM, *pluginListDb, *pluginListUI, *pluginList_freeimg, *pluginList_crshdmp;
 
 int  InitIni(void);
 void UninitIni(void);
@@ -285,6 +282,19 @@ void Plugin_Uninit(pluginEntry* p, bool bDynamic)
 		// we need to kill all resources which belong to that DLL before calling FreeLibrary
 		KillModuleEventHooks(p->bpi.hInst);
 		KillModuleServices(p->bpi.hInst);
+
+		if (bDynamic) {
+			int hLangpack = Langpack_GetPluginHandle(p->bpi.pluginInfo);
+			if (hLangpack != 0) {
+				KillModuleMenus(hLangpack);
+				KillModuleFonts(hLangpack);
+				KillModuleColours(hLangpack);
+				KillModuleEffects(hLangpack);
+				KillModuleIcons(hLangpack);
+				KillModuleHotkeys(hLangpack);
+				KillModuleSounds(hLangpack);
+			}
+		}
 
 		FreeLibrary(p->bpi.hInst);
 		ZeroMemory(&p->bpi, sizeof(p->bpi));

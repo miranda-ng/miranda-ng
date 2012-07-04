@@ -101,7 +101,6 @@ void __fastcall SafeDestroyIcon(HICON* icon)
 		*icon = NULL;
 }	}
 
-
 // Helper functions to manage Icon resources
 
 IconSourceFile* IconSourceFile_Get(const TCHAR* file, bool isPath)
@@ -589,6 +588,25 @@ static INT_PTR IcoLib_RemoveIcon(WPARAM, LPARAM lParam)
 	return 1; // Failed
 }
 
+void KillModuleIcons(int hLangpack)
+{
+	if ( !bModuleInitialized)
+		return;
+
+	mir_cslock lck(csIconList);
+	for (int i=iconList.getCount()-1; i >= 0; i--) {
+		IconItem *item = iconList[i];
+		if ( item->hLangpack == hLangpack) {
+			IcoLib_FreeIcon(item);
+			iconList.remove(i);
+			SAFE_FREE((void**)&item);
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// IconItem_GetDefaultIcon
+
 HICON IconItem_GetDefaultIcon(IconItem* item, bool big)
 {
 	HICON hIcon = NULL;
@@ -873,4 +891,5 @@ void UnloadIcoLibModule(void)
 	sectionList.destroy();
 
 	SafeDestroyIcon(&hIconBlank);
+	bModuleInitialized = false;
 }

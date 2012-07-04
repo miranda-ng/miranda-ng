@@ -300,6 +300,17 @@ void RegisterHotkeys()
 			if (vk) RegisterHotKey(g_hwndHotkeyHost, item->idHotkey, mod, vk);
 }	}	}
 
+void KillModuleHotkeys(int hLangpack)
+{
+	for (int i=hotkeys.getCount()-1; i >= 0; i--) {
+		THotkeyItem *item = hotkeys[i];
+		if (item->hLangpack == hLangpack) {
+			FreeHotkey(item);
+			hotkeys.remove(i);
+		}
+	}
+}
+
 void UnregisterHotkeys()
 {
 	for (int i = 0; i < hotkeys.getCount(); i++) {
