@@ -29,7 +29,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 
 1 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
-    "resource.h\0"
+    "..\src\resource.h\0"
 END
 
 2 TEXTINCLUDE MOVEABLE PURE 
@@ -79,8 +79,8 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MIRANDA             ICON    DISCARDABLE     "res/miranda.ico"
-IDI_MIRANDAFILE         ICON    DISCARDABLE     "res/mirandafile.ico"
+IDI_MIRANDA             ICON    DISCARDABLE     "miranda.ico"
+IDI_MIRANDAFILE         ICON    DISCARDABLE     "mirandafile.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
