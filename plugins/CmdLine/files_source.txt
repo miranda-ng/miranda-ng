@@ -1,0 +1,5 @@
+CmdLine\*.*
+executable\*.*
+executable\MimCmd\*.*
+docs\*.*
+*.*
