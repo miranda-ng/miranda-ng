@@ -179,42 +179,36 @@ static TCHAR *parseCurrentTime(ARGUMENTSINFO *ai) {
 
 static TCHAR *parseDirectory(ARGUMENTSINFO *ai) {
 
-	int depth;
-	TCHAR *res, *ecur, *scur;
+	int depth, bi, ei;
+	TCHAR *res;
 
 	if (ai->argc < 2 || ai->argc > 3 )
 		return NULL;
 
-	depth = 1;
+	depth = 0;
 	if (ai->argc == 3)
 		depth = ttoi(ai->targv[2]);
 
 	if (depth <= 0)
-		return NULL;
+		return ai->targv[1];
 
-	ecur = ai->targv[1]+_tcslen(ai->targv[1]);
-	while (depth > 0) {
-		while ( (*ecur != _T('\\')) && (ecur > ai->targv[1]))
-			ecur--;
-
-		if (*ecur != _T('\\'))
-			return NULL;
-
-		depth -= 1;
-		ecur--;
+	for (ei = 0; ei < _tcslen(ai->targv[1]); ei++)
+	{
+		if (ai->targv[1][ei] == '\\')
+			depth--;
+		if (!depth) break;
 	}
-	scur = ecur;
-	while ( (*scur != _T('\\')) && (scur > ai->targv[1]))
-		scur--;
+	if (ei >= _tcslen(ai->targv[1]))
+		return ai->targv[1];
+	for (bi = ei - 1; bi > 0; bi--)
+	{
+		if (ai->targv[1][bi - 1] == '\\') break;
+	}
 
-	if (*scur == _T('\\'))
-		scur++;
+	res = (TCHAR*)mir_alloc((ei - bi + 1) * sizeof(TCHAR));
+	_tcsncpy(res, ai->targv[1] + bi, ei - bi);
+	res[ei - bi] = 0;
 
-	res = (TCHAR*)mir_alloc((ecur-scur+2) * sizeof(TCHAR));
-	if (res == NULL)
-		return NULL;
-
-	_tcsncpy(res, scur, (ecur-scur)+1);
 	return res;
 }
 
