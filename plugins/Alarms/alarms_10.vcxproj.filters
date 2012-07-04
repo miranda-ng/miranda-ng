@@ -15,88 +15,88 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="alarm_win.cpp">
+    <ClCompile Include="src\alarm_win.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="alarmlist.cpp">
+    <ClCompile Include="src\alarmlist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="alarms.cpp">
+    <ClCompile Include="src\alarms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="frame.cpp">
+    <ClCompile Include="src\frame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="icons.cpp">
+    <ClCompile Include="src\icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="time_utils.cpp">
+    <ClCompile Include="src\time_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="trigger.cpp">
+    <ClCompile Include="src\trigger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="alarm_win.h">
+    <ClInclude Include="src\alarm_win.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="alarmlist.h">
+    <ClInclude Include="src\alarmlist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="alarms.h">
+    <ClInclude Include="src\alarms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common.h">
+    <ClInclude Include="src\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="frame.h">
+    <ClInclude Include="src\frame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icons.h">
+    <ClInclude Include="src\icons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="options.h">
+    <ClInclude Include="src\options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="time_utils.h">
+    <ClInclude Include="src\time_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="trigger.h">
+    <ClInclude Include="src\trigger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Version.h">
+    <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="clock.ico">
+    <None Include="res\clock.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="green.ico">
+    <None Include="res\green.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="iconttbdown.ico">
+    <None Include="res\iconttbdown.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="iconttbup.ico">
+    <None Include="res\iconttbup.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="yellow.ico">
+    <None Include="res\yellow.ico">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="Version.rc">
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
