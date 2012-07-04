@@ -120,10 +120,7 @@ type
     copyright  :PAnsiChar;
     homepage   :PAnsiChar;
     flags      :Byte;  // right now the only flag, UNICODE_AWARE, is recognized here
-    { one of the DEFMOD_* consts in m_plugin or zero, if non zero, this will
-    suppress loading of the specified builtin module }
-    replacesDefaultModule: int;
-    uuid       :MUUID; // Not required until 0.8.
+    uuid       :MUUID; // plugin's unique identifier
   end;
 
 //----- Fork enchancement -----

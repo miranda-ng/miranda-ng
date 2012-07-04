@@ -361,7 +361,6 @@ begin
   PluginInfo.copyright := '(c) 2009 Sam Kothari (egoDust)';
   PluginInfo.homePage := 'http://addons.miranda-im.org/details.php?action=viewfile&id=534';
   PluginInfo.flags := 0;
-  PluginInfo.replacesDefaultModule := 0;
   { This UUID is fetched twice }
   CopyMemory(@PluginInfo.uuid, @CLSID_ISHLCOM, sizeof(TMUUID));
   { return info }

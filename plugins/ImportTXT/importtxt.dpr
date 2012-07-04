@@ -42,20 +42,7 @@ uses
 
 {$R imptxt_ver.res}
 
-const
-  PluginInfo:TPLUGININFOEX=(
-    cbSize     :sizeof(TPLUGININFOEX);
-    shortName  :'Import TXT';
-    version    :$0000010A;
-    description:'Imports history saved in TXT files from other clients.';
-    author     :'Abyss';
-    authorEmail:'abyss.andrey@gmail.com';
-    copyright  :'(C)2008 Abyss';
-    homepage   :'none';
-    flags      :UNICODE_AWARE;
-    replacesDefaultModule:0;
-    uuid:'{6F376B33-D3F4-4c4f-A96B-77DA08043B06}';
-  );
+const MIID_IMPORTTEXT:TGUID = '{6F376B33-D3F4-4c4f-A96B-77DA08043B06}';
 
 // Updater compatibility data
 const
@@ -78,8 +65,18 @@ var
 
 function MirandaPluginInfoEx(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
 begin
+  PluginInfo.cbSize     :=sizeof(TPLUGININFOEX);
+  PluginInfo.shortName  :='Import TXT';
+  PluginInfo.version    :=$0000010A;
+  PluginInfo.description:='Imports history saved in TXT files from other clients.';
+  PluginInfo.author     :='Abyss';
+  PluginInfo.authorEmail:='abyss.andrey@gmail.com';
+  PluginInfo.copyright  :='(C)2008 Abyss';
+  PluginInfo.homepage   :='none';
+  PluginInfo.flags      :=UNICODE_AWARE;
+  PluginInfo.uuid       :=MIID_IMPORTTEXT;
+
   result := @PluginInfo;
-  // PluginInfo.cbSize:=SizeOf(TPLUGININFOEX);
 end;
 
 function ContactMenuCommand(wParam: wParam; lParam: lParam): int_ptr; cdecl;

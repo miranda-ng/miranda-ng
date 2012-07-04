@@ -12,7 +12,7 @@ uses
   general,
   ImportT,
   ImportTU,
-  KOLEdb;
+  KOLEdb {ADODB if want to use ADO};
 
 const
   ITXT_THREAD_BASE = $8000 + $2000; // WM_APP + $2000
