@@ -855,12 +855,11 @@ bool CompatibilityRegister()
 	hContactAddedEvent     = CreateHookableEvent(ME_DB_CONTACT_ADDED);
 	return true;
 }
+
 bool CompatibilityUnRegister()
 {
-	int i;
-	for (i = 0; i < sizeof(gCompServices) / sizeof(gCompServices[0]); ++i)
-	{
+	for (int i = 0; i < SIZEOF(gCompServices); ++i)
 		DestroyServiceFunction(gCompServices[i]);
-	}
+
 	return true;
 }
