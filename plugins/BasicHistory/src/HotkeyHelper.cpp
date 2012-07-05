@@ -18,6 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "StdAfx.h"
 #include "HotkeyHelper.h"
+#include "resource.h"
+#include "Options.h"
 
 LRESULT CALLBACK HotkeySubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -44,6 +46,10 @@ LRESULT CALLBACK HotkeySubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	WNDPROC oldProc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch (msg) {
+		case WM_NCPAINT:
+			if(Options::instance->noFindBorder && GetDlgCtrlID(hwnd) == IDC_FIND_TEXT)
+				return 0;
+			break;
 		case WM_CHAR:
 		case WM_SYSCHAR:
 		case WM_UNICHAR:

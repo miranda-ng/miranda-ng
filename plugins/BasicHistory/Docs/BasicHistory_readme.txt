@@ -24,6 +24,13 @@ Microsoft Visual C++ 2008 Redistributable Package for x86 version (included in M
 Changelog
 =========
 
+--- 1.0.1.7 ---
+* fixed border colors
+
+--- 1.0.1.6 ---
+* fixed compilation warnings
++ added more configurable colors and fonts
+
 --- 1.0.1.5 ---
 + added browse buttons in Options
 + added searching in all contacts

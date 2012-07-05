@@ -97,6 +97,7 @@
 #define IDC_SCHEDULER_ALERTS            1089
 #define IDC_SCHEDULER_HISTORY_ALERTS    1090
 #define IDC_ALLCONTACTS                 1091
+#define IDC_FINDNOBORDER                1092
 #define IDI_INM                         20000
 #define IDI_OUTM                        20001
 #define IDI_SHOW                        20002

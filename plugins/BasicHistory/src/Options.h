@@ -153,7 +153,7 @@ public:
 	void LoadTasks();
 	void Unload();
 
-	bool showContacts, showContactGroups, groupNewOnTop, groupShowEvents, groupShowTime, groupShowName, groupShowMessage;
+	bool showContacts, showContactGroups, noFindBorder, groupNewOnTop, groupShowEvents, groupShowTime, groupShowName, groupShowMessage;
 	bool messagesNewOnTop, messagesShowDate, messagesShowSec, messagesShowName, messagesShowEvents, messagesUseSmileys;
 	bool searchForInList, searchForInMess, searchMatchCase, searchMatchWhole, searchOnlyIn, searchOnlyOut, searchOnlyGroup, searchAllContacts;
 	bool schedulerAlerts, schedulerHistoryAlerts;

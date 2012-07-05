@@ -77,6 +77,7 @@ Options::Options()
 {
 	showContacts = false;
 	showContactGroups = true;
+	noFindBorder = false;
 	groupNewOnTop = true;
 	groupShowEvents = true;
 	groupShowTime = true;
@@ -289,6 +290,7 @@ void Options::Load(void)
 	
 	showContacts = DBGetContactSettingByte(0, MODULE, "showContacts", 0) ? true : false;
 	showContactGroups = DBGetContactSettingByte(0, MODULE, "showContactGroups", 1) ? true : false;
+	noFindBorder = DBGetContactSettingByte(0, MODULE, "noFindBorder", 0) ? true : false;
 	groupNewOnTop = DBGetContactSettingByte(0, MODULE, "groupNewOnTop", 1) ? true : false;
 	groupShowEvents = DBGetContactSettingByte(0, MODULE, "groupShowEvents", 1) ? true : false;
 	groupShowTime = DBGetContactSettingByte(0, MODULE, "groupShowTime", 1) ? true : false;
@@ -467,6 +469,7 @@ void Options::Save()
 {
 	DBWriteContactSettingByte(0, MODULE, "showContacts", showContacts ? 1 : 0);
 	DBWriteContactSettingByte(0, MODULE, "showContactGroups", showContactGroups ? 1 : 0);
+	DBWriteContactSettingByte(0, MODULE, "noFindBorder", noFindBorder ? 1 : 0);
 	DBWriteContactSettingByte(0, MODULE, "groupNewOnTop", groupNewOnTop ? 1 : 0);
 	DBWriteContactSettingByte(0, MODULE, "groupShowEvents", groupShowEvents ? 1 : 0);
 	DBWriteContactSettingByte(0, MODULE, "groupShowTime", groupShowTime ? 1 : 0);
@@ -955,6 +958,7 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)FALSE);
 			CheckDlgButton(hwndDlg, IDC_SHOWCONTACTS, instance->showContacts ? 1 : 0);
 			CheckDlgButton(hwndDlg, IDC_SHOWCONTACTGROUPS, instance->showContactGroups ? 1 : 0);
+			CheckDlgButton(hwndDlg, IDC_FINDNOBORDER, instance->noFindBorder ? 1 : 0);
 			HWND events = GetDlgItem(hwndDlg, IDC_EVENT);
 			HWND defFilter = GetDlgItem(hwndDlg, IDC_DEFFILTER);
 			HWND listFilter = GetDlgItem(hwndDlg, IDC_LIST_FILTERS);
@@ -1205,6 +1209,7 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				instance->showContacts = IsDlgButtonChecked(hwndDlg, IDC_SHOWCONTACTS) ? true : false;
 				instance->showContactGroups = IsDlgButtonChecked(hwndDlg, IDC_SHOWCONTACTGROUPS) ? true : false;
+				instance->noFindBorder = IsDlgButtonChecked(hwndDlg, IDC_FINDNOBORDER) ? true : false;
 				instance->defFilter = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_DEFFILTER));
 				instance->customFilters.clear();
 				instance->customFilters.insert(instance->customFilters.begin(), instance->customFiltersTemp.begin(), instance->customFiltersTemp.end());

@@ -86,9 +86,7 @@ void DatExport::WriteFooter()
 	EXP_FILE.write((char*)&dataSize, sizeof(dataSize));
 	EXP_FILE.seekp(pos, std::ios_base::beg);
 	memBuf.resize(0);
-#ifdef _WIN64
 	memBuf.shrink_to_fit();
-#endif
 }
 
 void DatExport::WriteGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText)
@@ -201,9 +199,7 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 	}
 	
 	memBuf.resize(0);
-#ifdef _WIN64
 	memBuf.shrink_to_fit();
-#endif
 
 	for(std::multimap<DWORD, IImport::ExternalMessage>::iterator it = sortedEvents.begin(); it != sortedEvents.end(); ++it)
 	{
