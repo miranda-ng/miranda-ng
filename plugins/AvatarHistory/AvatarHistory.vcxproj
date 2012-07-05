@@ -180,33 +180,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AvatarDlg.cpp" />
-    <ClCompile Include="AvatarHistory.cpp">
+    <ClCompile Include="src\AvatarDlg.cpp" />
+    <ClCompile Include="src\AvatarHistory.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="icolib.cpp" />
+    <ClCompile Include="src\icolib.cpp" />
     <ClCompile Include="..\utils\mir_options.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="popup.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\popup.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AvatarHistory.h" />
+    <ClInclude Include="src\AvatarHistory.h" />
     <ClInclude Include="..\utils\mir_buffer.h" />
     <ClInclude Include="..\utils\mir_memory.h" />
     <ClInclude Include="..\utils\mir_options.h" />
-    <ClInclude Include="popup.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\popup.h" />
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="AvatarHistory.rc" />
+    <ResourceCompile Include="res\AvatarHistory.rc" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Docs\avatarhist_changelog.txt" />
-    <CustomBuild Include="Docs\avatarhist_readme.txt" />
-    <CustomBuild Include="Docs\avatarhist_version.txt" />
-    <CustomBuild Include="Docs\langpack_avatarhist.txt" />
+    <CustomBuild Include="docs\avatarhist_changelog.txt" />
+    <CustomBuild Include="docs\avatarhist_readme.txt" />
+    <CustomBuild Include="docs\avatarhist_version.txt" />
+    <CustomBuild Include="docs\langpack_avatarhist.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

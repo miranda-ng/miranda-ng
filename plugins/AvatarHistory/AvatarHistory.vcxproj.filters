@@ -18,27 +18,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AvatarDlg.cpp">
+    <ClCompile Include="src\AvatarDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AvatarHistory.cpp">
+    <ClCompile Include="src\AvatarHistory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="icolib.cpp">
+    <ClCompile Include="src\icolib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\utils\mir_options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="popup.cpp">
+    <ClCompile Include="src\popup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AvatarHistory.h">
+    <ClInclude Include="src\AvatarHistory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\utils\mir_buffer.h">
@@ -50,29 +50,29 @@
     <ClInclude Include="..\utils\mir_options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="popup.h">
+    <ClInclude Include="src\popup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="AvatarHistory.rc">
+    <ResourceCompile Include="res\AvatarHistory.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Docs\avatarhist_changelog.txt">
+    <CustomBuild Include="docs\avatarhist_changelog.txt">
       <Filter>Docs</Filter>
     </CustomBuild>
-    <CustomBuild Include="Docs\avatarhist_readme.txt">
+    <CustomBuild Include="docs\avatarhist_readme.txt">
       <Filter>Docs</Filter>
     </CustomBuild>
-    <CustomBuild Include="Docs\avatarhist_version.txt">
+    <CustomBuild Include="docs\avatarhist_version.txt">
       <Filter>Docs</Filter>
     </CustomBuild>
-    <CustomBuild Include="Docs\langpack_avatarhist.txt">
+    <CustomBuild Include="docs\langpack_avatarhist.txt">
       <Filter>Docs</Filter>
     </CustomBuild>
   </ItemGroup>
