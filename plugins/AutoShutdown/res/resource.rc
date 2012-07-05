@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -29,13 +29,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 
 1 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
-    "resource.h\0"
+    "..\src\resource.h\0"
 END
 
 2 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
     "#include <winres.h>\r\n"
-    "#include <m_utils.h>\r\n"
     "\0"
 END
 
@@ -232,9 +231,9 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ACTIVE              ICON    DISCARDABLE     "res/active.ico"
-IDI_HEADER              ICON    DISCARDABLE     "res/header.ico"
-IDI_INACTIVE            ICON    DISCARDABLE     "res/inactive.ico"
+IDI_ACTIVE              ICON    DISCARDABLE     "active.ico"
+IDI_HEADER              ICON    DISCARDABLE     "header.ico"
+IDI_INACTIVE            ICON    DISCARDABLE     "inactive.ico"
 #endif    // Englisch (GB) resources
 /////////////////////////////////////////////////////////////////////////////
 
