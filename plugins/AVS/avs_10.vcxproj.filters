@@ -15,42 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="acc.cpp">
+    <ClCompile Include="src\acc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="image_utils.cpp">
+    <ClCompile Include="src\image_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mir_thread.cpp">
+    <ClCompile Include="src\mir_thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="poll.cpp">
+    <ClCompile Include="src\poll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="acc.h">
+    <ClInclude Include="src\acc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="commonheaders.h">
+    <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="image_utils.h">
+    <ClInclude Include="src\image_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mir_thread.h">
+    <ClInclude Include="src\mir_thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="poll.h">
+    <ClInclude Include="src\poll.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -60,10 +60,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="avs.rc">
+    <ResourceCompile Include="res\avs.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Source Files</Filter>
     </ResourceCompile>
   </ItemGroup>
