@@ -173,14 +173,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="autorun.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\autorun.h" />
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="autorun.rc" />
+    <ResourceCompile Include="res\autorun.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
