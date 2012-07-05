@@ -178,7 +178,7 @@ implementation
 
 uses hpp_options, hpp_sessionsthread;
 
-{$include inc\m_speak.inc}
+{$include m_speak.inc}
 
 { TExtHistoryGrid }
 

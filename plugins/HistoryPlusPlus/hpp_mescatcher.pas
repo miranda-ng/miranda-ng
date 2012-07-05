@@ -48,7 +48,6 @@ unit hpp_mescatcher;
 
 interface
 
-{$I compilers.inc}
 {.$DEFINE USE_CUSTOMIDLEHOOK}
 
 uses

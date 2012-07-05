@@ -83,9 +83,6 @@ type
       true:  (w:PWideChar); // Unicode
   end;
 
-const
-  hLangpack:THANDLE = 0;
-
 {$include m_core.inc}
 {$include m_system.inc}
 
@@ -281,6 +278,9 @@ var
   {$include m_newawaysys.inc}
 
 implementation
+
+const
+  hLangpack:THANDLE = 0;
 
 {$undef M_API_UNIT}
   {$include m_helpers.inc}

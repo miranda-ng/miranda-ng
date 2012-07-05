@@ -475,7 +475,7 @@ uses EventDetailForm, PassForm, hpp_options, hpp_services, hpp_eventfilters,
 
 {$R *.DFM}
 
-{$include inc\m_speak.inc}
+{$include m_speak.inc}
 
 const
   HPP_SESS_YEARFORMAT = 'yyyy';

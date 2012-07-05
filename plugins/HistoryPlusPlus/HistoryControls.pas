@@ -21,7 +21,7 @@
 
 unit HistoryControls;
 
-{$I compilers.inc}
+{$define THEME_7_UP}
 
 interface
 

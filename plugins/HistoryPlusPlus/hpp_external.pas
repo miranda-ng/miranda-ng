@@ -62,7 +62,7 @@ procedure UnregisterExtGridServices;
 
 implementation
 
-{$include inc\m_ieview.inc}
+{$include m_ieview.inc}
 
 function _ExtWindow(wParam:WPARAM; lParam: LPARAM; GridMode: TExGridMode): int_ptr;
 var

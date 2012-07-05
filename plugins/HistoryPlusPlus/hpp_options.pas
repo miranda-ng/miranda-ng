@@ -64,8 +64,8 @@ type
 
   ThppIconsRec = record
     name: PAnsiChar;
-    desc: PAnsiChar;
-    group: PAnsiChar;
+    desc: PChar;
+    group: PChar;
     i: shortint;
   end;
 
@@ -209,8 +209,8 @@ implementation
 
 uses hpp_database, ShellAPI;
 
-{$include inc\m_mathmodule.inc}
-{$include inc\m_speak.inc}
+{$include m_mathmodule.inc}
+{$include m_speak.inc}
 
 procedure RegisterFont(Name:PAnsiChar; Order:integer; const defFont:TFontSettings);
 var
@@ -454,7 +454,14 @@ var
   hppMessage: WideString;
   CountIconsDll: Integer;
   DoCheck: boolean;
+  hppDllName,hppPluginsDir:string;
 begin
+  // Get plugins dir
+  SetLength(hppPluginsDir, MAX_PATH);
+  SetLength(hppPluginsDir, GetModuleFileNameW(hInstance, @hppPluginsDir[1], MAX_PATH));
+  hppDllName := ExtractFileName(hppPluginsDir);
+  hppPluginsDir := ExtractFilePath(hppPluginsDir);
+
   DoCheck := ForceCheck or GetDBBool(hppDBName, 'CheckIconPack', true);
   hppIconsDir := ExpandFileName(hppPluginsDir + '..\Icons\');
   if FileExists(hppIconsDir + hppIPName) then
@@ -500,21 +507,24 @@ var
   i: Integer;
   mt: TMessageType;
   str: PAnsiChar;
+  hppIconPack: String;
 begin
   // Register in IcoLib
   hppIconPack := FindIconsDll(false);
   ZeroMemory(@sid, sizeof(sid));
   sid.cbSize := sizeof(sid);
-  sid.szDefaultFile.a := PAnsiChar(AnsiString(hppIconPack)); // !!
+  sid.Flags:=SIDF_ALL_UNICODE;
+
+  sid.szDefaultFile.w := PChar(hppIconPack);
   for i := 0 to High(hppIconsDefs) do
   begin
     hppIcons[hppIconsDefs[i].i].name := hppIconsDefs[i].name;
     sid.pszName := hppIconsDefs[i].name;
-    sid.szDescription.a := hppIconsDefs[i].desc;
+    sid.szDescription.w := hppIconsDefs[i].desc;
     if hppIconsDefs[i].group = nil then
-      sid.szSection.a := hppName
+      sid.szSection.w := hppName
     else
-      sid.szSection.a := PAnsiChar(hppName + '/' + hppIconsDefs[i].group);
+      sid.szSection.w := PChar(hppName + '/' + hppIconsDefs[i].group);
     sid.iDefaultIndex := hppIconsDefs[i].i;
     Skin_AddIcon(@sid);
   end;
@@ -527,8 +537,8 @@ begin
     begin
       hppIcons[EventRecords[mt].i].name := EventRecords[mt].iName;
       sid.pszName := hppIcons[EventRecords[mt].i].name;
-      sid.szDescription.a := PAnsiChar(WideToAnsiString(EventRecords[mt].name, hppCodepage));
-      sid.szSection.a := PAnsiChar(hppName + '/' +'Events');
+      sid.szDescription.w := PChar(EventRecords[mt].name);
+      sid.szSection.w := PChar(hppName + '/' +'Events');
       sid.iDefaultIndex := EventRecords[mt].i;
       Skin_AddIcon(@sid);
     end

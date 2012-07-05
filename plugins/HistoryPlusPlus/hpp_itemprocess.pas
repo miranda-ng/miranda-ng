@@ -75,7 +75,7 @@ uses
   m_api,
   hpp_global, hpp_richedit, hpp_events{, RichEdit -- used for CHARRANGE and EM_EXTSETSEL};
 
-{$include inc\m_mathmodule.inc}
+{$include m_mathmodule.inc}
 
 const
   EM_EXSETSEL = WM_USER + 55; // from RichEdit
@@ -506,6 +506,7 @@ var
   Link: AnsiString;
   hBmp: hBitmap;
   cr: CHARRANGE;
+  hppProfileDir:AnsiString;
 begin
   Result := 0;
   ird := Pointer(alParam);
@@ -518,7 +519,13 @@ begin
     (ird.pExtended[2] = '\')) then
     Link := ird.pExtended
   else
+  begin
+    // Get profile dir
+    SetLength(hppProfileDir, MAX_PATH);
+    CallService(MS_DB_GETPROFILEPATH, MAX_PATH, lParam(@hppProfileDir[1]));
+    SetLength(hppProfileDir, StrLen(pAnsiChar(@hppProfileDir[1])));
     Link := AnsiString(hppProfileDir) + '\' + ird.pExtended; //!!
+  end;
   hBmp := CallService(MS_UTILS_LOADBITMAP, 0, LPARAM(@Link[1]));
   if hBmp <> 0 then
   begin

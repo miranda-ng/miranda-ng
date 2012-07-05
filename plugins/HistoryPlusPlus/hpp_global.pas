@@ -107,7 +107,7 @@ type
   TSendMethod = (smSend,smPost);
 
   TUrlProto = record
-    Proto: PWideChar;
+    Proto: PChar;
     Idn: Boolean;
   end;
 
@@ -270,10 +270,6 @@ const
 
 var
   hppCodepage: Cardinal;
-  hppIconPack: String;
-  hppProfileDir: String;
-  hppPluginsDir: String;
-  hppDllName: String;
   hppRichEditVersion: Integer;
 
 {$I m_historypp.inc}
@@ -435,7 +431,32 @@ begin
   Result := True;
 end;
 
-
+procedure OpenUrl(URLText: String; NewWindow: Boolean);
+var
+  URLTextW: String;
+  URLTextA: AnsiString;
+begin
+{
+  if EncodeURL(URLText, URLTextW) then
+  begin
+    URLTextA := WideToAnsiString(URLTextW, CP_ACP);
+    if not SameStr(URLTextW, AnsiToWideString(URLTextA, CP_ACP)) then
+      URLTextA := QuoteURL(URLTextW);
+  end
+  else
+    URLTextA := WideToAnsiString(URLText, CP_ACP);
+  CallService(MS_UTILS_OPENURL,WPARAM(NewWindow),LPARAM(@URLTextA[1]));
+}
+  if EncodeURL(URLText, URLTextW) then
+  begin
+    URLTextA := AnsiString(URLTextW);
+    if not SameStr(URLTextW, String(URLTextA)) then
+      URLTextA := QuoteURL(URLTextW);
+  end
+  else
+    URLTextA := AnsiString(URLText);
+  CallService(MS_UTILS_OPENURL,WPARAM(NewWindow),LPARAM(@URLTextA[1]));
+end;
 
 function AnsiToWideString(const S: AnsiString; CodePage: Cardinal; InLength: Integer = -1): WideString;
 var
@@ -603,33 +624,6 @@ begin
   finally
     CloseClipBoard;
   end;
-end;
-
-procedure OpenUrl(URLText: String; NewWindow: Boolean);
-var
-  URLTextW: String;
-  URLTextA: AnsiString;
-begin
-{
-  if EncodeURL(URLText, URLTextW) then
-  begin
-    URLTextA := WideToAnsiString(URLTextW, CP_ACP);
-    if not SameStr(URLTextW, AnsiToWideString(URLTextA, CP_ACP)) then
-      URLTextA := QuoteURL(URLTextW);
-  end
-  else
-    URLTextA := WideToAnsiString(URLText, CP_ACP);
-  CallService(MS_UTILS_OPENURL,WPARAM(NewWindow),LPARAM(@URLTextA[1]));
-}
-  if EncodeURL(URLText, URLTextW) then
-  begin
-    URLTextA := AnsiString(URLTextW);
-    if not SameStr(URLTextW, String(URLTextA)) then
-      URLTextA := QuoteURL(URLTextW);
-  end
-  else
-    URLTextA := AnsiString(URLText);
-  CallService(MS_UTILS_OPENURL,WPARAM(NewWindow),LPARAM(@URLTextA[1]));
 end;
 
 function HppMessageBox(Handle: THandle; const Text: String; const Caption: String; Flags: Integer): Integer;

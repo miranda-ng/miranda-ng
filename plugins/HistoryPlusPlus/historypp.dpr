@@ -29,12 +29,10 @@ library historypp;
 {$R 'hpp_res_ver.res' 'hpp_res_ver.rc'}
 {$R 'hpp_opt_dialog.res' 'hpp_opt_dialog.rc'}
 
-{$I compilers.inc}
-
 uses
   Windows,
   SysUtils,
-  m_api in '..\inc\m_api.pas',
+  m_api,
   Forms,
   hpp_global in 'hpp_global.pas',
   hpp_contacts in 'hpp_contacts.pas',
@@ -165,11 +163,11 @@ end;
 function Load():Integer; cdecl;
 begin
 
-  CallService(MS_LANGPACK_REGISTER,WPARAM(@hLangpack),LPARAM(@PluginInfo));
+  Langpack_Register();
 
   // Getting langpack codepage for ansi translation
   hppCodepage := CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
-  if (hppCodepage = CALLSERVICE_NOTFOUND) or (hppCodepage = CP_ACP) then
+  if hppCodepage = CP_ACP then
     hppCodepage := GetACP();
   // Checking the version of richedit is available, need 2.0+
   hppRichEditVersion := InitRichEditLibrary;
@@ -183,15 +181,6 @@ begin
     exit;
   end;
 
-  // Get profile dir
-  SetLength(hppProfileDir, MAX_PATH);
-  CallService(MS_DB_GETPROFILEPATH, MAX_PATH, lParam(@hppProfileDir[1]));
-  SetLength(hppProfileDir, StrLen(pAnsiChar(@hppProfileDir[1])));
-  // Get plugins dir
-  SetLength(hppPluginsDir, MAX_PATH);
-  SetLength(hppPluginsDir, GetModuleFileNameW(hInstance, @hppPluginsDir[1], MAX_PATH));
-  hppDllName := ExtractFileName(hppPluginsDir);
-  hppPluginsDir := ExtractFilePath(hppPluginsDir);
   // init history functions later
   HookModulesLoad := HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad);
   HookOptInit := HookEvent(ME_OPT_INITIALISE, OnOptInit);

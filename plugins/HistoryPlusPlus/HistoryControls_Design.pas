@@ -21,8 +21,6 @@
 
 unit HistoryControls_Design;
 
-{$I compilers.inc}
-
 interface
 
 procedure Register;

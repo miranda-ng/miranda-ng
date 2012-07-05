@@ -398,7 +398,7 @@ uses hpp_options, PassForm, hpp_itemprocess, hpp_messages, CustomizeFiltersForm;
 
 {$R *.DFM}
 
-{$include inc\m_speak.inc}
+{$include m_speak.inc}
 
 function TfmGlobalSearch.AddContact(hContact: THandle): THPPContactInfo;
 var

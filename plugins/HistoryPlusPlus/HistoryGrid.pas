@@ -70,8 +70,6 @@
 
 unit HistoryGrid;
 
-{$I compilers.inc}
-
 interface
 
 {$DEFINE CUST_SB}
@@ -806,8 +804,6 @@ type
 procedure Register;
 
 implementation
-
-{$I compilers.inc}
 
 uses
   hpp_options, hpp_arrays, hpp_strparser,

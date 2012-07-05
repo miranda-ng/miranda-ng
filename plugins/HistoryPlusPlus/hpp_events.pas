@@ -51,30 +51,44 @@ unit hpp_events;
 
 interface
 
-{$I compilers.inc}
-
 uses
   Windows, SysUtils,
   m_api,
   hpp_global, hpp_contacts;
 
 type
-  TTextFunction = procedure(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-
-  TEventTableItem = record
-    EventType: Word;
-    MessageType: TMessageType;
-    TextFunction: TTextFunction;
-  end;
-
   PEventRecord = ^TEventRecord;
   TEventRecord = record
-    Name: String;
-    XML: AnsiString;
-    i: SmallInt;
+    Name : String;
+    XML  : AnsiString;
+    i    : SmallInt;
     iName: PAnsiChar;
     iSkin: SmallInt;
   end;
+
+const
+  EventRecords: array[TMessageType] of TEventRecord = (
+    (Name:'Unknown';               XML:'';            i:-1; iSkin:-1),
+    (Name:'Incoming events';       XML:'';            i:HPP_ICON_EVENT_INCOMING;  iName:'hppevn_inc';       iSkin:-1),
+    (Name:'Outgoing events';       XML:'';            i:HPP_ICON_EVENT_OUTGOING;  iName:'hppevn_out';       iSkin:-1),
+    (Name:'Message';               XML:'MSG';         i:HPP_SKIN_EVENT_MESSAGE;                             iSkin:SKINICON_EVENT_MESSAGE),
+    (Name:'Link';                  XML:'URL';         i:HPP_SKIN_EVENT_URL;                                 iSkin:SKINICON_EVENT_URL),
+    (Name:'File transfer';         XML:'FILE';        i:HPP_SKIN_EVENT_FILE;                                iSkin:SKINICON_EVENT_FILE),
+    (Name:'System message';        XML:'SYS';         i:HPP_ICON_EVENT_SYSTEM;    iName:'hppevn_sys';       iSkin:-1),
+    (Name:'Contacts';              XML:'ICQCNT';      i:HPP_ICON_EVENT_CONTACTS;  iName:'hppevn_icqcnt';    iSkin:-1),
+    (Name:'SMS message';           XML:'SMS';         i:HPP_ICON_EVENT_SMS;       iName:'hppevn_sms';       iSkin:-1),
+    (Name:'Webpager message';      XML:'ICQWP';       i:HPP_ICON_EVENT_WEBPAGER;  iName:'hppevn_icqwp';     iSkin:-1),
+    (Name:'EMail Express message'; XML:'ICQEX';       i:HPP_ICON_EVENT_EEXPRESS;  iName:'hppevn_icqex';     iSkin:-1),
+    (Name:'Status changes';        XML:'STATUSCNG';   i:HPP_ICON_EVENT_STATUS;    iName:'hppevn_status';    iSkin:-1),
+    (Name:'SMTP Simple Email';     XML:'SMTP';        i:HPP_ICON_EVENT_SMTPSIMPLE;iName:'hppevn_smtp';      iSkin:-1),
+    (Name:'Other events (unknown)';XML:'OTHER';       i:HPP_SKIN_OTHER_MIRANDA;                             iSkin:SKINICON_OTHER_MIRANDA),
+    (Name:'Nick changes';          XML:'NICKCNG';     i:HPP_ICON_EVENT_NICK;      iName:'hppevn_nick';      iSkin:-1),
+    (Name:'Avatar changes';        XML:'AVACNG';      i:HPP_ICON_EVENT_AVATAR;    iName:'hppevn_avatar';    iSkin:-1),
+    (Name:'WATrack notify';        XML:'WATRACK';     i:HPP_ICON_EVENT_WATRACK;   iName:'hppevn_watrack';   iSkin:-1),
+    (Name:'Status message changes';XML:'STATUSMSGCHG';i:HPP_ICON_EVENT_STATUSMES; iName:'hppevn_statuschng';iSkin:-1),
+    (Name:'Voice call';            XML:'VCALL';       i:HPP_ICON_EVENT_VOICECALL; iName:'hppevn_vcall';     iSkin:-1),
+    (Name:'Custom';                XML:'';            i:-1; iSkin:-1)
+  );
 
 const
   EVENTTYPE_STATUSCHANGE        = 25368;  // from srmm's
@@ -85,38 +99,12 @@ const
   EVENTTYPE_CONTACTLEFTCHANNEL  = 9004;   // from pescuma
   EVENTTYPE_VOICE_CALL          = 8739;   // from pescuma
 
-  EventRecords: array[TMessageType] of TEventRecord = (
-    (Name:'Unknown'; XML:''; i:-1; iSkin:-1),
-    (Name:'Incoming events'; XML:''; i:HPP_ICON_EVENT_INCOMING; iName:'hppevn_inc'; iSkin:-1),
-    (Name:'Outgoing events'; XML:''; i:HPP_ICON_EVENT_OUTGOING; iName:'hppevn_out'; iSkin:-1),
-    (Name:'Message'; XML:'MSG'; i:HPP_SKIN_EVENT_MESSAGE; iSkin: SKINICON_EVENT_MESSAGE),
-    (Name:'Link'; XML:'URL'; i:HPP_SKIN_EVENT_URL; iSkin:SKINICON_EVENT_URL),
-    (Name:'File transfer'; XML:'FILE'; i:HPP_SKIN_EVENT_FILE; iSkin:SKINICON_EVENT_FILE),
-    (Name:'System message'; XML:'SYS'; i:HPP_ICON_EVENT_SYSTEM; iName:'hppevn_sys'; iSkin:-1),
-    (Name:'Contacts'; XML:'ICQCNT'; i:HPP_ICON_EVENT_CONTACTS; iName:'hppevn_icqcnt'; iSkin:-1),
-    (Name:'SMS message'; XML:'SMS'; i:HPP_ICON_EVENT_SMS; iName:'hppevn_sms'; iSkin:-1),
-    (Name:'Webpager message'; XML:'ICQWP'; i:HPP_ICON_EVENT_WEBPAGER; iName:'hppevn_icqwp'; iSkin:-1),
-    (Name:'EMail Express message'; XML:'ICQEX'; i:HPP_ICON_EVENT_EEXPRESS; iName:'hppevn_icqex'; iSkin:-1),
-    (Name:'Status changes'; XML:'STATUSCNG'; i:HPP_ICON_EVENT_STATUS; iName:'hppevn_status'; iSkin:-1),
-    (Name:'SMTP Simple Email'; XML:'SMTP'; i:HPP_ICON_EVENT_SMTPSIMPLE; iName:'hppevn_smtp'; iSkin:-1),
-    (Name:'Other events (unknown)'; XML:'OTHER'; i:HPP_SKIN_OTHER_MIRANDA; iSkin:SKINICON_OTHER_MIRANDA),
-    (Name:'Nick changes'; XML:'NICKCNG'; i:HPP_ICON_EVENT_NICK; iName:'hppevn_nick'; iSkin:-1),
-    (Name:'Avatar changes'; XML:'AVACNG'; i:HPP_ICON_EVENT_AVATAR; iName:'hppevn_avatar'; iSkin:-1),
-    (Name:'WATrack notify'; XML:'WATRACK'; i:HPP_ICON_EVENT_WATRACK; iName:'hppevn_watrack'; iSkin:-1),
-    (Name:'Status message changes'; XML:'STATUSMSGCHG'; i:HPP_ICON_EVENT_STATUSMES; iName:'hppevn_statuschng'; iSkin:-1),
-    (Name:'Voice call'; XML:'VCALL'; i:HPP_ICON_EVENT_VOICECALL; iName:'hppevn_vcall'; iSkin:-1),
-    (Name:'Custom'; XML:''; i:-1; iSkin:-1)
-  );
-
-// General timstamp function
-function UnixTimeToDateTime(const UnixTime: DWord): TDateTime;
-function DateTimeToUnixTime(const DateTime: TDateTime): DWord;
 // Miranda timestamp to TDateTime
 function TimestampToDateTime(const Timestamp: DWord): TDateTime;
 function TimestampToString(const Timestamp: DWord): String;
 // general routine
 function ReadEvent(hDBEvent: THandle; UseCP: Cardinal = CP_ACP): THistoryItem;
-function GetEventInfo(hDBEvent: DWord): TDBEventInfo;
+function GetEventInfo(hDBEvent: THANDLE): TDBEventInfo;
 function GetEventTimestamp(hDBEvent: THandle): DWord;
 function GetEventMessageType(hDBEvent: THandle): TMessageTypes;
 function GetEventDateTime(hDBEvent: THandle): TDateTime;
@@ -150,16 +138,13 @@ procedure GetEventTextWATrackRequest(EventInfo: TDBEventInfo; var Hi: THistoryIt
 procedure GetEventTextWATrackAnswer(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextWATrackError(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 procedure GetEventTextForOther(EventInfo: TDBEventInfo; var Hi: THistoryItem);
-// service routines
-function TextHasUrls(var Text: String): Boolean;
-function Utf8ToWideChar(Dest: PWideChar; MaxDestChars: Integer; Source: PAnsiChar; SourceBytes: Integer; CodePage: Cardinal = CP_ACP): Integer;
 
 implementation
 
 uses
   hpp_options;
 
-{$include inc\m_music.inc}
+{$include m_music.inc}
 
 const // registered Jabber db event types (not public)
   JABBER_DB_EVENT_TYPE_CHATSTATES          = 2000;
@@ -192,50 +177,47 @@ type
     EventRecord: TEventRecord;
   end;
 
-// OXY:
-// Routines UnixTimeToDate and DateTimeToUnixTime are taken
-// from JclDateTime.pas
-// See JclDateTime.pas for copyright and license information
-// JclDateTime.pas is part of Project JEDI Code Library (JCL)
-// [http://www.delphi-jedi.org], [http://jcl.sourceforge.net]
-const
-  // 1970-01-01T00:00:00 in TDateTime
-  UnixTimeStart = 25569;
-  SecondsPerDay = 60* 24 * 60;
+  TTextFunction = procedure(EventInfo: TDBEventInfo; var Hi: THistoryItem);
+
+  TEventTableItem = record
+    EventType   : Word;
+    MessageType : TMessageType;
+    TextFunction: TTextFunction;
+  end;
 
 var
   EventTable: array[0..28] of TEventTableItem = (
     // must be the first item in array for unknown events
-    (EventType: MaxWord; MessageType: mtOther; TextFunction: GetEventTextForOther),
+    (EventType: MaxWord;                         MessageType: mtOther;         TextFunction: GetEventTextForOther),
     // events definitions
-    (EventType: EVENTTYPE_MESSAGE; MessageType: mtMessage; TextFunction: GetEventTextForMessage),
-    (EventType: EVENTTYPE_FILE; MessageType: mtFile; TextFunction: GetEventTextForFile),
-    (EventType: EVENTTYPE_URL; MessageType: mtUrl; TextFunction: GetEventTextForUrl),
-    (EventType: EVENTTYPE_AUTHREQUEST; MessageType: mtSystem; TextFunction: GetEventTextForAuthRequest),
-    (EventType: EVENTTYPE_ADDED; MessageType: mtSystem; TextFunction: GetEventTextForYouWereAdded),
-    (EventType: EVENTTYPE_CONTACTS; MessageType: mtContacts; TextFunction: GetEventTextForContacts),
-    (EventType: EVENTTYPE_STATUSCHANGE; MessageType: mtStatus; TextFunction: GetEventTextForStatusChange),
-    (EventType: EVENTTYPE_SMTPSIMPLE; MessageType: mtSMTPSimple; TextFunction: GetEventTextForMessage),
-    (EventType: ICQEVENTTYPE_SMS; MessageType: mtSMS; TextFunction: GetEventTextForSMS),
-    (EventType: ICQEVENTTYPE_WEBPAGER; MessageType: mtWebPager; TextFunction: GetEventTextForWebPager),
-    (EventType: ICQEVENTTYPE_EMAILEXPRESS; MessageType: mtEmailExpress; TextFunction: GetEventTextForEmailExpress),
-    (EventType: EVENTTYPE_NICKNAMECHANGE; MessageType: mtNickChange; TextFunction: GetEventTextForMessage),
-    (EventType: EVENTTYPE_STATUSMESSAGECHANGE; MessageType: mtStatusMessage; TextFunction: GetEventTextForMessage),
-    (EventType: EVENTTYPE_AVATARCHANGE; MessageType: mtAvatarChange; TextFunction: GetEventTextForAvatarChange),
-    (EventType: ICQEVENTTYPE_AUTH_GRANTED; MessageType: mtSystem; TextFunction: GetEventTextForICQAuthGranted),
-    (EventType: ICQEVENTTYPE_AUTH_DENIED; MessageType: mtSystem; TextFunction: GetEventTextForICQAuthDenied),
-    (EventType: ICQEVENTTYPE_SELF_REMOVE; MessageType: mtSystem; TextFunction: GetEventTextForICQSelfRemove),
-    (EventType: ICQEVENTTYPE_FUTURE_AUTH; MessageType: mtSystem; TextFunction: GetEventTextForICQFutureAuth),
-    (EventType: ICQEVENTTYPE_CLIENT_CHANGE; MessageType: mtSystem; TextFunction: GetEventTextForICQClientChange),
-    (EventType: ICQEVENTTYPE_CHECK_STATUS; MessageType: mtSystem; TextFunction: GetEventTextForICQCheckStatus),
-    (EventType: ICQEVENTTYPE_IGNORECHECK_STATUS; MessageType: mtSystem; TextFunction: GetEventTextForICQIgnoreCheckStatus),
-    (EventType: ICQEVENTTYPE_BROADCAST; MessageType: mtSystem; TextFunction: GetEventTextForICQBroadcast),
-    (EventType: JABBER_DB_EVENT_TYPE_CHATSTATES; MessageType: mtStatus; TextFunction: GetEventTextForJabberChatStates),
-    (EventType: EVENTTYPE_CONTACTLEFTCHANNEL; MessageType: mtStatus; TextFunction: GetEventTextForMessage),
-    (EventType: EVENTTYPE_WAT_REQUEST; MessageType: mtWATrack; TextFunction: GetEventTextWATrackRequest),
-    (EventType: EVENTTYPE_WAT_ANSWER; MessageType: mtWATrack; TextFunction: GetEventTextWATrackAnswer),
-    (EventType: EVENTTYPE_WAT_ERROR; MessageType: mtWATrack; TextFunction: GetEventTextWATrackError),
-    (EventType: EVENTTYPE_VOICE_CALL; MessageType: mtVoiceCall; TextFunction: GetEventTextForMessage)
+    (EventType: EVENTTYPE_MESSAGE;               MessageType: mtMessage;       TextFunction: GetEventTextForMessage),
+    (EventType: EVENTTYPE_FILE;                  MessageType: mtFile;          TextFunction: GetEventTextForFile),
+    (EventType: EVENTTYPE_URL;                   MessageType: mtUrl;           TextFunction: GetEventTextForUrl),
+    (EventType: EVENTTYPE_AUTHREQUEST;           MessageType: mtSystem;        TextFunction: GetEventTextForAuthRequest),
+    (EventType: EVENTTYPE_ADDED;                 MessageType: mtSystem;        TextFunction: GetEventTextForYouWereAdded),
+    (EventType: EVENTTYPE_CONTACTS;              MessageType: mtContacts;      TextFunction: GetEventTextForContacts),
+    (EventType: EVENTTYPE_STATUSCHANGE;          MessageType: mtStatus;        TextFunction: GetEventTextForStatusChange),
+    (EventType: EVENTTYPE_SMTPSIMPLE;            MessageType: mtSMTPSimple;    TextFunction: GetEventTextForMessage),
+    (EventType: ICQEVENTTYPE_SMS;                MessageType: mtSMS;           TextFunction: GetEventTextForSMS),
+    (EventType: ICQEVENTTYPE_WEBPAGER;           MessageType: mtWebPager;      TextFunction: GetEventTextForWebPager),
+    (EventType: ICQEVENTTYPE_EMAILEXPRESS;       MessageType: mtEmailExpress;  TextFunction: GetEventTextForEmailExpress),
+    (EventType: EVENTTYPE_NICKNAMECHANGE;        MessageType: mtNickChange;    TextFunction: GetEventTextForMessage),
+    (EventType: EVENTTYPE_STATUSMESSAGECHANGE;   MessageType: mtStatusMessage; TextFunction: GetEventTextForMessage),
+    (EventType: EVENTTYPE_AVATARCHANGE;          MessageType: mtAvatarChange;  TextFunction: GetEventTextForAvatarChange),
+    (EventType: ICQEVENTTYPE_AUTH_GRANTED;       MessageType: mtSystem;        TextFunction: GetEventTextForICQAuthGranted),
+    (EventType: ICQEVENTTYPE_AUTH_DENIED;        MessageType: mtSystem;        TextFunction: GetEventTextForICQAuthDenied),
+    (EventType: ICQEVENTTYPE_SELF_REMOVE;        MessageType: mtSystem;        TextFunction: GetEventTextForICQSelfRemove),
+    (EventType: ICQEVENTTYPE_FUTURE_AUTH;        MessageType: mtSystem;        TextFunction: GetEventTextForICQFutureAuth),
+    (EventType: ICQEVENTTYPE_CLIENT_CHANGE;      MessageType: mtSystem;        TextFunction: GetEventTextForICQClientChange),
+    (EventType: ICQEVENTTYPE_CHECK_STATUS;       MessageType: mtSystem;        TextFunction: GetEventTextForICQCheckStatus),
+    (EventType: ICQEVENTTYPE_IGNORECHECK_STATUS; MessageType: mtSystem;        TextFunction: GetEventTextForICQIgnoreCheckStatus),
+    (EventType: ICQEVENTTYPE_BROADCAST;          MessageType: mtSystem;        TextFunction: GetEventTextForICQBroadcast),
+    (EventType: JABBER_DB_EVENT_TYPE_CHATSTATES; MessageType: mtStatus;        TextFunction: GetEventTextForJabberChatStates),
+    (EventType: EVENTTYPE_CONTACTLEFTCHANNEL;    MessageType: mtStatus;        TextFunction: GetEventTextForMessage),
+    (EventType: EVENTTYPE_WAT_REQUEST;           MessageType: mtWATrack;       TextFunction: GetEventTextWATrackRequest),
+    (EventType: EVENTTYPE_WAT_ANSWER;            MessageType: mtWATrack;       TextFunction: GetEventTextWATrackAnswer),
+    (EventType: EVENTTYPE_WAT_ERROR;             MessageType: mtWATrack;       TextFunction: GetEventTextWATrackError),
+    (EventType: EVENTTYPE_VOICE_CALL;            MessageType: mtVoiceCall;     TextFunction: GetEventTextForMessage)
   );
 
 var
@@ -243,28 +225,20 @@ var
   RecentEvent: THandle = 0;
   RecentEventInfo: TDBEventInfo;
 
-const
-  SHRINK_ON_CALL = 50;
-  SHRINK_TO_LEN  = 512;
-
 var
   EventBuffer: THppBuffer;
   TextBuffer: THppBuffer;
 
-function UnixTimeToDateTime(const UnixTime: DWord): TDateTime;
-begin
-  Result:= UnixTimeStart + (UnixTime / SecondsPerDay);
-end;
-
-function DateTimeToUnixTime(const DateTime: TDateTime): DWord;
-begin
-  Result := Trunc((DateTime-UnixTimeStart) * SecondsPerDay);
-end;
+const
+  // 1970-01-01T00:00:00 in TDateTime
+  UnixTimeStart = 25569;
+  SecondsPerDay = 60*60*24;
 
 // Miranda timestamp to TDateTime
 function TimestampToDateTime(const Timestamp: DWord): TDateTime;
 begin
-  Result := UnixTimeToDateTime(CallService(MS_DB_TIME_TIMESTAMPTOLOCAL,WPARAM(Timestamp),0));
+  Result := UnixTimeStart +
+    CallService(MS_DB_TIME_TIMESTAMPTOLOCAL,WPARAM(Timestamp),0) / SecondsPerDay;
 end;
 
 // should probably add function param to use
@@ -452,7 +426,7 @@ begin
   TextBuffer.Unlock;
 end;
 
-function GetEventInfo(hDBEvent: DWord): TDBEventInfo;
+function GetEventInfo(hDBEvent: THANDLE): TDBEventInfo;
 var
   BlobSize: integer;
 begin
