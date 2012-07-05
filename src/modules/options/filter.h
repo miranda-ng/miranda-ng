@@ -34,9 +34,9 @@ typedef DWORD PageHash;
 void	AddFilterString(const PageHash key, const TCHAR *data);
 BOOL	ContainsFilterString(const PageHash key, TCHAR *data);
 void	ClearFilterStrings();
-void	GetDialogStrings(int enableKeywordFiltering, const PageHash key, TCHAR *pluginName, HWND hWnd,  TCHAR * group, TCHAR * title, TCHAR * tab, TCHAR * name);
+void	GetDialogStrings(int enableKeywordFiltering, const PageHash key, TCHAR *pluginName, HWND hWnd,  TCHAR *group, TCHAR *title, TCHAR *tab, TCHAR *name);
 
-_inline TCHAR * _tcslwr_locale(TCHAR * buf)
+_inline TCHAR *_tcslwr_locale(TCHAR *buf)
 {
 	LCMapString(Langpack_GetDefaultLocale() , LCMAP_LOWERCASE, buf, (int)_tcslen(buf), buf, (int)_tcslen(buf));
 	return buf;
@@ -55,24 +55,24 @@ public:
 	{
 		for (int j = 0; j < _pageKeyWords.getCount(); j++)
 		{
-			TCHAR * data = _pageKeyWords[j];
+			TCHAR *data = _pageKeyWords[j];
 			mir_free(data);
 		}
 		_pageKeyWords.destroy();
 	};
 
-	void AddKeyWord(TCHAR * ptKeyWord)
+	void AddKeyWord(TCHAR *ptKeyWord)
 	{
-		TCHAR * plwrWord = _tcslwr_locale(mir_tstrdup(ptKeyWord));
+		TCHAR *plwrWord = _tcslwr_locale(mir_tstrdup(ptKeyWord));
 		if (_pageKeyWords.getIndex(plwrWord) == -1)
 			_pageKeyWords.insert(plwrWord);
 		else
 			mir_free(plwrWord);
 	};
 
-	BOOL ContainsString(TCHAR * data)
+	BOOL ContainsString(TCHAR *data)
 	{
-		for (int i = 0; i < _pageKeyWords.getCount(); i++)
+		for (int i=0; i < _pageKeyWords.getCount(); i++)
 			if (_tcsstr(_pageKeyWords[i], data)) 
 				return TRUE;
 		return FALSE;

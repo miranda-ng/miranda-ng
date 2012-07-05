@@ -49,7 +49,7 @@ int fnGetImlIconIndex(HICON hIcon)
 {
 	int i;
 
-	for (i = 0; i < imlIconCount; i++) {
+	for (i=0; i < imlIconCount; i++) {
 		if (imlIcon[i].hIcon == hIcon)
 			return imlIcon[i].index;
 	}
@@ -89,7 +89,7 @@ static void ShowEventsInTray()
 	int i;
 	char ** pTrayProtos;
 	char nTrayProtoCnt;
-	int nTrayCnt=cli.trayIconCount;
+	int nTrayCnt = cli.trayIconCount;
 	if ( !cli.events.count || !nTrayCnt)  return; 
 	if (cli.events.count == 1 || nTrayCnt == 1) 
 	{ 
@@ -101,24 +101,24 @@ static void ShowEventsInTray()
 	// lets use several icon to show events from protocols in different icons
 	cli.pfnLockTray();
 	pTrayProtos = (char**)_alloca(sizeof(char*)*cli.trayIconCount);
-	nTrayProtoCnt=0;
+	nTrayProtoCnt = 0;
 	for (i=0; i<cli.trayIconCount; i++)
 	{
 	   if (cli.trayIcon[i].id == 0 || !cli.trayIcon[i].szProto) continue;
-	   pTrayProtos[nTrayProtoCnt++]=cli.trayIcon[i].szProto;
+	   pTrayProtos[nTrayProtoCnt++] = cli.trayIcon[i].szProto;
 	}
 	for (i=0; i<cli.events.count; i++)
 	{
-		char * iEventProto=GetEventProtocol(i);
+		char * iEventProto = GetEventProtocol(i);
 		{
 			int j;
-			for (j=0; j<nTrayProtoCnt; j++)
+			for (j = 0; j<nTrayProtoCnt; j++)
 				if (iEventProto && pTrayProtos[j] && !lstrcmpA(pTrayProtos[j], iEventProto))
 					break;
-			if (j>=nTrayProtoCnt)  j=0;	//event was not found so assume first icon
+			if (j>=nTrayProtoCnt)  j = 0;	//event was not found so assume first icon
 			if (pTrayProtos[j])		//if not already set
 				   ShowOneEventInTray(i);		//show it
-			pTrayProtos[j]=NULL;		//and clear slot
+			pTrayProtos[j] = NULL;		//and clear slot
 		}
 	}
 	cli.pfnUnlockTray();	
@@ -128,7 +128,7 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
 	int i, j;
 	ShowEventsInTray();
-	for (i = 0; i < cli.events.count; i++) {
+	for (i=0; i < cli.events.count; i++) {
 		for (j = 0; j < i; j++)
 			if (cli.events.items[j]->cle.hContact == cli.events.items[i]->cle.hContact)
 				break;
@@ -157,7 +157,7 @@ struct CListEvent* fnAddEvent(CLISTEVENT *cle)
 		return NULL;
 
 	if (cle->flags & CLEF_URGENT) {
-		for (i = 0; i < cli.events.count; i++)
+		for (i=0; i < cli.events.count; i++)
 			if ( !(cli.events.items[i]->cle.flags & CLEF_URGENT))
 				break;
 	}
@@ -182,7 +182,7 @@ struct CListEvent* fnAddEvent(CLISTEVENT *cle)
 			if (cle->flags&CLEF_PROTOCOLGLOBAL)
 				szProto = cle->lpszProtocol;
 			else
-				szProto=NULL;
+				szProto = NULL;
 		}
 		else
 			szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cle->hContact, 0);
@@ -201,10 +201,10 @@ int fnRemoveEvent(HANDLE hContact, HANDLE dbEvent)
 {
 	int i;
 	char *szProto;
-	int nSameProto=0;
+	int nSameProto = 0;
 
 	// Find the event that should be removed
-	for (i = 0; i < cli.events.count; i++)
+	for (i=0; i < cli.events.count; i++)
 		if ((cli.events.items[i]->cle.hContact == hContact) && (cli.events.items[i]->cle.hDbEvent == dbEvent))
 			break;
 
@@ -224,12 +224,12 @@ int fnRemoveEvent(HANDLE hContact, HANDLE dbEvent)
 	{
 		//count same protocoled events
 		char * szEventProto;
-		for (i = 0; i < cli.events.count; i++)
+		for (i=0; i < cli.events.count; i++)
 		{
 			if (cli.events.items[i]->cle.hContact)
-				szEventProto=(char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)(cli.events.items[i]->cle.hContact), 0);
+				szEventProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)(cli.events.items[i]->cle.hContact), 0);
 			else if (cli.events.items[i]->cle.flags&CLEF_PROTOCOLGLOBAL) 
-				szEventProto=(char *) cli.events.items[i]->cle.lpszProtocol;
+				szEventProto = (char *) cli.events.items[i]->cle.lpszProtocol;
 			else 
 				szEventProto = NULL;
 			if (szEventProto && szProto && !lstrcmpA(szEventProto, szProto))
@@ -262,7 +262,7 @@ CLISTEVENT* fnGetEvent(HANDLE hContact, int idx)
 		return &cli.events.items[idx]->cle;
 	}
 
-	for (int i = 0; i < cli.events.count; i++)
+	for (int i=0; i < cli.events.count; i++)
 		if (cli.events.items[i]->cle.hContact == hContact)
 			if (idx-- == 0)
 				return &cli.events.items[i]->cle;
@@ -271,7 +271,7 @@ CLISTEVENT* fnGetEvent(HANDLE hContact, int idx)
 
 int fnEventsProcessContactDoubleClick(HANDLE hContact)
 {
-	for (int i = 0; i < cli.events.count; i++) {
+	for (int i=0; i < cli.events.count; i++) {
 		if (cli.events.items[i]->cle.hContact == hContact) {
 			HANDLE hDbEvent = cli.events.items[i]->cle.hDbEvent;
 			CallService(cli.events.items[i]->cle.pszService, (WPARAM) (HWND) NULL, (LPARAM) & cli.events.items[i]->cle);
@@ -284,30 +284,30 @@ int fnEventsProcessContactDoubleClick(HANDLE hContact)
 
 int fnEventsProcessTrayDoubleClick(int index)
 {
-	BOOL click_in_first_icon=FALSE;
+	BOOL click_in_first_icon = FALSE;
 	if (cli.events.count) {
 		HANDLE hContact, hDbEvent;
-		int eventIndex=0;
+		int eventIndex = 0;
 		cli.pfnLockTray();
 		if (cli.trayIconCount>1 && index>0)	{
 			int i;
-			char * szProto=NULL;
+			char * szProto = NULL;
 			for (i=0; i<cli.trayIconCount; i++)
 				if (cli.trayIcon[i].id == index)	{
-					szProto=cli.trayIcon[i].szProto;
-					if (i == 0) click_in_first_icon=TRUE;
+					szProto = cli.trayIcon[i].szProto;
+					if (i == 0) click_in_first_icon = TRUE;
 					break;
 				}
 			if (szProto) {
 				for (i=0; i<cli.events.count; i++) {
-					char * eventProto=NULL;				
+					char * eventProto = NULL;				
 					if (cli.events.items[i]->cle.hContact) 
-						eventProto=(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cli.events.items[i]->cle.hContact, 0);
+						eventProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cli.events.items[i]->cle.hContact, 0);
 					if ( !eventProto)
-						eventProto=cli.events.items[i]->cle.lpszProtocol;
+						eventProto = cli.events.items[i]->cle.lpszProtocol;
 		
 					if ( !eventProto || !_strcmpi(eventProto, szProto))	{
-						eventIndex=i;
+						eventIndex = i;
 						break;
 				}	}
 				
@@ -316,18 +316,18 @@ int fnEventsProcessTrayDoubleClick(int index)
 					int j;
 					if (click_in_first_icon)
 						for (i=0; i<cli.events.count; i++) {
-							char * eventProto=NULL;				
+							char * eventProto = NULL;				
 							if (cli.events.items[i]->cle.hContact) 
-								eventProto=(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cli.events.items[i]->cle.hContact, 0);
+								eventProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cli.events.items[i]->cle.hContact, 0);
 							if ( !eventProto)
-								eventProto=cli.events.items[i]->cle.lpszProtocol;
+								eventProto = cli.events.items[i]->cle.lpszProtocol;
 							if (eventProto) {
-								for (j=0; j<cli.trayIconCount; j++)
+								for (j = 0; j<cli.trayIconCount; j++)
 									if (cli.trayIcon[j].szProto && !_strcmpi(eventProto, cli.trayIcon[j].szProto))
 										break;
 								
 								if (j == cli.trayIconCount) {
-									eventIndex=i;
+									eventIndex = i;
 									break;
 						}	}	}
 					if (i == cli.events.count) { //not found 
@@ -428,7 +428,7 @@ void UninitCListEvents(void)
 
 	if (cli.events.count) KillTimer(NULL, flashTimerId);
 
-	for (i = 0; i < cli.events.count; i++)
+	for (i=0; i < cli.events.count; i++)
 		cli.pfnFreeEvent((struct CListEvent*)cli.events.items[i]);
 	List_Destroy((SortedList*)&cli.events);
 

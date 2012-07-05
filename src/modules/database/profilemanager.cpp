@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define WM_INPUTCHANGED (WM_USER + 0x3000)
 #define WM_FOCUSTEXTBOX (WM_USER + 0x3001)
 
-typedef BOOL (__cdecl *ENUMPROFILECALLBACK) (TCHAR * fullpath, TCHAR * profile, LPARAM lParam);
+typedef BOOL (__cdecl *ENUMPROFILECALLBACK) (TCHAR *fullpath, TCHAR *profile, LPARAM lParam);
 
 struct DetailsPageInit {
 	int pageCount;
@@ -76,7 +76,7 @@ static void ThemeDialogBackground(HWND hwnd)
 		enableThemeDialogTexture(hwnd, ETDT_ENABLETAB);
 }
 
-static int findProfiles(TCHAR * szProfileDir, ENUMPROFILECALLBACK callback, LPARAM lParam)
+static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARAM lParam)
 {
 	// find in Miranda IM profile subfolders
 	HANDLE hFind = INVALID_HANDLE_VALUE;
@@ -242,19 +242,19 @@ char* fullpath = makeFileName((TCHAR*)lParam);
 	return DBPE_CONT;
 }
 
-BOOL EnumProfilesForList(TCHAR * fullpath, TCHAR * profile, LPARAM lParam)
+BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 {
 	ProfileEnumData *ped = (ProfileEnumData*)lParam;
 	HWND hwndList = GetDlgItem(ped->hwnd, IDC_PROFILELIST);
 
 	TCHAR sizeBuf[64];
-	int iItem=0;
+	int iItem = 0;
 	struct _stat statbuf;
 	bool bFileExists = false, bFileLocked = true;
 
 	TCHAR* p = _tcsrchr(profile, '.');
 	_tcscpy(sizeBuf, _T("0 KB"));
-	if (p != NULL) *p=0;
+	if (p != NULL) *p = 0;
 
 	LVITEM item = { 0 };
 	item.mask = LVIF_TEXT | LVIF_IMAGE;
@@ -371,23 +371,23 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			// set columns
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.pszText = TranslateT("Profile");
-			col.cx=122;
+			col.cx = 122;
 			ListView_InsertColumn(hwndList, 0, &col);
 
 			col.pszText = TranslateT("Driver");
-			col.cx=100;
+			col.cx = 100;
 			ListView_InsertColumn(hwndList, 1, &col);
 
 			col.pszText = TranslateT("Size");
-			col.cx=60;
+			col.cx = 60;
 			ListView_InsertColumn(hwndList, 2, &col);
 
 			col.pszText = TranslateT("Created");
-			col.cx=145;
+			col.cx = 145;
 			ListView_InsertColumn(hwndList, 3, &col);
 
 			col.pszText = TranslateT("Modified");
-			col.cx=145;
+			col.cx = 145;
 			ListView_InsertColumn(hwndList, 4, &col);
 
 			// icons
@@ -445,13 +445,13 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_CONTEXTMENU:
 		{
 			LVHITTESTINFO lvht = {0};
-			lvht.pt.x  = GET_X_LPARAM(lParam); 
-			lvht.pt.y  = GET_Y_LPARAM(lParam); 
+			lvht.pt.x = GET_X_LPARAM(lParam); 
+			lvht.pt.y = GET_Y_LPARAM(lParam); 
 			ScreenToClient(hwndList, &lvht.pt);
 			if (ListView_HitTest(hwndList, &lvht) < 0) break;
 
-			lvht.pt.x  = GET_X_LPARAM(lParam); 
-			lvht.pt.y  = GET_Y_LPARAM(lParam); 
+			lvht.pt.x = GET_X_LPARAM(lParam); 
+			lvht.pt.y = GET_Y_LPARAM(lParam); 
 
 			HMENU hMenu = CreatePopupMenu();
 			AppendMenu(hMenu, MF_STRING, 1, TranslateT("Run"));
@@ -600,7 +600,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 				ShowWindow(GetDlgItem(hwndDlg, IDC_SM_LABEL), FALSE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_SM_COMBO), FALSE);
 			} else {
-				int i = 0;
+				int i=0;
 				LRESULT index;
 				HWND hwndCombo = GetDlgItem(hwndDlg, IDC_SM_COMBO);
 				index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)_T(""));
@@ -628,7 +628,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 		break;
 
 	case PSM_CHANGED:
-		dat->opd[dat->currentPage].changed=1;
+		dat->opd[dat->currentPage].changed = 1;
 		return TRUE;
 
 	case PSM_FORCECHANGED:
@@ -671,13 +671,13 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (dat->currentPage != -1) {
 					if (dat->opd[dat->currentPage].hwnd == NULL) {
 						PSHNOTIFY pshn;
-						dat->opd[dat->currentPage].hwnd=CreateDialogIndirectParam(dat->opd[dat->currentPage].hInst, dat->opd[dat->currentPage].pTemplate, hwndDlg, dat->opd[dat->currentPage].dlgProc, (LPARAM)dat->prof);
+						dat->opd[dat->currentPage].hwnd = CreateDialogIndirectParam(dat->opd[dat->currentPage].hInst, dat->opd[dat->currentPage].pTemplate, hwndDlg, dat->opd[dat->currentPage].dlgProc, (LPARAM)dat->prof);
 						ThemeDialogBackground(dat->opd[dat->currentPage].hwnd);
 						SetWindowPos(dat->opd[dat->currentPage].hwnd, HWND_TOP, dat->rcDisplay.left, dat->rcDisplay.top, 0, 0, SWP_NOSIZE);
-						pshn.hdr.code=PSN_INFOCHANGED;
-						pshn.hdr.hwndFrom=dat->opd[dat->currentPage].hwnd;
-						pshn.hdr.idFrom=0;
-						pshn.lParam=(LPARAM)0;
+						pshn.hdr.code = PSN_INFOCHANGED;
+						pshn.hdr.hwndFrom = dat->opd[dat->currentPage].hwnd;
+						pshn.hdr.idFrom = 0;
+						pshn.lParam = (LPARAM)0;
 						SendMessage(dat->opd[dat->currentPage].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 					}
 					ShowWindow(dat->opd[dat->currentPage].hwnd, SW_SHOW);
@@ -693,12 +693,12 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDCANCEL:
 			{	int i;
 				PSHNOTIFY pshn;
-				pshn.hdr.idFrom=0;
-				pshn.lParam=0;
-				pshn.hdr.code=PSN_RESET;
+				pshn.hdr.idFrom = 0;
+				pshn.lParam = 0;
+				pshn.hdr.code = PSN_RESET;
 				for (i=0;i<dat->pageCount;i++) {
 					if (dat->opd[i].hwnd == NULL || !dat->opd[i].changed) continue;
-					pshn.hdr.hwndFrom=dat->opd[i].hwnd;
+					pshn.hdr.hwndFrom = dat->opd[i].hwnd;
 					SendMessage(dat->opd[i].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 				}
 				EndDialog(hwndDlg, 0);
@@ -716,8 +716,8 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 			{
 				int i;
 				PSHNOTIFY pshn;
-				pshn.hdr.idFrom=0;
-				pshn.lParam=(LPARAM)0;
+				pshn.hdr.idFrom = 0;
+				pshn.lParam = (LPARAM)0;
 				if (dat->currentPage != -1) {
 					pshn.hdr.code = PSN_KILLACTIVE;
 					pshn.hdr.hwndFrom = dat->opd[dat->currentPage].hwnd;
@@ -725,7 +725,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 						break;
 				}
 
-				pshn.hdr.code=PSN_APPLY;
+				pshn.hdr.code = PSN_APPLY;
 				for (i=0; i < dat->pageCount; i++) {
 					if (dat->opd[i].hwnd == NULL || !dat->opd[i].changed)
 						continue;
@@ -776,15 +776,15 @@ static int AddProfileManagerPage(struct DetailsPageInit * opi, OPTIONSDIALOGPAGE
 	opi->odp = (OPTIONSDIALOGPAGE*)mir_realloc(opi->odp, sizeof(OPTIONSDIALOGPAGE)*(opi->pageCount+1));
 	{
 		OPTIONSDIALOGPAGE* p = opi->odp + opi->pageCount++;
-		p->cbSize        = sizeof(OPTIONSDIALOGPAGE);
-		p->hInstance     = odp->hInstance;
-		p->pfnDlgProc    = odp->pfnDlgProc;
-		p->position      = odp->position;
-		p->ptszTitle     = Langpack_PcharToTchar(odp->pszTitle);
-		p->pszGroup      = NULL;
+		p->cbSize = sizeof(OPTIONSDIALOGPAGE);
+		p->hInstance = odp->hInstance;
+		p->pfnDlgProc = odp->pfnDlgProc;
+		p->position = odp->position;
+		p->ptszTitle = Langpack_PcharToTchar(odp->pszTitle);
+		p->pszGroup = NULL;
 		p->groupPosition = odp->groupPosition;
-		p->hGroupIcon    = odp->hGroupIcon;
-		p->hIcon         = odp->hIcon;
+		p->hGroupIcon = odp->hGroupIcon;
+		p->hIcon = odp->hIcon;
 		if ((DWORD_PTR)odp->pszTemplate & 0xFFFF0000)
 			p->pszTemplate = mir_strdup(odp->pszTemplate);
 		else
@@ -796,34 +796,34 @@ static int AddProfileManagerPage(struct DetailsPageInit * opi, OPTIONSDIALOGPAGE
 int getProfileManager(PROFILEMANAGERDATA * pd)
 {
 	DetailsPageInit opi;
-	opi.pageCount=0;
-	opi.odp=NULL;
+	opi.pageCount = 0;
+	opi.odp = NULL;
 
 	{
 		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.cbSize      = sizeof(odp);
-		odp.pszTitle    = LPGEN("My Profiles");
-		odp.pfnDlgProc  = DlgProfileSelect;
+		odp.cbSize = sizeof(odp);
+		odp.pszTitle = LPGEN("My Profiles");
+		odp.pfnDlgProc = DlgProfileSelect;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROFILE_SELECTION);
-		odp.hInstance   = hInst;
+		odp.hInstance = hInst;
 		AddProfileManagerPage(&opi, &odp);
 
-		odp.pszTitle    = LPGEN("New Profile");
+		odp.pszTitle = LPGEN("New Profile");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROFILE_NEW);
-		odp.pfnDlgProc  = DlgProfileNew;
+		odp.pfnDlgProc = DlgProfileNew;
 		AddProfileManagerPage(&opi, &odp);
 	}
 
 	PROPSHEETHEADER psh = { 0 };
-	psh.dwSize     = sizeof(psh);
-	psh.dwFlags    = PSH_PROPSHEETPAGE|PSH_NOAPPLYNOW;
+	psh.dwSize = sizeof(psh);
+	psh.dwFlags = PSH_PROPSHEETPAGE|PSH_NOAPPLYNOW;
 	psh.hwndParent = NULL;
-	psh.nPages     = opi.pageCount;
+	psh.nPages = opi.pageCount;
 	psh.pStartPage = 0;
-	psh.ppsp       = (PROPSHEETPAGE*)opi.odp;
+	psh.ppsp = (PROPSHEETPAGE*)opi.odp;
 
 	DlgProfData prof;
-	prof.pd  = pd;
+	prof.pd = pd;
 	prof.psh = &psh;
 	int rc = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_PROFILEMANAGER), NULL, DlgProfileManager, (LPARAM)&prof);
 

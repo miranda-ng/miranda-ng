@@ -42,7 +42,7 @@ json_string JSONBase64::json_encode64(const unsigned char * binary, size_t bytes
     result.reserve((size_t)(((float)bytes) * 1.37f) + 4);
 
     //do all of the ones that are 3 byte aligned
-    for (size_t i = 0; i < aligned; ++i){
+    for (size_t i=0; i < aligned; ++i){
 	   result += chars64[(binary[0] & 0xFC) >> 2];
 	   result += chars64[((binary[0] & 0x03) << 4) + ((binary[1] & 0xF0) >> 4)];
 	   result += chars64[((binary[1] & 0x0F) << 2) + ((binary[2] & 0xC0) >> 6)];
@@ -53,7 +53,7 @@ json_string JSONBase64::json_encode64(const unsigned char * binary, size_t bytes
     if (misaligned){
 	   //copy the rest into a temporary buffer
 	   unsigned char temp[3];
-	   for (unsigned int i = 0; i < misaligned; ++i){
+	   for (unsigned int i=0; i < misaligned; ++i){
 		  temp[i] = *binary++;
 	   }
 	   for (unsigned int i = (unsigned int)misaligned; i < 3; ++i){
@@ -67,7 +67,7 @@ json_string JSONBase64::json_encode64(const unsigned char * binary, size_t bytes
 		  result += chars64[((temp[1] & 0x0F) << 2) + ((temp[2] & 0xC0) >> 6)];
 		  result += JSON_TEXT('=');
 	   } else {
-		  result += JSON_TEXT("==");
+		  result += JSON_TEXT(" = = ");
 	   }
     }
     JSON_ASSERT((size_t)(((float)bytes) * 1.37f) + 4 >= result.length(), JSON_TEXT("Didn't reserve enough space for a one-time go"));
@@ -110,7 +110,7 @@ std::string JSONBase64::json_decode64(const json_string & encoded){
 	   result.reserve((size_t)((float)length / 1.37) + 1);
 
 	   //first do the ones that can not have any padding
-	   for (unsigned int i = 0; i < aligned; ++i){
+	   for (unsigned int i=0; i < aligned; ++i){
 		  const json_char second = toBinary(runner[1]);
 		  const json_char third = toBinary(runner[2]);
 		  result += (toBinary(runner[0]) << 2) + ((second & 0x30) >> 4);

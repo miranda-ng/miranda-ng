@@ -119,7 +119,7 @@ static bool AcquireCredentials(void)
 
 	ZeroMemory(&SchannelCred, sizeof(SchannelCred));
 
-	SchannelCred.dwVersion  = SCHANNEL_CRED_VERSION;
+	SchannelCred.dwVersion = SCHANNEL_CRED_VERSION;
 	SchannelCred.grbitEnabledProtocols = SP_PROT_SSL3TLS1_CLIENTS /*| 0xA00 TLS1.1 & 1.2*/;
 
 	SchannelCred.dwFlags |= SCH_CRED_NO_DEFAULT_CREDS | SCH_CRED_MANUAL_CRED_VALIDATION;
@@ -235,7 +235,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 
 	ChainPara.cbSize = sizeof(ChainPara);
 	ChainPara.RequestedUsage.dwType = USAGE_MATCH_TYPE_OR;
-	ChainPara.RequestedUsage.Usage.cUsageIdentifier     = SIZEOF(rgszUsages);
+	ChainPara.RequestedUsage.Usage.cUsageIdentifier = SIZEOF(rgszUsages);
 	ChainPara.RequestedUsage.Usage.rgpszUsageIdentifier = rgszUsages;
 
 	if ( !fnCertGetCertificateChain(NULL, pServerCert, NULL, pServerCert->hCertStore, 
@@ -245,12 +245,12 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 		goto cleanup;
 	}
 
-	polHttps.cbStruct           = sizeof(HTTPSPolicyCallbackData);
-	polHttps.dwAuthType         = AUTHTYPE_SERVER;
-	polHttps.fdwChecks          = dwCertFlags;
-	polHttps.pwszServerName     = pwszServerName;
+	polHttps.cbStruct = sizeof(HTTPSPolicyCallbackData);
+	polHttps.dwAuthType = AUTHTYPE_SERVER;
+	polHttps.fdwChecks = dwCertFlags;
+	polHttps.pwszServerName = pwszServerName;
 
-	PolicyPara.cbSize            = sizeof(PolicyPara);
+	PolicyPara.cbSize = sizeof(PolicyPara);
 	PolicyPara.pvExtraPolicyPara = &polHttps;
 
 	PolicyStatus.cbSize = sizeof(PolicyStatus);
@@ -361,29 +361,29 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		// of this. Leftover data (if any) will be placed in buffer 1 and
 		// given a buffer type of SECBUFFER_EXTRA.
 
-		InBuffers[0].pvBuffer   = ssl->pbIoBuffer;
-		InBuffers[0].cbBuffer   = ssl->cbIoBuffer;
+		InBuffers[0].pvBuffer = ssl->pbIoBuffer;
+		InBuffers[0].cbBuffer = ssl->cbIoBuffer;
 		InBuffers[0].BufferType = SECBUFFER_TOKEN;
 
-		InBuffers[1].pvBuffer   = NULL;
-		InBuffers[1].cbBuffer   = 0;
+		InBuffers[1].pvBuffer = NULL;
+		InBuffers[1].cbBuffer = 0;
 		InBuffers[1].BufferType = SECBUFFER_EMPTY;
 
-		InBuffer.cBuffers       = 2;
-		InBuffer.pBuffers       = InBuffers;
-		InBuffer.ulVersion      = SECBUFFER_VERSION;
+		InBuffer.cBuffers = 2;
+		InBuffer.pBuffers = InBuffers;
+		InBuffer.ulVersion = SECBUFFER_VERSION;
 
 		// Set up the output buffers. These are initialized to NULL
 		// so as to make it less likely we'll attempt to free random
 		// garbage later.
 
-		OutBuffers[0].pvBuffer  = NULL;
-		OutBuffers[0].BufferType= SECBUFFER_TOKEN;
-		OutBuffers[0].cbBuffer  = 0;
+		OutBuffers[0].pvBuffer = NULL;
+		OutBuffers[0].BufferType = SECBUFFER_TOKEN;
+		OutBuffers[0].cbBuffer = 0;
 
-		OutBuffer.cBuffers      = 1;
-		OutBuffer.pBuffers      = OutBuffers;
-		OutBuffer.ulVersion     = SECBUFFER_VERSION;
+		OutBuffer.cBuffers = 1;
+		OutBuffer.pBuffers = OutBuffers;
+		OutBuffer.ulVersion = SECBUFFER_VERSION;
 
 		scRet = g_pSSPI->InitializeSecurityContextA(
 			&hCreds, 
@@ -509,9 +509,9 @@ static bool ClientConnect(SslHandle *ssl, const char *host)
 
 	//  Initiate a ClientHello message and generate a token.
 
-	OutBuffers[0].pvBuffer   = NULL;
+	OutBuffers[0].pvBuffer = NULL;
 	OutBuffers[0].BufferType = SECBUFFER_TOKEN;
-	OutBuffers[0].cbBuffer   = 0;
+	OutBuffers[0].cbBuffer = 0;
 
 	OutBuffer.cBuffers = 1;
 	OutBuffer.pBuffers = OutBuffers;
@@ -600,12 +600,12 @@ void NetlibSslShutdown(SslHandle *ssl)
 
 	dwType = SCHANNEL_SHUTDOWN;
 
-	OutBuffers[0].pvBuffer   = &dwType;
+	OutBuffers[0].pvBuffer = &dwType;
 	OutBuffers[0].BufferType = SECBUFFER_TOKEN;
-	OutBuffers[0].cbBuffer   = sizeof(dwType);
+	OutBuffers[0].cbBuffer = sizeof(dwType);
 
-	OutBuffer.cBuffers  = 1;
-	OutBuffer.pBuffers  = OutBuffers;
+	OutBuffer.cBuffers = 1;
+	OutBuffer.pBuffers = OutBuffers;
 	OutBuffer.ulVersion = SECBUFFER_VERSION;
 
 	scRet = g_pSSPI->ApplyControlToken(&ssl->hContext, &OutBuffer);
@@ -622,12 +622,12 @@ void NetlibSslShutdown(SslHandle *ssl)
 		ISC_REQ_ALLOCATE_MEMORY   |
 		ISC_REQ_STREAM;
 
-	OutBuffers[0].pvBuffer   = NULL;
+	OutBuffers[0].pvBuffer = NULL;
 	OutBuffers[0].BufferType = SECBUFFER_TOKEN;
-	OutBuffers[0].cbBuffer   = 0;
+	OutBuffers[0].cbBuffer = 0;
 
-	OutBuffer.cBuffers  = 1;
-	OutBuffer.pBuffers  = OutBuffers;
+	OutBuffer.cBuffers = 1;
+	OutBuffer.pBuffers = OutBuffers;
 	OutBuffer.ulVersion = SECBUFFER_VERSION;
 
 	scRet = g_pSSPI->InitializeSecurityContextA(
@@ -760,17 +760,17 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 		}
 
 		// Attempt to decrypt the received data.
-		Buffers[0].pvBuffer     = ssl->pbIoBuffer;
-		Buffers[0].cbBuffer     = ssl->cbIoBuffer;
-		Buffers[0].BufferType   = SECBUFFER_DATA;
+		Buffers[0].pvBuffer = ssl->pbIoBuffer;
+		Buffers[0].cbBuffer = ssl->cbIoBuffer;
+		Buffers[0].BufferType = SECBUFFER_DATA;
 
-		Buffers[1].BufferType   = SECBUFFER_EMPTY;
-		Buffers[2].BufferType   = SECBUFFER_EMPTY;
-		Buffers[3].BufferType   = SECBUFFER_EMPTY;
+		Buffers[1].BufferType = SECBUFFER_EMPTY;
+		Buffers[2].BufferType = SECBUFFER_EMPTY;
+		Buffers[3].BufferType = SECBUFFER_EMPTY;
 
-		Message.ulVersion       = SECBUFFER_VERSION;
-		Message.cBuffers        = 4;
-		Message.pBuffers        = Buffers;
+		Message.ulVersion = SECBUFFER_VERSION;
+		Message.cBuffers = 4;
+		Message.pBuffers = Buffers;
 
 		if (g_pSSPI->DecryptMessage != NULL && g_pSSPI->DecryptMessage != PVOID(0x80000000))
 			scRet = g_pSSPI->DecryptMessage(&ssl->hContext, &Message, 0, NULL);
@@ -791,7 +791,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 		}
 
 		// Locate data and (optional) extra buffers.
-		pDataBuffer  = NULL;
+		pDataBuffer = NULL;
 		pExtraBuffer = NULL;
 		for (i = 1; i < 4; i++) 
 		{
@@ -900,23 +900,23 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 		cbMessage = min(Sizes.cbMaximumMessage, (DWORD)num - sendOff);
 		CopyMemory(pbMessage, buf+sendOff, cbMessage);
 
-		Buffers[0].pvBuffer     = pbDataBuffer;
-		Buffers[0].cbBuffer     = Sizes.cbHeader;
-		Buffers[0].BufferType   = SECBUFFER_STREAM_HEADER;
+		Buffers[0].pvBuffer = pbDataBuffer;
+		Buffers[0].cbBuffer = Sizes.cbHeader;
+		Buffers[0].BufferType = SECBUFFER_STREAM_HEADER;
 
-		Buffers[1].pvBuffer     = pbMessage;
-		Buffers[1].cbBuffer     = cbMessage;
-		Buffers[1].BufferType   = SECBUFFER_DATA;
+		Buffers[1].pvBuffer = pbMessage;
+		Buffers[1].cbBuffer = cbMessage;
+		Buffers[1].BufferType = SECBUFFER_DATA;
 
-		Buffers[2].pvBuffer     = pbMessage + cbMessage;
-		Buffers[2].cbBuffer     = Sizes.cbTrailer;
-		Buffers[2].BufferType   = SECBUFFER_STREAM_TRAILER;
+		Buffers[2].pvBuffer = pbMessage + cbMessage;
+		Buffers[2].cbBuffer = Sizes.cbTrailer;
+		Buffers[2].BufferType = SECBUFFER_STREAM_TRAILER;
 
-		Buffers[3].BufferType   = SECBUFFER_EMPTY;
+		Buffers[3].BufferType = SECBUFFER_EMPTY;
 
-		Message.ulVersion       = SECBUFFER_VERSION;
-		Message.cBuffers        = 4;
-		Message.pBuffers        = Buffers;
+		Message.ulVersion = SECBUFFER_VERSION;
+		Message.cBuffers = 4;
+		Message.pBuffers = Buffers;
 
 		if (g_pSSPI->EncryptMessage != NULL)
 			scRet = g_pSSPI->EncryptMessage(&ssl->hContext, 0, &Message, 0);
@@ -953,12 +953,12 @@ static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 	if (si->cbSize != sizeof(SSL_API))
 		return FALSE;
 
-	si->connect  = (HSSL (__cdecl *)(SOCKET, const char *, int))NetlibSslConnect;
-	si->pending  = (BOOL (__cdecl *)(HSSL))NetlibSslPending;
-	si->read     = (int  (__cdecl *)(HSSL, char *, int, int))NetlibSslRead;
-	si->write    = (int  (__cdecl *)(HSSL, const char *, int))NetlibSslWrite;
+	si->connect = (HSSL (__cdecl *)(SOCKET, const char *, int))NetlibSslConnect;
+	si->pending = (BOOL (__cdecl *)(HSSL))NetlibSslPending;
+	si->read = (int  (__cdecl *)(HSSL, char *, int, int))NetlibSslRead;
+	si->write = (int  (__cdecl *)(HSSL, const char *, int))NetlibSslWrite;
 	si->shutdown = (void (__cdecl *)(HSSL))NetlibSslShutdown;
-	si->sfree    = (void (__cdecl *)(HSSL))NetlibSslFree;
+	si->sfree = (void (__cdecl *)(HSSL))NetlibSslFree;
 
 	return TRUE;
 }

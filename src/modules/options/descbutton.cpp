@@ -68,13 +68,13 @@ int LoadDescButtonModule()
 	WNDCLASSEX wc;
 
 	ZeroMemory(&wc, sizeof(wc));
-	wc.cbSize         = sizeof(wc);
-	wc.lpszClassName  = MIRANDADESCBUTTONCLASS;
-	wc.lpfnWndProc    = MDescButtonWndProc;
-	wc.hCursor        = LoadCursor(NULL, IDC_HAND);
-	wc.cbWndExtra     = sizeof(MDescButtonCtrl *);
-	wc.hbrBackground  = 0; //GetStockObject(WHITE_BRUSH);
-	wc.style          = CS_GLOBALCLASS|CS_SAVEBITS;
+	wc.cbSize = sizeof(wc);
+	wc.lpszClassName = MIRANDADESCBUTTONCLASS;
+	wc.lpfnWndProc = MDescButtonWndProc;
+	wc.hCursor = LoadCursor(NULL, IDC_HAND);
+	wc.cbWndExtra = sizeof(MDescButtonCtrl *);
+	wc.hbrBackground = 0; //GetStockObject(WHITE_BRUSH);
+	wc.style = CS_GLOBALCLASS|CS_SAVEBITS;
 	RegisterClassEx(&wc);	
 	return 0;
 }
@@ -84,36 +84,36 @@ static void MDescButton_SetupColors(MDescButtonCtrl *dat)
 	COLORREF cl;
 
 	cl = GetSysColor(COLOR_WINDOW);
-	dat->rgbBkgBottom.rgbRed	= (dat->rgbBkgTop.rgbRed	= GetRValue(cl)) * .95;
-	dat->rgbBkgBottom.rgbGreen	= (dat->rgbBkgTop.rgbGreen	= GetGValue(cl)) * .95;
-	dat->rgbBkgBottom.rgbBlue	= (dat->rgbBkgTop.rgbBlue	= GetBValue(cl)) * .95;
+	dat->rgbBkgBottom.rgbRed	 = (dat->rgbBkgTop.rgbRed	 = GetRValue(cl)) * .95;
+	dat->rgbBkgBottom.rgbGreen	 = (dat->rgbBkgTop.rgbGreen	 = GetGValue(cl)) * .95;
+	dat->rgbBkgBottom.rgbBlue	 = (dat->rgbBkgTop.rgbBlue	 = GetBValue(cl)) * .95;
 
 	cl = GetSysColor(COLOR_HIGHLIGHT);
-	dat->rgbSelTop.rgbRed	= (dat->rgbSelBottom.rgbRed		= GetRValue(cl)) * .75;
-	dat->rgbSelTop.rgbGreen	= (dat->rgbSelBottom.rgbGreen	= GetGValue(cl)) * .75;
-	dat->rgbSelTop.rgbBlue	= (dat->rgbSelBottom.rgbBlue	= GetBValue(cl)) * .75;
+	dat->rgbSelTop.rgbRed	 = (dat->rgbSelBottom.rgbRed		 = GetRValue(cl)) * .75;
+	dat->rgbSelTop.rgbGreen	 = (dat->rgbSelBottom.rgbGreen	 = GetGValue(cl)) * .75;
+	dat->rgbSelTop.rgbBlue	 = (dat->rgbSelBottom.rgbBlue	 = GetBValue(cl)) * .75;
 
-	dat->rgbHotTop.rgbRed	= (dat->rgbSelTop.rgbRed	+ 255) / 2;
-	dat->rgbHotTop.rgbGreen	= (dat->rgbSelTop.rgbGreen	+ 255) / 2;
-	dat->rgbHotTop.rgbBlue	= (dat->rgbSelTop.rgbBlue	+ 255) / 2;
+	dat->rgbHotTop.rgbRed	 = (dat->rgbSelTop.rgbRed	+ 255) / 2;
+	dat->rgbHotTop.rgbGreen	 = (dat->rgbSelTop.rgbGreen	+ 255) / 2;
+	dat->rgbHotTop.rgbBlue	 = (dat->rgbSelTop.rgbBlue	+ 255) / 2;
 
-	dat->rgbHotBottom.rgbRed	= (dat->rgbSelBottom.rgbRed		+ 255) / 2;
-	dat->rgbHotBottom.rgbGreen	= (dat->rgbSelBottom.rgbGreen	+ 255) / 2;
-	dat->rgbHotBottom.rgbBlue	= (dat->rgbSelBottom.rgbBlue	+ 255) / 2;
+	dat->rgbHotBottom.rgbRed	 = (dat->rgbSelBottom.rgbRed		+ 255) / 2;
+	dat->rgbHotBottom.rgbGreen	 = (dat->rgbSelBottom.rgbGreen	+ 255) / 2;
+	dat->rgbHotBottom.rgbBlue	 = (dat->rgbSelBottom.rgbBlue	+ 255) / 2;
 
-	dat->clBackground	= GetSysColor(COLOR_3DFACE);
-	dat->clText			= GetSysColor(COLOR_WINDOWTEXT);
-	dat->clSelText		= GetSysColor(COLOR_HIGHLIGHTTEXT);
-	dat->clSelBorder	= RGB(dat->rgbSelTop.rgbRed, dat->rgbSelTop.rgbGreen, dat->rgbSelTop.rgbBlue);
-	dat->clHotBorder	= RGB(dat->rgbHotTop.rgbRed, dat->rgbHotTop.rgbGreen, dat->rgbHotTop.rgbBlue);
+	dat->clBackground	 = GetSysColor(COLOR_3DFACE);
+	dat->clText			 = GetSysColor(COLOR_WINDOWTEXT);
+	dat->clSelText		 = GetSysColor(COLOR_HIGHLIGHTTEXT);
+	dat->clSelBorder	 = RGB(dat->rgbSelTop.rgbRed, dat->rgbSelTop.rgbGreen, dat->rgbSelTop.rgbBlue);
+	dat->clHotBorder	 = RGB(dat->rgbHotTop.rgbRed, dat->rgbHotTop.rgbGreen, dat->rgbHotTop.rgbBlue);
 
 	if ( !dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 }
 
 static void MDescButton_FillRect(HDC hdc, int x, int y, int width, int height, COLORREF cl)
 {
-	int oldMode			= SetBkMode(hdc, OPAQUE);
-	COLORREF oldColor	= SetBkColor(hdc, cl);
+	int oldMode			 = SetBkMode(hdc, OPAQUE);
+	COLORREF oldColor	 = SetBkColor(hdc, cl);
 
 	RECT rc; SetRect(&rc, x, y, x+width, y+height);
 	ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, 0);
@@ -124,11 +124,11 @@ static void MDescButton_FillRect(HDC hdc, int x, int y, int width, int height, C
 
 static void MDescButton_DrawGradient(HDC hdc, int x, int y, int width, int height, RGBQUAD *rgb0, RGBQUAD *rgb1)
 {
-	int oldMode			= SetBkMode(hdc, OPAQUE);
-	COLORREF oldColor	= SetBkColor(hdc, 0);
+	int oldMode			 = SetBkMode(hdc, OPAQUE);
+	COLORREF oldColor	 = SetBkColor(hdc, 0);
 
 	RECT rc; SetRect(&rc, x, 0, x+width, 0);
-	for (int i=y+height; --i >= y;) {
+	for (int i = y+height; --i >= y;) {
 		COLORREF color = RGB(
 			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height, 
 			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height, 
@@ -150,17 +150,17 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat, UINT  msg
 	RECT temprc;
 	HFONT hfntSave;
 
-	HDC hdc=BeginPaint(hwndDlg, &ps);
-	HDC tempDC=CreateCompatibleDC(hdc);
+	HDC hdc = BeginPaint(hwndDlg, &ps);
+	HDC tempDC = CreateCompatibleDC(hdc);
 
 	SIZE titleSize = {0};
 
-	hBmp=CreateCompatibleBitmap(hdc, dat->width, dat->height);
-	hOldBmp=(HBITMAP)SelectObject(tempDC, hBmp);
+	hBmp = CreateCompatibleBitmap(hdc, dat->width, dat->height);
+	hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
 
-	temprc.left=0;
-	temprc.right=dat->width;
-	temprc.top=0;
+	temprc.left = 0;
+	temprc.right = dat->width;
+	temprc.top = 0;
 	
 	//Draw background
 	if (dat->bMouseInside || (GetFocus() == hwndDlg)) {
@@ -223,7 +223,7 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat, UINT  msg
 
 static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, LPARAM lParam)
 {
-	MDescButtonCtrl *dat =  (MDescButtonCtrl *)GetWindowLongPtr(hwndDlg, 0);
+	MDescButtonCtrl *dat = (MDescButtonCtrl *)GetWindowLongPtr(hwndDlg, 0);
 	switch(msg) {
 	case WM_NCCREATE:
 		dat = (MDescButtonCtrl*)mir_alloc(sizeof(MDescButtonCtrl));
@@ -241,8 +241,8 @@ static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 
 	case WM_SIZE:
 		GetClientRect(hwndDlg, &dat->rc);
-		dat->width=dat->rc.right-dat->rc.left;
-		dat->height=dat->rc.bottom-dat->rc.top;
+		dat->width = dat->rc.right-dat->rc.left;
+		dat->height = dat->rc.bottom-dat->rc.top;
 		return TRUE;
 
 	case WM_THEMECHANGED:

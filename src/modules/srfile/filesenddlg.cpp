@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void SetFileListAndSizeControls(HWND hwndDlg, struct FileDlgData *dat)
 {
-	int fileCount=0, dirCount=0, totalSize=0, i;
+	int fileCount = 0, dirCount = 0, totalSize = 0, i;
 	struct _stat statbuf;
 	TCHAR str[64];
 
@@ -145,7 +145,7 @@ void __cdecl ChooseFilesThread(void* param)
 	else {
 		OPENFILENAME ofn = {0};
 		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-		ofn.hwndOwner   = hwndDlg;
+		ofn.hwndOwner = hwndDlg;
 		lstrcpy(filter, TranslateT("All Files"));
 		lstrcat(filter, _T(" (*)"));
 		pfilter = filter + lstrlen(filter)+1;
@@ -193,23 +193,23 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 {
 	struct FileDlgData *dat;
 
-	dat=(struct FileDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	dat = (struct FileDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
 	{
-		struct FileSendData *fsd=(struct FileSendData*)lParam;
+		struct FileSendData *fsd = (struct FileSendData*)lParam;
 
-		dat=(struct FileDlgData*)mir_calloc(sizeof(struct FileDlgData));
+		dat = (struct FileDlgData*)mir_calloc(sizeof(struct FileDlgData));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-		dat->hContact=fsd->hContact;
-		dat->send=1;
-		dat->hPreshutdownEvent=HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, M_PRESHUTDOWN);
-		dat->fs=NULL;
-		dat->dwTicks=GetTickCount();
+		dat->hContact = fsd->hContact;
+		dat->send = 1;
+		dat->hPreshutdownEvent = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, M_PRESHUTDOWN);
+		dat->fs = NULL;
+		dat->dwTicks = GetTickCount();
 
 		TranslateDialogDefault(hwndDlg);
 		EnumChildWindows(hwndDlg, ClipSiblingsChildEnumProc, 0);
-		OldSendEditProc=(WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSG), GWLP_WNDPROC, (LONG_PTR)SendEditSubclassProc);
+		OldSendEditProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSG), GWLP_WNDPROC, (LONG_PTR)SendEditSubclassProc);
 
 		Window_SetIcon_IcoLib(hwndDlg, SKINICON_EVENT_FILE);
 		Button_SetIcon_IcoLib(hwndDlg, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGEN("View User's Details"));
@@ -220,11 +220,11 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		if (fsd->ppFiles != NULL && fsd->ppFiles[0] != NULL) {
 			int totalCount, i;
-			for (totalCount=0;fsd->ppFiles[totalCount];totalCount++);
+			for (totalCount = 0;fsd->ppFiles[totalCount];totalCount++);
 			dat->files = (TCHAR**)mir_alloc(sizeof(TCHAR*)*(totalCount+1)); // Leaks
 			for (i=0;i<totalCount;i++)
 				dat->files[i] = mir_tstrdup(fsd->ppFiles[i]);
-			dat->files[totalCount]=NULL;
+			dat->files[totalCount] = NULL;
 			SetFileListAndSizeControls(hwndDlg, dat);
 		}
 		{
@@ -232,7 +232,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			TCHAR* contactName = cli.pfnGetContactDisplayName(dat->hContact, 0);
 			SetDlgItemText(hwndDlg, IDC_TO, contactName);
 
-			szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+			szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
 			if (szProto) {
 				CONTACTINFO ci;
 				int hasName = 0;
@@ -264,7 +264,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		if (fsd->ppFiles == NULL) {
        		EnableWindow(hwndDlg, FALSE);
-			dat->closeIfFileChooseCancelled=1;
+			dat->closeIfFileChooseCancelled = 1;
 			PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_CHOOSE, BN_CLICKED), (LPARAM)GetDlgItem(hwndDlg, IDC_CHOOSE));
 		}
 		return TRUE;
@@ -275,11 +275,11 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	case WM_DRAWITEM:
 		{
-			LPDRAWITEMSTRUCT dis=(LPDRAWITEMSTRUCT)lParam;
+			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
 				char *szProto;
 
-				szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+				szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
 				if (szProto) {
 					HICON hIcon = (HICON)CallProtoServiceInt(NULL,szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 					if (hIcon) {
@@ -327,7 +327,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			case IDC_USERMENU:
 			{	RECT rc;
-				HMENU hMenu=(HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)dat->hContact, 0);
+				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)dat->hContact, 0);
 				GetWindowRect((HWND)lParam, &rc);
 				TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, NULL);
 				DestroyMenu(hMenu);

@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR Proto_CallContactService(WPARAM wParam, LPARAM lParam)
 //note that this is ChainSend() too, due to a quirk of function definitions
 {
-	CCSDATA *ccs=(CCSDATA*)lParam;
+	CCSDATA *ccs = (CCSDATA*)lParam;
 	int i;
 	char str[10];
 	DBVARIANT dbv;
@@ -70,7 +70,7 @@ INT_PTR Proto_CallContactService(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR CallRecvChain(WPARAM wParam, LPARAM lParam)
 {
-	CCSDATA *ccs=(CCSDATA*)lParam;
+	CCSDATA *ccs = (CCSDATA*)lParam;
 	int i;
 	INT_PTR ret;
 	char str[10];
@@ -217,7 +217,7 @@ static INT_PTR Proto_AddToContact(WPARAM wParam, LPARAM lParam)
 			if (pd->type > pdCompare->type) break;
 		}
 		//put the new module at position i
-		lastProto=mir_strdup((char*)lParam);
+		lastProto = mir_strdup((char*)lParam);
 		for (;;i++) {
 			_itoa(i, str, 10);
 			if (DBGetContactSettingString((HANDLE)wParam, "_Filter", str, &dbv)) {
@@ -227,7 +227,7 @@ static INT_PTR Proto_AddToContact(WPARAM wParam, LPARAM lParam)
 			}
 			DBWriteContactSettingString((HANDLE)wParam, "_Filter", str, lastProto);
 			mir_free(lastProto);
-			lastProto=dbv.pszVal;
+			lastProto = dbv.pszVal;
 		}
 	}
 	return 0;

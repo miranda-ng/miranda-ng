@@ -227,7 +227,7 @@ void UndoSubItemChanges(HWND htv, HTREEITEM hItem, int cmd)
 
 static void OpenIconsPage()
 {
-	CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://addons.miranda-im.org/index.php?action=display&id=35");
+	CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://addons.miranda-im.org/index.php?action = display&id = 35");
 }
 
 static int OpenPopupMenu(HWND hwndDlg)
@@ -259,7 +259,7 @@ static TCHAR* OpenFileDlg(HWND hParent, const TCHAR* szFile, BOOL bAll)
 	else
 		lstrcat(filter, _T(" (*.dll)"));
 
-	pfilter=filter+lstrlen(filter)+1;
+	pfilter = filter+lstrlen(filter)+1;
 	if (bAll)
 		lstrcpy(pfilter, _T("*.DLL;*.ICL;*.EXE;*.ICO"));
 	else
@@ -271,7 +271,7 @@ static TCHAR* OpenFileDlg(HWND hParent, const TCHAR* szFile, BOOL bAll)
 	pfilter += lstrlen(pfilter) + 1;
 	lstrcpy(pfilter, _T("*"));
 	pfilter += lstrlen(pfilter) + 1;
-	*pfilter='\0';
+	*pfilter = '\0';
 
 	ofn.lpstrFilter = filter;
 	ofn.lpstrDefExt = _T("dll");
@@ -444,7 +444,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			lvi.iSubItem = 0;
 			lvi.iItem = 0;
 			int count = (int)_ExtractIconEx(filename, -1, 16, 16, NULL, LR_DEFAULTCOLOR);
-			for (int i = 0; i < count; lvi.iItem++, i++) {
+			for (int i=0; i < count; lvi.iItem++, i++) {
 				mir_sntprintf(caption, SIZEOF(caption), _T("%d"), i+1);
 				lvi.pszText = caption;
 
@@ -486,7 +486,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_MOUSEMOVE:
 		if (dragging) {
 			LVHITTESTINFO lvhti;
-			int onItem=0;
+			int onItem = 0;
 			HWND hwndOver;
 			RECT rc;
 			POINT ptDrag;
@@ -542,7 +542,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 				GetDlgItemText(hwndDlg, IDC_ICONSET, fullPath, SIZEOF(fullPath));
 				CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)fullPath, (LPARAM)filename);
-				lvi.mask=LVIF_PARAM;
+				lvi.mask = LVIF_PARAM;
 				lvi.iItem = dragItem; lvi.iSubItem = 0;
 				ListView_GetItem(hPreview, &lvi);
 				mir_sntprintf(path, MAX_PATH, _T("%s,%d"), filename, (int)lvi.lParam);
@@ -1019,7 +1019,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	return FALSE;
 }
 
-static UINT iconsExpertOnlyControls[]={IDC_IMPORT};
+static UINT iconsExpertOnlyControls[] = {IDC_IMPORT};
 
 int SkinOptionsInit(WPARAM wParam, LPARAM)
 {

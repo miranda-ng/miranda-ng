@@ -35,17 +35,17 @@ struct virusscannerinfo {
 	const TCHAR *szCommandLine;
 };
 
-static const struct virusscannerinfo virusScanners[]={
+static const struct virusscannerinfo virusScanners[] = {
 	{_T("Network Associates/McAfee VirusScan"), _T("SOFTWARE\\McAfee\\VirusScan"), _T("Scan32EXE"), _T("\"%s\" %%f /nosplash /comp /autoscan /autoexit /noboot")}, 
 	{_T("Dr Solomon's VirusScan (Network Associates)"), _T("SOFTWARE\\Network Associates\\TVD\\VirusScan\\AVConsol\\General"), _T("szScannerExe"), _T("\"%s\" %%f /uinone /noboot /comp /prompt /autoexit")}, 
 	{_T("Norton AntiVirus"), _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Navw32.exe"), NULL, _T("\"%s\" %%f /b- /m- /s+ /noresults")}, 
-	{_T("Computer Associates/Inoculate IT"), _T("Software\\Antivirus"), _T("ImageFilename"), _T("\"%s\" %%f /display=progress /exit")}, 
-	{_T("Computer Associates eTrust"), _T("SOFTWARE\\ComputerAssociates\\Anti-Virus\\Resident"), _T("VetPath"), _T("\"%s\" %%f /display=progress /exit")}, 
+	{_T("Computer Associates/Inoculate IT"), _T("Software\\Antivirus"), _T("ImageFilename"), _T("\"%s\" %%f /display = progress /exit")}, 
+	{_T("Computer Associates eTrust"), _T("SOFTWARE\\ComputerAssociates\\Anti-Virus\\Resident"), _T("VetPath"), _T("\"%s\" %%f /display = progress /exit")}, 
 	{_T("Kaspersky Anti-Virus"), _T("SOFTWARE\\KasperskyLab\\Components\\101"), _T("EXEName"), _T("\"%s\" /S /Q %%f")}, 
 	{_T("Kaspersky Anti-Virus"), _T("SOFTWARE\\KasperskyLab\\SetupFolders"), _T("KAV8"), _T("\"%savp.exe\" SCAN %%f")}, 
 	{_T("Kaspersky Anti-Virus"), _T("SOFTWARE\\KasperskyLab\\SetupFolders"), _T("KAV9"), _T("\"%savp.exe\" SCAN %%f")}, 
-	{_T("AntiVir PersonalEdition Classic"), _T("SOFTWARE\\Avira\\AntiVir PersonalEdition Classic"), _T("Path"), _T("\"%savscan.exe\" /GUIMODE=2 /PATH=\"%%f\"")}, 
-	{_T("ESET NOD32 Antivirus"), _T("SOFTWARE\\ESET\\ESET Security\\CurrentVersion\\Info"), _T("InstallDir"), _T("\"%secls.exe\" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action=clean \"%%f\"")}, 
+	{_T("AntiVir PersonalEdition Classic"), _T("SOFTWARE\\Avira\\AntiVir PersonalEdition Classic"), _T("Path"), _T("\"%savscan.exe\" /GUIMODE = 2 /PATH = \"%%f\"")}, 
+	{_T("ESET NOD32 Antivirus"), _T("SOFTWARE\\ESET\\ESET Security\\CurrentVersion\\Info"), _T("InstallDir"), _T("\"%secls.exe\" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action = clean \"%%f\"")}, 
 };
 
 #define M_UPDATEENABLING   (WM_USER+100)
@@ -86,7 +86,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				int i, iItem;
 				for (i=0; i < SIZEOF(virusScanners); i++) {
 					if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[i].szExeRegPath, virusScanners[i].szExeRegValue, szScanExe, SIZEOF(szScanExe))) {
-						iItem=SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)virusScanners[i].szProductName);
+						iItem = SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)virusScanners[i].szProductName);
 						SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_SETITEMDATA, iItem, i);
 					}
 				}
@@ -118,7 +118,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			return TRUE;
 		}
 		case M_UPDATEENABLING:
-		{	int on=!IsDlgButtonChecked(hwndDlg, IDC_NOSCANNER);
+		{	int on = !IsDlgButtonChecked(hwndDlg, IDC_NOSCANNER);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ST_CMDLINE), on);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SCANCMDLINE), on);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SCANCMDLINEBROWSE), on);
@@ -129,9 +129,9 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case M_SCANCMDLINESELCHANGE:
 		{	TCHAR str[512];
 			TCHAR szScanExe[MAX_PATH];
-			int iScanner=SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_GETCURSEL, 0, 0), 0);
+			int iScanner = SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_GETCURSEL, 0, 0), 0);
 			if (iScanner >= SIZEOF(virusScanners) || iScanner<0) break;
-			str[0]='\0';
+			str[0] = '\0';
 			if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[iScanner].szExeRegPath, virusScanners[iScanner].szExeRegValue, szScanExe, SIZEOF(szScanExe)))
 				mir_sntprintf(str, SIZEOF(str), virusScanners[iScanner].szCommandLine, szScanExe);
 			SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str);

@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "netlib.h"
 
-static const char search_request_msg[] =
+static const char search_request_msg[] = 
 	"M-SEARCH * HTTP/1.1\r\n"
 	"HOST: 239.255.255.250:1900\r\n"
 	"MAN: \"ssdp:discover\"\r\n"
@@ -31,55 +31,55 @@ static const char search_request_msg[] =
 	"ST: urn:schemas-upnp-org:service:%s\r\n"
 	"\r\n";
 
-static const char xml_get_hdr[] =
+static const char xml_get_hdr[] = 
 	"GET %s HTTP/1.1\r\n"
 	"HOST: %s:%u\r\n"
 	"ACCEPT-LANGUAGE: *\r\n\r\n";
 
-static const char soap_post_hdr[] =
+static const char soap_post_hdr[] = 
 	"POST %s HTTP/1.1\r\n"
 	"HOST: %s:%u\r\n"
 	"CONTENT-LENGTH: %u\r\n"
-	"CONTENT-TYPE: text/xml; charset=\"utf-8\"\r\n"
+	"CONTENT-TYPE: text/xml; charset = \"utf-8\"\r\n"
 	"SOAPACTION: \"%s#%s\"\r\n\r\n"
 	"%s";
 
-static const char soap_post_hdr_m[] =
+static const char soap_post_hdr_m[] = 
 	"M-POST %s URL HTTP/1.1\r\n"
 	"HOST: %s:%u\r\n"
 	"CONTENT-LENGTH: %u\r\n"
-	"CONTENT-TYPE: text/xml; charset=\"utf-8\"\r\n"
-	"MAN: \"http://schemas.xmlsoap.org/soap/envelope/\"; ns=01\r\n"
+	"CONTENT-TYPE: text/xml; charset = \"utf-8\"\r\n"
+	"MAN: \"http://schemas.xmlsoap.org/soap/envelope/\"; ns = 01\r\n"
 	"01-SOAPACTION: \"%s#%s\"\r\n\r\n"
 	"%s";
 
-static const char search_device[] =
+static const char search_device[] = 
 	"<serviceType>%s</serviceType>";
 
-static const char soap_action[] =
-	"<?xml version=\"1.0\"?>\r\n"
+static const char soap_action[] = 
+	"<?xml version = \"1.0\"?>\r\n"
 	"<s:Envelope\r\n"
-	"    xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n"
-	"    s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">\r\n"
+	"    xmlns:s = \"http://schemas.xmlsoap.org/soap/envelope/\"\r\n"
+	"    s:encodingStyle = \"http://schemas.xmlsoap.org/soap/encoding/\">\r\n"
 	"  <s:Body>\r\n"
-	"    <u:%s xmlns:u=\"%s\">\r\n"
+	"    <u:%s xmlns:u = \"%s\">\r\n"
 	"%s"
 	"    </u:%s>\r\n"
 	"  </s:Body>\r\n"
 	"</s:Envelope>\r\n";
 
-static const char soap_query[] =
+static const char soap_query[] = 
 	"<s:Envelope\r\n"
-	"    xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n" 
-	"    s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">\r\n" 
+	"    xmlns:s = \"http://schemas.xmlsoap.org/soap/envelope/\"\r\n" 
+	"    s:encodingStyle = \"http://schemas.xmlsoap.org/soap/encoding/\">\r\n" 
 	"  <s:Body>\r\n"
-	"    <u:QueryStateVariable xmlns:u=\"urn:schemas-upnp-org:control-1-0\">\r\n"
+	"    <u:QueryStateVariable xmlns:u = \"urn:schemas-upnp-org:control-1-0\">\r\n"
 	"      <u:varName>%s</u:varName>\r\n"
 	"    </u:QueryStateVariable>\r\n"
 	"  </s:Body>\r\n"
 	"</s:Envelope>\r\n";
 
-static const char add_port_mapping[] =
+static const char add_port_mapping[] = 
 	"      <NewRemoteHost></NewRemoteHost>\r\n"
 	"      <NewExternalPort>%i</NewExternalPort>\r\n"
 	"      <NewProtocol>%s</NewProtocol>\r\n"
@@ -89,12 +89,12 @@ static const char add_port_mapping[] =
 	"      <NewPortMappingDescription>Miranda</NewPortMappingDescription>\r\n"
 	"      <NewLeaseDuration>0</NewLeaseDuration>\r\n";
 
-static const char delete_port_mapping[] =
+static const char delete_port_mapping[] = 
 	"     <NewRemoteHost></NewRemoteHost>\r\n"
 	"     <NewExternalPort>%i</NewExternalPort>\r\n"
 	"     <NewProtocol>%s</NewProtocol>\r\n";
 
-static const char get_port_mapping[] =
+static const char get_port_mapping[] = 
 	"     <NewPortMappingIndex>%i</NewPortMappingIndex>\r\n";
 
 static bool gatewayFound;
@@ -249,7 +249,7 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 
 	const char* szPostHdr = soap_post_hdr;
 	char* szData = (char*)mir_alloc(4096);
-	char* szReq =  NULL;
+	char* szReq = NULL;
 
 	parseURL(szUrl, szHost, &sPort, szPath);
 
@@ -678,7 +678,7 @@ static void discoverUPnP(void)
 					}
 
 					txtParseParam(buf, NULL, "ST:", "\n", szDev, sizeof(szDev));
-					txtParseParam(buf, "max-age", "=", "\n", age, sizeof(age));
+					txtParseParam(buf, "max-age", " = ", "\n", age, sizeof(age));
 					expireTime = atoi(lrtrimp(age));
 					lrtrim(szDev);
 
@@ -784,7 +784,7 @@ void NetlibUPnPDeletePortMapping(WORD extport, char* proto)
 		mir_snprintf(szData, 4096, delete_port_mapping, extport, proto);
 		httpTransact(szCtlUrl, szData, 4096, "DeletePortMapping", ControlAction);
 
-		for (i = 0; i < numports; ++i)
+		for (i=0; i < numports; ++i)
 			if (portList[i] == extport && --numports > 0)
 				memmove(&portList[i], &portList[i+1], (numports - i) * sizeof(WORD));
 
@@ -802,7 +802,7 @@ void NetlibUPnPCleanup(void*)
 	{
 		int incoming = 0;
 		mir_cslock lck(csNetlibUser);
-		for (int i = 0; i < netlibUser.getCount(); ++i)
+		for (int i=0; i < netlibUser.getCount(); ++i)
 			if (netlibUser[i]->user.flags & NUF_INCOMING) {
 				incoming = 1;
 				break;
@@ -851,7 +851,7 @@ void NetlibUPnPCleanup(void*)
 				if (j >= SIZEOF(ports)) 
 					break;
 
-				for (k=0; k<numports; ++k)
+				for (k = 0; k<numports; ++k)
 					if (portList[k] == mport)
 						break;
 

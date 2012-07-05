@@ -138,7 +138,7 @@ static int RecvWithTimeoutTime(struct NetlibConnection *nlc, unsigned dwTimeoutT
 
 static char* NetlibHttpFindHeader(NETLIBHTTPREQUEST *nlhrReply, const char *hdr)
 {
-	for (int i = 0; i < nlhrReply->headersCount; i++) 
+	for (int i=0; i < nlhrReply->headersCount; i++) 
 	{
 		if (_stricmp(nlhrReply->headers[i].szName, hdr) == 0) 
 		{
@@ -154,7 +154,7 @@ static char* NetlibHttpFindAuthHeader(NETLIBHTTPREQUEST *nlhrReply, const char *
 	char *szNegoHdr = NULL;
 	char *szNtlmHdr = NULL;
 
-	for (int i = 0; i < nlhrReply->headersCount; i++) 
+	for (int i=0; i < nlhrReply->headersCount; i++) 
 	{
 		if (_stricmp(nlhrReply->headers[i].szName, hdr) == 0) 
 		{
@@ -423,12 +423,12 @@ static int SendHttpRequestAndData(struct NetlibConnection *nlc, struct Resizable
 
 INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 {
-	struct NetlibConnection *nlc=(struct NetlibConnection*)wParam;
-	NETLIBHTTPREQUEST *nlhr=(NETLIBHTTPREQUEST*)lParam;
+	struct NetlibConnection *nlc = (struct NetlibConnection*)wParam;
+	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)lParam;
 	NETLIBHTTPREQUEST *nlhrReply = NULL;
 	HttpSecurityContext httpSecurity;
 
-	struct ResizableCharBuffer httpRequest={0};
+	struct ResizableCharBuffer httpRequest = {0};
 	const char *pszRequest, *pszUrl, *pszFullUrl;
 	char *szHost = NULL, *szNewUrl = NULL;
 	char *pszProxyAuthHdr = NULL, *pszAuthHdr = NULL;
@@ -531,7 +531,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 							if (phost)
 							{
 								phost += 3;
-								size_t len =  phost - pszUrl;
+								size_t len = phost - pszUrl;
 								memcpy(szNewUrl, pszUrl, len); 
 								szNewUrl[len] = 0;
 							}
@@ -806,7 +806,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 
 INT_PTR NetlibHttpFreeRequestStruct(WPARAM, LPARAM lParam)
 {
-	NETLIBHTTPREQUEST *nlhr=(NETLIBHTTPREQUEST*)lParam;
+	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)lParam;
 
 	if (nlhr == NULL || nlhr->cbSize != sizeof(NETLIBHTTPREQUEST) || nlhr->requestType != REQUEST_RESPONSE)
 	{
@@ -950,7 +950,7 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 
 INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 {
-	NetlibUser *nlu =  (NetlibUser*)wParam;
+	NetlibUser *nlu = (NetlibUser*)wParam;
 	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)lParam, *nlhrReply;
 	DWORD dflags, hflags;
 
@@ -989,10 +989,10 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 			nlhrSend.headers[nlhrSend.headersCount].szValue = szUserAgent;
 			++nlhrSend.headersCount;
 			CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(szMirandaVer), (LPARAM)szMirandaVer);
-			pspace=strchr(szMirandaVer, ' ');
+			pspace = strchr(szMirandaVer, ' ');
 			if (pspace) 
 			{
-				*pspace++ = '\0';
+				*pspace++='\0';
 				mir_snprintf(szUserAgent, SIZEOF(szUserAgent), "Miranda/%s (%s)", szMirandaVer, pspace);
 			}
 			else 
@@ -1099,8 +1099,7 @@ char* gzip_decode(char *gzip_data, int *len_ptr, int window)
 	
 	gzip_len = gzip_err == Z_STREAM_END ? zstr.total_out : -1;
 	
-	if (gzip_len <= 0)
-	{
+	if (gzip_len <= 0) {
 		mir_free(output_data);
 		output_data = NULL;
 	}

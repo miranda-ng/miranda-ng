@@ -66,11 +66,11 @@ struct FileDlgData {
 };
 
 //file.c
-#define UNITS_BYTES     1   // 0<=size<1000: "%d bytes"
-#define UNITS_KBPOINT1	2	// 1000<=size<100*1024: "%.1f KB"
-#define UNITS_KBPOINT0  3   // 100*1024<=size<1024*1024: "%d KB"
-#define UNITS_MBPOINT2  4   // 1024*1024<=size: "%.2f MB"
-#define UNITS_GBPOINT3  5   // 1024*1024*1024<=size: "%.3f GB"
+#define UNITS_BYTES     1   // 0 <= size<1000: "%d bytes"
+#define UNITS_KBPOINT1	2	// 1000 <= size<100*1024: "%.1f KB"
+#define UNITS_KBPOINT0  3   // 100*1024 <= size<1024*1024: "%d KB"
+#define UNITS_MBPOINT2  4   // 1024*1024 <= size: "%.2f MB"
+#define UNITS_GBPOINT3  5   // 1024*1024*1024 <= size: "%.3f GB"
 
 void GetSensiblyFormattedSize(__int64 size, TCHAR *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);
 void FreeFilesMatrix(TCHAR ***files);	  //loving that triple indirection

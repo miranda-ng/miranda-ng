@@ -89,8 +89,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* DB/Contact/GetProfileName service
 Gets the name of the profile currently being used by the database module. This
 is the same as the filename of the database
-  wParam=(WPARAM)(UINT)cbName
-  lParam=(LPARAM)(char*)pszName
+  wParam = (WPARAM)(UINT)cbName
+  lParam = (LPARAM)(char*)pszName
 pszName is a pointer to the buffer that receives the name of the profile
 cbName is the size in bytes of the pszName buffer
 Returns 0 on success or nonzero otherwise
@@ -103,8 +103,8 @@ Get the path of the base folder where Miranda will store all individual profiles
 The returned path does NOT include a trailing backslash.
 Essentially this is what has been set in mirandaboot.ini as ProfileDir.
 For more options to retrieve profile paths check MS_UTILS_REPLACEVARS
-  wParam=(WPARAM)(UINT)cbName
-  lParam=(LPARAM)(char*)pszName
+  wParam = (WPARAM)(UINT)cbName
+  lParam = (LPARAM)(char*)pszName
 pszName is a pointer to the buffer that receives the path of the profile
 cbName is the size in bytes of the pszName buffer
 Returns 0 on success or nonzero otherwise
@@ -124,8 +124,8 @@ Returns 0 on success or nonzero otherwise
 
 /* DB/Contact/GetSetting service
 Look up the value of a named setting for a specific contact in the database
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(DBCONTACTGETSETTING*)&dbcgs
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = (LPARAM)(DBCONTACTGETSETTING*)&dbcgs
 hContact should have been returned by find*contact or addcontact
 Caller is responsible for free()ing dbcgs.pValue->pszVal and pbVal if they are
 returned. This should be done with db/contact/freevariant if you have your own
@@ -163,8 +163,8 @@ the dbcgs->type parameter
 
 /* DB/Contact/GetSettingStatic service
 Look up the value of a named setting for a specific contact in the database
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(DBCONTACTGETSETTING*)&dbcgs
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = (LPARAM)(DBCONTACTGETSETTING*)&dbcgs
 hContact should have been returned by find*contact or addcontact
 This service differs from db/contact/getsetting in that it won't malloc()
 memory for the return value if it needs to do so. This introduces some extra
@@ -191,8 +191,8 @@ was invalid.
 /* DB/Contact/FreeVariant service
 Free the memory in a DBVARIANT that is allocated by a call to
 db/contact/getsetting
-  wParam=0
-  lParam=(LPARAM)(DBVARIANT*)&dbv
+  wParam = 0
+  lParam = (LPARAM)(DBVARIANT*)&dbv
 Returns 0 on success, nonzero otherwise
 This service is actually just a wrapper around a call to free() and a test to
 check that it is a string or a blob in the variant. It exists because DLLs have
@@ -209,8 +209,8 @@ There's a helper function for this at the bottom of this header too.
 /* DB/Contact/WriteSetting service
 Change the value of, or create a new value with, a named setting for a specific
 contact in the database to the given value
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(DBCONTACTWRITESETTING*)&dbcws
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = (LPARAM)(DBCONTACTWRITESETTING*)&dbcws
 hContact should have been returned by find*contact or addcontact
 Returns 0 on success or nonzero if hContact was invalid
 Note that DBCONTACTGETSETTING takes a pointer to a DBVARIANT, whereas
@@ -229,14 +229,14 @@ typedef struct {
 
 /* DB/Contact/DeleteSetting service
 Removes a named setting for a specific contact from the database
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(DBCONTACTGETSETTING*)&dbcgs
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = (LPARAM)(DBCONTACTGETSETTING*)&dbcgs
 hContact should have been returned by find*contact or addcontact
 pValue from dbcgs is not used.
 Returns 0 on success or nonzero if the setting was not present or hContact was
 invalid
 Triggers a db/contact/settingchanged event before it deletes the setting. The
-'new value' of the setting is set to type=0 and all the other fields are
+'new value' of the setting is set to type = 0 and all the other fields are
 undefined.
 */
 #define MS_DB_CONTACT_DELETESETTING  "DB/Contact/DeleteSetting"
@@ -244,8 +244,8 @@ undefined.
 /* db/contact/enumsettings    v0.1.0.1+
 Lists all the settings a specific modules has stored in the database for a
 specific contact.
-wParam=(WPARAM)(HANDLE)hContact
-lParam=(LPARAM)(DBCONTACTENUMSETTINGS*)&dbces
+wParam = (WPARAM)(HANDLE)hContact
+lParam = (LPARAM)(DBCONTACTENUMSETTINGS*)&dbces
 Returns the return value of the last call to pfnEnumProc, or -1 if there are
 no settings for that module/contact pair
 Writing to or deleting from the database while enumerating will have
@@ -266,7 +266,7 @@ typedef struct {
 
 /* DB/Contact/GetCount service
 Gets the number of contacts in the database, which does not count the user
-  wParam=lParam=0
+  wParam = lParam = 0
 Returns the number of contacts. They can be retrieved using contact/findfirst
 and contact/findnext
 */
@@ -275,7 +275,7 @@ and contact/findnext
 /* DB/Contact/FindFirst service
 Gets the handle of the first contact in the database. This handle can be used
 with loads of functions. It does not need to be closed.
-  wParam=lParam=0
+  wParam = lParam = 0
 Returns a handle to the first contact in the db on success, or NULL if there
 are no contacts in the db.
 */
@@ -284,8 +284,8 @@ are no contacts in the db.
 /* DB/Contact/FindNext service
 Gets the handle of the next contact after hContact in the database. This handle
 can be used with loads of functions. It does not need to be closed.
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=0
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = 0
 Returns a handle to the contact after hContact in the db on success or NULL if
 hContact was the last contact in the db or hContact was invalid.
 */
@@ -294,10 +294,10 @@ hContact was the last contact in the db or hContact was invalid.
 /* DB/Contact/Delete
 Deletes the contact hContact from the database and all events and settings
 associated with it.
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=0
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = 0
 Returns 0 on success or nonzero if hContact was invalid
-Please don't try to delete the user contact (hContact=NULL)
+Please don't try to delete the user contact (hContact = NULL)
 Triggers a db/contact/deleted event just *before* it removes anything
 Because all events are deleted, lots of people may end up with invalid event
 handles from this operation, which they should be prepared for.
@@ -307,7 +307,7 @@ handles from this operation, which they should be prepared for.
 /* DB/Contact/Add
 Adds a new contact to the database. New contacts initially have no settings
 whatsoever, they must all be added with db/contacts/writesetting.
-  wParam=lParam=0
+  wParam = lParam = 0
 Returns a handle to the newly created contact on success, or NULL otherwise.
 Triggers a db/contact/added event just before it returns.
 */
@@ -317,8 +317,8 @@ Triggers a db/contact/added event just before it returns.
 Checks if a given value is a valid contact handle, note that due
 to the nature of multiple threading, a valid contact can still become
 invalid after a call to this service.
-	wParam=(WPARAM)hContact
-	lParam=0
+	wParam = (WPARAM)hContact
+	lParam = 0
 Returns 1 if the contact is a contact, or 0 if the contact is not valid.
 */
 #define MS_DB_CONTACT_IS "DB/Contact/Is"
@@ -332,8 +332,8 @@ will be called. For example, for module named 'foo' and event id 2000 a service
 foo/GetEventText2000 should be defined to process this request. That handler should
 decode a blob and return the event text in the required format, its prototype is identical
 to a call of MS_DB_EVENT_GETTEXT (see below)
-  wParam=0
-  lParam=(LPARAM)(DBEVENTTYPEDESCR*)
+  wParam = 0
+  lParam = (LPARAM)(DBEVENTTYPEDESCR*)
 Always returns 0.
 */
 
@@ -363,8 +363,8 @@ typedef struct
 
 /* DB/EventType/Get service (0.7+)
 Retrieves the previously registered database event type, by module & id.
-  wParam=(WPARAM)(char*)szModule
-  lParam=(LPARAM)(int)eventType
+  wParam = (WPARAM)(char*)szModule
+  lParam = (LPARAM)(int)eventType
 Returns DBEVENTTYPEDESCR* or NULL, if an event isn't found.
 */
 
@@ -372,8 +372,8 @@ Returns DBEVENTTYPEDESCR* or NULL, if an event isn't found.
 
 /* DB/Event/GetCount service
 Gets the number of events in the chain belonging to a contact in the database.
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=0
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = 0
 Returns the number of events in the chain owned by hContact or -1 if hContact
 is invalid. They can be retrieved using the event/find* services.
 */
@@ -381,8 +381,8 @@ is invalid. They can be retrieved using the event/find* services.
 
 /* DB/Event/Add
 Adds a new event to a contact's event list
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(DBEVENTINFO*)&dbe
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = (LPARAM)(DBEVENTINFO*)&dbe
 Returns a handle to the newly added event, or NULL on failure
 Triggers a db/event/added event just before it returns.
 Events are sorted chronologically as they are entered, so you cannot guarantee
@@ -426,8 +426,8 @@ typedef struct {
 
 /* DB/Event/Delete
 Removes a single event from the database
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(HANDLE)hDbEvent
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = (LPARAM)(HANDLE)hDbEvent
 hDbEvent should have been returned by db/event/add or db/event/find*event
 Returns 0 on success, or nonzero if hDbEvent was invalid
 Triggers a db/event/deleted event just *before* the event is deleted
@@ -436,8 +436,8 @@ Triggers a db/event/deleted event just *before* the event is deleted
 
 /* DB/Event/GetBlobSize
 Retrieves the space in bytes required to store the blob in hDbEvent
-  wParam=(WPARAM)(HANDLE)hDbEvent
-  lParam=0
+  wParam = (WPARAM)(HANDLE)hDbEvent
+  lParam = 0
 hDbEvent should have been returned by db/event/add or db/event/find*event
 Returns the space required in bytes, or -1 if hDbEvent is invalid
 */
@@ -445,8 +445,8 @@ Returns the space required in bytes, or -1 if hDbEvent is invalid
 
 /* DB/Event/Get
 Retrieves all the information stored in hDbEvent
-  wParam=(WPARAM)(HANDLE)hDbEvent
-  lParam=(LPARAM)(DBEVENTINFO*)&dbe
+  wParam = (WPARAM)(HANDLE)hDbEvent
+  lParam = (LPARAM)(DBEVENTINFO*)&dbe
 hDbEvent should have been returned by db/event/add or db/event/find*event
 Returns 0 on success or nonzero if hDbEvent is invalid
 Don't forget to set dbe.cbSize, dbe.pBlob and dbe.cbBlob before calling this
@@ -463,8 +463,8 @@ of modules. Look but don't touch.
 
 /* DB/Event/GetText (0.7.0+)
 Retrieves the event's text
-  wParam=(WPARAM)0 (unused)
-  lParam=(LPARAM)(DBEVENTGETTEXT*)egt - pointer to structure with parameters
+  wParam = (WPARAM)0 (unused)
+  lParam = (LPARAM)(DBEVENTGETTEXT*)egt - pointer to structure with parameters
   egt->dbei should be the valid database event read via MS_DB_EVENT_GET
   egt->datatype = DBVT_WCHAR or DBVT_ASCIIZ or DBVT_TCHAR. If a caller wants to
 suppress Unicode part of event in answer, add DBVTF_DENYUNICODE to this field.
@@ -498,8 +498,8 @@ __inline static TCHAR* DbGetEventTextT(DBEVENTINFO* dbei, int codepage)
 
 /* DB/Event/GetIcon (0.7.0.1+)
 Retrieves the event's icon
-  wParam=(WPARAM)(int)flags - use LR_SHARED for shared HICON
-  lParam=(LPARAM)(DBEVENTINFO*)dbei
+  wParam = (WPARAM)(int)flags - use LR_SHARED for shared HICON
+  lParam = (LPARAM)(DBEVENTINFO*)dbei
 dbei should be a valid database event read via MS_DB_EVENT_GET
 
 Function returns HICON (use DestroyIcon to release resources if not LR_SHARED)
@@ -514,8 +514,8 @@ same parameters MS_DB_EVENT_GETICON does.
 
 /* DB/Event/GetString (0.9.0+)
 Converts the event's string to TCHAR* depending on the event's format
-  wParam=(LPARAM)(DBEVENTINFO*)dbei
-  lParam=(WPARAM)(char*)str - string to be converted
+  wParam = (LPARAM)(DBEVENTINFO*)dbei
+  lParam = (WPARAM)(char*)str - string to be converted
   returns TCHAR* - the converted string
 Caller must free the result using mir_free
 */
@@ -529,8 +529,8 @@ __inline static TCHAR* DbGetEventStringT(DBEVENTINFO* dbei, const char* str)
 
 /* DB/Event/MarkRead
 Changes the flags for an event to mark it as read.
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(HANDLE)hDbEvent
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = (LPARAM)(HANDLE)hDbEvent
 hDbEvent should have been returned by db/event/add or db/event/find*event
 Returns the entire flag DWORD for the event after the change, or -1 if hDbEvent
 is invalid.
@@ -541,8 +541,8 @@ Modules should not save flags states for any length of time.
 
 /* DB/Event/GetContact
 Retrieves a handle to the contact that owns hDbEvent.
-  wParam=(WPARAM)(HANDLE)hDbEvent
-  lParam=0
+  wParam = (WPARAM)(HANDLE)hDbEvent
+  lParam = 0
 hDbEvent should have been returned by db/event/add or db/event/find*event
 NULL is a valid return value, meaning, as usual, the user.
 Returns (HANDLE)(-1) if hDbEvent is invalid, or the handle to the contact on
@@ -554,8 +554,8 @@ all.
 
 /* DB/Event/FindFirst
 Retrieves a handle to the first event in the chain for hContact
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=0
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = 0
 Returns the handle, or NULL if hContact is invalid or has no events
 Events in a chain are sorted chronologically automatically
 */
@@ -563,8 +563,8 @@ Events in a chain are sorted chronologically automatically
 
 /* DB/Event/FindFirstUnread
 Retrieves a handle to the first unread event in the chain for hContact
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=0
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = 0
 Returns the handle, or NULL if hContact is invalid or all its events have been
 read
 Events in a chain are sorted chronologically automatically, but this does not
@@ -577,8 +577,8 @@ unread from last time
 
 /* DB/Event/FindLast
 Retrieves a handle to the last event in the chain for hContact
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=0
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = 0
 Returns the handle, or NULL if hContact is invalid or has no events
 Events in a chain are sorted chronologically automatically
 */
@@ -586,8 +586,8 @@ Events in a chain are sorted chronologically automatically
 
 /* DB/Event/FindNext
 Retrieves a handle to the next event in a chain after hDbEvent
-  wParam=(WPARAM)(HANDLE)hDbEvent
-  lParam=0
+  wParam = (WPARAM)(HANDLE)hDbEvent
+  lParam = 0
 Returns the handle, or NULL if hDbEvent is invalid or is the last event
 Events in a chain are sorted chronologically automatically
 */
@@ -595,8 +595,8 @@ Events in a chain are sorted chronologically automatically
 
 /* DB/Event/FindPrev
 Retrieves a handle to the previous event in a chain before hDbEvent
-  wParam=(WPARAM)(HANDLE)hDbEvent
-  lParam=0
+  wParam = (WPARAM)(HANDLE)hDbEvent
+  lParam = 0
 Returns the handle, or NULL if hDbEvent is invalid or is the first event
 Events in a chain are sorted chronologically automatically
 */
@@ -606,8 +606,8 @@ Events in a chain are sorted chronologically automatically
 
 /* DB/Crypt/EncodeString
 Scrambles pszString in-place using a strange encryption algorithm
-  wParam=(WPARAM)(int)cbString
-  lParam=(LPARAM)(char*)pszString
+  wParam = (WPARAM)(int)cbString
+  lParam = (LPARAM)(char*)pszString
 cbString is the size of the buffer pointed to by pszString, *not* the length
 of pszString. This service may be changed at a later date such that it
 increases the length of pszString
@@ -617,8 +617,8 @@ Returns 0 always
 
 /* DB/Crypt/DecodeString
 Descrambles pszString in-place using the strange encryption algorithm
-  wParam=(WPARAM)(int)cbString
-  lParam=(LPARAM)(char*)pszString
+  wParam = (WPARAM)(int)cbString
+  lParam = (LPARAM)(char*)pszString
 Reverses the operation done by crypt/encodestring
 cbString is the size of the buffer pointed to by pszString, *not* the length
 of pszString.
@@ -630,8 +630,8 @@ Returns 0 always
 
 /* DB/Time/TimestampToLocal
 Converts a GMT timestamp into local time
-  wParam=(WPARAM)(DWORD)timestamp
-  lParam=0
+  wParam = (WPARAM)(DWORD)timestamp
+  lParam = 0
 Returns the converted value
 Timestamps have zero at midnight 1/1/1970 GMT, this service converts such a
 value to be based at midnight 1/1/1970 local time.
@@ -648,8 +648,8 @@ disadvantages :-)).
 
 /* DB/Time/TimestampToString
 Converts a GMT timestamp into a customisable local time string
-  wParam=(WPARAM)(DWORD)timestamp
-  lParam=(LPARAM)(DBTIMETOSTRING*)&tts
+  wParam = (WPARAM)(DWORD)timestamp
+  lParam = (LPARAM)(DBTIMETOSTRING*)&tts
 Returns 0 always
 Uses db/time/timestamptolocal for the conversion so read that description to
 see what's going on.
@@ -682,8 +682,8 @@ typedef struct {
 
 /*
 Switches safety settings on or off
-wParam=(WPARAM)(BOOL)newSetting
-lParam=0
+wParam = (WPARAM)(BOOL)newSetting
+lParam = 0
 returns 0 always
 newSetting is TRUE initially.
 Miranda's database is normally protected against corruption by agressively
@@ -702,8 +702,8 @@ so you need not use this service for that purpose.
 /* db/modules/enum   v0.1.0.1+
 Enumerates the names of all modules that have stored or requested information
 from the database.
-wParam=lParam
-lParam=(WPARAM)(DBMODULEENUMPROC)dbmep
+wParam = lParam
+lParam = (WPARAM)(DBMODULEENUMPROC)dbmep
 Returns the value returned by the last call to dbmep
 This service is only really useful for debugging, in conjunction with
 db/contact/enumsettings
@@ -718,7 +718,7 @@ szModuleName is only guaranteed to be valid for the duration of the callback.
 If you want to keep it for longer you must allocation your own storage.
 **BUG**: Prior to 0.1.2.0 dbmep was called as (lParam)(szMod, ofsMod, lParam).
   This means that the lParam parameter to dbmep was useless, and explains the
-  slightly odd 'wParam=lParam' in the definition.
+  slightly odd 'wParam = lParam' in the definition.
 */
 typedef int (*DBMODULEENUMPROC)(const char *szModuleName, DWORD ofsModuleName, LPARAM lParam);
 #define MS_DB_MODULES_ENUM    "DB/Modules/Enum"
@@ -726,8 +726,8 @@ typedef int (*DBMODULEENUMPROC)(const char *szModuleName, DWORD ofsModuleName, L
 /* DB/Module/Delete  0.8.0+
 
 Removes all settings for the specified module.
-wParam=0 (unused)
-lParam=(LPARAM)(char*)szModuleName - the module name to be deleted
+wParam = 0 (unused)
+lParam = (LPARAM)(char*)szModuleName - the module name to be deleted
 */
 
 #define MS_DB_MODULE_DELETE "DB/Module/Delete"
@@ -738,8 +738,8 @@ lParam=(LPARAM)(char*)szModuleName - the module name to be deleted
 
 /* DB/Event/Added event
 Called when a new event has been added to the event chain for a contact
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(HANDLE)hDbEvent
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = (LPARAM)(HANDLE)hDbEvent
 hDbEvent is a valid handle to the event. hContact is a valid handle to the
 contact to which hDbEvent refers.
 Since events are sorted chronologically, you cannot guarantee that hDbEvent is
@@ -756,8 +756,8 @@ passed to MS_DB_EVENT_ADD.
 The point of this hook is to stop any unwanted database events, to stop
 an event being added, return 1, to allow the event to pass through return
 0.
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)&DBEVENTINFO
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = (LPARAM)&DBEVENTINFO
 
 Any changed made to the said DBEVENTINFO are also passed along to the database,
 therefore it is possible to shape the data, however DO NOT DO THIS.
@@ -766,8 +766,8 @@ therefore it is possible to shape the data, however DO NOT DO THIS.
 
 /* DB/Event/Deleted event
 Called when an event is about to be deleted from the event chain for a contact
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(HANDLE)hDbEvent
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = (LPARAM)(HANDLE)hDbEvent
 hDbEvent is a valid handle to the event which is about to be deleted, but it
 won't be once your hook has returned.
 hContact is a valid handle to the contact to which hDbEvent refers, and will
@@ -779,8 +779,8 @@ usual, stop other hooks from being called.
 
 /* DB/Contact/Added event
 Called when a new contact has been added to the database
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=0
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = 0
 hContact is a valid handle to the new contact.
 Contacts are initially created without any settings, so if you hook this event
 you will almost certainly also want to hook db/contact/settingchanged as well.
@@ -789,8 +789,8 @@ you will almost certainly also want to hook db/contact/settingchanged as well.
 
 /* DB/Contact/Deleted event
 Called when an contact is about to be deleted
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=0
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = 0
 hContact is a valid handle to the contact which is about to be deleted, but it
 won't be once your hook has returned.
 Returning nonzero from your hook will not stop the deletion, but it will, as
@@ -801,8 +801,8 @@ Deleting a contact invalidates all events in its chain.
 
 /* DB/Contact/SettingChanged event
 Called when a contact has had one of its settings changed
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(DBCONTACTWRITESETTING*)&dbcws
+  wParam = (WPARAM)(HANDLE)hContact
+  lParam = (LPARAM)(DBCONTACTWRITESETTING*)&dbcws
 hContact is a valid handle to the contact that has changed.
 This event will be triggered many times rapidly when a whole bunch of values
 are set.
@@ -816,8 +816,8 @@ don't change any of the members.
 
 /* DB/Contact/SetSettingResident service (0.6+)
 Disables a setting saving to the database.
-  wParam=(WPARAM)(BOOL)bIsResident
-  lParam=(LPARAM)(char*)pszSettingName
+  wParam = (WPARAM)(BOOL)bIsResident
+  lParam = (LPARAM)(char*)pszSettingName
 */
 #define MS_DB_SETSETTINGRESIDENT "DB/SetSettingResident"
 

@@ -237,7 +237,7 @@ void UpdateFontSettings(FontIDW* font_id, FontSettingsT* fontsettings)
 		colour = GetColorFromDefault(font_id->deffontsettings.colour);
 	}
 
-	fontsettings->style =
+	fontsettings->style = 
 		(lf.lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 
 	fontsettings->size = (char)lf.lfHeight;
@@ -288,7 +288,7 @@ static int sttRegisterFontWorker(FontIDW* font_id, int hLangpack)
 	if (font_id->cbSize != sizeof(FontIDW) && font_id->cbSize != FontIDW_OLDSIZE)
 		return -1;
 
-	for (int i = 0; i < font_id_list.getCount(); i++) {
+	for (int i=0; i < font_id_list.getCount(); i++) {
 		FontInternal& F = font_id_list[i];
 		if ( !lstrcmp(F.group, font_id->group) && !lstrcmp(F.name, font_id->name) && !(F.flags & FIDF_ALLOWREREGISTER))
 			return 1;
@@ -335,7 +335,7 @@ static INT_PTR sttGetFontWorker(FontIDW* font_id, LOGFONT* lf)
 {
 	COLORREF colour;
 
-	for (int i = 0; i < font_id_list.getCount(); i++) {
+	for (int i=0; i < font_id_list.getCount(); i++) {
 		FontInternal& F = font_id_list[i];
 		if ( !_tcsncmp(F.name, font_id->name, SIZEOF(F.name)) && !_tcsncmp(F.group, font_id->group, SIZEOF(F.group))) {
 			if (GetFontSettingFromDB(F.dbSettingsGroup, F.prefix, lf, &colour, F.flags) && (F.flags & FIDF_DEFAULTVALID)) {
@@ -372,7 +372,7 @@ INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
 
 void KillModuleFonts(int hLangpack)
 {
-	for (int i=font_id_list.getCount()-1; i >= 0; i--)
+	for (int i = font_id_list.getCount()-1; i >= 0; i--)
 		if ( font_id_list[i].hLangpack == hLangpack)
 			font_id_list.remove(i);
 }
@@ -390,7 +390,7 @@ static INT_PTR sttRegisterColourWorker(ColourIDW* colour_id, int hLangpack)
 	if (colour_id->cbSize != sizeof(ColourIDW))
 		return -1;
 
-	for (int i = 0; i < colour_id_list.getCount(); i++) {
+	for (int i=0; i < colour_id_list.getCount(); i++) {
 		ColourInternal& C = colour_id_list[i];
 		if ( !_tcscmp(C.group, colour_id->group) && !_tcscmp(C.name, colour_id->name))
 			return 1;
@@ -422,7 +422,7 @@ INT_PTR RegisterColour(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR sttGetColourWorker(ColourIDW* colour_id)
 {
-	for (int i = 0; i < colour_id_list.getCount(); i++) {
+	for (int i=0; i < colour_id_list.getCount(); i++) {
 		ColourInternal& C = colour_id_list[i];
 		if ( !_tcscmp(C.group, colour_id->group) && !_tcscmp(C.name, colour_id->name))
 			return DBGetContactSettingDword(NULL, C.dbSettingsGroup, C.setting, GetColorFromDefault(C.defcolour));
@@ -447,7 +447,7 @@ INT_PTR GetColour(WPARAM wParam, LPARAM)
 
 void KillModuleColours(int hLangpack)
 {
-	for (int i=colour_id_list.getCount()-1; i >= 0; i--)
+	for (int i = colour_id_list.getCount()-1; i >= 0; i--)
 		if (colour_id_list[i].hLangpack == hLangpack)
 			colour_id_list.remove(i);
 }
@@ -476,7 +476,7 @@ static INT_PTR sttRegisterEffectWorker(EffectIDW* effect_id, int hLangpack)
 	if (effect_id->cbSize != sizeof(EffectIDW))
 		return -1;
 
-	for (int i = 0; i < effect_id_list.getCount(); i++) {
+	for (int i=0; i < effect_id_list.getCount(); i++) {
 		EffectInternal& E = effect_id_list[i];
 		if ( !_tcscmp(E.group, effect_id->group) && !_tcscmp(E.name, effect_id->name))
 			return 1;
@@ -508,14 +508,14 @@ INT_PTR RegisterEffect(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR sttGetEffectWorker(EffectIDW* effect_id, FONTEFFECT* effect)
 {
-	for (int i = 0; i < effect_id_list.getCount(); i++) {
+	for (int i=0; i < effect_id_list.getCount(); i++) {
 		EffectInternal& E = effect_id_list[i];
 		if ( !_tcsncmp(E.name, effect_id->name, SIZEOF(E.name)) && !_tcsncmp(E.group, effect_id->group, SIZEOF(E.group))) {
 			FONTEFFECT temp;
 			UpdateEffectSettings(effect_id, &temp);
 
 			effect->effectIndex = temp.effectIndex;
-			effect->baseColour  = temp.baseColour;
+			effect->baseColour = temp.baseColour;
 			effect->secondaryColour = temp.secondaryColour;
 			return TRUE;
 	}	}
@@ -539,7 +539,7 @@ INT_PTR GetEffect(WPARAM wParam, LPARAM lParam)
 
 void KillModuleEffects(int hLangpack)
 {
-	for (int i=effect_id_list.getCount()-1; i >= 0; i--)
+	for (int i = effect_id_list.getCount()-1; i >= 0; i--)
 		if (effect_id_list[i].hLangpack == hLangpack)
 			effect_id_list.remove(i);
 }

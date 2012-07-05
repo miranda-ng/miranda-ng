@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #undef _ASSERT
 #endif
 #define _ASSERT(n)
-// http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/resources/introductiontoresources/resourcereference/resourcestructures/newheader.asp
+// http://msdn.microsoft.com/library/default.asp?url = /library/en-us/winui/winui/windowsuserinterface/resources/introductiontoresources/resourcereference/resourcestructures/newheader.asp
 typedef struct
 {
 	WORD    Reserved;
@@ -53,7 +53,7 @@ void* _RelativeVirtualAddresstoPtr(IMAGE_DOS_HEADER* pDosHeader, DWORD rva)
 	IMAGE_SECTION_HEADER* pSection = IMAGE_FIRST_SECTION(pPE);
 	int i;
 
-	for (i = 0; i < pPE->FileHeader.NumberOfSections; i++) {
+	for (i=0; i < pPE->FileHeader.NumberOfSections; i++) {
 		IMAGE_SECTION_HEADER* cSection = &pSection[i];
 		DWORD size = cSection->Misc.VirtualSize ? cSection->Misc.VirtualSize : cSection->SizeOfRawData;
 
@@ -103,7 +103,7 @@ IMAGE_RESOURCE_DIRECTORY_ENTRY* _FindResourceBase(void* prt, int resType, int* p
 	count = pDir->NumberOfIdEntries + pDir->NumberOfNamedEntries;
 	pRes = (IMAGE_RESOURCE_DIRECTORY_ENTRY*)(pDir+1);
 
-	for (i = 0; i < count; i++)
+	for (i=0; i < count; i++)
 		if (pRes[i].Name == (DWORD)resType) break;
 
 	if (i == count) return NULL;
@@ -111,7 +111,7 @@ IMAGE_RESOURCE_DIRECTORY_ENTRY* _FindResourceBase(void* prt, int resType, int* p
 	pDir = (IMAGE_RESOURCE_DIRECTORY*)((LPBYTE)prt + 
 		(pRes[i].OffsetToData & ~IMAGE_RESOURCE_DATA_IS_DIRECTORY));
 
-	count  = pDir->NumberOfIdEntries + pDir->NumberOfNamedEntries;
+	count = pDir->NumberOfIdEntries + pDir->NumberOfNamedEntries;
 	*pCount = count;
 	pRes = (IMAGE_RESOURCE_DIRECTORY_ENTRY*)(pDir+1);
 

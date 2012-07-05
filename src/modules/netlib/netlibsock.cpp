@@ -106,7 +106,7 @@ static int ConnectionListToSocketList(HANDLE *hConns, fd_set *fd, int& pending)
 	int i;
 
 	FD_ZERO(fd);
-	for (i = 0; hConns[i] && hConns[i] != INVALID_HANDLE_VALUE && i < FD_SETSIZE; i++)
+	for (i=0; hConns[i] && hConns[i] != INVALID_HANDLE_VALUE && i < FD_SETSIZE; i++)
 	{
 		nlcCheck = (NetlibConnection*)hConns[i];
 		if (nlcCheck->handleType != NLH_CONNECTION && nlcCheck->handleType != NLH_BOUNDPORT)
@@ -131,8 +131,8 @@ INT_PTR NetlibSelect(WPARAM, LPARAM lParam)
 	}
 
 	TIMEVAL tv;
-	tv.tv_sec=nls->dwTimeout/1000;
-	tv.tv_usec=(nls->dwTimeout%1000)*1000;
+	tv.tv_sec = nls->dwTimeout/1000;
+	tv.tv_usec = (nls->dwTimeout%1000)*1000;
 
 	int pending = 0;
 	fd_set readfd, writefd, exceptfd;
@@ -305,7 +305,7 @@ static NETLIBIPLIST* GetMyIpv6(unsigned flags)
 	NETLIBIPLIST *addr = (NETLIBIPLIST*)mir_calloc(n * 64 + 4);
 	addr->cbNum = n;
 
-	unsigned i = 0;
+	unsigned i=0;
 	for (ai = air; ai; ai = ai->ai_next)
 	{
 		SOCKADDR_INET_M* iaddr = (SOCKADDR_INET_M*)ai->ai_addr;
@@ -336,7 +336,7 @@ static NETLIBIPLIST* GetMyIpv4(void)
 	NETLIBIPLIST *addr = (NETLIBIPLIST*)mir_calloc(n * 64 + 4);
 	addr->cbNum = n;
 
-	for (unsigned i = 0; i < n; ++i) 
+	for (unsigned i=0; i < n; ++i) 
 		strcpy(addr->szIp[i], inet_ntoa(*(PIN_ADDR)he->h_addr_list[i]));
 
 	return addr;

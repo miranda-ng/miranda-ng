@@ -33,29 +33,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_protocols.h"
 
 //notify the protocol manager that you're around
-//wParam=0
-//lParam=(PROTOCOLDESCRIPTOR*)&descriptor
+//wParam = 0
+//lParam = (PROTOCOLDESCRIPTOR*)&descriptor
 //returns 0 on success, nonzero on failure
 //This service must be called in your module's Load(void) routine.
 //descriptor.type can be a value other than the PROTOTYPE_ constants specified
 //above to provide more precise positioning information for the contact
 //protocol lists. It is strongly recommended that you give values relative to
-//the constants, however, by adding or subtracting small integers (<=100).
+//the constants, however, by adding or subtracting small integers ( <= 100).
 //PROTOTYPE_PROTOCOL modules must not do this. The value must be exact.
 //See MS_PROTO_ENUMPROTOCOLS for more notes.
 #define MS_PROTO_REGISTERMODULE    "Proto/RegisterModule"
 
 //adds the specified protocol module to the chain for a contact
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)(const char*)szName
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)(const char*)szName
 //returns 0 on success, nonzero on failure
 //The module is added in the correct position according to the type given when
 //it was registered.
 #define MS_PROTO_ADDTOCONTACT      "Proto/AddToContact"
 
 //removes the specified protocol module from the chain for a contact
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)(const char*)szName
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)(const char*)szName
 //returns 0 on success, nonzero on failure
 #define MS_PROTO_REMOVEFROMCONTACT      "Proto/RemoveFromContact"
 
@@ -63,7 +63,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //Protocol services are called with wParam and lParam as standard if they are
 //to be called with CallProtoServiceInt(NULL,) (as PS_ services are)
 //If they are called with CallContactService() (PSS_ and PSR_ services) then
-//they are called with lParam=(CCSDATA*)&ccs and wParam an opaque internal
+//they are called with lParam = (CCSDATA*)&ccs and wParam an opaque internal
 //reference that should be passed unchanged to MS_PROTO_CHAIN*.
 __inline static HANDLE CreateProtoServiceFunction(const char *szModule, const char *szService, MIRANDASERVICE serviceProc)
 {
@@ -74,8 +74,8 @@ __inline static HANDLE CreateProtoServiceFunction(const char *szModule, const ch
 }
 
 //Call the next service in the chain for this send operation
-//wParam=wParam
-//lParam=lParam
+//wParam = wParam
+//lParam = lParam
 //The return value should be returned immediately
 //wParam and lParam should be passed as the parameters that your service was
 //called with. wParam must remain untouched but lParam is a CCSDATA structure
@@ -85,8 +85,8 @@ __inline static HANDLE CreateProtoServiceFunction(const char *szModule, const ch
 #define MS_PROTO_CHAINSEND       "Proto/ChainSend"
 
 //Call the next service in the chain for this receive operation
-//wParam=wParam
-//lParam=lParam
+//wParam = wParam
+//lParam = lParam
 //The return value should be returned immediately
 //wParam and lParam should be passed as the parameters that your service was
 //called with. wParam must remain untouched but lParam is a CCSDATA structure
@@ -100,19 +100,19 @@ __inline static HANDLE CreateProtoServiceFunction(const char *szModule, const ch
 #define MS_PROTO_CHAINRECV       "Proto/ChainRecv"
 
 //Broadcast a ME_PROTO_ACK event
-//wParam=0
-//lParam=(LPARAM)(ACKDATA*)&ack
+//wParam = 0
+//lParam = (LPARAM)(ACKDATA*)&ack
 //returns the return value of the notifyeventhooks() call
 //Thread safety: me_proto_ack is completely thread safe since 0.1.2.0
 //See the notes in core/modules.h under NotifyEventHooks()
 #define MS_PROTO_BROADCASTACK    "Proto/BroadcastAck"
 __inline static INT_PTR ProtoBroadcastAck(const char *szModule, HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
-	ACKDATA ack={0};
-	ack.cbSize=sizeof(ACKDATA);
-	ack.szModule=szModule; ack.hContact=hContact;
-	ack.type=type; ack.result=result;
-	ack.hProcess=hProcess; ack.lParam=lParam;
+	ACKDATA ack = {0};
+	ack.cbSize = sizeof(ACKDATA);
+	ack.szModule = szModule; ack.hContact = hContact;
+	ack.type = type; ack.result = result;
+	ack.hProcess = hProcess; ack.lParam = lParam;
 	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
 }
 

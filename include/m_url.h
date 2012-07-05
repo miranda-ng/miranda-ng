@@ -25,8 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_URL_H__ 1
 
 //bring up the send URL dialog for a user
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = 0
 //returns 0 on success or nonzero on failure
 //returns immediately, before the url is sent
 #define MS_URL_SENDURL    "SRUrl/SendCommand"

@@ -45,7 +45,7 @@ static INT_PTR DbEventTypeRegister(WPARAM, LPARAM lParam)
 		p->cbSize = DBEVENTTYPEDESCR_SIZE;
 		p->module = mir_strdup(et->module);
 		p->eventType = et->eventType; 
-		p->descr  = mir_strdup(et->descr);
+		p->descr = mir_strdup(et->descr);
 		p->textService = NULL;
 		p->iconService = NULL;
 		p->eventIcon = NULL;
@@ -132,7 +132,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
         }
 		else {
 			size_t msglen = strlen((char*)dbei->pBlob) + 1, msglenW = 0;
-			if (msglen !=  dbei->cbBlob) {
+			if (msglen != dbei->cbBlob) {
 				size_t i, count = ((dbei->cbBlob - msglen) / sizeof(WCHAR));
 				WCHAR* p = (WCHAR*)&dbei->pBlob[ msglen ];
 				for (i=0; i < count; i++) {
@@ -231,7 +231,7 @@ static INT_PTR DbDeleteModule(WPARAM, LPARAM lParam)
 	dbces.szModule = (char*)lParam;
 	CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbces);
 
-	for (int i=vars.getCount()-1; i >= 0; i--) {
+	for (int i = vars.getCount()-1; i >= 0; i--) {
 		DBDeleteContactSetting(NULL, (char*)lParam, vars[i]);
 		mir_free(vars[i]);
 	}

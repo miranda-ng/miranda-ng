@@ -241,12 +241,12 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	}
 
 	unsigned i, ressz = 0;
-	for (i = 0; i < outBuffersDesc.cBuffers; i++) 
+	for (i=0; i < outBuffersDesc.cBuffers; i++) 
 		ressz += outBuffersDesc.pBuffers[i].cbBuffer;
 
 
 	unsigned char *response = (unsigned char*)alloca(ressz), *p = response;
-	for (i = 0; i < outBuffersDesc.cBuffers; i++) 
+	for (i=0; i < outBuffersDesc.cBuffers; i++) 
 	{
 		memcpy(p, outBuffersDesc.pBuffers[i].pvBuffer, outBuffersDesc.pBuffers[i].cbBuffer);
 		p += outBuffersDesc.pBuffers[i].cbBuffer;
@@ -430,7 +430,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		char *szAuth = (char*)alloca(authLen);
 		
 		nlb64.cbDecoded = mir_snprintf(szAuth, authLen, "%s:%s", szLogin, szPassw);
-		nlb64.pbDecoded=(PBYTE)szAuth;
+		nlb64.pbDecoded = (PBYTE)szAuth;
 		complete = true;
 
 		mir_free(szPassw);

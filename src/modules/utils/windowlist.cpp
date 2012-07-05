@@ -22,9 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
 
-static WINDOWLISTENTRY *windowList=NULL;
-static int windowListCount=0;
-static int nextWindowListId=1;
+static WINDOWLISTENTRY *windowList = NULL;
+static int windowListCount = 0;
+static int nextWindowListId = 1;
 
 static INT_PTR AllocWindowList(WPARAM, LPARAM)
 {
@@ -33,8 +33,8 @@ static INT_PTR AllocWindowList(WPARAM, LPARAM)
 
 static INT_PTR AddToWindowList(WPARAM, LPARAM lParam)
 {
-	windowList=(WINDOWLISTENTRY*)mir_realloc(windowList, sizeof(WINDOWLISTENTRY)*(windowListCount+1));
-	windowList[windowListCount++]=*(WINDOWLISTENTRY*)lParam;
+	windowList = (WINDOWLISTENTRY*)mir_realloc(windowList, sizeof(WINDOWLISTENTRY)*(windowListCount+1));
+	windowList[windowListCount++] = *(WINDOWLISTENTRY*)lParam;
 	return 0;
 }
 
@@ -62,7 +62,7 @@ static INT_PTR FindInWindowList(WPARAM wParam, LPARAM lParam)
 static INT_PTR BroadcastToWindowList(WPARAM wParam, LPARAM lParam)
 {
 	int i;
-	MSG *msg=(MSG*)lParam;
+	MSG *msg = (MSG*)lParam;
 	for (i=0;i<windowListCount;i++)
 		if (windowList[i].hList == (HANDLE)wParam)
 			SendMessage(windowList[i].hwnd, msg->message, msg->wParam, msg->lParam);
@@ -72,7 +72,7 @@ static INT_PTR BroadcastToWindowList(WPARAM wParam, LPARAM lParam)
 static INT_PTR BroadcastToWindowListAsync(WPARAM wParam, LPARAM lParam)
 {
 	int i;
-	MSG *msg=(MSG*)lParam;
+	MSG *msg = (MSG*)lParam;
 	for (i=0;i<windowListCount;i++)
 		if (windowList[i].hList == (HANDLE)wParam)
 			PostMessage(windowList[i].hwnd, msg->message, msg->wParam, msg->lParam);
@@ -96,6 +96,6 @@ void FreeWindowList(void)
 		mir_free(windowList);
 		windowList = NULL;
 	}
-	windowListCount=0;
-	nextWindowListId=1;
+	windowListCount = 0;
+	nextWindowListId = 1;
 }

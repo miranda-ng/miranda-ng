@@ -43,13 +43,13 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn)
 		*portn = num % *portn;
 	}
 
-	bool before=false;
+	bool before = false;
 	while (true) {
 		const char *psz;
 		char *pszEnd;
 		int portMin, portMax, port, portnum = 0;
 
-		for (psz=szPorts;*psz;)  {
+		for (psz = szPorts;*psz;)  {
 			while (*psz == ' ' || *psz == ',') psz++;
 			portMin = strtol(psz, &pszEnd, 0);
 			if (pszEnd == psz)

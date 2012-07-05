@@ -25,32 +25,32 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR NetlibPacketRecverCreate(WPARAM wParam, LPARAM lParam)
 {
-	struct NetlibConnection *nlc=(struct NetlibConnection*)wParam;
+	struct NetlibConnection *nlc = (struct NetlibConnection*)wParam;
 	struct NetlibPacketRecver *nlpr;
 
 	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || lParam == 0) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return (INT_PTR)(struct NetlibPacketRecver*)NULL;
 	}
-	nlpr=(struct NetlibPacketRecver*)mir_calloc(sizeof(struct NetlibPacketRecver));
+	nlpr = (struct NetlibPacketRecver*)mir_calloc(sizeof(struct NetlibPacketRecver));
 	if (nlpr == NULL) {
 		SetLastError(ERROR_OUTOFMEMORY);
 		return (INT_PTR)(struct NetlibPacketRecver*)NULL;
 	}
-	nlpr->handleType=NLH_PACKETRECVER;
-	nlpr->nlc=nlc;
-	nlpr->packetRecver.cbSize=sizeof(nlpr->packetRecver);
-	nlpr->packetRecver.bufferSize=lParam;
-	nlpr->packetRecver.buffer=(PBYTE)mir_alloc(nlpr->packetRecver.bufferSize);
-	nlpr->packetRecver.bytesUsed=0;
-	nlpr->packetRecver.bytesAvailable=0;
+	nlpr->handleType = NLH_PACKETRECVER;
+	nlpr->nlc = nlc;
+	nlpr->packetRecver.cbSize = sizeof(nlpr->packetRecver);
+	nlpr->packetRecver.bufferSize = lParam;
+	nlpr->packetRecver.buffer = (PBYTE)mir_alloc(nlpr->packetRecver.bufferSize);
+	nlpr->packetRecver.bytesUsed = 0;
+	nlpr->packetRecver.bytesAvailable = 0;
 	return (INT_PTR)nlpr;
 }
 
 INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam)
 {
-	struct NetlibPacketRecver *nlpr=(struct NetlibPacketRecver*)wParam;
-	NETLIBPACKETRECVER *nlprParam=(NETLIBPACKETRECVER*)lParam;
+	struct NetlibPacketRecver *nlpr = (struct NetlibPacketRecver*)wParam;
+	NETLIBPACKETRECVER *nlprParam = (NETLIBPACKETRECVER*)lParam;
 	INT_PTR recvResult;
 
 	if (GetNetlibHandleType(nlpr) != NLH_PACKETRECVER || nlprParam == NULL || nlprParam->cbSize != sizeof(NETLIBPACKETRECVER) || nlprParam->bytesUsed>nlpr->packetRecver.bytesAvailable) {
@@ -61,10 +61,10 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam)
 		SetLastError(ERROR_TIMEOUT);
 		return SOCKET_ERROR;
 	}
-	nlpr->packetRecver.dwTimeout=nlprParam->dwTimeout;
+	nlpr->packetRecver.dwTimeout = nlprParam->dwTimeout;
 	if (nlprParam->bytesUsed == 0) {
 		if (nlpr->packetRecver.bytesAvailable == nlpr->packetRecver.bufferSize) {
-			nlpr->packetRecver.bytesAvailable=0;
+			nlpr->packetRecver.bytesAvailable = 0;
 			NetlibLogf(nlpr->nlc->nlu, "Packet recver: packet overflowed buffer, ditching");
 		}
 	}
@@ -74,12 +74,12 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam)
 	}
 	if (nlprParam->dwTimeout != INFINITE) {
 		if ( !si.pending(nlpr->nlc->hSsl) && WaitUntilReadable(nlpr->nlc->s, nlprParam->dwTimeout) <= 0) {
-			*nlprParam=nlpr->packetRecver;
+			*nlprParam = nlpr->packetRecver;
 			return SOCKET_ERROR;
 		}
 	}
-	recvResult=NLRecv(nlpr->nlc, (char*)nlpr->packetRecver.buffer+nlpr->packetRecver.bytesAvailable, nlpr->packetRecver.bufferSize-nlpr->packetRecver.bytesAvailable, 0);
+	recvResult = NLRecv(nlpr->nlc, (char*)nlpr->packetRecver.buffer+nlpr->packetRecver.bytesAvailable, nlpr->packetRecver.bufferSize-nlpr->packetRecver.bytesAvailable, 0);
 	if (recvResult>0) nlpr->packetRecver.bytesAvailable+=recvResult;
-	*nlprParam=nlpr->packetRecver;
+	*nlprParam = nlpr->packetRecver;
 	return recvResult;
 }

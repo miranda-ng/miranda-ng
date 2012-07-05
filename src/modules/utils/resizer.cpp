@@ -48,7 +48,7 @@ typedef struct {
 
 INT_PTR ResizeDialog(WPARAM, LPARAM lParam)
 {
-	UTILRESIZEDIALOG *urd=(UTILRESIZEDIALOG*)lParam;
+	UTILRESIZEDIALOG *urd = (UTILRESIZEDIALOG*)lParam;
 	HDWP hDwp;
 	int i;
 	DLGITEMTEMPLATE *pItem = NULL;
@@ -62,14 +62,14 @@ INT_PTR ResizeDialog(WPARAM, LPARAM lParam)
 	int extendedDlg, itemCount;
 
 	if (urd == NULL || urd->cbSize != sizeof(UTILRESIZEDIALOG)) return 1;
-	pTemplate=(DLGTEMPLATE*)LockResource(LoadResource(urd->hInstance, FindResourceA(urd->hInstance, urd->lpTemplate, MAKEINTRESOURCEA(5))));
-	pTemplateEx=(START_OF_DLGTEMPLATEEX*)pTemplate;
-	extendedDlg=pTemplateEx->signature == 0xFFFF;
+	pTemplate = (DLGTEMPLATE*)LockResource(LoadResource(urd->hInstance, FindResourceA(urd->hInstance, urd->lpTemplate, MAKEINTRESOURCEA(5))));
+	pTemplateEx = (START_OF_DLGTEMPLATEEX*)pTemplate;
+	extendedDlg = pTemplateEx->signature == 0xFFFF;
 	if (extendedDlg && pTemplateEx->dlgVer != 1)
 		return 1;
 
-	if (extendedDlg) pWord=(PWORD)(pTemplateEx+1);
-	else pWord=(PWORD)(pTemplate+1);
+	if (extendedDlg) pWord = (PWORD)(pTemplateEx+1);
+	else pWord = (PWORD)(pTemplate+1);
 	if (*pWord == 0xFFFF) pWord+=2; else while (*pWord++);   //menu
 	if (*pWord == 0xFFFF) pWord+=2; else while (*pWord++);   //class
 	while (*pWord++);   //title
@@ -86,36 +86,36 @@ INT_PTR ResizeDialog(WPARAM, LPARAM lParam)
 		}
 	}
 
-	urc.cbSize=sizeof(UTILRESIZECONTROL);
-	rc.left=0; rc.top=0;
-	if (extendedDlg) {rc.right=pTemplateEx->cx; rc.bottom=pTemplateEx->cy;}
-	else {rc.right=pTemplate->cx; rc.bottom=pTemplate->cy;}
+	urc.cbSize = sizeof(UTILRESIZECONTROL);
+	rc.left = 0; rc.top = 0;
+	if (extendedDlg) {rc.right = pTemplateEx->cx; rc.bottom = pTemplateEx->cy;}
+	else {rc.right = pTemplate->cx; rc.bottom = pTemplate->cy;}
 	MapDialogRect(urd->hwndDlg, &rc);
-	urc.dlgOriginalSize.cx=rc.right; urc.dlgOriginalSize.cy=rc.bottom;
+	urc.dlgOriginalSize.cx = rc.right; urc.dlgOriginalSize.cy = rc.bottom;
 	GetClientRect(urd->hwndDlg, &rc);
-	urc.dlgNewSize.cx=rc.right; urc.dlgNewSize.cy=rc.bottom;
+	urc.dlgNewSize.cx = rc.right; urc.dlgNewSize.cy = rc.bottom;
 
-	if (extendedDlg) itemCount=pTemplateEx->cDlgItems;
-	else itemCount=pTemplate->cdit;
-	hDwp=BeginDeferWindowPos(itemCount);
+	if (extendedDlg) itemCount = pTemplateEx->cDlgItems;
+	else itemCount = pTemplate->cdit;
+	hDwp = BeginDeferWindowPos(itemCount);
 	for (i=0;i<itemCount;i++) {
 		if ((UINT_PTR)pWord&2) pWord++;       //dword align
 
 		if (extendedDlg) {
-			pItemEx=(START_OF_DLGITEMTEMPLATEEX*)pWord;
-			pWord=(PWORD)(pItemEx+1);
+			pItemEx = (START_OF_DLGITEMTEMPLATEEX*)pWord;
+			pWord = (PWORD)(pItemEx+1);
 
-			urc.wId=pItemEx->id;
-			urc.rcItem.left=pItemEx->x; urc.rcItem.top=pItemEx->y;
-			urc.rcItem.right=urc.rcItem.left+pItemEx->cx; urc.rcItem.bottom=urc.rcItem.top+pItemEx->cy;
+			urc.wId = pItemEx->id;
+			urc.rcItem.left = pItemEx->x; urc.rcItem.top = pItemEx->y;
+			urc.rcItem.right = urc.rcItem.left+pItemEx->cx; urc.rcItem.bottom = urc.rcItem.top+pItemEx->cy;
 		}
 		else {
-			pItem=(DLGITEMTEMPLATE*)pWord;
-			pWord=(PWORD)(pItem+1);
+			pItem = (DLGITEMTEMPLATE*)pWord;
+			pWord = (PWORD)(pItem+1);
 
-			urc.wId=pItem->id;
-			urc.rcItem.left=pItem->x; urc.rcItem.top=pItem->y;
-			urc.rcItem.right=urc.rcItem.left+pItem->cx; urc.rcItem.bottom=urc.rcItem.top+pItem->cy;
+			urc.wId = pItem->id;
+			urc.rcItem.left = pItem->x; urc.rcItem.top = pItem->y;
+			urc.rcItem.right = urc.rcItem.left+pItem->cx; urc.rcItem.bottom = urc.rcItem.top+pItem->cy;
 		}
 		if (*pWord == 0xFFFF) pWord+=2; else while (*pWord++);   //menu
 		if (*pWord == 0xFFFF) pWord+=2; else while (*pWord++);   //class
@@ -124,7 +124,7 @@ INT_PTR ResizeDialog(WPARAM, LPARAM lParam)
 		if (urc.wId == 65535) continue;  //using this breaks the dwp, so just ignore it
 
 		MapDialogRect(urd->hwndDlg, &urc.rcItem);
-		procResult=(urd->pfnResizer)(urd->hwndDlg, urd->lParam, &urc);
+		procResult = (urd->pfnResizer)(urd->hwndDlg, urd->lParam, &urc);
 		if (procResult&RD_ANCHORX_RIGHT) {
 			urc.rcItem.left+=urc.dlgNewSize.cx-urc.dlgOriginalSize.cx;
 			urc.rcItem.right+=urc.dlgNewSize.cx-urc.dlgOriginalSize.cx;

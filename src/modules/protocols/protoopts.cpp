@@ -124,7 +124,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 					GetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, buf, SIZEOF(buf));
 					rtrim(buf);
 					if (buf[0]) {
-						for (int i = 0; i < accounts.getCount(); ++i)
+						for (int i=0; i < accounts.getCount(); ++i)
 							if (_stricmp(buf, accounts[i]->szModuleName) == 0)
 								return FALSE;
 				}	}
@@ -587,7 +587,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 			hIcon = LoadSkinnedIcon(tmp);
 			DrawIconEx(lps->hDC, lps->rcItem.left, lps->rcItem.top, hIcon, cxIcon, cyIcon, 0, hbrBack, DI_NORMAL);
-			IconLib_ReleaseIcon(hIcon, 0);
+			IcoLib_ReleaseIcon(hIcon, 0);
 
 			lps->rcItem.left += cxIcon + 2;
 
@@ -662,7 +662,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 			dat->iSelected = -1;
 			SendMessage(hList, LB_RESETCONTENT, 0, 0);
-			for (i = 0; i < accounts.getCount(); ++i) {
+			for (i=0; i < accounts.getCount(); ++i) {
 				int iItem = SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)accounts[i]->tszAccountName);
 				SendMessage(hList, LB_SETITEMDATA, iItem, (LPARAM)accounts[i]);
 
@@ -670,7 +670,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 					ListBox_SetCurSel(hList, iItem);
 			}
 
-			dat->iSelected = ListBox_GetCurSel(hList); // -1 if error => nothing selected in our case
+			dat->iSelected = ListBox_GetCurSel(hList); // -1 if error = > nothing selected in our case
 			if (dat->iSelected >= 0)
 				sttSelectItem(dat, hList, dat->iSelected);
 			else if (acc && acc->hwndAccMgrUI)
@@ -696,7 +696,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				}
 			}
 			else {
-				// menu was activated with mouse => find item under cursor & set focus to our control.
+				// menu was activated with mouse = > find item under cursor & set focus to our control.
 				POINT ptItem = pt;
 				ScreenToClient(hwndList, &ptItem);
 				iItem = (short)LOWORD(SendMessage(hwndList, LB_ITEMFROMPOINT, 0, MAKELPARAM(ptItem.x, ptItem.y)));
@@ -969,7 +969,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 					int i;
 					PSHNOTIFY pshn = {0};
 					pshn.hdr.code = PSN_APPLY;
-					for (i = 0; i < accounts.getCount(); ++i) {
+					for (i=0; i < accounts.getCount(); ++i) {
 						if (accounts[i]->hwndAccMgrUI && accounts[i]->bAccMgrUIChanged) {
 							pshn.hdr.hwndFrom = accounts[i]->hwndAccMgrUI;
 							SendMessage(accounts[i]->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
@@ -982,7 +982,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 					int i;
 					PSHNOTIFY pshn = {0};
 					pshn.hdr.code = PSN_RESET;
-					for (i = 0; i < accounts.getCount(); ++i) {
+					for (i=0; i < accounts.getCount(); ++i) {
 						if (accounts[i]->hwndAccMgrUI && accounts[i]->bAccMgrUIChanged) {
 							pshn.hdr.hwndFrom = accounts[i]->hwndAccMgrUI;
 							SendMessage(accounts[i]->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
@@ -996,7 +996,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 		break;
 	case WM_DESTROY:
 		{
-			for (int i = 0; i < accounts.getCount(); ++i) {
+			for (int i=0; i < accounts.getCount(); ++i) {
 				accounts[i]->bAccMgrUIChanged = FALSE;
 				if (accounts[i]->hwndAccMgrUI) {
 					DestroyWindow(accounts[i]->hwndAccMgrUI);

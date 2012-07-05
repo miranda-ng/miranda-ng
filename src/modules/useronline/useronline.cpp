@@ -22,16 +22,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
 
-static int uniqueEventId=0;
+static int uniqueEventId = 0;
 
 static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	int newStatus, oldStatus;
 
 	if ((HANDLE)wParam == NULL || strcmp(cws->szSetting, "Status")) return 0;
-	newStatus=cws->value.wVal;
-	oldStatus=DBGetContactSettingWord((HANDLE)wParam, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
+	newStatus = cws->value.wVal;
+	oldStatus = DBGetContactSettingWord((HANDLE)wParam, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
 	DBWriteContactSettingWord((HANDLE)wParam, "UserOnline", "OldStatus", (WORD)newStatus);
 	if (CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_USERONLINE)) return 0;
 	if (DBGetContactSettingByte((HANDLE)wParam, "CList", "Hidden", 0)) return 0;
@@ -54,16 +54,16 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 				TCHAR tooltip[256];
 
 				ZeroMemory(&cle, sizeof(cle));
-				cle.cbSize=sizeof(cle);
-				cle.flags=CLEF_ONLYAFEW | CLEF_TCHAR;
-				cle.hContact=(HANDLE)wParam;
-				cle.hDbEvent=(HANDLE)(uniqueEventId++);
+				cle.cbSize = sizeof(cle);
+				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
+				cle.hContact = (HANDLE)wParam;
+				cle.hDbEvent = (HANDLE)(uniqueEventId++);
 				cle.hIcon = LoadSkinIcon(SKINICON_OTHER_USERONLINE, false);
-				cle.pszService="UserOnline/Description";
+				cle.pszService = "UserOnline/Description";
 				mir_sntprintf(tooltip, SIZEOF(tooltip), TranslateT("%s is Online"), cli.pfnGetContactDisplayName((HANDLE)wParam, 0));
-				cle.ptszTooltip=tooltip;
+				cle.ptszTooltip = tooltip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
-				IconLib_ReleaseIcon(cle.hIcon, 0);
+				IcoLib_ReleaseIcon(cle.hIcon, 0);
                 DBWriteContactSettingDword(cle.hContact, "UserOnline", "LastEvent", (DWORD)cle.hDbEvent);
 				SkinPlaySound("UserOnline");
 			}

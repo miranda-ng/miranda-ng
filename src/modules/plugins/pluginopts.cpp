@@ -29,8 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IS_DATABASE (1 << 14)
 
 extern MUUID miid_clist, miid_database;
-extern HANDLE hShutdownEvent, hPreShutdownEvent;
-static HANDLE hevLoadModule, hevUnloadModule;
+HANDLE hevLoadModule, hevUnloadModule;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Plugins options page dialog
@@ -165,14 +164,14 @@ static int LoadPluginDynamically(PluginListItemData* dat)
 	GetModuleFileName(NULL, exe, SIZEOF(exe));
 	TCHAR *p = _tcsrchr(exe, '\\'); if (p) *p = 0;
 
-	pluginEntry* pPlug = OpenPlugin(dat->fileName, exe);
+	pluginEntry* pPlug = OpenPlugin(dat->fileName, _T("Plugins"), exe);
 	if (pPlug->pclass & PCLASS_FAILED) {
 LBL_Error:
 		Plugin_Uninit(pPlug, true);
 		return FALSE;
 	}
 
-	if ( !TryLoadPlugin(pPlug, true))
+	if ( !TryLoadPlugin(pPlug, _T("Plugins"), true))
 		goto LBL_Error;
 
 	if (CallPluginEventHook(pPlug->bpi.hInst, hModulesLoadedEvent, 0, 0) != 0)
@@ -192,17 +191,8 @@ static int UnloadPluginDynamically(PluginListItemData* dat)
 	if (idx == -1)
 		return FALSE;
 
-	pluginEntry* pPlug = pluginList[idx];
-	if (CallPluginEventHook(pPlug->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
-		return FALSE;
-
-	NotifyEventHooks(hevUnloadModule, (WPARAM)pPlug->bpi.InfoEx, (LPARAM)pPlug->bpi.hInst);
-
-	CallPluginEventHook(pPlug->bpi.hInst, hPreShutdownEvent, 0, 0);
-	CallPluginEventHook(pPlug->bpi.hInst, hShutdownEvent, 0, 0);
-
-	dat->hInst = NULL;
-	Plugin_Uninit(pPlug, true);
+	if ( Plugin_UnloadDyn(pluginList[idx]))
+		dat->hInst = NULL;
 	return TRUE;
 }
 
@@ -319,7 +309,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					}
 					// if enabling and replaces, find all other replaces and toggle off
 					if ((hdr->uNewState & 0x2000) && dat->flags != 0)  {
-						for (int iRow=0; iRow != -1;) {
+						for (int iRow = 0; iRow != -1;) {
 							if (iRow != hdr->iItem) {
 								LVITEM dt;
 								dt.mask = LVIF_PARAM;
@@ -375,7 +365,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			if (hdr->hdr.code == PSN_APPLY) {
 				HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
 				TCHAR buf[1024];
-				for (int iRow=0; iRow != -1;) {
+				for (int iRow = 0; iRow != -1;) {
 					ListView_GetItemText(hwndList, iRow, 2, buf, SIZEOF(buf));
 					int iState = ListView_GetItemState(hwndList, iRow, LVIS_STATEIMAGEMASK);
 					SetPluginOnWhiteList(buf, (iState & 0x2000) ? 1 : 0);
@@ -397,7 +387,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				break;
 			}
 			case IDC_GETMOREPLUGINS:
-				CallService(MS_UTILS_OPENURL, 0, (LPARAM) "http://addons.miranda-im.org/index.php?action=display&id=1");
+				CallService(MS_UTILS_OPENURL, 0, (LPARAM) "http://addons.miranda-im.org/index.php?action = display&id = 1");
 				break;
 		}	}
 		break;

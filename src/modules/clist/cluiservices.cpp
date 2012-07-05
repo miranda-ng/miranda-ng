@@ -170,7 +170,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 		RECT rc;
 		GetClientRect(cli.hwndStatus, &rc);
 		rc.right -= borders[0] * 2 + (DBGetContactSettingByte(NULL, "CLUI", "ShowGrip", 1) ? GetSystemMetrics(SM_CXVSCROLL) : 0);
-		for (i = 0; i < cli.menuProtoCount; i++)
+		for (i=0; i < cli.menuProtoCount; i++)
 			partWidths[ i ] = (i+1) * rc.right / cli.menuProtoCount - (borders[2] >> 1);
 	}
 	else {
@@ -180,7 +180,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 
 		hdc = GetDC(NULL);
 		SelectObject(hdc, (HFONT) SendMessage(cli.hwndStatus, WM_GETFONT, 0, 0));
-		for (i = 0; i < cli.menuProtoCount; i++) {  //count down since built in ones tend to go at the end
+		for (i=0; i < cli.menuProtoCount; i++) {  //count down since built in ones tend to go at the end
 			int x = 2;
 			if (showOpts & 1)
 				x += g_IconWidth;
@@ -215,7 +215,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 	flags = SBT_OWNERDRAW;
 	if (DBGetContactSettingByte(NULL, "CLUI", "SBarBevel", 1) == 0)
 		flags |= SBT_NOBORDERS;
-	for (i = 0; i < cli.menuProtoCount; i++) {
+	for (i=0; i < cli.menuProtoCount; i++) {
 		SendMessage(cli.hwndStatus, SB_SETTEXT, i | flags, (LPARAM)cli.menuProtos[i].szProto);
 	}
 }

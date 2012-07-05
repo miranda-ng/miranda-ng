@@ -34,7 +34,7 @@ static int CountGroups(void)
 	int i;
 	char str[33];
 
-	for (i = 0;; i++) {
+	for (i=0;; i++) {
 		_itoa(i, str, 10);
 		if (DBGetContactSetting(NULL, "CListGroups", str, &dbv))
 			break;
@@ -49,7 +49,7 @@ static int GroupNameExists(const TCHAR *name, int skipGroup)
 	DBVARIANT dbv;
 	int i;
 
-	for (i = 0;; i++) {
+	for (i=0;; i++) {
 		if (i == skipGroup)
 			continue;
 		_itoa(i, idstr, 10);
@@ -226,7 +226,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 		int len;
 
 		len = lstrlen(name);
-		for (i = 0;; i++) {
+		for (i=0;; i++) {
 			_itoa(i, str, 10);
 			if (DBGetContactSettingTString(NULL, "CListGroups", str, &dbv))
 				break;
@@ -291,7 +291,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 		int len, i;
 
 		len = lstrlen(oldName);
-		for (i = 0;; i++) {
+		for (i=0;; i++) {
 			if (i == groupId)
 				continue;
 			_itoa(i, idstr, 10);
@@ -314,7 +314,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 		pszLastBackslash = _tcsrchr(str, '\\');
 		if (pszLastBackslash != NULL) {
 			*pszLastBackslash = '\0';
-			for (i = 0;; i++) {
+			for (i=0;; i++) {
 				_itoa(i, idstr, 10);
 				if (DBGetContactSettingTString(NULL, "CListGroups", idstr, &dbv))
 					break;
@@ -541,7 +541,7 @@ static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 
 int InitGroupServices(void)
 {
-	for (int i = 0;; i++) 
+	for (int i=0;; i++) 
 	{
 		char str[32];
 		_itoa(i, str, 10);

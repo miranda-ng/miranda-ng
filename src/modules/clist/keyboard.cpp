@@ -32,7 +32,7 @@ static INT_PTR hkHideShow(WPARAM, LPARAM)
 /*
 INT_PTR hkSearch(WPARAM wParam, LPARAM lParam)
 {
-	DBVARIANT dbv={0};
+	DBVARIANT dbv = {0};
 	if ( !DBGetContactSettingString(NULL, "CList", "SearchUrl", &dbv)) {
 		CallService(MS_UTILS_OPENURL, DBGetContactSettingByte(NULL, "CList", "HKSearchNewWnd", 0), (LPARAM)dbv.pszVal);
 		DBFreeVariant(&dbv);
@@ -100,11 +100,11 @@ int InitClistHotKeys(void)
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'I');
 	Hotkey_Register(&shk);
 /*
-	shk.pszDescription="Search in site";
-	shk.pszName="SearchInWeb";
-	shk.pszSection="Main";
-	shk.pszService="CLIST/HK/Search";
-	shk.DefHotKey=846;
+	shk.pszDescription = "Search in site";
+	shk.pszName = "SearchInWeb";
+	shk.pszSection = "Main";
+	shk.pszService = "CLIST/HK/Search";
+	shk.DefHotKey = 846;
 	Hotkey_Register(&shk);
 */
 	shk.ptszDescription = _T("Open Options Page");
@@ -129,25 +129,25 @@ int InitClistHotKeys(void)
 	Hotkey_Register(&shk);
 
 /*
-	shk.pszDescription="Close Miranda";
-	shk.pszName="CloseMiranda";
-	shk.pszSection="Main";
-	shk.pszService="CLIST/HK/CloseMiranda";
-	shk.DefHotKey=0;
+	shk.pszDescription = "Close Miranda";
+	shk.pszName = "CloseMiranda";
+	shk.pszSection = "Main";
+	shk.pszService = "CLIST/HK/CloseMiranda";
+	shk.DefHotKey = 0;
 	Hotkey_Register(&shk);
 
-	shk.pszDescription="Restore last status";
-	shk.pszName="RestoreLastStatus";
-	shk.pszSection="Status";
-	shk.pszService="CLIST/HK/RestoreStatus";
-	shk.DefHotKey=0;
+	shk.pszDescription = "Restore last status";
+	shk.pszName = "RestoreLastStatus";
+	shk.pszSection = "Status";
+	shk.pszService = "CLIST/HK/RestoreStatus";
+	shk.DefHotKey = 0;
 	Hotkey_Register(&shk);
 
-	shk.pszDescription="Set All Offline";
-	shk.pszName="AllOffline";
-	shk.pszSection="Status";
-	shk.pszService="CLIST/HK/AllOffline";
-	shk.DefHotKey=0;
+	shk.pszDescription = "Set All Offline";
+	shk.pszName = "AllOffline";
+	shk.pszSection = "Status";
+	shk.pszService = "CLIST/HK/AllOffline";
+	shk.DefHotKey = 0;
 	Hotkey_Register(&shk);
 */
 	return 0;

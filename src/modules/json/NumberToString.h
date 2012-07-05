@@ -41,7 +41,7 @@ public:
 	   
 	   //create the string
 	   do {
-		  *runner-- = (json_char)(value % 10) + JSON_TEXT('0');
+		  *runner--=(json_char)(value % 10) + JSON_TEXT('0');
 	   } while(value /= 10);
 	   
 	   //if it's negative, add the negation
@@ -66,7 +66,7 @@ public:
 		  
 		  //create the string
 		  do {
-			 *runner-- = (json_char)(value % 10) + JSON_TEXT('0');
+			 *runner--=(json_char)(value % 10) + JSON_TEXT('0');
 		  } while(value /= 10);
 		  
 		  json_string res = runner + 1;

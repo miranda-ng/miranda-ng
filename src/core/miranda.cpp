@@ -118,27 +118,27 @@ static void __cdecl compactHeapsThread(void*)
 		HANDLE hHeaps[256];
 		DWORD hc;
 		SleepEx((1000*60)*5, TRUE); // every 5 minutes
-		hc=GetProcessHeaps(255, (PHANDLE)&hHeaps);
+		hc = GetProcessHeaps(255, (PHANDLE)&hHeaps);
 		if (hc != 0 && hc < 256) {
 			DWORD j;
-			for (j=0; j < hc; j++)
+			for (j = 0; j < hc; j++)
 				HeapCompact(hHeaps[j], 0);
 		}
 	} //while
 }
 
-void (*SetIdleCallback) (void)=NULL;
+void (*SetIdleCallback) (void) = NULL;
 
 static INT_PTR SystemSetIdleCallback(WPARAM, LPARAM lParam)
 {
 	if (lParam && SetIdleCallback == NULL) {
-		SetIdleCallback=(void (*)(void))lParam;
+		SetIdleCallback = (void (*)(void))lParam;
 		return 1;
 	}
 	return 0;
 }
 
-static DWORD dwEventTime=0;
+static DWORD dwEventTime = 0;
 void checkIdle(MSG * msg)
 {
 	switch(msg->message) {
@@ -209,9 +209,8 @@ void ParseCommandLine()
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 {
-	DWORD myPid=0;
-	int messageloop=1;
-	HMODULE hUser32, hThemeAPI, hDwmApi, hShFolder = NULL;
+	DWORD myPid = 0;
+	int messageloop = 1;
 	int result = 0;
 
 	hInst = hInstance;
@@ -222,23 +221,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
-	hUser32 = GetModuleHandleA("user32");
+	HINSTANCE hUser32 = GetModuleHandleA("user32");
 	openInputDesktop = (pfnOpenInputDesktop)GetProcAddress (hUser32, "OpenInputDesktop");
 	closeDesktop = (pfnCloseDesktop)GetProcAddress (hUser32, "CloseDesktop");
 	msgWaitForMultipleObjectsEx = (pfnMsgWaitForMultipleObjectsEx)GetProcAddress(hUser32, "MsgWaitForMultipleObjectsEx");
-	animateWindow =(pfnAnimateWindow)GetProcAddress(hUser32, "AnimateWindow");
-	setLayeredWindowAttributes =(pfnSetLayeredWindowAttributes)GetProcAddress(hUser32, "SetLayeredWindowAttributes");
+	animateWindow = (pfnAnimateWindow)GetProcAddress(hUser32, "AnimateWindow");
+	setLayeredWindowAttributes = (pfnSetLayeredWindowAttributes)GetProcAddress(hUser32, "SetLayeredWindowAttributes");
 
 	MyMonitorFromPoint = (pfnMyMonitorFromPoint)GetProcAddress(hUser32, "MonitorFromPoint");
 	MyMonitorFromRect = (pfnMyMonitorFromRect)GetProcAddress(hUser32, "MonitorFromRect");
 	MyMonitorFromWindow = (pfnMyMonitorFromWindow)GetProcAddress(hUser32, "MonitorFromWindow");
 	MyGetMonitorInfo = (pfnMyGetMonitorInfo)GetProcAddress(hUser32, "GetMonitorInfoW");
 
-	hShFolder = GetModuleHandleA("shell32");
+	HINSTANCE hShFolder = GetModuleHandleA("shell32");
 	shGetSpecialFolderPathA = (pfnSHGetSpecialFolderPathA)GetProcAddress(hShFolder, "SHGetSpecialFolderPathA");
 	shGetSpecialFolderPathW = (pfnSHGetSpecialFolderPathW)GetProcAddress(hShFolder, "SHGetSpecialFolderPathW");
 	if (shGetSpecialFolderPathA == NULL) {
-		hShFolder = LoadLibraryA("ShFolder.dll");
+		HINSTANCE hShFolder = LoadLibraryA("ShFolder.dll");
 		shGetSpecialFolderPathA = (pfnSHGetSpecialFolderPathA)GetProcAddress(hShFolder, "SHGetSpecialFolderPathA");
 		shGetSpecialFolderPathW = (pfnSHGetSpecialFolderPathW)GetProcAddress(hShFolder, "SHGetSpecialFolderPathW");
 	}
@@ -246,17 +245,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	shAutoComplete = (pfnSHAutoComplete)GetProcAddress(GetModuleHandleA("shlwapi"), "SHAutoComplete");
 
 	if ( IsWinVerXPPlus()) {
-		hThemeAPI = LoadLibraryA("uxtheme.dll");
+		HINSTANCE hThemeAPI = LoadLibraryA("uxtheme.dll");
 		if (hThemeAPI) {
 			openThemeData = (pfnOpenThemeData)GetProcAddress(hThemeAPI, "OpenThemeData");
 			isThemeBackgroundPartiallyTransparent = (pfnIsThemeBackgroundPartiallyTransparent)GetProcAddress(hThemeAPI, "IsThemeBackgroundPartiallyTransparent");
-			drawThemeParentBackground  = (pfnDrawThemeParentBackground)GetProcAddress(hThemeAPI, "DrawThemeParentBackground");
+			drawThemeParentBackground = (pfnDrawThemeParentBackground)GetProcAddress(hThemeAPI, "DrawThemeParentBackground");
 			drawThemeBackground = (pfnDrawThemeBackground)GetProcAddress(hThemeAPI, "DrawThemeBackground");
 			drawThemeText = (pfnDrawThemeText)GetProcAddress(hThemeAPI, "DrawThemeText");
 			drawThemeTextEx = (pfnDrawThemeTextEx)GetProcAddress(hThemeAPI, "DrawThemeTextEx");
 			getThemeBackgroundContentRect = (pfnGetThemeBackgroundContentRect)GetProcAddress(hThemeAPI , "GetThemeBackgroundContentRect");
 			getThemeFont = (pfnGetThemeFont)GetProcAddress(hThemeAPI, "GetThemeFont");
-			closeThemeData  = (pfnCloseThemeData)GetProcAddress(hThemeAPI, "CloseThemeData");
+			closeThemeData = (pfnCloseThemeData)GetProcAddress(hThemeAPI, "CloseThemeData");
 			enableThemeDialogTexture = (pfnEnableThemeDialogTexture)GetProcAddress(hThemeAPI, "EnableThemeDialogTexture");
 			setWindowTheme = (pfnSetWindowTheme)GetProcAddress(hThemeAPI, "SetWindowTheme");
 			setWindowThemeAttribute = (pfnSetWindowThemeAttribute)GetProcAddress(hThemeAPI, "SetWindowThemeAttribute");
@@ -270,7 +269,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	}
 
 	if ( IsWinVerVistaPlus()) {
-		hDwmApi = LoadLibraryA("dwmapi.dll");
+		HINSTANCE hDwmApi = LoadLibraryA("dwmapi.dll");
 		if (hDwmApi) {
 			dwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea)GetProcAddress(hDwmApi, "DwmExtendFrameIntoClientArea");
 			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
@@ -306,12 +305,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	forkthread(compactHeapsThread, 0, NULL);
 	CreateServiceFunction(MS_SYSTEM_SETIDLECALLBACK, SystemSetIdleCallback);
 	CreateServiceFunction(MS_SYSTEM_GETIDLE, SystemGetIdle);
-	dwEventTime=GetTickCount();
-	myPid=GetCurrentProcessId();
+	dwEventTime = GetTickCount();
+	myPid = GetCurrentProcessId();
 	while (messageloop) {
 		MSG msg;
 		DWORD rc;
-		BOOL dying=FALSE;
+		BOOL dying = FALSE;
 		rc = MsgWaitForMultipleObjectsEx(waitObjectCount, hWaitObjects, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
 		if (rc >= WAIT_OBJECT_0 && rc < WAIT_OBJECT_0 + waitObjectCount) {
 			rc -= WAIT_OBJECT_0;
@@ -320,7 +319,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 		//
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			if (msg.message != WM_QUIT) {
-				HWND h=GetForegroundWindow();
+				HWND h = GetForegroundWindow();
 				DWORD pid = 0;
 				checkIdle(&msg);
 				if (h != NULL && GetWindowThreadProcessId(h, &pid) && pid == myPid && GetClassLongPtr(h, GCW_ATOM) == 32770)
@@ -344,7 +343,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 				PostQuitMessage(0);
 			}
 			else if (dying)
-				messageloop=0;
+				messageloop = 0;
 		}
 	}
 
@@ -358,12 +357,8 @@ exit:
 
 	OleUninitialize();
 
-	if (bufferedPaintUninit) bufferedPaintUninit();
-
-	if (hDwmApi) FreeLibrary(hDwmApi);
-	if (hThemeAPI) FreeLibrary(hThemeAPI);
-	if (hShFolder) FreeLibrary(hShFolder);
-
+	if (bufferedPaintUninit)
+		bufferedPaintUninit();
 	return result;
 }
 
@@ -401,8 +396,8 @@ static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 	PVOID pVerInfo;
 
 	GetModuleFileName(NULL, filename, SIZEOF(filename));
-	verInfoSize=GetFileVersionInfoSize(filename, &unused);
-	pVerInfo=mir_alloc(verInfoSize);
+	verInfoSize = GetFileVersionInfoSize(filename, &unused);
+	pVerInfo = mir_alloc(verInfoSize);
 	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
 	VerQueryValue(pVerInfo, _T("\\StringFileInfo\\000004b0\\ProductVersion"), (LPVOID*)&productVersion, &blockSize);
 	#if defined(_WIN64)

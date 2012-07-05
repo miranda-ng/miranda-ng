@@ -83,7 +83,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_PAINT:
-		if(cfg::shutDown)
+		if(cfg::shutDown || !StatusItems)
 			return 0;
 
 		if(cfg::dat.bSkinnedStatusBar) {

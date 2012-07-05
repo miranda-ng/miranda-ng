@@ -32,7 +32,7 @@ struct StandardIconDescription
 	const char*  section;
 };
 
-static const struct StandardIconDescription mainIcons[] =
+static const struct StandardIconDescription mainIcons[] = 
 {
 	{ SKINICON_OTHER_MIRANDA,         LPGEN("Miranda IM"),          -IDI_MIRANDA        }, 
 	{ SKINICON_EVENT_MESSAGE,         LPGEN("Message"),             -IDI_RECVMSG        }, 
@@ -85,7 +85,7 @@ static const struct StandardIconDescription mainIcons[] =
 
 HANDLE hMainIcons[SIZEOF(mainIcons)];
 
-static const struct StandardIconDescription statusIcons[] =
+static const struct StandardIconDescription statusIcons[] = 
 {
 	{ ID_STATUS_OFFLINE,         LPGEN("Offline"),          -IDI_OFFLINE,       0xFFFFFFFF     }, 
 	{ ID_STATUS_ONLINE,          LPGEN("Online"),           -IDI_ONLINE,        PF2_ONLINE     }, 
@@ -101,9 +101,9 @@ static const struct StandardIconDescription statusIcons[] =
 
 HANDLE hStatusIcons[SIZEOF(statusIcons)];
 
-const char* mainIconsFmt   = "core_main_";
+const char* mainIconsFmt = "core_main_";
 const char* statusIconsFmt = "core_status_";
-const char* protoIconsFmt  = LPGEN("%s Icons");
+const char* protoIconsFmt = LPGEN("%s Icons");
 
 #define PROTOCOLS_PREFIX "Status Icons/"
 #define GLOBAL_PROTO_NAME "*"
@@ -135,7 +135,7 @@ HICON LoadIconEx(HINSTANCE hInstance, LPCTSTR lpIconName, BOOL bShared)
 {
 	HICON hResIcon = bShared ? LoadSmallIcon(hInstance, lpIconName) : LoadSmallIconShared(hInstance, lpIconName);
 	if ( !hResIcon) { //Icon not found in hInstance lets try to load it from core
-		HINSTANCE hCoreInstance=hInst;
+		HINSTANCE hCoreInstance = hInst;
 		if (hCoreInstance != hInstance)
 			hResIcon = bShared ? LoadSmallIcon(hCoreInstance, lpIconName) : LoadSmallIconShared(hCoreInstance, lpIconName);
 	}
@@ -144,7 +144,7 @@ HICON LoadIconEx(HINSTANCE hInstance, LPCTSTR lpIconName, BOOL bShared)
 
 int ImageList_AddIcon_NotShared(HIMAGELIST hIml, LPCTSTR szResource)
 {
-	HICON hTempIcon=LoadIconEx(hInst, szResource, 0);
+	HICON hTempIcon = LoadIconEx(hInst, szResource, 0);
 	int res = ImageList_AddIcon(hIml, hTempIcon);
 	Safe_DestroyIcon(hTempIcon);
 	return res;
@@ -154,7 +154,7 @@ int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, int iconId)
 {
 	HICON hIcon = LoadSkinIcon(iconId);
 	int res = ImageList_AddIcon(hIml, hIcon);
-	IconLib_ReleaseIcon(hIcon, 0);
+	IcoLib_ReleaseIcon(hIcon, 0);
 	return res;
 }
 
@@ -162,7 +162,7 @@ int ImageList_AddIcon_ProtoIconLibLoaded(HIMAGELIST hIml, const char* szProto, i
 {
 	HICON hIcon = LoadSkinProtoIcon(szProto, iconId);
 	int res = ImageList_AddIcon(hIml, hIcon);
-	IconLib_ReleaseIcon(hIcon, 0);
+	IcoLib_ReleaseIcon(hIcon, 0);
 	return res;
 }
 
@@ -177,7 +177,7 @@ int ImageList_ReplaceIcon_NotShared(HIMAGELIST hIml, int iIndex, HINSTANCE hInst
 int ImageList_ReplaceIcon_IconLibLoaded(HIMAGELIST hIml, int nIndex, HICON hIcon)
 {
 	int res = ImageList_ReplaceIcon(hIml, nIndex, hIcon);
-	IconLib_ReleaseIcon(hIcon, 0);
+	IcoLib_ReleaseIcon(hIcon, 0);
 	return res;
 }
 
@@ -195,8 +195,8 @@ void Window_SetProtoIcon_IcoLib(HWND hWnd, const char* szProto, int iconId)
 
 void Window_FreeIcon_IcoLib(HWND hWnd)
 {
-	IconLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0), NULL);
-	IconLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0), NULL);
+	IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0), NULL);
+	IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0), NULL);
 }
 
 void Button_SetIcon_IcoLib(HWND hwndDlg, int itemId, int iconId, const char* tooltip)
@@ -210,7 +210,7 @@ void Button_SetIcon_IcoLib(HWND hwndDlg, int itemId, int iconId, const char* too
 void Button_FreeIcon_IcoLib(HWND hwndDlg, int itemId)
 {
 	HICON hIcon = (HICON)SendDlgItemMessage(hwndDlg, itemId, BM_SETIMAGE, IMAGE_ICON, 0);
-	IconLib_ReleaseIcon(hIcon, 0);
+	IcoLib_ReleaseIcon(hIcon, 0);
 }
 
 //
@@ -229,7 +229,7 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 		return IcoLib_GetIcon(iconName, big);
 	}
 
-	for (i = 0; i < SIZEOF(statusIcons); i++) {
+	for (i=0; i < SIZEOF(statusIcons); i++) {
 		if (statusIcons[i].id == status) {
 			statusIndx = i;
 			break;
@@ -335,7 +335,7 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 HANDLE GetSkinIconHandle(int idx)
 {
 	int i;
-	for (i = 0; i < SIZEOF(mainIcons); i++)
+	for (i=0; i < SIZEOF(mainIcons); i++)
 		if (idx == mainIcons[i].id)
 			return hMainIcons[i];
 
@@ -365,7 +365,7 @@ static void convertOneProtocol(char* moduleName, char* iconName)
 	char* pm = moduleName + strlen(moduleName);
 	char* pi = iconName + strlen(iconName);
 
-	for (int i = 0; i < SIZEOF(statusIcons); i++) {
+	for (int i=0; i < SIZEOF(statusIcons); i++) {
 		_itoa(statusIcons[i].id, pm, 10);
 
 		DBVARIANT dbv;
@@ -416,7 +416,7 @@ int LoadSkinIcons(void)
 	//
 	//  Perform "1st-time running import"
 
-	for (i = 0; i < SIZEOF(mainIcons); i++) {
+	for (i=0; i < SIZEOF(mainIcons); i++) {
 		_itoa(mainIcons[i].id, moduleName, 10);
 		if (DBGetContactSettingTString(NULL, "Icons", moduleName, &dbv))
 			break;
@@ -465,7 +465,7 @@ int LoadSkinIcons(void)
 	//
 	//  Add main icons to list
 	//
-	for (i = 0; i < SIZEOF(mainIcons); i++) {
+	for (i=0; i < SIZEOF(mainIcons); i++) {
 		mir_snprintf(iconName, SIZEOF(iconName), "%s%d", mainIconsFmt, i);
 		sid.pszSection = mainIcons[i].section == NULL ? "Main Icons" : (char*)mainIcons[i].section;
 		sid.pszDescription = (char*)mainIcons[i].description;
@@ -479,7 +479,7 @@ int LoadSkinIcons(void)
 	//
 	// Asterisk is used, to avoid conflict with proto-plugins
 	// 'coz users can't rename it to name with '*'
-	for (i = 0; i < SIZEOF(statusIcons); i++) {
+	for (i=0; i < SIZEOF(statusIcons); i++) {
 		mir_snprintf(iconName, SIZEOF(iconName), "%s%s%d", statusIconsFmt, GLOBAL_PROTO_NAME, i);
 		sid.pszName = iconName;
 		sid.pszDescription = (char*)statusIcons[i].description;

@@ -119,7 +119,7 @@ class json_auto {
 	   T * ptr;
     private:
 	   json_auto(const json_auto &);
-	   json_auto & operator =(const json_auto &);
+	   json_auto & operator = (const json_auto &);
 };
 
 //Clears a string, if required, frees the memory

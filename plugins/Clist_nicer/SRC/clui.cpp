@@ -2066,6 +2066,7 @@ void LoadCLUIModule(void)
 	HookEvent(ME_MC_SUBCONTACTSCHANGED, MetaChanged);
 
 	InitGroupMenus();
+	LoadExtBkSettingsFromDB();
 
 	wndclass.style = 0;
 	wndclass.lpfnWndProc = EventAreaWndProc;

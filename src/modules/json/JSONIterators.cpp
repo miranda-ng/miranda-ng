@@ -119,7 +119,7 @@ JSONNode::json_iterator JSONNode::insertFFF(json_iterator pos, JSONNode ** const
     json_auto<JSONNode *> mem(num);
     JSONNode ** runner = mem.ptr;
     for (JSONNode ** po = _start; po < _end; ++po){
-	   *runner++ = newJSONNode(*(*po)  JSON_MUTEX_COPY2);
+	   *runner++=newJSONNode(*(*po)  JSON_MUTEX_COPY2);
     }
     internal -> Children.insert(json_iterator_ptr(pos), mem.ptr, num);
     return pos;
@@ -213,7 +213,7 @@ JSONNode::json_iterator JSONNode::insertFFF(json_iterator pos, JSONNode ** const
 	   json_auto<JSONNode *> mem(num);
 	   JSONNode ** runner = mem.ptr;
 	   for (JSONNode ** po = _start; po > _end; --po){
-		  *runner++ = newJSONNode(*(*po)    JSON_MUTEX_COPY2);
+		  *runner++=newJSONNode(*(*po)    JSON_MUTEX_COPY2);
 	   }
 	   internal -> Children.insert(pos.it, mem.ptr, num);
 	   return pos;
@@ -229,7 +229,7 @@ JSONNode::json_iterator JSONNode::insertFFF(json_iterator pos, JSONNode ** const
 	   json_auto<JSONNode *> mem(num);
 	   JSONNode ** runner = mem.ptr;
 	   for (JSONNode ** po = _start; po > _end; --po){
-		  *runner++ = newJSONNode(*(*po)    JSON_MUTEX_COPY2);
+		  *runner++=newJSONNode(*(*po)    JSON_MUTEX_COPY2);
 	   }
 	   internal -> Children.insert(++pos.it, mem.ptr, num);
 	   return pos - num + 1;

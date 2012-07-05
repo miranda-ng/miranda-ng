@@ -46,8 +46,8 @@ convert Unicode to ANSI and call the appropriate service.
 //these should be called with CallProtoServiceInt(NULL,)
 
 //Get the capability flags of the module.
-//wParam=flagNum
-//lParam=0
+//wParam = flagNum
+//lParam = 0
 //Returns a bitfield corresponding to wParam. See the #defines below
 //Should return 0 for unknown values of flagNum
 //Non-network-access modules should return flags to represent the things they
@@ -145,11 +145,11 @@ static __inline unsigned long Proto_Status2Flag(int status)
 
 #define PFLAG_UNIQUEIDTEXT  100    //returns a static buffer of text describing the unique field by which this protocol identifies users (already translated), or NULL
 
-#define PFLAG_MAXCONTACTSPERPACKET  200   //v0.1.2.2+: returns the maximum number of contacts which can be sent in a single PSS_CONTACTS, lParam=(LPARAM)hContact.
+#define PFLAG_MAXCONTACTSPERPACKET  200   //v0.1.2.2+: returns the maximum number of contacts which can be sent in a single PSS_CONTACTS, lParam = (LPARAM)hContact.
 
 #define PFLAG_UNIQUEIDSETTING 300 // returns the setting name of where the unique id is stored
 
-#define PFLAG_MAXLENOFMESSAGE 400		// v0.3.2+: return the maximum length of an instant message, lParam=(LPARAM)hContact
+#define PFLAG_MAXLENOFMESSAGE 400		// v0.3.2+: return the maximum length of an instant message, lParam = (LPARAM)hContact
 
 /*
 
@@ -188,8 +188,8 @@ will pick this up and everything will be good.
 #define PS_GETCAPS     "/GetCaps"
 
 //Get a human-readable name for the protocol
-//wParam=cchName
-//lParam=(LPARAM)(char*)szName
+//wParam = cchName
+//lParam = (LPARAM)(char*)szName
 //Returns 0 on success, nonzero on failure
 //cchName is the number of characters in the buffer szName
 //This should be translated before being returned
@@ -198,8 +198,8 @@ will pick this up and everything will be good.
 #define PS_GETNAME     "/GetName"
 
 //Loads one of the protocol-specific icons
-//wParam=whichIcon
-//lParam=0
+//wParam = whichIcon
+//lParam = 0
 //Returns the HICON, or NULL on failure
 //The returned HICON must be DestroyIcon()ed.
 //The UI should overlay the online icon with a further UI-specified icon to
@@ -214,14 +214,14 @@ will pick this up and everything will be good.
 #define PS_LOADICON    "/LoadIcon"
 
 //Change the protocol's status mode
-//wParam=newMode, from ui/contactlist/statusmodes.h
-//lParam=0
+//wParam = newMode, from ui/contactlist/statusmodes.h
+//lParam = 0
 //returns 0 on success, nonzero on failure
 //Will send an ack with:
-//type=ACKTYPE_STATUS, result=ACKRESULT_SUCCESS, hProcess=(HANDLE)previousMode, lParam=newMode
+//type = ACKTYPE_STATUS, result = ACKRESULT_SUCCESS, hProcess = (HANDLE)previousMode, lParam = newMode
 //when the change completes. This ack is sent for all changes, not just ones
 //caused by calling this function.
-//Note that newMode can be ID_STATUS_CONNECTING<=newMode<ID_STATUS_CONNECTING+
+//Note that newMode can be ID_STATUS_CONNECTING <= newMode<ID_STATUS_CONNECTING+
 //MAX_CONNECT_RETRIES to signify that it's connecting and it's the nth retry.
 //Protocols are initially always in offline mode.
 //Non-network-level protocol modules do not have the concept of a status and
@@ -230,7 +230,7 @@ will pick this up and everything will be good.
 //closest one that it does support, and change to that.
 //If the new mode requires that the protocol switch from offline to online then
 //it will do so, but errors will be reported in the form of an additional ack:
-//type=ACKTYPE_LOGIN, result=ACKRESULT_FAILURE, hProcess=NULL, lParam=LOGINERR_
+//type = ACKTYPE_LOGIN, result = ACKRESULT_FAILURE, hProcess = NULL, lParam = LOGINERR_
 // (added during 0.3.4.3) the protocol will send LOGINERR_OTHERLOCATION if the login
 // was disconnected because of a login at another location
 #define LOGINERR_WRONGPASSWORD  1
@@ -245,28 +245,28 @@ will pick this up and everything will be good.
 #define PS_SETSTATUS   "/SetStatus"
 
 //Sets the status-mode specific message for yourself
-//wParam=status mode
-//lParam=(LPARAM)(const char*)szMessage
+//wParam = status mode
+//lParam = (LPARAM)(const char*)szMessage
 //Returns 0 on success, nonzero on failure
 //Note that this service will not be available unless PF1_MODEMSGSEND is set
 //and PF1_INDIVMODEMSG is *not* set.
 //If PF1_INDIVMODEMSG is set, then see PSS_AWAYMSG for details of
 //the operation of away messages
-//Protocol modules must support szMessage=NULL. It may either mean to use an
+//Protocol modules must support szMessage = NULL. It may either mean to use an
 //empty message, or (preferably) to not reply at all to any requests
 #define PS_SETAWAYMSG   "/SetAwayMsg"
 #define PS_SETAWAYMSGW  "/SetAwayMsgW"
 
 //Get the status mode that a protocol is currently in
-//wParam=lParam=0
+//wParam = lParam = 0
 //Returns the status mode
 //Non-network-level protocol modules do not have the concept of a status and
 //should leave this service unimplemented
 #define PS_GETSTATUS	"/GetStatus"
 
 //Allow somebody to add us to their contact list
-//wParam=(WPARAM)(HANDLE)hDbEvent
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hDbEvent
+//lParam = 0
 //Returns 0 on success, nonzero on failure
 //Auth requests come in the form of an event added to the database for the NULL
 //user. The form is:
@@ -277,21 +277,21 @@ will pick this up and everything will be good.
 #define PS_AUTHALLOW   "/Authorize"
 
 //Deny an authorisation request
-//wParam=(WPARAM)(HANDLE)hDbEvent
-//lParam=(LPARAM)(const TCHAR*)szReason
+//wParam = (WPARAM)(HANDLE)hDbEvent
+//lParam = (LPARAM)(const TCHAR*)szReason
 //Returns 0 on success, nonzero on failure
-//Protocol modules must be able to cope with szReason=NULL
+//Protocol modules must be able to cope with szReason = NULL
 #define PS_AUTHDENY    "/AuthDeny"
 #define PS_AUTHDENYW   "/AuthDenyW"
 
 // Send a "You were added" event
-// wParam=lParam=0
+// wParam = lParam = 0
 // Returns 0 on success, nonzero on failure
 #define PSS_ADDED	"/YouWereAdded"
 
 //Create account manager UI form
-//wParam=0
-//lParam=(LPARAM)(HWND)hwndAccMgr
+//wParam = 0
+//lParam = (LPARAM)(HWND)hwndAccMgr
 //Returns handle on newly created form.
 //Size for best fit is 186x134 DLUs, please avoid groupboxes
 //paddind and advanced options. This should provide minimal setup
@@ -299,8 +299,8 @@ will pick this up and everything will be good.
 #define PS_CREATEACCMGRUI "/CreateAccMgrUI"
 
 //Send a basic search request
-//wParam=0
-//lParam=(LPARAM)(const TCHAR*)szId
+//wParam = 0
+//lParam = (LPARAM)(const TCHAR*)szId
 //Returns a handle for the search, or zero on failure
 //All protocols identify users uniquely by a single field. This service will
 //search by that field.
@@ -309,9 +309,9 @@ will pick this up and everything will be good.
 //All search replies (even protocol-specific extended searches) are replied by
 //means of a series of acks:
 //result acks, one of more of:
-//type=ACKTYPE_SEARCH, result=ACKRESULT_DATA, lParam=(LPARAM)(PROTOSEARCHRESULT*)&psr
+//type = ACKTYPE_SEARCH, result = ACKRESULT_DATA, lParam = (LPARAM)(PROTOSEARCHRESULT*)&psr
 //ending ack:
-//type=ACKTYPE_SEARCH, result=ACKRESULT_SUCCESS, lParam=0
+//type = ACKTYPE_SEARCH, result = ACKRESULT_SUCCESS, lParam = 0
 //Note that the pointers in the structure are not guaranteed to be valid after
 //the ack is complete.
 
@@ -344,8 +344,8 @@ typedef struct {
 #define PS_BASICSEARCHW "/BasicSearchW"
 
 //Search for users by e-mail address           v0.1.2.1+
-//wParam=0
-//lParam=(LPARAM)(TCHAR*)szEmail
+//wParam = 0
+//lParam = (LPARAM)(TCHAR*)szEmail
 //Returns a HANDLE to the search, or NULL on failure
 //Results are returned as for PS_BASICSEARCH.
 //This function is only available if the PF1_SEARCHBYEMAIL capability is set
@@ -356,8 +356,8 @@ typedef struct {
 #define PS_SEARCHBYEMAILW   "/SearchByEmailW"
 
 //Search for users by name           v0.1.2.1+
-//wParam=0
-//lParam=(LPARAM)(PROTOSEARCHBYNAME*)&psbn
+//wParam = 0
+//lParam = (LPARAM)(PROTOSEARCHBYNAME*)&psbn
 //Returns a HANDLE to the search, or NULL on failure
 //Results are returned as for PS_BASICSEARCH.
 //This function is only available if the PF1_SEARCHBYNAME capability is set
@@ -370,8 +370,8 @@ typedef struct {
 #define PS_SEARCHBYNAMEW   "/SearchByNameW"
 
 //Create the advanced search dialog box     v0.1.2.1+
-//wParam=0
-//lParam=(HWND)hwndOwner
+//wParam = 0
+//lParam = (HWND)hwndOwner
 //Returns a HWND, or NULL on failure
 //This function is only available if the PF1_EXTSEARCHUI capability is set
 //Advanced search is very protocol-specific so it is left to the protocol
@@ -384,8 +384,8 @@ typedef struct {
 #define PS_CREATEADVSEARCHUI        "/CreateAdvSearchUI"
 
 //Search using the advanced search dialog     v0.1.2.1+
-//wParam=0
-//lParam=(LPARAM)(HWND)hwndAdvancedSearchDlg
+//wParam = 0
+//lParam = (LPARAM)(HWND)hwndAdvancedSearchDlg
 //Returns a HANDLE to the search, or NULL on failure
 //Results are returned as for PS_BASICSEARCH.
 //This function is only available if the PF1_EXTSEARCHUI capability is set
@@ -399,21 +399,21 @@ typedef struct {
 } CUSTOMSEARCHRESULTS;
 
 //Adds a search result to the contact list
-//wParam=flags
-//lParam=(LPARAM)(PROTOSEARCHRESULT*)&psr
+//wParam = flags
+//lParam = (LPARAM)(PROTOSEARCHRESULT*)&psr
 //Returns a HANDLE to the new contact, or NULL on failure
 //psr must be a result returned by a search function, since the extended
 //information past the end of the official structure may contain important
 //data required by the protocol.
 //The protocol library should not allow duplicate contacts to be added, but if
 //such a request is received it should return the original hContact, and do the
-//appropriate thing with the temporary flag (ie newflag=(oldflag&thisflag))
+//appropriate thing with the temporary flag (ie newflag = (oldflag&thisflag))
 #define PALF_TEMPORARY    1    //add the contact temporarily and invisibly, just to get user info or something
 #define PS_ADDTOLIST   "/AddToList"
 
 //Adds a contact to the contact list given an auth, added or contacts event
-//wParam=MAKEWPARAM(flags, iContact)
-//lParam=(LPARAM)(HANDLE)hDbEvent
+//wParam = MAKEWPARAM(flags, iContact)
+//lParam = (LPARAM)(HANDLE)hDbEvent
 //Returns a HANDLE to the new contact, or NULL on failure
 //hDbEvent must be either EVENTTYPE_AUTHREQ or EVENTTYPE_ADDED
 //flags are the same as for PS_ADDTOLIST.
@@ -423,25 +423,25 @@ typedef struct {
 #define PS_ADDTOLISTBYEVENT  "/AddToListByEvent"
 
 //Changes our user details as stored on the server   v0.1.2.0+
-//wParam=infoType
-//lParam=(LPARAM)(void*)pInfoData
+//wParam = infoType
+//lParam = (LPARAM)(void*)pInfoData
 //Returns a HANDLE to the change request, or NULL on failure
 //The details information that is stored on the server is very protocol-
 //specific, so this service just supplies an outline for protocols to use.
 //See protocol-specific documentation for what infoTypes are available and
 //what pInfoData should be for each infoType.
-//Sends an ack type=ACKTYPE_SETINFO, result=ACKRESULT_SUCCESS/FAILURE,
-//lParam=0 on completion.
+//Sends an ack type = ACKTYPE_SETINFO, result = ACKRESULT_SUCCESS/FAILURE,
+//lParam = 0 on completion.
 #define PS_CHANGEINFO     "/ChangeInfo"
 
 //Informs the protocol of the users chosen resume behaviour   v0.1.2.2+
-//wParam=(WPARAM)(HANDLE)hFileTransfer
-//lParam=(LPARAM)(PROTOFILERESUME*)&pfr
+//wParam = (WPARAM)(HANDLE)hFileTransfer
+//lParam = (LPARAM)(PROTOFILERESUME*)&pfr
 //Returns 0 on success, nonzero on failure
 //If the protocol supports file resume (PF1_FILERESUME) then before each
 //individual file receive begins (note: not just each file that already exists)
-//it will broadcast an ack with type=ACKTYPE_FILE, result=ACKRESULT_RESUME,
-//hProcess=hFileTransfer, lParam=(LPARAM)(PROTOFILETRANSFERSTATUS*)&fts. If the
+//it will broadcast an ack with type = ACKTYPE_FILE, result = ACKRESULT_RESUME,
+//hProcess = hFileTransfer, lParam = (LPARAM)(PROTOFILETRANSFERSTATUS*)&fts. If the
 //UI processes this ack it must return nonzero from its hook. If all the hooks
 //complete without returning nonzero then the protocol will assume that no
 //resume UI was available and will continue the file receive with a default
@@ -463,20 +463,20 @@ typedef struct {
 #define PS_FILERESUMEW    "/FileResumeW"
 
 //Asks a protocol to join the chatroom from contact  v0.8.0+
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)0
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)0
 //Returns 0 on success, nonzero on failure
 #define PS_JOINCHAT "/JoinChat"
 
 //Asks a protocol to leave the chatroom from contact  v0.8.0+
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)0
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)0
 //Returns 0 on success, nonzero on failure
 #define PS_LEAVECHAT "/LeaveChat"
 
 //Asks a protocol to read contact information and translate them (for a lookup fields)  v0.8.0+
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)(DBCONTACTGETSETTING*)&dbcgs
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)(DBCONTACTGETSETTING*)&dbcgs
 //The flag PF4_INFOSETTINGSVC indicates that a protocol supports this. Basically it should
 //do the same as MS_DB_CONTACT_GETSETTING_STR, except that for a lookup settings (e.g. Language)
 //it returns string instead of an ID stored in the database.
@@ -488,8 +488,8 @@ typedef struct {
 #define PS_GETINFOSETTING "/GetInfoSetting"
 
 // Asks protocol for the status message for a status
-// wParam=(WORD) 0 for current status or a status id
-// lParam=SGMA_xxx
+// wParam = (WORD) 0 for current status or a status id
+// lParam = SGMA_xxx
 // Returns status msg or NULL if there is none.  The protocol have to handle only the current
 // status. Handling messages for other statuses is optional.
 // Remember to mir_free the return value
@@ -504,9 +504,9 @@ typedef struct {
 #define PS_GETMYAWAYMSG  "/GetMyAwayMsg"
 
 // Set nickname for the user
-// wParam=(WPARAM)SMNN_xxx
-// lParam=(LPARAM)(char *) The new nickname for the user
-// return=0 for success
+// wParam = (WPARAM)SMNN_xxx
+// lParam = (LPARAM)(char *) The new nickname for the user
+// return = 0 for success
 
 #define SMNN_UNICODE 1        // return Unicode status
 #if defined(_UNICODE)
@@ -519,9 +519,9 @@ typedef struct {
 
 // Get the max allowed length for the user nickname
 // Optional, default value is 1024
-// wParam=(WPARAM)0
-// lParam=(LPARAM)0
-// return= <=0 for error, >0 the max length of the nick
+// wParam = (WPARAM)0
+// lParam = (LPARAM)0
+// return = <= 0 for error, >0 the max length of the nick
 #define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"
 
 // WAYD = What are you doing
@@ -533,21 +533,21 @@ typedef struct {
 #endif
 
 // Get the WAYD message for the user
-// wParam=(WPARAM)WAYD_xxx
-// lParam=(LPARAM)0
+// wParam = (WPARAM)WAYD_xxx
+// lParam = (LPARAM)0
 // Returns the text or NULL if there is none. Remember to mir_free the return value.
 #define PS_GETMYWAYD "/GetMyWAYD"
 
 // Sets the WAYD message for the user
-// wParam=(WPARAM)WAYD_xxx
-// lParam=(LPARAM)(WCHAR * or char *)The message
+// wParam = (WPARAM)WAYD_xxx
+// lParam = (LPARAM)(WCHAR * or char *)The message
 // Returns 0 on success, nonzero on failure
 #define PS_SETMYWAYD "/SetMyWAYD"
 
 // Get the max allowed length that a WAYD message can have
 // Optional, default value is 1024
-// wParam=(WPARAM)0
-// lParam=(LPARAM)0
+// wParam = (WPARAM)0
+// lParam = (LPARAM)0
 // Returns the max length
 #define PS_GETMYWAYDMAXLENGTH "/GetMyWAYDMaxLength"
 
@@ -555,16 +555,16 @@ typedef struct {
 //these should be called with CallContactService()
 
 //Updates a contact's details from the server
-//wParam=flags
-//lParam=0
+//wParam = flags
+//lParam = 0
 //returns 0 on success, nonzero on failure
 //Will update all the information in the database, and then send acks with
-//type=ACKTYPE_GETINFO, result=ACKRESULT_SUCCESS, hProcess=(HANDLE)(int)nReplies, lParam=thisReply
+//type = ACKTYPE_GETINFO, result = ACKRESULT_SUCCESS, hProcess = (HANDLE)(int)nReplies, lParam = thisReply
 //Since some protocols do not allow the library to tell when it has got all
 //the information so it can send a final ack, one ack will be sent after each
 //chunk of data has been received. nReplies contains the number of distinct
 //acks that will be sent to get all the information, thisReply is the zero-
-//based index of this ack. When thisReply=0 the 'minimal' information has just
+//based index of this ack. When thisReply = 0 the 'minimal' information has just
 //been received. All other numbering is arbitrary.
 #define SGIF_MINIMAL   1     //get only the most basic information. This should
                              //contain at least a Nick and e-mail.
@@ -572,65 +572,65 @@ typedef struct {
 #define PSS_GETINFO      "/GetInfo"
 
 //Send an instant message
-//wParam=flags
-//lParam=(LPARAM)(const char*)szMessage
+//wParam = flags
+//lParam = (LPARAM)(const char*)szMessage
 //returns a hProcess corresponding to the one in the ack event.
 //Will send an ack when the message actually gets sent
-//type=ACKTYPE_MESSAGE, result=success/failure, (char*)lParam=error message or NULL.
+//type = ACKTYPE_MESSAGE, result = success/failure, (char*)lParam = error message or NULL.
 //Protocols modules are free to define flags starting at 0x10000
 //The event will *not* be added to the database automatically.
 #define PSS_MESSAGE      "/SendMsg"
 
 //Send an URL message
-//wParam=flags
-//lParam=(LPARAM)(const char*)szMessage
+//wParam = flags
+//lParam = (LPARAM)(const char*)szMessage
 //returns a hProcess corresponding to the one in the ack event.
 //szMessage should be encoded as the URL followed by the description, the
 //separator being a single nul (\0). If there is no description, do not forget
 //to end the URL with two nuls.
 //Will send an ack when the message actually gets sent
-//type=ACKTYPE_URL, result=success/failure, (char*)lParam=error message or NULL.
+//type = ACKTYPE_URL, result = success/failure, (char*)lParam = error message or NULL.
 //Protocols modules are free to define flags starting at 0x10000
 //The event will *not* be added to the database automatically.
 #define PSS_URL          "/SendUrl"
 
 //Send a set of contacts
-//wParam=MAKEWPARAM(flags, nContacts)
-//lParam=(LPARAM)(HANDLE*)hContactsList
+//wParam = MAKEWPARAM(flags, nContacts)
+//lParam = (LPARAM)(HANDLE*)hContactsList
 //returns a hProcess corresponding to the one in the ack event, NULL on
 //failure.
 //hContactsList is an array of nContacts handles to contacts. If this array
 //includes one or more contacts that cannot be transferred using this protocol
 //the function will fail.
 //Will send an ack when the contacts actually get sent
-//type=ACKTYPE_CONTACTS, result=success/failure, (char*)lParam=error message or NULL.
+//type = ACKTYPE_CONTACTS, result = success/failure, (char*)lParam = error message or NULL.
 //No flags have yet been defined.
 //The event will *not* be added to the database automatically.
 #define PSS_CONTACTS          "/SendContacts"
 
 //Send a request to retrieve somebody's mode message.
-//wParam=lParam=0
+//wParam = lParam = 0
 //returns an hProcess identifying the request, or 0 on failure
 //This function will fail if the contact's current status mode doesn't have an
 //associated message
 //The reply will be in the form of an ack:
-//type=ACKTYPE_AWAYMSG, result=success/failure, lParam=(const char*)szMessage
+//type = ACKTYPE_AWAYMSG, result = success/failure, lParam = (const char*)szMessage
 #define PSS_GETAWAYMSG    "/GetAwayMsg"
 
 //Sends an away message reply to a user
-//wParam=(WPARAM)(HANDLE)hProcess (of ack)
-//lParam=(LPARAM)(const char*)szMessage
+//wParam = (WPARAM)(HANDLE)hProcess (of ack)
+//lParam = (LPARAM)(const char*)szMessage
 //Returns 0 on success, nonzero on failure
 //This function must only be used if the protocol has PF1_MODEMSGSEND and
 //PF1_INDIVMODEMSG set. Otherwise, PS_SETAWAYMESSAGE should be used.
 //This function must only be called in response to an ack that a user has
 //requested our away message. The ack is sent as:
-//type=ACKTYPE_AWAYMSG, result=ACKRESULT_SENTREQUEST, lParam=0
+//type = ACKTYPE_AWAYMSG, result = ACKRESULT_SENTREQUEST, lParam = 0
 #define PSS_AWAYMSG     "/SendAwayMsg"
 
 //Allows a file transfer to begin
-//wParam=(WPARAM)(HANDLE)hTransfer
-//lParam=(LPARAM)(const TCHAR*)szPath
+//wParam = (WPARAM)(HANDLE)hTransfer
+//lParam = (LPARAM)(const TCHAR*)szPath
 //Returns a new handle to the transfer, to be used from now on
 //If szPath does not point to a directory then:
 //  if a single file is being transferred and the protocol supports file
@@ -645,47 +645,47 @@ typedef struct {
 #define PSS_FILEALLOWW  "/FileAllowW"
 
 //Refuses a file transfer request
-//wParam=(WPARAM)(HANDLE)hTransfer
-//lParam=(LPARAM)(const TCHAR*)szReason
+//wParam = (WPARAM)(HANDLE)hTransfer
+//lParam = (LPARAM)(const TCHAR*)szReason
 //Returns 0 on success, nonzero on failure
 #define PSS_FILEDENY    "/FileDeny"
 #define PSS_FILEDENYW   "/FileDenyW"
 
 //Cancel an in-progress file transfer
-//wParam=(WPARAM)(HANDLE)hTransfer
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hTransfer
+//lParam = 0
 //Returns 0 on success, nonzero on failure
 #define PSS_FILECANCEL  "/FileCancel"
 
 //Initiate a file send
-//wParam=(WPARAM)(const TCHAR*)szDescription
-//lParam=(LPARAM)(TCHAR **)ppszFiles
+//wParam = (WPARAM)(const TCHAR*)szDescription
+//lParam = (LPARAM)(TCHAR **)ppszFiles
 //Returns a transfer handle on success, NULL on failure
-//All notification is done through acks, with type=ACKTYPE_FILE
-//If result=ACKRESULT_FAILED then lParam=(LPARAM)(const char*)szReason
+//All notification is done through acks, with type = ACKTYPE_FILE
+//If result = ACKRESULT_FAILED then lParam = (LPARAM)(const char*)szReason
 #define PSS_FILE    "/SendFile"
 #define PSS_FILEW   "/SendFileW"
 
 //Set the status mode you will appear in to a user
-//wParam=statusMode
-//lParam=0
+//wParam = statusMode
+//lParam = 0
 //Returns 0 on success, nonzero on failure
-//Set statusMode=0 to revert to normal behaviour for the contact
+//Set statusMode = 0 to revert to normal behaviour for the contact
 //ID_STATUS_ONLINE is possible iff PF1_VISLIST
 //ID_STATUS_OFFLINE is possible iff PF1_INVISLIST
 //Other modes are possible iff PF1_INDIVSTATUS
 #define PSS_SETAPPARENTMODE  "/SetApparentMode"
 
 // Send an auth request
-// wParam=0
-// lParam=(const TCHAR *)szMessage
+// wParam = 0
+// lParam = (const TCHAR *)szMessage
 // Returns 0 on success, nonzero on failure
 #define PSS_AUTHREQUEST    "/AuthRequest"
 #define PSS_AUTHREQUESTW   "/AuthRequestW"
 
 // Send "User is Typing" (user is typing a message to the user) v0.3.3+
-// wParam=(WPARAM)(HANDLE)hContact
-// lParam=(LPARAM)(int)typing type - see PROTOTYPE_SELFTYPING_X defines in m_protocols.h
+// wParam = (WPARAM)(HANDLE)hContact
+// lParam = (LPARAM)(int)typing type - see PROTOTYPE_SELFTYPING_X defines in m_protocols.h
 #define PSS_USERISTYPING   "/UserIsTyping"
 
 /**************************** RECEIVING SERVICES *************************/
@@ -708,8 +708,8 @@ typedef struct {
 //In all cases, the database should store what the user read/wrote.
 
 //An instant message has been received
-//wParam=0
-//lParam=(LPARAM)(PROTORECVEVENT*)&pre
+//wParam = 0
+//lParam = (LPARAM)(PROTORECVEVENT*)&pre
 //DB event: EVENTTYPE_MESSAGE, blob contains szMessage without 0 terminator
 //Return 0 - success, other failure
 typedef struct {
@@ -737,15 +737,15 @@ typedef struct {
 #define MS_PROTO_RECVMSG "Proto/RecvMessage"
 
 //An URL has been received
-//wParam=0
-//lParam=(LPARAM)(PROTORECVEVENT*)&pre
+//wParam = 0
+//lParam = (LPARAM)(PROTORECVEVENT*)&pre
 //szMessage is encoded the same as for PSS_URL
 //DB event: EVENTTYPE_URL, blob contains szMessage without 0 terminator
 #define PSR_URL       "/RecvUrl"
 
 //Contacts have been received
-//wParam=0
-//lParam=(LPARAM)(PROTORECVEVENT*)&pre
+//wParam = 0
+//lParam = (LPARAM)(PROTORECVEVENT*)&pre
 //pre.szMessage is actually a (PROTOSEARCHRESULT**) list.
 //pre.lParam is the number of contacts in that list.
 //pre.flags can contain PREF_UTF defining the strings as utf-8 encoded (0.7.0+)
@@ -768,8 +768,8 @@ Use PS_ADDTOLISTBYEVENT to add the contacts from one of these to the list.
 */
 
 //File(s) have been received (0.9.x)
-//wParam=0
-//lParam=(LPARAM)(PROTORECVFILE*)&prf
+//wParam = 0
+//lParam = (LPARAM)(PROTORECVFILE*)&prf
 typedef struct {
 	DWORD flags;
 	DWORD timestamp;   //unix time
@@ -795,13 +795,13 @@ typedef struct {
 #define MS_PROTO_RECVFILE "Proto/RecvFile"
 
 //An away message reply has been received
-//wParam=statusMode
-//lParam=(LPARAM)(PROTORECVEVENT*)&pre
+//wParam = statusMode
+//lParam = (LPARAM)(PROTORECVEVENT*)&pre
 #define PSR_AWAYMSG    "/RecvAwayMsg"
 
 //An authorization request has been received
-//wParam=0
-//lParam=(LPARAM)(PROTORECVEVENT*)&pre
+//wParam = 0
+//lParam = (LPARAM)(PROTORECVEVENT*)&pre
 //pre.szMessage is same format as blob
 //pre.lParam is the size of the blob
 #define PSR_AUTH		"/RecvAuth"

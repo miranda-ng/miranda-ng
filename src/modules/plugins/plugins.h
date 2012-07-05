@@ -30,7 +30,7 @@ struct BASIC_PLUGIN_INFO
 	Miranda_Plugin_Interfaces Interfaces;
 	Database_Plugin_Info DbInfo;
 	CList_Initialise clistlink;
-	PLUGININFOEX * pluginInfo;	 // must be freed if hInst == NULL then its a copy
+	PLUGININFOEX * pluginInfo;	 // must be freed if hInst = = NULL then its a copy
 	DATABASELINK * dblink;		 // only valid during module being in memory
 };
 
@@ -66,17 +66,23 @@ int getDefaultPluginIdx(const MUUID& muuid);
 bool hasMuuid(const BASIC_PLUGIN_INFO&, const MUUID&);
 int equalUUID(const MUUID& u1, const MUUID& u2);
 int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int checkTypeAPI);
-pluginEntry* OpenPlugin(TCHAR* tszFileName, TCHAR* path);
-bool TryLoadPlugin(pluginEntry *p, bool bDynamic);
-void Plugin_Uninit(pluginEntry* p, bool bDynamic=false);
 
-typedef BOOL (*SCAN_PLUGINS_CALLBACK) (WIN32_FIND_DATA * fd, TCHAR * path, WPARAM wParam, LPARAM lParam);
+pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path);
+
+bool TryLoadPlugin(pluginEntry *p, TCHAR *dir, bool bDynamic);
+void Plugin_Uninit(pluginEntry* p, bool bDynamic = false);
+int  Plugin_UnloadDyn(pluginEntry* p);
+
+typedef BOOL (*SCAN_PLUGINS_CALLBACK) (WIN32_FIND_DATA * fd, TCHAR *path, WPARAM wParam, LPARAM lParam);
 void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam);
 
 struct MuuidReplacement
 {
 	MUUID uuid;  // default interface plugin
+	TCHAR* stdplugname;
 	pluginEntry* pImpl; // replacement plugin
 };
 
 extern MuuidReplacement pluginDefault[];
+
+bool LoadCorePlugin( MuuidReplacement& );

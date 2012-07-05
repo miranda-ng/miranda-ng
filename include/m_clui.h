@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //ui/contactlist/m_clist.h instead
 
 //gets the handle for the contact list window
-//wParam=lParam=0
+//wParam = lParam = 0
 //returns the HWND
 //This call has a few very specific purposes internally in Miranda, and
 //shouldn't be gratuitously used. In almost all cases there's another call to
@@ -40,16 +40,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_CLUI_GETHWNDTREE     "CLUI/GetHwndTree"
 
 //change protocol-specific status indicators
-//wParam=new status
-//lParam=(LPARAM)(const char*)szProtocolID
+//wParam = new status
+//lParam = (LPARAM)(const char*)szProtocolID
 //returns 0 on success, nonzero on failure
 //protocol modules don't want to call this. They want
 //clist/protocolstatuschanged instead
 #define MS_CLUI_PROTOCOLSTATUSCHANGED       "CLUI/ProtocolStatusChanged"
 
 //a new group was created. Add it to the list
-//wParam=(WPARAM)(HANDLE)hGroup
-//lParam=newGroup
+//wParam = (WPARAM)(HANDLE)hGroup
+//lParam = newGroup
 //returns 0 on success, nonzero on failure
 //newGroup is set to 1 if the user just created the group, and 0 otherwise
 //this is also called when the contact list is being rebuilt
@@ -57,23 +57,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_CLUI_GROUPADDED  "CLUI/GroupCreated"
 
 //change the icon for a contact
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=iconid
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = iconid
 //returns 0 on sucess, nonzero on failure
 //iconid is an offset in the image list. see clist/geticonsimagelist
 #define MS_CLUI_CONTACTSETICON  "CLUI/ContactSetIcon"
 
 //remove a contact from the list
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = 0
 //returns 0 on success, nonzero on failure
 //this is not necessarily the same as a contact being actually deleted, since
 //if a contact goes offline while 'hide offline' is on, this will be called
 #define MS_CLUI_CONTACTDELETED  "CLUI/ContactDeleted"
 
 //add a contact to the list
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=iconId
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = iconId
 //returns 0 on success, nonzero on failure
 //The caller processes the 'hide offline' setting, so the callee should not do
 //further processing based on the value of this setting.
@@ -90,8 +90,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_CLUI_CONTACTADDED    "CLUI/ContactAdded"
 
 //rename a contact in the list
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = 0
 //returns 0 on success, nonzero on failure
 //you should not re-sort the list on this call. A separate resort request will
 //be sent
@@ -99,7 +99,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_CLUI_CONTACTRENAMED  "CLUI/ContactRenamed"
 
 //start a rebuild of the contact list
-//wParam=lParam=0
+//wParam = lParam = 0
 //returns 0 on success, nonzero on failure
 //this is the cue to clear the existing contents of the list
 //expect to get a series of clui/groupadded calls followed by a series of
@@ -107,22 +107,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_CLUI_LISTBEGINREBUILD  "CLUI/ListBeginRebuild"
 
 //end a rebuild of the contact list
-//wParam=lParam=0
+//wParam = lParam = 0
 //returns 0 on success, nonzero on failure
 //if you displayed an hourglass in beginrebuild, set it back here
 //you do not need to explicitly sort the list
 #define MS_CLUI_LISTENDREBUILD  "CLUI/ListEndRebuild"
 
 //sort the contact list now
-//wParam=lParam=0
+//wParam = lParam = 0
 //returns 0 on success, nonzero on failure
 //sorts are buffered so you won't get this message lots of times if the list
 //needs to be re-sorted many times rapidly.
 #define MS_CLUI_SORTLIST        "CLUI/SortList"
 
 //Gets a load of capabilities for the loaded CLUI    v0.1.2.1+
-//wParam=capability, CLUICAPS_*
-//lParam=0
+//wParam = capability, CLUICAPS_*
+//lParam = 0
 //returns the requested value, 0 if wParam is an unknown value
 //If this service is not implemented, it is assumed to return 0 to all input
 
@@ -157,21 +157,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_CLUI_GETCAPS         "CLUI/GetCaps"
 
 //a contact is being dragged outside the main window     v0.1.2.0+
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=MAKELPARAM(screenX, screenY)
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = MAKELPARAM(screenX, screenY)
 //return nonzero to make the cursor a 'can drop here', or zero for 'no'
 #define ME_CLUI_CONTACTDRAGGING     "CLUI/ContactDragging"
 
 //a contact has just been dropped outside the main window   v0.1.2.0+
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=MAKELPARAM(screenX, screenY)
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = MAKELPARAM(screenX, screenY)
 //return nonzero if your hook processed this, so no other hooks get it
 #define ME_CLUI_CONTACTDROPPED      "CLUI/ContactDropped"
 
 //a contact that was being dragged outside the main window has gone back in to
 //the main window.                                          v0.1.2.1+
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = 0
 //return zero
 #define ME_CLUI_CONTACTDRAGSTOP     "CLUI/ContactDragStop"
 

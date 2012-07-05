@@ -186,11 +186,6 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ClcModulesLoaded(WPARAM wParam, LPARAM lParam)
-{
-	return 0;
-}
-
 static int ClcPreshutdown(WPARAM wParam, LPARAM lParam)
 {
 	SFL_Destroy();
@@ -218,13 +213,11 @@ int ClcShutdown(WPARAM wParam, LPARAM lParam)
 	DeleteObject(cfg::dat.hBrushColorKey);
 	DeleteObject(cfg::dat.hBrushCLCBk);
 	DeleteObject(cfg::dat.hBrushAvatarBorder);
-    DestroyMenu(cfg::dat.hMenuNotify);
+	DestroyMenu(cfg::dat.hMenuNotify);
 	ClearIcons(1);
 	SFL_UnregisterWindowClass();
 	if (cfg::eCache) {
-		int i;
-
-		for (i = 0; i < cfg::nextCacheEntry; i++) {
+		for (int i = 0; i < cfg::nextCacheEntry; i++) {
 			if (cfg::eCache[i].statusMsg)
 				free(cfg::eCache[i].statusMsg);
 			if (cfg::eCache[i].status_item) {
@@ -255,7 +248,6 @@ int LoadCLCModule(void)
 
 	hCListImages = (HIMAGELIST) CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, ClcModulesLoaded);
 	hClcSettingsChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
 	hClcDBEvent = HookEvent(ME_DB_EVENT_ADDED, ClcEventAdded);
 	HookEvent(ME_OPT_INITIALISE, ClcOptInit);

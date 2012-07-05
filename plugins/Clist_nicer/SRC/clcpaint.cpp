@@ -1387,22 +1387,22 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	my_status = GetGeneralisedStatus();
 	g_HDC = hdc;
 
-    /*
-     * temporary DC for avatar drawing
-    */
+	/*
+	* temporary DC for avatar drawing
+	*/
 
-    g_padding_y = 0;
+	g_padding_y = 0;
 
-    hdcTempAV = CreateCompatibleDC(g_HDC);
-    hdcAV = CreateCompatibleDC(g_HDC);
-    hbmTempAV = CreateCompatibleBitmap(g_HDC, g_maxAV_X, g_maxAV_Y);
-    hbmTempOldAV = reinterpret_cast<HBITMAP>(SelectObject(hdcTempAV, hbmTempAV));
+	hdcTempAV = CreateCompatibleDC(g_HDC);
+	hdcAV = CreateCompatibleDC(g_HDC);
+	hbmTempAV = CreateCompatibleBitmap(g_HDC, g_maxAV_X, g_maxAV_Y);
+	hbmTempOldAV = reinterpret_cast<HBITMAP>(SelectObject(hdcTempAV, hbmTempAV));
 
-    cfg::dat.t_now = time(NULL);
+	cfg::dat.t_now = time(NULL);
 	GetSystemTime(&cfg::dat.st);
 	SystemTimeToFileTime(&cfg::dat.st, &cfg::dat.ft);
 
-    cfg::dat.bUseFastGradients = cfg::dat.bWantFastGradients && (API::pfnGradientFill != 0);
+	cfg::dat.bUseFastGradients = cfg::dat.bWantFastGradients && (API::pfnGradientFill != 0);
 
 	av_left = (cfg::dat.dwFlags & CLUI_FRAME_AVATARSLEFT);
 	av_right = (cfg::dat.dwFlags & CLUI_FRAME_AVATARSRIGHT);
@@ -1581,8 +1581,8 @@ bgdone:
 		}
 
 		line_num++;
-        if(cfg::dat.bForceRefetchOnPaint)
-            group->cl.items[group->scanIndex]->ace = (struct avatarCacheEntry*)-1;
+		if(cfg::dat.bForceRefetchOnPaint)
+			group->cl.items[group->scanIndex]->ace = (struct avatarCacheEntry*)-1;
 
 		if (y > rcPaint->top - dat->row_heights[line_num] && y <= rcPaint->bottom) {
             if (group->cl.items[group->scanIndex]->ace == (struct avatarCacheEntry*)-1 )

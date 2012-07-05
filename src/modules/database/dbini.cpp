@@ -113,21 +113,21 @@ static INT_PTR CALLBACK WarnIniChangeDlgProc(HWND hwndDlg, UINT message, WPARAM 
 			SetDlgItemTextA(hwndDlg, IDC_SETTINGNAME, szSettingName);
 			SetDlgItemTextA(hwndDlg, IDC_NEWVALUE, warnInfo->szValue);
 			if (IsInSpaceSeparatedList(warnInfo->szSection, warnInfo->szSafeSections))
-				pszSecurityInfo=LPGENT("This change is known to be safe.");
+				pszSecurityInfo = LPGENT("This change is known to be safe.");
 			else if (IsInSpaceSeparatedList(warnInfo->szSection, warnInfo->szUnsafeSections))
-				pszSecurityInfo=LPGENT("This change is known to be potentially hazardous.");
+				pszSecurityInfo = LPGENT("This change is known to be potentially hazardous.");
 			else
-				pszSecurityInfo=LPGENT("This change is not known to be safe.");
+				pszSecurityInfo = LPGENT("This change is not known to be safe.");
 			SetDlgItemText(hwndDlg, IDC_SECURITYINFO, TranslateTS(pszSecurityInfo));
 			return TRUE;
 		}
 		case WM_COMMAND:
 			switch(LOWORD(wParam)) {
 				case IDCANCEL:
-					warnInfo->cancel=1;
+					warnInfo->cancel = 1;
 				case IDYES:
 				case IDNO:
-					warnInfo->warnNoMore=IsDlgButtonChecked(hwndDlg, IDC_WARNNOMORE);
+					warnInfo->warnNoMore = IsDlgButtonChecked(hwndDlg, IDC_WARNNOMORE);
 					EndDialog(hwndDlg, LOWORD(wParam));
 					break;
 			}
@@ -154,10 +154,10 @@ static INT_PTR CALLBACK IniImportDoneDlgProc(HWND hwndDlg, UINT message, WPARAM 
 					EndDialog(hwndDlg, LOWORD(wParam));
 					break;
 				case IDC_RECYCLE:
-					{	SHFILEOPSTRUCT shfo={0};
-						shfo.wFunc=FO_DELETE;
-						shfo.pFrom=szIniPath;
-						szIniPath[lstrlen(szIniPath)+1]='\0';
+					{	SHFILEOPSTRUCT shfo = {0};
+						shfo.wFunc = FO_DELETE;
+						shfo.pFrom = szIniPath;
+						szIniPath[lstrlen(szIniPath)+1] = '\0';
 						shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
 						SHFileOperation(&shfo);
 					}
@@ -186,7 +186,7 @@ struct SettingsList
 
 int SettingsEnumProc(const char *szSetting, LPARAM lParam)
 {
-	SettingsList *newItem =  (SettingsList *)mir_alloc(sizeof(SettingsList));
+	SettingsList *newItem = (SettingsList *)mir_alloc(sizeof(SettingsList));
 	newItem->name = mir_strdup(szSetting);
 	newItem->next = setting_items;
 	setting_items = newItem;
@@ -222,10 +222,10 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 			break;
 
 		int lineLength = lstrlenA(szLine);
-		while (lineLength && (BYTE)(szLine[lineLength-1])<=' ')
-			szLine[--lineLength]='\0';
+		while (lineLength && (BYTE)(szLine[lineLength-1]) <= ' ')
+			szLine[--lineLength] = '\0';
 
-		if (szLine[0] == ';' || szLine[0]<=' ') 
+		if (szLine[0] == ';' || szLine[0] <= ' ') 
 			continue;
 
 		if (szLine[0] == '[') {
@@ -254,14 +254,14 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 					warnThisSection = true;
 					break;
 				}
-				if (secFN) warnThisSection=0;
+				if (secFN) warnThisSection = 0;
 			}
 			if (szLine[1] == '?') {
 				DBCONTACTENUMSETTINGS dbces;
-				dbces.pfnEnumProc=SettingsEnumProc;
+				dbces.pfnEnumProc = SettingsEnumProc;
 				lstrcpynA(szSection, szLine+2, min(sizeof(szSection), (int)(szEnd-szLine-1)));
-				dbces.szModule=szSection;
-				dbces.ofsSettings=0;
+				dbces.szModule = szSection;
+				dbces.ofsSettings = 0;
 				CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 				while (setting_items) {
 					SettingsList *next = setting_items->next;
@@ -282,7 +282,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 		if (szSection[0] == '\0')
 			continue;
 
-		char *szValue=strchr(szLine, '=');
+		char *szValue = strchr(szLine, '=');
 		if (szValue == NULL)
 			continue;
 
@@ -291,20 +291,20 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 		szValue++;
 		{
 			warnSettingChangeInfo_t warnInfo;
-			warnInfo.szIniPath=szIniPath;
-			warnInfo.szName=szName;
-			warnInfo.szSafeSections=szSafeSections;
-			warnInfo.szSection=szSection;
-			warnInfo.szUnsafeSections=szUnsafeSections;
-			warnInfo.szValue=szValue;
-			warnInfo.warnNoMore=0;
-			warnInfo.cancel=0;
+			warnInfo.szIniPath = szIniPath;
+			warnInfo.szName = szName;
+			warnInfo.szSafeSections = szSafeSections;
+			warnInfo.szSection = szSection;
+			warnInfo.szUnsafeSections = szUnsafeSections;
+			warnInfo.szValue = szValue;
+			warnInfo.warnNoMore = 0;
+			warnInfo.cancel = 0;
 			if (warnThisSection && IDNO == DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WARNINICHANGE), NULL, WarnIniChangeDlgProc, (LPARAM)&warnInfo))
 				continue;
 			if (warnInfo.cancel)
 				break;
 			if (warnInfo.warnNoMore)
-				warnThisSection=0;
+				warnThisSection = 0;
 		}
 
 		switch(szValue[0]) {
@@ -334,13 +334,13 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 		case 'g':
 		case 'G':
 			{	char *pstr;
-				for (pstr=szValue+1;*pstr;pstr++) {
+				for (pstr = szValue+1;*pstr;pstr++) {
 					if (*pstr == '\\') {
 						switch(pstr[1]) {
-						case 'n': *pstr='\n'; break;
-						case 't': *pstr='\t'; break;
-						case 'r': *pstr='\r'; break;
-						default:  *pstr=pstr[1]; break;
+						case 'n': *pstr = '\n'; break;
+						case 't': *pstr = '\t'; break;
+						case 'r': *pstr = '\r'; break;
+						default:  *pstr = pstr[1]; break;
 						}
 						MoveMemory(pstr+1, pstr+2, lstrlenA(pstr+2)+1);
 			}	}	}
@@ -357,17 +357,17 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 				char *pszValue, *pszEnd;
 				DBCONTACTWRITESETTING cws;
 
-				buf=(PBYTE)mir_alloc(lstrlenA(szValue+1));
-				for (len=0, pszValue=szValue+1;;len++) {
-					buf[len]=(BYTE)strtol(pszValue, &pszEnd, 0x10);
+				buf = (PBYTE)mir_alloc(lstrlenA(szValue+1));
+				for (len = 0, pszValue = szValue+1;;len++) {
+					buf[len] = (BYTE)strtol(pszValue, &pszEnd, 0x10);
 					if (pszValue == pszEnd) break;
-					pszValue=pszEnd;
+					pszValue = pszEnd;
 				}
-				cws.szModule=szSection;
-				cws.szSetting=szName;
-				cws.value.type=DBVT_BLOB;
-				cws.value.pbVal=buf;
-				cws.value.cpbVal=len;
+				cws.szModule = szSection;
+				cws.szSetting = szName;
+				cws.value.type = DBVT_BLOB;
+				cws.value.pbVal = buf;
+				cws.value.cpbVal = len;
 				CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)(HANDLE)NULL, (LPARAM)&cws);
 				mir_free(buf);
 			}
@@ -432,7 +432,7 @@ static void DoAutoExec(void)
 
 		mir_sntprintf(szIniPath, SIZEOF(szIniPath), _T("%s%s"), szFindPath, fd.cFileName);
 		if ( !lstrcmpi(szUse, _T("prompt")) && !secFN) {
-			int result=DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INSTALLINI), NULL, InstallIniDlgProc, (LPARAM)szIniPath);
+			int result = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INSTALLINI), NULL, InstallIniDlgProc, (LPARAM)szIniPath);
 			if (result == IDC_NOTOALL) break;
 			if (result == IDCANCEL) continue;
 		}
@@ -447,11 +447,11 @@ static void DoAutoExec(void)
 			if ( !lstrcmpi(szOnCompletion, _T("delete")))
 				DeleteFile(szIniPath);
 			else if ( !lstrcmpi(szOnCompletion, _T("recycle"))) {
-				SHFILEOPSTRUCT shfo={0};
-				shfo.wFunc=FO_DELETE;
-				shfo.pFrom=szIniPath;
-				szIniPath[lstrlen(szIniPath)+1]=0;
-				shfo.fFlags=FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
+				SHFILEOPSTRUCT shfo = {0};
+				shfo.wFunc = FO_DELETE;
+				shfo.pFrom = szIniPath;
+				szIniPath[lstrlen(szIniPath)+1] = 0;
+				shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
 				SHFileOperation(&shfo);
 			}
 			else if ( !lstrcmpi(szOnCompletion, _T("rename"))) {
@@ -487,7 +487,7 @@ int InitIni(void)
 
 	DoAutoExec();
 	PathToAbsoluteT(_T("."), szMirandaDir, NULL);
-	hIniChangeNotification=FindFirstChangeNotification(szMirandaDir, 0, FILE_NOTIFY_CHANGE_FILE_NAME);
+	hIniChangeNotification = FindFirstChangeNotification(szMirandaDir, 0, FILE_NOTIFY_CHANGE_FILE_NAME);
 	if (hIniChangeNotification != INVALID_HANDLE_VALUE) {
 		CreateServiceFunction("DB/Ini/CheckImportNow", CheckIniImportNow);
 		CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hIniChangeNotification, (LPARAM)"DB/Ini/CheckImportNow");

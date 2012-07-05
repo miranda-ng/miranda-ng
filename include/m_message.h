@@ -25,12 +25,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_MESSAGE_H__ 1
 
 //brings up the send message dialog for a contact
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)(char*)szText
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)(char*)szText
 //returns 0 on success or nonzero on failure
 //returns immediately, just after the dialog is shown
 //szText is the text to put in the edit box of the window (but not send)
-//szText=NULL will not use any text
+//szText = NULL will not use any text
 //szText != NULL is only supported on v0.1.2.0+
 #define MS_MSG_SENDMESSAGE   "SRMsg/SendCommand"
 #define MS_MSG_SENDMESSAGEW  "SRMsg/SendCommandW"
@@ -42,8 +42,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 #define ME_MSG_WINDOWEVENT "MessageAPI/WindowEvent"
-//wparam=0
-//lparam=(WPARAM)(MessageWindowEventData*)hWindowEvent;
+//wparam = 0
+//lparam = (WPARAM)(MessageWindowEventData*)hWindowEvent;
 //Event types
 #define MSG_WINDOW_EVT_OPENING 1 //window is about to be opened
 #define MSG_WINDOW_EVT_OPEN    2 //window has been opened
@@ -68,14 +68,14 @@ typedef struct {
 } MessageWindowEventData;
 
 #define MS_MSG_GETWINDOWAPI "MessageAPI/WindowAPI"
-//wparam=0
-//lparam=0
+//wparam = 0
+//lparam = 0
 //Returns a dword with the current message api version
 //Current version is 0, 0, 0, 4
 
 #define MS_MSG_GETWINDOWCLASS "MessageAPI/WindowClass"
-//wparam=(char*)szBuf
-//lparam=(int)cbSize size of buffer
+//wparam = (char*)szBuf
+//lparam = (int)cbSize size of buffer
 //Sets the window class name in wParam (ex. "SRMM" for srmm.dll)
 
 typedef struct {
@@ -99,8 +99,8 @@ typedef struct {
 } MessageWindowData;
 
 #define MS_MSG_GETWINDOWDATA "MessageAPI/GetWindowData"
-//wparam=(MessageWindowInputData*)
-//lparam=(MessageWindowData*)
+//wparam = (MessageWindowInputData*)
+//lparam = (MessageWindowData*)
 //returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
 
 

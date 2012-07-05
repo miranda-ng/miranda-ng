@@ -229,7 +229,7 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 
 		fileCount = DragQueryFile(hDrop, -1, NULL, 0);
 		ppFiles = NULL;
-		for (i = 0; i < fileCount; i++) {
+		for (i=0; i < fileCount; i++) {
 			DragQueryFile(hDrop, i, szFilename, SIZEOF(szFilename));
 			AddToFileList(&ppFiles, &totalCount, szFilename);
 		}
@@ -237,7 +237,7 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 		if ( !CallService(MS_FILE_SENDSPECIFICFILEST, (WPARAM) hContact, (LPARAM) ppFiles))
 			*pdwEffect = DROPEFFECT_COPY;
 
-		for (i = 0; ppFiles[i]; i++)
+		for (i=0; ppFiles[i]; i++)
 			mir_free(ppFiles[i]);
 		mir_free(ppFiles);
 	}

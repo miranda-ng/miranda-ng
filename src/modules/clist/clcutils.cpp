@@ -156,7 +156,7 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcCo
 		return hit;
 	}
 
-	for (i = 0; i < dat->extraColumnsCount; i++) {
+	for (i=0; i < dat->extraColumnsCount; i++) {
 		if (hitcontact->iExtraImage[i] == 0xFF)
 			continue;
 		if (testx >= clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - i) &&
@@ -723,7 +723,7 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 		SIZE fontSize;
 
         HDC hdc = GetDC(hwnd);
-		for (i = 0; i <= FONTID_MAX; i++) 
+		for (i=0; i <= FONTID_MAX; i++) 
         {
 			if ( !dat->fontInfo[i].changed)
 				DeleteObject(dat->fontInfo[i].hFont);
@@ -824,7 +824,7 @@ void fnSetGroupChildCheckboxes(struct ClcGroup *group, int checked)
 {
 	int i;
 
-	for (i = 0; i < group->cl.count; i++) {
+	for (i=0; i < group->cl.count; i++) {
 		if (group->cl.items[i]->type == CLCIT_GROUP) {
 			cli.pfnSetGroupChildCheckboxes(group->cl.items[i]->group, checked);
 			if (checked)

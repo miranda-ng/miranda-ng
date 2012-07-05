@@ -28,7 +28,7 @@ static BOOL bModuleInitialized = FALSE;
 HANDLE hConnectionHeaderMutex, hConnectionOpenMutex; 
 DWORD g_LastConnectionTick;
 int connectionTimeout;
-HANDLE hSendEvent=NULL, hRecvEvent=NULL;
+HANDLE hSendEvent = NULL, hRecvEvent = NULL;
 
 typedef BOOL (WINAPI *tGetProductInfo)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
@@ -53,9 +53,9 @@ void NetlibFreeUserSettingsStruct(NETLIBUSERSETTINGS *settings)
 
 void NetlibInitializeNestedCS(struct NetlibNestedCriticalSection *nlncs)
 {
-	nlncs->dwOwningThreadId= 0;
-	nlncs->lockCount=0;
-	nlncs->hMutex=CreateMutex(NULL, FALSE, NULL);
+	nlncs->dwOwningThreadId = 0;
+	nlncs->lockCount = 0;
+	nlncs->hMutex = CreateMutex(NULL, FALSE, NULL);
 }
 
 void NetlibDeleteNestedCS(struct NetlibNestedCriticalSection *nlncs)
@@ -66,7 +66,7 @@ void NetlibDeleteNestedCS(struct NetlibNestedCriticalSection *nlncs)
 int NetlibEnterNestedCS(struct NetlibConnection *nlc, int which)
 {
 	struct NetlibNestedCriticalSection *nlncs;
-	DWORD dwCurrentThreadId=GetCurrentThreadId();
+	DWORD dwCurrentThreadId = GetCurrentThreadId();
 
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 	if (nlc == NULL || nlc->handleType != NLH_CONNECTION) {
@@ -84,8 +84,8 @@ int NetlibEnterNestedCS(struct NetlibConnection *nlc, int which)
 	ResetEvent(nlc->hOkToCloseEvent);
 	ReleaseMutex(hConnectionHeaderMutex);
 	WaitForSingleObject(nlncs->hMutex, INFINITE);
-	nlncs->dwOwningThreadId=dwCurrentThreadId;
-	nlncs->lockCount=1;
+	nlncs->dwOwningThreadId = dwCurrentThreadId;
+	nlncs->lockCount = 1;
 	if (InterlockedDecrement(&nlc->dontCloseNow) == 0)
 		SetEvent(nlc->hOkToCloseEvent);
 	return 1;
@@ -94,7 +94,7 @@ int NetlibEnterNestedCS(struct NetlibConnection *nlc, int which)
 void NetlibLeaveNestedCS(struct NetlibNestedCriticalSection *nlncs)
 {
 	if (--nlncs->lockCount == 0) {
-		nlncs->dwOwningThreadId=0;
+		nlncs->dwOwningThreadId = 0;
 		ReleaseMutex(nlncs->hMutex);
 	}
 }
@@ -120,7 +120,7 @@ static char *GetNetlibUserSettingString(const char *szUserModule, const char *sz
 	else {
 		char *szRet;
 		if (decode) CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
-		szRet=mir_strdup(dbv.pszVal);
+		szRet = mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
 		if (szRet == NULL) SetLastError(ERROR_OUTOFMEMORY);
 		return szRet;
@@ -129,7 +129,7 @@ static char *GetNetlibUserSettingString(const char *szUserModule, const char *sz
 
 static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 {
-	NETLIBUSER *nlu=(NETLIBUSER*)lParam;
+	NETLIBUSER *nlu = (NETLIBUSER*)lParam;
 	if (nlu == NULL || nlu->cbSize != sizeof(NETLIBUSER) || nlu->szSettingsModule == NULL
 	   || ( !(nlu->flags&NUF_NOOPTIONS) && nlu->szDescriptiveName == NULL)
 	   || (nlu->flags&NUF_HTTPGATEWAY && (nlu->pfnHttpGatewayInit == NULL))) {
@@ -155,42 +155,42 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 	if (nlu->szDescriptiveName) {
 		thisUser->user.ptszDescriptiveName = (thisUser->user.flags&NUF_UNICODE ? mir_u2t((WCHAR*)nlu->ptszDescriptiveName) : mir_a2t(nlu->szDescriptiveName));
 	}
-	if ((thisUser->user.szSettingsModule=mir_strdup(nlu->szSettingsModule)) == NULL
+	if ((thisUser->user.szSettingsModule = mir_strdup(nlu->szSettingsModule)) == NULL
 	   || (nlu->szDescriptiveName && thisUser->user.ptszDescriptiveName == NULL)
-	   || (nlu->szHttpGatewayUserAgent && (thisUser->user.szHttpGatewayUserAgent=mir_strdup(nlu->szHttpGatewayUserAgent)) == NULL)) 
+	   || (nlu->szHttpGatewayUserAgent && (thisUser->user.szHttpGatewayUserAgent = mir_strdup(nlu->szHttpGatewayUserAgent)) == NULL)) 
 	{
 		mir_free(thisUser);
 		SetLastError(ERROR_OUTOFMEMORY);
 		return 0;
 	}
 	if (nlu->szHttpGatewayHello)
-		thisUser->user.szHttpGatewayHello=mir_strdup(nlu->szHttpGatewayHello);
+		thisUser->user.szHttpGatewayHello = mir_strdup(nlu->szHttpGatewayHello);
 	else
-		thisUser->user.szHttpGatewayHello=NULL;
+		thisUser->user.szHttpGatewayHello = NULL;
 
-	thisUser->settings.cbSize=sizeof(NETLIBUSERSETTINGS);
-	thisUser->settings.useProxy=GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLUseProxy", 0);
-	thisUser->settings.proxyType=GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLProxyType", PROXYTYPE_SOCKS5);
+	thisUser->settings.cbSize = sizeof(NETLIBUSERSETTINGS);
+	thisUser->settings.useProxy = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLUseProxy", 0);
+	thisUser->settings.proxyType = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLProxyType", PROXYTYPE_SOCKS5);
 	if (thisUser->user.flags&NUF_NOHTTPSOPTION && thisUser->settings.proxyType == PROXYTYPE_HTTPS)
-		thisUser->settings.proxyType=PROXYTYPE_HTTP;
+		thisUser->settings.proxyType = PROXYTYPE_HTTP;
 	if ( !(thisUser->user.flags&(NUF_HTTPCONNS|NUF_HTTPGATEWAY)) && thisUser->settings.proxyType == PROXYTYPE_HTTP) {
-		thisUser->settings.useProxy=0;
-		thisUser->settings.proxyType=PROXYTYPE_SOCKS5;
+		thisUser->settings.useProxy = 0;
+		thisUser->settings.proxyType = PROXYTYPE_SOCKS5;
 	}
-	thisUser->settings.szProxyServer=GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLProxyServer", 0);
-	thisUser->settings.wProxyPort=GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLProxyPort", 1080);
-	thisUser->settings.useProxyAuth=GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLUseProxyAuth", 0);
-	thisUser->settings.szProxyAuthUser=GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLProxyAuthUser", 0);
-	thisUser->settings.szProxyAuthPassword=GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLProxyAuthPassword", 1);
-	thisUser->settings.dnsThroughProxy=GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLDnsThroughProxy", 1);
-	thisUser->settings.specifyIncomingPorts=GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLSpecifyIncomingPorts", 0);
-	thisUser->settings.szIncomingPorts=GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLIncomingPorts", 0);
-	thisUser->settings.specifyOutgoingPorts=GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLSpecifyOutgoingPorts", 0);
-	thisUser->settings.szOutgoingPorts=GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLOutgoingPorts", 0);
-	thisUser->settings.enableUPnP=GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLEnableUPnP", 1); //default to on
-	thisUser->settings.validateSSL=GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLValidateSSL", 0);
+	thisUser->settings.szProxyServer = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLProxyServer", 0);
+	thisUser->settings.wProxyPort = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLProxyPort", 1080);
+	thisUser->settings.useProxyAuth = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLUseProxyAuth", 0);
+	thisUser->settings.szProxyAuthUser = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLProxyAuthUser", 0);
+	thisUser->settings.szProxyAuthPassword = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLProxyAuthPassword", 1);
+	thisUser->settings.dnsThroughProxy = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLDnsThroughProxy", 1);
+	thisUser->settings.specifyIncomingPorts = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLSpecifyIncomingPorts", 0);
+	thisUser->settings.szIncomingPorts = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLIncomingPorts", 0);
+	thisUser->settings.specifyOutgoingPorts = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLSpecifyOutgoingPorts", 0);
+	thisUser->settings.szOutgoingPorts = GetNetlibUserSettingString(thisUser->user.szSettingsModule, "NLOutgoingPorts", 0);
+	thisUser->settings.enableUPnP = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLEnableUPnP", 1); //default to on
+	thisUser->settings.validateSSL = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLValidateSSL", 0);
 
-	thisUser->toLog=GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLlog", 1);
+	thisUser->toLog = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLlog", 1);
 
 	mir_cslock lck(csNetlibUser);
 	netlibUser.insert(thisUser);
@@ -199,21 +199,21 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 
 static INT_PTR NetlibGetUserSettings(WPARAM wParam, LPARAM lParam)
 {
-	NETLIBUSERSETTINGS *nlus=(NETLIBUSERSETTINGS*)lParam;
-	struct NetlibUser *nlu=(struct NetlibUser*)wParam;
+	NETLIBUSERSETTINGS *nlus = (NETLIBUSERSETTINGS*)lParam;
+	struct NetlibUser *nlu = (struct NetlibUser*)wParam;
 
 	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == NULL || nlus->cbSize != sizeof(NETLIBUSERSETTINGS)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
-	*nlus=nlu->settings;
+	*nlus = nlu->settings;
 	return 1;
 }
 
 static INT_PTR NetlibSetUserSettings(WPARAM wParam, LPARAM lParam)
 {
-	NETLIBUSERSETTINGS *nlus=(NETLIBUSERSETTINGS*)lParam;
-	struct NetlibUser *nlu=(struct NetlibUser*)wParam;
+	NETLIBUSERSETTINGS *nlus = (NETLIBUSERSETTINGS*)lParam;
+	struct NetlibUser *nlu = (struct NetlibUser*)wParam;
 
 	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == NULL || nlus->cbSize != sizeof(NETLIBUSERSETTINGS)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
@@ -244,7 +244,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 	{
 		case NLH_USER:
 		{	
-			struct NetlibUser *nlu=(struct NetlibUser*)wParam;
+			struct NetlibUser *nlu = (struct NetlibUser*)wParam;
 			{
 				mir_cslock lck(csNetlibUser);
 				int i = netlibUser.getIndex(nlu);
@@ -261,7 +261,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 			break;
 		}
 		case NLH_CONNECTION:
-		{	struct NetlibConnection *nlc=(struct NetlibConnection*)wParam;
+		{	struct NetlibConnection *nlc = (struct NetlibConnection*)wParam;
 			HANDLE waitHandles[4];
 			DWORD waitResult;
 
@@ -280,17 +280,17 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 			}
 			ReleaseMutex(hConnectionHeaderMutex);
 
-			waitHandles[0]=hConnectionHeaderMutex;
-			waitHandles[1]=nlc->hOkToCloseEvent;
-			waitHandles[2]=nlc->ncsRecv.hMutex;
-			waitHandles[3]=nlc->ncsSend.hMutex;
-			waitResult=WaitForMultipleObjects(SIZEOF(waitHandles), waitHandles, TRUE, INFINITE);
+			waitHandles[0] = hConnectionHeaderMutex;
+			waitHandles[1] = nlc->hOkToCloseEvent;
+			waitHandles[2] = nlc->ncsRecv.hMutex;
+			waitHandles[3] = nlc->ncsSend.hMutex;
+			waitResult = WaitForMultipleObjects(SIZEOF(waitHandles), waitHandles, TRUE, INFINITE);
 			if (waitResult<WAIT_OBJECT_0 || waitResult >= WAIT_OBJECT_0 + SIZEOF(waitHandles)) {
 				ReleaseMutex(hConnectionHeaderMutex);
 				SetLastError(ERROR_INVALID_PARAMETER);	  //already been closed
 				return 0;
 			}
-			nlc->handleType=0;
+			nlc->handleType = 0;
 			mir_free(nlc->nlhpi.szHttpPostUrl);
 			mir_free(nlc->nlhpi.szHttpGetUrl);
 			mir_free(nlc->dataBuffer);
@@ -308,7 +308,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 		case NLH_BOUNDPORT:
 			return NetlibFreeBoundPort((struct NetlibBoundPort*)wParam);
 		case NLH_PACKETRECVER:
-		{	struct NetlibPacketRecver *nlpr=(struct NetlibPacketRecver*)wParam;
+		{	struct NetlibPacketRecver *nlpr = (struct NetlibPacketRecver*)wParam;
 			mir_free(nlpr->packetRecver.buffer);
 			break;
 		}
@@ -406,10 +406,10 @@ INT_PTR NetlibShutdown(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static const char szHexDigits[]="0123456789ABCDEF";
+static const char szHexDigits[] = "0123456789ABCDEF";
 INT_PTR NetlibHttpUrlEncode(WPARAM, LPARAM lParam)
 {
-	unsigned char *szOutput, *szInput=(unsigned char*)lParam;
+	unsigned char *szOutput, *szInput = (unsigned char*)lParam;
 	unsigned char *pszIn, *pszOut;
 	int outputLen;
 
@@ -417,19 +417,19 @@ INT_PTR NetlibHttpUrlEncode(WPARAM, LPARAM lParam)
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return (INT_PTR)(char*)NULL;
 	}
-	for (outputLen=0, pszIn=szInput;*pszIn;pszIn++) {
+	for (outputLen = 0, pszIn = szInput;*pszIn;pszIn++) {
 		if ((48 <= *pszIn && *pszIn <= 57)  || //0-9
              (65 <= *pszIn && *pszIn <= 90)  || //ABC...XYZ
              (97 <= *pszIn && *pszIn <= 122)  || //abc...xyz
 			 *pszIn == '-' || *pszIn == '_' || *pszIn == '.' || *pszIn == ' ') outputLen++;
 		else outputLen+=3;
 	}
-	szOutput=(unsigned char*)HeapAlloc(GetProcessHeap(), 0, outputLen+1);
+	szOutput = (unsigned char*)HeapAlloc(GetProcessHeap(), 0, outputLen+1);
 	if (szOutput == NULL) {
 		SetLastError(ERROR_OUTOFMEMORY);
 		return (INT_PTR)(unsigned char*)NULL;
 	}
-	for (pszOut=szOutput, pszIn=szInput;*pszIn;pszIn++) {
+	for (pszOut = szOutput, pszIn = szInput;*pszIn;pszIn++) {
 		if ((48 <= *pszIn && *pszIn <= 57)  || 
              (65 <= *pszIn && *pszIn <= 90)  || 
              (97 <= *pszIn && *pszIn <= 122)  || 
@@ -441,14 +441,14 @@ INT_PTR NetlibHttpUrlEncode(WPARAM, LPARAM lParam)
 			*pszOut++=szHexDigits[*pszIn&0xF];
 		}
 	}
-	*pszOut='\0';
+	*pszOut = '\0';
 	return (INT_PTR)szOutput;
 }
 
-static const char base64chars[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+static const char base64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 INT_PTR NetlibBase64Encode(WPARAM, LPARAM lParam)
 {
-	NETLIBBASE64 *nlb64=(NETLIBBASE64*)lParam;
+	NETLIBBASE64 *nlb64 = (NETLIBBASE64*)lParam;
 	int iIn;
 	char *pszOut;
 	PBYTE pbIn;
@@ -461,35 +461,35 @@ INT_PTR NetlibBase64Encode(WPARAM, LPARAM lParam)
 		SetLastError(ERROR_BUFFER_OVERFLOW);
 		return 0;
 	}
-	nlb64->cchEncoded=Netlib_GetBase64EncodedBufferSize(nlb64->cbDecoded);
-	for (iIn=0, pbIn=nlb64->pbDecoded, pszOut=nlb64->pszEncoded;iIn<nlb64->cbDecoded;iIn+=3, pbIn+=3, pszOut+=4) {
-		pszOut[0]=base64chars[pbIn[0]>>2];
+	nlb64->cchEncoded = Netlib_GetBase64EncodedBufferSize(nlb64->cbDecoded);
+	for (iIn = 0, pbIn = nlb64->pbDecoded, pszOut = nlb64->pszEncoded;iIn<nlb64->cbDecoded;iIn+=3, pbIn+=3, pszOut+=4) {
+		pszOut[0] = base64chars[pbIn[0]>>2];
 		if (nlb64->cbDecoded-iIn == 1) {
-			pszOut[1]=base64chars[(pbIn[0]&3)<<4];
-			pszOut[2]='=';
-			pszOut[3]='=';
+			pszOut[1] = base64chars[(pbIn[0]&3)<<4];
+			pszOut[2] = '=';
+			pszOut[3] = '=';
 			pszOut+=4;
 			break;
 		}
-		pszOut[1]=base64chars[((pbIn[0]&3)<<4)|(pbIn[1]>>4)];
+		pszOut[1] = base64chars[((pbIn[0]&3)<<4)|(pbIn[1]>>4)];
 		if (nlb64->cbDecoded-iIn == 2) {
-			pszOut[2]=base64chars[(pbIn[1]&0xF)<<2];
-			pszOut[3]='=';
+			pszOut[2] = base64chars[(pbIn[1]&0xF)<<2];
+			pszOut[3] = '=';
 			pszOut+=4;
 			break;
 		}
-		pszOut[2]=base64chars[((pbIn[1]&0xF)<<2)|(pbIn[2]>>6)];
-		pszOut[3]=base64chars[pbIn[2]&0x3F];
+		pszOut[2] = base64chars[((pbIn[1]&0xF)<<2)|(pbIn[2]>>6)];
+		pszOut[3] = base64chars[pbIn[2]&0x3F];
 	}
-	pszOut[0]='\0';
+	pszOut[0] = '\0';
 	return 1;
 }
 
 static BYTE Base64CharToInt(char c)
 {
-	if (c>='A' && c<='Z') return c-'A';
-	if (c>='a' && c<='z') return c-'a'+26;
-	if (c>='0' && c<='9') return c-'0'+52;
+	if (c>='A' && c <= 'Z') return c-'A';
+	if (c>='a' && c <= 'z') return c-'a'+26;
+	if (c>='0' && c <= '9') return c-'0'+52;
 	if (c == '+') return 62;
 	if (c == '/') return 63;
 	if (c == '=') return 64;
@@ -498,7 +498,7 @@ static BYTE Base64CharToInt(char c)
 
 INT_PTR NetlibBase64Decode(WPARAM, LPARAM lParam)
 {
-	NETLIBBASE64 *nlb64=(NETLIBBASE64*)lParam;
+	NETLIBBASE64 *nlb64 = (NETLIBBASE64*)lParam;
 	char *pszIn;
 	PBYTE pbOut;
 	BYTE b1, b2, b3, b4;
@@ -516,21 +516,21 @@ INT_PTR NetlibBase64Decode(WPARAM, LPARAM lParam)
 		SetLastError(ERROR_BUFFER_OVERFLOW);
 		return 0;
 	}
-	nlb64->cbDecoded=Netlib_GetBase64DecodedBufferSize(nlb64->cchEncoded);
-	for (iIn=0, pszIn=nlb64->pszEncoded, pbOut=nlb64->pbDecoded;iIn<nlb64->cchEncoded;iIn+=4, pszIn+=4, pbOut+=3) {
-		b1=Base64CharToInt(pszIn[0]);
-		b2=Base64CharToInt(pszIn[1]);
-		b3=Base64CharToInt(pszIn[2]);
-		b4=Base64CharToInt(pszIn[3]);
+	nlb64->cbDecoded = Netlib_GetBase64DecodedBufferSize(nlb64->cchEncoded);
+	for (iIn = 0, pszIn = nlb64->pszEncoded, pbOut = nlb64->pbDecoded;iIn<nlb64->cchEncoded;iIn+=4, pszIn+=4, pbOut+=3) {
+		b1 = Base64CharToInt(pszIn[0]);
+		b2 = Base64CharToInt(pszIn[1]);
+		b3 = Base64CharToInt(pszIn[2]);
+		b4 = Base64CharToInt(pszIn[3]);
 		if (b1 == 255 || b1 == 64 || b2 == 255 || b2 == 64 || b3 == 255 || b4 == 255) {
 			SetLastError(ERROR_INVALID_DATA);
 			return 0;
 		}
-		pbOut[0]=(b1<<2)|(b2>>4);
+		pbOut[0] = (b1<<2)|(b2>>4);
 		if (b3 == 64) {nlb64->cbDecoded-=2; break;}
-		pbOut[1]=(b2<<4)|(b3>>2);
+		pbOut[1] = (b2<<4)|(b3>>2);
 		if (b4 == 64) {nlb64->cbDecoded--; break;}
-		pbOut[2]=b4|(b3<<6);
+		pbOut[2] = b4|(b3<<6);
 	}
 	return 1;
 }
@@ -574,7 +574,7 @@ int LoadNetlibModule(void)
 	HookEvent(ME_OPT_INITIALISE, NetlibOptInitialise);
 
 	InitializeCriticalSection(&csNetlibUser);
-	hConnectionHeaderMutex=CreateMutex(NULL, FALSE, NULL);
+	hConnectionHeaderMutex = CreateMutex(NULL, FALSE, NULL);
 	NetlibLogInit();
 
 	connectionTimeout = 0;

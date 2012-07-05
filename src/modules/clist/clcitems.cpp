@@ -59,7 +59,7 @@ struct ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName,
 			pNextField = pBackslash + 1;
 		}
 		compareResult = 1;
-		for (i = 0; i < group->cl.count; i++) {
+		for (i=0; i < group->cl.count; i++) {
 			if (group->cl.items[i]->type == CLCIT_CONTACT)
 				break;
 			if (group->cl.items[i]->type != CLCIT_GROUP)
@@ -130,7 +130,7 @@ void fnFreeContact(struct ClcContact* p)
 void fnFreeGroup(struct ClcGroup *group)
 {
 	int i;
-	for (i = 0; i < group->cl.count; i++) {
+	for (i=0; i < group->cl.count; i++) {
 		cli.pfnFreeContact(group->cl.items[i]);
 		mir_free(group->cl.items[i]);
 	}
@@ -143,7 +143,7 @@ void fnFreeGroup(struct ClcGroup *group)
 static int iInfoItemUniqueHandle = 0;
 int fnAddInfoItemToGroup(struct ClcGroup *group, int flags, const TCHAR *pszText)
 {
-	int i = 0;
+	int i=0;
 
 	if (flags & CLCIIF_BELOWCONTACTS)
 		i = group->cl.count;
@@ -309,7 +309,7 @@ struct ClcGroup* fnRemoveItemFromGroup(HWND hwnd, struct ClcGroup *group, struct
 		int i;
 		if (group->parent == NULL)
 			return group;
-		for (i = 0; i < group->parent->cl.count; i++)
+		for (i=0; i < group->parent->cl.count; i++)
 			if (group->parent->cl.items[i]->type == CLCIT_GROUP && group->parent->cl.items[i]->groupId == group->groupId)
 				break;
 		if (i == group->parent->cl.count)
@@ -337,7 +337,7 @@ void fnDeleteItemFromTree(HWND hwnd, HANDLE hItem)
 		//decrease member counts of all parent groups too
 		group = &dat->list;
 		nameOffset = 0;
-		for (i = 0;; i++) {
+		for (i=0;; i++) {
 			if (group->scanIndex == group->cl.count)
 				break;
 			if (group->cl.items[i]->type == CLCIT_GROUP) {
@@ -502,7 +502,7 @@ static void SortGroup(struct ClcData *dat, struct ClcGroup *group, int useInsert
 			List_Remove((SortedList*)&group->cl, i);
 	}	}
 
-	for (i = 0; i < group->cl.count; i++)
+	for (i=0; i < group->cl.count; i++)
 		if (group->cl.items[i]->type != CLCIT_INFO)
 			break;
 	if (i > group->cl.count - 2)
@@ -530,7 +530,7 @@ static void SortGroup(struct ClcData *dat, struct ClcGroup *group, int useInsert
 		qsort(group->cl.items + i, sortCount, sizeof(void*), ContactSortProc);
 	if (dat->exStyle & CLS_EX_DIVIDERONOFF) {
 		int prevContactOnline = 0;
-		for (i = 0; i < group->cl.count; i++) {
+		for (i=0; i < group->cl.count; i++) {
 			if (group->cl.items[i]->type != CLCIT_CONTACT)
 				continue;
 			if (group->cl.items[i]->flags & CONTACTF_ONLINE)
@@ -685,7 +685,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 		group->scanIndex++;
 	}
 
-	for (i = 0; i < saveInfo.getCount(); i++) {
+	for (i=0; i < saveInfo.getCount(); i++) {
 		if (saveInfo[i].parentId == -1)
 			group = &dat->list;
 		else {

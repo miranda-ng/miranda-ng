@@ -97,7 +97,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 		#define DTBG_COMPUTINGREGION    0x00000010  // TRUE if calling to compute region
 		#define DTBG_MIRRORDC           0x00000020  // assume the hdc is mirrorred and
 																  // flip images as appropriate (currently
-																  // only supported for bgtype=imagefile)
+																  // only supported for bgtype = imagefile)
 		#define DTBG_NOMIRROR           0x00000040  // don't mirror the output, overrides everything else
 
 		typedef struct _DTBGOPTS
@@ -500,11 +500,11 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 		typedef
 			enum TBPFLAG
 		{
-			TBPF_NOPROGRESS	= 0,
-			TBPF_INDETERMINATE	= 0x1,
-			TBPF_NORMAL	= 0x2,
-			TBPF_ERROR	= 0x4,
-			TBPF_PAUSED	= 0x8
+			TBPF_NOPROGRESS	 = 0,
+			TBPF_INDETERMINATE	 = 0x1,
+			TBPF_NORMAL	 = 0x2,
+			TBPF_ERROR	 = 0x4,
+			TBPF_PAUSED	 = 0x8
 		} TBPFLAG;
 
 		typedef struct THUMBBUTTON *LPTHUMBBUTTON;

@@ -44,7 +44,7 @@ public:
 	__inline mir_ptr() : data((T*)mir_calloc(sizeof(T))) {}
 	__inline mir_ptr(T* _p) : data(_p) {}
 	__inline ~mir_ptr() { mir_free(data); }
-	__inline T* operator= (T* _p) { if (data) mir_free(data); data = _p; return data; }
+	__inline T* operator = (T* _p) { if (data) mir_free(data); data = _p; return data; }
 	__inline T* operator->() const { return data; }
 	__inline operator T*() const { return data; }
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
@@ -94,7 +94,7 @@ template<class T> struct LIST
 	    List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
     }
 
-	__inline LIST& operator=(const LIST& x)
+	__inline LIST& operator = (const LIST& x)
 	{	destroy();
 		List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
 		return *this;
@@ -139,7 +139,7 @@ template<class T> struct OBJLIST : public LIST<T>
 			List_ObjCopy((SortedList*)&x, (SortedList*)this, sizeof(T));
 		}
 
-	__inline OBJLIST& operator=(const OBJLIST& x)
+	__inline OBJLIST& operator = (const OBJLIST& x)
 		{	destroy();
 			List_ObjCopy((SortedList*)&x, (SortedList*)this, sizeof(T));
 			return *this;

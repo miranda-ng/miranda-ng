@@ -39,21 +39,21 @@ struct HyperlinkWndData {
 
 static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct HyperlinkWndData *dat=(struct HyperlinkWndData*)GetWindowLongPtr(hwnd, 0);
+	struct HyperlinkWndData *dat = (struct HyperlinkWndData*)GetWindowLongPtr(hwnd, 0);
 	switch(msg) {
 		case WM_NCCREATE:
-			dat=(struct HyperlinkWndData*)mir_calloc(sizeof(struct HyperlinkWndData));
+			dat = (struct HyperlinkWndData*)mir_calloc(sizeof(struct HyperlinkWndData));
 			if (dat == NULL) return FALSE; /* fail creation */
 			SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat); /* always succeeds */
 			/* fall thru */
 		case WM_SYSCOLORCHANGE:
 			if ( !(dat->flags&HLKF_HASENABLECOLOR)) {
-				if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL) dat->enableColor=RGB(0, 0, 255);
-				else dat->enableColor=GetSysColor(COLOR_HOTLIGHT);
+				if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL) dat->enableColor = RGB(0, 0, 255);
+				else dat->enableColor = GetSysColor(COLOR_HOTLIGHT);
 				dat->focusColor = RGB(GetRValue(dat->enableColor) / 2, GetGValue(dat->enableColor) / 2, GetBValue(dat->enableColor) / 2);
 			}
 			if ( !(dat->flags&HLKF_HASDISABLECOLOR))
-				dat->disableColor=GetSysColor(COLOR_GRAYTEXT);
+				dat->disableColor = GetSysColor(COLOR_GRAYTEXT);
 			break;
 
 		case WM_SETFOCUS:
@@ -109,15 +109,15 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		{	LOGFONT lf;
 			HFONT hFont;
 			if ((HFONT)wParam == NULL) { /* use default system color */
-				dat->hEnableFont=dat->hDisableFont=NULL;
+				dat->hEnableFont = dat->hDisableFont = NULL;
 				return 0;
 			}
 			if (GetObject((HFONT)wParam, sizeof(lf), &lf)) {
-				lf.lfUnderline=1;
-				hFont=CreateFontIndirect(&lf);
+				lf.lfUnderline = 1;
+				hFont = CreateFontIndirect(&lf);
 				if (hFont != NULL) {
-					dat->hEnableFont=hFont;
-					dat->hDisableFont=(HFONT)wParam;
+					dat->hEnableFont = hFont;
+					dat->hDisableFont = (HFONT)wParam;
 					if (LOWORD(lParam)) SendMessage(hwnd, HLK_INVALIDATE, 0, 0);
 					SendMessage(hwnd, HLK_MEASURETEXT, 0, 0);
 				}
@@ -132,15 +132,15 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 			POINT pt;
 			HWND hwndParent;
 			if ( !GetWindowRect(hwnd, &rcWnd)) break;
-			pt.x=rcWnd.left;
-			pt.y=rcWnd.top;
-			hwndParent=GetParent(hwnd);
-			if (hwndParent == NULL) hwndParent=hwnd;
+			pt.x = rcWnd.left;
+			pt.y = rcWnd.top;
+			hwndParent = GetParent(hwnd);
+			if (hwndParent == NULL) hwndParent = hwnd;
 			if ( !ScreenToClient(hwndParent, &pt)) break;
-			rcWnd.right=pt.x+(rcWnd.right-rcWnd.left);
-			rcWnd.bottom=pt.y+(rcWnd.bottom-rcWnd.top);
-			rcWnd.left=pt.x;
-			rcWnd.top=pt.y;
+			rcWnd.right = pt.x+(rcWnd.right-rcWnd.left);
+			rcWnd.bottom = pt.y+(rcWnd.bottom-rcWnd.top);
+			rcWnd.left = pt.x;
+			rcWnd.top = pt.y;
 			InvalidateRect(hwndParent, &rcWnd, TRUE);
 			return 0;
 		}
@@ -150,7 +150,7 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		case HLK_MEASURETEXT:
 		{	TCHAR szText[256];
 			if ( !GetWindowText(hwnd, szText, SIZEOF(szText))) return 0;
-			lParam=(LPARAM)szText;
+			lParam = (LPARAM)szText;
 			/* fall thru */
 		case WM_SETTEXT:
 		{	HFONT hPrevFont = NULL;
@@ -158,21 +158,21 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 			RECT rc;
 			HDC hdc;
 			LONG style;
-			BOOL fMeasured=FALSE;
-			hdc=GetDC(hwnd);
+			BOOL fMeasured = FALSE;
+			hdc = GetDC(hwnd);
 			if (hdc == NULL) return 0; /* text change failed */
-			if (dat->hEnableFont != NULL) hPrevFont=(HFONT)SelectObject(hdc, dat->hEnableFont);
+			if (dat->hEnableFont != NULL) hPrevFont = (HFONT)SelectObject(hdc, dat->hEnableFont);
 			if (dat->hEnableFont == NULL || hPrevFont != NULL) /* select failed? */
 				if (GetTextExtentPoint32(hdc, (TCHAR*)lParam, lstrlen((TCHAR*)lParam), &textSize))
 					if (GetClientRect(hwnd, &rc)) {
-						dat->rcText.top=0;
-						dat->rcText.bottom=dat->rcText.top+textSize.cy;
-						style=GetWindowLongPtr(hwnd, GWL_STYLE);
-						if (style&SS_CENTER) dat->rcText.left=(rc.right-textSize.cx)/2;
-						else if (style&SS_RIGHT) dat->rcText.left=rc.right-textSize.cx;
-						else dat->rcText.left=0;
-						dat->rcText.right=dat->rcText.left+textSize.cx;
-						fMeasured=TRUE;
+						dat->rcText.top = 0;
+						dat->rcText.bottom = dat->rcText.top+textSize.cy;
+						style = GetWindowLongPtr(hwnd, GWL_STYLE);
+						if (style&SS_CENTER) dat->rcText.left = (rc.right-textSize.cx)/2;
+						else if (style&SS_RIGHT) dat->rcText.left = rc.right-textSize.cx;
+						else dat->rcText.left = 0;
+						dat->rcText.right = dat->rcText.left+textSize.cx;
+						fMeasured = TRUE;
 					}
 			if (dat->hEnableFont != NULL && hPrevFont != NULL) SelectObject(hdc, hPrevFont);
 			ReleaseDC(hwnd, hdc);
@@ -186,23 +186,23 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 			if ( !GetCursorPos(&pt)) return FALSE;
 			if ( !ScreenToClient(hwnd, &pt)) return FALSE;
 			if (PtInRect(&dat->rcText, pt)) {
-				hCursor=(HCURSOR)GetClassLongPtr(hwnd, GCLP_HCURSOR);
-				if (hCursor == NULL) hCursor=LoadCursor(NULL, IDC_HAND); /* Win2000+ */
+				hCursor = (HCURSOR)GetClassLongPtr(hwnd, GCLP_HCURSOR);
+				if (hCursor == NULL) hCursor = LoadCursor(NULL, IDC_HAND); /* Win2000+ */
 			}
-			else hCursor=LoadCursor(NULL, IDC_ARROW);
+			else hCursor = LoadCursor(NULL, IDC_ARROW);
 			SetCursor(hCursor);
 			return TRUE;
 		}
 		case HLK_SETENABLECOLOUR:
-		{	COLORREF prevColor=dat->enableColor;
-			dat->enableColor=(COLORREF)wParam;
+		{	COLORREF prevColor = dat->enableColor;
+			dat->enableColor = (COLORREF)wParam;
 			dat->focusColor = RGB(GetRValue(dat->enableColor) / 2, GetGValue(dat->enableColor) / 2, GetBValue(dat->enableColor) / 2);
 			dat->flags|=HLKF_HASENABLECOLOR;
 			return (LRESULT)prevColor;
 		}
 		case HLK_SETDISABLECOLOUR:
-		{	COLORREF prevColor=dat->disableColor;
-			dat->disableColor=(COLORREF)wParam;
+		{	COLORREF prevColor = dat->disableColor;
+			dat->disableColor = (COLORREF)wParam;
 			dat->flags|=HLKF_HASDISABLECOLOR;
 			return (LRESULT)prevColor;
 		}
@@ -217,14 +217,14 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 			PAINTSTRUCT ps;
 			HDC hdc;
 			
-			hdc=BeginPaint(hwnd, &ps);
+			hdc = BeginPaint(hwnd, &ps);
 			if (hdc != NULL) {
 				if (IsWindowEnabled(hwnd)) {
-					hPrevFont=(HFONT)SelectObject(hdc, dat->hEnableFont);
+					hPrevFont = (HFONT)SelectObject(hdc, dat->hEnableFont);
 					textColor = (GetFocus() == hwnd) ? dat->focusColor : dat->enableColor;
 				} else {
-					hPrevFont=(HFONT)SelectObject(hdc, dat->hDisableFont);
-					textColor=dat->disableColor;
+					hPrevFont = (HFONT)SelectObject(hdc, dat->hDisableFont);
+					textColor = dat->disableColor;
 				}
 				if (GetClientRect(hwnd, &rc) && GetWindowText(hwnd, szText, SIZEOF(szText))) {
 					if (drawThemeParentBackground && IsWinVerXPPlus())
@@ -238,7 +238,7 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 					}
 					SetBkMode(hdc, TRANSPARENT);
 					SetTextColor(hdc, textColor);
-					alignFlag=(GetWindowLongPtr(hwnd, GWL_STYLE)&(SS_CENTER|SS_RIGHT|SS_LEFT));
+					alignFlag = (GetWindowLongPtr(hwnd, GWL_STYLE)&(SS_CENTER|SS_RIGHT|SS_LEFT));
 					DrawText(hdc, szText, -1, &rc, alignFlag|DT_NOPREFIX|DT_SINGLELINE|DT_TOP);
 				}
 				if (hPrevFont != NULL) SelectObject(hdc, hPrevFont);
@@ -258,17 +258,17 @@ int InitHyperlink(void)
 {
 	WNDCLASS wcl;
 
-	wcl.lpfnWndProc=HyperlinkWndProc;
-	wcl.cbClsExtra=0;
-	wcl.cbWndExtra=sizeof(struct HyperlinkWndData*);
-	wcl.hInstance=hInst;
-	if (IsWinVer2000Plus()) wcl.hCursor=NULL;
-	else wcl.hCursor=LoadCursor(wcl.hInstance, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
-	wcl.lpszClassName=WNDCLASS_HYPERLINK;
-	wcl.hbrBackground=NULL;
-	wcl.hIcon=NULL;
-	wcl.lpszMenuName=NULL;
-	wcl.style=CS_HREDRAW|CS_VREDRAW|CS_GLOBALCLASS|CS_PARENTDC;
+	wcl.lpfnWndProc = HyperlinkWndProc;
+	wcl.cbClsExtra = 0;
+	wcl.cbWndExtra = sizeof(struct HyperlinkWndData*);
+	wcl.hInstance = hInst;
+	if (IsWinVer2000Plus()) wcl.hCursor = NULL;
+	else wcl.hCursor = LoadCursor(wcl.hInstance, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
+	wcl.lpszClassName = WNDCLASS_HYPERLINK;
+	wcl.hbrBackground = NULL;
+	wcl.hIcon = NULL;
+	wcl.lpszMenuName = NULL;
+	wcl.style = CS_HREDRAW|CS_VREDRAW|CS_GLOBALCLASS|CS_PARENTDC;
 	RegisterClass(&wcl);  /* automatically unregistered on exit */
 	return 0;
 }

@@ -232,7 +232,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 					wp->y = rc.top; 
 					wp->cy = rc.bottom - rc.top;
 					wp->cx = rc.right - rc.left;
-					wp->flags &=  ~(SWP_NOSIZE | SWP_NOMOVE);
+					wp->flags &= ~(SWP_NOSIZE | SWP_NOMOVE);
 				}
 			}
 		}

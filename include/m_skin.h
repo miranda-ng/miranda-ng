@@ -27,8 +27,8 @@ extern int hLangpack;
 
 //loads an icon from the user's custom skin library, or from the exe if there
 //isn't one of them
-//wParam=id of icon to load - see below
-//lParam=0
+//wParam = id of icon to load - see below
+//lParam = 0
 //returns an hIcon for the new icon. Do *not* DestroyIcon() the return value
 //returns NULL if id is invalid, but will always succeed for a valid id
 #define MS_SKIN_LOADICON     "Skin/Icons/Load"
@@ -104,8 +104,8 @@ __inline static HICON LoadSkinnedIconBig(int id) {return (HICON)CallService(MS_S
 #define SKINICON_STATUS_OUTTOLUNCH  9
 
 //Loads an icon representing the status mode for a particular protocol.
-//wParam=(WPARAM)(const char*)szProto
-//lParam=status
+//wParam = (WPARAM)(const char*)szProto
+//lParam = status
 //returns an hIcon for the new icon. Do *not* DestroyIcon() the return value
 //returns NULL on failure
 //if szProto is NULL the function will load the user's selected 'all protocols'
@@ -117,8 +117,8 @@ __inline static HICON LoadSkinnedProtoIcon(const char *szProto, int status) {ret
 __inline static HICON LoadSkinnedProtoIconBig(const char *szProto, int status) {return (HICON)CallService(MS_SKIN_LOADPROTOICONBIG, (WPARAM)szProto, status);}
 
 //add a new sound so it has a default and can be changed in the options dialog
-//wParam=hLangpack
-//lParam=(LPARAM)(SKINSOUNDDESC*)ssd;
+//wParam = hLangpack
+//lParam = (LPARAM)(SKINSOUNDDESC*)ssd;
 //returns 0 on success, nonzero otherwise
 
 #define SSDF_UNICODE 0x0001
@@ -161,7 +161,7 @@ __inline static INT_PTR SkinAddNewSoundEx(const char *name, const char *section,
 __inline static INT_PTR SkinAddNewSound(const char *name, const char *description, const char *defaultFile)
 {
 	SKINSOUNDDESCEX ssd = { 0 };
-	ssd.cbSize=sizeof(ssd);
+	ssd.cbSize = sizeof(ssd);
 	ssd.pszName = name;
 	ssd.pszDescription = description;
 	ssd.pszDefaultFile = defaultFile;
@@ -185,8 +185,8 @@ __inline static INT_PTR Skin_AddSound(SKINSOUNDDESCEX *ssd)
 }
 
 //play a named sound event
-//wParam=0
-//lParam=(LPARAM)(const char*)pszName
+//wParam = 0
+//lParam = (LPARAM)(const char*)pszName
 //pszName should have been added with Skin/Sounds/AddNew, but if not the
 //function will not fail, it will play the Windows default sound instead.
 #define MS_SKIN_PLAYSOUND        "Skin/Sounds/Play"
@@ -198,7 +198,7 @@ __inline static INT_PTR SkinPlaySound(const char *name)
 
 //sent when the icons DLL has been changed in the options dialog, and everyone
 //should re-make their image lists
-//wParam=lParam=0
+//wParam = lParam = 0
 #define ME_SKIN_ICONSCHANGED     "Skin/IconsChanged"
 
 

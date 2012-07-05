@@ -377,7 +377,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 	HWND hLst = GetDlgItem(hwndDlg, IDC_LST_STATUS);
 
-	dat=(struct AwayMsgDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	dat = (struct AwayMsgDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg)
 	{
 		case WM_INITDIALOG:
@@ -386,7 +386,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			dat = (AwayMsgDlgData*)mir_alloc(sizeof(AwayMsgDlgData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->oldPage = -1;
-			for (int i = 0; i < SIZEOF(statusModes); i++)
+			for (int i=0; i < SIZEOF(statusModes); i++)
 			{
 				int j;
 				if ( !(protoModeMsgFlags & Proto_Status2Flag(statusModes[i])))
@@ -562,7 +562,7 @@ static int AwayMsgSendModernOptInit(WPARAM wParam, LPARAM)
 	if (protoModeMsgFlags == 0)
 		return 0;
 
-	static const int iBoldControls[] =
+	static const int iBoldControls[] = 
 	{
 		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3, 
 		MODERNOPT_CTRL_LAST

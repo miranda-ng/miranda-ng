@@ -46,38 +46,38 @@ typedef struct {
 
 
 // Request authorization
-// wParam=(WPARAM)hContact
+// wParam = (WPARAM)hContact
 #define MS_REQ_AUTH "/ReqAuth"
 
 // Grant authorization
-// wParam=(WPARAM)hContact;
+// wParam = (WPARAM)hContact;
 #define MS_GRANT_AUTH "/GrantAuth"
 
 // Revoke authorization
-// wParam=(WPARAM)hContact
+// wParam = (WPARAM)hContact
 #define MS_REVOKE_AUTH "/RevokeAuth"
 
 // Open ICQ profile
-// wParam=(WPARAM)hContact
+// wParam = (WPARAM)hContact
 #define MS_OPEN_PROFILE "/OpenProfile"
 
 // Add contact to server-list
-// wParam=(WPARAM)hContact
+// wParam = (WPARAM)hContact
 #define MS_ICQ_ADDSERVCONTACT "/AddServerContact"
 
 // Display XStatus detail (internal use only)
-// wParam=(WPARAM)hContact;
+// wParam = (WPARAM)hContact;
 #define MS_XSTATUS_SHOWDETAILS "/ShowXStatusDetails"
 
 //Send an SMS via the ICQ network
-//wParam=(WPARAM)(const char*)szPhoneNumber
-//lParam=(LPARAM)(const char*)szMessage
+//wParam = (WPARAM)(const char*)szPhoneNumber
+//lParam = (LPARAM)(const char*)szMessage
 //Returns a HANDLE to the send on success, or NULL on failure
 //szPhoneNumber should be the full number with international code and preceeded
 //by a +
 
 //When the server acks the send, an ack will be broadcast:
-// type=ICQACKTYPE_SMS, result=ACKRESULT_SENTREQUEST, lParam=(LPARAM)(char*)szInfo
+// type = ICQACKTYPE_SMS, result = ACKRESULT_SENTREQUEST, lParam = (LPARAM)(char*)szInfo
 //At this point the message is queued to be delivered. szInfo contains the raw
 //XML data of the ack. Here's what I got when I tried:
 //"<sms_response><source>airbornww.com</source><deliverable>Yes</deliverable><network>BT Cellnet, United Kingdom</network><message_id>[my uin]-1-1955988055-[destination phone#, without +]</message_id><messages_left>0</messages_left></sms_response>\r\n"
@@ -87,7 +87,7 @@ typedef struct {
 
 //At a (possibly much) later time the SMS will have been delivered. An ack will
 //be broadcast:
-// type=ICQACKTYPE_SMS, result=ACKRESULT_SUCCESS, hProcess=NULL, lParam=(LPARAM)(char*)szInfo
+// type = ICQACKTYPE_SMS, result = ACKRESULT_SUCCESS, hProcess = NULL, lParam = (LPARAM)(char*)szInfo
 //Note that the result will always be success even if the send failed, just to
 //save needing to have an attempt at an XML parser in the ICQ module.
 //Here's the szInfo for a success:
@@ -126,23 +126,23 @@ typedef struct {
 
 
 //for server-side lists, used internally only
-//hProcess=dwSequence
-//lParam=server's error code, 0 for success
+//hProcess = dwSequence
+//lParam = server's error code, 0 for success
 #define ICQACKTYPE_SERVERCLIST  1003
 
 //for rate warning distribution (mainly upload dlg)
-//hProcess=Rate class ID
-//lParam=server's status code
+//hProcess = Rate class ID
+//lParam = server's status code
 #define ICQACKTYPE_RATEWARNING  1004
 
 //received Xtraz Notify response
-//hProcess=dwSequence
-//lParam=contents of RES node
+//hProcess = dwSequence
+//lParam = contents of RES node
 #define ICQACKTYPE_XTRAZNOTIFY_RESPONSE 1005
 
 //received Custom Status details response
-//hProcess=dwSequence
-//lParam=0
+//hProcess = dwSequence
+//lParam = 0
 #define ICQACKTYPE_XSTATUS_RESPONSE 1006
 
 
@@ -158,21 +158,21 @@ typedef struct {
 #define CIXT_EXTRA      0x0080
 #define CIXT_FULL       0x00FF
 
-//wParam=operationType
+//wParam = operationType
 #define PS_CHANGEINFOEX "/ChangeInfoEx"
 
 //Change nickname in White pages
-//lParam=(LPARAM)(const char*)szNewNickName
+//lParam = (LPARAM)(const char*)szNewNickName
 #define PS_SET_NICKNAME "/SetNickname"
 
 //Set password for current session
-//lParam=(LPARAM)(const char*)szPassword
+//lParam = (LPARAM)(const char*)szPassword
 #define PS_ICQ_SETPASSWORD "/SetPassword"
 
 //miranda/icqoscar/statusmsgreq event
 //called when our status message is requested
-//wParam=(BYTE)msgType
-//lParam=(DWORD)uin
+//wParam = (BYTE)msgType
+//lParam = (DWORD)uin
 //msgType is one of the ICQ_MSGTYPE_GET###MSG constants in icq_constants.h
 //uin is the UIN of the contact requesting our status message
 #define ME_ICQ_STATUSMSGREQ      "/StatusMsgReq"

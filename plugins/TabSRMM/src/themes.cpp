@@ -1084,7 +1084,6 @@ void CSkin::setFileName()
 void CSkin::Init(bool fStartup)
 {
 	m_ImageItems = 0;
-	ZeroMemory(this, sizeof(CSkin));
 	m_SkinItems = ::SkinItems;
 	m_fLoadOnStartup = false;
 	m_skinEnabled = m_frameSkins = false;
@@ -1204,11 +1203,13 @@ void CSkin::Unload()
 		::DeleteObject(m_SkinDarkShadowPen);
 	m_SkinDarkShadowPen = 0;
 
-	for(i = 0; i < ID_EXTBK_LAST; i++) {
-		m_SkinItems[i].IGNORED = 1;
-		m_SkinItems[i].imageItem = 0;
+	if (m_SkinItems) {
+		for(i = 0; i < ID_EXTBK_LAST; i++) {
+			m_SkinItems[i].IGNORED = 1;
+			m_SkinItems[i].imageItem = 0;
+		}
+		m_SkinItems[ID_EXTBKINFOPANELBG] = _defInfoPanel;
 	}
-	m_SkinItems[ID_EXTBKINFOPANELBG] = _defInfoPanel;
 
 	ZeroMemory(this, sizeof(CSkin));
 

@@ -53,7 +53,7 @@ static OBJLIST<SoundItem> arSounds(10, CompareSounds);
 
 void KillModuleSounds(int hLangpack)
 {
-	for (int i=arSounds.getCount()-1; i >= 0; i--) {
+	for (int i = arSounds.getCount()-1; i >= 0; i--) {
 		SoundItem& p = arSounds[i];
 		if (p.hLangpack == hLangpack) {
 			p.clear();
@@ -192,7 +192,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				if (tvi.lParam == -1)
 					TreeView_SetItemState(hwndTree, tvi.hItem, INDEXTOSTATEIMAGEMASK(0), TVIS_STATEIMAGEMASK);
 
-				tvi.hItem=TreeView_GetNextSibling(hwndTree, tvi.hItem);
+				tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
 		}	}
 
 		ShowWindow(hwndTree, SW_SHOW);
@@ -316,7 +316,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SetDlgItemText(hwndDlg, IDC_LOCATION, strFull);
 		}
 		if (LOWORD(wParam) == IDC_GETMORE) {
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://addons.miranda-im.org/index.php?action=display&id=5");
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://addons.miranda-im.org/index.php?action = display&id = 5");
 			break;
 		}
 		if (LOWORD(wParam) == IDC_LOCATION)
@@ -355,7 +355,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							tvic.hItem = TreeView_GetNextSibling(hwndTree, tvic.hItem);
 					}	}
 
-					tvi.hItem=TreeView_GetNextSibling(hwndTree, tvi.hItem);
+					tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
 				}
 				return TRUE;
 			}
@@ -419,7 +419,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-static UINT iconsExpertOnlyControls[]={IDC_IMPORT};
+static UINT iconsExpertOnlyControls[] = {IDC_IMPORT};
 
 static int SkinOptionsInit(WPARAM wParam, LPARAM)
 {

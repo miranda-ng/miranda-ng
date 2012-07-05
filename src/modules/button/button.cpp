@@ -260,7 +260,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 
 static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, LPARAM lParam)
 {
-	MButtonCtrl* bct =  (MButtonCtrl *)GetWindowLongPtr(hwndDlg, 0);
+	MButtonCtrl* bct = (MButtonCtrl *)GetWindowLongPtr(hwndDlg, 0);
 	if (bct && bct->fnWindowProc) {
 		LRESULT res = bct->fnWindowProc(hwndDlg, msg, wParam, lParam);
 		if (res)
@@ -315,7 +315,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 					bct->hwndToolTips = NULL;
 				}
 			}
-			if (bct->arrow) IconLib_ReleaseIcon(bct->arrow, 0);
+			if (bct->arrow) IcoLib_ReleaseIcon(bct->arrow, 0);
 			DestroyTheme(bct);
 		}
 		break;	// DONT! fall thru
@@ -450,7 +450,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		}
 		else {
 			if (bct->arrow) {
-				IconLib_ReleaseIcon(bct->arrow, 0);
+				IcoLib_ReleaseIcon(bct->arrow, 0);
 				bct->arrow = NULL;
 				SetHwndPropInt(bct, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_ROLE, ROLE_SYSTEM_PUSHBUTTON);
 			}
@@ -620,18 +620,18 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 
 int LoadButtonModule(void)
 {
-	WNDCLASSEX wc = {0};
-
-	if (bModuleInitialized) return 0;
+	if (bModuleInitialized)
+		return 0;
 	bModuleInitialized = TRUE;
 
-	wc.cbSize         = sizeof(wc);
-	wc.lpszClassName  = MIRANDABUTTONCLASS;
-	wc.lpfnWndProc    = MButtonWndProc;
-	wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
-	wc.cbWndExtra     = sizeof(MButtonCtrl*);
-	wc.hbrBackground  = 0;
-	wc.style          = CS_GLOBALCLASS;
+	WNDCLASSEX wc = {0};
+	wc.cbSize = sizeof(wc);
+	wc.lpszClassName = MIRANDABUTTONCLASS;
+	wc.lpfnWndProc = MButtonWndProc;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.cbWndExtra = sizeof(MButtonCtrl*);
+	wc.hbrBackground = 0;
+	wc.style = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
 
 	InitializeCriticalSection(&csTips);

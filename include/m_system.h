@@ -45,58 +45,59 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#define __forceinline static FORCEINLINE
 #else
 	#pragma warning(disable:4244 4245)
-#endif
+#endif
+
 #include <m_core.h>
 
 
 //miranda/system/modulesloaded
 //called after all modules have been successfully initialised
-//wParam=lParam=0
+//wParam = lParam = 0
 //used to resolve double-dependencies in the module load order
 #define ME_SYSTEM_MODULESLOADED  "Miranda/System/ModulesLoaded"
 
 //miranda/system/shutdown event
 //called just before the application terminates
 //the database is still guaranteed to be running during this hook.
-//wParam=lParam=0
+//wParam = lParam = 0
 #define ME_SYSTEM_SHUTDOWN   "Miranda/System/Shutdown"
 
 //restarts miranda (0.8+)
-//wParam=lParam=0
+//wParam = lParam = 0
 #define MS_SYSTEM_RESTART    "Miranda/System/Restart"
 
 //miranda/system/oktoexit event
 //called before the app goes into shutdown routine to make sure everyone is
 //happy to exit
-//wParam=lParam=0
+//wParam = lParam = 0
 //return nonzero to stop the exit cycle
 #define ME_SYSTEM_OKTOEXIT   "Miranda/System/OkToExitEvent"
 
 //miranda/system/oktoexit service
 //Check if everyone is happy to exit
-//wParam=lParam=0
+//wParam = lParam = 0
 //if everyone acknowleges OK to exit then returns true, otherwise false
 #define MS_SYSTEM_OKTOEXIT   "Miranda/System/OkToExit"
 
 //gets the version number of Miranda encoded as a DWORD     v0.1.0.1+
-//wParam=lParam=0
+//wParam = lParam = 0
 //returns the version number, encoded as one version per byte, therefore
 //version 1.2.3.10 is 0x0102030a
 #define MS_SYSTEM_GETVERSION "Miranda/System/GetVersion"
 
 //gets the version of Miranda encoded as text   v0.1.0.1+
-//wParam=cch
-//lParam=(LPARAM)(char*)pszVersion
+//wParam = cch
+//lParam = (LPARAM)(char*)pszVersion
 //cch is the size of the buffer pointed to by pszVersion, in bytes
 //may return a build qualifier, such as "0.1.0.1 alpha"
 //returns 0 on success, nonzero on failure
 #define MS_SYSTEM_GETVERSIONTEXT "Miranda/System/GetVersionText"
 
 //Adds a HANDLE to the list to be checked in the main message loop  v0.1.2.0+
-//wParam=(WPARAM)(HANDLE)hObject
-//lParam=(LPARAM)(const char*)pszService
+//wParam = (WPARAM)(HANDLE)hObject
+//lParam = (LPARAM)(const char*)pszService
 //returns 0 on success or nonzero on failure
-//Causes pszService to be CallService()d (wParam=hObject, lParam=0) from the
+//Causes pszService to be CallService()d (wParam = hObject, lParam = 0) from the
 //main thread whenever hObject is signalled.
 //The Miranda message loop has a MsgWaitForMultipleObjects() call in it to
 //implement this feature. See the documentation for that function for
@@ -128,14 +129,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_SYSTEM_WAITONHANDLE   "Miranda/System/WaitOnHandle"
 
 //Removes a HANDLE from the wait list   v0.1.2.0+
-//wParam=(WPARAM)(HANDLE)hObject
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hObject
+//lParam = 0
 //returns 0 on success or nonzero on failure.
 #define MS_SYSTEM_REMOVEWAIT     "Miranda/System/RemoveWait"
 
 /*
-wParam=0
-lParam=0
+wParam = 0
+lParam = 0
 
 This hook is fired just before the thread unwind stack is used,
 it allows MT plugins to shutdown threads if they have any special
@@ -145,8 +146,8 @@ processing to do, etc.
 #define ME_SYSTEM_PRESHUTDOWN		"Miranda/System/PShutdown"
 
 /*
-wParam=0
-lParam=0
+wParam = 0
+lParam = 0
 
 Returns TRUE when Miranda has got WM_QUIT and is in the process
 of shutting down

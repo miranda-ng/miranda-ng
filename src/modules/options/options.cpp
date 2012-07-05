@@ -254,7 +254,7 @@ static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWnd
 	
 	DWORD key = GetPluginPageHash(page); //get the plugin page hash
 	
-	TCHAR * PluginFullName = NULL;
+	TCHAR *PluginFullName = NULL;
 	char * temp = GetPluginNameByInstance(page->hInst);
 	if (temp) PluginFullName = mir_a2t(temp);
 	GetDialogStrings(enableKeywordFiltering, key, GetPluginName(page->hInst, pluginName, SIZEOF(pluginName)), hWnd, page->ptszGroup, page->ptszTitle, page->ptszTab, PluginFullName);
@@ -309,10 +309,10 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 
 			RECT rc2;
 			getThemeBackgroundContentRect(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &rc, &rc2);
-			rc2.top    = 2 * rc.top    - rc2.top;
-			rc2.left   = 2 * rc.left   - rc2.left;
+			rc2.top = 2 * rc.top    - rc2.top;
+			rc2.left = 2 * rc.left   - rc2.left;
 			rc2.bottom = 2 * rc.bottom - rc2.bottom;
-			rc2.right  = 2 * rc.right  - rc2.right;
+			rc2.right = 2 * rc.right  - rc2.right;
 
 			drawThemeBackground(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &rc2, &rc);
 			HFONT hFont = (HFONT) SendMessage(hWnd, WM_GETFONT, 0, 0);
@@ -365,7 +365,7 @@ static BOOL IsAeroMode()
 
 static void FreeOptionsData(OptionsPageInit* popi)
 {
-	for (int i = 0; i < popi->pageCount; i++) {
+	for (int i=0; i < popi->pageCount; i++) {
 		mir_free((char*)popi->odp[i].pszTitle);
 		mir_free(popi->odp[i].pszGroup);
 		mir_free(popi->odp[i].pszTab);
@@ -412,7 +412,7 @@ static void AeroPaintControl(HWND hwnd, HDC hdc, WNDPROC OldWndProc, UINT msg = 
 
 	// Fix alpha channel
 	GdiFlush();
-	for (int i = 0; i < rc.right*rc.bottom; ++i, pBits += 4)
+	for (int i=0; i < rc.right*rc.bottom; ++i, pBits += 4)
 		if ( !pBits[3]) pBits[3] = 255;
 
 	//Copy to output
@@ -499,8 +499,8 @@ static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, OptionsDlgDat
 	index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, (WPARAM)0, (LPARAM)TranslateTS(CORE_MODULES_FILTER));
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, (LPARAM)hInst);
 	TCHAR* tszModuleName = (TCHAR*)alloca(MAX_PATH*sizeof(TCHAR));
-	for (int i = 0; i < dat->arOpd.getCount(); i++) {		
-		TCHAR * dllName = NULL;
+	for (int i=0; i < dat->arOpd.getCount(); i++) {		
+		TCHAR *dllName = NULL;
 		int j;
 		HINSTANCE inst = dat->arOpd[i]->hInst;
 		
@@ -736,7 +736,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			else lastTab = Langpack_PcharToTchar(ood->pszTab);
 
 			OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)psh->ppsp;
-			for (size_t i = 0; i < psh->nPages; i++, odp++) {
+			for (size_t i=0; i < psh->nPages; i++, odp++) {
 				OptionsPageData* opd = (OptionsPageData*)mir_calloc(sizeof(OptionsPageData));
 				if ( !LoadOptionsPage(odp, opd)) {
 					mir_free(opd);
@@ -832,7 +832,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			tvis.hInsertAfter = TVI_SORT;
 			tvis.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
 			tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
-			for (int i = 0; i < dat->arOpd.getCount(); i++) {
+			for (int i=0; i < dat->arOpd.getCount(); i++) {
 				static TCHAR *fullTitle = NULL;
 				mir_free(fullTitle); fullTitle = NULL;
 				if ( !CheckPageShow(hdlg, dat, i))
@@ -841,7 +841,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				OptionsPageData* opd = dat->arOpd[i];
 				TCHAR* ptszGroup = TranslateTH(opd->hLangpack, opd->ptszGroup);
 				TCHAR* ptszTitle = TranslateTH(opd->hLangpack, opd->ptszTitle);
-				TCHAR* ptszTab   = TranslateTH(opd->hLangpack, opd->ptszTab);
+				TCHAR* ptszTab = TranslateTH(opd->hLangpack, opd->ptszTab);
 
 				tvis.hParent = NULL;
 				if (FilterInst != NULL) {
@@ -1051,7 +1051,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 							h = p->expertHeight;
 						}
 						else {
-							for (int i = 0; i < p->nExpertOnlyControls; i++)
+							for (int i=0; i < p->nExpertOnlyControls; i++)
 								ShowWindow(GetDlgItem(p->hwnd, p->expertOnlyControls[i]), SW_HIDE);
 							w = p->simpleWidth;
 							h = p->simpleHeight;
@@ -1081,7 +1081,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 							TCITEM tie;
 							tie.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
 							tie.iImage = -1;
-							for (int i = 0; i < dat->arOpd.getCount(); i++) {
+							for (int i=0; i < dat->arOpd.getCount(); i++) {
 								if ( !CheckPageShow(hdlg, dat, i))
 									continue;
 
@@ -1124,13 +1124,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 							parentPageRect = &dat->rcTab;
 
 						pageHeight = min(pageHeight, parentPageRect->bottom - parentPageRect->top);
-						pageWidth  = min(pageWidth,  parentPageRect->right - parentPageRect->left);
+						pageWidth = min(pageWidth,  parentPageRect->right - parentPageRect->left);
 
 						int newOffsetX = (parentPageRect->right - parentPageRect->left - pageWidth) >> 1;
 						int newOffsetY = p->insideTab ? 0 : (parentPageRect->bottom - parentPageRect->top - pageHeight) >> 1;
 
 						struct MoveChildParam mcp;
-						mcp.hDlg     = p->hwnd;
+						mcp.hDlg = p->hwnd;
 						mcp.offset.x = newOffsetX - p->offsetX;
 						mcp.offset.y = newOffsetY - p->offsetY;
 													
@@ -1194,7 +1194,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				pshn.lParam = expert;
 				pshn.hdr.code = PSN_EXPERTCHANGED;
 
-				for (int i = 0; i <dat->arOpd.getCount(); i++) {
+				for (int i=0; i <dat->arOpd.getCount(); i++) {
 					OptionsPageData *opd = dat->arOpd[i];
 					if (opd->hwnd == NULL) continue;
 					if ( !CheckPageShow(hdlg, dat, i)) continue;
@@ -1273,7 +1273,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				pshn.hdr.idFrom = 0;
 				pshn.lParam = 0;
 				pshn.hdr.code = PSN_RESET;
-				for (int i = 0;i<dat->arOpd.getCount();i++) {
+				for (int i=0;i<dat->arOpd.getCount();i++) {
 					if (dat->arOpd[i]->hwnd == NULL || !dat->arOpd[i]->changed)
 						continue;
 					pshn.hdr.hwndFrom = dat->arOpd[i]->hwnd;
@@ -1302,7 +1302,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				}
 
 				pshn.hdr.code = PSN_APPLY;
-				for (int i = 0;i<dat->arOpd.getCount();i++) {
+				for (int i=0;i<dat->arOpd.getCount();i++) {
 					if (dat->arOpd[i]->hwnd == NULL || !dat->arOpd[i]->changed) continue;
 					dat->arOpd[i]->changed = 0;
 					pshn.hdr.hwndFrom = dat->arOpd[i]->hwnd;
@@ -1351,7 +1351,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		}
 		Utils_SaveWindowPosition(hdlg, NULL, "Options", "");
 		{
-			for (int i = 0; i < dat->arOpd.getCount(); i++)
+			for (int i=0; i < dat->arOpd.getCount(); i++)
 				FreeOptionsPageData(dat->arOpd[i]);
 		}
 

@@ -94,7 +94,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 		if (lstrcmpi(szClass, _T("listbox")) == 0) {
 			if (GetWindowStyle(hWndDlg) & LBS_HASSTRINGS) {
 				int count = ListBox_GetCount(hWndDlg);
-				for (int i = 0; i < count; i++) {
+				for (int i=0; i < count; i++) {
 					title[0] = 0; //safety
 					int res = ListBox_GetText(hWndDlg, i, title);
 					if (res != LB_ERR) {
@@ -106,7 +106,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 		else {
 			if (lstrcmpi(szClass, _T("SysListView32")) == 0) {
 				int count = ListView_GetItemCount(hWndDlg);
-				for (int i = 0; i < count; i++) {
+				for (int i=0; i < count; i++) {
 					title[0] = 0; //safety
 					ListView_GetItemText(hWndDlg, i, 0, title, SIZEOF(title));
 					
@@ -117,7 +117,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 			if (lstrcmpi(szClass, _T("combobox")) == 0) {
 				if (GetWindowStyle(hWndDlg) & CBS_HASSTRINGS) { 
 					int count = ComboBox_GetCount(hWndDlg);
-					for (int i = 0; i < count; i++) {
+					for (int i=0; i < count; i++) {
 						title[0] = 0; //safety
 						int res = ComboBox_GetLBText(hWndDlg, i, title);
 						if (res != CB_ERR) {
@@ -134,7 +134,7 @@ static BOOL CALLBACK GetDialogStringsCallback(HWND hWnd, LPARAM lParam)
 	return TRUE;
 }
 
-void GetDialogStrings(int enableKeywordFiltering, const PageHash key, TCHAR *pluginName, HWND hWnd, TCHAR * group, TCHAR * title, TCHAR * tab, TCHAR * name)
+void GetDialogStrings(int enableKeywordFiltering, const PageHash key, TCHAR *pluginName, HWND hWnd, TCHAR *group, TCHAR *title, TCHAR *tab, TCHAR *name)
 {
 	AddFilterString(key, pluginName); //add the plugin name as keyword
 	if (group) AddFilterString(key, group);

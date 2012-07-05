@@ -361,7 +361,7 @@ XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
 		if (*p == '%') {
 			if (varStart) {
 				if (p == varStart)
-					*q++ = '%';
+					*q++='%';
 				else if (XCHAR *value = GetVariableFromArray(data->variables, varStart, p-varStart, data->hContact, &bFree)) {
 					_xcscpy(q, value);
 					q += _xcslen(value);
@@ -377,7 +377,7 @@ XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
 			else varStart = p+1;
 		}
 		else if ( !varStart)
-			*q++ = *p;
+			*q++=*p;
 	}
 
 	*q = 0;

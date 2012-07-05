@@ -37,14 +37,14 @@ static INT_PTR SendEMailCommand(WPARAM wParam, LPARAM lParam)
 	char *szUrl;
 	char *szProto;
 
-	szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 	if (szProto == NULL || DBGetContactSettingString((HANDLE)wParam, szProto, "e-mail", &dbv)) {
 		if (DBGetContactSettingString((HANDLE)wParam, "UserInfo", "Mye-mail0", &dbv)) {
 			MessageBox((HWND)lParam, TranslateT("User has not registered an e-mail address"), TranslateT("Send e-mail"), MB_OK);
 			return 1;
 		}
 	}
-	szUrl=(char*)mir_alloc(lstrlenA(dbv.pszVal)+8);
+	szUrl = (char*)mir_alloc(lstrlenA(dbv.pszVal)+8);
 	lstrcpyA(szUrl, "mailto:");
 	lstrcatA(szUrl, dbv.pszVal);
 	mir_free(dbv.pszVal);

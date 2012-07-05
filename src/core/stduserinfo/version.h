@@ -1,0 +1,14 @@
+
+#include <m_version.h>
+
+#define __FILEVERSION_STRING		MIRANDA_VERSION_FILEVERSION
+#define __VERSION_STRING			MIRANDA_VERSION_STRING
+
+#define __PLUGIN_NAME				"stduserinfo"
+#define __INTERNAL_NAME				"stduserinfo"
+#define __FILENAME					"stduserinfo.dll"
+#define __DESCRIPTION 				"Core module for providing user information."
+#define __AUTHOR                 "Myranda team"
+#define __AUTHOREMAIL				""
+#define __AUTHORWEB					"http://nightly.miranda.im"
+#define __COPYRIGHT					"© 2012 Myranda team"

@@ -42,15 +42,15 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			DBEVENTINFO dbei = {0};
 			dbei.cbSize = sizeof(dbei);
 			dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
-			dbei.pBlob  = (PBYTE)alloca(dbei.cbBlob);
+			dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 			CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
 
 			DWORD uin = *(PDWORD)dbei.pBlob;
 			HANDLE hContact = *(HANDLE*)(dbei.pBlob + sizeof(DWORD));
-			char* nick     = (char *)(dbei.pBlob + sizeof(DWORD) + sizeof(HANDLE));
-			char* first    = nick  + strlen(nick)  + 1;
-			char* last     = first + strlen(first) + 1;
-			char* email    = last  + strlen(last)  + 1;
+			char* nick = (char *)(dbei.pBlob + sizeof(DWORD) + sizeof(HANDLE));
+			char* first = nick  + strlen(nick)  + 1;
+			char* last = first + strlen(first) + 1;
+			char* email = last  + strlen(last)  + 1;
 
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, CallProtoServiceInt(NULL,dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, CallProtoServiceInt(NULL,dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
@@ -173,16 +173,16 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			//blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 			dbei.cbSize = sizeof(dbei);
 			dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
-			dbei.pBlob  = (PBYTE)alloca(dbei.cbBlob);
+			dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 			CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
 
 			uin = *(PDWORD)dbei.pBlob;
 			hContact = *(HANDLE*)(dbei.pBlob + sizeof(DWORD));
-			nick     = (char *)(dbei.pBlob + sizeof(DWORD) + sizeof(HANDLE));
-			first    = nick  + strlen(nick)  + 1;
-			last     = first + strlen(first) + 1;
-			email    = last  + strlen(last)  + 1;
-			reason   = email + strlen(email) + 1;
+			nick = (char *)(dbei.pBlob + sizeof(DWORD) + sizeof(HANDLE));
+			first = nick  + strlen(nick)  + 1;
+			last = first + strlen(first) + 1;
+			email = last  + strlen(last)  + 1;
+			reason = email + strlen(email) + 1;
 
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, CallProtoServiceInt(NULL,dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, CallProtoServiceInt(NULL,dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
@@ -195,7 +195,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			TCHAR* emailT = dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2t(email);
 			TCHAR* reasonT = dbei.flags & DBEF_UTF ? Utf8DecodeT(reason) : mir_a2t(reason);
 
-			TCHAR name[128] =_T("");
+			TCHAR name[128] = _T("");
 			int off = 0;
 			if (firstT[0] && lastT[0])
 				off = mir_sntprintf(name, SIZEOF(name), _T("%s %s"), firstT, lastT);

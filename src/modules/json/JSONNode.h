@@ -158,7 +158,7 @@ public:
 	   JSONNode JSON_PTR_LIB pop_back_nocase(const json_string & name_t);
     #endif
     
-    DECLARE_FOR_ALL_TYPES(JSONNode & operator =)
+    DECLARE_FOR_ALL_TYPES(JSONNode & operator = )
     JSONNode & operator = (const JSONNode &);
 
     DECLARE_FOR_ALL_TYPES_CONST(bool operator ==)
@@ -253,7 +253,7 @@ public:
 			 inline bool operator >= (const const_iterator & other) const { return it >= other.it; }
 			 inline bool operator < (const const_iterator & other) const { return it < other.it; }
 			 inline bool operator <= (const const_iterator & other) const { return it <= other.it; }
-			 inline const_iterator & operator =(const const_iterator & orig){ it = orig.it; return *this; }
+			 inline const_iterator & operator = (const const_iterator & orig){ it = orig.it; return *this; }
 			 const_iterator (const const_iterator & orig) : it(orig.it) {}
 		  private:
 			 JSONNode ** it;

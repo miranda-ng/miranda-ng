@@ -25,15 +25,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_AWAYMSG_H__ 1
 
 //show the away/na/etc message for a contact  v0.1.0.1+
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = 0
 //returns 0 on success or nonzero on failure
 //returns immediately, without waiting for the message to retrieve
 #define MS_AWAYMSG_SHOWAWAYMSG   "SRAway/GetMessage"
 
 //returns the default status message for a status
-//wParam=(int)status
-//lParam=(LPARAM)(char*)szProto
+//wParam = (int)status
+//lParam = (LPARAM)(char*)szProto
 //returns status msg.  Remember to free the return value
 #define MS_AWAYMSG_GETSTATUSMSG   "SRAway/GetStatusMessage"
 #define MS_AWAYMSG_GETSTATUSMSGW  "SRAway/GetStatusMessageW"

@@ -31,8 +31,8 @@ static HANDLE hSRFileMenuItem;
 static INT_PTR SendFileCommand(WPARAM wParam, LPARAM)
 {
 	struct FileSendData fsd;
-	fsd.hContact=(HANDLE)wParam;
-	fsd.ppFiles=NULL;
+	fsd.hContact = (HANDLE)wParam;
+	fsd.ppFiles = NULL;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	return 0;
 }
@@ -40,7 +40,7 @@ static INT_PTR SendFileCommand(WPARAM wParam, LPARAM)
 static INT_PTR SendSpecificFiles(WPARAM wParam, LPARAM lParam)
 {
 	FileSendData fsd;
-	fsd.hContact=(HANDLE)wParam;
+	fsd.hContact = (HANDLE)wParam;
 	
 		char** ppFiles = (char**)lParam;
 		int count = 0;
@@ -53,7 +53,7 @@ static INT_PTR SendSpecificFiles(WPARAM wParam, LPARAM lParam)
 		fsd.ppFiles[ count ] = NULL;
 	
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
-	for (int j=0; j < count; j++)
+	for (int j = 0; j < count; j++)
 			mir_free((void*)fsd.ppFiles[j]);
 	return 0;
 }
@@ -61,8 +61,8 @@ static INT_PTR SendSpecificFiles(WPARAM wParam, LPARAM lParam)
 static INT_PTR SendSpecificFilesT(WPARAM wParam, LPARAM lParam)
 {
 	FileSendData fsd;
-	fsd.hContact=(HANDLE)wParam;
-	fsd.ppFiles=(const TCHAR**)lParam;
+	fsd.hContact = (HANDLE)wParam;
+	fsd.ppFiles = (const TCHAR**)lParam;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	return 0;
 }
@@ -85,7 +85,7 @@ static INT_PTR RecvFileCommand(WPARAM, LPARAM lParam)
 
 void PushFileEvent(HANDLE hContact, HANDLE hdbe, LPARAM lParam)
 {
-	CLISTEVENT cle={0};
+	CLISTEVENT cle = {0};
 	cle.cbSize = sizeof(cle);
 	cle.hContact = hContact;
 	cle.hDbEvent = hdbe;
@@ -110,7 +110,7 @@ static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 {
 	DWORD dwSignature;
 
-	DBEVENTINFO dbei={0};
+	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
 	dbei.cbBlob = sizeof(DWORD);
 	dbei.pBlob = (PBYTE)&dwSignature;
@@ -125,7 +125,7 @@ static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 int SRFile_GetRegValue(HKEY hKeyBase, const TCHAR *szSubKey, const TCHAR *szValue, TCHAR *szOutput, int cbOutput)
 {
 	HKEY hKey;
-	DWORD cbOut=cbOutput;
+	DWORD cbOut = cbOutput;
 
 	if (RegOpenKeyEx(hKeyBase, szSubKey, 0, KEY_QUERY_VALUE, &hKey) != ERROR_SUCCESS)
 		return 0;
@@ -142,13 +142,13 @@ int SRFile_GetRegValue(HKEY hKeyBase, const TCHAR *szSubKey, const TCHAR *szValu
 void GetSensiblyFormattedSize(__int64 size, TCHAR *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed)
 {
 	if ( !unitsOverride) {
-		if (size<1000) unitsOverride=UNITS_BYTES;
-		else if (size<100*1024) unitsOverride=UNITS_KBPOINT1;
-		else if (size<1024*1024) unitsOverride=UNITS_KBPOINT0;
-		else if (size<1024*1024*1024) unitsOverride=UNITS_MBPOINT2;
-    else unitsOverride=UNITS_GBPOINT3;
+		if (size<1000) unitsOverride = UNITS_BYTES;
+		else if (size<100*1024) unitsOverride = UNITS_KBPOINT1;
+		else if (size<1024*1024) unitsOverride = UNITS_KBPOINT0;
+		else if (size<1024*1024*1024) unitsOverride = UNITS_MBPOINT2;
+    else unitsOverride = UNITS_GBPOINT3;
 	}
-	if (unitsUsed) *unitsUsed=unitsOverride;
+	if (unitsUsed) *unitsUsed = unitsOverride;
 	switch(unitsOverride) {
 		case UNITS_BYTES: mir_sntprintf(szOut, cchOut, _T("%u%s%s"), (int)size, appendUnits?_T(" "):_T(""), appendUnits?TranslateT("bytes"):_T("")); break;
 		case UNITS_KBPOINT1: mir_sntprintf(szOut, cchOut, _T("%.1lf%s"), size/1024.0, appendUnits?_T(" KB"):_T("")); break;
@@ -190,7 +190,7 @@ void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts)
 
 void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src)
 {
-	*dest=*src;
+	*dest = *src;
 	if (src->tszCurrentFile) dest->tszCurrentFile = PFTS_StringToTchar(src->flags, src->tszCurrentFile);
 	if (src->ptszFiles) {
 		dest->ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*)*src->totalFiles);
@@ -258,21 +258,21 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 
 static void RemoveUnreadFileEvents(void)
 {
-	DBEVENTINFO dbei={0};
+	DBEVENTINFO dbei = {0};
 	HANDLE hDbEvent, hContact;
 
-	dbei.cbSize=sizeof(dbei);
-	hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	dbei.cbSize = sizeof(dbei);
+	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact) {
-		hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0);
+		hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0);
 		while (hDbEvent) {
-			dbei.cbBlob=0;
+			dbei.cbBlob = 0;
 			CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
 			if ( !(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType == EVENTTYPE_FILE)
 				CallService(MS_DB_EVENT_MARKREAD, (WPARAM)hContact, (LPARAM)hDbEvent);
-			hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
+			hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
 		}
-		hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 	}
 }
 

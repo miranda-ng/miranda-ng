@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* Opens the find/add users dialog box, or gives it the focus if it's already
 open.
-wParam=lParam=0
+wParam = lParam = 0
 returns 0 always
 */
 #define MS_FINDADD_FINDADD  "FindAdd/FindAddCommand"

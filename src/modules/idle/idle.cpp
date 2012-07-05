@@ -187,7 +187,7 @@ static void IdleObject_ReadSettings(IdleObject * obj)
 static void IdleObject_Create(IdleObject * obj)
 {
 	ZeroMemory(obj, sizeof(IdleObject));
-	obj->hTimer=SetTimer(NULL, 0, 2000, IdleTimer);
+	obj->hTimer = SetTimer(NULL, 0, 2000, IdleTimer);
 	IdleObject_ReadSettings(obj);
 }
 
@@ -210,7 +210,7 @@ static int IdleObject_IsUserIdle(IdleObject * obj)
 	if (MyGetLastInputInfo != NULL) {
 		LASTINPUTINFO ii;
 		ZeroMemory(&ii, sizeof(ii));
-		ii.cbSize=sizeof(ii);
+		ii.cbSize = sizeof(ii);
 		if (MyGetLastInputInfo(&ii)) 
 			return GetTickCount() - ii.dwTime > (obj->minutes * 60 * 1000);
 	}
@@ -218,8 +218,8 @@ static int IdleObject_IsUserIdle(IdleObject * obj)
 		POINT pt;
 		GetCursorPos(&pt);
 		if (pt.x != obj->mousepos.x || pt.y != obj->mousepos.y) {
-			obj->mousepos=pt;
-			obj->mouseidle=0;
+			obj->mousepos = pt;
+			obj->mouseidle = 0;
 		}
 		else obj->mouseidle += 2;
 
@@ -424,7 +424,7 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		{
 			int min;
 			if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE) return FALSE;
-			min=GetDlgItemInt(hwndDlg, IDC_IDLE1STTIME, NULL, FALSE);
+			min = GetDlgItemInt(hwndDlg, IDC_IDLE1STTIME, NULL, FALSE);
 			if (min == 0 && GetWindowTextLength(GetDlgItem(hwndDlg, IDC_IDLE1STTIME)))
 				SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETPOS, 0, MAKELONG((short) 1, 0));
 			break;
@@ -478,7 +478,7 @@ static INT_PTR IdleGetInfo(WPARAM, LPARAM lParam)
 
 static int IdleModernOptInit(WPARAM wParam, LPARAM)
 {
-	static const int iBoldControls[] =
+	static const int iBoldControls[] = 
 	{
 		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3, 
 		MODERNOPT_CTRL_LAST
@@ -505,8 +505,8 @@ int LoadIdleModule(void)
 	bModuleInitialized = TRUE;
 
 	bIsWTSApiPresent = InitWTSAPI();
-	MyGetLastInputInfo=(BOOL (WINAPI *)(LASTINPUTINFO*))GetProcAddress(GetModuleHandleA("user32"), "GetLastInputInfo");
-	hIdleEvent=CreateHookableEvent(ME_IDLE_CHANGED);
+	MyGetLastInputInfo = (BOOL (WINAPI *)(LASTINPUTINFO*))GetProcAddress(GetModuleHandleA("user32"), "GetLastInputInfo");
+	hIdleEvent = CreateHookableEvent(ME_IDLE_CHANGED);
 	IdleObject_Create(&gIdleObject);
 	CreateServiceFunction(MS_IDLE_GETIDLEINFO, IdleGetInfo);
 	HookEvent(ME_OPT_INITIALISE, IdleOptInit);
@@ -520,5 +520,5 @@ void UnloadIdleModule()
 
 	IdleObject_Destroy(&gIdleObject);
 	DestroyHookableEvent(hIdleEvent);
-	hIdleEvent=NULL;
+	hIdleEvent = NULL;
 }

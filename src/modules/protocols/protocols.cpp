@@ -329,7 +329,7 @@ char** __fastcall Proto_FilesMatrixA(wchar_t **files)
 	while (files[ count++ ]);
 
 	char** filesA = (char**)mir_alloc(count * sizeof(char*));
-	for (int i = 0; i < count; ++i)
+	for (int i=0; i < count; ++i)
 		filesA[ i ] = mir_u2a(files[ i ]);
 
 	return filesA;
@@ -343,7 +343,7 @@ static wchar_t** __fastcall Proto_FilesMatrixU(char **files)
 	while (files[ count++ ]);
 
 	wchar_t** filesU = (wchar_t**)mir_alloc(count * sizeof(wchar_t*));
-	for (int i = 0; i < count; ++i)
+	for (int i=0; i < count; ++i)
 		filesU[ i ] = mir_a2u(files[ i ]);
 
 	return filesU;
@@ -419,12 +419,12 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 					return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT*)lParam); 
 				else {
 					PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
-					PROTOSEARCHRESULT *psra =(PROTOSEARCHRESULT*)mir_alloc(psr->cbSize);
+					PROTOSEARCHRESULT *psra = (PROTOSEARCHRESULT*)mir_alloc(psr->cbSize);
 					memcpy(psra, psr, psr->cbSize);
-					psra->nick      = (PROTOCHAR*)mir_u2a(psr->nick);
+					psra->nick = (PROTOCHAR*)mir_u2a(psr->nick);
 					psra->firstName = (PROTOCHAR*)mir_u2a(psr->firstName);
-					psra->lastName  = (PROTOCHAR*)mir_u2a(psr->lastName);
-					psra->email     = (PROTOCHAR*)mir_u2a(psr->email);
+					psra->lastName = (PROTOCHAR*)mir_u2a(psr->lastName);
+					psra->email = (PROTOCHAR*)mir_u2a(psr->email);
 							
 					INT_PTR res = (INT_PTR)ppi->AddToList(wParam, psra);
 							
@@ -595,12 +595,12 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 	if ( !strcmp(szService, PS_ADDTOLIST)) {
 		PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
 		if ( !(psr->flags & PSR_UNICODE)) {
-			PROTOSEARCHRESULT *psra =(PROTOSEARCHRESULT*)mir_alloc(psr->cbSize);
+			PROTOSEARCHRESULT *psra = (PROTOSEARCHRESULT*)mir_alloc(psr->cbSize);
 			memcpy(psra, psr, psr->cbSize);
-			psra->nick      = (PROTOCHAR*)mir_u2a(psr->nick);
+			psra->nick = (PROTOCHAR*)mir_u2a(psr->nick);
 			psra->firstName = (PROTOCHAR*)mir_u2a(psr->firstName);
-			psra->lastName  = (PROTOCHAR*)mir_u2a(psr->lastName);
-			psra->email     = (PROTOCHAR*)mir_u2a(psr->email);
+			psra->lastName = (PROTOCHAR*)mir_u2a(psr->lastName);
+			psra->email = (PROTOCHAR*)mir_u2a(psr->email);
 		
 			INT_PTR res = MyCallProtoService(szModule, szService, wParam, (LPARAM)psra);
 		
@@ -668,7 +668,7 @@ INT_PTR CallContactService(HANDLE hContact, const char *szProtoService, WPARAM w
 	PROTOACCOUNT* pa;
 	CCSDATA ccs = { hContact, szProtoService, wParam, lParam };
 
-	for (i = 0;; i++) {
+	for (i=0;; i++) {
 		char str[10];
 		_itoa(i, str, 10);
 		if (DBGetContactSettingString(hContact, "_Filter", str, &dbv))

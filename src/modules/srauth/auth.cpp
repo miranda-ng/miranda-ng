@@ -61,7 +61,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 
 	HANDLE hContact = *(PHANDLE)(dbei.pBlob + sizeof(DWORD));
 
-	CLISTEVENT cli ={0};
+	CLISTEVENT cli = {0};
 	cli.cbSize = sizeof(cli);
 	cli.hContact = hContact;
 	cli.ptszTooltip = szTooltip;

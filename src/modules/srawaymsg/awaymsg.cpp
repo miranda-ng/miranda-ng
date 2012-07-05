@@ -121,7 +121,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 {
 	HWND hwnd;
-	if (hwnd=WindowList_Find(hWindowList, (HANDLE)wParam)) {
+	if (hwnd = WindowList_Find(hWindowList, (HANDLE)wParam)) {
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 	}
@@ -135,7 +135,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 	TCHAR str[128];
 	char *szProto;
 
-	szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 	ZeroMemory(&clmi, sizeof(clmi));
 	clmi.cbSize = sizeof(clmi);
 	clmi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN | CMIF_TCHAR;
@@ -153,7 +153,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 	}	}	}	}
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hAwayMsgMenuItem, (LPARAM)&clmi);
-	IconLib_ReleaseIcon(clmi.hIcon, 0);
+	IcoLib_ReleaseIcon(clmi.hIcon, 0);
 	return 0;
 }
 
@@ -170,10 +170,10 @@ int LoadAwayMsgModule(void)
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
 	
-	mi.cbSize     = sizeof(mi);
-	mi.position   = -2000005000;
-	mi.flags      = CMIF_NOTOFFLINE;
-	mi.pszName    = LPGEN("Re&ad Status Message");
+	mi.cbSize = sizeof(mi);
+	mi.position = -2000005000;
+	mi.flags = CMIF_NOTOFFLINE;
+	mi.pszName = LPGEN("Re&ad Status Message");
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	hAwayMsgMenuItem = Menu_AddContactMenuItem(&mi);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, AwayMsgPreBuildMenu);

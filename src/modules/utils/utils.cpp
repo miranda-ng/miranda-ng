@@ -39,7 +39,7 @@ void UninitTimeZones(void);
 
 static BOOL bModuleInitialized = FALSE;
 
-static struct CountryListEntry countries[]={
+static struct CountryListEntry countries[] = {
 	{0   , "Unspecified"}, 
 	{9999, "Other"}, 
 	{0xFFFF, "Unknown"}, 
@@ -310,7 +310,7 @@ static INT_PTR GetCountryByNumber(WPARAM wParam, LPARAM)
 static INT_PTR GetCountryList(WPARAM wParam, LPARAM lParam)
 {
 	*(int*)wParam = SIZEOF(countries);
-	*(struct CountryListEntry**)lParam=countries;
+	*(struct CountryListEntry**)lParam = countries;
 	return 0;
 }
 
@@ -318,11 +318,11 @@ static INT_PTR GetCountryList(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SaveWindowPosition(WPARAM, LPARAM lParam)
 {
-	SAVEWINDOWPOS *swp=(SAVEWINDOWPOS*)lParam;
+	SAVEWINDOWPOS *swp = (SAVEWINDOWPOS*)lParam;
 	WINDOWPLACEMENT wp;
 	char szSettingName[64];
 
-	wp.length=sizeof(wp);
+	wp.length = sizeof(wp);
 	GetWindowPlacement(swp->hwnd, &wp);
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", swp->szNamePrefix);
 	DBWriteContactSettingDword(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.left);
@@ -377,30 +377,30 @@ static INT_PTR AssertInsideScreen(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR RestoreWindowPosition(WPARAM wParam, LPARAM lParam)
 {
-	SAVEWINDOWPOS *swp=(SAVEWINDOWPOS*)lParam;
+	SAVEWINDOWPOS *swp = (SAVEWINDOWPOS*)lParam;
 	WINDOWPLACEMENT wp;
 	char szSettingName[64];
 	int x, y;
 
-	wp.length=sizeof(wp);
+	wp.length = sizeof(wp);
 	GetWindowPlacement(swp->hwnd, &wp);
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", swp->szNamePrefix);
-	x=DBGetContactSettingDword(swp->hContact, swp->szModule, szSettingName, -1);
+	x = DBGetContactSettingDword(swp->hContact, swp->szModule, szSettingName, -1);
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", swp->szNamePrefix);
-	y=(int)DBGetContactSettingDword(swp->hContact, swp->szModule, szSettingName, -1);
+	y = (int)DBGetContactSettingDword(swp->hContact, swp->szModule, szSettingName, -1);
 	if (x == -1) return 1;
 	if (wParam&RWPF_NOSIZE) {
 		OffsetRect(&wp.rcNormalPosition, x-wp.rcNormalPosition.left, y-wp.rcNormalPosition.top);
 	}
 	else {
-		wp.rcNormalPosition.left=x;
-		wp.rcNormalPosition.top=y;
+		wp.rcNormalPosition.left = x;
+		wp.rcNormalPosition.top = y;
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", swp->szNamePrefix);
-		wp.rcNormalPosition.right=wp.rcNormalPosition.left+DBGetContactSettingDword(swp->hContact, swp->szModule, szSettingName, -1);
+		wp.rcNormalPosition.right = wp.rcNormalPosition.left+DBGetContactSettingDword(swp->hContact, swp->szModule, szSettingName, -1);
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sheight", swp->szNamePrefix);
-		wp.rcNormalPosition.bottom=wp.rcNormalPosition.top+DBGetContactSettingDword(swp->hContact, swp->szModule, szSettingName, -1);
+		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top+DBGetContactSettingDword(swp->hContact, swp->szModule, szSettingName, -1);
 	}
-	wp.flags=0;
+	wp.flags = 0;
 	if (wParam & RWPF_HIDDEN)
 		wp.showCmd = SW_HIDE;
 	if (wParam & RWPF_NOACTIVATE)

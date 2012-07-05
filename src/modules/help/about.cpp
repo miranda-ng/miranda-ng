@@ -37,8 +37,8 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			PVOID pVerInfo;
 
 			GetModuleFileName(NULL, filename, SIZEOF(filename));
-			verInfoSize=GetFileVersionInfoSize(filename, &unused);
-			pVerInfo=mir_alloc(verInfoSize);
+			verInfoSize = GetFileVersionInfoSize(filename, &unused);
+			pVerInfo = mir_alloc(verInfoSize);
 			GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
 			VerQueryValue(pVerInfo, _T("\\StringFileInfo\\000004b0\\LegalCopyright"), (LPVOID*)&productCopyright, &blockSize);
 			SetDlgItemText(hwndDlg, IDC_DEVS, productCopyright);
@@ -67,10 +67,10 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_HIDE);
 		{	
-			HRSRC   hResInfo  = FindResource(hInst, MAKEINTRESOURCE(IDR_CREDITS), _T("TEXT"));
-			DWORD   ResSize   = SizeofResource(hInst, hResInfo);
-			HGLOBAL hRes      = LoadResource(hInst, hResInfo);
-			char*   pszMsg    = (char*)LockResource(hRes);
+			HRSRC   hResInfo = FindResource(hInst, MAKEINTRESOURCE(IDR_CREDITS), _T("TEXT"));
+			DWORD   ResSize = SizeofResource(hInst, hResInfo);
+			HGLOBAL hRes = LoadResource(hInst, hResInfo);
+			char*   pszMsg = (char*)LockResource(hRes);
 			if (pszMsg)
 			{
 				char* pszMsgt = (char*)alloca(ResSize + 1);
@@ -134,7 +134,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_DESTROY:
 		Window_FreeIcon_IcoLib(hwndDlg);
 		{	
-			HFONT hFont=(HFONT)SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_GETFONT, 0, 0);
+			HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_GETFONT, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_SETFONT, SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0), 0);
 			DeleteObject(hFont);				
 		}

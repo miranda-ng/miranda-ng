@@ -146,7 +146,14 @@ int LoadDefaultModules(void)
 	if ( LoadIgnoreModule()) return 1;
 	if ( LoadVisibilityModule()) return 1;
 
-	if ( !pluginDefault[ 0].pImpl) if ( LoadUserInfoModule()) return 1;
+	for (int i=0; i < 1; i++) {
+		if ( pluginDefault[i].pImpl )
+			continue;
+
+		if ( !LoadCorePlugin(pluginDefault[i]))
+			return 1;
+	}
+
 	if ( !pluginDefault[ 1].pImpl) if ( LoadSendRecvUrlModule()) return 1;
 	if ( !pluginDefault[ 2].pImpl) if ( LoadSendRecvEMailModule()) return 1;
 	if ( !pluginDefault[ 3].pImpl) if ( LoadSendRecvAuthModule()) return 1;
@@ -157,6 +164,7 @@ int LoadDefaultModules(void)
 	if ( !pluginDefault[ 8].pImpl) if ( LoadAutoAwayModule()) return 1;
 	if ( !pluginDefault[ 9].pImpl) if ( LoadUserOnlineModule()) return 1;
 	if ( !pluginDefault[10].pImpl) if ( LoadUpdateNotifyModule()) return 1;
+
 	return 0;
 }
 

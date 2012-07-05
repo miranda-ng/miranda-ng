@@ -84,7 +84,7 @@ void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, int 
 
 		default:
 			if (destCharsLeft--) 
-				*pDest++ = *pFormat;
+				*pDest++=*pFormat;
 			continue;
 		}
 		

@@ -58,32 +58,32 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLM_LAST    0x1100
 
 //messages, compare with equivalent TVM_s in the MSDN
-#define CLM_ADDCONTACT        (CLM_FIRST+0)    //wParam=hContact
-#define CLM_ADDGROUP          (CLM_FIRST+1)    //wParam=hGroup
+#define CLM_ADDCONTACT        (CLM_FIRST+0)    //wParam = hContact
+#define CLM_ADDGROUP          (CLM_FIRST+1)    //wParam = hGroup
 #define CLM_AUTOREBUILD       (CLM_FIRST+2)
-#define CLM_DELETEITEM        (CLM_FIRST+3)    //wParam=hItem
-#define CLM_EDITLABEL         (CLM_FIRST+4)    //wParam=hItem
-#define CLM_ENDEDITLABELNOW   (CLM_FIRST+5)    //wParam=cancel, 0 to save
-#define CLM_ENSUREVISIBLE     (CLM_FIRST+6)    //wParam=hItem, lParam=partialOk
+#define CLM_DELETEITEM        (CLM_FIRST+3)    //wParam = hItem
+#define CLM_EDITLABEL         (CLM_FIRST+4)    //wParam = hItem
+#define CLM_ENDEDITLABELNOW   (CLM_FIRST+5)    //wParam = cancel, 0 to save
+#define CLM_ENSUREVISIBLE     (CLM_FIRST+6)    //wParam = hItem, lParam = partialOk
 #define CLE_TOGGLE       -1
 #define CLE_COLLAPSE     0
 #define CLE_EXPAND       1
 #define CLE_INVALID      0xFFFF
-#define CLM_EXPAND            (CLM_FIRST+7)    //wParam=hItem, lParam=CLE_
-#define CLM_FINDCONTACT       (CLM_FIRST+8)    //wParam=hContact, returns an hItem
-#define CLM_FINDGROUP         (CLM_FIRST+9)    //wParam=hGroup, returns an hItem
+#define CLM_EXPAND            (CLM_FIRST+7)    //wParam = hItem, lParam = CLE_
+#define CLM_FINDCONTACT       (CLM_FIRST+8)    //wParam = hContact, returns an hItem
+#define CLM_FINDGROUP         (CLM_FIRST+9)    //wParam = hGroup, returns an hItem
 #define CLM_GETBKCOLOR        (CLM_FIRST+10)   //returns a COLORREF
-#define CLM_GETCHECKMARK      (CLM_FIRST+11)   //wParam=hItem, returns 1 or 0
+#define CLM_GETCHECKMARK      (CLM_FIRST+11)   //wParam = hItem, returns 1 or 0
 #define CLM_GETCOUNT          (CLM_FIRST+12)   //returns the total number of items
 #define CLM_GETEDITCONTROL    (CLM_FIRST+13)   //returns the HWND, or NULL
-#define CLM_GETEXPAND         (CLM_FIRST+14)   //wParam=hItem, returns a CLE_, CLE_INVALID if not a group
+#define CLM_GETEXPAND         (CLM_FIRST+14)   //wParam = hItem, returns a CLE_, CLE_INVALID if not a group
 #define CLM_GETEXTRACOLUMNS   (CLM_FIRST+15)   //returns number of extra columns
-#define CLM_GETEXTRAIMAGE     (CLM_FIRST+16)   //wParam=hItem, lParam=MAKELPARAM(iColumn (0 based),0), returns iImage or 0xFF
+#define CLM_GETEXTRAIMAGE     (CLM_FIRST+16)   //wParam = hItem, lParam = MAKELPARAM(iColumn (0 based),0), returns iImage or 0xFF
 #define CLM_GETEXTRAIMAGELIST (CLM_FIRST+17)   //returns HIMAGELIST
-#define CLM_GETFONT           (CLM_FIRST+18)   //wParam=fontId, see clm_setfont. returns hFont.
-#define CLM_GETINDENT         (CLM_FIRST+19)   //wParam=new group indent
-#define CLM_GETISEARCHSTRING  (CLM_FIRST+20)   //lParam=(char*)pszStr, max 120 bytes, returns number of chars in string
-#define CLM_GETITEMTEXT       (CLM_FIRST+21)   //wParam=hItem, lParam=(TCHAR*)pszStr, max 120 bytes
+#define CLM_GETFONT           (CLM_FIRST+18)   //wParam = fontId, see clm_setfont. returns hFont.
+#define CLM_GETINDENT         (CLM_FIRST+19)   //wParam = new group indent
+#define CLM_GETISEARCHSTRING  (CLM_FIRST+20)   //lParam = (char*)pszStr, max 120 bytes, returns number of chars in string
+#define CLM_GETITEMTEXT       (CLM_FIRST+21)   //wParam = hItem, lParam = (TCHAR*)pszStr, max 120 bytes
 #define CLM_GETSCROLLTIME     (CLM_FIRST+22)   //returns time in ms
 #define CLM_GETSELECTION      (CLM_FIRST+23)   //returns hItem
 #define CLCHT_ABOVE        0x0001  //above client area
@@ -99,8 +99,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLCHT_ONITEM       0x03E0
 #define CLCHT_INLEFTMARGIN 0x0400
 #define CLCHT_BELOWITEMS   0x0800  //in client area but below last item
-#define CLM_HITTEST           (CLM_FIRST+25)   //lParam=MAKELPARAM(x,y) (relative to control), wParam=(PDWORD)&hitTest (see encoding of HitTest() in clc.h, can be NULL) returns hItem or NULL
-#define CLM_SELECTITEM        (CLM_FIRST+26)   //wParam=hItem
+#define CLM_HITTEST           (CLM_FIRST+25)   //lParam = MAKELPARAM(x,y) (relative to control), wParam = (PDWORD)&hitTest (see encoding of HitTest() in clc.h, can be NULL) returns hItem or NULL
+#define CLM_SELECTITEM        (CLM_FIRST+26)   //wParam = hItem
 #define CLB_TOPLEFT       0
 #define CLB_STRETCHV      1
 #define CLB_STRETCHH      2	 //and tile vertically
@@ -110,12 +110,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLBF_TILEV        0x2000
 #define CLBF_PROPORTIONAL 0x4000
 #define CLBF_SCROLL       0x8000
-#define CLM_SETBKBITMAP       (CLM_FIRST+27)   //wParam=mode, lParam=hBitmap (don't delete it), NULL for none
-#define CLM_SETBKCOLOR        (CLM_FIRST+28)   //wParam=a COLORREF, default is GetSysColor(COLOR_3DFACE)
-#define CLM_SETCHECKMARK      (CLM_FIRST+29)   //wParam=hItem, lParam=1 or 0
-#define CLM_SETEXTRACOLUMNS   (CLM_FIRST+30)   //wParam=number of extra columns (zero to MAXEXTRACOLUMNS from clc.h, currently 16)
-#define CLM_SETEXTRAIMAGE     (CLM_FIRST+31)   //wParam=hItem, lParam=MAKELPARAM(iColumn (0 based),iImage). iImage=0xFF is a blank
-#define CLM_SETEXTRAIMAGELIST (CLM_FIRST+32)   //lParam=HIMAGELIST, wParam=WideImageList
+#define CLM_SETBKBITMAP       (CLM_FIRST+27)   //wParam = mode, lParam = hBitmap (don't delete it), NULL for none
+#define CLM_SETBKCOLOR        (CLM_FIRST+28)   //wParam = a COLORREF, default is GetSysColor(COLOR_3DFACE)
+#define CLM_SETCHECKMARK      (CLM_FIRST+29)   //wParam = hItem, lParam = 1 or 0
+#define CLM_SETEXTRACOLUMNS   (CLM_FIRST+30)   //wParam = number of extra columns (zero to MAXEXTRACOLUMNS from clc.h, currently 16)
+#define CLM_SETEXTRAIMAGE     (CLM_FIRST+31)   //wParam = hItem, lParam = MAKELPARAM(iColumn (0 based),iImage). iImage = 0xFF is a blank
+#define CLM_SETEXTRAIMAGELIST (CLM_FIRST+32)   //lParam = HIMAGELIST, wParam = WideImageList
 
 #define FONTID_CONTACTS    0
 #define FONTID_INVIS       1
@@ -130,24 +130,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FONTID_CONTACTSHOVER	10
 #define FONTID_MAX				18
 
-#define CLM_SETFONT           (CLM_FIRST+33)   //wParam=hFont, lParam=MAKELPARAM(fRedraw,fontId)
-#define CLM_SETINDENT         (CLM_FIRST+34)   //wParam=new indent, default is 3 pixels
-#define CLM_SETITEMTEXT       (CLM_FIRST+35)   //wParam=hItem, lParam=(char*)pszNewText
-#define CLM_SETSCROLLTIME     (CLM_FIRST+36)   //wParam=time in ms, default 200
+#define CLM_SETFONT           (CLM_FIRST+33)   //wParam = hFont, lParam = MAKELPARAM(fRedraw,fontId)
+#define CLM_SETINDENT         (CLM_FIRST+34)   //wParam = new indent, default is 3 pixels
+#define CLM_SETITEMTEXT       (CLM_FIRST+35)   //wParam = hItem, lParam = (char*)pszNewText
+#define CLM_SETSCROLLTIME     (CLM_FIRST+36)   //wParam = time in ms, default 200
 
-#define CLM_SETHIDEEMPTYGROUPS (CLM_FIRST+38)  //wParam=TRUE/FALSE
+#define CLM_SETHIDEEMPTYGROUPS (CLM_FIRST+38)  //wParam = TRUE/FALSE
 #define GREYF_UNFOCUS     0x80000000
 #define MODEF_OFFLINE     0x40000000
 //and use the PF2_ #defines from m_protosvc.h
-#define CLM_SETGREYOUTFLAGS   (CLM_FIRST+39)   //wParam=new flags
+#define CLM_SETGREYOUTFLAGS   (CLM_FIRST+39)   //wParam = new flags
 #define CLM_GETHIDEOFFLINEROOT (CLM_FIRST+40)   //returns TRUE/FALSE
-#define CLM_SETHIDEOFFLINEROOT (CLM_FIRST+41)   //wParam=TRUE/FALSE
-#define CLM_SETUSEGROUPS      (CLM_FIRST+42)   //wParam=TRUE/FALSE
-#define CLM_SETOFFLINEMODES   (CLM_FIRST+43)   //for 'hide offline', wParam=PF2_ flags and MODEF_OFFLINE
+#define CLM_SETHIDEOFFLINEROOT (CLM_FIRST+41)   //wParam = TRUE/FALSE
+#define CLM_SETUSEGROUPS      (CLM_FIRST+42)   //wParam = TRUE/FALSE
+#define CLM_SETOFFLINEMODES   (CLM_FIRST+43)   //for 'hide offline', wParam = PF2_ flags and MODEF_OFFLINE
 #define CLM_GETEXSTYLE        (CLM_FIRST+44)   //returns CLS_EX_ flags
-#define CLM_SETEXSTYLE        (CLM_FIRST+45)   //wParam=CLS_EX_ flags
+#define CLM_SETEXSTYLE        (CLM_FIRST+45)   //wParam = CLS_EX_ flags
 #define CLM_GETLEFTMARGIN     (CLM_FIRST+46)   //returns count of pixels
-#define CLM_SETLEFTMARGIN     (CLM_FIRST+47)   //wParam=pixels
+#define CLM_SETLEFTMARGIN     (CLM_FIRST+47)   //wParam = pixels
 typedef struct {
 	int cbSize;
 	const TCHAR *pszText;
@@ -160,8 +160,8 @@ typedef struct {
 #define CLCIIF_CHECKBOX       0x40  //give this item a check box
 #define CLCIIF_GROUPFONT      0x80  //draw the item using FONTID_GROUPS
 
-#define CLM_ADDINFOITEMA    (CLM_FIRST+48)   //lParam=&cii, returns hItem
-#define CLM_ADDINFOITEMW    (CLM_FIRST+53)   //lParam=&cii, returns hItem
+#define CLM_ADDINFOITEMA    (CLM_FIRST+48)   //lParam = &cii, returns hItem
+#define CLM_ADDINFOITEMW    (CLM_FIRST+53)   //lParam = &cii, returns hItem
 #if defined(_UNICODE)
 	#define CLM_ADDINFOITEM CLM_ADDINFOITEMW
 #else
@@ -175,7 +175,7 @@ typedef struct {
 #define CLCIT_CONTACT  1
 #define CLCIT_DIVIDER  2
 #define CLCIT_INFO     3
-#define CLM_GETITEMTYPE    (CLM_FIRST+49)	//wParam=hItem, returns a CLCIT_
+#define CLM_GETITEMTYPE    (CLM_FIRST+49)	//wParam = hItem, returns a CLCIT_
 #define CLGN_ROOT      0
 #define CLGN_CHILD     1
 #define CLGN_PARENT    2
@@ -185,13 +185,13 @@ typedef struct {
 #define CLGN_PREVIOUSCONTACT 6
 #define CLGN_NEXTGROUP 7
 #define CLGN_PREVIOUSGROUP 8
-#define CLM_GETNEXTITEM    (CLM_FIRST+50)   //wParam=flag, lParam=hItem, returns an hItem
-#define CLM_GETTEXTCOLOR   (CLM_FIRST+51)   //wParam=FONTID_, returns COLORREF
-#define CLM_SETTEXTCOLOR   (CLM_FIRST+52)   //wParam=FONTID_, lParam=COLORREF
+#define CLM_GETNEXTITEM    (CLM_FIRST+50)   //wParam = flag, lParam = hItem, returns an hItem
+#define CLM_GETTEXTCOLOR   (CLM_FIRST+51)   //wParam = FONTID_, returns COLORREF
+#define CLM_SETTEXTCOLOR   (CLM_FIRST+52)   //wParam = FONTID_, lParam = COLORREF
 
 //DO NOT USE IT EXTERNALLY CAN BE NOT SUPPORTED BY CLIST
-#define CLM_SETWIDEEXTRAIMAGE	  (CLM_FIRST+60)   //wParam=hItem, lParam=MAKELPARAM(iColumn (0 based), iImage). iImage=0xFFFF is a blank
-#define CLM_GETWIDEEXTRAIMAGE     (CLM_FIRST+61)   //wParam=hItem, lParam=MAKELPARAM(iColumn (0 based), 0), returns iImage or 0xFF
+#define CLM_SETWIDEEXTRAIMAGE	  (CLM_FIRST+60)   //wParam = hItem, lParam = MAKELPARAM(iColumn (0 based), iImage). iImage = 0xFFFF is a blank
+#define CLM_GETWIDEEXTRAIMAGE     (CLM_FIRST+61)   //wParam = hItem, lParam = MAKELPARAM(iColumn (0 based), 0), returns iImage or 0xFF
 #define CLM_GETWIDEEXTRAIMAGELIST (CLM_FIRST+62)   //returns HWIDEIMAGELIST
 
 //notifications  (most are omitted because the control processes everything)
@@ -206,7 +206,7 @@ typedef struct {
 	POINT pt;
 } NMCLISTCONTROL;
 #define CLN_FIRST        (0U-100U)
-#define CLN_EXPANDED     (CLN_FIRST-0)      //hItem=hGroup, action=CLE_*
+#define CLN_EXPANDED     (CLN_FIRST-0)      //hItem = hGroup, action = CLE_*
 #define CLN_LISTREBUILT  (CLN_FIRST-1)
 #define CLN_ITEMCHECKED  (CLN_FIRST-2)      //todo	//hItem, action, flags valid
 #define CLN_DRAGGING     (CLN_FIRST-3)		//hItem, pt, flags valid. only sent when cursor outside window, return nonzero if processed
@@ -221,8 +221,8 @@ typedef struct {
 //NM_KEYDOWN                                //NMKEY structure, only sent when key is not already processed, return nonzero to prevent further processing
 
 //an infotip for an item should be shown now
-//wParam=0
-//lParam=(LPARAM)(CLCINFOTIP*)&it
+//wParam = 0
+//lParam = (LPARAM)(CLCINFOTIP*)&it
 //Return nonzero if you process this, because it makes no sense for more than
 //one plugin to grab it.
 //It is up to the plugin to decide the best place to put the infotip. Normally
@@ -252,8 +252,8 @@ typedef struct {
 #define ME_CLC_SHOWEXTRAINFOTIP    "CLC/ShowExtraInfoTip"
 
 //it's time to destroy an infotip
-//wParam=0
-//lParam=(LPARAM)(CLCINFOTIP*)&it
+//wParam = 0
+//lParam = (LPARAM)(CLCINFOTIP*)&it
 //Only cbSize, isGroup and hItem are set
 //Return nonzero if you process this.
 //This is sent when the mouse moves off a contact when clc/showinfotip has
@@ -263,8 +263,8 @@ typedef struct {
 #define ME_CLC_HIDEINFOTIP    "CLC/HideInfoTip"
 
 //set the hover time before the infotip hooks are called
-//wParam=newTime
-//lParam=0
+//wParam = newTime
+//lParam = 0
 //Returns 0 on success or nonzero on failure
 //The value of this setting is applied to all current CLC windows, and saved
 //to be applied to all future windows, including after restarts.
@@ -273,7 +273,7 @@ typedef struct {
 #define MS_CLC_SETINFOTIPHOVERTIME    "CLC/SetInfoTipHoverTime"
 
 //get the hover time before the infotip hooks are called
-//wParam=lParam=0
+//wParam = lParam = 0
 //Returns the time in ms
 #define MS_CLC_GETINFOTIPHOVERTIME    "CLC/GetInfoTipHoverTime"
 

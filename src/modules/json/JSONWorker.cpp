@@ -143,12 +143,12 @@ size_t JSONWorker::FindNextRelevant(json_char ch, const json_string & value_t, c
 }
 
 #ifdef JSON_COMMENTS
-    #define COMMENT_DELIMITER() *runner++ = '\5'
+    #define COMMENT_DELIMITER() *runner++='\5'
     #define AND_RUNNER ,runner
     inline void SingleLineComment(const json_char * & p, json_char * & runner){
 	   COMMENT_DELIMITER();
 	   while((*(++p)) && (*p != JSON_TEXT('\n'))) {
-		  *runner++ = *p;
+		  *runner++=*p;
 	   }
 	   COMMENT_DELIMITER();
     }
@@ -183,7 +183,7 @@ inline void SingleLineComment(const json_char * & p){
 				    COMMENT_DELIMITER();
 				    while ((*(++p) != JSON_TEXT('*')) || (*(p + 1) != JSON_TEXT('/'))) {
 					   JSON_ASSERT_SAFE(*p, JSON_TEXT("Null terminator inside of a multiline quote"), COMMENT_DELIMITER(); goto endofloop;);
-					   *runner++ = *p;
+					   *runner++=*p;
 				    }
 				    ++p;
 				    COMMENT_DELIMITER();
@@ -195,16 +195,16 @@ inline void SingleLineComment(const json_char * & p){
 				SingleLineComment(p AND_RUNNER);
 				break;
 			 case JSON_TEXT('\"'):  //a quote
-				*runner++ = JSON_TEXT('\"');
+				*runner++=JSON_TEXT('\"');
 				while(*(++p) != JSON_TEXT('\"')) {  //find the end of the quotation, as white space is preserved within it
 				    JSON_ASSERT_SAFE(*p, JSON_TEXT("Null terminator inside of a quotation"), goto endofloop;);
 				    switch(*p){
 					   case JSON_TEXT('\\'):
-						  *runner++ = JSON_TEXT('\\');
-						  *runner++ = (*++p == JSON_TEXT('\"')) ? JSON_TEXT('\1') : *p;  //an escaped quote will reak havoc will all of my searching functions, so change it into an illegal character in JSON for convertion later on
+						  *runner++=JSON_TEXT('\\');
+						  *runner++=(*++p == JSON_TEXT('\"')) ? JSON_TEXT('\1') : *p;  //an escaped quote will reak havoc will all of my searching functions, so change it into an illegal character in JSON for convertion later on
 						  break;
 					   default:
-						  *runner++ = *p;
+						  *runner++=*p;
 						  break;
 				    }
 				}
@@ -212,7 +212,7 @@ inline void SingleLineComment(const json_char * & p){
 			 default:
 				JSON_ASSERT_SAFE((json_uchar)*p >= 32, JSON_TEXT("Invalid JSON character detected (lo)"), goto endofloop;);
 				JSON_ASSERT_SAFE((json_uchar)*p <= 126, JSON_TEXT("Invalid JSON character detected (hi)"), goto endofloop;);
-				*runner++ = *p;
+				*runner++=*p;
 				break;
 		  }
 		  ++p;
@@ -333,8 +333,8 @@ json_char* JSONWorker::UTF8_2(const json_char * & pos){
 	   ++pos;
 	   json_uchar temp = Hex(pos) << 8;
 	   ++pos;
-	   *szU8Buffer= temp | Hex(pos);
-	   szU8Buffer[1]=0;
+	   *szU8Buffer = temp | Hex(pos);
+	   szU8Buffer[1] = 0;
 	   return szU8Buffer;
     #else
 	   union {
@@ -343,20 +343,20 @@ json_char* JSONWorker::UTF8_2(const json_char * & pos){
 	   };
 	   pos++;
 	   strncpy(szU8Buffer+5,pos,4);
-	   szU8Buffer[9]=0;
-	   uChar=strtoul(szU8Buffer+5,NULL,16);
+	   szU8Buffer[9] = 0;
+	   uChar = strtoul(szU8Buffer+5,NULL,16);
 	   if (uChar<0x80) {
-		  szU8Buffer[0]=uChar;
-		  szU8Buffer[1]=0;
+		  szU8Buffer[0] = uChar;
+		  szU8Buffer[1] = 0;
 	   } else if (uChar<0x7ff) {
-		  szU8Buffer[0]=0xc0+(uByte[1]<<2)+(uByte[0]>>6);
-		  szU8Buffer[1]=0x80+(uByte[0]&0x3f);
-		  szU8Buffer[2]=0;
+		  szU8Buffer[0] = 0xc0+(uByte[1]<<2)+(uByte[0]>>6);
+		  szU8Buffer[1] = 0x80+(uByte[0]&0x3f);
+		  szU8Buffer[2] = 0;
 	   } else {
-	      szU8Buffer[0]=0xe0+(uByte[1]>>4);
-		  szU8Buffer[1]=0x80+((uByte[1]&0x0f)<<2)+(uByte[0]>>6);
-		  szU8Buffer[2]=0x80+(uByte[0]&0x3f);
-		  szU8Buffer[3]=0;
+	      szU8Buffer[0] = 0xe0+(uByte[1]>>4);
+		  szU8Buffer[1] = 0x80+((uByte[1]&0x0f)<<2)+(uByte[0]>>6);
+		  szU8Buffer[2] = 0x80+(uByte[0]&0x3f);
+		  szU8Buffer[3] = 0;
 	   }
 
 	   pos += 3;

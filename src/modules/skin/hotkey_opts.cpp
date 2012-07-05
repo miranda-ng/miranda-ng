@@ -331,7 +331,7 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 		DBWriteContactSettingByte(NULL, DBMODULENAME "Types", item->pszName, (BYTE)item->type);
 
 	item->nSubHotkeys = 0;
-	for (i = 0; i < hotkeys.getCount(); i++) {
+	for (i=0; i < hotkeys.getCount(); i++) {
 		THotkeyItem *subItem = hotkeys[i];
 		if (subItem->rootHotkey == item) {
 			subItem->Hotkey = subItem->OptHotkey;
@@ -351,10 +351,10 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 
 static void sttBuildHotkeyList(HWND hwndList)
 {
-	int i, nItems=0;
+	int i, nItems = 0;
 	ListView_DeleteAllItems(hwndList);
 
-	for (i = 0; i < hotkeys.getCount(); i++) {
+	for (i=0; i < hotkeys.getCount(); i++) {
 		LVITEM lvi = {0};
 		THotkeyItem *item = hotkeys[i];
 
@@ -469,7 +469,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			lvc.cx = GetSystemMetrics(SM_CXSMICON);
 			ListView_InsertColumn(hwndHotkey, COL_ADDREMOVE, &lvc);
 
-			for (int i = 0; i < hotkeys.getCount(); i++) {
+			for (int i=0; i < hotkeys.getCount(); i++) {
 				THotkeyItem *item = hotkeys[i];
 
 				item->OptChanged = FALSE;
@@ -728,7 +728,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 					UnregisterHotkeys();
 
-					for (i = 0; i < hotkeys.getCount(); i++) {
+					for (i=0; i < hotkeys.getCount(); i++) {
 						THotkeyItem *item = hotkeys[i];
 						if (item->OptNew && item->OptDeleted  ||
 							item->rootHotkey && !item->OptHotkey  ||
@@ -744,7 +744,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						LVITEM lvi = {0};
 						int count = ListView_GetItemCount(hwndHotkey);
 
-						for (i = 0; i < hotkeys.getCount(); i++)
+						for (i=0; i < hotkeys.getCount(); i++)
 							sttOptionsSaveItem(hotkeys[i]);
 
 						lvi.mask = LVIF_IMAGE;
@@ -886,7 +886,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 							else if (param->uNewState>>12 == 2) {
 								int i, nItems = ListView_GetItemCount(lpnmhdr->hwndFrom);
 								initialized = FALSE;
-								for (i = 0; i < hotkeys.getCount(); ++i) {
+								for (i=0; i < hotkeys.getCount(); ++i) {
 									LVITEM lvi = {0};
 									THotkeyItem *item = hotkeys[i];
 

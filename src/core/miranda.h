@@ -126,7 +126,7 @@ void KillModuleSounds(int hLangpack);
 /**** miranda.cpp **********************************************************************/
 
 extern HINSTANCE hInst;
-extern HANDLE hOkToExitEvent, hModulesLoadedEvent;
+extern HANDLE hOkToExitEvent, hModulesLoadedEvent, hevLoadModule, hevUnloadModule;
 
 /**** utf.cpp **************************************************************************/
 
@@ -145,19 +145,9 @@ HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name);
 
 /**** skin2icons.cpp *******************************************************************/
 
-HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid);
-HICON  IcoLib_GetIcon(const char* pszIconName, bool big);
-HICON  IcoLib_GetIconByHandle(HANDLE hItem, bool big);
-HANDLE IcoLib_IsManaged(HICON hIcon);
-int    IcoLib_ReleaseIcon(HICON hIcon, char* szIconName, bool big);
-
 void   KillModuleIcons(int hLangpack);
 
 /**** skinicons.cpp ********************************************************************/
-
-HICON LoadSkinProtoIcon(const char* szProto, int status, bool big = false);
-HICON LoadSkinIcon(int idx, bool big = false);
-HANDLE GetSkinIconHandle(int idx);
 
 HICON LoadIconEx(HINSTANCE hInstance, LPCTSTR lpIconName, BOOL bShared);
 int ImageList_AddIcon_NotShared(HIMAGELIST hIml, LPCTSTR szResource);
@@ -167,20 +157,13 @@ int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, int iconId);
 int ImageList_AddIcon_ProtoIconLibLoaded(HIMAGELIST hIml, const char* szProto, int iconId);
 int ImageList_ReplaceIcon_IconLibLoaded(HIMAGELIST hIml, int nIndex, HICON hIcon);
 
-void Button_SetIcon_IcoLib(HWND hDlg, int itemId, int iconId, const char* tooltip);
-void Button_FreeIcon_IcoLib(HWND hDlg, int itemId);
-
-void Window_SetIcon_IcoLib(HWND hWnd, int iconId);
-void Window_SetProtoIcon_IcoLib(HWND hWnd, const char* szProto, int iconId);
-void Window_FreeIcon_IcoLib(HWND hWnd);
-
-#define IconLib_ReleaseIcon(hIcon, szName) IcoLib_ReleaseIcon(hIcon, szName, false);
 #define Safe_DestroyIcon(hIcon) if (hIcon) DestroyIcon(hIcon)
 
 /**** clistmenus.cpp ********************************************************************/
 
 extern HANDLE hMainMenuObject, hContactMenuObject, hStatusMenuObject;
 extern HANDLE hPreBuildMainMenuEvent, hPreBuildContactMenuEvent;
+extern HANDLE hShutdownEvent, hPreShutdownEvent;
 
 extern const int statusModeList[ MAX_STATUS_COUNT ];
 extern const int skinIconStatusList[ MAX_STATUS_COUNT ];

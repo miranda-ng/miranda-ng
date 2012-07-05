@@ -35,7 +35,7 @@ static UINT WM_TASKBARBUTTONCREATED;
 static BOOL mToolTipTrayTips = FALSE;
 static UINT_PTR cycleTimerId = 0;
 static int cycleStep = 0;
-static UINT_PTR RefreshTimerId=0;   /////by FYR
+static UINT_PTR RefreshTimerId = 0;   /////by FYR
 static CRITICAL_SECTION trayLockCS;
 
 // don't move to win2k.h, need new and old versions to work on 9x/2000/XP
@@ -47,7 +47,7 @@ static CRITICAL_SECTION trayLockCS;
 
 #define initcheck if ( !fTrayInited) return
 
-static BOOL fTrayInited=FALSE;
+static BOOL fTrayInited = FALSE;
 
 static TCHAR* sttGetXStatus(const char* szProto)
 {
@@ -61,7 +61,7 @@ static TCHAR* sttGetXStatus(const char* szProto)
 			char* dbTitle2 = NULL;
 			int xstatus = CallProtoServiceInt(NULL,szProto, "/GetXStatus", (WPARAM)&dbTitle, (LPARAM)&dbTitle2);
 			if (dbTitle && xstatus) {
-				DBVARIANT dbv={0};
+				DBVARIANT dbv = {0};
 				if ( !DBGetContactSettingTString(NULL, szProto, dbTitle, &dbv)) {
 					if (dbv.ptszVal[0] != 0)
 						result = mir_tstrdup(dbv.ptszVal);
@@ -86,7 +86,7 @@ static void SetTaskBarIcon(const HICON hIcon, const TCHAR *szNewTip)
 TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 {
 	TCHAR *szStatus, *szSeparator;
-	TCHAR *ProtoXStatus=NULL;
+	TCHAR *ProtoXStatus = NULL;
 	int t;
 	PROTOACCOUNT* pa;
 	initcheck NULL;
@@ -191,7 +191,7 @@ int fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int s
 	int i;
 	initcheck 0;
 	lock;
-	for (i = 0; i < cli.trayIconCount; i++)
+	for (i=0; i < cli.trayIconCount; i++)
 		if (cli.trayIcon[i].id == 0)
 			break;
 
@@ -228,7 +228,7 @@ void fnTrayIconRemove(HWND hwnd, const char *szProto)
 	int i;
 	initcheck;
 	lock;
-	for (i = 0; i < cli.trayIconCount; i++) {
+	for (i=0; i < cli.trayIconCount; i++) {
 		struct trayIconInfo_t* pii = &cli.trayIcon[i];
 		if (pii->id != 0 && !lstrcmpA(szProto, pii->szProto)) {
 			NOTIFYICONDATA nid = { 0 };
@@ -288,7 +288,7 @@ int fnTrayIconInit(HWND hwnd)
 	         (averageMode < 0 || DBGetContactSettingByte(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
         {
 			cli.trayIconCount = netProtoCount;
-		    for (int i = 0; i < accounts.getCount(); ++i) 
+		    for (int i=0; i < accounts.getCount(); ++i) 
             {
 			    int j = cli.pfnGetAccountIndexByPos(i);
 			    if (j >= 0) 
@@ -329,7 +329,7 @@ int fnTrayIconDestroy(HWND hwnd)
 
 	nid.cbSize = (cli.shellVersion >= 5) ? sizeof(nid) : NOTIFYICONDATA_V1_SIZE;
 	nid.hWnd = hwnd;
-	for (i = 0; i < cli.trayIconCount; i++) {
+	for (i=0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
 		nid.uID = cli.trayIcon[i].id;
@@ -358,7 +358,7 @@ static VOID CALLBACK RefreshTimerProc(HWND, UINT, UINT_PTR, DWORD)
 	int i;
 	if (RefreshTimerId) {
 		KillTimer(NULL, RefreshTimerId); 
-		RefreshTimerId=0;
+		RefreshTimerId = 0;
 	}
 	for (i=0; i < accounts.getCount(); i++) {
 		cli.pfnTrayIconUpdateBase(accounts[i]->szModuleName);
@@ -379,7 +379,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 	if ( !hNewIcon)
 	{ ulock; return -1; }
 
-	for (i = 0; i < cli.trayIconCount; i++) {
+	for (i=0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
 		if (lstrcmpA(cli.trayIcon[i].szProto, szPreferredProto))
@@ -404,7 +404,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 
 	//if there wasn't a suitable icon, change all the icons
 	{
-		for (i = 0; i < cli.trayIconCount; i++) {
+		for (i=0; i < cli.trayIconCount; i++) {
 			if (cli.trayIcon[i].id == 0)
 				continue;
 			nid.uID = cli.trayIcon[i].id;
@@ -424,11 +424,11 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 			cli.trayIcon[i].isBase = isBase;
 			if (DBGetContactSettingByte(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI)
 			{
-				DWORD time1=DBGetContactSettingWord(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT)*200;
-				DWORD time2=DBGetContactSettingWord(NULL, "CList", "IconFlashTime", 550)+1000;
-				DWORD time=max(max(2000, time1), time2);
-				if (RefreshTimerId) {KillTimer(NULL, RefreshTimerId); RefreshTimerId=0;}
-				RefreshTimerId=SetTimer(NULL, 0, time, RefreshTimerProc);	// if unknown base was changed - than show preffered proto icon for 2 sec and reset it to original one after timeout
+				DWORD time1 = DBGetContactSettingWord(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT)*200;
+				DWORD time2 = DBGetContactSettingWord(NULL, "CList", "IconFlashTime", 550)+1000;
+				DWORD time = max(max(2000, time1), time2);
+				if (RefreshTimerId) {KillTimer(NULL, RefreshTimerId); RefreshTimerId = 0;}
+				RefreshTimerId = SetTimer(NULL, 0, time, RefreshTimerProc);	// if unknown base was changed - than show preffered proto icon for 2 sec and reset it to original one after timeout
 			}
 			{ ulock; return i; }
 		}
@@ -443,7 +443,7 @@ int fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto)
 	lock;
 	if (szPreferredProto)
 	{
-		for (i = 0; i < cli.trayIconCount; i++) {
+		for (i=0; i < cli.trayIconCount; i++) {
 			if (cli.trayIcon[i].id == 0)
 				continue;
 			if (lstrcmpA(cli.trayIcon[i].szProto, szPreferredProto))
@@ -461,7 +461,7 @@ int fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto)
 	}
 
 	//if there wasn't a specific icon, there will only be one suitable
-	for (i = 0; i < cli.trayIconCount; i++) {
+	for (i=0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
 
@@ -521,7 +521,7 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 		cli.cycleTimerId = 0;
 	}
 
-	for (i = 0; i < accounts.getCount(); i++) {
+	for (i=0; i < accounts.getCount(); i++) {
 		if ( !lstrcmpA(szChangedProto, accounts[i]->szModuleName))
 			cycleStep = i - 1;
 	}
@@ -560,9 +560,9 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 					break;
 				}
 			case SETTING_TRAYICON_CYCLE:
-				cli.cycleTimerId =
+				cli.cycleTimerId = 
 					SetTimer(NULL, 0, DBGetContactSettingWord(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cli.pfnTrayCycleTimerProc);
-				changed =
+				changed = 
 					cli.pfnTrayIconSetBaseInfo(ImageList_GetIcon
 					(hCListImages, cli.pfnIconFromStatusMode(szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0), NULL), 
 					ILD_NORMAL), NULL);
@@ -595,7 +595,7 @@ void fnTrayIconSetToBase(char *szPreferredProto)
 	initcheck;
 	lock;
     
-	for (i = 0; i < cli.trayIconCount; i++) {
+	for (i=0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
 		if (lstrcmpA(cli.trayIcon[i].szProto, szPreferredProto))
@@ -605,7 +605,7 @@ void fnTrayIconSetToBase(char *szPreferredProto)
 	}
 
 	//if there wasn't a specific icon, there will only be one suitable
-	for (i = 0; i < cli.trayIconCount; i++) {
+	for (i=0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
 		cli.pfnTrayIconUpdate(cli.trayIcon[i].hBaseIcon, NULL, szPreferredProto, 1);
@@ -686,9 +686,9 @@ static void CALLBACK TrayToolTipTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 				if (n >= 0 && n < cli.trayIconCount)
 					szTipCur = cli.trayIcon[n].ptszToolTip;
 			}
-			ti.rcItem.left   = pt.x - 10;
-			ti.rcItem.right  = pt.x + 10;
-			ti.rcItem.top    = pt.y - 10;
+			ti.rcItem.left = pt.x - 10;
+			ti.rcItem.right = pt.x + 10;
+			ti.rcItem.top = pt.y - 10;
 			ti.rcItem.bottom = pt.y + 10;
 			ti.cbSize = sizeof(ti);
 			ti.isTreeFocused = GetFocus() == cli.hwndContactList ? 1 : 0;
@@ -748,7 +748,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 				POINT pt;
 				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 
-				for (int i = 0; i < cli.trayIconCount; ++i)
+				for (int i=0; i < cli.trayIconCount; ++i)
 				{
 					if ((unsigned)cli.trayIcon[i].id == msg->wParam)
 					{
@@ -945,12 +945,12 @@ void fnInitTray(void)
 	InitializeCriticalSection(&trayLockCS);
 	if (cli.shellVersion >= 5)
 		CreateServiceFunction(MS_CLIST_SYSTRAY_NOTIFY, pfnCListTrayNotifyStub);
-	fTrayInited=TRUE;
+	fTrayInited = TRUE;
 }
 
 void fnUninitTray(void)
 {
-	fTrayInited=FALSE;
+	fTrayInited = FALSE;
 	DeleteCriticalSection(&trayLockCS);
 }
 void fnLockTray(void)

@@ -34,8 +34,8 @@ typedef struct{
 /*
 	Description: Open the add contact dialog, see notes
 
-	wParam=[ (WPARAM)hWndParent ]
-	lParam=(LPARAM)(ADDCONTACTSTRUCT*)&acs
+	wParam = [ (WPARAM)hWndParent ]
+	lParam = (LPARAM)(ADDCONTACTSTRUCT*)&acs
 
 	Notes:
 

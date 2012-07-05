@@ -247,10 +247,10 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 {
 	LRESULT result;
 	MSG m;
-	m.hwnd=hwnd;
-	m.message=msg;
-	m.wParam=wParam;
-	m.lParam=lParam;
+	m.hwnd = hwnd;
+	m.message = msg;
+	m.wParam = wParam;
+	m.lParam = lParam;
 	if (cli.pfnDocking_ProcessWindowMessage((WPARAM)&m, (LPARAM)&result))
 		return result;
 	if (cli.pfnTrayIconProcessMessage((WPARAM)&m, (LPARAM)&result))
@@ -485,7 +485,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		{
 			HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_MAINMENU);
 			HBITMAP hBmp = ConvertIconToBitmap(hIcon, NULL, 0);
-			IconLib_ReleaseIcon(hIcon, NULL);
+			IcoLib_ReleaseIcon(hIcon, NULL);
 
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_BITMAP | MIIM_STRING | MIIM_DATA;
@@ -638,7 +638,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		if (cluiopt.transparent) {
 			if ( !transparentFocus && GetForegroundWindow() != hwnd && setLayeredWindowAttributes) {
 				setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)cluiopt.alpha, LWA_ALPHA);
-				transparentFocus=1;
+				transparentFocus = 1;
 				SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
 			}
 		}
@@ -1049,13 +1049,13 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					HICON hIcon = LoadSkinProtoIcon(szProto, status);
 					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
 						g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
-					IconLib_ReleaseIcon(hIcon, 0);
+					IcoLib_ReleaseIcon(hIcon, 0);
 					if (Proto_IsAccountLocked(Proto_GetAccount(szProto))) {
 						hIcon = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hIcon != NULL) {
 							DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
 								g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
-							IconLib_ReleaseIcon(hIcon, 0);
+							IcoLib_ReleaseIcon(hIcon, 0);
 						}
 
 					}
@@ -1087,7 +1087,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (dis->itemData == MENU_MIRANDAMENU) {
 					HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_MAINMENU);
 					fnDrawMenuItem(dis, CopyIcon(hIcon), NULL);
-					IconLib_ReleaseIcon(hIcon, NULL);
+					IcoLib_ReleaseIcon(hIcon, NULL);
 					return TRUE;
 				}
 				return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);

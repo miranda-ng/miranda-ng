@@ -117,14 +117,14 @@ typedef struct PLUGININFOEX_tag
 
 //Miranda/System/LoadModule event
 //called when a plugin is being loaded dynamically
-//wParam=PLUGININFOEX*
-//lParam=HINSTANCE of the loaded plugin
+//wParam = PLUGININFOEX*
+//lParam = HINSTANCE of the loaded plugin
 #define ME_SYSTEM_MODULELOAD "Miranda/System/LoadModule"
 
 //Miranda/System/UnloadModule event
 //called when a plugin is being unloaded dynamically
-//wParam=PLUGININFOEX*
-//lParam=HINSTANCE of the plugin to be unloaded
+//wParam = PLUGININFOEX*
+//lParam = HINSTANCE of the plugin to be unloaded
 #define ME_SYSTEM_MODULEUNLOAD "Miranda/System/UnloadModule"
 
 //see modules.h for what all this stuff is

@@ -81,13 +81,13 @@ int LoadHeaderbarModule()
 	WNDCLASSEX wc;
 
 	ZeroMemory(&wc, sizeof(wc));
-	wc.cbSize         = sizeof(wc);
-	wc.lpszClassName  = _T("MHeaderbarCtrl"); //MIRANDAHEADERBARCLASS;
-	wc.lpfnWndProc    = MHeaderbarWndProc;
-	wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
-	wc.cbWndExtra     = sizeof(MHeaderbarCtrl*);
-	wc.hbrBackground  = 0; //GetStockObject(WHITE_BRUSH);
-	wc.style          = CS_GLOBALCLASS|CS_SAVEBITS;
+	wc.cbSize = sizeof(wc);
+	wc.lpszClassName = _T("MHeaderbarCtrl"); //MIRANDAHEADERBARCLASS;
+	wc.lpfnWndProc = MHeaderbarWndProc;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.cbWndExtra = sizeof(MHeaderbarCtrl*);
+	wc.hbrBackground = 0; //GetStockObject(WHITE_BRUSH);
+	wc.style = CS_GLOBALCLASS|CS_SAVEBITS;
 	RegisterClassEx(&wc);	
 	return 0;
 }
@@ -97,19 +97,19 @@ static void MHeaderbar_SetupColors(MHeaderbarCtrl *dat)
 	COLORREF cl;
 
 	cl = GetSysColor(COLOR_WINDOW);
-	dat->rgbBkgBottom.rgbRed	= (dat->rgbBkgTop.rgbRed	= GetRValue(cl)) * .95;
-	dat->rgbBkgBottom.rgbGreen	= (dat->rgbBkgTop.rgbGreen	= GetGValue(cl)) * .95;
-	dat->rgbBkgBottom.rgbBlue	= (dat->rgbBkgTop.rgbBlue	= GetBValue(cl)) * .95;
+	dat->rgbBkgBottom.rgbRed	 = (dat->rgbBkgTop.rgbRed	 = GetRValue(cl)) * .95;
+	dat->rgbBkgBottom.rgbGreen	 = (dat->rgbBkgTop.rgbGreen	 = GetGValue(cl)) * .95;
+	dat->rgbBkgBottom.rgbBlue	 = (dat->rgbBkgTop.rgbBlue	 = GetBValue(cl)) * .95;
 
-	dat->clText			= GetSysColor(COLOR_WINDOWTEXT);
+	dat->clText			 = GetSysColor(COLOR_WINDOWTEXT);
 
 	if ( !dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 }
 
 static void MHeaderbar_FillRect(HDC hdc, int x, int y, int width, int height, COLORREF cl)
 {
-	int oldMode			= SetBkMode(hdc, OPAQUE);
-	COLORREF oldColor	= SetBkColor(hdc, cl);
+	int oldMode			 = SetBkMode(hdc, OPAQUE);
+	COLORREF oldColor	 = SetBkColor(hdc, cl);
 
 	RECT rc; SetRect(&rc, x, y, x+width, y+height);
 	ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, 0);
@@ -122,11 +122,11 @@ static void MHeaderbar_DrawGradient(HDC hdc, int x, int y, int width, int height
 {
 	int i;
 
-	int oldMode			= SetBkMode(hdc, OPAQUE);
-	COLORREF oldColor	= SetBkColor(hdc, 0);
+	int oldMode			 = SetBkMode(hdc, OPAQUE);
+	COLORREF oldColor	 = SetBkColor(hdc, 0);
 
 	RECT rc; SetRect(&rc, x, 0, x+width, 0);
-	for (i=y+height; --i >= y;)
+	for (i = y+height; --i >= y;)
 	{
 		COLORREF color = RGB(
 			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height, 
@@ -153,10 +153,10 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 	GetWindowText(hwndDlg, szTitle, titleLength);
 
 	TCHAR *szSubTitle = _tcschr(szTitle, _T('\n'));
-	if (szSubTitle) *szSubTitle++ = 0;
+	if (szSubTitle) *szSubTitle++=0;
 
-	HDC hdc=BeginPaint(hwndDlg, &ps);
-	HDC tempDC=CreateCompatibleDC(hdc);
+	HDC hdc = BeginPaint(hwndDlg, &ps);
+	HDC tempDC = CreateCompatibleDC(hdc);
 
 	BITMAPINFO bmi;
 	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -167,14 +167,14 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 	bmi.bmiHeader.biCompression = BI_RGB;
 	hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, NULL, NULL, 0);
 
-	hOldBmp=(HBITMAP)SelectObject(tempDC, hBmp);
+	hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
 
 	if (IsAeroMode()) {
 		RECT temprc;
-		temprc.left=0;
-		temprc.right=mit->width;
-		temprc.top=0;
-		temprc.bottom=mit->width;
+		temprc.left = 0;
+		temprc.right = mit->width;
+		temprc.top = 0;
+		temprc.bottom = mit->width;
 		FillRect(tempDC, &temprc, (HBRUSH)GetStockObject(BLACK_BRUSH));
 
 		MARGINS margins = {0, 0, mit->height, 0};
@@ -213,10 +213,10 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 	}
 
 	RECT textRect;
-	textRect.left=50;
-	textRect.right=mit->width;
-	textRect.top=2 + iTopSpace;
-	textRect.bottom=GetSystemMetrics(SM_CYICON)-2 + iTopSpace;
+	textRect.left = 50;
+	textRect.right = mit->width;
+	textRect.top = 2 + iTopSpace;
+	textRect.bottom = GetSystemMetrics(SM_CYICON)-2 + iTopSpace;
 
 	if (IsAeroMode()) {
 		DTTOPTS dto = {0};
@@ -225,7 +225,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 		dto.iGlowSize = 10;
 
 		HANDLE hTheme = openThemeData(hwndDlg, L"Window");
-		textRect.left=50;
+		textRect.left = 50;
 		SelectObject(tempDC, hFntBold);
 
 		wchar_t *szTitleW = mir_t2u(szTitle);
@@ -233,7 +233,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 		mir_free(szTitleW);
 
 		if (szSubTitle) {
-			textRect.left=66;
+			textRect.left = 66;
 			SelectObject(tempDC, hFont);
 
 			wchar_t *szSubTitleW = mir_t2u(szSubTitle);
@@ -243,12 +243,12 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 		closeThemeData(hTheme);
 	}
 	else {
-		textRect.left=50;
+		textRect.left = 50;
 		SelectObject(tempDC, hFntBold);
 		DrawText(tempDC, szTitle, -1, &textRect, DT_TOP|DT_LEFT|DT_SINGLELINE|DT_NOPREFIX|DT_NOCLIP|DT_END_ELLIPSIS);
 
 		if (szSubTitle) {
-			textRect.left=66;
+			textRect.left = 66;
 			SelectObject(tempDC, hFont);
 			DrawText(tempDC, szSubTitle, -1, &textRect, DT_BOTTOM|DT_LEFT|DT_SINGLELINE|DT_NOPREFIX|DT_NOCLIP|DT_END_ELLIPSIS);
 	}	}
@@ -261,13 +261,13 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 	if (mit->nControlsToRedraw)
 	{
 		RECT temprc;
-		temprc.left=0;
-		temprc.right=mit->width;
-		temprc.top=0;
-		temprc.bottom=mit->width;
+		temprc.left = 0;
+		temprc.right = mit->width;
+		temprc.top = 0;
+		temprc.bottom = mit->width;
 		HRGN hRgn = CreateRectRgnIndirect(&temprc);
 
-		for (int i = 0; i < mit->nControlsToRedraw; ++i)
+		for (int i=0; i < mit->nControlsToRedraw; ++i)
 		{
 			GetWindowRect(mit->controlsToRedraw[i], &temprc);
 			MapWindowPoints(NULL, hwndDlg, (LPPOINT)&temprc, 2);
@@ -294,7 +294,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 
 static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, LPARAM lParam)
 {
-	MHeaderbarCtrl* itc =  (MHeaderbarCtrl *)GetWindowLongPtr(hwndDlg, 0);
+	MHeaderbarCtrl* itc = (MHeaderbarCtrl *)GetWindowLongPtr(hwndDlg, 0);
 	switch(msg) {
 	case WM_NCCREATE:
 		itc = new MHeaderbarCtrl; //(MHeaderbarCtrl*)mir_alloc(sizeof(MHeaderbarCtrl));
@@ -333,8 +333,8 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 	case WM_SIZE:
 		GetClientRect(hwndDlg, &itc->rc);
-		itc->width=itc->rc.right-itc->rc.left;
-		itc->height=itc->rc.bottom-itc->rc.top;
+		itc->width = itc->rc.right-itc->rc.left;
+		itc->height = itc->rc.bottom-itc->rc.top;
 		return TRUE;
 
 	case WM_THEMECHANGED:

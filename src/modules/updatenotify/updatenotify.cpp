@@ -79,7 +79,7 @@ static int UpdateNotifyModulesLoaded(WPARAM, LPARAM) {
 
 	ZeroMemory(&nlu, sizeof(nlu));
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags =  NUF_OUTGOING|NUF_HTTPCONNS;
+	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS;
 	nlu.szSettingsModule = UN_MOD;
 	nlu.szDescriptiveName = Translate("Update notification");
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);

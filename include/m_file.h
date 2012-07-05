@@ -25,16 +25,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_FILE_H__ 1
 
 //brings up the send file dialog for a contact
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = 0
 //returns 0 on success or nonzero on failure
 //returns immediately, without waiting for the send
 #define MS_FILE_SENDFILE   "SRFile/SendCommand"
 
 //brings up the send file dialog with the specified files already chosen
 //v0.1.2.1+
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)(const char**)ppFiles
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)(const char**)ppFiles
 //returns 0 on success or nonzero on failure
 //returns immediately, without waiting for the send
 //the user is not prevented from changing the filename with the 'choose again'
@@ -48,15 +48,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_FILE_SENDSPECIFICFILES  "SRFile/SendSpecificFiles"
 
 //v0.9.0+
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)(const TCHAR**)ppFiles
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)(const TCHAR**)ppFiles
 //returns 0 on success or nonzero on failure
 //returns immediately, without waiting for the send
 #define MS_FILE_SENDSPECIFICFILEST  "SRFile/SendSpecificFilesT"
 
 //get the received files folder    v0.1.2.2+
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)(char *)pszOutput
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)(char *)pszOutput
 //returns 0 on success or nonzero on failure
 //pszOutput must be at least MAX_PATH characters long
 //If hContact is NULL this function will retrieve the received files folder

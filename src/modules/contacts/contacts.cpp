@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 
 #define NAMEORDERCOUNT 8
-static TCHAR* nameOrderDescr[ NAMEORDERCOUNT ] =
+static TCHAR* nameOrderDescr[ NAMEORDERCOUNT ] = 
 {
 	_T("My custom name (not moveable)"), 
 	_T("Nick"), 
@@ -357,14 +357,14 @@ struct ContactOptionsData {
 static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {	struct ContactOptionsData *dat;
 
-	dat=(struct ContactOptionsData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	dat = (struct ContactOptionsData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg)
 	{
 		case WM_INITDIALOG:
 		{	TranslateDialogDefault(hwndDlg);
-			dat=(struct ContactOptionsData*)mir_alloc(sizeof(struct ContactOptionsData));
+			dat = (struct ContactOptionsData*)mir_alloc(sizeof(struct ContactOptionsData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			dat->dragging=0;
+			dat->dragging = 0;
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NAMEORDER), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NAMEORDER), GWL_STYLE)|TVS_NOHSCROLL);
 			{	TVINSERTSTRUCT tvis;
 				int i;
@@ -408,8 +408,8 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 						if (notify->itemNew.lParam == 0 || notify->itemNew.lParam == SIZEOF(nameOrderDescr)-1)
 							break;
 						SetCapture(hwndDlg);
-						dat->dragging=1;
-						dat->hDragItem=((LPNMTREEVIEW)lParam)->itemNew.hItem;
+						dat->dragging = 1;
+						dat->hDragItem = ((LPNMTREEVIEW)lParam)->itemNew.hItem;
 						TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_NAMEORDER), dat->hDragItem);
 					}
 					break;
@@ -418,8 +418,8 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 		case WM_MOUSEMOVE:
 			if ( !dat->dragging) break;
 			{	TVHITTESTINFO hti;
-				hti.pt.x=(short)LOWORD(lParam);
-				hti.pt.y=(short)HIWORD(lParam);
+				hti.pt.x = (short)LOWORD(lParam);
+				hti.pt.y = (short)HIWORD(lParam);
 				ClientToScreen(hwndDlg, &hti.pt);
 				ScreenToClient(GetDlgItem(hwndDlg, IDC_NAMEORDER), &hti.pt);
 				TreeView_HitTest(GetDlgItem(hwndDlg, IDC_NAMEORDER), &hti);
@@ -438,33 +438,33 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 		case WM_LBUTTONUP:
 			if ( !dat->dragging) break;
 			TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_NAMEORDER), NULL, 0);
-			dat->dragging=0;
+			dat->dragging = 0;
 			ReleaseCapture();
 			{	TVHITTESTINFO hti;
 				TVITEM tvi;
-				hti.pt.x=(short)LOWORD(lParam);
-				hti.pt.y=(short)HIWORD(lParam);
+				hti.pt.x = (short)LOWORD(lParam);
+				hti.pt.y = (short)HIWORD(lParam);
 				ClientToScreen(hwndDlg, &hti.pt);
 				ScreenToClient(GetDlgItem(hwndDlg, IDC_NAMEORDER), &hti.pt);
 				hti.pt.y-=TreeView_GetItemHeight(GetDlgItem(hwndDlg, IDC_NAMEORDER))/2;
 				TreeView_HitTest(GetDlgItem(hwndDlg, IDC_NAMEORDER), &hti);
 				if (dat->hDragItem == hti.hItem) break;
-				tvi.mask=TVIF_HANDLE|TVIF_PARAM;
-				tvi.hItem=hti.hItem;
+				tvi.mask = TVIF_HANDLE|TVIF_PARAM;
+				tvi.hItem = hti.hItem;
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_NAMEORDER), &tvi);
 				if (tvi.lParam == SIZEOF(nameOrderDescr)-1) break;
 				if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
 					TVINSERTSTRUCT tvis;
 					TCHAR name[128];
-					tvis.item.mask=TVIF_HANDLE|TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
-					tvis.item.stateMask=0xFFFFFFFF;
-					tvis.item.pszText=name;
-					tvis.item.cchTextMax=SIZEOF(name);
-					tvis.item.hItem=dat->hDragItem;
+					tvis.item.mask = TVIF_HANDLE|TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
+					tvis.item.stateMask = 0xFFFFFFFF;
+					tvis.item.pszText = name;
+					tvis.item.cchTextMax = SIZEOF(name);
+					tvis.item.hItem = dat->hDragItem;
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_NAMEORDER), &tvis.item);
 					TreeView_DeleteItem(GetDlgItem(hwndDlg, IDC_NAMEORDER), dat->hDragItem);
-					tvis.hParent=NULL;
-					tvis.hInsertAfter=hti.hItem;
+					tvis.hParent = NULL;
+					tvis.hInsertAfter = hti.hItem;
 					TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_NAMEORDER), TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_NAMEORDER), &tvis));
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
@@ -495,7 +495,7 @@ static int ContactOptInit(WPARAM wParam, LPARAM)
 int LoadContactsModule(void)
 {
 	for (BYTE i=0; i < NAMEORDERCOUNT; i++)
-		nameOrder[i]=i;
+		nameOrder[i] = i;
 
 	DBVARIANT dbv;
 	if ( !DBGetContactSetting(NULL, "Contact", "NameOrder", &dbv)) {

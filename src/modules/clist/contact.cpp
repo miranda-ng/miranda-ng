@@ -31,7 +31,7 @@ int sortByProto;
 
 static const struct {
 	int status, order;
-} statusModeOrder[]={
+} statusModeOrder[] = {
 	{ID_STATUS_OFFLINE, 500}, 
 	{ID_STATUS_ONLINE, 10}, 
 	{ID_STATUS_AWAY, 200}, 
@@ -60,7 +60,7 @@ void fnChangeContactIcon(HANDLE hContact, int iIcon, int add)
 int GetStatusModeOrdering(int statusMode)
 {
 	int i;
-	for (i = 0; i < SIZEOF(statusModeOrder); i++)
+	for (i=0; i < SIZEOF(statusModeOrder); i++)
 		if (statusModeOrder[i].status == statusMode)
 			return statusModeOrder[i].order;
 	return 1000;

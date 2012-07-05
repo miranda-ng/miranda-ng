@@ -7,9 +7,9 @@
 typedef int (*MIRANDAHOOK)(WPARAM, LPARAM);
 typedef INT_PTR (*MIRANDASERVICE)(WPARAM, LPARAM);
 
-#define FUSE_INIT	0			// core started, Param=**FUSE_LINK
+#define FUSE_INIT	0			// core started, Param = **FUSE_LINK
 #define FUSE_DEINIT 1			// core stopped
-#define FUSE_DEFMOD	3			// LoadDefaultModules() return code, Param=*int
+#define FUSE_DEFMOD	3			// LoadDefaultModules() return code, Param = *int
 #define FUSE_DEATH  4			// DestroyingModularEngine() just got called
 
 typedef struct {

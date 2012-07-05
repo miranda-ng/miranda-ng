@@ -177,7 +177,7 @@ int fnIconFromStatusMode(const char *szProto, int status, HANDLE)
 		index = 0;
 	if (szProto == NULL)
 		return index + 1;
-	for (i = 0; i < protoIconIndex.getCount(); i++) {
+	for (i=0; i < protoIconIndex.getCount(); i++) {
 		if (strcmp(szProto, protoIconIndex[i].szProto) == 0)
 			return protoIconIndex[i].iIconBase + index;
 	}
@@ -197,7 +197,7 @@ static void AddProtoIconIndex(PROTOACCOUNT* pa)
 {
 	ProtoIconIndex *pii = new ProtoIconIndex;
 	pii->szProto = pa->szModuleName;
-	for (int i = 0; i < SIZEOF(statusModeList); i++) {
+	for (int i=0; i < SIZEOF(statusModeList); i++) {
 		int iImg = ImageList_AddIcon_ProtoIconLibLoaded(hCListImages, pa->szModuleName, statusModeList[i]);
 		if (i == 0)
 			pii->iIconBase = iImg;
@@ -207,7 +207,7 @@ static void AddProtoIconIndex(PROTOACCOUNT* pa)
 
 static void RemoveProtoIconIndex(PROTOACCOUNT* pa)
 {
-	for (int i = 0; i < protoIconIndex.getCount(); i++) 
+	for (int i=0; i < protoIconIndex.getCount(); i++) 
 		if (strcmp(protoIconIndex[i].szProto, pa->szModuleName) == 0) {
 			protoIconIndex.remove(i);
 			break;
@@ -222,7 +222,7 @@ static int ContactListModulesLoaded(WPARAM, LPARAM)
 	}
 
 	RebuildMenuOrder();
-	for (int i = 0; i < accounts.getCount(); i++)
+	for (int i=0; i < accounts.getCount(); i++)
 		AddProtoIconIndex(accounts[i]);
 
 	cli.pfnLoadContactTree();
@@ -282,11 +282,11 @@ static int CListIconsChanged(WPARAM, LPARAM)
 {
 	int i, j;
 
-	for (i = 0; i < SIZEOF(statusModeList); i++)
+	for (i=0; i < SIZEOF(statusModeList); i++)
 		ImageList_ReplaceIcon_IconLibLoaded(hCListImages, i + 1, LoadSkinIcon(skinIconStatusList[i]));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPOPEN, LoadSkinIcon(SKINICON_OTHER_GROUPOPEN));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPSHUT, LoadSkinIcon(SKINICON_OTHER_GROUPSHUT));
-	for (i = 0; i < protoIconIndex.getCount(); i++)
+	for (i=0; i < protoIconIndex.getCount(); i++)
 		for (j = 0; j < SIZEOF(statusModeList); j++)
 			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, protoIconIndex[i].iIconBase + j, LoadSkinProtoIcon(protoIconIndex[i].szProto, statusModeList[j]));
 	cli.pfnTrayIconIconsChanged();
@@ -533,7 +533,7 @@ int LoadContactListModule2(void)
 	ImageList_AddIcon_NotShared(hCListImages, MAKEINTRESOURCE(IDI_BLANK));
 
 	//now all core skin icons are loaded via icon lib. so lets release them
-	for (int i = 0; i < SIZEOF(statusModeList); i++)
+	for (int i=0; i < SIZEOF(statusModeList); i++)
 		ImageList_AddIcon_IconLibLoaded(hCListImages, skinIconStatusList[i]);
 
 	//see IMAGE_GROUP... in clist.h if you add more images above here

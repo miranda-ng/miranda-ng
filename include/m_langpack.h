@@ -33,8 +33,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 //translates a single string into the user's local language	  v0.1.1.0+
-//wParam=0
-//lParam=(LPARAM)(const char*)szEnglish
+//wParam = 0
+//lParam = (LPARAM)(const char*)szEnglish
 //returns a pointer to the localised string. If there is no known translation
 //it will return szEnglish. The return value does not need to be freed in any
 //way
@@ -57,26 +57,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //Those macros do NOTHING. They are just markers for lpgen.pl.
 
 //translates a menu into the user's local language	  v0.1.1.0+
-//wParam=(WPARAM)(HMENU)hMenu
-//lParam=langpack handle (v.0.10.0+)
+//wParam = (WPARAM)(HMENU)hMenu
+//lParam = langpack handle (v.0.10.0+)
 //returns 0 on success, nonzero on failure
 #define MS_LANGPACK_TRANSLATEMENU    "LangPack/TranslateMenu"
 
 //returns the codepage used in the language pack 	  v0.4.3.0+
-//wParam=0
-//lParam=0
+//wParam = 0
+//lParam = 0
 //returns the codepage stated in the langpack, or CP_ACP if no langpack is present
 #define MS_LANGPACK_GETCODEPAGE      "LangPack/GetCodePage"
 
 //returns the locale id associated with the language pack    v0.4.3.0+
-//wParam=0
-//lParam=0
+//wParam = 0
+//lParam = 0
 //returns the Windows locale id stated in the langpack, or LOCALE_USER_DEFAULT if no langpack is present
 #define MS_LANGPACK_GETLOCALE        "LangPack/GetLocale"
 
 //returns the strdup/wcsdup of lparam according to the langpack  v0.4.3.0+
-//wParam=langpack handle (v.0.10.0+)
-//lParam=(LPARAM)(char*)source string
+//wParam = langpack handle (v.0.10.0+)
+//lParam = (LPARAM)(char*)source string
 //returns a string converted from char* to TCHAR* using the langpack codepage.
 //This string should be freed using mir_free() then
 #define MS_LANGPACK_PCHARTOTCHAR     "LangPack/PcharToTchar"
@@ -96,8 +96,8 @@ __inline static INT_PTR Langpack_PCharToTChar(const char* str)
 #endif
 
 //initializes the plugin-specific translation context  v0.10.0+
-//wParam=pointer to the langpack handle
-//lParam=PLUGININFOEX* of the caller plugin
+//wParam = pointer to the langpack handle
+//lParam = PLUGININFOEX* of the caller plugin
 //always returns 0
 #define MS_LANGPACK_REGISTER         "LangPack/Register"
 
@@ -108,8 +108,8 @@ __inline static void mir_getLP(const PLUGININFOEX* pInfo)
 #endif
 
 //reloads langpack
-//wParam=0 (ignored)
-//lParam=(LPARAM)(TCHAR*)langpack file name or NULL to reload the current one
+//wParam = 0 (ignored)
+//lParam = (LPARAM)(TCHAR*)langpack file name or NULL to reload the current one
 //always returns 0
 #define MS_LANGPACK_RELOAD           "LangPack/Reload"
 

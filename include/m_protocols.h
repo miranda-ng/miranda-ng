@@ -29,8 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "statusmodes.h"
 
 //send a general request through the protocol chain for a contact
-//wParam=0
-//lParam=(LPARAM)(CCSDATA*)&ccs
+//wParam = 0
+//lParam = (LPARAM)(CCSDATA*)&ccs
 //returns the value as documented in the PS_ definition (m_protosvc.h)
 
 typedef struct {
@@ -43,8 +43,8 @@ typedef struct {
 #define MS_PROTO_CALLCONTACTSERVICE    "Proto/CallContactService"
 
 //a general network 'ack'
-//wParam=0
-//lParam=(LPARAM)(ACKDATA*)&ack
+//wParam = 0
+//lParam = (LPARAM)(ACKDATA*)&ack
 //Note that just because definitions are here doesn't mean they will be sent.
 //Read the documentation for the function you are calling to see what replies
 //you will receive.
@@ -150,8 +150,8 @@ typedef struct tagPROTOFILETRANSFERSTATUS
 PROTOFILETRANSFERSTATUS;
 
 //Enumerate the currently running protocols
-//wParam=(WPARAM)(int*)&numberOfProtocols
-//lParam=(LPARAM)(PROTOCOLDESCRIPTOR***)&ppProtocolDescriptors
+//wParam = (WPARAM)(int*)&numberOfProtocols
+//lParam = (LPARAM)(PROTOCOLDESCRIPTOR***)&ppProtocolDescriptors
 //Returns 0 on success, nonzero on failure
 //Neither wParam nor lParam may be NULL
 //The list returned by this service is the protocol modules currently installed
@@ -215,15 +215,15 @@ typedef struct {
 #define MS_PROTO_ENUMPROTOCOLS     "Proto/EnumAccounts"
 
 //determines if a protocol module is loaded or not
-//wParam=0
-//lParam=(LPARAM)(const char*)szName
+//wParam = 0
+//lParam = (LPARAM)(const char*)szName
 //Returns a pointer to the PROTOCOLDESCRIPTOR if the protocol is loaded, or
 //NULL if it isn't.
 #define MS_PROTO_ISPROTOCOLLOADED  "Proto/IsProtocolLoaded"
 
 //gets the network-level protocol associated with a contact
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = 0
 //Returns a char* pointing to the asciiz name of the protocol or NULL if the
 //contact has no protocol. There is no need to free() it or anything.
 //This is the name of the module that actually accesses the network for that
@@ -231,8 +231,8 @@ typedef struct {
 #define MS_PROTO_GETCONTACTBASEPROTO  "Proto/GetContactBaseProto"
 
 //determines whether the specified contact has the given protocol in its chain
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)(const char*)szName
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)(const char*)szName
 //Returns -1 if it is base protocol, positive number if it is filter and 0 if it doesn't
 #define MS_PROTO_ISPROTOONCONTACT  "Proto/IsProtoOnContact"
 
@@ -241,8 +241,8 @@ typedef struct {
 //This service is for notifying protocols that the user is typing a message v0.3.3+
 //in a message dialog.
 //This is typically sent by a message dialog when a user in the clist is typing.
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)(int)typing state
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)(int)typing state
 //NOTE: Only protocols should generally call this service
 #define MS_PROTO_SELFISTYPING "Proto/SelfIsTyping"
 
@@ -250,8 +250,8 @@ typedef struct {
 #define PROTOTYPE_CONTACTTYPING_INFINITE 2147483647
 //This service is for notifying message dialogs/other plugins of a user typing. v0.3.3+
 //This is typically sent by a protocol when a user in the clist is typing.
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)(int)time (secs)
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)(int)time (secs)
 //NOTE: The time in seconds is used to tell a message dialog (or other plugin)
 //how long to display its notification.  If time is 0, then notification
 //of typing ends.
@@ -263,8 +263,8 @@ typedef struct {
 //ProtoService PSS_USERISTYPING to the contacts protocol *after* verifying
 //that the hContact is not NULL and the the user wishes to send notifications
 //to this user (checked visibility, individual typing blocking, etc).
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=(LPARAM)(int)typing state
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = (LPARAM)(int)typing state
 #define ME_PROTO_CONTACTISTYPING "Proto/ContactIsTypingEvent"
 
 // -------------- accounts support --------------------- 0.8.0+
@@ -289,8 +289,8 @@ typedef struct tagACCOUNT
 	PROTOACCOUNT;
 
 //account enumeration service
-//wParam=(WPARAM)(int*)piNumAccounts
-//lParam=(LPARAM)(PROTOACCOUNT**)paAccounts
+//wParam = (WPARAM)(int*)piNumAccounts
+//lParam = (LPARAM)(PROTOACCOUNT**)paAccounts
 #define MS_PROTO_ENUMACCOUNTS "Proto/EnumAccounts"
 
 __inline static INT_PTR ProtoEnumAccounts(int* accNumber, PROTOACCOUNT*** accArray)
@@ -298,8 +298,8 @@ __inline static INT_PTR ProtoEnumAccounts(int* accNumber, PROTOACCOUNT*** accArr
 }
 
 //retrieves an account's interface by its physical name (database module)
-//wParam=0
-//lParam=(LPARAM)(char*)szAccountName
+//wParam = 0
+//lParam = (LPARAM)(char*)szAccountName
 //return value = PROTOACCOUNT* or NULL
 #define MS_PROTO_GETACCOUNT "Proto/GetAccount"
 
@@ -321,8 +321,8 @@ __inline static PROTOACCOUNT* ProtoGetAccount(const char* accName)
 #define ME_PROTO_ACCLISTCHANGED "Proto/AccListChanged"
 
 //displays the Account Manager
-//wParam=0
-//lParam=0
+//wParam = 0
+//lParam = 0
 #define MS_PROTO_SHOWACCMGR "Protos/ShowAccountManager"
 
 //determines if an account is enabled or not
@@ -344,8 +344,8 @@ __inline static int IsAccountEnabled(const PROTOACCOUNT* pa)
 
 
 //gets the account associated with a contact
-//wParam=(WPARAM)(HANDLE)hContact
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hContact
+//lParam = 0
 //Returns a char* pointing to the asciiz name of the protocol or NULL if the
 //contact has no protocol. There is no need to mir_free() it or anything.
 //This is the name of the module that actually accesses the network for that

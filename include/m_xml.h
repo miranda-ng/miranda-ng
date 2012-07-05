@@ -32,10 +32,10 @@ typedef int XML_ELEMENT_POS; // XML_ELEMENT_POS is not interchangeable with simp
 
 typedef enum
 {
-	XML_ELEM_TYPE_CHILD     = 0,
+	XML_ELEM_TYPE_CHILD = 0,
 	XML_ELEM_TYPE_ATTRIBUTE = 1,
-	XML_ELEM_TYPE_TEXT      = 2,
-	XML_ELEM_TYPE_CLEAR     = 3,
+	XML_ELEM_TYPE_TEXT = 2,
+	XML_ELEM_TYPE_CLEAR = 3,
 }
 	XML_ELEMENT_TYPE;
 
@@ -62,8 +62,8 @@ typedef struct
 	HXML    (*getNextNode)(HXML node);
 	LPCTSTR (*getName)(HXML);
 	HXML    (*getParent)(HXML);
-	LPCTSTR (*getText)(HXML); // = getTextByIndex(HXML, 0)
-	void    (*setText)(HXML, LPCTSTR); // = setTextByIndex(HXML, LPCTSTR, 0)
+	LPCTSTR (*getText)(HXML); //=getTextByIndex(HXML, 0)
+	void    (*setText)(HXML, LPCTSTR); //=setTextByIndex(HXML, LPCTSTR, 0)
 
 	LPCTSTR (*getAttr)(HXML, int i);
 	LPCTSTR (*getAttrName)(HXML, int i);

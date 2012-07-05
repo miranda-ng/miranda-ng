@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-HWND hAboutDlg=NULL;
+HWND hAboutDlg = NULL;
 static HANDLE hBugEvent = NULL;
 
 static INT_PTR AboutCommand(WPARAM wParam, LPARAM)
@@ -34,7 +34,7 @@ static INT_PTR AboutCommand(WPARAM wParam, LPARAM)
 		SetFocus(hAboutDlg);
 		return 0;
 	}
-	hAboutDlg=CreateDialog(hInst, MAKEINTRESOURCE(IDD_ABOUT), (HWND)wParam, DlgProcAbout);
+	hAboutDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_ABOUT), (HWND)wParam, DlgProcAbout);
 	return 0;
 }
 
@@ -68,7 +68,7 @@ static INT_PTR BugCommand(WPARAM, LPARAM)
 int ShutdownHelpModule(WPARAM, LPARAM)
 {
 	if (IsWindow(hAboutDlg)) DestroyWindow(hAboutDlg);
-	hAboutDlg=NULL;
+	hAboutDlg = NULL;
 	return 0;
 }
 

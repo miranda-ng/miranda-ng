@@ -120,13 +120,13 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 static int ClcAccountsChanged(WPARAM, LPARAM)
 {
 	int i, cnt;
-	for (i = 0, cnt = 0; i < accounts.getCount(); ++i)
+	for (i=0, cnt=0; i < accounts.getCount(); ++i)
 		if (Proto_IsAccountEnabled(accounts[i])) ++cnt;
 
 	cli.hClcProtoCount = cnt;
 	cli.clcProto = (ClcProtoStatus *) mir_realloc(cli.clcProto, sizeof(ClcProtoStatus) * cli.hClcProtoCount);
 
-	for (i = 0, cnt = 0; i < accounts.getCount(); ++i) {
+	for (i=0, cnt=0; i < accounts.getCount(); ++i) {
 		if (Proto_IsAccountEnabled(accounts[i])) {
 			cli.clcProto[cnt].szProto = accounts[i]->szModuleName;
 			cli.clcProto[cnt].dwStatus = CallProtoServiceInt(NULL,accounts[i]->szModuleName, PS_GETSTATUS, 0, 0);
@@ -151,7 +151,7 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 	if (ack->type == ACKTYPE_STATUS) {
 		WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
 		if (ack->result == ACKRESULT_SUCCESS) {
-			for (i = 0; i < cli.hClcProtoCount; i++) {
+			for (i=0; i < cli.hClcProtoCount; i++) {
 				if ( !lstrcmpA(cli.clcProto[i].szProto, ack->szModule)) {
 					cli.clcProto[i].dwStatus = (WORD) ack->lParam;
 					break;
@@ -268,7 +268,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		}
 		{
 			int i;
-			for (i = 0; i <= FONTID_MAX; i++)
+			for (i=0; i <= FONTID_MAX; i++)
 				dat->fontInfo[i].changed = 1;
 		}
 		dat->selection = -1;
@@ -401,7 +401,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			if (cli.pfnFindItem(hwnd, dat, (HANDLE) (groupId | HCONTACT_ISGROUP), &contact, &group, NULL)) {
 				lstrcpy(szFullName, contact->szText);
 				while (group->parent) {
-					for (i = 0; i < group->parent->cl.count; i++)
+					for (i=0; i < group->parent->cl.count; i++)
 						if (group->parent->cl.items[i]->group == group)
 							break;
 					if (i == group->parent->cl.count) {
@@ -1320,7 +1320,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnHideInfoTip(hwnd, dat);
 		{
 			int i;
-			for (i = 0; i <= FONTID_MAX; i++)
+			for (i=0; i <= FONTID_MAX; i++)
 				if ( !dat->fontInfo[i].changed)
 					DeleteObject(dat->fontInfo[i].hFont);
 		}

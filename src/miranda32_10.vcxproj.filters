@@ -76,9 +76,6 @@
     <Filter Include="Modules\updater">
       <UniqueIdentifier>{9074e889-f17c-4c90-a3cf-1cfb2e513491}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\userinfo">
-      <UniqueIdentifier>{34172b4f-5cec-4166-8610-1537127749d9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Modules\useronline">
       <UniqueIdentifier>{daa4af16-7ada-4bd5-92bb-59f5ab815e9c}</UniqueIdentifier>
     </Filter>
@@ -309,6 +306,9 @@
     <ClInclude Include="..\include\m_json.h">
       <Filter>SDK</Filter>
     </ClInclude>
+    <ClInclude Include="core\stdplug.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\commonheaders.cpp">
@@ -493,15 +493,6 @@
     </ClCompile>
     <ClCompile Include="modules\updatenotify\updatenotify.cpp">
       <Filter>Modules\updater</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\userinfo\contactinfo.cpp">
-      <Filter>Modules\userinfo</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\userinfo\stdinfo.cpp">
-      <Filter>Modules\userinfo</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\userinfo\userinfo.cpp">
-      <Filter>Modules\userinfo</Filter>
     </ClCompile>
     <ClCompile Include="modules\useronline\useronline.cpp">
       <Filter>Modules\useronline</Filter>

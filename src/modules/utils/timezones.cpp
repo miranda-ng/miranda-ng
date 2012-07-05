@@ -341,10 +341,10 @@ typedef struct
 	UINT addStr, getSel, setSel, getData, setData;
 } ListMessages;
 
-static const ListMessages lbMessages =
+static const ListMessages lbMessages = 
 { LB_ADDSTRING, LB_GETCURSEL, LB_SETCURSEL, LB_GETITEMDATA, LB_SETITEMDATA };
 
-static const ListMessages cbMessages =
+static const ListMessages cbMessages = 
 { CB_ADDSTRING, CB_GETCURSEL, CB_SETCURSEL, CB_GETITEMDATA, CB_SETITEMDATA };
 
 static const ListMessages *GetListMessages(HWND hWnd, DWORD dwFlags)
@@ -382,7 +382,7 @@ static int timeapiSelectListItem(HANDLE hContact, HWND hWnd, DWORD dwFlags)
 		if ( !DBGetContactSettingTString(hContact, "UserInfo", "TzName", &dbv))
 		{
 			unsigned hash = mir_hashstrT(dbv.ptszVal);
-			for (int i = 0; i < g_timezonesBias.getCount(); ++i)
+			for (int i=0; i < g_timezonesBias.getCount(); ++i)
 			{
 				if (hash == g_timezonesBias[i]->hash)
 				{
@@ -409,7 +409,7 @@ static int timeapiPrepareList(HANDLE hContact, HWND hWnd, DWORD dwFlags)
 
 	SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)TranslateT("<unspecified>"));
 
-	for (int i = 0; i < g_timezonesBias.getCount(); ++i)
+	for (int i=0; i < g_timezonesBias.getCount(); ++i)
 	{
 		MIM_TIMEZONE *tz = g_timezonesBias[i];
 
@@ -451,21 +451,21 @@ static INT_PTR GetTimeApi(WPARAM, LPARAM lParam)
 	if (tmi->cbSize != sizeof(TIME_API))
 		return FALSE;
 
-	tmi->createByName                    = timeapiGetInfoByName;
-	tmi->createByContact                 = timeapiGetInfoByContact;
-	tmi->storeByContact                  = timeapiSetInfoByContact;
+	tmi->createByName = timeapiGetInfoByName;
+	tmi->createByContact = timeapiGetInfoByContact;
+	tmi->storeByContact = timeapiSetInfoByContact;
 
-	tmi->printDateTime                   = timeapiPrintDateTime;
-	tmi->printTimeStamp                  = timeapiPrintTimeStamp;
+	tmi->printDateTime = timeapiPrintDateTime;
+	tmi->printTimeStamp = timeapiPrintTimeStamp;
 
-	tmi->prepareList                     = timeapiPrepareList;
-	tmi->selectListItem                  = timeapiSelectListItem;
-	tmi->storeListResults                = timeapiStoreListResult;
+	tmi->prepareList = timeapiPrepareList;
+	tmi->selectListItem = timeapiSelectListItem;
+	tmi->storeListResults = timeapiStoreListResult;
 
-	tmi->getTimeZoneTime                 = timeapiGetTimeZoneTime;
-	tmi->timeStampToTimeZoneTimeStamp    = timeapiTimeStampToTimeZoneTimeStamp;
-	tmi->getTzi                          = timeapiGetTzi;
-	tmi->getTzName                       = timeapiGetTzName;
+	tmi->getTimeZoneTime = timeapiGetTimeZoneTime;
+	tmi->timeStampToTimeZoneTimeStamp = timeapiTimeStampToTimeZoneTimeStamp;
+	tmi->getTzi = timeapiGetTzi;
+	tmi->getTzName = timeapiGetTzName;
 
 	return TRUE;
 }
@@ -537,7 +537,7 @@ extern "C" __declspec(dllexport) void RecalculateTime(void)
 		found = true;
 	}
 
-	for (int i = 0; i < g_timezones.getCount(); ++i)
+	for (int i=0; i < g_timezones.getCount(); ++i)
 	{
 		MIM_TIMEZONE &tz = g_timezones[i];
 		if (tz.offset != INT_MIN) tz.offset = INT_MIN;

@@ -33,8 +33,8 @@ typedef JSONNODE** JSONNODE_ITERATOR;
 #endif
 
 // This function get the service interface for direct calling
-// wParam=(WPARAM)(LPJSONSERVICEINTERFACE)
-// lParam=0
+// wParam = (WPARAM)(LPJSONSERVICEINTERFACE)
+// lParam = 0
 // Return value ALWAYS 0
 
 typedef struct {

@@ -30,8 +30,8 @@ extern int hLangpack;
 The user opened the options dialog. Modules should do whatever initialisation
 they need and call opt/addpage one or more times if they want pages displayed
 in the options dialog
-wParam=addInfo
-lParam=0
+wParam = addInfo
+lParam = 0
 addInfo should be passed straight to the wParam of opt/addpage
 */
 #define ME_OPT_INITIALISE   "Opt/Initialise"
@@ -39,8 +39,8 @@ addInfo should be passed straight to the wParam of opt/addpage
 /* Opt/AddPage
 Must only be called during an opt/initialise hook
 Adds a page to the options dialog
-wParam=addInfo
-lParam=(LPARAM)(OPTIONSDIALOGPAGE*)odp
+wParam = addInfo
+lParam = (LPARAM)(OPTIONSDIALOGPAGE*)odp
 addInfo must have come straight from the wParam of opt/initialise
 Pages in the options dialog operate just like pages in property sheets. See the
 Microsoft documentation for details on how they operate.
@@ -101,7 +101,7 @@ typedef struct {
 	#define ODPF_TCHAR     0
 #endif
 
-#define PSN_EXPERTCHANGED 2    //sent to pages via WM_NOTIFY when the expert checkbox is clicked. lParam=new state
+#define PSN_EXPERTCHANGED 2    //sent to pages via WM_NOTIFY when the expert checkbox is clicked. lParam = new state
 #define PSM_ISEXPERT      (WM_USER+101)   //returns true/false
 #define PSM_GETBOLDFONT   (WM_USER+102)   //returns HFONT used for group box titles
 
@@ -111,8 +111,8 @@ __inline static INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
 }
 
 //Opens the options dialog, optionally at the specified page    v0.1.2.1+
-//wParam=0
-//lParam=(LPARAM)(OPENOPTIONSDIALOG*)&ood;
+//wParam = 0
+//lParam = (LPARAM)(OPENOPTIONSDIALOG*)&ood;
 //Returns 0 on success, nonzero on failure
 //The behaviour if the options dialog is already open is that it will just be
 //activated, the page won't be changed. This may change in the future.

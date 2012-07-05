@@ -81,7 +81,7 @@ static bool NetlibHttpGatewaySend(struct NetlibConnection *nlc, RequestType reqT
 	{
 	case reqHelloGet:
 		nlhrSend.requestType = REQUEST_GET;
-		nlhrSend.szUrl=nlc->nlu->user.szHttpGatewayHello;
+		nlhrSend.szUrl = nlc->nlu->user.szHttpGatewayHello;
 		break;
 
 	case reqOldGet:
@@ -136,13 +136,13 @@ static bool NetlibHttpGatewaySend(struct NetlibConnection *nlc, RequestType reqT
 
 	nlhrSend.headersCount = 3;
 	nlhrSend.headers = (NETLIBHTTPHEADER*)alloca(sizeof(NETLIBHTTPHEADER) * nlhrSend.headersCount);
-	nlhrSend.headers[0].szName  = "User-Agent";
+	nlhrSend.headers[0].szName = "User-Agent";
 	nlhrSend.headers[0].szValue = nlc->nlu->user.szHttpGatewayUserAgent;
-	nlhrSend.headers[1].szName  = "Cache-Control";
+	nlhrSend.headers[1].szName = "Cache-Control";
 	nlhrSend.headers[1].szValue = "no-cache, no-store ";
-	nlhrSend.headers[2].szName  = "Pragma";
+	nlhrSend.headers[2].szName = "Pragma";
 	nlhrSend.headers[2].szValue = "no-cache";
-//	nlhrSend.headers[3].szName  = "Accept-Encoding";
+//	nlhrSend.headers[3].szName = "Accept-Encoding";
 //	nlhrSend.headers[3].szValue = "deflate, gzip";
 
 	return NetlibHttpSendRequest((WPARAM)nlc, (LPARAM)&nlhrSend) != SOCKET_ERROR; 
@@ -179,19 +179,19 @@ static bool NetlibHttpGatewayOscarPost(NetlibConnection *nlc, const char *buf, i
 	NETLIBHTTPREQUEST *nlhrReply = NULL;
 	NetlibConnection nlcSend = {0};
 
-	nlcSend.handleType       = NLH_CONNECTION;
-	nlcSend.nlu              = nlc->nlu;
-	nlcSend.nlhpi            = nlc->nlhpi;
-	nlcSend.s                = nlc->s2;
+	nlcSend.handleType = NLH_CONNECTION;
+	nlcSend.nlu = nlc->nlu;
+	nlcSend.nlhpi = nlc->nlhpi;
+	nlcSend.s = nlc->s2;
 	nlcSend.usingHttpGateway = nlc->usingHttpGateway;
-	nlcSend.szProxyServer    = nlc->szProxyServer;
-	nlcSend.wProxyPort       = nlc->wProxyPort;
-	nlcSend.proxyType        = nlc->proxyType;
+	nlcSend.szProxyServer = nlc->szProxyServer;
+	nlcSend.wProxyPort = nlc->wProxyPort;
+	nlcSend.proxyType = nlc->proxyType;
 
 	if ( !NetlibReconnect(&nlcSend)) return false;
 	nlc->s2 = nlcSend.s;
 
-	nlcSend.hOkToCloseEvent	= CreateEvent(NULL, TRUE, TRUE, NULL);
+	nlcSend.hOkToCloseEvent	 = CreateEvent(NULL, TRUE, TRUE, NULL);
 	NetlibInitializeNestedCS(&nlcSend.ncsRecv);
 	NetlibInitializeNestedCS(&nlcSend.ncsSend);
 
@@ -404,7 +404,7 @@ int NetlibInitHttpConnection(struct NetlibConnection *nlc, struct NetlibUser *nl
 {
 	NETLIBHTTPREQUEST *nlhrReply = NULL;
 
-	nlc->nlhpi.firstGetSequence  = 1; 
+	nlc->nlhpi.firstGetSequence = 1; 
 	nlc->nlhpi.firstPostSequence = 1;
 
 	if (nlu->user.szHttpGatewayHello != NULL) 
@@ -449,8 +449,8 @@ int NetlibInitHttpConnection(struct NetlibConnection *nlc, struct NetlibUser *nl
 
 INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam, LPARAM lParam)
 {
-	NETLIBHTTPPROXYINFO *nlhpi=(NETLIBHTTPPROXYINFO*)lParam;
-	struct NetlibConnection *nlc=(struct NetlibConnection*)wParam;
+	NETLIBHTTPPROXYINFO *nlhpi = (NETLIBHTTPPROXYINFO*)lParam;
+	struct NetlibConnection *nlc = (struct NetlibConnection*)wParam;
 
 	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || nlhpi == NULL  || 
 		nlhpi->cbSize < (sizeof(NETLIBHTTPPROXYINFO) - sizeof(int)) || 
@@ -467,7 +467,7 @@ INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam, LPARAM lParam)
 	memcpy(&nlc->nlhpi, nlhpi, min(nlhpi->cbSize, sizeof(*nlhpi)));
 	if (nlc->nlhpi.combinePackets == 0) nlc->nlhpi.combinePackets = 1;
 
-	nlc->nlhpi.szHttpGetUrl  = mir_strdup(nlc->nlhpi.szHttpGetUrl);
+	nlc->nlhpi.szHttpGetUrl = mir_strdup(nlc->nlhpi.szHttpGetUrl);
 	nlc->nlhpi.szHttpPostUrl = mir_strdup(nlc->nlhpi.szHttpPostUrl);
 
 	return 1;
@@ -485,7 +485,7 @@ INT_PTR NetlibHttpSetSticky(WPARAM wParam, LPARAM lParam)
 INT_PTR NetlibHttpSetPollingTimeout(WPARAM wParam, LPARAM lParam)
 {
 	int oldTimeout;
-	struct NetlibConnection *nlc=(struct NetlibConnection*)wParam;
+	struct NetlibConnection *nlc = (struct NetlibConnection*)wParam;
 	if (GetNetlibHandleType(nlc) != NLH_CONNECTION) return -1;
 	oldTimeout = nlc->pollingTimeout;
 	nlc->pollingTimeout = lParam;

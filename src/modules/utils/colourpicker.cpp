@@ -42,15 +42,15 @@ static LRESULT CALLBACK ColourPickerWndProc(HWND hwnd, UINT message, WPARAM wPar
 			return GetWindowLongPtr(hwnd, 0);
 		case WM_LBUTTONUP:
 		{
-            CHOOSECOLOR cc={0};
-            COLORREF custColours[16]={0};
-			custColours[0]=GetWindowLongPtr(hwnd, sizeof(COLORREF));
-            cc.lStructSize=sizeof(CHOOSECOLOR);
-            cc.hwndOwner=hwnd;
-            cc.hInstance=(HWND)hInst;
-            cc.rgbResult=GetWindowLongPtr(hwnd, 0);
-            cc.lpCustColors=custColours;
-            cc.Flags=CC_ANYCOLOR|CC_FULLOPEN|CC_RGBINIT;
+            CHOOSECOLOR cc = {0};
+            COLORREF custColours[16] = {0};
+			custColours[0] = GetWindowLongPtr(hwnd, sizeof(COLORREF));
+            cc.lStructSize = sizeof(CHOOSECOLOR);
+            cc.hwndOwner = hwnd;
+            cc.hInstance = (HWND)hInst;
+            cc.rgbResult = GetWindowLongPtr(hwnd, 0);
+            cc.lpCustColors = custColours;
+            cc.Flags = CC_ANYCOLOR|CC_FULLOPEN|CC_RGBINIT;
             if (ChooseColor(&cc)) {
 				SetWindowLongPtr(hwnd, 0, cc.rgbResult);
 				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), CPN_COLOURCHANGED), (LPARAM)hwnd);
@@ -68,14 +68,14 @@ static LRESULT CALLBACK ColourPickerWndProc(HWND hwnd, UINT message, WPARAM wPar
 			RECT rc;
 			HBRUSH hBrush;
 
-			hdc1=BeginPaint(hwnd, &ps);
+			hdc1 = BeginPaint(hwnd, &ps);
 			GetClientRect(hwnd, &rc);
 			DrawEdge(hdc1, &rc, EDGE_ETCHED, BF_RECT);
 			InflateRect(&rc, -2, -2);
 			if (IsWindowEnabled(hwnd))
-				hBrush=CreateSolidBrush(GetWindowLongPtr(hwnd, 0));
+				hBrush = CreateSolidBrush(GetWindowLongPtr(hwnd, 0));
 			else
-				hBrush=CreateHatchBrush(HS_BDIAGONAL, GetSysColor(COLOR_GRAYTEXT));
+				hBrush = CreateHatchBrush(HS_BDIAGONAL, GetSysColor(COLOR_GRAYTEXT));
 			SetBkColor(hdc1, GetSysColor(COLOR_BTNFACE));
 			FillRect(hdc1, &rc, hBrush);
 			DeleteObject(hBrush);
@@ -92,16 +92,16 @@ int InitColourPicker(void)
 {
 	WNDCLASS wcl;
 
-	wcl.lpfnWndProc=ColourPickerWndProc;
-	wcl.cbClsExtra=0;
-	wcl.cbWndExtra=sizeof(COLORREF)*2;
-	wcl.hInstance=hInst;
-	wcl.hCursor=NULL;
-	wcl.lpszClassName=WNDCLASS_COLOURPICKER;
-	wcl.hbrBackground=(HBRUSH)(COLOR_BTNFACE+1);
-	wcl.hIcon=NULL;
-	wcl.lpszMenuName=NULL;
-	wcl.style=CS_HREDRAW|CS_VREDRAW|CS_GLOBALCLASS;
+	wcl.lpfnWndProc = ColourPickerWndProc;
+	wcl.cbClsExtra = 0;
+	wcl.cbWndExtra = sizeof(COLORREF)*2;
+	wcl.hInstance = hInst;
+	wcl.hCursor = NULL;
+	wcl.lpszClassName = WNDCLASS_COLOURPICKER;
+	wcl.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1);
+	wcl.hIcon = NULL;
+	wcl.lpszMenuName = NULL;
+	wcl.style = CS_HREDRAW|CS_VREDRAW|CS_GLOBALCLASS;
 	RegisterClass(&wcl);
 	return 0;
 }

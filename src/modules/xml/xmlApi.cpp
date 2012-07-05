@@ -376,66 +376,66 @@ static INT_PTR GetXmlApi(WPARAM, LPARAM lParam)
 	if (xi->cbSize != XML_API_SIZEOF_V1 && xi->cbSize != sizeof(XML_API))
 		return FALSE;
 
-	xi->createNode          = xmlapiCreateNode;
-	xi->destroyNode         = xmlapiDestroyNode;
+	xi->createNode = xmlapiCreateNode;
+	xi->destroyNode = xmlapiDestroyNode;
 
-	xi->parseString         = xmlapiParseString;
-	xi->toString            = xmlapiToString;
-	xi->freeMem             = xmlapiFree;
+	xi->parseString = xmlapiParseString;
+	xi->toString = xmlapiToString;
+	xi->freeMem = xmlapiFree;
 
-	xi->addChild            = xmlapiAddChild;
-	xi->addChild2           = xmlapiAddChild2;
-	xi->copyNode            = xmlapiCopyNode;
-	xi->getChild            = xmlapiGetChild;
+	xi->addChild = xmlapiAddChild;
+	xi->addChild2 = xmlapiAddChild2;
+	xi->copyNode = xmlapiCopyNode;
+	xi->getChild = xmlapiGetChild;
 	xi->getChildByAttrValue = xmlapiGetChildByAttrValue;
-	xi->getChildCount       = xmlapiGetChildCount;
-	xi->getFirstChild       = xmlapiGetFirstChild;
-	xi->getNthChild         = xmlapiGetNthChild;
-	xi->getNextChild        = xmlapiGetNextChild;
-	xi->getNextNode         = xmlapiGetNextNode;
-	xi->getChildByPath      = xmlapiGetChildByPath;
-	xi->getName             = xmlapiGetName;
-	xi->getParent           = xmlapiGetParent;
-	xi->getText             = xmlapiGetText;
-	xi->setText             = xmlapiSetText;
+	xi->getChildCount = xmlapiGetChildCount;
+	xi->getFirstChild = xmlapiGetFirstChild;
+	xi->getNthChild = xmlapiGetNthChild;
+	xi->getNextChild = xmlapiGetNextChild;
+	xi->getNextNode = xmlapiGetNextNode;
+	xi->getChildByPath = xmlapiGetChildByPath;
+	xi->getName = xmlapiGetName;
+	xi->getParent = xmlapiGetParent;
+	xi->getText = xmlapiGetText;
+	xi->setText = xmlapiSetText;
 
-	xi->getAttr             = xmlapiGetAttr;
-	xi->getAttrCount        = xmlapiGetAttrCount;
-	xi->getAttrName         = xmlapiGetAttrName;
-	xi->getAttrValue        = xmlapiGetAttrValue;
-	xi->addAttr             = xmlapiAddAttr;
-	xi->addAttrInt          = xmlapiAddAttrInt;
+	xi->getAttr = xmlapiGetAttr;
+	xi->getAttrCount = xmlapiGetAttrCount;
+	xi->getAttrName = xmlapiGetAttrName;
+	xi->getAttrValue = xmlapiGetAttrValue;
+	xi->addAttr = xmlapiAddAttr;
+	xi->addAttrInt = xmlapiAddAttrInt;
 
 	if (xi->cbSize > XML_API_SIZEOF_V1) {
-		xi->isDeclaration          = xmlapiIsDeclaration;
+		xi->isDeclaration = xmlapiIsDeclaration;
 		xi->toStringWithFormatting = xmlapiToStringWithFormatting;
-		xi->deepCopy               = xmlapiDeepCopy;
-		xi->setAttrByIndex         = xmlapiSetAttrByIndex;
-		xi->setAttrByName          = xmlapiSetAttrByName;
-		xi->addChildEx             = xmlapiAddChildEx;
-		xi->addChildEx2            = xmlapiAddChildEx2;
-		xi->getTextCount           = xmlapiGetTextCount;
-		xi->getTextByIndex         = xmlapiGetTextByIndex;
-		xi->addText                = xmlapiAddText;
-		xi->setTextByIndex         = xmlapiSetTextByIndex;
-		xi->getClearCount          = xmlapiGetClearCount;
-		xi->getClear               = xmlapiGetClear;
-		xi->addClear               = xmlapiAddClear;
-		xi->setClear               = xmlapiSetClear;
-		xi->getElementCount        = xmlapiGetElementCount;
-		xi->getElement             = xmlapiGetElement;
+		xi->deepCopy = xmlapiDeepCopy;
+		xi->setAttrByIndex = xmlapiSetAttrByIndex;
+		xi->setAttrByName = xmlapiSetAttrByName;
+		xi->addChildEx = xmlapiAddChildEx;
+		xi->addChildEx2 = xmlapiAddChildEx2;
+		xi->getTextCount = xmlapiGetTextCount;
+		xi->getTextByIndex = xmlapiGetTextByIndex;
+		xi->addText = xmlapiAddText;
+		xi->setTextByIndex = xmlapiSetTextByIndex;
+		xi->getClearCount = xmlapiGetClearCount;
+		xi->getClear = xmlapiGetClear;
+		xi->addClear = xmlapiAddClear;
+		xi->setClear = xmlapiSetClear;
+		xi->getElementCount = xmlapiGetElementCount;
+		xi->getElement = xmlapiGetElement;
 
-		xi->deleteNodeContent      = xmlapiDeleteNodeContent;
-		xi->deleteAttrByIndex      = xmlapiDeleteAttrByIndex;
-		xi->deleteAttrByName       = xmlapiDeleteAttrByName;
-		xi->deleteText             = xmlapiDeleteText;
-		xi->deleteClear            = xmlapiDeleteClear;
+		xi->deleteNodeContent = xmlapiDeleteNodeContent;
+		xi->deleteAttrByIndex = xmlapiDeleteAttrByIndex;
+		xi->deleteAttrByName = xmlapiDeleteAttrByName;
+		xi->deleteText = xmlapiDeleteText;
+		xi->deleteClear = xmlapiDeleteClear;
 
 		xi->positionOfChildByIndex = xmlapiPositionOfChildByIndex;
-		xi->positionOfChildByNode  = xmlapiPositionOfChildByNode;
-		xi->positionOfChildByName  = xmlapiPositionOfChildByName;
-		xi->positionOfText         = xmlapiPositionOfText;
-		xi->positionOfClear        = xmlapiPositionOfClear;
+		xi->positionOfChildByNode = xmlapiPositionOfChildByNode;
+		xi->positionOfChildByName = xmlapiPositionOfChildByName;
+		xi->positionOfText = xmlapiPositionOfText;
+		xi->positionOfClear = xmlapiPositionOfClear;
 	}
 	return TRUE;
 }

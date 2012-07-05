@@ -325,7 +325,7 @@ char* NetlibGetIeProxy(char *szUrl)
 
 	if (bEnabled)
 	{
-		for (int i = 0; i < proxyBypass.getCount(); ++i)
+		for (int i=0; i < proxyBypass.getCount(); ++i)
 		{
 			if (strcmp(proxyBypass[i], "<local>") == 0)
 			{
@@ -399,9 +399,9 @@ void NetlibLoadIeProxy(void)
 			if (szProxyEnd) *szProxyEnd = 0;
 
 			int ind = -1;
-			if (strncmp(szProxy, "http=", 5) == 0) { ind = 0; szProxy += 5; }
-			else if (strncmp(szProxy, "https=", 6) == 0) { ind = 1; szProxy += 6; }
-			else if (strncmp(szProxy, "socks=", 6) == 0) { ind = 2; szProxy += 6; }
+			if (strncmp(szProxy, "http = ", 5) == 0) { ind = 0; szProxy += 5; }
+			else if (strncmp(szProxy, "https = ", 6) == 0) { ind = 1; szProxy += 6; }
+			else if (strncmp(szProxy, "socks = ", 6) == 0) { ind = 2; szProxy += 6; }
 			else if (strchr(szProxy, '=')) ind = -2;
 
 			if (ind != -2)
@@ -447,10 +447,10 @@ void NetlibUnloadIeProxy(void)
 {
 	int i;
 
-	for (i = 0; i < 3; ++i)
+	for (i=0; i < 3; ++i)
 		mir_free(szProxyHost[i]);
 
-	for (i = 0; i < proxyBypass.getCount(); ++i)
+	for (i=0; i < proxyBypass.getCount(); ++i)
 		mir_free(proxyBypass[i]);
 
 	proxyBypass.destroy();

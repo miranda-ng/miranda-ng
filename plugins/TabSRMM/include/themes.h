@@ -252,6 +252,7 @@ public:
 
 	CSkin()
 	{
+		ZeroMemory(this, sizeof(CSkin));
 		m_default_bf.SourceConstantAlpha = 255;
 		m_default_bf.AlphaFormat = AC_SRC_ALPHA;
 		m_default_bf.BlendOp = AC_SRC_OVER;

@@ -31,12 +31,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR GetInterface(WPARAM wParam, LPARAM lParam)
 {
-	LPJSONSERVICEINTERFACE lpJSI=(LPJSONSERVICEINTERFACE)wParam;
+	LPJSONSERVICEINTERFACE lpJSI = (LPJSONSERVICEINTERFACE)wParam;
 	memset(lpJSI,0,sizeof(JSONSERVICEINTERFACE));
 
-#define SETJSI(x) lpJSI->##x=json_##x
+#define SETJSI(x) lpJSI->##x = json_##x
 	SETJSI(free);
-	lpJSI->delete_=json_delete;
+	lpJSI->delete_ = json_delete;
 #ifdef JSON_MEMORY_MANAGE
 	SETJSI(free_all);
 	SETJSI(delete_all);
@@ -50,7 +50,7 @@ INT_PTR GetInterface(WPARAM wParam, LPARAM lParam)
 	SETJSI(new_i);
 	SETJSI(new_f);
 	SETJSI(new_b);
-	lpJSI->new_=json_new;
+	lpJSI->new_ = json_new;
 	SETJSI(copy);
 	SETJSI(duplicate);
 	SETJSI(set_a);

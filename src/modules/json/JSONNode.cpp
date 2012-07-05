@@ -158,7 +158,7 @@ void JSONNode::merge(JSONNode &) {
     #ifdef JSON_REF_COUNT
 	   va_list args;
 	   va_start(args, num);
-	   for(unsigned int i = 0; i < num; ++i){
+	   for(unsigned int i=0; i < num; ++i){
 		  merge(va_arg(args, JSONNode*));
 	   }
 	   va_end(args);

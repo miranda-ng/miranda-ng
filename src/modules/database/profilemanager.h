@@ -22,8 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 typedef struct {
-	TCHAR * szProfile;		// in/out
-	TCHAR * szProfileDir;	// in/out
+	TCHAR *szProfile;		// in/out
+	TCHAR *szProfileDir;	// in/out
 	BOOL noProfiles;		// in
 	BOOL newProfile;		// out
 	DATABASELINK * dblink;	// out
@@ -32,10 +32,10 @@ typedef struct {
 int InitUtils(void);
 
 char* makeFileName(const TCHAR* tszOriginalName);
-int makeDatabase(TCHAR * profile, DATABASELINK * link, HWND hwndDlg);
+int makeDatabase(TCHAR *profile, DATABASELINK * link, HWND hwndDlg);
 int getProfileManager(PROFILEMANAGERDATA * pd);
-int getProfilePath(TCHAR * buf, size_t cch);
-int isValidProfileName(const TCHAR * name);
+int getProfilePath(TCHAR *buf, size_t cch);
+int isValidProfileName(const TCHAR *name);
 bool fileExist(TCHAR* fname);
 bool shouldAutoCreate(TCHAR *szProfile);
 

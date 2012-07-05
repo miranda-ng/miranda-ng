@@ -53,7 +53,7 @@ void ConvertToPARGB32(HDC hdc, ARGB *pargb, HBITMAP hbmp, SIZE& sizImage, int cx
                 if (*pargbMask++)
                 {
                     // transparent pixel
-                    *pargb++ = 0;
+                    *pargb++=0;
                 }
                 else
                 {

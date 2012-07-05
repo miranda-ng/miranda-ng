@@ -210,10 +210,10 @@ char*  NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge
 
 
 static __inline INT_PTR NLSend(struct NetlibConnection *nlc, const char *buf, int len, int flags) {
-	NETLIBBUFFER nlb={(char*)buf, len, flags};
+	NETLIBBUFFER nlb = {(char*)buf, len, flags};
 	return NetlibSend((WPARAM)nlc, (LPARAM)&nlb);
 }
 static __inline INT_PTR NLRecv(struct NetlibConnection *nlc, char *buf, int len, int flags) {
-	NETLIBBUFFER nlb={buf, len, flags};
+	NETLIBBUFFER nlb = {buf, len, flags};
 	return NetlibRecv((WPARAM)nlc, (LPARAM)&nlb);
 }

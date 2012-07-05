@@ -205,7 +205,6 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	ZeroMemory((void *)overlayicons, sizeof(HICON) * 10);
 
 	CLN_LoadAllIcons(1);
-	LoadExtBkSettingsFromDB();
 	return 0;
 }
 
@@ -240,38 +239,38 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	cfg::maxCacheEntry = iCount;
 	cfg::init();
 
-	cfg::dat.hMenuNotify = 				CreatePopupMenu();
-	cfg::dat.wNextMenuID = 				1;
-	cfg::dat.sortTimer = 				cfg::getDword("CLC", "SortTimer", 150);
-	cfg::dat.szNoEvents = 				TranslateTS(szNoevents);
-	cfg::dat.avatarBorder = 			(COLORREF)cfg::getDword("CLC", "avatarborder", 0);
-	cfg::dat.avatarRadius = 			(COLORREF)cfg::getDword("CLC", "avatarradius", 4);
-	cfg::dat.hBrushAvatarBorder = 		CreateSolidBrush(cfg::dat.avatarBorder);
-	cfg::dat.avatarSize = 				cfg::getWord("CList", "AvatarSize", 24);
-	cfg::dat.dualRowMode = 				cfg::getByte("CLC", "DualRowMode", 0);
-	cfg::dat.avatarPadding = 			cfg::getByte("CList", "AvatarPadding", 0);
-	cfg::dat.isTransparent = 			cfg::getByte("CList", "Transparent", 0);
-	cfg::dat.alpha = 					cfg::getByte("CList", "Alpha", SETTING_ALPHA_DEFAULT);
-	cfg::dat.autoalpha = 				cfg::getByte("CList", "AutoAlpha", SETTING_ALPHA_DEFAULT);
-	cfg::dat.fadeinout = 				cfg::getByte("CLUI", "FadeInOut", 0);
-	cfg::dat.autosize = 				cfg::getByte("CLUI", "AutoSize", 0);
-	cfg::dat.dwExtraImageMask = 		cfg::getDword("CLUI", "ximgmask", 0);
-	cfg::dat.bNoOfflineAvatars = 		cfg::getByte("CList", "NoOfflineAV", 1);
-	cfg::dat.bFullTransparent = 		cfg::getByte("CLUI", "fulltransparent", 0);
-	cfg::dat.bDblClkAvatars = 			cfg::getByte("CLC", "dblclkav", 0);
-	cfg::dat.bEqualSections = 			cfg::getByte("CLUI", "EqualSections", 0);
-	cfg::dat.bCenterStatusIcons = 		cfg::getByte("CLC", "si_centered", 1);
-	cfg::dat.boldHideOffline = 			-1;
-	cfg::dat.bSecIMAvail = 				ServiceExists("SecureIM/IsContactSecured") ? 1 : 0;
-	cfg::dat.bNoTrayTips = 				cfg::getByte("CList", "NoTrayTips", 0);
-	cfg::dat.bShowLocalTime = 			cfg::getByte("CLC", "ShowLocalTime", 1);
-	cfg::dat.bShowLocalTimeSelective = 	cfg::getByte("CLC", "SelectiveLocalTime", 1);
-	cfg::dat.bDontSeparateOffline = 	cfg::getByte("CList", "DontSeparateOffline", 0);
-	cfg::dat.bShowXStatusOnSbar = 		cfg::getByte("CLUI", "xstatus_sbar", 0);
-	cfg::dat.bLayeredHack = 			cfg::getByte("CLUI", "layeredhack", 1);
-	cfg::dat.bFirstRun = 				cfg::getByte("CLUI", "firstrun", 1);
-	cfg::dat.langPackCP = 				CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
-	cfg::dat.realTimeSaving = 			cfg::getByte("CLUI", "save_pos_always", 0);
+	cfg::dat.hMenuNotify =             CreatePopupMenu();
+	cfg::dat.wNextMenuID =             1;
+	cfg::dat.sortTimer =               cfg::getDword("CLC", "SortTimer", 150);
+	cfg::dat.szNoEvents =              TranslateTS(szNoevents);
+	cfg::dat.avatarBorder =            (COLORREF)cfg::getDword("CLC", "avatarborder", 0);
+	cfg::dat.avatarRadius =            (COLORREF)cfg::getDword("CLC", "avatarradius", 4);
+	cfg::dat.hBrushAvatarBorder =      CreateSolidBrush(cfg::dat.avatarBorder);
+	cfg::dat.avatarSize =              cfg::getWord("CList", "AvatarSize", 24);
+	cfg::dat.dualRowMode =             cfg::getByte("CLC", "DualRowMode", 0);
+	cfg::dat.avatarPadding =           cfg::getByte("CList", "AvatarPadding", 0);
+	cfg::dat.isTransparent =           cfg::getByte("CList", "Transparent", 0);
+	cfg::dat.alpha =                   cfg::getByte("CList", "Alpha", SETTING_ALPHA_DEFAULT);
+	cfg::dat.autoalpha =               cfg::getByte("CList", "AutoAlpha", SETTING_ALPHA_DEFAULT);
+	cfg::dat.fadeinout =               cfg::getByte("CLUI", "FadeInOut", 0);
+	cfg::dat.autosize =                cfg::getByte("CLUI", "AutoSize", 0);
+	cfg::dat.dwExtraImageMask =        cfg::getDword("CLUI", "ximgmask", 0);
+	cfg::dat.bNoOfflineAvatars =       cfg::getByte("CList", "NoOfflineAV", 1);
+	cfg::dat.bFullTransparent =        cfg::getByte("CLUI", "fulltransparent", 0);
+	cfg::dat.bDblClkAvatars =          cfg::getByte("CLC", "dblclkav", 0);
+	cfg::dat.bEqualSections =          cfg::getByte("CLUI", "EqualSections", 0);
+	cfg::dat.bCenterStatusIcons =      cfg::getByte("CLC", "si_centered", 1);
+	cfg::dat.boldHideOffline =         -1;
+	cfg::dat.bSecIMAvail =             ServiceExists("SecureIM/IsContactSecured") ? 1 : 0;
+	cfg::dat.bNoTrayTips =             cfg::getByte("CList", "NoTrayTips", 0);
+	cfg::dat.bShowLocalTime =          cfg::getByte("CLC", "ShowLocalTime", 1);
+	cfg::dat.bShowLocalTimeSelective = cfg::getByte("CLC", "SelectiveLocalTime", 1);
+	cfg::dat.bDontSeparateOffline =    cfg::getByte("CList", "DontSeparateOffline", 0);
+	cfg::dat.bShowXStatusOnSbar =      cfg::getByte("CLUI", "xstatus_sbar", 0);
+	cfg::dat.bLayeredHack =            cfg::getByte("CLUI", "layeredhack", 1);
+	cfg::dat.bFirstRun =               cfg::getByte("CLUI", "firstrun", 1);
+	cfg::dat.langPackCP =              CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+	cfg::dat.realTimeSaving =          cfg::getByte("CLUI", "save_pos_always", 0);
 
 	DWORD sortOrder = cfg::getDword("CList", "SortOrder", SORTBY_NAME);
 	cfg::dat.sortOrder[0] = LOBYTE(LOWORD(sortOrder));

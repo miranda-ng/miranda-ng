@@ -43,8 +43,8 @@ struct NETLIBOPENCONNECTION_tag;
 typedef struct NETLIBOPENCONNECTION_tag NETLIBOPENCONNECTION;
 
 //Initialises the netlib for a set of connections
-//wParam=0
-//lParam=(LPARAM)(NETLIBUSER*)&nu
+//wParam = 0
+//lParam = (LPARAM)(NETLIBUSER*)&nu
 //Returns a HANDLE to be used for future netlib calls, NULL on failure
 //NOTE: Netlib is loaded after any plugins, so you need to wait until
 //      ME_SYSTEM_MODULESLOADED before calling this function
@@ -95,14 +95,14 @@ typedef struct {
 //Assign a Netlib user handle a set of dynamic HTTP headers to be used with all
 //
 //HTTP connections that enable the HTTP-use-sticky headers flag.
-//The headers persist until cleared with lParam=NULL.
+//The headers persist until cleared with lParam = NULL.
 //
 //All memory should be allocated by the caller using malloc() from MS_SYSTEM_GET_MMI
 //Once it has passed to Netlib, Netlib is the owner of it, the caller should not refer to the memory
 //In any way after this point.
 //
-//wParam=(WPARAM)hNetLibUser
-//lParam=(LPARAM)(char*)szHeaders
+//wParam = (WPARAM)hNetLibUser
+//lParam = (LPARAM)(char*)szHeaders
 //
 //NOTE: The szHeaders parameter should be a NULL terminated string following the HTTP header syntax.
 //This string will be injected verbatim, thus the user should be aware of setting strings that are not
@@ -172,8 +172,8 @@ should use the MSG_DUMPPROXY flag so that the logging is neat.
 */
 
 //Gets the user-configured settings for a netlib user
-//wParam=(WPARAM)(HANDLE)hUser
-//lParam=(LPARAM)(NETLIBUSERSETTINGS*)&nlus
+//wParam = (WPARAM)(HANDLE)hUser
+//lParam = (LPARAM)(NETLIBUSERSETTINGS*)&nlus
 //Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //The pointers referred to in the returned struct will remain valid until
 //the hUser handle is closed, or until the user changes the settings in the
@@ -205,8 +205,8 @@ typedef struct {
 #define MS_NETLIB_GETUSERSETTINGS  "Netlib/GetUserSettings"
 
 //Changes the user-configurable settings for a netlib user
-//wParam=(WPARAM)(HANDLE)hUser
-//lParam=(LPARAM)(NETLIBUSERSETTINGS*)&nlus
+//wParam = (WPARAM)(HANDLE)hUser
+//lParam = (LPARAM)(NETLIBUSERSETTINGS*)&nlus
 //Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //This function is only really useful for people that specify NUF_NOOPTIONS
 //and want to create their own options.
@@ -216,8 +216,8 @@ typedef struct {
 #define MS_NETLIB_SETUSERSETTINGS  "Netlib/SetUserSettings"
 
 //Closes a netlib handle
-//wParam=(WPARAM)(HANDLE)hNetlibHandle
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hNetlibHandle
+//lParam = 0
 //Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //This function should be called on all handles returned by netlib functions
 //once you are done with them. If it's called on a socket-type handle, the
@@ -227,8 +227,8 @@ typedef struct {
 __inline static INT_PTR Netlib_CloseHandle(HANDLE h) {return CallService(MS_NETLIB_CLOSEHANDLE, (WPARAM)h, 0);}
 
 //Open a port and wait for connections on it
-//wParam=(WPARAM)(HANDLE)hUser
-//lParam=(LPARAM)(NETLIBBIND*)&nlb
+//wParam = (WPARAM)(HANDLE)hUser
+//lParam = (LPARAM)(NETLIBBIND*)&nlb
 //Returns a HANDLE on success, NULL on failure
 //hUser should have been returned by MS_NETLIB_REGISTERUSER
 //This function does the equivalent of socket(), bind(), getsockname(),
@@ -294,8 +294,8 @@ typedef struct {
 #define MS_NETLIB_BINDPORT     "Netlib/BindPort"
 
 //Open a connection
-//wParam=(WPARAM)(HANDLE)hUser
-//lParam=(LPARAM)(NETLIBOPENCONNECTION*)&nloc
+//wParam = (WPARAM)(HANDLE)hUser
+//lParam = (LPARAM)(NETLIBOPENCONNECTION*)&nloc
 //Returns a HANDLE to the new connection on success, NULL on failure
 //hUser must have been returned by MS_NETLIB_REGISTERUSER
 //Internally this function is the equivalent of socket(), gethostbyname(),
@@ -349,8 +349,8 @@ struct NETLIBOPENCONNECTION_tag {
 #define MS_NETLIB_OPENCONNECTION	"Netlib/OpenConnection"
 
 //Sets the required information for an HTTP proxy connection
-//wParam=(WPARAM)(HANDLE)hConnection
-//lParam=(LPARAM)(NETLIBHTTPPROXYINFO*)&nlhpi
+//wParam = (WPARAM)(HANDLE)hConnection
+//lParam = (LPARAM)(NETLIBHTTPPROXYINFO*)&nlhpi
 //Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //This function is designed to be called from within pfnHttpGatewayInit
 //See notes below MS_NETLIB_REGISTERUSER.
@@ -370,8 +370,8 @@ typedef struct {
 #define MS_NETLIB_SETHTTPPROXYINFO   "Netlib/SetHttpProxyInfo"
 
 //Gets the SOCKET associated with a netlib handle
-//wParam=(WPARAM)(HANDLE)hNetlibHandle
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hNetlibHandle
+//lParam = 0
 //Returns the SOCKET on success, INVALID_SOCKET on failure
 //hNetlibHandle should have been returned by MS_NETLIB_BINDPORT or
 //MS_NETLIB_OPENCONNECTION only.
@@ -381,8 +381,8 @@ typedef struct {
 #define MS_NETLIB_GETSOCKET    "Netlib/GetSocket"
 
 //URL-encode a string for x-www-form-urlencoded (and other) transmission
-//wParam=0
-//lParam=(LPARAM)(const char *)pszString
+//wParam = 0
+//lParam = (LPARAM)(const char *)pszString
 //Returns a char* containing the new string. This must be freed with
 //HeapFree(GetProcessHeap(), 0, pszReturnString) when you're done with it.
 //Returns NULL on error.
@@ -390,8 +390,8 @@ typedef struct {
 #define MS_NETLIB_URLENCODE     "Netlib/UrlEncode"
 
 //Base64 decode a string. See rfc1421.
-//wParam=0
-//lParam=(LPARAM)(NETLIBBASE64*)&nlb64
+//wParam = 0
+//lParam = (LPARAM)(NETLIBBASE64*)&nlb64
 //Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //nlb64.pszEncoded and nlb64.cchEncoded contain the input string and its length
 //(excluding terminating zero).
@@ -410,8 +410,8 @@ typedef struct {
 #define MS_NETLIB_BASE64DECODE   "Netlib/Base64Decode"
 
 //Base64 encode a string. See rfc1421.
-//wParam=0
-//lParam=(LPARAM)(NETLIBBASE64*)&nlb64
+//wParam = 0
+//lParam = (LPARAM)(NETLIBBASE64*)&nlb64
 //Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //nlb64.pbDecoded and nlb64.cbDecoded contain the input buffer and its length
 //nlb64.pszEncoded and nlb64.cchEncoded contain the buffer in which to put the
@@ -427,16 +427,16 @@ typedef struct {
 // Converts string representation of IP and port into numerical SOCKADDR_INET
 // IPv4 could supplied in formats address:port or address
 // IPv6 could supplied in formats [address]:port or [address]
-// wParam=(WPARAM)(char*) string to convert
-// lParam=(LPARAM)(SOCKADDR_INET*) numeric IP address structure
+// wParam = (WPARAM)(char*) string to convert
+// lParam = (LPARAM)(SOCKADDR_INET*) numeric IP address structure
 // Returns 0 on success
 #define MS_NETLIB_STARINGTOADDRESS "Netlib/StringToAddress"
 
 // Converts numerical representation of IP in SOCKADDR_INET into string representation with IP and port
 // IPv4 will be supplied in formats address:port or address
 // IPv6 will be supplied in formats [address]:port or [address]
-// wParam=(WPARAM)(int) 0 - lParam - (sockaddr_gen*); 1 - lParam - (unsigned) in host byte order
-// lParam=(LPARAM)(sockaddr_gen*) or (unsigned) numeric IP address structure
+// wParam = (WPARAM)(int) 0 - lParam - (sockaddr_gen*); 1 - lParam - (unsigned) in host byte order
+// lParam = (LPARAM)(sockaddr_gen*) or (unsigned) numeric IP address structure
 // Returns pointer to the string or NULL if not successful
 #define MS_NETLIB_ADDRESSTOSTRING  "Netlib/AddressToString"
 
@@ -450,8 +450,8 @@ typedef struct {
 // Get connection Information
 // IPv4 will be supplied in formats address:port or address
 // IPv6 will be supplied in formats [address]:port or [address]
-// wParam=(WPARAM)(HANDLE)hConnection
-// lParam=(LPARAM)(NETLIBCONNINFO*) pointer to the connection information structure to fill
+// wParam = (WPARAM)(HANDLE)hConnection
+// lParam = (LPARAM)(NETLIBCONNINFO*) pointer to the connection information structure to fill
 // Returns 0 if successful
 #define MS_NETLIB_GETCONNECTIONINFO  "Netlib/GetConnectionInfo"
 
@@ -461,14 +461,14 @@ typedef struct {
 } NETLIBIPLIST;
 
 // Get connection Information
-// wParam=(WPARAM)IP filter 1 - return global only IPv6 address, 0 all IPs
+// wParam = (WPARAM)IP filter 1 - return global only IPv6 address, 0 all IPs
 // Returns (INT_PTR)(NETLIBIPLIST*) numeric IP address address array
 // the last element of the array is all 0s, 0 if not successful
 #define MS_NETLIB_GETMYIP  "Netlib/GetMyIP"
 
 //Send an HTTP request over a connection
-//wParam=(WPARAM)(HANDLE)hConnection
-//lParam=(LPARAM)(NETLIBHTTPREQUEST*)&nlhr
+//wParam = (WPARAM)(HANDLE)hConnection
+//lParam = (LPARAM)(NETLIBHTTPREQUEST*)&nlhr
 //Returns number of bytes sent on success, SOCKET_ERROR on failure
 //hConnection must have been returned by MS_NETLIB_OPENCONNECTION
 //Note that if you use NLHRF_SMARTAUTHHEADER and NTLM authentication is in use
@@ -525,13 +525,13 @@ struct NETLIBHTTPREQUEST_tag {
 #define MS_NETLIB_SENDHTTPREQUEST   "Netlib/SendHttpRequest"
 
 //Receive HTTP headers
-//wParam=(WPARAM)(HANDLE)hConnection
-//lParam=0
+//wParam = (WPARAM)(HANDLE)hConnection
+//lParam = 0
 //Returns a pointer to a NETLIBHTTPREQUEST structure on success, NULL on
 //failure.
 //Call MS_NETLIB_FREEHTTPREQUESTSTRUCT to free this.
 //hConnection must have been returned by MS_NETLIB_OPENCONNECTION
-//nlhr->pData=NULL and nlhr->dataLength=0 always. The requested data should
+//nlhr->pData = NULL and nlhr->dataLength = 0 always. The requested data should
 //be retrieved using MS_NETLIB_RECV once the header has been parsed.
 //If the headers haven't finished within 60 seconds the function returns NULL
 //and ERROR_TIMEOUT.
@@ -544,8 +544,8 @@ struct NETLIBHTTPREQUEST_tag {
 #define MS_NETLIB_RECVHTTPHEADERS  "Netlib/RecvHttpHeaders"
 
 //Free the memory used by a NETLIBHTTPREQUEST structure
-//wParam=0
-//lParam=(LPARAM)(NETLIBHTTPREQUEST*)pnlhr
+//wParam = 0
+//lParam = (LPARAM)(NETLIBHTTPREQUEST*)pnlhr
 //Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //This should only be called on structures returned by
 //MS_NETLIB_RECVHTTPHEADERS or MS_NETLIB_HTTPTRANSACTION. Calling it on an
@@ -554,8 +554,8 @@ struct NETLIBHTTPREQUEST_tag {
 #define MS_NETLIB_FREEHTTPREQUESTSTRUCT  "Netlib/FreeHttpRequestStruct"
 
 //Do an entire HTTP transaction
-//wParam=(WPARAM)(HANDLE)hUser
-//lParam=(LPARAM)(NETLIBHTTPREQUEST*)&nlhr
+//wParam = (WPARAM)(HANDLE)hUser
+//lParam = (LPARAM)(NETLIBHTTPREQUEST*)&nlhr
 //Returns a pointer to another NETLIBHTTPREQUEST structure on success, NULL on
 //failure.
 //Call MS_NETLIB_FREEHTTPREQUESTSTRUCT to free this.
@@ -572,7 +572,7 @@ struct NETLIBHTTPREQUEST_tag {
 //  "User-Agent"  (of the form "Miranda/0.1.2.2 (alpha)" or "Miranda/0.1.2.2")
 //  "Content-Length" (for POSTs only. Set to nlhr.dataLength)
 //If you do not want to send one of these headers, create a nlhr.headers with
-//szValue=NULL.
+//szValue = NULL.
 //In the return value headers, headerCount, pData, dataLength, resultCode and
 //szResultDescr are all valid.
 //In the return value pData[dataLength] == 0 always, as an extra safeguard
@@ -584,8 +584,8 @@ struct NETLIBHTTPREQUEST_tag {
 #define MS_NETLIB_HTTPTRANSACTION   "Netlib/HttpTransaction"
 
 //Send data over a connection
-//wParam=(WPARAM)(HANDLE)hConnection
-//lParam=(LPARAM)(NETLIBBUFFER*)&nlb
+//wParam = (WPARAM)(HANDLE)hConnection
+//lParam = (LPARAM)(NETLIBBUFFER*)&nlb
 //Returns the number of bytes sent on success, SOCKET_ERROR on failure
 //Errors: ERROR_INVALID_PARAMETER
 //        anything from send(), nlu.pfnHttpGatewayWrapSend()
@@ -606,13 +606,13 @@ typedef struct {
 } NETLIBBUFFER;
 #define MS_NETLIB_SEND	   "Netlib/Send"
 static __inline INT_PTR Netlib_Send(HANDLE hConn, const char *buf, int len, int flags) {
-	NETLIBBUFFER nlb={(char*)buf, len, flags};
+	NETLIBBUFFER nlb = {(char*)buf, len, flags};
 	return CallService(MS_NETLIB_SEND, (WPARAM)hConn, (LPARAM)&nlb);
 }
 
 //Receive data over a connection
-//wParam=(WPARAM)(HANDLE)hConnection
-//lParam=(LPARAM)(NETLIBBUFFER*)&nlb
+//wParam = (WPARAM)(HANDLE)hConnection
+//lParam = (LPARAM)(NETLIBBUFFER*)&nlb
 //Returns the number of bytes read on success, SOCKET_ERROR on failure,
 //0 if the connection has been closed
 //Flags supported: MSG_PEEK, MSG_NODUMP, MSG_DUMPPROXY, MSG_NOHTTPGATEWAYWRAP,
@@ -633,13 +633,13 @@ static __inline INT_PTR Netlib_Send(HANDLE hConn, const char *buf, int len, int 
 //						  MS_NETLIB_SENDHTTPREQUEST
 #define MS_NETLIB_RECV	   "Netlib/Recv"
 static __inline INT_PTR Netlib_Recv(HANDLE hConn, char *buf, int len, int flags) {
-	NETLIBBUFFER nlb={buf, len, flags};
+	NETLIBBUFFER nlb = {buf, len, flags};
 	return CallService(MS_NETLIB_RECV, (WPARAM)hConn, (LPARAM)&nlb);
 }
 
 //Determine the status of one or more connections
-//wParam=0
-//lParam=(LPARAM)(NETLIBSELECT*)&nls
+//wParam = 0
+//lParam = (LPARAM)(NETLIBSELECT*)&nls
 //Returns the number of ready connections, SOCKET_ERROR on failure,
 //0 if the timeout expired.
 //All handles passed to this function must have been returned by either
@@ -672,15 +672,15 @@ typedef struct {
 #define MS_NETLIB_SELECTEX	   "Netlib/SelectEx"
 
 //Shutdown connection
-//wParam=(WPARAM)(HANDLE)hConnection
-//lParam=(LPARAM)0
+//wParam = (WPARAM)(HANDLE)hConnection
+//lParam = (LPARAM)0
 //Returns 0
 #define MS_NETLIB_SHUTDOWN	   "Netlib/Shutdown"
 __inline static void Netlib_Shutdown(HANDLE h) {CallService(MS_NETLIB_SHUTDOWN, (WPARAM)h, 0);}
 
 //Create a packet receiver
-//wParam=(WPARAM)(HANDLE)hConnection
-//lParam=(LPARAM)(int)maxPacketSize
+//wParam = (WPARAM)(HANDLE)hConnection
+//lParam = (LPARAM)(int)maxPacketSize
 //Returns a HANDLE on success, NULL on failure
 //The packet receiver implements the common situation where you have variable
 //length packets coming in over a connection and you want to split them up
@@ -691,8 +691,8 @@ __inline static void Netlib_Shutdown(HANDLE h) {CallService(MS_NETLIB_SHUTDOWN, 
 #define MS_NETLIB_CREATEPACKETRECVER     "Netlib/CreatePacketRecver"
 
 //Get the next set of packets from a packet receiver
-//wParam=(WPARAM)(HANDLE)hPacketRecver
-//lParam=(LPARAM)(NETLIBPACKETRECVER*)&nlpr
+//wParam = (WPARAM)(HANDLE)hPacketRecver
+//lParam = (LPARAM)(NETLIBPACKETRECVER*)&nlpr
 //Returns the total number of bytes available in the buffer, 0 if the
 //connection was closed, SOCKET_ERROR on error.
 //hPacketRecver must have been returned by MS_NETLIB_CREATEPACKETRECVER
@@ -719,8 +719,8 @@ typedef struct {
 #define MS_NETLIB_GETMOREPACKETS    "Netlib/GetMorePackets"
 
 //Add a message to the log (if it's running)
-//wParam=(WPARAM)(HANDLE)hUser
-//lParam=(LPARAM)(const char *)szMessage
+//wParam = (WPARAM)(HANDLE)hUser
+//lParam = (LPARAM)(const char *)szMessage
 //Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //Do not include a final line ending in szMessage.
 //Errors: ERROR_INVALID_PARAMETER
@@ -728,15 +728,15 @@ typedef struct {
 #define MS_NETLIB_LOGW      "Netlib/LogW"
 
 //Sets a gateway polling timeout interval
-//wParam=(WPARAM)(HANDLE)hConn
-//lParam=(LPARAM)timeout
+//wParam = (WPARAM)(HANDLE)hConn
+//lParam = (LPARAM)timeout
 //Returns previous timeout value
 //Errors: -1
 #define MS_NETLIB_SETPOLLINGTIMEOUT "Netlib/SetPollingTimeout"
 
 //Makes connection SSL
-//wParam=(WPARAM)(HANDLE)hConn
-//lParam=(LPARAM)(NETLIBSSL*)&nlssl or null if no certficate validation required
+//wParam = (WPARAM)(HANDLE)hConn
+//lParam = (LPARAM)(NETLIBSSL*)&nlssl or null if no certficate validation required
 //Returns 0 on failure 1 on success
 #define MS_NETLIB_STARTSSL "Netlib/StartSsl"
 

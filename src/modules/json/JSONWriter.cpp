@@ -41,7 +41,7 @@ const static json_string WRITER_EMPTY;
 	   if (amount == 0xFFFFFFFF) return WRITER_EMPTY;
 	   json_string result;
 	   result.reserve(amount);
-	   for(unsigned int i = 0; i < amount; ++i){
+	   for(unsigned int i=0; i < amount; ++i){
 		  result += INDENT;
 	   }
 	   return result;
@@ -75,7 +75,7 @@ json_string internalJSONNode::WriteChildren(unsigned int indent){
     }
     //else it's not formatted, leave the indentation strings empty
     const size_t size_minus_one = Children.size() - 1;
-    size_t i = 0;
+    size_t i=0;
     json_foreach(Children, it){
 	   res += indent_plus_one + (*it) -> internal -> Write(indent, type() == JSON_ARRAY);
 	   if (i < size_minus_one) res += JSON_TEXT(",");  //the last one does not get a comma, but all of the others do

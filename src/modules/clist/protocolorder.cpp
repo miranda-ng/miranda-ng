@@ -64,7 +64,7 @@ bool CheckProtocolOrder(void)
 	for (;;)
     {
         // Find account with this id
-	    for (i = 0; i < accounts.getCount(); i++)
+	    for (i=0; i < accounts.getCount(); i++)
             if (accounts[i]->iOrder == id) break;
 
         // Account with id not found
@@ -72,7 +72,7 @@ bool CheckProtocolOrder(void)
         {
             // Check if this is skipped id, if it is decrement all other ids
             bool found = false;
-	        for (i = 0; i < accounts.getCount(); i++)
+	        for (i=0; i < accounts.getCount(); i++)
             {
                 if (accounts[i]->iOrder < 1000000 && accounts[i]->iOrder > id)
                 {
@@ -90,7 +90,7 @@ bool CheckProtocolOrder(void)
     if (id < accounts.getCount())
     {
         // Remove huge ids
-        for (i = 0; i < accounts.getCount(); i++)
+        for (i=0; i < accounts.getCount(); i++)
         {
             if (accounts[i]->iOrder >= 1000000)
                 accounts[i]->iOrder = id++;
@@ -101,7 +101,7 @@ bool CheckProtocolOrder(void)
     if (id < accounts.getCount())
     {
         // Remove duplicate ids
-        for (i = 0; i < accounts.getCount(); i++)
+        for (i=0; i < accounts.getCount(); i++)
         {
             bool found = false;
             for (int j = 0; j < accounts.getCount(); j++)
@@ -135,7 +135,7 @@ int FillTree(HWND hwnd)
 	if (accounts.getCount() == 0)
 		return FALSE;
 
-	for (i = 0; i < accounts.getCount(); i++) {
+	for (i=0; i < accounts.getCount(); i++) {
 		int idx = cli.pfnGetAccountIndexByPos(i);
 		if (idx == -1)
 			continue;
@@ -173,7 +173,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		TranslateDialogDefault(hwndDlg);
 		dat = (ProtocolOrderData*)mir_calloc(sizeof(ProtocolOrderData));
 		SetWindowLongPtr(hwndProtoOrder, GWLP_USERDATA, (LONG_PTR)dat);
-		dat->dragging=0;
+		dat->dragging = 0;
 
 		SetWindowLongPtr(hwndProtoOrder, GWL_STYLE, GetWindowLongPtr(hwndProtoOrder, GWL_STYLE) | TVS_NOHSCROLL);
 		{
@@ -189,7 +189,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_RESETPROTOCOLDATA && HIWORD(wParam) == BN_CLICKED)
         {
-			for (int i = 0; i < accounts.getCount(); i++)
+			for (int i=0; i < accounts.getCount(); i++)
 				accounts[i]->iOrder = i;
 
 			FillTree(hwndProtoOrder);
@@ -244,16 +244,16 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			case TVN_BEGINDRAGA:
 				SetCapture(hwndDlg);
-				dat->dragging=1;
-				dat->hDragItem=((LPNMTREEVIEW)lParam)->itemNew.hItem;
+				dat->dragging = 1;
+				dat->hDragItem = ((LPNMTREEVIEW)lParam)->itemNew.hItem;
 				TreeView_SelectItem(hwndProtoOrder, dat->hDragItem);
 				break;
 
 			case NM_CLICK:
 				{
 					TVHITTESTINFO hti;
-					hti.pt.x=(short)LOWORD(GetMessagePos());
-					hti.pt.y=(short)HIWORD(GetMessagePos());
+					hti.pt.x = (short)LOWORD(GetMessagePos());
+					hti.pt.y = (short)HIWORD(GetMessagePos());
 					ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
 					if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti)) {
 						if (hti.flags & TVHT_ONITEMICON) {
@@ -276,8 +276,8 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_MOUSEMOVE:
 		if (dat->dragging) {
 			TVHITTESTINFO hti;
-			hti.pt.x=(short)LOWORD(lParam);
-			hti.pt.y=(short)HIWORD(lParam);
+			hti.pt.x = (short)LOWORD(lParam);
+			hti.pt.y = (short)HIWORD(lParam);
 			ClientToScreen(hwndDlg, &hti.pt);
 			ScreenToClient(hwndProtoOrder, &hti.pt);
 			TreeView_HitTest(hwndProtoOrder, &hti);
@@ -333,12 +333,12 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 				//the pointed lParam will be freed inside TVN_DELETEITEM
 				//so lets substitute it with 0
-				lpOldData=(ProtocolData *)tvis.item.lParam;
-				tvis.item.lParam=0;
+				lpOldData = (ProtocolData *)tvis.item.lParam;
+				tvis.item.lParam = 0;
 				TreeView_SetItem(hwndProtoOrder, &tvis.item);
-				tvis.item.lParam=(LPARAM)lpOldData;
+				tvis.item.lParam = (LPARAM)lpOldData;
 
-				//now current item contain lParam=0 we can delete it. the memory will be kept.
+				//now current item contain lParam = 0 we can delete it. the memory will be kept.
 				TreeView_DeleteItem(hwndProtoOrder, dat->hDragItem);
 				tvis.hParent = NULL;
 				tvis.hInsertAfter = hti.hItem;

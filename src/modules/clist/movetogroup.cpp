@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 
 HANDLE hOnCntMenuBuild;
-HGENMENU hMoveToGroupItem=0, hPriorityItem = 0, hFloatingItem = 0;
+HGENMENU hMoveToGroupItem = 0, hPriorityItem = 0, hFloatingItem = 0;
 
 LIST<HANDLE> lphGroupsItems(5);
 
@@ -56,23 +56,23 @@ static TCHAR* PrepareGroupName(TCHAR* str)
 	d = p = (TCHAR*)mir_alloc(sizeof(TCHAR)*(2*_tcslen(str)+1));
 	while (*str) {
 		if (*str == '&')
-			*d++ = '&';
-		*d++ = *str++;
+			*d++='&';
+		*d++=*str++;
 	}
 
-	*d++ = 0;
+	*d++=0;
 	return p;
 }
 
 static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, bool checked)
 {
 	CLISTMENUITEM mi = { 0 };
-	mi.cbSize        = sizeof(mi);
-	mi.hParentMenu   = hRoot;
+	mi.cbSize = sizeof(mi);
+	mi.hParentMenu = hRoot;
 	mi.popupPosition = param; // param to pszService - only with CMIF_CHILDPOPUP !!!!!!
-	mi.position      = pos;
-	mi.ptszName      = PrepareGroupName(name);
-	mi.flags         = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+	mi.position = pos;
+	mi.ptszName = PrepareGroupName(name);
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	if (checked)
 		mi.flags |= CMIF_CHECKED;
 	mi.pszService = MTG_MOVE;
@@ -100,7 +100,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		hMoveToGroupItem = Menu_AddContactMenuItem(&mi);
 	}
 
-	for (i = 0; i < lphGroupsItems.getCount(); i++)
+	for (i=0; i < lphGroupsItems.getCount(); i++)
 		CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)lphGroupsItems[i], 0);
 	lphGroupsItems.destroy();
 
@@ -112,7 +112,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 
 	pos += 100000; // Separator
 
-	for (i = 0; ; ++i) 
+	for (i=0; ; ++i) 
 	{
 		char intname[20];
 		_itoa(i, intname, 10);
@@ -127,7 +127,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		mir_free(dbv.ptszVal);
 	}
 
-	for (i = 0; i < groups.getCount(); ++i)
+	for (i=0; i < groups.getCount(); ++i)
 	{
 		bool checked = szContactGroup && !_tcscmp(szContactGroup, groups[i].name);		
 		AddGroupItem(hMoveToGroupItem, groups[i].name, ++pos, groups[i].position, checked);
@@ -147,7 +147,7 @@ static INT_PTR MTG_DOMOVE(WPARAM wParam, LPARAM lParam)
 
 void MTG_OnmodulesLoad()
 {
-	hOnCntMenuBuild=HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnContactMenuBuild);
+	hOnCntMenuBuild = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnContactMenuBuild);
 	CreateServiceFunction(MTG_MOVE, MTG_DOMOVE);
 }
 

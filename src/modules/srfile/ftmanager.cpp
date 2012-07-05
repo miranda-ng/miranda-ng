@@ -78,7 +78,7 @@ static void LayoutTransfers(HWND hwnd, struct TFtPageData *dat)
 
 		hdwp = BeginDeferWindowPos(dat->wnds->realCount);
 		top -= dat->scrollPos;
-		for (i = 0; i < dat->wnds->realCount; ++i)
+		for (i=0; i < dat->wnds->realCount; ++i)
 		{
 			int height = dat->wnds->items[i]->rc.bottom - dat->wnds->items[i]->rc.top;
 			hdwp = DeferWindowPos(hdwp, dat->wnds->items[i]->hwnd, NULL, 0, top, rc.right, height, SWP_NOZORDER);
@@ -138,7 +138,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	case WM_FT_RESIZE:
 	{
 		int i;
-		for (i = 0; i < dat->wnds->realCount; ++i)
+		for (i=0; i < dat->wnds->realCount; ++i)
 			if (dat->wnds->items[i]->hwnd == (HWND)lParam)
 			{
 				GetWindowRect(dat->wnds->items[i]->hwnd, &dat->wnds->items[i]->rc);
@@ -151,7 +151,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	case WM_FT_REMOVE:
 	{
 		int i;
-		for (i = 0; i < dat->wnds->realCount; ++i)
+		for (i=0; i < dat->wnds->realCount; ++i)
 			if (dat->wnds->items[i]->hwnd == (HWND)lParam)
 			{
 				mir_free(dat->wnds->items[i]);
@@ -165,7 +165,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	case WM_FT_COMPLETED:
 	{ //wParam: { ACKRESULT_SUCCESS | ACKRESULT_FAILED | ACKRESULT_DENIED }
 		dat->runningCount--;
-		int i = 0;
+		int i=0;
 		while (i < dat->wnds->realCount)
 		{
 			// no error when canceling (WM_FT_REMOVE is send first, check if hwnd is still registered)
@@ -187,7 +187,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	case WM_FT_CLEANUP:
 	{
 		int i;
-		for (i = 0; i < dat->wnds->realCount; ++i)
+		for (i=0; i < dat->wnds->realCount; ++i)
 			SendMessage(dat->wnds->items[i]->hwnd, WM_FT_CLEANUP, wParam, lParam);
 		break;
 	}
@@ -205,7 +205,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		{
 			int i, nScrollLines = 0;
 			SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, (void*)&nScrollLines, 0);
-			for (i = 0; i < (nScrollLines + 1) / 2; i++)
+			for (i=0; i < (nScrollLines + 1) / 2; i++)
 				SendMessage(hwnd, WM_VSCROLL, (zDelta < 0) ? SB_LINEDOWN : SB_LINEUP, 0);
 		}
 
@@ -250,7 +250,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	case M_PRESHUTDOWN:
 	{
 		int i;
-		for (i = 0; i < dat->wnds->realCount; ++i)
+		for (i=0; i < dat->wnds->realCount; ++i)
 			PostMessage(dat->wnds->items[i]->hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, BN_CLICKED), 0);
 		break;
 	}
@@ -258,7 +258,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	case WM_DESTROY:
 	{
 		int i;
-		for (i = 0; i < dat->wnds->realCount; ++i)
+		for (i=0; i < dat->wnds->realCount; ++i)
 			mir_free(dat->wnds->items[i]);
 		List_Destroy((SortedList *)dat->wnds);
 		mir_free(dat->wnds);
@@ -270,7 +270,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	{
 		int i;
 		TFtProgressData * prg = (TFtProgressData *)wParam;
-		for (i = 0; i < dat->wnds->realCount; ++i)
+		for (i=0; i < dat->wnds->realCount; ++i)
 		{
 			struct FileDlgData *trdat = (struct FileDlgData *)GetWindowLongPtr(dat->wnds->items[i]->hwnd, GWLP_USERDATA);
 			if (trdat->transferStatus.totalBytes && trdat->fs && !trdat->send && (trdat->transferStatus.totalBytes == trdat->transferStatus.totalProgress))
@@ -327,7 +327,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		// Utils_RestoreWindowPosition(hwnd, NULL, "SRFile", "FtMgrDlg_");
 		SAVEWINDOWPOS swp;
-		swp.hwnd=hwnd; swp.hContact=NULL; swp.szModule="SRFile"; swp.szNamePrefix="FtMgrDlg_";
+		swp.hwnd = hwnd; swp.hContact = NULL; swp.szModule = "SRFile"; swp.szNamePrefix = "FtMgrDlg_";
 		CallService(MS_UTILS_RESTOREWINDOWPOSITION, RWPF_NOACTIVATE, (LPARAM)&swp);
 
 		// Fall through to setup initial placement

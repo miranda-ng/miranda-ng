@@ -105,8 +105,8 @@ PMO_IntMenuItem MO_RecursiveWalkMenu(PMO_IntMenuItem parent, pfnWalkFunc func, v
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-//wparam=0
-//lparam=LPMEASUREITEMSTRUCT
+//wparam = 0
+//lparam = LPMEASUREITEMSTRUCT
 int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis)
 {
 	// prevent win9x from ugly menus displaying when there is no icon
@@ -132,8 +132,8 @@ int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-//wparam=0
-//lparam=LPDRAWITEMSTRUCT
+//wparam = 0
+//lparam = LPDRAWITEMSTRUCT
 int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis)
 {
 	if ( !bIsGenMenuInited)
@@ -188,7 +188,7 @@ int MO_RemoveAllObjects()
 	return 0;
 }
 
-//wparam=MenuObjectHandle
+//wparam = MenuObjectHandle
 INT_PTR MO_RemoveMenuObject(WPARAM wParam, LPARAM)
 {
 	if ( !bIsGenMenuInited)
@@ -204,8 +204,8 @@ INT_PTR MO_RemoveMenuObject(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-//wparam=MenuObjectHandle
-//lparam=vKey
+//wparam = MenuObjectHandle
+//lparam = vKey
 INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey)
 {
 	if ( !bIsGenMenuInited)
@@ -253,8 +253,8 @@ INT_PTR MO_GetProtoRootMenu(WPARAM wParam, LPARAM lParam)
 	return NULL;
 }
 
-//wparam=MenuItemHandle
-//lparam=PMO_MenuItem
+//wparam = MenuItemHandle
+//lparam = PMO_MenuItem
 INT_PTR MO_GetMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	PMO_MenuItem mi = (PMO_MenuItem)lParam;
@@ -323,7 +323,7 @@ int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, PMO_MenuItem pmi)
 			if (hIcon != NULL) {
 				pimi->hIcolibItem = pmi->hIcolibItem;
 				pimi->iconId = ImageList_ReplaceIcon(pimi->parent->m_hMenuIcons, pimi->iconId, hIcon);
-				IconLib_ReleaseIcon(hIcon, 0);
+				IcoLib_ReleaseIcon(hIcon, 0);
 			}
 			else pimi->iconId = -1, pimi->hIcolibItem = NULL;
 		}
@@ -492,9 +492,9 @@ int MO_SetOptionsMenuObject(HANDLE handle, int setting, INT_PTR value)
 	return res;
 }
 
-//wparam=0;
-//lparam=PMenuParam;
-//result=MenuObjectHandle
+//wparam = 0;
+//lparam = PMenuParam;
+//result = MenuObjectHandle
 INT_PTR MO_CreateNewMenuObject(WPARAM, LPARAM lParam)
 {
 	PMenuParam pmp = (PMenuParam)lParam;
@@ -514,8 +514,8 @@ INT_PTR MO_CreateNewMenuObject(WPARAM, LPARAM lParam)
 	return p->id;
 }
 
-//wparam=MenuItemHandle
-//lparam=0
+//wparam = MenuItemHandle
+//lparam = 0
 
 static int FreeMenuItem(TMO_IntMenuItem* pimi, void*)
 {
@@ -593,8 +593,8 @@ static int GetNextObjectMenuItemId()
 	return NextObjectMenuItemId++;
 }
 
-//wparam=MenuObjectHandle
-//lparam=PMO_MenuItem
+//wparam = MenuObjectHandle
+//lparam = PMO_MenuItem
 //return MenuItemHandle
 PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 {
@@ -632,7 +632,7 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 			HICON hIcon = IcoLib_GetIconByHandle(pmi->hIcolibItem, false);
 			p->iconId = ImageList_AddIcon(pmo->m_hMenuIcons, hIcon);
 			p->hIcolibItem = pmi->hIcolibItem;
-			IconLib_ReleaseIcon(hIcon, 0);
+			IcoLib_ReleaseIcon(hIcon, 0);
 		}
 		else {
 			HANDLE hIcolibItem = IcoLib_IsManaged(pmi->hIcon);
@@ -660,8 +660,8 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 	return p;
 }
 
-//wparam=MenuObjectHandle
-//lparam=PMO_MenuItem
+//wparam = MenuObjectHandle
+//lparam = PMO_MenuItem
 
 int FindRoot(PMO_IntMenuItem pimi, void* param)
 {
@@ -728,7 +728,7 @@ static int WhereToPlace(HMENU hMenu, PMO_MenuItem mi)
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = MENUITEMINFO_V4_SIZE;
 	mii.fMask = MIIM_SUBMENU | MIIM_DATA;
-	for (int i=GetMenuItemCount(hMenu)-1; i >= 0; i--) {
+	for (int i = GetMenuItemCount(hMenu)-1; i >= 0; i--) {
 		GetMenuItemInfo(hMenu, i, TRUE, &mii);
 		if (mii.fType != MFT_SEPARATOR) {
 			PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)mii.dwItemData);
@@ -1007,7 +1007,7 @@ static int MO_ReloadIcon(PMO_IntMenuItem pmi, void*)
 		if (newIcon)
 			ImageList_ReplaceIcon(pmi->parent->m_hMenuIcons, pmi->iconId, newIcon);
 
-		IconLib_ReleaseIcon(newIcon, 0);
+		IcoLib_ReleaseIcon(newIcon, 0);
 	}
 
 	return FALSE;
@@ -1074,7 +1074,7 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 		Safe_DestroyIcon(hIcon);
 		if (hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)iconame)) {
 			ImageList_ReplaceIcon(pmi->parent->m_hMenuIcons, pmi->iconId, hIcon);
-			IconLib_ReleaseIcon(hIcon, 0);
+			IcoLib_ReleaseIcon(hIcon, 0);
 		}
 	}
 
@@ -1183,7 +1183,7 @@ int UnitGenMenu()
 	if (bIsGenMenuInited) {
 		{	mir_cslock lck(csMenuHook);
 			MO_RemoveAllObjects();
-			bIsGenMenuInited=false;
+			bIsGenMenuInited = false;
 		}
 
 		DeleteCriticalSection(&csMenuHook);

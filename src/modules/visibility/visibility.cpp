@@ -25,32 +25,32 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount)
 {
 	int typeOfFirst;
-	int iconOn[2]={1, 1};
-	int childCount[2]={0, 0}, i;
+	int iconOn[2] = {1, 1};
+	int childCount[2] = {0, 0}, i;
 	int iImage;
 	HANDLE hItem, hChildItem;
 
-	typeOfFirst=SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
+	typeOfFirst = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
 	//check groups
-	if (typeOfFirst == CLCIT_GROUP) hItem=hFirstItem;
-	else hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
+	if (typeOfFirst == CLCIT_GROUP) hItem = hFirstItem;
+	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
 	while (hItem) {
-		hChildItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+		hChildItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 		if (hChildItem) SetListGroupIcons(hwndList, hChildItem, hItem, childCount);
 		for (i=0; i < SIZEOF(iconOn); i++)
-			if (iconOn[i] && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == 0) iconOn[i]=0;
-		hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
+			if (iconOn[i] && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == 0) iconOn[i] = 0;
+		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
 	//check contacts
-	if (typeOfFirst == CLCIT_CONTACT) hItem=hFirstItem;
-	else hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
+	if (typeOfFirst == CLCIT_CONTACT) hItem = hFirstItem;
+	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while (hItem) {
 		for (i=0; i < SIZEOF(iconOn); i++) {
-			iImage=SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i);
-			if (iconOn[i] && iImage == 0) iconOn[i]=0;
+			iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i);
+			if (iconOn[i] && iImage == 0) iconOn[i] = 0;
 			if (iImage != 0xFF) childCount[i]++;
 		}
-		hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
+		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
 	//set icons
 	for (i=0; i < SIZEOF(iconOn); i++) {
@@ -64,22 +64,22 @@ static void SetAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int 
 	int typeOfFirst, iOldIcon;
 	HANDLE hItem, hChildItem;
 
-	typeOfFirst=SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
+	typeOfFirst = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
 	//check groups
-	if (typeOfFirst == CLCIT_GROUP) hItem=hFirstItem;
-	else hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
+	if (typeOfFirst == CLCIT_GROUP) hItem = hFirstItem;
+	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
 	while (hItem) {
-		hChildItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+		hChildItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 		if (hChildItem) SetAllChildIcons(hwndList, hChildItem, iColumn, iImage);
-		hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
+		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
 	//check contacts
-	if (typeOfFirst == CLCIT_CONTACT) hItem=hFirstItem;
-	else hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
+	if (typeOfFirst == CLCIT_CONTACT) hItem = hFirstItem;
+	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while (hItem) {
-		iOldIcon=SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
+		iOldIcon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
 		if (iOldIcon != 0xFF && iOldIcon != iImage) SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, iImage));
-		hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
+		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
 }
 
@@ -92,7 +92,7 @@ static void ResetListOptions(HWND hwndList)
 	SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
 	SendMessage(hwndList, CLM_SETLEFTMARGIN, 2, 0);
 	SendMessage(hwndList, CLM_SETINDENT, 10, 0);
-	for (i=0;i<=FONTID_MAX;i++)
+	for (i=0;i <= FONTID_MAX;i++)
 		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 	SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList, GWL_STYLE)|CLS_SHOWHIDDEN);
 }
@@ -104,15 +104,15 @@ static void SetAllContactIcons(HWND hwndList)
 	DWORD flags;
 	WORD status;
 
-	hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	do {
-		hItem=(HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem) {
-			szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-			if (szProto == NULL) {flags=0; status=0;}
+			szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			if (szProto == NULL) {flags = 0; status = 0;}
 			else {
-				flags=CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-				status=DBGetContactSettingWord(hContact, szProto, "ApparentMode", 0);
+				flags = CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+				status = DBGetContactSettingWord(hContact, szProto, "ApparentMode", 0);
 			}
 			if (flags&PF1_INVISLIST) {
 				if (SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, 0)) == 0xFF)
@@ -123,7 +123,7 @@ static void SetAllContactIcons(HWND hwndList)
 					SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, status == ID_STATUS_OFFLINE?2:0));
 			}
 		}
-	} while (hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
+	} while (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
 }
 
 static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
@@ -136,25 +136,25 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
 			{	HIMAGELIST hIml;
-				hIml=ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), (IsWinVerXPPlus()?ILC_COLOR32:ILC_COLOR16)|ILC_MASK, 3, 3);
+				hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), (IsWinVerXPPlus()?ILC_COLOR32:ILC_COLOR16)|ILC_MASK, 3, 3);
 				ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_SMALLDOT);
 				ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_STATUS_INVISIBLE);
 				ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_STATUS_OFFLINE);
 				SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
-				hVisibleIcon=ImageList_GetIcon(hIml, 1, ILD_NORMAL);
+				hVisibleIcon = ImageList_GetIcon(hIml, 1, ILD_NORMAL);
 				SendDlgItemMessage(hwndDlg, IDC_VISIBLEICON, STM_SETICON, (WPARAM)hVisibleIcon, 0);
-				hInvisibleIcon=ImageList_GetIcon(hIml, 2, ILD_NORMAL);
+				hInvisibleIcon = ImageList_GetIcon(hIml, 2, ILD_NORMAL);
 				SendDlgItemMessage(hwndDlg, IDC_INVISIBLEICON, STM_SETICON, (WPARAM)hInvisibleIcon, 0);
 			}
 
 			ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
 			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRACOLUMNS, 2, 0);
 
-			{	CLCINFOITEM cii={0};
-				cii.cbSize=sizeof(cii);
-				cii.flags=CLCIIF_GROUPFONT;
-				cii.pszText=TranslateT("** All contacts **");
-				hItemAll=(HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
+			{	CLCINFOITEM cii = {0};
+				cii.cbSize = sizeof(cii);
+				cii.flags = CLCIIF_GROUPFONT;
+				cii.pszText = TranslateT("** All contacts **");
+				hItemAll = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 			}
 
 			SetAllContactIcons(GetDlgItem(hwndDlg, IDC_LIST));
@@ -180,7 +180,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 							break;
 						case NM_CLICK:
 						{	HANDLE hItem;
-							NMCLISTCONTROL *nm=(NMCLISTCONTROL*)lParam;
+							NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
 							DWORD hitFlags;
 							int iImage;
 							int itemType;
@@ -196,10 +196,10 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 							// It was not a visbility icon
 							if ( !(hitFlags & CLCHT_ONITEMEXTRA)) break;
 
-							// Get image in clicked column (0=none, 1=visible, 2=invisible)
+							// Get image in clicked column (0 = none, 1 = visible, 2 = invisible)
 							iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
 							if (iImage == 0)
-								iImage=nm->iColumn + 1;
+								iImage = nm->iColumn + 1;
 							else
 								if (iImage == 1 || iImage == 2)
 									iImage = 0;
@@ -242,22 +242,22 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 						{	HANDLE hContact, hItem;
 							int set, i, iImage;
 
-							hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 							do {
-								hItem=(HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+								hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 								if (hItem) {
-									set=0;
+									set = 0;
 									for (i=0;i<2;i++) {
-										iImage=SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
+										iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
 										if (iImage == i+1) {
 											CallContactService(hContact, PSS_SETAPPARENTMODE, iImage == 1?ID_STATUS_ONLINE:ID_STATUS_OFFLINE, 0);
-											set=1;
+											set = 1;
 											break;
 										}
 									}
 									if ( !set) CallContactService(hContact, PSS_SETAPPARENTMODE, 0, 0);
 								}
-							} while (hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
+							} while (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
 							return TRUE;
 						}
 					}
@@ -267,7 +267,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 		case WM_DESTROY:
 			DestroyIcon(hVisibleIcon);
 			DestroyIcon(hInvisibleIcon);
-			{	HIMAGELIST hIml=(HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
+			{	HIMAGELIST hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
 				ImageList_Destroy(hIml);
 			}
 			break;
