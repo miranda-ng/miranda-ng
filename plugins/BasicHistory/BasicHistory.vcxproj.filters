@@ -21,126 +21,126 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ReadMe.txt" />
-    <None Include="Docs\BasicHistory_licence.txt">
+    <None Include="docs\ReadMe.txt" />
+    <None Include="docs\BasicHistory_licence.txt">
       <Filter>Resource Files\Docs</Filter>
     </None>
-    <None Include="Docs\BasicHistory_readme.txt">
+    <None Include="docs\BasicHistory_readme.txt">
       <Filter>Resource Files\Docs</Filter>
     </None>
-    <None Include="Docs\BasicHistory_langpack_polish.txt">
+    <None Include="docs\BasicHistory_langpack_polish.txt">
       <Filter>Resource Files\Docs</Filter>
     </None>
-    <None Include="Docs\BasicHistory_translate.txt">
+    <None Include="docs\BasicHistory_translate.txt">
       <Filter>Resource Files\Docs</Filter>
     </None>
-    <None Include="history.css">
+    <None Include="res\history.css">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="history.js">
+    <None Include="res\history.js">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="src\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HistoryWindow.h">
+    <ClInclude Include="src\HistoryWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Options.h">
+    <ClInclude Include="src\Options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HotkeyHelper.h">
+    <ClInclude Include="src\HotkeyHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Searcher.h">
+    <ClInclude Include="src\Searcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SearchContext.h">
+    <ClInclude Include="src\SearchContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ImageDataObject.h">
+    <ClInclude Include="src\ImageDataObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IExport.h">
+    <ClInclude Include="src\IExport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TxtExport.h">
+    <ClInclude Include="src\TxtExport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EventList.h">
+    <ClInclude Include="src\EventList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlainHtmlExport.h">
+    <ClInclude Include="src\PlainHtmlExport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RichHtmlExport.h">
+    <ClInclude Include="src\RichHtmlExport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="codecvt_CodePage.h">
+    <ClInclude Include="src\codecvt_CodePage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BinaryExport.h">
+    <ClInclude Include="src\BinaryExport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IImport.h">
+    <ClInclude Include="src\IImport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExportManager.h">
+    <ClInclude Include="src\ExportManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DatExport.h">
+    <ClInclude Include="src\DatExport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BasicHistory.cpp">
+    <ClCompile Include="src\BasicHistory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="src\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HistoryWindow.cpp">
+    <ClCompile Include="src\HistoryWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Options.cpp">
+    <ClCompile Include="src\Options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HotkeyHelper.cpp">
+    <ClCompile Include="src\HotkeyHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Searcher.cpp">
+    <ClCompile Include="src\Searcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ImageDataObject.cpp">
+    <ClCompile Include="src\ImageDataObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TxtExport.cpp">
+    <ClCompile Include="src\TxtExport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EventList.cpp">
+    <ClCompile Include="src\EventList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlainHtmlExport.cpp">
+    <ClCompile Include="src\PlainHtmlExport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RichHtmlExport.cpp">
+    <ClCompile Include="src\RichHtmlExport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scheduler.cpp">
+    <ClCompile Include="src\Scheduler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="zip\zip.c">
@@ -152,24 +152,24 @@
     <ClCompile Include="zip\ioapi.c">
       <Filter>Source Files\zip</Filter>
     </ClCompile>
-    <ClCompile Include="BinaryExport.cpp">
+    <ClCompile Include="src\BinaryExport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="zip\unzip.c">
       <Filter>Source Files\zip</Filter>
     </ClCompile>
-    <ClCompile Include="ExportManager.cpp">
+    <ClCompile Include="src\ExportManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DatExport.cpp">
+    <ClCompile Include="src\DatExport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="BasicHistory.rc">
+    <ResourceCompile Include="res\BasicHistory.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

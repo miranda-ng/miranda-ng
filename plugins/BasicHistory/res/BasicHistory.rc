@@ -1,4 +1,4 @@
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -244,19 +244,19 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_INM                 ICON                    "icons\\Incom.ico"
-IDI_OUTM                ICON                    "icons\\Outg.ico"
-IDI_SHOW                ICON                    "icons\\plus.ico"
-IDI_HIDE                ICON                    "icons\\minus.ico"
-IDI_FINDNEXT            ICON                    "icons\\FindNext.ico"
-IDI_FINDPREV            ICON                    "icons\\FindPrev.ico"
+IDI_INM                 ICON                    "Incom.ico"
+IDI_OUTM                ICON                    "Outg.ico"
+IDI_SHOW                ICON                    "plus.ico"
+IDI_HIDE                ICON                    "minus.ico"
+IDI_FINDNEXT            ICON                    "FindNext.ico"
+IDI_FINDPREV            ICON                    "FindPrev.ico"
 
-IDI_STATUS              ICON                    "icons\\Status change.ico"
+IDI_STATUS              ICON                    "Status change.ico"
 
 IDR_CSS					CUSTOMRES				"history.css"
 IDR_JS					CUSTOMRES				"history.js"
-IDI_PLUSEX				ICON					"icons\\pnode.ico"
-IDI_MINUSEX				ICON					"icons\\mnode.ico"
+IDI_PLUSEX				ICON					"pnode.ico"
+IDI_MINUSEX				ICON					"mnode.ico"
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////

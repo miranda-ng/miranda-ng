@@ -165,55 +165,55 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="Docs\BasicHistory_langpack_polish.txt" />
-    <None Include="Docs\BasicHistory_licence.txt" />
-    <None Include="Docs\BasicHistory_readme.txt" />
-    <None Include="Docs\BasicHistory_translate.txt" />
-    <None Include="history.css" />
-    <None Include="history.js" />
-    <None Include="ReadMe.txt" />
+    <None Include="docs\BasicHistory_langpack_polish.txt" />
+    <None Include="docs\BasicHistory_licence.txt" />
+    <None Include="docs\BasicHistory_readme.txt" />
+    <None Include="docs\BasicHistory_translate.txt" />
+    <None Include="res\history.css" />
+    <None Include="res\history.js" />
+    <None Include="docs\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BinaryExport.h" />
-    <ClInclude Include="codecvt_CodePage.h" />
-    <ClInclude Include="DatExport.h" />
-    <ClInclude Include="EventList.h" />
-    <ClInclude Include="ExportManager.h" />
-    <ClInclude Include="HistoryWindow.h" />
-    <ClInclude Include="HotkeyHelper.h" />
-    <ClInclude Include="IExport.h" />
-    <ClInclude Include="IImport.h" />
-    <ClInclude Include="ImageDataObject.h" />
-    <ClInclude Include="Options.h" />
-    <ClInclude Include="PlainHtmlExport.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="RichHtmlExport.h" />
-    <ClInclude Include="SearchContext.h" />
-    <ClInclude Include="Searcher.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="TxtExport.h" />
-    <ClInclude Include="version.h" />
+    <ClInclude Include="src\BinaryExport.h" />
+    <ClInclude Include="src\codecvt_CodePage.h" />
+    <ClInclude Include="src\DatExport.h" />
+    <ClInclude Include="src\EventList.h" />
+    <ClInclude Include="src\ExportManager.h" />
+    <ClInclude Include="src\HistoryWindow.h" />
+    <ClInclude Include="src\HotkeyHelper.h" />
+    <ClInclude Include="src\IExport.h" />
+    <ClInclude Include="src\IImport.h" />
+    <ClInclude Include="src\ImageDataObject.h" />
+    <ClInclude Include="src\Options.h" />
+    <ClInclude Include="src\PlainHtmlExport.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\RichHtmlExport.h" />
+    <ClInclude Include="src\SearchContext.h" />
+    <ClInclude Include="src\Searcher.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\targetver.h" />
+    <ClInclude Include="src\TxtExport.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BasicHistory.cpp" />
-    <ClCompile Include="BinaryExport.cpp" />
-    <ClCompile Include="DatExport.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="EventList.cpp" />
-    <ClCompile Include="ExportManager.cpp" />
-    <ClCompile Include="HistoryWindow.cpp" />
-    <ClCompile Include="HotkeyHelper.cpp" />
-    <ClCompile Include="ImageDataObject.cpp" />
-    <ClCompile Include="Options.cpp" />
-    <ClCompile Include="PlainHtmlExport.cpp" />
-    <ClCompile Include="RichHtmlExport.cpp" />
-    <ClCompile Include="Scheduler.cpp" />
-    <ClCompile Include="Searcher.cpp" />
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="src\BasicHistory.cpp" />
+    <ClCompile Include="src\BinaryExport.cpp" />
+    <ClCompile Include="src\DatExport.cpp" />
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\EventList.cpp" />
+    <ClCompile Include="src\ExportManager.cpp" />
+    <ClCompile Include="src\HistoryWindow.cpp" />
+    <ClCompile Include="src\HotkeyHelper.cpp" />
+    <ClCompile Include="src\ImageDataObject.cpp" />
+    <ClCompile Include="src\Options.cpp" />
+    <ClCompile Include="src\PlainHtmlExport.cpp" />
+    <ClCompile Include="src\RichHtmlExport.cpp" />
+    <ClCompile Include="src\Scheduler.cpp" />
+    <ClCompile Include="src\Searcher.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TxtExport.cpp" />
+    <ClCompile Include="src\TxtExport.cpp" />
     <ClCompile Include="zip\ioapi.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -228,8 +228,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="BasicHistory.rc" />
-    <ResourceCompile Include="version.rc" />
+    <ResourceCompile Include="res\BasicHistory.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
