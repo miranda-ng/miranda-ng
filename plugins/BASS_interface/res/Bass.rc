@@ -2,7 +2,7 @@
 //
 #include <windows.h>
 #include <commctrl.h>
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -28,8 +28,8 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_BASSSoundOnOffUp		ICON           "res/BASSSoundOnOffUp.ico"
-IDI_BASSSoundOnOffDown		ICON           "res/BASSSoundOnOffDown.ico"
+IDI_BASSSoundOnOffUp		ICON           "BASSSoundOnOffUp.ico"
+IDI_BASSSoundOnOffDown		ICON           "BASSSoundOnOffDown.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -78,7 +78,7 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\src\resource.h\0"
 END
 
 2 TEXTINCLUDE 
