@@ -20,9 +20,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "Options.h"
 #include "ExportManager.h"
 #include "HistoryWindow.h"
-#include "zip\zip.h"
-#include "zip\unzip.h"
-#include "zip\iowin32.h"
+#include "..\zip\zip.h"
+#include "..\zip\unzip.h"
+#include "..\zip\iowin32.h"
 
 // Sorry for plain C implementation
 #define MODULE				"BasicHistory"
