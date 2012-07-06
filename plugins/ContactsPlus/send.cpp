@@ -120,7 +120,7 @@ void TSendContactsData::AddContact(HANDLE hContact) {
 
 
 int TSendContactsData::SendContactsPacket(HWND hwndDlg, HANDLE *phContacts, int nContacts) {
-  HANDLE hProcc = (HANDLE)SRCCallContactService(hContact, PSS_CONTACTS, MAKEWPARAM(0, nContacts), (LPARAM)phContacts);
+  HANDLE hProcc = (HANDLE)CallContactService(hContact, PSS_CONTACTS, MAKEWPARAM(0, nContacts), (LPARAM)phContacts);
   if (!hProcc)
   { // on trivial error - do not close dialog
     ShowErrorDlg(hwndDlg, "Contacts transfer failed!", FALSE);
@@ -140,7 +140,7 @@ int TSendContactsData::SendContactsPacket(HWND hwndDlg, HANDLE *phContacts, int 
 
 int TSendContactsData::SendContacts(HWND hwndDlg) {
   char* szProto = GetContactProto(hContact);
-  int nMaxContacts = SRCCallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, (LPARAM)hContact);
+  int nMaxContacts = CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, (LPARAM)hContact);
 
   if (!nMaxContacts) {
     ShowErrorDlg(hwndDlg, "The selected contact does not support receiving contacts.", FALSE);
@@ -354,7 +354,7 @@ INT_PTR CALLBACK SendDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
           for (int i=0; i<wndData->uacklist.Count; i++)
           {
             TAckData* lla = gaAckData.Remove(wndData->uacklist.Items[i]);
-            HANDLE hProcc = (HANDLE)SRCCallContactService(wndData->hContact, PSS_CONTACTS, MAKEWPARAM(0, lla->nContacts), (LPARAM)lla->aContacts);
+            HANDLE hProcc = (HANDLE)CallContactService(wndData->hContact, PSS_CONTACTS, MAKEWPARAM(0, lla->nContacts), (LPARAM)lla->aContacts);
 
             if (!hProcc) // if fatal do not include
             {

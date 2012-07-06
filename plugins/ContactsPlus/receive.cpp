@@ -138,12 +138,12 @@ static HANDLE CreateTemporaryContactForItem(HWND hwndDlg, TRecvContactsData* wnd
 {
   char* caUIN = ListView_GetItemTextEx(GetDlgItem(hwndDlg, IDC_CONTACTS), iItem, 0);
   char* szProto = GetContactProto(wndData->mhContact);
-  wndData->rhSearch = (HANDLE)SRCCallProtoService(szProto, PS_BASICSEARCH, 0, (LPARAM)caUIN); // find it
+  wndData->rhSearch = (HANDLE)CallProtoService(szProto, PS_BASICSEARCH, 0, (LPARAM)caUIN); // find it
   SAFE_FREE((void**)&wndData->haUin);
   wndData->haUin = caUIN;
   for (int j = 0; j < wndData->cbReceived; j++)
     if (!strcmpnull(wndData->maReceived[j]->mcaUIN, caUIN))
-      return (HANDLE)SRCCallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(PALF_TEMPORARY, j), (LPARAM)wndData->mhDbEvent);
+      return (HANDLE)CallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(PALF_TEMPORARY, j), (LPARAM)wndData->mhDbEvent);
   return NULL;
 }
 
@@ -198,7 +198,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
       HWND hLV = GetDlgItem(hwndDlg, IDC_CONTACTS);
       ListView_SetExtendedListViewStyle(hLV, LVS_EX_CHECKBOXES|LVS_EX_FULLROWSELECT);
       // add columns
-      RecvListView_AddColumn(hLV, 120, (char*)SRCCallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0), FALSE, 0);
+      RecvListView_AddColumn(hLV, 120, (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0), FALSE, 0);
       RecvListView_AddColumn(hLV, 100, "Nick", TRUE, 1);
       RecvListView_AddColumn(hLV, 100, "First Name", TRUE, 2);
       RecvListView_AddColumn(hLV, 100, "Last Name", TRUE, 3);
@@ -333,7 +333,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
                 if (!strcmpnull(wndData->maReceived[j]->mcaUIN, caUIN))
                 {
                   char* szProto = GetContactProto(wndData->mhContact);
-                  HANDLE hContact = (HANDLE)SRCCallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(0, j), (LPARAM)wndData->mhDbEvent);
+                  HANDLE hContact = (HANDLE)CallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(0, j), (LPARAM)wndData->mhDbEvent);
                   if (hContact && caGroup)
                   { // use newest group API if available
                     if (ServiceExists(MS_CLIST_CONTACTCHANGEGROUP))

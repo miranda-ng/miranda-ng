@@ -136,7 +136,7 @@ static bool CheckContactsServiceSupport(const char* szProto)
 {
   if (g_NewProtoAPI)
   { // there is no way to determine if the service exists (only proto_interface call is supported by 0.8+)
-    if (SRCCallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_CONTACTSEND)
+    if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_CONTACTSEND)
       return true;
   }
   else
@@ -161,7 +161,7 @@ static int HookPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
   if (szProto && CheckContactsServiceSupport(szProto))
   { // known protocol, protocol supports contacts sending
     // check the selected contact if it supports contacts receive
-    if (SRCCallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, (LPARAM)hContact))
+    if (CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, (LPARAM)hContact))
       bVisible = TRUE;
   }
 

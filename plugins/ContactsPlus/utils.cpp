@@ -23,33 +23,6 @@
 
 #include "contacts.h"
 
-int SRCCallProtoService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
-{
-	if (!g_NewProtoAPI)
-	{
-		char str[MAXMODULELABELLENGTH];
-		strcpy(str,szModule);
-		strcat(str,szService);
-		return CallService(str,wParam,lParam);
-	}
-	return CallProtoService(szModule, szService, wParam, lParam);
-}
-
-int SRCCallContactService(HANDLE hContact, const char *szProtoService, WPARAM wParam, LPARAM lParam)
-{
-	if (!g_NewProtoAPI)
-	{
-		CCSDATA ccs;
-		ccs.hContact=hContact;
-		ccs.szProtoService=szProtoService;
-		ccs.wParam=wParam;
-		ccs.lParam=lParam;
-		return CallService(MS_PROTO_CALLCONTACTSERVICE,0,(LPARAM)&ccs);
-	}
-
-	return CallContactService(hContact, szProtoService, wParam, lParam);
-}
-
 int utf8_decode(const unsigned char *from, char **to);
 
 /* a strlennull() that likes NULL */
@@ -107,7 +80,7 @@ char *GetContactUID(HANDLE hContact, int bTchar)
   char *szUid = NULL;
 
   char *szProto = GetContactProto(hContact);
-  char *uid = (char*)SRCCallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0); // v0.3+ only
+  char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0); // v0.3+ only
 
   if (((int)uid != CALLSERVICE_NOTFOUND) && uid)
   { // it worked, yeah :)
@@ -302,7 +275,7 @@ HICON LoadContactProtoIcon(HANDLE hContact)
 {
   char* szProto = GetContactProto(hContact);
   if (szProto)
-    return (HICON)SRCCallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
+    return (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
   return NULL;
 }
 

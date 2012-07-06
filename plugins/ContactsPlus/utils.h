@@ -27,10 +27,6 @@
 
 extern HINSTANCE hInst;
 
-// Compatibility functions
-int SRCCallProtoService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
-int SRCCallContactService(HANDLE hContact, const char *szProtoService, WPARAM wParam, LPARAM lParam);
-
 // utils.cpp
 void __fastcall SAFE_FREE(void** p);
 size_t __fastcall strlennull(const char *string);
