@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AVS", "..\plugins\AVS\avs_10.vcxproj", "{7711F563-6473-4ABD-B5E3-477CE8384AD6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chat", "..\plugins\Chat\chat_10.vcxproj", "{268BD296-8DD3-4715-A386-CF120398EC98}"
@@ -258,6 +258,14 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stduserinfo", "..\src\core\stduserinfo\stduserinfo_10.vcxproj", "{1C856B14-54CD-4D07-B18B-5F7DB073AB51}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mir_core", "..\src\mir_core\mir_core_10.vcxproj", "{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdauth", "..\src\core\stdauth\stdauth_10.vcxproj", "{86E0715E-C769-11E1-A41D-6CED6188709B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdemail", "..\src\core\stdemail\stdemail_10.vcxproj", "{A5B558C6-C767-11E1-A335-F6EB6188709B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdfile", "..\src\core\stdfile\stdfile_10.vcxproj", "{6022990D-3FD5-46A9-8AB5-E444C51646F3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdurl", "..\src\core\stdurl\stdurl_10.vcxproj", "{769FAC86-C761-11E1-A66F-0BE76188709B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1286,6 +1294,30 @@ Global
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}.Release|Win32.Build.0 = Release|Win32
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}.Release|x64.ActiveCfg = Release|x64
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}.Release|x64.Build.0 = Release|x64
+		{86E0715E-C769-11E1-A41D-6CED6188709B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{86E0715E-C769-11E1-A41D-6CED6188709B}.Debug|Win32.Build.0 = Debug|Win32
+		{86E0715E-C769-11E1-A41D-6CED6188709B}.Debug|x64.ActiveCfg = Debug|Win32
+		{86E0715E-C769-11E1-A41D-6CED6188709B}.Release|Win32.ActiveCfg = Release|Win32
+		{86E0715E-C769-11E1-A41D-6CED6188709B}.Release|Win32.Build.0 = Release|Win32
+		{86E0715E-C769-11E1-A41D-6CED6188709B}.Release|x64.ActiveCfg = Release|Win32
+		{A5B558C6-C767-11E1-A335-F6EB6188709B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A5B558C6-C767-11E1-A335-F6EB6188709B}.Debug|Win32.Build.0 = Debug|Win32
+		{A5B558C6-C767-11E1-A335-F6EB6188709B}.Debug|x64.ActiveCfg = Debug|Win32
+		{A5B558C6-C767-11E1-A335-F6EB6188709B}.Release|Win32.ActiveCfg = Release|Win32
+		{A5B558C6-C767-11E1-A335-F6EB6188709B}.Release|Win32.Build.0 = Release|Win32
+		{A5B558C6-C767-11E1-A335-F6EB6188709B}.Release|x64.ActiveCfg = Release|Win32
+		{6022990D-3FD5-46A9-8AB5-E444C51646F3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6022990D-3FD5-46A9-8AB5-E444C51646F3}.Debug|Win32.Build.0 = Debug|Win32
+		{6022990D-3FD5-46A9-8AB5-E444C51646F3}.Debug|x64.ActiveCfg = Debug|Win32
+		{6022990D-3FD5-46A9-8AB5-E444C51646F3}.Release|Win32.ActiveCfg = Release|Win32
+		{6022990D-3FD5-46A9-8AB5-E444C51646F3}.Release|Win32.Build.0 = Release|Win32
+		{6022990D-3FD5-46A9-8AB5-E444C51646F3}.Release|x64.ActiveCfg = Release|Win32
+		{769FAC86-C761-11E1-A66F-0BE76188709B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{769FAC86-C761-11E1-A66F-0BE76188709B}.Debug|Win32.Build.0 = Debug|Win32
+		{769FAC86-C761-11E1-A66F-0BE76188709B}.Debug|x64.ActiveCfg = Debug|Win32
+		{769FAC86-C761-11E1-A66F-0BE76188709B}.Release|Win32.ActiveCfg = Release|Win32
+		{769FAC86-C761-11E1-A66F-0BE76188709B}.Release|Win32.Build.0 = Release|Win32
+		{769FAC86-C761-11E1-A66F-0BE76188709B}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
