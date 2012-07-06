@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern "C" 
 {
-	MIR_CORE_DLL(int) Langpack_GetPluginHandle(PLUGININFOEX* pInfo);
 	MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo);
 };
 

@@ -48,7 +48,7 @@
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Mir_core</ProjectName>
+    <ProjectName>mir_core</ProjectName>
     <ProjectGuid>{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

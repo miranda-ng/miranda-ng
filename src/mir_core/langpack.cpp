@@ -527,15 +527,6 @@ MIR_CORE_DLL(MUUID*) Langpack_LookupUuid(WPARAM wParam)
 	return (idx > 0 && idx <= lMuuids.getCount()) ? lMuuids[ idx-1 ] : NULL;
 }
 
-MIR_CORE_DLL(int) Langpack_GetPluginHandle(PLUGININFOEX* pInfo)
-{
-	int idx = lMuuids.getIndex(&pInfo->uuid);
-	if (idx == -1)
-		return 0;
-
-	return (idx+1) << 16;
-}
-
 MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo)
 {
 	int idx = lMuuids.getIndex(&pInfo->uuid);

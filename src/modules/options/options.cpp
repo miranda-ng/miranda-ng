@@ -40,8 +40,6 @@ static int FilterPage = 0;
 static int FilterLoadProgress = 100;
 static int FilterTimerId = 0;
 
-char* GetPluginNameByInstance(HINSTANCE hInstance);
-
 struct OptionsPageInit
 {
 	int pageCount;

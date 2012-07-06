@@ -167,7 +167,7 @@ static int LoadPluginDynamically(PluginListItemData* dat)
 	pluginEntry* pPlug = OpenPlugin(dat->fileName, _T("Plugins"), exe);
 	if (pPlug->pclass & PCLASS_FAILED) {
 LBL_Error:
-		Plugin_Uninit(pPlug, true);
+		Plugin_UnloadDyn(pPlug);
 		return FALSE;
 	}
 

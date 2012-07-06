@@ -57,7 +57,7 @@ void* _RelativeVirtualAddresstoPtr(IMAGE_DOS_HEADER* pDosHeader, DWORD rva)
 		IMAGE_SECTION_HEADER* cSection = &pSection[i];
 		DWORD size = cSection->Misc.VirtualSize ? cSection->Misc.VirtualSize : cSection->SizeOfRawData;
 
-		if (rva >= cSection->VirtualAddress && rva <  cSection->VirtualAddress + size)
+		if (rva >= cSection->VirtualAddress && rva < cSection->VirtualAddress + size)
 			return (LPBYTE)pDosHeader + cSection->PointerToRawData + (rva - cSection->VirtualAddress);
 	}
 

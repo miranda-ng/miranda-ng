@@ -43,7 +43,9 @@ static INT_PTR srvTranslateMenu(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR srvRegisterLP(WPARAM wParam, LPARAM lParam)
 {
-	*(int*)wParam = Langpack_MarkPluginLoaded((PLUGININFOEX*)lParam);
+	PLUGININFOEX* ppi = (PLUGININFOEX*)lParam;
+	if (wParam && ppi)
+		*( int* )wParam = GetPluginFakeId(ppi->uuid, Langpack_MarkPluginLoaded(ppi));
 	return 0;
 }
 

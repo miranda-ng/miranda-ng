@@ -128,6 +128,11 @@ void KillModuleSounds(int hLangpack);
 extern HINSTANCE hInst;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent, hevLoadModule, hevUnloadModule;
 
+/**** newplugins.cpp *******************************************************************/
+
+char* GetPluginNameByInstance(HINSTANCE hInstance);
+int   GetPluginFakeId(const MUUID &uuid, int hLangpack);
+
 /**** utf.cpp **************************************************************************/
 
 __forceinline char* Utf8DecodeA(const char* src)
@@ -247,6 +252,5 @@ public:
 
 extern "C"
 {
-	MIR_CORE_DLL(int) Langpack_GetPluginHandle(PLUGININFOEX* pInfo);
 	MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo);
 };

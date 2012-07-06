@@ -68,7 +68,7 @@ static BOOL bModuleInitialized = FALSE;
 
 TCHAR  mirandabootini[MAX_PATH];
 static DWORD mirandaVersion;
-static int serviceModeIdx = -1;
+static int serviceModeIdx = -1, sttFakeID = -100;
 static HANDLE hPluginListHeap = NULL;
 static int askAboutIgnoredPlugins;
 
@@ -81,18 +81,8 @@ void UninitIni(void);
 
 int LoadDatabaseModule(void);
 
-char* GetPluginNameByInstance(HINSTANCE hInstance)
-{
-	if (pluginList.getCount() == 0) 
-		return NULL;
-
-	for (int i=0; i <  pluginList.getCount(); i++) {
-		pluginEntry* pe = pluginList[i];
-		if (pe->bpi.pluginInfo && pe->bpi.hInst == hInstance)
-			return pe->bpi.pluginInfo->shortName;
-	}
-	return NULL;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// basic functions
 
 int equalUUID(const MUUID& u1, const MUUID& u2)
 {
@@ -118,6 +108,37 @@ int getDefaultPluginIdx(const MUUID& muuid)
 
 	return -1;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// global functions
+
+char* GetPluginNameByInstance(HINSTANCE hInstance)
+{
+	if (pluginList.getCount() == 0) 
+		return NULL;
+
+	for (int i=0; i < pluginList.getCount(); i++) {
+		pluginEntry* p = pluginList[i];
+		if (p->bpi.pluginInfo && p->bpi.hInst == hInstance)
+			return p->bpi.pluginInfo->shortName;
+	}
+	return NULL;
+}
+
+int GetPluginFakeId(const MUUID &uuid, int hLangpack)
+{
+	for (int i=0; i < pluginList.getCount(); i++) {
+		pluginEntry* p = pluginList[i];
+		if ( !p->bpi.hInst)
+			continue;
+
+		if ( equalUUID(p->bpi.pluginInfo->uuid, uuid))
+			return p->hLangpack = (hLangpack) ? hLangpack : --sttFakeID;
+	}
+			
+	return 0;
+}
+
 
 MUUID miid_last = MIID_LAST;
 MUUID miid_chat = MIID_CHAT;
@@ -264,11 +285,8 @@ LBL_Ok:
 }
 
 // perform any API related tasks to freeing
-void Plugin_Uninit(pluginEntry* p, bool bDynamic)
+void Plugin_Uninit(pluginEntry* p)
 {
-	if (bDynamic && p->bpi.hInst)
-		CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0);
-
 	// if it was an installed database plugin, call its unload
 	if (p->pclass & PCLASS_DB)
 		p->bpi.dblink->Unload(p->pclass & PCLASS_OK);
@@ -283,24 +301,6 @@ void Plugin_Uninit(pluginEntry* p, bool bDynamic)
 		KillModuleEventHooks(p->bpi.hInst);
 		KillModuleServices(p->bpi.hInst);
 
-		if (bDynamic) {
-			int hLangpack = Langpack_GetPluginHandle(p->bpi.pluginInfo);
-			if (hLangpack != 0) {
-				KillModuleMenus(hLangpack);
-				KillModuleFonts(hLangpack);
-				KillModuleColours(hLangpack);
-				KillModuleEffects(hLangpack);
-				KillModuleIcons(hLangpack);
-				KillModuleHotkeys(hLangpack);
-				KillModuleSounds(hLangpack);
-			}
-			
-			// release default plugin
-			for (int i=0; i < SIZEOF(pluginDefault); i++)
-				if (pluginDefault[i].pImpl == p)
-					pluginDefault[i].pImpl = NULL;
-		}
-
 		FreeLibrary(p->bpi.hInst);
 		ZeroMemory(&p->bpi, sizeof(p->bpi));
 	}
@@ -310,15 +310,33 @@ void Plugin_Uninit(pluginEntry* p, bool bDynamic)
 
 int Plugin_UnloadDyn(pluginEntry* p)
 {
-	if (CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
-		return FALSE;
+	if (p->bpi.hInst) {
+		if (CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
+			return FALSE;
 
-	NotifyEventHooks(hevUnloadModule, (WPARAM)p->bpi.InfoEx, (LPARAM)p->bpi.hInst);
+		NotifyEventHooks(hevUnloadModule, (WPARAM)p->bpi.InfoEx, (LPARAM)p->bpi.hInst);
 
-	CallPluginEventHook(p->bpi.hInst, hPreShutdownEvent, 0, 0);
-	CallPluginEventHook(p->bpi.hInst, hShutdownEvent, 0, 0);
+		CallPluginEventHook(p->bpi.hInst, hPreShutdownEvent, 0, 0);
+		CallPluginEventHook(p->bpi.hInst, hShutdownEvent, 0, 0);
+	}
 
-	Plugin_Uninit(p, true);
+	int hLangpack = p->hLangpack;
+	if (hLangpack != 0) {
+		KillModuleMenus(hLangpack);
+		KillModuleFonts(hLangpack);
+		KillModuleColours(hLangpack);
+		KillModuleEffects(hLangpack);
+		KillModuleIcons(hLangpack);
+		KillModuleHotkeys(hLangpack);
+		KillModuleSounds(hLangpack);
+	}
+			
+	// release default plugin
+	for (int i=0; i < SIZEOF(pluginDefault); i++)
+		if (pluginDefault[i].pImpl == p)
+			pluginDefault[i].pImpl = NULL;
+
+	Plugin_Uninit(p);
 	return TRUE;
 }
 
@@ -578,7 +596,7 @@ bool LoadCorePlugin(MuuidReplacement& mr)
 	pluginEntry* pPlug = OpenPlugin(tszPlugName, _T("Core"), exe);
 	if (pPlug->pclass & PCLASS_FAILED) {
 LBL_Error:
-		Plugin_Uninit(pPlug, true);
+		Plugin_UnloadDyn(pPlug);
 		return FALSE;
 	}
 
