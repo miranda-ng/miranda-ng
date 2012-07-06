@@ -34,15 +34,16 @@ struct BASIC_PLUGIN_INFO
 	DATABASELINK * dblink;		 // only valid during module being in memory
 };
 
-#define PCLASS_FAILED	 0x1  	// not a valid plugin, or API is invalid, pluginname is valid
-#define PCLASS_BASICAPI  0x2  	// has Load, Unload, MirandaPluginInfo() -> PLUGININFO seems valid, this dll is in memory.
-#define PCLASS_DB	 	 0x4    // has DatabasePluginInfo() and is valid as can be, and PCLASS_BASICAPI has to be set too
-#define PCLASS_LAST		 0x8    // this plugin should be unloaded after everything else
-#define PCLASS_OK		 0x10   // plugin should be loaded, if DB means nothing
-#define PCLASS_LOADED	 0x20   // Load(void) has been called, Unload() should be called.
-#define PCLASS_STOPPED   0x40 	// wasn't loaded cos plugin name not on white list
-#define PCLASS_CLIST 	 0x80   // a CList implementation
-#define PCLASS_SERVICE 	 0x100  // has Service Mode implementation
+#define PCLASS_FAILED     0x1   // not a valid plugin, or API is invalid, pluginname is valid
+#define PCLASS_BASICAPI   0x2   // has Load, Unload, MirandaPluginInfo() -> PLUGININFO seems valid, this dll is in memory.
+#define PCLASS_DB         0x4   // has DatabasePluginInfo() and is valid as can be, and PCLASS_BASICAPI has to be set too
+#define PCLASS_LAST       0x8   // this plugin should be unloaded after everything else
+#define PCLASS_OK        0x10   // plugin should be loaded, if DB means nothing
+#define PCLASS_LOADED    0x20   // Load(void) has been called, Unload() should be called.
+#define PCLASS_STOPPED   0x40   // wasn't loaded cos plugin name not on white list
+#define PCLASS_CLIST     0x80   // a CList implementation
+#define PCLASS_SERVICE  0x100   // has Service Mode implementation
+#define PCLASS_CORE     0x200   // a plugin from the /Core directory
 
 struct pluginEntry
 {
@@ -70,7 +71,7 @@ int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int ch
 
 pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path);
 
-bool TryLoadPlugin(pluginEntry *p, TCHAR *dir, bool bDynamic);
+bool TryLoadPlugin(pluginEntry *p, bool bDynamic);
 void Plugin_Uninit(pluginEntry* p);
 int  Plugin_UnloadDyn(pluginEntry* p);
 

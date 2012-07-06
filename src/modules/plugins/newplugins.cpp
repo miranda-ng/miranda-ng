@@ -13,12 +13,12 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
 #include "plugins.h"
@@ -34,8 +34,8 @@ LIST<pluginEntry> pluginList(10, sttComparePluginsByName);
 #define MAX_MIR_VER ULONG_MAX
 
 struct PluginUUIDList {
-    MUUID uuid;
-    DWORD maxVersion;
+	MUUID uuid;
+	DWORD maxVersion;
 }
 static const pluginBannedList[] = 
 {
@@ -176,9 +176,9 @@ static int isPluginBanned(MUUID u1, DWORD dwVersion)
 }
 
 // returns true if the API exports were good, otherwise, passed in data is returned
-#define CHECKAPI_NONE 	 0
-#define CHECKAPI_DB 	 1
-#define CHECKAPI_CLIST   2
+#define CHECKAPI_NONE  0
+#define CHECKAPI_DB    1
+#define CHECKAPI_CLIST 2
 
 /*
  * historyeditor added by nightwish - plugin is problematic and can ruin database as it does not understand UTF-8 message
@@ -213,7 +213,7 @@ static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 	if ( !validInterfaceList(bpi->Interfaces) || isPluginBanned(pi->uuid, pi->version))
 		return FALSE;
 
-	if (pi->shortName == NULL || pi->description == NULL || pi->author == NULL  ||
+	if (pi->shortName == NULL || pi->description == NULL || pi->author == NULL ||
 		  pi->authorEmail == NULL || pi->copyright == NULL || pi->homepage == NULL)
 		return FALSE;
 
@@ -332,9 +332,10 @@ int Plugin_UnloadDyn(pluginEntry* p)
 	}
 			
 	// release default plugin
-	for (int i=0; i < SIZEOF(pluginDefault); i++)
-		if (pluginDefault[i].pImpl == p)
-			pluginDefault[i].pImpl = NULL;
+	if ( !(p->pclass & PCLASS_CORE))
+		for (int i=0; i < SIZEOF(pluginDefault); i++)
+			if (pluginDefault[i].pImpl == p)
+				LoadCorePlugin( pluginDefault[i] );
 
 	Plugin_Uninit(p);
 	return TRUE;
@@ -529,12 +530,13 @@ int isPluginOnWhiteList(const TCHAR* pluginname)
 	return rc == 0;
 }
 
-bool TryLoadPlugin(pluginEntry *p, TCHAR* dir, bool bDynamic)
+bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 {
 	TCHAR exe[MAX_PATH];
 	GetModuleFileName(NULL, exe, SIZEOF(exe));
 	TCHAR* slice = _tcsrchr(exe, '\\');
-	if (slice) *slice = 0;
+	if (slice)
+		*slice = 0;
 
 	CharLower(p->pluginname);
 	if ( !(p->pclass & (PCLASS_LOADED | PCLASS_DB | PCLASS_CLIST))) {
@@ -542,40 +544,40 @@ bool TryLoadPlugin(pluginEntry *p, TCHAR* dir, bool bDynamic)
 			return false;
 
 		BASIC_PLUGIN_INFO bpi;
-		mir_sntprintf(slice, &exe[SIZEOF(exe)] - slice, _T("\\%s\\%s"), dir, p->pluginname);
-		if ( !checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_NONE))
+		mir_sntprintf(slice, &exe[SIZEOF(exe)] - slice, _T("\\%s\\%s"), (p->pclass & PCLASS_CORE) ? _T("Core") : _T("Plugins"), p->pluginname);
+		if ( !checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 			p->pclass |= PCLASS_FAILED;
-		else {
-			p->bpi = bpi;
-			p->pclass |= PCLASS_OK | PCLASS_BASICAPI;
+			return false;
+		}
+		
+		p->bpi = bpi;
+		p->pclass |= PCLASS_OK | PCLASS_BASICAPI;
 
-			if (p->bpi.Interfaces) {
-				MUUID *piface = bpi.Interfaces();
-				for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
-					int idx = getDefaultPluginIdx( piface[i] );
-					if (idx != -1 && pluginDefault[idx].pImpl) {
-						if ( !bDynamic) {
-							SetPluginOnWhiteList(p->pluginname, 0);
-							return false;
-						}
+		if (p->bpi.Interfaces) {
+			MUUID *piface = bpi.Interfaces();
+			for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
+				int idx = getDefaultPluginIdx( piface[i] );
+				if (idx != -1 && pluginDefault[idx].pImpl) {
+					if ( !bDynamic) {
+						SetPluginOnWhiteList(p->pluginname, 0);
+						return false;
+					}
+					if ( !(p->pclass & PCLASS_CORE)) {
 						Plugin_UnloadDyn(pluginDefault[idx].pImpl);
 						pluginDefault[idx].pImpl = NULL;
-					}
-				}
-			}
+		}	}	}	}
 
-			RegisterModule(p->bpi.hInst);
-			if (bpi.Load() != 0)
-				return false;
+		RegisterModule(p->bpi.hInst);
+		if (bpi.Load() != 0)
+			return false;
 
-			p->pclass |= PCLASS_LOADED;
-			if (p->bpi.Interfaces) {
-				MUUID *piface = bpi.Interfaces();
-				for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
-					int idx = getDefaultPluginIdx( piface[i] );
-					if (idx != -1)
-						pluginDefault[idx].pImpl = p;
-				}
+		p->pclass |= PCLASS_LOADED;
+		if (p->bpi.Interfaces) {
+			MUUID *piface = bpi.Interfaces();
+			for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
+				int idx = getDefaultPluginIdx( piface[i] );
+				if (idx != -1)
+					pluginDefault[idx].pImpl = p;
 			}
 		}
 	}
@@ -597,10 +599,13 @@ bool LoadCorePlugin(MuuidReplacement& mr)
 	if (pPlug->pclass & PCLASS_FAILED) {
 LBL_Error:
 		Plugin_UnloadDyn(pPlug);
+		mr.pImpl = NULL;
 		return FALSE;
 	}
 
-	if ( !TryLoadPlugin(pPlug, _T("Core"), true))
+	pPlug->pclass |= PCLASS_CORE;
+
+	if ( !TryLoadPlugin(pPlug, true))
 		goto LBL_Error;
 
 	if (CallPluginEventHook(pPlug->bpi.hInst, hModulesLoadedEvent, 0, 0) != 0)
@@ -740,13 +745,12 @@ int LoadNewPluginsModule(void)
 	askAboutIgnoredPlugins = (UINT) GetPrivateProfileInt(_T("PluginLoader"), _T("AskAboutIgnoredPlugins"), 0, mirandabootini);
 
 	// if Crash Dumper is present, load it to provide Crash Reports
-	if (pluginList_crshdmp != NULL && isPluginOnWhiteList(pluginList_crshdmp->pluginname))
-    {
+	if (pluginList_crshdmp != NULL && isPluginOnWhiteList(pluginList_crshdmp->pluginname)) {
 		if (pluginList_crshdmp->bpi.Load() == 0)
 			pluginList_crshdmp->pclass |= PCLASS_LOADED | PCLASS_LAST;
 		else
 			Plugin_Uninit(pluginList_crshdmp);
-    }
+	}
 
 	// if freeimage is present, load it to provide the basic core functions
 	if (pluginList_freeimg != NULL) {
@@ -784,7 +788,7 @@ int LoadNewPluginsModule(void)
 
 	for (i=0; i < pluginList.getCount(); i++) {
 		p = pluginList[i];
-		if ( !TryLoadPlugin(p, _T("Plugins"), false)) {
+		if ( !TryLoadPlugin(p, false)) {
 			Plugin_Uninit(p);
 			i--;
 		}
@@ -844,7 +848,7 @@ void UnloadNewPluginsModule(void)
 			Plugin_Uninit(p);
 	}
 
-    if (pluginList_crshdmp)
+	if (pluginList_crshdmp)
 		Plugin_Uninit(pluginList_crshdmp);
 
 	// unload the DB

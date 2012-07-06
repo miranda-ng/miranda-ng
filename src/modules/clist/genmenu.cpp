@@ -555,21 +555,38 @@ INT_PTR MO_RemoveMenuItem(WPARAM wParam, LPARAM)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int KillMenuItems(PMO_IntMenuItem pimi, void* param)
+struct KillMenuItemsParam
 {
-	if (pimi->hLangpack == (int)param)
-		MO_RemoveMenuItem((WPARAM)pimi, 0);
+	KillMenuItemsParam(int _hLangpack) :
+		hLangpack(_hLangpack),
+		arItems(10)
+		{}
+
+	int hLangpack;
+	LIST<TMO_IntMenuItem> arItems;
+};
+
+int KillMenuItems(PMO_IntMenuItem pimi, KillMenuItemsParam* param)
+{
+	if (pimi->hLangpack == param->hLangpack)
+		param->arItems.insert(pimi);
 	return FALSE;
 }
 
 void KillModuleMenus(int hLangpack)
 {
-	if (bIsGenMenuInited) {
-		mir_cslock lck(csMenuHook);
+	if (!bIsGenMenuInited)
+		return;
 
-		for (int i=0; i < g_menus.getCount(); i++)
-			MO_RecursiveWalkMenu(g_menus[i]->m_items.first, KillMenuItems, (void*)hLangpack);
-	}
+	KillMenuItemsParam param(hLangpack);
+
+	mir_cslock lck(csMenuHook);
+	for (int i=0; i < g_menus.getCount(); i++)
+		MO_RecursiveWalkMenu(g_menus[i]->m_items.first, (pfnWalkFunc)KillMenuItems, &param);
+
+	for (int k=0; k < param.arItems.getCount(); k++)
+		MO_RemoveMenuItem((WPARAM)param.arItems[k], 0);
+	param.arItems.destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

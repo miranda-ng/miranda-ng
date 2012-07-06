@@ -171,7 +171,7 @@ LBL_Error:
 		return FALSE;
 	}
 
-	if ( !TryLoadPlugin(pPlug, _T("Plugins"), true))
+	if ( !TryLoadPlugin(pPlug, true))
 		goto LBL_Error;
 
 	if (CallPluginEventHook(pPlug->bpi.hInst, hModulesLoadedEvent, 0, 0) != 0)

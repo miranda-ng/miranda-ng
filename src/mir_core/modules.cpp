@@ -157,7 +157,7 @@ MIR_CORE_DLL(int) SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnH
 MIR_CORE_DLL(int) CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 {
 	THook* p = (THook*)hEvent;
-	if (p == NULL)
+	if (p == NULL || hInst == NULL)
 		return -1;
 
 	mir_cslock lck(p->csHook);
