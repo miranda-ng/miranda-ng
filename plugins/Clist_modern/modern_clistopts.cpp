@@ -35,7 +35,7 @@ static INT_PTR CALLBACK DlgProcItemContactTimeOpts(HWND hwndDlg, UINT msg, WPARA
 static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static UINT expertOnlyControls[]={IDC_ALWAYSSTATUS};
+static UINT expertOnlyControls[] = {IDC_ALWAYSSTATUS};
 
 struct
 { 
@@ -43,7 +43,7 @@ struct
 	int id;					// Dialog id
 	DLGPROC wnd_proc;		// Dialog function
 }
-static row_opt_items[] =
+static row_opt_items[]  = 
 { 
 	{ LPGEN("Row"), IDD_OPT_ITEM_ROW, DlgProcItemRowOpts },
 #ifdef _DEBUG
@@ -71,7 +71,7 @@ int CListOptInit(WPARAM wParam,LPARAM lParam)
 	odp.flags = ODPF_BOLDGROUPS;
 	{
 		BOOL hasExtraIconsService = ServiceExists("ExtraIcon/Register");
-		for (int i=0; i < SIZEOF(row_opt_items); i++) {
+		for (int i = 0; i < SIZEOF(row_opt_items); i++) {
 			if (hasExtraIconsService && row_opt_items[i].id == IDD_OPT_ITEM_EXTRAICONS)
 				continue;
 
@@ -123,7 +123,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			{
 				char tmp[128];
 				int type;
-				int pos=0;
+				int pos = 0;
 
 				mir_snprintf(tmp, SIZEOF(tmp), "RowPos%d", i);
 				type = db_get_w(NULL, "CList", tmp, i);
@@ -184,14 +184,14 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		}
 	case WM_COMMAND:
 		{
-			if (LOWORD(wParam)==IDC_UP)
+			if (LOWORD(wParam) == IDC_UP)
 			{
 				if (HIWORD(wParam) == BN_CLICKED)
 				{
 					HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST_ORDER);
 					int pos = SendMessage(hwndList, LB_GETCURSEL, 0, 0);
 
-					if (pos != LB_ERR)
+					if (pos !=LB_ERR)
 					{
 						int type = SendMessage(hwndList, LB_GETITEMDATA, pos, 0);
 
@@ -236,14 +236,14 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				else return 0;
 			}
 
-			if (LOWORD(wParam)==IDC_DOWN)
+			if (LOWORD(wParam) == IDC_DOWN)
 			{
 				if (HIWORD(wParam) == BN_CLICKED)
 				{
 					HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST_ORDER);
 					int pos = SendMessage(hwndList, LB_GETCURSEL, 0, 0);
 
-					if (pos != LB_ERR)
+					if (pos !=LB_ERR)
 					{
 						int type = SendMessage(hwndList, LB_GETITEMDATA, pos, 0);
 
@@ -288,17 +288,17 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				else return 0;
 			}
 
-			if (LOWORD(wParam)==IDC_LIST_ORDER || LOWORD(wParam)==IDC_UP || LOWORD(wParam)==IDC_DOWN)
+			if (LOWORD(wParam) == IDC_LIST_ORDER || LOWORD(wParam) == IDC_UP || LOWORD(wParam) == IDC_DOWN)
 			{
 				int pos = SendMessage(GetDlgItem(hwndDlg, IDC_LIST_ORDER), LB_GETCURSEL, 0, 0);
 
-				EnableWindow(GetDlgItem(hwndDlg,IDC_UP),pos != LB_ERR && pos > 0);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_DOWN),pos != LB_ERR && pos < 4);
+				EnableWindow(GetDlgItem(hwndDlg,IDC_UP),pos !=LB_ERR && pos > 0);
+				EnableWindow(GetDlgItem(hwndDlg,IDC_DOWN),pos !=LB_ERR && pos < 4);
 			}
 
-			if (LOWORD(wParam)==IDC_LIST_ORDER) return 0;
-			if (LOWORD(wParam)==IDC_MIN_ROW_HEIGHT && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
-			if ((LOWORD(wParam)==IDC_LEFTMARGIN || LOWORD(wParam)==IDC_RIGHTMARGIN || LOWORD(wParam)==IDC_ROW_BORDER) && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
+			if (LOWORD(wParam) == IDC_LIST_ORDER) return 0;
+			if (LOWORD(wParam) == IDC_MIN_ROW_HEIGHT && HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap
+			if ((LOWORD(wParam) == IDC_LEFTMARGIN || LOWORD(wParam) == IDC_RIGHTMARGIN || LOWORD(wParam) == IDC_ROW_BORDER) && HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap
 
 			SendMessage((GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			break;
@@ -455,7 +455,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 		}
 	case WM_COMMAND:
 		{
-			if (LOWORD(wParam)==IDC_SHOW_AVATARS)
+			if (LOWORD(wParam) == IDC_SHOW_AVATARS)
 			{
 				BOOL enabled = IsDlgButtonChecked(hwndDlg,IDC_SHOW_AVATARS);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_DRAW_BORDER),enabled);
@@ -475,7 +475,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_SIZE_PIXELS3),enabled);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_ANIAVATARS),enabled && (ServiceExists(MS_AV_GETAVATARBITMAP)&&!g_CluiData.fGDIPlusFail));
 
-				//				if (DBGetContactSettingByte(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT)==1)
+				//				if (DBGetContactSettingByte(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT) == 1)
 				//				{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_WIDTH),enabled);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_WIDTH_SPIN),enabled);
@@ -490,19 +490,19 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				//					EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_SIZE_PIXELS),FALSE);
 				//				}
 			}
-			else if (LOWORD(wParam)==IDC_SHOW_ANIAVATARS)
+			else if (LOWORD(wParam) == IDC_SHOW_ANIAVATARS)
 			{
 				EnableWindow( GetDlgItem( hwndDlg, IDC_AVATAR_FASTDRAW), IsDlgButtonChecked( hwndDlg, IDC_SHOW_ANIAVATARS ));
 			}
 
-			else if (LOWORD(wParam)==IDC_AVATAR_DRAW_BORDER)
+			else if (LOWORD(wParam) == IDC_AVATAR_DRAW_BORDER)
 			{
 				BOOL enabled = IsDlgButtonChecked(hwndDlg,IDC_SHOW_AVATARS) && IsDlgButtonChecked(hwndDlg,IDC_AVATAR_DRAW_BORDER);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_BORDER_COLOR_L),enabled);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_BORDER_COLOR),enabled);
 			}
 
-			else if (LOWORD(wParam)==IDC_AVATAR_ROUND_CORNERS)
+			else if (LOWORD(wParam) == IDC_AVATAR_ROUND_CORNERS)
 			{
 				BOOL enabled = IsDlgButtonChecked(hwndDlg,IDC_SHOW_AVATARS) && IsDlgButtonChecked(hwndDlg,IDC_AVATAR_ROUND_CORNERS);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK),enabled);
@@ -510,14 +510,14 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN),enabled);
 			}
 
-			else if (LOWORD(wParam)==IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK)
+			else if (LOWORD(wParam) == IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK)
 			{
 				BOOL enabled = IsDlgButtonChecked(hwndDlg,IDC_AVATAR_ROUND_CORNERS);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK),enabled);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE),enabled&&IsDlgButtonChecked(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN),enabled&&IsDlgButtonChecked(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK));
 			}
-			else if(LOWORD(wParam)==IDC_AVATAR_OVERLAY_ICONS) 
+			else if (LOWORD(wParam) == IDC_AVATAR_OVERLAY_ICONS) 
 			{
 				BOOL enabled = IsDlgButtonChecked(hwndDlg,IDC_SHOW_AVATARS) && IsDlgButtonChecked(hwndDlg,IDC_AVATAR_OVERLAY_ICONS);
 
@@ -525,8 +525,8 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_PROTOCOL),enabled);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_CONTACT),enabled);
 			}
-			else if (LOWORD(wParam)==IDC_AVATAR_SIZE && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
-			else if (LOWORD(wParam)==IDC_AVATAR_CUSTOM_CORNER_SIZE && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
+			else if (LOWORD(wParam) == IDC_AVATAR_SIZE && HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap
+			else if (LOWORD(wParam) == IDC_AVATAR_CUSTOM_CORNER_SIZE && HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap
 
 			SendMessage((GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			break;
@@ -608,12 +608,12 @@ static INT_PTR CALLBACK DlgProcItemIconOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 		}
 	case WM_COMMAND:
 		{
-			if (LOWORD(wParam)==IDC_HIDE_ICON_ON_AVATAR)
+			if (LOWORD(wParam) == IDC_HIDE_ICON_ON_AVATAR)
 			{
 				BOOL enabled = IsDlgButtonChecked(hwndDlg,IDC_HIDE_ICON_ON_AVATAR);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_DRAW_ON_AVATAR_SPACE),enabled);
 			}
-			else if (LOWORD(wParam)==IDC_USEXSTATUS)
+			else if (LOWORD(wParam) == IDC_USEXSTATUS)
 				EnableWindow(GetDlgItem(hwndDlg,IDC_DRAWSTATUSOVERLAY),IsDlgButtonChecked(hwndDlg,IDC_USEXSTATUS));
 
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -637,8 +637,8 @@ static INT_PTR CALLBACK DlgProcItemIconOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 							db_set_b(NULL,"CList","AlwaysShowAlwaysVisIcon", (BYTE)IsDlgButtonChecked(hwndDlg,IDC_ALWAYS_VISIBLEICON));
 						
 							{
-								BYTE ovr=IsDlgButtonChecked(hwndDlg,IDC_USEXSTATUS)?1:0;
-								if (ovr) ovr+=IsDlgButtonChecked(hwndDlg,IDC_DRAWSTATUSOVERLAY)?2:0;
+								BYTE ovr = IsDlgButtonChecked(hwndDlg,IDC_USEXSTATUS)?1:0;
+								if (ovr) ovr += IsDlgButtonChecked(hwndDlg,IDC_DRAWSTATUSOVERLAY)?2:0;
 								db_set_b(NULL,"CLC","DrawOverlayedStatus", ovr );
 							}
 							ClcOptionsChanged();
@@ -711,9 +711,9 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 			//TODO: init IDC_ALIGNGROUPCOMBO from DBGetContactSettingByte(NULL,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT);
 			{
 				int i, item;
-				TCHAR *align[]={_T("Left align group names"), _T("Center group names"), _T("Right align group names")};
-				for (i=0; i<sizeof(align)/sizeof(char*); i++) 
-					item=SendDlgItemMessage(hwndDlg,IDC_ALIGNGROUPCOMBO,CB_ADDSTRING,0,(LPARAM)TranslateTS(align[i]));
+				TCHAR *align[] = {_T("Left align group names"), _T("Center group names"), _T("Right align group names")};
+				for (i = 0; i < sizeof(align)/sizeof(char*); i++) 
+					item = SendDlgItemMessage(hwndDlg,IDC_ALIGNGROUPCOMBO,CB_ADDSTRING,0,(LPARAM)TranslateTS(align[i]));
 				SendDlgItemMessage(hwndDlg,IDC_ALIGNGROUPCOMBO,CB_SETCURSEL,db_get_b(NULL,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT),0);
 			}
 			CheckDlgButton(hwndDlg, IDC_ALIGN_RIGHT, db_get_b(NULL,"CList","TextAlignToRight",SETTING_TEXT_RIGHTALIGN_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
@@ -726,7 +726,7 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 			CheckDlgButton(hwndDlg, IDC_APPEND_NICK, db_get_b(NULL,"CList","FirstLineAppendNick",SETTING_FIRSTLINE_APPENDNICK_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 			CheckDlgButton(hwndDlg, IDC_TRIM_TEXT, db_get_b(NULL,"CList","TrimText",SETTING_FIRSTLINE_TRIMTEXT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 
-			bool smileAddPresent = ServiceExists(MS_SMILEYADD_BATCHPARSE) != 0; 
+			bool smileAddPresent = ServiceExists(MS_SMILEYADD_BATCHPARSE) !=0; 
 			CLUI_ShowWindowMod(GetDlgItem(hwndDlg,IDC_REPLACE_SMILEYS), smileAddPresent ? SW_SHOW : SW_HIDE);
 			CLUI_ShowWindowMod(GetDlgItem(hwndDlg,IDC_USE_PROTOCOL_SMILEYS), smileAddPresent ? SW_SHOW : SW_HIDE);
 			//CLUI_ShowWindowMod(GetDlgItem(hwndDlg,IDC_RESIZE_SMILEYS), smileAddPresent ? SW_SHOW : SW_HIDE);
@@ -742,13 +742,13 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 		}
 	case WM_COMMAND:
 		{
-			if (LOWORD(wParam)==IDC_REPLACE_SMILEYS)
+			if (LOWORD(wParam) == IDC_REPLACE_SMILEYS)
 			{
 				BOOL enabled = IsDlgButtonChecked(hwndDlg,IDC_REPLACE_SMILEYS);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_USE_PROTOCOL_SMILEYS),enabled);
 				//EnableWindow(GetDlgItem(hwndDlg,IDC_RESIZE_SMILEYS),enabled); //Commented out for listening to icon
 			}      
-			if (LOWORD(wParam)!=IDC_ALIGNGROUPCOMBO || (LOWORD(wParam)==IDC_ALIGNGROUPCOMBO && HIWORD(wParam)==CBN_SELCHANGE))
+			if (LOWORD(wParam) != IDC_ALIGNGROUPCOMBO || (LOWORD(wParam) == IDC_ALIGNGROUPCOMBO && HIWORD(wParam) == CBN_SELCHANGE))
 				SendMessage((GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			break;
 		}
@@ -805,7 +805,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 			CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS, db_get_b(NULL,"CList","SecondLineDrawSmileys",SETTING_SECONDLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 
 			{
-				DBVARIANT dbv={0};
+				DBVARIANT dbv = {0};
 
 				if (!DBGetContactSettingTString(NULL, "CList","SecondLineText", &dbv))
 				{
@@ -877,8 +877,8 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 		}
 	case WM_COMMAND:
 		{
-			if (LOWORD(wParam)==IDC_TEXT || LOWORD(wParam)==IDC_STATUS || LOWORD(wParam)==IDC_NICKNAME || LOWORD(wParam)==IDC_STATUS_MESSAGE
-				|| LOWORD(wParam)==IDC_LISTENING_TO || LOWORD(wParam)==IDC_CONTACT_TIME)
+			if (LOWORD(wParam) == IDC_TEXT || LOWORD(wParam) == IDC_STATUS || LOWORD(wParam) == IDC_NICKNAME || LOWORD(wParam) == IDC_STATUS_MESSAGE
+				|| LOWORD(wParam) == IDC_LISTENING_TO || LOWORD(wParam) == IDC_CONTACT_TIME)
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), IsDlgButtonChecked(hwndDlg,IDC_TEXT) 
 					&& IsDlgButtonChecked(hwndDlg,IDC_SHOW));
@@ -895,7 +895,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 					(IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
 					|| IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 			}
-			else if (LOWORD(wParam)==IDC_SHOW)
+			else if (LOWORD(wParam) == IDC_SHOW)
 			{
 				BOOL enabled = IsDlgButtonChecked(hwndDlg,IDC_SHOW);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_USE_PROTOCOL_SMILEYS),enabled);
@@ -923,7 +923,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 					|| IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));			
 			}
 
-			if (LOWORD(wParam)==IDC_TOP_SPACE && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
+			if (LOWORD(wParam) == IDC_TOP_SPACE && HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap
 
 			SendMessage((GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			break;
@@ -1002,7 +1002,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 			CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS, db_get_b(NULL,"CList","ThirdLineDrawSmileys",SETTING_THIRDLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 
 			{
-				DBVARIANT dbv={0};
+				DBVARIANT dbv = {0};
 
 				if (!DBGetContactSettingTString(NULL, "CList","ThirdLineText", &dbv))
 				{
@@ -1074,8 +1074,8 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 		}
 	case WM_COMMAND:
 		{
-			if (LOWORD(wParam)==IDC_TEXT || LOWORD(wParam)==IDC_STATUS || LOWORD(wParam)==IDC_NICKNAME || LOWORD(wParam)==IDC_STATUS_MESSAGE
-				|| LOWORD(wParam)==IDC_LISTENING_TO || LOWORD(wParam)==IDC_CONTACT_TIME)
+			if (LOWORD(wParam) == IDC_TEXT || LOWORD(wParam) == IDC_STATUS || LOWORD(wParam) == IDC_NICKNAME || LOWORD(wParam) == IDC_STATUS_MESSAGE
+				|| LOWORD(wParam) == IDC_LISTENING_TO || LOWORD(wParam) == IDC_CONTACT_TIME)
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), IsDlgButtonChecked(hwndDlg,IDC_TEXT) 
 					&& IsDlgButtonChecked(hwndDlg,IDC_SHOW));
@@ -1088,7 +1088,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && (IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));																	
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && (IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));																	
 			}
-			else if (LOWORD(wParam)==IDC_SHOW)
+			else if (LOWORD(wParam) == IDC_SHOW)
 			{
 				BOOL enabled = IsDlgButtonChecked(hwndDlg,IDC_SHOW);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_USE_PROTOCOL_SMILEYS),enabled);
@@ -1116,7 +1116,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), enabled && IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE));
 			}
 
-			if (LOWORD(wParam)==IDC_TOP_SPACE && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
+			if (LOWORD(wParam) == IDC_TOP_SPACE && HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap
 
 			SendMessage((GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			break;
@@ -1188,7 +1188,7 @@ typedef struct _OrderTreeData
     BOOL    fReserved;
 } *pOrderTreeData, TOrderTreeData;
 
-static TOrderTreeData OrderTreeData[]=
+static TOrderTreeData OrderTreeData[] = 
 {
 	{EXTRA_ICON_VISMODE, _T("Visibility/Chat activity"), EXTRA_ICON_VISMODE,  "EXTRA_ICON_VISMODE", SETTING_EXTRA_ICON_VISMODE_DEFAULT,0},
 	{EXTRA_ICON_EMAIL, _T("E-mail"), EXTRA_ICON_EMAIL, "EXTRA_ICON_EMAIL", SETTING_EXTRA_ICON_EMAIL_DEFAULT, 0},
@@ -1206,30 +1206,30 @@ static TOrderTreeData OrderTreeData[]=
 /*
 int ReserveExtraSlot(WPARAM wParam,LPARAM lParam)
 {      
-    int iLastFree=-1;
-    EXTRASLOTINFO * pESINFO=(EXTRASLOTINFO *)wParam;
-    if (pESINFO->iSlot==0)
+    int iLastFree = -1;
+    EXTRASLOTINFO * pESINFO = (EXTRASLOTINFO *)wParam;
+    if (pESINFO->iSlot == 0)
     {
         int i;
-        for (i=8;i<SIZEOF(OrderTreeData);i++)
-            if (OrderTreeData[i].fReserved==0)
-            {  iLastFree=i; break; }       
+        for (i = 8;i < SIZEOF(OrderTreeData);i++)
+            if (OrderTreeData[i].fReserved == 0)
+            {  iLastFree = i; break; }       
     }
-    else if (pESINFO->iSlot<SIZEOF(OrderTreeData)) 
-            iLastFree=pESINFO->iSlot;
+    else if (pESINFO->iSlot < SIZEOF(OrderTreeData)) 
+            iLastFree = pESINFO->iSlot;
     if (iLastFree>0)
     {
         if (!OrderTreeData[iLastFree].fReserved)
         {
-            OrderTreeData[iLastFree].fReserved=TRUE;
-            OrderTreeData[iLastFree].KeyName=pESINFO->pszSlotID;
+            OrderTreeData[iLastFree].fReserved = TRUE;
+            OrderTreeData[iLastFree].KeyName = pESINFO->pszSlotID;
 
             if (pESINFO->fUnicode)
-                OrderTreeData[iLastFree].Name=pESINFO->ptszSlotName;
+                OrderTreeData[iLastFree].Name = pESINFO->ptszSlotName;
             else
             {
-                OrderTreeData[iLastFree].Name=mir_a2u(pESINFO->pszSlotName); //potential memory leak but should not be more than once
-                OrderTreeData[iLastFree].fReserved=(BOOL)2; //need to free KeyName
+                OrderTreeData[iLastFree].Name = mir_a2u(pESINFO->pszSlotName); //potential memory leak but should not be more than once
+                OrderTreeData[iLastFree].fReserved = (BOOL)2; //need to free KeyName
             }
 		}
         else return -1; // Already reserved
@@ -1246,77 +1246,77 @@ static int nArrayLen;
 static int OrderEnumProc (const char *szSetting,LPARAM lParam)
 {
 
-	if (szSetting==NULL) return 0;
+	if (szSetting == NULL) return 0;
 	if (!wildcmp((char*) szSetting,(char *) lParam,0)) return 0;
 	nArrayLen++;
-	settingname=(char **)realloc(settingname,nArrayLen*sizeof(char *));
-	settingname[nArrayLen-1]=_strdup(szSetting);
+	settingname = (char **)realloc(settingname,nArrayLen*sizeof(char *));
+	settingname[nArrayLen-1] = _strdup(szSetting);
 	return 0;
 };
 
 static int  DeleteAllSettingInOrder()
 {
 	DBCONTACTENUMSETTINGS dbces;
-	nArrayLen=0;
+	nArrayLen = 0;
 
-	dbces.pfnEnumProc=OrderEnumProc;
-	dbces.szModule=CLUIFrameModule;
-	dbces.ofsSettings=0;
-	dbces.lParam=(LPARAM)"ORDER_EXTRA_*";
+	dbces.pfnEnumProc = OrderEnumProc;
+	dbces.szModule = CLUIFrameModule;
+	dbces.ofsSettings = 0;
+	dbces.lParam = (LPARAM)"ORDER_EXTRA_*";
 
 	CallService(MS_DB_CONTACT_ENUMSETTINGS,0,(LPARAM)&dbces);
 
 	//delete all settings
-	if (nArrayLen==0){return(0);};
+	if (nArrayLen == 0){return(0);};
 	{
 		int i;
-		for (i=0;i<nArrayLen;i++)
+		for (i = 0;i < nArrayLen;i++)
 		{
 			db_unset(0,CLUIFrameModule,settingname[i]);
 			free(settingname[i]);
 		};
 		free(settingname);
-		settingname=NULL;
+		settingname = NULL;
 	};
 	return(0);
 };
 static int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-	pOrderTreeData A=(pOrderTreeData)lParam1;
-	pOrderTreeData B=(pOrderTreeData)lParam2;
+	pOrderTreeData A = (pOrderTreeData)lParam1;
+	pOrderTreeData B = (pOrderTreeData)lParam2;
 	return (int)(A->Position)-(int)(B->Position);
 }
 
 static int FillOrderTree(HWND hwndDlg, HWND Tree)
 {
-	int i=0;
-	TVINSERTSTRUCT tvis={0};
+	int i = 0;
+	TVINSERTSTRUCT tvis = {0};
 	TreeView_DeleteAllItems(Tree);
-	tvis.hParent=NULL;
-	tvis.hInsertAfter=TVI_LAST;
-	tvis.item.mask=TVIF_PARAM|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE;	
-	if (db_get_b(NULL,CLUIFrameModule,"ExtraCountStored",0)!=SIZEOF(OrderTreeData))
+	tvis.hParent = NULL;
+	tvis.hInsertAfter = TVI_LAST;
+	tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE;	
+	if (db_get_b(NULL,CLUIFrameModule,"ExtraCountStored",0) != SIZEOF(OrderTreeData))
 	{
 		DeleteAllSettingInOrder();
 		db_set_b(NULL,CLUIFrameModule,"ExtraCountStored",SIZEOF(OrderTreeData));
 	}
-	for (i=0; i<SIZEOF(OrderTreeData); i++)
+	for (i = 0; i < SIZEOF(OrderTreeData); i++)
 	{
 		char buf[256];
 		sprintf(buf,"ORDER_%s",OrderTreeData[i].KeyName);
-		OrderTreeData[i].Position=(BYTE)db_get_b(NULL,CLUIFrameModule,buf,i);
-		OrderTreeData[i].Visible =(BOOL)db_get_b(NULL,CLUIFrameModule,OrderTreeData[i].KeyName,1);
-		tvis.hInsertAfter=TVI_LAST;
-		tvis.item.lParam=(LPARAM)(&(OrderTreeData[i]));
-		tvis.item.pszText=TranslateTS(OrderTreeData[i].Name);
-		tvis.item.iImage=tvis.item.iSelectedImage=OrderTreeData[i].Visible;
+		OrderTreeData[i].Position = (BYTE)db_get_b(NULL,CLUIFrameModule,buf,i);
+		OrderTreeData[i].Visible  = (BOOL)db_get_b(NULL,CLUIFrameModule,OrderTreeData[i].KeyName,1);
+		tvis.hInsertAfter = TVI_LAST;
+		tvis.item.lParam = (LPARAM)(&(OrderTreeData[i]));
+		tvis.item.pszText = TranslateTS(OrderTreeData[i].Name);
+		tvis.item.iImage = tvis.item.iSelectedImage = OrderTreeData[i].Visible;
 		TreeView_InsertItem(Tree,&tvis);
 	}
 	{
-		TVSORTCB sort={0};
-		sort.hParent=NULL;
-		sort.lParam=0;
-		sort.lpfnCompare=CompareFunc;
+		TVSORTCB sort = {0};
+		sort.hParent = NULL;
+		sort.lParam = 0;
+		sort.lpfnCompare = CompareFunc;
 		TreeView_SortChildrenCB(Tree,&sort,0);
 	}
 	return 0;
@@ -1324,23 +1324,23 @@ static int FillOrderTree(HWND hwndDlg, HWND Tree)
 static int SaveOrderTree(HWND hwndDlg, HWND Tree)
 {
 	HTREEITEM ht;
-	BYTE pos=0;
-	TVITEMA tvi={0};
-	tvi.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM;
-	ht=TreeView_GetRoot(Tree);
+	BYTE pos = 0;
+	TVITEMA tvi = {0};
+	tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM;
+	ht = TreeView_GetRoot(Tree);
 	do
 	{
-		TOrderTreeData * it=NULL;
-		tvi.hItem=ht;
+		TOrderTreeData * it = NULL;
+		tvi.hItem = ht;
 		TreeView_GetItemA(Tree,&tvi);
-		it=(TOrderTreeData*)(tvi.lParam);
+		it = (TOrderTreeData*)(tvi.lParam);
 		{
 			char buf[250];
 			sprintf(buf,"ORDER_%s",it->KeyName);
 			db_set_b(NULL,CLUIFrameModule,buf,pos);
 			db_set_b(NULL,CLUIFrameModule,it->KeyName, it->Visible);	
 		}
-		ht=TreeView_GetNextSibling(Tree,ht);
+		ht = TreeView_GetNextSibling(Tree,ht);
 		pos++;
 	}while (ht);
 
@@ -1349,23 +1349,23 @@ static int SaveOrderTree(HWND hwndDlg, HWND Tree)
 
 int LoadPositionsFromDB(BYTE * OrderPos)
 {
-	int i=0;
-	if (db_get_b(NULL,CLUIFrameModule,"ExtraCountStored",0)!=SIZEOF(OrderTreeData))
+	int i = 0;
+	if (db_get_b(NULL,CLUIFrameModule,"ExtraCountStored",0) != SIZEOF(OrderTreeData))
 	{
 		DeleteAllSettingInOrder();
 		db_set_b(NULL,CLUIFrameModule,"ExtraCountStored",SIZEOF(OrderTreeData));
 	}
 
-	for (i=0; i<SIZEOF(OrderTreeData); i++)
+	for (i = 0; i < SIZEOF(OrderTreeData); i++)
 	{
 		char buf[256];
 		sprintf(buf,"ORDER_%s",OrderTreeData[i].KeyName);
-		OrderPos[OrderTreeData[i].ID-1]=(BYTE)db_get_b(NULL,CLUIFrameModule,buf,i);
+		OrderPos[OrderTreeData[i].ID-1] = (BYTE)db_get_b(NULL,CLUIFrameModule,buf,i);
 	}
 	return 0;
 }
-static int dragging=0;
-static HANDLE hDragItem=NULL;
+static int dragging = 0;
+static HANDLE hDragItem = NULL;
 
 INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1378,7 +1378,7 @@ INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			{	
 				HIMAGELIST himlCheckBoxes;
-				himlCheckBoxes=ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,2,2);
+				himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,2,2);
 				ImageList_AddIcon(himlCheckBoxes,LoadSmallIconShared(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_NOTICK)));
 				ImageList_AddIcon(himlCheckBoxes,LoadSmallIconShared(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_TICK)));
 				TreeView_SetImageList(GetDlgItem(hwndDlg,IDC_EXTRAORDER),himlCheckBoxes,TVSIL_NORMAL);
@@ -1417,25 +1417,25 @@ INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					case TVN_BEGINDRAGA:
 					case TVN_BEGINDRAGW:
 						SetCapture(hwndDlg);
-						dragging=1;
-						hDragItem=((LPNMTREEVIEWA)lParam)->itemNew.hItem;
+						dragging = 1;
+						hDragItem = ((LPNMTREEVIEWA)lParam)->itemNew.hItem;
 						TreeView_SelectItem(GetDlgItem(hwndDlg,IDC_EXTRAORDER),hDragItem);
 						break;
 					case NM_CLICK:
 						{						
 							TVHITTESTINFO hti;
-							hti.pt.x=(short)LOWORD(GetMessagePos());
-							hti.pt.y=(short)HIWORD(GetMessagePos());
+							hti.pt.x = (short)LOWORD(GetMessagePos());
+							hti.pt.y = (short)HIWORD(GetMessagePos());
 							ScreenToClient(((LPNMHDR)lParam)->hwndFrom,&hti.pt);
-							if(TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom,&hti))
-								if(hti.flags&TVHT_ONITEMICON) 
+							if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom,&hti))
+								if (hti.flags&TVHT_ONITEMICON) 
 								{
 									TVITEMA tvi;
-									tvi.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
-									tvi.hItem=hti.hItem;
+									tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
+									tvi.hItem = hti.hItem;
 									TreeView_GetItemA(((LPNMHDR)lParam)->hwndFrom,&tvi);
-									tvi.iImage=tvi.iSelectedImage=!tvi.iImage;
-									((TOrderTreeData *)tvi.lParam)->Visible=tvi.iImage;
+									tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
+									((TOrderTreeData *)tvi.lParam)->Visible = tvi.iImage;
 									TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom,&tvi);
 									SendMessage((GetParent(hwndDlg)), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 								}
@@ -1452,15 +1452,15 @@ INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (!dragging) break;
 			{	
 				TVHITTESTINFO hti;
-				hti.pt.x=(short)LOWORD(lParam);
-				hti.pt.y=(short)HIWORD(lParam);
+				hti.pt.x = (short)LOWORD(lParam);
+				hti.pt.y = (short)HIWORD(lParam);
 				ClientToScreen(hwndDlg,&hti.pt);
 				ScreenToClient(GetDlgItem(hwndDlg,IDC_EXTRAORDER),&hti.pt);
 				TreeView_HitTest(GetDlgItem(hwndDlg,IDC_EXTRAORDER),&hti);
-				if(hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT))
+				if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT))
 				{
-					HTREEITEM it=hti.hItem;
-					hti.pt.y-=TreeView_GetItemHeight(GetDlgItem(hwndDlg,IDC_EXTRAORDER))/2;
+					HTREEITEM it = hti.hItem;
+					hti.pt.y -= TreeView_GetItemHeight(GetDlgItem(hwndDlg,IDC_EXTRAORDER))/2;
 					TreeView_HitTest(GetDlgItem(hwndDlg,IDC_EXTRAORDER),&hti);
 					//TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_EXTRAORDER),hti.hItem,1);
 					if (!(hti.flags&TVHT_ABOVE))
@@ -1470,8 +1470,8 @@ INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 				else 
 				{
-					if(hti.flags&TVHT_ABOVE) SendDlgItemMessage(hwndDlg,IDC_EXTRAORDER,WM_VSCROLL,MAKEWPARAM(SB_LINEUP,0),0);
-					if(hti.flags&TVHT_BELOW) SendDlgItemMessage(hwndDlg,IDC_EXTRAORDER,WM_VSCROLL,MAKEWPARAM(SB_LINEDOWN,0),0);
+					if (hti.flags&TVHT_ABOVE) SendDlgItemMessage(hwndDlg,IDC_EXTRAORDER,WM_VSCROLL,MAKEWPARAM(SB_LINEUP,0),0);
+					if (hti.flags&TVHT_BELOW) SendDlgItemMessage(hwndDlg,IDC_EXTRAORDER,WM_VSCROLL,MAKEWPARAM(SB_LINEDOWN,0),0);
 					TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_EXTRAORDER),NULL,0);
 				}
 			}	
@@ -1481,36 +1481,36 @@ INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			if (!dragging) break;
 			TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_EXTRAORDER),NULL,0);
-			dragging=0;
+			dragging = 0;
 			ReleaseCapture();
 			{	
 				TVHITTESTINFO hti;
 				TVITEM tvi;
-				hti.pt.x=(short)LOWORD(lParam);
-				hti.pt.y=(short)HIWORD(lParam);
+				hti.pt.x = (short)LOWORD(lParam);
+				hti.pt.y = (short)HIWORD(lParam);
 				ClientToScreen(hwndDlg,&hti.pt);
 				ScreenToClient(GetDlgItem(hwndDlg,IDC_EXTRAORDER),&hti.pt);
-				hti.pt.y-=TreeView_GetItemHeight(GetDlgItem(hwndDlg,IDC_EXTRAORDER))/2;
+				hti.pt.y -= TreeView_GetItemHeight(GetDlgItem(hwndDlg,IDC_EXTRAORDER))/2;
 				TreeView_HitTest(GetDlgItem(hwndDlg,IDC_EXTRAORDER),&hti);
-				if(hDragItem==hti.hItem) break;
-				if (hti.flags&TVHT_ABOVE) hti.hItem=TVI_FIRST;
-				tvi.mask=TVIF_HANDLE|TVIF_PARAM;
-				tvi.hItem=(HTREEITEM)hDragItem;
+				if (hDragItem == hti.hItem) break;
+				if (hti.flags&TVHT_ABOVE) hti.hItem = TVI_FIRST;
+				tvi.mask = TVIF_HANDLE|TVIF_PARAM;
+				tvi.hItem = (HTREEITEM)hDragItem;
 				TreeView_GetItem(GetDlgItem(hwndDlg,IDC_EXTRAORDER),&tvi);
-				if(hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)||(hti.hItem==TVI_FIRST)) 
+				if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)||(hti.hItem == TVI_FIRST)) 
 				{
 					TVINSERTSTRUCT tvis;
 					TCHAR name[128];
-					tvis.item.mask=TVIF_HANDLE|TVIF_PARAM|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
-					tvis.item.stateMask=0xFFFFFFFF;
-					tvis.item.pszText=name;
-					tvis.item.cchTextMax=sizeof(name);
-					tvis.item.hItem=(HTREEITEM)hDragItem;
-					tvis.item.iImage=tvis.item.iSelectedImage=((TOrderTreeData *)tvi.lParam)->Visible;				
+					tvis.item.mask = TVIF_HANDLE|TVIF_PARAM|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
+					tvis.item.stateMask = 0xFFFFFFFF;
+					tvis.item.pszText = name;
+					tvis.item.cchTextMax = sizeof(name);
+					tvis.item.hItem = (HTREEITEM)hDragItem;
+					tvis.item.iImage = tvis.item.iSelectedImage = ((TOrderTreeData *)tvi.lParam)->Visible;				
 					TreeView_GetItem(GetDlgItem(hwndDlg,IDC_EXTRAORDER),&tvis.item);				
 					TreeView_DeleteItem(GetDlgItem(hwndDlg,IDC_EXTRAORDER),hDragItem);
-					tvis.hParent=NULL;
-					tvis.hInsertAfter=hti.hItem;
+					tvis.hParent = NULL;
+					tvis.hInsertAfter = hti.hItem;
 					TreeView_SelectItem(GetDlgItem(hwndDlg,IDC_EXTRAORDER),TreeView_InsertItem(GetDlgItem(hwndDlg,IDC_EXTRAORDER),&tvis));
 					SendMessage((GetParent(hwndDlg)), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 				}

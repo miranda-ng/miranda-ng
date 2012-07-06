@@ -78,9 +78,9 @@ void Cache_GetText(struct ClcData *dat, struct ClcContact *contact, BOOL forceRe
     Cache_GetFirstLineText(dat, contact);
     if (!dat->force_in_dialog)// && !dat->isStarting)
     {
-        PDNCE pdnce=(PDNCE)pcli->pfnGetCacheEntry(contact->hContact);
-        if (  (dat->second_line_show&&(forceRenew||pdnce->szSecondLineText==NULL))
-            ||(dat->third_line_show&&(forceRenew||pdnce->szThirdLineText==NULL))  )
+        PDNCE pdnce = (PDNCE)pcli->pfnGetCacheEntry(contact->hContact);
+        if (  (dat->second_line_show&&(forceRenew||pdnce->szSecondLineText == NULL))
+            ||(dat->third_line_show&&(forceRenew||pdnce->szThirdLineText == NULL))  )
         {
             gtaAddRequest(dat,contact, contact->hContact);
         }
@@ -145,14 +145,14 @@ void CSmileyString::_CopySmileyList( SortedList *plInput )
 //	ASSERT( plText == NULL );
 
 	if ( !plInput || plInput->realCount == 0 ) return;
-	plText=List_Create( 0, 1 );
+	plText = List_Create( 0, 1 );
 	for ( int i = 0; i < plInput->realCount; i++ )
 	{
-		ClcContactTextPiece *pieceFrom=(ClcContactTextPiece *) plInput->items[i];
-		if ( pieceFrom != NULL )
+		ClcContactTextPiece *pieceFrom = (ClcContactTextPiece *) plInput->items[i];
+		if ( pieceFrom !=NULL )
 		{
 			ClcContactTextPiece *piece = (ClcContactTextPiece *) mir_alloc( sizeof(ClcContactTextPiece));			
-			*piece=*pieceFrom;
+			*piece = *pieceFrom;
 			if ( pieceFrom->type == TEXT_PIECE_TYPE_SMILEY) 
 				piece->smiley = CopyIcon( pieceFrom->smiley );
 			List_Insert( plText, piece, plText->realCount );
@@ -171,18 +171,18 @@ void CSmileyString::DestroySmileyList()
 		return;
 	}
 
-	if ( plText->realCount != 0 )
+	if ( plText->realCount !=0 )
 	{
 		int i;
 		for ( i = 0 ; i < plText->realCount ; i++ )
 		{
-			if ( plText->items[i] != NULL )
+			if ( plText->items[i] !=NULL )
 			{
 				ClcContactTextPiece *piece = (ClcContactTextPiece *) plText->items[i];
 
 				if ( !IsBadWritePtr(piece, sizeof(ClcContactTextPiece)) )
 				{
-					if (piece->type==TEXT_PIECE_TYPE_SMILEY && piece->smiley != g_hListeningToIcon)
+					if (piece->type == TEXT_PIECE_TYPE_SMILEY && piece->smiley !=g_hListeningToIcon)
 						DestroyIcon_protect(piece->smiley);
 					mir_free(piece);
 				}
@@ -202,7 +202,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, PDNCE pdnce, TCHAR * s
 	SMADD_BATCHPARSE2 sp = {0};
 	SMADD_BATCHPARSERES *spr;
 
-	int last_pos=0;
+	int last_pos = 0;
     iMaxSmileyHeight = 0;
 
 	DestroySmileyList();
@@ -221,10 +221,10 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, PDNCE pdnce, TCHAR * s
     {
         sp.Protocolname = pdnce->m_cache_cszProto;
 
-        if (db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) != 1 && pdnce->m_cache_cszProto != NULL && g_szMetaModuleName && strcmp(pdnce->m_cache_cszProto, g_szMetaModuleName) == 0)
+        if (db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) !=1 && pdnce->m_cache_cszProto !=NULL && g_szMetaModuleName && strcmp(pdnce->m_cache_cszProto, g_szMetaModuleName) == 0)
         {
             HANDLE hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (LPARAM)pdnce->m_cache_hContact, 0);
-            if (hContact != 0)
+            if (hContact !=0)
             {
                 sp.Protocolname = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (LPARAM)hContact, 0);
             }
@@ -251,7 +251,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, PDNCE pdnce, TCHAR * s
 
     for (unsigned i = 0; i < sp.numSmileys; ++i)
     {
-        if (spr[i].hIcon != NULL)	// For deffective smileypacks
+        if (spr[i].hIcon !=NULL)	// For deffective smileypacks
         {
             // Add text
             if (spr[i].startChar - last_pos > 0)
@@ -318,24 +318,24 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, PDNCE pdnce, TCHAR * s
 */
 int GetStatusName(TCHAR *text, int text_size, PDNCE pdnce, BOOL xstatus_has_priority) 
 {
-    BOOL noAwayMsg=FALSE;
-    BOOL noXstatus=FALSE;
+    BOOL noAwayMsg = FALSE;
+    BOOL noXstatus = FALSE;
     // Hide status text if Offline  /// no offline		
-	WORD nStatus=pdnce___GetStatus( pdnce );
-    if ((nStatus==ID_STATUS_OFFLINE || nStatus==0) && g_CluiData.bRemoveAwayMessageForOffline) noAwayMsg=TRUE;
-    if (nStatus==ID_STATUS_OFFLINE || nStatus==0) noXstatus=TRUE;
+	WORD nStatus = pdnce___GetStatus( pdnce );
+    if ((nStatus == ID_STATUS_OFFLINE || nStatus == 0) && g_CluiData.bRemoveAwayMessageForOffline) noAwayMsg = TRUE;
+    if (nStatus == ID_STATUS_OFFLINE || nStatus == 0) noXstatus = TRUE;
     text[0] = '\0';
     // Get XStatusName
     if (!noAwayMsg&& !noXstatus&& xstatus_has_priority && pdnce->m_cache_hContact && pdnce->m_cache_cszProto)
     {
-        DBVARIANT dbv={0};
+        DBVARIANT dbv = {0};
         if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) 
         {
             //lstrcpyn(text, dbv.pszVal, text_size);
             CopySkipUnprintableChars(text, dbv.ptszVal, text_size-1);
             db_free(&dbv);
 
-            if (text[0] != '\0')
+            if (text[0] !='\0')
                 return -1;
         }
     }
@@ -345,21 +345,21 @@ int GetStatusName(TCHAR *text, int text_size, PDNCE pdnce, BOOL xstatus_has_prio
         TCHAR *tmp = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)nStatus, GSMDF_TCHAR_MY);
         lstrcpyn(text, tmp, text_size);
         //CopySkipUnprintableChars(text, dbv.pszVal, text_size-1);
-        if (text[0] != '\0')
+        if (text[0] !='\0')
             return 1;
     }
 
     // Get XStatusName
     if (!noAwayMsg && !noXstatus && !xstatus_has_priority && pdnce->m_cache_hContact && pdnce->m_cache_cszProto)
     {
-        DBVARIANT dbv={0};
+        DBVARIANT dbv = {0};
         if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) 
         {
             //lstrcpyn(text, dbv.pszVal, text_size);
             CopySkipUnprintableChars(text, dbv.ptszVal, text_size-1);
             db_free(&dbv);
 
-            if (text[0] != '\0')
+            if (text[0] !='\0')
                 return -1;
         }
     }
@@ -372,11 +372,11 @@ int GetStatusName(TCHAR *text, int text_size, PDNCE pdnce, BOOL xstatus_has_prio
 */
 void GetListeningTo(TCHAR *text, int text_size,  PDNCE pdnce)
 {
-    DBVARIANT dbv={0};
-	WORD wStatus=pdnce___GetStatus( pdnce );
+    DBVARIANT dbv = {0};
+	WORD wStatus = pdnce___GetStatus( pdnce );
     text[0] = _T('\0');
 	
-    if (wStatus==ID_STATUS_OFFLINE || wStatus==0)
+    if (wStatus == ID_STATUS_OFFLINE || wStatus == 0)
         return;
 
     if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "ListeningTo", &dbv)) 
@@ -392,13 +392,13 @@ void GetListeningTo(TCHAR *text, int text_size,  PDNCE pdnce)
 */
 int GetStatusMessage(TCHAR *text, int text_size,  PDNCE pdnce, BOOL xstatus_has_priority) 
 {
-    DBVARIANT dbv={0};
-    BOOL noAwayMsg=FALSE;
-	WORD wStatus=pdnce___GetStatus( pdnce );
+    DBVARIANT dbv = {0};
+    BOOL noAwayMsg = FALSE;
+	WORD wStatus = pdnce___GetStatus( pdnce );
     text[0] = '\0';
 	// Hide status text if Offline  /// no offline	
 	
-	if (wStatus==ID_STATUS_OFFLINE || wStatus==0) noAwayMsg=TRUE;
+	if (wStatus == ID_STATUS_OFFLINE || wStatus == 0) noAwayMsg = TRUE;
     // Get XStatusMsg
     if (!noAwayMsg &&xstatus_has_priority && pdnce->m_cache_hContact && pdnce->m_cache_cszProto)
     {
@@ -409,7 +409,7 @@ int GetStatusMessage(TCHAR *text, int text_size,  PDNCE pdnce, BOOL xstatus_has_
             CopySkipUnprintableChars(text, dbv.ptszVal, text_size-1);
             db_free(&dbv);
 
-            if (text[0] != '\0')
+            if (text[0] !='\0')
                 return -1;
         }
     }
@@ -423,7 +423,7 @@ int GetStatusMessage(TCHAR *text, int text_size,  PDNCE pdnce, BOOL xstatus_has_
             CopySkipUnprintableChars(text, dbv.ptszVal, text_size-1);
             db_free(&dbv);
 
-            if (text[0] != '\0')
+            if (text[0] !='\0')
                 return 1;
         }
     }
@@ -438,7 +438,7 @@ int GetStatusMessage(TCHAR *text, int text_size,  PDNCE pdnce, BOOL xstatus_has_
             CopySkipUnprintableChars(text, dbv.ptszVal, text_size-1);
             db_free(&dbv);
 
-            if (text[0] != '\0')
+            if (text[0] !='\0')
                 return -1;
         }
     }
@@ -458,11 +458,11 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
 	switch(type) {
 	case TEXT_STATUS:
 		if (GetStatusName(text, text_size, pdnce, xstatus_has_priority) == -1 && use_name_and_message_for_xstatus) {
-			DBVARIANT dbv={0};
+			DBVARIANT dbv = {0};
 
 			// Try to get XStatusMsg
 			if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) {
-				if (dbv.ptszVal != NULL && dbv.ptszVal[0] != 0) {
+				if (dbv.ptszVal !=NULL && dbv.ptszVal[0] !=0) {
 					TCHAR *tmp = mir_tstrdup(text);
 					mir_sntprintf(text, text_size, TEXT("%s: %s"), tmp, dbv.pszVal);
 					mir_free_and_nill(tmp);
@@ -476,7 +476,7 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
 
 	case TEXT_NICKNAME:
 		if (pdnce->m_cache_hContact && pdnce->m_cache_cszProto) {
-			DBVARIANT dbv={0};
+			DBVARIANT dbv = {0};
 			if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "Nick", &dbv)) {
 				lstrcpyn(text, dbv.ptszVal, text_size);
 				db_free(&dbv);
@@ -488,11 +488,11 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
 
 	case TEXT_STATUS_MESSAGE:
 		if (GetStatusMessage(text, text_size, pdnce, xstatus_has_priority) == -1 && use_name_and_message_for_xstatus) {
-			DBVARIANT dbv={0};
+			DBVARIANT dbv = {0};
 
 			// Try to get XStatusName
 			if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) {
-				if (dbv.pszVal != NULL && dbv.pszVal[0] != 0) {
+				if (dbv.pszVal !=NULL && dbv.pszVal[0] !=0) {
 					TCHAR *tmp = mir_tstrdup(text);
 
 					mir_sntprintf(text, text_size, TEXT("%s: %s"), dbv.pszVal, tmp);                        
@@ -503,10 +503,10 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
 			}
 		}
 		else if (use_name_and_message_for_xstatus && xstatus_has_priority) {
-			DBVARIANT dbv={0};
+			DBVARIANT dbv = {0};
 			// Try to get XStatusName
 			if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) {
-				if (dbv.pszVal != NULL && dbv.pszVal[0] != 0)
+				if (dbv.pszVal !=NULL && dbv.pszVal[0] !=0)
 					mir_sntprintf(text, text_size, TEXT("%s"), dbv.pszVal);
 				CopySkipUnprintableChars(text, text, text_size-1);
 				db_free(&dbv);
@@ -516,7 +516,7 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
 		if (text[0] == '\0') {
 			if (show_listening_if_no_away) {
 				Cache_GetLineText(pdnce, TEXT_LISTENING_TO, text, text_size, variable_text, xstatus_has_priority, 0, 0, use_name_and_message_for_xstatus, pdnce_time_show_only_if_different);
-				if (text[0] != '\0')
+				if (text[0] !='\0')
 					return TEXT_LISTENING_TO;
 			}
 
@@ -560,11 +560,11 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
 void Cache_GetFirstLineText(struct ClcData *dat, struct ClcContact *contact)
 {
 
-	if (GetCurrentThreadId()!=g_dwMainThreadID)
+	if (GetCurrentThreadId() != g_dwMainThreadID)
 		return;
 
 
-    PDNCE pdnce=(PDNCE)pcli->pfnGetCacheEntry(contact->hContact);
+    PDNCE pdnce = (PDNCE)pcli->pfnGetCacheEntry(contact->hContact);
     TCHAR *name = pcli->pfnGetContactDisplayName(contact->hContact,0);
     if (dat->first_line_append_nick && (!dat->force_in_dialog)) {
         DBVARIANT dbv = {0};
@@ -589,7 +589,7 @@ void Cache_GetFirstLineText(struct ClcData *dat, struct ClcContact *contact)
     }
     if (!dat->force_in_dialog)
     {
-        struct SHORTDATA data={0};
+        struct SHORTDATA data = {0};
         Sync(CLUI_SyncGetShortData,(WPARAM)pcli->hwndContactTree,(LPARAM)&data);       
         contact->ssText.ReplaceSmileys(&data, pdnce, contact->szText, dat->first_line_draw_smileys);
     }
@@ -603,26 +603,26 @@ void Cache_GetFirstLineText(struct ClcData *dat, struct ClcContact *contact)
 
 void Cache_GetSecondLineText(struct SHORTDATA *dat, PDNCE pdnce)
 {
-    TCHAR Text[240-MAXEXTRACOLUMNS]={0};
+    TCHAR Text[240-MAXEXTRACOLUMNS] = {0};
     int type = TEXT_EMPTY;
    
     if (dat->second_line_show)	
         type = Cache_GetLineText(pdnce, dat->second_line_type, (TCHAR*)Text, SIZEOF(Text), dat->second_line_text,
         dat->second_line_xstatus_has_priority,dat->second_line_show_status_if_no_away,dat->second_line_show_listening_if_no_away,
         dat->second_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
-    Text[SIZEOF(Text)-1]=_T('\0'); //to be sure that it is null terminated string
+    Text[SIZEOF(Text)-1] = _T('\0'); //to be sure that it is null terminated string
     //LockCacheItem(hContact, __FILE__,__LINE__);
     
     if (pdnce->szSecondLineText) mir_free(pdnce->szSecondLineText);
     
-    if (dat->second_line_show)// Text[0]!='\0')
-        pdnce->szSecondLineText=mir_tstrdup((TCHAR*)Text);
+    if (dat->second_line_show)// Text[0] != '\0')
+        pdnce->szSecondLineText = mir_tstrdup((TCHAR*)Text);
     else
-        pdnce->szSecondLineText=NULL;
+        pdnce->szSecondLineText = NULL;
    
     if (pdnce->szSecondLineText) 
     {
-        if (type == TEXT_LISTENING_TO && pdnce->szSecondLineText[0] != _T('\0'))
+        if (type == TEXT_LISTENING_TO && pdnce->szSecondLineText[0] !=_T('\0'))
         {
             pdnce->ssSecondLine.AddListeningToIcon(dat, pdnce, pdnce->szSecondLineText, dat->second_line_draw_smileys);
         }
@@ -639,7 +639,7 @@ void Cache_GetSecondLineText(struct SHORTDATA *dat, PDNCE pdnce)
 */
 void Cache_GetThirdLineText(struct SHORTDATA *dat, PDNCE pdnce)
 {
-    TCHAR Text[240-MAXEXTRACOLUMNS]={0};
+    TCHAR Text[240-MAXEXTRACOLUMNS] = {0};
     int type = TEXT_EMPTY;
     if (dat->third_line_show)
         type = Cache_GetLineText(pdnce, dat->third_line_type,(TCHAR*)Text, SIZEOF(Text), dat->third_line_text,
@@ -647,18 +647,18 @@ void Cache_GetThirdLineText(struct SHORTDATA *dat, PDNCE pdnce)
         dat->third_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
 
     // LockCacheItem(hContact, __FILE__,__LINE__);
-    Text[SIZEOF(Text)-1]=_T('\0'); //to be sure that it is null terminated string
+    Text[SIZEOF(Text)-1] = _T('\0'); //to be sure that it is null terminated string
     
     if (pdnce->szThirdLineText) mir_free(pdnce->szThirdLineText);
     
-    if (dat->third_line_show)//Text[0]!='\0')
-        pdnce->szThirdLineText=mir_tstrdup((TCHAR*)Text);
+    if (dat->third_line_show)//Text[0] != '\0')
+        pdnce->szThirdLineText = mir_tstrdup((TCHAR*)Text);
     else
-        pdnce->szThirdLineText=NULL;
+        pdnce->szThirdLineText = NULL;
     
     if (pdnce->szThirdLineText) 
     {
-        if (type == TEXT_LISTENING_TO && pdnce->szThirdLineText[0] != _T('\0'))
+        if (type == TEXT_LISTENING_TO && pdnce->szThirdLineText[0] !=_T('\0'))
         {
             pdnce->ssThirdLine.AddListeningToIcon(dat, pdnce, pdnce->szThirdLineText, dat->third_line_draw_smileys);
         }
@@ -673,12 +673,12 @@ void Cache_GetThirdLineText(struct SHORTDATA *dat, PDNCE pdnce)
 
 void RemoveTag(TCHAR *to, TCHAR *tag)
 {
-    TCHAR * st=to;
-    int len=(int)_tcslen(tag);
-    int lastsize=(int)_tcslen(to)+1;
-    while (st=_tcsstr(st,tag)) 
+    TCHAR * st = to;
+    int len = (int)_tcslen(tag);
+    int lastsize = (int)_tcslen(to)+1;
+    while (st = _tcsstr(st,tag)) 
     {
-        lastsize-=len;
+        lastsize -= len;
         memmove((void*)st,(void*)(st+len),(lastsize)*sizeof(TCHAR));
     }
 }
@@ -690,48 +690,48 @@ void RemoveTag(TCHAR *to, TCHAR *tag)
 static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size)
 {
     DWORD i;
-    BOOL keep=0;
-    TCHAR * cp=to;
+    BOOL keep = 0;
+    TCHAR * cp = to;
     if (!to) return 0;
     if (!buf) 
     {
-        to[0]='\0';
+        to[0] = '\0';
         return 0;
     }
-    for (i=0; i<size; i++)
+    for (i = 0; i < size; i++)
     {
-        if (buf[i]==0) break;
-        if (buf[i]>0 && buf[i]<' ')
+        if (buf[i] == 0) break;
+        if (buf[i]>0 && buf[i] < ' ')
         {
-            *cp=' ';
+            *cp = ' ';
             if (!keep) cp++;
-            keep=1;
+            keep = 1;
         }
         else
         {     
-            keep=0;
-            *cp=buf[i];
+            keep = 0;
+            *cp = buf[i];
             cp++;
         } 
     }
-    *cp=0;
+    *cp = 0;
     {
-        //remove bbcodes: [b] [i] [u] <b> <i> <u>
+        //remove bbcodes: [b] [i] [u]  < b>  < i>  < u>
         RemoveTag(to,_T("[b]")); RemoveTag(to,_T("[/b]"));
         RemoveTag(to,_T("[u]")); RemoveTag(to,_T("[/u]"));
         RemoveTag(to,_T("[i]")); RemoveTag(to,_T("[/i]"));
 
-        RemoveTag(to,_T("<b>")); RemoveTag(to,_T("</b>"));
-        RemoveTag(to,_T("<u>")); RemoveTag(to,_T("</u>"));
-        RemoveTag(to,_T("<i>")); RemoveTag(to,_T("</i>"));		
+        RemoveTag(to,_T(" < b>")); RemoveTag(to,_T(" < /b>"));
+        RemoveTag(to,_T(" < u>")); RemoveTag(to,_T(" < /u>"));
+        RemoveTag(to,_T(" < i>")); RemoveTag(to,_T(" < /i>"));		
 
         RemoveTag(to,_T("[B]")); RemoveTag(to,_T("[/b]"));
         RemoveTag(to,_T("[U]")); RemoveTag(to,_T("[/u]"));
         RemoveTag(to,_T("[I]")); RemoveTag(to,_T("[/i]"));
 
-        RemoveTag(to,_T("<B>")); RemoveTag(to,_T("</B>"));
-        RemoveTag(to,_T("<U>")); RemoveTag(to,_T("</U>"));
-        RemoveTag(to,_T("<I>")); RemoveTag(to,_T("</I>"));
+        RemoveTag(to,_T(" < B>")); RemoveTag(to,_T(" < /B>"));
+        RemoveTag(to,_T(" < U>")); RemoveTag(to,_T(" < /U>"));
+        RemoveTag(to,_T(" < I>")); RemoveTag(to,_T(" < /I>"));
     }
     return i;
 }
@@ -741,7 +741,7 @@ static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size)
 static BOOL ExecuteOnAllContacts(struct ClcData *dat, ExecuteOnAllContactsFuncPtr func, void *param)
 {
     BOOL res;
-    res=ExecuteOnAllContactsOfGroup(&dat->list, func, param);
+    res = ExecuteOnAllContactsOfGroup(&dat->list, func, param);
     return res;
 }
 
@@ -798,7 +798,7 @@ void UpdateAllAvatars(struct ClcData *dat)
 
 BOOL ReduceAvatarPosition(struct ClcContact *contact, BOOL subcontact, void *param)
 {
-    if (contact->avatar_pos >= *((int *)param))
+    if (contact->avatar_pos  >= *((int *)param))
     {
         contact->avatar_pos--;
     }
@@ -809,24 +809,24 @@ BOOL ReduceAvatarPosition(struct ClcContact *contact, BOOL subcontact, void *par
 
 void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
 {
-	struct avatarCacheEntry * ace=contact->avatar_data;
-	int old_pos=contact->avatar_pos;
+	struct avatarCacheEntry * ace = contact->avatar_data;
+	int old_pos = contact->avatar_pos;
 
-	if (   ace==NULL 
+	if (   ace == NULL 
 		|| ace->dwFlags == AVS_BITMAP_EXPIRED
 		|| ace->hbmPic == NULL)
 	{
 		//Avatar was not ready or removed - need to remove it from cache
-		if (old_pos>=0)
+		if (old_pos >= 0)
 		{
 			ImageArray_RemoveImage(&dat->avatar_cache, old_pos);
 			// Update all items
 			ExecuteOnAllContacts(dat, ReduceAvatarPosition, (void *)&old_pos);
-			contact->avatar_pos=AVATAR_POS_DONT_HAVE;
+			contact->avatar_pos = AVATAR_POS_DONT_HAVE;
 			return;
 		}
 	}
-	else if (contact->avatar_data->hbmPic != NULL) //Lets Add it
+	else if (contact->avatar_data->hbmPic !=NULL) //Lets Add it
 	{
 		HDC hdc; 
 		HBITMAP hDrawBmp,oldBmp;
@@ -852,25 +852,25 @@ void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
 		if (wildcmpi(contact->avatar_data->szFilename,_T("*.gif")))
 		{
 			int res;
-			if (old_pos==AVATAR_POS_ANIMATED)
+			if (old_pos == AVATAR_POS_ANIMATED)
 				AniAva_RemoveAvatar(contact->hContact);
 
-			res=AniAva_AddAvatar(contact->hContact, contact->avatar_data->szFilename, width_clip, height_clip);
+			res = AniAva_AddAvatar(contact->hContact, contact->avatar_data->szFilename, width_clip, height_clip);
 			if (res)
 			{
-				contact->avatar_pos=AVATAR_POS_ANIMATED;
-				contact->avatar_size.cy=HIWORD(res);
-				contact->avatar_size.cx=LOWORD(res);
+				contact->avatar_pos = AVATAR_POS_ANIMATED;
+				contact->avatar_size.cy = HIWORD(res);
+				contact->avatar_size.cx = LOWORD(res);
 				return;
 			}
 		}
 		// Create objs
 		hdc = CreateCompatibleDC(dat->avatar_cache.hdc); 
 		hDrawBmp = ske_CreateDIB32Point(width_clip, height_clip,&pt);
-		oldBmp=(HBITMAP)SelectObject(hdc, hDrawBmp);
+		oldBmp = (HBITMAP)SelectObject(hdc, hDrawBmp);
 		//need to draw avatar bitmap here
 		{
-			RECT real_rc={0,0,width_clip, height_clip};
+			RECT real_rc = {0,0,width_clip, height_clip};
 			/*
 			if (ServiceExists(MS_AV_BLENDDRAWAVATAR))
 			{
@@ -887,8 +887,8 @@ void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
 			else
 			*/
 			{
-				int w=width_clip;
-				int h=height_clip;
+				int w = width_clip;
+				int h = height_clip;
 				if (!g_CluiData.fGDIPlusFail) //Use gdi+ engine
 				{
 					DrawAvatarImageWithGDIp(hdc, 0, 0, w, h,ace->hbmPic,0,0,ace->bmWidth,ace->bmHeight,ace->dwFlags,255);
@@ -898,11 +898,11 @@ void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
 					if (!(ace->dwFlags&AVS_PREMULTIPLIED))
 					{
 						HDC hdcTmp = CreateCompatibleDC(hdc);
-						RECT r={0,0,w,h};
+						RECT r = {0,0,w,h};
 						HDC hdcTmp2 = CreateCompatibleDC(hdc);
-						HBITMAP bmo=(HBITMAP)SelectObject(hdcTmp,ace->hbmPic);
-						HBITMAP b2=ske_CreateDIB32(w,h);
-						HBITMAP bmo2=(HBITMAP)SelectObject(hdcTmp2,b2);
+						HBITMAP bmo = (HBITMAP)SelectObject(hdcTmp,ace->hbmPic);
+						HBITMAP b2 = ske_CreateDIB32(w,h);
+						HBITMAP bmo2 = (HBITMAP)SelectObject(hdcTmp2,b2);
 						SetStretchBltMode(hdcTmp,  HALFTONE);
 						SetStretchBltMode(hdcTmp2,  HALFTONE);
 						StretchBlt(hdcTmp2, 0, 0, w, h,
@@ -918,7 +918,7 @@ void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
 						DeleteObject(b2);
 					}
 					else {
-						BLENDFUNCTION bf={AC_SRC_OVER, 0,255, AC_SRC_ALPHA };
+						BLENDFUNCTION bf = {AC_SRC_OVER, 0,255, AC_SRC_ALPHA };
 						HDC hdcTempAv = CreateCompatibleDC(hdc);
 						HBITMAP hbmTempAvOld;
 						hbmTempAvOld = (HBITMAP)SelectObject(hdcTempAv,ace->hbmPic);
@@ -932,7 +932,7 @@ void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
 		SelectObject(hdc,oldBmp);
 		DeleteDC(hdc);
 		// Add to list
-		if (old_pos >= 0)
+		if (old_pos  >= 0)
 		{
 			ImageArray_ChangeImage(&dat->avatar_cache, hDrawBmp, old_pos);
 			contact->avatar_pos = old_pos;
@@ -941,7 +941,7 @@ void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
 		{
 			contact->avatar_pos = ImageArray_AddImage(&dat->avatar_cache, hDrawBmp, -1);
 		}
-		if (old_pos==AVATAR_POS_ANIMATED && contact->avatar_pos!=AVATAR_POS_ANIMATED)
+		if (old_pos == AVATAR_POS_ANIMATED && contact->avatar_pos != AVATAR_POS_ANIMATED)
 		{
 			AniAva_RemoveAvatar(contact->hContact);
 		}
@@ -954,8 +954,8 @@ void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
 
 void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)
 {
-	int old_pos=contact->avatar_pos;
-    if (g_CluiData.bSTATE!=STATE_NORMAL
+	int old_pos = contact->avatar_pos;
+    if (g_CluiData.bSTATE != STATE_NORMAL
         || (dat->use_avatar_service && !ServiceExists(MS_AV_GETAVATARBITMAP))) // workaround for avatar service and other wich destroys service on OK_TOEXIT
     {
         contact->avatar_pos = AVATAR_POS_DONT_HAVE;
@@ -967,13 +967,13 @@ void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)
         if (dat->avatars_show && !db_get_b(contact->hContact, "CList", "HideContactAvatar", 0))
         {
             contact->avatar_data = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)contact->hContact, 0);
-            if (contact->avatar_data == NULL || contact->avatar_data->cbSize != sizeof(struct avatarCacheEntry) 
+            if (contact->avatar_data == NULL || contact->avatar_data->cbSize !=sizeof(struct avatarCacheEntry) 
                 || contact->avatar_data->dwFlags == AVS_BITMAP_EXPIRED)
             {
                 contact->avatar_data = NULL;
             }
 
-            if (contact->avatar_data != NULL)
+            if (contact->avatar_data !=NULL)
 			{
                 contact->avatar_data->t_lastAccess = (DWORD)time(NULL);				
 			}
@@ -993,7 +993,7 @@ void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)
             if (!DBGetContactSettingTString(contact->hContact, "ContactPhoto", "File", &dbv))
             {
                 HBITMAP hBmp = (HBITMAP) CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)dbv.ptszVal);
-                if (hBmp != NULL)
+                if (hBmp !=NULL)
                 {
                     // Make bounds
                     BITMAP bm;
@@ -1024,7 +1024,7 @@ void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)
                         // Create objs
                         hdc = CreateCompatibleDC(dat->avatar_cache.hdc); 
                         hDrawBmp = ske_CreateDIB32(width_clip, height_clip);
-						oldBmp=(HBITMAP)SelectObject(hdc, hDrawBmp);
+						oldBmp = (HBITMAP)SelectObject(hdc, hDrawBmp);
                         SetBkMode(hdc,TRANSPARENT);
                         {
                             POINT org;
@@ -1039,15 +1039,15 @@ void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)
                         // Draw bitmap             8//8
                         {
                             HDC dcMem = CreateCompatibleDC(hdc);
-							HBITMAP obmp=(HBITMAP)SelectObject(dcMem, hBmp);						
+							HBITMAP obmp = (HBITMAP)SelectObject(dcMem, hBmp);						
                             StretchBlt(hdc, 0, 0, width_clip, height_clip,dcMem, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
                             SelectObject(dcMem,obmp);
                             mod_DeleteDC(dcMem);
                         }
                         {
-                            RECT rtr={0};
-                            rtr.right=width_clip+1;
-                            rtr.bottom=height_clip+1;
+                            RECT rtr = {0};
+                            rtr.right = width_clip+1;
+                            rtr.bottom = height_clip+1;
                             ske_SetRectOpaque(hdc,&rtr);
                         }
 
@@ -1056,7 +1056,7 @@ void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)
                         mod_DeleteDC(hdc);
 
                         // Add to list
-                        if (old_pos >= 0)
+                        if (old_pos  >= 0)
                         {
                             ImageArray_ChangeImage(&dat->avatar_cache, hDrawBmp, old_pos);
                             contact->avatar_pos = old_pos;
@@ -1069,19 +1069,19 @@ void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)
                         DeleteObject(hDrawBmp);
                     } // if (GetObject(hBmp,sizeof(BITMAP),&bm))
                     DeleteObject(hBmp);
-                } //if (hBmp != NULL)
+                } //if (hBmp !=NULL)
             }
             db_free(&dbv);
         }
 
         // Remove avatar if needed
-        if (old_pos >= 0 && contact->avatar_pos == AVATAR_POS_DONT_HAVE)
+        if (old_pos  >= 0 && contact->avatar_pos == AVATAR_POS_DONT_HAVE)
         {
             ImageArray_RemoveImage(&dat->avatar_cache, old_pos);
             // Update all items
             ExecuteOnAllContacts(dat, ReduceAvatarPosition, (void *)&old_pos);
         }
-		if (old_pos==AVATAR_POS_ANIMATED && contact->avatar_pos != AVATAR_POS_ANIMATED)
+		if (old_pos == AVATAR_POS_ANIMATED && contact->avatar_pos !=AVATAR_POS_ANIMATED)
 		{
 			AniAva_RemoveAvatar( contact->hContact );
 		}

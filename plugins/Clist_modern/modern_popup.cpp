@@ -68,7 +68,7 @@ void ShowPopup(const char *title, const char *description, int type)
 	strncpy(ppd.lpzContactName, title == NULL ? "Modern Contact List" : title, SIZEOF(ppd.lpzContactName)-1);
 	ppd.lpzContactName[SIZEOF(ppd.lpzContactName)-1] = '\0';
 
-	if (description != NULL)
+	if (description !=NULL)
 	{
 		strncpy(ppd.lpzText, description, SIZEOF(ppd.lpzText)-1);
 		ppd.lpzText[SIZEOF(ppd.lpzText)-1] = '\0';

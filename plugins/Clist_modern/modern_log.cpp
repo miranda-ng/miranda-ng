@@ -1,8 +1,8 @@
 #include "hdr/modern_commonheaders.h"
 
-#include <stdarg.h>
-#include <stdio.h>
-#include <string.h>
+#include  < stdarg.h>
+#include  < stdio.h>
+#include  < string.h>
 
 
 void Log(const char *file,int line,const char *fmt,...)
@@ -24,10 +24,10 @@ void Log(const char *file,int line,const char *fmt,...)
 	mir_vsnprintf(str,SIZEOF(str),fmt,vararg);
 	va_end(vararg);
     {
-        char * tmp=str;
-        while(*tmp!='\0')
+        char * tmp = str;
+        while(*tmp != '\0')
         {
-           if (*tmp=='\n') *tmp=' ';
+           if (*tmp == '\n') *tmp = ' ';
            tmp++;
         }        
     }
@@ -35,7 +35,7 @@ void Log(const char *file,int line,const char *fmt,...)
 #ifdef _FILELOG_
     {
         FILE *fp;
-	    fp=fopen(_FILELOG_,"at");	
+	    fp = fopen(_FILELOG_,"at");	
 	    fprintf(fp,buf);
 	    fclose(fp);
     }

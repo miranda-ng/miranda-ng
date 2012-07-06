@@ -27,9 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "io.h"
 #include "hdr/modern_commonprototypes.h"
 #include "hdr/modern_sync.h"
-#include <m_utils.h>
-#include <m_database.h>
-#include <m_modernopt.h>
+#include  < m_utils.h>
+#include  < m_database.h>
+#include  < m_modernopt.h>
 
 /*******************************/
 // Main skin selection routine //
@@ -185,7 +185,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							res = MessageBox( hwndDlg, TranslateT( "Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?" ), TranslateT( "Warning!" ), MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2|MB_TOPMOST );
 						else
 							res = MessageBox( hwndDlg, TranslateT( "Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?" ), TranslateT( "Warning!" ), MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2|MB_TOPMOST );
-						if ( res!= IDOK ) return 0;
+						if ( res != IDOK ) return 0;
 					}
 					ske_LoadSkinFromIniFile( sd->File, FALSE );
 					ske_LoadSkinFromDB( );	
@@ -234,7 +234,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							DWORD tick = GetTickCount( );
 							res = GetOpenFileName( &ofn );
 							if ( !res ) 
-								if ( GetTickCount( )-tick<100 )
+								if ( GetTickCount( )-tick < 100 )
 								{
 									res = GetOpenFileName( &ofn );
 									if ( !res ) break;
@@ -284,8 +284,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				GetObject( hPreviewBitmap, sizeof( BITMAP ), &bmp );
 				wWidth = workRect.right-workRect.left;
 				wHeight = workRect.bottom-workRect.top;
-				if ( wWidth<bmp.bmWidth ) xScale = ( float )wWidth/bmp.bmWidth;
-				if ( wHeight<bmp.bmHeight ) yScale = ( float )wHeight/bmp.bmHeight;
+				if ( wWidth < bmp.bmWidth ) xScale = ( float )wWidth/bmp.bmWidth;
+				if ( wHeight < bmp.bmHeight ) yScale = ( float )wHeight/bmp.bmHeight;
 				xScale = min( xScale, yScale );
 				yScale = xScale;                    
 				dWidth = ( int )( xScale*bmp.bmWidth );
@@ -447,7 +447,7 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 	_sntprintf( mask, SIZEOF( mask ), _T("%s\\*.msf"), Folder ); 
 	//fd.attrib = _A_SUBDIR;
 	hFile = _tfindfirst( mask, &fd );
-	if ( hFile!= -1 )
+	if ( hFile != -1 )
 	{
 		do {     
 			AddSkinToList( hwndDlg, Folder, fd.name );
@@ -458,7 +458,7 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 	hFile = _tfindfirst( mask, &fd );
 	{
 		do {
-			if ( fd.attrib&_A_SUBDIR && !( _tcsicmp( fd.name, _T(".")) ==0 ||_tcsicmp( fd.name, _T(".."))==0 ))
+			if ( fd.attrib&_A_SUBDIR && !( _tcsicmp( fd.name, _T("."))  == 0 ||_tcsicmp( fd.name, _T("..")) == 0 ))
 			{//Next level of subfolders
 				TCHAR path[MAX_PATH];
 				_sntprintf( path, SIZEOF( path ), _T("%s\\%s"), Folder, fd.name );
@@ -484,7 +484,7 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 
 	AddSkinToList( hwndDlg, TranslateT( "Default Skin" ), _T("%Default Skin%"));
 	attrib = GetFileAttributes( path );
-	if ( attrib != INVALID_FILE_ATTRIBUTES && ( attrib & FILE_ATTRIBUTE_DIRECTORY ))
+	if ( attrib !=INVALID_FILE_ATTRIBUTES && ( attrib & FILE_ATTRIBUTE_DIRECTORY ))
 		SearchSkinFiles( hwndDlg, path );
 	{
 		TCHAR * skinfile;
@@ -573,7 +573,7 @@ HTREEITEM FindChild( HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data 
 		tvi.pszText = (LPTSTR)&buf;
 		tvi.cchTextMax = 254;
 		TreeView_GetItem( hTree, &tvi );
-		if ( _tcsicmp( Caption, tvi.pszText )==0 )
+		if ( _tcsicmp( Caption, tvi.pszText ) == 0 )
 		{
 			if ( data )
 			{
@@ -606,7 +606,7 @@ HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * da
 	BOOL ext = FALSE;
 	CallService( MS_UTILS_PATHTORELATIVET, ( WPARAM )folder, ( LPARAM )path );
 	ptrE = path;
-	while ( *ptrE != _T('\\') && *ptrE != _T('\0') && *ptrE != _T(':')) ptrE++;
+	while ( *ptrE !=_T('\\') && *ptrE !=_T('\0') && *ptrE !=_T(':')) ptrE++;
 	if ( *ptrE == _T('\\'))
 	{
 		*ptrE = _T('\0');
@@ -617,7 +617,7 @@ HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * da
 	do 
 	{
 
-		while ( *ptrE!= _T('\\') && *ptrE!= _T('\0')) ptrE++;
+		while ( *ptrE != _T('\\') && *ptrE != _T('\0')) ptrE++;
 		if ( *ptrE == _T('\\'))
 		{
 			*ptrE = _T('\0');
@@ -754,8 +754,8 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 			GetObject( hPreviewBitmap, sizeof( BITMAP ), &bmp );
 			wWidth = workRect.right-workRect.left;
 			wHeight = workRect.bottom-workRect.top;
-			if ( wWidth<bmp.bmWidth ) xScale = ( float )wWidth/bmp.bmWidth;
-			if ( wHeight<bmp.bmHeight ) yScale = ( float )wHeight/bmp.bmHeight;
+			if ( wWidth < bmp.bmWidth ) xScale = ( float )wWidth/bmp.bmWidth;
+			if ( wHeight < bmp.bmHeight ) yScale = ( float )wHeight/bmp.bmHeight;
 			xScale = min( xScale, yScale );
 			yScale = xScale;                    
 			dWidth = ( int )( xScale*bmp.bmWidth );

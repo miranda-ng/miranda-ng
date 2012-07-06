@@ -22,21 +22,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "hdr/modern_commonheaders.h"
 #include "m_clui.h"
-#include <m_file.h>
-#include <m_addcontact.h>
+#include  < m_file.h>
+#include  < m_addcontact.h>
 #include "hdr/modern_clist.h"
 #include "hdr/modern_commonprototypes.h"
 #include "hdr/modern_sync.h"
 #include "hdr/modern_clui.h"
-#include <m_modernopt.h>
+#include  < m_modernopt.h>
 pfnMyMonitorFromPoint  MyMonitorFromPoint = NULL;
 pfnMyMonitorFromWindow MyMonitorFromWindow = NULL;
 pfnMyGetMonitorInfo    MyGetMonitorInfo = NULL;
 
-static HANDLE hookSystemShutdown_CListMod=NULL;
-HANDLE  hookOptInitialise_CList=NULL,
-        hookOptInitialise_Skin=NULL,
-        hookContactAdded_CListSettings=NULL;
+static HANDLE hookSystemShutdown_CListMod = NULL;
+HANDLE  hookOptInitialise_CList = NULL,
+        hookOptInitialise_Skin = NULL,
+        hookContactAdded_CListSettings = NULL;
 
 
 int CListMod_HideWindow(HWND hwndContactList, int mode);
@@ -58,7 +58,7 @@ INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam);
 void InitTrayMenus(void);
 
 
-HIMAGELIST hCListImages=NULL;
+HIMAGELIST hCListImages = NULL;
 
 BOOL (WINAPI *MySetProcessWorkingSetSize)(HANDLE,SIZE_T,SIZE_T);
 
@@ -68,11 +68,11 @@ static HANDLE hSettingChanged;
 //returns normal icon or combined with status overlay. Needs to be destroyed.
 HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 {
-	HICON hIcon=NULL;
-	HICON hXIcon=NULL;
+	HICON hIcon = NULL;
+	HICON hXIcon = NULL;
 	// check if options is turned on
-	BYTE trayOption=db_get_b(NULL,"CLUI","XStatusTray",SETTING_TRAYOPTION_DEFAULT);
-	if (trayOption&3 && szProto!=NULL)
+	BYTE trayOption = db_get_b(NULL,"CLUI","XStatusTray",SETTING_TRAYOPTION_DEFAULT);
+	if (trayOption&3 && szProto != NULL)
 	{
 		// check service exists
 		char str[MAXMODULELABELLENGTH];
@@ -84,22 +84,22 @@ HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 			if (status>ID_STATUS_OFFLINE)
 			{
 				// get xicon
-				hXIcon=(HICON)CallService(str,0,0);
+				hXIcon = (HICON)CallService(str,0,0);
 				if (hXIcon)
 				{
 					// check overlay mode
 					if (trayOption&2)
 					{
 						// get overlay
-						HICON MainOverlay=(HICON)GetMainStatusOverlay(status);
-						hIcon=ske_CreateJoinedIcon(hXIcon,MainOverlay,(trayOption&4)?192:0);
+						HICON MainOverlay = (HICON)GetMainStatusOverlay(status);
+						hIcon = ske_CreateJoinedIcon(hXIcon,MainOverlay,(trayOption&4)?192:0);
 						DestroyIcon_protect(hXIcon);
                         DestroyIcon_protect(MainOverlay);
 					}
 					else
 					{
 						// paint it
-						hIcon=hXIcon;
+						hIcon = hXIcon;
 					}
 				}
 			}
@@ -107,7 +107,7 @@ HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 	}
 	if (!hIcon)
 	{
-		hIcon=ske_ImageList_GetIcon(g_himlCListClc,ExtIconFromStatusMode(hContact,szProto,status),ILD_NORMAL);
+		hIcon = ske_ImageList_GetIcon(g_himlCListClc,ExtIconFromStatusMode(hContact,szProto,status),ILD_NORMAL);
 	}
 	// if not ready take normal icon
 	return hIcon;
@@ -116,19 +116,19 @@ HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 int ExtIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 {
 	/*pdisplayNameCacheEntry cacheEntry;
-	if ((DBGetContactSettingByte(NULL,"CLC","Meta",0)!=1) && szProto!=NULL)
+	if ((DBGetContactSettingByte(NULL,"CLC","Meta",0) != 1) && szProto != NULL)
     {
-		if (meta_module && mir_strcmp(szProto,meta_module)==0)
+		if (meta_module && mir_strcmp(szProto,meta_module) == 0)
         {
-			hContact=(HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(UINT)hContact,0);
-			if (hContact!=0)
+			hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(UINT)hContact,0);
+			if (hContact != 0)
             {
-				szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(UINT)hContact,0);
-				status=DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE);
+				szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(UINT)hContact,0);
+				status = DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE);
 			}
         }
     }
-    cacheEntry=(pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hContact);
+    cacheEntry = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hContact);
     if (cacheEntry->isTransport>0)  return GetTrasportStatusIconIndex(cacheEntry->isTransport-1,status);
     */
     return pcli->pfnIconFromStatusMode(szProto,status,hContact);
@@ -136,45 +136,45 @@ int ExtIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 /////////// End by FYR ////////
 int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 {
-   int result=-1;
+   int result = -1;
    if (hContact && szProto)
    {
-       char * szActProto=(char*)szProto;
-       char AdvancedService[255]={0};
-       int  nActStatus=nStatus;
-       HANDLE hActContact=hContact;
+       char * szActProto = (char*)szProto;
+       char AdvancedService[255] = {0};
+       int  nActStatus = nStatus;
+       HANDLE hActContact = hContact;
        if (!db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) && g_szMetaModuleName && !mir_strcmp(szActProto,g_szMetaModuleName))
        {
             // substitute params by mostonline contact datas
-           HANDLE hMostOnlineContact=(HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hActContact,0);
+           HANDLE hMostOnlineContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hActContact,0);
            if (hMostOnlineContact)
            {
                 pdisplayNameCacheEntry cacheEntry;
-                cacheEntry=(pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hMostOnlineContact);
+                cacheEntry = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hMostOnlineContact);
                 if (cacheEntry && cacheEntry->m_cache_cszProto)
                 {
-                    szActProto=cacheEntry->m_cache_cszProto;
-                    nActStatus=pdnce___GetStatus( cacheEntry );
-                    hActContact=hMostOnlineContact;
+                    szActProto = cacheEntry->m_cache_cszProto;
+                    nActStatus = pdnce___GetStatus( cacheEntry );
+                    hActContact = hMostOnlineContact;
                 }
            }
        }
        mir_snprintf(AdvancedService,SIZEOF(AdvancedService),"%s%s",szActProto,"/GetAdvancedStatusIcon");
 
        if (ServiceExists(AdvancedService))
-          result=CallService(AdvancedService,(WPARAM)hActContact, (LPARAM)0);
+          result = CallService(AdvancedService,(WPARAM)hActContact, (LPARAM)0);
 
-       if (result==-1 || !(LOWORD(result)))
+       if (result == -1 || !(LOWORD(result)))
        {
            //Get normal Icon
-           int  basicIcon=corecli.pfnIconFromStatusMode(szActProto,nActStatus,NULL);
-           if (result!=-1 && basicIcon!=1) result|=basicIcon;
-           else result=basicIcon;
+           int  basicIcon = corecli.pfnIconFromStatusMode(szActProto,nActStatus,NULL);
+           if (result != -1 && basicIcon != 1) result |= basicIcon;
+           else result = basicIcon;
        }
    }
    else
    {
-       result=corecli.pfnIconFromStatusMode(szProto,nStatus,NULL);
+       result = corecli.pfnIconFromStatusMode(szProto,nStatus,NULL);
    }
    return result;
 }
@@ -182,7 +182,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 
 int GetContactIconC(pdisplayNameCacheEntry cacheEntry)
 {
-	return ExtIconFromStatusMode(cacheEntry->m_cache_hContact,cacheEntry->m_cache_cszProto,cacheEntry->m_cache_cszProto==NULL ? ID_STATUS_OFFLINE : pdnce___GetStatus( cacheEntry ));
+	return ExtIconFromStatusMode(cacheEntry->m_cache_hContact,cacheEntry->m_cache_cszProto,cacheEntry->m_cache_cszProto == NULL ? ID_STATUS_OFFLINE : pdnce___GetStatus( cacheEntry ));
 }
 
 //lParam
@@ -199,8 +199,8 @@ INT_PTR GetContactIcon(WPARAM wParam,LPARAM lParam)
 		status = ID_STATUS_OFFLINE;
 	else
 		status = db_get_w((HANDLE) wParam, szProto, "Status", ID_STATUS_OFFLINE);
-    res=ExtIconFromStatusMode((HANDLE)wParam,szProto,szProto==NULL?ID_STATUS_OFFLINE:status); //by FYR
-    if (lParam==0 && res!=-1) res&=0xFFFF;
+    res = ExtIconFromStatusMode((HANDLE)wParam,szProto,szProto == NULL?ID_STATUS_OFFLINE:status); //by FYR
+    if (lParam == 0 && res != -1) res &= 0xFFFF;
     return res;
 }
 void UninitTrayMenu();
@@ -219,8 +219,8 @@ int CListMod_ContactListShutdownProc(WPARAM wParam,LPARAM lParam)
 {
     ModernUnhookEvent(hookSystemShutdown_CListMod);
     FreeDisplayNameCache();
-    if(g_hMainThread) CloseHandle(g_hMainThread);
-    g_hMainThread=NULL;
+    if (g_hMainThread) CloseHandle(g_hMainThread);
+    g_hMainThread = NULL;
 	return 0;
 }
 
@@ -259,9 +259,9 @@ HRESULT PreLoadContactListModule()
 {
 	/* Global data initialization */
 	{
-		g_CluiData.fOnDesktop=FALSE;
-		g_CluiData.dwKeyColor=RGB(255,0,255);
-		g_CluiData.bCurrentAlpha=255;
+		g_CluiData.fOnDesktop = FALSE;
+		g_CluiData.dwKeyColor = RGB(255,0,255);
+		g_CluiData.bCurrentAlpha = 255;
 	}
 
 	//initialize firstly hooks
@@ -302,7 +302,7 @@ HRESULT  CluiLoadModule()
 
 	CreateServiceFunction(MS_CLIST_GETCONTACTICON,GetContactIcon);
 
-	MySetProcessWorkingSetSize=(BOOL (WINAPI*)(HANDLE,SIZE_T,SIZE_T))GetProcAddress(GetModuleHandle(TEXT("kernel32")),"SetProcessWorkingSetSize");
+	MySetProcessWorkingSetSize = (BOOL (WINAPI*)(HANDLE,SIZE_T,SIZE_T))GetProcAddress(GetModuleHandle(TEXT("kernel32")),"SetProcessWorkingSetSize");
 	hCListImages = ImageList_Create(16, 16, ILC_MASK|ILC_COLOR32, 32, 0);
 	InitCustomMenus();
 	InitTray();
@@ -328,9 +328,9 @@ Begin of Hrk's code for bug
 int GetWindowVisibleState(HWND, int, int);
 __inline DWORD GetDIBPixelColor(int X, int Y, int Width, int Height, int ByteWidth, BYTE * ptr)
 {
-	DWORD res=0;
-	if (X>=0 && X<Width && Y>=0 && Y<Height && ptr)
-		res=*((DWORD*)(ptr+ByteWidth*(Height-Y-1)+X*4));
+	DWORD res = 0;
+	if (X >= 0 && X < Width && Y >= 0 && Y < Height && ptr)
+		res = *((DWORD*)(ptr+ByteWidth*(Height-Y-1)+X*4));
 	return res;
 }
 
@@ -366,91 +366,91 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY) {
 		int hstep,vstep;
 		BITMAP bmp;
 		HBITMAP WindowImage;
-		int maxx=0;
-		int maxy=0;
-		int wx=0;
+		int maxx = 0;
+		int maxy = 0;
+		int wx = 0;
 		int dx,dy;
-		BYTE *ptr=NULL;
-		HRGN rgn=NULL;
-		WindowImage=g_CluiData.fLayered?ske_GetCurrentWindowImage():0;
+		BYTE *ptr = NULL;
+		HRGN rgn = NULL;
+		WindowImage = g_CluiData.fLayered?ske_GetCurrentWindowImage():0;
 		if (WindowImage&&g_CluiData.fLayered)
 		{
 			GetObject(WindowImage,sizeof(BITMAP),&bmp);
-			ptr=(BYTE*)bmp.bmBits;
-			maxx=bmp.bmWidth;
-			maxy=bmp.bmHeight;
-			wx=bmp.bmWidthBytes;
+			ptr = (BYTE*)bmp.bmBits;
+			maxx = bmp.bmWidth;
+			maxy = bmp.bmHeight;
+			wx = bmp.bmWidthBytes;
 		}
 		else
 		{
 			RECT rc;
-			int i=0;
-			rgn=CreateRectRgn(0,0,1,1);
+			int i = 0;
+			rgn = CreateRectRgn(0,0,1,1);
 			GetWindowRect(hWnd,&rc);
 			GetWindowRgn(hWnd,rgn);
 			OffsetRgn(rgn,rc.left,rc.top);
 			GetRgnBox(rgn,&rc);
-			i=i;
-			//maxx=rc.right;
-			//maxy=rc.bottom;
+			i = i;
+			//maxx = rc.right;
+			//maxy = rc.bottom;
 		}
 		GetWindowRect(hWnd, &rc);
 		{
-			RECT rcMonitor={0};
+			RECT rcMonitor = {0};
 			Docking_GetMonitorRectFromWindow(hWnd,&rcMonitor);
-			rc.top=rc.top<rcMonitor.top?rcMonitor.top:rc.top;
-			rc.left=rc.left<rcMonitor.left?rcMonitor.left:rc.left;
-			rc.bottom=rc.bottom>rcMonitor.bottom?rcMonitor.bottom:rc.bottom;
-			rc.right=rc.right>rcMonitor.right?rcMonitor.right:rc.right;
+			rc.top = rc.top < rcMonitor.top?rcMonitor.top:rc.top;
+			rc.left = rc.left < rcMonitor.left?rcMonitor.left:rc.left;
+			rc.bottom = rc.bottom>rcMonitor.bottom?rcMonitor.bottom:rc.bottom;
+			rc.right = rc.right>rcMonitor.right?rcMonitor.right:rc.right;
 		}
 		width = rc.right - rc.left;
 		height = rc.bottom- rc.top;
-		dx=-rc.left;
-		dy=-rc.top;
-		hstep=width/iStepX;
-		vstep=height/iStepY;
-		hstep=hstep>0?hstep:1;
-		vstep=vstep>0?vstep:1;
+		dx = -rc.left;
+		dy = -rc.top;
+		hstep = width/iStepX;
+		vstep = height/iStepY;
+		hstep = hstep>0?hstep:1;
+		vstep = vstep>0?vstep:1;
 
-		for (i = rc.top; i < rc.bottom; i+=vstep) {
+		for (i = rc.top; i < rc.bottom; i += vstep) {
 			pt.y = i;
-			for (j = rc.left; j < rc.right; j+=hstep) {
-				BOOL po=FALSE;
+			for (j = rc.left; j < rc.right; j += hstep) {
+				BOOL po = FALSE;
 				pt.x = j;
 				if (rgn)
-					po=PtInRegion(rgn,j,i);
+					po = PtInRegion(rgn,j,i);
 				else
 				{
-					DWORD a=(GetDIBPixelColor(j+dx,i+dy,maxx,maxy,wx,ptr)&0xFF000000)>>24;
-					a=((a*g_CluiData.bCurrentAlpha)>>8);
-					po=(a>16);
+					DWORD a = (GetDIBPixelColor(j+dx,i+dy,maxx,maxy,wx,ptr)&0xFF000000)>>24;
+					a = ((a*g_CluiData.bCurrentAlpha)>>8);
+					po = (a>16);
 				}
-				if (po||(!rgn&&ptr==0))
+				if (po||(!rgn&&ptr == 0))
 				{
-					BOOL hWndFound=FALSE;
-					HWND hAuxOld=NULL;
+					BOOL hWndFound = FALSE;
+					HWND hAuxOld = NULL;
 					hAux = WindowFromPoint(pt);
 					do
 					{
-						if (hAux==hWnd)
+						if (hAux == hWnd)
 						{
-							hWndFound=TRUE;
+							hWndFound = TRUE;
 							break;
 						}
 						//hAux = GetParent(hAux);
-						hAuxOld=hAux;
+						hAuxOld = hAux;
 						hAux = fnGetAncestor(hAux,GA_ROOTOWNER);
-						if (hAuxOld==hAux)
+						if (hAuxOld == hAux)
 						{
 							TCHAR buf[255];
 							GetClassName(hAux,buf,SIZEOF(buf));
 							if (!lstrcmp(buf,CLUIFrameSubContainerClassName))
 							{
-								hWndFound=TRUE;
+								hWndFound = TRUE;
 								break;
 							}
 						}
-					}while(hAux!= NULL &&hAuxOld!=hAux);
+					}while(hAux != NULL &&hAuxOld != hAux);
 
 					if (hWndFound) //There's  window!
 						iNotCoveredDots++; //Let's count the not covered dots.
@@ -459,7 +459,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY) {
 			}
 		}
 		if (rgn) DeleteObject(rgn);
-		if ( iCountedDots - iNotCoveredDots<2) //Every dot was not covered: the window is visible.
+		if ( iCountedDots - iNotCoveredDots < 2) //Every dot was not covered: the window is visible.
 			return GWVS_VISIBLE;
 		else if (iNotCoveredDots == 0) //They're all covered!
 			return GWVS_COVERED;
@@ -467,17 +467,17 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY) {
 			return GWVS_PARTIALLY_COVERED;
 	}
 }
-BYTE g_bCalledFromShowHide=0;
+BYTE g_bCalledFromShowHide = 0;
 int cliShowHide(WPARAM wParam,LPARAM lParam)
 {
 	BOOL bShow = FALSE;
 
 	int iVisibleState = GetWindowVisibleState(pcli->hwndContactList,0,0);
 	int method;
-	method=db_get_b(NULL, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT);; //(0-none, 1-leftedge, 2-rightedge);
+	method = db_get_b(NULL, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT);; //(0-none, 1-leftedge, 2-rightedge);
 	if (method)
 	{
-		if (db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT)==0 && lParam!=1)
+		if (db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) == 0 && lParam != 1)
 		{
 			//hide
 			CLUI_HideBehindEdge();
@@ -486,16 +486,16 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 		{
 			CLUI_ShowFromBehindEdge();
 		}
-		bShow=TRUE;
-		iVisibleState=GWVS_HIDDEN;
+		bShow = TRUE;
+		iVisibleState = GWVS_HIDDEN;
 	}
 
 	if (!method && db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT)>0)
 	{
-		g_CluiData.bBehindEdgeSettings=db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT);
+		g_CluiData.bBehindEdgeSettings = db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT);
 		CLUI_ShowFromBehindEdge();
-		g_CluiData.bBehindEdgeSettings=0;
-		g_CluiData.nBehindEdgeState=0;
+		g_CluiData.bBehindEdgeSettings = 0;
+		g_CluiData.nBehindEdgeState = 0;
 		db_unset(NULL, "ModernData", "BehindEdge");
 	}
 
@@ -522,10 +522,10 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 		{
 			Sync(CLUIFrames_OnShowHide, pcli->hwndContactList,1);	//TO BE PROXIED
 			SetWindowPos(pcli->hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE |SWP_NOACTIVATE);
-			g_bCalledFromShowHide=1;
+			g_bCalledFromShowHide = 1;
 			if (!db_get_b(NULL,"CList","OnTop",SETTING_ONTOP_DEFAULT))
 				SetWindowPos(pcli->hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-			g_bCalledFromShowHide=0;
+			g_bCalledFromShowHide = 0;
 		}
 		else
 		{
@@ -566,7 +566,7 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 			}
 		}
 
-		if (MySetProcessWorkingSetSize != NULL) 
+		if (MySetProcessWorkingSetSize !=NULL) 
 			MySetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
 	}
 	return 0;

@@ -48,20 +48,20 @@ typedef struct _NodeList
 	struct _NodeList *  itemParent;
 } NodeList;
 
-NodeList * RootNode=NULL;
+NodeList * RootNode = NULL;
 
 NodeList * AddNode(NodeList * Parent)
 {
 	NodeList * res;
 	if (!Parent) 
 	{
-		res=(NodeList *)mir_alloc(sizeof(NodeList));
+		res = (NodeList *)mir_alloc(sizeof(NodeList));
 		memset(res,0,sizeof(NodeList));
 		return res;
 	}
-	Parent->childNodes=(NodeList*) mir_realloc(Parent->childNodes,sizeof(NodeList)*(Parent->AllocatedChilds+1));
+	Parent->childNodes = (NodeList*) mir_realloc(Parent->childNodes,sizeof(NodeList)*(Parent->AllocatedChilds+1));
 	memset(&(Parent->childNodes[Parent->AllocatedChilds]),0,sizeof(NodeList));
-	Parent->childNodes[Parent->AllocatedChilds].itemParent=Parent;
+	Parent->childNodes[Parent->AllocatedChilds].itemParent = Parent;
 	Parent->AllocatedChilds++;
 	return &(Parent->childNodes[Parent->AllocatedChilds-1]);
 }
@@ -72,9 +72,9 @@ BOOL RemoveChildNode(NodeList * FromList, DWORD index)
 	DWORD i;
 	NodeList * work;
 	if (!FromList) return FALSE;
-	if (FromList->AllocatedChilds<=index) return FALSE;
-	work=&(FromList->childNodes[index]);
-	for(i=0; i<work->AllocatedChilds; i++)
+	if (FromList->AllocatedChilds <= index) return FALSE;
+	work = &(FromList->childNodes[index]);
+	for(i = 0; i < work->AllocatedChilds; i++)
 	{
 		if (work->childNodes[i].AllocatedChilds)
 			RemoveChildNode(work->childNodes,i);
@@ -82,7 +82,7 @@ BOOL RemoveChildNode(NodeList * FromList, DWORD index)
 	if (work->AllocatedChilds) 
 	{
 		mir_free_and_nill(work->childNodes);
-		work->AllocatedChilds=0;
+		work->AllocatedChilds = 0;
 	}
 	//mir_free_and_nill(work);
 	memmove(FromList->childNodes+index,FromList->childNodes+index+1,sizeof(NodeList)*(FromList->AllocatedChilds-index-1));
@@ -97,10 +97,10 @@ BOOL RemoveNode(NodeList * FromList)
 	if (FromList->itemParent)
 	{
 		DWORD k;
-		for (k=0;k<FromList->itemParent->AllocatedChilds;k++)
-			if (&(FromList->itemParent->childNodes[k])==FromList)
+		for (k = 0;k < FromList->itemParent->AllocatedChilds;k++)
+			if (&(FromList->itemParent->childNodes[k]) == FromList)
 			{
-				BOOL res=RemoveChildNode(FromList->itemParent,k);				
+				BOOL res = RemoveChildNode(FromList->itemParent,k);				
 				return res;
 			}
 	}
@@ -112,11 +112,11 @@ BOOL RemoveNode(NodeList * FromList)
 	mir_free_and_nill(FromList);
 	return TRUE;
 }
-int ident=0;
+int ident = 0;
 void PrintIdent()
 {
 	int k;
-	for (k=0;k<ident;k++)
+	for (k = 0;k < ident;k++)
 		TRACE("-");
 }
 
@@ -130,8 +130,8 @@ void TraceTreeLevel(NodeList * node)
 		mir_snprintf(buf,SIZEOF(buf),"%d\n",node->pData);
 		TRACE(buf);
 	}
-	ident+=5;
-	for(i=0; i<node->AllocatedChilds;i++)
+	ident += 5;
+	for(i = 0; i < node->AllocatedChilds;i++)
 	{
 
 		if (node->childNodes[i].AllocatedChilds>0)
@@ -146,7 +146,7 @@ void TraceTreeLevel(NodeList * node)
 			}
 		}
 	}
-	ident-=5;
+	ident -= 5;
 }
 
 BOOL CALLBACK DlgProcItemNewRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -156,26 +156,26 @@ BOOL CALLBACK DlgProcItemNewRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_INITDIALOG:
 		{
 			NodeList * res1,*res2, *res3;
-			int i=0;
-			RootNode=AddNode(NULL);
-			RootNode->pData=i++;
-			res1=AddNode(RootNode);
-			res1->pData=i++;
-			res1=AddNode(RootNode);
-			res1->pData=i++;
-				res2=AddNode(res1);
-				res2->pData=i++;
-				res2=AddNode(res1);
-				res2->pData=i++;
-					res3=AddNode(res2);
-					res3->pData=i++;
-				res3=AddNode(res1);
-				res3->pData=i++;
-			res3=AddNode(RootNode);
-			res3->pData=i++;
+			int i = 0;
+			RootNode = AddNode(NULL);
+			RootNode->pData = i++;
+			res1 = AddNode(RootNode);
+			res1->pData = i++;
+			res1 = AddNode(RootNode);
+			res1->pData = i++;
+				res2 = AddNode(res1);
+				res2->pData = i++;
+				res2 = AddNode(res1);
+				res2->pData = i++;
+					res3 = AddNode(res2);
+					res3->pData = i++;
+				res3 = AddNode(res1);
+				res3->pData = i++;
+			res3 = AddNode(RootNode);
+			res3->pData = i++;
 			TRACE("*********** Nodes DUMP 1 ***********\n");
 			TraceTreeLevel(RootNode);
-			if (RemoveNode(res1)) res1=0;
+			if (RemoveNode(res1)) res1 = 0;
 			TRACE("*********** Nodes DUMP 2 ***********\n");
 			TraceTreeLevel(RootNode);
 			//CheckDlgButton(hwndDlg, IDC_HIDE_ICON_ON_AVATAR, DBGetContactSettingByte(NULL,"CList","IconHideOnAvatar",SETTING_HIDEICONONAVATAR_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );

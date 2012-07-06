@@ -1,7 +1,7 @@
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_commonprototypes.h"
 
-//==========================Frames
+// == == == == == == == == == == == == == Frames
 HANDLE hFrameMenuObject;
 
 //contactmenu exec param(ownerdata)
@@ -18,7 +18,7 @@ void FreeAndNil( void **p )
 	if ( p == NULL )
 		return;
 
-	if ( *p != NULL ) {
+	if ( *p !=NULL ) {
 		mir_free( *p );
 		*p = NULL;
 }	}
@@ -48,15 +48,15 @@ static INT_PTR AddContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
 static INT_PTR RemoveContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
 {
 	lpFrameMenuExecParam fmep;
-	fmep=(lpFrameMenuExecParam)CallService(MO_MENUITEMGETOWNERDATA,wParam,lParam);
-	if (fmep!=NULL){
-		if (fmep->szServiceName!=NULL){
+	fmep = (lpFrameMenuExecParam)CallService(MO_MENUITEMGETOWNERDATA,wParam,lParam);
+	if (fmep != NULL){
+		if (fmep->szServiceName != NULL){
 			mir_free_and_nill(fmep->szServiceName);
 		};
 		mir_free_and_nill(fmep);
 	}
 
-	if (lParam!=1)
+	if (lParam != 1)
 		CallService(MO_REMOVEMENUITEM,wParam,0);
 
 	return 0;
@@ -66,8 +66,8 @@ static INT_PTR RemoveContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
 //wparam - ownerdata
 //lparam - lparam from winproc
 INT_PTR FrameMenuExecService(WPARAM wParam,LPARAM lParam) {
-	lpFrameMenuExecParam fmep=(lpFrameMenuExecParam)wParam;
-	if (fmep==NULL){return(-1);};
+	lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)wParam;
+	if (fmep == NULL){return(-1);};
 	CallService(fmep->szServiceName,lParam,fmep->param1);	
 
 	return(0);
@@ -76,18 +76,18 @@ INT_PTR FrameMenuExecService(WPARAM wParam,LPARAM lParam) {
 //true - ok,false ignore
 INT_PTR FrameMenuCheckService(WPARAM wParam,LPARAM lParam) {
 
-	PCheckProcParam pcpp=(PCheckProcParam)wParam;
+	PCheckProcParam pcpp = (PCheckProcParam)wParam;
 	lpFrameMenuExecParam fmep;
 	TMO_MenuItem mi;
 
-	if (pcpp==NULL){return(FALSE);};
-	if (CallService(MO_GETMENUITEM,(WPARAM)pcpp->MenuItemHandle,(LPARAM)&mi)==0)
+	if (pcpp == NULL){return(FALSE);};
+	if (CallService(MO_GETMENUITEM,(WPARAM)pcpp->MenuItemHandle,(LPARAM)&mi) == 0)
 	{
-		fmep=(lpFrameMenuExecParam)mi.ownerdata;
-		if (fmep!=NULL)
+		fmep = (lpFrameMenuExecParam)mi.ownerdata;
+		if (fmep != NULL)
 		{
 			//pcpp->wParam  -  frameid
-			if (((WPARAM)fmep->Frameid==pcpp->wParam)||fmep->Frameid==-1) return(TRUE);	
+			if (((WPARAM)fmep->Frameid == pcpp->wParam)||fmep->Frameid == -1) return(TRUE);	
 		};
 
 	};
@@ -103,19 +103,19 @@ static INT_PTR ContextFrameMenuNotify(WPARAM wParam,LPARAM lParam)
 static INT_PTR BuildContextFrameMenu(WPARAM wParam,LPARAM lParam)
 {
 	ListParam param = { 0 };
-	param.MenuObjectHandle=hFrameMenuObject;
-	param.wParam=wParam;
-	param.lParam=lParam;
+	param.MenuObjectHandle = hFrameMenuObject;
+	param.wParam = wParam;
+	param.lParam = lParam;
 
-	HMENU hMenu=CreatePopupMenu();
+	HMENU hMenu = CreatePopupMenu();
 	//NotifyEventHooks(hPreBuildFrameMenuEvent,wParam,-1);
 	ContextFrameMenuNotify(wParam,-1);
 	CallService(MO_BUILDMENU,(WPARAM)hMenu,(LPARAM)&param);
 	return (INT_PTR)hMenu;
 }
 
-//==========================Frames end
-boolean InternalGenMenuModule=FALSE;
+// == == == == == == == == == == == == == Frames end
+boolean InternalGenMenuModule = FALSE;
 
 int MeasureItemProxy(WPARAM wParam,LPARAM lParam) {
 
@@ -123,7 +123,7 @@ int MeasureItemProxy(WPARAM wParam,LPARAM lParam) {
 	if (InternalGenMenuModule) 
 	{
 
-		val=CallService(MS_INT_MENUMEASUREITEM,wParam,lParam);
+		val = CallService(MS_INT_MENUMEASUREITEM,wParam,lParam);
 		if (val) return(val);
 	};
 	return CallService(MS_CLIST_MENUMEASUREITEM,wParam,lParam);
@@ -136,7 +136,7 @@ int DrawItemProxy(WPARAM wParam,LPARAM lParam) {
 	if (InternalGenMenuModule) 
 	{
 		int val;
-		val=CallService(MS_INT_MENUDRAWITEM,wParam,lParam);
+		val = CallService(MS_INT_MENUDRAWITEM,wParam,lParam);
 		if (val) return(val);
 	}
 	return CallService(MS_CLIST_MENUDRAWITEM,wParam,lParam);
@@ -149,7 +149,7 @@ int ProcessCommandProxy(WPARAM wParam,LPARAM lParam) {
 	if (InternalGenMenuModule) 
 	{
 		int val;
-		val=CallService(MS_INT_MENUPROCESSCOMMAND,wParam,lParam);
+		val = CallService(MS_INT_MENUPROCESSCOMMAND,wParam,lParam);
 		if (val) return(val);
 	};
 
@@ -161,7 +161,7 @@ int ModifyMenuItemProxy(WPARAM wParam,LPARAM lParam) {
 	if (InternalGenMenuModule) 
 	{
 		int val;
-		val=CallService(MS_INT_MODIFYMENUITEM,wParam,lParam);
+		val = CallService(MS_INT_MODIFYMENUITEM,wParam,lParam);
 		if (val) return(val);
 	};
 
@@ -178,7 +178,7 @@ int InitFramesMenus(void)
 	{
 
 		InitCustomMenus();
-		InternalGenMenuModule=TRUE;
+		InternalGenMenuModule = TRUE;
 	};
 
 	if (ServiceExists(MO_REMOVEMENUOBJECT))
@@ -194,11 +194,11 @@ int InitFramesMenus(void)
 
 		//frame menu object
 		memset(&tmp,0,sizeof(tmp));
-		tmp.cbSize=sizeof(tmp);
-		tmp.CheckService="FrameMenuCheckService";
-		tmp.ExecService="FrameMenuExecService";
-		tmp.name="FrameMenu";
-		hFrameMenuObject=(HANDLE)CallService(MO_CREATENEWMENUOBJECT,0,(LPARAM)&tmp);
+		tmp.cbSize = sizeof(tmp);
+		tmp.CheckService = "FrameMenuCheckService";
+		tmp.ExecService = "FrameMenuExecService";
+		tmp.name = "FrameMenu";
+		hFrameMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT,0,(LPARAM)&tmp);
 	}
 	return 0;
 }

@@ -34,8 +34,8 @@ This file contains code related to new modern free positioned skinned buttons
 
 
 #define MODERNSKINBUTTONCLASS "MirandaModernSkinButtonClass"
-BOOL ModernSkinButtonModuleIsLoaded=FALSE;
-static HANDLE hookSystemShutdown_ModernSkinButton=NULL;
+BOOL ModernSkinButtonModuleIsLoaded = FALSE;
+static HANDLE hookSystemShutdown_ModernSkinButton = NULL;
 static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, LPARAM lParam);
 int ModernSkinButtonUnloadModule(WPARAM wParam, LPARAM lParam);
 int SkinSelector_DeleteMask(MODERNMASK * mm);
@@ -85,8 +85,8 @@ int ModernSkinButtonLoadModule()
 	wc.style          = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
 	InitializeCriticalSection(&csTips);
-	hookSystemShutdown_ModernSkinButton=ModernHookEvent(ME_SYSTEM_SHUTDOWN, ModernSkinButtonUnloadModule);
-	ModernSkinButtonModuleIsLoaded=TRUE;
+	hookSystemShutdown_ModernSkinButton = ModernHookEvent(ME_SYSTEM_SHUTDOWN, ModernSkinButtonUnloadModule);
+	ModernSkinButtonModuleIsLoaded = TRUE;
 	return 0;
 }
 
@@ -102,65 +102,65 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 	HDC hdc;
 	HBITMAP bmp,oldbmp;
 	RECT rc;
-	HDC sdc=NULL;
-	ModernSkinButtonCtrl* bct =  (ModernSkinButtonCtrl *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	HDC sdc = NULL;
+	ModernSkinButtonCtrl* bct = (ModernSkinButtonCtrl *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (!bct) return 0;
 	if (!IsWindowVisible(hwnd)) return 0;
 	if (!whdc && !g_CluiData.fLayered) InvalidateRect(hwnd,NULL,FALSE);
 
-	if (whdc && g_CluiData.fLayered) hdc=whdc;
+	if (whdc && g_CluiData.fLayered) hdc = whdc;
 	else 
 	{
-		//sdc=GetWindowDC(GetParent(hwnd));
-		hdc=CreateCompatibleDC(NULL);
+		//sdc = GetWindowDC(GetParent(hwnd));
+		hdc = CreateCompatibleDC(NULL);
 	}
 	GetClientRect(hwnd,&rc);
-	bmp=ske_CreateDIB32(rc.right,rc.bottom);
-	oldbmp=(HBITMAP)SelectObject(hdc,bmp);
+	bmp = ske_CreateDIB32(rc.right,rc.bottom);
+	oldbmp = (HBITMAP)SelectObject(hdc,bmp);
 	if (!g_CluiData.fLayered)
 		ske_BltBackImage(bct->hwnd,hdc,NULL);
 	{
-		MODERNMASK Request={0};
+		MODERNMASK Request = {0};
 		//   int res;
-		//HBRUSH br=CreateSolidBrush(RGB(255,255,255));
-		char * Value=NULL;
-		DWORD val=0;
+		//HBRUSH br = CreateSolidBrush(RGB(255,255,255));
+		char * Value = NULL;
+		DWORD val = 0;
 		{
 			if (bct->ValueDBSection && bct->ValueTypeDef)
 			{
 				char * key;
 				char * section;
-				DWORD defval=0;
+				DWORD defval = 0;
 				char buf[20];
-				key=mir_strdup(bct->ValueDBSection);
-				section=key;
-				if (bct->ValueTypeDef[0]!='s')
-					defval=(DWORD)atol(bct->ValueTypeDef+1);
+				key = mir_strdup(bct->ValueDBSection);
+				section = key;
+				if (bct->ValueTypeDef[0] != 's')
+					defval = (DWORD)atol(bct->ValueTypeDef+1);
 				do 
 				{
-					if (key[0]=='/') {key[0]='\0'; key++; break;}
+					if (key[0] == '/') {key[0] = '\0'; key++; break;}
 					key++;
-				} while (key[0]!='\0');
+				} while (key[0] != '\0');
 				switch (bct->ValueTypeDef[0])
 				{
 				case 's':
 					{
-						Value= db_get_sa(NULL,section,key);
+						Value = db_get_sa(NULL,section,key);
 						if (!Value)
-							Value=mir_strdup(bct->ValueTypeDef+1);
+							Value = mir_strdup(bct->ValueTypeDef+1);
 						break;
 					}         
 				case 'd':
-					defval=db_get_dw(NULL,section,key,defval);
-					Value=mir_strdup(_ltoa(defval,buf,SIZEOF(buf)));
+					defval = db_get_dw(NULL,section,key,defval);
+					Value = mir_strdup(_ltoa(defval,buf,SIZEOF(buf)));
 					break;
 				case 'w':
-					defval=db_get_w(NULL,section,key,defval);
-					Value=mir_strdup(_ltoa(defval,buf,SIZEOF(buf)));
+					defval = db_get_w(NULL,section,key,defval);
+					Value = mir_strdup(_ltoa(defval,buf,SIZEOF(buf)));
 					break;
 				case 'b':
-					defval=db_get_b(NULL,section,key,defval);
-					Value=mir_strdup(_ltoa(defval,buf,SIZEOF(buf)));
+					defval = db_get_b(NULL,section,key,defval);
+					Value = mir_strdup(_ltoa(defval,buf,SIZEOF(buf)));
 					break;
 				}
 				mir_free_and_nill(section);
@@ -191,7 +191,7 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 	}
 	if (whdc && !g_CluiData.fLayered)
 	{
-		RECT r={0};
+		RECT r = {0};
 		GetClientRect(bct->hwnd,&r);
 		BitBlt(whdc,0,0,r.right,r.bottom,hdc,0,0,SRCCOPY);
 	}
@@ -217,56 +217,56 @@ static int ModernSkinButtonToggleDBValue(char * ValueDBSection,char *ValueTypeDe
 		char * val2;
 		char * Value;
 		long l1,l2,curval;
-		DWORD defval=0;
+		DWORD defval = 0;
 		//        char buf[20];
-		key=mir_strdup(ValueDBSection);
-		section=key;
+		key = mir_strdup(ValueDBSection);
+		section = key;
 		do 
 		{
-			if (key[0]=='/') {key[0]='\0'; key++; break;}
+			if (key[0] == '/') {key[0] = '\0'; key++; break;}
 			key++;
-		} while (key[0]!='\0');
+		} while (key[0] != '\0');
 
-		val=mir_strdup(ValueTypeDef+1);
-		val2=val;
+		val = mir_strdup(ValueTypeDef+1);
+		val2 = val;
 		do 
 		{
-			if (val2[0]=='/') {val2[0]='\0'; val2++; break;}
+			if (val2[0] == '/') {val2[0] = '\0'; val2++; break;}
 			val2++;
-		} while (val2[0]!='\0');
+		} while (val2[0] != '\0');
 
-		if (ValueTypeDef[0]!='s')
+		if (ValueTypeDef[0] != 's')
 		{
-			l1=(DWORD)atol(val);
-			l2=(DWORD)atol(val2);
+			l1 = (DWORD)atol(val);
+			l2 = (DWORD)atol(val2);
 		}
 
 		switch (ValueTypeDef[0])
 		{
 		case 's':
 			{
-				Value= db_get_sa(NULL,section,key);
+				Value = db_get_sa(NULL,section,key);
 				if (!Value ||(Value && mir_bool_strcmpi(Value,val2)))
-					Value=mir_strdup(val);
+					Value = mir_strdup(val);
 				else 
-					Value=mir_strdup(val2);
+					Value = mir_strdup(val2);
 				db_set_s(NULL,section,key,Value);
 				mir_free_and_nill(Value);
 				break;
 			}         
 		case 'd':
-			curval=db_get_dw(NULL,section,key,l2);
-			curval=(curval==l2)?l1:l2;
+			curval = db_get_dw(NULL,section,key,l2);
+			curval = (curval == l2)?l1:l2;
 			db_set_dw(NULL,section,key,(DWORD)curval);
 			break;
 		case 'w':
-			curval=db_get_w(NULL,section,key,l2);
-			curval=(curval==l2)?l1:l2;
+			curval = db_get_w(NULL,section,key,l2);
+			curval = (curval == l2)?l1:l2;
 			db_set_w(NULL,section,key,(WORD)curval);            
 			break;
 		case 'b':
-			curval=db_get_b(NULL,section,key,l2);
-			curval=(curval==l2)?l1:l2;
+			curval = db_get_b(NULL,section,key,l2);
+			curval = (curval == l2)?l1:l2;
 			db_set_b(NULL,section,key,(BYTE)curval);            
 			break;
 		}       
@@ -278,13 +278,13 @@ static int ModernSkinButtonToggleDBValue(char * ValueDBSection,char *ValueTypeDe
 
 static char *_skipblank(char * str) //str will be modified;
 {
-	char * endstr=str+strlen(str);
-	while ((*str==' ' || *str=='\t') && *str!='\0') str++;
-	while ((*endstr==' ' || *endstr=='\t') && *endstr!='\0' && endstr<str) endstr--;
-	if (*endstr!='\0') 
+	char * endstr = str+strlen(str);
+	while ((*str == ' ' || *str == '\t') && *str != '\0') str++;
+	while ((*endstr == ' ' || *endstr == '\t') && *endstr != '\0' && endstr < str) endstr--;
+	if (*endstr != '\0') 
 	{
 		endstr++; 
-		*endstr='\0';
+		*endstr = '\0';
 	}
 	return str;
 }
@@ -292,65 +292,65 @@ static char *_skipblank(char * str) //str will be modified;
 static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 {
 	char * pszService;
-	char * param1=NULL;
-	char * param2=NULL;
-	int paramCount=0;
-	int result=0;
-	pszService=mir_strdup(toParce);
-	param2=strrchr(pszService, '%');
+	char * param1 = NULL;
+	char * param2 = NULL;
+	int paramCount = 0;
+	int result = 0;
+	pszService = mir_strdup(toParce);
+	param2 = strrchr(pszService, '%');
 	if (param2)
 	{
 		paramCount++;
-		*param2='\0';	param2++;
+		*param2 = '\0';	param2++;
 		_skipblank(param2);					
-		if (strlen(param2)==0) param2=NULL;
+		if (strlen(param2) == 0) param2 = NULL;
 	}
-	param1=strrchr(pszService, '%');
+	param1 = strrchr(pszService, '%');
 	if (param1)
 	{
 		paramCount++;
-		*param1='\0';	param1++;
+		*param1 = '\0';	param1++;
 		_skipblank(param1);
-		if (strlen(param1)==0) param1=NULL;
+		if (strlen(param1) == 0) param1 = NULL;
 	}
 	if (!pszService) return 0;
-	if (strlen(pszService)==0)
+	if (strlen(pszService) == 0)
 	{
 		mir_free(pszService);
 		return 0;
 	}
-	if (param1 && *param1=='\"')
+	if (param1 && *param1 == '\"')
 	{
 		param1++;
-		*(param1+strlen(param1))='\0';
+		*(param1+strlen(param1)) = '\0';
 	}
 	else if (param1)
 	{
-		param1=(char*)atoi(param1);
+		param1 = (char*)atoi(param1);
 	}
-	if (param2 && *param2=='\"')
+	if (param2 && *param2 == '\"')
 	{
 		param2++;
-		*(param2+strlen(param2))='\0';
+		*(param2+strlen(param2)) = '\0';
 	}
 	else if (param2)
-		param2=(char*)atoi(param2);
+		param2 = (char*)atoi(param2);
 
-	if (paramCount==1) 
+	if (paramCount == 1) 
 	{
-		param1=param2;
-		param2=NULL;
+		param1 = param2;
+		param2 = NULL;
 	}
 	if (!ServiceExists(pszService))
 	{
-		result=0;
+		result = 0;
 	}
 	else 
 	{
-		int ret=0;
-		result=1;		
-		ret=CallService(pszService, (WPARAM)param1, (WPARAM)param2);
-		if (Return) *Return=ret;
+		int ret = 0;
+		result = 1;		
+		ret = CallService(pszService, (WPARAM)param1, (WPARAM)param2);
+		if (Return) *Return = ret;
 	}
 	mir_free(pszService);
 	return result;
@@ -359,21 +359,21 @@ static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 
 static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, LPARAM lParam)
 {
-	ModernSkinButtonCtrl* bct =  (msg!=WM_NCCREATE)?(ModernSkinButtonCtrl *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA):0;
+	ModernSkinButtonCtrl* bct = (msg != WM_NCCREATE)?(ModernSkinButtonCtrl *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA):0;
 	if (bct && bct->HandleService && IsBadStringPtrA(bct->HandleService,255))
-		bct->HandleService=NULL;
+		bct->HandleService = NULL;
 
 	if (bct)
 		if (bct->HandleService)
 			if (ServiceExists(bct->HandleService))
 			{
 				int t;
-				HandleServiceParams MSG={0};
-				MSG.hwnd=hwndDlg;
-				MSG.msg=msg;
-				MSG.wParam=wParam;
-				MSG.lParam=lParam;
-				t=CallService(bct->HandleService,(WPARAM)&MSG,0);
+				HandleServiceParams MSG = {0};
+				MSG.hwnd = hwndDlg;
+				MSG.msg = msg;
+				MSG.wParam = wParam;
+				MSG.lParam = lParam;
+				t = CallService(bct->HandleService,(WPARAM)&MSG,0);
 				if (MSG.handled) return t;
 			}
 			switch(msg) 
@@ -399,7 +399,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 							if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
 								SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
 							}
-							if (SendMessage(hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti)==0) {
+							if (SendMessage(hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
 								DestroyWindow(hwndToolTips);
 								hwndToolTips = NULL;
 							}
@@ -436,7 +436,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 				{
 					if (IsWindowVisible(hwndDlg) && !g_CluiData.fLayered)
 					{
-						PAINTSTRUCT ps={0};
+						PAINTSTRUCT ps = {0};
 						BeginPaint(hwndDlg,&ps);
 						ModernSkinButtonPaintWorker(hwndDlg,(HDC)ps.hdc);
 						EndPaint(hwndDlg,&ps);
@@ -445,8 +445,8 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 				}
 			case WM_CAPTURECHANGED:
 				{                
-					bct->hover=0;
-					bct->down=0;
+					bct->hover = 0;
+					bct->down = 0;
 					ModernSkinButtonPaintWorker(bct->hwnd,0);
 					//	KillTimer(bct->hwnd,1234);
 					break;
@@ -455,10 +455,10 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 				//	{
 				//		    POINT t;
 				//                  GetCursorPos(&t);
-				//                  if (bct->hover && WindowFromPoint(t)!=bct->hwnd)
+				//                  if (bct->hover && WindowFromPoint(t) != bct->hwnd)
 				//			{
 				//				KillTimer(bct->hwnd,1234);
-				//				bct->hover=0;
+				//				bct->hover = 0;
 				//				ReleaseCapture();
 				//				PaintWorker(bct->hwnd,0);
 				//			}
@@ -469,7 +469,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 					if (!bct->hover) 
 					{
 						SetCapture(bct->hwnd);
-						bct->hover=1;
+						bct->hover = 1;
 						//KillTimer(bct->hwnd,1234);
 						//CLUI_SafeSetTimer(bct->hwnd,1234,100,NULL);
 						ModernSkinButtonPaintWorker(bct->hwnd,0);
@@ -478,10 +478,10 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 					else
 					{
 						POINT t;
-						t.x=LOWORD(lParam);
-						t.y=HIWORD(lParam);
+						t.x = LOWORD(lParam);
+						t.y = HIWORD(lParam);
 						ClientToScreen(bct->hwnd,&t);
-						if (WindowFromPoint(t)!=bct->hwnd)
+						if (WindowFromPoint(t) != bct->hwnd)
 							ReleaseCapture();
 						return 0;
 					}
@@ -492,11 +492,11 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 				{
 					//KillTimer(bct->hwnd,1234);
 					//CLUI_SafeSetTimer(bct->hwnd,1234,100,NULL);
-					bct->down=1;
+					bct->down = 1;
 					SetForegroundWindow(GetParent(bct->hwnd));
 					ModernSkinButtonPaintWorker(bct->hwnd,0);
 					if (bct && bct->CommandService && IsBadStringPtrA(bct->CommandService,255))
-						bct->CommandService=NULL;
+						bct->CommandService = NULL;
 					if (bct->fCallOnPress)
 					{
 						if (bct->CommandService)
@@ -505,7 +505,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 							if (!_CallServiceStrParams(bct->CommandService, NULL)&&  (bct->ValueDBSection && bct->ValueTypeDef))
 									ModernSkinButtonToggleDBValue(bct->ValueDBSection,bct->ValueTypeDef);      
 						}
-						bct->down=0;
+						bct->down = 0;
 
 						ModernSkinButtonPaintWorker(bct->hwnd,0);
 					}
@@ -518,11 +518,11 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 					//KillTimer(bct->hwnd,1234);
 					//CLUI_SafeSetTimer(bct->hwnd,1234,100,NULL);
 					ReleaseCapture();
-					bct->hover=0;
-					bct->down=0;
+					bct->hover = 0;
+					bct->down = 0;
 					ModernSkinButtonPaintWorker(bct->hwnd,0);
 					if (bct && bct->CommandService && IsBadStringPtrA(bct->CommandService,255))
-						bct->CommandService=NULL;
+						bct->CommandService = NULL;
 					if (bct->CommandService)
 						if (_CallServiceStrParams(bct->CommandService, NULL))
 						{}
@@ -565,7 +565,7 @@ HWND SetToolTip(HWND hwnd, TCHAR * tip)
 	}
 	ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
 	ti.uId = (UINT_PTR)hwnd;
-	ti.lpszText=(TCHAR*)tip;
+	ti.lpszText = (TCHAR*)tip;
 	SendMessage(hwndToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
 
 	LeaveCriticalSection(&csTips);
@@ -577,14 +577,14 @@ HWND SetToolTip(HWND hwnd, TCHAR * tip)
 typedef struct _MButton
 {
 	HWND hwnd;
-	BYTE    ConstrainPositionFrom;  //(BBRRTTLL)  L=0 - from left, L=1 from right, L=2 from center
+	BYTE    ConstrainPositionFrom;  //(BBRRTTLL)  L = 0 - from left, L = 1 from right, L = 2 from center
 	int OrL,OrR,OrT,OrB;
 	int minW,minH;
 	ModernSkinButtonCtrl * bct;
 
 } MButton;
-MButton * Buttons=NULL;
-DWORD ButtonsCount=0;
+MButton * Buttons = NULL;
+DWORD ButtonsCount = 0;
 
 #define _center_h( rc ) (( (rc)->right + (rc)->left ) >> 1)
 #define _center_v( rc ) (( (rc)->bottom + (rc)->top ) >> 1)
@@ -607,53 +607,53 @@ int ModernSkinButton_AddButton(HWND parent,
 	//  if (!parent) return 0;
 	if (!ModernSkinButtonModuleIsLoaded) return 0;
 	if (!Buttons)
-		Buttons=(MButton*)mir_alloc(sizeof(MButton));
+		Buttons = (MButton*)mir_alloc(sizeof(MButton));
 	else
-		Buttons=(MButton*)mir_realloc(Buttons,sizeof(MButton)*(ButtonsCount+1));
+		Buttons = (MButton*)mir_realloc(Buttons,sizeof(MButton)*(ButtonsCount+1));
 	{
 		//HWND hwnd;
-		RECT rc={0};
+		RECT rc = {0};
 		ModernSkinButtonCtrl* bct;
 		int l,r,b,t;
 		if (parent) GetClientRect(parent,&rc);
-		l=( sbFlags & SBF_ALIGN_TL_RIGHT )   ? ( rc.right + Left ) :  
+		l = ( sbFlags & SBF_ALIGN_TL_RIGHT )   ? ( rc.right + Left ) :  
           ( sbFlags & SBF_ALIGN_TL_HCENTER ) ? ( _center_h( &rc ) + Left ) : 
           ( rc.left + Left );
 		
-        t=( sbFlags & SBF_ALIGN_TL_BOTTOM )  ? ( rc.bottom + Top ) : 
+        t = ( sbFlags & SBF_ALIGN_TL_BOTTOM )  ? ( rc.bottom + Top ) : 
           ( sbFlags & SBF_ALIGN_TL_VCENTER ) ? ( _center_v( &rc ) + Top ) :
           ( rc.top+Top );
 		
-        r=( sbFlags & SBF_ALIGN_BR_RIGHT )   ? ( rc.right + Right ) :
+        r = ( sbFlags & SBF_ALIGN_BR_RIGHT )   ? ( rc.right + Right ) :
           ( sbFlags & SBF_ALIGN_BR_HCENTER ) ? ( _center_h( &rc) + Right ) :
           ( rc.left + Right );
 		
-        b=( sbFlags & SBF_ALIGN_BR_BOTTOM )  ? ( rc.bottom + Bottom ) : 
+        b = ( sbFlags & SBF_ALIGN_BR_BOTTOM )  ? ( rc.bottom + Bottom ) : 
           ( sbFlags & SBF_ALIGN_BR_VCENTER ) ? ( _center_v( &rc ) + Bottom ) : 
           ( rc.top + Bottom );
-		bct=(ModernSkinButtonCtrl *)mir_alloc(sizeof(ModernSkinButtonCtrl));
+		bct = (ModernSkinButtonCtrl *)mir_alloc(sizeof(ModernSkinButtonCtrl));
 		memset(bct,0,sizeof(ModernSkinButtonCtrl));
-		bct->Left=l;
-		bct->Right=r;
-		bct->Top=t;
-		bct->Bottom=b;
-		bct->fCallOnPress=( sbFlags & SBF_CALL_ON_PRESS )!=0;
-		bct->HandleService=mir_strdup(HandeService);
-		bct->CommandService=mir_strdup(CommandService);
-		bct->StateService=mir_strdup(StateDefService);
-		if (DBkey && &DBkey!='\0') bct->ValueDBSection=mir_strdup(DBkey); else bct->ValueDBSection=NULL;
-		if (TypeDef && &TypeDef!='\0') bct->ValueTypeDef=mir_strdup(TypeDef); else bct->ValueTypeDef=mir_strdup("sDefault");
-		bct->ID=mir_strdup(ID);
-		bct->Hint=mir_tstrdup(Hint);
-		Buttons[ButtonsCount].bct=bct;
-		Buttons[ButtonsCount].hwnd=NULL;
-		Buttons[ButtonsCount].OrL=Left;
-		Buttons[ButtonsCount].OrT=Top;
-		Buttons[ButtonsCount].OrR=Right;
-		Buttons[ButtonsCount].OrB=Bottom;
-		Buttons[ButtonsCount].ConstrainPositionFrom=(BYTE)sbFlags;  
-		Buttons[ButtonsCount].minH=MinHeight;
-		Buttons[ButtonsCount].minW=MinWidth;
+		bct->Left = l;
+		bct->Right = r;
+		bct->Top = t;
+		bct->Bottom = b;
+		bct->fCallOnPress = ( sbFlags & SBF_CALL_ON_PRESS ) != 0;
+		bct->HandleService = mir_strdup(HandeService);
+		bct->CommandService = mir_strdup(CommandService);
+		bct->StateService = mir_strdup(StateDefService);
+		if (DBkey && &DBkey != '\0') bct->ValueDBSection = mir_strdup(DBkey); else bct->ValueDBSection = NULL;
+		if (TypeDef && &TypeDef != '\0') bct->ValueTypeDef = mir_strdup(TypeDef); else bct->ValueTypeDef = mir_strdup("sDefault");
+		bct->ID = mir_strdup(ID);
+		bct->Hint = mir_tstrdup(Hint);
+		Buttons[ButtonsCount].bct = bct;
+		Buttons[ButtonsCount].hwnd = NULL;
+		Buttons[ButtonsCount].OrL = Left;
+		Buttons[ButtonsCount].OrT = Top;
+		Buttons[ButtonsCount].OrR = Right;
+		Buttons[ButtonsCount].OrB = Bottom;
+		Buttons[ButtonsCount].ConstrainPositionFrom = (BYTE)sbFlags;  
+		Buttons[ButtonsCount].minH = MinHeight;
+		Buttons[ButtonsCount].minW = MinWidth;
 		ButtonsCount++;
 		//  CLUI_ShowWindowMod(hwnd,SW_SHOW);
 	}
@@ -671,9 +671,9 @@ static int ModernSkinButtonErase(int l,int t,int r, int b)
 	if (!g_pCachedWindow->hImageDC ||!g_pCachedWindow->hBackDC) return 0;
 	if (!(l||r||t||b))
 	{
-		for(i=0; i<ButtonsCount; i++)
+		for(i = 0; i < ButtonsCount; i++)
 		{
-			if (pcli->hwndContactList && Buttons[i].hwnd!=NULL)      
+			if (pcli->hwndContactList && Buttons[i].hwnd != NULL)      
 			{
 				//TODO: Erase button
 				BitBlt(g_pCachedWindow->hImageDC,Buttons[i].bct->Left,Buttons[i].bct->Top,Buttons[i].bct->Right-Buttons[i].bct->Left,Buttons[i].bct->Bottom-Buttons[i].bct->Top,
@@ -692,11 +692,11 @@ static HWND ModernSkinButtonCreateWindow(ModernSkinButtonCtrl * bct, HWND parent
 {
 	HWND hwnd;
 
-	if (bct==NULL) return FALSE;
+	if (bct == NULL) return FALSE;
 	{
 		TCHAR *UnicodeID;
-		UnicodeID=mir_a2u(bct->ID);
-		hwnd=CreateWindow(_T(MODERNSKINBUTTONCLASS),UnicodeID,WS_VISIBLE|WS_CHILD,bct->Left,bct->Top,bct->Right-bct->Left,bct->Bottom-bct->Top,parent,NULL,g_hInst,NULL);       
+		UnicodeID = mir_a2u(bct->ID);
+		hwnd = CreateWindow(_T(MODERNSKINBUTTONCLASS),UnicodeID,WS_VISIBLE|WS_CHILD,bct->Left,bct->Top,bct->Right-bct->Left,bct->Bottom-bct->Top,parent,NULL,g_hInst,NULL);       
 		mir_free(UnicodeID);
 	}
 
@@ -711,10 +711,10 @@ int ModernSkinButtonRedrawAll(HDC hdc)
 	DWORD i;
 	if (!ModernSkinButtonModuleIsLoaded) return 0;
 	g_mutex_bLockUpdating++;
-	for(i=0; i<ButtonsCount; i++)
+	for(i = 0; i < ButtonsCount; i++)
 	{
-		if (pcli->hwndContactList && Buttons[i].hwnd==NULL)
-			Buttons[i].hwnd=ModernSkinButtonCreateWindow(Buttons[i].bct,pcli->hwndContactList);
+		if (pcli->hwndContactList && Buttons[i].hwnd == NULL)
+			Buttons[i].hwnd = ModernSkinButtonCreateWindow(Buttons[i].bct,pcli->hwndContactList);
 		ModernSkinButtonPaintWorker(Buttons[i].hwnd,0); 
 	}
 	g_mutex_bLockUpdating--;
@@ -724,10 +724,10 @@ int ModernSkinButtonDeleteAll()
 {
 	DWORD i;
 	if (!ModernSkinButtonModuleIsLoaded) return 0;
-	for(i=0; i<ButtonsCount; i++)
+	for(i = 0; i < ButtonsCount; i++)
 		if (Buttons[i].hwnd) DestroyWindow(Buttons[i].hwnd);
 	if (Buttons) mir_free_and_nill(Buttons);
-	ButtonsCount=0;
+	ButtonsCount = 0;
 	return 0;
 }
 
@@ -737,39 +737,39 @@ int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT * r)
 	RECT rc;
 	RECT clr;
 	RECT rd;
-	BOOL altDraw=FALSE;
-	static SIZE oldWndSize={0};
+	BOOL altDraw = FALSE;
+	static SIZE oldWndSize = {0};
 	if (!ModernSkinButtonModuleIsLoaded) return 0;
 	GetWindowRect(parent,&rd);
 	GetClientRect(parent,&clr);
 	if (!r)
 		GetWindowRect(parent,&rc);  
 	else
-		rc=*r;
+		rc = *r;
 	if (g_CluiData.fLayered && ( draw & SBRF_DO_ALT_DRAW ))
 	{
 		int sx,sy;
-		sx=rd.right-rd.left;
-		sy=rd.bottom-rd.top;
-		if (sx!=oldWndSize.cx || sy!=oldWndSize.cy)
-			altDraw=TRUE;//EraseButtons();
-		oldWndSize.cx=sx;
-		oldWndSize.cy=sy;
+		sx = rd.right-rd.left;
+		sy = rd.bottom-rd.top;
+		if (sx != oldWndSize.cx || sy != oldWndSize.cy)
+			altDraw = TRUE;//EraseButtons();
+		oldWndSize.cx = sx;
+		oldWndSize.cy = sy;
 	}
 
 
 	OffsetRect(&rc,-rc.left,-rc.top);
-	rc.right=rc.left+(clr.right-clr.left);
-	rc.bottom=rc.top+(clr.bottom-clr.top);
-	for(i=0; i<ButtonsCount; i++)
+	rc.right = rc.left+(clr.right-clr.left);
+	rc.bottom = rc.top+(clr.bottom-clr.top);
+	for(i = 0; i < ButtonsCount; i++)
 	{
 		int l,r,b,t;
-		RECT oldRect={0};
-		int sbFlags=Buttons[i].ConstrainPositionFrom;
-		if (parent && Buttons[i].hwnd==NULL)
+		RECT oldRect = {0};
+		int sbFlags = Buttons[i].ConstrainPositionFrom;
+		if (parent && Buttons[i].hwnd == NULL)
 		{
-			Buttons[i].hwnd=ModernSkinButtonCreateWindow(Buttons[i].bct,parent);
-			altDraw=FALSE;
+			Buttons[i].hwnd = ModernSkinButtonCreateWindow(Buttons[i].bct,parent);
+			altDraw = FALSE;
 		}
 
         l = ( sbFlags & SBF_ALIGN_TL_RIGHT )   ? ( rc.right + Buttons[i].OrL ) :  
@@ -789,25 +789,25 @@ int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT * r)
             ( rc.top + Buttons[i].OrB );
    
         SetWindowPos(Buttons[i].hwnd,HWND_TOP,l,t,r-l,b-t,0);
-		if (  (rc.right-rc.left<Buttons[i].minW /*&& Buttons[i].minW!=0*/) 
-			||(rc.bottom-rc.top<Buttons[i].minH /*&& Buttons[i].minH!=0*/))
+		if (  (rc.right-rc.left < Buttons[i].minW /*&& Buttons[i].minW != 0*/) 
+			||(rc.bottom-rc.top < Buttons[i].minH /*&& Buttons[i].minH != 0*/))
 			CLUI_ShowWindowMod(Buttons[i].hwnd,SW_HIDE);
 		else 
 			CLUI_ShowWindowMod(Buttons[i].hwnd,SW_SHOW);
 		if ((1 || altDraw)&&
-			(Buttons[i].bct->Left!=l ||
-			Buttons[i].bct->Top!=t  ||
-			Buttons[i].bct->Right!=r||
-			Buttons[i].bct->Bottom!=b))
+			(Buttons[i].bct->Left != l ||
+			Buttons[i].bct->Top != t  ||
+			Buttons[i].bct->Right != r||
+			Buttons[i].bct->Bottom != b))
 		{
 			//Need to erase in old location
 			ModernSkinButtonErase(Buttons[i].bct->Left,Buttons[i].bct->Top,Buttons[i].bct->Right,Buttons[i].bct->Bottom);
 		}
 
-		Buttons[i].bct->Left=l;
-		Buttons[i].bct->Top=t;
-		Buttons[i].bct->Right=r;
-		Buttons[i].bct->Bottom=b;
+		Buttons[i].bct->Left = l;
+		Buttons[i].bct->Top = t;
+		Buttons[i].bct->Right = r;
+		Buttons[i].bct->Bottom = b;
 
 
 	}

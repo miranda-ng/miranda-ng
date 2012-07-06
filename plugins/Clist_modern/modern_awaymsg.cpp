@@ -65,29 +65,29 @@ static int amAddHandleToChain(HANDLE hContact)
 	{
 		//check that handle is present
 		AMCHAINITEM * wChain;
-		wChain=amFirstChainItem;
+		wChain = amFirstChainItem;
 		if (wChain)
 			do {
-				if (wChain->hContact==hContact)
+				if (wChain->hContact == hContact)
 				{
 					amunlock;
 					return 0;
 				}
-			} while(wChain=(AMCHAINITEM *)wChain->Next);
+			} while(wChain = (AMCHAINITEM *)wChain->Next);
 	}
 	if (!amFirstChainItem)  
 	{
-		amFirstChainItem=(AMCHAINITEM*)malloc(sizeof(AMCHAINITEM));
-		workChain=amFirstChainItem;
+		amFirstChainItem = (AMCHAINITEM*)malloc(sizeof(AMCHAINITEM));
+		workChain = amFirstChainItem;
 	}
 	else 
 	{
-		amLastChainItem->Next=(AMCHAINITEM*)malloc(sizeof(AMCHAINITEM));
-		workChain=(AMCHAINITEM *)amLastChainItem->Next;
+		amLastChainItem->Next = (AMCHAINITEM*)malloc(sizeof(AMCHAINITEM));
+		workChain = (AMCHAINITEM *)amLastChainItem->Next;
 	}
-	amLastChainItem=workChain;
-	workChain->Next=NULL;
-	workChain->hContact=hContact;
+	amLastChainItem = workChain;
+	workChain->Next = NULL;
+	workChain->hContact = hContact;
 	amunlock;
 	SetEvent(hamProcessEvent);
 	return 1;
@@ -100,14 +100,14 @@ static int amAddHandleToChain(HANDLE hContact)
 static HANDLE amGetCurrentChain()
 {
 	AMCHAINITEM * workChain;
-	HANDLE res=NULL;
+	HANDLE res = NULL;
 	amlock;
 	if (amFirstChainItem)
 	{
-		res=amFirstChainItem->hContact;
-		workChain=amFirstChainItem->Next;
+		res = amFirstChainItem->hContact;
+		workChain = amFirstChainItem->Next;
 		free(amFirstChainItem);
-		amFirstChainItem=(AMCHAINITEM *)workChain;
+		amFirstChainItem = (AMCHAINITEM *)workChain;
 	}
 	amunlock;
 	return res;
@@ -120,58 +120,58 @@ static int amThreadProc(HWND hwnd)
 {
 	DWORD time;
 	HANDLE hContact;
-	HANDLE ACK=0;
+	HANDLE ACK = 0;
 	displayNameCacheEntry dnce;
 	memset( &dnce, 0, sizeof(dnce));
 
 	while (!MirandaExiting())
 	{
-		hContact=amGetCurrentChain(); 
+		hContact = amGetCurrentChain(); 
 		while (hContact)
 		{ 
-			time=GetTickCount();
-			if ((time-amRequestTick)<AMASKPERIOD)
+			time = GetTickCount();
+			if ((time-amRequestTick) < AMASKPERIOD)
 			{
 				SleepEx(AMASKPERIOD-(time-amRequestTick)+10,TRUE);
 				if (MirandaExiting())
 				{
-					g_dwAwayMsgThreadID=0;
+					g_dwAwayMsgThreadID = 0;
 					return 0; 
 				}
 			}
 			CListSettings_FreeCacheItemData(&dnce);
-			dnce.m_cache_hContact=(HANDLE)hContact;
+			dnce.m_cache_hContact = (HANDLE)hContact;
 			Sync(CLUI_SyncGetPDNCE, (WPARAM) 0,(LPARAM)&dnce);            
-			if (dnce.ApparentMode!=ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
-				ACK=(HANDLE)CallContactService(hContact,PSS_GETAWAYMSG,0,0);		
+			if (dnce.ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
+				ACK = (HANDLE)CallContactService(hContact,PSS_GETAWAYMSG,0,0);		
 			if (!ACK)
 			{
 				ACKDATA ack;
-				ack.hContact=hContact;
-				ack.type=ACKTYPE_AWAYMSG;
-				ack.result=ACKRESULT_FAILED;
+				ack.hContact = hContact;
+				ack.type = ACKTYPE_AWAYMSG;
+				ack.result = ACKRESULT_FAILED;
 				if (dnce.m_cache_cszProto)
-					ack.szModule=dnce.m_cache_cszProto;
+					ack.szModule = dnce.m_cache_cszProto;
 				else
-					ack.szModule=NULL;
+					ack.szModule = NULL;
 				ClcDoProtoAck(hContact, &ack);
 			}
 			CListSettings_FreeCacheItemData(&dnce);
-			amRequestTick=time;
-			hContact=amGetCurrentChain();
+			amRequestTick = time;
+			hContact = amGetCurrentChain();
 			if (hContact) 
 			{
-				DWORD i=0;
+				DWORD i = 0;
 				do 
 				{
 					i++;
 					SleepEx(50,TRUE);
-				} while (i<AMASKPERIOD/50&&!MirandaExiting());
+				} while (i < AMASKPERIOD/50&&!MirandaExiting());
 			}
 			else break;
 			if (MirandaExiting()) 
 			{	
-				g_dwAwayMsgThreadID=0;
+				g_dwAwayMsgThreadID = 0;
 				return 0;			
 			}
 		}
@@ -179,11 +179,11 @@ static int amThreadProc(HWND hwnd)
 		ResetEvent(hamProcessEvent);
 		if (MirandaExiting()) 
 		{
-			g_dwAwayMsgThreadID=0;
+			g_dwAwayMsgThreadID = 0;
 			return 0;
 		}
 	}
-	g_dwAwayMsgThreadID=0;
+	g_dwAwayMsgThreadID = 0;
 	return 1;
 }
 
@@ -209,7 +209,7 @@ void amRequestAwayMsg(HANDLE hContact)
 		return;
 	//Do not re-ask for chat rooms   
 	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-	if (szProto == NULL || db_get_b(hContact, szProto, "ChatRoom", 0) != 0) 	
+	if (szProto == NULL || db_get_b(hContact, szProto, "ChatRoom", 0) !=0) 	
 		return;
 	amAddHandleToChain(hContact);        
 }
@@ -217,8 +217,8 @@ void amRequestAwayMsg(HANDLE hContact)
 void InitAwayMsgModule()
 {
 	InitializeCriticalSection(&amLockChain);
-	hamProcessEvent=CreateEvent(NULL,FALSE,FALSE,NULL);   
-	g_dwAwayMsgThreadID=(DWORD)mir_forkthread((pThreadFunc)amThreadProc,0);
+	hamProcessEvent = CreateEvent(NULL,FALSE,FALSE,NULL);   
+	g_dwAwayMsgThreadID = (DWORD)mir_forkthread((pThreadFunc)amThreadProc,0);
 }
 
 void UninitAwayMsgModule()

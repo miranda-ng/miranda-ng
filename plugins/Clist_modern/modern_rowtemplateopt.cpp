@@ -37,11 +37,11 @@ void RefreshTree(HWND hwndDlg,HTREEITEM hti);
 static char* rowOptTmplStr;
 static ROWCELL* rowOptTmplRoot;
 static ROWCELL* rowOptTA[100];
-				TCHAR *types[]={_T("none"),   _T("text1"),  _T("text2"),  _T("text3"),  _T("status"), 
+				TCHAR *types[] = {_T("none"),   _T("text1"),  _T("text2"),  _T("text3"),  _T("status"), 
 								_T("avatar"), _T("extra"),  _T("extra1"), _T("extra2"), _T("extra3"), 
 								_T("extra4"), _T("extra5"), _T("extra6"), _T("extra7"), _T("extra8"), 
 								_T("extra9"), _T("time"),   _T("space"),  _T("fspace")};
-RECT da={205,58,440,130}; // Draw area
+RECT da = {205,58,440,130}; // Draw area
 // Add by ZorG
 
 //char * rowOptBuildTmpl(HTREEITEM node, HWND htree)
@@ -63,7 +63,7 @@ void rowOptShowSettings(HWND hwnd)
 	int param;
 
 	tvi.hItem = node;
-	tvi.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
+	tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 
 	TreeView_GetItem(GetDlgItem(hwnd, IDC_ROWTREE), &tvi);
 	cell = (pROWCELL)tvi.lParam;
@@ -89,7 +89,7 @@ void rowOptShowSettings(HWND hwnd)
 		EnableWindow(GetDlgItem(hwnd,IDC_HALIGN) ,1);
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTLAYER),1);
 
-		if (cell->type != TC_SPACE && cell->type != TC_FIXED)
+		if (cell->type !=TC_SPACE && cell->type !=TC_FIXED)
 		{
 			EnableWindow(GetDlgItem(hwnd,IDC_CONTWIDTH) ,0);
 			EnableWindow(GetDlgItem(hwnd,IDC_CONTHEIGHT),0);
@@ -151,19 +151,19 @@ void rowOptGenerateTreeView(pROWCELL cell, HTREEITEM node, HWND hwnd)
 
 	if (!cell) return;
 
-	tvis.hParent=node;
-    tvis.hInsertAfter=TVI_LAST;
-	tvis.item.mask=TVIF_PARAM|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
-	tvis.item.stateMask=TVIS_STATEIMAGEMASK;
+	tvis.hParent = node;
+    tvis.hInsertAfter = TVI_LAST;
+	tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
+	tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 	tvis.item.lParam = (LPARAM)cell;
 
 	switch (cell->cont)
 	{
 	case TC_ROW:
-		tvis.item.pszText=_T("Line");
+		tvis.item.pszText = _T("Line");
 		break;
 	case TC_COL:
-		tvis.item.pszText=_T("Column");
+		tvis.item.pszText = _T("Column");
 	}
 	
 	tvis.item.iImage = cell->child?1:2;
@@ -177,7 +177,7 @@ void rowOptGenerateTreeView(pROWCELL cell, HTREEITEM node, HWND hwnd)
 
 int rowOptFillRowTree(HWND hwnd)
 {
-	int i=0;
+	int i = 0;
 	TreeView_DeleteAllItems(hwnd);
 	rowOptGenerateTreeView(rowOptTmplRoot, NULL, hwnd);
 	TreeView_Expand(hwnd, TreeView_GetRoot(hwnd), TVM_EXPAND);
@@ -199,7 +199,7 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 			rowAddCell(rowOptTmplRoot, TC_ROW);
 			tvis.hParent = NULL;
 			tvis.hInsertAfter = TVI_ROOT;
-			tvis.item.pszText=_T("Line");
+			tvis.item.pszText = _T("Line");
 			tvis.item.lParam = (LPARAM)rowOptTmplRoot;
 			cell = rowOptTmplRoot;
 		}	
@@ -233,14 +233,14 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 			cell = cell->child;
 		}
 
-		tvis.hInsertAfter=TVI_LAST;
+		tvis.hInsertAfter = TVI_LAST;
 	}
 	
 	tvis.item.lParam = (LPARAM)cell;
 	tvis.hParent = hti;
 
 	tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
-	tvis.item.stateMask=TVIS_STATEIMAGEMASK;
+	tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 	tvis.item.iImage = 2;
 	tvis.item.iSelectedImage = 2;
 
@@ -271,7 +271,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 
 	// Get current tree item
 	tvi.hItem = hti;
-	tvi.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
+	tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 	TreeView_GetItem(htree, &tvi);
 
 	tvpi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
@@ -313,7 +313,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 	
 
 	// Change icon at parent item
-	if (!prnt || (prnt!=prev)) return;
+	if (!prnt || (prnt != prev)) return;
 						
 	if ( TreeView_GetChild(htree, prnt))
 	{
@@ -333,41 +333,41 @@ void RefreshTree(HWND hwndDlg,HTREEITEM hti)
 {
 	HWND htree = GetDlgItem(hwndDlg, IDC_ROWTREE);
 	pROWCELL  cell;
-	TVITEM    tvi={0};
-	if (hti==NULL) hti = TreeView_GetRoot(htree);
+	TVITEM    tvi = {0};
+	if (hti == NULL) hti = TreeView_GetRoot(htree);
 	while (hti)
 	{	
 		tvi.hItem = hti;
-		tvi.mask=TVIF_HANDLE;//|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_TEXT;
+		tvi.mask = TVIF_HANDLE;//|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_TEXT;
 		TreeView_GetItem(htree, &tvi);
 		cell = (pROWCELL)tvi.lParam;
 		if (cell)
 		{
-			TCHAR buf[200]={0};
+			TCHAR buf[200] = {0};
 			if (!cell->child)
 			{
-				if (cell->type==0)
-					mir_sntprintf(buf, SIZEOF(buf), TranslateT("Empty %s cell"), cell->cont==TC_COL?TranslateT("column"):TranslateT("line"));
+				if (cell->type == 0)
+					mir_sntprintf(buf, SIZEOF(buf), TranslateT("Empty %s cell"), cell->cont == TC_COL?TranslateT("column"):TranslateT("line"));
 				else
 					mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s"), TranslateTS(types[cell->type]));
 			}
 			else
 			{
-				if (cell->type==0)
-					mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s"), cell->cont!=TC_COL?TranslateT("columns"):TranslateT("lines"));
+				if (cell->type == 0)
+					mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s"), cell->cont != TC_COL?TranslateT("columns"):TranslateT("lines"));
 				else
-					mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s, contain %s"), TranslateTS(types[cell->type]),cell->cont!=TC_COL?TranslateT("columns"):TranslateT("lines"));
+					mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s, contain %s"), TranslateTS(types[cell->type]),cell->cont != TC_COL?TranslateT("columns"):TranslateT("lines"));
 			}
 			if (cell->layer) _tcsncat(buf,TranslateT(" layered"),SIZEOF(buf));
-			tvi.mask=TVIF_HANDLE|TVIF_TEXT;
-			tvi.pszText=buf;
+			tvi.mask = TVIF_HANDLE|TVIF_TEXT;
+			tvi.pszText = buf;
 			TreeView_SetItem(htree,&tvi);
 		}
 		{
-			HTREEITEM child_hti=TreeView_GetChild(htree,hti);
+			HTREEITEM child_hti = TreeView_GetChild(htree,hti);
 			if (child_hti) RefreshTree(hwndDlg,child_hti);
 		}
-		hti=TreeView_GetNextSibling(htree,hti);
+		hti = TreeView_GetNextSibling(htree,hti);
 	}
 
 	RedrawWindow(hwndDlg,NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);   
@@ -379,15 +379,15 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	{
 	case WM_INITDIALOG:
 		{
-			int hbuf=0, seq=0;
+			int hbuf = 0, seq = 0;
 			HWND htree = GetDlgItem(hwndDlg,IDC_ROWTREE);
 
 			TranslateDialogDefault(hwndDlg);	
-			rowOptTmplStr =  db_get_sa(NULL, "ModernData", "RowTemplate");
-			if (!rowOptTmplStr) rowOptTmplStr=mir_strdup("<TR />");
+			rowOptTmplStr = db_get_sa(NULL, "ModernData", "RowTemplate");
+			if (!rowOptTmplStr) rowOptTmplStr = mir_strdup(" < TR />");
 			{	
 				//HIMAGELIST himlTreeIcons;
-				//himlTreeIcons=ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,3,2);
+				//himlTreeIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,3,2);
 				//ImageList_AddIcon(himlTreeIcons,LoadSmallIconShared(g_hInst,MAKEINTRESOURCE(IDI_ROWCONT1)));
 				//ImageList_AddIcon(himlTreeIcons,LoadSmallIconShared(g_hInst,MAKEINTRESOURCE(IDI_ROWCONT2)));
 				//ImageList_AddIcon(himlTreeIcons,LoadSmallIconShared(g_hInst,MAKEINTRESOURCE(IDI_ROWCONT3)));
@@ -400,9 +400,9 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				int i, item;
 
-				for (i=0; i<SIZEOF(types); i++) 
+				for (i = 0; i < SIZEOF(types); i++) 
 				{
-					item=SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_ADDSTRING,0,(LPARAM)TranslateTS(types[i]));
+					item = SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_ADDSTRING,0,(LPARAM)TranslateTS(types[i]));
 					SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETITEMDATA,item,(LPARAM)0);
 				}
 				SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETCURSEL,0,0);
@@ -410,10 +410,10 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			{
 				int i, item;
-				TCHAR *alignment[]={_T("left"), _T("hCenter"), _T("right")};
-				for (i=0; i<SIZEOF(alignment); i++) 
+				TCHAR *alignment[] = {_T("left"), _T("hCenter"), _T("right")};
+				for (i = 0; i < SIZEOF(alignment); i++) 
 				{
-					item=SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(alignment[i]));
+					item = SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(alignment[i]));
 					SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETITEMDATA,item,(LPARAM)0);
 				}
 				SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETCURSEL,0,0);
@@ -422,10 +422,10 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			{
 				int i, item;
-				TCHAR *alignment[]={_T("top"), _T("vCenter"), _T("bottom")};
-				for (i=0; i<SIZEOF(alignment); i++) 
+				TCHAR *alignment[] = {_T("top"), _T("vCenter"), _T("bottom")};
+				for (i = 0; i < SIZEOF(alignment); i++) 
 				{
-					item=SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(alignment[i]));
+					item = SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(alignment[i]));
 					SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETITEMDATA,item,(LPARAM)0);
 				}
 				SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETCURSEL,0,0);
@@ -450,28 +450,28 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		{
 			HWND htree = GetDlgItem(hwndDlg, IDC_ROWTREE);
 			pROWCELL  cell;
-			TVITEM    tvi={0};
+			TVITEM    tvi = {0};
 			HTREEITEM hti = TreeView_GetSelection(htree);
 			
 
 			tvi.hItem = hti;
-			tvi.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
+			tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 			TreeView_GetItem(htree, &tvi);
 			cell = (pROWCELL)tvi.lParam;
 
 			switch (LOWORD(wParam))
 			{
 			case IDC_CONTTYPE:
-				if(HIWORD(wParam)==CBN_SELENDOK)
+				if (HIWORD(wParam) == CBN_SELENDOK)
 				{
-					TVITEM    tv={0};
-					int index=SendMessage(GetDlgItem(hwndDlg,IDC_CONTTYPE),CB_GETCURSEL, 0, 0);
+					TVITEM    tv = {0};
+					int index = SendMessage(GetDlgItem(hwndDlg,IDC_CONTTYPE),CB_GETCURSEL, 0, 0);
 					cell->type = index; 
 					RefreshTree(hwndDlg,NULL);
 				}
 			
 			case IDC_VALIGN:
-				if(HIWORD(wParam)==CBN_SELENDOK)
+				if (HIWORD(wParam) == CBN_SELENDOK)
 				{
 					switch (SendMessage(GetDlgItem(hwndDlg,IDC_VALIGN),CB_GETCURSEL, 0, 0))
 					{
@@ -489,7 +489,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				}
 
 			case IDC_HALIGN:
-				if(HIWORD(wParam)==CBN_SELENDOK)
+				if (HIWORD(wParam) == CBN_SELENDOK)
 				{
 					switch (SendMessage(GetDlgItem(hwndDlg,IDC_HALIGN),CB_GETCURSEL, 0, 0))
 					{
@@ -509,24 +509,24 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			
 			}
 
-			if (HIWORD(wParam)==BN_CLICKED) 
+			if (HIWORD(wParam) == BN_CLICKED) 
 			{
-				if (lParam==(LPARAM)GetDlgItem(hwndDlg,IDC_ADDCONTAINER))	
+				if (lParam == (LPARAM)GetDlgItem(hwndDlg,IDC_ADDCONTAINER))	
 				// Adding new container
 				{	
 					rowOptAddContainer(htree, hti);
 				}
-				else if (lParam==(LPARAM)GetDlgItem(hwndDlg,IDC_DELCONTAINER))
+				else if (lParam == (LPARAM)GetDlgItem(hwndDlg,IDC_DELCONTAINER))
 				// Deleting container
 				{
 					rowOptDelContainer(htree, hti);
 				}
-				else if (lParam==(LPARAM)GetDlgItem(hwndDlg,IDC_CONTUP))
+				else if (lParam == (LPARAM)GetDlgItem(hwndDlg,IDC_CONTUP))
 				// Moving container to up
 				{
 					RedrawWindow(htree,&da,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 				}
-				else if (lParam==(LPARAM)GetDlgItem(hwndDlg,IDC_CONTDOWN))
+				else if (lParam == (LPARAM)GetDlgItem(hwndDlg,IDC_CONTDOWN))
 				// Moving container to down
 				{
 				}							
@@ -558,7 +558,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	
 	case WM_PAINT:
 		{
-			int i=0;
+			int i = 0;
 
 			// Drawning row template at properties page
 			PAINTSTRUCT ps;
@@ -569,7 +569,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			hdc = BeginPaint(hwndDlg, &ps);
 
 			curItem.hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_ROWTREE));
-			curItem.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
+			curItem.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 			TreeView_GetItem(GetDlgItem(hwndDlg, IDC_ROWTREE), &curItem);
 
 			while(rowOptTA[i])
@@ -635,7 +635,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				case TC_SPACE:
 				case TC_FIXED:
 				case 0:
-					//if (rowOptTA[i] != (pROWCELL)curItem.lParam)
+					//if (rowOptTA[i] !=(pROWCELL)curItem.lParam)
 						continue;
 				}			
 				Rectangle(hdc, 
@@ -673,8 +673,8 @@ BOOL CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 	case WM_COMMAND:
 		{
-			//LOWORD(wParam)==IDC_control
-			//HIWORD(wParam)==Message
+			//LOWORD(wParam) == IDC_control
+			//HIWORD(wParam) == Message
 			//SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		}

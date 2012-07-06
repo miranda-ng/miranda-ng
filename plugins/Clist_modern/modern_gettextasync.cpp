@@ -47,10 +47,10 @@ typedef struct _GetTextAsyncItem {
 	struct _GetTextAsyncItem *Next;
 } GTACHAINITEM;
 
-static GTACHAINITEM * gtaFirstItem=NULL;
-static GTACHAINITEM * gtaLastItem=NULL;
+static GTACHAINITEM * gtaFirstItem = NULL;
+static GTACHAINITEM * gtaLastItem = NULL;
 static CRITICAL_SECTION gtaCS;
-static HANDLE hgtaWakeupEvent=NULL;
+static HANDLE hgtaWakeupEvent = NULL;
 
 
 static BOOL gtaGetItem(GTACHAINITEM * mpChain)
@@ -64,10 +64,10 @@ static BOOL gtaGetItem(GTACHAINITEM * mpChain)
 	else if (mpChain)
 	{
 		GTACHAINITEM * ch;
-		ch=gtaFirstItem;
-		*mpChain=*ch;
-		gtaFirstItem=(GTACHAINITEM *)ch->Next;
-		if (!gtaFirstItem) gtaLastItem=NULL;
+		ch = gtaFirstItem;
+		*mpChain = *ch;
+		gtaFirstItem = (GTACHAINITEM *)ch->Next;
+		if (!gtaFirstItem) gtaLastItem = NULL;
 		free(ch);
 		gtaunlock;
 		return TRUE;
@@ -78,9 +78,9 @@ static BOOL gtaGetItem(GTACHAINITEM * mpChain)
 
 static int gtaThreadProc(void * lpParam)
 {
-	BOOL exit=FALSE;
-	HWND hwnd=pcli->hwndContactList;
-	struct SHORTDATA data={0};
+	BOOL exit = FALSE;
+	HWND hwnd = pcli->hwndContactList;
+	struct SHORTDATA data = {0};
 	struct SHORTDATA * dat;
 
 	while (!MirandaExiting())
@@ -92,25 +92,25 @@ static int gtaThreadProc(void * lpParam)
 				SleepEx(0,TRUE); //1000 contacts per second
 			if (MirandaExiting()) 
 			{
-				g_dwGetTextAsyncThreadID=0;
+				g_dwGetTextAsyncThreadID = 0;
 				return 0;
 			}
 			else
 			{
-				GTACHAINITEM mpChain={0};
-				struct SHORTDATA dat2={0};
+				GTACHAINITEM mpChain = {0};
+				struct SHORTDATA dat2 = {0};
 				if (!gtaGetItem(&mpChain)) break;
-				if (mpChain.dat==NULL || (!IsBadReadPtr(mpChain.dat,sizeof(mpChain.dat)) && mpChain.dat->hWnd==data.hWnd))	dat=&data;
+				if (mpChain.dat == NULL || (!IsBadReadPtr(mpChain.dat,sizeof(mpChain.dat)) && mpChain.dat->hWnd == data.hWnd))	dat = &data;
 				else
 				{        
 					Sync(CLUI_SyncGetShortData,(WPARAM)mpChain.dat->hWnd,(LPARAM)&dat2);       
-					dat=&dat2;
+					dat = &dat2;
 				}
 				if (!MirandaExiting())
 				{
 					displayNameCacheEntry cacheEntry;
 					memset( &cacheEntry, 0, sizeof(cacheEntry));
-					cacheEntry.m_cache_hContact=mpChain.hContact;
+					cacheEntry.m_cache_hContact = mpChain.hContact;
 					if (!Sync(CLUI_SyncGetPDNCE, (WPARAM) 0,(LPARAM)&cacheEntry))
 					{
 						if (!MirandaExiting()) 
@@ -124,7 +124,7 @@ static int gtaThreadProc(void * lpParam)
 				}
 				else
 				{	
-					g_dwGetTextAsyncThreadID=0;
+					g_dwGetTextAsyncThreadID = 0;
 					return 0;
 				}
 				KillTimer(dat->hWnd,TIMERID_INVALIDATE_FULL);
@@ -136,7 +136,7 @@ static int gtaThreadProc(void * lpParam)
 		WaitForSingleObjectEx(hgtaWakeupEvent, INFINITE, FALSE );
 		ResetEvent(hgtaWakeupEvent);
 	}
-	g_dwGetTextAsyncThreadID=0;
+	g_dwGetTextAsyncThreadID = 0;
 	return 1;
 }
 
@@ -157,19 +157,19 @@ int gtaAddRequest(struct ClcData *dat,struct ClcContact *contact,HANDLE hContact
 	if (MirandaExiting()) return 0;
 	gtalock;    
 	{
-		GTACHAINITEM * mpChain=(GTACHAINITEM *)malloc(sizeof(GTACHAINITEM));
-		mpChain->hContact=hContact;
-		mpChain->dat=dat;
-		mpChain->Next=NULL;
+		GTACHAINITEM * mpChain = (GTACHAINITEM *)malloc(sizeof(GTACHAINITEM));
+		mpChain->hContact = hContact;
+		mpChain->dat = dat;
+		mpChain->Next = NULL;
 		if (gtaLastItem) 
 		{
-			gtaLastItem->Next=(GTACHAINITEM *)mpChain;
-			gtaLastItem=mpChain;
+			gtaLastItem->Next = (GTACHAINITEM *)mpChain;
+			gtaLastItem = mpChain;
 		}
 		else 
 		{
-			gtaFirstItem=mpChain;
-			gtaLastItem=mpChain;
+			gtaFirstItem = mpChain;
+			gtaLastItem = mpChain;
 			SetEvent(hgtaWakeupEvent);
 		}
 	}
@@ -188,8 +188,8 @@ int gtaOnModulesUnload(WPARAM wParam,LPARAM lParam)
 void InitCacheAsync()
 {
 	InitializeCriticalSection(&gtaCS);
-	hgtaWakeupEvent=CreateEvent(NULL,FALSE,FALSE,NULL);
-	g_dwGetTextAsyncThreadID=(DWORD)mir_forkthread((pThreadFunc)gtaThreadProc,0);
+	hgtaWakeupEvent = CreateEvent(NULL,FALSE,FALSE,NULL);
+	g_dwGetTextAsyncThreadID = (DWORD)mir_forkthread((pThreadFunc)gtaThreadProc,0);
 	ModernHookEvent(ME_SYSTEM_PRESHUTDOWN,  gtaOnModulesUnload);
 }
 

@@ -23,33 +23,33 @@ static INT_PTR SyncCaller(WPARAM proc, LPARAM lParam)
 	typedef int (*P3PARAMFUNC)(WPARAM, LPARAM, LPARAM);
 	typedef int (*P4PARAMFUNC)(WPARAM, LPARAM, LPARAM, LPARAM);
 
-	LPARAM * params=(LPARAM *)lParam;
-	int count=params[0];
+	LPARAM * params = (LPARAM *)lParam;
+	int count = params[0];
 	switch (count)
 	{
 	case 0:			
 		{
-			P0PARAMFUNC pfnProc=(P0PARAMFUNC)proc;
+			P0PARAMFUNC pfnProc = (P0PARAMFUNC)proc;
 			return pfnProc();
 		}
 	case 1:
 		{
-			P1PARAMFUNC pfnProc=(P1PARAMFUNC)proc;
+			P1PARAMFUNC pfnProc = (P1PARAMFUNC)proc;
 			return pfnProc((WPARAM)params[1]);
 		}
 	case 2:
 		{
-			P2PARAMFUNC pfnProc=(P2PARAMFUNC)proc;
+			P2PARAMFUNC pfnProc = (P2PARAMFUNC)proc;
 			return pfnProc((WPARAM)params[1],(LPARAM)params[2]);
 		}
 	case 3:
 		{
-			P3PARAMFUNC pfnProc=(P3PARAMFUNC)proc;
+			P3PARAMFUNC pfnProc = (P3PARAMFUNC)proc;
 			return pfnProc((WPARAM)params[1],(LPARAM)params[2], (LPARAM)params[3]);
 		}
 	case 4:
 		{
-			P4PARAMFUNC pfnProc=(P4PARAMFUNC)proc;
+			P4PARAMFUNC pfnProc = (P4PARAMFUNC)proc;
 			return pfnProc((WPARAM)params[1],(LPARAM)params[2], (LPARAM)params[3], (LPARAM)params[4]);
 		}
 	}
@@ -62,23 +62,23 @@ int SyncCall(void * vproc, int count, ... )
 	LPARAM params[5];
 	va_list va;
 	int i;
-	params[0]=(LPARAM)count;
+	params[0] = (LPARAM)count;
 	va_start(va, count);
-	for (i=0; i<count && i<SIZEOF(params)-1; i++)
+	for (i = 0; i < count && i < SIZEOF(params)-1; i++)
 	{
-		params[i+1]=va_arg(va,LPARAM);
+		params[i+1] = va_arg(va,LPARAM);
 	}
 	va_end(va);
 	return SyncCallProxy(SyncCaller, (WPARAM)vproc, (LPARAM) params);
 }
 
-int SyncCallProxy(PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam, CRITICAL_SECTION * cs /* = NULL */)
+int SyncCallProxy(PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam, CRITICAL_SECTION * cs /*= NULL */)
 {  
-	SYNCCALLITEM item={0};
+	SYNCCALLITEM item = {0};
 	
 	int nReturn = 0;
 
-	if ( cs != NULL )
+	if ( cs !=NULL )
 	{
 		if ( !fnTryEnterCriticalSection ) // for poor OSes like Win98
 		{
@@ -90,7 +90,7 @@ int SyncCallProxy(PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam, CRITI
 
 		if ( fnTryEnterCriticalSection( cs ))
 		{   //simple call (Fastest)
-			int result=pfnProc(wParam,lParam);
+			int result = pfnProc(wParam,lParam);
 			LeaveCriticalSection( cs );
 			return result;
 		}
@@ -112,7 +112,7 @@ HRESULT SyncCallWinProcProxy( PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM l
 	if (pcli->hwndContactList == NULL )
 		return E_FAIL;
 	
-	SYNCCALLITEM item={0};
+	SYNCCALLITEM item = {0};
 	item.wParam = wParam;
 	item.lParam = lParam;
 	item.pfnProc = pfnProc;
@@ -125,12 +125,12 @@ HRESULT SyncCallAPCProxy( PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lPara
 {
 	hReturn = 0;
 
-	if (g_hMainThread==NULL || pfnProc==NULL) 
+	if (g_hMainThread == NULL || pfnProc == NULL) 
 		return E_FAIL;
 
-	SYNCCALLITEM item={0};
+	SYNCCALLITEM item = {0};
 
-	if (GetCurrentThreadId()!=g_dwMainThreadID)
+	if (GetCurrentThreadId() != g_dwMainThreadID)
 	{
 		item.wParam = wParam;
 		item.lParam = lParam;
@@ -159,7 +159,7 @@ HRESULT SyncCallAPCProxy( PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lPara
 
 LRESULT SyncOnWndProcCall( WPARAM wParam )
 {
-	SYNCCALLITEM *psci=(SYNCCALLITEM *)wParam;
+	SYNCCALLITEM *psci = (SYNCCALLITEM *)wParam;
 	if (psci)
 		return psci->pfnProc( psci->wParam, psci->lParam );
 	return 0;

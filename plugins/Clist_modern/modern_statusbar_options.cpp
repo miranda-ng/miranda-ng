@@ -45,7 +45,7 @@ static StatusBarProtocolOptions _GlobalOptions = {0};
 
 static void UpdateXStatusIconOptions(HWND hwndDlg, BOOL perProto, StatusBarProtocolOptions* dat, int curSelProto)
 {
-	int en=IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR) && IsDlgButtonChecked(hwndDlg,IDC_SHOWICON );
+	int en = IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR) && IsDlgButtonChecked(hwndDlg,IDC_SHOWICON );
 
 	if (IsDlgButtonChecked(hwndDlg,IDC_SHOWBOTH)) CheckDlgButton(hwndDlg,IDC_SHOWNORMAL,FALSE);
 	EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWBOTH),en && IsDlgButtonChecked(hwndDlg,IDC_SHOWXSTATUS) && !IsDlgButtonChecked(hwndDlg,IDC_SHOWNORMAL));
@@ -59,12 +59,12 @@ static void UpdateXStatusIconOptions(HWND hwndDlg, BOOL perProto, StatusBarProto
 		BYTE val = 0;
 		if (IsDlgButtonChecked(hwndDlg,IDC_SHOWXSTATUS))
 		{
-			if (IsDlgButtonChecked(hwndDlg,IDC_SHOWBOTH)) val=3;
-			else if (IsDlgButtonChecked(hwndDlg,IDC_SHOWNORMAL)) val=2;
-			else val=1;
-			val+=IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENTOVERLAY)?4:0;
+			if (IsDlgButtonChecked(hwndDlg,IDC_SHOWBOTH)) val = 3;
+			else if (IsDlgButtonChecked(hwndDlg,IDC_SHOWNORMAL)) val = 2;
+			else val = 1;
+			val += IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENTOVERLAY)?4:0;
 		}
-		val+=IsDlgButtonChecked(hwndDlg,IDC_SHOWXSTATUSNAME)?8:0;
+		val += IsDlgButtonChecked(hwndDlg,IDC_SHOWXSTATUSNAME)?8:0;
 		if (perProto)
 		{
 			dat[curSelProto].ShowXStatus = val;
@@ -109,12 +109,12 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 	CheckDlgButton(hwndDlg, IDC_USECONNECTINGICON, sbpo.UseConnectingIcon ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_SHOWXSTATUSNAME, ((sbpo.ShowXStatus&8)>0) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_SHOWXSTATUS, ((sbpo.ShowXStatus&3)>0) ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_SHOWNORMAL, ((sbpo.ShowXStatus&3)==2) ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_SHOWBOTH, ((sbpo.ShowXStatus&3)==3) ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_SHOWUNREADEMAIL, (sbpo.ShowUnreadEmails==1) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_SHOWNORMAL, ((sbpo.ShowXStatus&3) == 2) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_SHOWBOTH, ((sbpo.ShowXStatus&3) == 3) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_SHOWUNREADEMAIL, (sbpo.ShowUnreadEmails == 1) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_TRANSPARENTOVERLAY, ((sbpo.ShowXStatus&4)) ? BST_CHECKED : BST_UNCHECKED);
 	{
-		BYTE showOpts=sbpo.SBarShow;
+		BYTE showOpts = sbpo.SBarShow;
 		CheckDlgButton(hwndDlg, IDC_SHOWICON, showOpts&1 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWPROTO, showOpts&2 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWSTATUS, showOpts&4 ? BST_CHECKED : BST_UNCHECKED);
@@ -200,7 +200,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 				dat = (StatusBarProtocolOptions*)mir_alloc(sizeof(StatusBarProtocolOptions)*count);
 				SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_STATUSBAR_PROTO_LIST),GWLP_USERDATA,(LONG_PTR)dat);
 
-				SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT( "<<Global>>" ));
+				SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT( " << Global>>" ));
 				SendMessage(hwndComboBox, CB_SETITEMDATA, 0, (LPARAM)0);
 
 				for ( i = 0; i < count; i++ )
@@ -274,9 +274,9 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 
 			{
 				int i, item;
-				TCHAR *align[]={_T("Left"), _T("Center"), _T("Right")};
-				for (i=0; i<SIZEOF(align); i++) {
-					item=SendDlgItemMessage(hwndDlg,IDC_SBAR_HORIZ_ALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(align[i]));
+				TCHAR *align[] = {_T("Left"), _T("Center"), _T("Right")};
+				for (i = 0; i < SIZEOF(align); i++) {
+					item = SendDlgItemMessage(hwndDlg,IDC_SBAR_HORIZ_ALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(align[i]));
 				}
 
 				SendDlgItemMessage(hwndDlg, IDC_SBAR_HORIZ_ALIGN, CB_SETCURSEL, db_get_b(NULL, "CLUI", "Align", SETTING_ALIGN_DEFAULT), 0);
@@ -284,16 +284,16 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 
 			{
 				int i, item;
-				TCHAR *align[]={_T("Top"), _T("Center"), _T("Bottom")};
-				for (i=0; i<SIZEOF(align); i++) {
-					item=SendDlgItemMessage(hwndDlg,IDC_SBAR_VERT_ALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(align[i]));
+				TCHAR *align[] = {_T("Top"), _T("Center"), _T("Bottom")};
+				for (i = 0; i < SIZEOF(align); i++) {
+					item = SendDlgItemMessage(hwndDlg,IDC_SBAR_VERT_ALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(align[i]));
 				}
 
 				SendDlgItemMessage(hwndDlg, IDC_SBAR_VERT_ALIGN, CB_SETCURSEL, db_get_b(NULL, "CLUI", "VAlign", SETTING_VALIGN_DEFAULT), 0);
 			}
 
 			{
-				int en=IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR);
+				int en = IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR);
 				int en_icons = IsDlgButtonChecked(hwndDlg,IDC_SHOWICON );
 
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWICON),en);
@@ -340,24 +340,24 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 			return TRUE;
 		}
 	case WM_COMMAND:
-		if(LOWORD(wParam)==IDC_BUTTON1)  
+		if (LOWORD(wParam) == IDC_BUTTON1)  
 		{ 
-			if (HIWORD(wParam)==BN_CLICKED)
+			if (HIWORD(wParam) == BN_CLICKED)
 			{
 				CHOOSEFONTA fnt;
 				memset(&fnt,0,sizeof(CHOOSEFONTA));
-				fnt.lStructSize=sizeof(CHOOSEFONTA);
-				fnt.hwndOwner=hwndDlg;
-				fnt.Flags=CF_SCREENFONTS|CF_INITTOLOGFONTSTRUCT;
-				fnt.lpLogFont=&lf;
+				fnt.lStructSize = sizeof(CHOOSEFONTA);
+				fnt.hwndOwner = hwndDlg;
+				fnt.Flags = CF_SCREENFONTS|CF_INITTOLOGFONTSTRUCT;
+				fnt.lpLogFont = &lf;
 				ChooseFontA(&fnt);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 				return 0;
 			} 
 		}
-		else if (LOWORD(wParam)==IDC_COLOUR ||(LOWORD(wParam)==IDC_SBAR_HORIZ_ALIGN && HIWORD(wParam)==CBN_SELCHANGE)) SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-		else if (LOWORD(wParam)==IDC_SHOWSBAR) {
-			int en=IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR);
+		else if (LOWORD(wParam) == IDC_COLOUR ||(LOWORD(wParam) == IDC_SBAR_HORIZ_ALIGN && HIWORD(wParam) == CBN_SELCHANGE)) SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
+		else if (LOWORD(wParam) == IDC_SHOWSBAR) {
+			int en = IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR);
 			int en_icons = IsDlgButtonChecked(hwndDlg,IDC_SHOWICON );
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWICON),en);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWPROTO),en);
@@ -406,9 +406,9 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);	  
 		}
-		else if (LOWORD(wParam)==IDC_STATUSBAR_PER_PROTO)
+		else if (LOWORD(wParam) == IDC_STATUSBAR_PER_PROTO)
 		{
-			int en=IsDlgButtonChecked(hwndDlg,IDC_STATUSBAR_PER_PROTO);
+			int en = IsDlgButtonChecked(hwndDlg,IDC_STATUSBAR_PER_PROTO);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_STATUSBAR_PROTO_LIST),en);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SBAR_HIDE_ACCOUNT_COMPLETELY), en && perProto);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SBAR_USE_ACCOUNT_SETTINGS), en);
@@ -524,8 +524,8 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 				LOWORD(wParam) == IDC_SBAR_BORDER_BOTTOM ||
 				LOWORD(wParam) == IDC_SBAR_BORDER_TOP
 			) && (
-				HIWORD(wParam) != EN_CHANGE ||
-				(HWND)lParam != GetFocus()
+				HIWORD(wParam) !=EN_CHANGE ||
+				(HWND)lParam !=GetFocus()
 			))
 			return 0; // dont make apply enabled during buddy set crap 
 		else if ( LOWORD(wParam) == IDC_STATUSBAR_PROTO_LIST )
