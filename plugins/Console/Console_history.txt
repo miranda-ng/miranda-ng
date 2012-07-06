@@ -2,6 +2,11 @@ PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND...
 ONLY MORAL SUPPORT IN SPECIAL CASES CAN BE PROVIDED 8-)
 --------------------------------------------------------------------------------
 
+v7.3
+
+[-] bug fixes
+
+
 v7.2
 
 [+] console hot restart (to apply new options)

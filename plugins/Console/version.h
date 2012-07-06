@@ -22,16 +22,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 
-#define __FILEVERSION_STRING 0,0,7,2
-#define __VERSION_STRING     "0.0.7.2"
-#define __VERSION_DWORD      0x00000702
+#define __FILEVERSION_STRING 0,0,7,3
+#define __VERSION_STRING     "0.0.7.3"
+#define __VERSION_DWORD      0x00000703
 
 
-#define __PLUGIN_DESC        "Console log window for Miranda 0.8.0.3+"
+#define __PLUGIN_DESC        "Console log window for Miranda"
 #define __PLUGIN_LONGDESC    __PLUGIN_DESC ". ["__DATE__"  "__TIME__"]"
 #define __PLUGIN_AUTHOR      "Bio"
-#define __PLUGIN_EMAIL       "bio@msx.ru"
-#define __PLUGIN_RIGHTS      "© 2005-2009 Bio"
+#define __PLUGIN_EMAIL       "bio@ktaspb.ru"
+#define __PLUGIN_RIGHTS      "© 2005-2012 Bio"
 #define __PLUGIN_FILE        "Console.dll"
 #define __PLUGIN_SHORTNAME   "Console"
 

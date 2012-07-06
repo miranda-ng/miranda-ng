@@ -43,23 +43,23 @@ BEGIN
     CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT |
                     LVS_SHAREIMAGELISTS | LVS_NOCOLUMNHEADER |
                     LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,0,18,335,239
-    CONTROL         "&S",IDC_SAVE,"MButtonClass",WS_TABSTOP,0,1,14,16,
+    CONTROL         "",IDC_SAVE,"MButtonClass",WS_TABSTOP,0,1,14,16,
                     0x18000000L
-    CONTROL         "&P",IDC_PAUSE,"MButtonClass",WS_TABSTOP,16,1,14,16,
+    CONTROL         "",IDC_PAUSE,"MButtonClass",WS_TABSTOP,16,1,14,16,
                     0x18000000L
-    CONTROL         "&Q",IDC_SCROLL,"MButtonClass",WS_TABSTOP,32,1,14,16,
+    CONTROL         "",IDC_SCROLL,"MButtonClass",WS_TABSTOP,32,1,14,16,
                     0x18000000L
-    CONTROL         "&C",IDC_COPY,"MButtonClass",WS_TABSTOP,48,1,14,16,
+    CONTROL         "",IDC_COPY,"MButtonClass",WS_TABSTOP,48,1,14,16,
                     0x18000000L
-    CONTROL         "&D",IDC_DELETE,"MButtonClass",WS_TABSTOP,64,1,14,16,
+    CONTROL         "",IDC_DELETE,"MButtonClass",WS_TABSTOP,64,1,14,16,
                     0x18000000L
-    CONTROL         "&O",IDC_OPTIONS,"MButtonClass",WS_TABSTOP,80,1,14,16,
+    CONTROL         "",IDC_OPTIONS,"MButtonClass",WS_TABSTOP,80,1,14,16,
                     0x18000000L
     CONTROL         "",IDC_STARTALL,"MButtonClass",WS_TABSTOP,278,1,14,16,
                     0x18000000L
     CONTROL         "",IDC_PAUSEALL,"MButtonClass",WS_TABSTOP,294,1,14,16,
                     0x18000000L
-    CONTROL         "&W",IDC_CLOSE,"MButtonClass",WS_TABSTOP,320,1,14,16,
+    CONTROL         "",IDC_CLOSE,"MButtonClass",WS_TABSTOP,320,1,14,16,
                     0x18000000L
 END
 
