@@ -331,7 +331,7 @@ static BOOL _GetParamValue( char * szText, unsigned int& start, unsigned int len
 			except |= EXCEPTION_NOT_EQUAL;
 			exitLoop = TRUE;
 			//fall trough
-		case ' = ': 
+		case '=': 
 			if ( state == STATE_VALUE ) break;
 			//search value end
 			paramlen = curChar - param;
