@@ -24,19 +24,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define NEWSTR_ALLOCA(A) (A == NULL)?NULL:strcpy((char*)alloca(strlen(A)+1), A)
 #define NEWTSTR_ALLOCA(A) (A == NULL)?NULL:_tcscpy((TCHAR*)alloca((_tcslen(A)+1)* sizeof(TCHAR)), A)
 
-struct LangPackMuuid
-{
-	MUUID muuid;
-	PLUGININFOEX* pInfo;
-};
-
 extern "C" 
 {
 	MIR_CORE_DLL(int) Langpack_GetPluginHandle(PLUGININFOEX* pInfo);
 	MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo);
 };
 
-MIR_CORE_DLL(LangPackMuuid*) Langpack_LookupUuid(WPARAM wParam);
+MIR_CORE_DLL(MUUID*) Langpack_LookupUuid(WPARAM wParam);
 
 void UnloadLangPackModule(void);
 
@@ -90,7 +84,7 @@ extern LIST<HINSTANCE__> pluginListAddr;
 
 /**** langpack.cpp *********************************************************************/
 
-char*  LangPackTranslateString(struct LangPackMuuid* pUuid, const char *szEnglish, const int W);
+char*  LangPackTranslateString(MUUID* pUuid, const char *szEnglish, const int W);
 TCHAR* LangPackTranslateStringT(int hLangpack, const TCHAR* tszEnglish);
 
 /**** options.cpp **********************************************************************/
