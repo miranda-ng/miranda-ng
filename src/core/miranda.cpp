@@ -86,6 +86,7 @@ static int waitObjectCount = 0;
 HANDLE hMirandaShutdown;
 HINSTANCE hInst;
 int hLangpack = 0;
+bool bModulesLoadedFired = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // exception handling
@@ -298,6 +299,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 		goto exit;
 	}
 	NotifyEventHooks(hModulesLoadedEvent, 0, 0);
+	bModulesLoadedFired = true;
 
 	// ensure that the kernel hooks the SystemShutdownProc() after all plugins
 	HookEvent(ME_SYSTEM_SHUTDOWN, SystemShutdownProc);

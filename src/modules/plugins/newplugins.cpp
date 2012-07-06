@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "plugins.h"
 
+extern bool bModulesLoadedFired;
+
 static int sttComparePluginsByName(const pluginEntry* p1, const pluginEntry* p2)
 {	return lstrcmp(p1->pluginname, p2->pluginname);
 }
@@ -607,11 +609,13 @@ LBL_Error:
 	if ( !TryLoadPlugin(pPlug, true))
 		goto LBL_Error;
 
-	if (CallPluginEventHook(pPlug->bpi.hInst, hModulesLoadedEvent, 0, 0) != 0)
-		goto LBL_Error;
+	if (bModulesLoadedFired) {
+		if (CallPluginEventHook(pPlug->bpi.hInst, hModulesLoadedEvent, 0, 0) != 0)
+			goto LBL_Error;
 
+		NotifyEventHooks(hevLoadModule, (WPARAM)pPlug->bpi.InfoEx, (LPARAM)pPlug->bpi.hInst);
+	}
 	mr.pImpl = pPlug;
-	NotifyEventHooks(hevLoadModule, (WPARAM)pPlug->bpi.InfoEx, (LPARAM)pPlug->bpi.hInst);
 	return TRUE;
 }
 
