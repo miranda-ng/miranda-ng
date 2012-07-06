@@ -201,7 +201,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="contactinfo.cpp" />
-    <ClCompile Include="contacts.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdinfo.cpp" />
     <ClCompile Include="userinfo.cpp" />

@@ -333,16 +333,12 @@ int Plugin_UnloadDyn(pluginEntry* p)
 	}
 			
 	// release default plugin
-	bool bCore = (p->pclass & PCLASS_CORE) != 0;
-	Plugin_Uninit(p);
-
-	if ( !bCore )
+	if ( !(p->pclass & PCLASS_CORE))
 		for (int i=0; i < SIZEOF(pluginDefault); i++)
-			if (pluginDefault[i].pImpl == p) {
-				pluginDefault[i].pImpl = NULL;
+			if (pluginDefault[i].pImpl == p)
 				LoadCorePlugin( pluginDefault[i] );
-			}
 
+	Plugin_Uninit(p);
 	return TRUE;
 }
 
@@ -563,7 +559,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 			for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
 				int idx = getDefaultPluginIdx( piface[i] );
 				if (idx != -1 && pluginDefault[idx].pImpl) {
-					if ( !bDynamic) {
+					if ( bModulesLoadedFired && !bDynamic) {
 						SetPluginOnWhiteList(p->pluginname, 0);
 						return false;
 					}
