@@ -389,7 +389,7 @@ VOID SvcEMailLoadModule()
 	if (DB::Setting::GetByte(SET_EXTENDED_EMAILSERVICE, TRUE)) {
 		// create own email send command
 		if (!myDestroyServiceFunction(MS_EMAIL_SENDEMAIL))
-			myCreateServiceFunction(MS_EMAIL_SENDEMAIL, MenuCommand);
+			CreateServiceFunction(MS_EMAIL_SENDEMAIL, MenuCommand);
 	}
 }
 

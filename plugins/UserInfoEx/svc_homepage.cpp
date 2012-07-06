@@ -336,7 +336,7 @@ VOID SvcHomepageEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
  **/
 VOID SvcHomepageLoadModule()
 {
-	myCreateServiceFunction(MS_USERINFO_HOMEPAGE_OPENURL, MenuCommand);
+	CreateServiceFunction(MS_USERINFO_HOMEPAGE_OPENURL, MenuCommand);
 	SvcHomepageEnableExtraIcons(
 		myGlobals.ExtraIconsServiceExist ||
 		DB::Setting::GetByte(SET_CLIST_EXTRAICON_HOMEPAGE, DEFVAL_CLIST_EXTRAICON_HOMEPAGE), FALSE);

@@ -320,7 +320,7 @@ VOID InitCountryListExt()
 {
 	/* hack to replace built-in country list */
 	if (!myDestroyServiceFunction(MS_UTILS_GETCOUNTRYLIST))
-		myCreateServiceFunction(MS_UTILS_GETCOUNTRYLIST,ServiceGetCountryList);
+		CreateServiceFunction(MS_UTILS_GETCOUNTRYLIST,ServiceGetCountryList);
 	if (!myDestroyServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER))
-		myCreateServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER,ServiceGetCountryByNumber);
+		CreateServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER,ServiceGetCountryByNumber);
 }

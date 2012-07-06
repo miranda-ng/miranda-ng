@@ -1207,8 +1207,8 @@ VOID SvcReminderLoadModule(VOID)
 	Skin_AddSound(&ssd);
 
 	// create service functions
-	myCreateServiceFunction(MS_USERINFO_REMINDER_CHECK, CheckService);
-	myCreateServiceFunction(MS_USERINFO_REMINDER_AGGRASIVEBACKUP, BackupBirthdayService);
+	CreateServiceFunction(MS_USERINFO_REMINDER_CHECK, CheckService);
+	CreateServiceFunction(MS_USERINFO_REMINDER_AGGRASIVEBACKUP, BackupBirthdayService);
 
 	// register hotkey
 	HOTKEYDESC hk = { 0 };

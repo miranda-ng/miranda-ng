@@ -78,6 +78,6 @@ INT_PTR GetContactLocalTime(WPARAM wParam, LPARAM lParam)
  **/
 VOID SvcTimezoneLoadModule()
 {
-	myCreateServiceFunction(MS_USERINFO_TIMEZONEINFO, GetContactTimeZoneInformation);
-	myCreateServiceFunction(MS_USERINFO_LOCALTIME, GetContactLocalTime);
+	CreateServiceFunction(MS_USERINFO_TIMEZONEINFO, GetContactTimeZoneInformation);
+	CreateServiceFunction(MS_USERINFO_LOCALTIME, GetContactLocalTime);
 }

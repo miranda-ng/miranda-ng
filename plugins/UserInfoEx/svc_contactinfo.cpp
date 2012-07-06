@@ -779,12 +779,12 @@ static INT OnSettingChanged(WPARAM wParam, LPARAM lParam)
  **/
 VOID SvcContactInfoLoadModule()
 {
-	myCreateServiceFunction(MS_DB_CONTACT_GETSETTING_STR_EX, GetContactSettingStrExService);
+	CreateServiceFunction(MS_DB_CONTACT_GETSETTING_STR_EX, GetContactSettingStrExService);
 
 	if (DB::Setting::GetByte(SET_GETCONTACTINFO_ENABLED, DEFVAL_GETCONTACTINFO_ENABLED)) 
 	{
 		if (!myDestroyServiceFunction(MS_CONTACT_GETCONTACTINFO)) {
-			if (myCreateServiceFunction(MS_CONTACT_GETCONTACTINFO, GetContactInfo)) {
+			if (CreateServiceFunction(MS_CONTACT_GETCONTACTINFO, GetContactInfo)) {
 				DBVARIANT dbv;
 				if (DB::Setting::GetAString(NULL, "Contact", "NameOrder", &dbv)) {
 					BYTE i;

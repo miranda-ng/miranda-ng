@@ -198,7 +198,6 @@ static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 static INT OnShutdown(WPARAM wParam, LPARAM lParam)
 {
 	UnhookEvent(ghShutdownHook);
-	services.destroy();
 	DlgContactInfoUnLoadModule();
 	SvcReminderUnloadModule();
 

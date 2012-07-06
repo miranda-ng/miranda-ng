@@ -699,7 +699,7 @@ void SvcFlagsLoadModule()
 		nCountriesCount=0;
 	InitIcons();			/* load in iconlib */
 	//InitIpToCountry();	/* not implementet */
-	myCreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY,ServiceDetectContactOriginCountry);
+	CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY,ServiceDetectContactOriginCountry);
 	//init settings
 	gFlagsOpts.bShowExtraImgFlag	= DB::Setting::GetByte(MODNAMEFLAGS,"ShowExtraImgFlag",		SETTING_SHOWEXTRAIMGFLAG_DEFAULT);
 	gFlagsOpts.bUseUnknownFlag		= DB::Setting::GetByte(MODNAMEFLAGS,"UseUnknownFlag",		SETTING_USEUNKNOWNFLAG_DEFAULT);

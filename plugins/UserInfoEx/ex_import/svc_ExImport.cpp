@@ -374,9 +374,9 @@ INT_PTR svcExIm_Account_Service(WPARAM wParam, LPARAM lParam)
  **/
 VOID SvcExImport_LoadModule()
 {
-	myCreateServiceFunction(MS_USERINFO_VCARD_EXPORTALL,	svcExIm_MainExport_Service);
-	myCreateServiceFunction(MS_USERINFO_VCARD_IMPORTALL,	svcExIm_MainImport_Service);
-	myCreateServiceFunction(MS_USERINFO_VCARD_EXPORT,		svcExIm_ContactExport_Service);
-	myCreateServiceFunction(MS_USERINFO_VCARD_IMPORT,		svcExIm_ContactImport_Service);
+	CreateServiceFunction(MS_USERINFO_VCARD_EXPORTALL,	svcExIm_MainExport_Service);
+	CreateServiceFunction(MS_USERINFO_VCARD_IMPORTALL,	svcExIm_MainImport_Service);
+	CreateServiceFunction(MS_USERINFO_VCARD_EXPORT,		svcExIm_ContactExport_Service);
+	CreateServiceFunction(MS_USERINFO_VCARD_IMPORT,		svcExIm_ContactImport_Service);
 	return;
 }

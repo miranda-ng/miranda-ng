@@ -181,25 +181,6 @@ typedef struct CIDList
 
 } IDSTRLIST, *LPIDSTRLIST;
 
-class CService
-{
-public:
-	CService( const char * name, MIRANDASERVICE serviceProc);
-	~CService();
-
-	const char*	m_name;
-	HANDLE		m_hService;
-};
-
-extern OBJLIST<CService> services;
-static __inline HANDLE myCreateServiceFunction( const char * name, MIRANDASERVICE serviceProc)
-{
-	CService* p = new CService(name,serviceProc);
-	if (!p->m_hService){delete p; return 0;}
-	services.insert(p);
-	return p->m_hService;
-}
-
 INT_PTR GetMaritalList(LPUINT pListSize, LPIDSTRLIST *pList);
 INT_PTR GetLanguageList(LPUINT pListSize, LPIDSTRLIST *pList);
 INT_PTR GetCountryList(LPUINT pListSize, LPIDSTRLIST *pList);

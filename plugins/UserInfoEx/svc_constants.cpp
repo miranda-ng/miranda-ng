@@ -249,41 +249,6 @@ static IDSTRLIST *MyCountries = NULL;
 static UINT MyCountriesCount = 0;
 
 /**
- * Class CService
- * This class supersed miranda CreateServiceFunction
- * it automtic call DestroyService in destructor
- * it is used for OBJLIST<CService> services wich unregister
- * all services during unload
- *
- * @param	name			- (const char *) service name to register
- * @param	serviceProc		- (MIRANDASERVICE)
- **/
-CService::CService( const char * name, MIRANDASERVICE serviceProc)
-{
-	m_hService	= CreateServiceFunction(name, serviceProc);
-	m_name		= m_hService ? name : NULL;
-}
-
-CService::~CService()
-{
-	if(this->m_hService)
-		DestroyServiceFunction(this->m_hService);
-}
-
-/**
- * sort function for OBJLIST<CService>
- *
- * @param	p1				- (const CService*)
- * @param	p2				- (const CService*)
- **/
-static int compareServices( const CService* p1, const CService* p2 )
-{
-	return strcmp( p1->m_name, p2->m_name );
-}
-OBJLIST<CService> services( 30, compareServices );
-
-
-/**
  * This is a sort procedure, which compares two items of an IDSTRLIST array.
  * It is used by qsort in SvcConstantsTranslateList and cares about the
  * locale, which was set up in OS. This prevents e.g. Ä,Ö to be put onto 

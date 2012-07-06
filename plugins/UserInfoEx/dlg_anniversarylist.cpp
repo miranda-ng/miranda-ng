@@ -1129,7 +1129,7 @@ VOID DlgAnniversaryListOnToolBarLoaded()
  **/
 VOID DlgAnniversaryListLoadModule()
 {
-	myCreateServiceFunction(MS_USERINFO_REMINDER_LIST, DlgAnniversaryListShow);
+	CreateServiceFunction(MS_USERINFO_REMINDER_LIST, DlgAnniversaryListShow);
 
 	HOTKEYDESC hk = { 0 };
 	hk.cbSize			= sizeof(HOTKEYDESC);

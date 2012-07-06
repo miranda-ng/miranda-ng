@@ -636,8 +636,8 @@ INT_PTR GetContactLocalTime_old(WPARAM wParam, LPARAM lParam)
 VOID SvcTimezoneLoadModule_old()
 {
 	TzMgr.Init();
-	myCreateServiceFunction(MS_USERINFO_TIMEZONEINFO, GetContactTimeZoneInformation);
-	myCreateServiceFunction(MS_USERINFO_LOCALTIME, GetContactLocalTime);
+	CreateServiceFunction(MS_USERINFO_TIMEZONEINFO, GetContactTimeZoneInformation);
+	CreateServiceFunction(MS_USERINFO_LOCALTIME, GetContactLocalTime);
 	if (DB::Setting::GetByte(SET_OPT_AUTOTIMEZONE, TRUE))
 	{
 		SvcTimezoneSyncWithWindows();

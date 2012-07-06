@@ -922,7 +922,7 @@ static INT OnPreShutdown(WPARAM, LPARAM)
  **/
 VOID SvcRefreshContactInfoLoadModule(VOID)
 {
-	myCreateServiceFunction(MS_USERINFO_REFRESH, RefreshService);
+	CreateServiceFunction(MS_USERINFO_REFRESH, RefreshService);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	HookEvent(ME_DB_CONTACT_ADDED, OnContactAdded);
 

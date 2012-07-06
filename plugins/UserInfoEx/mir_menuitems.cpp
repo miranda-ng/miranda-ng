@@ -486,7 +486,7 @@ VOID RebuildSubGroup()
 
 		// Export
 		strcpy( tDest, "/ExportGroup");		//mi.pszService
-		if (!ServiceExists(mi.pszService)) myCreateServiceFunction(mi.pszService, svcExIm_Group_Service);
+		if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export Group");
 		mi.position = 1050200;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
@@ -496,7 +496,7 @@ VOID RebuildSubGroup()
 
 		// Import
 		strcpy( tDest, "/ImportGroup");		//mi.pszService
-		if (!ServiceExists(mi.pszService)) myCreateServiceFunction(mi.pszService, svcExIm_Group_Service);
+		if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import Group");
 		mi.position = 1050300;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
@@ -619,7 +619,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 
 			// Export
 			strcpy( tDest, "/ExportAccount");		//mi.pszService
-			if (!ServiceExists(mi.pszService)) myCreateServiceFunction(mi.pszService, svcExIm_Account_Service);
+			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
 			mir_sntprintf(sztName, SIZEOF(sztName),_T("%s %s"), pAccountName->tszAccountName, TranslateT("&Export"));
 			mi.ptszName = sztName;
 			mi.position = 50200;
@@ -628,7 +628,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 
 			// Import
 			strcpy( tDest, "/ImportAccount");		//mi.pszService
-			if (!ServiceExists(mi.pszService)) myCreateServiceFunction(mi.pszService, svcExIm_Account_Service);
+			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
 			mir_sntprintf(sztName, SIZEOF(sztName),_T("%s %s"), pAccountName->tszAccountName, TranslateT("&Import"));
 			mi.ptszName = sztName;
 			mi.position = 50300;

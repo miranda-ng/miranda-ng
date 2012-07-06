@@ -706,8 +706,8 @@ VOID DlgContactInfoLoadModule()
 {
 	ghDetailsInitEvent = CreateHookableEvent(ME_USERINFO_INITIALISE);
 
-	myCreateServiceFunction(MS_USERINFO_SHOWDIALOG, ShowDialog);
-	myCreateServiceFunction("UserInfo/AddPage", AddPage);
+	CreateServiceFunction(MS_USERINFO_SHOWDIALOG, ShowDialog);
+	CreateServiceFunction("UserInfo/AddPage", AddPage);
 
 	HookEvent(ME_DB_CONTACT_DELETED, OnDeleteContact);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);

@@ -440,8 +440,8 @@ VOID InitIcons()
 	}
 
 	/* create services */
-	myCreateServiceFunction(MS_FLAGS_LOADFLAGICON,ServiceLoadFlagIcon);
-	myCreateServiceFunction(MS_FLAGS_CREATEMERGEDFLAGICON,ServiceCreateMergedFlagIcon);
+	CreateServiceFunction(MS_FLAGS_LOADFLAGICON,ServiceLoadFlagIcon);
+	CreateServiceFunction(MS_FLAGS_CREATEMERGEDFLAGICON,ServiceCreateMergedFlagIcon);
 }
 
 VOID UninitIcons()
