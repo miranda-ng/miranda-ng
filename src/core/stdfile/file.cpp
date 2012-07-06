@@ -20,13 +20,43 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "..\..\core\commonheaders.h"
+
+#include "commonheaders.h"
 #include "file.h"
 
 TCHAR* PFTS_StringToTchar(int flags, const PROTOCHAR* s);
 int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHAR* r);
 
 static HANDLE hSRFileMenuItem;
+
+TCHAR *GetContactID(HANDLE hContact)
+{
+	TCHAR *theValue = {0};
+	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	if (DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0) == 1) {
+		DBVARIANT dbv;
+		if ( !DBGetContactSettingTString(hContact, szProto, "ChatRoomID", &dbv)) {
+			theValue = (TCHAR *)mir_tstrdup(dbv.ptszVal);
+			DBFreeVariant(&dbv);
+			return theValue;
+	}	}
+	else {
+		CONTACTINFO ci = {0};
+		ci.cbSize = sizeof(ci);
+		ci.hContact = hContact;
+		ci.szProto = szProto;
+		ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
+		if ( !CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+			switch (ci.type) {
+			case CNFT_ASCIIZ:
+				return (TCHAR *)ci.pszVal;
+				break;
+			case CNFT_DWORD:
+				return _itot(ci.dVal, (TCHAR *)mir_alloc(sizeof(TCHAR)*32), 10);
+				break;
+	}	}	}
+	return NULL;
+}
 
 static INT_PTR SendFileCommand(WPARAM wParam, LPARAM)
 {
@@ -97,7 +127,7 @@ void PushFileEvent(HANDLE hContact, HANDLE hdbe, LPARAM lParam)
 		SkinPlaySound("RecvFile");
 
 		TCHAR szTooltip[256];
-		mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("File from %s"), cli.pfnGetContactDisplayName(hContact, 0));
+		mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("File from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 		cle.ptszTooltip = szTooltip;
 
 		cle.flags |= CLEF_TCHAR;
@@ -284,8 +314,8 @@ static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 
 	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 	if (szProto != NULL) {
-		if (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND) {
-			if (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
+		if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND) {
+			if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
 				mi.flags = CMIM_FLAGS;
 			else if (DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 				mi.flags = CMIM_FLAGS;
@@ -333,6 +363,92 @@ INT_PTR openRecDir(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void sttRecvCreateBlob(DBEVENTINFO& dbei, int fileCount, char** pszFiles, char* szDescr)
+{
+	dbei.cbBlob = sizeof(DWORD);
+	{
+		for (int i=0; i < fileCount; i++)
+			dbei.cbBlob += lstrlenA(pszFiles[i]) + 1;
+	}
+	
+	dbei.cbBlob += lstrlenA(szDescr) + 1;
+
+	if ((dbei.pBlob = (BYTE*)mir_alloc(dbei.cbBlob)) == 0)
+		return;
+
+	*(DWORD*)dbei.pBlob = 0;
+	BYTE* p = dbei.pBlob + sizeof(DWORD);
+	for (int i=0; i < fileCount; i++) {
+		strcpy((char*)p, pszFiles[i]);
+		p += lstrlenA(pszFiles[i]) + 1;
+	}
+	strcpy((char*)p, (szDescr == NULL) ? "" : szDescr);
+}
+
+static INT_PTR Proto_RecvFile(WPARAM, LPARAM lParam)
+{
+	CCSDATA* ccs = (CCSDATA*)lParam;
+	PROTORECVEVENT* pre = (PROTORECVEVENT*)ccs->lParam;
+	char* szFile = pre->szMessage + sizeof(DWORD);
+	char* szDescr = szFile + strlen(szFile) + 1;
+
+	// Suppress the standard event filter
+	if (pre->lParam != NULL)
+		*(DWORD*)pre->szMessage = 0;
+
+	DBEVENTINFO dbei = { 0 };
+	dbei.cbSize = sizeof(dbei);
+	dbei.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+	dbei.timestamp = pre->timestamp;
+	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
+	dbei.flags |= (pre->flags & PREF_UTF) ? DBEF_UTF : 0;
+	dbei.eventType = EVENTTYPE_FILE;
+	dbei.cbBlob = (DWORD)(sizeof(DWORD) + strlen(szFile) + strlen(szDescr) + 2);
+	dbei.pBlob = (PBYTE)pre->szMessage;
+	HANDLE hdbe = (HANDLE)CallService(MS_DB_EVENT_ADD, (WPARAM)ccs->hContact, (LPARAM)&dbei);
+
+	if (pre->lParam != NULL)
+		PushFileEvent(ccs->hContact, hdbe, pre->lParam);
+	return 0;
+}
+
+static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
+{
+	CCSDATA* ccs = (CCSDATA*)lParam;
+	PROTORECVFILET* pre = (PROTORECVFILET*)ccs->lParam;
+	if (pre->fileCount == 0)
+		return 0;
+
+	DBEVENTINFO dbei = { 0 };
+	dbei.cbSize = sizeof(dbei);
+	dbei.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+	dbei.timestamp = pre->timestamp;
+	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
+	dbei.eventType = EVENTTYPE_FILE;
+
+	char** pszFiles = (char**)alloca(pre->fileCount * sizeof(char*));
+	{
+		for (int i=0; i < pre->fileCount; i++)
+			pszFiles[i] = Utf8EncodeT(pre->ptszFiles[i]);
+	}
+	char* szDescr = Utf8EncodeT(pre->tszDescription);
+	dbei.flags |= DBEF_UTF;
+	sttRecvCreateBlob(dbei, pre->fileCount, pszFiles, szDescr);
+	{
+		for (int i=0; i < pre->fileCount; i++)
+			mir_free(pszFiles[i]);
+	}
+	mir_free(szDescr);
+
+	HANDLE hdbe = (HANDLE)CallService(MS_DB_EVENT_ADD, (WPARAM)ccs->hContact, (LPARAM)&dbei);
+
+	PushFileEvent(ccs->hContact, hdbe, pre->lParam);
+	mir_free(dbei.pBlob);
+	return 0;
+}
+
 int LoadSendRecvFileModule(void)
 {
 	CreateServiceFunction("FtMgr/Show", FtMgrShowCommand);
@@ -350,6 +466,9 @@ int LoadSendRecvFileModule(void)
 	HookEvent(ME_DB_EVENT_ADDED, FileEventAdded);
 	HookEvent(ME_OPT_INITIALISE, FileOptInitialise);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
+
+	CreateServiceFunction(MS_PROTO_RECVFILE, Proto_RecvFile);
+	CreateServiceFunction(MS_PROTO_RECVFILET, Proto_RecvFileT);
 
 	CreateServiceFunction(MS_FILE_SENDFILE, SendFileCommand);
 	CreateServiceFunction(MS_FILE_SENDSPECIFICFILES, SendSpecificFiles);

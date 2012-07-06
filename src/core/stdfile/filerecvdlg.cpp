@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "..\..\core\commonheaders.h"
+#include "commonheaders.h"
 #include "file.h"
 
 #define MAX_MRU_DIRS    5
@@ -228,7 +228,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		Button_SetIcon_IcoLib(hwndDlg, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGEN("View User's History"));
 		Button_SetIcon_IcoLib(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGEN("User Menu"));
 
-		contactName = cli.pfnGetContactDisplayName(dat->hContact, 0);
+		contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 		SetDlgItemText(hwndDlg, IDC_FROM, contactName);
 		GetContactReceivedFilesDir(dat->hContact, szPath, SIZEOF(szPath), TRUE);
 		SetDlgItemText(hwndDlg, IDC_FILEDIR, szPath);
@@ -330,7 +330,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (szProto) {
 					HICON hIcon;
 
-					hIcon = (HICON)CallProtoServiceInt(NULL,szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
+					hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 					if (hIcon) {
 						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 						DestroyIcon(hIcon);

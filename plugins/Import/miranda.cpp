@@ -57,8 +57,6 @@ static HANDLE ImportContact(HANDLE hDbFile, struct DBContact Contact);
 static void ImportHistory(HANDLE hDbFile, struct DBContact Contact, PROTOCOLDESCRIPTOR **protocol, int protoCount);
 static int ImportGroups(HANDLE hDbFile, struct DBHeader *pdbHeader);
 
-#define NEWSTR_ALLOCA(A) (A==NULL)?NULL:strcpy((char*)alloca(strlen(A)+1),A)
-
 // Comment: The Find* functions only return a file offset.
 //          The Get* functions actually reads the requested
 //          data from the file and gives you a pointer to a structure

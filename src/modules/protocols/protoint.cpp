@@ -24,7 +24,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 
 char** __fastcall Proto_FilesMatrixA(TCHAR **files);
-void FreeFilesMatrix(TCHAR ***files);
+
+void FreeFilesMatrix(TCHAR ***files)
+{
+	if (*files == NULL)
+		return;
+
+	// Free each filename in the pointer array
+	TCHAR **pFile = *files;
+	while (*pFile != NULL)
+	{
+		mir_free(*pFile);
+		*pFile = NULL;
+		pFile++;
+	}
+
+	// Free the array itself
+	mir_free(*files);
+	*files = NULL;
+}
 
 INT_PTR __fastcall MyCallProtoService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
 {

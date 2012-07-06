@@ -73,8 +73,6 @@ static builtinCnfs[] =
 	{ CCNF_PROTOID,    _T(STR_PROTOID)    }
 };
 
-#define NEWTSTR_ALLOCA(A) (A==NULL)?NULL:_tcscpy((TCHAR*)alloca(sizeof(TCHAR)*(_tcslen(A)+1)),A)
-
 typedef struct {
 	TCHAR* tszContact;
 	HANDLE hContact;

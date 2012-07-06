@@ -333,10 +333,6 @@ extern char AIM_CAP_MIRANDA[]; //Miranda cap EXTERN
 
 extern HINSTANCE hInstance; //plugin dll instance
 
-#define NEWSTR_ALLOCA(A) ((A==NULL)?NULL:strcpy((char*)alloca(strlen(A)+1),A))
-#define NEWWSTR_ALLOCA(A) ((A==NULL)?NULL:wcscpy((wchar_t*)alloca(sizeof(wchar_t)*(wcslen(A)+1)),A))
-#define NEWTSTR_ALLOCA(A) ((A==NULL)?NULL:_tcscpy((TCHAR*)alloca(sizeof(TCHAR)*(_tcslen(A)+1)),A))
-
 #define _strlens(a) (a ? strlen(a) : 0)
 #define _strcmps(a,b) (a != b && (!a || !b || strcmp(a, b)))
 

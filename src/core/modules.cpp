@@ -42,9 +42,6 @@ int LoadProtocolsModule(void);	// core: protocol manager
 int LoadAccountsModule(void);    // core: account manager
 int LoadIgnoreModule(void);		// protocol filter: ignore
 
-int LoadSendRecvAuthModule(void);	//send/recv
-int LoadSendRecvFileModule(void);	//send/recv
-
 int LoadContactListModule(void);// ui: clist
 int LoadOptionsModule(void);	// ui: options dialog
 int LoadFindAddModule(void);	// ui: search/add users
@@ -144,7 +141,7 @@ int LoadDefaultModules(void)
 	if ( LoadIgnoreModule()) return 1;
 	if ( LoadVisibilityModule()) return 1;
 
-	for (int i=0; i < 3; i++) {
+	for (int i=0; i < 5; i++) {
 		if ( pluginDefault[i].pImpl )
 			continue;
 
@@ -152,8 +149,6 @@ int LoadDefaultModules(void)
 			return 1;
 	}
 
-	if ( !pluginDefault[ 3].pImpl) if ( LoadSendRecvAuthModule()) return 1;
-	if ( !pluginDefault[ 4].pImpl) if ( LoadSendRecvFileModule()) return 1;
 	if ( !pluginDefault[ 5].pImpl) if ( LoadHelpModule()) return 1;
 	if ( !pluginDefault[ 6].pImpl) if ( LoadHistoryModule()) return 1;
 	if ( !pluginDefault[ 7].pImpl) if ( LoadIdleModule()) return 1;

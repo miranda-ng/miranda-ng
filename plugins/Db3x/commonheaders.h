@@ -62,8 +62,6 @@ extern char szDbPath[MAX_PATH];
 #define mir_i64(x) (x##i64)
 #endif
 
-#define NEWSTR_ALLOCA(A) (A==NULL)?NULL:strcpy((char*)alloca(strlen(A)+1),A)
-
 #ifndef MODULAR
 void Encrypt(char*msg,BOOL up);
 #endif

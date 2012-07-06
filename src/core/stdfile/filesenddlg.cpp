@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "..\..\core\commonheaders.h"
+#include "commonheaders.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "file.h"
@@ -229,7 +229,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		}
 		{
 			char *szProto;
-			TCHAR* contactName = cli.pfnGetContactDisplayName(dat->hContact, 0);
+			TCHAR* contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			SetDlgItemText(hwndDlg, IDC_TO, contactName);
 
 			szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
@@ -281,7 +281,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
 				if (szProto) {
-					HICON hIcon = (HICON)CallProtoServiceInt(NULL,szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
+					HICON hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 					if (hIcon) {
 						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 						DestroyIcon(hIcon);

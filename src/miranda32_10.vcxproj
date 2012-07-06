@@ -269,7 +269,6 @@
     <ClInclude Include="..\include\m_protoint.h" />
     <ClInclude Include="modules\plugins\plugins.h" />
     <ClInclude Include="modules\skin\skin.h" />
-    <ClInclude Include="modules\srfile\file.h" />
     <ClInclude Include="modules\clist\clc.h" />
     <ClInclude Include="modules\clist\genmenu.h" />
     <ClInclude Include="modules\fonts\FontService.h" />
@@ -458,37 +457,10 @@
     <ClCompile Include="modules\skin\sounds.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="modules\srauth\auth.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\srauth\authdialogs.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="modules\srawaymsg\awaymsg.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\srawaymsg\sendmsg.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\file.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\fileexistsdlg.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\fileopts.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\filerecvdlg.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\filesenddlg.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\filexferdlg.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\ftmanager.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\updatenotify\updatenotify.cpp">

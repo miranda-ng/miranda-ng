@@ -1,9 +1,9 @@
 /*
  * $Id: yahoo.h 14085 2012-02-13 10:55:56Z george.hazan $
  *
- * myYahoo Miranda Plugin 
+ * myYahoo Miranda Plugin
  *
- * Authors: Gennady Feldman (aka Gena01) 
+ * Authors: Gennady Feldman (aka Gena01)
  *          Laurent Marechal (aka Peorth)
  *
  * This code is under GPL and is based on AIM, MSN and Miranda source code.
@@ -27,7 +27,7 @@
 
 #include <windows.h>
 
-/* 
+/*
  * Yahoo Services
  */
 #define USE_STRUCT_CALLBACKS
@@ -69,8 +69,8 @@ extern "C"
 #define YAHOO_CHECKMAIL						"CheckMail"
 #define YAHOO_CUSTSTATDB					"CustomStat"
 #define YAHOO_DEFAULT_PORT					5050
-#define YAHOO_DEFAULT_LOGIN_SERVER			"mcs.msg.yahoo.com"	
-#define YAHOO_DEFAULT_JAPAN_LOGIN_SERVER	"cs.yahoo.co.jp"	
+#define YAHOO_DEFAULT_LOGIN_SERVER			"mcs.msg.yahoo.com"
+#define YAHOO_DEFAULT_JAPAN_LOGIN_SERVER	"cs.yahoo.co.jp"
 #define YAHOO_CUSTOM_STATUS					99
 
 #define YAHOO_DEBUGLOG DebugLog
@@ -81,7 +81,7 @@ extern int do_yahoo_debug;
 	YAHOO_DEBUGLOG x; \
 	YAHOO_DEBUGLOG(" ");}
 
-#define YAHOO_SET_CUST_STAT			"/SetCustomStatCommand" 
+#define YAHOO_SET_CUST_STAT			"/SetCustomStatCommand"
 #define YAHOO_EDIT_MY_PROFILE		"/YahooEditMyProfileCommand"
 #define YAHOO_SHOW_PROFILE			"/YahooShowProfileCommand"
 #define YAHOO_SHOW_MY_PROFILE		"/YahooShowMyProfileCommand"
@@ -95,7 +95,6 @@ extern int do_yahoo_debug;
 #define STYLE_DEFAULTBGCOLOUR     RGB(173,206,247)
 
 #define LocalEventUnhook(hook)	if(hook) UnhookEvent(hook)
-#define NEWSTR_ALLOCA(A) (A==NULL)?NULL:strcpy((char*)alloca(strlen(A)+1),A)
 
 struct _conn {
 	unsigned int tag;

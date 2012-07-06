@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "..\..\core\commonheaders.h"
-#include "../srfile/file.h"
 
 static bool bModuleInitialized = false;
 static HANDLE hIniChangeNotification;

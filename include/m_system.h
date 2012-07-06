@@ -47,8 +47,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#pragma warning(disable:4244 4245)
 #endif
 
-#include <m_core.h>
+#define NEWSTR_ALLOCA(A) (A == NULL)?NULL:strcpy((char*)alloca(strlen(A)+1), A)
+#define NEWWSTR_ALLOCA(A) ((A==NULL)?NULL:wcscpy((wchar_t*)alloca(sizeof(wchar_t)*(wcslen(A)+1)),A))
+#define NEWTSTR_ALLOCA(A) (A == NULL)?NULL:_tcscpy((TCHAR*)alloca((_tcslen(A)+1)* sizeof(TCHAR)), A)
 
+#include <m_core.h>
 
 //miranda/system/modulesloaded
 //called after all modules have been successfully initialised

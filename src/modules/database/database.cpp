@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
 #include "profilemanager.h"
-#include "../srfile/file.h"
 
 // contains the location of mirandaboot.ini
 extern TCHAR mirandabootini[MAX_PATH];

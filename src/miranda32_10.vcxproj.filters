@@ -58,14 +58,8 @@
     <Filter Include="Modules\skin">
       <UniqueIdentifier>{474a2558-48fd-45d5-b8e8-3a07d780f02a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\srauth">
-      <UniqueIdentifier>{ec3937ae-458b-400e-a9de-8f1923e993ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Modules\srawaymsg">
       <UniqueIdentifier>{ede3d43b-a5cf-462a-90df-4ddd7a091234}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\srfile">
-      <UniqueIdentifier>{3fbbdcec-4a5c-4c83-8e94-724103f35d47}</UniqueIdentifier>
     </Filter>
     <Filter Include="Modules\updater">
       <UniqueIdentifier>{9074e889-f17c-4c90-a3cf-1cfb2e513491}</UniqueIdentifier>
@@ -227,9 +221,6 @@
     </ClInclude>
     <ClInclude Include="..\include\m_protoint.h">
       <Filter>Modules\protocols</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\srfile\file.h">
-      <Filter>Modules\srfile</Filter>
     </ClInclude>
     <ClInclude Include="modules\clist\clc.h">
       <Filter>Modules\clist</Filter>
@@ -440,38 +431,11 @@
     <ClCompile Include="modules\skin\sounds.cpp">
       <Filter>Modules\skin</Filter>
     </ClCompile>
-    <ClCompile Include="modules\srauth\auth.cpp">
-      <Filter>Modules\srauth</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\srauth\authdialogs.cpp">
-      <Filter>Modules\srauth</Filter>
-    </ClCompile>
     <ClCompile Include="modules\srawaymsg\awaymsg.cpp">
       <Filter>Modules\srawaymsg</Filter>
     </ClCompile>
     <ClCompile Include="modules\srawaymsg\sendmsg.cpp">
       <Filter>Modules\srawaymsg</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\file.cpp">
-      <Filter>Modules\srfile</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\fileexistsdlg.cpp">
-      <Filter>Modules\srfile</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\fileopts.cpp">
-      <Filter>Modules\srfile</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\filerecvdlg.cpp">
-      <Filter>Modules\srfile</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\filesenddlg.cpp">
-      <Filter>Modules\srfile</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\filexferdlg.cpp">
-      <Filter>Modules\srfile</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\srfile\ftmanager.cpp">
-      <Filter>Modules\srfile</Filter>
     </ClCompile>
     <ClCompile Include="modules\updatenotify\updatenotify.cpp">
       <Filter>Modules\updater</Filter>

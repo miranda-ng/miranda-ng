@@ -98,8 +98,6 @@ BOOL CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
 BOOL CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
 void xModifyMenu(HANDLE hMenu,long flags,const TCHAR* name, HICON hIcon);
 
-#define NEWSTR_ALLOCA(A) (A==NULL)?NULL:strcpy((char*)alloca(strlen(A)+1),A)
-
 typedef struct{
 	void* (__stdcall *GenerateKey)(char* pwd);
 	void (__stdcall *FreeKey)(void* key);

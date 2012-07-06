@@ -407,7 +407,7 @@ struct CIrcProto : public PROTO_INTERFACE, public CCallocBase
 	CWhoisDlg*   m_whoisDlg;
 	CQuickDlg*   m_quickDlg;
 	CIgnorePrefsDlg* m_ignoreDlg;
-	
+
 	int      m_noOfChannels, m_manualWhoisCount;
 	String   sChannelModes, sUserModes;
 	CMString sChannelPrefixes, sUserModePrefixes, WhoisAwayReply;
@@ -424,7 +424,7 @@ struct CIrcProto : public PROTO_INTERFACE, public CCallocBase
 	BOOL   CList_AddDCCChat(const CMString& name, const CMString& hostmask, unsigned long adr, int port) ;
 
 	//commandmonitor.cpp
-	UINT_PTR IdentTimer, InitTimer, KeepAliveTimer, OnlineNotifTimer, OnlineNotifTimer3;	
+	UINT_PTR IdentTimer, InitTimer, KeepAliveTimer, OnlineNotifTimer, OnlineNotifTimer3;
 
 	int  AddOutgoingMessageToDB(HANDLE hContact, TCHAR* msg);
 	bool DoOnConnect(const CIrcMessage *pmsg);
@@ -561,14 +561,14 @@ struct CIrcProto : public PROTO_INTERFACE, public CCallocBase
 	void AddDCCSession(DCCINFO*  pdci, CDccSession* dcc);
 	void RemoveDCCSession(HANDLE hContact);
 	void RemoveDCCSession(DCCINFO*  pdci);
-	
+
 	CDccSession* FindDCCSession(HANDLE hContact);
 	CDccSession* FindDCCSession(DCCINFO* pdci);
 	CDccSession* FindDCCSendByPort(int iPort);
 	CDccSession* FindDCCRecvByPortAndName(int iPort, const TCHAR* szName);
 	CDccSession* FindPassiveDCCSend(int iToken);
 	CDccSession* FindPassiveDCCRecv(CMString sName, CMString sToken);
-	
+
 	void DisconnectAllDCCSessions(bool Shutdown);
 	void CheckDCCTimeout(void);
 
@@ -730,9 +730,6 @@ TCHAR*       __stdcall DoColorCodes (const TCHAR* text, bool bStrip, bool bRepla
 
 String&  __stdcall ReplaceString (String& text, const char* replaceme, const char* newword);
 String   __stdcall GetWord(const char* text, int index);
-
-#define NEWSTR_ALLOCA(A) (A==NULL)?NULL:strcpy((char*)alloca(strlen(A)+1),A)
-#define NEWTSTR_ALLOCA(A) (A==NULL)?NULL:_tcscpy((TCHAR*)alloca(sizeof(TCHAR)*(_tcslen(A)+1)),A)
 
 #pragma comment(lib,"comctl32.lib")
 

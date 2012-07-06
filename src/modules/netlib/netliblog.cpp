@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\..\core\commonheaders.h"
 #include "netlib.h"
-#include "../srfile/file.h"
 
 #define MS_NETLIB_LOGWIN "Netlib/Log/Win"
 

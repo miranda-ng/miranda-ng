@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "..\..\core\commonheaders.h"
+#include "commonheaders.h"
 #include <io.h>
 #include "file.h"
 
@@ -147,20 +147,20 @@ static void SetFilenameControls(HWND hwndDlg, struct FileDlgData *dat, PROTOFILE
 
 	if (fn && (fts->totalFiles > 1)) {
 		mir_sntprintf(msg, SIZEOF(msg), _T("%s: %s (%d %s %d)"), 
-			cli.pfnGetContactDisplayName(fts->hContact, 0), 
+			pcli->pfnGetContactDisplayName(fts->hContact, 0), 
 			fn, fts->currentFileNumber+1, TranslateT("of"), fts->totalFiles);
 
 		SHGetFileInfo(fn, FILE_ATTRIBUTE_DIRECTORY, &shfi, sizeof(shfi), SHGFI_USEFILEATTRIBUTES|SHGFI_ICON|SHGFI_SMALLICON);
 		dat->hIcon = shfi.hIcon;
 	} 
 	else if (fn) {
-		mir_sntprintf(msg, SIZEOF(msg), _T("%s: %s"), cli.pfnGetContactDisplayName(fts->hContact, 0), fn);
+		mir_sntprintf(msg, SIZEOF(msg), _T("%s: %s"), pcli->pfnGetContactDisplayName(fts->hContact, 0), fn);
 
 		SHGetFileInfo(fn, FILE_ATTRIBUTE_NORMAL, &shfi, sizeof(shfi), SHGFI_USEFILEATTRIBUTES|SHGFI_ICON|SHGFI_SMALLICON);
 		dat->hIcon = shfi.hIcon;
 	} 
 	else {
-		lstrcpyn(msg, cli.pfnGetContactDisplayName(fts->hContact, 0), SIZEOF(msg));
+		lstrcpyn(msg, pcli->pfnGetContactDisplayName(fts->hContact, 0), SIZEOF(msg));
 		HICON hIcon = LoadSkinIcon(SKINICON_OTHER_DOWNARROW);
 		dat->hIcon = CopyIcon(hIcon);
 		IcoLib_ReleaseIcon(hIcon, NULL);
@@ -295,7 +295,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		
 			Button_SetIcon_IcoLib(hwndDlg, IDCANCEL, SKINICON_OTHER_DELETE, LPGEN("Cancel"));
 
-			SetDlgItemText(hwndDlg, IDC_CONTACTNAME, cli.pfnGetContactDisplayName(dat->hContact, 0));
+			SetDlgItemText(hwndDlg, IDC_CONTACTNAME, pcli->pfnGetContactDisplayName(dat->hContact, 0));
 
 			if ( !dat->waitingForAcceptance) SetTimer(hwndDlg, 1, 1000, NULL);
 			return TRUE;
@@ -502,7 +502,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					break;
 			}
 			mir_free(szOriginalFilename);
-			CallProtoServiceInt(NULL,szProto, PS_FILERESUMET, (WPARAM)dat->fs, (LPARAM)pfr);
+			CallProtoService(szProto, PS_FILERESUMET, (WPARAM)dat->fs, (LPARAM)pfr);
 			if (pfr->szFilename) mir_free((char*)pfr->szFilename);
 			mir_free(pfr);
 			break;
@@ -762,7 +762,7 @@ void FreeFileDlgData(FileDlgData* dat)
 	FreeFilesMatrix(&dat->files);
 
 	mir_free(dat->fileVirusScanned);
-	Safe_DestroyIcon(dat->hIcon);
-	Safe_DestroyIcon(dat->hIconFolder);
+	if (dat->hIcon) DestroyIcon(dat->hIcon);
+	if (dat->hIconFolder) DestroyIcon(dat->hIconFolder);
 	mir_free(dat);
 }

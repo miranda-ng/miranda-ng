@@ -1,0 +1,107 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\..\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+#include <winres.h>
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_AUTHREQ DIALOGEX 0, 0, 271, 197
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Authorization Request"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,271,25
+    DEFPUSHBUTTON   "&Authorize",IDOK,17,176,50,14
+    PUSHBUTTON      "&Deny",IDCANCEL,97,176,50,14
+    PUSHBUTTON      "Decide &Later",IDC_DECIDELATER,175,176,74,14
+    CONTROL         "&I",IDC_DETAILS,"MButtonClass",WS_TABSTOP,248,29,16,14,WS_EX_NOACTIVATE | 0x10000000L
+    LTEXT           "Reason:",IDC_STATIC,7,39,101,10,SS_CENTERIMAGE
+    EDITTEXT        IDC_REASON,7,50,257,54,ES_MULTILINE | ES_READONLY | NOT WS_BORDER | WS_VSCROLL | WS_HSCROLL,WS_EX_STATICEDGE
+    LTEXT           "Denial Reason:",IDC_STATIC,7,111,89,10,SS_CENTERIMAGE | SS_REALSIZECONTROL
+    EDITTEXT        IDC_DENYREASON,7,124,257,32,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    CONTROL         "Add to contact list if authorized",IDC_ADDCHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,162,239,10
+END
+
+IDD_ADDED DIALOGEX 0, 0, 241, 70
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "You Were Added"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,241,25
+    PUSHBUTTON      "&Close",IDCANCEL,90,51,60,14
+    CONTROL         "&I",IDC_DETAILS,"MButtonClass",WS_TABSTOP,217,29,16,14,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "&U",IDC_ADD,"MButtonClass",WS_TABSTOP,197,29,16,14,WS_EX_NOACTIVATE | 0x10000000L
+END
+
+#endif    // APSTUDIO_INVOKED
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+    IDD_AUTHREQ, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 264
+        BOTTOMMARGIN, 190
+    END
+
+    IDD_ADDED, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 233
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 65
+    END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE
+BEGIN
+    "..\..\resource.h\0"
+END
+
+2 TEXTINCLUDE
+BEGIN
+    "#include <windows.h>\r\n"
+    "#include <winres.h>\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED

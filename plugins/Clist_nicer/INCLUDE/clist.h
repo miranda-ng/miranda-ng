@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2003 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -24,8 +24,6 @@ void LoadContactTree(void);
 int IconFromStatusMode(const char *szProto, int status, HANDLE hContact, HICON *phIcon);
 HTREEITEM GetTreeItemByHContact(HANDLE hContact);
 void SortContacts(void);
-
-#define NEWSTR_ALLOCA(A) (A==NULL)?NULL:strcpy((char*)_alloca(strlen(A)+1),A)
 
 #define CLUIINTM_REDRAW (WM_USER+100)
 #define CLUIINTM_STATUSBARUPDATE (WM_USER+101)
@@ -48,6 +46,3 @@ void SortContacts(void);
 #define CLVM_USELASTMSG 16
 
 #define CLVM_MODULE "CLVM_W"
-
-    
-

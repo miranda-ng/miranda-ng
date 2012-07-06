@@ -150,9 +150,6 @@ extern const char sttVoidUid[];
 
 struct CMsnProto;
 
-#define NEWSTR_ALLOCA(A) (A==NULL)?NULL:strcpy((char*)alloca(strlen(A)+1),A)
-#define NEWTSTR_ALLOCA(A) (A==NULL)?NULL:_tcscpy((TCHAR*)alloca(sizeof(TCHAR)*(_tcslen(A)+1)),A)
-
 #define	MSN_ALLOW_MSGBOX    1
 #define	MSN_ALLOW_ENTER	    2
 #define	MSN_HOTMAIL_POPUP   4
@@ -245,12 +242,12 @@ struct STRLIST : public LIST<char>
 {
 	static int compare(const char* p1, const char* p2)
 	{ return _stricmp(p1, p2); }
-	
+
 	STRLIST() : LIST<char>(2, compare) {}
 	~STRLIST() { destroy(); }
 
 	void destroy( void )
-	{	
+	{
 		for (int i=0; i < count; i++)
 			mir_free(items[i]);
 
@@ -258,7 +255,7 @@ struct STRLIST : public LIST<char>
 	}
 
 	int insertn(const char* p) { return insert(mir_strdup(p)); }
-	
+
 	int remove(int idx)
 	{
 		mir_free(items[idx]);
@@ -360,7 +357,7 @@ struct filetransfer
 	bool        bCanceled;		// flag to interrupt a transfer
 	bool        bCompleted;		// was a FT ever completed?
 	bool        bAccepted;		// was a FT ever completed?
-	
+
 	int			fileId;			// handle of file being transferring (r/w)
 
 	HANDLE		hLockHandle;
@@ -422,7 +419,7 @@ struct directconnection
 
 typedef struct _tag_HFileContext
 {
-	unsigned len; 
+	unsigned len;
 	unsigned ver;
 	unsigned __int64 dwSize;
 	unsigned type;
@@ -457,7 +454,7 @@ struct P2P_Header : P2PB_Header
 
 	char* parseMsg(char *buf)  { memcpy(&mSessionID, buf, 48); return buf + 48; }
 	char* createMsg(char *buf, const char* wlid, CMsnProto *ppro);
-	bool isV2Hdr(void) { return false; } 
+	bool isV2Hdr(void) { return false; }
 	void logHeader(CMsnProto *ppro);
 } ;
 
@@ -478,7 +475,7 @@ struct P2PV2_Header : P2PB_Header
 
 	char* parseMsg(char *buf);
 	char* createMsg(char *buf, const char* wlid, CMsnProto *ppro);
-	bool isV2Hdr(void) { return true; } 
+	bool isV2Hdr(void) { return true; }
 	void logHeader(CMsnProto *ppro);
 };
 
@@ -878,7 +875,7 @@ struct InviteChatParam
 	TCHAR* id;
 	HANDLE hContact;
 	CMsnProto* ppro;
-	
+
 	InviteChatParam(const TCHAR* id, HANDLE hContact, CMsnProto* ppro)
 		: id(mir_tstrdup(id)), hContact(hContact), ppro(ppro) {}
 
