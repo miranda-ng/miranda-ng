@@ -1,6 +1,8 @@
+set OUTDIR="..\..\bin10\Release\Plugins" 
+if not exist %OUTDIR% mkdir %OUTDIR%
+
 set COMPDIR=-$A8 -$D- -$J+ -$L- -$O+ -$Q- -$R- -$Y- -$C-
-set INCDIR="c:\program files\borland\delphi7\lib\kol;..\..\include;"
-set OUTDIR="..\plugins"
+set INCDIR=".\kol;..\..\include\delphi;"
 set DCUDIR="tmp"
 md %DCUDIR% 2>nul
 brcc32 -foImpTxt_Ver.res ImpTxt_Ver.rc
