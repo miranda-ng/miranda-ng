@@ -286,9 +286,6 @@
     <ClCompile Include="modules\addcontact\addcontact.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="modules\autoaway\autoaway.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="modules\button\button.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -313,19 +310,7 @@
     <ClCompile Include="modules\findadd\searchresults.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="modules\help\about.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\help\help.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\history\history.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="modules\icolib\skin2opts.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\idle\idle.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\ignore\ignore.cpp">
@@ -461,12 +446,6 @@
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\srawaymsg\sendmsg.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\updatenotify\updatenotify.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\useronline\useronline.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\utils\bmpfilter.cpp">

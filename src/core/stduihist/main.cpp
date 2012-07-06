@@ -1,6 +1,6 @@
 /*
 
-Standard URL plugin for Myranda IM
+Standard ugly history viewer for Myranda IM
 
 Copyright (C) 2012 George Hazan
 
@@ -21,7 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "commonheaders.h"
 
-int LoadSendRecvUrlModule(void);
+int LoadHistoryModule(void);
 
 CLIST_INTERFACE* pcli;
 TIME_API tmi;
@@ -38,11 +38,11 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// 0ca63eee-eb2c-4aed-b3d0-bc8e6eb3bfb8
-	{ 0x0ca63eee, 0xeb2c, 0x4aed, {0xb3, 0xd0, 0xbc, 0x8e, 0x6e, 0xb3, 0xbf, 0xb8}}
+	/* 5eedf3c5-3071-4234-a627-efd062a4d694 */
+	{ 0x5eedf3c5, 0x3071, 0x4234, {0xa6, 0x27, 0xef, 0xd0, 0x62, 0xa4, 0xd6, 0x94}}
 };
 
-static const MUUID interfaces[] = { MIID_SRURL, MIID_LAST };
+static const MUUID interfaces[] = { MIID_UIHISTORY, MIID_LAST };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -67,7 +67,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
 
-	LoadSendRecvUrlModule();
+	LoadHistoryModule();
 	return 0;
 }
 

@@ -1,6 +1,6 @@
 /*
 
-Standard URL plugin for Myranda IM
+Standard idle state module for Myranda IM
 
 Copyright (C) 2012 George Hazan
 
@@ -21,12 +21,18 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "commonheaders.h"
 
-int LoadSendRecvUrlModule(void);
+int LoadIdleModule(void);
+void UnloadIdleModule(void);
 
 CLIST_INTERFACE* pcli;
 TIME_API tmi;
 HINSTANCE hInst;
 int hLangpack;
+
+pfnMyMonitorFromWindow MyMonitorFromWindow;
+pfnMyGetMonitorInfo MyGetMonitorInfo;
+pfnOpenInputDesktop openInputDesktop;
+pfnCloseDesktop closeDesktop;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -38,11 +44,11 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// 0ca63eee-eb2c-4aed-b3d0-bc8e6eb3bfb8
-	{ 0x0ca63eee, 0xeb2c, 0x4aed, {0xb3, 0xd0, 0xbc, 0x8e, 0x6e, 0xb3, 0xbf, 0xb8}}
+	// 53ac190b-e223-4341-825f-709d8520215b
+	{ 0x53ac190b, 0xe223, 0x4341, {0x82, 0x5f, 0x70, 0x9d, 0x85, 0x20, 0x21, 0x5b}}
 };
 
-static const MUUID interfaces[] = { MIID_SRURL, MIID_LAST };
+static const MUUID interfaces[] = { MIID_IDLE, MIID_LAST };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -65,13 +71,21 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	mir_getTMI(&tmi);
 
+	HINSTANCE hUser32 = GetModuleHandleA("user32");
+	openInputDesktop = (pfnOpenInputDesktop)GetProcAddress (hUser32, "OpenInputDesktop");
+	closeDesktop = (pfnCloseDesktop)GetProcAddress (hUser32, "CloseDesktop");
+
+	MyMonitorFromWindow = (pfnMyMonitorFromWindow)GetProcAddress(hUser32, "MonitorFromWindow");
+	MyGetMonitorInfo = (pfnMyGetMonitorInfo)GetProcAddress(hUser32, "GetMonitorInfoW");
+
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
 
-	LoadSendRecvUrlModule();
+	LoadIdleModule();
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	UnloadIdleModule();
 	return 0;
 }

@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "..\..\core\commonheaders.h"
+#include "commonheaders.h"
 
 #define SUMMARY     0
 #define DETAIL      1
@@ -30,51 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static INT_PTR CALLBACK DlgProcHistoryFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static HANDLE hWindowList = 0;
-
-static INT_PTR UserHistoryCommand(WPARAM wParam, LPARAM)
-{
-	HWND hwnd = WindowList_Find(hWindowList, (HANDLE)wParam);
-	if (hwnd) {
-		SetForegroundWindow(hwnd);
-		SetFocus(hwnd);
-		return 0;
-	}
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HISTORY), NULL, DlgProcHistory, wParam);
-	return 0;
-}
-
-static int HistoryContactDelete(WPARAM wParam, LPARAM)
-{
-	HWND hwnd = WindowList_Find(hWindowList, (HANDLE)wParam);
-	if (hwnd != NULL)
-		DestroyWindow(hwnd);
-	return 0;
-}
-
-int PreShutdownHistoryModule(WPARAM, LPARAM)
-{
-	if (hWindowList)
-		WindowList_BroadcastAsync(hWindowList, WM_DESTROY, 0, 0);
-	return 0;
-}
-
-int LoadHistoryModule(void)
-{
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
-	mi.position = 1000090000;
-	mi.flags = CMIF_ICONFROMICOLIB;
-	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_HISTORY);
-	mi.pszName = LPGEN("View &History");
-	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
-	Menu_AddContactMenuItem(&mi);
-
-	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, UserHistoryCommand);
-	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-	HookEvent(ME_DB_CONTACT_DELETED, HistoryContactDelete);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdownHistoryModule);
-	return 0;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Fills the events list
@@ -259,7 +214,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		Utils_RestoreWindowPosition(hwndDlg, hContact, "History", "");
 		{
 			TCHAR* contactName, str[200];
-			contactName = cli.pfnGetContactDisplayName(hContact, 0);
+			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 			mir_sntprintf(str, SIZEOF(str), TranslateT("History for %s"), contactName);
 			SetWindowText(hwndDlg, str);
 		}
@@ -333,7 +288,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				sel = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETCURSEL, 0, 0);
 				if (sel == LB_ERR) { EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEHISTORY), FALSE); break; }
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEHISTORY), TRUE);
-				contactName = cli.pfnGetContactDisplayName(hContact, 0);
+				contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 				hDbEvent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, sel, 0);
 				ZeroMemory(&dbei, sizeof(dbei));
 				dbei.cbSize = sizeof(dbei);
@@ -425,4 +380,51 @@ static INT_PTR CALLBACK DlgProcHistoryFind(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 	}
 	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR UserHistoryCommand(WPARAM wParam, LPARAM)
+{
+	HWND hwnd = WindowList_Find(hWindowList, (HANDLE)wParam);
+	if (hwnd) {
+		SetForegroundWindow(hwnd);
+		SetFocus(hwnd);
+		return 0;
+	}
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HISTORY), NULL, DlgProcHistory, wParam);
+	return 0;
+}
+
+static int HistoryContactDelete(WPARAM wParam, LPARAM)
+{
+	HWND hwnd = WindowList_Find(hWindowList, (HANDLE)wParam);
+	if (hwnd != NULL)
+		DestroyWindow(hwnd);
+	return 0;
+}
+
+int PreShutdownHistoryModule(WPARAM, LPARAM)
+{
+	if (hWindowList)
+		WindowList_BroadcastAsync(hWindowList, WM_DESTROY, 0, 0);
+	return 0;
+}
+
+int LoadHistoryModule(void)
+{
+	CLISTMENUITEM mi = { 0 };
+	mi.cbSize = sizeof(mi);
+	mi.position = 1000090000;
+	mi.flags = CMIF_ICONFROMICOLIB;
+	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_HISTORY);
+	mi.pszName = LPGEN("View &History");
+	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
+	Menu_AddContactMenuItem(&mi);
+
+	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, UserHistoryCommand);
+	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	HookEvent(ME_DB_CONTACT_DELETED, HistoryContactDelete);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdownHistoryModule);
+	return 0;
 }

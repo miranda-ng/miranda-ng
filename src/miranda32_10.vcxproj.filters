@@ -13,9 +13,6 @@
     <Filter Include="Modules\addcontact">
       <UniqueIdentifier>{edb05be9-a16a-4f37-8035-711e5286311f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\autoaway">
-      <UniqueIdentifier>{3e3f52bd-7183-4064-8803-93a7d3c57925}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Modules\button">
       <UniqueIdentifier>{880105c7-0ef2-41ee-9541-fe2c9e5a7679}</UniqueIdentifier>
     </Filter>
@@ -27,15 +24,6 @@
     </Filter>
     <Filter Include="Modules\findadd">
       <UniqueIdentifier>{ada379e5-5553-4316-b4f0-62f2f60e8540}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\help">
-      <UniqueIdentifier>{51edc105-758f-4472-bf65-59e307fd25e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\history">
-      <UniqueIdentifier>{0dba3b26-757e-488d-bcb2-8b63ab5fe948}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\idle">
-      <UniqueIdentifier>{8409f336-1269-46d8-878c-a93588927a66}</UniqueIdentifier>
     </Filter>
     <Filter Include="Modules\ignore">
       <UniqueIdentifier>{4f9373ec-57ce-4c35-9217-9ffc5aefa841}</UniqueIdentifier>
@@ -60,12 +48,6 @@
     </Filter>
     <Filter Include="Modules\srawaymsg">
       <UniqueIdentifier>{ede3d43b-a5cf-462a-90df-4ddd7a091234}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\updater">
-      <UniqueIdentifier>{9074e889-f17c-4c90-a3cf-1cfb2e513491}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\useronline">
-      <UniqueIdentifier>{daa4af16-7ada-4bd5-92bb-59f5ab815e9c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Modules\utils">
       <UniqueIdentifier>{4549cb1a-17d4-49a2-82e9-3acd7e17f5bc}</UniqueIdentifier>
@@ -305,9 +287,6 @@
     <ClCompile Include="modules\addcontact\addcontact.cpp">
       <Filter>Modules\addcontact</Filter>
     </ClCompile>
-    <ClCompile Include="modules\autoaway\autoaway.cpp">
-      <Filter>Modules\autoaway</Filter>
-    </ClCompile>
     <ClCompile Include="modules\button\button.cpp">
       <Filter>Modules\button</Filter>
     </ClCompile>
@@ -331,18 +310,6 @@
     </ClCompile>
     <ClCompile Include="modules\findadd\searchresults.cpp">
       <Filter>Modules\findadd</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\help\about.cpp">
-      <Filter>Modules\help</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\help\help.cpp">
-      <Filter>Modules\help</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\history\history.cpp">
-      <Filter>Modules\history</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\idle\idle.cpp">
-      <Filter>Modules\idle</Filter>
     </ClCompile>
     <ClCompile Include="modules\ignore\ignore.cpp">
       <Filter>Modules\ignore</Filter>
@@ -436,12 +403,6 @@
     </ClCompile>
     <ClCompile Include="modules\srawaymsg\sendmsg.cpp">
       <Filter>Modules\srawaymsg</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\updatenotify\updatenotify.cpp">
-      <Filter>Modules\updater</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\useronline\useronline.cpp">
-      <Filter>Modules\useronline</Filter>
     </ClCompile>
     <ClCompile Include="modules\utils\bmpfilter.cpp">
       <Filter>Modules\utils</Filter>

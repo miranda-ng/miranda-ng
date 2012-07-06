@@ -48,24 +48,18 @@ int LoadFindAddModule(void);	// ui: search/add users
 int LoadSkinIcons(void);
 int LoadSkinSounds(void);
 int LoadSkinHotkeys(void);
-int LoadHelpModule(void);		// ui: help stuff
 int LoadUserInfoModule(void);	// ui: user info
-int LoadHistoryModule(void);	// ui: history viewer
 int LoadAwayMsgModule(void);	// ui: setting away messages
 int LoadVisibilityModule(void);	// ui: visibility control
 int LoadCLUIModule(void);		// ui: CList UI
 int LoadPluginOptionsModule(void);	// ui: plugin viewer
 int LoadAddContactModule(void);	// ui: authcontrol contacts
-int LoadIdleModule(void);		// rnd: report idle information
-int LoadAutoAwayModule(void);	// ui: away
-int LoadUserOnlineModule(void);	// ui: online alert
 int LoadUtilsModule(void);		// ui: utils (has a few window classes, like HyperLink)
 int LoadCLCModule(void);		// window class: CLC control
 int LoadButtonModule(void);		// window class: button class
 int LoadContactsModule(void);    // random: contact
 int LoadFontserviceModule(void); // ui: font manager
 int LoadIcoLibModule(void);   // ui: icons manager
-int LoadUpdateNotifyModule(void); // random: update notification
 int LoadServiceModePlugin(void);
 int LoadErrorsModule();
 
@@ -74,11 +68,9 @@ void UnloadButtonModule(void);
 void UnloadClcModule(void);
 void UnloadContactListModule(void);
 void UnloadEventsModule(void);
-void UnloadIdleModule(void);
 void UnloadSslModule(void);
 void UnloadNetlibModule(void);
 void UnloadNewPlugins(void);
-void UnloadUpdateNotifyModule(void);
 void UnloadIcoLibModule(void);
 void UnloadSkinSounds(void);
 void UnloadSkinHotkeys(void);
@@ -141,20 +133,13 @@ int LoadDefaultModules(void)
 	if ( LoadIgnoreModule()) return 1;
 	if ( LoadVisibilityModule()) return 1;
 
-	for (int i=0; i < 5; i++) {
+	for (int i=0; i < 10; i++) {
 		if ( pluginDefault[i].pImpl )
 			continue;
 
 		if ( !LoadCorePlugin(pluginDefault[i]))
 			return 1;
 	}
-
-	if ( !pluginDefault[ 5].pImpl) if ( LoadHelpModule()) return 1;
-	if ( !pluginDefault[ 6].pImpl) if ( LoadHistoryModule()) return 1;
-	if ( !pluginDefault[ 7].pImpl) if ( LoadIdleModule()) return 1;
-	if ( !pluginDefault[ 8].pImpl) if ( LoadAutoAwayModule()) return 1;
-	if ( !pluginDefault[ 9].pImpl) if ( LoadUserOnlineModule()) return 1;
-	if ( !pluginDefault[10].pImpl) if ( LoadUpdateNotifyModule()) return 1;
 
 	return 0;
 }
@@ -173,8 +158,6 @@ void UnloadDefaultModules(void)
 	UnloadClcModule();
 	UnloadContactListModule();
 	UnloadEventsModule();
-	UnloadIdleModule();
-	UnloadUpdateNotifyModule();
 	UnloadNetlibModule();
 	UnloadSslModule();
 }

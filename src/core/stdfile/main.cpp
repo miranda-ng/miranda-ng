@@ -1,6 +1,6 @@
 /*
 
-Standard URL plugin for Myranda IM
+Standard file transfers' plugin for Myranda IM
 
 Copyright (C) 2012 George Hazan
 
@@ -41,8 +41,8 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	/* 8d0a046d-8ea9-4c55-b568-38da520564fd */
-	{ 0x8d0a046d, 0x8ea9, 0x4c55, {0xb5, 0x68, 0x38, 0xda, 0x52, 0x05, 0x64, 0xfd}}
+	// 39698dce-7ed4-4334-ac4c-ba8b37a86f13
+	{ 0x39698dce, 0x7ed4, 0x4334, {0xac, 0x4c, 0xba, 0x8b, 0x37, 0xa8, 0x6f, 0x13}}
 };
 
 static const MUUID interfaces[] = { MIID_SRFILE, MIID_LAST };

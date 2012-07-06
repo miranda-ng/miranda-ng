@@ -1,6 +1,6 @@
 /*
 
-Standard URL plugin for Myranda IM
+Standard Help/About plugin for Myranda IM
 
 Copyright (C) 2012 George Hazan
 
@@ -21,7 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "commonheaders.h"
 
-int LoadSendRecvUrlModule(void);
+int LoadHelpModule(void);
 
 CLIST_INTERFACE* pcli;
 TIME_API tmi;
@@ -38,11 +38,11 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// 0ca63eee-eb2c-4aed-b3d0-bc8e6eb3bfb8
-	{ 0x0ca63eee, 0xeb2c, 0x4aed, {0xb3, 0xd0, 0xbc, 0x8e, 0x6e, 0xb3, 0xbf, 0xb8}}
+	// 1e64fd80-299e-48a0-9441-de2868563b6f
+	{ 0x1e64fd80, 0x299e, 0x48a0, {0x94, 0x41, 0xde, 0x28, 0x68, 0x56, 0x3b, 0x6f}}
 };
 
-static const MUUID interfaces[] = { MIID_SRURL, MIID_LAST };
+static const MUUID interfaces[] = { MIID_UIHELP, MIID_LAST };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -67,7 +67,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
 
-	LoadSendRecvUrlModule();
+	LoadHelpModule();
 	return 0;
 }
 

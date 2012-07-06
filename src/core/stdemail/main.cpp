@@ -1,6 +1,6 @@
 /*
 
-Standard URL plugin for Myranda IM
+Standard e-mail urls launcher for Myranda IM
 
 Copyright (C) 2012 George Hazan
 

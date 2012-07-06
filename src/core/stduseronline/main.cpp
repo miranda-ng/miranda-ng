@@ -1,6 +1,6 @@
 /*
 
-Standard URL plugin for Myranda IM
+Standard user online monitor for Myranda IM
 
 Copyright (C) 2012 George Hazan
 
@@ -21,10 +21,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "commonheaders.h"
 
-int LoadSendRecvUrlModule(void);
+int LoadUserOnlineModule(void);
 
 CLIST_INTERFACE* pcli;
-TIME_API tmi;
 HINSTANCE hInst;
 int hLangpack;
 
@@ -38,11 +37,11 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// 0ca63eee-eb2c-4aed-b3d0-bc8e6eb3bfb8
-	{ 0x0ca63eee, 0xeb2c, 0x4aed, {0xb3, 0xd0, 0xbc, 0x8e, 0x6e, 0xb3, 0xbf, 0xb8}}
+	// 251c78d7-f6e0-4083-92dc-252dcb3be724
+	{ 0x251c78d7, 0xf6e0, 0x4083, {0x92, 0xdc, 0x25, 0x2d, 0xcb, 0x3b, 0xe7, 0x24}}
 };
 
-static const MUUID interfaces[] = { MIID_SRURL, MIID_LAST };
+static const MUUID interfaces[] = { MIID_USERONLINE, MIID_LAST };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -63,11 +62,10 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	mir_getTMI(&tmi);
 
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
 
-	LoadSendRecvUrlModule();
+	LoadUserOnlineModule();
 	return 0;
 }
 

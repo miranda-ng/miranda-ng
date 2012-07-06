@@ -20,18 +20,23 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "..\..\core\commonheaders.h"
+#include "commonheaders.h"
 
 static int uniqueEventId = 0;
+
+static bool Proto_IsAccountEnabled(PROTOACCOUNT* pa)
+{
+	return pa && ((pa->bIsEnabled && !pa->bDynDisabled) || pa->bOldProto);
+}
 
 static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	int newStatus, oldStatus;
-
-	if ((HANDLE)wParam == NULL || strcmp(cws->szSetting, "Status")) return 0;
-	newStatus = cws->value.wVal;
-	oldStatus = DBGetContactSettingWord((HANDLE)wParam, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
+	if ((HANDLE)wParam == NULL || strcmp(cws->szSetting, "Status"))
+		return 0;
+	
+	int newStatus = cws->value.wVal;
+	int oldStatus = DBGetContactSettingWord((HANDLE)wParam, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
 	DBWriteContactSettingWord((HANDLE)wParam, "UserOnline", "OldStatus", (WORD)newStatus);
 	if (CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_USERONLINE)) return 0;
 	if (DBGetContactSettingByte((HANDLE)wParam, "CList", "Hidden", 0)) return 0;
@@ -60,7 +65,7 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 				cle.hDbEvent = (HANDLE)(uniqueEventId++);
 				cle.hIcon = LoadSkinIcon(SKINICON_OTHER_USERONLINE, false);
 				cle.pszService = "UserOnline/Description";
-				mir_sntprintf(tooltip, SIZEOF(tooltip), TranslateT("%s is Online"), cli.pfnGetContactDisplayName((HANDLE)wParam, 0));
+				mir_sntprintf(tooltip, SIZEOF(tooltip), TranslateT("%s is Online"), pcli->pfnGetContactDisplayName((HANDLE)wParam, 0));
 				cle.ptszTooltip = tooltip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 				IcoLib_ReleaseIcon(cle.hIcon, 0);
@@ -84,9 +89,14 @@ static int UserOnlineAck(WPARAM, LPARAM lParam)
 
 static int UserOnlineModulesLoaded(WPARAM, LPARAM)
 {
+	int numAccounts;
+	PROTOACCOUNT** accounts;
+	ProtoEnumAccounts(&numAccounts, &accounts);
+
 	// reset the counter
-	for (int j = 0; j < accounts.getCount(); j++)
-		if (Proto_IsAccountEnabled(accounts[j])) db_dword_set(NULL, "UserOnline", accounts[j]->szModuleName, GetTickCount());
+	for (int i = 0; i < numAccounts; i++)
+		if (Proto_IsAccountEnabled(accounts[i]))
+			db_dword_set(NULL, "UserOnline", accounts[i]->szModuleName, GetTickCount());
 
 	return 0;
 }

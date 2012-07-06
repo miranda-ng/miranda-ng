@@ -7,7 +7,7 @@
 #define __PLUGIN_NAME				"stdemail"
 #define __INTERNAL_NAME				"stdemail"
 #define __FILENAME					"stdemail.dll"
-#define __DESCRIPTION 				"Core module for e-mail handling."
+#define __DESCRIPTION 				"Core module for e-mail urls handling."
 #define __AUTHOR                 "Myranda team"
 #define __AUTHOREMAIL				""
 #define __AUTHORWEB					"http://nightly.miranda.im"

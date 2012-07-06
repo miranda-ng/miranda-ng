@@ -21,7 +21,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "..\..\core\commonheaders.h"
+#include "commonheaders.h"
 
 #define IDLEMOD "Idle"
 #define IDL_USERIDLECHECK "UserIdleCheck"
@@ -257,9 +257,8 @@ bool IsFullScreen(void)
 	rcScreen.right = GetSystemMetrics(SM_CXSCREEN);
 	rcScreen.bottom = GetSystemMetrics(SM_CYSCREEN);
 
-	if (MyMonitorFromWindow)
-	{
-		HMONITOR hMon = MyMonitorFromWindow(cli.hwndContactList, MONITOR_DEFAULTTONEAREST);
+	if (MyMonitorFromWindow) {
+		HMONITOR hMon = MyMonitorFromWindow(pcli->hwndContactList, MONITOR_DEFAULTTONEAREST);
 		MONITORINFO mi;
 		mi.cbSize = sizeof(mi);
 		if (MyGetMonitorInfo(hMon, &mi))
@@ -372,7 +371,7 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		CheckDlgButton(hwndDlg, IDC_AASHORTIDLE, DBGetContactSettingByte(NULL, IDLEMOD, IDL_AAENABLE, 0) ? BST_CHECKED:BST_UNCHECKED);
 		for (j = 0; j < SIZEOF(aa_Status); j++)
-			SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_ADDSTRING, 0, (LPARAM)cli.pfnGetStatusModeDescription(aa_Status[j], 0));
+			SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(aa_Status[j], 0));
 
 		j = IdleGetStatusIndex((WORD)(DBGetContactSettingWord(NULL, IDLEMOD, IDL_AASTATUS, 0)));
 		SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_SETCURSEL, j, 0);

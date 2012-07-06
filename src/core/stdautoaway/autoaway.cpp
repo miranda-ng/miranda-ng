@@ -20,11 +20,9 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "..\..\core\commonheaders.h"
+#include "commonheaders.h"
 
 #define AA_MODULE "AutoAway"
-
-void Proto_SetStatus(const char* szProto, unsigned status);
 
 static int iBreakSounds = 0;
 
@@ -33,23 +31,57 @@ static int AutoAwaySound(WPARAM, LPARAM lParam)
 	return iBreakSounds;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+static bool Proto_IsAccountEnabled(PROTOACCOUNT* pa)
+{
+	return pa && ((pa->bIsEnabled && !pa->bDynDisabled) || pa->bOldProto);
+}
+
+static bool Proto_IsAccountLocked(PROTOACCOUNT* pa)
+{
+	return pa && DBGetContactSettingByte(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
+}
+
+static void Proto_SetStatus(const char* szProto, unsigned status)
+{
+	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
+		TCHAR* awayMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM) status, (LPARAM) szProto);
+		if ((INT_PTR)awayMsg == CALLSERVICE_NOTFOUND) {
+			char* awayMsgA = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM) status, (LPARAM) szProto);
+			if ((INT_PTR)awayMsgA != CALLSERVICE_NOTFOUND) {
+				awayMsg = mir_a2t(awayMsgA);
+				mir_free(awayMsgA);
+			}
+		}
+		if ((INT_PTR)awayMsg != CALLSERVICE_NOTFOUND) {
+			CallProtoService(szProto, PS_SETAWAYMSGT, status, (LPARAM) awayMsg);
+			mir_free(awayMsg);
+		}
+	}
+
+	CallProtoService(szProto, PS_SETSTATUS, status, 0);
+}
+
 static int AutoAwayEvent(WPARAM, LPARAM lParam)
 {
-	int i;
-
 	MIRANDA_IDLE_INFO mii;
 	mii.cbSize = sizeof(mii);
 	CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
 	if (mii.aaStatus == 0)
 		return 0;
 
-	for (i=0; i < accounts.getCount(); i++) {
+	int numAccounts;
+	PROTOACCOUNT** accounts;
+	ProtoEnumAccounts(&numAccounts, &accounts);
+
+	for (int i=0; i < numAccounts; i++) {
 		PROTOACCOUNT* pa = accounts[i];
 
 		if ( !Proto_IsAccountEnabled(pa) || Proto_IsAccountLocked(pa)) continue;
 
-		int statusbits = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
-		int currentstatus = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0);
+		int statusbits = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
+		int currentstatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 		int status = mii.aaStatus;
 		if ( !(statusbits & Proto_Status2Flag(status))) {
 			// the protocol doesnt support the given status
@@ -70,6 +102,7 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 				if ( !mii.aaLock)
 					Proto_SetStatus(pa->szModuleName, ID_STATUS_ONLINE);
 	}	}	}
+
 	if (mii.idlesoundsoff)
 		iBreakSounds = (lParam&IDF_ISIDLE) != 0;
 

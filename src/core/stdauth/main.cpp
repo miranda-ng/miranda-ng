@@ -1,6 +1,6 @@
 /*
 
-Standard URL plugin for Myranda IM
+Standard Send/Recv Auth plugin for Myranda IM
 
 Copyright (C) 2012 George Hazan
 
@@ -40,7 +40,7 @@ PLUGININFOEX pluginInfo = {
 	{ 0x8d0a046d, 0x8ea9, 0x4c55, {0xb5, 0x68, 0x38, 0xda, 0x52, 0x05, 0x64, 0xfd}}
 };
 
-static const MUUID interfaces[] = { MIID_SRURL, MIID_LAST };
+static const MUUID interfaces[] = { MIID_SRAUTH, MIID_LAST };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {

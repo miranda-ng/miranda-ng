@@ -1,6 +1,6 @@
 /*
 
-Standard URL plugin for Myranda IM
+Standard auto away module for Myranda IM
 
 Copyright (C) 2012 George Hazan
 
@@ -21,10 +21,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "commonheaders.h"
 
-int LoadSendRecvUrlModule(void);
+int LoadAutoAwayModule(void);
 
-CLIST_INTERFACE* pcli;
-TIME_API tmi;
 HINSTANCE hInst;
 int hLangpack;
 
@@ -38,11 +36,11 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// 0ca63eee-eb2c-4aed-b3d0-bc8e6eb3bfb8
-	{ 0x0ca63eee, 0xeb2c, 0x4aed, {0xb3, 0xd0, 0xbc, 0x8e, 0x6e, 0xb3, 0xbf, 0xb8}}
+	// 9f5ca736-1108-4872-bec3-19c84bc2143b
+	{ 0x9f5ca736, 0x1108, 0x4872, {0xbe, 0xc3, 0x19, 0xc8, 0x4b, 0xc2, 0x14, 0x3b}}
 };
 
-static const MUUID interfaces[] = { MIID_SRURL, MIID_LAST };
+static const MUUID interfaces[] = { MIID_AUTOAWAY, MIID_LAST };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -63,11 +61,8 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	mir_getTMI(&tmi);
 
-	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
-
-	LoadSendRecvUrlModule();
+	LoadAutoAwayModule();
 	return 0;
 }
 
