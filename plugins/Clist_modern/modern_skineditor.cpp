@@ -392,7 +392,7 @@ char * MadeString(HWND hwndDlg)
 			BYTE a;
 			WORD l,t,b,r;
 			char buf_name[MAX_PATH] = {0};
-			int i = 0;
+			int i=0;
 			a = (BYTE)SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_GETPOS,0,0);
 			l = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_GETPOS,0,0);
 			t = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_GETPOS,0,0);
@@ -414,7 +414,7 @@ char * MadeString(HWND hwndDlg)
 			WORD l,t,b,r;
 			WORD x,y,w,h;
 			char buf_name[MAX_PATH] = {0};
-			int i = 0;
+			int i=0;
 			a = (BYTE)SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_GETPOS,0,0);
 			l = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_GETPOS,0,0);
 			t = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_GETPOS,0,0);
@@ -558,13 +558,13 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			TranslateDialogDefault(hwndDlg);
 			FillObjectTree(hwndDlg,IDC_OBJECT_TREE,"$$*");
 			{	//Fill types combo
-				int i = 0;
-				for (i = 0; i < SIZEOF(TYPES); i++)
+				int i=0;
+				for (i=0; i < SIZEOF(TYPES); i++)
 					SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_ADDSTRING,0,(LPARAM)TranslateTS(TYPES[i]));
 			}
 			{	//Fill fit combo
-				int i = 0;
-				for (i = 0; i < SIZEOF(FITMODES); i++)
+				int i=0;
+				for (i=0; i < SIZEOF(FITMODES); i++)
 					SendDlgItemMessage(hwndDlg,IDC_FIT,CB_ADDSTRING,0,(LPARAM)TranslateTS(FITMODES[i]));
 			}
 			//SPIN Ranges
@@ -705,7 +705,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				if (HIWORD(wParam) == EN_CHANGE)
 				{
 					fileChanged = TRUE;
-					if ((HWND)lParam !=GetFocus())
+					if ((HWND)lParam != GetFocus())
 					{
 						GetFileSizes(hwndDlg);
 						fileChanged = FALSE;
@@ -731,7 +731,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			   ||LOWORD(wParam) == IDC_E_H
 			   ||LOWORD(wParam) == IDC_EDIT_ALPHA
 			   ) 
-				&& HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()))
+				&& HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 			{
 				return 0;
 			}

@@ -411,7 +411,7 @@ static int   sttReposButtons(MTBINFO * mti)
 	int  nBarSize;
 	int  nFlexSeparatorsCount = 0;
 	int  nUsedWidth = 0;
-	int  i = 0;
+	int  i=0;
 	int  nextX = 0;
 	int  nFreeSpace;
 	BOOL bWasButttonBefore = FALSE;
@@ -482,7 +482,7 @@ static int   sttReposButtons(MTBINFO * mti)
 		y += mti->nButtonHeight+mti->nButtonSpace;
 		nextX = 0;
 		if (mti->fSingleLine) break;
-	} while (iFirstButtonId < mti->pButtonList->realCount && y  >= 0 &&(mti->fAutoSize || (y+mti->nButtonHeight <= rcClient.bottom-rcClient.top)));
+	} while (iFirstButtonId < mti->pButtonList->realCount && y >= 0 &&(mti->fAutoSize || (y+mti->nButtonHeight <= rcClient.bottom-rcClient.top)));
 	for (i = iFirstButtonId; i <  mti->pButtonList->realCount; i++)
 	{
 		MTB_BUTTONINFO * mtbi = (MTB_BUTTONINFO *)mti->pButtonList->items[i];
@@ -624,7 +624,7 @@ static void   sttGetButtonSettings(char * ID, BYTE * pbVisible, DWORD * pdwOrder
 }
 static void   sttReloadButtons()
 {
-	int i = 0;
+	int i=0;
 	tbcheck ;
 	tblock;
 	{
@@ -633,7 +633,7 @@ static void   sttReloadButtons()
 	}
 
 	WindowList_Broadcast(tbdat.hToolBarWindowList, MTBM_REMOVE_ALL_BUTTONS, 0,0);
-	for (i = 0; i < tbdat.listOfButtons->realCount; i++)
+	for (i=0; i < tbdat.listOfButtons->realCount; i++)
 	{	
 		BYTE bVisible;
 		BYTE bPanel;
@@ -865,7 +865,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 				}
 			}		
 
-			if ((curvis != vis || bResize) && vis !=-1)
+			if ((curvis != vis || bResize) && vis != -1)
 			{				
 				frameopt = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS,frameID),0);
 				frameopt &= ~F_VISIBLE;
@@ -920,7 +920,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 	case MTBM_REMOVE_ALL_BUTTONS:
 		{
 			int i;
-			for (i = 0; i < pMTBInfo->pButtonList->realCount; i++ )
+			for (i=0; i < pMTBInfo->pButtonList->realCount; i++ )
 			{
 				MTB_BUTTONINFO * mtbi = (MTB_BUTTONINFO *)pMTBInfo->pButtonList->items[i];
 				if (mtbi->hWindow && mtbi->hwndToolBar == hwnd)
@@ -956,7 +956,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 				{
 					RECT rcClient;
 					GetClientRect(pMTBInfo->hWnd, &rcClient);
-					if (rcClient.bottom-rcClient.top !=Height && Height)
+					if (rcClient.bottom-rcClient.top != Height && Height)
 					{
 						supressRepos = TRUE;
 						PostMessage(pMTBInfo->hWnd,MTBM_UPDATEFRAMEVISIBILITY, -1, 0);
@@ -1010,7 +1010,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 				GetClientRect(hwnd, &rcClient);
 				SkinDrawGlyph(hDC,&rcClient,&rcClient,"Bar,ID = ToolBar,Part = Background");
 			}
-			for (i = 0; i < pMTBInfo->pButtonList->realCount; i++)
+			for (i=0; i < pMTBInfo->pButtonList->realCount; i++)
 			{
 				RECT childRect;
 				POINT Offset;
@@ -1029,7 +1029,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 			void * hButton = (msg == MTBM_SETBUTTONSTATE) ? (void *)wParam : NULL;
 			MTB_BUTTONINFO *mtbi = NULL;
 			int i;
-			for (i = 0; i < pMTBInfo->pButtonList->realCount; i++)
+			for (i=0; i < pMTBInfo->pButtonList->realCount; i++)
 			{
 				mtbi = (MTB_BUTTONINFO*)pMTBInfo->pButtonList->items[i];
 				if ((hButtonId && !strcmp(mtbi->szButtonID, hButtonId)) || (hButton == mtbi))
@@ -1051,7 +1051,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 			void * hButton = (msg == MTBM_GETBUTTONSTATE) ? (void *)wParam : NULL;
 			MTB_BUTTONINFO *mtbi = NULL;
 			int i;
-			for (i = 0; i < pMTBInfo->pButtonList->realCount; i++)
+			for (i=0; i < pMTBInfo->pButtonList->realCount; i++)
 			{
 				mtbi = (MTB_BUTTONINFO*)pMTBInfo->pButtonList->items[i];
 				if ((hButtonId && !strcmp(mtbi->szButtonID, hButtonId)) || (hButton == mtbi))
@@ -1067,7 +1067,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 	case MTBM_REMOVEBUTTON:
 		{
 			MTB_BUTTONINFO *mtbi = NULL;
-			for (int i = 0; i < pMTBInfo->pButtonList->realCount; i++)
+			for (int i=0; i < pMTBInfo->pButtonList->realCount; i++)
 			{
 				mtbi = (MTB_BUTTONINFO*)pMTBInfo->pButtonList->items[i];
 				if (mtbi == (MTB_BUTTONINFO*)wParam)
@@ -1121,8 +1121,8 @@ static LRESULT CALLBACK ToolBar_OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 			
 			qsort(tbdat.listOfButtons->items,tbdat.listOfButtons->realCount,sizeof(MTB_BUTTONINFO *),sttSortButtons);
 			{				
-				int i = 0;
-				for (i = 0; i < tbdat.listOfButtons->realCount; i++)
+				int i=0;
+				for (i=0; i < tbdat.listOfButtons->realCount; i++)
 				{
 					TVINSERTSTRUCT tvis = {0};
 					HTREEITEM hti;
@@ -1160,7 +1160,7 @@ static LRESULT CALLBACK ToolBar_OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 			{
 				int i;
 				BOOL en = IsDlgButtonChecked(hwndDlg,IDC_TBSHOW);
-				for (i = 0; i < SIZEOF(ControlIDS); i++)
+				for (i=0; i < SIZEOF(ControlIDS); i++)
 					EnableWindow(GetDlgItem(hwndDlg,ControlIDS[i]), en);
 			}
 			return TRUE;
@@ -1315,14 +1315,14 @@ static LRESULT CALLBACK ToolBar_OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 			{
 				int i;
 				BOOL en = IsDlgButtonChecked(hwndDlg,IDC_TBSHOW);
-				for (i = 0; i < SIZEOF(ControlIDS); i++)
+				for (i=0; i < SIZEOF(ControlIDS); i++)
 					EnableWindow(GetDlgItem(hwndDlg,ControlIDS[i]), en);
 			}
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		} else if ( (LOWORD(wParam) == IDC_TEXT_W || 
 			         LOWORD(wParam) == IDC_TEXT_H ||
 					 LOWORD(wParam) == IDC_TEXT_S ) 
-					&& HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap 
+					&& HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap 
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		break;
 	}

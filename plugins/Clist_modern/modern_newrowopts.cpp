@@ -74,7 +74,7 @@ BOOL RemoveChildNode(NodeList * FromList, DWORD index)
 	if (!FromList) return FALSE;
 	if (FromList->AllocatedChilds <= index) return FALSE;
 	work = &(FromList->childNodes[index]);
-	for(i = 0; i < work->AllocatedChilds; i++)
+	for(i=0; i < work->AllocatedChilds; i++)
 	{
 		if (work->childNodes[i].AllocatedChilds)
 			RemoveChildNode(work->childNodes,i);
@@ -131,7 +131,7 @@ void TraceTreeLevel(NodeList * node)
 		TRACE(buf);
 	}
 	ident += 5;
-	for(i = 0; i < node->AllocatedChilds;i++)
+	for(i=0; i < node->AllocatedChilds;i++)
 	{
 
 		if (node->childNodes[i].AllocatedChilds>0)
@@ -156,7 +156,7 @@ BOOL CALLBACK DlgProcItemNewRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_INITDIALOG:
 		{
 			NodeList * res1,*res2, *res3;
-			int i = 0;
+			int i=0;
 			RootNode = AddNode(NULL);
 			RootNode->pData = i++;
 			res1 = AddNode(RootNode);

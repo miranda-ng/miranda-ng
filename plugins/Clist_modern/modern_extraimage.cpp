@@ -42,8 +42,8 @@ boolean isColumnVisible(int extra)
 	if (HasExtraIconsService())
 		return true;
 
-	int i = 0;
-	for (i = 0; i < sizeof(ExtraOrder)/sizeof(ExtraOrder[0]); i++)
+	int i=0;
+	for (i=0; i < sizeof(ExtraOrder)/sizeof(ExtraOrder[0]); i++)
 		if (ExtraOrder[i] == extra)
 		{
 			switch(i+1)
@@ -120,7 +120,7 @@ int ExtraImage_ColumnNumToExtraID(int column)
 	if (HasExtraIconsService())
 		return column+1;
 
-	for (int i = 0; i < EXTRA_ICON_COUNT; i++)
+	for (int i=0; i < EXTRA_ICON_COUNT; i++)
 		if (ExtraImage_ExtraIDToColumnNum(i) == column)
 			return i;
 
@@ -203,7 +203,7 @@ void ExtraImage_ReloadExtraIcons()
 		//calc only needed protocols
 		//adding protocol icons
 		ProtoEnumAccounts( &count, &accs );
-		for(i = 0;i < count;i++)
+		for(i=0;i < count;i++)
 		{
             if (!IsAccountEnabled(accs[i]) || CallProtoService(accs[i]->szModuleName, PS_GETCAPS,PFLAGNUM_2, 0 ) ==  0) 
 				continue;
@@ -258,7 +258,7 @@ void ClearExtraIcons()
 
 		hItem = (HANDLE)SendMessage(pcli->hwndContactTree,CLM_FINDCONTACT,(WPARAM)hContact,0);
 		if (hItem == 0){continue;};
-		for (i = 0;i < EnabledColumnCount;i++)
+		for (i=0;i < EnabledColumnCount;i++)
 		{
 			SendMessage(pcli->hwndContactTree,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(i,0xFF));	
 		};
@@ -303,7 +303,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 		ProtoEnumAccounts( &count, &accs );
 		maxpr = 0;
 		//calc only needed protocols
-		for(i = 0;i < count;i++) {
+		for(i=0;i < count;i++) {
 			if ( !IsAccountEnabled( accs[i] ) || CallProtoService(accs[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0) == 0) continue;
 			ImgIndex[maxpr] = accs[i]->szModuleName;
 			maxpr++;
@@ -334,7 +334,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 				if (ExtraImage_ExtraIDToColumnNum(EXTRA_ICON_WEB) != -1)
 				{
 
-					if (szProto !=NULL)
+					if (szProto != NULL)
 					{
 						char *homepage;
 						homepage = db_get_sa(pdnce->m_cache_hContact,"UserInfo", "Homepage");
@@ -386,7 +386,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 
 			if (ExtraImage_ExtraIDToColumnNum(EXTRA_ICON_PROTO) != -1) 
 			{					
-				for (i = 0;i < maxpr;i++)
+				for (i=0;i < maxpr;i++)
 				{
 					if (!mir_strcmp(ImgIndex[i],szProto))
 					{
@@ -398,7 +398,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 			if (ExtraImage_ExtraIDToColumnNum(EXTRA_ICON_VISMODE) != -1) 
 			{
 				BYTE iconIndex = 0xFF;
-				if (szProto !=NULL)
+				if (szProto != NULL)
 				{
 					if (!db_get_b(hContact, szProto, "ChatRoom", 0))		
 					{

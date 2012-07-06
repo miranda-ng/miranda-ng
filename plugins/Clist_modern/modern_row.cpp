@@ -67,7 +67,7 @@ ROWCELL *cppInitModernRow(ROWCELL	** tabAccess)
 	int seq = 0;
 	ROWCELL * RowRoot = NULL;
 	FILE * hFile;
-	int i = 0;
+	int i=0;
 	if (!db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT)) return NULL;
 	tmplbuf = NULL;
 	if (db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT) == 1)
@@ -84,9 +84,9 @@ ROWCELL *cppInitModernRow(ROWCELL	** tabAccess)
 		tmplbuf = (char*)malloc(fsize+1);
 		ZeroMemory(tmplbuf, fsize+1);
 
-		for (i = 0; i < fsize; i++) tmplbuf[i] = getc(hFile);
+		for (i=0; i < fsize; i++) tmplbuf[i] = getc(hFile);
 		tmplbuf[i] = 0;
-		i = 0;
+		i=0;
 		rowParse(RowRoot, RowRoot, tmplbuf, i, seq,tabAccess);
 		db_set_s(NULL,"ModernData","RowTemplate",tmplbuf);
 		free(tmplbuf);
@@ -261,7 +261,7 @@ void rowParserGetParam(ROWCELL* &cell, char *tbuf, int &hbuf)
 		return;
 	}
 
-	if (param>TC_TEXT3 && param !=TC_SPACE) cell->hasfixed = 1;
+	if (param>TC_TEXT3 && param != TC_SPACE) cell->hasfixed = 1;
 
 	switch (param)
 	{
@@ -337,7 +337,7 @@ BOOL rowParse(ROWCELL* &cell, ROWCELL* parent, char *tbuf, int &hbuf, int &seque
 
 	rowAddCell(cell, cont);
 	rowParserGetParam(cell, tbuf, hbuf);
-	if (cell->type !=0 && cell->type !=TC_SPACE && cell->type !=TC_FIXED)
+	if (cell->type != 0 && cell->type != TC_SPACE && cell->type != TC_FIXED)
 		RowTabAccess[sequence++] = cell;
 
 	if (!rowParse(cell->child, cell, tbuf, hbuf, sequence,RowTabAccess))

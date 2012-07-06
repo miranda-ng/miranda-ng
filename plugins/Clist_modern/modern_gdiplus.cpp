@@ -231,7 +231,7 @@ BOOL GDIPlus_IsAnimatedGif (TCHAR * szName)
 	return (BOOL) (nFrameCount > 1);
 }
 
-void GDIPlus_ExtractAnimatedGif (TCHAR * szName, int width, int height, HBITMAP * pBitmap, int ** pframesDelay, int * pframesCount, SIZE * pSizeAvatar)
+void GDIPlus_ExtractAnimatedGIF (TCHAR * szName, int width, int height, HBITMAP * pBitmap, int ** pframesDelay, int * pframesCount, SIZE * pSizeAvatar)
 {
 	int nFrameCount = 0;
 	Bitmap image(szName);
@@ -285,7 +285,7 @@ void GDIPlus_ExtractAnimatedGif (TCHAR * szName, int width, int height, HBITMAP 
 	if ( nFrameCount > 1 )
 		image.SelectActiveFrame(&pageGuid, 1 );
 
-	for (int i = 0; i < nFrameCount; i++)
+	for (int i=0; i < nFrameCount; i++)
 	{
 		image.SelectActiveFrame( &pageGuid, i );
 		graphics.DrawImage( &image, Rect(i*clipWidth, 0,clipWidth,clipHeight ), 0, 0, imWidth, imHeight , UnitPixel, &attr);

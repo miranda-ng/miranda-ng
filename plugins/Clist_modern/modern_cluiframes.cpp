@@ -121,7 +121,7 @@ int CLUIFrames_OnMoving( HWND hwnd, RECT * r)
 {
 	int i;
 	g_CluiData.mutexPreventDockMoving = 0;
-	for(i = 0;i < g_nFramesCount;i++) {
+	for(i=0;i < g_nFramesCount;i++) {
 
 		if (!g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != NULL &&g_pfwFrames[i].OwnerWindow != (HWND)-2)
 		{
@@ -151,7 +151,7 @@ int SetAlpha(BYTE Alpha)
 {
 	int i;
 
-	for(i = 0;i < g_nFramesCount;i++) {
+	for(i=0;i < g_nFramesCount;i++) {
 
 		if (!g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != NULL &&g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].visible && !g_pfwFrames[i].needhide )
 		{
@@ -188,7 +188,7 @@ int SetAlpha(BYTE Alpha)
 int CLUIFrames_RepaintSubContainers()
 {
 	int i;
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 		if (!g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != (HWND)0 &&g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].visible && !g_pfwFrames[i].needhide )
 		{
 			RedrawWindow(g_pfwFrames[i].hWnd,NULL,NULL,RDW_ALLCHILDREN|RDW_UPDATENOW|RDW_INVALIDATE|RDW_FRAME);
@@ -199,7 +199,7 @@ int CLUIFrames_RepaintSubContainers()
 int CLUIFrames_ActivateSubContainers( BOOL active)
 {
 	int i;
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 		if (active&&!g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != (HWND)0 &&g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].visible && !g_pfwFrames[i].needhide )
 		{
 			HWND hwnd = g_pfwFrames[i].OwnerWindow;
@@ -220,7 +220,7 @@ int CLUIFrames_SetParentForContainers( HWND parent )
 		g_CluiData.fOnDesktop = 1;
 	else
 		g_CluiData.fOnDesktop = 0;
-	for(i = 0;i < g_nFramesCount;i++) {
+	for(i=0;i < g_nFramesCount;i++) {
 		if (!g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != (HWND)0 &&g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].visible && !g_pfwFrames[i].needhide )
 		{
 			HWND hwnd = g_pfwFrames[i].OwnerWindow;
@@ -234,7 +234,7 @@ int CLUIFrames_OnShowHide( HWND hwnd, int mode )
 {
 	int i;
 	int prevFrameCount;
-	for(i = 0;i < g_nFramesCount;i++) {
+	for(i=0;i < g_nFramesCount;i++) {
 		if (!g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != (HWND)0 &&g_pfwFrames[i].OwnerWindow != (HWND)-2)
 		{
 			{
@@ -277,7 +277,7 @@ static int id2pos(int id)
 {
 	int i;
 	if (_fCluiFramesModuleNotStarted) return -1;
-	for (i = 0;i < g_nFramesCount;i++)
+	for (i=0;i < g_nFramesCount;i++)
 		if (g_pfwFrames[i].id == id) return(i);
 	return(-1);
 };
@@ -295,7 +295,7 @@ static FRAMEWND* FindFrameByWnd( HWND hwnd )
 
 	if ( hwnd == NULL ) return( NULL );
 
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 		if ((g_pfwFrames[i].floating)&&(g_pfwFrames[i].ContainerWnd == hwnd))
 			return(&g_pfwFrames[i]);
 
@@ -306,7 +306,7 @@ static FRAMEWND* FindFrameByWnd( HWND hwnd )
 int QueueAllFramesUpdating(BYTE queue)
 {
 	int i;
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 	{
 		if (!g_CluiData.fLayered)
 		{
@@ -342,7 +342,7 @@ FRAMEWND * FindFrameByItsHWND(HWND FrameHwnd)
 {
 	int i;
 	if ( FrameHwnd == NULL ) return( NULL );
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 	{
 		if (g_pfwFrames[i].hWnd == FrameHwnd){return(&g_pfwFrames[i]);};
 	};
@@ -428,7 +428,7 @@ static void PositionThumb( FRAMEWND *pThumb, short nX, short nY )
 	nNewY = nY < nOffs ? 0 : nY;
 	nNewY = nNewY > ( sizeScreen.cy - nHeight - nOffs ) ? ( sizeScreen.cy - nHeight ) : nNewY;
 
-	bLeading = pThumb->dockOpt.hwndRight !=NULL;
+	bLeading = pThumb->dockOpt.hwndRight != NULL;
 
 	if ( bMoveTogether )
 	{
@@ -445,11 +445,11 @@ static void PositionThumb( FRAMEWND *pThumb, short nX, short nY )
 	fakeTaskBarWindow.floating = TRUE;
 
 
-	while( pCurThumb !=NULL )
+	while( pCurThumb != NULL )
 	{
 		if (pCurThumb->floating) {
 
-			if ( pCurThumb !=pThumb )
+			if ( pCurThumb != pThumb )
 			{
 				GetWindowRect( pThumb->ContainerWnd, &rcThumb );
 				OffsetRect( &rcThumb, nX - rcThumb.left, nY - rcThumb.top );
@@ -743,7 +743,7 @@ static int LocateStorePosition(int Frameid,int maxstored)
     if (g_pfwFrames[Frameid].Name == NULL)
         return -1;
     char settingname[255];
-	for ( int i = 0;i < maxstored;i++)
+	for ( int i=0;i < maxstored;i++)
     {
 
         mir_snprintf(settingname,SIZEOF(settingname),"Name%d",i);
@@ -803,7 +803,7 @@ static int CLUIFramesStoreAllFrames()
 {
 	int i;
 	if (_fCluiFramesModuleNotStarted) return -1;
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 		CLUIFramesStoreFrameSettings(i);
 	return 0;
 }
@@ -813,7 +813,7 @@ static int CLUIFramesGetalClientFrame(void)
 	int i;
 	if (_fCluiFramesModuleNotStarted) return -1;
 
-	if ( _nClientFrameId !=eUnknownId ) {
+	if ( _nClientFrameId != eUnknownId ) {
 		/* this value could become invalid if RemoveItemFromList was called,
 		* so we double-check */
 		if (_nClientFrameId < g_nFramesCount) {
@@ -823,7 +823,7 @@ static int CLUIFramesGetalClientFrame(void)
 		}
 	}
 
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 		if (g_pfwFrames[i].align == alClient) {
 			_nClientFrameId = i;
 			return i;
@@ -1374,7 +1374,7 @@ static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 			g_pfwFrames[pos].height = lParam;
 			if (!CLUIFramesFitInSize()) g_pfwFrames[pos].height = retval;
 			retval = g_pfwFrames[pos].height;
-			if (g_pfwFrames[pos].height !=oldHeight)
+			if (g_pfwFrames[pos].height != oldHeight)
 				CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
 		}
 		else
@@ -1428,7 +1428,7 @@ static int _us_DoShowAllFrames(WPARAM wParam,LPARAM lParam)
 
 	if (_fCluiFramesModuleNotStarted) return -1;
 
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 		g_pfwFrames[i].visible = TRUE;
 	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
 	return 0;
@@ -1441,7 +1441,7 @@ static int _us_DoShowTitles(WPARAM wParam,LPARAM lParam)
 
 	if (_fCluiFramesModuleNotStarted) return -1;
 
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 		g_pfwFrames[i].TitleBar.ShowTitleBar = TRUE;
 	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
 	return 0;
@@ -1454,7 +1454,7 @@ static int _us_DoHideTitles(WPARAM wParam,LPARAM lParam)
 
 	if (_fCluiFramesModuleNotStarted) return -1;
 
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 		g_pfwFrames[i].TitleBar.ShowTitleBar = FALSE;
 	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
 	return 0;
@@ -1533,7 +1533,7 @@ static int _us_DoMoveFrame(WPARAM wParam,LPARAM lParam)
 		v = 0;
 		sd = (SortData*)malloc(sizeof(SortData)*g_nFramesCount);
 		memset(sd,0,sizeof(SortData)*g_nFramesCount);
-		for (i = 0;i < g_nFramesCount;i++)
+		for (i=0;i < g_nFramesCount;i++)
 		{
 			if (g_pfwFrames[i].floating||(!g_pfwFrames[i].visible)||(g_pfwFrames[i].align != curalign)){continue;};
 
@@ -1543,9 +1543,9 @@ static int _us_DoMoveFrame(WPARAM wParam,LPARAM lParam)
 		};
 		if (v == 0){return(0);};
 		qsort(sd,v,sizeof(SortData),sortfunc);
-		for (i = 0;i < v;i++)
+		for (i=0;i < v;i++)
 			g_pfwFrames[sd[i].realpos].order = i+1; //to be sure that order is incremental
-		for (i = 0;i < v;i++)
+		for (i=0;i < v;i++)
 		{
 			if (sd[i].realpos == pos)
 			{
@@ -1752,7 +1752,7 @@ static int _us_DoCollapseFrame(WPARAM wParam,LPARAM lParam)
 				}else
 				{
 					int i,sumheight = 0;
-					for(i = 0;i < g_nFramesCount;i++) {
+					for(i=0;i < g_nFramesCount;i++) {
 						if ((g_pfwFrames[i].align != alClient)&&(!g_pfwFrames[i].floating)&&(g_pfwFrames[i].visible)&&(!g_pfwFrames[i].needhide)) {
 							sumheight += (g_pfwFrames[i].height)+(g_nTitleBarHeight*btoint(g_pfwFrames[i].TitleBar.ShowTitleBar))+2;
 							return FALSE;
@@ -1827,7 +1827,7 @@ static int CLUIFramesLoadMainMenu()
 	DestroyIcon_protect(mi.hIcon);
 	// create frames menu
 	int separator = 3000200000;
-	for (int i = 0; i < g_nFramesCount; i++) {
+	for (int i=0; i < g_nFramesCount; i++) {
 		mi.hIcon = g_pfwFrames[i].TitleBar.hicon;
 		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 		mi.position = separator;
@@ -2184,7 +2184,7 @@ static int CLUIFrameMoveResize(const FRAMEWND *Frame)
 				Frame->wndSize.right-Frame->wndSize.left,
 				g_nTitleBarHeight,SWP_NOZORDER|SWP_NOACTIVATE	);
 		}
-		if ( Frame->visible && IsWindowVisible( pcli->hwndContactList ) && Frame->collapsed && Frame->wndSize.bottom-Frame->wndSize.top !=0 )
+		if ( Frame->visible && IsWindowVisible( pcli->hwndContactList ) && Frame->collapsed && Frame->wndSize.bottom-Frame->wndSize.top != 0 )
 		{
 			ShowWindow( Frame->OwnerWindow, SW_SHOW );
 			ShowWindow( Frame->hWnd, SW_SHOW );
@@ -2219,7 +2219,7 @@ static BOOL CLUIFramesFitInSize(void)
 	if (clientfrm != -1)
 		tbh = g_nTitleBarHeight*btoint(g_pfwFrames[clientfrm].TitleBar.ShowTitleBar);
 
-	for(i = 0;i < g_nFramesCount;i++) {
+	for(i=0;i < g_nFramesCount;i++) {
 		if ((g_pfwFrames[i].align != alClient)&&(!g_pfwFrames[i].floating)&&(g_pfwFrames[i].visible)&&(!g_pfwFrames[i].needhide)) {
 			sumheight += (g_pfwFrames[i].height)+(g_nTitleBarHeight*btoint(g_pfwFrames[i].TitleBar.ShowTitleBar))+2/*+btoint(Frames[i].UseBorder)*2*/;
 			if (sumheight>_nContactListHeight-tbh-2)
@@ -2241,7 +2241,7 @@ int CLUIFrames_GetTotalHeight()
 	RECT border;
 	if (pcli->hwndContactList == NULL) return 0;
 
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 	{
 		if ((g_pfwFrames[i].visible)&&(!g_pfwFrames[i].needhide)&&(!g_pfwFrames[i].floating)&&(pcli->hwndContactTree)&& (g_pfwFrames[i].hWnd != pcli->hwndContactTree))
 			sumheight += (g_pfwFrames[i].height)+(g_nTitleBarHeight*btoint(g_pfwFrames[i].TitleBar.ShowTitleBar));
@@ -2276,7 +2276,7 @@ int CLUIFramesGetMinHeight()
 	if (clientfrm != -1)
 		tbh = g_nTitleBarHeight*btoint(g_pfwFrames[clientfrm].TitleBar.ShowTitleBar);
 
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 	{
 		if ((g_pfwFrames[i].align != alClient)&&(g_pfwFrames[i].visible)&&(!g_pfwFrames[i].needhide)&&(!g_pfwFrames[i].floating))
 		{
@@ -2332,7 +2332,7 @@ static int CLUIFramesResizeFrames(const RECT newsize)
 	if (clientfrm != -1)
 		tbh = (g_nTitleBarHeight+g_CluiData.nGapBetweenTitlebar)*btoint(g_pfwFrames[clientfrm].TitleBar.ShowTitleBar);
 
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 	{
 		if (!g_pfwFrames[i].floating)
 		{
@@ -2346,7 +2346,7 @@ static int CLUIFramesResizeFrames(const RECT newsize)
 		//sorting stuff
 		sdarray = (SortData*)malloc(sizeof(SortData)*g_nFramesCount);
 		if (sdarray == NULL){return(-1);};
-		for(i = 0;i < g_nFramesCount;i++)
+		for(i=0;i < g_nFramesCount;i++)
 		{sdarray[i].order = g_pfwFrames[i].order;
 		sdarray[i].realpos = i;
 		};
@@ -2359,7 +2359,7 @@ static int CLUIFramesResizeFrames(const RECT newsize)
 	while(sumheight>(newheight-tbh)&&drawitems>0) {
 		sumheight = 0;
 		drawitems = 0;
-		for(i = 0;i < g_nFramesCount;i++) {
+		for(i=0;i < g_nFramesCount;i++) {
 			if (((g_pfwFrames[i].align != alClient))&&(!g_pfwFrames[i].floating)&&(g_pfwFrames[i].visible)&&(!g_pfwFrames[i].needhide)) {
 				drawitems++;
 				curfrmtbh = (g_nTitleBarHeight+g_CluiData.nGapBetweenTitlebar)*btoint(g_pfwFrames[i].TitleBar.ShowTitleBar);
@@ -2435,7 +2435,7 @@ static int CLUIFramesResizeFrames(const RECT newsize)
 			}
 		}
 	}
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 		if (g_pfwFrames[i].TitleBar.ShowTitleBar)
 			SetRect(&g_pfwFrames[i].TitleBar.wndSize,g_pfwFrames[i].wndSize.left,g_pfwFrames[i].wndSize.top-g_nTitleBarHeight-g_CluiData.nGapBetweenTitlebar,g_pfwFrames[i].wndSize.right,g_pfwFrames[i].wndSize.top-g_CluiData.nGapBetweenTitlebar);
 	if (sdarray != NULL){free(sdarray);sdarray = NULL;};
@@ -2448,7 +2448,7 @@ static int CLUIFramesResizeFrames(const RECT newsize)
 static int SizeMoveNewSizes()
 {
 	int i;
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 	{
 
 		if (g_pfwFrames[i].floating){
@@ -2472,7 +2472,7 @@ int CLUIFrames_ApplyNewSizes(int mode)
 {
 	int i;
 	g_CluiData.mutexPreventDockMoving = 0;
-	for(i = 0;i < g_nFramesCount;i++) {
+	for(i=0;i < g_nFramesCount;i++) {
 		if ( (mode == 1 && g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].OwnerWindow) ||
 			(mode == 2 && g_pfwFrames[i].OwnerWindow == (HWND)-2) ||
 			(mode == 3))
@@ -2499,7 +2499,7 @@ static int _us_DoUpdateFrame(WPARAM wParam,LPARAM lParam)
 	if (lParam&FU_FMPOS)	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,1);
 
 	int pos = id2pos( wParam );
-	if ( pos < 0 || pos  >= g_nFramesCount ) {  return -1; }
+	if ( pos < 0 || pos >= g_nFramesCount ) {  return -1; }
 	if ( lParam&FU_TBREDRAW )	CLUIFramesForceUpdateTB( &g_pfwFrames[pos] );
 	if ( lParam&FU_FMREDRAW )	CLUIFramesForceUpdateFrame( &g_pfwFrames[pos] );
 	return 0;
@@ -2552,7 +2552,7 @@ int SizeFramesByWindowRect(RECT *r, HDWP * PosBatch, int mode)
 	CLUIFramesResizeFrames(nRect);
 	{
 		int i;
-		for(i = 0;i < g_nFramesCount;i++)
+		for(i=0;i < g_nFramesCount;i++)
 		{
 			int dx;
 			int dy;
@@ -2629,7 +2629,7 @@ int CheckFramesPos(RECT *wr)
 	g_CluiData.nGapBetweenTitlebar = (int)db_get_dw(NULL,"CLUIFrames","GapBetweenTitleBar",SETTING_GAPTITLEBAR_DEFAULT);
 	GapBetweenFrames = db_get_dw(NULL,"CLUIFrames","GapBetweenFrames",SETTING_GAPFRAMES_DEFAULT);
 
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 	{
 		int dx;
 		int dy;
@@ -3896,7 +3896,7 @@ static int _us_DoSetFrameFloat(WPARAM wParam,LPARAM lParam)
 
 
 	int pos = id2pos( wParam );
-	if ( pos  >= 0&& pos < g_nFramesCount )
+	if ( pos >= 0&& pos < g_nFramesCount )
 
 		if (g_pfwFrames[pos].floating || (lParam&2))
 		{
@@ -4141,7 +4141,7 @@ int UnLoadCLUIFramesModule(void)
 
 	UnitFramesMenu();
 	UnloadMainMenu();
-	for (i = 0;i < g_nFramesCount;i++)
+	for (i=0;i < g_nFramesCount;i++)
 	{
 		if (g_pfwFrames[i].hWnd != pcli->hwndContactTree)
 			DestroyWindow(g_pfwFrames[i].hWnd);
@@ -4193,7 +4193,7 @@ static int _us_DoSetFramePaintProc(WPARAM wParam, LPARAM lParam)
 int CLUIFrames_SetLayeredMode( BOOL fLayeredMode, HWND hwnd )
 {
 	int i;
-	for(i = 0;i < g_nFramesCount;i++)
+	for(i=0;i < g_nFramesCount;i++)
 	{
 		if (fLayeredMode)
 		{
@@ -4224,7 +4224,7 @@ int CLUIFrames_SetLayeredMode( BOOL fLayeredMode, HWND hwnd )
 
 int CLUIFrames_UpdateBorders()
 {
-	for ( int i = 0; i < g_nFramesCount; i++ )
+	for ( int i=0; i < g_nFramesCount; i++ )
 	{
 		if ( !g_pfwFrames[i].floating )
 		{

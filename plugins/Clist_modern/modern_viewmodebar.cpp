@@ -74,7 +74,7 @@ static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT * rcPaint, HRGN rg
 	RECT MyRect = {0};
 	GetWindowRect(hWnd,&MyRect);
 	DrawViewModeBar(hWnd,hDC);
-	for (i = 0; _buttons[i] != 0; i++)
+	for (i=0; _buttons[i] != 0; i++)
 	{
 		RECT childRect;
 		POINT Offset;
@@ -95,7 +95,7 @@ static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT * rcPaint, HRGN rg
 int CLVM_EnumProc(const char *szSetting, LPARAM lParam)
 {
 	pfnEnumCallback EnumCallback = (pfnEnumCallback)lParam;
-	if (szSetting !=NULL)
+	if (szSetting != NULL)
 		EnumCallback((char *)szSetting);
 	return(0);
 }
@@ -129,7 +129,7 @@ int FillModes(char *szsetting)
 
 static void ShowPage(HWND hwnd, int page)
 {
-	int i = 0;
+	int i=0;
 	int pageChange = 0;
 
 	if (page == 0 && IsWindowVisible(GetDlgItem(hwnd, _page2Controls[0])))
@@ -143,17 +143,17 @@ static void ShowPage(HWND hwnd, int page)
 
 	switch(page) {
 	case 0:
-		while(_page1Controls[i] !=0)
+		while(_page1Controls[i] != 0)
 			ShowWindow(GetDlgItem(hwnd, _page1Controls[i++]), SW_SHOW);
-		i = 0;
-		while(_page2Controls[i] !=0)
+		i=0;
+		while(_page2Controls[i] != 0)
 			ShowWindow(GetDlgItem(hwnd, _page2Controls[i++]), SW_HIDE);
 		break;
 	case 1:
-		while(_page1Controls[i] !=0)
+		while(_page1Controls[i] != 0)
 			ShowWindow(GetDlgItem(hwnd, _page1Controls[i++]), SW_HIDE);
-		i = 0;
-		while(_page2Controls[i] !=0)
+		i=0;
+		while(_page2Controls[i] != 0)
 			ShowWindow(GetDlgItem(hwnd, _page2Controls[i++]), SW_SHOW);
 		break;
 	}
@@ -176,7 +176,7 @@ static DWORD GetMaskForItem(HANDLE hItem)
 {
 	DWORD dwMask = 0;
 
-	for(int i = 0; i <= ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE; i++)
+	for(int i=0; i <= ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE; i++)
 		dwMask |= (SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == nullImage ? 0 : 1 << i);
 
 	return dwMask;
@@ -231,7 +231,7 @@ static int FillDialog(HWND hwnd)
 
 	item.mask = LVIF_TEXT;
 	item.iItem = 1000;
-	for(i = 0; i < protoCount; i++) 
+	for(i=0; i < protoCount; i++) 
 	{
 		item.pszText = accs[i]->szModuleName;
 		newItem = SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
@@ -259,7 +259,7 @@ static int FillDialog(HWND hwnd)
 		item.pszText = TranslateT("Ungrouped contacts");
 		newItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 
-		for(i = 0;;i++)
+		for(i=0;;i++)
 		{
 			mir_snprintf(buf, 20, "%d", i);
 			if (DBGetContactSettingTString(NULL, "CListGroups", buf, &dbv))
@@ -414,7 +414,7 @@ void SaveState()
 		char szTemp[256];
 
 		hwndList = GetDlgItem(clvmHwnd, IDC_PROTOCOLS);
-		for(i = 0; i < ListView_GetItemCount(hwndList); i++) {
+		for(i=0; i < ListView_GetItemCount(hwndList); i++) {
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
 				item.pszText = szTemp;
@@ -436,7 +436,7 @@ void SaveState()
 
 		operators |= ListView_GetCheckState(hwndList, 0) ? CLVM_INCLUDED_UNGROUPED : 0;
 
-		for(i = 0; i < ListView_GetItemCount(hwndList); i++) {
+		for(i=0; i < ListView_GetItemCount(hwndList); i++) {
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
 				item.pszText = szTemp;
@@ -566,7 +566,7 @@ static void UpdateFilters()
 	if (DBGetContactSettingTString(NULL, CLVM_MODULE, szSetting, &dbv_gf))
 		goto cleanup;
 	mir_snprintf(szSetting, 128, "%c%s_OPT", 246, szBuf);
-	if ((opt = db_get_dw(NULL, CLVM_MODULE, szSetting, -1)) !=-1) 
+	if ((opt = db_get_dw(NULL, CLVM_MODULE, szSetting, -1)) != -1) 
 	{
 		SendDlgItemMessage(clvmHwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
 	}
@@ -586,7 +586,7 @@ static void UpdateFilters()
 		item.pszText = szTemp;
 		item.cchTextMax = 255;
 
-		for(i = 0; i < ListView_GetItemCount(hwndList); i++) 
+		for(i=0; i < ListView_GetItemCount(hwndList); i++) 
 		{
 			item.iItem = i;
 			SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
@@ -693,7 +693,7 @@ void DeleteViewMode( char * szName )
 	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while(hContact) 
 	{
-		if (db_get_dw(hContact, CLVM_MODULE, szName, -1) !=-1)
+		if (db_get_dw(hContact, CLVM_MODULE, szName, -1) != -1)
 			db_set_dw(hContact, CLVM_MODULE, szName, 0);
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 	}
@@ -707,7 +707,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	switch(msg) {
 	case WM_INITDIALOG: 
 		{
-			int i = 0;
+			int i=0;
 			TCITEM tci;
 			RECT rcClient;
 			CLCINFOITEM cii = {0};
@@ -752,7 +752,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS,0,0);
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN,2,0);
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT,10,0);
-			for(i = 0;i <= FONTID_MAX;i++)
+			for(i=0;i <= FONTID_MAX;i++)
 				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETTEXTCOLOR,i,GetSysColor(COLOR_WINDOWTEXT));
 			cii.cbSize = sizeof(cii);
 			cii.hParentGroup = 0;
@@ -776,7 +776,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					index = 0;
 			}
 
-			if (SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, index, 0) !=LB_ERR) 
+			if (SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, index, 0) != LB_ERR) 
 			{
 				clvm_curItem = index;
 				UpdateFilters();
@@ -784,8 +784,8 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			else
 				clvm_curItem = -1;
 			g_ViewModeOptDlg = TRUE;
-			i = 0;
-			while(_page2Controls[i] !=0)
+			i=0;
+			while(_page2Controls[i] != 0)
 				ShowWindow(GetDlgItem(hwndDlg, _page2Controls[i++]), SW_HIDE);
 			ShowWindow(hwndDlg, SW_SHOWNORMAL);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_APPLY), FALSE);
@@ -844,7 +844,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							DeleteViewMode( szBuf );
 
 							SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_DELETESTRING, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), 0);
-							if (SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, 0, 0) !=LB_ERR) 
+							if (SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, 0, 0) != LB_ERR) 
 							{
 								clvm_curItem = 0;
 								UpdateFilters();
@@ -876,12 +876,12 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					char  *szUTF8Buf = NULL;
 					szUTF8Buf = mir_utf8encodeT(szBuf);
 
-					if (db_get_dw(NULL, CLVM_MODULE, szUTF8Buf, -1) !=-1)
+					if (db_get_dw(NULL, CLVM_MODULE, szUTF8Buf, -1) != -1)
 						MessageBox(0, TranslateT("A view mode with this name does alredy exist"), TranslateT("Duplicate name"), MB_OK);
 					else 
 					{
 						int iNewItem = SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)szBuf);
-						if (iNewItem !=LB_ERR) 
+						if (iNewItem != LB_ERR) 
 						{
 							SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, (WPARAM)iNewItem, 0);
 							SaveViewMode(szUTF8Buf, _T(""), "", 0, -1, 0, 0, 0, 0);
@@ -1109,9 +1109,9 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 		{
 			int bSkinned = db_get_b(NULL, "CLCExt", "bskinned", 0);
-			int i = 0;
+			int i=0;
 
-			while(_buttons[i] !=0) {
+			while(_buttons[i] != 0) {
 				//SendMessage(GetDlgItem(hwnd, _buttons[i]), BM_SETSKINNED, 0, bSkinned);
 				if (1&&bSkinned) {
 					SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, TRUE, 0);
@@ -1195,7 +1195,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			{
 				int i;
-				for (i = 0; _buttons[i] != 0; i++)
+				for (i=0; _buttons[i] != 0; i++)
 				{
 					RECT childRect;
 					RECT MyRect;
@@ -1453,7 +1453,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 			mir_snprintf(szSetting, 256, "%c_LastMode", 246);
 			db_unset(NULL,CLVM_MODULE,szSetting);
 		}
-		if ( g_CluiData.bOldUseGroups !=(BYTE) -1 )
+		if ( g_CluiData.bOldUseGroups != (BYTE) -1 )
 			CallService( MS_CLIST_SETUSEGROUPS, (WPARAM)g_CluiData.bOldUseGroups, 0 );
 
 		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
@@ -1472,7 +1472,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 	{
 		mir_snprintf(szSetting, 256, "%c%s_PF", 246, name);
 		if (!DBGetContactSettingString(NULL, CLVM_MODULE, szSetting, &dbv)) {
-			if (lstrlenA(dbv.pszVal)  >= 2) 
+			if (lstrlenA(dbv.pszVal) >= 2) 
 			{
 				strncpy(g_CluiData.protoFilter, dbv.pszVal, SIZEOF(g_CluiData.protoFilter));
 				g_CluiData.protoFilter[SIZEOF(g_CluiData.protoFilter) - 1] = 0;
@@ -1483,7 +1483,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 		mir_snprintf(szSetting, 256, "%c%s_GF", 246, name);
 		if (!DBGetContactSettingTString(NULL, CLVM_MODULE, szSetting, &dbv))
 		{
-			if (lstrlen(dbv.ptszVal)  >= 2) 
+			if (lstrlen(dbv.ptszVal) >= 2) 
 			{
 				_tcsncpy(g_CluiData.groupFilter, dbv.ptszVal, SIZEOF(g_CluiData.groupFilter));
 				g_CluiData.groupFilter[SIZEOF(g_CluiData.groupFilter) - 1] = 0;
@@ -1493,12 +1493,12 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 		}
 		mir_snprintf(szSetting, 256, "%c%s_SM", 246, name);
 		g_CluiData.statusMaskFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
-		if (g_CluiData.statusMaskFilter  >= 1)
+		if (g_CluiData.statusMaskFilter >= 1)
 			g_CluiData.bFilterEffective |= CLVM_FILTER_STATUS;  
 
 		mir_snprintf(szSetting, 256, "%c%s_SSM", 246, name);
 		g_CluiData.stickyMaskFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
-		if (g_CluiData.stickyMaskFilter !=-1)
+		if (g_CluiData.stickyMaskFilter != -1)
 			g_CluiData.bFilterEffective |= CLVM_FILTER_STICKYSTATUS;
 
 		/*
@@ -1576,7 +1576,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 			BYTE bSaved = g_CluiData.bSortByOrder[0];
 
 			g_CluiData.bSortByOrder[0] = SORTBY_LASTMSG;
-			for (i = 0; i < clistCache->realCount; i++)
+			for (i=0; i < clistCache->realCount; i++)
 			{
 				PDNCE pdnce = (PDNCE)clistCache->items[i];
 				pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->m_cache_hContact);
@@ -1615,7 +1615,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 
 			CallService(MS_CLIST_SETHIDEOFFLINE, 0, 0);
 		}
-		else if ( g_CluiData.boldHideOffline !=(BYTE)-1 )
+		else if ( g_CluiData.boldHideOffline != (BYTE)-1 )
 		{
 			CallService(MS_CLIST_SETHIDEOFFLINE, g_CluiData.boldHideOffline, 0);
 			g_CluiData.boldHideOffline = -1;
@@ -1628,14 +1628,14 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 		else if ( g_CluiData.filterFlags & CLVM_DONOTUSEGROUPS )
 			bUseGroups = 0;
 
-		if ( bUseGroups !=-1 )
+		if ( bUseGroups != -1 )
 		{
 			if (g_CluiData.bOldUseGroups == (BYTE)-1 )
 				g_CluiData.bOldUseGroups = db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT );
 
 			CallService(MS_CLIST_SETUSEGROUPS, bUseGroups, 0);
 		}
-		else if ( g_CluiData.bOldUseGroups !=(BYTE)-1 )
+		else if ( g_CluiData.bOldUseGroups != (BYTE)-1 )
 		{
 			CallService(MS_CLIST_SETUSEGROUPS, g_CluiData.bOldUseGroups, 0);
 			g_CluiData.bOldUseGroups = -1;

@@ -47,7 +47,7 @@ void AddSubcontacts(struct ClcData *dat, struct ClcContact * cont, BOOL showOffl
     mir_free(cont->subcontacts);
 	cont->subcontacts = (struct ClcContact *) mir_calloc(sizeof(struct ClcContact)*subcount);
 	cont->SubAllocated = subcount;
-	i = 0;
+	i=0;
 	for (j = 0; j < subcount; j++) {
 		WORD wStatus;
 		
@@ -100,7 +100,7 @@ void AddSubcontacts(struct ClcData *dat, struct ClcContact * cont, BOOL showOffl
 		}	}
 
 	cont->SubAllocated = i;
-	if (!i && cont->subcontacts !=NULL) mir_free_and_nill(cont->subcontacts);
+	if (!i && cont->subcontacts != NULL) mir_free_and_nill(cont->subcontacts);
 }
 
 int cli_AddItemToGroup(struct ClcGroup *group,int iAboveItem)
@@ -138,7 +138,7 @@ void cli_FreeContact(struct ClcContact *p)
 	if ( p->SubAllocated) {
 		if ( p->subcontacts && !p->isSubcontact) {
 			int i;
-			for ( i = 0 ; i < p->SubAllocated ; i++ ) {
+			for ( i=0 ; i < p->SubAllocated ; i++ ) {
 				p->subcontacts[i].ssText.DestroySmileyList();
 				if ( p->subcontacts[i].avatar_pos == AVATAR_POS_ANIMATED )
 					AniAva_RemoveAvatar( p->subcontacts[i].hContact );
@@ -252,7 +252,7 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,struct ClcGroup
 
 void * AddTempGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers)
 {
-	int i = 0;
+	int i=0;
 	int f = 0;
 	TCHAR * szGroupName;
 	DWORD groupFlags;
@@ -351,7 +351,7 @@ int RestoreSelection( struct ClcData *dat, HANDLE hSelected )
 	{ 
 		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact->subcontacts ));
 	
-		if (dat->selection !=-1 ) 
+		if (dat->selection != -1 ) 
 			dat->selection  += selcontact->isSubcontact;
 	}
 	return dat->selection;
@@ -533,9 +533,9 @@ void cli_SaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 
 	NMCLISTCONTROL nm;
 	int i, j;
-	OBJLIST < SavedGroupState_t> savedGroup( 4 );
-	OBJLIST < SavedContactState_t> savedContact( 4 );
-	OBJLIST < SavedInfoState_t> savedInfo( 4 );
+	OBJLIST<SavedGroupState_t> savedGroup( 4 );
+	OBJLIST<SavedContactState_t> savedContact( 4 );
+	OBJLIST<SavedInfoState_t> savedInfo( 4 );
 
 	struct ClcGroup *group;
 	struct ClcContact *contact;
@@ -603,7 +603,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
 			group = group->cl.items[group->scanIndex]->group;
 			group->scanIndex = 0;
-			for (i = 0; i < savedGroup.getCount(); i++)
+			for (i=0; i < savedGroup.getCount(); i++)
 				if (savedGroup[i].groupId == group->groupId) {
 					group->expanded = savedGroup[i].expanded;
 					break;
@@ -611,7 +611,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 				continue;
 		}
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
-			for (i = 0; i < savedContact.getCount(); i++)
+			for (i=0; i < savedContact.getCount(); i++)
 				if (savedContact[i].hContact == group->cl.items[group->scanIndex]->hContact) {
 					CopyMemory(group->cl.items[group->scanIndex]->iExtraImage, savedContact[i].iExtraImage,
 						sizeof(group->cl.items[group->scanIndex]->iExtraImage));
@@ -629,7 +629,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 	savedGroup.destroy();
 	savedContact.destroy();
 
-	for (i = 0; i < savedInfo.getCount(); i++) {
+	for (i=0; i < savedInfo.getCount(); i++) {
 		if (savedInfo[i].parentId == -1)
 			group = &dat->list;
 		else {
@@ -734,7 +734,7 @@ int cliGetGroupContentsCount(struct ClcGroup *group, int visibleOnly)
 			continue;
 		}
         else if ((group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) && 
-                 (group->cl.items[group->scanIndex]->subcontacts !=NULL)  && 
+                 (group->cl.items[group->scanIndex]->subcontacts != NULL)  && 
                  ((group->cl.items[group->scanIndex]->SubExpanded || (!visibleOnly))))
         {
             count += group->cl.items[group->scanIndex]->SubAllocated;
@@ -762,7 +762,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 	BOOL fEmbedded = dat->force_in_dialog;
 	// always hide subcontacts (but show them on embedded contact lists)
 	
-	if (g_CluiData.bMetaAvail && dat !=NULL && dat->IsMetaContactsEnabled && g_szMetaModuleName && db_get_b(hContact, g_szMetaModuleName, "IsSubcontact", 0))
+	if (g_CluiData.bMetaAvail && dat != NULL && dat->IsMetaContactsEnabled && g_szMetaModuleName && db_get_b(hContact, g_szMetaModuleName, "IsSubcontact", 0))
 		return -1; //subcontact
     if (pdnce && pdnce->isUnknown && !fEmbedded)    
         return 1; //'Unknown Contact'
@@ -773,7 +773,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 		// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
 		if (g_CluiData.bFilterEffective & CLVM_STICKY_CONTACTS) 
         {
-			if ((dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode, 0)) !=0) {
+			if ((dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode, 0)) != 0) {
 				if (g_CluiData.bFilterEffective & CLVM_FILTER_STICKYSTATUS) 
                 {
 					WORD wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);

@@ -405,7 +405,7 @@ HRESULT CLUI::FillAlphaChannel( HDC hDC, RECT * prcParent, BYTE bAlpha)
 
 	RECT * pRect = (RECT *)rgnData->Buffer;
 
-	for (DWORD i = 0; i < rgnData->rdh.nCount; i++)
+	for (DWORD i=0; i < rgnData->rdh.nCount; i++)
 		ske_SetRectOpaque( hDC, &pRect[i] );
 
 	free(rgnData);
@@ -435,11 +435,11 @@ HRESULT CLUI::CreateCLC()
 	nLastRequiredHeight = 0;
 	if ( g_CluiData.current_viewmode[0] == '\0' )
 	{
-		if (bOldHideOffline !=(BYTE)-1) 
+		if (bOldHideOffline != (BYTE)-1) 
 			CallService( MS_CLIST_SETHIDEOFFLINE,(WPARAM)bOldHideOffline, 0);
 		else
 			CallService( MS_CLIST_SETHIDEOFFLINE,(WPARAM)0, 0);
-		if (bOldUseGroups !=(BYTE)-1)  
+		if (bOldUseGroups != (BYTE)-1)  
 			CallService( MS_CLIST_SETUSEGROUPS ,(WPARAM)bOldUseGroups, 0);
 		else
 			CallService( MS_CLIST_SETUSEGROUPS ,(WPARAM)bOldUseGroups, 0);
@@ -497,7 +497,7 @@ HICON GetMainStatusOverlay(int STATUS)
 void UnloadAvatarOverlayIcon()
 {
 	int i;
-	for (i = 0 ; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++)
+	for (i=0 ; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++)
 	{
 		g_pAvatarOverlayIcons[i].listID = -1;
 		g_pStatusOverlayIcons[i].listID = -1;
@@ -605,7 +605,7 @@ void CLUI_UpdateLayeredMode()
 		BOOL tLayeredFlag = TRUE;
 		tLayeredFlag &= (db_get_b(NULL, "ModernData", "EnableLayering", tLayeredFlag) && !g_CluiData.fDisableSkinEngine);
 
-		if (g_CluiData.fLayered !=tLayeredFlag)
+		if (g_CluiData.fLayered != tLayeredFlag)
 		{
 			LONG exStyle;
 			BOOL fWasVisible = IsWindowVisible(pcli->hwndContactList);
@@ -630,7 +630,7 @@ void CLUI_UpdateLayeredMode()
 void CLUI_UpdateAeroGlass()
 {
 	BOOL tAeroGlass = db_get_b(NULL, "ModernData", "AeroGlass", SETTING_AEROGLASS_DEFAULT) && (g_CluiData.fLayered);
-	if (g_proc_DWMEnableBlurBehindWindow && (tAeroGlass !=g_CluiData.fAeroGlass))
+	if (g_proc_DWMEnableBlurBehindWindow && (tAeroGlass != g_CluiData.fAeroGlass))
 	{			
 		if (g_CluiData.hAeroGlassRgn)
 		{
@@ -738,7 +738,7 @@ void CLUI_ChangeWindowMode()
 
 	curStyleEx = (curStyleEx & ~styleMaskEx) | styleEx;
 	curStyle = (curStyle & ~styleMask) | style;
-	if (oldStyleEx !=curStyleEx || oldStyle !=curStyle)
+	if (oldStyleEx != curStyleEx || oldStyle != curStyle)
 	{
 		if (IsWindowVisible(pcli->hwndContactList)) 
 		{
@@ -965,13 +965,13 @@ static LPPROTOTICKS CLUI_GetProtoTicksByProto(char * szProto)
 {
 	int i;
 
-	for (i = 0;i < 64;i++)
+	for (i=0;i < 64;i++)
 	{
 		if (CycleStartTick[i].szProto == NULL) break;
 		if (mir_strcmp(CycleStartTick[i].szProto,szProto)) continue;
 		return(&CycleStartTick[i]);
 	}
-	for (i = 0;i < 64;i++)
+	for (i=0;i < 64;i++)
 	{
 		if (CycleStartTick[i].szProto == NULL)
 		{
@@ -998,7 +998,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 		char szRelativePath[MAX_PATH];
 		GetModuleFileNameA(GetModuleHandle(NULL), szRelativePath, MAX_PATH);
 		char *str = strrchr( szRelativePath, '\\' ); 
-		if ( str !=NULL ) *str = 0;
+		if ( str != NULL ) *str = 0;
 		CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)szRelativePath, (LPARAM)szFolderPath);
 	}
 
@@ -1082,7 +1082,7 @@ HICON CLUI_LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,bool
 		}
 	}
 	else {
-		if (registerit && IconName !=NULL && SectName !=NULL)	{
+		if (registerit && IconName != NULL && SectName != NULL)	{
 			sid.cbSize = sizeof(sid);
 			sid.cx = 16;
 			sid.cy = 16;
@@ -1202,12 +1202,12 @@ static int CLUI_CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
 				cnt = CLUI_GetConnectingIconForProtoCount(szProto);
 				if (cnt != 0)
 				{
-					int i = 0;
+					int i=0;
 					nAnimatedIconStep = 100;/*DBGetContactSettingWord(NULL,"CLUI","DefaultStepConnectingIcon",100);*/
 					pt->nIconsCount = cnt;
 					if (pt->himlIconList) ImageList_Destroy(pt->himlIconList);
 					pt->himlIconList = ImageList_Create(16,16,ILC_MASK|ILC_COLOR32,cnt,1);
-					for (i = 0; i < cnt; i++)
+					for (i=0; i < cnt; i++)
 					{
 						HICON ic = CLUI_GetConnectingIconForProto(szProto,i);
 						if (ic) ImageList_AddIcon(pt->himlIconList,ic);
@@ -1561,7 +1561,7 @@ int CLUI_TestCursorOnBorders()
 	*/
 
 	hAux = WindowFromPoint(pt);
-	while(hAux !=NULL) 
+	while(hAux != NULL) 
 	{
 		if (hAux == hwnd) {mouse_in_window = 1; break;}
 		hAux = GetParent(hAux);
@@ -1624,12 +1624,12 @@ int CLUI_SizingOnBorder(POINT pt, int PerformSize)
 		*/
 		if ( !g_CluiData.fAutoSize )
 		{
-			if      ( pt.y <= r.bottom && pt.y  >= r.bottom - SIZING_MARGIN )    sizeOnBorderFlag  = SCF_BOTTOM;
-			else if ( pt.y  >= r.top    && pt.y <= r.top + SIZING_MARGIN )       sizeOnBorderFlag  = SCF_TOP;
+			if      ( pt.y <= r.bottom && pt.y >= r.bottom - SIZING_MARGIN )    sizeOnBorderFlag  = SCF_BOTTOM;
+			else if ( pt.y >= r.top    && pt.y <= r.top + SIZING_MARGIN )       sizeOnBorderFlag  = SCF_TOP;
 		}
 
-		if ( pt.x <= r.right && pt.x  >= r.right - SIZING_MARGIN )               sizeOnBorderFlag  += SCF_RIGHT;
-		else if ( pt.x  >= r.left && pt.x <= r.left + SIZING_MARGIN )            sizeOnBorderFlag  += SCF_LEFT;
+		if ( pt.x <= r.right && pt.x >= r.right - SIZING_MARGIN )               sizeOnBorderFlag  += SCF_RIGHT;
+		else if ( pt.x >= r.left && pt.x <= r.left + SIZING_MARGIN )            sizeOnBorderFlag  += SCF_LEFT;
 
 		if (!(pt.x >= r.left && pt.x <= r.right && pt.y >= r.top && pt.y <= r.bottom))  sizeOnBorderFlag  = SCF_NONE;
 
@@ -1889,14 +1889,14 @@ LRESULT CLUI::PreProcessWndProc( UINT msg, WPARAM wParam, LPARAM lParam, BOOL& b
 		bHandled = TRUE;
 		return 0;
 	}
-	if (msg == uMsgGetProfile && wParam !=0) /* got IPC message */
+	if (msg == uMsgGetProfile && wParam != 0) /* got IPC message */
 	{ 
 		HANDLE hMap;
 		char szName[MAX_PATH];
 		int rc = 0;
 		mir_snprintf( szName, SIZEOF(szName), "Miranda::%u", wParam ); // caller will tell us the ID of the map
 		hMap = OpenFileMappingA( FILE_MAP_ALL_ACCESS,FALSE, szName );
-		if ( hMap !=NULL ) 
+		if ( hMap != NULL ) 
 		{
 			void *hView = NULL;
 			hView   = MapViewOfFile( hMap, FILE_MAP_ALL_ACCESS, 0, 0, MAX_PATH );
@@ -1951,7 +1951,7 @@ LRESULT CLUI::OnSizingMoving( UINT msg, WPARAM wParam, LPARAM lParam )
 			// Прилипание к краям by ZorG	
 			CLUI::SnappingToEdge(wp);
 
-			if ((rcOldWindowRect.bottom-rcOldWindowRect.top != wp->cy || rcOldWindowRect.right-rcOldWindowRect.left !=wp->cx)&&!(wp->flags&SWP_NOSIZE))
+			if ((rcOldWindowRect.bottom-rcOldWindowRect.top != wp->cy || rcOldWindowRect.right-rcOldWindowRect.left != wp->cx)&&!(wp->flags&SWP_NOSIZE))
 			{
 				{         
 					if (!(wp->flags&SWP_NOMOVE)) 
@@ -2120,7 +2120,7 @@ LRESULT CLUI::OnSizingMoving( UINT msg, WPARAM wParam, LPARAM lParam )
 					db_set_b(NULL,"CList","State",SETTING_STATE_HIDDEN);
 				}
 				else db_set_b(NULL,"CList","State",SETTING_STATE_MINIMIZED);
-				if (MySetProcessWorkingSetSize !=NULL) 
+				if (MySetProcessWorkingSetSize != NULL) 
 					MySetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
 			}
 
@@ -2181,7 +2181,7 @@ LRESULT CLUI::OnNcPaint( UINT msg, WPARAM wParam, LPARAM lParam )
 		if ( msg == WM_PRINT ) hdc = (HDC)wParam;
 		if ( !hdc ) hdc = GetWindowDC( m_hWnd );
 		CLUI_DrawMenuBackGround( m_hWnd, hdc, 0, 0 );
-		if ( msg !=WM_PRINT ) ReleaseDC( m_hWnd, hdc );
+		if ( msg != WM_PRINT ) ReleaseDC( m_hWnd, hdc );
 	}
 	return lRes;
 }
@@ -2356,7 +2356,7 @@ LRESULT CLUI::OnStatusBarUpdateTimer( UINT msg, WPARAM wParam, LPARAM lParam )
 	int status,i;
 	PROTOTICKS *pt = NULL;
 
-	for (i = 0;i < 64;i++)
+	for (i=0;i < 64;i++)
 	{
 
 		pt = &CycleStartTick[i];
@@ -2455,7 +2455,7 @@ LRESULT CLUI::OnBringOutTimer( UINT msg, WPARAM wParam, LPARAM lParam )
 	POINT pt; GetCursorPos(&pt);
 	HWND hAux = WindowFromPoint(pt);
 	BOOL mouse_in_window = CLUI_CheckOwnedByClui(hAux);
-	if ( !mouse_in_window && GetForegroundWindow() !=m_hWnd ) 
+	if ( !mouse_in_window && GetForegroundWindow() != m_hWnd ) 
 		CLUI_HideBehindEdge(); 
 	return TRUE;
 }
@@ -2468,7 +2468,7 @@ LRESULT CLUI::OnBringInTimer( UINT msg, WPARAM wParam, LPARAM lParam )
 	POINT pt; GetCursorPos(&pt);
 	HWND hAux = WindowFromPoint(pt);
 	BOOL mouse_in_window = FALSE;
-	while(hAux !=NULL) 
+	while(hAux != NULL) 
 	{
 		if (hAux == m_hWnd) { mouse_in_window = TRUE; break;}
 		hAux = GetParent(hAux);
@@ -2487,7 +2487,7 @@ LRESULT CLUI::OnTimer( UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	if ( MirandaExiting()) return FALSE;
 
-	if ( (int)wParam  >= TM_STATUSBARUPDATE && (int)wParam <= TM_STATUSBARUPDATE+64 )
+	if ( (int)wParam >= TM_STATUSBARUPDATE && (int)wParam <= TM_STATUSBARUPDATE+64 )
 	{
 		if ( !pcli->hwndStatus ) return FALSE;
 		else return OnStatusBarUpdateTimer( msg, wParam, lParam );
@@ -2893,7 +2893,7 @@ LRESULT CLUI::OnClickNotify( NMCLISTCONTROL * pnmc )
 LRESULT CLUI::OnNotify( UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	LPNMHDR pnmhdr = (LPNMHDR)lParam;
-	if ( pnmhdr->hwndFrom !=pcli->hwndContactTree ) 
+	if ( pnmhdr->hwndFrom != pcli->hwndContactTree ) 
 		return DefCluiWndProc( msg, wParam, lParam );
 
 	switch ( pnmhdr->code) 
@@ -3066,8 +3066,8 @@ LRESULT CLUI::OnDestroy( UINT msg, WPARAM wParam, LPARAM lParam )
 	while (CLUI_WaitThreadsCompletion(m_hWnd)); //stop all my threads                
 	TRACE("CLUI.c: WM_DESTROY - WaitThreadsCompletion DONE\n");
 	{
-		int i = 0;
-		for(i = 0; i < 64; i++)
+		int i=0;
+		for(i=0; i < 64; i++)
 			if (CycleStartTick[i].szProto) mir_free_and_nill(CycleStartTick[i].szProto);
 	}
 

@@ -84,7 +84,7 @@ static CLISTEVENT* MyGetEvent(int iSelection)
 {
 	int i;
 
-	for (i = 0; i < pcli->events.count; i++) {
+	for (i=0; i < pcli->events.count; i++) {
 		struct CListEvent* p = pcli->events.items[i];
 		if (p->menuId == iSelection)
 			return &p->cle;
@@ -106,7 +106,7 @@ struct CListEvent* cli_AddEvent(CLISTEVENT *cle)
 		return NULL;
 
 	if (1) {
-		if (p->cle.hContact !=0 && p->cle.hDbEvent !=(HANDLE) 1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
+		if (p->cle.hContact != 0 && p->cle.hDbEvent != (HANDLE) 1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
 			int j;
 			struct NotifyMenuItemExData *nmi = 0;
 			char *szProto;
@@ -120,9 +120,9 @@ struct CListEvent* cli_AddEvent(CLISTEVENT *cle)
 			{
 				// dup check only for msg events
 				for (j = 0; j < GetMenuItemCount(g_CluiData.hMenuNotify); j++) {
-					if (GetMenuItemInfo(g_CluiData.hMenuNotify, j, TRUE, &mii) !=0) {
+					if (GetMenuItemInfo(g_CluiData.hMenuNotify, j, TRUE, &mii) != 0) {
 						nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-						if (nmi !=0 && (HANDLE) nmi->hContact == (HANDLE) p->cle.hContact && nmi->iIcon == p->imlIconIndex)
+						if (nmi != 0 && (HANDLE) nmi->hContact == (HANDLE) p->cle.hContact && nmi->iIcon == p->imlIconIndex)
 							return p;
 			}	}	}
 
@@ -156,7 +156,7 @@ struct CListEvent* cli_AddEvent(CLISTEVENT *cle)
 			}
 		} 
 
-		else if (p->cle.hContact !=0 && (p->cle.flags & CLEF_ONLYAFEW)) 
+		else if (p->cle.hContact != 0 && (p->cle.flags & CLEF_ONLYAFEW)) 
 		{
 			g_CluiData.iIconNotify = p->imlIconIndex;
 			g_CluiData.hUpdateContact = p->cle.hContact;
@@ -181,7 +181,7 @@ int cli_RemoveEvent(HANDLE hContact, HANDLE hDbEvent)
     int res = 0;
 
 	// Find the event that should be removed
-	for (i = 0; i < pcli->events.count; i++) 
+	for (i=0; i < pcli->events.count; i++) 
     {
 		if ((pcli->events.items[i]->cle.hContact == hContact) && (pcli->events.items[i]->cle.hDbEvent == hDbEvent)) 
         {
@@ -201,7 +201,7 @@ int cli_RemoveEvent(HANDLE hContact, HANDLE hDbEvent)
 			MENUITEMINFO mii = {0};
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_DATA;
-			if (GetMenuItemInfo(g_CluiData.hMenuNotify, pcli->events.items[i]->menuId, FALSE, &mii) !=0) 
+			if (GetMenuItemInfo(g_CluiData.hMenuNotify, pcli->events.items[i]->menuId, FALSE, &mii) != 0) 
             {
 				struct NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
 				if (nmi && nmi->hContact == hContact && nmi->hDbEvent == hDbEvent) 
@@ -350,7 +350,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
     {
 	    int iCount = GetMenuItemCount(g_CluiData.hMenuNotify);
         rc.left  += 26; 
-        if (g_CluiData.hUpdateContact !=0) 
+        if (g_CluiData.hUpdateContact != 0) 
         {
 		    TCHAR *szName = pcli->pfnGetContactDisplayName(g_CluiData.hUpdateContact, 0);
 		    int iIcon = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) g_CluiData.hUpdateContact, 0);
@@ -487,7 +487,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_DATA | MIIM_ID;
-			if (GetMenuItemInfoA(g_CluiData.hMenuNotify, lpi->itemID, FALSE, &mii) !=0) {
+			if (GetMenuItemInfoA(g_CluiData.hMenuNotify, lpi->itemID, FALSE, &mii) != 0) {
 				if (mii.dwItemData == lpi->itemData) 
                 {
 					lpi->itemWidth = 8 + 16;
@@ -509,7 +509,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_DATA;
-				if (GetMenuItemInfoA(g_CluiData.hMenuNotify, (UINT) dis->itemID, FALSE, &mii) !=0) 
+				if (GetMenuItemInfoA(g_CluiData.hMenuNotify, (UINT) dis->itemID, FALSE, &mii) != 0) 
                 {
 					nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
 					if (nmi) 
@@ -544,7 +544,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			else
 				iSelection = GetMenuItemID(g_CluiData.hMenuNotify, 0);
 			result = GetMenuItemInfo(g_CluiData.hMenuNotify, (UINT) iSelection, FALSE, &mii);
-			if (result !=0) {
+			if (result != 0) {
 				nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
 				if (nmi) {
 					CLISTEVENT *cle = MyGetEvent(iSelection);
@@ -554,7 +554,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 						// re-obtain the pointer, it may already be invalid/point to another event if the
 						// event we're interested in was removed by the service (nasty one...)
 						cle1 = MyGetEvent(iSelection);
-						if (cle1 !=NULL)
+						if (cle1 != NULL)
 							CallService(MS_CLIST_REMOVEEVENT, (WPARAM) cle->hContact, (LPARAM) cle->hDbEvent);
 					}
 				}

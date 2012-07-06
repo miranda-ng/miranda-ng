@@ -18,7 +18,7 @@ void FreeAndNil( void **p )
 	if ( p == NULL )
 		return;
 
-	if ( *p !=NULL ) {
+	if ( *p != NULL ) {
 		mir_free( *p );
 		*p = NULL;
 }	}

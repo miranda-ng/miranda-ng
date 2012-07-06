@@ -163,7 +163,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			break;
 		}
 	case WM_SYSKEYUP:
-		if (lpSBData->nStateId !=PBS_DISABLED && lpSBData->cHot && lpSBData->cHot == tolower((int) wParam)) 
+		if (lpSBData->nStateId != PBS_DISABLED && lpSBData->cHot && lpSBData->cHot == tolower((int) wParam)) 
 		{
 			if (lpSBData->pushBtn) 
 			{
@@ -258,8 +258,8 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		}
 
 	case BUTTONSETASPUSHBTN:
-		lpSBData->pushBtn = (wParam !=0);
-		lpSBData->pbState = (lParam & 2) !=0;
+		lpSBData->pushBtn = (wParam != 0);
+		lpSBData->pbState = (lParam & 2) != 0;
 		return 0;
 
 	case WM_SETFOCUS:
@@ -288,7 +288,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 	/*case WM_MOUSELEAVE:			
 		{
 			// faked by the WM_TIMER
-			if (lpSBData->nStateId !=PBS_DISABLED) 
+			if (lpSBData->nStateId != PBS_DISABLED) 
 			{
 				// don't change states if disabled
 				lpSBData->nStateId = PBS_NORMAL;
@@ -299,7 +299,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		*/
 	case WM_CAPTURECHANGED:
 		{                
-			if ( (HWND)lParam !=lpSBData->hWnd && lpSBData->nStateId !=PBS_DISABLED) 
+			if ( (HWND)lParam != lpSBData->hWnd && lpSBData->nStateId != PBS_DISABLED) 
 			{
 				// don't change states if disabled
 				lpSBData->nStateId = PBS_NORMAL;
@@ -323,7 +323,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 				break;
 			}
 
-			if (lpSBData->nStateId !=PBS_DISABLED && lpSBData->nStateId !=PBS_PRESSED) 
+			if (lpSBData->nStateId != PBS_DISABLED && lpSBData->nStateId != PBS_PRESSED) 
 			{
 				lpSBData->nStateId = PBS_PRESSED;
 				lpSBData->fHotMark = TRUE;
@@ -364,7 +364,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 					lpSBData->pbState = TRUE;
 			}
 
-			if (lpSBData->nStateId !=PBS_DISABLED)
+			if (lpSBData->nStateId != PBS_DISABLED)
 			{
 				// don't change states if disabled
 				if (msg == WM_LBUTTONUP)
@@ -382,7 +382,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		{
 			RECT rc;
 			POINT pt;
-			BOOL bPressed = (wParam & MK_LBUTTON) !=0;
+			BOOL bPressed = (wParam & MK_LBUTTON) != 0;
 			if ( bPressed && !lpSBData->fHotMark )
 				break;
 			GetWindowRect(hwndDlg, &rc);

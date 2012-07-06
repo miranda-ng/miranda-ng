@@ -152,7 +152,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 			hFavoriteContactMenuItems = (HANDLE*)malloc(sizeof(HANDLE)*SIZEOF(rates));
 			memset(hFavoriteContactMenuItems,0,sizeof(HANDLE)*SIZEOF(rates));
 		}
-		for (i = 0; i < SIZEOF(rates); i++)
+		for (i=0; i < SIZEOF(rates); i++)
 		{
 			mi.hIcon = mi.hIcon = CLUI_LoadIconFromExternalFile("clisticons.dll",8+i,TRUE,TRUE,iconsName[i],"Contact List",Translate(iconsName[i]),-IDI_FAVORITE_0 - i, &NeedFree);
 			mi.ptszName = rates[i];

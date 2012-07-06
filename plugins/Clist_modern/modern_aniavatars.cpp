@@ -36,7 +36,7 @@ File contains implementation of animated avatars in contact list
 
 #define IMMEDIATE_DRAW (!AniAva.bSeparateWindow)
 
-void GDIPlus_ExtractAnimatedGif (TCHAR * szName, int width, int height, HBITMAP  * pBmp, int ** pframesDelay, int * pframesCount, SIZE * sizeAvatar);
+void GDIPlus_ExtractAnimatedGIF (TCHAR * szName, int width, int height, HBITMAP  * pBmp, int ** pframesDelay, int * pframesCount, SIZE * sizeAvatar);
 BOOL GDIPlus_IsAnimatedGif (TCHAR * szName);
 
 /* Next is module */
@@ -230,7 +230,7 @@ int AniAva_UnloadModule()
 	{
 		int i;
 		AniAva.bModuleStarted = FALSE;
-		for (i = 0; i < AniAva.Objects->realCount; i++)
+		for (i=0; i < AniAva.Objects->realCount; i++)
 		{
 			if (AniAva.Objects->items[i])
 			{
@@ -241,7 +241,7 @@ int AniAva_UnloadModule()
 		List_Destroy(AniAva.Objects);
 		mir_free(AniAva.Objects);
 
-		for (i = 0; i < AniAva.AniAvatarList->realCount; i++)
+		for (i=0; i < AniAva.AniAvatarList->realCount; i++)
 		{
 			ANIAVA_INFO * aai = (ANIAVA_INFO *)AniAva.AniAvatarList->items[i];
 			if (aai->tcsFilename) mir_free(aai->tcsFilename);
@@ -277,7 +277,7 @@ int AniAva_UpdateOptions()
 	}
 	BOOL oldSeparate = AniAva.bSeparateWindow;
 	_AniAva_LoadOptions();
-	if ( oldSeparate !=AniAva.bSeparateWindow )
+	if ( oldSeparate != AniAva.bSeparateWindow )
 	{
 		AniAva_InvalidateAvatarPositions(NULL);
 		AniAva_RemoveInvalidatedAvatars();
@@ -301,7 +301,7 @@ int AniAva_AddAvatar(HANDLE hContact, TCHAR * szFilename, int width, int heigth)
 		ANIAVA_OBJECT * pavi;
 		ANIAVATARIMAGEINFO avii = {0};
 		SIZE szAva = { width, heigth };
-		for (i = 0; i < AniAva.Objects->realCount; i++)
+		for (i=0; i < AniAva.Objects->realCount; i++)
 		{
 			pavi = (ANIAVA_OBJECT *)AniAva.Objects->items[i];
 			if (pavi->hContact == hContact)
@@ -355,7 +355,7 @@ void AniAva_UpdateParent()
 	{
 		int i;
 		HWND parent = fnGetAncestor(pcli->hwndContactList,GA_PARENT);
-		for (i = 0; i < AniAva.Objects->realCount; i++)
+		for (i=0; i < AniAva.Objects->realCount; i++)
 		{
 			ANIAVA_OBJECT * pai = (ANIAVA_OBJECT *)AniAva.Objects->items[i];
 			SendMessage(pai->hWindow, AAM_SETPARENT, (WPARAM)parent,0);
@@ -365,7 +365,7 @@ void AniAva_UpdateParent()
 }
 ANIAVA_OBJECT * FindAvatarByContact( HANDLE hContact )
 {
-	for ( int i = 0; i < AniAva.Objects->realCount; i++)
+	for ( int i=0; i < AniAva.Objects->realCount; i++)
 	{
 		ANIAVA_OBJECT * pai = ((ANIAVA_OBJECT *)AniAva.Objects->items[i]);
 		if (pai->hContact == hContact)
@@ -437,7 +437,7 @@ int AniAva_RemoveAvatar(HANDLE hContact)
 	aalock;
 	{
 		int i;
-		for (i = 0; i < AniAva.Objects->realCount; i++)
+		for (i=0; i < AniAva.Objects->realCount; i++)
 		{
 			ANIAVA_OBJECT * pai = (ANIAVA_OBJECT *)AniAva.Objects->items[i];
 			if (pai->hContact == hContact)
@@ -456,7 +456,7 @@ int AniAva_InvalidateAvatarPositions(HANDLE hContact)
 	int i;
 	aacheck 0;
 	aalock;
-	for (i = 0; i < AniAva.Objects->realCount; i++)
+	for (i=0; i < AniAva.Objects->realCount; i++)
 	{
 		ANIAVA_OBJECT * pai = (ANIAVA_OBJECT *)AniAva.Objects->items[i];
 		if (pai->hContact == hContact || !hContact)
@@ -477,7 +477,7 @@ int AniAva_RemoveInvalidatedAvatars()
 
 	{
 		int i;
-		for (i = 0; i < AniAva.Objects->realCount; i++)
+		for (i=0; i < AniAva.Objects->realCount; i++)
 		{
 			ANIAVA_OBJECT * pai = (ANIAVA_OBJECT *)AniAva.Objects->items[i];
 			if (pai->hWindow && (pai->bInvalidPos))
@@ -514,7 +514,7 @@ int AniAva_RedrawAllAvatars(BOOL updateZOrder)
 	aacheck 0;
 	aalock;
 	updateZOrder = 1;
-	for (i = 0; i < AniAva.Objects->realCount; i++)
+	for (i=0; i < AniAva.Objects->realCount; i++)
 	{
 		ANIAVA_OBJECT * pai = (ANIAVA_OBJECT *)AniAva.Objects->items[i];
 		if (updateZOrder)
@@ -592,7 +592,7 @@ static void _AniAva_RealRemoveAvatar(DWORD UniqueID)
 					int newWidth = AniAva.width-aai->FrameSize.cx*aai->nFrameCount;
 					int newHeight = 0;
 					int i;
-					for (i = 0; i < AniAva.AniAvatarList->realCount; i++)
+					for (i=0; i < AniAva.AniAvatarList->realCount; i++)
 						if (i != j)
 						{
 							newHeight = max(newHeight,((ANIAVA_INFO *) AniAva.AniAvatarList->items[i])->FrameSize.cy);
@@ -675,7 +675,7 @@ static int	_AniAva_LoadAvatarFromImage(TCHAR * szFileName, int width, int height
 		paai->dwAvatarUniqId = rand();
 		fNeedInsertToList = TRUE;
 		//get image strip
-		GDIPlus_ExtractAnimatedGif (szFileName, width, height, &hBitmap, &(paai->pFrameDelays), &(paai->nFrameCount), &(paai->FrameSize));
+		GDIPlus_ExtractAnimatedGIF (szFileName, width, height, &hBitmap, &(paai->pFrameDelays), &(paai->nFrameCount), &(paai->FrameSize));
 
 		//copy image to temp DC
 		hTempDC = CreateCompatibleDC(NULL);
@@ -884,7 +884,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 			}
 
 			if ( ( AniAva.bFlags & AAO_HAS_OVERLAY )
-				  && ( dat->overlayIconIdx !=-1 )
+				  && ( dat->overlayIconIdx != -1 )
 				  && ( AniAva.overlayIconImageList ))
 			{
 				// if overlay - draw overlay icon
@@ -959,7 +959,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 static void _AniAva_PausePainting()
 {
 	int i;
-	for (i = 0; i < AniAva.Objects->realCount; i++)
+	for (i=0; i < AniAva.Objects->realCount; i++)
 	{
 		ANIAVA_OBJECT * pai = (ANIAVA_OBJECT *)AniAva.Objects->items[i];
 		SendMessage(pai->hWindow,AAM_PAUSE,0,0);
@@ -968,7 +968,7 @@ static void _AniAva_PausePainting()
 static void _AniAva_ResumePainting()
 {
 	int i;
-	for (i = 0; i < AniAva.Objects->realCount; i++)
+	for (i=0; i < AniAva.Objects->realCount; i++)
 	{
 		ANIAVA_OBJECT * pai = (ANIAVA_OBJECT *)AniAva.Objects->items[i];
 		SendNotifyMessage(pai->hWindow,AAM_RESUME,0,0);
@@ -978,7 +978,7 @@ static void _AniAva_ResumePainting()
 static void _AniAva_ReduceAvatarImages(int startY, int dY, BOOL bDestroyWindow)
 {
 	int i;
-	for (i = 0; i < AniAva.Objects->realCount; i++)
+	for (i=0; i < AniAva.Objects->realCount; i++)
 	{
 		ANIAVA_OBJECT * pai = (ANIAVA_OBJECT *)AniAva.Objects->items[i];
 		int res = SendMessage(pai->hWindow,AAM_REMOVEAVATAR,(WPARAM)startY,(LPARAM)dY);

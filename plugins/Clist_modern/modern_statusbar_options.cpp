@@ -203,7 +203,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 				SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT( " << Global>>" ));
 				SendMessage(hwndComboBox, CB_SETITEMDATA, 0, (LPARAM)0);
 
-				for ( i = 0; i < count; i++ )
+				for ( i=0; i < count; i++ )
 				{
 					szName = accs[i]->szModuleName;
 					dat[i].szName = szName;
@@ -275,7 +275,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 			{
 				int i, item;
 				TCHAR *align[] = {_T("Left"), _T("Center"), _T("Right")};
-				for (i = 0; i < SIZEOF(align); i++) {
+				for (i=0; i < SIZEOF(align); i++) {
 					item = SendDlgItemMessage(hwndDlg,IDC_SBAR_HORIZ_ALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(align[i]));
 				}
 
@@ -285,7 +285,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 			{
 				int i, item;
 				TCHAR *align[] = {_T("Top"), _T("Center"), _T("Bottom")};
-				for (i = 0; i < SIZEOF(align); i++) {
+				for (i=0; i < SIZEOF(align); i++) {
 					item = SendDlgItemMessage(hwndDlg,IDC_SBAR_VERT_ALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(align[i]));
 				}
 
@@ -524,8 +524,8 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 				LOWORD(wParam) == IDC_SBAR_BORDER_BOTTOM ||
 				LOWORD(wParam) == IDC_SBAR_BORDER_TOP
 			) && (
-				HIWORD(wParam) !=EN_CHANGE ||
-				(HWND)lParam !=GetFocus()
+				HIWORD(wParam) != EN_CHANGE ||
+				(HWND)lParam != GetFocus()
 			))
 			return 0; // dont make apply enabled during buddy set crap 
 		else if ( LOWORD(wParam) == IDC_STATUSBAR_PROTO_LIST )
@@ -543,7 +543,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 				int count = db_get_dw(0,"Protocols","ProtoCount",-1);
 				db_set_b(NULL, "CLUI", "SBarPerProto", IsDlgButtonChecked(hwndDlg, IDC_STATUSBAR_PER_PROTO));
 
-				for (int i = 0; i < count; i++)
+				for (int i=0; i < count; i++)
 				{
 					HWND hwndComboBox = GetDlgItem( hwndDlg, IDC_STATUSBAR_PROTO_LIST );
 					StatusBarProtocolOptions sbpo = dat[i];

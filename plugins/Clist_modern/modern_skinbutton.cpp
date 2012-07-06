@@ -671,7 +671,7 @@ static int ModernSkinButtonErase(int l,int t,int r, int b)
 	if (!g_pCachedWindow->hImageDC ||!g_pCachedWindow->hBackDC) return 0;
 	if (!(l||r||t||b))
 	{
-		for(i = 0; i < ButtonsCount; i++)
+		for(i=0; i < ButtonsCount; i++)
 		{
 			if (pcli->hwndContactList && Buttons[i].hwnd != NULL)      
 			{
@@ -711,7 +711,7 @@ int ModernSkinButtonRedrawAll(HDC hdc)
 	DWORD i;
 	if (!ModernSkinButtonModuleIsLoaded) return 0;
 	g_mutex_bLockUpdating++;
-	for(i = 0; i < ButtonsCount; i++)
+	for(i=0; i < ButtonsCount; i++)
 	{
 		if (pcli->hwndContactList && Buttons[i].hwnd == NULL)
 			Buttons[i].hwnd = ModernSkinButtonCreateWindow(Buttons[i].bct,pcli->hwndContactList);
@@ -724,7 +724,7 @@ int ModernSkinButtonDeleteAll()
 {
 	DWORD i;
 	if (!ModernSkinButtonModuleIsLoaded) return 0;
-	for(i = 0; i < ButtonsCount; i++)
+	for(i=0; i < ButtonsCount; i++)
 		if (Buttons[i].hwnd) DestroyWindow(Buttons[i].hwnd);
 	if (Buttons) mir_free_and_nill(Buttons);
 	ButtonsCount = 0;
@@ -761,7 +761,7 @@ int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT * r)
 	OffsetRect(&rc,-rc.left,-rc.top);
 	rc.right = rc.left+(clr.right-clr.left);
 	rc.bottom = rc.top+(clr.bottom-clr.top);
-	for(i = 0; i < ButtonsCount; i++)
+	for(i=0; i < ButtonsCount; i++)
 	{
 		int l,r,b,t;
 		RECT oldRect = {0};

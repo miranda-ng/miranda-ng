@@ -76,7 +76,7 @@ int RowHeight_CalcRowHeight(struct ClcData *dat, HWND hwnd, struct ClcContact *c
 }
 int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *contact, int item)
 {
-  BYTE i = 0;
+  BYTE i=0;
   int res = 0;
   int height = 0;
   displayNameCacheEntry * pdnce; 
@@ -111,7 +111,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
     if (item != -1) dat->row_heights[item] = tmp;
     return tmp;
   }
-  hasAvatar = (dat->use_avatar_service && contact->avatar_data !=NULL) ||(!dat->use_avatar_service && contact->avatar_pos !=AVATAR_POS_DONT_HAVE);
+  hasAvatar = (dat->use_avatar_service && contact->avatar_data != NULL) ||(!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE);
   while (gl_RowTabAccess[i] != NULL)
   {
     if (gl_RowTabAccess[i]->type != TC_SPACE)
@@ -218,8 +218,8 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
         {
           if (
             (contact->type == CLCIT_GROUP && !dat->row_hide_group_icon)||
-            (	contact->type == CLCIT_CONTACT && contact->iImage !=-1 &&
-            !(dat->icon_hide_on_avatar && dat->avatars_show	&& (hasAvatar|| (!hasAvatar && dat->icon_draw_on_avatar_space && contact->iImage !=-1)) && !contact->image_is_special))
+            (	contact->type == CLCIT_CONTACT && contact->iImage != -1 &&
+            !(dat->icon_hide_on_avatar && dat->avatars_show	&& (hasAvatar|| (!hasAvatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)) && !contact->image_is_special))
             )
           {
             gl_RowTabAccess[i]->h = ICON_HEIGHT;
@@ -231,7 +231,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
         {
           if (dat->avatars_show && 
             contact->type == CLCIT_CONTACT && 
-            (hasAvatar || (dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && contact->iImage !=-1)	)
+            (hasAvatar || (dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)	)
             )
           {
             SIZE sz = {0};
@@ -250,7 +250,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
               iH = dat->avatar_cache.nodes[contact->avatar_pos].height;
             }					
             sz = GetAvatarSize(iW,iH,dat->avatars_maxwidth_size,dat->avatars_maxheight_size);
-            if ((sz.cx == 0 || sz.cy == 0) &&  dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && contact->iImage !=-1)
+            if ((sz.cx == 0 || sz.cy == 0) &&  dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)
             { sz.cx = ICON_HEIGHT; sz.cy = ICON_HEIGHT; }
 
             gl_RowTabAccess[i]->h = sz.cy;
@@ -371,7 +371,7 @@ BOOL RowHeights_Initialize(struct	ClcData	*dat)
 
 void RowHeights_Free(struct ClcData *dat)
 {
-  if (dat->row_heights !=NULL) 
+  if (dat->row_heights != NULL) 
   {
     free(dat->row_heights);
     dat->row_heights = NULL;
@@ -397,7 +397,7 @@ BOOL RowHeights_Alloc(struct ClcData *dat, int size)
 
       size_grow  += 100 - (size_grow % 100);
 
-      if (dat->row_heights !=NULL)
+      if (dat->row_heights != NULL)
       {
         int *tmp = (int *) realloc((void *)dat->row_heights, sizeof(int) * size_grow);
 
@@ -449,7 +449,7 @@ int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd)
 
     // Get contact font size
     tmp = 0;
-    for (i = 0 ; i < MAX_REGS(contact_fonts) ; i++)
+    for (i=0 ; i < MAX_REGS(contact_fonts) ; i++)
     {
       if (tmp < dat->fontModernInfo[contact_fonts[i]].fontHeight)
         tmp = dat->fontModernInfo[contact_fonts[i]].fontHeight;
@@ -481,7 +481,7 @@ int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd)
     }
 
     // Get other font sizes
-    for (i = 0 ; i < MAX_REGS(other_fonts) ; i++)
+    for (i=0 ; i < MAX_REGS(other_fonts) ; i++)
     {
       if (max_height < dat->fontModernInfo[other_fonts[i]].fontHeight)
         max_height = dat->fontModernInfo[other_fonts[i]].fontHeight;
@@ -672,8 +672,8 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
       if (dat->avatars_show && !dat->avatars_ignore_size_for_row_height && 
         contact->type == CLCIT_CONTACT && 
         (
-        (dat->use_avatar_service && contact->avatar_data !=NULL) ||
-        (!dat->use_avatar_service && contact->avatar_pos !=AVATAR_POS_DONT_HAVE)
+        (dat->use_avatar_service && contact->avatar_data != NULL) ||
+        (!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE)
         ) && !minimalistic )
       {
         height = max(height, dat->avatars_maxheight_size);
@@ -691,10 +691,10 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
       if (!dat->icon_ignore_size_for_row_height)
       {
         if (contact->type == CLCIT_GROUP 
-          || (contact->type == CLCIT_CONTACT && contact->iImage !=-1 
+          || (contact->type == CLCIT_CONTACT && contact->iImage != -1 
           && !(dat->icon_hide_on_avatar && dat->avatars_show
-          && ( (dat->use_avatar_service && contact->avatar_data !=NULL) ||
-          (!dat->use_avatar_service && contact->avatar_pos !=AVATAR_POS_DONT_HAVE)
+          && ( (dat->use_avatar_service && contact->avatar_data != NULL) ||
+          (!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE)
           )
           && !contact->image_is_special)))
         {
@@ -724,10 +724,10 @@ int cliGetRowTopY(struct ClcData *dat, int item)
 {
   int i;
   int y = 0;
-  if (item  >= dat->row_heights_size)
+  if (item >= dat->row_heights_size)
     return cliGetRowBottomY(dat,item-1);
 
-  for (i = 0 ; i < item ; i++)
+  for (i=0 ; i < item ; i++)
   {
     y  += dat->row_heights[i];
   }
@@ -742,10 +742,10 @@ int cliGetRowBottomY(struct ClcData *dat, int item)
   int i;
   int y = 0;
 
-  if (item  >= dat->row_heights_size)
+  if (item >= dat->row_heights_size)
     return -1;
 
-  for (i = 0 ; i <= item ; i++)
+  for (i=0 ; i <= item ; i++)
   {
     y  += dat->row_heights[i];
   }
@@ -760,7 +760,7 @@ int cliGetRowTotalHeight(struct ClcData *dat)
   int i;
   int y = 0;
 
-  for (i = 0 ; i < dat->row_heights_size ; i++)
+  for (i=0 ; i < dat->row_heights_size ; i++)
   {
     y  += dat->row_heights[i];
   }
@@ -777,7 +777,7 @@ int cliRowHitTest(struct ClcData *dat, int pos_y)
   if (pos_y < 0)
     return -1;
 
-  for (i = 0 ; i < dat->row_heights_size ; i++)
+  for (i=0 ; i < dat->row_heights_size ; i++)
   {
     y  += dat->row_heights[i];
 
@@ -790,7 +790,7 @@ int cliRowHitTest(struct ClcData *dat, int pos_y)
 
 int cliGetRowHeight(struct ClcData *dat, int item)
 {	
-  if ( item  >= dat->row_heights_size || item  < 0 )
+  if ( item >= dat->row_heights_size || item  < 0 )
     return dat->max_row_height;
   return dat->row_heights[ item ];
 }

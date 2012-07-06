@@ -93,7 +93,7 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam,LPARAM lParam)
 	mmep->szServiceName = mir_strdup(mi->pszService);
 	mmep->Param1 = mi->popupPosition;
 	lpGroupMenuParam gmp = (lpGroupMenuParam)wParam;
-	if (gmp !=NULL) {
+	if (gmp != NULL) {
 		mmep->Param1 = gmp->wParam;
 		mmep->Param2 = gmp->lParam;
 	}
@@ -538,7 +538,7 @@ static INT_PTR AddSubGroupMenuItem(WPARAM wParam,LPARAM lParam)
 	mmep->szServiceName = mir_strdup(mi->pszService);
 	mmep->Param1 = mi->popupPosition;
 	lpGroupMenuParam gmp = (lpGroupMenuParam)wParam;
-	if (gmp !=NULL) {
+	if (gmp != NULL) {
 		mmep->Param1 = gmp->wParam;
 		mmep->Param2 = gmp->lParam;
 	}

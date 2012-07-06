@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_defsettings.h"
 #include "hdr/modern_effectenum.h"
 #include "hdr/modern_sync.h"
-#include  < m_modernopt.h>
+#include <m_modernopt.h>
 #include "m_fontservice.h"
 
 #define FONTF_NORMAL 0
@@ -144,7 +144,7 @@ void RegisterCLUIFonts( void )
 	effectid.cbSize = sizeof(effectid);
 	strncpy(effectid.dbSettingsGroup, "CLC", SIZEOF(effectid.dbSettingsGroup));
 
-	for ( i = 0; i < SIZEOF(fontOptionsList); i++, index++ )
+	for ( i=0; i < SIZEOF(fontOptionsList); i++, index++ )
 	{
 		fontid.flags = FIDF_DEFAULTVALID | FIDF_APPENDNAME | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_ALLOWREREGISTER | FIDF_NOAS;
 		fontid.flags |= fontOptionsList[i].dwFlags;
@@ -179,7 +179,7 @@ void RegisterCLUIFonts( void )
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
 
-	for ( i = 0; i < SIZEOF( colourOptionsList); i++ )
+	for ( i=0; i < SIZEOF( colourOptionsList); i++ )
 	{
 		_tcsncpy(colourid.group,          colourOptionsList[i].szGroup, SIZEOF(colourid.group));
 		_tcsncpy(colourid.name,           colourOptionsList[i].szDescr, SIZEOF(colourid.group));
@@ -285,7 +285,7 @@ int ClcOptInit(WPARAM wParam,LPARAM lParam)
 	odp.pfnDlgProc = DlgProcClistListOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 
-	for (int i = 0; i < SIZEOF(clist_opt_items); i++) {
+	for (int i=0; i < SIZEOF(clist_opt_items); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(clist_opt_items[i].id);
 		odp.pszTab = clist_opt_items[i].name;
 		odp.pfnDlgProc = clist_opt_items[i].wnd_proc;
@@ -368,7 +368,7 @@ static void FillCheckBoxTree(HWND hwndTree,const struct CheckBoxValues_t *values
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_STATE|TVIF_IMAGE;
-	for(i = 0;i < nValues;i++) {
+	for(i=0;i < nValues;i++) {
 		tvis.item.lParam = values[i].style;
 		tvis.item.pszText = TranslateTS(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -506,7 +506,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		}
 		{
 			DWORD exStyle = db_get_dw(NULL,"CLC","ExStyle",GetDefaultExStyle());
-			for(int i = 0;i < SIZEOF(checkBoxToStyleEx);i++)
+			for(int i=0;i < SIZEOF(checkBoxToStyleEx);i++)
 				CheckDlgButton(hwndDlg,checkBoxToStyleEx[i].id,(exStyle&checkBoxToStyleEx[i].flag)^(checkBoxToStyleEx[i].flag*checkBoxToStyleEx[i].neg)?BST_CHECKED:BST_UNCHECKED);
 		}
 		{
@@ -566,7 +566,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		case PSN_APPLY:
 			{
 				DWORD exStyle = 0;
-				for(int i = 0;i < SIZEOF(checkBoxToStyleEx);i++)
+				for(int i=0;i < SIZEOF(checkBoxToStyleEx);i++)
 					if ((IsDlgButtonChecked(hwndDlg,checkBoxToStyleEx[i].id) == 0) == checkBoxToStyleEx[i].neg)
 						exStyle |= checkBoxToStyleEx[i].flag;
 				db_set_dw(NULL,"CLC","ExStyle",exStyle);
@@ -753,7 +753,7 @@ static int _GetNetVisibleProtoCount()
 	int i,count,netProtoCount;
 	PROTOACCOUNT **accs;
 	ProtoEnumAccounts( &count, &accs );
-	for(i = 0,netProtoCount = 0;i < count;i++)
+	for(i=0,netProtoCount = 0;i < count;i++)
 	{
 		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0 ) continue;
 		netProtoCount++;
@@ -784,7 +784,7 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
             int i, item;
             int s1, s2, s3;
-            for (i = 0; i < SIZEOF(sortby); i++)
+            for (i=0; i < SIZEOF(sortby); i++)
             {
                 item = SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_ADDSTRING,0,(LPARAM)TranslateTS(sortby[i]));
                 SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_SETITEMDATA,item,(LPARAM)0);
@@ -798,7 +798,7 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
             s2 = db_get_b(NULL,"CList","SortBy2",SETTING_SORTBY2_DEFAULT);
             s3 = db_get_b(NULL,"CList","SortBy3",SETTING_SORTBY3_DEFAULT);
 
-            for (i = 0; i < SIZEOF(sortby); i++)
+            for (i=0; i < SIZEOF(sortby); i++)
             {
                 if (s1 == sortbyValue[i])
                     SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_SETCURSEL,i,0);
@@ -923,7 +923,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
                 ProtoEnumAccounts( &count, &accs );
                 item = SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_ADDSTRING,0,(LPARAM)TranslateT("Global"));
                 SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_SETITEMDATA,item,(LPARAM)0);
-                for(i = 0;i < count;i++) {
+                for(i=0;i < count;i++) {
                     if ( !IsAccountEnabled( accs[i] ) || CallProtoService(accs[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0) == 0)
 							  continue;
 
@@ -972,7 +972,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
                 EnableWindow(GetDlgItem(hwndDlg,IDC_ALWAYSPRIMARY),IsDlgButtonChecked(hwndDlg,IDC_DONTCYCLE));
             }
             if (LOWORD(wParam) == IDC_PRIMARYSTATUS && HIWORD(wParam) != CBN_SELCHANGE) break;
-            if (LOWORD(wParam) == IDC_BLINKTIME && (HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus())) return 0; // dont make apply enabled during buddy set crap
+            if (LOWORD(wParam) == IDC_BLINKTIME && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0; // dont make apply enabled during buddy set crap
             SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
         }
         break;
@@ -1076,7 +1076,7 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 		{
 			int i, item;
 			TCHAR *hidemode[] = {TranslateT("Hide to tray"), TranslateT("Behind left edge"), TranslateT("Behind right edge")};
-			for (i = 0; i < SIZEOF(hidemode); i++) {
+			for (i=0; i < SIZEOF(hidemode); i++) {
 				item = SendDlgItemMessage(hwndDlg,IDC_HIDEMETHOD,CB_ADDSTRING,0,(LPARAM)(hidemode[i]));
 				SendDlgItemMessage(hwndDlg,IDC_HIDEMETHOD,CB_SETITEMDATA,item,(LPARAM)0);
 				SendDlgItemMessage(hwndDlg,IDC_HIDEMETHOD,CB_SETCURSEL,db_get_b(NULL,"ModernData","HideBehind",SETTING_HIDEBEHIND_DEFAULT),0);
@@ -1226,7 +1226,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWMAINMENU),fEnabled);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_TITLETEXT),fEnabled);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_DROPSHADOW),fEnabled);
-			EnableWindow(GetDlgItem(hwndDlg,IDC_AEROGLASS),!fEnabled && (g_proc_DWMEnableBlurBehindWindow !=NULL));
+			EnableWindow(GetDlgItem(hwndDlg,IDC_AEROGLASS),!fEnabled && (g_proc_DWMEnableBlurBehindWindow != NULL));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_TITLEBAR_STATIC),fEnabled);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_ROUNDCORNERS),fEnabled);
 		}
@@ -1356,7 +1356,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			EnableWindow(GetDlgItem(hwndDlg,IDC_NOBORDERWND),fEnabled);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWMAINMENU),fEnabled);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_DROPSHADOW),fEnabled);
-			EnableWindow(GetDlgItem(hwndDlg,IDC_AEROGLASS),!fEnabled && (g_proc_DWMEnableBlurBehindWindow !=NULL));
+			EnableWindow(GetDlgItem(hwndDlg,IDC_AEROGLASS),!fEnabled && (g_proc_DWMEnableBlurBehindWindow != NULL));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_TITLEBAR_STATIC),fEnabled);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_ROUNDCORNERS),fEnabled);
 			if (LOWORD(wParam) == IDC_DISABLEENGINE)
@@ -1611,7 +1611,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case M_BKGR_GETSTATE:
 		{
 			int indx = wParam;
-			if (indx == CB_ERR || indx  >= dat->count) break;
+			if (indx == CB_ERR || indx >= dat->count) break;
 			indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
 
 			dat->item[indx].useBitmap = IsDlgButtonChecked(hwndDlg,IDC_BITMAP);
@@ -1639,7 +1639,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			int indx = wParam;
 			if (indx == -1) break;
 			flags = dat->item[indx].flags;
-			if (indx == CB_ERR || indx  >= dat->count) break;
+			if (indx == CB_ERR || indx >= dat->count) break;
 			indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
 
 			CheckDlgButton(hwndDlg, IDC_BITMAP, dat->item[indx].useBitmap?BST_CHECKED:BST_UNCHECKED);
@@ -1736,10 +1736,10 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				SetDlgItemTextA(hwndDlg, IDC_FILENAME, str);
 			}
 			else
-				if (LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) !=EN_CHANGE) break;
+				if (LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) != EN_CHANGE) break;
 			if (LOWORD(wParam) == IDC_BITMAP)
 				SendMessage(hwndDlg, M_BKGR_UPDATE, 0,0);
-			if (LOWORD(wParam) == IDC_FILENAME && (HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()))
+			if (LOWORD(wParam) == IDC_FILENAME && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 				return 0;
 			if (LOWORD(wParam) == IDC_BKGRLIST)
 			{
@@ -1752,7 +1752,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 			{
 				int indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETCURSEL, 0,0);
-				if (indx !=CB_ERR && indx < dat->count)
+				if (indx != CB_ERR && indx < dat->count)
 				{
 					indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
 					dat->item[indx].changed = TRUE;
@@ -1853,11 +1853,11 @@ HRESULT BackgroundsLoadModule()
 
 int BackgroundsUnloadModule(void)
 {
-	if (bkgrList !=NULL)
+	if (bkgrList != NULL)
 	{
 		int indx;
 		for(indx = 0; indx < bkgrCount; indx++)
-			if (bkgrList[indx] !=NULL)
+			if (bkgrList[indx] != NULL)
 				mir_free(bkgrList[indx]);
 		mir_free(bkgrList);
 	}
@@ -2013,12 +2013,12 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		{
 			bInit = true;
 
-			int i = 0;
+			int i=0;
 			int item;
 			int s1, s2, s3;
 
 			TranslateDialogDefault(hwndDlg);
-			for (i = 0; i < SIZEOF(opts); ++i)
+			for (i=0; i < SIZEOF(opts); ++i)
 				OptCheckBox_Load(hwndDlg, opts+i);
 
 			EnableWindow(GetDlgItem(hwndDlg,IDC_HIDETIME),IsDlgButtonChecked(hwndDlg,IDC_AUTOHIDE));
@@ -2049,7 +2049,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendMessage(hwndDlg,WM_HSCROLL,0x12345678,0);
 
 
-			for (i = 0; i < SIZEOF(sortby); i++)
+			for (i=0; i < SIZEOF(sortby); i++)
 			{
 				item = SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_ADDSTRING,0,(LPARAM)TranslateTS(sortby[i]));
 				SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_SETITEMDATA,item,(LPARAM)0);
@@ -2063,7 +2063,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			s2 = db_get_b(NULL,"CList","SortBy2",SETTING_SORTBY2_DEFAULT);
 			s3 = db_get_b(NULL,"CList","SortBy3",SETTING_SORTBY3_DEFAULT);
 
-			for (i = 0; i < SIZEOF(sortby); i++)
+			for (i=0; i < SIZEOF(sortby); i++)
 			{
 				if (s1 == sortbyValue[i])
 					SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_SETCURSEL,i,0);
@@ -2123,7 +2123,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 
 							g_mutex_bChangingMode = TRUE;
 
-							for (i = 0; i < SIZEOF(opts); ++i)
+							for (i=0; i < SIZEOF(opts); ++i)
 								OptCheckBox_Save(hwndDlg, opts+i);
 
 							SetWindowPos(pcli->hwndContactList, IsDlgButtonChecked(hwndDlg,IDC_ONTOP)?HWND_TOPMOST:HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);

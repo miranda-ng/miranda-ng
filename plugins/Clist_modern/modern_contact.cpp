@@ -54,7 +54,7 @@ void cli_ChangeContactIcon(HANDLE hContact,int iIcon,int add)
 static int GetStatusModeOrdering(int statusMode)
 {
 	int i;
-	for(i = 0;i < SIZEOF(statusModeOrder);i++)
+	for(i=0;i < SIZEOF(statusModeOrder);i++)
 		if (statusModeOrder[i].m_cache_nStatus == statusMode) return statusModeOrder[i].order;
 	return 1000;
 }
@@ -88,7 +88,7 @@ int GetProtoIndex(char * szName)
 	int i;
     if (!szName) return -1;
 	ProtoEnumAccounts( &accCount, &accs );    
-	for (i = 0; i < accCount; i++)
+	for (i=0; i < accCount; i++)
 		if (!mir_strcmpi(szName,accs[i]->szModuleName))
 			return accs[i]->iOrder;
     return -1;
@@ -151,7 +151,7 @@ int CompareContacts2(const struct ClcContact *contact1,const struct ClcContact *
 	{
 		int rc = GetProtoIndex(szProto1)-GetProtoIndex(szProto2);
 
-		if (rc !=0 && (szProto1 !=NULL && szProto2 !=NULL)) return rc;
+		if (rc != 0 && (szProto1 != NULL && szProto2 != NULL)) return rc;
 	}
     else if (by == SORTBY_RATE)
         return contact2->bContactRate-contact1->bContactRate;
@@ -162,7 +162,7 @@ int CompareContacts2(const struct ClcContact *contact1,const struct ClcContact *
 int cliCompareContacts(const struct ClcContact *contact1,const struct ClcContact *contact2)
 {
 	int i, r;
-	for (i = 0; i < SIZEOF(g_CluiData.bSortByOrder); i++) 
+	for (i=0; i < SIZEOF(g_CluiData.bSortByOrder); i++) 
 	{
 		r = CompareContacts2(contact1, contact2, g_CluiData.bSortByOrder[i]);
 		if (r != 0)
@@ -201,7 +201,7 @@ INT_PTR ToggleGroups(WPARAM wParam,LPARAM lParam)
 INT_PTR SetUseGroups(WPARAM wParam, LPARAM lParam)
 {	
 	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS);
-	if ( wParam !=-1 )
+	if ( wParam != -1 )
 	{
 		if ( !newVal == wParam ) return 0;
 		newVal = wParam;

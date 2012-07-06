@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 BOOL RectHitTest(RECT *rc, int testx, int testy)
 {
-	return testx  >= rc->left && testx < rc->right && testy  >= rc->top && testy < rc->bottom;
+	return testx >= rc->left && testx < rc->right && testy >= rc->top && testy < rc->bottom;
 }
 
 int cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact **contact,struct ClcGroup **group,DWORD *flags)
@@ -63,7 +63,7 @@ int cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcConta
 	// Get hit item 
 	hit = cliRowHitTest(dat, dat->yScroll + testy);
 
-	if (hit !=-1) 
+	if (hit != -1) 
 		hit = cliGetRowByIndex(dat, hit, &hitcontact, &hitgroup);
 
 	if (hit == -1) {
@@ -104,7 +104,7 @@ int cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcConta
 	{
 		//			int c = -1;
 		int i;
-		for(i = 0; i < dat->extraColumnsCount; i++) 
+		for(i=0; i < dat->extraColumnsCount; i++) 
 		{  
 			if (RectHitTest(&hitcontact->pos_extra[i], testx, testy)) 
 			{
@@ -137,7 +137,7 @@ void cliScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth)
 	RECT clRect,rcInvalidate;
 	int maxy,previousy;
 
-	if (dat->iHotTrack != -1 && dat->yScroll !=desty) {
+	if (dat->iHotTrack != -1 && dat->yScroll != desty) {
 		pcli->pfnInvalidateItem(hwnd,dat,dat->iHotTrack);
 		dat->iHotTrack = -1;
 		ReleaseCapture();
@@ -295,7 +295,7 @@ void cliBeginRenameSelection(HWND hwnd,struct ClcData *dat)
 	h = dat->row_heights[dat->selection];
 	{
 		int i;
-		for (i = 0; i <= FONTID_MODERN_MAX; i++)
+		for (i=0; i <= FONTID_MODERN_MAX; i++)
 			if (h < dat->fontModernInfo[i].fontHeight+4) h = dat->fontModernInfo[i].fontHeight+4;
 	}
 	//TODO contact->pos_label 
@@ -480,7 +480,7 @@ void LoadCLCFonts( HWND hwnd, struct ClcData *dat )
 	HDC hdc = GetDC(hwnd);
 	HFONT holdfont = (HFONT)GetCurrentObject( hdc, OBJ_FONT );
 	
-	for ( int i = 0 ; i <= FONTID_MODERN_MAX; i++ ) 
+	for ( int i=0 ; i <= FONTID_MODERN_MAX; i++ ) 
 	{
 		if ( !dat->fontModernInfo[i].changed && dat->fontModernInfo[i].hFont )
 		{
@@ -531,7 +531,7 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 	{
 
 		int defItemsOrder[NUM_ITEM_TYPE] = SETTINS_ROWITEMORDER_DEFAULT;
-		for (i = 0 ; i < NUM_ITEM_TYPE ; i++)
+		for (i=0 ; i < NUM_ITEM_TYPE ; i++)
 		{
 			char tmp[128];
 			mir_snprintf(tmp, SIZEOF(tmp), "RowPos%d", i);
@@ -541,7 +541,7 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 	else
 	{
 		int defItems[] = {ITEM_ICON, ITEM_TEXT, ITEM_EXTRA_ICONS,};
-		for (i = 0 ; i < NUM_ITEM_TYPE; i++)
+		for (i=0 ; i < NUM_ITEM_TYPE; i++)
 			dat->row_items[i] = (i < SIZEOF(defItems)) ? defItems[i] : -1;
 	}
 
@@ -820,7 +820,7 @@ int cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int pref
 			continue;
 		}
 		contact = group->cl.items[group->scanIndex];
-		if (contact->type !=CLCIT_DIVIDER) 
+		if (contact->type != CLCIT_DIVIDER) 
 		{			
 			if ((prefixOk && !_tcsnicmp(text, contact->szText, testlen)) ||
 				(!prefixOk && !lstrcmpi(text, contact->szText))) 
@@ -845,8 +845,8 @@ int cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int pref
 		{
 			if (!(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || contact->SubExpanded )
 			{
-				int i = 0;
-				for (i = 0; i < contact->SubAllocated; i++)
+				int i=0;
+				for (i=0; i < contact->SubAllocated; i++)
 				{
 					struct ClcContact * subcontact = &(contact->subcontacts[i]);
 					if ((prefixOk && !_tcsnicmp(text, subcontact->szText, testlen)) ||

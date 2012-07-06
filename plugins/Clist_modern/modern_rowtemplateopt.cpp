@@ -89,7 +89,7 @@ void rowOptShowSettings(HWND hwnd)
 		EnableWindow(GetDlgItem(hwnd,IDC_HALIGN) ,1);
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTLAYER),1);
 
-		if (cell->type !=TC_SPACE && cell->type !=TC_FIXED)
+		if (cell->type != TC_SPACE && cell->type != TC_FIXED)
 		{
 			EnableWindow(GetDlgItem(hwnd,IDC_CONTWIDTH) ,0);
 			EnableWindow(GetDlgItem(hwnd,IDC_CONTHEIGHT),0);
@@ -177,7 +177,7 @@ void rowOptGenerateTreeView(pROWCELL cell, HTREEITEM node, HWND hwnd)
 
 int rowOptFillRowTree(HWND hwnd)
 {
-	int i = 0;
+	int i=0;
 	TreeView_DeleteAllItems(hwnd);
 	rowOptGenerateTreeView(rowOptTmplRoot, NULL, hwnd);
 	TreeView_Expand(hwnd, TreeView_GetRoot(hwnd), TVM_EXPAND);
@@ -254,7 +254,7 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 	TreeView_SetItem(htree, &tviparent);
 
 	{
-		int i = 0;
+		int i=0;
 		ZeroMemory( rowOptTA, sizeof( rowOptTA ));
 		rowOptBuildTA(rowOptTmplRoot, (pROWCELL*)&rowOptTA, &i);
 	}
@@ -304,7 +304,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 	rowDeleteTree((pROWCELL)tvi.lParam);
 
 	{
-		int i = 0;
+		int i=0;
 		ZeroMemory( rowOptTA, sizeof( rowOptTA ));
 		rowOptBuildTA( (pROWCELL)tvpi.lParam, (pROWCELL*)&rowOptTA, &i );
 	}
@@ -400,7 +400,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				int i, item;
 
-				for (i = 0; i < SIZEOF(types); i++) 
+				for (i=0; i < SIZEOF(types); i++) 
 				{
 					item = SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_ADDSTRING,0,(LPARAM)TranslateTS(types[i]));
 					SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETITEMDATA,item,(LPARAM)0);
@@ -411,7 +411,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				int i, item;
 				TCHAR *alignment[] = {_T("left"), _T("hCenter"), _T("right")};
-				for (i = 0; i < SIZEOF(alignment); i++) 
+				for (i=0; i < SIZEOF(alignment); i++) 
 				{
 					item = SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(alignment[i]));
 					SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETITEMDATA,item,(LPARAM)0);
@@ -423,7 +423,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				int i, item;
 				TCHAR *alignment[] = {_T("top"), _T("vCenter"), _T("bottom")};
-				for (i = 0; i < SIZEOF(alignment); i++) 
+				for (i=0; i < SIZEOF(alignment); i++) 
 				{
 					item = SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(alignment[i]));
 					SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETITEMDATA,item,(LPARAM)0);
@@ -558,7 +558,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	
 	case WM_PAINT:
 		{
-			int i = 0;
+			int i=0;
 
 			// Drawning row template at properties page
 			PAINTSTRUCT ps;
@@ -635,7 +635,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				case TC_SPACE:
 				case TC_FIXED:
 				case 0:
-					//if (rowOptTA[i] !=(pROWCELL)curItem.lParam)
+					//if (rowOptTA[i] != (pROWCELL)curItem.lParam)
 						continue;
 				}			
 				Rectangle(hdc, 

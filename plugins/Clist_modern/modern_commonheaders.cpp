@@ -206,9 +206,9 @@ BOOL DestroyIcon_protect(HICON icon)
 
 void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor)
 {																			
-	int i = 0;
+	int i=0;
 	if (!pList) return;
-	for (i = 0; i < pList->realCount; i++)	pItemDestructor(pList->items[i]);	
+	for (i=0; i < pList->realCount; i++)	pItemDestructor(pList->items[i]);	
 	List_Destroy(pList);																											
    mir_free(pList);
 }
@@ -234,7 +234,7 @@ void li_SortList(SortedList *pList, FSortFunc pSortFunct)
 	int i;
 	if (!pSortFunct) pSortFunct = pOldSort;
 	pList->sortFunc = NULL;
-	for (i = 0; i < pList->realCount-1; i++)
+	for (i=0; i < pList->realCount-1; i++)
 		if (pOldSort(pList->items[i],pList->items[i+1]) < 0)
 		{
 		    void * temp = pList->items[i];
@@ -266,7 +266,7 @@ HANDLE ModernHookEvent(char *EventID, MIRANDAHOOK HookProc)
 	HookRec * hr = NULL;
 	DWORD i;
 	//1. Find free
-	for (i = 0;i < hooksRecAlloced;i++) {
+	for (i=0;i < hooksRecAlloced;i++) {
 		if (hooksrec[i].hHook == NULL)
 		{
 			hr = &(hooksrec[i]);
@@ -290,7 +290,7 @@ int ModernUnhookEvent(HANDLE hHook)
 	DWORD i;
 	//1. Find free
 
-	for (i = 0;i < hooksRecAlloced;i++)
+	for (i=0;i < hooksRecAlloced;i++)
 	{
 		if (hooksrec[i].hHook == hHook)
 		{
@@ -307,7 +307,7 @@ int UnhookAll()
 	DWORD i;
 	TRACE("Unhooked Events:\n");
 	if (!hooksrec) return 0;
-	for (i = 0;i < hooksRecAlloced;i++)
+	for (i=0;i < hooksRecAlloced;i++)
 	{
 		if (hooksrec[i].hHook != NULL)
 		{

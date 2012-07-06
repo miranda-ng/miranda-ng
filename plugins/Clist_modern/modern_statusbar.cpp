@@ -401,7 +401,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 						else sw = rectwidth;
 						if (ProtoWidth) mir_free_and_nill(ProtoWidth);
 						ProtoWidth = (int*)mir_alloc(sizeof(int)*visProtoCount);
-						for (i = 0; i < visProtoCount; i++)
+						for (i=0; i < visProtoCount; i++)
 						{
 							SIZE textSize;
 							DWORD w = 0;
@@ -495,12 +495,12 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 						}
 
 						// Reposition rects
-						for(i = 0; i < visProtoCount; i++)
+						for(i=0; i < visProtoCount; i++)
 							if (ProtoWidth[i]>maxwidth) maxwidth = ProtoWidth[i];
 
 						if (g_StatusBarData.sameWidth)
 						{
-							for (i = 0; i < visProtoCount; i++)
+							for (i=0; i < visProtoCount; i++)
 								ProtoWidth[i] = maxwidth;
 							SumWidth = maxwidth*visProtoCount;
 						}
@@ -512,7 +512,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 							//dx = (int)(0.5+(float)dx/visProtoCount);
 							//SumWidth -= dx*visProtoCount;
 							SumWidth = 0;
-							for (i = 0; i < visProtoCount; i++)
+							for (i=0; i < visProtoCount; i++)
 							{
 								ProtoWidth[i] = (int)((float)ProtoWidth[i]*f);
 								SumWidth += ProtoWidth[i];
@@ -531,7 +531,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 //						r.top += g_StatusBarData.rectBorders.top;
 //						r.bottom -= g_StatusBarData.rectBorders.bottom;
 						r.left += g_StatusBarData.rectBorders.left+aligndx;
-						for (i = 0; i <  visProtoCount; i++)
+						for (i=0; i <  visProtoCount; i++)
 						{
 							HRGN rgn;
 							int x = r.left;
@@ -626,7 +626,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 									if ( db_get_b( NULL,ProtosData[i].AccountName,"LockMainStatus",0 ))
 									{
 										HICON hLockOverlay = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
-										if (hLockOverlay !=NULL)
+										if (hLockOverlay != NULL)
 										{
 											mod_DrawIconEx_helper(hDC, x, iconY, hLockOverlay, GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0,NULL,DI_NORMAL | dim);
 											CallService(MS_SKIN2_RELEASEICON, (WPARAM)hLockOverlay, 0);									}
@@ -894,7 +894,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
                     int i;
                     RECT rc;
                     ScreenToClient(hwnd,&pt);
-                    for (i = 0; i < allocedItemData; i++)
+                    for (i=0; i < allocedItemData; i++)
                     {
                         rc = ProtosData[i].protoRect;
                         if (PtInRect(&rc,pt))
@@ -969,7 +969,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
                 NotifyEventHooks(g_CluiData.hEventStatusBarHideToolTip,0,0);
             };
             tooltipshoing = FALSE;
-            for (i = 0; i < allocedItemData; i++)
+            for (i=0; i < allocedItemData; i++)
             {
                 RECT rc1;
                 BOOL isOnExtra = FALSE;
@@ -993,7 +993,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
                     }
                     if ( msg == WM_LBUTTONDOWN && bCtrl )
                     {
-                        if ( g_CluiData.bFilterEffective !=CLVM_FILTER_PROTOS || !bShift )
+                        if ( g_CluiData.bFilterEffective != CLVM_FILTER_PROTOS || !bShift )
                         {
                             ApplyViewMode( "" );
                             mir_snprintf( g_CluiData.protoFilter, SIZEOF(g_CluiData.protoFilter), "%s|", ProtosData[i].AccountName );
@@ -1036,7 +1036,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
                             {
                                 int i = pcli->pfnGetAccountIndexByPos( pos );
 
-                                if ( i < 0 && i  >= protoCount )
+                                if ( i < 0 && i >= protoCount )
                                     continue;
 
                                 char protoF[ sizeof(g_CluiData.protoFilter) ];

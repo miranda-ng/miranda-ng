@@ -64,7 +64,7 @@ void UninitCacheAsync();
 
 void InitDisplayNameCache(void)
 {
-	int i = 0;
+	int i=0;
 	InitCacheAsync();
 	InitAwayMsgModule();
 	clistCache = List_Create( 0, 50 );
@@ -75,9 +75,9 @@ void FreeDisplayNameCache()
 {
 	UninitCacheAsync();
 	UninitAwayMsgModule();
-	if ( clistCache !=NULL ) {
+	if ( clistCache != NULL ) {
 		int i;
-		for ( i = 0; i < clistCache->realCount; i++) {
+		for ( i=0; i < clistCache->realCount; i++) {
 			pcli->pfnFreeCacheItem(( ClcCacheEntryBase* )clistCache->items[i] );
 			mir_free_and_nill( clistCache->items[i] );
 		}
@@ -94,7 +94,7 @@ ClcCacheEntryBase* cliGetCacheEntry(HANDLE hContact)
 	int idx;
 	if (!clistCache) return NULL;
 	if ( !List_GetIndex( clistCache, &hContact, &idx )) {	
-		if (( p = pcli->pfnCreateCacheItem( hContact )) !=NULL ) {
+		if (( p = pcli->pfnCreateCacheItem( hContact )) != NULL ) {
 			List_Insert( clistCache, p, idx );
 			pcli->pfnInvalidateDisplayNameCacheEntry( hContact );
 		}
@@ -241,7 +241,7 @@ void cliFreeCacheItem( pdisplayNameCacheEntry p )
 void FreeDisplayNameCache(SortedList *list)
 {
 	int i;
-		for ( i = 0; i < list->realCount; i++) {
+		for ( i=0; i < list->realCount; i++) {
 			FreeDisplayNameCacheItem(( pdisplayNameCacheEntry )list->items[i] );
 			mir_free_and_nill(list->items[i]);
 		}
@@ -349,10 +349,10 @@ void cliCheckCacheItem(pdisplayNameCacheEntry pdnce)
 
 void IvalidateDisplayNameCache(DWORD mode)
 {
-	if ( clistCache !=NULL ) 
+	if ( clistCache != NULL ) 
 	{
 		int i;
-		for ( i = 0; i < clistCache->realCount; i++) 
+		for ( i=0; i < clistCache->realCount; i++) 
 		{
 			PDNCE pdnce = (PDNCE)clistCache->items[i];
 			if (mode&16)
@@ -450,16 +450,16 @@ int GetStatusForContact(HANDLE hContact,char *szProto)
 	if (szProto)
 		return (int)(db_get_w((HANDLE)hContact,szProto,"Status",ID_STATUS_OFFLINE));
 	else 
-		return (ID_STATUS_OFFLINE);
+		return ID_STATUS_OFFLINE;
 }
 
-TCHAR* GetNameForContact(HANDLE hContact,int flag,boolean *isUnknown)
+TCHAR* GetNameForContact(HANDLE hContact, int flag, boolean *isUnknown)
 {
-	TCHAR* result = pcli->pfnGetContactDisplayName(hContact, flag | GCDNF_NOCACHE);
-	BOOL itUnknown;
 	if (UnknownConctactTranslatedName == NULL)
 		UnknownConctactTranslatedName = TranslateT("(Unknown Contact)");
-	itUnknown = lstrcmp(result ,UnknownConctactTranslatedName) == 0;
+
+	TCHAR* result = pcli->pfnGetContactDisplayName(hContact, flag | GCDNF_NOCACHE);
+	BOOL itUnknown = lstrcmp(result, UnknownConctactTranslatedName) == 0;
 	if (itUnknown) {
 		mir_free(result);
 		result = UnknownConctactTranslatedName;
@@ -468,7 +468,7 @@ TCHAR* GetNameForContact(HANDLE hContact,int flag,boolean *isUnknown)
 		*isUnknown = itUnknown;
 	}
 
-	return (result);
+	return result;
 }
 
 int GetContactInfosForSort(HANDLE hContact,char **Proto,TCHAR **Name,int *Status)

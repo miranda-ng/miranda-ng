@@ -21,7 +21,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "hdr/modern_commonheaders.h"
-#include  < m_clui.h>
+#include <m_clui.h>
 #include "hdr/modern_clist.h"
 #include "hdr/modern_commonprototypes.h"
 #include "hdr/modern_statusbar.h"
@@ -97,7 +97,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM wparam,LPARAM lparam)
 	int curstatus = 0;
 	int i;
 	int connectingCount = 0;
-	for (i = 0;i < pcli->hClcProtoCount;i++)
+	for (i=0;i < pcli->hClcProtoCount;i++)
 	{
 		if (!pcli->pfnGetProtocolVisibility(pcli->clcProto[i].szProto)) continue;
 		if (pcli->clcProto[i].dwStatus >= ID_STATUS_CONNECTING &&
@@ -126,7 +126,7 @@ int GetAverageMode()
 	int averageMode = 0;
 	PROTOACCOUNT **accs;
 	ProtoEnumAccounts( &count, &accs );
-	for(i = 0,netProtoCount = 0;i < count;i++) {
+	for(i=0,netProtoCount = 0;i < count;i++) {
 		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0 ) continue;
 		pcli->cycleStep = i;
 		netProtoCount++;
@@ -148,7 +148,7 @@ static VOID CALLBACK RefreshTimerProc(HWND hwnd,UINT message,UINT idEvent,DWORD 
 	if (RefreshTimerId) {KillTimer(NULL,RefreshTimerId); RefreshTimerId = 0;}
 
 	ProtoEnumAccounts( &count, &accs );
-	for (i = 0; i < count; i++)
+	for (i=0; i < count; i++)
 		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName))
 			pcli->pfnTrayIconUpdateBase(accs[i]->szModuleName);
 
@@ -172,7 +172,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 		pcli->cycleTimerId = 0;
 	}
 	ProtoEnumAccounts( &count, &accs );
-	for(i = 0,netProtoCount = 0;i < count;i++) {
+	for(i=0,netProtoCount = 0;i < count;i++) {
 		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0 ) continue;
 		netProtoCount++;
 		if (!lstrcmpA(szChangedProto,accs[i]->szModuleName)) pcli->cycleStep = i;
@@ -347,7 +347,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 		}
 	}
 
-	if (changed !=-1) // && pcli->trayIcon[changed].isBase)
+	if (changed != -1) // && pcli->trayIcon[changed].isBase)
 		pcli->pfnTrayIconUpdate(pcli->trayIcon[changed].hBaseIcon,NULL,szChangedProto,1);  // by FYR (No suitable protocol)
 	{ pcli->pfnUnlockTray(); return; }
 }
@@ -372,8 +372,8 @@ INT_PTR TrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam)
 {
 	if (db_get_b(NULL,"CList","AutoHide",SETTING_AUTOHIDE_DEFAULT))
 	{
-		if (GetActiveWindow() !=pcli->hwndContactList
-			&& GetWindow(GetParent(GetActiveWindow()),GW_OWNER) !=pcli->hwndContactList)
+		if (GetActiveWindow() != pcli->hwndContactList
+			&& GetWindow(GetParent(GetActiveWindow()),GW_OWNER) != pcli->hwndContactList)
 		{
 			KillTimer(NULL,autoHideTimerId);
 			autoHideTimerId = CLUI_SafeSetTimer(NULL,0,1000*db_get_w(NULL,"CList","HideTime",SETTING_HIDETIME_DEFAULT),TrayIconAutoHideTimer);
@@ -385,7 +385,7 @@ INT_PTR TrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam)
 void DestroyTrayMenu(HMENU hMenu)
 {
     int cnt = GetMenuItemCount(hMenu);
-    for (int i = 0; i < cnt; ++i)
+    for (int i=0; i < cnt; ++i)
     {
         HMENU hSubMenu = GetSubMenu(hMenu, i);
         if (hSubMenu == hStatusMenu || hSubMenu == hMainMenu)

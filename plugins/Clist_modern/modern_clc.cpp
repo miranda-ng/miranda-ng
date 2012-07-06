@@ -98,7 +98,7 @@ static int clcHookModulesLoaded(WPARAM wParam,LPARAM lParam)
 	Skin_AddIcon(&sid);
 
 	sid.pszSection = LPGEN("Contact List/Avatar Overlay");
-	for (i = 0; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++) {
+	for (i=0; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++) {
 		sid.pszDescription = g_pAvatarOverlayIcons[i].description;
 		sid.pszName = g_pAvatarOverlayIcons[i].name;
 		sid.iDefaultIndex = - g_pAvatarOverlayIcons[i].id;
@@ -106,7 +106,7 @@ static int clcHookModulesLoaded(WPARAM wParam,LPARAM lParam)
 	}
 
 	sid.pszSection = LPGEN("Contact List/Status Overlay");
-	for (i = 0; i < MAX_REGS(g_pStatusOverlayIcons); i++) {
+	for (i=0; i < MAX_REGS(g_pStatusOverlayIcons); i++) {
 		sid.pszDescription = g_pStatusOverlayIcons[i].description;
 		sid.pszName = g_pStatusOverlayIcons[i].name;
 		sid.iDefaultIndex = - g_pStatusOverlayIcons[i].id;
@@ -161,14 +161,14 @@ static int clcHookIconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	int i;
 	if (MirandaExiting()) return 0;
-	for (i = 0 ; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++)
+	for (i=0 ; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++)
 	{
 		g_pAvatarOverlayIcons[i].listID = -1;
 		g_pStatusOverlayIcons[i].listID = -1;
 	}
 	if (hAvatarOverlays) ImageList_Destroy(hAvatarOverlays);
 	hAvatarOverlays = ImageList_Create(16,16,ILC_MASK|ILC_COLOR32,MAX_REGS(g_pAvatarOverlayIcons)*2,1);
-	for (i = 0 ; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++)
+	for (i=0 ; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++)
 	{
 		HICON hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)g_pAvatarOverlayIcons[i].name);
 		g_pAvatarOverlayIcons[i].listID = ImageList_AddIcon(hAvatarOverlays,hIcon);
@@ -206,7 +206,7 @@ static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 			CLUIServices_ProtocolStatusChanged(0,(LPARAM)cws->szModule);	
 		}
 	}
-	else // (HANDLE)wParam !=NULL
+	else // (HANDLE)wParam != NULL
 	{
 		if (!strcmp(cws->szSetting,"TickTS"))
 		{
@@ -375,7 +375,7 @@ static int clcSearchNextContact(HWND hwnd, struct ClcData *dat, int index, const
 			group->scanIndex++;
 			continue;
 		}
-		if (group->cl.items[group->scanIndex]->type !=CLCIT_DIVIDER) 
+		if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) 
 		{
 			if ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, group->cl.items[group->scanIndex]->szText, testlen)) ||
 				(!prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText))) 
@@ -495,7 +495,7 @@ static LRESULT clcOnCommand(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	switch (LOWORD(wParam)) 
 	{
 	case POPUP_NEWSUBGROUP:
-		if (contact->type !=CLCIT_GROUP)
+		if (contact->type != CLCIT_GROUP)
 			return 0;
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_USEGROUPS);
@@ -505,19 +505,19 @@ static LRESULT clcOnCommand(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 		pcli->pfnBeginRenameSelection(hwnd, dat);
 		return 0;
 	case POPUP_DELETEGROUP:
-		if (contact->type !=CLCIT_GROUP)
+		if (contact->type != CLCIT_GROUP)
 			return 0;
 		CallService(MS_CLIST_GROUPDELETE, contact->groupId, 0);
 		return 0;
 	case POPUP_GROUPSHOWOFFLINE:
-		if (contact->type !=CLCIT_GROUP)
+		if (contact->type != CLCIT_GROUP)
 			return 0;
 		CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId,
 			MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
 		pcli->pfnClcBroadcast(CLM_AUTOREBUILD,0, 0);
 		return 0;
 	case POPUP_GROUPHIDEOFFLINE:
-		if (contact->type !=CLCIT_GROUP)
+		if (contact->type != CLCIT_GROUP)
 			return 0;
 		CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId,
 			MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
@@ -756,7 +756,7 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 						cliRecalcScrollBar(hwnd,dat);
 						if (ht) 
 						{
-							int i = 0;
+							int i=0;
 							struct ClcContact *contact2;
 							struct ClcGroup *group2;
 							if (FindItem(hwnd,dat,contact->hContact,&contact2,&group2,NULL,FALSE))
@@ -881,7 +881,7 @@ static LRESULT clcOnTimer(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPara
 			cliRecalcScrollBar(hwnd,dat);
 			if (ht) 
 			{
-				int i = 0;
+				int i=0;
 				struct ClcContact *contact;
 				struct ClcGroup *group;
 				if (FindItem(hwnd,dat,hitcontact->hContact,&contact,&group,NULL,FALSE))
@@ -1621,9 +1621,9 @@ static LRESULT clcOnLButtonDblClick(struct ClcData *dat, HWND hwnd, UINT msg, WP
 }
 static LRESULT clcOnDestroy(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	int i = 0;
+	int i=0;
 
-	for(i = 0;i <= FONTID_MODERN_MAX;i++) 
+	for(i=0;i <= FONTID_MODERN_MAX;i++) 
 	{
 		if (dat->fontModernInfo[i].hFont) DeleteObject(dat->fontModernInfo[i].hFont);
 		dat->fontModernInfo[i].hFont = NULL;
@@ -1707,15 +1707,15 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 		status = ID_STATUS_OFFLINE;
 	else
 		status = GetContactCachedStatus((HANDLE) wParam);
-	image_is_special = (LOWORD(contacticon) !=(LOWORD(lParam))); //check only base icons
+	image_is_special = (LOWORD(contacticon) != (LOWORD(lParam))); //check only base icons
 
 	nHiddenStatus = CLVM_GetContactHiddenStatus((HANDLE)wParam, szProto, dat);
     
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-    bool isVisiblebyFilter  = ( ( ( style & CLS_SHOWHIDDEN ) && nHiddenStatus !=-1 ) || !nHiddenStatus );
+    bool isVisiblebyFilter  = ( ( ( style & CLS_SHOWHIDDEN ) && nHiddenStatus != -1 ) || !nHiddenStatus );
     bool ifVisibleByClui    = !pcli->pfnIsHiddenMode( dat, status );      
     bool isVisible          = g_CluiData.bFilterEffective&CLVM_FILTER_STATUS ? TRUE : ifVisibleByClui;
-    bool isIconChanged      = CallService(MS_CLIST_GETCONTACTICON, wParam, 0) !=LOWORD(lParam);
+    bool isIconChanged      = CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != LOWORD(lParam);
 	
     shouldShow              = isVisiblebyFilter	&&  ( isVisible || isIconChanged ) ;  
     
@@ -1725,7 +1725,7 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 	{
 		if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) 
 		{
-			if (dat->selection  >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) !=-1)
+			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 				hSelItem = pcli->pfnContactToHItem(selcontact);
 			pcli->pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, (style & CLS_CONTACTLIST) == 0, 0);
 			recalcScrollBar = 1;
@@ -1751,7 +1751,7 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 		}
 		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && ((style & CLS_HIDEOFFLINE) || group->hideOffline || g_CluiData.bFilterEffective)) // CLVM changed
 		{
-			if (dat->selection  >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) !=-1)
+			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 				hSelItem = pcli->pfnContactToHItem(selcontact);
 			pcli->pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
 			needRepaint = TRUE;
@@ -1912,7 +1912,7 @@ static LRESULT clcOnIntmScrollBarChanged(struct ClcData *dat, HWND hwnd, UINT ms
 static LRESULT clcOnIntmStatusChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int ret = corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
-	if (wParam !=0)
+	if (wParam != 0)
 	{
 		pdisplayNameCacheEntry pdnce = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry((HANDLE)wParam);
 		if (pdnce && pdnce->m_cache_cszProto)
@@ -1996,9 +1996,9 @@ int ClcUnloadModule()
 	if (hIconChangedHook != 0)
 		ModernUnhookEvent(hIconChangedHook);
 
-	if ( g_CluiData.bOldUseGroups !=(BYTE)-1 )
+	if ( g_CluiData.bOldUseGroups != (BYTE)-1 )
 		db_set_b(NULL,"CList","UseGroups",(BYTE)g_CluiData.bOldUseGroups );
-	if ( g_CluiData.boldHideOffline !=(BYTE)-1 )
+	if ( g_CluiData.boldHideOffline != (BYTE)-1 )
 		db_set_b(NULL,"CList","HideOffline",(BYTE)g_CluiData.boldHideOffline );
 
 	return 0;
@@ -2011,7 +2011,7 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 		int i;
 		if (ack->result == ACKRESULT_SUCCESS) 
 		{
-			for (i = 0; i < pcli->hClcProtoCount; i++) 
+			for (i=0; i < pcli->hClcProtoCount; i++) 
 			{
 				if (!lstrcmpA(pcli->clcProto[i].szProto, ack->szModule)) 
 				{
@@ -2031,7 +2031,7 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 		if (ack->result == ACKRESULT_SUCCESS && ack->lParam) {
 			{//Do not change DB if it is IRC protocol    
 				if (ack->szModule != NULL) 
-					if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) !=0) return 0;
+					if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0) return 0;
 			}
 
 			db_set_ws(ack->hContact,"CList","StatusMsg",(const TCHAR *)ack->lParam);
@@ -2043,7 +2043,7 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 			//char a = '\0';
 			{//Do not change DB if it is IRC protocol    
 				if (ack->szModule != NULL) 
-					if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) !=0) return 0;
+					if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0) return 0;
 			}
 			if (ack->hContact) 
 			{
@@ -2065,7 +2065,7 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 		if (ack->result == ACKRESULT_SUCCESS) 
 		{
 			PROTO_AVATAR_INFORMATIONT *pai = (PROTO_AVATAR_INFORMATIONT*)ack->hProcess;
-			if (pai !=NULL && pai->hContact !=NULL)
+			if (pai != NULL && pai->hContact != NULL)
 				pcli->pfnClcBroadcast( INTM_AVATARCHANGED,(WPARAM)pai->hContact,0);
 		}
 	}

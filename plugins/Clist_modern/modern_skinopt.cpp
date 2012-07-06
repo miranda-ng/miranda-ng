@@ -27,9 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "io.h"
 #include "hdr/modern_commonprototypes.h"
 #include "hdr/modern_sync.h"
-#include  < m_utils.h>
-#include  < m_database.h>
-#include  < m_modernopt.h>
+#include <m_utils.h>
+#include <m_database.h>
+#include <m_modernopt.h>
 
 /*******************************/
 // Main skin selection routine //
@@ -484,7 +484,7 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 
 	AddSkinToList( hwndDlg, TranslateT( "Default Skin" ), _T("%Default Skin%"));
 	attrib = GetFileAttributes( path );
-	if ( attrib !=INVALID_FILE_ATTRIBUTES && ( attrib & FILE_ATTRIBUTE_DIRECTORY ))
+	if ( attrib != INVALID_FILE_ATTRIBUTES && ( attrib & FILE_ATTRIBUTE_DIRECTORY ))
 		SearchSkinFiles( hwndDlg, path );
 	{
 		TCHAR * skinfile;
@@ -606,7 +606,7 @@ HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * da
 	BOOL ext = FALSE;
 	CallService( MS_UTILS_PATHTORELATIVET, ( WPARAM )folder, ( LPARAM )path );
 	ptrE = path;
-	while ( *ptrE !=_T('\\') && *ptrE !=_T('\0') && *ptrE !=_T(':')) ptrE++;
+	while ( *ptrE != _T('\\') && *ptrE != _T('\0') && *ptrE != _T(':')) ptrE++;
 	if ( *ptrE == _T('\\'))
 	{
 		*ptrE = _T('\0');

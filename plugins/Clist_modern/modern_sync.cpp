@@ -64,7 +64,7 @@ int SyncCall(void * vproc, int count, ... )
 	int i;
 	params[0] = (LPARAM)count;
 	va_start(va, count);
-	for (i = 0; i < count && i < SIZEOF(params)-1; i++)
+	for (i=0; i < count && i < SIZEOF(params)-1; i++)
 	{
 		params[i+1] = va_arg(va,LPARAM);
 	}
@@ -78,7 +78,7 @@ int SyncCallProxy(PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam, CRITI
 	
 	int nReturn = 0;
 
-	if ( cs !=NULL )
+	if ( cs != NULL )
 	{
 		if ( !fnTryEnterCriticalSection ) // for poor OSes like Win98
 		{

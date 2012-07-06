@@ -161,7 +161,7 @@ static int amThreadProc(HWND hwnd)
 			hContact = amGetCurrentChain();
 			if (hContact) 
 			{
-				DWORD i = 0;
+				DWORD i=0;
 				do 
 				{
 					i++;
@@ -209,7 +209,7 @@ void amRequestAwayMsg(HANDLE hContact)
 		return;
 	//Do not re-ask for chat rooms   
 	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-	if (szProto == NULL || db_get_b(hContact, szProto, "ChatRoom", 0) !=0) 	
+	if (szProto == NULL || db_get_b(hContact, szProto, "ChatRoom", 0) != 0) 	
 		return;
 	amAddHandleToChain(hContact);        
 }

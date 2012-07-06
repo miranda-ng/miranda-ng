@@ -71,7 +71,7 @@ int CListOptInit(WPARAM wParam,LPARAM lParam)
 	odp.flags = ODPF_BOLDGROUPS;
 	{
 		BOOL hasExtraIconsService = ServiceExists("ExtraIcon/Register");
-		for (int i = 0; i < SIZEOF(row_opt_items); i++) {
+		for (int i=0; i < SIZEOF(row_opt_items); i++) {
 			if (hasExtraIconsService && row_opt_items[i].id == IDD_OPT_ITEM_EXTRAICONS)
 				continue;
 
@@ -119,7 +119,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			// Listbox
 			hwndList = GetDlgItem(hwndDlg, IDC_LIST_ORDER);
 
-			for(i = 0 ; i < NUM_ITEM_TYPE ; i++)
+			for(i=0 ; i < NUM_ITEM_TYPE ; i++)
 			{
 				char tmp[128];
 				int type;
@@ -191,7 +191,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST_ORDER);
 					int pos = SendMessage(hwndList, LB_GETCURSEL, 0, 0);
 
-					if (pos !=LB_ERR)
+					if (pos != LB_ERR)
 					{
 						int type = SendMessage(hwndList, LB_GETITEMDATA, pos, 0);
 
@@ -243,7 +243,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST_ORDER);
 					int pos = SendMessage(hwndList, LB_GETCURSEL, 0, 0);
 
-					if (pos !=LB_ERR)
+					if (pos != LB_ERR)
 					{
 						int type = SendMessage(hwndList, LB_GETITEMDATA, pos, 0);
 
@@ -292,13 +292,13 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			{
 				int pos = SendMessage(GetDlgItem(hwndDlg, IDC_LIST_ORDER), LB_GETCURSEL, 0, 0);
 
-				EnableWindow(GetDlgItem(hwndDlg,IDC_UP),pos !=LB_ERR && pos > 0);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_DOWN),pos !=LB_ERR && pos < 4);
+				EnableWindow(GetDlgItem(hwndDlg,IDC_UP),pos != LB_ERR && pos > 0);
+				EnableWindow(GetDlgItem(hwndDlg,IDC_DOWN),pos != LB_ERR && pos < 4);
 			}
 
 			if (LOWORD(wParam) == IDC_LIST_ORDER) return 0;
-			if (LOWORD(wParam) == IDC_MIN_ROW_HEIGHT && HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap
-			if ((LOWORD(wParam) == IDC_LEFTMARGIN || LOWORD(wParam) == IDC_RIGHTMARGIN || LOWORD(wParam) == IDC_ROW_BORDER) && HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap
+			if (LOWORD(wParam) == IDC_MIN_ROW_HEIGHT && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
+			if ((LOWORD(wParam) == IDC_LEFTMARGIN || LOWORD(wParam) == IDC_RIGHTMARGIN || LOWORD(wParam) == IDC_ROW_BORDER) && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
 
 			SendMessage((GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			break;
@@ -326,7 +326,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 							db_set_b(NULL,"CLC","RightMargin",(BYTE)SendDlgItemMessage(hwndDlg,IDC_RIGHTMARGINSPIN,UDM_GETPOS,0,0));
 
 							hwndList = GetDlgItem(hwndDlg, IDC_LIST_ORDER);
-							for(i = 0 ; i < NUM_ITEM_TYPE ; i++)
+							for(i=0 ; i < NUM_ITEM_TYPE ; i++)
 							{
 								char tmp[128];
 								mir_snprintf(tmp, SIZEOF(tmp), "RowPos%d", i);
@@ -525,8 +525,8 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_PROTOCOL),enabled);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_CONTACT),enabled);
 			}
-			else if (LOWORD(wParam) == IDC_AVATAR_SIZE && HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap
-			else if (LOWORD(wParam) == IDC_AVATAR_CUSTOM_CORNER_SIZE && HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap
+			else if (LOWORD(wParam) == IDC_AVATAR_SIZE && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
+			else if (LOWORD(wParam) == IDC_AVATAR_CUSTOM_CORNER_SIZE && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
 
 			SendMessage((GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			break;
@@ -712,7 +712,7 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 			{
 				int i, item;
 				TCHAR *align[] = {_T("Left align group names"), _T("Center group names"), _T("Right align group names")};
-				for (i = 0; i < sizeof(align)/sizeof(char*); i++) 
+				for (i=0; i < sizeof(align)/sizeof(char*); i++) 
 					item = SendDlgItemMessage(hwndDlg,IDC_ALIGNGROUPCOMBO,CB_ADDSTRING,0,(LPARAM)TranslateTS(align[i]));
 				SendDlgItemMessage(hwndDlg,IDC_ALIGNGROUPCOMBO,CB_SETCURSEL,db_get_b(NULL,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT),0);
 			}
@@ -726,7 +726,7 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 			CheckDlgButton(hwndDlg, IDC_APPEND_NICK, db_get_b(NULL,"CList","FirstLineAppendNick",SETTING_FIRSTLINE_APPENDNICK_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 			CheckDlgButton(hwndDlg, IDC_TRIM_TEXT, db_get_b(NULL,"CList","TrimText",SETTING_FIRSTLINE_TRIMTEXT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 
-			bool smileAddPresent = ServiceExists(MS_SMILEYADD_BATCHPARSE) !=0; 
+			bool smileAddPresent = ServiceExists(MS_SMILEYADD_BATCHPARSE) != 0; 
 			CLUI_ShowWindowMod(GetDlgItem(hwndDlg,IDC_REPLACE_SMILEYS), smileAddPresent ? SW_SHOW : SW_HIDE);
 			CLUI_ShowWindowMod(GetDlgItem(hwndDlg,IDC_USE_PROTOCOL_SMILEYS), smileAddPresent ? SW_SHOW : SW_HIDE);
 			//CLUI_ShowWindowMod(GetDlgItem(hwndDlg,IDC_RESIZE_SMILEYS), smileAddPresent ? SW_SHOW : SW_HIDE);
@@ -923,7 +923,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 					|| IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));			
 			}
 
-			if (LOWORD(wParam) == IDC_TOP_SPACE && HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap
+			if (LOWORD(wParam) == IDC_TOP_SPACE && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
 
 			SendMessage((GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			break;
@@ -1116,7 +1116,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), enabled && IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE));
 			}
 
-			if (LOWORD(wParam) == IDC_TOP_SPACE && HIWORD(wParam) !=EN_CHANGE || (HWND)lParam !=GetFocus()) return 0; // dont make apply enabled during buddy set crap
+			if (LOWORD(wParam) == IDC_TOP_SPACE && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
 
 			SendMessage((GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			break;
@@ -1270,7 +1270,7 @@ static int  DeleteAllSettingInOrder()
 	if (nArrayLen == 0){return(0);};
 	{
 		int i;
-		for (i = 0;i < nArrayLen;i++)
+		for (i=0;i < nArrayLen;i++)
 		{
 			db_unset(0,CLUIFrameModule,settingname[i]);
 			free(settingname[i]);
@@ -1289,7 +1289,7 @@ static int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSor
 
 static int FillOrderTree(HWND hwndDlg, HWND Tree)
 {
-	int i = 0;
+	int i=0;
 	TVINSERTSTRUCT tvis = {0};
 	TreeView_DeleteAllItems(Tree);
 	tvis.hParent = NULL;
@@ -1300,7 +1300,7 @@ static int FillOrderTree(HWND hwndDlg, HWND Tree)
 		DeleteAllSettingInOrder();
 		db_set_b(NULL,CLUIFrameModule,"ExtraCountStored",SIZEOF(OrderTreeData));
 	}
-	for (i = 0; i < SIZEOF(OrderTreeData); i++)
+	for (i=0; i < SIZEOF(OrderTreeData); i++)
 	{
 		char buf[256];
 		sprintf(buf,"ORDER_%s",OrderTreeData[i].KeyName);
@@ -1349,14 +1349,14 @@ static int SaveOrderTree(HWND hwndDlg, HWND Tree)
 
 int LoadPositionsFromDB(BYTE * OrderPos)
 {
-	int i = 0;
+	int i=0;
 	if (db_get_b(NULL,CLUIFrameModule,"ExtraCountStored",0) != SIZEOF(OrderTreeData))
 	{
 		DeleteAllSettingInOrder();
 		db_set_b(NULL,CLUIFrameModule,"ExtraCountStored",SIZEOF(OrderTreeData));
 	}
 
-	for (i = 0; i < SIZEOF(OrderTreeData); i++)
+	for (i=0; i < SIZEOF(OrderTreeData); i++)
 	{
 		char buf[256];
 		sprintf(buf,"ORDER_%s",OrderTreeData[i].KeyName);

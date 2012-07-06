@@ -168,7 +168,7 @@ void xpt_FreeThemeForWindow(HWND hwnd)
 	xptcheck;
 	xptlock();
 	{
-		int i = 0;
+		int i=0;
 		while (i < xptObjectList->realCount)
 		{
 		   XPTObject* xptObject = (XPTObject*)xptObjectList->items[i];
@@ -191,7 +191,7 @@ void xpt_OnWM_THEMECHANGED()
 	xptlock();
 	{
 		int i;
-		for (i = 0; i < xptObjectList->realCount; i++)
+		for (i=0; i < xptObjectList->realCount; i++)
 			_sttXptReloadThemeData((XPTObject*)xptObjectList->items[i]);
 	}
 	xptunlock();

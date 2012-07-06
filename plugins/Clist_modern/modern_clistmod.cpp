@@ -22,13 +22,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "hdr/modern_commonheaders.h"
 #include "m_clui.h"
-#include  < m_file.h>
-#include  < m_addcontact.h>
+#include <m_file.h>
+#include <m_addcontact.h>
 #include "hdr/modern_clist.h"
 #include "hdr/modern_commonprototypes.h"
 #include "hdr/modern_sync.h"
 #include "hdr/modern_clui.h"
-#include  < m_modernopt.h>
+#include <m_modernopt.h>
 pfnMyMonitorFromPoint  MyMonitorFromPoint = NULL;
 pfnMyMonitorFromWindow MyMonitorFromWindow = NULL;
 pfnMyGetMonitorInfo    MyGetMonitorInfo = NULL;
@@ -337,7 +337,7 @@ __inline DWORD GetDIBPixelColor(int X, int Y, int Width, int Height, int ByteWid
 int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY) {
 	RECT rc = { 0 };
 	POINT pt = { 0 };
-	register int    i = 0,
+	register int    i=0,
                     j = 0,
                     width = 0,
                     height = 0,
@@ -384,7 +384,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY) {
 		else
 		{
 			RECT rc;
-			int i = 0;
+			int i=0;
 			rgn = CreateRectRgn(0,0,1,1);
 			GetWindowRect(hWnd,&rc);
 			GetWindowRgn(hWnd,rgn);
@@ -566,7 +566,7 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 			}
 		}
 
-		if (MySetProcessWorkingSetSize !=NULL) 
+		if (MySetProcessWorkingSetSize != NULL) 
 			MySetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
 	}
 	return 0;

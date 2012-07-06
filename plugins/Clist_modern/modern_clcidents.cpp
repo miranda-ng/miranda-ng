@@ -48,8 +48,7 @@ exclusively externally
 
 int GetContactIndex(struct ClcGroup *group,struct ClcContact *contact)
 {
-  int i = 0;
-  for (i = 0; i < group->cl.count; i++)
+  for (int i=0; i < group->cl.count; i++)
     if (group->cl.items[i]->hContact == contact->hContact)  return i;
   return -1;
 }
@@ -90,7 +89,7 @@ int cliGetRowsPriorTo(struct ClcGroup *group,struct ClcGroup *subgroup,int conta
 			if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->SubAllocated)
 			{
 				int rows = (group->cl.items[group->scanIndex]->SubAllocated*group->cl.items[group->scanIndex]->SubExpanded*k);
-				if (group->scanIndex+rows  >= contactIndex)
+				if (group->scanIndex+rows >= contactIndex)
 					return count+(contactIndex-group->scanIndex)-1;				
 			}
 		}
@@ -166,7 +165,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 			group->cl.items[group->scanIndex]->type == CLCIT_CONTACT &&
 			group->cl.items[group->scanIndex]->SubAllocated > 0)
 		{
-			for (i = 0; i < group->cl.items[group->scanIndex]->SubAllocated; i++)
+			for (i=0; i < group->cl.items[group->scanIndex]->SubAllocated; i++)
 			{
 				if (group->cl.items[group->scanIndex]->subcontacts[i].hContact == hItem)
 				{	
@@ -238,7 +237,7 @@ int cliGetRowByIndex(struct ClcData *dat,int testindex,struct ClcContact **conta
 				if (group->cl.items[group->scanIndex]->SubAllocated)
 					if (group->cl.items[group->scanIndex]->SubExpanded && dat->expandMeta)
 					{
-						for (i = 0;i < group->cl.items[group->scanIndex]->SubAllocated;i++)
+						for (i=0;i < group->cl.items[group->scanIndex]->SubAllocated;i++)
 						{
 							if ((index>0) && (index < CacheArrSize)) 
 							{
