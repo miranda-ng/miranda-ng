@@ -888,7 +888,7 @@ static int helpDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 	return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
 }
 
-static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	HELPDLGDATA *dat = (HELPDLGDATA *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
@@ -1277,9 +1277,9 @@ INT_PTR showHelpExService(WPARAM wParam, LPARAM lParam)
 	iFrameY = 3 * GetSystemMetrics(SM_CYSIZEFRAME);
 
 	if (wParam)
-		DialogBoxParam((HINSTANCE)hInst, (LPCTSTR)MAKEINTRESOURCE(IDD_HELP_DIALOG), (HWND)wParam, (DLGPROC)helpDlgProc, (LPARAM)lParam);
+		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_HELP_DIALOG), (HWND)wParam, helpDlgProc, (LPARAM)lParam);
 	else
-		CreateDialogParam((HINSTANCE)hInst, (LPCTSTR)MAKEINTRESOURCE(IDD_HELP_DIALOG), (HWND)NULL, (DLGPROC)helpDlgProc, (LPARAM)lParam);
+		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HELP_DIALOG), NULL, helpDlgProc, (LPARAM)lParam);
 
 	return 0;
 }
