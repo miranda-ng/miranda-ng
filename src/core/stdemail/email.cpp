@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "..\..\core\commonheaders.h"
+#include "commonheaders.h"
 
 static HANDLE hEMailMenuItem;
 
@@ -34,17 +34,14 @@ void SendEmailThread(void *szUrl)
 static INT_PTR SendEMailCommand(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	char *szUrl;
-	char *szProto;
-
-	szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 	if (szProto == NULL || DBGetContactSettingString((HANDLE)wParam, szProto, "e-mail", &dbv)) {
 		if (DBGetContactSettingString((HANDLE)wParam, "UserInfo", "Mye-mail0", &dbv)) {
 			MessageBox((HWND)lParam, TranslateT("User has not registered an e-mail address"), TranslateT("Send e-mail"), MB_OK);
 			return 1;
 		}
 	}
-	szUrl = (char*)mir_alloc(lstrlenA(dbv.pszVal)+8);
+	char *szUrl = (char*)mir_alloc(lstrlenA(dbv.pszVal)+8);
 	lstrcpyA(szUrl, "mailto:");
 	lstrcatA(szUrl, dbv.pszVal);
 	mir_free(dbv.pszVal);
@@ -54,15 +51,12 @@ static INT_PTR SendEMailCommand(WPARAM wParam, LPARAM lParam)
 
 static int EMailPreBuildMenu(WPARAM wParam, LPARAM)
 {
-	CLISTMENUITEM mi;
-	DBVARIANT dbv = { 0 };
-	char *szProto;
-
-	ZeroMemory(&mi, sizeof(mi));
+	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_FLAGS;
 
-	szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	DBVARIANT dbv = { 0 };
+	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 	if (szProto == NULL || DBGetContactSettingString((HANDLE)wParam, szProto, "e-mail", & dbv))
 		if (DBGetContactSettingString((HANDLE)wParam, "UserInfo", "Mye-mail0", &dbv))
 			mi.flags = CMIM_FLAGS | CMIF_HIDDEN;

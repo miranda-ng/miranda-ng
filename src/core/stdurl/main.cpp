@@ -1,6 +1,6 @@
 /*
 
-Standard User Info plugin for Myranda IM
+Standard URL plugin for Myranda IM
 
 Copyright (C) 2012 George Hazan
 
@@ -21,14 +21,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "commonheaders.h"
 
-int LoadUserInfoModule(void);
+int LoadSendRecvUrlModule(void);
 
 CLIST_INTERFACE* pcli;
 TIME_API tmi;
 HINSTANCE hInst;
 int hLangpack;
-
-pfnEnableThemeDialogTexture enableThemeDialogTexture;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -40,11 +38,11 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {8198DC94-0BC4-448A-8495-8FE832C1D333}
-	{0x8198dc94, 0xbc4, 0x448a, {0x84, 0x95, 0x8f, 0xe8, 0x32, 0xc1, 0xd3, 0x33 }}
+	// {b774d10a-c761-11e1-8405-27e76188709b}
+	{0xb774d10a, 0xc761, 0x11e1, {0x84, 0x05, 0x27, 0xe7, 0x61, 0x88, 0x70, 0x9b }}
 };
 
-static const MUUID interfaces[] = {MIID_UIUSERINFO, MIID_LAST};
+static const MUUID interfaces[] = { MIID_SRURL, MIID_LAST };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -69,13 +67,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
 
-	if ( IsWinVerXPPlus()) {
-		HINSTANCE hThemeAPI = LoadLibraryA("uxtheme.dll");
-		if (hThemeAPI)
-			enableThemeDialogTexture = (pfnEnableThemeDialogTexture)GetProcAddress(hThemeAPI, "EnableThemeDialogTexture");
-	}
-
-	LoadUserInfoModule();
+	LoadSendRecvUrlModule();
 	return 0;
 }
 

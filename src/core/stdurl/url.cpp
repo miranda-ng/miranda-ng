@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "..\..\core\commonheaders.h"
+#include "commonheaders.h"
 #include <m_url.h>
 #include "url.h"
 
@@ -58,7 +58,7 @@ static int UrlEventAdded(WPARAM wParam, LPARAM lParam)
 	cle.hDbEvent = (HANDLE)lParam;
 	cle.hIcon = LoadSkinIcon(SKINICON_EVENT_URL);
 	cle.pszService = "SRUrl/ReadUrl";
-	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), cli.pfnGetContactDisplayName((HANDLE)wParam, 0));
+	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName((HANDLE)wParam, 0));
 	cle.ptszTooltip = szTooltip;
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 	return 0;
@@ -92,7 +92,7 @@ static void RestoreUnreadUrlAlerts(void)
 				cle.hContact = hContact;
 				cle.hDbEvent = hDbEvent;
 				cle.flags = CLEF_TCHAR;
-				mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("URL from %s"), cli.pfnGetContactDisplayName(hContact, 0));
+				mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 				cle.ptszTooltip = toolTip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 			}
@@ -121,7 +121,7 @@ static int SRUrlPreBuildMenu(WPARAM wParam, LPARAM)
 
 	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 	if (szProto != NULL)
-		if (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_URLSEND)
+		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_URLSEND)
 			mi.flags = CMIM_FLAGS;
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hSRUrlMenuItem, (LPARAM)&mi);

@@ -64,14 +64,8 @@
     <Filter Include="Modules\srawaymsg">
       <UniqueIdentifier>{ede3d43b-a5cf-462a-90df-4ddd7a091234}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\sremail">
-      <UniqueIdentifier>{0a314e80-e4e2-4ba9-a4b7-683df1e66538}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Modules\srfile">
       <UniqueIdentifier>{3fbbdcec-4a5c-4c83-8e94-724103f35d47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\srurl">
-      <UniqueIdentifier>{e470787f-f935-4619-a98e-dfdb01ffa83e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Modules\updater">
       <UniqueIdentifier>{9074e889-f17c-4c90-a3cf-1cfb2e513491}</UniqueIdentifier>
@@ -236,9 +230,6 @@
     </ClInclude>
     <ClInclude Include="modules\srfile\file.h">
       <Filter>Modules\srfile</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\srurl\url.h">
-      <Filter>Modules\srurl</Filter>
     </ClInclude>
     <ClInclude Include="modules\clist\clc.h">
       <Filter>Modules\clist</Filter>
@@ -461,9 +452,6 @@
     <ClCompile Include="modules\srawaymsg\sendmsg.cpp">
       <Filter>Modules\srawaymsg</Filter>
     </ClCompile>
-    <ClCompile Include="modules\sremail\email.cpp">
-      <Filter>Modules\sremail</Filter>
-    </ClCompile>
     <ClCompile Include="modules\srfile\file.cpp">
       <Filter>Modules\srfile</Filter>
     </ClCompile>
@@ -484,12 +472,6 @@
     </ClCompile>
     <ClCompile Include="modules\srfile\ftmanager.cpp">
       <Filter>Modules\srfile</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\srurl\url.cpp">
-      <Filter>Modules\srurl</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\srurl\urldialogs.cpp">
-      <Filter>Modules\srurl</Filter>
     </ClCompile>
     <ClCompile Include="modules\updatenotify\updatenotify.cpp">
       <Filter>Modules\updater</Filter>

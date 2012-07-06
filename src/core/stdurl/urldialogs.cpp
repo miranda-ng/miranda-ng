@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "..\..\core\commonheaders.h"
+#include "commonheaders.h"
 #include "url.h"
 
 INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -58,13 +58,13 @@ static void sttUpdateTitle(HWND hwndDlg, HANDLE hContact)
 					break;
 			}	}
 
-			contactName = cli.pfnGetContactDisplayName(hContact, 0);
+			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 			if (hasName)
 				SetDlgItemTextA(hwndDlg, IDC_NAME, buf);
 			else 
 				SetDlgItemText(hwndDlg, IDC_NAME, contactName);
 
-			szStatus = cli.pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+			szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 			mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s %s (%s)"), pszNewTitleStart, contactName, szStatus);
 		}
 	}
@@ -112,7 +112,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			CallService(MS_DB_EVENT_MARKREAD, (WPARAM)dat->hContact, (LPARAM)dat->hDbEvent);
 
-			contactName = cli.pfnGetContactDisplayName(dat->hContact, 0);
+			contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			mir_sntprintf(msg, SIZEOF(msg), TranslateT("URL from %s"), contactName);
 			SetWindowText(hwndDlg, msg);
 			SetDlgItemText(hwndDlg, IDC_FROM, contactName);
@@ -145,7 +145,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (szProto) {
 					HICON hIcon;
 					
-					hIcon = (HICON)CallProtoServiceInt(NULL,szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
+					hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 					if (hIcon) {
 						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 						DestroyIcon(hIcon);
@@ -480,7 +480,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		WindowList_Add(hUrlWindowList, hwndDlg, dat->hContact);
 		{
-			TCHAR *str = cli.pfnGetContactDisplayName(dat->hContact, 0);
+			TCHAR *str = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			SetDlgItemText(hwndDlg, IDC_NAME, str);
 		}
 
@@ -524,7 +524,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
 				char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
 				if (szProto) {
-					HICON hIcon = (HICON)CallProtoServiceInt(NULL,szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
+					HICON hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 					if (hIcon) {
 						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 						DestroyIcon(hIcon);

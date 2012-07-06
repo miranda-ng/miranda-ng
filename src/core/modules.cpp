@@ -42,8 +42,6 @@ int LoadProtocolsModule(void);	// core: protocol manager
 int LoadAccountsModule(void);    // core: account manager
 int LoadIgnoreModule(void);		// protocol filter: ignore
 
-int LoadSendRecvUrlModule(void);	//send/recv
-int LoadSendRecvEMailModule(void);	//send/recv
 int LoadSendRecvAuthModule(void);	//send/recv
 int LoadSendRecvFileModule(void);	//send/recv
 
@@ -146,7 +144,7 @@ int LoadDefaultModules(void)
 	if ( LoadIgnoreModule()) return 1;
 	if ( LoadVisibilityModule()) return 1;
 
-	for (int i=0; i < 1; i++) {
+	for (int i=0; i < 3; i++) {
 		if ( pluginDefault[i].pImpl )
 			continue;
 
@@ -154,8 +152,6 @@ int LoadDefaultModules(void)
 			return 1;
 	}
 
-	if ( !pluginDefault[ 1].pImpl) if ( LoadSendRecvUrlModule()) return 1;
-	if ( !pluginDefault[ 2].pImpl) if ( LoadSendRecvEMailModule()) return 1;
 	if ( !pluginDefault[ 3].pImpl) if ( LoadSendRecvAuthModule()) return 1;
 	if ( !pluginDefault[ 4].pImpl) if ( LoadSendRecvFileModule()) return 1;
 	if ( !pluginDefault[ 5].pImpl) if ( LoadHelpModule()) return 1;

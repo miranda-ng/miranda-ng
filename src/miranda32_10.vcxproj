@@ -270,7 +270,6 @@
     <ClInclude Include="modules\plugins\plugins.h" />
     <ClInclude Include="modules\skin\skin.h" />
     <ClInclude Include="modules\srfile\file.h" />
-    <ClInclude Include="modules\srurl\url.h" />
     <ClInclude Include="modules\clist\clc.h" />
     <ClInclude Include="modules\clist\genmenu.h" />
     <ClInclude Include="modules\fonts\FontService.h" />
@@ -471,9 +470,6 @@
     <ClCompile Include="modules\srawaymsg\sendmsg.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="modules\sremail\email.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="modules\srfile\file.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -493,12 +489,6 @@
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\srfile\ftmanager.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\srurl\url.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="modules\srurl\urldialogs.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\updatenotify\updatenotify.cpp">
