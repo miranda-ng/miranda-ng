@@ -487,7 +487,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					// title text
 					if(hFontFirstLine) SelectObject(ps.hdc, (HGDIOBJ)hFontFirstLine);
 					RECT tr;
-					tr.left = textxmin; tr.right = textxmax; tr.top = r.top + options.padding; tr.bottom = tr.top + pwd->tb_height;
+					tr.left = r.left + options.padding + options.text_indent; tr.right = textxmax; tr.top = r.top + options.padding; tr.bottom = tr.top + pwd->tb_height;
 					
 					if(pwd->custom_col) SetTextColor(ps.hdc, pd->colorText);
 					else SetTextColor(ps.hdc, colFirstLine);
