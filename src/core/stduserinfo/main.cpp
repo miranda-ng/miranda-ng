@@ -22,6 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "commonheaders.h"
 
 int LoadUserInfoModule(void);
+int LoadContactsModule(void);
 
 CLIST_INTERFACE* pcli;
 TIME_API tmi;
@@ -75,6 +76,7 @@ extern "C" int __declspec(dllexport) Load(void)
 			enableThemeDialogTexture = (pfnEnableThemeDialogTexture)GetProcAddress(hThemeAPI, "EnableThemeDialogTexture");
 	}
 
+	LoadContactsModule();
 	LoadUserInfoModule();
 	return 0;
 }

@@ -333,12 +333,16 @@ int Plugin_UnloadDyn(pluginEntry* p)
 	}
 			
 	// release default plugin
-	if ( !(p->pclass & PCLASS_CORE))
-		for (int i=0; i < SIZEOF(pluginDefault); i++)
-			if (pluginDefault[i].pImpl == p)
-				LoadCorePlugin( pluginDefault[i] );
-
+	bool bCore = (p->pclass & PCLASS_CORE) != 0;
 	Plugin_Uninit(p);
+
+	if ( !bCore )
+		for (int i=0; i < SIZEOF(pluginDefault); i++)
+			if (pluginDefault[i].pImpl == p) {
+				pluginDefault[i].pImpl = NULL;
+				LoadCorePlugin( pluginDefault[i] );
+			}
+
 	return TRUE;
 }
 

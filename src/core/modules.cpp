@@ -57,7 +57,6 @@ int LoadAddContactModule(void);	// ui: authcontrol contacts
 int LoadUtilsModule(void);		// ui: utils (has a few window classes, like HyperLink)
 int LoadCLCModule(void);		// window class: CLC control
 int LoadButtonModule(void);		// window class: button class
-int LoadContactsModule(void);    // random: contact
 int LoadFontserviceModule(void); // ui: font manager
 int LoadIcoLibModule(void);   // ui: icons manager
 int LoadServiceModePlugin(void);
@@ -118,7 +117,6 @@ int LoadDefaultModules(void)
 	     NetlibInitSsl();
 	if ( LoadProtocolsModule()) return 1;
 	     LoadDbAccounts();                    // retrieves the account array from a database
-	if ( LoadContactsModule()) return 1;
 	if ( LoadContactListModule()) return 1;
 	if ( LoadAddContactModule()) return 1;
 	if ( LoadNewPluginsModule()) return 1;    // will call Load(void) on everything, clist will load first

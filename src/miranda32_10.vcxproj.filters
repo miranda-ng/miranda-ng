@@ -16,9 +16,6 @@
     <Filter Include="Modules\button">
       <UniqueIdentifier>{880105c7-0ef2-41ee-9541-fe2c9e5a7679}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\contacts">
-      <UniqueIdentifier>{3e919355-7099-4252-be9f-46e5b4f6bbc7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Modules\database">
       <UniqueIdentifier>{a4463881-5b8c-497a-b5f4-5832dbc5fbfa}</UniqueIdentifier>
     </Filter>
@@ -289,9 +286,6 @@
     </ClCompile>
     <ClCompile Include="modules\button\button.cpp">
       <Filter>Modules\button</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\contacts\contacts.cpp">
-      <Filter>Modules\contacts</Filter>
     </ClCompile>
     <ClCompile Include="modules\database\database.cpp">
       <Filter>Modules\database</Filter>
