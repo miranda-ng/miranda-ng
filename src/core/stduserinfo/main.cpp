@@ -62,11 +62,6 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-static int OnModulesLoaded(WPARAM, LPARAM)
-{
-	return 0;
-}
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);

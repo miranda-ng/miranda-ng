@@ -106,7 +106,7 @@ MIR_CORE_DLL(HANDLE) CreateHookableEvent(const char *name)
 
 	int idx;
 	if ((idx = hooks.getIndex((THook*)name)) != -1)
-		return NULL;
+		return hooks[idx];
 
 	THook* newItem = (THook*)mir_alloc(sizeof(THook));
 	strncpy(newItem->name, name, sizeof(newItem->name)); newItem->name[ MAXMODULELABELLENGTH-1 ] = 0;
