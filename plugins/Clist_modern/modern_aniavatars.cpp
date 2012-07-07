@@ -194,8 +194,8 @@ int AniAva_InitModule()
 {
 	memset(&AniAva,0,sizeof(AniAva));
 	if (g_CluiData.fGDIPlusFail) return 0;
-	if (!( db_get_b(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP)&&!g_CluiData.fGDIPlusFail))
-		&& db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT)) ) return 0;
+	if (!( db_get_b(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail))
+		 &&  db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT)) ) return 0;
 	{
 		WNDCLASSEX wc;
 		ZeroMemory(&wc, sizeof(wc));
@@ -233,9 +233,8 @@ int AniAva_UnloadModule()
 		for (i=0; i < AniAva.Objects->realCount; i++)
 		{
 			if (AniAva.Objects->items[i])
-			{
 				_AniAva_DestroyAvatarWindow(((ANIAVA_OBJECT*)AniAva.Objects->items[i])->hWindow);
-			}
+
 			mir_free(AniAva.Objects->items[i]);
 		}
 		List_Destroy(AniAva.Objects);
@@ -244,7 +243,7 @@ int AniAva_UnloadModule()
 		for (i=0; i < AniAva.AniAvatarList->realCount; i++)
 		{
 			ANIAVA_INFO * aai = (ANIAVA_INFO *)AniAva.AniAvatarList->items[i];
-			if (aai->tcsFilename) mir_free(aai->tcsFilename);
+			mir_free(aai->tcsFilename);
 			if (aai->pFrameDelays) free(aai->pFrameDelays);
 			mir_free(aai);
 		}
@@ -263,8 +262,8 @@ int AniAva_UpdateOptions()
 {
 	BOOL bReloadAvatars = FALSE;
 	BOOL bBeEnabled = (!g_CluiData.fGDIPlusFail
-		&& db_get_b(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP)&&!g_CluiData.fGDIPlusFail))
-		&& db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT));
+		 &&  db_get_b(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail))
+		 &&  db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT));
 	if (bBeEnabled && !AniAva.bModuleStarted)
 	{
 		AniAva_InitModule();
@@ -574,7 +573,7 @@ static void _AniAva_RealRemoveAvatar(DWORD UniqueID)
 				#ifdef _DEBUG
 					__AniAva_DebugRenderStrip();
 				#endif
-				if (aai->tcsFilename) mir_free(aai->tcsFilename);
+				mir_free(aai->tcsFilename);
 				if (aai->pFrameDelays) free(aai->pFrameDelays);
 				_AniAva_ReduceAvatarImages(aai->nStripTop,aai->FrameSize.cx*aai->nFrameCount, FALSE);
 				for (k = 0; k < AniAva.AniAvatarList->realCount; k++)
@@ -1071,7 +1070,7 @@ static int	_AniAva_SortAvatarInfo(void * first, void * last)
 	int res = 0;
 	ANIAVA_INFO * aai1 = (ANIAVA_INFO *)first;
 	ANIAVA_INFO * aai2 = (ANIAVA_INFO *)last;
-	if (aai1 && aai1->tcsFilename &&
+	if (aai1 && aai1->tcsFilename  && 
 		aai2 && aai2->tcsFilename)
 	{
 		res = _tcsicmp(aai2->tcsFilename, aai1->tcsFilename);
@@ -1105,7 +1104,7 @@ void _AniAva_InvalidateParent(ANIAVA_WINDOWINFO * dat)
 static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ANIAVA_WINDOWINFO * dat = NULL;
-	if (msg == WM_TIMER || msg == WM_DESTROY ||	(msg>AAM_FIRST && msg < AAM_LAST))
+	if (msg == WM_TIMER || msg == WM_DESTROY  || 	(msg>AAM_FIRST && msg < AAM_LAST))
 		dat = (ANIAVA_WINDOWINFO *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch (msg)

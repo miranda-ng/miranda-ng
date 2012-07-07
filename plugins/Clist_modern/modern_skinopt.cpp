@@ -323,7 +323,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				NMTREEVIEW * nmtv = ( NMTREEVIEW * ) lParam;
 				if ( !nmtv ) return 0;
 				if ( nmtv->hdr.code == TVN_SELCHANGEDA
-					|| nmtv->hdr.code == TVN_SELCHANGEDW )
+					 ||  nmtv->hdr.code == TVN_SELCHANGEDW )
 				{	
 					SkinListData * sd = NULL;
 					if ( hPreviewBitmap ) 
@@ -458,7 +458,7 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 	hFile = _tfindfirst( mask, &fd );
 	{
 		do {
-			if ( fd.attrib&_A_SUBDIR && !( _tcsicmp( fd.name, _T("."))  == 0 ||_tcsicmp( fd.name, _T("..")) == 0 ))
+			if ( fd.attrib&_A_SUBDIR && !( _tcsicmp( fd.name, _T("."))  == 0  || _tcsicmp( fd.name, _T("..")) == 0 ))
 			{//Next level of subfolders
 				TCHAR path[MAX_PATH];
 				_sntprintf( path, SIZEOF( path ), _T("%s\\%s"), Folder, fd.name );
@@ -664,25 +664,12 @@ HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * da
 	return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 INT_PTR SvcActiveSkin(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *skinfile;
 	TCHAR skinfull[MAX_PATH];
 	skinfile = DBGetStringT( NULL, SKIN, "SkinFile" );
-	if ( skinfile )
-	{
+	if ( skinfile ) {
 		CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )skinfile, ( LPARAM )skinfull );
 		mir_free(skinfile);
 		return (INT_PTR)mir_tstrdup(skinfull);

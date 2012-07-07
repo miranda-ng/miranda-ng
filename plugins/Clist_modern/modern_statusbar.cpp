@@ -477,7 +477,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 							if ( ( ProtosData[i].showProtoName) || 
 								(ProtosData[i].showProtoEmails && ProtosData[i].ProtoEMailCount ) || 
-								(ProtosData[i].showStatusName) ||
+								(ProtosData[i].showStatusName)  || 
 								((ProtosData[i].xStatusMode&8) && ProtosData[i].ProtoXStatus))
 								w  -= spaceWidth;
 
@@ -570,7 +570,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 								}
 								if (hIcon == NULL && (hxIcon == NULL || (((ProtosData[i].xStatusMode)&3) == 3)))
 								{
-									if (hIcon == NULL && (ProtosData[i].connectingIcon == 1) && ProtosData[i].ProtoStatus >= ID_STATUS_CONNECTING&&ProtosData[i].ProtoStatus <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES)
+									if (hIcon == NULL && (ProtosData[i].connectingIcon == 1) && ProtosData[i].ProtoStatus >= ID_STATUS_CONNECTING && ProtosData[i].ProtoStatus <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES)
 									{
 										hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)ProtosData[i].AccountName,0);
 										if (hIcon) NeedDestroy = TRUE;
@@ -613,12 +613,12 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 										mod_DrawIconEx_helper(hDC,x+GetSystemMetrics(SM_CXSMICON)+1,iconY,hxIcon,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0,NULL,DI_NORMAL|dim);
 										x += GetSystemMetrics(SM_CXSMICON)+1;
 									}
-									ProtosData[i].DoubleIcons = hIcon&&hxIcon;
+									ProtosData[i].DoubleIcons = hIcon && hxIcon;
 								}
 								else
 								{
 									if (hxIcon) mod_DrawIconEx_helper(hDC,x,iconY,hxIcon,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0,NULL,DI_NORMAL|dim);
-									if (hIcon) mod_DrawIconEx_helper(hDC,x,iconY,hIcon,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0,NULL,DI_NORMAL| ((hxIcon&&(ProtosData[i].xStatusMode&4))?(192 << 24):0 ) | dim );
+									if (hIcon) mod_DrawIconEx_helper(hDC,x,iconY,hIcon,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0,NULL,DI_NORMAL| ((hxIcon && (ProtosData[i].xStatusMode&4))?(192 << 24):0 ) | dim );
 								}
 
 								if ( ( hxIcon || hIcon) && TRUE /* TODO g_StatusBarData.bDrawLockOverlay  options to draw locked proto*/  )
@@ -889,7 +889,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
                 POINT pt;
                 KillTimer(hwnd,TM_STATUSBAR);
                 GetCursorPos(&pt);
-                if (pt.x == lastpnt.x&&pt.y == lastpnt.y)
+                if (pt.x == lastpnt.x && pt.y == lastpnt.y)
                 {
                     int i;
                     RECT rc;
@@ -934,7 +934,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
                 POINT pt;
                 GetCursorPos(&pt);
                 SendMessage(GetParent(hwnd),msg,wParam,lParam);
-                if (pt.x == lastpnt.x&&pt.y == lastpnt.y)
+                if (pt.x == lastpnt.x && pt.y == lastpnt.y)
                 {
                     return(CLUI_TestCursorOnBorders());
                 };
@@ -978,7 +978,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
                 rc1 = rc;
                 rc1.left = rc.left+16;
                 rc1.right = rc1.left+16;
-                if (PtInRect(&rc,pt) && PtInRect(&rc1,pt)&&ProtosData[i].DoubleIcons)
+                if (PtInRect(&rc,pt) && PtInRect(&rc1,pt) && ProtosData[i].DoubleIcons)
                     isOnExtra = TRUE;
                 if (PtInRect(&rc,pt))
                 {

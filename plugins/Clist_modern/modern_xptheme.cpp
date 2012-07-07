@@ -39,6 +39,7 @@ static void _sttXptObjectDestructor (void * pt)
 {
 	mir_free(pt);
 }
+
 static int _xpt_ThemeSupport()
 {
 	if (IsWinVerXPPlus()) {

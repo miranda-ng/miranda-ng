@@ -431,7 +431,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		{
 			LRESULT lr = SendMessage(GetParent(hwndDlg), WM_NCHITTEST, wParam, lParam);
 			if (lr == HTLEFT || lr == HTRIGHT || lr == HTBOTTOM || lr == HTTOP || lr == HTTOPLEFT || lr == HTTOPRIGHT
-				|| lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT)
+				 ||  lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT)
 				return HTTRANSPARENT;
 			break;
 		}
@@ -638,7 +638,7 @@ static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT * pOffset)
 			{
 				HBRUSH hbr = NULL;
 
-				if (lpSBData->nStateId == PBS_PRESSED||lpSBData->nStateId == PBS_HOT)
+				if (lpSBData->nStateId == PBS_PRESSED || lpSBData->nStateId == PBS_HOT)
 					hbr = GetSysColorBrush(COLOR_3DLIGHT);
 				else {
 					RECT btnRect;			
@@ -673,7 +673,7 @@ static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT * pOffset)
 					FillRect(hdcMem, &rcClient, hbr);
 					DeleteObject(hbr);
 				}
-				if (lpSBData->nStateId == PBS_HOT||lpSBData->fFocused) {
+				if (lpSBData->nStateId == PBS_HOT || lpSBData->fFocused) {
 					if (lpSBData->pbState)
 						DrawEdge(hdcMem,&rcClient, EDGE_ETCHED,BF_RECT|BF_SOFT);
 					else DrawEdge(hdcMem,&rcClient, BDR_RAISEDOUTER,BF_RECT|BF_SOFT|BF_FLAT);
@@ -724,16 +724,16 @@ static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT * pOffset)
 
 		{
 			/*	Check sizes*/
-			if (hHasIcon &&
-				(rcIcon.right>rcTemp.right ||
-				rcIcon.bottom>rcTemp.bottom ||
-				rcIcon.left < rcTemp.left ||
+			if (hHasIcon  && 
+				(rcIcon.right>rcTemp.right  || 
+				rcIcon.bottom>rcTemp.bottom  || 
+				rcIcon.left < rcTemp.left  || 
 				rcIcon.top < rcTemp.top)) 		 hHasIcon = NULL;
 
-			if (fHasText &&
-				(rcText.right>rcTemp.right ||
-				rcText.bottom>rcTemp.bottom ||
-				rcText.left < rcTemp.left ||
+			if (fHasText  && 
+				(rcText.right>rcTemp.right  || 
+				rcText.bottom>rcTemp.bottom  || 
+				rcText.left < rcTemp.left  || 
 				rcText.top < rcTemp.top)) 		 fHasText = FALSE;			
 		}
 

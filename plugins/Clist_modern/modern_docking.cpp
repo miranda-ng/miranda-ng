@@ -186,8 +186,8 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 				Docking_GetMonitorRectFromPoint(ptCursor,&rcMonitor);
 
 				if (((ptCursor.x < rcMonitor.left+EDGESENSITIVITY) 
-					|| (ptCursor.x >= rcMonitor.right-EDGESENSITIVITY))
-					&& db_get_b(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT))
+					 ||  (ptCursor.x >= rcMonitor.right-EDGESENSITIVITY))
+					 &&  db_get_b(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT))
 				{
 					ZeroMemory(&abd,sizeof(abd));
 					abd.cbSize = sizeof(abd);
@@ -296,7 +296,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 		case WM_NCHITTEST:
 			{	LONG result;
 			result = DefWindowProc(msg->hwnd,WM_NCHITTEST,msg->wParam,msg->lParam);
-			if (result == HTSIZE || result == HTTOP || result == HTTOPLEFT || result == HTTOPRIGHT ||
+			if (result == HTSIZE || result == HTTOP || result == HTTOPLEFT || result == HTTOPRIGHT  || 
 				result == HTBOTTOM || result == HTBOTTOMRIGHT || result == HTBOTTOMLEFT) {*((LRESULT*)lParam) = HTCLIENT; return TRUE;}
 				if (g_CluiData.fDocked == DOCKED_LEFT && result == HTLEFT) {*((LRESULT*)lParam) = HTCLIENT; return TRUE;}
 				if (g_CluiData.fDocked == DOCKED_RIGHT && result == HTRIGHT) {*((LRESULT*)lParam) = HTCLIENT; return TRUE;}
@@ -317,7 +317,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 			{	RECT rc;
 			POINT pt;
 			GetClientRect(msg->hwnd,&rc);
-			if (((g_CluiData.fDocked == DOCKED_LEFT || g_CluiData.fDocked == -DOCKED_LEFT) && (short)LOWORD(msg->lParam)>rc.right) ||
+			if (((g_CluiData.fDocked == DOCKED_LEFT || g_CluiData.fDocked == -DOCKED_LEFT) && (short)LOWORD(msg->lParam)>rc.right)  || 
 				((g_CluiData.fDocked == DOCKED_RIGHT || g_CluiData.fDocked == -DOCKED_RIGHT) && (short)LOWORD(msg->lParam) < 0)) {
 					ReleaseCapture();
 					draggingTitle = 0;

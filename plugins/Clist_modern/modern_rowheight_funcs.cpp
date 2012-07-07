@@ -111,7 +111,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
     if (item != -1) dat->row_heights[item] = tmp;
     return tmp;
   }
-  hasAvatar = (dat->use_avatar_service && contact->avatar_data != NULL) ||(!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE);
+  hasAvatar = (dat->use_avatar_service && contact->avatar_data != NULL)  || (!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE);
   while (gl_RowTabAccess[i] != NULL)
   {
     if (gl_RowTabAccess[i]->type != TC_SPACE)
@@ -217,9 +217,9 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
       case TC_STATUS:
         {
           if (
-            (contact->type == CLCIT_GROUP && !dat->row_hide_group_icon)||
-            (	contact->type == CLCIT_CONTACT && contact->iImage != -1 &&
-            !(dat->icon_hide_on_avatar && dat->avatars_show	&& (hasAvatar|| (!hasAvatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)) && !contact->image_is_special))
+            (contact->type == CLCIT_GROUP && !dat->row_hide_group_icon) || 
+            (	contact->type == CLCIT_CONTACT && contact->iImage != -1  && 
+            !(dat->icon_hide_on_avatar && dat->avatars_show	 &&  (hasAvatar ||  (!hasAvatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)) && !contact->image_is_special))
             )
           {
             gl_RowTabAccess[i]->h = ICON_HEIGHT;
@@ -672,7 +672,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
       if (dat->avatars_show && !dat->avatars_ignore_size_for_row_height && 
         contact->type == CLCIT_CONTACT && 
         (
-        (dat->use_avatar_service && contact->avatar_data != NULL) ||
+        (dat->use_avatar_service && contact->avatar_data != NULL)  || 
         (!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE)
         ) && !minimalistic )
       {
@@ -680,8 +680,8 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
       }
 
       // Checkbox size
-      if ((style&CLS_CHECKBOXES && contact->type == CLCIT_CONTACT) ||
-        (style&CLS_GROUPCHECKBOXES && contact->type == CLCIT_GROUP) ||
+      if ((style&CLS_CHECKBOXES && contact->type == CLCIT_CONTACT)  || 
+        (style&CLS_GROUPCHECKBOXES && contact->type == CLCIT_GROUP)  || 
         (contact->type == CLCIT_INFO && contact->flags&CLCIIF_CHECKBOX))
       {
         height = max(height, dat->checkboxSize);
@@ -693,7 +693,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
         if (contact->type == CLCIT_GROUP 
           || (contact->type == CLCIT_CONTACT && contact->iImage != -1 
           && !(dat->icon_hide_on_avatar && dat->avatars_show
-          && ( (dat->use_avatar_service && contact->avatar_data != NULL) ||
+          && ( (dat->use_avatar_service && contact->avatar_data != NULL)  || 
           (!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE)
           )
           && !contact->image_is_special)))

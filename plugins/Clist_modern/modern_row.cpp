@@ -328,10 +328,10 @@ BOOL rowParse(ROWCELL* &cell, ROWCELL* parent, char *tbuf, int &hbuf, int &seque
 	word = rowParserGetNextWord(tbuf, hbuf);
 	int cont;
 
-	if      (!_strnicmp(word, "<tr",   strlen(word)) ||!_strnicmp(word, "<tr>",   strlen(word))) cont = TC_ROW;
-	else if (!_strnicmp(word, "<tc",   strlen(word)) ||!_strnicmp(word, "<tc>",   strlen(word))) cont = TC_COL;
-	else if (!_strnicmp(word, "/>",     strlen(word))||
-		!_strnicmp(word, "</tr>",  strlen(word))||
+	if      (!_strnicmp(word, "<tr",   strlen(word))  || !_strnicmp(word, "<tr>",   strlen(word))) cont = TC_ROW;
+	else if (!_strnicmp(word, "<tc",   strlen(word))  || !_strnicmp(word, "<tc>",   strlen(word))) cont = TC_COL;
+	else if (!_strnicmp(word, "/>",     strlen(word)) || 
+		!_strnicmp(word, "</tr>",  strlen(word)) || 
 		!_strnicmp(word, "</tc>",  strlen(word))) return TRUE;
 	else return FALSE;
 
@@ -694,7 +694,7 @@ void rowPositioning(pROWCELL cell, int &dist)
 					}
 					else size = w;
 					/*  пока отключено ибо параметр влияет на выравнивание включается по левому краю
-					if (0 &&!curchild->fitwidth)
+					if (0  && !curchild->fitwidth)
 					if (size>max(curchild->full_width,curchild->w))
 					size = max(curchild->full_width,curchild->w);
 					*/

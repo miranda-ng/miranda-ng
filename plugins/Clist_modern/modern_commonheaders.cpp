@@ -57,7 +57,7 @@ BOOL __cdecl mir_bool_tstrcmpi(const TCHAR *a, const TCHAR *b)
 
 int __cdecl mir_strcmp (const char *a, const char *b)
 {
-	if (!(a&&b)) return a != b;
+	if (!(a && b)) return a != b;
 	return (strcmp(a,b));
 };
 

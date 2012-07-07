@@ -166,7 +166,7 @@ static int amThreadProc(HWND hwnd)
 				{
 					i++;
 					SleepEx(50,TRUE);
-				} while (i < AMASKPERIOD/50&&!MirandaExiting());
+				} while (i < AMASKPERIOD/50 && !MirandaExiting());
 			}
 			else break;
 			if (MirandaExiting()) 

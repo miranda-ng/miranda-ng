@@ -482,7 +482,7 @@ static int   sttReposButtons(MTBINFO * mti)
 		y += mti->nButtonHeight+mti->nButtonSpace;
 		nextX = 0;
 		if (mti->fSingleLine) break;
-	} while (iFirstButtonId < mti->pButtonList->realCount && y >= 0 &&(mti->fAutoSize || (y+mti->nButtonHeight <= rcClient.bottom-rcClient.top)));
+	} while (iFirstButtonId < mti->pButtonList->realCount && y >= 0  && (mti->fAutoSize || (y+mti->nButtonHeight <= rcClient.bottom-rcClient.top)));
 	for (i = iFirstButtonId; i <  mti->pButtonList->realCount; i++)
 	{
 		MTB_BUTTONINFO * mtbi = (MTB_BUTTONINFO *)mti->pButtonList->items[i];
@@ -496,14 +496,12 @@ static int   sttReposButtons(MTBINFO * mti)
 }
 
 
-static HWND   sttCreateToolBarFrame( HWND hwndParent, char * szCaption, int nHeight )
+static HWND sttCreateToolBarFrame( HWND hwndParent, char * szCaption, int nHeight )
 {
-	TCHAR * Caption = mir_a2t(szCaption);
-	HWND hwnd = CreateWindow(_T(MIRANDATOOLBARCLASSNAME), TranslateTS(Caption), WS_CHILD|WS_VISIBLE|WS_CLIPCHILDREN,0,0,0,nHeight,hwndParent,NULL,g_hInst, (void*) szCaption);
-	mir_free(Caption);
-	return hwnd;
+	return CreateWindow( _T(MIRANDATOOLBARCLASSNAME), TranslateTS( _A2T(szCaption)), WS_CHILD|WS_VISIBLE|WS_CLIPCHILDREN,0,0,0,nHeight,hwndParent,NULL,g_hInst, (void*) szCaption);
 }
-static int    sttButtonPressed(MTBINFO * pMTBInfo, HWND hwndbutton)
+
+static int sttButtonPressed(MTBINFO * pMTBInfo, HWND hwndbutton)
 {
 	MTB_BUTTONINFO * mtbi = (MTB_BUTTONINFO *)GetWindowLongPtr(hwndbutton, GWLP_USERDATA);
 	if (mtbi && mtbi->hWindow == hwndbutton && mtbi->hwndToolBar == pMTBInfo->hWnd)
@@ -513,7 +511,8 @@ static int    sttButtonPressed(MTBINFO * pMTBInfo, HWND hwndbutton)
 	}
 	return 0;
 }
-static BOOL   sttDrawToolBarBackground(HWND hwnd, HDC hdc, RECT * rect, MTBINFO * pMTBInfo)
+
+static BOOL sttDrawToolBarBackground(HWND hwnd, HDC hdc, RECT * rect, MTBINFO * pMTBInfo)
 {
 	BOOL bFloat = (GetParent(hwnd) != pcli->hwndContactList);
 	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat)
@@ -979,7 +978,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 			BOOL ret = FALSE;
 			PAINTSTRUCT ps;
 			BOOL bFloat = (GetParent(hwnd) != pcli->hwndContactList);
-			if (g_CluiData.fDisableSkinEngine|| !g_CluiData.fLayered || bFloat )
+			if (g_CluiData.fDisableSkinEngine ||  !g_CluiData.fLayered || bFloat )
 			{
 				BeginPaint(hwnd,&ps);
 				if ((!g_CluiData.fLayered || bFloat) && !g_CluiData.fDisableSkinEngine)
@@ -1290,7 +1289,7 @@ static LRESULT CALLBACK ToolBar_OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 				tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 				tvi.hItem = (HTREEITEM)hDragItem;
 				TreeView_GetItem(GetDlgItem(hwndDlg,IDC_BTNORDER),&tvi);
-				if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)||(hti.hItem == TVI_FIRST)) 
+				if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) 
 				{
 					TVINSERTSTRUCT tvis;
 					TCHAR name[128];
@@ -1320,9 +1319,9 @@ static LRESULT CALLBACK ToolBar_OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 			}
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		} else if ( (LOWORD(wParam) == IDC_TEXT_W || 
-			         LOWORD(wParam) == IDC_TEXT_H ||
+			         LOWORD(wParam) == IDC_TEXT_H  || 
 					 LOWORD(wParam) == IDC_TEXT_S ) 
-					&& HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap 
+					 &&  HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap 
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		break;
 	}

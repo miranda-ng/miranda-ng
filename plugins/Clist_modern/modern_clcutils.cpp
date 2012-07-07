@@ -74,7 +74,7 @@ int cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcConta
 	if (group) *group = hitgroup;
 	/////////
 
-	if ( ((testx < hitcontact->pos_indent) && !dat->text_rtl) ||
+	if ( ((testx < hitcontact->pos_indent) && !dat->text_rtl)  || 
 		((testx>clRect.right-hitcontact->pos_indent) && dat->text_rtl)) 
 	{
 		if (flags) *flags |= CLCHT_ONITEMINDENT;
@@ -168,7 +168,7 @@ void cliScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth)
 			nowTick = GetTickCount();
 			if (nowTick >= startTick+dat->scrollTime) break;
 			dat->yScroll = oldy+(desty-oldy)*(int)(nowTick-startTick)/dat->scrollTime;
-			if (/*dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground == NULL &&*/FALSE)
+			if (/*dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground == NULL  && */FALSE)
 				ScrollWindowEx(hwnd,0,previousy-dat->yScroll,NULL,NULL,NULL,NULL,SW_INVALIDATE);
 			else
 			{
@@ -387,7 +387,7 @@ int GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt)
 			topItem = cliGetRowByIndex(dat,topItem,&topcontact,&topgroup);
 			ok = 1;
 		} else if ((pt.y+dat->yScroll >= cliGetRowTopY(dat,hit+1)-dat->insertionMarkHitHeight)
-			||(contact->type == CLCIT_GROUP && contact->group->expanded && contact->group->cl.count>0)) 
+			 || (contact->type == CLCIT_GROUP && contact->group->expanded && contact->group->cl.count>0)) 
 		{
 			//could be insertion mark (below)
 			topItem = hit; bottomItem = hit+1;
@@ -462,7 +462,7 @@ int GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt)
 	}
 	dat->selection = hit;
 
-	if (g_szMetaModuleName && !mir_strcmp(contact->proto,g_szMetaModuleName)&& (ServiceExists(MS_MC_ADDTOMETA))) return DROPTARGET_ONMETACONTACT;
+	if (g_szMetaModuleName && !mir_strcmp(contact->proto,g_szMetaModuleName) &&  (ServiceExists(MS_MC_ADDTOMETA))) return DROPTARGET_ONMETACONTACT;
 	if (contact->isSubcontact && (ServiceExists(MS_MC_ADDTOMETA))) return DROPTARGET_ONSUBCONTACT;
 	return DROPTARGET_ONCONTACT;
 }
@@ -519,8 +519,8 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 	// Row
 	dat->row_min_heigh = db_get_w(NULL,"CList","MinRowHeight",CLCDEFAULT_ROWHEIGHT);
 	dat->row_border = db_get_w(NULL,"CList","RowBorder",SETTING_ROWBORDER_DEFAULT);
-	dat->row_before_group_space  = ((hwnd != pcli->hwndContactTree&&pcli->hwndContactTree != NULL) 
-		|| !db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT))?0:db_get_w(NULL,"ModernSkin","SpaceBeforeGroup",SKIN_SPACEBEFOREGROUP_DEFAULT);
+	dat->row_before_group_space  = ((hwnd != pcli->hwndContactTree && pcli->hwndContactTree != NULL) 
+		 ||  !db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT))?0:db_get_w(NULL,"ModernSkin","SpaceBeforeGroup",SKIN_SPACEBEFOREGROUP_DEFAULT);
 	dat->row_variable_height = db_get_b(NULL,"CList","VariableRowHeight",SETTING_VARIABLEROWHEIGHT_DEFAULT);
 	dat->row_align_left_items_to_left = db_get_b(NULL,"CList","AlignLeftItemsToLeft",SETTING_ALIGNLEFTTOLEFT_DEFAULT);
 	dat->row_hide_group_icon = db_get_b(NULL,"CList","HideGroupsIcon",SETTING_HIDEGROUPSICON_DEFAULT);
@@ -576,7 +576,7 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 	}
 
 	// Icon
-	if (pcli->hwndContactTree == hwnd|| pcli->hwndContactTree == NULL)
+	if (pcli->hwndContactTree == hwnd ||  pcli->hwndContactTree == NULL)
 	{
 		dat->icon_hide_on_avatar = db_get_b(NULL,"CList","IconHideOnAvatar",SETTING_HIDEICONONAVATAR_DEFAULT);
 		dat->icon_draw_on_avatar_space = db_get_b(NULL,"CList","IconDrawOnAvatarSpace",SETTING_ICONONAVATARPLACE_DEFAULT);
@@ -590,7 +590,7 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 	}
 
 	// Contact time
-	if (pcli->hwndContactTree == hwnd|| pcli->hwndContactTree == NULL)
+	if (pcli->hwndContactTree == hwnd ||  pcli->hwndContactTree == NULL)
 	{
 		dat->contact_time_show = db_get_b(NULL,"CList","ContactTimeShow",SETTING_SHOWTIME_DEFAULT);
 		dat->contact_time_show_only_if_different = db_get_b(NULL,"CList","ContactTimeShowOnlyIfDifferent",SETTING_SHOWTIMEIFDIFF_DEFAULT);
@@ -609,7 +609,7 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 	dat->text_smiley_height = 0;
 	dat->text_use_protocol_smileys = db_get_b(NULL,"CList","TextUseProtocolSmileys",SETTING_TEXT_PROTOSMILEY_DEFAULT);
 
-	if (pcli->hwndContactTree == hwnd|| pcli->hwndContactTree == NULL)
+	if (pcli->hwndContactTree == hwnd ||  pcli->hwndContactTree == NULL)
 	{
 		dat->text_ignore_size_for_row_height = db_get_b(NULL,"CList","TextIgnoreSizeForRownHeight",SETTING_TEXT_IGNORESIZE_DEFAULT);
 	}
@@ -756,7 +756,7 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 	dat->hotTextColour = db_get_dw(NULL,"CLC","HotTextColour",CLCDEFAULT_MODERN_HOTTEXTCOLOUR);
 	dat->quickSearchColour = db_get_dw(NULL,"CLC","QuickSearchColour",CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR);
 	if (!g_szMetaModuleName && ServiceExists(MS_MC_GETPROTOCOLNAME)) g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE)) &&
+	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE))  && 
 		g_szMetaModuleName && db_get_b(NULL,g_szMetaModuleName,"Enabled",1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
 
 	if (pcli->hwndContactTree == NULL || dat->hWnd == pcli->hwndContactTree)
@@ -794,7 +794,7 @@ int ExpandMetaContact(HWND hwnd, struct ClcContact * contact, struct ClcData * d
 {
 	struct ClcContact * ht = NULL;
 	KillTimer(hwnd,TIMERID_SUBEXPAND);
-	if (contact->type != CLCIT_CONTACT ||contact->SubAllocated == 0 || contact->SubExpanded == bExpand || !db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT)) return 0;
+	if (contact->type != CLCIT_CONTACT  || contact->SubAllocated == 0 || contact->SubExpanded == bExpand || !db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT)) return 0;
 	contact->SubExpanded = bExpand;
 	db_set_b(contact->hContact,"CList","Expanded",contact->SubExpanded);
 	dat->NeedResort = 1;
@@ -822,7 +822,7 @@ int cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int pref
 		contact = group->cl.items[group->scanIndex];
 		if (contact->type != CLCIT_DIVIDER) 
 		{			
-			if ((prefixOk && !_tcsnicmp(text, contact->szText, testlen)) ||
+			if ((prefixOk && !_tcsnicmp(text, contact->szText, testlen))  || 
 				(!prefixOk && !lstrcmpi(text, contact->szText))) 
 			{
 				struct ClcGroup *contactGroup = group;
@@ -849,7 +849,7 @@ int cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int pref
 				for (i=0; i < contact->SubAllocated; i++)
 				{
 					struct ClcContact * subcontact = &(contact->subcontacts[i]);
-					if ((prefixOk && !_tcsnicmp(text, subcontact->szText, testlen)) ||
+					if ((prefixOk && !_tcsnicmp(text, subcontact->szText, testlen))  || 
 						(!prefixOk && !lstrcmpi(text, subcontact->szText))) 
 					{
 						struct ClcGroup *contactGroup = group;

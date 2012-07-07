@@ -246,7 +246,7 @@ static int ModernSkinButtonToggleDBValue(char * ValueDBSection,char *ValueTypeDe
 		case 's':
 			{
 				Value = db_get_sa(NULL,section,key);
-				if (!Value ||(Value && mir_bool_strcmpi(Value,val2)))
+				if (!Value  || (Value && mir_bool_strcmpi(Value,val2)))
 					Value = mir_strdup(val);
 				else 
 					Value = mir_strdup(val2);
@@ -314,8 +314,7 @@ static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 		if (strlen(param1) == 0) param1 = NULL;
 	}
 	if (!pszService) return 0;
-	if (strlen(pszService) == 0)
-	{
+	if (strlen(pszService) == 0) {
 		mir_free(pszService);
 		return 0;
 	}
@@ -502,7 +501,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 						if (bct->CommandService)
 						{
 
-							if (!_CallServiceStrParams(bct->CommandService, NULL)&&  (bct->ValueDBSection && bct->ValueTypeDef))
+							if (!_CallServiceStrParams(bct->CommandService, NULL) &&   (bct->ValueDBSection && bct->ValueTypeDef))
 									ModernSkinButtonToggleDBValue(bct->ValueDBSection,bct->ValueTypeDef);      
 						}
 						bct->down = 0;
@@ -668,8 +667,8 @@ static int ModernSkinButtonErase(int l,int t,int r, int b)
 	if (!ModernSkinButtonModuleIsLoaded) return 0;
 	if (!g_CluiData.fLayered) return 0;
 	if (!g_pCachedWindow) return 0;
-	if (!g_pCachedWindow->hImageDC ||!g_pCachedWindow->hBackDC) return 0;
-	if (!(l||r||t||b))
+	if (!g_pCachedWindow->hImageDC  || !g_pCachedWindow->hBackDC) return 0;
+	if (!(l || r || t || b))
 	{
 		for(i=0; i < ButtonsCount; i++)
 		{
@@ -789,15 +788,15 @@ int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT * r)
             ( rc.top + Buttons[i].OrB );
    
         SetWindowPos(Buttons[i].hwnd,HWND_TOP,l,t,r-l,b-t,0);
-		if (  (rc.right-rc.left < Buttons[i].minW /*&& Buttons[i].minW != 0*/) 
-			||(rc.bottom-rc.top < Buttons[i].minH /*&& Buttons[i].minH != 0*/))
+		if (  (rc.right-rc.left < Buttons[i].minW /* &&  Buttons[i].minW != 0*/) 
+			 || (rc.bottom-rc.top < Buttons[i].minH /* &&  Buttons[i].minH != 0*/))
 			CLUI_ShowWindowMod(Buttons[i].hwnd,SW_HIDE);
 		else 
 			CLUI_ShowWindowMod(Buttons[i].hwnd,SW_SHOW);
-		if ((1 || altDraw)&&
-			(Buttons[i].bct->Left != l ||
-			Buttons[i].bct->Top != t  ||
-			Buttons[i].bct->Right != r||
+		if ((1 || altDraw) && 
+			(Buttons[i].bct->Left != l  || 
+			Buttons[i].bct->Top != t   || 
+			Buttons[i].bct->Right != r || 
 			Buttons[i].bct->Bottom != b))
 		{
 			//Need to erase in old location

@@ -235,7 +235,7 @@ int ClearMaskList(LISTMODERNMASK * mmTemplateList)
 int DeleteMaskByItID(DWORD mID,LISTMODERNMASK * mmTemplateList)
 {
 	if (!mmTemplateList) return -1;
-	if (mID < 0|| mID >= mmTemplateList->dwMaskCnt) return -1;
+	if (mID < 0 ||  mID >= mmTemplateList->dwMaskCnt) return -1;
 	if (mmTemplateList->dwMaskCnt == 1)
 	{
 		SkinSelector_DeleteMask(&(mmTemplateList->pl_Masks[0]));
@@ -266,8 +266,8 @@ int DeleteMaskByItID(DWORD mID,LISTMODERNMASK * mmTemplateList)
 int ExchangeMasksByID(DWORD mID1, DWORD mID2, LISTMODERNMASK * mmTemplateList)
 {
 	if (!mmTemplateList) return 0;
-	if (mID1 < 0|| mID1 >= mmTemplateList->dwMaskCnt) return 0;
-	if (mID2 < 0|| mID2 >= mmTemplateList->dwMaskCnt) return 0;
+	if (mID1 < 0 ||  mID1 >= mmTemplateList->dwMaskCnt) return 0;
+	if (mID2 < 0 ||  mID2 >= mmTemplateList->dwMaskCnt) return 0;
 	if (mID1 == mID2) return 0;
 	{
 		MODERNMASK mm;

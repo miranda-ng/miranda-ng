@@ -488,12 +488,12 @@ static int OnBuildSubGroupMenu(WPARAM wParam,LPARAM lParam)
   gray1 = (showOfflineinGroup != FALSE);
   gray2 = (group->hideOffline != FALSE);
 	
-  if (gray1&&gray2) gray1 = FALSE;  //should not be cause CLCItems_IsShowOfflineGroup return false if group->hideOffline
+  if (gray1 && gray2) gray1 = FALSE;  //should not be cause CLCItems_IsShowOfflineGroup return false if group->hideOffline
 	
-  mi.flags = CMIM_FLAGS | ((group->hideOffline&&!gray1)?CMIF_CHECKED:0)| (gray1?CMIF_GRAYED:0);
+  mi.flags = CMIM_FLAGS | ((group->hideOffline && !gray1)?CMIF_CHECKED:0)| (gray1?CMIF_GRAYED:0);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hHideOfflineUsersHereMenuItem, (LPARAM)&mi);	
 	
-  mi.flags = CMIM_FLAGS | ((showOfflineinGroup&&!gray2) ? CMIF_CHECKED:0)| (gray2?CMIF_GRAYED:0);
+  mi.flags = CMIM_FLAGS | ((showOfflineinGroup && !gray2) ? CMIF_CHECKED:0)| (gray2?CMIF_GRAYED:0);
   CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hShowOfflineUsersHereMenuItem, (LPARAM)&mi);	
 	
 	return 0;

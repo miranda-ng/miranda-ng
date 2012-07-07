@@ -44,7 +44,7 @@ void AddSubcontacts(struct ClcData *dat, struct ClcContact * cont, BOOL showOffl
 	}
 
 	cont->isSubcontact = 0;
-    mir_free(cont->subcontacts);
+	mir_free(cont->subcontacts);
 	cont->subcontacts = (struct ClcContact *) mir_calloc(sizeof(struct ClcContact)*subcount);
 	cont->SubAllocated = subcount;
 	i=0;
@@ -54,9 +54,9 @@ void AddSubcontacts(struct ClcData *dat, struct ClcContact * cont, BOOL showOffl
 		hsub = (HANDLE)CallService(MS_MC_GETSUBCONTACT,(WPARAM)cont->hContact,j);
 		cacheEntry = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hsub);
 		wStatus = pdnce___GetStatus( cacheEntry );
-		if (showOfflineHereGroup||(!(db_get_b(NULL,"CLC","MetaHideOfflineSub",SETTING_METAHIDEOFFLINESUB_DEFAULT) && db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)) ||
+		if (showOfflineHereGroup || (!(db_get_b(NULL,"CLC","MetaHideOfflineSub",SETTING_METAHIDEOFFLINESUB_DEFAULT) && db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT))  || 
 			wStatus != ID_STATUS_OFFLINE )
-			//&&
+			// && 
 			//(!cacheEntry->Hidden || style&CLS_SHOWHIDDEN)
 			)
 
@@ -190,7 +190,7 @@ static void _LoadDataToContact(struct ClcContact * cont, struct ClcGroup *group,
 	szProto = cacheEntry->m_cache_cszProto;
 	cont->proto = szProto;
 
-	if (szProto != NULL&&!pcli->pfnIsHiddenMode(dat,pdnce___GetStatus( cacheEntry )))
+	if (szProto != NULL && !pcli->pfnIsHiddenMode(dat,pdnce___GetStatus( cacheEntry )))
 		cont->flags |= CONTACTF_ONLINE;
 	
 	apparentMode = szProto != NULL?cacheEntry->ApparentMode:0;
@@ -424,11 +424,11 @@ void cliRebuildEntireList(HWND hwnd,struct ClcData *dat)
 				if (!(style&CLS_NOHIDEOFFLINE) && (style&CLS_HIDEOFFLINE || group->hideOffline)) 
 				{
 					if (cacheEntry->m_cache_cszProto == NULL) {
-						if (!pcli->pfnIsHiddenMode(dat,ID_STATUS_OFFLINE)||cacheEntry->m_cache_nNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
+						if (!pcli->pfnIsHiddenMode(dat,ID_STATUS_OFFLINE) || cacheEntry->m_cache_nNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
 							cont = AddContactToGroup(dat,group,cacheEntry);
 					}
 					else
-						if (!pcli->pfnIsHiddenMode(dat,wStatus)||cacheEntry->m_cache_nNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
+						if (!pcli->pfnIsHiddenMode(dat,wStatus) || cacheEntry->m_cache_nNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
 							cont = AddContactToGroup(dat,group,cacheEntry);
 				}
 				else cont = AddContactToGroup(dat,group,cacheEntry);

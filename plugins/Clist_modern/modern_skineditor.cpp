@@ -128,7 +128,7 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 
 int enumDB_SkinObjectsForEditorProc(const char *szSetting,LPARAM lParam)
 {
-	if (wildcmp((char *)szSetting,gl_Mask,0)||wildcmp((char *)szSetting,"$*",0))
+	if (wildcmp((char *)szSetting,gl_Mask,0) || wildcmp((char *)szSetting,"$*",0))
 	{
 		char * value;
 		char *desc;
@@ -722,16 +722,16 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			}
 			else if ((
 				(LOWORD(wParam) == IDC_E_TOP
-			   ||LOWORD(wParam) == IDC_E_BOTTOM
-			   ||LOWORD(wParam) == IDC_E_LEFT
-			   ||LOWORD(wParam) == IDC_E_RIGHT
-			   ||LOWORD(wParam) == IDC_E_X
-			   ||LOWORD(wParam) == IDC_E_Y
-			   ||LOWORD(wParam) == IDC_E_W
-			   ||LOWORD(wParam) == IDC_E_H
-			   ||LOWORD(wParam) == IDC_EDIT_ALPHA
+			    || LOWORD(wParam) == IDC_E_BOTTOM
+			    || LOWORD(wParam) == IDC_E_LEFT
+			    || LOWORD(wParam) == IDC_E_RIGHT
+			    || LOWORD(wParam) == IDC_E_X
+			    || LOWORD(wParam) == IDC_E_Y
+			    || LOWORD(wParam) == IDC_E_W
+			    || LOWORD(wParam) == IDC_E_H
+			    || LOWORD(wParam) == IDC_EDIT_ALPHA
 			   ) 
-				&& HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
+				 &&  HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 			{
 				return 0;
 			}

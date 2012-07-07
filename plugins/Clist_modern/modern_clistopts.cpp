@@ -355,7 +355,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 		{
             TranslateDialogDefault(hwndDlg);
 			CheckDlgButton(hwndDlg, IDC_SHOW_AVATARS, db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
-			CheckDlgButton(hwndDlg, IDC_SHOW_ANIAVATARS, db_get_b(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP)&&!g_CluiData.fGDIPlusFail)) == 1 ? BST_CHECKED : BST_UNCHECKED );
+			CheckDlgButton(hwndDlg, IDC_SHOW_ANIAVATARS, db_get_b(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail)) == 1 ? BST_CHECKED : BST_UNCHECKED );
 			CheckDlgButton(hwndDlg, IDC_AVATAR_FASTDRAW, db_get_b(NULL,"CList","AvatarsInSeparateWnd",SETTINGS_AVATARINSEPARATE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); 
 			CheckDlgButton(hwndDlg, IDC_AVATAR_DRAW_BORDER, db_get_b(NULL,"CList","AvatarsDrawBorders",SETTINGS_AVATARDRAWBORDER_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 			CheckDlgButton(hwndDlg, IDC_AVATAR_ROUND_CORNERS, db_get_b(NULL,"CList","AvatarsRoundCorners",SETTINGS_AVATARROUNDCORNERS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
@@ -445,7 +445,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_PROTOCOL),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_CONTACT),FALSE);
 			}
-			if (!ServiceExists(MS_AV_GETAVATARBITMAP)||g_CluiData.fGDIPlusFail)
+			if (!ServiceExists(MS_AV_GETAVATARBITMAP) || g_CluiData.fGDIPlusFail)
 			{
 			   EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_ANIAVATARS),FALSE);
 			   SetDlgItemText(hwndDlg, IDC_SHOW_ANIAVATARS, TranslateT("Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)"));
@@ -473,7 +473,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_SIZE_SPIN),enabled);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_SIZE_PIXELS2),enabled);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_SIZE_PIXELS3),enabled);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_ANIAVATARS),enabled && (ServiceExists(MS_AV_GETAVATARBITMAP)&&!g_CluiData.fGDIPlusFail));
+				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_ANIAVATARS),enabled && (ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail));
 
 				//				if (DBGetContactSettingByte(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT) == 1)
 				//				{
@@ -514,8 +514,8 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			{
 				BOOL enabled = IsDlgButtonChecked(hwndDlg,IDC_AVATAR_ROUND_CORNERS);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK),enabled);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE),enabled&&IsDlgButtonChecked(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK));
-				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN),enabled&&IsDlgButtonChecked(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK));
+				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE),enabled && IsDlgButtonChecked(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK));
+				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN),enabled && IsDlgButtonChecked(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK));
 			}
 			else if (LOWORD(wParam) == IDC_AVATAR_OVERLAY_ICONS) 
 			{
@@ -878,22 +878,22 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 	case WM_COMMAND:
 		{
 			if (LOWORD(wParam) == IDC_TEXT || LOWORD(wParam) == IDC_STATUS || LOWORD(wParam) == IDC_NICKNAME || LOWORD(wParam) == IDC_STATUS_MESSAGE
-				|| LOWORD(wParam) == IDC_LISTENING_TO || LOWORD(wParam) == IDC_CONTACT_TIME)
+				 ||  LOWORD(wParam) == IDC_LISTENING_TO || LOWORD(wParam) == IDC_CONTACT_TIME)
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), IsDlgButtonChecked(hwndDlg,IDC_TEXT) 
-					&& IsDlgButtonChecked(hwndDlg,IDC_SHOW));
+					 &&  IsDlgButtonChecked(hwndDlg,IDC_SHOW));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLES_L), IsDlgButtonChecked(hwndDlg,IDC_TEXT) 
-					&& IsDlgButtonChecked(hwndDlg,IDC_SHOW));
+					 &&  IsDlgButtonChecked(hwndDlg,IDC_SHOW));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && 
 					(IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
-					|| IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
+					 ||  IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && 
 					(IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && 
 					(IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && 
 					(IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
-					|| IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
+					 ||  IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 			}
 			else if (LOWORD(wParam) == IDC_SHOW)
 			{
@@ -916,11 +916,11 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 				EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), enabled && IsDlgButtonChecked(hwndDlg,IDC_TEXT));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLES_L), enabled && IsDlgButtonChecked(hwndDlg,IDC_TEXT));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY), enabled && (IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
-					|| IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
+					 ||  IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY), enabled && IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), enabled && IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE), enabled && (IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
-					|| IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));			
+					 ||  IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));			
 			}
 
 			if (LOWORD(wParam) == IDC_TOP_SPACE && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0; // dont make apply enabled during buddy set crap
@@ -1075,15 +1075,15 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 	case WM_COMMAND:
 		{
 			if (LOWORD(wParam) == IDC_TEXT || LOWORD(wParam) == IDC_STATUS || LOWORD(wParam) == IDC_NICKNAME || LOWORD(wParam) == IDC_STATUS_MESSAGE
-				|| LOWORD(wParam) == IDC_LISTENING_TO || LOWORD(wParam) == IDC_CONTACT_TIME)
+				 ||  LOWORD(wParam) == IDC_LISTENING_TO || LOWORD(wParam) == IDC_CONTACT_TIME)
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), IsDlgButtonChecked(hwndDlg,IDC_TEXT) 
-					&& IsDlgButtonChecked(hwndDlg,IDC_SHOW));
+					 &&  IsDlgButtonChecked(hwndDlg,IDC_SHOW));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLES_L), IsDlgButtonChecked(hwndDlg,IDC_TEXT) 
-					&& IsDlgButtonChecked(hwndDlg,IDC_SHOW));
+					 &&  IsDlgButtonChecked(hwndDlg,IDC_SHOW));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && 
 					(IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
-					|| IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
+					 ||  IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && (IsDlgButtonChecked(hwndDlg,IDC_STATUS) || IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && (IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));																	
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), IsDlgButtonChecked(hwndDlg,IDC_SHOW) && (IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));																	
@@ -1109,9 +1109,9 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 				EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), enabled && IsDlgButtonChecked(hwndDlg,IDC_TEXT));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLES_L), enabled && IsDlgButtonChecked(hwndDlg,IDC_TEXT));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY), enabled && (IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
-					|| IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
+					 ||  IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE), enabled && (IsDlgButtonChecked(hwndDlg,IDC_STATUS) 
-					|| IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
+					 ||  IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE)));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY), enabled && IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE));
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY), enabled && IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE));
 			}
@@ -1497,7 +1497,7 @@ INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 				tvi.hItem = (HTREEITEM)hDragItem;
 				TreeView_GetItem(GetDlgItem(hwndDlg,IDC_EXTRAORDER),&tvi);
-				if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)||(hti.hItem == TVI_FIRST)) 
+				if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) 
 				{
 					TVINSERTSTRUCT tvis;
 					TCHAR name[128];

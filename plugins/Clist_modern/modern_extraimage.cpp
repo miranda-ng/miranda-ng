@@ -85,8 +85,8 @@ __inline int bti(boolean b)
 int colsum(int from,int to)
 {
 	int i,sum;
-	if (from < 0||from >= EXTRACOLUMNCOUNT){return(-1);};
-	if (to < 0||to >= EXTRACOLUMNCOUNT){return(-1);};
+	if (from < 0 || from >= EXTRACOLUMNCOUNT){return(-1);};
+	if (to < 0 || to >= EXTRACOLUMNCOUNT){return(-1);};
 	if (to < from){return(-1);};
 
 	sum = 0;
@@ -134,7 +134,7 @@ INT_PTR SetIconForExtraColumn(WPARAM wParam,LPARAM lParam)
 	HANDLE hItem;
 
 	if (pcli->hwndContactTree == 0){return(-1);};
-	if (wParam == 0||lParam == 0){return(-1);};
+	if (wParam == 0 || lParam == 0){return(-1);};
 	piec = (pIconExtraColumn)lParam;
 
 	if (piec->cbSize != sizeof(IconExtraColumn)){return(-1);};
@@ -152,7 +152,7 @@ INT_PTR SetIconForExtraColumn(WPARAM wParam,LPARAM lParam)
 INT_PTR AddIconToExtraImageList(WPARAM wParam,LPARAM lParam)
 {
     int res = -1;
-	if (hExtraImageList == 0||wParam == 0){return(-1);};
+	if (hExtraImageList == 0 || wParam == 0){return(-1);};
 	res = ((int)ImageList_AddIcon(hExtraImageList,(HICON)wParam));
     if (res>254) return -1;
     return res;
@@ -464,7 +464,7 @@ INT_PTR WideSetIconForExtraColumn(WPARAM wParam,LPARAM lParam)
 	HANDLE hItem;
 
 	if (pcli->hwndContactTree == 0){return(-1);};
-	if (wParam == 0||lParam == 0){return(-1);};
+	if (wParam == 0 || lParam == 0){return(-1);};
 	piec = (pIconExtraColumn)lParam;
 
 	if (piec->cbSize != sizeof(IconExtraColumn)){return(-1);};
@@ -484,7 +484,7 @@ INT_PTR WideSetIconForExtraColumn(WPARAM wParam,LPARAM lParam)
 INT_PTR WideAddIconToExtraImageList(WPARAM wParam,LPARAM lParam)
 {
 	int res = -1;
-	if (hWideExtraImageList == 0||wParam == 0){return(-1);};
+	if (hWideExtraImageList == 0 || wParam == 0){return(-1);};
 	res = ((int)ImageList_AddIcon(hWideExtraImageList,(HICON)wParam));
 	if (res == 0xFF)	res = ((int)ImageList_AddIcon(hWideExtraImageList,(HICON)wParam));
 	if (res>0xFFFE) return -1;

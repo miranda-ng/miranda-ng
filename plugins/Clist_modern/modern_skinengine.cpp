@@ -150,10 +150,9 @@ IniParser::IniParser( HINSTANCE hInst, const char *  resourceName, const char * 
 
 IniParser::~IniParser()
 {
-	if ( _szSection ) mir_free( _szSection );
+	mir_free( _szSection );
 	if ( _hFile ) fclose( _hFile );
-	if ( _hGlobalRes )
-	{
+	if ( _hGlobalRes ) {
 		UnlockResource( _hGlobalRes );
 		FreeResource(_hGlobalRes);
 	}
@@ -381,7 +380,7 @@ BOOL IniParser::_DoParseLine( char * szLine )
 	case '[':
 		{
 			//New section start here
-			if ( _szSection ) mir_free( _szSection );
+			mir_free( _szSection );
 			_szSection = NULL;
 
 			char *tbuf = szLine + 1;	// skip [
@@ -826,7 +825,7 @@ static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT * rFill, RECT *
 		}
 		return 1;
 	}
-	else if (mode == FM_TILE_VERT && (rGlyph->bottom-rGlyph->top>0)&& (rGlyph->right-rGlyph->left>0))
+	else if (mode == FM_TILE_VERT && (rGlyph->bottom-rGlyph->top>0) &&  (rGlyph->right-rGlyph->left>0))
 	{
 		HDC mem2dc;
 		HBITMAP mem2bmp,oldbmp;
@@ -925,7 +924,7 @@ static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT * rFill, RECT *
 		DeleteObject(mem2bmp);
 		mod_DeleteDC(mem2dc);
 	}
-	else if (mode == FM_TILE_HORZ && (rGlyph->right-rGlyph->left>0)&& (rGlyph->bottom-rGlyph->top>0)&&(rFill->bottom-rFill->top)>0 && (rFill->right-rFill->left)>0)
+	else if (mode == FM_TILE_HORZ && (rGlyph->right-rGlyph->left>0) &&  (rGlyph->bottom-rGlyph->top>0) && (rFill->bottom-rFill->top)>0 && (rFill->right-rFill->left)>0)
 	{
 		HDC mem2dc;
 		RECT wr;
@@ -1240,12 +1239,12 @@ static int ske_DrawSkinObject(SKINDRAWREQUEST * preq, GLYPHOBJECT * pobj)
 	int mode = 0; //0-FastDraw, 1-DirectAlphaDraw, 2-BufferedAlphaDraw
 
 	if (!(preq && pobj)) return -1;
-	if ((!pobj->hGlyph || pobj->hGlyph == (HBITMAP)-1) && ((pobj->Style&7)  == ST_IMAGE ||(pobj->Style&7)  == ST_FRAGMENT|| (pobj->Style&7)  == ST_SOLARIZE)) return 0;
+	if ((!pobj->hGlyph || pobj->hGlyph == (HBITMAP)-1) && ((pobj->Style&7)  == ST_IMAGE  || (pobj->Style&7)  == ST_FRAGMENT ||  (pobj->Style&7)  == ST_SOLARIZE)) return 0;
 	// Determine painting mode
 	depth = GetDeviceCaps(preq->hDC,BITSPIXEL);
 	depth = depth < 16?16:depth;
 	Is32Bit = pobj->bmBitsPixel == 32;
-	if ((!Is32Bit && pobj->dwAlpha == 255)&& pobj->Style != ST_BRUSH) mode = 0;
+	if ((!Is32Bit && pobj->dwAlpha == 255) &&  pobj->Style != ST_BRUSH) mode = 0;
 	else if (pobj->dwAlpha == 255 && pobj->Style != ST_BRUSH) mode = 1;
 	else mode = 2;
 	// End painting mode
@@ -1706,10 +1705,10 @@ INT_PTR ske_Service_DrawGlyph(WPARAM wParam,LPARAM lParam)
 		if (pgl->Data == NULL) return -1;
 		gl = (LPGLYPHOBJECT)pgl->Data;
 		if ((gl->Style&7)  == ST_SKIP) return ST_SKIP;
-		if (gl->hGlyph == NULL && gl->hGlyph != (HBITMAP)-1 &&
+		if (gl->hGlyph == NULL && gl->hGlyph != (HBITMAP)-1  && 
 			(  (gl->Style&7) == ST_IMAGE
-			||(gl->Style&7) == ST_FRAGMENT
-			||(gl->Style&7) == ST_SOLARIZE ))
+			 || (gl->Style&7) == ST_FRAGMENT
+			 || (gl->Style&7) == ST_SOLARIZE ))
 			if (gl->szFileName)
 			{
 				gl->hGlyph = ske_LoadGlyphImage(gl->szFileName);
@@ -1825,8 +1824,8 @@ static BOOL ske_ReadTGAImageData(void * From, DWORD fromSize, BYTE * destBuf, DW
 	DWORD fromCount = 0;
 	if (!RLE)
 	{
-		while (((from&&fromCount < fromSize) || (fp&& fromCount < bufSize))
-			&&(destCount < bufSize))
+		while (((from && fromCount < fromSize) || (fp &&  fromCount < bufSize))
+			 && (destCount < bufSize))
 		{
 			BYTE r = from?from[fromCount++]:(BYTE)fgetc(fp);
 			BYTE g = from?from[fromCount++]:(BYTE)fgetc(fp);
@@ -1906,7 +1905,7 @@ static HBITMAP ske_LoadGlyphImage_TGA(char * szFilename)
 		/* read header */
 		fread (&header, sizeof (tga_header_t), 1, fp);
 		if (  (header.pixel_depth != 32)
-			||((header.image_type != 10)&&(header.image_type != 2))
+			 || ((header.image_type != 10) && (header.image_type != 2))
 			)
 		{
 			fclose(fp);
@@ -1939,7 +1938,7 @@ static HBITMAP ske_LoadGlyphImage_TGA(char * szFilename)
 		if (size>sizeof(header))
 		{
 			tga_header_t * header = (tga_header_t *)mem;
-			if (header->pixel_depth == 32&& (header->image_type == 2 ||header->image_type == 10))
+			if (header->pixel_depth == 32 &&  (header->image_type == 2  || header->image_type == 10))
 			{
 				colormap = (BYTE*)malloc(header->width*header->height*4);
 				cx = header->width;
@@ -2696,7 +2695,7 @@ BOOL ske_TextOut(HDC hdc, int x, int y, LPCTSTR lpString, int nCount)
 	int ta;
 	SIZE sz;
 	RECT rc = {0};
-	if (!g_CluiData.fGDIPlusFail &&0) ///text via gdi+
+	if (!g_CluiData.fGDIPlusFail  && 0) ///text via gdi+
 	{
 		TextOutWithGDIp(hdc,x,y,lpString,nCount);
 		return 0;
@@ -3281,7 +3280,7 @@ BOOL ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT * lpRect, UINT for
 		return DrawText(hdc,lpString,nCount,lpRect,format&~DT_FORCENATIVERENDER);
 	form = format;
 	color = GetTextColor(hdc);
-	if (!g_CluiData.fGDIPlusFail &&0) ///text via gdi+
+	if (!g_CluiData.fGDIPlusFail  && 0) ///text via gdi+
 	{
 		TextOutWithGDIp(hdc,lpRect->left,lpRect->top,lpString,nCount);
 		return 0;
@@ -3502,17 +3501,17 @@ BOOL ske_DrawIconEx(HDC hdcDst,int xLeft,int yTop,HICON hIcon,int cxWidth,int cy
 		right = cx;
 		top = 0;
 		h = icy;
-		for (y = top;(y < bottom)&&!hasmask; y++)
+		for (y = top;(y < bottom) && !hasmask; y++)
 		{
 			t1 = immaskbits+y*mwb;
-			for (x = 0; (x < mwb)&&!hasmask; x++)
+			for (x = 0; (x < mwb) && !hasmask; x++)
 				hasmask |= (*(t1+x) != 0);
 		}
 
-		for (y = top;(y < bottom)&&!hasalpha; y++)
+		for (y = top;(y < bottom) && !hasalpha; y++)
 		{
 			t1 = imimagbits+(cy-y-1)*mwb2;
-			for (x = 0; (x < right)&&!hasalpha; x++)
+			for (x = 0; (x < right) && !hasalpha; x++)
 				hasalpha |= (*(t1+(x << 2)+3) != 0);
 		}
 
@@ -3720,7 +3719,7 @@ static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam)   
 	}
 	else
 		Sync( QueueAllFramesUpdating , (BYTE)1 );
-	if (!flag_bUpdateQueued||g_flag_bPostWasCanceled)
+	if (!flag_bUpdateQueued || g_flag_bPostWasCanceled)
 		if (PostMessage(pcli->hwndContactList,UM_UPDATE,0,0))
 		{
 			flag_bUpdateQueued = 1;
@@ -3982,7 +3981,7 @@ int ske_ReCreateBackImage(BOOL Erase,RECT *w)
 		g_pCachedWindow->hBackDIB = hb2;
 		IsNewCache = 1;
 	}
-	if ((Erase || IsNewCache )&& (g_pCachedWindow->Width != 0 && g_pCachedWindow->Height != 0))
+	if ((Erase || IsNewCache ) &&  (g_pCachedWindow->Width != 0 && g_pCachedWindow->Height != 0))
 	{
 
 		hb2 = ske_CreateDIB32(g_pCachedWindow->Width,g_pCachedWindow->Height);
@@ -4156,7 +4155,7 @@ void ske_ApplyTransluency()
 	IsTransparancy = g_CluiData.fSmoothAnimation || g_bTransparentFlag;
 	if (!g_bTransparentFlag && !g_CluiData.fSmoothAnimation && g_CluiData.bCurrentAlpha != 0)
 		g_CluiData.bCurrentAlpha = 255;
-	if (!g_CluiData.fLayered && (/*(g_CluiData.bCurrentAlpha == 255)||*/(g_proc_SetLayeredWindowAttributesNew && IsTransparancy)))
+	if (!g_CluiData.fLayered && (/*(g_CluiData.bCurrentAlpha == 255) || */(g_proc_SetLayeredWindowAttributesNew && IsTransparancy)))
 	{
 		if (!layered) SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 		if (g_proc_SetLayeredWindowAttributesNew) g_proc_SetLayeredWindowAttributesNew(hwnd, RGB(0,0,0), (BYTE)g_CluiData.bCurrentAlpha, LWA_ALPHA);
@@ -4259,7 +4258,7 @@ static TCHAR *ske_ReAppend(TCHAR *lfirst, TCHAR * lsecond, int len)
 	TCHAR *buf = (TCHAR *)mir_alloc((l1+l2+1)*sizeof(TCHAR));
 	if (lfirst) memmove(buf,lfirst,l1*sizeof(TCHAR));
 	memmove(buf+l1,lsecond,l2*sizeof(TCHAR));
-	if (lfirst) mir_free(lfirst);
+	mir_free(lfirst);
 	if (len) buf[l1+l2] = _T('\0');
 	return buf;
 }
@@ -4652,7 +4651,7 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 	GetObject(iciTop.hbmColor,sizeof(BITMAP),&bmp_top);
 	GetObject(iciTop.hbmMask,sizeof(BITMAP),&bmp_top_mask);
 
-	if (bmp_bottom.bmBitsPixel == 32 &&bmp_top.bmBitsPixel == 32 && IsWinVerXPPlus())
+	if (bmp_bottom.bmBitsPixel == 32  && bmp_top.bmBitsPixel == 32 && IsWinVerXPPlus())
 	{
 		BYTE * BottomBuffer, * TopBuffer, * BottomMaskBuffer, * TopMaskBuffer;
 		BYTE * bb, * tb, * bmb, * tmb;

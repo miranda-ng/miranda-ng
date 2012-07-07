@@ -265,8 +265,8 @@ static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 				//				if (!strcmp(cws->szSetting,"UIN"))
 				//					pcli->pfnClcBroadcast( INTM_NAMECHANGED,wParam,lParam);
 				//				else if (!strcmp(cws->szSetting,"Nick") || !strcmp(cws->szSetting,"FirstName") 
-				//					|| !strcmp(cws->szSetting,"e-mail") || !strcmp(cws->szSetting,"LastName") 
-				//					|| !strcmp(cws->szSetting,"JID"))
+				//					 ||  !strcmp(cws->szSetting,"e-mail") || !strcmp(cws->szSetting,"LastName") 
+				//					 ||  !strcmp(cws->szSetting,"JID"))
 				//					pcli->pfnClcBroadcast( INTM_NAMECHANGED,wParam,lParam);
 				//				else if (!strcmp(cws->szSetting,"ApparentMode"))
 				//					pcli->pfnClcBroadcast( INTM_APPARENTMODECHANGED,wParam,lParam);
@@ -377,7 +377,7 @@ static int clcSearchNextContact(HWND hwnd, struct ClcData *dat, int index, const
 		}
 		if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) 
 		{
-			if ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, group->cl.items[group->scanIndex]->szText, testlen)) ||
+			if ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, group->cl.items[group->scanIndex]->szText, testlen))  || 
 				(!prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText))) 
 			{
 				struct ClcGroup *contactGroup = group;
@@ -453,7 +453,7 @@ static LRESULT clcOnCreate(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPar
 	dat->NeedResort = 1;
 	dat->MetaIgnoreEmptyExtra = db_get_b(NULL,"CLC","MetaIgnoreEmptyExtra",SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);
 
-	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE)) &&
+	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE))  && 
 		g_szMetaModuleName && db_get_b(NULL,g_szMetaModuleName,"Enabled",1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
 
 	dat->expandMeta = db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT);		
@@ -712,7 +712,7 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 		hit = cliGetRowByIndex(dat,dat->selection,&contact,&group);
 		if (hit != -1) 
 		{
-			if (contact->type == CLCIT_CONTACT &&(contact->isSubcontact || contact->SubAllocated>0))
+			if (contact->type == CLCIT_CONTACT  && (contact->isSubcontact || contact->SubAllocated>0))
 			{
 				if (contact->isSubcontact && changeGroupExpand == 1)
 				{
@@ -1012,7 +1012,7 @@ static LRESULT clcOnLButtonDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM
 				HitPoint.x = (short)LOWORD(lParam);
 				HitPoint.y = (short)HIWORD(lParam);
 				fMouseUpped = FALSE;
-				if ((GetKeyState(VK_SHIFT)&0x8000)||(GetKeyState(VK_CONTROL)&0x8000) || (GetKeyState(VK_MENU)&0x8000))
+				if ((GetKeyState(VK_SHIFT)&0x8000) || (GetKeyState(VK_CONTROL)&0x8000) || (GetKeyState(VK_MENU)&0x8000))
 				{
 					fMouseUpped = TRUE;
 					hitcontact = contact;	
@@ -1131,7 +1131,7 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 		pt.x = (short)LOWORD(lParam);
 		pt.y = (short)HIWORD(lParam);
 		if (  abs(pt.x-dat->ptDragStart.x)>GetSystemMetrics(SM_CXDOUBLECLK) 
-			||abs(pt.y-dat->ptDragStart.y)>GetSystemMetrics(SM_CYDOUBLECLK))
+			 || abs(pt.y-dat->ptDragStart.y)>GetSystemMetrics(SM_CYDOUBLECLK))
 		{
 			KillTimer( hwnd, TIMERID_RENAME );
 			dat->dragStage &= (~DRAGSTAGEF_MAYBERENAME);
@@ -1593,7 +1593,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 					if (groupName) mir_free_and_nill(groupName);
 					if (sourceGrName) mir_free_and_nill(sourceGrName);
 				}
-				newIndex = CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, (destcontact&&i != -1)?destcontact->groupId:0);							
+				newIndex = CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, (destcontact && i != -1)?destcontact->groupId:0);							
 				newIndex = newIndex?newIndex:contact->groupId;
 				if (NeedRename) pcli->pfnRenameGroup(newIndex,newName);
 				break;
@@ -1717,7 +1717,7 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
     bool isVisible          = g_CluiData.bFilterEffective&CLVM_FILTER_STATUS ? TRUE : ifVisibleByClui;
     bool isIconChanged      = CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != LOWORD(lParam);
 	
-    shouldShow              = isVisiblebyFilter	&&  ( isVisible || isIconChanged ) ;  
+    shouldShow              = isVisiblebyFilter	 &&   ( isVisible || isIconChanged ) ;  
     
     // XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
 	
@@ -1921,7 +1921,7 @@ static LRESULT clcOnIntmStatusChanged(struct ClcData *dat, HWND hwnd, UINT msg, 
 			pdnce___SetStatus( pdnce, GetStatusForContact(pdnce->m_cache_hContact,pdnce->m_cache_cszProto));
 			if (!dat->force_in_dialog && (
 				(dat->second_line_show)// && dat->second_line_type == TEXT_STATUS)
-				|| (dat->third_line_show)// && dat->third_line_type == TEXT_STATUS)
+				 ||  (dat->third_line_show)// && dat->third_line_type == TEXT_STATUS)
 				))
 				gtaRenewText(pdnce->m_cache_hContact);
 			SendMessage(hwnd,INTM_ICONCHANGED, wParam, (LPARAM) CallService(MS_CLIST_GETCONTACTICON, wParam, 1));
@@ -1932,8 +1932,8 @@ static LRESULT clcOnIntmStatusChanged(struct ClcData *dat, HWND hwnd, UINT msg, 
 					if (!contact->image_is_special && pdnce___GetStatus( pdnce )>ID_STATUS_OFFLINE) 
 						contact->iImage = CallService(MS_CLIST_GETCONTACTICON, wParam, 1);
 					if (contact->isSubcontact 
-						&& contact->subcontacts 
-						&& contact->subcontacts->type == CLCIT_CONTACT)
+						 &&  contact->subcontacts 
+						 &&  contact->subcontacts->type == CLCIT_CONTACT)
 						pcli->pfnClcBroadcast( INTM_STATUSCHANGED,(WPARAM)contact->subcontacts->hContact,0); //forward status changing to host meta contact
 				}
 			}
@@ -2078,7 +2078,7 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 
 int ClcGetShortData(struct ClcData* pData, struct SHORTDATA *pShortData)
 {
-	if (!pData|| !pShortData) return -1;
+	if (!pData ||  !pShortData) return -1;
 	pShortData->hWnd = pData->hWnd;
 	pShortData->text_replace_smileys = pData->text_replace_smileys;
 	pShortData->text_smiley_height = pData->text_smiley_height;

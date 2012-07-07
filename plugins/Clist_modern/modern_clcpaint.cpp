@@ -181,10 +181,10 @@ int   CLCPaint::GetBasicFontID( struct ClcContact * contact )
 		if ( contact->flags & CONTACTF_NOTONLIST )
 			return FONTID_NOTONLIST;
 		else if ( ( contact->flags&CONTACTF_INVISTO
-			&& _GetRealStatus( contact, ID_STATUS_OFFLINE ) != ID_STATUS_INVISIBLE )
-			||
+			 &&  _GetRealStatus( contact, ID_STATUS_OFFLINE ) != ID_STATUS_INVISIBLE )
+			 || 
 			( contact->flags&CONTACTF_VISTO
-			&& _GetRealStatus( contact, ID_STATUS_OFFLINE ) == ID_STATUS_INVISIBLE ))
+			 &&  _GetRealStatus( contact, ID_STATUS_OFFLINE ) == ID_STATUS_INVISIBLE ))
 		{
 			// the contact is in the always visible list and the proto is invisible
 			// the contact is in the always invisible and the proto is in any other mode
@@ -284,8 +284,8 @@ void  CLCPaint::AddParam( MODERNMASK * mpModernMask, DWORD dwParamHash, const ch
 BOOL  CLCPaint::CheckMiniMode( struct ClcData *dat, BOOL selected, BOOL hot )
 {
 	if ( ( !dat->bCompactMode /* not mini*/ ) 
-		||( ( dat->bCompactMode&0x01 ) && selected /*mini on selected*/ ) 
-		/*||( TRUE && hot )*/ ) return FALSE;
+		 || ( ( dat->bCompactMode&0x01 ) && selected /*mini on selected*/ ) 
+		/* || ( TRUE && hot )*/ ) return FALSE;
 		return TRUE;
 }
 
@@ -727,8 +727,8 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
     if ( Drawing->type == CLCIT_CONTACT )
         pdnce = ( PDNCE )pcli->pfnGetCacheEntry( Drawing->hContact );
 
-    if ( Drawing->type == CLCIT_GROUP &&
-        Drawing->group->parent->groupId == 0 &&
+    if ( Drawing->type == CLCIT_GROUP  && 
+        Drawing->group->parent->groupId == 0  && 
         Drawing->group->parent->cl.items[0] != Drawing )
     {
         dg = dat->row_before_group_space;
@@ -779,7 +779,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                     mode = ILD_NORMAL;
                 }
 
-                if ( Drawing->type == CLCIT_CONTACT && dat->showIdle && ( Drawing->flags&CONTACTF_IDLE ) &&
+                if ( Drawing->type == CLCIT_CONTACT && dat->showIdle && ( Drawing->flags&CONTACTF_IDLE )  && 
                     _GetRealStatus( Drawing, ID_STATUS_OFFLINE ) != ID_STATUS_OFFLINE )
                 {
                     mode = ILD_SELECTED;
@@ -1041,7 +1041,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                 Drawing->pos_rename_rect = rc;
             }
 
-            if ( ( !InClistWindow || !g_CluiData.fLayered )&& ( ( Drawing->type == CLCIT_DIVIDER ) || ( Drawing->type == CLCIT_GROUP && dat->exStyle&CLS_EX_LINEWITHGROUPS )) )
+            if ( ( !InClistWindow || !g_CluiData.fLayered ) &&  ( ( Drawing->type == CLCIT_DIVIDER ) || ( Drawing->type == CLCIT_GROUP && dat->exStyle&CLS_EX_LINEWITHGROUPS )) )
             {
                 //???
                 RECT rc = fr_rc;
@@ -1273,7 +1273,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                     if ( ( Drawing->type == CLCIT_GROUP && !dat->row_hide_group_icon )
                         || ( Drawing->type == CLCIT_CONTACT && Drawing->iImage != -1
                         && !( dat->icon_hide_on_avatar && dat->avatars_show
-                        && ( ( dat->use_avatar_service && Drawing->avatar_data != NULL ) ||
+                        && ( ( dat->use_avatar_service && Drawing->avatar_data != NULL )  || 
                         ( !dat->use_avatar_service && Drawing->avatar_pos != AVATAR_POS_DONT_HAVE )
                        )
                         && !Drawing->image_is_special )) )
@@ -1309,7 +1309,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                                 mode = ILD_NORMAL;
                             }
 
-                            if ( Drawing->type == CLCIT_CONTACT && dat->showIdle && ( Drawing->flags&CONTACTF_IDLE ) &&
+                            if ( Drawing->type == CLCIT_CONTACT && dat->showIdle && ( Drawing->flags&CONTACTF_IDLE )  && 
                                 _GetRealStatus( Drawing, ID_STATUS_OFFLINE ) != ID_STATUS_OFFLINE )
                             {
                                 mode = ILD_SELECTED;
@@ -1324,13 +1324,13 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                 }
             case TC_AVATAR:
                 {
-                    BOOL hasAvatar = ( dat->use_avatar_service && Drawing->avatar_data != NULL ) ||( !dat->use_avatar_service && Drawing->avatar_pos != AVATAR_POS_DONT_HAVE );
+                    BOOL hasAvatar = ( dat->use_avatar_service && Drawing->avatar_data != NULL )  || ( !dat->use_avatar_service && Drawing->avatar_pos != AVATAR_POS_DONT_HAVE );
                     BYTE     blendmode = 255;
                     if ( hottrack )
                         blendmode = 255;
                     else if ( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
                         blendmode = 128;
-                    if ( Drawing->type == CLCIT_CONTACT && dat->showIdle && ( Drawing->flags&CONTACTF_IDLE ) &&
+                    if ( Drawing->type == CLCIT_CONTACT && dat->showIdle && ( Drawing->flags&CONTACTF_IDLE )  && 
                         _GetRealStatus( Drawing, ID_STATUS_OFFLINE ) != ID_STATUS_OFFLINE )
                         blendmode = 128;
                     if ( !hasAvatar )  //if no avatar then paint icon image
@@ -1358,7 +1358,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                                 mode = ILD_NORMAL;
                             }
 
-                            if ( Drawing->type == CLCIT_CONTACT && dat->showIdle && ( Drawing->flags&CONTACTF_IDLE ) &&
+                            if ( Drawing->type == CLCIT_CONTACT && dat->showIdle && ( Drawing->flags&CONTACTF_IDLE )  && 
                                 _GetRealStatus( Drawing, ID_STATUS_OFFLINE ) != ID_STATUS_OFFLINE )
                             {
                                 mode = ILD_SELECTED;
@@ -1552,7 +1552,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
             case TC_EXTRA:
                 {
 
-                    if ( Drawing->type == CLCIT_CONTACT &&
+                    if ( Drawing->type == CLCIT_CONTACT  && 
                         ( !Drawing->isSubcontact || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0 ))
                     {
                         int BlendedInActiveState = dat->dbbBlendInActiveState;
@@ -1615,7 +1615,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
             case TC_EXTRA8:
             case TC_EXTRA9:
                 {
-                    if ( Drawing->type == CLCIT_CONTACT &&
+                    if ( Drawing->type == CLCIT_CONTACT  && 
                         ( !Drawing->isSubcontact || dat->dbbMetaHideExtra == 0 && dat->extraColumnsCount > 0 ))
                     {
                         int eNum = gl_RowTabAccess[i]->type-TC_EXTRA1;
@@ -2036,8 +2036,8 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
                     if ( selected || hottrack )
                     {
                         RECT mrc = row_rc;
-                        if ( Drawing->type == CLCIT_GROUP &&
-                            Drawing->group->parent->groupId == 0 &&
+                        if ( Drawing->type == CLCIT_GROUP  && 
+                            Drawing->group->parent->groupId == 0  && 
                             Drawing->group->parent->cl.items[0] != Drawing )
                         {
                             mrc.top += dat->row_before_group_space;
@@ -2063,8 +2063,8 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
                 else
                 {   
                     int checkboxWidth;
-                    if ( ( lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT ) ||
-                        ( lStyle&CLS_GROUPCHECKBOXES && Drawing->type == CLCIT_GROUP ) ||
+                    if ( ( lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT )  || 
+                        ( lStyle&CLS_GROUPCHECKBOXES && Drawing->type == CLCIT_GROUP )  || 
                         ( Drawing->type == CLCIT_INFO && Drawing->flags&CLCIIF_CHECKBOX ))
                         checkboxWidth = dat->checkboxSize+2;
                     else checkboxWidth = 0;
@@ -2105,8 +2105,8 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 
                 }
                 //**** Checkboxes
-                if ( ( lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT ) ||
-                    ( lStyle&CLS_GROUPCHECKBOXES && Drawing->type == CLCIT_GROUP ) ||
+                if ( ( lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT )  || 
+                    ( lStyle&CLS_GROUPCHECKBOXES && Drawing->type == CLCIT_GROUP )  || 
                     ( Drawing->type == CLCIT_INFO && Drawing->flags&CLCIIF_CHECKBOX ))
                 {
                     //RECT rc;
@@ -2137,8 +2137,8 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
                     mpRequest->pl_Params[1].dwValueHash = mod_CalcHash( "Ovl" );
                     {
                         RECT mrc = row_rc;
-                        if ( Drawing->type == CLCIT_GROUP &&
-                            Drawing->group->parent->groupId == 0 &&
+                        if ( Drawing->type == CLCIT_GROUP  && 
+                            Drawing->group->parent->groupId == 0  && 
                             Drawing->group->parent->cl.items[0] != Drawing )
                         {
                             mrc.top += dat->row_before_group_space;
@@ -2435,7 +2435,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
             {
                 RECT rc;
                 int iImage = -1;
-                BOOL has_avatar = ( ( dat->use_avatar_service && Drawing->avatar_data != NULL ) ||
+                BOOL has_avatar = ( ( dat->use_avatar_service && Drawing->avatar_data != NULL )  || 
                     ( !dat->use_avatar_service && Drawing->avatar_pos != AVATAR_POS_DONT_HAVE ))
                     && !( CheckMiniMode( dat, selected, hottrack ));
 
@@ -2461,7 +2461,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
                 if ( Drawing->type == CLCIT_CONTACT
                     && dat->icon_hide_on_avatar
                     && dat->icon_draw_on_avatar_space
-                    && ( !Drawing->image_is_special || !has_avatar ||
+                    && ( !Drawing->image_is_special || !has_avatar  || 
                     ( 
                     dat->avatars_draw_overlay
                     && dat->avatars_maxheight_size >= ICON_HEIGHT + ( dat->avatars_draw_border ? 2 : 0 )
@@ -2977,8 +2977,8 @@ void CLCPaint::_GetBlendMode( IN struct ClcData *dat, IN struct ClcContact * Dra
         colourFg = dat->selBkColour;
         mode = ILD_NORMAL;
     }
-    if ( Drawing->type == CLCIT_CONTACT && dat->showIdle && ( Drawing->flags&CONTACTF_IDLE ) &&
-        _GetRealStatus( Drawing, ID_STATUS_OFFLINE ) != ID_STATUS_OFFLINE  &&
+    if ( Drawing->type == CLCIT_CONTACT && dat->showIdle && ( Drawing->flags&CONTACTF_IDLE )  && 
+        _GetRealStatus( Drawing, ID_STATUS_OFFLINE ) != ID_STATUS_OFFLINE   && 
         ( bFlag&GIM_IDLE_AFFECT )
        ) 
         mode = ILD_SELECTED;
@@ -3000,7 +3000,7 @@ void CLCPaint::_DrawContactAvatar( HDC hdcMem, struct ClcData *dat, struct ClcCo
 		int overlayIdx = -1;
 		int blendmode = 255;
 		if ( dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + ( dat->avatars_draw_border ? 2 : 0 )
-			&& GetContactCachedStatus( Drawing->hContact ) - ID_STATUS_OFFLINE < MAX_REGS( g_pAvatarOverlayIcons ))
+			 &&  GetContactCachedStatus( Drawing->hContact ) - ID_STATUS_OFFLINE < MAX_REGS( g_pAvatarOverlayIcons ))
 		{
 			switch( dat->avatars_overlay_type )
 			{
@@ -3072,7 +3072,7 @@ void CLCPaint::_DrawContactAvatar( HDC hdcMem, struct ClcData *dat, struct ClcCo
 		DeleteObject( rgn );
 		// Draw overlays
 		if ( dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + ( dat->avatars_draw_border ? 2 : 0 )
-			&& GetContactCachedStatus( Drawing->hContact ) - ID_STATUS_OFFLINE < MAX_REGS( g_pAvatarOverlayIcons ))
+			 &&  GetContactCachedStatus( Drawing->hContact ) - ID_STATUS_OFFLINE < MAX_REGS( g_pAvatarOverlayIcons ))
 		{
 			POINT ptOverlay = { prcItem->right-ICON_HEIGHT, prcItem->bottom-ICON_HEIGHT };
 			if ( dat->avatars_draw_border )
@@ -3357,7 +3357,7 @@ void CLCPaint::_DrawContactItems( HWND hwnd, HDC hdcMem, struct ClcData *dat, st
 		}
     }
     if ( ( Drawing->type == CLCIT_GROUP && dat->exStyle&CLS_EX_LINEWITHGROUPS )
-        ||( Drawing->type == CLCIT_DIVIDER ))
+         || ( Drawing->type == CLCIT_DIVIDER ))
 		_DrawContactLine( hdcMem, dat, Drawing, free_row_rc, rcPaint, text_rc );
 }
 void CLCPaint::_PaintRowItems ( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint )

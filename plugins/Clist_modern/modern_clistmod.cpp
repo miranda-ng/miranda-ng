@@ -373,7 +373,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY) {
 		BYTE *ptr = NULL;
 		HRGN rgn = NULL;
 		WindowImage = g_CluiData.fLayered?ske_GetCurrentWindowImage():0;
-		if (WindowImage&&g_CluiData.fLayered)
+		if (WindowImage && g_CluiData.fLayered)
 		{
 			GetObject(WindowImage,sizeof(BITMAP),&bmp);
 			ptr = (BYTE*)bmp.bmBits;
@@ -425,7 +425,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY) {
 					a = ((a*g_CluiData.bCurrentAlpha)>>8);
 					po = (a>16);
 				}
-				if (po||(!rgn&&ptr == 0))
+				if (po || (!rgn && ptr == 0))
 				{
 					BOOL hWndFound = FALSE;
 					HWND hAuxOld = NULL;
@@ -450,7 +450,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY) {
 								break;
 							}
 						}
-					}while(hAux != NULL &&hAuxOld != hAux);
+					}while(hAux != NULL  && hAuxOld != hAux);
 
 					if (hWndFound) //There's  window!
 						iNotCoveredDots++; //Let's count the not covered dots.

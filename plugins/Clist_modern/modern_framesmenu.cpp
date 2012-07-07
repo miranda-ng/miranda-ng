@@ -87,7 +87,7 @@ INT_PTR FrameMenuCheckService(WPARAM wParam,LPARAM lParam) {
 		if (fmep != NULL)
 		{
 			//pcpp->wParam  -  frameid
-			if (((WPARAM)fmep->Frameid == pcpp->wParam)||fmep->Frameid == -1) return(TRUE);	
+			if (((WPARAM)fmep->Frameid == pcpp->wParam) || fmep->Frameid == -1) return(TRUE);	
 		};
 
 	};

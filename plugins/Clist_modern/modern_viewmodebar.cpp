@@ -338,12 +338,12 @@ static void SetIconsForColumn(HWND hwndList,HANDLE hItem,HANDLE hItemAll,int iCo
 	itemType = SendMessage(hwndList,CLM_GETITEMTYPE,(WPARAM)hItem,0);
 	if (itemType == CLCIT_CONTACT) {
 		int oldiImage = SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,iColumn);
-		if (oldiImage != 0xFF&&oldiImage != iImage)
+		if (oldiImage != 0xFF && oldiImage != iImage)
 			SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage));
 	}
 	else if (itemType == CLCIT_INFO) {
         int oldiImage = SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,iColumn);
-        if (oldiImage != 0xFF&&oldiImage != iImage)
+        if (oldiImage != 0xFF && oldiImage != iImage)
             SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage));
 		if (hItem == hItemAll) 
             SetAllChildIcons(hwndList,hItem,iColumn,iImage);
@@ -352,7 +352,7 @@ static void SetIconsForColumn(HWND hwndList,HANDLE hItem,HANDLE hItemAll,int iCo
 	}
 	else if (itemType == CLCIT_GROUP) {
         int oldiImage = SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,iColumn);
-        if (oldiImage != 0xFF&&oldiImage != iImage)
+        if (oldiImage != 0xFF && oldiImage != iImage)
             SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage));
 		hItem = (HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_CHILD,(LPARAM)hItem);
 		if (hItem) 
@@ -516,8 +516,7 @@ void SaveState()
 			//free(vastring);
 			if (szModeName && szModeName != (char*)szTempModeName)	
 				mir_free(szModeName);
-			if (szTempModeName) 
-				mir_free(szTempModeName);
+			mir_free(szTempModeName);
 			szTempModeName = NULL;
 			szModeName = NULL;
 		}
@@ -767,8 +766,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				TCHAR * temp = 
 					mir_utf8decodeW( g_CluiData.current_viewmode );
 
-				if (temp)
-				{
+				if (temp) {
 					index = SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_FINDSTRING, -1, (LPARAM)temp );
 					mir_free(temp);
 				}
@@ -852,7 +850,6 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							else 
 								clvm_curItem = -1;
 
-
 							if (szBuf && szBuf != (char*)szTempBuf) mir_free(szBuf);
 							if (szTempBuf) free(szTempBuf);
 							szTempBuf = NULL;
@@ -873,8 +870,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				if (lstrlen(szBuf) > 0) 
 				{
-					char  *szUTF8Buf = NULL;
-					szUTF8Buf = mir_utf8encodeT(szBuf);
+					char *szUTF8Buf = mir_utf8encodeT(szBuf);
 
 					if (db_get_dw(NULL, CLVM_MODULE, szUTF8Buf, -1) != -1)
 						MessageBox(0, TranslateT("A view mode with this name does alredy exist"), TranslateT("Duplicate name"), MB_OK);
@@ -1018,15 +1014,11 @@ static int FillMenuCallback(char *szSetting)
 	if (szSetting[0] == (char)13)
 		return 1;
 
-	{	
-		TCHAR * temp;
-		//temp = alloca((strlen(szSetting)+1)*sizeof(TCHAR));
-		mir_utf8decode(szSetting,&temp);
-		if (temp)
-		{
-			AppendMenu(hViewModeMenu, MFT_STRING, menuCounter++, temp);
-			mir_free(temp);
-		}
+	TCHAR * temp;
+	mir_utf8decode(szSetting,&temp);
+	if (temp) {
+		AppendMenu(hViewModeMenu, MFT_STRING, menuCounter++, temp);
+		mir_free(temp);
 	}
 	return 1;
 }
@@ -1113,7 +1105,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			while(_buttons[i] != 0) {
 				//SendMessage(GetDlgItem(hwnd, _buttons[i]), BM_SETSKINNED, 0, bSkinned);
-				if (1&&bSkinned) {
+				if (1 && bSkinned) {
 					SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, TRUE, 0);
 					SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN + 10, 0, 0);
 				}
@@ -1500,53 +1492,6 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 		g_CluiData.stickyMaskFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
 		if (g_CluiData.stickyMaskFilter != -1)
 			g_CluiData.bFilterEffective |= CLVM_FILTER_STICKYSTATUS;
-
-		/*
-		mir_snprintf(szSetting, 256, "%c%s_VA", 246, name);
-		if (!DBGetContactSetting(NULL, CLVM_MODULE, szSetting, &dbv)) {
-		strncpy(g_CluiData.varFilter, dbv.pszVal, sizeof(g_CluiData.varFilter));
-		g_CluiData.varFilter[sizeof(g_CluiData.varFilter) - 1] = 0;
-		if (lstrlenA(g_CluiData.varFilter) > 10 && ServiceExists(MS_VARS_FORMATSTRING))
-		g_CluiData.bFilterEffective |= CLVM_FILTER_VARIABLES;
-		mir_free(dbv.ptszVal);
-		if (g_CluiData.bFilterEffective & CLVM_FILTER_VARIABLES) {
-		HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-		char UIN[256];
-		char *id, *szProto;
-		const char *varstring;
-		char *temp;
-		FORMATINFO fi;
-
-		while(hContact) {
-		szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		if (szProto) {
-		id = (char*) CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-		if (id) {
-		if (!DBGetContactSetting(hContact, szProto, id, &dbv)) {
-		if (dbv.type == DBVT_ASCIIZ) {
-		mir_snprintf(UIN, 256, "<%s:%s>", szProto, dbv.pszVal);
-		}
-		else {
-		mir_snprintf(UIN, 256, "<%s:%d>", szProto, dbv.dVal);
-		}
-		varstring = MakeVariablesString(g_CluiData.varFilter, UIN);
-		ZeroMemory(&fi, sizeof(fi));
-		fi.cbSize = sizeof(fi);
-		fi.szFormat = varstring;
-		fi.szSource = "";
-		fi.hContact = 0;
-		temp = (char *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
-		if (temp && atol(temp) > 0)
-		_DebugPopup(hContact, "%s, %d, %d, %d", temp, temp, fi.pCount, fi.eCount);
-		variables_free(temp);
-		DBFreeVariant(&dbv);
-		}
-		}
-		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
-		}
-		}
-		}*/
 
 		g_CluiData.filterFlags = db_get_dw(NULL, CLVM_MODULE, name, 0);
 
