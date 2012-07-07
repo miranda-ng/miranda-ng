@@ -33,12 +33,12 @@ struct AwayMsgDlgData {
 	HANDLE hSeq;
 	HANDLE hAwayMsgEvent;
 };
-#define HM_AWAYMSG  (WM_USER+10)
+#define HM_AWAYMSG (WM_USER+10)
 static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	AwayMsgDlgData *dat = (AwayMsgDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch(message) 
+	switch(message)
 	{
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
@@ -50,13 +50,13 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			dat->hSeq = (HANDLE)CallContactService(dat->hContact, PSS_GETAWAYMSG, 0, 0);
 			WindowList_Add(hWindowList, hwndDlg, dat->hContact);
 
-			{	
-				TCHAR  str[256], format[128];
-				TCHAR* contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
-				char*  szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
-				WORD   dwStatus = DBGetContactSettingWord(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
-				TCHAR* status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
-				
+			{
+				TCHAR str[256], format[128];
+				TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+				char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+				WORD dwStatus = DBGetContactSettingWord(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
+				TCHAR *status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
+
 				GetWindowText(hwndDlg, format, SIZEOF(format));
 				mir_sntprintf(str, SIZEOF(str), format, status, contactName);
 				SetWindowText(hwndDlg, str);
@@ -71,7 +71,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			{
 				ACKDATA ack = {0};
 				ack.cbSize = sizeof(ack);
-				ack.hContact = dat->hContact; 
+				ack.hContact = dat->hContact;
 				ack.type = ACKTYPE_AWAYMSG;
 				ack.result = ACKRESULT_SUCCESS;
 				SendMessage(hwndDlg, HM_AWAYMSG, 0, (LPARAM)&ack);
@@ -80,7 +80,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			return TRUE;
 
 		case HM_AWAYMSG:
-		{	
+		{
 			ACKDATA *ack = (ACKDATA*)lParam;
 			if (ack->hContact != dat->hContact || ack->type != ACKTYPE_AWAYMSG) break;
 			if (ack->result != ACKRESULT_SUCCESS) break;
@@ -95,7 +95,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 		}
 
 		case WM_COMMAND:
-			switch(LOWORD(wParam)) 
+			switch(LOWORD(wParam))
 			{
 				case IDCANCEL:
 				case IDOK:
@@ -142,8 +142,8 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 	clmi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN | CMIF_TCHAR;
 
 	if (szProto != NULL) {
-	   int chatRoom = szProto ? DBGetContactSettingByte((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
-	   if ( !chatRoom) {
+		int chatRoom = szProto ? DBGetContactSettingByte((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
+		if ( !chatRoom) {
 			int status = DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
 			mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s Message"), pcli->pfnGetStatusModeDescription(status, 0));
 			clmi.ptszName = str;
@@ -166,7 +166,7 @@ static int AwayMsgPreShutdown(WPARAM, LPARAM)
 
 int LoadAwayMsgModule(void)
 {
-	CLISTMENUITEM mi = { 0 };
+	CLISTMENUITEM mi = {0};
 
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
