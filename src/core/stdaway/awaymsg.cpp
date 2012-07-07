@@ -20,7 +20,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "..\..\core\commonheaders.h"
+
+#include "commonheaders.h"
 
 int LoadAwayMessageSending(void);
 
@@ -51,10 +52,10 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 
 			{	
 				TCHAR  str[256], format[128];
-				TCHAR* contactName = cli.pfnGetContactDisplayName(dat->hContact, 0);
+				TCHAR* contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 				char*  szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
 				WORD   dwStatus = DBGetContactSettingWord(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
-				TCHAR* status = cli.pfnGetStatusModeDescription(dwStatus, 0);
+				TCHAR* status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
 				
 				GetWindowText(hwndDlg, format, SIZEOF(format));
 				mir_sntprintf(str, SIZEOF(str), format, status, contactName);
@@ -144,10 +145,10 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 	   int chatRoom = szProto ? DBGetContactSettingByte((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
 	   if ( !chatRoom) {
 			int status = DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
-			mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s Message"), cli.pfnGetStatusModeDescription(status, 0));
+			mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s Message"), pcli->pfnGetStatusModeDescription(status, 0));
 			clmi.ptszName = str;
-			if (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
-				if (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {
+			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
+				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {
 					clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_NOTOFFLINE | CMIM_ICON | CMIF_TCHAR;
 					clmi.hIcon = LoadSkinProtoIcon(szProto, status);
 	}	}	}	}

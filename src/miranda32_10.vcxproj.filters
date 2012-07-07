@@ -16,9 +16,6 @@
     <Filter Include="Modules\button">
       <UniqueIdentifier>{880105c7-0ef2-41ee-9541-fe2c9e5a7679}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\contacts">
-      <UniqueIdentifier>{3e919355-7099-4252-be9f-46e5b4f6bbc7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Modules\database">
       <UniqueIdentifier>{a4463881-5b8c-497a-b5f4-5832dbc5fbfa}</UniqueIdentifier>
     </Filter>
@@ -45,9 +42,6 @@
     </Filter>
     <Filter Include="Modules\skin">
       <UniqueIdentifier>{474a2558-48fd-45d5-b8e8-3a07d780f02a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\srawaymsg">
-      <UniqueIdentifier>{ede3d43b-a5cf-462a-90df-4ddd7a091234}</UniqueIdentifier>
     </Filter>
     <Filter Include="Modules\utils">
       <UniqueIdentifier>{4549cb1a-17d4-49a2-82e9-3acd7e17f5bc}</UniqueIdentifier>
@@ -290,9 +284,6 @@
     <ClCompile Include="modules\button\button.cpp">
       <Filter>Modules\button</Filter>
     </ClCompile>
-    <ClCompile Include="modules\contacts\contacts.cpp">
-      <Filter>Modules\contacts</Filter>
-    </ClCompile>
     <ClCompile Include="modules\database\database.cpp">
       <Filter>Modules\database</Filter>
     </ClCompile>
@@ -397,12 +388,6 @@
     </ClCompile>
     <ClCompile Include="modules\skin\sounds.cpp">
       <Filter>Modules\skin</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\srawaymsg\awaymsg.cpp">
-      <Filter>Modules\srawaymsg</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\srawaymsg\sendmsg.cpp">
-      <Filter>Modules\srawaymsg</Filter>
     </ClCompile>
     <ClCompile Include="modules\utils\bmpfilter.cpp">
       <Filter>Modules\utils</Filter>

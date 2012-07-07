@@ -58,11 +58,12 @@ MuuidReplacement pluginDefault[] =
 	{	MIID_IDLE,            _T("stdidle"),       NULL },  // 7
 	{	MIID_AUTOAWAY,        _T("stdautoaway"),   NULL },  // 8
 	{	MIID_USERONLINE,      _T("stduseronline"), NULL },  // 9
+	{	MIID_SRAWAY,          _T("stdaway"),       NULL },  // 10
 
-	{	MIID_CLIST,           NULL,   NULL },  // 10
-	{	MIID_CHAT,            NULL,   NULL },  // 11
-	{	MIID_SRMM,            NULL,   NULL },  // 12
-	{	MIID_DATABASE,        NULL,   NULL },  // 13
+	{	MIID_CLIST,           NULL,   NULL },  // 11
+	{	MIID_CHAT,            NULL,   NULL },  // 12
+	{	MIID_SRMM,            NULL,   NULL },  // 13
+	{	MIID_DATABASE,        NULL,   NULL },  // 14
 };
 
 static BOOL bModuleInitialized = FALSE;

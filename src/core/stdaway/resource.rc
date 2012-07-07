@@ -1,0 +1,121 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\..\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+#include <winres.h>
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_AWAYMSG DIALOGEX 0, 0, 263, 151
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Status Messages",IDC_STATIC,4,5,255,142
+    COMBOBOX        IDC_STATUS,12,19,240,97,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Do not reply to requests for this message",IDC_DONTREPLY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,37,227,10
+    CONTROL         "Do not pop up dialog asking for new message",IDC_NODIALOG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,50,227,10
+    CONTROL         "By default, use the same message as last time",IDC_USEPREVIOUS,
+                    "Button",BS_AUTORADIOBUTTON,23,65,227,10
+    CONTROL         "By default, use this message:",IDC_USESPECIFIC,"Button",BS_AUTORADIOBUTTON,23,78,227,10
+    EDITTEXT        IDC_MSG,33,91,219,38,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    LTEXT           "Use %time% for the current time, %date% for the current date",IDC_STATIC,33,131,219,8
+END
+
+IDD_MODERNOPT_STATUS DIALOGEX 0, 0, 369, 113
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_STATUS,2,54,16,97,CBS_DROPDOWNLIST | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Do not reply to requests for this message",IDC_DONTREPLY,
+                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,0,33,10,10
+    CONTROL         "Do not pop up dialog asking for new message",IDC_NODIALOG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,93,264,10
+    CONTROL         "By default, use the same message as last time",IDC_USEPREVIOUS,
+                    "Button",BS_AUTORADIOBUTTON,105,13,227,10
+    CONTROL         "By default, use this message:",IDC_USESPECIFIC,"Button",BS_AUTORADIOBUTTON,105,26,227,10
+    EDITTEXT        IDC_MSG,125,39,244,38,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    CTEXT           "Use %time% for the current time, %date% for the current date",IDC_STATIC,125,78,244,8,SS_CENTERIMAGE
+    LTEXT           "Status messages:",IDC_TXT_TITLE1,0,0,246,8
+    LISTBOX         IDC_LST_STATUS,10,13,90,95,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+#endif    // APSTUDIO_INVOKED
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPT_AWAYMSG, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 259
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 147
+    END
+
+    IDD_MODERNOPT_STATUS, DIALOG
+    BEGIN
+        VERTGUIDE, 10
+        VERTGUIDE, 100
+        VERTGUIDE, 105
+        VERTGUIDE, 218
+        BOTTOMMARGIN, 103
+        HORZGUIDE, 8
+        HORZGUIDE, 13
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE
+BEGIN
+    "..\..\resource.h\0"
+END
+
+2 TEXTINCLUDE
+BEGIN
+    "#include <windows.h>\r\n"
+    "#include <winres.h>\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
