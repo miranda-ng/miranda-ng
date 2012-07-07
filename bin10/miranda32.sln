@@ -96,6 +96,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stduihist", "..\src\core\st
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stduseronline", "..\src\core\stduseronline\stduseronline_10.vcxproj", "{D22C1BBB-E06A-4A28-8F33-17D1EA3E8563}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdaway", "..\src\core\stdaway\stdaway_10.vcxproj", "{C14D6E0D-810E-4599-A6E0-17298AFA0501}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -479,6 +481,14 @@ Global
 		{D22C1BBB-E06A-4A28-8F33-17D1EA3E8563}.Release|Win32.Build.0 = Release|Win32
 		{D22C1BBB-E06A-4A28-8F33-17D1EA3E8563}.Release|x64.ActiveCfg = Release|x64
 		{D22C1BBB-E06A-4A28-8F33-17D1EA3E8563}.Release|x64.Build.0 = Release|x64
+		{C14D6E0D-810E-4599-A6E0-17298AFA0501}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C14D6E0D-810E-4599-A6E0-17298AFA0501}.Debug|Win32.Build.0 = Debug|Win32
+		{C14D6E0D-810E-4599-A6E0-17298AFA0501}.Debug|x64.ActiveCfg = Debug|x64
+		{C14D6E0D-810E-4599-A6E0-17298AFA0501}.Debug|x64.Build.0 = Debug|x64
+		{C14D6E0D-810E-4599-A6E0-17298AFA0501}.Release|Win32.ActiveCfg = Release|Win32
+		{C14D6E0D-810E-4599-A6E0-17298AFA0501}.Release|Win32.Build.0 = Release|Win32
+		{C14D6E0D-810E-4599-A6E0-17298AFA0501}.Release|x64.ActiveCfg = Release|x64
+		{C14D6E0D-810E-4599-A6E0-17298AFA0501}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
