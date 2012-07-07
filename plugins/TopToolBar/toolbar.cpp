@@ -658,7 +658,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		hwndTopToolBar = hwnd;
 		return FALSE;
 
-	case  WM_MOVE:
+	case WM_MOVE:
 		return 0;
 
 	case WM_WINDOWPOSCHANGING:
@@ -799,7 +799,7 @@ int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 		char buf[256];
 		sprintf(buf, "TopToolBar Background/%s", TTB_OPTDIR);
 		CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)buf, 0);
-		arHooks.insert( HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnBGChange));
+		HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnBGChange);
 	}	
 
 	ttbOptionsChanged();
@@ -814,22 +814,22 @@ int LoadToolbarModule()
 	StopArrange = TRUE;
 	hBmpSeparator = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SEP));
 
-	arHooks.insert( HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad));
-	arHooks.insert( HookEvent(ME_SKIN2_ICONSCHANGED, OnIconChange));
-	arHooks.insert( HookEvent(ME_OPT_INITIALISE, TTBOptInit));
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad);
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconChange);
+	HookEvent(ME_OPT_INITIALISE, TTBOptInit);
 
-	arServices.insert( CreateServiceFunction(MS_TTB_ADDBUTTON, TTBAddButton));
-	arServices.insert( CreateServiceFunction(MS_TTB_REMOVEBUTTON, TTBRemoveButton));
+	CreateServiceFunction(MS_TTB_ADDBUTTON, TTBAddButton);
+	CreateServiceFunction(MS_TTB_REMOVEBUTTON, TTBRemoveButton);
 
-	arServices.insert( CreateServiceFunction(MS_TTB_SETBUTTONSTATE, TTBSetState));
-	arServices.insert( CreateServiceFunction(MS_TTB_GETBUTTONSTATE, TTBGetState));
+	CreateServiceFunction(MS_TTB_SETBUTTONSTATE, TTBSetState);
+	CreateServiceFunction(MS_TTB_GETBUTTONSTATE, TTBGetState);
 	
-	arServices.insert( CreateServiceFunction(MS_TTB_GETBUTTONOPTIONS, TTBGetOptions));
-	arServices.insert( CreateServiceFunction(MS_TTB_SETBUTTONOPTIONS, TTBSetOptions));
+	CreateServiceFunction(MS_TTB_GETBUTTONOPTIONS, TTBGetOptions);
+	CreateServiceFunction(MS_TTB_SETBUTTONOPTIONS, TTBSetOptions);
 
-	arServices.insert( CreateServiceFunction(TTB_LAUNCHSERVICE, LaunchService));
+	CreateServiceFunction(TTB_LAUNCHSERVICE, LaunchService);
 	
-	arServices.insert( CreateServiceFunction("TTB_ONSTARTUPFIRE", OnEventFire));
+	CreateServiceFunction("TTB_ONSTARTUPFIRE", OnEventFire);
 
 	BUTTHEIGHT = DBGetContactSettingByte(0, TTB_OPTDIR, "BUTTHEIGHT", DEFBUTTHEIGHT);
 	BUTTWIDTH = DBGetContactSettingByte(0, TTB_OPTDIR, "BUTTWIDTH", DEFBUTTWIDTH);

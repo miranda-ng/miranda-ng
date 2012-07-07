@@ -91,10 +91,10 @@ int UnLoadInternalButtons()
 int LoadInternalButtons(HWND hwnd)
 {
 	hwndContactTree = hwnd;
-	arServices.insert( CreateServiceFunction(TTBI_GROUPSHOWHIDE, TTBInternalGroupShowHide));
-	arServices.insert( CreateServiceFunction(TTBI_SOUNDSONOFF, TTBInternalSoundsOnOff));
+	CreateServiceFunction(TTBI_GROUPSHOWHIDE, TTBInternalGroupShowHide);
+	CreateServiceFunction(TTBI_SOUNDSONOFF, TTBInternalSoundsOnOff);
 
-	arServices.insert( CreateServiceFunction(TTBI_MAINMENUBUTT, TTBInternalMainMenuButt));
+	CreateServiceFunction(TTBI_MAINMENUBUTT, TTBInternalMainMenuButt);
 
 	int ShowOnline = DBGetContactSettingByte(NULL, "CList", "HideOffline", 0);
 	int ShowGroups = DBGetContactSettingByte(NULL, "CList", "UseGroups", 2);
@@ -169,7 +169,7 @@ int LoadInternalButtons(HWND hwnd)
 	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hMainMenuBut), 
 		(LPARAM)"Show Main Menu");
 
-	arHooks.insert(HookEvent(ME_DB_CONTACT_SETTINGCHANGED,OnSettingChanging));
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED,OnSettingChanging);
 
  	return 0;
 }

@@ -3,6 +3,8 @@
 
 #define BitChanged(c) (dwFlags ^ Flags) & c
 
+static int maxid = 10000;
+
 TopButtonInt::~TopButtonInt()
 {
 	if (dwFlags & TTBBF_ISLBUTTON) {
@@ -105,6 +107,9 @@ void TopButtonInt::LoadSettings()
 		if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, name, "_Visible"), oldv) > 0 )
 			dwFlags |= TTBBF_VISIBLE;
 	}
+
+	if (Buttons.getIndex(this) != -1)
+		arrangedpos = maxid++;
 }
 
 void TopButtonInt::SaveSettings(int *SepCnt, int *LaunchCnt)

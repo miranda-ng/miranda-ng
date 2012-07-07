@@ -643,7 +643,7 @@ int TTBOptInit(WPARAM wParam, LPARAM lParam)
 
 	if ( !ServiceExists(MS_BACKGROUNDCONFIG_REGISTER)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TTBBKG);
-		odp.pszTitle = LPGEN("TTBBackground");
+		odp.pszTitle = LPGEN("Background");
 		odp.pfnDlgProc = DlgProcTTBBkgOpts;
 		odp.flags = ODPF_BOLDGROUPS;
 		Options_AddPage(wParam, &odp);
@@ -651,10 +651,9 @@ int TTBOptInit(WPARAM wParam, LPARAM lParam)
 
 	odp.position = -1000000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_BUTORDER);
-	odp.pszGroup = LPGEN("TopToolBar");
 	odp.pszTitle = LPGEN("Buttons");
 	odp.pfnDlgProc = ButOrderOpts;
-	odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

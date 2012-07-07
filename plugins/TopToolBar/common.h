@@ -104,7 +104,6 @@ extern bool StopArrange;
 extern HWND hwndTopToolBar;
 extern HANDLE hHookTTBModuleLoaded;
 extern HINSTANCE hInst;
-extern LIST<void> arHooks, arServices;
 extern HBITMAP hBmpBackground, hBmpSeparator;
 extern int BUTTWIDTH, BUTTHEIGHT, BUTTGAP;
 extern CRITICAL_SECTION csButtonsHook;
