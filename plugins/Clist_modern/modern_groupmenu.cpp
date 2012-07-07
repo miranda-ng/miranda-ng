@@ -151,7 +151,7 @@ INT_PTR GroupMenuExecService(WPARAM wParam,LPARAM lParam) {
 	if (wParam != 0)
 	{
 		lpGroupMenuExecParam mmep = (lpGroupMenuExecParam)wParam;	
-		if (!mir_strcmp(mmep->szServiceName,"Help/AboutCommand"))
+		if ( !mir_strcmp(mmep->szServiceName,"Help/AboutCommand"))
 		{
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;
@@ -281,7 +281,7 @@ void GroupMenus_Init(void)
 	CreateServiceFunction(MS_CLIST_REMOVEGROUPMENUITEM,RemoveGroupMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDGROUP,BuildGroupMenu);
 
-	ModernHookEvent(ME_CLIST_PREBUILDGROUPMENU,OnBuildGroupMenu);
+	HookEvent(ME_CLIST_PREBUILDGROUPMENU,OnBuildGroupMenu);
 
 	InitSubGroupMenus();
 
@@ -431,7 +431,7 @@ void GroupMenus_Init(void)
 	hDisableGroupsMenuItem = (HANDLE)AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
 	
 	
-	ModernHookEvent(ME_SKIN2_ICONSCHANGED,OnIconLibIconChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED,OnIconLibIconChanged);
 	
 	//MS_CLIST_GROUPCREATE
 
@@ -611,7 +611,7 @@ INT_PTR SubGroupMenuExecService(WPARAM wParam,LPARAM lParam) {
 	if (wParam != 0)
 	{
 		lpSubGroupMenuExecParam mmep = (lpSubGroupMenuExecParam)wParam;	
-		if (!mir_strcmp(mmep->szServiceName,"Help/AboutCommand"))
+		if ( !mir_strcmp(mmep->szServiceName,"Help/AboutCommand"))
 		{
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;
@@ -664,7 +664,7 @@ void InitSubGroupMenus(void)
 	CreateServiceFunction(MS_CLIST_REMOVESUBGROUPMENUITEM,RemoveSubGroupMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDSUBGROUP,BuildSubGroupMenu);
 
-	ModernHookEvent(ME_CLIST_PREBUILDSUBGROUPMENU,OnBuildSubGroupMenu);
+	HookEvent(ME_CLIST_PREBUILDSUBGROUPMENU,OnBuildSubGroupMenu);
 
 	//SubGroup menu
 	memset(&tmp,0,sizeof(tmp));

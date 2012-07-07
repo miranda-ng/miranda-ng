@@ -84,10 +84,10 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
   DWORD style;
   style = GetWindowLongPtr(hwnd,GWL_STYLE);
   pdnce = (displayNameCacheEntry*)pcli->pfnGetCacheEntry(contact->hContact);
-  if (!RowHeights_Alloc(dat, item + 1))
+  if ( !RowHeights_Alloc(dat, item + 1))
     return -1;
-  if (!pcli->hwndContactTree) return 0;
-  //if (!gl_RowRoot) RowHeight_InitModernRow();
+  if ( !pcli->hwndContactTree) return 0;
+  //if ( !gl_RowRoot) RowHeight_InitModernRow();
   if (dat->hWnd != pcli->hwndContactTree || !gl_RowRoot || contact->type == CLCIT_GROUP) 
   {
     int tmp = 0;
@@ -316,7 +316,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
             {
               TCHAR szResult[80];
 
-			  if (!tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0))
+			  if ( !tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0))
               {
                 SIZE text_size = {0};
                 RECT rc = {0};
@@ -440,7 +440,7 @@ int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd)
   int max_height = 0, i, tmp;
   DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);
   
-  if (!dat->text_ignore_size_for_row_height)
+  if ( !dat->text_ignore_size_for_row_height)
   {
     int contact_fonts[] = {FONTID_CONTACTS, FONTID_INVIS, FONTID_OFFLINE, FONTID_NOTONLIST, FONTID_OFFINVIS, 
       FONTID_AWAY,FONTID_DND, FONTID_NA, FONTID_OCCUPIED, FONTID_CHAT, FONTID_INVISIBLE, 
@@ -501,7 +501,7 @@ int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd)
   }
 
   // Icon size
-  if (!dat->icon_ignore_size_for_row_height)
+  if ( !dat->icon_ignore_size_for_row_height)
   {
     max_height = max(max_height, ICON_HEIGHT);
   }
@@ -570,7 +570,7 @@ void RowHeights_CalcRowHeights_Worker(struct ClcData *dat, HWND hwnd)
     line_num++;
 
     // Calc row height
-    if (!gl_RowRoot) RowHeights_GetRowHeight(dat, hwnd, Drawing, line_num);
+    if ( !gl_RowRoot) RowHeights_GetRowHeight(dat, hwnd, Drawing, line_num);
     else RowHeight_CalcRowHeight(dat, hwnd, Drawing, line_num);
 
     //increment by subcontacts
@@ -632,12 +632,12 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
 	BOOL selected = ((item == dat->selection) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type != CLCIT_DIVIDER);
 	BOOL hottrack = ((item == dat->iHotTrack) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type != CLCIT_DIVIDER);
 	BOOL minimalistic = (g_clcPainter.CheckMiniMode(dat,selected,hottrack));
-    if (!RowHeights_Alloc(dat, item + 1))
+    if ( !RowHeights_Alloc(dat, item + 1))
       return -1;
 
     if (dat->row_variable_height)
     {
-      if (!dat->text_ignore_size_for_row_height)
+      if ( !dat->text_ignore_size_for_row_height)
       {
 		HANDLE hContact = pdnce->m_cache_hContact;	 
         tmp = dat->fontModernInfo[g_clcPainter.GetBasicFontID(contact)].fontHeight;
@@ -647,7 +647,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
         }
         height  += tmp;
 
-        if (!minimalistic && dat->second_line_show && pdnce->szSecondLineText && pdnce->szSecondLineText[0])
+        if ( !minimalistic && dat->second_line_show && pdnce->szSecondLineText && pdnce->szSecondLineText[0])
         {
           tmp = dat->fontModernInfo[FONTID_SECONDLINE].fontHeight;
           if (dat->text_replace_smileys && dat->second_line_draw_smileys && !dat->text_resize_smileys)
@@ -657,7 +657,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
           height  += dat->second_line_top_space + tmp;
         }
 
-        if (!minimalistic && dat->third_line_show && pdnce->szThirdLineText && pdnce->szThirdLineText[0])
+        if ( !minimalistic && dat->third_line_show && pdnce->szThirdLineText && pdnce->szThirdLineText[0])
         {
           tmp = dat->fontModernInfo[FONTID_THIRDLINE].fontHeight;
           if (dat->text_replace_smileys && dat->third_line_draw_smileys && !dat->text_resize_smileys)
@@ -688,7 +688,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
       }
 
       // Icon size
-      if (!dat->icon_ignore_size_for_row_height)
+      if ( !dat->icon_ignore_size_for_row_height)
       {
         if (contact->type == CLCIT_GROUP 
           || (contact->type == CLCIT_CONTACT && contact->iImage != -1 

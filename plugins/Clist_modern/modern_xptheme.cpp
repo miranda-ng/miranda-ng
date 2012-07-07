@@ -31,7 +31,7 @@ static HRESULT  (WINAPI *_xpt_DrawThemeText)(HANDLE, HDC, int, int, LPCWSTR, int
 #undef  MGPROC
 #define MGPROC(x) GetProcAddress(_xpt_ThemeAPIHandle,x)
 
-#define xptcheck  if (!xptModuleLoaded) return
+#define xptcheck  if ( !xptModuleLoaded) return
 #define xptlock() EnterCriticalSection(&xptCS)
 #define xptunlock() LeaveCriticalSection(&xptCS)
 
@@ -43,7 +43,7 @@ static void _sttXptObjectDestructor (void * pt)
 static int _xpt_ThemeSupport()
 {
 	if (IsWinVerXPPlus()) {
-		if (!_xpt_ThemeAPIHandle) {
+		if ( !_xpt_ThemeAPIHandle) {
 			_xpt_ThemeAPIHandle = GetModuleHandleA("uxtheme");
 			if (_xpt_ThemeAPIHandle) {
 				_xpt_OpenThemeData = (HANDLE(WINAPI *)(HWND, LPCWSTR))MGPROC("OpenThemeData");
@@ -110,7 +110,7 @@ BOOL xpt_IsThemed(XPTHANDLE xptHandle)
 {
 	BOOL res = FALSE;
 	xptcheck FALSE;
-	if (!xptHandle) return FALSE;
+	if ( !xptHandle) return FALSE;
 	xptlock();
 	{
 		if (xpt_IsValidHandle(xptHandle) && ((XPTObject*) xptHandle)->hThemeHandle)
@@ -124,7 +124,7 @@ BOOL xpt_IsValidHandle(XPTHANDLE xptHandle)
 {
 	BOOL res = FALSE;
 	xptcheck FALSE;
-	if (!xptHandle) return FALSE;
+	if ( !xptHandle) return FALSE;
 	xptlock();
 	{
 		if (List_IndexOf(xptObjectList, (void*)xptHandle) != -1) 

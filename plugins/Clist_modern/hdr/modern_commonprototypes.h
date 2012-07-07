@@ -104,7 +104,7 @@ INT_PTR	CLUI_GetConnectingIconService(WPARAM wParam,LPARAM lParam);
 int		CLUI_HideBehindEdge();
 int		CLUI_IconsChanged(WPARAM,LPARAM);
 int		CLUI_IsInMainWindow(HWND hwnd);
-HICON	CLUI_LoadIconFromExternalFile (char *filename,int i,boolean UseLibrary,boolean registerit,char *IconName,char *SectName,char *Description,int internalidx, BOOL * needFree);
+HICON	CLUI_LoadIconFromExternalFile (char *filename,int i,BOOL UseLibrary,bool registerit,char *IconName,char *SectName,char *Description,int internalidx, BOOL * needFree);
 int		CLUI_OnSkinLoad(WPARAM wParam, LPARAM lParam);
 int		CLUI_ReloadCLUIOptions();
 int		CLUI_ShowFromBehindEdge();

@@ -185,9 +185,6 @@ static HANDLE hRenameMenuItem,
               hShowAvatarMenuItem,
               hHideAvatarMenuItem;
 
-
-static HANDLE hSettingChangedHook=NULL;
-
 static UINT uMsgGetProfile=0;
 
 static int nLastRequiredHeight=0,

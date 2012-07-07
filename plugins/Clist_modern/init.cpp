@@ -136,8 +136,6 @@ PLUGININTERFACE int Unload(void)
 	if (IsWindow(pcli->hwndContactList)) DestroyWindow(pcli->hwndContactList);
 	pcli->hwndContactList = NULL;
 
-	UnhookAll();
-
 	BackgroundsUnloadModule();
 	SkinEngineUnloadModule();
 	XPThemesUnloadModule();

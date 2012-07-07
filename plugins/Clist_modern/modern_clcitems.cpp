@@ -100,7 +100,7 @@ void AddSubcontacts(struct ClcData *dat, struct ClcContact * cont, BOOL showOffl
 		}	}
 
 	cont->SubAllocated = i;
-	if (!i && cont->subcontacts != NULL)
+	if ( !i && cont->subcontacts != NULL)
 		mir_free_and_nil(cont->subcontacts);
 }
 
@@ -117,8 +117,8 @@ struct ClcGroup *cli_AddGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,
 {
 	struct ClcGroup* result;
 	ClearRowByIndexCache();	
-	if (!dat->force_in_dialog && !(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN))
-		if (!lstrcmp(_T("-@-HIDDEN-GROUP-@-"),szName))        //group is hidden
+	if ( !dat->force_in_dialog && !(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN))
+		if ( !lstrcmp(_T("-@-HIDDEN-GROUP-@-"),szName))        //group is hidden
 		{   	
 			ClearRowByIndexCache();
 			return NULL;
@@ -175,7 +175,7 @@ static void _LoadDataToContact(struct ClcContact * cont, struct ClcGroup *group,
 	DWORD idleMode;
 	char * szProto;
 
-	if (!cont) return;
+	if ( !cont) return;
 	cont->type = CLCIT_CONTACT;
 	cont->SubAllocated = 0;
 	cont->isSubcontact = 0;
@@ -264,9 +264,9 @@ void * AddTempGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flag
 	for (i = 1;;i++) {
 		szGroupName = pcli->pfnGetGroupName(i,&groupFlags);
 		if (szGroupName == NULL) break;
-		if (!mir_tstrcmpi(szGroupName,szName)) f = 1;
+		if ( !mir_tstrcmpi(szGroupName,szName)) f = 1;
 	}
-	if (!f)
+	if ( !f)
 	{
 		char buf[20];
 		TCHAR b2[255];
@@ -288,7 +288,7 @@ void cli_AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int upda
 	struct ClcContact * cont;
 	pdisplayNameCacheEntry cacheEntry = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hContact);
 	if (dat->IsMetaContactsEnabled && cacheEntry && cacheEntry->m_cache_nHiddenSubcontact) return;		//contact should not be added
-	if (!dat->IsMetaContactsEnabled && cacheEntry && g_szMetaModuleName && !mir_strcmp(cacheEntry->m_cache_cszProto,g_szMetaModuleName)) return;
+	if ( !dat->IsMetaContactsEnabled && cacheEntry && g_szMetaModuleName && !mir_strcmp(cacheEntry->m_cache_cszProto,g_szMetaModuleName)) return;
 	corecli.pfnAddContactToTree(hwnd,dat,hContact,updateTotalCount,checkHideOffline);
 	if (FindItem(hwnd,dat,hContact,&cont,&group,NULL,FALSE))
 		_LoadDataToContact(cont, group, dat, hContact);
@@ -312,7 +312,7 @@ void cli_DeleteItemFromTree(HWND hwnd,HANDLE hItem)
 __inline BOOL CLCItems_IsShowOfflineGroup(struct ClcGroup* group)
 {
 	DWORD groupFlags = 0;
-	if (!group) return FALSE;
+	if ( !group) return FALSE;
 	if (group->hideOffline) return FALSE;
 	pcli->pfnGetGroupName(group->groupId,&groupFlags);
 	return (groupFlags&GROUPF_SHOWOFFLINE) != 0;
@@ -417,14 +417,14 @@ void cliRebuildEntireList(HWND hwnd,struct ClcData *dat)
 						group = &dat->list;
 				group->totalMembers++;
 
-				if (!(style&CLS_NOHIDEOFFLINE) && (style&CLS_HIDEOFFLINE || group->hideOffline)) 
+				if ( !(style&CLS_NOHIDEOFFLINE) && (style&CLS_HIDEOFFLINE || group->hideOffline)) 
 				{
 					if (cacheEntry->m_cache_cszProto == NULL) {
-						if (!pcli->pfnIsHiddenMode(dat,ID_STATUS_OFFLINE) || cacheEntry->m_cache_nNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
+						if ( !pcli->pfnIsHiddenMode(dat,ID_STATUS_OFFLINE) || cacheEntry->m_cache_nNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
 							cont = AddContactToGroup(dat,group,cacheEntry);
 					}
 					else
-						if (!pcli->pfnIsHiddenMode(dat,wStatus) || cacheEntry->m_cache_nNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
+						if ( !pcli->pfnIsHiddenMode(dat,wStatus) || cacheEntry->m_cache_nNoHiddenOffline || CLCItems_IsShowOfflineGroup(group))
 							cont = AddContactToGroup(dat,group,cacheEntry);
 				}
 				else cont = AddContactToGroup(dat,group,cacheEntry);
@@ -493,7 +493,7 @@ int GetNewSelection(struct ClcGroup *group, int selection, int direction)
 		if (count >= selection) return count;
 		lastcount = count;
 		count++;
-		if (!direction) {
+		if ( !direction) {
 			if (count>selection) return lastcount;
 		}
 		if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && (group->cl.items[group->scanIndex]->group->expanded)) {
@@ -629,7 +629,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 		if (savedInfo[i].parentId == -1)
 			group = &dat->list;
 		else {
-			if (!pcli->pfnFindItem(hwnd, dat, (HANDLE) (savedInfo[i].parentId | HCONTACT_ISGROUP), &contact, NULL, NULL))
+			if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE) (savedInfo[i].parentId | HCONTACT_ISGROUP), &contact, NULL, NULL))
 				continue;
 			group = contact->group;
 		}
@@ -651,15 +651,15 @@ void cli_SaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 
 WORD pdnce___GetStatus(pdisplayNameCacheEntry pdnce)
 {
-	if (!pdnce) 
+	if ( !pdnce) 
 		return ID_STATUS_OFFLINE;
 	else
 		return pdnce->m_cache_nStatus;
 	/*
 	// this stub will replace direct usage of m_cache_nStatus and will be substituted by getting info from DB directrly
-	if (!pdnce) return ID_STATUS_OFFLINE;
-	if (!pdnce->m_cache_cszProto) return ID_STATUS_OFFLINE;
-	if (!pdnce->m_cache_hContact) return ID_STATUS_OFFLINE;
+	if ( !pdnce) return ID_STATUS_OFFLINE;
+	if ( !pdnce->m_cache_cszProto) return ID_STATUS_OFFLINE;
+	if ( !pdnce->m_cache_hContact) return ID_STATUS_OFFLINE;
 	return DBGetContactSettingWord( pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "Status" , ID_STATUS_OFFLINE );
 	*/
 }
@@ -784,7 +784,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 			filterResult = strstr(g_CluiData.protoFilter, szTemp) ? 1 : 0;
 		}
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
-			if (!DBGetContactSettingTString(hContact, "CList", "Group", &dbv)) {
+			if ( !DBGetContactSettingTString(hContact, "CList", "Group", &dbv)) {
 				mir_sntprintf(szGroupMask, SIZEOF(szGroupMask), _T("%s|"), &dbv.ptszVal[0]);
 				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (_tcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (_tcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0));
 				mir_free(dbv.ptszVal);

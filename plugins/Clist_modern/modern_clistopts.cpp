@@ -396,7 +396,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 
 			SendDlgItemMessage(hwndDlg, IDC_AVATAR_BORDER_COLOR, CPM_SETCOLOUR, 0, (COLORREF)db_get_dw(NULL,"CList","AvatarsBorderColor",SETTINGS_AVATARBORDERCOLOR_DEFAULT));
 
-			if (!IsDlgButtonChecked(hwndDlg,IDC_SHOW_AVATARS)) 
+			if ( !IsDlgButtonChecked(hwndDlg,IDC_SHOW_AVATARS)) 
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_DRAW_BORDER),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_BORDER_COLOR_L),FALSE);
@@ -423,29 +423,29 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			{
 				EnableWindow( GetDlgItem( hwndDlg, IDC_AVATAR_FASTDRAW), FALSE );
 			}
-			if (!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_DRAW_BORDER)) 
+			if ( !IsDlgButtonChecked(hwndDlg,IDC_AVATAR_DRAW_BORDER)) 
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_BORDER_COLOR_L),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_BORDER_COLOR),FALSE);
 			}
-			if (!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_ROUND_CORNERS)) 
+			if ( !IsDlgButtonChecked(hwndDlg,IDC_AVATAR_ROUND_CORNERS)) 
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN),FALSE);
 			}  
-			if (!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK))
+			if ( !IsDlgButtonChecked(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK))
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN),FALSE);
 			}	
-			if (!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_OVERLAY_ICONS)) 
+			if ( !IsDlgButtonChecked(hwndDlg,IDC_AVATAR_OVERLAY_ICONS)) 
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_NORMAL),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_PROTOCOL),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_CONTACT),FALSE);
 			}
-			if (!ServiceExists(MS_AV_GETAVATARBITMAP) || g_CluiData.fGDIPlusFail)
+			if ( !ServiceExists(MS_AV_GETAVATARBITMAP) || g_CluiData.fGDIPlusFail)
 			{
 			   EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_ANIAVATARS),FALSE);
 			   SetDlgItemText(hwndDlg, IDC_SHOW_ANIAVATARS, TranslateT("Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)"));
@@ -594,7 +594,7 @@ static INT_PTR CALLBACK DlgProcItemIconOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 			CheckDlgButton(hwndDlg, IDC_DRAWSTATUSOVERLAY, (db_get_b(NULL,"CLC","DrawOverlayedStatus",SETTING_DRAWOVERLAYEDSTATUS_DEFAULT)&2) ? BST_CHECKED : BST_UNCHECKED );			
 			EnableWindow(GetDlgItem(hwndDlg,IDC_DRAWSTATUSOVERLAY),IsDlgButtonChecked(hwndDlg,IDC_USEXSTATUS));
 
-			if (!IsDlgButtonChecked(hwndDlg,IDC_HIDE_ICON_ON_AVATAR))
+			if ( !IsDlgButtonChecked(hwndDlg,IDC_HIDE_ICON_ON_AVATAR))
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_DRAW_ON_AVATAR_SPACE),FALSE);
 			}
@@ -732,7 +732,7 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 			//CLUI_ShowWindowMod(GetDlgItem(hwndDlg,IDC_RESIZE_SMILEYS), smileAddPresent ? SW_SHOW : SW_HIDE);
 			CLUI_ShowWindowMod(GetDlgItem(hwndDlg,IDC_DRAW_SMILEYS_ON_FIRST_LINE), smileAddPresent ? SW_SHOW : SW_HIDE);
 
-			if (!IsDlgButtonChecked(hwndDlg,IDC_REPLACE_SMILEYS))
+			if ( !IsDlgButtonChecked(hwndDlg,IDC_REPLACE_SMILEYS))
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_USE_PROTOCOL_SMILEYS),FALSE);
 				//EnableWindow(GetDlgItem(hwndDlg,IDC_RESIZE_SMILEYS),FALSE);  //Commented out for listening to icon
@@ -807,7 +807,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 			{
 				DBVARIANT dbv = {0};
 
-				if (!DBGetContactSettingTString(NULL, "CList","SecondLineText", &dbv))
+				if ( !DBGetContactSettingTString(NULL, "CList","SecondLineText", &dbv))
 				{
 					SetWindowText(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), dbv.ptszVal);
 					db_free(&dbv);
@@ -829,7 +829,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 			CheckDlgButton(hwndDlg, IDC_SHOW_LISTENING_IF_NOAWAY, db_get_b(NULL,"CList","SecondLineShowListeningIfNoAway",SETTING_SECONDLINE_LISTENINGIFNOAWAY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_USE_NAME_AND_MESSAGE, db_get_b(NULL,"CList","SecondLineUseNameAndMessageForXStatus",SETTING_SECONDLINE_XSTATUSNAMETEXT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 
-			if (!IsDlgButtonChecked(hwndDlg,IDC_SHOW))
+			if ( !IsDlgButtonChecked(hwndDlg,IDC_SHOW))
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_USE_PROTOCOL_SMILEYS),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_TOP_SPACE_SPIN),FALSE);
@@ -853,17 +853,17 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 			}
 			else
 			{
-				if (!IsDlgButtonChecked(hwndDlg,IDC_TEXT))
+				if ( !IsDlgButtonChecked(hwndDlg,IDC_TEXT))
 				{
 					EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT),FALSE);
 					EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLES_L),FALSE);
 				}
-				if (!IsDlgButtonChecked(hwndDlg,IDC_STATUS) && !IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE))
+				if ( !IsDlgButtonChecked(hwndDlg,IDC_STATUS) && !IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE))
 				{
 					EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY),FALSE);
 					EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE),FALSE);
 				}
-				if (!IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE))
+				if ( !IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE))
 				{
 					EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY),FALSE);
 					EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY),FALSE);
@@ -1004,7 +1004,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 			{
 				DBVARIANT dbv = {0};
 
-				if (!DBGetContactSettingTString(NULL, "CList","ThirdLineText", &dbv))
+				if ( !DBGetContactSettingTString(NULL, "CList","ThirdLineText", &dbv))
 				{
 					SetWindowText(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), dbv.ptszVal);
 					db_free(&dbv);
@@ -1026,7 +1026,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 			CheckDlgButton(hwndDlg, IDC_SHOW_LISTENING_IF_NOAWAY, db_get_b(NULL,"CList","ThirdLineShowListeningIfNoAway",SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_USE_NAME_AND_MESSAGE, db_get_b(NULL,"CList","ThirdLineUseNameAndMessageForXStatus",SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 
-			if (!IsDlgButtonChecked(hwndDlg,IDC_SHOW))
+			if ( !IsDlgButtonChecked(hwndDlg,IDC_SHOW))
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_USE_PROTOCOL_SMILEYS),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_TOP_SPACE_SPIN),FALSE);
@@ -1050,17 +1050,17 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 			}
 			else
 			{
-				if (!IsDlgButtonChecked(hwndDlg,IDC_TEXT))
+				if ( !IsDlgButtonChecked(hwndDlg,IDC_TEXT))
 				{
 					EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT),FALSE);
 					EnableWindow(GetDlgItem(hwndDlg,IDC_VARIABLES_L),FALSE);
 				}
-				if (!IsDlgButtonChecked(hwndDlg,IDC_STATUS) && !IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE))
+				if ( !IsDlgButtonChecked(hwndDlg,IDC_STATUS) && !IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE))
 				{
 					EnableWindow(GetDlgItem(hwndDlg,IDC_XSTATUS_HAS_PRIORITY),FALSE);
 					EnableWindow(GetDlgItem(hwndDlg,IDC_USE_NAME_AND_MESSAGE),FALSE);
 				}
-				if (!IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE))
+				if ( !IsDlgButtonChecked(hwndDlg,IDC_STATUS_MESSAGE))
 				{
 					EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_STATUS_IF_NOAWAY),FALSE);
 					EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_LISTENING_IF_NOAWAY),FALSE);
@@ -1219,7 +1219,7 @@ int ReserveExtraSlot(WPARAM wParam,LPARAM lParam)
             iLastFree = pESINFO->iSlot;
     if (iLastFree>0)
     {
-        if (!OrderTreeData[iLastFree].fReserved)
+        if ( !OrderTreeData[iLastFree].fReserved)
         {
             OrderTreeData[iLastFree].fReserved = TRUE;
             OrderTreeData[iLastFree].KeyName = pESINFO->pszSlotID;
@@ -1247,7 +1247,7 @@ static int OrderEnumProc (const char *szSetting,LPARAM lParam)
 {
 
 	if (szSetting == NULL) return 0;
-	if (!wildcmp((char*) szSetting,(char *) lParam,0)) return 0;
+	if ( !wildcmp((char*) szSetting,(char *) lParam,0)) return 0;
 	nArrayLen++;
 	settingname = (char **)realloc(settingname,nArrayLen*sizeof(char *));
 	settingname[nArrayLen-1] = _strdup(szSetting);
@@ -1449,7 +1449,7 @@ INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 	case WM_MOUSEMOVE:
 		{
-			if (!dragging) break;
+			if ( !dragging) break;
 			{	
 				TVHITTESTINFO hti;
 				hti.pt.x = (short)LOWORD(lParam);
@@ -1463,7 +1463,7 @@ INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					hti.pt.y -= TreeView_GetItemHeight(GetDlgItem(hwndDlg,IDC_EXTRAORDER))/2;
 					TreeView_HitTest(GetDlgItem(hwndDlg,IDC_EXTRAORDER),&hti);
 					//TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_EXTRAORDER),hti.hItem,1);
-					if (!(hti.flags&TVHT_ABOVE))
+					if ( !(hti.flags&TVHT_ABOVE))
 						TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_EXTRAORDER),hti.hItem,1);
 					else 
 						TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_EXTRAORDER),it,0);
@@ -1479,7 +1479,7 @@ INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 	case WM_LBUTTONUP:
 		{
-			if (!dragging) break;
+			if ( !dragging) break;
 			TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_EXTRAORDER),NULL,0);
 			dragging = 0;
 			ReleaseCapture();

@@ -76,41 +76,42 @@ public:
 
 };
 
-struct tag_DNCE{
-	HANDLE	m_cache_hContact;
-	TCHAR*	m_cache_tcsName;
-#if defined( _UNICODE )
-	char*	m_cache_szName;
-#endif
-	TCHAR*	m_cache_tcsGroup;
-	int		m_cache_nHidden;
-	int		m_cache_nNoHiddenOffline;
+struct tag_DNCE
+{
+	HANDLE   m_cache_hContact;
+	TCHAR*   m_cache_tcsName;
 
-	char*	m_cache_cszProto;
-	boolean m_cache_bProtoNotExists;
-	int		m_cache_nStatus;
-	int		m_cache_nHiddenSubcontact;
+	TCHAR*   m_cache_tcsGroup;
+	int      m_cache_nHidden;
+	int      m_cache_nNoHiddenOffline;
 
-	int		i;
-	int		ApparentMode;
-	int		NotOnList;
-	int		IdleTS;
-	void*	ClcContact;
-	BYTE	IsExpanded;
-	boolean isUnknown;
+	char*    m_cache_cszProto;
+	bool     m_cache_bProtoNotExists;
+	int      m_cache_nStatus;
+	int      m_cache_nHiddenSubcontact;
 
-	TCHAR	*	szSecondLineText;
+	int      i;
+	int      ApparentMode;
+	int      NotOnList;
+	int      IdleTS;
+	void*    ClcContact;
+	BYTE     IsExpanded;
+	bool     isUnknown;
+
+	TCHAR*   szSecondLineText;
 	CSmileyString ssSecondLine;
 
-	TCHAR	*	szThirdLineText;
+	TCHAR*   szThirdLineText;
 	CSmileyString ssThirdLine;
 
-	HANDLE	hTimeZone;
-	DWORD	dwLastMsgTime;
+	HANDLE   hTimeZone;
+	DWORD    dwLastMsgTime;
+
+	void     getName(void);
+	void     freeName(void);
 };
+
 typedef tag_DNCE displayNameCacheEntry,*pdisplayNameCacheEntry, *PDNCE;
-
-
 
 typedef struct tagEXTRASLOTINFO
 {

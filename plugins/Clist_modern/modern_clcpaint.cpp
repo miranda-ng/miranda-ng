@@ -1653,7 +1653,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 				{
 					TCHAR szResult[80];
 
-					if (!tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0))
+					if ( !tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0))
 					{
 						// Select font
 						ChangeToFont( hdcMem, dat, FONTID_CONTACT_TIME, NULL );
@@ -2490,7 +2490,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 				{
 					TCHAR szResult[80];
 
-					if (!tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0))
+					if ( !tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0))
 					{
 						SIZE text_size;
 						RECT rc;
@@ -3212,7 +3212,7 @@ void CLCPaint::_DrawContactTime( HDC hdcMem, struct ClcData *dat, struct ClcCont
 
 	if ( !pdnce ) return;
 
-	if (!tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0))
+	if ( !tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0))
 	{
 		// Select font
 		ChangeToFont( hdcMem, dat, FONTID_CONTACT_TIME, NULL );

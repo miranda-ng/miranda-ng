@@ -49,7 +49,7 @@ RECT da = {205,58,440,130}; // Draw area
 //}
 void rowOptBuildTA(pROWCELL cell, pROWCELL* TA, int* i)
 {
-	if (!cell) return;
+	if ( !cell) return;
 	TA[(*i)++] = cell;
 	rowOptBuildTA(cell->child,TA, i);
 	rowOptBuildTA(cell->next, TA, i);
@@ -68,7 +68,7 @@ void rowOptShowSettings(HWND hwnd)
 	TreeView_GetItem(GetDlgItem(hwnd, IDC_ROWTREE), &tvi);
 	cell = (pROWCELL)tvi.lParam;
 	
-	if (!tvi.hItem) 
+	if ( !tvi.hItem) 
 	{
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTTYPE) ,0);
 		EnableWindow(GetDlgItem(hwnd,IDC_VALIGN),0);
@@ -149,7 +149,7 @@ void rowOptGenerateTreeView(pROWCELL cell, HTREEITEM node, HWND hwnd)
 	TVINSERTSTRUCT tvis;
 	HTREEITEM pnode;
 
-	if (!cell) return;
+	if ( !cell) return;
 
 	tvis.hParent = node;
     tvis.hInsertAfter = TVI_LAST;
@@ -191,7 +191,7 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 	TVITEM tviparent;
 	ROWCELL *cell = NULL;
 
-	if (!hti)
+	if ( !hti)
 	{
 		if (TreeView_GetRoot(htree)) return;
 		else
@@ -267,7 +267,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 	HTREEITEM prnt = TreeView_GetParent(htree, hti);
 	TVITEM	  tvi, tvpi;
 
-	if (!hti) return;
+	if ( !hti) return;
 
 	// Get current tree item
 	tvi.hItem = hti;
@@ -313,7 +313,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 	
 
 	// Change icon at parent item
-	if (!prnt || (prnt != prev)) return;
+	if ( !prnt || (prnt != prev)) return;
 						
 	if ( TreeView_GetChild(htree, prnt))
 	{
@@ -344,7 +344,7 @@ void RefreshTree(HWND hwndDlg,HTREEITEM hti)
 		if (cell)
 		{
 			TCHAR buf[200] = {0};
-			if (!cell->child)
+			if ( !cell->child)
 			{
 				if (cell->type == 0)
 					mir_sntprintf(buf, SIZEOF(buf), TranslateT("Empty %s cell"), cell->cont == TC_COL?TranslateT("column"):TranslateT("line"));
@@ -384,7 +384,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			TranslateDialogDefault(hwndDlg);	
 			rowOptTmplStr = db_get_sa(NULL, "ModernData", "RowTemplate");
-			if (!rowOptTmplStr) rowOptTmplStr = mir_strdup("<TR />");
+			if ( !rowOptTmplStr) rowOptTmplStr = mir_strdup("<TR />");
 			{	
 				//HIMAGELIST himlTreeIcons;
 				//himlTreeIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,3,2);
@@ -565,7 +565,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			HDC hdc;
 			TVITEM curItem;
 			
-			if (!rowOptTmplRoot) return FALSE;
+			if ( !rowOptTmplRoot) return FALSE;
 			hdc = BeginPaint(hwndDlg, &ps);
 
 			curItem.hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_ROWTREE));

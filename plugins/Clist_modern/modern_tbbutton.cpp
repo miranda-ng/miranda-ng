@@ -173,7 +173,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 					lpSBData->pbState = 1;
 				InvalidateParentRect(lpSBData->hWnd, NULL, TRUE);
 			}
-			if (!lpSBData->fSendOnDown)
+			if ( !lpSBData->fSendOnDown)
 				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
 			return 0;
 		}
@@ -235,9 +235,9 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		{
 			TOOLINFO ti;
 
-			if (!(char*) wParam)
+			if ( !(char*) wParam)
 				break;
-			if (!hwndToolTips) 
+			if ( !hwndToolTips) 
 			{
 				hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
 				SetWindowPos(hwndToolTips, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
@@ -373,7 +373,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 					lpSBData->nStateId = PBS_NORMAL;
 				InvalidateParentRect(lpSBData->hWnd, NULL, TRUE);
 			}
-			if (!lpSBData->fSendOnDown && lpSBData->fHotMark)
+			if ( !lpSBData->fSendOnDown && lpSBData->fHotMark)
 				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
 			lpSBData->fHotMark = FALSE;
 			break;
@@ -517,7 +517,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		}
 	case BM_SETIMAGE:
 		{
-			if (!lParam)
+			if ( !lParam)
 				break;
 			if (wParam == IMAGE_ICON) 
 			{
@@ -596,7 +596,7 @@ static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT * pOffset)
 	POINT offset = {0};
 	if (pOffset) offset = *pOffset;
 
-	if (!hdcPaint) return;  //early exit
+	if ( !hdcPaint) return;  //early exit
 
 	GetClientRect(lpSBData->hWnd, &rcClient);
 	width   = rcClient.right - rcClient.left;
@@ -604,7 +604,7 @@ static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT * pOffset)
 
 	hdcMem = pOffset?hdcPaint:CreateCompatibleDC(hdcPaint);
 	hOldFont = (HFONT)SelectObject(hdcMem, lpSBData->hFont);
-	if (!pOffset) 
+	if ( !pOffset) 
 	{
 		hbmMem = ske_CreateDIB32(width, height);
 		hbmOld = (HBITMAP)SelectObject(hdcMem, hbmMem);		
@@ -614,7 +614,7 @@ static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT * pOffset)
 		OffsetRect(&rcClient,offset.x,offset.y);
 	}
 	{
-		if (!g_CluiData.fDisableSkinEngine)
+		if ( !g_CluiData.fDisableSkinEngine)
 		{
 			char szRequest[128];
 			/* painting */
@@ -659,7 +659,7 @@ static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT * pOffset)
 					oldBM = (HBITMAP)SelectObject ( dc, oldBM );
 					DeleteObject(memBM);
 					DeleteDC(dc);
-					if (!ret)	//WM_ERASEBKG return false need to paint
+					if ( !ret)	//WM_ERASEBKG return false need to paint
 					{
 						HDC pdc = GetDC(hwndParent);
 						HBRUSH oldBrush = (HBRUSH)GetCurrentObject( pdc, OBJ_BRUSH );
@@ -696,7 +696,7 @@ static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT * pOffset)
 		RECT rcText;
 
 
-		if (!g_CluiData.fDisableSkinEngine)
+		if ( !g_CluiData.fDisableSkinEngine)
 		{
 			/* correct rect according to rcMargins */
 
@@ -762,14 +762,14 @@ static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT * pOffset)
 			ske_DrawText(hdcMem, lpSBData->szText, -1, &rcText, (bCentered ? DT_CENTER: 0) | DT_VCENTER | DT_SINGLELINE);
 			ske_ResetTextEffect(hdcMem);
 		}
-		if (!pOffset)
+		if ( !pOffset)
 			BitBlt(hdcPaint,0,0,width,height,hdcMem,0,0,SRCCOPY);
 	}
 
 	// better to use try/finally but looks like last one is Microsoft specific
 
 	SelectObject(hdcMem,hOldFont);
-	if (!pOffset)
+	if ( !pOffset)
 	{	
 		SelectObject(hdcMem,hbmOld);
 		DeleteObject(hbmMem);
@@ -797,15 +797,8 @@ HRESULT ToolbarButtonLoadModule()
 	wc.style = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
 	hButtonWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-	hIconChangedHook = ModernHookEvent(ME_SKIN2_ICONSCHANGED,OnIconLibIconChanged);
-	hBkgChangedHook = ModernHookEvent(ME_BACKGROUNDCONFIG_CHANGED,Buttons_OnSkinModeSettingsChanged);
+	hIconChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED,OnIconLibIconChanged);
+	hBkgChangedHook = HookEvent(ME_BACKGROUNDCONFIG_CHANGED,Buttons_OnSkinModeSettingsChanged);
    
 	return S_OK;
 }
-int ToolbarButtonUnloadModule(WPARAM wParam, LPARAM lParam)
-{
-	ModernUnhookEvent(hBkgChangedHook);
-	ModernUnhookEvent(hIconChangedHook);
-	return 0;
-}
-

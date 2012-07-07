@@ -99,7 +99,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM wparam,LPARAM lparam)
 	int connectingCount = 0;
 	for (i=0;i < pcli->hClcProtoCount;i++)
 	{
-		if (!pcli->pfnGetProtocolVisibility(pcli->clcProto[i].szProto)) continue;
+		if ( !pcli->pfnGetProtocolVisibility(pcli->clcProto[i].szProto)) continue;
 		if (pcli->clcProto[i].dwStatus >= ID_STATUS_CONNECTING  && 
 			pcli->clcProto[i].dwStatus < ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES)
 		{
@@ -162,9 +162,9 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 	int averageMode = 0;
 	HWND hwnd = pcli->hwndContactList;
 
-	if (!szChangedProto) return;
+	if ( !szChangedProto) return;
 
-	if (!pcli->pfnGetProtocolVisibility(szChangedProto)) return;
+	if ( !pcli->pfnGetProtocolVisibility(szChangedProto)) return;
 
 	pcli->pfnLockTray();
 	if ( pcli->cycleTimerId ) {
@@ -175,7 +175,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 	for (i=0,netProtoCount = 0;i < count;i++) {
 		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0 ) continue;
 		netProtoCount++;
-		if (!lstrcmpA(szChangedProto,accs[i]->szModuleName)) pcli->cycleStep = i;
+		if ( !lstrcmpA(szChangedProto,accs[i]->szModuleName)) pcli->cycleStep = i;
 		if (averageMode == 0) averageMode = CallProtoService(accs[i]->szModuleName,PS_GETSTATUS,0,0);
 		else if (averageMode != CallProtoService(accs[i]->szModuleName,PS_GETSTATUS,0,0)) {averageMode = -1; break;}
 	}
@@ -280,7 +280,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 				break;
 
 			case SETTING_TRAYICON_MULTI:
-				if (!pcli->trayIcon)
+				if ( !pcli->trayIcon)
 					pcli->pfnTrayIconRemove(NULL,NULL);
 				else if ( db_get_b(NULL,"CList","AlwaysMulti",SETTING_ALWAYSMULTI_DEFAULT )) {
 					if (pcli->pfnGetProtocolVisibility(szChangedProto))
@@ -579,7 +579,7 @@ INT_PTR TrayMenuExecService(WPARAM wParam,LPARAM lParam) {
 	if (wParam != 0)
 	{
 		lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)wParam;
-		if (!mir_strcmp(mmep->szServiceName,"Help/AboutCommand"))
+		if ( !mir_strcmp(mmep->szServiceName,"Help/AboutCommand"))
 		{
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;

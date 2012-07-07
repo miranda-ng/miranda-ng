@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CacheArrSize 255
 struct ClcGroup *CacheIndex[CacheArrSize] = {NULL};
-boolean CacheIndexClear = TRUE;
+bool CacheIndexClear = TRUE;
 
 /* the CLC uses 3 different ways to identify elements in its list, this file
 contains routines to convert between them.
@@ -127,7 +127,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 			nowVisible = 1;
 			for (tgroup = group;tgroup;tgroup = tgroup->parent)
 			{
-				if (!tgroup->expanded) 
+				if ( !tgroup->expanded) 
 				{
 					nowVisible = 0; 
 					break;
@@ -142,7 +142,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 			(IsHContactInfo(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_INFO && group->cl.items[group->scanIndex]->hContact == (HANDLE)((UINT_PTR)hItem&~HCONTACT_ISINFO))) 
 		{
 			if (isVisible) {
-				if (!nowVisible) *isVisible = 0;
+				if ( !nowVisible) *isVisible = 0;
 				else {
 					int posy = cliGetRowTopY(dat,index+1);
 					if (posy < dat->yScroll) 
@@ -160,7 +160,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 			
 			return 1;
 		}
-		if (!isIgnoreSubcontacts && 
+		if ( !isIgnoreSubcontacts && 
 			IsHContactContact(hItem)  && 
 			group->cl.items[group->scanIndex]->type == CLCIT_CONTACT  && 
 			group->cl.items[group->scanIndex]->SubAllocated > 0)
@@ -200,7 +200,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 
 void ClearRowByIndexCache()
 {
-	if (!CacheIndexClear) 
+	if ( !CacheIndexClear) 
 	{
 		memset(CacheIndex,0,sizeof(CacheIndex));
 		CacheIndexClear = TRUE;

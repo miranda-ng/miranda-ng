@@ -56,7 +56,7 @@ static HANDLE hgtaWakeupEvent = NULL;
 static BOOL gtaGetItem(GTACHAINITEM * mpChain)
 {
 	gtalock;
-	if (!gtaFirstItem)
+	if ( !gtaFirstItem)
 	{
 		gtaunlock;
 		return FALSE;
@@ -67,7 +67,7 @@ static BOOL gtaGetItem(GTACHAINITEM * mpChain)
 		ch = gtaFirstItem;
 		*mpChain = *ch;
 		gtaFirstItem = (GTACHAINITEM *)ch->Next;
-		if (!gtaFirstItem) gtaLastItem = NULL;
+		if ( !gtaFirstItem) gtaLastItem = NULL;
 		free(ch);
 		gtaunlock;
 		return TRUE;
@@ -88,7 +88,7 @@ static int gtaThreadProc(void * lpParam)
 		Sync(CLUI_SyncGetShortData,(WPARAM)pcli->hwndContactTree,(LPARAM)&data);       
 		do
 		{
-			if (!MirandaExiting()) 
+			if ( !MirandaExiting()) 
 				SleepEx(0,TRUE); //1000 contacts per second
 			if (MirandaExiting()) 
 			{
@@ -99,25 +99,25 @@ static int gtaThreadProc(void * lpParam)
 			{
 				GTACHAINITEM mpChain = {0};
 				struct SHORTDATA dat2 = {0};
-				if (!gtaGetItem(&mpChain)) break;
+				if ( !gtaGetItem(&mpChain)) break;
 				if (mpChain.dat == NULL || (!IsBadReadPtr(mpChain.dat,sizeof(mpChain.dat)) && mpChain.dat->hWnd == data.hWnd))	dat = &data;
 				else
 				{        
 					Sync(CLUI_SyncGetShortData,(WPARAM)mpChain.dat->hWnd,(LPARAM)&dat2);       
 					dat = &dat2;
 				}
-				if (!MirandaExiting())
+				if ( !MirandaExiting())
 				{
 					displayNameCacheEntry cacheEntry;
 					memset( &cacheEntry, 0, sizeof(cacheEntry));
 					cacheEntry.m_cache_hContact = mpChain.hContact;
-					if (!Sync(CLUI_SyncGetPDNCE, (WPARAM) 0,(LPARAM)&cacheEntry))
+					if ( !Sync(CLUI_SyncGetPDNCE, (WPARAM) 0,(LPARAM)&cacheEntry))
 					{
-						if (!MirandaExiting()) 
+						if ( !MirandaExiting()) 
 							Cache_GetSecondLineText(dat, &cacheEntry);
-						if (!MirandaExiting()) 
+						if ( !MirandaExiting()) 
 							Cache_GetThirdLineText(dat, &cacheEntry);
-						if (!MirandaExiting()) 
+						if ( !MirandaExiting()) 
 							Sync(CLUI_SyncSetPDNCE, (WPARAM) CCI_LINES,(LPARAM)&cacheEntry);  
 						CListSettings_FreeCacheItemData(&cacheEntry);
 					}
@@ -190,7 +190,7 @@ void InitCacheAsync()
 	InitializeCriticalSection(&gtaCS);
 	hgtaWakeupEvent = CreateEvent(NULL,FALSE,FALSE,NULL);
 	g_dwGetTextAsyncThreadID = (DWORD)mir_forkthread((pThreadFunc)gtaThreadProc,0);
-	ModernHookEvent(ME_SYSTEM_PRESHUTDOWN,  gtaOnModulesUnload);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN,  gtaOnModulesUnload);
 }
 
 void UninitCacheAsync()

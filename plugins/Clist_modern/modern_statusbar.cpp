@@ -116,7 +116,7 @@ int LoadStatusBarData()
         DBVARIANT dbv;
         g_StatusBarData.bkColour = sttGetColor("StatusBar","BkColour",CLCDEFAULT_BKCOLOUR);
         if (db_get_b(NULL,"StatusBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-            if (!DBGetContactSettingString(NULL,"StatusBar","BkBitmap",&dbv)) {
+            if ( !DBGetContactSettingString(NULL,"StatusBar","BkBitmap",&dbv)) {
                 g_StatusBarData.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
                 db_free(&dbv);
             }
@@ -232,7 +232,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				vis = FALSE;
 			else
 				vis = pcli->pfnGetProtocolVisibility(accs[i]->szModuleName);
-			if (!vis) continue;
+			if ( !vis) continue;
 				
 			mir_snprintf(buf, SIZEOF(buf), "SBarAccountIsCustom_%s", accs[i]->szModuleName);
 
@@ -422,7 +422,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 										if (dbTitle && xstatus)
 										{
 											DBVARIANT dbv = {0};
-											if (!DBGetContactSettingTString(NULL,ProtosData[i].AccountName,dbTitle,&dbv))
+											if ( !DBGetContactSettingTString(NULL,ProtosData[i].AccountName,dbTitle,&dbv))
 											{
 												ProtosData[i].ProtoXStatus = mir_tstrdup(dbv.ptszVal);
 												db_free(&dbv);
@@ -771,12 +771,11 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 				mir_free(ProtosData[k].ProtoXStatus);
 			}
 			mir_free_and_nil(ProtosData);
-			ProtosData = NULL;
 			allocedItemData = 0;
 		}
 		break;
     case WM_SIZE:
-		if (!g_CluiData.fLayered || GetParent(hwnd) != pcli->hwndContactList)
+		if ( !g_CluiData.fLayered || GetParent(hwnd) != pcli->hwndContactList)
             InvalidateRect(hwnd,NULL,FALSE);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
     case WM_ERASEBKGND:
@@ -1051,7 +1050,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
                         SetCapture( NULL );
                         return 0;
                     }
-                    if (!hMenu)
+                    if ( !hMenu)
                     {
                         if (msg == WM_RBUTTONDOWN)
                         {

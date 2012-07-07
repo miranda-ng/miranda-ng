@@ -62,9 +62,6 @@ HIMAGELIST hCListImages = NULL;
 
 BOOL (WINAPI *MySetProcessWorkingSetSize)(HANDLE,SIZE_T,SIZE_T);
 
-
-static HANDLE hSettingChanged;
-
 //returns normal icon or combined with status overlay. Needs to be destroyed.
 HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 {
@@ -105,7 +102,7 @@ HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 			}
 		}
 	}
-	if (!hIcon)
+	if ( !hIcon)
 	{
 		hIcon = ske_ImageList_GetIcon(g_himlCListClc,ExtIconFromStatusMode(hContact,szProto,status),ILD_NORMAL);
 	}
@@ -143,7 +140,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
        char AdvancedService[255] = {0};
        int  nActStatus = nStatus;
        HANDLE hActContact = hContact;
-       if (!db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) && g_szMetaModuleName && !mir_strcmp(szActProto,g_szMetaModuleName))
+       if ( !db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) && g_szMetaModuleName && !mir_strcmp(szActProto,g_szMetaModuleName))
        {
             // substitute params by mostonline contact datas
            HANDLE hMostOnlineContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hActContact,0);
@@ -208,16 +205,10 @@ void UnLoadContactListModule()  //unhooks noncritical events
 {
     UninitTrayMenu();
     UninitCustomMenus();
-   // UnloadMainMenu();
-   // UnloadStatusMenu();
-    ModernUnhookEvent(hookOptInitialise_CList);
-    ModernUnhookEvent(hookOptInitialise_Skin);
-    ModernUnhookEvent(hSettingChanged);
-    ModernUnhookEvent(hookContactAdded_CListSettings);
 }
+
 int CListMod_ContactListShutdownProc(WPARAM wParam,LPARAM lParam)
 {
-    ModernUnhookEvent(hookSystemShutdown_CListMod);
     FreeDisplayNameCache();
     if (g_hMainThread) CloseHandle(g_hMainThread);
     g_hMainThread = NULL;
@@ -266,8 +257,8 @@ HRESULT PreLoadContactListModule()
 
 	//initialize firstly hooks
 	//clist interface is empty yet so handles should check
-	hSettingChanged = ModernHookEvent(ME_DB_CONTACT_SETTINGCHANGED,ContactSettingChanged);
-	CreateServiceFunction(MS_CLIST_GETCONTACTICON,GetContactIcon);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
+	CreateServiceFunction(MS_CLIST_GETCONTACTICON, GetContactIcon);
 
 	return S_OK;
 }
@@ -281,15 +272,15 @@ HRESULT  CluiLoadModule()
 	CreateServiceFunction(MS_CLUI_GETCAPS,CLUIGetCapsService);
 
 	InitDisplayNameCache();
-	hookSystemShutdown_CListMod  = ModernHookEvent(ME_SYSTEM_SHUTDOWN,CListMod_ContactListShutdownProc);
-	hookOptInitialise_CList      = ModernHookEvent(ME_OPT_INITIALISE,CListOptInit);
-	hookOptInitialise_Skin       = ModernHookEvent(ME_OPT_INITIALISE,SkinOptInit);
+	hookSystemShutdown_CListMod  = HookEvent(ME_SYSTEM_SHUTDOWN,CListMod_ContactListShutdownProc);
+	hookOptInitialise_CList      = HookEvent(ME_OPT_INITIALISE,CListOptInit);
+	hookOptInitialise_Skin       = HookEvent(ME_OPT_INITIALISE,SkinOptInit);
 
 	CreateServiceFunction("ModernSkinSel/Active", SvcActiveSkin);
 	CreateServiceFunction("ModernSkinSel/Preview", SvcPreviewSkin);
 	CreateServiceFunction("ModernSkinSel/Apply", SvcApplySkin);
 	
-	hookContactAdded_CListSettings = ModernHookEvent(ME_DB_CONTACT_ADDED,ContactAdded);	
+	hookContactAdded_CListSettings = HookEvent(ME_DB_CONTACT_ADDED,ContactAdded);	
 	CreateServiceFunction(MS_CLIST_TRAYICONPROCESSMESSAGE,cli_TrayIconProcessMessage);
 	CreateServiceFunction(MS_CLIST_PAUSEAUTOHIDE,TrayIconPauseAutoHide);
 	CreateServiceFunction(MS_CLIST_CONTACTCHANGEGROUP,ContactChangeGroup);
@@ -444,7 +435,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY) {
 						{
 							TCHAR buf[255];
 							GetClassName(hAux,buf,SIZEOF(buf));
-							if (!lstrcmp(buf,CLUIFrameSubContainerClassName))
+							if ( !lstrcmp(buf,CLUIFrameSubContainerClassName))
 							{
 								hWndFound = TRUE;
 								break;
@@ -490,7 +481,7 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 		iVisibleState = GWVS_HIDDEN;
 	}
 
-	if (!method && db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT)>0)
+	if ( !method && db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT)>0)
 	{
 		g_CluiData.bBehindEdgeSettings = db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT);
 		CLUI_ShowFromBehindEdge();
@@ -518,12 +509,12 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 		Sync( CLUIFrames_ActivateSubContainers, TRUE );
 		CLUI_ShowWindowMod(pcli->hwndContactList, SW_RESTORE);
 
-		if (!db_get_b(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT))
+		if ( !db_get_b(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT))
 		{
 			Sync(CLUIFrames_OnShowHide, pcli->hwndContactList,1);	//TO BE PROXIED
 			SetWindowPos(pcli->hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE |SWP_NOACTIVATE);
 			g_bCalledFromShowHide = 1;
-			if (!db_get_b(NULL,"CList","OnTop",SETTING_ONTOP_DEFAULT))
+			if ( !db_get_b(NULL,"CList","OnTop",SETTING_ONTOP_DEFAULT))
 				SetWindowPos(pcli->hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 			g_bCalledFromShowHide = 0;
 		}
@@ -575,6 +566,6 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 int CListMod_HideWindow(HWND hwndContactList, int mode)
 {
 	KillTimer(pcli->hwndContactList,1/*TM_AUTOALPHA*/);
-	if (!CLUI_HideBehindEdge())  return CLUI_SmoothAlphaTransition(pcli->hwndContactList, 0, 1);
+	if ( !CLUI_HideBehindEdge())  return CLUI_SmoothAlphaTransition(pcli->hwndContactList, 0, 1);
 	return 0;
 }

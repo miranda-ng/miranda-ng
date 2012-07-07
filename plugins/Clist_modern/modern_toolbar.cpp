@@ -38,7 +38,7 @@ COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
 
 #define MIRANDATOOLBARCLASSNAME "MirandaToolBar"
 
-#define tbcheck if (!g_CluiData.hEventToolBarModuleLoaded) return
+#define tbcheck if ( !g_CluiData.hEventToolBarModuleLoaded) return
 #define tblock EnterCriticalSection(&tbdat.cs)
 #define tbunlock LeaveCriticalSection(&tbdat.cs)
 
@@ -172,8 +172,8 @@ static void   delete_MTB_BUTTONINFO(void * input)
 HRESULT ToolbarLoadModule()
 {
 
-	tbdat.hehModulesLoaded = ModernHookEvent(ME_SYSTEM_MODULESLOADED, ehhToolbarModulesLoaded);
-	tbdat.hehSystemShutdown = ModernHookEvent(ME_SYSTEM_SHUTDOWN, ehhToolBarSystemShutdown);
+	tbdat.hehModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ehhToolbarModulesLoaded);
+	tbdat.hehSystemShutdown = HookEvent(ME_SYSTEM_SHUTDOWN, ehhToolBarSystemShutdown);
 	
 	{	//create window class
 		WNDCLASS wndclass = {0};
@@ -197,13 +197,13 @@ HRESULT ToolbarLoadModule()
 	return S_OK;
 }
 
-static int    ehhToolbarModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int ehhToolbarModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)"ToolBar Background/ToolBar",0);
-	ModernHookEvent(ME_BACKGROUNDCONFIG_CHANGED,ehhToolBarBackgroundSettingsChanged);
-	tbdat.hehOptInit = ModernHookEvent(ME_OPT_INITIALISE,ehhToolbarOptInit);
+	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,ehhToolBarBackgroundSettingsChanged);
+	tbdat.hehOptInit = HookEvent(ME_OPT_INITIALISE,ehhToolbarOptInit);
 	ehhToolBarBackgroundSettingsChanged(0,0);
-	tbdat.hehSettingsChanged = ModernHookEvent(ME_DB_CONTACT_SETTINGCHANGED, ehhToolBarSettingsChanged );
+	tbdat.hehSettingsChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ehhToolBarSettingsChanged );
 	
 	tbdat.hToolBarWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
 	
@@ -224,13 +224,9 @@ static int    ehhToolbarModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int    ehhToolBarSystemShutdown(WPARAM wParam, LPARAM lParam)
+static int ehhToolBarSystemShutdown(WPARAM wParam, LPARAM lParam)
 {
 	//Remove services;
-	ModernUnhookEvent(tbdat.hehSettingsChanged);
-	ModernUnhookEvent(tbdat.hehModulesLoaded);
-	ModernUnhookEvent(tbdat.hehSystemShutdown);	
-	ModernUnhookEvent(tbdat.hehOptInit);
 	EnterCriticalSection(&tbdat.cs);
 	g_CluiData.hEventToolBarModuleLoaded = NULL;
 
@@ -242,27 +238,26 @@ static int    ehhToolBarSystemShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
-static int    ehhToolBarSettingsChanged( WPARAM wParam, LPARAM lParam )
+static int ehhToolBarSettingsChanged( WPARAM wParam, LPARAM lParam )
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if ((HANDLE)wParam != NULL) return 0;
-	if (!mir_strcmp(cws->szModule,"CList"))
+	if ( !mir_strcmp(cws->szModule,"CList"))
 	{
-		if (!mir_strcmp(cws->szSetting,"HideOffline"))
+		if ( !mir_strcmp(cws->szSetting,"HideOffline"))
 			sttSetButtonPressed("ShowHideOffline", (BOOL) db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
-		else if (!mir_strcmp(cws->szSetting,"UseGroups"))
+		else if ( !mir_strcmp(cws->szSetting,"UseGroups"))
 			sttSetButtonPressed( "UseGroups", (BOOL) db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
 	}
-	else if (!mir_strcmp(cws->szModule,"Skin"))
+	else if ( !mir_strcmp(cws->szModule,"Skin"))
 	{
-		if (!mir_strcmp(cws->szSetting,"UseSound"))
+		if ( !mir_strcmp(cws->szSetting,"UseSound"))
 			sttSetButtonPressed( "EnableSounds", (BOOL) db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT ));
 	}
 	
 	return 0;
 }
-static int    ehhToolBarBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
+static int ehhToolBarBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (tbdat.mtb_hBmpBackground) 
 	{
@@ -274,7 +269,7 @@ static int    ehhToolBarBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 		DBVARIANT dbv;
 		tbdat.mtb_bkColour = sttGetColor("ToolBar","BkColour",CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL,"ToolBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if (!DBGetContactSettingString(NULL,"ToolBar","BkBitmap",&dbv)) {
+			if ( !DBGetContactSettingString(NULL,"ToolBar","BkBitmap",&dbv)) {
 				tbdat.mtb_hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -308,7 +303,7 @@ static INT_PTR    svcToolBarAddButton(WPARAM wParam, LPARAM lParam)
 	DWORD dwOrder;
 	TBButton * bi = (TBButton *)lParam;
 	bVisible = (bi->tbbFlags&TBBF_VISIBLE ? TRUE : FALSE);
-	if (!ServiceExists(bi->pszServiceName))
+	if ( !ServiceExists(bi->pszServiceName))
 		return 0;
 	tbcheck 0;
 	tblock;
@@ -366,8 +361,8 @@ static INT_PTR    svcToolBarSetButtonStateById(WPARAM wParam, LPARAM lParam)
 static void	  sttTBButton2MTBBUTTONINFO(TBButton * bi, MTB_BUTTONINFO * mtbi)
 {
 	// Convert TBButton struct to MTB_BUTTONINFO
-	if (!bi || !mtbi) return;
-	if (!(bi->tbbFlags&TBBF_ISSEPARATOR))
+	if ( !bi || !mtbi) return;
+	if ( !(bi->tbbFlags&TBBF_ISSEPARATOR))
 	{
 		mtbi->szButtonName = mir_strdup(bi->pszButtonName);
 		mtbi->szService = mir_strdup(bi->pszServiceName);
@@ -396,7 +391,7 @@ static void   sttUpdateButtonState(MTB_BUTTONINFO * mtbi)
 	SendMessage(mtbi->hWindow, BUTTONADDTOOLTIP, (WPARAM)((mtbi->bPushButton) ? mtbi->szTooltipPressed : mtbi->szTooltip), 0);
 	
 }
-static int    sttSortButtons(const void * vmtbi1, const void * vmtbi2)
+static int sttSortButtons(const void * vmtbi1, const void * vmtbi2)
 {
 	MTB_BUTTONINFO * mtbi1 = (MTB_BUTTONINFO *)*((MTB_BUTTONINFO ** )vmtbi1);
 	MTB_BUTTONINFO * mtbi2 = (MTB_BUTTONINFO *)*((MTB_BUTTONINFO ** )vmtbi2);
@@ -525,7 +520,7 @@ static BOOL sttDrawToolBarBackground(HWND hwnd, HDC hdc, RECT * rect, MTBINFO * 
 		else
 			GetClientRect(hwnd,&rc);
 
-		if (!(tbdat.mtb_backgroundBmpUse && tbdat.mtb_hBmpBackground) && tbdat.mtb_useWinColors)
+		if ( !(tbdat.mtb_backgroundBmpUse && tbdat.mtb_hBmpBackground) && tbdat.mtb_useWinColors)
 		{
 			if (xpt_IsThemed(pMTBInfo->mtbXPTheme))
 			{
@@ -537,7 +532,7 @@ static BOOL sttDrawToolBarBackground(HWND hwnd, HDC hdc, RECT * rect, MTBINFO * 
 				FillRect(hdc, &rc, hbr);
 			}
 		}
-		else if (!tbdat.mtb_hBmpBackground && !tbdat.mtb_useWinColors)
+		else if ( !tbdat.mtb_hBmpBackground && !tbdat.mtb_useWinColors)
 		{			
 			hbr = CreateSolidBrush(tbdat.mtb_bkColour);
 			FillRect(hdc, &rc, hbr);
@@ -660,7 +655,7 @@ static int	  sttDBEnumProc (const char *szSetting,LPARAM lParam)
 {
 
 	if (szSetting == NULL) return 0;
-	if (!strncmp(szSetting,"order_",6))
+	if ( !strncmp(szSetting,"order_",6))
 		db_unset(NULL, "ModernToolBar", szSetting);
 	return 0;
 };
@@ -675,7 +670,7 @@ static void   sttDeleteOrderSettings()
 static MTB_BUTTONINFO * ToolBar_AddButtonToBars(MTB_BUTTONINFO * mtbi)
 {	
 	int result = 0;
-	if (!mtbi->bVisible) return 0;
+	if ( !mtbi->bVisible) return 0;
 	WindowList_Broadcast(tbdat.hToolBarWindowList, MTBM_ADDBUTTON, (WPARAM)mtbi, 0);
 	if (mtbi->hWindow) 
 		sttUpdateButtonState( mtbi );
@@ -895,7 +890,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 			//Adding button
 			MTB_BUTTONINFO * mtbi = (MTB_BUTTONINFO * )wParam;
 			HWND hwndButton = NULL;
-			if (!(mtbi->bSeparator))
+			if ( !(mtbi->bSeparator))
 				hwndButton = CreateWindow(SKINBUTTONCLASS /*MIRANDABUTTONCLASS*/, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP , 0, 0, pMTBInfo->nButtonWidth, pMTBInfo->nButtonHeight, 
 											hwnd, (HMENU) NULL, g_hInst, NULL);
 			mtbi->hWindow = hwndButton;
@@ -1242,7 +1237,7 @@ static LRESULT CALLBACK ToolBar_OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		}
 	case WM_MOUSEMOVE:
 		{
-			if (!dragging) break;
+			if ( !dragging) break;
 			{	
 				TVHITTESTINFO hti;
 				hti.pt.x = (short)LOWORD(lParam);
@@ -1255,7 +1250,7 @@ static LRESULT CALLBACK ToolBar_OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 					HTREEITEM it = hti.hItem;
 					hti.pt.y -= TreeView_GetItemHeight(GetDlgItem(hwndDlg,IDC_BTNORDER))/2;
 					TreeView_HitTest(GetDlgItem(hwndDlg,IDC_BTNORDER),&hti);
-					if (!(hti.flags&TVHT_ABOVE))
+					if ( !(hti.flags&TVHT_ABOVE))
 						TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_BTNORDER),hti.hItem,1);
 					else 
 						TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_BTNORDER),it,0);
@@ -1271,7 +1266,7 @@ static LRESULT CALLBACK ToolBar_OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		break;
 	case WM_LBUTTONUP:
 		{
-			if (!dragging) break;
+			if ( !dragging) break;
 			TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_BTNORDER),NULL,0);
 			dragging = 0;
 			ReleaseCapture();

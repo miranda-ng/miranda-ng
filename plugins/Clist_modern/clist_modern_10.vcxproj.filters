@@ -188,6 +188,81 @@
     <ClInclude Include="hdr\modern_global_structure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hdr\modern_cache_funcs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_callproc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_clc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_clcpaint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_clist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_clui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_cluiframes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_commonprototypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_defsettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_effectenum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_image_array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_layered_window_engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_popup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_row.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_rowheight_funcs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_skinengine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_skinned_profile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_static_clui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_static_cluiframes_service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_statusbar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_statusmodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_sync.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_tstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\MString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

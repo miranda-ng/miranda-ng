@@ -41,7 +41,7 @@ BOOL GDIPlus_IsAnimatedGif (TCHAR * szName);
 
 /* Next is module */
 #define ANIAVAWINDOWCLASS _T("MirandaModernAniAvatar")
-#define aacheck if (!AniAva.bModuleStarted) return
+#define aacheck if ( !AniAva.bModuleStarted) return
 #define aalock EnterCriticalSection(&AniAva.CS)
 #define aaunlock LeaveCriticalSection(&AniAva.CS)
 
@@ -194,7 +194,7 @@ int AniAva_InitModule()
 {
 	memset(&AniAva,0,sizeof(AniAva));
 	if (g_CluiData.fGDIPlusFail) return 0;
-	if (!( db_get_b(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail))
+	if ( !( db_get_b(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail))
 		 &&  db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT)) ) return 0;
 	{
 		WNDCLASSEX wc;
@@ -215,7 +215,7 @@ int AniAva_InitModule()
 	AniAva.bModuleStarted = TRUE;
 	AniAva.hExitEvent = CreateEvent(NULL,FALSE,FALSE,NULL);
 	AniAva.AnimationThreadID = (DWORD)mir_forkthread(_AniAva_AnimationTreadProc, (void*)AniAva.hExitEvent);
-	ModernHookEvent(ME_SYSTEM_PRESHUTDOWN,  _AniAva_OnModulesUnload);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN,  _AniAva_OnModulesUnload);
 
 	_AniAva_LoadOptions();
 
@@ -269,7 +269,7 @@ int AniAva_UpdateOptions()
 		AniAva_InitModule();
 		bReloadAvatars = TRUE;
 	}
-	else if (!bBeEnabled && AniAva.bModuleStarted)
+	else if ( !bBeEnabled && AniAva.bModuleStarted)
 	{
 		AniAva_UnloadModule();
 		bReloadAvatars = TRUE;
@@ -290,7 +290,7 @@ int AniAva_AddAvatar(HANDLE hContact, TCHAR * szFilename, int width, int heigth)
 {
 	int res = 0;
 	aacheck 0;
-	if (!GDIPlus_IsAnimatedGif (szFilename))
+	if ( !GDIPlus_IsAnimatedGif (szFilename))
 		return 0;
 	aalock;
 	{
@@ -398,7 +398,7 @@ int AniAva_SetAvatarPos(HANDLE hContact, RECT * rc, int overlayIdx, BYTE bAlpha)
 		if ( pai )
 		{
 			ANIAVA_POSINFO * api = (ANIAVA_POSINFO *)malloc(sizeof(ANIAVA_POSINFO));
-			if (!pai->hWindow)
+			if ( !pai->hWindow)
 				{
 					HWND hwnd;
 					HWND parent;
@@ -495,7 +495,7 @@ int AniAva_RemoveInvalidatedAvatars()
 			{
 				if (pai->hWindow) _AniAva_DestroyAvatarWindow(pai->hWindow);
 				pai->hWindow = NULL;
-				if (!keepAvatar) _AniAva_RealRemoveAvatar(pai->dwAvatarUniqId);
+				if ( !keepAvatar) _AniAva_RealRemoveAvatar(pai->dwAvatarUniqId);
 				mir_free(pai);
 				List_Remove(AniAva.Objects,i);
 				i--;
@@ -543,7 +543,7 @@ static HWND _AniAva_CreateAvatarWindowSync(TCHAR *szFileName)
 {
 	ANIAVA_SYNCCALLITEM item = {0};
 	int res = 0;
-	if (!AniAva.AnimationThreadHandle) return NULL;
+	if ( !AniAva.AnimationThreadHandle) return NULL;
 	if (AniAva.AnimationThreadID == 0) return NULL;
 	item.wParam = (WPARAM) szFileName;
 	item.lParam = 0;
@@ -657,7 +657,7 @@ static int	_AniAva_LoadAvatarFromImage(TCHAR * szFileName, int width, int height
 	aai.FrameSize.cx = width;
 	aai.FrameSize.cy = height;
 
-	if (!List_GetIndex(AniAva.AniAvatarList,(void*)&aai,&idx)) idx = -1;
+	if ( !List_GetIndex(AniAva.AniAvatarList,(void*)&aai,&idx)) idx = -1;
 	if (idx == -1)	//item not present in list
 	{
 		HBITMAP hBitmap = NULL;
@@ -827,7 +827,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 			hOldBmp	 = (HBITMAP)SelectObject(tempDC,hBmp);
 			if ( AniAva.bFlags & AAO_ROUND_CORNERS )
 			{
-				if (!cornerRadius)  //auto radius
+				if ( !cornerRadius)  //auto radius
 					cornerRadius = min(szWnd.cx, szWnd.cy )/5;
 			}
 			if ( AniAva.bFlags & AAO_HAS_BORDER )
@@ -922,7 +922,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 					ske_AlphaBlend( hdcParent, rcInParent->left, rcInParent->top, szWnd.cx, szWnd.cy, copyFromDC, pt_from.x, pt_from.y, szWnd.cx, szWnd.cy, abf);
 				}
 			}
-			else if (!g_proc_UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0,0,0), &bf, ULW_ALPHA ))
+			else if ( !g_proc_UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0,0,0), &bf, ULW_ALPHA ))
 			{
 				LONG exStyle;
 				exStyle = GetWindowLongPtr(dat->hWindow,GWL_EXSTYLE);
@@ -948,7 +948,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 			DeleteDC(tempDC);
 		}
 	}
-	if (!dat->bPlaying)
+	if ( !dat->bPlaying)
 	{
 		ShowWindow(dat->hWindow, SW_HIDE);
 		KillTimer(dat->hWindow,2);  //stop animation till set pos will be called
@@ -1154,13 +1154,13 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case AAM_SETPOSITION:
 		{
 			ANIAVA_POSINFO * papi = (ANIAVA_POSINFO *)lParam;
-			if (!dat->delaysInterval) return 0;
-			if (!papi) return 0;
+			if ( !dat->delaysInterval) return 0;
+			if ( !papi) return 0;
 			dat->rcPos = papi->rcPos;
 			dat->overlayIconIdx = papi->idxOverlay;
 			dat->bAlpha = papi->bAlpha;
 			free(papi);
-			if (!dat->bPlaying)
+			if ( !dat->bPlaying)
 			{
 				dat->bPlaying = TRUE;
 				ShowWindow(hwnd,SW_SHOWNA);
@@ -1185,7 +1185,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			LONG exStyle;
 			exStyle = GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE);
 			SetWindowPos(pcli->hwndContactList,hwnd,0,0,0,0,SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);			
-			if (!(exStyle&WS_EX_TOPMOST))
+			if ( !(exStyle&WS_EX_TOPMOST))
 				SetWindowPos(pcli->hwndContactList,HWND_NOTOPMOST,0,0,0,0,SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);
 		}
 		return 0;
@@ -1204,7 +1204,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				LONG exStyle;
 				exStyle = GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE);
 				SetWindowPos(pcli->hwndContactList,hwnd,0,0,0,0,SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);
-				if (!(exStyle&WS_EX_TOPMOST))
+				if ( !(exStyle&WS_EX_TOPMOST))
 					SetWindowPos(pcli->hwndContactList,HWND_NOTOPMOST,0,0,0,0,SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);
 			}
 		}
@@ -1243,7 +1243,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		}
 	case WM_TIMER:
 		{
-			if (!IsWindowVisible(hwnd))
+			if ( !IsWindowVisible(hwnd))
 			{
 				DestroyWindow(hwnd);
 				return 0;

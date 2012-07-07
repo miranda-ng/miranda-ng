@@ -86,10 +86,10 @@ int GetProtoIndex(char * szName)
 	PROTOACCOUNT **accs = NULL;
 	int accCount = 0;
 	int i;
-    if (!szName) return -1;
+    if ( !szName) return -1;
 	ProtoEnumAccounts( &accCount, &accs );    
 	for (i=0; i < accCount; i++)
-		if (!mir_strcmpi(szName,accs[i]->szModuleName))
+		if ( !mir_strcmpi(szName,accs[i]->szModuleName))
 			return accs[i]->iOrder;
     return -1;
 }

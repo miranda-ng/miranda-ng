@@ -75,7 +75,7 @@ static int amAddHandleToChain(HANDLE hContact)
 				}
 			} while(wChain = (AMCHAINITEM *)wChain->Next);
 	}
-	if (!amFirstChainItem)  
+	if ( !amFirstChainItem)  
 	{
 		amFirstChainItem = (AMCHAINITEM*)malloc(sizeof(AMCHAINITEM));
 		workChain = amFirstChainItem;
@@ -144,7 +144,7 @@ static int amThreadProc(HWND hwnd)
 			Sync(CLUI_SyncGetPDNCE, (WPARAM) 0,(LPARAM)&dnce);            
 			if (dnce.ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
 				ACK = (HANDLE)CallContactService(hContact,PSS_GETAWAYMSG,0,0);		
-			if (!ACK)
+			if ( !ACK)
 			{
 				ACKDATA ack;
 				ack.hContact = hContact;
@@ -205,7 +205,7 @@ BOOL amWakeThread()
 void amRequestAwayMsg(HANDLE hContact)
 {
 	char *szProto;
-	if (!g_CluiData.bInternalAwayMsgDiscovery || !hContact) 
+	if ( !g_CluiData.bInternalAwayMsgDiscovery || !hContact) 
 		return;
 	//Do not re-ask for chat rooms   
 	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);

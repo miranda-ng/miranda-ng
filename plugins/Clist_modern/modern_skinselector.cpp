@@ -54,7 +54,7 @@ char * ModernMaskToString(MODERNMASK * mm, char * buf, UINT bufsize)
 int SkinSelector_DeleteMask(MODERNMASK * mm)
 {
 	int i;
-	if (!mm->pl_Params) return 0;
+	if ( !mm->pl_Params) return 0;
 	for (i=0;i < (int)mm->dwParamCnt;i++)
 	{
 		if (mm->pl_Params[i].szName) free(mm->pl_Params[i].szName);
@@ -130,7 +130,7 @@ BOOL __inline wildcmp(const char * name, const char * mask, BYTE option)
 
 BOOL MatchMask(char * name, char * mask)
 {
-	if (!mask || !name) return mask == name;
+	if ( !mask || !name) return mask == name;
 	if (*mask != '|') return wildcmpi(name,mask);
 	{
 		int s = 1,e = 1;
@@ -213,7 +213,7 @@ DWORD mod_CalcHash(const char * a)
 */
 int AddModernMaskToList(MODERNMASK * mm,  LISTMODERNMASK * mmTemplateList)
 {
-	if (!mmTemplateList || !mm) return -1;
+	if ( !mmTemplateList || !mm) return -1;
 	mmTemplateList->pl_Masks = (MODERNMASK *)mir_realloc(mmTemplateList->pl_Masks,sizeof(MODERNMASK)*(mmTemplateList->dwMaskCnt+1));
 	memmove(&(mmTemplateList->pl_Masks[mmTemplateList->dwMaskCnt]),mm,sizeof(MODERNMASK));
 	mmTemplateList->dwMaskCnt++;
@@ -223,8 +223,8 @@ int AddModernMaskToList(MODERNMASK * mm,  LISTMODERNMASK * mmTemplateList)
 int ClearMaskList(LISTMODERNMASK * mmTemplateList)
 {
 	int i;
-	if (!mmTemplateList) return -1;
-	if (!mmTemplateList->pl_Masks) return -1;
+	if ( !mmTemplateList) return -1;
+	if ( !mmTemplateList->pl_Masks) return -1;
 	for (i=0; i < (int)mmTemplateList->dwMaskCnt; i++)
 		SkinSelector_DeleteMask(&(mmTemplateList->pl_Masks[i]));
 	mir_free_and_nil(mmTemplateList->pl_Masks);
@@ -233,7 +233,7 @@ int ClearMaskList(LISTMODERNMASK * mmTemplateList)
 }
 int DeleteMaskByItID(DWORD mID,LISTMODERNMASK * mmTemplateList)
 {
-	if (!mmTemplateList) return -1;
+	if ( !mmTemplateList) return -1;
 	if (mID < 0 ||  mID >= mmTemplateList->dwMaskCnt) return -1;
 	if (mmTemplateList->dwMaskCnt == 1)
 	{
@@ -264,7 +264,7 @@ int DeleteMaskByItID(DWORD mID,LISTMODERNMASK * mmTemplateList)
 
 int ExchangeMasksByID(DWORD mID1, DWORD mID2, LISTMODERNMASK * mmTemplateList)
 {
-	if (!mmTemplateList) return 0;
+	if ( !mmTemplateList) return 0;
 	if (mID1 < 0 ||  mID1 >= mmTemplateList->dwMaskCnt) return 0;
 	if (mID2 < 0 ||  mID2 >= mmTemplateList->dwMaskCnt) return 0;
 	if (mID1 == mID2) return 0;
@@ -406,7 +406,7 @@ static BOOL _GetParamValue( char * szText, unsigned int& start, unsigned int len
 
 int ParseToModernMask(MODERNMASK * mm, char * szText)
 {
-	if (!mm || !szText) return -1;
+	if ( !mm || !szText) return -1;
 
 	unsigned int textLen = mir_strlen(szText);
 	BYTE curParam = 0;
@@ -494,7 +494,7 @@ BOOL CompareModernMask(MODERNMASK * mmValue,MODERNMASK * mmTemplate)
 				}
 				pVal++;
 			}
-			if (!((finded && !(p.bMaskParamFlag&MPF_DIFF)) || (!finded && (p.bMaskParamFlag&MPF_DIFF))))
+			if ( !((finded && !(p.bMaskParamFlag&MPF_DIFF)) || (!finded && (p.bMaskParamFlag&MPF_DIFF))))
 			{res = FALSE; break;}
 			pTemp++;
 	}
@@ -505,7 +505,7 @@ BOOL CompareStrWithModernMask(char * szValue,MODERNMASK * mmTemplate)
 {
 	MODERNMASK mmValue = {0};
 	int res;
-	if (!ParseToModernMask(&mmValue, szValue))
+	if ( !ParseToModernMask(&mmValue, szValue))
 	{
 		res = CompareModernMask(&mmValue,mmTemplate);
 		SkinSelector_DeleteMask(&mmValue);
@@ -517,7 +517,7 @@ BOOL CompareStrWithModernMask(char * szValue,MODERNMASK * mmTemplate)
 //AddingMask
 int AddStrModernMaskToList(DWORD maskID, char * szStr, char * objectName,  LISTMODERNMASK * mmTemplateList, void * pObjectList)
 {
-	if (!szStr || !mmTemplateList) return -1;
+	if ( !szStr || !mmTemplateList) return -1;
 
 	MODERNMASK mm = {0};
 	if (ParseToModernMask(&mm,szStr)) return -1;
@@ -556,13 +556,13 @@ SKINOBJECTDESCRIPTOR *  skin_FindObjectByRequest(char * szValue,LISTMODERNMASK *
 {
 	MODERNMASK mm = {0};
 	SKINOBJECTDESCRIPTOR * res = NULL;
-	if (!mmTemplateList)
+	if ( !mmTemplateList)
 		if (g_SkinObjectList.pMaskList)
 			mmTemplateList = g_SkinObjectList.pMaskList;
 		else 
 			return NULL;
 	
-	if (!mmTemplateList) return NULL;
+	if ( !mmTemplateList) return NULL;
 	ParseToModernMask(&mm,szValue);
 	res = skin_FindObjectByMask(&mm,mmTemplateList);
 	SkinSelector_DeleteMask(&mm);
@@ -671,7 +671,7 @@ int RegisterButtonByParce(char * ObjectName, char * Params)
 // Glyph,Image,Filename,(TileBoth|TileVert|TileHor|StretchBoth), < MarginLeft>, < MarginTop>, < MarginRight>, < MarginBottom>, < Alpha>
 int RegisterObjectByParce(char * ObjectName, char * Params)
 {
-	if (!ObjectName || !Params) return 0;
+	if ( !ObjectName || !Params) return 0;
 	{
 		int res = 0;
 		SKINOBJECTDESCRIPTOR obj = {0};
@@ -758,7 +758,7 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 
 int SkinDrawGlyphMask(HDC hdc, RECT * rcSize, RECT * rcClip, MODERNMASK * ModernMask)
 {
-	if (!ModernMask) return 0;
+	if ( !ModernMask) return 0;
 
 	SKINDRAWREQUEST rq;
 	rq.hDC = hdc;
@@ -776,7 +776,7 @@ int __inline SkinDrawWindowBack(HWND hwndIn, HDC hdc, RECT * rcClip, char * obje
 	RECT rc,r1;
 
 	HWND hwnd = (HWND)CallService(MS_CLUI_GETHWND,0,0);
-	if (!objectID) return 0;
+	if ( !objectID) return 0;
 	GetWindowRect(hwndIn,&r1);
 	pt.x = r1.left;
 	pt.y = r1.top;

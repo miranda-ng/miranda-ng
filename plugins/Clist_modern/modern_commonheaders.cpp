@@ -6,7 +6,7 @@ BYTE gl_TrimText = 1;
 char * __cdecl strstri( char *a, const char *b)
 {
     char * x, *y;
-    if (!a || !b) return FALSE;
+    if ( !a || !b) return FALSE;
     x = _strdup(a);
     y = _strdup(b);
     x = _strupr(x);
@@ -57,7 +57,7 @@ BOOL __cdecl mir_bool_tstrcmpi(const TCHAR *a, const TCHAR *b)
 
 int __cdecl mir_strcmp (const char *a, const char *b)
 {
-	if (!(a && b)) return a != b;
+	if ( !(a && b)) return a != b;
 	return (strcmp(a,b));
 };
 
@@ -84,7 +84,7 @@ wchar_t * mir_strdupW(const wchar_t * src)
 	wchar_t * p;
 	if (src == NULL) return NULL;
 	p = (wchar_t *) mir_alloc((lstrlenW(src)+1)*sizeof(wchar_t));
-	if (!p) return 0;
+	if ( !p) return 0;
 	lstrcpyW(p, src);
 	return p;
 }
@@ -95,7 +95,7 @@ char * strdupn(const char * src, int len)
     char * p;
     if (src == NULL) return NULL;
     p = (char*)malloc(len+1);
-    if (!p) return 0;
+    if ( !p) return 0;
     memcpy(p,src,len);
     p[len] = '\0';
     return p;
@@ -127,7 +127,7 @@ void TRACE_ERROR()
 {
 		DWORD t = GetLastError();
 		LPVOID lpMsgBuf;
-		if (!FormatMessage( 
+		if ( !FormatMessage( 
 			FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 			FORMAT_MESSAGE_FROM_SYSTEM | 
 			FORMAT_MESSAGE_IGNORE_INSERTS,
@@ -152,7 +152,7 @@ void TRACE_ERROR()
 BOOL DebugDeleteObject(HGDIOBJ a)
 {
 	BOOL res = DeleteObject(a);
-	if (!res) TRACE_ERROR();
+	if ( !res) TRACE_ERROR();
 	return res;
 }
 
@@ -189,7 +189,7 @@ HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName)
 HICON LoadIconEx(HINSTANCE hInstance, LPCTSTR lpIconName, BOOL bShared)
 {
     HICON hResIcon = bShared?LoadSmallIcon(hInstance,lpIconName):LoadSmallIconShared(hInstance,lpIconName);
-    if (!hResIcon) //Icon not found in hInstance lets try to load it from core
+    if ( !hResIcon) //Icon not found in hInstance lets try to load it from core
     {
         HINSTANCE hCoreInstance = GetModuleHandle(NULL);
         if (hCoreInstance != hInstance)
@@ -207,7 +207,7 @@ BOOL DestroyIcon_protect(HICON icon)
 void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor)
 {																			
 	int i=0;
-	if (!pList) return;
+	if ( !pList) return;
 	for (i=0; i < pList->realCount; i++)	pItemDestructor(pList->items[i]);	
 	List_Destroy(pList);																											
    mir_free(pList);
@@ -232,7 +232,7 @@ void li_SortList(SortedList *pList, FSortFunc pSortFunct)
 {
 	FSortFunc pOldSort = pList->sortFunc;
 	int i;
-	if (!pSortFunct) pSortFunct = pOldSort;
+	if ( !pSortFunct) pSortFunct = pOldSort;
 	pList->sortFunc = NULL;
 	for (i=0; i < pList->realCount-1; i++)
 		if (pOldSort(pList->items[i],pList->items[i+1]) < 0)
@@ -244,78 +244,4 @@ void li_SortList(SortedList *pList, FSortFunc pSortFunct)
 			if (i>0) i--;
 		}
 	pList->sortFunc = pOldSort;
-}
-
-typedef struct _HookRec
-{
-	HANDLE hHook;
-#ifdef _DEBUG
-	char * HookStr;
-	char *    _debug_file;
-	int       _debug_line;
-#endif
-} HookRec;
-
-static HookRec * hooksrec = NULL;
-static DWORD hooksRecAlloced = 0;
-
-
-
-HANDLE ModernHookEvent(char *EventID, MIRANDAHOOK HookProc)             
-{
-	HookRec * hr = NULL;
-	DWORD i;
-	//1. Find free
-	for (i=0;i < hooksRecAlloced;i++) {
-		if (hooksrec[i].hHook == NULL)
-		{
-			hr = &(hooksrec[i]);
-			break;
-		}
-	}
-	if (hr == NULL)
-	{
-		//2. Need realloc
-		hooksrec = (HookRec*)mir_realloc(hooksrec,sizeof(HookRec)*(hooksRecAlloced+1));
-		hr = &(hooksrec[hooksRecAlloced]);
-		hooksRecAlloced++;
-	}
-
-	hr->hHook = HookEvent(EventID,HookProc);
-	return hr->hHook;
-}
-
-int ModernUnhookEvent(HANDLE hHook)
-{
-	DWORD i;
-	//1. Find free
-
-	for (i=0;i < hooksRecAlloced;i++)
-	{
-		if (hooksrec[i].hHook == hHook)
-		{
-			UnhookEvent(hHook);
-			hooksrec[i].hHook = NULL;
-			return 1;
-		}
-	}
-	return 0;
-}
-
-int UnhookAll()
-{
-	DWORD i;
-	TRACE("Unhooked Events:\n");
-	if (!hooksrec) return 0;
-	for (i=0;i < hooksRecAlloced;i++)
-	{
-		if (hooksrec[i].hHook != NULL)
-		{
-			UnhookEvent(hooksrec[i].hHook);
-			hooksrec[i].hHook = NULL;
-		}
-	}
-	mir_free_and_nil(hooksrec);
-	hooksRecAlloced = 0;
-	return 1;
 }

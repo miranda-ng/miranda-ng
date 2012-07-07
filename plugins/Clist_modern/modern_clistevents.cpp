@@ -257,7 +257,7 @@ static BOOL sttDrawEventAreaBackground(HWND hwnd, HDC hdc, RECT * rect)
 		if (rect) rc = *rect;
 		else	  GetClientRect(hwnd,&rc);
 
-		if (!event_area.hBmpBackground && !event_area.useWinColors)
+		if ( !event_area.hBmpBackground && !event_area.useWinColors)
 		{			
 			HBRUSH hbr = CreateSolidBrush(event_area.bkColour);
 			FillRect(hdc, &rc, hbr);
@@ -285,7 +285,7 @@ static int  ehhEventAreaBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 		DBVARIANT dbv;
 		event_area.bkColour = sttGetColor("EventArea","BkColour",CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL,"EventArea","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if (!DBGetContactSettingString(NULL,"EventArea","BkBitmap",&dbv)) {
+			if ( !DBGetContactSettingString(NULL,"EventArea","BkBitmap",&dbv)) {
 				event_area.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -405,7 +405,7 @@ static void EventArea_HideShowNotifyFrame()
 
     if (desired) 
     {
-		if (!dwVisible)
+		if ( !dwVisible)
 			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
 	}
 	else 
@@ -420,7 +420,7 @@ int EventArea_Create(HWND hCluiWnd)
 {
 
   CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)"Event Area Background/EventArea",0);
-  ModernHookEvent(ME_BACKGROUNDCONFIG_CHANGED,ehhEventAreaBackgroundSettingsChanged); 
+  HookEvent(ME_BACKGROUNDCONFIG_CHANGED,ehhEventAreaBackgroundSettingsChanged); 
   ehhEventAreaBackgroundSettingsChanged(0,0);
 
   WNDCLASS wndclass = {0};
@@ -563,7 +563,7 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		}
 		break;
     case WM_SIZE:
-	  if (!g_CluiData.fLayered)InvalidateRect(hwnd,NULL,FALSE);
+	  if ( !g_CluiData.fLayered)InvalidateRect(hwnd,NULL,FALSE);
 	  return DefWindowProc(hwnd, msg, wParam, lParam);
     case WM_ERASEBKGND:
 	  return 1;

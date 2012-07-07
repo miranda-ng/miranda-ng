@@ -76,7 +76,7 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 	char buf[255];
 	BOOL ext = FALSE;
 	path = data->szPath?mir_strdup(data->szPath):(data->szName[1] == '$')?mir_strdup((data->szName)+2):NULL;
-	if (!path) {
+	if ( !path) {
 		mir_snprintf(buf,SIZEOF(buf),"$(other)/%s",(data->szName)+1);
 		path = mir_strdup(buf);
 	}
@@ -94,7 +94,7 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 			// find item if not - create;
 			{
 				cItem = FindChild(GetDlgItem(hwndDlg,ID),rootItem,ptr);
-				if (!cItem) // not found - create node
+				if ( !cItem) // not found - create node
 				{
 					TVINSERTSTRUCTA tvis;
 					tvis.hParent = rootItem;
@@ -235,7 +235,7 @@ void SetControls(HWND hwndDlg, char * str)
 {
 	char buf[250];
 	int Type = 0;
-	if (!str)
+	if ( !str)
 	{
 		SetAppropriateGroups(hwndDlg,-1); 
 		return;
@@ -348,7 +348,7 @@ int GetShortFileName(char * FullFile)
 	char buf[MAX_PATH] = {0};
 	char * f = strrchr(FullFile,'\\');
 	char * file = f?mir_strdup(f+1):0;
-	if (!file) return 0;
+	if ( !file) return 0;
 	ske_GetFullFilename(buf,file,0,TRUE);
 	if (mir_bool_strcmpi(buf,FullFile))
 	{
@@ -442,7 +442,7 @@ char * MadeString(HWND hwndDlg)
 void UpdateInfo(HWND hwndDlg)
 {
 	char *b = MadeString(hwndDlg);
-	if (!b) 
+	if ( !b) 
 	{
 		SendDlgItemMessageA(hwndDlg,IDC_EDIT1,WM_SETTEXT,0,(LPARAM)"");
 		return;
@@ -730,7 +730,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				//Save existed object
 				//Change to new object
 				NMTREEVIEWA * nmtv = (NMTREEVIEWA *) lParam;
-				if (!nmtv) return 0;
+				if ( !nmtv) return 0;
 				if (nmtv->hdr.code == TVN_SELCHANGEDA || nmtv->hdr.code == TVN_SELCHANGEDW)
 				{
 					if (nmtv->itemOld.lParam)
@@ -778,7 +778,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			switch (((LPNMHDR)lParam)->code)
 			{
 			case PSN_APPLY:
-				if (!glOtherSkinWasLoaded) //store only if skin is same
+				if ( !glOtherSkinWasLoaded) //store only if skin is same
 				{
 					StoreTreeToDB(GetDlgItem(hwndDlg,IDC_OBJECT_TREE),SKIN);
 					//ReloadSkin
@@ -813,12 +813,12 @@ int EnableGroup(HWND hwndDlg, HWND first, BOOL bEnable)
 {
 	HWND hwnd = first;
 	BOOL exit = FALSE;
-	if (!hwnd) return 0;
+	if ( !hwnd) return 0;
 	do
 	{
 		EnableWindow(hwnd,bEnable);
 		hwnd = GetWindow(hwnd,GW_HWNDNEXT);
-		if (!hwnd || GetWindowLongPtr(hwnd,GWL_STYLE)&WS_GROUP) exit = TRUE;
+		if ( !hwnd || GetWindowLongPtr(hwnd,GWL_STYLE)&WS_GROUP) exit = TRUE;
 	}	
 		while (!exit);
 	return 0;
@@ -828,12 +828,12 @@ int ShowGroup(HWND hwndDlg, HWND first, BOOL bEnable)
 {
 	HWND hwnd = first;
 	BOOL exit = FALSE;
-	if (!hwnd) return 0;
+	if ( !hwnd) return 0;
 	do
 	{
 		ShowWindow(hwnd,bEnable?SW_SHOW:SW_HIDE);
 		hwnd = GetWindow(hwnd,GW_HWNDNEXT);
-		if (!hwnd || GetWindowLongPtr(hwnd,GWL_STYLE)&WS_GROUP) exit = TRUE;
+		if ( !hwnd || GetWindowLongPtr(hwnd,GWL_STYLE)&WS_GROUP) exit = TRUE;
 	}
 		while (!exit);
 	return 0;

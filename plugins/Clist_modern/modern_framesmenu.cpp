@@ -113,7 +113,7 @@ static INT_PTR BuildContextFrameMenu(WPARAM wParam,LPARAM lParam)
 }
 
 // == == == == == == == == == == == == == Frames end
-boolean InternalGenMenuModule = FALSE;
+bool InternalGenMenuModule = FALSE;
 
 int MeasureItemProxy(WPARAM wParam,LPARAM lParam) {
 
@@ -172,7 +172,7 @@ int InitFramesMenus(void)
 {
 	TMenuParam tmp;
 
-	if (!ServiceExists(MO_REMOVEMENUOBJECT))
+	if ( !ServiceExists(MO_REMOVEMENUOBJECT))
 	{
 
 		InitCustomMenus();
