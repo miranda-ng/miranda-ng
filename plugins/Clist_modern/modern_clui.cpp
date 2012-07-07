@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_statusbar.h"
 
 #include "hdr/modern_static_clui.h"
-#include  < locale.h>
+#include <locale.h>
 #include "hdr/modern_clcpaint.h"
 #include "hdr/modern_sync.h"
 
@@ -45,7 +45,7 @@ void DestroyTrayMenu(HMENU hMenu);
 
 // new sources
 #ifdef _MSC_VER
-#include  < crtdbg.h>
+#include <crtdbg.h>
 #endif
 
 //////////////// CLUI CLASS IMPLEMENTATION /////////////////////////////////

@@ -29,15 +29,15 @@ Created by Anton Senko aka ZORG , tweaked by Artem Shpynov aka FYR
 /*
 #include "m_stdhdr.h"
 
-#include  < windows.h>
-#include  < commctrl.h>
-#include  < stdio.h>
-#include  < time.h>
-#include  < stddef.h>
-#include  < process.h>
-#include  < io.h>
-#include  < string.h>
-#include  < direct.h>
+#include <windows.h>
+#include <commctrl.h>
+#include <stdio.h>
+#include <time.h>
+#include <stddef.h>
+#include <process.h>
+#include <io.h>
+#include <string.h>
+#include <direct.h>
 #include "resource.h"
 #include "hdr/modern_commonheaders.h"
 */
@@ -184,11 +184,11 @@ char * rowParserGetNextWord(char *tbuf, int &hbuf)
 		// Tag-bracers found
 		if (!(ch == '>' && j < 0)) //not single '>' found
 		{
-			if ( (ch == ' < ' || ch == '>') && j >= 0)
+			if ( (ch == '<' || ch == '>') && j >= 0)
 			{
 				if (ch == '>')
 				{
-					if (buf[0] == '/' || buf[0] == ' < ')  buf[++j] = ch;
+					if (buf[0] == '/' || buf[0] == '<')  buf[++j] = ch;
 					hbuf++;
 				}
 				return buf;
@@ -328,11 +328,11 @@ BOOL rowParse(ROWCELL* &cell, ROWCELL* parent, char *tbuf, int &hbuf, int &seque
 	word = rowParserGetNextWord(tbuf, hbuf);
 	int cont;
 
-	if      (!_strnicmp(word, " < tr",   strlen(word)) ||!_strnicmp(word, " < tr>",   strlen(word))) cont = TC_ROW;
-	else if (!_strnicmp(word, " < tc",   strlen(word)) ||!_strnicmp(word, " < tc>",   strlen(word))) cont = TC_COL;
+	if      (!_strnicmp(word, "<tr",   strlen(word)) ||!_strnicmp(word, "<tr>",   strlen(word))) cont = TC_ROW;
+	else if (!_strnicmp(word, "<tc",   strlen(word)) ||!_strnicmp(word, "<tc>",   strlen(word))) cont = TC_COL;
 	else if (!_strnicmp(word, "/>",     strlen(word))||
-		!_strnicmp(word, " < /tr>",  strlen(word))||
-		!_strnicmp(word, " < /tc>",  strlen(word))) return TRUE;
+		!_strnicmp(word, "</tr>",  strlen(word))||
+		!_strnicmp(word, "</tc>",  strlen(word))) return TRUE;
 	else return FALSE;
 
 	rowAddCell(cell, cont);

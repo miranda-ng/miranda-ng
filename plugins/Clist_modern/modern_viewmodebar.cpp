@@ -1524,10 +1524,10 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 		if (id) {
 		if (!DBGetContactSetting(hContact, szProto, id, &dbv)) {
 		if (dbv.type == DBVT_ASCIIZ) {
-		mir_snprintf(UIN, 256, " < %s:%s>", szProto, dbv.pszVal);
+		mir_snprintf(UIN, 256, "<%s:%s>", szProto, dbv.pszVal);
 		}
 		else {
-		mir_snprintf(UIN, 256, " < %s:%d>", szProto, dbv.dVal);
+		mir_snprintf(UIN, 256, "<%s:%d>", szProto, dbv.dVal);
 		}
 		varstring = MakeVariablesString(g_CluiData.varFilter, UIN);
 		ZeroMemory(&fi, sizeof(fi));

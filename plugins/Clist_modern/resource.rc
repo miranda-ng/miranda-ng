@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include  < winresrc.h>
+#include <winresrc.h>
 #include "hdr/modern_statusmodes.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1218,7 +1218,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include  < winresrc.h>\r\n"
+    "#include <winresrc.h>\r\n"
     "#include ""hdr/modern_statusmodes.h""\r\n"
     "\0"
 END

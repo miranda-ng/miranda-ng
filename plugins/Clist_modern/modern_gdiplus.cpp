@@ -6,7 +6,7 @@
 #include "hdr/modern_commonheaders.h"
 
 #undef Translate	//otherwise will conflict with gdi plus Translate
-#include  < gdiplus.h>
+#include <gdiplus.h>
 
 #include "hdr/modern_global_structure.h"
 

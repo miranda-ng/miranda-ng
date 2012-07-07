@@ -3,7 +3,7 @@
 #include "m_api/m_skinbutton.h"
 #include "hdr/modern_clcpaint.h"
 #ifdef __MINGW32__
-#include  < ctype.h>
+#include <ctype.h>
 #endif
 
 #define BUTTON_POLLID       100

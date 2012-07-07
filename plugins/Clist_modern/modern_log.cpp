@@ -1,8 +1,8 @@
 #include "hdr/modern_commonheaders.h"
 
-#include  < stdarg.h>
-#include  < stdio.h>
-#include  < string.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
 
 
 void Log(const char *file,int line,const char *fmt,...)

@@ -384,7 +384,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			TranslateDialogDefault(hwndDlg);	
 			rowOptTmplStr = db_get_sa(NULL, "ModernData", "RowTemplate");
-			if (!rowOptTmplStr) rowOptTmplStr = mir_strdup(" < TR />");
+			if (!rowOptTmplStr) rowOptTmplStr = mir_strdup("<TR />");
 			{	
 				//HIMAGELIST himlTreeIcons;
 				//himlTreeIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,3,2);
