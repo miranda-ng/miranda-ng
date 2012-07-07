@@ -18,9 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "hooked_events.h"
-#include "mimcmd_ipc.h"
-#include "services.h"
+#include "commonheaders.h"
 
 HANDLE hModulesLoaded;
 HANDLE hOptionsInitialize;
@@ -31,17 +29,6 @@ int bShouldProcessAcks = FALSE;
 
 ACKDATA acks[50] = {0};
 int cAcks = sizeof(acks) / sizeof(acks[0]);
-
-#define HOST "http://eblis.tla.ro/projects"
-
-#if defined(WIN64) || defined(_WIN64)
-#define CMDLINE_VERSION_URL HOST "/miranda/CmdLine/updater/x64/CmdLine.html"
-#define CMDLINE_UPDATE_URL HOST "/miranda/CmdLine/updater/x64/CmdLine.zip"
-#else
-#define CMDLINE_VERSION_URL HOST "/miranda/CmdLine/updater/CmdLine.html"
-#define CMDLINE_UPDATE_URL HOST "/miranda/CmdLine/updater/CmdLine.zip"
-#endif
-#define CMDLINE_VERSION_PREFIX "CmdLine version "
 
 int HookEvents()
 {
@@ -65,19 +52,6 @@ int UnhookEvents()
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	char buffer[1024];
-	Update update = {0};
-	update.cbSize = sizeof(Update);
-	update.szComponentName = __PLUGIN_DISPLAY_NAME;
-	update.pbVersion = (BYTE *) CreateVersionString(VERSION, buffer);
-	update.cpbVersion = (int) strlen((char *) update.pbVersion);
-	update.szUpdateURL = UPDATER_AUTOREGISTER;
-	update.szBetaVersionURL = CMDLINE_VERSION_URL;
-	update.szBetaUpdateURL = CMDLINE_UPDATE_URL;
-	update.pbBetaVersionPrefix = (BYTE *) CMDLINE_VERSION_PREFIX;
-	update.cpbBetaVersionPrefix = (int) strlen(CMDLINE_VERSION_PREFIX);
-	CallService(MS_UPDATE_REGISTER, 0, (LPARAM) &update);
-	
 	StartServer();
 	
 	return 0;

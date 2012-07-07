@@ -21,9 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CMDLINE_COMMONHEADERS_H
 #define M_CMDLINE_COMMONHEADERS_H
 
-#ifndef MIRANDA_VER
-#define MIRANDA_VER 0x0800
-#endif
+#define MIRANDA_VER 0x0A00
+#define _CRT_SECURE_NO_WARNINGS
 
 #define MIID_CMDLINE        {0xcf8d9633, 0x7744, 0x4a5c, {0xb4, 0x8c, 0x2b, 0xd6, 0x36, 0xa4, 0x6c, 0xde}}
 
@@ -32,14 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string.h>
 #include <windows.h>
 #include <time.h>
-
-#include "version.h"
-#include "utils.h"
-#include "mirandaMem.h"
-//#include "services.h"
-//#include "dlg_handlers.h"
-
-#include "resource.h"
 
 #include "newpluginapi.h"
 #include "m_database.h"
@@ -56,11 +47,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_message.h"
 #include "m_ignore.h"
 
-#include "sdk/m_versioninfo.h"
-#include "sdk/m_statusplugins.h"
-#include "sdk//m_updater.h"
+#include "m_versioninfo.h"
+#include "m_statusplugins.h"
 
+#include "version.h"
+#include "utils.h"
+#include "resource.h"
 #include "hooked_events.h"
+#include "utils.h"
+#include "mimcmd_ipc.h"
+#include "services.h"
+#include "mimcmd_handlers.h"
+#include "mimcmd_data.h"
 
 extern char ModuleName[];
 extern HINSTANCE hInstance;
@@ -72,24 +70,6 @@ extern int bUseANSIStrings;
 extern int bWaitForUnload;
 
 #define ID_ICQ_EXIT		40001
-
-#define OLD_MIRANDAPLUGININFO_SUPPORT PLUGININFO oldPluginInfo = { \
-	sizeof(PLUGININFO), \
-	pluginInfo.shortName, \
-	pluginInfo.version, \
-	pluginInfo.description, \
-	pluginInfo.author, \
-	pluginInfo.authorEmail, \
-	pluginInfo.copyright, \
-	pluginInfo.homepage, \
-	pluginInfo.flags, \
-	pluginInfo.replacesDefaultModule \
-}; \
-\
-extern "C" __declspec(dllexport) PLUGININFO *MirandaPluginInfo(DWORD mirandaVersion) \
-{ \
-	return &oldPluginInfo; \
-}
 
 static __inline int mir_old_snprintf(char *buffer, size_t count, const char* fmt, ...) {
 	va_list va;

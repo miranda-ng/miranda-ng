@@ -1,1 +1,0 @@
-executable\MimCmd\x64\Release\*.exe

@@ -19,12 +19,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "mimcmd_ipc.h"
 
 char ModuleName[] = "CmdLine";
 HINSTANCE hInstance;
-
-PLUGINLINK *pluginLink;
+int hLangpack;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -35,12 +33,9 @@ PLUGININFOEX pluginInfo = {
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	0, //unicode aware
-	0,
+	UNICODE_AWARE, //unicode aware
 	{0x2f1a117c, 0x3c1b, 0x4c01, {0x89, 0xea, 0x6d, 0x8f, 0xd8, 0x5a, 0x9b, 0x4c}} //{2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
-	}; //not used
-
-OLD_MIRANDAPLUGININFO_SUPPORT;
+}; //not used
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
 {
@@ -54,9 +49,9 @@ extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces()
 	return interfaces;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
+	mir_getLP(&pluginInfo);
 	
 //	InitServices();
 	if (InitServer())
@@ -65,8 +60,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	}
 	
 	HookEvents();
-	
-	InitializeMirandaMemFunctions();
 	
 	return 0;
 }
