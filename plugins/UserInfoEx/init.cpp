@@ -292,74 +292,71 @@ extern "C" INT __declspec(dllexport) Unload(VOID)
  **/
 extern "C" INT __declspec(dllexport) Load(void)
 {
-	INITCOMMONCONTROLSEX ccEx;
-
-
 	mir_getLP(&pluginInfo);
-	if (CoreCheck())
-	{
-		// init common controls
-		ccEx.dwSize = sizeof(ccEx);
-		ccEx.dwICC = ICC_WIN95_CLASSES|ICC_DATE_CLASSES;
-		InitCommonControlsEx(&ccEx);
+	if ( !CoreCheck())
+		return 1;
 
-		ZeroMemory(&myGlobals, sizeof(MGLOBAL));
+	// init common controls
+	INITCOMMONCONTROLSEX ccEx;
+	ccEx.dwSize = sizeof(ccEx);
+	ccEx.dwICC = ICC_WIN95_CLASSES|ICC_DATE_CLASSES;
+	InitCommonControlsEx(&ccEx);
 
-		// init clist interface
-		pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)0);
+	ZeroMemory(&myGlobals, sizeof(MGLOBAL));
 
-		// init new miranda timezone interface
-		mir_getTMI(&tmi);
+	// init clist interface
+	pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)0);
 
-		// init freeimage interface
-		INT_PTR result = CALLSERVICE_NOTFOUND;
-		if(ServiceExists(MS_IMG_GETINTERFACE))
-			result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
+	// init new miranda timezone interface
+	mir_getTMI(&tmi);
 
-		if(FIP == NULL || result != S_OK) {
-			MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Flags Module will be disabled."), _T("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
-			return 1;
-		}
+	// init freeimage interface
+	INT_PTR result = CALLSERVICE_NOTFOUND;
+	if(ServiceExists(MS_IMG_GETINTERFACE))
+		result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
 
-		if (IsWinVerVistaPlus())
-		{
-			HMODULE hDwmApi = LoadLibraryA("dwmapi.dll");
-			if (hDwmApi)
-				dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi,"DwmIsCompositionEnabled");
-		}
-
-		// check for dbx_tree
-		myGlobals.UseDbxTree = ServiceExists("DBT/Entity/GetRoot");
-
-		// load icon library
-		IcoLib_LoadModule();
-
-		SvcFlagsLoadModule();
-		tmi.getTimeZoneTime ? SvcTimezoneLoadModule() : SvcTimezoneLoadModule_old();
-		SvcContactInfoLoadModule();
-		SvcEMailLoadModule();
-		SvcRefreshContactInfoLoadModule();
-
-		CtrlContactLoadModule();
-		// load my button class
-		CtrlButtonLoadModule();
-		// initializes the Ex/Import Services
-		SvcExImport_LoadModule();
-		// load the UserInfoPropertySheet module
-		DlgContactInfoLoadModule();
-
-		// Anniversary stuff
-		DlgAnniversaryListLoadModule();
-		SvcReminderLoadModule();
-
-		// Now the module is loaded! Start initializing certain things
-		ghModulesLoadedHook		= HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-		ghTopToolBarLoaded		= HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
-		ghModernToolBarLoaded	= HookEvent(ME_TB_MODULELOADED, OnModernToolBarLoaded);
-		ghShutdownHook			= HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
-		return 0;
+	if(FIP == NULL || result != S_OK) {
+		MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Flags Module will be disabled."), _T("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+		return 1;
 	}
-	return 1;
+
+	if (IsWinVerVistaPlus())
+	{
+		HMODULE hDwmApi = LoadLibraryA("dwmapi.dll");
+		if (hDwmApi)
+			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi,"DwmIsCompositionEnabled");
+	}
+
+	// check for dbx_tree
+	myGlobals.UseDbxTree = ServiceExists("DBT/Entity/GetRoot");
+
+	// load icon library
+	IcoLib_LoadModule();
+
+	SvcFlagsLoadModule();
+	tmi.getTimeZoneTime ? SvcTimezoneLoadModule() : SvcTimezoneLoadModule_old();
+	SvcContactInfoLoadModule();
+	SvcEMailLoadModule();
+	SvcRefreshContactInfoLoadModule();
+
+	CtrlContactLoadModule();
+	// load my button class
+	CtrlButtonLoadModule();
+	// initializes the Ex/Import Services
+	SvcExImport_LoadModule();
+	// load the UserInfoPropertySheet module
+	DlgContactInfoLoadModule();
+
+	// Anniversary stuff
+	DlgAnniversaryListLoadModule();
+	SvcReminderLoadModule();
+
+	// Now the module is loaded! Start initializing certain things
+	ghModulesLoadedHook		= HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	ghTopToolBarLoaded		= HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
+	ghModernToolBarLoaded	= HookEvent(ME_TB_MODULELOADED, OnModernToolBarLoaded);
+	ghShutdownHook			= HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
+	return 0;
 }
 
 /**

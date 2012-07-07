@@ -15,10 +15,8 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1252)
-#endif //_WIN32
+#pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -345,11 +343,9 @@ BEGIN
     GROUPBOX        "MetaContacts",STATIC_OPT_METAGROUP,3,52,303,32
     CONTROL         "Scan SubContacts for missing information",CHECK_OPT_METASCAN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,67,290,10
-    CONTROL         "Enable extended 'GetContactInfo' module (*)",CHECK_OPT_GETCONTACTINFO_ENABLED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,93,275,10
     CONTROL         "Enable extended 'send/receive email' service (*)",CHECK_OPT_SREMAIL_ENABLED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,107,275,10
-    CONTROL         "Use Windows Timezone",CHECK_OPT_AUTOTIMEZONE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,122,275,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,91,275,10
+    CONTROL         "Use Windows Timezone",CHECK_OPT_AUTOTIMEZONE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,106,275,10
     LTEXT           "(*) Requires Miranda to be restarted.",IDC_STATIC,11,207,167,8
     PUSHBUTTON      "Reset factory defaults",BTN_OPT_RESET,209,204,95,14
 END
@@ -571,12 +567,16 @@ CURSOR_ADDGROUP         CURSOR                  "dragcopy.cur"
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPT_REMINDER, DIALOG
     BEGIN
         VERTGUIDE, 144
         VERTGUIDE, 290
+    END
+
+    IDD_OPT_ADVANCED, DIALOG
+    BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -586,13 +586,11 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Deutsch (Deutschland) resources
+// German (Germany) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
-#ifdef _WIN32
 LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -624,7 +622,7 @@ END
 //
 
 IDB_FLAGSPNG            PNG                     "flags.png"
-#endif    // Deutsch (Deutschland) resources
+#endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

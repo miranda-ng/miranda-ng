@@ -71,7 +71,6 @@ Last change by : $Author: ing.u.horn $
 #define	SET_MI_STATUS					"miStatus"
 #define	SET_MI_ACCOUNT					"miAccount"
 
-#define	SET_GETCONTACTINFO_ENABLED		"ExtendedCIS"
 #define	SET_EXTENDED_EMAILSERVICE		"emailEx"
 #define	SET_CLIST_EXTRAICON_GENDER		"GenderColumn"
 #define	SET_CLIST_EXTRAICON_GENDER2		"cliGender"

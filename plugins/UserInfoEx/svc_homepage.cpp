@@ -205,40 +205,19 @@ VOID SvcHomepageRebuildMenu()
 {
 	static HANDLE hPrebuildMenuHook = NULL;
 
-	if (DB::Setting::GetByte(SET_GETCONTACTINFO_ENABLED, DEFVAL_GETCONTACTINFO_ENABLED)) 
-	{
+	if (!hPrebuildMenuHook)
+		hPrebuildMenuHook = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildMenu);
 
-		if (!hPrebuildMenuHook)
-		{
-			hPrebuildMenuHook = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildMenu);
-		}
-
-		if (!ghMenuItem) 
-		{
-			CLISTMENUITEM mi;
-
-			// insert contact menuitem
-			ZeroMemory(&mi, sizeof(mi));
-			mi.cbSize = sizeof(mi);
-			mi.position = -2000010000;
-			mi.hIcon = IcoLib_GetIcon(ICO_BTN_GOTO);
-			mi.pszName = "&Homepage";
-			mi.pszService = MS_USERINFO_HOMEPAGE_OPENURL;
-			ghMenuItem = Menu_AddContactMenuItem(&mi);
-		}
-	}
-	else 
-	{
-		if (hPrebuildMenuHook) 
-		{
-			UnhookEvent(ME_CLIST_PREBUILDCONTACTMENU);
-			hPrebuildMenuHook = NULL;
-		}
-		if (ghMenuItem) 
-		{
-			CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)ghMenuItem, NULL);
-			ghMenuItem = NULL;
-		}
+	if (!ghMenuItem) {
+		// insert contact menuitem
+		CLISTMENUITEM mi = { 0 };
+		ZeroMemory(&mi, sizeof(mi));
+		mi.cbSize = sizeof(mi);
+		mi.position = -2000010000;
+		mi.hIcon = IcoLib_GetIcon(ICO_BTN_GOTO);
+		mi.pszName = "&Homepage";
+		mi.pszService = MS_USERINFO_HOMEPAGE_OPENURL;
+		ghMenuItem = Menu_AddContactMenuItem(&mi);
 	}
 }
 
