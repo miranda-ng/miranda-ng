@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-
 static DWORD protoModeMsgFlags;
 static HWND hwndStatusMsg;
 
@@ -62,17 +61,17 @@ static const char *StatusModeToDbSetting(int status, const char *suffix)
 
 	switch(status) 
 	{
-		case ID_STATUS_AWAY:       prefix = "Away";	    break;
-		case ID_STATUS_NA:         prefix = "Na";	    break;
-		case ID_STATUS_DND:        prefix = "Dnd";      break;
-		case ID_STATUS_OCCUPIED:   prefix = "Occupied"; break;
-		case ID_STATUS_FREECHAT:   prefix = "FreeChat"; break;
-		case ID_STATUS_ONLINE:     prefix = "On";       break;
-		case ID_STATUS_OFFLINE:    prefix = "Off";      break;
-		case ID_STATUS_INVISIBLE:  prefix = "Inv";      break;
-		case ID_STATUS_ONTHEPHONE: prefix = "Otp";      break;
-		case ID_STATUS_OUTTOLUNCH: prefix = "Otl";      break;
-		case ID_STATUS_IDLE:       prefix = "Idl";      break;
+		case ID_STATUS_AWAY:		prefix = "Away";		break;
+		case ID_STATUS_NA:			prefix = "Na";			break;
+		case ID_STATUS_DND:			prefix = "Dnd";			break;
+		case ID_STATUS_OCCUPIED:	prefix = "Occupied";	break;
+		case ID_STATUS_FREECHAT:	prefix = "FreeChat";	break;
+		case ID_STATUS_ONLINE:		prefix = "On";			break;
+		case ID_STATUS_OFFLINE:		prefix = "Off";			break;
+		case ID_STATUS_INVISIBLE:	prefix = "Inv";			break;
+		case ID_STATUS_ONTHEPHONE:	prefix = "Otp";			break;
+		case ID_STATUS_OUTTOLUNCH:	prefix = "Otl";			break;
+		case ID_STATUS_IDLE:		prefix = "Idl";			break;
 		default: return NULL;
 	}
 	mir_snprintf(str, SIZEOF(str), "%s%s", prefix, suffix);
@@ -132,7 +131,7 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, substituteStr, SIZEOF(substituteStr));
 			else continue;
 
-			if (lstrlen(substituteStr) > 6) 
+			if (lstrlen(substituteStr) > 6)
 				dbv.ptszVal = (TCHAR*)mir_realloc(dbv.ptszVal, (lstrlen(dbv.ptszVal) + 1 + lstrlen(substituteStr) - 6) * sizeof(TCHAR));
 			MoveMemory(dbv.ptszVal + i + lstrlen(substituteStr), dbv.ptszVal + i + 6, (lstrlen(dbv.ptszVal) - i - 5) * sizeof(TCHAR));
 			CopyMemory(dbv.ptszVal+i, substituteStr, lstrlen(substituteStr) * sizeof(TCHAR));
@@ -145,25 +144,25 @@ static WNDPROC OldMessageEditProc;
 
 static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) 
+	switch(msg)
 	{
 	case WM_CHAR:
-		if (wParam == '\n' && GetKeyState(VK_CONTROL) & 0x8000) 
+		if (wParam == '\n' && GetKeyState(VK_CONTROL) & 0x8000)
 		{
 			PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
 			return 0;
 		}
-		if (wParam == 1 && GetKeyState(VK_CONTROL) & 0x8000)      //ctrl-a
+		if (wParam == 1 && GetKeyState(VK_CONTROL) & 0x8000) //ctrl-a
 		{
 			SendMessage(hwnd, EM_SETSEL, 0, -1);
 			return 0;
 		}
-		if (wParam == 23 && GetKeyState(VK_CONTROL) & 0x8000)     // ctrl-w
+		if (wParam == 23 && GetKeyState(VK_CONTROL) & 0x8000) // ctrl-w
 		{
 			SendMessage(GetParent(hwnd), WM_CLOSE, 0, 0);
 			return 0;
 		}
-		if (wParam == 127 && GetKeyState(VK_CONTROL) & 0x8000)    //ctrl-backspace
+		if (wParam == 127 && GetKeyState(VK_CONTROL) & 0x8000) //ctrl-backspace
 		{
 			DWORD start, end;
 			TCHAR *text;
@@ -204,7 +203,7 @@ void ChangeAllProtoMessages(char *szProto, int statusMode, TCHAR *msg)
 	else CallProtoService(szProto, PS_SETAWAYMSGT, statusMode, (LPARAM)msg);
 }
 
-struct SetAwayMsgData 
+struct SetAwayMsgData
 {
 	int statusMode;
 	int countdown;
@@ -212,7 +211,8 @@ struct SetAwayMsgData
 	char *szProto;
 	HANDLE hPreshutdown;
 };
-struct SetAwasMsgNewData 
+
+struct SetAwasMsgNewData
 {
 	char *szProto;
 	int statusMode;
@@ -236,14 +236,14 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			mir_free(newdat);
 			SendDlgItemMessage(hwndDlg, IDC_MSG, EM_LIMITTEXT, 1024, 0);
 			OldMessageEditProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSG), GWLP_WNDPROC, (LONG_PTR)MessageEditSubclassProc);
-			{	
+			{
 				TCHAR str[256], format[128];
 				GetWindowText(hwndDlg, format, SIZEOF(format));
 				mir_sntprintf(str, SIZEOF(str), format, pcli->pfnGetStatusModeDescription(dat->statusMode, 0));
 				SetWindowText(hwndDlg, str);
 			}
 			GetDlgItemText(hwndDlg, IDOK, dat->okButtonFormat, SIZEOF(dat->okButtonFormat));
-			{	
+			{
 				TCHAR *msg = GetAwayMessage(dat->statusMode, dat->szProto);
 				SetDlgItemText(hwndDlg, IDC_MSG, msg);
 				mir_free(msg);
@@ -270,7 +270,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		break;
 
 	case WM_CLOSE:
-		{	
+		{
 			TCHAR *msg = GetAwayMessage(dat->statusMode, dat->szProto);
 			ChangeAllProtoMessages(dat->szProto, dat->statusMode, msg);
 			mir_free(msg);
@@ -278,28 +278,28 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		DestroyWindow(hwndDlg);
 		break;
 
-    case WM_COMMAND:
-		 switch(LOWORD(wParam)) {
-		 case IDOK:
-			 if (dat->countdown < 0) {
-				 TCHAR str[1024];
-				 GetDlgItemText(hwndDlg, IDC_MSG, str, SIZEOF(str));
-				 ChangeAllProtoMessages(dat->szProto, dat->statusMode, str);
-				 DBWriteContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(dat->statusMode, "Msg"), str);
-				 DestroyWindow(hwndDlg);
-			 }
-			 else PostMessage(hwndDlg, WM_CLOSE, 0, 0);
-			 break;
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDOK:
+			if (dat->countdown < 0) {
+				TCHAR str[1024];
+				GetDlgItemText(hwndDlg, IDC_MSG, str, SIZEOF(str));
+				ChangeAllProtoMessages(dat->szProto, dat->statusMode, str);
+				DBWriteContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(dat->statusMode, "Msg"), str);
+				DestroyWindow(hwndDlg);
+			}
+			else PostMessage(hwndDlg, WM_CLOSE, 0, 0);
+			break;
 
-		 case IDC_MSG:
-			 if (dat->countdown >= 0) {
-				 KillTimer(hwndDlg, 1);
-				 SetDlgItemText(hwndDlg, IDOK, TranslateT("OK"));
-				 dat->countdown = -1;
-			 }
-			 break;
-		 }
-		 break;
+		case IDC_MSG:
+			if (dat->countdown >= 0) {
+				KillTimer(hwndDlg, 1);
+				SetDlgItemText(hwndDlg, IDOK, TranslateT("OK"));
+				dat->countdown = -1;
+			}
+			break;
+		}
+		break;
 
 	case DM_SRAWAY_SHUTDOWN:
 		DestroyWindow(hwndDlg);
@@ -308,7 +308,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 	case WM_DESTROY:
 		Utils_SaveWindowPosition(hwndDlg, NULL, "SRAway", "AwayMsgDlg");
 		KillTimer(hwndDlg, 1);
-		UnhookEvent(dat->hPreshutdown); 
+		UnhookEvent(dat->hPreshutdown);
 		Window_FreeIcon_IcoLib(hwndDlg);
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSG), GWLP_WNDPROC, (LONG_PTR)OldMessageEditProc);
 		mir_free(dat);
@@ -324,10 +324,10 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 	int statusMode = (int)wParam;
 	char *szProto = (char*)lParam;
 
-  	if (protoModeMsgFlags == 0) return 0;
+	if (protoModeMsgFlags == 0) return 0;
 
 	// If its a global change check the complete PFLAGNUM_3 flags to see if a popup might be needed
-	if ( !szProto) 
+	if ( !szProto)
 	{
 		if ( !(protoModeMsgFlags & Proto_Status2Flag(statusMode)))
 			return 0;
@@ -335,7 +335,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 	else
 	{
 		// If its a single protocol check the PFLAGNUM_3 for the single protocol
-		if ( !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)  || 
+		if ( !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) ||
 			!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
 			return 0;
 	}
@@ -362,21 +362,22 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 }
 
 static const int statusModes[] = 
-{ 
-	ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND, 
+{
+	ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND,
 	ID_STATUS_FREECHAT, ID_STATUS_INVISIBLE, ID_STATUS_OUTTOLUNCH, ID_STATUS_ONTHEPHONE, ID_STATUS_IDLE
 };
 
-struct AwayMsgInfo 
+struct AwayMsgInfo
 {
 	int ignore;
 	int noDialog;
 	int usePrevious;
 	TCHAR msg[1024];
 };
-struct AwayMsgDlgData 
+
+struct AwayMsgDlgData
 {
-	struct AwayMsgInfo info[ SIZEOF(statusModes) ];
+	struct AwayMsgInfo info[SIZEOF(statusModes)];
 	int oldPage;
 };
 
@@ -401,7 +402,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				if (hLst) {
 					j = SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(statusModes[i], 0));
 					SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_SETITEMDATA, j, statusModes[i]);
-				} 
+				}
 				else {
 					j = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(statusModes[i], 0));
 					SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, j, statusModes[i]);
@@ -445,7 +446,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			if (dis->itemState & (ODS_SELECTED|ODS_FOCUS)) {
 				FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
 				SetTextColor(dis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
-			} 
+			}
 			else {
 				FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_WINDOW));
 				SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
@@ -558,7 +559,7 @@ static int AwayMsgSendModernOptInit(WPARAM wParam, LPARAM)
 
 	static const int iBoldControls[] = 
 	{
-		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3, 
+		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3,
 		MODERNOPT_CTRL_LAST
 	};
 
@@ -586,7 +587,7 @@ static int AwayMsgSendAccountsChanged(WPARAM, LPARAM)
 	for (int i=0; i < nAccounts; i++) {
 		if ( !Proto_IsAccountEnabled(accounts[i]))
 			continue;
-		
+
 		protoModeMsgFlags |= CallProtoService(accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 	}
 
@@ -609,7 +610,6 @@ static INT_PTR sttGetAwayMessageT(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)GetAwayMessage((int)wParam, (char*)lParam);
 }
 
-
 static INT_PTR sttGetAwayMessage(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR* msg = GetAwayMessage((int)wParam, (char*)lParam);
@@ -618,12 +618,11 @@ static INT_PTR sttGetAwayMessage(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)res;
 }
 
-
 int LoadAwayMessageSending(void)
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, AwayMsgSendModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AwayMsgSendAccountsChanged);
-	
+
 	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSG, sttGetAwayMessage);
 	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSGW, sttGetAwayMessageT);
 	return 0;
