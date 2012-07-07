@@ -1,3 +1,7 @@
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
 #include "version.h"
 #include "resource.h"
 #include "winres.h"

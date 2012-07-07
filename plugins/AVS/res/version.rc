@@ -1,5 +1,9 @@
 // Microsoft Visual C++ generated resource script.
 //
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
 #include "..\src\resource.h"
 #include "..\src\version.h"
 #include "winres.h"
