@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_clcpaint.h"
 #include "hdr/modern_sync.h"
 
-
+int ContactSettingChanged(WPARAM, LPARAM);
 
 HRESULT (WINAPI *g_proc_DWMEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
 BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LRESULT& result );
@@ -349,6 +349,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 
 	return S_OK;
 }
+
 HRESULT CLUI::CreateCLCWindow(const HWND hwndClui)
 {    
 	ClcWnd() = CreateWindow(CLISTCONTROL_CLASS,_T(""),
@@ -416,7 +417,6 @@ HRESULT CLUI::FillAlphaChannel( HDC hDC, RECT * prcParent, BYTE bAlpha)
 
 HRESULT CLUI::CreateCLC()
 {
-
 	INIT < CLISTFrame> Frame;
 
 	Frame.hWnd = ClcWnd();
@@ -447,6 +447,7 @@ HRESULT CLUI::CreateCLC()
 	nLastRequiredHeight = 0;
 	mutex_bDisableAutoUpdate = 0;
 
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED,CLUI::OnEvent_DBSettingChanging);
 	return S_OK;
 
@@ -2030,6 +2031,7 @@ LRESULT CLUI::OnSizingMoving( UINT msg, WPARAM wParam, LPARAM lParam )
 
 	case WM_SIZING:
 		return DefWindowProc(m_hWnd, msg, wParam, lParam);;
+
 	case WM_MOVE:
 		{
 			RECT rc;
@@ -2123,8 +2125,7 @@ LRESULT CLUI::OnSizingMoving( UINT msg, WPARAM wParam, LPARAM lParam )
 		}
 	case WM_WINDOWPOSCHANGING:
 		{
-			WINDOWPOS * wp;
-			wp = (WINDOWPOS *)lParam; 
+			WINDOWPOS *wp = (WINDOWPOS *)lParam; 
 			if (wp->flags&SWP_HIDEWINDOW && mutex_bAnimationInProgress) 
 				return 0;               
 			if (g_CluiData.fOnDesktop)
@@ -2155,23 +2156,25 @@ LRESULT CLUI::OnSyncCall( UINT /*msg*/, WPARAM wParam, LPARAM /*lParam*/ )
 
 LRESULT CLUI::OnUpdate( UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 {
-	if ( g_flag_bPostWasCanceled ) return FALSE;
+	if ( g_flag_bPostWasCanceled )
+		return FALSE;
 	return ske_ValidateFrameImageProc( NULL );
 }
+
 LRESULT CLUI::OnInitMenu( UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 {
-	if ( !CLUI::IsMainMenuInited())
-	{
-		if ( ServiceExists( MS_CLIST_MENUBUILDMAIN )) CallService( MS_CLIST_MENUBUILDMAIN, 0, 0 );
+	if ( !CLUI::IsMainMenuInited()) {
+		if ( ServiceExists( MS_CLIST_MENUBUILDMAIN ))
+			CallService( MS_CLIST_MENUBUILDMAIN, 0, 0 );
 		CLUI::m_fMainMenuInited = TRUE;
 	}
 	return FALSE;
 }
+
 LRESULT CLUI::OnNcPaint( UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	int lRes = DefWindowProc( m_hWnd, msg, wParam, lParam );
-	if ( !g_CluiData.fLayered && db_get_b( NULL,"CLUI","ShowMainMenu",SETTING_SHOWMAINMENU_DEFAULT ))
-	{
+	if ( !g_CluiData.fLayered && db_get_b( NULL,"CLUI","ShowMainMenu",SETTING_SHOWMAINMENU_DEFAULT )) {
 		HDC hdc = NULL;
 		if ( msg == WM_PRINT ) hdc = (HDC)wParam;
 		if ( !hdc ) hdc = GetWindowDC( m_hWnd );
@@ -2180,10 +2183,12 @@ LRESULT CLUI::OnNcPaint( UINT msg, WPARAM wParam, LPARAM lParam )
 	}
 	return lRes;
 }
+
 LRESULT CLUI::OnEraseBkgnd( UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 {
 	return TRUE;
 }
+
 LRESULT CLUI::OnNcCreate( UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	( (LPCREATESTRUCT)lParam )->style  &= ~(CS_HREDRAW | CS_VREDRAW);
@@ -2192,8 +2197,7 @@ LRESULT CLUI::OnNcCreate( UINT msg, WPARAM wParam, LPARAM lParam )
 
 LRESULT CLUI::OnPaint( UINT msg, WPARAM wParam, LPARAM lParam )
 {
-	if ( !g_CluiData.fLayered && IsWindowVisible(m_hWnd))
-	{
+	if ( !g_CluiData.fLayered && IsWindowVisible(m_hWnd)) {
 		RECT w = {0};
 		RECT w2 = {0};
 		PAINTSTRUCT ps = {0};
@@ -2218,8 +2222,7 @@ LRESULT CLUI::OnPaint( UINT msg, WPARAM wParam, LPARAM lParam )
 			mod_DeleteDC(hdc);
 			ReleaseDC(m_hWnd,paintDC);
 		}
-		else
-		{
+		else {
 			HDC hdc = BeginPaint(m_hWnd,&ps);
 			ske_BltBackImage(m_hWnd,hdc,&ps.rcPaint);
 			ps.fErase = FALSE;
@@ -2227,15 +2230,14 @@ LRESULT CLUI::OnPaint( UINT msg, WPARAM wParam, LPARAM lParam )
 		}
 
 		ValidateRect(m_hWnd,NULL);
-
 	}
+
 	if (0 && (db_get_dw(NULL,"CLUIFrames","GapBetweenFrames",SETTING_GAPFRAMES_DEFAULT) || db_get_dw(NULL,"CLUIFrames","GapBetweenTitleBar",SETTING_GAPTITLEBAR_DEFAULT)))
 	{
-		if (IsWindowVisible(m_hWnd))
+		if (IsWindowVisible(m_hWnd)) {
 			if (g_CluiData.fLayered)
 				SkinInvalidateFrame(m_hWnd,NULL);
-			else 
-			{
+			else {
 				RECT w = {0};
 				RECT w2 = {0};
 				PAINTSTRUCT ps = {0};
@@ -2250,6 +2252,7 @@ LRESULT CLUI::OnPaint( UINT msg, WPARAM wParam, LPARAM lParam )
 				ps.fErase = FALSE;
 				EndPaint(m_hWnd,&ps); 
 			}
+		}
 	}
 	return DefWindowProc(m_hWnd, msg, wParam, lParam);
 }
@@ -2285,19 +2288,21 @@ LRESULT CLUI::OnCreate( UINT msg, WPARAM wParam, LPARAM lParam )
 	bTransparentFocus = 1;
 	return FALSE;
 }
+
 LRESULT CLUI::OnSetAllExtraIcons( UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 {
 	return FALSE;
 }
+
 LRESULT CLUI::OnCreateClc( UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 {
 	CreateCLC();
 	if ( db_get_b( NULL, "CList", "ShowOnStart", SETTING_SHOWONSTART_DEFAULT )) 
 		cliShowHide( (WPARAM) m_hWnd, (LPARAM)TRUE );
 	PostMessage( pcli->hwndContactTree, CLM_AUTOREBUILD, 0, 0 );
-
 	return FALSE;
 }
+
 LRESULT CLUI::OnLButtonDown( UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	POINT pt;

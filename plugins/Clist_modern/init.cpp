@@ -240,7 +240,6 @@ static HRESULT CreateHookableEvents()
 	g_CluiData.hEventPreBuildSubGroupMenu      = CreateHookableEvent(ME_CLIST_PREBUILDSUBGROUPMENU);
 	g_CluiData.hEventStatusBarShowToolTip      = CreateHookableEvent(ME_CLIST_FRAMES_SB_SHOW_TOOLTIP);
 	g_CluiData.hEventStatusBarHideToolTip      = CreateHookableEvent(ME_CLIST_FRAMES_SB_HIDE_TOOLTIP);
-	g_CluiData.hEventToolBarModuleLoaded       = CreateHookableEvent(ME_TB_MODULELOADED);
 	g_CluiData.hEventSkinServicesCreated       = CreateHookableEvent(ME_SKIN_SERVICESCREATED);
 	return S_OK;
 }

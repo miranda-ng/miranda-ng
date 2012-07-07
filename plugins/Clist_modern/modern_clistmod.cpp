@@ -45,7 +45,6 @@ void GroupMenus_Init(void);
 int AddMainMenuItem(WPARAM wParam,LPARAM lParam);
 int AddContactMenuItem(WPARAM wParam,LPARAM lParam);
 void UninitCListEvents(void);
-int ContactSettingChanged(WPARAM wParam,LPARAM lParam);
 int ContactAdded(WPARAM wParam,LPARAM lParam);
 int GetContactDisplayName(WPARAM wParam,LPARAM lParam);
 int CListOptInit(WPARAM wParam,LPARAM lParam);
@@ -257,9 +256,7 @@ HRESULT PreLoadContactListModule()
 
 	//initialize firstly hooks
 	//clist interface is empty yet so handles should check
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
 	CreateServiceFunction(MS_CLIST_GETCONTACTICON, GetContactIcon);
-
 	return S_OK;
 }
 

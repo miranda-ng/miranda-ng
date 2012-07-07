@@ -82,7 +82,6 @@ typedef struct tagCLUIDATA
 	HANDLE hEventPreBuildSubGroupMenu;
 	HANDLE hEventStatusBarShowToolTip;
 	HANDLE hEventStatusBarHideToolTip;
-	HANDLE hEventToolBarModuleLoaded;
 	HANDLE hEventSkinServicesCreated;
 
 	int	   nGapBetweenTitlebar;

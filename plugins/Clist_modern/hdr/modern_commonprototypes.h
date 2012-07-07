@@ -271,15 +271,16 @@ void gtaRenewText(HANDLE hContact);
 int ExtraImage_ExtraIDToColumnNum(int extra);
 int ExtraImage_ColumnNumToExtraID(int column);
 
-int		LoadSkinButtonModule();
-void	UninitSkinHotKeys();
-void	GetDefaultFontSetting(int i,LOGFONTA *lf,COLORREF *colour);
-int		CLUI_OnSkinLoad(WPARAM wParam, LPARAM lParam);
+int     LoadSkinButtonModule();
+void    UninitSkinHotKeys();
+void    GetDefaultFontSetting(int i,LOGFONTA *lf,COLORREF *colour);
+int     CLUI_OnSkinLoad(WPARAM wParam, LPARAM lParam);
 HRESULT CluiLoadModule();
 HRESULT PreLoadContactListModule();
 HRESULT ClcLoadModule();
 HRESULT ToolbarLoadModule();
 HRESULT ToolbarButtonLoadModule();
+void    CustomizeButton(HWND);
 
 // INTERFACES
 

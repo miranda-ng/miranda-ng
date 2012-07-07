@@ -131,8 +131,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_smileyadd.h"
 
 #include "../m_api/m_xpTheme.h"
-#include "m_toolbar.h"
-
 #include "../resource.h"
 
 #include "modern_layered_window_engine.h"
