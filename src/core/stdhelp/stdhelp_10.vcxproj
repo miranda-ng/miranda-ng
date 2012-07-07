@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>stdhelp</ProjectName>
+    <ProjectName>StdHelp</ProjectName>
     <ProjectGuid>{1c092ec9-0bcc-4c75-aae9-fcce9b3e9b3d}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
