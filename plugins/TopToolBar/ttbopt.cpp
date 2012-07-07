@@ -450,9 +450,13 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ScreenToClient(hTree, &hti.pt);
 			TreeView_HitTest(hTree, &hti);
 			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
+				HTREEITEM it=hti.hItem;
 				hti.pt.y -= TreeView_GetItemHeight(hTree)/2;
 				TreeView_HitTest(hTree, &hti);
-				TreeView_SetInsertMark(hTree, hti.hItem, 1);
+				if (!(hti.flags&TVHT_ABOVE))
+					TreeView_SetInsertMark(hTree,hti.hItem,1);
+				else 
+					TreeView_SetInsertMark(hTree,it,0);
 			}
 			else {
 				if (hti.flags & TVHT_ABOVE) SendMessage(hTree, WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
@@ -477,12 +481,14 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			TreeView_HitTest(hTree, &hti);
 			if (dat->hDragItem == hti.hItem)
 				break;
+			if (hti.flags&TVHT_ABOVE)
+				hti.hItem=TVI_FIRST;
 
 			TVITEM tvi;
 			tvi.mask = TVIF_HANDLE|TVIF_PARAM;
-			tvi.hItem = hti.hItem;
+			tvi.hItem = (HTREEITEM) dat->hDragItem;
 			TreeView_GetItem(hTree, &tvi);
-			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
+			if ( (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) || (hti.hItem==TVI_FIRST)) {
 				TVINSERTSTRUCT tvis;
 				TCHAR name[128];
 				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
