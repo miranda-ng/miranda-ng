@@ -1,9 +1,9 @@
 
 #include "common.h"
 
-#define TTBI_GROUPSHOWHIDE				"TTBInternal/GroupShowHide"
-#define TTBI_SOUNDSONOFF					"TTBInternal/SoundsOnOFF"
-#define TTBI_MAINMENUBUTT					"TTBInternal/MainMenuBUTT"
+#define TTBI_GROUPSHOWHIDE  "TTBInternal/GroupShowHide"
+#define TTBI_SOUNDSONOFF    "TTBInternal/SoundsOnOFF"
+#define TTBI_MAINMENUBUTT   "TTBInternal/MainMenuBUTT"
 
 int LoadInternalButtons( HWND );
 int UnLoadInternalButtons();

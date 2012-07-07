@@ -1,6 +1,9 @@
 
 #include "common.h"
 
+pfnCustomProc g_CustomProc = NULL;
+LPARAM g_CustomProcParam = 0;
+
 HWND hwndContactList = 0;
 HWND hwndTopToolBar = 0;
 bool StopArrange;
@@ -756,6 +759,16 @@ static INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
 	StopArrange = FALSE;
 	NotifyEventHooks(hHookTTBModuleLoaded, 0, 0);
+
+	if (g_CustomProc) {
+		mir_cslock lck(csButtonsHook);
+
+		for (int i=0; i < Buttons.getCount(); i++) {
+			TopButtonInt* p = Buttons[i];
+			g_CustomProc((HANDLE)p->id, p->hwnd, g_CustomProcParam);
+		}
+	}
+
 	return 0;
 }
 
@@ -769,6 +782,13 @@ int OnIconChange(WPARAM wParam, LPARAM lParam)
 static int OnBGChange(WPARAM wParam, LPARAM lParam)
 {
 	ttbOptionsChanged();
+	return 0;
+}
+
+static INT_PTR TTBSetCustomProc(WPARAM wParam, LPARAM lParam)
+{
+	g_CustomProc = (pfnCustomProc)wParam;
+	g_CustomProcParam = lParam;
 	return 0;
 }
 
@@ -829,6 +849,7 @@ int LoadToolbarModule()
 
 	CreateServiceFunction(TTB_LAUNCHSERVICE, LaunchService);
 	
+	CreateServiceFunction("TopToolBar/SetCustomProc", TTBSetCustomProc);
 	CreateServiceFunction("TTB_ONSTARTUPFIRE", OnEventFire);
 
 	BUTTHEIGHT = DBGetContactSettingByte(0, TTB_OPTDIR, "BUTTHEIGHT", DEFBUTTHEIGHT);

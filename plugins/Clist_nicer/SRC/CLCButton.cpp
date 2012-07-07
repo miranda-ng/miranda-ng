@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commonheaders.h>
 
 #include <m_button_int.h>
+#include <m_toptoolbar.h>
 
 extern HINSTANCE g_hInst;
 extern LONG g_cxsmIcon, g_cysmIcon;
@@ -393,15 +394,32 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	return 0;
 }
 
-void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat)
+static void CustomizeToolbar(HANDLE, HWND hWnd, LPARAM)
 {
 	MButtonCustomize Custom;
 	Custom.cbLen = sizeof(MButtonExtension);
 	Custom.fnPainter = (pfnPainterFunc)PaintWorker;
 	Custom.fnWindowProc = TSButtonWndProc;
 	SendMessage(hWnd, BUTTONSETCUSTOM, 0, (LPARAM)&Custom);
+}
+
+void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat)
+{
+	CustomizeToolbar(0, hWnd, 0);
 
 	SendMessage(hWnd, BUTTONSETSKINNED, bIsSkinned, 0);
 	SendMessage(hWnd, BUTTONSETASTHEMEDBTN, bIsThemed, 0);
 	SendMessage(hWnd, BUTTONSETASFLATBTN, bIsFlat, 0);
+}
+
+static int Nicer_CustomizeToolbar(WPARAM, LPARAM)
+{	
+	TopToolbar_SetCustomProc(CustomizeToolbar, 0);
+	return 0;
+}
+
+int LoadButtonModule()
+{
+	HookEvent(ME_SYSTEM_MODULESLOADED, Nicer_CustomizeToolbar);
+	return 0;
 }

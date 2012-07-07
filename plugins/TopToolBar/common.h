@@ -121,7 +121,7 @@ char *AS(char *str, const char *setting, char *addstr)
 	return str;
 }
 
-#define TTB_LAUNCHSERVICE "TTB/LaunchSerice"
+#define TTB_LAUNCHSERVICE "TTB/LaunchService"
 
 INT_PTR TTBAddButton(WPARAM, LPARAM);
 INT_PTR TTBRemoveButton(WPARAM, LPARAM);

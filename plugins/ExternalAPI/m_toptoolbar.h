@@ -109,5 +109,17 @@ returns: 1 on success, -1 on failure.
 */
 #define MS_TTB_SETBUTTONOPTIONS					"TopToolBar/SetOptions"
 
+/*
+toptoolbar/setcustomproc service
+wparam = pfnCustomproc
+lparam = procedure parameter
+returns: always returns 0.
+*/
+
+typedef void (__cdecl *pfnCustomProc)(HANDLE hTTButton, HWND hwndBtn, LPARAM userInfo);
+
+__forceinline void TopToolbar_SetCustomProc(pfnCustomProc pFunc, LPARAM lParam)
+{	CallService("TopToolBar/SetCustomProc", (WPARAM)pFunc, lParam);
+}
 
 #endif

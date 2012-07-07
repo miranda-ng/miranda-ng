@@ -4,6 +4,7 @@
 #include "hdr/modern_clcpaint.h"
 
 #include <m_button_int.h>
+#include <m_toptoolbar.h>
 
 #ifdef __MINGW32__
 #include <ctype.h>
@@ -248,11 +249,8 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 	case WM_DESTROY:
 		xpt_FreeThemeForWindow(hwndDlg);
 		WindowList_Remove(hButtonWindowList, hwndDlg);
-		if (lpSBData) {
-			if (lpSBData->hIconPrivate)
-				DestroyIcon(lpSBData->hIconPrivate);
-			free(lpSBData);  // lpSBData was malloced by native malloc
-		}
+		if (lpSBData->hIconPrivate)
+			DestroyIcon(lpSBData->hIconPrivate);
 		break;  // DONT! fall thru
 
 	case WM_SETTEXT:
@@ -519,22 +517,28 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 	return 0;
 }
 
-void CustomizeButton(HWND hwnd)
+static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
 {
 	MButtonCustomize Custom;
 	Custom.cbLen = sizeof(TBBUTTONDATA);
 	Custom.fnPainter = (pfnPainterFunc)PaintWorker;
 	Custom.fnWindowProc = ToolbarButtonProc;
-	SendMessage(hwnd, BUTTONSETCUSTOM, 0, (LPARAM)&Custom);
+	SendMessage(hWnd, BUTTONSETCUSTOM, 0, (LPARAM)&Custom);
 
-	TBBUTTONDATA* p = (TBBUTTONDATA*)GetWindowLongPtr(hwnd, 0);
+	TBBUTTONDATA* p = (TBBUTTONDATA*)GetWindowLongPtr(hWnd, 0);
 	p->nFontID = -1;
 	p->hThemeButton = xpt_AddThemeHandle(p->hwnd, L"BUTTON");
 	p->hThemeToolbar = xpt_AddThemeHandle(p->hwnd, L"TOOLBAR");
-	WindowList_Add(hButtonWindowList, hwnd, NULL);				
+	WindowList_Add(hButtonWindowList, hWnd, NULL);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+int Buttons_ModuleLoaded(WPARAM wParam, LPARAM lParam)
+{
+	TopToolbar_SetCustomProc(CustomizeButton, 0);
+	return 0;
+}
 
 int Buttons_OnSkinModeSettingsChanged(WPARAM wParam, LPARAM lParam)
 {	
@@ -544,6 +548,8 @@ int Buttons_OnSkinModeSettingsChanged(WPARAM wParam, LPARAM lParam)
 
 HRESULT ToolbarButtonLoadModule()
 {
+	HookEvent(ME_SYSTEM_MODULESLOADED, Buttons_ModuleLoaded);
+
 	hButtonWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	hIconChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED,OnIconLibIconChanged);
 	hBkgChangedHook = HookEvent(ME_BACKGROUNDCONFIG_CHANGED,Buttons_OnSkinModeSettingsChanged);
