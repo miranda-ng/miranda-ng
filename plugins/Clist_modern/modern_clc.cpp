@@ -1575,8 +1575,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 					TCHAR * groupName = mir_tstrdup(pcli->pfnGetGroupName(contact->groupId,0));
 					TCHAR * shortGroup = NULL;
 					TCHAR * sourceGrName = mir_tstrdup(pcli->pfnGetGroupName(destgroup->groupId,0));
-					if (groupName)
-					{
+					if (groupName) {
 						int len = (int)_tcslen(groupName);
 						do {len--;}while(len >= 0 && groupName[len] != '\\');
 						if (len >= 0) shortGroup = groupName+len+1;
@@ -1590,8 +1589,8 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 						else
 							mir_sntprintf(newName,SIZEOF(newName),_T("%s"),shortGroup);
 					}
-					if (groupName) mir_free_and_nill(groupName);
-					if (sourceGrName) mir_free_and_nill(sourceGrName);
+					mir_free(groupName);
+					mir_free(sourceGrName);
 				}
 				newIndex = CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, (destcontact && i != -1)?destcontact->groupId:0);							
 				newIndex = newIndex?newIndex:contact->groupId;
@@ -1623,7 +1622,7 @@ static LRESULT clcOnDestroy(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 {
 	int i=0;
 
-	for(i=0;i <= FONTID_MODERN_MAX;i++) 
+	for (i=0;i <= FONTID_MODERN_MAX;i++) 
 	{
 		if (dat->fontModernInfo[i].hFont) DeleteObject(dat->fontModernInfo[i].hFont);
 		dat->fontModernInfo[i].hFont = NULL;
@@ -2048,13 +2047,12 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 			if (ack->hContact) 
 			{
 				char * val = db_get_sa(ack->hContact,"CList","StatusMsg");
-				if (val) 
-				{
+				if (val) {
 					if (!mir_bool_strcmpi(val,""))
 						db_set_s(ack->hContact,"CList","StatusMsg","");
 					else
 						gtaRenewText(ack->hContact);
-					mir_free_and_nill(val);
+					mir_free(val);
 				}
 			}
 			//pcli->pfnClcBroadcast( INTM_STATUSMSGCHANGED,(WPARAM)ack->hContact,&a);              
@@ -2134,14 +2132,12 @@ LRESULT CALLBACK cli_ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wPara
 
 #define CASE_MSG_RET(msg, handler) case msg: return handler(dat, hwnd, msg, wParam, lParam); 
 
-	struct ClcData *dat;
-	dat = (struct ClcData*)GetWindowLongPtr(hwnd,0);
+	struct ClcData *dat = (struct ClcData*)GetWindowLongPtr(hwnd,0);
 
 	if (msg >= CLM_FIRST && msg < CLM_LAST) 
 		return cli_ProcessExternalMessages(hwnd,dat,msg,wParam,lParam);
 
-	switch (msg) 
-	{
+	switch (msg) {
 		CASE_MSG_RET( INTM_GROUPCHANGED,		clcOnIntmGroupChanged			);
 		CASE_MSG_RET( INTM_ICONCHANGED,			clcOnIntmIconChanged			);
 		CASE_MSG_RET( INTM_AVATARCHANGED,		clcOnIntmAvatarChanged			);

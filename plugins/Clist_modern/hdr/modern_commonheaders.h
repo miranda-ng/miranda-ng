@@ -141,7 +141,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern char *g_szMetaModuleName;
 
 //macros to free data and set it pointer to NULL
-#define mir_free_and_nill(x) {mir_free((void*)x); x=NULL;}
+#define mir_free_and_nil(x) {mir_free((void*)x); x=NULL;}
 // shared vars
 
 #define CLUI_FRAME_AUTOHIDENOTIFY  512

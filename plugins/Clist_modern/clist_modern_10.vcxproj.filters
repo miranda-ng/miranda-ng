@@ -16,9 +16,6 @@
     <Filter Include="Resource Files\res">
       <UniqueIdentifier>{98ef713e-45a0-4ca0-929b-636ed86d9478}</UniqueIdentifier>
     </Filter>
-    <Filter Include="hdr">
-      <UniqueIdentifier>{23cad96b-3c17-441a-a67d-d3053a53961b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="init.cpp">
@@ -176,17 +173,20 @@
     <ClInclude Include="resource.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_awaymsg.h">
-      <Filter>hdr</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\modern_gettextasync.h">
-      <Filter>hdr</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\modern_global_structure.h">
-      <Filter>hdr</Filter>
+    <ClInclude Include="hdr\modern_commonheaders.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hdr\modern_skinselector.h">
-      <Filter>hdr</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_awaymsg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_gettextasync.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\modern_global_structure.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

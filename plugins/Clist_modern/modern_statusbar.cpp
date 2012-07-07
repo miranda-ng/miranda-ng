@@ -205,21 +205,16 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 	{
 		ProtoEnumAccounts( &protoCount, &accs );
-		if (allocedItemData && ProtosData)
-		{
-			int k;
-
-			for (k = 0; k < allocedItemData; k++)
-			{
-				if (ProtosData[k].ProtoXStatus) mir_free_and_nill (ProtosData[k].ProtoXStatus);
-				if (ProtosData[k].ProtoName) mir_free_and_nill (ProtosData[k].ProtoName);
-				if (ProtosData[k].AccountName) mir_free_and_nill (ProtosData[k].AccountName);
-				if (ProtosData[k].ProtoHumanName) mir_free_and_nill (ProtosData[k].ProtoHumanName);
-				if (ProtosData[k].ProtoEMailCount) mir_free_and_nill (ProtosData[k].ProtoEMailCount);
-				if (ProtosData[k].ProtoStatusText) mir_free_and_nill (ProtosData[k].ProtoStatusText);
+		if (allocedItemData && ProtosData) {
+			for (int k = 0; k < allocedItemData; k++) {
+				mir_free(ProtosData[k].ProtoXStatus);
+				mir_free(ProtosData[k].ProtoName);
+				mir_free(ProtosData[k].AccountName);
+				mir_free(ProtosData[k].ProtoHumanName);
+				mir_free(ProtosData[k].ProtoEMailCount);
+				mir_free(ProtosData[k].ProtoStatusText);
 			}
-			mir_free_and_nill(ProtosData);
-			ProtosData = NULL;
+			mir_free_and_nil(ProtosData);
 			allocedItemData = 0;
 		}
 		if ( protoCount == 0 ) 
@@ -399,7 +394,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 						rectwidth = rc.right-rc.left-g_StatusBarData.rectBorders.left-g_StatusBarData.rectBorders.right;
 						if (visProtoCount>1) sw = (rectwidth-(g_StatusBarData.extraspace*(visProtoCount-1)))/visProtoCount;
 						else sw = rectwidth;
-						if (ProtoWidth) mir_free_and_nill(ProtoWidth);
+						mir_free(ProtoWidth);
 						ProtoWidth = (int*)mir_alloc(sizeof(int)*visProtoCount);
 						for (i=0; i < visProtoCount; i++)
 						{
@@ -430,7 +425,6 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 											if (!DBGetContactSettingTString(NULL,ProtosData[i].AccountName,dbTitle,&dbv))
 											{
 												ProtosData[i].ProtoXStatus = mir_tstrdup(dbv.ptszVal);
-												//mir_free_and_nill(dbv.ptszVal);
 												db_free(&dbv);
 											}
 										}
@@ -495,7 +489,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 						}
 
 						// Reposition rects
-						for(i=0; i < visProtoCount; i++)
+						for (i=0; i < visProtoCount; i++)
 							if (ProtoWidth[i]>maxwidth) maxwidth = ProtoWidth[i];
 
 						if (g_StatusBarData.sameWidth)
@@ -700,7 +694,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 						}
 					}
 
-					if (ProtoWidth) mir_free_and_nill(ProtoWidth);
+					mir_free_and_nil(ProtoWidth);
 				} //code for each line
 				ProtosData = orig_ProtosData;
 			}
@@ -766,21 +760,17 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 		break;
     case WM_DESTROY:
 		xpt_FreeThemeForWindow(hwnd);
-		if (allocedItemData && ProtosData)
-		{
-			int k;
-
-			for (k = 0; k < allocedItemData; k++)
-			{
-				if (ProtosData[k].AccountName) mir_free_and_nill (ProtosData[k].AccountName);
-				if (ProtosData[k].ProtoName) mir_free_and_nill (ProtosData[k].ProtoName);
-				if (ProtosData[k].ProtoEMailCount) mir_free_and_nill (ProtosData[k].ProtoEMailCount);
-				if (ProtosData[k].ProtoHumanName) mir_free_and_nill (ProtosData[k].ProtoHumanName);
-				if (ProtosData[k].ProtoStatusText) mir_free_and_nill (ProtosData[k].ProtoStatusText);
-				if (ProtosData[k].ProtoEMailCount) mir_free_and_nill (ProtosData[k].ProtoEMailCount);
-				if (ProtosData[k].ProtoXStatus) mir_free_and_nill (ProtosData[k].ProtoXStatus);
+		if (allocedItemData && ProtosData) {
+			for (int k = 0; k < allocedItemData; k++) {
+				mir_free(ProtosData[k].AccountName);
+				mir_free(ProtosData[k].ProtoName);
+				mir_free(ProtosData[k].ProtoEMailCount);
+				mir_free(ProtosData[k].ProtoHumanName);
+				mir_free(ProtosData[k].ProtoStatusText);
+				mir_free(ProtosData[k].ProtoEMailCount);
+				mir_free(ProtosData[k].ProtoXStatus);
 			}
-			mir_free_and_nill(ProtosData);
+			mir_free_and_nil(ProtosData);
 			ProtosData = NULL;
 			allocedItemData = 0;
 		}
@@ -1111,7 +1101,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 HWND StatusBar_Create(HWND parent)
 {
     WNDCLASS wndclass = {0};
-    TCHAR pluginname[] = TEXT("ModernStatusBar");
+    TCHAR pluginname[] = _T("ModernStatusBar");
     int h = GetSystemMetrics(SM_CYSMICON)+2;
     if (GetClassInfo(g_hInst,pluginname,&wndclass)  == 0)
     {

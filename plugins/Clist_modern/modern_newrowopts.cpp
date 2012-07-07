@@ -69,27 +69,21 @@ NodeList * AddNode(NodeList * Parent)
 
 BOOL RemoveChildNode(NodeList * FromList, DWORD index)
 {
-	DWORD i;
-	NodeList * work;
 	if (!FromList) return FALSE;
 	if (FromList->AllocatedChilds <= index) return FALSE;
-	work = &(FromList->childNodes[index]);
-	for(i=0; i < work->AllocatedChilds; i++)
-	{
+	NodeList *work = &(FromList->childNodes[index]);
+	for (size_t i=0; i < work->AllocatedChilds; i++)
 		if (work->childNodes[i].AllocatedChilds)
 			RemoveChildNode(work->childNodes,i);
-	}
-	if (work->AllocatedChilds) 
-	{
-		mir_free_and_nill(work->childNodes);
+
+	if (work->AllocatedChilds) {
+		mir_free_and_nil(work->childNodes);
 		work->AllocatedChilds = 0;
 	}
-	//mir_free_and_nill(work);
 	memmove(FromList->childNodes+index,FromList->childNodes+index+1,sizeof(NodeList)*(FromList->AllocatedChilds-index-1));
 	FromList->AllocatedChilds--;
 	return TRUE;
 }
-
 
 BOOL RemoveNode(NodeList * FromList)
 {
@@ -107,9 +101,10 @@ BOOL RemoveNode(NodeList * FromList)
 	do 
 	{
 		RemoveChildNode(FromList,0);
-	}while (FromList->AllocatedChilds>0);
-	mir_free_and_nill(FromList->childNodes);
-	mir_free_and_nill(FromList);
+	}
+		while (FromList->AllocatedChilds>0);
+	mir_free_and_nil(FromList->childNodes);
+	mir_free_and_nil(FromList);
 	return TRUE;
 }
 int ident = 0;
@@ -131,7 +126,7 @@ void TraceTreeLevel(NodeList * node)
 		TRACE(buf);
 	}
 	ident += 5;
-	for(i=0; i < node->AllocatedChilds;i++)
+	for (i=0; i < node->AllocatedChilds;i++)
 	{
 
 		if (node->childNodes[i].AllocatedChilds>0)
@@ -179,7 +174,7 @@ BOOL CALLBACK DlgProcItemNewRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			TRACE("*********** Nodes DUMP 2 ***********\n");
 			TraceTreeLevel(RootNode);
 			//CheckDlgButton(hwndDlg, IDC_HIDE_ICON_ON_AVATAR, DBGetContactSettingByte(NULL,"CList","IconHideOnAvatar",SETTING_HIDEICONONAVATAR_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
-			MessageBox(hwndDlg,TEXT("Init NewRow Dialog"),TEXT("Notify"),MB_OK);
+			MessageBox(hwndDlg,_T("Init NewRow Dialog"),_T("Notify"),MB_OK);
 			break;
 		}
 	case WM_NOTIFY:

@@ -203,7 +203,7 @@ void ExtraImage_ReloadExtraIcons()
 		//calc only needed protocols
 		//adding protocol icons
 		ProtoEnumAccounts( &count, &accs );
-		for(i=0;i < count;i++)
+		for (i=0;i < count;i++)
 		{
             if (!IsAccountEnabled(accs[i]) || CallProtoService(accs[i]->szModuleName, PS_GETCAPS,PFLAGNUM_2, 0 ) ==  0) 
 				continue;
@@ -303,7 +303,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 		ProtoEnumAccounts( &count, &accs );
 		maxpr = 0;
 		//calc only needed protocols
-		for(i=0;i < count;i++) {
+		for (i=0;i < count;i++) {
 			if ( !IsAccountEnabled( accs[i] ) || CallProtoService(accs[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0) == 0) continue;
 			ImgIndex[maxpr] = accs[i]->szModuleName;
 			maxpr++;
@@ -343,7 +343,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 						if (homepage != NULL)
 						{											
 							showweb = TRUE;				
-							mir_free_and_nill(homepage);
+							mir_free(homepage);
 						}
 					}
 					SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(ExtraImage_ExtraIDToColumnNum(EXTRA_ICON_WEB),(showweb)?2:0xFF));	

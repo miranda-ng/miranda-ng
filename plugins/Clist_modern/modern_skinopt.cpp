@@ -412,7 +412,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				else if ( nmtv->hdr.code == TVN_DELETEITEMA || nmtv->hdr.code == TVN_DELETEITEMW )
 				{
 					if ( nmtv->itemOld.lParam )
-						mir_free_and_nill( nmtv->itemOld.lParam );
+						mir_free_and_nil( nmtv->itemOld.lParam );
 					return 0;
 				}
 				break;
@@ -480,7 +480,7 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 	if ( !SkinsFolder ) SkinsFolder = mir_tstrdup( _T("Skins"));
 
 	CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )SkinsFolder, ( LPARAM )path );
-	mir_free_and_nill( SkinsFolder );
+	mir_free_and_nil( SkinsFolder );
 
 	AddSkinToList( hwndDlg, TranslateT( "Default Skin" ), _T("%Default Skin%"));
 	attrib = GetFileAttributes( path );
@@ -495,7 +495,7 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 			CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )skinfile, ( LPARAM )skinfull );
 			res = AddSkinToListFullName( hwndDlg, skinfull );
 
-			mir_free_and_nill( skinfile );
+			mir_free_and_nil( skinfile );
 		}
 	}
 	return res;
@@ -658,7 +658,7 @@ HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * da
 	}
 	else
 	{
-		mir_free_and_nill( data ); //need to free otherwise memory leak
+		mir_free_and_nil( data ); //need to free otherwise memory leak
 		return cItem;
 	}
 	return 0;

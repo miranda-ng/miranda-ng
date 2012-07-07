@@ -362,7 +362,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Toolbar settings",IDC_STATIC,7,5,290,204
     CONTROL         "",IDC_BTNORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_CHECKBOXES | WS_BORDER | WS_TABSTOP,29,39,120,123
-    LTEXT           "Hints:\n* Use Drag && Drop feature to change buttons order.\n* You can change button icons at Customize->Icons Toolbar section",IDC_STATIC,18,174,278,29
+    LTEXT           "Hints:\n* Use Drag&&Drop feature to change buttons order.\n* You can change button icons at Customize->Icons Toolbar section",IDC_STATIC,18,174,278,29
     CONTROL         "Show Toolbar with next buttons:",IDC_TBSHOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,20,268,10
     EDITTEXT        IDC_TEXT_W,240,118,35,12,ES_NUMBER
     CONTROL         "",IDC_SPIN_W,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,276,118,11,12
@@ -868,7 +868,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPT_SKINEDITOR, DIALOG
     BEGIN
@@ -1139,7 +1139,7 @@ IDR_MSF_DEFAULT_SKIN    MSF                     "res/skin.msf"
 // Menu
 //
 
-IDR_CLISTMENU MENU 
+IDR_CLISTMENU MENU
 BEGIN
     POPUP "&¤"
     BEGIN
@@ -1161,7 +1161,7 @@ BEGIN
     END
 END
 
-IDR_CONTEXT MENU 
+IDR_CONTEXT MENU
 BEGIN
     POPUP "Tray"
     BEGIN
@@ -1200,7 +1200,7 @@ END
 IDD_OPT_CLUI_2 DLGINIT
 BEGIN
     IDC_HIDEMETHOD, 0x403, 9, 0
-0x6f63, 0x706d, 0x656c, 0x6574, "\000" 
+0x6f63, 0x706d, 0x656c, 0x6574, "\000"
     0
 END
 
@@ -1211,19 +1211,19 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include <winresrc.h>\r\n"
     "#include ""hdr/modern_statusmodes.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -1245,4 +1245,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

@@ -107,10 +107,8 @@ void CSmileyString::AddListeningToIcon(struct SHORTDATA *dat, PDNCE pdnce, TCHAR
 
 		piece->smiley_width = 16;
 		piece->smiley_height = 16;
-		if (GetIconInfo(piece->smiley, &icon))
-		{
-			if (GetObject(icon.hbmColor,sizeof(BITMAP),&bm))
-			{
+		if (GetIconInfo(piece->smiley, &icon)) {
+			if (GetObject(icon.hbmColor,sizeof(BITMAP),&bm)) {
 				piece->smiley_width = bm.bmWidth;
 				piece->smiley_height = bm.bmHeight;
 			}
@@ -428,11 +426,10 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
 			DBVARIANT dbv = {0};
 
 			// Try to get XStatusMsg
-			if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) {
+			if ( !DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) {
 				if (dbv.ptszVal != NULL && dbv.ptszVal[0] != 0) {
-					TCHAR *tmp = mir_tstrdup(text);
-					mir_sntprintf(text, text_size, TEXT("%s: %s"), tmp, dbv.pszVal);
-					mir_free_and_nill(tmp);
+					TCHAR *tmp = NEWTSTR_ALLOCA(text);
+					mir_sntprintf(text, text_size, _T("%s: %s"), tmp, dbv.ptszVal);
 					CopySkipUnprintableChars(text, text, text_size-1);
 				}
 				db_free(&dbv);
@@ -460,10 +457,8 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
 			// Try to get XStatusName
 			if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) {
 				if (dbv.pszVal != NULL && dbv.pszVal[0] != 0) {
-					TCHAR *tmp = mir_tstrdup(text);
-
-					mir_sntprintf(text, text_size, TEXT("%s: %s"), dbv.pszVal, tmp);                        
-					mir_free_and_nill(tmp);
+					TCHAR *tmp = NEWTSTR_ALLOCA(text);
+					mir_sntprintf(text, text_size, _T("%s: %s"), dbv.pszVal, tmp);                        
 				}
 				CopySkipUnprintableChars(text, text, text_size-1);
 				db_free(&dbv);
@@ -474,7 +469,7 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
 			// Try to get XStatusName
 			if (!DBGetContactSettingTString(pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) {
 				if (dbv.pszVal != NULL && dbv.pszVal[0] != 0)
-					mir_sntprintf(text, text_size, TEXT("%s"), dbv.pszVal);
+					mir_sntprintf(text, text_size, _T("%s"), dbv.pszVal);
 				CopySkipUnprintableChars(text, text, text_size-1);
 				db_free(&dbv);
 			}
@@ -705,38 +700,26 @@ static BOOL ExecuteOnAllContacts(struct ClcData *dat, ExecuteOnAllContactsFuncPt
 
 static BOOL ExecuteOnAllContactsOfGroup(struct ClcGroup *group, ExecuteOnAllContactsFuncPtr func, void *param)
 {
-	int scanIndex, i;
-	if (group)
-		for(scanIndex = 0 ; scanIndex < group->cl.count ; scanIndex++)
-		{
-			if (group->cl.items[scanIndex]->type == CLCIT_CONTACT)
-			{
-				if (!func(group->cl.items[scanIndex], FALSE, param))
-				{
-					return FALSE;
-				}
+	if (!group)
+		return TRUE;
 
-				if (group->cl.items[scanIndex]->SubAllocated > 0)
-				{
-					for (i=0 ; i < group->cl.items[scanIndex]->SubAllocated ; i++)
-					{
-						if (!func(&group->cl.items[scanIndex]->subcontacts[i], TRUE, param))
-						{
-							return FALSE;
-						}
-					}
-				}
-			}
-			else if (group->cl.items[scanIndex]->type == CLCIT_GROUP) 
-			{
-				if (!ExecuteOnAllContactsOfGroup(group->cl.items[scanIndex]->group, func, param))
-				{
-					return FALSE;
-				}
+	for (int scanIndex = 0 ; scanIndex < group->cl.count ; scanIndex++) {
+		if (group->cl.items[scanIndex]->type == CLCIT_CONTACT) {
+			if (!func(group->cl.items[scanIndex], FALSE, param))
+				return FALSE;
+
+			if (group->cl.items[scanIndex]->SubAllocated > 0) {
+				for (int i=0 ; i < group->cl.items[scanIndex]->SubAllocated ; i++)
+					if (!func(&group->cl.items[scanIndex]->subcontacts[i], TRUE, param))
+						return FALSE;
 			}
 		}
+		else if (group->cl.items[scanIndex]->type == CLCIT_GROUP) 
+			if (!ExecuteOnAllContactsOfGroup(group->cl.items[scanIndex]->group, func, param))
+				return FALSE;
+	}
 
-		return TRUE;
+	return TRUE;
 }
 
 
@@ -757,9 +740,7 @@ void UpdateAllAvatars(struct ClcData *dat)
 BOOL ReduceAvatarPosition(struct ClcContact *contact, BOOL subcontact, void *param)
 {
 	if (contact->avatar_pos >= *((int *)param))
-	{
 		contact->avatar_pos--;
-	}
 
 	return TRUE;
 }
@@ -770,13 +751,9 @@ void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
 	struct avatarCacheEntry * ace = contact->avatar_data;
 	int old_pos = contact->avatar_pos;
 
-	if (   ace == NULL 
-		||  ace->dwFlags == AVS_BITMAP_EXPIRED
-		||  ace->hbmPic == NULL)
-	{
+	if (ace == NULL || ace->dwFlags == AVS_BITMAP_EXPIRED || ace->hbmPic == NULL) {
 		//Avatar was not ready or removed - need to remove it from cache
-		if (old_pos >= 0)
-		{
+		if (old_pos >= 0) {
 			ImageArray_RemoveImage(&dat->avatar_cache, old_pos);
 			// Update all items
 			ExecuteOnAllContacts(dat, ReduceAvatarPosition, (void *)&old_pos);
@@ -786,10 +763,6 @@ void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
 	}
 	else if (contact->avatar_data->hbmPic != NULL) //Lets Add it
 	{
-		HDC hdc; 
-		HBITMAP hDrawBmp,oldBmp;
-		void * pt;
-
 		// Make bounds -> keep aspect radio
 		LONG width_clip;
 		LONG height_clip;
@@ -800,114 +773,83 @@ void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
 		height_clip = dat->avatars_maxheight_size;
 
 		if (height_clip * ace->bmWidth / ace->bmHeight <= width_clip)
-		{
 			width_clip = height_clip * ace->bmWidth / ace->bmHeight;
-		}
 		else
-		{
 			height_clip = width_clip * ace->bmHeight / ace->bmWidth;					
-		}
-		if (wildcmpi(contact->avatar_data->szFilename,_T("*.gif")))
-		{
-			int res;
+
+		if (wildcmpi(contact->avatar_data->szFilename,_T("*.gif"))) {
 			if (old_pos == AVATAR_POS_ANIMATED)
 				AniAva_RemoveAvatar(contact->hContact);
 
-			res = AniAva_AddAvatar(contact->hContact, contact->avatar_data->szFilename, width_clip, height_clip);
-			if (res)
-			{
+			int res = AniAva_AddAvatar(contact->hContact, contact->avatar_data->szFilename, width_clip, height_clip);
+			if (res) {
 				contact->avatar_pos = AVATAR_POS_ANIMATED;
 				contact->avatar_size.cy = HIWORD(res);
 				contact->avatar_size.cx = LOWORD(res);
 				return;
 			}
 		}
+
 		// Create objs
-		hdc = CreateCompatibleDC(dat->avatar_cache.hdc); 
-		hDrawBmp = ske_CreateDIB32Point(width_clip, height_clip,&pt);
-		oldBmp = (HBITMAP)SelectObject(hdc, hDrawBmp);
+		void * pt;
+		HDC hdc = CreateCompatibleDC(dat->avatar_cache.hdc); 
+		HBITMAP hDrawBmp = ske_CreateDIB32Point(width_clip, height_clip,&pt);
+		HBITMAP oldBmp = (HBITMAP)SelectObject(hdc, hDrawBmp);
 		//need to draw avatar bitmap here
 		{
 			RECT real_rc = {0,0,width_clip, height_clip};
-			/*
-			if (ServiceExists(MS_AV_BLENDDRAWAVATAR))
-			{
-			AVATARDRAWREQUEST adr;
 
-			adr.cbSize = sizeof(AVATARDRAWREQUEST);
-			adr.hContact = contact->hContact;
-			adr.hTargetDC = hdc;
-			adr.rcDraw = real_rc;
-			adr.dwFlags = 0;				
-			adr.alpha = 255;
-			CallService(MS_AV_BLENDDRAWAVATAR, 0, (LPARAM) &adr);
-			}
-			else
-			*/
-			{
-				int w = width_clip;
-				int h = height_clip;
-				if (!g_CluiData.fGDIPlusFail) //Use gdi+ engine
-				{
-					DrawAvatarImageWithGDIp(hdc, 0, 0, w, h,ace->hbmPic,0,0,ace->bmWidth,ace->bmHeight,ace->dwFlags,255);
+			int w = width_clip;
+			int h = height_clip;
+			if (!g_CluiData.fGDIPlusFail) //Use gdi+ engine
+				DrawAvatarImageWithGDIp(hdc, 0, 0, w, h,ace->hbmPic,0,0,ace->bmWidth,ace->bmHeight,ace->dwFlags,255);
+			else {
+				if ( !(ace->dwFlags & AVS_PREMULTIPLIED)) {
+					HDC hdcTmp = CreateCompatibleDC(hdc);
+					RECT r = {0,0,w,h};
+					HDC hdcTmp2 = CreateCompatibleDC(hdc);
+					HBITMAP bmo = (HBITMAP)SelectObject(hdcTmp,ace->hbmPic);
+					HBITMAP b2 = ske_CreateDIB32(w,h);
+					HBITMAP bmo2 = (HBITMAP)SelectObject(hdcTmp2,b2);
+					SetStretchBltMode(hdcTmp,  HALFTONE);
+					SetStretchBltMode(hdcTmp2,  HALFTONE);
+					StretchBlt(hdcTmp2, 0, 0, w, h,
+						hdcTmp, 0, 0, ace->bmWidth, ace->bmHeight,
+						SRCCOPY);
+
+					ske_SetRectOpaque(hdcTmp2,&r);
+					BitBlt(hdc, rc.left, rc.top, w, h,hdcTmp2,0,0,SRCCOPY);
+					SelectObject(hdcTmp2,bmo2);
+					SelectObject(hdcTmp,bmo);
+					mod_DeleteDC(hdcTmp);
+					mod_DeleteDC(hdcTmp2);
+					DeleteObject(b2);
 				}
-				else
-				{
-					if (!(ace->dwFlags&AVS_PREMULTIPLIED))
-					{
-						HDC hdcTmp = CreateCompatibleDC(hdc);
-						RECT r = {0,0,w,h};
-						HDC hdcTmp2 = CreateCompatibleDC(hdc);
-						HBITMAP bmo = (HBITMAP)SelectObject(hdcTmp,ace->hbmPic);
-						HBITMAP b2 = ske_CreateDIB32(w,h);
-						HBITMAP bmo2 = (HBITMAP)SelectObject(hdcTmp2,b2);
-						SetStretchBltMode(hdcTmp,  HALFTONE);
-						SetStretchBltMode(hdcTmp2,  HALFTONE);
-						StretchBlt(hdcTmp2, 0, 0, w, h,
-							hdcTmp, 0, 0, ace->bmWidth, ace->bmHeight,
-							SRCCOPY);
-
-						ske_SetRectOpaque(hdcTmp2,&r);
-						BitBlt(hdc, rc.left, rc.top, w, h,hdcTmp2,0,0,SRCCOPY);
-						SelectObject(hdcTmp2,bmo2);
-						SelectObject(hdcTmp,bmo);
-						mod_DeleteDC(hdcTmp);
-						mod_DeleteDC(hdcTmp2);
-						DeleteObject(b2);
-					}
-					else {
-						BLENDFUNCTION bf = {AC_SRC_OVER, 0,255, AC_SRC_ALPHA };
-						HDC hdcTempAv = CreateCompatibleDC(hdc);
-						HBITMAP hbmTempAvOld;
-						hbmTempAvOld = (HBITMAP)SelectObject(hdcTempAv,ace->hbmPic);
-						ske_AlphaBlend(hdc, rc.left, rc.top, w, h, hdcTempAv, 0, 0,ace->bmWidth,ace->bmHeight, bf);
-						SelectObject(hdcTempAv, hbmTempAvOld);
-						mod_DeleteDC(hdcTempAv);
-					}
+				else {
+					BLENDFUNCTION bf = {AC_SRC_OVER, 0,255, AC_SRC_ALPHA };
+					HDC hdcTempAv = CreateCompatibleDC(hdc);
+					HBITMAP hbmTempAvOld;
+					hbmTempAvOld = (HBITMAP)SelectObject(hdcTempAv,ace->hbmPic);
+					ske_AlphaBlend(hdc, rc.left, rc.top, w, h, hdcTempAv, 0, 0,ace->bmWidth,ace->bmHeight, bf);
+					SelectObject(hdcTempAv, hbmTempAvOld);
+					mod_DeleteDC(hdcTempAv);
 				}
 			}
 		}
 		SelectObject(hdc,oldBmp);
 		DeleteDC(hdc);
 		// Add to list
-		if (old_pos >= 0)
-		{
+		if (old_pos >= 0) {
 			ImageArray_ChangeImage(&dat->avatar_cache, hDrawBmp, old_pos);
 			contact->avatar_pos = old_pos;
 		}
-		else
-		{
-			contact->avatar_pos = ImageArray_AddImage(&dat->avatar_cache, hDrawBmp, -1);
-		}
+		else contact->avatar_pos = ImageArray_AddImage(&dat->avatar_cache, hDrawBmp, -1);
+
 		if (old_pos == AVATAR_POS_ANIMATED && contact->avatar_pos != AVATAR_POS_ANIMATED)
-		{
 			AniAva_RemoveAvatar(contact->hContact);
-		}
 
 		DeleteObject(hDrawBmp);
-
 	}
-
 }
 
 void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)

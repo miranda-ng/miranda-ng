@@ -125,7 +125,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 			group = group->parent;
 			if (group == NULL) break;
 			nowVisible = 1;
-			for(tgroup = group;tgroup;tgroup = tgroup->parent)
+			for (tgroup = group;tgroup;tgroup = tgroup->parent)
 			{
 				if (!tgroup->expanded) 
 				{

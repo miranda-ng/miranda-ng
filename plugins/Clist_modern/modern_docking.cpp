@@ -42,7 +42,7 @@ static int dock_drag_dy = 0;
 
 static void Docking_GetMonitorRectFromPoint(POINT pt,RECT *rc)
 {
-	HMODULE hUserInstance = GetModuleHandle(TEXT("user32"));
+	HMODULE hUserInstance = GetModuleHandle(_T("user32"));
 
 	if ( MyMonitorFromPoint )
 	{

@@ -302,7 +302,7 @@ HRESULT  CluiLoadModule()
 
 	CreateServiceFunction(MS_CLIST_GETCONTACTICON,GetContactIcon);
 
-	MySetProcessWorkingSetSize = (BOOL (WINAPI*)(HANDLE,SIZE_T,SIZE_T))GetProcAddress(GetModuleHandle(TEXT("kernel32")),"SetProcessWorkingSetSize");
+	MySetProcessWorkingSetSize = (BOOL (WINAPI*)(HANDLE,SIZE_T,SIZE_T))GetProcAddress(GetModuleHandle(_T("kernel32")),"SetProcessWorkingSetSize");
 	hCListImages = ImageList_Create(16, 16, ILC_MASK|ILC_COLOR32, 32, 0);
 	InitCustomMenus();
 	InitTray();

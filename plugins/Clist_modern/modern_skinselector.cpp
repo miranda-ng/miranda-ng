@@ -186,7 +186,7 @@ lph_top:	 //only 4 of 9 instructions in here don't use AL, so optimal pipe use i
     DWORD hash = 0;
     int i;
     int shift = 0;
-    for(i=0;szStr[i];i++) {
+    for (i=0;szStr[i];i++) {
         hash ^= szStr[i] << shift;
         if (shift>24) hash ^= (szStr[i]>>(32-shift))&0x7F;
         shift = (shift+5)&0x1F;
@@ -225,10 +225,9 @@ int ClearMaskList(LISTMODERNMASK * mmTemplateList)
 	int i;
 	if (!mmTemplateList) return -1;
 	if (!mmTemplateList->pl_Masks) return -1;
-	for(i=0; i < (int)mmTemplateList->dwMaskCnt; i++)
+	for (i=0; i < (int)mmTemplateList->dwMaskCnt; i++)
 		SkinSelector_DeleteMask(&(mmTemplateList->pl_Masks[i]));
-	mir_free_and_nill(mmTemplateList->pl_Masks);
-	mmTemplateList->pl_Masks = NULL;
+	mir_free_and_nil(mmTemplateList->pl_Masks);
 	mmTemplateList->dwMaskCnt = 0;
 	return 0;
 }
@@ -239,7 +238,7 @@ int DeleteMaskByItID(DWORD mID,LISTMODERNMASK * mmTemplateList)
 	if (mmTemplateList->dwMaskCnt == 1)
 	{
 		SkinSelector_DeleteMask(&(mmTemplateList->pl_Masks[0]));
-		mir_free_and_nill(mmTemplateList->pl_Masks);
+		mir_free_and_nil(mmTemplateList->pl_Masks);
 		mmTemplateList->pl_Masks = NULL;
 		mmTemplateList->dwMaskCnt;
 	}
@@ -255,7 +254,7 @@ int DeleteMaskByItID(DWORD mID,LISTMODERNMASK * mmTemplateList)
 			newAlocation[i] = mmTemplateList->pl_Masks[i+1];
 			newAlocation[i].dwMaskId = i;
 		}
-		mir_free_and_nill(mmTemplateList->pl_Masks);
+		mir_free_and_nil(mmTemplateList->pl_Masks);
 		mmTemplateList->pl_Masks = newAlocation;
 		mmTemplateList->dwMaskCnt--;
 	}
@@ -575,7 +574,7 @@ TCHAR * GetParamNT(char * string, TCHAR * buf, int buflen, BYTE paramN, char Del
 	char *ansibuf = (char*)mir_alloc(buflen/sizeof(TCHAR));
 	GetParamN(string, ansibuf, buflen/sizeof(TCHAR), paramN, Delim, SkipSpaces);
 	MultiByteToWideChar(CP_UTF8,0,ansibuf,-1,buf,buflen);
-	mir_free_and_nill(ansibuf);
+	mir_free(ansibuf);
 	return buf;
 }
 
@@ -746,8 +745,8 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 				}
 				obj.Data = &gl;
 				res = ske_AddDescriptorToSkinObjectList(&obj,NULL);
-				mir_free_and_nill(obj.szObjectID);
-				if (gl.szFileName) mir_free_and_nill(gl.szFileName);
+				mir_free_and_nil(obj.szObjectID);
+				mir_free_and_nil(gl.szFileName);
 				return res;
 			}
 			break;

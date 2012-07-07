@@ -368,7 +368,7 @@ static void FillCheckBoxTree(HWND hwndTree,const struct CheckBoxValues_t *values
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_STATE|TVIF_IMAGE;
-	for(i=0;i < nValues;i++) {
+	for (i=0;i < nValues;i++) {
 		tvis.item.lParam = values[i].style;
 		tvis.item.pszText = TranslateTS(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -506,7 +506,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		}
 		{
 			DWORD exStyle = db_get_dw(NULL,"CLC","ExStyle",GetDefaultExStyle());
-			for(int i=0;i < SIZEOF(checkBoxToStyleEx);i++)
+			for (int i=0;i < SIZEOF(checkBoxToStyleEx);i++)
 				CheckDlgButton(hwndDlg,checkBoxToStyleEx[i].id,(exStyle&checkBoxToStyleEx[i].flag)^(checkBoxToStyleEx[i].flag*checkBoxToStyleEx[i].neg)?BST_CHECKED:BST_UNCHECKED);
 		}
 		{
@@ -566,7 +566,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		case PSN_APPLY:
 			{
 				DWORD exStyle = 0;
-				for(int i=0;i < SIZEOF(checkBoxToStyleEx);i++)
+				for (int i=0;i < SIZEOF(checkBoxToStyleEx);i++)
 					if ((IsDlgButtonChecked(hwndDlg,checkBoxToStyleEx[i].id) == 0) == checkBoxToStyleEx[i].neg)
 						exStyle |= checkBoxToStyleEx[i].flag;
 				db_set_dw(NULL,"CLC","ExStyle",exStyle);
@@ -647,7 +647,7 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 
 		}
 		{	HRESULT (STDAPICALLTYPE *MySHAutoComplete)(HWND,DWORD);
-		MySHAutoComplete = (HRESULT (STDAPICALLTYPE*)(HWND,DWORD))GetProcAddress(GetModuleHandle(TEXT("shlwapi")),"SHAutoComplete");
+		MySHAutoComplete = (HRESULT (STDAPICALLTYPE*)(HWND,DWORD))GetProcAddress(GetModuleHandle(_T("shlwapi")),"SHAutoComplete");
 		if (MySHAutoComplete) MySHAutoComplete(GetDlgItem(hwndDlg,IDC_FILENAME),1);
 		}
 		return TRUE;
@@ -753,7 +753,7 @@ static int _GetNetVisibleProtoCount()
 	int i,count,netProtoCount;
 	PROTOACCOUNT **accs;
 	ProtoEnumAccounts( &count, &accs );
-	for(i=0,netProtoCount = 0;i < count;i++)
+	for (i=0,netProtoCount = 0;i < count;i++)
 	{
 		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0 ) continue;
 		netProtoCount++;
@@ -923,7 +923,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
                 ProtoEnumAccounts( &count, &accs );
                 item = SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_ADDSTRING,0,(LPARAM)TranslateT("Global"));
                 SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_SETITEMDATA,item,(LPARAM)0);
-                for(i=0;i < count;i++) {
+                for (i=0;i < count;i++) {
                     if ( !IsAccountEnabled( accs[i] ) || CallProtoService(accs[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0) == 0)
 							  continue;
 
@@ -1280,36 +1280,32 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 
 		{
 			DBVARIANT dbv = {0};
-			TCHAR *s = NULL;
-			char szUin[20];
+			TCHAR *s;
 			if (!DBGetContactSettingTString(NULL,"CList","TitleText",&dbv))
-				s = mir_tstrdup(dbv.ptszVal);
+				s = dbv.ptszVal;
 			else
-				s = mir_tstrdup(_T(MIRANDANAME));
-			//dbv.pszVal = s;
-			SetDlgItemText(hwndDlg,IDC_TITLETEXT,s);
-			if (s) mir_free_and_nill(s);
+				s = _T(MIRANDANAME);
+			SetDlgItemText(hwndDlg, IDC_TITLETEXT, s);
 			db_free(&dbv);
-			//if (s) mir_free_and_nill(s);
+
 			SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)MIRANDANAME);
+
+			char szUin[20];
 			sprintf(szUin,"%u",db_get_dw(NULL,"ICQ","UIN",0));
 			SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)szUin);
 
 			if (!DBGetContactSettingString(NULL,"ICQ","Nick",&dbv)) {
 				SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)dbv.pszVal);
-				//mir_free_and_nill(dbv.pszVal);
 				db_free(&dbv);
 				dbv.pszVal = NULL;
 			}
 			if (!DBGetContactSettingString(NULL,"ICQ","FirstName",&dbv)) {
 				SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)dbv.pszVal);
-				//mir_free_and_nill(dbv.pszVal);
 				db_free(&dbv);
 				dbv.pszVal = NULL;
 			}
 			if (!DBGetContactSettingString(NULL,"ICQ","e-mail",&dbv)) {
 				SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)dbv.pszVal);
-				//mir_free_and_nill(dbv.pszVal);
 				db_free(&dbv);
 				dbv.pszVal = NULL;
 			}
@@ -1452,7 +1448,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 
 				if (IsDlgButtonChecked(hwndDlg,IDC_ONDESKTOP))
 				{
-					HWND hProgMan = FindWindow(TEXT("Progman"),NULL);
+					HWND hProgMan = FindWindow(_T("Progman"),NULL);
 					if (IsWindow(hProgMan))
 					{
 						SetParent(pcli->hwndContactList,hProgMan);
@@ -1564,7 +1560,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			dat->count = bkgrCount;
 			dat->item = (struct BkgrItem*)mir_alloc(sizeof(struct BkgrItem)*dat->count);
 			dat->indx = CB_ERR;
-			for(indx = 0; indx < dat->count; indx++)
+			for (indx = 0; indx < dat->count; indx++)
 			{
 				char *module = bkgrList[indx] + strlen(bkgrList[indx]) + 1;
 				int jndx;
@@ -1709,7 +1705,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			int isChecked = IsDlgButtonChecked(hwndDlg,IDC_BITMAP);
 			int indx;
-			for(indx = 0; indx < SIZEOF(bitmapRelatedControls); indx++)
+			for (indx = 0; indx < SIZEOF(bitmapRelatedControls); indx++)
 				EnableWindow(GetDlgItem(hwndDlg, bitmapRelatedControls[indx]),isChecked);
 			break;
 		}
@@ -1775,7 +1771,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						{
 							int indx;
 							SendMessage(hwndDlg, M_BKGR_GETSTATE, SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETCURSEL, 0,0), 0);
-							for(indx = 0; indx < dat->count; indx++)
+							for (indx = 0; indx < dat->count; indx++)
 							if (dat->item[indx].changed)
 							{
 								char *module = bkgrList[indx] + strlen(bkgrList[indx]) + 1;
@@ -1852,7 +1848,7 @@ HRESULT BackgroundsLoadModule()
 int BackgroundsUnloadModule(void)
 {
 	if (bkgrList != NULL) {
-		for(int indx = 0; indx < bkgrCount; indx++)
+		for (int indx = 0; indx < bkgrCount; indx++)
 			if (bkgrList[indx] != NULL)
 				mir_free(bkgrList[indx]);
 		mir_free(bkgrList);

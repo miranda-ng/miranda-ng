@@ -33,7 +33,7 @@ int __cdecl mir_strcmpi(const char *a, const char *b)
 int __cdecl mir_tstrcmpi(const TCHAR *a, const TCHAR *b)
 {
 	if (a == NULL && b == NULL) return 0;
-	if (a == NULL || b == NULL) return _tcsicmp(a?a:TEXT(""),b?b:TEXT(""));
+	if (a == NULL || b == NULL) return _tcsicmp(a?a:_T(""),b?b:_T(""));
 	return _tcsicmp(a,b);
 }
 BOOL __cdecl mir_bool_strcmpi(const char *a, const char *b)
@@ -46,7 +46,7 @@ BOOL __cdecl mir_bool_strcmpi(const char *a, const char *b)
 BOOL __cdecl mir_bool_tstrcmpi(const TCHAR *a, const TCHAR *b)
 {
 	if (a == NULL && b == NULL) return 1;
-	if (a == NULL || b == NULL) return _tcsicmp(a?a:TEXT(""),b?b:TEXT("")) == 0;
+	if (a == NULL || b == NULL) return _tcsicmp(a?a:_T(""),b?b:_T("")) == 0;
 	return _tcsicmp(a,b) == 0;
 }
 
@@ -315,7 +315,7 @@ int UnhookAll()
 			hooksrec[i].hHook = NULL;
 		}
 	}
-	mir_free_and_nill(hooksrec);
+	mir_free_and_nil(hooksrec);
 	hooksRecAlloced = 0;
 	return 1;
 }

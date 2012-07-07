@@ -297,7 +297,7 @@ CLUI::~CLUI()
 
 HRESULT CLUI::LoadDllsRuntime()
 {
-	m_hUserDll = LoadLibrary(TEXT("user32.dll"));
+	m_hUserDll = LoadLibrary(_T("user32.dll"));
 	if (m_hUserDll)
 	{
 		g_proc_UpdateLayeredWindow = (BOOL (WINAPI *)(HWND,HDC,POINT*,SIZE*,HDC,POINT*,COLORREF,BLENDFUNCTION*,DWORD))GetProcAddress(m_hUserDll, "UpdateLayeredWindow");
@@ -311,7 +311,7 @@ HRESULT CLUI::LoadDllsRuntime()
 
     if (IsWinVerVistaPlus())
     {
-	    m_hDwmapiDll = LoadLibrary(TEXT("dwmapi.dll"));
+	    m_hDwmapiDll = LoadLibrary(_T("dwmapi.dll"));
 	    if (m_hDwmapiDll)
 	    {
 		    g_proc_DWMEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(m_hDwmapiDll, "DwmEnableBlurBehindWindow");
@@ -351,7 +351,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 }
 HRESULT CLUI::CreateCLCWindow(const HWND hwndClui)
 {    
-	ClcWnd() = CreateWindow(CLISTCONTROL_CLASS,TEXT(""),
+	ClcWnd() = CreateWindow(CLISTCONTROL_CLASS,_T(""),
 		WS_CHILD|WS_CLIPCHILDREN|CLS_CONTACTLIST
 		|(db_get_b(NULL,"CList","UseGroups",SETTING_USEGROUPS_DEFAULT)?CLS_USEGROUPS:0)
 		|(db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)?CLS_HIDEOFFLINE:0)
@@ -714,7 +714,7 @@ void CLUI_ChangeWindowMode()
 		TCHAR titleText[255] = {0};
 		DBVARIANT dbv = {0};
 		if (DBGetContactSettingTString(NULL,"CList","TitleText",&dbv))
-			lstrcpyn(titleText,TEXT(MIRANDANAME),SIZEOF(titleText));
+			lstrcpyn(titleText,_T(MIRANDANAME),SIZEOF(titleText));
 		else 
 		{
 			lstrcpyn(titleText,dbv.ptszVal,SIZEOF(titleText));
@@ -768,7 +768,7 @@ void CLUI_ChangeWindowMode()
 	//6- Pin to desktop mode
 	if (db_get_b(NULL,"CList","OnDesktop", SETTING_ONDESKTOP_DEFAULT))
 	{
-		HWND hProgMan = FindWindow(TEXT("Progman"),NULL);
+		HWND hProgMan = FindWindow(_T("Progman"),NULL);
 		if (IsWindow(hProgMan)) 
 		{
 			SetParent(pcli->hwndContactList,hProgMan);
@@ -779,7 +779,7 @@ void CLUI_ChangeWindowMode()
 	else 
 	{
 		//	HWND parent = GetParent(pcli->hwndContactList);
-		//	HWND progman = FindWindow(TEXT("Progman"),NULL);
+		//	HWND progman = FindWindow(_T("Progman"),NULL);
 		//	if (parent == progman)
 		{
 			SetParent(pcli->hwndContactList,NULL);
@@ -1415,8 +1415,8 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 		break;
 			}
 			if (desth && destw)
-				for(y = clRect.top;y < maxy;y += desth) {
-					for(x = clRect.left;x < maxx;x += destw)
+				for (y = clRect.top;y < maxy;y += desth) {
+					for (x = clRect.left;x < maxx;x += destw)
 						StretchBlt(hdc,x,y,destw,desth,hdcBmp,0,0,bmp.bmWidth,bmp.bmHeight,SRCCOPY);
 				}
 				SelectObject(hdcBmp,oldbm);
@@ -2286,7 +2286,7 @@ LRESULT CLUI::OnCreate( UINT msg, WPARAM wParam, LPARAM lParam )
 	}
 	//PostMessage(m_hWnd, M_CREATECLC, 0, 0);
 	//pcli->hwndContactList = m_hWnd;
-	uMsgGetProfile = RegisterWindowMessage(TEXT("Miranda::GetProfile")); // don't localise
+	uMsgGetProfile = RegisterWindowMessage(_T("Miranda::GetProfile")); // don't localise
 	bTransparentFocus = 1;
 	return FALSE;
 }
@@ -2846,26 +2846,24 @@ LRESULT CLUI::OnClickNotify( NMCLISTCONTROL * pnmc )
 				};
 				if (pnmc->iColumn == e) 
 				{
-					char *email,buf[4096];
-					email = db_get_sa(pnmc->hItem,"UserInfo", "Mye-mail0");
+					char *email = db_get_sa(pnmc->hItem,"UserInfo", "Mye-mail0");
 					if (!email)
 						email = db_get_sa(pnmc->hItem, pdnce->m_cache_cszProto, "e-mail");																						
-					if (email)
-					{
+					if (email) {
+						char buf[4096];
 						sprintf(buf,"mailto:%s",email);
-						mir_free_and_nill(email);
+						mir_free(email);
 						ShellExecuteA(m_hWnd,"open",buf,NULL,NULL,SW_SHOW);
 					}											
 				};	
 				if (pnmc->iColumn == w) {
-					char *homepage;
-					homepage = db_get_sa(pdnce->m_cache_hContact,"UserInfo", "Homepage");
+					char *homepage = db_get_sa(pdnce->m_cache_hContact,"UserInfo", "Homepage");
 					if (!homepage)
 						homepage = db_get_sa(pdnce->m_cache_hContact,pdnce->m_cache_cszProto, "Homepage");
 					if (homepage != NULL)
 					{
 						CallService(MS_UTILS_OPENURL, 1, (LPARAM)homepage);
-						mir_free_and_nill(homepage);
+						mir_free(homepage);
 					}
 				}
 			}
@@ -3066,9 +3064,9 @@ LRESULT CLUI::OnDestroy( UINT msg, WPARAM wParam, LPARAM lParam )
 	while (CLUI_WaitThreadsCompletion(m_hWnd)); //stop all my threads                
 	TRACE("CLUI.c: WM_DESTROY - WaitThreadsCompletion DONE\n");
 	{
-		int i=0;
-		for(i=0; i < 64; i++)
-			if (CycleStartTick[i].szProto) mir_free_and_nill(CycleStartTick[i].szProto);
+		for (int i=0; i < 64; i++)
+			if (CycleStartTick[i].szProto)
+				mir_free_and_nil(CycleStartTick[i].szProto);
 	}
 
     if (state == SETTING_STATE_NORMAL){CLUI_ShowWindowMod(m_hWnd,SW_HIDE);};

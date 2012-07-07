@@ -100,7 +100,8 @@ void AddSubcontacts(struct ClcData *dat, struct ClcContact * cont, BOOL showOffl
 		}	}
 
 	cont->SubAllocated = i;
-	if (!i && cont->subcontacts != NULL) mir_free_and_nill(cont->subcontacts);
+	if (!i && cont->subcontacts != NULL)
+		mir_free_and_nil(cont->subcontacts);
 }
 
 int cli_AddItemToGroup(struct ClcGroup *group,int iAboveItem)
@@ -144,7 +145,7 @@ void cli_FreeContact(struct ClcContact *p)
 					AniAva_RemoveAvatar( p->subcontacts[i].hContact );
 					p->subcontacts[i].avatar_pos = AVATAR_POS_DONT_HAVE;
 			}
-			mir_free_and_nill(p->subcontacts);
+			mir_free_and_nil(p->subcontacts);
 	}	}
 
 	p->ssText.DestroySmileyList();
@@ -240,7 +241,7 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,struct ClcGroup
 	if (dat == NULL) return NULL;
 	hContact = cacheEntry->m_cache_hContact;
 	dat->NeedResort = 1;
-	for(i = group->cl.count-1;i >= 0;i--)
+	for (i = group->cl.count-1;i >= 0;i--)
 		if (group->cl.items[i]->type != CLCIT_INFO || !(group->cl.items[i]->flags&CLCIIF_BELOWCONTACTS)) break;
 	i = cli_AddItemToGroup(group,i+1);
 
@@ -256,16 +257,11 @@ void * AddTempGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flag
 	int f = 0;
 	TCHAR * szGroupName;
 	DWORD groupFlags;
-	char *mbuf = mir_u2a((TCHAR *)szName);
 
-	if (wildcmp(mbuf,"-@-HIDDEN-GROUP-@-",0))
-	{
-		mir_free_and_nill(mbuf);
+	if ( wildcmp( _T2A(szName), "-@-HIDDEN-GROUP-@-",0))
 		return NULL;
-	} 
-	mir_free_and_nill(mbuf);
-	for(i = 1;;i++) 
-	{
+
+	for (i = 1;;i++) {
 		szGroupName = pcli->pfnGetGroupName(i,&groupFlags);
 		if (szGroupName == NULL) break;
 		if (!mir_tstrcmpi(szGroupName,szName)) f = 1;
@@ -389,7 +385,7 @@ void cliRebuildEntireList(HWND hwnd,struct ClcData *dat)
 		TCHAR *szGroupName;
 		DWORD groupFlags;
 
-		for(i = 1;;i++) {
+		for (i = 1;;i++) {
 			szGroupName = pcli->pfnGetGroupName(i,&groupFlags); //UNICODE
 			if (szGroupName == NULL) break;
 			cli_AddGroup(hwnd,dat,szGroupName,groupFlags,i,0);

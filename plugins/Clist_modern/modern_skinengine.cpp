@@ -264,11 +264,11 @@ int IniParser::GetSkinFolder( IN const TCHAR * szFileName, OUT TCHAR * pszFolder
 	if ( cus && _tcslen(cus)>0)
 		_sntprintf(pszFolderName,MAX_PATH,_T("%s\\%s"),custom_folder,cus);
 
-	mir_free_and_nill(szBuff);
+	mir_free(szBuff);
 	CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)pszFolderName, (LPARAM)pszFolderName);
-
 	return 0;
 }
+
 void IniParser::_DoInit()
 {
 	_isValid	 = false;
@@ -463,7 +463,7 @@ HRESULT SkinEngineLoadModule()
 	hImageDecoderModule = NULL;
 	if (g_CluiData.fGDIPlusFail)
 	{
-		hImageDecoderModule = LoadLibrary(TEXT("ImgDecoder.dll"));
+		hImageDecoderModule = LoadLibrary(_T("ImgDecoder.dll"));
 		if (hImageDecoderModule == NULL)
 		{
 			char tDllPath[ MAX_PATH ];
@@ -510,26 +510,22 @@ int SkinEngineUnloadModule()
 	ModernUnhookEvent(hSkinLoadedEvent);
 	ModernSkinButtonUnloadModule(0,0);
 	ske_UnloadSkin(&g_SkinObjectList);
-	if (g_SkinObjectList.pObjects)
-		mir_free_and_nill(g_SkinObjectList.pObjects);
-	if (g_SkinObjectList.pMaskList)
-		mir_free_and_nill(g_SkinObjectList.pMaskList);
-	if (MainModernMaskList)
-		mir_free_and_nill(MainModernMaskList);
+
+	mir_free_and_nil(g_SkinObjectList.pObjects);
+	mir_free_and_nil(g_SkinObjectList.pMaskList);
+	mir_free_and_nil(MainModernMaskList);
+
 	if (pEffectStack)
 	{
-		int i;
-		for (i=0; i < pEffectStack->realCount; i++)
-			if (pEffectStack->items[i])
-			{
+		for (int i=0; i < pEffectStack->realCount; i++) 
+			if (pEffectStack->items[i]) {
 				EFFECTSSTACKITEM * effect = (EFFECTSSTACKITEM*)(pEffectStack->items[i]);
-				mir_free_and_nill(effect);
+				mir_free(effect);
 			}
-			List_Destroy(pEffectStack);
-			mir_free_and_nill(pEffectStack);
+		List_Destroy(pEffectStack);
+		mir_free_and_nil(pEffectStack);
 	}
-	if (g_pCachedWindow)
-	{
+	if (g_pCachedWindow) {
 		SelectObject(g_pCachedWindow->hBackDC,g_pCachedWindow->hBackOld);
 		SelectObject(g_pCachedWindow->hImageDC,g_pCachedWindow->hImageOld);
 		DeleteObject(g_pCachedWindow->hBackDIB);
@@ -537,8 +533,7 @@ int SkinEngineUnloadModule()
 		mod_DeleteDC(g_pCachedWindow->hBackDC);
 		mod_DeleteDC(g_pCachedWindow->hImageDC);
 		ReleaseDC(NULL,g_pCachedWindow->hScreenDC);
-		mir_free_and_nill(g_pCachedWindow);
-		g_pCachedWindow = NULL;
+		mir_free_and_nil(g_pCachedWindow);
 	}
 	DeleteCriticalSection(&cs_SkinChanging);
 	GdiFlush();
@@ -551,8 +546,6 @@ int SkinEngineUnloadModule()
 	//free variables
 	return 1;
 }
-
-
 
 BOOL ske_AlphaBlend(HDC hdcDest,int nXOriginDest,int nYOriginDest,int nWidthDest,int nHeightDest,HDC hdcSrc,int nXOriginSrc,int nYOriginSrc,int nWidthSrc,int nHeightSrc,BLENDFUNCTION blendFunction)
 {
@@ -574,12 +567,12 @@ BOOL ske_AlphaBlend(HDC hdcDest,int nXOriginDest,int nYOriginDest,int nWidthDest
 	return AlphaBlend(hdcDest,nXOriginDest,nYOriginDest,nWidthDest,nHeightDest,hdcSrc,nXOriginSrc,nYOriginSrc,nWidthSrc,nHeightSrc,blendFunction);
 }
 
-
 static int ske_LockSkin()
 {
 	EnterCriticalSection(&cs_SkinChanging);
 	return 0;
 }
+
 static int ske_UnlockSkin()
 {
 	LeaveCriticalSection(&cs_SkinChanging);
@@ -714,7 +707,7 @@ BOOL ske_SetRgnOpaque(HDC memdc,HRGN hrgn, BOOL force)
 	{
 		ske_SetRectOpaque(memdc,&rect[d], force);
 	}
-	mir_free_and_nill(rdata);
+	mir_free(rdata);
 	return TRUE;
 }
 
@@ -1633,10 +1626,10 @@ int ske_AddDescriptorToSkinObjectList (LPSKINOBJECTDESCRIPTOR lpDescr, SKINOBJEC
 					if (gl->szFileName != NULL)
 					{
 						obdat->szFileName = mir_strdup(gl->szFileName);
-						mir_free_and_nill(gl->szFileName);
+						mir_free_and_nil(gl->szFileName);
 					}
-					else
-						obdat->szFileName = NULL;
+					else obdat->szFileName = NULL;
+
 					obdat->hGlyph = NULL;
 					break;
 				}
@@ -1797,7 +1790,7 @@ int ske_GetFullFilename(char * buf, char *file, char * skinfolder,BOOL madeAbsol
 	else
 		memcpy(buf,b2,MAX_PATH);
 
-	if (SkinPlace) mir_free_and_nill(SkinPlace);
+	mir_free(SkinPlace);
 	return 0;
 }
 
@@ -2141,6 +2134,7 @@ HBITMAP ske_LoadGlyphImage(char * szFileName)
 	ske_UnlockSkin();
 	return hbmp;
 }
+
 int ske_UnloadGlyphImage(HBITMAP hbmp)
 {
 	DWORD i;
@@ -2152,14 +2146,14 @@ int ske_UnloadGlyphImage(HBITMAP hbmp)
 			if (pLoadedImages[i].dwLoadedTimes == 0)
 			{
 				LPGLYPHIMAGE gl = &(pLoadedImages[i]);
-				if (gl->szFileName) mir_free_and_nill(gl->szFileName);
+				mir_free_and_nil(gl->szFileName);
 				memmove(&(pLoadedImages[i]),&(pLoadedImages[i+1]),sizeof(GLYPHIMAGE)*(dwLoadedImagesCount-i-1));
 				dwLoadedImagesCount--;
 				DeleteObject(hbmp);
 				if (pLoadedImages && dwLoadedImagesCount == 0)
 				{
 					dwLoadedImagesAlocated = 0;
-					mir_free_and_nill(pLoadedImages);
+					mir_free_and_nil(pLoadedImages);
 				}
 			}
 			return 0;
@@ -2172,32 +2166,27 @@ int ske_UnloadGlyphImage(HBITMAP hbmp)
 
 int ske_UnloadSkin(SKINOBJECTSLIST * Skin)
 {
-
 	DWORD i;
 	ske_LockSkin();
 	ClearMaskList(Skin->pMaskList);
-	{//clear font list
-		int i;
-		if (gl_plSkinFonts && gl_plSkinFonts->realCount>0)
-		{
-			for (i=0; i < gl_plSkinFonts->realCount; i++)
-			{
-				SKINFONT * sf = (SKINFONT *)gl_plSkinFonts->items[i];
-				if (sf)
-				{
-					if (sf->szFontID) mir_free_and_nill(sf->szFontID);
-					DeleteObject(sf->hFont);
-					mir_free_and_nill(sf);
-				}
+	
+	//clear font list
+	if (gl_plSkinFonts && gl_plSkinFonts->realCount > 0) {
+		for (int i=0; i < gl_plSkinFonts->realCount; i++) {
+			SKINFONT * sf = (SKINFONT *)gl_plSkinFonts->items[i];
+			if (sf) {
+				mir_free(sf->szFontID);
+				DeleteObject(sf->hFont);
+				mir_free(sf);
 			}
-			List_Destroy(gl_plSkinFonts);
-			mir_free_and_nill(gl_plSkinFonts);
 		}
+		List_Destroy(gl_plSkinFonts);
+		mir_free_and_nil(gl_plSkinFonts);
 	}
 
-	if (Skin->szSkinPlace) mir_free_and_nill(Skin->szSkinPlace);
+	mir_free_and_nil(Skin->szSkinPlace);
 	if (Skin->pTextList) List_Destroy(Skin->pTextList);
-	mir_free_and_nill(Skin->pTextList);
+	mir_free_and_nil(Skin->pTextList);
 	ModernSkinButtonDeleteAll();
 	if (Skin->dwObjLPAlocated == 0) { ske_UnlockSkin(); return 0;}
 	for (i=0; i < Skin->dwObjLPAlocated; i++)
@@ -2211,7 +2200,7 @@ int ske_UnloadSkin(SKINOBJECTSLIST * Skin)
 				if (dt->hGlyph && dt->hGlyph != (HBITMAP)-1)
 					ske_UnloadGlyphImage(dt->hGlyph);
 				dt->hGlyph = NULL;
-				if (dt->szFileName) mir_free_and_nill(dt->szFileName);
+				mir_free_and_nil(dt->szFileName);
 				{// delete texts
 					int i;
 					if (dt->plTextList && dt->plTextList->realCount>0)
@@ -2219,27 +2208,26 @@ int ske_UnloadSkin(SKINOBJECTSLIST * Skin)
 						for (i=0; i < dt->plTextList->realCount; i++)
 						{
 							GLYPHTEXT * gt = (GLYPHTEXT *)dt->plTextList->items[i];
-							if (gt)
-							{
-								if (gt->stText)       mir_free_and_nill(gt->stText);
-								if (gt->stValueText)  mir_free_and_nill(gt->stValueText);
-								if (gt->szFontID)     mir_free_and_nill(gt->szFontID);
-								if (gt->szGlyphTextID)mir_free_and_nill(gt->szGlyphTextID);
-								mir_free_and_nill(gt);
+							if (gt) {
+								mir_free(gt->stText);
+								mir_free(gt->stValueText);
+								mir_free(gt->szFontID);
+								mir_free(gt->szGlyphTextID);
+								mir_free(gt);
 							}
 						}
 						List_Destroy(dt->plTextList);
-						mir_free_and_nill(dt->plTextList);
+						mir_free(dt->plTextList);
 					}
 				}
-				mir_free_and_nill(dt);
+				mir_free(dt);
 			}
 			break;
 		}
-		if (Skin->pObjects[i].szObjectID) mir_free_and_nill(Skin->pObjects[i].szObjectID);
+		mir_free_and_nil(Skin->pObjects[i].szObjectID);
 
 	}
-	mir_free_and_nill(Skin->pObjects);
+	mir_free_and_nil(Skin->pObjects);
 	Skin->pTextList = NULL;
 	Skin->dwObjLPAlocated = 0;
 	Skin->dwObjLPReserved = 0;
@@ -2261,7 +2249,7 @@ static void RegisterMaskByParce(const char * szSetting, char * szValue, SKINOBJE
 		strncpy(Obj,szValue,i);
 		Obj[i] = '\0';
 		res = AddStrModernMaskToList(ID,Mask,Obj,pSkin->pMaskList,pSkin);
-		mir_free_and_nill(Obj);
+		mir_free(Obj);
 	}
 }
 
@@ -2286,7 +2274,7 @@ static int ske_enumdb_SkinObjectsProc (const char *szSetting,LPARAM lParam)
 	char *value;
 	value = db_get_sa(NULL,SKIN,szSetting);
 	ske_ProcessLoadindString(szSetting,value);
-	mir_free_and_nill(value);
+	mir_free_and_nil(value);
 
 	return 0;
 }
@@ -2304,7 +2292,7 @@ static void ske_LinkSkinObjects(SKINOBJECTSLIST * pObjectList)
 	{
 		MODERNMASK *mm = &(pObjectList->pMaskList->pl_Masks[i]);
 		void * pObject = (void*) ske_FindObjectByName(mm->szObjectName, OT_ANY, (SKINOBJECTSLIST*) pObjectList);
-		mir_free_and_nill(mm->szObjectName);
+		mir_free_and_nil(mm->szObjectName);
 		mm->bObjectFound = TRUE;
 		mm->pObject = pObject;
 	}
@@ -2320,7 +2308,7 @@ static void ske_LinkSkinObjects(SKINOBJECTSLIST * pObjectList)
 			SKINOBJECTDESCRIPTOR * lpobj;
 			glText = (GLYPHTEXT *)pObjectList->pTextList->items[i];
 			lpobj = ske_FindObjectByName(glText->szObjectName,OT_GLYPHOBJECT, pObjectList);
-			mir_free_and_nill(glText->szObjectName);
+			mir_free_and_nil(glText->szObjectName);
 			if (lpobj)
 				globj = (GLYPHOBJECT*)lpobj->Data;
 			if (globj)
@@ -2336,19 +2324,18 @@ static void ske_LinkSkinObjects(SKINOBJECTSLIST * pObjectList)
 			}
 			else
 			{
-				GLYPHTEXT * gt = glText;
-				if (gt)
-				{
-					if (gt->stText)       mir_free_and_nill(gt->stText);
-					if (gt->stValueText)  mir_free_and_nill(gt->stValueText);
-					if (gt->szFontID)     mir_free_and_nill(gt->szFontID);
-					if (gt->szGlyphTextID)mir_free_and_nill(gt->szGlyphTextID);
-					mir_free_and_nill(gt);
+				GLYPHTEXT *gt = glText;
+				if (gt) {
+					mir_free(gt->stText);
+					mir_free(gt->stValueText);
+					mir_free(gt->szFontID);
+					mir_free(gt->szGlyphTextID);
+					mir_free(gt);
 				}
 			}
 		}
 		List_Destroy(pObjectList->pTextList);
-		mir_free_and_nill(pObjectList->pTextList);
+		mir_free_and_nil(pObjectList->pTextList);
 	}
 }
 // Getting skin objects and masks from DB
@@ -2408,203 +2395,7 @@ void ske_LoadSkinFromDB(void)
 	g_CluiData.dwKeyColor = db_get_dw(NULL,"ModernSettings","KeyColor",(DWORD)SETTING_KEYCOLOR_DEFAULT);
 }
 
-
-
 //
-
-
-/*
-static BOOL ske_ParseLineOfIniFile(char * Line, BOOL bOnlyObjects)
-{
-	DWORD i=0;
-	DWORD len = strlen(Line);
-	while (i < len && (Line[i] == ' ' || Line[i] == '\t')) i++; //skip spaces&tabs
-	if (i >= len) return FALSE; //only spaces (or tabs)
-	if (len>0 && Line[len-1] == 10) Line[len-1] = '\0';
-	switch(Line[i])
-	{
-	case ';':
-		return FALSE; // start of comment is found
-	case '[':
-		//New section start here
-		if (iniCurrentSection) mir_free_and_nill(iniCurrentSection);
-		{
-			char *tbuf = Line+i+1;
-			DWORD len2 = strlen(tbuf);
-			DWORD k = len2;
-			while (k>0 && tbuf[k] != ']') k--; //searching close bracket
-			tbuf[k] = '\0';   //closing string
-			if (k == 0) return FALSE;
-			iniCurrentSection = mir_strdup(tbuf);
-		}
-		return TRUE;
-	default:
-		if (!iniCurrentSection) return FALSE;  //param found out of section
-		{
-			char *keyName = Line+i;
-			char *keyValue = Line+i;
-
-			DWORD eqPlace = 0;
-			DWORD len2 = strlen(keyName);
-			while (eqPlace < len2 && keyName[eqPlace] != '=') eqPlace++; //find '='
-			if (eqPlace == 0 || eqPlace == len2) return FALSE; // = not found or no key name
-			keyName[eqPlace] = '\0';
-			keyValue = keyName+eqPlace+1;
-			//remove tail spaces in Name
-			{
-				DWORD len3 = strlen(keyName);
-				int j = len3-1;
-				while (j>0 && (keyName[j] == ' ' || keyName[j] == '\t')) j--;
-				if (j >= 0) keyName[j+1] = '\0';
-			}
-			//remove start spaces in Value
-			{
-				DWORD len3 = strlen(keyValue);
-				DWORD j = 0;
-				while (j < len3 && (keyValue[j] == ' ' || keyValue[j] == '\t')) j++;
-				if (j < len3) keyValue += j;
-			}
-			//remove tail spaces in Value
-			{
-				DWORD len3 = strlen(keyValue);
-				int j = len3-1;
-				while (j>0 && (keyValue[j] == ' ' || keyValue[j] == '\t')) j--;
-				if (j >= 0) keyValue[j+1] = '\0';
-			}
-			ske_WriteParamToDatabase(iniCurrentSection,keyName,keyValue,TRUE);
-		}
-	}
-	return FALSE;
-}
-*/
-//Load data from ini file
-
-
-
-//int ske_OldLoadSkinFromIniFile(char * szFileName)
-//{
-//	char bsn[MAXSN_BUFF_SIZE];
-//	char * Buff;
-//
-//	int i=0;
-//	int f = 0;
-//	int ReadingSection = 0;
-//	char AllowedSection[260];
-//	int AllowedAll = 0;
-//	char t2[MAX_PATH];
-//	char t3[MAX_PATH];
-//
-//	DWORD retu = GetPrivateProfileSectionNamesA(bsn,MAXSN_BUFF_SIZE,szFileName);
-//	ske_DeleteAllSettingInSection("ModernSkin");
-//	ske_GetSkinFolder(szFileName,t2);
-//	db_set_s(NULL,SKIN,"SkinFolder",t2);
-//	CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)szFileName, (LPARAM)t3);
-//	db_set_s(NULL,SKIN,"SkinFile",t3);
-//	Buff = bsn;
-//	AllowedSection[0] = 0;
-//	do
-//	{
-//		f = mir_strlen(Buff);
-//		if (f>0 && !mir_bool_strcmpi(Buff,"Skin_Description_Section"))
-//		{
-//			char b3[MAX_BUFF_SIZE];
-//			DWORD ret = 0;
-//			ret = GetPrivateProfileSectionA(Buff,b3,MAX_BUFF_SIZE,szFileName);
-//			if (ret>MAX_BUFF_SIZE-3) continue;
-//			if (ret == 0) continue;
-//			{
-//				DWORD p = 0;
-//				char *s1;
-//				char *s2;
-//				char *s3;
-//				{
-//					DWORD t;
-//					BOOL LOCK = FALSE;
-//					for (t = 0; t < ret-1;t++)
-//					{
-//						if (b3[t] == '\0') LOCK = FALSE;
-//						if (b3[t] == '=' && !LOCK)
-//						{
-//							b3[t] = '\0';
-//							LOCK = TRUE;
-//						}
-//					}
-//				}
-//				do
-//				{
-//					s1 = b3+p;
-//
-//					s2 = s1+mir_strlen(s1)+1;
-//					switch (s2[0])
-//					{
-//					case 'b':
-//						{
-//							BYTE P;
-//							//                            char ba[255];
-//							s3 = s2+1;
-//							P = (BYTE)atoi(s3);
-//							db_set_b(NULL,Buff,s1,P);
-//						}
-//						break;
-//					case 'w':
-//						{
-//							WORD P;
-//							//                           char ba[255];
-//							s3 = s2+1;
-//							P = (WORD)atoi(s3);
-//							db_set_w(NULL,Buff,s1,P);
-//						}break;
-//					case 'd':
-//						{
-//							DWORD P;
-//
-//							s3 = s2+1;
-//							P = (DWORD)atoi(s3);
-//							db_set_dw(NULL,Buff,s1,P);
-//						}break;
-//					case 's':
-//						{
-//							//                          char ba[255];
-//							char bb[255];
-//							s3 = s2+1;
-//							strncpy(bb,s3,sizeof(bb));
-//							db_set_s(NULL,Buff,s1,s3);
-//						}break;
-//					case 'f': //file
-//						{
-//							//                         char ba[255];
-//							char bb[255];
-//
-//							s3 = s2+1;
-//							{
-//								char fn[MAX_PATH];
-//								int pp, i;
-//								pp = -1;
-//								CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)szFileName, (LPARAM)fn);
-//								{
-//									for (i=0; i < mir_strlen(fn); i++)  if (fn[i] == '.') pp = i;
-//									if (pp != -1)
-//									{
-//										fn[pp] = '\0';
-//									}
-//								}
-//								sprintf(bb,"%s\\%s",fn,s3);
-//								db_set_s(NULL,Buff,s1,bb);
-//							}
-//						}break;
-//					}
-//					p = p+mir_strlen(s1)+mir_strlen(s2)+2;
-//				} while (p < ret);
-//
-//			}
-//		}
-//		Buff += mir_strlen(Buff)+1;
-//	}while (((DWORD)Buff-(DWORD)bsn) < retu);
-//	return 0;
-//}
-//
-
-
 
 static int ske_LoadSkinFromResource(BOOL bOnlyObjects)
 {
@@ -2686,7 +2477,7 @@ BOOL ske_TextOutA(HDC hdc, int x, int y, char * lpString, int nCount)
 	BOOL res;
 	MultiByteToWideChar(CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 ), 0, lpString, -1, buf, (2+nCount)*sizeof(TCHAR));
 	res = ske_TextOut(hdc,x,y,buf,nCount);
-	mir_free_and_nill(buf);
+	mir_free(buf);
 	return res;
 }
 
@@ -2752,7 +2543,7 @@ BOOL ske_ResetTextEffect(HDC hdc)
 		if (pEffectStack->items[i] && ((EFFECTSSTACKITEM*)(pEffectStack->items[i]))->hdc == hdc)
 		{
 			EFFECTSSTACKITEM * effect = (EFFECTSSTACKITEM*)(pEffectStack->items[i]);
-			mir_free_and_nill(effect);
+			mir_free(effect);
 			List_Remove(pEffectStack,i);
 			return TRUE;
 		}
@@ -3656,7 +3447,7 @@ static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM lParam)       
 			{
 				int i;
 				frm->bQueued = 0;
-				for(i=0;i < g_nFramesCount;i++)
+				for (i=0;i < g_nFramesCount;i++)
 					if (IsAnyQueued |= g_pfwFrames[i].bQueued) break;
 			}
 		}
@@ -4018,7 +3809,7 @@ int ske_DrawNonFramedObjects(BOOL Erase,RECT *r)
 	//--Draw frames captions
 	{
 		int i;
-		for(i=0;i < g_nFramesCount;i++)
+		for (i=0;i < g_nFramesCount;i++)
 			if (g_pfwFrames[i].TitleBar.ShowTitleBar && g_pfwFrames[i].visible && !g_pfwFrames[i].floating)
 			{
 				RECT rc;
@@ -4093,7 +3884,7 @@ int ske_ValidateFrameImageProc(RECT * r)                                // Calli
 	//-- Validating frames
 	{
 		int i;
-		for(i=0;i < g_nFramesCount;i++)
+		for (i=0;i < g_nFramesCount;i++)
 			if (g_pfwFrames[i].PaintCallbackProc && g_pfwFrames[i].visible && !g_pfwFrames[i].floating )
 				if (g_pfwFrames[i].bQueued || IsForceAllPainting)
 					ske_ValidateSingleFrameImage(&g_pfwFrames[i],IsForceAllPainting);
@@ -4266,7 +4057,7 @@ static TCHAR *ske_ReAppend(TCHAR *lfirst, TCHAR * lsecond, int len)
 TCHAR* ske_ReplaceVar(TCHAR *var)
 {
 	if (!var) return mir_tstrdup(_T(""));
-	if (!lstrcmpi(var,TEXT("Profile")))
+	if (!lstrcmpi(var,_T("Profile")))
 	{
 		char buf[MAX_PATH] = {0};
 		CallService(MS_DB_GETPROFILENAME,(WPARAM)MAX_PATH,(LPARAM)buf);
@@ -4275,11 +4066,11 @@ TCHAR* ske_ReplaceVar(TCHAR *var)
 			while (buf[i] != '.' && i>0) i--;
 			buf[i] = '\0';
 		}
-		mir_free_and_nill(var);
+		mir_free(var);
 		return mir_a2u(buf);
 	}
 
-	mir_free_and_nill(var);
+	mir_free(var);
 	return mir_tstrdup(_T(""));
 }
 TCHAR *ske_ParseText(TCHAR *stzText)
@@ -4310,10 +4101,10 @@ TCHAR *ske_ParseText(TCHAR *stzText)
 					var[curpos-stpos] = (TCHAR)'\0';
 					var = ske_ReplaceVar(var);
 					result = ske_ReAppend(result,var,0);
-					mir_free_and_nill(var);
+					mir_free(var);
 				}
-				else
-					result = ske_ReAppend(result,_T("%"),0);
+				else result = ske_ReAppend(result,_T("%"),0);
+
 				curpos++;
 				stpos = curpos;
 			}

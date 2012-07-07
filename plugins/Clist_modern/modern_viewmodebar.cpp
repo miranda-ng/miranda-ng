@@ -165,7 +165,7 @@ static void ShowPage(HWND hwnd, int page)
 
 static int UpdateClistItem(HANDLE hContact, DWORD mask)
 {
-	for(int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hContact, MAKELONG(i - ID_STATUS_OFFLINE, 
 		(1 << (i - ID_STATUS_OFFLINE)) & mask ? i - ID_STATUS_OFFLINE : nullImage));
 
@@ -176,7 +176,7 @@ static DWORD GetMaskForItem(HANDLE hItem)
 {
 	DWORD dwMask = 0;
 
-	for(int i=0; i <= ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE; i++)
+	for (int i=0; i <= ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE; i++)
 		dwMask |= (SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == nullImage ? 0 : 1 << i);
 
 	return dwMask;
@@ -199,13 +199,13 @@ static void UpdateStickies()
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 	}
 
-	for(i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hInfoItem, MAKELONG(i - ID_STATUS_OFFLINE, (1 << (i - ID_STATUS_OFFLINE)) & stickyStatusMask ? i - ID_STATUS_OFFLINE : ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1));
 
 	hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM,CLGN_ROOT,0);
 	hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST,CLM_GETNEXTITEM,CLGN_NEXTGROUP, (LPARAM)hItem);
 	while(hItem) {
-		for(i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+		for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 			SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELONG(i - ID_STATUS_OFFLINE, nullImage));
 		hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hItem);
 	}
@@ -231,7 +231,7 @@ static int FillDialog(HWND hwnd)
 
 	item.mask = LVIF_TEXT;
 	item.iItem = 1000;
-	for(i=0; i < protoCount; i++) 
+	for (i=0; i < protoCount; i++) 
 	{
 		item.pszText = accs[i]->szModuleName;
 		newItem = SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
@@ -259,7 +259,7 @@ static int FillDialog(HWND hwnd)
 		item.pszText = TranslateT("Ungrouped contacts");
 		newItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 
-		for(i=0;;i++)
+		for (i=0;;i++)
 		{
 			mir_snprintf(buf, 20, "%d", i);
 			if (DBGetContactSettingTString(NULL, "CListGroups", buf, &dbv))
@@ -277,7 +277,7 @@ static int FillDialog(HWND hwnd)
 	lvc.mask = LVCF_FMT;
 	lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
 	ListView_InsertColumn(hwndList, 0, &lvc);
-	for(i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 	{
 		LVITEM item = {0};
 		item.mask = LVIF_TEXT;
@@ -414,7 +414,7 @@ void SaveState()
 		char szTemp[256];
 
 		hwndList = GetDlgItem(clvmHwnd, IDC_PROTOCOLS);
-		for(i=0; i < ListView_GetItemCount(hwndList); i++) {
+		for (i=0; i < ListView_GetItemCount(hwndList); i++) {
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
 				item.pszText = szTemp;
@@ -436,7 +436,7 @@ void SaveState()
 
 		operators |= ListView_GetCheckState(hwndList, 0) ? CLVM_INCLUDED_UNGROUPED : 0;
 
-		for(i=0; i < ListView_GetItemCount(hwndList); i++) {
+		for (i=0; i < ListView_GetItemCount(hwndList); i++) {
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
 				item.pszText = szTemp;
@@ -450,7 +450,7 @@ void SaveState()
 		}
 	}
 	hwndList = GetDlgItem(clvmHwnd, IDC_STATUSMODES);
-	for(i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 		if (ListView_GetCheckState(hwndList, i - ID_STATUS_OFFLINE))
 			statusMask |= (1 << (i - ID_STATUS_OFFLINE));
 	}
@@ -585,7 +585,7 @@ static void UpdateFilters()
 		item.pszText = szTemp;
 		item.cchTextMax = 255;
 
-		for(i=0; i < ListView_GetItemCount(hwndList); i++) 
+		for (i=0; i < ListView_GetItemCount(hwndList); i++) 
 		{
 			item.iItem = i;
 			SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
@@ -609,7 +609,7 @@ static void UpdateFilters()
 
 		ListView_SetCheckState(hwndList, 0, dwFlags & CLVM_INCLUDED_UNGROUPED ? TRUE : FALSE);
 
-		for(i = 1; i < ListView_GetItemCount(hwndList); i++) 
+		for (i = 1; i < ListView_GetItemCount(hwndList); i++) 
 		{
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
@@ -623,7 +623,7 @@ static void UpdateFilters()
 	{
 		HWND hwndList = GetDlgItem(clvmHwnd, IDC_STATUSMODES);
 
-		for(int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 			if ((1 << (i - ID_STATUS_OFFLINE)) & statusMask)
 				ListView_SetCheckState(hwndList, i - ID_STATUS_OFFLINE, TRUE)
 			else
@@ -715,7 +715,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			xpt_EnableThemeDialogTexture(hwndDlg, ETDT_ENABLETAB);
 
 			himlViewModes = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 12, 0);
-			for(i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+			for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 				hIcon = LoadSkinnedProtoIcon(NULL, i);
 				ImageList_AddIcon(himlViewModes, hIcon);
 				CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
@@ -751,7 +751,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS,0,0);
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN,2,0);
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT,10,0);
-			for(i=0;i <= FONTID_MAX;i++)
+			for (i=0;i <= FONTID_MAX;i++)
 				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETTEXTCOLOR,i,GetSysColor(COLOR_WINDOWTEXT));
 			cii.cbSize = sizeof(cii);
 			cii.hParentGroup = 0;

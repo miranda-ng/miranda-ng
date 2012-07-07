@@ -47,13 +47,11 @@ static INT_PTR AddContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR RemoveContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
 {
-	lpFrameMenuExecParam fmep;
-	fmep = (lpFrameMenuExecParam)CallService(MO_MENUITEMGETOWNERDATA,wParam,lParam);
+	lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)CallService(MO_MENUITEMGETOWNERDATA,wParam,lParam);
 	if (fmep != NULL){
-		if (fmep->szServiceName != NULL){
-			mir_free_and_nill(fmep->szServiceName);
-		};
-		mir_free_and_nill(fmep);
+		if (fmep->szServiceName != NULL)
+			mir_free(fmep->szServiceName);
+		mir_free(fmep);
 	}
 
 	if (lParam != 1)

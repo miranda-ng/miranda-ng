@@ -163,7 +163,7 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 					Value = mir_strdup(_ltoa(defval,buf,SIZEOF(buf)));
 					break;
 				}
-				mir_free_and_nill(section);
+				mir_free(section);
 			}  
 
 		}
@@ -172,10 +172,9 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 		g_clcPainter.AddParam(&Request,mod_CalcHash("Down"),bct->down?"1":"0",0);
 		g_clcPainter.AddParam(&Request,mod_CalcHash("Focused"),bct->focus?"1":"0",0);
 		g_clcPainter.AddParam(&Request,mod_CalcHash("Hovered"),bct->hover?"1":"0",0);
-		if (Value)
-		{
+		if (Value) {
 			g_clcPainter.AddParam(&Request,mod_CalcHash("Value"),Value,0);
-			mir_free_and_nill(Value);
+			mir_free(Value);
 		}    
 		SkinDrawGlyphMask(hdc,&rc,&rc,&Request);
 		SkinSelector_DeleteMask(&Request);
@@ -241,37 +240,37 @@ static int ModernSkinButtonToggleDBValue(char * ValueDBSection,char *ValueTypeDe
 			l2 = (DWORD)atol(val2);
 		}
 
-		switch (ValueTypeDef[0])
-		{
+		switch (ValueTypeDef[0]) {
 		case 's':
-			{
-				Value = db_get_sa(NULL,section,key);
-				if (!Value  || (Value && mir_bool_strcmpi(Value,val2)))
-					Value = mir_strdup(val);
-				else 
-					Value = mir_strdup(val2);
-				db_set_s(NULL,section,key,Value);
-				mir_free_and_nill(Value);
-				break;
-			}         
+			Value = db_get_sa(NULL,section,key);
+			if (!Value  || (Value && mir_bool_strcmpi(Value,val2)))
+				Value = mir_strdup(val);
+			else 
+				Value = mir_strdup(val2);
+			db_set_s(NULL,section,key,Value);
+			mir_free(Value);
+			break;
+			
 		case 'd':
 			curval = db_get_dw(NULL,section,key,l2);
 			curval = (curval == l2)?l1:l2;
 			db_set_dw(NULL,section,key,(DWORD)curval);
 			break;
+
 		case 'w':
 			curval = db_get_w(NULL,section,key,l2);
 			curval = (curval == l2)?l1:l2;
 			db_set_w(NULL,section,key,(WORD)curval);            
 			break;
+
 		case 'b':
 			curval = db_get_b(NULL,section,key,l2);
 			curval = (curval == l2)?l1:l2;
 			db_set_b(NULL,section,key,(BYTE)curval);            
 			break;
 		}       
-		mir_free_and_nill(section);
-		mir_free_and_nill(val);
+		mir_free(section);
+		mir_free(val);
 	}  
 	return 0;
 }
@@ -404,15 +403,14 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 							}
 						}
 						LeaveCriticalSection(&csTips);
-						if (bct->ID) mir_free_and_nill(bct->ID);
-						if (bct->CommandService) mir_free_and_nill(bct->CommandService);
-						if (bct->StateService) mir_free_and_nill (bct->StateService); 
-						if (bct->HandleService) mir_free_and_nill(bct->HandleService);               
-						if (bct->Hint) mir_free_and_nill(bct->Hint);  
-						if (bct->ValueDBSection) mir_free_and_nill(bct->ValueDBSection);
-						if (bct->ValueTypeDef) mir_free_and_nill(bct->ValueTypeDef);
-
-						mir_free_and_nill(bct);
+						mir_free(bct->ID);
+						mir_free(bct->CommandService);
+						mir_free(bct->StateService); 
+						mir_free(bct->HandleService);               
+						mir_free(bct->Hint);  
+						mir_free(bct->ValueDBSection);
+						mir_free(bct->ValueTypeDef);
+						mir_free(bct);
 					}
 					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 					break;	// DONT! fall thru
@@ -541,7 +539,7 @@ HWND SetToolTip(HWND hwnd, TCHAR * tip)
 	if (!tip) return 0;
 	EnterCriticalSection(&csTips);
 	if (!hwndToolTips) {
-		//  hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, TEXT(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
+		//  hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
 
 		hwndToolTips = CreateWindowEx(0, TOOLTIPS_CLASS, NULL,
 			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
@@ -670,7 +668,7 @@ static int ModernSkinButtonErase(int l,int t,int r, int b)
 	if (!g_pCachedWindow->hImageDC  || !g_pCachedWindow->hBackDC) return 0;
 	if (!(l || r || t || b))
 	{
-		for(i=0; i < ButtonsCount; i++)
+		for (i=0; i < ButtonsCount; i++)
 		{
 			if (pcli->hwndContactList && Buttons[i].hwnd != NULL)      
 			{
@@ -710,7 +708,7 @@ int ModernSkinButtonRedrawAll(HDC hdc)
 	DWORD i;
 	if (!ModernSkinButtonModuleIsLoaded) return 0;
 	g_mutex_bLockUpdating++;
-	for(i=0; i < ButtonsCount; i++)
+	for (i=0; i < ButtonsCount; i++)
 	{
 		if (pcli->hwndContactList && Buttons[i].hwnd == NULL)
 			Buttons[i].hwnd = ModernSkinButtonCreateWindow(Buttons[i].bct,pcli->hwndContactList);
@@ -719,13 +717,17 @@ int ModernSkinButtonRedrawAll(HDC hdc)
 	g_mutex_bLockUpdating--;
 	return 0;
 }
+
 int ModernSkinButtonDeleteAll()
 {
-	DWORD i;
-	if (!ModernSkinButtonModuleIsLoaded) return 0;
-	for(i=0; i < ButtonsCount; i++)
-		if (Buttons[i].hwnd) DestroyWindow(Buttons[i].hwnd);
-	if (Buttons) mir_free_and_nill(Buttons);
+	if (!ModernSkinButtonModuleIsLoaded)
+		return 0;
+
+	for (size_t i=0; i < ButtonsCount; i++)
+		if (Buttons[i].hwnd)
+			DestroyWindow(Buttons[i].hwnd);
+
+	mir_free_and_nil(Buttons);
 	ButtonsCount = 0;
 	return 0;
 }
@@ -756,11 +758,10 @@ int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT * r)
 		oldWndSize.cy = sy;
 	}
 
-
 	OffsetRect(&rc,-rc.left,-rc.top);
 	rc.right = rc.left+(clr.right-clr.left);
 	rc.bottom = rc.top+(clr.bottom-clr.top);
-	for(i=0; i < ButtonsCount; i++)
+	for (i=0; i < ButtonsCount; i++)
 	{
 		int l,r,b,t;
 		RECT oldRect = {0};

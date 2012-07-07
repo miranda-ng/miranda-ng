@@ -72,10 +72,9 @@ ROWCELL *cppInitModernRow(ROWCELL	** tabAccess)
 	tmplbuf = NULL;
 	if (db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT) == 1)
 		tmplbuf = db_get_sa(NULL,"ModernData","RowTemplate");
-	if (tmplbuf)
-	{
+	if (tmplbuf) {
 		rowParse(RowRoot, RowRoot, tmplbuf, i, seq,tabAccess);
-		mir_free_and_nill(tmplbuf);
+		mir_free(tmplbuf);
 		return RowRoot;
 	}
 	if (hFile = fopen("template.txt", "rb"))

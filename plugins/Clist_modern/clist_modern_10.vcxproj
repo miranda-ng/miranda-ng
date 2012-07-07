@@ -250,6 +250,7 @@
     <ClCompile Include="modern_xptheme.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="hdr\modern_commonheaders.h" />
     <ClInclude Include="version.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="hdr\modern_awaymsg.h" />

@@ -104,7 +104,7 @@ int cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcConta
 	{
 		//			int c = -1;
 		int i;
-		for(i=0; i < dat->extraColumnsCount; i++) 
+		for (i=0; i < dat->extraColumnsCount; i++) 
 		{  
 			if (RectHitTest(&hitcontact->pos_extra[i], testx, testy)) 
 			{
@@ -287,7 +287,7 @@ void cliBeginRenameSelection(HWND hwnd,struct ClcData *dat)
 	else 
 		subident = 0;
 
-	for(indent = 0;group->parent;indent++,group = group->parent);
+	for (indent = 0;group->parent;indent++,group = group->parent);
 	GetClientRect(hwnd,&clRect);
 	x = indent*dat->groupIndent+dat->iconXSpace-2+subident;
 	w = clRect.right-x;
@@ -329,9 +329,9 @@ void cliBeginRenameSelection(HWND hwnd,struct ClcData *dat)
 		}
 		if (dat->text_rtl) a |= EN_ALIGN_RTL_EC;
 		if (contact->type == CLCIT_GROUP)
-			dat->hwndRenameEdit = CreateWindow(TEXT("EDIT"),contact->szText,WS_POPUP|WS_BORDER|ES_AUTOHSCROLL|a,x,y,w,h,hwnd,NULL,g_hInst,NULL);
+			dat->hwndRenameEdit = CreateWindow(_T("EDIT"),contact->szText,WS_POPUP|WS_BORDER|ES_AUTOHSCROLL|a,x,y,w,h,hwnd,NULL,g_hInst,NULL);
 		else
-			dat->hwndRenameEdit = CreateWindow(TEXT("EDIT"),pcli->pfnGetContactDisplayName(contact->hContact,0),WS_POPUP|WS_BORDER|ES_AUTOHSCROLL|a,x,y,w,h,hwnd,NULL,g_hInst,NULL);
+			dat->hwndRenameEdit = CreateWindow(_T("EDIT"),pcli->pfnGetContactDisplayName(contact->hContact,0),WS_POPUP|WS_BORDER|ES_AUTOHSCROLL|a,x,y,w,h,hwnd,NULL,g_hInst,NULL);
 	}
 	SetWindowLongPtr(dat->hwndRenameEdit,GWL_STYLE,GetWindowLongPtr(dat->hwndRenameEdit,GWL_STYLE)&(~WS_CAPTION)|WS_BORDER);
 	SetWindowLongPtr(dat->hwndRenameEdit,GWLP_USERDATA,(LONG_PTR)dat);
@@ -742,7 +742,6 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 		if (db_get_b(NULL,"Menu","UseBitmap",CLCDEFAULT_USEBITMAP)) {
 			if (!DBGetContactSettingString(NULL,"Menu","BkBitmap",&dbv)) {
 				dat->hMenuBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
-				//mir_free_and_nill(dbv.pszVal);
 				db_free(&dbv);
 			}
 		}

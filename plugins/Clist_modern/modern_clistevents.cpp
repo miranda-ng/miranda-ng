@@ -424,7 +424,7 @@ int EventArea_Create(HWND hCluiWnd)
   ehhEventAreaBackgroundSettingsChanged(0,0);
 
   WNDCLASS wndclass = {0};
-  TCHAR pluginname[] = TEXT("EventArea");
+  TCHAR pluginname[] = _T("EventArea");
   int h = GetSystemMetrics(SM_CYSMICON)+2;
   if (GetClassInfo(g_hInst,pluginname,&wndclass)  == 0)
   {

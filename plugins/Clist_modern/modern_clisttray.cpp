@@ -60,7 +60,7 @@ typedef HRESULT (CALLBACK* DLLGETVERSIONPROC)(DLLVERSIONINFO *);
 
 void mir_strset(TCHAR ** dest, TCHAR *source)
 {
-	if (*dest) mir_free_and_nill(*dest);
+	if (*dest) mir_free_and_nil(*dest);
 	if (source) *dest = mir_tstrdup(source);
 }
 
@@ -75,7 +75,7 @@ int GetStatusVal(int status)
 		case ID_STATUS_FREECHAT:              return 110;
 		case ID_STATUS_INVISIBLE:             return 120;
 		case ID_STATUS_AWAY:                  return 200;
-		case ID_STATUS_DND:					  return 210;
+		case ID_STATUS_DND:                   return 210;
 		case ID_STATUS_NA:                    return 220;
 		case ID_STATUS_OCCUPIED:              return 230;
 		case ID_STATUS_ONTHEPHONE:            return 400;
@@ -126,7 +126,7 @@ int GetAverageMode()
 	int averageMode = 0;
 	PROTOACCOUNT **accs;
 	ProtoEnumAccounts( &count, &accs );
-	for(i=0,netProtoCount = 0;i < count;i++) {
+	for (i=0,netProtoCount = 0;i < count;i++) {
 		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0 ) continue;
 		pcli->cycleStep = i;
 		netProtoCount++;
@@ -172,7 +172,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 		pcli->cycleTimerId = 0;
 	}
 	ProtoEnumAccounts( &count, &accs );
-	for(i=0,netProtoCount = 0;i < count;i++) {
+	for (i=0,netProtoCount = 0;i < count;i++) {
 		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0 ) continue;
 		netProtoCount++;
 		if (!lstrcmpA(szChangedProto,accs[i]->szModuleName)) pcli->cycleStep = i;
@@ -202,7 +202,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 					if (DBGetContactSettingString(NULL,"CList","PrimaryStatus",&dbv)) szProto = NULL;
 					else szProto = dbv.pszVal;
 					changed = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szProto,averageMode),NULL);
-					if (szProto) mir_free_and_nill(szProto);
+					mir_free(szProto);
 				}
 				else
 					changed = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,NULL,averageMode),NULL);
@@ -342,8 +342,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 			else
 				szProto = dbv.pszVal;
 			changed = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szProto,status),NULL);
-			if (szProto)
-				mir_free_and_nill(szProto);
+			mir_free(szProto);
 		}
 	}
 

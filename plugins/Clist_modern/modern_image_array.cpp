@@ -273,7 +273,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 			{
 				w = iad->width;
 				h = 0;
-				for(i=0; i < pos; i++)
+				for (i=0; i < pos; i++)
 				{
 					h  += iad->nodes[i].height;
 				}
@@ -282,7 +282,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 			{
 				h = iad->height;
 				w = 0;
-				for(i=0; i < pos; i++)
+				for (i=0; i < pos; i++)
 				{
 					w  += iad->nodes[i].width;
 				}
@@ -434,7 +434,7 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 			{
 				w = iad->width;
 				h = 0;
-				for(i=0; i < pos; i++)
+				for (i=0; i < pos; i++)
 				{
 					h  += iad->nodes[i].height;
 				}
@@ -443,7 +443,7 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 			{
 				h = iad->height;
 				w = 0;
-				for(i=0; i < pos; i++)
+				for (i=0; i < pos; i++)
 				{
 					w  += iad->nodes[i].width;
 				}
@@ -578,7 +578,7 @@ BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
 			{
 				w = iad->width;
 				h = 0;
-				for(i=0; i < pos; i++)
+				for (i=0; i < pos; i++)
 				{
 					h  += iad->nodes[i].height;
 				}
@@ -587,7 +587,7 @@ BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
 			{
 				h = iad->height;
 				w = 0;
-				for(i=0; i < pos; i++)
+				for (i=0; i < pos; i++)
 				{
 					w  += iad->nodes[i].width;
 				}
@@ -667,7 +667,7 @@ BOOL ImageArray_DrawImage(LP_IMAGE_ARRAY_DATA iad, int pos, HDC hdcDest, int nXD
 		{
 			w = 0;
 			h = 0;
-			for(i=0; i < pos; i++)
+			for (i=0; i < pos; i++)
 			{
 				h  += iad->nodes[i].height;
 			}
@@ -676,7 +676,7 @@ BOOL ImageArray_DrawImage(LP_IMAGE_ARRAY_DATA iad, int pos, HDC hdcDest, int nXD
 		{
 			h = 0;
 			w = 0;
-			for(i=0; i < pos; i++)
+			for (i=0; i < pos; i++)
 			{
 				w  += iad->nodes[i].width;
 			}

@@ -119,7 +119,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			// Listbox
 			hwndList = GetDlgItem(hwndDlg, IDC_LIST_ORDER);
 
-			for(i=0 ; i < NUM_ITEM_TYPE ; i++)
+			for (i=0 ; i < NUM_ITEM_TYPE ; i++)
 			{
 				char tmp[128];
 				int type;
@@ -326,7 +326,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 							db_set_b(NULL,"CLC","RightMargin",(BYTE)SendDlgItemMessage(hwndDlg,IDC_RIGHTMARGINSPIN,UDM_GETPOS,0,0));
 
 							hwndList = GetDlgItem(hwndDlg, IDC_LIST_ORDER);
-							for(i=0 ; i < NUM_ITEM_TYPE ; i++)
+							for (i=0 ; i < NUM_ITEM_TYPE ; i++)
 							{
 								char tmp[128];
 								mir_snprintf(tmp, SIZEOF(tmp), "RowPos%d", i);
