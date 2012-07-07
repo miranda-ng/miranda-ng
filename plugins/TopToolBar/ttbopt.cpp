@@ -529,7 +529,7 @@ static INT_PTR CALLBACK DlgProcTTBBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, TTB_OPTDIR, "SelBkColour", TTBDEFAULT_SELBKCOLOUR));
 		{
 			DBVARIANT dbv;
-			if ( !DBGetContactSetting(NULL, TTB_OPTDIR, "BkBitmap", &dbv)) {
+			if ( !DBGetContactSettingTString(NULL, TTB_OPTDIR, "BkBitmap", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.ptszVal);
 				DBFreeVariant(&dbv);
 			}
