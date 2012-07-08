@@ -328,7 +328,6 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM)
 	LeaveCriticalSection(&PluginRegCS);
 	CloseHandle(ThreadRunningEV);
 
-	if ( hTTButton ) CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, TTBST_RELEASED);
-	if ( hTButton ) CallService(MS_TB_SETBUTTONSTATE, (WPARAM)hTButton, TBST_RELEASED);
+	if (hTTButton) CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, TTBST_RELEASED);
 	return 1;
 }

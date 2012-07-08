@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils.h"
 #include <m_options.h>
 #include "m_folders.h"
-#include "m_toolbar.h"
+#include "m_toptoolbar.h"
 #include "version.h"
 
 int hLangpack;
@@ -210,45 +210,34 @@ int OptionsInit(WPARAM wParam, LPARAM)
 
 static int ToolbarModulesLoaded(WPARAM, LPARAM)
 {
-	TBButton tbb = {0};
-	tbb.cbSize = sizeof(TBButton);
+	TTBButton tbb = {0};
+	tbb.cbSize = sizeof(TTBButton);
 
-	tbb.pszButtonID = "clipvi_btn";
-	tbb.pszButtonName = LPGEN("Version Information To Clipboard");
-	tbb.pszServiceName = MS_CRASHDUMPER_STORETOCLIP;
+	tbb.name = LPGEN("Version Information To Clipboard");
+	tbb.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	tbb.pszTooltipUp = LPGEN("Version Information To Clipboard");
-	tbb.hPrimaryIconHandle = GetIconHandle("storeToClip");
-	tbb.tbbFlags = TBBF_VISIBLE;
-	tbb.defPos = 10000;
-	CallService(MS_TB_ADDBUTTON,0, (LPARAM)&tbb);
+	tbb.hIconHandleUp = GetIconHandle("storeToClip");
+	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_ICONBYHANDLE;
+	TopToolbar_AddButton(&tbb);
 
-	tbb.pszButtonID = "filevi_btn";
-	tbb.pszButtonName = LPGEN("Version Information To File");
-	tbb.pszServiceName = MS_CRASHDUMPER_STORETOFILE;
+	tbb.name = LPGEN("Version Information To File");
+	tbb.pszService = MS_CRASHDUMPER_STORETOFILE;
 	tbb.pszTooltipUp = LPGEN("Version Information To File");
-	tbb.hPrimaryIconHandle = GetIconHandle("storeToFile");
-	tbb.tbbFlags = 0;
-	tbb.defPos = 10001;
-	CallService(MS_TB_ADDBUTTON,0, (LPARAM)&tbb);
+	tbb.hIconHandleUp = GetIconHandle("storeToFile");
+	tbb.dwFlags = TTBBF_ICONBYHANDLE;
+	TopToolbar_AddButton(&tbb);
 
-	tbb.pszButtonID = "showvi_btn";
-	tbb.pszButtonName = LPGEN("Show Version Information");
-	tbb.pszServiceName = MS_CRASHDUMPER_VIEWINFO;
+	tbb.name = LPGEN("Show Version Information");
+	tbb.pszService = MS_CRASHDUMPER_VIEWINFO;
 	tbb.pszTooltipUp = LPGEN("Show Version Information");
-	tbb.hPrimaryIconHandle = GetIconHandle("showInfo");
-	tbb.tbbFlags = 0;
-	tbb.defPos = 10002;
-	CallService(MS_TB_ADDBUTTON,0, (LPARAM)&tbb);
+	tbb.hIconHandleUp = GetIconHandle("showInfo");
+	TopToolbar_AddButton(&tbb);
 
-	tbb.pszButtonID = "upldvi_btn";
-	tbb.pszButtonName = LPGEN("Upload Version Information");
-	tbb.pszServiceName = MS_CRASHDUMPER_UPLOAD;
+	tbb.name = LPGEN("Upload Version Information");
+	tbb.pszService = MS_CRASHDUMPER_UPLOAD;
 	tbb.pszTooltipUp = LPGEN("Upload Version Information");
-	tbb.hPrimaryIconHandle = GetIconHandle("uploadInfo");
-	tbb.tbbFlags = 0;
-	tbb.defPos = 10003;
-	CallService(MS_TB_ADDBUTTON,0, (LPARAM)&tbb);
-
+	tbb.hIconHandleUp = GetIconHandle("uploadInfo");
+	TopToolbar_AddButton(&tbb);
 	return 0;
 }
 
@@ -282,7 +271,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 
 	hHooks[2] = HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersPathChanged);
-	if (hHooks[3] == NULL) hHooks[3] = HookEvent(ME_TB_MODULELOADED, ToolbarModulesLoaded);
+	if (hHooks[3] == NULL) hHooks[3] = HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
 
 	UploadInit();
 
@@ -399,7 +388,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	hHooks[1] = HookEvent(ME_OPT_INITIALISE, OptionsInit);
-	hHooks[3] = HookEvent(ME_TB_MODULELOADED, ToolbarModulesLoaded);
+	hHooks[3] = HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
 	hHooks[4] = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 
 	packlcid = (LCID)CallService(MS_LANGPACK_GETLOCALE, 0, 0);

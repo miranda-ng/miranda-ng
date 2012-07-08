@@ -32,7 +32,6 @@
 #include "m_protomod.h"		//protocols module
 #include "m_protosvc.h"
 #include "m_toptoolbar.h"
-#include "m_toolbar.h"
 #include "m_icolib.h"
 #include "m_kbdnotify.h"
 #include "m_popup.h"
@@ -190,7 +189,7 @@ extern CRITICAL_SECTION PluginRegCS;
 extern YAMN_VARIABLES YAMNVar;
 extern HANDLE hNewMailHook;
 extern HANDLE WriteToFileEV;
-extern HANDLE hTTButton, hTButton;
+extern HANDLE hTTButton;
 extern HCURSOR hCurSplitNS, hCurSplitWE;
 extern UINT SecTimer;
 

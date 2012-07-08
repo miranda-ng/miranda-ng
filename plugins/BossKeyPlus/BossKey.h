@@ -51,9 +51,9 @@
 #include <m_clistint.h>
 #include <m_message.h>
 #include <m_hotkeys.h>
-#include "m_trigger.h"
-#include "m_variables.h"
-#include "m_toolbar.h"
+#include <m_trigger.h>
+#include <m_variables.h>
+#include <m_toptoolbar.h>
 
 #define MOD_NAME "BossKey"
 #define KEY_DOWN(key) ((GetAsyncKeyState(key) & 0x8000) ? (true) : (false))

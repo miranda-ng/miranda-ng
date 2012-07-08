@@ -108,7 +108,6 @@ VOID	SvcReminderCheckAll(const ENotify notify);
 LPCSTR	SvcReminderGetMyBirthdayModule(VOID);
 
 VOID	SvcReminderOnTopToolBarLoaded(VOID);
-VOID	SvcReminderOnToolBarLoaded(VOID);
 VOID	SvcReminderOnModulesLoaded(VOID);
 
 VOID	SvcReminderEnable(BOOLEAN bEnable);

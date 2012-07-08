@@ -55,7 +55,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "../../protocols/IcqOscarJ/icq_constants.h"
 #include "m_fortunemsg.h"
 #include "m_statusplugins.h"
-#include "m_toolbar.h"
 #include "m_toptoolbar.h"
 #include "m_updater.h"
 #include "m_variables.h"

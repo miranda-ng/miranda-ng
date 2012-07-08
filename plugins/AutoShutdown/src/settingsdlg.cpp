@@ -403,7 +403,7 @@ static INT_PTR ServiceShowSettingsDialog(WPARAM wParam,LPARAM lParam)
 
 /************************* Toolbar ************************************/
 
-static WORD hToolbarButton;
+static HANDLE hToolbarButton;
 
 static int ToolbarLoaded(WPARAM wParam,LPARAM lParam)
 {
@@ -418,7 +418,7 @@ static int ToolbarLoaded(WPARAM wParam,LPARAM lParam)
 	ttbb.dwFlags=TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
 	ttbb.name=Translate("Start/Stop automatic shutdown");
 
-	hToolbarButton=(WORD)CallService(MS_TTB_ADDBUTTON,(WPARAM)&ttbb,0);
+	hToolbarButton = TopToolbar_AddButton(&ttbb);
 	if(ttbb.hIconUp!=NULL) DestroyIcon(ttbb.hIconUp);
 	if(ttbb.hIconDn!=NULL) DestroyIcon(ttbb.hIconDn);
 	return 0;
@@ -427,7 +427,7 @@ static int ToolbarLoaded(WPARAM wParam,LPARAM lParam)
 void SetShutdownToolbarButton(BOOL fActive)
 {
 	if(hToolbarButton) {
-		CallService(MS_TTB_SETBUTTONSTATE,hToolbarButton,fActive?TTBST_PUSHED:TTBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton,fActive?TTBST_PUSHED:TTBST_RELEASED);
 		CallService(MS_TTB_SETBUTTONOPTIONS,MAKEWPARAM(TTBO_TIPNAME,hToolbarButton),(LPARAM)(fActive?Translate("Sdop automatic shutdown"):Translate("Start automatic shutdown")));
 	}
 }

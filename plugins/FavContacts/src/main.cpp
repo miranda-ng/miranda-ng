@@ -121,20 +121,16 @@ static __forceinline COLORREF sttShadeColor(COLORREF clLine1, COLORREF clBack)
 			);
 }
 
-HANDLE hhkProcessTBLoaded = NULL;
 int ProcessTBLoaded(WPARAM wParam, LPARAM lParam)
 {
-	TBButton button = {0};
+	TTBButton button = {0};
 	button.cbSize = sizeof(button);
-	button.pszButtonID = "FavContacts/ShowMenu";
 	button.pszTooltipUp = button.pszTooltipUp =
-	button.pszButtonName = "Favourite Contacts";
-	button.pszServiceName = MS_FAVCONTACTS_SHOWMENU;
-	button.defPos = 200;
-	button.tbbFlags = TBBF_SHOWTOOLTIP|TBBF_VISIBLE;
-	button.hSecondaryIconHandle = button.hPrimaryIconHandle = (HANDLE)g_icoFavourite;
-	CallService(MS_TB_ADDBUTTON, 0, (LPARAM)&button);
-
+	button.name = LPGEN("Favourite Contacts");
+	button.pszService = MS_FAVCONTACTS_SHOWMENU;
+	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
+	button.hIconHandleDn = button.hIconHandleUp = (HANDLE)g_icoFavourite;
+	TopToolbar_AddButton(&button);
 	return 0;
 }
 
@@ -177,6 +173,8 @@ int ProcessReloadFonts(WPARAM wParam, LPARAM lParam)
 
 int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
+	HookEvent(ME_TTB_MODULELOADED, ProcessTBLoaded);
+
 	if (ServiceExists(MS_MSG_ADDICON)) {
 		StatusIconData sid = {0};
 		sid.cbSize = sizeof(sid);
@@ -263,15 +261,12 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hotkey.DefHotKey = MAKEWORD('Q', HOTKEYF_EXT);
 	Hotkey_Register(&hotkey);
 
-	if (ServiceExists(MS_AV_GETAVATARBITMAP))
-	{
+	if (ServiceExists(MS_AV_GETAVATARBITMAP)) {
 		HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 		for ( ; hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
 			if (DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0))
 				CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
 	}
-
-	if (!hhkProcessTBLoaded) hhkProcessTBLoaded = HookEvent(ME_TB_MODULELOADED, ProcessTBLoaded);
 
 	return 0;
 }
@@ -327,7 +322,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	HookEvent(ME_OPT_INITIALISE, ProcessOptInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ProcessModulesLoaded);
-	hhkProcessTBLoaded = HookEvent(ME_TB_MODULELOADED, ProcessTBLoaded);
 
 	/////////////////////////////////////////////////////////////////////////////////////
 

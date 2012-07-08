@@ -6,7 +6,7 @@ const char ModuleName[] = "WUMF Plugin";
 HANDLE hMenuItem = 0;
 extern HANDLE hLog;
 static HWND hDlg;
-static int hWumfBut;
+static HANDLE hWumfBut;
 extern PWumf list;
 int hLangpack;
 
@@ -263,7 +263,7 @@ static INT_PTR WumfShowConnections(WPARAM wParam,LPARAM lParam)
 	DWORD threadID = 0;
 	CloseHandle(CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadProc, (LPVOID)NULL,0,&threadID));
 	Sleep(100);
-	CallService(MS_TTB_SETBUTTONSTATE,hWumfBut,TTBST_RELEASED);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hWumfBut, TTBST_RELEASED);
 	return 0;
 }
 
@@ -550,15 +550,15 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 
 int InitTopToolbar(WPARAM wparam,LPARAM lparam)
 {
-    TTBButton ttb = { 0 };
-    char buttonname[] = "WUMF: Show connections list";
-    ttb.cbSize = sizeof(ttb);
+	TTBButton ttb = { 0 };
+	char buttonname[] = "WUMF: Show connections list";
+	ttb.cbSize = sizeof(ttb);
 	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDB_DRIVE));
 	ttb.hIconDn = ttb.hIconUp;
 	ttb.pszService = MS_WUMF_CONNECTIONSSHOW;
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
 	ttb.name = buttonname;
-	hWumfBut = CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttb,(LPARAM)0);
+	hWumfBut = TopToolbar_AddButton(&ttb);
 	return 0;
 }
 

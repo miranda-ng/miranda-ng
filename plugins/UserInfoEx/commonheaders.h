@@ -107,7 +107,6 @@ typedef std::basic_string<TCHAR>	tstring;
 #include "m_flags.h"
 #include "m_metacontacts.h"
 #include "m_magneticwindows.h"
-#include "m_toolbar.h"
 #include "m_toptoolbar.h"
 #include "m_userinfoex.h"
 

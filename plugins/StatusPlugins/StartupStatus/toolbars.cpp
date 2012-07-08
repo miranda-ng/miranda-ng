@@ -34,11 +34,11 @@ static int ttbButtonCount = 0;
 
 int RemoveTopToolbarButtons()
 {
-	int profileCount, i, orgButtonCount;
+	int profileCount, orgButtonCount;
 	
 	profileCount = CallService(MS_SS_GETPROFILECOUNT, 0, 0);
 	orgButtonCount = ttbButtonCount;
-	for (i=0;i<orgButtonCount;i++)
+	for (int i=0; i < orgButtonCount; i++)
 		if (CallService(MS_TTB_REMOVEBUTTON, (WPARAM)ttbButtons[i], 0) != 1)
 			ttbButtonCount -= 1;
 
@@ -77,84 +77,13 @@ int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 		ttb.hIconHandleDn = hTtbDown;
 		ttb.hIconHandleUp = hTtbUp;
 		ttb.wParamDown = ttb.wParamUp = i;
-		INT_PTR ttbAddResult = CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttb, 0);
-		if (ttbAddResult != -1) {
-			ttbButtons[ttbButtonCount] = (HANDLE)ttbAddResult;
-
-			CallService(MS_TTB_SETBUTTONOPTIONS,MAKEWPARAM(TTBO_TIPNAME,ttbButtons[ttbButtonCount]), (LPARAM)profileName);
+		ttb.pszTooltipDn = ttb.pszTooltipUp = profileName;
+		HANDLE ttbAddResult = TopToolbar_AddButton(&ttb);
+		if (ttbAddResult) {
+			ttbButtons[ttbButtonCount] = ttbAddResult;
 			DBFreeVariant(&dbv);
 			ttbButtonCount += 1;
 		}
-	}
-	if (ttbButtonCount > 0)
-		ttbButtons = ( HANDLE* )realloc(ttbButtons, ttbButtonCount*sizeof(HANDLE));
-	else {
-		free(ttbButtons);
-		ttbButtons = NULL;
-	}
-
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-int RemoveToolbarButtons()
-{
-	int profileCount, i, orgButtonCount;
-	
-	profileCount = CallService(MS_SS_GETPROFILECOUNT, 0, 0);
-	orgButtonCount = ttbButtonCount;
-	for ( i=0; i < orgButtonCount; i++ )
-		if ( !CallService( MS_TB_REMOVEBUTTON, (WPARAM)ttbButtons[i], 0 ))
-			ttbButtonCount --;
-
-	if ( ttbButtonCount == 0 ) {
-		free( ttbButtons );
-		ttbButtons = NULL;
-	}
-	else ttbButtons = ( HANDLE* )realloc(ttbButtons, profileCount*sizeof(HANDLE));
-
-	return 0;
-}
-
-int CreateToolbarButtons(WPARAM wParam, LPARAM lParam)
-{
-	char setting[80];
-	
-	int profileCount = CallService(MS_SS_GETPROFILECOUNT, 0, 0);
-	ttbButtons = ( HANDLE* )realloc(ttbButtons, profileCount*sizeof(HANDLE));
-
-	TBButton ttb = { 0 };
-	ttb.cbSize = sizeof(ttb);
-	ttb.tbbFlags = TBBF_VISIBLE | TBBF_SHOWTOOLTIP;
-	ttb.pszServiceName = MS_SS_LOADANDSETPROFILE;
-	for (int i=0; i < profileCount; i++ ) {
-		char profileName[128];
-		INT_PTR ttbAddResult = -1;
-		
-		_snprintf(setting, sizeof(setting), "%d_%s", i, SETTING_CREATETTBBUTTON);
-		if (!DBGetContactSettingByte(NULL, MODULENAME, setting, FALSE))
-			continue;
-
-		DBVARIANT dbv;
-		_snprintf(setting, sizeof(setting), "%d_%s", i, SETTING_PROFILENAME);
-		if (DBGetContactSetting(NULL, MODULENAME, setting, &dbv))
-			continue;
-
-		strncpy(profileName, dbv.pszVal, sizeof(profileName)-1);
-		ttb.pszButtonID = "LaunchProfile";
-		ttb.pszButtonName = profileName;
-		ttb.pszTooltipUp = ttb.pszTooltipDn = profileName;
-		ttb.hPrimaryIconHandle = hTtbUp;
-		ttb.hSecondaryIconHandle = hTtbDown;
-		ttb.defPos = 200;
-		ttb.lParam = i;
-		ttbAddResult = CallService( MS_TB_ADDBUTTON, 0, (LPARAM)&ttb );
-		if (ttbAddResult != -1) {
-			ttbButtons[ttbButtonCount] = (HANDLE)ttbAddResult;
-			ttbButtonCount += 1;
-		}
-		DBFreeVariant( &dbv );
 	}
 	if (ttbButtonCount > 0)
 		ttbButtons = ( HANDLE* )realloc(ttbButtons, ttbButtonCount*sizeof(HANDLE));

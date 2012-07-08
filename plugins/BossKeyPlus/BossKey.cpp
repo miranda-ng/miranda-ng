@@ -34,7 +34,6 @@
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 HANDLE g_hmGenMenuInit, g_hIcon, g_hMenuItem, g_hHideService, g_hIsHiddenService;
-HANDLE g_hHooks[7];
 HWINEVENTHOOK g_hWinHook;
 HWND g_hListenWindow, hDlg, g_hDlgPass, hOldForegroundWindow;
 HWND_ITEM *g_pMirWnds; // a pretty simple linked list
@@ -685,15 +684,13 @@ void RegisterCoreHotKeys (void)
 
 static int ModernToolbarInit(WPARAM, LPARAM) // Modern toolbar support
 {
-	TBButton button = {0};
+	TTBButton button = {0};
 	button.cbSize = sizeof(button);
-	button.pszServiceName = MS_BOSSKEY_HIDE;
-	button.pszButtonID = MOD_NAME;
-	button.pszTooltipUp = button.pszTooltipDn = button.pszButtonName = "Hide Miranda IM";
-	button.defPos = 1099;
-	button.tbbFlags = TBBF_DISABLED|TBBF_SHOWTOOLTIP;
-	button.hPrimaryIconHandle = button.hSecondaryIconHandle = g_hIcon;
-	CallService(MS_TB_ADDBUTTON, 0, (LPARAM)&button);
+	button.pszService = MS_BOSSKEY_HIDE;
+	button.pszTooltipUp = button.pszTooltipDn = button.name = LPGEN("Hide Miranda IM");
+	button.dwFlags = TTBBF_DISABLED|TTBBF_SHOWTOOLTIP;
+	button.hIconHandleUp = button.hIconHandleDn = g_hIcon;
+	TopToolbar_AddButton(&button);
 	return 0;
 }
 
@@ -755,16 +752,14 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 
 	RegisterCoreHotKeys();
 
+	g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW, 
+		NULL, WinEventProc, GetCurrentProcessId(), 0, 0);
 
-		g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW, 
-						NULL, WinEventProc, GetCurrentProcessId(), 0, 0);
-
-	g_hHooks[0] = HookEvent(ME_OPT_INITIALISE,OptsDlgInit);
-	g_hHooks[1] = HookEvent(ME_MSG_WINDOWEVENT,MsgWinOpening);
-	g_hHooks[2] = HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtos);
-	g_hHooks[3] = HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
-	if (g_hHooks[3])
-		g_hHooks[4] = HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
+	HookEvent(ME_OPT_INITIALISE,OptsDlgInit);
+	HookEvent(ME_MSG_WINDOWEVENT,MsgWinOpening);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtos);
+	HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
+	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
 
 	pcli = (CLIST_INTERFACE *)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInstance);
 #if defined _DEBUG
@@ -876,23 +871,17 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 
 	IcoLibInit();
-	g_hHooks[5] = HookEvent(ME_SYSTEM_MODULESLOADED,MirandaLoaded);
+
 	g_hHideService = CreateServiceFunction(MS_BOSSKEY_HIDE,BossKeyHideMiranda); // Create service
-	g_hHooks[6] = HookEvent(ME_TB_MODULELOADED, ModernToolbarInit); // Toolbar hook
+
+	HookEvent(ME_SYSTEM_MODULESLOADED,MirandaLoaded);
+	HookEvent(ME_TTB_MODULELOADED, ModernToolbarInit);
 	return 0;
 }
-
-
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	UninitIdleTimer();
-	// nice boys and girls always unhook events :)
-	for (int i = 0; i < SIZEOF(g_hHooks); i++)
-	{
-		if (g_hHooks[i])
-			UnhookEvent(g_hHooks[i]);
-	}
 
 	if(g_hmGenMenuInit) 
 		UnhookEvent(g_hmGenMenuInit);

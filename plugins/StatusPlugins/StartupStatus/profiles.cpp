@@ -274,7 +274,7 @@ INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam)
 			CallService(MS_CS_SHOWCONFIRMDLGEX, (WPARAM)&profileSettings, (LPARAM)DBGetContactSettingDword(NULL, MODULENAME, SETTING_DLGTIMEOUT, 5));
 	}
 
-	if ( ServiceExists( MS_TTB_ADDBUTTON ) || ServiceExists( MS_TB_ADDBUTTON ))
+	if (hTTBModuleLoadedHook)
 		// add timer here
 		releaseTtbTimerId = SetTimer(NULL, 0, 100, releaseTtbTimerFunction);
 
@@ -361,11 +361,7 @@ static int UnregisterHotKeys()
 
 int LoadMainOptions()
 {
-	if (ServiceExists(MS_TTB_ADDBUTTON)) {
-		RemoveTopToolbarButtons();
-		CreateTopToolbarButtons(0,0);
-	}
-	if (ServiceExists(MS_TTB_ADDBUTTON)) {
+	if (hTTBModuleLoadedHook) {
 		RemoveTopToolbarButtons();
 		CreateTopToolbarButtons(0,0);
 	}
@@ -385,7 +381,6 @@ int LoadProfileModule()
 int InitProfileModule()
 {
 	hTTBModuleLoadedHook = HookEvent(ME_TTB_MODULELOADED, CreateTopToolbarButtons);
-	hTBModuleLoadedHook = HookEvent(ME_TB_MODULELOADED, CreateToolbarButtons);
 	hPrebuildProfilesMenu = HookEvent( ME_CLIST_PREBUILDSTATUSMENU,  CreateMainMenuItems);
 
 	CreateMainMenuItems(0,0);

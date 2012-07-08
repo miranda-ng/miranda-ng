@@ -653,7 +653,7 @@ int lstrcmp_null(const TCHAR *s1, const TCHAR *s2);
 
 void   g_MenuInit();
 void   g_MenuUninit();
-int    g_OnModernToolbarInit(WPARAM, LPARAM);
+int    g_OnToolbarInit(WPARAM, LPARAM);
 
 //---- jabber_misc.c ------------------------------------------------
 

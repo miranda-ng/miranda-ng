@@ -33,7 +33,7 @@ HANDLE  g_hMainThread=NULL;
 
 extern HINSTANCE hInst;
 
-HANDLE hModulesLoaded, hOptionsInit, hPrebuildContactMenu, hServiceShowContactHistory, hServiceDeleteAllContactHistory, hServiceExecuteTask, hPreShutdownHistoryModule, hHistoryContactDelete, hFontsChanged,hToolBarLoaded, hSysOK;
+HANDLE hServiceShowContactHistory, hServiceDeleteAllContactHistory, hServiceExecuteTask;
 HANDLE *hEventIcons = NULL;
 int iconsNum;
 HANDLE hPlusIcon, hMinusIcon, hFindNextIcon, hFindPrevIcon;
@@ -103,21 +103,16 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 int ToolbarModuleLoaded(WPARAM wParam,LPARAM lParam)
 {
-	if(ServiceExists(MS_TB_ADDBUTTON))
-	{
-		TBButton tbb = {0};
+	if(ServiceExists(MS_TTB_REMOVEBUTTON)) {
+		TTBButton tbb = {0};
 		tbb.cbSize = sizeof(tbb);
-		tbb.pszButtonID = "open_history";
-		tbb.pszButtonName = LPGEN("Open History");
-		tbb.pszServiceName = MS_HISTORY_SHOWCONTACTHISTORY;
-		tbb.lParam = 0;
+		tbb.name = LPGEN("Open History");
+		tbb.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 		tbb.pszTooltipUp = LPGEN("Open History");
 		tbb.pszTooltipDn = LPGEN("Open History");
-		tbb.defPos = 200;
-		tbb.tbbFlags = TBBF_SHOWTOOLTIP;
-		tbb.hPrimaryIconHandle = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
-		tbb.hSecondaryIconHandle = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
-		hToolbarButton = (HANDLE) CallService(MS_TB_ADDBUTTON,0, (LPARAM)&tbb);
+		tbb.dwFlags = TTBBF_SHOWTOOLTIP;
+		tbb.hIconHandleUp = tbb.hIconHandleDn = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+		hToolbarButton = TopToolbar_AddButton(&tbb);
 	}
 	return 0;
 }
@@ -144,7 +139,7 @@ void InitMenuItems()
 	mi.pszService = MS_HISTORY_DELETEALLCONTACTHISTORY;
 	hDeleteContactMenu = Menu_AddContactMenuItem(&mi);
 
-	hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 }
 
 void InitTaskMenuItems()
@@ -353,18 +348,17 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Options::instance->Load();
 	InitTaskMenuItems();
 
-	hPreShutdownHistoryModule = HookEvent(ME_SYSTEM_PRESHUTDOWN,PreShutdownHistoryModule);
-	hHistoryContactDelete = HookEvent(ME_DB_CONTACT_DELETED,HistoryContactDelete);
-	hFontsChanged  = HookEvent(ME_FONT_RELOAD, HistoryWindow::FontsChanged);
-	hSysOK  = HookEvent(ME_SYSTEM_OKTOEXIT, DoLastTask);
+	HookEvent(ME_TTB_MODULELOADED,ToolbarModuleLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN,PreShutdownHistoryModule);
+	HookEvent(ME_DB_CONTACT_DELETED,HistoryContactDelete);
+	HookEvent(ME_FONT_RELOAD, HistoryWindow::FontsChanged);
+	HookEvent(ME_SYSTEM_OKTOEXIT, DoLastTask);
+	
 	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS))
-	{
 		g_SmileyAddAvail = true;
-	}
+
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
-	{
 		metaContactProto = (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-	}
 
 	InitScheduler();
 	return 0;
@@ -382,9 +376,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	hServiceDeleteAllContactHistory = CreateServiceFunction(MS_HISTORY_DELETEALLCONTACTHISTORY, HistoryWindow::DeleteAllUserHistory);
 	hServiceExecuteTask = CreateServiceFunction(MS_HISTORY_EXECUTE_TASK, ExecuteTaskService);
 	Options::instance = new Options();
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	hOptionsInit = HookEvent(ME_OPT_INITIALISE, Options::InitOptions);
-	hToolBarLoaded = HookEvent(ME_TB_MODULELOADED,ToolbarModuleLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, Options::InitOptions);
 	EventList::Init();
 	InitIcolib();
 	return 0;
@@ -392,23 +385,21 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-    if(g_hMainThread) CloseHandle(g_hMainThread);
-    g_hMainThread=NULL;
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hPrebuildContactMenu);
-	UnhookEvent(hPreShutdownHistoryModule);
-	UnhookEvent(hHistoryContactDelete);
-	UnhookEvent(hOptionsInit);
-	UnhookEvent(hFontsChanged);
-	UnhookEvent(hToolBarLoaded);
-	UnhookEvent(hSysOK);
+	if (g_hMainThread)
+		CloseHandle(g_hMainThread);
+	g_hMainThread=NULL;
+	
 	DestroyServiceFunction(hServiceShowContactHistory);
 	DestroyServiceFunction(hServiceDeleteAllContactHistory);
 	DestroyServiceFunction(hServiceExecuteTask);
+	
 	HistoryWindow::Deinit();
+	
 	DestroyCursor(hCurSplitNS);
 	DestroyCursor(hCurSplitWE);
+	
 	EventList::Deinit();
+	
 	if(Options::instance != NULL)
 	{
 		Options::instance->Unload();

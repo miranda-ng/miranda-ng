@@ -52,9 +52,6 @@ PLUGININFOEX pluginInfo={
 
 HINSTANCE hInst;
 
-
-static std::vector<HANDLE> hHooks;
-static std::vector<HANDLE> hServices;
 static HANDLE hEnableStateChangedEvent;
 HANDLE hExtraIcon, hIcon1, hIcon2;
 static HGENMENU hMainMenuGroup = NULL;
@@ -139,22 +136,22 @@ extern "C" int __declspec(dllexport) Load(void)
 	CoInitialize(NULL);
 
 	// Services
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_ENABLED, ListeningToEnabled));
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_ENABLE, EnableListeningTo));
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_GETTEXTFORMAT, GetTextFormat));
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_GETPARSEDTEXT, GetParsedFormat));
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_OVERRIDECONTACTOPTION, GetOverrideContactOption));
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_GETUNKNOWNTEXT, GetUnknownText));
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_MAINMENU, MainMenuClicked));
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_SET_NEW_SONG, SetNewSong));
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_ENABLE, HotkeysEnable));
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_DISABLE, HotkeysDisable));
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_TOGGLE, HotkeysToggle));
+	CreateServiceFunction(MS_LISTENINGTO_ENABLED, ListeningToEnabled);
+	CreateServiceFunction(MS_LISTENINGTO_ENABLE, EnableListeningTo);
+	CreateServiceFunction(MS_LISTENINGTO_GETTEXTFORMAT, GetTextFormat);
+	CreateServiceFunction(MS_LISTENINGTO_GETPARSEDTEXT, GetParsedFormat);
+	CreateServiceFunction(MS_LISTENINGTO_OVERRIDECONTACTOPTION, GetOverrideContactOption);
+	CreateServiceFunction(MS_LISTENINGTO_GETUNKNOWNTEXT, GetUnknownText);
+	CreateServiceFunction(MS_LISTENINGTO_MAINMENU, MainMenuClicked);
+	CreateServiceFunction(MS_LISTENINGTO_SET_NEW_SONG, SetNewSong);
+	CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_ENABLE, HotkeysEnable);
+	CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_DISABLE, HotkeysDisable);
+	CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_TOGGLE, HotkeysToggle);
 	
 	// Hooks
-	hHooks.push_back( HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded));
-	hHooks.push_back( HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown));
-	hHooks.push_back( HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged));
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
 
 	hEnableStateChangedEvent = CreateHookableEvent(ME_LISTENINGTO_ENABLE_STATE_CHANGED);
 	hListeningInfoChangedEvent = CreateHookableEvent(ME_LISTENINGTO_LISTENING_INFO_CHANGED);
@@ -348,7 +345,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 	else if (hExtraIcon == NULL && ServiceExists(MS_CLIST_EXTRA_ADD_ICON))
 	{
-		hHooks.push_back( HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, ClistExtraListRebuild));
+		HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, ClistExtraListRebuild);
 	}
 
 	{
@@ -400,12 +397,12 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			RegisterProtocol(protos[i]->szModuleName, protos[i]->tszAccountName);
 		}
 
-		hHooks.push_back( HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged));
+		HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged);
 	}
 
 	RebuildMenu();
 
-	hHooks.push_back( HookEvent(ME_TTB_MODULELOADED, TopToolBarLoaded));
+	HookEvent(ME_TTB_MODULELOADED, TopToolBarLoaded);
 
 	// Variables support
 	if (ServiceExists(MS_VARS_REGISTERTOKEN))
@@ -511,15 +508,7 @@ int PreShutdown(WPARAM wParam, LPARAM lParam)
 	DestroyHookableEvent(hEnableStateChangedEvent);
 	DestroyHookableEvent(hListeningInfoChangedEvent);
 
-	size_t i;
-	for(i = 0; i < hHooks.size(); i++)
-		UnhookEvent(hHooks[i]);
-
-	for(i = 0; i < hServices.size(); i++)
-		DestroyServiceFunction(hServices[i]);
-
 	FreeMusic();
-
 	return 0;
 }
 
@@ -534,7 +523,7 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 {
 	BOOL enabled = ListeningToEnabled(NULL, TRUE);
 
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_TTB, TopToolBarClick));
+	CreateServiceFunction(MS_LISTENINGTO_TTB, TopToolBarClick);
 
 	TTBButton ttb = {0};
 	ttb.cbSize = sizeof(ttb);
@@ -542,9 +531,8 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 	ttb.hIconHandleUp = hIcon1;
 	ttb.pszService = MS_LISTENINGTO_TTB;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ICONBYHANDLE | TTBBF_SHOWTOOLTIP | (enabled ? TTBBF_PUSHED : 0);
-	ttb.name = Translate("Enable/Disable sending Listening To info (to all protocols)");
-	
-	hTTB = (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttb, 0);
+	ttb.name = "Enable/Disable sending Listening To info (to all protocols)";
+	hTTB = TopToolbar_AddButton(&ttb);
 
 	return 0;
 }

@@ -20,9 +20,8 @@ PLUGININFOEX pluginInfo={
 	MIID_BASSINT
 };
 
-
-static HANDLE hHooks[5] = {0};
 static HANDLE hService;
+static HANDLE hTBButton;
 static HINSTANCE hBass = NULL;
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
@@ -239,8 +238,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						device = SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_GETCURSEL, 0, 0);
 						if (device == 0)	device = -1;
 						else				device += newBass;
-						if (CallService(MS_TB_GETBUTTONSTATEBYID, (WPARAM)"BASSSoundOnOff", 0)==TBST_RELEASED)
-						{
+						if (CallService(MS_TTB_GETBUTTONSTATE, (WPARAM)hTBButton, 0) == TTBST_RELEASED) {
 							BASS_Free();
 							BASS_Init(device, 44100, 0, ClistHWND, NULL);
 							BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100 );
@@ -351,9 +349,8 @@ int OptionsInit(WPARAM wParam, LPARAM lParam)
 
 INT_PTR BASSSoundOnOff(WPARAM wParam, LPARAM lParam)
 {
-	if (hBass != NULL)
-	{
-		BOOL opened = CallService(MS_TB_GETBUTTONSTATEBYID, (WPARAM)"BASSSoundOnOff", 0) == TBST_RELEASED;
+	if (hBass != NULL) {
+		BOOL opened = CallService(MS_TTB_GETBUTTONSTATE, (WPARAM)"BASSSoundOnOff", 0) == TTBST_RELEASED;
 
 		if ( opened )		
 		{
@@ -365,7 +362,7 @@ INT_PTR BASSSoundOnOff(WPARAM wParam, LPARAM lParam)
 			BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100 );
 		}
 		
-		CallService(MS_TB_SETBUTTONSTATEBYID, (WPARAM)"BASSSoundOnOff", opened ? TBST_PUSHED : TBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)"BASSSoundOnOff", opened ? TTBST_PUSHED : TTBST_RELEASED);
 		DBWriteContactSettingByte(NULL, ModuleName, OPT_DEVOPEN, !opened);
 	}
 	return 0;
@@ -373,20 +370,16 @@ INT_PTR BASSSoundOnOff(WPARAM wParam, LPARAM lParam)
 
 int OnToolbarLoaded(WPARAM wParam, LPARAM lParam) 
 {
-	TBButton tbb				= {0};
-	tbb.cbSize					= sizeof(TBButton);
-	tbb.pszButtonID				= "BASSSoundOnOff";
-	tbb.pszButtonName			= Translate("Open/close audio device");
-	tbb.pszServiceName			= "BASSinterface/BASSSoundOnOff";
-	tbb.pszTooltipUp			= Translate("Audio device is opened");
-	tbb.pszTooltipDn			= Translate("Audio device is closed");
-	tbb.hPrimaryIconHandle		= hIconLibItem[0];
-	tbb.hSecondaryIconHandle	= hIconLibItem[1];
-	tbb.tbbFlags				= TBBF_SHOWTOOLTIP;
-	tbb.defPos					= 1000;
-	
-	CallService(MS_TB_ADDBUTTON, 0, (LPARAM)&tbb);
-
+	TTBButton tbb = {0};
+	tbb.cbSize = sizeof(TTBButton);
+	tbb.name = LPGEN("Open/close audio device");
+	tbb.pszService = "BASSinterface/BASSSoundOnOff";
+	tbb.pszTooltipUp = LPGEN("Audio device is opened");
+	tbb.pszTooltipDn = LPGEN("Audio device is closed");
+	tbb.hIconHandleUp = hIconLibItem[0];
+	tbb.hIconHandleDn = hIconLibItem[1];
+	tbb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+	hTBButton = TopToolbar_AddButton(&tbb);
 	return 0;
 }
 
@@ -441,11 +434,11 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 			if (DBGetContactSettingByte(NULL, ModuleName, OPT_DEVOPEN, 1))
 				BASS_Init(device, 44100, 0, ClistHWND, NULL);
 			else
-				CallService(MS_TB_SETBUTTONSTATEBYID, (WPARAM)"BASSSoundOnOff", TBST_PUSHED);
+				CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, TTBST_PUSHED);
 
 			Volume = DBGetContactSettingByte(NULL, ModuleName, OPT_VOLUME, 33);
 			BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100 );
-			hHooks[3] = HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySnd);
+			HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySnd);
 		}
 		else
 		{
@@ -454,8 +447,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	hHooks[4] = HookEvent(ME_OPT_INITIALISE, OptionsInit);
-
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	return 0;
 }
 
@@ -474,9 +466,9 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hHooks[1] = HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
-	hHooks[2] = HookEvent(ME_TB_MODULELOADED, OnToolbarLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
+	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
 	
 	hService = CreateServiceFunction("BASSinterface/BASSSoundOnOff", BASSSoundOnOff);
 
@@ -487,14 +479,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	int i;
-	for (i = 0; i < SIZEOF(hHooks); i++)
-	{
-		if (hHooks[i])
-			UnhookEvent(hHooks[i]);
-	}
-
 	DestroyServiceFunction(hService);
-
 	return 0;
 }

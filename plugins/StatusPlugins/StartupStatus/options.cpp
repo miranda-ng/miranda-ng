@@ -569,7 +569,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				}
 				arProfiles.insert(ppo);
 			}
-			if ( !ServiceExists( MS_TTB_ADDBUTTON ) && !ServiceExists( MS_TB_ADDBUTTON ))
+			if (hTTBModuleLoadedHook)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CREATETTB), FALSE);
 
 			SendMessage(hwndDlg, UM_REINITPROFILES, 0, 0);

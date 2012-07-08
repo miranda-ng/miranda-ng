@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "win2k.h"
 
 #include "m_updater.h"
-#include "m_toolbar.h"
+#include "m_toptoolbar.h"
 #include "m_sessions.h"
 
 #include "Utils.h"

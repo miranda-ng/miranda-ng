@@ -2,7 +2,7 @@
 #include "updater.h"
 
 #include <m_hotkeys.h>
-#include "m_toolbar.h"
+#include "m_toptoolbar.h"
 
 HINSTANCE hInst;
 
@@ -179,33 +179,27 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 
 static int ToolbarModulesLoaded(WPARAM, LPARAM)
 {
-	TBButton tbb = {0};
-	tbb.cbSize = sizeof(TBButton);
-	tbb.tbbFlags = TBBF_SHOWTOOLTIP;
+	TTBButton tbb = {0};
+	tbb.cbSize = sizeof(TTBButton);
+	tbb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
 
-	tbb.pszButtonID = "updater_checkforupdates";
-	tbb.pszButtonName = LPGEN("Check for Updates");
-	tbb.pszServiceName = MS_UPDATE_CHECKFORUPDATES;
+	tbb.name = LPGEN("Check for Updates");
+	tbb.pszService = MS_UPDATE_CHECKFORUPDATES;
 	tbb.pszTooltipUp = LPGEN("Check for Updates of Plugins");
-	tbb.hPrimaryIconHandle = GetIconHandle(I_CHKUPD);
-	tbb.defPos = 1000;
-	CallService(MS_TB_ADDBUTTON, 0, (LPARAM)&tbb);
+	tbb.hIconHandleUp = GetIconHandle(I_CHKUPD);
+	TopToolbar_AddButton(&tbb);
 
-	tbb.pszButtonID = "updater_restart";
-	tbb.pszButtonName = LPGEN("Restart");
-	tbb.pszServiceName = MS_UPDATE_MENURESTART;
+	tbb.name = LPGEN("Restart");
+	tbb.pszService = MS_UPDATE_MENURESTART;
 	tbb.pszTooltipUp = LPGEN("Restart Miranda IM");
-	tbb.hPrimaryIconHandle = GetIconHandle(I_RSTRT);
-	tbb.defPos = 1001;
-	CallService(MS_TB_ADDBUTTON, 0, (LPARAM)&tbb);
+	tbb.hIconHandleUp = GetIconHandle(I_RSTRT);
+	TopToolbar_AddButton(&tbb);
 
-	tbb.pszButtonID = "updater_updateandexit";
-	tbb.pszButtonName = LPGEN("Update and Exit");
-	tbb.pszServiceName = MS_UPDATE_MENUUPDATEANDEXIT;
+	tbb.name = LPGEN("Update and Exit");
+	tbb.pszService = MS_UPDATE_MENUUPDATEANDEXIT;
 	tbb.pszTooltipUp = LPGEN("Update and Exit Miranda IM");
-	tbb.hPrimaryIconHandle = GetIconHandle(I_CHKUPDEXT);
-	tbb.defPos = 1002;
-	CallService(MS_TB_ADDBUTTON,0, (LPARAM)&tbb);
+	tbb.hIconHandleUp = GetIconHandle(I_CHKUPDEXT);
+	TopToolbar_AddButton(&tbb);
 
 	return 0;
 }
@@ -229,7 +223,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hEventOptInit = HookEvent(ME_OPT_INITIALISE, OptInit);
 	hEventModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	hToolBarLoaded = HookEvent(ME_TB_MODULELOADED, ToolbarModulesLoaded);
+	hToolBarLoaded = HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
 
 	InitServices();
 	InitIcons();

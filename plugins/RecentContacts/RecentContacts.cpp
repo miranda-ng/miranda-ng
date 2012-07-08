@@ -454,19 +454,13 @@ static int OnContactSettingChanged( WPARAM wParam, LPARAM lParam )
 
 int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 {
-	if (ServiceExists(MS_TTB_ADDBUTTON)) {
-		TTBButton ttbb = { 0 };
-		ttbb.cbSize = sizeof(ttbb);
-		ttbb.hIconHandleDn = ttbb.hIconHandleDn = hIcon;
-		ttbb.pszService = msLastUC_ShowList;
-		ttbb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
-		ttbb.name = Translate(msLastUC_ShowListName);
-
-		hTopToolbarButtonShowList = (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttbb, 0);
-		if ((int)hTopToolbarButtonShowList == -1)
-			hTopToolbarButtonShowList = NULL;
-	}
-
+	TTBButton ttbb = { 0 };
+	ttbb.cbSize = sizeof(ttbb);
+	ttbb.hIconHandleDn = ttbb.hIconHandleDn = hIcon;
+	ttbb.pszService = msLastUC_ShowList;
+	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttbb.name = msLastUC_ShowListName;
+	hTopToolbarButtonShowList = TopToolbar_AddButton(&ttbb);
 	return 0;
 }
 

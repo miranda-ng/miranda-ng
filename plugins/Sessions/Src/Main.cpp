@@ -23,10 +23,9 @@ HINSTANCE hinstance = NULL;
 
 WNDPROC mainProc;
 
-HANDLE hEventDbWindowEvent,hEventDbOkToExit, hEventDbOptionsInit, hEventDbPluginsLoaded,
-hEventDbPreShutdown,hServiceOpenManager,hServiceShowFavMenu,hServiceCloseCurrentSession,hServiceSaveUserSession,
-hServiceLoadLastSession,hmSaveCurrentSession,
-hmLoadLastSession,hmLoadSession,hmSessionsManager,hibSessionsLoad,hibSessionsSave,hibSessionsLoadLast,hibChecked,hibNotChecked	;
+HANDLE hServiceOpenManager,hServiceShowFavMenu,hServiceCloseCurrentSession,hServiceSaveUserSession,
+hServiceLoadLastSession,hmSaveCurrentSession, hmLoadLastSession,hmLoadSession,hmSessionsManager,
+hibSessionsLoad,hibSessionsSave,hibSessionsLoadLast,hibChecked,hibNotChecked;
 
 HICON hiChecked,hiNotChecked,hiSessions,hiSessionsLoad ,hiSessionsSave,hiSessionsLoadLast;
 
@@ -773,21 +772,14 @@ int DeleteAutoSession(int ses_count)
 int SessionPreShutdown(WPARAM wparam,LPARAM lparam)
 {
 	DONT=1;
-	if (hEventDbWindowEvent)		UnhookEvent(hEventDbWindowEvent);
 	DestroyServiceFunction(hServiceOpenManager);
 	DestroyServiceFunction(hServiceCloseCurrentSession);
 	DestroyServiceFunction(hServiceShowFavMenu);
 	DestroyServiceFunction(hServiceLoadLastSession);
 	DestroyServiceFunction(hServiceSaveUserSession);
 
-	if (hEventDbPluginsLoaded)		UnhookEvent(hEventDbPluginsLoaded);
-
-	if (hEventDbOptionsInit)		UnhookEvent(hEventDbOptionsInit);
-	if (hEventDbOkToExit)			UnhookEvent(hEventDbOkToExit);
-	if (hEventDbPreShutdown)		UnhookEvent(hEventDbPreShutdown);
-
-	if (g_hDlg)						DestroyWindow(g_hDlg);
-	if (g_hSDlg)					DestroyWindow(g_hSDlg);
+	if (g_hDlg)  DestroyWindow(g_hDlg);
+	if (g_hSDlg) DestroyWindow(g_hSDlg);
 
 	DestroyIcon(hiSessions);
 	DestroyIcon(hiSessionsLoad);
@@ -861,12 +853,40 @@ INT_PTR BuildFavMenu(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
+static int CreateButtons(WPARAM wparam,LPARAM lparam)
+{
+	TTBButton button = {0};
+	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE | TTBBF_ICONBYHANDLE;
+
+	button.pszService = MS_SESSIONS_OPENMANAGER;
+	button.pszTooltipUp = button.pszTooltipUp = button.name = LPGEN("Open Sessions Manager");
+	button.hIconHandleDn = button.hIconHandleUp = hibSessionsLoad;
+	TopToolbar_AddButton(&button);
+
+	button.pszService = MS_SESSIONS_SAVEUSERSESSION;
+	button.pszTooltipUp = button.pszTooltipUp = button.name = LPGEN("Save Session");
+	button.hIconHandleDn = button.hIconHandleUp = hibSessionsSave;
+	TopToolbar_AddButton(&button);
+
+	button.pszService = MS_SESSIONS_RESTORELASTSESSION;
+	button.pszTooltipUp = button.pszTooltipUp = button.name = LPGEN("Restore Last Session");
+	button.hIconHandleDn = button.hIconHandleUp = hibSessionsLoadLast;
+	TopToolbar_AddButton(&button);
+
+	button.pszService = MS_SESSIONS_SHOWFAVORITESMENU;
+	button.pszTooltipUp = button.pszTooltipUp = button.name = LPGEN("Show Favorite Sessions Menu");
+	button.hIconHandleDn = button.hIconHandleUp = hibChecked;
+	TopToolbar_AddButton(&button);
+	return 0;
+}
+
 static int PluginInit(WPARAM wparam,LPARAM lparam)
 {
 	int startup=0;
 
-	hEventDbWindowEvent=HookEvent(ME_MSG_WINDOWEVENT, GetContactHandle);
-	hEventDbOptionsInit=HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	HookEvent(ME_MSG_WINDOWEVENT, GetContactHandle);
+	HookEvent(ME_OPT_INITIALISE,  OptionsInit);
+	HookEvent(ME_TTB_MODULELOADED, CreateButtons);
 
 	hServiceShowFavMenu=CreateServiceFunction(MS_SESSIONS_SHOWFAVORITESMENU, BuildFavMenu);
 	hServiceOpenManager=CreateServiceFunction(MS_SESSIONS_OPENMANAGER, OpenSessionsManagerWindow);
@@ -875,7 +895,8 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	hServiceCloseCurrentSession=CreateServiceFunction(MS_SESSIONS_CLOSESESSION, CloseCurrentSession);
 
 	g_ses_count=DBGetContactSettingByte(0, __INTERNAL_NAME, "UserSessionsCount", 0);
-	if (!g_ses_count)  g_ses_count=DBGetContactSettingByte(0, "Sessions (Unicode)", "UserSessionsCount", 0);
+	if (!g_ses_count)
+		g_ses_count=DBGetContactSettingByte(0, "Sessions (Unicode)", "UserSessionsCount", 0);
 	ses_limit=DBGetContactSettingByte(0, __INTERNAL_NAME, "TrackCount", 10);
 	g_bExclHidden=DBGetContactSettingByte(NULL, __INTERNAL_NAME, "ExclHidden", 0);
 	g_bWarnOnHidden=DBGetContactSettingByte(NULL, __INTERNAL_NAME, "WarnOnHidden", 0);
@@ -922,22 +943,22 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.ptszSection = _T("Sessions");
 	hkd.pszName = "OpenSessionsManager";
-	hkd.ptszDescription = _T("Open Sessions Manager");
+	hkd.ptszDescription = LPGENT("Open Sessions Manager");
 	hkd.pszService = MS_SESSIONS_OPENMANAGER;
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "RestoreLastSession";
-	hkd.ptszDescription = _T("Restore last Session");
+	hkd.ptszDescription = LPGENT("Restore last Session");
 	hkd.pszService = MS_SESSIONS_RESTORELASTSESSION;
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "SaveSession";
-	hkd.ptszDescription = _T("Save Session");
+	hkd.ptszDescription = LPGENT("Save Session");
 	hkd.pszService = MS_SESSIONS_SAVEUSERSESSION;
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "CloseSession";
-	hkd.ptszDescription = _T("Close Session");
+	hkd.ptszDescription = LPGENT("Close Session");
 	hkd.pszService = MS_SESSIONS_CLOSESESSION;
 	Hotkey_Register(&hkd);
 
@@ -989,40 +1010,6 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	cl.hIcon = hiSessionsSave;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hmSaveCurrentSession, (LPARAM)&cl);
 
-	if (ServiceExists(MS_TB_ADDBUTTON))
-	{
-		TBButton button = {0};
-		button.defPos = 102200;
-		button.tbbFlags = TBBF_SHOWTOOLTIP|TBBF_VISIBLE;
-
-		button.pszButtonID = MS_SESSIONS_OPENMANAGER;
-		button.pszServiceName = MS_SESSIONS_OPENMANAGER;
-		button.pszTooltipUp = button.pszTooltipUp = button.pszButtonName = "Open Sessions Manager";
-		button.hSecondaryIconHandle = button.hPrimaryIconHandle = hibSessionsLoad;
-		CallService(MS_TB_ADDBUTTON, 0, (LPARAM)&button);
-		button.defPos++;
-
-		button.pszButtonID = MS_SESSIONS_SAVEUSERSESSION;
-		button.pszServiceName = MS_SESSIONS_SAVEUSERSESSION;
-		button.pszTooltipUp = button.pszTooltipUp = button.pszButtonName = "Save Session";
-		button.hSecondaryIconHandle = button.hPrimaryIconHandle = hibSessionsSave;
-		CallService(MS_TB_ADDBUTTON, 0, (LPARAM)&button);
-		button.defPos++;
-
-		button.pszButtonID = MS_SESSIONS_RESTORELASTSESSION;
-		button.pszServiceName = MS_SESSIONS_RESTORELASTSESSION;
-		button.pszTooltipUp = button.pszTooltipUp = button.pszButtonName = "Restore Last Session";
-		button.hSecondaryIconHandle = button.hPrimaryIconHandle = hibSessionsLoadLast;
-		CallService(MS_TB_ADDBUTTON, 0, (LPARAM)&button);
-		button.defPos++;
-
-		button.pszButtonID = MS_SESSIONS_SHOWFAVORITESMENU;
-		button.pszServiceName = MS_SESSIONS_SHOWFAVORITESMENU;
-		button.pszTooltipUp = button.pszTooltipUp = button.pszButtonName = "Show Favorite Sessions Menu";
-		button.hSecondaryIconHandle = button.hPrimaryIconHandle = hibChecked;
-		CallService(MS_TB_ADDBUTTON, 0, (LPARAM)&button);
-	}
-
 	if(ServiceExists(MS_UPDATE_REGISTER))
 	{
 		char buffer[1024];
@@ -1069,8 +1056,8 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	hEventDbPluginsLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
-	hEventDbOkToExit = HookEvent(ME_SYSTEM_OKTOEXIT,OkToExit);
-	hEventDbPreShutdown= HookEvent(ME_SYSTEM_PRESHUTDOWN,SessionPreShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
+	HookEvent(ME_SYSTEM_OKTOEXIT,OkToExit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN,SessionPreShutdown);
 	return 0;
 }

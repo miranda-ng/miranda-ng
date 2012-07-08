@@ -55,8 +55,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_fontservice.h>
 #include <m_hotkeys.h>
 #include <m_icolib.h>
-#include "m_toolbar.h"
-#include "m_toptoolbar.h"
+#include <m_toptoolbar.h>
 #include "resource.h"
 
 #include "version.h"

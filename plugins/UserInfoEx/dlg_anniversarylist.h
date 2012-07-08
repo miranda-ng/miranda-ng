@@ -38,7 +38,6 @@ Last change by : $Author: ing.u.horn $
 
 INT_PTR		DlgAnniversaryListShow(WPARAM wParam, LPARAM lParam);
 VOID		DlgAnniversaryListOnTopToolBarLoaded();
-VOID		DlgAnniversaryListOnToolBarLoaded();
 VOID		DlgAnniversaryListLoadModule();
 
 #endif /* _DLGANNIVERSARYLIST_H_ */

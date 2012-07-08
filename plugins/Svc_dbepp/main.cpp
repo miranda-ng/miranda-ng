@@ -156,17 +156,10 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 	ttbb.cbSize = sizeof(ttbb);
 	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttbb.pszService = "DBEditorpp/MenuCommand";
-	ttbb.name = Translate("Database Editor++");
-	ttbb.hIconUp = ico;
-	ttbb.hIconDn = ico;
-//	ttbb.tooltipDn = Translate("Show DataBase Editor");
-
-	hTTBButt = (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttbb, 0);
-
-	if (hTTBButt)
-		CallService(MS_TTB_SETBUTTONOPTIONS,MAKEWPARAM(TTBO_TIPNAME,hTTBButt),
-			(LPARAM)(Translate("Show DataBase Editor")));
-
+	ttbb.name = "Database Editor++";
+	ttbb.hIconUp = ttbb.hIconDn = ico;
+	ttbb.pszTooltipUp = "Show DataBase Editor";
+	hTTBButt = TopToolbar_AddButton(&ttbb);
 	return 0;
 }
 

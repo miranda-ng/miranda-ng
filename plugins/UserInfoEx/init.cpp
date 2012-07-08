@@ -89,26 +89,8 @@ int hLangpack;
  **/
 static INT OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 {
-	UnhookEvent(ghTopToolBarLoaded);
 	DlgAnniversaryListOnTopToolBarLoaded();
 	SvcReminderOnTopToolBarLoaded();
-	return 0;
-}
-
-/**
- * This function is called by the ME_TB_MODULELOADED event.
- * It adds a set of buttons to the Toolbar of the Modern Contact List.
- *
- * @param	wParam	- not used
- * @param	lParam	- not used
- *
- * @return	always 0
- **/
-static INT OnModernToolBarLoaded(WPARAM wParam, LPARAM lParam)
-{
-	UnhookEvent(ghModernToolBarLoaded);
-	DlgAnniversaryListOnToolBarLoaded();
-	SvcReminderOnToolBarLoaded();
 	return 0;
 }
 
@@ -122,17 +104,13 @@ static INT OnModernToolBarLoaded(WPARAM wParam, LPARAM lParam)
  **/
 static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	INT_PTR ptr;
-
-	UnhookEvent(ghModulesLoadedHook);
-
 	myGlobals.HaveCListExtraIcons		= ServiceExists(MS_CLIST_EXTRA_SET_ICON);
 	myGlobals.ExtraIconsServiceExist	= ServiceExists(MS_EXTRAICON_REGISTER);
 	myGlobals.PopUpActionsExist			= ServiceExists(MS_POPUP_REGISTERACTIONS);
 	myGlobals.MsgAddIconExist			= ServiceExists(MS_MSG_ADDICON);
 
 	// init meta contacts
-	ptr = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
+	INT_PTR ptr = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 	myGlobals.szMetaProto = (ptr != CALLSERVICE_NOTFOUND) ? (LPCSTR)ptr : NULL;
 
 	// options
@@ -352,10 +330,9 @@ extern "C" INT __declspec(dllexport) Load(void)
 	SvcReminderLoadModule();
 
 	// Now the module is loaded! Start initializing certain things
-	ghModulesLoadedHook		= HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	ghTopToolBarLoaded		= HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
-	ghModernToolBarLoaded	= HookEvent(ME_TB_MODULELOADED, OnModernToolBarLoaded);
-	ghShutdownHook			= HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
+	ghModulesLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	ghTopToolBarLoaded = HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
+	ghShutdownHook = HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	return 0;
 }
 

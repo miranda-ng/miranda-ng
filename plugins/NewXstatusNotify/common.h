@@ -71,7 +71,7 @@
 
 #include "m_metacontacts.h"
 #include "m_updater.h"
-#include "m_toolbar.h"
+#include "m_toptoolbar.h"
 #include "resource.h"
 
 #define MIID_NXSN { 0xebf19652, 0xe434, 0x4d79, { 0x98, 0x97, 0x91, 0xa0, 0xff, 0x22, 0x6f, 0x51 } }

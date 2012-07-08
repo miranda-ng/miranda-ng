@@ -25,7 +25,6 @@
 #include <m_options.h>
 #include <m_clui.h>
 #include <m_toptoolbar.h>
-#include <m_toolbar.h>
 #include "version.h"
 
 #define MODULENAME						"StartupStatus"
@@ -159,11 +158,9 @@ INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam);
 INT_PTR GetProfileCount(WPARAM wParam, LPARAM lParam);
 INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam);
 
+extern HANDLE hTTBModuleLoadedHook;
 int RemoveTopToolbarButtons();
 int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam);
-
-int RemoveToolbarButtons();
-int CreateToolbarButtons(WPARAM wParam, LPARAM lParam);
 void RegisterButtons();
 
 int LoadProfileModule();

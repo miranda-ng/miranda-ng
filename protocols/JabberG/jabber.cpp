@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "m_assocmgr.h"
 #include "m_folders.h"
-#include "m_toolbar.h"
+#include "m_toptoolbar.h"
 #include "m_extraicons.h"
 
 HINSTANCE hInst;
@@ -258,7 +258,7 @@ extern "C" int __declspec( dllexport ) Load()
 	g_IconsInit();
 	g_MenuInit();
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hModulesLoadedTB = HookEvent(ME_TB_MODULELOADED, g_OnModernToolbarInit);
+	hModulesLoadedTB = HookEvent(ME_TTB_MODULELOADED, g_OnToolbarInit);
 	JabberUserInfoInit();
 
 	return 0;

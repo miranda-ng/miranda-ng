@@ -33,10 +33,8 @@ HINSTANCE hInst;
 LIST<DBEVENT> eventList( 10 );
 LIST<XSTATUSCHANGE> xstatusList( 10 );
 
-HANDLE hEnableDisableMenu, hOptionsInitialize, hModulesLoaded, hUserInfoInitialise;
-HANDLE hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged;
-HANDLE hStatusModeChange, hServiceMenu, hProtoAck;
-HANDLE hMessageWindowOpen;
+HANDLE hStatusModeChange, hServiceMenu, hHookContactStatusChanged, hEnableDisableMenu;
+HANDLE hToolbarButton;
 
 char szMetaModuleName[256] = {0};
 STATUS StatusList[STATUS_COUNT];
@@ -304,16 +302,13 @@ static int __inline CheckStrW(WCHAR *str, int not_empty, int empty) {
 
 WCHAR *mir_dupToUnicodeEx(char *ptr, UINT CodePage)
 {
-	size_t size;
-	WCHAR *tmp;
-
 	if (ptr == NULL)
 		return NULL;
 
-	size = strlen(ptr) + 1;
-	tmp = (WCHAR *) mir_alloc(size * sizeof(WCHAR));
+	size_t size = strlen(ptr) + 1;
+	WCHAR *tmp = (WCHAR *) mir_alloc(size * sizeof(WCHAR));
 
-	MultiByteToWideChar(CodePage, 0, ptr, -1, tmp, size * sizeof(WCHAR));
+	MultiByteToWideChar(CodePage, 0, ptr, -1, tmp, (int)size * sizeof(WCHAR));
 	return tmp;
 }
 
@@ -1263,7 +1258,7 @@ INT_PTR EnableDisableMenuCommand(WPARAM wParam, LPARAM lParam)
 	}
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hEnableDisableMenu, (LPARAM)&mi);
-	CallService(MS_TB_SETBUTTONSTATEBYID, (WPARAM)"StatusNotificationToggle", opt.TempDisabled ? TBST_PUSHED : TBST_RELEASED);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton, opt.TempDisabled ? TTBST_PUSHED : TTBST_RELEASED);
 	return 0;
 }
 
@@ -1328,42 +1323,37 @@ void InitSound()
 	SkinAddNewSoundEx(XSTATUS_SOUND_REMOVED, LPGEN("Status Notify"), LPGEN("Extra status removed"));
 }
 
-void InitTopToolbar()
+int InitTopToolbar(WPARAM, LPARAM)
 {
-	if (ServiceExists(MS_TB_ADDBUTTON)) {
-		TBButton tbb = {0};
-		tbb.cbSize = sizeof(TBButton);
-		tbb.pszServiceName = MS_STATUSCHANGE_MENUCOMMAND;
-		tbb.pszButtonID = "StatusNotificationToggle";
-		tbb.pszButtonName = "Toggle status notification";
-		tbb.pszTooltipUp = "Status notification enabled";
-		tbb.pszTooltipDn = "Status notification disabled";
-		tbb.hPrimaryIconHandle = GetIconHandle(ICO_NOTIFICATION_ON);
-		tbb.hSecondaryIconHandle = GetIconHandle(ICO_NOTIFICATION_OFF);
-		tbb.tbbFlags = (opt.TempDisabled ? TBBF_PUSHED : 0);
-		tbb.defPos = 20;
-		CallService(MS_TB_ADDBUTTON, 0, (LPARAM)&tbb);
-	}
+	TTBButton tbb = {0};
+	tbb.cbSize = sizeof(TTBButton);
+	tbb.pszService = MS_STATUSCHANGE_MENUCOMMAND;
+	tbb.name = LPGEN("Toggle status notification");
+	tbb.pszTooltipUp = LPGEN("Status notification enabled");
+	tbb.pszTooltipDn = LPGEN("Status notification disabled");
+	tbb.hIconHandleUp = GetIconHandle(ICO_NOTIFICATION_ON);
+	tbb.hIconHandleDn = GetIconHandle(ICO_NOTIFICATION_OFF);
+	tbb.dwFlags = TTBBF_ICONBYHANDLE | (opt.TempDisabled ? TTBBF_PUSHED : 0);
+	hToolbarButton = TopToolbar_AddButton(&tbb);
+	return 0;
 }
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	InitUpdaterSupport();
 	InitMainMenuItem();
-	InitTopToolbar();
 
-	hUserInfoInitialise = HookEvent(ME_USERINFO_INITIALISE, UserInfoInitialise);
-	hContactStatusChanged = HookEvent(ME_STATUSCHANGE_CONTACTSTATUSCHANGED, ContactStatusChanged);
-	hMessageWindowOpen = HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);
+	HookEvent(ME_USERINFO_INITIALISE, UserInfoInitialise);
+	HookEvent(ME_STATUSCHANGE_CONTACTSTATUSCHANGED, ContactStatusChanged);
+	HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);
+	HookEvent(ME_TTB_MODULELOADED, InitTopToolbar);
 
 	int count = 0;
 	PROTOACCOUNT **accounts = NULL;
 	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accounts);
 	for (int i = 0; i < count; i++)
-	{
 		if (IsAccountEnabled(accounts[i]))
 			DBWriteContactSettingByte(NULL, MODULE, accounts[i]->szModuleName, 0);
-	}
 
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
 		strcpy(szMetaModuleName, (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0));
@@ -1373,19 +1363,18 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfoEx);
 
 	//"Service" Hook, used when the DB settings change: we'll monitor the "status" setting.
-	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
 	//We create this Hook which will notify everyone when a contact changes his status.
 	hHookContactStatusChanged = CreateHookableEvent(ME_STATUSCHANGE_CONTACTSTATUSCHANGED);
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	//We add the option page and the user info page (it's needed because options are loaded after plugins)
-	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
+	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	//This is needed for "NoSound"-like routines.
-	hStatusModeChange = HookEvent(ME_CLIST_STATUSMODECHANGE, StatusModeChanged);
-	hProtoAck = HookEvent(ME_PROTO_ACK, ProtoAck);
+	HookEvent(ME_CLIST_STATUSMODECHANGE, StatusModeChanged);
+	HookEvent(ME_PROTO_ACK, ProtoAck);
 
 	LoadOptions();
 	InitStatusList();
@@ -1399,15 +1388,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnhookEvent(hContactSettingChanged);
-	UnhookEvent(hOptionsInitialize);
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hUserInfoInitialise);
-	UnhookEvent(hStatusModeChange);
-	UnhookEvent(hProtoAck);
 	DestroyHookableEvent(hHookContactStatusChanged);
 	DestroyServiceFunction(hServiceMenu);
-	UnhookEvent(hMessageWindowOpen);
-
 	return 0;
 }

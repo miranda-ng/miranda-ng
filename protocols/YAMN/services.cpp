@@ -308,40 +308,24 @@ HBITMAP LoadBmpFromIcon(HICON hIcon)
 int AddTopToolbarIcon(WPARAM,LPARAM)
 {
 	if ( DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_TTBFCHECK, 1)) {
-		if ( ServiceExists(MS_TTB_ADDBUTTON) && hTTButton == NULL) {
+		if ( ServiceExists(MS_TTB_REMOVEBUTTON) && hTTButton == NULL) {
 			TTBButton btn = { 0 };
-			btn.cbSize = sizeof(TTBButton);
+			btn.cbSize = sizeof(btn);
 			btn.pszService = MS_YAMN_FORCECHECK;
 			btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
-			btn.name = Translate("Check mail");
+			btn.name = "Check mail";
 			btn.hIconHandleUp = g_GetIconHandle(5);
 			btn.hIconHandleDn = g_GetIconHandle(6);
-			hTTButton = (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&btn, 0);
-			CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM((WORD)TTBO_TIPNAME, (WORD)hTTButton), (LPARAM)Translate("Check mail"));
-		}
-		if ( ServiceExists(MS_TB_ADDBUTTON) && hTButton == NULL) {
-			TBButton btn = { 0 };
-			btn.cbSize = sizeof(TBButton);
-			btn.pszServiceName = MS_YAMN_FORCECHECK;
-			btn.tbbFlags = TBBF_VISIBLE | TBBF_SHOWTOOLTIP;
-			btn.defPos = 10114;
-			btn.pszButtonID = "yamn_btn";
-			btn.pszButtonName = "Check mail";
-			btn.hPrimaryIconHandle = g_GetIconHandle(5);
-			btn.hSecondaryIconHandle = g_GetIconHandle(6);
 			btn.pszTooltipDn = btn.pszTooltipUp = "Check mail";
-			hTButton = (HANDLE)CallService(MS_TB_ADDBUTTON, 0, (WPARAM)&btn);
+			hTTButton = TopToolbar_AddButton(&btn);
 		}
 	}
 	else {
-		if (ServiceExists(MS_TTB_ADDBUTTON) && hTTButton != NULL) {
+		if (hTTButton != NULL) {
 			CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTButton, 0);
 			hTTButton = NULL;
 		}
-		if (ServiceExists(MS_TB_ADDBUTTON) && hTButton != NULL) {
-			CallService(MS_TB_REMOVEBUTTON, (WPARAM)hTButton, 0);
-			hTButton = NULL;
-	}	}
+	}
 
 	return 0;
 }
@@ -369,8 +353,7 @@ int SystemModulesLoaded(WPARAM, LPARAM); //in main.cpp
 typedef struct { HANDLE hookHandle;	const char *hookName; MIRANDAHOOK mirandaFunction;} HookDataType;
 static HookDataType hookData[] = {
 	{0, ME_SYSTEM_MODULESLOADED, SystemModulesLoaded}, //pop3 plugin must be included after all miranda modules are loaded
-	{0, ME_TB_MODULELOADED,      AddTopToolbarIcon},
-	{0, ME_TTB_MODULELOADED,     AddTopToolbarIcon},
+	{0, ME_TTB_MODULELOADED,      AddTopToolbarIcon},
 	{0, ME_OPT_INITIALISE,       YAMNOptInitSvc}, 
 	{0, ME_SYSTEM_PRESHUTDOWN,   Shutdown}, 
 	{0, ME_CLIST_DOUBLECLICKED,  Service_ContactDoubleclicked}, 

@@ -1599,34 +1599,16 @@ VOID CALLBACK UpdateMsgTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD d
 static int AddTopToolbarButton(WPARAM wParam, LPARAM lParam)
 {
 	TTBButton ttbb = {0};
-
 	ttbb.cbSize = sizeof(ttbb);
-	ttbb.hIconUp = ttbb.hIconDn = LoadIconEx("csmsg");
+	ttbb.hIconHandleDn = ttbb.hIconHandleUp = GetIconHandle(IDI_CSMSG);
 	ttbb.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
-	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttbb.name = Translate("Change Status Message");
-	hTTBButton = (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttbb, 0);
+	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+	ttbb.name = LPGEN("Change Status Message");
+	ttbb.pszTooltipUp = LPGEN("Change Status Message");
+	hTTBButton = TopToolbar_AddButton(&ttbb);
 
-	if (hTTBButton != (HANDLE)-1)
-		CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM((WORD)TTBO_TIPNAME, (WORD)hTTBButton), (LPARAM)Translate("Change Status Message"));
 	ReleaseIconEx("csmsg");
-
 	return 0;
-}
-
-void AddToolbarButton(void)
-{
-	TBButton tbb = {0};
-
-	tbb.cbSize = sizeof(tbb);
-	tbb.tbbFlags = TBBF_VISIBLE | TBBF_SHOWTOOLTIP;
-	tbb.pszButtonID = "sachmsg_btn";
-	tbb.pszButtonName = Translate("Change Status Message");
-	tbb.pszServiceName = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
-	tbb.pszTooltipUp = Translate("Change Status Message");
-	tbb.hPrimaryIconHandle = GetIconHandle(IDI_CSMSG);
-	tbb.defPos = 11000;
-	CallService(MS_TB_ADDBUTTON, 0, (LPARAM)&tbb);
 }
 
 void RegisterHotkey(void)
@@ -1641,16 +1623,6 @@ void RegisterHotkey(void)
 	hkd.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_OEM_3);
 	Hotkey_Register(&hkd);
-}
-
-static int OnIconsChanged(WPARAM wParam, LPARAM lParam)
-{
-	if (hTTBButton)
-	{
-		CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTBButton, (LPARAM)0);
-		AddTopToolbarButton(0, 0);
-	}
-	return 0;
 }
 
 static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
@@ -2009,14 +1981,11 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 #endif
 
 	IconsInit();
-	HookEventEx(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
 	OnAccListChanged(0, 0);
 
 	LoadAwayMsgModule();
 
 	HookEventEx(ME_TTB_MODULELOADED, AddTopToolbarButton);
-	if (ServiceExists(MS_TB_ADDBUTTON))
-		AddToolbarButton();
 
 	RegisterHotkey();
 

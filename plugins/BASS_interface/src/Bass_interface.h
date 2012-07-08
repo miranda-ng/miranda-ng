@@ -18,7 +18,7 @@ Copyright (C) 2010, 2011 tico-tico
 #include <m_icolib.h>
 #include <commctrl.h>
 
-#include "m_toolbar.h"
+#include "m_toptoolbar.h"
 
 #include "resource.h"
 #include "version.h"

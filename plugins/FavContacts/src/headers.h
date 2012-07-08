@@ -52,13 +52,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_idle.h>
 #include <m_awaymsg.h>
 #include <m_avatars.h>
-#include <m_toolbar.h>
+#include <m_toptoolbar.h>
 #include <m_fontservice.h>
 #include <m_hotkeys.h>
 
 #include "../resource.h"
-
-#define NEWTSTR_ALLOCA(A) (A==NULL)?NULL:_tcscpy((TCHAR*)alloca(sizeof(TCHAR)*(_tcslen(A)+1)),A)
 
 struct Options
 {

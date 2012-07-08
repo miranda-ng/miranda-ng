@@ -130,7 +130,6 @@ Last change by : $Author: Merlin_de $
 		#define MTEXT_NOHELPERS
 	#endif // MTEXT_NOHELPERS
 	#include <m_text.h>
-	#include <m_toolbar.h>
 	#include <m_toptoolbar.h>
 	#include <m_updater.h>
 	#include <m_popup.h>			//core define see miranda\include\

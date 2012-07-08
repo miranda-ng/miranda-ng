@@ -200,21 +200,20 @@ HBITMAP LoadBmpFromIcon(int IdRes)
 static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam)
 {
 	TTBButton ttb = {0};
-
 	ttb.cbSize = sizeof(ttb);
 	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBUP));
 	ttb.hIconDn = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBDN));
 	ttb.pszService = MODULE "/NewAlarm";
-	ttb.dwFlags = TTBBF_VISIBLE;// | TTBBF_DRAWBORDER;
-	ttb.name = Translate("Set Alarm");
+	ttb.dwFlags = TTBBF_VISIBLE;
+	ttb.name = "Set Alarm";
 	
-	hTopToolbarButton = (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttb, 0);
+	hTopToolbarButton = TopToolbar_AddButton(&ttb);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTopToolbarButton, (LPARAM)TTBST_RELEASED);
-
 	return 0;
 }
 
-static int MainInit(WPARAM wparam,LPARAM lparam) {
+static int MainInit(WPARAM wparam,LPARAM lparam)
+{
 	if (ServiceExists(MS_UPDATE_REGISTER)) {
 		// register with updater
 		Update update = {0};

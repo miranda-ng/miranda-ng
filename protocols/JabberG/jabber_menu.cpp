@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_hotkeys.h>
 #include <m_icolib.h>
 
-#include "m_toolbar.h"
+#include "m_toptoolbar.h"
 
 #define MENUITEM_LASTSEEN	1
 #define MENUITEM_SERVER		2
@@ -974,35 +974,32 @@ static INT_PTR g_ToolbarHandleServiceDiscovery(WPARAM w, LPARAM l)
 	return 0;
 }
 
-int g_OnModernToolbarInit(WPARAM, LPARAM)
+int g_OnToolbarInit(WPARAM, LPARAM)
 {
 	if ( g_Instances.getCount() == 0 )
 		return 0;
 
-	TBButton button = {0};
+	TTBButton button = {0};
 	button.cbSize = sizeof(button);
-	button.defPos = 1000;
-	button.tbbFlags = TBBF_SHOWTOOLTIP|TBBF_VISIBLE;
+	button.dwFlags = TTBBF_SHOWTOOLTIP|TTBBF_VISIBLE;
 
 	List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/Groupchat", g_ToolbarHandleJoinGroupchat ));
-	button.pszButtonID = button.pszServiceName = "JABBER/*/Groupchat";
-	button.pszTooltipUp = button.pszTooltipUp = button.pszButtonName = "Join conference";
-	button.hSecondaryIconHandle = button.hPrimaryIconHandle = (HANDLE)g_GetIconHandle(IDI_GROUP);
-	JCallService(MS_TB_ADDBUTTON, 0, (LPARAM)&button);
+	button.pszService = "JABBER/*/Groupchat";
+	button.pszTooltipUp = button.pszTooltipUp = button.name = "Join conference";
+	button.hIconHandleDn = button.hIconHandleUp = (HANDLE)g_GetIconHandle(IDI_GROUP);
+	TopToolbar_AddButton(&button);
 
 	List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/Bookmarks", g_ToolbarHandleBookmarks ));
-	button.pszButtonID = button.pszServiceName = "JABBER/*/Bookmarks";
-	button.pszTooltipUp = button.pszTooltipUp = button.pszButtonName = "Open bookmarks";
-	button.hSecondaryIconHandle = button.hPrimaryIconHandle = (HANDLE)g_GetIconHandle(IDI_BOOKMARKS);
-	button.defPos++;
-	JCallService(MS_TB_ADDBUTTON, 0, (LPARAM)&button);
+	button.pszService = "JABBER/*/Bookmarks";
+	button.pszTooltipUp = button.pszTooltipUp = button.name = "Open bookmarks";
+	button.hIconHandleDn = button.hIconHandleUp = (HANDLE)g_GetIconHandle(IDI_BOOKMARKS);
+	TopToolbar_AddButton(&button);
 
 	List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/ServiceDiscovery", g_ToolbarHandleServiceDiscovery ));
-	button.pszButtonID = button.pszServiceName = "JABBER/*/ServiceDiscovery";
-	button.pszTooltipUp = button.pszTooltipUp = button.pszButtonName = "Service discovery";
-	button.hSecondaryIconHandle = button.hPrimaryIconHandle = (HANDLE)g_GetIconHandle(IDI_SERVICE_DISCOVERY);
-	button.defPos++;
-	JCallService(MS_TB_ADDBUTTON, 0, (LPARAM)&button);
+	button.pszService = "JABBER/*/ServiceDiscovery";
+	button.pszTooltipUp = button.pszTooltipUp = button.name = "Service discovery";
+	button.hIconHandleDn = button.hIconHandleUp = (HANDLE)g_GetIconHandle(IDI_SERVICE_DISCOVERY);
+	TopToolbar_AddButton(&button);
 	return 0;
 }
 

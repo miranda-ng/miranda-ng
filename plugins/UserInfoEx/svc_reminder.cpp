@@ -901,7 +901,7 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
  *
  * @return	nothing
  **/
-int hTTButton = -1;
+
 VOID SvcReminderOnTopToolBarLoaded()
 {
 	TTBButton ttb = { 0 };
@@ -910,37 +910,9 @@ VOID SvcReminderOnTopToolBarLoaded()
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
 	ttb.pszService = MS_USERINFO_REMINDER_CHECK;
 	ttb.name = "Check anniversaries";
+	ttb.pszTooltipUp = ttb.pszTooltipDn = LPGEN("Check anniversaries");
 	ttb.hIconHandleDn = ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_BIRTHDAY);
-				
-	hTTButton = CallService(MS_TTB_ADDBUTTON, (WPARAM) &ttb, 0);
-	if (hTTButton)
-		CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hTTButton), (LPARAM)"Check anniversaries");
-}
-
-/**
- * This function is called by the ME_TB_MODULELOADED event.
- * It adds a set of buttons to the Toolbar of the Modern Contact List.
- *
- * @param	none
- *
- * @return	nothing
- **/
-VOID SvcReminderOnToolBarLoaded()
-{
-	TBButton tbb;
-
-	ZeroMemory(&tbb, sizeof(tbb));
-	tbb.cbSize = sizeof(tbb);
-	tbb.defPos = 2000;
-	tbb.tbbFlags = TBBF_VISIBLE | TBBF_SHOWTOOLTIP;
-	tbb.pszButtonName =
-	tbb.pszButtonID = TBB_IDBTN;
-	tbb.pszServiceName = MS_USERINFO_REMINDER_CHECK;
-	tbb.pszTooltipDn =
-	tbb.pszTooltipUp = LPGEN("Check anniversaries");
-	tbb.hPrimaryIconHandle = tbb.hSecondaryIconHandle = Skin_GetIconHandle(ICO_COMMON_BIRTHDAY);
-
-	CallService(MS_TB_ADDBUTTON, 0, (LPARAM) &tbb);
+	TopToolbar_AddButton(&ttb);
 }
 
 

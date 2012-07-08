@@ -25,9 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MS_CONSOLE_SHOW_HIDE "Console/Show/Hide"
 
-// console toptoolbarbutton(old) integration
-#define TTB  1
-
 #define DEFAULT_WRAPLEN 90
 #define MIN_WRAPLEN     25
 #define MAX_WRAPLEN     255
@@ -106,9 +103,6 @@ static DWORD OutMsgs = 0;
 static DWORD InMsgs = 0;
 
 static HICON hIcons[15] = {0};
-static HANDLE hHooks[4] = {0};
-
-static HANDLE hTButton = 0;
 static HANDLE hMenu = NULL;
 
 static void LoadSettings();
@@ -118,7 +112,6 @@ static int Openfile(TCHAR *outputFile, int selection);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifdef TTB
 static HANDLE hTTBButt = 0;
 
 static INT_PTR HideConsoleButt(WPARAM wParam,LPARAM lParam)
@@ -135,33 +128,46 @@ static INT_PTR ShowConsoleButt(WPARAM wParam,LPARAM lParam)
 
 static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 {
+	if ( !IsWindow(hwndConsole))
+		return 0;
 
-	if (IsWindow(hwndConsole))
-	{
-		TTBButton ttbb = {0};
-		int state = IsWindowVisible(hwndConsole);
+	int state = IsWindowVisible(hwndConsole);
 
-		CreateServiceFunction("Console/Hide", HideConsoleButt);
-		CreateServiceFunction("Console/Show", ShowConsoleButt);
+	CreateServiceFunction("Console/Hide", HideConsoleButt);
+	CreateServiceFunction("Console/Show", ShowConsoleButt);
 
-		ttbb.cbSize = sizeof(ttbb);
-		ttbb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONSOLE_UP));
-		ttbb.hIconDn = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONSOLE_DOWN));
-		ttbb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-		ttbb.pszService = "Console/Hide";
-		ttbb.name = Translate("Show/Hide Console");
-		hTTBButt = (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttbb, 0);
+	TTBButton ttbb = {0};
+	ttbb.cbSize = sizeof(ttbb);
 
-		if (hTTBButt) {
-			CallService(MS_TTB_SETBUTTONOPTIONS,MAKEWPARAM(TTBO_TIPNAME,hTTBButt),
-				(LPARAM)(state?Translate("Hide Console"):Translate("Show Console")));
+	TCHAR szModuleFileName[MAX_PATH]={0};
+	GetModuleFileName(hInst, szModuleFileName, SIZEOF(szModuleFileName));
 
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButt, (LPARAM)(state?TTBST_PUSHED:TTBST_RELEASED));
-		}
-	}
+	SKINICONDESC sid={0};
+	sid.cbSize = sizeof(sid);
+	sid.pszSection = "Console";
+	sid.ptszDefaultFile = szModuleFileName;
+	sid.flags = SIDF_PATH_TCHAR;
+	sid.pszDescription = "Show";
+	sid.pszName = "Console_Up";
+	sid.iDefaultIndex = -IDI_BTN_UP;
+	ttbb.hIconHandleUp = Skin_AddIcon(&sid);
+
+	sid.pszDescription = "Hide";
+	sid.pszName = "Console_Down";
+	sid.iDefaultIndex = -IDI_BTN_DN;
+	ttbb.hIconHandleDn = Skin_AddIcon(&sid);
+
+	ttbb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+	ttbb.pszService = "Console/Hide";
+	ttbb.name = LPGEN("Show/Hide Console");
+	ttbb.pszTooltipDn = LPGEN("Hide Console");
+	ttbb.pszTooltipUp = LPGEN("Show Console");
+	hTTBButt = TopToolbar_AddButton(&ttbb);
+	if (hTTBButt)
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButt, (LPARAM)(state?TTBST_PUSHED:TTBST_RELEASED));
+
 	return 0;
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -204,19 +210,8 @@ static void ShowConsole(int show)
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenu, (LPARAM)&mi);
 	}
 
-	if (hTButton)
-	{
-		CallService(MS_TB_SETBUTTONSTATEBYID, (WPARAM)"console_btn", (show)?TBST_PUSHED:TBST_RELEASED);
-	}
-
-#ifdef TTB
 	if (hTTBButt)
-	{
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButt, (show)?TTBST_PUSHED:TTBST_RELEASED);
-		CallService(MS_TTB_SETBUTTONOPTIONS,MAKEWPARAM(TTBO_TIPNAME,hTTBButt),
-			(LPARAM)(show?Translate("Hide Console"):Translate("Show Console")));
-	}
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1250,9 +1245,7 @@ static int OnFontChange(WPARAM wParam,LPARAM lParam)
 
 static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	int i = 1;
-	if ( !hHooks[0] )
-		hHooks[0] = HookEvent( ME_NETLIB_FASTDUMP, OnFastDump );
+	HookEvent( ME_NETLIB_FASTDUMP, OnFastDump );
 
 	CreateServiceFunction(MS_CONSOLE_SHOW_HIDE, ShowHideConsole);
 
@@ -1272,7 +1265,7 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	_tcsncpy(fid.deffontsettings.szFace, _T("Courier"), LF_FACESIZE);
 	FontRegisterT(&fid);
 
-	hHooks[i++] = HookEvent(ME_FONT_RELOAD,OnFontChange);
+	HookEvent(ME_FONT_RELOAD,OnFontChange);
 
 	ColourIDT cid = {0};
 	cid.cbSize=sizeof(cid);
@@ -1283,7 +1276,7 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	cid.defcolour = RGB(255,255,255);
 	ColourRegisterT(&cid);
 
-	hHooks[i++] = HookEvent(ME_COLOUR_RELOAD, OnColourChange);
+	HookEvent(ME_COLOUR_RELOAD, OnColourChange);
 
 	HOTKEYDESC hkd = {0};
 	hkd.cbSize = sizeof(hkd);
@@ -1294,46 +1287,10 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_EXT, 'C');
 	Hotkey_Register(&hkd);
 
-	if (ServiceExists(MS_TB_ADDBUTTON)) {
-		TBButton tbb = {0};
-		SKINICONDESC sid={0};
-		TCHAR szModuleFileName[MAX_PATH]={0};
-		GetModuleFileName(hInst, szModuleFileName, SIZEOF(szModuleFileName));
-
-		sid.cbSize = sizeof(sid);
-		sid.pszSection = "Console";
-		sid.ptszDefaultFile = szModuleFileName;
-		sid.flags = SIDF_PATH_TCHAR;
-
-		sid.pszDescription = "Show";
-		sid.pszName = "Console_Up";
-		sid.iDefaultIndex = -IDI_BTN_UP;
-		Skin_AddIcon(&sid);
-
-		sid.pszDescription = "Hide";
-		sid.pszName = "Console_Down";
-		sid.iDefaultIndex = -IDI_BTN_DN;
-		Skin_AddIcon(&sid);
-
-		tbb.cbSize = sizeof(TBButton);
-		tbb.pszButtonID = "console_btn";
-		tbb.pszButtonName = Translate("Show/Hide Console");
-		tbb.pszServiceName = MS_CONSOLE_SHOW_HIDE;
-		tbb.hPrimaryIconHandle = (HANDLE)CallService(MS_SKIN2_GETICONHANDLE,0, (LPARAM)"Console_Up");
-		tbb.hSecondaryIconHandle = (HANDLE)CallService(MS_SKIN2_GETICONHANDLE,0, (LPARAM)"Console_Down");
-		tbb.pszTooltipUp = Translate("Show Console");
-		tbb.pszTooltipDn = Translate("Hide Console");
-		tbb.tbbFlags = TBBF_VISIBLE|TBBF_SHOWTOOLTIP;
-		tbb.defPos = 20000;
-		hTButton = (HANDLE)CallService(MS_TB_ADDBUTTON,0, (LPARAM)&tbb);
-	}
-
 	if (hwndConsole && IsWindow(hwndConsole))
 	{
 		CLISTMENUITEM mi={0};
-#ifdef TTB
-		hHooks[i++] = HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
-#endif
+		HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 		mi.cbSize=sizeof(mi);
 		mi.flags=CMIF_TCHAR;
 		mi.hIcon=hIcons[0];
@@ -1358,15 +1315,8 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 static int PreshutdownConsole(WPARAM wParam,LPARAM lParam)
 {
-	int i;
-
-	if (hwndConsole) {
+	if (hwndConsole)
 		PostMessage(hwndConsole, WM_CLOSE, 0, 1 );
-	}
-
-	for (i=0;i<SIZEOF(hHooks);i++) {
-		if (hHooks[i]) UnhookEvent(hHooks[i]);
-	}
 
 	return 0;
 }
@@ -1418,8 +1368,7 @@ void InitConsole()
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownConsole);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, OptInit);
-
-	hHooks[0] = HookEvent( ME_NETLIB_FASTDUMP, OnFastDump );
+	HookEvent(ME_NETLIB_FASTDUMP, OnFastDump);
 }
 
 void ShutdownConsole(void)

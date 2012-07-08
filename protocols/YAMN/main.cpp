@@ -53,7 +53,7 @@ PLUGININFOEX pluginInfo = {
 
 HANDLE hNewMailHook;
 HANDLE NoWriterEV;
-HANDLE hTTButton, hTButton;
+HANDLE hTTButton;
 
 UINT SecTimer;
 

@@ -80,15 +80,11 @@ HANDLE hGetStatus			= NULL;
 
 //===== Event Handles =====
 HANDLE hOptionsInitialize;
-//HANDLE hNotifyOptionsInitialize;		deprecatet
 HANDLE hModulesLoaded;
-HANDLE hTTBLoaded;
-HANDLE hTBLoaded;
 HANDLE hOkToExit;
 HANDLE hIconsChanged, hFontsChanged;
 HANDLE hEventStatusChanged; //To automatically disable on status change.
-int hTTButton = -1;
-HANDLE hTButton = NULL;
+HANDLE hTTButton = NULL;
 
 GLOBAL g_popup = {0};
 
@@ -207,47 +203,21 @@ static int IconsChanged(WPARAM wParam,LPARAM lParam)
 
 static int TTBLoaded(WPARAM wParam,LPARAM lParam)
 {
-	if (hTTButton == -1) {
-		TTBButton btn	= {0};
-		btn.cbSize     = sizeof(btn);
-		btn.pszService	= MENUCOMMAND_SVC;
-		btn.lParamUp   = 1;
-		btn.lParamDown	= 0;
-		btn.dwFlags    = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-		btn.name       = "Toggle Popups";
-		btn.hIconUp    = IcoLib_GetIcon(ICO_POPUP_OFF,0);
-		btn.hIconDn	   = IcoLib_GetIcon(ICO_POPUP_ON,0);
-		hTTButton = CallService(MS_TTB_ADDBUTTON, (WPARAM)&btn, 0);
+	if ( !hTTButton) {
+		TTBButton btn = {0};
+		btn.cbSize        = sizeof(btn);
+		btn.pszService	   = MENUCOMMAND_SVC;
+		btn.lParamUp      = 1;
+		btn.dwFlags       = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+		btn.name          = LPGEN("Toggle Popups");
+		btn.hIconHandleUp = Skin_GetIconHandle(ICO_TB_POPUP_OFF);
+		btn.hIconHandleDn = Skin_GetIconHandle(ICO_TB_POPUP_ON);
+		btn.pszTooltipUp  = LPGEN("Enable popups");
+		btn.pszTooltipDn  = LPGEN("Disable popups");
+		hTTButton = TopToolbar_AddButton(&btn);
 	}
 
-	if (PopUpOptions.ModuleIsEnabled) {
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, TTBST_RELEASED);
-		CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME,hTTButton), (LPARAM)LPGEN("Disable popups"));
-	}
-	else {
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, TTBST_PUSHED);
-		CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME,hTTButton), (LPARAM)LPGEN("Enable popups"));
-	}
-	return 0;
-}
-
-//register Modern Toolbarbutton
-static int ToolbarSet(WPARAM, LPARAM){
-	if (hTButton == NULL){
-		TBButton tbb				= {0};
-		tbb.cbSize					= sizeof(TBButton);
-		tbb.pszButtonID				= "PopupToogle";
-		tbb.pszButtonName			= Translate("Toggle Popups");
-		tbb.pszServiceName			= MENUCOMMAND_SVC;
-		tbb.pszTooltipUp			= Translate("Popups are disabled");
-		tbb.pszTooltipDn			= Translate("Popups are enabled");
-		tbb.hPrimaryIconHandle		= (HANDLE)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)ICO_TB_POPUP_OFF);
-		tbb.hSecondaryIconHandle	= (HANDLE)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)ICO_TB_POPUP_ON);
-		tbb.tbbFlags				= TBBF_VISIBLE;
-		tbb.defPos					= 10000;
-		hTButton = (HANDLE)CallService(MS_TB_ADDBUTTON,0, (LPARAM)&tbb);
-	}
-	CallService(MS_TB_SETBUTTONSTATEBYID, (WPARAM)"PopupToogle", PopUpOptions.ModuleIsEnabled?TBST_PUSHED:TBST_RELEASED);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, (PopUpOptions.ModuleIsEnabled) ? TTBST_RELEASED : TTBST_PUSHED);
 	return 0;
 }
 
@@ -280,7 +250,6 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM wp, LPARAM lp)
 	mi.flags = CMIM_ICON;
 	iResultRoot = CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuRoot,(LPARAM)&mi);
 	TTBLoaded(0,0);
-	ToolbarSet(0,0);
 	if(iResult && iResultRoot)
 		return 1;
 	else
@@ -420,7 +389,7 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	LoadActions();
 	LoadNotifications();
 	//hook TopToolBar
-	hTTBLoaded = HookEvent(ME_TTB_MODULELOADED, TTBLoaded);
+	HookEvent(ME_TTB_MODULELOADED, TTBLoaded);
 	//Folder plugin support
 	LPTSTR pszPath = mir_a2t(MIRANDA_PATH "\\Skins\\PopUp");
 	folderId = FoldersRegisterCustomPathT(MODULNAME_LONG, "Skins", pszPath);
@@ -439,11 +408,6 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	SrmmMenu_Load();
 	//Hotkey
 	LoadHotkey();
-	//Modern Toolbar support
-	if(ServiceExists(MS_TB_ADDBUTTON)) {
-		hTBLoaded = HookEvent(ME_TB_MODULELOADED, ToolbarSet);
-		ToolbarSet(0,0);
-	}
 	//Updater support
 	if(ServiceExists(MS_UPDATE_REGISTER)) registerUpdate();
 
@@ -589,7 +553,6 @@ MIRAPI int Unload(void)
 	UnhookEvent(hEventStatusChanged);
 	UnhookEvent(hIconsChanged);
 	UnhookEvent(hFontsChanged);
-	UnhookEvent(hTBLoaded);
 
 	DestroyServiceFunction(hShowHistory);
 	DestroyServiceFunction(hTogglePopup);

@@ -108,21 +108,6 @@ static int OnAccListChanged(WPARAM, LPARAM)
 		mi.ptszName = LPGENT("&Add Contact...");
 		mi.pszService = MS_ADDCONTACTPLUS_SHOW;
 		hMainMenuItem = Menu_AddMainMenuItem(&mi);
-
-		if (ServiceExists(MS_TB_ADDBUTTON))
-		{
-			TBButton tbb = {0};
-
-			tbb.cbSize = sizeof(TBButton);
-			tbb.tbbFlags = TBBF_VISIBLE | TBBF_SHOWTOOLTIP;
-			tbb.pszButtonID = "acplus_btn";
-			tbb.pszButtonName = Translate("Add Contact");
-			tbb.pszServiceName = MS_ADDCONTACTPLUS_SHOW;
-			tbb.pszTooltipUp = Translate("Add Contact");
-			tbb.hPrimaryIconHandle = hIconLibItem;
-			tbb.defPos = 10100;
-			hToolBarItem = (HANDLE)CallService(MS_TB_ADDBUTTON, 0, (LPARAM)&tbb);
-		}
 	}
 	else
 	{
@@ -130,11 +115,24 @@ static int OnAccListChanged(WPARAM, LPARAM)
 			return 0;
 
 		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hMainMenuItem, 0);
-		CallService(MS_TB_REMOVEBUTTON, (WPARAM)hToolBarItem, 0);
+		CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hToolBarItem, 0);
 
 		hMainMenuItem = 0;
 	}
 
+	return 0;
+}
+
+static int CreateButton(WPARAM, LPARAM)
+{
+	TTBButton tbb = {0};
+	tbb.cbSize = sizeof(tbb);
+	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	tbb.name = "Add Contact";
+	tbb.pszService = MS_ADDCONTACTPLUS_SHOW;
+	tbb.pszTooltipUp = "Add Contact";
+	tbb.hIconHandleUp = hIconLibItem;
+	hToolBarItem = TopToolbar_AddButton(&tbb);
 	return 0;
 }
 
@@ -171,7 +169,8 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	Hotkey_Register(&hkd);
 
 	OnAccListChanged(0, 0);
-
+	
+	HookEvent(ME_TTB_MODULELOADED, CreateButton);
 	return 0;
 }
 
