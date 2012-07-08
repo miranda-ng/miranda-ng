@@ -154,17 +154,18 @@ TCHAR* fnGetContactDisplayName(HANDLE hContact, int mode)
 
 INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
 {
+	static char retVal[200];
 	ClcCacheEntryBase* cacheEntry = NULL;
-	char *buffer;
 	HANDLE hContact = (HANDLE)wParam;
 
 	if (lParam & GCDNF_UNICODE)
 		return (INT_PTR)cli.pfnGetContactDisplayName(hContact, lParam & ~GCDNF_UNICODE);
 
-	if (lParam != GCDNF_NOMYHANDLE) {
+	if (lParam & GCDNF_NOCACHE)
+		lParam &= ~GCDNF_NOCACHE;
+	else if (lParam != GCDNF_NOMYHANDLE) {
 		cacheEntry = cli.pfnGetCacheEntry(hContact);
 		if (cacheEntry->tszName) {
-			static char retVal[200];
 			strncpy(retVal, _T2A(cacheEntry->tszName), SIZEOF(retVal));
 			return (INT_PTR)retVal;
 		}
@@ -178,27 +179,28 @@ INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
 	ci.dwFlag = ((lParam == GCDNF_NOMYHANDLE) ? CNF_DISPLAYNC : CNF_DISPLAY) | CNF_TCHAR;
 	if ( !CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
+			strncpy(retVal, _T2A(ci.pszVal), SIZEOF(retVal));
 			if (cacheEntry == NULL) {
-				buffer = mir_u2a(ci.pszVal);
 				mir_free(ci.pszVal);
-				return (INT_PTR) buffer;
+				return (INT_PTR)mir_strdup(retVal);
 			}
 			
 			cacheEntry->tszName = ci.pszVal;
-			return (INT_PTR)cacheEntry->tszName;
+			return (INT_PTR)retVal;
 		}
 		if (ci.type == CNFT_DWORD) {
-			buffer = (char*)mir_alloc(15);
-			_ltoa(ci.dVal, buffer, 10);
-			if (cacheEntry != NULL)
-				cacheEntry->tszName = mir_a2u(buffer);
-			return (INT_PTR) buffer;
+			_ltoa(ci.dVal, retVal, 10);
+			if (cacheEntry == NULL)
+				return (INT_PTR)mir_strdup(retVal);
+				
+			cacheEntry->tszName = mir_a2u(retVal);
+			return (INT_PTR)retVal;
 		}
 	}
 
 	CallContactService(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);
-	buffer = Translate("(Unknown Contact)");
-	return (INT_PTR) buffer;
+	char* result = Translate("(Unknown Contact)");
+	return (INT_PTR)((cacheEntry == NULL) ? mir_strdup(result) : result);
 }
 
 INT_PTR InvalidateDisplayName(WPARAM wParam, LPARAM)

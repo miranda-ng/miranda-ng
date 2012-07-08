@@ -112,7 +112,7 @@ void CheckPDNCE(ClcCacheEntryBase *_pdnce)
 	else {
 		if (pdnce->isUnknown&&pdnce->szProto&&pdnce->protoNotExists == TRUE&&OnModulesLoadedCalled) {
 			pdnce->protoNotExists = FALSE;
-            mir_free(pdnce->tszName);
+			mir_free(pdnce->tszName);
 			pdnce->tszName = GetNameForContact(pdnce->hContact,0,&pdnce->isUnknown);
 	}	}
 

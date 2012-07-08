@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2005-2009 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 
@@ -114,7 +114,7 @@ static void __bcopy(char *dest, const WCHAR *orig, size_t len)
 
 
 template<class T>
-class Buffer 
+class Buffer
 {
 	public:
 		size_t len;
@@ -122,7 +122,7 @@ class Buffer
 
 		Buffer() : str(NULL), size(0), len(0)
 		{
-			alloc(1);			
+			alloc(1);
 			pack();
 		}
 
@@ -145,13 +145,13 @@ class Buffer
 			free();
 		}
 
-		void pack() 
+		void pack()
 		{
 			if (str != NULL)
 				memset(&str[len], 0, sizeof(str[len]));
 		}
 
-		void alloc(size_t total) 
+		void alloc(size_t total)
 		{
 			if (total > size)
 			{
@@ -173,7 +173,7 @@ class Buffer
 			}
 		}
 
-		void clear() 
+		void clear()
 		{
 			len = 0;
 			pack();
@@ -308,7 +308,7 @@ class Buffer
 			size_t oldLen = end - start;
 			if (oldLen < appLen)
 				alloc(len + appLen - oldLen + 1);
-			
+
 			if (end < len && oldLen != appLen)
 				memmove(&str[start + appLen], &str[end], (len - end) * sizeof(T));
 			memmove(&str[start], app, appLen * sizeof(T));
@@ -348,7 +348,7 @@ class Buffer
 			}
 		}
 
-		T *appender(size_t appLen) 
+		T *appender(size_t appLen)
 		{
 			alloc(len + appLen + 1);
 			T *ret = &str[len];
@@ -356,18 +356,18 @@ class Buffer
 			return ret;
 		}
 
-		T *lock(size_t maxSize) 
+		T *lock(size_t maxSize)
 		{
 			alloc(len + maxSize + 1);
 			return &str[len];
 		}
 
-		void release() 
+		void release()
 		{
 			len += max(__blen(&str[len]), size - len - 1);
 		}
 
-		T *detach() 
+		T *detach()
 		{
 			T *ret = str;
 			str = NULL;
@@ -375,29 +375,29 @@ class Buffer
 			return ret;
 		}
 
-		void trimRight() 
+		void trimRight()
 		{
 			if (str == NULL)
 				return;
 
 			int e;
-			for(e = len-1; e >= 0 && (str[e] == (T)' ' 
-									  || str[e] == (T)'\t' 
-									  || str[e] == (T)'\r' 
+			for(e = len-1; e >= 0 && (str[e] == (T)' '
+									  || str[e] == (T)'\t'
+									  || str[e] == (T)'\r'
 									  || str[e] == (T)'\n'); e--) ;
 			len = e+1;
 			pack();
 		}
 
-		void trimLeft() 
+		void trimLeft()
 		{
 			if (str == NULL)
 				return;
 
 			int s;
-			for(s = 0; str[s] == (T)' ' 
-					   || str[s] == (T)'\t' 
-					   || str[s] == (T)'\r' 
+			for(s = 0; str[s] == (T)' '
+					   || str[s] == (T)'\t'
+					   || str[s] == (T)'\r'
 					   || str[s] == (T)'\n'; s++) ;
 			if (s > 0)
 			{
@@ -407,45 +407,45 @@ class Buffer
 			pack();
 		}
 
-		void trim() 
+		void trim()
 		{
 			trimRight();
 			trimLeft();
 		}
 
-		Buffer<T>& operator+=(const char *txt) 
+		Buffer<T>& operator+=(const char *txt)
 		{
 			append(txt);
 			return *this;
 		}
 
-		Buffer<T>& operator+=(const WCHAR *txt) 
+		Buffer<T>& operator+=(const WCHAR *txt)
 		{
 			append(txt);
 			return *this;
 		}
 
-		Buffer<T>& operator+=(const Buffer<T> &txt) 
+		Buffer<T>& operator+=(const Buffer<T> &txt)
 		{
 			append(txt);
 			return *this;
 		}
 
-		Buffer<T>& operator=(const char *txt) 
-		{
-			clear();
-			append(txt);
-			return *this;
-		}
-
-		Buffer<T>& operator=(const WCHAR *txt) 
+		Buffer<T>& operator=(const char *txt)
 		{
 			clear();
 			append(txt);
 			return *this;
 		}
 
-		Buffer<T>& operator=(const Buffer<T> &txt) 
+		Buffer<T>& operator=(const WCHAR *txt)
+		{
+			clear();
+			append(txt);
+			return *this;
+		}
+
+		Buffer<T>& operator=(const Buffer<T> &txt)
 		{
 			clear();
 			append(txt);
@@ -482,7 +482,7 @@ static void ReplaceVars(Buffer<TCHAR> *buffer, HANDLE hContact, TCHAR **variable
 				size_t foundLen = i - j + 1;
 				if (foundLen == 9 && _tcsncmp(&buffer->str[j], _T("%contact%"), 9) == 0)
 				{
-					buffer->replace(j, i + 1, (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR | GCDNF_NOCACHE));
+					buffer->replace(j, i + 1, (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR));
 				}
 				else if (foundLen == 6 && _tcsncmp(&buffer->str[j], _T("%date%"), 6) == 0)
 				{
@@ -512,7 +512,7 @@ static void ReplaceVars(Buffer<TCHAR> *buffer, HANDLE hContact, TCHAR **variable
 			if (i == 0)
 				break;
 		}
-		else if (buffer->str[i] == _T('\\') && i+1 <= buffer->len-1 && buffer->str[i+1] == _T('n')) 
+		else if (buffer->str[i] == _T('\\') && i+1 <= buffer->len-1 && buffer->str[i+1] == _T('n'))
 		{
 			buffer->str[i] = _T('\r');
 			buffer->str[i+1] = _T('\n');
@@ -524,7 +524,7 @@ static void ReplaceVars(Buffer<TCHAR> *buffer, HANDLE hContact, TCHAR **variable
 static void ReplaceTemplate(Buffer<TCHAR> *out, HANDLE hContact, TCHAR *templ, TCHAR **vars, int numVars)
 {
 
-	if (ServiceExists(MS_VARS_FORMATSTRING)) 
+	if (ServiceExists(MS_VARS_FORMATSTRING))
 	{
 		TCHAR *tmp = variables_parse_ex(templ, NULL, hContact, vars, numVars);
 		if (tmp != NULL)

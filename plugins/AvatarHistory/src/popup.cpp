@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2005 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 
@@ -44,7 +44,7 @@ static LRESULT CALLBACK DumbPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam,
 void InitPopups()
 {
 	// window needed for popup commands
-	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, _T("static"), _T(MODULE_NAME) _T("_PopupWindow"), 
+	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, _T("static"), _T(MODULE_NAME) _T("_PopupWindow"),
 		0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP,
 		NULL, hInst, NULL);
 	SetWindowLong(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
@@ -88,21 +88,21 @@ typedef struct
 {
 	void* plugin_data;
 	HICON hIcon;
-} 
+}
 PopupDataType;
 
 // Show an popup
-void ShowPopupEx(HANDLE hContact, const TCHAR *title, const TCHAR *description, 
+void ShowPopupEx(HANDLE hContact, const TCHAR *title, const TCHAR *description,
 			   void *plugin_data, int type, const Options *op)
 {
-	if(ServiceExists(MS_POPUP_ADDPOPUPT)) 
+	if(ServiceExists(MS_POPUP_ADDPOPUPT))
 	{
 		// Make popup
 		POPUPDATAT ppd = {0};
 
-		ppd.lchContact = hContact; 
+		ppd.lchContact = hContact;
 		ppd.lchIcon = createProtoOverlayedIcon(hContact);
-		
+
 		ppd.PluginData = mir_alloc(sizeof(PopupDataType));
 		((PopupDataType*)ppd.PluginData)->plugin_data = plugin_data;
 		((PopupDataType*)ppd.PluginData)->hIcon = ppd.lchIcon;
@@ -110,7 +110,7 @@ void ShowPopupEx(HANDLE hContact, const TCHAR *title, const TCHAR *description,
 		if (title != NULL)
 			lstrcpyn(ppd.lptzContactName, title, MAX_REGS(ppd.lptzContactName));
 		else if (hContact != NULL)
-			lstrcpyn(ppd.lptzContactName, (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR | GCDNF_NOCACHE), 
+			lstrcpyn(ppd.lptzContactName, (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR),
 					MAX_REGS(ppd.lptzContactName));
 
 		if (description != NULL)
@@ -148,10 +148,10 @@ void ShowPopupEx(HANDLE hContact, const TCHAR *title, const TCHAR *description,
 		{
 			ppd.PluginWindowProc = DumbPopupDlgProc;
 		}
-		
+
 		if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST)
 		{
-			switch (op->popup_delay_type) 
+			switch (op->popup_delay_type)
 			{
 				case POPUP_DELAY_CUSTOM:
 					ppd.iSeconds = opts.popup_timeout;
@@ -177,7 +177,7 @@ void ShowPopupEx(HANDLE hContact, const TCHAR *title, const TCHAR *description,
 	}
 	else
 	{
-		MessageBox(NULL, description, title ? title : (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR), 
+		MessageBox(NULL, description, title ? title : (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR),
 			MB_OK);
 	}
 
@@ -186,7 +186,7 @@ void ShowPopupEx(HANDLE hContact, const TCHAR *title, const TCHAR *description,
 
 // Handle to the hidden windows to handle actions for popup clicks
 // wParam has the number of MOTD in case of WMU_SHOW_MOTD_DETAILS
-LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
+LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (uMsg == WMU_ACTION)
 	{
@@ -218,7 +218,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			return TRUE;
 		}
 
-		case WM_CONTEXTMENU: 
+		case WM_CONTEXTMENU:
 		{
 			PopupDataType* popup = (PopupDataType*)PUGetPluginData(hWnd);
 			PostMessage(hPopupWindow, WMU_ACTION, (WPARAM)popup->plugin_data, opts.popup_right_click_action);
@@ -229,7 +229,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			return TRUE;
 		}
 
-		case UM_FREEPLUGINDATA: 
+		case UM_FREEPLUGINDATA:
 		{
 			PopupDataType* popup = (PopupDataType*)PUGetPluginData(hWnd);
 			if ((INT_PTR)popup != CALLSERVICE_NOTFOUND)
@@ -255,13 +255,13 @@ static LRESULT CALLBACK DumbPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam,
 			return TRUE;
 		}
 
-		case WM_CONTEXTMENU: 
+		case WM_CONTEXTMENU:
 		{
 			PUDeletePopUp(hWnd);
 			return TRUE;
 		}
 
-		case UM_FREEPLUGINDATA: 
+		case UM_FREEPLUGINDATA:
 		{
 			PopupDataType* popup = (PopupDataType*)PUGetPluginData(hWnd);
 			if ((INT_PTR)popup != CALLSERVICE_NOTFOUND)
@@ -275,5 +275,3 @@ static LRESULT CALLBACK DumbPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam,
 
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
-
-
