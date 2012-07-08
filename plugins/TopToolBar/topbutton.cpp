@@ -28,21 +28,21 @@ DWORD TopButtonInt::CheckFlags(DWORD Flags)
 		EnableWindow(hwnd,(dwFlags & TTBBF_DISABLED)?FALSE:TRUE);
 	}
 	if (BitChanged(TTBBF_ASPUSHBUTTON)) {
-		dwFlags^=TTBBF_ASPUSHBUTTON;
+		dwFlags ^= TTBBF_ASPUSHBUTTON;
 		SendMessage(hwnd, BUTTONSETASPUSHBTN, (dwFlags & TTBBF_ASPUSHBUTTON)?1:0, 0);
 	}
 	if (BitChanged(TTBBF_SHOWTOOLTIP)) {
-		dwFlags^=TTBBF_SHOWTOOLTIP;
+		dwFlags ^= TTBBF_SHOWTOOLTIP;
 		SendMessage(hwnd,BUTTONADDTOOLTIP,
 			(WPARAM)((dwFlags & TTBBF_SHOWTOOLTIP)?tooltip:L""),BATF_UNICODE);
 	}
 	// next settings changing visual side, requires additional actions
 	if (BitChanged(TTBBF_VISIBLE)) {
-		dwFlags^=TTBBF_VISIBLE;
+		dwFlags ^= TTBBF_VISIBLE;
 		res |= TTBBF_VISIBLE;
 	}
 	if (BitChanged(TTBBF_PUSHED)) {
-		dwFlags^=TTBBF_PUSHED;
+		dwFlags ^= TTBBF_PUSHED;
 		res |= TTBBF_PUSHED;
 		bPushed = (dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
 	}

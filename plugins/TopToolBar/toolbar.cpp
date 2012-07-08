@@ -101,7 +101,7 @@ void LoadAllLButs()
 {
 	//must be locked
 	int cnt = DBGetContactSettingByte(0, TTB_OPTDIR, "LaunchCnt", 0);
-	for (int i = 1; i<=cnt; i++)
+	for (int i = 0; i < cnt; i++)
 		InsertLBut(i);
 }
 
@@ -120,7 +120,7 @@ void LoadAllSeparators()
 {
 	//must be locked
 	int cnt = DBGetContactSettingByte(0, TTB_OPTDIR, "SepCnt", 0);
-	for (int i = 1; i<=cnt; i++)
+	for (int i = 0; i < cnt; i++)
 		InsertSeparator(i);
 }
 
