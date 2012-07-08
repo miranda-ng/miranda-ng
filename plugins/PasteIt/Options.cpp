@@ -199,7 +199,7 @@ void GetPagesSettings(HWND hwndDlg, OptsPagesData* optsPagesData)
 {
 	int selected = optsPagesData->lastPage;
 	int format = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_DEFFORMAT));
-	if(format >= 0 && format < optsPagesData->webOptions[selected]->formats.size())
+	if(format >= 0 && format < (int)optsPagesData->webOptions[selected]->formats.size())
 	{
 		for(std::list<PasteFormat>::iterator it = optsPagesData->webOptions[selected]->formats.begin(); it != optsPagesData->webOptions[selected]->formats.end(); ++it)
 		{
@@ -218,7 +218,7 @@ void GetPagesSettings(HWND hwndDlg, OptsPagesData* optsPagesData)
 	if(optsPagesData->webOptions[selected]->isCombo1)
 	{
 		int sel = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_COMBO1));	
-		if(sel >= 0 && sel < optsPagesData->webOptions[selected]->combo1Values.size())
+		if(sel >= 0 && sel < (int)optsPagesData->webOptions[selected]->combo1Values.size())
 		{
 			for(std::list<PasteFormat>::iterator it = optsPagesData->webOptions[selected]->combo1Values.begin(); it != optsPagesData->webOptions[selected]->combo1Values.end(); ++it)
 			{
@@ -477,7 +477,7 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 
 void SelectLbConfigure(HWND hwndDlg, int sel, OptsConfigureData* optsConfigureData)
 {
-	if(sel >= 0 && sel < optsConfigureData->tempFormats.size())
+	if(sel >= 0 && sel < (int)optsConfigureData->tempFormats.size())
 	{
 		Button_Enable(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 		if(sel == 0)
@@ -580,7 +580,7 @@ INT_PTR CALLBACK Options::DlgProcOptsConfigure(HWND hwndDlg, UINT msg, WPARAM wP
 					HWND lb = GetDlgItem(hwndDlg, IDC_FORMATTING);
 					OptsConfigureData* optsConfigureData = (OptsConfigureData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					int sel = ListBox_GetCurSel(lb);
-					if(sel >= 0 && sel + 1 < optsConfigureData->tempFormats.size())
+					if(sel >= 0 && sel + 1 < (int)optsConfigureData->tempFormats.size())
 					{
 						int i = sel;
 						for(std::list<PasteFormat>::iterator it = optsConfigureData->tempFormats.begin(); it != optsConfigureData->tempFormats.end(); ++it)
@@ -782,12 +782,12 @@ int Options::InitOptions(WPARAM wParam, LPARAM lParam)
 	odp.ptszTab = LPGENT("Main");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
 	odp.pfnDlgProc = Options::DlgProcOptsMain;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Web page");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PAGES);
 	odp.pfnDlgProc = Options::DlgProcOptsPages;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

@@ -21,8 +21,7 @@
 #include <map>
 #include <list>
 
-#define MIRANDA_VER		0x0700
-#define MIRANDA_CUSTOM_LP
+#define MIRANDA_VER		0x0A00
 
 #include <newpluginapi.h>
 #include <m_clist.h>
@@ -40,5 +39,4 @@
 #include <m_chat.h>
 #include <m_protoint.h>
 
-#include "sdk/m_msg_buttonsbar.h"
-#include "sdk/m_updater.h"
+#include "m_msg_buttonsbar.h"

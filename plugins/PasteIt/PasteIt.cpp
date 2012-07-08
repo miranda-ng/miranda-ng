@@ -41,6 +41,7 @@ HGENMENU hWebPageMenus[PasteToWeb::pages];
 HANDLE hMainIcon;
 HANDLE hOptionsInit;
 HANDLE hWindowEvent = NULL;
+HINSTANCE hInst;
 
 #define MODULE				"PasteIt"
 #define FROM_CLIPBOARD 10
@@ -58,13 +59,17 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE, 
-	0,
 	MIID_PASTEIT
 };
 
-MM_INTERFACE mmi = {0};
 XML_API xi = {0};
 int hLangpack = 0;
+
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
+{
+	hInst = hModule;
+	return TRUE;
+}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
@@ -169,25 +174,18 @@ void PasteIt(HANDLE hContact, int mode)
 						INT_PTR *vtable = (INT_PTR *)*vptr;   
 						if(VirtualQuery((void*)vtable[0], &mb, sizeof(MEMORY_BASIC_INFORMATION)))
 						{
-							typedef PLUGININFO * (__cdecl * Miranda_Plugin_Info) ( DWORD mirandaVersion );
 							typedef PLUGININFOEX * (__cdecl * Miranda_Plugin_InfoEx) ( DWORD mirandaVersion );
 							HINSTANCE hInst = (HINSTANCE)mb.AllocationBase;
 							// Now I can get PLUGININFOEX from protocol
-							Miranda_Plugin_Info info = (Miranda_Plugin_Info) GetProcAddress(hInst, "MirandaPluginInfo");
 							Miranda_Plugin_InfoEx infoEx = (Miranda_Plugin_InfoEx) GetProcAddress(hInst, "MirandaPluginInfoEx");
 							PLUGININFOEX* pi = NULL;
 							if(infoEx != NULL)
 							{
 								pi = infoEx(gMirandaVersion);
 							}
-							else if(info != NULL)
-							{
-								pi = (PLUGININFOEX*)info(gMirandaVersion);
-							}
-
 							// If PLUGININFOEX flags contains UNICODE_AWARE,
 							// this mean that protocol is unicode.
-							if(pi != NULL && pi->cbSize >= sizeof(PLUGININFO))
+							if(pi != NULL && pi->cbSize == sizeof(PLUGININFOEX))
 							{
 								isUnicodePlugin = pi->flags & UNICODE_AWARE;
 							}
@@ -386,7 +384,7 @@ void InitIcolib()
 	sid.pszName = "PasteIt_main";
 	sid.ptszDescription = LPGENT("Paste It");
 	sid.iDefaultIndex = -IDI_MENU;
-	hMainIcon = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hMainIcon = Skin_AddIcon(&sid);
 }
 
 void InitMenuItems()
@@ -400,7 +398,7 @@ void InitMenuItems()
 	mi.position = 3000090005;
 	mi.ptszName = _T("Paste It");
 
-	hContactMenu = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	hContactMenu = Menu_AddContactMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
 	mi.cbSize = sizeof(mi);
@@ -409,15 +407,15 @@ void InitMenuItems()
 	mi.hParentMenu = hContactMenu;
 	mi.popupPosition = FROM_CLIPBOARD;	
 	mi.ptszName = _T("Paste from clipboard");
-	CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddContactMenuItem(&mi);
 
 	mi.popupPosition = FROM_FILE;
 	mi.ptszName = _T("Paste from file");
-	CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddContactMenuItem(&mi);
 
 	mi.popupPosition = DEF_PAGES_START - 1;
 	mi.ptszName = _T("Default web page");
-	HGENMENU hDefWebMenu = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	HGENMENU hDefWebMenu = Menu_AddContactMenuItem(&mi);
 	
 	mi2.cbSize = sizeof(mi2);
 	mi2.pszService = MS_PASTEIT_CONTACTMENU;
@@ -429,7 +427,7 @@ void InitMenuItems()
 			mi2.flags |= CMIF_CHECKED;
 		mi2.ptszName = pasteToWebs[i]->GetName();
 		mi2.popupPosition = mi2.position = DEF_PAGES_START + i;
-		hWebPageMenus[i] = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi2);
+		hWebPageMenus[i] = Menu_AddContactMenuItem(&mi2);
 	}
 
 	hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
@@ -474,29 +472,6 @@ void InitTabsrmmButton()
 	}
 }
 
-void InitUpdater()
-{
-	if (ServiceExists(MS_UPDATE_REGISTER)) 
-	{
-		Update update = {0};
-		char szVersion[16];
-		update.cbSize = sizeof(Update);
-		update.szComponentName = pluginInfo.shortName;
-		update.pbVersion = (BYTE *)CreateVersionStringPluginEx(&pluginInfo, szVersion);
-		update.cpbVersion = (int)strlen((char *)update.pbVersion);
-
-#ifdef _WIN64
-		update.szUpdateURL = "http://programista.free.of.pl/miranda/PasteIt64.zip";
-#else
-		update.szUpdateURL = "http://programista.free.of.pl/miranda/PasteIt.zip";
-#endif
-		update.szVersionURL = "http://programista.free.of.pl/miranda/PasteItVersion.txt";
-		update.pbVersionPrefix = (BYTE *)"Paste It ";
-		update.cpbVersionPrefix = (int)strlen((char *)update.pbVersionPrefix);
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	}
-}
-
 int WindowEvent(WPARAM wParam, MessageWindowEventData* lParam)
 {
 	if(lParam->uType == MSG_WINDOW_EVT_OPEN)
@@ -527,16 +502,13 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	InitIcolib();
 	InitMenuItems();
 	InitTabsrmmButton();
-	InitUpdater();
 	hWindowEvent = HookEvent(ME_MSG_WINDOWEVENT, (MIRANDAHOOK)WindowEvent);
 
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
-	mir_getMMI(&mmi);
 	mir_getXI(&xi);
 	mir_getLP(&pluginInfo);
 	NETLIBUSER nlu = {0};
