@@ -34,15 +34,13 @@ Last change by : $Author: ing.u.horn $
 #include "main.h"
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
-MM_INTERFACE	mmi;
-UTF8_INTERFACE	utfi;
 //LIST_INTERFACE	li;
 FI_INTERFACE	*FIP = 0;
 HINSTANCE		hInst;			//!< Global reference to the application
 MGLOBAL			myGlobals;
+int hLangpack;
 
 
-PLUGINLINK *pluginLink;		//!< Link between Miranda and this plugin
 //Information gathered by Miranda, displayed in the plugin pane of the Option Dialog
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -89,11 +87,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 * It only returns the PLUGININFO structure, without any test on the version
 * @param mirandaVersion The version of the application calling this function
 */
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion) {
-	pluginInfo.cbSize = sizeof(PLUGININFO);
-	return (PLUGININFO*) &pluginInfo;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) {
 	pluginInfo.cbSize = sizeof(PLUGININFOEX);
 	myGlobals.mirandaVersion = mirandaVersion;
@@ -109,8 +102,8 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void) {
 * Initializes the services provided and the link to those needed
 * Called when the plugin is loaded into Miranda
 */
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link) {
-	pluginLink = link;
+extern "C" int __declspec(dllexport) Load(void) {
+	mir_getLP(&pluginInfo);
 	INT_PTR result = CALLSERVICE_NOTFOUND;
 
 	if(ServiceExists(MS_IMG_GETINTERFACE))
@@ -120,11 +113,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link) {
 		MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Send Screenshot will be disabled."), _T("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 		return 1;
 	}
-
-	mmi.cbSize = sizeof(mmi);
-	mir_getMMI(&mmi);
-	utfi.cbSize =  sizeof(utfi);
-	mir_getUTFI(&utfi);
 
 	// load icon library (use UserInfoEx icon Pack)
 	IcoLib_LoadModule();
@@ -162,32 +150,6 @@ int hook_ModulesLoaded(WPARAM, LPARAM) {
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
 		hFolderScreenshot = (HANDLE) FoldersRegisterCustomPathT("SendSS", "Screenshots",
 							_T(PROFILE_PATH)_T("\\")_T(CURRENT_PROFILE)_T("\\Screenshots"));
-	}
-	// updater plugin support
-	if(ServiceExists(MS_UPDATE_REGISTER)) {
-		Update update = {0};
-		char szVersion[16];
-		update.cbSize               = sizeof(Update);
-		update.szComponentName      = pluginInfo.shortName;
-		update.pbVersion			= (BYTE *)CreateVersionStringPluginEx(&pluginInfo, szVersion);
-		update.cpbVersion           = (int)strlen((char *)update.pbVersion);
-
-		update.szVersionURL			= __FLVersionURL;
-		update.pbVersionPrefix		= (BYTE *)__FLVersionPrefix;
-		update.cpbVersionPrefix		= (int)strlen((char *)update.pbVersionPrefix);
-		update.szUpdateURL			= __FLUpdateURL;
-		// update.szUpdateURL			= UPDATER_AUTOREGISTER;
-
-		update.szBetaVersionURL     = __BetaVersionURL;
-		// bytes occuring in VersionURL before the version, used to locate the version information within the URL data
-		update.pbBetaVersionPrefix  = (BYTE *)__BetaVersionPrefix;
-		update.cpbBetaVersionPrefix = (int)strlen((char *)update.pbBetaVersionPrefix);
-		update.szBetaUpdateURL		= __BetaUpdateURL;
-
-		// url for displaying changelog for beta versions
-		update.szBetaChangelogURL   = __BetaChangelogURL;
-
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
 	}
 
 	return 0;
@@ -352,21 +314,21 @@ void AddMenuItems(void) {
 	mi.ptszName		= LPGENT("Send Screenshot");
 	mi.hIcon		= IcoLib_GetIcon(ICO_PLUG_SSWINDOW2);
 	mi.pszService	= MS_SENDSS_OPENDIALOG;
-	CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddContactMenuItem(&mi);
 
 	// Add item to contact menu
 	mi.position		= 1000001;
 	mi.ptszName		= LPGENT("Send desktop screenshot");
 	mi.hIcon		= IcoLib_GetIcon(ICO_PLUG_SSWINDOW2);
 	mi.pszService	= MS_SENDSS_SENDDESKTOP;
-	CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddContactMenuItem(&mi);
 
 	// Add item to main menu
 	mi.position		= 1000001;
 	mi.ptszName		= LPGENT("Take a screenshot");
 	mi.hIcon		= IcoLib_GetIcon(ICO_PLUG_SSWINDOW2);
 	mi.pszService	= MS_SENDSS_OPENDIALOG;
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 }
 
 //---------------------------------------------------------------------------

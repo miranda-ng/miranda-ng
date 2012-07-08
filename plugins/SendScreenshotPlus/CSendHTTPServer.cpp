@@ -98,12 +98,9 @@ void CSendHTTPServer::SendThread() {
 	else {
 		//original plugin
 		m_fsi.dwOptions  = OPT_SEND_LINK;
-		g_MirCallService = pluginLink->CallService;		//backup  Miranda CallService
-		pluginLink->CallService = MyCallService;		//Hack on Miranda CallService
 
 		//send DATA and wait for reply
 		ret = (int)CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
-		pluginLink->CallService = g_MirCallService;		//restore Miranda CallService
 	}
 
 	if (ret != 0) {

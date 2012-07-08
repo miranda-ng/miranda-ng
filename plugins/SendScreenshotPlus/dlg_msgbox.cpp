@@ -571,7 +571,7 @@ INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_INITDIALOG:
 		{
-			POPUPDATAT				pd;
+			POPUPDATAT_V2				pd;
 			LPMSGPOPUPDATA		pmpd;
 			LPMSGBOX					pMsgBox = (LPMSGBOX)lParam;
 

@@ -301,7 +301,7 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 				sid.hDefaultIcon = hDefIcon;
 				sid.iDefaultIndex = -1;
 			}
-			hIconHandle = (HANDLE) CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+			hIconHandle = Skin_AddIcon(&sid);
 		}
 		mir_freeAndNil(sid.ptszDescription);
 		mir_freeAndNil(sid.ptszSection);

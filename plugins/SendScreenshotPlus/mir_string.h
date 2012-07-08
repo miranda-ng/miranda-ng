@@ -33,28 +33,6 @@ Last change by : $Author: ing.u.horn $
 #ifndef _MIR_STRING_H_INCLUDED_
 #define _MIR_STRING_H_INCLUDED_
 
-class _A2T
-{
-	public:
-	_A2T(const char* s) :
-		buf(mir_a2t(s))
-		{}
-
-	_A2T(const char* s, int cp) :
-		buf(mir_a2t_cp(s, cp))
-		{}
-
-	~_A2T()
-	{	mir_free(buf);
-	}
-
-	__inline operator TCHAR*() const
-	{	return buf;
-	}
-
-	private: TCHAR* buf;
-};
-
 #define mir_wcsdup		mir_wstrdup
 
 #ifdef _UNICODE

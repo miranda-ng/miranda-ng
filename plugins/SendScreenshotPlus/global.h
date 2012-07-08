@@ -38,12 +38,8 @@ Last change by : $Author: ing.u.horn $
 #define _WIN32_IE		0x0601
 
 #define OEMRESOURCE
-
-#define MIRANDA_VER		0x0800
-
-#ifdef _WIN32
-  #pragma warning(disable:4786)
-#endif
+#define _CRT_SECURE_NO_WARNINGS
+#define MIRANDA_VER		0x0A00
 
 // Windows includes
 #include <windows.h>
@@ -86,17 +82,17 @@ using namespace std;
 #include <m_protoint.h>
 #include <m_skin.h>
 #include <m_system.h>
+#include <m_popup.h>
 
 // plugins SDK
 #include <m_folders.h>
-#include <m_updater.h>
 #include <m_HTTPServer.h>
 #include <m_ftpfile.h>
-#include "sdk/m_popup.h"	//<m_popup.h>
-#include "sdk/icons.h"		//from uiex icon pack
+#include <m_popup2.h>
+#include "icons.h"		//from uiex icon pack
 
 // Project resources
-#include "sdk/m_sendss.h"
+#include "m_sendss.h"
 #include "mir_string.h"
 #include "mir_icolib.h"
 #include "ctrl_button.h"
@@ -135,8 +131,6 @@ typedef struct _MGLOBAL {
 
 extern HINSTANCE		hInst;
 extern MGLOBAL			myGlobals;
-extern MM_INTERFACE		mmi;
-extern UTF8_INTERFACE	utfi;
 extern HANDLE			hNetlibUser;
 
 #define PtrIsValid(p)		(((p)!=0)&&(((HANDLE)(p))!=INVALID_HANDLE_VALUE))
