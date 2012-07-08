@@ -74,7 +74,6 @@ static INT_PTR SrvGetProfile( WPARAM wParam, LPARAM lParam )
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP( &pluginInfoEx );
 
 	if ( DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETPROFILE, 1) ||

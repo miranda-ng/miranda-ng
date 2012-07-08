@@ -39,7 +39,6 @@ static UINT_PTR releaseTtbTimerId = 0;
 
 static HANDLE hPrebuildProfilesMenu = NULL;
 static HANDLE hTBModuleLoadedHook;
-static HANDLE hTTBModuleLoadedHook;
 static HANDLE hLoadAndSetProfileService;
 static HANDLE hMessageHook = NULL;
 
@@ -49,6 +48,8 @@ static int hkiCount = 0;
 
 static HANDLE* ttbButtons = NULL;
 static int ttbButtonCount = 0;
+
+HANDLE hTTBModuleLoadedHook;
 
 // these are some lame functions, if you have a better solution, mail me. :s
 static INT_PTR profileService0(WPARAM wParam, LPARAM lParam)
