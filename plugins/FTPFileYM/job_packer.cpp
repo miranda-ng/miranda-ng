@@ -16,11 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "job_packer.h"
-#include "job_upload.h"
-#include "dialog.h"
-#include "options.h"
-#include "utils.h"
+#include "common.h"
 
 Event PackerJob::jobDone;
 Mutex PackerJob::mutexJobCount;

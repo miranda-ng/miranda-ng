@@ -16,8 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "dbentry.h"
-#include "options.h"
+#include "common.h"
 
 int DBEntry::entryID;
 Mutex DBEntry::mutexDB;

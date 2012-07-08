@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "mir_db.h"
+#include "common.h"
 
 int DB::setByte(HANDLE hContact, char *szModule, char *szSetting, int iValue)
 {
@@ -195,4 +195,3 @@ char *DB::getProto(HANDLE hContact)
 	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	return ((INT_PTR)szProto != CALLSERVICE_NOTFOUND) ? szProto : NULL;
 }
-

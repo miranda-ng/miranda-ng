@@ -37,6 +37,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #define WIN32_LEAN_AND_MEAN	
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdlib.h>
 #include <windows.h>
 #include <commdlg.h>
@@ -59,7 +60,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 using namespace std;
 
-#define MIRANDA_VER		0x0700
+#define MIRANDA_VER		0x0A00
 #include <newpluginapi.h>
 #include <m_button.h>
 #include <m_clist.h>
@@ -84,11 +85,23 @@ using namespace std;
 
 #include "mir_db.h"
 #include "libcurl.h"
+#include "utils.h"
+#include "dialog.h"
+#include "options.h"
+#include "serverlist.h"
+#include "deletetimer.h"
+#include "dbentry.h"
+#include "manager.h"
+#include "job_delete.h"
+#include "job_packer.h"
+#include "job_upload.h"
+#include "version.h"
+#include "job_generic.h"
 
 #include "resource.h"
-#include "docs/m_ftpfile.h"
-#include "sdk/m_updater.h"
-#include "sdk/m_msg_buttonsbar.h"
+#include "m_ftpfile.h"
+#include "m_updater.h"
+#include "m_msg_buttonsbar.h"
 
 #if defined _WIN64
 #define	MIID_FTPFILE { 0x6453cf27, 0xd111, 0x41f4, { 0xbe, 0xf5, 0xa8, 0xd8, 0x68, 0x8e, 0x44, 0xc6 } }

@@ -16,9 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "deletetimer.h"
-#include "dbentry.h"
-#include "job_delete.h"
+#include "common.h"
 
 DeleteTimer *DeleteTimer::instance = NULL;
 DeleteTimer &deleteTimer = DeleteTimer::getInstance();

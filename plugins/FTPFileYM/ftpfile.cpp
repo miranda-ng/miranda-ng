@@ -17,20 +17,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "common.h"
-#include "deletetimer.h"
-#include "dbentry.h"
-#include "dialog.h"
-#include "libcurl.h"
-#include "manager.h"
-#include "options.h"
-#include "job_delete.h"
-#include "job_packer.h"
-#include "job_upload.h"
-#include "version.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
-MM_INTERFACE mmi = {0};
+int hLangpack;
 
 HANDLE hModulesLoaded, hEventPreShutdown, hOptionsInit, hPrebuildContactMenu, hTabsrmmButtonPressed;
 HANDLE hServiceUpload, hServiceShowManager, hServiceContactMenu, hServiceMainMenu, hServiceShareFile;
@@ -53,11 +42,7 @@ int UploadFile(HANDLE hContact, int iFtpNum, UploadJob::EMode mode);
 static PLUGININFOEX pluginInfoEx = 
 {
 	sizeof(PLUGININFOEX), 
-#ifdef _WIN64
-	"FTP File YM x64",
-#else
 	"FTP File YM",
-#endif
 	__VERSION_DWORD,
 	"FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.",
 	"yaho",
@@ -78,9 +63,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 8, 0, 0))
-		return NULL;
-
 	return &pluginInfoEx;
 }
 
@@ -132,7 +114,7 @@ static void InitIcolib()
 		mir_snprintf(szDesc, sizeof(szDesc), Translate("FTP Server %d"), i + 1);
 		mir_snprintf(szSettingName, sizeof(szSettingName), "%s_ftp%d", MODULE, i);
 		sid.iDefaultIndex = -(IDI_FTP0 + i);
-		hIconlibItem[i] = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		hIconlibItem[i] = Skin_AddIcon(&sid);
 	}
 
 	for (int i = 0; i < SIZEOF(iconList); i++) 
@@ -140,7 +122,7 @@ static void InitIcolib()
 		mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", MODULE, iconList[i].szName);
 		sid.pszDescription = Translate(iconList[i].szDescr);
 		sid.iDefaultIndex = -(iconList[i].defIconID);
-		hIconlibItem[i + ServerList::FTP_COUNT] = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		hIconlibItem[i + ServerList::FTP_COUNT] = Skin_AddIcon(&sid);
 	}
 }
 
@@ -156,8 +138,8 @@ void InitMenuItems()
 	mi.position = 3000090001;
 	mi.ptszName = LPGENT("FTP File");
 
-	hMainMenu = (HGENMENU)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
-	if (opt.bUseSubmenu) hMenu = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	hMainMenu = Menu_AddMainMenuItem(&mi);
+	if (opt.bUseSubmenu) hMenu = Menu_AddContactMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
 	mi.cbSize = sizeof(mi);
@@ -182,41 +164,41 @@ void InitMenuItems()
 
 		mi.icolibItem = hIconlibItem[i];
 		mi.popupPosition = i + 1000;
-		hSubMenu[i] = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+		hSubMenu[i] = Menu_AddContactMenuItem(&mi);
 
 		mi.flags |= CMIF_CHILDPOPUP | CMIF_ROOTHANDLE;
 		mi.hParentMenu = hMainMenu;
-		hMainSubMenu[i] = (HGENMENU)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+		hMainSubMenu[i] = Menu_AddMainMenuItem(&mi);
 		
 		mi2.hParentMenu = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
 		mi2.popupPosition = mi2.position = i + UploadJob::FTP_RAWFILE;
 		mi2.ptszName = TranslateT("Upload file(s)");		
-		CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi2);
+		Menu_AddContactMenuItem(&mi2);
 
 		mi2.pszService = MS_FTPFILE_MAINMENU;
 		mi2.hParentMenu = hMainSubMenu[i];
-		CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi2);
+		Menu_AddMainMenuItem(&mi2);
 
 		mi2.hParentMenu = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
 		mi2.popupPosition = i + UploadJob::FTP_ZIPFILE;
 		mi2.ptszName = TranslateT("Zip and upload file(s)");
-		CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi2);
+		Menu_AddContactMenuItem(&mi2);
 
 		mi2.pszService = MS_FTPFILE_MAINMENU;
 		mi2.hParentMenu = hMainSubMenu[i];
-		CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi2);
+		Menu_AddMainMenuItem(&mi2);
 
 		mi2.hParentMenu = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
 		mi2.popupPosition = i + UploadJob::FTP_ZIPFOLDER;
 		mi2.ptszName = TranslateT("Zip and upload folder");
-		CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi2);
+		Menu_AddContactMenuItem(&mi2);
 
 		mi2.pszService = MS_FTPFILE_MAINMENU;
 		mi2.hParentMenu = hMainSubMenu[i];
-		CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi2);
+		Menu_AddMainMenuItem(&mi2);
 	}
 
 	memset(&mi, 0, sizeof(mi));
@@ -227,7 +209,7 @@ void InitMenuItems()
 	mi.ptszName = LPGENT("FTP File manager");
 	mi.pszService = MS_FTPFILE_SHOWMANAGER;
 	mi.hParentMenu = hMainMenu;
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	PrebuildMainMenu();
 
@@ -242,32 +224,7 @@ void InitHotkeys()
 	hk.pszName = LPGEN("FTP_ShowManager");
 	hk.pszSection = MODULE;
 	hk.pszService = MS_FTPFILE_SHOWMANAGER;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hk);
-}
-
-void InitUpdater()
-{
-#ifndef _WIN64
-	if (ServiceExists(MS_UPDATE_REGISTER)) 
-	{
-		Update update = {0};
-		char szVersion[16];
-		update.cbSize = sizeof(Update);
-		update.szComponentName = pluginInfoEx.shortName;
-		update.pbVersion = (BYTE *)CreateVersionString(pluginInfoEx.version, szVersion);
-		update.cpbVersion = (int)strlen((char *)update.pbVersion);
-
-#ifdef _UNICODE
-		update.szUpdateURL = "http://miranda-easy.net/addons/updater/ftpfile-ym.zip";
-#else
-		update.szUpdateURL = "http://miranda-easy.net/addons/updater/ftpfile-ym_ansi.zip";
-#endif
-		update.szVersionURL = "http://miranda-easy.net/addons/updater/ftpfile_version.txt";
-		update.pbVersionPrefix = (BYTE *)"FTP File YM ";
-		update.cpbVersionPrefix = (int)strlen((char *)update.pbVersionPrefix);
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	}
-#endif
+	Hotkey_Register(&hk);
 }
 
 void InitTabsrmmButton()
@@ -542,7 +499,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	InitIcolib();
 	InitMenuItems();
 	InitHotkeys();
-	InitUpdater();
 	InitTabsrmmButton();
 
 	SkinAddNewSoundEx(SOUND_UPCOMPLETE, Translate("FTP File"), Translate("File upload complete"));
@@ -573,10 +529,9 @@ int Shutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	pluginLink = link;
-
+	mir_getLP(&pluginInfoEx);
 	if (!curl.init())
 	{
 		Utils::msgBox(TranslateT("FTP File YM won't be loaded because libcurl.dll is missing or wrong version!"), MB_OK | MB_ICONERROR);
@@ -587,8 +542,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
-	mir_getMMI(&mmi);
-	
 	CoInitialize(NULL);
 
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

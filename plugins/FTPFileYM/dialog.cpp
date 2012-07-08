@@ -16,11 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "dialog.h"
-#include "dbentry.h"
-#include "options.h"
-#include "job_upload.h"
-#include "job_packer.h"
+#include "common.h"
 
 UploadDialog *UploadDialog::instance = NULL;
 UploadDialog *uDlg = NULL;

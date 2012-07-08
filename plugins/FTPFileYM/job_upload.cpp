@@ -16,9 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "job_upload.h"
-#include "dbentry.h"
-#include "job_packer.h"
+#include "common.h"
 
 Event UploadJob::jobDone;
 Mutex UploadJob::mutexJobCount;

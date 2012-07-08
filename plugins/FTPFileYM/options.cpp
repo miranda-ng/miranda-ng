@@ -16,8 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "deletetimer.h"
-#include "options.h"
+#include "common.h"
 
 Options *Options::instance = NULL;
 Options &opt = Options::getInstance();
@@ -299,12 +298,12 @@ int Options::InitOptions(WPARAM wParam, LPARAM lParam)
 	odp.ptszTab = LPGENT("Accounts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FTPFILE);
 	odp.pfnDlgProc = Options::DlgProcOptsAccounts;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = Options::DlgProcOptsAdvanced;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }
