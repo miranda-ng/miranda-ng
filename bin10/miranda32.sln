@@ -74,29 +74,31 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_classic", "..\plugins\Clist_classic\clist_10.vcxproj", "{E71C1722-A41D-4475-87F4-29961A3654BB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stduserinfo", "..\src\core\stduserinfo\stduserinfo_10.vcxproj", "{1C856B14-54CD-4D07-B18B-5F7DB073AB51}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdUserInfo", "..\src\core\stduserinfo\stduserinfo_10.vcxproj", "{1C856B14-54CD-4D07-B18B-5F7DB073AB51}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mir_core", "..\src\mir_core\mir_core_10.vcxproj", "{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdauth", "..\src\core\stdauth\stdauth_10.vcxproj", "{86E0715E-C769-11E1-A41D-6CED6188709B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdAuth", "..\src\core\stdauth\stdauth_10.vcxproj", "{86E0715E-C769-11E1-A41D-6CED6188709B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdemail", "..\src\core\stdemail\stdemail_10.vcxproj", "{A5B558C6-C767-11E1-A335-F6EB6188709B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdEmail", "..\src\core\stdemail\stdemail_10.vcxproj", "{A5B558C6-C767-11E1-A335-F6EB6188709B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdfile", "..\src\core\stdfile\stdfile_10.vcxproj", "{6022990D-3FD5-46A9-8AB5-E444C51646F3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdFile", "..\src\core\stdfile\stdfile_10.vcxproj", "{6022990D-3FD5-46A9-8AB5-E444C51646F3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdurl", "..\src\core\stdurl\stdurl_10.vcxproj", "{769FAC86-C761-11E1-A66F-0BE76188709B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdUrl", "..\src\core\stdurl\stdurl_10.vcxproj", "{769FAC86-C761-11E1-A66F-0BE76188709B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdautoaway", "..\src\core\stdautoaway\stdautoaway_10.vcxproj", "{A8F23706-E590-4A87-96CC-5F8E5082503F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdAutoAway", "..\src\core\stdautoaway\stdautoaway_10.vcxproj", "{A8F23706-E590-4A87-96CC-5F8E5082503F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdhelp", "..\src\core\stdhelp\stdhelp_10.vcxproj", "{1C092EC9-0BCC-4C75-AAE9-FCCE9B3E9B3D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdHelp", "..\src\core\stdhelp\stdhelp_10.vcxproj", "{1C092EC9-0BCC-4C75-AAE9-FCCE9B3E9B3D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdidle", "..\src\core\stdidle\stdidle_10.vcxproj", "{36C40BA6-E0B5-438A-919C-6A991933B313}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdIdle", "..\src\core\stdidle\stdidle_10.vcxproj", "{36C40BA6-E0B5-438A-919C-6A991933B313}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stduihist", "..\src\core\stduihist\stduihist_10.vcxproj", "{DADAC956-3A54-440A-8B56-A07234DEE861}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdUIHist", "..\src\core\stduihist\stduihist_10.vcxproj", "{DADAC956-3A54-440A-8B56-A07234DEE861}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stduseronline", "..\src\core\stduseronline\stduseronline_10.vcxproj", "{D22C1BBB-E06A-4A28-8F33-17D1EA3E8563}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdUserOnline", "..\src\core\stduseronline\stduseronline_10.vcxproj", "{D22C1BBB-E06A-4A28-8F33-17D1EA3E8563}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stdaway", "..\src\core\stdaway\stdaway_10.vcxproj", "{C14D6E0D-810E-4599-A6E0-17298AFA0501}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdAway", "..\src\core\stdaway\stdaway_10.vcxproj", "{C14D6E0D-810E-4599-A6E0-17298AFA0501}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TopToolBar", "..\plugins\TopToolBar\TopToolBar.vcxproj", "{ECE691D0-BFB3-483B-A699-084269EFCE89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -489,6 +491,14 @@ Global
 		{C14D6E0D-810E-4599-A6E0-17298AFA0501}.Release|Win32.Build.0 = Release|Win32
 		{C14D6E0D-810E-4599-A6E0-17298AFA0501}.Release|x64.ActiveCfg = Release|x64
 		{C14D6E0D-810E-4599-A6E0-17298AFA0501}.Release|x64.Build.0 = Release|x64
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Debug|Win32.Build.0 = Debug|Win32
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Debug|x64.ActiveCfg = Debug|x64
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Debug|x64.Build.0 = Debug|x64
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|Win32.ActiveCfg = Release|Win32
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|Win32.Build.0 = Release|Win32
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|x64.ActiveCfg = Release|x64
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
