@@ -357,13 +357,10 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		// Add main menu item
 		mi.position = 500080000;
-		mi.pszPopupName = (char*) -1;
-		mi.pszName = "Listening to";
-		mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
+		mi.ptszName = LPGENT("Listening to");
+		mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 		mi.icolibItem = hIcon1;
 		hMainMenuGroup = Menu_AddMainMenuItem(&mi);
-
-		IcoLib_ReleaseIcon(mi.hIcon);
 
 		mi.hParentMenu = hMainMenuGroup;
 		mi.popupPosition = 500080000;
@@ -372,8 +369,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		mi.hIcon = NULL;
 
 		// Add all protos
-		mi.pszName = Translate("Send to all protocols");
-		mi.flags = CMIF_CHILDPOPUP 
+		mi.ptszName = LPGENT("Send to all protocols");
+		mi.flags = CMIF_CHILDPOPUP  | CMIF_TCHAR
 				| (ListeningToEnabled(NULL, TRUE) ? CMIF_CHECKED : 0)
 				| (opts.enable_sending ? 0 : CMIF_GRAYED);
 		proto_itens.resize(1);
@@ -391,7 +388,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	{
 		PROTOACCOUNT **protos;
 		int count;
-		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&protos);
+		ProtoEnumAccounts(&count,&protos);
 
 		for (int i = 0; i < count; i++)
 		{
@@ -404,25 +401,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		}
 
 		hHooks.push_back( HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged));
-	}
-	else
-	{
-		PROTOCOLDESCRIPTOR **protos;
-		int count;
-		CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&count, (LPARAM)&protos);
-
-		for (int i = 0; i < count; i++)
-		{
-			if (protos[i]->type != PROTOTYPE_PROTOCOL)
-				continue;
-
-			char name[128];
-			CallProtoService(protos[i]->szName, PS_GETNAME, sizeof(name), (LPARAM)name);
-
-			TCHAR *acc = mir_a2t(name);
-			RegisterProtocol(protos[i]->szName, acc);
-			mir_free(acc);
-		}
 	}
 
 	RebuildMenu();
