@@ -247,9 +247,8 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	hTTBHook = HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
-	if ( bServiceMode ) {
+	if ( bServiceMode )
 		CallService("DBEditorpp/MenuCommand",0,0);
-	}
 
 	return 0;
 }

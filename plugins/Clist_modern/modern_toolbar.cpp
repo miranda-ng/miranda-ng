@@ -42,7 +42,6 @@ static BTNS[] =
 	{ "StatusMenu", "Status Menu", "CList/ShowStatusMenu", "Status menu", NULL,  105 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "AccoMgr", "Accounts", MS_PROTO_SHOWACCMGR, "Accounts...", NULL,  282 , IDI_ACCMGR, IDI_ACCMGR, TRUE },
 	{ "ShowHideOffline","Show/Hide offline contacts", MS_CLIST_TOGGLEHIDEOFFLINE, "Hide offline contacts", "Show offline contacts", 110, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "DatabaseEditor","DBEditor++", "DBEditorpp/MenuCommand", "Database Editor", NULL,  130 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "FindUser","Find User", "FindAdd/FindAddCommand", "Find User", NULL,  140 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "Options","Options", "Options/OptionsCommand", "Options", NULL,  150 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "UseGroups","Use/Disable groups", MS_CLIST_TOGGLEGROUPS, "Use groups", "Disable Groups", 160, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
