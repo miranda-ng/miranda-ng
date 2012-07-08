@@ -520,144 +520,17 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Options window: background
-
-static INT_PTR CALLBACK DlgProcTTBBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_BITMAP, DBGetContactSettingByte(NULL, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)?BST_CHECKED:BST_UNCHECKED);
-		SendMessage(hwndDlg, WM_USER+10, 0, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETDEFAULTCOLOUR, 0, TTBDEFAULT_BKCOLOUR);
-		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, TTB_OPTDIR, "BkColour", TTBDEFAULT_BKCOLOUR));
-		SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETDEFAULTCOLOUR, 0, TTBDEFAULT_SELBKCOLOUR);
-		SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, TTB_OPTDIR, "SelBkColour", TTBDEFAULT_SELBKCOLOUR));
-		{
-			DBVARIANT dbv;
-			if ( !DBGetContactSettingTString(NULL, TTB_OPTDIR, "BkBitmap", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.ptszVal);
-				DBFreeVariant(&dbv);
-			}
-
-			WORD bmpUse = DBGetContactSettingWord(NULL, TTB_OPTDIR, "BkBmpUse", TTBDEFAULT_BKBMPUSE);
-			CheckDlgButton(hwndDlg, IDC_STRETCHH, bmpUse&CLB_STRETCHH?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_STRETCHV, bmpUse&CLB_STRETCHV?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TILEH, bmpUse&CLBF_TILEH?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TILEV, bmpUse&CLBF_TILEV?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SCROLL, bmpUse&CLBF_SCROLL?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_PROPORTIONAL, bmpUse&CLBF_PROPORTIONAL?BST_CHECKED:BST_UNCHECKED);
-
-			HRESULT (STDAPICALLTYPE *MySHAutoComplete)(HWND, DWORD);
-			MySHAutoComplete = (HRESULT (STDAPICALLTYPE*)(HWND, DWORD))GetProcAddress(GetModuleHandleA("shlwapi"), "SHAutoComplete");
-			if (MySHAutoComplete)
-				MySHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
-		}
-		return TRUE;
-
-	case WM_USER+10:
-		EnableWindow(GetDlgItem(hwndDlg, IDC_FILENAME), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSE), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_STRETCHH), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_STRETCHV), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_TILEH), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_TILEV), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_SCROLL), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_PROPORTIONAL), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		break;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_BROWSE) {
-			TCHAR str[MAX_PATH];
-			OPENFILENAME ofn = {0};
-			TCHAR filter[512];
-
-			GetDlgItemText(hwndDlg, IDC_FILENAME, str, sizeof(str));
-			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-			ofn.hwndOwner = hwndDlg;
-			ofn.hInstance = NULL;
-			CallService(MS_UTILS_GETBITMAPFILTERSTRINGST, SIZEOF(filter), (LPARAM)filter);
-			ofn.lpstrFilter = filter;
-			ofn.lpstrFile = str;
-			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-			ofn.nMaxFile = sizeof(str);
-			ofn.nMaxFileTitle = MAX_PATH;
-			ofn.lpstrDefExt = _T("bmp");
-			if (!GetOpenFileName(&ofn))
-				break;
-
-			SetDlgItemText(hwndDlg, IDC_FILENAME, str);
-		}
-		else if (LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) != EN_CHANGE)
-			break;
-
-		if (LOWORD(wParam) == IDC_BITMAP) SendMessage(hwndDlg, WM_USER+10, 0, 0);
-		if (LOWORD(wParam) == IDC_FILENAME && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				DBWriteContactSettingByte(NULL, TTB_OPTDIR, "UseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-				{
-					COLORREF col = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
-					if (col == TTBDEFAULT_BKCOLOUR)
-						DBDeleteContactSetting(NULL, TTB_OPTDIR, "BkColour");
-					else
-						DBWriteContactSettingDword(NULL, TTB_OPTDIR, "BkColour", col);
-					col = SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_GETCOLOUR, 0, 0);
-					if (col == TTBDEFAULT_SELBKCOLOUR)
-						DBDeleteContactSetting(NULL, TTB_OPTDIR, "SelBkColour");
-					else
-						DBWriteContactSettingDword(NULL, TTB_OPTDIR, "SelBkColour", col);
-
-					TCHAR str[MAX_PATH];
-					GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
-					DBWriteContactSettingTString(NULL, TTB_OPTDIR, "BkBitmap", str);
-
-					WORD flags = 0;
-					if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHH)) flags |= CLB_STRETCHH;
-					if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHV)) flags |= CLB_STRETCHV;
-					if (IsDlgButtonChecked(hwndDlg, IDC_TILEH)) flags |= CLBF_TILEH;
-					if (IsDlgButtonChecked(hwndDlg, IDC_TILEV)) flags |= CLBF_TILEV;
-					if (IsDlgButtonChecked(hwndDlg, IDC_SCROLL)) flags |= CLBF_SCROLL;
-					if (IsDlgButtonChecked(hwndDlg, IDC_PROPORTIONAL)) flags |= CLBF_PROPORTIONAL;
-					DBWriteContactSettingWord(NULL, TTB_OPTDIR, "BkBmpUse", flags);
-				}
-
-				ttbOptionsChanged();
-				return TRUE;
-			}
-			break;
-		}
-		break;
-	}
-	return FALSE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 int TTBOptInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
-	odp.pszGroup = LPGEN("TopToolBar");
-
-	if ( !ServiceExists(MS_BACKGROUNDCONFIG_REGISTER)) {
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TTBBKG);
-		odp.pszTitle = LPGEN("Background");
-		odp.pfnDlgProc = DlgProcTTBBkgOpts;
-		odp.flags = ODPF_BOLDGROUPS;
-		Options_AddPage(wParam, &odp);
-	}
+	odp.pszGroup = LPGEN("Contact List");
 
 	odp.position = -1000000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_BUTORDER);
-	odp.pszTitle = LPGEN("Buttons");
+	odp.pszTitle = LPGEN("Toolbar");
 	odp.pfnDlgProc = ButOrderOpts;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
 	Options_AddPage(wParam, &odp);

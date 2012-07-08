@@ -826,11 +826,10 @@ int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 	if (hEvent != 0)
 		CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hEvent, (LPARAM)"TTB_ONSTARTUPFIRE");
 	
-	if ( ServiceExists(MS_BACKGROUNDCONFIG_REGISTER)) {
+	if ( HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnBGChange)) {
 		char buf[256];
 		sprintf(buf, "TopToolBar Background/%s", TTB_OPTDIR);
 		CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)buf, 0);
-		HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnBGChange);
 	}	
 
 	ttbOptionsChanged();
