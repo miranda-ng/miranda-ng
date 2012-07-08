@@ -2987,9 +2987,9 @@ begin
 
   t := FormatDateTime('[yyyy, mmmm, d]', dt) + #13#10;
   if Time / 60 > 60 then
-    timestr := Format('%0.1n h', [Time / (60 * 60)])
+    timestr := Format(TranslateW('%0.1n h'), [Time / (60 * 60)])
   else
-    timestr := Format('%d min', [Time div 60]);
+    timestr := Format(TranslateW('%d min'), [Time div 60]);
 
   if count = 1 then
     tvSess.Hint := t + Format('' + TranslateW('%d event'), [count])
