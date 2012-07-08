@@ -170,6 +170,11 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="MimCmd\MimCmd.vcxproj">
+      <Project>{1E3BB48A-FFBC-4A03-8C43-9124A484BE51}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="CmdLine.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <newpluginapi.h>
 #include <m_langpack.h>
 
-#include "mimcmd_ipc.h"
+#include "..\mimcmd_ipc.h"
 #include "commands.h"
 
 int lpprintf(const char *format, ...);
