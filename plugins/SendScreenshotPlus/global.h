@@ -38,7 +38,6 @@ Last change by : $Author: ing.u.horn $
 #define _WIN32_IE		0x0601
 
 #define OEMRESOURCE
-#define _CRT_SECURE_NO_WARNINGS
 #define MIRANDA_VER		0x0A00
 
 // Windows includes
