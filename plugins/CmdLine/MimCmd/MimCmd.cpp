@@ -19,10 +19,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "common.h"
+#include "..\utils.h"
+#include "..\version.h"
 
-//why ??
-//Who's using it ?
-PLUGINLINK *pluginLink;
+int hLangpack = 0;
+
+int lpprintf(const char *format, ...)
+{
+	va_list va;
+	va_start(va, format);
+	const int MAX_SIZE = 16192;
+	char buffer[MAX_SIZE] = {0};
+	int len = _vsnprintf(buffer, MAX_SIZE - 1, format, va);
+	buffer[MAX_SIZE - 1] = 0;
+	va_end(va);
+	CharToOemBuff(buffer, buffer, len);
+	printf("%s", buffer);
+
+	return len;
+}
 
 char *GetProgramName(char *programName, int size)
 {
@@ -36,7 +51,7 @@ char *GetProgramName(char *programName, int size)
 	else{
 		STRNCPY(programName, name, size);
 	}
-	
+
 	return programName;
 }
 
@@ -44,7 +59,7 @@ void PrintUsage()
 {
 	char name[128];
 	GetProgramName(name, sizeof(name));
-	
+
 	lpprintf(Translate("%s usage:\n"), name);
 	lpprintf(Translate("%s <command> [<param> [, <param> ..]]\n"), name);
 	lpprintf(Translate("This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n"), name);
@@ -57,7 +72,7 @@ void ShowVersion()
 	char message[1024];
 	GetProgramName(name, sizeof(name));
 	mir_snprintf(message, sizeof(message), Translate("%s version %s"), name, __VERSION_STRING);
-	
+
 	lpprintf("%s\n", message);
 }
 
@@ -67,14 +82,13 @@ int main(int argc, char *argv[])
 	if ((argc == 2) && (strcmp(argv[1], "-v") == 0))
 	{
 		ShowVersion();
-		
+
 		return 0;
 	}
-	
-	if ((InitClient()) || (ConnectToMiranda()) || (GetKnownCommands()) || (LoadLangPackModule(sdCmdLine->mimFolder)))
+
+	if ((InitClient()) || (ConnectToMiranda()) || (GetKnownCommands()) || (LoadLangPackModule()))
 	{
-		LoadLangPackModule(".");
-		lpprintf(Translate("Could not create connection with Miranda or could not retrieve list of known commands.\n"));
+		lpprintf("Could not create connection with Miranda or could not retrieve list of known commands.\n");
 		error = MIMRES_NOMIRANDA;
 	}
 	else{
@@ -92,14 +106,12 @@ int main(int argc, char *argv[])
 			else{
 				lpprintf(Translate("Unknown command '%s'.\n"), argv[1]);
 			}
-			
+
 			DestroyKnownCommands();
 			DisconnectFromMiranda();
 			DestroyClient();
-			LangPackShutdown();
 		}
 	}
 
 	return error;
 }
-

@@ -21,12 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_MIMCMD_DATA_H
 #define M_MIMCMD_DATA_H
 
-#ifndef MIRANDA_VER
-#define MIRANDA_VER 0x0400
-#endif
-
-#include "commonheaders.h"
-
 #define COMMAND_SIZE  64
 #define HELP_SIZE   1024
 #define REPLY_SIZE  8096

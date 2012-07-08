@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CMDLINE_HOOKED_EVENTS_H
 #define M_CMDLINE_HOOKED_EVENTS_H
 
-#include "commonheaders.h"
-
 extern HANDLE hModulesLoaded;
 extern HANDLE hOptionsInitialise;
 extern HANDLE hShutdown;

@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_CMDLINE_UTILS_H
 
 #include <stdarg.h>
-#include "commonheaders.h"
 
 //#define USE_LOG
 #define LOG_FILE "cmdline.log"

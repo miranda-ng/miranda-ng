@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_MIMCMD_IPC_H
 #define M_MIMCMD_IPC_H
 
-#include <windows.h>
-
 #include "mimcmd_data.h"
 
 #define SHAREDMEM_NAME          "MirandaCmdLine|SharedMem"
