@@ -32,6 +32,14 @@ typedef struct {
 		HICON hIconDn;
 		HANDLE hIconHandleDn;
 	};
+	union {
+		char *pszTooltipDn;
+		TCHAR *ptszTooltipDn;
+	};
+	union {
+		char *pszTooltipUp;
+		TCHAR *ptszTooltipUp;
+	};
 }
 	TTBButton, * lpTTBButton;
 
@@ -115,6 +123,8 @@ wparam = pfnCustomproc
 lparam = procedure parameter
 returns: always returns 0.
 */
+
+#define TTB_WINDOW_HANDLE   ((HANDLE)-1)
 
 typedef void (__cdecl *pfnCustomProc)(HANDLE hTTButton, HWND hwndBtn, LPARAM userInfo);
 
