@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define NO_MIMCMD_COMMANDS
 
-#include "../../cmdline/mimcmd_data.h"
-#include "../../cmdline/mimcmd_ipc.h"
+#include "mimcmd_data.h"
+#include "mimcmd_ipc.h"
 #include "commands.h"
 #include "langpack.h"
