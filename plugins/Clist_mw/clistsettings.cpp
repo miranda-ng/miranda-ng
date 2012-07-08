@@ -62,10 +62,9 @@ void InitDisplayNameCache(SortedList *list)
 void FreeDisplayNameCacheItem(ClcCacheEntryBase *_p)
 {
 	pdisplayNameCacheEntry p = (pdisplayNameCacheEntry)_p;
-	if ( p->name) { mir_free(p->name); p->name = NULL; }
-	if ( p->szName) { mir_free(p->szName); p->szName = NULL; }
+	if ( p->tszName) { mir_free(p->tszName); p->tszName = NULL; }
 	if ( p->szProto) { mir_free(p->szProto); p->szProto = NULL; }
-	if ( p->szGroup) { mir_free(p->szGroup); p->szGroup = NULL; }
+	if ( p->tszGroup) { mir_free(p->tszGroup); p->tszGroup = NULL; }
 }
 
 void FreeDisplayNameCache(SortedList *list)
@@ -94,46 +93,46 @@ void CheckPDNCE(ClcCacheEntryBase *_pdnce)
 			if (CallService(MS_PROTO_ISPROTOCOLLOADED,0,(LPARAM)pdnce->szProto) == 0)
 				pdnce->protoNotExists = TRUE;
 			else {
-				if ( pdnce->szProto && pdnce->name ) {
-					mir_free(pdnce->name);
-					pdnce->name = NULL;
+				if ( pdnce->szProto && pdnce->tszName ) {
+					mir_free(pdnce->tszName);
+					pdnce->tszName = NULL;
 	}	}	}	}
 
-	if (pdnce->name == NULL)
+	if (pdnce->tszName == NULL)
 	{			
 		if (pdnce->protoNotExists)
-			pdnce->name = mir_tstrdup(TranslateT("_NoProtocol_"));
+			pdnce->tszName = mir_tstrdup(TranslateT("_NoProtocol_"));
 		else {
 			if (OnModulesLoadedCalled)
-				pdnce->name = GetNameForContact(pdnce->hContact,0,&pdnce->isUnknown);
+				pdnce->tszName = GetNameForContact(pdnce->hContact,0,&pdnce->isUnknown);
 			else
-				pdnce->name = GetNameForContact(pdnce->hContact,0,NULL);
+				pdnce->tszName = GetNameForContact(pdnce->hContact,0,NULL);
 		}	
 	}
 	else {
 		if (pdnce->isUnknown&&pdnce->szProto&&pdnce->protoNotExists == TRUE&&OnModulesLoadedCalled) {
 			pdnce->protoNotExists = FALSE;
-            mir_free(pdnce->name);
-			pdnce->name = GetNameForContact(pdnce->hContact,0,&pdnce->isUnknown);
+            mir_free(pdnce->tszName);
+			pdnce->tszName = GetNameForContact(pdnce->hContact,0,&pdnce->isUnknown);
 	}	}
 
 	if (pdnce->status == 0)
 		pdnce->status = GetStatusForContact(pdnce->hContact,pdnce->szProto);
 
-	if (pdnce->szGroup == NULL)
+	if (pdnce->tszGroup == NULL)
 	{
 		DBVARIANT dbv;
 
 		if (!DBGetContactSettingTString(pdnce->hContact,"CList","Group",&dbv))
 		{
-			pdnce->szGroup = mir_tstrdup(dbv.ptszVal);
+			pdnce->tszGroup = mir_tstrdup(dbv.ptszVal);
 			mir_free(dbv.pszVal);
 		}
-		else pdnce->szGroup = mir_tstrdup( _T(""));
+		else pdnce->tszGroup = mir_tstrdup( _T(""));
 	}
 
-	if (pdnce->Hidden == -1)
-		pdnce->Hidden = DBGetContactSettingByte(pdnce->hContact,"CList","Hidden",0);
+	if (pdnce->bIsHidden == -1)
+		pdnce->bIsHidden = DBGetContactSettingByte(pdnce->hContact,"CList","bIsHidden",0);
 	
 	if (pdnce->noHiddenOffline == -1)
 		pdnce->noHiddenOffline = DBGetContactSettingByte(pdnce->hContact,"CList","noOffline",0);
@@ -158,12 +157,12 @@ void InvalidateDisplayNameCacheEntryByPDNE(HANDLE hContact,pdisplayNameCacheEntr
 
 	if ( SettingType == -1 || SettingType == DBVT_DELETED )
 	{		
-        mir_free(pdnce->name);
-		pdnce->name = NULL;
-		mir_free(pdnce->szGroup);
-		pdnce->szGroup = NULL;
+        mir_free(pdnce->tszName);
+		pdnce->tszName = NULL;
+		mir_free(pdnce->tszGroup);
+		pdnce->tszGroup = NULL;
 
-		pdnce->Hidden = -1;
+		pdnce->bIsHidden = -1;
 		pdnce->protoNotExists = FALSE;
 		mir_free(pdnce->szProto);
 		pdnce->szProto = NULL;
@@ -179,17 +178,17 @@ void InvalidateDisplayNameCacheEntryByPDNE(HANDLE hContact,pdisplayNameCacheEntr
 
 	if (SettingType >= DBVT_WCHAR)
 	{
-		mir_free(pdnce->name);
-		pdnce->name = NULL;
-		mir_free(pdnce->szGroup);
-		pdnce->szGroup = NULL;
+		mir_free(pdnce->tszName);
+		pdnce->tszName = NULL;
+		mir_free(pdnce->tszGroup);
+		pdnce->tszGroup = NULL;
 		mir_free(pdnce->szProto);
 		pdnce->szProto = NULL;
 		return;
 	}
 
 	// in other cases clear all binary cache
-	pdnce->Hidden = -1;
+	pdnce->bIsHidden = -1;
 	pdnce->protoNotExists = FALSE;
 	pdnce->status = 0;
 	pdnce->IdleTS = -1;
@@ -263,7 +262,7 @@ int GetContactInfosForSort(HANDLE hContact,char **Proto,TCHAR **Name,int *Status
 	if (cacheEntry != NULL)
 	{
 		if (Proto != NULL)  *Proto  = cacheEntry->szProto;
-		if (Name != NULL)   *Name   = cacheEntry->name;
+		if (Name != NULL)   *Name   = cacheEntry->tszName;
 		if (Status != NULL) *Status = cacheEntry->status;
 	}
 	return 0;
@@ -301,7 +300,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 				InvalidateDisplayNameCacheEntryByPDNE((HANDLE)wParam,pdnce,cws->value.type);
 
 				if (cws->value.type == DBVT_WORD&&!strcmp(cws->szSetting, "Status")) {				
-					if (!(pdnce->Hidden == 1)) {
+					if (!(pdnce->bIsHidden == 1)) {
 
 						if (DBGetContactSettingByte((HANDLE)NULL,"CList","ShowStatusMsg",0)||DBGetContactSettingByte((HANDLE)wParam,"CList","StatusMsgAuto",0))
 							DBWriteContactSettingString((HANDLE)wParam, "CList", "StatusMsg", "");	
@@ -338,13 +337,13 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 			*/
 
 			//name is null or (setting is myhandle)
-			if (pdnce->name == NULL||(!strcmp(cws->szSetting,"MyHandle")))
+			if (pdnce->tszName == NULL||(!strcmp(cws->szSetting,"MyHandle")))
 				InvalidateDisplayNameCacheEntryByPDNE((HANDLE)wParam,pdnce,cws->value.type);
 
 			if ((!strcmp(cws->szSetting,"Group")))
 				InvalidateDisplayNameCacheEntryByPDNE((HANDLE)wParam,pdnce,cws->value.type);
 
-			if (!strcmp(cws->szSetting,"Hidden")) {
+			if (!strcmp(cws->szSetting,"bIsHidden")) {
 				InvalidateDisplayNameCacheEntryByPDNE((HANDLE)wParam,pdnce,cws->value.type);		
 				if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
 					char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);

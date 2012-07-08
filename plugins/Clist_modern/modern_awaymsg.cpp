@@ -140,7 +140,7 @@ static int amThreadProc(HWND hwnd)
 				}
 			}
 			CListSettings_FreeCacheItemData(&dnce);
-			dnce.m_cache_hContact = (HANDLE)hContact;
+			dnce.hContact = (HANDLE)hContact;
 			Sync(CLUI_SyncGetPDNCE, (WPARAM) 0,(LPARAM)&dnce);            
 			if (dnce.ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
 				ACK = (HANDLE)CallContactService(hContact,PSS_GETAWAYMSG,0,0);		

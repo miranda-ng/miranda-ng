@@ -109,7 +109,7 @@ struct ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName,
 				HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 				while (hContact) {
 					ClcCacheEntryBase* cache = cli.pfnGetCacheEntry(hContact);
-					if ( !lstrcmp(cache->group, szName) && (style & CLS_SHOWHIDDEN || !cache->isHidden))
+					if ( !lstrcmp(cache->tszGroup, szName) && (style & CLS_SHOWHIDDEN || !cache->bIsHidden))
 						group->totalMembers++;
 
 					hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
@@ -209,8 +209,8 @@ int fnAddContactToGroup(struct ClcData *dat, struct ClcGroup *group, HANDLE hCon
 
 	{	ClcCacheEntryBase* p = cli.pfnGetCacheEntry(hContact);
 		if (p != NULL) {
-			if (p->group) mir_free(p->group);
-			p->group = NULL;
+			if (p->tszGroup) mir_free(p->tszGroup);
+			p->tszGroup = NULL;
 	}	}
 
 	return i;
@@ -297,8 +297,8 @@ struct ClcGroup* fnRemoveItemFromGroup(HWND hwnd, struct ClcGroup *group, struct
 
 	{	ClcCacheEntryBase* p = cli.pfnGetCacheEntry(contact->hContact);
 		if (p != NULL) {
-			if (p->group) mir_free(p->group);
-			p->group = NULL;
+			if (p->tszGroup) mir_free(p->tszGroup);
+			p->tszGroup = NULL;
 	}	}
 
 	cli.pfnFreeContact(group->cl.items[iContact]);

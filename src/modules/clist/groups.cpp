@@ -276,10 +276,10 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	do {
 		ClcCacheEntryBase* cache = cli.pfnGetCacheEntry(hContact);
-		if ( !lstrcmp(cache->group, oldName)) {
+		if ( !lstrcmp(cache->tszGroup, oldName)) {
             DBWriteContactSettingTString(hContact, "CList", "Group", szName);
-            mir_free(cache->group);
-            cache->group = 0;
+            mir_free(cache->tszGroup);
+            cache->tszGroup = 0;
             cli.pfnCheckCacheItem(cache);
         }
 	}

@@ -2857,9 +2857,9 @@ LRESULT CLUI::OnClickNotify( NMCLISTCONTROL * pnmc )
 					}											
 				};	
 				if (pnmc->iColumn == w) {
-					char *homepage = db_get_sa(pdnce->m_cache_hContact,"UserInfo", "Homepage");
+					char *homepage = db_get_sa(pdnce->hContact,"UserInfo", "Homepage");
 					if ( !homepage)
-						homepage = db_get_sa(pdnce->m_cache_hContact,pdnce->m_cache_cszProto, "Homepage");
+						homepage = db_get_sa(pdnce->hContact,pdnce->m_cache_cszProto, "Homepage");
 					if (homepage != NULL)
 					{
 						CallService(MS_UTILS_OPENURL, 1, (LPARAM)homepage);

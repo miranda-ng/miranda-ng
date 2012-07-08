@@ -61,7 +61,7 @@ void AddSubcontacts(struct ClcContact * cont)
 			cont->subcontacts[i].iImage = CallService(MS_CLIST_GETCONTACTICON,(WPARAM)cacheEntry->hContact,0);
 			memset(cont->subcontacts[i].iExtraImage,0xFF,SIZEOF(cont->subcontacts[i].iExtraImage));
 			cont->subcontacts[i].proto = cacheEntry->szProto;
-			lstrcpyn(cont->subcontacts[i].szText,cacheEntry->name,SIZEOF(cont->subcontacts[i].szText));
+			lstrcpyn(cont->subcontacts[i].szText,cacheEntry->tszName,SIZEOF(cont->subcontacts[i].szText));
 			cont->subcontacts[i].type = CLCIT_CONTACT;
 			//cont->flags = 0;//CONTACTF_ONLINE;
 			cont->subcontacts[i].isSubcontact = 1;
@@ -164,7 +164,7 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,struct ClcGroup
 	idleMode = szProto != NULL?cacheEntry->IdleTS:0;
 	if (idleMode) group->cl.items[i]->flags |= CONTACTF_IDLE;
 
-	lstrcpyn(group->cl.items[i]->szText,cacheEntry->name, SIZEOF(group->cl.items[i]->szText));
+	lstrcpyn(group->cl.items[i]->szText,cacheEntry->tszName, SIZEOF(group->cl.items[i]->szText));
 	group->cl.items[i]->proto = szProto;
 
 	if (dat->style & CLS_SHOWSTATUSMESSAGES) {
@@ -211,10 +211,10 @@ void AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTo
 	}
 
 	ClcGroup *group;
-	if (lstrlen(cacheEntry->szGroup) == 0)
+	if (lstrlen(cacheEntry->tszGroup) == 0)
 		group = &dat->list;
 	else {
-		group = AddGroup(hwnd,dat,cacheEntry->szGroup,(DWORD)-1,0,0);
+		group = AddGroup(hwnd,dat,cacheEntry->tszGroup,(DWORD)-1,0,0);
 		if (group == NULL) {
 			DWORD groupFlags;
 			int i;
@@ -226,7 +226,7 @@ void AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTo
 					TCHAR *szGroupName = pcli->pfnGetGroupName(i, &groupFlags);
 					if (szGroupName == NULL) 
 						return;   //never happens
-					if ( !lstrcmp(szGroupName,cacheEntry->szGroup))
+					if ( !lstrcmp(szGroupName,cacheEntry->tszGroup))
 						break;
 				}
 				if (groupFlags & GROUPF_HIDEOFFLINE)
@@ -236,13 +236,13 @@ void AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTo
 				TCHAR *szGroupName = pcli->pfnGetGroupName(i, &groupFlags);
 				if (szGroupName == NULL) 
 					return;   //never happens
-				if (!lstrcmp(szGroupName,cacheEntry->szGroup))
+				if (!lstrcmp(szGroupName,cacheEntry->tszGroup))
 					break;
 				size_t len = lstrlen(szGroupName);
-				if (!_tcsncmp(szGroupName,cacheEntry->szGroup,len) && cacheEntry->szGroup[len] == '\\')
+				if (!_tcsncmp(szGroupName,cacheEntry->tszGroup,len) && cacheEntry->tszGroup[len] == '\\')
 					AddGroup(hwnd,dat,szGroupName,groupFlags,i,1);
 			}
-			group = AddGroup(hwnd,dat,cacheEntry->szGroup,groupFlags,i,1);
+			group = AddGroup(hwnd,dat,cacheEntry->tszGroup,groupFlags,i,1);
 		}
 	}
 
@@ -365,11 +365,11 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 		if (cacheEntry == NULL)
 			MessageBoxA(0,"Fail To Get CacheEntry for hContact","!!!!!!!!",0);
 
-		if (style&CLS_SHOWHIDDEN || !cacheEntry->Hidden) {
-			if (lstrlen(cacheEntry->szGroup) == 0)
+		if (style&CLS_SHOWHIDDEN || !cacheEntry->bIsHidden) {
+			if (lstrlen(cacheEntry->tszGroup) == 0)
 				group = &dat->list;
 			else {
-				group = AddGroup(hwnd,dat,cacheEntry->szGroup,(DWORD)-1,0,0);
+				group = AddGroup(hwnd,dat,cacheEntry->tszGroup,(DWORD)-1,0,0);
 				//mir_free(dbv.pszVal);
 			}
 

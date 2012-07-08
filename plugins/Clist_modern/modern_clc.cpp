@@ -1856,12 +1856,12 @@ static LRESULT clcOnIntmStatusChanged(struct ClcData *dat, HWND hwnd, UINT msg, 
 		if (pdnce && pdnce->m_cache_cszProto)
 		{
 			struct ClcContact *contact = NULL;
-			pdnce___SetStatus( pdnce, GetStatusForContact(pdnce->m_cache_hContact,pdnce->m_cache_cszProto));
+			pdnce___SetStatus( pdnce, GetStatusForContact(pdnce->hContact,pdnce->m_cache_cszProto));
 			if ( !dat->force_in_dialog && (
 				(dat->second_line_show)// && dat->second_line_type == TEXT_STATUS)
 				 ||  (dat->third_line_show)// && dat->third_line_type == TEXT_STATUS)
 				))
-				gtaRenewText(pdnce->m_cache_hContact);
+				gtaRenewText(pdnce->hContact);
 			SendMessage(hwnd,INTM_ICONCHANGED, wParam, (LPARAM) CallService(MS_CLIST_GETCONTACTICON, wParam, 1));
 			if (FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,TRUE))
 			{

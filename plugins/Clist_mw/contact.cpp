@@ -99,7 +99,7 @@ void LoadContactTree(void)
 			break;
 		}
 		status = cacheEntry->status;
-		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !cacheEntry->Hidden)
+		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !cacheEntry->bIsHidden)
 			ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact,(char*)cacheEntry->szProto,status),1);
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
 	}

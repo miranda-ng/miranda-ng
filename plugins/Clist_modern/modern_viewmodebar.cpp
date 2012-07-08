@@ -1517,7 +1517,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 			for (i=0; i < clistCache->realCount; i++)
 			{
 				PDNCE pdnce = (PDNCE)clistCache->items[i];
-				pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->m_cache_hContact);
+				pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->hContact);
 			}
 			g_CluiData.bSortByOrder[0] = bSaved;
 

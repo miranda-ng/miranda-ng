@@ -49,8 +49,8 @@ static int handleCompare( void* c1, void* c2 )
 	displayNameCacheEntry * dnce1 = (displayNameCacheEntry *)c1;
 	displayNameCacheEntry * dnce2 = (displayNameCacheEntry *)c2;
 
-	p1 = (INT_PTR)dnce1->m_cache_hContact;
-	p2 = (INT_PTR)dnce2->m_cache_hContact;
+	p1 = (INT_PTR)dnce1->hContact;
+	p2 = (INT_PTR)dnce2->hContact;
 
 	if ( p1 == p2 )
 		return 0;
@@ -117,7 +117,7 @@ void CListSettings_FreeCacheItemDataOption( pdisplayNameCacheEntry pDst, DWORD f
 		pDst->freeName();
 
 	if ( flag & CCI_GROUP ) 
-		mir_free_and_nil(pDst->m_cache_tcsGroup);
+		mir_free_and_nil(pDst->tszGroup);
 
 	if ( flag & CCI_LINES ) {
 		mir_free_and_nil(pDst->szSecondLineText);
@@ -139,13 +139,13 @@ void CListSettings_CopyCacheItems(pdisplayNameCacheEntry pDst, pdisplayNameCache
 	if ( flag & CCI_NAME ) {
 		pDst->isUnknown = pSrc->isUnknown;
 		if (pSrc->isUnknown)
-			pDst->m_cache_tcsName = pSrc->m_cache_tcsName;
+			pDst->tszName = pSrc->tszName;
 		else
-			pDst->m_cache_tcsName = mir_tstrdup(pSrc->m_cache_tcsName);
+			pDst->tszName = mir_tstrdup(pSrc->tszName);
 	}
 
-	if ( flag & CCI_GROUP )  pDst->m_cache_tcsGroup = mir_tstrdup(pSrc->m_cache_tcsGroup);
-	if ( flag & CCI_PROTO )	pDst->m_cache_cszProto = pSrc->m_cache_cszProto;
+	if ( flag & CCI_GROUP )  pDst->tszGroup = mir_tstrdup(pSrc->tszGroup);
+	if ( flag & CCI_PROTO )  pDst->m_cache_cszProto = pSrc->m_cache_cszProto;
 	if ( flag & CCI_STATUS ) pDst->m_cache_nStatus = pSrc->m_cache_nStatus;
 	
 	if ( flag & CCI_LINES ) {
@@ -163,7 +163,7 @@ void CListSettings_CopyCacheItems(pdisplayNameCacheEntry pDst, pdisplayNameCache
 		pDst->hTimeZone = pSrc->hTimeZone;
 
 	if ( flag & CCI_OTHER) {
-		pDst->m_cache_nHidden = pSrc->m_cache_nHidden;
+		pDst->bIsHidden = pSrc->bIsHidden;
 		pDst->m_cache_nNoHiddenOffline = pSrc->m_cache_nNoHiddenOffline;
 		pDst->m_cache_bProtoNotExists = pSrc->m_cache_bProtoNotExists;
 
@@ -179,10 +179,10 @@ void CListSettings_CopyCacheItems(pdisplayNameCacheEntry pDst, pdisplayNameCache
 
 int CListSettings_GetCopyFromCache(pdisplayNameCacheEntry pDest, DWORD flag)
 {
-	if ( !pDest || !pDest->m_cache_hContact)
+	if ( !pDest || !pDest->hContact)
 		return -1;
 
-	pdisplayNameCacheEntry pSource = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(pDest->m_cache_hContact);
+	pdisplayNameCacheEntry pSource = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(pDest->hContact);
 	if ( !pSource)
 		return -1;
 
@@ -192,10 +192,10 @@ int CListSettings_GetCopyFromCache(pdisplayNameCacheEntry pDest, DWORD flag)
 
 int CListSettings_SetToCache(pdisplayNameCacheEntry pSrc, DWORD flag)
 {
-    if ( !pSrc || !pSrc->m_cache_hContact)
+    if ( !pSrc || !pSrc->hContact)
 		 return -1;
 
-	 pdisplayNameCacheEntry pDst = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(pSrc->m_cache_hContact);
+	 pdisplayNameCacheEntry pDst = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(pSrc->hContact);
     if ( !pDst)
 		 return -1;
 
@@ -205,10 +205,10 @@ int CListSettings_SetToCache(pdisplayNameCacheEntry pSrc, DWORD flag)
 
 void cliFreeCacheItem( pdisplayNameCacheEntry p )
 {
-	HANDLE hContact = p->m_cache_hContact;
+	HANDLE hContact = p->hContact;
 	TRACEVAR("cliFreeCacheItem hContact = %d",hContact);
 	p->freeName();
-	mir_free_and_nil(p->m_cache_tcsGroup);
+	mir_free_and_nil(p->tszGroup);
 	mir_free_and_nil(p->szSecondLineText);
 	mir_free_and_nil(p->szThirdLineText);
 	p->ssSecondLine.DestroySmileyList();
@@ -220,23 +220,23 @@ void cliCheckCacheItem(pdisplayNameCacheEntry pdnce)
 	if (pdnce == NULL)
 		return;
 	
-	if (pdnce->m_cache_hContact == NULL) { //selfcontact
-		if ( !pdnce->m_cache_tcsName)
+	if (pdnce->hContact == NULL) { //selfcontact
+		if ( !pdnce->tszName)
 			pdnce->getName();
 		return;
 	}
 
 	if (pdnce->m_cache_cszProto == NULL && pdnce->m_cache_bProtoNotExists == FALSE) {
-		pdnce->m_cache_cszProto = GetProtoForContact(pdnce->m_cache_hContact);
+		pdnce->m_cache_cszProto = GetProtoForContact(pdnce->hContact);
 		if (pdnce->m_cache_cszProto == NULL) 
 			pdnce->m_cache_bProtoNotExists = FALSE;
 		else if (CallService(MS_PROTO_ISPROTOCOLLOADED,0,(LPARAM)pdnce->m_cache_cszProto) == (int)NULL  && 0)
 			pdnce->m_cache_bProtoNotExists = TRUE;
-		else if (pdnce->m_cache_cszProto && pdnce->m_cache_tcsName)
+		else if (pdnce->m_cache_cszProto && pdnce->tszName)
 			pdnce->freeName();
 	}
 
-	if (pdnce->m_cache_tcsName == NULL)
+	if (pdnce->tszName == NULL)
 		pdnce->getName();
 
 	else if (pdnce->isUnknown && pdnce->m_cache_cszProto && pdnce->m_cache_bProtoNotExists == TRUE && g_flag_bOnModulesLoadedCalled) {
@@ -247,41 +247,41 @@ void cliCheckCacheItem(pdisplayNameCacheEntry pdnce)
 	}
 
 	if (pdnce___GetStatus( pdnce ) == 0) //very strange look status sort is broken let always reread status
-		pdnce___SetStatus( pdnce , GetStatusForContact(pdnce->m_cache_hContact,pdnce->m_cache_cszProto));
+		pdnce___SetStatus( pdnce , GetStatusForContact(pdnce->hContact,pdnce->m_cache_cszProto));
 
-	if (pdnce->m_cache_tcsGroup == NULL) {
+	if (pdnce->tszGroup == NULL) {
 		DBVARIANT dbv = {0};
-		if ( !DBGetContactSettingTString(pdnce->m_cache_hContact,"CList","Group",&dbv)) {
-			pdnce->m_cache_tcsGroup = mir_tstrdup(dbv.ptszVal);
+		if ( !DBGetContactSettingTString(pdnce->hContact,"CList","Group",&dbv)) {
+			pdnce->tszGroup = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
-		else pdnce->m_cache_tcsGroup = mir_tstrdup(_T(""));
+		else pdnce->tszGroup = mir_tstrdup(_T(""));
 	}
 
-	if (pdnce->m_cache_nHidden == -1)
-		pdnce->m_cache_nHidden = db_get_b(pdnce->m_cache_hContact,"CList","Hidden",0);
+	if (pdnce->bIsHidden == -1)
+		pdnce->bIsHidden = db_get_b(pdnce->hContact,"CList","Hidden",0);
 
-	pdnce->m_cache_nHiddenSubcontact = g_szMetaModuleName && db_get_b(pdnce->m_cache_hContact,g_szMetaModuleName,"IsSubcontact",0);
+	pdnce->m_cache_nHiddenSubcontact = g_szMetaModuleName && db_get_b(pdnce->hContact,g_szMetaModuleName,"IsSubcontact",0);
 
 	if (pdnce->m_cache_nNoHiddenOffline == -1)
-		pdnce->m_cache_nNoHiddenOffline = db_get_b(pdnce->m_cache_hContact,"CList","noOffline",0);
+		pdnce->m_cache_nNoHiddenOffline = db_get_b(pdnce->hContact,"CList","noOffline",0);
 
 	if (pdnce->IdleTS == -1)
-		pdnce->IdleTS = db_get_dw(pdnce->m_cache_hContact,pdnce->m_cache_cszProto,"IdleTS",0);
+		pdnce->IdleTS = db_get_dw(pdnce->hContact,pdnce->m_cache_cszProto,"IdleTS",0);
 
 	if (pdnce->ApparentMode == -1)
-		pdnce->ApparentMode = db_get_w(pdnce->m_cache_hContact,pdnce->m_cache_cszProto,"ApparentMode",0);
+		pdnce->ApparentMode = db_get_w(pdnce->hContact,pdnce->m_cache_cszProto,"ApparentMode",0);
 
 	if (pdnce->NotOnList == -1)
-		pdnce->NotOnList = db_get_b(pdnce->m_cache_hContact,"CList","NotOnList",0);
+		pdnce->NotOnList = db_get_b(pdnce->hContact,"CList","NotOnList",0);
 
 	if (pdnce->IsExpanded == -1)
-		pdnce->IsExpanded = db_get_b(pdnce->m_cache_hContact,"CList","Expanded",0);
+		pdnce->IsExpanded = db_get_b(pdnce->hContact,"CList","Expanded",0);
 
 	if (pdnce->dwLastMsgTime == 0) {
-		pdnce->dwLastMsgTime = db_get_dw(pdnce->m_cache_hContact, "CList", "mf_lastmsg", 0);
+		pdnce->dwLastMsgTime = db_get_dw(pdnce->hContact, "CList", "mf_lastmsg", 0);
 		if (pdnce->dwLastMsgTime == 0)
-			pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->m_cache_hContact);
+			pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->hContact);
 	}
 }
 
@@ -295,7 +295,7 @@ void IvalidateDisplayNameCache(DWORD mode)
 			PDNCE pdnce = (PDNCE)clistCache->items[i];
 			if (mode&16)
 			{
-				InvalidateDNCEbyPointer(pdnce->m_cache_hContact,pdnce,16);
+				InvalidateDNCEbyPointer(pdnce->hContact,pdnce,16);
 			}
 		}
 	}
@@ -315,26 +315,26 @@ void InvalidateDNCEbyPointer(HANDLE hContact, pdisplayNameCacheEntry pdnce, int 
 		pdnce->ssThirdLine.iMaxSmileyHeight = 0;
 		pdnce->hTimeZone = NULL;
 		pdnce->dwLastMsgTime = 0;
-		Cache_GetTimezone(NULL,pdnce->m_cache_hContact);
+		Cache_GetTimezone(NULL,pdnce->hContact);
 		SettingType &= ~16;
 	}
 
 	if (SettingType >= DBVT_WCHAR) {
 		pdnce->freeName();
-		mir_free_and_nil(pdnce->m_cache_tcsGroup);
+		mir_free_and_nil(pdnce->tszGroup);
 		pdnce->m_cache_cszProto = NULL;
 		return;
 	}
 
 	if (SettingType == -1 || SettingType == DBVT_DELETED) {	
 		pdnce->freeName();
-		mir_free_and_nil(pdnce->m_cache_tcsGroup);
+		mir_free_and_nil(pdnce->tszGroup);
 		pdnce->m_cache_cszProto = NULL;
 	}
 	// in other cases clear all binary cache
 	else pdnce->dwLastMsgTime = 0;
 
-	pdnce->m_cache_nHidden = -1;
+	pdnce->bIsHidden = -1;
 	pdnce->m_cache_nHiddenSubcontact = -1;
 	pdnce->m_cache_bProtoNotExists = FALSE;
 	pdnce___SetStatus(pdnce, 0);
@@ -369,10 +369,10 @@ int GetStatusForContact(HANDLE hContact,char *szProto)
 void displayNameCacheEntry::freeName()
 {
 	if ( !isUnknown)
-		mir_free(m_cache_tcsName);
+		mir_free(tszName);
 	else 
 		isUnknown = false;
-	m_cache_tcsName = NULL;
+	tszName = NULL;
 }
 
 void displayNameCacheEntry::getName()
@@ -384,14 +384,14 @@ void displayNameCacheEntry::getName()
 
 	if (m_cache_bProtoNotExists || !m_cache_cszProto) {
 LBL_Unknown:
-		m_cache_tcsName = UnknownConctactTranslatedName;
+		tszName = UnknownConctactTranslatedName;
 		isUnknown = true;
 		return;
 	}
 
-	m_cache_tcsName = pcli->pfnGetContactDisplayName(m_cache_hContact, GCDNF_NOCACHE);
-	if ( !lstrcmp(m_cache_tcsName, UnknownConctactTranslatedName)) {
-		mir_free(m_cache_tcsName);
+	tszName = pcli->pfnGetContactDisplayName(hContact, GCDNF_NOCACHE);
+	if ( !lstrcmp(tszName, UnknownConctactTranslatedName)) {
+		mir_free(tszName);
 		goto LBL_Unknown;
 	}
 
@@ -404,8 +404,8 @@ int GetContactInfosForSort(HANDLE hContact,char **Proto,TCHAR **Name,int *Status
 	cacheEntry = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hContact);
 	if (cacheEntry != NULL)
 	{
-		if (Proto != NULL) *Proto = cacheEntry->m_cache_cszProto;
-		if (Name != NULL) *Name = cacheEntry->m_cache_tcsName;
+		if (Proto != NULL)  *Proto = cacheEntry->m_cache_cszProto;
+		if (Name != NULL)   *Name = cacheEntry->tszName;
 		if (Status != NULL) *Status = pdnce___GetStatus( cacheEntry );
 	}
 	return (0);
@@ -457,19 +457,19 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 				if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled) 
 					res = PostAutoRebuidMessage(pcli->hwndContactTree);
 
-				if ((db_get_w(NULL,"CList","SecondLineType",SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || db_get_w(NULL,"CList","ThirdLineType",SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE)  && pdnce->m_cache_hContact && pdnce->m_cache_cszProto)
+				if ((db_get_w(NULL,"CList","SecondLineType",SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || db_get_w(NULL,"CList","ThirdLineType",SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE)  && pdnce->hContact && pdnce->m_cache_cszProto)
 					amRequestAwayMsg(hContact);  
 
 				return 0;
 			}
 
-			if (pdnce->m_cache_nHidden != 1) {		
+			if (pdnce->bIsHidden != 1) {		
 				pdnce___SetStatus( pdnce , cws->value.wVal ); //dont use direct set
 				if (cws->value.wVal == ID_STATUS_OFFLINE)
 					if (g_CluiData.bRemoveAwayMessageForOffline)
 						db_set_s(hContact,"CList","StatusMsg","");
 
-				if ((db_get_w(NULL,"CList","SecondLineType",0) == TEXT_STATUS_MESSAGE || db_get_w(NULL,"CList","ThirdLineType",0) == TEXT_STATUS_MESSAGE)  && pdnce->m_cache_hContact && pdnce->m_cache_cszProto)
+				if ((db_get_w(NULL,"CList","SecondLineType",0) == TEXT_STATUS_MESSAGE || db_get_w(NULL,"CList","ThirdLineType",0) == TEXT_STATUS_MESSAGE)  && pdnce->hContact && pdnce->m_cache_cszProto)
 					amRequestAwayMsg(hContact);  
 
 				pcli->pfnClcBroadcast( INTM_STATUSCHANGED,wParam,0);
@@ -490,7 +490,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 		if ( !strcmp(cws->szSetting,"Rate"))
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 
-		else if (pdnce->m_cache_tcsName == NULL || !strcmp(cws->szSetting,"MyHandle"))
+		else if (pdnce->tszName == NULL || !strcmp(cws->szSetting,"MyHandle"))
 			InvalidateDNCEbyPointer(hContact,pdnce,cws->value.type);
 
 		else if ( !strcmp(cws->szSetting,"Group")) 

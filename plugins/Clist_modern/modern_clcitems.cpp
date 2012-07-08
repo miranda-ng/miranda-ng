@@ -61,12 +61,12 @@ void AddSubcontacts(struct ClcData *dat, struct ClcContact * cont, BOOL showOffl
 			)
 
 		{
-			cont->subcontacts[i].hContact = cacheEntry->m_cache_hContact;
+			cont->subcontacts[i].hContact = cacheEntry->hContact;
 
 			cont->subcontacts[i].avatar_pos = AVATAR_POS_DONT_HAVE;
 			Cache_GetAvatar(dat, &cont->subcontacts[i]);
 
-			cont->subcontacts[i].iImage = CallService(MS_CLIST_GETCONTACTICON,(WPARAM)cacheEntry->m_cache_hContact,1);
+			cont->subcontacts[i].iImage = CallService(MS_CLIST_GETCONTACTICON,(WPARAM)cacheEntry->hContact,1);
 			memset(cont->subcontacts[i].iExtraImage,0xFF,sizeof(cont->subcontacts[i].iExtraImage));
 			memset((void*)cont->subcontacts[i].iWideExtraImage,0xFF,sizeof(cont->subcontacts[i].iWideExtraImage));
 			cont->subcontacts[i].proto = cacheEntry->m_cache_cszProto;		
@@ -239,7 +239,7 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,struct ClcGroup
 	if (cacheEntry == NULL) return NULL;
 	if (group == NULL) return NULL;
 	if (dat == NULL) return NULL;
-	hContact = cacheEntry->m_cache_hContact;
+	hContact = cacheEntry->hContact;
 	dat->NeedResort = 1;
 	for (i = group->cl.count-1;i >= 0;i--)
 		if (group->cl.items[i]->type != CLCIT_INFO || !(group->cl.items[i]->flags&CLCIIF_BELOWCONTACTS)) break;
@@ -404,10 +404,10 @@ void cliRebuildEntireList(HWND hwnd,struct ClcData *dat)
 		if ( (style&CLS_SHOWHIDDEN && nHiddenStatus != -1) || !nHiddenStatus)
 		{
 
-			if (lstrlen(cacheEntry->m_cache_tcsGroup) == 0)
+			if (lstrlen(cacheEntry->tszGroup) == 0)
 				group = &dat->list;
 			else {
-				group = cli_AddGroup(hwnd,dat,cacheEntry->m_cache_tcsGroup,(DWORD)-1,0,0);
+				group = cli_AddGroup(hwnd,dat,cacheEntry->tszGroup,(DWORD)-1,0,0);
 			}
 			if (group != NULL) 
 			{
@@ -659,8 +659,8 @@ WORD pdnce___GetStatus(pdisplayNameCacheEntry pdnce)
 	// this stub will replace direct usage of m_cache_nStatus and will be substituted by getting info from DB directrly
 	if ( !pdnce) return ID_STATUS_OFFLINE;
 	if ( !pdnce->m_cache_cszProto) return ID_STATUS_OFFLINE;
-	if ( !pdnce->m_cache_hContact) return ID_STATUS_OFFLINE;
-	return DBGetContactSettingWord( pdnce->m_cache_hContact, pdnce->m_cache_cszProto, "Status" , ID_STATUS_OFFLINE );
+	if ( !pdnce->hContact) return ID_STATUS_OFFLINE;
+	return DBGetContactSettingWord( pdnce->hContact, pdnce->m_cache_cszProto, "Status" , ID_STATUS_OFFLINE );
 	*/
 }
 
@@ -682,7 +682,7 @@ ClcCacheEntryBase* cliCreateCacheItem( HANDLE hContact )
 	if ( p )
 	{
 		memset(p,0,sizeof( displayNameCacheEntry ));
-		p->m_cache_hContact = hContact;
+		p->hContact = hContact;
 		InvalidateDNCEbyPointer(hContact,p,0);
 		p->szSecondLineText = NULL;
 		p->szThirdLineText = NULL;

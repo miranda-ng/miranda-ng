@@ -326,9 +326,9 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 					if (szProto != NULL)
 					{
 						char *homepage;
-						homepage = db_get_sa(pdnce->m_cache_hContact,"UserInfo", "Homepage");
+						homepage = db_get_sa(pdnce->hContact,"UserInfo", "Homepage");
 						if ( !homepage)
-							homepage = db_get_sa(pdnce->m_cache_hContact,pdnce->m_cache_cszProto, "Homepage");
+							homepage = db_get_sa(pdnce->hContact,pdnce->m_cache_cszProto, "Homepage");
 						if (homepage != NULL)
 						{											
 							showweb = TRUE;				

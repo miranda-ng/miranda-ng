@@ -178,7 +178,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 
 int GetContactIconC(pdisplayNameCacheEntry cacheEntry)
 {
-	return ExtIconFromStatusMode(cacheEntry->m_cache_hContact,cacheEntry->m_cache_cszProto,cacheEntry->m_cache_cszProto == NULL ? ID_STATUS_OFFLINE : pdnce___GetStatus( cacheEntry ));
+	return ExtIconFromStatusMode(cacheEntry->hContact,cacheEntry->m_cache_cszProto,cacheEntry->m_cache_cszProto == NULL ? ID_STATUS_OFFLINE : pdnce___GetStatus( cacheEntry ));
 }
 
 //lParam

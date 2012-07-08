@@ -727,16 +727,12 @@ static TCHAR pluginname[] = _T("TopToolBar");
 
 int addTopToolBarWindow(HWND parent)
 {
-	WNDCLASS wndclass;
-	wndclass.style         = 0;
+	WNDCLASS wndclass = { 0 };
 	wndclass.lpfnWndProc   = TopToolBarProc;
-	wndclass.cbClsExtra    = 0;
-	wndclass.cbWndExtra    = 0;
+	wndclass.cbWndExtra    = sizeof(void*);
 	wndclass.hInstance     = hInst;
-	wndclass.hIcon         = NULL;
 	wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1);//NULL;//(HBRUSH)(COLOR_3DFACE+1);
-	wndclass.lpszMenuName  = NULL;
 	wndclass.lpszClassName = pluginname;
 	RegisterClass(&wndclass);
 

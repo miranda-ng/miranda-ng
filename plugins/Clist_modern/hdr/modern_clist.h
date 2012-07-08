@@ -40,6 +40,8 @@ extern pfnMyMonitorFromWindow MyMonitorFromWindow;
 typedef BOOL(WINAPI *pfnMyGetMonitorInfo) (HMONITOR, LPMONITORINFO);
 extern pfnMyGetMonitorInfo MyGetMonitorInfo;
 
+///////////////////////////////////////////////////////////////////////////////
+
 class CSmileyString
 {	 
 public:
@@ -66,23 +68,20 @@ public:
 		DestroySmileyList();
 	}
 
-	void ReplaceSmileys(struct SHORTDATA *dat, struct tag_DNCE * pdnce, TCHAR *szText, BOOL replace_smileys);
+	void ReplaceSmileys(struct SHORTDATA *dat, struct displayNameCacheEntry *pdnce, TCHAR *szText, BOOL replace_smileys);
 
 	/**	Destroy smiley list */ 
 	void DestroySmileyList();
 	/**  Copy Smiley List */
 	void _CopySmileyList( SortedList *plInput );
-	void AddListeningToIcon(struct SHORTDATA *dat, struct tag_DNCE * pdnce, TCHAR *szText, BOOL replace_smileys);
+	void AddListeningToIcon(struct SHORTDATA *dat, struct displayNameCacheEntry *pdnce, TCHAR *szText, BOOL replace_smileys);
 
 };
 
-struct tag_DNCE
-{
-	HANDLE   m_cache_hContact;
-	TCHAR*   m_cache_tcsName;
+///////////////////////////////////////////////////////////////////////////////
 
-	TCHAR*   m_cache_tcsGroup;
-	int      m_cache_nHidden;
+struct displayNameCacheEntry : public ClcCacheEntryBase
+{
 	int      m_cache_nNoHiddenOffline;
 
 	char*    m_cache_cszProto;
@@ -111,7 +110,9 @@ struct tag_DNCE
 	void     freeName(void);
 };
 
-typedef tag_DNCE displayNameCacheEntry,*pdisplayNameCacheEntry, *PDNCE;
+typedef displayNameCacheEntry *pdisplayNameCacheEntry, *PDNCE;
+
+///////////////////////////////////////////////////////////////////////////////
 
 typedef struct tagEXTRASLOTINFO
 {

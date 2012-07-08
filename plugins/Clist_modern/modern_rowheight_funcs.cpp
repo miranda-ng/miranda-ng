@@ -164,7 +164,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
       case TC_TEXT2:
         {
           int tmp = 0;
-		  HANDLE hContact = pdnce->m_cache_hContact;
+		  HANDLE hContact = pdnce->hContact;
           if (dat->second_line_show && pdnce->szSecondLineText && pdnce->szSecondLineText[0] )
           {
             tmp = dat->fontModernInfo[FONTID_SECONDLINE].fontHeight;
@@ -191,7 +191,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
       case TC_TEXT3:
         {
           int tmp = 0;
-		  HANDLE hContact = pdnce->m_cache_hContact;
+		  HANDLE hContact = pdnce->hContact;
           if (dat->third_line_show && pdnce->szThirdLineText && pdnce->szThirdLineText[0])
           {
             tmp = dat->fontModernInfo[FONTID_THIRDLINE].fontHeight;
@@ -639,7 +639,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
     {
       if ( !dat->text_ignore_size_for_row_height)
       {
-		HANDLE hContact = pdnce->m_cache_hContact;	 
+		HANDLE hContact = pdnce->hContact;	 
         tmp = dat->fontModernInfo[g_clcPainter.GetBasicFontID(contact)].fontHeight;
         if (dat->text_replace_smileys && dat->first_line_draw_smileys && !dat->text_resize_smileys)
         {

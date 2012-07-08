@@ -185,12 +185,9 @@ typedef struct {
 typedef struct
 {
 	HANDLE hContact;
-	TCHAR* name;
-	#if defined(_UNICODE)
-		char* szName;
-	#endif
-	TCHAR* group;
-	int    isHidden;
+	TCHAR* tszName;
+	TCHAR* tszGroup;
+	int    bIsHidden;
 }
 	ClcCacheEntryBase;
 
