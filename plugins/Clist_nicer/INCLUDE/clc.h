@@ -340,6 +340,7 @@ struct TCluiData {
 	DWORD dwFlags;
 	DWORD topOffset, bottomOffset;
 	int statusBarHeight;
+	int soundsOff;
 	BYTE tabSRMM_Avail;
 	BYTE bMetaAvail;
 	BYTE bAvatarServiceAvail;

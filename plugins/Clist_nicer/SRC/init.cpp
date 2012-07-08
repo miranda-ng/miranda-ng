@@ -55,7 +55,8 @@ struct ClcContact* CreateClcContact( void );
 struct CListEvent* fnCreateEvent( void );
 void   ReloadThemedOptions();
 void   TrayIconUpdateBase(const char *szChangedProto);
-void    RegisterCLUIFrameClasses();
+void   RegisterCLUIFrameClasses();
+void   LoadButtonModule();
 
 void GetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour);
 int  GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
@@ -305,6 +306,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	cfg::dat.dwFlags = cfg::getDword("CLUI", "Frameflags", CLUI_FRAME_STATUSICONS | CLUI_FRAME_SHOWBOTTOMBUTTONS |
 	                                                       CLUI_FRAME_BUTTONSFLAT | CLUI_FRAME_CLISTSUNKEN);
 	cfg::dat.dwFlags |= (cfg::getByte("CLUI", "ShowSBar", 1) ? CLUI_FRAME_SBARSHOW : 0);
+	cfg::dat.soundsOff = cfg::getByte("CLUI", "NoSounds", 0);
 
 	CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szProfilePath);
 
@@ -365,6 +367,7 @@ LBL_Error:
 	rc = LoadContactListModule();
 	if (rc == 0)
 		rc = LoadCLCModule();
+	LoadButtonModule();
 	HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);
 	return rc;
 }
@@ -384,4 +387,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 	UnLoadCLUIFramesModule();
 	return 0;
 }
-

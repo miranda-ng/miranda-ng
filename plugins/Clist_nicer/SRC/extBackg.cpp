@@ -1172,19 +1172,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 			tmpItem.uId = nextButtonID++;
 		}
 	}
-	else if(_stricmp(szBuffer, "Custom")) {
-		int i = 0;
-		/*
-		while(top_buttons[i].id) {
-		if (!_stricmp(top_buttons[i].szIcoLibIcon, szBuffer)) {
-		tmpItem.uId = top_buttons[i].id;
-		tmpItem.dwFlags |= BUTTON_ISINTERNAL;
-		break;
-		}
-		i++;
-		}
-		*/
-	}
+
 	GetPrivateProfileStringA(itemName, "PassContact", "None", szBuffer, 1000, file);
 	if(_stricmp(szBuffer, "None")) {
 		if(szBuffer[0] == 'w' || szBuffer[0] == 'W')

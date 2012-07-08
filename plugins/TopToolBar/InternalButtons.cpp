@@ -5,51 +5,48 @@
 #define TTBI_SOUNDSONOFF    "TTBInternal/SoundsOnOFF"
 #define TTBI_MAINMENUBUTT   "TTBInternal/MainMenuBUTT"
 
-int LoadInternalButtons( HWND );
-int UnLoadInternalButtons();
-
 extern HINSTANCE hInst;
-
-static HANDLE hOnlineBut, hGroupBut, hSoundsBut, hOptionsBut, hMainMenuBut;
-static HANDLE hMinimizeBut;
-static HANDLE hFindUsers;
 
 static HWND hwndContactTree;
 
+struct 
+{
+	char *name, *pszService;
+	int iconidUp, iconidDn;
+	char *tooltipUp, *tooltipDn;
+	HANDLE hButton;
+}
+static stdButtons[] =
+{
+	{ "Show only Online Users", MS_CLIST_SETHIDEOFFLINE,  IDI_SHOWONLINEUP, IDI_SHOWONLINEDN, "Hide Offline Users", "Show All Users" },
+	{ "Groups On/Off",          TTBI_GROUPSHOWHIDE,       IDI_GROUPSUP,     IDI_GROUPSDN,     "Hide Groups",        "Show Groups"    },
+	{ "Sounds Enable/Disable",  TTBI_SOUNDSONOFF,         IDI_SOUNDUP,      IDI_SOUNDDN,      "Disable Sounds",     "Enable Sounds"  },
+
+	{ "Show Options Page",      "Options/OptionsCommand", IDI_OPTIONSUP,    0,                "Show Options"   },
+	{ "Minimize Button",        MS_CLIST_SHOWHIDE,        IDI_MINIMIZEUP,   0,                NULL             },
+	{ "Find/Add Contacts",      MS_FINDADD_FINDADD,       IDI_FINDADDUP,    0,                NULL             },
+	{ "Show Main Menu",         TTBI_MAINMENUBUTT,        IDI_MIRANDAUP,    0,                "Show Main Menu" }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
 int OnSettingChanging(WPARAM wParam, LPARAM lParam)
 {
-	if (wParam != 0)
-		return 0;
-	
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
-	if (dbcws == NULL)
+	if (wParam != 0 || dbcws == NULL)
 		return 0;
 
 	if ( !strcmp(dbcws->szModule, "CList")) {
-		if ( !strcmp(dbcws->szSetting, "HideOffline")) {
-			int val = dbcws->value.bVal;
+		if ( !strcmp(dbcws->szSetting, "HideOffline"))
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[0].hButton, (dbcws->value.bVal) ? TTBST_PUSHED : TTBST_RELEASED);		
 
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hOnlineBut, (LPARAM)(val)?TTBST_PUSHED:TTBST_RELEASED);		
-
-			CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hOnlineBut), 
-				(LPARAM)((!val)?Translate("Hide Offline Users"):Translate("Show All Users")));
-
-			return 0;
-		}
-
-		if (!strcmp(dbcws->szSetting, "UseGroups")) {
-			int val = dbcws->value.bVal;
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hGroupBut, (LPARAM)((val)?TTBST_PUSHED:TTBST_RELEASED));
-			return 0;
-		}
+		else if (!strcmp(dbcws->szSetting, "UseGroups"))
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[1].hButton, (dbcws->value.bVal) ? TTBST_PUSHED : TTBST_RELEASED);
 	}
 
-	if (!strcmp(dbcws->szModule, "Skin")) {
-		if (!strcmp(dbcws->szSetting, "UseSound")) {
-			int val = dbcws->value.bVal;
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hSoundsBut, (LPARAM)(val)?TTBST_RELEASED:TTBST_PUSHED);		
-			return 0;
-		}
+	else if (!strcmp(dbcws->szModule, "Skin")) {
+		if (!strcmp(dbcws->szSetting, "UseSound"))
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[2].hButton, (dbcws->value.bVal) ? TTBST_RELEASED : TTBST_PUSHED);		
 	}
 
 	return 0;
@@ -62,7 +59,6 @@ INT_PTR TTBInternalMainMenuButt(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	GetCursorPos(&pt);
 	TrackPopupMenu(hMenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON, pt.x, pt.y, 0, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL);	
-	
 	return 0;
 }
 
@@ -78,98 +74,47 @@ INT_PTR TTBInternalSoundsOnOff(WPARAM wParam, LPARAM lParam)
 {
 	int newVal = !(DBGetContactSettingByte(NULL, "Skin", "UseSound", 1));
 	DBWriteContactSettingByte(NULL, "Skin", "UseSound", (BYTE)newVal);
-	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hSoundsBut), 
-		(LPARAM)((newVal)?Translate("Disable Sounds"):Translate("Enable Sounds")));
 	return 0;
 }
 
-int UnLoadInternalButtons()
-{
-	return 0;
-}
+///////////////////////////////////////////////////////////////////////////////
 
-int LoadInternalButtons(HWND hwnd)
+int InitInternalButtons(WPARAM, LPARAM)
 {
-	hwndContactTree = hwnd;
+	hwndContactTree = (HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0);
+
 	CreateServiceFunction(TTBI_GROUPSHOWHIDE, TTBInternalGroupShowHide);
-	CreateServiceFunction(TTBI_SOUNDSONOFF, TTBInternalSoundsOnOff);
-
-	CreateServiceFunction(TTBI_MAINMENUBUTT, TTBInternalMainMenuButt);
-
-	int ShowOnline = DBGetContactSettingByte(NULL, "CList", "HideOffline", 0);
-	int ShowGroups = DBGetContactSettingByte(NULL, "CList", "UseGroups", 2);
-	int SoundsEnabled = DBGetContactSettingByte(NULL, "Skin", "UseSound", 1);
+	CreateServiceFunction(TTBI_SOUNDSONOFF,   TTBInternalSoundsOnOff);
+	CreateServiceFunction(TTBI_MAINMENUBUTT,  TTBInternalMainMenuButt);
 
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
-	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SHOWONLINEUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SHOWONLINEDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.dwFlags = (ShowOnline?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP|TTBBF_ASPUSHBUTTON|TTBBF_INTERNAL;
-	ttb.pszService = MS_CLIST_SETHIDEOFFLINE;
-	ttb.wParamUp = ttb.wParamDown = -1;
-	ttb.name = "Show only Online Users";
-	hOnlineBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
-	ttb.wParamUp = ttb.wParamDown = 0;
+	for (int i=0; i < SIZEOF(stdButtons); i++) {
+		ttb.name = stdButtons[i].name;
+		ttb.dwFlags = TTBBF_VISIBLE | TTBBF_INTERNAL;
+		if ((ttb.pszTooltipDn = stdButtons[i].tooltipDn) != NULL)
+			ttb.dwFlags |= TTBBF_SHOWTOOLTIP;
+		ttb.pszTooltipUp = stdButtons[i].tooltipUp;
+		ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(stdButtons[i].iconidUp), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+		if (stdButtons[i].iconidDn) {
+			ttb.dwFlags |= TTBBF_ASPUSHBUTTON;
+			ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(stdButtons[i].iconidDn), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+		}
+		else ttb.hIconDn = NULL;
 
-	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_GROUPSUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_GROUPSDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.dwFlags = (ShowGroups?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP|TTBBF_ASPUSHBUTTON|TTBBF_INTERNAL;
-	ttb.pszService = TTBI_GROUPSHOWHIDE;
-	ttb.name = "Groups On/Off";
-	hGroupBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
+		stdButtons[i].hButton = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
+	}
 
-	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SOUNDUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SOUNDDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.dwFlags = (SoundsEnabled?0:TTBBF_PUSHED)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP|TTBBF_ASPUSHBUTTON|TTBBF_INTERNAL;
-	ttb.pszService = TTBI_SOUNDSONOFF;
-	ttb.name = "Sounds Enable/Disable";
-	hSoundsBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[0].hButton, 
+		db_get_b(NULL, "CList", "HideOffline", 0) ? TTBST_PUSHED : TTBST_RELEASED);
 
-	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPTIONSUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.hIconDn = 0;	
-	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP|TTBBF_INTERNAL;
-	ttb.pszService = "Options/OptionsCommand";
-	ttb.name = "Show Options Page";
-	hOptionsBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[1].hButton, 
+		db_get_b(NULL, "CList", "UseGroups", 1) ? TTBST_PUSHED : TTBST_RELEASED);
 
-	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MINIMIZEUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.hIconDn = 0;	
-	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_INTERNAL;
-	ttb.pszService = MS_CLIST_SHOWHIDE;
-	ttb.name = "Minimize Button";
-	hMinimizeBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[2].hButton, 
+		db_get_b(NULL, "Skin", "UseSound", 1) ? TTBST_RELEASED : TTBST_PUSHED);
 
-	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_FINDADDUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.hIconDn = 0;	
-	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_INTERNAL;
-	ttb.pszService = MS_FINDADD_FINDADD;
-	ttb.name = "Find/Add Contacts";
-	hFindUsers = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
-
-	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MIRANDAUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.hIconDn = 0;	
-	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP|TTBBF_INTERNAL;
-	ttb.pszService = TTBI_MAINMENUBUTT;
-	ttb.name = "Show Main Menu";
-	hMainMenuBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
-
-	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hOnlineBut), 
-		(LPARAM)((ShowOnline) ? "Hide Offline Users" : "Show All Users" ));
-
-	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hGroupBut), 
-		(LPARAM)((ShowGroups) ? "Hide Groups" : "Show Groups" ));
-
-	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hSoundsBut), 
-		(LPARAM)((SoundsEnabled) ? "Disable Sounds" : "Enable Sounds" ));
-
-	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hOptionsBut), 
-		(LPARAM)"Show Options");
-
-	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hMainMenuBut), 
-		(LPARAM)"Show Main Menu");
-
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED,OnSettingChanging);
-
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanging);
  	return 0;
 }

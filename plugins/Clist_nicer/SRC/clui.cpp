@@ -106,32 +106,21 @@ static HBITMAP hbmLockedPoint = 0, hbmOldLockedPoint = 0;
 
 HICON overlayicons[10];
 
-struct {
-	HICON hIcon, hAltIcon;
-	UINT idIcon, idAltIcon;
-	char *szIcoLibIcon, *szIcoLibAltIcon;
-	DWORD visibilityOrder;
-	TCHAR *szTooltip;
-}
-static top_buttons[] =
-{
-	{ 0, 0, IDI_TBTOPMENU,                      0, "CLN_topmenu",            NULL,    1, LPGENT("Show menu") },
-	{ 0, 0, IDI_HIDEOFFLINE,                    0, "CLN_online",             NULL,    2, LPGENT("Show / hide offline contacts") },
-	{ 0, 0, IDI_HIDEGROUPS,                     0, "CLN_groups",             NULL,    4, LPGENT("Toggle group mode") },
-	{ 0, 0, IDI_FINDANDADD,                     0, "CLN_findadd",            NULL,    8, LPGENT("Find and add contacts") },
-	{ 0, 0, IDI_TBACCOUNTS,                     0, "CLN_accounts",           NULL, 8192, LPGENT("Accounts") },
-	{ 0, 0, IDI_TBOPTIONS,                      0, "CLN_options",            NULL,   16, LPGENT("Open preferences") },
-	{ 0, 0, IDI_SOUNDSON,           IDI_SOUNDSOFF, "CLN_sound",   "CLN_soundsoff",   32, LPGENT("Toggle sounds") },
-	{ 0, 0, IDI_MINIMIZE,                       0, "CLN_minimize",           NULL,   64, LPGENT("Minimize contact list") },
-	{ 0, 0, 0,                                  0, "CLN_topstatus",          NULL,  128, LPGENT("Status menu") },
-	{ 0, 0, IDI_TABSRMMSESSIONLIST,             0, "CLN_slist",              NULL,  256, LPGENT("tabSRMM session list") },
-	{ 0, 0, IDI_TABSRMMMENU,                    0, "CLN_menu",               NULL,  512, LPGENT("tabSRMM Menu") },
-
-	{ 0, 0, IDI_CLVM_SELECT,                    0, "CLN_CLVM_select",        NULL, 1024, LPGENT("Select view mode") },
-	{ 0, 0, IDI_CLVM_OPTIONS,                   0, "CLN_CLVM_options",       NULL, 2048, LPGENT("Setup view modes") },
-	{ 0, 0, IDI_DELETE,                         0, "CLN_CLVM_reset",         NULL, 4096, LPGENT("Clear view mode") },
-
-	{ 0, 0, IDI_MINIMIZE,                       0, "",                       NULL,    0, LPGENT("Open main menu") }
+static struct IconDesc myIcons[] = {
+	{ "CLN_online", LPGEN("Toggle show online/offline"), -IDI_HIDEOFFLINE },
+	{ "CLN_groups", LPGEN("Toggle groups"), -IDI_HIDEGROUPS },
+	{ "CLN_findadd", LPGEN("Find contacts"), -IDI_FINDANDADD },
+	{ "CLN_options", LPGEN("Open preferences"), -IDI_TBOPTIONS },
+	{ "CLN_sound", LPGEN("Toggle sounds"), -IDI_SOUNDSON },
+	{ "CLN_minimize", LPGEN("Minimize contact list"), -IDI_MINIMIZE },
+	{ "CLN_slist", LPGEN("Show tabSRMM session list"), -IDI_TABSRMMSESSIONLIST },
+	{ "CLN_menu", LPGEN("Show tabSRMM menu"), -IDI_TABSRMMMENU },
+	{ "CLN_soundsoff", LPGEN("Sounds are off"), -IDI_SOUNDSOFF },
+	{ "CLN_CLVM_select", LPGEN("Select view mode"), -IDI_CLVM_SELECT },
+	{ "CLN_CLVM_reset", LPGEN("Reset view mode"), -IDI_DELETE },
+	{ "CLN_CLVM_options", LPGEN("Configure view modes"), -IDI_CLVM_OPTIONS },
+	{ "CLN_topmenu", LPGEN("Show menu"), -IDI_TBTOPMENU },
+	{ "CLN_accounts", LPGEN("Setup accounts"), -IDI_TBACCOUNTS }
 };
 
 HWND hTbMenu, hTbGlobalStatus;
@@ -335,32 +324,25 @@ static void CacheClientIcons()
 
 static void InitIcoLib()
 {
-	SKINICONDESC sid = {0};
 	TCHAR szFilename[MAX_PATH];
-	int i = 0, version = 0;
+	GetModuleFileName(g_hInst, szFilename, MAX_PATH);
+
+	SKINICONDESC sid = {0};
+	int i, version = 0;
 	char szBuffer[128];
 	int p_count = 0;
 	PROTOACCOUNT **accs = NULL;
-
-	GetModuleFileName(g_hInst, szFilename, MAX_PATH);
 
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.pszSection = LPGEN("CList - Nicer/Default");
 	sid.ptszDefaultFile = szFilename;
-
-	sid.pszName = "CLN_CLVM_select";
-	sid.pszDescription = LPGEN("Select view mode");
-	sid.iDefaultIndex = -IDI_CLVM_SELECT;
-	Skin_AddIcon(&sid);
-	sid.pszName = "CLN_CLVM_reset";
-	sid.pszDescription = LPGEN("Reset view mode");
-	sid.iDefaultIndex = -IDI_DELETE;
-	Skin_AddIcon(&sid);
-	sid.pszName = "CLN_CLVM_options";
-	sid.pszDescription = LPGEN("Configure view modes");
-	sid.iDefaultIndex = -IDI_CLVM_OPTIONS;
-	Skin_AddIcon(&sid);
+	for (i=0; i < SIZEOF(myIcons); i++) {
+		sid.pszName = myIcons[i].szName;
+		sid.pszDescription = myIcons[i].szDesc;
+		sid.iDefaultIndex = myIcons[i].uId;
+		Skin_AddIcon(&sid);
+	}
 	
 	sid.pszName = "CLN_visible";
 	sid.pszDescription = LPGEN("Contact on visible list");
@@ -587,7 +569,6 @@ void SetDBButtonStates(HANDLE hPassedContact)
 		buttonItem = buttonItem->nextItem;
 	}
 }
-
 
 void BlitWallpaper(HDC hdc, RECT *rc, RECT *rcPaint, struct ClcData *dat)
 {
@@ -886,6 +867,18 @@ static void ShowCLUI(HWND hwnd)
 	}
 	SFL_Create();
 	SFL_SetState(cfg::dat.bUseFloater & CLUI_FLOATER_AUTOHIDE ? (old_cliststate == SETTING_STATE_NORMAL ? 0 : 1) : 1);
+}
+
+static void GetButtonRect(HWND hwnd, RECT *rc)
+{
+	if (hwnd)
+		GetWindowRect(hwnd, rc);
+	else {
+		POINT pt;
+		GetCursorPos(&pt);
+		rc->bottom = rc->top = pt.y;
+		rc->left = rc->right = pt.x;
+	}
 }
 
 #define M_CREATECLC  (WM_USER+1)
@@ -1572,21 +1565,34 @@ skipbg:
 					goto buttons_done;
 				}
 				switch (LOWORD(wParam)) {
-					case IDC_TBMENU: {
+					case IDC_TBMENU:
+					case IDC_TBTOPMENU: {
 						RECT rc;
 						HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUGETMAIN, 0, 0);
-
-						GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
+						GetButtonRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
 						TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, LOWORD(wParam) == IDC_TBMENU ? rc.top : rc.bottom, 0, hwnd, NULL);
 						return 0;
 					}
+					case IDC_TBTOPSTATUS:
 					case IDC_TBGLOBALSTATUS: {
 						RECT rc;
 						HMENU hmenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
-						GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
+						GetButtonRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
 						TrackPopupMenu(hmenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, rc.top, 0, hwnd, NULL);
 						return 0;
 					}
+
+					case IDC_TABSRMMSLIST:
+					case IDC_TABSRMMMENU:
+						if (ServiceExists("SRMsg_MOD/GetWindowFlags"))
+							CallService("SRMsg_MOD/Show_TrayMenu", 0, LOWORD(wParam) == IDC_TABSRMMSLIST ? 0 : 1);
+						return 0;
+
+					case IDC_TBSOUND:
+						cfg::dat.soundsOff = !cfg::dat.soundsOff;
+						cfg::writeByte("CLUI", "NoSounds", (BYTE)cfg::dat.soundsOff);
+						cfg::writeByte("Skin", "UseSound", (BYTE)(cfg::dat.soundsOff ? 0 : 1));
+						return 0;
 
 					case IDC_TBSELECTVIEWMODE:
 						SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_SELECTMODE, lParam);
@@ -1597,8 +1603,18 @@ skipbg:
 					case IDC_TBCONFIGUREVIEWMODE:
 						SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_CONFIGUREMODES, lParam);
 						break;
+					case IDC_TBFINDANDADD:
+						CallService(MS_FINDADD_FINDADD, 0, 0);
+						return 0;
+					case IDC_TBACCOUNTS:
+						CallService(MS_PROTO_SHOWACCMGR, 0, 0);
+						break;
+					case IDC_TBOPTIONS:
+						CallService("Options/OptionsCommand", 0, 0);
+						return 0;
 				}
-			} else if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_MAINMENU), (LPARAM)(HANDLE) NULL))
+			}
+			else if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_MAINMENU), (LPARAM)(HANDLE) NULL))
 				return 0;
 
 buttons_done:
@@ -1610,6 +1626,7 @@ buttons_done:
 						DestroyWindow(hwnd);
 					break;
 				case ID_TRAY_HIDE:
+				case IDC_TBMINIMIZE:
 					pcli->pfnShowHide(0, 0);
 					break;
 				case POPUP_NEWGROUP:
@@ -1618,6 +1635,7 @@ buttons_done:
 					CallService(MS_CLIST_GROUPCREATE, 0, 0);
 					break;
 				case POPUP_HIDEOFFLINE:
+				case IDC_TBHIDEOFFLINE:
 					CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)(-1), 0);
 					break;
 				case POPUP_HIDEOFFLINEROOT:
@@ -1629,10 +1647,12 @@ buttons_done:
 					SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
 					break;
 				}
+				case IDC_TBHIDEGROUPS:
 				case POPUP_DISABLEGROUPS: {
 					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
 					cfg::writeByte("CList", "UseGroups", (BYTE) newVal);
 					SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
+					CheckDlgButton(hwnd, IDC_TBHIDEGROUPS, newVal ? BST_CHECKED : BST_UNCHECKED);
 					break;
 				}
 				case POPUP_HIDEMIRANDA:

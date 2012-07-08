@@ -3,19 +3,7 @@
 #include "version.h"
 
 HINSTANCE hInst;
-
-HANDLE hHookTTBModuleLoaded;
 int hLangpack;
-
-#define MIID_TTB {0xf593c752, 0x51d8, 0x4d46, {0xba, 0x27, 0x37, 0x57, 0x79, 0x53, 0xf5, 0x5c}}
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo  =
 {
@@ -27,8 +15,8 @@ PLUGININFOEX pluginInfo  =
 	__PLUGIN_EMAIL,
 	__PLUGIN_RIGHTS,
 	__PLUGIN_AUTHORWEB,
-	UNICODE_AWARE, 		//doesn't replace anything built-in
-	MIID_TTB
+	UNICODE_AWARE,
+	{0xf593c752, 0x51d8, 0x4d46, {0xba, 0x27, 0x37, 0x57, 0x79, 0x53, 0xf5, 0x5c}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -40,12 +28,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 
 	LoadToolbarModule();
-
-	hHookTTBModuleLoaded = CreateHookableEvent(ME_TTB_MODULELOADED);
 	return 0;
 }
 
@@ -53,9 +38,14 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnLoadInternalButtons();
 	UnloadToolbarModule();
-
-	DestroyHookableEvent(hHookTTBModuleLoaded);
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+	hInst = hinstDLL;
+	return TRUE;
 }

@@ -1,6 +1,8 @@
 #ifndef M_TOPTOOLBAR_H
 #define M_TOPTOOLBAR_H
 
+#define TTB_OPTDIR "TopToolBar"
+
 //button flags
 #define TTBBF_DISABLED       0x0001
 #define TTBBF_VISIBLE        0x0002
@@ -32,14 +34,9 @@ typedef struct {
 		HICON hIconDn;
 		HANDLE hIconHandleDn;
 	};
-	union {
-		char *pszTooltipDn;
-		TCHAR *ptszTooltipDn;
-	};
-	union {
-		char *pszTooltipUp;
-		TCHAR *ptszTooltipUp;
-	};
+
+	char *pszTooltipUp;
+	char *pszTooltipDn;
 }
 	TTBButton, * lpTTBButton;
 
@@ -52,18 +49,29 @@ Called when the toolbar services are available
 !!!Warning you may work with TTB services only in this event or later.
 
 */
-#define ME_TTB_MODULELOADED				"TopToolBar/ModuleLoaded"
+#define ME_TTB_MODULELOADED   "TopToolBar/ModuleLoaded"
 
+/*
+toptoolbar/initbuttons event
+wParam = lParam = 0
+Called when the toolbar needs to add default buttons
+*/
+#define ME_TTB_INITBUTTONS   "TopToolBar/InitButtons"
 
 
 //=== SERVICES ===
 /*
 toptoolbar/addbutton service
 wparam = (TTBButton*)lpTTBButton
-lparam = 0
+lparam = hLangpack
 returns: hTTBButton - handle of added button on success, -1 on failure.
 */
-#define MS_TTB_ADDBUTTON						"TopToolBar/AddButton"
+
+extern int hLangpack;
+
+__forceinline HANDLE TopToolbar_AddButton(TTBButton *pButton)
+{	return (HANDLE)CallService("TopToolBar/AddButton", (WPARAM)pButton, hLangpack);
+}
 
 /*
 toptoolbar/removebutton service

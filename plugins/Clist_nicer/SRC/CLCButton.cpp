@@ -16,15 +16,60 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include <commonheaders.h>
+#include "commonheaders.h"
 
 #include <m_button_int.h>
 #include <m_toptoolbar.h>
 
-extern HINSTANCE g_hInst;
-extern LONG g_cxsmIcon, g_cysmIcon;
-extern StatusItems_t *StatusItems;
-extern ImageItem *g_glyphItem;
+struct
+{
+	int   ctrlid;
+	char *pszButtonID, *pszButtonDn, *pszButtonName;
+	int    isPush, isVis, isAction;
+	HANDLE hButton;
+}
+static BTNS[] = 
+{
+	{ IDC_TBTOPMENU,     "CLN_topmenu",      NULL,     LPGEN("Show menu"),                     1, 1, 1 },
+	{ IDC_TBHIDEOFFLINE, "CLN_online",       NULL,     LPGEN("Show / hide offline contacts"),  0, 1, 0 },
+	{ IDC_TBHIDEGROUPS,  "CLN_groups",       NULL,     LPGEN("Toggle group mode"),             0, 1, 0 },
+	{ IDC_TBFINDANDADD,  "CLN_findadd",      NULL,     LPGEN("Find and add contacts"),         1, 1, 0 },
+	{ IDC_TBACCOUNTS,    "CLN_accounts",     NULL,     LPGEN("Accounts"),                      1, 1, 0 },
+	{ IDC_TBOPTIONS,     "CLN_options",      NULL,     LPGEN("Open preferences"),              1, 1, 0 },
+	{ IDC_TBSOUND,       "CLN_sound", "CLN_soundsoff", LPGEN("Toggle sounds"),                 0, 1, 0 },
+	{ IDC_TBMINIMIZE,    "CLN_minimize",     NULL,     LPGEN("Minimize contact list"),         1, 0, 0 },
+	{ IDC_TBTOPSTATUS,   "CLN_topstatus",    NULL,     LPGEN("Status menu"),                   1, 0, 1 },
+	{ IDC_TABSRMMSLIST,  "CLN_slist",        NULL,     LPGEN("tabSRMM session list"),          1, 0, 1 },
+	{ IDC_TABSRMMMENU,   "CLN_menu",         NULL,     LPGEN("tabSRMM Menu"),                  1, 0, 1 },
+
+	{ IDC_TBSELECTVIEWMODE,   "CLN_CLVM_select",  NULL, LPGEN("Select view mode"),             1, 0, 1 },
+	{ IDC_TBCONFIGUREVIEWMODE,"CLN_CLVM_options", NULL, LPGEN("Setup view modes"),             1, 0, 0 },
+	{ IDC_TBCLEARVIEWMODE,    "CLN_CLVM_reset",   NULL, LPGEN("Clear view mode"),              1, 0, 0 }
+};
+
+static int InitDefaultButtons(WPARAM, LPARAM)
+{
+	TTBButton tbb = { 0 };
+	tbb.cbSize = sizeof(tbb);
+
+	for (int i=0; i < SIZEOF(BTNS); i++ ) {
+		tbb.dwFlags = TTBBF_ICONBYHANDLE;
+		if (BTNS[i].pszButtonID) {
+			tbb.pszTooltipUp = tbb.pszTooltipDn = tbb.name = BTNS[i].pszButtonName;
+			tbb.pszService = BTNS[i].pszButtonID;
+			tbb.hIconHandleUp = Skin_GetIconHandle(BTNS[i].pszButtonID);
+			if (BTNS[i].pszButtonDn)
+				tbb.hIconHandleUp = Skin_GetIconHandle(BTNS[i].pszButtonDn);
+		}
+		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
+
+		tbb.dwFlags |= (BTNS[i].isVis ? TTBBF_VISIBLE :0 );
+		BTNS[i].hButton = TopToolbar_AddButton(&tbb);
+	}
+	return 1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 struct MButtonExtension : public MButtonCtrl
 {
@@ -32,7 +77,7 @@ struct MButtonExtension : public MButtonCtrl
 	TCHAR szText[128];
 	SIZE sLabel;
 	HIMAGELIST hIml;
-	int iIcon;
+	int iIcon, iCtrlID;
 	BOOL bSendOnDown;
 	ButtonItem *buttonItem;
 	LONG lastGlyphMetrics[4];
@@ -292,7 +337,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_SYSKEYUP:
 		if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == tolower((int) wParam)) {
 			if (!bct->bSendOnDown)
-				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
+				SendMessage(pcli->hwndContactList, WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwndDlg);
 			return 0;
 		}
 		break;
@@ -372,20 +417,21 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_LBUTTONDOWN:
 		if (bct->stateId != PBS_DISABLED && bct->stateId != PBS_PRESSED) {
 			if (bct->bSendOnDown) {
-				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
+				SendMessage(pcli->hwndContactList, WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwndDlg);
 				bct->stateId = PBS_NORMAL;
 				InvalidateRect(bct->hwnd, NULL, TRUE);
+				return 1;
 			}
 		}
 		break;
 
 	case WM_LBUTTONUP:
 		if (!bct->bSendOnDown)
-			SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
+			SendMessage(pcli->hwndContactList, WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwndDlg);
 		break;
 
 	case WM_NCHITTEST:
-		switch( SendMessage(GetParent(hwndDlg), WM_NCHITTEST, wParam, lParam)) {
+		switch( SendMessage(pcli->hwndContactList, WM_NCHITTEST, wParam, lParam)) {
 		case HTLEFT:	case HTRIGHT:	case HTBOTTOM:	  case HTTOP:
 		case HTTOPLEFT: case HTTOPRIGHT: case HTBOTTOMLEFT:  case HTBOTTOMRIGHT:
 			return HTTRANSPARENT;
@@ -394,7 +440,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	return 0;
 }
 
-static void CustomizeToolbar(HANDLE, HWND hWnd, LPARAM)
+static void SetButtonAsCustom(HWND hWnd)
 {
 	MButtonCustomize Custom;
 	Custom.cbLen = sizeof(MButtonExtension);
@@ -403,10 +449,30 @@ static void CustomizeToolbar(HANDLE, HWND hWnd, LPARAM)
 	SendMessage(hWnd, BUTTONSETCUSTOM, 0, (LPARAM)&Custom);
 }
 
+static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
+{
+	// we don't customize the toolbar window, only buttons
+	if (hButton == TTB_WINDOW_HANDLE)  
+		return;
+	
+	SetButtonAsCustom(hWnd);
+	for (int i=0; i < SIZEOF(BTNS); i++) {
+		if (BTNS[i].hButton != hButton)
+			continue;
+
+		MButtonExtension *bct = (MButtonExtension*) GetWindowLongPtr(hWnd, 0);
+		bct->iCtrlID = BTNS[i].ctrlid;
+		if (BTNS[i].isAction) 
+			bct->bSendOnDown = TRUE;
+		if (!BTNS[i].isPush)
+			bct->bIsPushBtn = TRUE;
+		break;
+	}
+}
+
 void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat)
 {
-	CustomizeToolbar(0, hWnd, 0);
-
+	SetButtonAsCustom(hWnd);
 	SendMessage(hWnd, BUTTONSETSKINNED, bIsSkinned, 0);
 	SendMessage(hWnd, BUTTONSETASTHEMEDBTN, bIsThemed, 0);
 	SendMessage(hWnd, BUTTONSETASFLATBTN, bIsFlat, 0);
@@ -414,12 +480,12 @@ void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat)
 
 static int Nicer_CustomizeToolbar(WPARAM, LPARAM)
 {	
+	HookEvent(ME_TTB_INITBUTTONS, InitDefaultButtons);
 	TopToolbar_SetCustomProc(CustomizeToolbar, 0);
 	return 0;
 }
 
-int LoadButtonModule()
+void LoadButtonModule()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, Nicer_CustomizeToolbar);
-	return 0;
 }

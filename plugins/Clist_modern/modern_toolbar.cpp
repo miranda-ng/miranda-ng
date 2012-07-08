@@ -29,6 +29,59 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_toptoolbar.h>
 #include "hdr/modern_sync.h"
 
+struct
+{
+	char *pszButtonID, *pszButtonName, *pszServiceName;
+	char *pszTooltipUp, *pszTooltipDn;
+	int icoDefIdx, defResource, defResource2;
+	BOOL bVisByDefault;
+}
+static BTNS[] = 
+{
+	{ "MainMenu", "Main Menu", "CList/ShowMainMenu", "Main menu", NULL,  100 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "StatusMenu", "Status Menu", "CList/ShowStatusMenu", "Status menu", NULL,  105 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "AccoMgr", "Accounts", MS_PROTO_SHOWACCMGR, "Accounts...", NULL,  282 , IDI_ACCMGR, IDI_ACCMGR, TRUE },
+	{ "ShowHideOffline","Show/Hide offline contacts", MS_CLIST_TOGGLEHIDEOFFLINE, "Hide offline contacts", "Show offline contacts", 110, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "DatabaseEditor","DBEditor++", "DBEditorpp/MenuCommand", "Database Editor", NULL,  130 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "FindUser","Find User", "FindAdd/FindAddCommand", "Find User", NULL,  140 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "Options","Options", "Options/OptionsCommand", "Options", NULL,  150 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "UseGroups","Use/Disable groups", MS_CLIST_TOGGLEGROUPS, "Use groups", "Disable Groups", 160, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
+	{ "EnableSounds","Enable/Disable sounds", MS_CLIST_TOGGLESOUNDS, "Enable sounds", "Disable Sounds", 170, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
+	{ "Minimize","Minimize", "CList/ShowHide", "Minimize", NULL,  180 , IDI_RESETVIEW, IDI_RESETVIEW, FALSE }
+};
+
+int Modern_InitButtons(WPARAM, LPARAM)
+{
+	TTBButton tbb = { 0 };
+	tbb.cbSize = sizeof(tbb);
+
+	for (int i=0; i < SIZEOF(BTNS); i++ ) {
+		tbb.dwFlags = TTBBF_ICONBYHANDLE;
+		if (BTNS[i].pszButtonID) {
+			tbb.name = BTNS[i].pszButtonID;
+			tbb.pszService = BTNS[i].pszServiceName;
+			tbb.pszTooltipUp = BTNS[i].pszTooltipUp;
+			tbb.pszTooltipDn = BTNS[i].pszTooltipDn;
+
+			char buf[255];
+			mir_snprintf(buf,SIZEOF(buf),"%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_dn");
+			tbb.hIconHandleUp = RegisterIcolibIconHandle( buf, "ToolBar", BTNS[i].pszButtonName , _T("icons\\toolbar_icons.dll"),-BTNS[i].icoDefIdx, g_hInst, BTNS[i].defResource );
+
+			if (BTNS[i].pszTooltipDn) {
+				mir_snprintf(buf,SIZEOF(buf),"%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_up");
+				tbb.hIconHandleUp = RegisterIcolibIconHandle( buf, "ToolBar", BTNS[i].pszTooltipDn , _T("icons\\toolbar_icons.dll"),-(BTNS[i].icoDefIdx+1), g_hInst, BTNS[i].defResource2 );
+			}
+		}
+		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
+
+		tbb.dwFlags |= (BTNS[i].bVisByDefault ? TTBBF_VISIBLE :0 );
+		TopToolbar_AddButton(&tbb);
+	}
+	return 1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 #define TTB_OPTDIR "TopToolBar"
 
 #if defined(WIN64)
@@ -42,66 +95,6 @@ static TCHAR szWarning[] = LPGENT("To view a toolbar in Clist Modern you need th
 static void CopySettings(const char* to, const char* from)
 {
 	db_set_b(NULL, TTB_OPTDIR, to, db_get_b(NULL,"ModernToolBar",from, 0));
-}
-
-static void sttRegisterToolBarButton(char * pszButtonID, char * pszButtonName, char * pszServiceName,
-	char * pszTooltipUp, char * pszTooltipDn, int icoDefIdx, int defResource, int defResource2, BOOL bVisByDefault)
-{
-	TTBButton tbb = { 0 };
-	static int defPos = 0;
-	defPos += 100;
-	tbb.cbSize = sizeof(tbb);
-	tbb.dwFlags = TTBBF_ICONBYHANDLE;
-	if (pszButtonID) {
-		tbb.name = pszButtonID;
-		tbb.pszService = pszServiceName;
-
-		char buf[255];
-		mir_snprintf(buf,SIZEOF(buf),"%s%s%s", "TTB_", pszButtonID, "_dn");
-		tbb.hIconHandleUp = RegisterIcolibIconHandle( buf, "ToolBar", pszButtonName , _T("icons\\toolbar_icons.dll"),-icoDefIdx, g_hInst, defResource );
-
-		if (pszTooltipDn) {
-			mir_snprintf(buf,SIZEOF(buf),"%s%s%s", "TTB_", pszButtonID, "_up");
-			tbb.hIconHandleUp = RegisterIcolibIconHandle( buf, "ToolBar", pszTooltipDn , _T("icons\\toolbar_icons.dll"),-(icoDefIdx+1), g_hInst, defResource2 );
-		}
-	}
-	else tbb.dwFlags |= TTBBF_ISSEPARATOR;
-
-	tbb.dwFlags |= (bVisByDefault ? TTBBF_VISIBLE :0 );
-	CallService(MS_TTB_ADDBUTTON,0, (LPARAM)&tbb);
-}
-
-static void	ToolBar_DefaultButtonRegistration()
-{
-	sttRegisterToolBarButton( "MainMenu", "Main Menu", "CList/ShowMainMenu",
-		"Main menu", NULL,  100 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE  );
-	
-	sttRegisterToolBarButton( "StatusMenu", "Status Menu", "CList/ShowStatusMenu",
-		"Status menu", NULL,  105 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE  );
-
-	sttRegisterToolBarButton( "AccoMgr", "Accounts", MS_PROTO_SHOWACCMGR,
-		"Accounts...", NULL,  282 , IDI_ACCMGR, IDI_ACCMGR, TRUE  );
-	
-	sttRegisterToolBarButton( "ShowHideOffline","Show/Hide offline contacts", MS_CLIST_TOGGLEHIDEOFFLINE,
-					    "Hide offline contacts", "Show offline contacts", 110, IDI_RESETVIEW, IDI_RESETVIEW, TRUE  );
-	
-	sttRegisterToolBarButton( "DatabaseEditor","DBEditor++", "DBEditorpp/MenuCommand",
-		"Database Editor", NULL,  130 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE  );
-
-	sttRegisterToolBarButton( "FindUser","Find User", "FindAdd/FindAddCommand",
-		"Find User", NULL,  140 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE  );
-	
-	sttRegisterToolBarButton( "Options","Options", "Options/OptionsCommand",
-		"Options", NULL,  150 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE  );
-
-	sttRegisterToolBarButton( "UseGroups","Use/Disable groups", MS_CLIST_TOGGLEGROUPS,
-		"Use groups", "Disable Groups", 160, IDI_RESETVIEW, IDI_RESETVIEW, FALSE  );
-
-	sttRegisterToolBarButton( "EnableSounds","Enable/Disable sounds", MS_CLIST_TOGGLESOUNDS,
-		"Enable sounds", "Disable Sounds", 170, IDI_RESETVIEW, IDI_RESETVIEW, FALSE  );
-	
-	sttRegisterToolBarButton( "Minimize","Minimize", "CList/ShowHide",
-		"Minimize", NULL,  180 , IDI_RESETVIEW, IDI_RESETVIEW, FALSE  );
 }
 
 HRESULT ToolbarLoadModule()
@@ -121,6 +114,5 @@ HRESULT ToolbarLoadModule()
 			CallService(MS_UTILS_OPENURL, 0, (LPARAM)szUrl);
 	}
 
-	ToolBar_DefaultButtonRegistration();
 	return S_OK;
 }

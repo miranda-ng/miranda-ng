@@ -15,6 +15,7 @@
 #define b2str(a) ((a) ? "True" : "False")
 
 void CustomizeToolbar(HWND);
+int Modern_InitButtons(WPARAM, LPARAM);
 
 struct TBBUTTONDATA : public MButtonCtrl
 {
@@ -530,6 +531,7 @@ static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
 
 int Buttons_ModuleLoaded(WPARAM wParam, LPARAM lParam)
 {
+	HookEvent(ME_TTB_INITBUTTONS, Modern_InitButtons);
 	TopToolbar_SetCustomProc(CustomizeButton, 0);
 	return 0;
 }

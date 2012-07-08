@@ -34,7 +34,6 @@
 #include "m_icolib.h"
 #include "BkgrCfg.h"
 
-#define TTB_OPTDIR "TopToolBar"
 #define TTBDEFAULT_BKBMPUSE      CLB_STRETCH
 #define TTBDEFAULT_BKCOLOUR      GetSysColor(COLOR_3DFACE)
 #define TTBDEFAULT_USEBITMAP     0
@@ -79,6 +78,9 @@ struct TopButtonInt
 	WPARAM wParamUp;
 	LPARAM lParamDown;
 	WPARAM wParamDown;
+
+	int hLangpack;
+	char *szTooltipUp, *szTooltipDn;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -102,7 +104,6 @@ int ArrangeButtons();
 extern LIST<TopButtonInt> Buttons;
 extern bool StopArrange;
 extern HWND hwndTopToolBar;
-extern HANDLE hHookTTBModuleLoaded;
 extern HINSTANCE hInst;
 extern HBITMAP hBmpBackground, hBmpSeparator;
 extern int BUTTWIDTH, BUTTHEIGHT, BUTTGAP;
@@ -126,8 +127,7 @@ char *AS(char *str, const char *setting, char *addstr)
 INT_PTR TTBAddButton(WPARAM, LPARAM);
 INT_PTR TTBRemoveButton(WPARAM, LPARAM);
 
-int  LoadInternalButtons( HWND );
-int  UnLoadInternalButtons( void );
+int  InitInternalButtons(WPARAM, LPARAM);
 
 int  LoadToolbarModule( void );
 int  UnloadToolbarModule( void );

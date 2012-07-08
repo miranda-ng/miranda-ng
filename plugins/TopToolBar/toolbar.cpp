@@ -1,6 +1,8 @@
 
 #include "common.h"
 
+#define OLD_TBBUTTON_SIZE  (offsetof(TTBButton, pszTooltipUp))
+
 pfnCustomProc g_CustomProc = NULL;
 LPARAM g_CustomProcParam = 0;
 
@@ -13,6 +15,8 @@ int BUTTHEIGHT;
 int BUTTGAP;
 
 int nextButtonId = 200;
+
+static HANDLE hTTBModuleLoaded, hTTBInitButtons;
 
 //------------ options -------------
 COLORREF bkColour;
@@ -281,6 +285,11 @@ TopButtonInt* CreateButton(TTBButton* but)
 			sprintf(buf, "%s_dn", b->name);
 			b->hIconDn = LoadIconFromLibrary(buf, b->hIconDn, b->hIconHandleDn);
 		}
+
+		if (but->cbSize > OLD_TBBUTTON_SIZE) {
+			b->szTooltipUp = but->pszTooltipUp;
+			b->szTooltipDn = but->pszTooltipDn;
+		}
 	}
 	return b;
 }
@@ -301,7 +310,10 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 		mir_cslock lck(csButtonsHook);
 
 		TTBButton *but = (TTBButton*)wParam;
-		if (but->cbSize != sizeof(TTBButton) || (!(but->dwFlags && TTBBF_ISLBUTTON) && nameexists(but->name)))
+		if (but->cbSize != sizeof(TTBButton) && but->cbSize != OLD_TBBUTTON_SIZE)
+			return -1;
+
+		if ( !(but->dwFlags && TTBBF_ISLBUTTON) && nameexists(but->name))
 			return -1;
 
 		b = CreateButton(but);
@@ -754,10 +766,14 @@ static INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
 	StopArrange = FALSE;
-	NotifyEventHooks(hHookTTBModuleLoaded, 0, 0);
+	NotifyEventHooks(hTTBInitButtons, 0, 0);
+	NotifyEventHooks(hTTBModuleLoaded, 0, 0);
 
 	if (g_CustomProc) {
 		mir_cslock lck(csButtonsHook);
+
+		if (hwndTopToolBar)
+			g_CustomProc(TTB_WINDOW_HANDLE, hwndTopToolBar, g_CustomProcParam);
 
 		for (int i=0; i < Buttons.getCount(); i++) {
 			TopButtonInt* p = Buttons[i];
@@ -800,7 +816,6 @@ int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 	hwndContactList = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 
 	hFrameTopWindow = addTopToolBarWindow(hwndContactList);
-	LoadInternalButtons(( HWND )CallService(MS_CLUI_GETHWNDTREE, 0, 0));
 	LoadAllSeparators();
 	LoadAllLButs();
 
@@ -834,7 +849,11 @@ int LoadToolbarModule()
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconChange);
 	HookEvent(ME_OPT_INITIALISE, TTBOptInit);
 
-	CreateServiceFunction(MS_TTB_ADDBUTTON, TTBAddButton);
+	hTTBModuleLoaded = CreateHookableEvent(ME_TTB_MODULELOADED);
+	hTTBInitButtons = CreateHookableEvent(ME_TTB_INITBUTTONS);
+	SetHookDefaultForHookableEvent(hTTBInitButtons, InitInternalButtons);
+
+	CreateServiceFunction("TopToolBar/AddButton", TTBAddButton);
 	CreateServiceFunction(MS_TTB_REMOVEBUTTON, TTBRemoveButton);
 
 	CreateServiceFunction(MS_TTB_SETBUTTONSTATE, TTBSetState);
@@ -858,6 +877,9 @@ int LoadToolbarModule()
 
 int UnloadToolbarModule()
 {
+	DestroyHookableEvent(hTTBModuleLoaded);
+	DestroyHookableEvent(hTTBInitButtons);
+
 	DeleteObject(hBmpSeparator);
 	DeleteCriticalSection(&csButtonsHook);
 
