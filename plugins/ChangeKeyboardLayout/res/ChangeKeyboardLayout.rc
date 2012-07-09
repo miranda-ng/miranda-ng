@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 1 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
-    "resource.h\0"
+    "..src\resource.h\0"
 END
 
 2 TEXTINCLUDE MOVEABLE PURE 
@@ -54,18 +54,18 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_POPUPICON           ICON    DISCARDABLE     "Ico\\Popup.ico"
-IDI_COPYICON            ICON    DISCARDABLE     "Ico\\CopyToClipboard.ico"
+IDI_POPUPICON           ICON         "Popup.ico"
+IDI_COPYICON            ICON         "CopyToClipboard.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
 //
 
-IDB_BITMAP_WIN          BITMAP  DISCARDABLE     "Ico\\Win.bmp"
-IDB_BITMAP_ALT          BITMAP  DISCARDABLE     "Ico\\Alt.bmp"
-IDB_BITMAP_CTRL         BITMAP  DISCARDABLE     "Ico\\Ctrl.bmp"
-IDB_BITMAP_SHIFT        BITMAP  DISCARDABLE     "Ico\\Shift.bmp"
+IDB_BITMAP_WIN          BITMAP       "Win.bmp"
+IDB_BITMAP_ALT          BITMAP       "Alt.bmp"
+IDB_BITMAP_CTRL         BITMAP       "Ctrl.bmp"
+IDB_BITMAP_SHIFT        BITMAP       "Shift.bmp"
 
 #ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
