@@ -312,28 +312,27 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			if ( !PtInRect( &rcClient, ptMouse )) {
 				lpSBData->fHotMark = FALSE;
 				ReleaseCapture();
-				break;
 			}
-
-			if (lpSBData->stateId != PBS_DISABLED && lpSBData->stateId != PBS_PRESSED) {
-				lpSBData->stateId = PBS_PRESSED;
-				lpSBData->fHotMark = TRUE;
-				InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
-				if (lpSBData->fSendOnDown) {
-					SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
-					lpSBData->stateId = PBS_NORMAL;
+			else {
+				if (lpSBData->stateId != PBS_DISABLED && lpSBData->stateId != PBS_PRESSED) {
+					lpSBData->stateId = PBS_PRESSED;
+					lpSBData->fHotMark = TRUE;
 					InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
+					if (lpSBData->fSendOnDown) {
+						SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
+						lpSBData->stateId = PBS_NORMAL;
+						InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
+					}
 				}
+				SetCapture( lpSBData->hwnd );
 			}
-			SetCapture( lpSBData->hwnd );
-			break;
 		}
+		lpSBData->lResult = 0;
+		return 1;
 
 	case WM_LBUTTONUP:
 		if ( GetCapture() == lpSBData->hwnd ) {
-			int xPos = ( ( int )( short ) LOWORD( lParam ));
-			int yPos = ( ( int )( short ) HIWORD( lParam ));
-			POINT ptMouse = { xPos, yPos };
+			POINT ptMouse = { LOWORD(lParam), HIWORD(lParam) };
 
 			RECT rcClient;
 			GetClientRect( lpSBData->hwnd, &rcClient );
@@ -344,12 +343,8 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 				break;
 			}
 
-			if (lpSBData->bIsPushBtn) {
-				if (lpSBData->bIsPushed)
-					lpSBData->bIsPushed = FALSE;
-				else
-					lpSBData->bIsPushed = TRUE;
-			}
+			if (lpSBData->bIsPushBtn)
+				lpSBData->bIsPushed = !lpSBData->bIsPushed;
 
 			if (lpSBData->stateId != PBS_DISABLED) {
 				// don't change states if disabled
@@ -359,11 +354,13 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 					lpSBData->stateId = PBS_NORMAL;
 				InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
 			}
-			if ( !lpSBData->fSendOnDown && lpSBData->fHotMark)
+			if ( !lpSBData->fSendOnDown)
 				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
-			lpSBData->fHotMark = FALSE;
-			break;
 		}
+		lpSBData->fHotMark = FALSE;
+		lpSBData->lResult = 0;
+		return 1;
+		
 	case WM_MOUSEMOVE:
 		{
 			RECT rc;
@@ -397,14 +394,17 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 				ReleaseCapture();
 			}
 		}
-		break;
+		lpSBData->lResult = 0;
+		return 1;
 
 	case WM_NCHITTEST:
 		{
 			LRESULT lr = SendMessage(GetParent(hwndDlg), WM_NCHITTEST, wParam, lParam);
 			if (lr == HTLEFT || lr == HTRIGHT || lr == HTBOTTOM || lr == HTTOP || lr == HTTOPLEFT || lr == HTTOPRIGHT
-				 ||  lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT)
-				return HTTRANSPARENT;
+				 ||  lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT) {
+				lpSBData->lResult = HTTRANSPARENT;
+				return 1;
+			}
 		}
 		break;
 
@@ -447,11 +447,13 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 				RedrawWindow(hwndDlg,NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW);
 			}
 		}
-		return 0;
+		return 1;
 
 	case BM_GETIMAGE:
-		if (wParam == IMAGE_ICON)
-			return (LRESULT)(lpSBData->hIconPrivate ? lpSBData->hIconPrivate : lpSBData->hIcon);
+		if (wParam == IMAGE_ICON) {
+			lpSBData->lResult = (LRESULT)(lpSBData->hIconPrivate ? lpSBData->hIconPrivate : lpSBData->hIcon);
+			return 1;
+		}
 		break;
 
 	case BM_SETIMAGE:
@@ -486,14 +488,15 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			DeleteObject(ii.hbmMask);
 			DeleteObject(ii.hbmColor);
 			InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
+			lpSBData->lResult = 0;
+			return 1;
 		}
-		else if (wParam == IMAGE_BITMAP) 
+		if (wParam == IMAGE_BITMAP) 
 		{
 			if (lpSBData->hIconPrivate)
 				DestroyIcon(lpSBData->hIconPrivate);
 			lpSBData->hIcon = lpSBData->hIconPrivate = NULL;
 			InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
-			return 0; // not supported
 		}
 		break;
 	}

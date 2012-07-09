@@ -65,12 +65,15 @@ static int Modern_InitButtons(WPARAM, LPARAM)
 
 			char buf[255];
 			mir_snprintf(buf,SIZEOF(buf),"%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_dn");
-			tbb.hIconHandleUp = RegisterIcolibIconHandle( buf, "ToolBar", BTNS[i].pszButtonName , _T("icons\\toolbar_icons.dll"),-BTNS[i].icoDefIdx, g_hInst, BTNS[i].defResource );
+			tbb.hIconHandleUp = RegisterIcolibIconHandle( buf, "Toolbar", BTNS[i].pszTooltipUp, _T("icons\\toolbar_icons.dll"),-BTNS[i].icoDefIdx, g_hInst, BTNS[i].defResource );
 
 			if (BTNS[i].pszTooltipDn) {
+				tbb.dwFlags |= TTBBF_ASPUSHBUTTON;
+
 				mir_snprintf(buf,SIZEOF(buf),"%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_up");
-				tbb.hIconHandleUp = RegisterIcolibIconHandle( buf, "ToolBar", BTNS[i].pszTooltipDn , _T("icons\\toolbar_icons.dll"),-(BTNS[i].icoDefIdx+1), g_hInst, BTNS[i].defResource2 );
+				tbb.hIconHandleDn = RegisterIcolibIconHandle( buf, "Toolbar", BTNS[i].pszTooltipDn, _T("icons\\toolbar_icons.dll"),-(BTNS[i].icoDefIdx+1), g_hInst, BTNS[i].defResource2 );
 			}
+			else tbb.hIconHandleDn = NULL;
 		}
 		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
 
@@ -113,6 +116,26 @@ struct
 static tbdat = { 0 };
 
 COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
+
+static int ehhToolBarSettingsChanged(WPARAM wParam, LPARAM lParam)
+{
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
+	if ((HANDLE)wParam != NULL)
+		return 0;
+
+	if (!mir_strcmp(cws->szModule,"CList")) {
+		if (!mir_strcmp(cws->szSetting,"HideOffline"))
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[3].hButton, cws->value.bVal ? TTBST_PUSHED : TTBST_RELEASED);
+		else if (!mir_strcmp(cws->szSetting,"UseGroups"))
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[6].hButton, cws->value.bVal ? TTBST_PUSHED : TTBST_RELEASED);
+	}
+	else if (!mir_strcmp(cws->szModule,"Skin")) {
+		if (!mir_strcmp(cws->szSetting,"UseSound"))
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[7].hButton, cws->value.bVal ? TTBST_PUSHED : TTBST_RELEASED);
+	}
+	
+	return 0;
+}
 
 static int ehhToolBarBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 {
@@ -240,8 +263,12 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				Offset.y = childRect.top - MyRect.top;
 				SendMessage(mtbi->hWindow, BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
 			}	
-			return 1;
 		}
+		pMTBInfo->lResult = 0;
+		return 1;
+
+	case WM_DESTROY:
+		xpt_FreeThemeForWindow(hwnd);
 	}
 
 	return 0;
@@ -267,6 +294,7 @@ void CustomizeToolbar(HWND hwnd)
 static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 {
 	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)"ToolBar Background/ToolBar",0);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ehhToolBarSettingsChanged);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, ehhToolBarBackgroundSettingsChanged);
 	HookEvent(ME_TTB_INITBUTTONS, Modern_InitButtons);
 	return 0;

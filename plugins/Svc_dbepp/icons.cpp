@@ -79,34 +79,28 @@ HICON LoadSkinnedDBEIcon(int icon)
 
 int AddIconToList(HIMAGELIST hil, HICON hIcon)
 {
-
-	if (!hIcon || !hil) return 0;
+	if (!hIcon || !hil)
+		return 0;
 
 	ImageList_AddIcon(hil, hIcon);
-
 	return 1;
-
 }
-
 
 static PROTOCOLDESCRIPTOR **protocols = NULL;
 static int protoCount = 0;
 static int shift = 0;
 
-
 void AddProtoIconsToList(HIMAGELIST hil, int newshift)
 {
-    HICON hIcon;
-	int i;
 	shift = newshift;
 
 	CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&protoCount,(LPARAM)&protocols);
 
-	for(i = 0 ;i < protoCount; i++)
-	{
+	for (int i = 0; i < protoCount; i++) {
 		if (protocols[i]->type != PROTOTYPE_PROTOCOL)
 			continue;
 
+		HICON hIcon;
 		if (hIcon=LoadSkinnedProtoIcon(protocols[i]->szName, ID_STATUS_ONLINE))
 			AddIconToList(hil, hIcon);
 		else
@@ -114,49 +108,30 @@ void AddProtoIconsToList(HIMAGELIST hil, int newshift)
 	}
 }
 
-
 int GetProtoIcon(char *szProto)
 {
-    int result = DEF_ICON;
-	int i, n = 0;
+	if ( !protoCount || !protocols || !szProto)
+		return DEF_ICON;
 
-    if (!protoCount || !protocols || !szProto) return result;
+	int n = 0;
 
-	for(i = 0 ;i < protoCount; i++)
-	{
+	for (int i = 0; i < protoCount; i++) {
 		if (protocols[i]->type != PROTOTYPE_PROTOCOL)
 			continue;
 
 		if (!mir_strcmp(protocols[i]->szName, szProto))
-		{
-			result = n + shift;
-			break;
-		}
+			return n + shift;
 
 		n++;
-
 	}
 
-	return result;
+	return DEF_ICON;
 }
-
 
 BOOL IsProtocolLoaded(char* pszProtocolName)
 {
-/*
-    if (pszProtocolName && pszProtocolName[0])
-    {
-		int res = CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pszProtocolName);
-
-		if (res != CALLSERVICE_NOTFOUND && res)
-			return TRUE;
-	}
-*/
-	int i;
-
-    if (protoCount)
-		for(i = 0 ;i < protoCount; i++)
-		{
+	if (protoCount)
+		for(int i = 0; i < protoCount; i++) {
 			if (protocols[i]->type != PROTOTYPE_PROTOCOL)
 				continue;
 

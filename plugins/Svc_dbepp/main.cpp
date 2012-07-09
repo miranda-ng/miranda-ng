@@ -157,7 +157,7 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttbb.pszService = "DBEditorpp/MenuCommand";
 	ttbb.name = "Database Editor++";
-	ttbb.hIconUp = ttbb.hIconDn = ico;
+	ttbb.hIconUp = ico;
 	ttbb.pszTooltipUp = "Show DataBase Editor";
 	hTTBButt = TopToolbar_AddButton(&ttbb);
 	return 0;

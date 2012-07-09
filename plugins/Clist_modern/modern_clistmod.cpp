@@ -54,8 +54,9 @@ int EventsProcessContactDoubleClick(HANDLE hContact);
 
 INT_PTR TrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam);
 INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam);
-void InitTrayMenus(void);
 
+void InitTrayMenus(void);
+void UninitTrayMenu();
 
 HIMAGELIST hCListImages = NULL;
 
@@ -195,22 +196,20 @@ INT_PTR GetContactIcon(WPARAM wParam,LPARAM lParam)
 		status = ID_STATUS_OFFLINE;
 	else
 		status = db_get_w((HANDLE) wParam, szProto, "Status", ID_STATUS_OFFLINE);
-    res = ExtIconFromStatusMode((HANDLE)wParam,szProto,szProto == NULL?ID_STATUS_OFFLINE:status); //by FYR
-    if (lParam == 0 && res != -1) res &= 0xFFFF;
-    return res;
+	res = ExtIconFromStatusMode((HANDLE)wParam,szProto,szProto == NULL?ID_STATUS_OFFLINE:status); //by FYR
+	if (lParam == 0 && res != -1) res &= 0xFFFF;
+	return res;
 }
-void UninitTrayMenu();
+
 void UnLoadContactListModule()  //unhooks noncritical events
 {
-    UninitTrayMenu();
-    UninitCustomMenus();
+	UninitTrayMenu();
+	UninitCustomMenus();
 }
 
 int CListMod_ContactListShutdownProc(WPARAM wParam,LPARAM lParam)
 {
-    FreeDisplayNameCache();
-    if (g_hMainThread) CloseHandle(g_hMainThread);
-    g_hMainThread = NULL;
+	FreeDisplayNameCache();
 	return 0;
 }
 

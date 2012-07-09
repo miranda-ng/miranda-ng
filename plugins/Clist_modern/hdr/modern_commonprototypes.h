@@ -68,7 +68,6 @@ extern BOOL g_bTransparentFlag;
 extern HINSTANCE g_hInst;
 extern HIMAGELIST hCListImages;
 extern BOOL g_mutex_bChangingMode;
-extern HANDLE g_hMainThread;
 extern DWORD g_dwMainThreadID;
 extern DWORD g_dwAwayMsgThreadID;
 extern DWORD g_dwGetTextAsyncThreadID;

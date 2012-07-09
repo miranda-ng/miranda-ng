@@ -263,23 +263,20 @@ TopButtonInt* CreateButton(TTBButton* but)
 			b->name = NULL;
 
 		if (b->dwFlags & TTBBF_ICONBYHANDLE) {
-		  if (but->hIconHandleDn)
-				b->hIconDn = Skin_GetIconByHandle(but->hIconHandleDn);
+			b->hIconUp = Skin_GetIconByHandle(b->hIconHandleUp = but->hIconHandleUp);
+			if (but->hIconHandleDn)
+				b->hIconDn = Skin_GetIconByHandle(b->hIconHandleDn = but->hIconHandleDn);
 			else
-				b->hIconDn = 0;
-			b->hIconUp = Skin_GetIconByHandle(but->hIconHandleUp);
+				b->hIconDn = 0, b->hIconHandleDn = 0;
 		}
 		else {
-			b->hIconDn = but->hIconDn;
-			b->hIconUp = but->hIconUp;
-		}
-
-		char buf[256];
-		sprintf(buf, "%s_up", b->name);
-		b->hIconUp = LoadIconFromLibrary(buf, b->hIconUp, b->hIconHandleUp);
-		if (b->hIconDn) {
-			sprintf(buf, "%s_dn", b->name);
-			b->hIconDn = LoadIconFromLibrary(buf, b->hIconDn, b->hIconHandleDn);
+			char buf[256];
+			mir_snprintf(buf, SIZEOF(buf), (b->hIconDn) ? "%s_up" : "%s", b->name);
+			b->hIconUp = LoadIconFromLibrary(buf, but->hIconUp, b->hIconHandleUp);
+			if (b->hIconDn) {
+				mir_snprintf(buf, SIZEOF(buf), "%s_dn", b->name);
+				b->hIconDn = LoadIconFromLibrary(buf, but->hIconDn, b->hIconHandleDn);
+			}
 		}
 
 		if (but->cbSize > OLD_TBBUTTON_SIZE) {
@@ -696,8 +693,8 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_COMMAND:
 		switch (HIWORD(wParam)) {
-		case STN_CLICKED:
-		case STN_DBLCLK:
+		case BN_CLICKED:
+		case BN_DOUBLECLICKED:
 			{
 				int id = GetWindowLongPtr((HWND)lParam, GWLP_USERDATA);
 				if (id != 0) {
@@ -706,21 +703,15 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					if (b == NULL || b->isSep())
 						return 0;
 
-					// flag inversion inside condition coz we uses Up -> Down for non-push buttons
-					// condition and inversion can be moved to main condition end
+					if (b->dwFlags & TTBBF_ASPUSHBUTTON)
+						b->bPushed = !b->bPushed;
+
 					if (b->bPushed) { //Dn -> Up
-
-						if (b->dwFlags & TTBBF_ASPUSHBUTTON)
-							b->bPushed = !b->bPushed;
-
 						if (!(b->dwFlags & TTBBF_ISLBUTTON)) // must be always true
 							if (b->pszService != NULL)
 								CallService(b->pszService, b->wParamUp, b->lParamUp);
 					}
 					else { //Up -> Dn
-						if (b->dwFlags & TTBBF_ASPUSHBUTTON)
-							b->bPushed = !b->bPushed;
-
 						if (b->pszService != NULL)
 							CallService(b->pszService, b->wParamDown, b->lParamDown);
 					}
