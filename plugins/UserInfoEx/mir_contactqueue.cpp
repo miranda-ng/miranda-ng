@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright ©2006 Ricardo Pescuma Domenecci
 
 Modified  ©2008-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
@@ -33,7 +33,7 @@ Last change by : $Author: ing.u.horn $
 
 /**
  * This static helper function is used to sort the queue items by time
- * beginning with the next upcomming item to call the Callback for.
+ * beginning with the next upcoming item to call the Callback for.
  *
  * @param		i1	- the first queue item
  * @param		i2	- the second queue item
@@ -76,7 +76,7 @@ CContactQueue::~CContactQueue()
 		_status = STOPPING;
 	}
 	SetEvent(_hEvent);
-	
+
 	for (INT count = 0; _status != STOPPED && ++count < 50;)
 	{
 		Sleep(10);
@@ -144,7 +144,7 @@ VOID CContactQueue::RemoveAll(HANDLE hContact)
 	for (INT i = _queue.getCount() - 1; i >= 0; --i)
 	{
 		CQueueItem *qi = _queue[i];
-		
+
 		if (qi->hContact == hContact)
 		{
 			_queue.remove(i);
@@ -170,7 +170,7 @@ VOID CContactQueue::RemoveAllConsiderParam(HANDLE hContact, PVOID param)
 	for (INT i = _queue.getCount() - 1; i >= 0; --i)
 	{
 		CQueueItem *qi = _queue[i];
-		
+
 		if (qi->hContact == hContact && qi->param == param)
 		{
 			_queue.remove(i);
@@ -198,7 +198,7 @@ BOOL CContactQueue::Add(INT waitTime, HANDLE hContact, PVOID param)
 	Lock();
 
 	rc = InternalAdd(waitTime, hContact, param);
-	
+
 	Release();
 
 	return rc;
@@ -239,7 +239,7 @@ BOOL CContactQueue::AddIfDontHave(INT waitTime, HANDLE hContact, PVOID param)
 
 /**
  * This method removes all existing queue items for the contact and adds a new queue item
- * for the given contact. This method might be used to move an existing entry, 
+ * for the given contact. This method might be used to move an existing entry,
  * whose check_time has changed.
  *
  * @param		waitTime	- the time to wait until the callback is desired to run
@@ -303,7 +303,7 @@ BOOL CContactQueue::InternalAdd(INT waitTime, HANDLE hContact, PVOID param)
 {
 	BOOL rc;
 	CQueueItem *qi = (CQueueItem *) mir_alloc(sizeof(CQueueItem));
-	
+
 	qi->hContact = hContact;
 	qi->check_time = GetTickCount() + waitTime;
 	qi->param = param;
@@ -321,7 +321,7 @@ BOOL CContactQueue::InternalAdd(INT waitTime, HANDLE hContact, PVOID param)
 
 /**
  * This is the real thread callback function. As long as _status
- * is set to RUNNING it looks for items in the queue to perform 
+ * is set to RUNNING it looks for items in the queue to perform
  * the _pfnCallback function on them. If the queue is empty or the
  * next upcoming item is located in the future, the thread is suspended
  * in the meanwhile.
@@ -354,7 +354,7 @@ VOID CContactQueue::Thread()
 			CQueueItem *qi = _queue[0];
 
 			INT dt = qi->check_time - GetTickCount();
-			if (dt > 0) 
+			if (dt > 0)
 			{
 				// Not time to request yet, wait...
 				Release();
@@ -423,6 +423,3 @@ VOID CContactQueue::ContinueWithNext()
 		Release();
 	}
 }
-
-
-

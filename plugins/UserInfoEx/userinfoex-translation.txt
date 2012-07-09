@@ -162,7 +162,7 @@
 ;[Title:]
 ;[TreeView]
 ;[Uncheck all]
-;[Upcomming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
+;[Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
 ;[Use &unknown flag if country can not be determined]
 ;[Use Windows Timezone]
 ;[Use Windows colours]

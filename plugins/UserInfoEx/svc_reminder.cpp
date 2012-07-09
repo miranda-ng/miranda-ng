@@ -55,7 +55,7 @@ struct CEvent
 	BOOLEAN operator << (const CEvent& e);
 };
 
-typedef struct _REMINDEROPTIONS 
+typedef struct _REMINDEROPTIONS
 {
 	WORD	wDaysEarlier;
 	BYTE	bPopups;
@@ -141,7 +141,7 @@ BOOLEAN CEvent::operator << (const CEvent& evt)
  ***********************************************************************************************************/
 
 /**
- * This function returns the icon for the given anniversary, 
+ * This function returns the icon for the given anniversary,
  * which is the given number of days in advance.
  *
  * @param	evt				- structure specifying the next anniversary
@@ -153,12 +153,12 @@ static HICON GetAnnivIcon(const CEvent &evt)
 	HICON hIcon = NULL;
 
 	CHAR szIcon[MAXSETTING];
-	
-	switch (evt._eType) 
+
+	switch (evt._eType)
 	{
 		case CEvent::BIRTHDAY:
 			{
-				if (evt._wDaysLeft > 9) 
+				if (evt._wDaysLeft > 9)
 				{
 					hIcon = IcoLib_GetIcon(ICO_RMD_DTBX);
 				}
@@ -169,10 +169,10 @@ static HICON GetAnnivIcon(const CEvent &evt)
 				}
 			}
 			break;
-		
+
 		case CEvent::ANNIVERSARY:
 			{
-				if (evt._wDaysLeft > 9) 
+				if (evt._wDaysLeft > 9)
 				{
 					hIcon = IcoLib_GetIcon(ICO_RMD_DTAX);
 				}
@@ -198,7 +198,7 @@ static HANDLE AddCListExtraIcon(const CEvent &evt)
 {
 	HANDLE hClistIcon;
 	HICON hIco = GetAnnivIcon(evt);
-	if (hIco) 
+	if (hIco)
 	{
 		hClistIcon = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIco, 0);
 		if (hClistIcon == (HANDLE)CALLSERVICE_NOTFOUND)
@@ -220,11 +220,11 @@ static HANDLE AddCListExtraIcon(const CEvent &evt)
  **/
 static HANDLE GetCListExtraIcon(const CEvent &evt)
 {
-	if (gRemindOpts.bCListExtraIcon) 
+	if (gRemindOpts.bCListExtraIcon)
 	{
 		WORD wIndex = evt._wDaysLeft;
 
-		switch (evt._eType) 
+		switch (evt._eType)
 		{
 		case CEvent::BIRTHDAY:
 			{
@@ -268,7 +268,7 @@ static HANDLE GetCListExtraIcon(const CEvent &evt)
  **/
 static VOID NotifyWithExtraIcon(HANDLE hContact, const CEvent &evt)
 {
-	if (myGlobals.HaveCListExtraIcons && gRemindOpts.bCListExtraIcon) 
+	if (myGlobals.HaveCListExtraIcons && gRemindOpts.bCListExtraIcon)
 	{
 		if (!myGlobals.ExtraIconsServiceExist)
 		{
@@ -287,11 +287,11 @@ static VOID NotifyWithExtraIcon(HANDLE hContact, const CEvent &evt)
 			ico.cbSize=sizeof(ico);
 			ico.hContact=hContact;
 			ico.hExtraIcon=ExtraIcon;
-			switch (evt._eType) 
+			switch (evt._eType)
 			{
 			case CEvent::BIRTHDAY:
 				{
-					if (evt._wDaysLeft > 9) 
+					if (evt._wDaysLeft > 9)
 					{
 						ico.icoName=ICO_RMD_DTAX;
 					}
@@ -304,7 +304,7 @@ static VOID NotifyWithExtraIcon(HANDLE hContact, const CEvent &evt)
 				}
 			case CEvent::ANNIVERSARY:
 				{
-					if (evt._wDaysLeft > 9) 
+					if (evt._wDaysLeft > 9)
 					{
 						ico.icoName=ICO_RMD_DTAX;
 					}
@@ -333,13 +333,13 @@ static VOID NotifyWithExtraIcon(HANDLE hContact, const CEvent &evt)
  *
  * @return	message specific
  **/
-static INT_PTR CALLBACK PopupWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
+static INT_PTR CALLBACK PopupWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg) 
+	switch (uMsg)
 	{
-	case WM_COMMAND: 
+	case WM_COMMAND:
 		{
-			if (HIWORD(wParam) == STN_CLICKED) 
+			if (HIWORD(wParam) == STN_CLICKED)
 			{
 				PUDeletePopUp(hWnd);
 				return TRUE;
@@ -376,14 +376,14 @@ static INT NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, INT DaysToA
 		ZeroMemory(&ppd, sizeof(POPUPDATAT_V2));
 		ppd.PluginWindowProc = (WNDPROC)PopupWindowProc;
 		ppd.iSeconds = (INT)DB::Setting::GetByte(SET_POPUP_DELAY, 0);
-			
-		if (hContact) 
+
+		if (hContact)
 		{
 			ppd.lchContact = hContact;
-			mir_sntprintf(ppd.lptzContactName, SIZEOF(ppd.lptzContactName), 
+			mir_sntprintf(ppd.lptzContactName, SIZEOF(ppd.lptzContactName),
 				_T("%s - %s"), TranslateTS(pszDesc), DB::Contact::DisplayName(hContact));
 		}
-		else 
+		else
 		{
 			mir_tcsncpy(ppd.lptzContactName, TranslateT("Reminder"), SIZEOF(ppd.lptzContactName));
 		}
@@ -391,7 +391,7 @@ static INT NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, INT DaysToA
 
 		ppd.lchIcon = GetAnnivIcon(CEvent(eventType, DaysToAnniv));
 
-		switch (eventType) 
+		switch (eventType)
 		{
 		case CEvent::BIRTHDAY:
 			switch (DB::Setting::GetByte(SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM))
@@ -409,7 +409,7 @@ static INT NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, INT DaysToA
 			break;
 
 		case CEvent::ANNIVERSARY:
-			switch (DB::Setting::GetByte(SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) 
+			switch (DB::Setting::GetByte(SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM))
 			{
 			case POPUP_COLOR_WINDOWS:
 				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -437,7 +437,7 @@ static INT NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, INT DaysToA
  **/
 static VOID NotifyFlashCListIcon(HANDLE hContact, const CEvent &evt)
 {
-	if (gRemindOpts.bFlashCList && evt._wDaysLeft == 0) 
+	if (gRemindOpts.bFlashCList && evt._wDaysLeft == 0)
 	{
 		CLISTEVENT cle ={0};
 		TCHAR szMsg[MAX_PATH];
@@ -450,9 +450,9 @@ static VOID NotifyFlashCListIcon(HANDLE hContact, const CEvent &evt)
 		switch (evt._eType) {
 			case CEvent::BIRTHDAY:
 				{
-					mir_sntprintf(szMsg, SIZEOF(szMsg), 
-						TranslateT("%s has %s today."), 
-						DB::Contact::DisplayName(hContact), 
+					mir_sntprintf(szMsg, SIZEOF(szMsg),
+						TranslateT("%s has %s today."),
+						DB::Contact::DisplayName(hContact),
 						TranslateT("Birthday"));
 					cle.hIcon = IcoLib_GetIcon(ICO_COMMON_BIRTHDAY);
 				}
@@ -462,7 +462,7 @@ static VOID NotifyFlashCListIcon(HANDLE hContact, const CEvent &evt)
 				{
 					mir_sntprintf(szMsg, SIZEOF(szMsg),
 						TranslateT("%s has %s today."),
-						DB::Contact::DisplayName(hContact), 
+						DB::Contact::DisplayName(hContact),
 						TranslateT("an anniversary"));
 					cle.hIcon = IcoLib_GetIcon(ICO_COMMON_ANNIVERSARY);
 				}
@@ -473,7 +473,7 @@ static VOID NotifyFlashCListIcon(HANDLE hContact, const CEvent &evt)
 		}
 		cle.ptszTooltip = szMsg;
 
-		// pszService = NULL get error (crash), 
+		// pszService = NULL get error (crash),
 		// pszService = "dummy" get 'service not fount' and continue;
 		cle.pszService = "dummy";
 		cle.lParam = NULL;
@@ -483,7 +483,7 @@ static VOID NotifyFlashCListIcon(HANDLE hContact, const CEvent &evt)
 }
 
 /**
- * Play a sound for the nearest upcomming anniversary
+ * Play a sound for the nearest upcoming anniversary
  *
  * @param	evt				- structure specifying the next anniversary
  *
@@ -492,9 +492,9 @@ static VOID NotifyFlashCListIcon(HANDLE hContact, const CEvent &evt)
  **/
 static BYTE NotifyWithSound(const CEvent &evt)
 {
-	if (evt._wDaysLeft <= min(DB::Setting::GetByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), gRemindOpts.wDaysEarlier)) 
+	if (evt._wDaysLeft <= min(DB::Setting::GetByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), gRemindOpts.wDaysEarlier))
 	{
-		switch (evt._eType) 
+		switch (evt._eType)
 		{
 			case CEvent::BIRTHDAY:
 				SkinPlaySound(evt._wDaysLeft == 0 ? SOUND_BIRTHDAY_TODAY : SOUND_BIRTHDAY_SOON);
@@ -514,7 +514,7 @@ static BYTE NotifyWithSound(const CEvent &evt)
 
 static LPCTSTR ContactGender(HANDLE hContact)
 {
-	switch (GenderOf(hContact)) 
+	switch (GenderOf(hContact))
 	{
 		case 'M': return TranslateT("He");
 		case 'F': return TranslateT("She");
@@ -535,7 +535,7 @@ static BOOLEAN CheckAnniversaries(HANDLE hContact, MTime &Now, CEvent &evt, BOOL
 
 	if ((gRemindOpts.RemindState == REMIND_ANNIV) || (gRemindOpts.RemindState == REMIND_ALL))
 	{
-		for (i = 0; i < ANID_LAST && !mta.DBGetAnniversaryDate(hContact, i); i++) 
+		for (i = 0; i < ANID_LAST && !mta.DBGetAnniversaryDate(hContact, i); i++)
 		{
 			mta.DBGetReminderOpts(hContact);
 
@@ -546,54 +546,54 @@ static BOOLEAN CheckAnniversaries(HANDLE hContact, MTime &Now, CEvent &evt, BOOL
 				{
 					wDaysEarlier = gRemindOpts.wDaysEarlier;
 				}
-		
+
 				Diff = mta.CompareDays(Now);
 				if ((Diff >= 0) && (Diff <= wDaysEarlier))
 				{
-					if (evt._wDaysLeft > Diff) 
+					if (evt._wDaysLeft > Diff)
 					{
 						evt._wDaysLeft = Diff;
 						evt._eType = CEvent::ANNIVERSARY;
 					}
 					numAnniversaries++;
-					
+
 					// create displayed text for popup
 					if (bNotify && !bOverflow)
 					{
 						// first anniversary found
-						if (numAnniversaries == 1) 
+						if (numAnniversaries == 1)
 						{
-							mir_sntprintf(szAnniv, MAX_PATH, 
-								TranslateT("%s has the following anniversaries:\0"), 
+							mir_sntprintf(szAnniv, MAX_PATH,
+								TranslateT("%s has the following anniversaries:\0"),
 								ContactGender(hContact));
 							mir_tcsncpy(strMsg, szAnniv, mir_tcslen(szAnniv));
 						}
-						switch (Diff) 
+						switch (Diff)
 						{
-							case 0: 
+							case 0:
 								{
-									mir_sntprintf(szAnniv, MAX_PATH, 
-										TranslateT("%d. %s today\0"), 
+									mir_sntprintf(szAnniv, MAX_PATH,
+										TranslateT("%d. %s today\0"),
 										mta.Age(), mta.Description());
 								}
 								break;
-						
-							case 1: 
+
+							case 1:
 								{
-									mir_sntprintf(szAnniv, MAX_PATH, 
-										TranslateT("%d. %s tomorrow\0"), 
+									mir_sntprintf(szAnniv, MAX_PATH,
+										TranslateT("%d. %s tomorrow\0"),
 										mta.Age() + 1, mta.Description());
 								}
 								break;
 
 							default:
 								{
-									mir_sntprintf(szAnniv, MAX_PATH, 
-										TranslateT("%d. %s in %d days\0"), 
+									mir_sntprintf(szAnniv, MAX_PATH,
+										TranslateT("%d. %s in %d days\0"),
 										mta.Age() + 1, mta.Description(), Diff);
 								}
 						}
-						if (mir_tcslen(szAnniv) >= MAX_SECONDLINE - mir_tcslen(strMsg)) 
+						if (mir_tcslen(szAnniv) >= MAX_SECONDLINE - mir_tcslen(strMsg))
 						{
 							if (strMsg)
 								mir_tcsncat(strMsg, _T("\n...\0"), SIZEOF(strMsg));
@@ -601,7 +601,7 @@ static BOOLEAN CheckAnniversaries(HANDLE hContact, MTime &Now, CEvent &evt, BOOL
 								mir_tcsncpy(strMsg, _T("\n...\0"), mir_tcslen(_T("\n...\0")));
 							bOverflow = TRUE;
 						}
-						else 
+						else
 						{
 							if (strMsg)
 								mir_tcsncat(strMsg, _T("\n- \0"), SIZEOF(strMsg));
@@ -615,7 +615,7 @@ static BOOLEAN CheckAnniversaries(HANDLE hContact, MTime &Now, CEvent &evt, BOOL
 		}
 	}
 	// show one popup for all anniversaries
-	if (numAnniversaries != 0 && bNotify) 
+	if (numAnniversaries != 0 && bNotify)
 	{
 		NotifyWithPopup(hContact, CEvent::ANNIVERSARY, Diff, LPGENT("Anniversaries"), strMsg);
 	}
@@ -648,13 +648,13 @@ static BOOLEAN CheckBirthday(HANDLE hContact, MTime &Now, CEvent &evt, BOOLEAN b
 			WORD wDaysEarlier;
 
 			mtb.DBGetReminderOpts(hContact);
-	
+
 			// make backup of each protocol based birthday
 			if (DB::Setting::GetByte(SET_REMIND_SECUREBIRTHDAY, TRUE))
 			{
 				mtb.BackupBirthday(hContact, NULL, 0, LastAnwer);
 			}
-			
+
 			if (mtb.RemindOption() != BST_UNCHECKED)
 			{
 				wDaysEarlier = (mtb.RemindOption() == BST_CHECKED) ? mtb.RemindOffset() : -1;
@@ -662,22 +662,22 @@ static BOOLEAN CheckBirthday(HANDLE hContact, MTime &Now, CEvent &evt, BOOLEAN b
 				{
 					wDaysEarlier = gRemindOpts.wDaysEarlier;
 				}
-		
+
 				Diff = mtb.CompareDays(Now);
 				if ((Diff >= 0) && (Diff <= wDaysEarlier))
 				{
-					if (evt._wDaysLeft > Diff) 
+					if (evt._wDaysLeft > Diff)
 					{
 						evt._wDaysLeft = Diff;
 						evt._eType = CEvent::BIRTHDAY;
 					}
 
-					if (bNotify) 
+					if (bNotify)
 					{
 						TCHAR szMsg[MAXDATASIZE];
 						WORD cchMsg = 0;
 
-						switch (Diff) 
+						switch (Diff)
 						{
 							case 0:
 								{
@@ -730,18 +730,18 @@ static BOOLEAN CheckBirthday(HANDLE hContact, MTime &Now, CEvent &evt, BOOLEAN b
 static VOID CheckContact(HANDLE hContact, MTime &Now, CEvent &evt, BOOLEAN bNotify, PWORD LastAnwer = 0)
 {
 	// ignore meta subcontacts here as their birthday information are collected explicitly
-	if (hContact && 
+	if (hContact &&
 			(!gRemindOpts.bCheckVisibleOnly || !DB::Setting::GetByte(hContact, MOD_CLIST, "Hidden", FALSE)) &&
 			(!DB::MetaContact::IsSub(hContact)))
 	{
 		CEvent ca;
 
-		if (CheckBirthday(hContact, Now, ca, bNotify, LastAnwer) || 
-				CheckAnniversaries(hContact, Now, ca, bNotify)) 
+		if (CheckBirthday(hContact, Now, ca, bNotify, LastAnwer) ||
+				CheckAnniversaries(hContact, Now, ca, bNotify))
 		{
 			evt << ca;
 
-			if (bNotify) 
+			if (bNotify)
 			{
 				NotifyFlashCListIcon(hContact, ca);
 			}
@@ -759,7 +759,7 @@ static VOID CheckContact(HANDLE hContact, MTime &Now, CEvent &evt, BOOLEAN bNoti
  **/
 VOID SvcReminderCheckAll(const ENotify notify)
 {
-	if (gRemindOpts.RemindState != REMIND_OFF) 
+	if (gRemindOpts.RemindState != REMIND_OFF)
 	{
 		HANDLE hContact;
 		CEvent evt;
@@ -776,13 +776,13 @@ VOID SvcReminderCheckAll(const ENotify notify)
 			CheckContact(hContact, now, evt, notify != NOTIFY_CLIST, &a1);
 		}
 
-		if (notify != NOTIFY_CLIST) 
+		if (notify != NOTIFY_CLIST)
 		{
 			// play sound for the next anniversary
 			NotifyWithSound(evt);
 
 			// popup anniversary list
-			if (DB::Setting::GetByte(SET_ANNIVLIST_POPUP, FALSE)) 
+			if (DB::Setting::GetByte(SET_ANNIVLIST_POPUP, FALSE))
 			{
 				DlgAnniversaryListShow(0, 0);
 			}
@@ -835,7 +835,7 @@ static INT OnCListRebuildIcons(WPARAM, LPARAM)
  **/
 INT OnCListApplyIcon(HANDLE hContact, LPARAM)
 {
-	if (gRemindOpts.RemindState != REMIND_OFF) 
+	if (gRemindOpts.RemindState != REMIND_OFF)
 	{
 		CEvent evt;
 		MTime now;
@@ -863,7 +863,7 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
 			pdbcws && pdbcws->szSetting &&				// setting structure valid
 			(pdbcws->value.type < DBVT_DWORD) &&		// anniversary datatype
 			(gRemindOpts.RemindState != REMIND_OFF) &&	// reminder active
-			(!strncmp(pdbcws->szSetting, "Birth", 5) || 
+			(!strncmp(pdbcws->szSetting, "Birth", 5) ||
 			 !strncmp(pdbcws->szSetting, "Anniv", 5) ||
 			 !strncmp(pdbcws->szSetting, "DOB", 3)))
 	{
@@ -950,14 +950,14 @@ static INT_PTR BackupBirthdayService(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact	= (HANDLE)wParam;
 	MAnnivDate mdb;
 
-	if (hContact) 
+	if (hContact)
 	{
 		if (!mdb.DBGetBirthDate(hContact))
 		{
 			mdb.BackupBirthday(hContact, NULL, TRUE);
 		}
 	}
-	else 
+	else
 	{
 		WORD a1 = 0;
 
@@ -973,7 +973,7 @@ static INT_PTR BackupBirthdayService(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	if (lParam != TRUE) 
+	if (lParam != TRUE)
 	{
 		MSGBOX mBox;
 
@@ -1014,7 +1014,7 @@ LPCSTR SvcReminderGetMyBirthdayModule()
  * @param	dwTime			- not used
  * @return	nothing
  **/
-static VOID CALLBACK TimerProc_DateChanged(HWND, UINT, UINT_PTR, DWORD) 
+static VOID CALLBACK TimerProc_DateChanged(HWND, UINT, UINT_PTR, DWORD)
 {
 	static MTime last;
 	MTime now;
@@ -1036,7 +1036,7 @@ static VOID CALLBACK TimerProc_DateChanged(HWND, UINT, UINT_PTR, DWORD)
  *
  * @return	nothing
  **/
-static VOID CALLBACK TimerProc_Check(HWND, UINT, UINT_PTR, DWORD) 
+static VOID CALLBACK TimerProc_Check(HWND, UINT, UINT_PTR, DWORD)
 {
 	SvcReminderCheckAll(NOTIFY_POPUP);
 }
@@ -1052,12 +1052,12 @@ static VOID UpdateTimer(BOOLEAN bStartup)
 {
 	LONG	wNotifyInterval =	60 * 60 * (LONG)DB::Setting::GetWord(MODNAME, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL);
 	MTime	now, last;
-	
+
 	now.GetTimeUTC();
-	
+
 	if (bStartup) {
 		last.DBGetStamp(NULL, MODNAME, SET_REMIND_LASTCHECK);
-		
+
 		// if last check occured at least one day before just do it on startup again
 		if (now.Year() > last.Year() ||	now.Month() > last.Month() ||	now.Day() > last.Day() || DB::Setting::GetByte(SET_REMIND_CHECKON_STARTUP, FALSE))
 			wNotifyInterval = 5;
@@ -1206,12 +1206,12 @@ VOID SvcReminderUnloadModule(VOID)
 	ghRemindTimer = 0;
 	KillTimer(0, ghRemindDateChangeTimer);
 	ghRemindDateChangeTimer = 0;
-	
+
 	// unhook event handlers
-	UnhookEvent(ghCListIR); 
+	UnhookEvent(ghCListIR);
 	ghCListIR = 0;
-	UnhookEvent(ghCListIA); 
+	UnhookEvent(ghCListIA);
 	ghCListIA = 0;
-	UnhookEvent(ghSettingsChanged); 
+	UnhookEvent(ghSettingsChanged);
 	ghSettingsChanged = 0;
 }

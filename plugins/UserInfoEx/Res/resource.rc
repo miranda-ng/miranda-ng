@@ -302,7 +302,7 @@ EXSTYLE WS_EX_NOPARENTNOTIFY
 CAPTION "Anniversary list"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Upcomming anniversaries\nThis list gives you some overview about all your contact's anniversaries.",IDC_HEADERBAR,
+    CONTROL         "Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,355,25
     CONTROL         "",EDIT_ANNIVERSARY_DATE,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,3,69,347,128
     GROUPBOX        "Statistics:",GROUP_STATS,3,28,348,35,0,WS_EX_TRANSPARENT
@@ -598,17 +598,17 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""afxres.h""\r\0"
 END
@@ -635,4 +635,3 @@ IDB_FLAGSPNG            PNG                     "flags.png"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
