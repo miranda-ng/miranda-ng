@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -28,14 +28,14 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MAINBOLTUN          ICON                    "res\\boltun.ico"
+IDI_MAINBOLTUN          ICON                    "boltun.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // SMILES
 //
 
-IDR_SMILES              SMILES                  "res\\smiles.dat"
+IDR_SMILES              SMILES                  "smiles.dat"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -45,7 +45,7 @@ IDR_SMILES              SMILES                  "res\\smiles.dat"
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\src\resource.h\0"
 END
 
 2 TEXTINCLUDE 
