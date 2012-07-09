@@ -19,181 +19,67 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="clist.cpp">
+    <ClCompile Include="src\clist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="colorchooser.cpp">
+    <ClCompile Include="src\colorchooser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="log.cpp">
+    <ClCompile Include="src\log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="manager.cpp">
+    <ClCompile Include="src\manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="message.cpp">
+    <ClCompile Include="src\message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="richutil.cpp">
+    <ClCompile Include="src\richutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="services.cpp">
+    <ClCompile Include="src\services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tools.cpp">
+    <ClCompile Include="src\tools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="window.cpp">
+    <ClCompile Include="src\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="chat.h">
+    <ClInclude Include="src\chat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="richutil.h">
+    <ClInclude Include="src\richutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icons\1.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\3.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\4.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\5.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\6.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\action.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\addmode.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\bkgcolor.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\blank.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\bold.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\close.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\color.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\filter.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\filter2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\highlight.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\history.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\info.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\italics.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\join.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\kick.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\message.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\messageout.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\nick.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\nicklist.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\nicklist2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\notice.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\overlay.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\part.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\quit.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\removestatus.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\smiley.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\tag1.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\tag2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\topic.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\topicbut.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\underline.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\window.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Docs\Chat_license.txt">
+    <None Include="docs\Chat_license.txt">
       <Filter>Documentation</Filter>
     </None>
-    <None Include="Docs\Chat_Readme.txt">
+    <None Include="docs\Chat_Readme.txt">
       <Filter>Documentation</Filter>
     </None>
-    <None Include="Docs\Chat_Translate.txt">
+    <None Include="docs\Chat_Translate.txt">
       <Filter>Documentation</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Chat.rc">
+    <ResourceCompile Include="res\Chat.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

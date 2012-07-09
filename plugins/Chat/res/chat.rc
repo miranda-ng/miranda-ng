@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -285,8 +285,8 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_TAG1                ICON                    "Icons/tag1.ico"
-IDI_TAG2                ICON                    "Icons/tag2.ico"
+IDI_TAG1                ICON                    "tag1.ico"
+IDI_TAG2                ICON                    "tag2.ico"
 #endif    // Neutral (Default) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -323,42 +323,42 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_BUNDERLINE          ICON                    "Icons/underline.ico"
-IDI_BBOLD               ICON                    "Icons/bold.ico"
-IDI_BITALICS            ICON                    "Icons/italics.ico"
-IDI_BSMILEY             ICON                    "Icons/smiley.ico"
-IDI_JOIN                ICON                    "Icons/join.ico"
-IDI_TOPIC               ICON                    "Icons/topic.ico"
-IDI_ADDSTATUS           ICON                    "Icons/addmode.ico"
-IDI_INFO                ICON                    "Icons/info.ico"
-IDI_KICK                ICON                    "Icons/kick.ico"
-IDI_MESSAGE             ICON                    "Icons/message.ico"
-IDI_NICK                ICON                    "Icons/nick.ico"
-IDI_NOTICE              ICON                    "Icons/notice.ico"
-IDI_PART                ICON                    "Icons/part.ico"
-IDI_QUIT                ICON                    "Icons/quit.ico"
-IDI_REMSTATUS           ICON                    "Icons/removestatus.ico"
-IDI_HIGHLIGHT           ICON                    "Icons/highlight.ico"
-IDI_MESSAGEOUT          ICON                    "Icons/messageout.ico"
-IDI_ACTION              ICON                    "Icons/action.ico"
-IDI_TOPICBUT            ICON                    "Icons/topicbut.ico"
-IDI_BKGCOLOR            ICON                    "Icons/bkgcolor.ico"
-IDI_CHANMGR             ICON                    "Icons/window.ico"
-IDI_COLOR               ICON                    "Icons/color.ico"
-IDI_FILTER              ICON                    "Icons/filter.ico"
-IDI_HISTORY             ICON                    "Icons/history.ico"
-IDI_NICKLIST            ICON                    "Icons/nicklist.ico"
-IDI_BLANK               ICON                    "Icons/blank.ico"
-IDI_STATUS3             ICON                    "Icons/4.ico"
-IDI_STATUS2             ICON                    "Icons/3.ico"
-IDI_STATUS4             ICON                    "Icons/5.ico"
-IDI_STATUS1             ICON                    "Icons/2.ico"
-IDI_STATUS0             ICON                    "Icons/1.ico"
-IDI_STATUS5             ICON                    "Icons/6.ico"
-IDI_CLOSE               ICON                    "Icons/close.ico"
-IDI_OVERLAY             ICON                    "Icons/overlay.ico"
-IDI_NICKLIST2           ICON                    "Icons/nicklist2.ico"
-IDI_FILTER2             ICON                    "Icons/filter2.ico"
+IDI_BUNDERLINE          ICON                    "underline.ico"
+IDI_BBOLD               ICON                    "bold.ico"
+IDI_BITALICS            ICON                    "italics.ico"
+IDI_BSMILEY             ICON                    "smiley.ico"
+IDI_JOIN                ICON                    "join.ico"
+IDI_TOPIC               ICON                    "topic.ico"
+IDI_ADDSTATUS           ICON                    "addmode.ico"
+IDI_INFO                ICON                    "info.ico"
+IDI_KICK                ICON                    "kick.ico"
+IDI_MESSAGE             ICON                    "message.ico"
+IDI_NICK                ICON                    "nick.ico"
+IDI_NOTICE              ICON                    "notice.ico"
+IDI_PART                ICON                    "part.ico"
+IDI_QUIT                ICON                    "quit.ico"
+IDI_REMSTATUS           ICON                    "removestatus.ico"
+IDI_HIGHLIGHT           ICON                    "highlight.ico"
+IDI_MESSAGEOUT          ICON                    "messageout.ico"
+IDI_ACTION              ICON                    "action.ico"
+IDI_TOPICBUT            ICON                    "topicbut.ico"
+IDI_BKGCOLOR            ICON                    "bkgcolor.ico"
+IDI_CHANMGR             ICON                    "window.ico"
+IDI_COLOR               ICON                    "color.ico"
+IDI_FILTER              ICON                    "filter.ico"
+IDI_HISTORY             ICON                    "history.ico"
+IDI_NICKLIST            ICON                    "nicklist.ico"
+IDI_BLANK               ICON                    "blank.ico"
+IDI_STATUS3             ICON                    "4.ico"
+IDI_STATUS2             ICON                    "3.ico"
+IDI_STATUS4             ICON                    "5.ico"
+IDI_STATUS1             ICON                    "2.ico"
+IDI_STATUS0             ICON                    "1.ico"
+IDI_STATUS5             ICON                    "6.ico"
+IDI_CLOSE               ICON                    "close.ico"
+IDI_OVERLAY             ICON                    "overlay.ico"
+IDI_NICKLIST2           ICON                    "nicklist2.ico"
+IDI_FILTER2             ICON                    "filter2.ico"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -368,7 +368,7 @@ IDI_FILTER2             ICON                    "Icons/filter2.ico"
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\src\resource.h\0"
 END
 
 2 TEXTINCLUDE 

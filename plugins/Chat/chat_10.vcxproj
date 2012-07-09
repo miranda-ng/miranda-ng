@@ -211,73 +211,35 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="clist.cpp" />
-    <ClCompile Include="colorchooser.cpp" />
-    <ClCompile Include="log.cpp" />
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\clist.cpp" />
+    <ClCompile Include="src\colorchooser.cpp" />
+    <ClCompile Include="src\log.cpp" />
+    <ClCompile Include="src\main.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="manager.cpp" />
-    <ClCompile Include="message.cpp" />
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="richutil.cpp">
+    <ClCompile Include="src\manager.cpp" />
+    <ClCompile Include="src\message.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\richutil.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="services.cpp" />
-    <ClCompile Include="tools.cpp" />
-    <ClCompile Include="window.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\tools.cpp" />
+    <ClCompile Include="src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="chat.h" />
-    <ClInclude Include="richutil.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\chat.h" />
+    <ClInclude Include="src\richutil.h" />
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icons\1.ico" />
-    <None Include="Icons\2.ico" />
-    <None Include="Icons\3.ico" />
-    <None Include="Icons\4.ico" />
-    <None Include="Icons\5.ico" />
-    <None Include="Icons\6.ico" />
-    <None Include="Icons\action.ico" />
-    <None Include="Icons\addmode.ico" />
-    <None Include="Icons\bkgcolor.ico" />
-    <None Include="Icons\blank.ico" />
-    <None Include="Icons\bold.ico" />
-    <None Include="Icons\close.ico" />
-    <None Include="Icons\color.ico" />
-    <None Include="Icons\filter.ico" />
-    <None Include="Icons\filter2.ico" />
-    <None Include="Icons\highlight.ico" />
-    <None Include="Icons\history.ico" />
-    <None Include="Icons\info.ico" />
-    <None Include="Icons\italics.ico" />
-    <None Include="Icons\join.ico" />
-    <None Include="Icons\kick.ico" />
-    <None Include="Icons\message.ico" />
-    <None Include="Icons\messageout.ico" />
-    <None Include="Icons\nick.ico" />
-    <None Include="Icons\nicklist.ico" />
-    <None Include="Icons\nicklist2.ico" />
-    <None Include="Icons\notice.ico" />
-    <None Include="Icons\overlay.ico" />
-    <None Include="Icons\part.ico" />
-    <None Include="Icons\quit.ico" />
-    <None Include="Icons\removestatus.ico" />
-    <None Include="Icons\smiley.ico" />
-    <None Include="Icons\tag1.ico" />
-    <None Include="Icons\tag2.ico" />
-    <None Include="Icons\topic.ico" />
-    <None Include="Icons\topicbut.ico" />
-    <None Include="Icons\underline.ico" />
-    <None Include="Icons\window.ico" />
-    <None Include="Docs\Chat_license.txt" />
-    <None Include="Docs\Chat_Readme.txt" />
-    <None Include="Docs\Chat_Translate.txt" />
+    <None Include="docs\Chat_license.txt" />
+    <None Include="docs\Chat_Readme.txt" />
+    <None Include="docs\Chat_Translate.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Chat.rc" />
-    <ResourceCompile Include="version.rc" />
+    <ResourceCompile Include="res\Chat.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

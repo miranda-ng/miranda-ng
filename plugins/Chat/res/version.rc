@@ -2,10 +2,7 @@
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
-#include "version.h"
-#include "resource.h"
-#include "winres.h"
-#include "richedit.h"
+#include "..\src\version.h"
 
 #ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
