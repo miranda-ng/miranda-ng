@@ -267,17 +267,17 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			RECT nillRect = {0};
 			lpSBData->rcMargins = nillRect;
 		}
-		return 0;
+		break;
 
 	case BUTTONSETID:
 		lstrcpynA(lpSBData->szButtonID, (char *)lParam, SIZEOF(lpSBData->szButtonID)-1);
 		lpSBData->szButtonID[SIZEOF(lpSBData->szButtonID)-1] = '\0';
-		return 0;
+		break;
 
 	case BUTTONDRAWINPARENT:
 		if (IsWindowVisible(hwndDlg))
 			PaintWorker(lpSBData, (HDC) wParam, (POINT*) lParam);
-		return 0;
+		break;
 
 	case WM_NCPAINT:
 	case WM_PAINT:
@@ -290,6 +290,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			}
 		}
 		ValidateRect(hwndDlg,NULL);
+		lpSBData->lResult = 0;
 		return 1;
 
 	case WM_CAPTURECHANGED:

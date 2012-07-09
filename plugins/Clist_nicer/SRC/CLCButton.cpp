@@ -47,12 +47,15 @@ static BTNS[] =
 	{ IDC_TBCLEARVIEWMODE,    "CLN_CLVM_reset",   NULL, LPGEN("Clear view mode"),              1, 0, 0 }
 };
 
+static int g_index = -1;
+
 static int InitDefaultButtons(WPARAM, LPARAM)
 {
 	TTBButton tbb = { 0 };
 	tbb.cbSize = sizeof(tbb);
 
 	for (int i=0; i < SIZEOF(BTNS); i++ ) {
+		g_index = i;
 		tbb.dwFlags = TTBBF_ICONBYHANDLE;
 		if (BTNS[i].pszButtonID) {
 			tbb.pszTooltipUp = tbb.pszTooltipDn = tbb.name = BTNS[i].pszButtonName;
@@ -63,9 +66,10 @@ static int InitDefaultButtons(WPARAM, LPARAM)
 		}
 		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
 
-		tbb.dwFlags |= (BTNS[i].isVis ? TTBBF_VISIBLE :0 );
+		tbb.dwFlags |= (BTNS[i].isVis ? TTBBF_VISIBLE : 0 );
 		BTNS[i].hButton = TopToolbar_AddButton(&tbb);
 	}
+	g_index = -1;
 	return 1;
 }
 
@@ -338,13 +342,16 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == tolower((int) wParam)) {
 			if (!bct->bSendOnDown)
 				SendMessage(pcli->hwndContactList, WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwndDlg);
-			return 0;
+			bct->lResult = 0;
+			return 1;
 		}
 		break;
 
 	case BM_GETIMAGE:
-		if (wParam == IMAGE_ICON)
-			return (LRESULT)(bct->hIconPrivate ? bct->hIconPrivate : bct->hIcon);
+		if (wParam == IMAGE_ICON) {
+			bct->lResult = (LRESULT)(bct->hIconPrivate ? bct->hIconPrivate : bct->hIcon);
+			return 1;
+		}
 		break;
 
 	case BM_SETIMAGE:
@@ -420,6 +427,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SendMessage(pcli->hwndContactList, WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwndDlg);
 				bct->stateId = PBS_NORMAL;
 				InvalidateRect(bct->hwnd, NULL, TRUE);
+				bct->lResult = 0;
 				return 1;
 			}
 		}
@@ -434,7 +442,8 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		switch( SendMessage(pcli->hwndContactList, WM_NCHITTEST, wParam, lParam)) {
 		case HTLEFT:	case HTRIGHT:	case HTBOTTOM:	  case HTTOP:
 		case HTTOPLEFT: case HTTOPRIGHT: case HTBOTTOMLEFT:  case HTBOTTOMRIGHT:
-			return HTTRANSPARENT;
+			bct->lResult = HTTRANSPARENT;
+			return 1;
 		}
 	}
 	return 0;
@@ -456,17 +465,14 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 		return;
 	
 	SetButtonAsCustom(hWnd);
-	for (int i=0; i < SIZEOF(BTNS); i++) {
-		if (BTNS[i].hButton != hButton)
-			continue;
 
+	if (g_index != -1) { // adding built-in button
 		MButtonExtension *bct = (MButtonExtension*) GetWindowLongPtr(hWnd, 0);
-		bct->iCtrlID = BTNS[i].ctrlid;
-		if (BTNS[i].isAction) 
+		bct->iCtrlID = BTNS[g_index].ctrlid;
+		if (BTNS[g_index].isAction) 
 			bct->bSendOnDown = TRUE;
-		if (!BTNS[i].isPush)
+		if (!BTNS[g_index].isPush)
 			bct->bIsPushBtn = TRUE;
-		break;
 	}
 }
 

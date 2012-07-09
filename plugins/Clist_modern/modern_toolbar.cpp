@@ -35,6 +35,7 @@ struct
 	char *pszTooltipUp, *pszTooltipDn;
 	int icoDefIdx, defResource, defResource2;
 	BOOL bVisByDefault;
+	HANDLE hButton;
 }
 static BTNS[] = 
 {
@@ -74,8 +75,13 @@ static int Modern_InitButtons(WPARAM, LPARAM)
 		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
 
 		tbb.dwFlags |= (BTNS[i].bVisByDefault ? TTBBF_VISIBLE :0 );
-		TopToolbar_AddButton(&tbb);
+		BTNS[i].hButton = TopToolbar_AddButton(&tbb);
 	}
+
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[3].hButton, db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? TTBST_PUSHED : TTBST_RELEASED);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[6].hButton, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? TTBST_PUSHED : TTBST_RELEASED);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[7].hButton, db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT) ? TTBST_PUSHED : TTBST_RELEASED);
+
 	return 1;
 }
 
@@ -241,10 +247,17 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	return 0;
 }
 
+static int ToolBar_LayeredPaintProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData)
+{
+	return SendMessage(hWnd, MTBM_LAYEREDPAINT,(WPARAM)hDC,0);
+}
+
 void CustomizeToolbar(HWND hwnd)
 {
 	TTBCtrlCustomize custData = { sizeof(ModernToolbarCtrl), toolbarWndProc, NULL };
 	SendMessage(hwnd, TTB_SETCUSTOM, 0, (LPARAM)&custData);
+
+	CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)hwnd,(LPARAM)ToolBar_LayeredPaintProc);
 
 	ModernToolbarCtrl* pMTBInfo = (ModernToolbarCtrl*)GetWindowLongPtr(hwnd, 0);
 	pMTBInfo->nLineCount = 1;

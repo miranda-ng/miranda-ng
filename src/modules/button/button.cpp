@@ -261,11 +261,9 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, LPARAM lParam)
 {
 	MButtonCtrl* bct = (MButtonCtrl *)GetWindowLongPtr(hwndDlg, 0);
-	if (bct && bct->fnWindowProc) {
-		LRESULT res = bct->fnWindowProc(hwndDlg, msg, wParam, lParam);
-		if (res)
-			return res;
-	}		
+	if (bct && bct->fnWindowProc)
+		if ( bct->fnWindowProc(hwndDlg, msg, wParam, lParam))
+			return bct->lResult;
 
 	switch(msg) {
 	case WM_NCCREATE:

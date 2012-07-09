@@ -51,6 +51,7 @@ struct MButtonCtrl
 				bIsThemed,  // themed button
 				bIsSkinned; // skinned button
 
+	LRESULT  lResult;    // custom window proc result
 	WNDPROC  fnWindowProc; // custom window proc
 	pfnPainterFunc fnPainter; // custom button painter
 
