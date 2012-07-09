@@ -317,8 +317,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// add our modules to the KnownModules list
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
 
-	hIcon1 = IcoLib_Register("listening_to_icon", _T("Contact List"), _T("Listening to"), IDI_LISTENINGTO);
-	hIcon2 = IcoLib_Register("listening_off_icon", _T("Contact List"), _T("Listening to"), IDI_LISTENINGOFF);
+	hIcon1 = IcoLib_Register("listening_to_icon", _T("ListeningTo"), _T("Listening to (enabled)"), IDI_LISTENINGTO);
+	hIcon2 = IcoLib_Register("listening_off_icon", _T("ListeningTo"), _T("Listening to (disabled)"), IDI_LISTENINGOFF);
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register(MODULE_NAME, "Listening to music", "listening_to_icon");
@@ -532,6 +532,8 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 	ttb.pszService = MS_LISTENINGTO_TTB;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ICONBYHANDLE | TTBBF_SHOWTOOLTIP | (enabled ? TTBBF_PUSHED : 0);
 	ttb.name = "Enable/Disable sending Listening To info (to all protocols)";
+	ttb.pszTooltipDn = LPGEN("Disable ListeningTo (to all protocols)");
+	ttb.pszTooltipUp = LPGEN("Enable ListeningTo (to all protocols)");
 	hTTB = TopToolbar_AddButton(&ttb);
 
 	return 0;

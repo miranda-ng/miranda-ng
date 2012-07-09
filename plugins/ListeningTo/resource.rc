@@ -14,13 +14,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -32,7 +30,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        " Listening to information ",IDC_LISTENING_G,3,12,282,58
+    GROUPBOX        "Listening to information",IDC_LISTENING_G,3,12,282,58
     CONTROL         "Enable sending listening information to contacts:",IDC_ENABLE_SEND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,26,262,11
     CONTROL         "Music",IDC_ENABLE_MUSIC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,40,52,11
@@ -40,7 +38,7 @@ BEGIN
     CONTROL         "Video",IDC_ENABLE_VIDEO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,40,52,11
     CONTROL         "Others",IDC_ENABLE_OTHERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,224,40,52,11
     LTEXT           "You also have to enable it per protocol in the main menu",IDC_STATIC,12,55,262,13
-    GROUPBOX        " XStatus ",IDC_XSTATUS_G,3,74,282,88
+    GROUPBOX        "XStatus",IDC_XSTATUS_G,3,74,282,88
     LTEXT           "For protocols that don't support listening to but support XStatus:",IDC_XSTATUS_L,12,88,263,11
     CONTROL         "Set XStatus to Music and show listening info",IDC_SET_XSTATUS,
                     "Button",BS_AUTORADIOBUTTON,19,101,257,12
@@ -49,7 +47,7 @@ BEGIN
     CONTROL         "If XStatus is Music, show listening info",IDC_CHECK_XSTATUS_MUSIC,
                     "Button",BS_AUTORADIOBUTTON,19,129,257,12
     CONTROL         "Do nothing",IDC_IGNORE_XSTATUS,"Button",BS_AUTORADIOBUTTON,19,143,257,12
-    GROUPBOX        " Contacts ",IDC_CONTACTS_G,3,166,282,49
+    GROUPBOX        "Contacts",IDC_CONTACTS_G,3,166,282,49
     CONTROL         "Apply template for info from contacts (overrides contacts template)",IDC_OVERRIDE_CONTACTS_TEMPLATE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,180,262,11
     CONTROL         "Show advanced icon in slot",IDC_SHOW_ADV_ICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,193,104,13
@@ -83,7 +81,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        " Listening to ",IDC_LISTENINGTO_G,3,8,282,125
+    GROUPBOX        "Listening to",IDC_LISTENINGTO_G,3,8,282,125
     LTEXT           "Template:",IDC_TEMPLATE_L,11,22,55,10
     EDITTEXT        IDC_TEMPLATE,72,20,202,13,ES_AUTOHSCROLL
     LTEXT           "Variables:",IDC_VARS_L,11,39,129,8
@@ -98,7 +96,7 @@ BEGIN
     LTEXT           "%type% - Media type (Music, Radio, Video, etc)",IDC_TYPE_L,11,99,265,8
     LTEXT           "When variable not found, use:",IDC_UNKNOWN_L,11,117,108,10
     EDITTEXT        IDC_UNKNOWN,122,114,152,13,ES_AUTOHSCROLL
-    GROUPBOX        " XStatus ",IDC_XSTATUS_G,3,137,282,79
+    GROUPBOX        "XStatus",IDC_XSTATUS_G,3,137,282,79
     LTEXT           "Title:",IDC_NAME_L,11,152,55,10
     EDITTEXT        IDC_XSTATUS_NAME,72,150,202,13,ES_AUTOHSCROLL
     LTEXT           "Message:",IDC_MESSAGE_L,11,167,55,10
@@ -153,7 +151,8 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_LISTENINGTO         ICON                    "res\\listening_to.ico"
-#endif    // English (U.S.) resources
+IDI_LISTENINGOFF        ICON                    "res\\listening_off.ico"
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -161,10 +160,8 @@ IDI_LISTENINGTO         ICON                    "res\\listening_to.ico"
 // English (Canada) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENC)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -172,19 +169,19 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""resource.h""\r\n"
     "#include ""winresrc.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -206,3 +203,4 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+

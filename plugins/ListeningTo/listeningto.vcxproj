@@ -189,9 +189,8 @@
     <ClInclude Include="players\wmp.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\listening_off.ico" />
     <None Include="res\listening_to.ico" />
-    <None Include="res\ttb_disabled.bmp" />
-    <None Include="res\ttb_enabled.bmp" />
     <None Include="Docs\langpack_listeningto.txt" />
     <None Include="Docs\listeningto_changelog.txt" />
     <None Include="Docs\listeningto_readme.txt" />

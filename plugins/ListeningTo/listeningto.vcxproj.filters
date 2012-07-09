@@ -74,12 +74,6 @@
     <None Include="res\listening_to.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\ttb_disabled.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\ttb_enabled.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Docs\langpack_listeningto.txt">
       <Filter>Docs</Filter>
     </None>
@@ -94,6 +88,9 @@
     </None>
     <None Include="Docs\readme_players.txt">
       <Filter>Docs</Filter>
+    </None>
+    <None Include="res\listening_off.ico">
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
