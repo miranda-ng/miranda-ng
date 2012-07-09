@@ -306,6 +306,7 @@ HRESULT ToolbarLoadModule()
 			CallService(MS_UTILS_OPENURL, 0, (LPARAM)szUrl);
 	}
 
+	ehhToolBarBackgroundSettingsChanged(0,0);
 	HookEvent(ME_SYSTEM_MODULESLOADED, Toolbar_ModulesLoaded);
 	return S_OK;
 }
