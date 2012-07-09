@@ -21,13 +21,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="actionQueue.cpp">
+    <ClCompile Include="src\actionQueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="boltun.cpp">
+    <ClCompile Include="src\boltun.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="config.cpp">
+    <ClCompile Include="src\config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Mind.cpp">
@@ -47,16 +47,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="actionQueue.h">
+    <ClInclude Include="src\actionQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="boltun.h">
+    <ClInclude Include="src\boltun.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="config.h">
+    <ClInclude Include="src\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CriticalSection.h">
@@ -94,16 +94,16 @@
     <None Include="res\smiles.dat">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="lang_pack.txt" />
-    <None Include="mind.txt" />
-    <None Include="readme.txt" />
-    <None Include="TODO.txt" />
+    <None Include="docs\lang_pack.txt" />
+    <None Include="docs\mind.txt" />
+    <None Include="docs\readme.txt" />
+    <None Include="docs\TODO.txt" />
     <None Include="Engine\boltun.mindw">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="boltun.rc">
+    <ResourceCompile Include="res\boltun.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
