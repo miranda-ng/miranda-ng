@@ -783,7 +783,7 @@ static INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 	Frame.tname = pluginname;
 	Frame.hWnd = g_ctrl->hWnd;
 	Frame.align = alTop;
-	Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR;
+	Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR | F_NO_SUBCONTAINER;
 	Frame.height = 18;
 	g_ctrl->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 

@@ -408,6 +408,10 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		}
 		break;
 
+	case WM_ERASEBKGND:
+		lpSBData->lResult = 1;
+		return 1;
+
 	case MBM_SETICOLIBHANDLE:
 		if (lpSBData->hIconPrivate) {
 			DestroyIcon(lpSBData->hIconPrivate);

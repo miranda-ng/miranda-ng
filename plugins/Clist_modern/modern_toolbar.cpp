@@ -240,12 +240,18 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				EndPaint(hwnd,&ps);
 			}
 		}
+		
 		pMTBInfo->lResult = DefWindowProc(hwnd, msg, wParam, lParam);
+		return 1;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR) lParam)->code == BUTTONNEEDREDRAW)
+			pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
+		pMTBInfo->lResult = 0;
 		return 1;
 
 	case MTBM_LAYEREDPAINT:
 		{
-			int i;
 			RECT MyRect={0};
 			HDC hDC=(HDC)wParam;
 			GetWindowRect(hwnd,&MyRect);
@@ -254,7 +260,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			GetClientRect(hwnd, &rcClient);
 			SkinDrawGlyph(hDC, &rcClient, &rcClient, "Bar,ID=ToolBar,Part=Background");
 
-			for (i=0; i < pMTBInfo->pButtonList->realCount; i++) {
+			for (int i=0; i < pMTBInfo->pButtonList->realCount; i++) {
 				RECT childRect;
 				POINT Offset;
 				TTBCtrlButton* mtbi = (TTBCtrlButton*)pMTBInfo->pButtonList->items[i];
@@ -269,9 +275,13 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 	case WM_DESTROY:
 		xpt_FreeThemeForWindow(hwnd);
+
+	default:
+		return 0;
 	}
 
-	return 0;
+	pMTBInfo->lResult = TRUE;
+	return 1;
 }
 
 static int ToolBar_LayeredPaintProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData)
