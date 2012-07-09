@@ -165,22 +165,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BossKey.cpp" />
-    <ClCompile Include="BossKeyIdle.cpp" />
-    <ClCompile Include="BossKeyTriggers.cpp" />
-    <ClCompile Include="Options.cpp" />
+    <ClCompile Include="src\BossKey.cpp" />
+    <ClCompile Include="src\BossKeyIdle.cpp" />
+    <ClCompile Include="src\BossKeyTriggers.cpp" />
+    <ClCompile Include="src\Options.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BossKey.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="version.h" />
+    <ClInclude Include="src\BossKey.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="BossKey.rc" />
-    <ResourceCompile Include="version.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="icos\logo.ico" />
+    <ResourceCompile Include="res\BossKey.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

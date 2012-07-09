@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -170,7 +170,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_DLGPASSWD           ICON                    "icos\\logo.ico"
+IDI_DLGPASSWD           ICON                    "logo.ico"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -180,7 +180,7 @@ IDI_DLGPASSWD           ICON                    "icos\\logo.ico"
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\src\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -211,4 +211,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
