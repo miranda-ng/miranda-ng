@@ -92,6 +92,7 @@ int InitInternalButtons(WPARAM, LPARAM)
 
 	for (int i=0; i < SIZEOF(stdButtons); i++) {
 		ttb.name = stdButtons[i].name;
+		ttb.pszService = stdButtons[i].pszService;
 		ttb.dwFlags = TTBBF_VISIBLE | TTBBF_INTERNAL;
 		if ((ttb.pszTooltipDn = stdButtons[i].tooltipDn) != NULL)
 			ttb.dwFlags |= TTBBF_SHOWTOOLTIP;

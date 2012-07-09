@@ -554,12 +554,17 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Toolbar window procedure
 
-static void PaintToolbar(TTBCtrl *ttb, HDC hdc)
+static void PaintToolbar(HWND hwnd)
 {
-	InvalidateRect(ttb->hWnd, 0, FALSE);
+	InvalidateRect(hwnd, 0, FALSE);
+
+	PAINTSTRUCT paintst;	
+	HDC hdc = BeginPaint(hwnd, &paintst);
+	RECT *rcPaint = &paintst.rcPaint;
 
 	RECT clRect;
-	GetClientRect(ttb->hWnd, &clRect);
+	GetClientRect(hwnd, &clRect);
+	if (rcPaint == NULL) rcPaint = &clRect;
 
 	int yScroll = 0;
 	int y = -yScroll;
@@ -573,7 +578,7 @@ static void PaintToolbar(TTBCtrl *ttb, HDC hdc)
 
 	hBrush = CreateSolidBrush(bkColour);
 	hoBrush = (HBRUSH)SelectObject(hdcMem, hBrush);
-	FillRect(hdcMem, &clRect, hBrush);
+	FillRect(hdcMem, rcPaint, hBrush);
 	SelectObject(hdcMem, hoBrush);
 	DeleteObject(hBrush);
 	if (hBmpBackground) {
@@ -588,7 +593,7 @@ static void PaintToolbar(TTBCtrl *ttb, HDC hdc)
 		SelectObject(hdcBmp, hBmpBackground);
 		y = backgroundBmpUse & CLBF_SCROLL ? -yScroll : 0;
 		maxx = backgroundBmpUse & CLBF_TILEH ? clRect.right : 1;
-		maxy = backgroundBmpUse & CLBF_TILEV ? maxy = clRect.bottom : y+1;
+		maxy = backgroundBmpUse & CLBF_TILEV ? maxy = rcPaint->bottom : y+1;
 		switch(backgroundBmpUse & CLBM_TYPE) {
 		case CLB_STRETCH:
 			if (backgroundBmpUse&CLBF_PROPORTIONAL) {
@@ -637,16 +642,21 @@ static void PaintToolbar(TTBCtrl *ttb, HDC hdc)
 		}
 
 		for (; y < maxy; y += desth) {
-			if (y < clRect.top - desth) continue;
+			if (y < rcPaint->top - desth)
+				continue;
+
 			for (x = 0; x < maxx; x += destw)
 				StretchBlt(hdcMem, x, y, destw, desth, hdcBmp, 0, 0, bmp.bmWidth, bmp.bmHeight, SRCCOPY);
 		}
 		DeleteDC(hdcBmp);
 	}
-	BitBlt(hdc, clRect.left, clRect.top, clRect.right-clRect.left, clRect.bottom-clRect.top, hdcMem, clRect.left, clRect.top, SRCCOPY);
+	BitBlt(hdc, rcPaint->left, rcPaint->top, rcPaint->right-rcPaint->left, rcPaint->bottom-rcPaint->top, hdcMem, rcPaint->left, rcPaint->top, SRCCOPY);
 	SelectObject(hdcMem, hOldBmp);
 	DeleteDC(hdcMem);
 	DeleteObject(hBmpOsb);
+
+	paintst.fErase = FALSE;
+	EndPaint(hwnd, &paintst);	
 }
 
 LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -668,15 +678,9 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		ArrangeButtons();
 		return 0;
 
+	case WM_NCPAINT:
 	case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-			HDC hdcPaint = BeginPaint(hwnd, &ps);
-			if (hdcPaint) {
-				g_ctrl->fnPainter(g_ctrl, hdcPaint);
-				EndPaint(hwnd, &ps);
-			}
-		}
+		PaintToolbar(hwnd);
 		return 0;
 
 	case WM_LBUTTONDOWN:
@@ -737,8 +741,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			g_ctrl = (TTBCtrl*)mir_realloc(g_ctrl, pCustom->cbLen);
 			if (pCustom->cbLen > sizeof(TTBCtrl))
 				memset(g_ctrl+1, 0, pCustom->cbLen - sizeof(TTBCtrl));
-			if (pCustom->fnPainter)
-				g_ctrl->fnPainter = pCustom->fnPainter;
+
 			g_ctrl->fnWindowProc = pCustom->fnWindowProc;
 			SetWindowLongPtr(hwnd, 0, (LONG_PTR)g_ctrl);
 		}
@@ -769,7 +772,6 @@ static INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 	RegisterClass(&wndclass);
 
 	g_ctrl->pButtonList = (SortedList*)&Buttons;
-	g_ctrl->fnPainter = PaintToolbar;
 	g_ctrl->hWnd = CreateWindow(pluginname, pluginname, 
 		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 
 		0, 0, 0, 0, parent, NULL, hInst, NULL);

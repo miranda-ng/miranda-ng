@@ -169,14 +169,12 @@ struct TTBCtrl
 
 	LRESULT  lResult; // custom window proc result
 	WNDPROC  fnWindowProc; // custom window proc
-	pfnTTBPainterFunc fnPainter; // custom button painter
 };
 
 struct TTBCtrlCustomize
 {
 	size_t            cbLen;        // total length of the internal data structure
 	WNDPROC           fnWindowProc; // subclassed windows procedure for the custom button
-	pfnTTBPainterFunc fnPainter;    // custom button painter
 };
 
 // Sets the custom painting procedure for a toolbar

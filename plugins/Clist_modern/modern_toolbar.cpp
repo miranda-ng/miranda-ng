@@ -254,7 +254,7 @@ static int ToolBar_LayeredPaintProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn,
 
 void CustomizeToolbar(HWND hwnd)
 {
-	TTBCtrlCustomize custData = { sizeof(ModernToolbarCtrl), toolbarWndProc, NULL };
+	TTBCtrlCustomize custData = { sizeof(ModernToolbarCtrl), toolbarWndProc };
 	SendMessage(hwnd, TTB_SETCUSTOM, 0, (LPARAM)&custData);
 
 	CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)hwnd,(LPARAM)ToolBar_LayeredPaintProc);
