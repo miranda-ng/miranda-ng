@@ -24,6 +24,7 @@
 	Last change by : $Author: Thief $
 */
 
+#define _CRT_SECURE_NO_WARNINGS
 #ifndef _COMMON_INC
 #define _COMMON_INC
 #define MIRANDA_VER 0x0A00
