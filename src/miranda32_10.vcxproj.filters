@@ -75,9 +75,6 @@
     <ClInclude Include="..\include\m_awaymsg.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\m_button.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\m_clc.h">
       <Filter>SDK</Filter>
     </ClInclude>
@@ -266,6 +263,12 @@
     </ClInclude>
     <ClInclude Include="core\stdplug.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\m_button_int.h">
+      <Filter>Modules\button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\m_button.h">
+      <Filter>Modules\button</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

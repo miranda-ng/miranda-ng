@@ -2675,8 +2675,6 @@ int CLUIFramesOnClistResize(WPARAM wParam,LPARAM lParam)
 		}
 		GetWindowRect(pcli->hwndContactList,&mainRect);
 		mainHeight = mainRect.bottom-mainRect.top;
-		//if (mainHeight < minHeight)
-		//	  DebugBreak();
 	}
 	GetClientRect(pcli->hwndContactList,&nRect);
 	//$$$ Fixed borders

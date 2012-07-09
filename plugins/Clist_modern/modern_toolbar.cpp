@@ -49,7 +49,7 @@ static BTNS[] =
 	{ "Minimize","Minimize", "CList/ShowHide", "Minimize", NULL,  180 , IDI_RESETVIEW, IDI_RESETVIEW, FALSE }
 };
 
-int Modern_InitButtons(WPARAM, LPARAM)
+static int Modern_InitButtons(WPARAM, LPARAM)
 {
 	TTBButton tbb = { 0 };
 	tbb.cbSize = sizeof(tbb);
@@ -77,6 +77,186 @@ int Modern_InitButtons(WPARAM, LPARAM)
 		TopToolbar_AddButton(&tbb);
 	}
 	return 1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+#define MTBM_LAYEREDPAINT (WM_USER+20)
+
+struct ModernToolbarCtrl : public TTBCtrl
+{
+	XPTHANDLE mtbXPTheme;
+	BOOL      fAutoSize;
+	int       nLineCount;
+	WORD      wLastHeight;
+	BOOL      fSingleLine;
+};
+
+struct MTB_BUTTONINFO
+{
+	HWND hWindow;
+};
+
+struct
+{
+	HBITMAP  mtb_hBmpBackground;
+	COLORREF mtb_bkColour;
+	WORD     mtb_backgroundBmpUse;
+	BOOL     mtb_useWinColors; 
+}
+static tbdat = { 0 };
+
+COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
+
+static int ehhToolBarBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
+{
+	if ( tbdat.mtb_hBmpBackground) {
+		DeleteObject(tbdat.mtb_hBmpBackground);
+		tbdat.mtb_hBmpBackground = NULL;
+	}
+	if (g_CluiData.fDisableSkinEngine) {
+		DBVARIANT dbv;
+		tbdat.mtb_bkColour = sttGetColor("ToolBar","BkColour",CLCDEFAULT_BKCOLOUR);
+		if ( db_get_b(NULL,"ToolBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
+			if ( !db_get_s(NULL, "ToolBar", "BkBitmap", &dbv, DBVT_TCHAR)) {
+				tbdat.mtb_hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.ptszVal);
+				db_free(&dbv);
+			}
+		}
+		tbdat.mtb_useWinColors = db_get_b(NULL, "ToolBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
+		tbdat.mtb_backgroundBmpUse = db_get_b(NULL, "ToolBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+	}
+	PostMessage(pcli->hwndContactList,WM_SIZE,0,0);
+	return 0;
+}
+
+static BOOL sttDrawToolBarBackground(HWND hwnd, HDC hdc, RECT * rect, ModernToolbarCtrl* pMTBInfo)
+{
+	BOOL bFloat = (GetParent(hwnd)!=pcli->hwndContactList);
+	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat)
+	{	
+		RECT rc;
+		HBRUSH hbr;
+
+		if (rect) 
+			rc=*rect;
+		else
+			GetClientRect(hwnd,&rc);
+
+		if ( !(tbdat.mtb_backgroundBmpUse && tbdat.mtb_hBmpBackground) && tbdat.mtb_useWinColors)
+		{
+			if (xpt_IsThemed(pMTBInfo->mtbXPTheme))
+				xpt_DrawTheme(pMTBInfo->mtbXPTheme,pMTBInfo->hWnd, hdc, 0, 0, &rc, &rc);
+			else {
+				hbr = GetSysColorBrush(COLOR_3DFACE);
+				FillRect(hdc, &rc, hbr);
+			}
+		}
+		else if (!tbdat.mtb_hBmpBackground && !tbdat.mtb_useWinColors)
+		{			
+			hbr = CreateSolidBrush(tbdat.mtb_bkColour);
+			FillRect(hdc, &rc, hbr);
+			DeleteObject(hbr);
+		}
+		else DrawBackGround(hwnd, hdc, tbdat.mtb_hBmpBackground, tbdat.mtb_bkColour, tbdat.mtb_backgroundBmpUse);
+	}
+	return TRUE;
+}
+
+static void sttDrawNonLayeredSkinedBar(HWND hwnd, HDC hdc)
+{
+	RECT rc = {0};
+	GetClientRect(hwnd, &rc);
+	rc.right++;
+	rc.bottom++;
+	HDC hdc2 = CreateCompatibleDC(hdc);
+	HBITMAP hbmp = ske_CreateDIB32(rc.right, rc.bottom);
+	HBITMAP hbmpo = (HBITMAP)SelectObject(hdc2, hbmp);		
+	if (GetParent(hwnd) != pcli->hwndContactList) {
+		HBRUSH br = GetSysColorBrush(COLOR_3DFACE);
+		FillRect(hdc2, &rc, br);
+	}
+	else ske_BltBackImage(hwnd, hdc2, &rc);
+
+	SendMessage(hwnd, MTBM_LAYEREDPAINT,  (WPARAM)hdc2,  0);
+	BitBlt(hdc, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, hdc2, rc.left, rc.top, SRCCOPY);
+	SelectObject(hdc2, hbmpo);
+	DeleteObject(hbmp);
+	mod_DeleteDC(hdc2);
+
+	SelectObject(hdc, (HFONT)GetStockObject(DEFAULT_GUI_FONT));
+	ValidateRect(hwnd, NULL);		        							
+}
+
+static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	ModernToolbarCtrl* pMTBInfo = (ModernToolbarCtrl*)GetWindowLongPtr(hwnd, 0);
+
+	switch( msg ) {
+	case WM_ERASEBKGND:
+		pMTBInfo->lResult = (g_CluiData.fDisableSkinEngine) ? sttDrawToolBarBackground(hwnd, (HDC)wParam, NULL, pMTBInfo) : 0;
+		return 1;
+
+	case WM_NCPAINT:				
+	case WM_PAINT:
+		{
+			PAINTSTRUCT ps;
+			BOOL bFloat = (GetParent(hwnd) != pcli->hwndContactList);
+			if (g_CluiData.fDisableSkinEngine|| !g_CluiData.fLayered || bFloat ) {
+				BeginPaint(hwnd,&ps);
+				if ((!g_CluiData.fLayered || bFloat) && !g_CluiData.fDisableSkinEngine)
+					sttDrawNonLayeredSkinedBar(hwnd, ps.hdc);
+				else
+					sttDrawToolBarBackground(hwnd, ps.hdc, &ps.rcPaint, pMTBInfo);	
+				EndPaint(hwnd,&ps);
+			}
+		}
+		pMTBInfo->lResult = DefWindowProc(hwnd, msg, wParam, lParam);
+		return 1;
+
+	case MTBM_LAYEREDPAINT:
+		{
+			int i;
+			RECT MyRect={0};
+			HDC hDC=(HDC)wParam;
+			GetWindowRect(hwnd,&MyRect);
+			
+			RECT rcClient;
+			GetClientRect(hwnd, &rcClient);
+			SkinDrawGlyph(hDC, &rcClient, &rcClient, "Bar,ID=ToolBar,Part=Background");
+
+			for (i=0; i < pMTBInfo->pButtonList->realCount; i++) {
+				RECT childRect;
+				POINT Offset;
+				TTBCtrlButton* mtbi = (TTBCtrlButton*)pMTBInfo->pButtonList->items[i];
+				GetWindowRect(mtbi->hWindow, &childRect);
+				Offset.x = childRect.left - MyRect.left;;
+				Offset.y = childRect.top - MyRect.top;
+				SendMessage(mtbi->hWindow, BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
+			}	
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+void CustomizeToolbar(HWND hwnd)
+{
+	TTBCtrlCustomize custData = { sizeof(ModernToolbarCtrl), toolbarWndProc, NULL };
+	SendMessage(hwnd, TTB_SETCUSTOM, 0, (LPARAM)&custData);
+
+	ModernToolbarCtrl* pMTBInfo = (ModernToolbarCtrl*)GetWindowLongPtr(hwnd, 0);
+	pMTBInfo->nLineCount = 1;
+	pMTBInfo->mtbXPTheme = xpt_AddThemeHandle(hwnd, L"TOOLBAR");
+}
+
+static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
+{
+	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)"ToolBar Background/ToolBar",0);
+	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, ehhToolBarBackgroundSettingsChanged);
+	HookEvent(ME_TTB_INITBUTTONS, Modern_InitButtons);
+	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -113,5 +293,6 @@ HRESULT ToolbarLoadModule()
 			CallService(MS_UTILS_OPENURL, 0, (LPARAM)szUrl);
 	}
 
+	HookEvent(ME_SYSTEM_MODULESLOADED, Toolbar_ModulesLoaded);
 	return S_OK;
 }

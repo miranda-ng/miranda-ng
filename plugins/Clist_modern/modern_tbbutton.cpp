@@ -15,7 +15,6 @@
 #define b2str(a) ((a) ? "True" : "False")
 
 void CustomizeToolbar(HWND);
-int Modern_InitButtons(WPARAM, LPARAM);
 
 struct TBBUTTONDATA : public MButtonCtrl
 {
@@ -77,27 +76,24 @@ static int TBStateConvert2Flat(int state)
 	return TS_NORMAL;
 }
 
-static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT * pOffset)
+static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT *pOffset)
 {
-	HDC hdcMem;
-	HBITMAP hbmMem;	
-	RECT rcClient;
-	int width;
-	int height;
-	HBITMAP hbmOld = NULL;
-	HFONT hOldFont = NULL;
-	BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
 	POINT offset = {0};
-	if (pOffset) offset = *pOffset;
+	if (pOffset)
+		offset = *pOffset;
 
-	if ( !hdcPaint) return;  //early exit
+	if ( !hdcPaint)
+		return;  //early exit
 
+	RECT rcClient;
 	GetClientRect(lpSBData->hwnd, &rcClient);
-	width   = rcClient.right - rcClient.left;
-	height  = rcClient.bottom - rcClient.top;
+	int width  = rcClient.right - rcClient.left;
+	int height = rcClient.bottom - rcClient.top;
 
-	hdcMem = pOffset?hdcPaint:CreateCompatibleDC(hdcPaint);
-	hOldFont = (HFONT)SelectObject(hdcMem, lpSBData->hFont);
+	HBITMAP hbmMem;	
+	HBITMAP hbmOld = NULL;
+	HDC hdcMem = pOffset ? hdcPaint : CreateCompatibleDC(hdcPaint);
+	HFONT hOldFont = (HFONT)SelectObject(hdcMem, lpSBData->hFont);
 	if ( !pOffset) {
 		hbmMem = ske_CreateDIB32(width, height);
 		hbmOld = (HBITMAP)SelectObject(hdcMem, hbmMem);		
@@ -107,7 +103,7 @@ static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT * pOffset)
 	if ( !g_CluiData.fDisableSkinEngine) {
 		char szRequest[128];
 		/* painting */
-		mir_snprintf(szRequest,SIZEOF(szRequest),"Button,ID = %s,Hovered = %s,Pressed = %s,Focused = %s",
+		mir_snprintf(szRequest,SIZEOF(szRequest),"Button,ID=%s,Hovered=%s,Pressed=%s,Focused=%s",
 			lpSBData->szButtonID,				// ID		
 			b2str(lpSBData->stateId == PBS_HOT),	// Hovered
 			b2str(lpSBData->stateId == PBS_PRESSED || lpSBData->bIsPushed == TRUE),	// Pressed
@@ -312,21 +308,17 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 			RECT rcClient;
 			GetClientRect( lpSBData->hwnd, &rcClient );
-
-			if ( !PtInRect( &rcClient, ptMouse ))
-			{
+			if ( !PtInRect( &rcClient, ptMouse )) {
 				lpSBData->fHotMark = FALSE;
 				ReleaseCapture();
 				break;
 			}
 
-			if (lpSBData->stateId != PBS_DISABLED && lpSBData->stateId != PBS_PRESSED) 
-			{
+			if (lpSBData->stateId != PBS_DISABLED && lpSBData->stateId != PBS_PRESSED) {
 				lpSBData->stateId = PBS_PRESSED;
 				lpSBData->fHotMark = TRUE;
 				InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
-				if (lpSBData->fSendOnDown) 
-				{
+				if (lpSBData->fSendOnDown) {
 					SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
 					lpSBData->stateId = PBS_NORMAL;
 					InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
@@ -510,7 +502,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
 {
 	if (ttbid == (HANDLE)-1) {
-		//CustomizeToolbar(hWnd);
+		CustomizeToolbar(hWnd);
 		return;
 	}
 
@@ -521,6 +513,7 @@ static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
 	SendMessage(hWnd, BUTTONSETCUSTOM, 0, (LPARAM)&Custom);
 
 	TBBUTTONDATA* p = (TBBUTTONDATA*)GetWindowLongPtr(hWnd, 0);
+	sprintf(p->szButtonID, "Toolbar.%p", p->hwnd);
 	p->nFontID = -1;
 	p->hThemeButton = xpt_AddThemeHandle(p->hwnd, L"BUTTON");
 	p->hThemeToolbar = xpt_AddThemeHandle(p->hwnd, L"TOOLBAR");
@@ -531,7 +524,6 @@ static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
 
 int Buttons_ModuleLoaded(WPARAM wParam, LPARAM lParam)
 {
-	HookEvent(ME_TTB_INITBUTTONS, Modern_InitButtons);
 	TopToolbar_SetCustomProc(CustomizeButton, 0);
 	return 0;
 }

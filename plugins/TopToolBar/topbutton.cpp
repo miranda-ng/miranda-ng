@@ -23,25 +23,25 @@ TopButtonInt::~TopButtonInt()
 DWORD TopButtonInt::CheckFlags(DWORD Flags)
 {
 	int res = 0;
-	if (BitChanged(TTBBF_DISABLED)) {
-		dwFlags^=TTBBF_DISABLED;
+	if ( BitChanged(TTBBF_DISABLED)) {
+		dwFlags ^= TTBBF_DISABLED;
 		EnableWindow(hwnd,(dwFlags & TTBBF_DISABLED)?FALSE:TRUE);
 	}
-	if (BitChanged(TTBBF_ASPUSHBUTTON)) {
+	if ( BitChanged(TTBBF_ASPUSHBUTTON)) {
 		dwFlags ^= TTBBF_ASPUSHBUTTON;
 		SendMessage(hwnd, BUTTONSETASPUSHBTN, (dwFlags & TTBBF_ASPUSHBUTTON)?1:0, 0);
 	}
-	if (BitChanged(TTBBF_SHOWTOOLTIP)) {
+	if ( BitChanged(TTBBF_SHOWTOOLTIP)) {
 		dwFlags ^= TTBBF_SHOWTOOLTIP;
 		SendMessage(hwnd,BUTTONADDTOOLTIP,
 			(WPARAM)((dwFlags & TTBBF_SHOWTOOLTIP)?tooltip:L""),BATF_UNICODE);
 	}
 	// next settings changing visual side, requires additional actions
-	if (BitChanged(TTBBF_VISIBLE)) {
+	if ( BitChanged(TTBBF_VISIBLE)) {
 		dwFlags ^= TTBBF_VISIBLE;
 		res |= TTBBF_VISIBLE;
 	}
-	if (BitChanged(TTBBF_PUSHED)) {
+	if ( BitChanged(TTBBF_PUSHED)) {
 		dwFlags ^= TTBBF_PUSHED;
 		res |= TTBBF_PUSHED;
 		bPushed = (dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
@@ -52,7 +52,10 @@ DWORD TopButtonInt::CheckFlags(DWORD Flags)
 void TopButtonInt::CreateWnd()
 {
 	if ( !(dwFlags & TTBBF_ISSEPARATOR)) {
-		hwnd = CreateWindow(MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON|WS_CHILD|WS_TABSTOP|SS_NOTIFY, 0, 0, BUTTWIDTH, BUTTHEIGHT, hwndTopToolBar, NULL, hInst, 0);
+		hwnd = CreateWindow(MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON|WS_CHILD|WS_TABSTOP|SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, 0);
+
+		if (g_CustomProc)
+			g_CustomProc((HANDLE)id, hwnd, g_CustomProcParam);
 
 		if (dwFlags & TTBBF_ASPUSHBUTTON)
 			SendMessage(hwnd, BUTTONSETASPUSHBTN, 1, 0);
@@ -60,11 +63,11 @@ void TopButtonInt::CreateWnd()
 		if (DBGetContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", 1))
 			SendMessage(hwnd, BUTTONSETASFLATBTN, TRUE, 0);
 
-	  EnableWindow(hwnd,(dwFlags & TTBBF_DISABLED)?FALSE:TRUE);
+		EnableWindow(hwnd,(dwFlags & TTBBF_DISABLED)?FALSE:TRUE);
 	}
-	// maybe SEPWIDTH, not BUTTWIDTH?
+	// maybe SEPWIDTH, not g_ctrl->nButtonWidth?
 	else 
-		hwnd = CreateWindow( _T("STATIC"), _T(""), WS_CHILD|SS_NOTIFY, 0, 0, BUTTWIDTH, BUTTHEIGHT, hwndTopToolBar, NULL, hInst, 0);
+		hwnd = CreateWindow( _T("STATIC"), _T(""), WS_CHILD|SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, 0);
 
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, id);
 	SetBitmap();

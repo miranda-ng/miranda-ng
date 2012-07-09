@@ -191,9 +191,9 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		SetWindowLongPtr(hTree, GWL_STYLE, GetWindowLongPtr(hTree, GWL_STYLE)|TVS_NOHSCROLL);
 
-		SetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, BUTTHEIGHT, FALSE);
-		SetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, BUTTWIDTH, FALSE);
-		SetDlgItemInt(hwndDlg, IDC_BUTTGAP, BUTTGAP, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, g_ctrl->nButtonHeight, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, g_ctrl->nButtonWidth, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_BUTTGAP, g_ctrl->nButtonSpace, FALSE);
 		CheckDlgButton(hwndDlg, IDC_USEFLAT, DBGetContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", 1));
 
 		BuildTree(hwndDlg);
@@ -360,13 +360,13 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				BUTTHEIGHT = GetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, NULL, FALSE);
-				BUTTWIDTH = GetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, NULL, FALSE);
-				BUTTGAP = GetDlgItemInt(hwndDlg, IDC_BUTTGAP, NULL, FALSE);
-				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTHEIGHT", BUTTHEIGHT);
-				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTWIDTH", BUTTWIDTH);
-				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTGAP", BUTTGAP);
-				DBWriteContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USEFLAT));
+				g_ctrl->nButtonHeight = GetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, NULL, FALSE);
+				g_ctrl->nButtonWidth = GetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, NULL, FALSE);
+				g_ctrl->nButtonSpace = GetDlgItemInt(hwndDlg, IDC_BUTTGAP, NULL, FALSE);
+				db_set_b(0, TTB_OPTDIR, "BUTTHEIGHT", g_ctrl->nButtonHeight);
+				db_set_b(0, TTB_OPTDIR, "BUTTWIDTH", g_ctrl->nButtonWidth);
+				db_set_b(0, TTB_OPTDIR, "BUTTGAP", g_ctrl->nButtonSpace);
+				db_set_b(0, TTB_OPTDIR, "UseFlatButton", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USEFLAT));
 
 				SaveTree(hwndDlg);
 				RecreateWindows();

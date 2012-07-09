@@ -134,10 +134,56 @@ returns: always returns 0.
 
 #define TTB_WINDOW_HANDLE   ((HANDLE)-1)
 
+// this procedure is executed on each button on toolbar
+// and on a toolbar itself with hTTButton == TTB_WINDOW_HANDLE
+// hTTButton = button handle
+// hwndBtn   = button window handle
+// userInfo  = lParam passed into TopToolbar_SetCustomProc
+
 typedef void (__cdecl *pfnCustomProc)(HANDLE hTTButton, HWND hwndBtn, LPARAM userInfo);
 
 __forceinline void TopToolbar_SetCustomProc(pfnCustomProc pFunc, LPARAM lParam)
 {	CallService("TopToolBar/SetCustomProc", (WPARAM)pFunc, lParam);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// Toolbar internal structures
+
+typedef void (__cdecl *pfnTTBPainterFunc)(struct TTBCtrl*, HDC);
+
+struct TTBCtrlButton
+{
+	HWND hWindow;
+};
+
+struct TTBCtrl
+{
+	HWND   hWnd;
+	HANDLE hFrame;
+	int    nButtonWidth;
+	int    nButtonHeight;
+	int    nButtonSpace;
+	BOOL   bFlatButtons;
+
+	SortedList* pButtonList;
+
+	LRESULT  lResult; // custom window proc result
+	WNDPROC  fnWindowProc; // custom window proc
+	pfnTTBPainterFunc fnPainter; // custom button painter
+};
+
+struct TTBCtrlCustomize
+{
+	size_t            cbLen;        // total length of the internal data structure
+	WNDPROC           fnWindowProc; // subclassed windows procedure for the custom button
+	pfnTTBPainterFunc fnPainter;    // custom button painter
+};
+
+// Sets the custom painting procedure for a toolbar
+// wParam = not used
+// lParam = TTBCtrlCustomize*
+// Usage: SendMessage(hwndToolbar, TTB_SETCUSTOM, 0, (LPARAM)&CustomData);
+// Only works on TopToolbars
+#define TTB_SETCUSTOM  (WM_USER+1)
 
 #endif

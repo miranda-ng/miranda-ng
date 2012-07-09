@@ -213,6 +213,7 @@
     <ClInclude Include="..\include\m_addcontact.h" />
     <ClInclude Include="..\include\m_awaymsg.h" />
     <ClInclude Include="..\include\m_button.h" />
+    <ClInclude Include="..\include\m_button_int.h" />
     <ClInclude Include="..\include\m_clc.h" />
     <ClInclude Include="..\include\m_clist.h" />
     <ClInclude Include="..\include\m_clistint.h" />

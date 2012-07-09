@@ -101,13 +101,15 @@ int ArrangeButtons();
 
 #define SEPWIDTH		3
 
+extern TTBCtrl* g_ctrl;
+
 extern LIST<TopButtonInt> Buttons;
-extern bool StopArrange;
-extern HWND hwndTopToolBar;
+extern bool bStopArrange;
 extern HINSTANCE hInst;
 extern HBITMAP hBmpBackground, hBmpSeparator;
-extern int BUTTWIDTH, BUTTHEIGHT, BUTTGAP;
 extern CRITICAL_SECTION csButtonsHook;
+extern pfnCustomProc g_CustomProc;
+extern LPARAM g_CustomProcParam;
 
 void AddToOptions(TopButtonInt* b);
 void RemoveFromOptions(int id);
