@@ -123,6 +123,7 @@
       <AdditionalDependencies>miranda32.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <DelayLoadDLLs>miranda32.exe</DelayLoadDLLs>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -159,6 +160,7 @@
       <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4197 %(AdditionalOptions)</AdditionalOptions>
+      <DelayLoadDLLs>miranda64.exe</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -190,6 +192,7 @@
       <AdditionalDependencies>miranda32.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <DelayLoadDLLs>miranda32.exe</DelayLoadDLLs>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -230,6 +233,7 @@
       <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4197 %(AdditionalOptions)</AdditionalOptions>
+      <DelayLoadDLLs>miranda64.exe</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
