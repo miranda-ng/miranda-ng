@@ -1,0 +1,399 @@
+function configure()
+{
+	// Options for this skin
+	
+	opts.align_right.description = "Align to right"
+	opts.align_right.type = CHECKBOX
+	opts.align_right.value = false
+	
+	opts.show_avatar.description = "Show avatar"
+	opts.show_avatar.type = CHECKBOX
+	opts.show_avatar.value = true
+	
+	opts.avatar_allow_grow.description = "Allow avatar to grow (be bigger than original image)"
+	opts.avatar_allow_grow.type = CHECKBOX
+	opts.avatar_allow_grow.value = false
+	
+	opts.avatar_use_fixed_size.description = "Use fixed size avatar"
+	opts.avatar_use_fixed_size.type = CHECKBOX
+	opts.avatar_use_fixed_size.value = false
+	
+	opts.avatar_fixed_size.description = "Avatar fixed size (pixels)"
+	opts.avatar_fixed_size.type = NUMBER
+	opts.avatar_fixed_size.value = 30
+	opts.avatar_fixed_size.min = 1
+	opts.avatar_fixed_size.max = 255
+	
+	opts.show_protocol.description = "Show protocol"
+	opts.show_protocol.type = CHECKBOX
+	opts.show_protocol.value = true
+	
+	opts.show_email.description = "Show unread mail count"
+	opts.show_email.type = CHECKBOX
+	opts.show_email.value = true
+	
+	opts.show_status.description = "Show status"
+	opts.show_status.type = CHECKBOX
+	opts.show_status.value = true
+	
+	opts.show_status_msg.description = "Show status message"
+	opts.show_status_msg.type = CHECKBOX
+	opts.show_status_msg.value = true
+	
+	opts.show_listening.description = "Show listening to"
+	opts.show_listening.type = CHECKBOX
+	opts.show_listening.value = true
+	
+	opts.show_protocol_cycle.description = "Show protocol cycle buttons"
+	opts.show_protocol_cycle.type = CHECKBOX
+	opts.show_protocol_cycle.value = false
+	
+	opts.use_under_avatar.description = "Use free space (under avatar) to other texts"
+	opts.use_under_avatar.type = CHECKBOX
+	opts.use_under_avatar.value = true
+	
+	opts.border_left.description = "Left border"
+	opts.border_left.type = NUMBER
+	opts.border_left.value = 8
+	opts.border_left.min = 0
+	opts.border_left.max = 100
+	
+	opts.border_top.description = "Top border"
+	opts.border_top.type = NUMBER
+	opts.border_top.value = 8
+	opts.border_top.min = 0
+	opts.border_top.max = 100
+	
+	opts.border_right.description = "Right border"
+	opts.border_right.type = NUMBER
+	opts.border_right.value = 8
+	opts.border_right.min = 0
+	opts.border_right.max = 100
+	
+	opts.border_bottom.description = "Bottom border"
+	opts.border_bottom.type = NUMBER
+	opts.border_bottom.value = 8
+	opts.border_bottom.min = 0
+	opts.border_bottom.max = 100
+	
+	// Default fonts
+	
+	nickname.font.face = "Tahoma"
+	nickname.font.size = 13
+	nickname.font.bold = true
+	nickname.font.color = RGB(0,0,0)
+	
+	protocol.font.face = "Tahoma"
+	protocol.font.size = 8
+	protocol.font.color = RGB(0,0,0)
+	
+	email.font.face = "Tahoma"
+	email.font.size = 8
+	email.font.color = RGB(0,0,0)
+	
+	status_name.font.face = "Tahoma"
+	status_name.font.size = 8
+	status_name.font.color = RGB(0,0,0)
+	
+	status_msg.font.face = "Tahoma"
+	status_msg.font.size = 8
+	status_msg.font.italic = true
+	status_msg.font.color = RGB(150,150,150)
+	
+	listening.font.face = "Tahoma"
+	listening.font.size = 8
+	listening.font.italic = true
+	listening.font.color = RGB(150,150,150)
+}
+	
+function valign_center(top)
+{
+	var height = 0
+	for(var i = 1; i < arguments.length; i++)
+		height = Math.max(height, arguments[i].height)
+	for(var i = 1; i < arguments.length; i++)
+		arguments[i].top = top + (height - arguments[i].height)/2
+	return top + height
+}
+
+// Resize a field, keeping its aspect ratio
+function resize(field, maxWidth, maxHeight, allowGrow)
+{
+	if (allowGrow == null)
+		allowGrow = true
+	
+	var factor = Math.min(maxWidth / field.width, maxHeight / field.height)
+	if (!allowGrow && factor >= 1)
+		return
+	
+	field.width *= factor
+	field.height *= factor
+}
+
+function draw()
+{
+	// Default texts 
+	if (nickname.enabled && nickname.text == "")
+		nickname.text = "<no nickname>"
+	if (status_msg.enabled && status_msg.text == "")
+		status_msg.text = "<no status message>"
+	if (listening.enabled && listening.text == "")
+		listening.text = "<nothing playing>"
+	
+	if (info.protocol.locked)
+		status_name.text += " (locked)"
+	
+	
+	// ToolTips
+	nickname.toolTip = nickname.text
+	protocol.toolTip = protocol.text
+	status_icon.toolTip = status_name.toolTip = status_name.text
+	status_msg.toolTip = status_msg.text
+	listening_icon.toolTip = listening.toolTip = listening.text
+	next_proto.toolTip = "Show next protocol"
+	prev_proto.toolTip = "Show previous protocol"
+	email_icon.toolTip = email.toolTip = "Unread Email Count: " + email.text
+	
+	
+	// Borders
+	window.borders.left = opts.border_left
+	window.borders.top = opts.border_top
+	window.borders.right = opts.border_right
+	window.borders.bottom = opts.border_bottom
+	
+	
+	// Visible
+	nickname.visible = true
+	prev_proto.visible = next_proto.visible = opts.show_protocol_cycle && !IsEmpty(next_proto, prev_proto)
+	avatar.visible = opts.show_avatar && avatar.enabled && !IsEmpty(avatar)
+	protocol.visible = opts.show_protocol && protocol.enabled
+	status_icon.visible = status_name.visible = opts.show_status && status_name.enabled
+	status_msg.visible = opts.show_status_msg && !IsEmpty(status_msg)
+	listening_icon.visible = listening.visible = opts.show_listening && !IsEmpty(listening_icon, listening)
+	email_icon.visible = email.visible = opts.show_email && email.enabled && !IsEmpty(email_icon, email) && email.text > 0
+	
+	
+	// Space to draw the frame around
+	var BORDER_SPACE = 2
+	nickname.borders = BORDER_SPACE
+	protocol.borders = BORDER_SPACE
+	status_icon.borders = BORDER_SPACE
+	status_name.borders = BORDER_SPACE
+	status_msg.borders = BORDER_SPACE
+	listening_icon.borders = BORDER_SPACE
+	listening.borders = BORDER_SPACE
+	email_icon.borders = BORDER_SPACE
+	email.borders = BORDER_SPACE
+	
+	
+	if (avatar.visible)
+	{
+		if (opts.avatar_use_fixed_size)
+			resize(avatar, opts.avatar_fixed_size, opts.avatar_fixed_size, opts.avatar_allow_grow)
+		else
+			resize(avatar, window.width/2.5, window.height - (!info.resize_frame && prev_proto.visible ? prev_proto.height : 0), opts.avatar_allow_grow)
+	}
+	
+	if (!info.resize_frame && prev_proto.visible)
+	{
+		prev_proto.left = 0
+		prev_proto.bottom = window.height
+		
+		next_proto.right = window.width
+		next_proto.bottom = window.height
+	}
+
+	var avatar_bottom = avatar.bottom
+	if (opts.show_avatar && opts.avatar_use_fixed_size)
+		avatar_bottom = opts.avatar_fixed_size
+	
+	var top = 0
+	
+	if (opts.align_right)
+	{
+		// Align
+		nickname.hAlign = RIGHT
+		protocol.hAlign = RIGHT
+		status_name.hAlign = RIGHT
+		status_msg.hAlign = RIGHT
+		listening.hAlign = RIGHT
+		
+		
+		var right = window.right
+		
+		function updateTopRight(val)
+		{
+			top = val
+			if (opts.use_under_avatar && top > avatar_bottom)
+				right = window.right
+		}
+		
+		if (avatar.visible)
+		{
+			avatar.right = window.right
+			avatar.top = 0
+			
+			right = avatar.left - 6
+		}
+		
+		if (opts.show_avatar && opts.avatar_use_fixed_size)
+			right = window.right - opts.avatar_fixed_size - 6
+		
+		nickname.right = right
+		nickname.top = top
+		
+		updateTopRight(nickname.bottom)	
+		
+		if (protocol.visible)
+		{
+			protocol.right = right
+			protocol.top = top
+			
+			if (email.visible)
+			{
+				email_icon.right = protocol.left - 10
+				email.right = email_icon.left
+				
+				var bottom = valign_center(top, protocol, email_icon, email)
+				updateTopRight(bottom)
+			}
+			else
+				updateTopRight(protocol.bottom)
+		} 
+		else if (email.visible)
+		{
+			email_icon.borders.left = 0
+			email_icon.right = right
+			
+			email.right = email_icon.left
+			
+			var bottom = valign_center(top, email_icon, email)
+			updateTopRight(bottom)
+		}
+		
+		if (status_name.visible)
+		{
+			status_icon.right = right
+			status_name.right = status_icon.left
+			
+			var bottom = valign_center(top, status_icon, status_name)	
+			updateTopRight(bottom)
+		}
+			
+		if (status_msg.visible)
+		{
+			status_msg.right = right
+			status_msg.top = top
+			
+			updateTopRight(status_msg.bottom)
+		}
+		
+		if (listening.visible)
+		{
+			listening_icon.borders.left = 0
+			listening_icon.right = right
+			
+			listening.right = listening_icon.left
+			
+			var bottom = valign_center(top, listening_icon, listening)
+			updateTopRight(bottom)
+		}
+	}
+	else
+	{
+		var left = 0
+		
+		function updateTopLeft(val)
+		{
+			top = val
+			if (opts.use_under_avatar && top > avatar_bottom)
+				left = 0
+		}
+		
+		if (avatar.visible)
+		{
+			avatar.left = 0
+			avatar.top = 0
+			
+			left = avatar.right + 6
+		}
+		
+		if (opts.show_avatar && opts.avatar_use_fixed_size)
+			left = opts.avatar_fixed_size + 6
+		
+		nickname.left = left
+		nickname.top = top
+		
+		updateTopLeft(nickname.bottom)	
+		
+		if (protocol.visible)
+		{
+			protocol.left = left
+			protocol.top = top
+			
+			if (email.visible)
+			{
+				email_icon.left = protocol.right + 10
+				email.left = email_icon.right
+				
+				var bottom = valign_center(top, protocol, email_icon, email)
+				updateTopLeft(bottom)
+			}
+			else
+				updateTopLeft(protocol.bottom)
+		}
+		else if (email.visible)
+		{
+			email_icon.borders.right = 0
+			email_icon.left = left
+			
+			email.left = email_icon.right
+			
+			var bottom = valign_center(top, email_icon, email)
+			updateTopLeft(bottom)
+		}
+		
+		if (status_name.visible)
+		{
+			status_icon.left = left
+			status_name.left = status_icon.right
+			
+			var bottom = valign_center(top, status_icon, status_name)	
+			updateTopLeft(bottom)
+		}
+			
+		if (status_msg.visible)
+		{
+			status_msg.left = left
+			status_msg.top = top
+			
+			updateTopLeft(status_msg.bottom)
+		}
+		
+		if (listening.visible)
+		{
+			listening_icon.borders.right = 0
+			listening_icon.left = left
+			
+			listening.borders.left = 0
+			listening.left = listening_icon.right
+			
+			var bottom = valign_center(top, listening_icon, listening)
+			updateTopLeft(bottom)
+		}
+	}
+	
+	if (info.resize_frame)
+	{
+		if (prev_proto.visible)
+		{
+			top = Math.max(avatar.bottom, top)
+			
+			prev_proto.left = 0
+			prev_proto.top = top
+			
+			next_proto.right = window.width
+			next_proto.top = top
+		}
+	}
+}

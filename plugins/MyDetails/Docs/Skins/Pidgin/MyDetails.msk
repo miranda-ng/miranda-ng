@@ -1,0 +1,59 @@
+function configure()
+{
+	// Default fonts
+	
+	status_msg.font.face = "Tahoma"
+	status_msg.font.size = 8
+	status_msg.font.color = RGB(0,0,0)
+}
+
+function draw()
+{
+	if (status_msg.text == "")
+		status_msg.text = status_name.text
+
+	// ToolTips
+	status_icon.toolTip = protocol.text + " : " + status_name.text
+	if (info.protocol.locked)
+		status_icon.toolTip += " (locked)"
+	if (email.text > 0)
+		status_icon.toolTip += " [" + email.text + " emails]"
+	
+	status_msg.toolTip = status_msg.text	
+	
+	// Borders
+	window.borders = 10
+	
+	// Visible
+	status_msg.visible = true
+	avatar.visible = true
+	status_icon.visible = true
+	
+	status_name.visible = false
+	protocol.visible = false
+	nickname.visible = false
+	prev_proto.visible = next_proto.visible = false
+	listening_icon.visible = listening.visible = false
+	email_icon.visible = email.visible = false
+		
+	// Space to draw the frame around
+	var BORDER_SPACE = 2
+	status_icon.borders = BORDER_SPACE
+	status_msg.borders = BORDER_SPACE
+	status_name.borders = BORDER_SPACE
+	
+	// Positions
+	var HEIGHT = 45
+	
+	avatar.right = window.right
+	avatar.top = 0
+	avatar.width = HEIGHT
+	avatar.height = HEIGHT
+	
+	status_icon.left = 0
+	status_icon.top = (HEIGHT - status_icon.height) / 2
+
+	status_msg.left = status_icon.right + 5
+	status_msg.top = (HEIGHT - status_msg.height) / 2
+	status_msg.right = avatar.left - 5
+}

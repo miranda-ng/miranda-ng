@@ -1,0 +1,228 @@
+My Details
+
+Changelog:
+
+. 0.0.2.6
+  + Added support for clist modern skin engine
+  + Added pidgin style skin
+  * Fix for last shown protocol
+  * Updated updater to use googlecode
+
+. 0.0.2.5
+  + Use account name and ordering
+  * Better handling status messages
+  * Fix for jabber status names
+  * Bug fixes
+
+. 0.0.2.3
+  * Moved background color to font service settings
+  + Better simple away support
+
+. 0.0.2.2
+  * Fix for email count
+  * Better handling of hover
+  * Better handling of small sizes
+  * If fixed avatar size is set, use it even if no avatar present
+  + If windows uses RTL, it is selected by default
+
+. 0.0.2.1
+  + Show lock icon over status
+  + Show unread mail count
+  * Resize frame is working again
+  * Still work in progress
+
+. 0.0.2.0
+  + Now uses skins plugin to position elements (work in progress)
+
+. 0.0.1.11
+  * Fix for arrows: always draw then at right side
+
+. 0.0.1.10
+  + Added arrows to change protocols (Drugwash patch)
+  * Use icolib to show icons (uses listening to icon from contact list)
+
+. 0.0.1.9
+  + Created 2 services: MyDetails/HideFrame and MyDetails/ShowFrame
+  * MyDetails/ShowHideMyDetails changed to work with frames too (it toggles the frame)
+
+. 0.0.1.8
+  * Fix for crash when using main menu options
+
+. 0.0.1.7
+  * Fix for crash when no protocol found
+  + Added 2 keys to allow themes to show/hide frame: MyDetails\ForceHideFrame and MyDetails\ForceShowFrame (BYTE). Both are deleted after use.
+
+. 0.0.1.6
+  + Added uid for 0.8
+
+. 0.0.1.5:
+  + Added option to set status message per protocol
+
+. 0.0.1.4
+  * Fixed crash on protocol connection
+  + Support for new version of ersatz
+
+. 0.0.1.3
+  + Support for ersatz plugin by TioDuke. When it is finished, status message will be shown correctly always :)
+
+. 0.0.1.2
+  + Added listening to info
+
+. 0.0.1.1
+  * Fix for crash on exit (thanks ghazan)
+  - Removed clist modern mod support
+
+. 0.0.1.0
+  * Fix in call to NAS service
+  + Ready to FL
+
+. 0.0.0.42
+  * Fixed code to open only one dialog
+  + CTRL-Enter on status message dialog
+
+. 0.0.0.41
+  + Added support to new NAS services
+  + Open only one dialog (for dialogs that t handles - does not include NAS / avs)
+  * Bigger buffer for status messages
+  + First release build (dll is 200k smaller)
+
+. 0.0.0.40
+  * Changed text [Top: ] to [Top:]
+  + Added langpack_MyDetails.txt
+
+. 0.0.0.39
+  * Reverted to show menus on key up
+  + Using miranda lists now. This version only works with newer versions of miranda
+  * Fixed call to NAS with parsed variables
+
+. 0.0.0.38
+  * Fix for international languages
+  + Translateble options dialog
+  + Show some menus on key down (but it still not work as desired, i'll have to figure it)
+
+. 0.0.0.37
+  * Bugfix in status menu
+  + Better support for updater
+
+. 0.0.0.36
+  + Change to better support NAS
+  + Change to know when info changed (may flick a little less the screen and the tooltip, but may be losing changes)
+
+. 0.0.0.35
+  + Try to discover the default nick
+  + Global on avatar
+  * Fixed order of fields in options dialog
+
+. 0.0.0.34
+  * Fixed issue with mTooltip
+  + Changed tooltip timeout to 10h (is it long enougth? :P )
+
+. 0.0.0.33
+  + Added timer to refresh status messages. It isnt in options dialog, but can be changed at DB, in key MyDetails\RefreshStatusMessageTimer (0 disables it, default to 12 s)
+  * Fixed input box in set my nickname
+
+. 0.0.0.32
+  * Fix for crash on startup
+  * Fix for drawing function
+
+. 0.0.0.31
+  * Fix for status message with NAS
+
+. 0.0.0.30
+  * Try to fix bug when setting name (Again)
+  * Fix for multi line in status message and nickname
+  + Setting to call global functions on left click
+  + Calling service to get max nickname length from protocol (no proto support it right now)
+
+. 0.0.0.29
+  * Fix in status message code
+
+. 0.0.0.28
+  + Multiline popup
+  + More options in context menu
+  * Try to fix bug when setting name
+
+. 0.0.0.27
+  + Better support for core away system (it set the message in the DB, inside SRAway module)
+
+. 0.0.0.26
+  + Added tooltips
+  + Added background collor
+  + Added XStatus support
+  + Added in the zip: avatar service (unicode and non-unicode) and folder service
+
+. 0.0.0.25
+  + Added support to set avatars (needs modified version of avatar service - is inside zip)
+  + Added in the zip: avatar service and folder service
+
+. 0.0.0.23
+  * Bugfix in new status menu code
+
+. 0.0.0.22
+  + Using clist status menus when possible (this should add support to all away system always)
+  + Show global status menu on right click
+  * Fixed space in status
+
+. 0.0.0.21
+  * Bugfixes
+
+. 0.0.0.20
+  + Compatibility with KeepStatus -> code is too ugly :'(
+  + Show status messages only for supported statuses
+  + Show SimpleAway dialog only to supported protocols
+
+. 0.0.0.19
+  + Better support to SimpleAway
+  + Set what protocol to show by clicking in proto name
+  * Bug fixes
+
+. 0.0.0.18
+  + Set status message after status change (should work with gadu-gadu, but it isn't the best solution at all)
+
+. 0.0.0.17
+  + Popups with more actions
+  + Option to grow avatar
+  + An attempt to set status messages withou NAS
+
+. 0.0.0.16
+  * Fixed leak of GDI objects
+  * Fixed resizing of avatar
+
+. 0.0.0.15
+  * Bug fixes
+
+. 0.0.0.14
+  + Resize frame
+  + Use space bellow avatar
+
+. 0.0.0.13
+  - Change to try to get more updates from status message changes
+  * Fix in avatar refresh
+
+. 0.0.0.12
+  * Updater works
+  * Fix drawing protocol name
+
+. 0.0.0.11
+  * Fixed bug on drawing status name
+  + Added custom avatar size
+  + Will not cicle when changing status
+
+. 0.0.0.9
+  * Fixed crash on Set My Nickname from status menu
+  + Added cache to data (should draw faster, but have to see if the data shown is correct)
+  + Added visual things
+  + Option to set status
+  - Changed to set things with left click of mouse
+
+. 0.0.0.7
+  * Fix in NAS fetching code (again)
+
+. 0.0.0.6
+  * Fix in NAS fetching code
+  + RTL
+  + Smileys
+
+. 0.0.0.5
+  + Added option dialog
+  + Added option to not cicle throught protocols

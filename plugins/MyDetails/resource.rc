@@ -1,0 +1,326 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+#include "../../include/statusmodes.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_LISTENINGTO         ICON    DISCARDABLE     "res\\listening_to.ico"
+IDI_RIGHT_ARROW         ICON    DISCARDABLE     "res\\rightarrow.ico"
+IDI_LEFT_ARROW          ICON    DISCARDABLE     "res\\leftarrow.ico"
+IDI_EMAIL               ICON    DISCARDABLE     "res\\mail.ico"
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,1,11
+ PRODUCTVERSION 0,0,1,11
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080004b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", " \0"
+            VALUE "FileDescription", "MyDetails Miranda Plugin\0"
+            VALUE "FileVersion", "0, 0, 1, 11\0"
+            VALUE "InternalName", "mydetails\0"
+            VALUE "LegalCopyright", "Copyright © 2005-2008 Ricardo Pescuma Domenecci, Drugwash\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "mydetails.dll\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "\0"
+            VALUE "ProductVersion", "0, 0, 1, 11\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x800, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SETNICKNAME DIALOG DISCARDABLE  0, 0, 283, 65
+STYLE DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Set My Nickname"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    RTEXT           "Nickname:",IDC_STATIC,7,8,51,12
+    EDITTEXT        IDC_NICKNAME,67,7,209,31,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    WS_VSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,87,44,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,146,44,50,14
+END
+
+IDD_OPTS DIALOGEX 0, 0, 316, 246
+STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        " General ",IDC_STATIC,7,7,302,70
+    CONTROL         "Cycle through protocols every:",
+                    IDC_CYCLE_THROUGH_PROTOS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,13,18,114,14
+    EDITTEXT        IDC_CYCLE_TIME,129,18,35,12,ES_NUMBER
+    CONTROL         "",IDC_CYCLE_TIME_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | 
+                    UDS_HOTTRACK,156,18,11,12
+    LTEXT           "seconds",IDC_STATIC,171,21,32,11
+    CONTROL         "Global on avatar",IDC_GLOBAL_ON_AVATAR,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,207,18,96,14
+    CONTROL         "RTL",IDC_TEXT_RTL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    13,32,85,14
+    CONTROL         "Global on nickname",IDC_GLOBAL_ON_NICKNAME,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,207,32,96,14
+    CONTROL         "Auto-resize frame",IDC_RESIZE_FRAME,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,13,46,85,14
+    CONTROL         "Use contact list smileys",IDC_USE_CONTACT_LIST_SMILEYS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,46,96,14
+    CONTROL         "Global on status",IDC_GLOBAL_ON_STATUS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,207,46,96,14
+    CONTROL         "Replace Smileys",IDC_REPLACE_SMILEYS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,13,60,85,14
+    CONTROL         "Resize Smileys",IDC_RESIZE_SMILEYS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,105,60,96,14
+    CONTROL         "Global on status message",IDC_GLOBAL_ON_STATUS_MESSAGE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,207,61,96,14
+    GROUPBOX        " Avatar ",IDC_STATIC,7,80,302,59
+    CONTROL         "Draw border on avatar",IDC_AVATAR_DRAW_BORDER,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,95,103,9
+    LTEXT           "Border Color:",IDC_AVATAR_BORDER_COLOR_L,123,95,53,10
+    CONTROL         "",IDC_AVATAR_BORDER_COLOR,"ColourPicker",WS_TABSTOP,180,
+                    92,17,13
+    CONTROL         "Round corners of avatars",IDC_AVATAR_ROUND_CORNERS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,109,280,8
+    CONTROL         "Custom corner size:",
+                    IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,27,122,93,11
+    EDITTEXT        IDC_AVATAR_CUSTOM_CORNER_SIZE,127,121,35,12,ES_NUMBER
+    CONTROL         "",IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS | UDS_HOTTRACK,165,121,11,12
+    LTEXT           "pixels",IDC_STATIC,179,124,41,11
+END
+
+IDD_SETSTATUSMESSAGE DIALOG DISCARDABLE  0, 0, 283, 68
+STYLE DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Set My Status Message for All Status"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    RTEXT           "Status Message:",IDC_STATIC,7,8,69,12
+    EDITTEXT        IDC_STATUSMESSAGE,81,7,195,35,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,87,47,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,146,47,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_SETNICKNAME, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 276
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 58
+    END
+
+    IDD_OPTS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 238
+    END
+
+    IDD_SETSTATUSMESSAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 276
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 61
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Portuguese (Brazil) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_PTB)
+#ifdef _WIN32
+LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "#include ""../../include/statusmodes.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU DISCARDABLE 
+BEGIN
+    POPUP "Status popup"
+    BEGIN
+        MENUITEM "&Offline",                    ID_STATUS_OFFLINE
+        MENUITEM "On&line",                     ID_STATUS_ONLINE
+        MENUITEM "&Away",                       ID_STATUS_AWAY
+        MENUITEM "&NA",                         ID_STATUS_NA
+        MENUITEM "Occ&upied",                   ID_STATUS_OCCUPIED
+        MENUITEM "&DND",                        ID_STATUS_DND
+        MENUITEM "&Free for chat",              ID_STATUS_FREECHAT
+        MENUITEM "&Invisible",                  ID_STATUS_INVISIBLE
+        MENUITEM "On the &Phone",               ID_STATUS_ONTHEPHONE
+        MENUITEM "Out to &Lunch",               ID_STATUS_OUTTOLUNCH
+    END
+    POPUP "Context popup"
+    BEGIN
+        MENUITEM SEPARATOR
+        MENUITEM "Set My Avatar...",            ID_AVATARPOPUP_SETMYAVATAR
+        MENUITEM "Set My Nickname...",          ID_NICKPOPUP_SETMYNICKNAME
+        MENUITEM "Set My Status Message...",    ID_STATUSMESSAGEPOPUP_SETMYSTATUSMESSAGE
+
+        MENUITEM "Enable Listening To",         ID_CONTEXTPOPUP_ENABLELISTENINGTO
+
+        MENUITEM SEPARATOR
+        MENUITEM "Show next protocol",          ID_SHOW_NEXT_PROTO
+        MENUITEM "Show previous protocol",      ID_SHOW_PREV_PROTO
+        MENUITEM SEPARATOR
+        MENUITEM "Cycle through protocols",     ID_CYCLE_THROUGH_PROTOS
+        MENUITEM "Don't cycle through protocols", 
+                                                ID_DONT_CYCLE_THROUGH_PROTOS
+    END
+    POPUP "Nick popup"
+    BEGIN
+        MENUITEM SEPARATOR
+        MENUITEM "Set My Nickname...",          ID_NICKPOPUP_SETMYNICKNAME
+    END
+    POPUP "Status message popup"
+    BEGIN
+        MENUITEM SEPARATOR
+        MENUITEM "Set My Status Message...",    ID_STATUSMESSAGEPOPUP_SETMYSTATUSMESSAGE
+
+    END
+    POPUP "Avatar popup"
+    BEGIN
+        MENUITEM SEPARATOR
+        MENUITEM "Set My Avatar...",            ID_AVATARPOPUP_SETMYAVATAR
+    END
+    POPUP "ListeningTo popup"
+    BEGIN
+        MENUITEM SEPARATOR
+        MENUITEM "Enable Listening To",         ID_LISTENINGTOPOPUP_SENDLISTENINGTO
+
+    END
+END
+
+#endif    // Portuguese (Brazil) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
