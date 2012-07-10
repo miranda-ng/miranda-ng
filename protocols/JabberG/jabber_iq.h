@@ -56,9 +56,6 @@ typedef struct {
 	BOOL allowSubNs;		// e.g. #info in disco#info
 } JABBER_IQ_XMLNS_FUNC;
 
-void  __stdcall replaceStr( char*& dest, const char* src );
-void  __stdcall replaceStr( WCHAR*& dest, const WCHAR* src );
-
 // 2 minutes, milliseconds
 #define JABBER_DEFAULT_IQ_REQUEST_TIMEOUT		120000
 
@@ -111,7 +108,7 @@ public:
 	}
 	void SetReceiver(const TCHAR *szReceiver)
 	{
-		replaceStr(m_szReceiver, szReceiver);
+		replaceStrT(m_szReceiver, szReceiver);
 	}
 	TCHAR* GetReceiver()
 	{
@@ -379,9 +376,9 @@ public:
 
 		pInfo->m_pHandler = pHandler;
 		pInfo->m_nIqTypes = nIqTypes ? nIqTypes : JABBER_IQ_TYPE_ANY;
-		replaceStr( pInfo->m_szXmlns, szXmlns );
+		replaceStrT( pInfo->m_szXmlns, szXmlns );
 		pInfo->m_bAllowPartialNs = bAllowPartialNs;
-		replaceStr( pInfo->m_szTag, szTag );
+		replaceStrT( pInfo->m_szTag, szTag );
 		pInfo->m_dwParamsToParse = dwParamsToParse;
 		pInfo->m_pUserData = pUserData;
 		pInfo->m_pUserDataFree = pUserDataFree;

@@ -22,22 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "jabber.h"
 
-void __stdcall replaceStr( char*& dest, const char* src )
-{
-	if ( dest != NULL )
-		mir_free( dest );
-
-	dest = ( src != NULL ) ? mir_strdup( src ) : NULL;
-}
-
-void __stdcall replaceStr( WCHAR*& dest, const WCHAR* src )
-{
-	if ( dest != NULL )
-		mir_free( dest );
-
-	dest = ( src != NULL ) ? mir_wstrdup( src ) : NULL;
-}
-
 int lstrcmp_null(const TCHAR *s1, const TCHAR *s2)
 {
 	if (!s1 && !s2) return 0;

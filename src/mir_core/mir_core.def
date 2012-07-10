@@ -124,3 +124,5 @@ db_set_w                      @121
 db_set_ws                     @122
 UnloadCoreModule              @123
 Thread_SetName                @124
+replaceStr                    @125
+replaceStrW                   @126

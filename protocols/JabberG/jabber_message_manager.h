@@ -31,9 +31,6 @@ struct CJabberProto;
 typedef void ( CJabberProto::*JABBER_MESSAGE_PFUNC )( HXML messageNode, void *usedata );
 typedef void ( *MESSAGE_USER_DATA_FREE_FUNC )( void *pUserData );
 
-void  __stdcall replaceStr( char*& dest, const char* src );
-void  __stdcall replaceStr( WCHAR*& dest, const WCHAR* src );
-
 class CJabberMessageInfo;
 
 typedef BOOL ( CJabberProto::*JABBER_PERMANENT_MESSAGE_HANDLER )( HXML messageNode, ThreadData *pThreadData, CJabberMessageInfo* pInfo );
@@ -185,9 +182,9 @@ public:
 
 		pInfo->m_pHandler = pHandler;
 		pInfo->m_nMessageTypes = nMessageTypes ? nMessageTypes : JABBER_MESSAGE_TYPE_ANY;
-		replaceStr( pInfo->m_szXmlns, szXmlns );
+		replaceStrT( pInfo->m_szXmlns, szXmlns );
 		pInfo->m_bAllowPartialNs = bAllowPartialNs;
-		replaceStr( pInfo->m_szTag, szTag );
+		replaceStrT( pInfo->m_szTag, szTag );
 		pInfo->m_dwParamsToParse = dwParamsToParse;
 		pInfo->m_pUserData = pUserData;
 		pInfo->m_pUserDataFree = pUserDataFree;

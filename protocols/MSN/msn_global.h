@@ -206,8 +206,6 @@ TCHAR* EscapeChatTags(const TCHAR* pszText);
 TCHAR* UnEscapeChatTags(TCHAR* str_in);
 
 void   overrideStr(TCHAR*& dest, const TCHAR* src, bool unicode, const TCHAR* def = NULL);
-void   replaceStr(char*& dest, const char* src);
-void   replaceStr(wchar_t*& dest, const wchar_t* src);
 
 char* arrayToHex(BYTE* data, size_t datasz);
 

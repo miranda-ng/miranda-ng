@@ -69,18 +69,18 @@ struct TopButtonInt
 	HICON hIconUp, hIconDn;
 	HANDLE hIconHandleUp, hIconHandleDn;
 	
-	char *pszService;
-	TCHAR *program;
-	char *name;
-	TCHAR *tooltip;
+	char  *pszService;
+	TCHAR *ptszProgram;
+	char  *pszName;
+	TCHAR *ptszTooltip;
 	
 	LPARAM lParamUp;
 	WPARAM wParamUp;
 	LPARAM lParamDown;
 	WPARAM wParamDown;
 
-	int hLangpack;
-	char *szTooltipUp, *szTooltipDn;
+	int    hLangpack;
+	TCHAR *ptszTooltipUp, *ptszTooltipDn;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

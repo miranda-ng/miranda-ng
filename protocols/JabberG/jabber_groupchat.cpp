@@ -308,8 +308,8 @@ void CJabberProto::GroupchatJoinRoom( const TCHAR* server, const TCHAR* room, co
 
 	JABBER_LIST_ITEM* item = ListAdd( LIST_CHATROOM, text );
 	item->bAutoJoin = autojoin;
-	replaceStr( item->nick, nick );
-	replaceStr( item->password, info.password );
+	replaceStrT( item->nick, nick );
+	replaceStrT( item->password, info.password );
 
 	int status = ( m_iStatus == ID_STATUS_INVISIBLE ) ? ID_STATUS_ONLINE : m_iStatus;
 	XmlNode x( _T("x")); x << XATTR( _T("xmlns"), _T(JABBER_FEAT_MUC));
@@ -867,7 +867,7 @@ static VOID CALLBACK JabberGroupchatChangeNickname( void* arg )
 
 		if ( param->ppro->EnterString( szBuffer, SIZEOF(szBuffer), szCaption, JES_COMBO, "gcNick_" )) {
 			TCHAR text[ 1024 ];
-			replaceStr( item->nick, szBuffer );
+			replaceStrT( item->nick, szBuffer );
 			mir_sntprintf( text, SIZEOF( text ), _T("%s/%s"), item->jid, szBuffer );
 			param->ppro->SendPresenceTo( param->ppro->m_iStatus, text, NULL );
 	}	}
@@ -898,10 +898,10 @@ void CJabberProto::RenameParticipantNick( JABBER_LIST_ITEM* item, const TCHAR* o
 	for ( int i=0; i < item->resourceCount; i++ ) {
 		JABBER_RESOURCE_STATUS& RS = item->resource[i];
 		if ( !lstrcmp( RS.resourceName, oldNick )) {
-			replaceStr( RS.resourceName, newNick );
+			replaceStrT( RS.resourceName, newNick );
 
 			if ( !lstrcmp( item->nick, oldNick )) {
-				replaceStr( item->nick, newNick );
+				replaceStrT( item->nick, newNick );
 
 				HANDLE hContact = HContactFromJID( item->jid );
 				if ( hContact != NULL )
@@ -960,7 +960,7 @@ void CJabberProto::GroupchatProcessPresence( HXML node )
 
 	// process custom nick change
 	if ( cnick && r && r->nick && _tcscmp( cnick, r->nick ))
-		replaceStr( r->nick, cnick );
+		replaceStrT( r->nick, cnick );
 
 	HXML xNode = xmlGetChildByTag( node, "x", "xmlns", _T(JABBER_FEAT_MUC_USER));
 	HXML xUserNode = xmlGetChildByTag( node, "user:x", "xmlns:user", _T(JABBER_FEAT_MUC_USER));
@@ -1050,7 +1050,7 @@ void CJabberProto::GroupchatProcessPresence( HXML node )
 				}
 
 				if ( str = xmlGetAttrValue( itemNode, _T("jid")))
-					replaceStr( r->szRealJid, str );
+					replaceStrT( r->szRealJid, str );
 			} 
 		}
 
@@ -1151,7 +1151,7 @@ void CJabberProto::GroupchatProcessPresence( HXML node )
 				JGetStringT(NULL, "GcAltNick", newNick, SIZEOF(newNick)) != NULL &&
 				newNick[0] != _T('\0'))
 			{
-				replaceStr(item->nick, newNick);
+				replaceStrT(item->nick, newNick);
 				TCHAR text[1024] = { 0 };
 				mir_sntprintf(text, SIZEOF(text), _T("%s/%s"), item->jid, newNick);
 				SendPresenceTo(m_iStatus, text, NULL);
@@ -1214,7 +1214,7 @@ void CJabberProto::GroupchatProcessMessage( HXML node )
 				*(TCHAR*)(--tmptr) = 0;
 				resource = tmpnick;
 		}	}
-		replaceStr( item->itemResource.statusMessage, msgText );
+		replaceStrT( item->itemResource.statusMessage, msgText );
 	}
 	else {
 		if (( n = xmlGetChildByTag( node , "body", "xml:lang", m_tszSelectedLang )) == NULL )

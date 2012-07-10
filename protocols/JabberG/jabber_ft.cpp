@@ -280,7 +280,7 @@ void CJabberProto::FtSendFinal( BOOL success, filetransfer* ft )
 	else {
 		if ( ft->std.currentFileNumber < ft->std.totalFiles-1 ) {
 			ft->std.currentFileNumber++;
-			replaceStr( ft->std.tszCurrentFile, ft->std.ptszFiles[ ft->std.currentFileNumber ] );
+			replaceStrT( ft->std.tszCurrentFile, ft->std.ptszFiles[ ft->std.currentFileNumber ] );
 			JSendBroadcast( ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0 );
 			FtInitiate( ft->jid, ft );
 			return;

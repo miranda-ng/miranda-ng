@@ -110,9 +110,9 @@ public:
 	CJabberAdhocNode( CJabberProto* pProto, TCHAR* szJid, TCHAR* szNode, TCHAR* szName, JABBER_ADHOC_HANDLER pHandler )
 	{
 		ZeroMemory( this, sizeof( CJabberAdhocNode ));
-		replaceStr( m_szJid, szJid );
-		replaceStr( m_szNode, szNode );
-		replaceStr( m_szName, szName );
+		replaceStrT( m_szJid, szJid );
+		replaceStrT( m_szNode, szNode );
+		replaceStrT( m_szName, szName );
 		m_pHandler = pHandler;
 		m_pProto = pProto;
 	}

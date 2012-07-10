@@ -529,7 +529,7 @@ int filetransfer::create()
 
 	TCHAR filefull[ MAX_PATH ];
 	mir_sntprintf( filefull, SIZEOF(filefull), _T("%s\\%s"), std.tszWorkingDir, std.tszCurrentFile );
-	replaceStr( std.tszCurrentFile, filefull );
+	replaceStrT( std.tszCurrentFile, filefull );
 
 	if ( hWaitEvent != INVALID_HANDLE_VALUE )
 		CloseHandle( hWaitEvent );

@@ -155,11 +155,11 @@ public:
 	}
 	BOOL RemoveAll()
 	{
-		replaceStr( m_szJid, NULL );
-		replaceStr( m_szNode, NULL );
-		replaceStr( m_szName, NULL );
-		replaceStr( m_szInfoError, NULL );
-		replaceStr( m_szItemsError, NULL );
+		replaceStrT( m_szJid, NULL );
+		replaceStrT( m_szNode, NULL );
+		replaceStrT( m_szName, NULL );
+		replaceStrT( m_szInfoError, NULL );
+		replaceStrT( m_szItemsError, NULL );
 		if ( m_pIdentities )
 			delete m_pIdentities;
 		m_pIdentities = NULL;
@@ -181,8 +181,8 @@ public:
 	}
 	BOOL ResetInfo()
 	{
-		replaceStr( m_szInfoError, NULL );
-		replaceStr( m_szItemsError, NULL );
+		replaceStrT( m_szInfoError, NULL );
+		replaceStrT( m_szItemsError, NULL );
 		if ( m_pIdentities )
 			delete m_pIdentities;
 		m_pIdentities = NULL;
@@ -229,7 +229,7 @@ public:
 	}
 	BOOL SetJid(TCHAR *szJid)
 	{
-		replaceStr(m_szJid, szJid);
+		replaceStrT(m_szJid, szJid);
 		return TRUE;
 	}
 	TCHAR* GetJid()
@@ -238,7 +238,7 @@ public:
 	}
 	BOOL SetNode(TCHAR *szNode)
 	{
-		replaceStr(m_szNode, szNode);
+		replaceStrT(m_szNode, szNode);
 		return TRUE;
 	}
 	TCHAR* GetNode()
@@ -347,12 +347,12 @@ public:
 	}
 	BOOL SetItemsRequestErrorText(TCHAR *szError)
 	{
-		replaceStr(m_szItemsError, szError);
+		replaceStrT(m_szItemsError, szError);
 		return TRUE;
 	}
 	BOOL SetInfoRequestErrorText(TCHAR *szError)
 	{
-		replaceStr(m_szInfoError, szError);
+		replaceStrT(m_szInfoError, szError);
 		return TRUE;
 	}
 	BOOL GetTooltipText(TCHAR *szText, int nMaxLength)

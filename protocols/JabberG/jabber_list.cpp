@@ -249,7 +249,7 @@ int CJabberProto::ListAddResource( JABBER_LIST list, const TCHAR* jid, int statu
 				if ( !_tcscmp( r->resourceName, resource )) {
 					// Already exist, update status and statusMessage
 					r->status = status;
-					replaceStr( r->statusMessage, statusMessage );
+					replaceStrT( r->statusMessage, statusMessage );
 					r->priority = priority;
 					break;
 			}	}
@@ -273,7 +273,7 @@ int CJabberProto::ListAddResource( JABBER_LIST list, const TCHAR* jid, int statu
 	// No resource, update the main statusMessage
 	else {
 		LI->itemResource.status = status;
-		replaceStr( LI->itemResource.statusMessage, statusMessage );
+		replaceStrT( LI->itemResource.statusMessage, statusMessage );
 	}
 
 	LeaveCriticalSection( &m_csLists );

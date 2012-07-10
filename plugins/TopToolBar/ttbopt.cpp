@@ -32,7 +32,7 @@ static HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST
 		}
 		else index = ImageList_AddIcon(il, b->hIconUp);
 
-		tmp = mir_a2t( b->name );
+		tmp = mir_a2t( b->pszName );
 		tvis.item.pszText = TranslateTS(tmp);
 	}
 	tvis.item.iImage = tvis.item.iSelectedImage = index;
@@ -273,17 +273,15 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						TreeView_SetItem(hTree, &tvi);
 					}
 
-					if (btn->name) free(btn->name);
 					GetDlgItemText(hwndDlg, IDC_ENAME, buf, 255);
-					btn->name = _strdup( _T2A(buf));
-
-					if (btn->program) free(btn->program);
-					GetDlgItemText(hwndDlg, IDC_EPATH, buf, 255);
-					btn->program = _tcsdup(buf);
+					replaceStr(btn->pszName, _T2A(buf));
 
 					tvi.mask = TVIF_TEXT;
-					tvi.pszText = mir_a2t( btn->name );
+					tvi.pszText = buf;
 					TreeView_SetItem(hTree, &tvi);
+
+					GetDlgItemText(hwndDlg, IDC_EPATH, buf, 255);
+					replaceStrT(btn->ptszProgram, buf);
 				}
 				break;
 			}
@@ -415,13 +413,13 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), enable);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEBUTTON), enable);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_LBUTTONSET), enable);
-						if (btn->name != NULL)
-							SetDlgItemTextA(hwndDlg, IDC_ENAME, btn->name);
+						if (btn->pszName != NULL)
+							SetDlgItemTextA(hwndDlg, IDC_ENAME, btn->pszName);
 						else
 							SetDlgItemTextA(hwndDlg, IDC_ENAME, "");
 
-						if (btn->program != NULL)
-							SetDlgItemText(hwndDlg, IDC_EPATH, btn->program);
+						if (btn->ptszProgram != NULL)
+							SetDlgItemText(hwndDlg, IDC_EPATH, btn->ptszProgram);
 						else
 							SetDlgItemTextA(hwndDlg, IDC_EPATH, "");
 					}

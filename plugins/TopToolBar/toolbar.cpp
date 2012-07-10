@@ -77,7 +77,7 @@ INT_PTR LaunchService(WPARAM wParam, LPARAM lParam)
 	STARTUPINFO si = {0};
 	si.cb = sizeof(si);
 
-	if ( CreateProcess(NULL, Buttons[lParam]->program, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+	if ( CreateProcess(NULL, Buttons[lParam]->ptszProgram, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
 	}
@@ -188,7 +188,7 @@ static bool nameexists(const char *name)
 		return false;
 
 	for (int i = 0; i < Buttons.getCount(); i++)
-		if ( !lstrcmpA(Buttons[i]->name, name))
+		if ( !lstrcmpA(Buttons[i]->pszName, name))
 			return true;
 
 	return false;
@@ -219,11 +219,11 @@ static void ReloadIcons()
 
 		char buf[256];
 		if (b->hIconHandleUp) {
-			sprintf(buf, "%s_up", b->name);
+			sprintf(buf, "%s_up", b->pszName);
 			b->hIconUp = LoadIconFromLibrary(buf, b->hIconUp, b->hIconHandleUp);
 		}
 		if (b->hIconHandleDn) {
-			sprintf(buf, "%s_dn", b->name);
+			sprintf(buf, "%s_dn", b->pszName);
 			b->hIconDn = LoadIconFromLibrary(buf, b->hIconDn, b->hIconHandleDn);
 		}
 	}
@@ -245,22 +245,15 @@ TopButtonInt* CreateButton(TTBButton* but)
 		b->bPushed = (but->dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
 
 		if (but->dwFlags & TTBBF_ISLBUTTON) {
-			if (but->program != NULL)
-				b->program = _tcsdup(but->program);
-			b->pszService = _strdup(TTB_LAUNCHSERVICE);
+			b->ptszProgram = mir_tstrdup(but->program);
+			b->pszService = mir_strdup(TTB_LAUNCHSERVICE);
 		}
 		else {
-			b->program = NULL;
-			if (but->pszService != NULL)
-				b->pszService = _strdup(but->pszService);
-			else
-				b->pszService = NULL;
+			b->ptszProgram = NULL;
+			b->pszService = mir_strdup(but->pszService);
 		}
 
-		if (but->name != NULL)
-			b->name = _strdup(but->name);
-		else
-			b->name = NULL;
+		b->pszName = mir_strdup(but->name);
 
 		if (b->dwFlags & TTBBF_ICONBYHANDLE) {
 			b->hIconUp = Skin_GetIconByHandle(b->hIconHandleUp = but->hIconHandleUp);
@@ -271,17 +264,17 @@ TopButtonInt* CreateButton(TTBButton* but)
 		}
 		else {
 			char buf[256];
-			mir_snprintf(buf, SIZEOF(buf), (b->hIconDn) ? "%s_up" : "%s", b->name);
+			mir_snprintf(buf, SIZEOF(buf), (b->hIconDn) ? "%s_up" : "%s", b->pszName);
 			b->hIconUp = LoadIconFromLibrary(buf, but->hIconUp, b->hIconHandleUp);
 			if (b->hIconDn) {
-				mir_snprintf(buf, SIZEOF(buf), "%s_dn", b->name);
+				mir_snprintf(buf, SIZEOF(buf), "%s_dn", b->pszName);
 				b->hIconDn = LoadIconFromLibrary(buf, but->hIconDn, b->hIconHandleDn);
 			}
 		}
 
 		if (but->cbSize > OLD_TBBUTTON_SIZE) {
-			b->szTooltipUp = but->pszTooltipUp;
-			b->szTooltipDn = but->pszTooltipDn;
+			b->ptszTooltipUp = mir_a2t(but->pszTooltipUp);
+			b->ptszTooltipDn = mir_a2t(but->pszTooltipDn);
 		}
 	}
 	return b;
@@ -418,7 +411,7 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case TTBO_TIPNAME:
-		retval = (INT_PTR)b->tooltip;
+		retval = (INT_PTR)b->ptszTooltip;
 		break;
 
 	case TTBO_ALLDATA:
@@ -440,9 +433,9 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 			lpTTB->wParamDown = b->wParamDown;
 
 			if (b->dwFlags & TTBBF_ISLBUTTON)
-				lpTTB->program = _tcsdup(b->program);
+				replaceStrT(lpTTB->program, b->ptszProgram);
 			else
-				lpTTB->pszService = _strdup(b->pszService);
+				replaceStr(lpTTB->pszService, b->pszService);
 
 			retval = ( INT_PTR )lpTTB;
 		}
@@ -486,10 +479,8 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 		if (lParam == 0)
 			break;
 
-		if (b->tooltip != NULL)
-			free(b->tooltip);
-		b->tooltip = _tcsdup( TranslateTS( _A2T((LPCSTR)lParam)));
-		SendMessage(b->hwnd,BUTTONADDTOOLTIP,(WPARAM)b->tooltip,BATF_UNICODE);
+		replaceStrT(b->ptszTooltip, TranslateTS( _A2T((LPCSTR)lParam)));
+		SendMessage(b->hwnd,BUTTONADDTOOLTIP,(WPARAM)b->ptszTooltip,BATF_UNICODE);
 		retval = 1;
 		break;
 
@@ -518,18 +509,10 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 				b->SaveSettings(0,0);
 			}
 
-			if (b->dwFlags & TTBBF_ISLBUTTON) {
-				if (b->program != NULL)
-					free(b->program);
-				b->program = _tcsdup(lpTTB->program);
-//				don't save program changing in use buttons
-//				changed = 1; // for launch buttons from user, not options (options don't share handles)
-			}
-			else {
-				if (b->pszService != NULL)
-					free(b->pszService);
-				b->pszService = _strdup(lpTTB->pszService);
-			}
+			if (b->dwFlags & TTBBF_ISLBUTTON)
+				replaceStrT(b->ptszProgram, lpTTB->program);
+			else 
+				replaceStr(b->pszService, lpTTB->pszService);
 
 			b->lParamUp = lpTTB->lParamUp;
 			b->wParamUp = lpTTB->wParamUp;

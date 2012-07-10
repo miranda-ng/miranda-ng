@@ -750,7 +750,7 @@ void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText
 	if (!hContact)
 	{
 		m_mode = mood;
-		replaceStr(m_text, szText);
+		replaceStrT(m_text, szText);
 
 		HANDLE hIcon = (mood >= 0) ? m_icons.GetIcolibHandle(g_arrMoods[mood].szTag) : LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT);
 		TCHAR title[128];
@@ -805,7 +805,7 @@ void CPepMood::ShowSetDialog(BYTE bQuiet)
 			return;
 
 		m_mode = dlg.GetStatusMode();
-		replaceStr(m_text, dlg.GetStatusText());
+		replaceStrT(m_text, dlg.GetStatusText());
 	}
 
 	if (m_mode >= 0)
@@ -1177,7 +1177,7 @@ void CPepActivity::SetActivity(HANDLE hContact, LPCTSTR szFirst, LPCTSTR szSecon
 	if (!hContact)
 	{
 		m_mode = activity;
-		replaceStr(m_text, szText);
+		replaceStrT(m_text, szText);
 
 		HANDLE hIcon = (activity >= 0) ? m_icons.GetIcolibHandle(returnActivity(activity)) : LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT);
 		TCHAR title[128];
@@ -1222,7 +1222,7 @@ void CPepActivity::ShowSetDialog(BYTE bQuiet)
 	m_mode = dlg.GetStatusMode();
 	if (m_mode >= 0)
 	{
-		replaceStr(m_text, dlg.GetStatusText());
+		replaceStrT(m_text, dlg.GetStatusText());
 		Publish();
 
 		UpdateMenuItem(m_icons.GetIcolibHandle(returnActivity(m_mode)), g_arrActivities[m_mode].szTitle);

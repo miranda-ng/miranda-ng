@@ -117,18 +117,18 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc( HWND hwndDlg, UINT msg, WPARAM
 				item->bUseResource = TRUE;
 
 				if ( SendDlgItemMessage(hwndDlg, IDC_URL_RADIO, BM_GETCHECK,0, 0) == BST_CHECKED )
-					replaceStr( item->type, _T( "url" ));
+					replaceStrT( item->type, _T( "url" ));
 				else
-					replaceStr( item->type, _T( "conference" ));
+					replaceStrT( item->type, _T( "conference" ));
 
 				GetDlgItemText( hwndDlg, IDC_NICK, text, SIZEOF( text ));
-				replaceStr( item->nick, text );
+				replaceStrT( item->nick, text );
 
 				GetDlgItemText( hwndDlg, IDC_PASSWORD, text, SIZEOF( text ));
-				replaceStr( item->password, text );
+				replaceStrT( item->password, text );
 
 				GetDlgItemText( hwndDlg, IDC_NAME, text, SIZEOF( text ));
-				replaceStr( item->name, ( text[0] == 0 ) ? roomJID : text );
+				replaceStrT( item->name, ( text[0] == 0 ) ? roomJID : text );
 
 				item->bAutoJoin = (SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_GETCHECK,0, 0) == BST_CHECKED );
 				{

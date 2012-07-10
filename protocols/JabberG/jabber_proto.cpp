@@ -682,7 +682,7 @@ int __cdecl CJabberProto::FileResume( HANDLE hTransfer, int* action, const TCHAR
 		return 1;
 
 	if ( *action == FILERESUME_RENAME )
-		replaceStr( ft->std.tszCurrentFile, *szFilename );
+		replaceStrT( ft->std.tszCurrentFile, *szFilename );
 
 	SetEvent( ft->hWaitEvent );
 	return 0;

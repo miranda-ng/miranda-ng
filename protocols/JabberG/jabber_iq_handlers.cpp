@@ -516,10 +516,10 @@ BOOL CJabberProto::OnRosterPushRequest( HXML, CJabberIqInfo *pInfo )
 
 			if ( nick != NULL ) {
 				if (( item=ListAdd( LIST_ROSTER, jid )) != NULL ) {
-					replaceStr( item->nick, nick );
+					replaceStrT( item->nick, nick );
 
 					HXML groupNode = xmlGetChild( itemNode , "group" );
-					replaceStr( item->group, ( groupNode ) ? xmlGetText( groupNode ) : NULL );
+					replaceStrT( item->group, ( groupNode ) ? xmlGetText( groupNode ) : NULL );
 
 					if (( hContact=HContactFromJID( jid, 0 )) == NULL ) {
 						// Received roster has a new JID.

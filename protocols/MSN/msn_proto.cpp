@@ -545,7 +545,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 
 	TCHAR filefull[MAX_PATH];
 	mir_sntprintf(filefull, SIZEOF(filefull), _T("%s\\%s"), ft->std.tszWorkingDir, ft->std.tszCurrentFile);
-	replaceStr(ft->std.tszCurrentFile, filefull);
+	replaceStrT(ft->std.tszCurrentFile, filefull);
 
 	if (SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&ft->std))
 		return;
@@ -669,7 +669,7 @@ int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 		break;
 
 	case FILERESUME_RENAME:
-		replaceStr(ft->std.tszCurrentFile, *szFilename);
+		replaceStrT(ft->std.tszCurrentFile, *szFilename);
 
 	default:
 		bool fcrt = ft->create() != -1;

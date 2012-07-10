@@ -20,24 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "msn_global.h"
 
-void replaceStr(char*& dest, const char* src)
-{
-	if (src != NULL) 
-	{
-		mir_free(dest);
-		dest = mir_strdup(src);
-	}	
-}
-
-void replaceStr(wchar_t*& dest, const wchar_t* src)
-{
-	if (src != NULL) 
-	{
-		mir_free(dest);
-		dest = mir_wstrdup(src);
-	}	
-}
-
 static TCHAR* a2tf(const TCHAR* str, bool unicode)
 {
 	if (str == NULL)

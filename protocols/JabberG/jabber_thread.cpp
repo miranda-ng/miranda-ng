@@ -1542,9 +1542,9 @@ void CJabberProto::OnProcessPresenceCapabilites( HXML node )
 		const TCHAR *szVer = xmlGetAttrValue( n, _T("ver"));
 		const TCHAR *szExt = xmlGetAttrValue( n, _T("ext"));
 		if ( szNode && szVer ) {
-			replaceStr( r->szCapsNode, szNode );
-			replaceStr( r->szCapsVer, szVer );
-			replaceStr( r->szCapsExt, szExt );
+			replaceStrT( r->szCapsNode, szNode );
+			replaceStrT( r->szCapsVer, szVer );
+			replaceStrT( r->szCapsExt, szExt );
 			HANDLE hContact = HContactFromJID( from );
 			if ( hContact )
 				UpdateMirVer( hContact, r );
@@ -1769,9 +1769,9 @@ void CJabberProto::OnProcessPresence( HXML node, ThreadData* info )
 			{
 				item->itemResource.status = ID_STATUS_OFFLINE;
 				if ((( statusNode = xmlGetChild( node , "status" )) != NULL ) && xmlGetText( statusNode ))
-					replaceStr( item->itemResource.statusMessage, xmlGetText( statusNode ));
+					replaceStrT( item->itemResource.statusMessage, xmlGetText( statusNode ));
 				else
-					replaceStr( item->itemResource.statusMessage, NULL );
+					replaceStrT( item->itemResource.statusMessage, NULL );
 			}
 		}
 		else Log( "SKIP Receive presence offline from " TCHAR_STR_PARAM " ( who is not in my roster )", from );
@@ -1856,9 +1856,9 @@ void CJabberProto::OnIqResultVersion( HXML /*node*/, CJabberIqInfo *pInfo )
 
 	r->dwVersionRequestTime = -1;
 
-	replaceStr( r->software, NULL );
-	replaceStr( r->version, NULL );
-	replaceStr( r->system, NULL );
+	replaceStrT( r->software, NULL );
+	replaceStrT( r->version, NULL );
+	replaceStrT( r->system, NULL );
 
 	HXML queryNode = pInfo->GetChildNode();
 

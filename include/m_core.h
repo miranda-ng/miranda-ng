@@ -369,6 +369,14 @@ MIR_CORE_DLL(int)   wildcmp(char *name, char *mask);
 __forceinline char* lrtrim(char* str) { return ltrim(rtrim(str)); };
 __forceinline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
 
+#if defined( __cplusplus )
+	MIR_CORE_DLL(char*) replaceStr( char* &dest, const char *src );
+	MIR_CORE_DLL(WCHAR*) replaceStrW( WCHAR* &dest, const WCHAR *src );
+#else
+	MIR_CORE_DLL(char*) replaceStr( char **dest, const char *src );
+	MIR_CORE_DLL(WCHAR*) replaceStrW( WCHAR **dest, const WCHAR *src );
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////
 // text conversion functions
 
@@ -384,6 +392,7 @@ __forceinline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
 	#define mir_u2t_cp(s,c) mir_wstrdup(s)
 
 	#define mir_tstrdup mir_wstrdup
+	#define replaceStrT replaceStrW
 #else
 	#define mir_t2a(s) mir_strdup(s)
 	#define mir_a2t(s) mir_strdup(s)
@@ -396,6 +405,7 @@ __forceinline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
 	#define mir_u2t_cp(s,c) mir_u2a_cp(s,c)
 
 	#define mir_tstrdup mir_strdup
+	#define replaceStrT replaceStr
 #endif
 
 MIR_CORE_DLL(WCHAR*) mir_a2u_cp(const char* src, int codepage);

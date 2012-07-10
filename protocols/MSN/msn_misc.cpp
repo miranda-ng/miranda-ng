@@ -1217,7 +1217,7 @@ int filetransfer::openNext(void)
 	if (std.ptszFiles && std.ptszFiles[cf]) 
 	{
 		bCompleted = false;
-		replaceStr(std.tszCurrentFile, std.ptszFiles[cf]);
+		replaceStrT(std.tszCurrentFile, std.ptszFiles[cf]);
 		fileId = _topen(std.tszCurrentFile, _O_BINARY | _O_RDONLY, _S_IREAD);
 		if (fileId != -1) 
 		{

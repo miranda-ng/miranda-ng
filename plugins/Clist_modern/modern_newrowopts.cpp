@@ -74,7 +74,7 @@ BOOL RemoveChildNode(NodeList * FromList, DWORD index)
 	NodeList *work = &(FromList->childNodes[index]);
 	for (size_t i=0; i < work->AllocatedChilds; i++)
 		if (work->childNodes[i].AllocatedChilds)
-			RemoveChildNode(work->childNodes,i);
+			RemoveChildNode(work->childNodes, (DWORD)i);
 
 	if (work->AllocatedChilds) {
 		mir_free_and_nil(work->childNodes);

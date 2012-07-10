@@ -109,7 +109,7 @@ public:
 	}
 	__inline BOOL SetValue( TCHAR *szValue )
 	{
-		replaceStr( m_szValue, szValue );
+		replaceStrT( m_szValue, szValue );
 		return TRUE;
 	}
 	__inline DWORD GetPackets()
@@ -359,11 +359,11 @@ public:
 	}
 	void SetActiveListName(const TCHAR *szListName)
 	{
-		replaceStr(m_szActiveListName, szListName);
+		replaceStrT(m_szActiveListName, szListName);
 	}
 	void SetDefaultListName(const TCHAR *szListName)
 	{
-		replaceStr(m_szDefaultListName, szListName);
+		replaceStrT(m_szDefaultListName, szListName);
 	}
 	TCHAR* GetDefaultListName()
 	{

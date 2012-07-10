@@ -428,7 +428,7 @@ void CJabberProto::OnIqResultGetRoster( HXML iqNode, CJabberIqInfo* pInfo )
 		mir_free( item->nick ); item->nick = nick;
 
 		HXML groupNode = xmlGetChild( itemNode , "group" );
-		replaceStr( item->group, ( groupNode ) ? xmlGetText( groupNode ) : NULL );
+		replaceStrT( item->group, ( groupNode ) ? xmlGetText( groupNode ) : NULL );
 
 		// check group delimiters:
 		if ( item->group && szGroupDelimeter ) {
@@ -710,7 +710,7 @@ LBL_Ret:
 				hasPhoto = TRUE;
 				if ( item->photoFileName )
 					DeleteFile( item->photoFileName );
-				replaceStr( item->photoFileName, szAvatarFileName );
+				replaceStrT( item->photoFileName, szAvatarFileName );
 				Log( "Contact's picture saved to " TCHAR_STR_PARAM, szAvatarFileName );
 
 				if (JGetWord( hContact, "Status", ID_STATUS_OFFLINE ) == ID_STATUS_OFFLINE) {
@@ -1696,7 +1696,7 @@ void CJabberProto::OnIqResultLastActivity( HXML iqNode, CJabberIqInfo* pInfo )
 
 		LPCTSTR szLastStatusMessage = XPathT( iqNode, "query[@xmlns='jabber:iq:last']" );
 		if ( szLastStatusMessage ) // replace only if it exists
-			replaceStr( r->statusMessage, szLastStatusMessage );
+			replaceStrT( r->statusMessage, szLastStatusMessage );
 	}
 
 	r->idleStartTime = lastActivity;
