@@ -1,0 +1,1 @@
+@cl /MD /Fe../../bin10/Release/checksum.exe checksum.cpp ../../bin10/lib/mir_core.lib /link /filealign:512
