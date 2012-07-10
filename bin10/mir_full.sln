@@ -257,7 +257,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AvatarHistory", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdUserInfo", "..\src\core\stduserinfo\stduserinfo_10.vcxproj", "{1C856B14-54CD-4D07-B18B-5F7DB073AB51}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mir_core", "..\src\mir_core\mir_core_10.vcxproj", "{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mir_core", "..\src\mir_core\mir_core_10.vcxproj", "{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdAuth", "..\src\core\stdauth\stdauth_10.vcxproj", "{86E0715E-C769-11E1-A41D-6CED6188709B}"
 EndProject
@@ -288,6 +288,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PasteIt", "..\plugins\PasteIt\PasteIt.vcxproj", "{BAEBC482-CDA9-4053-A7D0-08222E85118E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SendSS", "..\plugins\SendScreenshotPlus\SendSS_10.vcxproj", "{CEAD8BCF-1F22-4E00-9F6D-E33405B00552}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CheckSum", "..\tools\checksum\checksum_10.vcxproj", "{5153CD6C-6041-47CD-8BE3-2772326BB7C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1437,6 +1439,14 @@ Global
 		{CEAD8BCF-1F22-4E00-9F6D-E33405B00552}.Release|Win32.Build.0 = Release|Win32
 		{CEAD8BCF-1F22-4E00-9F6D-E33405B00552}.Release|x64.ActiveCfg = Release|x64
 		{CEAD8BCF-1F22-4E00-9F6D-E33405B00552}.Release|x64.Build.0 = Release|x64
+		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Debug|Win32.Build.0 = Debug|Win32
+		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Debug|x64.ActiveCfg = Debug|x64
+		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Debug|x64.Build.0 = Debug|x64
+		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Release|Win32.ActiveCfg = Release|Win32
+		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Release|Win32.Build.0 = Release|Win32
+		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Release|x64.ActiveCfg = Release|x64
+		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

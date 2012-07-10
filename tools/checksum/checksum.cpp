@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <windows.h>
 
-#include "../../include/m_core.h"
+#include <m_core.h>
 
 #define DEBUG_MSGS		1
 #define DEBUG_ARCH		1 	
