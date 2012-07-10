@@ -55,7 +55,7 @@ static int Modern_InitButtons(WPARAM, LPARAM)
 	TTBButton tbb = { 0 };
 	tbb.cbSize = sizeof(tbb);
 
-	for (int i=0; i < SIZEOF(BTNS); i++ ) {
+	for (int i=0; i < SIZEOF(BTNS); i++) {
 		tbb.dwFlags = TTBBF_ICONBYHANDLE;
 		if (BTNS[i].pszButtonID) {
 			tbb.name = BTNS[i].pszButtonID;
@@ -162,27 +162,24 @@ static int ehhToolBarBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 static BOOL sttDrawToolBarBackground(HWND hwnd, HDC hdc, RECT * rect, ModernToolbarCtrl* pMTBInfo)
 {
 	BOOL bFloat = (GetParent(hwnd)!=pcli->hwndContactList);
-	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat)
-	{	
-		RECT rc;
+	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat) {	
 		HBRUSH hbr;
 
+		RECT rc;
 		if (rect) 
 			rc=*rect;
 		else
 			GetClientRect(hwnd,&rc);
 
-		if ( !(tbdat.mtb_backgroundBmpUse && tbdat.mtb_hBmpBackground) && tbdat.mtb_useWinColors)
-		{
+		if ( !(tbdat.mtb_backgroundBmpUse && tbdat.mtb_hBmpBackground) && tbdat.mtb_useWinColors) {
 			if (xpt_IsThemed(pMTBInfo->mtbXPTheme))
-				xpt_DrawTheme(pMTBInfo->mtbXPTheme,pMTBInfo->hWnd, hdc, 0, 0, &rc, &rc);
+				xpt_DrawTheme(pMTBInfo->mtbXPTheme, pMTBInfo->hWnd, hdc, 0, 0, &rc, &rc);
 			else {
 				hbr = GetSysColorBrush(COLOR_3DFACE);
 				FillRect(hdc, &rc, hbr);
 			}
 		}
-		else if (!tbdat.mtb_hBmpBackground && !tbdat.mtb_useWinColors)
-		{			
+		else if (!tbdat.mtb_hBmpBackground && !tbdat.mtb_useWinColors) {			
 			hbr = CreateSolidBrush(tbdat.mtb_bkColour);
 			FillRect(hdc, &rc, hbr);
 			DeleteObject(hbr);

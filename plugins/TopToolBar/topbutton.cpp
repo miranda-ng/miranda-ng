@@ -51,10 +51,7 @@ DWORD TopButtonInt::CheckFlags(DWORD Flags)
 void TopButtonInt::CreateWnd()
 {
 	if ( !(dwFlags & TTBBF_ISSEPARATOR)) {
-		hwnd = CreateWindow(MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON|WS_CHILD|WS_TABSTOP|SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, 0);
-
-		if (g_CustomProc)
-			g_CustomProc((HANDLE)id, hwnd, g_CustomProcParam);
+		hwnd = CreateWindow(TTB_BUTTON_CLASS, _T(""), BS_PUSHBUTTON|WS_CHILD|WS_TABSTOP|SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, this);
 
 		if (dwFlags & TTBBF_ASPUSHBUTTON)
 			SendMessage(hwnd, BUTTONSETASPUSHBTN, 1, 0);

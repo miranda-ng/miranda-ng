@@ -1880,8 +1880,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 
 	static bool bInit = true;
 
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 		{
 			bInit = true;

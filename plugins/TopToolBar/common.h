@@ -34,6 +34,8 @@
 #include "m_icolib.h"
 #include "BkgrCfg.h"
 
+#define TTB_BUTTON_CLASS  _T("TopToolbarButtonClass")
+
 #define TTBDEFAULT_BKBMPUSE      CLB_STRETCH
 #define TTBDEFAULT_BKCOLOUR      GetSysColor(COLOR_3DFACE)
 #define TTBDEFAULT_USEBITMAP     0

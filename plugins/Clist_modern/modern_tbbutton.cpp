@@ -507,9 +507,28 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 	return 0;
 }
 
+static BOOL CALLBACK BroadcastEnumChildProc(HWND hwndChild, LPARAM lParam) 
+{
+	MSG * pMsg=(MSG*)lParam;
+	SendNotifyMessage( hwndChild, pMsg->message, pMsg->wParam, pMsg->lParam );
+	EnumChildWindows( hwndChild, BroadcastEnumChildProc, lParam );
+	return TRUE;
+}
+
+static LRESULT BroadCastMessageToChild(HWND hwnd, int message, WPARAM wParam, LPARAM lParam )
+{
+	MSG msg={0};
+	msg.hwnd=hwnd;
+	msg.lParam=lParam;
+	msg.wParam=wParam;
+	msg.message=message;
+	EnumChildWindows(hwnd, BroadcastEnumChildProc, (LPARAM) &msg);
+	return 1;
+}
+
 static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
 {
-	if (ttbid == (HANDLE)-1) {
+	if (ttbid == TTB_WINDOW_HANDLE) {
 		CustomizeToolbar(hWnd);
 		return;
 	}
@@ -526,6 +545,8 @@ static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
 	p->hThemeButton = xpt_AddThemeHandle(p->hwnd, L"BUTTON");
 	p->hThemeToolbar = xpt_AddThemeHandle(p->hwnd, L"TOOLBAR");
 	WindowList_Add(hButtonWindowList, hWnd, NULL);
+
+	SendMessage(hWnd, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

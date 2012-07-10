@@ -258,19 +258,20 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 ///////////////////////////////////////////////////////////////////////////////
 // Button's window procedure
 
-static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM lParam)
 {
-	MButtonCtrl* bct = (MButtonCtrl *)GetWindowLongPtr(hwndDlg, 0);
+	MButtonCtrl* bct = (MButtonCtrl *)GetWindowLongPtr(hwnd, 0);
 	if (bct && bct->fnWindowProc)
-		if ( bct->fnWindowProc(hwndDlg, msg, wParam, lParam))
+		if ( bct->fnWindowProc(hwnd, msg, wParam, lParam))
 			return bct->lResult;
 
 	switch(msg) {
 	case WM_NCCREATE:
-		SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) | BS_OWNERDRAW);
+		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | BS_OWNERDRAW);
 		bct = (MButtonCtrl*)mir_calloc(sizeof(MButtonCtrl));
-		if (bct == NULL) return FALSE;
-		bct->hwnd = hwndDlg;
+		if (bct == NULL)
+			return FALSE;
+		bct->hwnd = hwnd;
 		bct->stateId = PBS_NORMAL;
 		bct->fnPainter = PaintWorker;
 		bct->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
@@ -280,8 +281,8 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 			SetHwndPropInt(bct, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_ROLE, ROLE_SYSTEM_PUSHBUTTON);
 		} 
 		else bct->pAccPropServices = NULL;
-		SetWindowLongPtr(hwndDlg, 0, (LONG_PTR)bct);
-		if (((CREATESTRUCT *)lParam)->lpszName) SetWindowText(hwndDlg, ((CREATESTRUCT *)lParam)->lpszName);
+		SetWindowLongPtr(hwnd, 0, (LONG_PTR)bct);
+		if (((CREATESTRUCT *)lParam)->lpszName) SetWindowText(hwnd, ((CREATESTRUCT *)lParam)->lpszName);
 		return TRUE;
 
 	case WM_DESTROY:
@@ -319,7 +320,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		break;	// DONT! fall thru
 
 	case WM_NCDESTROY:
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 		mir_free(bct);
 		break;
 
@@ -351,7 +352,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 				}
 				InvalidateRect(bct->hwnd, NULL, TRUE);
 			}
-			SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM)hwndDlg);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwnd), BN_CLICKED), (LPARAM)hwnd);
 			return 0;
 		}
 		break;
@@ -369,7 +370,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 				}
 				InvalidateRect(bct->hwnd, NULL, TRUE);
 			}
-			SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM)hwndDlg);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwnd), BN_CLICKED), (LPARAM)hwnd);
 			return 0;
 		}
 		break;
@@ -389,10 +390,10 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 	case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
-			HDC hdcPaint = BeginPaint(hwndDlg, &ps);
+			HDC hdcPaint = BeginPaint(hwnd, &ps);
 			if (hdcPaint) {
 				bct->fnPainter(bct, hdcPaint);
-				EndPaint(hwndDlg, &ps);
+				EndPaint(hwnd, &ps);
 			}
 		}
 		break;
@@ -530,7 +531,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 				memset(bct+1, 0, pCustom->cbLen - sizeof(MButtonCtrl));
 			bct->fnPainter = pCustom->fnPainter;
 			bct->fnWindowProc = pCustom->fnWindowProc;
-			SetWindowLongPtr(hwndDlg, 0, (LONG_PTR)bct);
+			SetWindowLongPtr(hwnd, 0, (LONG_PTR)bct);
 		}
 		break;
 
@@ -580,7 +581,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 				InvalidateRect(bct->hwnd, NULL, TRUE);
 			}
 			if (showClick) // Tell your daddy you got clicked.
-				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM)hwndDlg);
+				SendMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwnd), BN_CLICKED), (LPARAM)hwnd);
 		}
 		break;
 
@@ -590,19 +591,19 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 			InvalidateRect(bct->hwnd, NULL, TRUE);
 		}
 		// Call timer, used to start cheesy TrackMouseEvent faker
-		SetTimer(hwndDlg, BUTTON_POLLID, BUTTON_POLLDELAY, NULL);
+		SetTimer(hwnd, BUTTON_POLLID, BUTTON_POLLDELAY, NULL);
 		break;
 
 	case WM_TIMER: // use a timer to check if they have did a mouseout
 		if (wParam == BUTTON_POLLID) {
 			RECT rc;
-			GetWindowRect(hwndDlg, &rc);
+			GetWindowRect(hwnd, &rc);
 
 			POINT pt;
 			GetCursorPos(&pt);
 			if ( !PtInRect(&rc, pt)) { // mouse must be gone, trigger mouse leave
-				PostMessage(hwndDlg, WM_MOUSELEAVE, 0, 0L);
-				KillTimer(hwndDlg, BUTTON_POLLID);
+				PostMessage(hwnd, WM_MOUSELEAVE, 0, 0L);
+				KillTimer(hwnd, BUTTON_POLLID);
 		}	}
 		break;
 
@@ -610,11 +611,16 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		return 1;
 	}
 
-	return DefWindowProc(hwndDlg, msg, wParam, lParam);
+	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // Module load
+
+static INT_PTR GetButtonProc(WPARAM, LPARAM)
+{
+	return (INT_PTR)MButtonWndProc;
+}
 
 int LoadButtonModule(void)
 {
@@ -632,6 +638,7 @@ int LoadButtonModule(void)
 	wc.style = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
 
+	CreateServiceFunction("Button/GetWindowProc", GetButtonProc);
 	InitializeCriticalSection(&csTips);
 	return 0;
 }

@@ -14,6 +14,7 @@ int nextButtonId = 200;
 
 static HANDLE hTTBModuleLoaded, hTTBInitButtons;
 static TCHAR pluginname[] = _T("TopToolBar");
+static WNDPROC buttonWndProc;
 
 //------------ options -------------
 COLORREF bkColour;
@@ -648,6 +649,24 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	switch(msg) {
 	case WM_CREATE:
 		g_ctrl->hWnd = hwnd;
+
+		// if we're working in skinned clist, receive the standard buttons & customizations
+		if (g_CustomProc && g_ctrl->hWnd)
+			g_CustomProc(TTB_WINDOW_HANDLE, g_ctrl->hWnd, g_CustomProcParam);
+		{
+			CLISTFrame Frame = { 0 };
+			Frame.cbSize = sizeof(Frame);
+			Frame.tname = _T("Toolbar");
+			Frame.hWnd = hwnd;
+			Frame.align = alTop;
+			Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR | F_NO_SUBCONTAINER;
+			Frame.height = 18;
+			g_ctrl->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+		}
+		
+		// receive all buttons
+		NotifyEventHooks(hTTBInitButtons, 0, 0);
+		NotifyEventHooks(hTTBModuleLoaded, 0, 0);
 		return FALSE;
 
 	case WM_MOVE:
@@ -670,9 +689,6 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE|HTCAPTION, MAKELPARAM(pt.x, pt.y));
 		}
 		return 0;	
-
-	case WM_NOTIFY:
-		return 0;
 
 	case WM_COMMAND:
 		switch (HIWORD(wParam)) {
@@ -753,23 +769,6 @@ static INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 
 	ttbOptionsChanged();
 
-	// if we're working in skinned clist, receive the standard buttons & customizations
-	NotifyEventHooks(hTTBInitButtons, 0, 0);
-	if (g_CustomProc && g_ctrl->hWnd)
-		g_CustomProc(TTB_WINDOW_HANDLE, g_ctrl->hWnd, g_CustomProcParam);
-
-	// receive all another buttons
-	NotifyEventHooks(hTTBModuleLoaded, 0, 0);
-
-	CLISTFrame Frame = { 0 };
-	Frame.cbSize = sizeof(Frame);
-	Frame.tname = pluginname;
-	Frame.hWnd = g_ctrl->hWnd;
-	Frame.align = alTop;
-	Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR | F_NO_SUBCONTAINER;
-	Frame.height = 18;
-	g_ctrl->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
-
 	bEventFired = true;
 	return 0;
 }
@@ -823,6 +822,19 @@ int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static LRESULT CALLBACK TTBButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM lParam)
+{
+	LRESULT lResult = buttonWndProc(hwnd, msg, wParam, lParam);
+
+	if (msg == WM_NCCREATE) {
+		TopButtonInt* p = (TopButtonInt*)((CREATESTRUCT*)lParam)->lpCreateParams;
+		if (g_CustomProc)
+			g_CustomProc((HANDLE)p->id, hwnd, g_CustomProcParam);
+	}
+
+	return lResult;
+}
+
 int LoadToolbarModule()
 {
 	g_ctrl = (TTBCtrl*)mir_calloc( sizeof(TTBCtrl));
@@ -852,6 +864,17 @@ int LoadToolbarModule()
 	
 	CreateServiceFunction("TopToolBar/SetCustomProc", TTBSetCustomProc);
 	CreateServiceFunction("TTB_ONSTARTUPFIRE", OnEventFire);
+
+	buttonWndProc = (WNDPROC)CallService("Button/GetWindowProc",0,0);
+	WNDCLASSEX wc = {0};
+	wc.cbSize = sizeof(wc);
+	wc.lpszClassName = TTB_BUTTON_CLASS;
+	wc.lpfnWndProc = TTBButtonWndProc;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.cbWndExtra = sizeof(void*);
+	wc.hbrBackground = 0;
+	wc.style = CS_GLOBALCLASS;
+	RegisterClassEx(&wc);
 
 	g_ctrl->nButtonHeight = db_get_b(0, TTB_OPTDIR, "BUTTHEIGHT", DEFBUTTHEIGHT);
 	g_ctrl->nButtonWidth = db_get_b(0, TTB_OPTDIR, "BUTTWIDTH", DEFBUTTWIDTH);
