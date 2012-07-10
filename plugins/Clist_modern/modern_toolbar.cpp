@@ -291,9 +291,19 @@ void CustomizeToolbar(HWND hwnd)
 	TTBCtrlCustomize custData = { sizeof(ModernToolbarCtrl), toolbarWndProc };
 	SendMessage(hwnd, TTB_SETCUSTOM, 0, (LPARAM)&custData);
 
+	ModernToolbarCtrl* pMTBInfo = (ModernToolbarCtrl*)GetWindowLongPtr(hwnd, 0);
+
+	CLISTFrame Frame = { 0 };
+	Frame.cbSize = sizeof(Frame);
+	Frame.tname = _T("Toolbar");
+	Frame.hWnd = hwnd;
+	Frame.align = alTop;
+	Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR | F_NO_SUBCONTAINER;
+	Frame.height = 18;
+	pMTBInfo->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+
 	CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)hwnd,(LPARAM)ToolBar_LayeredPaintProc);
 
-	ModernToolbarCtrl* pMTBInfo = (ModernToolbarCtrl*)GetWindowLongPtr(hwnd, 0);
 	pMTBInfo->nLineCount = 1;
 	pMTBInfo->mtbXPTheme = xpt_AddThemeHandle(hwnd, L"TOOLBAR");
 }

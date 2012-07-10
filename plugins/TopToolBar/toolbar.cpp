@@ -649,24 +649,6 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	switch(msg) {
 	case WM_CREATE:
 		g_ctrl->hWnd = hwnd;
-
-		// if we're working in skinned clist, receive the standard buttons & customizations
-		if (g_CustomProc && g_ctrl->hWnd)
-			g_CustomProc(TTB_WINDOW_HANDLE, g_ctrl->hWnd, g_CustomProcParam);
-		{
-			CLISTFrame Frame = { 0 };
-			Frame.cbSize = sizeof(Frame);
-			Frame.tname = _T("Toolbar");
-			Frame.hWnd = hwnd;
-			Frame.align = alTop;
-			Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR | F_NO_SUBCONTAINER;
-			Frame.height = 18;
-			g_ctrl->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
-		}
-		
-		// receive all buttons
-		NotifyEventHooks(hTTBInitButtons, 0, 0);
-		NotifyEventHooks(hTTBModuleLoaded, 0, 0);
 		return FALSE;
 
 	case WM_MOVE:
@@ -762,10 +744,30 @@ static INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 	RegisterClass(&wndclass);
 
 	g_ctrl->pButtonList = (SortedList*)&Buttons;
-	g_ctrl->hWnd = CreateWindow(pluginname, pluginname, 
+	g_ctrl->hWnd = CreateWindow(pluginname, _T("Toolbar"), 
 		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 
 		0, 0, 0, 0, parent, NULL, hInst, NULL);
 	SetWindowLongPtr(g_ctrl->hWnd, 0, (LPARAM)g_ctrl);
+
+	// if we're working in skinned clist, receive the standard buttons & customizations
+	if (g_CustomProc && g_ctrl->hWnd)
+		g_CustomProc(TTB_WINDOW_HANDLE, g_ctrl->hWnd, g_CustomProcParam);
+
+	// if there's no customized frames, create our own
+	if (g_ctrl->hFrame == NULL) {
+		CLISTFrame Frame = { 0 };
+		Frame.cbSize = sizeof(Frame);
+		Frame.tname = _T("Toolbar");
+		Frame.hWnd = g_ctrl->hWnd;
+		Frame.align = alTop;
+		Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR;
+		Frame.height = 18;
+		g_ctrl->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+	}
+
+	// receive all buttons
+	NotifyEventHooks(hTTBInitButtons, 0, 0);
+	NotifyEventHooks(hTTBModuleLoaded, 0, 0);
 
 	ttbOptionsChanged();
 
