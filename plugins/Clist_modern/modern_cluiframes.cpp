@@ -351,7 +351,7 @@ FRAMEWND * FindFrameByItsHWND(HWND FrameHwnd)
 
 static void DockThumbs( FRAMEWND *pThumbLeft, FRAMEWND *pThumbRight, BOOL bMoveLeft )
 {
-	if ( ( pThumbRight->dockOpt.hwndLeft == NULL ) && ( pThumbLeft->dockOpt.hwndRight == NULL ))
+	if (( pThumbRight->dockOpt.hwndLeft == NULL ) && ( pThumbLeft->dockOpt.hwndRight == NULL ))
 	{
 		pThumbRight->dockOpt.hwndLeft	 = pThumbLeft->ContainerWnd;
 		pThumbLeft->dockOpt.hwndRight	 = pThumbRight->ContainerWnd;
@@ -361,7 +361,7 @@ static void DockThumbs( FRAMEWND *pThumbLeft, FRAMEWND *pThumbRight, BOOL bMoveL
 
 static void UndockThumbs( FRAMEWND *pThumb1, FRAMEWND *pThumb2 )
 {
-	if ( ( pThumb1 == NULL ) || ( pThumb2 == NULL ))
+	if (( pThumb1 == NULL ) || ( pThumb2 == NULL ))
 	{
 		return;
 	}
@@ -1001,7 +1001,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid,int root,int popuppos,HGEN
 
 static int ModifyMItem(WPARAM wParam,LPARAM lParam)
 {
-	if ( (int) wParam == -1 ) return 0;	   // FIXME
+	if ((int) wParam == -1 ) return 0;	   // FIXME
 
 	return ModifyMenuItemProxy(wParam,lParam);
 };
@@ -2348,7 +2348,7 @@ static int CLUIFramesResizeFrames(const RECT newsize)
 			if (((g_pfwFrames[i].align != alClient)) && (!g_pfwFrames[i].floating) && (g_pfwFrames[i].visible) && (!g_pfwFrames[i].needhide)) {
 				drawitems++;
 				curfrmtbh = (g_nTitleBarHeight+g_CluiData.nGapBetweenTitlebar)*btoint(g_pfwFrames[i].TitleBar.ShowTitleBar);
-				sumheight += (g_pfwFrames[i].height)+curfrmtbh+(i > 0 ? sepw : 0)+( (g_pfwFrames[i].UseBorder  && !g_CluiData.fLayered)?2:0);
+				sumheight += (g_pfwFrames[i].height)+curfrmtbh+(i > 0 ? sepw : 0)+((g_pfwFrames[i].UseBorder  && !g_CluiData.fLayered)?2:0);
 				if (sumheight>newheight-tbh) {
 					sumheight -= (g_pfwFrames[i].height)+curfrmtbh + (i > 0 ? sepw : 0);
 					g_pfwFrames[i].needhide = !g_CluiData.fDocked && g_CluiData.fAutoSize?FALSE:TRUE;
@@ -2458,7 +2458,7 @@ int CLUIFrames_ApplyNewSizes(int mode)
 	int i;
 	g_CluiData.mutexPreventDockMoving = 0;
 	for (i=0;i < g_nFramesCount;i++) {
-		if ( (mode == 1 && g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].OwnerWindow)  || 
+		if ((mode == 1 && g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].OwnerWindow)  || 
 			(mode == 2 && g_pfwFrames[i].OwnerWindow == (HWND)-2)  || 
 			(mode == 3))
 			if (g_pfwFrames[i].floating){
@@ -2946,7 +2946,7 @@ int DrawTitleBar(HDC hdcMem2,RECT * rect,int Frameid)
 		{
 			FillRect(hdcMem,&rc,hBack);
 			//SelectObject(hdcMem,hoBrush);
-			SkinDrawGlyph(hdcMem,&rc,&rc,"Main,ID = FrameCaption");
+			SkinDrawGlyph(hdcMem,&rc,&rc,"Main,ID=FrameCaption");
 		}
 		else
 		{
@@ -2967,7 +2967,7 @@ int DrawTitleBar(HDC hdcMem2,RECT * rect,int Frameid)
 				ske_BltBackImage(g_pfwFrames[pos].TitleBar.hwnd,hdcMem,&rc);
 			}
 			else  BitBlt(hdcMem,0,0,rc.right-rc.left,rc.bottom-rc.top,hdcMem2,rect->left,rect->top,SRCCOPY);
-			SkinDrawGlyph(hdcMem,&rc,&rc,"Main,ID = FrameCaption");
+			SkinDrawGlyph(hdcMem,&rc,&rc,"Main,ID=FrameCaption");
 		}
 		if (bThemed)
 			SetTextColor(hdcMem,GetSysColor(COLOR_CAPTIONTEXT ));

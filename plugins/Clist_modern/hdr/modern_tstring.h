@@ -21,7 +21,7 @@ public:
 
 		
 	mbstring( const wstring&  tStr )	{ *this = tStr.c_str(); }
-	mbstring& operator=( const wstring&  tStr  )	{ this->operator =( tStr.c_str() ); return *this; }
+	mbstring& operator=( const wstring&  tStr  )	{ this->operator =( tStr.c_str()); return *this; }
 
 	mbstring( const wchar_t * wChar );
 	mbstring& operator=( const astring&  aStr  );
@@ -46,7 +46,7 @@ public:
 	tstring& operator=( const astring& aStr );
 	tstring& operator=( const mbstring& uStr );
 	operator astring();
-	operator mbstring()					{  return mbstring( this->c_str() ); }
+	operator mbstring()					{  return mbstring( this->c_str()); }
 };
 
 #else

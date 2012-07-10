@@ -153,7 +153,7 @@ static HRESULT SubclassClistInterface()
 {
 	// get the contact list interface
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
-	if ( (INT_PTR)pcli == CALLSERVICE_NOTFOUND || pcli->version < 6 )
+	if ((INT_PTR)pcli == CALLSERVICE_NOTFOUND || pcli->version < 6 )
 	{
 		MessageBoxA( NULL, "This version of plugin requires Miranda IM " MINIMAL_COREVERSION_STR " or later", "Fatal error", MB_OK );
 		return TRUE;

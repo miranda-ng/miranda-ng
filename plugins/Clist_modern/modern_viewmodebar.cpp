@@ -32,6 +32,8 @@ $Id: viewmodes.c 2998 2006-06-01 07:11:52Z nightwish2004 $
 
 #define TIMERID_VIEWMODEEXPIRE 100
 
+void MakeButtonSkinned(HWND hWnd);
+
 typedef int (__cdecl *pfnEnumCallback)(char *szName);
 static HWND clvmHwnd = 0;
 static int clvm_curItem = 0;
@@ -64,7 +66,7 @@ static int DrawViewModeBar(HWND hWnd, HDC hDC)
 {
 	RECT rc;
 	GetClientRect(hWnd, &rc);
-	SkinDrawGlyph(hDC,&rc,&rc,"ViewMode,ID = Background");
+	SkinDrawGlyph(hDC,&rc,&rc,"ViewMode,ID=Background");
 	return 0;
 }
 
@@ -1042,10 +1044,10 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	switch(msg) {
 	case WM_CREATE:
 		{
-			HWND hwndButton;
 			RECT rcMargins = {12,0,2,0};
-			hwndSelector = CreateWindow( SKINBUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP , 0, 0, 20, 20, 
+			hwndSelector = CreateWindow( MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP , 0, 0, 20, 20, 
 				hwnd, (HMENU) IDC_SELECTMODE, g_hInst, NULL);
+			MakeButtonSkinned(hwndSelector);
 			SendMessage(hwndSelector, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select a view mode"), 0);
 			SendMessage(hwndSelector, BUTTONSETMARGINS,0 ,(LPARAM) &rcMargins);			
 			SendMessage(hwndSelector, BUTTONSETID,0 ,(LPARAM) "ViewMode.Select" );			
@@ -1055,15 +1057,17 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			SendMessage(hwndSelector, BUTTONSETSENDONDOWN, 0 ,(LPARAM) 1 );	
 
 			//SendMessage(hwndSelector, BM_SETASMENUACTION, 1, 0);
-			hwndButton = CreateWindow( SKINBUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, 
+			HWND hwndButton = CreateWindow( MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, 
 				hwnd, (HMENU) IDC_CONFIGUREMODES, g_hInst, NULL);
+			MakeButtonSkinned(hwndButton);
 			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Setup view modes"), 0);
 			SendMessage(hwndButton, BUTTONSETID,0 ,(LPARAM) "ViewMode.Setup" );	
 			SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0 );
 			SendMessage(hwndButton, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 
-			hwndButton = CreateWindow( SKINBUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, 
+			hwndButton = CreateWindow( MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, 
 				hwnd, (HMENU) IDC_RESETMODES, g_hInst, NULL);
+			MakeButtonSkinned(hwndButton);
 			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear view mode and return to default display"), 0);
 			SendMessage(hwndButton, BUTTONSETID,0 ,(LPARAM) "ViewMode.Clear" );	
 			SendMessage(hwnd, WM_USER + 100, 0, 0);
@@ -1085,8 +1089,9 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_SELECTMODE), 0,
 				1, 1, rcCLVMFrame.right - 46, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
 			EndDeferWindowPos(PosBatch);
-			break;
 		}
+		break;
+
 	case WM_USER + 100:
 		SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), MBM_SETICOLIBHANDLE, 0,
 			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_reset", "Contact List",Translate("Reset view mode"), _T("clisticons.dll"),9, g_hInst, IDI_RESETVIEW ));
@@ -1112,8 +1117,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			}
 		}
 
-		if (g_CluiData.bFilterEffective)
-		{
+		if (g_CluiData.bFilterEffective) {
 			TCHAR * temp;
 			//temp = alloca((strlen(szSetting)+1)*sizeof(TCHAR));
 			mir_utf8decode(g_CluiData.current_viewmode,&temp);
@@ -1122,35 +1126,21 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				mir_free(temp);
 			}
 		}
-		else
-			SetWindowText(GetDlgItem(hwnd, IDC_SELECTMODE), TranslateT("All contacts"));
+		else SetWindowText(GetDlgItem(hwnd, IDC_SELECTMODE), TranslateT("All contacts"));
 		break;
+
 	case WM_ERASEBKGND:
 		if (g_CluiData.fDisableSkinEngine)
 			return sttDrawViewModeBackground(hwnd, (HDC)wParam, NULL);
 		else
 			return 0;
+
 	case WM_NCPAINT:
 	case WM_PAINT:
-		/*if ( g_CluiData.fDisableSkinEngine )
-		{
-		PAINTSTRUCT ps;
-		HDC	hdc = BeginPaint(hwnd,&ps);
-		if (hdc)
-		{
-		HBRUSH br = GetSysColorBrush(COLOR_3DFACE);
-		FillRect(hdc,&ps.rcPaint,br);
-		}
-		EndPaint(hwnd,&ps);
-		}
-		else
-		*/
 		if (GetParent(hwnd) == pcli->hwndContactList && g_CluiData.fLayered)				
-		{
 			ValidateRect(hwnd,NULL);
-		}
-		else if (GetParent(hwnd) != pcli->hwndContactList || !g_CluiData.fLayered)
-		{
+
+		else if (GetParent(hwnd) != pcli->hwndContactList || !g_CluiData.fLayered) {
 			HDC hdc, hdc2;
 			HBITMAP hbmp,hbmpo;
 			RECT rc = {0};
@@ -1163,39 +1153,29 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			hbmpo = (HBITMAP)SelectObject(hdc2,hbmp);
 
 			if ( g_CluiData.fDisableSkinEngine )
-			{
 				sttDrawViewModeBackground( hwnd, hdc2, &rc );
-			}
-			else
-			{
-				if (GetParent(hwnd) != pcli->hwndContactList)
-				{
+			else {
+				if (GetParent(hwnd) != pcli->hwndContactList) {
 					HBRUSH br = GetSysColorBrush(COLOR_3DFACE);
 					FillRect(hdc2,&rc,br);
 				}
-				else
-					ske_BltBackImage(hwnd,hdc2,&rc);
+				else ske_BltBackImage(hwnd,hdc2,&rc);
 
 				DrawViewModeBar(hwnd,hdc2);	
 			}
 
-			{
-				int i;
-				for (i=0; _buttons[i] != 0; i++)
-				{
-					RECT childRect;
-					RECT MyRect;
-					POINT Offset;
-					GetWindowRect(hwnd,&MyRect);
-					GetWindowRect(GetDlgItem(hwnd, _buttons[i]),&childRect);
-					Offset.x = childRect.left-MyRect.left;;
-					Offset.y = childRect.top-MyRect.top;
-					SendMessage(GetDlgItem(hwnd, _buttons[i]),BUTTONDRAWINPARENT,(WPARAM)hdc2,(LPARAM)&Offset);
-
-				}
+			for (int i=0; _buttons[i] != 0; i++) {
+				RECT childRect;
+				RECT MyRect;
+				POINT Offset;
+				GetWindowRect(hwnd,&MyRect);
+				GetWindowRect(GetDlgItem(hwnd, _buttons[i]),&childRect);
+				Offset.x = childRect.left-MyRect.left;;
+				Offset.y = childRect.top-MyRect.top;
+				SendMessage(GetDlgItem(hwnd, _buttons[i]),BUTTONDRAWINPARENT,(WPARAM)hdc2,(LPARAM)&Offset);
 			}
-			BitBlt(hdc,rc.left,rc.top,rc.right-rc.left,rc.bottom-rc.top,
-				hdc2,rc.left,rc.top,SRCCOPY);
+
+			BitBlt(hdc,rc.left,rc.top,rc.right-rc.left,rc.bottom-rc.top,hdc2,rc.left,rc.top,SRCCOPY);
 			SelectObject(hdc2,hbmpo);
 			DeleteObject(hbmp);
 			mod_DeleteDC(hdc2);
@@ -1213,81 +1193,72 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return 0;
 
 	case WM_TIMER:
-		switch(wParam) {
-		case TIMERID_VIEWMODEEXPIRE:
-			{
-				POINT pt;
-				RECT rcCLUI;
+		if (wParam == TIMERID_VIEWMODEEXPIRE) {
+			POINT pt;
+			RECT rcCLUI;
 
-				GetWindowRect(pcli->hwndContactList, &rcCLUI);
-				GetCursorPos(&pt);
-				if (PtInRect(&rcCLUI, pt))
-					break;
-
-				KillTimer(hwnd, wParam);
-				if ( !g_CluiData.old_viewmode[0])
-					SendMessage(hwnd, WM_COMMAND, IDC_RESETMODES, 0);
-				else
-					ApplyViewMode((const char *)g_CluiData.old_viewmode);
+			GetWindowRect(pcli->hwndContactList, &rcCLUI);
+			GetCursorPos(&pt);
+			if (PtInRect(&rcCLUI, pt))
 				break;
-			}
+
+			KillTimer(hwnd, wParam);
+			if ( !g_CluiData.old_viewmode[0])
+				SendMessage(hwnd, WM_COMMAND, IDC_RESETMODES, 0);
+			else
+				ApplyViewMode((const char *)g_CluiData.old_viewmode);
 		}
 		break;
 
 	case WM_COMMAND:
-		{
-			switch(LOWORD(wParam)) {
-			case IDC_SELECTMODE:
+		switch(LOWORD(wParam)) {
+		case IDC_SELECTMODE:
+			{
+				RECT rc;
+				POINT pt;
+				int selection;
+				MENUITEMINFO mii = {0};
+				TCHAR szTemp[256];
+
+				BuildViewModeMenu();
+				GetWindowRect((HWND)lParam, &rc);
+				pt.x = rc.left;
+				pt.y = rc.bottom;
+				selection = TrackPopupMenu(hViewModeMenu,TPM_RETURNCMD|TPM_TOPALIGN|TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, GetParent(hwnd), NULL);
+				PostMessage(hwnd, WM_NULL, 0, 0);
+				if (selection)
 				{
-					RECT rc;
-					POINT pt;
-					int selection;
-					MENUITEMINFO mii = {0};
-					TCHAR szTemp[256];
 
-					BuildViewModeMenu();
-					//GetWindowRect(GetDlgItem(hwnd, IDC_SELECTMODE), &rc);
-					GetWindowRect((HWND)lParam, &rc);
-					pt.x = rc.left;
-					pt.y = rc.bottom;
-					selection = TrackPopupMenu(hViewModeMenu,TPM_RETURNCMD|TPM_TOPALIGN|TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, GetParent(hwnd), NULL);
-					PostMessage(hwnd, WM_NULL, 0, 0);
-					if (selection)
-					{
+					if (selection == 10001)
+						goto clvm_config_command;
+					else if (selection == 10002)
+						goto clvm_reset_command;
 
-						if (selection == 10001)
-							goto clvm_config_command;
-						else if (selection == 10002)
-							goto clvm_reset_command;
+					mii.cbSize = sizeof(mii);
+					mii.fMask = MIIM_STRING;
+					mii.dwTypeData = szTemp;
+					mii.cch = 256;
+					GetMenuItemInfo(hViewModeMenu, selection, FALSE, &mii);
 
-						mii.cbSize = sizeof(mii);
-						mii.fMask = MIIM_STRING;
-						mii.dwTypeData = szTemp;
-						mii.cch = 256;
-						GetMenuItemInfo(hViewModeMenu, selection, FALSE, &mii);
-
-						char * temp = mir_utf8encodeT(szTemp);
-						ApplyViewMode(temp);
-						if (temp)
-							mir_free(temp);
-					}
-					break;
+					char * temp = mir_utf8encodeT(szTemp);
+					ApplyViewMode(temp);
+					if (temp)
+						mir_free(temp);
 				}
-			case IDC_RESETMODES:
-clvm_reset_command:
-				ApplyViewMode( "" );
 				break;
-			case IDC_CONFIGUREMODES:
-				{
-clvm_config_command:
-					if ( !g_ViewModeOptDlg)
-						CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPT_VIEWMODES), 0, DlgProcViewModesSetup, 0);
-					break;
-				}
 			}
+		case IDC_RESETMODES:
+clvm_reset_command:
+			ApplyViewMode( "" );
 			break;
 
+		case IDC_CONFIGUREMODES:
+clvm_config_command:
+			if ( !g_ViewModeOptDlg)
+				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPT_VIEWMODES), 0, DlgProcViewModesSetup, 0);
+			break;
 		}
+
 	default:
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
@@ -1378,7 +1349,6 @@ void CreateViewModeFrame()
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
 	wndclass.hInstance = g_hInst;
-	//wndclass.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH) GetSysColorBrush(COLOR_3DFACE);
 	wndclass.lpszMenuName = 0;
@@ -1580,7 +1550,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 		}
 	}
 
-	TCHAR * temp = mir_utf8decodeW( ( name[0] == (char)13 ) ? name + 1 : name );
+	TCHAR * temp = mir_utf8decodeW(( name[0] == (char)13 ) ? name + 1 : name );
 	SetWindowText(hwndSelector, temp);
 	mir_free(temp);
 

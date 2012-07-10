@@ -234,16 +234,16 @@ void SetAppropriateGroups(HWND hwndDlg, int Type)
 void SetControls(HWND hwndDlg, char * str)
 {
 	char buf[250];
-	int Type = 0;
+	int Type=0;
 	if ( !str)
 	{
 		SetAppropriateGroups(hwndDlg,-1); 
 		return;
 	}
 	GetParamN(str,buf,SIZEOF(buf),1,',',TRUE);
-	if (mir_bool_strcmpi(buf,"Solid")) Type = 1;
-	else if (mir_bool_strcmpi(buf,"Image")) Type = 2;
-	else if (mir_bool_strcmpi(buf,"Fragment")) Type = 3;
+	if (mir_bool_strcmpi(buf,"Solid")) Type=1;
+	else if (mir_bool_strcmpi(buf,"Image")) Type=2;
+	else if (mir_bool_strcmpi(buf,"Fragment")) Type=3;
 	SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_SETCURSEL,(WPARAM)Type,(LPARAM)0);
 	SetAppropriateGroups(hwndDlg,Type);
 	switch (Type)

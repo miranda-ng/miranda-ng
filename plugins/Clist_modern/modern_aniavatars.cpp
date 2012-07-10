@@ -195,7 +195,7 @@ int AniAva_InitModule()
 	memset(&AniAva,0,sizeof(AniAva));
 	if (g_CluiData.fGDIPlusFail) return 0;
 	if ( !( db_get_b(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail))
-		 &&  db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT)) ) return 0;
+		 &&  db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT))) return 0;
 	{
 		WNDCLASSEX wc;
 		ZeroMemory(&wc, sizeof(wc));
@@ -882,7 +882,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 				DeleteObject(hRgn);
 			}
 
-			if ( ( AniAva.bFlags & AAO_HAS_OVERLAY )
+			if (( AniAva.bFlags & AAO_HAS_OVERLAY )
 				  && ( dat->overlayIconIdx != -1 )
 				  && ( AniAva.overlayIconImageList ))
 			{
@@ -1000,7 +1000,7 @@ static void _AniAva_LoadOptions()
 		AniAva.bFlags = (db_get_b(NULL,"CList","AvatarsDrawBorders",SETTINGS_AVATARDRAWBORDER_DEFAULT)?	AAO_HAS_BORDER		:0) |
 			(db_get_b(NULL,"CList","AvatarsRoundCorners",SETTINGS_AVATARROUNDCORNERS_DEFAULT)?	AAO_ROUND_CORNERS	:0) |	
 			(db_get_b(NULL,"CList","AvatarsDrawOverlay",SETTINGS_AVATARDRAWOVERLAY_DEFAULT)?	AAO_HAS_OVERLAY		:0) |
-			( (0) ? AAO_OPAQUE :0);
+			((0) ? AAO_OPAQUE :0);
 
 		if (AniAva.bFlags & AAO_HAS_BORDER)
 			AniAva.borderColor = (COLORREF)db_get_dw(NULL,"CList","AvatarsBorderColor",SETTINGS_AVATARBORDERCOLOR_DEFAULT);;

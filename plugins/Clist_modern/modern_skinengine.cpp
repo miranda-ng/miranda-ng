@@ -189,7 +189,7 @@ HRESULT IniParser::WriteStrToDb( const char * szSection, const char * szName, co
 		//TODO check security here
 		if ( wildcmp( szSection,"Skin_Description_Section",1 )) return S_OK;
 	}
-	if ( ( This->_Flags == IniParser::FLAG_ONLY_OBJECTS ) && !wildcmp( szSection, DEFAULTSKINSECTION,1 ))
+	if (( This->_Flags == IniParser::FLAG_ONLY_OBJECTS ) && !wildcmp( szSection, DEFAULTSKINSECTION,1 ))
 		return S_OK;					 // skip not objects
 
 
@@ -335,7 +335,7 @@ HRESULT IniParser::_DoParseResource()
 		int i=0;
 		while ( pos < _pPosition + _dwSizeOfRes && *pos != '\n' && *pos != '\0' && i < MAX_LINE_LEN - 1 )
 		{
-			if ( (*pos) != '\r' )
+			if ((*pos) != '\r' )
 				szLine[ i++ ] = *pos;
 			pos++;
 		}
@@ -2235,7 +2235,7 @@ int ske_UnloadSkin(SKINOBJECTSLIST * Skin)
 static void RegisterMaskByParce(const char * szSetting, char * szValue, SKINOBJECTSLIST * pSkin)
 {
 	int i;
-	DWORD ID = atoi(szSetting+1);
+	DWORD ID=atoi(szSetting+1);
 	for (i=0; i < mir_strlen(szValue); i++)  if (szValue[i] == ':') break;
 	if (i < mir_strlen(szValue))
 	{
@@ -2666,8 +2666,8 @@ static BOOL ske_DrawTextEffect(BYTE* destPt,BYTE* maskPt, DWORD width, DWORD hei
 	{
 		minX = max( 0,           minX + mcLeftStart - 2 );
 		minY = max( 0,           minY + mcTopStart  - 2 );
-		maxX = min( (int)width,  maxX + mcRightEnd  - 1 );
-		maxY = min( (int)height, maxY + mcBottomEnd - 1 );
+		maxX = min((int)width,  maxX + mcRightEnd  - 1 );
+		maxY = min((int)height, maxY + mcBottomEnd - 1 );
 
 		outbuf = (sbyte*)malloc(width*height*sizeof(sbyte));
 		memset(outbuf,0,width*height*sizeof(sbyte));
@@ -2767,7 +2767,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 
 		for ( int i=0; i < 256; i++ )
 		{
-			gammaTbl[i] = (BYTE)( 255 * pow( (double)i / 255, gammaCfPw ));
+			gammaTbl[i] = (BYTE)( 255 * pow((double)i / 255, gammaCfPw ));
 			blueMulTbl[i] = i * blueCf;
 			redMulTbl[i] = i * redCf;
 			greenMulTbl[i] = i * greenCf;
@@ -2818,7 +2818,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 	BOOL bNeedFreeWorkString = FALSE;
 
 	// if we need to cut the text with ellipsis
-	if ( ( format&DT_END_ELLIPSIS ) && textSize.cx > workRectWidth )
+	if (( format&DT_END_ELLIPSIS ) && textSize.cx > workRectWidth )
 	{
 		// Calc geometric width of ellipsis
 		SIZE szEllipsis;
@@ -2841,10 +2841,10 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 
 		// replace end of string by elipsis
 		bNeedFreeWorkString = TRUE;
-		lpWorkString = (TCHAR*) malloc( ( visibleCharCount + 4) * sizeof(TCHAR));
+		lpWorkString = (TCHAR*) malloc(( visibleCharCount + 4) * sizeof(TCHAR));
 
-		memcpy( (void*) lpWorkString, lpString, visibleCharCount * sizeof(TCHAR));
-		memcpy( (void*) ( lpWorkString + visibleCharCount ), _T("..."), 4 * sizeof(TCHAR)); // 3 + 1
+		memcpy((void*) lpWorkString, lpString, visibleCharCount * sizeof(TCHAR));
+		memcpy((void*) ( lpWorkString + visibleCharCount ), _T("..."), 4 * sizeof(TCHAR)); // 3 + 1
 
 		nCount = visibleCharCount + 3;
 	}
@@ -2967,12 +2967,12 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 							gx *= al/255;
 							rx *= al/255;
 						}
-						BYTE ax = (BYTE)( ( (DWORD)rx*77 + (DWORD)gx * 151 + (DWORD)bx *28 + 128 ) / 256 );
+						BYTE ax = (BYTE)(( (DWORD)rx*77 + (DWORD)gx * 151 + (DWORD)bx *28 + 128 ) / 256 );
 
 						if (ax)
 						{
 							//Normalize components to gray
-							BYTE axx = 255 - ( ( r + g + b ) >> 2 ) ; // Coefficient of grayance, more white font - more gray edges
+							BYTE axx = 255 - (( r + g + b ) >> 2 ) ; // Coefficient of grayance, more white font - more gray edges
 							WORD atx = ax * (255 - axx);
 							bx = ( atx + bx * axx )/255;
 							gx = ( atx + gx * axx )/255;
@@ -3013,7 +3013,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 		free( pDestBits );
 
 	if ( bNeedFreeWorkString )
-		free( (void*)lpWorkString );
+		free((void*)lpWorkString );
 
 	return 0;
 }
@@ -3677,13 +3677,13 @@ static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting) 
 			BitBlt(g_pCachedWindow->hImageDC,rLine.left,rLine.top,rLine.right-rLine.left,rLine.bottom-rLine.top,g_pCachedWindow->hBackDC,rLine.left,rLine.top,SRCCOPY);
 			{
 				char req[255];
-				_snprintf(req,sizeof(req),"Main,ID = ScrollBar,Frame = %s,Part = Back",Frame->szName);
+				_snprintf(req,sizeof(req),"Main,ID=ScrollBar,Frame=%s,Part=Back",Frame->szName);
 				SkinDrawGlyph(g_pCachedWindow->hImageDC,&rLine,&rLine,req);
-				_snprintf(req,sizeof(req),"Main,ID = ScrollBar,Frame = %s,Part = Thumb",Frame->szName);
+				_snprintf(req,sizeof(req),"Main,ID=ScrollBar,Frame=%s,Part=Thumb",Frame->szName);
 				SkinDrawGlyph(g_pCachedWindow->hImageDC,&rThumb,&rThumb,req);
-				_snprintf(req,sizeof(req),"Main,ID = ScrollBar,Frame = %s,Part = UpLineButton",Frame->szName);
+				_snprintf(req,sizeof(req),"Main,ID=ScrollBar,Frame=%s,Part=UpLineButton",Frame->szName);
 				SkinDrawGlyph(g_pCachedWindow->hImageDC,&rUpBtn,&rUpBtn,req);
-				_snprintf(req,sizeof(req),"Main,ID = ScrollBar,Frame = %s,Part = DownLineButton",Frame->szName);
+				_snprintf(req,sizeof(req),"Main,ID=ScrollBar,Frame=%s,Part=DownLineButton",Frame->szName);
 				SkinDrawGlyph(g_pCachedWindow->hImageDC,&rDnBtn,&rDnBtn,req);
 			}
 		}
@@ -3777,7 +3777,7 @@ int ske_ReCreateBackImage(BOOL Erase,RECT *w)
 		DeleteObject(g_pCachedWindow->hBackDIB);
 		g_pCachedWindow->hBackDIB = hb2;
 		FillRect(g_pCachedWindow->hBackDC,&wnd,GetSysColorBrush(COLOR_BTNFACE));
-		SkinDrawGlyph(g_pCachedWindow->hBackDC,&wnd,&wnd,"Main,ID = Background,Opt = Non-Layered");
+		SkinDrawGlyph(g_pCachedWindow->hBackDC,&wnd,&wnd,"Main,ID=Background,Opt=Non-Layered");
 		ske_SetRectOpaque(g_pCachedWindow->hBackDC,&wnd);
 	}
 	return 1;
@@ -3802,7 +3802,7 @@ int ske_DrawNonFramedObjects(BOOL Erase,RECT *r)
 		g_pCachedWindow->hBackDIB = hb2;
 	}
 
-	SkinDrawGlyph(g_pCachedWindow->hBackDC,&w,&w,"Main,ID = Background");
+	SkinDrawGlyph(g_pCachedWindow->hBackDC,&w,&w,"Main,ID=Background");
 	//--Draw frames captions
 	{
 		int i;

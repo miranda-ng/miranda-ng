@@ -177,7 +177,7 @@ int   CLCPaint::GetBasicFontID( struct ClcContact * contact )
 	case CLCIT_CONTACT:
 		if ( contact->flags & CONTACTF_NOTONLIST )
 			return FONTID_NOTONLIST;
-		else if ( ( contact->flags&CONTACTF_INVISTO
+		else if (( contact->flags&CONTACTF_INVISTO
 			&&  _GetRealStatus( contact, ID_STATUS_OFFLINE ) != ID_STATUS_INVISIBLE )
 			|| 
 			( contact->flags&CONTACTF_VISTO
@@ -280,8 +280,8 @@ void  CLCPaint::AddParam( MODERNMASK * mpModernMask, DWORD dwParamHash, const ch
 }
 BOOL  CLCPaint::CheckMiniMode( struct ClcData *dat, BOOL selected, BOOL hot )
 {
-	if ( ( !dat->bCompactMode /* not mini*/ ) 
-		|| ( ( dat->bCompactMode&0x01 ) && selected /*mini on selected*/ ) 
+	if (( !dat->bCompactMode /* not mini*/ ) 
+		|| (( dat->bCompactMode&0x01 ) && selected /*mini on selected*/ ) 
 		/* || ( TRUE && hot )*/ ) return FALSE;
 	return TRUE;
 }
@@ -429,7 +429,7 @@ RECT  CLCPaint::_GetRectangle( struct ClcData *dat, RECT *row_rc, RECT *free_row
 		}
 		else
 		{
-			rc.left = max( rc.left + horizontal_space, rc.right - width_tmp )  + ( ( width_tmp - real_width ) >> 1 );
+			rc.left = max( rc.left + horizontal_space, rc.right - width_tmp )  + (( width_tmp - real_width ) >> 1 );
 			rc.right = min( rc.left + real_width, rc.right );
 			rc.top  += max( 0, ( rc.bottom - rc.top - height ) >> 1 );
 			rc.bottom = min( rc.top + height, rc.bottom );
@@ -530,7 +530,7 @@ void  CLCPaint::_DrawTextSmiley( HDC hdcMem, RECT * free_rc, SIZE * text_size, T
 							text_rc.top  += ( row_height - fac_height ) >> 1;
 
 							ske_DrawIconEx( hdcMem, text_rc.left, text_rc.top, piece->smiley, 
-								fac_width, fac_height, 0, NULL, DI_NORMAL|( ( factor < 1 )?128:0 )); //TO DO enchance drawing quality
+								fac_width, fac_height, 0, NULL, DI_NORMAL|(( factor < 1 )?128:0 )); //TO DO enchance drawing quality
 						}
 						else
 						{
@@ -753,7 +753,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 				COLORREF colourFg;
 				int mode;
 				RECT p_rect = {0};
-				p_rect.top = fr_rc.top+( ( fr_rc.bottom-fr_rc.top-ICON_HEIGHT )>>1 );
+				p_rect.top = fr_rc.top+(( fr_rc.bottom-fr_rc.top-ICON_HEIGHT )>>1 );
 				p_rect.left = fr_rc.left;
 				p_rect.right = p_rect.left+ICON_HEIGHT;
 				p_rect.bottom = p_rect.top+ICON_HEIGHT;
@@ -789,12 +789,12 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 		//2 draw extra
 		{
 			RECT p_rect = {0};
-			p_rect.top = fr_rc.top+( ( fr_rc.bottom-fr_rc.top-ICON_HEIGHT )>>1 );
+			p_rect.top = fr_rc.top+(( fr_rc.bottom-fr_rc.top-ICON_HEIGHT )>>1 );
 			//p_rect.left = fr_rc.left;
 			//p_rect.right = p_rect.left+ICON_HEIGHT;
 			p_rect.bottom = p_rect.top+ICON_HEIGHT;
 
-			if ( ( Drawing->type == CLCIT_GROUP || Drawing->type == CLCIT_CONTACT || Drawing->type == CLCIT_INFO )
+			if (( Drawing->type == CLCIT_GROUP || Drawing->type == CLCIT_CONTACT || Drawing->type == CLCIT_INFO )
 				&& dat->extraColumnsCount > 0 && ( !InClistWindow || Drawing->type == CLCIT_CONTACT ))
 			{
 				int BlendedInActiveState = dat->dbbBlendInActiveState;
@@ -906,8 +906,8 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 						else
 						{
 							countRect.right = nameRect.right;
-							countRect.left = countRect.right-( ( count_size.cx>0 )?( count_size.cx-space_width ):0 );
-							nameRect.right = countRect.left-( ( count_size.cx>0 )?space_width:0 );
+							countRect.left = countRect.right-(( count_size.cx>0 )?( count_size.cx-space_width ):0 );
+							nameRect.right = countRect.left-(( count_size.cx>0 )?space_width:0 );
 							nameRect.left = nameRect.right-text_size.cx;
 						}
 
@@ -1038,7 +1038,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 				Drawing->pos_rename_rect = rc;
 			}
 
-			if ( ( !InClistWindow || !g_CluiData.fLayered ) &&  ( ( Drawing->type == CLCIT_DIVIDER ) || ( Drawing->type == CLCIT_GROUP && dat->exStyle&CLS_EX_LINEWITHGROUPS )) )
+			if (( !InClistWindow || !g_CluiData.fLayered ) &&  (( Drawing->type == CLCIT_DIVIDER ) || ( Drawing->type == CLCIT_GROUP && dat->exStyle&CLS_EX_LINEWITHGROUPS )))
 			{
 				//???
 				RECT rc = fr_rc;
@@ -1051,7 +1051,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 					rc.left = text_rect.right+3;
 				if ( rc.right-rc.left>4 )
 				{
-					rc.top += ( ( rc.bottom-rc.top )>>1 )-1;
+					rc.top += (( rc.bottom-rc.top )>>1 )-1;
 					rc.bottom = rc.top+2;
 					DrawEdge( hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT );
 					ske_SetRectOpaque( hdcMem, &rc );
@@ -1062,11 +1062,11 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 		return;
 	}
 	minheight = max( minheight, height );
-	dy += ( minheight>height )?( ( minheight-height )>>1 ):0;
+	dy += ( minheight>height )?(( minheight-height )>>1 ):0;
 	// Call Placement
 	cppCalculateRowItemsPos( gl_RowRoot, free_row_rc.right-free_row_rc.left );
 	// Now paint
-	while ( ( gl_RowTabAccess[i] != NULL || ( i < 2 && Drawing->type == CLCIT_GROUP )) && !( i >= 2 && Drawing->type == CLCIT_GROUP ))
+	while (( gl_RowTabAccess[i] != NULL || ( i < 2 && Drawing->type == CLCIT_GROUP )) && !( i >= 2 && Drawing->type == CLCIT_GROUP ))
 	{
 
 		if ( gl_RowTabAccess[i]->r.right-gl_RowTabAccess[i]->r.left>0
@@ -1157,8 +1157,8 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 								else
 								{
 									countRect.right = nameRect.right;
-									countRect.left = countRect.right-( ( count_size.cx>0 )?( count_size.cx-space_width ):0 );
-									nameRect.right = countRect.left-( ( count_size.cx>0 )?space_width:0 );
+									countRect.left = countRect.right-(( count_size.cx>0 )?( count_size.cx-space_width ):0 );
+									nameRect.right = countRect.left-(( count_size.cx>0 )?space_width:0 );
 									nameRect.left = nameRect.right-text_size.cx;
 								}
 
@@ -1267,13 +1267,13 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 			case TC_STATUS:
 				{
 
-					if ( ( Drawing->type == CLCIT_GROUP && !dat->row_hide_group_icon )
+					if (( Drawing->type == CLCIT_GROUP && !dat->row_hide_group_icon )
 						|| ( Drawing->type == CLCIT_CONTACT && Drawing->iImage != -1
 						&& !( dat->icon_hide_on_avatar && dat->avatars_show
-						&& ( ( dat->use_avatar_service && Drawing->avatar_data != NULL )  || 
+						&& (( dat->use_avatar_service && Drawing->avatar_data != NULL )  || 
 						( !dat->use_avatar_service && Drawing->avatar_pos != AVATAR_POS_DONT_HAVE )
 						)
-						&& !Drawing->image_is_special )) )
+						&& !Drawing->image_is_special )))
 					{
 						int iImage = -1;
 						// Get image
@@ -1801,9 +1801,9 @@ int CLCPaint::_DetermineDrawMode( HWND hWnd, struct ClcData *dat )
 
 	LONG lStyle = GetWindowLongPtr( hWnd, GWL_STYLE );
 	int  nStatus = _GetGeneralisedStatus();
-	if ( ( lStyle & WS_DISABLED )
+	if (( lStyle & WS_DISABLED )
 		|| ( dat->greyoutFlags & pcli->pfnClcStatusToPf2( nStatus ))
-		|| ( ( dat->greyoutFlags & GREYF_UNFOCUS) && ( GetFocus() != hWnd )) )
+		|| (( dat->greyoutFlags & GREYF_UNFOCUS) && ( GetFocus() != hWnd )))
 		paintMode |= DM_GRAY;
 
 	if ( lStyle&CLS_GREYALTERNATE )
@@ -1857,7 +1857,7 @@ void CLCPaint::_PreparePaintContext( HWND hWnd, struct ClcData * dat, HDC hdc, i
 		BYTE bgValue = ( gValue >255) ? 255 : gValue < 0 ? 0 : (BYTE)gValue; 
 		BYTE bbValue = ( bValue >255) ? 255 : bValue < 0 ? 0 : (BYTE)bValue; 
 
-		pc.hBrushAlternateGrey = CreateSolidBrush( GetNearestColor( pc.hdcMem, RGB( brValue, bgValue, bbValue )) );
+		pc.hBrushAlternateGrey = CreateSolidBrush( GetNearestColor( pc.hdcMem, RGB( brValue, bgValue, bbValue )));
 	}
 
 	// Set some draw states
@@ -1871,32 +1871,29 @@ void CLCPaint::_PreparePaintContext( HWND hWnd, struct ClcData * dat, HDC hdc, i
 
 void CLCPaint::_DrawBackground( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMode, RECT * rcPaint, RECT& clRect, _PaintContext& pc )
 {
-	if ( paintMode&(DM_FLOAT|DM_CONTROL))
-	{
+	if (paintMode & (DM_FLOAT | DM_CONTROL)) {
 		HBRUSH hBrush = CreateSolidBrush( pc.tmpbkcolour );
 		FillRect( pc.hdcMem, rcPaint, hBrush );
 		DeleteObject( hBrush );
 		ske_SetRectOpaque( pc.hdcMem, rcPaint );
-		if ( !( paintMode&DM_GREYALTERNATE ))
-			SkinDrawGlyph( pc.hdcMem, &clRect, rcPaint, "CL,ID = Background,Type = Control" );
+		if ( !( paintMode & DM_GREYALTERNATE))
+			SkinDrawGlyph( pc.hdcMem, &clRect, rcPaint, "CL,ID=Background,Type=Control" );
 	}
-	else if ( paintMode&DM_CLASSIC)
-	{
-		if ( !_DrawNonEnginedBackground( hWnd, pc.hdcMem, rcPaint, clRect, dat ))
-		{
+	else if ( paintMode&DM_CLASSIC) {
+		if ( !_DrawNonEnginedBackground( hWnd, pc.hdcMem, rcPaint, clRect, dat )) {
 			HBRUSH hBrush = CreateSolidBrush( pc.tmpbkcolour );
 			FillRect( pc.hdcMem, rcPaint, hBrush );
 			DeleteObject( hBrush );
 		}       
 	}
-	else
-	{
+	else {
 		if ( paintMode&DM_NON_LAYERED )
 			ske_BltBackImage( hWnd,  (paintMode&DM_GRAY) ? pc.hdcMem2 : pc.hdcMem, rcPaint );
 
-		SkinDrawGlyph( pc.hdcMem, &clRect, rcPaint, "CL,ID = Background" );
+		SkinDrawGlyph(pc.hdcMem, &clRect, rcPaint, "CL,ID=Background");
 	}
 }
+
 void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMode, RECT* rcPaint, RECT& clRect, _PaintContext& pc )
 {
 	struct ClcContact *Drawing;
@@ -1963,7 +1960,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 					RowHeight_CalcRowHeight( dat, hWnd, Drawing, line_num );
 
 				// Init settings
-				selected = ( ( line_num == dat->selection ) && ( dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || is_foreground ) && Drawing->type != CLCIT_DIVIDER );
+				selected = (( line_num == dat->selection ) && ( dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || is_foreground ) && Drawing->type != CLCIT_DIVIDER );
 				hottrack = dat->exStyle&CLS_EX_TRACKSELECT && Drawing->type != CLCIT_DIVIDER && dat->iHotTrack == line_num;
 				left_pos = clRect.left + dat->leftMargin + indent * dat->groupIndent + subident;
 				right_pos = dat->rightMargin;   // Border
@@ -2002,9 +1999,9 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 						FillRect( pc.hdcMem, &row_rc, pc.hBrushAlternateGrey );
 					}
 					else
-						SkinDrawGlyph( pc.hdcMem, &row_rc, rcPaint, "CL,ID = GreyAlternate" );
+						SkinDrawGlyph( pc.hdcMem, &row_rc, rcPaint, "CL,ID=GreyAlternate" );
 				}
-				if ( ! (paintMode&(DM_CLASSIC|DM_CONTROL)) )
+				if ( ! (paintMode&(DM_CLASSIC|DM_CONTROL)))
 				{
 					// Row background
 					if ( !(paintMode&DM_CONTROL))
@@ -2035,16 +2032,16 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 						if ( dat->HiLightMode == 1 ) // Full  or default
 						{
 							if ( selected )
-								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL , ID = Selection " );
+								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=Selection" );
 							if ( hottrack )
-								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID = HotTracking" );
+								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=HotTracking" );
 						}
 						else if ( dat->HiLightMode == 2 ) // Less
 						{
 							if ( selected )
-								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID = Selection" );      //instead of free_row_rc
+								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=Selection" );      //instead of free_row_rc
 							if ( hottrack )
-								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID = HotTracking" );
+								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=HotTracking" );
 						}
 					}
 
@@ -2052,7 +2049,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 				else
 				{   
 					int checkboxWidth;
-					if ( ( lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT )  || 
+					if (( lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT )  || 
 						( lStyle&CLS_GROUPCHECKBOXES && Drawing->type == CLCIT_GROUP )  || 
 						( Drawing->type == CLCIT_INFO && Drawing->flags&CLCIIF_CHECKBOX ))
 						checkboxWidth = dat->checkboxSize+2;
@@ -2094,7 +2091,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 
 				}
 				//**** Checkboxes
-				if ( ( lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT )  || 
+				if (( lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT )  || 
 					( lStyle&CLS_GROUPCHECKBOXES && Drawing->type == CLCIT_GROUP )  || 
 					( Drawing->type == CLCIT_INFO && Drawing->flags&CLCIIF_CHECKBOX ))
 				{
@@ -2141,7 +2138,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 		}
 		y  += dat->row_heights[line_num];
 		//increment by subcontacts
-		if  ( ( group->cl.items && group->scanIndex < group->cl.count && group->cl.items[group->scanIndex]->subcontacts != NULL && group->cl.items[group->scanIndex]->type != CLCIT_GROUP )
+		if  (( group->cl.items && group->scanIndex < group->cl.count && group->cl.items[group->scanIndex]->subcontacts != NULL && group->cl.items[group->scanIndex]->type != CLCIT_GROUP )
 			&& ( group->cl.items[group->scanIndex]->SubExpanded && dat->expandMeta ))
 		{
 			if ( subindex < group->cl.items[group->scanIndex]->SubAllocated-1 )
@@ -2212,10 +2209,10 @@ void CLCPaint::_CopyPaintToDest( HWND hWnd, struct ClcData * dat, HDC hdc, int p
 		BitBlt( hdc, rcPaint->left, rcPaint->top, rcPaint->right-rcPaint->left, rcPaint->bottom-rcPaint->top, pc.hdcMem, rcPaint->left, rcPaint->top, SRCCOPY );
 	}
 
-	if ( ( paintMode&DM_GRAY ) && hdc && hdc != pc.hdcMem )
+	if (( paintMode&DM_GRAY ) && hdc && hdc != pc.hdcMem )
 	{
 		BLENDFUNCTION bf = {AC_SRC_OVER, 0, 80, AC_SRC_ALPHA };
-		BOOL a = ( ( paintMode&DM_GRAY ) && ( ( paintMode&DM_NON_LAYERED)) );
+		BOOL a = (( paintMode&DM_GRAY ) && (( paintMode&DM_NON_LAYERED)));
 		ske_AlphaBlend( a ? pc.hdcMem2 : hdc, rcPaint->left, rcPaint->top, rcPaint->right-rcPaint->left, rcPaint->bottom-rcPaint->top, pc.hdcMem, rcPaint->left, rcPaint->top, rcPaint->right-rcPaint->left, rcPaint->bottom-rcPaint->top, bf );
 		if ( a )
 			BitBlt( hdc, rcPaint->left, rcPaint->top, rcPaint->right-rcPaint->left, rcPaint->bottom-rcPaint->top, pc.hdcMem2, rcPaint->left, rcPaint->top, SRCCOPY );
@@ -2305,7 +2302,7 @@ void CLCPaint::_StoreItemPos( struct ClcContact *contact, int ItemType, RECT * r
 	case CIT_CHECKBOX:
 		break;
 	default:
-		if ( ( ItemType&CIT_EXTRA ) == CIT_EXTRA )
+		if (( ItemType&CIT_EXTRA ) == CIT_EXTRA )
 		{
 			int iImage = ItemType&0x3F;
 			contact->pos_extra[iImage] = *rc;
@@ -2351,7 +2348,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 					max_width = dat->avatars_maxheight_size;
 
 				// Has to draw?
-				if ( ( dat->use_avatar_service && Drawing->avatar_data == NULL )
+				if (( dat->use_avatar_service && Drawing->avatar_data == NULL )
 					|| ( !dat->use_avatar_service && Drawing->avatar_pos == AVATAR_POS_DONT_HAVE )
 					|| miniMode )
 				{
@@ -2369,8 +2366,8 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 						if ( rc.left < rc.right )
 						{                           
 							/* center icon in avatar place */
-							if ( rc.right-rc.left>16 ) rc.left += ( ( ( rc.right-rc.left )-16 )>>1 );
-							if ( rc.bottom-rc.top>16 ) rc.top += ( ( ( rc.bottom-rc.top )-16 )>>1 );
+							if ( rc.right-rc.left>16 ) rc.left += (( ( rc.right-rc.left )-16 )>>1 );
+							if ( rc.bottom-rc.top>16 ) rc.top += (( ( rc.bottom-rc.top )-16 )>>1 );
 
 							// Store position
 							_StoreItemPos( Drawing, CIT_ICON, &rc );
@@ -2379,7 +2376,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 					else
 					{
 						// Has to keep the empty space??
-						if ( ( left && !dat->row_align_left_items_to_left ) || ( !left && !dat->row_align_right_items_to_right ))
+						if (( left && !dat->row_align_left_items_to_left ) || ( !left && !dat->row_align_right_items_to_right ))
 						{
 							// Make rectangle
 							rc = _GetRectangle( dat, &row_rc, &free_row_rc, &left_pos, &right_pos, 
@@ -2423,7 +2420,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 			{
 				RECT rc;
 				int iImage = -1;
-				BOOL has_avatar = ( ( dat->use_avatar_service && Drawing->avatar_data != NULL )  || 
+				BOOL has_avatar = (( dat->use_avatar_service && Drawing->avatar_data != NULL )  || 
 					( !dat->use_avatar_service && Drawing->avatar_pos != AVATAR_POS_DONT_HAVE ))
 					&& !( CheckMiniMode( dat, selected, hottrack ));
 
@@ -2434,7 +2431,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 					&& !Drawing->image_is_special )
 				{
 					// Don't have to draw, but has to keep the empty space?
-					if ( ( left && !dat->row_align_left_items_to_left ) || ( !left && !dat->row_align_right_items_to_right ))
+					if (( left && !dat->row_align_left_items_to_left ) || ( !left && !dat->row_align_right_items_to_right ))
 					{
 						rc = _GetRectangle( dat, &row_rc, &free_row_rc, &left_pos, &right_pos, 
 							left, dat->iconXSpace, dat->iconXSpace, ICON_HEIGHT, HORIZONTAL_SPACE );
@@ -2455,7 +2452,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 					&& dat->avatars_maxheight_size >= ICON_HEIGHT + ( dat->avatars_draw_border ? 2 : 0 )
 					&& GetContactCachedStatus( Drawing->hContact ) - ID_STATUS_OFFLINE < MAX_REGS( g_pAvatarOverlayIcons )
 					&& dat->avatars_overlay_type == SETTING_AVATAR_OVERLAY_TYPE_CONTACT
-					)) )
+					)))
 				{
 					// Don't have to draw and don't have to keep the empty space
 					break;
@@ -2485,7 +2482,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 			}
 		case ITEM_CONTACT_TIME: /////////////////////////////////////////////////////////////////////////////////////////////////////
 			{
-				PDNCE pdnce = ( PDNCE )( ( Drawing->type == CLCIT_CONTACT )?pcli->pfnGetCacheEntry( Drawing->hContact ):NULL );
+				PDNCE pdnce = ( PDNCE )(( Drawing->type == CLCIT_CONTACT )?pcli->pfnGetCacheEntry( Drawing->hContact ):NULL );
 				if ( Drawing->type == CLCIT_CONTACT && dat->contact_time_show && pdnce->hTimeZone )
 				{
 					TCHAR szResult[80];
@@ -2669,10 +2666,10 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 			if ( dat->row_align_group_mode == 1 ) //center
 			{
 				int x;
-				x = free_row_rc.left+( ( free_row_rc.right-free_row_rc.left-full_text_width )>>1 );
+				x = free_row_rc.left+(( free_row_rc.right-free_row_rc.left-full_text_width )>>1 );
 				//int l = dat->leftMargin;
 				//int r = dat->rightMargin;
-				//x = l+row_rc.left+( ( row_rc.right-row_rc.left-full_text_width-l-r )>>1 );
+				//x = l+row_rc.left+(( row_rc.right-row_rc.left-full_text_width-l-r )>>1 );
 				text_rc.left = x;
 				text_rc.right = x+full_text_width;
 			}
@@ -2691,7 +2688,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 		else if ( Drawing->type == CLCIT_CONTACT && !CheckMiniMode( dat, selected, hottrack ))
 		{
 			int tmp;
-			PDNCE pdnce = ( PDNCE )( ( Drawing->type == CLCIT_CONTACT )?pcli->pfnGetCacheEntry( Drawing->hContact ):NULL );
+			PDNCE pdnce = ( PDNCE )(( Drawing->type == CLCIT_CONTACT )?pcli->pfnGetCacheEntry( Drawing->hContact ):NULL );
 			if ( dat->second_line_show && dat->second_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone)
 			{
 				// Get contact time
@@ -2799,7 +2796,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 					RECT rc = free_row_rc;
 					rc.top  += ( rc.bottom - rc.top ) >> 1;
 					rc.bottom = rc.top + 2;
-					rc.right = rc.left + ( ( rc.right - rc.left - text_size.cx )>>1 ) - 3;
+					rc.right = rc.left + (( rc.right - rc.left - text_size.cx )>>1 ) - 3;
 					trc.left = rc.right + 3;
 					trc.right = trc.left + text_size.cx + 6;
 					if ( text_size.cy < trc.bottom - trc.top )
@@ -3186,7 +3183,7 @@ void CLCPaint::_DrawContactSubText( HDC hdcMem, struct ClcData *dat, struct ClcC
 	else if ( Drawing->type == CLCIT_CONTACT )
 	{
 		SIZE text_size = { _rcWidth( prcItem ), _rcHeight( prcItem ) };
-		PDNCE pdnce = ( PDNCE )( ( Drawing->type == CLCIT_CONTACT )?pcli->pfnGetCacheEntry( Drawing->hContact ):NULL );
+		PDNCE pdnce = ( PDNCE )(( Drawing->type == CLCIT_CONTACT )?pcli->pfnGetCacheEntry( Drawing->hContact ):NULL );
 		if ( pdnce )
 		{
 			ChangeToFont( hdcMem, dat, itemType == CIT_SUBTEXT1 ? FONTID_SECONDLINE : FONTID_THIRDLINE, NULL );
@@ -3208,7 +3205,7 @@ void CLCPaint::_DrawContactSubText( HDC hdcMem, struct ClcData *dat, struct ClcC
 void CLCPaint::_DrawContactTime( HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem )
 {
 	TCHAR szResult[80];
-	PDNCE pdnce = ( PDNCE )( ( Drawing->type == CLCIT_CONTACT )?pcli->pfnGetCacheEntry( Drawing->hContact ):NULL );
+	PDNCE pdnce = ( PDNCE )(( Drawing->type == CLCIT_CONTACT )?pcli->pfnGetCacheEntry( Drawing->hContact ):NULL );
 
 	if ( !pdnce ) return;
 
@@ -3223,8 +3220,7 @@ void CLCPaint::_DrawContactTime( HDC hdcMem, struct ClcData *dat, struct ClcCont
 void CLCPaint::_DrawContactSelection( HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, int& selected, int& hottrack, RECT *rcPaint, RECT * prcItem )
 {
 	// Selection background
-	if ( ( selected || hottrack ) && dat->HiLightMode == 0 )
-	{
+	if (( selected || hottrack ) && dat->HiLightMode == 0) {
 		if ( selected )
 			SkinDrawGlyph( hdcMem, prcItem, rcPaint, "Contact List/Selection" );
 		else if ( hottrack )
@@ -3298,7 +3294,7 @@ void CLCPaint::_DrawContactItems( HWND hwnd, HDC hdcMem, struct ClcData *dat, st
 		( dat->text_rtl ? DT_RTLREADING : 0 ) | 
 		( dat->text_align_right ? DT_RIGHT : 0 )|
 		( gl_TrimText?DT_END_ELLIPSIS:0 )|
-		( ( dat->force_in_dialog || dat->bkChanged ) ? DT_FORCENATIVERENDER:0 );
+		(( dat->force_in_dialog || dat->bkChanged ) ? DT_FORCENATIVERENDER:0 );
 
 	text_rc = *row_rc;
 
@@ -3342,7 +3338,7 @@ void CLCPaint::_DrawContactItems( HWND hwnd, HDC hdcMem, struct ClcData *dat, st
 			}
 		}
 	}
-	if ( ( Drawing->type == CLCIT_GROUP && dat->exStyle&CLS_EX_LINEWITHGROUPS )
+	if (( Drawing->type == CLCIT_GROUP && dat->exStyle&CLS_EX_LINEWITHGROUPS )
 		|| ( Drawing->type == CLCIT_DIVIDER ))
 		_DrawContactLine( hdcMem, dat, Drawing, free_row_rc, rcPaint, text_rc );
 }

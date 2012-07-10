@@ -79,7 +79,7 @@ static BOOL ImageArray_Alloc(LP_IMAGE_ARRAY_DATA iad, int size)
 	else if (size < iad->nodes_allocated_size)
 	{
 		// Give some more space to try to avoid a free
-		if ( (iad->nodes_allocated_size - size) / iad->grow_step >= 2 )
+		if ((iad->nodes_allocated_size - size) / iad->grow_step >= 2 )
 		{
 			IMAGE_ARRAY_DATA_NODE *tmp;
 

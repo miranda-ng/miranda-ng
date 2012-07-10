@@ -693,7 +693,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
         if (contact->type == CLCIT_GROUP 
           || (contact->type == CLCIT_CONTACT && contact->iImage != -1 
           && !(dat->icon_hide_on_avatar && dat->avatars_show
-          && ( (dat->use_avatar_service && contact->avatar_data != NULL)  || 
+          && ((dat->use_avatar_service && contact->avatar_data != NULL)  || 
           (!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE)
           )
           && !contact->image_is_special)))

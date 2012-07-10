@@ -515,7 +515,7 @@ static LRESULT clcOnSize(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 		hBmpMask = CreateBitmap(rc.right, rc.bottom, 1, 1, NULL);
 		hdcMem = CreateCompatibleDC(hdc);
 		hoBmp = (HBITMAP) SelectObject(hdcMem, hBmp);
-		hBrush = CreateSolidBrush( ( dat->useWindowsColours || dat->force_in_dialog ) ? GetSysColor(COLOR_HIGHLIGHT) : dat->selBkColour);
+		hBrush = CreateSolidBrush(( dat->useWindowsColours || dat->force_in_dialog ) ? GetSysColor(COLOR_HIGHLIGHT) : dat->selBkColour);
 		FillRect(hdcMem, &rc, hBrush);
 		DeleteObject(hBrush);
 
@@ -1650,7 +1650,7 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 	nHiddenStatus = CLVM_GetContactHiddenStatus((HANDLE)wParam, szProto, dat);
     
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-    bool isVisiblebyFilter  = ( ( ( style & CLS_SHOWHIDDEN ) && nHiddenStatus != -1 ) || !nHiddenStatus );
+    bool isVisiblebyFilter  = (( ( style & CLS_SHOWHIDDEN ) && nHiddenStatus != -1 ) || !nHiddenStatus );
     bool ifVisibleByClui    = !pcli->pfnIsHiddenMode( dat, status );      
     bool isVisible          = g_CluiData.bFilterEffective&CLVM_FILTER_STATUS ? TRUE : ifVisibleByClui;
     bool isIconChanged      = CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != LOWORD(lParam);

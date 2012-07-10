@@ -177,19 +177,14 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	int xstatus = 0;
 	SIZE textSize = {0};
 	GetClientRect(hWnd,&rc);
-	if (g_CluiData.fDisableSkinEngine)
-	{
+	if (g_CluiData.fDisableSkinEngine) {
 		if (g_StatusBarData.bkUseWinColors && xpt_IsThemed(g_StatusBarData.hTheme))
-		{
 			xpt_DrawTheme(g_StatusBarData.hTheme, hWnd, hDC, 0, 0, &rc, &rc);           
-		}
 		else
 			DrawBackGround(hWnd, hDC,  g_StatusBarData.hBmpBackground, g_StatusBarData.bkColour, g_StatusBarData.backgroundBmpUse );
 	}
-	else
-	{
-		SkinDrawGlyph(hDC,&rc,&rc,"Main,ID = StatusBar"); //TBD
-	}
+	else SkinDrawGlyph(hDC,&rc,&rc,"Main,ID=StatusBar"); //TBD
+
 	g_StatusBarData.nProtosPerLine = db_get_b(NULL,"CLUI","StatusBarProtosPerLine",SETTING_PROTOSPERLINE_DEFAULT);
 	hOldFont = g_clcPainter.ChangeToFont(hDC,NULL,FONTID_STATUSBAR_PROTONAME,NULL);
 
@@ -469,7 +464,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 								w  += textSize.cx + 3 + spaceWidth;
 							}
 
-							if ( ( ProtosData[i].showProtoName) || 
+							if (( ProtosData[i].showProtoName) || 
 								(ProtosData[i].showProtoEmails && ProtosData[i].ProtoEMailCount ) || 
 								(ProtosData[i].showStatusName)  || 
 								((ProtosData[i].xStatusMode&8) && ProtosData[i].ProtoXStatus))
@@ -597,7 +592,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 								SelectClipRgn(hDC,rgn);
 								ProtosData[i].DoubleIcons = FALSE;
 
-								DWORD dim = ProtosData[i].isDimmed ? ( ( 64 << 24 ) | 0x80 ) : 0;
+								DWORD dim = ProtosData[i].isDimmed ? (( 64 << 24 ) | 0x80 ) : 0;
 
 								if ((ProtosData[i].xStatusMode&3) == 3)
 								{
@@ -615,7 +610,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 									if (hIcon) mod_DrawIconEx_helper(hDC,x,iconY,hIcon,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0,NULL,DI_NORMAL| ((hxIcon && (ProtosData[i].xStatusMode&4))?(192 << 24):0 ) | dim );
 								}
 
-								if ( ( hxIcon || hIcon) && TRUE /* TODO g_StatusBarData.bDrawLockOverlay  options to draw locked proto*/  )
+								if (( hxIcon || hIcon) && TRUE /* TODO g_StatusBarData.bDrawLockOverlay  options to draw locked proto*/  )
 								{
 									if ( db_get_b( NULL,ProtosData[i].AccountName,"LockMainStatus",0 ))
 									{
@@ -853,7 +848,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
                 NotifyEventHooks(g_CluiData.hEventStatusBarHideToolTip,0,0);
                 tooltipshoing = FALSE;
             };
-            ID = Sync( FindFrameID, hwnd );
+            ID=Sync( FindFrameID, hwnd );
             if (ID)
             {
                 res = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS,ID),0);
@@ -976,7 +971,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
                     BOOL bShift  = ( GetKeyState( VK_SHIFT )&0x8000 );
                     BOOL bCtrl   = ( GetKeyState( VK_CONTROL )&0x8000 );
 
-                    if ( ( msg == WM_MBUTTONDOWN || ( msg == WM_RBUTTONDOWN && bCtrl ) || isOnExtra) && _ModernStatus_OnExtraIconClick( i ))
+                    if (( msg == WM_MBUTTONDOWN || ( msg == WM_RBUTTONDOWN && bCtrl ) || isOnExtra) && _ModernStatus_OnExtraIconClick( i ))
                     {
                         return TRUE;
                     }
@@ -1054,7 +1049,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
                     {
                         if (msg == WM_RBUTTONDOWN)
                         {
-                            BOOL a = ( (g_StatusBarData.perProtoConfig && ProtosData[i].SBarRightClk) || g_StatusBarData.SBarRightClk );
+                            BOOL a = ((g_StatusBarData.perProtoConfig && ProtosData[i].SBarRightClk) || g_StatusBarData.SBarRightClk );
                             if ( a ^ bShift )
                                 hMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);
                             else

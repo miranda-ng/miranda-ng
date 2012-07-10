@@ -176,14 +176,14 @@ int CLUI::OnEvent_DBSettingChanging(WPARAM wParam,LPARAM lParam)
 	if (dbcws == NULL) return(0);
 	if (MirandaExiting()) return 0;
 
-	if ( ( dbcws->value.type == DBVT_WORD && !mir_strcmp(dbcws->szSetting,"ApparentMode"))  || 
+	if (( dbcws->value.type == DBVT_WORD && !mir_strcmp(dbcws->szSetting,"ApparentMode"))  || 
 		( dbcws->value.type == DBVT_ASCIIZ && 
-		( ( !mir_strcmp(dbcws->szSetting,"e-mail")  || 
+		(( !mir_strcmp(dbcws->szSetting,"e-mail")  || 
 		!mir_strcmp(dbcws->szSetting,"Mye-mail0")  || 
 		!mir_strcmp(dbcws->szSetting,"Cellular"))   || 
 		( !mir_strcmp(dbcws->szModule,"UserInfo")  && 
 		( !mir_strcmp(dbcws->szSetting,"MyPhone0") || 
-		!mir_strcmp(dbcws->szSetting,"Mye-mail0")) )) ))
+		!mir_strcmp(dbcws->szSetting,"Mye-mail0"))))))
 		ExtraImage_SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
 	return(0);
 };
@@ -1341,7 +1341,7 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 		//ske_BltBackImage(hwnd,hdc,&r1);
 	}
 	if ( !g_CluiData.fDisableSkinEngine)
-		SkinDrawGlyph(hdc,&r1,&r1,"Main,ID = MenuBar");
+		SkinDrawGlyph(hdc,&r1,&r1,"Main,ID=MenuBar");
 	else
 	{
 		HBRUSH hbr = NULL;
@@ -1901,7 +1901,7 @@ LRESULT CLUI::PreProcessWndProc( UINT msg, WPARAM wParam, LPARAM lParam, BOOL& b
 				char szFilePath[MAX_PATH], szProfile[MAX_PATH];
 				CallService( MS_DB_GETPROFILEPATH,MAX_PATH,(LPARAM)&szFilePath );
 				CallService( MS_DB_GETPROFILENAME,MAX_PATH,(LPARAM)&szProfile );
-				_snprintf( (char*)hView, MAX_PATH, "%s\\%s", szFilePath, szProfile );
+				_snprintf((char*)hView, MAX_PATH, "%s\\%s", szFilePath, szProfile );
 				UnmapViewOfFile( hView );
 				rc = 1;
 			}
@@ -2191,7 +2191,7 @@ LRESULT CLUI::OnEraseBkgnd( UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 
 LRESULT CLUI::OnNcCreate( UINT msg, WPARAM wParam, LPARAM lParam )
 {
-	( (LPCREATESTRUCT)lParam )->style  &= ~(CS_HREDRAW | CS_VREDRAW);
+	((LPCREATESTRUCT)lParam )->style  &= ~(CS_HREDRAW | CS_VREDRAW);
 	return DefCluiWndProc( msg, wParam, lParam );
 }
 
@@ -2248,7 +2248,7 @@ LRESULT CLUI::OnPaint( UINT msg, WPARAM wParam, LPARAM lParam )
 					w2 = w;
 				else
 					w2 = ps.rcPaint;
-				SkinDrawGlyph(ps.hdc,&w,&w2,"Main,ID = Background,Opt = Non-Layered");
+				SkinDrawGlyph(ps.hdc,&w,&w2,"Main,ID=Background,Opt=Non-Layered");
 				ps.fErase = FALSE;
 				EndPaint(m_hWnd,&ps); 
 			}
@@ -2298,7 +2298,7 @@ LRESULT CLUI::OnCreateClc( UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 {
 	CreateCLC();
 	if ( db_get_b( NULL, "CList", "ShowOnStart", SETTING_SHOWONSTART_DEFAULT )) 
-		cliShowHide( (WPARAM) m_hWnd, (LPARAM)TRUE );
+		cliShowHide((WPARAM) m_hWnd, (LPARAM)TRUE );
 	PostMessage( pcli->hwndContactTree, CLM_AUTOREBUILD, 0, 0 );
 	return FALSE;
 }
@@ -2343,7 +2343,7 @@ LRESULT CLUI::OnParentNotify( UINT msg, WPARAM wParam, LPARAM lParam )
 
 LRESULT CLUI::OnSetFocus( UINT msg, WPARAM wParam, LPARAM lParam )
 {
-	if ( hFrameContactTree && ( !CallService( MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM( FO_FLOATING, hFrameContactTree ), 0 )) )
+	if ( hFrameContactTree && ( !CallService( MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM( FO_FLOATING, hFrameContactTree ), 0 )))
 	{
 		SetFocus(pcli->hwndContactTree);
 	}
@@ -2487,7 +2487,7 @@ LRESULT CLUI::OnTimer( UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	if ( MirandaExiting()) return FALSE;
 
-	if ( (int)wParam >= TM_STATUSBARUPDATE && (int)wParam <= TM_STATUSBARUPDATE+64 )
+	if ((int)wParam >= TM_STATUSBARUPDATE && (int)wParam <= TM_STATUSBARUPDATE+64 )
 	{
 		if ( !pcli->hwndStatus ) return FALSE;
 		else return OnStatusBarUpdateTimer( msg, wParam, lParam );
@@ -2617,7 +2617,7 @@ LRESULT CLUI::OnNcHitTest( UINT msg, WPARAM wParam, LPARAM lParam )
 	LRESULT result;
 	result = DefWindowProc(m_hWnd,WM_NCHITTEST,wParam,lParam);
 
-	if ( (g_CluiData.fAutoSize) && ( result == HTSIZE || result == HTTOP || 
+	if ((g_CluiData.fAutoSize) && ( result == HTSIZE || result == HTTOP || 
 		result == HTTOPLEFT || result == HTTOPRIGHT  || 
 		result == HTBOTTOM || result == HTBOTTOMRIGHT || 
 		result == HTBOTTOMLEFT))
@@ -2896,10 +2896,10 @@ LRESULT CLUI::OnNotify( UINT msg, WPARAM wParam, LPARAM lParam )
 
 	switch ( pnmhdr->code) 
 	{
-	case CLN_NEWCONTACT:     return OnNewContactNotify( (NMCLISTCONTROL *)pnmhdr );
-	case CLN_LISTREBUILT:    return OnListRebuildNotify( (NMCLISTCONTROL *)pnmhdr );
-	case CLN_LISTSIZECHANGE: return OnListSizeChangeNotify( (NMCLISTCONTROL *)pnmhdr );
-	case NM_CLICK:           return OnClickNotify( (NMCLISTCONTROL *)pnmhdr );
+	case CLN_NEWCONTACT:     return OnNewContactNotify((NMCLISTCONTROL *)pnmhdr );
+	case CLN_LISTREBUILT:    return OnListRebuildNotify((NMCLISTCONTROL *)pnmhdr );
+	case CLN_LISTSIZECHANGE: return OnListSizeChangeNotify((NMCLISTCONTROL *)pnmhdr );
+	case NM_CLICK:           return OnClickNotify((NMCLISTCONTROL *)pnmhdr );
 
 	} 
 	return DefCluiWndProc( msg, wParam, lParam );
@@ -2976,7 +2976,7 @@ LRESULT CLUI::OnDrawItem( UINT msg, WPARAM wParam, LPARAM lParam )
 				HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_MAINMENU);
 				
 				CLUI_DrawMenuBackGround(m_hWnd, dis->hDC, 1, dis->itemState);
-				mir_snprintf(buf,SIZEOF(buf),"Main,ID = MainMenu,Selected = %s,Hot = %s",(dis->itemState&ODS_SELECTED)?"True":"False",(dis->itemState&ODS_HOTLIGHT)?"True":"False");
+				mir_snprintf(buf,SIZEOF(buf),"Main,ID=MainMenu,Selected=%s,Hot=%s",(dis->itemState&ODS_SELECTED)?"True":"False",(dis->itemState&ODS_HOTLIGHT)?"True":"False");
 				SkinDrawGlyph(dis->hDC,&dis->rcItem,&dis->rcItem,buf);
 
 				int x = (dis->rcItem.right  + dis->rcItem.left - GetSystemMetrics(SM_CXSMICON)) / 2 + offset;
@@ -3008,7 +3008,7 @@ LRESULT CLUI::OnDrawItem( UINT msg, WPARAM wParam, LPARAM lParam )
 				}
 				CLUI_DrawMenuBackGround(m_hWnd, dis->hDC, 2, dis->itemState);
 				SetBkMode(dis->hDC,TRANSPARENT);
-				mir_snprintf(buf,SIZEOF(buf),"Main,ID = StatusMenu,Selected = %s,Hot = %s",(dis->itemState&ODS_SELECTED)?"True":"False",(dis->itemState&ODS_HOTLIGHT)?"True":"False");
+				mir_snprintf(buf,SIZEOF(buf),"Main,ID=StatusMenu,Selected=%s,Hot=%s",(dis->itemState&ODS_SELECTED)?"True":"False",(dis->itemState&ODS_HOTLIGHT)?"True":"False");
 				SkinDrawGlyph(dis->hDC,&dis->rcItem,&dis->rcItem,buf);
 				SetTextColor(dis->hDC, (dis->itemState&ODS_SELECTED/*|dis->itemState&ODS_HOTLIGHT*/)?dat->MenuTextHiColor:dat->MenuTextColor);
 				DrawText(dis->hDC,TranslateT("Status"), lstrlen(TranslateT("Status")),&rc, DT_CENTER|DT_VCENTER|DT_SINGLELINE);
@@ -3025,7 +3025,7 @@ LRESULT CLUI::OnDrawItem( UINT msg, WPARAM wParam, LPARAM lParam )
 			short dx = 1+(dis->itemState&ODS_SELECTED?1:0)-(dis->itemState&ODS_HOTLIGHT?1:0);
 			HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 			CLUI_DrawMenuBackGround(m_hWnd, dis->hDC, 3, dis->itemState);
-			mir_snprintf(buf,SIZEOF(buf),"Main,ID = MainMenu,Selected = %s,Hot = %s",(dis->itemState&ODS_SELECTED)?"True":"False",(dis->itemState&ODS_HOTLIGHT)?"True":"False");
+			mir_snprintf(buf,SIZEOF(buf),"Main,ID=MainMenu,Selected=%s,Hot=%s",(dis->itemState&ODS_SELECTED)?"True":"False",(dis->itemState&ODS_HOTLIGHT)?"True":"False");
 			SkinDrawGlyph(dis->hDC,&dis->rcItem,&dis->rcItem,buf);
 			DrawState(dis->hDC,NULL,NULL,(LPARAM)hIcon,0,(dis->rcItem.right+dis->rcItem.left-GetSystemMetrics(SM_CXSMICON))/2+dx,(dis->rcItem.bottom+dis->rcItem.top-GetSystemMetrics(SM_CYSMICON))/2+dx,0,0,DST_ICON|(dis->itemState&ODS_INACTIVE && FALSE?DSS_DISABLED:DSS_NORMAL));
 			CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);

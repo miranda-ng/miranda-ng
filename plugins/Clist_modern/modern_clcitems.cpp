@@ -401,7 +401,7 @@ void cliRebuildEntireList(HWND hwnd,struct ClcData *dat)
 		cacheEntry = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hContact);
 
 		nHiddenStatus = CLVM_GetContactHiddenStatus(hContact, NULL, dat);
-		if ( (style&CLS_SHOWHIDDEN && nHiddenStatus != -1) || !nHiddenStatus)
+		if ((style&CLS_SHOWHIDDEN && nHiddenStatus != -1) || !nHiddenStatus)
 		{
 
 			if (lstrlen(cacheEntry->tszGroup) == 0)

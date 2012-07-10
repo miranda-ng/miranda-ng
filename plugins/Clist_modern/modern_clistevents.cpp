@@ -342,7 +342,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 	}
 	else
 	{
-		SkinDrawGlyph(hDC,&rc,&rc,"Main,ID = EventArea");
+		SkinDrawGlyph(hDC,&rc,&rc,"Main,ID=EventArea");
 	}
     hOldFont = g_clcPainter.ChangeToFont(hDC,NULL,FONTID_EVENTAREA,NULL);
 	SetBkMode(hDC,TRANSPARENT);

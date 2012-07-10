@@ -142,7 +142,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						sd = ( SkinListData* )( tvi.lParam );
 					}
 					if ( !sd ) return 0;
-					if ( sd->File && !_tcschr( sd->File, _T('%')) )
+					if ( sd->File && !_tcschr( sd->File, _T('%')))
 					{
 						GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Author" ), 	TranslateT( "( unknown )" ), 	Author, 		SIZEOF( Author ), 		sd->File );
 						GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "URL" ), 		_T( "" ), 						URL, 		SIZEOF( URL ), 		sd->File );
@@ -291,8 +291,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				dWidth = ( int )( xScale*bmp.bmWidth );
 				dHeight = ( int )( yScale*bmp.bmHeight );
 				//CalcPosition
-				imgPos.x = workRect.left+( ( wWidth-dWidth )>>1 );
-				imgPos.y = workRect.top+( ( wHeight-dHeight )>>1 );     
+				imgPos.x = workRect.left+(( wWidth-dWidth )>>1 );
+				imgPos.y = workRect.top+(( wHeight-dHeight )>>1 );     
 				//DrawImage
 				if ( !g_CluiData.fGDIPlusFail ) //Use gdi+ engine
 				{
@@ -316,7 +316,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_NOTIFY:
-		switch ( ( ( LPNMHDR )lParam )->idFrom ) 
+		switch (( ( LPNMHDR )lParam )->idFrom ) 
 		{
 		case IDC_TREE1:
 			{		
@@ -374,7 +374,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							}
 							if ( !sd ) return 0;
 
-							if ( sd->File && !_tcschr( sd->File, _T('%')) )
+							if ( sd->File && !_tcschr( sd->File, _T('%')))
 							{
 								GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Author" ), 	TranslateT( "( unknown )" ), 	Author, 		SIZEOF( Author ), 		sd->File );
 								GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "URL" ), 		_T( "" ), 						URL, 		SIZEOF( URL ), 		sd->File );
@@ -417,7 +417,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				break;
 			}
 		case 0:
-			switch ( ( ( LPNMHDR )lParam )->code )
+			switch (( ( LPNMHDR )lParam )->code )
 			{
 			case PSN_APPLY:
 				{
@@ -537,7 +537,7 @@ HTREEITEM AddSkinToList( HWND hwndDlg, TCHAR * path, TCHAR* file )
 		_sntprintf( fullName, SIZEOF( fullName ), _T("%s\\%s"), path, file );
 		memmove( defskinname, file, (_tcslen( file )-4) * sizeof(TCHAR));
 		defskinname[_tcslen( file )+1] = _T('\0');
-		if ( !file || _tcschr( file, _T('%')) ) 
+		if ( !file || _tcschr( file, _T('%'))) 
 		{
 			//sd->File = "%Default Skin%";
 			_sntprintf( sd->File, MAX_PATH, _T("%%Default Skin%%"));
@@ -583,7 +583,7 @@ HTREEITEM FindChild( HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data 
 				TreeView_GetItem( hTree, &tvi );
 				sd = ( SkinListData* )( tvi.lParam );
 				if ( sd )
-					if ( !_tcsicmp( sd->File, ( ( SkinListData* )data )->File ))
+					if ( !_tcsicmp( sd->File, (( SkinListData* )data )->File ))
 						return tmp;
 			}
 			else
@@ -679,7 +679,7 @@ INT_PTR SvcActiveSkin(WPARAM wParam, LPARAM lParam)
 
 INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam)
 {
-	ske_LoadSkinFromIniFile( (TCHAR *)lParam, FALSE );
+	ske_LoadSkinFromIniFile((TCHAR *)lParam, FALSE );
 	ske_LoadSkinFromDB( );	
 	glOtherSkinWasLoaded = TRUE;
 	pcli->pfnClcBroadcast( INTM_RELOADOPTIONS, 0, 0 );
@@ -721,7 +721,7 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 		TCHAR imfn[MAX_PATH] = {0};
 		TCHAR skinfolder[MAX_PATH] = {0};
 		GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Preview" ), _T( "" ), imfn, SIZEOF( imfn ), (LPCTSTR)lParam );
-		IniParser::GetSkinFolder( (LPCTSTR)lParam, skinfolder );
+		IniParser::GetSkinFolder((LPCTSTR)lParam, skinfolder );
 		_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
 		CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )prfn, ( LPARAM ) imfn );
 		char * imfn_ch = mir_t2a( imfn ); 
@@ -747,8 +747,8 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 			dWidth = ( int )( xScale*bmp.bmWidth );
 			dHeight = ( int )( yScale*bmp.bmHeight );
 			//CalcPosition
-			imgPos.x = workRect.left+( ( wWidth-dWidth )>>1 );
-			imgPos.y = workRect.top+( ( wHeight-dHeight )>>1 );     
+			imgPos.x = workRect.left+(( wWidth-dWidth )>>1 );
+			imgPos.y = workRect.top+(( wHeight-dHeight )>>1 );     
 			//DrawImage
 			if ( !g_CluiData.fGDIPlusFail ) //Use gdi+ engine
 			{

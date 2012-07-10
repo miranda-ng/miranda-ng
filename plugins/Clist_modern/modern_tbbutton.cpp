@@ -294,7 +294,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		return 1;
 
 	case WM_CAPTURECHANGED:
-		if ( (HWND)lParam != lpSBData->hwnd && lpSBData->stateId != PBS_DISABLED) {
+		if ((HWND)lParam != lpSBData->hwnd && lpSBData->stateId != PBS_DISABLED) {
 			// don't change states if disabled
 			lpSBData->stateId = PBS_NORMAL;
 			InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
@@ -303,8 +303,8 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 	case WM_LBUTTONDOWN:
 		{
-			int xPos = ( ( int )( short ) LOWORD( lParam ));
-			int yPos = ( ( int )( short ) HIWORD( lParam ));
+			int xPos = (( int )( short ) LOWORD( lParam ));
+			int yPos = (( int )( short ) HIWORD( lParam ));
 			POINT ptMouse = { xPos, yPos };
 
 			RECT rcClient;
@@ -526,13 +526,8 @@ static LRESULT BroadCastMessageToChild(HWND hwnd, int message, WPARAM wParam, LP
 	return 1;
 }
 
-static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
+void MakeButtonSkinned(HWND hWnd)
 {
-	if (ttbid == TTB_WINDOW_HANDLE) {
-		CustomizeToolbar(hWnd);
-		return;
-	}
-
 	MButtonCustomize Custom;
 	Custom.cbLen = sizeof(TBBUTTONDATA);
 	Custom.fnPainter = (pfnPainterFunc)PaintWorker;
@@ -540,12 +535,23 @@ static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
 	SendMessage(hWnd, BUTTONSETCUSTOM, 0, (LPARAM)&Custom);
 
 	TBBUTTONDATA* p = (TBBUTTONDATA*)GetWindowLongPtr(hWnd, 0);
-	sprintf(p->szButtonID, "Toolbar.%p", p->hwnd);
 	p->nFontID = -1;
 	p->hThemeButton = xpt_AddThemeHandle(p->hwnd, L"BUTTON");
 	p->hThemeToolbar = xpt_AddThemeHandle(p->hwnd, L"TOOLBAR");
 	WindowList_Add(hButtonWindowList, hWnd, NULL);
+}
 
+static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
+{
+	if (ttbid == TTB_WINDOW_HANDLE) {
+		CustomizeToolbar(hWnd);
+		return;
+	}
+
+	MakeButtonSkinned(hWnd);
+
+	TBBUTTONDATA* p = (TBBUTTONDATA*)GetWindowLongPtr(hWnd, 0);
+	sprintf(p->szButtonID, "Toolbar.%p", p->hwnd);
 	SendMessage(hWnd, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 }
 

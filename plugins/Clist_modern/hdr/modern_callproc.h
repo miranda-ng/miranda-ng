@@ -17,7 +17,7 @@ template< class R > class _callParams0 : public __baseCall
 {
 public:
     R(*_proc)();
-    _callParams0( R (*proc)() ) : _proc(proc){};
+    _callParams0( R (*proc)()) : _proc(proc){};
     int __DoCallStorageProc() { return (int)_proc(); }
 };
 
@@ -25,7 +25,7 @@ template<> class _callParams0<void> : public __baseCall
 {
 public:
     void(*_proc)();
-    _callParams0( void (*proc)() ) : _proc(proc){};
+    _callParams0( void (*proc)()) : _proc(proc){};
     int __DoCallStorageProc() { _proc(); return 0; }
 };
 
@@ -108,7 +108,7 @@ template < class R, class A, class B, class C > R __DoCall( R(*__proc)( A, B, C 
 };
 
 
-template < class R > R sync( R(*_proc)() )
+template < class R > R sync( R(*_proc)())
 { return __DoCall(_proc, SYNC); };
 template < class R, class A > R sync( R(*_proc)( A ), A a )
 { return __DoCall(_proc, a, SYNC); };
@@ -116,7 +116,7 @@ template < class R, class A, class B > R sync( R(*_proc)( A,B), A a, B b )
 { return __DoCall(_proc, a, b, SYNC); };
 template < class R, class A, class B, class C > R sync( R(*_proc)( A,B,C ), A a, B b, C c)
 { return __DoCall(_proc, a, b, c, SYNC); };
-template < class R > int async( R(*_proc)() )
+template < class R > int async( R(*_proc)())
 { return __DoCall(_proc, ASYNC); };
 template < class R, class A > R async( R(*_proc)( A ), A a )
 { return __DoCall(_proc, a, ASYNC); };

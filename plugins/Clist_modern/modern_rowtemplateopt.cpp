@@ -306,7 +306,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 	{
 		int i=0;
 		ZeroMemory( rowOptTA, sizeof( rowOptTA ));
-		rowOptBuildTA( (pROWCELL)tvpi.lParam, (pROWCELL*)&rowOptTA, &i );
+		rowOptBuildTA((pROWCELL)tvpi.lParam, (pROWCELL*)&rowOptTA, &i );
 	}
 
 	TreeView_DeleteItem(htree, hti);
@@ -544,9 +544,9 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		{
 		
 		case IDC_ROWTREE:
-			if ( ((LPNMHDR)lParam)->code == NM_SETCURSOR )
+			if (((LPNMHDR)lParam)->code == NM_SETCURSOR )
 				rowOptShowSettings(hwndDlg);
-			if ( ((LPNMHDR)lParam)->code == NM_CLICK )
+			if (((LPNMHDR)lParam)->code == NM_CLICK )
 				RedrawWindow(hwndDlg,&da,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW);
 			break;
 		

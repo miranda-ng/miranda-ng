@@ -183,7 +183,7 @@ char * rowParserGetNextWord(char *tbuf, int &hbuf)
 		// Tag-bracers found
 		if ( !(ch == '>' && j < 0)) //not single '>' found
 		{
-			if ( (ch == '<' || ch == '>') && j >= 0)
+			if ((ch == '<' || ch == '>') && j >= 0)
 			{
 				if (ch == '>')
 				{

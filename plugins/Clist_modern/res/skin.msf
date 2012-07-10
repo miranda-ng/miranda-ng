@@ -76,67 +76,67 @@ $$BarButton = sGlyph,Fragment,back%.tga,31,50,7,20,StretchBoth,3,4,2,5,150
 $$BarButton/Hot = sGlyph,Fragment,back%.tga,24,50,7,20,StretchBoth,3,4,2,5,200
 $$BarButton/Pressed = sGlyph,Fragment,back%.tga,24,49,7,20,StretchBoth,3,4,2,5,255
 
-@0 = s$$Window:Main,ID = Background
-@1 = s$$Background:CL,ID = Background
-@10 = s$$SubGroup/Closed/Hot:CL,ID = Row,Type = Group,Open = False,Hot = True,Indent^0
-@11 = s$$SubGroup/Closed/Selected:CL,ID = Row,Type = Group,Open = False,Selected = True,Indent^0
-@12 = s$$SubGroup/Closed:CL,ID = Row,Type = Group,Open = False,Indent^0
-@13 = s$$SubGroup/Open/Hot:CL,ID = Row,Type = Group,Open = True,Hot = True,Indent^0
-@14 = s$$SubGroup/Open/Selected:CL,ID = Row,Type = Group,Open = True,Selected = True,Indent^0
-@15 = s$$SubGroup/Open:CL,ID = Row,Type = Group,Open = True,Indent^0
-@20 = s$$Group/Closed/Hot:CL,ID = Row,Type = Group,Open = False,Hot = True
-@21 = s$$Group/Closed/Selected:CL,ID = Row,Type = Group,Open = False,Selected = True
-@22 = s$$Group/Closed:CL,ID = Row,Type = Group,Open = False
-@23 = s$$Group/Open/Hot:CL,ID = Row,Type = Group,Open = True,Hot = True
-@24 = s$$Group/Open/Selected:CL,ID = Row,Type = Group,Open = True,Selected = True
-@25 = s$$Group/Open:CL,ID = Row,Type = Group,Open = True
-@50 = s$$Contact/Selected:CL,ID = Row,Type = *Contact,Selected = True
-@51 = s$$Contact/Hot:CL,ID = Row,Type = *Contact,Hot = True
-@62 = s$$Contact/Last:CL,ID = Row,Type = SubContact,SubPos = Last,GroupPos = Last
-@63 = s$$Contact/Normal:CL,ID = Row,Type = SubContact,SubPos = First
-@64 = s$$Contact/Last:CL,ID = Row,Type = SubContact,SubPos = First-Single,GroupPos = Last
-@65 = s$$Contact/Normal:CL,ID = Row,Type = SubContact,SubPos = Last,GroupPos = First
-@66 = s$$Contact/Last:CL,ID = Row,Type = SubContact,SubPos = First-Single,GroupPos = First-Single
-@67 = s$$Contact/Last:CL,ID = Row,Type = MetaContact,GroupPos = Last,Open = False
-@68 = s$$Contact/First:CL,ID = Row,Type = MetaContact,GroupPos = First,Open = False
-@69 = s$$Contact/First:CL,ID = Row,Type = MetaContact,GroupPos = First
-@70 = s$$Contact/Last:CL,ID = Row,Type = MetaContact,GroupPos = First-Single,Open = False
-@71 = s$$Contact/Normal:CL,ID = Row,Type = Contact,GroupPos = Last,Indent = 2
-@72 = s$$Contact/Normal:CL,ID = Row,Type = Contact,GroupPos = First,Indent = 2
-@73 = s$$Contact/Last:CL,ID = Row,Type = Contact,GroupPos = Last
-@74 = s$$Contact/Last:CL,ID = Row,Type = Contact,GroupPos = First-Single
-;@75 = s$$Group/Open:CL,ID = Row,Type = *Contact,Index = 0   ; Fix of first contact is group liked then groups are disabled fix
-@75 = s$$Contact/First:CL,ID = Row,Type = *Contact,Index = 0
-@76 = s$$Contact/First:CL,ID = Row,Type = *Contact,Index = 1
-@77 = s$$Contact/First:CL,ID = Row,Type = *Contact,GroupPos = First
-@78 = s$$Contact/Normal:CL,ID = Row,Type = *Contact
-@80 = s$$Scroll/Back:Main,ID = ScrollBar,Part = Back
-@90 = s$$Scroll/BtnUp:Main,ID = ScrollBar,Part = UpLineButton
-@100 = s$$Scroll/BtnDn:Main,ID = ScrollBar,Part = DownLineButton
-@110 = s$$Scroll/Thumb:Main,ID = ScrollBar,Part = Thumb
-@120 = s$$FrameTitleBar:Main,ID = FrameCaption
-@130 = s$$StatusBar:Main,ID = StatusBar
-@131 = s$$EventArea:Main,ID = EventArea
-@140 = s$$Button/Close/Down:MButton,ID = close,Down = 1
-@150 = s$$Button/Close/Hovered:MButton,ID = close,Hovered = 1
-@160 = s$$Button/Close/Normal:MButton,ID = close
-@170 = s$$Button/Minimize/Down:MButton,ID = minimize,Down = 1
-@180 = s$$Button/Minimize/Hovered:MButton,ID = minimize,Hovered = 1
-@190 = s$$Button/Minimize/Normal:MButton,ID = minimize
-@200 = s$$Button/Menu/Down:MButton,ID = mainmenu,Down = 1
-@210 = s$$Button/Menu/Hovered:MButton,ID = mainmenu,Hovered = 1
-@220 = s$$Button/Menu/Normal:MButton,ID = mainmenu
+@0 = s$$Window:Main,ID=Background
+@1 = s$$Background:CL,ID=Background
+@10 = s$$SubGroup/Closed/Hot:CL,ID=Row,Type=Group,Open = False,Hot = True,Indent^0
+@11 = s$$SubGroup/Closed/Selected:CL,ID=Row,Type=Group,Open = False,Selected = True,Indent^0
+@12 = s$$SubGroup/Closed:CL,ID=Row,Type=Group,Open = False,Indent^0
+@13 = s$$SubGroup/Open/Hot:CL,ID=Row,Type=Group,Open = True,Hot = True,Indent^0
+@14 = s$$SubGroup/Open/Selected:CL,ID=Row,Type=Group,Open = True,Selected = True,Indent^0
+@15 = s$$SubGroup/Open:CL,ID=Row,Type=Group,Open = True,Indent^0
+@20 = s$$Group/Closed/Hot:CL,ID=Row,Type=Group,Open = False,Hot = True
+@21 = s$$Group/Closed/Selected:CL,ID=Row,Type=Group,Open = False,Selected = True
+@22 = s$$Group/Closed:CL,ID=Row,Type=Group,Open = False
+@23 = s$$Group/Open/Hot:CL,ID=Row,Type=Group,Open = True,Hot = True
+@24 = s$$Group/Open/Selected:CL,ID=Row,Type=Group,Open = True,Selected = True
+@25 = s$$Group/Open:CL,ID=Row,Type=Group,Open = True
+@50 = s$$Contact/Selected:CL,ID=Row,Type=*Contact,Selected = True
+@51 = s$$Contact/Hot:CL,ID=Row,Type=*Contact,Hot = True
+@62 = s$$Contact/Last:CL,ID=Row,Type=SubContact,SubPos = Last,GroupPos = Last
+@63 = s$$Contact/Normal:CL,ID=Row,Type=SubContact,SubPos = First
+@64 = s$$Contact/Last:CL,ID=Row,Type=SubContact,SubPos = First-Single,GroupPos = Last
+@65 = s$$Contact/Normal:CL,ID=Row,Type=SubContact,SubPos = Last,GroupPos = First
+@66 = s$$Contact/Last:CL,ID=Row,Type=SubContact,SubPos = First-Single,GroupPos = First-Single
+@67 = s$$Contact/Last:CL,ID=Row,Type=MetaContact,GroupPos = Last,Open = False
+@68 = s$$Contact/First:CL,ID=Row,Type=MetaContact,GroupPos = First,Open = False
+@69 = s$$Contact/First:CL,ID=Row,Type=MetaContact,GroupPos = First
+@70 = s$$Contact/Last:CL,ID=Row,Type=MetaContact,GroupPos = First-Single,Open = False
+@71 = s$$Contact/Normal:CL,ID=Row,Type=Contact,GroupPos = Last,Indent = 2
+@72 = s$$Contact/Normal:CL,ID=Row,Type=Contact,GroupPos = First,Indent = 2
+@73 = s$$Contact/Last:CL,ID=Row,Type=Contact,GroupPos = Last
+@74 = s$$Contact/Last:CL,ID=Row,Type=Contact,GroupPos = First-Single
+;@75 = s$$Group/Open:CL,ID=Row,Type=*Contact,Index = 0   ; Fix of first contact is group liked then groups are disabled fix
+@75 = s$$Contact/First:CL,ID=Row,Type=*Contact,Index = 0
+@76 = s$$Contact/First:CL,ID=Row,Type=*Contact,Index = 1
+@77 = s$$Contact/First:CL,ID=Row,Type=*Contact,GroupPos = First
+@78 = s$$Contact/Normal:CL,ID=Row,Type=*Contact
+@80 = s$$Scroll/Back:Main,ID=ScrollBar,Part = Back
+@90 = s$$Scroll/BtnUp:Main,ID=ScrollBar,Part = UpLineButton
+@100 = s$$Scroll/BtnDn:Main,ID=ScrollBar,Part = DownLineButton
+@110 = s$$Scroll/Thumb:Main,ID=ScrollBar,Part = Thumb
+@120 = s$$FrameTitleBar:Main,ID=FrameCaption
+@130 = s$$StatusBar:Main,ID=StatusBar
+@131 = s$$EventArea:Main,ID=EventArea
+@140 = s$$Button/Close/Down:MButton,ID=close,Down = 1
+@150 = s$$Button/Close/Hovered:MButton,ID=close,Hovered = 1
+@160 = s$$Button/Close/Normal:MButton,ID=close
+@170 = s$$Button/Minimize/Down:MButton,ID=minimize,Down = 1
+@180 = s$$Button/Minimize/Hovered:MButton,ID=minimize,Hovered = 1
+@190 = s$$Button/Minimize/Normal:MButton,ID=minimize
+@200 = s$$Button/Menu/Down:MButton,ID=mainmenu,Down = 1
+@210 = s$$Button/Menu/Hovered:MButton,ID=mainmenu,Hovered = 1
+@220 = s$$Button/Menu/Normal:MButton,ID=mainmenu
 
-@300 = s$$ViewMode:ViewMode,ID = Background
-@301 = s$$ViewMode/CurrentMode/Pressed:Button,ID = ViewMode.Select,Pressed = True
-@302 = s$$ViewMode/CurrentMode/Hot:Button,ID = ViewMode.Select,Hovered = True
-@303 = s$$ViewMode/CurrentMode:Button,ID = ViewMode.Select
-@304 = s$$ViewMode/SetupMode/Pressed:Button,ID = ViewMode.Setup,Pressed = True
-@305 = s$$ViewMode/SetupMode/Hot:Button,ID = ViewMode.Setup,Hovered = True
-@306 = s$$ViewMode/SetupMode:Button,ID = ViewMode.Setup
-@307 = s$$ViewMode/ResetMode/Pressed:Button,ID = ViewMode.Clear,Pressed = True
-@308 = s$$ViewMode/ResetMode/Hot:Button,ID = ViewMode.Clear,Hovered = True
-@309 = s$$ViewMode/ResetMode:Button,ID = ViewMode.Clear
+@300 = s$$ViewMode:ViewMode,ID=Background
+@301 = s$$ViewMode/CurrentMode/Pressed:Button,ID=ViewMode.Select,Pressed = True
+@302 = s$$ViewMode/CurrentMode/Hot:Button,ID=ViewMode.Select,Hovered = True
+@303 = s$$ViewMode/CurrentMode:Button,ID=ViewMode.Select
+@304 = s$$ViewMode/SetupMode/Pressed:Button,ID=ViewMode.Setup,Pressed = True
+@305 = s$$ViewMode/SetupMode/Hot:Button,ID=ViewMode.Setup,Hovered = True
+@306 = s$$ViewMode/SetupMode:Button,ID=ViewMode.Setup
+@307 = s$$ViewMode/ResetMode/Pressed:Button,ID=ViewMode.Clear,Pressed = True
+@308 = s$$ViewMode/ResetMode/Hot:Button,ID=ViewMode.Clear,Hovered = True
+@309 = s$$ViewMode/ResetMode:Button,ID=ViewMode.Clear
 @1610 = s$$BarButton/Pressed:Button,Pressed = True
 @1620 = s$$BarButton/Hot:Button,Hovered = True
 @1630 = s$$BarButton:Button

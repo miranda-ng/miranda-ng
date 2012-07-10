@@ -582,8 +582,8 @@ typedef struct _MButton
 MButton * Buttons = NULL;
 DWORD ButtonsCount = 0;
 
-#define _center_h( rc ) (( (rc)->right + (rc)->left ) >> 1)
-#define _center_v( rc ) (( (rc)->bottom + (rc)->top ) >> 1)
+#define _center_h( rc ) (((rc)->right + (rc)->left ) >> 1)
+#define _center_v( rc ) (((rc)->bottom + (rc)->top ) >> 1)
 
 int ModernSkinButton_AddButton(HWND parent,
 							   char * ID,
@@ -639,7 +639,7 @@ int ModernSkinButton_AddButton(HWND parent,
 		bct->StateService = mir_strdup(StateDefService);
 		if (DBkey && &DBkey != '\0') bct->ValueDBSection = mir_strdup(DBkey); else bct->ValueDBSection = NULL;
 		if (TypeDef && &TypeDef != '\0') bct->ValueTypeDef = mir_strdup(TypeDef); else bct->ValueTypeDef = mir_strdup("sDefault");
-		bct->ID = mir_strdup(ID);
+		bct->ID=mir_strdup(ID);
 		bct->Hint = mir_tstrdup(Hint);
 		Buttons[ButtonsCount].bct = bct;
 		Buttons[ButtonsCount].hwnd = NULL;

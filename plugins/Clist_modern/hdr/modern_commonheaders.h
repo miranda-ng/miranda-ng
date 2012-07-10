@@ -289,11 +289,7 @@ enum
 #define MirandaLoading() ((g_CluiData.bSTATE<STATE_NORMAL))
 #define MirandaExiting() ((g_CluiData.bSTATE>STATE_NORMAL))
 
-
-
 char * strdupn(const char * src, int len);
-
-#define SKINBUTTONCLASS _T("MirandaSkinButtonClass")
 
 #define SORTBY_NAME	   0
 #define SORTBY_STATUS  1

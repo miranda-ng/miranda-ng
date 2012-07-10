@@ -40,7 +40,7 @@ public:
 template< class RET, class Ap, class Bp, class Cp, class A, class B, class C> RET Sync( RET(*proc)(Ap, Bp, Cp), A a, B b, C c )
 {
 	PARAMS3<RET, Ap, Bp, Cp> params( proc, a, b, c );
-	DoCall( (PSYNCCALLBACKPROC) PARAMS3<RET, Ap, Bp, Cp>::DoSyncCall, 0, (LPARAM) &params );
+	DoCall((PSYNCCALLBACKPROC) PARAMS3<RET, Ap, Bp, Cp>::DoSyncCall, 0, (LPARAM) &params );
 	return params.GetResult();
 };
 
@@ -66,7 +66,7 @@ public:
 template< class RET, class Ap, class Bp, class A, class B> RET Sync( RET(*proc)(Ap, Bp), A a, B b )
 {
 	PARAMS2<RET, Ap, Bp> params( proc, a, b );
-	DoCall( (PSYNCCALLBACKPROC) PARAMS2<RET, Ap, Bp>::DoSyncCall, 0, (LPARAM) &params );
+	DoCall((PSYNCCALLBACKPROC) PARAMS2<RET, Ap, Bp>::DoSyncCall, 0, (LPARAM) &params );
 	return params.GetResult();
 };
 
@@ -91,7 +91,7 @@ public:
 template< class RET, class Ap, class A> RET Sync( RET(*proc)(Ap), A a )
 {
 	PARAMS1<RET, Ap> params( proc, a );
-	DoCall( (PSYNCCALLBACKPROC) PARAMS1<RET, Ap>::DoSyncCall, 0, (LPARAM) &params );
+	DoCall((PSYNCCALLBACKPROC) PARAMS1<RET, Ap>::DoSyncCall, 0, (LPARAM) &params );
 	return params.GetResult();
 };
 

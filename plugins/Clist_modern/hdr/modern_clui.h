@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "windowsX.h"
 #define HANDLE_MESSAGE( _message, _fn)    \
-	case (_message): return This->_fn( (_message), (wParam), (lParam) )
+	case (_message): return This->_fn((_message), (wParam), (lParam))
 
 class CLUI
 {

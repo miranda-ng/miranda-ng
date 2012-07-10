@@ -649,15 +649,15 @@ int RegisterButtonByParce(char * ObjectName, char * Params)
 			GetParamN(Params,Section, SIZEOF(Section),2,',',0);
 			GetParamN(Params,Type, SIZEOF(Type),3,',',0);
 		}
-		alingnto =  ( (TL[0] == 'R') ? SBF_ALIGN_TL_RIGHT   : 0 )
-			+( (TL[0] == 'C') ? SBF_ALIGN_TL_HCENTER : 0 )
-			+( (TL[1] == 'B') ? SBF_ALIGN_TL_BOTTOM  : 0 )
-			+( (TL[1] == 'C') ? SBF_ALIGN_TL_VCENTER : 0 )
-			+( (TL[2] == 'R') ? SBF_ALIGN_BR_RIGHT   : 0 )
-			+( (TL[2] == 'C') ? SBF_ALIGN_BR_HCENTER : 0 )
-			+( (TL[3] == 'B') ? SBF_ALIGN_BR_BOTTOM  : 0 )
-			+( (TL[3] == 'C') ? SBF_ALIGN_BR_VCENTER : 0 )
-			+( (TL[4] == 'I') ? SBF_CALL_ON_PRESS    : 0 );
+		alingnto =  ((TL[0] == 'R') ? SBF_ALIGN_TL_RIGHT   : 0 )
+			+((TL[0] == 'C') ? SBF_ALIGN_TL_HCENTER : 0 )
+			+((TL[1] == 'B') ? SBF_ALIGN_TL_BOTTOM  : 0 )
+			+((TL[1] == 'C') ? SBF_ALIGN_TL_VCENTER : 0 )
+			+((TL[2] == 'R') ? SBF_ALIGN_BR_RIGHT   : 0 )
+			+((TL[2] == 'C') ? SBF_ALIGN_BR_HCENTER : 0 )
+			+((TL[3] == 'B') ? SBF_ALIGN_BR_BOTTOM  : 0 )
+			+((TL[3] == 'C') ? SBF_ALIGN_BR_VCENTER : 0 )
+			+((TL[4] == 'I') ? SBF_CALL_ON_PRESS    : 0 );
 		if (a) res = ModernSkinButton_AddButton(pcli->hwndContactList,ObjectName+1,pServiceName,pStatusServiceName,"\0",Left,Top,Right,Bottom,alingnto,TranslateTS(Hint),Section,Type,MinWidth,MinHeight);
 		else res = ModernSkinButton_AddButton(pcli->hwndContactList,ObjectName+1,pServiceName,pStatusServiceName,"\0",Left,Top,Right,Bottom,alingnto,TranslateTS(Hint),NULL,NULL,MinWidth,MinHeight);
 	}
