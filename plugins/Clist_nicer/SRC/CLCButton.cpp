@@ -323,9 +323,9 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 	}
 }
 
-static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	MButtonExtension *bct = (MButtonExtension*) GetWindowLongPtr(hwndDlg, 0);
+	MButtonExtension *bct = (MButtonExtension*) GetWindowLongPtr(hwnd, 0);
 
 	switch (msg) {
 	case WM_DESTROY:
@@ -341,7 +341,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_SYSKEYUP:
 		if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == tolower((int) wParam)) {
 			if (!bct->bSendOnDown)
-				SendMessage(pcli->hwndContactList, WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwndDlg);
+				SendMessage(pcli->hwndContactList, WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwnd);
 			bct->lResult = 0;
 			return 1;
 		}
@@ -423,20 +423,28 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case WM_LBUTTONDOWN:
 		if (bct->stateId != PBS_DISABLED && bct->stateId != PBS_PRESSED) {
+			bct->stateId = PBS_PRESSED;
+			InvalidateRect(bct->hwnd, NULL, TRUE);
 			if (bct->bSendOnDown) {
-				SendMessage(pcli->hwndContactList, WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwndDlg);
+				SendMessage( GetParent(hwnd), WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwnd);
 				bct->stateId = PBS_NORMAL;
 				InvalidateRect(bct->hwnd, NULL, TRUE);
-				bct->lResult = 0;
-				return 1;
 			}
 		}
-		break;
+		return 1;
 
 	case WM_LBUTTONUP:
-		if (!bct->bSendOnDown)
-			SendMessage(pcli->hwndContactList, WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwndDlg);
-		break;
+		if (bct->bIsPushBtn)
+			bct->bIsPushed = !bct->bIsPushed;
+
+		if (bct->stateId != PBS_DISABLED) {
+			// don't change states if disabled
+			bct->stateId = PBS_HOT;
+			InvalidateRect(bct->hwnd, NULL, TRUE);
+		}
+		if ( !bct->bSendOnDown)
+			SendMessage( GetParent(hwnd), WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwnd);
+		return 1;
 
 	case WM_NCHITTEST:
 		switch( SendMessage(pcli->hwndContactList, WM_NCHITTEST, wParam, lParam)) {
@@ -458,16 +466,28 @@ static void SetButtonAsCustom(HWND hWnd)
 	SendMessage(hWnd, BUTTONSETCUSTOM, 0, (LPARAM)&Custom);
 }
 
+static LRESULT CALLBACK ToolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_COMMAND && HIWORD(wParam) == BN_CLICKED) {
+		SendMessage(pcli->hwndContactList, msg, wParam, lParam);
+		return 1;
+	}
+	return 0;
+}
+
 static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 {
 	// we don't customize the toolbar window, only buttons
-	if (hButton == TTB_WINDOW_HANDLE)  
+	if (hButton == TTB_WINDOW_HANDLE) {
+		TTBCtrlCustomize custData = { sizeof(TTBCtrl), ToolbarWndProc };
+		SendMessage(hWnd, TTB_SETCUSTOM, 0, (LPARAM)&custData);
 		return;
+	}
 	
 	SetButtonAsCustom(hWnd);
 
+	MButtonExtension *bct = (MButtonExtension*) GetWindowLongPtr(hWnd, 0);
 	if (g_index != -1) { // adding built-in button
-		MButtonExtension *bct = (MButtonExtension*) GetWindowLongPtr(hWnd, 0);
 		bct->iCtrlID = BTNS[g_index].ctrlid;
 		if (BTNS[g_index].isAction) 
 			bct->bSendOnDown = TRUE;
@@ -479,6 +499,11 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat)
 {
 	SetButtonAsCustom(hWnd);
+
+	MButtonExtension *bct = (MButtonExtension*) GetWindowLongPtr(hWnd, 0);
+	if (bct)
+		bct->iCtrlID = GetDlgCtrlID(hWnd);
+
 	SendMessage(hWnd, BUTTONSETSKINNED, bIsSkinned, 0);
 	SendMessage(hWnd, BUTTONSETASTHEMEDBTN, bIsThemed, 0);
 	SendMessage(hWnd, BUTTONSETASFLATBTN, bIsFlat, 0);
