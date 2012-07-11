@@ -60,26 +60,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //wParam = (WPARAM)(HMENU)hMenu
 //lParam = langpack handle (v.0.10.0+)
 //returns 0 on success, nonzero on failure
-#define MS_LANGPACK_TRANSLATEMENU    "LangPack/TranslateMenu"
+#define MS_LANGPACK_TRANSLATEMENU "LangPack/TranslateMenu"
 
 //returns the codepage used in the language pack 	  v0.4.3.0+
 //wParam = 0
 //lParam = 0
 //returns the codepage stated in the langpack, or CP_ACP if no langpack is present
-#define MS_LANGPACK_GETCODEPAGE      "LangPack/GetCodePage"
+#define MS_LANGPACK_GETCODEPAGE "LangPack/GetCodePage"
 
 //returns the locale id associated with the language pack    v0.4.3.0+
 //wParam = 0
 //lParam = 0
 //returns the Windows locale id stated in the langpack, or LOCALE_USER_DEFAULT if no langpack is present
-#define MS_LANGPACK_GETLOCALE        "LangPack/GetLocale"
+#define MS_LANGPACK_GETLOCALE "LangPack/GetLocale"
 
 //returns the strdup/wcsdup of lparam according to the langpack  v0.4.3.0+
 //wParam = langpack handle (v.0.10.0+)
 //lParam = (LPARAM)(char*)source string
 //returns a string converted from char* to TCHAR* using the langpack codepage.
 //This string should be freed using mir_free() then
-#define MS_LANGPACK_PCHARTOTCHAR     "LangPack/PcharToTchar"
+#define MS_LANGPACK_PCHARTOTCHAR "LangPack/PcharToTchar"
 
 #if defined(MIRANDA_CUSTOM_LP)
 
@@ -99,7 +99,7 @@ __inline static INT_PTR Langpack_PCharToTChar(const char* str)
 //wParam = pointer to the langpack handle
 //lParam = PLUGININFOEX* of the caller plugin
 //always returns 0
-#define MS_LANGPACK_REGISTER         "LangPack/Register"
+#define MS_LANGPACK_REGISTER "LangPack/Register"
 
 #if defined(MIRANDA_CUSTOM_LP)
 __inline static void mir_getLP(const PLUGININFOEX* pInfo)
@@ -111,6 +111,12 @@ __inline static void mir_getLP(const PLUGININFOEX* pInfo)
 //wParam = 0 (ignored)
 //lParam = (LPARAM)(TCHAR*)langpack file name or NULL to reload the current one
 //always returns 0
-#define MS_LANGPACK_RELOAD           "LangPack/Reload"
+#define MS_LANGPACK_RELOAD "LangPack/Reload"
+
+//retrieves the hLangpack of a plugin by its HINSTANCE
+//wParam = 0 (ignored)
+//lParam = (LPARAM)(HINSTANCE)plugin's base address
+//returns hLangpack if found, or 0 if error occurred
+#define MS_LANGPACK_LOOKUPHANDLE "LangPack/LookupHandle"
 
 #endif // M_LANGPACK_H__

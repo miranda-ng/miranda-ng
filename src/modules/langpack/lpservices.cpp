@@ -80,10 +80,17 @@ static INT_PTR srvPcharToTchar(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR srvReloadLangpack(WPARAM wParam, LPARAM lParam)
+static INT_PTR srvReloadLangpack(WPARAM wParam, LPARAM lParam)
 {	
 	ReloadLangpack(( TCHAR* )lParam);
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR srvGetPluginLangpack(WPARAM wParam, LPARAM lParam)
+{
+	return GetPluginLangByInstance(( HINSTANCE )lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -101,5 +108,7 @@ int LoadLangpackModule(void)
 	CreateServiceFunction(MS_LANGPACK_PCHARTOTCHAR, srvPcharToTchar);
 	CreateServiceFunction(MS_LANGPACK_REGISTER, srvRegisterLP);
 	CreateServiceFunction(MS_LANGPACK_RELOAD, srvReloadLangpack);
+	CreateServiceFunction(MS_LANGPACK_LOOKUPHANDLE, srvGetPluginLangpack);
+
 	return 0;
 }
