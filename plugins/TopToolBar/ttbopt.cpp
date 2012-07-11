@@ -127,6 +127,9 @@ void CancelProcess(HWND hwndDlg)
 
 static void RecreateWindows()
 {
+	if (g_ctrl->hWnd)
+		PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, TRUE, 0);
+
 	mir_cslock lck(csButtonsHook);
 	for (int i = 0; i < Buttons.getCount(); i++) {
 		TopButtonInt *b = Buttons[i];

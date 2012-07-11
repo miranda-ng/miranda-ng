@@ -7,9 +7,6 @@ int backgroundBmpUse;
 
 static TCHAR pluginname[] = _T("TopToolBar");
 
-#define TTB_REPOSBUTTONS          (WM_USER+10)
-#define TTB_UPDATEFRAMEVISIBILITY (WM_USER+11)
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Toolbar window procedure
 
