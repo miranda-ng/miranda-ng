@@ -20,6 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="checksum.cpp" />
+    <ClCompile Include="md5.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="commonheaders.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>CheckSum</ProjectName>
