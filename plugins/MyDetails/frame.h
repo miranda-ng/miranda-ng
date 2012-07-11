@@ -25,8 +25,8 @@ Boston, MA 02111-1307, USA.
 void InitFrames();
 void DeInitFrames();
 
-void UpdateFrameData();
-void RedrawFrame();
+void RefreshFrame();
+void RefreshFrameAndCalcRects();
 
 void SetCycleTime();
 

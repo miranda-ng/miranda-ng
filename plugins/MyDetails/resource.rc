@@ -14,30 +14,6 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Neutral resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1252)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_LISTENINGTO         ICON    DISCARDABLE     "res\\listening_to.ico"
-IDI_RIGHT_ARROW         ICON    DISCARDABLE     "res\\rightarrow.ico"
-IDI_LEFT_ARROW          ICON    DISCARDABLE     "res\\leftarrow.ico"
-IDI_EMAIL               ICON    DISCARDABLE     "res\\mail.ico"
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
 // English (U.S.) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
@@ -113,7 +89,7 @@ END
 IDD_OPTS DIALOGEX 0, 0, 316, 246
 STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        " General ",IDC_STATIC,7,7,302,70
     CONTROL         "Cycle through protocols every:",
@@ -128,6 +104,8 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,207,18,96,14
     CONTROL         "RTL",IDC_TEXT_RTL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
                     13,32,85,14
+    CONTROL         "Align text to right",IDC_TEXT_ALIGN_RIGHT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,105,32,96,14
     CONTROL         "Global on nickname",IDC_GLOBAL_ON_NICKNAME,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,207,32,96,14
     CONTROL         "Auto-resize frame",IDC_RESIZE_FRAME,"Button",
@@ -142,22 +120,63 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,105,60,96,14
     CONTROL         "Global on status message",IDC_GLOBAL_ON_STATUS_MESSAGE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,207,61,96,14
-    GROUPBOX        " Avatar ",IDC_STATIC,7,80,302,59
+    GROUPBOX        " Frame Options ",IDC_STATIC,7,78,302,44
+    LTEXT           "Top:",IDC_STATIC,16,91,41,11
+    EDITTEXT        IDC_BORDER_TOP,59,89,35,12,ES_NUMBER
+    CONTROL         "",IDC_BORDER_TOP_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | 
+                    UDS_HOTTRACK,88,89,11,12
+    LTEXT           "Bottom:",IDC_STATIC,111,91,41,11
+    EDITTEXT        IDC_BORDER_BOTTOM,154,89,35,12,ES_NUMBER
+    CONTROL         "",IDC_BORDER_BOTTOM_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS | UDS_HOTTRACK,182,89,11,12
+    LTEXT           "Left:",IDC_STATIC,15,105,41,11
+    EDITTEXT        IDC_BORDER_LEFT,59,103,35,12,ES_NUMBER
+    CONTROL         "",IDC_BORDER_LEFT_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS | UDS_HOTTRACK,88,103,11,12
+    LTEXT           "Right:",IDC_STATIC,111,106,41,11
+    EDITTEXT        IDC_BORDER_RIGHT,154,104,35,12,ES_NUMBER
+    CONTROL         "",IDC_BORDER_RIGHT_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS | UDS_HOTTRACK,182,104,11,12
+    LTEXT           "Background Color:",IDC_AVATAR_BKG_COLOR_L,205,91,66,10
+    CONTROL         "",IDC_AVATAR_BKG_COLOR,"ColourPicker",WS_TABSTOP,277,89,
+                    17,13
+    GROUPBOX        " Avatar ",IDC_STATIC,7,124,302,83
+    CONTROL         "Custom size:",IDC_AVATAR_CUSTOM_SIZE_CHK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,137,66,9
+    EDITTEXT        IDC_AVATAR_CUSTOM_SIZE,87,135,35,12,ES_NUMBER
+    CONTROL         "",IDC_AVATAR_CUSTOM_SIZE_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS | UDS_HOTTRACK,116,134,11,12
+    LTEXT           "pixels",IDC_STATIC,130,137,24,11
+    CONTROL         "Allow it to grow",IDC_AVATAR_ALLOW_TO_GROW,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,174,137,106,9
     CONTROL         "Draw border on avatar",IDC_AVATAR_DRAW_BORDER,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,16,95,103,9
-    LTEXT           "Border Color:",IDC_AVATAR_BORDER_COLOR_L,123,95,53,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,152,103,9
+    LTEXT           "Border Color:",IDC_AVATAR_BORDER_COLOR_L,123,152,53,10
     CONTROL         "",IDC_AVATAR_BORDER_COLOR,"ColourPicker",WS_TABSTOP,180,
-                    92,17,13
+                    149,17,13
     CONTROL         "Round corners of avatars",IDC_AVATAR_ROUND_CORNERS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,109,280,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,166,280,8
     CONTROL         "Custom corner size:",
                     IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,27,122,93,11
-    EDITTEXT        IDC_AVATAR_CUSTOM_CORNER_SIZE,127,121,35,12,ES_NUMBER
+                    BS_AUTOCHECKBOX | WS_TABSTOP,27,179,93,11
+    EDITTEXT        IDC_AVATAR_CUSTOM_CORNER_SIZE,127,178,35,12,ES_NUMBER
     CONTROL         "",IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN,"msctls_updown32",
                     UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS | UDS_HOTTRACK,165,121,11,12
-    LTEXT           "pixels",IDC_STATIC,179,124,41,11
+                    UDS_NOTHOUSANDS | UDS_HOTTRACK,165,178,11,12
+    LTEXT           "pixels",IDC_STATIC,179,181,41,11
+    CONTROL         "Use free space (under avatar) to other texts",
+                    IDC_AVATAR_USE_FREE_SPACE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,16,195,280,8
+    GROUPBOX        " Protocol ",IDC_STATIC,7,209,302,28
+    CONTROL         "Show protocol name",IDC_SHOW_PROTO_NAME,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,13,221,138,14
+    CONTROL         "Show protocol cycle button",IDC_SHOW_CYCLE_PROTO_BUTTON,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,221,138,14
 END
 
 IDD_SETSTATUSMESSAGE DIALOG DISCARDABLE  0, 0, 283, 68
@@ -208,6 +227,17 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_LISTENINGTO         ICON    DISCARDABLE     "res\\listening_to.ico"
+IDI_RIGHT_ARROW         ICON    DISCARDABLE     "res\\rightarrow.ico"
+IDI_LEFT_ARROW          ICON    DISCARDABLE     "res\\leftarrow.ico"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

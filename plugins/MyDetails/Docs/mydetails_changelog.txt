@@ -2,38 +2,6 @@ My Details
 
 Changelog:
 
-. 0.0.2.6
-  + Added support for clist modern skin engine
-  + Added pidgin style skin
-  * Fix for last shown protocol
-  * Updated updater to use googlecode
-
-. 0.0.2.5
-  + Use account name and ordering
-  * Better handling status messages
-  * Fix for jabber status names
-  * Bug fixes
-
-. 0.0.2.3
-  * Moved background color to font service settings
-  + Better simple away support
-
-. 0.0.2.2
-  * Fix for email count
-  * Better handling of hover
-  * Better handling of small sizes
-  * If fixed avatar size is set, use it even if no avatar present
-  + If windows uses RTL, it is selected by default
-
-. 0.0.2.1
-  + Show lock icon over status
-  + Show unread mail count
-  * Resize frame is working again
-  * Still work in progress
-
-. 0.0.2.0
-  + Now uses skins plugin to position elements (work in progress)
-
 . 0.0.1.11
   * Fix for arrows: always draw then at right side
 

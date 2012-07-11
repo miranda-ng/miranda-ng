@@ -36,19 +36,19 @@ struct Options
 	bool use_contact_list_smileys;
 
 	bool draw_text_rtl;
-//	bool draw_text_align_right;
+	bool draw_text_align_right;
 
-//	bool draw_show_protocol_name;
-//	bool show_protocol_cycle_button;
+	bool draw_show_protocol_name;
+	bool show_protocol_cycle_button;
 
 	bool global_on_avatar;
 	bool global_on_nickname;
 	bool global_on_status;
 	bool global_on_status_message;
 
-//	bool draw_avatar_custom_size;
-//	bool draw_avatar_allow_to_grow;
-//	int draw_avatar_custom_size_pixels;
+	bool draw_avatar_custom_size;
+	bool draw_avatar_allow_to_grow;
+	int draw_avatar_custom_size_pixels;
 	bool draw_avatar_border;
 	COLORREF draw_avatar_border_color;
 	bool draw_avatar_round_corner;
@@ -56,9 +56,9 @@ struct Options
 	int draw_avatar_custom_corner_size;
 
 	COLORREF bkg_color;
-//	int borders[4];
+	int borders[4];
 
-//	bool use_avatar_space_to_draw_text;
+	bool use_avatar_space_to_draw_text;
 
 	bool resize_frame;
 

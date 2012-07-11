@@ -27,9 +27,6 @@ Boston, MA 02111-1307, USA.
 #include <win2k.h>
 #include <commctrl.h>
 #include <stdio.h>
-#include <vector>
-
-#define MIRANDA_VER 0x800
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_skin.h>
@@ -64,8 +61,6 @@ Boston, MA 02111-1307, USA.
 
 #include <io.h>
 
-#include "../skins/m_skins_cpp.h"
-
 #include "resource.h"
 
 
@@ -81,8 +76,6 @@ extern PLUGINLINK *pluginLink;
 extern long nickname_dialog_open;
 extern long status_msg_dialog_open;
 
-extern SkinDialog *dialog;
-
 
 #include "m_mydetails.h"
 #include "data.h"
@@ -92,42 +85,16 @@ extern SkinDialog *dialog;
 #include "../utils/mir_memory.h"
 #include "../utils/mir_options.h"
 #include "../utils/mir_icons.h"
-#include "../utils/tstring.h"
 
 
 #define PS_SETMYAVATAR "/SetMyAvatar"
 #define PS_GETMYAVATAR "/GetMyAvatar"
 #define PS_GETMYAVATARMAXSIZE "/GetMyAvatarMaxSize"
-#define PS_GETUNREADEMAILCOUNT "/GetUnreadEmailCount"
 
 #define PS_SETMYNICKNAME "/SetNickname"
 
 #define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"
 
-#define WAYD_UNICODE 1        // return Unicode texts
-#if defined( _UNICODE )
-	#define WAYD_TCHAR WAYD_UNICODE
-#else
-	#define WAYD_TCHAR 0
-#endif
-
-// Get the max length that a WAYD message can have
-// wParam=(WPARAM)0
-// lParam=(LPARAM)0
-// Returns the max length
-#define PS_GET_MY_WAYD_MAXLENGTH "/GetMyWAYDMaxLength"
-
-// Get the WAYD message for the user
-// wParam=(WPARAM)WAYD_xxx
-// lParam=(LPARAM)0
-// Returns the text or NULL if there is none. Remember to mir_free the return value.
-#define PS_GET_MY_WAYD "/GetMyWAYD"
-
-// Sets the WAYD message for the user
-// wParam=(WPARAM)WAYD_xxx
-// lParam=(LPARAM)(WCHAR * or char *)The text to set
-// Returns 0 on success, nonzero on failure
-#define PS_SET_MY_WAYD "/SetMyWAYD"
 
 #define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]) )
 
@@ -141,6 +108,21 @@ __inline static int ProtoServiceExists(const char *szModule,const char *szServic
 	return ServiceExists(str);
 }
 
+
+// Helper
+static __inline int DRAW_TEXT(HDC hDC, LPCSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, 
+					 SmileysParseInfo parseInfo)
+{
+	if (opts.replace_smileys)
+	{
+		return Smileys_DrawText(hDC, lpString, nCount, lpRect, uFormat | (opts.resize_smileys ? DT_RESIZE_SMILEYS : 0), 
+			opts.use_contact_list_smileys ? "clist" : protocol, parseInfo);
+	}
+	else
+	{
+		return DrawText(hDC, lpString, nCount, lpRect, uFormat);
+	}
+}
 
 
 

@@ -36,9 +36,12 @@ static BOOL CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 
 static OptPageControl pageControls[] = { 
-	{ &opts.draw_text_rtl,						CONTROL_CHECKBOX,	IDC_TEXT_RTL, "TextRTL", (BYTE) 0 },
 	{ &opts.cycle_through_protocols,			CONTROL_CHECKBOX,	IDC_CYCLE_THROUGH_PROTOS, "CicleThroughtProtocols", (BYTE) 1 },
 	{ &opts.seconds_to_show_protocol,			CONTROL_SPIN,		IDC_CYCLE_TIME, "CicleTime", (WORD) 5, IDC_CYCLE_TIME_SPIN, (WORD) 1, (WORD) 255 },
+	{ &opts.draw_show_protocol_name,			CONTROL_CHECKBOX,	IDC_SHOW_PROTO_NAME, "ShowProtocolName", (BYTE) 1 },
+	{ &opts.show_protocol_cycle_button,			CONTROL_CHECKBOX,	IDC_SHOW_CYCLE_PROTO_BUTTON, "ShowProtocolCycleButton", (BYTE) 0 },
+	{ &opts.draw_text_rtl,						CONTROL_CHECKBOX,	IDC_TEXT_RTL, "TextRTL", (BYTE) 0 },
+	{ &opts.draw_text_align_right,				CONTROL_CHECKBOX,	IDC_TEXT_ALIGN_RIGHT, "TextAlignRight", (BYTE) 0 },
 	{ &opts.replace_smileys,					CONTROL_CHECKBOX,	IDC_REPLACE_SMILEYS, "ReplaceSmileys", (BYTE) 1 },
 	{ &opts.resize_smileys,						CONTROL_CHECKBOX,	IDC_RESIZE_SMILEYS, "ResizeSmileys", (BYTE) 0 },
 	{ &opts.use_contact_list_smileys,			CONTROL_CHECKBOX,	IDC_USE_CONTACT_LIST_SMILEYS, "UseContactListSmileys", (BYTE) 0 },
@@ -46,21 +49,27 @@ static OptPageControl pageControls[] = {
 	{ &opts.global_on_nickname,					CONTROL_CHECKBOX,	IDC_GLOBAL_ON_NICKNAME, "GlobalOnNickname", (BYTE) 0 },
 	{ &opts.global_on_status,					CONTROL_CHECKBOX,	IDC_GLOBAL_ON_STATUS, "GlobalOnStatus", (BYTE) 0 },
 	{ &opts.global_on_status_message,			CONTROL_CHECKBOX,	IDC_GLOBAL_ON_STATUS_MESSAGE, "GlobalOnStatusMessage", (BYTE) 0 },
+	{ &opts.draw_avatar_allow_to_grow,			CONTROL_CHECKBOX,	IDC_AVATAR_ALLOW_TO_GROW, "AvatarAllowToGrow", (BYTE) 0 },
+	{ &opts.draw_avatar_custom_size,			CONTROL_CHECKBOX,	IDC_AVATAR_CUSTOM_SIZE_CHK, "AvatarCustomSize", (BYTE) 0 },
+	{ &opts.draw_avatar_custom_size_pixels,		CONTROL_SPIN,		IDC_AVATAR_CUSTOM_SIZE, "AvatarCustomSizePixels", (WORD) 30, IDC_AVATAR_CUSTOM_SIZE_SPIN, (WORD) 1, (WORD) 255 },
 	{ &opts.draw_avatar_border,					CONTROL_CHECKBOX,	IDC_AVATAR_DRAW_BORDER, "AvatarDrawBorders", (BYTE) 0 },
 	{ &opts.draw_avatar_border_color,			CONTROL_COLOR,		IDC_AVATAR_BORDER_COLOR, "AvatarBorderColor", (DWORD) RGB(0,0,0) },
 	{ &opts.draw_avatar_round_corner,			CONTROL_CHECKBOX,	IDC_AVATAR_ROUND_CORNERS, "AvatarRoundCorners", (BYTE) 1 },
 	{ &opts.draw_avatar_use_custom_corner_size, CONTROL_CHECKBOX,	IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK, "AvatarUseCustomCornerSize", (BYTE) 0 },
 	{ &opts.draw_avatar_custom_corner_size,		CONTROL_SPIN,		IDC_AVATAR_CUSTOM_CORNER_SIZE, "AvatarCustomCornerSize", (WORD) 4, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, (WORD) 1, (WORD) 255 },
+	{ &opts.use_avatar_space_to_draw_text,		CONTROL_CHECKBOX,	IDC_AVATAR_USE_FREE_SPACE, "AvatarUseFreeSpaceToDrawText", (BYTE) 1 },
 	{ &opts.resize_frame,						CONTROL_CHECKBOX,	IDC_RESIZE_FRAME, "ResizeFrame", (BYTE) 0 },
+	{ &opts.borders[RIGHT],						CONTROL_SPIN,		IDC_BORDER_RIGHT, "BorderRight", (WORD) 8, IDC_BORDER_RIGHT_SPIN, (WORD) 0, (WORD) 255 },
+	{ &opts.borders[LEFT],						CONTROL_SPIN,		IDC_BORDER_LEFT, "BorderLeft", (WORD) 8, IDC_BORDER_LEFT_SPIN, (WORD) 0, (WORD) 255 },
+	{ &opts.borders[TOP],						CONTROL_SPIN,		IDC_BORDER_TOP, "BorderTop", (WORD) 8, IDC_BORDER_TOP_SPIN, (WORD) 0, (WORD) 255 },
+	{ &opts.borders[BOTTOM],					CONTROL_SPIN,		IDC_BORDER_BOTTOM, "BorderBottom", (WORD) 8, IDC_BORDER_BOTTOM_SPIN, (WORD) 0, (WORD) 255 },
+	{ &opts.bkg_color,							CONTROL_COLOR,		IDC_AVATAR_BKG_COLOR, "BackgroundColor", (DWORD) GetSysColor(COLOR_BTNFACE) }
 };
 
 
 // Initializations needed by options
 void LoadOptions()
 {
-	if (GetSystemMetrics(SM_MIDEASTENABLED))
-		pageControls[0].dwDefValue = TRUE;
-
 	LoadOpts(pageControls, MAX_REGS(pageControls), MODULE_NAME);
 
 	// This is created here to assert that this key always exists
@@ -68,7 +77,7 @@ void LoadOptions()
 	DBWriteContactSettingWord(NULL,"MyDetails","RefreshStatusMessageTimer", opts.refresh_status_message_timer);
 
 	SetCycleTime();
-	RedrawFrame();
+	RefreshFrameAndCalcRects();
 }
 
 

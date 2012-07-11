@@ -9,7 +9,6 @@
 #define IDI_LISTENINGTO                 105
 #define IDI_RIGHT_ARROW                 106
 #define IDI_LEFT_ARROW                  107
-#define IDI_EMAIL                       111
 #define IDC_NICKNAME                    1000
 #define IDC_SHOW_PROTO_NAME             1001
 #define IDC_CYCLE_THROUGH_PROTOS        1002
@@ -64,7 +63,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        112
+#define _APS_NEXT_RESOURCE_VALUE        108
 #define _APS_NEXT_COMMAND_VALUE         40013
 #define _APS_NEXT_CONTROL_VALUE         1011
 #define _APS_NEXT_SYMED_VALUE           101
