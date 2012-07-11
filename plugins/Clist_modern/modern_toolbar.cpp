@@ -50,6 +50,8 @@ static BTNS[] =
 	{ "Minimize","Minimize", "CList/ShowHide", "Minimize", NULL,  180 , IDI_RESETVIEW, IDI_RESETVIEW, FALSE }
 };
 
+void SetButtonPressed(HANDLE hButton, int state);
+
 static int Modern_InitButtons(WPARAM, LPARAM)
 {
 	TTBButton tbb = { 0 };
@@ -81,10 +83,9 @@ static int Modern_InitButtons(WPARAM, LPARAM)
 		BTNS[i].hButton = TopToolbar_AddButton(&tbb);
 	}
 
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[3].hButton, db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? TTBST_PUSHED : TTBST_RELEASED);
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[6].hButton, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? TTBST_PUSHED : TTBST_RELEASED);
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[7].hButton, db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT) ? TTBST_PUSHED : TTBST_RELEASED);
-
+	SetButtonPressed(BTNS[3].hButton, db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
+	SetButtonPressed(BTNS[6].hButton, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+	SetButtonPressed(BTNS[7].hButton, db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
 	return 1;
 }
 
@@ -125,13 +126,13 @@ static int ehhToolBarSettingsChanged(WPARAM wParam, LPARAM lParam)
 
 	if (!mir_strcmp(cws->szModule,"CList")) {
 		if (!mir_strcmp(cws->szSetting,"HideOffline"))
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[3].hButton, cws->value.bVal ? TTBST_PUSHED : TTBST_RELEASED);
+			SetButtonPressed(BTNS[3].hButton, cws->value.bVal);
 		else if (!mir_strcmp(cws->szSetting,"UseGroups"))
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[6].hButton, cws->value.bVal ? TTBST_PUSHED : TTBST_RELEASED);
+			SetButtonPressed(BTNS[6].hButton, cws->value.bVal);
 	}
 	else if (!mir_strcmp(cws->szModule,"Skin")) {
 		if (!mir_strcmp(cws->szSetting,"UseSound"))
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[7].hButton, cws->value.bVal ? TTBST_PUSHED : TTBST_RELEASED);
+			SetButtonPressed(BTNS[7].hButton, cws->value.bVal);
 	}
 	
 	return 0;
@@ -336,7 +337,8 @@ static void CopySettings(const char* to, const char* from)
 
 HRESULT ToolbarLoadModule()
 {
-	if ( db_get_b(NULL, "CLUI", "ShowButtonBar", -1) != -1) {
+	BYTE bOldSetting = db_get_b(NULL, "CLUI", "ShowButtonBar", 255);
+	if (bOldSetting != 255) {
 		CopySettings("BUTTWIDTH",    "option_Bar0_BtnWidth");
 		CopySettings("BUTTHEIGHT",   "option_Bar0_BtnHeight");
 		CopySettings("BUTTGAP",      "option_Bar0_BtnSpace");
@@ -347,8 +349,9 @@ HRESULT ToolbarLoadModule()
 
 		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"ModernToolBar");
 
-		if (IDYES == MessageBox(NULL, TranslateTS(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
-			CallService(MS_UTILS_OPENURL, 0, (LPARAM)szUrl);
+		if (bOldSetting == 1)
+			if (IDYES == MessageBox(NULL, TranslateTS(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
+				CallService(MS_UTILS_OPENURL, 0, (LPARAM)szUrl);
 	}
 
 	ehhToolBarBackgroundSettingsChanged(0,0);

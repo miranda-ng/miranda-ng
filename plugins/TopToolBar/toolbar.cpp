@@ -555,10 +555,8 @@ static void PaintToolbar(HWND hwnd)
 	HBITMAP hOldBmp = (HBITMAP)SelectObject(hdcMem, hBmpOsb);
 	SetBkMode(hdcMem, TRANSPARENT);
 
-	HBRUSH hBrush, hoBrush;
-
-	hBrush = CreateSolidBrush(bkColour);
-	hoBrush = (HBRUSH)SelectObject(hdcMem, hBrush);
+	HBRUSH hBrush = CreateSolidBrush(bkColour);
+	HBRUSH hoBrush = (HBRUSH)SelectObject(hdcMem, hBrush);
 	FillRect(hdcMem, rcPaint, hBrush);
 	SelectObject(hdcMem, hoBrush);
 	DeleteObject(hBrush);

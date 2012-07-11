@@ -18,14 +18,14 @@ void CustomizeToolbar(HWND);
 
 struct TBBUTTONDATA : public MButtonCtrl
 {
-	char  szButtonID[64];  // Unique stringID of button in form Module.Name
-	BOOL  fSendOnDown;     // send event on button pushed
-	BOOL  fHotMark;        // button is hot marked (e.g. current state)
-	BOOL  fFocused;
-	int   nFontID;         // internal font ID
-	HICON hIconPrivate;    // icon need to be destroyed
-	TCHAR szText[128];     // text on the button
-	RECT  rcMargins;       // margins of inner content
+	char   szButtonID[64];  // Unique stringID of button in form Module.Name
+	BOOL   fSendOnDown;     // send event on button pushed
+	BOOL   fHotMark;        // button is hot marked (e.g. current state)
+	BOOL   fFocused;
+	int    nFontID;         // internal font ID
+	HANDLE ttbID;           // control ID
+	TCHAR  szText[128];     // text on the button
+	RECT   rcMargins;       // margins of inner content
 
 	HANDLE  hIcolibHandle; // handle of icon in iconlib
 
@@ -164,7 +164,7 @@ static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT *pOffset)
 
 	RECT rcTemp	 = rcClient;  //content rect
 	BYTE bPressed = (lpSBData->stateId == PBS_PRESSED || lpSBData->bIsPushed == TRUE)?1:0;
-	HICON hHasIcon = lpSBData->hIcon?lpSBData->hIcon:lpSBData->hIconPrivate?lpSBData->hIconPrivate:NULL;
+	HICON hHasIcon = lpSBData->hIcon ? lpSBData->hIcon : NULL;
 	BOOL fHasText  = (lpSBData->szText[0] != '\0');
 
 	/* formatter */
@@ -242,8 +242,6 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 	case WM_DESTROY:
 		xpt_FreeThemeForWindow(hwndDlg);
 		WindowList_Remove(hButtonWindowList, hwndDlg);
-		if (lpSBData->hIconPrivate)
-			DestroyIcon(lpSBData->hIconPrivate);
 		break;  // DONT! fall thru
 
 	case WM_SETTEXT:
@@ -257,6 +255,13 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		lpSBData->nFontID = (int) lParam - 1;
 		break;
 	
+	case MBM_SETBUTTONSTATE:
+		if (lpSBData->ttbID == (HANDLE)wParam) {
+			lpSBData->bIsPushed = lParam;
+			InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
+		}
+		break;
+
 	case BUTTONSETSENDONDOWN:
 		lpSBData->fSendOnDown = (BOOL) lParam;
 		break;
@@ -348,10 +353,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 			if (lpSBData->stateId != PBS_DISABLED) {
 				// don't change states if disabled
-				if (msg == WM_LBUTTONUP)
-					lpSBData->stateId = PBS_HOT;
-				else
-					lpSBData->stateId = PBS_NORMAL;
+				lpSBData->stateId = PBS_HOT;
 				InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
 			}
 			if ( !lpSBData->fSendOnDown)
@@ -413,11 +415,6 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		return 1;
 
 	case MBM_SETICOLIBHANDLE:
-		if (lpSBData->hIconPrivate) {
-			DestroyIcon(lpSBData->hIconPrivate);
-			lpSBData->hIconPrivate = 0;
-		}
-
 		lpSBData->hIcolibHandle = (HANDLE)lParam;
 		if (lpSBData->hIcolibHandle)
 			lpSBData->hIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0 , (LPARAM) lpSBData->hIcolibHandle);
@@ -426,10 +423,6 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		return 1;
 
 	case MBM_REFRESHICOLIBICON:
-		if (lpSBData->hIconPrivate) {
-			DestroyIcon(lpSBData->hIconPrivate);
-			lpSBData->hIconPrivate = 0;
-		}
 		if (lpSBData->hIcolibHandle)
 			lpSBData->hIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0 , (LPARAM) lpSBData->hIcolibHandle);
 		else		
@@ -452,78 +445,13 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			}
 		}
 		return 1;
-
-	case BM_GETIMAGE:
-		if (wParam == IMAGE_ICON) {
-			lpSBData->lResult = (LRESULT)(lpSBData->hIconPrivate ? lpSBData->hIconPrivate : lpSBData->hIcon);
-			return 1;
-		}
-		break;
-
-	case BM_SETIMAGE:
-		if ( !lParam)
-			break;
-
-		if (wParam == IMAGE_ICON) {
-			ICONINFO ii = {0};
-			BITMAP bm = {0};
-
-			if (lpSBData->hIconPrivate) {
-				DestroyIcon(lpSBData->hIconPrivate);
-				lpSBData->hIconPrivate = 0;
-			}
-
-			GetIconInfo((HICON) lParam, &ii);
-			GetObject(ii.hbmColor, sizeof(bm), &bm);
-			if (bm.bmWidth > 16 || bm.bmHeight > 16) {
-				HIMAGELIST hImageList;
-				hImageList = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, 1, 0);
-				ImageList_AddIcon(hImageList, (HICON) lParam);
-				lpSBData->hIconPrivate = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
-				ImageList_RemoveAll(hImageList);
-				ImageList_Destroy(hImageList);
-				lpSBData->hIcon = 0;
-			} 
-			else {
-				lpSBData->hIcon = (HICON) lParam;
-				lpSBData->hIconPrivate = NULL;
-			}
-
-			DeleteObject(ii.hbmMask);
-			DeleteObject(ii.hbmColor);
-			InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
-			lpSBData->lResult = 0;
-			return 1;
-		}
-		if (wParam == IMAGE_BITMAP) 
-		{
-			if (lpSBData->hIconPrivate)
-				DestroyIcon(lpSBData->hIconPrivate);
-			lpSBData->hIcon = lpSBData->hIconPrivate = NULL;
-			InvalidateParentRect(lpSBData->hwnd, NULL, TRUE);
-		}
-		break;
 	}
 	return 0;
 }
 
-static BOOL CALLBACK BroadcastEnumChildProc(HWND hwndChild, LPARAM lParam) 
+void SetButtonPressed(HANDLE hButton, int state)
 {
-	MSG * pMsg=(MSG*)lParam;
-	SendNotifyMessage( hwndChild, pMsg->message, pMsg->wParam, pMsg->lParam );
-	EnumChildWindows( hwndChild, BroadcastEnumChildProc, lParam );
-	return TRUE;
-}
-
-static LRESULT BroadCastMessageToChild(HWND hwnd, int message, WPARAM wParam, LPARAM lParam )
-{
-	MSG msg={0};
-	msg.hwnd=hwnd;
-	msg.lParam=lParam;
-	msg.wParam=wParam;
-	msg.message=message;
-	EnumChildWindows(hwnd, BroadcastEnumChildProc, (LPARAM) &msg);
-	return 1;
+	WindowList_BroadcastAsync(hButtonWindowList, MBM_SETBUTTONSTATE, (WPARAM)hButton, state);
 }
 
 void MakeButtonSkinned(HWND hWnd)
@@ -552,6 +480,7 @@ static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
 
 	TBBUTTONDATA* p = (TBBUTTONDATA*)GetWindowLongPtr(hWnd, 0);
 	sprintf(p->szButtonID, "Toolbar.%p", p->hwnd);
+	p->ttbID = ttbid;
 	SendMessage(hWnd, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 }
 
