@@ -375,8 +375,8 @@ INT_PTR TTBSetState(WPARAM wParam, LPARAM lParam)
 	if (b == NULL)
 		return -1;
 
-	b->bPushed = (lParam&TTBST_PUSHED)?TRUE:FALSE;
-	b->bPushed = (lParam&TTBST_RELEASED)?FALSE:TRUE;
+	b->bPushed = (lParam & TTBST_PUSHED)?TRUE:FALSE;
+	b->bPushed = (lParam & TTBST_RELEASED)?FALSE:TRUE;
 	b->SetBitmap();
 	return 0;
 }
@@ -455,7 +455,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 	int retval;
 
 	mir_cslock lck(csButtonsHook);
-	TopButtonInt* b = idtopos(wParam);
+	TopButtonInt* b = idtopos(HIWORD(wParam));
 	if (b == NULL)
 		return -1;
 

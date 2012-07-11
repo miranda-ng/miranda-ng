@@ -50,7 +50,10 @@ static BTNS[] =
 	{ "Minimize","Minimize", "CList/ShowHide", "Minimize", NULL,  180 , IDI_RESETVIEW, IDI_RESETVIEW, FALSE }
 };
 
-void SetButtonPressed(HANDLE hButton, int state);
+static void SetButtonPressed(int i, int state)
+{
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[i].hButton, state ? TTBST_PUSHED : TTBST_RELEASED);
+}
 
 static int Modern_InitButtons(WPARAM, LPARAM)
 {
@@ -83,9 +86,9 @@ static int Modern_InitButtons(WPARAM, LPARAM)
 		BTNS[i].hButton = TopToolbar_AddButton(&tbb);
 	}
 
-	SetButtonPressed(BTNS[3].hButton, db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
-	SetButtonPressed(BTNS[6].hButton, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
-	SetButtonPressed(BTNS[7].hButton, db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
+	SetButtonPressed(3, db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
+	SetButtonPressed(6, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+	SetButtonPressed(7, !db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
 	return 1;
 }
 
@@ -126,13 +129,13 @@ static int ehhToolBarSettingsChanged(WPARAM wParam, LPARAM lParam)
 
 	if (!mir_strcmp(cws->szModule,"CList")) {
 		if (!mir_strcmp(cws->szSetting,"HideOffline"))
-			SetButtonPressed(BTNS[3].hButton, cws->value.bVal);
+			SetButtonPressed(3, cws->value.bVal);
 		else if (!mir_strcmp(cws->szSetting,"UseGroups"))
-			SetButtonPressed(BTNS[6].hButton, cws->value.bVal);
+			SetButtonPressed(6, cws->value.bVal);
 	}
 	else if (!mir_strcmp(cws->szModule,"Skin")) {
 		if (!mir_strcmp(cws->szSetting,"UseSound"))
-			SetButtonPressed(BTNS[7].hButton, cws->value.bVal);
+			SetButtonPressed(7, !cws->value.bVal);
 	}
 	
 	return 0;
