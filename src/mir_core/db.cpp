@@ -27,12 +27,16 @@ MIR_CORE_DLL(int) db_get_b(HANDLE hContact, const char *szModule, const char *sz
 {
 	DBVARIANT dbv;
 	DBCONTACTGETSETTING cgs;
-	cgs.szModule  =  szModule;
-	cgs.szSetting  =  szSetting;
-	cgs.pValue  =  &dbv;
-	if (CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs))
-		return errorValue;
-	return dbv.bVal;
+	cgs.szModule = szModule;
+	cgs.szSetting = szSetting;
+	cgs.pValue = &dbv;
+	if ( !CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs))
+		switch(dbv.type) {
+			case DBVT_BYTE:	return dbv.bVal;
+			case DBVT_WORD:   return BYTE(dbv.wVal);
+			case DBVT_DWORD:	return BYTE(dbv.dVal);
+		}
+	return errorValue;
 }
 
 MIR_CORE_DLL(int) db_get_w(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
@@ -42,9 +46,13 @@ MIR_CORE_DLL(int) db_get_w(HANDLE hContact, const char *szModule, const char *sz
 	cgs.szModule = szModule;
 	cgs.szSetting = szSetting;
 	cgs.pValue = &dbv;
-	if (CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs))
-		return errorValue;
-	return dbv.wVal;
+	if ( !CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs))
+		switch(dbv.type) {
+			case DBVT_BYTE:	return dbv.bVal;
+			case DBVT_WORD:   return dbv.wVal;
+			case DBVT_DWORD:	return WORD(dbv.dVal);
+		}
+	return errorValue;
 }
 
 MIR_CORE_DLL(DWORD) db_get_dw(HANDLE hContact, const char *szModule, const char *szSetting, DWORD errorValue)
@@ -54,9 +62,14 @@ MIR_CORE_DLL(DWORD) db_get_dw(HANDLE hContact, const char *szModule, const char 
 	cgs.szModule = szModule;
 	cgs.szSetting = szSetting;
 	cgs.pValue = &dbv;
-	if (CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs))
-		return errorValue;
-	return dbv.dVal;
+	if ( !CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs))
+		switch(dbv.type) {
+			case DBVT_BYTE:	return dbv.bVal;
+			case DBVT_WORD:   return dbv.wVal;
+			case DBVT_DWORD:	return dbv.dVal;
+		}
+		
+	return errorValue;
 }
 
 MIR_CORE_DLL(INT_PTR) db_get(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
@@ -185,7 +198,7 @@ MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const c
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_BLOB;
-    cws.value.cpbVal  =  (WORD)len;
+    cws.value.cpbVal = (WORD)len;
 	cws.value.pbVal = (unsigned char*)val;
 	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 }
