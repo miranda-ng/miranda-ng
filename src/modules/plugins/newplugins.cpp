@@ -127,6 +127,19 @@ char* GetPluginNameByInstance(HINSTANCE hInstance)
 	return NULL;
 }
 
+int GetPluginLangByInstance(HINSTANCE hInstance)
+{
+	if (pluginList.getCount() == 0) 
+		return NULL;
+
+	for (int i=0; i < pluginList.getCount(); i++) {
+		pluginEntry* p = pluginList[i];
+		if (p->bpi.pluginInfo && p->bpi.hInst == hInstance)
+			return p->hLangpack;
+	}
+	return NULL;
+}
+
 int GetPluginFakeId(const MUUID &uuid, int hLangpack)
 {
 	for (int i=0; i < pluginList.getCount(); i++) {

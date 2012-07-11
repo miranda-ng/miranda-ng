@@ -267,6 +267,7 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 			return -1;
 
 		b = CreateButton(but);
+		b->hLangpack = (int)lParam;
 		b->LoadSettings();
 		Buttons.insert(b);
 		b->CreateWnd();
@@ -550,6 +551,31 @@ static INT_PTR TTBSetCustomProc(WPARAM wParam, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Removes buttons of plugins being unloads. lParam = HINSTANCE
+
+int OnPluginUnload(WPARAM wParam, LPARAM lParam)
+{
+	int hLangpack = CallService(MS_LANGPACK_LOOKUPHANDLE, 0, lParam);
+	if (hLangpack) {
+		bool bNeedUpdate = false;
+		mir_cslock lck(csButtonsHook);
+
+		for (int i=Buttons.getCount()-1; i >= 0; i--)
+			if (Buttons[i]->hLangpack == hLangpack) {
+				TTBRemoveButton(Buttons[i]->id, 0);
+				bNeedUpdate = true;
+			}
+
+		if (bNeedUpdate) {
+			ArrangeButtons();
+			if (g_ctrl->hWnd)
+				PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, TRUE, 0);
+		}
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 {
@@ -605,6 +631,7 @@ int LoadToolbarModule()
 	InitializeCriticalSection(&csButtonsHook);
 	hBmpSeparator = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SEP));
 
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnPluginUnload);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad);
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconChange);
 	HookEvent(ME_OPT_INITIALISE, TTBOptInit);
@@ -618,12 +645,12 @@ int LoadToolbarModule()
 
 	CreateServiceFunction(MS_TTB_SETBUTTONSTATE, TTBSetState);
 	CreateServiceFunction(MS_TTB_GETBUTTONSTATE, TTBGetState);
-	
+
 	CreateServiceFunction(MS_TTB_GETBUTTONOPTIONS, TTBGetOptions);
 	CreateServiceFunction(MS_TTB_SETBUTTONOPTIONS, TTBSetOptions);
 
 	CreateServiceFunction(TTB_LAUNCHSERVICE, LaunchService);
-	
+
 	CreateServiceFunction("TopToolBar/SetCustomProc", TTBSetCustomProc);
 	CreateServiceFunction("TTB_ONSTARTUPFIRE", OnEventFire);
 

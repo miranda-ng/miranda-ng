@@ -7,6 +7,9 @@ static int maxid = 10000;
 
 TopButtonInt::~TopButtonInt()
 {
+	if (hwnd)
+		DestroyWindow(hwnd);
+
 	if (dwFlags & TTBBF_ISLBUTTON) {
 		mir_free(ptszProgram);
 	}
