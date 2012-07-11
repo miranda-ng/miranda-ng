@@ -1,9 +1,9 @@
 /*
 Popup Plus plugin for Miranda IM
 
-Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
+Copyright	ï¿½ 2002 Luca Santarelli,
+			ï¿½ 2004-2007 Victor Pavlychko
+			ï¿½ 2010 MPK
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -205,15 +205,15 @@ static int TTBLoaded(WPARAM wParam,LPARAM lParam)
 {
 	if ( !hTTButton) {
 		TTBButton btn = {0};
-		btn.cbSize        = sizeof(btn);
-		btn.pszService	   = MENUCOMMAND_SVC;
-		btn.lParamUp      = 1;
-		btn.dwFlags       = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
-		btn.name          = LPGEN("Toggle Popups");
-		btn.hIconHandleUp = Skin_GetIconHandle(ICO_TB_POPUP_OFF);
-		btn.hIconHandleDn = Skin_GetIconHandle(ICO_TB_POPUP_ON);
-		btn.pszTooltipUp  = LPGEN("Enable popups");
-		btn.pszTooltipDn  = LPGEN("Disable popups");
+		btn.cbSize = sizeof(btn);
+		btn.pszService = MENUCOMMAND_SVC;
+		btn.lParamUp = 1;
+		btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+		btn.name = LPGEN("Toggle Popups");
+		btn.hIconHandleUp = Skin_GetIconHandle(ICO_TB_POPUP_ON);
+		btn.hIconHandleDn = Skin_GetIconHandle(ICO_TB_POPUP_OFF);
+		btn.pszTooltipUp = LPGEN("Disable popups");
+		btn.pszTooltipDn = LPGEN("Enable popups");
 		hTTButton = TopToolbar_AddButton(&btn);
 	}
 

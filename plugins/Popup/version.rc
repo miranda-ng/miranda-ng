@@ -25,7 +25,7 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", POPUP_DESCRIPT
+            VALUE "Comments", POPUP_DESCRIPTION
             VALUE "CompanyName", "MPK"
             VALUE "FileDescription", "Popup Plus plugin for Miranda IM"
             VALUE "FileVersion", __VERSION_STRING_DOT

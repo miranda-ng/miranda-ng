@@ -20,9 +20,6 @@
       <UniqueIdentifier>{2c54b55f-1f99-474e-99ef-34c8f4210772}</UniqueIdentifier>
       <Extensions>txt</Extensions>
     </Filter>
-    <Filter Include="Deprecatet">
-      <UniqueIdentifier>{1316908b-5179-4ca2-abc4-3ba591f6489c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Option Pages">
       <UniqueIdentifier>{529f787f-6a3b-402b-8451-73ab712c2fd5}</UniqueIdentifier>
     </Filter>
