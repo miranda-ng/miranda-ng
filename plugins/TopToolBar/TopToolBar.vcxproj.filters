@@ -90,5 +90,8 @@
     <ClCompile Include="topbutton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="toolbarwnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

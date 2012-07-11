@@ -99,10 +99,6 @@ static int Modern_InitButtons(WPARAM, LPARAM)
 struct ModernToolbarCtrl : public TTBCtrl
 {
 	XPTHANDLE mtbXPTheme;
-	BOOL      fAutoSize;
-	int       nLineCount;
-	WORD      wLastHeight;
-	BOOL      fSingleLine;
 };
 
 struct MTB_BUTTONINFO
@@ -308,7 +304,6 @@ void CustomizeToolbar(HWND hwnd)
 
 	CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)hwnd,(LPARAM)ToolBar_LayeredPaintProc);
 
-	pMTBInfo->nLineCount = 1;
 	pMTBInfo->mtbXPTheme = xpt_AddThemeHandle(hwnd, L"TOOLBAR");
 }
 

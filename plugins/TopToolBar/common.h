@@ -93,12 +93,12 @@ char __inline *AS(char *str, const char *setting, char *addstr);
 
 TopButtonInt* CreateButton(TTBButton* but);
 
-int ttbOptionsChanged();
+int LoadBackgroundOptions();
 
 int ArrangeButtons();
 
 #define DEFBUTTWIDTH	20
-#define DEFBUTTHEIGHT	16
+#define DEFBUTTHEIGHT	20
 #define DEFBUTTGAP		1
 
 #define SEPWIDTH		3
@@ -106,12 +106,12 @@ int ArrangeButtons();
 extern TTBCtrl* g_ctrl;
 
 extern LIST<TopButtonInt> Buttons;
-extern bool bStopArrange;
 extern HINSTANCE hInst;
 extern HBITMAP hBmpBackground, hBmpSeparator;
 extern CRITICAL_SECTION csButtonsHook;
 extern pfnCustomProc g_CustomProc;
 extern LPARAM g_CustomProcParam;
+extern HANDLE hTTBModuleLoaded, hTTBInitButtons;
 
 void AddToOptions(TopButtonInt* b);
 void RemoveFromOptions(int id);
@@ -127,6 +127,8 @@ char *AS(char *str, const char *setting, char *addstr)
 }
 
 #define TTB_LAUNCHSERVICE "TTB/LaunchService"
+
+TopButtonInt* idtopos(int id, int* pPos=NULL);
 
 INT_PTR TTBAddButton(WPARAM, LPARAM);
 INT_PTR TTBRemoveButton(WPARAM, LPARAM);

@@ -163,7 +163,9 @@ struct TTBCtrl
 	int    nButtonWidth;
 	int    nButtonHeight;
 	int    nButtonSpace;
-	BOOL   bFlatButtons;
+	int    nLastHeight;  // fix against recursion in WM_SIZE
+	int    nLineCount;
+	BOOL   bFlatButtons, bAutoSize, bSingleLine;
 
 	SortedList* pButtonList;
 

@@ -7,19 +7,14 @@ pfnCustomProc g_CustomProc = NULL;
 LPARAM g_CustomProcParam = 0;
 TTBCtrl *g_ctrl = NULL;
 
+INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam);
+
 HWND hwndContactList = 0;
-bool bStopArrange, bEventFired = false;
 
 int nextButtonId = 200;
 
-static HANDLE hTTBModuleLoaded, hTTBInitButtons;
-static TCHAR pluginname[] = _T("TopToolBar");
+HANDLE hTTBModuleLoaded, hTTBInitButtons;
 static WNDPROC buttonWndProc;
-
-//------------ options -------------
-COLORREF bkColour;
-HBITMAP hBmpBackground, hBmpSeparator;
-int backgroundBmpUse;
 
 CRITICAL_SECTION csButtonsHook;
 
@@ -37,7 +32,7 @@ static void SetAllBitmaps()
 		Buttons[i]->SetBitmap();
 }
 
-static TopButtonInt* idtopos(int id, int* pPos=NULL)
+TopButtonInt* idtopos(int id, int* pPos)
 {
 	for ( int i = 0; i < Buttons.getCount(); i++)
 		if (Buttons[i]->id == id) {
@@ -136,32 +131,6 @@ int SaveAllButtonsOptions()
 	}
 	DBWriteContactSettingByte(0, TTB_OPTDIR, "SepCnt", SeparatorCnt);
 	DBWriteContactSettingByte(0, TTB_OPTDIR, "LaunchCnt", LaunchCnt);
-	return 0;
-}
-
-int ttbOptionsChanged()
-{
-	//load options
-	bkColour = DBGetContactSettingDword(NULL, TTB_OPTDIR, "BkColour", TTBDEFAULT_BKCOLOUR);
-	if (hBmpBackground) {
-		DeleteObject(hBmpBackground);
-		hBmpBackground = NULL;
-	}
-
-	if (DBGetContactSettingByte(NULL, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)) {
-		DBVARIANT dbv;
-		if (!DBGetContactSetting(NULL, TTB_OPTDIR, "BkBitmap", &dbv)) {
-			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
-			DBFreeVariant(&dbv);
-		}
-	}
-	backgroundBmpUse = DBGetContactSettingWord(NULL, TTB_OPTDIR, "BkBmpUse", TTBDEFAULT_BKBMPUSE);
-
-	RECT rc;
-	GetClientRect(g_ctrl->hWnd, &rc);
-	InvalidateRect(g_ctrl->hWnd, &rc, TRUE);
-	UpdateWindow(g_ctrl->hWnd);
-
 	return 0;
 }
 
@@ -310,56 +279,84 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 
 int ArrangeButtons()
 {
-	if (bStopArrange == TRUE)
-		return 0;
-
 	mir_cslock lck(csButtonsHook);
 
-	RECT winrc;
-	GetClientRect(g_ctrl->hWnd, &winrc);
-	winrc.left = winrc.right-winrc.left;
-	if (winrc.left == 0)
-		return 0;
-	int newheight;
+	RECT rcClient;
+	GetClientRect(g_ctrl->hWnd, &rcClient);
+	int nBarSize = rcClient.right - rcClient.left;
+	if (nBarSize == 0)
+		return g_ctrl->nButtonHeight;
 
-	bStopArrange = true;
-	int ypos = 1;
-	int xpos = g_ctrl->nButtonSpace;
-	newheight = g_ctrl->nButtonHeight+1;
-	CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, g_ctrl->hFrame), g_ctrl->nButtonHeight+2);
+	g_ctrl->nLineCount = 0;
 
-	int uFlags;
+	int i, ypos = 1, xpos = g_ctrl->nButtonSpace, nextX = 0, y = 0;
+	int newheight = g_ctrl->nButtonHeight+1;
 
-	for (int i = 0; i < Buttons.getCount(); i++) {
-		TopButtonInt *b = Buttons[i];
-
-		// not visible - hide and skip
-		if ( !(b->dwFlags & TTBBF_VISIBLE)) {
+	LIST<TopButtonInt> tmpList = Buttons;
+	for (i=tmpList.getCount()-1; i >= 0; i--) {
+		TopButtonInt *b = tmpList[i];
+		if (b->hwnd == NULL || !(b->dwFlags & TTBBF_VISIBLE)) {
 			ShowWindow(b->hwnd, SW_HIDE);
-			continue;
+			tmpList.remove(i);
 		}
-
-		if ( b->isSep())
-			uFlags = SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW;
-		else
-			uFlags = SWP_NOZORDER | SWP_SHOWWINDOW;
-
-		// check, if need to move to next line
-		if (xpos+g_ctrl->nButtonWidth+g_ctrl->nButtonSpace > winrc.left) {
-			xpos = g_ctrl->nButtonSpace;
-			ypos += g_ctrl->nButtonHeight+2;
-			newheight = ypos+g_ctrl->nButtonHeight+1;
-			CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, g_ctrl->hFrame), newheight);
-		}
-
-		SetWindowPos(b->hwnd, 0, xpos, ypos, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, uFlags);
-		InvalidateRect(b->hwnd, NULL, TRUE);
-
-		xpos += (b->isSep()) ? SEPWIDTH+2 : g_ctrl->nButtonWidth+g_ctrl->nButtonSpace;
-
 	}
-	bStopArrange = false;
-	return 1;
+
+	if (tmpList.getCount() == 0)
+		return g_ctrl->nButtonHeight;
+
+	HDWP hdwp = BeginDeferWindowPos(tmpList.getCount());
+
+	bool bWasButttonBefore;
+	int  nUsedWidth, iFirstButtonId = 0, iLastButtonId = 0;
+
+	do
+	{
+		g_ctrl->nLineCount++;
+		bWasButttonBefore = false;
+		nUsedWidth = 0;
+
+		for (i=iFirstButtonId; i < tmpList.getCount(); i++) {
+			TopButtonInt *b = tmpList[i];
+
+			int width = (b->isSep()) ? SEPWIDTH+2 : g_ctrl->nButtonWidth + ((bWasButttonBefore) ? g_ctrl->nButtonSpace : 0);
+			if (nUsedWidth + width > nBarSize)
+				break;
+
+			nUsedWidth += width;
+			iLastButtonId = i+1;
+			bWasButttonBefore = !b->isSep();
+		}
+
+		int nFreeSpace = nBarSize - nUsedWidth;
+
+		for (i=iFirstButtonId; i < iLastButtonId; i++) {
+			TopButtonInt *b = tmpList[i];
+
+			hdwp = DeferWindowPos(hdwp, b->hwnd, NULL, nextX, y, 0,	0,	SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
+			if ( b->isSep())
+				nextX += SEPWIDTH+2;
+			else
+				nextX += g_ctrl->nButtonWidth + g_ctrl->nButtonSpace;
+		}
+
+		if (iFirstButtonId == iLastButtonId)
+			break;
+
+		iFirstButtonId = iLastButtonId;
+		y += g_ctrl->nButtonHeight + g_ctrl->nButtonSpace;
+		nextX = 0;
+		if (g_ctrl->bSingleLine)
+			break;
+	}
+		while (iFirstButtonId < tmpList.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));		
+
+	for (i=iFirstButtonId; i < tmpList.getCount(); i++)
+		hdwp = DeferWindowPos(hdwp, tmpList[i]->hwnd, NULL, nextX, y, 0,	0,	SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
+
+	if (hdwp)
+		EndDeferWindowPos(hdwp);
+
+	return (g_ctrl->nButtonHeight + g_ctrl->nButtonSpace)*g_ctrl->nLineCount - g_ctrl->nButtonSpace;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -532,247 +529,6 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 	return retval;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Toolbar window procedure
-
-static void PaintToolbar(HWND hwnd)
-{
-	InvalidateRect(hwnd, 0, FALSE);
-
-	PAINTSTRUCT paintst;	
-	HDC hdc = BeginPaint(hwnd, &paintst);
-	RECT *rcPaint = &paintst.rcPaint;
-
-	RECT clRect;
-	GetClientRect(hwnd, &clRect);
-	if (rcPaint == NULL) rcPaint = &clRect;
-
-	int yScroll = 0;
-	int y = -yScroll;
-
-	HDC hdcMem = CreateCompatibleDC(hdc);
-	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
-	HBITMAP hOldBmp = (HBITMAP)SelectObject(hdcMem, hBmpOsb);
-	SetBkMode(hdcMem, TRANSPARENT);
-
-	HBRUSH hBrush = CreateSolidBrush(bkColour);
-	HBRUSH hoBrush = (HBRUSH)SelectObject(hdcMem, hBrush);
-	FillRect(hdcMem, rcPaint, hBrush);
-	SelectObject(hdcMem, hoBrush);
-	DeleteObject(hBrush);
-	if (hBmpBackground) {
-		BITMAP bmp;
-		HDC hdcBmp;
-		int x, y;
-		int maxx, maxy;
-		int destw, desth;
-
-		GetObject(hBmpBackground, sizeof(bmp), &bmp);
-		hdcBmp = CreateCompatibleDC(hdcMem);
-		SelectObject(hdcBmp, hBmpBackground);
-		y = backgroundBmpUse & CLBF_SCROLL ? -yScroll : 0;
-		maxx = backgroundBmpUse & CLBF_TILEH ? clRect.right : 1;
-		maxy = backgroundBmpUse & CLBF_TILEV ? maxy = rcPaint->bottom : y+1;
-		switch(backgroundBmpUse & CLBM_TYPE) {
-		case CLB_STRETCH:
-			if (backgroundBmpUse&CLBF_PROPORTIONAL) {
-				if (clRect.right*bmp.bmHeight<clRect.bottom*bmp.bmWidth) {
-					desth = clRect.bottom;
-					destw = desth*bmp.bmWidth/bmp.bmHeight;
-				}
-				else {
-					destw = clRect.right;
-					desth = destw*bmp.bmHeight/bmp.bmWidth;
-				}
-			}
-			else {
-				destw = clRect.right;
-				desth = clRect.bottom;
-			}
-			break;
-		case CLB_STRETCHH:
-			if (backgroundBmpUse&CLBF_PROPORTIONAL) {
-				destw = clRect.right;
-				desth = destw*bmp.bmHeight/bmp.bmWidth;
-				if (backgroundBmpUse & CLBF_TILEVTOROWHEIGHT)
-					desth = g_ctrl->nButtonHeight+2;
-			}
-			else {
-				destw = clRect.right;
-				desth = bmp.bmHeight;
-			}
-			break;
-		case CLB_STRETCHV:
-			if (backgroundBmpUse&CLBF_PROPORTIONAL) {
-				desth = clRect.bottom;
-				destw = desth*bmp.bmWidth/bmp.bmHeight;
-			}
-			else {
-				destw = bmp.bmWidth;
-				desth = clRect.bottom;
-			}
-			break;
-		default:    //clb_topleft
-			destw = bmp.bmWidth;
-			desth = bmp.bmHeight;
-			if (backgroundBmpUse&CLBF_TILEVTOROWHEIGHT)
-				desth = g_ctrl->nButtonHeight+2;
-			break;
-		}
-
-		for (; y < maxy; y += desth) {
-			if (y < rcPaint->top - desth)
-				continue;
-
-			for (x = 0; x < maxx; x += destw)
-				StretchBlt(hdcMem, x, y, destw, desth, hdcBmp, 0, 0, bmp.bmWidth, bmp.bmHeight, SRCCOPY);
-		}
-		DeleteDC(hdcBmp);
-	}
-	BitBlt(hdc, rcPaint->left, rcPaint->top, rcPaint->right-rcPaint->left, rcPaint->bottom-rcPaint->top, hdcMem, rcPaint->left, rcPaint->top, SRCCOPY);
-	SelectObject(hdcMem, hOldBmp);
-	DeleteDC(hdcMem);
-	DeleteObject(hBmpOsb);
-
-	paintst.fErase = FALSE;
-	EndPaint(hwnd, &paintst);	
-}
-
-LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	if (g_ctrl->fnWindowProc != NULL)
-		if ( g_ctrl->fnWindowProc(hwnd, msg, wParam, lParam))
-			return g_ctrl->lResult;
-
-	switch(msg) {
-	case WM_CREATE:
-		g_ctrl->hWnd = hwnd;
-		return FALSE;
-
-	case WM_MOVE:
-		return 0;
-
-	case WM_WINDOWPOSCHANGING:
-	case WM_SIZE:
-		ArrangeButtons();
-		return 0;
-
-	case WM_NCPAINT:
-	case WM_PAINT:
-		PaintToolbar(hwnd);
-		return 0;
-
-	case WM_LBUTTONDOWN:
-		if (DBGetContactSettingByte(NULL, "CLUI", "ClientAreaDrag", 0)) {
-			POINT pt;
-			GetCursorPos(&pt);
-			return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE|HTCAPTION, MAKELPARAM(pt.x, pt.y));
-		}
-		return 0;	
-
-	case WM_COMMAND:
-		switch (HIWORD(wParam)) {
-		case BN_CLICKED:
-		case BN_DOUBLECLICKED:
-			{
-				int id = GetWindowLongPtr((HWND)lParam, GWLP_USERDATA);
-				if (id != 0) {
-					mir_cslock lck(csButtonsHook);
-					TopButtonInt* b = idtopos(id);
-					if (b == NULL || b->isSep())
-						return 0;
-
-					if (b->dwFlags & TTBBF_ASPUSHBUTTON)
-						b->bPushed = !b->bPushed;
-
-					if (b->bPushed) { //Dn -> Up
-						if (!(b->dwFlags & TTBBF_ISLBUTTON)) // must be always true
-							if (b->pszService != NULL)
-								CallService(b->pszService, b->wParamUp, b->lParamUp);
-					}
-					else { //Up -> Dn
-						if (b->pszService != NULL)
-							CallService(b->pszService, b->wParamDown, b->lParamDown);
-					}
-
-					b->SetBitmap();
-				}
-			}
-			break;
-		}
-		break;
-
-	case TTB_SETCUSTOM:
-		{
-			TTBCtrlCustomize *pCustom = (TTBCtrlCustomize*)lParam;
-			if (pCustom == NULL || g_ctrl->fnWindowProc)
-				break;
-
-			g_ctrl = (TTBCtrl*)mir_realloc(g_ctrl, pCustom->cbLen);
-			if (pCustom->cbLen > sizeof(TTBCtrl))
-				memset(g_ctrl+1, 0, pCustom->cbLen - sizeof(TTBCtrl));
-
-			g_ctrl->fnWindowProc = pCustom->fnWindowProc;
-			SetWindowLongPtr(hwnd, 0, (LONG_PTR)g_ctrl);
-		}
-		break;
-
-	default:
-		return DefWindowProc(hwnd, msg, wParam, lParam);
-	}
-	return(TRUE);
-}
-
-static INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
-{
-	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
-	bStopArrange = FALSE;
-
-	HWND parent = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
-	if (parent == NULL) // no clist, no buttons
-		return -1;
-
-	WNDCLASS wndclass = { 0 };
-	wndclass.lpfnWndProc   = TopToolBarProc;
-	wndclass.cbWndExtra    = sizeof(void*);
-	wndclass.hInstance     = hInst;
-	wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
-	wndclass.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1);//NULL;//(HBRUSH)(COLOR_3DFACE+1);
-	wndclass.lpszClassName = pluginname;
-	RegisterClass(&wndclass);
-
-	g_ctrl->pButtonList = (SortedList*)&Buttons;
-	g_ctrl->hWnd = CreateWindow(pluginname, _T("Toolbar"), 
-		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 
-		0, 0, 0, 0, parent, NULL, hInst, NULL);
-	SetWindowLongPtr(g_ctrl->hWnd, 0, (LPARAM)g_ctrl);
-
-	// if we're working in skinned clist, receive the standard buttons & customizations
-	if (g_CustomProc && g_ctrl->hWnd)
-		g_CustomProc(TTB_WINDOW_HANDLE, g_ctrl->hWnd, g_CustomProcParam);
-
-	// if there's no customized frames, create our own
-	if (g_ctrl->hFrame == NULL) {
-		CLISTFrame Frame = { 0 };
-		Frame.cbSize = sizeof(Frame);
-		Frame.tname = _T("Toolbar");
-		Frame.hWnd = g_ctrl->hWnd;
-		Frame.align = alTop;
-		Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR;
-		Frame.height = 18;
-		g_ctrl->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
-	}
-
-	// receive all buttons
-	NotifyEventHooks(hTTBInitButtons, 0, 0);
-	NotifyEventHooks(hTTBModuleLoaded, 0, 0);
-
-	ttbOptionsChanged();
-
-	bEventFired = true;
-	return 0;
-}
-
 int OnIconChange(WPARAM wParam, LPARAM lParam)
 {
 	ReloadIcons();
@@ -782,7 +538,7 @@ int OnIconChange(WPARAM wParam, LPARAM lParam)
 
 static int OnBGChange(WPARAM wParam, LPARAM lParam)
 {
-	ttbOptionsChanged();
+	LoadBackgroundOptions();
 	return 0;
 }
 
@@ -805,7 +561,6 @@ int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 	LoadAllSeparators();
 	LoadAllLButs();
 
-	bStopArrange = FALSE;
 	ArrangeButtons();
 
 	HANDLE hEvent = CreateEvent(NULL, TRUE, TRUE, NULL);//anonymous event
@@ -838,9 +593,16 @@ static LRESULT CALLBACK TTBButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LP
 int LoadToolbarModule()
 {
 	g_ctrl = (TTBCtrl*)mir_calloc( sizeof(TTBCtrl));
+	g_ctrl->nButtonHeight = db_get_dw(0, TTB_OPTDIR, "BUTTHEIGHT", DEFBUTTHEIGHT);
+	g_ctrl->nButtonWidth = db_get_dw(0, TTB_OPTDIR, "BUTTWIDTH", DEFBUTTWIDTH);
+	g_ctrl->nButtonSpace = db_get_dw(0, TTB_OPTDIR, "BUTTGAP", DEFBUTTGAP);
+	g_ctrl->nLastHeight = db_get_dw(0, TTB_OPTDIR, "LastHeight", DEFBUTTHEIGHT);
+
+	g_ctrl->bFlatButtons = db_get_b(0, TTB_OPTDIR, "UseFlatButton", true);
+	g_ctrl->bSingleLine = db_get_b(0, TTB_OPTDIR, "SingleLine", true);
+	g_ctrl->bAutoSize = db_get_b(0, TTB_OPTDIR, "AutoSize", true);
 
 	InitializeCriticalSection(&csButtonsHook);
-	bStopArrange = TRUE;
 	hBmpSeparator = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SEP));
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad);
@@ -875,10 +637,6 @@ int LoadToolbarModule()
 	wc.hbrBackground = 0;
 	wc.style = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
-
-	g_ctrl->nButtonHeight = db_get_b(0, TTB_OPTDIR, "BUTTHEIGHT", DEFBUTTHEIGHT);
-	g_ctrl->nButtonWidth = db_get_b(0, TTB_OPTDIR, "BUTTWIDTH", DEFBUTTWIDTH);
-	g_ctrl->nButtonSpace = db_get_b(0, TTB_OPTDIR, "BUTTGAP", DEFBUTTGAP);
 	return 0;
 }
 
