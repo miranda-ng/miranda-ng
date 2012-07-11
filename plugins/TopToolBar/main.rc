@@ -28,29 +28,30 @@ IDD_OPT_BUTORDER DIALOGEX 0, 0, 300, 231
 STYLE DS_SETFONT | WS_CHILD
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Buttons Order && Visibility",IDC_STATIC,10,0,150,180
-    CONTROL         "Tree1",IDC_BUTTONORDERTREE,"SysTreeView32",TVS_NOTOOLTIPS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,18,25,134,148
+    GROUPBOX        "Buttons Order && Visibility",IDC_STATIC,10,0,150,229
+    CONTROL         "Tree1",IDC_BUTTONORDERTREE,"SysTreeView32",TVS_NOTOOLTIPS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,18,25,134,197
+    LTEXT           "Button height",IDC_STATIC,169,134,100,8
+    EDITTEXT        IDC_BUTTHEIGHT,272,132,27,12,ES_NUMBER
+    CONTROL         "",IDC_SPIN_HEIGHT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,289,132,8,12
+    LTEXT           "Button width",IDC_STATIC,169,148,100,8
+    EDITTEXT        IDC_BUTTWIDTH,272,146,27,12,ES_NUMBER
+    CONTROL         "",IDC_SPIN_WIDTH,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,289,146,8,12
+    LTEXT           "Inteval between buttons",IDC_STATIC,169,164,100,8
+    EDITTEXT        IDC_BUTTGAP,272,162,27,12,ES_NUMBER
+    CONTROL         "",IDC_SPIN_GAP,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,289,162,8,12
+    CONTROL         "Use flat mode",IDC_USEFLAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,167,185,130,10
+    CONTROL         "Auto resize",IDC_AUTORESIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,167,197,130,10
+    CONTROL         "Single line",IDC_SINGLELINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,167,209,130,10
     LTEXT           "Buttons order:",IDC_STATIC,18,15,132,8
-
     PUSHBUTTON      "Add Separator",IDC_ADDSEP,165,5,130,14
     PUSHBUTTON      "Add Launch",IDC_ADDLBUTTON,165,25,130,14
-    PUSHBUTTON      "Del Sep/Launch Button",IDC_REMOVEBUTTON,165,115,130,14
-
-    EDITTEXT        IDC_ENAME,200,45,95,14,ES_AUTOHSCROLL | WS_TABSTOP
-    LTEXT           "Name: ",IDC_LBUTTONNAME,165,45,30,14, SS_CENTERIMAGE
-    EDITTEXT        IDC_EPATH,165,72,112,14,ES_AUTOHSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Del Sep/Launch Button",IDC_REMOVEBUTTON,165,109,130,14
+    EDITTEXT        IDC_ENAME,200,45,95,14,ES_AUTOHSCROLL
+    LTEXT           "Name: ",IDC_LBUTTONNAME,165,45,30,14,SS_CENTERIMAGE
+    EDITTEXT        IDC_EPATH,165,72,112,14,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BROWSE,280,73,15,11
     LTEXT           "Path:",IDC_LBUTTONPATH,165,62,30,8
     PUSHBUTTON      "Set",IDC_LBUTTONSET,205,90,50,14
-
-    EDITTEXT        IDC_BUTTHEIGHT,10,182,24,12,ES_AUTOHSCROLL | WS_TABSTOP
-    LTEXT           "Button Height",IDC_STATIC,36,184,124,8
-    EDITTEXT        IDC_BUTTWIDTH,10,198,24,12,ES_AUTOHSCROLL | WS_TABSTOP
-    LTEXT           "Button Width",IDC_STATIC,36,200,124,8
-    EDITTEXT        IDC_BUTTGAP,10,214,24,12,ES_AUTOHSCROLL | WS_TABSTOP
-    LTEXT           "Button Gap",IDC_STATIC,36,216,124,8
-
-    CONTROL         "Use Flat Mode",IDC_USEFLAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,165,216,130,10
 END
 
 
@@ -72,49 +73,8 @@ BEGIN
         BOTTOMMARGIN, 229
         HORZGUIDE, 17
         HORZGUIDE, 38
-        HORZGUIDE, 133
-        HORZGUIDE, 138
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Russian (Russia) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
-#pragma code_page(1251)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_FRAMEPLUG2 DIALOG 0, 0, 211, 11
-STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN
-FONT 8, "MS Sans Serif"
-BEGIN
-    CONTROL         262,IDC_P2ONLINEBUTT,"Static",SS_BITMAP | SS_NOTIFY | NOT WS_VISIBLE,55,0,13,10
-    CONTROL         269,IDC_P2GROUPBUTT,"Static",SS_BITMAP | SS_NOTIFY | NOT WS_VISIBLE,70,0,13,10
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_FRAMEPLUG2, DIALOG
-    BEGIN
-        RIGHTMARGIN, 197
-        BOTTOMMARGIN, 10
+        HORZGUIDE, 123
+        HORZGUIDE, 136
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -160,8 +120,8 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_RUN                 ICON                    "icos\\run.ico"
 IDI_SHOWONLINEUP        ICON                    "icos\\Show only Online Users_UP.ico"
+IDI_RUN                 ICON                    "icos\\run.ico"
 IDI_SHOWONLINEDN        ICON                    "icos\\Show only Online Users_DN.ico"
 IDI_GROUPSUP            ICON                    "icos\\Groups On_Off_UP.ico"
 IDI_GROUPSDN            ICON                    "icos\\Groups On_Off_DN.ico"
@@ -171,9 +131,10 @@ IDI_OPTIONSUP           ICON                    "icos\\Show Options Page_UP.ico"
 IDI_MINIMIZEUP          ICON                    "icos\\Minimize Button_UP.ico"
 IDI_FINDADDUP           ICON                    "icos\\Find_Add Contacts_UP.ico"
 IDI_MIRANDAUP           ICON                    "icos\\Show Main Menu_UP.ico"
-
-#endif    // Russian (Russia) resources
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
+
+
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

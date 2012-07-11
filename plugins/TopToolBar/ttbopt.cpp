@@ -192,10 +192,20 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SetWindowLongPtr(hTree, GWL_STYLE, GetWindowLongPtr(hTree, GWL_STYLE)|TVS_NOHSCROLL);
 
 		SetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, g_ctrl->nButtonHeight, FALSE);
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_HEIGHT, UDM_SETRANGE, 0, MAKELONG(50,10));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_HEIGHT, UDM_SETPOS, 0, MAKELONG(g_ctrl->nButtonHeight,0));
+
 		SetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, g_ctrl->nButtonWidth, FALSE);
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_WIDTH, UDM_SETRANGE, 0, MAKELONG(50,10));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_WIDTH, UDM_SETPOS, 0, MAKELONG(g_ctrl->nButtonWidth,0));
+
 		SetDlgItemInt(hwndDlg, IDC_BUTTGAP, g_ctrl->nButtonSpace, FALSE);
-		
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_GAP, UDM_SETRANGE, 0, MAKELONG(20,0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_GAP, UDM_SETPOS, 0, MAKELONG(g_ctrl->nButtonSpace,0));
+
 		CheckDlgButton(hwndDlg, IDC_USEFLAT, g_ctrl->bFlatButtons);
+		CheckDlgButton(hwndDlg, IDC_AUTORESIZE, g_ctrl->bAutoSize);
+		CheckDlgButton(hwndDlg, IDC_SINGLELINE, g_ctrl->bSingleLine);
 
 		BuildTree(hwndDlg);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), FALSE);
@@ -362,12 +372,18 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				g_ctrl->nButtonHeight = GetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, NULL, FALSE);
 				g_ctrl->nButtonWidth = GetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, NULL, FALSE);
 				g_ctrl->nButtonSpace = GetDlgItemInt(hwndDlg, IDC_BUTTGAP, NULL, FALSE);
+				
 				g_ctrl->bFlatButtons = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USEFLAT);
+				g_ctrl->bAutoSize = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTORESIZE);
+				g_ctrl->bSingleLine = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SINGLELINE);
 
 				db_set_dw(0, TTB_OPTDIR, "BUTTHEIGHT", g_ctrl->nButtonHeight);
 				db_set_dw(0, TTB_OPTDIR, "BUTTWIDTH", g_ctrl->nButtonWidth);
 				db_set_dw(0, TTB_OPTDIR, "BUTTGAP", g_ctrl->nButtonSpace);
+
 				db_set_b(0, TTB_OPTDIR, "UseFlatButton", g_ctrl->bFlatButtons);
+				db_set_b(0, TTB_OPTDIR, "SingleLine", g_ctrl->bSingleLine);
+				db_set_b(0, TTB_OPTDIR, "AutoSize", g_ctrl->bAutoSize);
 
 				SaveTree(hwndDlg);
 				RecreateWindows();

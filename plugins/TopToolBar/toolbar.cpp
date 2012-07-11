@@ -599,7 +599,7 @@ int LoadToolbarModule()
 	g_ctrl->nLastHeight = db_get_dw(0, TTB_OPTDIR, "LastHeight", DEFBUTTHEIGHT);
 
 	g_ctrl->bFlatButtons = db_get_b(0, TTB_OPTDIR, "UseFlatButton", true);
-	g_ctrl->bSingleLine = db_get_b(0, TTB_OPTDIR, "SingleLine", true);
+	g_ctrl->bSingleLine = db_get_b(0, TTB_OPTDIR, "SingleLine", false);
 	g_ctrl->bAutoSize = db_get_b(0, TTB_OPTDIR, "AutoSize", true);
 
 	InitializeCriticalSection(&csButtonsHook);
