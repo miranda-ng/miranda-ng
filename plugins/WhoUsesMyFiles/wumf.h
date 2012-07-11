@@ -4,6 +4,7 @@
 #include <commctrl.h>
 #include <lm.h>
 #include <locale.h> 
+#include <shlobj.h>
 
 #include "newpluginapi.h"
 #include "m_system.h"

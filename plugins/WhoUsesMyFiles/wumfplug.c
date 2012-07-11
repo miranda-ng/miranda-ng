@@ -294,6 +294,11 @@ static INT_PTR WumfMenuCommand(WPARAM wParam,LPARAM lParam)
 
 __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
+	if (!IsUserAnAdmin()) {
+		MessageBox(NULL, "Plugin WhoUsesMyFiles cannot be loaded. It requires admin privileges.", "Miranda IM", MB_OK);
+		return NULL;
+	}
+
 	return &pluginInfo;
 }
 
