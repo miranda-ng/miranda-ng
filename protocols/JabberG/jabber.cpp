@@ -151,6 +151,8 @@ static INT_PTR g_SvcParseXmppUri(WPARAM w, LPARAM l)
 
 static int OnModulesLoaded( WPARAM, LPARAM )
 {
+	hModulesLoadedTB = HookEvent(ME_TTB_MODULELOADED, g_OnToolbarInit);
+
 	bSecureIM = (ServiceExists("SecureIM/IsContactSecured"));
 
 	// file associations manager plugin support
@@ -258,7 +260,6 @@ extern "C" int __declspec( dllexport ) Load()
 	g_IconsInit();
 	g_MenuInit();
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hModulesLoadedTB = HookEvent(ME_TTB_MODULELOADED, g_OnToolbarInit);
 	JabberUserInfoInit();
 
 	return 0;

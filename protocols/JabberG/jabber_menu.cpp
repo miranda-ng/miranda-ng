@@ -981,7 +981,7 @@ int g_OnToolbarInit(WPARAM, LPARAM)
 
 	TTBButton button = {0};
 	button.cbSize = sizeof(button);
-	button.dwFlags = TTBBF_SHOWTOOLTIP|TTBBF_VISIBLE;
+	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE | TTBBF_ICONBYHANDLE;
 
 	List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/Groupchat", g_ToolbarHandleJoinGroupchat ));
 	button.pszService = "JABBER/*/Groupchat";
