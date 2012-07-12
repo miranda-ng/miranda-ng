@@ -10,8 +10,8 @@
 #define TTBBF_SHOWTOOLTIP    0x0008
 #define TTBBF_ISSEPARATOR    0x0020
 #define TTBBF_ISLBUTTON      0x0040
-#define TTBBF_ASPUSHBUTTON   0x0080
 #define TTBBF_ISSBUTTON      0x0100
+#define TTBBF_ASPUSHBUTTON   0x0200
 
 typedef struct {
 	int cbSize;

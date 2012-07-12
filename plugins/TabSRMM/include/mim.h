@@ -110,12 +110,12 @@ public:
 	}
 
 	~CMimAPI() {
+		if	(m_haveBufferedPaint)
+			m_pfnBufferedPaintUninit();
 		if (m_hUxTheme != 0)
 			FreeLibrary(m_hUxTheme);
 		if (m_hDwmApi != 0)
 			FreeLibrary(m_hDwmApi);
-		if	(m_haveBufferedPaint)
-			m_pfnBufferedPaintUninit();
 
 		if (m_hChatLogLock != INVALID_HANDLE_VALUE)
 			CloseHandle(m_hChatLogLock);
