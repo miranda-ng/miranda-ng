@@ -88,7 +88,7 @@ static int Modern_InitButtons(WPARAM, LPARAM)
 
 	SetButtonPressed(3, db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
 	SetButtonPressed(6, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
-	SetButtonPressed(7, !db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
+	SetButtonPressed(7, db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
 	return 1;
 }
 
@@ -131,7 +131,7 @@ static int ehhToolBarSettingsChanged(WPARAM wParam, LPARAM lParam)
 	}
 	else if (!mir_strcmp(cws->szModule,"Skin")) {
 		if (!mir_strcmp(cws->szSetting,"UseSound"))
-			SetButtonPressed(7, !cws->value.bVal);
+			SetButtonPressed(7, cws->value.bVal);
 	}
 	
 	return 0;
