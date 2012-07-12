@@ -1,0 +1,291 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,2,5,3
+ PRODUCTVERSION 0,2,5,3
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "Send and receive SMS messages"
+            VALUE "CompanyName", " "
+            VALUE "FileDescription", "Miranda SMS plugin"
+            VALUE "FileVersion", "0.2.5.3"
+            VALUE "InternalName", "sms plugin"
+            VALUE "LegalCopyright", "Copyright © 2002-3 Ariel Shulman (Original by Richard Hughes), 2007-2009 Rozhuk Ivan (Ivan 83)"
+            VALUE "OriginalFilename", "sms.dll"
+            VALUE "ProductName", "Miranda IM"
+            VALUE "ProductVersion", "0.2.5.3"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_SMSNOTSENT          ICON                    "res\\SMSNOTSENT.ico"
+IDI_SMSSENT             ICON                    "res\\SMSSENT.ico"
+IDI_HALFTICK            ICON                    "res\\halftick.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_RECVSMS DIALOGEX 0, 0, 278, 126
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Received SMS"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_MESSAGE,3,29,271,76,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | ES_WANTRETURN | WS_VSCROLL,WS_EX_CLIENTEDGE
+    DEFPUSHBUTTON   "&Reply",IDOK,83,108,50,14
+    PUSHBUTTON      "&Close",IDCANCEL,143,108,50,14
+    PUSHBUTTON      "Read Next",IDC_READNEXT,217,105,57,17,NOT WS_VISIBLE
+    LTEXT           "From:",IDC_STATIC,3,6,19,11
+    LTEXT           "Message received:",IDC_STATIC,3,20,108,8
+    LTEXT           "",IDC_NAME,24,5,105,11,SS_SUNKEN
+    LTEXT           "Number:",IDC_ST_NUMBER,133,6,28,11
+    LTEXT           "",IDC_NUMBER,164,5,110,11,SS_SUNKEN
+END
+
+IDD_SENDSMS DIALOGEX 0, 0, 394, 145
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Send SMS"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "To:",IDC_ST_TO,2,5,18,8
+    COMBOBOX        IDC_NAME,20,3,111,12,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Number:",IDC_ST_ADDRESS,134,5,30,8
+    COMBOBOX        IDC_ADDRESS,164,3,113,62,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Add number to list",IDC_ADDNUMBER,284,3,108,14
+    CONTROL         "Tree1",IDC_NUMBERSLIST,"SysTreeView32",TVS_HASBUTTONS | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_TRACKSELECT | TVS_FULLROWSELECT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,284,17,108,109
+    PUSHBUTTON      "&H",IDC_HISTORY,2,17,15,11,BS_ICON
+    COMBOBOX        IDC_ACCOUNTS,20,18,72,83,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Save number",IDC_SAVENUMBER,133,17,46,11
+    PUSHBUTTON      "Multiple >>",IDC_MULTIPLE,232,17,45,11
+    LTEXT           "Enter message:",IDC_ST_ENTERMESSAGE,2,32,76,9
+    RTEXT           "Chars:",IDC_ST_CHARS,207,32,34,8
+    RTEXT           "%d/160",IDC_COUNT,242,32,35,8,SS_NOPREFIX | SS_SUNKEN
+    EDITTEXT        IDC_MESSAGE,2,42,275,84,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL,WS_EX_CLIENTEDGE
+    DEFPUSHBUTTON   "&Send",IDOK,73,130,50,14
+    PUSHBUTTON      "&Close",IDCANCEL,143,130,50,14
+END
+
+IDD_SENDSMSTIMEDOUT DIALOG  0, 0, 211, 94
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "SMS Message Didn't Send"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    DEFPUSHBUTTON   "&Try again",IDOK,39,73,62,16
+    PUSHBUTTON      "&Cancel",IDCANCEL,106,73,62,16
+    LTEXT           "The SMS message send timed out",IDC_STATUS,5,6,201,61
+END
+
+IDD_OPT_SMSPLUGIN DIALOGEX 0, 0, 255, 161
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "SMS Plugin",IDC_STATIC,6,4,244,150
+    GROUPBOX        "",IDC_SIGNGROUP,12,28,231,74,WS_GROUP
+    EDITTEXT        IDC_SIGNATURE,17,40,221,44,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
+    CONTROL         "Begining",IDC_BEGIN,"Button",BS_AUTORADIOBUTTON | WS_GROUP,115,90,65,8
+    CONTROL         "End",IDC_END,"Button",BS_AUTORADIOBUTTON,180,90,58,8
+    LTEXT           "Put signature at the:",IDC_STATIC,18,90,89,10
+    CONTROL         "Use Signature",IDC_USESIGNATURE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,21,226,10
+    CONTROL         "Show server notifications",IDC_SHOWACK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,108,226,10
+    CONTROL         "Auto popup on new message",IDC_AUTOPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,120,226,10
+    CONTROL         "Save window position per contact",IDC_SAVEWINPOS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,132,226,10
+END
+
+IDD_SENDSMSACCEPT DIALOG  0, 0, 256, 90
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "SMS Message Sent"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "&OK",IDOK,91,69,62,16
+    LTEXT           "",IDC_MESSAGEID,57,6,194,9
+    LTEXT           "Message ID:",IDC_ST_MESSAGEID,5,6,52,8
+    LTEXT           "Source:",IDC_ST_SOURCE,5,27,52,8
+    LTEXT           "",IDC_SOURCE,57,27,194,39
+    LTEXT           "Network:",IDC_ST_NETWORK,5,17,52,8
+    LTEXT           "",IDC_NETWORK,57,17,194,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_RECVSMS, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 274
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 122
+        HORZGUIDE, 16
+        HORZGUIDE, 29
+        HORZGUIDE, 105
+    END
+
+    IDD_SENDSMS, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 392
+        VERTGUIDE, 164
+        VERTGUIDE, 277
+        VERTGUIDE, 284
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 144
+        HORZGUIDE, 17
+        HORZGUIDE, 28
+        HORZGUIDE, 32
+        HORZGUIDE, 51
+        HORZGUIDE, 111
+        HORZGUIDE, 126
+        HORZGUIDE, 130
+    END
+
+    IDD_SENDSMSTIMEDOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 206
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 89
+    END
+
+    IDD_OPT_SMSPLUGIN, DIALOG
+    BEGIN
+        RIGHTMARGIN, 250
+        VERTGUIDE, 6
+        VERTGUIDE, 12
+        VERTGUIDE, 18
+        VERTGUIDE, 115
+        VERTGUIDE, 180
+        VERTGUIDE, 238
+        VERTGUIDE, 243
+        VERTGUIDE, 248
+        BOTTOMMARGIN, 150
+        HORZGUIDE, 84
+        HORZGUIDE, 90
+        HORZGUIDE, 95
+        HORZGUIDE, 107
+        HORZGUIDE, 116
+    END
+
+    IDD_SENDSMSACCEPT, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 251
+        VERTGUIDE, 57
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 85
+        HORZGUIDE, 14
+        HORZGUIDE, 17
+        HORZGUIDE, 27
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <windows.h>\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

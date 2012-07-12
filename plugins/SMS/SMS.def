@@ -1,0 +1,8 @@
+LIBRARY	SMS
+
+EXPORTS
+	MirandaPluginInfo				@1
+	MirandaPluginInfoEx				@2
+	MirandaPluginInterfaces			@3
+	Load							@4
+	Unload							@5
