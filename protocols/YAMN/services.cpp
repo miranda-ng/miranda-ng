@@ -309,14 +309,13 @@ int AddTopToolbarIcon(WPARAM,LPARAM)
 {
 	if ( DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_TTBFCHECK, 1)) {
 		if ( ServiceExists(MS_TTB_REMOVEBUTTON) && hTTButton == NULL) {
-			TTBButton btn = { 0 };
+			TTBButton btn = {0};
 			btn.cbSize = sizeof(btn);
 			btn.pszService = MS_YAMN_FORCECHECK;
 			btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-			btn.name = "Check mail";
 			btn.hIconHandleUp = g_GetIconHandle(5);
 			btn.hIconHandleDn = g_GetIconHandle(6);
-			btn.pszTooltipUp = LPGEN("Check mail");
+			btn.name = btn.pszTooltipUp = LPGEN("Check mail");
 			hTTButton = TopToolbar_AddButton(&btn);
 		}
 	}
