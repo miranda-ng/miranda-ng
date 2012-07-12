@@ -551,13 +551,11 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 int InitTopToolbar(WPARAM wparam,LPARAM lparam)
 {
 	TTBButton ttb = { 0 };
-	char buttonname[] = "WUMF: Show connections list";
 	ttb.cbSize = sizeof(ttb);
 	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDB_DRIVE));
-	ttb.hIconDn = ttb.hIconUp;
 	ttb.pszService = MS_WUMF_CONNECTIONSSHOW;
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
-	ttb.name = buttonname;
+	ttb.name = ttb.pszTooltipUp = LPGEN("Show connections list");
 	hWumfBut = TopToolbar_AddButton(&ttb);
 	return 0;
 }

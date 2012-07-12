@@ -150,15 +150,15 @@ BOOL IsCP_UTF8(void)
 static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 {
 	TTBButton ttbb = {0};
-	HICON ico = LoadIcon(hInst,MAKEINTRESOURCE(ICO_DBE_BUTT));
+	HICON ico = LoadIcon(hInst, MAKEINTRESOURCE(ICO_DBE_BUTT));
 	UnhookEvent(hTTBHook);
 
 	ttbb.cbSize = sizeof(ttbb);
 	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttbb.pszService = "DBEditorpp/MenuCommand";
-	ttbb.name = "Database Editor++";
+	ttbb.name = LPGEN("Database Editor++");
 	ttbb.hIconUp = ico;
-	ttbb.pszTooltipUp = "Show DataBase Editor";
+	ttbb.pszTooltipUp = LPGEN("Show DataBase Editor");
 	hTTBButt = TopToolbar_AddButton(&ttbb);
 	return 0;
 }

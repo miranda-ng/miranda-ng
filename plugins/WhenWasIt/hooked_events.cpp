@@ -178,8 +178,8 @@ int OnTopToolBarModuleLoaded(WPARAM wParam, LPARAM lParam)
 	ttb.cbSize = sizeof(ttb);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_WWI_CHECK_BIRTHDAYS;
-	ttb.hIconUp = ttb.hIconDn = hiCheckMenu;
-	ttb.name = "Check for birthdays";
+	ttb.hIconUp = hiCheckMenu;
+	ttb.name = ttb.pszTooltipUp = LPGEN("Check for birthdays");
 	TopToolbar_AddButton(&ttb);
 	return 0;
 }

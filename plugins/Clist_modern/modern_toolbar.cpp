@@ -62,10 +62,10 @@ static int Modern_InitButtons(WPARAM, LPARAM)
 
 	for (int i=0; i < SIZEOF(BTNS); i++) {
 		if (BTNS[i].pszButtonID) {
-			tbb.name = BTNS[i].pszButtonID;
+			tbb.name = LPGEN(BTNS[i].pszButtonID);
 			tbb.pszService = BTNS[i].pszServiceName;
-			tbb.pszTooltipUp = BTNS[i].pszTooltipUp;
-			tbb.pszTooltipDn = BTNS[i].pszTooltipDn;
+			tbb.pszTooltipUp = LPGEN(BTNS[i].pszTooltipUp);
+			tbb.pszTooltipDn = LPGEN(BTNS[i].pszTooltipDn);
 
 			char buf[255];
 			mir_snprintf(buf,SIZEOF(buf),"%s%s%s", TTB_OPTDIR, BTNS[i].pszButtonID, "_dn");

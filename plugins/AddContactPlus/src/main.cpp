@@ -128,9 +128,8 @@ static int CreateButton(WPARAM, LPARAM)
 	TTBButton tbb = {0};
 	tbb.cbSize = sizeof(tbb);
 	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	tbb.name = "Add Contact";
 	tbb.pszService = MS_ADDCONTACTPLUS_SHOW;
-	tbb.pszTooltipUp = "Add Contact";
+	tbb.name = tbb.pszTooltipUp = LPGEN("Add Contact");
 	tbb.hIconHandleUp = hIconLibItem;
 	hToolBarItem = TopToolbar_AddButton(&tbb);
 	return 0;

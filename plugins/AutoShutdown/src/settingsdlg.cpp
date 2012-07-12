@@ -407,20 +407,20 @@ static HANDLE hToolbarButton;
 
 static int ToolbarLoaded(WPARAM wParam,LPARAM lParam)
 {
-	TTBButton ttbb;
-
-	ZeroMemory(&ttbb,sizeof(ttbb));
-	ttbb.cbSize=sizeof(ttbb);
+	TTBButton ttbb = {0};
+	ttbb.cbSize = sizeof(ttbb);
 	/* toptoolbar offers icolib support */
-	ttbb.hIconUp=(HICON)LoadImage(hInst,MAKEINTRESOURCE(IDI_ACTIVE),IMAGE_ICON,0,0,0);
-	ttbb.hIconDn=(HICON)LoadImage(hInst,MAKEINTRESOURCE(IDI_INACTIVE),IMAGE_ICON,0,0,0);
-	ttbb.pszService="AutoShutdown/MenuCommand";
-	ttbb.dwFlags=TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
-	ttbb.name=Translate("Start/Stop automatic shutdown");
+	ttbb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_ACTIVE), IMAGE_ICON, 0, 0, 0);
+	ttbb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_INACTIVE), IMAGE_ICON, 0, 0, 0);
+	ttbb.pszService = "AutoShutdown/MenuCommand";
+	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttbb.name = LPGEN("Start/Stop automatic shutdown");
+	ttbb.pszTooltipUp = LPGEN("Stop automatic shutdown");
+	ttbb.pszTooltipDn = LPGEN("Start automatic shutdown");
 
 	hToolbarButton = TopToolbar_AddButton(&ttbb);
-	if(ttbb.hIconUp!=NULL) DestroyIcon(ttbb.hIconUp);
-	if(ttbb.hIconDn!=NULL) DestroyIcon(ttbb.hIconDn);
+	if(ttbb.hIconUp != NULL) DestroyIcon(ttbb.hIconUp);
+	if(ttbb.hIconDn != NULL) DestroyIcon(ttbb.hIconDn);
 	return 0;
 }
 

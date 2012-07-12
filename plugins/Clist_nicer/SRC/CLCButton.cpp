@@ -57,7 +57,7 @@ static int InitDefaultButtons(WPARAM, LPARAM)
 	for (int i=0; i < SIZEOF(BTNS); i++ ) {
 		g_index = i;
 		if (BTNS[i].pszButtonID) {
-			tbb.pszTooltipUp = tbb.name = BTNS[i].pszButtonName;
+			tbb.pszTooltipUp = tbb.name = LPGEN(BTNS[i].pszButtonName);
 			tbb.pszService = BTNS[i].pszButtonID;
 			tbb.hIconHandleUp = Skin_GetIconHandle(BTNS[i].pszButtonID);
 			if (BTNS[i].pszButtonDn)

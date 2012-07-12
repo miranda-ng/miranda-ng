@@ -531,7 +531,7 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 	ttb.hIconHandleUp = hIcon1;
 	ttb.pszService = MS_LISTENINGTO_TTB;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | (enabled ? TTBBF_PUSHED : 0);
-	ttb.name = "Enable/Disable sending Listening To info (to all protocols)";
+	ttb.name = LPGEN("Enable/Disable sending Listening To info (to all protocols)");
 	ttb.pszTooltipDn = LPGEN("Disable ListeningTo (to all protocols)");
 	ttb.pszTooltipUp = LPGEN("Enable ListeningTo (to all protocols)");
 	hTTB = TopToolbar_AddButton(&ttb);

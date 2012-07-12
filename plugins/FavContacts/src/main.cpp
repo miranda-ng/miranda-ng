@@ -125,8 +125,7 @@ int ProcessTBLoaded(WPARAM wParam, LPARAM lParam)
 {
 	TTBButton button = {0};
 	button.cbSize = sizeof(button);
-	button.pszTooltipUp = button.pszTooltipUp =
-	button.name = LPGEN("Favourite Contacts");
+	button.pszTooltipUp = button.name = LPGEN("Favourite Contacts");
 	button.pszService = MS_FAVCONTACTS_SHOWMENU;
 	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 	button.hIconHandleUp = (HANDLE)g_icoFavourite;

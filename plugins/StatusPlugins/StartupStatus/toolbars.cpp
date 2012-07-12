@@ -73,11 +73,10 @@ int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 
 		char profileName[128];
 		strncpy(profileName, dbv.pszVal, sizeof(profileName)-1);
-		ttb.name = profileName;
 		ttb.hIconHandleDn = hTtbDown;
 		ttb.hIconHandleUp = hTtbUp;
 		ttb.wParamDown = ttb.wParamUp = i;
-		ttb.pszTooltipUp = profileName;
+		ttb.name = ttb.pszTooltipUp = LPGEN(profileName);
 		HANDLE ttbAddResult = TopToolbar_AddButton(&ttb);
 		if (ttbAddResult) {
 			ttbButtons[ttbButtonCount] = ttbAddResult;

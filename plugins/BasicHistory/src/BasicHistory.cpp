@@ -106,9 +106,8 @@ int ToolbarModuleLoaded(WPARAM wParam,LPARAM lParam)
 	if(ServiceExists(MS_TTB_REMOVEBUTTON)) {
 		TTBButton tbb = {0};
 		tbb.cbSize = sizeof(tbb);
-		tbb.name = LPGEN("Open History");
 		tbb.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
-		tbb.pszTooltipUp = LPGEN("Open History");
+		tbb.name = tbb.pszTooltipUp = LPGEN("Open History");
 		tbb.dwFlags = TTBBF_SHOWTOOLTIP;
 		tbb.hIconHandleUp = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
 		hToolbarButton = TopToolbar_AddButton(&tbb);

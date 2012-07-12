@@ -161,16 +161,16 @@ int OnTopToolBarInit(WPARAM w,LPARAM L)
 {
 	TTBButton ttb = {0};
 	ttb.cbSize = sizeof(TTBButton);
-	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 
-	ttb.hIconHandleUp = ttb.hIconHandleDn = hIconLibItem[14];
+	ttb.hIconHandleUp = hIconLibItem[14];
 	ttb.pszService = MODULENAME"/MenuCommandAddNew";
-	ttb.name = "Add New Note";
+	ttb.name = ttb.pszTooltipUp = LPGEN("Add New Note");
 	TopToolbar_AddButton(&ttb);
 
-	ttb.hIconHandleUp = ttb.hIconHandleDn = hIconLibItem[15];
+	ttb.hIconHandleUp = hIconLibItem[15];
 	ttb.pszService = MODULENAME"/MenuCommandNewReminder";
-	ttb.name = "Add New Reminder";
+	ttb.name = ttb.pszTooltipUp = LPGEN("Add New Reminder");
 	TopToolbar_AddButton(&ttb);
 
 	UnhookEvent(hkTopToolbarInit);

@@ -362,11 +362,10 @@ begin
     ttb.cbSize := SizeOf(ttb);
 
     ttb.hIconUp := hppIcons[HPP_ICON_GLOBALSEARCH].handle;
-    ttb.hIconDn := hppIcons[HPP_ICON_GLOBALSEARCH].handle;
 
     ttb.pszService := MS_HPP_SHOWGLOBALSEARCH;
     ttb.dwFlags := TTBBF_VISIBLE or TTBBF_SHOWTOOLTIP;
-    ttb.name := PAnsiChar(Translate('Global History Search'));
+    ttb.name := ttb.pszTooltipUp := PAnsiChar(Translate('Global History Search'));
     CallService(MS_TTB_ADDBUTTON,WPARAM(@ttb), 0);
     UnhookEvent(HookTTBLoaded);
   end;

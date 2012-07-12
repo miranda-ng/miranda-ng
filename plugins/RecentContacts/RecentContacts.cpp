@@ -454,12 +454,12 @@ static int OnContactSettingChanged( WPARAM wParam, LPARAM lParam )
 
 int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 {
-	TTBButton ttbb = { 0 };
+	TTBButton ttbb = {0};
 	ttbb.cbSize = sizeof(ttbb);
-	ttbb.hIconHandleDn = hIcon;
+	ttbb.hIconHandleUp = hIcon;
 	ttbb.pszService = msLastUC_ShowList;
 	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttbb.name = msLastUC_ShowListName;
+	ttbb.name = ttbb.pszTooltipUp = LPGEN(msLastUC_ShowListName);
 	hTopToolbarButtonShowList = TopToolbar_AddButton(&ttbb);
 	return 0;
 }
