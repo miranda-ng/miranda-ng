@@ -43,8 +43,7 @@ static HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST
 	if (!(b->dwFlags & TTBBF_ISSEPARATOR))
 		mir_free(tmp);
 
-	TreeView_SetCheckState(hTree, hti, (b->dwFlags & TTBBF_VISIBLE) ? TRUE : FALSE);
-
+	TreeView_SetCheckState(hTree, hti, b->isVisible());
 	return hti;
 }
 
@@ -127,17 +126,19 @@ void CancelProcess(HWND hwndDlg)
 
 static void RecreateWindows()
 {
-	if (g_ctrl->hWnd)
-		PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, TRUE, 0);
-
-	mir_cslock lck(csButtonsHook);
-	for (int i = 0; i < Buttons.getCount(); i++) {
-		TopButtonInt *b = Buttons[i];
-		if (b->hwnd) {
-			DestroyWindow(b->hwnd);
-			b->CreateWnd();
+	{
+		mir_cslock lck(csButtonsHook);
+		for (int i = 0; i < Buttons.getCount(); i++) {
+			TopButtonInt *b = Buttons[i];
+			if (b->hwnd) {
+				DestroyWindow(b->hwnd);
+				b->CreateWnd();
+			}
 		}
 	}
+
+	if (g_ctrl->hWnd)
+		PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, TRUE, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

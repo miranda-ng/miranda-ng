@@ -59,7 +59,7 @@ void TopButtonInt::CreateWnd()
 		if (dwFlags & TTBBF_ASPUSHBUTTON)
 			SendMessage(hwnd, BUTTONSETASPUSHBTN, 1, 0);
 
-		if (DBGetContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", 1))
+		if (db_get_b(0, TTB_OPTDIR, "UseFlatButton", 1))
 			SendMessage(hwnd, BUTTONSETASFLATBTN, TRUE, 0);
 
 		EnableWindow(hwnd,(dwFlags & TTBBF_DISABLED)?FALSE:TRUE);
@@ -76,7 +76,7 @@ void TopButtonInt::LoadSettings()
 {
 	char buf[255];
 
-	BYTE oldv = (dwFlags & TTBBF_VISIBLE) != 0;
+	BYTE oldv = isVisible();
 	dwFlags = dwFlags & (~TTBBF_VISIBLE);
 
 	if (dwFlags & TTBBF_ISSEPARATOR) {
@@ -85,8 +85,8 @@ void TopButtonInt::LoadSettings()
 		char buf2[20];
 		AS(buf2, "Sep", buf1);
 
-		arrangedpos = DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
-		if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
+		arrangedpos = db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
+		if ( db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
 			dwFlags |= TTBBF_VISIBLE;
 	}
 	else if ((dwFlags & TTBBF_ISLBUTTON ) && (dwFlags & TTBBF_INTERNAL)) {
@@ -101,13 +101,13 @@ void TopButtonInt::LoadSettings()
 		mir_free(ptszProgram);
 		ptszProgram = DBGetStringT(0, TTB_OPTDIR, AS(buf, buf2, "_lpath"));
 
-		arrangedpos = DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
-		if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
+		arrangedpos = db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
+		if ( db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
 			dwFlags |= TTBBF_VISIBLE;
 	}
 	else {
-		arrangedpos = DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, pszName, "_Position"), Buttons.getCount());
-		if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, pszName, "_Visible"), oldv) > 0 )
+		arrangedpos = db_get_b(0, TTB_OPTDIR, AS(buf, pszName, "_Position"), Buttons.getCount());
+		if ( db_get_b(0, TTB_OPTDIR, AS(buf, pszName, "_Visible"), oldv) > 0 )
 			dwFlags |= TTBBF_VISIBLE;
 	}
 
@@ -125,8 +125,8 @@ void TopButtonInt::SaveSettings(int *SepCnt, int *LaunchCnt)
 		char buf2[20];
 		AS(buf2, "Sep", buf1);
 
-		DBWriteContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), arrangedpos);
-		DBWriteContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), dwFlags & TTBBF_VISIBLE);
+		db_set_b(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), arrangedpos);
+		db_set_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), isVisible());
 	}
 	else if (LaunchCnt && (dwFlags & TTBBF_ISLBUTTON ) && (dwFlags & TTBBF_INTERNAL)) {
 		char buf1[10];
@@ -136,12 +136,12 @@ void TopButtonInt::SaveSettings(int *SepCnt, int *LaunchCnt)
 
 		DBWriteContactSettingString(0, TTB_OPTDIR, AS(buf, buf2, "_name"), pszName);
 		DBWriteContactSettingTString(0, TTB_OPTDIR, AS(buf, buf2, "_lpath"), ptszProgram);
-		DBWriteContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), arrangedpos);
-		DBWriteContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), dwFlags & TTBBF_VISIBLE);
+		db_set_b(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), arrangedpos);
+		db_set_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), isVisible());
 	}
 	else {
-		DBWriteContactSettingByte(0, TTB_OPTDIR, AS(buf, pszName, "_Position"), arrangedpos);
-		DBWriteContactSettingByte(0, TTB_OPTDIR, AS(buf, pszName, "_Visible"), dwFlags & TTBBF_VISIBLE);
+		db_set_b(0, TTB_OPTDIR, AS(buf, pszName, "_Position"), arrangedpos);
+		db_set_b(0, TTB_OPTDIR, AS(buf, pszName, "_Visible"), isVisible());
 	}
 }
 

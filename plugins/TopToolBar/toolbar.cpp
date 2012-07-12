@@ -51,7 +51,7 @@ void InsertSBut(int i)
 	ttb.cbSize = sizeof(ttb);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_ISSBUTTON|TTBBF_INTERNAL;
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSBUTTON | TTBBF_INTERNAL;
 	ttb.wParamDown = i;
 	TTBAddButton(( WPARAM )&ttb, 0);
 }
@@ -59,7 +59,7 @@ void InsertSBut(int i)
 void LoadAllSButs()
 {
 	//must be locked
-	int cnt = DBGetContactSettingByte(0, TTB_OPTDIR, "ServiceCnt", 0);
+	int cnt = db_get_b(0, TTB_OPTDIR, "ServiceCnt", 0);
 	if (cnt > 0) {
 		for (int i = 1; i<=cnt; i++)
 		InsertSBut(i);
@@ -96,7 +96,7 @@ void InsertLBut(int i)
 void LoadAllLButs()
 {
 	//must be locked
-	int cnt = DBGetContactSettingByte(0, TTB_OPTDIR, "LaunchCnt", 0);
+	int cnt = db_get_b(0, TTB_OPTDIR, "LaunchCnt", 0);
 	for (int i = 0; i < cnt; i++)
 		InsertLBut(i);
 }
@@ -115,7 +115,7 @@ void InsertSeparator(int i)
 void LoadAllSeparators()
 {
 	//must be locked
-	int cnt = DBGetContactSettingByte(0, TTB_OPTDIR, "SepCnt", 0);
+	int cnt = db_get_b(0, TTB_OPTDIR, "SepCnt", 0);
 	for (int i = 0; i < cnt; i++)
 		InsertSeparator(i);
 }
@@ -129,8 +129,8 @@ int SaveAllButtonsOptions()
 		for (int i = 0; i < Buttons.getCount(); i++)
 			Buttons[i]->SaveSettings(&SeparatorCnt, &LaunchCnt);
 	}
-	DBWriteContactSettingByte(0, TTB_OPTDIR, "SepCnt", SeparatorCnt);
-	DBWriteContactSettingByte(0, TTB_OPTDIR, "LaunchCnt", LaunchCnt);
+	db_set_b(0, TTB_OPTDIR, "SepCnt", SeparatorCnt);
+	db_set_b(0, TTB_OPTDIR, "LaunchCnt", LaunchCnt);
 	return 0;
 }
 
@@ -286,40 +286,32 @@ int ArrangeButtons()
 	GetClientRect(g_ctrl->hWnd, &rcClient);
 	int nBarSize = rcClient.right - rcClient.left;
 	if (nBarSize == 0)
-		return g_ctrl->nButtonHeight;
+		return 0;
 
-	g_ctrl->nLineCount = 0;
-
+	int nLineCount = 0;
 	int i, ypos = 1, xpos = g_ctrl->nButtonSpace, nextX = 0, y = 0;
 	int newheight = g_ctrl->nButtonHeight+1;
 
-	LIST<TopButtonInt> tmpList = Buttons;
-	for (i=tmpList.getCount()-1; i >= 0; i--) {
-		TopButtonInt *b = tmpList[i];
-		if (b->hwnd == NULL || !(b->dwFlags & TTBBF_VISIBLE)) {
-			ShowWindow(b->hwnd, SW_HIDE);
-			tmpList.remove(i);
-		}
-	}
+	if (Buttons.getCount() == 0)
+		return 0;
 
-	if (tmpList.getCount() == 0)
-		return g_ctrl->nButtonHeight;
-
-	HDWP hdwp = BeginDeferWindowPos(tmpList.getCount());
+	HDWP hdwp = BeginDeferWindowPos(Buttons.getCount());
 
 	bool bWasButttonBefore;
 	int  nUsedWidth, iFirstButtonId = 0, iLastButtonId = 0;
 
 	do
 	{
-		g_ctrl->nLineCount++;
+		nLineCount++;
 		bWasButttonBefore = false;
 		nUsedWidth = 0;
 
-		for (i=iFirstButtonId; i < tmpList.getCount(); i++) {
-			TopButtonInt *b = tmpList[i];
+		for (i=iFirstButtonId; i < Buttons.getCount(); i++) {
+			TopButtonInt *b = Buttons[i];
 
-			int width = (b->isSep()) ? SEPWIDTH+2 : g_ctrl->nButtonWidth + ((bWasButttonBefore) ? g_ctrl->nButtonSpace : 0);
+			int width = 0;
+			if ( b->isVisible())
+				width = (b->isSep()) ? SEPWIDTH+2 : g_ctrl->nButtonWidth + ((bWasButttonBefore) ? g_ctrl->nButtonSpace : 0);
 			if (nUsedWidth + width > nBarSize)
 				break;
 
@@ -331,13 +323,20 @@ int ArrangeButtons()
 		int nFreeSpace = nBarSize - nUsedWidth;
 
 		for (i=iFirstButtonId; i < iLastButtonId; i++) {
-			TopButtonInt *b = tmpList[i];
+			TopButtonInt *b = Buttons[i];
 
-			hdwp = DeferWindowPos(hdwp, b->hwnd, NULL, nextX, y, 0,	0,	SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
-			if ( b->isSep())
-				nextX += SEPWIDTH+2;
-			else
-				nextX += g_ctrl->nButtonWidth + g_ctrl->nButtonSpace;
+			bool bOldVisible = IsWindowVisible(b->hwnd) != 0;
+			if (bOldVisible != b->isVisible())
+				g_ctrl->bOrderChanged = TRUE;
+
+			if ( b->isVisible()) {
+				hdwp = DeferWindowPos(hdwp, b->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
+				if ( b->isSep())
+					nextX += SEPWIDTH+2;
+				else
+					nextX += g_ctrl->nButtonWidth + g_ctrl->nButtonSpace;
+			}
+			else hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
 		}
 
 		if (iFirstButtonId == iLastButtonId)
@@ -349,15 +348,12 @@ int ArrangeButtons()
 		if (g_ctrl->bSingleLine)
 			break;
 	}
-		while (iFirstButtonId < tmpList.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));		
-
-	for (i=iFirstButtonId; i < tmpList.getCount(); i++)
-		hdwp = DeferWindowPos(hdwp, tmpList[i]->hwnd, NULL, nextX, y, 0,	0,	SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
+		while (iFirstButtonId < Buttons.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));		
 
 	if (hdwp)
 		EndDeferWindowPos(hdwp);
 
-	return (g_ctrl->nButtonHeight + g_ctrl->nButtonSpace)*g_ctrl->nLineCount - g_ctrl->nButtonSpace;
+	return (g_ctrl->nButtonHeight + g_ctrl->nButtonSpace)*nLineCount - g_ctrl->nButtonSpace;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

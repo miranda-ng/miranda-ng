@@ -163,7 +163,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		return 0;
 
 	case WM_LBUTTONDOWN:
-		if (DBGetContactSettingByte(NULL, "CLUI", "ClientAreaDrag", 0)) {
+		if (db_get_b(NULL, "CLUI", "ClientAreaDrag", 0)) {
 			POINT pt;
 			GetCursorPos(&pt);
 			return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE|HTCAPTION, MAKELPARAM(pt.x, pt.y));
@@ -216,6 +216,9 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					bResize = TRUE;
 				}
 			}
+
+			if (g_ctrl->bOrderChanged)
+				bResize = TRUE, g_ctrl->bOrderChanged = FALSE;
 
 			if ((curvis != vis || bResize) && vis != -1) {
 				INT_PTR frameopt = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, g_ctrl->hFrame), 0);
@@ -308,7 +311,7 @@ int LoadBackgroundOptions()
 		hBmpBackground = NULL;
 	}
 
-	if (DBGetContactSettingByte(NULL, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)) {
+	if (db_get_b(NULL, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)) {
 		DBVARIANT dbv;
 		if (!DBGetContactSetting(NULL, TTB_OPTDIR, "BkBitmap", &dbv)) {
 			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);

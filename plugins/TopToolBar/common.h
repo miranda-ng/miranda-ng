@@ -66,6 +66,10 @@ struct TopButtonInt
 	{	return (dwFlags & TTBBF_ISSEPARATOR) != 0;
 	}
 
+	__inline bool isVisible() const
+	{	return (dwFlags & TTBBF_VISIBLE) != 0;
+	}
+
 	HWND hwnd;
 	int id;
 	BOOL bPushed;

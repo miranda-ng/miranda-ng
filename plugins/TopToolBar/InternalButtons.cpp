@@ -65,15 +65,15 @@ INT_PTR TTBInternalMainMenuButt(WPARAM wParam, LPARAM lParam)
 INT_PTR TTBInternalGroupShowHide(WPARAM wParam, LPARAM lParam)
 {
 	int newVal = !(GetWindowLongPtr(hwndContactTree, GWL_STYLE)&CLS_USEGROUPS);
-	DBWriteContactSettingByte(NULL, "CList", "UseGroups", (BYTE)newVal);
+	db_set_b(NULL, "CList", "UseGroups", (BYTE)newVal);
 	SendMessage(hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
 	return 0;
 }
 
 INT_PTR TTBInternalSoundsOnOff(WPARAM wParam, LPARAM lParam)
 {
-	int newVal = !(DBGetContactSettingByte(NULL, "Skin", "UseSound", 1));
-	DBWriteContactSettingByte(NULL, "Skin", "UseSound", (BYTE)newVal);
+	int newVal = !(db_get_b(NULL, "Skin", "UseSound", 1));
+	db_set_b(NULL, "Skin", "UseSound", (BYTE)newVal);
 	return 0;
 }
 
