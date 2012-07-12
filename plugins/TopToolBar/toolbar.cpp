@@ -134,24 +134,6 @@ int SaveAllButtonsOptions()
 	return 0;
 }
 
-INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
-{
-	mir_cslock lck(csButtonsHook);
-
-	int idx;
-	TopButtonInt* b = idtopos(wParam, &idx);
-	if (b == NULL)
-		return -1;
-	
-	RemoveFromOptions(b->id);
-
-	Buttons.remove(idx);
-	delete b;
-
-	ArrangeButtons();
-	return 0;
-}
-
 static bool nameexists(const char *name)
 {
 	if (name == NULL)
@@ -250,34 +232,6 @@ TopButtonInt* CreateButton(TTBButton* but)
 	return b;
 }
 
-INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
-{
-	if (wParam == 0)
-		return -1;
-
-	TopButtonInt* b;
-	{	
-		mir_cslock lck(csButtonsHook);
-
-		TTBButton *but = (TTBButton*)wParam;
-		if (but->cbSize != sizeof(TTBButton) && but->cbSize != OLD_TBBUTTON_SIZE)
-			return -1;
-
-		if ( !(but->dwFlags && TTBBF_ISLBUTTON) && nameexists(but->name))
-			return -1;
-
-		b = CreateButton(but);
-		b->hLangpack = (int)lParam;
-		b->LoadSettings();
-		Buttons.insert(b);
-		b->CreateWnd();
-	}
-
-	ArrangeButtons();
-	AddToOptions(b);
-	return b->id;
-}
-
 int ArrangeButtons()
 {
 	mir_cslock lck(csButtonsHook);
@@ -359,8 +313,60 @@ int ArrangeButtons()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Toolbar services
 
-//wparam = hTTBButton
-//lparam = state 
+// wparam = (TTBButton*)lpTTBButton
+// lparam = hLangpack
+INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam == 0)
+		return -1;
+
+	TopButtonInt* b;
+	{	
+		mir_cslock lck(csButtonsHook);
+
+		TTBButton *but = (TTBButton*)wParam;
+		if (but->cbSize != sizeof(TTBButton) && but->cbSize != OLD_TBBUTTON_SIZE)
+			return -1;
+
+		if ( !(but->dwFlags && TTBBF_ISLBUTTON) && nameexists(but->name))
+			return -1;
+
+		b = CreateButton(but);
+		b->hLangpack = (int)lParam;
+		b->LoadSettings();
+		Buttons.insert(b);
+		b->CreateWnd();
+	}
+
+	g_ctrl->bOrderChanged = TRUE;
+	ArrangeButtons();
+	AddToOptions(b);
+	return b->id;
+}
+
+// wparam = (HANDLE)hTTButton
+// lparam = 0
+INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
+{
+	mir_cslock lck(csButtonsHook);
+
+	int idx;
+	TopButtonInt* b = idtopos(wParam, &idx);
+	if (b == NULL)
+		return -1;
+	
+	RemoveFromOptions(b->id);
+
+	Buttons.remove(idx);
+	delete b;
+
+	g_ctrl->bOrderChanged = TRUE;
+	ArrangeButtons();
+	return 0;
+}
+
+// wparam = hTTBButton
+// lparam = state 
 INT_PTR TTBSetState(WPARAM wParam, LPARAM lParam)
 {
 	mir_cslock lck(csButtonsHook);
@@ -375,8 +381,8 @@ INT_PTR TTBSetState(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//wparam = hTTBButton
-//lparam = 0
+// wparam = hTTBButton
+// lparam = 0
 //return = state
 INT_PTR TTBGetState(WPARAM wParam, LPARAM lParam)
 {
@@ -547,7 +553,18 @@ static INT_PTR TTBSetCustomProc(WPARAM wParam, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Removes buttons of plugins being unloads. lParam = HINSTANCE
+// Adds buttons of plugins being loaded. lParam = HINSTANCE
+
+int OnPluginLoad(WPARAM wParam, LPARAM lParam)
+{
+	CallPluginEventHook((HINSTANCE)lParam, hTTBModuleLoaded, 0, 0);
+	if (g_ctrl->hWnd && g_ctrl->bOrderChanged)
+		PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, TRUE, 0);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Removes buttons of plugins being unloaded. lParam = HINSTANCE
 
 int OnPluginUnload(WPARAM wParam, LPARAM lParam)
 {
@@ -627,6 +644,7 @@ int LoadToolbarModule()
 	InitializeCriticalSection(&csButtonsHook);
 	hBmpSeparator = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SEP));
 
+	HookEvent(ME_SYSTEM_MODULELOAD, OnPluginLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnPluginUnload);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad);
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconChange);
