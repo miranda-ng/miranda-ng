@@ -296,22 +296,22 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 	if (wParam == 0)
 		return -1;
 
-	TopButtonInt* b;
+	TTBButton *but = (TTBButton*)wParam;
+	if (but->cbSize != sizeof(TTBButton) && but->cbSize != OLD_TBBUTTON_SIZE)
+		return -1;
+
+	if ( !(but->dwFlags && TTBBF_ISLBUTTON) && nameexists(but->name))
+		return -1;
+
+	TopButtonInt* b = CreateButton(but);
+	b->hLangpack = (int)lParam;
+	b->LoadSettings();
+	b->CreateWnd();
+	if (b->hwnd == NULL)
+		return -1;
 	{	
 		mir_cslock lck(csButtonsHook);
-
-		TTBButton *but = (TTBButton*)wParam;
-		if (but->cbSize != sizeof(TTBButton) && but->cbSize != OLD_TBBUTTON_SIZE)
-			return -1;
-
-		if ( !(but->dwFlags && TTBBF_ISLBUTTON) && nameexists(but->name))
-			return -1;
-
-		b = CreateButton(but);
-		b->hLangpack = (int)lParam;
-		b->LoadSettings();
 		Buttons.insert(b);
-		b->CreateWnd();
 	}
 
 	g_ctrl->bOrderChanged = TRUE;
