@@ -57,10 +57,10 @@ static void SetButtonPressed(int i, int state)
 
 static int Modern_InitButtons(WPARAM, LPARAM)
 {
-	TTBButton tbb = { 0 };
-	tbb.cbSize = sizeof(tbb);
-
 	for (int i=0; i < SIZEOF(BTNS); i++) {
+		TTBButton tbb = { 0 };
+		tbb.cbSize = sizeof(tbb);
+
 		if (BTNS[i].pszButtonID) {
 			tbb.name = LPGEN(BTNS[i].pszButtonID);
 			tbb.pszService = BTNS[i].pszServiceName;

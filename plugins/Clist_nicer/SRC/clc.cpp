@@ -169,8 +169,8 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 						pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, wParam, lParam);
 				}
 				if (!__strcmp(cws->szSetting, "UseSound")) {
-					cfg::dat.soundsOff = cfg::getByte(cws->szModule, cws->szSetting, 0) ? 0 : 1;
-					CheckDlgButton(pcli->hwndContactList, IDC_TBSOUND, cfg::dat.soundsOff ? BST_UNCHECKED : BST_CHECKED);
+					cfg::dat.soundsOff = cws->value.bVal ? 0 : 1;
+					ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff);
 				}
 			}
 			if (cfg::dat.bMetaAvail && cfg::dat.bMetaEnabled && !__strcmp(cws->szModule, cfg::dat.szMetaName) && !__strcmp(cws->szSetting, "IsSubcontact"))

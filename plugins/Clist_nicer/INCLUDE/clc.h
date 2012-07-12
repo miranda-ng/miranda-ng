@@ -540,6 +540,7 @@ void ReloadExtraInfo(HANDLE hContact);
 void LoadAvatarForContact(struct ClcContact *p);
 void ApplyViewMode(const char *name);
 DWORD CalcXMask(HANDLE hContact);
+void ClcSetButtonState(int ctrlId, int status);
 
 //clcpaint.c
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint);

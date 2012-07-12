@@ -51,14 +51,16 @@ static int g_index = -1;
 
 static int InitDefaultButtons(WPARAM, LPARAM)
 {
-	TTBButton tbb = { 0 };
-	tbb.cbSize = sizeof(tbb);
-
 	for (int i=0; i < SIZEOF(BTNS); i++ ) {
+		TTBButton tbb = { 0 };
+		tbb.cbSize = sizeof(tbb);
+
 		g_index = i;
 		if (BTNS[i].pszButtonID) {
+			if ( !BTNS[i].isPush)
+				tbb.dwFlags |= TTBBF_ASPUSHBUTTON;
+
 			tbb.pszTooltipUp = tbb.name = LPGEN(BTNS[i].pszButtonName);
-			tbb.pszService = BTNS[i].pszButtonID;
 			tbb.hIconHandleUp = Skin_GetIconHandle(BTNS[i].pszButtonID);
 			if (BTNS[i].pszButtonDn)
 				tbb.hIconHandleUp = Skin_GetIconHandle(BTNS[i].pszButtonDn);
@@ -69,7 +71,20 @@ static int InitDefaultButtons(WPARAM, LPARAM)
 		BTNS[i].hButton = TopToolbar_AddButton(&tbb);
 	}
 	g_index = -1;
+
+	ClcSetButtonState(IDC_TBHIDEOFFLINE, db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
+	ClcSetButtonState(IDC_TBHIDEGROUPS, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+	ClcSetButtonState(IDC_TBSOUND, db_get_b(NULL, "Skin", "UseSound", 1));
 	return 1;
+}
+
+void ClcSetButtonState(int ctrlid, int status)
+{
+	for (int i=0; i < SIZEOF(BTNS); i++)
+		if (BTNS[i].ctrlid == ctrlid) {
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[i].hButton, status ? TTBST_PUSHED : TTBST_RELEASED);
+			break;
+		}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -421,6 +436,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_LBUTTONDOWN:
+		if (!bct->iCtrlID) return 0;
 		if (bct->stateId != PBS_DISABLED && bct->stateId != PBS_PRESSED) {
 			bct->stateId = PBS_PRESSED;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
@@ -433,6 +449,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		return 1;
 
 	case WM_LBUTTONUP:
+		if (!bct->iCtrlID) return 0;
 		if (bct->bIsPushBtn)
 			bct->bIsPushed = !bct->bIsPushed;
 
@@ -467,10 +484,9 @@ static void SetButtonAsCustom(HWND hWnd)
 
 static LRESULT CALLBACK ToolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_COMMAND && HIWORD(wParam) == BN_CLICKED) {
+	if (msg == WM_COMMAND && HIWORD(wParam) == BN_CLICKED)
 		SendMessage(pcli->hwndContactList, msg, wParam, lParam);
-		return 1;
-	}
+
 	return 0;
 }
 
