@@ -98,7 +98,7 @@ bool CoreCheck()
 		return false;
 	}
 	return true;
-} 
+}
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
@@ -128,7 +128,7 @@ int ProcessTBLoaded(WPARAM wParam, LPARAM lParam)
 	button.pszTooltipUp = button.pszTooltipUp =
 	button.name = LPGEN("Favourite Contacts");
 	button.pszService = MS_FAVCONTACTS_SHOWMENU;
-	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
+	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE | TTBBF_ICONBYHANDLE;
 	button.hIconHandleDn = button.hIconHandleUp = (HANDLE)g_icoFavourite;
 	TopToolbar_AddButton(&button);
 	return 0;
@@ -496,7 +496,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 	{
 		lpmis->itemWidth += 20;
 	}
-	
+
 	if (true)
 	{
 		SIZE sz;
@@ -780,7 +780,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 				lpdis->rcItem.left += avatarWidth + 5;
 		}
 	}
-	
+
 	if (true)
 	{
 		TCHAR *name = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
@@ -1221,7 +1221,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 			for ( ; hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
 			{
-				SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK, 
+				SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK,
 					SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0),
 					DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0));
 			}
@@ -1351,7 +1351,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 				for ( ; hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
 				{
-					BYTE fav = SendDlgItemMessage(hwnd, IDC_CLIST, CLM_GETCHECKMARK, 
+					BYTE fav = SendDlgItemMessage(hwnd, IDC_CLIST, CLM_GETCHECKMARK,
 						SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
 					if (fav != DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0))
 						DBWriteContactSettingByte(hContact, "FavContacts", "IsFavourite", fav);
