@@ -33,6 +33,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define LOCAL_TIME_HANDLE NULL
 #define UTC_TIME_HANDLE   ((void*)-1)
 
+typedef INT_PTR mir_time;
+
 typedef struct
 {
 	size_t cbSize;
@@ -42,14 +44,14 @@ typedef struct
 	void    (*storeByContact)(HANDLE hContact, HANDLE hTZ);
 
 	int     (*printDateTime)(HANDLE hTZ, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags);
-	int     (*printTimeStamp)(HANDLE hTZ, time_t ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags);
+	int     (*printTimeStamp)(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags);
 
 	int     (*prepareList)(HANDLE hContact, HWND hWnd, DWORD dwFlags);
 	int     (*selectListItem)(HANDLE hContact, HWND hWnd, DWORD dwFlags);
 	void    (*storeListResults)(HANDLE hContact, HWND hWnd, DWORD dwFlags);
 
 	int     (*getTimeZoneTime)(HANDLE hTZ, SYSTEMTIME *st);
-	time_t  (*timeStampToTimeZoneTimeStamp)(HANDLE hTZ, time_t ts);
+	mir_time  (*timeStampToTimeZoneTimeStamp)(HANDLE hTZ, mir_time ts);
 
 	LPTIME_ZONE_INFORMATION (*getTzi)(HANDLE hTZ);
 	LPCTSTR (*getTzName)(HANDLE hTZ);
@@ -58,7 +60,7 @@ typedef struct
 	int printDateTimeByContact (HANDLE hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
 	{ return printDateTime(createByContact(hContact, dwFlags), szFormat, szDest, cbDest, dwFlags); }
 
-	int printTimeStampByContact(HANDLE hContact, time_t ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
+	int printTimeStampByContact(HANDLE hContact, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
 	{ return printTimeStamp(createByContact(hContact, dwFlags), ts, szFormat, szDest, cbDest, dwFlags); }
 
 	LPTIME_ZONE_INFORMATION getTziByContact(HANDLE hContact)
@@ -67,7 +69,7 @@ typedef struct
 	int getTimeZoneTimeByContact(HANDLE hContact, SYSTEMTIME *st)
 	{ return getTimeZoneTime(createByContact(hContact, 0), st); }
 
-	time_t timeStampToTimeZoneTimeStampByContact(HANDLE hContact, time_t ts)
+	mir_time timeStampToTimeZoneTimeStampByContact(HANDLE hContact, mir_time ts)
 	{ return timeStampToTimeZoneTimeStamp(createByContact(hContact, 0), ts); }
 #endif
 

@@ -26,18 +26,18 @@ simple UTC offsets.
 #include "..\..\core\commonheaders.h"
 
 //KB167296
-void UnixTimeToFileTime(time_t ts, LPFILETIME pft)
+void UnixTimeToFileTime(mir_time ts, LPFILETIME pft)
 {
 	unsigned __int64 ll = UInt32x32To64(ts, 10000000) + 116444736000000000i64;
 	pft->dwLowDateTime = (DWORD)ll;
 	pft->dwHighDateTime = ll >> 32;
 }
 
-time_t FileTimeToUnixTime(LPFILETIME pft)
+mir_time FileTimeToUnixTime(LPFILETIME pft)
 {
 	unsigned __int64 ll = (unsigned __int64)pft->dwHighDateTime << 32 | pft->dwLowDateTime;
 	ll -= 116444736000000000i64;
-	return (time_t)(ll / 10000000);
+	return (mir_time)(ll / 10000000);
 }
 
 void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, int cbDest)

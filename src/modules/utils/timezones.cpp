@@ -94,8 +94,8 @@ static OBJLIST<MIM_TIMEZONE>  g_timezones(55, NumericKeySortT);
 static LIST<MIM_TIMEZONE>     g_timezonesBias(55, MIM_TIMEZONE::compareBias);
 
 void FormatTime (const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, int cbDest);
-void UnixTimeToFileTime(time_t ts, LPFILETIME pft);
-time_t FileTimeToUnixTime(LPFILETIME pft);
+void UnixTimeToFileTime(mir_time ts, LPFILETIME pft);
+mir_time FileTimeToUnixTime(LPFILETIME pft);
 
 #define fnSystemTimeToTzSpecificLocalTime SystemTimeToTzSpecificLocalTime
 
@@ -136,13 +136,13 @@ static void CalcTsOffset(MIM_TIMEZONE *tz)
 
 	FILETIME ft;
 	SystemTimeToFileTime(&st, &ft);
-	time_t ts1 = FileTimeToUnixTime(&ft);
+	mir_time ts1 = FileTimeToUnixTime(&ft);
 
 	if ( !fnSystemTimeToTzSpecificLocalTime(&tz->tzi, &st, &stl))
 		return;
 
 	SystemTimeToFileTime(&stl, &ft);
-	time_t ts2 = FileTimeToUnixTime(&ft);
+	mir_time ts2 = FileTimeToUnixTime(&ft);
 
 	tz->offset = ts2 - ts1;
 }
@@ -273,7 +273,7 @@ static int timeapiPrintDateTime(HANDLE hTZ, LPCTSTR szFormat, LPTSTR szDest, int
 	return 0;
 }
 
-static int timeapiPrintTimeStamp(HANDLE hTZ, time_t ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
+static int timeapiPrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
 {
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
 	if (tz == NULL && (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)))
@@ -314,7 +314,7 @@ static LPTIME_ZONE_INFORMATION timeapiGetTzi(HANDLE hTZ)
 }
 
 
-static time_t timeapiTimeStampToTimeZoneTimeStamp(HANDLE hTZ, time_t ts)
+static mir_time timeapiTimeStampToTimeZoneTimeStamp(HANDLE hTZ, mir_time ts)
 {
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
 
@@ -472,7 +472,7 @@ static INT_PTR GetTimeApi(WPARAM, LPARAM lParam)
 
 static INT_PTR TimestampToLocal(WPARAM wParam, LPARAM)
 {
-	return timeapiTimeStampToTimeZoneTimeStamp(NULL, (time_t)wParam);
+	return timeapiTimeStampToTimeZoneTimeStamp(NULL, (mir_time)wParam);
 }
 
 static INT_PTR TimestampToStringT(WPARAM wParam, LPARAM lParam)
@@ -480,7 +480,7 @@ static INT_PTR TimestampToStringT(WPARAM wParam, LPARAM lParam)
 	DBTIMETOSTRINGT *tts = (DBTIMETOSTRINGT*)lParam;
 	if (tts == NULL) return 0;
 
-	timeapiPrintTimeStamp(NULL, (time_t)wParam, tts->szFormat, tts->szDest, tts->cbDest, 0);
+	timeapiPrintTimeStamp(NULL, (mir_time)wParam, tts->szFormat, tts->szDest, tts->cbDest, 0);
 	return 0;
 }
 
@@ -490,7 +490,7 @@ static INT_PTR TimestampToStringA(WPARAM wParam, LPARAM lParam)
 	if (tts == NULL) return 0;
 
 	TCHAR *szDest = (TCHAR*)alloca(tts->cbDest);
-	timeapiPrintTimeStamp(NULL, (time_t)wParam, StrConvT(tts->szFormat), szDest, tts->cbDest, 0);
+	timeapiPrintTimeStamp(NULL, (mir_time)wParam, StrConvT(tts->szFormat), szDest, tts->cbDest, 0);
 	WideCharToMultiByte(CP_ACP, 0, szDest, -1, tts->szDest, tts->cbDest, NULL, NULL);
 	return 0;
 }
