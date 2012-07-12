@@ -220,12 +220,16 @@ int ArrangeButtons()
 
 	int nLineCount = 0;
 	int i, ypos = 1, xpos = g_ctrl->nButtonSpace, nextX = 0, y = 0;
-	int newheight = g_ctrl->nButtonHeight+1;
+	int newheight = g_ctrl->nButtonHeight+1, nButtonCount=0;
 
-	if (Buttons.getCount() == 0)
+	for (i=0; i < Buttons.getCount(); i++)
+		if (Buttons[i]->hwnd)
+			nButtonCount++;
+
+	if (nButtonCount == 0)
 		return 0;
 
-	HDWP hdwp = BeginDeferWindowPos(Buttons.getCount());
+	HDWP hdwp = BeginDeferWindowPos(nButtonCount);
 
 	bool bWasButttonBefore;
 	int  nUsedWidth, iFirstButtonId = 0, iLastButtonId = 0;
@@ -238,6 +242,8 @@ int ArrangeButtons()
 
 		for (i=iFirstButtonId; i < Buttons.getCount(); i++) {
 			TopButtonInt *b = Buttons[i];
+			if (b->hwnd == NULL)
+				continue;
 
 			int width = 0;
 			if ( b->isVisible())
@@ -254,6 +260,8 @@ int ArrangeButtons()
 
 		for (i=iFirstButtonId; i < iLastButtonId; i++) {
 			TopButtonInt *b = Buttons[i];
+			if (b->hwnd == NULL)
+				continue;
 
 			bool bOldVisible = IsWindowVisible(b->hwnd) != 0;
 			if (bOldVisible != b->isVisible())
@@ -307,8 +315,10 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 	b->hLangpack = (int)lParam;
 	b->LoadSettings();
 	b->CreateWnd();
-	if (b->hwnd == NULL)
+	if (b->hwnd == NULL) {
+		delete b;
 		return -1;
+	}
 	{	
 		mir_cslock lck(csButtonsHook);
 		Buttons.insert(b);
