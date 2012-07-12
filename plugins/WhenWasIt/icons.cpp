@@ -68,9 +68,7 @@ int LoadIcons()
 	GetIcons();
 	
 	if (ServiceExists(MS_EXTRAICON_REGISTER))
-	{
 		hWWIExtraIcons = ExtraIcon_Register("WhenWasIt", Translate("WhenWasIt birthday reminder"), "MenuCheck", OnExtraIconListRebuild, OnExtraImageApply);
-	}	
 	
 	return 0;
 }

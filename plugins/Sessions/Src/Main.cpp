@@ -859,23 +859,23 @@ static int CreateButtons(WPARAM wparam,LPARAM lparam)
 	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE | TTBBF_ICONBYHANDLE;
 
 	button.pszService = MS_SESSIONS_OPENMANAGER;
-	button.pszTooltipUp = button.pszTooltipUp = button.name = LPGEN("Open Sessions Manager");
-	button.hIconHandleDn = button.hIconHandleUp = hibSessionsLoad;
+	button.pszTooltipUp = button.name = LPGEN("Open Sessions Manager");
+	button.hIconHandleUp = hibSessionsLoad;
 	TopToolbar_AddButton(&button);
 
 	button.pszService = MS_SESSIONS_SAVEUSERSESSION;
-	button.pszTooltipUp = button.pszTooltipUp = button.name = LPGEN("Save Session");
-	button.hIconHandleDn = button.hIconHandleUp = hibSessionsSave;
+	button.pszTooltipUp = button.name = LPGEN("Save Session");
+	button.hIconHandleUp = hibSessionsSave;
 	TopToolbar_AddButton(&button);
 
 	button.pszService = MS_SESSIONS_RESTORELASTSESSION;
-	button.pszTooltipUp = button.pszTooltipUp = button.name = LPGEN("Restore Last Session");
-	button.hIconHandleDn = button.hIconHandleUp = hibSessionsLoadLast;
+	button.pszTooltipUp = button.name = LPGEN("Restore Last Session");
+	button.hIconHandleUp = hibSessionsLoadLast;
 	TopToolbar_AddButton(&button);
 
 	button.pszService = MS_SESSIONS_SHOWFAVORITESMENU;
-	button.pszTooltipUp = button.pszTooltipUp = button.name = LPGEN("Show Favorite Sessions Menu");
-	button.hIconHandleDn = button.hIconHandleUp = hibChecked;
+	button.pszTooltipUp = button.name = LPGEN("Show Favorite Sessions Menu");
+	button.hIconHandleUp = hibChecked;
 	TopToolbar_AddButton(&button);
 	return 0;
 }

@@ -1094,8 +1094,8 @@ VOID DlgAnniversaryListOnTopToolBarLoaded()
 	ttb.cbSize = sizeof(ttb);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
 	ttb.pszService = MS_USERINFO_REMINDER_LIST;
-	ttb.hIconHandleDn = ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_ANNIVERSARY);
-	ttb.pszTooltipDn = ttb.pszTooltipUp = LPGEN("Anniversary list");
+	ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_ANNIVERSARY);
+	ttb.pszTooltipUp = LPGEN("Anniversary list");
 	ttb.name = "Anniversary list";
 	TopToolbar_AddButton(&ttb);
 }

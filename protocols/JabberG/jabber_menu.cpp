@@ -985,20 +985,20 @@ int g_OnToolbarInit(WPARAM, LPARAM)
 
 	List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/Groupchat", g_ToolbarHandleJoinGroupchat ));
 	button.pszService = "JABBER/*/Groupchat";
-	button.pszTooltipUp = button.pszTooltipUp = button.name = "Join conference";
-	button.hIconHandleDn = button.hIconHandleUp = (HANDLE)g_GetIconHandle(IDI_GROUP);
+	button.pszTooltipUp = button.name = LPGEN("Join conference");
+	button.hIconHandleUp = g_GetIconHandle(IDI_GROUP);
 	TopToolbar_AddButton(&button);
 
 	List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/Bookmarks", g_ToolbarHandleBookmarks ));
 	button.pszService = "JABBER/*/Bookmarks";
-	button.pszTooltipUp = button.pszTooltipUp = button.name = "Open bookmarks";
-	button.hIconHandleDn = button.hIconHandleUp = (HANDLE)g_GetIconHandle(IDI_BOOKMARKS);
+	button.pszTooltipUp = button.name = LPGEN("Open bookmarks");
+	button.hIconHandleUp = g_GetIconHandle(IDI_BOOKMARKS);
 	TopToolbar_AddButton(&button);
 
 	List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/ServiceDiscovery", g_ToolbarHandleServiceDiscovery ));
 	button.pszService = "JABBER/*/ServiceDiscovery";
-	button.pszTooltipUp = button.pszTooltipUp = button.name = "Service discovery";
-	button.hIconHandleDn = button.hIconHandleUp = (HANDLE)g_GetIconHandle(IDI_SERVICE_DISCOVERY);
+	button.pszTooltipUp = button.name = LPGEN("Service discovery");
+	button.hIconHandleUp = g_GetIconHandle(IDI_SERVICE_DISCOVERY);
 	TopToolbar_AddButton(&button);
 	return 0;
 }

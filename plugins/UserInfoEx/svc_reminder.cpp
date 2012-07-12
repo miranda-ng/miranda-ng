@@ -910,8 +910,8 @@ VOID SvcReminderOnTopToolBarLoaded()
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
 	ttb.pszService = MS_USERINFO_REMINDER_CHECK;
 	ttb.name = "Check anniversaries";
-	ttb.pszTooltipUp = ttb.pszTooltipDn = LPGEN("Check anniversaries");
-	ttb.hIconHandleDn = ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_BIRTHDAY);
+	ttb.pszTooltipUp = LPGEN("Check anniversaries");
+	ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_BIRTHDAY);
 	TopToolbar_AddButton(&ttb);
 }
 
