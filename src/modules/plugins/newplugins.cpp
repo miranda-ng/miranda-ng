@@ -524,7 +524,10 @@ static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM)
 
 void SetPluginOnWhiteList(const TCHAR* pluginname, int allow)
 {
-	DBWriteContactSettingByte(NULL, PLUGINDISABLELIST, StrConvA(pluginname), allow == 0);
+	char plugName[MAX_PATH];
+	strncpy(plugName, StrConvA(pluginname), SIZEOF(plugName));
+	strlwr(plugName);
+	DBWriteContactSettingByte(NULL, PLUGINDISABLELIST, plugName, allow == 0);
 }
 
 // returns 1 if the plugin should be enabled within this profile, filename is always lower case

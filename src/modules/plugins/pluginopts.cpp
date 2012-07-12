@@ -136,7 +136,9 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 
 static int uuidToString(const MUUID uuid, char *szStr, int cbLen)
 {
-	if (cbLen<1 || !szStr) return 0;
+	if (cbLen < 1 || !szStr)
+		return 0;
+
 	mir_snprintf(szStr, cbLen, "{%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x}", 
 		uuid.a, uuid.b, uuid.c, uuid.d[0], uuid.d[1], uuid.d[2], uuid.d[3], uuid.d[4], uuid.d[5], uuid.d[6], uuid.d[7]);
 	return 1;
