@@ -109,9 +109,8 @@ int ToolbarModuleLoaded(WPARAM wParam,LPARAM lParam)
 		tbb.name = LPGEN("Open History");
 		tbb.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 		tbb.pszTooltipUp = LPGEN("Open History");
-		tbb.pszTooltipDn = LPGEN("Open History");
 		tbb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
-		tbb.hIconHandleUp = tbb.hIconHandleDn = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+		tbb.hIconHandleUp = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
 		hToolbarButton = TopToolbar_AddButton(&tbb);
 	}
 	return 0;

@@ -129,7 +129,7 @@ int ProcessTBLoaded(WPARAM wParam, LPARAM lParam)
 	button.name = LPGEN("Favourite Contacts");
 	button.pszService = MS_FAVCONTACTS_SHOWMENU;
 	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE | TTBBF_ICONBYHANDLE;
-	button.hIconHandleDn = button.hIconHandleUp = (HANDLE)g_icoFavourite;
+	button.hIconHandleUp = (HANDLE)g_icoFavourite;
 	TopToolbar_AddButton(&button);
 	return 0;
 }

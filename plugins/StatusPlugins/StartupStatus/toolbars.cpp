@@ -77,7 +77,7 @@ int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 		ttb.hIconHandleDn = hTtbDown;
 		ttb.hIconHandleUp = hTtbUp;
 		ttb.wParamDown = ttb.wParamUp = i;
-		ttb.pszTooltipDn = ttb.pszTooltipUp = profileName;
+		ttb.pszTooltipUp = profileName;
 		HANDLE ttbAddResult = TopToolbar_AddButton(&ttb);
 		if (ttbAddResult) {
 			ttbButtons[ttbButtonCount] = ttbAddResult;

@@ -456,7 +456,7 @@ int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 {
 	TTBButton ttbb = { 0 };
 	ttbb.cbSize = sizeof(ttbb);
-	ttbb.hIconHandleDn = ttbb.hIconHandleDn = hIcon;
+	ttbb.hIconHandleDn = hIcon;
 	ttbb.pszService = msLastUC_ShowList;
 	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttbb.name = msLastUC_ShowListName;

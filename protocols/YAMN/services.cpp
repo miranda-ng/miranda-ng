@@ -316,7 +316,7 @@ int AddTopToolbarIcon(WPARAM,LPARAM)
 			btn.name = "Check mail";
 			btn.hIconHandleUp = g_GetIconHandle(5);
 			btn.hIconHandleDn = g_GetIconHandle(6);
-			btn.pszTooltipDn = btn.pszTooltipUp = "Check mail";
+			btn.pszTooltipUp = LPGEN("Check mail");
 			hTTButton = TopToolbar_AddButton(&btn);
 		}
 	}
