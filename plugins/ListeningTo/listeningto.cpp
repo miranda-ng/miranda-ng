@@ -527,10 +527,10 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 
 	TTBButton ttb = {0};
 	ttb.cbSize = sizeof(ttb);
-	ttb.hIconHandleDn = hIcon2;
-	ttb.hIconHandleUp = hIcon1;
+	ttb.hIconHandleDn = hIcon1;
+	ttb.hIconHandleUp = hIcon2;
 	ttb.pszService = MS_LISTENINGTO_TTB;
-	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | (enabled ? TTBBF_PUSHED : 0);
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON | (enabled ? TTBBF_PUSHED : 0);
 	ttb.name = LPGEN("Enable/Disable sending Listening To info (to all protocols)");
 	ttb.pszTooltipDn = LPGEN("Disable ListeningTo (to all protocols)");
 	ttb.pszTooltipUp = LPGEN("Enable ListeningTo (to all protocols)");
