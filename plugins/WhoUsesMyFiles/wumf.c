@@ -109,7 +109,11 @@ int CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
         	ListView_InsertColumn(hList, 3, &lvc);
 			KillTimer(NULL, 777);
         	lst = cpy_list(&list);
-        	SetTimer(NULL, 777, TIME,(TIMERPROC) TimerProc);
+        	if (IsUserAnAdmin()) {
+				SetTimer(NULL, 777, TIME,(TIMERPROC) TimerProc);
+			} else {
+				MessageBox(NULL, "Plugin WhoUsesMyFiles requires admin privileges in order to work.", "Miranda IM", MB_OK);
+			}
         	ShowList(lst, hList);
         	Utils_RestoreWindowPosition(hWnd, NULL, ModuleName,"conn");
 	        break;

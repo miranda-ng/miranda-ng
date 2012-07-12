@@ -294,11 +294,6 @@ static INT_PTR WumfMenuCommand(WPARAM wParam,LPARAM lParam)
 
 __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (!IsUserAnAdmin()) {
-		MessageBox(NULL, "Plugin WhoUsesMyFiles cannot be loaded. It requires admin privileges.", "Miranda IM", MB_OK);
-		return NULL;
-	}
-
 	return &pluginInfo;
 }
 
@@ -622,9 +617,14 @@ __declspec(dllexport) int Load(void)
 	HookEvent(ME_TTB_MODULELOADED, InitTopToolbar);
    	setlocale( LC_ALL, ".ACP");
 //   	_setmbcp(_MB_CP_ANSI);
-	SetTimer(NULL, 777, TIME,(TIMERPROC) TimerProc);
-	return 0;
 
+	if (IsUserAnAdmin()) {
+		SetTimer(NULL, 777, TIME,(TIMERPROC) TimerProc);
+	} else {
+		MessageBox(NULL, "Plugin WhoUsesMyFiles requires admin privileges in order to work.", "Miranda IM", MB_OK);
+	}
+	
+	return 0;
 }
 
 __declspec(dllexport) int Unload(void)
