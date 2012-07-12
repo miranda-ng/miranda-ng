@@ -275,6 +275,9 @@ INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 		0, 0, 0, g_ctrl->nLastHeight, parent, NULL, hInst, NULL);
 	SetWindowLongPtr(g_ctrl->hWnd, 0, (LPARAM)g_ctrl);
 
+	for (int i=0; i < Buttons.getCount(); i++)
+		Buttons[i]->CreateWnd();
+
 	LoadBackgroundOptions();
 
 	// if we're working in skinned clist, receive the standard buttons & customizations
