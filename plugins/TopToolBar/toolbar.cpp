@@ -146,39 +146,29 @@ static bool nameexists(const char *name)
 	return false;
 }
 
-HICON LoadIconFromLibrary(char *Name, HICON hIcon, HANDLE& phIcolib)
-{		
-	char iconame[256];
-	_snprintf(iconame, SIZEOF(iconame), "toptoolbar_%s", Name);
-	if (phIcolib == NULL) {
+static void Icon2button(TTBButton* but, HANDLE& hIcoLib, HICON& hIcon, bool bIsUp)
+{
+	HANDLE hSrc = bIsUp ? but->hIconHandleUp : but->hIconHandleDn;
+	if (hSrc == NULL) {
+		hIcoLib = NULL, hIcon = NULL;
+		return;
+	}
+
+	hIcoLib = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, WPARAM(hSrc), 0);
+	if (!hIcoLib) {
+		char buf[256];
+		mir_snprintf(buf, SIZEOF(buf), "toptoolbar_%s%s", but->name, (bIsUp) ? (but->hIconDn ? "%s_up" : "%s") : "%s_dn");
 		SKINICONDESC sid = {0};
 		sid.cbSize = sizeof(sid);
 		sid.pszSection = "Toolbar";				
-		sid.pszName = iconame;
+		sid.pszName = buf;
 		sid.pszDefaultFile = NULL;
-		sid.pszDescription = Name;
-		sid.hDefaultIcon = hIcon;
-		phIcolib = Skin_AddIcon(&sid);
+		sid.pszDescription = but->name;
+		sid.hDefaultIcon = (bIsUp) ? but->hIconUp : but->hIconDn;
+		hIcoLib = Skin_AddIcon(&sid);
 	}
-	return Skin_GetIconByHandle(phIcolib);
-}
 
-static void ReloadIcons()
-{
-	mir_cslock lck(csButtonsHook);
-	for (int i = 0; i < Buttons.getCount(); i++) {
-		TopButtonInt* b = Buttons[i];
-
-		char buf[256];
-		if (b->hIconHandleUp) {
-			sprintf(buf, "%s_up", b->pszName);
-			b->hIconUp = LoadIconFromLibrary(buf, b->hIconUp, b->hIconHandleUp);
-		}
-		if (b->hIconHandleDn) {
-			sprintf(buf, "%s_dn", b->pszName);
-			b->hIconDn = LoadIconFromLibrary(buf, b->hIconDn, b->hIconHandleDn);
-		}
-	}
+	hIcon = Skin_GetIconByHandle(hIcoLib);
 }
 
 TopButtonInt* CreateButton(TTBButton* but)
@@ -207,24 +197,8 @@ TopButtonInt* CreateButton(TTBButton* but)
 
 		b->pszName = mir_strdup(but->name);
 
-		b->hIconHandleUp = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, WPARAM(but->hIconHandleUp), 0);
-		if (b->hIconHandleUp) {
-			b->hIconUp = Skin_GetIconByHandle(b->hIconHandleUp);
-			if (but->hIconHandleDn) {
-				b->hIconHandleDn = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, WPARAM(but->hIconHandleDn), 0);
-				b->hIconDn = Skin_GetIconByHandle(b->hIconHandleDn);
-			}
-			else b->hIconDn = 0, b->hIconHandleDn = 0;
-		}
-		else {
-			char buf[256];
-			mir_snprintf(buf, SIZEOF(buf), (b->hIconDn) ? "%s_up" : "%s", b->pszName);
-			b->hIconUp = LoadIconFromLibrary(buf, but->hIconUp, b->hIconHandleUp);
-			if (b->hIconDn) {
-				mir_snprintf(buf, SIZEOF(buf), "%s_dn", b->pszName);
-				b->hIconDn = LoadIconFromLibrary(buf, but->hIconDn, b->hIconHandleDn);
-			}
-		}
+		Icon2button(but, b->hIconHandleUp, b->hIconUp, true);
+		Icon2button(but, b->hIconHandleDn, b->hIconDn, false);
 
 		if (but->cbSize > OLD_TBBUTTON_SIZE) {
 			b->ptszTooltipUp = mir_a2t(but->pszTooltipUp);
@@ -534,9 +508,24 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 	return retval;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Reload all icons from their icolib handles
+
 int OnIconChange(WPARAM wParam, LPARAM lParam)
 {
-	ReloadIcons();
+	{	mir_cslock lck(csButtonsHook);
+		for (int i = 0; i < Buttons.getCount(); i++) {
+			TopButtonInt* b = Buttons[i];
+
+			if (b->hIconHandleUp) {
+				Skin_ReleaseIcon(b->hIconUp);
+				b->hIconUp = Skin_GetIconByHandle(b->hIconHandleUp);
+			}
+			if (b->hIconHandleDn) {
+				Skin_ReleaseIcon(b->hIconDn);
+				b->hIconDn = Skin_GetIconByHandle(b->hIconHandleDn);
+	}	}	}
+
 	SetAllBitmaps();
 	return 0;
 }
