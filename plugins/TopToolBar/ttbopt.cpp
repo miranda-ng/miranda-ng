@@ -25,7 +25,7 @@ static HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST
 		index = -1;
 	}
 	else {
-		if (b->dwFlags & TTBBF_ICONBYHANDLE) {
+		if (b->hIconHandleUp) {
 			HICON hIcon = Skin_GetIconByHandle(b->hIconHandleUp);
 			index = ImageList_AddIcon(il, hIcon);
 			Skin_ReleaseIcon(hIcon);

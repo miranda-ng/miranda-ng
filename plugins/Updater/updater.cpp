@@ -181,7 +181,7 @@ static int ToolbarModulesLoaded(WPARAM, LPARAM)
 {
 	TTBButton tbb = {0};
 	tbb.cbSize = sizeof(TTBButton);
-	tbb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+	tbb.dwFlags = TTBBF_SHOWTOOLTIP;
 
 	tbb.name = LPGEN("Check for Updates");
 	tbb.pszService = MS_UPDATE_CHECKFORUPDATES;

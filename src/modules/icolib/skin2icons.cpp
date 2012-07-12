@@ -453,23 +453,23 @@ IconItem* IcoLib_FindIcon(const char* pszIconName)
 
 IconItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
 {
-	IconItem* item = NULL;
-	int indx;
-
-	for (indx = 0; indx < iconList.getCount(); indx++) {
-		if (iconList[ indx ]->source_small  && iconList[ indx ]->source_small->icon == hIcon) {
-			item = iconList[ indx ];
+	for (int i = 0; i < iconList.getCount(); i++) {
+		IconItem *p = iconList[i];
+		if ((void*)p == hIcon) {
+			big = (p->source_small == NULL);
+			return p;
+		}
+		if (p->source_small  && p->source_small->icon == hIcon) {
 			big = false;
-			break;
+			return p;
 		}	
-		else if (iconList[ indx ]->source_big && iconList[ indx ]->source_big->icon == hIcon) {
-			item = iconList[ indx ];
+		if (p->source_big && p->source_big->icon == hIcon) {
 			big = true;
-			break;
+			return p;
 		}	
 	}
 
-	return item;
+	return NULL;
 }
 
 static void IcoLib_FreeIcon(IconItem* icon)
@@ -575,15 +575,15 @@ static INT_PTR IcoLib_RemoveIcon(WPARAM, LPARAM lParam)
 	if (lParam) {
 		mir_cslock lck(csIconList);
 
-		int indx;
-		if ((indx = iconList.getIndex((IconItem*)&lParam)) != -1) {
-			IconItem *item = iconList[ indx ];
+		int i;
+		if ((i = iconList.getIndex((IconItem*)&lParam)) != -1) {
+			IconItem *item = iconList[ i ];
 			IcoLib_FreeIcon(item);
-			iconList.remove(indx);
+			iconList.remove(i);
 			SAFE_FREE((void**)&item);
 		}
 
-		return (indx == -1) ? 1 : 0;
+		return (i == -1) ? 1 : 0;
 	}
 	return 1; // Failed
 }
@@ -743,14 +743,7 @@ HANDLE IcoLib_IsManaged(HICON hIcon)
 	mir_cslock lck(csIconList);
 
 	bool big;
-	IconItem* item = IcoLib_FindHIcon(hIcon, big);
-	if (item) {
-		IconSourceItem* source = big && !item->cx ? item->source_big : item->source_small;
-		if (source->icon_ref_count == 0)
-			item = NULL;
-	}
-
-	return item;
+	return IcoLib_FindHIcon(hIcon, big);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -841,7 +834,7 @@ int LoadIcoLibModule(void)
 
 void UnloadIcoLibModule(void)
 {
-	int indx;
+	int i;
 
 	if ( !bModuleInitialized) return;
 
@@ -858,35 +851,35 @@ void UnloadIcoLibModule(void)
 	DestroyServiceFunction(hIcoLib_ReleaseIcon);
 	DeleteCriticalSection(&csIconList);
 
-	for (indx = iconList.getCount()-1; indx >= 0; indx--) {
-		IconItem* I = iconList[indx];
-		iconList.remove(indx);
-		IcoLib_FreeIcon(I);
-		mir_free(I);
+	for (i = iconList.getCount()-1; i >= 0; i--) {
+		IconItem* p = iconList[i];
+		iconList.remove(i);
+		IcoLib_FreeIcon(p);
+		mir_free(p);
 	}
 	iconList.destroy();
 
-	for (indx = iconSourceList.getCount()-1; indx >= 0; indx--) {
-		IconSourceItem* I = iconSourceList[indx];
-		iconSourceList.remove(indx);
-		IconSourceFile_Release(&I->file);
-		SafeDestroyIcon(&I->icon);
-		SAFE_FREE((void**)&I->icon_data);
-		SAFE_FREE((void**)&I);
+	for (i = iconSourceList.getCount()-1; i >= 0; i--) {
+		IconSourceItem* p = iconSourceList[i];
+		iconSourceList.remove(i);
+		IconSourceFile_Release(&p->file);
+		SafeDestroyIcon(&p->icon);
+		SAFE_FREE((void**)&p->icon_data);
+		SAFE_FREE((void**)&p);
 	}
 	iconSourceList.destroy();
 
-	for (indx = iconSourceFileList.getCount()-1; indx >= 0; indx--) {
-		IconSourceFile* I = iconSourceFileList[indx];
-		iconSourceFileList.remove(indx);
-		SAFE_FREE((void**)&I->file);
-		SAFE_FREE((void**)&I);
+	for (i = iconSourceFileList.getCount()-1; i >= 0; i--) {
+		IconSourceFile* p = iconSourceFileList[i];
+		iconSourceFileList.remove(i);
+		SAFE_FREE((void**)&p->file);
+		SAFE_FREE((void**)&p);
 	}
 	iconSourceFileList.destroy();
 
-	for (indx = 0; indx < sectionList.getCount(); indx++) {
-		SAFE_FREE((void**)&sectionList[indx]->name);
-		mir_free(sectionList[indx]);
+	for (i = 0; i < sectionList.getCount(); i++) {
+		SAFE_FREE((void**)&sectionList[i]->name);
+		mir_free(sectionList[i]);
 	}
 	sectionList.destroy();
 

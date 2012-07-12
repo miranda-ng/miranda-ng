@@ -56,7 +56,6 @@ static int InitDefaultButtons(WPARAM, LPARAM)
 
 	for (int i=0; i < SIZEOF(BTNS); i++ ) {
 		g_index = i;
-		tbb.dwFlags = TTBBF_ICONBYHANDLE;
 		if (BTNS[i].pszButtonID) {
 			tbb.pszTooltipUp = tbb.name = BTNS[i].pszButtonName;
 			tbb.pszService = BTNS[i].pszButtonID;

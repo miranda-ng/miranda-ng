@@ -128,7 +128,7 @@ int ProcessTBLoaded(WPARAM wParam, LPARAM lParam)
 	button.pszTooltipUp = button.pszTooltipUp =
 	button.name = LPGEN("Favourite Contacts");
 	button.pszService = MS_FAVCONTACTS_SHOWMENU;
-	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE | TTBBF_ICONBYHANDLE;
+	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 	button.hIconHandleUp = (HANDLE)g_icoFavourite;
 	TopToolbar_AddButton(&button);
 	return 0;

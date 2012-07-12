@@ -157,7 +157,7 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 	sid.iDefaultIndex = -IDI_BTN_DN;
 	ttbb.hIconHandleDn = Skin_AddIcon(&sid);
 
-	ttbb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+	ttbb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttbb.pszService = "Console/Hide";
 	ttbb.name = LPGEN("Show/Hide Console");
 	ttbb.pszTooltipDn = LPGEN("Hide Console");

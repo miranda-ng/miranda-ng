@@ -61,7 +61,6 @@ static int Modern_InitButtons(WPARAM, LPARAM)
 	tbb.cbSize = sizeof(tbb);
 
 	for (int i=0; i < SIZEOF(BTNS); i++) {
-		tbb.dwFlags = TTBBF_ICONBYHANDLE;
 		if (BTNS[i].pszButtonID) {
 			tbb.name = BTNS[i].pszButtonID;
 			tbb.pszService = BTNS[i].pszServiceName;

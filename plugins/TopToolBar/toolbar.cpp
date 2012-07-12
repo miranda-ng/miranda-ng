@@ -207,12 +207,14 @@ TopButtonInt* CreateButton(TTBButton* but)
 
 		b->pszName = mir_strdup(but->name);
 
-		if (b->dwFlags & TTBBF_ICONBYHANDLE) {
-			b->hIconUp = Skin_GetIconByHandle(b->hIconHandleUp = but->hIconHandleUp);
-			if (but->hIconHandleDn)
-				b->hIconDn = Skin_GetIconByHandle(b->hIconHandleDn = but->hIconHandleDn);
-			else
-				b->hIconDn = 0, b->hIconHandleDn = 0;
+		b->hIconHandleUp = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, WPARAM(but->hIconHandleUp), 0);
+		if (b->hIconHandleUp) {
+			b->hIconUp = Skin_GetIconByHandle(b->hIconHandleUp);
+			if (but->hIconHandleDn) {
+				b->hIconHandleDn = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, WPARAM(but->hIconHandleDn), 0);
+				b->hIconDn = Skin_GetIconByHandle(b->hIconHandleDn);
+			}
+			else b->hIconDn = 0, b->hIconHandleDn = 0;
 		}
 		else {
 			char buf[256];

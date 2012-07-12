@@ -907,7 +907,7 @@ VOID SvcReminderOnTopToolBarLoaded()
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
 
-	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_USERINFO_REMINDER_CHECK;
 	ttb.name = "Check anniversaries";
 	ttb.pszTooltipUp = LPGEN("Check anniversaries");

@@ -378,7 +378,7 @@ int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
 	tbb.pszTooltipDn = LPGEN("Audio device is closed");
 	tbb.hIconHandleUp = hIconLibItem[0];
 	tbb.hIconHandleDn = hIconLibItem[1];
-	tbb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+	tbb.dwFlags = TTBBF_SHOWTOOLTIP;
 	hTBButton = TopToolbar_AddButton(&tbb);
 	return 0;
 }

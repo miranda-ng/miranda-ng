@@ -1333,7 +1333,7 @@ int InitTopToolbar(WPARAM, LPARAM)
 	tbb.pszTooltipDn = LPGEN("Status notification disabled");
 	tbb.hIconHandleUp = GetIconHandle(ICO_NOTIFICATION_ON);
 	tbb.hIconHandleDn = GetIconHandle(ICO_NOTIFICATION_OFF);
-	tbb.dwFlags = TTBBF_ICONBYHANDLE | (opt.TempDisabled ? TTBBF_PUSHED : 0);
+	tbb.dwFlags = (opt.TempDisabled ? TTBBF_PUSHED : 0);
 	hToolbarButton = TopToolbar_AddButton(&tbb);
 	return 0;
 }

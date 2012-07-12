@@ -856,7 +856,7 @@ INT_PTR BuildFavMenu(WPARAM wparam,LPARAM lparam)
 static int CreateButtons(WPARAM wparam,LPARAM lparam)
 {
 	TTBButton button = {0};
-	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE | TTBBF_ICONBYHANDLE;
+	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 
 	button.pszService = MS_SESSIONS_OPENMANAGER;
 	button.pszTooltipUp = button.name = LPGEN("Open Sessions Manager");

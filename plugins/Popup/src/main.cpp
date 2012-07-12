@@ -208,7 +208,7 @@ static int TTBLoaded(WPARAM wParam,LPARAM lParam)
 		btn.cbSize = sizeof(btn);
 		btn.pszService = MENUCOMMAND_SVC;
 		btn.lParamUp = 1;
-		btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+		btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 		btn.name = LPGEN("Toggle Popups");
 		btn.hIconHandleUp = Skin_GetIconHandle(ICO_TB_POPUP_ON);
 		btn.hIconHandleDn = Skin_GetIconHandle(ICO_TB_POPUP_OFF);

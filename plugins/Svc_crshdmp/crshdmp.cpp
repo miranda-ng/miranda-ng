@@ -217,14 +217,14 @@ static int ToolbarModulesLoaded(WPARAM, LPARAM)
 	tbb.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	tbb.pszTooltipUp = LPGEN("Version Information To Clipboard");
 	tbb.hIconHandleUp = GetIconHandle("storeToClip");
-	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_ICONBYHANDLE;
+	tbb.dwFlags = TTBBF_VISIBLE;
 	TopToolbar_AddButton(&tbb);
 
 	tbb.name = LPGEN("Version Information To File");
 	tbb.pszService = MS_CRASHDUMPER_STORETOFILE;
 	tbb.pszTooltipUp = LPGEN("Version Information To File");
 	tbb.hIconHandleUp = GetIconHandle("storeToFile");
-	tbb.dwFlags = TTBBF_ICONBYHANDLE;
+	tbb.dwFlags = 0;
 	TopToolbar_AddButton(&tbb);
 
 	tbb.name = LPGEN("Show Version Information");
