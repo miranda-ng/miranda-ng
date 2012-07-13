@@ -51,12 +51,13 @@ procedure TranslateToolbar(const tb: TToolBar);
 function ShiftStateToKeyData(ShiftState :TShiftState):Longint;
 function IsFormShortCut(List: Array of TComponent; Key: Word; ShiftState: TShiftState): Boolean;
 
-function Utils_RestoreFormPosition(Form: TForm; hContact: THandle; Module,Prefix: AnsiString): Boolean;
-function Utils_SaveFormPosition(Form: TForm; hContact: THandle; Module,Prefix: AnsiString): Boolean;
+function Utils_RestoreFormPosition(Form: TForm; hContact: THandle; const Module,Prefix: AnsiString): Boolean;
+function Utils_SaveFormPosition(Form: TForm; hContact: THandle; const Module,Prefix: AnsiString): Boolean;
 
 implementation
 
-uses hpp_global, hpp_services, hpp_opt_dialog, hpp_database, hpp_mescatcher,
+uses
+  hpp_services, hpp_opt_dialog, hpp_database, hpp_mescatcher,
   HistoryForm, GlobalSearch, m_api,
   {$IFNDEF NO_EXTERNALGRID}hpp_external,{$ENDIF}
   CustomizeFiltersForm, CustomizeToolbar;
@@ -138,7 +139,7 @@ begin
   if ssAlt in ShiftState   then Result := Result or AltMask;
 end;
 
-function Utils_RestoreFormPosition(Form: TForm; hContact: THandle; Module,Prefix: AnsiString): Boolean;
+function Utils_RestoreFormPosition(Form: TForm; hContact: THandle; const Module,Prefix: AnsiString): Boolean;
 var
   w,h,l,t,mon: Integer;
   maximized: Boolean;
@@ -164,7 +165,7 @@ begin
   if maximized then Form.WindowState := wsMaximized;
 end;
 
-function Utils_SaveFormPosition(Form: TForm; hContact: THandle; Module,Prefix: AnsiString): Boolean;
+function Utils_SaveFormPosition(Form: TForm; hContact: THandle; const Module,Prefix: AnsiString): Boolean;
 var
   w,h,l,t: Integer;
   wp: TWindowPlacement;

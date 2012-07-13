@@ -27,7 +27,7 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,Dialogs,
   HistoryControls,m_api,
   StdCtrls, CheckLst,
-  hpp_global, hpp_events, hpp_eventfilters, ExtCtrls;
+  hpp_eventfilters, ExtCtrls;
 
 type
   TfmCustomizeFilters = class(TForm)
@@ -102,7 +102,9 @@ var
 
 implementation
 
-uses hpp_forms, HistoryForm, hpp_options, TypInfo, Math, GlobalSearch;
+uses
+  hpp_forms, hpp_global, hpp_events, HistoryForm, {hpp_options,}
+  TypInfo, Math, GlobalSearch;
 
 const
   // commented to use all events in system history

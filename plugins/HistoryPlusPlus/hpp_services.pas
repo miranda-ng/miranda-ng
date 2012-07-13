@@ -51,7 +51,6 @@ interface
 uses
   Classes, Windows, Controls,
   m_api,
-  hpp_options,
   HistoryForm, PassForm, PassCheckForm;
 
 var
@@ -80,8 +79,8 @@ implementation
 
 uses
   SysUtils, GlobalSearch, EmptyHistoryForm,
-  hpp_global, hpp_database, hpp_itemprocess, hpp_forms,
-  hpp_mescatcher, hpp_bookmarks;
+  hpp_global, {hpp_database,} hpp_itemprocess, hpp_forms,
+  hpp_options{, hpp_mescatcher, hpp_bookmarks};
 
 // our own processing of RichEdit for all history windows
 function AllHistoryRichEditProcess(wParam { hRichEdit } : WPARAM; lParam { PItemRenderDetails } : LPARAM): Int; cdecl;

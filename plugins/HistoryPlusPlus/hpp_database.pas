@@ -46,7 +46,7 @@ unit hpp_database;
 
 interface
 
-uses m_api, windows, hpp_global;
+uses m_api, windows;
 
 procedure SetSafetyMode(Safe: Boolean);
 
@@ -61,10 +61,10 @@ function DBExists(const hContact: THandle; const Module, Param: AnsiString): Boo
 
 function GetDBBlob(const Module,Param: AnsiString; var Value: Pointer; var Size: Integer): Boolean; overload;
 function GetDBBlob(const hContact: THandle; const Module,Param: AnsiString; var Value: Pointer; var Size: Integer): Boolean; overload;
-function GetDBStr(const Module,Param: AnsiString; Default: AnsiString): AnsiString; overload;
-function GetDBStr(const hContact: THandle; const Module,Param: AnsiString; Default: AnsiString): AnsiString; overload;
-function GetDBWideStr(const Module,Param: AnsiString; Default: WideString): WideString; overload;
-function GetDBWideStr(const hContact: THandle; const Module,Param: AnsiString; Default: WideString): WideString; overload;
+function GetDBStr(const Module,Param: AnsiString; const Default: AnsiString): AnsiString; overload;
+function GetDBStr(const hContact: THandle; const Module,Param: AnsiString; const Default: AnsiString): AnsiString; overload;
+function GetDBWideStr(const Module,Param: AnsiString; const Default: WideString): WideString; overload;
+function GetDBWideStr(const hContact: THandle; const Module,Param: AnsiString; const Default: WideString): WideString; overload;
 function GetDBInt(const Module,Param: AnsiString; Default: Integer): Integer; overload;
 function GetDBInt(const hContact: THandle; const Module,Param: AnsiString; Default: Integer): Integer; overload;
 function GetDBWord(const Module,Param: AnsiString; Default: Word): Word; overload;
@@ -88,16 +88,19 @@ function WriteDBDWord(const Module,Param: AnsiString; Value: DWord): Integer; ov
 function WriteDBDWord(const hContact: THandle; const Module,Param: AnsiString; Value: DWord): Integer; overload;
 function WriteDBInt(const Module,Param: AnsiString; Value: Integer): Integer; overload;
 function WriteDBInt(const hContact: THandle; const Module,Param: AnsiString; Value: Integer): Integer; overload;
-function WriteDBStr(const Module,Param: AnsiString; Value: AnsiString): Integer; overload;
-function WriteDBStr(const hContact: THandle; const Module,Param: AnsiString; Value: AnsiString): Integer; overload;
-function WriteDBWideStr(const Module,Param: AnsiString; Value: WideString): Integer; overload;
-function WriteDBWideStr(const hContact: THandle; const Module,Param: AnsiString; Value: WideString): Integer; overload;
+function WriteDBStr(const Module,Param: AnsiString; const Value: AnsiString): Integer; overload;
+function WriteDBStr(const hContact: THandle; const Module,Param: AnsiString; const Value: AnsiString): Integer; overload;
+function WriteDBWideStr(const Module,Param: AnsiString; const Value: WideString): Integer; overload;
+function WriteDBWideStr(const hContact: THandle; const Module,Param: AnsiString; const Value: WideString): Integer; overload;
 function WriteDBBool(const Module,Param: AnsiString; Value: Boolean): Integer; overload;
 function WriteDBBool(const hContact: THandle; const Module,Param: AnsiString; Value: Boolean): Integer; overload;
 function WriteDBDateTime(const hContact: THandle; const Module,Param: AnsiString; Value: TDateTime): Integer; overload;
 function WriteDBDateTime(const Module,Param: AnsiString; Value: TDateTime): Integer; overload;
 
 implementation
+
+uses
+  hpp_global;
 
 procedure SetSafetyMode(Safe: Boolean);
 begin
@@ -188,22 +191,22 @@ begin
   Result := CallService(MS_DB_CONTACT_WRITESETTING, hContact, lParam(@cws));
 end;
 
-function WriteDBStr(const Module,Param: AnsiString; Value: AnsiString): Integer;
+function WriteDBStr(const Module,Param: AnsiString; const Value: AnsiString): Integer;
 begin
   Result := WriteDBStr(0,Module,Param,Value);
 end;
 
-function WriteDBStr(const hContact: THandle; const Module,Param: AnsiString; Value: AnsiString): Integer;
+function WriteDBStr(const hContact: THandle; const Module,Param: AnsiString; const Value: AnsiString): Integer;
 begin
   Result := DBWriteContactSettingString(hContact,PAnsiChar(Module),PAnsiChar(Param),PAnsiChar(Value));
 end;
 
-function WriteDBWideStr(const Module,Param: AnsiString; Value: WideString): Integer;
+function WriteDBWideStr(const Module,Param: AnsiString; const Value: WideString): Integer;
 begin
   Result := WriteDBWideStr(0,Module,Param,Value);
 end;
 
-function WriteDBWideStr(const hContact: THandle; const Module,Param: AnsiString; Value: WideString): Integer;
+function WriteDBWideStr(const hContact: THandle; const Module,Param: AnsiString; const Value: WideString): Integer;
 begin
   Result := DBWriteContactSettingWideString(hContact,PAnsiChar(Module),PAnsiChar(Param),PWideChar(Value));
 end;
@@ -338,12 +341,12 @@ begin
     Result:=dbv.dval;
 end;
 
-function GetDBStr(const Module,Param: AnsiString; Default: AnsiString): AnsiString;
+function GetDBStr(const Module,Param: AnsiString; const Default: AnsiString): AnsiString;
 begin
   Result := GetDBStr(0,Module,Param,Default);
 end;
 
-function GetDBStr(const hContact: THandle; const Module,Param: AnsiString; Default: AnsiString): AnsiString;
+function GetDBStr(const hContact: THandle; const Module,Param: AnsiString; const Default: AnsiString): AnsiString;
 begin
   Result := DBGetContactSettingString(hContact,PAnsiChar(Module),PAnsiChar(Param),PAnsiChar(Default));
 end;
@@ -375,12 +378,12 @@ begin
   end;
 end;
 
-function GetDBWideStr(const Module,Param: AnsiString; Default: WideString): WideString;
+function GetDBWideStr(const Module,Param: AnsiString; const Default: WideString): WideString;
 begin
   Result := GetDBWideStr(0,Module,Param,Default);
 end;
 
-function GetDBWideStr(const hContact: THandle; const Module,Param: AnsiString; Default: WideString): WideString;
+function GetDBWideStr(const hContact: THandle; const Module,Param: AnsiString; const Default: WideString): WideString;
 begin
   Result := DBGetContactSettingWideString(hContact,PAnsiChar(Module),PAnsiChar(Param),PWideChar(Default));
 end;

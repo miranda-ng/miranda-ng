@@ -49,7 +49,7 @@ unit hpp_bookmarks;
 
 interface
 
-uses windows, m_api, hpp_jclSysUtils, SysUtils;
+uses windows, m_api;
 
 type
   TEventData = record
@@ -125,7 +125,7 @@ type
 //    function GetBookmark(hDBEvent: THandle; var EventData: TEventData): Boolean;
     function AddItem(hDBEvent: THandle): Boolean;
     function RemoveItem(hDBEvent: THandle): Boolean;
-    function AddItemName(hDBEvent: THandle; Value: String): Boolean;
+    function AddItemName(hDBEvent: THandle; const Value: String): Boolean;
     function GetItemName(hDBEvent: THandle): String;
     function RemoveItemName(hDBEvent: THandle): Boolean;
     function FindEventByTimestampAndCrc(ped: PEventData): Boolean;
@@ -162,7 +162,9 @@ procedure hppDeinitBookmarkServer;
 
 implementation
 
-uses hpp_events, hpp_contacts, hpp_global, Checksum, hpp_database, hpp_forms;
+uses
+  SysUtils,
+  hpp_jclSysUtils, hpp_events, hpp_contacts, hpp_global, Checksum, hpp_database, hpp_forms;
 
 procedure hppInitBookmarkServer;
 begin
@@ -301,7 +303,7 @@ var
   mem_org: Pointer;
   mem_len: Integer;
   rec_size: Word;
-  count: Integer;
+  rec_count: Integer;
   ed: PEventData;
   AllOk: Boolean;
 begin
@@ -314,9 +316,9 @@ begin
     rec_size := PWord(mem_org)^;
     if rec_size < SizeOf(TEventData) then
       raise EAbort.Create('Bookmark size is too small');
-    Count := (mem_len - SizeOf(Word)) div rec_size;
+    rec_count := (mem_len - SizeOf(Word)) div rec_size;
     mem := pointer(uint_ptr(mem_org) + SizeOf(Word));
-    for i := 0 to Count - 1 do
+    for i := 0 to rec_count - 1 do
     begin
       ed := PEventData(int_ptr(mem) + i * rec_size);
       if not Bookmarks.AddEventData(ed^) then
@@ -557,7 +559,7 @@ begin
   Result := AddKey(hDBEvent,ped);
 end;
 
-function TBookmarksHash.AddItemName(hDBEvent: THandle; Value: String): Boolean;
+function TBookmarksHash.AddItemName(hDBEvent: THandle; const Value: String): Boolean;
 begin
   Result := (WriteDBWideStr(Contact.hContact,hppDBName,AnsiString('bm'+intToStr(hDBEvent)),Value) = 0);
 end;

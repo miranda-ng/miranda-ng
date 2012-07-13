@@ -25,9 +25,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  ComCtrls, Menus, Checksum, ExtCtrls, StdCtrls,
-  m_api,
-  hpp_global, hpp_contacts, hpp_database, hpp_forms;
+  ComCtrls, Menus, ExtCtrls, StdCtrls,
+  m_api;
 
 type
   TfmPass = class(TForm)
@@ -77,15 +76,17 @@ const
 function ReadPassModeFromDB: Byte;
 function GetPassMode: Byte;
 function GetPassword: AnsiString;
-function IsPasswordBlank(Password: AnsiString): Boolean;
+function IsPasswordBlank(const Password: AnsiString): Boolean;
 function IsUserProtected(hContact: THandle): Boolean;
-function CheckPassword(Pass: AnsiString): Boolean;
+function CheckPassword(const Pass: AnsiString): Boolean;
 
 procedure RunPassForm;
 
 implementation
 
-uses PassNewForm, hpp_options, hpp_services, PassCheckForm;
+uses
+  PassNewForm, hpp_options, hpp_services, PassCheckForm,
+  Checksum, hpp_global, hpp_contacts, hpp_database, hpp_forms;
 
 {$R *.DFM}
 
@@ -116,7 +117,7 @@ begin
   end;
 end;
 
-function CheckPassword(Pass: AnsiString): Boolean;
+function CheckPassword(const Pass: AnsiString): Boolean;
 begin
   Result := (DigToBase(HashString(Pass)) = GetPassword);
 end;
@@ -133,7 +134,7 @@ begin
   if IsPasswordBlank(GetPassword) then;
 end;
 
-function IsPasswordBlank(Password: AnsiString): Boolean;
+function IsPasswordBlank(const Password: AnsiString): Boolean;
 begin
   Result := (Password = DigToBase(HashString('')));
 end;

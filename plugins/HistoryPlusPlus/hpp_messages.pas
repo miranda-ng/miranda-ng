@@ -49,12 +49,12 @@ interface
 uses
   Windows, m_api;
 
-function SendMessageTo(hContact: THandle; Text: String = ''): Boolean;
+function SendMessageTo(hContact: THandle; const Text: String = ''): Boolean;
 //function ForwardMessage(Text: AnsiString): Boolean;
 
 implementation
 
-function SendMessageTo(hContact: THandle; Text: String): Boolean;
+function SendMessageTo(hContact: THandle; const Text: String): Boolean;
 var
   buff: AnsiString;
 begin

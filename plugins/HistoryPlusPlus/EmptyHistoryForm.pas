@@ -47,9 +47,7 @@ interface
 
 uses Windows, Classes, Controls, Graphics,
   Forms, Buttons, StdCtrls, ExtCtrls,
-  HistoryControls,
-  PassForm, PassCheckForm,
-  hpp_global, hpp_forms, hpp_contacts, hpp_database, hpp_bookmarks,
+//  HistoryControls,
   m_api;
 
 type
@@ -84,7 +82,10 @@ type
 
 implementation
 
-uses Math, SysUtils, HistoryForm;
+uses
+  Math, SysUtils, HistoryForm,
+  PassForm, {PassCheckForm,}
+  hpp_global, hpp_forms, hpp_contacts, hpp_database, hpp_bookmarks;
 
 {$R *.dfm}
 

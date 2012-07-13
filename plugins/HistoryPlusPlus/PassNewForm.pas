@@ -25,7 +25,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls,m_api, HistoryControls, hpp_forms;
+  StdCtrls, ExtCtrls, m_api{, HistoryControls};
 
 type
   TfmPassNew = class(TForm)
@@ -55,7 +55,8 @@ var
 
 implementation
 
-uses hpp_global, hpp_options;
+uses
+  {hpp_global, }hpp_forms, hpp_options;
 
 {$R *.DFM}
 

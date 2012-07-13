@@ -112,13 +112,17 @@ type
   end;
 
 const
-  HM_BASE = WM_APP + 10214; // base for all history++ messages
+  HM_BASE = WM_APP + 10214; // (+$27E6) base for all history++ messages
   HM_HIST_BASE = HM_BASE + 100; // base for contact's history specific messages
   HM_SRCH_BASE = HM_BASE + 200; // base for global search specific messages
   HM_SESS_BASE = HM_BASE + 300; // base for session thread specific messages
   HM_STRD_BASE = HM_BASE + 400; // base for search thread specific messages
   HM_NOTF_BASE = HM_BASE + 500; // base for plugin-wide notification messages
   HM_MIEV_BASE = HM_BASE + 600; // base for miranda event messages
+
+  // HistoryGrid messages:
+  HM_HG_OPTIONS     = HM_BASE + 1; // HistoryGrid options changed. wParam - HGOPT_* flags
+  HM_HG_CACHEUPDATE = HM_BASE + 2; // Need to update RichItem cache element. lParam - RichItem?
 
   // notification messages:
   HM_NOTF_ICONSCHANGED    = HM_NOTF_BASE + 1; // Skin icons has changed
@@ -137,7 +141,13 @@ const
   HM_MIEV_METADEFCHANGED  = HM_MIEV_BASE + 5; // ME_MC_DEFAULTTCHANGED
 
 const
+  // History Grid options flags
+  HGOPT_TEMPLATES   = $0001; // templates, datetime format
+  HGOPT_FONTSERVICE = $0002; // fonts, colors
+  HGOPT_ITEMS       = $0004; // close to HGOPT_FONTSERVICE
+  HGOPT_OPTIONS     = $0008; // inline,RTL, externals,bbcodes
 
+const
   hppName       = 'History++';
   hppShortName  = 'History++ (2in1)';
   hppShortNameV = hppShortName{$IFDEF ALPHA}+' [alpha '+{$I 'alpha.inc'}+']'{$ENDIF};
@@ -189,7 +199,6 @@ const
     (cp: 1361; lid: $0412; name: 'Korean (Johab)'));
 
 const
-
   HPP_ICON_CONTACTHISTORY    = 0;
   HPP_ICON_GLOBALSEARCH      = 1;
   HPP_ICON_SESS_DIVIDER      = 2;
@@ -277,25 +286,22 @@ var
 function AnsiToWideString(const S: AnsiString; CodePage: Cardinal; InLength: Integer = -1): WideString;
 function WideToAnsiString(const WS: WideString; CodePage: Cardinal; InLength: Integer = -1): AnsiString;
 function TranslateAnsiW(const S: AnsiString{TRANSLATE-IGNORE}): WideString;
-function MakeFileName(FileName: String): String;
+function MakeFileName(const FileName: String): String;
 function GetLCIDfromCodepage(Codepage: Cardinal): LCID;
 procedure CopyToClip(const WideStr: WideString; Handle: Hwnd; CodePage: Cardinal = CP_ACP; Clear: Boolean = True);
 
-function QuoteURL(const URLText: WideString): AnsiString;
-function EncodeURL(const Src: String; var Dst: String): Boolean;
-procedure OpenUrl(URLText: String; NewWindow: Boolean);
+procedure OpenUrl(const URLText: String; NewWindow: Boolean);
 
 function HppMessageBox(Handle: THandle; const Text: String; const Caption: String; Flags: Integer): Integer;
 
-function MakeTextXMLedA(Text: AnsiString): AnsiString;
-function MakeTextXMLedW(Text: WideString): WideString;
-function FormatCString(Text: WideString): WideString;
+function MakeTextXMLedA(const Text: AnsiString): AnsiString;
+function MakeTextXMLedW(const Text: WideString): WideString;
+function FormatCString(const Text: WideString): WideString;
 function PassMessage(Handle: THandle; Message: DWord; wParam: WPARAM; lParam: LPARAM; Method: TSendMethod = smSend): Boolean;
 
 //----- added from TNT ------
 function IsRTF(const Value: WideString): Boolean;
 
-function _WideCharType(WC: WideChar; dwInfoType: Cardinal): Word;
 function IsWideCharUpper(WC: WideChar): Boolean;
 function IsWideCharLower(WC: WideChar): Boolean;
 function IsWideCharDigit(WC: WideChar): Boolean;
@@ -431,7 +437,7 @@ begin
   Result := True;
 end;
 
-procedure OpenUrl(URLText: String; NewWindow: Boolean);
+procedure OpenUrl(const URLText: String; NewWindow: Boolean);
 var
   URLTextW: String;
   URLTextA: AnsiString;
@@ -517,7 +523,7 @@ This function gets only name of the file
 and tries to make it FAT-happy, so we trim out and
 ":"-s, "\"-s and so on...
 *)
-function MakeFileName(FileName: String): String;
+function MakeFileName(const FileName: String): String;
 begin
   Result := FileName;
   Result :=
@@ -631,7 +637,7 @@ begin
   Result := MessageBox(Handle,PChar(Text),PChar(Caption),Flags);
 end;
 
-function MakeTextXMLedA(Text: AnsiString): AnsiString;
+function MakeTextXMLedA(const Text: AnsiString): AnsiString;
 begin;
   Result := Text;
   Result := AnsiString(
@@ -647,7 +653,7 @@ begin;
     '&','&amp;',[rfReplaceAll]));
 end;
 
-function MakeTextXMLedW(Text: WideString): WideString;
+function MakeTextXMLedW(const Text: WideString): WideString;
 begin;
   Result := Text;
   Result := StringReplace(Result,'&','&amp;',[rfReplaceAll]);
@@ -657,7 +663,7 @@ begin;
   Result := StringReplace(Result,'‘','&apos;',[rfReplaceAll]);
 end;
 
-function FormatCString(Text: WideString): WideString;
+function FormatCString(const Text: WideString): WideString;
 var
   inlen,inpos,outpos: integer;
 begin

@@ -24,14 +24,26 @@ unit hpp_opt_dialog;
 interface
 
 uses
-  Windows, Messages, CommCtrl,
-  m_api,
-  hpp_global, hpp_options, hpp_services
-  {$IFNDEF NO_EXTERNALGRID}, hpp_external{$ENDIF};
+  Windows;
 
 const
-  IDD_OPT_HISTORYPP    = 207; // dialog id
+  IDD_OPT_HISTORYPP = 207; // dialog id
 
+function OptDialogProc(hwndDlg: HWND; uMsg: UInt; wParam: WPARAM; lParam: LPARAM): lresult; stdcall;
+
+var
+  hDlg: HWND = 0;
+
+implementation
+
+uses
+  Messages, CommCtrl,
+  m_api,
+  hpp_global, hpp_options, hpp_services, hpp_database
+  {$IFNDEF NO_EXTERNALGRID}, hpp_external{$ENDIF},
+  HistoryForm, GlobalSearch;
+
+const
   ID_APPEARANCE_GROUP  = 100; // "Appearance options" group
   IDC_SHOWEVENTICONS   = 101; // "Show event icons" checkbox
   IDC_RTLDEFAULT       = 102; // "RTL by default" checkbox
@@ -62,15 +74,6 @@ const
 
 const
   URL_NEEDOPTIONS = 'http://code.google.com/p/historypp/wiki/AdditionalOptions';
-
-function OptDialogProc(hwndDlg: HWND; uMsg: UInt; wParam: WPARAM; lParam: LPARAM): lresult; stdcall;
-
-var
-  hDlg: HWND = 0;
-
-implementation
-
-uses hpp_database, HistoryForm, GlobalSearch;
 
 {
 function GetText(idCtrl: Integer): AnsiString;

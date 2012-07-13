@@ -48,15 +48,14 @@ interface
 uses
   Windows, SysUtils,
   Forms,
-  hpp_global,
-  hpp_database;
+  hpp_global;
 
 function GetContactDisplayName(hContact: THandle; Proto: AnsiString = ''; Contact: boolean = false): String;
 function GetContactProto(hContact: THandle): AnsiString; overload;
 function GetContactProto(hContact: THandle; var SubContact: THandle; var SubProtocol: AnsiString): AnsiString; overload;
 function GetContactID(hContact: THandle; Proto: AnsiString = ''; Contact: boolean = false): AnsiString;
-function GetContactCodePage(hContact: THandle; Proto: AnsiString = ''): Cardinal; overload;
-function GetContactCodePage(hContact: THandle; Proto: AnsiString; var UsedDefault: boolean): Cardinal; overload;
+function GetContactCodePage(hContact: THandle; const Proto: AnsiString = ''): Cardinal; overload;
+function GetContactCodePage(hContact: THandle; const Proto: AnsiString; var UsedDefault: boolean): Cardinal; overload;
 function WriteContactCodePage(hContact: THandle; CodePage: Cardinal; Proto: AnsiString = ''): boolean;
 function GetContactRTLMode(hContact: THandle; Proto: AnsiString = ''): boolean;
 function GetContactRTLModeTRTL(hContact: THandle; Proto: AnsiString = ''): TRTLMode;
@@ -64,7 +63,7 @@ function WriteContactRTLMode(hContact: THandle; RTLMode: TRTLMode; Proto: AnsiSt
 
 implementation
 
-uses hpp_options, m_api;
+uses hpp_database, hpp_options, m_api;
 
 function GetContactProto(hContact: THandle): AnsiString;
 begin
@@ -195,14 +194,14 @@ begin
   end;
 end;
 
-function GetContactCodePage(hContact: THandle; Proto: AnsiString = ''): Cardinal;
+function GetContactCodePage(hContact: THandle; const Proto: AnsiString = ''): Cardinal;
 var
   def: boolean;
 begin
   Result := _GetContactCodePage(hContact, Proto, def);
 end;
 
-function GetContactCodePage(hContact: THandle; Proto: AnsiString; var UsedDefault: boolean): Cardinal; overload;
+function GetContactCodePage(hContact: THandle; const Proto: AnsiString; var UsedDefault: boolean): Cardinal; overload;
 begin
   Result := _GetContactCodePage(hContact, Proto, UsedDefault);
 end;

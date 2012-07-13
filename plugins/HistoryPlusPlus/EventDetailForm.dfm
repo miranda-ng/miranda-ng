@@ -269,7 +269,7 @@ object EventDetailsFrm: TEventDetailsFrm
       Caption = '-'
     end
     object CopyText: TMenuItem
-      Caption = '&Copy'
+      Caption = 'Co&py'
       ShortCut = 16451
       OnClick = CopyTextClick
     end

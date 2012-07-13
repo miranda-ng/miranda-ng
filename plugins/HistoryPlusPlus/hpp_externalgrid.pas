@@ -26,10 +26,7 @@ interface
 uses
   Windows, Classes, Controls, Forms, Graphics, Messages, SysUtils, Dialogs,
   m_api,
-  hpp_global, hpp_events, hpp_contacts, hpp_services, hpp_forms, hpp_bookmarks,
-  hpp_richedit, hpp_messages, hpp_eventfilters, hpp_database, hpp_itemprocess,
-  HistoryGrid,
-  RichEdit, Menus, ShellAPI;
+  hpp_global, HistoryGrid, RichEdit, Menus, ShellAPI;
 
 type
   TExGridMode = (gmNative, gmIEView);
@@ -148,8 +145,8 @@ type
     constructor Create(AParentWindow: HWND; ControlID: Cardinal = 0);
     destructor Destroy; override;
     procedure AddEvent(hContact, hDBEvent: THandle; Codepage: Integer; RTL: Boolean; DoScroll: Boolean);
-    procedure AddCustomEvent(hContact: THandle; CustomItem: TExtCustomItem; Codepage: Integer;
-      RTL: Boolean; DoScroll: Boolean);
+    procedure AddCustomEvent(hContact: THandle; const CustomItem: TExtCustomItem;
+      Codepage: Integer; RTL: Boolean; DoScroll: Boolean);
     procedure SetPosition(x, y, cx, cy: Integer);
     procedure ScrollToBottom;
     function GetSelection(NoUnicode: Boolean): PAnsiChar;
@@ -176,7 +173,10 @@ type
 
 implementation
 
-uses hpp_options, hpp_sessionsthread;
+uses
+  hpp_richedit, hpp_database, hpp_contacts, hpp_eventfilters, hpp_itemprocess,
+  hpp_events, hpp_services, hpp_forms, hpp_bookmarks, hpp_messages,
+  hpp_options, hpp_sessionsthread;
 
 {$include m_speak.inc}
 
@@ -308,7 +308,7 @@ begin
   Grid.Allocate(Length(Items), DoScroll and (Grid.State <> gsInline));
 end;
 
-procedure TExternalGrid.AddCustomEvent(hContact: THandle; CustomItem: TExtCustomItem;
+procedure TExternalGrid.AddCustomEvent(hContact: THandle; const CustomItem: TExtCustomItem;
   Codepage: Integer; RTL: Boolean; DoScroll: Boolean);
 var
   RTLMode: TRTLMode;

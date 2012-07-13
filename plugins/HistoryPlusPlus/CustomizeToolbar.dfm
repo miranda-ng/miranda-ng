@@ -137,7 +137,7 @@ object fmCustomizeToolbar: TfmCustomizeToolbar
   end
   object bnReset: TButton
     Left = 380
-    Top = 331
+    Top = 330
     Width = 130
     Height = 25
     Anchors = [akRight, akBottom]

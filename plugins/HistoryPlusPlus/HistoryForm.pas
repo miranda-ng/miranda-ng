@@ -67,9 +67,8 @@ uses
   Windows, Messages, SysUtils, Classes, RichEdit,
   Graphics, Controls, Forms, Dialogs, Buttons, StdCtrls, Menus, ComCtrls, ExtCtrls,
   m_api,
-  hpp_global, hpp_database, hpp_messages, hpp_events, hpp_contacts, hpp_itemprocess,
-  hpp_bookmarks, hpp_forms, hpp_richedit, hpp_sessionsthread,
-  HistoryGrid, Checksum, DateUtils,
+  hpp_global, hpp_sessionsthread,
+  HistoryGrid, DateUtils,
   ImgList, HistoryControls, CommCtrl, ToolWin, ShellAPI, Themes;
 
 type
@@ -261,7 +260,7 @@ type
     procedure hgTranslateTime(Sender: TObject; Time: Cardinal; var Text: String);
     procedure hgPopup(Sender: TObject);
 
-    procedure hgSearchFinished(Sender: TObject; Text: String; Found: Boolean);
+    procedure hgSearchFinished(Sender: TObject; const Text: String; Found: Boolean);
     procedure hgDblClick(Sender: TObject);
     procedure tbSaveClick(Sender: TObject);
     procedure hgItemDelete(Sender: TObject; Index: Integer);
@@ -280,7 +279,7 @@ type
     procedure edPassKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edPassKeyPress(Sender: TObject; var Key: Char);
     procedure CopyText1Click(Sender: TObject);
-    procedure hgUrlClick(Sender: TObject; Item: Integer; URLText: String;  Button: TMouseButton);
+    procedure hgUrlClick(Sender: TObject; Item: Integer; const URLText: String;  Button: TMouseButton);
     procedure hgProcessRichText(Sender: TObject; Handle: THandle; Item: Integer);
     procedure hgSearchItem(Sender: TObject; Item, ID: Integer; var Found: Boolean);
     procedure hgKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -470,8 +469,10 @@ const
 
 implementation
 
-uses EventDetailForm, PassForm, hpp_options, hpp_services, hpp_eventfilters,
-  CustomizeFiltersForm, CustomizeToolbar;
+uses
+  EventDetailForm, PassForm, hpp_options, hpp_services, hpp_eventfilters,
+  hpp_database, hpp_contacts, hpp_itemprocess, hpp_events, hpp_forms, hpp_richedit, 
+  hpp_messages, hpp_bookmarks, Checksum, CustomizeFiltersForm, CustomizeToolbar;
 
 {$R *.DFM}
 
@@ -1731,7 +1732,7 @@ begin
   end;
 end;
 
-procedure THistoryFrm.hgSearchFinished(Sender: TObject; Text: String; Found: Boolean);
+procedure THistoryFrm.hgSearchFinished(Sender: TObject; const Text: String; Found: Boolean);
 var
   t: String;
 begin
@@ -3068,7 +3069,7 @@ begin
   end;
 end;
 
-procedure THistoryFrm.hgUrlClick(Sender: TObject; Item: Integer; URLText: String; Button: TMouseButton);
+procedure THistoryFrm.hgUrlClick(Sender: TObject; Item: Integer; const URLText: String; Button: TMouseButton);
 begin
   if URLText = '' then
     Exit;

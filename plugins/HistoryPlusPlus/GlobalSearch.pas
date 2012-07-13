@@ -59,10 +59,10 @@ uses
   StdCtrls, ExtCtrls, ComCtrls, Menus,
   HistoryGrid,
   m_api,
-  hpp_global, hpp_events, hpp_services, hpp_contacts, hpp_database, hpp_searchthread,
-  hpp_eventfilters, hpp_bookmarks, hpp_richedit, RichEdit,
+  hpp_global, hpp_searchthread,
+  RichEdit,
   ImgList, HistoryControls, Buttons, Math, CommCtrl,
-  Contnrs, hpp_forms, ToolWin, ShellAPI;
+  Contnrs, ToolWin, ShellAPI;
 
 const
   HM_SRCH_CONTACTICONCHANGED = HM_SRCH_BASE + 3;
@@ -215,7 +215,7 @@ type
     procedure edSearchChange(Sender: TObject);
     procedure hgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure hgState(Sender: TObject; State: TGridState);
-    procedure hgSearchFinished(Sender: TObject; Text: String; Found: Boolean);
+    procedure hgSearchFinished(Sender: TObject; const Text: String; Found: Boolean);
     procedure hgSearchItem(Sender: TObject; Item, ID: Integer; var Found: Boolean);
     // procedure FormHide(Sender: TObject);
     procedure FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
@@ -234,7 +234,7 @@ type
     procedure hgProcessRichText(Sender: TObject; Handle: Cardinal; Item: Integer);
     procedure FormShow(Sender: TObject);
     procedure hgKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure hgUrlClick(Sender: TObject; Item: Integer; URLText: String; Button: TMouseButton);
+    procedure hgUrlClick(Sender: TObject; Item: Integer; const URLText: String; Button: TMouseButton);
     procedure edPassKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure hgSelect(Sender: TObject; Item, OldItem: Integer);
@@ -394,7 +394,10 @@ var
 
 implementation
 
-uses hpp_options, PassForm, hpp_itemprocess, hpp_messages, CustomizeFiltersForm;
+uses
+  hpp_options, PassForm, hpp_itemprocess, hpp_messages, CustomizeFiltersForm,
+  hpp_database, hpp_eventfilters, hpp_contacts, hpp_events, hpp_richedit,
+  hpp_forms, hpp_services, hpp_bookmarks;
 
 {$R *.DFM}
 
@@ -2049,7 +2052,7 @@ begin
   // Name := Name + ' [' + BookmarkServer[si.Contact.Handle].BookmarkName[si.hDBEvent] + ']';
 end;
 
-procedure TfmGlobalSearch.hgUrlClick(Sender: TObject; Item: Integer; URLText: String;
+procedure TfmGlobalSearch.hgUrlClick(Sender: TObject; Item: Integer; const URLText: String;
   Button: TMouseButton);
 begin
   if URLText = '' then
@@ -2228,7 +2231,7 @@ begin
   end;
 end;
 
-procedure TfmGlobalSearch.hgSearchFinished(Sender: TObject; Text: String; Found: Boolean);
+procedure TfmGlobalSearch.hgSearchFinished(Sender: TObject; const Text: String; Found: Boolean);
 var
   t: String;
 begin

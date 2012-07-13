@@ -26,7 +26,7 @@ interface
 uses
   Classes, Windows,
   m_api,
-  hpp_global, hpp_database, hpp_externalgrid;
+  hpp_externalgrid;
 
 type
   TExternalGrids = class(TObject)
@@ -52,8 +52,6 @@ const
   ME_HPP_EG_OPTIONSCHANGED = 'History++/ExtGrid/OptionsChanged';
 
 var
-  hExtWindowIE, hExtEventIE, hExtNavigateIE, hExtOptChangedIE: THandle;
-  hExtWindow, hExtEvent, hExtNavigate, hExtOptChanged: THandle;
   ImitateIEView: boolean;
   ExternalGrids: TExternalGrids;
 
@@ -62,7 +60,14 @@ procedure UnregisterExtGridServices;
 
 implementation
 
+uses
+  hpp_global, hpp_database;
+
 {$include m_ieview.inc}
+
+var
+  hExtWindowIE, hExtEventIE, hExtNavigateIE, hExtOptChangedIE: THandle;
+  hExtWindow, hExtEvent, hExtNavigate, hExtOptChanged: THandle;
 
 function _ExtWindow(wParam:WPARAM; lParam: LPARAM; GridMode: TExGridMode): int_ptr;
 var

@@ -54,7 +54,7 @@ interface
 uses
   Windows, SysUtils,
   m_api,
-  hpp_global, hpp_contacts;
+  hpp_global;
 
 type
   PEventRecord = ^TEventRecord;
@@ -142,7 +142,7 @@ procedure GetEventTextForOther(EventInfo: TDBEventInfo; var Hi: THistoryItem);
 implementation
 
 uses
-  hpp_options;
+  hpp_contacts, hpp_options;
 
 {$include m_music.inc}
 
@@ -871,7 +871,7 @@ begin
   end;
 end;
 
-function GetEventTextForICQSystem(EventInfo: TDBEventInfo; Template: String): String;
+function GetEventTextForICQSystem(EventInfo: TDBEventInfo; const Template: String): String;
 var
   BytePos: LongWord;
   Body: AnsiString;

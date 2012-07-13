@@ -60,7 +60,7 @@ object fmCustomizeFilters: TfmCustomizeFilters
       Width = 131
       Height = 25
       Anchors = [akRight, akBottom]
-      Caption = 'R&eset to Default'
+      Caption = '&Reset to Default'
       TabOrder = 4
       OnClick = bnResetClick
     end

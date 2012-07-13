@@ -32,6 +32,7 @@ library historypp;
 uses
   Windows,
   SysUtils,
+  CommCtrl,
   m_api,
   Forms,
   hpp_global in 'hpp_global.pas',
@@ -360,12 +361,11 @@ begin
   begin
     ZeroMemory(@ttb,SizeOf(ttb));
     ttb.cbSize := SizeOf(ttb);
-
     ttb.hIconUp := hppIcons[HPP_ICON_GLOBALSEARCH].handle;
-
     ttb.pszService := MS_HPP_SHOWGLOBALSEARCH;
     ttb.dwFlags := TTBBF_VISIBLE or TTBBF_SHOWTOOLTIP;
-    ttb.name := ttb.pszTooltipUp := PAnsiChar(Translate('Global History Search'));
+    ttb.name := PAnsiChar(Translate('Global History Search'));
+    ttb.pszTooltipUp := ttb.name;
     CallService(MS_TTB_ADDBUTTON,WPARAM(@ttb), 0);
     UnhookEvent(HookTTBLoaded);
   end;

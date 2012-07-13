@@ -51,8 +51,7 @@ interface
 
 uses
   Windows, Messages, Classes, RichEdit, ActiveX,
-  Controls, StdCtrls, ComCtrls, Forms,
-  hpp_global;
+  Controls, StdCtrls, ComCtrls, Forms;
 
 const
   IID_IOleObject: TGUID = '{00000112-0000-0000-C000-000000000046}';
@@ -1107,7 +1106,9 @@ procedure Register;
 
 implementation
 
-uses Types, SysUtils;
+uses
+  Types, SysUtils,
+  hpp_global;
 
 type
   EOleError = class(Exception);
@@ -1128,7 +1129,7 @@ var
 
 procedure Register;
 begin
-  RegisterComponents('History++', [THppRichedit]);
+  RegisterComponents(hppName, [THppRichedit]);
 end;
 
 function GetModuleVersionFile(hModule: THandle): Integer;

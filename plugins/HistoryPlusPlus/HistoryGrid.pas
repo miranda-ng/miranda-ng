@@ -83,8 +83,7 @@ uses
   Menus,
   StrUtils, WideStrUtils,
   StdCtrls, Math, mmsystem,
-  hpp_global, hpp_contacts, hpp_itemprocess, hpp_events, hpp_eventfilters,
-  hpp_richedit, hpp_olesmileys, m_api,
+  hpp_global, hpp_richedit, m_api,
   Contnrs,
   VertSB,
   RichEdit, ShellAPI;
@@ -807,6 +806,7 @@ implementation
 
 uses
   hpp_options, hpp_arrays, hpp_strparser,
+  hpp_contacts, hpp_itemprocess, hpp_events, hpp_eventfilters, hpp_olesmileys,
   ComObj;
 
 type
@@ -902,7 +902,7 @@ end;
 
 procedure Register;
 begin
-  RegisterComponents('History++', [THistoryGrid]);
+  RegisterComponents(hppName, [THistoryGrid]);
 end;
 
 { THistoryGrid }
@@ -3613,7 +3613,7 @@ begin
 {$ENDIF}
   MaxSBPos := Count - 1;
   exit;
-
+  //!!!!!
   if SumHeight < ClientHeight then
   begin
     idx := GetPrev(GetIdx(Count));
@@ -4438,7 +4438,6 @@ begin
 end;
 
 const
-  BT_BACKSPACE = #8;
   // #9 -- TAB
   // #13 -- ENTER
   // #27 -- ESC

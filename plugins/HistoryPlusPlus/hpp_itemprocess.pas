@@ -59,9 +59,9 @@ uses
 var
   rtf_ctable_text: AnsiString;
 
-function DoSupportBBCodesHTML(S: AnsiString): AnsiString;
-function DoSupportBBCodesRTF(S: AnsiString; StartColor: integer; doColorBBCodes: boolean): AnsiString;
-function DoStripBBCodes(S: String): String;
+function DoSupportBBCodesHTML(const S: AnsiString): AnsiString;
+function DoSupportBBCodesRTF(const S: AnsiString; StartColor: integer; doColorBBCodes: boolean): AnsiString;
+function DoStripBBCodes(const S: String): String;
 
 function DoSupportSmileys(awParam:WPARAM; alParam: LPARAM): Integer;
 function DoSupportMathModule(awParam:WPARAM; alParam: LPARAM): Integer;
@@ -145,10 +145,9 @@ const
   MAX_FMTBUF     = 4095;
 
 var
-  i: integer;
   TextBuffer: THppBuffer;
 
-function GetColorRTF(code: AnsiString; colcount: integer): integer;
+function GetColorRTF(const code: AnsiString; colcount: integer): integer;
 var
   i: integer;
 begin
@@ -271,7 +270,7 @@ begin
 end;
 *)
 
-function DoSupportBBCodesRTF(S: AnsiString; StartColor: integer; doColorBBCodes: boolean): AnsiString;
+function DoSupportBBCodesRTF(const S: AnsiString; StartColor: integer; doColorBBCodes: boolean): AnsiString;
 var
   bufPos,bufEnd: PAnsiChar;
   strStart,strTrail: PAnsiChar;
@@ -357,7 +356,7 @@ begin
   TextBuffer.Unlock;
 end;
 
-function DoSupportBBCodesHTML(S: AnsiString): AnsiString;
+function DoSupportBBCodesHTML(const S: AnsiString): AnsiString;
 var
   bufPos,bufEnd: PAnsiChar;
   strStart,strTrail,strCode: PAnsiChar;
@@ -409,7 +408,7 @@ begin
   TextBuffer.Unlock;
 end;
 
-function DoStripBBCodes(S: String): String;
+function DoStripBBCodes(const S: String): String;
 var
   WideStream: String;
   i,spos,epos,cpos,slen: integer;
@@ -537,10 +536,10 @@ begin
   end;
 end;
 
-
-initialization
-  rtf_ctable_text := '';
-
+procedure Filltables;
+var
+  i: integer;
+begin
   for i := 0 to High(rtf_ctable) do
   begin
     rtf_ctable_text := rtf_ctable_text + AnsiString(format('\red%d\green%d\blue%d;',
@@ -556,6 +555,12 @@ initialization
     bbCodes[i, bbEnd  ].prefix.wide := String(bbCodes[i, bbEnd  ].prefix.ansi);
     bbCodes[i, bbEnd  ].suffix.wide := String(bbCodes[i, bbEnd  ].suffix.ansi);
   end;
+end;
+
+initialization
+  rtf_ctable_text := '';
+
+  FillTables;
 
   TextBuffer := THppBuffer.Create;
 

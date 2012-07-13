@@ -38,26 +38,29 @@ unit Checksum;
 
 interface
 
-uses SysUtils, Windows, Base64;
+uses windows;
 
 type
   TDig64 = array[0..1] of DWord;
 
 function DigToBase(Digest: TDig64): AnsiString;
-function BaseToDig(Str: AnsiString): TDig64;
+function BaseToDig(const Str: AnsiString): TDig64;
 //function StrToDig(Str: AnsiString): TDig64;
 function DigToStr(Digest: TDig64): AnsiString;
 function SameDigest(Dig1,Dig2: TDig64): Boolean;
 procedure CalcCRC32(Data: Pointer; DataSize: DWord; var CRCValue: DWord);
 //function CRC32(CRC: DWord; Data: Pointer; DataSize: DWord): LongWord; assembler;
 //function CRC32a(CRC: DWord; Data: Pointer; DataSize: DWord): DWord;
-function HashString(Str: AnsiString): TDig64;
+function HashString(const Str: AnsiString): TDig64;
 procedure CalcSampleHash(const Data: Pointer; DataSize: Integer; var Digest: TDig64);
 
 var
   ZeroDig: TDig64 = (0,0);
 
 implementation
+
+uses
+  SysUtils, Base64;
 
 const
   DIGEST_DIV = '-';
@@ -74,7 +77,7 @@ begin
   Result := Base64EncodeStr(DigStr);
 end;
 
-function BaseToDig(Str: AnsiString): TDig64;
+function BaseToDig(const Str: AnsiString): TDig64;
 var
   DigStr: AnsiString;
 begin
@@ -82,7 +85,7 @@ begin
   Move(DigStr[1], Result, SizeOf(Result));
 end;
 
-function HashString(Str: AnsiString): TDig64;
+function HashString(const Str: AnsiString): TDig64;
 begin
   Result := ZeroDig;
   Result[0] := InitCRC;

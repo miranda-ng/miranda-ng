@@ -51,7 +51,7 @@ uses
   Graphics, SysUtils, Windows, Dialogs,
   m_api,
   HistoryGrid,
-  hpp_global, hpp_contacts, hpp_events, hpp_mescatcher;
+  hpp_global;
 
 type
 
@@ -136,46 +136,96 @@ const
   );
 
   hppFontItems: array[0..29] of ThppFontsRec = (
-    (_type:[hppFont,hppColor]; name: 'Incoming nick'; nameColor: 'Divider'; Mes: []; style:DBFONTF_BOLD; size: -11; color: $6B3FC8; back: clGray),
-    (_type:[hppFont,hppColor]; name: 'Outgoing nick'; nameColor: 'Selected text'; Mes: []; style:DBFONTF_BOLD; size: -11; color: $BD6008; back: clHighlightText),
-    (_type:[hppColor];         nameColor: 'Selected background'; Mes: []; back: clHighlight),
-    (_type:[hppFont,hppColor]; name: 'Incoming message'; Mes: [mtMessage,mtIncoming]; style:0; size: -11; color: $000000; back: $DBDBDB),
-    (_type:[hppFont,hppColor]; name: 'Outgoing message'; Mes: [mtMessage,mtOutgoing]; style:0; size: -11; color: $000000; back: $EEEEEE),
-    (_type:[hppFont,hppColor]; name: 'Incoming file'; Mes: [mtFile,mtIncoming]; style:0; size: -11; color: $000000; back: $9BEEE3),
-    (_type:[hppFont,hppColor]; name: 'Outgoing file'; Mes: [mtFile,mtOutgoing]; style:0; size: -11; color: $000000; back: $9BEEE3),
-    (_type:[hppFont,hppColor]; name: 'Incoming url'; Mes: [mtUrl,mtIncoming]; style:0; size: -11; color: $000000; back: $F4D9CC),
-    (_type:[hppFont,hppColor]; name: 'Outgoing url'; Mes: [mtUrl,mtOutgoing]; style:0; size: -11; color: $000000; back: $F4D9CC),
-    (_type:[hppFont,hppColor]; name: 'Incoming SMS Message'; Mes: [mtSMS,mtIncoming]; style:0; size: -11; color: $000000; back: $CFF4FE),
-    (_type:[hppFont,hppColor]; name: 'Outgoing SMS Message'; Mes: [mtSMS,mtOutgoing]; style:0; size: -11; color: $000000; back: $CFF4FE),
-    (_type:[hppFont,hppColor]; name: 'Incoming contacts'; Mes: [mtContacts,mtIncoming]; style:0; size: -11; color: $000000; back: $FEF4CF),
-    (_type:[hppFont,hppColor]; name: 'Outgoing contacts'; Mes: [mtContacts,mtOutgoing]; style:0; size: -11; color: $000000; back: $FEF4CF),
-    (_type:[hppFont,hppColor]; name: 'System message'; Mes: [mtSystem,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $CFFEDC),
-    (_type:[hppFont,hppColor]; name: 'Status changes'; Mes: [mtStatus,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $F0F0F0),
-    (_type:[hppFont,hppColor]; name: 'SMTP Simple Email'; Mes: [mtSMTPSimple,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $FFFFFF),
-    (_type:[hppFont,hppColor]; name: 'Other events (unknown)'; Mes: [mtOther,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $FFFFFF),
-    (_type:[hppFont,hppColor]; name: 'Conversation header'; Mes: []; style:0; size: -11; color: $000000; back: $00D7FDFF),
-    (_type:[hppFont,hppColor]; name: 'Nick changes'; Mes: [mtNickChange,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $00D7FDFF),
-    (_type:[hppFont,hppColor]; name: 'Avatar changes'; Mes: [mtAvatarChange,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $00D7FDFF),
-    (_type:[hppFont];          name: 'Incoming timestamp'; Mes: []; style:0; size: -11; color: $000000),
-    (_type:[hppFont];          name: 'Outgoing timestamp'; Mes: []; style:0; size: -11; color: $000000),
-    (_type:[hppFont,hppColor]; name: 'Grid messages'; nameColor: 'Grid background'; Mes: []; style:0; size: -11; color: $000000; back: $E9EAEB),
-    (_type:[hppFont,hppColor]; name: 'Incoming WATrack notify'; Mes: [mtWATrack,mtIncoming]; style:0; size: -11; color: $C08000; back: $C8FFFF),
-    (_type:[hppFont,hppColor]; name: 'Outgoing WATrack notify'; Mes: [mtWATrack,mtOutgoing]; style:0; size: -11; color: $C08000; back: $C8FFFF),
-    (_type:[hppFont,hppColor]; name: 'Status message changes'; Mes: [mtStatusMessage,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $F0F0F0),
-    (_type:[hppFont,hppColor]; name: 'Voice calls'; Mes: [mtVoiceCall,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $E9DFAB),
-    (_type:[hppFont,hppColor]; name: 'Webpager message'; Mes: [mtWebPager,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $FFFFFF),
-    (_type:[hppFont,hppColor]; name: 'EMail Express message'; Mes: [mtEmailExpress,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $FFFFFF),
-    (_type:[hppColor];         nameColor: 'Link'; Mes: []; back: clBlue)
-    );
+    (_type: [hppFont,hppColor]; name: 'Incoming nick'; nameColor: 'Divider';
+       Mes: []; style:DBFONTF_BOLD; size: -11; color: $6B3FC8; back: clGray),
 
-  SaveFormatsDef: array[TSaveFormat] of TSaveFilter = (
-    (Index: -1; Filter:'All files';         DefaultExt:'*.*'; Owned:[]; OwnedIndex: -1),
-    (Index: 1;  Filter:'HTML file';         DefaultExt:'*.html'; Owned:[]; OwnedIndex: -1),
-    (Index: 2;  Filter:'XML file';          DefaultExt:'*.xml'; Owned:[]; OwnedIndex: -1),
-    (Index: 3;  Filter:'RTF file';          DefaultExt:'*.rtf'; Owned:[]; OwnedIndex: -1),
-    (Index: 4;  Filter:'mContacts files';   DefaultExt:'*.dat'; Owned:[]; OwnedIndex: -1),
-    (Index: 5;  Filter:'Unicode text file'; DefaultExt:'*.txt'; Owned:[sfUnicode,sfText]; OwnedIndex: 1),
-    (Index: 6;  Filter:'Text file';         DefaultExt:'*.txt'; Owned:[sfUnicode,sfText]; OwnedIndex: 2));
+    (_type: [hppFont,hppColor]; name: 'Outgoing nick'; nameColor: 'Selected text';
+       Mes: []; style:DBFONTF_BOLD; size: -11; color: $BD6008; back: clHighlightText),
+
+    (_type: [hppColor]; nameColor: 'Selected background';
+       Mes: []; back: clHighlight),
+
+    (_type: [hppFont,hppColor]; name: 'Incoming message';
+       Mes: [mtMessage,mtIncoming]; style:0; size: -11; color: $000000; back: $DBDBDB),
+
+    (_type: [hppFont,hppColor]; name: 'Outgoing message';
+       Mes: [mtMessage,mtOutgoing]; style:0; size: -11; color: $000000; back: $EEEEEE),
+
+    (_type: [hppFont,hppColor]; name: 'Incoming file';
+       Mes: [mtFile,mtIncoming]; style:0; size: -11; color: $000000; back: $9BEEE3),
+
+    (_type: [hppFont,hppColor]; name: 'Outgoing file';
+       Mes: [mtFile,mtOutgoing]; style:0; size: -11; color: $000000; back: $9BEEE3),
+
+    (_type: [hppFont,hppColor]; name: 'Incoming url';
+       Mes: [mtUrl,mtIncoming]; style:0; size: -11; color: $000000; back: $F4D9CC),
+    
+    (_type: [hppFont,hppColor]; name: 'Outgoing url';
+       Mes: [mtUrl,mtOutgoing]; style:0; size: -11; color: $000000; back: $F4D9CC),
+
+    (_type: [hppFont,hppColor]; name: 'Incoming SMS Message';
+       Mes: [mtSMS,mtIncoming]; style:0; size: -11; color: $000000; back: $CFF4FE),
+
+    (_type: [hppFont,hppColor]; name: 'Outgoing SMS Message';
+       Mes: [mtSMS,mtOutgoing]; style:0; size: -11; color: $000000; back: $CFF4FE),
+
+    (_type: [hppFont,hppColor]; name: 'Incoming contacts';
+       Mes: [mtContacts,mtIncoming]; style:0; size: -11; color: $000000; back: $FEF4CF),
+
+    (_type: [hppFont,hppColor]; name: 'Outgoing contacts';
+       Mes: [mtContacts,mtOutgoing]; style:0; size: -11; color: $000000; back: $FEF4CF),
+
+    (_type: [hppFont,hppColor]; name: 'System message';
+       Mes: [mtSystem,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $CFFEDC),
+
+    (_type: [hppFont,hppColor]; name: 'Status changes';
+       Mes: [mtStatus,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $F0F0F0),
+
+    (_type: [hppFont,hppColor]; name: 'SMTP Simple Email';
+       Mes: [mtSMTPSimple,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $FFFFFF),
+
+    (_type: [hppFont,hppColor]; name: 'Other events (unknown)';
+       Mes: [mtOther,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $FFFFFF),
+
+    (_type: [hppFont,hppColor]; name: 'Conversation header';
+       Mes: []; style:0; size: -11; color: $000000; back: $00D7FDFF),
+
+    (_type: [hppFont,hppColor]; name: 'Nick changes';
+       Mes: [mtNickChange,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $00D7FDFF),
+
+    (_type: [hppFont,hppColor]; name: 'Avatar changes';
+       Mes: [mtAvatarChange,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $00D7FDFF),
+
+    (_type: [hppFont]; name: 'Incoming timestamp';
+       Mes: []; style:0; size: -11; color: $000000),
+
+    (_type: [hppFont]; name: 'Outgoing timestamp';
+       Mes: []; style:0; size: -11; color: $000000),
+
+    (_type: [hppFont,hppColor]; name: 'Grid messages'; nameColor: 'Grid background';
+       Mes: []; style:0; size: -11; color: $000000; back: $E9EAEB),
+
+    (_type: [hppFont,hppColor]; name: 'Incoming WATrack notify';
+       Mes: [mtWATrack,mtIncoming]; style:0; size: -11; color: $C08000; back: $C8FFFF),
+
+    (_type: [hppFont,hppColor]; name: 'Outgoing WATrack notify';
+       Mes: [mtWATrack,mtOutgoing]; style:0; size: -11; color: $C08000; back: $C8FFFF),
+
+    (_type: [hppFont,hppColor]; name: 'Status message changes';
+       Mes: [mtStatusMessage,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $F0F0F0),
+
+    (_type: [hppFont,hppColor]; name: 'Voice calls';
+       Mes: [mtVoiceCall,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $E9DFAB),
+
+    (_type: [hppFont,hppColor]; name: 'Webpager message';
+       Mes: [mtWebPager,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $FFFFFF),
+
+    (_type: [hppFont,hppColor]; name: 'EMail Express message';
+       Mes: [mtEmailExpress,mtIncoming,mtOutgoing]; style:0; size: -11; color: $000000; back: $FFFFFF),
+
+    (_type: [hppColor]; nameColor: 'Link';
+       Mes: []; back: clBlue)
+  );
 
 var
   hppIntIcons: array[0..0] of ThppIntIconsRec = (
@@ -207,7 +257,19 @@ procedure PrepareSaveDialog(SaveDialog: TSaveDialog; SaveFormat: TSaveFormat; Al
 
 implementation
 
-uses hpp_database, ShellAPI;
+uses
+  hpp_database, hpp_contacts, hpp_events, hpp_mescatcher,
+  ShellAPI;
+
+const
+  SaveFormatsDef: array[TSaveFormat] of TSaveFilter = (
+    (Index: -1; Filter:'All files';         DefaultExt:'*.*'; Owned:[]; OwnedIndex: -1),
+    (Index: 1;  Filter:'HTML file';         DefaultExt:'*.html'; Owned:[]; OwnedIndex: -1),
+    (Index: 2;  Filter:'XML file';          DefaultExt:'*.xml'; Owned:[]; OwnedIndex: -1),
+    (Index: 3;  Filter:'RTF file';          DefaultExt:'*.rtf'; Owned:[]; OwnedIndex: -1),
+    (Index: 4;  Filter:'mContacts files';   DefaultExt:'*.dat'; Owned:[]; OwnedIndex: -1),
+    (Index: 5;  Filter:'Unicode text file'; DefaultExt:'*.txt'; Owned:[sfUnicode,sfText]; OwnedIndex: 1),
+    (Index: 6;  Filter:'Text file';         DefaultExt:'*.txt'; Owned:[sfUnicode,sfText]; OwnedIndex: 2));
 
 {$include m_mathmodule.inc}
 {$include m_speak.inc}

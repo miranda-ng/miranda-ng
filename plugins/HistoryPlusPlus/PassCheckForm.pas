@@ -25,8 +25,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, Checksum, ExtCtrls,m_api, hpp_forms,
-  HistoryControls;
+  StdCtrls, ExtCtrls, {Checksum, HistoryControls, }m_api;
 
 type
   TfmPassCheck = class(TForm)
@@ -57,7 +56,7 @@ var
 
 implementation
 
-uses hpp_options, hpp_services, hpp_global, PassForm;
+uses hpp_options, hpp_services, hpp_forms, hpp_global, PassForm;
 
 {$R *.DFM}
 

@@ -26,8 +26,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Dialogs, CommCtrl,
   Forms, ComCtrls, StdCtrls, ExtCtrls, CheckLst, Buttons,
-  hpp_global, HistoryControls,
-  m_api, hpp_forms;
+  hpp_global, m_api;
 
 type
   TfmCustomizeToolbar = class(TForm)
@@ -90,7 +89,7 @@ var
 
 implementation
 
-uses HistoryForm, hpp_database, hpp_options;
+uses HistoryForm, hpp_database, hpp_options, HistoryControls, hpp_forms;
 
 {$R *.dfm}
 

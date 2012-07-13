@@ -58,9 +58,9 @@ unit hpp_searchthread;
 interface
 
 uses
-  Windows, SysUtils, Controls, Messages, HistoryGrid, Classes,
+  Windows, SysUtils, Controls, Messages, {HistoryGrid,} Classes,
   m_api,
-  hpp_global, hpp_events, hpp_forms, hpp_bookmarks, hpp_eventfilters;
+  {hpp_forms, }hpp_global;
 
 const
   ST_FIRST_BATCH = 50;
@@ -150,22 +150,24 @@ const
   // (NEW) items are found (array of hDBEvent, array size)
 
   // helper functions
-function SearchTextExact   (MessageText: String; SearchText: String): Boolean;
-function SearchTextAnyWord (MessageText: String; SearchWords: array of String): Boolean;
-function SearchTextAllWords(MessageText: String; SearchWords: array of String): Boolean;
+function SearchTextExact   (const MessageText: String; const SearchText: String): Boolean;
+function SearchTextAnyWord (const MessageText: String; SearchWords: array of String): Boolean;
+function SearchTextAllWords(const MessageText: String; SearchWords: array of String): Boolean;
 
 {$DEFINE SMARTSEARCH}
 
 implementation
 
-uses hpp_contacts, PassForm;
+uses
+  hpp_contacts, hpp_events, hpp_bookmarks, hpp_eventfilters,
+  PassForm;
 
-function SearchTextExact(MessageText: String; SearchText: String): Boolean;
+function SearchTextExact(const MessageText: String; const SearchText: String): Boolean;
 begin
   Result := Pos(SearchText, MessageText) <> 0;
 end;
 
-function SearchTextAnyWord(MessageText: String; SearchWords: array of String): Boolean;
+function SearchTextAnyWord(const MessageText: String; SearchWords: array of String): Boolean;
 var
   i: Integer;
 begin
@@ -178,7 +180,7 @@ begin
   end;
 end;
 
-function SearchTextAllWords(MessageText: String; SearchWords: array of String): Boolean;
+function SearchTextAllWords(const MessageText: String; SearchWords: array of String): Boolean;
 var
   i: Integer;
 begin

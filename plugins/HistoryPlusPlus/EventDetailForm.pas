@@ -53,9 +53,9 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ExtCtrls,
-  HistoryGrid, HistoryForm,
-  m_api, hpp_messages,
-  hpp_global, hpp_contacts, hpp_events, hpp_forms, hpp_richedit,
+  HistoryForm,
+  m_api,
+  hpp_global, hpp_richedit,
   ComCtrls,
   Menus, RichEdit, Buttons, HistoryControls, ShellAPI;
 
@@ -170,7 +170,9 @@ var
 
 implementation
 
-uses hpp_database, hpp_options, hpp_services;
+uses
+  HistoryGrid, hpp_messages, hpp_contacts, hpp_events, hpp_forms, 
+  {hpp_database,} hpp_options, hpp_services;
 
 {$R *.DFM}
 { TForm1 }

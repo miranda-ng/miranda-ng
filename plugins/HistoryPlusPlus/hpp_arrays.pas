@@ -23,7 +23,7 @@ unit hpp_arrays;
 
 interface
 
-uses hpp_jclSysUtils, hpp_global;
+uses hpp_global;
 
 function IntSortedArray_Add(var A: TIntArray; Value: Integer): Integer;
 procedure IntSortedArray_Remove(var A: TIntArray; Value: Integer);
@@ -35,6 +35,8 @@ procedure IntArrayRemove(var A: TIntArray; Index: Integer);
 procedure IntArrayInsert(var A: TIntArray; Index: Integer; Value: Integer);
 
 implementation
+
+uses hpp_jclSysUtils;
 
 procedure IntArrayRemove(var A: TIntArray; Index: Integer);
 var
