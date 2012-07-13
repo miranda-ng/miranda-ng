@@ -73,7 +73,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG_LOG;WIN32;_DEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_DEBUG_LOG;_WINDOWS;_USRDLL;CLIST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -83,7 +83,6 @@
       <PrecompiledHeaderFile>hdr/modern_commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -103,7 +102,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG_LOG;WIN64;_DEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_DEBUG_LOG;_USRDLL;CLIST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -112,7 +111,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>hdr/modern_commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -134,7 +132,7 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>false</ExceptionHandling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -144,7 +142,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>hdr/modern_commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -168,7 +165,7 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -177,7 +174,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>hdr/modern_commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <ResourceCompile>
@@ -197,141 +193,95 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="init.cpp" />
-    <ClCompile Include="modern_aniavatars.cpp" />
-    <ClCompile Include="modern_awaymsg.cpp" />
-    <ClCompile Include="modern_cachefuncs.cpp" />
-    <ClCompile Include="modern_clc.cpp" />
-    <ClCompile Include="modern_clcidents.cpp" />
-    <ClCompile Include="modern_clcitems.cpp" />
-    <ClCompile Include="modern_clcmsgs.cpp" />
-    <ClCompile Include="modern_clcopts.cpp" />
-    <ClCompile Include="modern_clcpaint.cpp" />
-    <ClCompile Include="modern_clcutils.cpp" />
-    <ClCompile Include="modern_clistevents.cpp" />
-    <ClCompile Include="modern_clistmenus.cpp" />
-    <ClCompile Include="modern_clistmod.cpp" />
-    <ClCompile Include="modern_clistopts.cpp" />
-    <ClCompile Include="modern_clistsettings.cpp" />
-    <ClCompile Include="modern_clisttray.cpp" />
-    <ClCompile Include="modern_clui.cpp" />
-    <ClCompile Include="modern_cluiframes.cpp" />
-    <ClCompile Include="modern_cluiservices.cpp" />
-    <ClCompile Include="modern_commonheaders.cpp">
+    <ClCompile Include="src\init.cpp" />
+    <ClCompile Include="src\modern_aniavatars.cpp" />
+    <ClCompile Include="src\modern_awaymsg.cpp" />
+    <ClCompile Include="src\modern_cachefuncs.cpp" />
+    <ClCompile Include="src\modern_clc.cpp" />
+    <ClCompile Include="src\modern_clcidents.cpp" />
+    <ClCompile Include="src\modern_clcitems.cpp" />
+    <ClCompile Include="src\modern_clcmsgs.cpp" />
+    <ClCompile Include="src\modern_clcopts.cpp" />
+    <ClCompile Include="src\modern_clcpaint.cpp" />
+    <ClCompile Include="src\modern_clcutils.cpp" />
+    <ClCompile Include="src\modern_clistevents.cpp" />
+    <ClCompile Include="src\modern_clistmenus.cpp" />
+    <ClCompile Include="src\modern_clistmod.cpp" />
+    <ClCompile Include="src\modern_clistopts.cpp" />
+    <ClCompile Include="src\modern_clistsettings.cpp" />
+    <ClCompile Include="src\modern_clisttray.cpp" />
+    <ClCompile Include="src\modern_clui.cpp" />
+    <ClCompile Include="src\modern_cluiframes.cpp" />
+    <ClCompile Include="src\modern_cluiservices.cpp" />
+    <ClCompile Include="src\modern_commonheaders.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="modern_contact.cpp" />
-    <ClCompile Include="modern_docking.cpp" />
-    <ClCompile Include="modern_extraimage.cpp" />
-    <ClCompile Include="modern_framesmenu.cpp" />
-    <ClCompile Include="modern_gdiplus.cpp" />
-    <ClCompile Include="modern_gettextasync.cpp" />
-    <ClCompile Include="modern_global.cpp" />
-    <ClCompile Include="modern_groupmenu.cpp" />
-    <ClCompile Include="modern_image_array.cpp" />
-    <ClCompile Include="modern_keyboard.cpp" />
-    <ClCompile Include="modern_log.cpp" />
-    <ClCompile Include="modern_newrowopts.cpp" />
-    <ClCompile Include="modern_popup.cpp" />
-    <ClCompile Include="modern_row.cpp" />
-    <ClCompile Include="modern_rowheight_funcs.cpp" />
-    <ClCompile Include="modern_rowtemplateopt.cpp" />
-    <ClCompile Include="modern_skinbutton.cpp" />
-    <ClCompile Include="modern_skineditor.cpp" />
-    <ClCompile Include="modern_skinengine.cpp" />
-    <ClCompile Include="modern_skinopt.cpp" />
-    <ClCompile Include="modern_skinselector.cpp" />
-    <ClCompile Include="modern_statusbar.cpp" />
-    <ClCompile Include="modern_statusbar_options.cpp" />
-    <ClCompile Include="modern_sync.cpp" />
-    <ClCompile Include="modern_tbbutton.cpp" />
-    <ClCompile Include="modern_toolbar.cpp" />
-    <ClCompile Include="modern_viewmodebar.cpp" />
-    <ClCompile Include="modern_xptheme.cpp" />
+    <ClCompile Include="src\modern_contact.cpp" />
+    <ClCompile Include="src\modern_docking.cpp" />
+    <ClCompile Include="src\modern_extraimage.cpp" />
+    <ClCompile Include="src\modern_framesmenu.cpp" />
+    <ClCompile Include="src\modern_gdiplus.cpp" />
+    <ClCompile Include="src\modern_gettextasync.cpp" />
+    <ClCompile Include="src\modern_global.cpp" />
+    <ClCompile Include="src\modern_groupmenu.cpp" />
+    <ClCompile Include="src\modern_image_array.cpp" />
+    <ClCompile Include="src\modern_keyboard.cpp" />
+    <ClCompile Include="src\modern_log.cpp" />
+    <ClCompile Include="src\modern_newrowopts.cpp" />
+    <ClCompile Include="src\modern_popup.cpp" />
+    <ClCompile Include="src\modern_row.cpp" />
+    <ClCompile Include="src\modern_rowheight_funcs.cpp" />
+    <ClCompile Include="src\modern_rowtemplateopt.cpp" />
+    <ClCompile Include="src\modern_skinbutton.cpp" />
+    <ClCompile Include="src\modern_skineditor.cpp" />
+    <ClCompile Include="src\modern_skinengine.cpp" />
+    <ClCompile Include="src\modern_skinopt.cpp" />
+    <ClCompile Include="src\modern_skinselector.cpp" />
+    <ClCompile Include="src\modern_statusbar.cpp" />
+    <ClCompile Include="src\modern_statusbar_options.cpp" />
+    <ClCompile Include="src\modern_sync.cpp" />
+    <ClCompile Include="src\modern_tbbutton.cpp" />
+    <ClCompile Include="src\modern_toolbar.cpp" />
+    <ClCompile Include="src\modern_viewmodebar.cpp" />
+    <ClCompile Include="src\modern_xptheme.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="hdr\modern_cache_funcs.h" />
-    <ClInclude Include="hdr\modern_callproc.h" />
-    <ClInclude Include="hdr\modern_clc.h" />
-    <ClInclude Include="hdr\modern_clcpaint.h" />
-    <ClInclude Include="hdr\modern_clist.h" />
-    <ClInclude Include="hdr\modern_clui.h" />
-    <ClInclude Include="hdr\modern_cluiframes.h" />
-    <ClInclude Include="hdr\modern_commonheaders.h" />
-    <ClInclude Include="hdr\modern_commonprototypes.h" />
-    <ClInclude Include="hdr\modern_defsettings.h" />
-    <ClInclude Include="hdr\modern_effectenum.h" />
-    <ClInclude Include="hdr\modern_image_array.h" />
-    <ClInclude Include="hdr\modern_layered_window_engine.h" />
-    <ClInclude Include="hdr\modern_log.h" />
-    <ClInclude Include="hdr\modern_popup.h" />
-    <ClInclude Include="hdr\modern_row.h" />
-    <ClInclude Include="hdr\modern_rowheight_funcs.h" />
-    <ClInclude Include="hdr\modern_skinengine.h" />
-    <ClInclude Include="hdr\modern_skinned_profile.h" />
-    <ClInclude Include="hdr\modern_static_clui.h" />
-    <ClInclude Include="hdr\modern_static_cluiframes_service.h" />
-    <ClInclude Include="hdr\modern_statusbar.h" />
-    <ClInclude Include="hdr\modern_statusmodes.h" />
-    <ClInclude Include="hdr\modern_sync.h" />
-    <ClInclude Include="hdr\modern_tstring.h" />
-    <ClInclude Include="hdr\MString.h" />
-    <ClInclude Include="version.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="hdr\modern_awaymsg.h" />
-    <ClInclude Include="hdr\modern_gettextasync.h" />
-    <ClInclude Include="hdr\modern_global_structure.h" />
-    <ClInclude Include="hdr\modern_skinselector.h" />
+    <ClInclude Include="src\hdr\modern_cache_funcs.h" />
+    <ClInclude Include="src\hdr\modern_callproc.h" />
+    <ClInclude Include="src\hdr\modern_clc.h" />
+    <ClInclude Include="src\hdr\modern_clcpaint.h" />
+    <ClInclude Include="src\hdr\modern_clist.h" />
+    <ClInclude Include="src\hdr\modern_clui.h" />
+    <ClInclude Include="src\hdr\modern_cluiframes.h" />
+    <ClInclude Include="src\hdr\modern_commonheaders.h" />
+    <ClInclude Include="src\hdr\modern_commonprototypes.h" />
+    <ClInclude Include="src\hdr\modern_defsettings.h" />
+    <ClInclude Include="src\hdr\modern_effectenum.h" />
+    <ClInclude Include="src\hdr\modern_image_array.h" />
+    <ClInclude Include="src\hdr\modern_layered_window_engine.h" />
+    <ClInclude Include="src\hdr\modern_log.h" />
+    <ClInclude Include="src\hdr\modern_popup.h" />
+    <ClInclude Include="src\hdr\modern_row.h" />
+    <ClInclude Include="src\hdr\modern_rowheight_funcs.h" />
+    <ClInclude Include="src\hdr\modern_skinengine.h" />
+    <ClInclude Include="src\hdr\modern_skinned_profile.h" />
+    <ClInclude Include="src\hdr\modern_static_clui.h" />
+    <ClInclude Include="src\hdr\modern_static_cluiframes_service.h" />
+    <ClInclude Include="src\hdr\modern_statusbar.h" />
+    <ClInclude Include="src\hdr\modern_statusmodes.h" />
+    <ClInclude Include="src\hdr\modern_sync.h" />
+    <ClInclude Include="src\hdr\modern_tstring.h" />
+    <ClInclude Include="src\hdr\MString.h" />
+    <ClInclude Include="res\version.h" />
+    <ClInclude Include="res\resource.h" />
+    <ClInclude Include="src\hdr\modern_awaymsg.h" />
+    <ClInclude Include="src\hdr\modern_gettextasync.h" />
+    <ClInclude Include="src\hdr\modern_global_structure.h" />
+    <ClInclude Include="src\hdr\modern_skinselector.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
-    <ResourceCompile Include="version.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\1.ico" />
-    <None Include="res\2.ico" />
-    <None Include="res\3.ico" />
-    <None Include="res\4.ico" />
-    <None Include="res\5.ico" />
-    <None Include="res\6.ico" />
-    <None Include="res\7.ico" />
-    <None Include="res\8.ico" />
-    <None Include="res\addgoupp.ico" />
-    <None Include="res\AlwaysVis.ico" />
-    <None Include="res\away.ico" />
-    <None Include="res\back.tga" />
-    <None Include="res\chat.ico" />
-    <None Include="res\Chatchannel.ico" />
-    <None Include="res\dnd.ico" />
-    <None Include="res\hide_avatar.ico" />
-    <None Include="res\invisible.ico" />
-    <None Include="res\listening_to.ico" />
-    <None Include="res\lunch.ico" />
-    <None Include="res\MicroAway.ico" />
-    <None Include="res\MicroChat.ico" />
-    <None Include="res\MicroDnd.ico" />
-    <None Include="res\MicroInvisible.ico" />
-    <None Include="res\MicroLunch.ico" />
-    <None Include="res\MicroNa.ico" />
-    <None Include="res\MicroOccupied.ico" />
-    <None Include="res\MicroOffline.ico" />
-    <None Include="res\MicroPhone.ico" />
-    <None Include="res\NA.ico" />
-    <None Include="res\neo_meta_create.cur" />
-    <None Include="res\neo_meta_default.cur" />
-    <None Include="res\neo_meta_move.cur" />
-    <None Include="res\NeverVis.ico" />
-    <None Include="res\occupied.ico" />
-    <None Include="res\offline.ico" />
-    <None Include="res\phone.ico" />
-    <None Include="res\rate_high.ico" />
-    <None Include="res\rate_low.ico" />
-    <None Include="res\rate_med.ico" />
-    <None Include="res\rate_none.ico" />
-    <None Include="res\reset_view.ico" />
-    <None Include="res\set_view.ico" />
-    <None Include="res\show_avatar.ico" />
-    <None Include="res\skin.msf" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

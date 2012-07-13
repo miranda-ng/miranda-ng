@@ -18,392 +18,258 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="init.cpp">
+    <ClCompile Include="src\init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_aniavatars.cpp">
+    <ClCompile Include="src\modern_aniavatars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_awaymsg.cpp">
+    <ClCompile Include="src\modern_awaymsg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_cachefuncs.cpp">
+    <ClCompile Include="src\modern_cachefuncs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clc.cpp">
+    <ClCompile Include="src\modern_clc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clcidents.cpp">
+    <ClCompile Include="src\modern_clcidents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clcitems.cpp">
+    <ClCompile Include="src\modern_clcitems.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clcmsgs.cpp">
+    <ClCompile Include="src\modern_clcmsgs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clcopts.cpp">
+    <ClCompile Include="src\modern_clcopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clcpaint.cpp">
+    <ClCompile Include="src\modern_clcpaint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clcutils.cpp">
+    <ClCompile Include="src\modern_clcutils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clistevents.cpp">
+    <ClCompile Include="src\modern_clistevents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clistmenus.cpp">
+    <ClCompile Include="src\modern_clistmenus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clistmod.cpp">
+    <ClCompile Include="src\modern_clistmod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clistopts.cpp">
+    <ClCompile Include="src\modern_clistopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clistsettings.cpp">
+    <ClCompile Include="src\modern_clistsettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clisttray.cpp">
+    <ClCompile Include="src\modern_clisttray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_clui.cpp">
+    <ClCompile Include="src\modern_clui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_cluiframes.cpp">
+    <ClCompile Include="src\modern_cluiframes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_cluiservices.cpp">
+    <ClCompile Include="src\modern_cluiservices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_commonheaders.cpp">
+    <ClCompile Include="src\modern_commonheaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_contact.cpp">
+    <ClCompile Include="src\modern_contact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_docking.cpp">
+    <ClCompile Include="src\modern_docking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_extraimage.cpp">
+    <ClCompile Include="src\modern_extraimage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_framesmenu.cpp">
+    <ClCompile Include="src\modern_framesmenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_gdiplus.cpp">
+    <ClCompile Include="src\modern_gdiplus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_gettextasync.cpp">
+    <ClCompile Include="src\modern_gettextasync.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_global.cpp">
+    <ClCompile Include="src\modern_global.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_groupmenu.cpp">
+    <ClCompile Include="src\modern_groupmenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_image_array.cpp">
+    <ClCompile Include="src\modern_image_array.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_keyboard.cpp">
+    <ClCompile Include="src\modern_keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_log.cpp">
+    <ClCompile Include="src\modern_log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_newrowopts.cpp">
+    <ClCompile Include="src\modern_newrowopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_popup.cpp">
+    <ClCompile Include="src\modern_popup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_row.cpp">
+    <ClCompile Include="src\modern_row.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_rowheight_funcs.cpp">
+    <ClCompile Include="src\modern_rowheight_funcs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_rowtemplateopt.cpp">
+    <ClCompile Include="src\modern_rowtemplateopt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_skinbutton.cpp">
+    <ClCompile Include="src\modern_skinbutton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_skineditor.cpp">
+    <ClCompile Include="src\modern_skineditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_skinengine.cpp">
+    <ClCompile Include="src\modern_skinengine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_skinopt.cpp">
+    <ClCompile Include="src\modern_skinopt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_skinselector.cpp">
+    <ClCompile Include="src\modern_skinselector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_statusbar.cpp">
+    <ClCompile Include="src\modern_statusbar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_statusbar_options.cpp">
+    <ClCompile Include="src\modern_statusbar_options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_sync.cpp">
+    <ClCompile Include="src\modern_sync.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_tbbutton.cpp">
+    <ClCompile Include="src\modern_tbbutton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_toolbar.cpp">
+    <ClCompile Include="src\modern_toolbar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_viewmodebar.cpp">
+    <ClCompile Include="src\modern_viewmodebar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modern_xptheme.cpp">
+    <ClCompile Include="src\modern_xptheme.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_commonheaders.h">
+    <ClInclude Include="src\hdr\modern_commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_skinselector.h">
+    <ClInclude Include="src\hdr\modern_skinselector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_awaymsg.h">
+    <ClInclude Include="src\hdr\modern_awaymsg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_gettextasync.h">
+    <ClInclude Include="src\hdr\modern_gettextasync.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_global_structure.h">
+    <ClInclude Include="src\hdr\modern_global_structure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_cache_funcs.h">
+    <ClInclude Include="src\hdr\modern_cache_funcs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_callproc.h">
+    <ClInclude Include="src\hdr\modern_callproc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_clc.h">
+    <ClInclude Include="src\hdr\modern_clc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_clcpaint.h">
+    <ClInclude Include="src\hdr\modern_clcpaint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_clist.h">
+    <ClInclude Include="src\hdr\modern_clist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_clui.h">
+    <ClInclude Include="src\hdr\modern_clui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_cluiframes.h">
+    <ClInclude Include="src\hdr\modern_cluiframes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_commonprototypes.h">
+    <ClInclude Include="src\hdr\modern_commonprototypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_defsettings.h">
+    <ClInclude Include="src\hdr\modern_defsettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_effectenum.h">
+    <ClInclude Include="src\hdr\modern_effectenum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_image_array.h">
+    <ClInclude Include="src\hdr\modern_image_array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_layered_window_engine.h">
+    <ClInclude Include="src\hdr\modern_layered_window_engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_log.h">
+    <ClInclude Include="src\hdr\modern_log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_popup.h">
+    <ClInclude Include="src\hdr\modern_popup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_row.h">
+    <ClInclude Include="src\hdr\modern_row.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_rowheight_funcs.h">
+    <ClInclude Include="src\hdr\modern_rowheight_funcs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_skinengine.h">
+    <ClInclude Include="src\hdr\modern_skinengine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_skinned_profile.h">
+    <ClInclude Include="src\hdr\modern_skinned_profile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_static_clui.h">
+    <ClInclude Include="src\hdr\modern_static_clui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_static_cluiframes_service.h">
+    <ClInclude Include="src\hdr\modern_static_cluiframes_service.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_statusbar.h">
+    <ClInclude Include="src\hdr\modern_statusbar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_statusmodes.h">
+    <ClInclude Include="src\hdr\modern_statusmodes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_sync.h">
+    <ClInclude Include="src\hdr\modern_sync.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\modern_tstring.h">
+    <ClInclude Include="src\hdr\modern_tstring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\MString.h">
+    <ClInclude Include="src\hdr\MString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="res\1.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\2.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\3.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\4.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\5.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\6.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\7.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\8.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\addgoupp.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\AlwaysVis.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\away.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\back.tga">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\chat.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\Chatchannel.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\dnd.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\hide_avatar.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\invisible.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\listening_to.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\lunch.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\MicroAway.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\MicroChat.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\MicroDnd.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\MicroInvisible.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\MicroLunch.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\MicroNa.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\MicroOccupied.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\MicroOffline.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\MicroPhone.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\NA.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\neo_meta_create.cur">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\neo_meta_default.cur">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\neo_meta_move.cur">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\NeverVis.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\occupied.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\offline.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\phone.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\rate_high.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\rate_low.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\rate_med.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\rate_none.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\reset_view.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\set_view.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\show_avatar.ico">
-      <Filter>Resource Files\res</Filter>
-    </None>
-    <None Include="res\skin.msf">
-      <Filter>Resource Files\res</Filter>
-    </None>
-  </ItemGroup>
-</Project>
+ </Project>
