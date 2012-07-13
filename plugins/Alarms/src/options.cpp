@@ -31,19 +31,19 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault( hwndDlg );
 
-		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 0, (LPARAM)Translate("Sunday"));
-		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 1, (LPARAM)Translate("Monday"));
-		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 2, (LPARAM)Translate("Tuesday"));
-		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 3, (LPARAM)Translate("Wednesday"));
-		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 4, (LPARAM)Translate("Thursday"));
-		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 5, (LPARAM)Translate("Friday"));
-		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 6, (LPARAM)Translate("Saturday"));
+		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 0, (LPARAM)TranslateT("Sunday"));
+		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 1, (LPARAM)TranslateT("Monday"));
+		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 2, (LPARAM)TranslateT("Tuesday"));
+		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 3, (LPARAM)TranslateT("Wednesday"));
+		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 4, (LPARAM)TranslateT("Thursday"));
+		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 5, (LPARAM)TranslateT("Friday"));
+		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_INSERTSTRING, 6, (LPARAM)TranslateT("Saturday"));
 		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_SETCURSEL, 0, 0);
 		{
-			char buff[10];
-			for(int i = 1; i <= 31; i++) {
-				SendDlgItemMessage(hwndDlg, IDC_DAYNUM, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)itoa(i, buff, 10));
-			}
+			TCHAR buff[10];
+			for(int i = 1; i <= 31; i++)
+				SendDlgItemMessage(hwndDlg, IDC_DAYNUM, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)_itot(i, buff, 10));
+			
 			SendDlgItemMessage(hwndDlg, IDC_DAYNUM, CB_SETCURSEL, 0, 0);
 			{
 				HWND hw = GetDlgItem(hwndDlg, IDOK);
