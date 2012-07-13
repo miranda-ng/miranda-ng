@@ -340,9 +340,9 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	bool isGrouping = false;
 //	DWORD today = (DWORD)time(NULL);
 //	today = today - today % 86400;
-	if (protoSettings == NULL) {
+	if (protoSettings == NULL)
 		return;
-	}
+	
 	hRealContact = getRealContact(event->hContact);
 	szRealProto = getProto(hRealContact);
 	szProto = getProto(event->pszProto, event->hContact);
@@ -480,13 +480,13 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 				}
 			} else if (eventData->iType == IEED_EVENT_FILE) {
 				tmpltName[1] = isHistory ? isSent ? "hFileOut" : "hFileIn" : isSent ? "FileOut" : "FileIn";
-				Template *tmplt = tmpm->getTemplate(tmpltName[1]);
+				Template *tmplt = (tmpm == NULL) ? NULL : tmpm->getTemplate(tmpltName[1]);
 				if (tmplt == NULL) {
 					tmpltName[1] = isHistory ? "hFile" : "File";
 				}
 			} else if (eventData->iType == IEED_EVENT_URL) {
 				tmpltName[1] = isHistory ? isSent ? "hURLOut" : "hURLIn" : isSent ? "URLOut" : "URLIn";
-				Template *tmplt = tmpm->getTemplate(tmpltName[1]);
+				Template *tmplt = (tmpm == NULL) ? NULL : tmpm->getTemplate(tmpltName[1]);
 				if (tmplt == NULL) {
 					tmpltName[1] = isHistory ? "hURL" : "URL";
 				}
@@ -495,9 +495,8 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			}
 			/* template-specific formatting */
 			for (int i=0;i<2;i++) {
-				Template *tmplt;
-				if (tmpltName[i] == NULL) continue;
-				tmplt = tmpm->getTemplate(tmpltName[i]);
+				if (tmpltName[i] == NULL || tmpm == NULL) continue;
+				Template *tmplt = tmpm->getTemplate(tmpltName[i]);
 				if (tmplt == NULL) continue;
 				for (Token *token = tmplt->getTokens();token!=NULL;token=token->getNext()) {
 					const char *tokenVal;
