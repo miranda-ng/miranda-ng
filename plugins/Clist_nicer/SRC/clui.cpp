@@ -2082,11 +2082,6 @@ void LoadCLUIModule(void)
 	WNDCLASS wndclass;
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, CluiModulesLoaded);
-	HookEvent(ME_MC_DEFAULTTCHANGED, MetaChanged);
-	HookEvent(ME_MC_SUBCONTACTSCHANGED, MetaChanged);
-
-	InitGroupMenus();
-	LoadExtBkSettingsFromDB();
 
 	wndclass.style = 0;
 	wndclass.lpfnWndProc = EventAreaWndProc;
@@ -2109,11 +2104,20 @@ void LoadCLUIModule(void)
 	LoadExtraIconModule();
 	SFL_RegisterWindowClass();
 
-	PreCreateCLC(pcli->hwndContactList);
 	LoadCLUIFramesModule();
 	CreateServiceFunction("CLN/About", CLN_ShowAbout);
 	CreateServiceFunction(MS_CLUI_SHOWMAINMENU, CLN_ShowMainMenu);
 	CreateServiceFunction(MS_CLUI_SHOWSTATUSMENU, CLN_ShowStatusMenu);
+}
+
+void OnCreateClc()
+{
+	HookEvent(ME_MC_DEFAULTTCHANGED, MetaChanged);
+	HookEvent(ME_MC_SUBCONTACTSCHANGED, MetaChanged);
+
+	InitGroupMenus();
+	LoadExtBkSettingsFromDB();
+	PreCreateCLC(pcli->hwndContactList);
 }
 
 static struct {

@@ -183,6 +183,7 @@ extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
 int  LoadContactListModule(void);
 int  LoadCLCModule(void);
 void LoadCLUIModule( void );
+void OnCreateClc( void );
 
 static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
@@ -339,6 +340,7 @@ LBL_Error:
 	pcli->pfnGetWindowVisibleState = GetWindowVisibleState;
 	pcli->pfnHitTest = HitTest;
 	pcli->pfnLoadContactTree = LoadContactTree;
+	pcli->pfnOnCreateClc = OnCreateClc;
 	pcli->pfnPaintClc = PaintClc;
 	pcli->pfnRebuildEntireList = RebuildEntireList;
 	pcli->pfnRowHitTest = RowHeight::hitTest;
