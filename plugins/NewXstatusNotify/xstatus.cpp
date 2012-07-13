@@ -193,18 +193,19 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 			break;
 	}
 
-
-	_tcscpy(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GSMDF_TCHAR));
-	if (opt.ShowGroup) //add group name to popup title
-	{
-		if (!DBGetContactSettingTString(xsc->hContact, "CList", "Group", &dbv))
-		{
-			_tcscat(ppd.lptzContactName, _T(" ("));
-			_tcscat(ppd.lptzContactName, dbv.ptszVal);
-			_tcscat(ppd.lptzContactName, _T(")"));
+	TCHAR *ptszGroup = NULL, 
+		   *ptszNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GSMDF_TCHAR);
+	if (opt.ShowGroup) { //add group name to popup title
+		if (!DBGetContactSettingTString(xsc->hContact, "CList", "Group", &dbv)) {
+			ptszGroup = NEWTSTR_ALLOCA(dbv.ptszVal);
 			DBFreeVariant(&dbv);
 		}
 	}
+
+	if (ptszGroup)
+		mir_sntprintf(ppd.lptzContactName, SIZEOF(ppd.lptzContactName),_T("%s (%s)"), ptszNick, ptszGroup);
+	else
+		_tcsncpy(ppd.lptzContactName, ptszNick, SIZEOF(ppd.lptzContactName));
 
 	// cut message if needed
 	if (opt.PTruncateMsg && (opt.PMsgLen > 0) && xsc->stzText && (_tcslen(xsc->stzText) > opt.PMsgLen))

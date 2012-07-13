@@ -42,6 +42,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <tchar.h>
+#include <malloc.h>
 
 #include <newpluginapi.h>
 #include <m_system.h>

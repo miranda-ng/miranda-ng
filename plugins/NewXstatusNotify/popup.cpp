@@ -80,38 +80,35 @@ void ReceivedAwayMessage(HWND hWnd, LPARAM lParam, PLUGINDATA * pdp)
 void PopupAction(HWND hWnd, BYTE action)
 {
 	HANDLE hContact = PUGetContact(hWnd);
-	if (hContact && hContact != INVALID_HANDLE_VALUE)
-	{
-		switch (action)
-		{
-			case PCA_OPENMESSAGEWND:
-			{
-				CallServiceSync(ServiceExists("SRMsg/LaunchMessageWindow") ? "SRMsg/LaunchMessageWindow" : MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
-				break;
-			}
-			case PCA_OPENMENU:
+	if (hContact && hContact != INVALID_HANDLE_VALUE) {
+		switch (action) {
+		case PCA_OPENMESSAGEWND:
+			CallServiceSync(ServiceExists("SRMsg/LaunchMessageWindow") ? "SRMsg/LaunchMessageWindow" : MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+			break;
+
+		case PCA_OPENMENU:
 			{
 				POINT pt = {0};
 				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
 				GetCursorPos(&pt);
 				TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hWnd, NULL);
 				DestroyMenu(hMenu);
-				return;
 			}
-			case PCA_OPENDETAILS:
-			{
-				CallServiceSync(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
-				break;
-			}
-			case PCA_OPENHISTORY:
-			{
-				CallServiceSync(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0);
-				break;
-			}
-			case PCA_CLOSEPOPUP:
-				break;
-			case PCA_DONOTHING:
-				return;
+			return;
+
+		case PCA_OPENDETAILS:
+			CallServiceSync(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+			break;
+
+		case PCA_OPENHISTORY:
+			CallServiceSync(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0);
+			break;
+
+		case PCA_CLOSEPOPUP:
+			break;
+
+		case PCA_DONOTHING:
+			return;
 		}
 
 		PUDeletePopUp(hWnd);
@@ -126,29 +123,26 @@ INT_PTR CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	{
 		case WM_MEASUREITEM: //Needed by the contact's context menu
 			return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+
 		case WM_DRAWITEM: //Needed by the contact's context menu
 			return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+
 		case WM_COMMAND:
-		{
 			//This one returns TRUE if it processed the menu command, and FALSE if it did not process it.
 			if (CallServiceSync(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)PUGetContact(hwnd)))
 				break;
 
 			PopupAction(hwnd, opt.LeftClickAction);
 			break;
-		}
+
 		case WM_CONTEXTMENU:
-		{
 			PopupAction(hwnd, opt.RightClickAction);
 			break;
-		}
+
 		case UM_FREEPLUGINDATA:
-		{
-			PLUGINDATA *pdp = (PLUGINDATA *)PUGetPluginData(hwnd);
-			if (pdp != NULL)
-			{
-				if (pdp->hAwayMsgHook != NULL)
-				{
+			pdp = (PLUGINDATA *)PUGetPluginData(hwnd);
+			if (pdp != NULL) {
+				if (pdp->hAwayMsgHook != NULL) {
 					UnhookEvent(pdp->hAwayMsgHook);
 					pdp->hAwayMsgHook = NULL;
 				}
@@ -156,15 +150,12 @@ INT_PTR CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 				mir_free(pdp);
 			}
 			return FALSE;
-		}
+
 		case UM_INITPOPUP:
-		{
 			pdp = (PLUGINDATA *)PUGetPluginData(hwnd);
-			if (pdp != NULL)
-			{
+			if (pdp != NULL) {
 				char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)PUGetContact(hwnd), 0);
-				if (szProto && opt.ReadAwayMsg && StatusHasAwayMessage(szProto, pdp->newStatus))
-				{
+				if (szProto && opt.ReadAwayMsg && StatusHasAwayMessage(szProto, pdp->newStatus)) {
 					WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 					if (myStatus != ID_STATUS_INVISIBLE)
 						QueryAwayMessage(hwnd, pdp);
@@ -172,13 +163,12 @@ INT_PTR CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 			}
 
 			return FALSE;
-		}
+
 		case WM_AWAYMSG: //We're here because ME_PROTO_ACK has been hooked to this window (too!).
-		{
 			pdp = (PLUGINDATA *)PUGetPluginData(hwnd);
-			if (pdp != NULL) ReceivedAwayMessage(hwnd, lParam, pdp);
+			if (pdp != NULL)
+				ReceivedAwayMessage(hwnd, lParam, pdp);
 			return FALSE;
-		}
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
