@@ -37,7 +37,6 @@ static int pceCount = 0;
 
 static UINT_PTR releaseTtbTimerId = 0;
 
-static HANDLE hPrebuildProfilesMenu = NULL;
 static HANDLE hTBModuleLoadedHook;
 static HANDLE hLoadAndSetProfileService;
 static HANDLE hMessageHook = NULL;
@@ -382,7 +381,7 @@ int LoadProfileModule()
 int InitProfileModule()
 {
 	hTTBModuleLoadedHook = HookEvent(ME_TTB_MODULELOADED, CreateTopToolbarButtons);
-	hPrebuildProfilesMenu = HookEvent( ME_CLIST_PREBUILDSTATUSMENU,  CreateMainMenuItems);
+	HookEvent( ME_CLIST_PREBUILDSTATUSMENU,  CreateMainMenuItems);
 
 	CreateMainMenuItems(0,0);
 	RegisterHotKeys();
@@ -400,12 +399,9 @@ int DeinitProfilesModule()
 		free( pce );
 	}
 
-	UnhookEvent(hPrebuildProfilesMenu);
 	UnregisterHotKeys();
 	RemoveTopToolbarButtons();
-	UnhookEvent(hTTBModuleLoadedHook);
-	UnhookEvent(hTBModuleLoadedHook);
+
 	DestroyServiceFunction(hLoadAndSetProfileService);
-	
 	return 0;
 }

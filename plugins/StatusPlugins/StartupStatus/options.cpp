@@ -41,7 +41,7 @@ static TSettingsList* GetCurrentProtoSettings()
 	int count;
 	PROTOACCOUNT** protos;
 	ProtoEnumAccounts( &count, &protos );
-	
+
 	TSettingsList* result = new TSettingsList( count, CompareSettings );
 	if ( result == NULL )
 		return NULL;
@@ -95,7 +95,7 @@ static char* GetCMDLArguments(TSettingsList& protoSettings)
 			cmdl = ( char* )realloc(cmdl, strlen(cmdl) + strlen(protoSettings[i+1].szName) + strlen(GetStatusDesc(protoSettings[i+1].status)) + 4);
 			pnt = cmdl + strlen(cmdl);
 	}	}
-		
+
 	if ( DBGetContactSettingByte( NULL, MODULENAME, SETTING_SHOWDIALOG, FALSE ) == TRUE ) {
 		*pnt++ = ' ';
 		*pnt++ = '\0';
@@ -105,7 +105,7 @@ static char* GetCMDLArguments(TSettingsList& protoSettings)
 		pnt += 11;
 		*pnt = '\0';
 	}
-	
+
 	return cmdl;
 }
 
@@ -131,7 +131,7 @@ static char* GetCMDL(TSettingsList& protoSettings)
 
 static char* GetLinkDescription(TSettingsList& protoSettings)
 {
-	if ( protoSettings.getCount() == 0 )  
+	if ( protoSettings.getCount() == 0 )
 		return NULL;
 
 	char *pnt, *desc;
@@ -151,7 +151,7 @@ static char* GetLinkDescription(TSettingsList& protoSettings)
 			status = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)protoSettings[i].status, (LPARAM)0);
 		if (status == NULL)
 			status = "<unknown>";
-	
+
 		desc = ( char* )realloc(desc, strlen(desc) + strlen(szName) + strlen(status) + 4);
 		pnt = desc + strlen(desc);
 		*pnt++ = '\r';
@@ -161,11 +161,11 @@ static char* GetLinkDescription(TSettingsList& protoSettings)
 		*pnt++ = ' ';
 		strcpy(pnt, status);
 	}
-	
+
 	return desc;
 }
 
-HRESULT CreateLink(TSettingsList& protoSettings) 
+HRESULT CreateLink(TSettingsList& protoSettings)
 {
 	HRESULT hres;
 	IShellLink* psl;
@@ -186,23 +186,23 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 		TCHAR path[MAX_PATH];
 		GetModuleFileName(NULL, path, SIZEOF(path));
 		psl->SetPath(path);
-		
+
 			TCHAR* p = mir_a2t( desc );
 			psl->SetDescription( p );
 			mir_free( p );
 			p = mir_a2t( args );
 			psl->SetArguments( p );
 			mir_free( p );
-		
+
 		// Query IShellLink for the IPersistFile interface for saving the
 		// shortcut in persistent storage.
 		IPersistFile* ppf;
 		hres = psl->QueryInterface(IID_IPersistFile, ( void** )&ppf);
 
 		if (SUCCEEDED(hres)) {
-			
+
 				WCHAR* wsz = savePath;
-				
+
 			// Save the link by calling IPersistFile::Save.
 			hres = ppf->Save(wsz, TRUE);
 			ppf->Release();
@@ -216,9 +216,9 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 }
 
 INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
-{	
+{
 	static TSettingsList* optionsProtoSettings;
-	
+
 	switch(msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -254,7 +254,7 @@ INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 		case IDC_SHORTCUT:
 			CreateLink(*optionsProtoSettings);
 			break;
-					
+
 		case IDC_OK:
 			DestroyWindow(hwndDlg);
 			break;
@@ -264,12 +264,12 @@ INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 	case WM_CLOSE:
 		DestroyWindow(hwndDlg);
 		break;
-	
+
 	case WM_DESTROY:
 		delete optionsProtoSettings; optionsProtoSettings = 0;
 		break;
 	}
-	
+
 	return 0;
 }
 
@@ -331,7 +331,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 		bInitDone = TRUE;
 		break;
 
-	case WM_TIMER: 
+	case WM_TIMER:
 		if ( !IsDlgButtonChecked(hwndDlg, IDC_SETWINLOCATION) && !IsDlgButtonChecked(hwndDlg, IDC_SETWINSIZE)) {
 			SetDlgItemTextA(hwndDlg, IDC_CURWINSIZE, "");
 			SetDlgItemTextA(hwndDlg, IDC_CURWINLOC, "");
@@ -339,8 +339,8 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 		}
 		else {
 			TCHAR text[128];
-			mir_sntprintf(text, SIZEOF(text), TranslateT("size: %d x %d"), 
-				DBGetContactSettingDword(NULL, MODULE_CLIST, SETTING_WIDTH, 0), 
+			mir_sntprintf(text, SIZEOF(text), TranslateT("size: %d x %d"),
+				DBGetContactSettingDword(NULL, MODULE_CLIST, SETTING_WIDTH, 0),
 				DBGetContactSettingDword(NULL, MODULE_CLIST, SETTING_HEIGHT, 0));
 			SetDlgItemText(hwndDlg, IDC_CURWINSIZE, text);
 
@@ -350,7 +350,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 			SetDlgItemText(hwndDlg, IDC_CURWINLOC, text);
 	   }
 		break;
-		
+
 	case UM_REINITPROFILES:
 		// creates profile combo box according to 'dat'
 		SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_RESETCONTENT, 0, 0);
@@ -368,7 +368,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 			SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_SETCURSEL, (WPARAM)defProfile, 0);
 		}
 		break;
-	
+
 	case UM_REINITDOCKED:
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SETDOCKED), DBGetContactSettingByte(NULL, MODULE_CLIST, SETTING_TOOLWINDOW, 1));
 		if (!IsWindowEnabled(GetDlgItem(hwndDlg,IDC_SETDOCKED)))
@@ -403,7 +403,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 	case UM_REINITWINSIZE:
 		EnableWindow(GetDlgItem(hwndDlg, IDC_WIDTH), IsDlgButtonChecked(hwndDlg, IDC_SETWINSIZE));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_HEIGHT), !DBGetContactSettingByte(NULL, MODULE_CLUI, SETTING_AUTOSIZE, 0)&&IsDlgButtonChecked(hwndDlg, IDC_SETWINSIZE));
-		
+
 	case WM_COMMAND:
 		if ( HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == LBN_SELCHANGE || HIWORD(wParam) == CBN_SELCHANGE || HIWORD(wParam) == EN_CHANGE )
 			if ( bInitDone )
@@ -434,7 +434,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 			break;
 		case IDC_SHOWCMDL:
 			{
-				int defProfile = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, 
+				int defProfile = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
 
 				TSettingsList* ps = GetCurrentProtoSettings();
@@ -450,7 +450,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 			}
 		}
 		break;
-		
+
 	case WM_SHOWWINDOW:
 		if (wParam == FALSE)
 			break;
@@ -462,17 +462,17 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 		SendMessage(hwndDlg, UM_REINITWINSIZE, 0, 0);
 		bInitDone = TRUE;
 		break;
-			
+
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			int val;
-			
+
 			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_SETPROFILE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE));
 			if (IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE))
 				DBWriteContactSettingDword(NULL, MODULENAME, SETTING_SETPROFILEDELAY, GetDlgItemInt(hwndDlg, IDC_SETPROFILEDELAY, NULL, FALSE));
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE) || IsDlgButtonChecked(hwndDlg, IDC_SHOWDIALOG)) {
-				val = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, 
+				val = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
 				DBWriteContactSettingWord(NULL, MODULENAME, SETTING_DEFAULTPROFILE, (WORD)val);
 			}
@@ -483,13 +483,13 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 
 			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_SETWINSTATE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SETWINSTATE));
 			if (IsDlgButtonChecked(hwndDlg, IDC_SETWINSTATE)) {
-				val = (int)SendDlgItemMessage(hwndDlg, IDC_WINSTATE, CB_GETITEMDATA, 
+				val = (int)SendDlgItemMessage(hwndDlg, IDC_WINSTATE, CB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_WINSTATE, CB_GETCURSEL, 0, 0), 0);
 				DBWriteContactSettingByte(NULL, MODULENAME, SETTING_WINSTATE, (BYTE)val);
 			}
 			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_SETDOCKED, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SETDOCKED));
 			if (IsDlgButtonChecked(hwndDlg, IDC_SETDOCKED)) {
-				val = (int)SendDlgItemMessage(hwndDlg, IDC_DOCKED, CB_GETITEMDATA, 
+				val = (int)SendDlgItemMessage(hwndDlg, IDC_DOCKED, CB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_DOCKED, CB_GETCURSEL, 0, 0), 0);
 				DBWriteContactSettingByte(NULL, MODULENAME, SETTING_DOCKED, (BYTE)val);
 			}
@@ -509,7 +509,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 		}
 		break;
 	}
-	
+
 	return FALSE;
 }
 
@@ -517,11 +517,11 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 
 static OBJLIST<PROFILEOPTIONS> arProfiles(5);
 
-static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam) 
+static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	static BOOL bNeedRebuildMenu = FALSE;
 	static BOOL bInitDone = FALSE;
-	
+
 	switch(msg) {
 	case WM_INITDIALOG:
 		bInitDone = false;
@@ -545,7 +545,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 					/* create an empty profile */
 					if (i == defProfile)
 						ppo->szName = mir_strdup(Translate("default"));
-					else 
+					else
 						ppo->szName = mir_strdup(Translate("unknown"));
 				}
 				else {
@@ -569,7 +569,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				}
 				arProfiles.insert(ppo);
 			}
-			if (hTTBModuleLoadedHook)
+			if (hTTBModuleLoadedHook == NULL)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CREATETTB), FALSE);
 
 			SendMessage(hwndDlg, UM_REINITPROFILES, 0, 0);
@@ -578,7 +578,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		}
 		break;
 
-	case UM_REINITPROFILES: 
+	case UM_REINITPROFILES:
 		bInitDone = false;
 		{
 			// creates profile combo box according to 'dat'
@@ -592,10 +592,10 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		}
 		bInitDone = true;
 		break;
-	
+
 	case UM_SETPROFILE:
 		{
-			int sel = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, 
+			int sel = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA,
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
 			CheckDlgButton(hwndDlg, IDC_CREATETTB, arProfiles[sel].createTtb?BST_CHECKED:BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_SHOWDIALOG, arProfiles[sel].showDialog?BST_CHECKED:BST_UNCHECKED);
@@ -615,7 +615,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 			}
 			SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_SETCURSEL, 0, 0);
 			SendMessage(hwndDlg, UM_SETPROTOCOL, 0, 0);
-		}		
+		}
 		break;
 
 	case UM_SETPROTOCOL:
@@ -664,7 +664,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				if (ps->szMsg != NULL)
 					SetDlgItemTextA(hwndDlg, IDC_STATUSMSG, ps->szMsg);
 
-				bStatusMsg = ( (((CallProtoService(ps->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND&~PF1_INDIVMODEMSG)) && 
+				bStatusMsg = ( (((CallProtoService(ps->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND&~PF1_INDIVMODEMSG)) &&
 					(CallProtoService(ps->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(ps->status))) || (ps->status == ID_STATUS_CURRENT) || (ps->status == ID_STATUS_LAST));
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MIRANDAMSG), bStatusMsg);
@@ -673,7 +673,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), bStatusMsg&&IsDlgButtonChecked(hwndDlg, IDC_CUSTOMMSG));
 		}
 		break;
-		
+
 	case UM_ADDPROFILE:
 		{
 			char *szName = (char *)lParam;
@@ -699,7 +699,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		}
 
 		arProfiles.remove(i);
-		
+
 		int defProfile;
 		GetProfileCount((WPARAM)&defProfile, 0);
 		if (i == defProfile) {
@@ -721,7 +721,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				int idx = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETCURSEL, 0, 0);
 				if ( idx != -1 ) {
 					TSSSetting* ps = ( TSSSetting* )SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA, idx, 0);
-					ps->status = (int)SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_GETITEMDATA, 
+					ps->status = (int)SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_GETITEMDATA,
 						SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_GETCURSEL, 0, 0), 0);
 				}
 				SendMessage(hwndDlg, UM_SETSTATUSMSG, 0, 0);
@@ -734,7 +734,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 
 			SendMessage(hwndDlg, UM_SETPROFILE, 0, 0);
 			break;
-			
+
 		case IDC_PROTOCOL:
 			if (HIWORD(wParam) != LBN_SELCHANGE)
 				break;
@@ -746,7 +746,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		case IDC_CUSTOMMSG:
 			{
 				int len;
-				TSSSetting* ps = ( TSSSetting* )SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA, 
+				TSSSetting* ps = ( TSSSetting* )SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETCURSEL, 0, 0), 0);
 				if (ps->szMsg != NULL)
 					free(ps->szMsg);
@@ -756,7 +756,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 					len = SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
 					ps->szMsg = (char *)malloc(len+1);
 					memset(ps->szMsg, '\0', len+1);
-					SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXT, (WPARAM)len+1, (LPARAM)ps->szMsg);				
+					SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXT, (WPARAM)len+1, (LPARAM)ps->szMsg);
 				}
 				SendMessage(hwndDlg, UM_SETSTATUSMSG, 0, 0);
 			}
@@ -766,7 +766,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 			if (HIWORD(wParam) == EN_CHANGE) {
 				// update the status message in memory, this is done on each character tick, not nice
 				// but it works
-				TSSSetting* ps = ( TSSSetting* )SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA, 
+				TSSSetting* ps = ( TSSSetting* )SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_GETCURSEL, 0, 0), 0);
 				if (ps->szMsg != NULL) {
 					if ( *ps->szMsg )
@@ -776,10 +776,10 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				int len = SendDlgItemMessageA(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
 				ps->szMsg = (char *)malloc(len+1);
 				memset(ps->szMsg, '\0', len+1);
-				SendDlgItemMessageA(hwndDlg, IDC_STATUSMSG, WM_GETTEXT, (WPARAM)len+1, (LPARAM)ps->szMsg);				
+				SendDlgItemMessageA(hwndDlg, IDC_STATUSMSG, WM_GETTEXT, (WPARAM)len+1, (LPARAM)ps->szMsg);
 			}
 			break;
-		
+
 		case IDC_CREATEMMI:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_INSUBMENU), IsDlgButtonChecked(hwndDlg, IDC_CREATEMMI));
 		case IDC_INSUBMENU:
@@ -801,12 +801,12 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 
 		case IDC_HOTKEY:
 			if (HIWORD(wParam) == EN_CHANGE) {
-				int sel = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, 
+				int sel = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
 				arProfiles[sel].hotKey = (WORD)SendDlgItemMessage(hwndDlg, IDC_HOTKEY, HKM_GETHOTKEY, 0, 0);
 			}
 			break;
-		
+
 		case IDC_ADDPROFILE:
 			// add a profile
 			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDPROFILE), hwndDlg, addProfileDlgProc, (LPARAM)hwndDlg);
@@ -815,7 +815,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 
 		case IDC_DELPROFILE:
 			{
-				int sel = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, 
+				int sel = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
 				SendMessage(hwndDlg, UM_DELPROFILE, (WPARAM)sel, 0);
 			}
@@ -831,8 +831,8 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			int oldCount, i, j;
 			char setting[128];
-			
-			oldCount = DBGetContactSettingWord(NULL, MODULENAME, SETTING_PROFILECOUNT, 0);		
+
+			oldCount = DBGetContactSettingWord(NULL, MODULENAME, SETTING_PROFILECOUNT, 0);
 			for (i=0;i<oldCount;i++) {
 				mir_snprintf(setting, sizeof(setting), "%d_", i);
 				ClearDatabase(setting);
@@ -862,7 +862,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				// Rebuild status menu
 				CLIST_INTERFACE* pcli = ( CLIST_INTERFACE* )CallService( MS_CLIST_RETRIEVE_INTERFACE, 0, 0 );
 				if ( pcli && pcli->version > 4 )
-					pcli->pfnReloadProtoMenus();				
+					pcli->pfnReloadProtoMenus();
 			}
 			LoadMainOptions();
 		}
@@ -872,14 +872,14 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		arProfiles.destroy();
 		break;
 	}
-	
+
 	return 0;
 }
 
 INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	static HWND hwndParent;
-	
+
 	switch(msg) {
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
@@ -893,7 +893,7 @@ INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lP
 				GetDlgItemTextA(hwndDlg, IDC_PROFILENAME, profileName, sizeof(profileName));
 				SendMessage(hwndParent, UM_ADDPROFILE, 0, (LPARAM)profileName);
 				// done and exit
-				DestroyWindow(hwndDlg);	
+				DestroyWindow(hwndDlg);
 			}
 			else if (LOWORD(wParam) == IDC_CANCEL) {
 				DestroyWindow(hwndDlg);
@@ -912,7 +912,7 @@ INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lP
 }
 
 int OptionsInit(WPARAM wparam,LPARAM lparam)
-{	
+{
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize      = sizeof(odp);
 	odp.hInstance   = hInst;
@@ -968,7 +968,7 @@ static int ClearDatabase(char* filter)
 	dbces.lParam = (LPARAM)&settingCount;
 	dbces.pfnEnumProc = CountSettings;
 	CallService(MS_DB_CONTACT_ENUMSETTINGS,(WPARAM)NULL,(LPARAM)&dbces);
-	
+
 	settings = ( char** )malloc(settingCount*sizeof(char*));
 	dbces.lParam = (LPARAM)&settings;
 	dbces.pfnEnumProc = DeleteSetting;
@@ -998,7 +998,7 @@ static int DeleteSetting(const char *szSetting,LPARAM lParam)
 	settings[settingIndex] = ( char* )malloc(strlen(szSetting)+1);
 	strcpy(settings[settingIndex], szSetting);
 	settingIndex += 1;
-	
+
 	return 0;
 }
 

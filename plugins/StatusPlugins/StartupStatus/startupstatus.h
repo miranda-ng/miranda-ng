@@ -159,8 +159,8 @@ INT_PTR GetProfileCount(WPARAM wParam, LPARAM lParam);
 INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam);
 
 extern HANDLE hTTBModuleLoadedHook;
-int RemoveTopToolbarButtons();
-int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam);
+void RemoveTopToolbarButtons();
+int  CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam);
 void RegisterButtons();
 
 int LoadProfileModule();

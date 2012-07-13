@@ -27,34 +27,20 @@
 
 static HANDLE hTtbDown = 0, hTtbUp = 0;
 
-static HANDLE* ttbButtons = NULL;
-static int ttbButtonCount = 0;
+static LIST<void> ttbButtons(1);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int RemoveTopToolbarButtons()
+void RemoveTopToolbarButtons()
 {
-	int profileCount, orgButtonCount;
-	
-	profileCount = CallService(MS_SS_GETPROFILECOUNT, 0, 0);
-	orgButtonCount = ttbButtonCount;
-	for (int i=0; i < orgButtonCount; i++)
-		if (CallService(MS_TTB_REMOVEBUTTON, (WPARAM)ttbButtons[i], 0) != 1)
-			ttbButtonCount -= 1;
-
-	if (ttbButtonCount == 0) {
-		free(ttbButtons);
-		ttbButtons = NULL;
-	}
-	else ttbButtons = ( HANDLE* )realloc(ttbButtons, profileCount*sizeof(HANDLE));
-
-	return 0;
+	for (int i=ttbButtons.getCount()-1; i >= 0; i--)
+		CallService(MS_TTB_REMOVEBUTTON, (WPARAM)ttbButtons[i], 0);
+	ttbButtons.destroy();
 }
 
 int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 {
 	int profileCount = CallService(MS_SS_GETPROFILECOUNT, 0, 0);
-	ttbButtons = ( HANDLE* )realloc(ttbButtons, profileCount*sizeof(HANDLE));
 
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
@@ -71,26 +57,15 @@ int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 		if (DBGetContactSetting(NULL, MODULENAME, setting, &dbv))
 			continue;
 
-		char profileName[128];
-		strncpy(profileName, dbv.pszVal, sizeof(profileName)-1);
 		ttb.hIconHandleDn = hTtbDown;
 		ttb.hIconHandleUp = hTtbUp;
 		ttb.wParamDown = ttb.wParamUp = i;
-		ttb.name = ttb.pszTooltipUp = LPGEN(profileName);
+		ttb.name = ttb.pszTooltipUp = dbv.pszVal;
 		HANDLE ttbAddResult = TopToolbar_AddButton(&ttb);
-		if (ttbAddResult) {
-			ttbButtons[ttbButtonCount] = ttbAddResult;
-			DBFreeVariant(&dbv);
-			ttbButtonCount += 1;
-		}
+		if (ttbAddResult)
+			ttbButtons.insert(ttbAddResult);
+		DBFreeVariant(&dbv);
 	}
-	if (ttbButtonCount > 0)
-		ttbButtons = ( HANDLE* )realloc(ttbButtons, ttbButtonCount*sizeof(HANDLE));
-	else {
-		free(ttbButtons);
-		ttbButtons = NULL;
-	}
-
 	return 0;
 }
 
