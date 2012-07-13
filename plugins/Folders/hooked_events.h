@@ -24,13 +24,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 #include "services.h"
 
-extern HANDLE hModulesLoaded;
 extern HANDLE hOptionsInitialize;
 
 int UnhookEvents();
 int HookEvents();
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
 int OnOptionsInitialize(WPARAM wParam, LPARAM lParam);
 
 #endif

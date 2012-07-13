@@ -327,22 +327,6 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	g_iButtonsCount=DBGetContactSettingByte(NULL, PLGNAME,"ButtonsCount", 0);
 	g_bQuickMenu=DBGetContactSettingByte(NULL, PLGNAME,"QuickMenu", 1);
 
-	if(ServiceExists(MS_UPDATE_REGISTER)) {
-		char buffer[1024];
-		Update update = {0};
-		update.cbSize = sizeof(Update);
-		update.szComponentName = pluginInfo.shortName;
-		update.pbVersion = (BYTE *) CreateVersionString(pluginInfo.version, buffer);
-		update.cpbVersion = (int)strlen((char *) update.pbVersion);
-		//update.szUpdateURL = UPDATER_AUTOREGISTER;
-		update.szBetaVersionURL = QMESSAGES_VERSION_URL;
-		update.szBetaUpdateURL = QMESSAGES_UPDATE_URL;
-		update.pbBetaVersionPrefix = (BYTE *) QMESSAGES_VERSION_PREFIX;
-		update.cpbBetaVersionPrefix = (int)strlen(QMESSAGES_VERSION_PREFIX);
-		update.szBetaChangelogURL=QMESSAGES_CHAGELOG_URL;
-		CallService(MS_UPDATE_REGISTER, 0, (LPARAM) &update);
-		}
-
 	hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(IDI_QICON));
 
 	InitButtonsList();

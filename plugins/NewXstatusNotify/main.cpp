@@ -1187,28 +1187,6 @@ void InitStatusList()
 	StatusList[index].colorText = DBGetContactSettingDword(NULL, MODULE, "40081tx", COLOR_TX_DEFAULT);
 }
 
-void InitUpdaterSupport()
-{
-#ifndef _WIN64
-	if (ServiceExists(MS_UPDATE_REGISTER))
-	{
-		Update update = {0};
-		char szVersion[16];
-
-		update.cbSize = sizeof(Update);
-		update.szComponentName = pluginInfoEx.shortName;
-		update.pbVersion = (BYTE *)CreateVersionString(pluginInfoEx.version, szVersion);
-		update.cpbVersion = strlen((char *)update.pbVersion);
-		update.szUpdateURL = "http://miranda-easy.net/addons/updater/nxsn-ym.zip";
-		update.szVersionURL = "http://miranda-easy.net/addons/updater/nxsn_version.txt";
-		update.pbVersionPrefix = (BYTE *)"NewXstatusNotify YM ";
-		update.cpbVersionPrefix = strlen((char *)update.pbVersionPrefix);
-
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	}
-#endif
-}
-
 int ProtoAck(WPARAM wParam,LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
@@ -1340,7 +1318,6 @@ int InitTopToolbar(WPARAM, LPARAM)
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	InitUpdaterSupport();
 	InitMainMenuItem();
 
 	HookEvent(ME_USERINFO_INITIALISE, UserInfoInitialise);

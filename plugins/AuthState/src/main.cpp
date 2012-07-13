@@ -270,33 +270,6 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hOptInitialise = HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 	if (bContactMenuItem) hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 
-	// Updater support
-	if (ServiceExists(MS_UPDATE_REGISTER)) {
-		Update update = {0};
-		char szVersion[16];
-
-		update.cbSize = sizeof(Update);
-
-		update.szComponentName = pluginInfo.shortName;
-		update.pbVersion = (BYTE *)CreateVersionString(pluginInfo.version, szVersion);
-		update.cpbVersion = lstrlenA((char *)update.pbVersion);
-
-		update.szUpdateURL = UPDATER_AUTOREGISTER;
-
-		// these are the three lines that matter - the archive, the page containing the version string, and the text (or data)
-		// before the version that we use to locate it on the page
-		// (note that if the update URL and the version URL point to standard file listing entries, the backend xml
-		// data will be used to check for updates rather than the actual web page - this is not true for beta urls)
-		update.szBetaUpdateURL  = "http://thief.miranda.im/authstate.zip";
-		update.szBetaVersionURL = "http://thief.miranda.im/updater/authstate_version.txt";
-		update.szBetaChangelogURL = "http://thief.miranda.im";
-		update.pbBetaVersionPrefix = (BYTE *)"AuthState ";
-
-		update.cpbBetaVersionPrefix = lstrlenA((char *)update.pbBetaVersionPrefix);
-
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	}
-
 	return 0;
 }
 

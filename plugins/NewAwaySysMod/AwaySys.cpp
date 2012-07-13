@@ -970,19 +970,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 			CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 		}
 	}
-// updater plugin support
-	Update update = {0};
-	char szVersion[16];
-	update.cbSize = sizeof(Update);
-	update.szComponentName = pluginInfo.shortName;
-	update.pbVersion = (BYTE*)CreateVersionString(my_make_version(PRODUCTVER), szVersion);
-	update.cpbVersion = strlen((char*)update.pbVersion);
-	update.szUpdateURL = "http://myied.org/packs/NASW.zip";
-	update.szVersionURL = "http://myied.org/packs/NAS/updaterinfo.php";
-	update.pbVersionPrefix = (BYTE*)"New Away System Mod";
-	update.cpbVersionPrefix = strlen((char*)update.pbVersionPrefix);
-	CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	
+
 	//NightFox
 	HookEvent(ME_MODERNOPT_INITIALIZE, ModernOptInitialise);	
 	

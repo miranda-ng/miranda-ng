@@ -1258,33 +1258,6 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_MSG_GETWINDOWAPI))
 		message_window_api_enabled = TRUE;
 
-	if (ServiceExists(MS_UPDATE_REGISTER)) {
-		// register with updater
-		Update update = {0};
-		char szVersion[16];
-
-		update.cbSize = sizeof(Update);
-
-		update.szComponentName = pluginInfo.shortName;
-		update.pbVersion = (BYTE *)CreateVersionString(pluginInfo.version, szVersion);
-		update.cpbVersion = (int)strlen((char *)update.pbVersion);
-		update.szBetaChangelogURL = "https://server.scottellis.com.au/wsvn/mim_plugs/metacontacts/?op=log&rev=0&sc=0&isdir=1";
-
-		update.szUpdateURL = UPDATER_AUTOREGISTER;
-		
-		// these are the three lines that matter - the archive, the page containing the version string, and the text (or data) 
-		// before the version that we use to locate it on the page
-		// (note that if the update URL and the version URL point to standard file listing entries, the backend xml
-		// data will be used to check for updates rather than the actual web page - this is not true for beta urls)
-		update.szBetaUpdateURL = "http://www.scottellis.com.au/miranda_plugins/MetaContacts.zip";
-		update.szBetaVersionURL = "http://www.scottellis.com.au/miranda_plugins/ver_MetaContacts.html";
-		update.pbBetaVersionPrefix = (BYTE *)"MetaContacts Plugin, version ";
-		
-		update.cpbBetaVersionPrefix = (int)strlen((char *)update.pbBetaVersionPrefix);
-
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	}
-
 	// disable group hack for older nicer versions without the fix
 	if (ServiceExists(MS_CLUI_GETVERSION)) {
 		char *version = (char *)CallService(MS_CLUI_GETVERSION, 0, 0);

@@ -207,30 +207,6 @@ namespace
 	{
 		CHTTPSession::Init();
 
-		if(ServiceExists(MS_UPDATE_REGISTER)) 
-		{
-			Update update = {0};
-			char szVersion[16];
-
-			update.szComponentName = Global_pluginInfo.shortName;
-			update.szVersionURL = "http://addons.miranda-im.org/details.php?action=viewfile&id=4021";
-			update.pbVersionPrefix = (BYTE *)"<span class=\"fileNameHeader\">Quotes ";
-			update.cpbVersionPrefix = (int)strlen((char *)update.pbVersionPrefix);
-			update.szUpdateURL = "http://addons.miranda-im.org/feed.php?dlfile=4021";
-
-			update.szBetaVersionURL = NULL;
-			update.pbBetaVersionPrefix = NULL;
-			update.cpbBetaVersionPrefix = 0;
-			update.szBetaUpdateURL = NULL;
-
-			update.pbVersion = (BYTE*)CreateVersionString(Global_pluginInfo.version,szVersion);
-			update.cpbVersion = (int)strlen((char *)update.pbVersion);
-
-			update.szBetaChangelogURL = NULL;
-
-			CallService(MS_UPDATE_REGISTER,0,(WPARAM)&update);
-		}
-
 		HANDLE h = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD,QuotesEventFunc_onExtraImageListRebuild);
 		g_ahEvents.push_back(h);
 // 		QuotesEventFunc_onExtraImageListRebuild(0,0);

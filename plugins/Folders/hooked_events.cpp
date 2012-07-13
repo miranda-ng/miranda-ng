@@ -32,38 +32,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 #define FOLDERS_VERSION_PREFIX "Custom profile folders version "
 
-HANDLE hModulesLoaded;
 HANDLE hOptionsInitialize;
 
 int HookEvents()
 {
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OnOptionsInitialize);
 	return 0;
 }
 
 int UnhookEvents()
 {
-	UnhookEvent(hModulesLoaded);
 	UnhookEvent(hOptionsInitialize);
-	return 0;
-}
-
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
-{
-	char buffer[1024];
-	Update update = {0};
-	update.cbSize = sizeof(Update);
-	update.szComponentName = __PLUGIN_DISPLAY_NAME;
-	update.pbVersion = (BYTE *) CreateVersionString(VERSION, buffer);
-	update.cpbVersion = (int)strlen((char *) update.pbVersion);
-	update.szUpdateURL = UPDATER_AUTOREGISTER;
-	update.szBetaVersionURL = FOLDERS_VERSION_URL;
-	update.szBetaUpdateURL = FOLDERS_UPDATE_URL;
-	update.pbBetaVersionPrefix = (BYTE *) FOLDERS_VERSION_PREFIX;
-	update.cpbBetaVersionPrefix = (int)strlen(FOLDERS_VERSION_PREFIX);
-	CallService(MS_UPDATE_REGISTER, 0, (LPARAM) &update);
-	
 	return 0;
 }
 

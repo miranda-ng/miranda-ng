@@ -91,32 +91,6 @@ static int protoUninit(PROTO_INTERFACE* proto)
 	return EXIT_SUCCESS;
 }
 
-int OnModulesLoaded(WPARAM,LPARAM)
-{
-	if ( ServiceExists( MS_UPDATE_REGISTER ))
-	{
-		Update upd = {sizeof(upd)};
-		char curr_version[30];
-
-		upd.szComponentName = pluginInfo.shortName;
-		upd.szUpdateURL = UPDATER_AUTOREGISTER;
-		upd.szBetaVersionURL     = "http://robyer.info/miranda/omegle/version.html";
-		upd.szBetaChangelogURL   = "http://robyer.info/miranda/omegle/changelog.html";
-		upd.pbBetaVersionPrefix  = reinterpret_cast<BYTE*>("Omegle ");
-		upd.cpbBetaVersionPrefix = (int)strlen(reinterpret_cast<char*>(upd.pbBetaVersionPrefix));
-		#ifdef _WIN64
-			upd.szBetaUpdateURL      = "http://robyer.info/stahni/omegle_x64.zip";    
-		#else
-			upd.szBetaUpdateURL      = "http://robyer.info/stahni/omegle.zip";  
-		#endif    
-		upd.pbVersion = reinterpret_cast<BYTE*>(CreateVersionStringPluginEx(&pluginInfo,curr_version));
-		upd.cpbVersion = (int)strlen(reinterpret_cast<char*>(upd.pbVersion));
-		CallService(MS_UPDATE_REGISTER,0,(LPARAM)&upd);
-	}
-
-	return 0;
-}
-
 static HANDLE g_hEvents[1];
 
 extern "C" int __declspec(dllexport) Load(void)
@@ -134,8 +108,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnInit = protoInit;
 	pd.fnUninit = protoUninit;
 	CallService(MS_PROTO_REGISTERMODULE,0,reinterpret_cast<LPARAM>(&pd));
-
-	g_hEvents[0] = HookEvent(ME_SYSTEM_MODULESLOADED,OnModulesLoaded);
 
 	InitIcons();
 	//InitContactMenus();

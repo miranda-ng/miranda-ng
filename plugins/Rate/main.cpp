@@ -194,34 +194,6 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
    init_icolib();
 
 
-   // Updater support
-   // switch off
-   if ( ServiceExists(MS_UPDATE_REGISTER))
-   {
-      Update update = {0};
-      char szVersion[16];
-
-      update.cbSize = sizeof(Update);
-
-      update.szComponentName = pluginInfo.shortName;
-      update.pbVersion = (BYTE *)CreateVersionString(pluginInfo.version, szVersion);
-      update.cpbVersion = (int)strlen((char *)update.pbVersion);
-
-      update.szUpdateURL = UPDATER_AUTOREGISTER;
-
-      // these are the three lines that matter - the archive, the page containing the version string, and the text (or data)
-      // before the version that we use to locate it on the page
-      // (note that if the update URL and the version URL point to standard file listing entries, the backend xml
-      // data will be used to check for updates rather than the actual web page - this is not true for beta urls)
-      update.szBetaUpdateURL      = "http://kildor.miranda.im/miranda/rate.zip";
-      update.szBetaVersionURL     = "http://kildor.miranda.im/miranda/rate.txt";
-      update.szBetaChangelogURL   = "http://kildor.miranda.im/miranda/rate_changes.txt";
-      update.pbBetaVersionPrefix  = (BYTE *)"Rate ";
-      update.cpbBetaVersionPrefix = (int)strlen((char *)update.pbBetaVersionPrefix);
-
-      CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-   }
-
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register("contact_rate", "Contact rate", "rate_high");
 

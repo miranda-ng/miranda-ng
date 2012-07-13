@@ -1972,13 +1972,6 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
 		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)"SimpleStatusMsg", 0);
 
-	if (ServiceExists(MS_UPDATE_REGISTERFL))
-#if defined(_WIN64)
-		CallService(MS_UPDATE_REGISTERFL, 4322, (LPARAM)&pluginInfo);
-#else
-		CallService(MS_UPDATE_REGISTERFL, 4321, (LPARAM)&pluginInfo);
-#endif
-
 	IconsInit();
 	OnAccListChanged(0, 0);
 

@@ -137,13 +137,6 @@ static int CreateButton(WPARAM, LPARAM)
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	if (ServiceExists(MS_UPDATE_REGISTERFL))
-#if defined(_WIN64)
-		CallService(MS_UPDATE_REGISTERFL, 4414, (LPARAM)&pluginInfo);
-#else
-		CallService(MS_UPDATE_REGISTERFL, 3842, (LPARAM)&pluginInfo);
-#endif
-
 	SKINICONDESC sid = {0};
 	char szFile[MAX_PATH];
 	GetModuleFileNameA(hInst, szFile, MAX_PATH);

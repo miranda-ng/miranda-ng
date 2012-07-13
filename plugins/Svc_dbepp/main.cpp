@@ -243,8 +243,6 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	// useless if DB doesnt not support unicode
 	UOS = (UDB && IsCP_UTF8() && IsWinVerNT());
 
-	CallService(MS_UPDATE_REGISTERFL,2957,(LPARAM)&pluginInfoEx);
-
 	hTTBHook = HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
 	if ( bServiceMode )

@@ -405,18 +405,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	hHooks.AddElem(HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged));
 	hHooks.AddElem(HookEvent(ME_CONTACTSETTINGS_INITIALISE, ContactSettingsInit));
 	SkinAddNewSoundEx(CLIENTCHANGED_SOUND, NULL, LPGEN("ClientChangeNotify: Client changed"));
-// updater plugin support
-	Update update = {0};
-	char szVersion[16];
-	update.cbSize = sizeof(Update);
-	update.szComponentName = pluginInfo.shortName;
-	update.pbVersion = (BYTE*)CreateVersionString(PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM), szVersion);
-	update.cpbVersion = (int)strlen((char*)update.pbVersion);
-	update.szUpdateURL = "http://deathdemon.int.ru/projects/ClientChangeNotifyW.zip";
-	update.szVersionURL = "http://deathdemon.int.ru/updaterinfo.php";
-	update.pbVersionPrefix = (BYTE*)"ClientChangeNotify Unicode version ";
-	update.cpbVersionPrefix = (int)strlen((char*)update.pbVersionPrefix);
-	CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
+
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		hServices.AddElem(CreateServiceFunction(MS_CCN_TOGGLEPOPUPS, srvTogglePopups));

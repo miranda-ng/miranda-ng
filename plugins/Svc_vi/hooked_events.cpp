@@ -49,18 +49,6 @@ int UnhookEvents()
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	char buffer[1024];
-	Update update = {0};
-	update.cbSize = sizeof(Update);
-	update.szComponentName = __PLUGIN_DISPLAY_NAME;
-	update.pbVersion = (BYTE *) CreateVersionString(VERSION, buffer);
-	update.cpbVersion = (int) strlen((char *) update.pbVersion);
-	update.szUpdateURL = UPDATER_AUTOREGISTER;
-	update.szBetaVersionURL = VERSIONINFO_VERSION_URL;
-	update.szBetaUpdateURL = VERSIONINFO_UPDATE_URL;
-	update.pbBetaVersionPrefix = (BYTE *) VERSIONINFO_VERSION_PREFIX;
-	update.cpbBetaVersionPrefix = (int) strlen(VERSIONINFO_VERSION_PREFIX);
-	CallService(MS_UPDATE_REGISTER, 0, (LPARAM) &update);
 	
 	bFoldersAvailable = ServiceExists(MS_FOLDERS_REGISTER_PATH);
 	hOutputLocation = FoldersRegisterCustomPathT("VersionInfo", "Output folder", _T("%miranda_path%"));

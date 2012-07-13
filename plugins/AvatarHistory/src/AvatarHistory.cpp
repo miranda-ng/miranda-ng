@@ -212,38 +212,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
 		metacontacts_proto = (char *) CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
-    // updater plugin support
-    if(ServiceExists(MS_UPDATE_REGISTER))
-	{
-		Update upd = {0};
-		char szCurrentVersion[30];
-
-		upd.cbSize = sizeof(upd);
-		upd.szComponentName = pluginInfo.shortName;
-
-		upd.szUpdateURL = UPDATER_AUTOREGISTER;
-
-		upd.szBetaVersionURL = "http://code.google.com/p/pescuma/downloads/list?q=label:Plugin-AVH";
-		upd.szBetaChangelogURL = "http://code.google.com/p/pescuma/source/list";
-#ifdef _WIN64
-		upd.pbBetaVersionPrefix = (BYTE *) "Avatar History (x64) ";
-		upd.szBetaUpdateURL = "http://pescuma.googlecode.com/files/avatarhistW.%VERSION%-x64.zip";
-#elif _UNICODE
-		upd.pbBetaVersionPrefix = (BYTE *) "Avatar History (Unicode) ";
-		upd.szBetaUpdateURL = "http://pescuma.googlecode.com/files/avatarhistW.%VERSION%.zip";
-#else
-		upd.pbBetaVersionPrefix = (BYTE *) "Avatar History (ANSI) ";
-		upd.szBetaUpdateURL = "http://pescuma.googlecode.com/files/avatarhist.%VERSION%.zip";
-#endif
-		upd.cpbBetaVersionPrefix = (int) strlen((char *)upd.pbBetaVersionPrefix);
-
-		upd.pbVersion = (BYTE *)CreateVersionStringPluginEx(&pluginInfo, szCurrentVersion);
-		upd.cpbVersion = (int) strlen((char *)upd.pbVersion);
-
-        CallService(MS_UPDATE_REGISTER, 0, (LPARAM)&upd);
-	}
-
-	if (DBGetContactSettingByte(NULL, MODULE_NAME, "LogToHistory", AVH_DEF_LOGTOHISTORY))
+    if (DBGetContactSettingByte(NULL, MODULE_NAME, "LogToHistory", AVH_DEF_LOGTOHISTORY))
 	{
 		char *templates[] = { "Avatar change\nchanged his/her avatar", 
 							  "Avatar removal\nremoved his/her avatar" };

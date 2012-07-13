@@ -334,9 +334,6 @@ int CIcqProto::OnModulesLoaded( WPARAM wParam, LPARAM lParam )
 	InitPopUps();
 	InitXStatusItems(FALSE);
 
-	// TODO: add beta builds support to devel builds :)
-	CallService(MS_UPDATE_REGISTERFL, 1683, (WPARAM)&pluginInfo);
-
 	if (hExtraXStatus == NULL)
 	{
 		if (HookProtoEvent(ME_CLIST_EXTRA_LIST_REBUILD, &CIcqProto::CListMW_ExtraIconsRebuild))

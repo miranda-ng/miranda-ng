@@ -368,36 +368,6 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 		}
 	}
 	
-	// Updater support
-	if (ServiceExists(MS_UPDATE_REGISTER))
-	{
-		Update update = {0};
-		char szVersion[16];
-		
-		update.cbSize = sizeof(Update);
-		
-		update.szComponentName = pluginInfo.shortName;
-		update.pbVersion = (BYTE *)CreateVersionStringPluginEx(&pluginInfo, szVersion);
-		update.cpbVersion = (int)strlen((char *)update.pbVersion);
-		
-		update.szUpdateURL = UPDATER_AUTOREGISTER;
-
-#ifndef WIN64		
-		// these are the three lines that matter - the archive, the page containing the version string, and the text (or data) 
-		// before the version that we use to locate it on the page
-		// (note that if the update URL and the version URL point to standard file listing entries, the backend xml
-		// data will be used to check for updates rather than the actual web page - this is not true for beta urls)
-		update.szBetaUpdateURL  = "http://thief.miranda.im/gender.zip";
-		update.szBetaVersionURL = "http://thief.miranda.im/updater/gender_version.txt";
-		update.szBetaChangelogURL = "http://thief.miranda.im";
-		update.pbBetaVersionPrefix = (BYTE *)"Gender ";
-
-		update.cpbBetaVersionPrefix = strlen((char *)update.pbBetaVersionPrefix);
-#endif		
-		
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	}
-	
 	return 0;
 }
 

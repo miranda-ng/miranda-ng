@@ -814,10 +814,6 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 	if (g_wMaskAdv & OPT_MENUITEM)
 		BossKeyMenuItemInit();
 
-// Updater support	
-	if(ServiceExists(MS_UPDATE_REGISTERFL))
-		CallService(MS_UPDATE_REGISTERFL, (WPARAM)__PLUGIN_ID, (LPARAM)&pluginInfo);
-
 	if (ServiceExists(MS_TRIGGER_REGISTERTRIGGER))
 		RegisterTrigger();
 

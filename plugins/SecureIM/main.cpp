@@ -462,10 +462,6 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 	    g_hMenu[14] = AddMenuItem(sim231[3],110014,NULL,MODULENAME"/MODE_RSA");
 	}
 
-    	// updater plugin support
-        if(ServiceExists(MS_UPDATE_REGISTERFL)) {
-		CallService(MS_UPDATE_REGISTERFL, (WPARAM)2445, (LPARAM)&pluginInfoEx);
-	}
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("create srmm icons");

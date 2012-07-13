@@ -1116,9 +1116,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	RegisterAction();
 	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
 		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)KEYBDMODULE, 0);
-	if (ServiceExists(MS_UPDATE_REGISTERFL))
-		CallService(MS_UPDATE_REGISTERFL, (WPARAM)2071, (LPARAM)&pluginInfo);
-
+	
 	return 0;
 }
 

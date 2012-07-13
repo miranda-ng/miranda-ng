@@ -234,7 +234,6 @@ private:
 	static 	int		MetaContactEvent(WPARAM wParam, LPARAM lParam);
 	static	int 	OkToExit(WPARAM wParam, LPARAM lParam);
 	static  void 	RestoreUnreadMessageAlerts(void);
-	static  void	RegisterWithUpdater();
 };
 
 extern	CGlobals	PluginConfig;

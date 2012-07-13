@@ -131,30 +131,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME "Groups", 0);
 
-
-	// updater plugin support
-	if (ServiceExists(MS_UPDATE_REGISTER))
-	{
-		Update upd = { 0 };
-		char szCurrentVersion[30];
-
-		upd.cbSize = sizeof(upd);
-		upd.szComponentName = pluginInfo.shortName;
-
-		upd.szUpdateURL = UPDATER_AUTOREGISTER;
-
-		upd.szBetaVersionURL = "http://pescuma.org/miranda/extraicons_version.txt";
-		upd.szBetaChangelogURL = "http://pescuma.org/miranda/extraicons#Changelog";
-		upd.pbBetaVersionPrefix = (BYTE *) "Extra Icons Service ";
-		upd.cpbBetaVersionPrefix = (int)strlen((char *) upd.pbBetaVersionPrefix);
-		upd.szBetaUpdateURL = "http://pescuma.org/miranda/extraicons.zip";
-
-		upd.pbVersion = (BYTE *) CreateVersionStringPluginEx((PLUGININFOEX*) &pluginInfo, szCurrentVersion);
-		upd.cpbVersion = (int)strlen((char *) upd.pbVersion);
-
-		CallService(MS_UPDATE_REGISTER, 0, (LPARAM)&upd);
-	}
-
 	hHooks.push_back(HookEvent(ME_SKIN2_ICONSCHANGED, &IconsChanged));
 
 	InitOptions();

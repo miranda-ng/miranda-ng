@@ -273,57 +273,6 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	else
 		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)DEFAULT_SKIN_FOLDER, (LPARAM)g_szSkinLib);
 
-#ifdef USE_MY_SERVER
-
-	update.cbSize = sizeof(Update);
-
-	update.szComponentName = pluginInfoEx.shortName;
-	update.pbVersion = (LPBYTE)CreateVersionString(__VERSION_DWORD, szVersion);
-	update.cpbVersion = (int)strlen((LPSTR)update.pbVersion);
-
-	update.szUpdateURL = "http://fingerprintmod.googlecode.com/svn/branches/updater/" __BETA_FILE_TITLE ".zip";
-	update.szVersionURL = "http://fingerprintmod.googlecode.com/svn/branches/updater/" __BETA_FILE_TITLE ".txt";
-	update.pbVersionPrefix = (LPBYTE)__INTERNAL_NAME_STRING " version ";
-	update.cpbVersionPrefix = (int)strlen((LPSTR)update.pbVersionPrefix);
-
-	CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-#else //!USE_MY_SERVER
-
-#ifdef REGISTER_BETA
-
-	update.cbSize = sizeof(Update);
-
-	update.szComponentName = pluginInfoEx.shortName;
-	update.pbVersion = (LPBYTE)CreateVersionString(__VERSION_DWORD, szVersion);
-	update.cpbVersion = (int)strlen((LPSTR)update.pbVersion);
-	update.szBetaChangelogURL = "http://code.google.com/p/fingerprintmod/source/list";
-
-#ifdef REGISTER_AUTO
-
-	update.szUpdateURL = UPDATER_AUTOREGISTER;
-
-#else //!REGISTER_AUTO
-
-	update.szUpdateURL = "http://addons.miranda-im.org/download.php?dlfile=" __PLUGIN_ID_STR;
-	update.szVersionURL = "http://addons.miranda-im.org/details.php?action=viewfile&id=" __PLUGIN_ID_STR;
-	update.pbVersionPrefix = (LPBYTE)"<span class=\"fileNameHeader\">" __INTERNAL_NAME_STRING " ";
-	update.cpbVersionPrefix = (int)strlen((LPSTR)update.pbVersionPrefix);
-
-#endif //REGISTER_AUTO
-
-	update.szBetaUpdateURL = "http://fingerprintmod.googlecode.com/svn/branches/updater/" __BETA_FILE_TITLE ".zip";
-	update.szBetaVersionURL = "http://fingerprintmod.googlecode.com/svn/branches/updater/" __BETA_FILE_TITLE ".txt";
-	update.pbBetaVersionPrefix = (LPBYTE)__INTERNAL_NAME_STRING " version ";
-	update.cpbBetaVersionPrefix = (int)strlen((LPSTR)update.pbBetaVersionPrefix);
-
-	CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-
-#else // !REGISTER_BETA
-
-	CallService(MS_UPDATE_REGISTERFL, (WPARAM)__PLUGIN_ID, (LPARAM)&pluginInfoEx);
-
-#endif // REGISTER_BETA
-#endif // USE_MY_SERVER
 
 	// prepare masks
 	KN_FP_MASK* mask;

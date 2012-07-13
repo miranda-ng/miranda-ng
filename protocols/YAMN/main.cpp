@@ -238,26 +238,6 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 
 	CheckMenuItems();
 
-	//Use for the Updater plugin
-	if (ServiceExists(MS_UPDATE_REGISTER)) {
-		Update update = {0};
-		char szVersion[16], szUrl[250];
-		wsprintfA(szUrl, "http://www.miranda-fr.net/tweety/yamn/%s.zip", YAMN_FILENAME);
-
-		update.szComponentName = pluginInfo.shortName;
-		update.pbVersion = (BYTE *)CreateVersionStringPluginEx((PLUGININFOEX *)&pluginInfo, szVersion);
-		update.cpbVersion = (int)strlen((char *)update.pbVersion);
-		update.szUpdateURL = "http://addons.miranda-im.org/feed.php?dlfile = 3411";
-		update.szVersionURL = "http://addons.miranda-im.org/details.php?action = viewfile&id = 3411";
-		update.pbVersionPrefix = (BYTE *)"<span class = \"fileNameHeader\">YAMN 2in1 ";
-		update.szBetaUpdateURL = szUrl;
-		update.szBetaVersionURL = "http://www.miranda-fr.net/tweety/yamn/yamn_beta.html";
-		update.pbBetaVersionPrefix = (BYTE *)"YAMN version ";
-		update.cpbVersionPrefix = (int)strlen((char *)update.pbVersionPrefix);
-		update.cpbBetaVersionPrefix = (int)strlen((char *)update.pbBetaVersionPrefix);
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	}
-
 	if (ServiceExists(MS_FOLDERS_GET_PATH)) {
 		hAccountFolder = FoldersRegisterCustomPathT(YAMN_DBMODULE, YAMN_DBMODULE" Account Folder", UserDirectory);
 		FoldersGetCustomPathT(hAccountFolder, UserDirectory, MAX_PATH, UserDirectory);

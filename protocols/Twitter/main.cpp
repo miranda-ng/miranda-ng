@@ -89,28 +89,6 @@ static int protoUninit(PROTO_INTERFACE *proto)
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM,LPARAM)
-{
-	if(ServiceExists(MS_UPDATE_REGISTER)) {
-		Update upd = {sizeof(upd)};
-		char curr_version[30];
-
-		upd.szComponentName = pluginInfo.shortName;
-		upd.szUpdateURL = UPDATER_AUTOREGISTER;
-		upd.szBetaVersionURL     = "http://twosx.net/mim/twitter/updater/version.html";
-		upd.szBetaChangelogURL   = "http://twosx.net/mim/twitter/updater/changelog.html";
-		upd.pbBetaVersionPrefix  = reinterpret_cast<BYTE*>("Twitter ");
-		upd.cpbBetaVersionPrefix = (int)strlen(reinterpret_cast<char*>(upd.pbBetaVersionPrefix));
-		upd.szBetaUpdateURL      = "http://twosx.net/mim/twitter/updater/twitter.zip";
-
-		upd.pbVersion = reinterpret_cast<BYTE*>( CreateVersionStringPluginEx(&pluginInfo,curr_version));
-		upd.cpbVersion = (int)strlen(reinterpret_cast<char*>(upd.pbVersion));
-		CallService(MS_UPDATE_REGISTER,0,(LPARAM)&upd);
-	}
-
-	return 0;
-}
-
 static HANDLE g_hEvents[1];
 
 extern "C" int __declspec(dllexport) Load(void)
@@ -127,8 +105,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnInit = protoInit;
 	pd.fnUninit = protoUninit;
 	CallService(MS_PROTO_REGISTERMODULE,0,reinterpret_cast<LPARAM>(&pd));
-
-	g_hEvents[0] = HookEvent(ME_SYSTEM_MODULESLOADED,OnModulesLoaded);
 
 	InitIcons();
 	InitContactMenus();

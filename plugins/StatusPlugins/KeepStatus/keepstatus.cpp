@@ -1301,9 +1301,7 @@ int CSModuleLoaded(WPARAM wParam,LPARAM lParam)
 	RegisterAction();
 	RegisterTrigger();
 #endif
-	if (ServiceExists(MS_UPDATE_REGISTERFL))
-		CallService(MS_UPDATE_REGISTERFL, 2206, (LPARAM)&pluginInfoEx);
-
+	
 	return 0;
 }
 

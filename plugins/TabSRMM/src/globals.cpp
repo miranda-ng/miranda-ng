@@ -102,32 +102,6 @@ void CRTException::display() const
 	mir_free(tszMsg);
 }
 
-void CGlobals::RegisterWithUpdater()
-{
-	Update 		upd = {0};
-
- 	if (!ServiceExists(MS_UPDATE_REGISTER))
- 		return;
-
- 	upd.cbSize 				=	sizeof(upd);
- 	upd.szComponentName 	=	pluginInfo.shortName;
- 	upd.pbVersion 			=	(BYTE *)CreateVersionString(pluginInfo.version, szCurrentVersion);
- 	upd.cpbVersion 			=	(int)(strlen((char *)upd.pbVersion));
-	upd.szVersionURL 		=	szFLVersionUrl;
-	upd.szUpdateURL 		=	szFLUpdateurl;
-	upd.pbVersionPrefix 	= 	(BYTE *)"<span class=\"fileNameHeader\">tabSRMM Unicode 2.0 ";
-	upd.cpbVersionPrefix 	= 	(int)(strlen((char *)upd.pbVersionPrefix));
-
- 	upd.szBetaUpdateURL 	=	szUpdateUrl;
- 	upd.szBetaVersionURL 	=	szVersionUrl;
-	upd.pbVersion 			=	(unsigned char *)szCurrentVersion;
-	upd.cpbVersion 			= 	lstrlenA(szCurrentVersion);
- 	upd.pbBetaVersionPrefix	= 	(BYTE *)szPrefix;
- 	upd.cpbBetaVersionPrefix= 	(int)(strlen((char *)upd.pbBetaVersionPrefix));
- 	upd.szBetaChangelogURL  =	"http://blog.miranda.or.at/tabsrmm-articles/tabsrmm-version-3-changelog";
-
- 	CallService(MS_UPDATE_REGISTER, 0, (LPARAM)&upd);
-}
 /**
  * reload system values. These are read ONCE and are not allowed to change
  * without a restart
@@ -456,8 +430,6 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		PluginConfig.m_UserMenuItem = Menu_AddMainMenuItem(&mi);
 	}
 	RestoreUnreadMessageAlerts();
-
-	RegisterWithUpdater();
 
 	::RegisterFontServiceFonts();
 	::CacheLogFonts();

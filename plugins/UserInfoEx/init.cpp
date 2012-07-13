@@ -134,39 +134,6 @@ static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	RebuildMenu();
 	ghPrebuildStatusMenu = HookEvent( ME_CLIST_PREBUILDSTATUSMENU, (MIRANDAHOOK)RebuildAccount);
 
-	// finally register for updater
-	if (ServiceExists(MS_UPDATE_REGISTER))
-	{
-		Update update = {0};
-		CHAR szVersion[16];
-		update.cbSize			= sizeof(Update);
-		update.szComponentName	= pluginInfo.shortName;
-		update.pbVersion		= (BYTE *)CreateVersionString(pluginInfo.version, szVersion);
-		update.cpbVersion		= (INT)strlen((LPSTR)update.pbVersion);
-
-		update.szUpdateURL		= UPDATER_AUTOREGISTER;
-
-		update.szBetaVersionURL		= "http://userinfoex.googlecode.com/svn/trunk/changelog.txt";
-		// bytes occuring in VersionURL before the version, used to locate the version information within the URL data
-		// e.g. change '[0.8.1.0 (in work)]' to 'UserinfoEx: 0.8.1.0' for beta versions bump
-		update.pbBetaVersionPrefix	= (BYTE *)"UserinfoEx: ";
-		update.cpbBetaVersionPrefix	= (INT)strlen((LPSTR)update.pbBetaVersionPrefix);
-
-#ifdef _WIN64
-
-		update.szBetaUpdateURL		= "http://userinfoex.googlecode.com/files/uinfoex64.zip";
-
-#else
-
-		update.szBetaUpdateURL		= "http://userinfoex.googlecode.com/files/uinfoexW.zip";
-
-#endif
-
-		// url for displaying changelog for beta versions
-		update.szBetaChangelogURL	 = "http://userinfoex.googlecode.com/svn/trunk/changelog.txt";
-
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	}
 	// install known modules strings to database
 	DB::Setting::WriteAString(NULL, "KnownModules", MODULELONGNAME, USERINFO","MODNAME","MOD_MBIRTHDAY","MODNAMEFLAGS);
 

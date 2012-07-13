@@ -796,34 +796,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		hContactMenu = Menu_AddContactMenuItem(&mi);
 	}
 	
-	// Updater plugin support
-	if (ServiceExists(MS_UPDATE_REGISTER))
-	{
-		// register with updater
-		Update update = {0};
-		char szVersion[16];
-		
-		update.cbSize = sizeof(Update);
-		
-		update.szComponentName = pluginInfo.shortName;
-		update.pbVersion = (BYTE *)CreateVersionString(pluginInfo.version, szVersion);
-		update.cpbVersion = (int)strlen((char *)update.pbVersion);
-		
-		update.szUpdateURL = UPDATER_AUTOREGISTER;
-		
-		// these are the three lines that matter - the archive, the page containing the version string, and the text (or data) 
-		// before the version that we use to locate it on the page
-		// (note that if the update URL and the version URL point to standard file listing entries, the backend xml
-		// data will be used to check for updates rather than the actual web page - this is not true for beta urls)
-		update.szBetaUpdateURL = "http://thief.miranda.im/BuddyExpectator.zip";
-		update.szBetaVersionURL = "http://thief.miranda.im/updater/buddyexpectator_version.txt";
-		update.szBetaChangelogURL = "http://thief.miranda.im";
-		update.pbBetaVersionPrefix = (BYTE *)"Buddy Expectator ";
-		
-		update.cpbBetaVersionPrefix = (int)strlen((char *)update.pbBetaVersionPrefix);
-		
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	}
 		
 	missyouactions[0].cbSize = sizeof(POPUPACTION);
 	missyouactions[0].lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"disabled_icon");

@@ -205,10 +205,6 @@ static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
   ghSendWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this
   ghRecvWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this
 
-#ifndef WIN64
-  //register for Update (the FL name is different...)
-  CallService(MS_UPDATE_REGISTERFL, 1253, (WPARAM)&pluginInfo);
-#endif
 
   ProcessUnreadEvents();
   return 0;

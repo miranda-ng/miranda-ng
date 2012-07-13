@@ -302,30 +302,6 @@ INT_PTR GetStatus(WPARAM wp, LPARAM lp)
 	return PopUpOptions.ModuleIsEnabled;
 }
 
-//register Updatersupport
-void registerUpdate() {
-	Update update = {0};
-	char szVersion[16];
-	update.cbSize				= sizeof(Update);
-	update.szComponentName		= pluginInfoEx.shortName;
-	update.pbVersion			= (BYTE *)CreateVersionStringPluginEx(&pluginInfoEx, szVersion);
-	update.cpbVersion			= (int)strlen((char *)update.pbVersion);
-
-	update.szUpdateURL			= __FLUpdateURL /*UPDATER_AUTOREGISTER*/;
-	update.szVersionURL			= __FLVersionURL;
-	update.pbVersionPrefix		= (BYTE *)__FLVersionPrefix;
-	update.cpbVersionPrefix		= (int)strlen((char *)update.pbVersionPrefix);
-
-	update.szBetaUpdateURL		= __BetaUpdateURL;
-	update.szBetaVersionURL		= __BetaVersionURL;
-	// bytes occuring in VersionURL before the version, used to locate the version information within the URL data
-	update.pbBetaVersionPrefix	= (BYTE *)__BetaVersionPrefix;
-	update.cpbBetaVersionPrefix	= (int)strlen((char *)update.pbBetaVersionPrefix);
-
-	update.szBetaChangelogURL	= __BetaChangelogURL;
-
-	CallService(MS_UPDATE_REGISTER, 0, (LPARAM) &update);
-}
 
 //register Hotkey
 void LoadHotkey() {
@@ -408,8 +384,6 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	SrmmMenu_Load();
 	//Hotkey
 	LoadHotkey();
-	//Updater support
-	if(ServiceExists(MS_UPDATE_REGISTER)) registerUpdate();
 
 	gbPopupLoaded = TRUE;
 	return 0;

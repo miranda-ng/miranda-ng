@@ -1345,10 +1345,6 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 		hHooks[6] = HookEvent(ME_MSG_WINDOWEVENT,ContactWindowOpen);
 	}
 
-	// updater plugin support
-	if(ServiceExists(MS_UPDATE_REGISTERFL)) {
-		CallService(MS_UPDATE_REGISTERFL, (WPARAM)__PLUGIN_ID, (LPARAM)&pluginInfoEx);
-	}
 	return 0;
 }
 

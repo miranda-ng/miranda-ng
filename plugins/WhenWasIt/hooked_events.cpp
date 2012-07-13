@@ -103,19 +103,6 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	
 	RebuildAdvIconList();
 	
-	char buffer[1024];
-	Update update = {0};
-	update.cbSize = sizeof(Update);
-	update.szComponentName = __PLUGIN_DISPLAY_NAME;
-	update.pbVersion = (BYTE *) CreateVersionString(VERSION, buffer);
-	update.cpbVersion = (int) strlen((char *) update.pbVersion);
-	update.szUpdateURL = UPDATER_AUTOREGISTER;
-	update.szBetaVersionURL = WHENWASIT_VERSION_URL;
-	update.szBetaUpdateURL = WHENWASIT_UPDATE_URL;
-	update.pbBetaVersionPrefix = (BYTE *) WHENWASIT_VERSION_PREFIX;
-	update.cpbBetaVersionPrefix = (int) strlen(WHENWASIT_VERSION_PREFIX);
-	CallService(MS_UPDATE_REGISTER, 0, (LPARAM) &update);
-
 	UpdateTimers();
 	CLISTMENUITEM cl = {0};
 	cl.cbSize = sizeof(CLISTMENUITEM);

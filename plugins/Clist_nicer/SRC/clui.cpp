@@ -275,8 +275,6 @@ static int CluiModulesLoaded(WPARAM wParam, LPARAM lParam)
 	upd.pbBetaVersionPrefix = (BYTE *)szPrefix;
 	upd.cpbBetaVersionPrefix = (int)strlen((char *)upd.pbBetaVersionPrefix);
 
-	CallService(MS_UPDATE_REGISTER, 0, (LPARAM)&upd);
-
 	MTG_OnmodulesLoad(wParam, lParam);
 	FS_RegisterFonts();
 	HookEvent(ME_FONT_RELOAD, FS_FontsChanged);

@@ -172,8 +172,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Weather", "..\protocols\Wea
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Svc_crshdmp", "..\plugins\Svc_crshdmp\crshdmp_10.vcxproj", "{576EEEFD-E423-482B-879A-F0515D40B8E1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Updater", "..\plugins\Updater\updater_10.vcxproj", "{4C1CE389-7129-45FC-83C2-E9C310AC0427}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker", "..\plugins\SpellChecker\spellchecker.vcxproj", "{5DB86086-10E9-42E7-AC90-503D2678C2A2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alarms", "..\plugins\Alarms\alarms_10.vcxproj", "{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}"
@@ -987,14 +985,6 @@ Global
 		{576EEEFD-E423-482B-879A-F0515D40B8E1}.Release|Win32.Build.0 = Release|Win32
 		{576EEEFD-E423-482B-879A-F0515D40B8E1}.Release|x64.ActiveCfg = Release|x64
 		{576EEEFD-E423-482B-879A-F0515D40B8E1}.Release|x64.Build.0 = Release|x64
-		{4C1CE389-7129-45FC-83C2-E9C310AC0427}.Debug|Win32.ActiveCfg = Debug|Win32
-		{4C1CE389-7129-45FC-83C2-E9C310AC0427}.Debug|Win32.Build.0 = Debug|Win32
-		{4C1CE389-7129-45FC-83C2-E9C310AC0427}.Debug|x64.ActiveCfg = Debug|x64
-		{4C1CE389-7129-45FC-83C2-E9C310AC0427}.Debug|x64.Build.0 = Debug|x64
-		{4C1CE389-7129-45FC-83C2-E9C310AC0427}.Release|Win32.ActiveCfg = Release|Win32
-		{4C1CE389-7129-45FC-83C2-E9C310AC0427}.Release|Win32.Build.0 = Release|Win32
-		{4C1CE389-7129-45FC-83C2-E9C310AC0427}.Release|x64.ActiveCfg = Release|x64
-		{4C1CE389-7129-45FC-83C2-E9C310AC0427}.Release|x64.Build.0 = Release|x64
 		{5DB86086-10E9-42E7-AC90-503D2678C2A2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{5DB86086-10E9-42E7-AC90-503D2678C2A2}.Debug|Win32.Build.0 = Debug|Win32
 		{5DB86086-10E9-42E7-AC90-503D2678C2A2}.Debug|x64.ActiveCfg = Debug|x64

@@ -258,34 +258,10 @@ void InitFonts()
 	hReloadFonts = HookEvent(ME_FONT_RELOAD, ReloadFont);
 }
 
-void InitUpdaterSupport()
-{
-#ifndef _WIN64
-	if (ServiceExists(MS_UPDATE_REGISTER))
-	{
-		Update update = {0};
-		char szVersion[16];
-
-		update.cbSize = sizeof(Update);
-		update.szComponentName = pluginInfoEx.shortName;
-		update.pbVersion = (BYTE *)CreateVersionString(pluginInfoEx.version, szVersion);
-		update.cpbVersion = (int)strlen((char *)update.pbVersion);
-
-		update.szUpdateURL = "http://miranda-easy.net/addons/updater/tipper-ym.zip";
-
-		update.szVersionURL = "http://miranda-easy.net/addons/updater/tipper_version.txt";
-		update.pbVersionPrefix = (BYTE *)"Tipper YM ";
-		update.cpbVersionPrefix = (int)strlen((char *)update.pbVersionPrefix);
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	}
-#endif
-}
-
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	InitFonts();
-	InitUpdaterSupport();
-
+	
 	hAvChangeEvent = HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
 	hShowTipEvent = HookEvent(ME_CLC_SHOWINFOTIP, ShowTipHook);
 	hHideTipEvent = HookEvent(ME_CLC_HIDEINFOTIP, HideTipHook);

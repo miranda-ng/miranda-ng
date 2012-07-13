@@ -267,7 +267,6 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	LoadModules();
 
-	CallService(MS_UPDATE_REGISTERFL,(WPARAM)MRA_PLUGIN_UPDATER_ID,(LPARAM)&pluginInfoEx);
 
 	InterlockedExchange((volatile LONG*)&masMraSettings.dwGlobalPluginRunning,TRUE);
 

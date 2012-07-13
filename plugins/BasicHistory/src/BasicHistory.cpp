@@ -260,37 +260,6 @@ void InitIcolib()
 	hMinusExIcon = Skin_AddIcon(&sid);
 }
 
-void InitUpdater()
-{
-	if (ServiceExists(MS_UPDATE_REGISTER))
-	{
-		Update update = {0};
-		char szVersion[16];
-		update.cbSize = sizeof(Update);
-		update.szComponentName = pluginInfo.shortName;
-		update.pbVersion = (BYTE *)CreateVersionStringPluginEx(&pluginInfo, szVersion);
-		update.cpbVersion = (int)strlen((char *)update.pbVersion);
-
-#ifdef _WIN64
-		update.szUpdateURL = "http://programista.free.of.pl/miranda/BasicHistory64.zip";
-		update.szVersionURL = "http://programista.free.of.pl/miranda/pluginversion.php?plugin=basichistory&x64=yes";
-		update.szBetaUpdateURL = "http://programista.free.of.pl/miranda/BasicHistoryBeta64.zip";
-		update.szBetaVersionURL = "http://programista.free.of.pl/miranda/pluginversion.php?plugin=basichistory&beta=yes&x64=yes";
-		update.szBetaChangelogURL = "http://programista.free.of.pl/miranda/BasicHistoryChangelog.txt";
-#else
-		update.szUpdateURL = "http://programista.free.of.pl/miranda/BasicHistory.zip";
-		update.szVersionURL = "http://programista.free.of.pl/miranda/pluginversion.php?plugin=basichistory";
-		update.szBetaUpdateURL = "http://programista.free.of.pl/miranda/BasicHistoryBeta.zip";
-		update.szBetaVersionURL = "http://programista.free.of.pl/miranda/pluginversion.php?plugin=basichistory&beta=yes";
-		update.szBetaChangelogURL = "http://programista.free.of.pl/miranda/BasicHistoryChangelog.txt";
-
-#endif
-		update.pbBetaVersionPrefix = update.pbVersionPrefix = (BYTE *)"Basic History ";
-		update.cpbBetaVersionPrefix = update.cpbVersionPrefix = (int)strlen((char *)update.pbVersionPrefix);
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	}
-}
-
 INT_PTR ShowContactHistory(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
@@ -314,8 +283,7 @@ int HistoryContactDelete(WPARAM wParam, LPARAM)
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	InitMenuItems();
-	InitUpdater();
-
+	
 	TCHAR ftpExe[MAX_PATH];
 	if(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, ftpExe)))
 	{

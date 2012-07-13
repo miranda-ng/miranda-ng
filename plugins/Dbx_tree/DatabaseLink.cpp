@@ -64,8 +64,6 @@ static int SystemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	upd.cpbVersion = sizeof(gResVersionString) - 1;
 	upd.szBetaChangelogURL = "http://www-user.tu-chemnitz.de/~kunmi/?dbx_tree=BetaLog&lang=en";
 
-	CallService(MS_UPDATE_REGISTER, 0, (LPARAM)&upd);
-
 	UnhookEvent(hSystemModulesLoaded);
 	hSystemModulesLoaded = 0;
 
