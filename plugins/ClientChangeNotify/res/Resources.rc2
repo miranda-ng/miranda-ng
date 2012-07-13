@@ -15,7 +15,7 @@
 //
 // Version
 //
-#include "VersionNo.h"
+#include "..\src\VersionNo.h"
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION __FILEVERSION_STRING
  PRODUCTVERSION __FILEVERSION_STRING

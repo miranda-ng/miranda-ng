@@ -80,10 +80,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>src\commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -114,9 +113,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>src\commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -148,9 +146,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>src\commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;4100;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -184,9 +181,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>src\commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;4100;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -209,20 +205,20 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="clcfonts.cpp" />
-    <ClCompile Include="clcopts.cpp" />
-    <ClCompile Include="clcpaint.cpp" />
-    <ClCompile Include="clistmenus.cpp" />
-    <ClCompile Include="clistopts.cpp" />
-    <ClCompile Include="cluiopts.cpp" />
-    <ClCompile Include="init.cpp">
+    <ClCompile Include="src\clcfonts.cpp" />
+    <ClCompile Include="src\clcopts.cpp" />
+    <ClCompile Include="src\clcpaint.cpp" />
+    <ClCompile Include="src\clistmenus.cpp" />
+    <ClCompile Include="src\clistopts.cpp" />
+    <ClCompile Include="src\cluiopts.cpp" />
+    <ClCompile Include="src\init.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="clc.h" />
-    <ClInclude Include="commonheaders.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\clc.h" />
+    <ClInclude Include="src\commonheaders.h" />
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\blank.ico" />
@@ -231,8 +227,8 @@
     <None Include="res\hyperlin.cur" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
-    <ResourceCompile Include="version.rc" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

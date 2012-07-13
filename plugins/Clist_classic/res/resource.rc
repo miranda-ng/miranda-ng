@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -430,7 +430,7 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\src\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -455,9 +455,9 @@ END
 // Cursor
 //
 
-IDC_HYPERLINKHAND       CURSOR                  "res/hyperlin.cur"
-IDC_DROP                CURSOR                  "res/dragcopy.cur"
-IDC_DROPUSER            CURSOR                  "res/dropuser.cur"
+IDC_HYPERLINKHAND       CURSOR                  "hyperlin.cur"
+IDC_DROP                CURSOR                  "dragcopy.cur"
+IDC_DROPUSER            CURSOR                  "dropuser.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //
