@@ -262,19 +262,6 @@ static int CluiModulesLoaded(WPARAM wParam, LPARAM lParam)
 	static char *szVersionUrl = "http://download.miranda.or.at/clist_nicer/0.9/versionW.txt";
 	static char *szUpdateUrl = "http://download.miranda.or.at/clist_nicer/0.9/clist_nicer_plusW.zip";
 
-	// updater plugin support
-
-	upd.cbSize = sizeof(upd);
-	upd.szComponentName = pluginInfo.shortName;
-	upd.pbVersion = (BYTE *)CreateVersionStringPluginEx(&pluginInfo, szCurrentVersion);
-	upd.cpbVersion = (int)strlen((char *)upd.pbVersion);
-	upd.szUpdateURL = UPDATER_AUTOREGISTER;
-
-	upd.szBetaUpdateURL = szUpdateUrl;
-	upd.szBetaVersionURL = szVersionUrl;
-	upd.pbBetaVersionPrefix = (BYTE *)szPrefix;
-	upd.cpbBetaVersionPrefix = (int)strlen((char *)upd.pbBetaVersionPrefix);
-
 	MTG_OnmodulesLoad(wParam, lParam);
 	FS_RegisterFonts();
 	HookEvent(ME_FONT_RELOAD, FS_FontsChanged);

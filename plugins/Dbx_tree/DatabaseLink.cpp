@@ -46,24 +46,7 @@ HANDLE hSystemModulesLoaded = 0;
 
 static int SystemModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	Update upd = {0,0,0,0,0,0,0,0,0,0,0,0,0};
-
-	upd.cbSize = sizeof(upd);
-	upd.szComponentName = gInternalName;
-	upd.szBetaVersionURL = "http://www-user.tu-chemnitz.de/~kunmi/?dbx_tree";
-#ifdef _M_X64
-	upd.pbBetaVersionPrefix = (BYTE *)"<!-- Updater Beta x64: ";
-	upd.cpbBetaVersionPrefix = 23;
-	upd.szBetaUpdateURL = "http://www-user.tu-chemnitz.de/~kunmi/Downloads/dbx_tree64.zip";
-#else
-	upd.pbBetaVersionPrefix = (BYTE *)"<!-- Updater Beta: ";
-	upd.cpbBetaVersionPrefix = 19;
-	upd.szBetaUpdateURL = "http://www-user.tu-chemnitz.de/~kunmi/Downloads/dbx_tree.zip";
-#endif
-	upd.pbVersion = (BYTE*)gResVersionString;
-	upd.cpbVersion = sizeof(gResVersionString) - 1;
-	upd.szBetaChangelogURL = "http://www-user.tu-chemnitz.de/~kunmi/?dbx_tree=BetaLog&lang=en";
-
+	
 	UnhookEvent(hSystemModulesLoaded);
 	hSystemModulesLoaded = 0;
 
