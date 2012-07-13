@@ -385,18 +385,17 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 		else commentFix = POPUP_COMMENT_OTHER;
 	}
 
-	if (_tcslen(comment1) > 0) {
+	if ( lstrlen(comment1) > 0) {
 		mir_free(comment2);
 		return comment1;
 	}
-	if (_tcslen(comment2) > 0) {
+	if ( lstrlen(comment2) > 0) {
 		mir_free(comment1);
 		return comment2;
 	}
 	mir_free(comment1);
 	mir_free(comment2);
-
-	return TranslateTS( _A2T( commentFix));
+	return TranslateTS( mir_a2t(commentFix));
 }
 
 int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UINT eventType)
