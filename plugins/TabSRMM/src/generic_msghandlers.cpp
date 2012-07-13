@@ -1167,7 +1167,7 @@ LRESULT TSAPI DM_LoadLocale(TWindowData *dat)
 				GetLocaleID(dat, dbv.ptszVal);
 				PostMessage(dat->hwnd, DM_SETLOCALE, 0, 0);*/
 				DBFreeVariant(&dbv);
-				CloseHandle((HANDLE)mir_forkthreadex(LoadKLThread, reinterpret_cast<void *>(dat->hContact), 16000, NULL));
+				CloseHandle((HANDLE)mir_forkthreadex(LoadKLThread, dat->hContact, NULL));
 			} else {
 				if (!PluginConfig.m_dontUseDefaultKbd) {
 					TCHAR	szBuf[20];
@@ -1183,7 +1183,7 @@ LRESULT TSAPI DM_LoadLocale(TWindowData *dat)
 				/*dat->hkl = LoadKeyboardLayout(szKLName, KLF_NOTELLSHELL | KLF_REPLACELANG);
 				GetLocaleID(dat, szKLName);
 				PostMessage(dat->hwnd, DM_SETLOCALE, 0, 0);*/
-				CloseHandle((HANDLE)mir_forkthreadex(LoadKLThread, reinterpret_cast<void *>(dat->hContact), 16000, NULL));
+				CloseHandle((HANDLE)mir_forkthreadex(LoadKLThread, reinterpret_cast<void *>(dat->hContact), NULL));
 			}
 		}
 	}

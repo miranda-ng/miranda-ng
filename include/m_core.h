@@ -467,8 +467,8 @@ __forceinline HANDLE mir_forkthread(pThreadFunc aFunc, void* arg)
 {	return (HANDLE)forkthread(aFunc, 0, arg);
 }
 
-__forceinline HANDLE mir_forkthreadex(pThreadFuncEx aFunc, void* arg, int stackSize, unsigned* pThreadID)
-{	return (HANDLE)forkthreadex(NULL, stackSize, aFunc, NULL, arg, pThreadID);
+__forceinline HANDLE mir_forkthreadex(pThreadFuncEx aFunc, void* arg, unsigned* pThreadID)
+{	return (HANDLE)forkthreadex(NULL, 0, aFunc, NULL, arg, pThreadID);
 }
 
 __forceinline HANDLE mir_forkthreadowner(pThreadFuncOwner aFunc, void* owner, void* arg, unsigned* pThreadID)

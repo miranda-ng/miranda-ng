@@ -107,7 +107,7 @@ void TSAPI CreateTrayMenus(int mode)
 		mir_sntprintf(g_eventName, 100, _T("tsr_evt_%d"), GetCurrentThreadId());
 		g_hEvent = CreateEvent(NULL, FALSE, FALSE, g_eventName);
 		isAnimThreadRunning = TRUE;
-		hTrayAnimThread = (HANDLE)mir_forkthreadex(TrayAnimThread, NULL, 16000, NULL);
+		hTrayAnimThread = (HANDLE)mir_forkthreadex(TrayAnimThread, NULL, NULL);
 
 		PluginConfig.g_hMenuTrayUnread = CreatePopupMenu();
 		PluginConfig.g_hMenuFavorites = CreatePopupMenu();

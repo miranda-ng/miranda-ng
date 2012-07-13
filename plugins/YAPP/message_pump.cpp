@@ -176,7 +176,7 @@ void InitMessagePump() {
 	InitServices();
 
 	hMPEvent = CreateEvent(0, TRUE, 0, 0);
-	CloseHandle(mir_forkthreadex(MessagePumpThread, hMPEvent, 0, &message_pump_thread_id));
+	CloseHandle(mir_forkthreadex(MessagePumpThread, hMPEvent, &message_pump_thread_id));
 	WaitForSingleObject(hMPEvent, INFINITE);
 	CloseHandle(hMPEvent);
 }

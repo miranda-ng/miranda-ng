@@ -701,7 +701,7 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 				strncpy(contactQueue[index]->sProtoName,cws->szModule,MAXMODULELABELLENGTH);
 	
 				unsigned int dwThreadId;
-				forkthreadex(NULL, 0, (pThreadFuncEx)waitThread, contactQueue[index], 0, &dwThreadId);
+				mir_forkthreadex((pThreadFuncEx)waitThread, contactQueue[index], &dwThreadId);
 			}
 			contactQueue[index]->courStatus = isIdleEvent ? DBGetContactSettingWord((HANDLE)wparam, cws->szModule, "Status", ID_STATUS_OFFLINE) : cws->value.wVal;
 	}	}	
@@ -789,7 +789,7 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 			info->courStatus = 0;
 
 			unsigned int dwThreadId;
-			forkthreadex(NULL, 0, (pThreadFuncEx)cleanThread, info, 0, &dwThreadId);
+			mir_forkthreadex((pThreadFuncEx)cleanThread, info, &dwThreadId);
 		}
 	} else if ((isetting==ID_STATUS_OFFLINE)&&((WORD)ack->hProcess>ID_STATUS_OFFLINE)) {
 		//we have just loged-off

@@ -315,7 +315,7 @@ BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 
 		data->acc = acc;
 
-		if (HANDLE h = mir_forkthreadex((pThreadFuncEx)OpenUrlThread, data, 0, NULL)) {
+		if (HANDLE h = mir_forkthreadex((pThreadFuncEx)OpenUrlThread, data, NULL)) {
 			CloseHandle(h);
 			data = NULL;
 		}
@@ -343,7 +343,7 @@ void StartShellExecuteThread(LPCTSTR url)
 {
 	LPTSTR urlCopy = _tcsdup(url);
 	__try {
-		if (HANDLE h = mir_forkthreadex(ShellExecuteThread, urlCopy, 0, NULL)) {
+		if (HANDLE h = mir_forkthreadex(ShellExecuteThread, urlCopy, NULL)) {
 			CloseHandle(h);
 			urlCopy = NULL;
 		}

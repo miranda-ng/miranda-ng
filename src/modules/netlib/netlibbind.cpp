@@ -326,6 +326,6 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	nlbp->hThread = (HANDLE)forkthreadex(NULL, 0, NetlibBindAcceptThread, 0, nlbp, &dwThreadId);
+	nlbp->hThread = (HANDLE)mir_forkthreadex(NetlibBindAcceptThread, nlbp, &dwThreadId);
 	return (INT_PTR)nlbp;
 }

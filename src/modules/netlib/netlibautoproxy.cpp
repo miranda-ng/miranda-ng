@@ -354,7 +354,7 @@ char* NetlibGetIeProxy(char *szUrl)
 	{
 		unsigned dwThreadId;
 		IeProxyParam param = { szUrl, szHost, NULL };
-		HANDLE hThread = (HANDLE)forkthreadex(NULL, 0, NetlibIeProxyThread, 0, &param, &dwThreadId);
+		HANDLE hThread = (HANDLE)mir_forkthreadex(NetlibIeProxyThread, &param, &dwThreadId);
 		WaitForSingleObject(hThread, INFINITE);
 		CloseHandle(hThread);
 		res = param.szProxy;

@@ -268,7 +268,7 @@ void InitMessagePump()
 	if (hDwmapiDll)
 		MyDwmEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(hDwmapiDll, "DwmEnableBlurBehindWindow");
 
-	CloseHandle(mir_forkthreadex(MessagePumpThread, NULL, 0, &uintMessagePumpThreadId));
+	CloseHandle(mir_forkthreadex(MessagePumpThread, NULL, &uintMessagePumpThreadId));
 }
 
 void DeinitMessagePump()
