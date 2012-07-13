@@ -593,11 +593,6 @@ int OnPluginUnload(WPARAM wParam, LPARAM lParam)
 
 int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 {
-	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		MessageBox(0, TranslateT("Frames Services not found - plugin disabled.You need MultiWindow plugin."), _T("TopToolBar"), 0);
-		return 0;
-	}
-
 	LoadAllSeparators();
 	LoadAllLButs();
 
@@ -632,6 +627,13 @@ static LRESULT CALLBACK TTBButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LP
 
 int LoadToolbarModule()
 {
+	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+		if ( !db_get_b(NULL, TTB_OPTDIR, "WarningDone", 0))
+			MessageBox(0, TranslateT("Frames Services not found - plugin disabled.You need MultiWindow plugin."), _T("TopToolBar"), 0);
+		db_set_b(NULL, TTB_OPTDIR, "WarningDone", 1);
+		return 1;
+	}
+
 	g_ctrl = (TTBCtrl*)mir_calloc( sizeof(TTBCtrl));
 	g_ctrl->nButtonHeight = db_get_dw(0, TTB_OPTDIR, "BUTTHEIGHT", DEFBUTTHEIGHT);
 	g_ctrl->nButtonWidth = db_get_dw(0, TTB_OPTDIR, "BUTTWIDTH", DEFBUTTWIDTH);
@@ -641,6 +643,8 @@ int LoadToolbarModule()
 	g_ctrl->bFlatButtons = db_get_b(0, TTB_OPTDIR, "UseFlatButton", true);
 	g_ctrl->bSingleLine = db_get_b(0, TTB_OPTDIR, "SingleLine", false);
 	g_ctrl->bAutoSize = db_get_b(0, TTB_OPTDIR, "AutoSize", true);
+
+	db_unset(NULL, TTB_OPTDIR, "WarningDone");
 
 	InitializeCriticalSection(&csButtonsHook);
 	hBmpSeparator = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SEP));
