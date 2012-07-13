@@ -1243,145 +1243,136 @@ static int UpdateTBToolTip(int framepos)
 //hiword(wParam) = frameid,loword(wParam) = flag
 static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 {
-	int pos;
 	int retval; // value to be returned
 	BOOL bUnicodeText = (LOWORD(wParam) & FO_UNICODETEXT) != 0;
 	wParam = MAKEWPARAM((LOWORD(wParam))& ~FO_UNICODETEXT, HIWORD(wParam));
-	if (_fCluiFramesModuleNotStarted) return -1;
-
-
-	pos = id2pos(HIWORD(wParam));
-	if (pos < 0 || pos >= g_nFramesCount) {
-
+	if (_fCluiFramesModuleNotStarted)
 		return -1;
-	}
 
-	switch(LOWORD(wParam))
-	{
-	case FO_FLAGS:{
-		int flag = lParam;
-		int style;
+	int pos = id2pos(HIWORD(wParam));
+	if (pos < 0 || pos >= g_nFramesCount)
+		return -1;
 
-		g_pfwFrames[pos].dwFlags = flag;
-		g_pfwFrames[pos].visible = FALSE;
-		if (flag&F_VISIBLE) g_pfwFrames[pos].visible = TRUE;
+	FRAMEWND &fw = g_pfwFrames[pos];
 
-		g_pfwFrames[pos].collapsed = TRUE;
-		if (flag&F_UNCOLLAPSED) g_pfwFrames[pos].collapsed = FALSE;
+	switch(LOWORD(wParam)) {
+	case FO_FLAGS:
+		fw.dwFlags = lParam;
+		fw.visible = FALSE;
+		if (lParam & F_VISIBLE) fw.visible = TRUE;
 
-		g_pfwFrames[pos].Locked = FALSE;
-		if (flag&F_LOCKED) g_pfwFrames[pos].Locked = TRUE;
+		fw.collapsed = TRUE;
+		if (lParam & F_UNCOLLAPSED) fw.collapsed = FALSE;
 
-		g_pfwFrames[pos].UseBorder = TRUE;
-		if (flag&F_NOBORDER) g_pfwFrames[pos].UseBorder = FALSE;
+		fw.Locked = FALSE;
+		if (lParam & F_LOCKED) fw.Locked = TRUE;
 
-		g_pfwFrames[pos].TitleBar.ShowTitleBar = FALSE;
-		if (flag&F_SHOWTB) g_pfwFrames[pos].TitleBar.ShowTitleBar = TRUE;
+		fw.UseBorder = TRUE;
+		if (lParam & F_NOBORDER) fw.UseBorder = FALSE;
 
-		g_pfwFrames[pos].TitleBar.ShowTitleBarTip = FALSE;
-		if (flag&F_SHOWTBTIP) g_pfwFrames[pos].TitleBar.ShowTitleBarTip = TRUE;
+		fw.TitleBar.ShowTitleBar = FALSE;
+		if (lParam & F_SHOWTB) fw.TitleBar.ShowTitleBar = TRUE;
 
-		SendMessageA(g_pfwFrames[pos].TitleBar.hwndTip,TTM_ACTIVATE,(WPARAM)g_pfwFrames[pos].TitleBar.ShowTitleBarTip,0);
+		fw.TitleBar.ShowTitleBarTip = FALSE;
+		if (lParam & F_SHOWTBTIP) fw.TitleBar.ShowTitleBarTip = TRUE;
 
-		style = (int)GetWindowLongPtr(g_pfwFrames[pos].hWnd,GWL_STYLE);
-		style &= (~WS_BORDER);
+		SendMessageA(fw.TitleBar.hwndTip,TTM_ACTIVATE,(WPARAM)fw.TitleBar.ShowTitleBarTip,0);
+		{
+			int style = (int)GetWindowLongPtr(fw.hWnd,GWL_STYLE);
+			style &= (~WS_BORDER);
+			if ( !(lParam & F_NOBORDER ) && !g_CluiData.fLayered )
+				style |= WS_BORDER;
 
-		if ( !(flag&F_NOBORDER ) && !g_CluiData.fLayered ) style |= WS_BORDER;
-
-		SetWindowLongPtr(g_pfwFrames[pos].hWnd,GWL_STYLE,(long)style);
-		SetWindowLongPtr(g_pfwFrames[pos].TitleBar.hwnd,GWL_STYLE,(long)style& ~(WS_VSCROLL | WS_HSCROLL));
+			SetWindowLongPtr(fw.hWnd,GWL_STYLE,(long)style);
+			SetWindowLongPtr(fw.TitleBar.hwnd,GWL_STYLE,(long)style& ~(WS_VSCROLL | WS_HSCROLL));
+		}
 
 		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
-		SetWindowPos(g_pfwFrames[pos].TitleBar.hwnd,0,0,0,0,0,SWP_NOZORDER|SWP_NOMOVE|SWP_NOSIZE|SWP_FRAMECHANGED|SWP_NOACTIVATE);
+		SetWindowPos(fw.TitleBar.hwnd,0,0,0,0,0,SWP_NOZORDER|SWP_NOMOVE|SWP_NOSIZE|SWP_FRAMECHANGED|SWP_NOACTIVATE);
 		return 0;
-				  }
 
 	case FO_NAME:
 		if (lParam == (LPARAM)NULL)
 			return -1;
 
-		mir_free(g_pfwFrames[pos].Name);
-		mir_free(g_pfwFrames[pos].szName);
+		mir_free(fw.Name);
+		mir_free(fw.szName);
 		if (bUnicodeText) {
-			g_pfwFrames[pos].Name = mir_tstrdup((LPTSTR)lParam);
-			g_pfwFrames[pos].szName = mir_t2a((LPTSTR)lParam);
+			fw.Name = mir_tstrdup((LPTSTR)lParam);
+			fw.szName = mir_t2a((LPTSTR)lParam);
 		}
 		else {
-			g_pfwFrames[pos].szName = mir_strdup((char*)lParam);
-			g_pfwFrames[pos].Name = mir_a2t((char *)lParam);
+			fw.szName = mir_strdup((char*)lParam);
+			fw.Name = mir_a2t((char *)lParam);
 		}
 		return 0;
 
 	case FO_TBNAME:
 		if (lParam == (LPARAM)NULL) { return(-1);}
 
-		mir_free(g_pfwFrames[pos].TitleBar.tbname);
-		mir_free(g_pfwFrames[pos].TitleBar.sztbname);
+		mir_free(fw.TitleBar.tbname);
+		mir_free(fw.TitleBar.sztbname);
 		if (bUnicodeText) {
-			g_pfwFrames[pos].TitleBar.tbname = mir_tstrdup((LPTSTR)lParam);
-			g_pfwFrames[pos].TitleBar.sztbname = mir_t2a((LPTSTR)lParam);
+			fw.TitleBar.tbname = mir_tstrdup((LPTSTR)lParam);
+			fw.TitleBar.sztbname = mir_t2a((LPTSTR)lParam);
 		}
 		else {
-			g_pfwFrames[pos].TitleBar.sztbname = mir_strdup((char*)lParam);
-			g_pfwFrames[pos].TitleBar.tbname = mir_a2t((char*)lParam);
+			fw.TitleBar.sztbname = mir_strdup((char*)lParam);
+			fw.TitleBar.tbname = mir_a2t((char*)lParam);
 		}
 
-		if (g_pfwFrames[pos].floating && (g_pfwFrames[pos].TitleBar.tbname != NULL))
-			SetWindowText(g_pfwFrames[pos].ContainerWnd,g_pfwFrames[pos].TitleBar.tbname);
+		if (fw.floating && (fw.TitleBar.tbname != NULL))
+			SetWindowText(fw.ContainerWnd,fw.TitleBar.tbname);
 		return 0;
 
 	case FO_TBTIPNAME:
 		if (lParam == (LPARAM)NULL) { return(-1);}
-		if (g_pfwFrames[pos].TitleBar.tooltip != NULL) mir_free_and_nil(g_pfwFrames[pos].TitleBar.tooltip);
-		if (g_pfwFrames[pos].TitleBar.sztooltip != NULL) mir_free_and_nil(g_pfwFrames[pos].TitleBar.sztooltip);
+		if (fw.TitleBar.tooltip != NULL) mir_free_and_nil(fw.TitleBar.tooltip);
+		if (fw.TitleBar.sztooltip != NULL) mir_free_and_nil(fw.TitleBar.sztooltip);
 		if (bUnicodeText)
 		{
-			g_pfwFrames[pos].TitleBar.tooltip = mir_tstrdup((LPTSTR)lParam);
-			g_pfwFrames[pos].TitleBar.sztooltip = mir_t2a((LPTSTR)lParam);
+			fw.TitleBar.tooltip = mir_tstrdup((LPTSTR)lParam);
+			fw.TitleBar.sztooltip = mir_t2a((LPTSTR)lParam);
 		}
 		else
 		{
-			g_pfwFrames[pos].TitleBar.sztooltip = mir_strdup((char*)lParam);
-			g_pfwFrames[pos].TitleBar.tooltip = mir_a2t((char*)lParam);
+			fw.TitleBar.sztooltip = mir_strdup((char*)lParam);
+			fw.TitleBar.tooltip = mir_a2t((char*)lParam);
 		}
 		UpdateTBToolTip(pos);
-
 		return 0;
 
 	case FO_TBSTYLE:
-		SetWindowLongPtr(g_pfwFrames[pos].TitleBar.hwnd,GWL_STYLE,lParam& ~(WS_VSCROLL | WS_HSCROLL));
-
+		SetWindowLongPtr(fw.TitleBar.hwnd,GWL_STYLE,lParam& ~(WS_VSCROLL | WS_HSCROLL));
 		return 0;
 
 	case FO_TBEXSTYLE:
-		SetWindowLongPtr(g_pfwFrames[pos].TitleBar.hwnd,GWL_EXSTYLE,lParam);
-
+		SetWindowLongPtr(fw.TitleBar.hwnd,GWL_EXSTYLE,lParam);
 		return 0;
 
 	case FO_ICON:
-		g_pfwFrames[pos].TitleBar.hicon = (HICON)lParam;
-
+		fw.TitleBar.hicon = (HICON)lParam;
 		return 0;
 
 	case FO_HEIGHT:
 		if (lParam < 0) { return -1;}
 
-		if (g_pfwFrames[pos].collapsed)
+		if (fw.collapsed)
 		{
-			int oldHeight = g_pfwFrames[pos].height;
-			retval = g_pfwFrames[pos].height;
-			g_pfwFrames[pos].height = lParam;
-			if ( !CLUIFramesFitInSize()) g_pfwFrames[pos].height = retval;
-			retval = g_pfwFrames[pos].height;
-			if (g_pfwFrames[pos].height != oldHeight)
+			int oldHeight = fw.height;
+			retval = fw.height;
+			fw.height = lParam;
+			if ( !CLUIFramesFitInSize()) fw.height = retval;
+			retval = fw.height;
+			if (fw.height != oldHeight && !fw.floating)
 				CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
 		}
 		else
 		{
-			retval = g_pfwFrames[pos].HeightWhenCollapsed;
-			g_pfwFrames[pos].HeightWhenCollapsed = lParam;
-			if ( !CLUIFramesFitInSize()) g_pfwFrames[pos].HeightWhenCollapsed = retval;
-			retval = g_pfwFrames[pos].HeightWhenCollapsed;
+			retval = fw.HeightWhenCollapsed;
+			fw.HeightWhenCollapsed = lParam;
+			if ( !CLUIFramesFitInSize()) fw.HeightWhenCollapsed = retval;
+			retval = fw.HeightWhenCollapsed;
 
 		}
 		return retval;
@@ -1390,8 +1381,8 @@ static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 		if (lParam < 0) { return -1;}
 
 		{
-			int id = g_pfwFrames[pos].id;
-			g_pfwFrames[pos].floating = !(lParam);
+			int id = fw.id;
+			fw.floating = !(lParam);
 
 
 			CLUIFrames_SetFrameFloat(id,1);//lparam = 1 use stored width and height
@@ -1410,9 +1401,7 @@ static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 
 			return -1;
 		}
-		g_pfwFrames[pos].align = lParam;
-
-
+		fw.align = lParam;
 		return(0);
 	}
 
