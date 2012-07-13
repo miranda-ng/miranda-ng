@@ -339,7 +339,6 @@ LBL_Error:
 	pcli->pfnGetWindowVisibleState = GetWindowVisibleState;
 	pcli->pfnHitTest = HitTest;
 	pcli->pfnLoadContactTree = LoadContactTree;
-	pcli->pfnOnCreateClc = LoadCLUIModule;
 	pcli->pfnPaintClc = PaintClc;
 	pcli->pfnRebuildEntireList = RebuildEntireList;
 	pcli->pfnRowHitTest = RowHeight::hitTest;
@@ -367,6 +366,7 @@ LBL_Error:
 	rc = LoadContactListModule();
 	if (rc == 0)
 		rc = LoadCLCModule();
+	LoadCLUIModule();
 	LoadButtonModule();
 	HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);
 	return rc;
