@@ -126,7 +126,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_KEYCOLOR_DEFAULT   RGB(255,0,255) //! "ModernSettings","KeyColor"
 #define SETTING_LINEUNDERMENU_DEFAULT           0 //! "CLUI","LineUnderMenu"
 #define SETTING_SHOWONSTART_DEFAULT             0 //! "CList","ShowOnStart"
-#define SETTING_AUTOSIZE_DEFAULT                0 //! "CLUI","AutoSize"
 
 #define SETTING_INTERNALAWAYMSGREQUEST_DEFAULT   1 //"ModernData","InternalAwayMsgDiscovery"
 #define SETTING_REMOVEAWAYMSGFOROFFLINE_DEFAULT  1 //"ModernData","RemoveAwayMessageForOffline"
@@ -134,7 +133,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_METAIGNOREEMPTYEXTRA_DEFAULT     1 //"CLC","MetaIgnoreEmptyExtra"
 #define SETTING_METAHIDEEXTRA_DEFAULT            0 //"CLC","MetaHideExtra"
 #define SETTING_METAEXPANDING_DEFAULT            1 //"CLC","MetaExpanding"
-#define SETTING_METAAVOIDDBLCLICK_DEFAULT        1 //"CLC","MetaDoubleClick"
 #define SETTING_METAHIDEOFFLINESUB_DEFAULT       1 //"CLC","MetaHideOfflineSub"
 #define SETTING_USEMETAICON_DEFAULT              0 //"CLC","Meta"
 #define SETTING_DRAWOVERLAYEDSTATUS_DEFAULT      3 //todo replace by contstants
