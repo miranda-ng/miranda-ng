@@ -677,9 +677,8 @@ int CJabberProto::AdhocLockWSHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 	return JABBER_ADHOC_HANDLER_STATUS_REMOVE_SESSION;
 }
 
-static void __cdecl JabberQuitMirandaIMThread( void* )
+static void __stdcall JabberQuitMirandaIMThread( void* )
 {
-	SleepEx( 2000, TRUE );
 	JCallService( "CloseAction", 0, 0 );
 }
 
@@ -722,7 +721,7 @@ int CJabberProto::AdhocQuitMirandaHandler( HXML, CJabberIqInfo* pInfo, CJabberAd
 		fieldNode = xmlGetChildByTag( xNode,"field", "var", _T("allow-shutdown"));
 		if ( fieldNode && (valueNode = xmlGetChild( fieldNode , "value" )))
 			if ( xmlGetText( valueNode ) && _ttoi( xmlGetText( valueNode )))
-				mir_forkthread( JabberQuitMirandaIMThread, NULL );
+				CallFunctionAsync(JabberQuitMirandaIMThread, 0);
 
 		return JABBER_ADHOC_HANDLER_STATUS_COMPLETED;
 	}
