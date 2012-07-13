@@ -2,13 +2,13 @@
 // Checksum Tool 
 // By Bio (C) 2012
 
-#define _VERSION_ "2.99"
+#define _VERSION_ "3.0"
 
 #include "commonheaders.h"
 
 
-//#define DEBUG_SECTIONS	1
-//#define DEBUG_REALLOCS	1
+// #define DEBUG_SECTIONS	1
+// #define DEBUG_REALLOCS	1
 
 // Return codes
 #define RESULT_OK			0
@@ -115,7 +115,7 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 				DWORD realvaddr = 0;
 				DWORD realsize = 0;
 				DWORD offset;
-				__int64 base = 0;
+				ULONGLONG base = 0;
 
 				// try to found correct offset independent of architectures 
 				offset = pIDH->e_lfanew + pINTH->FileHeader.SizeOfOptionalHeader + sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_OPTIONAL_HEADER);
@@ -134,13 +134,18 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 				{
 
 				    pIDD = (PIMAGE_DATA_DIRECTORY)( (PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS64, OptionalHeader.DataDirectory ) );
-				    base = *(__int64*)( (PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS64, OptionalHeader.ImageBase ) );
+				    base = *(ULONGLONG*)( (PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS64, OptionalHeader.ImageBase ) );
 				}
 				else 
 					res = RESULT_CORRUPTED;
 					                                     
 #ifdef DEBUG_REALLOCS
 				_ftprintf( stderr, _T("Image base is 0x%I64x \n"), base );
+
+				if ( base <= DEFAULT_BASE) 
+					_ftprintf( stderr, _T("Image base correction 0x%I64x\n"), DEFAULT_BASE - base );
+				else
+					_ftprintf( stderr, _T("Image base correction -0x%I64x\n"), base - DEFAULT_BASE );
 #endif
 
 				if ( pIDD )
@@ -221,14 +226,6 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 							_ftprintf( stderr, _T("Found reallocation table entry at 0x%08X (%d)\n"), pISH->PointerToRawData + shift, realsize );
 #endif
 
-							// correct base address
-							base = DEFAULT_BASE - base; 
-#ifdef DEBUG_REALLOCS
-							if ( base >= 0) 
-								_ftprintf( stderr, _T("Image base correction 0x%I64x\n"), base );
-							else
-								_ftprintf( stderr, _T("Image base correction -0x%I64x\n"), -base );
-#endif
 						}
 	
                         idx++;
@@ -240,8 +237,6 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 			    {
 					PIMAGE_SECTION_HEADER pISH = 0;
 					DWORD idx = 0;
-
-					INT64 rebase = DEFAULT_BASE - base;
 
 					mir_md5_state_t pms;
 								
@@ -257,7 +252,7 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
    							break;
 						}
 
-						// Rebase to default address
+						// Rebase to DEFAULT_BASE address
 						if ( pRealloc ) 
 						{
 							PIMAGE_BASE_RELOCATION pIBR = 0;
@@ -303,15 +298,16 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 											    	len = 0;
 													break;
 												}
-												*(PDWORD)pAddr = (DWORD)( (__int64)(*(PDWORD)pAddr) + base );
+												*(PDWORD)pAddr = (DWORD)( (*(PDWORD)pAddr) - (DWORD)base + (DWORD)DEFAULT_BASE );
 												break;
 
-
 											case IMAGE_REL_BASED_DIR64:
-#ifdef DEBUG_REALLOCS
-												_ftprintf( stderr, _T("REL_BASED_DIR64\n"));
-#endif
-                                                // FIXME
+											    if ( addr + pIBR->VirtualAddress + sizeof(ULONGLONG) >= pISH->VirtualAddress + pISH->SizeOfRawData )
+											    {
+											    	len = 0;
+													break;
+												}
+												*(ULONGLONG*)pAddr = (ULONGLONG)( (*(ULONGLONG*)pAddr) - base + (ULONGLONG)DEFAULT_BASE );
 												break;
 
 											case IMAGE_REL_BASED_ABSOLUTE:
@@ -333,7 +329,6 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 #endif
 												break;	
 										}
-
 
 										len -= sizeof(WORD);
 										pw++;
@@ -454,7 +449,7 @@ int _tmain( int argc, TCHAR *argv[] )
 	int res = 0;
 	int cnt = 0;
 
-	_ftprintf( stderr, _T("* PE CHECKSUM TOOL * VERSION %s\n\n"), _VERSION_ );
+	_ftprintf( stderr, _T("* PE CHECKSUM TOOL * VERSION %s * by Bio (c) 2012\n\n"), _VERSION_ );
 
 	if ( argc > 1 )
 	{
