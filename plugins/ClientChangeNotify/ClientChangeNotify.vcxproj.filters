@@ -69,7 +69,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\Resources.rc2">
+    <None Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="docs\ccn_readme.txt">
