@@ -182,6 +182,9 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 		SetCurrentStatus(ID_STATUS_OFFLINE);
 	}
 
+	// signal info update thread to stop
+	icq_InfoUpdateCleanup();
+
 	// signal keep-alive thread to stop
 	StopKeepAlive(&info);
 
@@ -234,20 +237,19 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 
 void CIcqProto::icq_serverDisconnect(BOOL bBlock)
 {
-	if (hServerConn)
-	{
-		NetLog_Server("Server shutdown requested");
-		Netlib_Shutdown(hServerConn);
+	if ( !hServerConn)
+		return;
 
-		if (serverThreadHandle)
-		{
-			// Not called from network thread?
-			if (bBlock && GetCurrentThreadId() != serverThreadId)
-				while (ICQWaitForSingleObject(serverThreadHandle, INFINITE) != WAIT_OBJECT_0);
+	NetLog_Server("Server shutdown requested");
+	Netlib_Shutdown(hServerConn);
 
-			CloseHandle(serverThreadHandle);
-			serverThreadHandle = NULL;
-		}
+	if (serverThreadHandle) {
+		// Not called from network thread?
+		if (bBlock && GetCurrentThreadId() != serverThreadId)
+			while (ICQWaitForSingleObject(serverThreadHandle, INFINITE) != WAIT_OBJECT_0);
+
+		CloseHandle(serverThreadHandle);
+		serverThreadHandle = NULL;
 	}
 }
 

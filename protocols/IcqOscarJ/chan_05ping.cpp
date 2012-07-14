@@ -44,7 +44,7 @@ void __cdecl CIcqProto::KeepAliveThread(void *arg)
 
 	NetLog_Server("Keep alive thread starting.");
 
-	info->hKeepAliveEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	info->hKeepAliveEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
 	for (;;)
 	{
@@ -65,7 +65,7 @@ void __cdecl CIcqProto::KeepAliveThread(void *arg)
 				break;
 	}
 
-	NetLog_Server("Keep alive thread shutting down.");
+	NetLog_Server("Keep alive thread ended.");
 
 	CloseHandle(info->hKeepAliveEvent);
 	info->hKeepAliveEvent = NULL;
@@ -78,19 +78,12 @@ void CIcqProto::StartKeepAlive(serverthread_info *info)
 		return;
 
 	if (getSettingByte(NULL, "KeepAlive", DEFAULT_KEEPALIVE_ENABLED))
-		info->hKeepAliveThread = ForkThreadEx(&CIcqProto::KeepAliveThread, info);
+		CloseHandle( ForkThreadEx(&CIcqProto::KeepAliveThread, info));
 }
 
 
 void CIcqProto::StopKeepAlive(serverthread_info *info)
 {	// finish keep alive thread
 	if (info->hKeepAliveEvent)
-	{
 		SetEvent(info->hKeepAliveEvent);
-
-		// wait for the thread to finish
-		ICQWaitForSingleObject(info->hKeepAliveThread, INFINITE, TRUE);
-		CloseHandle(info->hKeepAliveThread);
-		info->hKeepAliveThread = NULL;
-	}
 }

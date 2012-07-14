@@ -195,10 +195,12 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 	unpackWord(&buf, &wTLVCount);
 	wLen -= 2;
 
-	// Determine contact
-	HANDLE hContact = HContactFromUID(dwUIN, szUID, NULL);
+	// notify that the set status note & mood process is finished
+	if (m_hNotifyNameInfoEvent)
+		SetEvent(m_hNotifyNameInfoEvent);
 
 	// Ignore status notification if the user is not already on our list
+	HANDLE hContact = HContactFromUID(dwUIN, szUID, NULL);
 	if (hContact == INVALID_HANDLE_VALUE)
 	{
 #ifdef _DEBUG
@@ -577,7 +579,6 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 		}
 	}
 }
-
 
 void CIcqProto::handleUserOffline(BYTE *buf, WORD wLen)
 {

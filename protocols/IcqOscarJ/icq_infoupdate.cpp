@@ -35,21 +35,18 @@ void CIcqProto::icq_InitInfoUpdate(void)
 {
 	// Create wait objects
 	hInfoQueueEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-
-	if (hInfoQueueEvent)
-	{
+	if (hInfoQueueEvent) {
 		// Init mutexes
 		infoUpdateMutex = new icq_critical_section();
 
 		// Init list
-		for (int i = 0; i<LISTSIZE; i++)
-		{
+		for (int i = 0; i<LISTSIZE; i++) {
 			m_infoUpdateList[i].dwUin = 0;
 			m_infoUpdateList[i].hContact = NULL;
 			m_infoUpdateList[i].queued = 0;
 		}
 
-		hInfoThread = ForkThreadEx( &CIcqProto::InfoUpdateThread, NULL );
+		CloseHandle( ForkThreadEx( &CIcqProto::InfoUpdateThread, NULL));
 	}
 
 	bInfoPendingUsers = 0;
@@ -152,16 +149,13 @@ void CIcqProto::icq_DequeueUser(DWORD dwUin)
 
 void CIcqProto::icq_RescanInfoUpdate()
 {
-	HANDLE hContact = NULL;
-	BOOL bOldEnable = bInfoUpdateEnabled;
-
 	bInfoPendingUsers = 0;
 	/* This is here, cause we do not want to emit large number of reuqest at once,
 	fill queue, and let thread deal with it */
 	bInfoUpdateEnabled = 0; // freeze thread
-	// Queue all outdated users
-	hContact = FindFirstContact();
 
+	// Queue all outdated users
+	HANDLE hContact = FindFirstContact();
 	while (hContact != NULL)
 	{
 		if (IsMetaInfoChanged(hContact))
@@ -174,7 +168,8 @@ void CIcqProto::icq_RescanInfoUpdate()
 		}
 		hContact = FindNextContact(hContact);
 	}
-	icq_EnableUserLookup(bOldEnable); // wake up thread
+
+	bInfoUpdateEnabled = TRUE;
 }
 
 
@@ -199,9 +194,6 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 
 	while (bInfoUpdateRunning)
 	{
-		// Wait for a while
-		ResetEvent(hInfoQueueEvent);
-
 		if (!nInfoUserCount && bInfoPendingUsers) // whole queue processed, check if more users needs updating
 			icq_RescanInfoUpdate();
 
@@ -254,7 +246,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 					if (!bInfoUpdateRunning)
 					{ // need to end as fast as possible
 						NetLog_Server("%s thread ended.", "Info-Update");
-						return;
+						goto LBL_Exit;
 					}
 					continue;
 				}
@@ -268,7 +260,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 					if (!bInfoUpdateRunning)
 					{ // need to end as fast as possible
 						NetLog_Server("%s thread ended.", "Info-Update");
-						return;
+						goto LBL_Exit;
 					}
 					continue;
 				}
@@ -296,7 +288,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 					if (!bInfoUpdateRunning)
 					{ // need to end as fast as possible
 						NetLog_Server("%s thread ended.", "Info-Update");
-						return;
+						goto LBL_Exit;
 					}
 					m_ratesMutex->Enter();
 					if (!m_rates) // we lost connection when we slept, go away
@@ -391,19 +383,19 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 			break;
 		}
 	}
+
 	NetLog_Server("%s thread ended.", "Info-Update");
+
+LBL_Exit:
+	SAFE_DELETE(&infoUpdateMutex);
+	CloseHandle(hInfoQueueEvent);
 }
 
 // Clean up before exit
 void CIcqProto::icq_InfoUpdateCleanup(void)
 {
+	NetLog_Server("%s must die.", "Info-Update");
 	bInfoUpdateRunning = FALSE;
-	SetEvent(hInfoQueueEvent); // break queue loop
-	if (hInfoThread)
-		ICQWaitForSingleObject(hInfoThread, INFINITE, TRUE);
-
-	// Uninit mutex
-	SAFE_DELETE(&infoUpdateMutex);
-	CloseHandle(hInfoQueueEvent);
-	CloseHandle(hInfoThread);
+	if (hInfoQueueEvent)
+		SetEvent(hInfoQueueEvent); // break queue loop
 }
