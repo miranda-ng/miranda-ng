@@ -36,6 +36,9 @@ const
   UTC_TIME_HANDLE   = pointer(-1);
 
 type
+  mir_time = int_ptr;
+
+type
   TIME_API = record
     cbSize:size_t;
 
@@ -45,7 +48,7 @@ type
 
     printDateTime:function(hTZ:THANDLE; szFormat:TChar; szDest:TChar;
           cbDest:int; dwFlags:dword):int; cdecl;
-	  printTimeStamp:function(hTZ:THANDLE; ts:time_t; szFormat:TChar; szDest:TChar;
+	  printTimeStamp:function(hTZ:THANDLE; ts:mir_time; szFormat:TChar; szDest:TChar;
 	        cbDest:int; dwFlags:dword):int; cdecl;
 
 	  prepareList     :function (hContact:THANDLE; hWnd:HWND; dwFlags:dword):int; cdecl;
@@ -53,7 +56,7 @@ type
 	  storeListResults:procedure(hContact:THANDLE; hWnd:HWND; dwFlags:dword); cdecl;
 
 	  getTimeZoneTime:function(hTZ:THANDLE; var st:SYSTEMTIME):int; cdecl;
-	  timeStampToTimeZoneTimeStamp:function(hTZ:THANDLE; ts:time_t):time_t; cdecl;
+	  timeStampToTimeZoneTimeStamp:function(hTZ:THANDLE; ts:mir_time):time_t; cdecl;
 
     getTzi:function(hTZ:THANDLE):PTimeZoneInformation; cdecl;
 	  getTzName:function(hTZ:THANDLE):TChar;

@@ -1085,9 +1085,9 @@ function GetRichRTF(RichEditHandle: THandle; var RTFStream: String;
                     SelectionOnly, PlainText, NoObjects, PlainRTF: Boolean): Integer; overload;
 function GetRichRTF(RichEditHandle: THandle; var RTFStream: AnsiString;
                     SelectionOnly, PlainText, NoObjects, PlainRTF: Boolean): Integer; overload;
-function SetRichRTF(RichEditHandle: THandle; RTFStream: String;
+function SetRichRTF(RichEditHandle: THandle; const RTFStream: String;
                     SelectionOnly, PlainText, PlainRTF: Boolean): Integer; overload;
-function SetRichRTF(RichEditHandle: THandle; RTFStream: AnsiString;
+function SetRichRTF(RichEditHandle: THandle; const RTFStream: AnsiString;
                     SelectionOnly, PlainText, PlainRTF: Boolean): Integer; overload;
 function FormatString2RTF(Source:     String; Suffix: AnsiString = ''): AnsiString; overload;
 function FormatString2RTF(Source: AnsiString; Suffix: AnsiString = ''): AnsiString; overload;
@@ -1328,7 +1328,7 @@ begin
   Result := es.dwError;
 end;
 
-function SetRichRTF(RichEditHandle: THandle; RTFStream: String;
+function SetRichRTF(RichEditHandle: THandle; const RTFStream: String;
                     SelectionOnly, PlainText, PlainRTF: Boolean): Integer;
 var
   Stream: TTextStream;
@@ -1349,7 +1349,7 @@ begin
                         SelectionOnly, PlainText, PlainRTF, PlainText);
 end;
 
-function SetRichRTF(RichEditHandle: THandle; RTFStream: AnsiString;
+function SetRichRTF(RichEditHandle: THandle; const RTFStream: AnsiString;
                     SelectionOnly, PlainText, PlainRTF: Boolean): Integer;
 var
   Stream: TTextStream;

@@ -241,8 +241,6 @@ end;
 function OnModulesLoad(awParam{0}:WPARAM; alParam{0}:LPARAM):integer; cdecl;
 var
   menuItem:TCLISTMENUITEM;
-  upd: TUpdate;
-  hppVersionStr: AnsiString;
 begin
   // register
   hppRegisterGridOptions;
@@ -318,32 +316,6 @@ begin
   HookFSChanged := HookEvent(ME_FONT_RELOAD,OnFSChanged);
   if MetaContactsEnabled then HookMetaDefaultChanged := HookEvent(ME_MC_DEFAULTTCHANGED,OnMetaDefaultChanged);
 
-  // Register in updater
-  if Boolean(ServiceExists(MS_UPDATE_REGISTER)) then
-  begin
-    ZeroMemory(@upd,SizeOf(upd));
-    upd.cbSize := SizeOf(upd);
-    upd.szComponentName := hppShortName;
-
-    hppVersionStr := AnsiString(Format('%d.%d.%d.%d',[hppVerMajor,hppVerMinor,hppVerRelease,hppVerBuild]));
-    
-    upd.pbVersion := @hppVersionStr[1];
-    upd.cpbVersion := Length(hppVersionStr);
-    // file listing section
-    //upd.szUpdateURL = UPDATER_AUTOREGISTER;
-    upd.szUpdateURL := hppFLUpdateURL;
-    upd.szVersionURL := hppFLVersionURL;
-    upd.pbVersionPrefix := hppFLVersionPrefix;
-    upd.cpbVersionPrefix := Length(hppFLVersionPrefix);
-    // alpha-beta section
-    upd.szBetaUpdateURL := hppUpdateURL;
-    upd.szBetaVersionURL := hppVersionURL;
-    upd.pbBetaVersionPrefix := hppVersionPrefix;
-    upd.cpbBetaVersionPrefix := Length(hppVersionPrefix);
-    upd.szBetaChangelogURL := hppChangelogURL;
-    CallService(MS_UPDATE_REGISTER, 0, LPARAM(@upd));
-  end;
-
   // Register in dbeditor
   CallService(MS_DBEDIT_REGISTERSINGLEMODULE, WPARAM(PAnsiChar(hppDBName)), 0);
 
@@ -364,7 +336,7 @@ begin
     ttb.hIconUp := hppIcons[HPP_ICON_GLOBALSEARCH].handle;
     ttb.pszService := MS_HPP_SHOWGLOBALSEARCH;
     ttb.dwFlags := TTBBF_VISIBLE or TTBBF_SHOWTOOLTIP;
-    ttb.name := PAnsiChar(Translate('Global History Search'));
+    ttb.name := 'Global History Search';
     ttb.pszTooltipUp := ttb.name;
     CallService(MS_TTB_ADDBUTTON,WPARAM(@ttb), 0);
     UnhookEvent(HookTTBLoaded);

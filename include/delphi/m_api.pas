@@ -24,6 +24,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   {$IFDEF WIN32}{$A4}{$ENDIF}
   {$IFDEF WIN64}{$A8}{$ENDIF}
 {$ENDIF}
+{$IFDEF FPC}
+  {$DEFINE AllowInline}
+{$ELSE}
+  {$IFDEF NativeCode} // Delphi.NET+
+    {$DEFINE AllowInline}
+  {$ENDIF}
+{$ENDIF}
+
 unit m_api;
 
 interface
@@ -243,7 +251,6 @@ var
   {$include m_fontservice.inc}
   {$include m_chat.inc}
   {$include m_fingerprint.inc}
-  {$include m_updater.inc}
   {$include m_variables.inc}
   {$include m_cluiframes.inc}
   {$include m_popup.inc}
@@ -265,7 +272,6 @@ var
   {$include m_help.inc}
   {$include m_proto_listeningto.inc}
   {$include m_toptoolbar.inc}
-  {$include m_toolbar.inc}
   {$include m_msg_buttonsbar.inc}
   {$include m_json.inc}
 {$define M_API_UNIT}

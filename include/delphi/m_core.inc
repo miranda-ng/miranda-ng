@@ -463,7 +463,11 @@ function ltrimp(str:pAnsiChar):pAnsiChar; stdcall;
 function wildcmp(name:pAnsiChar; mask:pAnsiChar):int; stdcall;
                  external CoreDLL name 'wildcmp';
 
-
+// mir_free dest, mir_strdup src to dest
+function replaceStr(var dest:pAnsiChar; const src:pAnsiChar):pAnsiChar; stdcall;
+                 external CoreDLL name 'replaceStr';
+function replaceStrW(var dest:pWideChar; const src:pWideChar):pWideChar; stdcall;
+                 external CoreDLL name 'replaceStrW';
 ///////////////////////////////////////////////////////////////////////////////
 // text conversion functions
 

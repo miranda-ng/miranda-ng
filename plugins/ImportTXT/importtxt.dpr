@@ -44,15 +44,6 @@ uses
 
 const MIID_IMPORTTEXT:TGUID = '{6F376B33-D3F4-4c4f-A96B-77DA08043B06}';
 
-// Updater compatibility data
-const
-  VersionURL        = 'http://abyss.web.ur.ru/itxt_ver.htm';
-  VersionPrefix     = 'Current version: ';
-  UpdateURL         = 'http://abyss.web.ur.ru/importtxt.zip';
-  BetaVersionURL    = nil;
-  BetaVersionPrefix = nil;
-  BetaUpdateURL     = nil;
-  BetaChangelogURL  = nil;
 
 var
   hwndWizard:HWND;
@@ -113,32 +104,10 @@ begin
 end;
 
 function OnModulesLoaded(wParam: wParam; lParam: lParam): int; cdecl;
-var
-  upd: TUpdate;
-  buf: array [0 .. 63] of char;
 begin
   UnhookEvent(onLoadHook);
   result := 0;
   EnumProtocols;
-  // Register in updater
-  if Boolean(ServiceExists(MS_UPDATE_REGISTER)) then
-  begin
-    ZeroMemory(@upd, sizeof(upd));
-    upd.cpbVersion := sizeof(upd);
-    upd.szComponentName := PluginInfo.shortName;;
-    upd.pbVersion := CreateVersionStringPlugin(@PluginInfo, @buf);
-    upd.cpbVersion := lstrlena(upd.pbVersion);
-    upd.szUpdateURL := UpdateURL;
-    upd.szVersionURL := VersionURL;
-    upd.pbVersionPrefix := VersionPrefix;
-    upd.cpbVersionPrefix := Length(VersionPrefix);
-    upd.szBetaUpdateURL := BetaUpdateURL;
-    upd.szBetaVersionURL := BetaVersionURL;
-    upd.pbBetaVersionPrefix := BetaVersionPrefix;
-    upd.cpbBetaVersionPrefix := Length(upd.pbBetaVersionPrefix);
-    upd.szBetaChangelogURL := BetaChangelogURL;
-    CallService(MS_UPDATE_REGISTER, 0, tlparam(@upd));
-  end;
   // check for AutoStart
   if (DBReadByte(0, IMPORT_TXT_MODULE, IMPORT_TXT_AS) = 1) and (ProtoCount > 0) then
   begin

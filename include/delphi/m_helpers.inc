@@ -8,7 +8,7 @@ function PLUGIN_MAKE_VERSION(a,b,c,d: Cardinal): int;
 function PLUGIN_CMP_VERSION(verA: LongInt; verB: LongInt): int;
 
 function mir_forkthread(aFunc:pThreadFunc; arg:pointer):THANDLE; {inline}
-function mir_forkthreadex(aFunc:pThreadFuncEx; arg:pointer; stackSize:int; pThreadID:puint_ptr):THANDLE; {inline}
+function mir_forkthreadex(aFunc:pThreadFuncEx; arg:pointer; pThreadID:puint_ptr):THANDLE; {inline}
 function mir_forkthreadowner(aFunc:pThreadFuncOwner; owner:pointer; arg:pointer; pThreadID:puint_ptr):THANDLE; {inline}
 
 function Netlib_CloseHandle(Handle: THandle): int;
@@ -35,7 +35,7 @@ function Translate(sz: PAnsiChar): PAnsiChar;
 function Translatew(sz: PWideChar): PWideChar;
 function TranslateString(const sz: AnsiString): AnsiString;
 function TranslateWideString(const sz:WideString):WideString;
-function TranslateUnicodeString(sz: String): String;{$ifdef FPC}inline;{$endif}
+function TranslateUnicodeString(sz: UnicodeString): UnicodeString;
 procedure TranslateDialogDefault(hwndDlg: THandle);
 procedure TranslateMenu(hMenu: HMENU);
 function Langpack_Register:int_ptr;
@@ -71,6 +71,8 @@ procedure ColourRegisterW(pColorID:pColourIDW);
 procedure EffectRegister(pEffectID:pEffectID);
 procedure EffectRegisterW(pEffectID:pEffectIDW);
 
+function TopToolbar_AddButton(pButton:PTTBButton):THANDLE;
+
 {$ELSE}
 
 function ProtoServiceExists(const proto,service: PAnsiChar): int;
@@ -101,11 +103,13 @@ begin
 end;
 
 function CreateVersionStringPlugin(pluginInfo:PPluginInfoEx;buf:PAnsiChar):PAnsiChar;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=CreateVersionString(pluginInfo^.version,buf);
 end;
 
 function PLUGIN_MAKE_VERSION(a,b,c,d: Cardinal): int;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := (a shl 24) or (b shl 16) or (c shl 8) or d;
 end;
@@ -122,31 +126,37 @@ begin
 end;
 
 
-function mir_forkthread(aFunc:pThreadFunc; arg:pointer):THANDLE; {inline}
+function mir_forkthread(aFunc:pThreadFunc; arg:pointer):THANDLE;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
 	result:=forkthread(aFunc, 0, arg);
 end;
-function mir_forkthreadex(aFunc:pThreadFuncEx; arg:pointer; stackSize:int; pThreadID:puint_ptr):THANDLE; {inline}
+function mir_forkthreadex(aFunc:pThreadFuncEx; arg:pointer; pThreadID:puint_ptr):THANDLE;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
-	result:=forkthreadex(nil, stackSize, aFunc, nil, arg, pThreadID);
+	result:=forkthreadex(nil, 0, aFunc, nil, arg, pThreadID);
 end;
-function mir_forkthreadowner(aFunc:pThreadFuncOwner; owner:pointer; arg:pointer; pThreadID:puint_ptr):THANDLE; {inline}
+function mir_forkthreadowner(aFunc:pThreadFuncOwner; owner:pointer; arg:pointer; pThreadID:puint_ptr):THANDLE;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
 	result:=forkthreadex(nil, 0, pThreadFuncEx(aFunc), owner, arg, pThreadID);
 end;
 
 
 function Netlib_CloseHandle(Handle: THandle): int;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := CallService(MS_NETLIB_CLOSEHANDLE, Handle, 0);
 end;
 
 function Netlib_GetBase64DecodedBufferSize(const cchEncoded: int): int;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := (cchEncoded shr 2) * 3;
 end;
 
 function Netlib_GetBase64EncodedBufferSize(const cbDecoded: int): int;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := (cbDecoded * 4+11) div 12*4+1;
 end;
@@ -172,6 +182,7 @@ begin
 end;
 
 procedure Netlib_Log(hNetLib: THandle; const sz: PAnsiChar);
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   CallService(MS_NETLIB_LOG, hNetLib, lParam(sz));
 end;
@@ -188,11 +199,13 @@ begin
 end;
 
 function WindowList_Remove(hList: THandle; hWnd: THandle): int_ptr;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := CallService(MS_UTILS_REMOVEFROMWINDOWLIST, hList, hWnd);
 end;
 
 function WindowList_Find(hList: THandle; hContact: THandle): int_ptr;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := CallService(MS_UTILS_FINDWINDOWINLIST, hList, hContact);
 end;
@@ -256,18 +269,20 @@ begin
   end;
 end;
 
-function lrtrim(str:pAnsiChar):pAnsiChar; {inline}
+function lrtrim(str:pAnsiChar):pAnsiChar;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=ltrim(rtrim(str));
 end;
-function lrtrimp(str:pAnsiChar):pAnsiChar; {inline}
+function lrtrimp(str:pAnsiChar):pAnsiChar;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=ltrimp(rtrim(str));
 end;
 
-function mir_utf8decodeA(const src:pAnsiChar):pAnsiChar; {inline}
+function mir_utf8decodeA(const src:pAnsiChar):pAnsiChar;
 type
- ppWideChar = ^pWidechar;
+  ppWideChar = ^pWidechar;
 var
   tmp:pAnsiChar;
 begin
@@ -289,19 +304,17 @@ end;
 
 function TranslateString(const sz:AnsiString):AnsiString;
 begin
-  Result:=AnsiString(PAnsiChar(
-    CallService(MS_LANGPACK_TRANSLATESTRING,hLangpack,lparam(@sz))));
+  Result:=AnsiString(TranslateA_LP(PAnsiChar(sz),hLangpack));
 end;
 
 function TranslateWideString(const sz:WideString):WideString;
 begin
-  Result:=WideString(PWideChar(
-    CallService(MS_LANGPACK_TRANSLATESTRING, LANG_UNICODE, lParam(sz))));
+  Result:=WideString(TranslateW_LP(PWideChar(sz),hLangpack));
 end;
 
-function TranslateUnicodeString(sz: String): String;{$ifdef FPC}inline;{$endif}
+function TranslateUnicodeString(sz: UnicodeString): UnicodeString;
 begin
-  Result := String(PChar(CallService(MS_LANGPACK_TRANSLATESTRING, LANG_UNICODE, lParam(sz))));
+  Result:=UnicodeString(TranslateW_LP(PWideChar(sz),hLangpack));
 end;
 
 procedure TranslateDialogDefault(hwndDlg: THandle);
@@ -350,11 +363,13 @@ end;
 
 
 function LoadSkinnedIcon(id: int): THandle;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := CallService(MS_SKIN_LOADICON, id, 0);
 end;
 
 function LoadSkinnedProtoIcon(const szProto: PAnsiChar; status: int): THandle;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := CallService(MS_SKIN_LOADPROTOICON, wParam(szProto), status);
 end;
@@ -372,6 +387,7 @@ begin
 end;
 
 function SkinPlaySound (const name: PAnsiChar): int_ptr;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := CallService(MS_SKIN_PLAYSOUND, 0, lParam(name));
 end;
@@ -450,29 +466,34 @@ end;
 
 procedure FontRegister(pFontID:pFontID);
 begin
-	CallService('Font/Register', WPARAM(pFontID), hLangpack);
+	CallService(MS_FONT_REGISTERA, WPARAM(pFontID), hLangpack);
 end;
 procedure FontRegisterW(pFontID:pFontIDW);
 begin
-	CallService('Font/RegisterW', WPARAM(pFontID), hLangpack);
+	CallService(MS_FONT_REGISTERW, WPARAM(pFontID), hLangpack);
 end;
 
 procedure ColourRegister(pColorID:pColourID);
 begin
-	CallService('Colour/Register', WPARAM(pColorID), hLangpack);
+	CallService(MS_COLOUR_REGISTERA, WPARAM(pColorID), hLangpack);
 end;
 procedure ColourRegisterW(pColorID:pColourIDW);
 begin
-	CallService('Colour/RegisterW', WPARAM(pColorID), hLangpack);
+	CallService(MS_COLOUR_REGISTERW, WPARAM(pColorID), hLangpack);
 end;
 
 procedure EffectRegister(pEffectID:pEffectID);
 begin
-	CallService('Effect/Register', WPARAM(pEffectID), hLangpack);
+	CallService(MS_EFFECT_REGISTERA, WPARAM(pEffectID), hLangpack);
 end;
 procedure EffectRegisterW(pEffectID:pEffectIDW);
 begin
-	CallService('Effect/RegisterW', WPARAM(pEffectID), hLangpack);
+	CallService(MS_EFFECT_REGISTERW, WPARAM(pEffectID), hLangpack);
+end;
+
+function TopToolbar_AddButton(pButton:PTTBButton):THANDLE;
+begin
+  result:=CallService(MS_TTB_ADDBUTTON, WPARAM(pButton), hLangpack);
 end;
 
 {$ENDIF}

@@ -218,19 +218,10 @@ type
   end;
 
 type
-  PClcCacheEntryBase = pointer;
-  PClcCacheEntryBaseA = ^ClcCacheEntryBaseA;
-  ClcCacheEntryBaseA = record
+  PClcCacheEntryBase = ^ClcCacheEntryBase;
+  ClcCacheEntryBase = record
     hContact:THANDLE;
     name    :TCHAR;
-    group   :TCHAR;
-    isHidden:int;
-  end;
-  PClcCacheEntryBaseW = ^ClcCacheEntryBaseW;
-  ClcCacheEntryBaseW = record
-    hContact:THANDLE;
-    name    :TCHAR;
-    szName  :PAnsiChar;
     group   :TCHAR;
     isHidden:int;
   end;
@@ -479,35 +470,43 @@ var
 {$ELSE}
 
 function IsHContactGroup(h:THANDLE):bool;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=(h xor HCONTACT_ISGROUP)<(HCONTACT_ISGROUP xor HCONTACT_ISINFO);
 end;
 function IsHContactInfo(h:THANDLE):bool;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=(h and HCONTACT_ISINFO)=HCONTACT_ISINFO;
 end;
 function IsHContactContact(h:THANDLE):bool;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
  result:=(h and HCONTACT_ISGROUP)=0;
 end;
 
 function CLCDEFAULT_BKCOLOUR:dword;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=GetSysColor(COLOR_3DFACE);
 end;
 function CLCDEFAULT_TEXTCOLOUR:dword;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=GetSysColor(COLOR_WINDOWTEXT);
 end;
 function CLCDEFAULT_SELBKCOLOUR:dword;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=GetSysColor(COLOR_HIGHLIGHT);
 end;
 function CLCDEFAULT_SELTEXTCOLOUR:dword;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=GetSysColor(COLOR_HIGHLIGHTTEXT);
 end;
 function CLCDEFAULT_HOTTEXTCOLOUR:dword;
+  {$IFDEF AllowInline}inline;{$ENDIF}
 begin
 {
   if IsWinVer98Plus then

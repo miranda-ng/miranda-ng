@@ -112,4 +112,12 @@ const
 }
   MS_LANGPACK_RELOAD:PAnsiChar = 'LangPack/Reload';
 
+{
+  retrieves the hLangpack of a plugin by its HINSTANCE
+  wParam = 0 (ignored)
+  lParam = (LPARAM)(HINSTANCE)plugin's base address
+  returns hLangpack if found, or 0 if error occurred
+}
+  MS_LANGPACK_LOOKUPHANDLE:PAnsiChar = 'LangPack/LookupHandle';
+
 {$ENDIF}

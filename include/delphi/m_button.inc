@@ -86,6 +86,6 @@ const
     Usage: SendMessage(hwndbutton, BUTTONSETCUSTOM, 0, (LPARAM)&CustomData);
     Only works on MButtonClass buttons
 }
-  BUTTONSETCUSTOM = WM_USER+7;
+  BUTTONSETCUSTOM = WM_USER + 7;
 
 {$ENDIF}

@@ -166,15 +166,7 @@ const
   hppAuthorEmail = 'themiron@mail.ru, artemf@mail.ru';
   hppCopyright   = '© 2006-2009 theMIROn, 2003-2006 Art Fedorov. History+ parts © 2001 Christian Kastner';
 
-  hppFLUpdateURL    = 'http://addons.miranda-im.org/feed.php?dlfile=2995';
-  hppFLVersionURL   = 'http://addons.miranda-im.org/details.php?action=viewfile&id=2995';
-  hppFLVersionPrefix= '<span class="fileNameHeader">'+hppShortName+' ';
-  hppUpdateURL      = 'http://themiron.miranda.im/historypp';
-  hppVersionURL     = 'http://themiron.miranda.im/version';
-  hppVersionPrefix  = hppName+' version ';
-
   hppHomePageURL  = 'http://themiron.miranda.im/';
-  hppChangelogURL = 'http://themiron.miranda.im/changelog';
 
   hppIPName     = 'historypp_icons.dll';
 

@@ -1,31 +1,35 @@
 {$IFNDEF M_TOPTOOLBAR}
 {$DEFINE M_TOPTOOLBAR}
 
+const
+  TTB_OPTDIR = 'TopToolBar';
+
 //button flags
 const
-  TTBBF_DISABLED     = 1;
-  TTBBF_VISIBLE      = 2;
-  TTBBF_PUSHED       = 4;
-  TTBBF_SHOWTOOLTIP  = 8;
-  TTBBF_ISSEPARATOR  = 32;
-  TTBBF_ISLBUTTON    = 64;
-  TTBBF_ICONBYHANDLE = 128;
-  TTBBF_ISSBUTTON    = 256;
-  TTBBF_ASPUSHBUTTON = 512;
+  TTBBF_DISABLED     = $0001;
+  TTBBF_VISIBLE      = $0002;
+  TTBBF_PUSHED       = $0004;
+  TTBBF_SHOWTOOLTIP  = $0008;
+  TTBBF_ISSEPARATOR  = $0020;
+  TTBBF_ISLBUTTON    = $0040;
+  TTBBF_ISSBUTTON    = $0100;
+  TTBBF_ASPUSHBUTTON = $0200;
 
 type
   PTTBButton = ^TTBButton;
   TTBButton = record
-    cbSize        :int;
-    pszService  :PAnsiChar; // or program for lButtons
-    dwFlags       :DWORD;
-    lParamUp      :LPARAM;
-    wParamUp      :WPARAM;
-    lParamDown    :LPARAM;
-    wParamDown    :WPARAM;
-    name          :PAnsiChar;
-    hIconUp       :HICON;     // or hIconHandleUp:HANDLE
-    hIconDn       :HICON;     // or hIconHandleDn:HANDLE
+    cbSize       :int;
+    pszService   :PAnsiChar; // or program for lButtons
+    dwFlags      :DWORD;
+    lParamUp     :LPARAM;
+    wParamUp     :WPARAM;
+    lParamDown   :LPARAM;
+    wParamDown   :WPARAM;
+    name         :PAnsiChar;
+    hIconUp      :HICON;     // or hIconHandleUp:HANDLE
+    hIconDn      :HICON;     // or hIconHandleDn:HANDLE
+    pszTooltipUp :PansiChar;
+    pszTooltipDn :PansiChar;
   end;
 
 const
@@ -43,12 +47,20 @@ const
 }
   ME_TTB_MODULELOADED:PAnsiChar = 'TopToolBar/ModuleLoaded';
 
+
+{
+  toptoolbar/initbuttons event
+  wParam = lParam = 0
+  Called when the toolbar needs to add default buttons
+}
+  ME_TTB_INITBUTTONS:PAnsiChar = 'TopToolBar/InitButtons';
+
 {
 //=== SERVICES ===
 
   toptoolbar/addbutton service
   wparam = (TTBButton*)lpTTBButton
-  lparam = 0
+  lparam = (hLangpack)
   returns: hTTBButton - handle of added button on success, -1 on failure.
 }
   MS_TTB_ADDBUTTON:PAnsiChar = 'TopToolBar/AddButton';
@@ -104,5 +116,75 @@ const
   returns: 1 on success, -1 on failure.
 }
   MS_TTB_SETBUTTONOPTIONS:PAnsiChar = 'TopToolBar/SetOptions';
+
+{
+  toptoolbar/setcustomproc service
+  wparam = pfnCustomproc
+  lparam = procedure parameter
+  returns: always returns 0.
+}
+  MS_TTB_SETCUSTOMPROC:PAnsiChar = 'TopToolBar/SetCustomProc';
+
+const
+  TTB_WINDOW_HANDLE = THANDLE(-1);
+
+{
+  this procedure is executed on each button on toolbar
+  and on a toolbar itself with hTTButton == TTB_WINDOW_HANDLE
+  hTTButton = button handle
+  hwndBtn   = button window handle
+  userInfo  = lParam passed into TopToolbar_SetCustomProc
+}
+type
+  pfnCustomProc = procedure(hTTButton:THANDLE; hwndBtn:HWND; userInfo:LPARAM); cdecl;
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Toolbar internal structures
+
+type
+  TTBCtrlButton = record
+    hWindow:HWND;
+  end;
+
+type
+  pfnTTBPainterFunc = procedure(btnctrl:pointer{PTTBCtrl}; hdc:HDC); cdecl;
+
+type
+  PTTBCtrl = ^TTBCtrl;
+  TTBCtrl = record
+    hWnd         :HWND;
+    hFrame       :THANDLE;
+    nButtonWidth :int;
+    nButtonHeight:int;
+    nButtonSpace :int;
+    nLastHeight  :int;         // fix against recursion in WM_SIZE
+    bOrderChanged:boolean;     // set by buttons' arrange procedure if the buttons' order was changed
+    bFlatButtons,
+    bAutoSize,
+    bSingleLine  :boolean;
+
+    pButtonList  :PSortedList;
+
+    lResult      :LRESULT;     // custom window proc result
+    fnWindowProc :TWNDPROC;    // custom window proc
+  end;
+
+type
+  PTBCtrlCustomize = ^TTBCtrlCustomize;
+  TTBCtrlCustomize = record
+    cbLen       :size_t;            // total length of the internal data structure
+    fnWindowProc:TWNDPROC;          // subclassed windows procedure for the custom button
+  end;
+
+{
+  Sets the custom painting procedure for a toolbar
+  wParam = not used
+  lParam = TTBCtrlCustomize*
+  Usage: SendMessage(hwndToolbar, TTB_SETCUSTOM, 0, (LPARAM)&CustomData);
+  Only works on TopToolbars
+}
+const
+  TTB_SETCUSTOM = WM_USER+1;
 
 {$ENDIF}

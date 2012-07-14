@@ -241,7 +241,7 @@ const
 // register an effect
 // wparam = (EffectID *)&effect_id
 // lparam = hLangpack
-  MS_EFFECT_REGISTER :pAnsiChar = 'Effect/Register';
+  MS_EFFECT_REGISTERA:pAnsiChar = 'Effect/Register';
   MS_EFFECT_REGISTERW:pAnsiChar = 'Effect/RegisterW';
 
 // get a effect
