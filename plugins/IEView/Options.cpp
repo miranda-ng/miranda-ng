@@ -45,14 +45,14 @@ struct
 {
 	DLGPROC dlgProc;
 	DWORD dlgId;
-	char *tabName;
+	TCHAR *tabName;
 }
 static tabPages[] =
 {
-	{ IEViewGeneralOptDlgProc,    IDD_GENERAL_OPTIONS, LPGEN("General")     },
-	{ IEViewSRMMOptDlgProc,       IDD_SRMM_OPTIONS,    LPGEN("Message Log") },
-	{ IEViewGroupChatsOptDlgProc, IDD_SRMM_OPTIONS,    LPGEN("Group Chats") },
-	{ IEViewHistoryOptDlgProc,    IDD_SRMM_OPTIONS,    LPGEN("History")     }
+	{ IEViewGeneralOptDlgProc,    IDD_GENERAL_OPTIONS, LPGENT("General")     },
+	{ IEViewSRMMOptDlgProc,       IDD_SRMM_OPTIONS,    LPGENT("Message Log") },
+	{ IEViewGroupChatsOptDlgProc, IDD_SRMM_OPTIONS,    LPGENT("Group Chats") },
+	{ IEViewHistoryOptDlgProc,    IDD_SRMM_OPTIONS,    LPGENT("History")     }
 };
 
 static LPARAM GetItemParam(HWND hwndTreeView, HTREEITEM hItem) {
@@ -426,20 +426,20 @@ int IEViewOptInit(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInstance;
-	odp.pszGroup = LPGEN("Message Sessions");
-	odp.pszTitle = LPGEN("IEView");
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.ptszGroup = LPGENT("Message Sessions");
+	odp.ptszTitle = LPGENT("IEView");
+	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(tabPages[0].dlgId);
 	odp.pfnDlgProc = tabPages[0].dlgProc;
-	odp.pszTab = tabPages[0].tabName;
+	odp.ptszTab = tabPages[0].tabName;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszGroup = LPGEN("Skins");
-	odp.pszTitle = LPGEN("IEView");
+	odp.ptszGroup = LPGENT("Skins");
+	odp.ptszTitle = LPGENT("IEView");
 	for (size_t i = 1; i < SIZEOF(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;
-		odp.pszTab = tabPages[i].tabName;
+		odp.ptszTab = tabPages[i].tabName;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;
@@ -502,7 +502,7 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ENABLE_MATHMODULE), Options::isMathModule());
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SMILEYS_IN_NAMES), Options::isSmileyAdd());
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EMBED_SIZE), IsDlgButtonChecked(hwndDlg, IDC_ENABLE_EMBED));
-			TCHAR* size[] = {  _T("320õ205"), _T("480 x 385") , _T("560 x 349"), _T("640 x 390")};
+			TCHAR* size[] = {  LPGENT("320 x 205"), LPGENT("480 x 385") , LPGENT("560 x 349"), LPGENT("640 x 390")};
 			for (i = 0; i < SIZEOF(size); ++i){
 				int item=SendDlgItemMessage(hwndDlg,IDC_EMBED_SIZE,CB_ADDSTRING,0,(LPARAM)TranslateTS(size[i]));
 				SendDlgItemMessage(hwndDlg,IDC_EMBED_SIZE,CB_SETITEMDATA,item,(LPARAM)0);
