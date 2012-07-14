@@ -28,7 +28,6 @@
 
 #include <m_folders.h>
 #include <m_metacontacts.h>
-#include <m_updater.h>
 #include "m_avatarhist.h"
 #include "m_historyevents.h"
 

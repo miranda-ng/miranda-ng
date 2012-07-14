@@ -21,7 +21,6 @@
 #include <m_system_cpp.h>
 #include <m_message.h>
 #include <m_utils.h>
-#include <m_updater.h>
 #include <m_icolib.h>
 #include <m_hotkeys.h>
 #include <m_protosvc.h>

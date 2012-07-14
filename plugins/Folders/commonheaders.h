@@ -48,7 +48,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_contacts.h"
 #include "m_popup.h"
 #include "m_fontservice.h"
-#include "m_updater.h"
 #include "m_variables.h"
 
 #ifndef MS_DB_GETPROFILEPATH_BASIC //db3xSA

@@ -27,7 +27,6 @@
 #include "m_genmenu.h"
 #include "m_popup.h"
 #include "m_message.h"
-#include "m_updater.h"
 #include "m_fingerprint.h"
 #include "m_metacontacts.h"
 #include "m_msg_buttonsbar.h"

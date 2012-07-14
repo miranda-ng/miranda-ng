@@ -71,7 +71,6 @@
 #include "m_icq.h"
 
 #include "m_metacontacts.h"
-#include "m_updater.h"
 #include "m_toptoolbar.h"
 #include "resource.h"
 

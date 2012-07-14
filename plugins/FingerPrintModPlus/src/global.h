@@ -58,7 +58,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // plugins SDK
 #include <m_extraicons.h>
 #include <m_folders.h>
-#include <m_updater.h>
 
 //plugins header
 #include "version.h"

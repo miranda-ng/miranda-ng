@@ -18,7 +18,6 @@
 */
 
 #include "BossKey.h"
-#include "m_updater.h"
 #include "m_msg_buttonsbar.h"
 
 // multiple instances support:

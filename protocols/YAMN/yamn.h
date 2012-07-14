@@ -35,7 +35,6 @@
 #include "m_icolib.h"
 #include "m_kbdnotify.h"
 #include "m_popup.h"
-#include "m_updater.h"
 #include "m_account.h"	//Account structure and all needed structures to cooperate with YAMN
 #include "m_messages.h"	//Messages sent to YAMN windows
 #include "m_mails.h"	//use YAMN's mails

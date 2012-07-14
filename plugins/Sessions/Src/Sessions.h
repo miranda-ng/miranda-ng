@@ -39,7 +39,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "m_hotkeys.h"
 #include "win2k.h"
 
-#include "m_updater.h"
 #include "m_toptoolbar.h"
 #include "m_sessions.h"
 

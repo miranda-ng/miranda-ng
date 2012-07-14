@@ -61,7 +61,6 @@
 #include <win2k.h>
 
 #include "m_toptoolbar.h"
-#include "m_updater.h"
 #include "m_smileyadd.h"
 #include "m_metacontacts.h"
 

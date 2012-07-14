@@ -42,7 +42,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Utils.h"
 #include "m_msg_buttonsbar.h"
-#include "m_updater.h"
 
 #pragma optimize("gsy",on)
 

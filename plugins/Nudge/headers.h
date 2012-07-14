@@ -46,7 +46,6 @@
 #include <m_protosvc.h>
 #include <m_trigger.h>
 #include <m_metacontacts.h>
-#include <m_updater.h>	
 #include <m_icolib.h>	
 #include <win2k.h>
 #include "resource.h"

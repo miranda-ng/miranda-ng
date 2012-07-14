@@ -20,7 +20,6 @@
 #include <m_icolib.h>
 
 #include <m_ieview.h>
-#include <m_updater.h>
 #include "m_changekeyboardlayout.h"
 #include <m_popup2.h>
 

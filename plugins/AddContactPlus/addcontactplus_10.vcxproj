@@ -189,8 +189,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="res\addcontactplus.h" />
-    <ClInclude Include="res\Version.h" />
+    <ClInclude Include="src\addcontactplus.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\contact_add.ico" />

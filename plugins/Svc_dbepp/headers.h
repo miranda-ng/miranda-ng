@@ -41,7 +41,6 @@
 #include <m_icolib.h>
 #include <m_hotkeys.h>
 
-#include "m_updater.h"
 #include "m_toptoolbar.h"
 
 #include "resource.h"

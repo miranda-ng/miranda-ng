@@ -44,7 +44,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <m_addcontact.h>
 
 #include "m_toptoolbar.h"
-#include "m_updater.h"
 #include "m_addcontactplus.h"
 
 #include "resource.h"

@@ -21,8 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "proto.h"
 #include "theme.h"
 
-#include "m_updater.h"
-
 
 CLIST_INTERFACE* pcli;
 

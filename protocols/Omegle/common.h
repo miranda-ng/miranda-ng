@@ -64,7 +64,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_icolib.h>
 #include <m_utils.h>
 #include <m_hotkeys.h>
-#include <m_updater.h>
 //#include <m_msg_buttonsbar.h>
 
 class OmegleProto;

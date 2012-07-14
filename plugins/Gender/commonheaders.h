@@ -56,7 +56,6 @@
 #include "resource.h"
 
 //external SDK headers
-#include "m_updater.h"
 #include "m_metacontacts.h"
 #include "m_extraicons.h"
 

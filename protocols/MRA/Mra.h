@@ -57,7 +57,6 @@ typedef int (*PCOMPRESS2)(unsigned char*,DWORD*,unsigned char*,DWORD,int);
 #include <m_database.h>
 #include <m_langpack.h>
 #include <m_netlib.h>
-#include <m_updater.h>
 #include <m_icolib.h>
 #include <win2k.h>
 #include <m_popup.h>

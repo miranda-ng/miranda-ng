@@ -94,7 +94,6 @@
 #include "m_message.h"
 #include "m_netlib.h"
 #include "m_metacontacts.h"
-#include "m_updater.h"
 #include "m_extraicons.h"
 #include "m_folders.h"
  

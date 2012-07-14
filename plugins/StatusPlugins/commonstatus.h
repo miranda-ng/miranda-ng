@@ -47,7 +47,6 @@
 #include "m_statusplugins.h"
 #include <m_utils.h>
 #include <m_NewAwaySys.h>
-#include <m_updater.h>
 #include <win2k.h>
 
 #if defined( _WIN64 )

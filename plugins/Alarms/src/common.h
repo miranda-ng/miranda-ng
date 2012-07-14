@@ -37,7 +37,6 @@
 
 #include <m_toptoolbar.h>
 #include <m_trigger.h>
-#include <m_updater.h>
 #include <m_alarms.h>
 
 #include "resource.h"

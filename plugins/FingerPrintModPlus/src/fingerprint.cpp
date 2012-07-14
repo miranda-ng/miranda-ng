@@ -233,7 +233,6 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	int i;
 
-	Update update = { 0 };
 	char szVersion[16];
 
 	g_LPCodePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);

@@ -51,7 +51,6 @@
 
 //external SDK headers
 #include <m_cluiframes.h>
-#include <m_updater.h>
 #include <m_extraicons.h>
 
 static const int DefaultSlot = EXTRA_ICON_PROTO;

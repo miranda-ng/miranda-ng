@@ -81,7 +81,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_utils.h>
 #include <m_hotkeys.h>
 
-#include <m_updater.h>
 #include <m_folders.h>
 
 class FacebookProto;

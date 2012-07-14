@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "download.h"
 #include "imagecache.h"
 #include "version.h"
-#include "m_updater.h"
 #include "m_metacontacts.h"
 
 //globals

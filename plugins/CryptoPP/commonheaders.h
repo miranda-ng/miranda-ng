@@ -53,7 +53,6 @@
 #include <m_protosvc.h>
 #include <m_utils.h>
 #include <m_netlib.h>
-#include <m_updater.h>
 
 #endif
 

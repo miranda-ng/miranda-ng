@@ -48,7 +48,6 @@
 #include <m_langpack.h>
 #include <m_system.h>
 #include <m_png.h>
-#include "m_updater.h"
 #include "m_splash.h"
 
 // Common headers

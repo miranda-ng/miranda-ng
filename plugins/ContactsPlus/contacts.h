@@ -60,8 +60,6 @@
 
 #include "resource.h"
 
-#include "m_updater.h"
-
 #include "utils.h"
 #include "send.h"
 #include "receive.h"

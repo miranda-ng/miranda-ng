@@ -52,7 +52,6 @@
 #include <m_icolib.h>
 #include "m_popup.h"
 #include "m_popup2.h"
-#include "m_updater.h"
 #include "m_cluiframes.h"
 
 #define MODULE_NAME     "BuddyExpectator"

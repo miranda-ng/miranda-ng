@@ -83,7 +83,6 @@ Boston, MA 02111-1307, USA.
 #include "m_folders.h"
 #include "m_metacontacts.h"
 #include "m_variables.h"
-#include "m_updater.h"
 #include "m_smileyadd.h"
 
 // {8392DF1D-9090-4f8e-9DF6-2FE058EDD800}

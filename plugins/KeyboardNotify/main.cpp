@@ -207,7 +207,6 @@
 #include <m_utils.h>
 #include <m_icq.h>
 #include <m_metacontacts.h>
-#include <m_updater.h>
 #pragma comment(lib, "advapi32.lib")
 
 #define NCONVERS_BLINKID ((HANDLE)123456) //nconvers' random identifier used to flash an icon for "incoming message" on contact list

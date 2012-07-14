@@ -222,7 +222,6 @@
 #include "m_spellchecker.h"
 #include "m_mathmodule.h"
 #include "m_historyevents.h"
-#include "m_updater.h"
 #include "m_smileyadd.h"
 
 #include "../include/m_cln_skinedit.h"

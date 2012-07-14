@@ -33,7 +33,6 @@
 #include "m_genmenu.h"
 #include "m_idle.h"
 #include "m_statusplugins.h"
-#include "m_updater.h"
 #include "m_NewAwaySys.h"
 #include "m_ContactSettings.h"
 #include "MsgTree.h"

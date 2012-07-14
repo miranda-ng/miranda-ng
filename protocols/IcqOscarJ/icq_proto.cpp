@@ -30,7 +30,6 @@
 #include "icqoscar.h"
 
 #include "m_icolib.h"
-#include "m_updater.h"
 
 extern PLUGININFOEX pluginInfo;
 extern HANDLE hExtraXStatus;

@@ -24,7 +24,6 @@
 #include "m_userinfo.h"
 #include "m_history.h"
 #include "m_protocols.h"
-#include "m_updater.h"
 #include "m_protosvc.h"
 #include "m_metacontacts.h"
 #include "m_icolib.h"

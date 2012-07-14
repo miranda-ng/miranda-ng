@@ -29,7 +29,6 @@ Last change by : $Author: ing.u.horn $
 */
 #include "commonheaders.h"
 #include "res/version.h"
-#include "m_updater.h"
 
 #include "mir_menuitems.h"
 #include "ctrl_base.h"

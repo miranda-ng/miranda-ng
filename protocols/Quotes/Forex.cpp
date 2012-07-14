@@ -12,7 +12,6 @@
 #include "resource.h"
 #include "IconLib.h"
 #include <m_options.h>
-#include <m_updater.h>
 #include <m_userinfo.h>
 #include "QuoteInfoDlg.h"
 #include "ModuleInfo.h"

@@ -33,7 +33,6 @@
 #include <commonheaders.h>
 #include <m_findadd.h>
 #include <m_icq.h>
-#include <m_updater.h>
 #include "../cluiframes/cluiframes.h"
 #include "../coolsb/coolscroll.h"
 
@@ -254,7 +253,6 @@ static int CreateCLC(HWND parent)
 
 static int CluiModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	static Update upd = {0};
 	static const char *szPrefix = "clist_nicer_plus ";
 
 	static char *component = "CList Nicer+";

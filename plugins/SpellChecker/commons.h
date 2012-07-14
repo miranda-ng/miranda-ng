@@ -63,7 +63,6 @@ using namespace std;
 
 //own includes
 #include "m_folders.h"
-#include "m_updater.h"
 #include "m_metacontacts.h"
 #include "m_variables.h"
 #include "m_userinfoex.h"
