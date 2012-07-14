@@ -70,6 +70,7 @@ private:
 	HBRUSH bkFindBrush;
 	HANDLE hSystem;
 	HWND splitterXhWnd, splitterYhWnd;
+	bool isStartSelect;
 protected:
 	virtual void AddGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int ico);
 public:

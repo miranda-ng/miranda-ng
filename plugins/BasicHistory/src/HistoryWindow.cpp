@@ -61,7 +61,8 @@ HistoryWindow::HistoryWindow(HANDLE _hContact) :
 	bkFindBrush(NULL),
 	hSystem(NULL),
 	splitterXhWnd(NULL),
-	splitterYhWnd(NULL)
+	splitterYhWnd(NULL),
+	isStartSelect(true)
 {
 	searcher.SetContect(this);
 	hContact = _hContact;
@@ -1326,6 +1327,8 @@ void HistoryWindow::Initialise()
 
 	SetDefFilter(Options::instance->defFilter);
 			
+	InvalidateRect(listWindow, NULL, TRUE);
+	InvalidateRect(hWnd, NULL, TRUE);
 	SendMessage(hWnd, DM_SETDEFID, IDM_FIND, 0);
 	SendMessage(hWnd, WM_SIZE, 0, 0);
 	SendMessage(hWnd,DM_HREBUILD,0,0);
@@ -1710,6 +1713,17 @@ void HistoryWindow::SelectEventGroup(int sel)
 	{
 		UpdateWindow(editWindow);
 	}
+
+	if(isStartSelect && !Options::instance->messagesNewOnTop)
+	{
+		HWND h = SetFocus(editWindow);
+		CHARRANGE ch;
+		ch.cpMin = ch.cpMax = MAXLONG;
+		SendMessage(editWindow,EM_EXSETSEL,0,(LPARAM)&ch);
+		SendMessage(editWindow,EM_SCROLLCARET,0,0);
+	}
+
+	isStartSelect = false;
 }
 
 LRESULT CALLBACK HistoryWindow::SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

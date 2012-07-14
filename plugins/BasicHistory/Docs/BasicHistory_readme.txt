@@ -24,6 +24,9 @@ Microsoft Visual C++ 2008 Redistributable Package for x86 version (included in M
 Changelog
 =========
 
+--- 1.0.1.8 ---
+* scrollbar position on bottom when opening history
+
 --- 1.0.1.7 ---
 * fixed border colors
 
