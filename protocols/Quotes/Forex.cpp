@@ -353,10 +353,10 @@ namespace
 		odp.cbSize = sizeof(odp);
 		odp.position = 910000000;
 		odp.hInstance = CModuleInfo::GetModuleHandle();
-		odp.pszTitle = QUOTES_PROTOCOL_NAME;
-		odp.pszGroup = LPGEN("Network");
+		odp.ptszTitle = _T(QUOTES_PROTOCOL_NAME);
+		odp.ptszGroup = LPGENT("Network");
 		odp.hIcon = Quotes_LoadIconEx(ICON_STR_MAIN);
-		odp.flags = ODPF_USERINFOTAB;
+		odp.flags = ODPF_USERINFOTAB | ODPF_TCHAR;
 
 		std::for_each(rapProviders.begin(),rapProviders.end(),boost::bind(&IQuotesProvider::ShowPropertyPage,_1,wp,boost::ref(odp)));
 		return 0;
