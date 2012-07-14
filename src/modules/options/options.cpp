@@ -97,6 +97,10 @@ struct OptionsDlgData
 	HFONT hBoldFont;
 	TCHAR szFilterString[1024];	
 	HANDLE hPluginLoad, hPluginUnload;
+
+	OptionsPageData* getCurrent() const
+	{	return (currentPage == -1) ? NULL : arOpd[currentPage];
+	}
 };
 
 HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name)
@@ -651,7 +655,8 @@ static void UnloadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
 
 static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	OptionsDlgData* dat = (OptionsDlgData*)GetWindowLongPtr(hdlg, GWLP_USERDATA);
+	OptionsPageData *opd;
+	OptionsDlgData *dat = (OptionsDlgData*)GetWindowLongPtr(hdlg, GWLP_USERDATA);
 	HWND hwndTree = GetDlgItem(hdlg, IDC_PAGETREE);
 
 	switch (message) {
@@ -735,7 +740,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 			OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)psh->ppsp;
 			for (size_t i=0; i < psh->nPages; i++, odp++) {
-				OptionsPageData* opd = (OptionsPageData*)mir_calloc(sizeof(OptionsPageData));
+				opd = (OptionsPageData*)mir_calloc(sizeof(OptionsPageData));
 				if ( !LoadOptionsPage(odp, opd)) {
 					mir_free(opd);
 					continue;
@@ -813,10 +818,12 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			ShowWindow(hwndTree, SW_HIDE);	 //deleteall is annoyingly visible
 			
 			HWND oldWnd = NULL;
-			HWND oldTab = NULL; 
-			if (dat->currentPage != (-1)) {	
-				oldWnd = dat->arOpd[dat->currentPage]->hwnd;
-				if (dat->arOpd[dat->currentPage]->insideTab)
+			HWND oldTab = NULL;
+			
+			opd = dat->getCurrent();
+			if (opd != NULL) {	
+				oldWnd = opd->hwnd;
+				if (opd->insideTab)
 					oldTab = GetDlgItem(hdlg, IDC_TAB); 
 			}			
 
@@ -836,7 +843,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				if ( !CheckPageShow(hdlg, dat, i))
 					continue;
 
-				OptionsPageData* opd = dat->arOpd[i];
+				opd = dat->arOpd[i];
 				TCHAR* ptszGroup = TranslateTH(opd->hLangpack, opd->ptszGroup);
 				TCHAR* ptszTitle = TranslateTH(opd->hLangpack, opd->ptszTitle);
 				TCHAR* ptszTab = TranslateTH(opd->hLangpack, opd->ptszTab);
@@ -926,9 +933,10 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			TreeView_SelectItem(hwndTree, dat->hCurrentPage);
 			
 			if (oldWnd) {
-				if (dat->currentPage == -1 || oldWnd != dat->arOpd[dat->currentPage]->hwnd) {
+				opd = dat->getCurrent();
+				if (opd && oldWnd != opd->hwnd) {
 					ShowWindow(oldWnd, SW_HIDE);
-					if (oldTab && (dat->currentPage == -1 || !dat->arOpd[dat->currentPage]->insideTab))
+					if (oldTab && (opd == NULL || !opd->insideTab))
 						ShowWindow(oldTab, SW_HIDE);		
 				}	
 			}
@@ -954,7 +962,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 	case PSM_CHANGED:
 		EnableWindow(GetDlgItem(hdlg, IDC_APPLY), TRUE);
-		if (dat->currentPage != (-1)) dat->arOpd[dat->currentPage]->changed = 1;
+		
+		opd = dat->getCurrent();
+		if (opd)
+			opd->changed = 1;
+		
 		return TRUE;
 
 	case PSM_ISEXPERT:
@@ -976,7 +988,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 			case TCN_SELCHANGING:
 			case TVN_SELCHANGING:
-				if (dat->currentPage != -1 && dat->arOpd[dat->currentPage]->hwnd != NULL) {
+				opd = dat->getCurrent();
+				if (opd && opd->hwnd != NULL) {
 					PSHNOTIFY pshn;
 					pshn.hdr.code = PSN_KILLACTIVE;
 					pshn.hdr.hwndFrom = dat->arOpd[dat->currentPage]->hwnd;
@@ -992,9 +1005,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			case TCN_SELCHANGE:
 			case TVN_SELCHANGED:
 				ShowWindow(GetDlgItem(hdlg, IDC_STNOPAGE), SW_HIDE);
-				if (dat->currentPage != -1 && dat->arOpd[dat->currentPage]->hwnd != NULL)
-					ShowWindow(dat->arOpd[dat->currentPage]->hwnd, SW_HIDE);
-
+				
+				opd = dat->getCurrent();
+				if (opd && opd->hwnd != NULL)
+					ShowWindow(opd->hwnd, SW_HIDE);
+				
 				if ((wParam != IDC_TAB)) {
 					TVITEM tvi;
 					tvi.hItem = dat->hCurrentPage = TreeView_GetSelection(hwndTree);
@@ -1017,8 +1032,12 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					tvi.lParam = dat->currentPage;
 					TreeView_SetItem(hwndTree, &tvi);
 				}
-				if (dat->currentPage != -1) {
-					OptionsPageData* p = dat->arOpd[dat->currentPage];
+				{
+					OptionsPageData* p = dat->getCurrent();
+					if (p == NULL) {
+						ShowWindow(GetDlgItem(hdlg, IDC_STNOPAGE), SW_SHOW);
+						break;
+					}
 					if (p->hwnd == NULL) {
 						RECT rcPage;
 						RECT rcControl, rc;
@@ -1083,7 +1102,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 								if ( !CheckPageShow(hdlg, dat, i))
 									continue;
 
-								OptionsPageData* opd = dat->arOpd[i];
+								opd = dat->arOpd[i];
 								if ( lstrcmp(opd->ptszTitle, p->ptszTitle) || lstrcmpnull(opd->ptszGroup, p->ptszGroup))
 									continue;
 
@@ -1143,16 +1162,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 							p->offsetX = newOffsetX;
 							p->offsetY = newOffsetY;
 						}
-							
 					}						
 
 					ShowWindow(p->hwnd, SW_SHOW);
 					if (((LPNMTREEVIEW)lParam)->action == TVC_BYMOUSE) PostMessage(hdlg, DM_FOCUSPAGE, 0, 0);
 					else SetFocus(hwndTree);
 				}
-				else ShowWindow(GetDlgItem(hdlg, IDC_STNOPAGE), SW_SHOW);
-				break;
-		}	}
+			}
+		}
 		break;
 
 	case DM_FOCUSPAGE:
@@ -1193,11 +1210,12 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				pshn.hdr.code = PSN_EXPERTCHANGED;
 
 				for (int i=0; i <dat->arOpd.getCount(); i++) {
-					OptionsPageData *opd = dat->arOpd[i];
-					if (opd->hwnd == NULL) continue;
-					if ( !CheckPageShow(hdlg, dat, i)) continue;
-					//if ((opd->flags & ODPF_SIMPLEONLY) && expert) continue;
-					//if ((opd->flags & ODPF_EXPERTONLY) && !expert) continue;
+					opd = dat->arOpd[i];
+					if (opd->hwnd == NULL)
+						continue;
+					if ( !CheckPageShow(hdlg, dat, i))
+						continue;
+
 					pshn.hdr.hwndFrom = opd->hwnd;
 					SendMessage(opd->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 
@@ -1290,12 +1308,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				PSHNOTIFY pshn;
 				EnableWindow(GetDlgItem(hdlg, IDC_APPLY), FALSE);
 				SetFocus(hwndTree);
-				if (dat->currentPage != (-1)) {
+
+				opd = dat->getCurrent();
+				if (opd != NULL) {
 					pshn.hdr.idFrom = 0;
 					pshn.lParam = 0;
 					pshn.hdr.code = PSN_KILLACTIVE;
-					pshn.hdr.hwndFrom = dat->arOpd[dat->currentPage]->hwnd;
-					if (SendMessage(dat->arOpd[dat->currentPage]->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn))
+					pshn.hdr.hwndFrom = opd->hwnd;
+					if (SendMessage(opd->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn))
 						break;
 				}
 
@@ -1307,9 +1327,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					if (SendMessage(dat->arOpd[i]->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
 						dat->hCurrentPage = dat->arOpd[i]->hTreeItem;
 						TreeView_SelectItem(hwndTree, dat->hCurrentPage);
-						if (dat->currentPage != (-1)) ShowWindow(dat->arOpd[dat->currentPage]->hwnd, SW_HIDE);
+						if (opd)
+							ShowWindow(opd->hwnd, SW_HIDE);
 						dat->currentPage = i;
-						if (dat->currentPage != (-1)) ShowWindow(dat->arOpd[dat->currentPage]->hwnd, SW_SHOW);
+						if (opd)
+							ShowWindow(opd->hwnd, SW_SHOW);
 						return 0;
 				}	}
 
@@ -1332,21 +1354,25 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 		SaveOptionsTreeState(hdlg);
 		Window_FreeIcon_IcoLib(hdlg);
-
-		if (dat->currentPage != -1) {
-			if (dat->arOpd[dat->currentPage]->ptszTab)
-				DBWriteContactSettingTString(NULL, "Options", "LastTab", dat->arOpd[dat->currentPage]->ptszTab);
-			else DBDeleteContactSetting(NULL, "Options", "LastTab");
-			if (dat->arOpd[dat->currentPage]->ptszGroup)
-				DBWriteContactSettingTString(NULL, "Options", "LastGroup", dat->arOpd[dat->currentPage]->ptszGroup);
-			else DBDeleteContactSetting(NULL, "Options", "LastGroup");
-			DBWriteContactSettingTString(NULL, "Options", "LastPage", dat->arOpd[dat->currentPage]->ptszTitle);
+		
+		opd = dat->getCurrent();
+		if (opd) {
+			if (opd->ptszTab)
+				DBWriteContactSettingTString(NULL, "Options", "LastTab", opd->ptszTab);
+			else
+				DBDeleteContactSetting(NULL, "Options", "LastTab");
+			if (opd->ptszGroup)
+				DBWriteContactSettingTString(NULL, "Options", "LastGroup", opd->ptszGroup);
+			else
+				DBDeleteContactSetting(NULL, "Options", "LastGroup");
+			DBWriteContactSettingTString(NULL, "Options", "LastPage", opd->ptszTitle);
 		}
 		else {
 			DBDeleteContactSetting(NULL, "Options", "LastTab");
 			DBDeleteContactSetting(NULL, "Options", "LastGroup");
 			DBDeleteContactSetting(NULL, "Options", "LastPage");
 		}
+		
 		Utils_SaveWindowPosition(hdlg, NULL, "Options", "");
 		{
 			for (int i=0; i < dat->arOpd.getCount(); i++)
