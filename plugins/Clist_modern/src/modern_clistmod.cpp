@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_sync.h"
 #include "hdr/modern_clui.h"
 #include <m_modernopt.h>
+
 pfnMyMonitorFromPoint  MyMonitorFromPoint = NULL;
 pfnMyMonitorFromWindow MyMonitorFromWindow = NULL;
 pfnMyGetMonitorInfo    MyGetMonitorInfo = NULL;
@@ -37,7 +38,6 @@ static HANDLE hookSystemShutdown_CListMod = NULL;
 HANDLE  hookOptInitialise_CList = NULL,
         hookOptInitialise_Skin = NULL,
         hookContactAdded_CListSettings = NULL;
-
 
 int CListMod_HideWindow(HWND hwndContactList, int mode);
 

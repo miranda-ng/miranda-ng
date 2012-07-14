@@ -27,18 +27,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HANDLE hHideInfoTipEvent;
 
-char* fnGetGroupCountsText(struct ClcData *dat, struct ClcContact *contact)
+char* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact)
 {
-	static char szName[32];
-	int onlineCount, totalCount;
-	struct ClcGroup *group, *topgroup;
-
 	if (contact->type != CLCIT_GROUP || !(dat->exStyle & CLS_EX_SHOWGROUPCOUNTS))
 		return "";
 
-	group = topgroup = contact->group;
-	onlineCount = 0;
-	totalCount = group->totalMembers;
+	ClcGroup *group = contact->group, *topgroup = group;
+	int onlineCount = 0;
+	int totalCount = group->totalMembers;
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
@@ -59,26 +55,26 @@ char* fnGetGroupCountsText(struct ClcData *dat, struct ClcContact *contact)
 	}
 	if (onlineCount == 0 && dat->exStyle & CLS_EX_HIDECOUNTSWHENEMPTY)
 		return "";
+
+	static char szName[32];
 	mir_snprintf(szName, SIZEOF(szName), "(%u/%u)", onlineCount, totalCount);
 	return szName;
 }
 
-int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcContact **contact, struct ClcGroup **group, DWORD * flags)
+int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags)
 {
 	ClcContact *hitcontact = NULL;
 	ClcGroup *hitgroup = NULL;
 	int hit, indent, width, i;
 	int checkboxWidth;
 	SIZE textSize;
-	HDC hdc;
-	RECT clRect;
 	HFONT hFont;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	POINT pt;
 
 	if (flags)
 		*flags = 0;
 
+	POINT pt;
 	pt.x = testx;
 	pt.y = testy;
 	ClientToScreen(hwnd, &pt);
@@ -99,8 +95,9 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcCo
 				return -1;
 		}
 	}
-	while (hwndParent);
+		while (hwndParent);
 
+	RECT clRect;
 	GetClientRect(hwnd, &clRect);
 	if (testx < 0 || testy < 0 || testy >= clRect.bottom || testx >= clRect.right) {
 		if (flags) {
@@ -166,7 +163,7 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcCo
 				return hit;
 			}
 	}
-	hdc = GetDC(hwnd);
+	HDC hdc = GetDC(hwnd);
 	if (hitcontact->type == CLCIT_GROUP)
 		hFont = (HFONT)SelectObject(hdc, dat->fontInfo[FONTID_GROUPS].hFont);
 	else
@@ -303,7 +300,7 @@ void fnRecalcScrollBar(HWND hwnd, struct ClcData *dat)
 	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
 }
 
-void fnSetGroupExpand(HWND hwnd, struct ClcData *dat, struct ClcGroup *group, int newState)
+void fnSetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState)
 {
 	int contentCount;
 	int groupy;
@@ -344,7 +341,7 @@ void fnSetGroupExpand(HWND hwnd, struct ClcData *dat, struct ClcGroup *group, in
 
 void fnDoSelectionDefaultAction(HWND hwnd, struct ClcData *dat)
 {
-	struct ClcContact *contact;
+	ClcContact *contact;
 
 	if (dat->selection == -1)
 		return;
@@ -359,7 +356,7 @@ void fnDoSelectionDefaultAction(HWND hwnd, struct ClcData *dat)
 
 int fnFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk)
 {
-	struct ClcGroup *group = &dat->list;
+	ClcGroup *group = &dat->list;
 	int testlen = lstrlen(text);
 
 	group->scanIndex = 0;
@@ -374,7 +371,7 @@ int fnFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefi
 		if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) {
 			if ((prefixOk && !_tcsnicmp(text, group->cl.items[group->scanIndex]->szText, testlen))  || 
 				( !prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText))) {
-					struct ClcGroup *contactGroup = group;
+					ClcGroup *contactGroup = group;
 					int contactScanIndex = group->scanIndex;
 					for (; group; group = group->parent)
 						cli.pfnSetGroupExpand(hwnd, dat, group, 1);
@@ -434,7 +431,7 @@ void fnEndRename(HWND, struct ClcData *dat, int save)
 
 void fnDeleteFromContactList(HWND hwnd, struct ClcData *dat)
 {
-	struct ClcContact *contact;
+	ClcContact *contact;
 	if (dat->selection == -1)
 		return;
 	dat->szQuickSearch[0] = 0;
@@ -481,11 +478,9 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 void fnBeginRenameSelection(HWND hwnd, struct ClcData *dat)
 {
-	struct ClcContact *contact;
-	struct ClcGroup *group;
-	RECT clRect;
+	ClcContact *contact;
+	ClcGroup *group;
 	POINT pt;
-	int h;
 
 	KillTimer(hwnd, TIMERID_RENAME);
 	ReleaseCapture();
@@ -495,9 +490,11 @@ void fnBeginRenameSelection(HWND hwnd, struct ClcData *dat)
 		return;
 	if (contact->type != CLCIT_CONTACT && contact->type != CLCIT_GROUP)
 		return;
+
+	RECT clRect;
 	GetClientRect(hwnd, &clRect);
 	cli.pfnCalcEipPosition(dat, contact, group, &pt);
-	h = cli.pfnGetRowHeight(dat, dat->selection);
+	int h = cli.pfnGetRowHeight(dat, dat->selection);
 	dat->hwndRenameEdit = CreateWindow(_T("EDIT"), contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, pt.x, pt.y, clRect.right - pt.x, h, hwnd, NULL, cli.hInst, NULL);
 	OldRenameEditWndProc = (WNDPROC) SetWindowLongPtr(dat->hwndRenameEdit, GWLP_WNDPROC, (LONG_PTR) RenameEditSubclassProc);
 	SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM) (contact->type == CLCIT_GROUP ? dat->fontInfo[FONTID_GROUPS].hFont : dat->fontInfo[FONTID_CONTACTS].hFont), 0);
@@ -507,7 +504,7 @@ void fnBeginRenameSelection(HWND hwnd, struct ClcData *dat)
 	SetFocus(dat->hwndRenameEdit);
 }
 
-void fnCalcEipPosition(struct ClcData *dat, struct ClcContact *, struct ClcGroup *group, POINT *result)
+void fnCalcEipPosition(struct ClcData *dat, ClcContact *, ClcGroup *group, POINT *result)
 {
 	int indent;
 	for (indent = 0; group->parent; indent++, group = group->parent);
@@ -518,18 +515,16 @@ void fnCalcEipPosition(struct ClcData *dat, struct ClcContact *, struct ClcGroup
 int fnGetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt)
 {
 	RECT clRect;
-	int hit;
-	struct ClcContact *contact, *movecontact;
-	struct ClcGroup *group, *movegroup;
-	DWORD hitFlags;
-
 	GetClientRect(hwnd, &clRect);
 	dat->selection = dat->iDragItem;
 	dat->iInsertionMark = -1;
 	if ( !PtInRect(&clRect, pt))
 		return DROPTARGET_OUTSIDE;
 
-	hit = cli.pfnHitTest(hwnd, dat, pt.x, pt.y, &contact, &group, &hitFlags);
+	ClcContact *contact, *movecontact;
+	ClcGroup *group, *movegroup;
+	DWORD hitFlags;
+	int hit = cli.pfnHitTest(hwnd, dat, pt.x, pt.y, &contact, &group, &hitFlags);
 	cli.pfnGetRowByIndex(dat, dat->iDragItem, &movecontact, &movegroup);
 	if (hit == dat->iDragItem)
 		return DROPTARGET_ONSELF;
@@ -537,8 +532,8 @@ int fnGetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt)
 		return DROPTARGET_ONNOTHING;
 
 	if (movecontact->type == CLCIT_GROUP) {
-		struct ClcContact *bottomcontact = NULL, *topcontact = NULL;
-		struct ClcGroup *topgroup = NULL;
+		ClcContact *bottomcontact = NULL, *topcontact = NULL;
+		ClcGroup *topgroup = NULL;
 		int topItem = -1, bottomItem = -1;
 		int ok = 0;
 		if (pt.y + dat->yScroll < cli.pfnGetRowTopY(dat, hit) + dat->insertionMarkHitHeight) {
@@ -623,10 +618,10 @@ int fnIsHiddenMode(struct ClcData *dat, int status)
 
 void fnHideInfoTip(HWND, struct ClcData *dat)
 {
-	CLCINFOTIP it = { 0 };
-
 	if (dat->hInfoTipItem == NULL)
 		return;
+
+	CLCINFOTIP it = { 0 };
 	it.isGroup = IsHContactGroup(dat->hInfoTipItem);
 	it.hItem = (HANDLE) ((UINT_PTR) dat->hInfoTipItem & ~HCONTACT_ISGROUP);
 	it.cbSize = sizeof(it);
@@ -717,31 +712,29 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 {
 	dat->rowHeight = DBGetContactSettingByte(NULL, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
-	{
-		int i;
-		LOGFONT lf;
-		SIZE fontSize;
+	
+	LOGFONT lf;
+	SIZE fontSize;
 
-        HDC hdc = GetDC(hwnd);
-		for (i=0; i <= FONTID_MAX; i++) 
-        {
-			if ( !dat->fontInfo[i].changed)
-				DeleteObject(dat->fontInfo[i].hFont);
+	HDC hdc = GetDC(hwnd);
+	for (int i=0; i <= FONTID_MAX; i++) {
+		if ( !dat->fontInfo[i].changed)
+			DeleteObject(dat->fontInfo[i].hFont);
 
-			cli.pfnGetFontSetting(i, &lf, &dat->fontInfo[i].colour);
-			lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
+		cli.pfnGetFontSetting(i, &lf, &dat->fontInfo[i].colour);
+		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 
-			dat->fontInfo[i].hFont = CreateFontIndirect(&lf);
-			dat->fontInfo[i].changed = 0;
+		dat->fontInfo[i].hFont = CreateFontIndirect(&lf);
+		dat->fontInfo[i].changed = 0;
 
-			HFONT holdfont = (HFONT)SelectObject(hdc, dat->fontInfo[i].hFont);
-			GetTextExtentPoint32(hdc, _T("x"), 1, &fontSize);
-			SelectObject(hdc, holdfont);
+		HFONT holdfont = (HFONT)SelectObject(hdc, dat->fontInfo[i].hFont);
+		GetTextExtentPoint32(hdc, _T("x"), 1, &fontSize);
+		SelectObject(hdc, holdfont);
 
-            dat->fontInfo[i].fontHeight = fontSize.cy;
-		}
-		ReleaseDC(hwnd, hdc);
+		dat->fontInfo[i].fontHeight = fontSize.cy;
 	}
+	ReleaseDC(hwnd, hdc);
+
 	dat->leftMargin = DBGetContactSettingByte(NULL, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN);
 	dat->exStyle = DBGetContactSettingDword(NULL, "CLC", "ExStyle", cli.pfnGetDefaultExStyle());
 	dat->scrollTime = DBGetContactSettingWord(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME);
@@ -773,29 +766,27 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 	dat->hotTextColour = DBGetContactSettingDword(NULL, "CLC", "HotTextColour", CLCDEFAULT_HOTTEXTCOLOUR);
 	dat->quickSearchColour = DBGetContactSettingDword(NULL, "CLC", "QuickSearchColour", CLCDEFAULT_QUICKSEARCHCOLOUR);
 	dat->useWindowsColours = DBGetContactSettingByte(NULL, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
-	{
-		NMHDR hdr;
-		hdr.code = CLN_OPTIONSCHANGED;
-		hdr.hwndFrom = hwnd;
-		hdr.idFrom = GetDlgCtrlID(hwnd);
-		SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & hdr);
-	}
+	
+	NMHDR hdr;
+	hdr.code = CLN_OPTIONSCHANGED;
+	hdr.hwndFrom = hwnd;
+	hdr.idFrom = GetDlgCtrlID(hwnd);
+	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & hdr);
+
 	SendMessage(hwnd, WM_SIZE, 0, 0);
 }
 
 #define GSIF_HASMEMBERS   0x80000000
 #define GSIF_ALLCHECKED   0x40000000
 #define GSIF_INDEXMASK    0x3FFFFFFF
+
 void fnRecalculateGroupCheckboxes(HWND, struct ClcData *dat)
 {
-	struct ClcGroup *group;
-	int check;
-
-	group = &dat->list;
+	ClcGroup *group = &dat->list;
 	group->scanIndex = GSIF_ALLCHECKED;
 	for (;;) {
 		if ((group->scanIndex & GSIF_INDEXMASK) == group->cl.count) {
-			check = (group->scanIndex & (GSIF_HASMEMBERS | GSIF_ALLCHECKED)) == (GSIF_HASMEMBERS | GSIF_ALLCHECKED);
+			int check = (group->scanIndex & (GSIF_HASMEMBERS | GSIF_ALLCHECKED)) == (GSIF_HASMEMBERS | GSIF_ALLCHECKED);
 			if (group->parent == NULL)
 				break;
 			group->parent->scanIndex |= group->scanIndex & GSIF_HASMEMBERS;
@@ -821,11 +812,9 @@ void fnRecalculateGroupCheckboxes(HWND, struct ClcData *dat)
 	}
 }
 
-void fnSetGroupChildCheckboxes(struct ClcGroup *group, int checked)
+void fnSetGroupChildCheckboxes(ClcGroup *group, int checked)
 {
-	int i;
-
-	for (i=0; i < group->cl.count; i++) {
+	for (int i=0; i < group->cl.count; i++) {
 		if (group->cl.items[i]->type == CLCIT_GROUP) {
 			cli.pfnSetGroupChildCheckboxes(group->cl.items[i]->group, checked);
 			if (checked)
@@ -844,10 +833,10 @@ void fnSetGroupChildCheckboxes(struct ClcGroup *group, int checked)
 
 void fnInvalidateItem(HWND hwnd, struct ClcData *dat, int iItem)
 {
-	RECT rc;
 	if (iItem == -1)
 		return;
 
+	RECT rc;
 	GetClientRect(hwnd, &rc);
 	rc.top = cli.pfnGetRowTopY(dat, iItem) - dat->yScroll;
 	rc.bottom = rc.top + cli.pfnGetRowHeight(dat, iItem);

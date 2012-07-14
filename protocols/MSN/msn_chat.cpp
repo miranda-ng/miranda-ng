@@ -128,7 +128,7 @@ void CMsnProto::MSN_KillChatSession(TCHAR* id)
 	gcd.ptszID = id;
 	GCEVENT gce = {0};
 	gce.cbSize = sizeof(GCEVENT);
-	gce.dwFlags = GC_TCHAR;
+	gce.dwFlags = GC_TCHAR | GCEF_REMOVECONTACT;
 	gce.pDest = &gcd;
 	CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);

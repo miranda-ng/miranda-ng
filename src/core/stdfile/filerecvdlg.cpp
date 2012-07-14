@@ -275,11 +275,10 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		{
 			char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
 			if (szProto) {
-				CONTACTINFO ci;
 				int hasName = 0;
 				char buf[128];
-				ZeroMemory(&ci, sizeof(ci));
 
+				CONTACTINFO ci = { 0 };
 				ci.cbSize = sizeof(ci);
 				ci.hContact = dat->hContact;
 				ci.szProto = szProto;

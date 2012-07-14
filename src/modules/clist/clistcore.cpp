@@ -39,9 +39,9 @@ static void fnPaintClc(HWND, ClcData*, HDC, RECT*)
 {
 }
 
-static struct ClcContact* fnCreateClcContact(void)
+static ClcContact* fnCreateClcContact(void)
 {
-	return (struct ClcContact*)mir_calloc(sizeof(struct ClcContact));
+	return (ClcContact*)mir_calloc(sizeof(ClcContact));
 }
 
 static BOOL fnInvalidateRect(HWND hwnd, CONST RECT* lpRect, BOOL bErase)

@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* the CLC uses 3 different ways to identify elements in its list, this file
 contains routines to convert between them.
 
-1) struct ClcContact/struct ClcGroup pair. Only ever used within the duration
+1) ClcContact/ClcGroup pair. Only ever used within the duration
    of a single operation, but used at some point in nearly everything
 2) index integer. The 0-based number of the item from the top. Only visible
    items are counted (ie not closed groups). Used for saving selection and drag
@@ -40,7 +40,7 @@ contains routines to convert between them.
 2->1: GetRowByIndex()
 */
 
-int fnGetRowsPriorTo(struct ClcGroup *group, struct ClcGroup *subgroup, int contactIndex)
+int fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 {
 	int count = 0;
 
@@ -70,16 +70,16 @@ int fnGetRowsPriorTo(struct ClcGroup *group, struct ClcGroup *subgroup, int cont
 	return -1;
 }
 
-int fnFindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **contact, struct ClcGroup **subgroup, int *isVisible)
+int fnFindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
 {
 	int index = 0;
 	int nowVisible = 1;
-	struct ClcGroup *group = &dat->list;
+	ClcGroup *group = &dat->list;
 
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			struct ClcGroup *tgroup;
+			ClcGroup *tgroup;
 			group = group->parent;
 			if (group == NULL)
 				break;
@@ -135,10 +135,10 @@ int fnFindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact *
 	return 0;
 }
 
-int fnGetRowByIndex(struct ClcData *dat, int testindex, struct ClcContact **contact, struct ClcGroup **subgroup)
+int fnGetRowByIndex(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup)
 {
 	int index = 0;
-	struct ClcGroup *group = &dat->list;
+	ClcGroup *group = &dat->list;
 
 	if (testindex<0) 
 		return (-1);
@@ -170,7 +170,7 @@ int fnGetRowByIndex(struct ClcData *dat, int testindex, struct ClcContact **cont
 	return -1;
 }
 
-HANDLE fnContactToHItem(struct ClcContact * contact)
+HANDLE fnContactToHItem(ClcContact * contact)
 {
 	switch (contact->type) {
 	case CLCIT_CONTACT:
@@ -183,7 +183,7 @@ HANDLE fnContactToHItem(struct ClcContact * contact)
 	return NULL;
 }
 
-HANDLE fnContactToItemHandle(struct ClcContact * contact, DWORD * nmFlags)
+HANDLE fnContactToItemHandle(ClcContact * contact, DWORD * nmFlags)
 {
 	switch (contact->type) {
 	case CLCIT_CONTACT:

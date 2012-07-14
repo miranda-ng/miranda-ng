@@ -1178,7 +1178,7 @@ private:
 	CCtrlJabberForm m_frm;
 };
 
-static VOID CALLBACK CreateDialogApcProc(DWORD param)
+static VOID CALLBACK CreateDialogApcProc(void* param)
 {
 	XmlNode *node = (XmlNode *)param;
 
@@ -1194,12 +1194,5 @@ static VOID CALLBACK CreateDialogApcProc(DWORD param)
 void LaunchForm(XmlNode *node)
 {
 	node = JabberXmlCopyNode(node);
-
-	if (GetCurrentThreadId() != jabberMainThreadId)
-	{
-		QueueUserAPC(CreateDialogApcProc, hMainThread, (DWORD)node);
-	} else
-	{
-		CreateDialogApcProc((DWORD)node);
-	}
+	CallFunctionAsync(CreateDialogApcProc, node);
 }

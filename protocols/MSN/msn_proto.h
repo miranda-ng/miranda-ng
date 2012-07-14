@@ -354,6 +354,7 @@ struct CMsnProto : public PROTO_INTERFACE
 	void  p2p_cancelAllSessions(void);
 	void  p2p_redirectSessions(const char* wlid);
 	void  p2p_startSessions(const char* wlid);
+	void  p2p_clearThreadSessions(HANDLE hContact, TInfoType mType);
 
 	void  p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid);
 	void  p2p_inviteDc(filetransfer* ft, const char *wlid);

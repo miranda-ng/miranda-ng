@@ -39,25 +39,25 @@ HMENU  fnBuildGroupPopupMenu(struct ClcGroup* group);
 LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /* clcidents.c */
-int    fnGetRowsPriorTo(struct ClcGroup *group, struct ClcGroup *subgroup, int contactIndex);
-int    fnFindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **contact, struct ClcGroup **subgroup, int *isVisible);
-int    fnGetRowByIndex(struct ClcData *dat, int testindex, struct ClcContact **contact, struct ClcGroup **subgroup);
-HANDLE fnContactToHItem(struct ClcContact* contact);
-HANDLE fnContactToItemHandle(struct ClcContact * contact, DWORD * nmFlags);
+int    fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
+int    fnFindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
+int    fnGetRowByIndex(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
+HANDLE fnContactToHItem(ClcContact* contact);
+HANDLE fnContactToItemHandle(ClcContact * contact, DWORD * nmFlags);
 
 /* clcitems.c */
 struct ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
-struct ClcGroup* fnRemoveItemFromGroup(HWND hwnd, struct ClcGroup *group, struct ClcContact *contact, int updateTotalCount);
+struct ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
 
-void fnFreeContact(struct ClcContact *p);
-void fnFreeGroup(struct ClcGroup *group);
-int  fnAddInfoItemToGroup(struct ClcGroup *group, int flags, const TCHAR *pszText);
-int  fnAddItemToGroup(struct ClcGroup *group, int iAboveItem);
+void fnFreeContact(ClcContact *p);
+void fnFreeGroup(ClcGroup *group);
+int  fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
+int  fnAddItemToGroup(ClcGroup *group, int iAboveItem);
 void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HANDLE hContact, int updateTotalCount, int checkHideOffline);
-int  fnAddContactToGroup(struct ClcData *dat, struct ClcGroup *group, HANDLE hContact);
+int  fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
 void fnDeleteItemFromTree(HWND hwnd, HANDLE hItem);
 void fnRebuildEntireList(HWND hwnd, struct ClcData *dat);
-int  fnGetGroupContentsCount(struct ClcGroup *group, int visibleOnly);
+int  fnGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort);
 void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat);
 
@@ -65,18 +65,18 @@ void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat);
 LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /* clcutils.c */
-char* fnGetGroupCountsText(struct ClcData *dat, struct ClcContact *contact);
-int   fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcContact **contact, struct ClcGroup **group, DWORD * flags);
+char* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact);
+int   fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
 void  fnScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
 void  fnEnsureVisible(HWND hwnd, struct ClcData *dat, int iItem, int partialOk);
 void  fnRecalcScrollBar(HWND hwnd, struct ClcData *dat);
-void  fnSetGroupExpand(HWND hwnd, struct ClcData *dat, struct ClcGroup *group, int newState);
+void  fnSetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState);
 void  fnDoSelectionDefaultAction(HWND hwnd, struct ClcData *dat);
 int   fnFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk);
 void  fnEndRename(HWND hwnd, struct ClcData *dat, int save);
 void  fnDeleteFromContactList(HWND hwnd, struct ClcData *dat);
 void  fnBeginRenameSelection(HWND hwnd, struct ClcData *dat);
-void  fnCalcEipPosition(struct ClcData *dat, struct ClcContact *contact, struct ClcGroup *group, POINT *result);
+void  fnCalcEipPosition(struct ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
 int   fnGetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
 int   fnClcStatusToPf2(int status);
 int   fnIsHiddenMode(struct ClcData *dat, int status);
@@ -88,7 +88,7 @@ void  fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF* colour);
 void  fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour);
 void  fnLoadClcOptions(HWND hwnd, struct ClcData *dat);
 void  fnRecalculateGroupCheckboxes(HWND hwnd, struct ClcData *dat);
-void  fnSetGroupChildCheckboxes(struct ClcGroup *group, int checked);
+void  fnSetGroupChildCheckboxes(ClcGroup *group, int checked);
 void  fnInvalidateItem(HWND hwnd, struct ClcData *dat, int iItem);
 
 int fnGetRowBottomY(struct ClcData *dat, int item);
@@ -180,7 +180,7 @@ void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 /* contact.c */
 void fnChangeContactIcon (HANDLE hContact, int iIcon, int add);
 void fnLoadContactTree (void);
-int  fnCompareContacts (const struct ClcContact *contact1, const struct ClcContact *contact2);
+int  fnCompareContacts (const ClcContact *contact1, const ClcContact *contact2);
 void fnSortContacts (void);
 int  fnSetHideOffline (WPARAM wParam, LPARAM lParam);
 

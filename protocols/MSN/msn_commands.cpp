@@ -67,7 +67,9 @@ void CMsnProto::sttSetMirVer(HANDLE hContact, DWORD dwValue, bool always)
 		"WLM Unknown",
 	};
 
-	if (dwValue & 0x1)
+	if (dwValue == 0)
+		setString(hContact, "MirVer", "Windows Phone");
+	else if (dwValue & 0x1)
 		setString(hContact, "MirVer", "MSN Mobile");
 	else if (dwValue & 0x200)
 		setString(hContact, "MirVer", "Webmessenger");
@@ -827,18 +829,18 @@ void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wli
 	}
 
 	// Process status message info
-	char* szStatMsg = ezxml_txt(ezxml_child(xmli, "PSM"));
-	if (*szStatMsg) {
-		stripBBCode(szStatMsg);
-		stripColorCode(szStatMsg);
-		mir_ptr<TCHAR> tszStatMsg( mir_utf8decodeT(szStatMsg));
-		DBWriteContactSettingTString(hContact, "CList", "StatusMsg", tszStatMsg);
-		SendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszStatMsg);
+	const char* szStatMsg = ezxml_txt(ezxml_child(xmli, "PSM"));
+	if (*szStatMsg)
+	{
+		stripBBCode((char*)szStatMsg);
+		stripColorCode((char*)szStatMsg);
+		DBWriteContactSettingStringUtf(hContact, "CList", "StatusMsg", szStatMsg);
 	}
-	else {
+	else
 		DBDeleteContactSetting(hContact, "CList", "StatusMsg");
-		SendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, NULL);
-	}
+
+	mir_utf8decode((char*)szStatMsg, NULL);
+	SendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)szStatMsg);
 
 	// Process current media info
 	const char* szCrntMda = ezxml_txt(ezxml_child(xmli, "CurrentMedia"));
@@ -1190,6 +1192,8 @@ LBL_InvalidCommand:
 
 			if (strchr(data.userEmail, ';'))
 			{
+				if (info->mJoinedContactsWLID.getCount() == 1)
+					p2p_clearThreadSessions(info->mJoinedContactsWLID[0], info->mType);
 				info->contactLeft(data.userEmail);
 				break;
 			}
@@ -1401,7 +1405,7 @@ LBL_InvalidCommand:
 					sttSetMirVer(hContact, cont->cap1, always);
 				}
 
-				if ((cont->cap1 & 0xf0000000) && data.cmdstring[0] && strcmp(data.cmdstring, "0"))
+				if (/*(cont->cap1 & 0xf0000000) &&*/ data.cmdstring[0] && strcmp(data.cmdstring, "0"))
 				{
 					char* szAvatarHash = MSN_GetAvatarHash(data.cmdstring);
 					if (szAvatarHash == NULL) goto remove;
@@ -1468,7 +1472,8 @@ remove:
 			{
 				UrlDecode(data.userNick);
 				HANDLE hContact = MSN_HContactFromEmail(data.userEmail, data.userNick, true, true);
-				if (tNumTokens == 5)
+
+				if (tNumTokens == 5 && strcmp(data.flags, "0:0"))
 				{
 					MsnContact *cont = Lists_Get(data.userEmail);
 					if (cont)
@@ -1780,6 +1785,7 @@ remove:
 
 				case 10:
 					// TURN setup
+					p2p_processSIP(info, msgBody, NULL, szEmail);
 					break;
 			}
 			break;

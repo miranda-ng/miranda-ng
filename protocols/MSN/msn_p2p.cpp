@@ -808,7 +808,7 @@ bool CMsnProto::p2p_connectTo(ThreadData* info, directconnection *dc)
 
 bool CMsnProto::p2p_listen(ThreadData* info, directconnection *dc)
 {
-	switch(WaitForSingleObject(info->hWaitEvent, 6000)) 
+	switch(WaitForSingleObject(info->hWaitEvent, 10000)) 
 	{
 	case WAIT_TIMEOUT:
 	case WAIT_FAILED:
@@ -1433,6 +1433,7 @@ void CMsnProto::p2p_InitDirectTransfer(MimeHeaders& tFileInfo, MimeHeaders& tFil
 		if (MSN_GetThreadByContact(wlid, SERVER_P2P_DIRECT))
 		{
 			p2p_sendStatus(ft, 1603);
+			p2p_unregisterDC(dc);
 			return;
 		}
 		p2p_unregisterDC(dc);
@@ -1490,22 +1491,38 @@ void CMsnProto::p2p_startConnect(const char* wlid, const char* szCallID, const c
 {
 	if (port == NULL) return;
 
-	while (addr != NULL) 
+	char *pPortTokBeg = (char*)port;
+	for (;;) 
 	{
-		char* pSpace = (char*)strchr(addr, ' ');
-		if (pSpace != NULL) *(pSpace++) = 0;
+		char *pPortTokEnd = strchr(pPortTokBeg, ' ');
+		if (pPortTokEnd != NULL) *pPortTokEnd = 0;
 
-		ThreadData* newThread = new ThreadData;
+		char *pAddrTokBeg = (char*)addr;
+		for (;;) 
+		{
+			char *pAddrTokEnd = strchr(pAddrTokBeg, ' ');
+			if (pAddrTokEnd != NULL) *pAddrTokEnd = 0;
 
-		newThread->mType = SERVER_P2P_DIRECT;
-		newThread->mInitialContactWLID = mir_strdup(wlid);
-		mir_snprintf(newThread->mCookie, sizeof(newThread->mCookie), "%s", szCallID);
-		mir_snprintf(newThread->mServer, sizeof(newThread->mServer),
-			ipv6 ? "[%s]:%s" : "%s:%s", addr, port);
+			ThreadData* newThread = new ThreadData;
 
-		newThread->startThread(&CMsnProto::p2p_fileActiveThread, this);
+			newThread->mType = SERVER_P2P_DIRECT;
+			newThread->mInitialContactWLID = mir_strdup(wlid);
+			mir_snprintf(newThread->mCookie, sizeof(newThread->mCookie), "%s", szCallID);
+			mir_snprintf(newThread->mServer, sizeof(newThread->mServer),
+				ipv6 ? "[%s]:%s" : "%s:%s", pAddrTokBeg, pPortTokBeg);
 
-		addr = pSpace;
+			newThread->startThread(&CMsnProto::p2p_fileActiveThread, this);
+
+			if (pAddrTokEnd == NULL) break;
+
+			*pAddrTokEnd = ' ';
+			pAddrTokBeg = pAddrTokEnd + 1;
+		}
+
+		if (pPortTokEnd == NULL) break;
+
+		*pPortTokEnd = ' ';
+		pPortTokBeg = pPortTokEnd + 1;
 	}
 }
 
@@ -1805,18 +1822,18 @@ void CMsnProto::p2p_processSIP(ThreadData* info, char* msgbody, P2PB_Header* hdr
 
 	case 4:
 		{
-			const char* callID = tFileInfo["Call-ID"];
+			const char* szCallID = tFileInfo["Call-ID"];
 
 //			application/x-msnmsgr-session-failure-respbody
 
-			directconnection *dc = p2p_getDCByCallID(callID, wlid);
+			directconnection *dc = p2p_getDCByCallID(szCallID, wlid);
 			if (dc != NULL)
 			{
 				p2p_unregisterDC(dc);
 				break;
 			}
 
-			filetransfer* ft = p2p_getSessionByCallID(callID, wlid);
+			filetransfer* ft = p2p_getSessionByCallID(szCallID, wlid);
 			if (ft == NULL)
 				break;
 
@@ -2385,13 +2402,14 @@ void CMsnProto::p2p_sendSessionAck(filetransfer* ft)
 */
 void  CMsnProto::p2p_sessionComplete(filetransfer* ft)
 {
-	if (ft->std.flags & PFTS_SENDING) 
+	if (ft->p2p_appID != MSN_APPID_FILE)
+		p2p_unregisterSession(ft);
+	else if (ft->std.flags & PFTS_SENDING) 
 	{
 		if (ft->openNext() == -1) 
 		{
 			bool success = ft->std.currentFileNumber >= ft->std.totalFiles && ft->bCompleted;
 			SendBroadcast(ft->std.hContact, ACKTYPE_FILE, success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, ft, 0);
-			p2p_unregisterSession(ft);
 		}
 		else 
 		{

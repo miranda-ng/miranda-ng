@@ -92,7 +92,7 @@ void fnLoadContactTree(void)
 	CallService(MS_CLUI_LISTENDREBUILD, 0, 0);
 }
 
-int fnCompareContacts(const struct ClcContact* c1, const struct ClcContact* c2)
+int fnCompareContacts(const ClcContact* c1, const ClcContact* c2)
 {
 	HANDLE a = c1->hContact, b = c2->hContact;
 	TCHAR namea[128], *nameb;

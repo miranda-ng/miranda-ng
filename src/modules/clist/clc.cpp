@@ -393,8 +393,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *) lParam;
 		if (dbcws->value.type == DBVT_ASCIIZ || dbcws->value.type == DBVT_UTF8) {
 			int groupId = atoi(dbcws->szSetting) + 1;
-			struct ClcContact *contact;
-			struct ClcGroup *group;
+			ClcContact *contact;
+			ClcGroup *group;
 			TCHAR szFullName[512];
 			int i, nameLen, eq;
 			//check name of group and ignore message if just being expanded/collapsed
@@ -472,7 +472,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	}
 	case INTM_GROUPCHANGED:
 	{
-		struct ClcContact *contact;
+		ClcContact *contact;
 		BYTE iExtraImage[MAXEXTRACOLUMNS];
 		BYTE flags = 0;
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
@@ -503,13 +503,13 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	}
 	case INTM_ICONCHANGED:
 	{
-		struct ClcContact *contact = NULL;
-		struct ClcGroup *group = NULL;
+		ClcContact *contact = NULL;
+		ClcGroup *group = NULL;
 		int recalcScrollBar = 0, shouldShow;
 		WORD status;
 		char *szProto;
 		HANDLE hSelItem = NULL;
-		struct ClcContact *selcontact = NULL;
+		ClcContact *selcontact = NULL;
 
 		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 		if (szProto == NULL)
@@ -553,7 +553,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			dat->needsResort = 1;
 		}
 		if (hSelItem) {
-			struct ClcGroup *selgroup;
+			ClcGroup *selgroup;
 			if (cli.pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
 				dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
 			else
@@ -564,7 +564,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	}
 	case INTM_NAMECHANGED:
 	{
-		struct ClcContact *contact;
+		ClcContact *contact;
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 			break;
 
@@ -575,7 +575,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	}
 	case INTM_PROTOCHANGED:
 	{
-		struct ClcContact *contact = NULL;
+		ClcContact *contact = NULL;
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 			break;
 		contact->proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
@@ -587,7 +587,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	case INTM_NOTONLISTCHANGED:
 	{
 		DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *) lParam;
-		struct ClcContact *contact;
+		ClcContact *contact;
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 			break;
 		if (contact->type != CLCIT_CONTACT)
@@ -607,7 +607,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	{
 		WORD apparentMode;
 		char *szProto;
-		struct ClcContact *contact;
+		ClcContact *contact;
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 			break;
 		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
@@ -631,7 +631,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	case INTM_IDLECHANGED:
 	{
 		char *szProto;
-		struct ClcContact *contact;
+		ClcContact *contact;
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 			break;
 		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
@@ -764,8 +764,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		}
 		if (changeGroupExpand) {
 			int hit;
-			struct ClcContact *contact;
-			struct ClcGroup *group;
+			ClcContact *contact;
+			ClcGroup *group;
 			if (dat->filterSearch) {
 				// this shouldn't clear filtering, but it should refresh highlighting somehow?
 			} else {
@@ -816,7 +816,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		else if (wParam < ' ')
 			break;
 		else if (wParam == ' ' && dat->szQuickSearch[0] == '\0' && GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CHECKBOXES) {
-			struct ClcContact *contact;
+			ClcContact *contact;
 			NMCLISTCONTROL nm;
 			if (cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL) == -1)
 				break;
@@ -889,7 +889,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			break;
 		case TIMERID_INFOTIP:
 		{	CLCINFOTIP it;
-			struct ClcContact *contact;
+			ClcContact *contact;
 			int hit;
 			RECT clRect;
 			POINT ptClientOffset = { 0 };
@@ -938,8 +938,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	case WM_MBUTTONDOWN:
 	case WM_LBUTTONDOWN:
 	{
-		struct ClcContact *contact;
-		struct ClcGroup *group;
+		ClcContact *contact;
+		ClcGroup *group;
 		int hit;
 		DWORD hitFlags;
 
@@ -968,8 +968,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 		if (hit != -1 && contact->type == CLCIT_GROUP)
 			if (hitFlags & CLCHT_ONITEMICON) {
-				struct ClcGroup *selgroup;
-				struct ClcContact *selcontact;
+				ClcGroup *selgroup;
+				ClcContact *selcontact;
 				dat->selection = cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, &selgroup);
 				cli.pfnSetGroupExpand(hwnd, dat, contact->group, -1);
 				if (dat->selection != -1) {
@@ -1076,7 +1076,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			target = cli.pfnGetDropTargetInformation(hwnd, dat, pt);
 			if (dat->dragStage & DRAGSTAGEF_OUTSIDE && target != DROPTARGET_OUTSIDE) {
 				NMCLISTCONTROL nm;
-				struct ClcContact *contact;
+				ClcContact *contact;
 				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
 				nm.hdr.code = CLN_DRAGSTOP;
 				nm.hdr.hwndFrom = hwnd;
@@ -1099,7 +1099,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			case DROPTARGET_OUTSIDE:
 				{
 					NMCLISTCONTROL nm;
-					struct ClcContact *contact;
+					ClcContact *contact;
 
 					if (pt.x >= 0 && pt.x < clRect.right
 						&& ((pt.y < 0 && pt.y > -dat->dragAutoScrollHeight)
@@ -1128,7 +1128,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				}
 			default:
 				{
-					struct ClcGroup *group;
+					ClcGroup *group;
 					cli.pfnGetRowByIndex(dat, dat->iDragItem, NULL, &group);
 					if (group->parent)
 						hNewCursor = LoadCursor(cli.hInst, MAKEINTRESOURCE(IDC_DROPUSER));
@@ -1166,7 +1166,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				break;
 			case DROPTARGET_ONGROUP:
 			{
-				struct ClcContact *contactn, *contacto;
+				ClcContact *contactn, *contacto;
 				cli.pfnGetRowByIndex(dat, dat->selection, &contactn, NULL);
 				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contacto, NULL);
 				if (contacto->type == CLCIT_CONTACT) //dropee is a contact
@@ -1181,8 +1181,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			}
 			case DROPTARGET_INSERTION:
 			{
-				struct ClcContact *contact, *destcontact;
-				struct ClcGroup *destgroup;
+				ClcContact *contact, *destcontact;
+				ClcGroup *destgroup;
 				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
 				if (cli.pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup) == -1 || destgroup != contact->group->parent)
 					CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, 0);
@@ -1198,7 +1198,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			case DROPTARGET_OUTSIDE:
 			{
 				NMCLISTCONTROL nm;
-				struct ClcContact *contact;
+				ClcContact *contact;
 				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
 				nm.hdr.code = CLN_DROPPED;
 				nm.hdr.hwndFrom = hwnd;
@@ -1211,8 +1211,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			}
 			default:
 				{
-					struct ClcGroup *group;
-					struct ClcContact *contact;
+					ClcGroup *group;
+					ClcContact *contact;
 					cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
 					if (group->parent) {    //move to root
 						if (contact->type == CLCIT_CONTACT) //dropee is a contact
@@ -1230,7 +1230,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 	case WM_LBUTTONDBLCLK:
 	{
-		struct ClcContact *contact;
+		ClcContact *contact;
 		DWORD hitFlags;
 		ReleaseCapture();
 		dat->iHotTrack = -1;
@@ -1254,7 +1254,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	}
 	case WM_CONTEXTMENU:
 	{
-		struct ClcContact *contact;
+		ClcContact *contact;
 		HMENU hMenu = NULL;
 		POINT pt;
 		DWORD hitFlags;
@@ -1320,7 +1320,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 	case WM_COMMAND:
 		{
-		struct ClcContact *contact;
+		ClcContact *contact;
 		int hit = cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
 		if (hit == -1)
 			break;

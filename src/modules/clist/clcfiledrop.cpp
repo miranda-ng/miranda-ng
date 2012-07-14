@@ -71,7 +71,7 @@ ULONG CDropTarget::Release(void)
 static HANDLE HContactFromPoint(HWND hwnd, struct ClcData *dat, int x, int y, int *hitLine)
 {
 	int hit;
-	struct ClcContact *contact;
+	ClcContact *contact;
 	DWORD hitFlags;
 	char *szProto;
 	DWORD protoCaps;

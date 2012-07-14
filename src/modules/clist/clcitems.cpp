@@ -25,9 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //routines for managing adding/removal of items in the list, including sorting
 
-int fnAddItemToGroup(struct ClcGroup *group, int iAboveItem)
+int fnAddItemToGroup(ClcGroup *group, int iAboveItem)
 {
-	struct ClcContact* newItem = cli.pfnCreateClcContact();
+	ClcContact* newItem = cli.pfnCreateClcContact();
 	newItem->type = CLCIT_DIVIDER;
 	newItem->flags = 0;
 	newItem->szText[0] = '\0';
@@ -40,7 +40,7 @@ int fnAddItemToGroup(struct ClcGroup *group, int iAboveItem)
 struct ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
 {
 	TCHAR *pBackslash, *pNextField, szThisField[ SIZEOF(dat->list.cl.items[0]->szText) ];
-	struct ClcGroup *group = &dat->list;
+	ClcGroup *group = &dat->list;
 	int i, compareResult;
 
 	dat->needsResort = 1;
@@ -89,7 +89,7 @@ struct ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName,
 			group->cl.items[i]->type = CLCIT_GROUP;
 			lstrcpyn(group->cl.items[i]->szText, szThisField, SIZEOF(group->cl.items[i]->szText));
 			group->cl.items[i]->groupId = (WORD) (pNextField ? 0 : groupId);
-			group->cl.items[i]->group = (struct ClcGroup *) mir_alloc(sizeof(struct ClcGroup));
+			group->cl.items[i]->group = (ClcGroup *) mir_alloc(sizeof(struct ClcGroup));
 			group->cl.items[i]->group->parent = group;
 			group = group->cl.items[i]->group;
 			memset(&group->cl, 0, sizeof(group->cl));
@@ -120,14 +120,14 @@ struct ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName,
 	return group;
 }
 
-void fnFreeContact(struct ClcContact* p)
+void fnFreeContact(ClcContact* p)
 {
 	if (p->type == CLCIT_GROUP) {
 		cli.pfnFreeGroup(p->group);
 		mir_free(p->group);
 }	}
 
-void fnFreeGroup(struct ClcGroup *group)
+void fnFreeGroup(ClcGroup *group)
 {
 	int i;
 	for (i=0; i < group->cl.count; i++) {
@@ -141,7 +141,7 @@ void fnFreeGroup(struct ClcGroup *group)
 }
 
 static int iInfoItemUniqueHandle = 0;
-int fnAddInfoItemToGroup(struct ClcGroup *group, int flags, const TCHAR *pszText)
+int fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 {
 	int i=0;
 
@@ -167,7 +167,7 @@ int fnAddInfoItemToGroup(struct ClcGroup *group, int flags, const TCHAR *pszText
 	return i;
 }
 
-int fnAddContactToGroup(struct ClcData *dat, struct ClcGroup *group, HANDLE hContact)
+int fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 {
 	char *szProto;
 	WORD apparentMode;
@@ -218,7 +218,7 @@ int fnAddContactToGroup(struct ClcData *dat, struct ClcGroup *group, HANDLE hCon
 
 void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HANDLE hContact, int updateTotalCount, int checkHideOffline)
 {
-	struct ClcGroup *group;
+	ClcGroup *group;
 	DBVARIANT dbv;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	WORD status = ID_STATUS_OFFLINE;
@@ -286,7 +286,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HANDLE hContact, int upd
 		group->totalMembers++;
 }
 
-struct ClcGroup* fnRemoveItemFromGroup(HWND hwnd, struct ClcGroup *group, struct ClcContact *contact, int updateTotalCount)
+struct ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount)
 {
 	int iContact;
 	if ((iContact = List_IndexOf((SortedList*)&group->cl, contact)) == -1)
@@ -321,8 +321,8 @@ struct ClcGroup* fnRemoveItemFromGroup(HWND hwnd, struct ClcGroup *group, struct
 
 void fnDeleteItemFromTree(HWND hwnd, HANDLE hItem)
 {
-	struct ClcContact *contact;
-	struct ClcGroup *group;
+	ClcContact *contact;
+	ClcGroup *group;
 	struct ClcData *dat = (struct ClcData *) GetWindowLongPtr(hwnd, 0);
 
 	dat->needsResort = 1;
@@ -361,7 +361,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 	char *szProto;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	HANDLE hContact;
-	struct ClcGroup *group;
+	ClcGroup *group;
 	DBVARIANT dbv;
 
 	dat->list.expanded = 1;
@@ -445,10 +445,10 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 	cli.pfnSortCLC(hwnd, dat, 0);
 }
 
-int fnGetGroupContentsCount(struct ClcGroup *group, int visibleOnly)
+int fnGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 {
 	int count = group->cl.count;
-	struct ClcGroup *topgroup = group;
+	ClcGroup *topgroup = group;
 
 	group->scanIndex = 0;
 	for (;;) {
@@ -486,10 +486,10 @@ static int __cdecl ContactSortProc(const void* p1, const void* p2)
 	return (int)((INT_PTR) contact2[0]->hContact - (INT_PTR) contact1[0]->hContact);
 }
 
-static void InsertionSort(struct ClcContact **pContactArray, int nArray, int (*CompareProc) (const void *, const void *))
+static void InsertionSort(ClcContact **pContactArray, int nArray, int (*CompareProc) (const void *, const void *))
 {
 	int i, j;
-	struct ClcContact* testElement;
+	ClcContact* testElement;
 
 	for (i = 1; i < nArray; i++) {
 		if (CompareProc(&pContactArray[i - 1], &pContactArray[i]) > 0) {
@@ -502,7 +502,7 @@ static void InsertionSort(struct ClcContact **pContactArray, int nArray, int (*C
 			pContactArray[j] = testElement;
 }	}	}
 
-static void SortGroup(struct ClcData *dat, struct ClcGroup *group, int useInsertionSort)
+static void SortGroup(struct ClcData *dat, ClcGroup *group, int useInsertionSort)
 {
 	int i, sortCount;
 
@@ -556,8 +556,8 @@ static void SortGroup(struct ClcData *dat, struct ClcGroup *group, int useInsert
 
 void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort)
 {
-	struct ClcContact *selcontact;
-	struct ClcGroup *group = &dat->list, *selgroup;
+	ClcContact *selcontact;
+	ClcGroup *group = &dat->list, *selgroup;
 	HANDLE hSelItem;
 
 	if (dat->needsResort) {

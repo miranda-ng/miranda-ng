@@ -127,6 +127,24 @@ filetransfer*  CMsnProto::p2p_getThreadSession(HANDLE hContact, TInfoType mType)
 	return result;
 }
 
+void  CMsnProto::p2p_clearThreadSessions(HANDLE hContact, TInfoType mType)
+{
+	EnterCriticalSection(&sessionLock);
+
+	for (int i=0; i < sessionList.getCount(); i++) 
+	{
+		filetransfer* ft = &sessionList[i];
+		if (ft->std.hContact == hContact && ft->tType == mType) 
+		{
+			ft->bCanceled = true;
+			ft->tType = SERVER_NOTIFICATION;
+			p2p_sendCancel(ft);
+		}	
+	}
+
+	LeaveCriticalSection(&sessionLock);
+}
+
 filetransfer*  CMsnProto::p2p_getAvatarSession(HANDLE hContact)
 {
 	EnterCriticalSection(&sessionLock);
@@ -172,7 +190,7 @@ void  CMsnProto::p2p_clearDormantSessions(void)
 		filetransfer* FT = &sessionList[i];
 		if (!FT->p2p_sessionid && !MSN_GetUnconnectedThread(FT->p2p_dest, SERVER_P2P_DIRECT))
 			p2p_invite(FT->p2p_type, FT, NULL);
-		else if (FT->p2p_waitack && (ts - FT->ts) > 60) 
+		else if (FT->p2p_waitack && (ts - FT->ts) > 120) 
 		{
 			FT->bCanceled = true;
 			p2p_sendCancel(FT);
