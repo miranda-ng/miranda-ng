@@ -723,11 +723,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 						DBFreeVariant(&dbv);
 					}
 				}
-				else lastGroup = Langpack_PcharToTchar(ood->pszGroup);
+				else lastGroup = mir_a2t(ood->pszGroup);
 			}
 			else {
-				lastPage = Langpack_PcharToTchar(ood->pszPage);
-				lastGroup = (ood->pszGroup == NULL) ? NULL : Langpack_PcharToTchar(ood->pszGroup);
+				lastPage = mir_a2t(ood->pszPage);
+				lastGroup = (ood->pszGroup == NULL) ? NULL : mir_a2t(ood->pszGroup);
 			}
 
 			if (ood->pszTab == NULL) {
@@ -736,7 +736,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					DBFreeVariant(&dbv);
 				}
 			}
-			else lastTab = Langpack_PcharToTchar(ood->pszTab);
+			else lastTab = mir_a2t(ood->pszTab);
 
 			OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)psh->ppsp;
 			for (size_t i=0; i < psh->nPages; i++, odp++) {
@@ -1425,10 +1425,10 @@ static void OpenOptionsNow(const char *pszGroup, const char *pszPage, const char
 		ShowWindow(hwndOptions, SW_RESTORE);
 		SetForegroundWindow(hwndOptions);
 		if (pszPage != NULL) {
-			TCHAR *ptszPage = Langpack_PcharToTchar(pszPage);
+			TCHAR *ptszPage = mir_a2t(pszPage);
 			HTREEITEM hItem = NULL;
 			if (pszGroup != NULL) {
-				TCHAR *ptszGroup = Langpack_PcharToTchar(pszGroup);
+				TCHAR *ptszGroup = mir_a2t(pszGroup);
 				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), ptszGroup);
 				if (hItem != NULL) {
 					hItem = FindNamedTreeItemAtChildren(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, ptszPage);
@@ -1535,7 +1535,7 @@ static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
 		if (odp->flags & ODPF_UNICODE)
 			dst->ptszGroup = mir_wstrdup(odp->ptszGroup);
 		else {
-			dst->ptszGroup = Langpack_PcharToTchar(odp->pszGroup);
+			dst->ptszGroup = mir_a2t(odp->pszGroup);
 			dst->flags |= ODPF_UNICODE;
 		}	
 	}
@@ -1544,7 +1544,7 @@ static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
 		if (odp->flags & ODPF_UNICODE)
 			dst->ptszTab = mir_wstrdup(odp->ptszTab);
 		else {
-			dst->ptszTab = Langpack_PcharToTchar(odp->pszTab);
+			dst->ptszTab = mir_a2t(odp->pszTab);
 			dst->flags |= ODPF_UNICODE;
 		}
 	}
