@@ -2062,10 +2062,9 @@ static INT_PTR CLN_ShowStatusMenu(WPARAM wParam, LPARAM lParam)
 
 void LoadCLUIModule(void)
 {
-	WNDCLASS wndclass;
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, CluiModulesLoaded);
 
+	WNDCLASS wndclass;
 	wndclass.style = 0;
 	wndclass.lpfnWndProc = EventAreaWndProc;
 	wndclass.cbClsExtra = 0;
@@ -2078,6 +2077,8 @@ void LoadCLUIModule(void)
 	wndclass.lpszClassName = _T("EventAreaClass");
 	RegisterClass(&wndclass);
 
+	SFL_RegisterWindowClass();
+
 	oldhideoffline = cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 	cluiPos.left = cfg::getDword("CList", "x", 600);
 	cluiPos.top = cfg::getDword("CList", "y", 200);
@@ -2085,9 +2086,8 @@ void LoadCLUIModule(void)
 	cluiPos.bottom = cfg::getDword("CList", "Height", 350);
 
 	LoadExtraIconModule();
-	SFL_RegisterWindowClass();
-
 	LoadCLUIFramesModule();
+
 	CreateServiceFunction("CLN/About", CLN_ShowAbout);
 	CreateServiceFunction(MS_CLUI_SHOWMAINMENU, CLN_ShowMainMenu);
 	CreateServiceFunction(MS_CLUI_SHOWSTATUSMENU, CLN_ShowStatusMenu);
