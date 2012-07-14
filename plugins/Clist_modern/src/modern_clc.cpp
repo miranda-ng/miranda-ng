@@ -406,7 +406,7 @@ static LRESULT clcOnCreate(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPar
 
 	RowHeights_Initialize(dat);
 
-	dat->NeedResort = 1;
+	dat->needsResort = 1;
 	dat->MetaIgnoreEmptyExtra = db_get_b(NULL,"CLC","MetaIgnoreEmptyExtra",SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);
 
 	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE))  && 
@@ -586,15 +586,11 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	if (CallService(MS_CLIST_MENUPROCESSHOTKEY,wParam,MPCF_CONTACTMENU)) 
 		return 0;
 	
-	{	
-		RECT clRect;
-		GetClientRect(hwnd,&clRect);
-		if (dat->max_row_height) pageSize = clRect.bottom/dat->max_row_height;
-		else pageSize = 0;
-	}
+	RECT clRect;
+	GetClientRect(hwnd,&clRect);
+	pageSize = (dat->rowHeight) ? clRect.bottom/dat->rowHeight : 0;
 	
-	switch(wParam) 
-	{
+	switch(wParam) {
 	case VK_DOWN: 
 	case VK_UP:
 		{
@@ -690,7 +686,7 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 						contact->SubExpanded = 0;
 						db_set_b(contact->hContact,"CList","Expanded",0);
 						ht = contact;
-						dat->NeedResort = 1;
+						dat->needsResort = 1;
 						pcli->pfnSortCLC(hwnd,dat,1);		
 						cliRecalcScrollBar(hwnd,dat);
 						hitcontact = NULL;	
@@ -707,7 +703,7 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 						contact->SubExpanded = 1;
 						db_set_b(contact->hContact,"CList","Expanded",1);
 						ht = contact;
-						dat->NeedResort = 1;
+						dat->needsResort = 1;
 						pcli->pfnSortCLC(hwnd,dat,1);		
 						cliRecalcScrollBar(hwnd,dat);
 						if (ht) 
@@ -830,7 +826,7 @@ static LRESULT clcOnTimer(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPara
 					ht = &(hitcontact->subcontacts[hitcontact->SubAllocated-1]);
 			}
 
-			dat->NeedResort = 1;
+			dat->needsResort = 1;
 			pcli->pfnSortCLC(hwnd,dat,1);		
 			cliRecalcScrollBar(hwnd,dat);
 			if (ht) {
@@ -1619,7 +1615,7 @@ static LRESULT clcOnIntmGroupChanged(struct ClcData *dat, HWND hwnd, UINT msg, W
 		nm.flags = 0;
 		nm.hItem = (HANDLE) wParam;
 		SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
-		dat->NeedResort = 1;
+		dat->needsResort = 1;
 	}
 	SetTimer(hwnd,TIMERID_REBUILDAFTER,1,NULL);
 	return 0;
@@ -1674,7 +1670,7 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 				contact->iImage = lParam;
 				contact->image_is_special = image_is_special;
 				pcli->pfnNotifyNewContact(hwnd, (HANDLE) wParam);
-				dat->NeedResort = 1;
+				dat->needsResort = 1;
 			}
 		}
 	}
@@ -1694,7 +1690,7 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 			pcli->pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
 			needRepaint = TRUE;
 			recalcScrollBar = 1;
-			dat->NeedResort = 1;
+			dat->needsResort = 1;
 		}
 		else if (contact)
 		{
@@ -1706,7 +1702,7 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 			contact->image_is_special = image_is_special;
 			if ( !image_is_special) //Only if it is status changing
 			{
-				dat->NeedResort = 1; 
+				dat->needsResort = 1; 
 				needRepaint = TRUE; 
 			}
 			else if (dat->m_paintCouter == contact->lastPaintCounter) //if contacts is visible
@@ -1723,9 +1719,9 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 		else
 			dat->selection = -1;
 	}
-	//        dat->NeedResort = 1; 
+	//        dat->needsResort = 1; 
 	//        SortClcByTimer(hwnd);
-	if (dat->NeedResort)
+	if (dat->needsResort)
 	{
 		TRACE("Sort required\n");
 		clcSetDelayTimer( TIMERID_DELAYEDRESORTCLC, hwnd );
@@ -1786,7 +1782,7 @@ static LRESULT clcOnIntmNameChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 		Cache_GetText(dat,contact,1);
 		cliRecalcScrollBar(hwnd,dat);
 	}
-	dat->NeedResort = 1;
+	dat->needsResort = 1;
 	pcli->pfnSortContacts();
 
 	return ret;

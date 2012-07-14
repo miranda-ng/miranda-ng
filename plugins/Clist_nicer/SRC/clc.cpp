@@ -288,7 +288,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			dat->himlExtraColumns = himlExtraImages;
 			dat->hwndParent = GetParent(hwnd);
 			dat->lastSort = GetTickCount();
-			dat->bNeedSort = FALSE;
+			dat->needsResort = FALSE;
 			{
 				CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
 				if (cs->lpCreateParams == (LPVOID)0xff00ff00) {
@@ -344,7 +344,7 @@ LBL_Def:
 				nm.hItem = (HANDLE) wParam;
 				SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) &nm);
 			}
-			dat->bNeedSort = TRUE;
+			dat->needsResort = TRUE;
 			PostMessage(hwnd, INTM_SORTCLC, 0, 1);
 			goto LBL_Def;
 		}
@@ -404,7 +404,7 @@ LBL_Def:
 				else
 					dat->selection = -1;
 			}
-			dat->bNeedSort = TRUE;
+			dat->needsResort = TRUE;
 			PostMessage(hwnd, INTM_SORTCLC, 0, recalcScrollBar);
 			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contactRemoved ? 0 : wParam));
 			if (recalcScrollBar)
@@ -448,7 +448,7 @@ LBL_Def:
 
 			RTL_DetectAndSet(contact, 0);
 
-			dat->bNeedSort = TRUE;
+			dat->needsResort = TRUE;
 			PostMessage(hwnd, INTM_SORTCLC, 0, 0);
 			goto LBL_Def;
 		}
@@ -536,7 +536,7 @@ LBL_Def:
 
 			RTL_DetectAndSet(contact, 0);
 
-			dat->bNeedSort = TRUE;
+			dat->needsResort = TRUE;
 			PostMessage(hwnd, INTM_SORTCLC, 0, 0);
 			goto LBL_Def;
 		}
@@ -574,12 +574,12 @@ LBL_Def:
 			goto LBL_Def;
 		}
 		case INTM_FORCESORT:
-			dat->bNeedSort = TRUE;
+			dat->needsResort = TRUE;
 			return SendMessage(hwnd, INTM_SORTCLC, wParam, lParam);
 		case INTM_SORTCLC:
-			if (dat->bNeedSort) {
+			if (dat->needsResort) {
 				pcli->pfnSortCLC(hwnd, dat, TRUE);
-				dat->bNeedSort = FALSE;
+				dat->needsResort = FALSE;
 			}
 			if (lParam)
 				pcli->pfnRecalcScrollBar(hwnd, dat);

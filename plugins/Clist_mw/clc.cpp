@@ -150,7 +150,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		pdisplayNameCacheEntry cacheEntry = GetContactFullCacheEntry((HANDLE)wParam);
 
 		WORD status;
-		int NeedResort = 0;
+		int needsResort = 0;
 
 		char *szProto = cacheEntry->szProto;
 		if (szProto == NULL)
@@ -164,13 +164,13 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
 					hSelItem = pcli->pfnContactToHItem(selcontact);
 				AddContactToTree(hwnd,dat,(HANDLE)wParam,0,0);
-				NeedResort = 1;
+				needsResort = 1;
 				recalcScrollBar = 1;					
 				FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL);
 				if (contact) {						
 					contact->iImage = (WORD)lParam;
 					pcli->pfnNotifyNewContact(hwnd,(HANDLE)wParam);
-					dat->NeedResort = 1;
+					dat->needsResort = 1;
 				}
 			}				
 		}
@@ -178,14 +178,14 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			//item in list already
 			DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);				
 			if (contact->iImage == (WORD)lParam) break;				
-			if (sortByStatus) dat->NeedResort = 1;
+			if (sortByStatus) dat->needsResort = 1;
 
 			if (!shouldShow && !(style&CLS_NOHIDEOFFLINE) && (style&CLS_HIDEOFFLINE || group->hideOffline)) {
 				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
 					hSelItem = pcli->pfnContactToHItem(selcontact);
 				RemoveItemFromGroup(hwnd,group,contact,0);
 				recalcScrollBar = 1;
-				dat->NeedResort = 1;
+				dat->needsResort = 1;
 			}
 			else {
 				int oldflags;
@@ -194,7 +194,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				if (!pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline) contact->flags |= CONTACTF_ONLINE;
 				else contact->flags &= ~CONTACTF_ONLINE;
 				if (oldflags != contact->flags)
-					dat->NeedResort = 1;
+					dat->needsResort = 1;
 		}	}
 		if (hSelItem) {
 			struct ClcGroup *selgroup;
@@ -228,7 +228,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				DBFreeVariant(&dbv);
 				if (_tcslen(contact->szStatusMsg)>0) {
 					contact->flags |= CONTACTF_STATUSMSG;
-					dat->NeedResort = TRUE;
+					dat->needsResort = TRUE;
 				}
 			}
 		}
@@ -253,7 +253,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				DBWriteContactSettingByte(hitcontact->hContact,"CList","Expanded",hitcontact->SubExpanded);
 			}
 			hitcontact = NULL;
-			dat->NeedResort = 1;
+			dat->needsResort = 1;
 			SortCLC(hwnd,dat,1);		
 			RecalcScrollBar(hwnd,dat);
 			break;

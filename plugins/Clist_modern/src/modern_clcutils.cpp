@@ -708,8 +708,9 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 	dat->gammaCorrection = db_get_b(NULL,"CLC","GammaCorrect",CLCDEFAULT_GAMMACORRECT);
 	dat->showIdle = db_get_b(NULL,"CLC","ShowIdle",CLCDEFAULT_SHOWIDLE);
 	dat->noVScrollbar = db_get_b(NULL,"CLC","NoVScrollBar",CLCDEFAULT_NOVSCROLL);
+	dat->filterSearch = db_get_b(NULL, "CLC", "FilterSearch", 0);
 	SendMessage(hwnd,INTM_SCROLLBARCHANGED,0,0);
-	
+
 	if (dat->hBmpBackground) {DeleteObject(dat->hBmpBackground); dat->hBmpBackground = NULL;}
 	if (dat->hMenuBackground) {DeleteObject(dat->hMenuBackground); dat->hMenuBackground = NULL;}
 	
@@ -796,7 +797,7 @@ int ExpandMetaContact(HWND hwnd, struct ClcContact * contact, struct ClcData * d
 	if (contact->type != CLCIT_CONTACT  || contact->SubAllocated == 0 || contact->SubExpanded == bExpand || !db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT)) return 0;
 	contact->SubExpanded = bExpand;
 	db_set_b(contact->hContact,"CList","Expanded",contact->SubExpanded);
-	dat->NeedResort = 1;
+	dat->needsResort = 1;
 	pcli->pfnSortCLC(hwnd,dat,1);		
 	cliRecalcScrollBar(hwnd,dat);
 	return contact->SubExpanded;

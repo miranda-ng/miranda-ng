@@ -51,7 +51,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_button.h>
 #include <m_options.h>
 #include <m_protosvc.h>
-#include <m_clc.h>
 #include <m_clist.h>
 #include <m_clistint.h>
 #include <m_skin.h>
@@ -59,6 +58,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_plugins.h>
 #include "m_genmenu.h"
 #include "m_clui.h"
+
 #include "clc.h"
 #include "clist.h"
 #include "m_icolib.h"

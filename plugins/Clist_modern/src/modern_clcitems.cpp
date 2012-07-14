@@ -240,7 +240,7 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,struct ClcGroup
 	if (group == NULL) return NULL;
 	if (dat == NULL) return NULL;
 	hContact = cacheEntry->hContact;
-	dat->NeedResort = 1;
+	dat->needsResort = 1;
 	for (i = group->cl.count-1;i >= 0;i--)
 		if (group->cl.items[i]->type != CLCIT_INFO || !(group->cl.items[i]->flags&CLCIIF_BELOWCONTACTS)) break;
 	i = cli_AddItemToGroup(group,i+1);
@@ -304,7 +304,7 @@ void cli_DeleteItemFromTree(HWND hwnd,HANDLE hItem)
 	//check here contacts are not resorting
 	if (hwnd == pcli->hwndContactTree)
 		pcli->pfnFreeCacheItem(pcli->pfnGetCacheEntry(hItem)); 
-	dat->NeedResort = 1;
+	dat->needsResort = 1;
 	ClearRowByIndexCache();
 }
 
@@ -375,7 +375,7 @@ void cliRebuildEntireList(HWND hwnd,struct ClcData *dat)
 	dat->list.hideOffline = db_get_b(NULL,"CLC","HideOfflineRoot",SETTING_HIDEOFFLINEATROOT_DEFAULT) && style&CLS_USEGROUPS;
 	dat->list.cl.count = dat->list.cl.limit = 0;
 	dat->list.cl.increment = 50;
-	dat->NeedResort = 1;
+	dat->needsResort = 1;
 
 	HANDLE hSelected = SaveSelection( dat );
 	dat->selection = -1;
@@ -541,7 +541,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 	KillTimer(hwnd, TIMERID_RENAME);
 	pcli->pfnEndRename(hwnd, dat, 1);
 
-	dat->NeedResort = 1;
+	dat->needsResort = 1;
 	group = &dat->list;
 	group->scanIndex = 0;
 	for (;;) {
@@ -757,10 +757,15 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
     PDNCE pdnce = (PDNCE)pcli->pfnGetCacheEntry(hContact);
 	BOOL fEmbedded = dat->force_in_dialog;
 	// always hide subcontacts (but show them on embedded contact lists)
-	
+
+	if (dat->filterSearch && dat->szQuickSearch) {
+		// search filtering
+		return _tcsnicmp(dat->szQuickSearch, pdnce->tszName, lstrlen(dat->szQuickSearch));
+		//return _tcsstr(CharLowerW(pdnce->tszName), CharLowerW(dat->szQuickSearch)) ? 0 : 1; // this will search in whole string, but highlighting isn't supporting it...
+	}
 	if (g_CluiData.bMetaAvail && dat != NULL && dat->IsMetaContactsEnabled && g_szMetaModuleName && db_get_b(hContact, g_szMetaModuleName, "IsSubcontact", 0))
 		return -1; //subcontact
-    if (pdnce && pdnce->isUnknown && !fEmbedded)    
+    if (pdnce && pdnce->isUnknown && !fEmbedded)
         return 1; //'Unknown Contact'
 	if (pdnce && g_CluiData.bFilterEffective && !fEmbedded) 
 	{

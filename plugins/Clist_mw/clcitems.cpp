@@ -92,7 +92,7 @@ struct ClcGroup *AddGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWOR
 	struct ClcGroup* result;
 
 	ClearRowByIndexCache();	
-	dat->NeedResort = 1;
+	dat->needsResort = 1;
 	result = saveAddGroup( hwnd, dat, szName, flags, groupId, calcTotalMembers);
 	ClearRowByIndexCache();
 	return result;
@@ -128,7 +128,7 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,struct ClcGroup
 
 	hContact = cacheEntry->hContact;
 
-	dat->NeedResort = 1;
+	dat->needsResort = 1;
 	for (i = group->cl.count-1;i>=0;i--)
 		if (group->cl.items[i]->type != CLCIT_INFO || !(group->cl.items[i]->flags&CLCIIF_BELOWCONTACTS)) break;
 	i = AddItemToGroup(group,i+1);
@@ -198,7 +198,7 @@ void AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTo
 
 	char *szProto = cacheEntry->szProto;
 	
-	dat->NeedResort = 1;
+	dat->needsResort = 1;
 	ClearRowByIndexCache();
 	ClearClcContactCache(dat,hContact);
 	
@@ -286,7 +286,7 @@ void DeleteItemFromTree(HWND hwnd,HANDLE hItem)
 	struct ClcData *dat = (struct ClcData*)GetWindowLongPtr(hwnd,0);
 	
 	ClearRowByIndexCache();
-	dat->NeedResort = 1;
+	dat->needsResort = 1;
 	
 	if (!FindItem(hwnd,dat,hItem,&contact,&group,NULL)) {
 		DBVARIANT dbv;
@@ -338,7 +338,7 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 	dat->list.hideOffline = DBGetContactSettingByte(NULL,"CLC","HideOfflineRoot",0);
 	memset( &dat->list.cl, 0, sizeof( dat->list.cl ));
 	dat->list.cl.increment = 30;
-	dat->NeedResort = 1;
+	dat->needsResort = 1;
 	dat->selection = -1;
 	{
 		int i;
@@ -503,7 +503,7 @@ void SortCLC(HWND hwnd,struct ClcData *dat,int useInsertionSort)
 #ifdef _DEBUG
 	DWORD tick = GetTickCount();
 #endif	
-	int oldSort = dat->NeedResort;
+	int oldSort = dat->needsResort;
 	saveSortCLC(hwnd, dat, useInsertionSort);
 	if ( oldSort )
 		ClearRowByIndexCache();

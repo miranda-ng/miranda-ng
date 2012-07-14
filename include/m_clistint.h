@@ -24,6 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CLISTINT_H__
 #define M_CLISTINT_H__ 1
 
+#include <CommCtrl.h>
+
+#include "m_clc.h"
 #include "m_genmenu.h"
 #include "m_protocols.h"
 
@@ -61,30 +64,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TIMERID_TRAYHOVER        16
 #define TIMERID_TRAYHOVER_2      17
 
-
 #define GROUP_ALLOCATE_STEP  8
 
-struct ClcContact;
-struct ClcData;
-struct CListEvent;
-
-/* templates, where are you... */
-
-typedef struct
+struct ContactList
 {
 	struct ClcContact** items;
 	int count, limit, increment;
 	void* sortFunc;
-}
-	ContactList;
+};
 
-typedef struct
+struct EventList
 {
 	struct CListEvent** items;
 	int count, limit, increment;
 	void* sortFunc;
-}
-	EventList;
+};
 
 struct ClcGroup
 {
@@ -101,6 +95,72 @@ struct ClcFontInfo
 	int fontHeight, changed;
 	COLORREF colour;
 };
+
+struct ClcContactBase
+{
+	BYTE type;
+	BYTE flags;
+	union {
+		struct {
+			WORD iImage;
+			HANDLE hContact;
+		};
+		struct {
+			WORD groupId;
+			struct ClcGroup *group;
+		};
+	};
+	BYTE  iExtraImage[MAXEXTRACOLUMNS];
+	TCHAR szText[120-MAXEXTRACOLUMNS];
+	char * proto;	// MS_PROTO_GETBASEPROTO
+};
+
+struct ClcDataBase
+{
+	struct ClcGroup list;
+	int rowHeight;
+	int yScroll;
+	int selection;
+	struct ClcFontInfo fontInfo[FONTID_MAX + 1];
+	int scrollTime;
+	HIMAGELIST himlHighlight;
+	int groupIndent;
+	TCHAR szQuickSearch[128];
+	int iconXSpace;
+	HWND hwndRenameEdit;
+	COLORREF bkColour, selBkColour, selTextColour, hotTextColour, quickSearchColour;
+	int iDragItem, iInsertionMark;
+	int dragStage;
+	POINT ptDragStart;
+	int dragAutoScrolling;
+	int dragAutoScrollHeight;
+	int leftMargin;
+	int insertionMarkHitHeight;
+	HBITMAP hBmpBackground;
+	int backgroundBmpUse, bkChanged;
+	int iHotTrack;
+	int gammaCorrection;
+	DWORD greyoutFlags;			  //see m_clc.h
+	DWORD offlineModes;
+	DWORD exStyle;
+	POINT ptInfoTip;
+	int infoTipTimeout;
+	HANDLE hInfoTipItem;
+	HIMAGELIST himlExtraColumns;
+	int extraColumnsCount;
+	int extraColumnSpacing;
+	int checkboxSize;
+	int showSelAlways;
+	int showIdle;
+	int noVScrollbar;
+	int useWindowsColours;
+	int needsResort;
+	int filterSearch;
+};
+
+struct ClcContact;
+struct ClcData;
+struct CListEvent;
 
 struct trayIconInfo_t
 {

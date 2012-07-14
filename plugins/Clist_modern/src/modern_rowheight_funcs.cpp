@@ -361,7 +361,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
 
 BOOL RowHeights_Initialize(struct	ClcData	*dat)
 {
-  dat->max_row_height	 = 	0;
+  dat->rowHeight	 = 	0;
   dat->row_heights_size	 = 	0;
   dat->row_heights_allocated = 0;
   dat->row_heights = NULL;
@@ -511,7 +511,7 @@ int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd)
   // Min size
   max_height = max(max_height, dat->row_min_heigh);
 
-  dat->max_row_height = max_height;
+  dat->rowHeight = max_height;
   
   return max_height;
 }
@@ -709,7 +709,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
     }
     else
     {
-      height = dat->max_row_height;
+      height = dat->rowHeight;
     }
 
     dat->row_heights[item] = height;
@@ -791,6 +791,6 @@ int cliRowHitTest(struct ClcData *dat, int pos_y)
 int cliGetRowHeight(struct ClcData *dat, int item)
 {	
   if ( item >= dat->row_heights_size || item  < 0 )
-    return dat->max_row_height;
+    return dat->rowHeight;
   return dat->row_heights[ item ];
 }

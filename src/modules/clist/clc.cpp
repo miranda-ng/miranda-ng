@@ -738,7 +738,16 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		case VK_END:    dat->selection = cli.pfnGetGroupContentsCount(&dat->list, 1) - 1; selMoved = 1; break;
 		case VK_LEFT:   changeGroupExpand = 1; break;
 		case VK_RIGHT:  changeGroupExpand = 2; break;
-		case VK_RETURN: cli.pfnDoSelectionDefaultAction(hwnd, dat); return 0;
+		case VK_RETURN: cli.pfnDoSelectionDefaultAction(hwnd, dat);
+			// TODO: clear filtering here somehow?
+			/*if (dat->filterSearch) {
+				dat->szQuickSearch[0] = 0;
+				cli.pfnSaveStateAndRebuildList(hwnd, dat);
+				//cli.pfnRebuildEntireList(hwnd, dat);
+			} else {
+				dat->szQuickSearch[0] = 0;
+			}*/
+			return 0;
 		case VK_F2:     cli.pfnBeginRenameSelection(hwnd, dat); return 0;
 		case VK_DELETE: cli.pfnDeleteFromContactList(hwnd, dat); return 0;
 		default:
@@ -757,7 +766,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			int hit;
 			struct ClcContact *contact;
 			struct ClcGroup *group;
-			dat->szQuickSearch[0] = 0;
+			if (dat->filterSearch) {
+				// this shouldn't clear filtering, but it should refresh highlighting somehow?
+			} else {
+				dat->szQuickSearch[0] = 0;
+			}
 			hit = cli.pfnGetRowByIndex(dat, dat->selection, &contact, &group);
 			if (hit != -1) {
 				if (changeGroupExpand == 1 && contact->type == CLCIT_CONTACT) {
@@ -776,7 +789,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				return 0;
 		}
 		if (selMoved) {
-			dat->szQuickSearch[0] = 0;
+			if (dat->filterSearch) {
+				// this shouldn't clear filtering, but it should refresh highlighting somehow?
+			} else {
+				dat->szQuickSearch[0] = 0;
+			}
 			if (dat->selection >= cli.pfnGetGroupContentsCount(&dat->list, 1))
 				dat->selection = cli.pfnGetGroupContentsCount(&dat->list, 1) - 1;
 			if (dat->selection < 0)
@@ -827,6 +844,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			}
 			_tcscat(dat->szQuickSearch, szNew);
 		}
+
+		if (dat->filterSearch) {
+			cli.pfnSaveStateAndRebuildList(hwnd, dat);
+			//cli.pfnRebuildEntireList(hwnd, dat);
+		}
 		if (dat->szQuickSearch[0]) {
 			int index;
 			index = cli.pfnFindRowByText(hwnd, dat, dat->szQuickSearch, 1);
@@ -835,6 +857,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			else {
 				MessageBeep(MB_OK);
 				dat->szQuickSearch[ lstrlen(dat->szQuickSearch) - 1] = '\0';
+				cli.pfnSaveStateAndRebuildList(hwnd, dat);
 			}
 			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 			cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
@@ -928,7 +951,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnEndRename(hwnd, dat, 1);
 		dat->ptDragStart.x = (short) LOWORD(lParam);
 		dat->ptDragStart.y = (short) HIWORD(lParam);
-		dat->szQuickSearch[0] = 0;
+		if (dat->filterSearch) {
+			// this shouldn't clear filtering, but it should refresh highlighting somehow?
+		} else {
+			dat->szQuickSearch[0] = 0;
+		}
 		hit = cli.pfnHitTest(hwnd, dat, (short) LOWORD(lParam), (short) HIWORD(lParam), &contact, &group, &hitFlags);
 		if (hit != -1) {
 			if (hit == dat->selection && hitFlags & CLCHT_ONITEMLABEL && dat->exStyle & CLS_EX_EDITLABELS) {
@@ -1210,7 +1237,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnHideInfoTip(hwnd, dat);
 		KillTimer(hwnd, TIMERID_RENAME);
 		KillTimer(hwnd, TIMERID_INFOTIP);
-		dat->szQuickSearch[0] = 0;
+		if (dat->filterSearch) {
+			// this should remove filtering (same as pressing ENTER)?
+		} else {
+			dat->szQuickSearch[0] = 0;
+		}
 		dat->selection = cli.pfnHitTest(hwnd, dat, (short) LOWORD(lParam), (short) HIWORD(lParam), &contact, NULL, &hitFlags);
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		if (dat->selection != -1)
@@ -1235,7 +1266,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		if (GetFocus() != hwnd)
 			SetFocus(hwnd);
 		dat->iHotTrack = -1;
-		dat->szQuickSearch[0] = 0;
+		if (dat->filterSearch) {
+			// this shouldn't remove filtering
+		} else {
+			dat->szQuickSearch[0] = 0;
+		}
 		pt.x = (short) LOWORD(lParam);
 		pt.y = (short) HIWORD(lParam);
 		if (pt.x == -1 && pt.y == -1) {

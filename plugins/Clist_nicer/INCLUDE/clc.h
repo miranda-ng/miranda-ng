@@ -127,7 +127,8 @@ typedef struct _OrderTreeData
 	BOOL  fReserved;
 } *PORDERTREEDATA, ORDERTREEDATA;
 
-struct DisplayProfile {
+struct DisplayProfile
+{
 	DWORD   dwFlags;
 	DWORD   dwExtraImageMask;
 	int     exIconScale;
@@ -159,7 +160,8 @@ typedef struct DisplayProfileSet DISPLAYPROFILESET;
 
 #define DSP_PROFILES_MODULE "CLN_DspProfiles"           // db module for display profiles
 
-struct TExtraCache {
+struct TExtraCache
+{
 	BYTE iExtraImage[MAXEXTRACOLUMNS];
 	HANDLE hContact;
 	HANDLE hTimeZone;
@@ -177,29 +179,12 @@ struct TExtraCache {
 	BOOL  isChatRoom;
 };
 
-struct ClcContact {
-	BYTE type;
-	BYTE flags;
-	union {
-		struct {
-			WORD iImage;
-			HANDLE hContact;
-		};
-		struct {
-			WORD groupId;
-			struct ClcGroup *group;
-		};
-	};
-	BYTE iExtraImage[MAXEXTRACOLUMNS];
-	TCHAR szText[120 - MAXEXTRACOLUMNS];
-	char * proto;    // MS_PROTO_GETBASEPROTO
-
-	// inherited from standard
+struct ClcContact : public ClcContactBase
+{
 	BOOL bIsMeta;
 	HANDLE hSubContact;
 	BYTE xStatus;
 	char *metaProto;
-	//int clientId;
 	DWORD codePage;
 	struct avatarCacheEntry *ace;
 	WORD wStatus;
@@ -208,7 +193,6 @@ struct ClcContact {
 	int isRtl;
 	DWORD cFlags;
 	BYTE  bSecondLine;
-	//int iRowHeight;   // index into the row height table (for caching)
 };
 
 #define DRAGSTAGE_NOTMOVED  0
@@ -231,46 +215,8 @@ struct ClcContact {
 #define FONTID_TIMESTAMP   11
 #define FONTID_LAST        FONTID_TIMESTAMP
 
-struct ClcData {
-	struct ClcGroup list;
-	int max_row_height;
-	int yScroll;
-	int selection;
-	struct ClcFontInfo fontInfo[FONTID_MAX + 1];
-	int scrollTime;
-	HIMAGELIST himlHighlight;
-	int groupIndent;
-	TCHAR szQuickSearch[128];
-	int iconXSpace;
-	HWND hwndRenameEdit;
-	COLORREF bkColour, selBkColour, selTextColour, hotTextColour, quickSearchColour;
-	int iDragItem, iInsertionMark;
-	int dragStage;
-	POINT ptDragStart;
-	int dragAutoScrolling;
-	int dragAutoScrollHeight;
-	int leftMargin;
-	int insertionMarkHitHeight;
-	HBITMAP hBmpBackground;
-	int backgroundBmpUse, bkChanged;
-	int iHotTrack;
-	int gammaCorrection;
-	DWORD greyoutFlags;           //see m_clc.h
-	DWORD offlineModes;
-	DWORD exStyle;
-	POINT ptInfoTip;
-	int infoTipTimeout;
-	HANDLE hInfoTipItem;
-	HIMAGELIST himlExtraColumns;
-	int extraColumnsCount;
-	int extraColumnSpacing;
-	int checkboxSize;
-	int showSelAlways;
-	int showIdle;
-	int noVScrollbar;
-	int useWindowsColours;
-	BOOL bNeedSort;
-
+struct ClcData : public ClcDataBase
+{
 	int *row_heights;
 	int row_heights_size;
 	int row_heights_allocated;

@@ -1843,7 +1843,7 @@ int CoolSB_SetupScrollBar()
 		!StatusItems[ID_EXTBKSCROLLBUTTONHOVER - ID_STATUS_OFFLINE].imageItem ||
 		!StatusItems[ID_EXTBKSCROLLBUTTONPRESSED - ID_STATUS_OFFLINE].imageItem)
 
-		cfg::dat.bSkinnedScrollbar = FALSE;
+	cfg::dat.bSkinnedScrollbar = FALSE;
 
 	if(cfg::getByte("CLC", "NoVScrollBar", 0)) {
 		UninitializeCoolSB(pcli->hwndContactTree);

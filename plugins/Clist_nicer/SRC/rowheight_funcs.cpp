@@ -35,7 +35,7 @@
 
 BOOL RowHeight::Init(ClcData *dat)
 {
-	dat->max_row_height = 0;
+	dat->rowHeight = 0;
 	dat->row_heights_size = 0;
 	dat->row_heights_allocated = 0;
 	dat->row_heights = NULL;
@@ -133,7 +133,7 @@ int RowHeight::getMaxRowHeight(ClcData *dat, const HWND hwnd)
 	max_height = max(max_height, dat->min_row_heigh);
     max_height += cfg::dat.bRowSpacing;
 
-	dat->max_row_height = max_height;
+	dat->rowHeight = max_height;
 
 	return max_height;
 }

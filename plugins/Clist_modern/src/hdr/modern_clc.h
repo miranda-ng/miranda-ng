@@ -74,8 +74,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define INTM_AVATARCHANGED	(WM_USER+28)
 #define INTM_TIMEZONECHANGED	(WM_USER+29)
 
-
-
 #define CLM_SETEXTRACOLUMNSSPACE   (CLM_FIRST+73)   //wParam=extra space between icons
 
 #define CLBF_TILEVTOROWHEIGHT        0x0100
@@ -202,41 +200,24 @@ enum {
 	CIT_EXTRA=64	  //use bit compare for extra icon, the mask &0x3F will return number of extra icon
 };
 
-
-typedef struct _tagContactItems
+struct tContactItems
 {
 	BYTE itemType;	   //one of above CIT_ definitions
 	RECT itemRect;
-}tContactItems;
+};
 
-struct ClcContact {
-	BYTE type;
-	BYTE flags;
-	union {
-		struct {
-			int iImage;
-			HANDLE hContact;
-		};
-		struct {
-			WORD groupId;
-			struct ClcGroup *group;
-		};
-	};
-	BYTE iExtraImage[MAXEXTRACOLUMNS];
-	TCHAR szText[120 - MAXEXTRACOLUMNS];
-	char * proto;    // MS_PROTO_GETBASEPROTO
-
+struct ClcContact : public ClcContactBase
+{
 	struct ClcContact *subcontacts;
 	BYTE SubAllocated;
 	BYTE SubExpanded;
 	BYTE isSubcontact;
-//	int status;
+	//	int status;
 	BOOL image_is_special;
 	int avatar_pos;
 	struct avatarCacheEntry *avatar_data;
 	SIZE avatar_size;
 	CSmileyString ssText;
-
 
 	// For hittest
 	int pos_indent;
@@ -247,70 +228,28 @@ struct ClcContact {
 	RECT pos_rename_rect;
 	RECT pos_contact_time;
 	RECT pos_extra[MAXEXTRACOLUMNS];
-    DWORD lastPaintCounter;
-    BYTE bContactRate;
+	DWORD lastPaintCounter;
+	BYTE bContactRate;
 
 	// For extended layout
 	BYTE ext_nItemsNum;
 	BOOL ext_fItemsValid;
 	tContactItems ext_mpItemsDesc[MAXEXTRACOLUMNS+10];  //up to 10 items
-	
+
 	WORD iWideExtraImage[MAXEXTRACOLUMNS];
-
-
 };
-
-
 
 struct ClcModernFontInfo {
 	HFONT hFont;
 	int fontHeight,changed;
 	COLORREF colour;
-  BYTE effect;
-  COLORREF effectColour1;
-  COLORREF effectColour2;
+	BYTE effect;
+	COLORREF effectColour1;
+	COLORREF effectColour2;
 };
 
-struct ClcData {
-	struct ClcGroup list;
-	int max_row_height;
-
-	int yScroll;
-	int selection;
-	struct ClcFontInfo fontInfo[FONTID_MAX+1];
-	int scrollTime;
-	HIMAGELIST himlHighlight;
-	int groupIndent;
-	TCHAR szQuickSearch[128];
-	int iconXSpace;
-	HWND hwndRenameEdit;
-	COLORREF bkColour,selBkColour,selTextColour,hotTextColour,quickSearchColour;
-	int iDragItem,iInsertionMark;
-	int dragStage;
-	POINT ptDragStart;
-	int dragAutoScrolling;
-	int dragAutoScrollHeight;
-	int leftMargin;
-	int insertionMarkHitHeight;
-	HBITMAP hBmpBackground;
-	int backgroundBmpUse,bkChanged;
-	int iHotTrack;
-	int gammaCorrection;
-	DWORD greyoutFlags;			  //see m_clc.h
-	DWORD offlineModes;
-	DWORD exStyle;
-	POINT ptInfoTip;
-	int infoTipTimeout;
-	HANDLE hInfoTipItem;
-	HIMAGELIST himlExtraColumns;
-	int extraColumnsCount;
-	int extraColumnSpacing;
-	int checkboxSize;
-	int showSelAlways;
-	int showIdle;
-	int noVScrollbar;
-	int useWindowsColours;
-	int NeedResort;
+struct ClcData : public ClcDataBase
+{
 	SortedList lCLCContactsCache;
 	BYTE HiLightMode;
 	BYTE doubleClickExpand;
@@ -356,7 +295,7 @@ struct ClcData {
 	BOOL avatars_ignore_size_for_row_height;
 	BOOL avatars_draw_overlay;
 	int avatars_overlay_type;
-	
+
 	int avatars_maxheight_size;
 	int avatars_maxwidth_size;
 
@@ -407,10 +346,10 @@ struct ClcData {
 	HWND hWnd;
 	BYTE menuOwnerType;
 	int menuOwnerID;
-    DWORD m_paintCouter; //range is enoght to 49 days if painting will occure each one millisecond
-    BYTE useMetaIcon;
-    BYTE drawOverlayedStatus;
-    int nInsertionLevel;
+	DWORD m_paintCouter; //range is enoght to 49 days if painting will occure each one millisecond
+	BYTE useMetaIcon;
+	BYTE drawOverlayedStatus;
+	int nInsertionLevel;
 
 	BYTE dbbMetaHideExtra;
 	BYTE dbbBlendInActiveState;
@@ -418,18 +357,17 @@ struct ClcData {
 
 	XPTHANDLE hCheckBoxTheme;
 	BYTE bCompactMode;
-	
-	HIMAGELIST himlWideExtraColumns;
 
+	HIMAGELIST himlWideExtraColumns;
 };
 
 struct SHORTDATA
 {
-    HWND    hWnd;
-    BOOL    contact_time_show_only_if_different;
-    int     text_smiley_height;
-    BOOL    text_replace_smileys;
-    BOOL    text_use_protocol_smileys;
+	HWND    hWnd;
+	BOOL    contact_time_show_only_if_different;
+	int     text_smiley_height;
+	BOOL    text_replace_smileys;
+	BOOL    text_use_protocol_smileys;
 
 	// Second line
 	BOOL    second_line_show;
@@ -455,10 +393,10 @@ struct SHORTDATA
 
 typedef struct tagOVERLAYICONINFO 
 {
-    char *name;
-    char *description;
-    int id;
-    int listID;
+	char *name;
+	char *description;
+	int id;
+	int listID;
 } OVERLAYICONINFO;
 
 //clc.c

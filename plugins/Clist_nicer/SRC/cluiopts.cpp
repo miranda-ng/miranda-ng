@@ -41,7 +41,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-            opt_clui_changed = 0;
+			opt_clui_changed = 0;
 			TranslateDialogDefault(hwndDlg);
 			CheckDlgButton(hwndDlg, IDC_BRINGTOFRONT, cfg::getByte("CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_ALWAYSHIDEONTASKBAR, cfg::getByte("CList", "AlwaysHideOnTB", 1) ? BST_CHECKED : BST_UNCHECKED);
@@ -164,9 +164,9 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SetDlgItemTextA(hwndDlg, IDC_ACTIVEPERC, str);
 		}
 		if (wParam != 0x12345678) {
-            SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-            opt_clui_changed = 1;
-        }
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			opt_clui_changed = 1;
+		}
 		break;
 	case WM_NOTIFY:
 		switch (((LPNMHDR) lParam)->code) {

@@ -43,7 +43,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_clist.h>
-#include <m_clc.h>
 #include <m_clistint.h>
 #include <m_clui.h>
 #include <m_plugins.h>

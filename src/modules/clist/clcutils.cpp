@@ -749,6 +749,7 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 	dat->gammaCorrection = DBGetContactSettingByte(NULL, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT);
 	dat->showIdle = DBGetContactSettingByte(NULL, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE);
 	dat->noVScrollbar = DBGetContactSettingByte(NULL, "CLC", "NoVScrollBar", 0);
+	dat->filterSearch = DBGetContactSettingByte(NULL, "CLC", "FilterSearch", 1);
 	SendMessage(hwnd, INTM_SCROLLBARCHANGED, 0, 0);
 	if ( !dat->bkChanged) {
 		DBVARIANT dbv;
