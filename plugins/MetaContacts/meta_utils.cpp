@@ -786,7 +786,7 @@ int Meta_SetHandles(void) {
 
 			if (contact_number < 0) {
 				// problem!
-				MessageBox(0, "Subcontact contact number < 0 - deleting MetaContact", nick_buffer, MB_OK | MB_ICONERROR);
+				MessageBox(0, Translate("Subcontact contact number < 0 - deleting MetaContact"), nick_buffer, MB_OK | MB_ICONERROR);
 				//CallService(MS_DB_CONTACT_DELETE, (WPARMA)hContact, 0);
 				hNextContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
 				Meta_Delete((WPARAM)hContact, (LPARAM)1);
@@ -823,7 +823,7 @@ int Meta_SetHandles(void) {
 					} else {
 						char buff[256];
 						// problem - contact number is greater than meta's number of contacts
-						sprintf(buff, "Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact", (int)contact_number, (int)num_contacts);
+						sprintf(buff, Translate("Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact"), (int)contact_number, (int)num_contacts);
 						MessageBox(0, buff, nick_buffer, MB_OK | MB_ICONERROR);
 						//CallService(MS_DB_CONTACT_DELETE, (WPARMA)hContact, 0);
 						hNextContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
@@ -839,7 +839,7 @@ int Meta_SetHandles(void) {
 
 			if (!found) {
 				// problem - subcontact's meta not found
-				MessageBox(0, "Subcontact's MetaContact not found - deleting MetaContact data", nick_buffer, MB_OK | MB_ICONERROR);
+				MessageBox(0, Translate("Subcontact's MetaContact not found - deleting MetaContact data"), nick_buffer, MB_OK | MB_ICONERROR);
 
 				// delete meta data
 				DBDeleteContactSetting(hContact,META_PROTO,"IsSubcontact");
@@ -878,7 +878,7 @@ int Meta_SetHandles(void) {
 
 			if (num_contacts < 0) {
 				// problem
-				MessageBox(0, "MetaContact number of contacts < 0 - deleting MetaContact", nick_buffer, MB_OK | MB_ICONERROR);
+				MessageBox(0, Translate("MetaContact number of contacts < 0 - deleting MetaContact"), nick_buffer, MB_OK | MB_ICONERROR);
 				//CallService(MS_DB_CONTACT_DELETE, (WPARMA)hContact, 0);
 				hNextContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
 				Meta_Delete((WPARAM)hContact, (LPARAM)1);
@@ -889,7 +889,7 @@ int Meta_SetHandles(void) {
 			
 			if (contact_number < 0 || contact_number >= num_contacts) {
 				// problem
-				MessageBox(0, "MetaContact default contact number out of range - deleting MetaContact", nick_buffer, MB_OK | MB_ICONERROR);
+				MessageBox(0, Translate("MetaContact default contact number out of range - deleting MetaContact"), nick_buffer, MB_OK | MB_ICONERROR);
 				hNextContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
 				Meta_Delete((WPARAM)hContact, (LPARAM)1);
 				hContact = hNextContact;
