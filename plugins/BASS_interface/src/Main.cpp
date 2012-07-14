@@ -92,7 +92,7 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 
 	Preview = FALSE;
 
-	return 0;
+	return 1;
 }
 
 #define SLIDER_MIN  0
