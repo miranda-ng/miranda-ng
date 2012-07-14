@@ -756,7 +756,7 @@ void CSendLater::qMgrSaveColumns()
 	LVCOLUMN	col = {0};
 
 	col.mask = LVCF_WIDTH;
-	for(i = 0; i < QMGR_LIST_NRCOLUMNS; i++) {
+	for (i = 0; i < QMGR_LIST_NRCOLUMNS; i++) {
 		::SendMessage(m_hwndList, LVM_GETCOLUMN, i, reinterpret_cast<LPARAM>(&col));
 		nWidths[i] = max(col.cx, 10);
 	}
@@ -899,7 +899,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 										  MB_ICONQUESTION | MB_OKCANCEL) == IDCANCEL)
 								break;
 						}
-						for(LRESULT i = 0; i < items; i++) {
+						for (LRESULT i = 0; i < items; i++) {
 							item.iItem = i;
 							::SendMessage(m_hwndList, LVM_GETITEM, 0, reinterpret_cast<LPARAM>(&item));
 							if (item.state & LVIS_SELECTED) {

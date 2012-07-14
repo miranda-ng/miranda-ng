@@ -845,7 +845,7 @@ void RegisterFontServiceFonts() {
 	strncpy(fid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 	strncpy(cid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 
-	for(i = 0; i < (sizeof(_clrs) / sizeof(_clrs[0])); i++) {
+	for (i = 0; i < (sizeof(_clrs) / sizeof(_clrs[0])); i++) {
 		cid.order = _clrs[i].order;
 		_tcsncpy(cid.group, _clrs[i].tszGroup, SIZEOF(fid.group));
 	 	_tcsncpy(cid.name, _clrs[i].tszName, SIZEOF(cid.name));
@@ -862,7 +862,7 @@ void RegisterFontServiceFonts() {
 	/*
 	 * text and background colors for tabs
 	 */
-	for(i = 0; i < (sizeof(_tabclrs) / sizeof(_tabclrs[0])); i++) {
+	for (i = 0; i < (sizeof(_tabclrs) / sizeof(_tabclrs[0])); i++) {
 		cid.order = _tabclrs[i].order;
 		_tcsncpy(cid.group, _tabclrs[i].tszGroup, SIZEOF(fid.group));
 	 	_tcsncpy(cid.name, _tabclrs[i].tszName, SIZEOF(cid.name));
@@ -1246,7 +1246,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				DWORD dwPopupFlags = M->GetDword("Chat", "PopupFlags", GC_EVENT_ALL);
 				DWORD dwLogFlags = M->GetDword("Chat", "DiskLogFlags", GC_EVENT_ALL);
 
-				for(int i = 0; _eventorder[i]; i++) {
+				for (int i = 0; _eventorder[i]; i++) {
 					if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
 						CheckDlgButton(hwndDlg, IDC_1 + i, dwFilterFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
 						CheckDlgButton(hwndDlg, IDC_L1 + i, dwLogFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
@@ -1278,7 +1278,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 							DWORD dwFilterFlags = 0, dwTrayFlags = 0,
 								dwPopupFlags = 0, dwLogFlags = 0;
 
-							for(int i = 0; _eventorder[i]; i++) {
+							for (int i = 0; _eventorder[i]; i++) {
 								if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
 									dwFilterFlags |= (IsDlgButtonChecked(hwndDlg, IDC_1 + i) ? _eventorder[i] : 0);
 									dwLogFlags |= (IsDlgButtonChecked(hwndDlg, IDC_L1 + i) ? _eventorder[i] : 0);

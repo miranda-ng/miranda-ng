@@ -27,8 +27,8 @@
 //  Background thread for automatic update of user details
 //
 // -----------------------------------------------------------------------------
-#include "icqoscar.h"
 
+#include "icqoscar.h"
 
 // Retrieve users' info
 void CIcqProto::icq_InitInfoUpdate(void)

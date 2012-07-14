@@ -396,9 +396,10 @@ void UnloadSkinHotkeys(void)
 
 	DestroyHookableEvent(hEvChanged);
 	UnhookWindowsHookEx(hhkKeyboard);
-	UnregisterHotkeys();
-	DestroyWindow(g_hwndHotkeyHost);
+
 	for (int i=0; i < hotkeys.getCount(); i++)
 		FreeHotkey(hotkeys[i]);
 	hotkeys.destroy();
+
+	DestroyWindow(g_hwndHotkeyHost);
 }

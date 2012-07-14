@@ -711,25 +711,15 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 
 static DWORD __stdcall cleanThread(logthread_info* infoParam)
 {
-	HANDLE hcontact=NULL;
-//	char str[MAXMODULELABELLENGTH];
-//	sprintf(str,"In Clean: %s; %s; %s\n",
-//		infoParam->sProtoName,
-//		(char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)infoParam->hContact,0),
-//		(const char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)infoParam->courStatus,0)
-//	);
-//	OutputDebugStringA(str);
 	Sleep(10000); // I hope in 10 secons all logged-in contacts will be listed
-	//Searching for contact marked as online but now are offline
 
-	hcontact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
-	while(hcontact!=NULL)
-	{
-		char * contactProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hcontact,0);
+	HANDLE hcontact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	while(hcontact != NULL) {
+		char *contactProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hcontact,0);
 		if (contactProto) {
-			if (!strncmp(infoParam->sProtoName,contactProto,MAXMODULELABELLENGTH)) {
-				WORD oldStatus;
-				if ( (oldStatus = (DBGetContactSettingWord(hcontact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE))|0x8000)>ID_STATUS_OFFLINE){
+			if ( !strncmp(infoParam->sProtoName, contactProto, MAXMODULELABELLENGTH)) {
+				WORD oldStatus = DBGetContactSettingWord(hcontact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE) | 0x8000;
+				if (oldStatus > ID_STATUS_OFFLINE) {
 					if (DBGetContactSettingWord(hcontact,contactProto,"Status",ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE){
 						DBWriteContactSettingWord(hcontact,S_MOD,"OldStatus",(WORD)(oldStatus|0x8000));
 						if (includeIdle)DBWriteContactSettingByte(hcontact,S_MOD,"OldIdle",(BYTE)((oldStatus&0x8000)?0:1));
@@ -741,19 +731,12 @@ static DWORD __stdcall cleanThread(logthread_info* infoParam)
 		hcontact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hcontact,0);
 	}
 
-//	sprintf(str,"OutClean: %s; %s; %s\n",
-//		infoParam->sProtoName,
-//		(char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)infoParam->hContact,0),
-//		(const char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)infoParam->courStatus,0)
-//	);
-	{
-		char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
-		mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",infoParam->sProtoName);
-		DBDeleteContactSetting(NULL,S_MOD,str);
-		free(str);
-	}
+	char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
+	mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",infoParam->sProtoName);
+	DBDeleteContactSetting(NULL,S_MOD,str);
+	free(str);
+
 	free(infoParam);
-//	OutputDebugStringA(str);
 	return 0;
 }
 
@@ -789,7 +772,7 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 			info->courStatus = 0;
 
 			unsigned int dwThreadId;
-			mir_forkthreadex((pThreadFuncEx)cleanThread, info, &dwThreadId);
+			CloseHandle( mir_forkthreadex((pThreadFuncEx)cleanThread, info, &dwThreadId));
 		}
 	} else if ((isetting==ID_STATUS_OFFLINE)&&((WORD)ack->hProcess>ID_STATUS_OFFLINE)) {
 		//we have just loged-off

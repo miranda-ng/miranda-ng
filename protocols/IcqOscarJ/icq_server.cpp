@@ -182,9 +182,6 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 		SetCurrentStatus(ID_STATUS_OFFLINE);
 	}
 
-	// signal info update thread to stop
-	icq_InfoUpdateCleanup();
-
 	// signal keep-alive thread to stop
 	StopKeepAlive(&info);
 

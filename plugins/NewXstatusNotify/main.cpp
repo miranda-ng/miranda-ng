@@ -580,10 +580,11 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 		BOOL retem = TRUE, rettime = TRUE;
 
 		DBVARIANT dbv;
-		if (!DBGetContactSettingString(hContact, "Protocol", "p", &dbv))
-		{
+		if ( !DBGetContactSettingString(hContact, "Protocol", "p", &dbv)) {
 			char dbSetting[128];
 			mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", dbv.pszVal);
+			db_free(&dbv);
+			
 			if (!DBGetContactSettingByte(NULL, MODULE, dbSetting, 1))
 				return 0;
 		}

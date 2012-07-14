@@ -1204,7 +1204,7 @@ void CSkin::Unload()
 	m_SkinDarkShadowPen = 0;
 
 	if (m_SkinItems) {
-		for(i = 0; i < ID_EXTBK_LAST; i++) {
+		for (i = 0; i < ID_EXTBK_LAST; i++) {
 			m_SkinItems[i].IGNORED = 1;
 			m_SkinItems[i].imageItem = 0;
 		}
@@ -1237,7 +1237,7 @@ void CSkin::Unload()
 
 	m_closeIcon = m_maxIcon = m_minIcon = 0;
 
-	for(i = 0; i < m_nrSkinIcons; i++) {
+	for (i = 0; i < m_nrSkinIcons; i++) {
 		if (m_skinIcons[i].phIcon )
 			::DestroyIcon(*(m_skinIcons[i].phIcon));
 	}
@@ -2809,7 +2809,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 	m_fAeroSkinsValid = true;
 
 	try {
-		for(int i = 0; i < safe_sizeof(my_default_skin); i++)
+		for (int i = 0; i < safe_sizeof(my_default_skin); i++)
 			Utils::extractResource(g_hInst, my_default_skin[i].ulID, _T("SKIN_GLYPH"), tszBasePath, my_default_skin[i].tszName, fForceOverwrite);
 	}
 	catch(CRTException& ex) {

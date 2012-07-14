@@ -618,7 +618,7 @@ int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
 		}
 
-		for(i = 0; i < SERVICE_LAST; i++) {
+		for (i = 0; i < SERVICE_LAST; i++) {
 			if (PluginConfig.hSvc[i])
 				DestroyServiceFunction(PluginConfig.hSvc[i]);
 		}

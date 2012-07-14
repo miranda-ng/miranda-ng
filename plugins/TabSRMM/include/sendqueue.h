@@ -78,7 +78,7 @@ public:
 
 	~SendQueue()
 	{
-		for(int i = 0; i < NR_SENDJOBS; i++) {
+		for (int i = 0; i < NR_SENDJOBS; i++) {
 			if (m_jobs[i].sendBuffer)
 				free(m_jobs[i].sendBuffer);
 		}

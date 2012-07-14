@@ -204,7 +204,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 	SendMessage(hwndCombobox, CB_SETCURSEL, 0, 0);
 	if (0 == M->GetTString(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
 		LRESULT lr = SendMessage(hwndCombobox, CB_GETCOUNT, 0, 0);
-		for(int i = 1; i < lr; i++) {
+		for (int i = 1; i < lr; i++) {
 
 			TCHAR* idata = (TCHAR *)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
 			if (idata && idata != (TCHAR *)CB_ERR) {
@@ -227,7 +227,7 @@ static void TSAPI FreeComboData(HWND hwndCombobox)
 {
 	LRESULT lr = SendMessage(hwndCombobox, CB_GETCOUNT, 0, 0);
 
-	for(int i = 1; i < lr; i++) {
+	for (int i = 1; i < lr; i++) {
 		void *idata = (void *)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
 
 		if (idata && idata != (void *)CB_ERR)
@@ -689,7 +689,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			LRESULT r = SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_GETCURSEL, 0, 0);
 			Utils::showDlgControl(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
 			Utils::showDlgControl(hwndDlg, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
-			for(i = 0; i < safe_sizeof(__ctrls); i++)
+			for (i = 0; i < safe_sizeof(__ctrls); i++)
 				Utils::enableDlgControl(hwndDlg, __ctrls[i], r == 0 ? TRUE : FALSE);
 			return 0;
 		}
@@ -1182,7 +1182,7 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 			SendDlgItemMessage(hwndDlg, IDC_FLASHINTERVALSPIN, UDM_SETACCEL, 0, (int)M->GetDword("flashinterval", 1000));
 			CheckDlgButton(hwndDlg, IDC_USEAERO, M->GetByte("useAero", 1));
 			CheckDlgButton(hwndDlg, IDC_USEAEROPEEK, M->GetByte("useAeroPeek", 1));
-			for(int i = 0; i < CSkin::AERO_EFFECT_LAST; i++)
+			for (int i = 0; i < CSkin::AERO_EFFECT_LAST; i++)
 				SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_INSERTSTRING, -1, (LPARAM)TranslateTS(CSkin::m_aeroEffects[i].tszName));
 
 			SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_SETCURSEL, (WPARAM)CSkin::m_aeroEffect, 0);

@@ -202,7 +202,7 @@ const TCHAR* CMimAPI::StriStr(const TCHAR *szString, const TCHAR *szSearchFor)
 		for (; *szString; ++szString) {
 			if (_totupper(*szString) == _totupper(*szSearchFor)) {
 				const TCHAR *h, *n;
-				for(h = szString, n = szSearchFor; *h && *n; ++h, ++n) {
+				for (h = szString, n = szSearchFor; *h && *n; ++h, ++n) {
 					if (_totupper(*h) != _totupper(*n))
 						break;
 				}

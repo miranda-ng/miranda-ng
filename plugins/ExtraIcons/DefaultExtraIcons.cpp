@@ -308,7 +308,7 @@ static void DBExtraIconsInit()
 		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
 	}
 
-	hHooks.push_back(HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged));
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
 }
 
 // Protocol /////////////////////////////////////////////////////////////////////////////

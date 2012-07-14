@@ -172,7 +172,7 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 					else
 						p1 = 0;
 
-					for(i = 0; i < m_iTextPatterns && !result; i++)
+					for (i = 0; i < m_iTextPatterns && !result; i++)
 						result = wildmatch(m_TextPatterns[i], p) ? MATCH_TEXT : 0;
 
 					if (p1) {
@@ -206,7 +206,7 @@ skip_textpatterns:
 		 * optinally, match the nickname against the list of nicks to highlight
 		 */
 		if ((m_dwFlags & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->ptszNick && m_iNickPatterns > 0) {
-			for(UINT i = 0; i < m_iNickPatterns && !nResult; i++) {
+			for (UINT i = 0; i < m_iNickPatterns && !nResult; i++) {
 				if (pgce->ptszNick)
 					nResult = wildmatch(m_NickPatterns[i], pgce->ptszNick) ? MATCH_NICKNAME : 0;
 				if ((m_dwFlags & MATCH_UIN) && pgce->ptszUserInfo)

@@ -79,6 +79,7 @@ MIR_CORE_DLL(void) UnloadCoreModule(void)
 {
 	DestroyWindow(hAPCWindow);
 	CloseHandle(hStackMutex);
+	CloseHandle(hThreadQueueEmpty);
 
 	DestroyModularEngine();
 	UnloadLangPackModule();

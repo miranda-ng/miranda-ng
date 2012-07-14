@@ -165,7 +165,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case WM_CREATE:
 			int i;
 
-			for(i = 0; i < safe_sizeof(_hotkeydescs); i++) {
+			for (i = 0; i < safe_sizeof(_hotkeydescs); i++) {
 				_hotkeydescs[i].cbSize = sizeof(HOTKEYDESC);
 				Hotkey_Register(&_hotkeydescs[i]);
 			}

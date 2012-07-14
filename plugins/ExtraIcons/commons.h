@@ -83,8 +83,6 @@ extern HINSTANCE hInst;
 
 #define ICON_SIZE 16
 
-extern vector<HANDLE> hHooks;
-
 extern vector<BaseExtraIcon*> registeredExtraIcons;
 extern vector<ExtraIcon*> extraIconsByHandle;
 extern vector<ExtraIcon*> extraIconsBySlot;

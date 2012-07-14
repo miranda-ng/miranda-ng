@@ -526,7 +526,7 @@ void CSideBar::populateAll()
 
 		m_iTopButtons = 0;
 
-		for(int i = 0; i < iItems; i++) {
+		for (int i = 0; i < iItems; i++) {
 			TabCtrl_GetItem(hwndTab, i, &item);
 			if (item.lParam && ::IsWindow((HWND)item.lParam)) {
 				TWindowData *dat = (TWindowData *)::GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);

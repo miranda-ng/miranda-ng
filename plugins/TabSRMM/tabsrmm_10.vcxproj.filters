@@ -396,6 +396,8 @@
     <None Include="chat\Icons\window.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-    <None Include="res\SKIN\unknown.png" />
+    <None Include="res\SKIN\unknown.png">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

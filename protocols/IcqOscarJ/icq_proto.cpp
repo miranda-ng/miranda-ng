@@ -359,6 +359,9 @@ int CIcqProto::OnModulesLoaded( WPARAM wParam, LPARAM lParam )
 
 int CIcqProto::OnPreShutdown(WPARAM wParam,LPARAM lParam)
 {
+	// signal info update thread to stop
+	icq_InfoUpdateCleanup();
+
 	// Make sure all connections are closed
 	CloseContactDirectConns(NULL);
 	return 0;

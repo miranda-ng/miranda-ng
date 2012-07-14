@@ -1453,8 +1453,6 @@ void TSAPI ReloadTabConfig()
 
 void TSAPI FreeTabConfig()
 {
-	int i;
-
 	if (PluginConfig.tabConfig.m_hPenItemShadow)
 		DeleteObject(PluginConfig.tabConfig.m_hPenItemShadow);
 
@@ -1467,7 +1465,7 @@ void TSAPI FreeTabConfig()
 	if (PluginConfig.tabConfig.m_hMenuFont)
 		DeleteObject(PluginConfig.tabConfig.m_hMenuFont);
 
-	for(i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++) {
 		if (PluginConfig.tabConfig.m_brushes[i]) {
 			DeleteObject(PluginConfig.tabConfig.m_brushes[i]);
 			PluginConfig.tabConfig.m_brushes[i] = 0;

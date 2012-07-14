@@ -38,8 +38,6 @@ HINSTANCE hInst;
 
 int hLangpack;
 
-vector<HANDLE> hHooks;
-vector<HANDLE> hServices;
 vector<BaseExtraIcon*> registeredExtraIcons;
 vector<ExtraIcon*> extraIconsByHandle;
 vector<ExtraIcon*> extraIconsBySlot;
@@ -82,13 +80,11 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 
 	DWORD ret = CallService(MS_CLUI_GETCAPS, CLUICAPS_FLAGS2, 0);
 	clistFirstSlot = HIWORD(ret);
 	clistSlotCount = LOWORD(ret);
-
 
 	// Icons
 	IcoLib_Register("AlwaysVis", "Contact List", "Always Visible", IDI_ALWAYSVIS);
@@ -97,26 +93,25 @@ extern "C" int __declspec(dllexport) Load(void)
 	IcoLib_Register("gender_male", "Contact List", "Male", IDI_MALE);
 	IcoLib_Register("gender_female", "Contact List", "Female", IDI_FEMALE);
 
-
 	// Hooks
-	hHooks.push_back(HookEvent(ME_SYSTEM_MODULESLOADED, &ModulesLoaded));
-	hHooks.push_back(HookEvent(ME_SYSTEM_PRESHUTDOWN, &PreShutdown));
-	hHooks.push_back(HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, &ClistExtraListRebuild));
-	hHooks.push_back(HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, &ClistExtraImageApply));
-	hHooks.push_back(HookEvent(ME_CLIST_EXTRA_CLICK, &ClistExtraClick));
-
+	HookEvent(ME_SYSTEM_MODULESLOADED, &ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, &PreShutdown);
+	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, &ClistExtraListRebuild);
+	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, &ClistExtraImageApply);
+	HookEvent(ME_CLIST_EXTRA_CLICK, &ClistExtraClick);
 
 	// Services
-	hServices.push_back(CreateServiceFunction(MS_EXTRAICON_REGISTER, &ExtraIcon_Register));
-	hServices.push_back(CreateServiceFunction(MS_EXTRAICON_SET_ICON, &ExtraIcon_SetIcon));
+	CreateServiceFunction(MS_EXTRAICON_REGISTER, &ExtraIcon_Register);
+	CreateServiceFunction(MS_EXTRAICON_SET_ICON, &ExtraIcon_SetIcon);
 
 	DefaultExtraIcons_Load();
-
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	for (size_t i=0; i < registeredExtraIcons.size(); i++)
+		delete registeredExtraIcons[i];
 	return 0;
 }
 
@@ -126,15 +121,13 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
 		metacontacts_proto = (char *) CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
-
 	// add our modules to the KnownModules list
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME "Groups", 0);
 
-	hHooks.push_back(HookEvent(ME_SKIN2_ICONSCHANGED, &IconsChanged));
+	HookEvent(ME_SKIN2_ICONSCHANGED, &IconsChanged);
 
 	InitOptions();
-
 	return 0;
 }
 
@@ -146,16 +139,7 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 int PreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	DefaultExtraIcons_Unload();
-
-	unsigned int i;
-	for (i = 0; i < hServices.size(); i++)
-		DestroyServiceFunction(hServices[i]);
-
-	for (i = 0; i < hHooks.size(); i++)
-		UnhookEvent(hHooks[i]);
-
 	DeInitOptions();
-
 	return 0;
 }
 
