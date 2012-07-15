@@ -33,7 +33,7 @@ PLUGININFOEX pluginInfo = {
 	"dezred"/*antispam*/"@"/*antispam*/"gmail"/*antispam*/"."/*antispam*/"com",
 	"© 2009-2012 Bartosz Bia³ek, 2003-2009 Adam Strzelecki",
 	"http://www.miranda-im.pl/",
-	0,
+	UNICODE_AWARE,
 	// {F3FF65F3-250E-416A-BEE9-58C93F85AB33}
 	{ 0xf3ff65f3, 0x250e, 0x416a, { 0xbe, 0xe9, 0x58, 0xc9, 0x3f, 0x85, 0xab, 0x33 } }
 };
