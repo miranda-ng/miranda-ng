@@ -127,6 +127,76 @@ type
     colour     : COLORREF;
   end;
 
+type
+  tCLCCB = record
+    case boolean of
+     false: (
+       iImage:word;
+       hContact:THANDLE);
+     true : (
+       groupId:word;
+       group  :pClcGroup;);
+  end;
+  pClcContactBase = ^tClcContactBase;
+  tClcContactBase = record
+    _type      :byte;
+    flags      :byte;
+    data       :tCLCCB;
+    iExtraImage:array [0..MAXEXTRACOLUMNS-1] of byte;
+    szText     :array [0..120-MAXEXTRACOLUMNS-1] of WideChar;
+    proto      :pAnsiChar; // MS_PROTO_GETBASEPROTO
+  end;
+
+type
+  pClcDataBase = ^tClcDataBase;
+  tClcDataBase = record
+    list                  :ClcGroup;
+    rowHeight             :int;
+    yScroll               :int;
+    selection             :int;
+    fontInfo              :array [0..FONTID_MAX] of ClcFontInfo;
+    scrollTime            :int;
+    himlHighlight         :THANDLE; // HIMAGELIST in CommCtrl
+    groupIndent           :int;
+    szQuickSearch         :array [0..127] of WideChar;
+    iconXSpace            :int;
+    hwndRenameEdit        :HWND;
+    bkColour,
+    selBkColour,
+    selTextColour,
+    hotTextColour,
+    quickSearchColour     :TCOLORREF;
+    iDragItem,
+    iInsertionMark        :int;
+    dragStage             :int;
+    ptDragStart           :TPOINT;
+    dragAutoScrolling     :int;
+    dragAutoScrollHeight  :int;
+    leftMargin            :int;
+    insertionMarkHitHeight:int;
+    hBmpBackground        :HBITMAP;
+    backgroundBmpUse,
+    bkChanged             :int;
+    iHotTrack             :int;
+    gammaCorrection       :int;
+    greyoutFlags          :dword; // see m_clc.h
+    offlineModes          :dword;
+    exStyle               :dword;
+    ptInfoTip             :TPOINT;
+    infoTipTimeout        :int;
+    hInfoTipItem          :THANDLE;
+    himlExtraColumns      :THANDLE; // HIMAGELIST in CommCtrl
+    extraColumnsCount     :int;
+    extraColumnSpacing    :int;
+    checkboxSize          :int;
+    showSelAlways         :int;
+    showIdle              :int;
+    noVScrollbar          :int;
+    useWindowsColours     :int;
+    needsResort           :int;
+    filterSearch          :int;
+  end;
+  
   PtrayIconInfo_t = ^trayIconInfo_t;
   trayIconInfo_t = record
     id          : int;

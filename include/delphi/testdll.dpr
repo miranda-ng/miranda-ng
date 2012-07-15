@@ -18,7 +18,6 @@ begin
   PluginInfo.copyright  :='(c) 2003 J. Random Hacker';
   PluginInfo.homepage   :='http://miranda-icq.sourceforge.net/';
   PluginInfo.flags      :=UNICODE_AWARE;
-  PluginInfo.replacesDefaultModule:=0;
   PluginInfo.uuid       :=MIID_TESTPLUGIN;//'{08B86253-EC6E-4d09-B7A9-64ACDF0627B8}';
 end;
 

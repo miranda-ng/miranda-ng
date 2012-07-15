@@ -24,11 +24,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   {$IFDEF WIN32}{$A4}{$ENDIF}
   {$IFDEF WIN64}{$A8}{$ENDIF}
 {$ENDIF}
+{$UNDEF AllowInline}
 {$IFDEF FPC}
   {$DEFINE AllowInline}
 {$ELSE}
-  {$IFDEF NativeCode} // Delphi.NET+
-    {$DEFINE AllowInline}
+  {$IFDEF ConditionalExpressions}
+    {$IF System.ComiplerVersion >= 22.0}
+      {$DEFINE AllowInline}
+    {$IFEND}
   {$ENDIF}
 {$ENDIF}
 
@@ -66,6 +69,10 @@ type
   {$ENDIF}
   long      = longint;
   plong     = ^long;
+  {$IFDEF VER150}
+  UnicodeString = WideString;
+  ULONG_PTR = LongWord;
+  {$ENDIF}
   DWORD_PTR = ULONG_PTR;
   size_t    = ULONG_PTR;
 {$ENDIF}
