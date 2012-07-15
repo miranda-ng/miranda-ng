@@ -160,7 +160,7 @@ void GGPROTO::checknewuser(uin_t uin, const char* passwd)
 {
 	char oldpasswd[128];
 	DBVARIANT dbv;
-	uin_t olduin = (uin_t)db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0);
+	uin_t olduin = (uin_t)db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0);
 
 	oldpasswd[0] = '\0';
 	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ))
@@ -215,7 +215,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
 			TranslateDialogDefault(hwndDlg);
-			if (num = db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
+			if (num = db_get_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_UIN, ditoa(num));
 				ShowWindow(GetDlgItem(hwndDlg, IDC_CREATEACCOUNT), SW_HIDE);
@@ -383,7 +383,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
 
 						// Update uin
-						if (num = db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
+						if (num = db_get_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
 							SetDlgItemTextA(hwndDlg, IDC_UIN, ditoa(num));
 						else
 							SetDlgItemTextA(hwndDlg, IDC_UIN, "");
@@ -442,7 +442,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
 					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 					gg->checknewuser(uin, str);
-					db_set_w(NULL, gg->m_szModuleName, GG_KEY_UIN, uin);
+					db_set_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, uin);
 					db_set_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, str);
 
 					// Write Gadu-Gadu email
@@ -923,7 +923,7 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
 			TranslateDialogDefault(hwndDlg);
-			if (num = db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
+			if (num = db_get_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
 				SetDlgItemTextA(hwndDlg, IDC_UIN, ditoa(num));
 			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
@@ -962,7 +962,7 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
 
 					// Update uin
-					if (num = db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
+					if (num = db_get_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
 						SetDlgItemTextA(hwndDlg, IDC_UIN, ditoa(num));
 					else
 						SetDlgItemTextA(hwndDlg, IDC_UIN, "");
@@ -1001,7 +1001,7 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
 					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 					gg->checknewuser(uin, str);
-					db_set_w(NULL, gg->m_szModuleName, GG_KEY_UIN, uin);
+					db_set_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, uin);
 					db_set_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, str);
 
 					// Write Gadu-Gadu email

@@ -54,7 +54,7 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 	}
 	else
 	{
-		db_set_w(NULL, gg->m_szModuleName, GG_KEY_UIN, s->uin);
+		db_set_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, s->uin);
 		CallService(MS_DB_CRYPT_ENCODESTRING, strlen(newPass) + 1, (LPARAM) newPass);
 		gg->checknewuser(s->uin, newPass);
 		db_set_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, newPass);

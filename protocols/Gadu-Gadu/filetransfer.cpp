@@ -66,9 +66,9 @@ void GGPROTO::dccconnect(uin_t uin)
 	if (!hContact) return;
 
 	// Read user IP and port
-	ip = swap32(db_get_b(hContact, m_szModuleName, GG_KEY_CLIENTIP, 0));
+	ip = swap32(db_get_dw(hContact, m_szModuleName, GG_KEY_CLIENTIP, 0));
 	port = db_get_w(hContact, m_szModuleName, GG_KEY_CLIENTPORT, 0);
-	myuin = db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0);
+	myuin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0);
 
 	// If not port nor ip nor my uin (?) specified
 	if (!ip || !port || !uin) return;
@@ -136,7 +136,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 	netlog("gg_dccmainthread(): DCC Server Thread Starting");
 
 	// Readup number
-	if (!(uin = db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0)))
+	if (!(uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)))
 	{
 		netlog("gg_dccmainthread(): No Gadu-Gadu number specified. Exiting.");
 		if (hEvent) SetEvent(hEvent);
@@ -388,7 +388,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							netlog("gg_dccmainthread(): Client: %d, Client accept.", dcc->peer_uin);
 							// Check if user is on the list and if it is my uin
 							if (getcontact(dcc->peer_uin, 0, 0, NULL) &&
-								db_get_b(NULL, m_szModuleName, GG_KEY_UIN, -1) == dcc->uin)
+								db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, -1) == dcc->uin)
 								break;
 
 							// Kill unauthorized dcc
@@ -892,11 +892,11 @@ HANDLE GGPROTO::SendFile(HANDLE hContact, const PROTOCHAR* szDescription, PROTOC
 	filename = mir_t2a(ppszFiles[0]);
 
 	// Read user IP and port
-	ip = swap32(db_get_b(hContact, m_szModuleName, GG_KEY_CLIENTIP, 0));
+	ip = swap32(db_get_dw(hContact, m_szModuleName, GG_KEY_CLIENTIP, 0));
 	port = db_get_w(hContact, m_szModuleName, GG_KEY_CLIENTPORT, 0);
-	myuin = db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0);
-	uin = db_get_b(hContact, m_szModuleName, GG_KEY_UIN, 0);
-	ver = db_get_b(hContact, m_szModuleName, GG_KEY_CLIENTVERSION, 0);
+	myuin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0);
+	uin = db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
+	ver = db_get_dw(hContact, m_szModuleName, GG_KEY_CLIENTVERSION, 0);
 
 	// Use DCC7 if a contact is using at least version 7.6 or unknown version
 	if ((ver & 0x00ffffff) >= 0x29 || !ver) {

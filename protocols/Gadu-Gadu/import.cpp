@@ -162,7 +162,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 			}
 			string_append_c(s, ';');
 			// Readup Uin
-			string_append(s, ditoa(db_get_b(hContact, gg->m_szModuleName, GG_KEY_UIN, 0)));
+			string_append(s, ditoa(db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0)));
 			string_append_c(s, ';');
 			// Readup Mail (fixed: uses stored editable mails)
 			if (!db_get_s(hContact, "UserInfo", "Mye-mail0", &dbv, DBVT_ASCIIZ))
@@ -337,7 +337,7 @@ INT_PTR GGPROTO::import_server(WPARAM wParam, LPARAM lParam)
 	}
 	else return 0;
 
-	if (!(uin = db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0)))
+	if (!(uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)))
 		return 0;
 
 	// Making contacts list
@@ -384,7 +384,7 @@ INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
 	}
 	else return 0;
 
-	if (!(uin = db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0)))
+	if (!(uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)))
 		return 0;
 
 	// Making contacts list
@@ -563,7 +563,7 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 	}
 	else return 0;
 
-	if (!(uin = db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0)))
+	if (!(uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)))
 		return 0;
 
 	// Making contacts list

@@ -132,7 +132,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		|| !gch->pDest->pszID
 		|| !gch->pDest->pszModule
 		|| lstrcmpiA(gch->pDest->pszModule, m_szModuleName)
-		|| !(uin = db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0))
+		|| !(uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0))
 		|| !(chat = gc_lookup(gch->pDest->pszID)))
 		return 0;
 
@@ -343,7 +343,7 @@ char* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 	gcdest.iType = GC_EVENT_JOIN;
 
 	// Add myself
-	if (uin = db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0))
+	if (uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0))
 	{
 		UIN2ID(uin, id);
 		if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_TCHAR)) {
@@ -484,7 +484,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 							if (hItem && SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
 							{
 								HANDLE hMetaContact = gg_getsubcontact(gg, hContact); // MetaContacts support
-								participants[i++] = db_get_b(hMetaContact ? hMetaContact : hContact, gg->m_szModuleName, GG_KEY_UIN, 0);
+								participants[i++] = db_get_dw(hMetaContact ? hMetaContact : hContact, gg->m_szModuleName, GG_KEY_UIN, 0);
 							}
 							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 						}
@@ -542,15 +542,15 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 									if (hMetaContact)
 									{
 										szProto = gg->m_szModuleName;
-										uin = (uin_t)db_get_b(hMetaContact, gg->m_szModuleName, GG_KEY_UIN, 0);
+										uin = (uin_t)db_get_dw(hMetaContact, gg->m_szModuleName, GG_KEY_UIN, 0);
 									}
 									else
 									{
 										szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-										uin = (uin_t)db_get_b(hContact, gg->m_szModuleName, GG_KEY_UIN, 0);
+										uin = (uin_t)db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0);
 									}
 
-									if (szProto == NULL || lstrcmpA(szProto, gg->m_szModuleName) || !uin || uin == db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
+									if (szProto == NULL || lstrcmpA(szProto, gg->m_szModuleName) || !uin || uin == db_get_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
 										SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_DELETEITEM, (WPARAM)hItem, 0);
 								}
 								hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
@@ -635,7 +635,7 @@ INT_PTR GGPROTO::gc_openconf(WPARAM wParam, LPARAM lParam)
 int GGPROTO::gc_changenick(HANDLE hContact, char *pszNick)
 {
 	list_t l;
-	uin_t uin = db_get_b(hContact, m_szModuleName, GG_KEY_UIN, 0);
+	uin_t uin = db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
 	if (!uin || !pszNick) return 0;
 
 	netlog("gg_gc_changenick(): Nickname for uin %d changed to %s.", uin, pszNick);

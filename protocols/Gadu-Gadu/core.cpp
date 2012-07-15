@@ -322,7 +322,7 @@ void __cdecl GGPROTO::mainthread(void *)
 	}
 
 	// Readup number
-	if (!(p.uin = db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0)))
+	if (!(p.uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)))
 	{
 		netlog("gg_mainthread(%x): No Gadu-Gadu number specified. Exiting.", this);
 		broadcastnewstatus(ID_STATUS_OFFLINE);
@@ -429,7 +429,7 @@ retry:
 				&& errno == EACCES
 				&& (db_get_b(NULL, m_szModuleName, GG_KEY_ARECONNECT, GG_KEYDEF_ARECONNECT) || (hostnum < hostcount - 1)))
 			{
-				DWORD dwInterval = db_get_b(NULL, m_szModuleName, GG_KEY_RECONNINTERVAL, GG_KEYDEF_RECONNINTERVAL), dwResult;
+				DWORD dwInterval = db_get_dw(NULL, m_szModuleName, GG_KEY_RECONNINTERVAL, GG_KEYDEF_RECONNINTERVAL), dwResult;
 				BOOL bRetry = TRUE;
 
 				hConnStopEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
@@ -461,7 +461,7 @@ retry:
 	{
 		// Successfully connected
 		logonTime = time(NULL);
-		db_set_w(NULL, m_szModuleName, GG_KEY_LOGONTIME, logonTime);
+		db_set_dw(NULL, m_szModuleName, GG_KEY_LOGONTIME, logonTime);
 		EnterCriticalSection(&sess_mutex);
 		sess = sess;
 		LeaveCriticalSection(&sess_mutex);
@@ -552,7 +552,7 @@ retry:
 			// Statuslist notify (version >= 6.0)
 			case GG_EVENT_NOTIFY60:
 			{
-				uin_t uin = (uin_t)db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0);
+				uin_t uin = (uin_t)db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0);
 				int i;
 				for(i = 0; e->event.notify60[i].uin; i++) {
 					if (e->event.notify60[i].uin == uin) continue;
@@ -742,7 +742,7 @@ retry:
 				{
 					HANDLE hContact = getcontact(e->event.status60.uin, 0, 0, NULL);
 					int oldstatus = db_get_w(hContact, m_szModuleName, GG_KEY_STATUS, (WORD)ID_STATUS_OFFLINE);
-					uin_t uin = (uin_t)db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0);
+					uin_t uin = (uin_t)db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0);
 
 					if (e->event.status60.uin == uin)
 					{
@@ -828,7 +828,7 @@ retry:
 					// RichEdit format included (image)
 					if (e->event.msg.formats_length &&
 						db_get_b(NULL, m_szModuleName, GG_KEY_IMGRECEIVE, GG_KEYDEF_IMGRECEIVE) &&
-						!(db_get_b(getcontact(e->event.msg.sender, 1, 0, NULL), "Ignore", "Mask1", 0) & IGNOREEVENT_MESSAGE))
+						!(db_get_dw(getcontact(e->event.msg.sender, 1, 0, NULL), "Ignore", "Mask1", 0) & IGNOREEVENT_MESSAGE))
 					{
 						char *formats = (char*)e->event.msg.formats;
 						int len = 0, formats_len = e->event.msg.formats_length, add_ptr;
@@ -867,7 +867,7 @@ retry:
 						GCDEST gcdest = {m_szModuleName, chat, GC_EVENT_MESSAGE};
 						GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
 
-						UIN2ID(db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0), id);
+						UIN2ID( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), id);
 
 						gcevent.pszUID = id;
 						gcevent.pszText = e->event.multilogon_msg.message;
@@ -1007,7 +1007,7 @@ retry:
 					dcc7->contact = getcontact(dcc7->peer_uin, 0, 0, NULL);
 
 					// Check if user is on the list and if it is my uin
-					if (!dcc7->contact || db_get_b(NULL, m_szModuleName, GG_KEY_UIN, -1) != dcc7->uin) {
+					if (!dcc7->contact || db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, -1) != dcc7->uin) {
 						gg_dcc7_free(dcc7);
 						e->event.dcc7_new = NULL;
 						break;
@@ -1181,7 +1181,7 @@ retry:
 
 	broadcastnewstatus(ID_STATUS_OFFLINE);
 	setalloffline();
-	db_set_w(NULL, m_szModuleName, GG_KEY_LOGONTIME, 0);
+	db_set_dw(NULL, m_szModuleName, GG_KEY_LOGONTIME, 0);
 
 	// If it was unwanted disconnection reconnect
 	if (m_iDesiredStatus != ID_STATUS_OFFLINE
@@ -1252,7 +1252,7 @@ int GGPROTO::contactdeleted(WPARAM wParam, LPARAM lParam)
 	uin_t uin; int type;
 	DBVARIANT dbv;
 
-	uin = (uin_t)db_get_b(hContact, m_szModuleName, GG_KEY_UIN, 0);
+	uin = (uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
 	type = db_get_b(hContact, m_szModuleName, "ChatRoom", 0);
 
 	// Terminate conference if contact is deleted
@@ -1390,7 +1390,7 @@ void GGPROTO::notifyuser(HANDLE hContact, int refresh)
 {
 	uin_t uin;
 	if (!hContact) return;
-	if (isonline() && (uin = (uin_t)db_get_b(hContact, m_szModuleName, GG_KEY_UIN, 0)))
+	if (isonline() && (uin = (uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0)))
 	{
 		// Check if user should be invisible
 		// Or be blocked ?
@@ -1460,7 +1460,7 @@ void GGPROTO::notifyall()
 	while (hContact && cc < count)
 	{
 		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-		if (szProto != NULL && !strcmp(szProto, m_szModuleName) && (uins[cc] = db_get_b(hContact, m_szModuleName, GG_KEY_UIN, 0)))
+		if (szProto != NULL && !strcmp(szProto, m_szModuleName) && (uins[cc] = db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0)))
 		{
 			if ((db_get_w(hContact, m_szModuleName, GG_KEY_APPARENT, (WORD) ID_STATUS_ONLINE) == ID_STATUS_OFFLINE) ||
 				db_get_b(hContact, "CList", "NotOnList", 0))
@@ -1497,7 +1497,7 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 	while (hContact) {
 		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
-			if ((uin_t)db_get_b(hContact, m_szModuleName, GG_KEY_UIN, 0) == uin
+			if ((uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0) == uin
 				&& db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0)
 			{
 				if (inlist) {
@@ -1528,7 +1528,7 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 	if (!inlist) 
 		db_set_b(hContact, "CList", "NotOnList", 1);
 
-	db_set_w(hContact, m_szModuleName, GG_KEY_UIN, (DWORD) uin);
+	db_set_dw(hContact, m_szModuleName, GG_KEY_UIN, (DWORD) uin);
 	db_set_w(hContact, m_szModuleName, GG_KEY_STATUS, ID_STATUS_OFFLINE);
 
 	// If nick specified use it
@@ -1565,7 +1565,7 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 		getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
 
 		// Change status of the contact with our own UIN (if got yourself added to the contact list)
-		if (db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0) == uin) {
+		if (db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0) == uin) {
 			char *szMsg;
 			EnterCriticalSection(&modemsg_mutex);
 			szMsg = mir_strdup(getstatusmsg(m_iStatus));
@@ -1683,12 +1683,12 @@ void GGPROTO::changecontactstatus(uin_t uin, int status, const char *idescr, int
 		db_unset(hContact, "CList", GG_KEY_STATUSDESCR);
 
 	// Store contact ip and port
-	if (remote_ip) db_set_w(hContact, m_szModuleName, GG_KEY_CLIENTIP, (DWORD) swap32(remote_ip));
+	if (remote_ip) db_set_dw(hContact, m_szModuleName, GG_KEY_CLIENTIP, (DWORD) swap32(remote_ip));
 	if (remote_port) db_set_w(hContact, m_szModuleName, GG_KEY_CLIENTPORT, (WORD) remote_port);
 	if (version)
 	{
 		char sversion[48];
-		db_set_w(hContact, m_szModuleName, GG_KEY_CLIENTVERSION, (DWORD) version);
+		db_set_dw(hContact, m_szModuleName, GG_KEY_CLIENTVERSION, (DWORD) version);
 		mir_snprintf(sversion, sizeof(sversion), "%sGadu-Gadu %s", (version & 0x00ffffff) > 0x2b ? "Nowe " : "", gg_version2string(version));
 		db_set_s(hContact, m_szModuleName, "MirVer", sversion);
 	}

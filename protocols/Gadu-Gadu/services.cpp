@@ -116,7 +116,7 @@ int GGPROTO::refreshstatus(int status)
 			LeaveCriticalSection(&sess_mutex);
 		}
 		// Change status of the contact with our own UIN (if got yourself added to the contact list)
-		changecontactstatus(db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0), status_m2gg(status, szMsg != NULL), szMsg, 0, 0, 0, 0);
+		changecontactstatus( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), status_m2gg(status, szMsg != NULL), szMsg, 0, 0, 0, 0);
 		broadcastnewstatus(status);
 		mir_free(szMsg);
 	}
@@ -172,7 +172,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	char *AvatarURL = NULL;
 	INT_PTR result = GAIR_NOAVATAR;
 	DBVARIANT dbv;
-	uin_t uin = (uin_t)db_get_b(pai->hContact, m_szModuleName, GG_KEY_UIN, 0);
+	uin_t uin = (uin_t)db_get_dw(pai->hContact, m_szModuleName, GG_KEY_UIN, 0);
 
 	netlog("gg_getavatarinfo(): Requesting avatar information for %d.", uin);
 

@@ -196,7 +196,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			mir_free(data);
 			LeaveCriticalSection(&avatar_mutex);
 
-			getAvatarFileInfo( db_get_b(hContact, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarType);
+			getAvatarFileInfo( db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarType);
 			if (AvatarURL != NULL && strlen(AvatarURL) > 0)
 				db_set_s(hContact, m_szModuleName, GG_KEY_AVATARURL, AvatarURL);
 			else
@@ -303,7 +303,7 @@ void __cdecl GGPROTO::getuseravatarthread(void*)
 	char *AvatarURL;
 	int AvatarType;
 
-	getAvatarFileInfo( db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarType);
+	getAvatarFileInfo( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarType);
 	if (AvatarURL != NULL && strlen(AvatarURL) > 0)
 		db_set_s(NULL, m_szModuleName, GG_KEY_AVATARURL, AvatarURL);
 	else
@@ -318,7 +318,7 @@ void __cdecl GGPROTO::getuseravatarthread(void*)
 void GGPROTO::getUserAvatar()
 {
 	if (db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)
-		&& db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0))
+		&& db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0))
 		forkthread(&GGPROTO::getuseravatarthread, NULL);
 }
 
@@ -333,7 +333,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	int file_fd, avatardatalen, datalen, contentlen, contentendlen, res = 0, repeat = 0;
 
 	netlog("gg_setavatar(): Trying to set user avatar using %s...", szFilename);
-	UIN2ID(db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
+	UIN2ID( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
 
 	file_fd = _topen(szFilename, _O_RDONLY | _O_BINARY, _S_IREAD);
 	if (file_fd == -1) {

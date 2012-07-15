@@ -200,7 +200,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 		db_unset(NULL, m_szModuleName, "ShowNotOnMyList");
 
 	// Store this plugin version
-	db_set_w(NULL, m_szModuleName, GG_PLUGINVERSION, pluginInfo.version);
+	db_set_dw(NULL, m_szModuleName, GG_PLUGINVERSION, pluginInfo.version);
 }
 
 //////////////////////////////////////////////////////////
@@ -258,7 +258,7 @@ static int gg_prebuildcontactmenu(WPARAM wParam, LPARAM lParam)
 
 	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_ICONFROMICOLIB;
-	if (db_get_b(hContact, gg->m_szModuleName, GG_KEY_UIN, 0) == db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0) ||
+	if ( db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0) == db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0) ||
 		db_get_b(hContact, gg->m_szModuleName, "ChatRoom", 0) ||
 		db_get_b(hContact, "CList", "NotOnList", 0))
 		mi.flags |= CMIF_HIDDEN;

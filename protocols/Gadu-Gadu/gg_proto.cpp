@@ -61,10 +61,10 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 
 	// Offline contacts and clear logon time
 	setalloffline();
-	db_set_w(NULL, m_szModuleName, GG_KEY_LOGONTIME, 0);
+	db_set_dw(NULL, m_szModuleName, GG_KEY_LOGONTIME, 0);
 
 	DWORD dwVersion;
-	if ((dwVersion = db_get_b(NULL, m_szModuleName, GG_PLUGINVERSION, 0)) < pluginInfo.version)
+	if ((dwVersion = db_get_dw(NULL, m_szModuleName, GG_PLUGINVERSION, 0)) < pluginInfo.version)
 		cleanuplastplugin(dwVersion);
 
 	links_instance_init();
@@ -228,7 +228,7 @@ int GGPROTO::GetInfo(HANDLE hContact, int infoType)
 		}
 
 		// Add uin and search it
-		gg_pubdir50_add(req, GG_PUBDIR50_UIN, ditoa((uin_t)db_get_b(hContact, m_szModuleName, GG_KEY_UIN, 0)));
+		gg_pubdir50_add(req, GG_PUBDIR50_UIN, ditoa((uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0)));
 		gg_pubdir50_seq_set(req, GG_SEQ_INFO);
 
 		netlog("gg_getinfo(): Requesting user info.", req->seq);
@@ -582,7 +582,7 @@ int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 {
 	uin_t uin;
 
-	if (msg && isonline() && (uin = (uin_t)db_get_b(hContact, m_szModuleName, GG_KEY_UIN, 0)))
+	if (msg && isonline() && (uin = (uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0)))
 	{
 		int seq;
 		EnterCriticalSection(&sess_mutex);
@@ -731,7 +731,7 @@ int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *msgt)
 
 int GGPROTO::UserIsTyping(HANDLE hContact, int type)
 {
-	uin_t uin = db_get_b(hContact, m_szModuleName, GG_KEY_UIN, 0);
+	uin_t uin = db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
 
 	if (!uin || !isonline()) return 0;
 
