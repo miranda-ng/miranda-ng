@@ -307,7 +307,7 @@ void EncryptDB()
 	action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_NEWPASS), NULL, (DLGPROC)DlgStdNewPass, (LPARAM)NULL);
 	if(action != IDOK || !strlen(encryptKey)) {
 		bEncProcess = 0;		
-		DBWriteContactSettingByte(NULL, "SecureMMAP", "CryptoModule", 0);		
+		db_set_b(NULL, "SecureMMAP", "CryptoModule", 0);		
 		return;
 	}
 
