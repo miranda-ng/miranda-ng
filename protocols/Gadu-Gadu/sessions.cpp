@@ -401,14 +401,12 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 
 INT_PTR GGPROTO::sessions_view(WPARAM wParam, LPARAM lParam)
 {
-	if (hwndSessionsDlg && IsWindow(hwndSessionsDlg))
-	{
+	if (hwndSessionsDlg && IsWindow(hwndSessionsDlg)) {
 		ShowWindow(hwndSessionsDlg, SW_SHOWNORMAL);
 		SetForegroundWindow(hwndSessionsDlg);
 		SetFocus(hwndSessionsDlg);
 	}
-	else
-		CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_SESSIONS), NULL, gg_sessions_viewdlg, (LPARAM)this);
+	else CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_SESSIONS), NULL, gg_sessions_viewdlg, (LPARAM)this);
 	return 0;
 }
 

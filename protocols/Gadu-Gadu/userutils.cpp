@@ -289,9 +289,7 @@ HANDLE GGPROTO::hookProtoEvent(const char* szEvent, GGEventFunc handler)
 
 void GGPROTO::createProtoService(const char* szService, GGServiceFunc serviceProc)
 {
-	char str[MAXMODULELABELLENGTH];
-	mir_snprintf(str, sizeof(str), "%s%s", m_szModuleName, szService);
-	CreateServiceFunctionObj(str, (MIRANDASERVICEOBJ)*( void** )&serviceProc, this);
+	CreateServiceFunctionObj(szService, (MIRANDASERVICEOBJ)*( void** )&serviceProc, this);
 }
 
 //////////////////////////////////////////////////////////
