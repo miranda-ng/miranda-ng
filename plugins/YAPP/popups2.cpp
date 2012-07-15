@@ -121,6 +121,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	_tcscpy(font_id_firstlinew.name, _T("First line"));
 	strcpy(font_id_firstlinew.dbSettingsGroup, MODULE);
 	strcpy(font_id_firstlinew.prefix, "FontFirst");
+	_tcscpy(font_id_firstlinew.backgroundGroup, _T("Popups"));
+	_tcscpy(font_id_firstlinew.backgroundName, _T("Background"));
 	font_id_firstlinew.order = 0;
 	FontRegisterT(&font_id_firstlinew);
 
@@ -130,6 +132,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	_tcscpy(font_id_secondlinew.name, _T("Second line"));
 	strcpy(font_id_secondlinew.dbSettingsGroup, MODULE);
 	strcpy(font_id_secondlinew.prefix, "FontSecond");
+	_tcscpy(font_id_secondlinew.backgroundGroup, _T("Popups"));
+	_tcscpy(font_id_secondlinew.backgroundName, _T("Background"));
 	font_id_secondlinew.order = 1;
 	FontRegisterT(&font_id_secondlinew);
 
@@ -139,6 +143,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	_tcscpy(font_id_timew.name, _T("Time"));
 	strcpy(font_id_timew.dbSettingsGroup, MODULE);
 	strcpy(font_id_timew.prefix, "FontTime");
+	_tcscpy(font_id_timew.backgroundGroup, _T("Popups"));
+	_tcscpy(font_id_timew.backgroundName, _T("Background"));
 	font_id_timew.order = 2;
 	FontRegisterT(&font_id_timew);
 		
