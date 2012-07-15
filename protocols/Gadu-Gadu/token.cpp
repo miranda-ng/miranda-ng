@@ -57,7 +57,7 @@ INT_PTR CALLBACK gg_tokendlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			{
 				case IDOK:
 				{
-					GetDlgItemText(hwndDlg, IDC_TOKEN, dat->val, sizeof(dat->val));
+					GetDlgItemTextA(hwndDlg, IDC_TOKEN, dat->val, sizeof(dat->val));
 					EndDialog(hwndDlg, IDOK);
 					break;
 				}
@@ -74,7 +74,7 @@ INT_PTR CALLBACK gg_tokendlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			RECT rc; GetClientRect(GetDlgItem(hwndDlg, IDC_WHITERECT), &rc);
 			FillRect(hdc, &rc, (HBRUSH)GetStockObject(WHITE_BRUSH));
 
-			if(dat && dat->hBitmap)
+			if (dat && dat->hBitmap)
 			{
 				HDC hdcBmp = NULL;
 				int nWidth, nHeight;
@@ -83,7 +83,7 @@ INT_PTR CALLBACK gg_tokendlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				GetObject(dat->hBitmap, sizeof(bmp), &bmp);
 				nWidth = bmp.bmWidth; nHeight = bmp.bmHeight;
 
-				if(hdcBmp = CreateCompatibleDC(hdc))
+				if (hdcBmp = CreateCompatibleDC(hdc))
 				{
 					SelectObject(hdcBmp, dat->hBitmap);
 					SetStretchBltMode(hdc, HALFTONE);
@@ -104,7 +104,7 @@ INT_PTR CALLBACK gg_tokendlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 ////////////////////////////////////////////////////////////////////////////////
 // Gets GG token
-int gg_gettoken(GGPROTO *gg, GGTOKEN *token)
+int GGPROTO::gettoken(GGTOKEN *token)
 {
 	struct gg_http *h = NULL;
 	struct gg_token *t = NULL;
@@ -115,30 +115,18 @@ int gg_gettoken(GGPROTO *gg, GGTOKEN *token)
 	strcpy(token->id, "");
 	strcpy(token->val, "");
 
-	if (!(h = gg_token(0)) || gg_token_watch_fd(h) || h->state == GG_STATE_ERROR || h->state != GG_STATE_DONE)
-	{
-		char error[128];
-		mir_snprintf(error, sizeof(error), Translate("Token retrieval failed because of error:\n\t%s"), http_error_string(h ? h->error : 0));
-		MessageBox(
-				NULL,
-				error,
-				GG_PROTONAME,
-				MB_OK | MB_ICONSTOP
-		);
+	if (!(h = gg_token(0)) || gg_token_watch_fd(h) || h->state == GG_STATE_ERROR || h->state != GG_STATE_DONE) {
+		TCHAR error[128];
+		mir_sntprintf(error, SIZEOF(error), TranslateT("Token retrieval failed because of error:\n\t%S"), http_error_string(h ? h->error : 0));
+		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		gg_free_pubdir(h);
 		return FALSE;
 	}
 
-	if (!(t = (struct gg_token *)h->data) || (!h->body))
-	{
-		char error[128];
-		mir_snprintf(error, sizeof(error), Translate("Token retrieval failed because of error:\n\t%s"), http_error_string(h ? h->error : 0));
-		MessageBox(
-				NULL,
-				error,
-				GG_PROTONAME,
-				MB_OK | MB_ICONSTOP
-		);
+	if (!(t = (struct gg_token *)h->data) || (!h->body)) {
+		TCHAR error[128];
+		mir_sntprintf(error, SIZEOF(error), TranslateT("Token retrieval failed because of error:\n\t%S"), http_error_string(h ? h->error : 0));
+		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		gg_free_pubdir(h);
 		return FALSE;
 	}
@@ -151,23 +139,18 @@ int gg_gettoken(GGPROTO *gg, GGTOKEN *token)
 	// Load bitmap
 	memio.iLen = h->body_size;
 	memio.pBuf = (void *)h->body;
-	memio.fif = -1; /* detect */
+	memio.fif = FIF_UNKNOWN; /* detect */
 	memio.flags = 0;
 	dat.hBitmap = (HBITMAP) CallService(MS_IMG_LOADFROMMEM, (WPARAM) &memio, 0);
-	if(dat.hBitmap == NULL)
+	if (dat.hBitmap == NULL)
 	{
-		MessageBox(
-				NULL,
-				Translate("Could not load token image."),
-				GG_PROTONAME,
-				MB_OK | MB_ICONSTOP
-		);
+		MessageBox(NULL, TranslateT("Could not load token image."), m_tszUserName, MB_OK | MB_ICONSTOP);
 		gg_free_pubdir(h);
 		return FALSE;
 	}
 
 	// Load token dialog
-	if(DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_TOKEN), NULL, gg_tokendlgproc, (LPARAM)&dat) == IDCANCEL)
+	if (DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_TOKEN), NULL, gg_tokendlgproc, (LPARAM)&dat) == IDCANCEL)
 		return FALSE;
 
 	// Fillup patterns

@@ -29,7 +29,7 @@ typedef struct
 	const char *email;
 } GG_REMIND_PASS;
 
-void __cdecl gg_remindpasswordthread(GGPROTO *gg, void *param)
+void __cdecl GGPROTO::remindpasswordthread(void *param)
 {
 	// Connection handle
 	struct gg_http *h;
@@ -37,52 +37,42 @@ void __cdecl gg_remindpasswordthread(GGPROTO *gg, void *param)
 	GGTOKEN token;
 
 #ifdef DEBUGMODE
-	gg_netlog(gg, "gg_remindpasswordthread(): Starting.");
+	netlog("gg_remindpasswordthread(): Starting.");
 #endif
 	if (!rp || !rp->email || !rp->uin || !strlen(rp->email))
 	{
-		if(rp) free(rp);
+		if (rp) free(rp);
 		return;
 	}
 
 	// Get token
-	if (!gg_gettoken(gg, &token)) return;
+	if (!gettoken(&token)) return;
 
 	if (!(h = gg_remind_passwd3(rp->uin, rp->email, token.id, token.val, 0)))
 	{
-		char error[128];
-		mir_snprintf(error, sizeof(error), Translate("Password could not be reminded because of error:\n\t%s"), strerror(errno));
-		MessageBox(
-			NULL,
-			error,
-			GG_PROTONAME,
-			MB_OK | MB_ICONSTOP
-		);
-		gg_netlog(gg, "gg_remindpasswordthread(): Password could not be reminded because of \"%s\".", strerror(errno));
+		TCHAR error[128];
+		mir_sntprintf(error, SIZEOF(error), TranslateT("Password could not be reminded because of error:\n\t%s"), _tcserror(errno));
+		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
+		netlog("gg_remindpasswordthread(): Password could not be reminded because of \"%s\".", strerror(errno));
 	}
 	else
 	{
 		gg_pubdir_free(h);
-		gg_netlog(gg, "gg_remindpasswordthread(): Password remind successful.");
-		MessageBox(
-			NULL,
-			Translate("Password was sent to your e-mail."),
-			GG_PROTONAME,
-			MB_OK | MB_ICONINFORMATION
-		);
+		netlog("gg_remindpasswordthread(): Password remind successful.");
+		MessageBox(NULL, TranslateT("Password was sent to your e-mail."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
 
 #ifdef DEBUGMODE
-	gg_netlog(gg, "gg_remindpasswordthread(): End.");
+	netlog("gg_remindpasswordthread(): End.");
 #endif
-	if(rp) free(rp);
+	if (rp) free(rp);
 }
 
-void gg_remindpassword(GGPROTO *gg, uin_t uin, const char *email)
+void GGPROTO::remindpassword(uin_t uin, const char *email)
 {
-	GG_REMIND_PASS *rp = malloc(sizeof(GG_REMIND_PASS));
+	GG_REMIND_PASS *rp = (GG_REMIND_PASS*)malloc(sizeof(GG_REMIND_PASS));
 
 	rp->uin = uin;
 	rp->email = email;
-	gg_forkthread(gg, gg_remindpasswordthread, rp);
+	forkthread(&GGPROTO::remindpasswordthread, rp);
 }

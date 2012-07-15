@@ -44,7 +44,7 @@ typedef enum
 	PLAINTEXT
 } OAUTHSIGNMETHOD;
 
-static int paramsortFunc(OAUTHPARAMETER *p1, OAUTHPARAMETER *p2)
+static int paramsortFunc(const OAUTHPARAMETER *p1, const OAUTHPARAMETER *p2)
 {
 	int res = strcmp(p1->name, p2->name);
 	return res != 0 ? res : strcmp(p1->value, p2->value);
@@ -119,13 +119,14 @@ char *oauth_uri_escape(const char *str)
 }
 
 // generates Signature Base String
-char *oauth_generate_signature(SortedList *params, const char *httpmethod, const char *url)
+
+char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmethod, const char *url)
 {
 	char *res, *urlenc, *urlnorm;
 	OAUTHPARAMETER *p;
 	int i, ix = 0, size;
 
-	if (httpmethod == NULL || url == NULL || !params->realCount) return mir_strdup("");
+	if (httpmethod == NULL || url == NULL || !params.getCount()) return mir_strdup("");
 
 	urlnorm = (char *)mir_alloc(strlen(url) + 1);
 	while (*url) {
@@ -143,8 +144,8 @@ char *oauth_generate_signature(SortedList *params, const char *httpmethod, const
 	mir_free(urlnorm);
 	size = (int)strlen(httpmethod) + (int)strlen(urlenc) + 1 + 2;
 
-	for (i = 0; i < params->realCount; i++) {
-		p = params->items[i];
+	for (i = 0; i < params.getCount(); i++) {
+		p = params[i];
 		if (!strcmp(p->name, "oauth_signature")) continue;
 		if (i > 0) size += 3;
 		size += (int)strlen(p->name) + (int)strlen(p->value) + 3;
@@ -157,8 +158,8 @@ char *oauth_generate_signature(SortedList *params, const char *httpmethod, const
 	mir_free(urlenc);
 	strcat(res, "&");
 
-	for (i = 0; i < params->realCount; i++) {
-		p = params->items[i];
+	for (i = 0; i < params.getCount(); i++) {
+		p = params[i];
 		if (!strcmp(p->name, "oauth_signature")) continue;
 		if (i > 0) strcat(res, "%26");
 		strcat(res, p->name);
@@ -169,15 +170,15 @@ char *oauth_generate_signature(SortedList *params, const char *httpmethod, const
 	return res;
 }
 
-char *oauth_getparam(SortedList *params, const char *name)
+char *oauth_getparam(LIST<OAUTHPARAMETER> &params, const char *name)
 {
 	OAUTHPARAMETER *p;
 	int i;
 
 	if (name == NULL) return NULL;
 
-	for (i = 0; i < params->realCount; i++) {
-		p = params->items[i];
+	for (i = 0; i < params.getCount(); i++) {
+		p = params[i];
 		if (!strcmp(p->name, name))
 			return p->value;
 	}
@@ -185,15 +186,15 @@ char *oauth_getparam(SortedList *params, const char *name)
 	return NULL;
 }
 
-void oauth_setparam(SortedList *params, const char *name, const char *value)
+void oauth_setparam(LIST<OAUTHPARAMETER> &params, const char *name, const char *value)
 {
 	OAUTHPARAMETER *p;
 	int i;
 
 	if (name == NULL) return;
 
-	for (i = 0; i < params->realCount; i++) {
-		p = params->items[i];
+	for (i = 0; i < params.getCount(); i++) {
+		p = params[i];
 		if (!strcmp(p->name, name)) {
 			mir_free(p->value);
 			p->value = oauth_uri_escape(value);
@@ -201,30 +202,30 @@ void oauth_setparam(SortedList *params, const char *name, const char *value)
 		}
 	}
 
-	p = mir_alloc(sizeof(OAUTHPARAMETER));
+	p = (OAUTHPARAMETER*)mir_alloc(sizeof(OAUTHPARAMETER));
 	p->name = oauth_uri_escape(name);
 	p->value = oauth_uri_escape(value);
-	List_InsertPtr(params, p);
+	params.insert(p);
 }
 
-void oauth_freeparams(SortedList *params)
+void oauth_freeparams(LIST<OAUTHPARAMETER> &params)
 {
 	OAUTHPARAMETER *p;
 	int i;
 
-	for (i = 0; i < params->realCount; i++) {
-		p = params->items[i];
+	for (i = 0; i < params.getCount(); i++) {
+		p = params[i];
 		mir_free(p->name);
 		mir_free(p->value);
 	}
 }
 
-int oauth_sign_request(SortedList *params, const char *httpmethod, const char *url,
+int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, const char *url,
 					   const char *consumer_secret, const char *token_secret)
 {
 	char *sign = NULL, *signmethod;
 
-	if (!params->realCount) return -1;
+	if (!params.getCount()) return -1;
 
 	signmethod = oauth_getparam(params, "oauth_signature_method");
 	if (signmethod == NULL) return -1;
@@ -245,7 +246,7 @@ int oauth_sign_request(SortedList *params, const char *httpmethod, const char *u
 		mir_free(csenc);
 		mir_free(tsenc);
 
-		hmacsha1_hash(text, (int)strlen(text), key, (int)strlen(key), digest);
+		hmacsha1_hash((BYTE*)text, (int)strlen(text), (BYTE*)key, (int)strlen(key), digest);
 
 		signlen = Netlib_GetBase64EncodedBufferSize(MIR_SHA1_HASH_SIZE);
 		sign = (char *)mir_alloc(signlen);
@@ -290,7 +291,7 @@ char *oauth_generate_nonce()
 	str = (char *)mir_alloc(strlen(timestamp) + strlen(randnum) + 1);
 	strcpy(str, timestamp);
 	strcat(str, randnum);
-	mir_md5_hash(str, (int)strlen(str), digest);
+	mir_md5_hash((BYTE*)str, (int)strlen(str), digest);
 	mir_free(str);
 
 	result = (char *)mir_alloc(32 + 1);
@@ -304,40 +305,36 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 						const char *consumer_key, const char *consumer_secret,
 						const char *token, const char *token_secret)
 {
-	OAUTHPARAMETER *p;
 	int i, size;
 	char *res, timestamp[22], *nonce;
-	SortedList oauth_parameters = {0};
 
 	if (httpmethod == NULL || url == NULL) return NULL;
 
-	oauth_parameters.sortFunc = paramsortFunc;
-	oauth_parameters.increment = 1;
-
-	oauth_setparam(&oauth_parameters, "oauth_consumer_key", consumer_key);
-	oauth_setparam(&oauth_parameters, "oauth_version", "1.0");
+	LIST<OAUTHPARAMETER> oauth_parameters(1, paramsortFunc);
+	oauth_setparam(oauth_parameters, "oauth_consumer_key", consumer_key);
+	oauth_setparam(oauth_parameters, "oauth_version", "1.0");
 	switch (signmethod) {
-		case HMACSHA1: oauth_setparam(&oauth_parameters, "oauth_signature_method", "HMAC-SHA1"); break;
-		case RSASHA1: oauth_setparam(&oauth_parameters, "oauth_signature_method", "RSA-SHA1"); break;
-		default: oauth_setparam(&oauth_parameters, "oauth_signature_method", "PLAINTEXT"); break;
+		case HMACSHA1: oauth_setparam(oauth_parameters, "oauth_signature_method", "HMAC-SHA1"); break;
+		case RSASHA1: oauth_setparam(oauth_parameters, "oauth_signature_method", "RSA-SHA1"); break;
+		default: oauth_setparam(oauth_parameters, "oauth_signature_method", "PLAINTEXT"); break;
 	};
 	mir_snprintf(timestamp, sizeof(timestamp), "%ld", time(NULL)); 
-	oauth_setparam(&oauth_parameters, "oauth_timestamp", timestamp);
+	oauth_setparam(oauth_parameters, "oauth_timestamp", timestamp);
 	nonce = oauth_generate_nonce();
-	oauth_setparam(&oauth_parameters, "oauth_nonce", nonce);
+	oauth_setparam(oauth_parameters, "oauth_nonce", nonce);
 	mir_free(nonce);
 	if (token != NULL && *token)
-		oauth_setparam(&oauth_parameters, "oauth_token", token);
+		oauth_setparam(oauth_parameters, "oauth_token", token);
 
-	if (oauth_sign_request(&oauth_parameters, httpmethod, url, consumer_secret, token_secret)) {
-		oauth_freeparams(&oauth_parameters);
-		List_Destroy(&oauth_parameters);
+	if (oauth_sign_request(oauth_parameters, httpmethod, url, consumer_secret, token_secret)) {
+		oauth_freeparams(oauth_parameters);
+		oauth_parameters.destroy();
 		return NULL;
 	}
 
 	size = 7;
-	for (i = 0; i < oauth_parameters.realCount; i++) {
-		p = oauth_parameters.items[i];
+	for (i = 0; i < oauth_parameters.getCount(); i++) {
+		OAUTHPARAMETER *p = oauth_parameters[i];
 		if (i > 0) size++;
 		size += (int)strlen(p->name) + (int)strlen(p->value) + 3;
 	}
@@ -345,8 +342,8 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 	res = (char *)mir_alloc(size);
 	strcpy(res, "OAuth ");
 
-	for (i = 0; i < oauth_parameters.realCount; i++) {
-		p = oauth_parameters.items[i];
+	for (i = 0; i < oauth_parameters.getCount(); i++) {
+		OAUTHPARAMETER *p = oauth_parameters[i];
 		if (i > 0) strcat(res, ",");
 		strcat(res, p->name);
 		strcat(res, "=\"");
@@ -354,28 +351,27 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 		strcat(res, "\"");
 	}
 
-	oauth_freeparams(&oauth_parameters);
-	List_Destroy(&oauth_parameters);
-
+	oauth_freeparams(oauth_parameters);
+	oauth_parameters.destroy();
 	return res;
 }
 
-char *gg_oauth_header(GGPROTO *gg, const char *httpmethod, const char *url)
+char* GGPROTO::oauth_header(const char *httpmethod, const char *url)
 {
 	char *res, uin[32], *password = NULL, *token = NULL, *token_secret = NULL;
 	DBVARIANT dbv;
 
-	UIN2ID(DBGetContactSettingDword(NULL, GG_PROTO, GG_KEY_UIN, 0), uin);
-	if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_PASSWORD, &dbv)) {
+	UIN2ID(db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
+	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		password = mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
-	if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_TOKEN, &dbv)) {
+	if (!db_get_s(NULL, m_szModuleName, GG_KEY_TOKEN, &dbv, DBVT_ASCIIZ)) {
 		token = mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
-	if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_TOKENSECRET, &dbv)) {
+	if (!db_get_s(NULL, m_szModuleName, GG_KEY_TOKENSECRET, &dbv, DBVT_ASCIIZ)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		token_secret = mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
@@ -389,7 +385,7 @@ char *gg_oauth_header(GGPROTO *gg, const char *httpmethod, const char *url)
 	return res;
 }
 
-int gg_oauth_receivetoken(GGPROTO *gg)
+int GGPROTO::oauth_receivetoken()
 {
 	NETLIBHTTPHEADER httpHeaders[3];
 	NETLIBHTTPREQUEST req = {0};
@@ -399,15 +395,15 @@ int gg_oauth_receivetoken(GGPROTO *gg)
 	int res = 0;
 	HANDLE nlc = NULL;
 
-	UIN2ID(DBGetContactSettingDword(NULL, GG_PROTO, GG_KEY_UIN, 0), uin);
-	if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_PASSWORD, &dbv)) {
+	UIN2ID(db_get_b(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
+	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		password = mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
 
 	// 1. Obtaining an Unauthorized Request Token
-	gg_netlog(gg, "gg_oauth_receivetoken(): Obtaining an Unauthorized Request Token...");
+	netlog("gg_oauth_receivetoken(): Obtaining an Unauthorized Request Token...");
 	strcpy(szUrl, "http://api.gadu-gadu.pl/request_token");
 	str = oauth_auth_header("POST", szUrl, HMACSHA1, uin, password, NULL, NULL);
 
@@ -424,7 +420,7 @@ int gg_oauth_receivetoken(GGPROTO *gg)
 	httpHeaders[2].szName  = "Accept";
 	httpHeaders[2].szValue = "*/*";
 
-	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)gg->netlib, (LPARAM)&req);
+	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
 	if (resp) {
 		nlc = resp->nlc; 
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
@@ -432,32 +428,32 @@ int gg_oauth_receivetoken(GGPROTO *gg)
 			TCHAR *xmlAction;
 			TCHAR *tag;
 
-			xmlAction = gg_a2t(resp->pData);
-			tag = gg_a2t("result");
+			xmlAction = mir_a2t(resp->pData);
+			tag = mir_a2t("result");
 			hXml = xi.parseString(xmlAction, 0, tag);
 			if (hXml != NULL) {
 				HXML node;
 
-				mir_free(tag); tag = gg_a2t("oauth_token");
+				mir_free(tag); tag = mir_a2t("oauth_token");
 				node = xi.getChildByPath(hXml, tag, 0);
-				token = node != NULL ? gg_t2a(xi.getText(node)) : NULL;
+				token = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
-				mir_free(tag); tag = gg_a2t("oauth_token_secret");
+				mir_free(tag); tag = mir_a2t("oauth_token_secret");
 				node = xi.getChildByPath(hXml, tag, 0);
-				token_secret = node != NULL ? gg_t2a(xi.getText(node)) : NULL;
+				token_secret = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
 				xi.destroyNode(hXml);
 			}
 			mir_free(tag);
 			mir_free(xmlAction);
 		}
-		else gg_netlog(gg, "gg_oauth_receivetoken(): Invalid response code from HTTP request");
+		else netlog("gg_oauth_receivetoken(): Invalid response code from HTTP request");
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 	}
-	else gg_netlog(gg, "gg_oauth_receivetoken(): No response from HTTP request");
+	else netlog("gg_oauth_receivetoken(): No response from HTTP request");
 
 	// 2. Obtaining User Authorization
-	gg_netlog(gg, "gg_oauth_receivetoken(): Obtaining User Authorization...");
+	netlog("gg_oauth_receivetoken(): Obtaining User Authorization...");
 	mir_free(str);
 	str = oauth_uri_escape("http://www.mojageneracja.pl");
 
@@ -479,12 +475,12 @@ int gg_oauth_receivetoken(GGPROTO *gg)
 	req.pData = str;
 	req.dataLength = (int)strlen(str);
 
-	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)gg->netlib, (LPARAM)&req);
+	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
 	if (resp) CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
-	else gg_netlog(gg, "gg_oauth_receivetoken(): No response from HTTP request");
+	else netlog("gg_oauth_receivetoken(): No response from HTTP request");
 
 	// 3. Obtaining an Access Token
-	gg_netlog(gg, "gg_oauth_receivetoken(): Obtaining an Access Token...");
+	netlog("gg_oauth_receivetoken(): Obtaining an Access Token...");
 	strcpy(szUrl, "http://api.gadu-gadu.pl/access_token");
 	mir_free(str);
 	str = oauth_auth_header("POST", szUrl, HMACSHA1, uin, password, token, token_secret);
@@ -504,52 +500,52 @@ int gg_oauth_receivetoken(GGPROTO *gg)
 	httpHeaders[1].szName  = "Authorization";
 	httpHeaders[1].szValue = str;
 
-	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)gg->netlib, (LPARAM)&req);
+	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			HXML hXml;
 			TCHAR *xmlAction;
 			TCHAR *tag;
 
-			xmlAction = gg_a2t(resp->pData);
-			tag = gg_a2t("result");
+			xmlAction = mir_a2t(resp->pData);
+			tag = mir_a2t("result");
 			hXml = xi.parseString(xmlAction, 0, tag);
 			if (hXml != NULL) {
 				HXML node;
 
-				mir_free(tag); tag = gg_a2t("oauth_token");
+				mir_free(tag); tag = mir_a2t("oauth_token");
 				node = xi.getChildByPath(hXml, tag, 0);
-				token = node != NULL ? gg_t2a(xi.getText(node)) : NULL;
+				token = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
-				mir_free(tag); tag = gg_a2t("oauth_token_secret");
+				mir_free(tag); tag = mir_a2t("oauth_token_secret");
 				node = xi.getChildByPath(hXml, tag, 0);
-				token_secret = node != NULL ? gg_t2a(xi.getText(node)) : NULL;
+				token_secret = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
 				xi.destroyNode(hXml);
 			}
 			mir_free(tag);
 			mir_free(xmlAction);
 		}
-		else gg_netlog(gg, "gg_oauth_receivetoken(): Invalid response code from HTTP request");
+		else netlog("gg_oauth_receivetoken(): Invalid response code from HTTP request");
 		Netlib_CloseHandle(resp->nlc);
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 	}
-	else gg_netlog(gg, "gg_oauth_receivetoken(): No response from HTTP request");
+	else netlog("gg_oauth_receivetoken(): No response from HTTP request");
 
 	mir_free(password);
 	mir_free(str);
 
 	if (token != NULL && token_secret != NULL) {
-		DBWriteContactSettingString(NULL, GG_PROTO, GG_KEY_TOKEN, token);
+		db_set_s(NULL, m_szModuleName, GG_KEY_TOKEN, token);
 		CallService(MS_DB_CRYPT_ENCODESTRING, (WPARAM)(int)strlen(token_secret) + 1, (LPARAM) token_secret);
-		DBWriteContactSettingString(NULL, GG_PROTO, GG_KEY_TOKENSECRET, token_secret);
-		gg_netlog(gg, "gg_oauth_receivetoken(): Access Token obtained successfully.");
+		db_set_s(NULL, m_szModuleName, GG_KEY_TOKENSECRET, token_secret);
+		netlog("gg_oauth_receivetoken(): Access Token obtained successfully.");
 		res = 1;
 	}
 	else {
-		DBDeleteContactSetting(NULL, GG_PROTO, GG_KEY_TOKEN);
-		DBDeleteContactSetting(NULL, GG_PROTO, GG_KEY_TOKENSECRET);
-		gg_netlog(gg, "gg_oauth_receivetoken(): Failed to obtain Access Token.");
+		db_unset(NULL, m_szModuleName, GG_KEY_TOKEN);
+		db_unset(NULL, m_szModuleName, GG_KEY_TOKENSECRET);
+		netlog("gg_oauth_receivetoken(): Failed to obtain Access Token.");
 	}
 	mir_free(token);
 	mir_free(token_secret);
@@ -557,25 +553,25 @@ int gg_oauth_receivetoken(GGPROTO *gg)
 	return res;
 }
 
-int gg_oauth_checktoken(GGPROTO *gg, int force)
+int GGPROTO::oauth_checktoken(int force)
 {
 	if (!force) {
 		char *token = NULL, *token_secret = NULL;
 		DBVARIANT dbv;
 		int res = 1;
 
-		if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_TOKEN, &dbv)) {
+		if (!db_get_s(NULL, m_szModuleName, GG_KEY_TOKEN, &dbv, DBVT_ASCIIZ)) {
 			token = mir_strdup(dbv.pszVal);
 			DBFreeVariant(&dbv);
 		}
-		if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_TOKENSECRET, &dbv)) {
+		if (!db_get_s(NULL, m_szModuleName, GG_KEY_TOKENSECRET, &dbv, DBVT_ASCIIZ)) {
 			CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 			token_secret = mir_strdup(dbv.pszVal);
 			DBFreeVariant(&dbv);
 		}
 
 		if (token == NULL || token_secret == NULL) {
-			res = gg_oauth_receivetoken(gg);
+			res = oauth_receivetoken();
 		}
 
 		mir_free(token);
@@ -584,5 +580,5 @@ int gg_oauth_checktoken(GGPROTO *gg, int force)
 		return res;
 	}
 
-	return gg_oauth_receivetoken(gg);
+	return oauth_receivetoken();
 }

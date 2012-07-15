@@ -32,16 +32,16 @@ static VOID CALLBACK gg_keepalive(HWND hwnd, UINT message, UINT_PTR idEvent, DWO
 	
 	//Search for GGPROTO* context
 	for(i = 0; i < MAX_TIMERS; i++)
-		if(g_timers[i]->timer == idEvent)
+		if (g_timers[i]->timer == idEvent)
 			break;
 
-	if(i < MAX_TIMERS)
+	if (i < MAX_TIMERS)
 	{
 		GGPROTO *gg = g_timers[i];
-		if (gg_isonline(gg))
+		if (gg->isonline())
 		{
 	#ifdef DEBUGMODE
-			gg_netlog(gg, "Sending keep-alive");
+			gg->netlog("Sending keep-alive");
 	#endif
 			EnterCriticalSection(&gg->sess_mutex);
 			gg_ping(gg->sess);
@@ -50,43 +50,43 @@ static VOID CALLBACK gg_keepalive(HWND hwnd, UINT message, UINT_PTR idEvent, DWO
 	}
 }
 
-void gg_keepalive_init(GGPROTO *gg)
+void GGPROTO::keepalive_init()
 {
-	if (DBGetContactSettingByte(NULL, GG_PROTO, GG_KEY_KEEPALIVE, GG_KEYDEF_KEEPALIVE))
+	if (db_get_b(NULL, m_szModuleName, GG_KEY_KEEPALIVE, GG_KEYDEF_KEEPALIVE))
 	{
 		int i;
 		for(i = 0; i < MAX_TIMERS && g_timers[i] != NULL; i++);
-		if(i < MAX_TIMERS)
+		if (i < MAX_TIMERS)
 		{
 	#ifdef DEBUGMODE
-			gg_netlog(gg, "gg_keepalive_init(): Initializing Timer %d", i);
+			netlog("gg_keepalive_init(): Initializing Timer %d", i);
 	#endif
-			gg->timer = SetTimer(NULL, 0, 1000 * 30, gg_keepalive);
-			g_timers[i] = gg;
+			timer = SetTimer(NULL, 0, 1000 * 30, gg_keepalive);
+			g_timers[i] = this;
 		}
 	}
 }
 
-void gg_keepalive_destroy(GGPROTO *gg)
+void GGPROTO::keepalive_destroy()
 {
 #ifdef DEBUGMODE
-	gg_netlog(gg, "gg_destroykeepalive(): Killing Timer");
+	netlog("gg_destroykeepalive(): Killing Timer");
 #endif
-	if (gg->timer)
+	if (timer)
 	{
 		int i;
-		KillTimer(NULL, gg->timer);
+		KillTimer(NULL, timer);
 		for(i = 0; i < MAX_TIMERS; i++)
-			if(g_timers[i] == gg) {
+			if (g_timers[i] == this) {
 				g_timers[i] = NULL;
 				break;
 			}
-		gg->timer = 0;
+		timer = 0;
 #ifdef DEBUGMODE
-		gg_netlog(gg, "gg_destroykeepalive(): Killed Timer %d", i);
+		netlog("gg_destroykeepalive(): Killed Timer %d", i);
 #endif
 	}
 #ifdef DEBUGMODE
-	gg_netlog(gg, "gg_destroykeepalive(): End");
+	netlog("gg_destroykeepalive(): End");
 #endif
 }

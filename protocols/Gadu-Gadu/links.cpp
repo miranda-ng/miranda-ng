@@ -66,15 +66,15 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 
 	for (mi.cbSize = sizeof(mi); l; l = l->next)
 	{
-		GGPROTO *gginst = l->data;
+		GGPROTO *gginst = (GGPROTO*)l->data;
 
 		mi.flags = CMIM_FLAGS;
-		if (gginst->proto.m_iStatus > ID_STATUS_OFFLINE)
+		if (gginst->m_iStatus > ID_STATUS_OFFLINE)
 		{
 			++items;
-			gg = l->data;
+			gg = (GGPROTO*)l->data;
 			mi.flags |= CMIM_ICON;
-			mi.hIcon = LoadSkinnedProtoIcon(GG_PROTO, gg->proto.m_iStatus);
+			mi.hIcon = LoadSkinnedProtoIcon(gg->m_szModuleName, gg->m_iStatus);
 		}
 		else
 		{
@@ -110,7 +110,7 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 
 	if (ServiceExists(MS_MSG_SENDMESSAGE))
 	{
-		HANDLE hContact = gg_getcontact(gg, uin, 1, 0, NULL);
+		HANDLE hContact = gg->getcontact(uin, 1, 0, NULL);
 		if (hContact != NULL)
 			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 	}
@@ -158,16 +158,16 @@ void gg_links_destroy()
 		DestroyServiceFunction(hServiceParseLink);
 }
 
-void gg_links_instance_init(GGPROTO *gg)
+void GGPROTO::links_instance_init()
 {
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
 	{
 		TMO_MenuItem tmi = {0};
 		tmi.cbSize = sizeof(tmi);
 		tmi.flags = CMIF_TCHAR;
-		tmi.ownerdata = gg;
+		tmi.ownerdata = this;
 		tmi.position = list_count(g_Instances);
-		tmi.ptszName = GG_PROTONAME;
-		gg->hInstanceMenuItem = (HANDLE)CallService(MO_ADDNEWMENUITEM, (WPARAM)hInstanceMenu, (LPARAM)&tmi);
+		tmi.ptszName = m_tszUserName;
+		hInstanceMenuItem = (HANDLE)CallService(MO_ADDNEWMENUITEM, (WPARAM)hInstanceMenu, (LPARAM)&tmi);
 	}
 }

@@ -44,7 +44,7 @@ int pthread_detach(pthread_t *tid)
 /* wait for thread termination */
 int pthread_join(pthread_t *tid, void **value_ptr)
 {
-	if(tid->dwThreadId == GetCurrentThreadId())
+	if (tid->dwThreadId == GetCurrentThreadId())
 		return 35 /*EDEADLK*/;
 
 	WaitForSingleObject(tid->hThread, INFINITE);

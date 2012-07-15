@@ -18,63 +18,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="avatar.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dialogs.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dynstuff.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="filetransfer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gg.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="groupchat.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="icolib.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="image.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="import.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="keepalive.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="links.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="oauth.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ownerinfo.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="popups.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="services.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sessions.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="token.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="userutils.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="libgadu\common.c">
       <Filter>Source Files\libgadu</Filter>
     </ClCompile>
@@ -111,6 +54,66 @@
     <ClCompile Include="libgadu\win32.c">
       <Filter>Source Files\libgadu</Filter>
     </ClCompile>
+    <ClCompile Include="avatar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dynstuff.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="filetransfer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="groupchat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="icolib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="import.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="keepalive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="links.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="oauth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ownerinfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="popups.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="services.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sessions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="token.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="userutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gg_proto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libgadu\compat.h">
@@ -144,6 +147,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gg_proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

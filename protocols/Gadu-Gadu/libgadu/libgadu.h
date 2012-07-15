@@ -690,7 +690,7 @@ int gg_send_message_ctcp(struct gg_session *sess, int msgclass, uin_t recipient,
 int gg_ping(struct gg_session *sess);
 int gg_userlist_request(struct gg_session *sess, char type, const char *request);
 int gg_image_request(struct gg_session *sess, uin_t recipient, int size, uint32_t crc32);
-int gg_image_reply(struct gg_session *sess, uin_t recipient, const char *filename, const char *image, int size);
+int gg_image_reply(struct gg_session *sess, uin_t recipient, const TCHAR *filename, const char *image, int size);
 int gg_typing_notification(struct gg_session *sess, uin_t recipient, int length);
 
 uint32_t gg_crc32(uint32_t crc, const unsigned char *buf, int len);
@@ -848,7 +848,7 @@ struct gg_event_msg {
 	uin_t sender;		/**< Numer nadawcy/odbiorcy */
 	int msgclass;		/**< Klasa wiadomości */
 	time_t time;		/**< Czas nadania */
-	unsigned char *message;	/**< Treść wiadomości */
+	char *message;	/**< Treść wiadomości */
 
 	int recipients_count;	/**< Liczba odbiorców konferencji */
 	uin_t *recipients;	/**< Odbiorcy konferencji */

@@ -40,34 +40,33 @@
  */
 void *list_add_sorted(list_t *list, void *data, int alloc_size, int (*comparision)(void *, void *))
 {
-	list_t new, tmp;
-
 	if (!list) {
 		errno = EFAULT;
 		return NULL;
 	}
 
-	new = malloc(sizeof(struct list));
+	list_t newlist = (list_t)malloc(sizeof(struct list));
 
-	new->data = data;
-	new->next = NULL;
+	newlist->data = data;
+	newlist->next = NULL;
 
 	if (alloc_size) {
-		new->data = malloc(alloc_size);
-		memcpy(new->data, data, alloc_size);
+		newlist->data = malloc(alloc_size);
+		memcpy(newlist->data, data, alloc_size);
 	}
 
+	list_t tmp;
 	if (!(tmp = *list)) {
-		*list = new;
+		*list = newlist;
 	} else {
 		if (!comparision) {
 			while (tmp->next)
 				tmp = tmp->next;
-			tmp->next = new;
+			tmp->next = newlist;
 		} else {
 			list_t prev = NULL;
 
-			while (comparision(new->data, tmp->data) > 0) {
+			while (comparision(newlist->data, tmp->data) > 0) {
 				prev = tmp;
 				tmp = tmp->next;
 				if (!tmp)
@@ -76,16 +75,16 @@ void *list_add_sorted(list_t *list, void *data, int alloc_size, int (*comparisio
 
 			if (!prev) {
 				tmp = *list;
-				*list = new;
-				new->next = tmp;
+				*list = newlist;
+				newlist->next = tmp;
 			} else {
-				prev->next = new;
-				new->next = tmp;
+				prev->next = newlist;
+				newlist->next = tmp;
 			}
 		}
 	}
 
-	return new->data;
+	return newlist->data;
 }
 
 /*
@@ -194,7 +193,7 @@ static void string_realloc(string_t s, int count)
 	if (s->str && count + 1 <= s->size)
 		return;
 
-	tmp = realloc(s->str, count + 81);
+	tmp = (char*)realloc(s->str, count + 81);
 	if (!s->str)
 		*tmp = 0;
 	tmp[count + 80] = 0;
@@ -305,7 +304,7 @@ void string_insert(string_t s, int index, const char *str)
  */
 string_t string_init(const char *value)
 {
-	string_t tmp = malloc(sizeof(struct string));
+	string_t tmp = (string_t)malloc(sizeof(struct string));
 
 	if (!value)
 		value = "";
@@ -330,7 +329,7 @@ void string_clear(string_t s)
 		return;
 
 	if (s->size > 160) {
-		s->str = realloc(s->str, 80);
+		s->str = (char*)realloc(s->str, 80);
 		s->size = 80;
 	}
 
@@ -378,6 +377,7 @@ char *string_free(string_t s, int free_string)
  *
  * zwraca adres do bufora, którego _NIE_NALE¯Y_ zwalniaæ.
  */
+
 const char *ditoa(long int i)
 {
 	static char bufs[10][16];
@@ -388,7 +388,6 @@ const char *ditoa(long int i)
 		index = 0;
 
 	mir_snprintf(tmp, 16, "%ld", i);
-
 	return tmp;
 }
 
@@ -444,7 +443,7 @@ char **array_make(const char *string, const char *sep, int max, int trim, int qu
 					break;
 			}
 
-			if ((token = calloc(1, len + 1))) {
+			if ((token = (char*)calloc(1, len + 1))) {
 				char *r = token;
 
 				for (q = p + 1; *q; q++, r++) {
@@ -480,13 +479,13 @@ char **array_make(const char *string, const char *sep, int max, int trim, int qu
 
 		} else {
 			for (q = p, len = 0; *q && (last || !strchr(sep, *q)); q++, len++);
-			token = calloc(1, len + 1);
+			token = (char*)calloc(1, len + 1);
 			strncpy(token, p, len);
 			token[len] = 0;
 			p = q;
 		}
 
-		result = realloc(result, (items + 2) * sizeof(char*));
+		result = (char**)realloc(result, (items + 2) * sizeof(char*));
 		result[items] = token;
 		result[++items] = NULL;
 
@@ -498,7 +497,7 @@ char **array_make(const char *string, const char *sep, int max, int trim, int qu
 
 failure:
 	if (!items)
-		result = calloc(1, sizeof(char*));
+		result = (char**)calloc(1, sizeof(char*));
 
 	return result;
 }
@@ -532,7 +531,7 @@ void array_add(char ***array, char *string)
 {
 	int count = array_count(*array);
 
-	*array = realloc(*array, (count + 2) * sizeof(char*));
+	*array = (char**)realloc(*array, (count + 2) * sizeof(char*));
 	(*array)[count + 1] = NULL;
 	(*array)[count] = string;
 }

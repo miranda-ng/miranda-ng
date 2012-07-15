@@ -25,21 +25,21 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -205,27 +205,28 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="avatar.c" />
-    <ClCompile Include="core.c" />
-    <ClCompile Include="dialogs.c" />
-    <ClCompile Include="dynstuff.c" />
-    <ClCompile Include="filetransfer.c" />
-    <ClCompile Include="gg.c">
+    <ClCompile Include="avatar.cpp" />
+    <ClCompile Include="core.cpp" />
+    <ClCompile Include="dialogs.cpp" />
+    <ClCompile Include="dynstuff.cpp" />
+    <ClCompile Include="filetransfer.cpp" />
+    <ClCompile Include="gg.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="groupchat.c" />
-    <ClCompile Include="icolib.c" />
-    <ClCompile Include="image.c" />
-    <ClCompile Include="import.c" />
-    <ClCompile Include="keepalive.c" />
-    <ClCompile Include="links.c" />
-    <ClCompile Include="oauth.c" />
-    <ClCompile Include="ownerinfo.c" />
-    <ClCompile Include="popups.c" />
-    <ClCompile Include="services.c" />
-    <ClCompile Include="sessions.c" />
-    <ClCompile Include="token.c" />
-    <ClCompile Include="userutils.c" />
+    <ClCompile Include="gg_proto.cpp" />
+    <ClCompile Include="groupchat.cpp" />
+    <ClCompile Include="icolib.cpp" />
+    <ClCompile Include="image.cpp" />
+    <ClCompile Include="import.cpp" />
+    <ClCompile Include="keepalive.cpp" />
+    <ClCompile Include="links.cpp" />
+    <ClCompile Include="oauth.cpp" />
+    <ClCompile Include="ownerinfo.cpp" />
+    <ClCompile Include="popups.cpp" />
+    <ClCompile Include="services.cpp" />
+    <ClCompile Include="sessions.cpp" />
+    <ClCompile Include="token.cpp" />
+    <ClCompile Include="userutils.cpp" />
     <ClCompile Include="libgadu\common.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -264,6 +265,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gg_proto.h" />
     <ClInclude Include="libgadu\compat.h" />
     <ClInclude Include="libgadu\internal.h" />
     <ClInclude Include="libgadu\libgadu.h" />
