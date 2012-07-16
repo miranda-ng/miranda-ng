@@ -81,7 +81,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 
 	InitServices();
@@ -95,21 +94,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	TCHAR *fileName = NULL;
 	size_t i = _tcslen(filePath) - 1;
 	_tcslwr(filePath);
-	
-	//check that the name begins with svc_
-	while ((i > 0) && (filePath[i] != '\\')) { i--; }
-	if (i > 0)
-	{
-		filePath[i] = 0;
-		fileName = filePath + i + 1;
-		
-		if (_tcsstr(fileName, _T("svc_")) != fileName)
-		{
-			TCHAR buffer[1024];
-			mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Please rename the plugin '%s' to 'svc_vi.dll' to enable service mode functionality."), fileName);
-			MessageBox(NULL, buffer, TranslateT("Version Information"), MB_OK | MB_ICONEXCLAMATION);
-		}
-	}
 
 	//Menu item
 	CLISTMENUITEM mi = { 0 };
