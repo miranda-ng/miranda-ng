@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Svc_crshdmp</ProjectName>
+    <ProjectName>CrashDumper</ProjectName>
     <ProjectGuid>{576EEEFD-E423-482B-879A-F0515D40B8E1}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

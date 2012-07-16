@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Svc_dbepp</ProjectName>
+    <ProjectName>Dbeditorpp</ProjectName>
     <ProjectGuid>{9C6040B8-1173-40FA-A3DB-DE044CCD8250}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
