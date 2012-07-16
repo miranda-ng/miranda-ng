@@ -90,10 +90,15 @@ static int sttCompareProtocols(const CJabberProto *p1, const CJabberProto *p2)
 LIST<CJabberProto> g_Instances(1, sttCompareProtocols);
 /////////////////////////////////////////////////////////////////////////////
 
-extern "C" BOOL WINAPI DllMain( HINSTANCE hModule, DWORD, LPVOID )
+BOOL WINAPI DllMain( HINSTANCE hModule, DWORD, LPVOID )
 {
 	hInst = hModule;
 	return TRUE;
+}
+
+extern "C" __declspec( dllexport ) PLUGININFOEX *MirandaPluginInfoEx( DWORD mirandaVersion )
+{
+	return &pluginInfo;
 }
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};

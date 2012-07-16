@@ -175,7 +175,7 @@ MUUID miid_servicemode = MIID_SERVICEMODE;
 static bool validInterfaceList(MUUID *piface)
 {
 	if (piface == NULL)
-		return false;
+		return true;
 
 	if (equalUUID(miid_last, piface[0]))
 		return false;
