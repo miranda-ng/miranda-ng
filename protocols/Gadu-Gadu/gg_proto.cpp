@@ -33,6 +33,7 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 
 	// Init instance names
 	m_szModuleName = mir_strdup(pszProtoName);
+	m_tszUserName = mir_tstrdup(tszUserName);
 	m_szProtoName = GGDEF_PROTONAME;
 	m_iVersion = 2;
 
