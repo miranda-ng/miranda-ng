@@ -15,82 +15,32 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Commonheaders.cpp">
+    <ClCompile Include="src\Commonheaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Console.cpp">
+    <ClCompile Include="src\Console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="init.cpp">
+    <ClCompile Include="src\init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Commonheaders.h">
+    <ClInclude Include="src\Commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\btn_dn.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\btn_up.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\close.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\console.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\console_dn.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\console_up.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\copy.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\delete.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\noscroll.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\options.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\pause.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\paused.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\Save.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\scroll.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\start.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\started.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

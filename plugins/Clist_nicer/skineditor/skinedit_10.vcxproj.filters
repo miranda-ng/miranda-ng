@@ -13,25 +13,22 @@
       <UniqueIdentifier>{3527c0e6-563d-4d23-9b58-2087fa7f94b0}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{7ee02dac-0457-4fee-92e9-6e8387ff910f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="skinedit.rc">
-      <Filter>Source Files</Filter>
+    <ResourceCompile Include="res\skinedit.rc">
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commonheaders.h">
+    <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="skineditres.h">
+    <ClInclude Include="src\skineditres.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "skineditres.h"
+#include "..\src\skineditres.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -105,9 +105,9 @@ BEGIN
     BEGIN
         BLOCK "0c0704b0"
         BEGIN
-            VALUE "FileDescription", "Skin Editor (UNICODE)"
+            VALUE "FileDescription", "Skin Editor"
             VALUE "FileVersion", "0, 0, 0, 2"
-            VALUE "InternalName", "CLN SkinEdit (UNICODE)"
+            VALUE "InternalName", "CLN SkinEdit"
             VALUE "LegalCopyright", "Copyright (C) 2006"
             VALUE "LegalTrademarks", "GPL"
             VALUE "OriginalFilename", "cln_skinedit.dll"
@@ -144,7 +144,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 1 TEXTINCLUDE 
 BEGIN
-    "skineditres.h\0"
+    "..\src\skineditres.h\0"
 END
 
 2 TEXTINCLUDE 

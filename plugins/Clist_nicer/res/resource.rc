@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "include\resource.h"
+#include "..\src\include\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -10,7 +10,6 @@
 #include <windows.h>
 #include <winres.h>
 #include <statusmodes.h>
-#include <version.rc>
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -598,7 +597,7 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "include\\resource.h\0"
+    "..\\src\\include\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -606,7 +605,6 @@ BEGIN
     "#include <windows.h>\r\n"
     "#include <winres.h>\r\n"
     "#include <statusmodes.h>\r\n"
-    "#include <version.rc>\0"
 END
 
 3 TEXTINCLUDE 
@@ -625,46 +623,46 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_NOTICK              ICON                    "res/notick.ico"
-IDI_TICK                ICON                    "res/notick1.ico"
-IDI_RENAME              ICON                    "res/rename.ico"
-IDI_DELETE              ICON                    "res/delete.ico"
-IDI_CLVM_OPTIONS        ICON                    "res/options_clvm.ico"
-IDI_CLVM_SELECT         ICON                    "res/arrow-down.ico"
-IDI_BLANK               ICON                    "res/blank.ico"
-IDI_OVL_OFFLINE         ICON                    "res/overlay/offline.ico"
-IDI_OVL_ONLINE          ICON                    "res/overlay/online.ico"
-IDI_OVL_AWAY            ICON                    "res/overlay/away.ico"
-IDI_OVL_DND             ICON                    "res/overlay/dnd.ico"
-IDI_OVL_NA              ICON                    "res/overlay/na.ico"
-IDI_OVL_OCCUPIED        ICON                    "res/overlay/occupied.ico"
-IDI_OVL_FREEFORCHAT     ICON                    "res/overlay/chat.ico"
-IDI_OVL_INVISIBLE       ICON                    "res/overlay/invisible.ico"
-IDI_OVL_ONTHEPHONE      ICON                    "res/overlay/phone.ico"
-IDI_OVL_OUTTOLUNCH      ICON                    "res/overlay/lunch.ico"
-IDI_HIDEOFFLINE         ICON                    "res/online.ico"
-IDI_HIDEGROUPS          ICON                    "res/groups.ico"
-IDI_SOUNDSON            ICON                    "res/sounds_on.ico"
-IDI_FINDANDADD          ICON                    "res/find.ico"
-IDI_TBOPTIONS           ICON                    "res/options.ico"
-IDI_MINIMIZE            ICON                    "res/minimize.ico"
-IDI_SOUNDSOFF           ICON                    "res/sounds_off.ico"
-IDI_TABSRMMSESSIONLIST  ICON                    "res/slist.ico"
-IDI_TABSRMMMENU         ICON                    "res/tabsrmm_menu.ico"
-IDI_CLVISIBLE           ICON                    "res/visible.ico"
-IDI_CLINVISIBLE         ICON                    "res/invisible.ico"
-IDI_PROTOCONNECTING     ICON                    "res/connecting.ico"
-IDI_TBTOPMENU           ICON                    "res/menu.ico"
-IDI_TBACCOUNTS          ICON                    "res/accounts.ico"
+IDI_NOTICK              ICON                    "notick.ico"
+IDI_TICK                ICON                    "notick1.ico"
+IDI_RENAME              ICON                    "rename.ico"
+IDI_DELETE              ICON                    "delete.ico"
+IDI_CLVM_OPTIONS        ICON                    "options_clvm.ico"
+IDI_CLVM_SELECT         ICON                    "arrow-down.ico"
+IDI_BLANK               ICON                    "blank.ico"
+IDI_OVL_OFFLINE         ICON                    "overlay/offline.ico"
+IDI_OVL_ONLINE          ICON                    "overlay/online.ico"
+IDI_OVL_AWAY            ICON                    "overlay/away.ico"
+IDI_OVL_DND             ICON                    "overlay/dnd.ico"
+IDI_OVL_NA              ICON                    "overlay/na.ico"
+IDI_OVL_OCCUPIED        ICON                    "overlay/occupied.ico"
+IDI_OVL_FREEFORCHAT     ICON                    "overlay/chat.ico"
+IDI_OVL_INVISIBLE       ICON                    "overlay/invisible.ico"
+IDI_OVL_ONTHEPHONE      ICON                    "overlay/phone.ico"
+IDI_OVL_OUTTOLUNCH      ICON                    "overlay/lunch.ico"
+IDI_HIDEOFFLINE         ICON                    "online.ico"
+IDI_HIDEGROUPS          ICON                    "groups.ico"
+IDI_SOUNDSON            ICON                    "sounds_on.ico"
+IDI_FINDANDADD          ICON                    "find.ico"
+IDI_TBOPTIONS           ICON                    "options.ico"
+IDI_MINIMIZE            ICON                    "minimize.ico"
+IDI_SOUNDSOFF           ICON                    "sounds_off.ico"
+IDI_TABSRMMSESSIONLIST  ICON                    "slist.ico"
+IDI_TABSRMMMENU         ICON                    "tabsrmm_menu.ico"
+IDI_CLVISIBLE           ICON                    "visible.ico"
+IDI_CLINVISIBLE         ICON                    "invisible.ico"
+IDI_PROTOCONNECTING     ICON                    "connecting.ico"
+IDI_TBTOPMENU           ICON                    "menu.ico"
+IDI_TBACCOUNTS          ICON                    "accounts.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Cursor
 //
 
-IDC_HYPERLINKHAND       CURSOR                  "res/hyperlin.cur"
-IDC_DROP                CURSOR                  "res/DRAGCOPY.CUR"
-IDC_DROPUSER            CURSOR                  "res/dropuser.cur"
+IDC_HYPERLINKHAND       CURSOR                  "hyperlin.cur"
+IDC_DROP                CURSOR                  "DRAGCOPY.CUR"
+IDC_DROPUSER            CURSOR                  "dropuser.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -747,14 +745,6 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_OPT_DSPPROFILES, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_DSPADVANCED, DIALOG
-    BEGIN
-    END
-
     IDD_OPT_XICONS, DIALOG
     BEGIN
         RIGHTMARGIN, 225
@@ -763,10 +753,6 @@ BEGIN
     IDD_OPT_CLUI, DIALOG
     BEGIN
         HORZGUIDE, 127
-    END
-
-    IDD_OPT, DIALOG
-    BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -785,4 +771,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

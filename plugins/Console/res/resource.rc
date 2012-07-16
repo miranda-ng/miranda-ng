@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -8,7 +8,6 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include <winres.h>
-#include <version.h>
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -100,11 +99,7 @@ END
 
 2 TEXTINCLUDE
 BEGIN
-    "#include <windows.h>\r\n"
     "#include <winres.h>\r\n"
-    "#include <tchar.h>\r\n"
-    "#include <m_button.h>\r\n"
-    "#include <version.h>\0"
 END
 
 3 TEXTINCLUDE
@@ -123,27 +118,27 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_COPY                ICON                    "Res\\copy.ico"
-IDI_CONSOLE             ICON                    "res\\console.ico"
-IDI_NOSCROLL            ICON                    "Res\\noscroll.ico"
-IDI_SCROLL              ICON                    "Res\\scroll.ico"
-IDI_SAVE                ICON                    "Res\\save.ico"
-IDI_DELETE              ICON                    "Res\\delete.ico"
-IDI_OPTIONS             ICON                    "Res\\options.ico"
-IDI_PAUSED              ICON                    "Res\\paused.ico"
-IDI_STARTED             ICON                    "Res\\started.ico"
-IDI_BTN_UP              ICON                    "Res\\btn_up.ico"
-IDI_BTN_DN              ICON                    "Res\\btn_dn.ico"
-IDI_CLOSE               ICON                    "Res\\close.ico"
-IDI_PAUSE               ICON                    "Res\\pause.ico"
-IDI_START               ICON                    "Res\\start.ico"
-IDI_IN                  ICON                    "Res\\in.ico"
-IDI_OUT                 ICON                    "Res\\out.ico"
-IDI_ARROW               ICON                    "Res\\arrow.ico"
-IDI_INFO                ICON                    "Res\\info.ico"
-IDI_EMPTY               ICON                    "Res\\empty.ico"
-IDI_CONSOLE_UP          ICON                    "Res\\console_up.ico"
-IDI_CONSOLE_DOWN        ICON                    "Res\\console_dn.ico"
+IDI_COPY                ICON                    "copy.ico"
+IDI_CONSOLE             ICON                    "console.ico"
+IDI_NOSCROLL            ICON                    "noscroll.ico"
+IDI_SCROLL              ICON                    "scroll.ico"
+IDI_SAVE                ICON                    "save.ico"
+IDI_DELETE              ICON                    "delete.ico"
+IDI_OPTIONS             ICON                    "options.ico"
+IDI_PAUSED              ICON                    "paused.ico"
+IDI_STARTED             ICON                    "started.ico"
+IDI_BTN_UP              ICON                    "btn_up.ico"
+IDI_BTN_DN              ICON                    "btn_dn.ico"
+IDI_CLOSE               ICON                    "close.ico"
+IDI_PAUSE               ICON                    "pause.ico"
+IDI_START               ICON                    "start.ico"
+IDI_IN                  ICON                    "in.ico"
+IDI_OUT                 ICON                    "out.ico"
+IDI_ARROW               ICON                    "arrow.ico"
+IDI_INFO                ICON                    "info.ico"
+IDI_EMPTY               ICON                    "empty.ico"
+IDI_CONSOLE_UP          ICON                    "console_up.ico"
+IDI_CONSOLE_DOWN        ICON                    "console_dn.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

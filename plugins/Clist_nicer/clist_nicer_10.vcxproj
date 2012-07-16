@@ -71,15 +71,14 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;src\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -101,7 +100,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>..\..\include;include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;src\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -131,17 +130,17 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;src\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_AMD64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -156,7 +155,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;src\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <StringPooling>true</StringPooling>
@@ -171,7 +170,7 @@
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_AMD64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -187,103 +186,63 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CLUIFrames\cluiframes.cpp" />
-    <ClCompile Include="CLUIFrames\framesmenu.cpp" />
-    <ClCompile Include="CLUIFrames\groupmenu.cpp" />
-    <ClCompile Include="CLUIFrames\movetogroup.cpp" />
-    <ClCompile Include="coolsb\coolsblib.cpp" />
-    <ClCompile Include="coolsb\coolscroll.cpp" />
-    <ClCompile Include="SRC\alphablend.cpp" />
-    <ClCompile Include="SRC\clc.cpp" />
-    <ClCompile Include="SRC\CLCButton.cpp" />
-    <ClCompile Include="SRC\clcidents.cpp" />
-    <ClCompile Include="SRC\clcitems.cpp" />
-    <ClCompile Include="SRC\clcmsgs.cpp" />
-    <ClCompile Include="SRC\clcopts.cpp" />
-    <ClCompile Include="SRC\clcpaint.cpp" />
-    <ClCompile Include="SRC\clcutils.cpp" />
-    <ClCompile Include="SRC\clistevents.cpp" />
-    <ClCompile Include="SRC\clistmenus.cpp" />
-    <ClCompile Include="SRC\clistmod.cpp" />
-    <ClCompile Include="SRC\clistopts.cpp" />
-    <ClCompile Include="SRC\clistsettings.cpp" />
-    <ClCompile Include="SRC\clisttray.cpp" />
-    <ClCompile Include="SRC\clnplus.cpp" />
-    <ClCompile Include="SRC\clui.cpp" />
-    <ClCompile Include="SRC\cluiopts.cpp" />
-    <ClCompile Include="SRC\cluiservices.cpp" />
-    <ClCompile Include="SRC\commonheaders.cpp">
+    <ClCompile Include="src\CLUIFrames\cluiframes.cpp" />
+    <ClCompile Include="src\CLUIFrames\framesmenu.cpp" />
+    <ClCompile Include="src\CLUIFrames\groupmenu.cpp" />
+    <ClCompile Include="src\CLUIFrames\movetogroup.cpp" />
+    <ClCompile Include="src\Coolsb\coolsblib.cpp" />
+    <ClCompile Include="src\Coolsb\coolscroll.cpp" />
+    <ClCompile Include="src\alphablend.cpp" />
+    <ClCompile Include="src\clc.cpp" />
+    <ClCompile Include="src\CLCButton.cpp" />
+    <ClCompile Include="src\clcidents.cpp" />
+    <ClCompile Include="src\clcitems.cpp" />
+    <ClCompile Include="src\clcmsgs.cpp" />
+    <ClCompile Include="src\clcopts.cpp" />
+    <ClCompile Include="src\clcpaint.cpp" />
+    <ClCompile Include="src\clcutils.cpp" />
+    <ClCompile Include="src\clistevents.cpp" />
+    <ClCompile Include="src\clistmenus.cpp" />
+    <ClCompile Include="src\clistmod.cpp" />
+    <ClCompile Include="src\clistopts.cpp" />
+    <ClCompile Include="src\clistsettings.cpp" />
+    <ClCompile Include="src\clisttray.cpp" />
+    <ClCompile Include="src\clnplus.cpp" />
+    <ClCompile Include="src\clui.cpp" />
+    <ClCompile Include="src\cluiopts.cpp" />
+    <ClCompile Include="src\cluiservices.cpp" />
+    <ClCompile Include="src\commonheaders.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\config.cpp" />
-    <ClCompile Include="SRC\contact.cpp" />
-    <ClCompile Include="SRC\Docking.cpp" />
-    <ClCompile Include="SRC\extBackg.cpp" />
-    <ClCompile Include="SRC\init.cpp" />
-    <ClCompile Include="SRC\rowheight_funcs.cpp" />
-    <ClCompile Include="SRC\statusbar.cpp" />
-    <ClCompile Include="SRC\statusfloater.cpp" />
-    <ClCompile Include="SRC\viewmodes.cpp" />
-    <ClCompile Include="SRC\wallpaper.cpp" />
+    <ClCompile Include="src\contact.cpp" />
+    <ClCompile Include="src\Docking.cpp" />
+    <ClCompile Include="src\extBackg.cpp" />
+    <ClCompile Include="src\init.cpp" />
+    <ClCompile Include="src\rowheight_funcs.cpp" />
+    <ClCompile Include="src\statusbar.cpp" />
+    <ClCompile Include="src\statusfloater.cpp" />
+    <ClCompile Include="src\viewmodes.cpp" />
+    <ClCompile Include="src\wallpaper.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CLUIFrames\cluiframes.h" />
-    <ClInclude Include="coolsb\coolsb_internal.h" />
-    <ClInclude Include="coolsb\coolsblib.h" />
-    <ClInclude Include="coolsb\coolscroll.h" />
-    <ClInclude Include="coolsb\userdefs.h" />
-    <ClInclude Include="INCLUDE\alphablend.h" />
-    <ClInclude Include="INCLUDE\clc.h" />
-    <ClInclude Include="INCLUDE\clist.h" />
-    <ClInclude Include="INCLUDE\commonheaders.h" />
-    <ClInclude Include="include\config.h" />
-    <ClInclude Include="INCLUDE\extBackg.h" />
-    <ClInclude Include="INCLUDE\resource.h" />
-    <ClInclude Include="INCLUDE\rowheight_funcs.h" />
+    <ClInclude Include="src\CLUIFrames\cluiframes.h" />
+    <ClInclude Include="src\Coolsb\coolsb_internal.h" />
+    <ClInclude Include="src\Coolsb\coolsblib.h" />
+    <ClInclude Include="src\Coolsb\coolscroll.h" />
+    <ClInclude Include="src\Coolsb\userdefs.h" />
+    <ClInclude Include="src\Include\alphablend.h" />
+    <ClInclude Include="src\Include\clc.h" />
+    <ClInclude Include="src\Include\clist.h" />
+    <ClInclude Include="src\Include\commonheaders.h" />
+    <ClInclude Include="src\Include\config.h" />
+    <ClInclude Include="src\Include\extBackg.h" />
+    <ClInclude Include="src\Include\resource.h" />
+    <ClInclude Include="src\Include\rowheight_funcs.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\accounts.ico" />
-    <None Include="res\addgoupp.ico" />
-    <None Include="res\arrow-down.ico" />
-    <None Include="res\overlay\away.ico" />
-    <None Include="res\blank.ico" />
-    <None Include="res\overlay\chat.ico" />
-    <None Include="res\connecting.ico" />
-    <None Include="res\delete.ico" />
-    <None Include="res\overlay\dnd.ico" />
-    <None Include="res\dragcopy.cur" />
-    <None Include="res\dropuser.cur" />
-    <None Include="res\find.ico" />
-    <None Include="res\groups.ico" />
-    <None Include="res\hyperlin.cur" />
-    <None Include="res\invisible.ico" />
-    <None Include="res\overlay\invisible.ico" />
-    <None Include="res\overlay\lunch.ico" />
-    <None Include="res\menu.ico" />
-    <None Include="res\minimize.ico" />
-    <None Include="res\overlay\NA.ico" />
-    <None Include="res\notick.ico" />
-    <None Include="res\notick1.ico" />
-    <None Include="res\overlay\occupied.ico" />
-    <None Include="res\overlay\offline.ico" />
-    <None Include="res\online.ico" />
-    <None Include="res\overlay\online.ico" />
-    <None Include="res\options.ico" />
-    <None Include="res\options_clvm.ico" />
-    <None Include="res\overlay\phone.ico" />
-    <None Include="res\rename.ico" />
-    <None Include="res\slist.ico" />
-    <None Include="res\sounds_off.ico" />
-    <None Include="res\sounds_on.ico" />
-    <None Include="res\tabsrmm_menu.ico" />
-    <None Include="res\visible.ico" />
-    <None Include="docs\CHANGELOG" />
-    <None Include="docs\license.txt" />
-    <None Include="docs\README" />
-    <None Include="docs\Skinning.HOWTO" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

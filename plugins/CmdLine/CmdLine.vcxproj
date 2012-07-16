@@ -175,30 +175,29 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CmdLine.cpp">
+    <ClCompile Include="src\CmdLine.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="hooked_events.cpp" />
-    <ClCompile Include="mimcmd_data.cpp" />
-    <ClCompile Include="mimcmd_handlers.cpp" />
-    <ClCompile Include="mimcmd_ipc.cpp" />
-    <ClCompile Include="services.cpp" />
-    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="src\hooked_events.cpp" />
+    <ClCompile Include="src\mimcmd_data.cpp" />
+    <ClCompile Include="src\mimcmd_handlers.cpp" />
+    <ClCompile Include="src\mimcmd_ipc.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commonheaders.h" />
-    <ClInclude Include="hooked_events.h" />
-    <ClInclude Include="mimcmd_data.h" />
-    <ClInclude Include="mimcmd_handlers.h" />
-    <ClInclude Include="mimcmd_ipc.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="services.h" />
-    <ClInclude Include="utils.h" />
-    <ClInclude Include="version.h" />
+    <ClInclude Include="src\commonheaders.h" />
+    <ClInclude Include="src\hooked_events.h" />
+    <ClInclude Include="src\mimcmd_data.h" />
+    <ClInclude Include="src\mimcmd_handlers.h" />
+    <ClInclude Include="src\mimcmd_ipc.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\services.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="CmdLine.rc" />
-    <ResourceCompile Include="version.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="docs\CmdLine_readme.txt" />

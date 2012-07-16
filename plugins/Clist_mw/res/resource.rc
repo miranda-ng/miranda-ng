@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -29,17 +29,17 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_SMS                 ICON                    "res/sms.ico"
-IDI_ICQC1               ICON                    "res/1.ico"
-IDI_ICQC2               ICON                    "res/2.ico"
-IDI_ICQC3               ICON                    "res/3.ico"
-IDI_ICQC4               ICON                    "res/4.ico"
-IDI_ICQC5               ICON                    "res/5.ico"
-IDI_ICQC6               ICON                    "res/6.ico"
-IDI_ICQC7               ICON                    "res/7.ico"
-IDI_ICQC8               ICON                    "res/8.ico"
-IDI_EMAIL               ICON                    "res/sendmail.ico"
-IDI_NEWGROUP2           ICON                    "res/addgoupp.ico"
+IDI_SMS                 ICON                    "sms.ico"
+IDI_ICQC1               ICON                    "1.ico"
+IDI_ICQC2               ICON                    "2.ico"
+IDI_ICQC3               ICON                    "3.ico"
+IDI_ICQC4               ICON                    "4.ico"
+IDI_ICQC5               ICON                    "5.ico"
+IDI_ICQC6               ICON                    "6.ico"
+IDI_ICQC7               ICON                    "7.ico"
+IDI_ICQC8               ICON                    "8.ico"
+IDI_EMAIL               ICON                    "sendmail.ico"
+IDI_NEWGROUP2           ICON                    "addgoupp.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -115,12 +115,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_GLOBUS              ICON                    "res/globus.ico"
-IDI_RENAME              ICON                    "res/rename.ico"
-IDI_DELETE              ICON                    "res/delete.ico"
-IDI_NOTICK              ICON                    "res/notick.ico"
-IDI_TICK                ICON                    "res/notick1.ico"
-IDI_BLANK               ICON                    "res/blank.ico"
+IDI_GLOBUS              ICON                    "globus.ico"
+IDI_RENAME              ICON                    "rename.ico"
+IDI_DELETE              ICON                    "delete.ico"
+IDI_NOTICK              ICON                    "notick.ico"
+IDI_TICK                ICON                    "notick1.ico"
+IDI_BLANK               ICON                    "blank.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -564,7 +564,7 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\src\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -589,9 +589,9 @@ END
 // Cursor
 //
 
-IDC_HYPERLINKHAND       CURSOR                  "res/hyperlin.cur"
-IDC_DROP                CURSOR                  "res/dragcopy.cur"
-IDC_DROPUSER            CURSOR                  "res/dropuser.cur"
+IDC_HYPERLINKHAND       CURSOR                  "hyperlin.cur"
+IDC_DROP                CURSOR                  "dragcopy.cur"
+IDC_DROPUSER            CURSOR                  "dropuser.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //

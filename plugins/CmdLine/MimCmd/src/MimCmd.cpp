@@ -19,8 +19,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "common.h"
-#include "..\utils.h"
-#include "..\version.h"
+#include "..\..\src\utils.h"
+#include "..\..\src\version.h"
 
 int hLangpack = 0;
 

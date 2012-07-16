@@ -82,7 +82,6 @@
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -111,7 +110,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -124,7 +122,6 @@
       <BaseAddress>0x6590000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <TargetMachine>MachineX64</TargetMachine>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
     </Link>
@@ -143,7 +140,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -176,7 +172,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -196,75 +191,51 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BkgrCfg.cpp" />
-    <ClCompile Include="clc.cpp" />
-    <ClCompile Include="clcfonts.cpp" />
-    <ClCompile Include="clcidents.cpp" />
-    <ClCompile Include="clcitems.cpp" />
-    <ClCompile Include="clcopts.cpp" />
-    <ClCompile Include="clcpaint.cpp" />
-    <ClCompile Include="clcutils.cpp" />
-    <ClCompile Include="clistmenus.cpp" />
-    <ClCompile Include="clistmod.cpp" />
-    <ClCompile Include="clistopts.cpp" />
-    <ClCompile Include="clistsettings.cpp" />
-    <ClCompile Include="clisttray.cpp" />
-    <ClCompile Include="clui.cpp" />
-    <ClCompile Include="cluiopts.cpp" />
-    <ClCompile Include="cluiservices.cpp" />
-    <ClCompile Include="commonheaders.cpp">
+    <ClCompile Include="src\BkgrCfg.cpp" />
+    <ClCompile Include="src\clc.cpp" />
+    <ClCompile Include="src\clcfonts.cpp" />
+    <ClCompile Include="src\clcidents.cpp" />
+    <ClCompile Include="src\clcitems.cpp" />
+    <ClCompile Include="src\clcopts.cpp" />
+    <ClCompile Include="src\clcpaint.cpp" />
+    <ClCompile Include="src\clcutils.cpp" />
+    <ClCompile Include="src\clistmenus.cpp" />
+    <ClCompile Include="src\clistmod.cpp" />
+    <ClCompile Include="src\clistopts.cpp" />
+    <ClCompile Include="src\clistsettings.cpp" />
+    <ClCompile Include="src\clisttray.cpp" />
+    <ClCompile Include="src\clui.cpp" />
+    <ClCompile Include="src\cluiopts.cpp" />
+    <ClCompile Include="src\cluiservices.cpp" />
+    <ClCompile Include="src\commonheaders.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="contact.cpp" />
-    <ClCompile Include="groupmenu.cpp" />
-    <ClCompile Include="init.cpp" />
-    <ClCompile Include="keyboard.cpp" />
-    <ClCompile Include="CLUIFrames\cluiframes.cpp">
+    <ClCompile Include="src\contact.cpp" />
+    <ClCompile Include="src\groupmenu.cpp" />
+    <ClCompile Include="src\init.cpp" />
+    <ClCompile Include="src\keyboard.cpp" />
+    <ClCompile Include="src\CLUIFrames\cluiframes.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="CLUIFrames\extraimage.cpp">
+    <ClCompile Include="src\CLUIFrames\extraimage.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="CLUIFrames\framesmenu.cpp">
+    <ClCompile Include="src\CLUIFrames\framesmenu.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="CLUIFrames\statusbar.cpp">
+    <ClCompile Include="src\CLUIFrames\statusbar.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CLUIFrames\cluiframes.h" />
-    <ClInclude Include="clc.h" />
-    <ClInclude Include="clist.h" />
-    <ClInclude Include="commonheaders.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\CLUIFrames\cluiframes.h" />
+    <ClInclude Include="src\clc.h" />
+    <ClInclude Include="src\clist.h" />
+    <ClInclude Include="src\commonheaders.h" />
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\1.ico" />
-    <None Include="res\2.ico" />
-    <None Include="res\3.ico" />
-    <None Include="res\4.ico" />
-    <None Include="res\5.ico" />
-    <None Include="res\6.ico" />
-    <None Include="res\7.ico" />
-    <None Include="res\8.ico" />
-    <None Include="res\addgoupp.ico" />
-    <None Include="res\blank.ico" />
-    <None Include="res\delete.ico" />
-    <None Include="res\dragcopy.cur" />
-    <None Include="res\dropuser.cur" />
-    <None Include="res\globus.ico" />
-    <None Include="res\hyperlin.cur" />
-    <None Include="res\icon2.ico" />
-    <None Include="res\miranda.ico" />
-    <None Include="res\notick.ico" />
-    <None Include="res\notick1.ico" />
-    <None Include="res\rename.ico" />
-    <None Include="res\sendmail.ico" />
-    <None Include="res\sms.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="res\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
