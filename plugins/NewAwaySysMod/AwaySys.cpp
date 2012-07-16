@@ -99,11 +99,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-static const MUUID interfaces[] = {MIID_SRAWAY, MIID_LAST}; // TODO: add MIID_WHOISREADING here if there'll be any some time in future..
-extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SRAWAY, MIID_LAST}; // TODO: add MIID_WHOISREADING here if there'll be any some time in future..
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {

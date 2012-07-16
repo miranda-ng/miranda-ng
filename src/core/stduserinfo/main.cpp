@@ -45,8 +45,6 @@ PLUGININFOEX pluginInfo = {
 	{0x8198dc94, 0xbc4, 0x448a, {0x84, 0x95, 0x8f, 0xe8, 0x32, 0xc1, 0xd3, 0x33 }}
 };
 
-static const MUUID interfaces[] = {MIID_UIUSERINFO, MIID_LAST};
-
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
@@ -58,10 +56,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_UIUSERINFO, MIID_LAST};
 
 extern "C" int __declspec(dllexport) Load(void)
 {

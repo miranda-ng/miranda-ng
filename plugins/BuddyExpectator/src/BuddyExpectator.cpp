@@ -76,11 +76,7 @@ PLUGININFOEX pluginInfo = {
 /* 2D84F403-91F3-4E60-BF02-16C2F1716D86 */
 #define MIID_BUDDYEXPECTATOR {0x2d84f403, 0x91f3, 0x4e60, {0xbf, 0x02, 0x16, 0xc2, 0xf1, 0x71, 0x6d, 0x86}}
 
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	static const MUUID interfaces[] = {MIID_BUDDYEXPECTATOR, MIID_LAST};
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_BUDDYEXPECTATOR, MIID_LAST};
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {

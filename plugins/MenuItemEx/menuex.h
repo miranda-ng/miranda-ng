@@ -39,7 +39,6 @@
 #define MIIM_STRING	0x00000040
 
 extern PLUGININFOEX pluginInfoEx;
-extern MUUID interfaces[];
 
 int OptionsInit(WPARAM,LPARAM);
 

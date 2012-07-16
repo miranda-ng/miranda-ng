@@ -86,14 +86,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// MirandaPluginInterfaces - returns the protocol interface to the core
+// MirandaInterfaces - returns the protocol interface to the core
 
-static const MUUID interfaces[] = {MIID_IMPORT, MIID_LAST};
-
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_IMPORT, MIID_LAST};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Performs a primary set of actions upon plugin loading

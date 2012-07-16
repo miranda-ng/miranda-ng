@@ -1,9 +1,8 @@
 #include "commonheaders.h"
 
-
 int hLangpack = 0;
 
-extern "C" BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
+BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
 	g_hInst = hInst;
 	if (dwReason == DLL_PROCESS_ATTACH) {
 		INITCOMMONCONTROLSEX icce = {
@@ -14,16 +13,12 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
 	return TRUE;
 }
 
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SECUREIM, MIID_LAST};
 
-PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) {
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+{
 	return &pluginInfoEx;
 }
-
-
-MUUID* MirandaPluginInterfaces(void) {
-	return interfaces;
-}
-
 
 void AddServiceFunction(LPCSTR serviceName, MIRANDASERVICE serviceFunction) {
 
@@ -79,9 +74,8 @@ HANDLE AddSubItem(HANDLE rootid,LPCSTR name,int pos,int poppos,LPCSTR service,WP
 }
 
 
-int __cdecl Load(void) {
-
-
+extern "C" __declspec(dllexport) int __cdecl Load(void)
+{
 	DisableThreadLibraryCalls(g_hInst);
 	InitializeCriticalSection(&localQueueMutex);
 
@@ -168,8 +162,7 @@ int __cdecl Load(void) {
 	return 0;
 }
 
-
-int __cdecl Unload() {
+extern "C" __declspec(dllexport) int __cdecl Unload() {
 	DeleteCriticalSection(&localQueueMutex);
 	return 0;
 }

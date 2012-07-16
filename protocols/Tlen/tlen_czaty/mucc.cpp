@@ -84,7 +84,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 #define MIID_TLEN_MUCC	{ 0xba658997, 0x0bce, 0x4f96, { 0xba, 0x48, 0x54, 0x55, 0x34, 0x16, 0x73, 0xea } }
 #endif
 
-static const MUUID interfaces[] = {
+extern "C" __declspec(dllexport) const MUUID interfaces[] = {
 		MIID_TLEN_MUCC,
 		MIID_LAST
 	};

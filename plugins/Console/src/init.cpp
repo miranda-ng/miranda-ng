@@ -52,11 +52,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 }
 
 // we implement service mode interface
-static const MUUID interfaces[] = {MIID_LOGWINDOW, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_LOGWINDOW, MIID_LAST};
 
 extern "C" __declspec(dllexport) int Load(void)
 {

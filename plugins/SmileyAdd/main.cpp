@@ -69,12 +69,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /* mira
 	return (PLUGININFOEX*)&pluginInfoEx;
 }
 
-// MirandaPluginInterfaces - returns the protocol interface to the core
-static const MUUID interfaces[] = {MIID_SMILEY, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+// MirandaInterfaces - returns the protocol interface to the core
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SMILEY, MIID_LAST};
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {

@@ -35,7 +35,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //#define _qtoupper(_c) (((_c) >= 'a' && (_c) <= 'z') ? ((_c) & 0x5F) : (_c))
 
 void InitFingerEvents();
-void UninitFingerEvents();
 void FASTCALL ClearFI();
 
 int OnIconsChanged(WPARAM wParam, LPARAM lParam);
@@ -76,10 +75,6 @@ BOOL g_bCList_Extra_Set_Icon_ServiceExist	= FALSE;
 HANDLE hHeap					= NULL;
 HANDLE hExtraImageListRebuild	= NULL;		// hook event handle for ME_CLIST_EXTRA_LIST_REBUILD
 HANDLE hExtraImageApply			= NULL;		// hook event handle for ME_CLIST_EXTRA_IMAGE_APPLY
-HANDLE hContactSettingChanged	= NULL;		// hook event handle for ME_DB_CONTACT_SETTINGCHANGED
-HANDLE hOptInitialise			= NULL;		// hook event handle for ME_OPT_INITIALISE
-HANDLE hIconsChanged			= NULL;		// hook event handle for ME_SKIN2_ICONSCHANGED
-HANDLE hPreShutdown				= NULL;		// hook event handle for ME_SYSTEM_PRESHUTDOWN
 HANDLE hExtraIconClick			= NULL;		// hook event handle for ME_CLIST_EXTRA_CLICK
 
 HANDLE compClientServA			= NULL;
@@ -145,11 +140,7 @@ extern "C"		__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirand
 	return &pluginInfoEx;
 }
 
-extern "C"		__declspec(dllexport) const MUUID* MirandaPluginInterfaces()
-{
-	static const MUUID interfaces[] = {MIID_THIS_PLUGIN, MIID_FINGERPRINT, MIID_LAST };
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_FINGERPRINT, MIID_LAST };
 
 extern "C" int	__declspec(dllexport) Load(void)
 {
@@ -157,7 +148,7 @@ extern "C" int	__declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfoEx);
 
 	hStaticHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	compClientServA = CreateServiceFunction(MS_FP_SAMECLIENTS, ServiceSameClientsA);
 	getClientIconA = CreateServiceFunction(MS_FP_GETCLIENTICON, ServiceGetClientIconA);
 
@@ -233,17 +224,15 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	int i;
 
-	char szVersion[16];
-
 	g_LPCodePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
 
 	g_bExtraIcon_Register_ServiceExist		= ServiceExists(MS_EXTRAICON_REGISTER);
 	g_bCList_Extra_Set_Icon_ServiceExist	= ServiceExists(MS_CLIST_EXTRA_SET_ICON);
 
 	//Hook necessary events
-	hIconsChanged				= HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
-	hContactSettingChanged		= HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
-	hOptInitialise				= HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
+	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 
 	if(g_bExtraIcon_Register_ServiceExist)
 	{
@@ -332,13 +321,6 @@ int OnExtraIconClicked(WPARAM wParam, LPARAM lParam)
 */
 int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
-	//Unhook events
-	UnhookEvent(hContactSettingChanged);
-	UnhookEvent(hPreShutdown);
-	UnhookEvent(hIconsChanged);
-	UnhookEvent(hOptInitialise);
-	if (!g_bExtraIcon_Register_ServiceExist) UninitFingerEvents();
-	UnhookEvent(hFolderChanged);
 	DestroyServiceFunction(compClientServA);
 	DestroyServiceFunction(getClientIconA);
 	DestroyServiceFunction(compClientServW);
@@ -393,16 +375,9 @@ int FASTCALL ApplyFingerprintImage(HANDLE hContact, LPTSTR szMirVer)
 
 void InitFingerEvents()
 {
-	hExtraIconClick =			HookEvent(ME_CLIST_EXTRA_CLICK, OnExtraIconClicked);
-	hExtraImageListRebuild =	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, OnExtraIconListRebuild);
-	hExtraImageApply =			HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnExtraImageApply);
-}
-
-void UninitFingerEvents()
-{
-	UnhookEvent(hExtraImageListRebuild);
-	UnhookEvent(hExtraImageApply);
-	UnhookEvent(hExtraIconClick);
+	HookEvent(ME_CLIST_EXTRA_CLICK, OnExtraIconClicked);
+	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, OnExtraIconListRebuild);
+	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnExtraImageApply);
 }
 
 int OnExtraIconClick(WPARAM wParam, LPARAM lParam)

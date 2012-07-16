@@ -64,11 +64,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	static const MUUID interfaces[] = {MIID_TOOLTIPNOTIFY, MIID_LAST};
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_TOOLTIPNOTIFY, MIID_LAST};
 
 static PLUGININFOEX sPluginInfo =
 {

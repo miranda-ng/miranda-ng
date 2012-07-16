@@ -172,7 +172,7 @@ static HBITMAP FreeImage_CreateHBITMAPFromDIB(FIBITMAP *in)
 
 	if (bpp == 48)
 		dib = FreeImage_ConvertTo24Bits(in);
-	else if (FreeImage_GetBPP(in) > 32) 
+	else if (FreeImage_GetBPP(in) > 32)
 		dib = FreeImage_ConvertTo32Bits(in);
     else
         dib = in;
@@ -305,7 +305,7 @@ static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam,LPARAM lParam)
 
 	if ((width == bminfo.bmWidth && height == bminfo.bmHeight)
 		|| ((info->fit & RESIZEBITMAP_FLAG_DONT_GROW)
-			&& !(info->fit & RESIZEBITMAP_MAKE_SQUARE) 
+			&& !(info->fit & RESIZEBITMAP_MAKE_SQUARE)
 			&& width > bminfo.bmWidth && height > bminfo.bmHeight))
 	{
 		// Do nothing
@@ -320,7 +320,7 @@ static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam,LPARAM lParam)
 		FIBITMAP *dib_tmp;
 		if (xOrig > 0 || yOrig > 0)
 			dib_tmp = FreeImage_Copy(dib, xOrig, yOrig, xOrig + widthOrig, yOrig + heightOrig);
-		else 
+		else
 			dib_tmp = dib;
 
 		if (dib_tmp == NULL)
@@ -361,7 +361,7 @@ FreeImage_LoadFromMem(FREE_IMAGE_FORMAT fif, fiio_mem_handle *handle, int flags)
 	return NULL;
 }
 
-FIMEMORY 
+FIMEMORY
 *FreeImage_SaveToMem(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, fiio_mem_handle *handle, int flags) {
 	//FreeImageIO io;
 	//SetMemIO(&io);
@@ -1252,11 +1252,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	return IMGSERVICE_Unload();
 }
 
-static const MUUID interfaces[] = { { 0xece29554, 0x1cf0, 0x41da, { 0x85, 0x82, 0xfb, 0xe8, 0x45, 0x5c, 0x6b, 0xec } }, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { { 0xece29554, 0x1cf0, 0x41da, { 0x85, 0x82, 0xfb, 0xe8, 0x45, 0x5c, 0x6b, 0xec } }, MIID_LAST};
 
 extern "C" __declspec(dllexport) const PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 {

@@ -57,12 +57,7 @@ extern "C" POPUPS2_API PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 	return &pluginInfo;
 }
 
-static const MUUID interfaces[] = {MIID_POPUPS, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_POPUPS, MIID_LAST};
 
 int ReloadFont(WPARAM wParam, LPARAM lParam) 
 {

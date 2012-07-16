@@ -40,8 +40,6 @@ PLUGININFOEX pluginInfo = {
 	{ 0x6471d451, 0x2fe0, 0x4ee2, { 0x85, 0xe, 0x9f, 0x84, 0xf3, 0xc0, 0xd1, 0x87 } }
 };
 
-static const MUUID interfaces[] = {MIID_ADDCONTACTPLUS, MIID_LAST};
-
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
@@ -53,10 +51,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_ADDCONTACTPLUS, MIID_LAST};
 
 INT_PTR AddContactPlusDialog(WPARAM, LPARAM)
 {

@@ -206,18 +206,15 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
  *
  * @return	array of interfaces
  **/
-extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces()
-{
-	static const MUUID interfaces[] = {
-		MIID_UIUSERINFOEX,		// this is just me
-		MIID_UIUSERINFO,		// replace the default userinfo module
-		MIID_CONTACTINFO,		// indicate, that MS_CONTACT_GETCONTACTINFO service is provided
-		MIID_REMINDER,			// indicate an Reminder of being provided
-		MIID_SREMAIL,			// Send/Receive E-Mail service is provided
-		MIID_LAST
-	};
-	return interfaces;
-}
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {
+	MIID_UIUSERINFOEX,		// this is just me
+	MIID_UIUSERINFO,		// replace the default userinfo module
+	MIID_CONTACTINFO,		// indicate, that MS_CONTACT_GETCONTACTINFO service is provided
+	MIID_REMINDER,			// indicate an Reminder of being provided
+	MIID_SREMAIL,			// Send/Receive E-Mail service is provided
+	MIID_LAST
+};
 
 /**
  * This function is called by Miranda just to make it possible to unload some memory, ...

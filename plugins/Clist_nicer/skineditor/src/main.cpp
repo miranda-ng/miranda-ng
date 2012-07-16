@@ -924,11 +924,13 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirand
 /*
  * define our own MUUID, since this is a special plugin...
  */
-extern "C" static const MUUID interfaces[] = {MIID_TESTPLUGIN, { 0x70ff4eef, 0xcb7b, 0x4d88, { 0x85, 0x60, 0x7d, 0xe3, 0xa6, 0x68, 0x5c, 0xe3 }}, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
+
+extern "C" extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = 
 {
-	return interfaces;
-}
+	MIID_TESTPLUGIN, 
+	{ 0x70ff4eef, 0xcb7b, 0x4d88, { 0x85, 0x60, 0x7d, 0xe3, 0xa6, 0x68, 0x5c, 0xe3 }}, 
+	MIID_LAST
+};
 
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {

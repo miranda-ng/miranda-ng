@@ -70,11 +70,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	static const MUUID interfaces[] = {MIID_IGNORESRATE, MIID_LAST};
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_IGNORESRATE, MIID_LAST};
 
 int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
 {

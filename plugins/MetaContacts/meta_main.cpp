@@ -115,11 +115,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-static const MUUID interfaces[] = {MIID_PROTOCOL, MIID_METACONTACTS, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_METACONTACTS, MIID_LAST};
 
 /** DLL entry point
 * Required to store the instance handle

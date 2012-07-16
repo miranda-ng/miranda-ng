@@ -400,13 +400,9 @@ extern "C"
 	}
 
 
-#define MIID_QUOTES	{0x723243c2, 0x8d4b, 0x4c29, { 0x8a, 0x37, 0xc0, 0x11, 0x48, 0x65, 0xb0, 0x80}}
+	#define MIID_QUOTES	{0x723243c2, 0x8d4b, 0x4c29, { 0x8a, 0x37, 0xc0, 0x11, 0x48, 0x65, 0xb0, 0x80}}
 
-	__declspec(dllexport) const MUUID* MirandaPluginInterfaces()
-	{
-		static const MUUID interfaces[] = {MIID_PROTOCOL,MIID_QUOTES,MIID_LAST};
-		return interfaces;
-	}
+	__declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL,MIID_QUOTES,MIID_LAST};
 
 	int __declspec(dllexport) Load(void)
 	{

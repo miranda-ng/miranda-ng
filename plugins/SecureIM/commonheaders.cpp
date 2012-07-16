@@ -1,7 +1,6 @@
 #include "commonheaders.h"
 
 HINSTANCE g_hInst, g_hIconInst;
-MUUID interfaces[] = {MIID_SECUREIM, MIID_LAST};
 
 LPCSTR szModuleName = MODULENAME;
 LPCSTR szVersionStr = MODULENAME" DLL ("__VERSION_STRING")";
@@ -39,7 +38,6 @@ PLUGININFOEX pluginInfoEx = {
 		MIID_SECUREIM
 };
 
-
 LPSTR myDBGetString(HANDLE hContact,const char *szModule,const char *szSetting) {
 	char *val=NULL;
 	DBVARIANT dbv;
@@ -72,32 +70,6 @@ int myDBWriteStringEncode(HANDLE hContact,const char *szModule,const char *szSet
 	return ret;
 }
 
-/*
-int DBWriteString(HANDLE hContact,const char *szModule,const char *szSetting,const char *val) {
-	return DBWriteContactSettingString(hContact,szModule,szSetting,val);
-}
-
-
-int DBGetByte(HANDLE hContact,const char *szModule,const char *szSetting,int errorValue) {
-	return DBGetContactSettingByte(hContact,szModule,szSetting,errorValue);
-}
-
-
-int DBWriteByte(HANDLE hContact,const char *szModule,const char *szSetting,BYTE val) {
-	return DBWriteContactSettingByte(hContact,szModule,szSetting,val);
-}
-
-
-int DBGetWord(HANDLE hContact,const char *szModule,const char *szSetting,int errorValue) {
-	return DBGetContactSettingWord(hContact,szModule,szSetting,errorValue);
-}
-
-
-int DBWriteWord(HANDLE hContact,const char *szModule,const char *szSetting,WORD val) {
-	return DBWriteContactSettingWord(hContact,szModule,szSetting,val);
-}
-*/
-
 void GetFlags() {
     bSFT = DBGetContactSettingByte(0,szModuleName,"sft",0);
     bSOM = DBGetContactSettingByte(0,szModuleName,"som",0);
@@ -127,39 +99,6 @@ void SetFlags() {
     DBWriteContactSettingByte(0,szModuleName,"mcm",bMCM);
 }
 
-
-/*-----------------------------------------------------*/
-/*
-LPSTR u2a( LPCWSTR src )
-{
-	int codepage = ServiceExists(MS_LANGPACK_GETCODEPAGE)?CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 ):CP_ACP;
-
-	int cbLen = WideCharToMultiByte( codepage, 0, src, -1, NULL, 0, NULL, NULL );
-	LPSTR result = (LPSTR) mir_alloc( cbLen+1 );
-	if ( result == NULL )
-		return NULL;
-
-	WideCharToMultiByte( codepage, 0, src, -1, result, cbLen, NULL, NULL );
-	result[ cbLen ] = 0;
-	return result;
-}
-
-LPWSTR a2u( LPCSTR src )
-{
-	int codepage = ServiceExists(MS_LANGPACK_GETCODEPAGE)?CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 ):CP_ACP;
-
-	int cbLen = MultiByteToWideChar( codepage, 0, src, -1, NULL, 0 );
-
-	LPWSTR result = (LPWSTR) mir_alloc( sizeof(WCHAR)*(cbLen+1));
-	if ( result == NULL )
-		return NULL;
-
-	MultiByteToWideChar( codepage, 0, src, -1, result, cbLen );
-	result[ cbLen ] = 0;
-
-	return result;
-}
-*/
 struct A2U {
 	LPSTR a;
 	LPSTR u;

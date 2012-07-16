@@ -163,7 +163,7 @@ PLUGININFOEX pluginInfoEx={
 };
 
 
-static const MUUID interfaces[]={SMS_GUID,MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID interfaces[]={SMS_GUID,MIID_LAST};
 
 
 

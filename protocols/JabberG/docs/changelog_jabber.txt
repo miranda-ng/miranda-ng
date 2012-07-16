@@ -32,7 +32,7 @@ Version 0.7.0.4
 Version 0.7.0.3
 ===============
 [+] XEP-0048 support (Bookmark Storage)
-[+] Added MirandaPluginInterfaces
+[+] Added MirandaInterfaces
 [+] Implement UUID plugin info
 [+] added Windows Vista OS version detection
 [+] added ability of sending messages to the specific resource

@@ -96,16 +96,7 @@ extern "C" BOOL WINAPI DllMain( HINSTANCE hModule, DWORD, LPVOID )
 	return TRUE;
 }
 
-extern "C" __declspec( dllexport ) PLUGININFOEX *MirandaPluginInfoEx( DWORD mirandaVersion )
-{
-	return &pluginInfo;
-}
-
-static const MUUID interfaces[] = {MIID_PROTOCOL, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
 ///////////////////////////////////////////////////////////////////////////////
 // OnPreShutdown - prepares Miranda to be shut down

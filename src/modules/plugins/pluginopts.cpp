@@ -89,7 +89,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 
 		dat->flags = 0;
 		if (pi.Interfaces) {
-			MUUID *piface = pi.Interfaces();
+			MUUID *piface = pi.Interfaces;
 			for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
 				int idx = getDefaultPluginIdx( piface[i] );
 				if (idx != -1 ) {

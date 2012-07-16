@@ -37,7 +37,7 @@ PLUGININFOEX pluginInfo = {
 	// {F3FF65F3-250E-416A-BEE9-58C93F85AB33}
 	{ 0xf3ff65f3, 0x250e, 0x416a, { 0xbe, 0xe9, 0x58, 0xc9, 0x3f, 0x85, 0xab, 0x33 } }
 };
-static const MUUID interfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
 // Other variables
 HINSTANCE hInstance;
@@ -141,10 +141,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
 //////////////////////////////////////////////////////////
 // Cleanups from last plugin

@@ -67,14 +67,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVers
 
 #define MIID_CRASHDUMP  { 0x36a31a50, 0xcb55, 0x46d0, { 0xab, 0x9c, 0x1e, 0xac, 0xfb, 0x24, 0x0, 0x2a } }
 
-// MirandaPluginInterfaces - returns the protocol interface to the core
-static const MUUID interfaces[] = { MIID_SERVICEMODE, MIID_CRASHDUMP, MIID_LAST };
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
-
+// MirandaInterfaces - returns the protocol interface to the core
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVICEMODE, MIID_CRASHDUMP, MIID_LAST };
 
 HANDLE hHooks[5];
 HANDLE hServices[6];

@@ -409,11 +409,7 @@ MIRAPI PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 }
 
 //Miranda PluginInterfaces
-MIRAPI const MUUID *MirandaPluginInterfaces(void)
-{
-	static const MUUID interfaces[] = { MIID_POPUPS, MIID_LAST };
-	return interfaces;
-}
+MIRAPI const MUUID MirandaInterfaces[] = { MIID_POPUPS, MIID_LAST };
 
 //ME_SYSTEM_OKTOEXIT event
 //called before the app goes into shutdown routine to make sure everyone is happy to exit

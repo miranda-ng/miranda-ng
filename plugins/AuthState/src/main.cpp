@@ -69,12 +69,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvRese
 
 /* 236CBB9A-57D2-419D-B5CB-0DF5926E921C */
 #define MIID_AUTHSTATE {0x236cbb9a, 0x57d2, 0x419d, {0xb5, 0xcb, 0x0d, 0xf5, 0x92, 0x6e, 0x92, 0x1c}}
-
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	static const MUUID interfaces[] = {MIID_AUTHSTATE, MIID_LAST};
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_AUTHSTATE, MIID_LAST};
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {

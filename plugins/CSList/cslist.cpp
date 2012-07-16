@@ -45,6 +45,22 @@
 SortedList *servicesList;
 int hLangpack;
 
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { PLUGIN_GUUID, MIID_LAST };
+
+PLUGININFOEX pluginInfoEx =
+{
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	PLUGIN_GUUID
+};
+
 // ====[ MAIN ]===============================================================
 
 BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved )
@@ -61,14 +77,6 @@ extern "C" __declspec( dllexport ) PLUGININFOEX* MirandaPluginInfoEx( DWORD mira
 	CSList::dwMirandaVersion = mirandaVersion;
 	return &pluginInfoEx;
 }
-
-// ====[ INTERFACES ]=========================================================
-
-extern "C" __declspec( dllexport ) const MUUID* MirandaPluginInterfaces( void )
-{
-	return interfaces;
-}
-
 
 // ====[ LOADER ]=============================================================
 

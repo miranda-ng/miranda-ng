@@ -66,7 +66,7 @@ __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 	return MirandaPluginInfo(mirandaVersion);
 }
   	 
-static const MUUID interfaces[] = {MIID_IDLE, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID interfaces[] = {MIID_IDLE, MIID_LAST};
 __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
 {
 	return interfaces;

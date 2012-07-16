@@ -80,12 +80,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-
-static const MUUID interfaces[] = { MIID_BOSSKEY, MIID_LAST };
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_BOSSKEY, MIID_LAST };
 
 static BOOL IsAeroMode()
 {

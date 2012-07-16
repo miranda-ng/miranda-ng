@@ -623,22 +623,6 @@ BOOL CSList::bAccountsSupported = FALSE;
 
 // ====[ GLOBALS ]============================================================
 
-static const MUUID interfaces[] = { PLUGIN_GUUID, MIID_LAST };
-
-PLUGININFOEX pluginInfoEx =
-{
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__AUTHOREMAIL,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	PLUGIN_GUUID
-};
-
 CSList* cslist = NULL;
 
 // ====[ INIT STUFF ]=========================================================
@@ -646,7 +630,6 @@ CSList* cslist = NULL;
 BOOL WINAPI DllMain( HINSTANCE, DWORD, LPVOID );
 
 extern "C" __declspec( dllexport ) PLUGININFOEX* MirandaPluginInfoEx( DWORD );
-extern "C" __declspec( dllexport ) const MUUID* MirandaPluginInterfaces( void );
 
 extern "C" __declspec( dllexport ) int Load(void);
 extern "C" __declspec( dllexport ) int Unload( void );

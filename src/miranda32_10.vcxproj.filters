@@ -560,6 +560,9 @@
     <ClCompile Include="modules\utils\utils.cpp">
       <Filter>Modules\utils</Filter>
     </ClCompile>
+    <ClCompile Include="modules\plugins\dll_sniffer.cpp">
+      <Filter>Modules\plugins</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\_blank.ico">

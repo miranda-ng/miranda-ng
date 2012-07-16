@@ -60,11 +60,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 #define MIID_CLIENTCHANGENOTIFY {0xe9d1f0d4, 0xd65d, 0x4840, {0x87, 0xbd, 0x59, 0xd7, 0xb4, 0x70, 0x2c, 0x47}}
 // {E9D1F0D4-D65D-4840-87BD-59D7B4702C47}
 
-static const MUUID interfaces[] = {MIID_CLIENTCHANGENOTIFY, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CLIENTCHANGENOTIFY, MIID_LAST};
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {

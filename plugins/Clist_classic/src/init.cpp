@@ -78,11 +78,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's interfaces information
 
-static const MUUID interfaces[] = {MIID_CLIST, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CLIST, MIID_LAST};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // called when number of accounts has been changed

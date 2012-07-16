@@ -79,7 +79,6 @@ extern BOOL isVista;
 // shared vars
 extern HINSTANCE g_hInst;
 extern PLUGININFOEX pluginInfoEx;
-extern MUUID interfaces[];
 
 extern HANDLE hPGPPRIV;
 extern HANDLE hRSA4096;
@@ -107,7 +106,6 @@ extern "C" {
 
  DLLEXPORT int Load(PLUGINLINK *);
  DLLEXPORT PLUGININFOEX *MirandaPluginInfoEx(DWORD);
- DLLEXPORT MUUID* MirandaPluginInterfaces(void);
  DLLEXPORT int Unload();
 
  DLLEXPORT HANDLE __cdecl cpp_create_context(int); // create crypt-context

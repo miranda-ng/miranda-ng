@@ -18,8 +18,6 @@
 
 const int vf_default = VF_VS|VF_HFL|VF_IGN|VF_CID|VF_SHOWID|VF_RECV|VF_STAT|VF_SMNAME|VF_CIDN|VF_CIP;
 
-
-MUUID interfaces[] = {MIID_MENUEX, MIID_LAST};
 HINSTANCE hinstance;
 HANDLE hmenuVis,hmenuOff,hmenuHide,hmenuIgnore,hmenuProto,hmenuAdded,hmenuAuthReq;
 HANDLE hmenuCopyID,hmenuRecvFiles,hmenuStatusMsg,hmenuCopyIP,hmenuCopyMirVer;
@@ -1347,6 +1345,8 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 
 	return 0;
 }
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_MENUEX, MIID_LAST};
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {

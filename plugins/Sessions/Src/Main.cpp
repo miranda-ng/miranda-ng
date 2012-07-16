@@ -1014,11 +1014,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 }
 
 // {28EE6FE2-B005-4073-BA90-148203C807D0}
-static const MUUID interfaces[] = {{ 0x28ee6fe2, 0xb005, 0x4073, { 0xba, 0x90, 0x14, 0x82, 0x3, 0xc8, 0x7, 0xd0 } }, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {{ 0x28ee6fe2, 0xb005, 0x4073, { 0xba, 0x90, 0x14, 0x82, 0x3, 0xc8, 0x7, 0xd0 } }, MIID_LAST};
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {

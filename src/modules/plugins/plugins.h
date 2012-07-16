@@ -17,8 +17,6 @@ typedef PLUGININFOEX * (__cdecl * Miranda_Plugin_InfoEx) (DWORD mirandaVersion);
 typedef DATABASELINK * (__cdecl * Database_Plugin_Info) (void * reserved);
 // prototype for clists
 typedef int (__cdecl * CList_Initialise) (void);
-// Interface support
-typedef MUUID * (__cdecl * Miranda_Plugin_Interfaces) (void);
 
 // can all be NULL
 struct BASIC_PLUGIN_INFO
@@ -27,10 +25,10 @@ struct BASIC_PLUGIN_INFO
 	Miranda_Plugin_Load Load;
 	Miranda_Plugin_Unload Unload;
 	Miranda_Plugin_InfoEx InfoEx;
-	Miranda_Plugin_Interfaces Interfaces;
 	Database_Plugin_Info DbInfo;
 	CList_Initialise clistlink;
 	PLUGININFOEX * pluginInfo;	 // must be freed if hInst = = NULL then its a copy
+	MUUID *Interfaces;          // array of supported interfaces
 	DATABASELINK * dblink;		 // only valid during module being in memory
 };
 
@@ -66,6 +64,7 @@ void SetPluginOnWhiteList(const TCHAR* pluginname, int allow);
 
 int getDefaultPluginIdx(const MUUID& muuid);
 bool hasMuuid(const BASIC_PLUGIN_INFO&, const MUUID&);
+bool hasMuuid(const MUUID* pFirst, const MUUID&);
 int equalUUID(const MUUID& u1, const MUUID& u2);
 int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int checkTypeAPI);
 
@@ -88,3 +87,5 @@ struct MuuidReplacement
 extern MuuidReplacement pluginDefault[];
 
 bool LoadCorePlugin( MuuidReplacement& );
+
+MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin);

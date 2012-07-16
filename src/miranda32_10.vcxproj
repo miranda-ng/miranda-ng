@@ -407,6 +407,9 @@
     <ClCompile Include="modules\options\options.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="modules\plugins\dll_sniffer.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="modules\plugins\newplugins.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>

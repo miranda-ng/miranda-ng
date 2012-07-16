@@ -82,12 +82,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-static const MUUID interfaces[] = { MIID_AVATAR_CHANGE_LOGGER, MIID_AVATAR_CHANGE_NOTIFIER, MIID_LAST };
-
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_AVATAR_CHANGE_LOGGER, MIID_AVATAR_CHANGE_NOTIFIER, MIID_LAST };
 
 static INT_PTR CALLBACK FirstRunDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 {

@@ -646,21 +646,13 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirand
 	return &pluginInfo;
 }
 
-static const MUUID interfaces[] = { { 0xc6fbb128, 0x81b4, 0x4221, { 0xa4, 0xb9, 0xe6, 0x34, 0x7c, 0x26, 0x4a, 0x49 } }, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
-
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);
 
-  return 0;
+	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
