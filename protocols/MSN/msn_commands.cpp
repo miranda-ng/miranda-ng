@@ -836,11 +836,12 @@ void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wli
 		stripColorCode((char*)szStatMsg);
 		DBWriteContactSettingStringUtf(hContact, "CList", "StatusMsg", szStatMsg);
 	}
-	else
-		DBDeleteContactSetting(hContact, "CList", "StatusMsg");
+	else DBDeleteContactSetting(hContact, "CList", "StatusMsg");
 
-	mir_utf8decode((char*)szStatMsg, NULL);
-	SendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)szStatMsg);
+	{
+		mir_ptr<TCHAR> tszStatus( mir_utf8decodeT(szStatMsg));
+		SendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, tszStatus);
+	}
 
 	// Process current media info
 	const char* szCrntMda = ezxml_txt(ezxml_child(xmli, "CurrentMedia"));
