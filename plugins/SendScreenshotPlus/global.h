@@ -33,6 +33,8 @@ Last change by : $Author: ing.u.horn $
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #define WINVER			0x0700
 #define _WIN32_WINNT	0x0700
 #define _WIN32_IE		0x0601
