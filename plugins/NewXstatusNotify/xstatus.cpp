@@ -66,16 +66,15 @@ void RemoveLoggedEvents(HANDLE hContact)
 
 TCHAR *GetStatusTypeAsString(int type, TCHAR *buff)
 {
-	switch (type)
-	{
-		case TYPE_JABBER_MOOD:
-			_tcscpy(buff, TranslateT("Mood")); break;
-		case TYPE_JABBER_ACTIVITY:
-			_tcscpy(buff, TranslateT("Activity")); break;
-		case TYPE_ICQ_XSTATUS:
-			_tcscpy(buff, TranslateT("Xstatus")); break;
-		default:
-			_tcscpy(buff, TranslateT("<unknown>"));
+	switch (type) {
+	case TYPE_JABBER_MOOD:
+		_tcscpy(buff, TranslateT("Mood")); break;
+	case TYPE_JABBER_ACTIVITY:
+		_tcscpy(buff, TranslateT("Activity")); break;
+	case TYPE_ICQ_XSTATUS:
+		_tcscpy(buff, TranslateT("Xstatus")); break;
+	default:
+		_tcscpy(buff, TranslateT("<unknown>"));
 	}
 
 	return buff;

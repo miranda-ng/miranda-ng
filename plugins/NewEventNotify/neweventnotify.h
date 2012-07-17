@@ -154,30 +154,30 @@
 //---------------------------
 //---Structures
 
-typedef struct PLUGIN_OPTIONS_struct
+struct PLUGIN_OPTIONS
 {
-  HINSTANCE hInst;
-  BOOL bDisable;
-  BOOL bPreview;
-  BOOL bMenuitem;
-  BOOL bDefaultColorMsg;
-  BOOL bDefaultColorUrl;
-  BOOL bDefaultColorFile;
-  BOOL bDefaultColorOthers;
-  COLORREF colBackMsg;
-  COLORREF colTextMsg;
-  COLORREF colBackUrl;
-  COLORREF colTextUrl;
-  COLORREF colBackFile;
-  COLORREF colTextFile;
-  COLORREF colBackOthers;
-  COLORREF colTextOthers;
-  UINT maskNotify;
-  UINT maskActL;
-  UINT maskActR;
-  UINT maskActTE;
-  BOOL bMsgWindowCheck;
-  BOOL bMsgReplyWindow;
+	HINSTANCE hInst;
+	BOOL bDisable;
+	BOOL bPreview;
+	BOOL bMenuitem;
+	BOOL bDefaultColorMsg;
+	BOOL bDefaultColorUrl;
+	BOOL bDefaultColorFile;
+	BOOL bDefaultColorOthers;
+	COLORREF colBackMsg;
+	COLORREF colTextMsg;
+	COLORREF colBackUrl;
+	COLORREF colTextUrl;
+	COLORREF colBackFile;
+	COLORREF colTextFile;
+	COLORREF colBackOthers;
+	COLORREF colTextOthers;
+	UINT maskNotify;
+	UINT maskActL;
+	UINT maskActR;
+	UINT maskActTE;
+	BOOL bMsgWindowCheck;
+	BOOL bMsgReplyWindow;
 	int iDelayMsg;
 	int iDelayUrl;
 	int iDelayFile;
@@ -192,28 +192,29 @@ typedef struct PLUGIN_OPTIONS_struct
 	BOOL bHideSend;
 	BOOL bNoRSS;
 	BOOL bReadCheck;
-} PLUGIN_OPTIONS;
+};
 
-typedef struct EVENT_DATA_EX{
+struct EVENT_DATA_EX
+{
 	HANDLE hEvent;
 	int number;
 	struct EVENT_DATA_EX* next;
 	struct EVENT_DATA_EX* prev;
-} EVENT_DATA_EX;
+};
 
-typedef struct PLUGIN_DATA_struct {
-  UINT eventType;
-  HANDLE hContact;
-  PLUGIN_OPTIONS* pluginOptions;
+struct PLUGIN_DATA
+{
+	UINT eventType;
+	HANDLE hContact;
+	PLUGIN_OPTIONS* pluginOptions;
 	HWND hWnd;
-  int isUnicode;
 	struct EVENT_DATA_EX* firstEventData;
 	struct EVENT_DATA_EX* firstShowEventData;
 	struct EVENT_DATA_EX* lastEventData;
 	long countEvent;
 	long iSeconds;
 	int iLock;
-} PLUGIN_DATA;
+};
 
 //---------------------------
 //---External Procedure Definitions

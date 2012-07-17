@@ -299,7 +299,6 @@ void GGPROTO::uninitavatarrequestthread()
 
 void __cdecl GGPROTO::getuseravatarthread(void*)
 {
-	PROTO_AVATAR_INFORMATIONT pai = {0};
 	char *AvatarURL;
 	int AvatarType;
 
@@ -310,7 +309,9 @@ void __cdecl GGPROTO::getuseravatarthread(void*)
 		db_unset(NULL, m_szModuleName, GG_KEY_AVATARURL);
 	db_set_b(NULL, m_szModuleName, GG_KEY_AVATARTYPE, (BYTE)AvatarType);
 	db_set_b(NULL, m_szModuleName, GG_KEY_AVATARREQUESTED, 1);
+	mir_free(AvatarURL);
 
+	PROTO_AVATAR_INFORMATIONT pai = {0};
 	pai.cbSize = sizeof(pai);
 	getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
 }

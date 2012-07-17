@@ -1364,5 +1364,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	DestroyHookableEvent(hHookContactStatusChanged);
 	DestroyServiceFunction(hServiceMenu);
+	xstatusList.destroy();
 	return 0;
 }

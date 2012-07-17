@@ -146,34 +146,24 @@ void SetSessionMark(HANDLE hContact,int mode,char bit,unsigned int marknum)
 
 BOOL LoadContactsFromMask(HANDLE hContact,int mode,int count)
 {	
-	if(mode==0)
-	{	
+	if (mode == 0) {	
 		DBVARIANT dbv;
-		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsMarks", &dbv) && dbv.pszVal)
-		{
-			if (dbv.pszVal[count]=='1')
-			{
-				DBFreeVariant(&dbv);
-				return 1;
-			}
-		}
-		else
+		if ( DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsMarks", &dbv))
 			return 0;
+
+		BOOL res = dbv.pszVal[count] == '1';
+		DBFreeVariant(&dbv);
+		return res;
 	}
 
-	if (mode==1)
-	{
+	if (mode == 1) {
 		DBVARIANT dbv;
-		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsMarks", &dbv) && dbv.pszVal)
-		{
-			if (dbv.pszVal[count]=='1')
-			{
-				DBFreeVariant(&dbv);
-				return 1;
-			}
-		}
-		else
+		if ( DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsMarks", &dbv))
 			return 0;
+
+		BOOL res = dbv.pszVal[count] == '1';
+		DBFreeVariant(&dbv);
+		return res;
 	}
 	return 0;
 }
@@ -194,7 +184,7 @@ void AddInSessionOrder(HANDLE hContact,int mode,int ordernum,int writemode)
 	if(mode==0)
 	{
 		DBVARIANT dbv;
-		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsOrder", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsOrder", &dbv))
 		{	  
 			char* temp=NULL;
 			char* temp2=NULL;
@@ -351,27 +341,28 @@ BOOL ResaveSettings(char* szName,int iFirst,int iLimit,TCHAR* szBuffer)
 
 	for (int i = iFirst; i < iLimit; i++)
 	{
-		if (szBuffer)
-		{
-			DBVARIANT dbv_temp = {0};
-			mir_snprintf(szNameBuf, SIZEOF(szNameBuf), "%s_%u", szName, i);
-			DBGetContactSettingTString(NULL, __INTERNAL_NAME, szNameBuf, &dbv_temp);
-			DBWriteContactSettingTString(NULL, __INTERNAL_NAME, szNameBuf, szBuffer);
-			marked=IsMarkedUserDefSession(i);
-			MarkUserDefSession(i,(BYTE)((i==iFirst)?IsMarkedUserDefSession(iFirst-1):marked_t));
-			marked_t=marked;
-			mir_free(szBuffer);
-			if (dbv_temp.ptszVal)
-			{				
-				szBuffer = mir_tstrdup(dbv_temp.ptszVal);
-				DBFreeVariant(&dbv_temp);
-			}
-			else
-				return 0;
-		}
-		else
+		if (szBuffer == NULL)
 			break;
+
+		mir_snprintf(szNameBuf, SIZEOF(szNameBuf), "%s_%u", szName, i);
+
+		DBVARIANT dbv_temp;
+		int res = DBGetContactSettingTString(NULL, __INTERNAL_NAME, szNameBuf, &dbv_temp);
+		DBWriteContactSettingTString(NULL, __INTERNAL_NAME, szNameBuf, szBuffer);
+		mir_free(szBuffer);
+
+		marked = IsMarkedUserDefSession(i);
+		MarkUserDefSession(i,(BYTE)((i==iFirst)?IsMarkedUserDefSession(iFirst-1):marked_t));
+		marked_t = marked;
+
+		if (res) // read failed
+			return 0;
+			
+		szBuffer = mir_tstrdup(dbv_temp.ptszVal);
+		DBFreeVariant(&dbv_temp);
 	}
+
+	mir_free(szBuffer);
 	return 1;
 }
 

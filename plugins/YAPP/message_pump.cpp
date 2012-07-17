@@ -72,7 +72,8 @@ bool is_workstation_locked()
 }
 
 
-unsigned __stdcall MessagePumpThread(void* param) {
+unsigned __stdcall MessagePumpThread(void* param)
+{
 	InitWindowStack();
 
 	if(param) SetEvent((HANDLE)param);
@@ -81,65 +82,64 @@ unsigned __stdcall MessagePumpThread(void* param) {
 	while(GetMessage(&hwndMsg, 0, 0, 0) > 0 && !Miranda_Terminated()) {
 		if (!IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) {
 			switch(hwndMsg.message) {
-				case MUM_CREATEPOPUP:
-					{
-						bool enabled = true;
-						int status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
-						if(status >= ID_STATUS_OFFLINE && status <= ID_STATUS_OUTTOLUNCH && options.disable_status[status - ID_STATUS_OFFLINE])
-							enabled = false;
-						if ((options.disable_full_screen && is_full_screen()) || is_workstation_locked())
-							enabled = false;
+			case MUM_CREATEPOPUP:
+				{
+					bool enabled = true;
+					int status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
+					if(status >= ID_STATUS_OFFLINE && status <= ID_STATUS_OUTTOLUNCH && options.disable_status[status - ID_STATUS_OFFLINE])
+						enabled = false;
+					if ((options.disable_full_screen && is_full_screen()) || is_workstation_locked())
+						enabled = false;
 
-						PopupData *pd = (PopupData *)hwndMsg.lParam;
-						if(enabled && num_popups < MAX_POPUPS) {
-							//HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, _T("Popup"), WS_POPUP, 0, 0, 0, 0, GetDesktopWindow(), 0, hInst, (LPVOID)hwndMsg.lParam);
-							HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, _T("Popup"), WS_POPUP, 0, 0, 0, 0, 0, 0, hInst, (LPVOID)hwndMsg.lParam);
-							num_popups++;
-							if(hwndMsg.wParam) // set notifyer handle
-								SendMessage(hwnd, PUM_SETNOTIFYH, hwndMsg.wParam, 0);
-						} else {
-							if (pd) {
-								mir_free(pd->pwzTitle);
-								mir_free(pd->pwzText);
-								mir_free(pd);
-							}
+					PopupData *pd = (PopupData *)hwndMsg.lParam;
+					if(enabled && num_popups < MAX_POPUPS) {
+						//HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, _T("Popup"), WS_POPUP, 0, 0, 0, 0, GetDesktopWindow(), 0, hInst, (LPVOID)hwndMsg.lParam);
+						HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, _T("Popup"), WS_POPUP, 0, 0, 0, 0, 0, 0, hInst, (LPVOID)hwndMsg.lParam);
+						num_popups++;
+						if(hwndMsg.wParam) // set notifyer handle
+							SendMessage(hwnd, PUM_SETNOTIFYH, hwndMsg.wParam, 0);
+					} else {
+						if (pd) {
+							mir_free(pd->pwzTitle);
+							mir_free(pd->pwzText);
+							mir_free(pd);
 						}
 					}
-					break;
+				}
+				break;
 
-				case MUM_DELETEPOPUP:
-					{
-						HWND hwnd = (HWND)hwndMsg.lParam;
-						if(IsWindow(hwnd)) {
-							DestroyWindow(hwnd);
-							num_popups--;
-						}
+			case MUM_DELETEPOPUP:
+				{
+					HWND hwnd = (HWND)hwndMsg.lParam;
+					if(IsWindow(hwnd)) {
+						DestroyWindow(hwnd);
+						num_popups--;
 					}
-					break;
-				case MUM_NMUPDATE:
-					{
-						HANDLE hNotify = (HANDLE)hwndMsg.wParam;
-						BroadcastMessage(PUM_UPDATENOTIFY, (WPARAM)hNotify, 0);
-					}
-					break;
-				case MUM_NMREMOVE:
-					{
-						HANDLE hNotify = (HANDLE)hwndMsg.wParam;
-						BroadcastMessage(PUM_KILLNOTIFY, (WPARAM)hNotify, 0);
-					}
-					break;
-				case MUM_NMAVATAR:
-					RepositionWindows();
-					break;
-				default:
-					{
-						TranslateMessage(&hwndMsg);
-						DispatchMessage(&hwndMsg);
-						// do this here in case the window has gone
-						if(hwndMsg.message == PUM_CHANGE || hwndMsg.message == PUM_SETTEXT)
-							mir_free((void *)hwndMsg.lParam);
-					}
-					break;
+				}
+				break;
+
+			case MUM_NMUPDATE:
+				{
+					HANDLE hNotify = (HANDLE)hwndMsg.wParam;
+					BroadcastMessage(PUM_UPDATENOTIFY, (WPARAM)hNotify, 0);
+				}
+				break;
+
+			case MUM_NMREMOVE:
+				{
+					HANDLE hNotify = (HANDLE)hwndMsg.wParam;
+					BroadcastMessage(PUM_KILLNOTIFY, (WPARAM)hNotify, 0);
+				}
+				break;
+
+			case MUM_NMAVATAR:
+				RepositionWindows();
+				break;
+
+			default:
+				TranslateMessage(&hwndMsg);
+				DispatchMessage(&hwndMsg);
+				break;
 			}
 		}
 	}
@@ -149,7 +149,7 @@ unsigned __stdcall MessagePumpThread(void* param) {
 
 	//if(param) SetEvent((HANDLE)param);
 
-    DeinitOptions();
+	DeinitOptions();
 	DeinitServices();
 
 	return 0;

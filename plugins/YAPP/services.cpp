@@ -155,13 +155,14 @@ INT_PTR OldCreatePopupW(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR ChangeTextW(WPARAM wParam, LPARAM lParam) {
+INT_PTR ChangeTextW(WPARAM wParam, LPARAM lParam)
+{
 	HWND hwndPop = (HWND)wParam;
-	wchar_t *newText = mir_wstrdup((wchar_t *)lParam);
+	wchar_t *newText = NEWWSTR_ALLOCA((wchar_t *)lParam);
 	StripBBCodesInPlace(newText);
 
 	if(IsWindow(hwndPop))
-		PostMessage(hwndPop, PUM_SETTEXT, 0, (LPARAM)newText);
+		SendMessage(hwndPop, PUM_SETTEXT, 0, (LPARAM)newText);
 	else
 		mir_free(newText);
 	return 0;
@@ -174,9 +175,9 @@ INT_PTR ChangeTextA(WPARAM wParam, LPARAM lParam) {
 	StripBBCodesInPlace(buff);
 
 	if(IsWindow(hwndPop))
-		PostMessage(hwndPop, PUM_SETTEXT, 0, (LPARAM)buff);
-	else
-		mir_free(buff);
+		SendMessage(hwndPop, PUM_SETTEXT, 0, (LPARAM)buff);
+
+	mir_free(buff);
 	return 0;
 }
 
@@ -286,32 +287,32 @@ INT_PTR PopupChangeA(WPARAM wParam, LPARAM lParam) {
 	POPUPDATAEX *pd_in = (POPUPDATAEX *)lParam;
 
 	if(IsWindow(hwndPop)) {
-		PopupData *pd_out = (PopupData *)mir_alloc(sizeof(PopupData));
-		pd_out->cbSize = sizeof(PopupData);
-		pd_out->flags = PDF_UNICODE;
+		PopupData pd_out;
+		pd_out.cbSize = sizeof(PopupData);
+		pd_out.flags = PDF_UNICODE;
 
-		pd_out->pwzTitle = mir_a2u(pd_in->lpzContactName);
-		pd_out->pwzText = mir_a2u(pd_in->lpzText);
-		StripBBCodesInPlace(pd_out->pwzTitle);
-		StripBBCodesInPlace(pd_out->pwzText);
+		pd_out.pwzTitle = mir_a2u(pd_in->lpzContactName);
+		pd_out.pwzText = mir_a2u(pd_in->lpzText);
+		StripBBCodesInPlace(pd_out.pwzTitle);
+		StripBBCodesInPlace(pd_out.pwzText);
 
-		pd_out->hContact = pd_in->lchContact;
-		pd_out->hIcon = pd_in->lchIcon;
+		pd_out.hContact = pd_in->lchContact;
+		pd_out.hIcon = pd_in->lchIcon;
 		if(pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
-			pd_out->colorBack = pd_out->colorText = 0;
+			pd_out.colorBack = pd_out.colorText = 0;
 		else {
-			pd_out->colorBack = pd_in->colorBack & 0xFFFFFF;
-			pd_out->colorText = pd_in->colorText & 0xFFFFFF;
+			pd_out.colorBack = pd_in->colorBack & 0xFFFFFF;
+			pd_out.colorText = pd_in->colorText & 0xFFFFFF;
 		}
-		pd_out->colorBack = pd_in->colorBack;
-		pd_out->colorText = pd_in->colorText;
-		pd_out->windowProc = pd_in->PluginWindowProc;
-		pd_out->opaque = pd_in->PluginData;
-		pd_out->timeout = pd_in->iSeconds;
+		pd_out.colorBack = pd_in->colorBack;
+		pd_out.colorText = pd_in->colorText;
+		pd_out.windowProc = pd_in->PluginWindowProc;
+		pd_out.opaque = pd_in->PluginData;
+		pd_out.timeout = pd_in->iSeconds;
 
-		lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
-	
-		PostMessage(hwndPop, PUM_CHANGE, 0, (LPARAM)pd_out);
+		lstPopupHistory.Add(pd_out.pwzTitle, pd_out.pwzText, time(0));
+
+		SendMessage(hwndPop, PUM_CHANGE, 0, (LPARAM)&pd_out);
 	}
 	return 0;
 }
@@ -321,32 +322,32 @@ INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam) {
 	POPUPDATAW *pd_in = (POPUPDATAW *)lParam;
 
 	if(IsWindow(hwndPop)) {
-		PopupData *pd_out = (PopupData *)mir_alloc(sizeof(PopupData));
-		pd_out->cbSize = sizeof(PopupData);
-		pd_out->flags = PDF_UNICODE;
+		PopupData pd_out;
+		pd_out.cbSize = sizeof(PopupData);
+		pd_out.flags = PDF_UNICODE;
 
-		pd_out->pwzTitle = mir_wstrdup(pd_in->lpwzContactName);
-		pd_out->pwzText = mir_wstrdup(pd_in->lpwzText);
-		StripBBCodesInPlace(pd_out->pwzTitle);
-		StripBBCodesInPlace(pd_out->pwzText);
+		pd_out.pwzTitle = mir_wstrdup(pd_in->lpwzContactName);
+		pd_out.pwzText = mir_wstrdup(pd_in->lpwzText);
+		StripBBCodesInPlace(pd_out.pwzTitle);
+		StripBBCodesInPlace(pd_out.pwzText);
 
-		pd_out->hContact = pd_in->lchContact;
-		pd_out->hIcon = pd_in->lchIcon;
+		pd_out.hContact = pd_in->lchContact;
+		pd_out.hIcon = pd_in->lchIcon;
 		if(pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
-			pd_out->colorBack = pd_out->colorText = 0;
+			pd_out.colorBack = pd_out.colorText = 0;
 		else {
-			pd_out->colorBack = pd_in->colorBack & 0xFFFFFF;
-			pd_out->colorText = pd_in->colorText & 0xFFFFFF;
+			pd_out.colorBack = pd_in->colorBack & 0xFFFFFF;
+			pd_out.colorText = pd_in->colorText & 0xFFFFFF;
 		}
-		pd_out->colorBack = pd_in->colorBack;
-		pd_out->colorText = pd_in->colorText;
-		pd_out->windowProc = pd_in->PluginWindowProc;
-		pd_out->opaque = pd_in->PluginData;
-		pd_out->timeout = pd_in->iSeconds;
+		pd_out.colorBack = pd_in->colorBack;
+		pd_out.colorText = pd_in->colorText;
+		pd_out.windowProc = pd_in->PluginWindowProc;
+		pd_out.opaque = pd_in->PluginData;
+		pd_out.timeout = pd_in->iSeconds;
 
-		lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
+		lstPopupHistory.Add(pd_out.pwzTitle, pd_out.pwzText, time(0));
 	
-		PostMessage(hwndPop, PUM_CHANGE, 0, (LPARAM)pd_out);
+		SendMessage(hwndPop, PUM_CHANGE, 0, (LPARAM)&pd_out);
 	}
 	return 0;
 }

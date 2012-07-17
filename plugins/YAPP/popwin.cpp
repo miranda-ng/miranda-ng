@@ -523,6 +523,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				//}
 			}
 			return 0;
+
 		case WM_DESTROY: 
 			if(pwd->mouse_in) global_mouse_in--;
 
@@ -546,8 +547,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 			mir_free(pwd); pwd = 0; pd = 0;
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-
 			break;
+
 		case PUM_UPDATERGN:
 			// round corners
 			if(pwd->is_round) {
@@ -566,32 +567,24 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return TRUE;
 
 		case PUM_MOVE:
-			{
-				if(options.animate) {
-					KillTimer(hwnd, ID_MOVETIMER);
-					pwd->new_x = (int)wParam;
-					pwd->new_y = (int)lParam;
-					SetTimer(hwnd, ID_MOVETIMER, 10, 0);
-				} else {
-					SetWindowPos(hwnd, 0, (int)wParam, (int)lParam, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
-					if (!IsWindowVisible(hwnd)) { 
-						ShowWindow(hwnd, SW_SHOWNOACTIVATE);
-						UpdateWindow(hwnd);
-					}
+			if(options.animate) {
+				KillTimer(hwnd, ID_MOVETIMER);
+				pwd->new_x = (int)wParam;
+				pwd->new_y = (int)lParam;
+				SetTimer(hwnd, ID_MOVETIMER, 10, 0);
+			} else {
+				SetWindowPos(hwnd, 0, (int)wParam, (int)lParam, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
+				if (!IsWindowVisible(hwnd)) { 
+					ShowWindow(hwnd, SW_SHOWNOACTIVATE);
+					UpdateWindow(hwnd);
 				}
 			}
 			return TRUE;
+
 		case PUM_SETTEXT:
-			{
-				mir_free(pd->pszText);
-				if(lParam)
-					pd->pwzText = mir_wstrdup((wchar_t *)lParam);
-				else
-					pd->pwzText = NULL;
-				// mir_free((void *)lParam); // freed in message pump in case the window has gone
-				InvalidateRect(hwnd, 0, TRUE);
-				RepositionWindows();
-			}
+			replaceStrT(pd->ptzText, (TCHAR*)lParam);
+			InvalidateRect(hwnd, 0, TRUE);
+			RepositionWindows();
 			return TRUE;
 
 		case PUM_GETCONTACT:
