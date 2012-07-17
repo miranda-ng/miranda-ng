@@ -107,7 +107,7 @@ static int SkinPlaySoundDefault(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR* pszFile = (TCHAR*) lParam;
 	if (pszFile && (DBGetContactSettingByte(NULL, "Skin", "UseSound", 0) || (int)wParam == 1))
-		PlaySound(pszFile, NULL, SND_ASYNC | SND_FILENAME | SND_NOWAIT);
+		PlaySound(pszFile, NULL, SND_ASYNC | SND_FILENAME | SND_NOSTOP);
 
 	return 0;
 }
