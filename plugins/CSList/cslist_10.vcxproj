@@ -167,34 +167,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cslist.cpp" />
+    <ClCompile Include="src\cslist.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cslist.h" />
-    <ClInclude Include="legacy.h" />
-    <ClInclude Include="strpos.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Version.h" />
+    <ClInclude Include="src\cslist.h" />
+    <ClInclude Include="src\legacy.h" />
+    <ClInclude Include="src\strpos.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\add.ico" />
-    <None Include="res\apply.ico" />
-    <None Include="res\close.ico" />
-    <None Include="res\cslist.ico" />
-    <None Include="res\favourite.ico" />
-    <None Include="res\filter.ico" />
-    <None Include="res\global.ico" />
-    <None Include="res\import.ico" />
-    <None Include="res\modify.ico" />
-    <None Include="res\options.ico" />
-    <None Include="res\remove.ico" />
-    <None Include="res\undo.ico" />
-    <None Include="res\unset.ico" />
-    <None Include="changelog.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="cslist.rc" />
-    <ResourceCompile Include="Version.rc" />
+    <ResourceCompile Include="res\cslist.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

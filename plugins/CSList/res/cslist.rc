@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -26,17 +26,17 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_CSLIST              ICON                    "res/cslist.ico"
-IDI_ADD                 ICON                    "res/add.ico"
-IDI_MODIFY              ICON                    "res/modify.ico"
-IDI_REMOVE              ICON                    "res/remove.ico"
-IDI_FAVOURITE           ICON                    "res/favourite.ico"
-IDI_IMPORT              ICON                    "res/import.ico"
-IDI_UNDO                ICON                    "res/undo.ico"
-IDI_FILTER              ICON                    "res/filter.ico"
-IDI_CLOSE               ICON                    "res/close.ico"
-IDI_UNSET               ICON                    "res/unset.ico"
-IDI_APPLY               ICON                    "res/apply.ico"
+IDI_CSLIST              ICON                    "cslist.ico"
+IDI_ADD                 ICON                    "add.ico"
+IDI_MODIFY              ICON                    "modify.ico"
+IDI_REMOVE              ICON                    "remove.ico"
+IDI_FAVOURITE           ICON                    "favourite.ico"
+IDI_IMPORT              ICON                    "import.ico"
+IDI_UNDO                ICON                    "undo.ico"
+IDI_FILTER              ICON                    "filter.ico"
+IDI_CLOSE               ICON                    "close.ico"
+IDI_UNSET               ICON                    "unset.ico"
+IDI_APPLY               ICON                    "apply.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
