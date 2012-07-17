@@ -75,7 +75,6 @@
 // Miranda API
 #include "newpluginapi.h"
 #include "m_stdhdr.h"
-#include "m_plugins.h"
 #include "m_system.h"
 #include "m_database.h"
 #include "m_protomod.h"

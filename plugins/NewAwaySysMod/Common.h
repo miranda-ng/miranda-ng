@@ -48,7 +48,6 @@
 #include "m_options.h"
 #include "..\..\protocols\IcqOscarJ\icq_constants.h"
 #include "m_skin.h"
-#include "m_plugins.h"
 #include "m_awaymsg.h"
 #include "m_utils.h"
 #include "m_system_cpp.h"

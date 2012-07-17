@@ -21,13 +21,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-typedef struct {
+struct PROFILEMANAGERDATA
+{
 	TCHAR *szProfile;		// in/out
 	TCHAR *szProfileDir;	// in/out
 	BOOL noProfiles;		// in
 	BOOL newProfile;		// out
-	DATABASELINK * dblink;	// out
-} PROFILEMANAGERDATA;
+	DATABASELINK *dblink;	// out
+};
 
 int InitUtils(void);
 
@@ -41,3 +42,14 @@ bool shouldAutoCreate(TCHAR *szProfile);
 
 extern TCHAR g_profileDir[MAX_PATH];
 extern TCHAR g_profileName[MAX_PATH];
+
+///////////////////////////////////////////////////////////////////////////////
+// former m_plugins.h
+
+#define DBPE_DONE 1
+#define DBPE_CONT 0
+#define DBPE_HALT (-1)
+
+typedef int (*pfnDbEnumCallback) (const TCHAR *pluginname, DATABASELINK* link, LPARAM lParam);
+
+int enumDbPlugins(pfnDbEnumCallback pFunc, LPARAM lParam);

@@ -414,10 +414,9 @@ int makeDatabase(TCHAR *profile, DATABASELINK * link, HWND hwndDlg)
 }
 
 // enumerate all plugins that had valid DatabasePluginInfo()
-static int FindDbPluginForProfile(const char*, DATABASELINK * dblink, LPARAM lParam)
+static int FindDbPluginForProfile(const TCHAR*, DATABASELINK *dblink, LPARAM lParam)
 {
 	TCHAR* tszProfile = (TCHAR*)lParam;
-
 	int res = DBPE_CONT;
 	if (dblink && dblink->cbSize == sizeof(DATABASELINK)) {
 		char* szProfile = makeFileName(tszProfile);
@@ -450,12 +449,11 @@ static int FindDbPluginForProfile(const char*, DATABASELINK * dblink, LPARAM lPa
 }
 
 // enumerate all plugins that had valid DatabasePluginInfo()
-static int FindDbPluginAutoCreate(const char*, DATABASELINK * dblink, LPARAM lParam)
+static int FindDbPluginAutoCreate(const TCHAR* ptszProfile, DATABASELINK * dblink, LPARAM lParam)
 {
-	TCHAR* tszProfile = (TCHAR*)lParam;
-
 	int res = DBPE_CONT;
 	if (dblink && dblink->cbSize == sizeof(DATABASELINK)) {
+		TCHAR* tszProfile = NEWTSTR_ALLOCA(ptszProfile);
 		CreatePathToFileT(tszProfile);
 
 		int err;
@@ -519,21 +517,18 @@ int LoadDatabaseModule(void)
 	if ( !getProfile(szProfile, SIZEOF(szProfile)))
 		return 1;
 
-	PLUGIN_DB_ENUM dbe;
-	dbe.cbSize = sizeof(PLUGIN_DB_ENUM);
-	dbe.lParam = (LPARAM)szProfile;
-
+	pfnDbEnumCallback pFunc;
 	if (_taccess(szProfile, 0) && shouldAutoCreate(szProfile))
-		dbe.pfnEnumCallback = (int(*) (const char*, void*, LPARAM))FindDbPluginAutoCreate;
+		pFunc = FindDbPluginAutoCreate;
 	else
-		dbe.pfnEnumCallback = (int(*) (const char*, void*, LPARAM))FindDbPluginForProfile;
+		pFunc = FindDbPluginForProfile;
 
 	// find a driver to support the given profile	
 	bool retry;
 	int rc;
 	do {
 		retry = false;
-		rc = CallService(MS_PLUGINS_ENUMDBPLUGINS, 0, (LPARAM)&dbe);
+		rc = enumDbPlugins(pFunc, (LPARAM)szProfile);
 		switch (rc) {
 		case -1: {
 			// no plugins at all
@@ -560,7 +555,8 @@ int LoadDatabaseModule(void)
 			}
 			break;
 		}
-	} while (retry);
+	}
+		while (retry);
 
 	return (rc != 0);
 }

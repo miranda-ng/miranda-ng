@@ -51,7 +51,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_skin.h>
 #include <m_protosvc.h>
 #include <m_protocols.h>
-#include <m_plugins.h>
 #include <m_options.h>
 #include <m_message.h>
 #include <m_file.h>

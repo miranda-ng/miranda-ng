@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_NEWPLUGINAPI_H__
 
 #include <m_core.h>
-#include <m_plugins.h>
 
 #define PLUGIN_MAKE_VERSION(a, b, c, d)   (((((DWORD)(a))&0xFF)<<24)|((((DWORD)(b))&0xFF)<<16)|((((DWORD)(c))&0xFF)<<8)|(((DWORD)(d))&0xFF))
 #define MAXMODULELABELLENGTH 64

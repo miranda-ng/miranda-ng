@@ -10,7 +10,6 @@ extern "C"
 #include <time.h>
 #include <win2k.h>
 #include <m_system.h>
-#include <m_plugins.h>
 #include <m_options.h>
 #include <m_langpack.h>
 #include <m_database.h>
@@ -88,14 +87,14 @@ int CopyData(StringHelper *str, const char *text, size_t len)
 	memmove(&str->text[str->used], text, sizeof(char) * len);
 	str->used += len;
 	str->text[str->used] = '\0';
-	
+
 	return 0;
 }
 
 
-char * ParseText(const char *text, 
-				 const char **variables, size_t variablesSize, 
-				 const char **data, size_t dataSize) 
+char * ParseText(const char *text,
+				 const char **variables, size_t variablesSize,
+				 const char **data, size_t dataSize)
 {
 	size_t length = strlen(text);
 	size_t nextPos = 0;
@@ -211,14 +210,14 @@ int CopyDataW(StringHelperW *str, const WCHAR *text, size_t len)
 	memmove(&str->text[str->used], text, sizeof(WCHAR) * len);
 	str->used += len;
 	str->text[str->used] = '\0';
-	
+
 	return 0;
 }
 
 
-WCHAR * ParseTextW(const WCHAR *text, 
-				   const WCHAR **variables, size_t variablesSize, 
-				   const WCHAR **data, size_t dataSize) 
+WCHAR * ParseTextW(const WCHAR *text,
+				   const WCHAR **variables, size_t variablesSize,
+				   const WCHAR **data, size_t dataSize)
 {
 	size_t length = lstrlenW(text);
 	size_t nextPos = 0;
@@ -356,13 +355,13 @@ WCHAR *MNotifyGetWParsedTemplate(HANDLE notifyORtype, const char *name, const WC
 
 BOOL MNotifyHasVariables(HANDLE notifyORtype)
 {
-	return MNotifyGetDWord(notifyORtype, NFOPT_VARIABLES_STRS, NULL) != NULL && 
+	return MNotifyGetDWord(notifyORtype, NFOPT_VARIABLES_STRS, NULL) != NULL &&
 			MNotifyGetDWord(notifyORtype, NFOPT_VARIABLES_SIZE, 0) != 0;
 }
 
 BOOL MNotifyHasWVariables(HANDLE notifyORtype)
 {
-	return MNotifyGetDWord(notifyORtype, NFOPT_VARIABLES_STRSW, NULL) != NULL && 
+	return MNotifyGetDWord(notifyORtype, NFOPT_VARIABLES_STRSW, NULL) != NULL &&
 			MNotifyGetDWord(notifyORtype, NFOPT_VARIABLES_SIZE, 0) != 0;
 }
 
@@ -472,5 +471,3 @@ void MNotifyShowWVariables(HANDLE notifyORtype)
 
 	mir_free(ret.text);
 }
-
-

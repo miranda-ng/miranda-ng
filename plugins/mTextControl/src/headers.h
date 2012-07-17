@@ -47,7 +47,6 @@ extern "C" {
 	#include <newpluginapi.h>
 	#include <win2k.h>
 	#include <m_system.h>
-	#include <m_plugins.h>
 	#include <m_clui.h>
 	#include <m_clist.h>
 	#include <m_options.h>

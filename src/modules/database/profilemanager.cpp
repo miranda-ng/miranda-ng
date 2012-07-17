@@ -115,7 +115,7 @@ static LRESULT CALLBACK ProfileNameValidate(HWND edit, UINT msg, WPARAM wParam, 
 	return CallWindowProc((WNDPROC)GetWindowLongPtr(edit, GWLP_USERDATA), edit, msg, wParam, lParam);
 }
 
-static int FindDbProviders(const char*, DATABASELINK * dblink, LPARAM lParam)
+static int FindDbProviders(const TCHAR* tszProfileName, DATABASELINK *dblink, LPARAM lParam)
 {
 	HWND hwndDlg = (HWND)lParam;
 	HWND hwndCombo = GetDlgItem(hwndDlg, IDC_PROFILEDRIVERS);
@@ -141,12 +141,8 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		dat = (struct DlgProfData *)lParam;
 		{
 			// fill in the db plugins present
-			PLUGIN_DB_ENUM dbe;
-			dbe.cbSize = sizeof(dbe);
-			dbe.pfnEnumCallback = (int(*)(const char*, void*, LPARAM))FindDbProviders;
-			dbe.lParam = (LPARAM)hwndDlg;
-			if (CallService(MS_PLUGINS_ENUMDBPLUGINS, 0, (LPARAM)&dbe) == -1) {
-				// no plugins?!
+			if (enumDbPlugins(FindDbProviders, (LPARAM)hwndDlg) == -1) {
+				// what, no plugins?!
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILEDRIVERS), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILENAME), FALSE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_NODBDRIVERS), TRUE);
@@ -222,11 +218,11 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-static int DetectDbProvider(const char*, DATABASELINK * dblink, LPARAM lParam)
+static int DetectDbProvider(const TCHAR*, DATABASELINK * dblink, LPARAM lParam)
 {
 	int error;
 
-char* fullpath = makeFileName((TCHAR*)lParam);
+	char* fullpath = makeFileName((TCHAR*)lParam);
 
 	int ret = dblink->grokHeader(fullpath, &error);
 	mir_free(fullpath);
@@ -287,18 +283,14 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 	SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item);
 
 	if (bFileExists) {
-		PLUGIN_DB_ENUM dbe;
 		TCHAR szPath[MAX_PATH];
+		_tcscpy(szPath, fullpath);
 
 		LVITEM item2;
 		item2.mask = LVIF_TEXT;
 		item2.iItem = iItem;
 
-		dbe.cbSize = sizeof(dbe);
-		dbe.pfnEnumCallback = (int(*)(const char*, void*, LPARAM))DetectDbProvider;
-		dbe.lParam = (LPARAM)szPath;
-		_tcscpy(szPath, fullpath);
-		if (CallService(MS_PLUGINS_ENUMDBPLUGINS, 0, (LPARAM)&dbe) == 1) {
+		if ( enumDbPlugins(DetectDbProvider, (LPARAM)szPath) == 1) {
 			if (bFileLocked) {
 				// file locked
 				item2.pszText = TranslateT("<In Use>");

@@ -21,7 +21,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
+
 #include "plugins.h"
+#include "..\database\profilemanager.h"
 
 extern bool bModulesLoadedFired;
 
@@ -405,16 +407,17 @@ void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
 }
 
 // this is called by the db module to return all DBs plugins, then when it finds the one it likes the others are unloaded
-static INT_PTR PluginsEnum(WPARAM, LPARAM lParam)
+int enumDbPlugins(pfnDbEnumCallback pFunc, LPARAM lParam)
 {
-	PLUGIN_DB_ENUM * de = (PLUGIN_DB_ENUM *) lParam;
-	pluginEntry * x = pluginListDb;
-	if (de == NULL || de->cbSize != sizeof(PLUGIN_DB_ENUM) || de->pfnEnumCallback == NULL) return 1;
+	pluginEntry *x = pluginListDb;
+	if (pFunc == NULL)
+		return 1;
+
 	while (x != NULL) {
-		int rc = de->pfnEnumCallback(StrConvA(x->pluginname), x->bpi.dblink, de->lParam);
+		int rc = pFunc(x->pluginname, x->bpi.dblink, lParam);
 		if (rc == DBPE_DONE) {
 			// this db has been picked, get rid of all the others
-			pluginEntry * y = pluginListDb, * n;
+			pluginEntry *y = pluginListDb, *n;
 			while (y != NULL) {
 				n = y->nextclass;
 				if (x != y)
@@ -822,8 +825,6 @@ int LoadNewPluginsModuleInfos(void)
 
 	hPluginListHeap = HeapCreate(HEAP_NO_SERIALIZE, 0, 0);
 	mirandaVersion = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0);
-
-	CreateServiceFunction(MS_PLUGINS_ENUMDBPLUGINS, PluginsEnum);
 
 	// remember where the mirandaboot.ini goes
 	PathToAbsoluteT(_T("mirandaboot.ini"), mirandabootini, NULL);
