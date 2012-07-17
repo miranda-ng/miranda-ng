@@ -261,13 +261,20 @@ int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int ch
 	bpi->Load = (Miranda_Plugin_Load) GetProcAddress(h, "Load");
 	bpi->Unload = (Miranda_Plugin_Unload) GetProcAddress(h, "Unload");
 	bpi->InfoEx = (Miranda_Plugin_InfoEx) GetProcAddress(h, "MirandaPluginInfoEx");
-	bpi->Interfaces = (MUUID*) GetProcAddress(h, "MirandaInterfaces");
 
 	// if they were present
 	if ( !bpi->Load || !bpi->Unload || !bpi->InfoEx) {
 LBL_Error:
 		FreeLibrary(h);
 		return 0;
+	}
+
+	bpi->Interfaces = (MUUID*) GetProcAddress(h, "MirandaInterfaces");
+	if ( !bpi->Interfaces) {
+		typedef MUUID * (__cdecl * Miranda_Plugin_Interfaces) (void);
+		Miranda_Plugin_Interfaces pFunc = (Miranda_Plugin_Interfaces) GetProcAddress(h, "MirandaPluginInterfaces");
+		if (pFunc)
+			bpi->Interfaces = pFunc();
 	}
 
 	PLUGININFOEX* pi = bpi->InfoEx(mirandaVersion);
