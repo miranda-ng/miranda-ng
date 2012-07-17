@@ -540,8 +540,8 @@ int SaveSessionDate()
 		TCHAR *szDateBuf = (TCHAR*)mir_alloc((DateSize+1)*sizeof(TCHAR));
 
 		GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, szDateBuf, DateSize );
-		TCHAR *szSessionTime = (TCHAR*)mir_alloc((DateSize+TimeSize+5)*sizeof(TCHAR));
-		int lenn = (int)_tcslen(szSessionTime);
+		int lenn = (DateSize+TimeSize+5);
+		TCHAR *szSessionTime = (TCHAR*)mir_alloc(lenn*sizeof(TCHAR));
 		mir_sntprintf(szSessionTime, lenn, _T("%s - %s"), szTimeBuf, szDateBuf);
 
 		char szSessionDate[256];
