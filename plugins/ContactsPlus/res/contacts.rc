@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 #include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -186,6 +186,6 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_CONTACTS            ICON    DISCARDABLE     "res\\SendContacts.ico"
+IDI_CONTACTS            ICON     "SendContacts.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////

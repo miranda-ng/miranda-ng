@@ -173,23 +173,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="contacts.cpp" />
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\contacts.cpp" />
+    <ClCompile Include="src\main.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="receive.cpp" />
-    <ClCompile Include="send.cpp" />
-    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="src\receive.cpp" />
+    <ClCompile Include="src\send.cpp" />
+    <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="contacts.h" />
-    <ClInclude Include="receive.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="send.h" />
-    <ClInclude Include="utils.h" />
+    <ClInclude Include="src\contacts.h" />
+    <ClInclude Include="src\receive.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\send.h" />
+    <ClInclude Include="src\utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="contacts.rc" />
+    <ResourceCompile Include="res\contacts.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -38,12 +38,6 @@ BEGIN
     "\0"
 END
 
-3 TEXTINCLUDE MOVEABLE PURE 
-BEGIN
-    "#include ""version.rc""\r\n"
-    "\0"
-END
-
 #endif    // APSTUDIO_INVOKED
 
 
@@ -52,14 +46,14 @@ END
 // Bitmap
 //
 
-IDB_FLAGS               BITMAP  DISCARDABLE     "res/flags.bmp"
+IDB_FLAGS               BITMAP     "flags.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // BIN
 //
 
-IDR_IPTOCOUNTRY         BIN     DISCARDABLE     "res/ip-to-country.bin"
+IDR_IPTOCOUNTRY         BIN     "ip-to-country.bin"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -117,11 +111,6 @@ END
 
 
 #ifndef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 3 resource.
-//
-#include "version.rc"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
