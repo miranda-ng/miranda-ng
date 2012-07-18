@@ -52,12 +52,6 @@
     <ClInclude Include="frame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_mydetails.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_simpleaway.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\utils\mir_dblists.h">
       <Filter>Header Files</Filter>
     </ClInclude>
