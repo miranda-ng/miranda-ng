@@ -23,23 +23,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Compatibility.h"
 #include "Logger.h"
 #define DB_NOHELPERFUNCTIONS
-	#include "m_database.h"
+#include "m_database.h"
+#include "m_db_int.h"
 #undef DB_NOHELPERFUNCTIONS
 #ifndef _MSC_VER
 #include "savestrings_gcc.h"
 #endif
 
-HANDLE gCompServices[31] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 HANDLE gEvents[6] = {0,0,0,0,0,0};
 
 HANDLE hEventDeletedEvent,
        hEventAddedEvent,
-			 hEventFilterAddedEvent,
-			 hSettingChangeEvent,
-			 hContactDeletedEvent,
-			 hContactAddedEvent;
+		 hEventFilterAddedEvent,
+		 hSettingChangeEvent,
+		 hContactDeletedEvent,
+		 hContactAddedEvent;
 
-INT_PTR CompAddContact(WPARAM wParam, LPARAM lParam)
+STDMETHODIMP_(HANDLE) CDataBase::AddContact(void)
 {
 	TDBTEntity entity = {0,0,0,0};
 	entity.hParentEntity = DBEntityGetRoot(0, 0);
@@ -47,28 +47,31 @@ INT_PTR CompAddContact(WPARAM wParam, LPARAM lParam)
 
 	TDBTEntityHandle res = gDataBase->getEntities().CreateEntity(entity);
 	if (res == DBT_INVALIDPARAM)
-		return 1;
+		return (HANDLE)1;
 
 	NotifyEventHooks(hContactAddedEvent, res, 0);
-	return res;
+	return (HANDLE)res;
 }
-INT_PTR CompDeleteContact(WPARAM hContact, LPARAM lParam)
-{
-	NotifyEventHooks(hContactDeletedEvent, hContact, 0);
 
-	int res = DBEntityDelete(hContact, 0);
+STDMETHODIMP_(LONG) CDataBase::DeleteContact(HANDLE hContact)
+{
+	NotifyEventHooks(hContactDeletedEvent, (WPARAM)hContact, 0);
+
+	int res = DBEntityDelete((WPARAM)hContact, 0);
 	if (res == DBT_INVALIDPARAM)
 		return 1;
 
 	return res;
 }
-INT_PTR CompIsDbContact(WPARAM hContact, LPARAM lParam)
+
+STDMETHODIMP_(BOOL) CDataBase::IsDbContact(HANDLE hContact)
 {
-	int flags = DBEntityGetFlags(hContact, 0);
+	int flags = DBEntityGetFlags((WPARAM)hContact, 0);
 	return (flags != DBT_INVALIDPARAM) &&
 		     ((flags & DBT_NFM_SpecialEntity) == 0);
 }
-INT_PTR CompGetContactCount(WPARAM wParam, LPARAM lParam)
+
+STDMETHODIMP_(LONG) CDataBase::GetContactCount(void)
 {
 	TDBTEntityIterFilter f = {0,0,0,0};
 	f.cbSize = sizeof(f);
@@ -92,18 +95,21 @@ INT_PTR CompGetContactCount(WPARAM wParam, LPARAM lParam)
 	}
 	return c;
 }
-INT_PTR CompFindFirstContact(WPARAM wParam, LPARAM lParam)
+
+//!!!!!!!!!!!!!!!!!!!! szProto ignored
+STDMETHODIMP_(HANDLE) CDataBase::FindFirstContact(const char* szProto)
 {
-	return gDataBase->getEntities().compFirstContact();
-}
-INT_PTR CompFindNextContact(WPARAM hContact, LPARAM lParam)
-{
-	return gDataBase->getEntities().compNextContact(hContact);
+	return (HANDLE)gDataBase->getEntities().compFirstContact();
 }
 
-INT_PTR CompGetContactSetting(WPARAM hContact, LPARAM pSetting)
+//!!!!!!!!!!!!!!!!!!!! szProto ignored
+STDMETHODIMP_(HANDLE) CDataBase::FindNextContact(HANDLE hContact, const char* szProto)
 {
-	DBCONTACTGETSETTING * dbcgs = reinterpret_cast<DBCONTACTGETSETTING *>(pSetting);
+	return (HANDLE)gDataBase->getEntities().compNextContact((WPARAM)hContact);
+}
+
+STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
+{
 	dbcgs->pValue->type = 0;
 
 	char namebuf[512];
@@ -121,7 +127,7 @@ INT_PTR CompGetContactSetting(WPARAM hContact, LPARAM pSetting)
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	TDBTSetting set = {0,0,0,0};
 	desc.cbSize = sizeof(desc);
-	desc.Entity = hContact;
+	desc.Entity = (WPARAM)hContact;
 	desc.pszSettingName = namebuf;
 
 	set.cbSize = sizeof(set);
@@ -188,21 +194,19 @@ INT_PTR CompGetContactSetting(WPARAM hContact, LPARAM pSetting)
 			dbcgs->pValue->pbVal = reinterpret_cast<BYTE*>(mir_alloc(sizeof(set.Value)));
 			memcpy(dbcgs->pValue->pbVal, &set.Value, sizeof(set.Value));
 		} break;
+
 		default:
-		{
 			return -1;
-		}
 	}
 
 	return 0;
 }
-INT_PTR CompGetContactSettingStr(WPARAM hContact, LPARAM pSetting)
-{
-	DBCONTACTGETSETTING * dbcgs = reinterpret_cast<DBCONTACTGETSETTING *>(pSetting);
 
+STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStr(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
+{
 	if ((dbcgs->pValue->type & DBVTF_VARIABLELENGTH) == 0)
 	{
-		CompFreeVariant(0, reinterpret_cast<LPARAM>(dbcgs->pValue));
+		FreeVariant(dbcgs->pValue);
 		dbcgs->pValue->type = 0;
 	}
 
@@ -217,7 +221,7 @@ INT_PTR CompGetContactSettingStr(WPARAM hContact, LPARAM pSetting)
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	TDBTSetting set = {0,0,0,0};
 	desc.cbSize = sizeof(desc);
-	desc.Entity = hContact;
+	desc.Entity = (WPARAM)hContact;
 	desc.pszSettingName = namebuf;
 
 	set.cbSize = sizeof(set);
@@ -297,17 +301,14 @@ INT_PTR CompGetContactSettingStr(WPARAM hContact, LPARAM pSetting)
 			memcpy(dbcgs->pValue->pbVal, &set.Value, sizeof(set.Value));
 		} break;
 		default:
-		{
 			return -1;
-		}
 	}
 
 	return 0;
 }
-INT_PTR CompGetContactSettingStatic(WPARAM hContact, LPARAM pSetting)
-{
-	DBCONTACTGETSETTING * dbcgs = reinterpret_cast<DBCONTACTGETSETTING *>(pSetting);
 
+STDMETHODIMP_(BOOL) CDataBase::GetContactSettingStatic(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
+{
 	char namebuf[512];
 	namebuf[0] = 0;
 	if (dbcgs->szModule)
@@ -319,7 +320,7 @@ INT_PTR CompGetContactSettingStatic(WPARAM hContact, LPARAM pSetting)
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	TDBTSetting set = {0,0,0,0};
 	desc.cbSize = sizeof(desc);
-	desc.Entity = hContact;
+	desc.Entity = (WPARAM)hContact;
 	desc.pszSettingName = namebuf;
 
 	set.cbSize = sizeof(set);
@@ -420,17 +421,14 @@ INT_PTR CompGetContactSettingStatic(WPARAM hContact, LPARAM pSetting)
 			dbcgs->pValue->dVal = set.Value.DWord;
 		} break;
 		default:
-		{
 			return -1;
-		}
 	}
 
 	return 0;
 }
-INT_PTR CompFreeVariant(WPARAM wParam, LPARAM pSetting)
-{
-	DBVARIANT * dbv = reinterpret_cast<DBVARIANT *>(pSetting);
 
+STDMETHODIMP_(BOOL) CDataBase::FreeVariant(DBVARIANT *dbv)
+{
 	if ((dbv->type == DBVT_BLOB) && (dbv->pbVal))
 	{
 		mir_free(dbv->pbVal);
@@ -443,10 +441,9 @@ INT_PTR CompFreeVariant(WPARAM wParam, LPARAM pSetting)
 	dbv->type = 0;
 	return 0;
 }
-INT_PTR CompWriteContactSetting(WPARAM hContact, LPARAM pSetting)
-{
-	DBCONTACTWRITESETTING * dbcws = reinterpret_cast<DBCONTACTWRITESETTING *>(pSetting);
 
+STDMETHODIMP_(BOOL) CDataBase::WriteContactSetting(HANDLE hContact, DBCONTACTWRITESETTING *dbcws)
+{
 	char namebuf[512];
 	namebuf[0] = 0;
 	if (dbcws->szModule)
@@ -458,7 +455,7 @@ INT_PTR CompWriteContactSetting(WPARAM hContact, LPARAM pSetting)
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	TDBTSetting set = {0,0,0,0};
 	desc.cbSize = sizeof(desc);
-	desc.Entity = hContact;
+	desc.Entity = (WPARAM)hContact;
 	desc.pszSettingName = namebuf;
 
 	set.cbSize = sizeof(set);
@@ -533,21 +530,19 @@ INT_PTR CompWriteContactSetting(WPARAM hContact, LPARAM pSetting)
 		dbcws->value.type = DBVT_UTF8;
 		wchar_t * tmp = dbcws->value.pwszVal;
 		dbcws->value.pszVal = mir_utf8encodeW(dbcws->value.pwszVal);
-		NotifyEventHooks(hSettingChangeEvent, hContact, pSetting);
+		NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)dbcws);
 		mir_free(dbcws->value.pszVal);
 		dbcws->value.type = DBVT_WCHAR;
 		dbcws->value.pwszVal = tmp;		
 	} else {
-		NotifyEventHooks(hSettingChangeEvent, hContact, pSetting);
+		NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)dbcws);
 	}
 
 	return 0;
 }
 
-INT_PTR CompDeleteContactSetting(WPARAM hContact, LPARAM pSetting)
+STDMETHODIMP_(BOOL) CDataBase::DeleteContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
 {
-	DBCONTACTGETSETTING * dbcgs = reinterpret_cast<DBCONTACTGETSETTING *>(pSetting);
-
 	char namebuf[512];
 	namebuf[0] = 0;
 	if (dbcgs->szModule)
@@ -558,7 +553,7 @@ INT_PTR CompDeleteContactSetting(WPARAM hContact, LPARAM pSetting)
 
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	desc.cbSize = sizeof(desc);
-	desc.Entity = hContact;
+	desc.Entity = (WPARAM)hContact;
 	desc.pszSettingName = namebuf;
 
 	if (DBSettingDelete(reinterpret_cast<WPARAM>(&desc), 0) == DBT_INVALIDPARAM)
@@ -569,18 +564,17 @@ INT_PTR CompDeleteContactSetting(WPARAM hContact, LPARAM pSetting)
 		tmp.szModule = dbcgs->szModule;
 		tmp.szSetting = dbcgs->szSetting;
 		tmp.value.type = 0;
-		NotifyEventHooks(hSettingChangeEvent, hContact, reinterpret_cast<LPARAM>(&tmp));
+		NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp);
 	}
 
 	return 0;
 }
-INT_PTR CompEnumContactSettings(WPARAM hContact, LPARAM pEnum)
-{
-	DBCONTACTENUMSETTINGS * pces = reinterpret_cast<DBCONTACTENUMSETTINGS *>(pEnum);
 
+STDMETHODIMP_(BOOL) CDataBase::EnumContactSettings(HANDLE hContact, DBCONTACTENUMSETTINGS* pces)
+{
 	TDBTSettingDescriptor desc = {0,0,0,0,0,0,0,0};
 	desc.cbSize = sizeof(desc);
-	desc.Entity = hContact;
+	desc.Entity = (WPARAM)hContact;
 
 	char namebuf[512];
 	namebuf[0] = 0;
@@ -591,7 +585,7 @@ INT_PTR CompEnumContactSettings(WPARAM hContact, LPARAM pEnum)
 	TDBTSettingIterFilter filter = {0,0,0,0,0,0,0,0};
 	filter.cbSize = sizeof(filter);
 	filter.Descriptor = &desc;
-	filter.hEntity = hContact;
+	filter.hEntity = (WPARAM)(WPARAM)hContact;
 	filter.NameStart = namebuf;
 
 	TDBTSettingIterationHandle hiter = DBSettingIterInit(reinterpret_cast<WPARAM>(&filter), 0);
@@ -626,26 +620,25 @@ INT_PTR CompEnumContactSettings(WPARAM hContact, LPARAM pEnum)
 	return res;
 }
 
-
-INT_PTR CompGetEventCount(WPARAM hContact, LPARAM lParam)
+STDMETHODIMP_(LONG) CDataBase::GetEventCount(HANDLE hContact)
 {
 	if (hContact == 0)
-		hContact = gDataBase->getEntities().getRootEntity();
+		hContact = (HANDLE)gDataBase->getEntities().getRootEntity();
 
-	return DBEventGetCount(hContact, 0);
+	return DBEventGetCount((WPARAM)hContact, 0);
 }
-INT_PTR CompAddEvent(WPARAM hContact, LPARAM pEventInfo)
-{
-	DBEVENTINFO * dbei = reinterpret_cast<DBEVENTINFO*>(pEventInfo);
-	if (dbei->cbSize < sizeof(DBEVENTINFO))
-		return -1;
 
-	int tmp = NotifyEventHooks(hEventFilterAddedEvent, hContact, pEventInfo);
+STDMETHODIMP_(HANDLE) CDataBase::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
+{
+	if (dbei->cbSize < sizeof(DBEVENTINFO))
+		return (HANDLE)-1;
+
+	int tmp = NotifyEventHooks(hEventFilterAddedEvent, (WPARAM)hContact, (LPARAM)dbei);
 	if (tmp != 0)
-		return tmp;
+		return (HANDLE)tmp;
 
 	if (hContact == 0)
-		hContact = gDataBase->getEntities().getRootEntity();
+		hContact = (HANDLE)gDataBase->getEntities().getRootEntity();
 
 
 	TDBTEvent ev = {0,0,0,0,0,0,0};
@@ -659,37 +652,39 @@ INT_PTR CompAddEvent(WPARAM hContact, LPARAM pEventInfo)
 	ev.cbBlob = dbei->cbBlob;
 	ev.pBlob = dbei->pBlob;
 
-	int res = DBEventAdd(hContact, reinterpret_cast<LPARAM>(&ev));
+	int res = DBEventAdd((WPARAM)hContact, reinterpret_cast<LPARAM>(&ev));
 	if (res != DBT_INVALIDPARAM)
 	{
-		NotifyEventHooks(hEventAddedEvent, hContact, res);
-		return res;
+		NotifyEventHooks(hEventAddedEvent, (WPARAM)hContact, res);
+		return (HANDLE)res;
 	}
-	return 0;
+	return NULL;
 }
-INT_PTR CompDeleteEvent(WPARAM hContact, LPARAM hEvent)
+
+STDMETHODIMP_(BOOL) CDataBase::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 {
-	int res = NotifyEventHooks(hEventDeletedEvent, hContact, hEvent);
+	int res = NotifyEventHooks(hEventDeletedEvent, (WPARAM)hContact, (WPARAM)hDbEvent);
 
 	if (hContact == 0)
-		hContact = gDataBase->getEntities().getRootEntity();
+		hContact = (HANDLE)gDataBase->getEntities().getRootEntity();
 
 	if (res == 0)
-		return DBEventDelete(hEvent, 0);
+		return DBEventDelete((WPARAM)hDbEvent, 0);
 
 	return res;
 }
-INT_PTR CompGetBlobSize(WPARAM hEvent, LPARAM lParam)
+
+STDMETHODIMP_(LONG) CDataBase::GetBlobSize(HANDLE hDbEvent)
 {
-	int res = DBEventGetBlobSize(hEvent, 0);
+	int res = DBEventGetBlobSize((WPARAM)hDbEvent, 0);
 	if (res == DBT_INVALIDPARAM)
 		return -1;
 
 	return res;
 }
-INT_PTR CompGetEvent(WPARAM hEvent, LPARAM pEventInfo)
+
+STDMETHODIMP_(BOOL) CDataBase::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 {
-	DBEVENTINFO * dbei = reinterpret_cast<DBEVENTINFO*>(pEventInfo);
 	if (dbei->cbSize < sizeof(DBEVENTINFO))
 		return -1;
 
@@ -698,7 +693,7 @@ INT_PTR CompGetEvent(WPARAM hEvent, LPARAM pEventInfo)
 	ev.cbBlob = 0;
 	ev.pBlob = NULL;
 
-	int res = DBEventGet(hEvent, reinterpret_cast<LPARAM>(&ev));
+	int res = DBEventGet((WPARAM)hDbEvent, reinterpret_cast<LPARAM>(&ev));
 
 	dbei->szModule = ev.ModuleName;
 	dbei->timestamp = ev.Timestamp;
@@ -722,131 +717,78 @@ INT_PTR CompGetEvent(WPARAM hEvent, LPARAM pEventInfo)
 
 	return res;
 }
-INT_PTR CompMarkEventRead(WPARAM hContact, LPARAM hEvent)
+
+STDMETHODIMP_(BOOL) CDataBase::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 {
-	int res = DBEventMarkRead(hEvent, 0);
+	int res = DBEventMarkRead((WPARAM)hDbEvent, 0);
 	if ((res != DBT_INVALIDPARAM) && (res & DBEF_SENT))
 		res = res & ~DBEF_READ;
 	return res;
 }
-INT_PTR CompGetEventContact(WPARAM hEvent, LPARAM lParam)
+
+STDMETHODIMP_(HANDLE) CDataBase::GetEventContact(HANDLE hDbEvent)
 {
-	TDBTEntityHandle res = DBEventGetEntity(hEvent, 0);
+	TDBTEntityHandle res = DBEventGetEntity((WPARAM)hDbEvent, 0);
 	if (res == gDataBase->getEntities().getRootEntity())
 		res = 0;
 
-	return res;
-}
-INT_PTR CompFindFirstEvent(WPARAM hContact, LPARAM lParam)
-{
-	if (hContact == 0)
-		hContact = gDataBase->getEntities().getRootEntity();
-
-	return gDataBase->getEvents().compFirstEvent(hContact);
-}
-INT_PTR CompFindFirstUnreadEvent(WPARAM hContact, LPARAM lParam)
-{
-	if (hContact == 0)
-		hContact = gDataBase->getEntities().getRootEntity();
-	return gDataBase->getEvents().compFirstUnreadEvent(hContact);
-}
-INT_PTR CompFindLastEvent(WPARAM hContact, LPARAM lParam)
-{
-	if (hContact == 0)
-		hContact = gDataBase->getEntities().getRootEntity();
-	return gDataBase->getEvents().compLastEvent(hContact);
-}
-INT_PTR CompFindNextEvent(WPARAM hEvent, LPARAM lParam)
-{
-	return gDataBase->getEvents().compNextEvent(hEvent);
-}
-INT_PTR CompFindPrevEvent(WPARAM hEvent, LPARAM lParam)
-{
-	return gDataBase->getEvents().compPrevEvent(hEvent);
+	return (HANDLE)res;
 }
 
-INT_PTR CompEnumModules(WPARAM wParam, LPARAM pCallback)
+STDMETHODIMP_(HANDLE) CDataBase::FindFirstEvent(HANDLE hContact)
+{
+	if (hContact == 0)
+		hContact = (HANDLE)gDataBase->getEntities().getRootEntity();
+
+	return (HANDLE)gDataBase->getEvents().compFirstEvent((WPARAM)hContact);
+}
+
+STDMETHODIMP_(HANDLE) CDataBase::FindFirstUnreadEvent(HANDLE hContact)
+{
+	if (hContact == 0)
+		hContact = (HANDLE)gDataBase->getEntities().getRootEntity();
+	return (HANDLE)gDataBase->getEvents().compFirstUnreadEvent((WPARAM)hContact);
+}
+
+STDMETHODIMP_(HANDLE) CDataBase::FindLastEvent(HANDLE hContact)
+{
+	if (hContact == 0)
+		hContact = (HANDLE)gDataBase->getEntities().getRootEntity();
+	return (HANDLE)gDataBase->getEvents().compLastEvent((WPARAM)hContact);
+}
+
+STDMETHODIMP_(HANDLE) CDataBase::FindNextEvent(HANDLE hDbEvent)
+{
+	return (HANDLE)gDataBase->getEvents().compNextEvent((WPARAM)hDbEvent);
+}
+
+STDMETHODIMP_(HANDLE) CDataBase::FindPrevEvent(HANDLE hDbEvent)
+{
+	return (HANDLE)gDataBase->getEvents().compPrevEvent((WPARAM)hDbEvent);
+}
+
+STDMETHODIMP_(BOOL) CDataBase::EnumModuleNames(DBMODULEENUMPROC pCallback, void *pParam)
 {
 	if (!pCallback)
 		return -1;
 	
-	return gDataBase->getSettings().CompEnumModules(reinterpret_cast<DBMODULEENUMPROC>(pCallback), wParam);
+	return gDataBase->getSettings().CompEnumModules(pCallback, (WPARAM)pParam);
 }
 
-void Encrypt(char* msg, BOOL up)
+STDMETHODIMP_(BOOL) CDataBase::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
 {
-	int i;
-	const int jump = up ? 5 : -5;
-	
-	for (i=0; msg[i]; i++)
-	{
-		msg[i] = msg[i] + jump;
-	}
-
+	return FALSE;
 }
 
-INT_PTR CompEncodeString(WPARAM wParam, LPARAM lParam)
+STDMETHODIMP_(BOOL) CDataBase::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
 {
-	Encrypt(reinterpret_cast<char*>(lParam),TRUE);
-	return 0;
+	return FALSE;
 }
 
-INT_PTR CompDecodeString(WPARAM wParam, LPARAM lParam)
-{
-	Encrypt(reinterpret_cast<char*>(lParam),FALSE);
-	return 0;
-}
-
-INT_PTR CompGetProfileName(WPARAM cbBytes, LPARAM pszName)
-{
-	return gDataBase->getProfileName(cbBytes, reinterpret_cast<char*>(pszName));
-}
-
-INT_PTR CompGetProfilePath(WPARAM cbBytes, LPARAM pszName)
-{
-	return gDataBase->getProfilePath(cbBytes, reinterpret_cast<char*>(pszName));
-}
+STDMETHODIMP_(void) CDataBase::SetCacheSafetyMode(BOOL) {}
 
 bool CompatibilityRegister()
 {
-	gCompServices[ 0] = CreateServiceFunction(MS_DB_CONTACT_GETCOUNT,         CompGetContactCount);
-	gCompServices[ 1] = CreateServiceFunction(MS_DB_CONTACT_FINDFIRST,        CompFindFirstContact);
-	gCompServices[ 2] = CreateServiceFunction(MS_DB_CONTACT_FINDNEXT,         CompFindNextContact);
-	gCompServices[ 3] = CreateServiceFunction(MS_DB_CONTACT_DELETE,           CompDeleteContact);
-	gCompServices[ 4] = CreateServiceFunction(MS_DB_CONTACT_ADD,              CompAddContact);
-	gCompServices[ 5] = CreateServiceFunction(MS_DB_CONTACT_IS,	              CompIsDbContact);
-
-	gCompServices[ 6] = CreateServiceFunction(MS_DB_CONTACT_GETSETTING,       CompGetContactSetting);
-	gCompServices[ 7] = CreateServiceFunction(MS_DB_CONTACT_GETSETTING_STR,   CompGetContactSettingStr);
-	gCompServices[ 8] = CreateServiceFunction(MS_DB_CONTACT_GETSETTINGSTATIC, CompGetContactSettingStatic);
-	gCompServices[ 9] = CreateServiceFunction(MS_DB_CONTACT_FREEVARIANT,      CompFreeVariant);
-	gCompServices[10] = CreateServiceFunction(MS_DB_CONTACT_WRITESETTING,     CompWriteContactSetting);
-	gCompServices[11] = CreateServiceFunction(MS_DB_CONTACT_DELETESETTING,    CompDeleteContactSetting);
-	gCompServices[12] = CreateServiceFunction(MS_DB_CONTACT_ENUMSETTINGS,     CompEnumContactSettings);
-	//gCompServices[13] = CreateServiceFunction(MS_DB_SETSETTINGRESIDENT,       CompSetSettingResident);
-
-	gCompServices[14] = CreateServiceFunction(MS_DB_EVENT_GETCOUNT,           CompGetEventCount);
-	gCompServices[15] = CreateServiceFunction(MS_DB_EVENT_ADD,                CompAddEvent);
-	gCompServices[16] = CreateServiceFunction(MS_DB_EVENT_DELETE,             CompDeleteEvent);
-	gCompServices[17] = CreateServiceFunction(MS_DB_EVENT_GETBLOBSIZE,        CompGetBlobSize);
-	gCompServices[18] = CreateServiceFunction(MS_DB_EVENT_GET,                CompGetEvent);
-	gCompServices[19] = CreateServiceFunction(MS_DB_EVENT_MARKREAD,           CompMarkEventRead);
-	gCompServices[20] = CreateServiceFunction(MS_DB_EVENT_GETCONTACT,         CompGetEventContact);
-	gCompServices[21] = CreateServiceFunction(MS_DB_EVENT_FINDFIRST,          CompFindFirstEvent);
-	gCompServices[22] = CreateServiceFunction(MS_DB_EVENT_FINDFIRSTUNREAD,    CompFindFirstUnreadEvent);
-	gCompServices[23] = CreateServiceFunction(MS_DB_EVENT_FINDLAST,           CompFindLastEvent);
-	gCompServices[24] = CreateServiceFunction(MS_DB_EVENT_FINDNEXT,           CompFindNextEvent);
-	gCompServices[25] = CreateServiceFunction(MS_DB_EVENT_FINDPREV,           CompFindPrevEvent);
-
-	gCompServices[26] = CreateServiceFunction(MS_DB_MODULES_ENUM,             CompEnumModules);
-
-	gCompServices[27] = CreateServiceFunction(MS_DB_CRYPT_ENCODESTRING,       CompEncodeString);
-	gCompServices[28] = CreateServiceFunction(MS_DB_CRYPT_DECODESTRING,       CompDecodeString);
-
-	gCompServices[29] = CreateServiceFunction(MS_DB_GETPROFILENAME,           CompGetProfileName);
-	gCompServices[30] = CreateServiceFunction(MS_DB_GETPROFILEPATH,           CompGetProfilePath);
-
-
 	hEventDeletedEvent     = CreateHookableEvent(ME_DB_EVENT_DELETED);
 	hEventAddedEvent       = CreateHookableEvent(ME_DB_EVENT_ADDED);
 	hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
@@ -858,8 +800,5 @@ bool CompatibilityRegister()
 
 bool CompatibilityUnRegister()
 {
-	for (int i = 0; i < SIZEOF(gCompServices); ++i)
-		DestroyServiceFunction(gCompServices[i]);
-
 	return true;
 }

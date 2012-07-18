@@ -29,10 +29,7 @@ int InitialiseDbHeaders(void);
 int InitSettings(void);
 void UninitSettings(void);
 int InitContacts(void);
-void UninitContacts(void);
 int InitEvents(void);
-void UninitEvents(void);
-int InitCrypt(void);
 int InitModuleNames(void);
 void UninitModuleNames(void);
 int InitCache(void);
@@ -40,10 +37,10 @@ void UninitCache(void);
 int InitIni(void);
 void UninitIni(void);
 
-HANDLE hDbFile=INVALID_HANDLE_VALUE;
+HANDLE hDbFile = INVALID_HANDLE_VALUE;
 CRITICAL_SECTION csDbAccess;
 struct DBHeader dbHeader;
-char szDbPath[MAX_PATH];
+TCHAR szDbPath[MAX_PATH];
 
 static void UnloadDatabase(void)
 {
@@ -58,8 +55,8 @@ static void UnloadDatabase(void)
 DWORD CreateNewSpace(int bytes)
 {
 	DWORD ofsNew;
-	ofsNew=dbHeader.ofsFileEnd;
-	dbHeader.ofsFileEnd+=bytes;
+	ofsNew = dbHeader.ofsFileEnd;
+	dbHeader.ofsFileEnd += bytes;
 	DBWrite(0,&dbHeader,sizeof(dbHeader));
 	log2("newspace %d@%08x",bytes,ofsNew);
 	return ofsNew;
@@ -69,10 +66,10 @@ void DeleteSpace(DWORD ofs,int bytes)
 {
 	if (ofs+bytes == dbHeader.ofsFileEnd)	{
 		log2("freespace %d@%08x",bytes,ofs);
-		dbHeader.ofsFileEnd=ofs;
+		dbHeader.ofsFileEnd = ofs;
 	} else	{
 		log2("deletespace %d@%08x",bytes,ofs);
-		dbHeader.slackSpace+=bytes;
+		dbHeader.slackSpace += bytes;
 	}
 	DBWrite(0,&dbHeader,sizeof(dbHeader));
 	DBFill(ofs,bytes);
@@ -86,11 +83,11 @@ DWORD ReallocSpace(DWORD ofs,int oldSize,int newSize)
 
 	if (ofs+oldSize == dbHeader.ofsFileEnd) {
 		ofsNew = ofs;
-		dbHeader.ofsFileEnd+=newSize-oldSize;
+		dbHeader.ofsFileEnd += newSize-oldSize;
 		DBWrite(0,&dbHeader,sizeof(dbHeader));
 		log3("adding newspace %d@%08x+%d",newSize,ofsNew,oldSize);
 	} else {
-		ofsNew=CreateNewSpace(newSize);
+		ofsNew = CreateNewSpace(newSize);
 		DBMoveChunk(ofsNew,ofs,oldSize);
 		DeleteSpace(ofs,oldSize);
 	}
@@ -99,10 +96,7 @@ DWORD ReallocSpace(DWORD ofs,int oldSize,int newSize)
 
 void UnloadDatabaseModule(void)
 {
-	//UninitIni();
-	UninitEvents();
 	UninitSettings();
-	UninitContacts();
 	UninitModuleNames();
 	UninitCache();
 	UnloadDatabase();
@@ -114,8 +108,8 @@ int LoadDatabaseModule(void)
 	InitializeCriticalSection(&csDbAccess);
 	log0("DB logging running");
 	{
-		DWORD dummy=0;
-		hDbFile=CreateFileA(szDbPath,GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, 0, NULL);
+		DWORD dummy = 0;
+		hDbFile = CreateFile(szDbPath,GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, 0, NULL);
 		if ( hDbFile == INVALID_HANDLE_VALUE ) {
 			return 1;
 		}
@@ -124,17 +118,16 @@ int LoadDatabaseModule(void)
 			return 1;
 		}
 	}
-	//if(ParseCommandLine()) return 1;
-	if(InitCache()) return 1;
-	if(InitModuleNames()) return 1;
-	if(InitContacts()) return 1;
-	if(InitSettings()) return 1;
-	if(InitEvents()) return 1;
-	if(InitCrypt()) return 1;
+
+	if (InitCache()) return 1;
+	if (InitModuleNames()) return 1;
+	if (InitContacts()) return 1;
+	if (InitSettings()) return 1;
+	if (InitEvents()) return 1;
 	return 0;
 }
 
-static DWORD DatabaseCorrupted=0;
+static DWORD DatabaseCorrupted = 0;
 static TCHAR *msg = NULL;
 static DWORD dwErr = 0;
 
@@ -144,7 +137,7 @@ void __cdecl dbpanic(void *arg)
 	{
 		TCHAR err[256];
 
-		if (dwErr==ERROR_DISK_FULL)
+		if (dwErr == ERROR_DISK_FULL)
 			msg = TranslateT("Disk is full. Miranda will now shutdown.");
 
 		mir_sntprintf(err, SIZEOF(err), msg, TranslateT("Database failure. Miranda will now shutdown."), dwErr);
@@ -159,10 +152,10 @@ void __cdecl dbpanic(void *arg)
 
 void DatabaseCorruption(TCHAR *text)
 {
-	int kill=0;
+	int kill = 0;
 
 	EnterCriticalSection(&csDbAccess);
-	if (DatabaseCorrupted==0) {
+	if (DatabaseCorrupted == 0) {
 		DatabaseCorrupted++;
 		kill++;
 		msg = text;
@@ -191,7 +184,7 @@ void DBLog(const char *file,int line,const char *fmt,...)
 	va_start(vararg,fmt);
 	mir_vsnprintf(str,sizeof(str),fmt,vararg);
 	va_end(vararg);
-	fp=fopen("c:\\mirandadatabase.log.txt","at");
+	fp = fopen("c:\\mirandadatabase.log.txt","at");
 	fprintf(fp,"%u: %s %d: %s\n",GetTickCount(),file,line,str);
 	fclose(fp);
 }

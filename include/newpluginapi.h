@@ -122,35 +122,6 @@ typedef struct PLUGININFOEX_tag
 //lParam = HINSTANCE of the plugin to be unloaded
 #define ME_SYSTEM_MODULEUNLOAD "Miranda/System/UnloadModule"
 
-//see modules.h for what all this stuff is
-typedef struct tagPLUGINLINK {
-	HANDLE (*CreateHookableEvent)(const char *);
-	int (*DestroyHookableEvent)(HANDLE);
-	int (*NotifyEventHooks)(HANDLE, WPARAM, LPARAM);
-	HANDLE (*HookEvent)(const char *, MIRANDAHOOK);
-	HANDLE (*HookEventMessage)(const char *, HWND, UINT);
-	int (*UnhookEvent)(HANDLE);
-	HANDLE (*CreateServiceFunction)(const char *, MIRANDASERVICE);
-	HANDLE (*CreateTransientServiceFunction)(const char *, MIRANDASERVICE);
-	int (*DestroyServiceFunction)(HANDLE);
-	INT_PTR (*CallService)(const char *, WPARAM, LPARAM);
-	int (*ServiceExists)(const char *);		  //v0.1.0.1+
-	INT_PTR (*CallServiceSync)(const char *, WPARAM, LPARAM);		//v0.3.3+
-	int (*CallFunctionAsync) (void (__stdcall *)(void *), void *);	//v0.3.4+
-	int (*SetHookDefaultForHookableEvent) (HANDLE, MIRANDAHOOK); // v0.3.4 (2004/09/15)
-	HANDLE (*CreateServiceFunctionParam)(const char *, MIRANDASERVICEPARAM, LPARAM); // v0.7+ (2007/04/24)
-	int (*NotifyEventHooksDirect)(HANDLE, WPARAM, LPARAM); // v0.7+
-	INT_PTR (*CallProtoService)(const char *, const char *, WPARAM, LPARAM);
-	INT_PTR (*CallContactService)(HANDLE, const char *, WPARAM, LPARAM);
-	HANDLE (*HookEventParam)(const char *, MIRANDAHOOKPARAM, LPARAM);
-	HANDLE (*HookEventObj)(const char *, MIRANDAHOOKOBJ, void*);
-	HANDLE (*HookEventObjParam)(const char *, MIRANDAHOOKOBJPARAM, void*, LPARAM);
-	HANDLE (*CreateServiceFunctionObj)(const char *, MIRANDASERVICEOBJ, void*);
-	HANDLE (*CreateServiceFunctionObjParam)(const char *, MIRANDASERVICEOBJPARAM, void*, LPARAM);
-	void (*KillObjectServices)(void *);
-	void (*KillObjectEventHooks)(void *);
-} PLUGINLINK;
-
 /*
  Database plugin stuff
 */
@@ -164,61 +135,5 @@ typedef struct tagPLUGINLINK {
 
 // makeDatabase() error codes
 #define EMKPRF_CREATEFAILED 1   // for some reason CreateFile() didnt like something
-
-typedef struct {
-	int cbSize;
-
-	/*
-	returns what the driver can do given the flag
-	*/
-	int (*getCapability) (int flag);
-
-	/*
-		buf: pointer to a string buffer
-		cch: length of buffer
-		shortName: if true, the driver should return a short but descriptive name, e.g. "3.xx profile"
-		Affect: The database plugin must return a "friendly name" into buf and not exceed cch bytes,
-			e.g. "Database driver for 3.xx profiles"
-		Returns: 0 on success, non zero on failure
-	*/
-	int (*getFriendlyName) (char * buf, size_t cch, int shortName);
-
-	/*
-		profile: pointer to a string which contains full path + name
-		Affect: The database plugin should create the profile, the filepath will not exist at
-			the time of this call, profile will be C:\..\<name>.dat
-		Note: Do not prompt the user in anyway about this operation.
-		Note: Do not initialise internal data structures at this point!
-		Returns: 0 on success, non zero on failure - error contains extended error information, see EMKPRF_*
-	*/
-	int (*makeDatabase) (char * profile, int * error);
-
-	/*
-		profile: [in] a null terminated string to file path of selected profile
-		error: [in/out] pointer to an int to set with error if any
-		Affect: Ask the database plugin if it supports the given profile, if it does it will
-			return 0, if it doesnt return 1, with the error set in error -- EGROKPRF_* can be valid error
-			condition, most common error would be [EGROKPRF_UNKHEADER]
-		Note: Just because 1 is returned, doesnt mean the profile is not supported, the profile might be damaged
-			etc.
-		Returns: 0 on success, non zero on failure
-	*/
-	int (*grokHeader) (char * profile, int * error);
-
-	/*
-	Affect: Tell the database to create all services/hooks that a 3.xx legecy database might support into link,
-		which is a PLUGINLINK structure
-	Returns: 0 on success, nonzero on failure
-	*/
-	int (*Load) (char * profile);
-
-	/*
-	Affect: The database plugin should shutdown, unloading things from the core and freeing internal structures
-	Returns: 0 on success, nonzero on failure
-	Note: Unload() might be called even if Load(void) was never called, wasLoaded is set to 1 if Load(void) was ever called.
-	*/
-	int (*Unload) (int wasLoaded);
-
-} DATABASELINK;
 
 #endif // M_NEWPLUGINAPI_H__

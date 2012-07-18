@@ -29,13 +29,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CDataBase *gDataBase = NULL;
 
-CDataBase::CDataBase(const char* FileName)
+CDataBase::CDataBase(const TCHAR *FileName)
 {
-	int len;
-
-	len = MultiByteToWideChar(CP_ACP, 0, FileName, -1, NULL, 0);
+	int len = _tcslen(FileName);
 	m_FileName[0] = new TCHAR[len + 1];
-	MultiByteToWideChar(CP_ACP, 0, FileName, -1, m_FileName[0], len + 1);
+	_tcsncpy_s(m_FileName[0], len + 1, FileName, len);
 	m_FileName[0][len] = 0;
 
 

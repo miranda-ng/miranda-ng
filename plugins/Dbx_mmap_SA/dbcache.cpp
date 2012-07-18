@@ -65,7 +65,7 @@ void ReMap(DWORD needed)
 		}
 	}
 	else
-		dwFileSize += ChunkSize;
+		dwFileSize  +=  ChunkSize;
 
 //	FlushViewOfFile(pDbCache, 0);
 	UnmapViewOfFile(pDbCache);
@@ -120,7 +120,7 @@ void DBWrite(DWORD ofs,PVOID pData,int bytes)
 void DBFill(DWORD ofs,int bytes)
 {
 	log2("zerofill %d@%08x",bytes,ofs);
-	if (ofs+bytes<=dwFileSize)
+	if (ofs+bytes <= dwFileSize)
 		ZeroMemory(pDbCache+ofs,bytes);
 	logg();
 }
@@ -146,7 +146,7 @@ void DBFlush(int setting)
 {
 	if (!setting) {
 		log0("nflush1");
-		if(safetyMode && pDbCache) {
+		if (safetyMode && pDbCache) {
 			if (FlushViewOfFile(pDbCache, 0) == 0) {
 				if (flushFailTick == 0)
 					flushFailTick = GetTickCount();
@@ -160,16 +160,7 @@ void DBFlush(int setting)
 		return;
 	}
 	KillTimer(NULL,flushBuffersTimerId);
-	flushBuffersTimerId=SetTimer(NULL,flushBuffersTimerId,50,DoBufferFlushTimerProc);
-}
-
-static INT_PTR CacheSetSafetyMode(WPARAM wParam,LPARAM lParam)
-{
-	EnterCriticalSection(&csDbAccess);
-	safetyMode=wParam;
-	LeaveCriticalSection(&csDbAccess);
-	DBFlush(1);
-	return 0;
+	flushBuffersTimerId = SetTimer(NULL,flushBuffersTimerId,50,DoBufferFlushTimerProc);
 }
 
 int InitCache(void)
@@ -184,15 +175,12 @@ int InitCache(void)
 
 	// Align to chunk
 	x = dwFileSize % ChunkSize;
-	if (x) dwFileSize += ChunkSize - x;
+	if (x) dwFileSize  +=  ChunkSize - x;
 
 	Map();
 
 	// zero region for reads outside the file
 	pNull = (PBYTE)calloc(ChunkSize, 1);
-
-	CreateServiceFunction(MS_DB_SETSAFETYMODE,CacheSetSafetyMode);
-
 	return 0;
 }
 

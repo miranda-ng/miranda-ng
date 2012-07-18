@@ -59,7 +59,7 @@ int InitPreset()
 	GetModuleFileNameA(GetModuleHandle(NULL), szIniPath, SIZEOF(szIniPath));
 	strcpy(strrchr(szIniPath, '\\')+1, "dbpreset.ini");
 
-	fp=fopen(szIniPath,"rt");
+	fp = fopen(szIniPath,"rt");
 
 	// no preset
 	if (!fp) return 0;
@@ -69,16 +69,16 @@ int InitPreset()
 
 	while(!feof(fp))
 	{
-		if(fgets(szLine,sizeof(szLine),fp)==NULL) break;
-		lineLength=lstrlenA(szLine);
-		while(lineLength && (BYTE)(szLine[lineLength-1])<=' ') szLine[--lineLength]='\0';
-		if(szLine[0]==';' || szLine[0]<=' ') continue;
-		if(szLine[0]=='[')
+		if (fgets(szLine,sizeof(szLine),fp) == NULL) break;
+		lineLength = lstrlenA(szLine);
+		while(lineLength && (BYTE)(szLine[lineLength-1]) <= ' ') szLine[--lineLength] = '\0';
+		if (szLine[0] == ';' || szLine[0] <= ' ') continue;
+		if (szLine[0] == '[')
 		{
-			char *szEnd=strchr(szLine+1,']');
-			if(szEnd==NULL) continue;
-			if(szLine[1]=='!')
-				szSection[0]='\0';
+			char *szEnd = strchr(szLine+1,']');
+			if (szEnd == NULL) continue;
+			if (szLine[1] == '!')
+				szSection[0] = '\0';
 			else
 				lstrcpynA(szSection, szLine+1, (int)min(sizeof(szSection), szEnd-szLine));
 		} else
@@ -87,9 +87,9 @@ int InitPreset()
 			char szName[128];
 			DBPresetItem *item;
 
-			if(szSection[0]=='\0') continue;
-			szValue=strchr(szLine,'=');
-			if(szValue==NULL) continue;
+			if (szSection[0] == '\0') continue;
+			szValue = strchr(szLine,' = ');
+			if (szValue == NULL) continue;
 			lstrcpynA(szName, szLine, (int)min(sizeof(szName), szValue-szLine+1));
 			szValue++;
 
@@ -132,11 +132,11 @@ int InitPreset()
 					int len;
 					char *pszValue,*pszEnd;
 
-					buf=(PBYTE)mir_alloc(lstrlenA(szValue+1));
-					for(len=0,pszValue=szValue+1;;len++) {
-						buf[len]=(BYTE)strtol(pszValue,&pszEnd,0x10);
-						if(pszValue==pszEnd) break;
-						pszValue=pszEnd;
+					buf = (PBYTE)mir_alloc(lstrlenA(szValue+1));
+					for(len = 0,pszValue = szValue+1;;len++) {
+						buf[len] = (BYTE)strtol(pszValue,&pszEnd,0x10);
+						if (pszValue == pszEnd) break;
+						pszValue = pszEnd;
 					}
 
 					item = DBPresetItem_Create(szSection, szName, DBVT_BLOB);
@@ -256,14 +256,14 @@ static void DBPresetItem_Destroy(DBPresetItem *item)
 		{
 			if (item->dbv.pszVal)
 				mir_free(item->dbv.pszVal);
-			item->dbv.pszVal=0;
+			item->dbv.pszVal = 0;
 			break;
 		}
 		case DBVT_BLOB:
 		{
 			if (item->dbv.pbVal)
 				mir_free(item->dbv.pbVal);
-			item->dbv.pbVal=0;
+			item->dbv.pbVal = 0;
 			break;
 		}
 	}
@@ -273,19 +273,19 @@ static void DBPresetItem_Destroy(DBPresetItem *item)
 static void DBPresetItem_Hash(DBPresetItem *item)
 {
 	int i;
-	int shift=0;
-	item->dwHash=0;
-	for(i=0;item->szModule[i];i++)
+	int shift = 0;
+	item->dwHash = 0;
+	for(i = 0;item->szModule[i];i++)
 	{
-		item->dwHash^=item->szModule[i]<<shift;
-		if (shift>24) item->dwHash^=(item->szModule[i]>>(32-shift))&0x7F;
-		shift=(shift+5)&0x1F;
+		item->dwHash ^= item->szModule[i]<<shift;
+		if (shift>24) item->dwHash ^= (item->szModule[i]>>(32-shift))&0x7F;
+		shift = (shift+5)&0x1F;
 	}
-	for(i=0;item->szSetting[i];i++)
+	for(i = 0;item->szSetting[i];i++)
 	{
-		item->dwHash^=item->szSetting[i]<<shift;
-		if (shift>24) item->dwHash^=(item->szSetting[i]>>(32-shift))&0x7F;
-		shift=(shift+5)&0x1F;
+		item->dwHash ^= item->szSetting[i]<<shift;
+		if (shift>24) item->dwHash ^= (item->szSetting[i]>>(32-shift))&0x7F;
+		shift = (shift+5)&0x1F;
 	}
 }
 

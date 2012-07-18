@@ -25,23 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "savestrings_gcc.h"
 #endif
 
-static int getCapability(int);
-static int getFriendlyName(char*, size_t, int);
-static int makeDatabase(char*, int*);
-static int grokHeader(char*, int*);
-static int Load(char*);
-static int Unload(int);
-
-DATABASELINK gDBLink = {
-	sizeof(DATABASELINK),
-	getCapability,
-	getFriendlyName,
-	makeDatabase,
-	grokHeader,
-	Load,
-	Unload,
-};
-
 HANDLE hSystemModulesLoaded = 0;
 
 static int SystemModulesLoaded(WPARAM wParam, LPARAM lParam)
@@ -70,12 +53,12 @@ static int getCapability(int flag)
 	Returns: 0 on success, non zero on failure
 */
 
-static int getFriendlyName(char* buf, size_t cch, int shortName)
+static int getFriendlyName(TCHAR *buf, size_t cch, int shortName)
 {
 	if (shortName)
-		strncpy_s(buf, cch, gInternalName, strlen(gInternalName));
+		_tcsncpy_s(buf, cch, _T(gInternalName), SIZEOF(gInternalName));
 	else
-		strncpy_s(buf, cch, gInternalNameLong, strlen(gInternalNameLong));
+		_tcsncpy_s(buf, cch, _T(gInternalNameLong), SIZEOF(gInternalNameLong));
 	return 0;
 }
 
@@ -87,10 +70,10 @@ static int getFriendlyName(char* buf, size_t cch, int shortName)
 	Note: Do not initialise internal data structures at this point!
 	Returns: 0 on success, non zero on failure - error contains extended error information, see EMKPRF_*
 */
-static int makeDatabase(char* profile, int* error)
+static int makeDatabase(TCHAR *profile, int* error)
 {
 	if (gDataBase) delete gDataBase;
-  gDataBase = new CDataBase(profile);
+	gDataBase = new CDataBase(profile);
 
 	*error = gDataBase->CreateDB();
 	return *error;
@@ -106,7 +89,7 @@ static int makeDatabase(char* profile, int* error)
 		etc.
 	Returns: 0 on success, non zero on failure
 */
-static int grokHeader(char* profile, int* error)
+static int grokHeader(TCHAR *profile, int* error)
 {
 	if (gDataBase) delete gDataBase;
 	gDataBase = new CDataBase(profile);
@@ -121,7 +104,7 @@ Affect: Tell the database to create all services/hooks that a 3.xx legecy databa
 Returns: 0 on success, nonzero on failure
 */
 
-static int Load(char* profile)
+static MIDatabase* Load(TCHAR *profile)
 {
 	if (gDataBase) delete gDataBase;
 	gDataBase = new CDataBase(profile);
@@ -131,7 +114,8 @@ static int Load(char* profile)
 
 	hSystemModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, SystemModulesLoaded);
 
-	return gDataBase->OpenDB();
+	gDataBase->OpenDB();
+	return gDataBase;
 }
 
 /*
@@ -147,3 +131,13 @@ static int Unload(int wasLoaded)
 	gDataBase = NULL;
 	return 0;
 }
+
+DATABASELINK gDBLink = {
+	sizeof(DATABASELINK),
+	getCapability,
+	getFriendlyName,
+	makeDatabase,
+	grokHeader,
+	Load,
+	Unload,
+};

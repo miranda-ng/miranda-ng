@@ -39,40 +39,39 @@ int InitModuleNames(void)
 	DWORD ofsThis,ofsNext;
 	int nameLen;
 
-	moduleNameCount=0;
-	moduleName=NULL;
-	ofsThis=dbHeader.ofsFirstModuleName;
-	dbmn=(struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
+	moduleNameCount = 0;
+	moduleName = NULL;
+	ofsThis = dbHeader.ofsFirstModuleName;
+	dbmn = (struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
 	while(ofsThis) {
-		if(dbmn->signature!=DBMODULENAME_SIGNATURE) DatabaseCorruption();
-		moduleName=(struct ModuleName*)mir_realloc(moduleName,sizeof(struct ModuleName)*(moduleNameCount+1));
-		moduleName[moduleNameCount].ofs=ofsThis;
-		moduleName[moduleNameCount].hash=dbmn->cbName;    //very very simple hash so far
-		moduleName[moduleNameCount].name=(char*)mir_alloc(dbmn->cbName+1);
-		ofsNext=dbmn->ofsNext;
-		nameLen=dbmn->cbName;
+		if (dbmn->signature!= DBMODULENAME_SIGNATURE) DatabaseCorruption();
+		moduleName = (struct ModuleName*)mir_realloc(moduleName,sizeof(struct ModuleName)*(moduleNameCount+1));
+		moduleName[moduleNameCount].ofs = ofsThis;
+		moduleName[moduleNameCount].hash = dbmn->cbName;    //very very simple hash so far
+		moduleName[moduleNameCount].name = (char*)mir_alloc(dbmn->cbName+1);
+		ofsNext = dbmn->ofsNext;
+		nameLen = dbmn->cbName;
 		CopyMemory(moduleName[moduleNameCount].name,DBRead(ofsThis+offsetof(struct DBModuleName,name),nameLen,NULL),nameLen);
-		moduleName[moduleNameCount].name[nameLen]=0;
+		moduleName[moduleNameCount].name[nameLen] = 0;
 		moduleNameCount++;
-		ofsThis=ofsNext;
-		dbmn=(struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
+		ofsThis = ofsNext;
+		dbmn = (struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
 	}
-	CreateServiceFunction(MS_DB_MODULES_ENUM,EnumModuleNames);
 	return 0;
 }
 
 void UninitModuleNames(void)
 {
 	int i;
-	for(i=0;i<moduleNameCount;i++) mir_free(moduleName[i].name);
-	if(moduleNameCount) mir_free(moduleName);
+	for(i = 0;i<moduleNameCount;i++) mir_free(moduleName[i].name);
+	if (moduleNameCount) mir_free(moduleName);
 }
 
 static DWORD FindExistingModuleNameOfs(const char *szName,int nameLen)
 {
 	int i;
-	for(i=0;i<moduleNameCount;i++)
-		if(moduleName[i].hash==(DWORD)nameLen && !strcmp(moduleName[i].name,szName)) return moduleName[i].ofs;
+	for(i = 0;i<moduleNameCount;i++)
+		if (moduleName[i].hash == (DWORD)nameLen && !strcmp(moduleName[i].name,szName)) return moduleName[i].ofs;
 	return 0;
 }
 
@@ -80,26 +79,26 @@ static DWORD FindExistingModuleNameOfs(const char *szName,int nameLen)
 DWORD GetModuleNameOfs(const char *szName)
 {
 	struct DBModuleName dbmn;
-	int nameLen=(int)strlen(szName);
+	int nameLen = (int)strlen(szName);
 	DWORD ofsNew,ofsExisting;
 
-	ofsExisting=FindExistingModuleNameOfs(szName,nameLen);
-	if(ofsExisting) return ofsExisting;
+	ofsExisting = FindExistingModuleNameOfs(szName,nameLen);
+	if (ofsExisting) return ofsExisting;
 	//need to create the module name
-	ofsNew=CreateNewSpace(nameLen+offsetof(struct DBModuleName,name));
-	dbmn.signature=DBMODULENAME_SIGNATURE;
-	dbmn.cbName=nameLen;
-	dbmn.ofsNext=dbHeader.ofsFirstModuleName;
-	dbHeader.ofsFirstModuleName=ofsNew;
+	ofsNew = CreateNewSpace(nameLen+offsetof(struct DBModuleName,name));
+	dbmn.signature = DBMODULENAME_SIGNATURE;
+	dbmn.cbName = nameLen;
+	dbmn.ofsNext = dbHeader.ofsFirstModuleName;
+	dbHeader.ofsFirstModuleName = ofsNew;
 	DBWrite(0,&dbHeader,sizeof(dbHeader));
 	DBWrite(ofsNew,&dbmn,offsetof(struct DBModuleName,name));
 	DBWrite(ofsNew+offsetof(struct DBModuleName,name),(PVOID)szName,nameLen);
 	DBFlush(0);
 	//add to cache
-	moduleName=(struct ModuleName*)mir_realloc(moduleName,sizeof(struct ModuleName)*(moduleNameCount+1));
-	moduleName[moduleNameCount].ofs=ofsNew;
-	moduleName[moduleNameCount].hash=nameLen;    //very very simple hash so far
-	moduleName[moduleNameCount].name=(char*)mir_alloc(nameLen+1);
+	moduleName = (struct ModuleName*)mir_realloc(moduleName,sizeof(struct ModuleName)*(moduleNameCount+1));
+	moduleName[moduleNameCount].ofs = ofsNew;
+	moduleName[moduleNameCount].hash = nameLen;    //very very simple hash so far
+	moduleName[moduleNameCount].name = (char*)mir_alloc(nameLen+1);
 	strcpy(moduleName[moduleNameCount].name,szName);
 	moduleNameCount++;
 	//quit
@@ -111,18 +110,18 @@ char *GetModuleNameByOfs(DWORD ofs)
 {
 	int i;
 
-	for(i=0;i<moduleNameCount;i++)
-		if(moduleName[i].ofs==ofs) return moduleName[i].name;
+	for(i = 0;i<moduleNameCount;i++)
+		if (moduleName[i].ofs == ofs) return moduleName[i].name;
 	DatabaseCorruption();
 	return NULL;
 } 
 
-static INT_PTR EnumModuleNames(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(BOOL) CDdxMmap::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam)
 {
 	int i;
 	INT_PTR ret;
-	for(i=0;i<moduleNameCount;i++) {
-		ret=((DBMODULEENUMPROC)lParam)(moduleName[i].name,moduleName[i].ofs,wParam);
+	for(i = 0;i<moduleNameCount;i++) {
+		ret = pFunc(moduleName[i].name,moduleName[i].ofs, (LPARAM)pParam);
 		if (ret) return ret;
 	}
 	return 0;

@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-static INT_PTR EnumModuleNames(WPARAM wParam,LPARAM lParam);
-
 typedef struct {
 	char *name;
 	DWORD ofs;
@@ -76,11 +74,11 @@ int InitModuleNames(void)
 	lOfs.increment = 50;
 
 	ofsThis = dbHeader.ofsFirstModuleName;
-	dbmn=(struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
+	dbmn = (struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
 	while(ofsThis) {
-		if(dbmn->signature!=DBMODULENAME_SIGNATURE) DatabaseCorruption(NULL);
+		if (dbmn->signature!=DBMODULENAME_SIGNATURE) DatabaseCorruption(NULL);
 
-		nameLen=dbmn->cbName;
+		nameLen = dbmn->cbName;
 
 		mod = (char*)HeapAlloc(hModHeap,0,nameLen+1);
 		CopyMemory(mod,DBRead(ofsThis+offsetof(struct DBModuleName,name),nameLen,NULL),nameLen);
@@ -88,10 +86,9 @@ int InitModuleNames(void)
 
 		AddToList(mod, nameLen, ofsThis);
 
-		ofsThis=dbmn->ofsNext;
-		dbmn=(struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
+		ofsThis = dbmn->ofsNext;
+		dbmn = (struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
 	}
-	CreateServiceFunction(MS_DB_MODULES_ENUM,EnumModuleNames);
 	return 0;
 }
 
@@ -131,17 +128,17 @@ DWORD GetModuleNameOfs(const char *szName)
 	DWORD ofsNew,ofsExisting;
 	char *mod;
 
-	ofsExisting=FindExistingModuleNameOfs(szName);
-	if(ofsExisting) return ofsExisting;
+	ofsExisting = FindExistingModuleNameOfs(szName);
+	if (ofsExisting) return ofsExisting;
 
 	nameLen = (int)strlen(szName);
 
 	//need to create the module name
-	ofsNew=CreateNewSpace(nameLen+offsetof(struct DBModuleName,name));
-	dbmn.signature=DBMODULENAME_SIGNATURE;
-	dbmn.cbName=nameLen;
-	dbmn.ofsNext=dbHeader.ofsFirstModuleName;
-	dbHeader.ofsFirstModuleName=ofsNew;
+	ofsNew = CreateNewSpace(nameLen+offsetof(struct DBModuleName,name));
+	dbmn.signature = DBMODULENAME_SIGNATURE;
+	dbmn.cbName = nameLen;
+	dbmn.ofsNext = dbHeader.ofsFirstModuleName;
+	dbHeader.ofsFirstModuleName = ofsNew;
 	DBWrite(0,&dbHeader,sizeof(dbHeader));
 	DBWrite(ofsNew,&dbmn,offsetof(struct DBModuleName,name));
 	DBWrite(ofsNew+offsetof(struct DBModuleName,name),(PVOID)szName,nameLen);
@@ -178,15 +175,15 @@ char *GetModuleNameByOfs(DWORD ofs)
 	return NULL;
 }
 
-static INT_PTR EnumModuleNames(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(BOOL) CDdxMmap::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam)
 {
-	int i;
 	int ret;
 	ModuleName *pmn;
-	for(i = 0; i < lMods.realCount; i++) {
+	for(int i = 0; i < lMods.realCount; i++) {
 		pmn = (ModuleName *)lMods.items[i];
-		ret=((DBMODULEENUMPROC)lParam)(pmn->name,pmn->ofs,wParam);
-		if(ret) return ret;
+		ret = pFunc(pmn->name, pmn->ofs, (LPARAM)pParam);
+		if (ret)
+			return ret;
 	}
 	return 0;
 }

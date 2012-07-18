@@ -46,7 +46,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_system.h>
+#include <m_system_cpp.h>
 #include <m_database.h>
+#include <m_db_int.h>
 #include <m_langpack.h>
 #include <m_utils.h>
 #include <m_options.h>
@@ -56,6 +58,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //own headers
 #include "database.h"
+#include "dbintf.h"
 #include "resource.h"
 #include "version.h"
 
@@ -65,6 +68,7 @@ extern HANDLE hDbFile;
 extern BOOL bEncoding;
 extern HINSTANCE g_hInst;
 extern HANDLE hSetPwdMenu;
+extern CDdxMmap* g_Db;
 
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)
@@ -78,19 +82,6 @@ void EncodeCopyMemory(void * dst, void * src, size_t size );
 void DecodeCopyMemory(void * dst, void * src, size_t size );
 void EncodeDBWrite(DWORD ofs, void * src, size_t size);
 void DecodeDBWrite(DWORD ofs, void * src, size_t size);
-int CheckPassword(WORD checkWord, char * szDBName);
-
-void EncryptDB();
-void DecryptDB();
-void RecryptDB();
-void ChangePwd();
-
-void EncodeEvent(HANDLE hEvent);
-void EncodeContactEvents(HANDLE hContact);
-void DecodeEvent(HANDLE hEvent);
-void DecodeContactEvents(HANDLE hContact);
-void EncodeContactSettings(HANDLE hContact);
-void DecodeContactSettings(HANDLE hContact);
 
 BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
 BOOL CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);

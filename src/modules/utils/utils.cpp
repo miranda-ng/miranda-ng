@@ -36,6 +36,7 @@ int InitBitmapFilter(void);
 void InitXmlApi(void);
 void InitTimeZones(void);
 void UninitTimeZones(void);
+int InitCrypt(void);
 
 static BOOL bModuleInitialized = FALSE;
 
@@ -471,6 +472,7 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYLIST, GetCountryList);
 	CreateServiceFunction(MS_UTILS_GETRANDOM, GenerateRandom);
 	CreateServiceFunction(MS_SYSTEM_RESTART, RestartMiranda);
+
 	InitOpenUrl();
 	InitWindowList();
 	InitHyperlink();
@@ -480,12 +482,14 @@ int LoadUtilsModule(void)
 	InitXmlApi();
 	InitJson();
 	InitTimeZones();
+	InitCrypt();
 	return 0;
 }
 
 void UnloadUtilsModule(void)
 {
-	if ( !bModuleInitialized) return;
+	if ( !bModuleInitialized)
+		return;
 
 	FreeWindowList();
 	UninitTimeZones();

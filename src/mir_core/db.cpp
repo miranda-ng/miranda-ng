@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
+static MIDatabase* currDb = NULL;
+
 MIR_CORE_DLL(int) db_get_b(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
 {
 	DBVARIANT dbv;
@@ -201,4 +203,9 @@ MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const c
     cws.value.cpbVal = (WORD)len;
 	cws.value.pbVal = (unsigned char*)val;
 	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
+}
+
+MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db)
+{
+	currDb = _db;
 }

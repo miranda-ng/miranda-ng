@@ -67,6 +67,9 @@
     <Filter Include="Modules\json">
       <UniqueIdentifier>{8aad13dd-0e8d-4154-ad6f-913724b5a499}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\crypt">
+      <UniqueIdentifier>{15d84b6a-4aa3-4cd5-93b3-2559709224ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\m_addcontact.h">
@@ -88,9 +91,6 @@
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="..\include\m_contacts.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\m_database.h">
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="..\include\m_email.h">
@@ -269,6 +269,12 @@
     </ClInclude>
     <ClInclude Include="..\include\m_button.h">
       <Filter>Modules\button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\m_database.h">
+      <Filter>Modules\database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\m_db_int.h">
+      <Filter>Modules\database</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -562,6 +568,12 @@
     </ClCompile>
     <ClCompile Include="modules\plugins\dll_sniffer.cpp">
       <Filter>Modules\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\database\dbintf.cpp">
+      <Filter>Modules\database</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\crypt\encrypt.cpp">
+      <Filter>Modules\crypt</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

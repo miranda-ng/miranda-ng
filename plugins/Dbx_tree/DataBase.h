@@ -96,8 +96,7 @@ typedef union TGenericFileHeader {
 
 #pragma pack(pop)
 
-
-class CDataBase : public sigslot::has_slots<>
+class CDataBase : public sigslot::has_slots<>, public MIDatabase
 {
 private:
 	TCHAR* m_FileName[DBFileMax];
@@ -128,7 +127,7 @@ protected:
 	void ReWriteHeader(TDBFileType Index);
 
 public:
-	CDataBase(const char* FileName);
+	CDataBase(const TCHAR* FileName);
 	virtual ~CDataBase();
 
 	int CreateDB();
@@ -151,7 +150,40 @@ public:
 	int getProfileName(int BufferSize, char * Buffer);
 	int getProfilePath(int BufferSize, char * Buffer);
 
-};
+protected:  // to be compatible with the standard Miranda databases
+	STDMETHODIMP_(void)   SetCacheSafetyMode(BOOL);
 
+	STDMETHODIMP_(LONG)   GetContactCount(void);
+	STDMETHODIMP_(HANDLE) FindFirstContact(const char* szProto = NULL);
+	STDMETHODIMP_(HANDLE) FindNextContact(HANDLE hContact, const char* szProto = NULL);
+	STDMETHODIMP_(LONG)   DeleteContact(HANDLE hContact);
+	STDMETHODIMP_(HANDLE) AddContact(void);
+	STDMETHODIMP_(BOOL)   IsDbContact(HANDLE hContact);
+
+	STDMETHODIMP_(LONG)   GetEventCount(HANDLE hContact);
+	STDMETHODIMP_(HANDLE) AddEvent(HANDLE hContact, DBEVENTINFO *dbe);
+	STDMETHODIMP_(BOOL)   DeleteEvent(HANDLE hContact, HANDLE hDbEvent);
+	STDMETHODIMP_(LONG)   GetBlobSize(HANDLE hDbEvent);
+	STDMETHODIMP_(BOOL)   GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbe);
+	STDMETHODIMP_(BOOL)   MarkEventRead(HANDLE hContact, HANDLE hDbEvent);
+	STDMETHODIMP_(HANDLE) GetEventContact(HANDLE hDbEvent);
+	STDMETHODIMP_(HANDLE) FindFirstEvent(HANDLE hContact);
+	STDMETHODIMP_(HANDLE) FindFirstUnreadEvent(HANDLE hContact);
+	STDMETHODIMP_(HANDLE) FindLastEvent(HANDLE hContact);
+	STDMETHODIMP_(HANDLE) FindNextEvent(HANDLE hDbEvent);
+	STDMETHODIMP_(HANDLE) FindPrevEvent(HANDLE hDbEvent);
+
+	STDMETHODIMP_(BOOL)   EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam);
+
+	STDMETHODIMP_(BOOL)   GetContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs);
+	STDMETHODIMP_(BOOL)   GetContactSettingStr(HANDLE hContact, DBCONTACTGETSETTING *dbcgs);
+	STDMETHODIMP_(BOOL)   GetContactSettingStatic(HANDLE hContact, DBCONTACTGETSETTING *dbcgs);
+	STDMETHODIMP_(BOOL)   FreeVariant(DBVARIANT *dbv);
+	STDMETHODIMP_(BOOL)   WriteContactSetting(HANDLE hContact, DBCONTACTWRITESETTING *dbcws);
+	STDMETHODIMP_(BOOL)   DeleteContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs);
+	STDMETHODIMP_(BOOL)   EnumContactSettings(HANDLE hContact, DBCONTACTENUMSETTINGS* dbces);
+	STDMETHODIMP_(BOOL)   SetSettingResident(BOOL bIsResident, const char *pszSettingName);
+	STDMETHODIMP_(BOOL)   EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
+};
 
 extern CDataBase *gDataBase;

@@ -1,6 +1,10 @@
 /*
-Miranda ICQ: the free icq client for MS Windows 
-Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
+
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright 2012 Miranda NG project,
+all portions of this codebase are copyrighted to the people
+listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -16,8 +20,19 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#ifndef MODULAR
-#include <windows.h>
 
-void Encrypt(char*msg,BOOL up);
-#endif 
+#include "commonheaders.h"
+
+extern BOOL safetyMode;
+
+CDdxMmap::CDdxMmap(const TCHAR* tszFileName)
+{
+}
+
+STDMETHODIMP_(void) CDdxMmap::SetCacheSafetyMode(BOOL bIsSet)
+{
+	{	mir_cslock lck(csDbAccess);
+		safetyMode = bIsSet;
+	}
+	DBFlush(1);
+}

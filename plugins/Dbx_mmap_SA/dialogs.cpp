@@ -61,11 +61,13 @@ static int OptionsInit(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ChangePassword(WPARAM wParam, LPARAM lParam)
 {
-	if(bEncoding){
-		ChangePwd();
-	}else{
-		EncryptDB();
+	if (g_Db) {
+		if (bEncoding)
+			g_Db->ChangePwd();
+		else
+			g_Db->EncryptDB();
 	}
+
 	return 0;
 }
 
@@ -75,11 +77,11 @@ void xModifyMenu(HANDLE hMenu,long flags,const TCHAR* name, HICON hIcon)
 	ZeroMemory(&menu,sizeof(menu));
 	menu.cbSize = sizeof(menu);
 	menu.flags = CMIM_FLAGS | CMIF_TCHAR;
-	menu.flags |= name ? CMIM_NAME : 0;
-	menu.flags |= hIcon ? CMIM_ICON : 0;
-	menu.flags |= flags;
+	menu.flags  |=  name ? CMIM_NAME : 0;
+	menu.flags  |=  hIcon ? CMIM_ICON : 0;
+	menu.flags  |=  flags;
 	menu.ptszName = (TCHAR*)name;
-	menu.hIcon=hIcon;
+	menu.hIcon = hIcon;
 
 	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenu,(LPARAM)&menu);
 }
@@ -96,18 +98,18 @@ static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 	// icolib init
 	GetModuleFileName(g_hInst, szFile, MAX_PATH);
 
-	sid.cbSize				= sizeof(sid);
-	sid.ptszDefaultFile		= szFile;
-	sid.flags			= SIDF_ALL_TCHAR;
-	sid.ptszSection		= LPGENT("Database");
+	sid.cbSize				 =  sizeof(sid);
+	sid.ptszDefaultFile		 =  szFile;
+	sid.flags			 =  SIDF_ALL_TCHAR;
+	sid.ptszSection		 =  LPGENT("Database");
 	sid.ptszDescription = LPGENT("Database");
-	sid.pszName				= "database";
-	sid.iDefaultIndex		= -IDI_ICON2;
+	sid.pszName				 =  "database";
+	sid.iDefaultIndex		 =  -IDI_ICON2;
 	Skin_AddIcon(&sid);
 
 	sid.ptszDescription = LPGENT("Change Password");
-	sid.pszName				= "password";
-	sid.iDefaultIndex		= -IDI_ICON3;
+	sid.pszName				 =  "password";
+	sid.iDefaultIndex		 =  -IDI_ICON3;
 	Skin_AddIcon(&sid);
 
 	menu.cbSize = sizeof(menu);
@@ -124,9 +126,9 @@ static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 	hSetPwdMenu = Menu_AddMainMenuItem(&menu);
 
 	ZeroMemory(&menu,sizeof(menu));
-	menu.cbSize	=	sizeof(menu);
-	menu.flags	=	CMIM_ICON;
-	menu.hIcon	=	(HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"password");
+	menu.cbSize	 = 	sizeof(menu);
+	menu.flags	 = 	CMIM_ICON;
+	menu.hIcon	 = 	(HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"password");
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hSetPwdMenu, (LPARAM)&menu);
 
 	return 0;
@@ -221,7 +223,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				mir_snprintf(buf,SIZEOF(buf),"%d.%d.%d.%d", HIBYTE(HIWORD(Modules[i]->cryptor->Version)), LOBYTE(HIWORD(Modules[i]->cryptor->Version)), HIBYTE(LOWORD(Modules[i]->cryptor->Version)), LOBYTE(LOWORD(Modules[i]->cryptor->Version)));
 				ListView_SetItemText(hwndList, iRow, 3, (LPWSTR)buf);
 
-				if(uid == Modules[i]->cryptor->uid && bEncoding)
+				if (uid == Modules[i]->cryptor->uid && bEncoding)
 					ListView_SetCheckState(hwndList, i, 1);
 
 				item.mask = LVIF_IMAGE;
@@ -247,7 +249,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						char * p = &buf[7];
 						lstrcpyA(buf,"mailto:");
 						if ( GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), p, SIZEOF(buf) - 7)) {
-							CallService(MS_UTILS_OPENURL,0,(LPARAM) (LOWORD(wParam)==IDC_EMAIL ? buf : p));
+							CallService(MS_UTILS_OPENURL,0,(LPARAM) (LOWORD(wParam) == IDC_EMAIL ? buf : p));
 						}
 						break;
 			}	}	}
@@ -256,18 +258,18 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case WM_NOTIFY:
 			if ( hdr && hdr->hdr.code == LVN_ITEMCHANGED && IsWindowVisible(hdr->hdr.hwndFrom) && hdr->iItem != (-1)) {
 				iIndex = hdr->iItem;
-				if(hdr->uNewState & 0x2000){
+				if (hdr->uNewState & 0x2000){
 					for(i = 0; i < ModulesCount; i++) {
-						if(i != iIndex) ListView_SetCheckState(hwndList, i, 0);
+						if (i != iIndex) ListView_SetCheckState(hwndList, i, 0);
 					}
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
 				}
-				if(hdr->uNewState & 0x1000){
+				if (hdr->uNewState & 0x1000){
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
 				}
-				if(hdr->uNewState & LVIS_SELECTED){
+				if (hdr->uNewState & LVIS_SELECTED){
 					SetDlgItemTextA(hwndDlg, IDC_AUTHOR, Modules[iIndex]->cryptor->Author);
 					{
 						TCHAR* info_t = mir_a2t((char*)(Modules[iIndex]->cryptor->Info));
@@ -292,32 +294,31 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
 				int alg = -1;
 				for(i = 0; i < ModulesCount; i++) {
-					if(ListView_GetCheckState(hwndList, i)) {
+					if (ListView_GetCheckState(hwndList, i)) {
 						alg = i;
 						break;
 					}
 				}
 
-				if(alg > -1){
+				if (alg > -1){
 					if (!bEncoding){
 						DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", Modules[alg]->cryptor->uid);
-						EncryptDB();
-					}else{
-						if(Modules[alg]->cryptor->uid != DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", -1)) {
+						g_Db->EncryptDB();
+					}
+					else {
+						if (Modules[alg]->cryptor->uid != DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", -1)) {
 							DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", Modules[alg]->cryptor->uid);
-							RecryptDB();
+							g_Db->RecryptDB();
 						}
 					}
-				}else{
-					if(bEncoding){
-						DecryptDB();
-					}
 				}
+				else if (bEncoding)
+					g_Db->DecryptDB();
 
 				uid = DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
 
 				for(i = 0; i < ModulesCount; i++) {
-					if(uid == Modules[i]->cryptor->uid && bEncoding)
+					if (uid == Modules[i]->cryptor->uid && bEncoding)
 						ListView_SetCheckState(hwndList, i, 1);
 
 					item.mask = LVIF_IMAGE;
@@ -412,7 +413,7 @@ BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 		{
 			UINT uid = LOWORD(wParam);
 
-			if(uid == IDOK){
+			if (uid == IDOK){
 				if (!GetWindowLongPtr(hDlg,GWLP_USERDATA))
 				{
 					encryptKeyLength = GetDlgItemTextA(hDlg, IDC_USERPASS, encryptKey, 254);
@@ -420,7 +421,7 @@ BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 				}else{
 
 				}
-			}else if(uid == IDCANCEL){
+			}else if (uid == IDCANCEL){
 				EndDialog(hDlg,IDCANCEL);
 			}
 		}
@@ -477,11 +478,11 @@ BOOL CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 		{
 			UINT uid = LOWORD(wParam);
 
-			if(uid == IDOK){
+			if (uid == IDOK){
 				if (!GetWindowLongPtr(hDlg,GWLP_USERDATA))
 				{
 					char pass1[255], pass2[255];
-					if(GetDlgItemTextA(hDlg, IDC_USERPASS1, pass1, 254) < 3){
+					if (GetDlgItemTextA(hDlg, IDC_USERPASS1, pass1, 254) < 3){
 						SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is too short!"));
 						SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 						SetDlgItemTextA(hDlg,IDC_USERPASS1,"");
@@ -503,7 +504,7 @@ BOOL CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 				}else{
 
 				}
-			}else if(uid == IDCANCEL){
+			}else if (uid == IDCANCEL){
 				EndDialog(hDlg,IDCANCEL);
 			}
 		}
@@ -562,15 +563,15 @@ BOOL CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 		{
 			UINT uid = LOWORD(wParam);
 
-			if(uid == IDOK){
+			if (uid == IDOK){
 					char pass1[255], pass2[255], oldpass[255];
 					GetDlgItemTextA(hDlg, IDC_OLDPASS, oldpass, 254);
-					if(strcmp(oldpass, encryptKey)) {
+					if (strcmp(oldpass, encryptKey)) {
 						SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Wrong password!"));
 						SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 						break;
 					}
-					if(GetDlgItemTextA(hDlg, IDC_NEWPASS1, pass1, 254) < 3){
+					if (GetDlgItemTextA(hDlg, IDC_NEWPASS1, pass1, 254) < 3){
 						SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is too short!"));
 						SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 
@@ -584,12 +585,12 @@ BOOL CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 							SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 						}
 					}
-			}else if(uid == IDCANCEL){
+			}else if (uid == IDCANCEL){
 				EndDialog(hDlg,IDCANCEL);
-			}else if(uid == IDREMOVE){
+			}else if (uid == IDREMOVE){
 				char oldpass[255];
 				GetDlgItemTextA(hDlg, IDC_OLDPASS, oldpass, 254);
-				if(strcmp(oldpass, encryptKey)) {
+				if (strcmp(oldpass, encryptKey)) {
 					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Wrong password!"));
 					SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 					break;

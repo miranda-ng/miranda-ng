@@ -27,45 +27,45 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CreateDbHeaders(HANDLE hFile)
 {
-	struct DBContact user;
+	DBContact user;
 	DWORD bytesWritten;
 
 	CopyMemory(dbHeader.signature,&dbSignature,sizeof(dbHeader.signature));
 	dbHeader.checkWord = 0x0700;
 	dbHeader.cryptorUID = 0x0000;
-	dbHeader.ofsFileEnd=sizeof(struct DBHeader);
-	dbHeader.slackSpace=0;
-	dbHeader.contactCount=0;
-	dbHeader.ofsFirstContact=0;
-	dbHeader.ofsFirstModuleName=0;
-	dbHeader.ofsUser=0;
+	dbHeader.ofsFileEnd = sizeof(struct DBHeader);
+	dbHeader.slackSpace = 0;
+	dbHeader.contactCount = 0;
+	dbHeader.ofsFirstContact = 0;
+	dbHeader.ofsFirstModuleName = 0;
+	dbHeader.ofsUser = 0;
 	//create user
-	dbHeader.ofsUser=dbHeader.ofsFileEnd;
-	dbHeader.ofsFileEnd+=sizeof(struct DBContact);
+	dbHeader.ofsUser = dbHeader.ofsFileEnd;
+	dbHeader.ofsFileEnd += sizeof(DBContact);
 
 	SetFilePointer(hFile,0,NULL,FILE_BEGIN);
 	WriteFile(hFile,&dbHeader,sizeof(dbHeader),&bytesWritten,NULL);
-	user.signature=DBCONTACT_SIGNATURE;
-	user.ofsNext=0;
-	user.ofsFirstSettings=0;
-	user.eventCount=0;
-	user.ofsFirstEvent=user.ofsLastEvent=0;
+	user.signature = DBCONTACT_SIGNATURE;
+	user.ofsNext = 0;
+	user.ofsFirstSettings = 0;
+	user.eventCount = 0;
+	user.ofsFirstEvent = user.ofsLastEvent = 0;
 	SetFilePointer(hFile,dbHeader.ofsUser,NULL,FILE_BEGIN);
-	WriteFile(hFile,&user,sizeof(struct DBContact),&bytesWritten,NULL);
+	WriteFile(hFile,&user,sizeof(DBContact),&bytesWritten,NULL);
 	FlushFileBuffers(hFile);
 	return 0;
 }
 
 int CheckDbHeaders(struct DBHeader * hdr)
 {
-	if(memcmp(hdr->signature,&dbSignatureSecured,sizeof(hdr->signature)) == 0){		
+	if (memcmp(hdr->signature,&dbSignatureSecured,sizeof(hdr->signature)) == 0){		
 		bEncoding = 1;
 	}else{
 		bEncoding = 0;
-		if(memcmp(hdr->signature,&dbSignature,sizeof(hdr->signature))) return 1;
-		if(hdr->checkWord!=0x0700) return 2;
+		if (memcmp(hdr->signature,&dbSignature,sizeof(hdr->signature))) return 1;
+		if (hdr->checkWord!=0x0700) return 2;
 	}
-	if(hdr->ofsUser==0) return 3;
+	if (hdr->ofsUser == 0) return 3;
 	return 0;
 }
 

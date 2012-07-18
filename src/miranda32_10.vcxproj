@@ -220,6 +220,7 @@
     <ClInclude Include="..\include\m_clui.h" />
     <ClInclude Include="..\include\m_contacts.h" />
     <ClInclude Include="..\include\m_database.h" />
+    <ClInclude Include="..\include\m_db_int.h" />
     <ClInclude Include="..\include\m_email.h" />
     <ClInclude Include="..\include\m_file.h" />
     <ClInclude Include="..\include\m_findadd.h" />
@@ -290,10 +291,16 @@
     <ClCompile Include="modules\button\button.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="modules\crypt\encrypt.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="modules\database\database.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\database\dbini.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\database\dbintf.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\database\dbutils.cpp">

@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "profilemanager.h"
 
+MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db);
+
 // contains the location of mirandaboot.ini
 extern TCHAR mirandabootini[MAX_PATH];
 bool dbCreated;
@@ -400,16 +402,13 @@ int makeDatabase(TCHAR *profile, DATABASELINK * link, HWND hwndDlg)
 	}
 	// ask the database to create the profile
 	CreatePathToFileT(profile);
-	char *prf = makeFileName(profile);
-	if (link->makeDatabase(prf, &err)) {
+	if (link->makeDatabase(profile, &err)) {
 		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Unable to create the profile '%s', the error was %x"), file, err);
 		MessageBox(hwndDlg, buf, TranslateT("Problem creating profile"), MB_ICONERROR|MB_OK);
-		mir_free(prf);
 		return 0;
 	}
 	dbCreated = true;
 	// the profile has been created! woot
-	mir_free(prf);
 	return 1;
 }
 
@@ -419,13 +418,14 @@ static int FindDbPluginForProfile(const TCHAR*, DATABASELINK *dblink, LPARAM lPa
 	TCHAR* tszProfile = (TCHAR*)lParam;
 	int res = DBPE_CONT;
 	if (dblink && dblink->cbSize == sizeof(DATABASELINK)) {
-		char* szProfile = makeFileName(tszProfile);
 		// liked the profile?
 		int err = 0;
-		if (dblink->grokHeader(szProfile, &err) == 0) {
+		if (dblink->grokHeader(tszProfile, &err) == 0) {
 			// added APIs?
-			if ( !dblink->Load(szProfile)) {
+			MIDatabase* pDb = dblink->Load(tszProfile);
+			if (pDb) {
 				fillProfileName(tszProfile);
+				db_setCurrent(currDb = pDb);
 				res = DBPE_DONE;
 			}
 			else res = DBPE_HALT;
@@ -443,7 +443,6 @@ static int FindDbPluginForProfile(const TCHAR*, DATABASELINK *dblink, LPARAM lPa
 				break;
 			}
 		} //if
-		mir_free(szProfile);
 	}
 	return res;
 }
@@ -457,16 +456,14 @@ static int FindDbPluginAutoCreate(const TCHAR* ptszProfile, DATABASELINK * dblin
 		CreatePathToFileT(tszProfile);
 
 		int err;
-		char *szProfile = makeFileName(tszProfile);
-		if (dblink->makeDatabase(szProfile, &err) == 0) {
+		if (dblink->makeDatabase(tszProfile, &err) == 0) {
 			dbCreated = true;
-			if ( !dblink->Load(szProfile)) {
+			if ( !dblink->Load(tszProfile)) {
 				fillProfileName(tszProfile);
 				res = DBPE_DONE;
 			}
 			else res = DBPE_HALT;
 		}
-		mir_free(szProfile);
 	}
 	return res;
 }

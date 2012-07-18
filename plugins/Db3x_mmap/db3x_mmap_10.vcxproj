@@ -208,9 +208,9 @@
     <ClCompile Include="dbcontacts.cpp" />
     <ClCompile Include="dbevents.cpp" />
     <ClCompile Include="dbheaders.cpp" />
+    <ClCompile Include="dbintf.cpp" />
     <ClCompile Include="dbmodulechain.cpp" />
     <ClCompile Include="dbsettings.cpp" />
-    <ClCompile Include="encrypt.cpp" />
     <ClCompile Include="init.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -218,6 +218,7 @@
   <ItemGroup>
     <ClInclude Include="commonheaders.h" />
     <ClInclude Include="database.h" />
+    <ClInclude Include="dbintf.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="db3x_mmap.rc" />

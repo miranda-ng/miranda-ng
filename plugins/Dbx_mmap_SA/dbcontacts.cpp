@@ -30,31 +30,13 @@ extern HANDLE hLastCachedContact;
 INT_PTR GetContactSettingStatic(WPARAM wParam,LPARAM lParam);
 void FreeCachedVariant( DBVARIANT* V );
 
-static INT_PTR GetContactCount(WPARAM wParam,LPARAM lParam);
-static INT_PTR FindFirstContact(WPARAM wParam,LPARAM lParam);
-static INT_PTR FindNextContact(WPARAM wParam,LPARAM lParam);
-static INT_PTR DeleteContact(WPARAM wParam,LPARAM lParam);
-static INT_PTR AddContact(WPARAM wParam,LPARAM lParam);
-static INT_PTR IsDbContact(WPARAM wParam,LPARAM lParam);
-
 static HANDLE hContactDeletedEvent,hContactAddedEvent;
-
 
 int InitContacts(void)
 {
-	CreateServiceFunction(MS_DB_CONTACT_GETCOUNT,GetContactCount);
-	CreateServiceFunction(MS_DB_CONTACT_FINDFIRST,FindFirstContact);
-	CreateServiceFunction(MS_DB_CONTACT_FINDNEXT,FindNextContact);
-	CreateServiceFunction(MS_DB_CONTACT_DELETE,DeleteContact);
-	CreateServiceFunction(MS_DB_CONTACT_ADD,AddContact);
-	CreateServiceFunction(MS_DB_CONTACT_IS,IsDbContact);
-	hContactDeletedEvent=CreateHookableEvent(ME_DB_CONTACT_DELETED);
-	hContactAddedEvent=CreateHookableEvent(ME_DB_CONTACT_ADDED);
+	hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
+	hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
 	return 0;
-}
-
-void UninitContacts(void)
-{
 }
 
 DBCachedContactValueList* AddToCachedContactList(HANDLE hContact, int index)
@@ -67,12 +49,12 @@ DBCachedContactValueList* AddToCachedContactList(HANDLE hContact, int index)
 	return VL;
 }
 
-static INT_PTR GetContactCount(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(LONG) CDdxMmap::GetContactCount(void)
 {
 	int ret;
 
 	EnterCriticalSection(&csDbAccess);
-	ret=dbHeader.contactCount;
+	ret = dbHeader.contactCount;
 	LeaveCriticalSection(&csDbAccess);
 	return ret;
 }
@@ -80,7 +62,7 @@ static INT_PTR GetContactCount(WPARAM wParam,LPARAM lParam)
 #define proto_module  "Protocol"
 #define proto_setting "p"
 
-static int CheckProto(HANDLE hContact, const char *proto)
+int CDdxMmap::CheckProto(HANDLE hContact, const char *proto)
 {
 	static char protobuf[MAX_PATH] = {0};
 	static DBVARIANT dbv;
@@ -90,44 +72,46 @@ static int CheckProto(HANDLE hContact, const char *proto)
 	dbv.pszVal = protobuf;
 	dbv.cchVal = sizeof(protobuf);
 
-	if (GetContactSettingStatic((WPARAM)hContact, (LPARAM )&sVal) != 0
-		|| (dbv.type != DBVT_ASCIIZ)) return 0;
+	if (GetContactSettingStatic(hContact, &sVal) != 0 || dbv.type != DBVT_ASCIIZ)
+		return 0;
 
 	return !strcmp(protobuf,proto);
 }
 
-static INT_PTR FindFirstContact(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(HANDLE) CDdxMmap::FindFirstContact(const char* szProto)
 {
-	INT_PTR ret = 0;
+	HANDLE ret = 0;
 	EnterCriticalSection(&csDbAccess);
-	ret = (INT_PTR)dbHeader.ofsFirstContact;
-	if (lParam && !CheckProto((HANDLE)ret,(const char*)lParam))
-		ret = FindNextContact((WPARAM)ret,lParam);
+	ret = (HANDLE)dbHeader.ofsFirstContact;
+	if (szProto && !CheckProto(ret, szProto))
+		ret = FindNextContact(ret, szProto);
 	LeaveCriticalSection(&csDbAccess);
 	return ret;
 }
 
-static INT_PTR FindNextContact(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(HANDLE) CDdxMmap::FindNextContact(HANDLE hContact, const char* szProto)
 {
 	int index;
-	struct DBContact *dbc;
+	DBContact *dbc;
 	DBCachedContactValueList VLtemp, *VL = NULL;
-	VLtemp.hContact = (HANDLE)wParam;
+	VLtemp.hContact = hContact;
+	
 	EnterCriticalSection(&csDbAccess);
+	
 	while(VLtemp.hContact) {
 		if ( List_GetIndex(&lContacts,&VLtemp,&index)) {
 			VL = ( DBCachedContactValueList* )lContacts.items[index];
 			if (VL->hNext != NULL) {
-				if (!lParam || CheckProto(VL->hNext,(const char*)lParam)) {
+				if (!szProto || CheckProto(VL->hNext, szProto)) {
 					LeaveCriticalSection(&csDbAccess);
-					return (INT_PTR)VL->hNext;
+					return VL->hNext;
 				}
 				else {
 					VLtemp.hContact = VL->hNext;
 					continue;
 		}	}	}
 
-		dbc=(struct DBContact*)DBRead((DWORD)VLtemp.hContact,sizeof(struct DBContact),NULL);
+		dbc = (DBContact*)DBRead((DWORD)VLtemp.hContact,sizeof(DBContact),NULL);
 		if (dbc->signature!=DBCONTACT_SIGNATURE)
 			break;
 		else {
@@ -135,9 +119,9 @@ static INT_PTR FindNextContact(WPARAM wParam,LPARAM lParam)
 				VL = AddToCachedContactList(VLtemp.hContact,index);
 
 			VL->hNext = (HANDLE)dbc->ofsNext;
-			if (VL->hNext != NULL && (!lParam || CheckProto(VL->hNext,(const char*)lParam))) {
+			if (VL->hNext != NULL && (!szProto || CheckProto(VL->hNext, szProto))) {
 				LeaveCriticalSection(&csDbAccess);
-				return (INT_PTR)VL->hNext;
+				return VL->hNext;
 			}
 			VLtemp.hContact = VL->hNext;
 	}	}
@@ -145,22 +129,24 @@ static INT_PTR FindNextContact(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR DeleteContact(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
 {
-	struct DBContact *dbc,*dbcPrev;
-	DWORD ofsThis,ofsNext,ofsFirstEvent;
+	DBContact *dbcPrev;
+	DWORD ofsThis, ofsNext, ofsFirstEvent;
 	struct DBContactSettings *dbcs;
-	struct DBEvent *dbe;
+	DBEvent *dbe;
 	int index;
 
-	if ((HANDLE)wParam==NULL) return 1;
+	if (hContact == NULL)
+		return 1;
+
 	EnterCriticalSection(&csDbAccess);
-	dbc=(struct DBContact*)DBRead(wParam,sizeof(struct DBContact),NULL);
-	if(dbc->signature!=DBCONTACT_SIGNATURE) {
+	DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
+	if (dbc->signature != DBCONTACT_SIGNATURE) {
 		LeaveCriticalSection(&csDbAccess);
 		return 1;
 	}
-	if ( (HANDLE)wParam == (HANDLE)dbHeader.ofsUser ) {
+	if (hContact == (HANDLE)dbHeader.ofsUser ) {
 		LeaveCriticalSection(&csDbAccess);
 		log0("FATAL: del of user chain attempted.");
 		return 1;
@@ -168,64 +154,64 @@ static INT_PTR DeleteContact(WPARAM wParam,LPARAM lParam)
 	log0("del contact");
 	LeaveCriticalSection(&csDbAccess);
 	//call notifier while outside mutex
-	NotifyEventHooks(hContactDeletedEvent,wParam,0);
+	NotifyEventHooks(hContactDeletedEvent, (WPARAM)hContact, 0);
 	//get back in
 	EnterCriticalSection(&csDbAccess);
 
-	{	DBCachedContactValueList VLtemp;
-		VLtemp.hContact = (HANDLE)wParam;
-		if ( List_GetIndex(&lContacts,&VLtemp,&index))
-		{
-			DBCachedContactValueList *VL = ( DBCachedContactValueList* )lContacts.items[index];
-			DBCachedContactValue* V = VL->first;
-			while ( V != NULL ) {
-				DBCachedContactValue* V1 = V->next;
-				FreeCachedVariant(&V->value);
-				HeapFree( hCacheHeap, 0, V );
-				V = V1;
-			}
-			HeapFree( hCacheHeap, 0, VL );
+	DBCachedContactValueList VLtemp;
+	VLtemp.hContact = hContact;
+	if ( List_GetIndex(&lContacts,&VLtemp,&index)) {
+		DBCachedContactValueList *VL = (DBCachedContactValueList*)lContacts.items[index];
+		DBCachedContactValue* V = VL->first;
+		while ( V != NULL ) {
+			DBCachedContactValue* V1 = V->next;
+			FreeCachedVariant(&V->value);
+			HeapFree( hCacheHeap, 0, V );
+			V = V1;
+		}
+		HeapFree( hCacheHeap, 0, VL );
 
-			if (VLtemp.hContact == hLastCachedContact)
-				hLastCachedContact = NULL;
-			List_Remove(&lContacts,index);
-	}	}
+		if (VLtemp.hContact == hLastCachedContact)
+			hLastCachedContact = NULL;
+		List_Remove(&lContacts,index);
+	}
 
-	dbc=(struct DBContact*)DBRead(wParam,sizeof(struct DBContact),NULL);
+	dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
 	//delete settings chain
-	ofsThis=dbc->ofsFirstSettings;
-	ofsFirstEvent=dbc->ofsFirstEvent;
+	ofsThis = dbc->ofsFirstSettings;
+	ofsFirstEvent = dbc->ofsFirstEvent;
 	while(ofsThis) {
-		dbcs=(struct DBContactSettings*)DBRead(ofsThis,sizeof(struct DBContactSettings),NULL);
-		ofsNext=dbcs->ofsNext;
+		dbcs = (struct DBContactSettings*)DBRead(ofsThis,sizeof(struct DBContactSettings),NULL);
+		ofsNext = dbcs->ofsNext;
 		DeleteSpace(ofsThis,offsetof(struct DBContactSettings,blob)+dbcs->cbBlob);
-		ofsThis=ofsNext;
+		ofsThis = ofsNext;
 	}
 	//delete event chain
-	ofsThis=ofsFirstEvent;
+	ofsThis = ofsFirstEvent;
 	while(ofsThis) {
-		dbe=(struct DBEvent*)DBRead(ofsThis,sizeof(struct DBEvent),NULL);
-		ofsNext=dbe->ofsNext;
-		DeleteSpace(ofsThis,offsetof(struct DBEvent,blob)+dbe->cbBlob);
-		ofsThis=ofsNext;
+		dbe = (DBEvent*)DBRead(ofsThis,sizeof(DBEvent),NULL);
+		ofsNext = dbe->ofsNext;
+		DeleteSpace(ofsThis,offsetof(DBEvent,blob)+dbe->cbBlob);
+		ofsThis = ofsNext;
 	}
 	//find previous contact in chain and change ofsNext
-	dbc=(struct DBContact*)DBRead(wParam,sizeof(struct DBContact),NULL);
-	if(dbHeader.ofsFirstContact==wParam) {
-		dbHeader.ofsFirstContact=dbc->ofsNext;
+	dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
+	if (dbHeader.ofsFirstContact == (DWORD)hContact) {
+		dbHeader.ofsFirstContact = dbc->ofsNext;
 		DBWrite(0,&dbHeader,sizeof(dbHeader));
 	}
 	else {
-		ofsNext=dbc->ofsNext;
-		ofsThis=dbHeader.ofsFirstContact;
-		dbcPrev=(struct DBContact*)DBRead(ofsThis,sizeof(struct DBContact),NULL);
-		while(dbcPrev->ofsNext!=wParam) {
-			if(dbcPrev->ofsNext==0) DatabaseCorruption(NULL);
-			ofsThis=dbcPrev->ofsNext;
-			dbcPrev=(struct DBContact*)DBRead(ofsThis,sizeof(struct DBContact),NULL);
+		ofsNext = dbc->ofsNext;
+		ofsThis = dbHeader.ofsFirstContact;
+		dbcPrev = (DBContact*)DBRead(ofsThis,sizeof(DBContact),NULL);
+		while(dbcPrev->ofsNext != (DWORD)hContact) {
+			if (dbcPrev->ofsNext == 0)
+				DatabaseCorruption(NULL);
+			ofsThis = dbcPrev->ofsNext;
+			dbcPrev = (DBContact*)DBRead(ofsThis,sizeof(DBContact),NULL);
 		}
-		dbcPrev->ofsNext=ofsNext;
-		DBWrite(ofsThis,dbcPrev,sizeof(struct DBContact));
+		dbcPrev->ofsNext = ofsNext;
+		DBWrite(ofsThis,dbcPrev,sizeof(DBContact));
 		{
 			DBCachedContactValueList VLtemp;
 			VLtemp.hContact = (HANDLE)ofsThis;
@@ -236,7 +222,7 @@ static INT_PTR DeleteContact(WPARAM wParam,LPARAM lParam)
 		}	}
 	}
 	//delete contact
-	DeleteSpace(wParam,sizeof(struct DBContact));
+	DeleteSpace((DWORD)hContact,sizeof(DBContact));
 	//decrement contact count
 	dbHeader.contactCount--;
 	DBWrite(0,&dbHeader,sizeof(dbHeader));
@@ -246,24 +232,24 @@ static INT_PTR DeleteContact(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR AddContact(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(HANDLE) CDdxMmap::AddContact(void)
 {
-	struct DBContact dbc;
+	DBContact dbc;
 	DWORD ofsNew;
 
 	log0("add contact");
 	EnterCriticalSection(&csDbAccess);
-	ofsNew=CreateNewSpace(sizeof(struct DBContact));
-	dbc.signature=DBCONTACT_SIGNATURE;
-	dbc.eventCount=0;
-	dbc.ofsFirstEvent=dbc.ofsLastEvent=0;
-	dbc.ofsFirstSettings=0;
-	dbc.ofsNext=dbHeader.ofsFirstContact;
-	dbc.ofsFirstUnreadEvent=0;
-	dbc.timestampFirstUnread=0;
-	dbHeader.ofsFirstContact=ofsNew;
+	ofsNew = CreateNewSpace(sizeof(DBContact));
+	dbc.signature = DBCONTACT_SIGNATURE;
+	dbc.eventCount = 0;
+	dbc.ofsFirstEvent = dbc.ofsLastEvent = 0;
+	dbc.ofsFirstSettings = 0;
+	dbc.ofsNext = dbHeader.ofsFirstContact;
+	dbc.ofsFirstUnreadEvent = 0;
+	dbc.timestampFirstUnread = 0;
+	dbHeader.ofsFirstContact = ofsNew;
 	dbHeader.contactCount++;
-	DBWrite(ofsNew,&dbc,sizeof(struct DBContact));
+	DBWrite(ofsNew,&dbc,sizeof(DBContact));
 	DBWrite(0,&dbHeader,sizeof(dbHeader));
 	DBFlush(0);
 
@@ -271,27 +257,27 @@ static INT_PTR AddContact(WPARAM wParam,LPARAM lParam)
 
 	LeaveCriticalSection(&csDbAccess);
 	NotifyEventHooks(hContactAddedEvent,(WPARAM)ofsNew,0);
-	return (INT_PTR)ofsNew;
+	return (HANDLE)ofsNew;
 }
 
-static INT_PTR IsDbContact(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(BOOL) CDdxMmap::IsDbContact(HANDLE hContact)
 {
-	struct DBContact *dbc;
-	DWORD ofsContact=(DWORD)wParam;
+	DBContact *dbc;
+	DWORD ofsContact = (DWORD)hContact;
 	int ret;
 
 	EnterCriticalSection(&csDbAccess);
 	{
 		int index;
 		DBCachedContactValueList VLtemp;
-		VLtemp.hContact = (HANDLE)wParam;
+		VLtemp.hContact = hContact;
 		if ( List_GetIndex(&lContacts,&VLtemp,&index))
 			ret = TRUE;
 		else {
-			dbc=(struct DBContact*)DBRead(ofsContact,sizeof(struct DBContact),NULL);
-			ret=dbc->signature==DBCONTACT_SIGNATURE;
+			dbc = (DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
+			ret = dbc->signature == DBCONTACT_SIGNATURE;
 			if (ret)
-				AddToCachedContactList((HANDLE)wParam, index);
+				AddToCachedContactList(hContact, index);
 	}	}
 
 	LeaveCriticalSection(&csDbAccess);

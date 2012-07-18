@@ -194,6 +194,7 @@
     <ClCompile Include="dbcontacts.cpp" />
     <ClCompile Include="dbevents.cpp" />
     <ClCompile Include="dbheaders.cpp" />
+    <ClCompile Include="dbintf.cpp" />
     <ClCompile Include="dbmodulechain.cpp" />
     <ClCompile Include="dbpreset.cpp" />
     <ClCompile Include="dbsettings.cpp" />
@@ -207,6 +208,7 @@
   <ItemGroup>
     <ClInclude Include="commonheaders.h" />
     <ClInclude Include="database.h" />
+    <ClInclude Include="dbintf.h" />
     <ClInclude Include="options.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="version.h" />

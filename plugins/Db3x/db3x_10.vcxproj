@@ -204,9 +204,9 @@
     <ClCompile Include="src\dbcontacts.cpp" />
     <ClCompile Include="src\dbevents.cpp" />
     <ClCompile Include="src\dbheaders.cpp" />
+    <ClCompile Include="src\dbintf.cpp" />
     <ClCompile Include="src\dbmodulechain.cpp" />
     <ClCompile Include="src\dbsettings.cpp" />
-    <ClCompile Include="src\encrypt.cpp" />
     <ClCompile Include="src\init.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -214,6 +214,7 @@
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h" />
     <ClInclude Include="src\database.h" />
+    <ClInclude Include="src\dbintf.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />

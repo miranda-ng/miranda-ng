@@ -119,13 +119,11 @@ static int FindDbProviders(const TCHAR* tszProfileName, DATABASELINK *dblink, LP
 {
 	HWND hwndDlg = (HWND)lParam;
 	HWND hwndCombo = GetDlgItem(hwndDlg, IDC_PROFILEDRIVERS);
-	char szName[64];
+	TCHAR szName[64];
 
 	if (dblink->getFriendlyName(szName, SIZEOF(szName), 1) == 0) {
 		// add to combo box
-		TCHAR* p = Langpack_PcharToTchar(szName);
-		LRESULT index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)p);
-		mir_free(p);
+		LRESULT index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)szName);
 		SendMessage(hwndCombo, CB_SETITEMDATA, index, (LPARAM)dblink);
 	}
 	return DBPE_CONT;
@@ -221,17 +219,12 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 static int DetectDbProvider(const TCHAR*, DATABASELINK * dblink, LPARAM lParam)
 {
 	int error;
-
-	char* fullpath = makeFileName((TCHAR*)lParam);
-
-	int ret = dblink->grokHeader(fullpath, &error);
-	mir_free(fullpath);
+	int ret = dblink->grokHeader((TCHAR*)lParam, &error);
 	if (ret == 0) {
 
-		char tmp[ MAX_PATH ];
+		TCHAR tmp[ MAX_PATH ];
 		dblink->getFriendlyName(tmp, SIZEOF(tmp), 1);
-		MultiByteToWideChar(CP_ACP, 0, tmp, -1, (TCHAR*)lParam, MAX_PATH);
-
+		_tcsncpy((TCHAR*)lParam, tmp, MAX_PATH);
 		return DBPE_HALT;
 	}
 

@@ -108,6 +108,10 @@ extern LPFN_FREEADDRINFO MyFreeaddrinfo;
 extern LPFN_WSASTRINGTOADDRESSA MyWSAStringToAddress;
 extern LPFN_WSAADDRESSTOSTRINGA MyWSAAddressToString;
 
+/**** database.cpp *********************************************************************/
+
+extern MIDatabase* currDb;
+
 /**** fontService.cpp ******************************************************************/
 
 void KillModuleFonts(int hLangpack);

@@ -43,11 +43,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_system.h>
+#include <m_system_cpp.h>
 #include <m_database.h>
+#include <m_db_int.h>
 #include <m_langpack.h>
 
 #include "version.h"
 #include "database.h"
+#include "dbintf.h"
 #include "resource.h"
 
 extern HANDLE hDbFile;
@@ -55,7 +58,7 @@ extern CRITICAL_SECTION csDbAccess;
 extern struct DBHeader dbHeader;
 extern HANDLE hCacheHeap;
 extern SortedList lContacts;
-extern char szDbPath[MAX_PATH];
+extern TCHAR szDbPath[MAX_PATH];
 
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)

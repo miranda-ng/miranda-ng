@@ -39,7 +39,7 @@ DBHeader
  |   |   \-->module name (DBModuleName)
  |   \-->first/last/firstunread event
  |-->user contact (DBContact)
- |   |-->next contact=NULL
+ |   |-->next contact = NULL
  |   |-->first settings	as above
  |   \-->first/last/firstunread event as above
  \-->first module name (DBModuleName)
@@ -54,7 +54,7 @@ DBHeader
 #include <pshpack1.h>
 struct DBHeader {
   BYTE signature[16];      // 'Miranda ICQ DB',0,26
-  DWORD version;		   //as 4 bytes, ie 1.2.3.10=0x0102030a
+  DWORD version;		   //as 4 bytes, ie 1.2.3.10 = 0x0102030a
                            //this version is 0x00000700
   DWORD ofsFileEnd;		   //offset of the end of the database - place to write
                            //new structures
@@ -63,8 +63,8 @@ struct DBHeader {
 						   //re-making them at the end. We should compact when
 						   //this gets above a threshold
   DWORD contactCount;	   //number of contacts in the chain,excluding the user
-  DWORD ofsFirstContact;   //offset to first struct DBContact in the chain
-  DWORD ofsUser;		   //offset to struct DBContact representing the user
+  DWORD ofsFirstContact;   //offset to first DBContact in the chain
+  DWORD ofsUser;		   //offset to DBContact representing the user
   DWORD ofsFirstModuleName;	//offset to first struct DBModuleName in the chain
 };
 
@@ -102,13 +102,13 @@ struct DBContactSettings {
                          //actual size for reducing the number of moves
 						 //required using granularity in resizing
   BYTE blob[1];			 //the blob. a back-to-back sequence of DBSetting
-                         //structs, the last has cbName=0
+                         //structs, the last has cbName = 0
 };
 
 /*	not a valid structure, content is figured out on the fly
 struct DBSetting {
   BYTE cbName;			//number of bytes in the name of this setting
-                        //this =0 marks the end
+                        //this  = 0 marks the end
   char szName[...];		//setting name, excluding nul
   BYTE dataType;		//type of data. see m_database.h, db/contact/getsetting
   union {			   //a load of types of data, length is defined by dataType
@@ -174,6 +174,9 @@ typedef struct
 //databasecorruption: called if any signatures are broken. very very fatal
 void DatabaseCorruption(void);
 PBYTE DBRead(DWORD ofs,int bytesRequired,int *bytesAvail);	//any preview result could be invalidated by the next call
+__forceinline PBYTE DBRead(HANDLE hContact,int bytesRequired,int *bytesAvail)
+{	return DBRead((DWORD)hContact, bytesRequired, bytesAvail);
+}
 void DBWrite(DWORD ofs,PVOID pData,int count);
 void DBFlush(int setting);
 void DBMoveChunk(DWORD ofsDest,DWORD ofsSource,int bytes);

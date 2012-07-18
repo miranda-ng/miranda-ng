@@ -32,16 +32,16 @@ void Encrypt(char*msg,BOOL up)
 	int jump;
 	if (up)
 	{
-		jump=5;
+		jump = 5;
 	}
 	else
 	{
-		jump=-5;
+		jump = -5;
 	}
 
-	for (i=0;msg[i];i++)
+	for (i = 0;msg[i];i++)
 	{
-			msg[i]=msg[i]+jump;
+			msg[i] = msg[i]+jump;
 	}
 
 }

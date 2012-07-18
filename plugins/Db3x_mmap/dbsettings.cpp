@@ -33,29 +33,29 @@ SortedList lContacts = {0};
 HANDLE hLastCachedContact = NULL;
 static DBCachedContactValueList *LastVL = NULL;
 
-static SortedList lSettings={0}, lGlobalSettings={0}, lResidentSettings={0};
+static SortedList lSettings = {0}, lGlobalSettings = {0}, lResidentSettings = {0};
 static HANDLE hSettingChangeEvent = NULL;
 
-static DWORD GetSettingsGroupOfsByModuleNameOfs(struct DBContact *dbc,DWORD ofsModuleName)
+static DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsModuleName)
 {
 	struct DBContactSettings *dbcs;
 	DWORD ofsThis;
 
-	ofsThis=dbc->ofsFirstSettings;
+	ofsThis = dbc->ofsFirstSettings;
 	while(ofsThis) {
-		dbcs=(struct DBContactSettings*)DBRead(ofsThis,sizeof(struct DBContactSettings),NULL);
-		if(dbcs->signature!=DBCONTACTSETTINGS_SIGNATURE) DatabaseCorruption(NULL);
-		if(dbcs->ofsModuleName==ofsModuleName)
+		dbcs = (struct DBContactSettings*)DBRead(ofsThis,sizeof(struct DBContactSettings),NULL);
+		if (dbcs->signature!=DBCONTACTSETTINGS_SIGNATURE) DatabaseCorruption(NULL);
+		if (dbcs->ofsModuleName == ofsModuleName)
 			return ofsThis;
 
-		ofsThis=dbcs->ofsNext;
+		ofsThis = dbcs->ofsNext;
 	}
 	return 0;
 }
 
 static DWORD __inline GetSettingValueLength(PBYTE pSetting)
 {
-	if(pSetting[0]&DBVTF_VARIABLELENGTH) return 2+*(PWORD)(pSetting+1);
+	if (pSetting[0]&DBVTF_VARIABLELENGTH) return 2+*(PWORD)(pSetting+1);
 	return pSetting[0];
 }
 
@@ -75,7 +75,7 @@ static char* GetCachedSetting(const char *szModuleName,const char *szSettingName
 	char szFullName[512];
 
 	strcpy(szFullName+1,szModuleName);
-	szFullName[moduleNameLen+1]='/';
+	szFullName[moduleNameLen+1] = '/';
 	strcpy(szFullName+moduleNameLen+2,szSettingName);
 
 	if (lastsetting && strcmp(szFullName+1,lastsetting) == 0)
@@ -152,11 +152,11 @@ static DBVARIANT* GetCachedValuePtr( HANDLE hContact, char* szSetting, int bAllo
 		DBCachedContactValue *V, *V1;
 		DBCachedContactValueList VLtemp,*VL;
 
-		if (hLastCachedContact==hContact && LastVL) {
+		if (hLastCachedContact == hContact && LastVL) {
 			VL = LastVL;
 		}
 		else {
-			VLtemp.hContact=hContact;
+			VLtemp.hContact = hContact;
 
 			if ( !List_GetIndex(&lContacts,&VLtemp,&index))
 			{
@@ -210,12 +210,12 @@ static DBVARIANT* GetCachedValuePtr( HANDLE hContact, char* szSetting, int bAllo
 		return &V->value;
 }	}
 
-#define NeedBytes(n)   if(bytesRemaining<(n)) pBlob=(PBYTE)DBRead(ofsBlobPtr,(n),&bytesRemaining)
-#define MoveAlong(n)   {int x=n; pBlob+=(x); ofsBlobPtr+=(x); bytesRemaining-=(x);}
-#define VLT(n) ((n==DBVT_UTF8)?DBVT_ASCIIZ:n)
+#define NeedBytes(n)   if (bytesRemaining<(n)) pBlob = (PBYTE)DBRead(ofsBlobPtr,(n),&bytesRemaining)
+#define MoveAlong(n)   {int x = n; pBlob += (x); ofsBlobPtr += (x); bytesRemaining -= (x);}
+#define VLT(n) ((n == DBVT_UTF8)?DBVT_ASCIIZ:n)
 static __inline int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs,int isStatic)
 {
-	struct DBContact *dbc;
+	DBContact *dbc;
 	DWORD ofsModuleName,ofsContact,ofsSettingsGroup,ofsBlobPtr;
 	int settingNameLen,moduleNameLen;
 	int bytesRemaining;
@@ -225,8 +225,8 @@ static __inline int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING 
 	if ((!dbcgs->szSetting) || (!dbcgs->szModule))
 		return 1;
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
-	settingNameLen=(int)strlen(dbcgs->szSetting);
-	moduleNameLen=(int)strlen(dbcgs->szModule);
+	settingNameLen = (int)strlen(dbcgs->szSetting);
+	moduleNameLen = (int)strlen(dbcgs->szModule);
 	if ( settingNameLen > 0xFE )
 	{
 		#ifdef _DEBUG
@@ -261,10 +261,10 @@ static __inline int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING 
 
 					cbOrigLen--;
 					dbcgs->pValue->pszVal = cbOrigPtr;
-					if(cbLen<cbOrigLen) cbOrigLen=cbLen;
+					if (cbLen<cbOrigLen) cbOrigLen = cbLen;
 					CopyMemory(dbcgs->pValue->pszVal,pCachedValue->pszVal,cbOrigLen);
-					dbcgs->pValue->pszVal[cbOrigLen]=0;
-					dbcgs->pValue->cchVal=cbLen;
+					dbcgs->pValue->pszVal[cbOrigLen] = 0;
+					dbcgs->pValue->cchVal = cbLen;
 				}
 				else {
 					dbcgs->pValue->pszVal = (char*)mir_alloc(strlen(pCachedValue->pszVal)+1);
@@ -287,64 +287,64 @@ static __inline int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING 
 			return ( pCachedValue->type == DBVT_DELETED ) ? 1 : 0;
 	}	}
 
-	ofsModuleName=GetModuleNameOfs(dbcgs->szModule);
-	if(hContact==NULL) ofsContact=dbHeader.ofsUser;
-	else ofsContact=(DWORD)hContact;
-	dbc=(struct DBContact*)DBRead(ofsContact,sizeof(struct DBContact),NULL);
-	if(dbc->signature!=DBCONTACT_SIGNATURE) {
+	ofsModuleName = GetModuleNameOfs(dbcgs->szModule);
+	if (hContact == NULL) ofsContact = dbHeader.ofsUser;
+	else ofsContact = (DWORD)hContact;
+	dbc = (DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
+	if (dbc->signature!=DBCONTACT_SIGNATURE) {
 		LeaveCriticalSection(&csDbAccess);
 		return 1;
 	}
-	ofsSettingsGroup=GetSettingsGroupOfsByModuleNameOfs(dbc,ofsModuleName);
-	if(ofsSettingsGroup) {
-		ofsBlobPtr=ofsSettingsGroup+offsetof(struct DBContactSettings,blob);
+	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc,ofsModuleName);
+	if (ofsSettingsGroup) {
+		ofsBlobPtr = ofsSettingsGroup+offsetof(struct DBContactSettings,blob);
 		pBlob = DBRead(ofsBlobPtr,sizeof(struct DBContactSettings),&bytesRemaining);
 		while(pBlob[0]) {
 			NeedBytes(1+settingNameLen);
-			if(pBlob[0]==settingNameLen && !memcmp(pBlob+1,dbcgs->szSetting,settingNameLen)) {
+			if (pBlob[0] == settingNameLen && !memcmp(pBlob+1,dbcgs->szSetting,settingNameLen)) {
 				MoveAlong(1+settingNameLen);
 				NeedBytes(5);
-				if(isStatic && pBlob[0]&DBVTF_VARIABLELENGTH && VLT(dbcgs->pValue->type) != VLT(pBlob[0])) {
+				if (isStatic && pBlob[0]&DBVTF_VARIABLELENGTH && VLT(dbcgs->pValue->type) != VLT(pBlob[0])) {
 					LeaveCriticalSection(&csDbAccess);
 					return 1;
 				}
-				dbcgs->pValue->type=pBlob[0];
+				dbcgs->pValue->type = pBlob[0];
 				switch(pBlob[0]) {
 					case DBVT_DELETED: { /* this setting is deleted */
-						dbcgs->pValue->type=DBVT_DELETED;
+						dbcgs->pValue->type = DBVT_DELETED;
 						LeaveCriticalSection(&csDbAccess);
 						return 2;
 					}
-					case DBVT_BYTE: dbcgs->pValue->bVal=pBlob[1]; break;
-					case DBVT_WORD: dbcgs->pValue->wVal=*(PWORD)(pBlob+1); break;
-					case DBVT_DWORD: dbcgs->pValue->dVal=*(PDWORD)(pBlob+1); break;
+					case DBVT_BYTE: dbcgs->pValue->bVal = pBlob[1]; break;
+					case DBVT_WORD: dbcgs->pValue->wVal = *(PWORD)(pBlob+1); break;
+					case DBVT_DWORD: dbcgs->pValue->dVal = *(PDWORD)(pBlob+1); break;
 					case DBVT_UTF8:
 					case DBVT_ASCIIZ:
 						NeedBytes(3+*(PWORD)(pBlob+1));
-						if(isStatic) {
+						if (isStatic) {
 							dbcgs->pValue->cchVal--;
-							if (*(PWORD)(pBlob+1)<dbcgs->pValue->cchVal) dbcgs->pValue->cchVal=*(PWORD)(pBlob+1);
+							if (*(PWORD)(pBlob+1)<dbcgs->pValue->cchVal) dbcgs->pValue->cchVal = *(PWORD)(pBlob+1);
 							CopyMemory(dbcgs->pValue->pszVal,pBlob+3,dbcgs->pValue->cchVal);
-							dbcgs->pValue->pszVal[dbcgs->pValue->cchVal]=0;
-							dbcgs->pValue->cchVal=*(PWORD)(pBlob+1);
+							dbcgs->pValue->pszVal[dbcgs->pValue->cchVal] = 0;
+							dbcgs->pValue->cchVal = *(PWORD)(pBlob+1);
 						}
 						else {
-							dbcgs->pValue->pszVal=(char*)mir_alloc(1+*(PWORD)(pBlob+1));
+							dbcgs->pValue->pszVal = (char*)mir_alloc(1+*(PWORD)(pBlob+1));
 							CopyMemory(dbcgs->pValue->pszVal,pBlob+3,*(PWORD)(pBlob+1));
-							dbcgs->pValue->pszVal[*(PWORD)(pBlob+1)]=0;
+							dbcgs->pValue->pszVal[*(PWORD)(pBlob+1)] = 0;
 						}
 						break;
 					case DBVT_BLOB:
 						NeedBytes(3+*(PWORD)(pBlob+1));
-						if(isStatic) {
-							if (*(PWORD)(pBlob+1)<dbcgs->pValue->cpbVal) dbcgs->pValue->cpbVal=*(PWORD)(pBlob+1);
+						if (isStatic) {
+							if (*(PWORD)(pBlob+1)<dbcgs->pValue->cpbVal) dbcgs->pValue->cpbVal = *(PWORD)(pBlob+1);
 							CopyMemory(dbcgs->pValue->pbVal,pBlob+3,dbcgs->pValue->cpbVal);
 						}
 						else {
-							dbcgs->pValue->pbVal=(BYTE *)mir_alloc(*(PWORD)(pBlob+1));
+							dbcgs->pValue->pbVal = (BYTE *)mir_alloc(*(PWORD)(pBlob+1));
 							CopyMemory(dbcgs->pValue->pbVal,pBlob+3,*(PWORD)(pBlob+1));
 						}
-						dbcgs->pValue->cpbVal=*(PWORD)(pBlob+1);
+						dbcgs->pValue->cpbVal = *(PWORD)(pBlob+1);
 						break;
 				}
 
@@ -380,11 +380,10 @@ static __inline int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING 
 	return 1;
 }
 
-static INT_PTR GetContactSetting(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(BOOL) CDdxMmap::GetContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dgs)
 {
-	DBCONTACTGETSETTING* dgs = ( DBCONTACTGETSETTING* )lParam;
 	dgs->pValue->type = 0;
-	if ( GetContactSettingWorker(( HANDLE )wParam, dgs, 0 ))
+	if ( GetContactSettingWorker(hContact, dgs, 0 ))
 		return 1;
 
 	if ( dgs->pValue->type == DBVT_UTF8 ) {
@@ -415,12 +414,11 @@ static INT_PTR GetContactSetting(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR GetContactSettingStr(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(BOOL) CDdxMmap::GetContactSettingStr(HANDLE hContact, DBCONTACTGETSETTING *dgs)
 {
-	DBCONTACTGETSETTING* dgs = (DBCONTACTGETSETTING*)lParam;
 	int iSaveType = dgs->pValue->type;
 
-	if ( GetContactSettingWorker(( HANDLE )wParam, dgs, 0 ))
+	if ( GetContactSettingWorker(hContact, dgs, 0 ))
 		return 1;
 
 	if ( iSaveType == 0 || iSaveType == dgs->pValue->type )
@@ -463,10 +461,9 @@ static INT_PTR GetContactSettingStr(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR GetContactSettingStatic(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(BOOL) CDdxMmap::GetContactSettingStatic(HANDLE hContact, DBCONTACTGETSETTING *dgs)
 {
-	DBCONTACTGETSETTING* dgs = (DBCONTACTGETSETTING*)lParam;
-	if ( GetContactSettingWorker(( HANDLE )wParam, dgs, 1 ))
+	if ( GetContactSettingWorker(hContact, dgs, 1 ))
 		return 1;
 
 	if ( dgs->pValue->type == DBVT_UTF8 ) {
@@ -477,9 +474,8 @@ INT_PTR GetContactSettingStatic(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR FreeVariant(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(BOOL) CDdxMmap::FreeVariant(DBVARIANT *dbv)
 {
-	DBVARIANT *dbv=(DBVARIANT*)lParam;
 	if ( dbv == 0 ) return 1;
 	switch ( dbv->type ) {
 		case DBVT_ASCIIZ:
@@ -487,29 +483,29 @@ static INT_PTR FreeVariant(WPARAM wParam,LPARAM lParam)
 		case DBVT_WCHAR:
 		{
 			if ( dbv->pszVal ) mir_free(dbv->pszVal);
-			dbv->pszVal=0;
+			dbv->pszVal = 0;
 			break;
 		}
 		case DBVT_BLOB:
 		{
 			if ( dbv->pbVal ) mir_free(dbv->pbVal);
-			dbv->pbVal=0;
+			dbv->pbVal = 0;
 			break;
 		}
 	}
-	dbv->type=0;
+	dbv->type = 0;
 	return 0;
 }
 
-static INT_PTR SetSettingResident(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(BOOL) CDdxMmap::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
 {
-	size_t cbSettingNameLen = strlen(( char* )lParam) + 2;
+	size_t cbSettingNameLen = strlen(pszSettingName) + 2;
 	if (cbSettingNameLen  < 512)
 	{
 		char*  szSetting;
 		int    idx;
 		char  szTemp[512];
-		strcpy( szTemp+1, ( char* )lParam );
+		strcpy( szTemp+1, pszSettingName);
 
 		EnterCriticalSection(&csDbAccess);
 		if ( !List_GetIndex( &lSettings, szTemp, &idx ))
@@ -517,14 +513,14 @@ static INT_PTR SetSettingResident(WPARAM wParam,LPARAM lParam)
 		else
 			szSetting = (char *)lSettings.items[idx];
 
-		*szSetting = (char)wParam;
+		*szSetting = (char)bIsResident;
 
 		if ( !List_GetIndex( &lResidentSettings, szSetting+1, &idx ))
 		{
-			if (wParam)
+			if (bIsResident)
 				List_Insert(&lResidentSettings,szSetting+1,idx);
 		}
-		else if (!wParam)
+		else if (!bIsResident)
 			List_Remove(&lResidentSettings,idx);
 
 		LeaveCriticalSection(&csDbAccess);
@@ -532,26 +528,25 @@ static INT_PTR SetSettingResident(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR WriteContactSetting(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRITESETTING *dbcws)
 {
-	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
 	DBCONTACTWRITESETTING tmp;
-	struct DBContact dbc;
+	DBContact dbc;
 	DWORD ofsModuleName;
 	struct DBContactSettings dbcs;
 	PBYTE pBlob;
-	int settingNameLen=0;
-	int moduleNameLen=0;
-	int settingDataLen=0;
+	int settingNameLen = 0;
+	int moduleNameLen = 0;
+	int settingDataLen = 0;
 	int bytesRequired,bytesRemaining;
 	DWORD ofsContact,ofsSettingsGroup,ofsBlobPtr;
 
-	if (dbcws == NULL || dbcws->szSetting==NULL || dbcws->szModule==NULL )
+	if (dbcws == NULL || dbcws->szSetting == NULL || dbcws->szModule == NULL )
 		return 1;
 
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
-	settingNameLen=(int)strlen(dbcws->szSetting);
-	moduleNameLen=(int)strlen(dbcws->szModule);
+	settingNameLen = (int)strlen(dbcws->szSetting);
+	moduleNameLen = (int)strlen(dbcws->szModule);
 	if ( settingNameLen > 0xFE )
 	{
 		#ifdef _DEBUG
@@ -583,7 +578,7 @@ static INT_PTR WriteContactSetting(WPARAM wParam,LPARAM lParam)
 		else return 1;
 	}
 
-	if(tmp.value.type!=DBVT_BYTE && tmp.value.type!=DBVT_WORD && tmp.value.type!=DBVT_DWORD && tmp.value.type!=DBVT_ASCIIZ && tmp.value.type!=DBVT_UTF8 && tmp.value.type!=DBVT_BLOB)
+	if (tmp.value.type!=DBVT_BYTE && tmp.value.type!=DBVT_WORD && tmp.value.type!=DBVT_DWORD && tmp.value.type!=DBVT_ASCIIZ && tmp.value.type!=DBVT_UTF8 && tmp.value.type!=DBVT_BLOB)
 		return 1;
 	if ((!tmp.szModule) || (!tmp.szSetting) || ((tmp.value.type == DBVT_ASCIIZ || tmp.value.type == DBVT_UTF8 )&& tmp.value.pszVal == NULL) || (tmp.value.type == DBVT_BLOB && tmp.value.pbVal == NULL))
 		return 1;
@@ -605,7 +600,7 @@ static INT_PTR WriteContactSetting(WPARAM wParam,LPARAM lParam)
 	{
 		char* szCachedSettingName = GetCachedSetting(tmp.szModule, tmp.szSetting, moduleNameLen, settingNameLen);
 		if ( tmp.value.type != DBVT_BLOB ) {
-			DBVARIANT* pCachedValue = GetCachedValuePtr((HANDLE)wParam, szCachedSettingName, 1);
+			DBVARIANT* pCachedValue = GetCachedValuePtr(hContact, szCachedSettingName, 1);
 			if ( pCachedValue != NULL ) {
 				BOOL bIsIdentical = FALSE;
 				if ( pCachedValue->type == tmp.value.type ) {
@@ -625,53 +620,53 @@ static INT_PTR WriteContactSetting(WPARAM wParam,LPARAM lParam)
 			}
 			if ( szCachedSettingName[-1] != 0 ) {
 				LeaveCriticalSection(&csDbAccess);
-				NotifyEventHooks(hSettingChangeEvent,wParam,(LPARAM)&tmp);
+				NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp);
 				return 0;
 			}
 		}
-		else GetCachedValuePtr((HANDLE)wParam, szCachedSettingName, -1);
+		else GetCachedValuePtr(hContact, szCachedSettingName, -1);
 	}
 
-	ofsModuleName=GetModuleNameOfs(tmp.szModule);
- 	if(wParam==0) ofsContact=dbHeader.ofsUser;
-	else ofsContact=wParam;
+	ofsModuleName = GetModuleNameOfs(tmp.szModule);
+ 	if (hContact == 0) ofsContact = dbHeader.ofsUser;
+	else ofsContact = (DWORD)hContact;
 
-	dbc=*(struct DBContact*)DBRead(ofsContact,sizeof(struct DBContact),NULL);
-	if(dbc.signature!=DBCONTACT_SIGNATURE) {
+	dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
+	if (dbc.signature!=DBCONTACT_SIGNATURE) {
 		LeaveCriticalSection(&csDbAccess);
 		return 1;
 	}
 	log0("write setting");
 	//make sure the module group exists
-	ofsSettingsGroup=GetSettingsGroupOfsByModuleNameOfs(&dbc,ofsModuleName);
-	if(ofsSettingsGroup==0) {  //module group didn't exist - make it
-		if(tmp.value.type&DBVTF_VARIABLELENGTH) {
-		  if(tmp.value.type==DBVT_ASCIIZ || tmp.value.type==DBVT_UTF8) bytesRequired=(int)strlen(tmp.value.pszVal)+2;
-		  else if(tmp.value.type==DBVT_BLOB) bytesRequired=tmp.value.cpbVal+2;
+	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc,ofsModuleName);
+	if (ofsSettingsGroup == 0) {  //module group didn't exist - make it
+		if (tmp.value.type&DBVTF_VARIABLELENGTH) {
+		  if (tmp.value.type == DBVT_ASCIIZ || tmp.value.type == DBVT_UTF8) bytesRequired = (int)strlen(tmp.value.pszVal)+2;
+		  else if (tmp.value.type == DBVT_BLOB) bytesRequired = tmp.value.cpbVal+2;
 		}
-		else bytesRequired=tmp.value.type;
-		bytesRequired+=2+settingNameLen;
-		bytesRequired+=(DB_SETTINGS_RESIZE_GRANULARITY-(bytesRequired%DB_SETTINGS_RESIZE_GRANULARITY))%DB_SETTINGS_RESIZE_GRANULARITY;
-		ofsSettingsGroup=CreateNewSpace(bytesRequired+offsetof(struct DBContactSettings,blob));
-		dbcs.signature=DBCONTACTSETTINGS_SIGNATURE;
-		dbcs.ofsNext=dbc.ofsFirstSettings;
-		dbcs.ofsModuleName=ofsModuleName;
-		dbcs.cbBlob=bytesRequired;
-		dbcs.blob[0]=0;
-		dbc.ofsFirstSettings=ofsSettingsGroup;
-		DBWrite(ofsContact,&dbc,sizeof(struct DBContact));
+		else bytesRequired = tmp.value.type;
+		bytesRequired += 2+settingNameLen;
+		bytesRequired += (DB_SETTINGS_RESIZE_GRANULARITY-(bytesRequired%DB_SETTINGS_RESIZE_GRANULARITY))%DB_SETTINGS_RESIZE_GRANULARITY;
+		ofsSettingsGroup = CreateNewSpace(bytesRequired+offsetof(struct DBContactSettings,blob));
+		dbcs.signature = DBCONTACTSETTINGS_SIGNATURE;
+		dbcs.ofsNext = dbc.ofsFirstSettings;
+		dbcs.ofsModuleName = ofsModuleName;
+		dbcs.cbBlob = bytesRequired;
+		dbcs.blob[0] = 0;
+		dbc.ofsFirstSettings = ofsSettingsGroup;
+		DBWrite(ofsContact,&dbc,sizeof(DBContact));
 		DBWrite(ofsSettingsGroup,&dbcs,sizeof(struct DBContactSettings));
-		ofsBlobPtr=ofsSettingsGroup+offsetof(struct DBContactSettings,blob);
-		pBlob=(PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
+		ofsBlobPtr = ofsSettingsGroup+offsetof(struct DBContactSettings,blob);
+		pBlob = (PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
 	}
 	else {
-		dbcs=*(struct DBContactSettings*)DBRead(ofsSettingsGroup,sizeof(struct DBContactSettings),&bytesRemaining);
+		dbcs = *(struct DBContactSettings*)DBRead(ofsSettingsGroup,sizeof(struct DBContactSettings),&bytesRemaining);
 		//find if the setting exists
-		ofsBlobPtr=ofsSettingsGroup+offsetof(struct DBContactSettings,blob);
-		pBlob=(PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
+		ofsBlobPtr = ofsSettingsGroup+offsetof(struct DBContactSettings,blob);
+		pBlob = (PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
 		while(pBlob[0]) {
 			NeedBytes(settingNameLen+1);
-			if(pBlob[0]==settingNameLen && !memcmp(pBlob+1,tmp.szSetting,settingNameLen))
+			if (pBlob[0] == settingNameLen && !memcmp(pBlob+1,tmp.szSetting,settingNameLen))
 				break;
 			NeedBytes(1);
 			MoveAlong(pBlob[0]+1);
@@ -679,18 +674,18 @@ static INT_PTR WriteContactSetting(WPARAM wParam,LPARAM lParam)
 			MoveAlong(1+GetSettingValueLength(pBlob));
 			NeedBytes(1);
 		}
-		if(pBlob[0]) {	 //setting already existed, and up to end of name is in cache
+		if (pBlob[0]) {	 //setting already existed, and up to end of name is in cache
 			MoveAlong(1+settingNameLen);
 			//if different type or variable length and length is different
 			NeedBytes(3);
-			if(pBlob[0]!=tmp.value.type || ((pBlob[0]==DBVT_ASCIIZ || pBlob[0]==DBVT_UTF8) && *(PWORD)(pBlob+1)!=strlen(tmp.value.pszVal)) || (pBlob[0]==DBVT_BLOB && *(PWORD)(pBlob+1)!=tmp.value.cpbVal)) {
+			if (pBlob[0]!=tmp.value.type || ((pBlob[0] == DBVT_ASCIIZ || pBlob[0] == DBVT_UTF8) && *(PWORD)(pBlob+1)!=strlen(tmp.value.pszVal)) || (pBlob[0] == DBVT_BLOB && *(PWORD)(pBlob+1)!=tmp.value.cpbVal)) {
 				//bin it
 				int nameLen,valLen;
 				DWORD ofsSettingToCut;
 				NeedBytes(3);
-				nameLen=1+settingNameLen;
-				valLen=1+GetSettingValueLength(pBlob);
-				ofsSettingToCut=ofsBlobPtr-nameLen;
+				nameLen = 1+settingNameLen;
+				valLen = 1+GetSettingValueLength(pBlob);
+				ofsSettingToCut = ofsBlobPtr-nameLen;
 				MoveAlong(valLen);
 				NeedBytes(1);
 				while(pBlob[0]) {
@@ -700,8 +695,8 @@ static INT_PTR WriteContactSetting(WPARAM wParam,LPARAM lParam)
 					NeedBytes(1);
 				}
 				DBMoveChunk(ofsSettingToCut,ofsSettingToCut+nameLen+valLen,ofsBlobPtr+1-ofsSettingToCut);
-				ofsBlobPtr-=nameLen+valLen;
-				pBlob=(PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
+				ofsBlobPtr -= nameLen+valLen;
+				pBlob = (PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
 			}
 			else {
 				//replace existing setting at pBlob
@@ -718,7 +713,7 @@ static INT_PTR WriteContactSetting(WPARAM wParam,LPARAM lParam)
 				DBFlush(1);
 				LeaveCriticalSection(&csDbAccess);
 				//notify
-				NotifyEventHooks(hSettingChangeEvent,wParam,(LPARAM)&tmp);
+				NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp);
 				return 0;
 			}
 		}
@@ -726,49 +721,49 @@ static INT_PTR WriteContactSetting(WPARAM wParam,LPARAM lParam)
 	//cannot do a simple replace, add setting to end of list
 	//pBlob already points to end of list
 	//see if it fits
-	if(tmp.value.type&DBVTF_VARIABLELENGTH) {
-	  if(tmp.value.type==DBVT_ASCIIZ || tmp.value.type==DBVT_UTF8) bytesRequired=(int)strlen(tmp.value.pszVal)+2;
-	  else if(tmp.value.type==DBVT_BLOB) bytesRequired=tmp.value.cpbVal+2;
+	if (tmp.value.type&DBVTF_VARIABLELENGTH) {
+	  if (tmp.value.type == DBVT_ASCIIZ || tmp.value.type == DBVT_UTF8) bytesRequired = (int)strlen(tmp.value.pszVal)+2;
+	  else if (tmp.value.type == DBVT_BLOB) bytesRequired = tmp.value.cpbVal+2;
 	}
-	else bytesRequired=tmp.value.type;
-	bytesRequired+=2+settingNameLen;
-	bytesRequired+=ofsBlobPtr+1-(ofsSettingsGroup+offsetof(struct DBContactSettings,blob));
+	else bytesRequired = tmp.value.type;
+	bytesRequired += 2+settingNameLen;
+	bytesRequired += ofsBlobPtr+1-(ofsSettingsGroup+offsetof(struct DBContactSettings,blob));
 	if ((DWORD)bytesRequired>dbcs.cbBlob) {
 		//doesn't fit: move entire group
 		struct DBContactSettings *dbcsPrev;
 		DWORD ofsDbcsPrev,ofsNew;
 
-		bytesRequired+=(DB_SETTINGS_RESIZE_GRANULARITY-(bytesRequired%DB_SETTINGS_RESIZE_GRANULARITY))%DB_SETTINGS_RESIZE_GRANULARITY;
+		bytesRequired += (DB_SETTINGS_RESIZE_GRANULARITY-(bytesRequired%DB_SETTINGS_RESIZE_GRANULARITY))%DB_SETTINGS_RESIZE_GRANULARITY;
 		//find previous group to change its offset
-		ofsDbcsPrev=dbc.ofsFirstSettings;
-		if(ofsDbcsPrev==ofsSettingsGroup) ofsDbcsPrev=0;
+		ofsDbcsPrev = dbc.ofsFirstSettings;
+		if (ofsDbcsPrev == ofsSettingsGroup) ofsDbcsPrev = 0;
 		else {
-			dbcsPrev=(struct DBContactSettings*)DBRead(ofsDbcsPrev,sizeof(struct DBContactSettings),NULL);
+			dbcsPrev = (struct DBContactSettings*)DBRead(ofsDbcsPrev,sizeof(struct DBContactSettings),NULL);
 			while(dbcsPrev->ofsNext!=ofsSettingsGroup) {
-				if(dbcsPrev->ofsNext==0) DatabaseCorruption(NULL);
-				ofsDbcsPrev=dbcsPrev->ofsNext;
-				dbcsPrev=(struct DBContactSettings*)DBRead(ofsDbcsPrev,sizeof(struct DBContactSettings),NULL);
+				if (dbcsPrev->ofsNext == 0) DatabaseCorruption(NULL);
+				ofsDbcsPrev = dbcsPrev->ofsNext;
+				dbcsPrev = (struct DBContactSettings*)DBRead(ofsDbcsPrev,sizeof(struct DBContactSettings),NULL);
 			}
 		}
 
 		//create the new one
-		ofsNew=ReallocSpace(ofsSettingsGroup, dbcs.cbBlob+offsetof(struct DBContactSettings,blob), bytesRequired+offsetof(struct DBContactSettings,blob));
+		ofsNew = ReallocSpace(ofsSettingsGroup, dbcs.cbBlob+offsetof(struct DBContactSettings,blob), bytesRequired+offsetof(struct DBContactSettings,blob));
 
-		dbcs.cbBlob=bytesRequired;
+		dbcs.cbBlob = bytesRequired;
 
 		DBWrite(ofsNew,&dbcs,offsetof(struct DBContactSettings,blob));
-		if(ofsDbcsPrev==0) {
-			dbc.ofsFirstSettings=ofsNew;
-			DBWrite(ofsContact,&dbc,sizeof(struct DBContact));
+		if (ofsDbcsPrev == 0) {
+			dbc.ofsFirstSettings = ofsNew;
+			DBWrite(ofsContact,&dbc,sizeof(DBContact));
 		}
 		else {
-			dbcsPrev=(struct DBContactSettings*)DBRead(ofsDbcsPrev,sizeof(struct DBContactSettings),NULL);
-			dbcsPrev->ofsNext=ofsNew;
+			dbcsPrev = (struct DBContactSettings*)DBRead(ofsDbcsPrev,sizeof(struct DBContactSettings),NULL);
+			dbcsPrev->ofsNext = ofsNew;
 			DBWrite(ofsDbcsPrev,dbcsPrev,offsetof(struct DBContactSettings,blob));
 		}
-		ofsBlobPtr+=ofsNew-ofsSettingsGroup;
-		ofsSettingsGroup=ofsNew;
-		pBlob=(PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
+		ofsBlobPtr += ofsNew-ofsSettingsGroup;
+		ofsSettingsGroup = ofsNew;
+		pBlob = (PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
 	}
 	//we now have a place to put it and enough space: make it
 	DBWrite(ofsBlobPtr,&settingNameLen,1);
@@ -782,7 +777,7 @@ static INT_PTR WriteContactSetting(WPARAM wParam,LPARAM lParam)
 		case DBVT_DWORD: DBWrite(ofsBlobPtr,&tmp.value.dVal,4); MoveAlong(4); break;
 		case DBVT_UTF8:
 		case DBVT_ASCIIZ:
-			{	int len=(int)strlen(tmp.value.pszVal);
+			{	int len = (int)strlen(tmp.value.pszVal);
 				DBWrite(ofsBlobPtr,&len,2);
 				DBWrite(ofsBlobPtr+2,tmp.value.pszVal,len);
 				MoveAlong(2+len);
@@ -794,32 +789,31 @@ static INT_PTR WriteContactSetting(WPARAM wParam,LPARAM lParam)
 			MoveAlong(2+tmp.value.cpbVal);
 			break;
 	}
-	{	BYTE zero=0;
+	{	BYTE zero = 0;
 		DBWrite(ofsBlobPtr,&zero,1);
 	}
 	//quit
 	DBFlush(1);
 	LeaveCriticalSection(&csDbAccess);
 	//notify
-	NotifyEventHooks(hSettingChangeEvent, wParam, (LPARAM)&tmp );
+	NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp );
 	return 0;
 }
 
-static INT_PTR DeleteContactSetting(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(BOOL) CDdxMmap::DeleteContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
 {
-	DBCONTACTGETSETTING *dbcgs=(DBCONTACTGETSETTING*)lParam;
-	struct DBContact *dbc;
+	DBContact *dbc;
 	DWORD ofsModuleName,ofsSettingsGroup,ofsBlobPtr;
 	PBYTE pBlob;
 	int settingNameLen,moduleNameLen,bytesRemaining;
 	char* szCachedSettingName;
-	WPARAM saveWparam = wParam;
+	WPARAM saveWparam = (WPARAM)hContact;
 
 	if ((!dbcgs->szModule) || (!dbcgs->szSetting))
 		return 1;
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
-	settingNameLen=(int)strlen(dbcgs->szSetting);
-	moduleNameLen=(int)strlen(dbcgs->szModule);
+	settingNameLen = (int)strlen(dbcgs->szSetting);
+	moduleNameLen = (int)strlen(dbcgs->szModule);
 	if ( settingNameLen > 0xFE )
 	{
 		#ifdef _DEBUG
@@ -836,26 +830,27 @@ static INT_PTR DeleteContactSetting(WPARAM wParam,LPARAM lParam)
 	}
 
 	EnterCriticalSection(&csDbAccess);
-	ofsModuleName=GetModuleNameOfs(dbcgs->szModule);
- 	if(wParam==0) wParam=dbHeader.ofsUser;
+	ofsModuleName = GetModuleNameOfs(dbcgs->szModule);
+ 	if (hContact == 0)
+		hContact = (HANDLE)dbHeader.ofsUser;
 
-	dbc=(struct DBContact*)DBRead(wParam,sizeof(struct DBContact),NULL);
-	if(dbc->signature!=DBCONTACT_SIGNATURE) {
+	dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
+	if (dbc->signature!=DBCONTACT_SIGNATURE) {
 		LeaveCriticalSection(&csDbAccess);
 		return 1;
 	}
 	//make sure the module group exists
-	ofsSettingsGroup=GetSettingsGroupOfsByModuleNameOfs(dbc,ofsModuleName);
-	if(ofsSettingsGroup==0) {
+	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc,ofsModuleName);
+	if (ofsSettingsGroup == 0) {
 		LeaveCriticalSection(&csDbAccess);
 		return 1;
 	}
 	//find if the setting exists
-	ofsBlobPtr=ofsSettingsGroup+offsetof(struct DBContactSettings,blob);
-	pBlob=(PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
+	ofsBlobPtr = ofsSettingsGroup+offsetof(struct DBContactSettings,blob);
+	pBlob = (PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
 	while(pBlob[0]) {
 		NeedBytes(settingNameLen+1);
-		if(pBlob[0]==settingNameLen && !memcmp(pBlob+1,dbcgs->szSetting,settingNameLen))
+		if (pBlob[0] == settingNameLen && !memcmp(pBlob+1,dbcgs->szSetting,settingNameLen))
 			break;
 		NeedBytes(1);
 		MoveAlong(pBlob[0]+1);
@@ -872,9 +867,9 @@ static INT_PTR DeleteContactSetting(WPARAM wParam,LPARAM lParam)
 		DWORD ofsSettingToCut;
 		MoveAlong(1+settingNameLen);
 		NeedBytes(3);
-		nameLen=1+settingNameLen;
-		valLen=1+GetSettingValueLength(pBlob);
-		ofsSettingToCut=ofsBlobPtr-nameLen;
+		nameLen = 1+settingNameLen;
+		valLen = 1+GetSettingValueLength(pBlob);
+		ofsSettingToCut = ofsBlobPtr-nameLen;
 		MoveAlong(valLen);
 		NeedBytes(1);
 		while(pBlob[0]) {
@@ -893,19 +888,18 @@ static INT_PTR DeleteContactSetting(WPARAM wParam,LPARAM lParam)
 	DBFlush(1);
 	LeaveCriticalSection(&csDbAccess);
 	{	//notify
-		DBCONTACTWRITESETTING dbcws={0};
-		dbcws.szModule=dbcgs->szModule;
-		dbcws.szSetting=dbcgs->szSetting;
-		dbcws.value.type=DBVT_DELETED;
+		DBCONTACTWRITESETTING dbcws = {0};
+		dbcws.szModule = dbcgs->szModule;
+		dbcws.szSetting = dbcgs->szSetting;
+		dbcws.value.type = DBVT_DELETED;
 		NotifyEventHooks(hSettingChangeEvent,saveWparam,(LPARAM)&dbcws);
 	}
 	return 0;
 }
 
-static INT_PTR EnumContactSettings(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(BOOL) CDdxMmap::EnumContactSettings(HANDLE hContact, DBCONTACTENUMSETTINGS* dbces)
 {
-	DBCONTACTENUMSETTINGS *dbces=(DBCONTACTENUMSETTINGS*)lParam;
-	struct DBContact *dbc;
+	DBContact *dbc;
 	DWORD ofsModuleName,ofsContact,ofsBlobPtr;
 	int bytesRemaining, result;
 	PBYTE pBlob;
@@ -916,22 +910,22 @@ static INT_PTR EnumContactSettings(WPARAM wParam,LPARAM lParam)
 
 	EnterCriticalSection(&csDbAccess);
 
-	ofsModuleName=GetModuleNameOfs(dbces->szModule);
-	if(wParam==0) ofsContact=dbHeader.ofsUser;
-	else ofsContact=wParam;
-	dbc=(struct DBContact*)DBRead(ofsContact,sizeof(struct DBContact),NULL);
-	if(dbc->signature!=DBCONTACT_SIGNATURE) {
+	ofsModuleName = GetModuleNameOfs(dbces->szModule);
+	if (hContact == 0) ofsContact = dbHeader.ofsUser;
+	else ofsContact = (DWORD)hContact;
+	dbc = (DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
+	if (dbc->signature != DBCONTACT_SIGNATURE) {
 		LeaveCriticalSection(&csDbAccess);
 		return -1;
 	}
-	dbces->ofsSettings=GetSettingsGroupOfsByModuleNameOfs(dbc,ofsModuleName);
+	dbces->ofsSettings = GetSettingsGroupOfsByModuleNameOfs(dbc,ofsModuleName);
 	if (!dbces->ofsSettings) {
 		LeaveCriticalSection(&csDbAccess);
 		return -1;
 	}
-	ofsBlobPtr=dbces->ofsSettings+offsetof(struct DBContactSettings,blob);
-	pBlob=(PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
-	if(pBlob[0]==0) {
+	ofsBlobPtr = dbces->ofsSettings+offsetof(struct DBContactSettings,blob);
+	pBlob = (PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
+	if (pBlob[0] == 0) {
 		LeaveCriticalSection(&csDbAccess);
 		return -1;
 	}
@@ -939,7 +933,7 @@ static INT_PTR EnumContactSettings(WPARAM wParam,LPARAM lParam)
 	while(pBlob[0]) {
 		NeedBytes(1);
 		NeedBytes(1+pBlob[0]);
-		CopyMemory(szSetting,pBlob+1,pBlob[0]); szSetting[pBlob[0]]=0;
+		CopyMemory(szSetting,pBlob+1,pBlob[0]); szSetting[pBlob[0]] = 0;
 		result = (dbces->pfnEnumProc)(szSetting,dbces->lParam);
 		MoveAlong(1+pBlob[0]);
 		NeedBytes(3);
@@ -950,13 +944,11 @@ static INT_PTR EnumContactSettings(WPARAM wParam,LPARAM lParam)
 	return result;
 }
 
-static INT_PTR EnumResidentSettings(WPARAM wParam,LPARAM lParam)
+STDMETHODIMP_(BOOL) CDdxMmap::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
 {
-	int i;
-	int ret;
-	for(i = 0; i < lResidentSettings.realCount; i++) {
-		ret=((DBMODULEENUMPROC)lParam)((char *)lResidentSettings.items[i], 0, wParam);
-		if(ret) return ret;
+	for(int i = 0; i < lResidentSettings.realCount; i++) {
+		int ret = pFunc((char *)lResidentSettings.items[i], 0, (LPARAM)pParam);
+		if (ret) return ret;
 	}
 	return 0;
 }
@@ -977,16 +969,6 @@ static int stringCompare2( char* p1, char* p2 )
 
 int InitSettings(void)
 {
-	CreateServiceFunction(MS_DB_CONTACT_GETSETTING,GetContactSetting);
-	CreateServiceFunction(MS_DB_CONTACT_GETSETTING_STR,GetContactSettingStr);
-	CreateServiceFunction(MS_DB_CONTACT_GETSETTINGSTATIC,GetContactSettingStatic);
-	CreateServiceFunction(MS_DB_CONTACT_FREEVARIANT,FreeVariant);
-	CreateServiceFunction(MS_DB_CONTACT_WRITESETTING,WriteContactSetting);
-	CreateServiceFunction(MS_DB_CONTACT_DELETESETTING,DeleteContactSetting);
-	CreateServiceFunction(MS_DB_CONTACT_ENUMSETTINGS,EnumContactSettings);
-	CreateServiceFunction(MS_DB_SETSETTINGRESIDENT,SetSettingResident);
-	CreateServiceFunction("DB/ResidentSettings/Enum",EnumResidentSettings);
-
 	hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
 
 	hCacheHeap = HeapCreate(0, 0, 0);

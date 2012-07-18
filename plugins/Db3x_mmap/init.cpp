@@ -25,15 +25,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int hLangpack;
 
-extern char szDbPath[MAX_PATH];
+extern TCHAR szDbPath[MAX_PATH];
 
-static PLUGININFOEX pluginInfo = {
+CDdxMmap* g_Db = NULL;
+
+static PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	"Miranda mmap database driver",
 	__VERSION_DWORD,
 	"Provides Miranda database support: global settings, contacts, history, settings per contact.",
 	"Miranda-IM project",
-	"bio@msx.ru; ghazan@miranda-im.org",
+	"bio@msx.ru; ghazan@miranda.im",
 	"Copyright 2000-2011 Miranda IM project",
 	"",
 	UNICODE_AWARE,
@@ -48,43 +51,43 @@ static int getCapability( int flag )
 }
 
 // returns 0 if the profile is created, EMKPRF*
-static int makeDatabase(char * profile, int * error)
+static int makeDatabase(TCHAR *profile, int *error)
 {
-	HANDLE hFile = CreateFileA(profile, GENERIC_READ|GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	HANDLE hFile = CreateFile(profile, GENERIC_READ|GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
 	if ( hFile != INVALID_HANDLE_VALUE ) {
 		CreateDbHeaders(hFile);
 		CloseHandle(hFile);
 		return 0;
 	}
-	if ( error != NULL ) *error=EMKPRF_CREATEFAILED;
+	if ( error != NULL ) *error = EMKPRF_CREATEFAILED;
 	return 1;
 }
 
 // returns 0 if the given profile has a valid header
-static int grokHeader( char * profile, int * error )
+static int grokHeader(TCHAR *profile, int *error)
 {
-	int rc=1;
-	int chk=0;
+	int rc = 1;
+	int chk = 0;
 	struct DBHeader hdr;
 	HANDLE hFile = INVALID_HANDLE_VALUE;
-	DWORD dummy=0;
+	DWORD dummy = 0;
 
-	hFile = CreateFileA(profile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+	hFile = CreateFile(profile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
 	if ( hFile == INVALID_HANDLE_VALUE ) {
-		if ( error != NULL ) *error=EGROKPRF_CANTREAD;
+		if ( error != NULL ) *error = EGROKPRF_CANTREAD;
 		return 1;
 	}
 	// read the header, which can fail (for various reasons)
 	if ( !ReadFile(hFile, &hdr, sizeof(struct DBHeader), &dummy, NULL)) {
-		if ( error != NULL) *error=EGROKPRF_CANTREAD;
+		if ( error != NULL) *error = EGROKPRF_CANTREAD;
 		CloseHandle(hFile);
 		return 1;
 	}
-	chk=CheckDbHeaders(&hdr);
+	chk = CheckDbHeaders(&hdr);
 	if ( chk == 0 ) {
 		// all the internal tests passed, hurrah
-		rc=0;
-		if ( error != NULL ) *error=0;
+		rc = 0;
+		if ( error != NULL ) *error = 0;
 	} else {
 		// didn't pass at all, or some did.
 		switch ( chk ) {
@@ -97,13 +100,13 @@ static int grokHeader( char * profile, int * error )
 			case 2:
 			{
 				// header was present, but version information newer
-				if ( error != NULL ) *error= EGROKPRF_VERNEWER;
+				if ( error != NULL ) *error =  EGROKPRF_VERNEWER;
 				break;
 			}
 			case 3:
 			{
 				// header/version OK, internal data missing
-				if ( error != NULL ) *error=EGROKPRF_DAMAGED;
+				if ( error != NULL ) *error = EGROKPRF_DAMAGED;
 				break;
 			}
 		} // switch
@@ -113,16 +116,21 @@ static int grokHeader( char * profile, int * error )
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
-static int LoadDatabase(char * profile)
+static MIDatabase* LoadDatabase(TCHAR *profile)
 {
+	if (g_Db) delete g_Db;
+	g_Db = new CDdxMmap(profile);
+
 	// don't need thread notifications
-	strncpy(szDbPath, profile, sizeof(szDbPath));
+	_tcsncpy(szDbPath, profile, SIZEOF(szDbPath));
 
 	// set the memory, lists & UTF8 manager
 	mir_getLP( &pluginInfo );
 
 	// inject all APIs and hooks into the core
-	return LoadDatabaseModule();
+	LoadDatabaseModule();
+
+	return g_Db;
 }
 
 static int UnloadDatabase(int wasLoaded)
@@ -132,9 +140,9 @@ static int UnloadDatabase(int wasLoaded)
 	return 0;
 }
 
-static int getFriendlyName( char * buf, size_t cch, int shortName )
+static int getFriendlyName( TCHAR *buf, size_t cch, int shortName )
 {
-	strncpy(buf,shortName ? "db3x mmap driver" : "db3x mmap database support",cch);
+	_tcsncpy(buf,shortName ? _T("db3x mmap driver") : _T("db3x mmap database support"), cch);
 	return 0;
 }
 
@@ -150,7 +158,7 @@ static DATABASELINK dblink = {
 
 BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
 {
-	g_hInst=hInstDLL;
+	g_hInst = hInstDLL;
 	return TRUE;
 }
 

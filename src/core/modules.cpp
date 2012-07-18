@@ -41,6 +41,7 @@ int LoadLangpackModule(void);	// core: translation
 int LoadProtocolsModule(void);	// core: protocol manager
 int LoadAccountsModule(void);    // core: account manager
 int LoadIgnoreModule(void);		// protocol filter: ignore
+int LoadDbintfModule(void);
 
 int LoadContactListModule(void);// ui: clist
 int LoadOptionsModule(void);	// ui: options dialog
@@ -89,6 +90,7 @@ int LoadDefaultModules(void)
 	if ( LoadUtilsModule()) return 1;		//order not important for this, but no dependencies and no point in pluginising
 	if ( LoadIcoTabsModule()) return 1;
 	if ( LoadHeaderbarModule()) return 1;
+	if ( LoadDbintfModule()) return 1;
 	if ( LoadNewPluginsModuleInfos()) return 1;
 
 	// database is available here
