@@ -52,10 +52,10 @@ TCHAR* PFTS_StringToTchar(int flags, const PROTOCHAR* s)
 		return mir_a2t((char*)s);
 }
 
-int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHAR* r)
+int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHAR *r)
 {
 	if (ft->flags & PFTS_UTF) {
-		TCHAR* ts = Utf8DecodeW((char*)s);
+		TCHAR *ts = Utf8DecodeW((char*)s);
 		int res = _tcscmp(ts, r);
 		mir_free(ts);
 		return res;
@@ -63,7 +63,7 @@ int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHAR
 	else if (ft->flags & PFTS_UNICODE)
 		return _tcscmp(s, r);
 	else {
-	  TCHAR* ts = mir_a2t((char*)s);
+	  TCHAR *ts = mir_a2t((char*)s);
 	  int res = _tcscmp(ts, r);
 	  mir_free(ts);
 	  return res;
@@ -376,11 +376,11 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				case IDC_OPENFOLDER:
 					if (dat) 
 					{
-						TCHAR* path = dat->transferStatus.tszWorkingDir;
+						TCHAR *path = dat->transferStatus.tszWorkingDir;
 						if ( !path || !path[0])
 						{
 							path = NEWTSTR_ALLOCA(dat->transferStatus.tszCurrentFile);
-							TCHAR* p = _tcsrchr(path, '\\'); if (p) *p = 0;
+							TCHAR *p = _tcsrchr(path, '\\'); if (p) *p = 0;
 						}
 
 						if (path) ShellExecute(NULL, _T("open"), path, NULL, NULL, SW_SHOW);
@@ -450,11 +450,11 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 					if (ret == 1)
 					{
-						TCHAR* path = dat->transferStatus.tszWorkingDir;
+						TCHAR *path = dat->transferStatus.tszWorkingDir;
 						if ( !path || !path[0])
 						{
 							path = NEWTSTR_ALLOCA(dat->transferStatus.tszCurrentFile);
-							TCHAR* p = _tcsrchr(path, '\\'); if (p) *p = 0;
+							TCHAR *p = _tcsrchr(path, '\\'); if (p) *p = 0;
 						}
 
 						if (path) ShellExecute(NULL, _T("open"), path, NULL, NULL, SW_SHOW);

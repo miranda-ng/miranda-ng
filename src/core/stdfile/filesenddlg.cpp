@@ -63,7 +63,7 @@ static void SetFileListAndSizeControls(HWND hwndDlg, struct FileDlgData *dat)
 	EnableWindow(GetDlgItem(hwndDlg, IDOK), fileCount || dirCount);
 }
 
-static void FilenameToFileList(HWND hwndDlg, struct FileDlgData* dat, const TCHAR* buf)
+static void FilenameToFileList(HWND hwndDlg, struct FileDlgData* dat, const TCHAR *buf)
 {
 	DWORD dwFileAttributes;
 
@@ -77,7 +77,7 @@ static void FilenameToFileList(HWND hwndDlg, struct FileDlgData* dat, const TCHA
 
 	// Check if the selection is a directory or a file
 	if (GetFileAttributes(buf) & FILE_ATTRIBUTE_DIRECTORY) {
-		const TCHAR* pBuf;
+		const TCHAR *pBuf;
 		int nNumberOfFiles = 0;
 		int nTemp;
 		int fileOffset;
@@ -96,7 +96,7 @@ static void FilenameToFileList(HWND hwndDlg, struct FileDlgData* dat, const TCHA
 		}
 
 		// Allocate memory for a pointer array
-		if ((dat->files = (TCHAR* *)mir_alloc((nNumberOfFiles + 1) * sizeof(TCHAR*))) == NULL)
+		if ((dat->files = (TCHAR**)mir_alloc((nNumberOfFiles + 1) * sizeof(TCHAR*))) == NULL)
 			return;
 
 		// Fill the array
@@ -139,7 +139,7 @@ void __cdecl ChooseFilesThread(void* param)
 {
 	HWND hwndDlg = (HWND)param;
 	TCHAR filter[128], *pfilter;
-	TCHAR* buf = (TCHAR*)mir_alloc(sizeof(TCHAR)*32767);
+	TCHAR *buf = (TCHAR*)mir_alloc(sizeof(TCHAR)*32767);
 	if (buf == NULL)
 		PostMessage(hwndDlg, M_FILECHOOSEDONE, 0, (LPARAM)(TCHAR*)NULL);
 	else {
@@ -228,11 +228,10 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SetFileListAndSizeControls(hwndDlg, dat);
 		}
 		{
-			char *szProto;
-			TCHAR* contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+			TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			SetDlgItemText(hwndDlg, IDC_TO, contactName);
 
-			szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+			char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
 			if (szProto) {
 				CONTACTINFO ci;
 				int hasName = 0;

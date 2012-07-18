@@ -111,14 +111,14 @@ static REPLACEVARSARRAY sttVarsToReplace[] =
 	{ NULL, NULL }
 };
 
-static void patchDir(TCHAR* str, size_t strSize)
+static void patchDir(TCHAR *str, size_t strSize)
 {
 	REPLACEVARSDATA dat = { 0 };
 	dat.cbSize = sizeof(dat);
 	dat.dwFlags = RVF_TCHAR;
 	dat.variables = sttVarsToReplace;
 
-	TCHAR* result = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)str, (LPARAM)&dat);
+	TCHAR *result = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)str, (LPARAM)&dat);
 	if (result) {
 		_tcsncpy(str, result, strSize);
 		mir_free(result);
@@ -164,7 +164,7 @@ void GetContactReceivedFilesDir(HANDLE hContact, TCHAR *szDir, int cchDir, BOOL 
 		dat.dwFlags = RVF_TCHAR;
 		dat.variables = rvaVarsToReplace;
 		dat.hContact = hContact;
-		TCHAR* result = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)szTemp, (LPARAM)&dat);
+		TCHAR *result = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)szTemp, (LPARAM)&dat);
 		if (result) {
 			_tcsncpy(szTemp, result, SIZEOF(szTemp));
 			mir_free(result);
@@ -206,73 +206,74 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	dat = (struct FileDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
-	case WM_INITDIALOG: {
-		TCHAR *contactName;
-		TCHAR szPath[450];
-		CLISTEVENT* cle = (CLISTEVENT*)lParam;
-
+	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-
-		dat = (struct FileDlgData*)mir_calloc(sizeof(struct FileDlgData));
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-		dat->hContact = cle->hContact;
-		dat->hDbEvent = cle->hDbEvent;
-		dat->hPreshutdownEvent = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, M_PRESHUTDOWN);
-		dat->dwTicks = GetTickCount();
-
-		EnumChildWindows(hwndDlg, ClipSiblingsChildEnumProc, 0);
-
-		Window_SetIcon_IcoLib(hwndDlg, SKINICON_EVENT_FILE);
-		Button_SetIcon_IcoLib(hwndDlg, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add Contact Permanently to List"));
-		Button_SetIcon_IcoLib(hwndDlg, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGEN("View User's Details"));
-		Button_SetIcon_IcoLib(hwndDlg, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGEN("View User's History"));
-		Button_SetIcon_IcoLib(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGEN("User Menu"));
-
-		contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
-		SetDlgItemText(hwndDlg, IDC_FROM, contactName);
-		GetContactReceivedFilesDir(dat->hContact, szPath, SIZEOF(szPath), TRUE);
-		SetDlgItemText(hwndDlg, IDC_FILEDIR, szPath);
 		{
-			int i;
-			char idstr[32];
-			DBVARIANT dbv;
+			TCHAR szPath[450];
+			CLISTEVENT* cle = (CLISTEVENT*)lParam;
 
+
+			dat = (struct FileDlgData*)mir_calloc(sizeof(struct FileDlgData));
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
+			dat->hContact = cle->hContact;
+			dat->hDbEvent = cle->hDbEvent;
+			dat->hPreshutdownEvent = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, M_PRESHUTDOWN);
+			dat->dwTicks = GetTickCount();
+
+			EnumChildWindows(hwndDlg, ClipSiblingsChildEnumProc, 0);
+
+			Window_SetIcon_IcoLib(hwndDlg, SKINICON_EVENT_FILE);
+			Button_SetIcon_IcoLib(hwndDlg, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add Contact Permanently to List"));
+			Button_SetIcon_IcoLib(hwndDlg, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGEN("View User's Details"));
+			Button_SetIcon_IcoLib(hwndDlg, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGEN("View User's History"));
+			Button_SetIcon_IcoLib(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGEN("User Menu"));
+
+			TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+			SetDlgItemText(hwndDlg, IDC_FROM, contactName);
+			GetContactReceivedFilesDir(dat->hContact, szPath, SIZEOF(szPath), TRUE);
+			SetDlgItemText(hwndDlg, IDC_FILEDIR, szPath);
 			if (shAutoComplete)
 				shAutoComplete(GetWindow(GetDlgItem(hwndDlg, IDC_FILEDIR), GW_CHILD), 1);
 
-			for (i=0;i<MAX_MRU_DIRS;i++) {
+			for (int i=0; i < MAX_MRU_DIRS; i++) {
+				char idstr[32];
 				mir_snprintf(idstr, SIZEOF(idstr), "MruDir%d", i);
-				if (DBGetContactSettingTString(NULL, "SRFile", idstr, &dbv)) break;
+
+				DBVARIANT dbv;
+				if (DBGetContactSettingTString(NULL, "SRFile", idstr, &dbv))
+					break;
 				SendDlgItemMessage(hwndDlg, IDC_FILEDIR, CB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
 				DBFreeVariant(&dbv);
 			}
-		}
 
-		CallService(MS_DB_EVENT_MARKREAD, (WPARAM)dat->hContact, (LPARAM)dat->hDbEvent);
-		{
+			CallService(MS_DB_EVENT_MARKREAD, (WPARAM)dat->hContact, (LPARAM)dat->hDbEvent);
+
 			DBEVENTINFO dbei = {0};
-			TCHAR datetimestr[64];
-			char buf[540];
-
 			dbei.cbSize = sizeof(dbei);
 			dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)dat->hDbEvent, 0);
-			dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-			CallService(MS_DB_EVENT_GET, (WPARAM)dat->hDbEvent, (LPARAM)&dbei);
-			dat->fs = cle->lParam ? (HANDLE)cle->lParam : (HANDLE)*(PDWORD)dbei.pBlob;
-			lstrcpynA(buf, (char*)dbei.pBlob+4, min(dbei.cbBlob+1, SIZEOF(buf)));
-			TCHAR* ptszFileName = DbGetEventStringT(&dbei, buf);
-			SetDlgItemText(hwndDlg, IDC_FILENAMES, ptszFileName);
-			mir_free(ptszFileName);
-			lstrcpynA(buf, (char*)dbei.pBlob+4+strlen((char*)dbei.pBlob+4)+1, min((int)(dbei.cbBlob-4-strlen((char*)dbei.pBlob+4)), SIZEOF(buf)));
-			TCHAR* ptszDescription = DbGetEventStringT(&dbei, buf);
-			SetDlgItemText(hwndDlg, IDC_MSG, ptszDescription);
-			mir_free(ptszDescription);
-			mir_free(dbei.pBlob);
+			if (dbei.cbBlob > 4 && dbei.cbBlob <= 8196) {
+				dbei.pBlob = (PBYTE)alloca(dbei.cbBlob + 1);
+				CallService(MS_DB_EVENT_GET, (WPARAM)dat->hDbEvent, (LPARAM)&dbei);
+				dbei.pBlob[dbei.cbBlob] = 0;
+				dat->fs = cle->lParam ? (HANDLE)cle->lParam : (HANDLE)*(PDWORD)dbei.pBlob;
 
+				char *str = (char*)dbei.pBlob + 4;
+				mir_ptr<TCHAR> ptszFileName( DbGetEventStringT(&dbei, str));
+				SetDlgItemText(hwndDlg, IDC_FILENAMES, ptszFileName);
+
+				unsigned len = (unsigned)strlen(str) + 1;
+				if (len + 4 < dbei.cbBlob) {
+					str += len;
+					mir_ptr<TCHAR> ptszDescription( DbGetEventStringT(&dbei, str));
+					SetDlgItemText(hwndDlg, IDC_MSG, ptszDescription);
+				}
+			}
+			else DestroyWindow(hwndDlg);
+
+			TCHAR datetimestr[64];
 			tmi.printTimeStamp(NULL, dbei.timestamp, _T("t d"), datetimestr, SIZEOF(datetimestr), 0);
 			SetDlgItemText(hwndDlg, IDC_DATE, datetimestr);
-		}
-		{
+
 			char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
 			if (szProto) {
 				int hasName = 0;
@@ -299,23 +300,23 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					SetDlgItemTextA(hwndDlg, IDC_NAME, buf);
 				else
 					SetDlgItemText(hwndDlg, IDC_NAME, contactName);
-		}	}
+			}
 
-		if (DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0)) {
-			RECT rcBtn1, rcBtn2, rcDateCtrl;
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_ADD), &rcBtn1);
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_USERMENU), &rcBtn2);
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_DATE), &rcDateCtrl);
-			SetWindowPos(GetDlgItem(hwndDlg, IDC_DATE), 0, 0, 0, rcDateCtrl.right-rcDateCtrl.left-(rcBtn2.left-rcBtn1.left), rcDateCtrl.bottom-rcDateCtrl.top, SWP_NOZORDER|SWP_NOMOVE);
+			if (DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0)) {
+				RECT rcBtn1, rcBtn2, rcDateCtrl;
+				GetWindowRect(GetDlgItem(hwndDlg, IDC_ADD), &rcBtn1);
+				GetWindowRect(GetDlgItem(hwndDlg, IDC_USERMENU), &rcBtn2);
+				GetWindowRect(GetDlgItem(hwndDlg, IDC_DATE), &rcDateCtrl);
+				SetWindowPos(GetDlgItem(hwndDlg, IDC_DATE), 0, 0, 0, rcDateCtrl.right-rcDateCtrl.left-(rcBtn2.left-rcBtn1.left), rcDateCtrl.bottom-rcDateCtrl.top, SWP_NOZORDER|SWP_NOMOVE);
+			}
+			else if (DBGetContactSettingByte(NULL, "SRFile", "AutoAccept", 0)) {
+				//don't check auto-min here to fix BUG#647620
+				PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDOK, BN_CLICKED), (LPARAM)GetDlgItem(hwndDlg, IDOK));
+			}
+			if ( !DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0))
+				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 		}
-		else if (DBGetContactSettingByte(NULL, "SRFile", "AutoAccept", 0)) {
-			//don't check auto-min here to fix BUG#647620
-			PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDOK, BN_CLICKED), (LPARAM)GetDlgItem(hwndDlg, IDOK));
-		}
-		if ( !DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0))
-			ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 		return TRUE;
-	}
 
 	case WM_MEASUREITEM:
 		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);

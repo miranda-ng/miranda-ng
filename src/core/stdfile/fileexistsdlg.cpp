@@ -248,7 +248,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		{	
 			TCHAR szFile[MAX_PATH];
 			lstrcpyn(szFile, fts->tszCurrentFile, SIZEOF(szFile));
-			TCHAR* pszLastBackslash = _tcsrchr(szFile, '\\');
+			TCHAR *pszLastBackslash = _tcsrchr(szFile, '\\');
 			if (pszLastBackslash)
 				*pszLastBackslash = '\0';
 			ShellExecute(hwndDlg, NULL, szFile, NULL, NULL, SW_SHOW);
