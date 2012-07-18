@@ -158,7 +158,7 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 	ttbb.hIconHandleDn = Skin_AddIcon(&sid);
 
 	ttbb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttbb.pszService = "Console/Hide";
+	ttbb.pszService = (IsWindowVisible(hwndConsole)) ? "Console/Hide" : "Console/Show";
 	ttbb.name = LPGEN("Show/Hide Console");
 	ttbb.pszTooltipDn = LPGEN("Hide Console");
 	ttbb.pszTooltipUp = LPGEN("Show Console");
@@ -205,7 +205,7 @@ static void ShowConsole(int show)
 		CLISTMENUITEM mi = {0};
 
 		mi.cbSize = sizeof(mi);
-		mi.ptszName=(show)?TranslateT("Hide Console"):TranslateT("Show Console");
+		mi.ptszName = (show) ? _T("Hide Console") : _T("Show Console");
 		mi.flags = CMIM_NAME | CMIF_TCHAR;
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenu, (LPARAM)&mi);
 	}
