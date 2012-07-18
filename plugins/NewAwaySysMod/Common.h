@@ -324,8 +324,6 @@ extern int g_Messages_RecentRootID, g_Messages_PredefinedRootID;
 extern VAR_PARSE_DATA VarParseData;
 extern bool g_fNoProcessing;
 extern int g_bIsIdle;
-extern INT_PTR (*g_OldCallService)(const char *, WPARAM, LPARAM);
-
 
 // AwaySys.cpp
 TCString GetDynamicStatMsg(HANDLE hContact, char *szProto = NULL, DWORD UIN = 0, int iStatus = 0);
@@ -382,7 +380,7 @@ __inline int CallAllowedPS_SETAWAYMSG(const char *szProto, int iMode, const char
 	char str[MAXMODULELABELLENGTH];
 	strcpy(str, szProto);
 	strcat(str, PS_SETAWAYMSG);
-	return g_OldCallService(str, (WPARAM)iMode, (LPARAM)szMsg);
+	return CallService(str, (WPARAM)iMode, (LPARAM)szMsg);
 }
 
 static __inline void my_variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton)
