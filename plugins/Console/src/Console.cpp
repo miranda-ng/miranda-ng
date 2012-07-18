@@ -114,27 +114,12 @@ static int Openfile(TCHAR *outputFile, int selection);
 
 static HANDLE hTTBButt = 0;
 
-static INT_PTR HideConsoleButt(WPARAM wParam,LPARAM lParam)
-{
-	ShowConsole(0);
-	return 0;
-}
-
-static INT_PTR ShowConsoleButt(WPARAM wParam,LPARAM lParam)
-{
-	ShowConsole(1);
-	return 0;
-}
-
 static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 {
 	if ( !IsWindow(hwndConsole))
 		return 0;
 
 	int state = IsWindowVisible(hwndConsole);
-
-	CreateServiceFunction("Console/Hide", HideConsoleButt);
-	CreateServiceFunction("Console/Show", ShowConsoleButt);
 
 	TTBButton ttbb = {0};
 	ttbb.cbSize = sizeof(ttbb);
@@ -158,7 +143,7 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 	ttbb.hIconHandleDn = Skin_AddIcon(&sid);
 
 	ttbb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttbb.pszService = (IsWindowVisible(hwndConsole)) ? "Console/Hide" : "Console/Show";
+	ttbb.pszService = MS_CONSOLE_SHOW_HIDE;
 	ttbb.name = LPGEN("Show/Hide Console");
 	ttbb.pszTooltipDn = LPGEN("Hide Console");
 	ttbb.pszTooltipUp = LPGEN("Show Console");
