@@ -1,0 +1,40 @@
+-- modified version
+
+Version 1.1.0.0
+ [+] Added enhanced 0.7+ core support + UUID
+ [+] Added Modern Toolbar support
+ [+] Added support for Updater
+ [+] Added support for 0.8+ core Hotkeys
+ [-] Removed support of obsolete plugins (MirInstaller, PluginUninstaller)
+
+-- original version
+
+Version 1.0.4.0
+ [x] Unknown
+
+Version 1.0.4.0
+ [~] Removed DB function for TopToolbar. (Disable TopToolbar icon by TopToolbar Plugin itself)
+ [~] Removed DB function for open behaviour. Use CTRL while clicking for 'explore', else 'open'
+ 
+Version 1.0.3.2
+ [!] TopToolbar did not work (didn't wait for ME_SYSTEM_MODULESLOADED)
+ [~] TopToolbar icon is now borderless for better skinning support
+ [~] Translation changed a bit
+ [+] Optimized filesize under VC++ compiling with AgressiveOptimize
+ 
+Version 1.0.3.0
+ [+] Added support for TopToolbar Plugin
+ [+] Added DB Entry Check to change open behaviour (look at readme.txt)
+ [+] Added DB Entry Check to activate TopToolbar (look at readme.txt)
+ [!] Forgot to make the strings translatable
+
+Version 1.0.2.0
+ [~] Reduced filesize by using gcc
+
+Version 1.0.1.0
+ [+] Added support for PluginUninstaller Plugin
+ [+] Added support for MirInstaller
+ [+] Added Sourcecode
+
+Version 1.0.0.0
+ [ ] Initial Release
