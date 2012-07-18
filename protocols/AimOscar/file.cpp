@@ -1,6 +1,6 @@
 /*
 Plugin of Miranda IM for communicating with users of the AIM protocol.
-Copyright (c) 2008-2009 Boris Krasnovskiy
+Copyright (c) 2008-2012 Boris Krasnovskiy
 Copyright (C) 2005-2006 Aaron Myles Landwehr
 
 This program is free software; you can redistribute it and/or
@@ -496,23 +496,12 @@ file_transfer* ft_list_type::find_by_cookie(char* cookie, HANDLE hContact)
 	return NULL;
 }
 
-file_transfer* ft_list_type::find_by_ip(unsigned long ip)
+file_transfer* ft_list_type::find_by_port(unsigned short port)
 {
 	for (int i = getCount(); i--; )
 	{
 		file_transfer *ft = items[i];
-		if (ft->accepted && ft->requester && (ft->local_ip == ip || ft->verified_ip == ip))
-			return ft;
-	}
-	return NULL;
-}
-
-file_transfer* ft_list_type::find_suitable(void)
-{
-	for (int i = getCount(); i--; )
-	{
-		file_transfer *ft = items[i];
-		if (ft->accepted && ft->requester)
+		if (ft->requester && ft->local_port  == port)
 			return ft;
 	}
 	return NULL;
@@ -561,6 +550,8 @@ file_transfer::file_transfer(HANDLE hCont, char* nick, char* cookie)
 
 file_transfer::~file_transfer() 
 { 
+	stop_listen();
+
 	mir_free(file); 
 	mir_free(message); 
 	mir_free(sn); 
@@ -576,4 +567,26 @@ file_transfer::~file_transfer()
 		mir_free(pfts.ptszFiles);
 	}
 	CloseHandle(hResumeEvent);
+}
+
+void file_transfer::listen(CAimProto* ppro) 
+{ 
+	if (hDirectBoundPort) return;
+
+	NETLIBBIND nlb = {0};
+	nlb.cbSize = sizeof(nlb);
+	nlb.pfnNewConnectionV2 = aim_direct_connection_initiated;
+	nlb.pExtra = ppro;
+	hDirectBoundPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)ppro->hNetlibPeer, (LPARAM)&nlb);
+	local_port = hDirectBoundPort ? nlb.wPort : 0;
+}
+
+void file_transfer::stop_listen(void) 
+{ 
+	if (hDirectBoundPort)
+	{
+		Netlib_CloseHandle(hDirectBoundPort);
+		hDirectBoundPort = NULL;
+		local_port = 0;
+	}
 }

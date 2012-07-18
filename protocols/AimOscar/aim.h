@@ -1,6 +1,6 @@
 /*
 Plugin of Miranda IM for communicating with users of the AIM protocol.
-Copyright (c) 2008-2011 Boris Krasnovskiy
+Copyright (c) 2008-2012 Boris Krasnovskiy
 Copyright (C) 2005-2006 Aaron Myles Landwehr
 
 This program is free software; you can redistribute it and/or
@@ -86,9 +86,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "packets.h"
 #include "proxy.h"
 #include "resource.h"
+#include "proto.h"
 #include "theme.h"
 #include "ui.h"
-#include "proto.h"
 
 // Protocol limits
 #define MAX_SCREEN_NAME_LENGTH      97

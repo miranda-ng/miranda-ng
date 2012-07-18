@@ -1,5 +1,6 @@
 /*
 Plugin of Miranda IM for communicating with users of the AIM protocol.
+Copyright (c) 2008-2012 Boris Krasnovskiy
 Copyright (C) 2005-2006 Aaron Myles Landwehr
 
 This program is free software; you can redistribute it and/or
@@ -18,6 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DIRECT_CONNECT_H
 #define DIRECT_CONNECT_H
 
-void aim_direct_connection_initiated(HANDLE hNewConnection, DWORD dwRemoteIP, struct CAimProto*);
+void aim_direct_connection_initiated(HANDLE hNewConnection, DWORD dwRemoteIP, void* extra);
 
 #endif

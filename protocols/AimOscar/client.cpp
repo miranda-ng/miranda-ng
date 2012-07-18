@@ -251,19 +251,7 @@ int CAimProto::aim_set_profile(HANDLE hServerConn,unsigned short &seqno, char* a
 
 int CAimProto::aim_client_ready(HANDLE hServerConn,unsigned short &seqno)
 {
-	unsigned short offset=0;
-	NETLIBBIND nlb = {0};
-	nlb.cbSize = sizeof(nlb);
-	nlb.pfnNewConnectionV2 = (NETLIBNEWCONNECTIONPROC_V2)aim_direct_connection_initiated;
-	nlb.pExtra = this;
-	hDirectBoundPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlibPeer, (LPARAM)&nlb);
-	if (hDirectBoundPort == NULL)
-	{
-		ShowPopup(LPGEN("Aim was unable to bind to a port. File transfers may not succeed in some cases."), ERROR_POPUP);
-		local_port = 0;
-	}
-	else
-		local_port = nlb.wPort;
+	unsigned short offset = 0;
 
 	NETLIBCONNINFO connInfo = { sizeof(connInfo) }; 
 	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hServerConn, (LPARAM)&connInfo);

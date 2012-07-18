@@ -1,6 +1,6 @@
 /*
 Plugin of Miranda IM for communicating with users of the AIM protocol.
-Copyright (c) 2008-2009 Boris Krasnovskiy
+Copyright (c) 2008-2012 Boris Krasnovskiy
 Copyright (C) 2005-2006 Aaron Myles Landwehr
 
 This program is free software; you can redistribute it and/or
@@ -66,23 +66,18 @@ void __cdecl CAimProto::aim_dc_helper(void* param) //only called when we are ini
 	ft_list.remove_by_ft(ft);
 }
 
-void aim_direct_connection_initiated(HANDLE hNewConnection, DWORD dwRemoteIP, CAimProto* ppro)//for receiving stuff via dc
+void aim_direct_connection_initiated(HANDLE hNewConnection, DWORD, void* extra)//for receiving stuff via dc
 {
+	 CAimProto* ppro = (CAimProto*)extra;
 	 file_transfer *ft;
 
-	char cip[20];
-	ppro->LOG("Buddy connected from IP: %s", long_ip_to_char_ip(dwRemoteIP, cip));
+	NETLIBCONNINFO connInfo = { sizeof(connInfo) }; 
+	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hNewConnection, (LPARAM)&connInfo);
 
-	//okay someone connected to us or we initiated the connection- we need to figure out who they are and if they belong
-	for (int i=21; --i; )
-	{
-		ft = ppro->ft_list.find_by_ip(dwRemoteIP);
+	ppro->LOG("Buddy connected: %s", connInfo.szIpPort);
 
-		if (ft == NULL) ft = ppro->ft_list.find_suitable();
-		if (ft || Miranda_Terminated()) break;
-		Sleep(100);
-	}
-
+	// okay someone connected to us or we initiated the connection- we need to figure out who they are and if they belong
+	ft = ppro->ft_list.find_by_port(connInfo.wPort);
 	if (ft)
 	{
 		ft->hConn = hNewConnection;

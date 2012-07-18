@@ -36,12 +36,6 @@ void CAimProto::broadcast_status(int status)
 			Netlib_Shutdown(hServerConn);
 		}
 
-		if (hDirectBoundPort)
-		{
-			Netlib_CloseHandle(hDirectBoundPort);
-			hDirectBoundPort=NULL;
-		}
-
 		if (hMailConn && hMailConn != (HANDLE)1)
 		{
 			aim_sendflap(hMailConn,0x04,0,NULL,mail_seqno);

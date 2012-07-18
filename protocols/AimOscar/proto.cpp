@@ -81,8 +81,6 @@ CAimProto::~CAimProto()
 	RemoveMainMenus();
 	RemoveContactMenus();
 
-	if(hDirectBoundPort)
-		Netlib_CloseHandle(hDirectBoundPort);
 	if(hServerConn)
 		Netlib_CloseHandle(hServerConn);
 	if(hAvatarConn && hAvatarConn != (HANDLE)1)
@@ -571,7 +569,8 @@ HANDLE __cdecl CAimProto::SendFile(HANDLE hContact, const PROTOCHAR* szDescripti
 			}
 			else
 			{
-				aim_send_file(hServerConn, seqno, detected_ip, local_port, false, ft);
+				ft->listen(this);
+				aim_send_file(hServerConn, seqno, detected_ip, ft->local_port, false, ft);
 			}
 
 			DBFreeVariant(&dbv);

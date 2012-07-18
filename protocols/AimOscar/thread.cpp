@@ -1,6 +1,6 @@
 /*
 Plugin of Miranda IM for communicating with users of the AIM protocol.
-Copyright (c) 2008-2009 Boris Krasnovskiy
+Copyright (c) 2008-2012 Boris Krasnovskiy
 Copyright (C) 2005-2006 Aaron Myles Landwehr
 
 This program is free software; you can redistribute it and/or
@@ -31,6 +31,7 @@ void __cdecl CAimProto::accept_file_thread(void* param)//buddy sending file
 			LOG("Connected to proxy ip that buddy specified.");
 			ft->hConn = hConn;
 			ForkThread(&CAimProto::aim_proxy_helper, ft);
+			ft->stop_listen();
 		}
 	}
 	else if (ft->me_force_proxy) //we are forcing proxy
@@ -42,6 +43,7 @@ void __cdecl CAimProto::accept_file_thread(void* param)//buddy sending file
 			ft->requester = true;
 			ft->hConn = hConn;
 			ForkThread(&CAimProto::aim_proxy_helper, ft);
+			ft->stop_listen();
 		}
 	}
 	else 
@@ -55,6 +57,7 @@ void __cdecl CAimProto::accept_file_thread(void* param)//buddy sending file
 			ft->hConn = hConn;
 			aim_file_ad(hServerConn, seqno, ft->sn, ft->icbm_cookie, false, ft->max_ver);
 			ForkThread(&CAimProto::aim_dc_helper, ft);
+			ft->stop_listen();
 		}
 		else if (ft->sending)
 		{
@@ -64,13 +67,15 @@ void __cdecl CAimProto::accept_file_thread(void* param)//buddy sending file
 				ft->hConn = hConn;
 				ft->requester = true;
 				ForkThread(&CAimProto::aim_proxy_helper, ft);
+				ft->stop_listen();
 			}
 		}
 		else
 		{
 			LOG("Failed to connect to buddy- asking buddy to connect to us.");
+			ft->listen(this);
 			ft->requester = true;
-			aim_send_file(hServerConn, seqno, detected_ip, local_port, false, ft);
+			aim_send_file(hServerConn, seqno, detected_ip, ft->local_port, false, ft);
 			return;
 		}
 	}
