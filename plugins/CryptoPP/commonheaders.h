@@ -103,7 +103,7 @@ PBYTE cpp_alloc_pdata(pCNTX);
 
 extern "C" {
 
- DLLEXPORT int Load(PLUGINLINK *);
+ DLLEXPORT int Load();
  DLLEXPORT PLUGININFOEX *MirandaPluginInfoEx(DWORD);
  DLLEXPORT int Unload();
 

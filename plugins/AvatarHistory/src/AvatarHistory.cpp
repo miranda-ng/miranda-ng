@@ -24,7 +24,7 @@ Avatar History Plugin
 #include "AvatarHistory.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+
 DWORD mirVer;
 
 HANDLE hHooks[6] = {0};

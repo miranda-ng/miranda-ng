@@ -26,7 +26,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 // {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
 #define	MIID_PASTEIT { 0x1aac15e8, 0xdcec, 0x4050, { 0xb6, 0x6f, 0x2a, 0xa0, 0xe6, 0x12, 0xc, 0x22 } }
 
-PLUGINLINK *pluginLink;
+
 PasteToWeb* pasteToWebs[PasteToWeb::pages];
 std::map<HANDLE, HWND>* contactWindows;
 DWORD gMirandaVersion;

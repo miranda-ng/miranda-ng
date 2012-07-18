@@ -44,7 +44,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int Load(PLUGINLINK *link)
+int Load()
 {
 	DisableThreadLibraryCalls(g_hInst);
 
