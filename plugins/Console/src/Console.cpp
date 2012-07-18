@@ -1289,16 +1289,16 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	if (hwndConsole && IsWindow(hwndConsole))
 	{
-		CLISTMENUITEM mi={0};
+		CLISTMENUITEM mi = {0};
 		HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
-		mi.cbSize=sizeof(mi);
-		mi.flags=CMIF_TCHAR;
-		mi.hIcon=hIcons[0];
-		mi.ptszPopupName=TranslateT("&Help");
-		mi.popupPosition=2000090000;
-		mi.position=1000000000;
-		mi.ptszName=(IsWindowVisible(hwndConsole))?TranslateT("Hide Console"):TranslateT("Show Console");
-		mi.pszService=MS_CONSOLE_SHOW_HIDE;
+		mi.cbSize = sizeof(mi);
+		mi.flags = CMIF_TCHAR;
+		mi.hIcon = hIcons[0];
+		mi.ptszPopupName = _T("&Help");
+		mi.popupPosition = 2000090000;
+		mi.position = 1000000000;
+		mi.ptszName = (IsWindowVisible(hwndConsole)) ? _T("Hide Console") : _T("Show Console");
+		mi.pszService = MS_CONSOLE_SHOW_HIDE;
 		hMenu = Menu_AddMainMenuItem(&mi);
 
 		OnFontChange(0,0);
