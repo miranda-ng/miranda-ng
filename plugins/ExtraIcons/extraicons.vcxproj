@@ -86,7 +86,6 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalOptions>/ALIGN:4096 /filealign:0x200 /ignore:4108  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -115,7 +114,6 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalOptions>/ALIGN:4096 /filealign:0x200 /ignore:4108  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -143,7 +141,6 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalOptions>/ALIGN:4096 /filealign:0x200 /ignore:4108  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <BaseAddress>0x3EC20000</BaseAddress>
@@ -168,7 +165,6 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalOptions>/ALIGN:4096 /filealign:0x200 /ignore:4108  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <BaseAddress>0x3EC20000</BaseAddress>
@@ -179,50 +175,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BaseExtraIcon.h" />
-    <ClInclude Include="CallbackExtraIcon.h" />
-    <ClInclude Include="commons.h" />
-    <ClInclude Include="DefaultExtraIcons.h" />
-    <ClInclude Include="ExtraIcon.h" />
-    <ClInclude Include="ExtraIconGroup.h" />
-    <ClInclude Include="IcolibExtraIcon.h" />
+    <ClInclude Include="src\BaseExtraIcon.h" />
+    <ClInclude Include="src\CallbackExtraIcon.h" />
+    <ClInclude Include="src\commons.h" />
+    <ClInclude Include="src\DefaultExtraIcons.h" />
+    <ClInclude Include="src\ExtraIcon.h" />
+    <ClInclude Include="src\ExtraIconGroup.h" />
+    <ClInclude Include="src\IcolibExtraIcon.h" />
     <ClInclude Include="..\utils\mir_icons.h" />
-    <ClInclude Include="options.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="usedIcons.h" />
-    <ClInclude Include="Version.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\usedIcons.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\AlwaysVis.ico" />
-    <None Include="res\Chatchannel.ico" />
-    <None Include="res\empty.ico" />
-    <None Include="res\female.ico" />
-    <None Include="res\male.ico" />
-    <None Include="res\NeverVis.ico" />
-    <None Include="Docs\extraicons_changelog.txt" />
-    <None Include="Docs\extraicons_readme.txt" />
-    <None Include="Docs\extraicons_version.txt" />
-    <None Include="Docs\langpack_extraicons.txt" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
-    <ResourceCompile Include="Version.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="BaseExtraIcon.cpp" />
-    <ClCompile Include="CallbackExtraIcon.cpp" />
-    <ClCompile Include="DefaultExtraIcons.cpp" />
-    <ClCompile Include="ExtraIcon.cpp" />
-    <ClCompile Include="ExtraIconGroup.cpp" />
-    <ClCompile Include="extraicons.cpp">
+    <ClCompile Include="src\BaseExtraIcon.cpp" />
+    <ClCompile Include="src\CallbackExtraIcon.cpp" />
+    <ClCompile Include="src\DefaultExtraIcons.cpp" />
+    <ClCompile Include="src\ExtraIcon.cpp" />
+    <ClCompile Include="src\ExtraIconGroup.cpp" />
+    <ClCompile Include="src\extraicons.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="IcolibExtraIcon.cpp" />
+    <ClCompile Include="src\IcolibExtraIcon.cpp" />
     <ClCompile Include="..\utils\mir_icons.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="usedIcons.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\usedIcons.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

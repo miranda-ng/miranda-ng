@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 //
 // Generated from the TEXTINCLUDE 2 resource.
@@ -42,8 +42,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //########################################### Gadu-Gadu ########################################################
 //##############################################################################################################
-   IDI_GADU_GADU_6                ICON    "..\\icons\\Gadu-Gadu\\Gadu_Gadu_6.ico"
-   IDI_GADU_GADU_7                ICON    "..\\icons\\Gadu-Gadu\\Gadu_Gadu_7.ico"
+   IDI_GADU_GADU_6                ICON    "icons\\Gadu-Gadu\\Gadu_Gadu_6.ico"
+   IDI_GADU_GADU_7                ICON    "icons\\Gadu-Gadu\\Gadu_Gadu_7.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

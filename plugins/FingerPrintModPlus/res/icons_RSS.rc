@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 //
 // Generated from the TEXTINCLUDE 2 resource.
@@ -42,11 +42,11 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //############################################RSS###############################################################
 //##############################################################################################################
-   IDI_ATOM1                      ICON    "..\\icons\\rss\\Atom 1.ico"
-   IDI_ATOM3                      ICON    "..\\icons\\rss\\Atom 3.ico"
-   IDI_RSS09                      ICON    "..\\icons\\rss\\RSS 0.9.ico"
-   IDI_RSS1                       ICON    "..\\icons\\rss\\RSS 1.ico"
-   IDI_RSS2                       ICON    "..\\icons\\rss\\RSS 2.ico"
+   IDI_ATOM1                      ICON    "icons\\rss\\Atom 1.ico"
+   IDI_ATOM3                      ICON    "icons\\rss\\Atom 3.ico"
+   IDI_RSS09                      ICON    "icons\\rss\\RSS 0.9.ico"
+   IDI_RSS1                       ICON    "icons\\rss\\RSS 1.ico"
+   IDI_RSS2                       ICON    "icons\\rss\\RSS 2.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

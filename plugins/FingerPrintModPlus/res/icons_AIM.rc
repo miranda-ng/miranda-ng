@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 //
 // Generated from the TEXTINCLUDE 2 resource.
@@ -42,15 +42,15 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //################################################# AIM ########################################################
 //##############################################################################################################
-   IDI_AIM                 ICON    "..\\icons\\AIM\\AIM.ico"
-   IDI_AIM_4               ICON    "..\\icons\\AIM\\AIM_4.x.ico"
-   IDI_AIM_5               ICON    "..\\icons\\AIM\\AIM_5.x.ico"
-   IDI_AIM_MAC             ICON    "..\\icons\\AIM\\AIM_Mac.ico"
-   IDI_AIM_MOBILE          ICON    "..\\icons\\AIM\\AIM_Mobile.ico"
-   IDI_AIM_TRITON          ICON    "..\\icons\\AIM\\AIM_Triton.ico"
-   IDI_MINIAIM             ICON    "..\\icons\\AIM\\miniaim.ico"
-   IDI_NAIM                ICON    "..\\icons\\AIM\\naim.ico"
-   IDI_TERRAIM             ICON    "..\\icons\\AIM\\TerraIM.ico"
+   IDI_AIM                 ICON    "icons\\AIM\\AIM.ico"
+   IDI_AIM_4               ICON    "icons\\AIM\\AIM_4.x.ico"
+   IDI_AIM_5               ICON    "icons\\AIM\\AIM_5.x.ico"
+   IDI_AIM_MAC             ICON    "icons\\AIM\\AIM_Mac.ico"
+   IDI_AIM_MOBILE          ICON    "icons\\AIM\\AIM_Mobile.ico"
+   IDI_AIM_TRITON          ICON    "icons\\AIM\\AIM_Triton.ico"
+   IDI_MINIAIM             ICON    "icons\\AIM\\miniaim.ico"
+   IDI_NAIM                ICON    "icons\\AIM\\naim.ico"
+   IDI_TERRAIM             ICON    "icons\\AIM\\TerraIM.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

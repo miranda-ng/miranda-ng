@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 //
 // Generated from the TEXTINCLUDE 2 resource.
@@ -42,9 +42,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //############################################# Skype ##########################################################
 //##############################################################################################################
-   IDI_SKYPE1              ICON    "..\\icons\\Skype\\Skype 1.x.ico"
-   IDI_SKYPE2              ICON    "..\\icons\\Skype\\Skype 2.x.ico"
-   IDI_SKYPE3              ICON    "..\\icons\\Skype\\Skype 3.x.ico"
+   IDI_SKYPE1              ICON    "icons\\Skype\\Skype 1.x.ico"
+   IDI_SKYPE2              ICON    "icons\\Skype\\Skype 2.x.ico"
+   IDI_SKYPE3              ICON    "icons\\Skype\\Skype 3.x.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

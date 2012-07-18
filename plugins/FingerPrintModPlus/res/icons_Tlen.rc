@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 //
 // Generated from the TEXTINCLUDE 2 resource.
@@ -42,14 +42,14 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //################################################### Tlen #####################################################
 //##############################################################################################################
-   IDI_TLEN                ICON    "..\\icons\\Tlen\\Tlen.ico"
+   IDI_TLEN                ICON    "icons\\Tlen\\Tlen.ico"
    
 //##############################################################################################################
 //########################################### Tlen overlays ####################################################
 //##############################################################################################################
-   IDI_CLIENT_TLEN5        ICON    "..\\icons\\Tlen\\Tlen 5.ico"
-   IDI_CLIENT_TLEN6        ICON    "..\\icons\\Tlen\\Tlen 6.ico"
-   IDI_CLIENT_TLEN7        ICON    "..\\icons\\Tlen\\Tlen 7.ico"
+   IDI_CLIENT_TLEN5        ICON    "icons\\Tlen\\Tlen 5.ico"
+   IDI_CLIENT_TLEN6        ICON    "icons\\Tlen\\Tlen 6.ico"
+   IDI_CLIENT_TLEN7        ICON    "icons\\Tlen\\Tlen 7.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

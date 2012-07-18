@@ -24,10 +24,10 @@
     <ClInclude Include="src\utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="res\resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="res\version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

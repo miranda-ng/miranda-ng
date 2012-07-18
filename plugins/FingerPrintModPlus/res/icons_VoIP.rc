@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 //
 // Generated from the TEXTINCLUDE 2 resource.
@@ -42,9 +42,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //######################################### VoIP clients #######################################################
 //##############################################################################################################
-   IDI_GIZMO               ICON    "..\\icons\\VoIP\\Gizmo.ico"
-   IDI_WENGOPHONE          ICON    "..\\icons\\VoIP\\WengoPhone.ico"
-   IDI_ZOEP                ICON    "..\\icons\\VoIP\\Zoep.ico"
+   IDI_GIZMO               ICON    "icons\\VoIP\\Gizmo.ico"
+   IDI_WENGOPHONE          ICON    "icons\\VoIP\\WengoPhone.ico"
+   IDI_ZOEP                ICON    "icons\\VoIP\\Zoep.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

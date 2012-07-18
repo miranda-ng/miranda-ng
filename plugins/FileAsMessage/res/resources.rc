@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -134,11 +134,11 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_SMALLICON           ICON    DISCARDABLE     "res\\file.ico"
-IDI_STOP                ICON    DISCARDABLE     "res\\abort.ico"
-IDI_PAUSE               ICON    DISCARDABLE     "res\\pause.ico"
-IDI_PLAY                ICON    DISCARDABLE     "res\\play.ico"
-IDI_REFRESH             ICON    DISCARDABLE     "res\\refresh.ico"
+IDI_SMALLICON           ICON     "file.ico"
+IDI_STOP                ICON     "abort.ico"
+IDI_PAUSE               ICON     "pause.ico"
+IDI_PLAY                ICON     "play.ico"
+IDI_REFRESH             ICON     "refresh.ico"
 #endif    // Russian resources
 /////////////////////////////////////////////////////////////////////////////
 

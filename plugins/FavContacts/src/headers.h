@@ -56,7 +56,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_fontservice.h>
 #include <m_hotkeys.h>
 
-#include "../resource.h"
+#include "resource.h"
 
 struct Options
 {

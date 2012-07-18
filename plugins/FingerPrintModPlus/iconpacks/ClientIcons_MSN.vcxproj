@@ -107,7 +107,7 @@
     <ResourceCompile Include="..\res\icons_MSN.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\res\resource.h" />
+    <ClInclude Include="..\src\resource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -22,7 +22,7 @@
     <ResourceCompile Include="..\res\icons_Jabber.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\res\resource.h" />
+    <ClInclude Include="..\src\resource.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>ClientIcons_Jabber</ProjectName>

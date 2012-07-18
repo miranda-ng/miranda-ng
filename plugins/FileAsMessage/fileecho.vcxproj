@@ -149,7 +149,6 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;FILEECHO_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -167,24 +166,18 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="crc32.cpp" />
-    <ClCompile Include="dialog.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="optionsdlg.cpp" />
+    <ClCompile Include="src\crc32.cpp" />
+    <ClCompile Include="src\dialog.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\optionsdlg.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dialog.h" />
-    <ClInclude Include="main.h" />
+    <ClInclude Include="src\dialog.h" />
+    <ClInclude Include="src\main.h" />
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\abort.ico" />
-    <None Include="file.ico" />
-    <None Include="res\pause.ico" />
-    <None Include="res\play.ico" />
-    <None Include="res\refresh.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resources.rc" />
+    <ResourceCompile Include="res\resources.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

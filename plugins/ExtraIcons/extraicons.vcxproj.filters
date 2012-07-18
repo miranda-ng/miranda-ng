@@ -13,117 +13,82 @@
       <UniqueIdentifier>{d6b93e43-b221-4629-bb6e-19f9fa9373a0}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{d7ab53c3-5a13-4c10-bd27-60f5549a39cd}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseExtraIcon.h">
+    <ClInclude Include="src\BaseExtraIcon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CallbackExtraIcon.h">
+    <ClInclude Include="src\CallbackExtraIcon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="commons.h">
+    <ClInclude Include="src\commons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultExtraIcons.h">
+    <ClInclude Include="src\DefaultExtraIcons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExtraIcon.h">
+    <ClInclude Include="src\ExtraIcon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExtraIconGroup.h">
+    <ClInclude Include="src\ExtraIconGroup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IcolibExtraIcon.h">
+    <ClInclude Include="src\IcolibExtraIcon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\utils\mir_icons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="options.h">
+    <ClInclude Include="src\options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="usedIcons.h">
+    <ClInclude Include="src\usedIcons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Version.h">
+    <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\AlwaysVis.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Chatchannel.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\empty.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\female.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\male.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\NeverVis.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Docs\extraicons_changelog.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="Docs\extraicons_readme.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="Docs\extraicons_version.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="Docs\langpack_extraicons.txt">
-      <Filter>Docs</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="Version.rc">
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseExtraIcon.cpp">
+    <ClCompile Include="src\BaseExtraIcon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CallbackExtraIcon.cpp">
+    <ClCompile Include="src\CallbackExtraIcon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultExtraIcons.cpp">
+    <ClCompile Include="src\DefaultExtraIcons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExtraIcon.cpp">
+    <ClCompile Include="src\ExtraIcon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExtraIconGroup.cpp">
+    <ClCompile Include="src\ExtraIconGroup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="extraicons.cpp">
+    <ClCompile Include="src\extraicons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IcolibExtraIcon.cpp">
+    <ClCompile Include="src\IcolibExtraIcon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\utils\mir_icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="usedIcons.cpp">
+    <ClCompile Include="src\usedIcons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
