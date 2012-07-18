@@ -155,6 +155,7 @@
       <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;FINGERPRINT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeaderFile>global.h</PrecompiledHeaderFile>
