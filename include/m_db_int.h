@@ -1,0 +1,125 @@
+/*
+
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright 2012 Miranda NG project,
+all portions of this codebase are copyrighted to the people
+listed in contributors.txt.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+
+#ifndef M_DB_INT_H__
+#define M_DB_INT_H__ 1
+
+#ifndef M_CORE_H__
+	#include <m_core.h>
+#endif
+
+interface MIDatabase
+{
+	STDMETHOD_(void,SetCacheSafetyMode)(BOOL) PURE;
+
+	STDMETHOD_(LONG,GetContactCount)(void) PURE;
+	STDMETHOD_(HANDLE,FindFirstContact)(const char* szProto = NULL) PURE;
+	STDMETHOD_(HANDLE,FindNextContact)(HANDLE hContact, const char* szProto = NULL) PURE;
+
+	STDMETHOD_(LONG,DeleteContact)(HANDLE hContact) PURE;
+	STDMETHOD_(HANDLE,AddContact)(void) PURE;
+	STDMETHOD_(BOOL,IsDbContact)(HANDLE hContact) PURE;
+
+	STDMETHOD_(LONG,GetEventCount)(HANDLE hContact) PURE;
+	STDMETHOD_(HANDLE,AddEvent)(HANDLE hContact, DBEVENTINFO *dbe) PURE;
+	STDMETHOD_(BOOL,DeleteEvent)(HANDLE hContact, HANDLE hDbEvent) PURE;
+	STDMETHOD_(LONG,GetBlobSize)(HANDLE hDbEvent) PURE;
+	STDMETHOD_(BOOL,GetEvent)(HANDLE hDbEvent, DBEVENTINFO *dbe) PURE;
+	STDMETHOD_(BOOL,MarkEventRead)(HANDLE hContact, HANDLE hDbEvent) PURE;
+	STDMETHOD_(HANDLE,GetEventContact)(HANDLE hDbEvent) PURE;
+	STDMETHOD_(HANDLE,FindFirstEvent)(HANDLE hContact) PURE;
+	STDMETHOD_(HANDLE,FindFirstUnreadEvent)(HANDLE hContact) PURE;
+	STDMETHOD_(HANDLE,FindLastEvent)(HANDLE hContact) PURE;
+	STDMETHOD_(HANDLE,FindNextEvent)(HANDLE hDbEvent) PURE;
+	STDMETHOD_(HANDLE,FindPrevEvent)(HANDLE hDbEvent) PURE;
+
+	STDMETHOD_(BOOL,EnumModuleNames)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
+
+	STDMETHOD_(BOOL,GetContactSetting)(HANDLE hContact, DBCONTACTGETSETTING *dbcgs) PURE;
+	STDMETHOD_(BOOL,GetContactSettingStr)(HANDLE hContact, DBCONTACTGETSETTING *dbcgs) PURE;
+	STDMETHOD_(BOOL,GetContactSettingStatic)(HANDLE hContact, DBCONTACTGETSETTING *dbcgs) PURE;
+	STDMETHOD_(BOOL,FreeVariant)(DBVARIANT *dbv) PURE;
+	STDMETHOD_(BOOL,WriteContactSetting)(HANDLE hContact, DBCONTACTWRITESETTING *dbcws) PURE;
+	STDMETHOD_(BOOL,DeleteContactSetting)(HANDLE hContact, DBCONTACTGETSETTING *dbcgs) PURE;
+	STDMETHOD_(BOOL,EnumContactSettings)(HANDLE hContact, DBCONTACTENUMSETTINGS* dbces) PURE;
+	STDMETHOD_(BOOL,SetSettingResident)(BOOL bIsResident, const char *pszSettingName) PURE;
+	STDMETHOD_(BOOL,EnumResidentSettings)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
+};
+
+typedef struct {
+	int cbSize;
+
+	/*
+	returns what the driver can do given the flag
+	*/
+	int (*getCapability) (int flag);
+
+	/*
+		buf: pointer to a string buffer
+		cch: length of buffer
+		shortName: if true, the driver should return a short but descriptive name, e.g. "3.xx profile"
+		Affect: The database plugin must return a "friendly name" into buf and not exceed cch bytes,
+			e.g. "Database driver for 3.xx profiles"
+		Returns: 0 on success, non zero on failure
+	*/
+	int (*getFriendlyName) (TCHAR *buf, size_t cch, int shortName);
+
+	/*
+		profile: pointer to a string which contains full path + name
+		Affect: The database plugin should create the profile, the filepath will not exist at
+			the time of this call, profile will be C:\..\<name>.dat
+		Note: Do not prompt the user in anyway about this operation.
+		Note: Do not initialise internal data structures at this point!
+		Returns: 0 on success, non zero on failure - error contains extended error information, see EMKPRF_*
+	*/
+	int (*makeDatabase) (TCHAR *profile, int * error);
+
+	/*
+		profile: [in] a null terminated string to file path of selected profile
+		error: [in/out] pointer to an int to set with error if any
+		Affect: Ask the database plugin if it supports the given profile, if it does it will
+			return 0, if it doesnt return 1, with the error set in error -- EGROKPRF_* can be valid error
+			condition, most common error would be [EGROKPRF_UNKHEADER]
+		Note: Just because 1 is returned, doesnt mean the profile is not supported, the profile might be damaged
+			etc.
+		Returns: 0 on success, non zero on failure
+	*/
+	int (*grokHeader) (TCHAR *profile, int * error);
+
+	/*
+	Affect: Tell the database to create all services/hooks that a 3.xx legecy database might support into link,
+		which is a PLUGINLINK structure
+	Returns: 0 on success, nonzero on failure
+	*/
+	MIDatabase* (*Load) (TCHAR *profile);
+
+	/*
+	Affect: The database plugin should shutdown, unloading things from the core and freeing internal structures
+	Returns: 0 on success, nonzero on failure
+	Note: Unload() might be called even if Load(void) was never called, wasLoaded is set to 1 if Load(void) was ever called.
+	*/
+	int (*Unload) (int wasLoaded);
+
+} DATABASELINK;
+
+#endif // M_DB_INT_H__

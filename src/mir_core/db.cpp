@@ -27,71 +27,80 @@ static MIDatabase* currDb = NULL;
 
 MIR_CORE_DLL(int) db_get_b(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
 {
-	DBVARIANT dbv;
-	DBCONTACTGETSETTING cgs;
-	cgs.szModule = szModule;
-	cgs.szSetting = szSetting;
-	cgs.pValue = &dbv;
-	if ( !CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs))
-		switch(dbv.type) {
-			case DBVT_BYTE:	return dbv.bVal;
-			case DBVT_WORD:   return BYTE(dbv.wVal);
-			case DBVT_DWORD:	return BYTE(dbv.dVal);
-		}
+	if (currDb != NULL) {
+		DBVARIANT dbv;
+		DBCONTACTGETSETTING cgs;
+		cgs.szModule = szModule;
+		cgs.szSetting = szSetting;
+		cgs.pValue = &dbv;
+		if ( !currDb->GetContactSetting(hContact, &cgs))
+			switch(dbv.type) {
+				case DBVT_BYTE:	return dbv.bVal;
+				case DBVT_WORD:   return BYTE(dbv.wVal);
+				case DBVT_DWORD:	return BYTE(dbv.dVal);
+			}
+	}
 	return errorValue;
 }
 
 MIR_CORE_DLL(int) db_get_w(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
 {
-	DBVARIANT dbv;
-	DBCONTACTGETSETTING cgs;
-	cgs.szModule = szModule;
-	cgs.szSetting = szSetting;
-	cgs.pValue = &dbv;
-	if ( !CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs))
-		switch(dbv.type) {
-			case DBVT_BYTE:	return dbv.bVal;
-			case DBVT_WORD:   return dbv.wVal;
-			case DBVT_DWORD:	return WORD(dbv.dVal);
-		}
+	if (currDb != NULL) {
+		DBVARIANT dbv;
+		DBCONTACTGETSETTING cgs;
+		cgs.szModule = szModule;
+		cgs.szSetting = szSetting;
+		cgs.pValue = &dbv;
+		if ( !currDb->GetContactSetting(hContact, &cgs))
+			switch(dbv.type) {
+				case DBVT_BYTE:	return dbv.bVal;
+				case DBVT_WORD:   return dbv.wVal;
+				case DBVT_DWORD:	return WORD(dbv.dVal);
+			}
+	}
 	return errorValue;
 }
 
 MIR_CORE_DLL(DWORD) db_get_dw(HANDLE hContact, const char *szModule, const char *szSetting, DWORD errorValue)
 {
-	DBVARIANT dbv;
-	DBCONTACTGETSETTING cgs;
-	cgs.szModule = szModule;
-	cgs.szSetting = szSetting;
-	cgs.pValue = &dbv;
-	if ( !CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs))
-		switch(dbv.type) {
-			case DBVT_BYTE:	return dbv.bVal;
-			case DBVT_WORD:   return dbv.wVal;
-			case DBVT_DWORD:	return dbv.dVal;
-		}
+	if (currDb != NULL) {
+		DBVARIANT dbv;
+		DBCONTACTGETSETTING cgs;
+		cgs.szModule = szModule;
+		cgs.szSetting = szSetting;
+		cgs.pValue = &dbv;
+		if ( !currDb->GetContactSetting(hContact, &cgs))
+			switch(dbv.type) {
+				case DBVT_BYTE:	return dbv.bVal;
+				case DBVT_WORD:   return dbv.wVal;
+				case DBVT_DWORD:	return dbv.dVal;
+			}
+	}
 		
 	return errorValue;
 }
 
 MIR_CORE_DLL(INT_PTR) db_get(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
+	if (currDb == NULL) return 1;
+
 	DBCONTACTGETSETTING cgs;
 	cgs.szModule = szModule;
 	cgs.szSetting = szSetting;
 	cgs.pValue = dbv;
-
-	return CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs);
+	return currDb->GetContactSetting(hContact, &cgs);
 }
 
 MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType)
 {
+	if (currDb == NULL) return 1;
+
 	DBCONTACTGETSETTING cgs;
 	cgs.szModule = szModule;
 	cgs.szSetting = szSetting;
 	cgs.pValue = dbv;
 	dbv->type = (BYTE)nType;
-	return CallService(MS_DB_CONTACT_GETSETTING_STR, (WPARAM)hContact, (LPARAM)&cgs);
+	return currDb->GetContactSettingStr(hContact, &cgs);
 }
 
 MIR_CORE_DLL(char*) db_get_sa(HANDLE hContact, const char *szModule, const char *szSetting)
@@ -101,7 +110,7 @@ MIR_CORE_DLL(char*) db_get_sa(HANDLE hContact, const char *szModule, const char 
 	db_get_s(hContact, szModule, szSetting, &dbv, DBVT_ASCIIZ);
 	if (dbv.type == DBVT_ASCIIZ)
 		str = mir_strdup(dbv.pszVal);
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return str;
 }
 
@@ -112,97 +121,110 @@ MIR_CORE_DLL(wchar_t*) db_get_wsa(HANDLE hContact, const char *szModule, const c
 	db_get_s(hContact, szModule, szSetting, &dbv, DBVT_WCHAR);
 	if (dbv.type == DBVT_WCHAR)
 		str = mir_wstrdup(dbv.pwszVal);
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return str;
 }
 
 MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv)
 {
-	return CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)dbv);
+	if (currDb == NULL) return 1;
+
+	return currDb->FreeVariant(dbv);
 }
 
 MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, const char *szModule, const char *szSetting)
 {
+	if (currDb == NULL) return 1;
+
 	DBCONTACTGETSETTING cgs;
 	cgs.szModule = szModule;
 	cgs.szSetting = szSetting;
-	return CallService(MS_DB_CONTACT_DELETESETTING, (WPARAM)hContact, (LPARAM)&cgs);
+	return currDb->DeleteContactSetting(hContact, &cgs);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_b(HANDLE hContact, const char *szModule, const char *szSetting, BYTE val)
 {
+	if (currDb == NULL) return 1;
+
 	DBCONTACTWRITESETTING cws;
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_BYTE;
 	cws.value.bVal = val;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
+	return currDb->WriteContactSetting(hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_w(HANDLE hContact, const char *szModule, const char *szSetting, WORD val)
 {
-	DBCONTACTWRITESETTING cws;
+	if (currDb == NULL) return 1;
 
+	DBCONTACTWRITESETTING cws;
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_WORD;
 	cws.value.wVal = val;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
+	return currDb->WriteContactSetting(hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_dw(HANDLE hContact, const char *szModule, const char *szSetting, DWORD val)
 {
+	if (currDb == NULL) return 1;
+
 	DBCONTACTWRITESETTING cws;
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_DWORD;
 	cws.value.dVal = val;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
+	return currDb->WriteContactSetting(hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_s(HANDLE hContact, const char *szModule, const char *szSetting, const char *val)
 {
-	DBCONTACTWRITESETTING cws;
+	if (currDb == NULL) return 1;
 
+	DBCONTACTWRITESETTING cws;
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_ASCIIZ;
 	cws.value.pszVal = (char*)val;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
+	return currDb->WriteContactSetting(hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_ws(HANDLE hContact, const char *szModule, const char *szSetting, const WCHAR *val)
 {
-	DBCONTACTWRITESETTING cws;
+	if (currDb == NULL) return 1;
 
+	DBCONTACTWRITESETTING cws;
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_WCHAR;
 	cws.value.pwszVal = (WCHAR*)val;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
+	return currDb->WriteContactSetting(hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_utf(HANDLE hContact, const char *szModule, const char *szSetting, const char *val)
 {
-	DBCONTACTWRITESETTING cws;
+	if (currDb == NULL) return 1;
 
+	DBCONTACTWRITESETTING cws;
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_UTF8;
 	cws.value.pszVal = (char*)val;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
+	return currDb->WriteContactSetting(hContact, &cws);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const char *szSetting, void *val, unsigned len)
 {
-	DBCONTACTWRITESETTING cws;
+	if (currDb == NULL) return 1;
 
+	DBCONTACTWRITESETTING cws;
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_BLOB;
-    cws.value.cpbVal = (WORD)len;
+	cws.value.cpbVal = (WORD)len;
 	cws.value.pbVal = (unsigned char*)val;
-	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
+	return currDb->WriteContactSetting(hContact, &cws);
 }
 
 MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db)
