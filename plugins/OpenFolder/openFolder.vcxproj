@@ -21,6 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8D233B9A-2744-4B62-94FC-7872FDDA4683}</ProjectGuid>
     <RootNamespace>openFolder</RootNamespace>
+    <ProjectName>OpenFolder</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
