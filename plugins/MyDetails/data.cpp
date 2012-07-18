@@ -158,7 +158,7 @@ int Protocol::GetStatus()
 
 	if (custom_status == 0)
 	{
-		TCHAR *tmp = (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GCMDF_TCHAR);
+		TCHAR *tmp = (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
 		lcopystr(status_name, tmp, MAX_REGS(status_name));
 	}
 	else
@@ -659,8 +659,7 @@ Protocol * ProtocolArray::Get(const char *name)
 
 bool ProtocolArray::CanSetStatusMsgPerProtocol()
 {
-	return ServiceExists(MS_ERSATZ_ENABLED) || 
-		ServiceExists(MS_NAS_INVOKESTATUSWINDOW) || ServiceExists(MS_SA_CHANGESTATUSMSG);
+	return ServiceExists(MS_NAS_INVOKESTATUSWINDOW) || ServiceExists(MS_SA_CHANGESTATUSMSG);
 }
 
 

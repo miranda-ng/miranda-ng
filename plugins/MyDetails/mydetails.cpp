@@ -21,12 +21,10 @@ Boston, MA 02111-1307, USA.
 #include "commons.h"
 #include "mydetails.h"
 
-
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
-
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
+int hLangpack = 0;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -37,8 +35,7 @@ PLUGININFOEX pluginInfo={
 	"",
 	"© 2005-2008 Ricardo Pescuma Domenecci, Drugwash",
 	"http://pescuma.org/miranda/mydetails",
-	0,		//not transient
-	0,		//doesn't replace anything built-in
+	UNICODE_AWARE,
 	{ 0xa82baeb3, 0xa33c, 0x4036, { 0xb8, 0x37, 0x78, 0x3, 0xa5, 0xb6, 0xc2, 0xab } } // {A82BAEB3-A33C-4036-B837-7803A5B6C2AB}
 };
 
@@ -83,39 +80,20 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 	return TRUE;
 }
 
-
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion) 
-{
-	pluginInfo.cbSize = sizeof(PLUGININFO);
-	return (PLUGININFO*) &pluginInfo;
-}
-
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	pluginInfo.cbSize = sizeof(PLUGININFOEX);
 	return &pluginInfo;
 }
 
-
 extern "C" __declspec(dllexport) const MUUID interfaces[] = { MIID_MDETAILS, MIID_LAST };
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+
+extern "C" __declspec(dllexport) int Load()
 {
-	return interfaces;
-}
-
-
-int __declspec(dllexport) Load(PLUGINLINK *link)
-{
-	// Copy data
-	pluginLink = link;
-
-	init_mir_malloc();
-	init_list_interface();
+	mir_getLP(&pluginInfo);
 
 	// Hook event to load messages and show first one
-	hModulesLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
-	hPreShutdownHook = HookEvent(ME_SYSTEM_PRESHUTDOWN, MainUninit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, MainUninit);
 
 	nickname_dialog_open = 0;
 	status_msg_dialog_open = 0;
@@ -139,8 +117,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	return 0;
 }
 
-
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	DestroyServiceFunction(MS_MYDETAILS_SETMYNICKNAME);
 	DestroyServiceFunction(MS_MYDETAILS_SETMYNICKNAMEUI);
@@ -153,8 +130,6 @@ int __declspec(dllexport) Unload(void)
 	DestroyServiceFunction(MS_MYDETAILS_SHOWPREVIOUSPROTOCOL);
 	DestroyServiceFunction(MS_MYDETAILS_SHOWPROTOCOL);
 	DestroyServiceFunction(MS_MYDETAILS_CYCLE_THROUGH_PROTOCOLS);
-
-	if (hModulesLoadedHook) UnhookEvent(hModulesLoadedHook);
 
 	DeInitProtocolData();
 	DeInitOptions();
@@ -185,8 +160,7 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	// Add options to menu
 	CLISTMENUITEM mi;
 
-	if (protocols->CanSetAvatars())
-	{
+	if (protocols->CanSetAvatars()) {
 		ZeroMemory(&mi,sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.flags = 0;
@@ -196,8 +170,7 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 		mi.pszName = Translate("Set My Avatar...");
 		CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYAVATARUI, Menu_SetMyAvatarUI);
 		mi.pszService = "MENU_" MS_MYDETAILS_SETMYAVATARUI;
-
-		CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+		Menu_AddMainMenuItem(&mi);
 	}
 
 	ZeroMemory(&mi,sizeof(mi));
@@ -209,8 +182,7 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	mi.pszName = Translate("Set My Nickname...");
 	CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYNICKNAMEUI, Menu_SetMyNicknameUI);
 	mi.pszService = "MENU_" MS_MYDETAILS_SETMYNICKNAMEUI;
-
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize = sizeof(mi);
@@ -221,8 +193,7 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	mi.pszName = Translate("Set My Status Message...");
 	CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYSTATUSMESSAGEUI, Menu_SetMyStatusMessageUI);
 	mi.pszService = "MENU_" MS_MYDETAILS_SETMYSTATUSMESSAGEUI;
-
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	// Set protocols to show frame
 	ZeroMemory(&mi,sizeof(mi));
@@ -233,73 +204,39 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	mi.position = 200001;
 	mi.pszName = Translate("Show next protocol");
 	mi.pszService = MS_MYDETAILS_SHOWNEXTPROTOCOL;
-
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	InitFrames();
 
-	if (ServiceExists(MS_SKIN2_ADDICON)) 
+	if (CallService(MS_SKIN2_GETICON, 0, (LPARAM) "LISTENING_TO_ICON") == NULL) {
+		SKINICONDESC sid = {0};
+		sid.cbSize = sizeof(SKINICONDESC);
+		sid.pszSection = LPGEN("Contact List");
+		sid.pszDescription = LPGEN("Listening to");
+		sid.pszName = "LISTENING_TO_ICON";
+		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LISTENINGTO));
+		Skin_AddIcon(&sid);
+	}
 	{
-		if (CallService(MS_SKIN2_GETICON, 0, (LPARAM) "LISTENING_TO_ICON") == NULL) 
-		{
-			SKINICONDESC sid = {0};
-			sid.cbSize = sizeof(SKINICONDESC);
-			sid.flags = SIDF_TCHAR;
-			sid.ptszSection = TranslateT("Contact List");
-			sid.ptszDescription = TranslateT("Listening to");
-			sid.pszName = "LISTENING_TO_ICON";
-			sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LISTENINGTO));
-			CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-		}
-
-		{
-			SKINICONDESC sid = {0};
-			sid.cbSize = sizeof(SKINICONDESC);
-			sid.flags = SIDF_TCHAR;
-			sid.ptszSection = TranslateT("My Details");
-			sid.ptszDescription = TranslateT("Previous protocol");
-			sid.pszName = "MYDETAILS_PREV_PROTOCOL";
-			sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LEFT_ARROW));
-			CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-		}
-
-		{
-			SKINICONDESC sid = {0};
-			sid.cbSize = sizeof(SKINICONDESC);
-			sid.flags = SIDF_TCHAR;
-			sid.ptszSection = TranslateT("My Details");
-			sid.ptszDescription = TranslateT("Next protocol");
-			sid.pszName = "MYDETAILS_NEXT_PROTOCOL";
-			sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RIGHT_ARROW));
-			CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-		}
+		SKINICONDESC sid = {0};
+		sid.cbSize = sizeof(SKINICONDESC);
+		sid.pszSection = LPGEN("My Details");
+		sid.pszDescription = LPGEN("Previous protocol");
+		sid.pszName = "MYDETAILS_PREV_PROTOCOL";
+		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LEFT_ARROW));
+		Skin_AddIcon(&sid);
+	}
+	{
+		SKINICONDESC sid = {0};
+		sid.cbSize = sizeof(SKINICONDESC);
+		sid.pszSection = LPGEN("My Details");
+		sid.pszDescription = LPGEN("Next protocol");
+		sid.pszName = "MYDETAILS_NEXT_PROTOCOL";
+		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RIGHT_ARROW));
+		Skin_AddIcon(&sid);
 	}
 
-    // updater plugin support
-    if(ServiceExists(MS_UPDATE_REGISTER))
-	{
-		Update upd = {0};
-		char szCurrentVersion[30];
-
-		upd.cbSize = sizeof(upd);
-		upd.szComponentName = pluginInfo.shortName;
-
-		upd.szUpdateURL = UPDATER_AUTOREGISTER;
-
-		upd.szBetaVersionURL = "http://pescuma.org/miranda/mydetails_version.txt";
-		upd.szBetaChangelogURL = "http://pescuma.org/miranda/mydetails_changelog.txt";
-		upd.pbBetaVersionPrefix = (BYTE *)"My Details ";
-		upd.cpbBetaVersionPrefix = strlen((char *)upd.pbBetaVersionPrefix);
-		upd.szBetaUpdateURL = "http://pescuma.org/miranda/mydetails.zip";
-
-		upd.pbVersion = (BYTE *)CreateVersionStringPlugin((PLUGININFO*) &pluginInfo, szCurrentVersion);
-		upd.cpbVersion = strlen((char *)upd.pbVersion);
-
-        CallService(MS_UPDATE_REGISTER, 0, (LPARAM)&upd);
-	}
-
-
-    return 0;
+	return 0;
 }
 
 static int MainUninit(WPARAM wParam, LPARAM lParam) 
@@ -343,7 +280,7 @@ static BOOL CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					bool foundDefNick = true;
 					for(int i = 1 ; foundDefNick && i < protocols->GetSize() ; i++)
 					{
-						if (stricmp(protocols->Get(i)->nickname, nick) != 0)
+						if (_stricmp(protocols->Get(i)->nickname, nick) != 0)
 						{
 							foundDefNick = false;
 							break;
@@ -352,7 +289,7 @@ static BOOL CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 					if (foundDefNick)
 					{
-						if (stricmp(protocols->default_nick, nick) != 0)
+						if (_stricmp(protocols->default_nick, nick) != 0)
 							lstrcpy(protocols->default_nick, nick);
 					}
 				}
@@ -435,7 +372,7 @@ static int PluginCommand_SetMyNicknameUI(WPARAM wParam,LPARAM lParam)
 		int i;
 		for(i = 0 ; i < protocols->GetSize() ; i++)
 		{
-			if (stricmp(protocols->Get(i)->name, proto) == 0)
+			if (_stricmp(protocols->Get(i)->name, proto) == 0)
 			{
 				proto_num = i;
 				break;
@@ -475,7 +412,7 @@ static int PluginCommand_SetMyNickname(WPARAM wParam,LPARAM lParam)
 	{
 		for(int i = 0 ; i < protocols->GetSize() ; i++)
 		{
-			if (stricmp(protocols->Get(i)->name, proto) == 0)
+			if (_stricmp(protocols->Get(i)->name, proto) == 0)
 			{
 				if (!protocols->Get(i)->CanSetNick())
 				{
@@ -544,7 +481,7 @@ static int PluginCommand_SetMyAvatarUI(WPARAM wParam,LPARAM lParam)
 		int i;
 		for(i = 0 ; i < protocols->GetSize() ; i++)
 		{
-			if (stricmp(protocols->Get(i)->name, proto) == 0)
+			if (_stricmp(protocols->Get(i)->name, proto) == 0)
 			{
 				proto_num = i;
 				break;
@@ -581,7 +518,7 @@ static int PluginCommand_SetMyAvatar(WPARAM wParam,LPARAM lParam)
 	{
 		for(int i = 0 ; i < protocols->GetSize() ; i++)
 		{
-			if (stricmp(protocols->Get(i)->name, proto) == 0)
+			if (_stricmp(protocols->Get(i)->name, proto) == 0)
 			{
 				if (!protocols->Get(i)->CanSetAvatar())
 				{
@@ -649,7 +586,7 @@ static int PluginCommand_GetMyAvatar(WPARAM wParam,LPARAM lParam)
 	{
 		for(int i = 0 ; i < protocols->GetSize() ; i++)
 		{
-			if (stricmp(protocols->Get(i)->name, proto) == 0)
+			if (_stricmp(protocols->Get(i)->name, proto) == 0)
 			{
 				if (!protocols->Get(i)->CanGetAvatar())
 				{
@@ -819,7 +756,7 @@ static int PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam)
 		{
 			proto = protocols->Get(i);
 
-			if (stricmp(proto->name, proto_name) == 0)
+			if (_stricmp(proto->name, proto_name) == 0)
 			{
 				proto_num = i;
 				break;

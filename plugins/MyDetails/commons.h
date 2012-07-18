@@ -21,6 +21,7 @@ Boston, MA 02111-1307, USA.
 #ifndef __COMMONS_H__
 # define __COMMONS_H__
 
+#define _CRT_SECURE_NO_WARNINGS
 
 #define _WIN32_WINNT 0x0501
 #include <windows.h>
@@ -45,12 +46,10 @@ Boston, MA 02111-1307, USA.
 #include <m_listeningto.h>
 
 #include <m_NewAwaySys.h>
-#include <m_updater.h>
 #include <m_fontservice.h>
 #include <m_variables.h>
 #include <m_avatars.h>
 #include <m_statusplugins.h>
-#include <m_ersatz.h>
 #include <m_icq.h>
 #include <m_icolib.h>
 #include "m_cluiframes.h"
@@ -63,19 +62,15 @@ Boston, MA 02111-1307, USA.
 
 #include "resource.h"
 
-
 #define MODULE_NAME "MyDetails"
 
 #define SETTING_FRAME_VISIBLE "FrameVisible"
 #define SETTING_DEFAULT_NICK "DefaultNick"
 
-
 extern HINSTANCE hInst;
-extern PLUGINLINK *pluginLink;
 
 extern long nickname_dialog_open;
 extern long status_msg_dialog_open;
-
 
 #include "m_mydetails.h"
 #include "data.h"

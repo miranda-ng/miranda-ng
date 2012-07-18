@@ -48,26 +48,7 @@ static TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* 
 
 	if (!DBGetContactSettingTString(hContact, module, setting, &dbv))
 	{
-
-		if (dbv.type == DBVT_ASCIIZ)
-		{
-			MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, out, (int)len);
-		}
-		else if (dbv.type == DBVT_UTF8)
-		{
-			MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, out, (int)len);
-		}
-		else if (dbv.type == DBVT_WCHAR)
-		{
-			lstrcpyn(out, dbv.pwszVal, (int)len);
-		}
-
-		else
-		{
-			if (def != NULL)
-				lstrcpyn(out, def, (int)len);
-		}
-		
+		lstrcpyn(out, dbv.ptszVal, (int)len);
 		DBFreeVariant(&dbv);
 	}
 	else

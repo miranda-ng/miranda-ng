@@ -222,59 +222,35 @@ int SmileyAddOptionsChangedHook(WPARAM wParam,LPARAM lParam)
 
 int CreateFrame() 
 {
-	if(ServiceExists(MS_FONT_REGISTER)) 
+	HDC hdc = GetDC(NULL);
+
+	for (int i = 0 ; i < NUM_FONTS ; i++ )
 	{
-		HDC hdc = GetDC(NULL);
+		ZeroMemory(&font_id[i], sizeof(font_id[i]));
 
-		for (int i = 0 ; i < NUM_FONTS ; i++ )
-		{
-			ZeroMemory(&font_id[i], sizeof(font_id[i]));
+		font_id[i].cbSize = sizeof(FontID);
+		strncpy(font_id[i].group, Translate("My Details"), sizeof(font_id[i].group));
+		strncpy(font_id[i].name, Translate(font_names[i]), sizeof(font_id[i].name));
+		strncpy(font_id[i].dbSettingsGroup, MODULE_NAME, sizeof(font_id[i].dbSettingsGroup));
 
-			font_id[i].cbSize = sizeof(FontID);
-			strncpy(font_id[i].group, Translate("My Details"), sizeof(font_id[i].group));
-			strncpy(font_id[i].name, Translate(font_names[i]), sizeof(font_id[i].name));
-			strncpy(font_id[i].dbSettingsGroup, MODULE_NAME, sizeof(font_id[i].dbSettingsGroup));
+		char tmp[128];
+		mir_snprintf(tmp, sizeof(tmp), "%sFont", font_names[i]);
+		strncpy(font_id[i].prefix, tmp, sizeof(font_id[i].prefix));
 
-			char tmp[128];
-			mir_snprintf(tmp, sizeof(tmp), "%sFont", font_names[i]);
-			strncpy(font_id[i].prefix, tmp, sizeof(font_id[i].prefix));
-
-			font_id[i].deffontsettings.colour = font_colors[i];
-			font_id[i].deffontsettings.size = -MulDiv(font_sizes[i], GetDeviceCaps(hdc, LOGPIXELSY), 72);
-			font_id[i].deffontsettings.style = font_styles[i];
-			font_id[i].deffontsettings.charset = DEFAULT_CHARSET;
-			strncpy(font_id[i].deffontsettings.szFace, "Tahoma", sizeof(font_id[i].deffontsettings.szFace));
-			font_id[i].order = i;
-			font_id[i].flags = FIDF_DEFAULTVALID;
-
-			CallService(MS_FONT_REGISTER, (WPARAM)&font_id[i], 0);
-		}
-
-		ReleaseDC(NULL, hdc);
-
-		ReloadFont(0,0);
-		HookEvent(ME_FONT_RELOAD, ReloadFont);
-	}
-	else 
-	{
-		LOGFONT lf;
-		ZeroMemory(&lf, sizeof(lf));
-		lf.lfCharSet = DEFAULT_CHARSET;
-
-		HDC hdc = GetDC(NULL);
-
-		for (int i = 0 ; i < NUM_FONTS ; i++ )
-		{
-			lf.lfHeight = -MulDiv(font_sizes[i], GetDeviceCaps(hdc, LOGPIXELSY), 72);
-			lf.lfWeight = font_styles[i] == DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
-			lf.lfItalic = font_styles[i] == DBFONTF_ITALIC ? TRUE : FALSE;
-			strncpy(lf.lfFaceName, "Tahoma", sizeof(lf.lfFaceName));
-			
-			hFont[i] = CreateFontIndirect(&lf);
-			font_colour[i] = font_colors[i];
-		}
+		font_id[i].deffontsettings.colour = font_colors[i];
+		font_id[i].deffontsettings.size = -MulDiv(font_sizes[i], GetDeviceCaps(hdc, LOGPIXELSY), 72);
+		font_id[i].deffontsettings.style = font_styles[i];
+		font_id[i].deffontsettings.charset = DEFAULT_CHARSET;
+		strncpy(font_id[i].deffontsettings.szFace, "Tahoma", sizeof(font_id[i].deffontsettings.szFace));
+		font_id[i].order = i;
+		font_id[i].flags = FIDF_DEFAULTVALID;
+		FontRegister(&font_id[i]);
 	}
 
+	ReleaseDC(NULL, hdc);
+
+	ReloadFont(0,0);
+	HookEvent(ME_FONT_RELOAD, ReloadFont);
 
 	WNDCLASS wndclass;
 	wndclass.style         = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW; //CS_PARENTDC | CS_HREDRAW | CS_VREDRAW;
@@ -363,7 +339,7 @@ int CreateFrame()
 		menu.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 		menu.pszName = Translate("Show My Details");
 		menu.pszService= MODULE_NAME "/ShowHideMyDetails";
-		hMenuShowHideFrame = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&menu);
+		hMenuShowHideFrame = Menu_AddMainMenuItem(&menu);
 
 		if(DBGetContactSettingByte(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1) == 1) 
 		{
@@ -549,7 +525,7 @@ RECT GetRect(HDC hdc, RECT rc, const char *text, const char *def_text, Protocol 
 	RECT r_tmp = rc;
 
 	// Only first line
-	char *tmp2 = strdup(tmp);
+	char *tmp2 = _strdup(tmp);
 	char *pos = strchr(tmp2, '\r');
 	if (pos != NULL) pos[0] = '\0';
 	pos = strchr(tmp2, '\n');
@@ -1172,7 +1148,7 @@ void DrawTextWithRect(HDC hdc, const char *text, const char *def_text, RECT rc, 
 		tmp = text;
 
 	// Only first line
-	char *tmp2 = strdup(tmp);
+	char *tmp2 = _strdup(tmp);
 	char *pos = strchr(tmp2, '\r');
 	if (pos != NULL) pos[0] = '\0';
 	pos = strchr(tmp2, '\n');
@@ -1346,11 +1322,11 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		HRGN rgn = CreateRectRgnIndirect(&rc);
 		SelectClipRgn(hdc, rgn);
 
-		HICON icon = LoadIconEx("MYDETAILS_NEXT_PROTOCOL");
+		HICON icon = Skin_GetIcon("MYDETAILS_NEXT_PROTOCOL");
 		if (icon == NULL)
 			icon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RIGHT_ARROW));
 		DrawIconEx(hdc, data->next_proto_rect.left, data->next_proto_rect.top, icon, ICON_SIZE, ICON_SIZE, 0, NULL, DI_NORMAL);
-		ReleaseIconEx(icon);
+		Skin_ReleaseIcon(icon);
 
 		SelectClipRgn(hdc, NULL);
 		DeleteObject(rgn);
@@ -1359,11 +1335,11 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		rgn = CreateRectRgnIndirect(&rc);
 		SelectClipRgn(hdc, rgn);
 
-		icon = LoadIconEx("MYDETAILS_PREV_PROTOCOL");
+		icon = Skin_GetIcon("MYDETAILS_PREV_PROTOCOL");
 		if (icon == NULL)
 			icon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RIGHT_ARROW));
 		DrawIconEx(hdc, data->prev_proto_rect.left, data->prev_proto_rect.top, icon, ICON_SIZE, ICON_SIZE, 0, NULL, DI_NORMAL);
-		ReleaseIconEx(icon);
+		Skin_ReleaseIcon(icon);
 
 		SelectClipRgn(hdc, NULL);
 		DeleteObject(rgn);
@@ -1494,11 +1470,11 @@ void Draw(HWND hwnd, HDC hdc_orig)
 			HRGN rgn = CreateRectRgnIndirect(&rc);
 			SelectClipRgn(hdc, rgn);
 
-			HICON icon = LoadIconEx("LISTENING_TO_ICON");
+			HICON icon = Skin_GetIcon("LISTENING_TO_ICON");
 			if (icon == NULL)
 				icon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LISTENINGTO));
 			DrawIconEx(hdc, data->listening_to_icon_rect.left, data->listening_to_icon_rect.top, icon, ICON_SIZE, ICON_SIZE, 0, NULL, DI_NORMAL);
-			ReleaseIconEx(icon);
+			Skin_ReleaseIcon(icon);
 			
 			SelectClipRgn(hdc, NULL);
 			DeleteObject(rgn);
@@ -2820,7 +2796,7 @@ int PluginCommand_ShowProtocol(WPARAM wParam,LPARAM lParam)
 
 	for(int i = 0 ; i < protocols->GetSize() ; i++)
 	{
-		if (stricmp(protocols->Get(i)->name, proto) == 0)
+		if (_stricmp(protocols->Get(i)->name, proto) == 0)
 		{
 			proto_num = i;
 			break;

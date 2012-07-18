@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2005 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or
@@ -14,29 +14,12 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 
 #ifndef __MYDETAILS_H__
-# define __MYDETAILS_H__
-
-
-extern "C" 
-{
-
-// Dll init
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved);
-
-// Exports:
-__declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion);
-int __declspec(dllexport) Load(PLUGINLINK *link);
-int __declspec(dllexport) Unload(void);
-
-
-}
-
-
+#define __MYDETAILS_H__
 
 
 #endif // __MYDETAILS_H__

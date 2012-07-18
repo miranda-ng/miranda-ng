@@ -83,19 +83,16 @@ void LoadOptions()
 
 int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp,sizeof(odp));
-    odp.cbSize=sizeof(odp);
-    odp.position=-200000000;
-	odp.hInstance=hInst;
-    odp.pfnDlgProc=DlgProcOpts;
-    odp.pszTemplate=MAKEINTRESOURCE(IDD_OPTS);
-    odp.pszGroup=Translate("Customize");
-    odp.pszTitle=Translate("My Details");
-    odp.flags=ODPF_BOLDGROUPS;
-    CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
-
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.position = -200000000;
+	odp.hInstance = hInst;
+	odp.pfnDlgProc = DlgProcOpts;
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTS);
+	odp.pszGroup = LPGEN("Customize");
+	odp.pszTitle = LPGEN("My Details");
+	odp.flags = ODPF_BOLDGROUPS;
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
