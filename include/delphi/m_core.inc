@@ -287,15 +287,17 @@ const
 type
   PSortedList = ^TSortedList;
   TSortedList = record
-    items    : ^pointer;
+    items    : array of pointer;
     realCount: int;
     limit    : int;
     increment: int;
     sortFunc : TFSortFunc;
   end;
 
+// BUGGED with limit <> 0. list pointer must befreed by mir_free
 function List_Create(limit:int; increment:int):PSortedList;stdcall;
                      external CoreDLL name 'List_Create';
+
 procedure List_Destroy(list:PSortedList);stdcall;
                        external CoreDLL name 'List_Destroy';
 function List_Find(list:PSortedList; value:pointer):pointer;stdcall;

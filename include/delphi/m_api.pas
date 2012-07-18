@@ -25,19 +25,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   {$IFDEF WIN64}{$A8}{$ENDIF}
 {$ENDIF}
 {$UNDEF AllowInline}
-{$IFDEF FPC}
-  {$DEFINE AllowInline}
-{$ELSE}
-  {$IFDEF ConditionalExpressions}
-    {$IF System.ComiplerVersion >= 22.0}
-      {$DEFINE AllowInline}
-    {$IFEND}
-  {$ENDIF}
-{$ENDIF}
 
 unit m_api;
 
 interface
+
+{$IFDEF FPC}
+  {$DEFINE AllowInline}
+{$ELSE}
+  {$IFDEF ConditionalExpressions}
+    // CompilerVersion defined in SYSTEM module, need to use not earlier
+    {$IF CompilerVersion >= 22}
+      {$DEFINE AllowInline}
+    {$IFEND}
+  {$ENDIF}
+{$ENDIF}
 
 uses
   Windows;//, FreeImage;
@@ -166,55 +168,6 @@ const
 // makeDatabase() error codes
    EMKPRF_CREATEFAILED = 1; // for some reason CreateFile() didnt like something
 
-type
-  PDATABASELINK = ^TDATABASELINK;
-  TDATABASELINK = record
-    cbSize : int;
-    {
-      returns what the driver can do given the flag
-    }
-    getCapability : function (flag:int):int; cdecl;
-    {
-       buf: pointer to a string buffer
-       cch: length of buffer
-       shortName: if true, the driver should return a short but descriptive name, e.g. "3.xx profile"
-       Affect: The database plugin must return a "friendly name" into buf and not exceed cch bytes,
-         e.g. "Database driver for 3.xx profiles"
-       Returns: 0 on success, non zero on failure
-    }
-    getFriendlyName : function (buf:PAnsiChar; cch:size_t; shortName:int):int; cdecl;
-    {
-      profile: pointer to a string which contains full path + name
-      Affect: The database plugin should create the profile, the filepath will not exist at
-        the time of this call, profile will be C:\..\<name>.dat
-      Note: Do not prompt the user in anyway about this operation.
-      Note: Do not initialise internal data structures at this point!
-      Returns: 0 on success, non zero on failure - error contains extended error information, see EMKPRF_
-    }
-    makeDatabase : function (profile:PAnsiChar; error:Pint):int; cdecl;
-    {
-      profile: [in] a null terminated string to file path of selected profile
-      error: [in/out] pointer to an int to set with error if any
-      Affect: Ask the database plugin if it supports the given profile, if it does it will
-        return 0, if it doesnt return 1, with the error set in error -- EGROKPRF_  can be valid error
-        condition, most common error would be [EGROKPRF_UNKHEADER]
-      Note: Just because 1 is returned, doesnt mean the profile is not supported, the profile might be damaged
-        etc.
-      Returns: 0 on success, non zero on failure
-    }
-    grokHeader : function (profile:PAnsiChar; error:Pint):int; cdecl;
-    {
-      Affect: Tell the database to create all services/hooks that a 3.xx legecy database might support into link
-      Returns: 0 on success, nonzero on failure
-    }
-    Load : function (profile:PAnsiChar):int; cdecl;
-    {
-      Affect: The database plugin should shutdown, unloading things from the core and freeing internal structures
-      Returns: 0 on success, nonzero on failure
-      Note: Unload() might be called even if Load() was never called, wasLoaded is set to 1 if Load() was ever called.
-    }
-    Unload : function (wasLoaded:int):int; cdecl;
-  end;
 
 {-- end newpluginapi --}
 
@@ -223,8 +176,8 @@ var
   this means only one module can return info, you shouldn't be merging them anyway! }
   PLUGININFO: TPLUGININFOEX;
 
-  {$include m_plugins.inc}
   {$include m_database.inc}
+  {$include m_db_int.inc}
   {$include m_findadd.inc}
   {$include m_awaymsg.inc}
   {$include m_email.inc}
@@ -265,6 +218,7 @@ var
   {$include m_smileyadd.inc}
   {$include m_tipper.inc}
   {$include m_button.inc}
+  {$include m_button_int.inc}
   {$include m_dbeditor.inc}
   {$include m_userinfoex.inc}
   {$include m_imgsrvc.inc}
