@@ -199,7 +199,6 @@
     <ClCompile Include="dbpreset.cpp" />
     <ClCompile Include="dbsettings.cpp" />
     <ClCompile Include="dialogs.cpp" />
-    <ClCompile Include="encrypt.cpp" />
     <ClCompile Include="init.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

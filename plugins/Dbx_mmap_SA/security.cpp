@@ -20,7 +20,7 @@ CryptoModule* Modules[100];
 void zero_fill(BYTE * pBuf, size_t bufSize)
 {
 	size_t i;
-	for(i = 0; i < bufSize; i++)
+	for (i = 0; i < bufSize; i++)
 		pBuf[i] = 0;
 }
 
@@ -65,7 +65,7 @@ void UnloadSecurity()
 
 	if (CryptoEngine) CryptoEngine->FreeKey(key);
 	
-	for(i = 0; i < ModulesCount; i++)
+	for (i = 0; i < ModulesCount; i++)
 	{
 		FreeLibrary(Modules[i]->hLib);
 		free(Modules[i]);
@@ -148,7 +148,7 @@ int CDdxMmap::CheckPassword(WORD checkWord, TCHAR *szDBName)
 	{
 		int i;
 		int Found = 0;
-		for(i = 0; i < ModulesCount; i++) {
+		for (i = 0; i < ModulesCount; i++) {
 			if (dbHeader.cryptorUID == Modules[i]->cryptor->uid){
 				CryptoEngine = Modules[i]->cryptor;
 				Found = 1;
@@ -204,7 +204,7 @@ int SelectEncoder()
 	}
 	else{
 		int Found = 0;
-		for(i = 0; i < ModulesCount; i++) {
+		for (i = 0; i < ModulesCount; i++) {
 			if (Modules[i]->cryptor->uid == uid){
 				CryptoEngine = Modules[i]->cryptor;
 				Found = 1;

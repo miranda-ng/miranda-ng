@@ -965,7 +965,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::EnumResidentSettings(DBMODULEENUMPROC pFunc, void 
 {
 	int i;
 	int ret;
-	for(i = 0; i < lResidentSettings.realCount; i++) {
+	for (i = 0; i < lResidentSettings.realCount; i++) {
 		ret = pFunc((char*)lResidentSettings.items[i], 0, (LPARAM)pParam);
 		if (ret) return ret;
 	}

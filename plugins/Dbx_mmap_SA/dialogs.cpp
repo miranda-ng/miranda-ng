@@ -140,13 +140,11 @@ int UnloadOptions()
 	return 0;
 }
 
-
 int InitDialogs()
 {
 	OleInitialize(0);
 	CreateServiceFunction(MS_DB_CHANGEPASSWORD, ChangePassword);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
-
 	return 0;
 }
 
@@ -177,166 +175,167 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	HIMAGELIST hIml;
 
 	switch ( msg ) {
-		case WM_INITDIALOG:
-			hIml = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 2, 0);
-			TranslateDialogDefault( hwndDlg );
+	case WM_INITDIALOG:
+		hIml = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 2, 0);
+		TranslateDialogDefault( hwndDlg );
 
-			ImageList_AddIcon_IconLibLoaded( hIml, "core_main_29" );
-			ImageList_AddIcon_IconLibLoaded( hIml, "core_main_30" );
-			ListView_SetImageList( hwndList, hIml, LVSIL_SMALL );
+		ImageList_AddIcon_IconLibLoaded( hIml, "core_main_29" );
+		ImageList_AddIcon_IconLibLoaded( hIml, "core_main_30" );
+		ListView_SetImageList( hwndList, hIml, LVSIL_SMALL );
 
-			col.pszText = NULL;
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 50;
-			ListView_InsertColumn(hwndList, 1, &col);
+		col.pszText = NULL;
+		col.mask = LVCF_TEXT | LVCF_WIDTH;
+		col.fmt = LVCFMT_LEFT;
+		col.cx = 50;
+		ListView_InsertColumn(hwndList, 1, &col);
 
-			col.pszText = TranslateT("Dll");
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 1000;
-			ListView_InsertColumn(hwndList, 2, &col);
+		col.pszText = TranslateT("Dll");
+		col.mask = LVCF_TEXT | LVCF_WIDTH;
+		col.fmt = LVCFMT_LEFT;
+		col.cx = 1000;
+		ListView_InsertColumn(hwndList, 2, &col);
 
-			col.pszText = TranslateT("Name");
-			col.cx = 1000;
-			ListView_InsertColumn(hwndList, 3, &col);
+		col.pszText = TranslateT("Name");
+		col.cx = 1000;
+		ListView_InsertColumn(hwndList, 3, &col);
 
-			col.pszText = TranslateT("Version");
-			col.cx = 1000;
-			ListView_InsertColumn(hwndList, 4, &col);
+		col.pszText = TranslateT("Version");
+		col.cx = 1000;
+		ListView_InsertColumn(hwndList, 4, &col);
 
-			ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES);
+		ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES);
+
+		uid = DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
+
+		for (i = 0; i < ModulesCount; i++) {
+			char buf[100];
+
+			item.mask = LVIF_TEXT;
+			item.iItem = i;
+			item.iSubItem = 0;
+			item.pszText = NULL;
+			iRow = ListView_InsertItem(hwndList, &item);
+
+			ListView_SetItemText(hwndList, iRow, 1, (LPWSTR)Modules[i]->dllname);
+			ListView_SetItemText(hwndList, iRow, 2, (LPWSTR)Modules[i]->cryptor->Name);
+			mir_snprintf(buf,SIZEOF(buf),"%d.%d.%d.%d", HIBYTE(HIWORD(Modules[i]->cryptor->Version)), LOBYTE(HIWORD(Modules[i]->cryptor->Version)), HIBYTE(LOWORD(Modules[i]->cryptor->Version)), LOBYTE(LOWORD(Modules[i]->cryptor->Version)));
+			ListView_SetItemText(hwndList, iRow, 3, (LPWSTR)buf);
+
+			if (uid == Modules[i]->cryptor->uid && bEncoding)
+				ListView_SetCheckState(hwndList, i, 1);
+
+			item.mask = LVIF_IMAGE;
+			item.iItem = iRow;
+			item.iSubItem = 0;
+			item.iImage = ( CryptoEngine == Modules[i]->cryptor && bEncoding ) ? 0 : 1;
+			ListView_SetItem( hwndList, &item );
+		}
+
+		ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
+		ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE);
+		ListView_SetColumnWidth(hwndList, 2, LVSCW_AUTOSIZE);
+		ListView_SetColumnWidth(hwndList, 3, LVSCW_AUTOSIZE);
+		return TRUE;
+
+	case WM_COMMAND:
+		if ( HIWORD(wParam) == STN_CLICKED ) {
+			switch (LOWORD(wParam)) {
+				case IDC_EMAIL:
+				case IDC_SITE:
+				{
+					char buf[512];
+					char * p = &buf[7];
+					lstrcpyA(buf,"mailto:");
+					if ( GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), p, SIZEOF(buf) - 7)) {
+						CallService(MS_UTILS_OPENURL,0,(LPARAM) (LOWORD(wParam) == IDC_EMAIL ? buf : p));
+					}
+					break;
+		}	}	}
+		break;
+
+	case WM_NOTIFY:
+		if ( hdr && hdr->hdr.code == LVN_ITEMCHANGED && IsWindowVisible(hdr->hdr.hwndFrom) && hdr->iItem != (-1)) {
+			iIndex = hdr->iItem;
+			if (hdr->uNewState & 0x2000){
+				for (i = 0; i < ModulesCount; i++) {
+					if (i != iIndex) ListView_SetCheckState(hwndList, i, 0);
+				}
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				break;
+			}
+			if (hdr->uNewState & 0x1000){
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				break;
+			}
+			if (hdr->uNewState & LVIS_SELECTED){
+				SetDlgItemTextA(hwndDlg, IDC_AUTHOR, Modules[iIndex]->cryptor->Author);
+				{
+					TCHAR* info_t = mir_a2t((char*)(Modules[iIndex]->cryptor->Info));
+					SetDlgItemText(hwndDlg, IDC_INFO, TranslateTS(info_t));
+					mir_free(info_t);
+				}
+				SetDlgItemTextA(hwndDlg, IDC_SITE, Modules[iIndex]->cryptor->Site);
+				SetDlgItemTextA(hwndDlg, IDC_EMAIL, Modules[iIndex]->cryptor->Email);
+				SetDlgItemTextA(hwndDlg, IDC_ENC, Modules[iIndex]->cryptor->Name);
+				SetDlgItemInt(hwndDlg, IDC_UID, Modules[iIndex]->cryptor->uid, 0);
+			} else {
+				SetDlgItemTextA(hwndDlg, IDC_AUTHOR, "");
+				SetDlgItemTextA(hwndDlg, IDC_INFO, "");
+				SetDlgItemTextA(hwndDlg, IDC_SITE, "");
+				SetDlgItemTextA(hwndDlg, IDC_EMAIL, "");
+				SetDlgItemTextA(hwndDlg, IDC_ENC, "");
+				SetDlgItemTextA(hwndDlg, IDC_UID, "");
+			}
+
+			break;
+		}
+		if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
+			int alg = -1;
+			for (i = 0; i < ModulesCount; i++) {
+				if (ListView_GetCheckState(hwndList, i)) {
+					alg = i;
+					break;
+				}
+			}
+
+			if (alg > -1){
+				if (!bEncoding){
+					DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", Modules[alg]->cryptor->uid);
+					g_Db->EncryptDB();
+				}
+				else {
+					if (Modules[alg]->cryptor->uid != DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", -1)) {
+						DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", Modules[alg]->cryptor->uid);
+						g_Db->RecryptDB();
+					}
+				}
+			}
+			else if (bEncoding)
+				g_Db->DecryptDB();
 
 			uid = DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
 
-			for(i = 0; i < ModulesCount; i++) {
-				char buf[100];
-
-				item.mask = LVIF_TEXT;
-				item.iItem = i;
-				item.iSubItem = 0;
-				item.pszText = NULL;
-				iRow = ListView_InsertItem(hwndList, &item);
-
-				ListView_SetItemText(hwndList, iRow, 1, (LPWSTR)Modules[i]->dllname);
-				ListView_SetItemText(hwndList, iRow, 2, (LPWSTR)Modules[i]->cryptor->Name);
-				mir_snprintf(buf,SIZEOF(buf),"%d.%d.%d.%d", HIBYTE(HIWORD(Modules[i]->cryptor->Version)), LOBYTE(HIWORD(Modules[i]->cryptor->Version)), HIBYTE(LOWORD(Modules[i]->cryptor->Version)), LOBYTE(LOWORD(Modules[i]->cryptor->Version)));
-				ListView_SetItemText(hwndList, iRow, 3, (LPWSTR)buf);
-
+			for (i = 0; i < ModulesCount; i++) {
 				if (uid == Modules[i]->cryptor->uid && bEncoding)
 					ListView_SetCheckState(hwndList, i, 1);
 
 				item.mask = LVIF_IMAGE;
-				item.iItem = iRow;
+				item.iItem = i;
 				item.iSubItem = 0;
 				item.iImage = ( CryptoEngine == Modules[i]->cryptor && bEncoding ) ? 0 : 1;
+
 				ListView_SetItem( hwndList, &item );
 			}
 
-			ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
-			ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE);
-			ListView_SetColumnWidth(hwndList, 2, LVSCW_AUTOSIZE);
-			ListView_SetColumnWidth(hwndList, 3, LVSCW_AUTOSIZE);
 			return TRUE;
 
-		case WM_COMMAND:
-			if ( HIWORD(wParam) == STN_CLICKED ) {
-				switch (LOWORD(wParam)) {
-					case IDC_EMAIL:
-					case IDC_SITE:
-					{
-						char buf[512];
-						char * p = &buf[7];
-						lstrcpyA(buf,"mailto:");
-						if ( GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), p, SIZEOF(buf) - 7)) {
-							CallService(MS_UTILS_OPENURL,0,(LPARAM) (LOWORD(wParam) == IDC_EMAIL ? buf : p));
-						}
-						break;
-			}	}	}
-			break;
-
-		case WM_NOTIFY:
-			if ( hdr && hdr->hdr.code == LVN_ITEMCHANGED && IsWindowVisible(hdr->hdr.hwndFrom) && hdr->iItem != (-1)) {
-				iIndex = hdr->iItem;
-				if (hdr->uNewState & 0x2000){
-					for(i = 0; i < ModulesCount; i++) {
-						if (i != iIndex) ListView_SetCheckState(hwndList, i, 0);
-					}
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					break;
-				}
-				if (hdr->uNewState & 0x1000){
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					break;
-				}
-				if (hdr->uNewState & LVIS_SELECTED){
-					SetDlgItemTextA(hwndDlg, IDC_AUTHOR, Modules[iIndex]->cryptor->Author);
-					{
-						TCHAR* info_t = mir_a2t((char*)(Modules[iIndex]->cryptor->Info));
-						SetDlgItemText(hwndDlg, IDC_INFO, TranslateTS(info_t));
-						mir_free(info_t);
-					}
-					SetDlgItemTextA(hwndDlg, IDC_SITE, Modules[iIndex]->cryptor->Site);
-					SetDlgItemTextA(hwndDlg, IDC_EMAIL, Modules[iIndex]->cryptor->Email);
-					SetDlgItemTextA(hwndDlg, IDC_ENC, Modules[iIndex]->cryptor->Name);
-					SetDlgItemInt(hwndDlg, IDC_UID, Modules[iIndex]->cryptor->uid, 0);
-				} else {
-					SetDlgItemTextA(hwndDlg, IDC_AUTHOR, "");
-					SetDlgItemTextA(hwndDlg, IDC_INFO, "");
-					SetDlgItemTextA(hwndDlg, IDC_SITE, "");
-					SetDlgItemTextA(hwndDlg, IDC_EMAIL, "");
-					SetDlgItemTextA(hwndDlg, IDC_ENC, "");
-					SetDlgItemTextA(hwndDlg, IDC_UID, "");
-				}
-
-				break;
-			}
-			if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
-				int alg = -1;
-				for(i = 0; i < ModulesCount; i++) {
-					if (ListView_GetCheckState(hwndList, i)) {
-						alg = i;
-						break;
-					}
-				}
-
-				if (alg > -1){
-					if (!bEncoding){
-						DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", Modules[alg]->cryptor->uid);
-						g_Db->EncryptDB();
-					}
-					else {
-						if (Modules[alg]->cryptor->uid != DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", -1)) {
-							DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", Modules[alg]->cryptor->uid);
-							g_Db->RecryptDB();
-						}
-					}
-				}
-				else if (bEncoding)
-					g_Db->DecryptDB();
-
-				uid = DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
-
-				for(i = 0; i < ModulesCount; i++) {
-					if (uid == Modules[i]->cryptor->uid && bEncoding)
-						ListView_SetCheckState(hwndList, i, 1);
-
-					item.mask = LVIF_IMAGE;
-					item.iItem = i;
-					item.iSubItem = 0;
-					item.iImage = ( CryptoEngine == Modules[i]->cryptor && bEncoding ) ? 0 : 1;
-
-					ListView_SetItem( hwndList, &item );
-				}
-
-				return TRUE;
-
-			}
-			break;
+		}
+		break;
 	}
 
 	return FALSE;
 }
+
 UINT oldLangID = 0;
 void LanguageChanged(HWND hDlg)
 {
@@ -358,83 +357,62 @@ BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
 	HICON hIcon = 0;
 	TCHAR tszHeaderTxt[256];
-	TCHAR* tszDbName;
-	switch(uMsg)
-	{
+
+	switch(uMsg) {
 	case WM_INITDIALOG:
-		{
-			HWND hwndCtrl;
-			TranslateDialogDefault(hDlg);
+		TranslateDialogDefault(hDlg);
 
-			hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
-			SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
+		hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
+		SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
 
-			if (!wrongPass)
-			{
-				tszDbName = mir_a2t((char*)lParam);
-				mir_sntprintf(tszHeaderTxt, SIZEOF(tszHeaderTxt), _T("%s\n%s"), TranslateT("Please type in your password for"), tszDbName);
-				SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), tszHeaderTxt);
-				mir_free(tszDbName);
-			}
-			else
-			{
-				if (wrongPass > 2)
-				{
-					hwndCtrl = GetDlgItem(hDlg, IDC_USERPASS);
-					EnableWindow(hwndCtrl, FALSE);
-					hwndCtrl = GetDlgItem(hDlg, IDOK);
-					EnableWindow(hwndCtrl, FALSE);
-					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Too many errors!"));
-				}
-				else
-				{
-					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is not correct!"));
-				}
-			}
-			oldLangID = 0;
-			SetTimer(hDlg,1,200,NULL);
-			LanguageChanged(hDlg);
-			return TRUE;
+		if (!wrongPass) {
+			mir_sntprintf(tszHeaderTxt, SIZEOF(tszHeaderTxt), _T("%s\n%s"), TranslateT("Please type in your password for"), (TCHAR*)lParam);
+			SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), tszHeaderTxt);
 		}
+		else {
+			if (wrongPass > 2) {
+				HWND hwndCtrl = GetDlgItem(hDlg, IDC_USERPASS);
+				EnableWindow(hwndCtrl, FALSE);
+				hwndCtrl = GetDlgItem(hDlg, IDOK);
+				EnableWindow(hwndCtrl, FALSE);
+				SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Too many errors!"));
+			}
+			else SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is not correct!"));
+		}
+		oldLangID = 0;
+		SetTimer(hDlg,1,200,NULL);
+		LanguageChanged(hDlg);
+		return TRUE;
 
 	case WM_CTLCOLORSTATIC:
-		{
-			if ((HWND)lParam == GetDlgItem(hDlg, IDC_LANG))
-			{
-				SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
-				SetBkMode((HDC)wParam, TRANSPARENT);
-				return (BOOL)GetSysColorBrush(COLOR_HIGHLIGHT);
-			}
-
-			return FALSE;
+		if ((HWND)lParam == GetDlgItem(hDlg, IDC_LANG)) {
+			SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
+			SetBkMode((HDC)wParam, TRANSPARENT);
+			return (BOOL)GetSysColorBrush(COLOR_HIGHLIGHT);
 		}
+		return FALSE;
 
 	case WM_COMMAND:
-		{
-			UINT uid = LOWORD(wParam);
-
-			if (uid == IDOK){
-				if (!GetWindowLongPtr(hDlg,GWLP_USERDATA))
-				{
-					encryptKeyLength = GetDlgItemTextA(hDlg, IDC_USERPASS, encryptKey, 254);
-					EndDialog(hDlg,IDOK);
-				}else{
-
-				}
-			}else if (uid == IDCANCEL){
-				EndDialog(hDlg,IDCANCEL);
+		switch( LOWORD(wParam)) {
+		case IDOK:
+			if (!GetWindowLongPtr(hDlg,GWLP_USERDATA)) {
+				encryptKeyLength = GetDlgItemTextA(hDlg, IDC_USERPASS, encryptKey, 254);
+				EndDialog(hDlg,IDOK);
 			}
+			break;
+
+		case IDCANCEL:
+			EndDialog(hDlg,IDCANCEL);
 		}
+		break;
+
 	case WM_TIMER:
-		{
-			LanguageChanged(hDlg);
-			return FALSE;
-		}
+		LanguageChanged(hDlg);
+		return FALSE;
+
 	case WM_DESTROY:
-		{
-			KillTimer(hDlg, 1);
-			DestroyIcon(hIcon);
-		}
+		KillTimer(hDlg, 1);
+		DestroyIcon(hIcon);
 	}
 
 	return FALSE;
@@ -444,81 +422,69 @@ BOOL CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
 	HICON hIcon = 0;
 
-	switch(uMsg)
-	{
+	switch(uMsg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hDlg);
+		TranslateDialogDefault(hDlg);
 
-			hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
-			SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
+		hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
+		SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
 
-			SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Please enter your new password"));
+		SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Please enter your new password"));
 
-			oldLangID = 0;
-			SetTimer(hDlg,1,200,NULL);
-			LanguageChanged(hDlg);
-
-			return TRUE;
-		}
+		oldLangID = 0;
+		SetTimer(hDlg,1,200,NULL);
+		LanguageChanged(hDlg);
+		return TRUE;
 
 	case WM_CTLCOLORSTATIC:
-		{
-			if ((HWND)lParam == GetDlgItem(hDlg, IDC_LANG))
-			{
-				SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
-				SetBkMode((HDC)wParam, TRANSPARENT);
-				return (BOOL)GetSysColorBrush(COLOR_HIGHLIGHT);
-			}
-
-			return FALSE;
+		if ((HWND)lParam == GetDlgItem(hDlg, IDC_LANG)) {
+			SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
+			SetBkMode((HDC)wParam, TRANSPARENT);
+			return (BOOL)GetSysColorBrush(COLOR_HIGHLIGHT);
 		}
+		return FALSE;
 
 	case WM_COMMAND:
 		{
 			UINT uid = LOWORD(wParam);
-
-			if (uid == IDOK){
-				if (!GetWindowLongPtr(hDlg,GWLP_USERDATA))
-				{
+			if (uid == IDOK) {
+				if (!GetWindowLongPtr(hDlg,GWLP_USERDATA)) {
 					char pass1[255], pass2[255];
 					if (GetDlgItemTextA(hDlg, IDC_USERPASS1, pass1, 254) < 3){
 						SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is too short!"));
 						SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 						SetDlgItemTextA(hDlg,IDC_USERPASS1,"");
 						SetDlgItemTextA(hDlg,IDC_USERPASS2,"");
-					}else{
-
+					}
+					else {
 						GetDlgItemTextA(hDlg, IDC_USERPASS2, pass2, 254);
 						if (!strcmp(pass1, pass2)) {
 							encryptKeyLength = strlen(pass1);
 							strcpy(encryptKey, pass1);
 							EndDialog(hDlg,IDOK);
-						}else{
+						}
+						else {
 							SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Passwords do not match!"));
 							SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 							SetDlgItemTextA(hDlg,IDC_USERPASS1,"");
 							SetDlgItemTextA(hDlg,IDC_USERPASS2,"");
 						}
 					}
-				}else{
-
 				}
-			}else if (uid == IDCANCEL){
-				EndDialog(hDlg,IDCANCEL);
 			}
+			else if (uid == IDCANCEL)
+				EndDialog(hDlg,IDCANCEL);
 		}
+		break;
+
 	case WM_TIMER:
-		{
-			LanguageChanged(hDlg);
-			return FALSE;
-		}
+		LanguageChanged(hDlg);
+		return FALSE;
+
 	case WM_DESTROY:
-		{
-			KillTimer(hDlg, 1);
-			DestroyIcon(hIcon);
-			return FALSE;
-		}
+		KillTimer(hDlg, 1);
+		DestroyIcon(hIcon);
+		return FALSE;
 	}
 	return FALSE;
 }
@@ -529,65 +495,61 @@ BOOL CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
 	HICON hIcon = 0;
 
-	switch(uMsg)
-	{
+	switch(uMsg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hDlg);
+		TranslateDialogDefault(hDlg);
 
-			hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
-			SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
-			SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Change password"));
+		hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
+		SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
+		SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Change password"));
 
-			newPass = (char*)lParam;
-			oldLangID = 0;
-			SetTimer(hDlg,1,200,NULL);
-			LanguageChanged(hDlg);
+		newPass = (char*)lParam;
+		oldLangID = 0;
+		SetTimer(hDlg,1,200,NULL);
+		LanguageChanged(hDlg);
 
-			return TRUE;
-		}
+		return TRUE;
 
 	case WM_CTLCOLORSTATIC:
-		{
-			if ((HWND)lParam == GetDlgItem(hDlg, IDC_LANG))
-			{
-				SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
-				SetBkMode((HDC)wParam, TRANSPARENT);
-				return (BOOL)GetSysColorBrush(COLOR_HIGHLIGHT);
-			}
-
-			return FALSE;
+		if ((HWND)lParam == GetDlgItem(hDlg, IDC_LANG)) {
+			SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
+			SetBkMode((HDC)wParam, TRANSPARENT);
+			return (BOOL)GetSysColorBrush(COLOR_HIGHLIGHT);
 		}
+
+		return FALSE;
 
 	case WM_COMMAND:
 		{
 			UINT uid = LOWORD(wParam);
+			if (uid == IDOK) {
+				char pass1[255], pass2[255], oldpass[255];
+				GetDlgItemTextA(hDlg, IDC_OLDPASS, oldpass, 254);
+				if (strcmp(oldpass, encryptKey)) {
+					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Wrong password!"));
+					SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
+					break;
+				}
+				if (GetDlgItemTextA(hDlg, IDC_NEWPASS1, pass1, 254) < 3){
+					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is too short!"));
+					SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 
-			if (uid == IDOK){
-					char pass1[255], pass2[255], oldpass[255];
-					GetDlgItemTextA(hDlg, IDC_OLDPASS, oldpass, 254);
-					if (strcmp(oldpass, encryptKey)) {
-						SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Wrong password!"));
-						SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
-						break;
+				}
+				else {
+					GetDlgItemTextA(hDlg, IDC_NEWPASS2, pass2, 254);
+					if (!strcmp(pass1, pass2)) {
+						strcpy(newPass, pass1);
+						EndDialog(hDlg,IDOK);
 					}
-					if (GetDlgItemTextA(hDlg, IDC_NEWPASS1, pass1, 254) < 3){
-						SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is too short!"));
+					else {
+						SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Passwords do not match!"));
 						SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
-
-					}else{
-						GetDlgItemTextA(hDlg, IDC_NEWPASS2, pass2, 254);
-						if (!strcmp(pass1, pass2)) {
-							strcpy(newPass, pass1);
-							EndDialog(hDlg,IDOK);
-						}else{
-							SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Passwords do not match!"));
-							SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
-						}
 					}
-			}else if (uid == IDCANCEL){
+				}
+			}
+			else if (uid == IDCANCEL)
 				EndDialog(hDlg,IDCANCEL);
-			}else if (uid == IDREMOVE){
+			else if (uid == IDREMOVE) {
 				char oldpass[255];
 				GetDlgItemTextA(hDlg, IDC_OLDPASS, oldpass, 254);
 				if (strcmp(oldpass, encryptKey)) {
@@ -598,16 +560,15 @@ BOOL CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 				EndDialog(hDlg, IDREMOVE);
 			}
 		}
+		break;
+
 	case WM_TIMER:
-		{
-			LanguageChanged(hDlg);
-			return FALSE;
-		}
+		LanguageChanged(hDlg);
+		return FALSE;
+
 	case WM_DESTROY:
-		{
-			KillTimer(hDlg, 1);
-			return FALSE;
-		}
+		KillTimer(hDlg, 1);
+		return FALSE;
 	}
 	return FALSE;
 }

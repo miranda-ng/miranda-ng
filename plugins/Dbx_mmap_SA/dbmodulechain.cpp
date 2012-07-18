@@ -179,7 +179,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pPar
 {
 	int ret;
 	ModuleName *pmn;
-	for(int i = 0; i < lMods.realCount; i++) {
+	for (int i = 0; i < lMods.realCount; i++) {
 		pmn = (ModuleName *)lMods.items[i];
 		ret = pFunc(pmn->name, pmn->ofs, (LPARAM)pParam);
 		if (ret)

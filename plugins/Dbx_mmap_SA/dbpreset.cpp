@@ -133,7 +133,7 @@ int InitPreset()
 					char *pszValue,*pszEnd;
 
 					buf = (PBYTE)mir_alloc(lstrlenA(szValue+1));
-					for(len = 0,pszValue = szValue+1;;len++) {
+					for (len = 0,pszValue = szValue+1;;len++) {
 						buf[len] = (BYTE)strtol(pszValue,&pszEnd,0x10);
 						if (pszValue == pszEnd) break;
 						pszValue = pszEnd;
@@ -275,13 +275,13 @@ static void DBPresetItem_Hash(DBPresetItem *item)
 	int i;
 	int shift = 0;
 	item->dwHash = 0;
-	for(i = 0;item->szModule[i];i++)
+	for (i = 0;item->szModule[i];i++)
 	{
 		item->dwHash ^= item->szModule[i]<<shift;
 		if (shift>24) item->dwHash ^= (item->szModule[i]>>(32-shift))&0x7F;
 		shift = (shift+5)&0x1F;
 	}
-	for(i = 0;item->szSetting[i];i++)
+	for (i = 0;item->szSetting[i];i++)
 	{
 		item->dwHash ^= item->szSetting[i]<<shift;
 		if (shift>24) item->dwHash ^= (item->szSetting[i]>>(32-shift))&0x7F;

@@ -42,9 +42,6 @@
     <ClCompile Include="dialogs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="encrypt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -310,7 +310,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 	dbei->cbBlob = dbe->cbBlob;
 	if (bytesToCopy && dbei->pBlob)
 	{
-		for(i = 0;;i += MAXCACHEDREADSIZE) {
+		for (i = 0;;i += MAXCACHEDREADSIZE) {
 			if (bytesToCopy-i <= MAXCACHEDREADSIZE) {
 				DecodeCopyMemory(dbei->pBlob+i,DBRead(DWORD(hDbEvent)+offsetof(DBEvent,blob)+i,bytesToCopy-i,NULL),bytesToCopy-i);
 				break;

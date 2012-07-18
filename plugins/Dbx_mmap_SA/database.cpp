@@ -30,7 +30,6 @@ int InitSettings(void);
 void UninitSettings(void);
 int InitContacts(void);
 int InitEvents(void);
-int InitCrypt(void);
 int InitModuleNames(void);
 void UninitModuleNames(void);
 int InitCache(void);
@@ -149,7 +148,6 @@ int LoadDatabaseModule(void)
 	if (InitContacts()) return 1;
 	if (InitSettings()) return 1;
 	if (InitEvents()) return 1;
-	if (InitCrypt()) return 1;
 	if (InitPreset()) return 1;
 	if (InitDialogs()) return 1;
 	return 0;
