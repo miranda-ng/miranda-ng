@@ -1,1 +1,0 @@
-del /F /S /Q /A RHS *.sdf *.suo *.user

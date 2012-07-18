@@ -15,59 +15,51 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bitmap_funcs.cpp">
+    <ClCompile Include="src\bitmap_funcs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="filedrop.cpp">
+    <ClCompile Include="src\filedrop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="thumbs.cpp">
+    <ClCompile Include="src\thumbs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bitmap_funcs.h">
+    <ClInclude Include="src\bitmap_funcs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="filedrop.h">
+    <ClInclude Include="src\filedrop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fltcont.h">
+    <ClInclude Include="src\fltcont.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdhdr.h">
+    <ClInclude Include="src\stdhdr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="thumbs.h">
+    <ClInclude Include="src\thumbs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="fltcnt.rc">
+    <ResourceCompile Include="res\fltcnt.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="hide.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="show.ico">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>
