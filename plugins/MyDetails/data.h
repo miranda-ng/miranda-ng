@@ -34,7 +34,7 @@ protected:
 	bool can_have_listening_to;
 	int PF3;
 
-	void lcopystr(TCHAR *dest, TCHAR *src, int maxlen);
+	void lcopystr(TCHAR *dest, TCHAR *src, size_t maxlen);
 
 public:
 	// Name of protocol

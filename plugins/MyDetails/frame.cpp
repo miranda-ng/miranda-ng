@@ -87,10 +87,10 @@ void RedrawFrame();
 // used when no multiwindow functionality available
 bool MyDetailsFrameVisible();
 void SetMyDetailsFrameVisible(bool visible);
-int ShowHideMenuFunc(WPARAM wParam, LPARAM lParam);
-int ShowFrameFunc(WPARAM wParam, LPARAM lParam);
-int HideFrameFunc(WPARAM wParam, LPARAM lParam);
-int ShowHideFrameFunc(WPARAM wParam, LPARAM lParam);
+INT_PTR ShowHideMenuFunc(WPARAM wParam, LPARAM lParam);
+INT_PTR ShowFrameFunc(WPARAM wParam, LPARAM lParam);
+INT_PTR HideFrameFunc(WPARAM wParam, LPARAM lParam);
+INT_PTR ShowHideFrameFunc(WPARAM wParam, LPARAM lParam);
 
 
 
@@ -323,7 +323,7 @@ int CreateFrame()
 			WS_CHILD | WS_VISIBLE,
 			0,0,10,10, hwnd_container, NULL, hInst, NULL);
 
-		SetWindowLong(hwnd_container, GWL_USERDATA, (LONG)hwnd_frame);
+		SetWindowLong(hwnd_container, GWLP_USERDATA, (LONG)hwnd_frame);
 		SendMessage(hwnd_container, WM_SIZE, 0, 0);
 
 		// Create menu item
@@ -380,7 +380,7 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 		case WM_ERASEBKGND:
 		{
-			HWND child = (HWND)GetWindowLong(hwnd, GWL_USERDATA);
+			HWND child = (HWND)GetWindowLong(hwnd, GWLP_USERDATA);
 
 			SendMessage(child, WM_ERASEBKGND, wParam, lParam);
 			break;
@@ -388,7 +388,7 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 		case WM_SIZE:
 		{
-			HWND child = (HWND)GetWindowLong(hwnd, GWL_USERDATA);
+			HWND child = (HWND)GetWindowLong(hwnd, GWLP_USERDATA);
 			RECT r;
 			GetClientRect(hwnd, &r);
 
@@ -647,7 +647,7 @@ void CalcRectangles(HWND hwnd)
 {
 	HDC hdc = GetDC(hwnd);
 	HFONT hOldFont = (HFONT) GetCurrentObject(hdc, OBJ_FONT);
-	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWL_USERDATA);
+	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 
 	if (hdc == NULL || data == NULL)
 		return;
@@ -1211,7 +1211,7 @@ void DrawTextWithRect(HDC hdc, const TCHAR *text, const TCHAR *def_text, RECT rc
 
 void Draw(HWND hwnd, HDC hdc_orig)
 {
-	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWL_USERDATA);
+	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 	Protocol *proto = protocols->Get(data->protocol_number);
 
 	if (proto == NULL)
@@ -1727,7 +1727,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			MyDetailsFrameData *data = new MyDetailsFrameData();
 			ZeroMemory(data, sizeof(MyDetailsFrameData));
-			SetWindowLong(hwnd, GWL_USERDATA, (LONG) data);
+			SetWindowLong(hwnd, GWLP_USERDATA, (LONG) data);
 
 			data->recalc_rectangles = true;
 			data->get_status_messages = false;
@@ -1786,7 +1786,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		case WM_SIZE:
 		{
 			//InvalidateRect(hwnd, NULL, FALSE);
-			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWL_USERDATA);
+			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 			data->recalc_rectangles = true;
 			RedrawFrame();
 			break;
@@ -1794,7 +1794,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 		case WM_TIMER:
 		{
-			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWL_USERDATA);
+			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 
 			if (wParam == ID_FRAME_TIMER)
 			{
@@ -1830,7 +1830,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 		case WM_LBUTTONUP:
 		{
-			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWL_USERDATA);
+			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 			Protocol *proto = protocols->Get(data->protocol_number);
 			if (proto == NULL)
 				break;
@@ -1947,7 +1947,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 		case WM_CONTEXTMENU:
 		{
-			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWL_USERDATA);
+			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 			Protocol *proto = protocols->Get(data->protocol_number);
 			if (proto == NULL)
 				break;
@@ -2360,7 +2360,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		}
 		case WM_NCMOUSEMOVE:
 		{
-			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWL_USERDATA);
+			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 
 			MakeHover(hwnd, data->draw_img, &data->mouse_over_img, NULL, NULL);
 			MakeHover(hwnd, data->draw_nick, &data->mouse_over_nick, NULL, NULL);
@@ -2383,7 +2383,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		}
 		case WM_MOUSEMOVE:
 		{
-			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWL_USERDATA);
+			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 			Protocol *proto = protocols->Get(data->protocol_number);
 			if (proto == NULL)
 				break;
@@ -2411,7 +2411,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			switch (lpnmhdr->code) {
 				case TTN_GETDISPINFO:
 				{
-					MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWL_USERDATA);
+					MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 					Protocol *proto = protocols->Get(data->protocol_number);
 
 					LPNMTTDISPINFO lpttd = (LPNMTTDISPINFO) lpnmhdr;
@@ -2441,7 +2441,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			KillTimer(hwnd, ID_FRAME_TIMER);
 
-			MyDetailsFrameData *tmp = (MyDetailsFrameData *)GetWindowLong(hwnd, GWL_USERDATA);
+			MyDetailsFrameData *tmp = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 			DeleteTooltipWindows(tmp);
 			if (tmp != NULL) delete tmp;
 
@@ -2452,7 +2452,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 		case MWM_REFRESH:
 		{
-			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWL_USERDATA);
+			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 //			data->recalc_rectangles = true;
 
 			KillTimer(hwnd, ID_RECALC_TIMER);
@@ -2504,7 +2504,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 		case MWM_STATUS_MSG_CHANGED:
 		{
-			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWL_USERDATA);
+			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 			data->get_status_messages = true;
 
 			RefreshFrame();
@@ -2529,7 +2529,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 }
 
 
-int ShowHideFrameFunc(WPARAM wParam, LPARAM lParam) 
+INT_PTR ShowHideFrameFunc(WPARAM wParam, LPARAM lParam) 
 {
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) 
 	{
@@ -2553,7 +2553,7 @@ int ShowHideFrameFunc(WPARAM wParam, LPARAM lParam)
 }
 
 
-int ShowFrameFunc(WPARAM wParam, LPARAM lParam)
+INT_PTR ShowFrameFunc(WPARAM wParam, LPARAM lParam)
 {
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) 
 	{
@@ -2576,7 +2576,7 @@ int ShowFrameFunc(WPARAM wParam, LPARAM lParam)
 }
 
 
-int HideFrameFunc(WPARAM wParam, LPARAM lParam)
+INT_PTR HideFrameFunc(WPARAM wParam, LPARAM lParam)
 {
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) 
 	{
@@ -2615,7 +2615,7 @@ void FixMainMenu()
 
 void RedrawFrame() 
 {
-//	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWL_USERDATA);
+//	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWLP_USERDATA);
 //	if (data != NULL) 
 //	{
 //		data->recalc_rectangles = true;
@@ -2635,7 +2635,7 @@ void RefreshFrameAndCalcRects()
 {
 	if (hwnd_frame != NULL)
 	{
-		MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWL_USERDATA);
+		MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWLP_USERDATA);
 		data->recalc_rectangles = true;
 
 		PostMessage(hwnd_frame, MWM_REFRESH, 0, 0);
@@ -2693,12 +2693,12 @@ void SetStatusMessageRefreshTime(HWND hwnd)
 	}
 }
 
-int PluginCommand_ShowNextProtocol(WPARAM wParam,LPARAM lParam)
+INT_PTR PluginCommand_ShowNextProtocol(WPARAM wParam,LPARAM lParam)
 {
 	if (hwnd_frame == NULL)
 		return -1;
 
-	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWL_USERDATA);
+	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWLP_USERDATA);
 
 	data->protocol_number ++;
 	if (data->protocol_number >= protocols->GetSize())
@@ -2717,12 +2717,12 @@ int PluginCommand_ShowNextProtocol(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int PluginCommand_ShowPreviousProtocol(WPARAM wParam,LPARAM lParam)
+INT_PTR PluginCommand_ShowPreviousProtocol(WPARAM wParam,LPARAM lParam)
 {
 	if (hwnd_frame == NULL)
 		return -1;
 
-	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWL_USERDATA);
+	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWLP_USERDATA);
 
 	data->protocol_number --;
 	if (data->protocol_number < 0)
@@ -2741,7 +2741,7 @@ int PluginCommand_ShowPreviousProtocol(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int PluginCommand_ShowProtocol(WPARAM wParam,LPARAM lParam)
+INT_PTR PluginCommand_ShowProtocol(WPARAM wParam,LPARAM lParam)
 {
 	char * proto = (char *)lParam;
 	int proto_num = -1;
@@ -2764,7 +2764,7 @@ int PluginCommand_ShowProtocol(WPARAM wParam,LPARAM lParam)
 	if (hwnd_frame == NULL)
 		return -3;
 
-	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWL_USERDATA);
+	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWLP_USERDATA);
 
 	data->protocol_number = proto_num;
 	DBWriteContactSettingWord(NULL,"MyDetails","ProtocolNumber",data->protocol_number);

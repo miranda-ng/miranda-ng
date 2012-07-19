@@ -53,14 +53,14 @@ static int MainInit(WPARAM wparam,LPARAM lparam);
 static int MainUninit(WPARAM wParam, LPARAM lParam);
 
 // Services
-static int PluginCommand_SetMyNicknameUI(WPARAM wParam,LPARAM lParam);
-static int PluginCommand_SetMyNickname(WPARAM wParam,LPARAM lParam);
-static int PluginCommand_GetMyNickname(WPARAM wParam,LPARAM lParam);
-static int PluginCommand_SetMyAvatarUI(WPARAM wParam,LPARAM lParam);
-static int PluginCommand_SetMyAvatar(WPARAM wParam,LPARAM lParam);
-static int PluginCommand_GetMyAvatar(WPARAM wParam,LPARAM lParam);
-static int PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam);
-static int PluginCommand_CicleThroughtProtocols(WPARAM wParam,LPARAM lParam);
+static INT_PTR PluginCommand_SetMyNicknameUI(WPARAM wParam,LPARAM lParam);
+static INT_PTR PluginCommand_SetMyNickname(WPARAM wParam,LPARAM lParam);
+static INT_PTR PluginCommand_GetMyNickname(WPARAM wParam,LPARAM lParam);
+static INT_PTR PluginCommand_SetMyAvatarUI(WPARAM wParam,LPARAM lParam);
+static INT_PTR PluginCommand_SetMyAvatar(WPARAM wParam,LPARAM lParam);
+static INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam,LPARAM lParam);
+static INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam);
+static INT_PTR PluginCommand_CycleThroughtProtocols(WPARAM wParam,LPARAM lParam);
 
 
 // Functions //////////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +104,7 @@ extern "C" __declspec(dllexport) int Load()
 	CreateServiceFunction(MS_MYDETAILS_SHOWNEXTPROTOCOL, PluginCommand_ShowNextProtocol);
 	CreateServiceFunction(MS_MYDETAILS_SHOWPREVIOUSPROTOCOL, PluginCommand_ShowPreviousProtocol);
 	CreateServiceFunction(MS_MYDETAILS_SHOWPROTOCOL, PluginCommand_ShowProtocol);
-	CreateServiceFunction(MS_MYDETAILS_CYCLE_THROUGH_PROTOCOLS, PluginCommand_CicleThroughtProtocols);
+	CreateServiceFunction(MS_MYDETAILS_CYCLE_THROUGH_PROTOCOLS, PluginCommand_CycleThroughtProtocols);
 
 	return 0;
 }
@@ -124,21 +124,21 @@ extern "C" __declspec(dllexport) int Unload(void)
 	DestroyServiceFunction(MS_MYDETAILS_CYCLE_THROUGH_PROTOCOLS);
 
 	DeInitProtocolData();
-	DeInitOptions();
-
 	return 0;
 }
 
 
-static int Menu_SetMyAvatarUI(WPARAM wParam,LPARAM lParam)
+static INT_PTR Menu_SetMyAvatarUI(WPARAM wParam,LPARAM lParam)
 {
 	return PluginCommand_SetMyAvatarUI(0, 0);
 }
-static int Menu_SetMyNicknameUI(WPARAM wParam,LPARAM lParam)
+
+static INT_PTR Menu_SetMyNicknameUI(WPARAM wParam,LPARAM lParam)
 {
 	return PluginCommand_SetMyNicknameUI(0, 0);
 }
-static int Menu_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam)
+
+static INT_PTR Menu_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam)
 {
 	return PluginCommand_SetMyStatusMessageUI(0, 0);
 }
@@ -241,7 +241,7 @@ static int MainUninit(WPARAM wParam, LPARAM lParam)
 
 #define WMU_SETDATA (WM_USER+1)
 
-static BOOL CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch ( msg ) {
 	case WM_INITDIALOG:
@@ -254,7 +254,7 @@ static BOOL CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		{
 			int proto_num = (int)wParam;
 
-			SetWindowLong(hwndDlg, GWL_USERDATA, proto_num);
+			SetWindowLong(hwndDlg, GWLP_USERDATA, proto_num);
 
 			if (proto_num == -1) {
 				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
@@ -309,7 +309,7 @@ static BOOL CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				TCHAR tmp[MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE];
 				GetDlgItemText(hwndDlg, IDC_NICKNAME, tmp, SIZEOF(tmp));
 
-				int proto_num = (int)GetWindowLong(hwndDlg, GWL_USERDATA);
+				int proto_num = (int)GetWindowLong(hwndDlg, GWLP_USERDATA);
 				if (proto_num == -1)
 					protocols->SetNicks(tmp);
 				else
@@ -336,7 +336,7 @@ static BOOL CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	return FALSE;
 }
 
-static int PluginCommand_SetMyNicknameUI(WPARAM wParam,LPARAM lParam)
+static INT_PTR PluginCommand_SetMyNicknameUI(WPARAM wParam,LPARAM lParam)
 {
 	char *proto = (char*)lParam;
 	int proto_num = -1;
@@ -373,7 +373,7 @@ static int PluginCommand_SetMyNicknameUI(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int PluginCommand_SetMyNickname(WPARAM wParam,LPARAM lParam)
+static INT_PTR PluginCommand_SetMyNickname(WPARAM wParam,LPARAM lParam)
 {
 	char * proto = (char *)wParam;
 	if (proto != NULL) {
@@ -394,7 +394,7 @@ static int PluginCommand_SetMyNickname(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int PluginCommand_GetMyNickname(WPARAM wParam,LPARAM lParam)
+static INT_PTR PluginCommand_GetMyNickname(WPARAM wParam,LPARAM lParam)
 {
 	TCHAR* ret = (TCHAR*)lParam;
 	char * proto = (char *)wParam;
@@ -423,7 +423,7 @@ static int PluginCommand_GetMyNickname(WPARAM wParam,LPARAM lParam)
 
 // Set avatar /////////////////////////////////////////////////////////////////////////////////////
 
-static int PluginCommand_SetMyAvatarUI(WPARAM wParam,LPARAM lParam)
+static INT_PTR PluginCommand_SetMyAvatarUI(WPARAM wParam,LPARAM lParam)
 {
 	char * proto = (char *)lParam;
 	int proto_num = -1;
@@ -461,7 +461,7 @@ static int PluginCommand_SetMyAvatarUI(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int PluginCommand_SetMyAvatar(WPARAM wParam,LPARAM lParam)
+static INT_PTR PluginCommand_SetMyAvatar(WPARAM wParam,LPARAM lParam)
 {
 	char *proto = (char*)wParam;
 	if (proto != NULL) {
@@ -500,7 +500,7 @@ int Status2SkinIcon(int status)
 	return SKINICON_STATUS_OFFLINE;
 }
 
-static int PluginCommand_GetMyAvatar(WPARAM wParam,LPARAM lParam)
+static INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam,LPARAM lParam)
 {
 	TCHAR* ret = (TCHAR*)lParam;
 	char * proto = (char *)wParam;
@@ -547,7 +547,7 @@ static LRESULT CALLBACK StatusMsgEditSubclassProc(HWND hwnd, UINT msg, WPARAM wP
 		break;
 	}
 
-	return CallWindowProc((WNDPROC) GetWindowLong(hwnd, GWL_USERDATA), hwnd, msg, wParam, lParam);
+	return CallWindowProc((WNDPROC) GetWindowLong(hwnd, GWLP_USERDATA), hwnd, msg, wParam, lParam);
 }
 
 struct SetStatusMessageData {
@@ -555,7 +555,7 @@ struct SetStatusMessageData {
 	int proto_num;
 };
 
-static BOOL CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -564,8 +564,8 @@ static BOOL CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 			MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE - 1, 0);
 		{
 			WNDPROC old_proc = (WNDPROC) SetWindowLong(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), 
-				GWL_WNDPROC, (LONG) StatusMsgEditSubclassProc);
-			SetWindowLong(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), GWL_USERDATA, (long) old_proc);
+				GWLP_WNDPROC, (LONG) StatusMsgEditSubclassProc);
+			SetWindowLong(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), GWLP_USERDATA, (long) old_proc);
 		}
 		return TRUE;
 
@@ -575,7 +575,7 @@ static BOOL CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 			data->status = (int)wParam;
 			data->proto_num = (int)lParam;
 
-			SetWindowLong(hwndDlg, GWL_USERDATA, (LONG) data);
+			SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG) data);
 
 			if (data->proto_num >= 0) {
 				Protocol *proto = protocols->Get(data->proto_num);
@@ -619,7 +619,7 @@ static BOOL CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 				TCHAR tmp[MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE];
 				GetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, tmp, sizeof(tmp));
 
-				SetStatusMessageData *data = (SetStatusMessageData *) GetWindowLong(hwndDlg, GWL_USERDATA);
+				SetStatusMessageData *data = (SetStatusMessageData *) GetWindowLong(hwndDlg, GWLP_USERDATA);
 
 				if (data->proto_num >= 0)
 					protocols->Get(data->proto_num)->SetStatusMsg(tmp);
@@ -643,9 +643,9 @@ static BOOL CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 		break;
 
 	case WM_DESTROY:
-		SetWindowLong(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), GWL_WNDPROC, 
-			GetWindowLong(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), GWL_USERDATA));
-		free((SetStatusMessageData *) GetWindowLong(hwndDlg, GWL_USERDATA));
+		SetWindowLong(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), GWLP_WNDPROC, 
+			GetWindowLong(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), GWLP_USERDATA));
+		free((SetStatusMessageData *) GetWindowLong(hwndDlg, GWLP_USERDATA));
 		InterlockedExchange(&status_msg_dialog_open, 0);
 		break;
 	}
@@ -653,7 +653,7 @@ static BOOL CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 	return FALSE;
 }
 
-static int PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam)
+static INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam)
 {
 	int status = (int)wParam;
 	char * proto_name = (char *)lParam;
@@ -724,7 +724,7 @@ static int PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam)
 }
 
 
-static int PluginCommand_CicleThroughtProtocols(WPARAM wParam,LPARAM lParam)
+static INT_PTR PluginCommand_CycleThroughtProtocols(WPARAM wParam,LPARAM lParam)
 {
 	DBWriteContactSettingByte(NULL,"MyDetails","CicleThroughtProtocols", (BYTE) wParam);
 

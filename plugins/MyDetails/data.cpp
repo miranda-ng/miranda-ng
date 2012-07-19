@@ -123,7 +123,7 @@ Protocol::~Protocol()
 {
 }
 
-void Protocol::lcopystr(TCHAR *dest, TCHAR *src, int maxlen)
+void Protocol::lcopystr(TCHAR *dest, TCHAR *src, size_t maxlen)
 {
 	if (lstrcmp(dest, src) != 0)
 	{

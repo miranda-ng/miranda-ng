@@ -21,19 +21,11 @@ Boston, MA 02111-1307, USA.
 #include "commons.h"
 #include "options.h"
 
-
-
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
 Options opts;
 
-
-static BOOL CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
-
 // Functions //////////////////////////////////////////////////////////////////////////////////////
-
-
 
 static OptPageControl pageControls[] = { 
 	{ &opts.cycle_through_protocols,			CONTROL_CHECKBOX,	IDC_CYCLE_THROUGH_PROTOS, "CicleThroughtProtocols", (BYTE) 1 },
@@ -80,37 +72,7 @@ void LoadOptions()
 	RefreshFrameAndCalcRects();
 }
 
-
-int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
-	odp.position = -200000000;
-	odp.hInstance = hInst;
-	odp.pfnDlgProc = DlgProcOpts;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS);
-	odp.pszGroup = LPGEN("Customize");
-	odp.pszTitle = LPGEN("My Details");
-	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
-	return 0;
-}
-
-
-void InitOptions()
-{
-	LoadOptions();
-
-	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
-}
-
-// Deinitializations needed by options
-void DeInitOptions()
-{
-}
-
-
-static BOOL CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL ret = SaveOptsDlgProc(pageControls, SIZEOF(pageControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
@@ -192,4 +154,26 @@ static BOOL CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	}
 
 	return ret;
+}
+
+int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.position = -200000000;
+	odp.hInstance = hInst;
+	odp.pfnDlgProc = DlgProcOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS);
+	odp.pszGroup = LPGEN("Customize");
+	odp.pszTitle = LPGEN("My Details");
+	odp.flags = ODPF_BOLDGROUPS;
+	Options_AddPage(wParam, &odp);
+	return 0;
+}
+
+void InitOptions()
+{
+	LoadOptions();
+
+	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
 }
