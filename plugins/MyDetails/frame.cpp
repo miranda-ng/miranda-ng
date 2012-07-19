@@ -183,7 +183,7 @@ void InitFrames()
 
 void DeInitFrames()
 {
-	if(ServiceExists(MS_CLIST_FRAMES_REMOVEFRAME) && frame_id != -1) 
+	if (ServiceExists(MS_CLIST_FRAMES_REMOVEFRAME) && frame_id != -1) 
 	{
 		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
 	}
@@ -224,8 +224,7 @@ int CreateFrame()
 {
 	HDC hdc = GetDC(NULL);
 
-	for (int i = 0 ; i < NUM_FONTS ; i++ )
-	{
+	for (int i = 0 ; i < NUM_FONTS ; i++) {
 		ZeroMemory(&font_id[i], sizeof(font_id[i]));
 
 		font_id[i].cbSize = sizeof(FontID);
@@ -287,7 +286,7 @@ int CreateFrame()
 		if (DBGetContactSettingByte(NULL, "MyDetails", "ForceHideFrame", 0))
 		{
 			int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
-			if(flags & F_VISIBLE) 
+			if (flags & F_VISIBLE) 
 				CallService(MS_CLIST_FRAMES_SHFRAME, frame_id, 0);
 
 			DBDeleteContactSetting(NULL, "MyDetails", "ForceHideFrame");
@@ -296,7 +295,7 @@ int CreateFrame()
 		if (DBGetContactSettingByte(NULL, "MyDetails", "ForceShowFrame", 0))
 		{	
 			int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
-			if(!(flags & F_VISIBLE)) 
+			if (!(flags & F_VISIBLE)) 
 				CallService(MS_CLIST_FRAMES_SHFRAME, frame_id, 0);
 
 			DBDeleteContactSetting(NULL, "MyDetails", "ForceShowFrame");
@@ -341,7 +340,7 @@ int CreateFrame()
 		menu.pszService= MODULE_NAME "/ShowHideMyDetails";
 		hMenuShowHideFrame = Menu_AddMainMenuItem(&menu);
 
-		if(DBGetContactSettingByte(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1) == 1) 
+		if (DBGetContactSettingByte(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1) == 1) 
 		{
 			ShowWindow(hwnd_container, SW_SHOW);
 			FixMainMenu();
@@ -557,7 +556,7 @@ HWND CreateTooltip(HWND hwnd, RECT &rect)
     iccex.dwSize = sizeof(iccex);
     iccex.dwICC  = ICC_BAR_CLASSES;
 
-    if(!InitCommonControlsEx(&iccex))
+    if (!InitCommonControlsEx(&iccex))
        return NULL;
 
     /* CREATE A TOOLTIP WINDOW */
@@ -673,7 +672,7 @@ void CalcRectangles(HWND hwnd)
 	if (ServiceExists(MS_CLIST_FRAMES_SETFRAMEOPTIONS) && frame_id != -1)
 	{
 		int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
-		if(flags & F_UNCOLLAPSED) 
+		if (flags & F_UNCOLLAPSED) 
 		{
 			RECT rf;
 			GetClientRect(hwnd, &rf);
@@ -693,7 +692,7 @@ void CalcRectangles(HWND hwnd)
 						GetWindowRect(parent, &rp_window);
 						GetWindowRect(hwnd, &r_window);
 						int diff = (rp_window.bottom - rp_window.top) - (rp_client.bottom - rp_client.top);
-						if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+						if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
 							diff += (r_window.top - rp_window.top);
 
 						SetWindowPos(parent, 0, 0, 0, rp_window.right - rp_window.left, size + diff, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
@@ -964,7 +963,7 @@ void CalcRectangles(HWND hwnd)
 			text_left = r.left;
 
 		// Away msg?
-		if(proto->CanGetStatusMsg()) 
+		if (proto->CanGetStatusMsg()) 
 		{
 			data->draw_away_msg = true;
 
@@ -987,7 +986,7 @@ void CalcRectangles(HWND hwnd)
 			text_left = r.left;
 
 		// Listening to
-		if(proto->ListeningToEnabled() && proto->GetStatus() > ID_STATUS_OFFLINE) 
+		if (proto->ListeningToEnabled() && proto->GetStatus() > ID_STATUS_OFFLINE) 
 		{
 			data->draw_listening_to = true;
 
@@ -1082,7 +1081,7 @@ void CalcRectangles(HWND hwnd)
 					GetWindowRect(parent, &rp_window);
 					GetWindowRect(hwnd, &r_window);
 					int diff = (rp_window.bottom - rp_window.top) - (rp_client.bottom - rp_client.top);
-					if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+					if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
 						diff += (r_window.top - rp_window.top);
 
 					SetWindowPos(parent, 0, 0, 0, rp_window.right - rp_window.left, size + diff, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
@@ -1091,7 +1090,7 @@ void CalcRectangles(HWND hwnd)
 			else if (IsWindowVisible(hwnd) && ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) 
 			{
 				int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
-				if(flags & F_VISIBLE) 
+				if (flags & F_VISIBLE) 
 				{
 					CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, frame_id), (LPARAM)(size));
 					CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)frame_id, (LPARAM)(FU_TBREDRAW | FU_FMREDRAW | FU_FMPOS));
@@ -1552,7 +1551,7 @@ void ShowGlobalStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, 
 	int ret = TrackPopupMenu(submenu, TPM_TOPALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD
 			| (opts.draw_text_align_right ? TPM_RIGHTALIGN : TPM_LEFTALIGN), p.x, p.y, 0, hwnd, NULL);
 
-	if(ret)
+	if (ret)
 		CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(ret),MPCF_MAINMENU),(LPARAM)NULL);
 }
 
@@ -1571,7 +1570,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 
 			mii.cbSize = sizeof(mii);
 
-			if(!IsWinVer98Plus()) 
+			if (!IsWinVer98Plus()) 
 				mii.fMask = MIIM_TYPE;
 			else 
 				mii.fMask = MIIM_STRING;
@@ -1608,7 +1607,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 		int ret = TrackPopupMenu(submenu, TPM_TOPALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD
 				| (opts.draw_text_align_right ? TPM_RIGHTALIGN : TPM_LEFTALIGN), p.x, p.y, 0, hwnd, NULL);
 
-		if(ret)
+		if (ret)
 			CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(ret),MPCF_MAINMENU),(LPARAM)NULL);
 
 		/*
@@ -1647,7 +1646,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 		int ret = TrackPopupMenu(submenu, TPM_TOPALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD
 				| (opts.draw_text_align_right ? TPM_RIGHTALIGN : TPM_LEFTALIGN), p.x, p.y, 0, hwnd, NULL);
 		DestroyMenu(menu);
-		if(ret) 
+		if (ret) 
 		{
 			proto->SetStatus(ret);
 		}
@@ -1772,7 +1771,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			RECT r;
 
-			if(GetUpdateRect(hwnd, &r, FALSE)) 
+			if (GetUpdateRect(hwnd, &r, FALSE)) 
 			{
 				PAINTSTRUCT ps;
 
@@ -2559,7 +2558,7 @@ int ShowFrameFunc(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) 
 	{
 		int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
-		if(!(flags & F_VISIBLE)) 
+		if (!(flags & F_VISIBLE)) 
 			CallService(MS_CLIST_FRAMES_SHFRAME, frame_id, 0);
 	}
 	else
@@ -2604,7 +2603,7 @@ void FixMainMenu()
 	mi.cbSize = sizeof(CLISTMENUITEM);
 	mi.flags = CMIM_NAME;
 
-	if(MyDetailsFrameVisible())
+	if (MyDetailsFrameVisible())
 		mi.pszName = Translate("Hide My Details");
 	else
 		mi.pszName = Translate("Show My Details");
@@ -2621,7 +2620,7 @@ void RedrawFrame()
 //	{
 //		data->recalc_rectangles = true;
 
-		if(frame_id == -1) 
+		if (frame_id == -1) 
 		{
 			InvalidateRect(hwnd_container, NULL, TRUE);
 		}
@@ -2802,7 +2801,7 @@ int SettingsChangedHook(WPARAM wParam, LPARAM lParam)
 			if (proto != NULL)
 				PostMessage(hwnd_frame, MWM_STATUS_CHANGED, (WPARAM) proto->name, 0);
 		}
-		else if(!strcmp(cws->szSetting,"MyHandle")
+		else if (!strcmp(cws->szSetting,"MyHandle")
 				|| !strcmp(cws->szSetting,"UIN") 
 				|| !strcmp(cws->szSetting,"Nick") 
 				|| !strcmp(cws->szSetting,"FirstName") 

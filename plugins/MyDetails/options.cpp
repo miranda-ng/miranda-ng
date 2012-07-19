@@ -118,18 +118,18 @@ static BOOL CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	{
 		case WM_INITDIALOG:
 		{
-			if(!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_DRAW_BORDER)) 
+			if (!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_DRAW_BORDER)) 
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_BORDER_COLOR_L),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_BORDER_COLOR),FALSE);
 			}
-			if(!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_ROUND_CORNERS)) 
+			if (!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_ROUND_CORNERS)) 
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN),FALSE);
 			}
-			if(!IsDlgButtonChecked(hwndDlg,IDC_SHOW_PROTO_NAME)) 
+			if (!IsDlgButtonChecked(hwndDlg,IDC_SHOW_PROTO_NAME)) 
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_CYCLE_PROTO_BUTTON),FALSE);
 			}

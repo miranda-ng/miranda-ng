@@ -221,7 +221,7 @@ void Protocol::SetStatus(int aStatus)
 		pCount = 0;
 		CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&count,(LPARAM)&protos);
 		for (i=0;i<count;i++) {
-			if(protos[i]->type!=PROTOTYPE_PROTOCOL || CallProtoService(protos[i]->szName,PS_GETCAPS,PFLAGNUM_2,0)==0) continue;
+			if (protos[i]->type!=PROTOTYPE_PROTOCOL || CallProtoService(protos[i]->szName,PS_GETCAPS,PFLAGNUM_2,0)==0) continue;
 			pCount += 1;
 		}
 		// END From commomstatus.cpp (KeepStatus)
