@@ -760,7 +760,6 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 
 	if (dat->filterSearch && dat->szQuickSearch) {
 		// search filtering
-		//return _tcsnicmp(dat->szQuickSearch, pdnce->tszName, lstrlen(dat->szQuickSearch));
 		return _tcsstr(CharLowerW(pdnce->tszName), CharLowerW(dat->szQuickSearch)) ? 0 : 1;
 	}
 	if (g_CluiData.bMetaAvail && dat != NULL && dat->IsMetaContactsEnabled && g_szMetaModuleName && db_get_b(hContact, g_szMetaModuleName, "IsSubcontact", 0))
