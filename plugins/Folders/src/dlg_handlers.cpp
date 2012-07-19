@@ -205,35 +205,6 @@ void RefreshPreview(HWND hWnd)
 }
 
 
-void LoadHelp(HWND hWnd)
-{
-	SETTEXTEX tmp = {0};
-	tmp.flags = ST_SELECTION;
-	tmp.codepage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
-	char *text =
-#include "variablesHelp.inc"
-;
-
-	char buffer[2048];
-	char line[2048];
-	int len;
-
-	char *p;
-	while ((p = strchr(text, '\n')))
-	{
-		len = p - text + 1;
-		memcpy(line, text, len);
-		line[len] = 0;
-
-		mir_snprintf(buffer, sizeof(buffer), "{\\rtf1\\ansi\\deff0\\pard\\li%u\\fi-%u\\ri%u\\tx%u\\fs19 %s\\par}", 60*15, 60*15, 5*15, 60*15, Translate(line));
-		text = p + 1;
-
-		SendDlgItemMessageW(hWnd, IDC_HELP_RICHEDIT, EM_SETTEXTEX, (WPARAM) &tmp, (LPARAM) buffer);
-	}
-
-
-}
-
 /************************************** DIALOG HANDLERS *************************************/
 #include "commctrl.h"
 
@@ -380,8 +351,35 @@ INT_PTR CALLBACK DlgProcVariables(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		{
 			case WM_INITDIALOG:
 				{
+					SetDlgItemText(hWnd, IDC_HELP_RICHEDIT, _T("\
+Don't forget to click on Apply to save the changes. If you don't then the changes won\'t\r\n\
+be saved to the database, they will only be valid for this session.\r\n\r\n\
+Variable string\t\tWhat it expands to:\r\n\
+%miranda_path%\tExpands to your miranda path (e.g: c:\program files\miranda im).\r\n\
+%profile_path%\t\tExpands to your profile path - the value found in mirandaboot.ini,\r\n\
+\t\t\tProfileDir section (usually inside miranda's folder).\r\n\
+%current_profile%\tExpands to your current profile name without the extenstion.\r\n\
+\t\t\t(e.g.default if your your profile is default.dat).\r\n\r\n\r\n\
+Environment variables\r\n\
+The plugin can also expand environment variables; the variables are specified like in any other\r\n\
+program that can use environment variables, i.e. %<env variable>%.\r\n\
+Note: Environment variables are expanded before any Miranda variables. So if you have, for\r\n\
+example, %profile_path% defined as a system variable then it will be expanded to that value\r\n\
+instead of expanding to Miranda\’s profile path.\r\n\r\n\
+Examples:\r\n\
+If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is \'.\profiles\', current\r\n\
+profile is \'default.dat\' and miranda\'s path is \'c:\program files\miranda im\' then:\r\n\
+%miranda_path%\t\t\twill expand to \'c:\program files\miranda im\'\r\n\
+%profile_path%\t\t\twill expand to \'c:\program files\miranda im\profiles\'\r\n\
+%current_profile%\t\t\twill expand to \'default\'\r\n\
+%temp%\t\t\t\twill expand to the temp folder of the current user.\r\n\
+%profile_path%\%current_profile%\twill expand to \'c:\program files\miranda im\profiles\default\'\r\n\
+%miranda_path%\plugins\config\twill expand to \'c:\program files\miranda im\plugins\config\'\r\n\
+\'   %miranda_path%\\\\\\\\     \'\t\twill expand to \'c:\program files\miranda im\'\r\n\
+notice that the spaces at the beginning and the end of the string are trimmed, as well as the last \\\
+"));
+
 					TranslateDialogDefault(hWnd);
-					LoadHelp(hWnd);
 
 					break;
 				}
