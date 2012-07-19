@@ -428,7 +428,7 @@ void Protocol::SetNick(const TCHAR *nick)
 		return;
 
 	// Get it
-	CallProtoService(name, PS_SETMYNICKNAME, NULL, (LPARAM)nick);
+	CallProtoService(name, PS_SETMYNICKNAME, SMNN_TCHAR, (LPARAM)nick);
 }
 
 
