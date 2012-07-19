@@ -1789,7 +1789,7 @@ static int CSStatusChange(WPARAM wParam, LPARAM lParam)
 			char buff[80];
 			BOOL found = FALSE;
 
-			wchar_t *szMsgW = mir_a2u(ps[i]->szMsg);
+			wchar_t *szMsgW = mir_t2u(ps[i]->szMsg);
 
 
 #ifdef _DEBUG
