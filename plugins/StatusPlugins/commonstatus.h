@@ -56,14 +56,6 @@
 
 #include "../helpers/gen_helpers.h"
 
-typedef struct {
-	int cbSize;
-	char *szName;	// pointer to protocol modulename
-	char *szMsg;	// pointer to the status message (may be NULL)
-	WORD status;	// the status
-	WORD lastStatus;// last status
-} PROTOCOLSETTINGEX_V1;
-
 #define UM_STSMSGDLGCLOSED				WM_APP+1
 #define UM_CLOSECONFIRMDLG				WM_APP+2
 

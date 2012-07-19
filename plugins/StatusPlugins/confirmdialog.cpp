@@ -288,7 +288,7 @@ static BOOL CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 					else ListView_SetItemText(GetDlgItem(hwndDlg,IDC_STARTUPLIST), lvItem.iItem, 1, 
 						( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, proto->status, GSMDF_TCHAR ));
 
-					if  ( (!((CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))))
+					if ((!((CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))))
 						EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), FALSE);
 					else if ( (proto->status == ID_STATUS_LAST) || (proto->status == ID_STATUS_CURRENT))
 						EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), TRUE);

@@ -251,14 +251,14 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 	NotifyEventHooks( hCSStatusChangedExEvent, ( WPARAM )&protoSettings, 0 );
 
 	// set all status messages first
-	for ( int i=0; i < protoList->getCount(); i++ ) {
+	for (int i=0; i < protoList->getCount(); i++) {
 		char* szProto = protoSettings[i]->szName;
-		if ( !CallService( MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)szProto )) {
+		if ( !CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)szProto)) {
 			log_debugA( "CommonStatus: %s is not loaded", szProto );
 			continue;
 		}
 		// some checks
-		int newstatus = GetActualStatus( protoSettings[i] );
+		int newstatus = GetActualStatus(protoSettings[i]);
 		if (newstatus == 0) {
 			log_debugA("CommonStatus: incorrect status for %s (%d)", szProto, protoSettings[i]->status);
 			continue;
@@ -275,7 +275,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 		long protoFlag = Proto_Status2Flag( newstatus );
 		int b_Caps2 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0) & protoFlag;
 		int b_Caps5 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_5, 0) & protoFlag;
-		if ( newstatus != ID_STATUS_OFFLINE && ( !b_Caps2 || b_Caps5 )) {
+		if (newstatus != ID_STATUS_OFFLINE && ( !b_Caps2 || b_Caps5)) {
 			// status and status message for this status not supported
 			//log_debug("CommonStatus: status not supported %s", szProto);
 			continue;
@@ -283,15 +283,21 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 
 		int b_Caps1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG;
 		int b_Caps3 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & protoFlag;
-		if  ( newstatus == oldstatus && ( !b_Caps1 || !b_Caps3 )) {
+		if (newstatus == oldstatus && (!b_Caps1 || !b_Caps3)) {
 			// no status change and status messages are not supported
 			//log_debug("CommonStatus: no change, %s (%d %d)", szProto, oldstatus, newstatus);
 			continue;
 		}
 
 		// set status message first
-		if ( b_Caps1 && b_Caps3 )
+		if (b_Caps1 && b_Caps3)
 			SetStatusMsg( protoSettings[i], newstatus );
+
+		// set the status
+		if (newstatus != oldstatus) {
+			log_debugA("CommonStatus sets status for %s to %d", szProto, newstatus);
+			CallProtoService(szProto, PS_SETSTATUS, (WPARAM)newstatus, 0);
+		}
 	}
 
 	if ( globStatus != 0 ) {

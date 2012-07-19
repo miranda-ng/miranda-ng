@@ -30,7 +30,6 @@ static HANDLE
 
 HINSTANCE hInst;
 
-
 int hLangpack = 0;
 
 int CSModuleLoaded( WPARAM, LPARAM );

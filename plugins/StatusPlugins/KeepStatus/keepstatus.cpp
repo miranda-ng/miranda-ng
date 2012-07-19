@@ -223,7 +223,7 @@ static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 
 static void FreeProtoSettings(PROTOCOLSETTINGEX** ps)
 {
-	for(int i=0;i<connectionSettings.getCount();i++) {
+	for(int i=0; i < connectionSettings.getCount(); i++) {
 		if (ps[i]->szMsg != NULL)
 			free(ps[i]->szMsg);
 		free(ps[i]);
@@ -250,7 +250,7 @@ static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, TCH
 		
 	log_infoA("KeepStatus: assigning status %d to %s", cs->status, cs->szName);
 
-	if ( szMsg != NULL && _tcscmp(szMsg, cs->szMsg)) {
+	if ( szMsg != NULL && lstrcmp(szMsg, cs->szMsg)) {
 		if ( cs->szMsg != NULL )
 			free(cs->szMsg);
 
@@ -277,10 +277,8 @@ static int GetStatus(const TConnectionSettings& cs)
 static int SetCurrentStatus()
 {
 	int ret, i, realStatus;
-	PROTOCOLSETTINGEX **ps;
-
-	ps = GetCurrentProtoSettingsCopy();
-	for (i=0;i<connectionSettings.getCount();i++) {
+	PROTOCOLSETTINGEX **ps = GetCurrentProtoSettingsCopy();
+	for (i=0; i < connectionSettings.getCount(); i++) {
 		realStatus = CallProtoService(ps[i]->szName, PS_GETSTATUS, 0, 0);
 		if ( (ps[i]->status == ID_STATUS_DISABLED) || (ps[i]->status == realStatus) || (DBGetContactSettingByte(NULL, ps[i]->szName, SETTING_PROTORETRY, 0)))	{ // ignore this proto by removing it's name (not so nice)
 			ps[i]->szName = "";
