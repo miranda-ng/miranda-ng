@@ -335,8 +335,8 @@ static int clcSearchNextContact(HWND hwnd, struct ClcData *dat, int index, const
 		{
 			bool found;
 			if (dat->filterSearch) {			
-				TCHAR* lowered_szText = CharLowerW(NEWTSTR_ALLOCA(group->cl.items[group->scanIndex]->szText));
-				TCHAR* lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
+				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(group->cl.items[group->scanIndex]->szText));
+				TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
 				found = _tcsstr(lowered_szText, lowered_search) != NULL;
 			} else {
 				found = ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, group->cl.items[group->scanIndex]->szText, testlen)) || (!prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText)));

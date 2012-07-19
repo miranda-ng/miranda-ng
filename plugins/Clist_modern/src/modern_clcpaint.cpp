@@ -949,8 +949,8 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 					int idx = 0;
 					if ( dat->filterSearch )
 					{
-						TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
-						TCHAR* p1 = _tcsstr(lowered, dat->szQuickSearch);
+						TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+						TCHAR *p1 = _tcsstr(lowered, dat->szQuickSearch);
 						if (p1)
 							idx = int(p1 - lowered); 
 					}
@@ -1034,8 +1034,8 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 				int idx = 0;
 				if ( dat->filterSearch )
 				{
-					TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
-					TCHAR* p1 = _tcsstr(lowered, dat->szQuickSearch);
+					TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+					TCHAR *p1 = _tcsstr(lowered, dat->szQuickSearch);
 					if (p1)
 						idx = int(p1 - lowered); 
 				}
@@ -1127,8 +1127,8 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 							int idx = 0;
 							if ( dat->filterSearch )
 							{
-								TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
-								TCHAR* p1 = _tcsstr(lowered, dat->szQuickSearch);
+								TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+								TCHAR *p1 = _tcsstr(lowered, dat->szQuickSearch);
 								if (p1)
 									idx = int(p1 - lowered); 
 							}
@@ -1224,8 +1224,8 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 							int idx = 0;
 							if ( dat->filterSearch )
 							{
-								TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
-								TCHAR* p1 = _tcsstr(lowered, dat->szQuickSearch);
+								TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+								TCHAR *p1 = _tcsstr(lowered, dat->szQuickSearch);
 								if (p1)
 									idx = int(p1 - lowered); 
 							}
@@ -3181,8 +3181,8 @@ void CLCPaint::_DrawContactText( HDC hdcMem, struct ClcData *dat, struct ClcCont
 			int idx = 0;
 			if ( dat->filterSearch )
 			{
-				TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
-				TCHAR* p1 = _tcsstr(lowered, dat->szQuickSearch);
+				TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+				TCHAR *p1 = _tcsstr(lowered, dat->szQuickSearch);
 				if (p1)
 					idx = int(p1 - lowered); 
 			}
@@ -3204,8 +3204,8 @@ void CLCPaint::_DrawContactText( HDC hdcMem, struct ClcData *dat, struct ClcCont
 			int idx = 0;
 			if ( dat->filterSearch )
 			{
-				TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
-				TCHAR* p1 = _tcsstr(lowered, dat->szQuickSearch);
+				TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+				TCHAR *p1 = _tcsstr(lowered, dat->szQuickSearch);
 				if (p1)
 					idx = int(p1 - lowered); 
 			}
