@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -124,12 +124,12 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-ICO_KNOWN               ICON                    "res\\Yellow.ico"
-ICO_KNOWNOPEN           ICON                    "res\\Yellow_open.ico"
-ICO_UNKNOWNOPEN         ICON                    "res\\Red_open.ico"
-ICO_UNKNOWN             ICON                    "res\\Red.ico"
-ICO_SETTINGS            ICON                    "res\\Icon_4.ico"
-ICO_ONLINE              ICON                    "res\\online2.ico"
+ICO_KNOWN               ICON                    "Yellow.ico"
+ICO_KNOWNOPEN           ICON                    "Yellow_open.ico"
+ICO_UNKNOWNOPEN         ICON                    "Red_open.ico"
+ICO_UNKNOWN             ICON                    "Red.ico"
+ICO_SETTINGS            ICON                    "Icon_4.ico"
+ICO_ONLINE              ICON                    "online2.ico"
 #endif    // Английский (США) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -292,18 +292,18 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-ICO_REGEDIT             ICON                    "res\\Icon_1.ico"
-ICO_DBE_BUTT            ICON                    "res\\dbepp.ico"
-ICO_REGUSER             ICON                    "res\\usermenu.ico"
-ICO_STRING              ICON                    "res\\Icon_14.ico"
-ICO_CONTACTS            ICON                    "res\\Contacts.ico"
-ICO_BINARY              ICON                    "res\\Icon_15.ico"
-ICO_DWORD               ICON                    "res\\Icon_16.ico"
-ICO_BYTE                ICON                    "res\\Icon_17.ico"
-ICO_WORD                ICON                    "res\\Icon_18.ico"
-ICO_OFFLINE             ICON                    "res\\offline2.ico"
-ICO_UNICODE             ICON                    "res\\unicode.ico"
-ICO_HANDLE              ICON                    "res\\handle.ico"
+ICO_REGEDIT             ICON                    "Icon_1.ico"
+ICO_DBE_BUTT            ICON                    "dbepp.ico"
+ICO_REGUSER             ICON                    "usermenu.ico"
+ICO_STRING              ICON                    "Icon_14.ico"
+ICO_CONTACTS            ICON                    "Contacts.ico"
+ICO_BINARY              ICON                    "Icon_15.ico"
+ICO_DWORD               ICON                    "Icon_16.ico"
+ICO_BYTE                ICON                    "Icon_17.ico"
+ICO_WORD                ICON                    "Icon_18.ico"
+ICO_OFFLINE             ICON                    "offline2.ico"
+ICO_UNICODE             ICON                    "unicode.ico"
+ICO_HANDLE              ICON                    "handle.ico"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>DbeditorPP</ProjectName>
+    <ProjectName>DbEditorPP</ProjectName>
     <ProjectGuid>{9C6040B8-1173-40FA-A3DB-DE044CCD8250}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -80,7 +80,6 @@
       <PrecompiledHeaderFile>headers.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -105,7 +104,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>headers.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -132,7 +130,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>headers.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -161,7 +158,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>headers.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -179,51 +175,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="exportimport.cpp" />
-    <ClCompile Include="icons.cpp" />
-    <ClCompile Include="knownmodules.cpp" />
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\exportimport.cpp" />
+    <ClCompile Include="src\icons.cpp" />
+    <ClCompile Include="src\knownmodules.cpp" />
+    <ClCompile Include="src\main.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="modules.cpp" />
-    <ClCompile Include="modsettingenum.cpp" />
-    <ClCompile Include="addeditsettingsdlg.cpp" />
-    <ClCompile Include="copymodule.cpp" />
-    <ClCompile Include="deletemodule.cpp" />
-    <ClCompile Include="findwindow.cpp" />
-    <ClCompile Include="main_window.cpp" />
-    <ClCompile Include="moduletree.cpp" />
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="settinglist.cpp" />
-    <ClCompile Include="watchedvars.cpp" />
+    <ClCompile Include="src\modules.cpp" />
+    <ClCompile Include="src\modsettingenum.cpp" />
+    <ClCompile Include="src\addeditsettingsdlg.cpp" />
+    <ClCompile Include="src\copymodule.cpp" />
+    <ClCompile Include="src\deletemodule.cpp" />
+    <ClCompile Include="src\findwindow.cpp" />
+    <ClCompile Include="src\main_window.cpp" />
+    <ClCompile Include="src\moduletree.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\settinglist.cpp" />
+    <ClCompile Include="src\watchedvars.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="modsettingenum.h" />
-    <ClInclude Include="headers.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Version.h" />
+    <ClInclude Include="src\modsettingenum.h" />
+    <ClInclude Include="src\headers.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\Contacts.ico" />
-    <None Include="dbeditorpp_readme.txt" />
-    <None Include="dbeditorpp_translation.txt" />
-    <None Include="res\Icon_1.ico" />
-    <None Include="res\Icon_14.ico" />
-    <None Include="res\Icon_15.ico" />
-    <None Include="res\Icon_16.ico" />
-    <None Include="res\Icon_17.ico" />
-    <None Include="res\Icon_18.ico" />
-    <None Include="res\Icon_4.ico" />
-    <None Include="res\offline2.ico" />
-    <None Include="res\online2.ico" />
-    <None Include="res\Red.ico" />
-    <None Include="res\Red_open.ico" />
-    <None Include="Res\unicode.ico" />
-    <None Include="res\Yellow.ico" />
-    <None Include="res\Yellow_open.ico" />
+    <None Include="docs\dbeditorpp_readme.txt" />
+    <None Include="docs\dbeditorpp_translation.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

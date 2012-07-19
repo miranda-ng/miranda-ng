@@ -21,121 +21,75 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="exportimport.cpp">
+    <ClCompile Include="src\exportimport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="icons.cpp">
+    <ClCompile Include="src\icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="knownmodules.cpp">
+    <ClCompile Include="src\knownmodules.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modules.cpp">
+    <ClCompile Include="src\modules.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modsettingenum.cpp">
+    <ClCompile Include="src\modsettingenum.cpp">
       <Filter>Source Files\ModSetting Enuming</Filter>
     </ClCompile>
-    <ClCompile Include="addeditsettingsdlg.cpp">
+    <ClCompile Include="src\addeditsettingsdlg.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="copymodule.cpp">
+    <ClCompile Include="src\copymodule.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="deletemodule.cpp">
+    <ClCompile Include="src\deletemodule.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="findwindow.cpp">
+    <ClCompile Include="src\findwindow.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="main_window.cpp">
+    <ClCompile Include="src\main_window.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="moduletree.cpp">
+    <ClCompile Include="src\moduletree.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="settinglist.cpp">
+    <ClCompile Include="src\settinglist.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="watchedvars.cpp">
+    <ClCompile Include="src\watchedvars.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="modsettingenum.h">
+    <ClInclude Include="src\modsettingenum.h">
       <Filter>Source Files\ModSetting Enuming</Filter>
     </ClInclude>
-    <ClInclude Include="headers.h">
+    <ClInclude Include="src\headers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Version.h">
+    <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\Contacts.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="dbeditorpp_readme.txt">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="dbeditorpp_translation.txt">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Icon_1.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Icon_14.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Icon_15.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Icon_16.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Icon_17.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Icon_18.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Icon_4.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\offline2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\online2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Red.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Red_open.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Yellow.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Yellow_open.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\unicode.ico">
-      <Filter>Resource Files</Filter>
-    </None>
+    <None Include="docs\dbeditorpp_readme.txt" />
+    <None Include="docs\dbeditorpp_translation.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
