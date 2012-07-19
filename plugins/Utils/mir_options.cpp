@@ -37,7 +37,7 @@ Boston, MA 02111-1307, USA.
 #include "mir_memory.h"
 
 
-#define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]))
+#define SIZEOF(_A_) ( sizeof(_A_) / sizeof(_A_[0]))
 
 
 static TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* setting, TCHAR* out, size_t len, TCHAR *def)
@@ -46,7 +46,7 @@ static TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* 
 
 	out[0] = _T('\0');
 
-	if (!DBGetContactSettingTString(hContact, module, setting, &dbv))
+	if ( !DBGetContactSettingTString(hContact, module, setting, &dbv))
 	{
 		lstrcpyn(out, dbv.ptszVal, (int)len);
 		DBFreeVariant(&dbv);
@@ -66,7 +66,7 @@ static TCHAR dbPath[MAX_PATH] = {0};		// database profile path (read at startup 
 
 static int PathIsAbsolute(const TCHAR *path)
 {
-    if (!path || !(lstrlen(path) > 2))
+    if ( !path || !(lstrlen(path) > 2))
         return 0;
     if ((path[1]==_T(':') && path[2]==_T('\\')) || (path[0]==_T('\\')&&path[1]==_T('\\'))) 
 		return 1;
@@ -75,7 +75,7 @@ static int PathIsAbsolute(const TCHAR *path)
 
 static void PathToRelative(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
 {
-    if (!PathIsAbsolute(pSrc)) 
+    if ( !PathIsAbsolute(pSrc)) 
 	{
 		lstrcpyn(pOut, pSrc, (int)outSize);
     }
@@ -84,8 +84,8 @@ static void PathToRelative(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
 		if (dbPath[0] == _T('\0'))
 		{
 			char tmp[1024];
-		    CallService(MS_DB_GETPROFILEPATH, MAX_REGS(tmp), (LPARAM) tmp);
-			mir_sntprintf(dbPath, MAX_REGS(dbPath), _T(TCHAR_STR_PARAM) _T("\\"), tmp);
+		    CallService(MS_DB_GETPROFILEPATH, SIZEOF(tmp), (LPARAM) tmp);
+			mir_sntprintf(dbPath, SIZEOF(dbPath), _T(TCHAR_STR_PARAM) _T("\\"), tmp);
 		}
 
 		size_t len = lstrlen(dbPath);
@@ -111,8 +111,8 @@ static void PathToAbsolute(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
 		if (dbPath[0] == _T('\0'))
 		{
 			char tmp[1024];
-		    CallService(MS_DB_GETPROFILEPATH, MAX_REGS(tmp), (LPARAM) tmp);
-			mir_sntprintf(dbPath, MAX_REGS(dbPath), _T(TCHAR_STR_PARAM) _T("\\"), tmp);
+		    CallService(MS_DB_GETPROFILEPATH, SIZEOF(tmp), (LPARAM) tmp);
+			mir_sntprintf(dbPath, SIZEOF(dbPath), _T(TCHAR_STR_PARAM) _T("\\"), tmp);
 		}
 
         mir_sntprintf(pOut, outSize, _T("%s%s"), dbPath, pSrc);
@@ -167,16 +167,16 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 			tmp[0]=0;
 
 			DBVARIANT dbv = {0};
-			if (!DBGetContactSettingString(NULL, module, ctrl->setting, &dbv))
+			if ( !DBGetContactSettingString(NULL, module, ctrl->setting, &dbv))
 			{
-				lstrcpynA(tmp, dbv.pszVal, MAX_REGS(tmp));
+				lstrcpynA(tmp, dbv.pszVal, SIZEOF(tmp));
 				DBFreeVariant(&dbv);
 			}
 
 			if (tmp[0] != 0)
-				CallService(MS_DB_CRYPT_DECODESTRING, MAX_REGS(tmp), (LPARAM) tmp);
+				CallService(MS_DB_CRYPT_DECODESTRING, SIZEOF(tmp), (LPARAM) tmp);
 			else if (ctrl->szDefValue != NULL)
-				lstrcpynA(tmp, ctrl->szDefValue, MAX_REGS(tmp));
+				lstrcpynA(tmp, ctrl->szDefValue, SIZEOF(tmp));
 
 			char *var = (char *) ctrl->var;
 			int size = min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024);
@@ -340,16 +340,16 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						tmp[0]=0;
 
 						DBVARIANT dbv = {0};
-						if (!DBGetContactSettingString(NULL, module, ctrl->setting, &dbv))
+						if ( !DBGetContactSettingString(NULL, module, ctrl->setting, &dbv))
 						{
-							lstrcpynA(tmp, dbv.pszVal, MAX_REGS(tmp));
+							lstrcpynA(tmp, dbv.pszVal, SIZEOF(tmp));
 							DBFreeVariant(&dbv);
 						}
 
 						if (tmp[0] != 0)
-							CallService(MS_DB_CRYPT_DECODESTRING, MAX_REGS(tmp), (LPARAM) tmp);
+							CallService(MS_DB_CRYPT_DECODESTRING, SIZEOF(tmp), (LPARAM) tmp);
 						else if (ctrl->szDefValue != NULL)
-							lstrcpynA(tmp, ctrl->szDefValue, MAX_REGS(tmp));
+							lstrcpynA(tmp, ctrl->szDefValue, SIZEOF(tmp));
 
 						SetDlgItemTextA(hwndDlg, ctrl->nID, tmp);
 						SendDlgItemMessage(hwndDlg, ctrl->nID, EM_LIMITTEXT, min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), 0);
@@ -386,7 +386,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue));
 						int count = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCOUNT, 0, 0);
 						int i;
-						for(i = 0; i < count; i++)
+						for (i = 0; i < count; i++)
 						{
 							TCHAR *id = (TCHAR *) SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM) i, 0);
 							if (lstrcmp(id, tmp) == 0)
@@ -500,14 +500,14 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						case CONTROL_TEXT:
 						{
 							TCHAR tmp[1024];
-							GetDlgItemText(hwndDlg, ctrl->nID, tmp, MAX_REGS(tmp));
+							GetDlgItemText(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
 							DBWriteContactSettingTString(NULL, module, ctrl->setting, tmp);
 							break;
 						}
 						case CONTROL_PASSWORD:
 						{
 							char tmp[1024];
-							GetDlgItemTextA(hwndDlg, ctrl->nID, tmp, MAX_REGS(tmp));
+							GetDlgItemTextA(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
 
 							if (ctrl->var != NULL)
 							{
@@ -522,7 +522,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 								continue;
 							}
 
-							CallService(MS_DB_CRYPT_ENCODESTRING, MAX_REGS(tmp), (LPARAM) tmp);
+							CallService(MS_DB_CRYPT_ENCODESTRING, SIZEOF(tmp), (LPARAM) tmp);
 							DBWriteContactSettingString(NULL, module, ctrl->setting, tmp);
 
 							// Don't load from DB
@@ -532,7 +532,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						{
 							BOOL trans;
 							int val = GetDlgItemInt(hwndDlg, ctrl->nID, &trans, ctrl->min <= 0);
-							if (!trans)
+							if ( !trans)
 								val = ctrl->dwDefValue;
 							if (ctrl->max != 0)
 								val = min(val, ctrl->max);

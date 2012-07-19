@@ -64,7 +64,7 @@ TSSSetting::TSSSetting( int profile, PROTOACCOUNT* pa )
 
 	szMsg = GetStatusMessage(profile, szName);
 	if ( szMsg )
-		szMsg = _strdup( szMsg );
+		szMsg = _tcsdup( szMsg );
 }
 
 TSSSetting::~TSSSetting()
@@ -178,8 +178,8 @@ static void SetLastStatusMessages(TSettingsList& ps)
 		_snprintf(dbSetting, sizeof(dbSetting), "%s%s", PREFIX_LASTMSG, ps[i].szName);
 
 		DBVARIANT dbv;
-		if ( ps[i].szMsg == NULL && !DBGetContactSetting(NULL, MODULENAME, dbSetting, &dbv)) {
-			ps[i].szMsg = _strdup(dbv.pszVal); // remember this won't be freed
+		if ( ps[i].szMsg == NULL && !DBGetContactSettingTString(NULL, MODULENAME, dbSetting, &dbv)) {
+			ps[i].szMsg = _tcsdup(dbv.ptszVal); // remember this won't be freed
 			DBFreeVariant(&dbv);
 }	}	}
 

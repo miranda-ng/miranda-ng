@@ -60,10 +60,10 @@ typedef struct
 
 
 
-SortedList * ReplaceSmileys(const char *text, int text_size, const char *protocol, int *max_smiley_height);
-void DrawTextSmiley(HDC hdcMem, RECT free_rc, const char *szText, int len, SortedList *plText, UINT uTextFormat, int max_smiley_height);
+SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protocol, int *max_smiley_height);
+void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SortedList *plText, UINT uTextFormat, int max_smiley_height);
 void DestroySmileyList( SortedList* p_list );
-SIZE GetTextSize(HDC hdcMem, const char *szText, SortedList *plText, UINT uTextFormat, int max_smiley_height);
+SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uTextFormat, int max_smiley_height);
 
 
 
@@ -86,7 +86,7 @@ int InitContactListSmileys()
 	return 0;
 }
 
-SmileysParseInfo Smileys_PreParse(LPCSTR lpString, int nCount, const char *protocol)
+SmileysParseInfo Smileys_PreParse(const TCHAR* lpString, int nCount, const char *protocol)
 {
 	SmileysParseInfo info = (SmileysParseInfo) mir_alloc0(sizeof(_SmileysParseInfo));
 
@@ -106,26 +106,17 @@ void Smileys_FreeParse(SmileysParseInfo parseInfo)
 	}
 }
 
-int skin_DrawText(HDC hDC, LPCSTR lpString, int nCount, LPRECT lpRect, UINT uFormat)
+int skin_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat)
 {
 	if ((uFormat & DT_CALCRECT) == 0 && ServiceExists(MS_SKINENG_ALPHATEXTOUT))
 	{
 		COLORREF color = SetTextColor(hDC, 0);
 		SetTextColor(hDC, color);
 
-		if (mir_is_unicode())
-		{
-			return AlphaText(hDC, (char *) (const WCHAR *) CharToWchar(lpString), nCount, lpRect, uFormat, color);
-		}
-		else
-		{
-			return AlphaText(hDC, lpString, nCount, lpRect, uFormat, color);
-		}
+		return AlphaText(hDC, lpString, nCount, lpRect, uFormat, color);
 	}
-	else
-	{
-		return DrawText(hDC, lpString, nCount, lpRect, uFormat);
-	}
+
+	return DrawText(hDC, lpString, nCount, lpRect, uFormat);
 }
 
 int skin_DrawIconEx(HDC hdc, int xLeft, int yTop, HICON hIcon, int cxWidth, int cyWidth,
@@ -142,13 +133,13 @@ int skin_DrawIconEx(HDC hdc, int xLeft, int yTop, HICON hIcon, int cxWidth, int 
 // Similar to DrawText win32 api function
 // Pass uFormat | DT_CALCRECT to calc rectangle to be returned by lpRect
 // parseInfo is optional (pass NULL and it will be calculated and deleted inside function
-int Smileys_DrawText(HDC hDC, LPCSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, SmileysParseInfo parseInfo)
+int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, SmileysParseInfo parseInfo)
 {
 	SmileysParseInfo info;
 	int ret;
 
 	if (nCount < 0)
-		nCount = strlen(lpString);
+		nCount = _tcslen(lpString);
 
 	// Get parse info
 	if (parseInfo == NULL)
@@ -225,7 +216,7 @@ int Smileys_DrawText(HDC hDC, LPCSTR lpString, int nCount, LPRECT lpRect, UINT u
 
 
 
-SIZE GetTextSize(HDC hdcMem, const char *szText, SortedList *plText, UINT uTextFormat, int max_smiley_height)
+SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uTextFormat, int max_smiley_height)
 {
 	SIZE text_size;
 
@@ -248,7 +239,7 @@ SIZE GetTextSize(HDC hdcMem, const char *szText, SortedList *plText, UINT uTextF
 		}
 		else
 		{
-			if (!(uTextFormat & DT_RESIZE_SMILEYS))
+			if ( !(uTextFormat & DT_RESIZE_SMILEYS))
 				text_size.cy = max(text_size.cy, max_smiley_height);
 
 			text_size.cx = 0;
@@ -287,12 +278,10 @@ SIZE GetTextSize(HDC hdcMem, const char *szText, SortedList *plText, UINT uTextF
 	return text_size;
 }
 
-void DrawTextSmiley(HDC hdcMem, RECT free_rc, const char *szText, int len, SortedList *plText, UINT uTextFormat, int max_smiley_height)
+void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SortedList *plText, UINT uTextFormat, int max_smiley_height)
 {
 	if (szText == NULL)
-	{
 		return;
-	}
 	
 	uTextFormat &= ~DT_RIGHT;
 
@@ -308,7 +297,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const char *szText, int len, Sorte
 		i = 0;
 
 	// Get real height of the line
-	text_height = skin_DrawText(hdcMem, "A", 1, &tmp_rc, DT_CALCRECT | uTextFormat);
+	text_height = skin_DrawText(hdcMem, _T("A"), 1, &tmp_rc, DT_CALCRECT | uTextFormat);
 	if (uTextFormat & DT_RESIZE_SMILEYS)
 		row_height = text_height;
 	else
@@ -317,7 +306,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const char *szText, int len, Sorte
 	// Just draw ellipsis
 	if (free_rc.right <= free_rc.left)
 	{
-		skin_DrawText(hdcMem, "...", 3, &free_rc, uTextFormat & ~DT_END_ELLIPSIS);
+		skin_DrawText(hdcMem, _T("..."), 3, &free_rc, uTextFormat & ~DT_END_ELLIPSIS);
 	}
 	else
 	{
@@ -381,7 +370,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const char *szText, int len, Sorte
 					else
 					{
 						text_rc.top += (row_height - text_height) >> 1;
-						skin_DrawText(hdcMem, "...", 3, &text_rc, uTextFormat);
+						skin_DrawText(hdcMem, _T("..."), 3, &text_rc, uTextFormat);
 					}
 
 					pos_x += (LONG)(piece->smiley_width * factor);
@@ -420,7 +409,7 @@ void DestroySmileyList( SortedList* p_list )
 
 
 // Generete the list of smileys / text to be drawn
-SortedList * ReplaceSmileys(const char *text, int text_size, const char *protocol, int *max_smiley_height)
+SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protocol, int *max_smiley_height)
 {
 	SMADD_BATCHPARSE2 sp = {0};
 	SMADD_BATCHPARSERES *spres;
@@ -435,7 +424,7 @@ SortedList * ReplaceSmileys(const char *text, int text_size, const char *protoco
 	// Parse it!
 	sp.cbSize = sizeof(sp);
 	sp.Protocolname = protocol;
-	sp.str = (char *)text;
+	sp.str = (TCHAR*)text;
 	sp.oflag = SAFL_TCHAR;
 	spres = (SMADD_BATCHPARSERES *) CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 
@@ -448,13 +437,13 @@ SortedList * ReplaceSmileys(const char *text, int text_size, const char *protoco
 	// Lets add smileys
 	SortedList *plText = List_Create(0, 10);
 
-	const char *next_text_pos = text;
-	const char *last_text_pos =  _tcsninc(text, text_size);
+	const TCHAR *next_text_pos = text;
+	const TCHAR *last_text_pos =  _tcsninc(text, text_size);
 
 	for (unsigned int i = 0; i < sp.numSmileys; i++)
 	{
-		char * start = _tcsninc(text, spres[i].startChar);
-		char * end = _tcsninc(start, spres[i].size);
+		TCHAR* start = _tcsninc(text, spres[i].startChar);
+		TCHAR* end = _tcsninc(start, spres[i].size);
 		
 		if (spres[i].hIcon != NULL)	// For deffective smileypacks
 		{

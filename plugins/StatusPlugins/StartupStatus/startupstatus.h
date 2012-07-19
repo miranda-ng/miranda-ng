@@ -45,7 +45,7 @@ struct PROFILECE
 {
 	int profile;
 	char *szProto;
-	char *msg;
+	TCHAR *msg;
 };
 
 struct PROFILEOPTIONS
@@ -152,7 +152,7 @@ TSettingsList* GetCurrentProtoSettings();
 
 // profile
 int GetProfile(int profileID, TSettingsList& arSettings );
-char *GetStatusMessage(int profile, char *szProto);
+TCHAR *GetStatusMessage(int profile, char *szProto);
 
 INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam);
 INT_PTR GetProfileCount(WPARAM wParam, LPARAM lParam);

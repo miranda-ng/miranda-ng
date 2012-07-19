@@ -122,7 +122,7 @@ TCHAR *GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 {
 	if (ps->szMsg != NULL) {// custom message set
 		log_infoA("CommonStatus: Status message set by calling plugin");
-		return mir_a2t( ps->szMsg );
+		return mir_tstrdup( ps->szMsg );
 	}
 
 	if ( ServiceExists( MS_AWAYMSG_GETSTATUSMSGT )) {
@@ -194,119 +194,6 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps) {
 	}
 
 	return gstatus;
-}
-
-static int nasSetStatus(PROTOCOLSETTINGEX **protoSettings, int newstatus)
-{
-	NAS_PROTOINFO npi;
-	char **nasProtoMessages, *nasGlobalMsg;
-	int i, j, msgCount, maxMsgCount;
-
-	if (!ServiceExists(MS_NAS_SETSTATE))
-		return -1;
-
-	nasGlobalMsg = NULL;
-	msgCount = maxMsgCount = 0;
-	if (newstatus == 0) {
-	/*
-	The global status will not be changed. Still, we'd like to set the global status message for NAS.
-	This should only be done if all protocols will change in this call. Otherwise, the chance exists
-	that an already set status message will be overwritten. The global status message will be set for
-	the status message which is to be set for most of the protocols. Protocols are only considered
-	which have szMsg==NULL. After the global status message is set, the protocols for which another
-	message and/or status have to be set will be overwritten.
-		*/
-		ZeroMemory(&npi, sizeof(NAS_PROTOINFO));
-		npi.cbSize = sizeof(NAS_PROTOINFO);
-		npi.status = 0;
-		npi.szProto = NULL;
-		CallService(MS_NAS_GETSTATEA, (WPARAM)&npi, (LPARAM)1);
-		nasProtoMessages = ( char** )calloc(protoList->getCount(),sizeof(char *));
-		if (nasProtoMessages == NULL) {
-			return -1;
-		}
-		// fill the array of proto message for NAS, this will be used anyway
-		for (i=0;i<protoList->getCount();i++) {
-			if ( (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)protoSettings[i]->szName)) || (protoSettings[i]->szMsg != NULL)) {
-				continue;
-			}
-			ZeroMemory(&npi, sizeof(NAS_PROTOINFO));
-			npi.cbSize = sizeof(NAS_PROTOINFO);
-			npi.status = GetActualStatus(protoSettings[i]);
-			npi.szProto = protoSettings[i]->szName;
-			if (CallService(MS_NAS_GETSTATEA, (WPARAM)&npi, (LPARAM)1) == 0) {
-				nasProtoMessages[i] = npi.szMsg;
-			}
-		}
-		// if not all proto's are to be set here, we don't set the global status message
-		for (i=0;i<protoList->getCount();i++) {
-			if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)protoSettings[i]->szName)) {
-				break;
-			}
-		}
-		if (i == protoList->getCount()) {
-			for (i=0;i<protoList->getCount();i++) {
-				msgCount = 0;
-				for (j=i;j<protoList->getCount();j++) {
-					if ( (nasProtoMessages[i] != NULL) && (nasProtoMessages[j] != NULL) && (!strcmp(nasProtoMessages[i], nasProtoMessages[j]))) {
-						msgCount += 1;
-						//log_infoA("Adding %s (%u) to %s (%u)", protoSettings[j]->szName, protoSettings[j]->status, protoSettings[i]->szName, protoSettings[i]->status);
-					}
-				}
-				if ( (msgCount > maxMsgCount) && ((protoList->getCount() == 1) || (msgCount > 1))) {
-					maxMsgCount = msgCount;
-					nasGlobalMsg = _strdup(nasProtoMessages[i]);
-				}
-			}
-		}
-		if (nasGlobalMsg != NULL) {
-			// set global message
-			ZeroMemory(&npi, sizeof(NAS_PROTOINFO));
-			npi.cbSize = sizeof(NAS_PROTOINFO);
-			npi.status = 0; // status is not important for global message
-			npi.szMsg = mir_strdup(nasGlobalMsg);
-			npi.Flags |= PIF_NO_CLIST_SETSTATUSMODE;
-			log_infoA("CommonStatus sets global status message for NAS which is to be changed for %d protocols", maxMsgCount);
-			CallService(MS_NAS_SETSTATEA, (WPARAM)&npi, (LPARAM)1);
-		}
-		for (i=0;i<protoList->getCount();i++) {
-			if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)protoSettings[i]->szName))
-				continue;
-
-			ZeroMemory(&npi, sizeof(NAS_PROTOINFO));
-			npi.cbSize = sizeof(NAS_PROTOINFO);
-			npi.status = GetActualStatus(protoSettings[i]);
-			npi.szProto = protoSettings[i]->szName;
-			if (protoSettings[i]->szMsg != NULL) {
-				npi.szMsg = mir_strdup(protoSettings[i]->szMsg);
-				log_infoA("CommonStatus will set status %u for %s and message specified by plugin using NAS (%x)", npi.status, npi.szProto, npi.szMsg);
-			}
-			else if ( (nasProtoMessages[i] != NULL) && (nasGlobalMsg != NULL) && (!strcmp(nasProtoMessages[i], nasGlobalMsg))) {
-				npi.szMsg = NULL;
-				log_infoA("CommonStatus will set status %u for %s and global message using NAS", npi.status, npi.szProto);
-			}
-			else {
-				npi.szMsg = nasProtoMessages[i];
-				log_infoA("CommonStatus will set status %u for %s and message from NAS using NAS", npi.status, npi.szProto);
-			}
-			CallService(MS_NAS_SETSTATEA, (WPARAM)&npi, (LPARAM)1);
-		}
-		if (nasGlobalMsg != NULL) {
-			free(nasGlobalMsg);
-		}
-		free(nasProtoMessages);
-	}
-	else {
-		ZeroMemory(&npi, sizeof(NAS_PROTOINFO));
-		npi.cbSize = sizeof(NAS_PROTOINFO);
-		npi.szProto = NULL; // global
-		npi.szMsg = NULL; // global
-		npi.status = newstatus;
-		log_debugA("CommonStatus sets global status %u using NAS", newstatus);
-		CallService(MS_NAS_SETSTATEA, (WPARAM)&npi, (LPARAM)1);
-	}
-
-	return 0;
 }
 
 static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
@@ -411,10 +298,6 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 			log_debugA("CommonStatus sets status for %s to %d", szProto, newstatus);
 			CallProtoService(szProto, PS_SETSTATUS, (WPARAM)newstatus, 0);
 	}	}
-
-	// and finally set a status
-	if ( !nasSetStatus( protoSettings, globStatus ))
-		return 0;
 
 	if ( globStatus != 0 ) {
 		if ( !ServiceExists( MS_CLIST_SETSTATUSMODE )) {

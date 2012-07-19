@@ -25,7 +25,7 @@
 typedef struct {
 	int cbSize;
 	char *szName;	// pointer to protocol modulename
-	char *szMsg;	// pointer to the status message (may be NULL)
+	TCHAR *szMsg;	// pointer to the status message (may be NULL)
 	WORD status;	// the status
 	WORD lastStatus;// last status
 	TCHAR *tszAccName;
@@ -133,7 +133,7 @@ typedef struct {
 // returns 0
 #define MS_KS_ANNOUNCESTATUSCHANGE		"KeepStatus/AnnounceStatusChange"
 
-__inline static int announce_status_change(char *szProto, int newstatus, char *szMsg) {
+__inline static int announce_status_change(char *szProto, int newstatus, TCHAR *szMsg) {
 
 	PROTOCOLSETTINGEX ps;
 

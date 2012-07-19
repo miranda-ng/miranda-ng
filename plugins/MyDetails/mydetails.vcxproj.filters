@@ -64,9 +64,6 @@
     <ClInclude Include="..\utils\mir_smileys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mydetails.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="options.h">
       <Filter>Header Files</Filter>
     </ClInclude>

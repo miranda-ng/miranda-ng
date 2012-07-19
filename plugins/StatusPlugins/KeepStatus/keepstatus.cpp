@@ -71,7 +71,7 @@ static int StartTimer(int timer, int timeout, BOOL restart);
 static int StopTimer(int timer);
 int LoadMainOptions();
 static void GetCurrentConnectionSettings();
-static int AssignStatus(TConnectionSettings* connSetting, int status, int lastStatus, char *szMsg);
+static int AssignStatus(TConnectionSettings* connSetting, int status, int lastStatus, TCHAR *szMsg);
 static int ProcessProtoAck(WPARAM wParam,LPARAM lParam);
 static VOID CALLBACK CheckConnectingTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime);
 static VOID CALLBACK CheckAckStatusTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime);
@@ -215,30 +215,6 @@ static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 		ps[i]->szMsg = NULL;
 		ps[i]->szName = cs.szName;
 		ps[i]->tszAccName = cs.tszAccName;
-		if ( (ServiceExists(MS_NAS_GETSTATE)) && (CallProtoService(ps[i]->szName, PS_GETSTATUS, 0, 0) == ID_STATUS_OFFLINE) && (ps[i]->status != ID_STATUS_OFFLINE)) {
-			NAS_PROTOINFO npi;
-
-			ZeroMemory(&npi, sizeof(NAS_PROTOINFO));
-			npi.cbSize = sizeof(NAS_PROTOINFO);
-			npi.status = 0;
-			npi.szProto = ps[i]->szName;
-			if (!CallService(MS_NAS_GETSTATEA, (WPARAM)&npi, (LPARAM)1)) {
-				if (npi.szMsg != NULL) {
-					ps[i]->szMsg = _strdup(npi.szMsg);
-					log_infoA("KeepStatus: Status message for %s retrieved from NAS", ps[i]->szName);
-				}
-				else {
-					npi.status = 0;
-					npi.szProto = NULL;
-					if (!CallService(MS_NAS_GETSTATEA, (WPARAM)&npi, (LPARAM)1)) {
-						if (npi.szMsg != NULL) {
-							ps[i]->szMsg = _strdup(npi.szMsg);
-							log_infoA("KeepStatus: Status message for %s retrieved from NAS (global)", ps[i]->szName);
-						}
-					}
-				}
-			}
-		}
 	}
 	LeaveCriticalSection(&GenStatusCS);
 
@@ -255,7 +231,7 @@ static void FreeProtoSettings(PROTOCOLSETTINGEX** ps)
 	free(ps);
 }
 
-static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, char *szMsg)
+static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, TCHAR *szMsg)
 {
 	if ( status < MIN_STATUS || status > MAX_STATUS )
 		return -1;
@@ -274,11 +250,11 @@ static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, cha
 		
 	log_infoA("KeepStatus: assigning status %d to %s", cs->status, cs->szName);
 
-	if ( szMsg != NULL && szMsg != cs->szMsg ) {
+	if ( szMsg != NULL && _tcscmp(szMsg, cs->szMsg)) {
 		if ( cs->szMsg != NULL )
 			free(cs->szMsg);
 
-		cs->szMsg = _strdup(szMsg);
+		cs->szMsg = _tcsdup(szMsg);
 	}
 	else if (szMsg != cs->szMsg) {
 		if (cs->szMsg != NULL)

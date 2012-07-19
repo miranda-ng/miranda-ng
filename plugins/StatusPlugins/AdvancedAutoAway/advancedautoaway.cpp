@@ -275,8 +275,8 @@ static int changeState(TAAAProtoSetting& setting, STATES newState)
 
 		if (DBGetContactSettingByte(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_MSGCUSTOM), FALSE)) {
 			DBVARIANT dbv;
-			if (!DBGetContactSetting(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_STATUSMSG), &dbv)) {
-				setting.szMsg = _strdup(dbv.pszVal);
+			if (!DBGetContactSettingTString(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_STATUSMSG), &dbv)) {
+				setting.szMsg = _tcsdup(dbv.ptszVal);
 				DBFreeVariant(&dbv);
 		}	}
 	}
@@ -409,7 +409,7 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 		int i;
 		for ( i=0; i < ps.getCount(); i++ ) {
 			if ( ps[i].szMsg )
-				ps[i].szMsg = _strdup( ps[i].szMsg );
+				ps[i].szMsg = _tcsdup( ps[i].szMsg );
 
 			if (ps[i].status == ID_STATUS_DISABLED)
 				ps[i].szName = "";

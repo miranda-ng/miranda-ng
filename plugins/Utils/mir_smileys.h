@@ -55,13 +55,13 @@ void Smileys_FreeParse(SmileysParseInfo parseInfo);
 // Similar to DrawText win32 api function
 // Pass uFormat | DT_CALCRECT to calc rectangle to be returned by lpRect
 // parseInfo is optional (pass NULL and it will be calculated and deleted inside function)
-int Smileys_DrawText(HDC hDC, LPCSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, SmileysParseInfo parseInfo);
+int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, SmileysParseInfo parseInfo);
 
 // TODO:
 // int Smileys_DrawTextW(HDC hDC, LPCWSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, SmileysParseInfo parseInfo);
 
 
-int skin_DrawText(HDC hDC, LPCSTR lpString, int nCount, LPRECT lpRect, UINT uFormat);
+int skin_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat);
 int skin_DrawIconEx(HDC hdc, int xLeft, int yTop, HICON hIcon, int cxWidth, int cyWidth, UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags);
 
 

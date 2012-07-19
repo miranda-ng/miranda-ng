@@ -442,7 +442,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 					GetProfile( defProfile, *ps );
 					for ( int i=0; i < ps->getCount(); i++ )
 						if ( (*ps)[i].szMsg != NULL )
-							(*ps)[i].szMsg = _strdup( (*ps)[i].szMsg );
+							(*ps)[i].szMsg = _tcsdup( (*ps)[i].szMsg );
 
 					CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CMDLOPTIONS), hwndDlg, CmdlOptionsDlgProc, (LPARAM)ps);
 				}
@@ -551,7 +551,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				else {
 					for (int j=0; j < ar.getCount(); j++)
 						if ( ar[j].szMsg != NULL)
-							ar[j].szMsg = _strdup( ar[j].szMsg );
+							ar[j].szMsg = _tcsdup( ar[j].szMsg );
 
 					ppo->szName = db_get_sa(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME));
 					if (ppo->szName == NULL) {
@@ -662,7 +662,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 
 				CheckRadioButton(hwndDlg, IDC_MIRANDAMSG, IDC_CUSTOMMSG, ps->szMsg!=NULL?IDC_CUSTOMMSG:IDC_MIRANDAMSG);
 				if (ps->szMsg != NULL)
-					SetDlgItemTextA(hwndDlg, IDC_STATUSMSG, ps->szMsg);
+					SetDlgItemText(hwndDlg, IDC_STATUSMSG, ps->szMsg);
 
 				bStatusMsg = ( (((CallProtoService(ps->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND&~PF1_INDIVMODEMSG)) &&
 					(CallProtoService(ps->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(ps->status))) || (ps->status == ID_STATUS_CURRENT) || (ps->status == ID_STATUS_LAST));
@@ -754,7 +754,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				ps->szMsg = NULL;
 				if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOMMSG)) {
 					len = SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
-					ps->szMsg = (char *)malloc(len+1);
+					ps->szMsg = (TCHAR*)calloc(sizeof(TCHAR), len+1);
 					memset(ps->szMsg, '\0', len+1);
 					SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXT, (WPARAM)len+1, (LPARAM)ps->szMsg);
 				}
@@ -774,7 +774,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 					ps->szMsg = NULL;
 				}
 				int len = SendDlgItemMessageA(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
-				ps->szMsg = (char *)malloc(len+1);
+				ps->szMsg = (TCHAR*)calloc(sizeof(TCHAR), len+1);
 				memset(ps->szMsg, '\0', len+1);
 				SendDlgItemMessageA(hwndDlg, IDC_STATUSMSG, WM_GETTEXT, (WPARAM)len+1, (LPARAM)ps->szMsg);
 			}
@@ -851,7 +851,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				for ( j=0; j < ar.getCount(); j++ ) {
 					if ( ar[j].szMsg != NULL ) {
 						mir_snprintf(setting, sizeof(setting), "%s_%s", ar[j].szName, SETTING_PROFILE_STSMSG);
-						db_set_s(NULL, MODULENAME, OptName(i, setting), ar[j].szMsg);
+						db_set_ts(NULL, MODULENAME, OptName(i, setting), ar[j].szMsg);
 					}
 					db_set_w(NULL, MODULENAME, OptName(i, ar[j].szName), ar[j].status);
 				}

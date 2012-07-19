@@ -28,10 +28,12 @@ Boston, MA 02111-1307, USA.
 #include <win2k.h>
 #include <commctrl.h>
 #include <stdio.h>
+
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_skin.h>
 #include <m_system.h>
+#include <m_system_cpp.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_database.h>
@@ -45,7 +47,6 @@ Boston, MA 02111-1307, USA.
 #include <m_proto_listeningto.h>
 #include <m_listeningto.h>
 
-#include <m_NewAwaySys.h>
 #include <m_fontservice.h>
 #include <m_variables.h>
 #include <m_avatars.h>
@@ -91,9 +92,6 @@ extern long status_msg_dialog_open;
 #define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"
 
 
-#define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]) )
-
-
 // See if a protocol service exists
 __inline static int ProtoServiceExists(const char *szModule,const char *szService)
 {
@@ -105,21 +103,14 @@ __inline static int ProtoServiceExists(const char *szModule,const char *szServic
 
 
 // Helper
-static __inline int DRAW_TEXT(HDC hDC, LPCSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, 
+static __inline int DRAW_TEXT(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, 
 					 SmileysParseInfo parseInfo)
 {
-	if (opts.replace_smileys)
-	{
-		return Smileys_DrawText(hDC, lpString, nCount, lpRect, uFormat | (opts.resize_smileys ? DT_RESIZE_SMILEYS : 0), 
-			opts.use_contact_list_smileys ? "clist" : protocol, parseInfo);
-	}
-	else
-	{
+	if (!opts.replace_smileys)
 		return DrawText(hDC, lpString, nCount, lpRect, uFormat);
-	}
+		
+	return Smileys_DrawText(hDC, lpString, nCount, lpRect, uFormat | (opts.resize_smileys ? DT_RESIZE_SMILEYS : 0), 
+			opts.use_contact_list_smileys ? "clist" : protocol, parseInfo);
 }
-
-
-
 
 #endif // __COMMONS_H__

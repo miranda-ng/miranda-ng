@@ -19,7 +19,6 @@ Boston, MA 02111-1307, USA.
 
 
 #include "commons.h"
-#include "mydetails.h"
 
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,9 +38,6 @@ PLUGININFOEX pluginInfo={
 	{ 0xa82baeb3, 0xa33c, 0x4036, { 0xb8, 0x37, 0x78, 0x3, 0xa5, 0xb6, 0xc2, 0xab } } // {A82BAEB3-A33C-4036-B837-7803A5B6C2AB}
 };
 
-
-HANDLE hTTB = NULL;
-
 // Hooks
 HANDLE hModulesLoadedHook = NULL;
 HANDLE hPreShutdownHook = NULL;
@@ -52,11 +48,9 @@ HWND hwndSetNickname;
 long status_msg_dialog_open;
 HWND hwndSetStatusMsg;
 
-
 // Hook called after init
 static int MainInit(WPARAM wparam,LPARAM lparam);
 static int MainUninit(WPARAM wParam, LPARAM lParam);
-
 
 // Services
 static int PluginCommand_SetMyNicknameUI(WPARAM wParam,LPARAM lParam);
@@ -67,8 +61,6 @@ static int PluginCommand_SetMyAvatar(WPARAM wParam,LPARAM lParam);
 static int PluginCommand_GetMyAvatar(WPARAM wParam,LPARAM lParam);
 static int PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam);
 static int PluginCommand_CicleThroughtProtocols(WPARAM wParam,LPARAM lParam);
-
-
 
 
 // Functions //////////////////////////////////////////////////////////////////////////////////////
@@ -165,9 +157,9 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 		mi.cbSize = sizeof(mi);
 		mi.flags = 0;
 		mi.popupPosition = 500050000;
-		mi.pszPopupName = Translate("My Details");
+		mi.pszPopupName = LPGEN("My Details");
 		mi.position = 100001;
-		mi.pszName = Translate("Set My Avatar...");
+		mi.pszName = LPGEN("Set My Avatar...");
 		CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYAVATARUI, Menu_SetMyAvatarUI);
 		mi.pszService = "MENU_" MS_MYDETAILS_SETMYAVATARUI;
 		Menu_AddMainMenuItem(&mi);
@@ -177,9 +169,9 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	mi.cbSize = sizeof(mi);
 	mi.flags = 0;
 	mi.popupPosition = 500050000;
-	mi.pszPopupName = Translate("My Details");
+	mi.pszPopupName = LPGEN("My Details");
 	mi.position = 100002;
-	mi.pszName = Translate("Set My Nickname...");
+	mi.pszName = LPGEN("Set My Nickname...");
 	CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYNICKNAMEUI, Menu_SetMyNicknameUI);
 	mi.pszService = "MENU_" MS_MYDETAILS_SETMYNICKNAMEUI;
 	Menu_AddMainMenuItem(&mi);
@@ -188,9 +180,9 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	mi.cbSize = sizeof(mi);
 	mi.flags = 0;
 	mi.popupPosition = 500050000;
-	mi.pszPopupName = Translate("My Details");
+	mi.pszPopupName = LPGEN("My Details");
 	mi.position = 100003;
-	mi.pszName = Translate("Set My Status Message...");
+	mi.pszName = LPGEN("Set My Status Message...");
 	CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYSTATUSMESSAGEUI, Menu_SetMyStatusMessageUI);
 	mi.pszService = "MENU_" MS_MYDETAILS_SETMYSTATUSMESSAGEUI;
 	Menu_AddMainMenuItem(&mi);
@@ -200,9 +192,9 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	mi.cbSize = sizeof(mi);
 	mi.flags = 0;
 	mi.popupPosition = 500050000;
-	mi.pszPopupName = Translate("My Details");
+	mi.pszPopupName = LPGEN("My Details");
 	mi.position = 200001;
-	mi.pszName = Translate("Show next protocol");
+	mi.pszName = LPGEN("Show next protocol");
 	mi.pszService = MS_MYDETAILS_SHOWNEXTPROTOCOL;
 	Menu_AddMainMenuItem(&mi);
 
@@ -268,30 +260,24 @@ static BOOL CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			SetWindowLong(hwndDlg, GWL_USERDATA, proto_num);
 
-			if (proto_num == -1)
-			{
+			if (proto_num == -1) {
 				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
 
 				// All protos have the same nick?
-				if (protocols->GetSize() > 0)
-				{
-					char *nick = protocols->Get(0)->nickname;
+				if (protocols->GetSize() > 0) {
+					TCHAR *nick = protocols->Get(0)->nickname;
 
 					bool foundDefNick = true;
-					for(int i = 1 ; foundDefNick && i < protocols->GetSize() ; i++)
-					{
-						if (_stricmp(protocols->Get(i)->nickname, nick) != 0)
-						{
+					for (int i=1 ; foundDefNick && i < protocols->GetSize() ; i++) {
+						if (_tcsicmp(protocols->Get(i)->nickname, nick) != 0) {
 							foundDefNick = false;
 							break;
 						}
 					}
 
 					if (foundDefNick)
-					{
-						if (_stricmp(protocols->default_nick, nick) != 0)
+						if ( _tcsicmp(protocols->default_nick, nick) != 0)
 							lstrcpy(protocols->default_nick, nick);
-					}
 				}
 
 				SetDlgItemText(hwndDlg, IDC_NICKNAME, protocols->default_nick);
@@ -322,31 +308,24 @@ static BOOL CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 
 		case WM_COMMAND:
-			switch(wParam)
+			switch(wParam) {
+			case IDOK:
 			{
-				case IDOK:
-				{
-					char tmp[MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE];
-					GetDlgItemText(hwndDlg, IDC_NICKNAME, tmp, sizeof(tmp));
+				TCHAR tmp[MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE];
+				GetDlgItemText(hwndDlg, IDC_NICKNAME, tmp, SIZEOF(tmp));
 
-					int proto_num = (int)GetWindowLong(hwndDlg, GWL_USERDATA);
-					if (proto_num == -1)
-					{
-						protocols->SetNicks(tmp);
-					}
-					else
-					{
-						protocols->Get(proto_num)->SetNick(tmp);
-					}
+				int proto_num = (int)GetWindowLong(hwndDlg, GWL_USERDATA);
+				if (proto_num == -1)
+					protocols->SetNicks(tmp);
+				else
+					protocols->Get(proto_num)->SetNick(tmp);
 
-					DestroyWindow(hwndDlg);
-					break;
-				}
-				case IDCANCEL:
-				{
- 					DestroyWindow(hwndDlg);
-					break;
-				}
+				DestroyWindow(hwndDlg);
+				break;
+			}
+			case IDCANCEL:
+ 				DestroyWindow(hwndDlg);
+				break;
 			}
 			break;
 
@@ -370,7 +349,7 @@ static int PluginCommand_SetMyNicknameUI(WPARAM wParam,LPARAM lParam)
 	if (proto != NULL)
 	{
 		int i;
-		for(i = 0 ; i < protocols->GetSize() ; i++)
+		for (i = 0 ; i < protocols->GetSize() ; i++)
 		{
 			if (_stricmp(protocols->Get(i)->name, proto) == 0)
 			{
@@ -382,12 +361,12 @@ static int PluginCommand_SetMyNicknameUI(WPARAM wParam,LPARAM lParam)
 		if (proto_num == -1)
 			return -1;
 
-		if (!protocols->Get(i)->CanSetNick())
+		if ( !protocols->Get(i)->CanSetNick())
 			return -2;
 
 	}
 
-	if (!nickname_dialog_open) 
+	if ( !nickname_dialog_open) 
 	{
 		InterlockedExchange(&nickname_dialog_open, 1);
 
@@ -403,50 +382,36 @@ static int PluginCommand_SetMyNicknameUI(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-
 static int PluginCommand_SetMyNickname(WPARAM wParam,LPARAM lParam)
 {
 	char * proto = (char *)wParam;
-
-	if (proto != NULL)
-	{
-		for(int i = 0 ; i < protocols->GetSize() ; i++)
-		{
-			if (_stricmp(protocols->Get(i)->name, proto) == 0)
-			{
-				if (!protocols->Get(i)->CanSetNick())
-				{
+	if (proto != NULL) {
+		for (int i = 0 ; i < protocols->GetSize() ; i++) {
+			if (_stricmp(protocols->Get(i)->name, proto) == 0) {
+				if ( !protocols->Get(i)->CanSetNick())
 					return -2;
-				}
-				else
-				{
-					protocols->Get(i)->SetNick((char *)lParam);
-					return 0;
-				}
+
+				protocols->Get(i)->SetNick((TCHAR*)lParam);
+				return 0;
 			}
 		}
 
 		return -1;
 	}
-	else
-	{
-		protocols->SetNicks((char *)lParam);
 
-		return 0;
-	}
+	protocols->SetNicks((TCHAR*)lParam);
+	return 0;
 }
-
 
 static int PluginCommand_GetMyNickname(WPARAM wParam,LPARAM lParam)
 {
-	char * ret = (char *)lParam;
+	TCHAR* ret = (TCHAR*)lParam;
 	char * proto = (char *)wParam;
 
 	if (ret == NULL)
 		return -1;
 
-	if (proto == NULL)
-	{
+	if (proto == NULL) {
 		if (protocols->default_nick != NULL)
 			lstrcpyn(ret, protocols->default_nick, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
 		else
@@ -479,7 +444,7 @@ static int PluginCommand_SetMyAvatarUI(WPARAM wParam,LPARAM lParam)
 	if (proto != NULL)
 	{
 		int i;
-		for(i = 0 ; i < protocols->GetSize() ; i++)
+		for (i = 0 ; i < protocols->GetSize() ; i++)
 		{
 			if (_stricmp(protocols->Get(i)->name, proto) == 0)
 			{
@@ -491,7 +456,7 @@ static int PluginCommand_SetMyAvatarUI(WPARAM wParam,LPARAM lParam)
 		if (proto_num == -1)
 			return -1;
 
-		if (!protocols->Get(i)->CanSetAvatar())
+		if ( !protocols->Get(i)->CanSetAvatar())
 		{
 			return -2;
 		}
@@ -509,41 +474,26 @@ static int PluginCommand_SetMyAvatarUI(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-
 static int PluginCommand_SetMyAvatar(WPARAM wParam,LPARAM lParam)
 {
 	char * proto = (char *)wParam;
-
-	if (proto != NULL)
-	{
-		for(int i = 0 ; i < protocols->GetSize() ; i++)
-		{
-			if (_stricmp(protocols->Get(i)->name, proto) == 0)
-			{
-				if (!protocols->Get(i)->CanSetAvatar())
-				{
+	if (proto != NULL) {
+		for (int i = 0 ; i < protocols->GetSize() ; i++) {
+			if (_stricmp(protocols->Get(i)->name, proto) == 0) {
+				if ( !protocols->Get(i)->CanSetAvatar())
 					return -2;
-				}
-				else
-				{
-					protocols->Get(i)->SetAvatar((char *)lParam);
-					return 0;
-				}
+
+				protocols->Get(i)->SetAvatar((TCHAR*)lParam);
+				return 0;
 			}
 		}
 
 		return -1;
 	}
-	else
-	{
-		protocols->SetAvatars((char *)lParam);
 
-		return 0;
-	}
-
+	protocols->SetAvatars((TCHAR*)lParam);
 	return 0;
 }
-
 
 int Status2SkinIcon(int status)
 {
@@ -567,14 +517,13 @@ int Status2SkinIcon(int status)
 
 static int PluginCommand_GetMyAvatar(WPARAM wParam,LPARAM lParam)
 {
-	char * ret = (char *)lParam;
+	TCHAR* ret = (TCHAR*)lParam;
 	char * proto = (char *)wParam;
 
 	if (ret == NULL)
 		return -1;
 
-	if (proto == NULL)
-	{
+	if (proto == NULL) {
 		if (protocols->default_avatar_file != NULL)
 			lstrcpyn(ret, protocols->default_avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
 		else 
@@ -582,28 +531,20 @@ static int PluginCommand_GetMyAvatar(WPARAM wParam,LPARAM lParam)
 
 		return 0;
 	}
-	else
-	{
-		for(int i = 0 ; i < protocols->GetSize() ; i++)
-		{
-			if (_stricmp(protocols->Get(i)->name, proto) == 0)
-			{
-				if (!protocols->Get(i)->CanGetAvatar())
-				{
-					return -2;
-				}
-				else
-				{
-					protocols->Get(i)->GetAvatar();
+	
+	for (int i = 0 ; i < protocols->GetSize() ; i++) {
+		if (_stricmp(protocols->Get(i)->name, proto) == 0) {
+			if ( !protocols->Get(i)->CanGetAvatar())
+				return -2;
 
-					if (protocols->Get(i)->avatar_file != NULL)
-						lstrcpyn(ret, protocols->Get(i)->avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
-					else 
-						ret[0] = '\0';
+			protocols->Get(i)->GetAvatar();
 
-					return 0;
-				}
-			}
+			if (protocols->Get(i)->avatar_file != NULL)
+				lstrcpyn(ret, protocols->Get(i)->avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
+			else 
+				ret[0] = '\0';
+			
+			return 0;
 		}
 	}
 
@@ -701,7 +642,7 @@ static BOOL CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 			{
 				case IDOK:
 				{
-					char tmp[MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE];
+					TCHAR tmp[MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE];
 					GetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, tmp, sizeof(tmp));
 
 					SetStatusMessageData *data = (SetStatusMessageData *) GetWindowLong(hwndDlg, GWL_USERDATA);
@@ -745,14 +686,13 @@ static int PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam)
 	char * proto_name = (char *)lParam;
 	int proto_num = -1;
 	Protocol *proto = NULL;
-	TCHAR status_message[256];
 
 	if (status != 0 && (status < ID_STATUS_OFFLINE || status > ID_STATUS_OUTTOLUNCH))
 		return -10;
 
 	if (proto_name != NULL)
 	{
-		for(int i = 0 ; i < protocols->GetSize() ; i++)
+		for (int i = 0 ; i < protocols->GetSize() ; i++)
 		{
 			proto = protocols->Get(i);
 
@@ -770,93 +710,6 @@ static int PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam)
 		{
 			return -2;
 		}
-	}
-
-	if (ServiceExists(MS_NAS_INVOKESTATUSWINDOW))
-	{
-		NAS_ISWINFO iswi;
-
-		ZeroMemory(&iswi, sizeof(iswi));
-
-		iswi.cbSize = sizeof(NAS_ISWINFO);
-
-		if (proto != NULL)
-		{
-			// Has to get the unparsed message
-			NAS_PROTOINFO pi;
-
-			ZeroMemory(&pi, sizeof(pi));
-			pi.cbSize = sizeof(NAS_PROTOINFO);
-			pi.szProto = proto->name;
-			pi.status = status;
-			pi.szMsg = NULL;
-
-			if (ServiceExists(MS_NAS_GETSTATE))
-			{
-				if (CallService(MS_NAS_GETSTATE, (WPARAM) &pi, 1) == 0)
-				{
-					if (pi.szMsg == NULL)
-					{
-						pi.szProto = NULL;
-
-						if (CallService(MS_NAS_GETSTATE, (WPARAM) &pi, 1) == 0)
-						{
-							if (pi.szMsg != NULL)
-							{
-								lstrcpyn(status_message, pi.szMsg, MAX_REGS(status_message));
-								mir_free(pi.szMsg);
-							}
-						}
-					}
-					else // if (pi.szMsg != NULL)
-					{
-						lstrcpyn(status_message, pi.szMsg, MAX_REGS(status_message));
-						mir_free(pi.szMsg);
-					}
-				}
-			}
-			// TODO: Remove when removing old NAS services support
-			else
-			{
-				NAS_PROTOINFO *pii = &pi;
-
-				// Old services
-				if (CallService("NewAwaySystem/GetState", (WPARAM) &pii, 1) == 0)
-				{
-					if (pi.szMsg == NULL)
-					{
-						pi.szProto = NULL;
-
-						if (CallService("NewAwaySystem/GetState", (WPARAM) &pii, 1) == 0)
-						{
-							if (pi.szMsg != NULL)
-							{
-								lstrcpyn(status_message, pi.szMsg, MAX_REGS(status_message));
-								mir_free(pi.szMsg);
-							}
-						}
-					}
-					else // if (pi.szMsg != NULL)
-					{
-						lstrcpyn(status_message, pi.szMsg, MAX_REGS(status_message));
-						mir_free(pi.szMsg);
-					}
-				}
-			}
-
-			iswi.szProto = proto->name;
-			iswi.szMsg = status_message;
-		}
-		else
-		{
-			iswi.szMsg = protocols->GetDefaultStatusMsg();
-		}
-
-		iswi.Flags = ISWF_NOCOUNTDOWN;
-
-		CallService(MS_NAS_INVOKESTATUSWINDOW, (WPARAM) &iswi, 0);
-
-		return 0;
 	}
 	else if (ServiceExists(MS_SA_CHANGESTATUSMSG))
 	{
@@ -877,7 +730,7 @@ static int PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam)
 	}
 	else if (proto == NULL || proto->status != ID_STATUS_OFFLINE)
 	{
-		if (!status_msg_dialog_open)
+		if ( !status_msg_dialog_open)
 		{
 			InterlockedExchange(&status_msg_dialog_open, 1);
 

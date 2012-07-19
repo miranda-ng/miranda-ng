@@ -75,7 +75,7 @@ static int strcmpnullW(WCHAR *str1, WCHAR *str2)
 
 
 #define CHECK_VERSION(_NAME_)																\
-	if (!mir_is_unicode())																	\
+	if ( !mir_is_unicode())																	\
 	{																						\
 		MessageBox(NULL, _T("Your Miranda is ansi. You have to install ansi ") _T(_NAME_),	\
 						_T(_NAME_), MB_OK | MB_ICONERROR);									\

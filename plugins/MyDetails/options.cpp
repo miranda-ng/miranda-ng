@@ -70,7 +70,7 @@ static OptPageControl pageControls[] = {
 // Initializations needed by options
 void LoadOptions()
 {
-	LoadOpts(pageControls, MAX_REGS(pageControls), MODULE_NAME);
+	LoadOpts(pageControls, SIZEOF(pageControls), MODULE_NAME);
 
 	// This is created here to assert that this key always exists
 	opts.refresh_status_message_timer = DBGetContactSettingWord(NULL,"MyDetails","RefreshStatusMessageTimer",12);
@@ -88,7 +88,7 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	odp.position = -200000000;
 	odp.hInstance = hInst;
 	odp.pfnDlgProc = DlgProcOpts;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTS);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS);
 	odp.pszGroup = LPGEN("Customize");
 	odp.pszTitle = LPGEN("My Details");
 	odp.flags = ODPF_BOLDGROUPS;
@@ -112,7 +112,7 @@ void DeInitOptions()
 
 static BOOL CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	BOOL ret = SaveOptsDlgProc(pageControls, MAX_REGS(pageControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	BOOL ret = SaveOptsDlgProc(pageControls, SIZEOF(pageControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
 	switch (msg)
 	{
@@ -133,13 +133,13 @@ static BOOL CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOW_CYCLE_PROTO_BUTTON),FALSE);
 			}
-			if (!ServiceExists(MS_SMILEYADD_BATCHPARSE))
+			if ( !ServiceExists(MS_SMILEYADD_BATCHPARSE))
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_REPLACE_SMILEYS),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_USE_CONTACT_LIST_SMILEYS),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_RESIZE_SMILEYS),FALSE);
 			}
-			if (!ServiceExists(MS_CLIST_FRAMES_SETFRAMEOPTIONS))
+			if ( !ServiceExists(MS_CLIST_FRAMES_SETFRAMEOPTIONS))
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_RESIZE_FRAME),FALSE);
 			}

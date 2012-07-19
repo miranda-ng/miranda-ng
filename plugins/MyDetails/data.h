@@ -39,7 +39,7 @@ protected:
 public:
 	// Name of protocol
 	char name[256];
-	char description[256];
+	TCHAR description[256];
 	TCHAR nickname[256];
 	TCHAR status_name[256];
 	TCHAR *custom_status_name;
@@ -119,8 +119,8 @@ public:
 	int GetSize();
 
 	void Add(Protocol *p);
-	Protocol * Get(int i);
-	Protocol * Get(const char *name);
+	Protocol* Get(int i);
+	Protocol* Get(const char *name);
 
 	void GetAvatars();
 	bool CanSetAvatars();
@@ -135,14 +135,14 @@ public:
 
 	void GetStatusMsgs();
 	void GetStatuses();
-	int GetGlobalStatus();
+	int  GetGlobalStatus();
 
 	bool CanSetStatusMsgPerProtocol();
 
 	void GetDefaultNick();	// Copy to cache
 	void GetDefaultAvatar();	// Copy to cache
-	TCHAR * GetDefaultStatusMsg();	// Copy to cache
-	TCHAR * GetDefaultStatusMsg(int status);
+	TCHAR* GetDefaultStatusMsg();	// Copy to cache
+	TCHAR* GetDefaultStatusMsg(int status);
 
 	bool CanSetListeningTo();
 	bool ListeningToEnabled();

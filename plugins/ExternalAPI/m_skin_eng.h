@@ -181,7 +181,7 @@ int __inline SkinDrawWindowBack(HWND hwndIn, HDC hdc, RECT * rcClip, char * obje
 	rq.hDC=hdc;
 	rq.rcDestRect=rc;
 	rq.rcClipRect=*rcClip;
-	strncpy(rq.szObjectID,objectID,sizeof(rq.szObjectID));
+	lstrcpynA(rq.szObjectID,objectID,sizeof(rq.szObjectID));
 	///ske_Service_DrawGlyph((WPARAM)&rq,0);    //$$$
 	return CallService(MS_SKIN_DRAWGLYPH,(WPARAM)&rq,0);
 }
@@ -253,13 +253,13 @@ static BOOL __inline ScreenToClientRect(HWND hWnd, LPRECT lpRect)
 //}  
 static int __inline SkinDrawGlyph(HDC hdc, RECT * rcSize, RECT * rcClip, char * objectID)
 {
-  SKINDRAWREQUEST rq;
-  if (!objectID) return 0;
-  rq.hDC=hdc;
-  rq.rcDestRect=*rcSize;
-  rq.rcClipRect=*rcClip;  
-  strncpy(rq.szObjectID,objectID,sizeof(rq.szObjectID));
-  return CallService(MS_SKIN_DRAWGLYPH,(WPARAM)&rq,0);
+	SKINDRAWREQUEST rq;
+	if (!objectID) return 0;
+	rq.hDC=hdc;
+	rq.rcDestRect=*rcSize;
+	rq.rcClipRect=*rcClip;  
+	lstrcpynA(rq.szObjectID,objectID,sizeof(rq.szObjectID));
+	return CallService(MS_SKIN_DRAWGLYPH,(WPARAM)&rq,0);
 }
 //#include "../hdr/modern_skin_selector.h"
 
