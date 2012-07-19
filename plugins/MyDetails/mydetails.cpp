@@ -241,7 +241,7 @@ static int MainUninit(WPARAM wParam, LPARAM lParam)
 
 #define WMU_SETDATA (WM_USER+1)
 
-static LRESULT CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch ( msg ) {
 	case WM_INITDIALOG:
@@ -361,7 +361,7 @@ static INT_PTR PluginCommand_SetMyNicknameUI(WPARAM wParam,LPARAM lParam)
 	if ( !nickname_dialog_open) {
 		InterlockedExchange(&nickname_dialog_open, 1);
 
-		hwndSetNickname = CreateDialog(hInst, MAKEINTRESOURCE( IDD_SETNICKNAME ), NULL, DlgProcSetNickname );
+		hwndSetNickname = CreateDialog(hInst, MAKEINTRESOURCE( IDD_SETNICKNAME ), NULL, DlgProcSetNickname);
 		
 		SendMessage(hwndSetNickname, WMU_SETDATA, proto_num, 0);
 	}
@@ -555,7 +555,7 @@ struct SetStatusMessageData {
 	int proto_num;
 };
 
-static LRESULT CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:

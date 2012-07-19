@@ -72,7 +72,7 @@ void LoadOptions()
 	RefreshFrameAndCalcRects();
 }
 
-static LRESULT CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL ret = SaveOptsDlgProc(pageControls, SIZEOF(pageControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
