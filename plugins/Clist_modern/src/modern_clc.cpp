@@ -333,13 +333,15 @@ static int clcSearchNextContact(HWND hwnd, struct ClcData *dat, int index, const
 		}
 		if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) 
 		{
-			TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(group->cl.items[group->scanIndex]->szText));
-			if (_tcsstr(lowered, dat->szQuickSearch))
-			
-			//if ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, group->cl.items[group->scanIndex]->szText, testlen))  || 
-			//	(!prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText))) 
-
-			{
+			bool found;
+			if (dat->filterSearch) {			
+				TCHAR* lowered_szText = CharLowerW(NEWTSTR_ALLOCA(group->cl.items[group->scanIndex]->szText));
+				TCHAR* lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
+				found = _tcsstr(lowered_szText, lowered_search) != NULL;
+			} else {
+				found = ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, group->cl.items[group->scanIndex]->szText, testlen)) || (!prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText)));
+			}
+			if (found) {
 				struct ClcGroup *contactGroup = group;
 				int contactScanIndex = group->scanIndex;					
 				int foundindex;
@@ -651,10 +653,6 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 				dat->iInsertionMark = -1;
 				dat->dragStage = 0;
 				ReleaseCapture();
-			} else if (dat->filterSearch && dat->szQuickSearch[0] != '\0') {
-				dat->szQuickSearch[0] = 0;
-				pcli->pfnSaveStateAndRebuildList(hwnd, dat);
-				//pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
 			}
 			return 0;
 		}
