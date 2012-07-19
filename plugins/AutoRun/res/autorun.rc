@@ -47,7 +47,7 @@ END
 
 1 TEXTINCLUDE DISCARDABLE 
 BEGIN
-    "..\src\resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE DISCARDABLE 

@@ -45,7 +45,7 @@ IDR_SMILES              SMILES                  "smiles.dat"
 
 1 TEXTINCLUDE 
 BEGIN
-    "..\src\resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
