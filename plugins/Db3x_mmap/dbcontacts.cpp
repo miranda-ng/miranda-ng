@@ -215,10 +215,11 @@ STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
 
 STDMETHODIMP_(HANDLE) CDdxMmap::AddContact()
 {
+	DWORD ofsNew;
 	log0("add contact");
    {
 		mir_cslock lck(csDbAccess);
-		DWORD ofsNew = CreateNewSpace(sizeof(DBContact));
+		ofsNew = CreateNewSpace(sizeof(DBContact));
 
 		DBContact dbc = { 0 };
 		dbc.signature = DBCONTACT_SIGNATURE;
