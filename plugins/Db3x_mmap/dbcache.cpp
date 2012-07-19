@@ -134,7 +134,7 @@ static VOID CALLBACK DoBufferFlushTimerProc(HWND hwnd, UINT message, UINT_PTR id
 	if (FlushViewOfFile(pDbCache, 0) == 0) {
 		if (flushFailTick == 0)
 			flushFailTick = GetTickCount();
-		else if (GetTickCount() - flushFailTick > 5000) 
+		else if (GetTickCount() - flushFailTick > 5000)
 			DatabaseCorruption(NULL);
 	}
 	else
@@ -150,7 +150,7 @@ void DBFlush(int setting)
 			if (FlushViewOfFile(pDbCache, 0) == 0) {
 				if (flushFailTick == 0)
 					flushFailTick = GetTickCount();
-				else if (GetTickCount() - flushFailTick > 5000) 
+				else if (GetTickCount() - flushFailTick > 5000)
 					DatabaseCorruption(NULL);
 			}
 			else
@@ -161,15 +161,6 @@ void DBFlush(int setting)
 	}
 	KillTimer(NULL,flushBuffersTimerId);
 	flushBuffersTimerId = SetTimer(NULL,flushBuffersTimerId,50,DoBufferFlushTimerProc);
-}
-
-static INT_PTR CacheSetSafetyMode(WPARAM wParam,LPARAM lParam)
-{
-	EnterCriticalSection(&csDbAccess);
-	safetyMode = wParam;
-	LeaveCriticalSection(&csDbAccess);
-	DBFlush(1);
-	return 0;
 }
 
 int InitCache(void)

@@ -103,10 +103,9 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindNextContact(HANDLE hContact, const char *szP
 				VL = AddToCachedContactList(VLtemp.hContact,index);
 
 			VL->hNext = (HANDLE)dbc->ofsNext;
-			if (VL->hNext != NULL && (!szProto || CheckProto(VL->hNext, szProto))) {
-				LeaveCriticalSection(&csDbAccess);
+			if (VL->hNext != NULL && (!szProto || CheckProto(VL->hNext, szProto)))
 				return VL->hNext;
-			}
+
 			VLtemp.hContact = VL->hNext;
 	}	}
 
@@ -126,12 +125,10 @@ STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
 	{
 		mir_cslock lck(csDbAccess);
 		DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
-		if (dbc->signature != DBCONTACT_SIGNATURE) {
-			LeaveCriticalSection(&csDbAccess);
+		if (dbc->signature != DBCONTACT_SIGNATURE)
 			return 1;
-		}
+
 		if (hContact == (HANDLE)dbHeader.ofsUser) {
-			LeaveCriticalSection(&csDbAccess);
 			log0("FATAL: del of user chain attempted.");
 			return 1;
 		}
@@ -198,7 +195,7 @@ STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
 		}
 		dbcPrev->ofsNext = ofsNext;
 		DBWrite(ofsThis,dbcPrev,sizeof(DBContact));
-		
+
 		DBCachedContactValueList VLtemp;
 		VLtemp.hContact = (HANDLE)ofsThis;
 		if ( List_GetIndex(&lContacts,&VLtemp,&index)) {
@@ -219,22 +216,22 @@ STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
 STDMETHODIMP_(HANDLE) CDdxMmap::AddContact()
 {
 	log0("add contact");
+   {
+		mir_cslock lck(csDbAccess);
+		DWORD ofsNew = CreateNewSpace(sizeof(DBContact));
 
-	mir_cslock lck(csDbAccess);
-	DWORD ofsNew = CreateNewSpace(sizeof(DBContact));
+		DBContact dbc = { 0 };
+		dbc.signature = DBCONTACT_SIGNATURE;
+		dbc.ofsNext = dbHeader.ofsFirstContact;
+		dbHeader.ofsFirstContact = ofsNew;
+		dbHeader.contactCount++;
+		DBWrite(ofsNew,&dbc,sizeof(DBContact));
+		DBWrite(0,&dbHeader,sizeof(dbHeader));
+		DBFlush(0);
 
-	DBContact dbc = { 0 };
-	dbc.signature = DBCONTACT_SIGNATURE;
-	dbc.ofsNext = dbHeader.ofsFirstContact;
-	dbHeader.ofsFirstContact = ofsNew;
-	dbHeader.contactCount++;
-	DBWrite(ofsNew,&dbc,sizeof(DBContact));
-	DBWrite(0,&dbHeader,sizeof(dbHeader));
-	DBFlush(0);
+		AddToCachedContactList((HANDLE)ofsNew, -1);
+	}
 
-	AddToCachedContactList((HANDLE)ofsNew, -1);
-
-	LeaveCriticalSection(&csDbAccess);
 	NotifyEventHooks(hContactAddedEvent,(WPARAM)ofsNew,0);
 	return (HANDLE)ofsNew;
 }
