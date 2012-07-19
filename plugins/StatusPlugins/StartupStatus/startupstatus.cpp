@@ -316,23 +316,7 @@ static int Exit(WPARAM wParam, LPARAM lParam)
 
 			if ( !(CallProtoService(protos[i]->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(status)))
 				continue;
-
-			if (ServiceExists(MS_NAS_GETSTATE)) {
-				// NewAwaySys
-				NAS_PROTOINFO npi = { 0 };
-				npi.cbSize = sizeof(NAS_PROTOINFO);
-				npi.szProto = protos[i]->szModuleName;
-				npi.status = 0;
-				CallService(MS_NAS_GETSTATEA, (WPARAM)&npi, (LPARAM)1);
-				if (npi.szMsg == NULL) {
-					npi.status = 0;
-					npi.szProto = NULL;
-					CallService(MS_NAS_GETSTATEA, (WPARAM)&npi, (LPARAM)1);
-				}
-				if (npi.szMsg != NULL) {
-					DBWriteContactSettingString(NULL, MODULENAME, lastMsg, npi.szMsg);
-					mir_free(npi.szMsg);
-	}	}	}	}
+	}	}
 
 	if ( (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETPROFILE, 1)) || (DBGetContactSettingByte(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0))) {
 		if (ServiceExists(MS_CLIST_SETSTATUSMODE))
