@@ -2181,7 +2181,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				// Add this to menu
 				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set My Status Message for %s..."), 
-							 CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, proto->status, 0));
+					CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, proto->status, GSMDF_TCHAR));
 
 				ZeroMemory(&mii, sizeof(mii));
 				mii.cbSize = sizeof(mii);
