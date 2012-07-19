@@ -233,16 +233,15 @@ void RenameDbProto(HANDLE hContact, HANDLE hContactNew, char* oldName, char* new
 static void IconsInit()
 {
 	int i;
-	SKINICONDESC sid = {0};
 	TCHAR tszFile[MAX_PATH];
 	GetModuleFileName(hinstance, tszFile, MAX_PATH);
 
+	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszDefaultFile = tszFile;
 	sid.cx = sid.cy = 16;
 	sid.ptszSection = LPGENT(MODULENAME);
-
 
 	for ( i = 0; i < SIZEOF(iconList); i++ ) {
 		sid.pszName = iconList[i].szName;

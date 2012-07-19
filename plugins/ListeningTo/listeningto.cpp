@@ -313,8 +313,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// add our modules to the KnownModules list
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
 
-	hIcon1 = IcoLib_Register("listening_to_icon", _T("ListeningTo"), _T("Listening to (enabled)"), IDI_LISTENINGTO);
-	hIcon2 = IcoLib_Register("listening_off_icon", _T("ListeningTo"), _T("Listening to (disabled)"), IDI_LISTENINGOFF);
+	hIcon1 = IcoLib_Register("listening_to_icon", "ListeningTo", "Listening to (enabled)", IDI_LISTENINGTO);
+	hIcon2 = IcoLib_Register("listening_off_icon", "ListeningTo", "Listening to (disabled)", IDI_LISTENINGOFF);
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register(MODULE_NAME, "Listening to music", "listening_to_icon");

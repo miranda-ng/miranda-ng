@@ -29,15 +29,11 @@ extern HINSTANCE hInst;
 
 HICON IcoLib_LoadIcon(const char *iconName, BOOL copy)
 {
-	if (!ServiceExists(MS_SKIN2_GETICON))
-		return NULL;
-
 	if (iconName == NULL || iconName[0] == 0)
 		return NULL;
 	
 	HICON hIcon = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) iconName);
-	if (copy && hIcon != NULL)
-	{
+	if (copy && hIcon != NULL) {
 		hIcon = CopyIcon(hIcon);
 		CallService(MS_SKIN2_RELEASEICON, (WPARAM) hIcon, 0);
 	}
@@ -46,40 +42,30 @@ HICON IcoLib_LoadIcon(const char *iconName, BOOL copy)
 
 void IcoLib_ReleaseIcon(const char *iconName)
 {
-	if (ServiceExists(MS_SKIN2_RELEASEICON))
-		CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM) iconName);
+	CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM) iconName);
 }
-
 
 void IcoLib_ReleaseIcon(HICON hIcon)
 {
-	if (ServiceExists(MS_SKIN2_RELEASEICON))
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM) hIcon, 0);
+	CallService(MS_SKIN2_RELEASEICON, (WPARAM) hIcon, 0);
 }
 
-
-HANDLE IcoLib_Register(char *name, TCHAR *section, TCHAR *description, int id)
+HANDLE IcoLib_Register(char *name, char *section, char *description, int id)
 {
-	HICON hIcon = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) name);
-	if (hIcon != NULL) {
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM) hIcon, 0);
-		return NULL;
-	}
+	HANDLE hIcon = Skin_GetIconHandle(name);
+	if (hIcon != NULL)
+		return hIcon;
+
+	TCHAR tszFile[MAX_PATH];
+	GetModuleFileName(hInst, tszFile, MAX_PATH);
 
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
-	sid.flags = SIDF_TCHAR;
+	sid.flags = SIDF_PATH_TCHAR;
 	sid.pszName = name;
-	sid.ptszSection = section;
-	sid.ptszDescription = description;
-
-	int cx = GetSystemMetrics(SM_CXSMICON);
-	sid.hDefaultIcon = (HICON) LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON, cx, cx, LR_DEFAULTCOLOR | LR_SHARED);
-	HANDLE hRes = Skin_AddIcon(&sid);
-
-	if (sid.hDefaultIcon)
-		DestroyIcon(sid.hDefaultIcon);
-
-	return hRes;
+	sid.pszSection = section;
+	sid.pszDescription = description;
+	sid.ptszDefaultFile = tszFile;
+	sid.iDefaultIndex = -id;
+	return Skin_AddIcon(&sid);
 }
-

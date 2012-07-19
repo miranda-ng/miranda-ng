@@ -121,13 +121,13 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 
 	int state = IsWindowVisible(hwndConsole);
 
-	TTBButton ttbb = {0};
+	TTBButton ttbb = { 0 };
 	ttbb.cbSize = sizeof(ttbb);
 
-	TCHAR szModuleFileName[MAX_PATH]={0};
+	TCHAR szModuleFileName[MAX_PATH];
 	GetModuleFileName(hInst, szModuleFileName, SIZEOF(szModuleFileName));
 
-	SKINICONDESC sid={0};
+	SKINICONDESC sid = { 0 };
 	sid.cbSize = sizeof(sid);
 	sid.pszSection = "Console";
 	sid.ptszDefaultFile = szModuleFileName;

@@ -193,7 +193,7 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 			HICON hIcon = IcoLib_LoadIcon("spellchecker_enabled");
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM) hIcon);
-			IcoLib_ReleaseIcon(hIcon);
+			Skin_ReleaseIcon(hIcon);
 
 			SendDlgItemMessage(hwndDlg, IDC_OLD, EM_LIMITTEXT, 256, 0);
 			SendDlgItemMessage(hwndDlg, IDC_NEW, EM_LIMITTEXT, 256, 0);

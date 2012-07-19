@@ -63,17 +63,16 @@ static int FoldersInit(void)
 
 static void IcoLibInit(void)
 {
-	int i;
-	SKINICONDESC sid = {0};
 	TCHAR tszFile[MAX_PATH];
 	GetModuleFileName(hInst, tszFile, MAX_PATH);
 
+	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.ptszDefaultFile = tszFile;
 	sid.ptszSection = _T("Database/Database Backups");
 	sid.flags = SIDF_ALL_TCHAR;
 
-	for ( i = 0; i < SIZEOF(iconList); i++ ) {
+	for (int i = 0; i < SIZEOF(iconList); i++) {
 		sid.pszName = iconList[i].szName;
 		sid.ptszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;

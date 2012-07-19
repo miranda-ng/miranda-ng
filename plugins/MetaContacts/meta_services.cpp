@@ -2072,6 +2072,4 @@ void Meta_CloseHandles()
 	// lets leave them, hey? (why?)
 	for (i=0;i<NB_SERVICES;i++)	// Scan each 'HANDLE' and Destroy the service attached to it.
 		if (hServices[i]) DestroyServiceFunction(hServices[i]);
-
-	DeinitIcons();
 }

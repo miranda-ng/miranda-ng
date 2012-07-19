@@ -219,14 +219,14 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	// IcoLib support
-	SKINICONDESC sid = {0};
-	ZeroMemory(&sid, sizeof(sid));
 	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(g_hInst, szFile, MAX_PATH);
+
+	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(sid);
 	sid.flags = SIDF_ALL_TCHAR;
 
 	sid.ptszSection = _T("Auth State");
-	GetModuleFileName(g_hInst, szFile, MAX_PATH);
 	sid.ptszDefaultFile = szFile;
 
 	sid.ptszDescription = _T("Auth");
@@ -246,12 +246,10 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	// extra icons
 	hExtraIcon = ExtraIcon_Register("authstate", "Auth State", "authgrant_icon");
-	if (hExtraIcon != NULL)
-	{
+	if (hExtraIcon != NULL) {
 		// Set initial value for all contacts
 		HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-		while (hContact != NULL)
-		{
+		while (hContact != NULL) {
 			onExtraImageApplying((WPARAM)hContact, 1);
 			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
 		}

@@ -62,20 +62,20 @@ static HANDLE hIconLibItem[SIZEOF(iconList)];
 
 void InitIcons(void)
 {
-	int i; char szSettingName[100]; SKINICONDESC sid = {0}; TCHAR szFile[MAX_PATH];
-
+	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
 
+	SKINICONDESC sid = { 0 };
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.ptszDefaultFile = szFile;
 	sid.cx = sid.cy = 16;
-	sid.pszName = szSettingName;
 	sid.pszSection = ModuleName;
 	sid.flags = SIDF_PATH_TCHAR;
 
-	for (i = 0; i < SIZEOF(iconList); i++) 
-	{
+	for (int i=0; i < SIZEOF(iconList); i++) {
+		char szSettingName[100]; 
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", ModuleName, iconList[i].szName);
+		sid.pszName = szSettingName;
 
 		sid.pszDescription = (char*)iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;

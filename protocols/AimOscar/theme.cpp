@@ -83,8 +83,7 @@ void InitIcons(void)
 	sid.pszSection = szSectionName;
 	sid.flags = SIDF_PATH_TCHAR;
 
-	for (int i = 0; i < SIZEOF(iconList); i++) 
-	{
+	for (int i = 0; i < SIZEOF(iconList); i++) {
 		mir_snprintf(szSettingName, sizeof(szSettingName), "AIM_%s", iconList[i].szName);
 
 		if (iconList[i].szSection)

@@ -23,10 +23,8 @@ Boston, MA 02111-1307, USA.
 
 #define _CRT_SECURE_NO_WARNINGS
 
-HANDLE IcoLib_Register(char *name, TCHAR *section, TCHAR *description, int id);
+HANDLE IcoLib_Register(char *name, char *section, char *description, int id);
 
 HICON IcoLib_LoadIcon(const char *iconName, BOOL copy = FALSE);
-void IcoLib_ReleaseIcon(const char *iconName);
-void IcoLib_ReleaseIcon(HICON hIcon);
 
 #endif // __MIR_ICONS_H__

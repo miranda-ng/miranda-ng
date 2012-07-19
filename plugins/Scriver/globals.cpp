@@ -45,64 +45,64 @@ static const char *chatButtonIcons[] = {"scriver_CLOSEX",
 
 typedef struct IconDefStruct 
 {
-	const TCHAR* section;
-	const char *name;
-	int defaultIndex;
-	const TCHAR *description;
+	char* section;
+	char *name;
+	int   defaultIndex;
+	char *description;
 	int size;
 } IconDef;
 
 static const IconDef iconList[] = {
-	{LPGENT("Single Messaging"), "scriver_ADD", IDI_ADDCONTACT, LPGENT("Add contact")},
-	{LPGENT("Single Messaging"), "scriver_USERDETAILS", IDI_USERDETAILS, LPGENT("User's details")},
-	{LPGENT("Single Messaging"), "scriver_HISTORY", IDI_HISTORY, LPGENT("User's history")},
-	{LPGENT("Single Messaging"), "scriver_SEND", IDI_SEND, LPGENT("Send message")},
-	{LPGENT("Single Messaging"), "scriver_SMILEY", IDI_SMILEY, LPGENT("Smiley button")},
-	{LPGENT("Single Messaging"), "scriver_TYPING", IDI_TYPING, LPGENT("User is typing")},
-	{LPGENT("Single Messaging"), "scriver_TYPINGOFF", IDI_TYPINGOFF, LPGENT("Typing notification off")},
-	{LPGENT("Single Messaging"), "scriver_UNICODEON", IDI_UNICODEON, LPGENT("Unicode is on")},
-	{LPGENT("Single Messaging"), "scriver_UNICODEOFF", IDI_UNICODEOFF, LPGENT("Unicode is off")},
-	{LPGENT("Single Messaging"), "scriver_DELIVERING", IDI_TIMESTAMP, LPGENT("Sending")},
-	{LPGENT("Single Messaging"), "scriver_QUOTE", IDI_QUOTE, LPGENT("Quote button")},
-	{LPGENT("Single Messaging"), "scriver_CLOSEX", IDI_CLOSEX, LPGENT("Close button")},
-	{LPGENT("Single Messaging"), "scriver_OVERLAY", IDI_OVERLAY, LPGENT("Icon overlay")},
-	{LPGENT("Single Messaging"), "scriver_INCOMING", IDI_INCOMING, LPGENT("Incoming message (10x10)"),10},
-	{LPGENT("Single Messaging"), "scriver_OUTGOING", IDI_OUTGOING, LPGENT("Outgoing message (10x10)"),10},
-	{LPGENT("Single Messaging"), "scriver_NOTICE", IDI_NOTICE, LPGENT("Notice (10x10)"),10},
-	{LPGENT("Group Chats"), "chat_window", IDI_CHANMGR, LPGENT("Window Icon")},
-	{LPGENT("Group Chats"), "chat_fgcol", IDI_COLOR, LPGENT("Text colour")},
-	{LPGENT("Group Chats"), "chat_bkgcol", IDI_BKGCOLOR, LPGENT("Background colour")},
-	{LPGENT("Group Chats"), "chat_bold", IDI_BBOLD, LPGENT("Bold")},
-	{LPGENT("Group Chats"), "chat_italics", IDI_BITALICS, LPGENT("Italics")},
-	{LPGENT("Group Chats"), "chat_underline", IDI_BUNDERLINE, LPGENT("Underlined")},
-	{LPGENT("Group Chats"), "chat_smiley", IDI_SMILEY, LPGENT("Smiley button")},
-	{LPGENT("Group Chats"), "chat_history", IDI_HISTORY, LPGENT("Room history")},
-	{LPGENT("Group Chats"), "chat_settings", IDI_TOPICBUT, LPGENT("Room settings")},
-	{LPGENT("Group Chats"), "chat_filter", IDI_FILTER, LPGENT("Event filter disabled")},
-	{LPGENT("Group Chats"), "chat_filter2", IDI_FILTER2, LPGENT("Event filter enabled")},
-	{LPGENT("Group Chats"), "chat_nicklist", IDI_NICKLIST, LPGENT("Hide userlist")},
-	{LPGENT("Group Chats"), "chat_nicklist2", IDI_NICKLIST2, LPGENT("Show userlist")},
-	{LPGENT("Group Chats"), "chat_overlay", IDI_OVERLAY, LPGENT("Icon overlay")},
-	{LPGENT("Group Chats"), "chat_status0", IDI_STATUS0, LPGENT("Status 1 (10x10)"),10},
-	{LPGENT("Group Chats"), "chat_status1", IDI_STATUS1, LPGENT("Status 2 (10x10"),10},
-	{LPGENT("Group Chats"), "chat_status2", IDI_STATUS2, LPGENT("Status 3 (10x10)"),10},
-	{LPGENT("Group Chats"), "chat_status3", IDI_STATUS3, LPGENT("Status 4 (10x10)"),10},
-	{LPGENT("Group Chats"), "chat_status4", IDI_STATUS4, LPGENT("Status 5 (10x10)"),10},
-	{LPGENT("Group Chats"), "chat_status5", IDI_STATUS5, LPGENT("Status 6 (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_message_in", IDI_INCOMING, LPGENT("Message in (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_message_out", IDI_OUTGOING, LPGENT("Message out (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_action", IDI_ACTION, LPGENT("Action (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_addstatus", IDI_ADDSTATUS, LPGENT("Add Status (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_removestatus", IDI_REMSTATUS, LPGENT("Remove status (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_join", IDI_JOIN, LPGENT("Join (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_part", IDI_PART, LPGENT("Leave (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_quit", IDI_QUIT, LPGENT("Quit (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_kick", IDI_KICK, LPGENT("Kick (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_nick", IDI_NICK, LPGENT("Nickchange (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_notice", IDI_CHAT_NOTICE, LPGENT("Notice (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_topic", IDI_TOPIC, LPGENT("Topic (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_highlight", IDI_NOTICE, LPGENT("Highlight (10x10)"),10},
-	{LPGENT("Group Chats Log"), "chat_log_info", IDI_INFO, LPGENT("Information (10x10)"),10}
+	{LPGEN("Single Messaging"), "scriver_ADD", IDI_ADDCONTACT, LPGEN("Add contact")},
+	{LPGEN("Single Messaging"), "scriver_USERDETAILS", IDI_USERDETAILS, LPGEN("User's details")},
+	{LPGEN("Single Messaging"), "scriver_HISTORY", IDI_HISTORY, LPGEN("User's history")},
+	{LPGEN("Single Messaging"), "scriver_SEND", IDI_SEND, LPGEN("Send message")},
+	{LPGEN("Single Messaging"), "scriver_SMILEY", IDI_SMILEY, LPGEN("Smiley button")},
+	{LPGEN("Single Messaging"), "scriver_TYPING", IDI_TYPING, LPGEN("User is typing")},
+	{LPGEN("Single Messaging"), "scriver_TYPINGOFF", IDI_TYPINGOFF, LPGEN("Typing notification off")},
+	{LPGEN("Single Messaging"), "scriver_UNICODEON", IDI_UNICODEON, LPGEN("Unicode is on")},
+	{LPGEN("Single Messaging"), "scriver_UNICODEOFF", IDI_UNICODEOFF, LPGEN("Unicode is off")},
+	{LPGEN("Single Messaging"), "scriver_DELIVERING", IDI_TIMESTAMP, LPGEN("Sending")},
+	{LPGEN("Single Messaging"), "scriver_QUOTE", IDI_QUOTE, LPGEN("Quote button")},
+	{LPGEN("Single Messaging"), "scriver_CLOSEX", IDI_CLOSEX, LPGEN("Close button")},
+	{LPGEN("Single Messaging"), "scriver_OVERLAY", IDI_OVERLAY, LPGEN("Icon overlay")},
+	{LPGEN("Single Messaging"), "scriver_INCOMING", IDI_INCOMING, LPGEN("Incoming message (10x10)"),10},
+	{LPGEN("Single Messaging"), "scriver_OUTGOING", IDI_OUTGOING, LPGEN("Outgoing message (10x10)"),10},
+	{LPGEN("Single Messaging"), "scriver_NOTICE", IDI_NOTICE, LPGEN("Notice (10x10)"),10},
+	{LPGEN("Group Chats"), "chat_window", IDI_CHANMGR, LPGEN("Window Icon")},
+	{LPGEN("Group Chats"), "chat_fgcol", IDI_COLOR, LPGEN("Text colour")},
+	{LPGEN("Group Chats"), "chat_bkgcol", IDI_BKGCOLOR, LPGEN("Background colour")},
+	{LPGEN("Group Chats"), "chat_bold", IDI_BBOLD, LPGEN("Bold")},
+	{LPGEN("Group Chats"), "chat_italics", IDI_BITALICS, LPGEN("Italics")},
+	{LPGEN("Group Chats"), "chat_underline", IDI_BUNDERLINE, LPGEN("Underlined")},
+	{LPGEN("Group Chats"), "chat_smiley", IDI_SMILEY, LPGEN("Smiley button")},
+	{LPGEN("Group Chats"), "chat_history", IDI_HISTORY, LPGEN("Room history")},
+	{LPGEN("Group Chats"), "chat_settings", IDI_TOPICBUT, LPGEN("Room settings")},
+	{LPGEN("Group Chats"), "chat_filter", IDI_FILTER, LPGEN("Event filter disabled")},
+	{LPGEN("Group Chats"), "chat_filter2", IDI_FILTER2, LPGEN("Event filter enabled")},
+	{LPGEN("Group Chats"), "chat_nicklist", IDI_NICKLIST, LPGEN("Hide userlist")},
+	{LPGEN("Group Chats"), "chat_nicklist2", IDI_NICKLIST2, LPGEN("Show userlist")},
+	{LPGEN("Group Chats"), "chat_overlay", IDI_OVERLAY, LPGEN("Icon overlay")},
+	{LPGEN("Group Chats"), "chat_status0", IDI_STATUS0, LPGEN("Status 1 (10x10)"),10},
+	{LPGEN("Group Chats"), "chat_status1", IDI_STATUS1, LPGEN("Status 2 (10x10"),10},
+	{LPGEN("Group Chats"), "chat_status2", IDI_STATUS2, LPGEN("Status 3 (10x10)"),10},
+	{LPGEN("Group Chats"), "chat_status3", IDI_STATUS3, LPGEN("Status 4 (10x10)"),10},
+	{LPGEN("Group Chats"), "chat_status4", IDI_STATUS4, LPGEN("Status 5 (10x10)"),10},
+	{LPGEN("Group Chats"), "chat_status5", IDI_STATUS5, LPGEN("Status 6 (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_message_in", IDI_INCOMING, LPGEN("Message in (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_message_out", IDI_OUTGOING, LPGEN("Message out (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_action", IDI_ACTION, LPGEN("Action (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_addstatus", IDI_ADDSTATUS, LPGEN("Add Status (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_removestatus", IDI_REMSTATUS, LPGEN("Remove status (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_join", IDI_JOIN, LPGEN("Join (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_part", IDI_PART, LPGEN("Leave (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_quit", IDI_QUIT, LPGEN("Quit (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_kick", IDI_KICK, LPGEN("Kick (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_nick", IDI_NICK, LPGEN("Nickchange (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_notice", IDI_CHAT_NOTICE, LPGEN("Notice (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_topic", IDI_TOPIC, LPGEN("Topic (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_highlight", IDI_NOTICE, LPGEN("Highlight (10x10)"),10},
+	{LPGEN("Group Chats Log"), "chat_log_info", IDI_INFO, LPGEN("Information (10x10)"),10}
 };
 
 HICON hIconList[SIZEOF(iconList)];
@@ -154,22 +154,23 @@ int ImageList_AddIcon_ProtoEx(HIMAGELIST hIml, const char* szProto, int status) 
 
 void RegisterIcons(void)
 {
-	SKINICONDESC sid = { 0 };
-	TCHAR path[MAX_PATH];
-    TCHAR tTemp[500];
-	int i;
 	hEventSkin2IconsChanged = HookEvent_Ex(ME_SKIN2_ICONSCHANGED, IconsChanged);
+
+	TCHAR path[MAX_PATH];
+	char  szSection[200];
 	GetModuleFileName(g_hInst, path, MAX_PATH);
+
+	SKINICONDESC sid = { 0 };
 	sid.cbSize = sizeof(SKINICONDESC);
-	sid.flags = SIDF_ALL_TCHAR;
+	sid.flags = SIDF_PATH_TCHAR;
 	sid.ptszDefaultFile = path;
-    sid.ptszSection = tTemp;
-	for (i = 0; i < SIZEOF(iconList); i++) {
-		mir_sntprintf(tTemp, SIZEOF(tTemp), _T("%s/%s"), LPGENT("Messaging"), iconList[i].section);
+	sid.pszSection = szSection;
+	for (int i = 0; i < SIZEOF(iconList); i++) {
+		mir_snprintf(szSection, SIZEOF(szSection), "%s/%s", LPGEN("Messaging"), iconList[i].section);
 		sid.pszName = (char*)iconList[i].name;
 		sid.cx = sid.cy = iconList[i].size;
 		sid.iDefaultIndex = -iconList[i].defaultIndex;
-		sid.ptszDescription = (TCHAR*)iconList[i].description;
+		sid.pszDescription = iconList[i].description;
 		Skin_AddIcon(&sid);
 	}
 }

@@ -283,9 +283,7 @@ void CJabberProto::IconsInit( void )
 			mir_sntprintf( tmp, SIZEOF(tmp), _T(TCHAR_STR_PARAM), iconList[i].szDescr );
 			mir_sntprintf( szDescription, SIZEOF(szDescription), tmp, m_tszUserName );
 		}
-		else {
-			mir_sntprintf( szDescription, SIZEOF(szDescription), _T(TCHAR_STR_PARAM), iconList[i].szDescr );
-		}
+		else mir_sntprintf( szDescription, SIZEOF(szDescription), _T(TCHAR_STR_PARAM), iconList[i].szDescr );
 
 		mir_snprintf( szSettingName, SIZEOF(szSettingName), "%s_%s", m_szModuleName, iconList[i].szName );
 
@@ -412,10 +410,10 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 		sid.cbSize = sizeof(sid);
 		sid.hDefaultIcon = (has_proto_icon)?NULL:(HICON)CallService(MS_SKIN_LOADPROTOICON,(WPARAM)NULL,(LPARAM)(-internalidx));
 		sid.ptszSection = SectName;
-		sid.pszName=IconName;
-		sid.ptszDescription=Description;
-		sid.pszDefaultFile=szMyPath;
-		sid.iDefaultIndex=i;
+		sid.pszName = IconName;
+		sid.ptszDescription = Description;
+		sid.pszDefaultFile = szMyPath;
+		sid.iDefaultIndex = i;
 		sid.flags = SIDF_TCHAR;
 		Skin_AddIcon(&sid);
 	}
@@ -661,12 +659,13 @@ static TIconListItem sharedIconList[] =
 
 static void sttProcessIcons( int iAmount )
 {
-	char szFile[MAX_PATH];
-	GetModuleFileNameA(hInst, szFile, MAX_PATH);
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(hInst, szFile, MAX_PATH);
 
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
-	sid.pszDefaultFile = szFile;
+	sid.ptszDefaultFile = szFile;
+	sid.flags = SIDF_PATH_TCHAR;
 
 	char szRootSection[100];
 	mir_snprintf( szRootSection, SIZEOF(szRootSection), "%s/%s", LPGEN("Protocols"), LPGEN("Jabber"));

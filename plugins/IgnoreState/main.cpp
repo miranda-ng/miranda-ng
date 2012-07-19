@@ -197,7 +197,6 @@ static VOID init_icolib (void)
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
 	}
-//	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onExtraImageListRebuild);
 }
 
 VOID fill_filter(void)

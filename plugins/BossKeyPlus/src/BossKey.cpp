@@ -602,21 +602,19 @@ static TCHAR *GetBossKeyText(void)
 
 static int IcoLibInit (void) // Icolib support
 {
-	SKINICONDESC sid = {0};
 	TCHAR tszFile[MAX_PATH];
 	GetModuleFileName(g_hInstance, tszFile, MAX_PATH);
 
+	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszDefaultFile = tszFile;
 	sid.cx = sid.cy = 16;
 	sid.ptszSection = _T("BossKey");
-
 	sid.pszName = "hidemim";
 	sid.ptszDescription = _T("Hide Miranda IM");
 	sid.iDefaultIndex = -IDI_DLGPASSWD;
 	g_hIcon = Skin_AddIcon(&sid);
-
 	return 0;
 }
 

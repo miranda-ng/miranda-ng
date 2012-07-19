@@ -516,7 +516,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else
 				{
 					ImageList_AddIcon(hImageList, hIcon);
-					IcoLib_ReleaseIcon(hIcon);
+					Skin_ReleaseIcon(hIcon);
 				}
 			}
 			TreeView_SetImageList(tree, hImageList, TVSIL_NORMAL);

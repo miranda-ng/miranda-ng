@@ -581,7 +581,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 					{
 						NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
 						
-						if(IsWindowVisible(GetDlgItem(hwndDlg, ctrl->nID)) && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK))
+						if (IsWindowVisible(GetDlgItem(hwndDlg, ctrl->nID)) && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK))
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 						break;

@@ -258,13 +258,14 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	if (bContactMenuItems) hHookPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 	bMetaAvail = (ServiceExists(MS_MC_GETMETACONTACT) != 0); 
 	
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(g_hInst, szFile, MAX_PATH);
+
 	//IcoLib support
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(sid);
 	sid.flags = SIDF_ALL_TCHAR;	
 	sid.ptszSection = LPGENT("Gender");
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInst, szFile, MAX_PATH);
 	sid.ptszDefaultFile = szFile;
 		
 	sid.ptszDescription = LPGENT("Male");

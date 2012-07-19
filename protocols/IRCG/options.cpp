@@ -193,41 +193,41 @@ static void removeSpaces( TCHAR* p )
 
 struct
 {
-	TCHAR*  szDescr;
+	char*  szDescr;
 	char*  szName;
 	int    iSize;
 	int    defIconID;
 }
 static iconList[] =
 {
-	{ LPGENT("Main"),              "main",     0, IDI_MAIN    },
-	{ LPGENT("Add"),               "add",      0, IDI_ADD     },
-	{ LPGENT("Apply"),             "apply",    0, IDI_APPLY   },
-	{ LPGENT("Rename"),            "rename",   0, IDI_RENAME  },
-	{ LPGENT("Edit"),              "edit",     0, IDI_EDIT    },
-	{ LPGENT("Cancel"),            "delete",   0, IDI_DELETE  },
-	{ LPGENT("Ignore"),            "block",    0, IDI_BLOCK   },
-	{ LPGENT("Channel list"),      "list",     0, IDI_LIST    },
-	{ LPGENT("Channel manager"),   "manager",  0, IDI_MANAGER },
-	{ LPGENT("Quick connect"),     "quick",    0, IDI_QUICK   },
-	{ LPGENT("Server window"),     "server",   0, IDI_SERVER  },
-	{ LPGENT("Show channel"),      "show",     0, IDI_SHOW    },
-	{ LPGENT("Question"),          "question", 0, IDI_IRCQUESTION},
-	{ LPGENT("WhoIs"),             "whois",    0, IDI_WHOIS   },
-	{ LPGENT("Incoming DCC Chat"), "dcc",      0, IDI_DCC     },
-	{ LPGENT("Logo (48x48)"),      "logo",    48, IDI_LOGO    }
+	{ LPGEN("Main"),              "main",     0, IDI_MAIN    },
+	{ LPGEN("Add"),               "add",      0, IDI_ADD     },
+	{ LPGEN("Apply"),             "apply",    0, IDI_APPLY   },
+	{ LPGEN("Rename"),            "rename",   0, IDI_RENAME  },
+	{ LPGEN("Edit"),              "edit",     0, IDI_EDIT    },
+	{ LPGEN("Cancel"),            "delete",   0, IDI_DELETE  },
+	{ LPGEN("Ignore"),            "block",    0, IDI_BLOCK   },
+	{ LPGEN("Channel list"),      "list",     0, IDI_LIST    },
+	{ LPGEN("Channel manager"),   "manager",  0, IDI_MANAGER },
+	{ LPGEN("Quick connect"),     "quick",    0, IDI_QUICK   },
+	{ LPGEN("Server window"),     "server",   0, IDI_SERVER  },
+	{ LPGEN("Show channel"),      "show",     0, IDI_SHOW    },
+	{ LPGEN("Question"),          "question", 0, IDI_IRCQUESTION},
+	{ LPGEN("WhoIs"),             "whois",    0, IDI_WHOIS   },
+	{ LPGEN("Incoming DCC Chat"), "dcc",      0, IDI_DCC     },
+	{ LPGEN("Logo (48x48)"),      "logo",    48, IDI_LOGO    }
 };
 
 void AddIcons(void)
 {
-	char szFile[MAX_PATH];
-	GetModuleFileNameA(hInst, szFile, MAX_PATH);
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(hInst, szFile, MAX_PATH);
 
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.ptszSection = _T("Protocols/IRC");
-	sid.pszDefaultFile = szFile;
-	sid.flags = SIDF_TCHAR;
+	sid.ptszDefaultFile = szFile;
+	sid.flags = SIDF_PATH_TCHAR;
 	hIconLibItems = new HANDLE[ SIZEOF(iconList) ];
 
 	// add them one by one
@@ -235,7 +235,7 @@ void AddIcons(void)
 		char szTemp[255];
 		mir_snprintf(szTemp, sizeof(szTemp), "IRC_%s", iconList[i].szName );
 		sid.pszName = szTemp;
-		sid.ptszDescription = iconList[i].szDescr;
+		sid.pszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		sid.cx = sid.cy = iconList[i].iSize;
 		hIconLibItems[i] = Skin_AddIcon(&sid );

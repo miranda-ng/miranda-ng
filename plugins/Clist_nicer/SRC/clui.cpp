@@ -310,12 +310,10 @@ static void InitIcoLib()
 	TCHAR szFilename[MAX_PATH];
 	GetModuleFileName(g_hInst, szFilename, MAX_PATH);
 
-	SKINICONDESC sid = {0};
 	int i, version = 0;
 	char szBuffer[128];
-	int p_count = 0;
-	PROTOACCOUNT **accs = NULL;
 
+	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.pszSection = LPGEN("CList - Nicer/Default");
@@ -350,6 +348,9 @@ static void InitIcoLib()
 		Skin_AddIcon(&sid);
 	}
 	sid.ptszSection = LPGENT("CList - Nicer/Connecting Icons");
+
+	PROTOACCOUNT **accs = NULL;
+	int p_count = 0;
 	ProtoEnumAccounts( &p_count, &accs );
 	for (i = 0; i < p_count; i++) {
 		TCHAR szDescr[128];

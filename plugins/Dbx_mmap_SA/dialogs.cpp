@@ -98,18 +98,18 @@ static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 	// icolib init
 	GetModuleFileName(g_hInst, szFile, MAX_PATH);
 
-	sid.cbSize				 =  sizeof(sid);
-	sid.ptszDefaultFile		 =  szFile;
-	sid.flags			 =  SIDF_ALL_TCHAR;
-	sid.ptszSection		 =  LPGENT("Database");
+	sid.cbSize =  sizeof(sid);
+	sid.ptszDefaultFile =  szFile;
+	sid.flags =  SIDF_ALL_TCHAR;
+	sid.ptszSection =  LPGENT("Database");
 	sid.ptszDescription = LPGENT("Database");
-	sid.pszName				 =  "database";
-	sid.iDefaultIndex		 =  -IDI_ICON2;
+	sid.pszName = "database";
+	sid.iDefaultIndex = -IDI_ICON2;
 	Skin_AddIcon(&sid);
 
 	sid.ptszDescription = LPGENT("Change Password");
-	sid.pszName				 =  "password";
-	sid.iDefaultIndex		 =  -IDI_ICON3;
+	sid.pszName = "password";
+	sid.iDefaultIndex = -IDI_ICON3;
 	Skin_AddIcon(&sid);
 
 	menu.cbSize = sizeof(menu);

@@ -754,7 +754,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 	char szTemp[64];
 	TCHAR szGroupMask[256];
 	DWORD dwLocalMask;
-    PDNCE pdnce = (PDNCE)pcli->pfnGetCacheEntry(hContact);
+	PDNCE pdnce = (PDNCE)pcli->pfnGetCacheEntry(hContact);
 	BOOL fEmbedded = dat->force_in_dialog;
 	// always hide subcontacts (but show them on embedded contact lists)
 
@@ -766,18 +766,15 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 	}
 	if (g_CluiData.bMetaAvail && dat != NULL && dat->IsMetaContactsEnabled && g_szMetaModuleName && db_get_b(hContact, g_szMetaModuleName, "IsSubcontact", 0))
 		return -1; //subcontact
-    if (pdnce && pdnce->isUnknown && !fEmbedded)
-        return 1; //'Unknown Contact'
-	if (pdnce && g_CluiData.bFilterEffective && !fEmbedded) 
-	{
+	if (pdnce && pdnce->isUnknown && !fEmbedded)
+		return 1; //'Unknown Contact'
+	if (pdnce && g_CluiData.bFilterEffective && !fEmbedded) {
 		if (szProto == NULL)
 			szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
-		if (g_CluiData.bFilterEffective & CLVM_STICKY_CONTACTS) 
-        {
+		if (g_CluiData.bFilterEffective & CLVM_STICKY_CONTACTS) {
 			if ((dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode, 0)) != 0) {
-				if (g_CluiData.bFilterEffective & CLVM_FILTER_STICKYSTATUS) 
-                {
+				if (g_CluiData.bFilterEffective & CLVM_FILTER_STICKYSTATUS) {
 					WORD wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 					return !((1 << (wStatus - ID_STATUS_OFFLINE)) & HIWORD(dwLocalMask));
 				}
@@ -804,12 +801,10 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 			WORD wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			filterResult = (g_CluiData.filterFlags & CLVM_GROUPSTATUS_OP) ? ((filterResult | ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0))) : (filterResult & ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0));
 		}
-		if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG) 
-		{
+		if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG) {
 			DWORD now;
 			PDNCE pdnce = (PDNCE)pcli->pfnGetCacheEntry(hContact);
-			if (pdnce)
-			{
+			if (pdnce) {
 				now = g_CluiData.t_now;
 				now  -= g_CluiData.lastMsgFilter;
 				if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG_OLDERTHAN)

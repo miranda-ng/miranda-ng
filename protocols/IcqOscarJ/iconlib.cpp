@@ -30,7 +30,6 @@
 #include "icqoscar.h"
 #include "m_icolib.h"
 
-
 IcqIconHandle IconLibDefine(const char *desc, const char *section, const char *module, const char *ident, const TCHAR *def_file, int def_idx)
 {
 	SKINICONDESC sid = {0};

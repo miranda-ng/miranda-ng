@@ -62,7 +62,7 @@ static Icon * FindIcon(const char *icolibName)
 			if (icon->hImage == (HANDLE) -1)
 				icon->hImage = NULL;
 
-			IcoLib_ReleaseIcon(hIcon);
+			Skin_ReleaseIcon(hIcon);
 		}
 	}
 

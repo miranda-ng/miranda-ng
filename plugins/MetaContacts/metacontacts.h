@@ -62,6 +62,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_langpack.h>
 #include <m_popup.h>
 #include <m_cluiframes.h>
+#include <win2k.h>
 
 #define META_PROTO				"MetaContacts"
 #define META_FILTER				"MetaContactsFilter"
@@ -224,7 +225,6 @@ INT_PTR MyDBGetContactSetting(HANDLE hContact, const char *szModule, const char 
 
 // IcoLib support
 void InitIcons(void);
-void DeinitIcons(void);
 
 typedef enum {I_MENUOFF, I_MENU, I_CONVERT, I_ADD, I_EDIT, I_SETDEFAULT, I_REMOVE} IconIndex;
 HICON LoadIconEx(IconIndex i);

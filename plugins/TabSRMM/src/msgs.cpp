@@ -1046,26 +1046,27 @@ static int GetIconPackVersion(HMODULE hDLL)
 
 static int TSAPI SetupIconLibConfig()
 {
-	SKINICONDESC sid = { 0 };
-	char szFilename[MAX_PATH];
 	int i = 0, j = 2, version = 0, n = 0;
 
-	strncpy(szFilename, "icons\\tabsrmm_icons.dll", MAX_PATH);
-	g_hIconDLL = LoadLibraryA(szFilename);
+	TCHAR szFilename[MAX_PATH];
+	_tcsncpy(szFilename, _T("icons\\tabsrmm_icons.dll"), MAX_PATH);
+	g_hIconDLL = LoadLibrary(szFilename);
 	if (g_hIconDLL == 0) {
 		CWarning::show(CWarning::WARN_ICONPACKMISSING, CWarning::CWF_NOALLOWHIDE|MB_ICONERROR|MB_OK);
 		return 0;
 	}
 
-	GetModuleFileNameA(g_hIconDLL, szFilename, MAX_PATH);
+	GetModuleFileName(g_hIconDLL, szFilename, MAX_PATH);
 	if (PluginConfig.m_chat_enabled)
 		Chat_AddIcons();
 	version = GetIconPackVersion(g_hIconDLL);
 	FreeLibrary(g_hIconDLL);
 	g_hIconDLL = 0;
 
+	SKINICONDESC sid = { 0 };
 	sid.cbSize = sizeof(SKINICONDESC);
-	sid.pszDefaultFile = szFilename;
+	sid.ptszDefaultFile = szFilename;
+	sid.flags = SIDF_PATH_TCHAR;
 
 	while (ICONBLOCKS[n].szSection) {
 		i = 0;
@@ -1075,7 +1076,7 @@ static int TSAPI SetupIconLibConfig()
 			sid.pszDescription = ICONBLOCKS[n].idesc[i].szDesc;
 			sid.iDefaultIndex = ICONBLOCKS[n].idesc[i].uId == -IDI_HISTORY ? 0 : ICONBLOCKS[n].idesc[i].uId;        // workaround problem /w icoLib and a resource id of 1 (actually, a Windows problem)
 			i++;
-			if (n>0&&n<4)
+			if (n > 0 && n < 4)
 				PluginConfig.g_buttonBarIconHandles[j++] = Skin_AddIcon(&sid);
 			else
 				Skin_AddIcon(&sid);
@@ -1084,13 +1085,12 @@ static int TSAPI SetupIconLibConfig()
 	}
 
 	sid.pszSection = "TabSRMM/Default";
-
 	sid.pszName = "tabSRMM_clock_symbol";
 	sid.pszDescription = "Clock symbol (for the info panel clock)";
 	sid.iDefaultIndex = -IDI_CLOCK;
 	Skin_AddIcon(&sid);
 
-	strncpy(szFilename, "plugins\\tabsrmm.dll", MAX_PATH);
+	_tcsncpy(szFilename, _T("plugins\\tabsrmm.dll"), MAX_PATH);
 
 	sid.pszName = "tabSRMM_overlay_disabled";
 	sid.pszDescription = "Feature disabled (used as overlay)";
@@ -1101,8 +1101,6 @@ static int TSAPI SetupIconLibConfig()
 	sid.pszDescription = "Feature enabled (used as overlay)";
 	sid.iDefaultIndex = -IDI_FEATURE_ENABLED;
 	Skin_AddIcon(&sid);
-
-
 	return 1;
 }
 

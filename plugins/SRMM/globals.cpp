@@ -28,8 +28,8 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam);
 
 typedef struct IconDefStruct 
 {
-	const char *szName;
-	const char *szDescr;
+	char *szName;
+	char *szDescr;
 	int defIconID;
 } IconList;
 
@@ -45,13 +45,12 @@ HANDLE hIconLibItem[SIZEOF(iconList)];
 
 static void InitIcons(void)
 {
-	TCHAR szFile[MAX_PATH];
 	char szSettingName[100];
-	SKINICONDESC sid = {0};
-	unsigned i;
 
+	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(g_hInst, szFile, SIZEOF(szFile));
 
+	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.ptszDefaultFile = szFile;
 	sid.pszName = szSettingName;
@@ -59,10 +58,9 @@ static void InitIcons(void)
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.cx = 10; sid.cy = 10;
 
-	for (i = 0; i < SIZEOF(iconList); i++) 
-	{
+	for (int i=0; i < SIZEOF(iconList); i++) {
 		mir_snprintf(szSettingName, sizeof(szSettingName), "SRMM_%s", iconList[i].szName);
-		sid.pszDescription = (char*)iconList[i].szDescr;
+		sid.pszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		hIconLibItem[i] = Skin_AddIcon(&sid);
 	}	

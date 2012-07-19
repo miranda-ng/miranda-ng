@@ -38,10 +38,10 @@ HANDLE hIconLibItem[SIZEOF(iconList)];
 void CYahooProto::IconsInit( void )
 {
 	TCHAR szFile[MAX_PATH];
-	char szSectionName[100];
-	
-	mir_snprintf(szSectionName, sizeof(szSectionName), "%s/%s", LPGEN("Protocols"), LPGEN("YAHOO"));
 	GetModuleFileName(hInstance, szFile, SIZEOF(szFile));
+
+	char szSectionName[100];
+	mir_snprintf(szSectionName, sizeof(szSectionName), "%s/%s", LPGEN("Protocols"), LPGEN("YAHOO"));
 
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);

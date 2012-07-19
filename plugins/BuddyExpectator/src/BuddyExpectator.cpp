@@ -742,10 +742,11 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	    g_IECClear.hImage = (HANDLE) -1;
 	}
 	
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileNameA(hInst, szFile, MAX_PATH);
+
 	// IcoLib support
 	SKINICONDESC sid = {0};
-	char szFile[MAX_PATH];
-	GetModuleFileNameA(hInst, szFile, MAX_PATH);
 	sid.pszDefaultFile = szFile;
 	sid.cbSize = sizeof(sid);
 	sid.pszSection = "BuddyExpectator";
@@ -776,12 +777,12 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Skin_AddIcon(&sid);
 		
 	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onIconsChanged);
-	
+
 	onIconsChanged(0,0);
-	
+
 	if (options.enableMissYou) {
 		hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
-		
+
 		CLISTMENUITEM mi = {0};
 		mi.cbSize = sizeof(CLISTMENUITEM);
 		mi.flags = CMIF_ICONFROMICOLIB;
@@ -791,23 +792,22 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		mi.pszService = "BuddyExpectator/actionMissYouClick";
 		hContactMenu = Menu_AddContactMenuItem(&mi);
 	}
-	
-		
+
 	missyouactions[0].cbSize = sizeof(POPUPACTION);
 	missyouactions[0].lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"disabled_icon");
 	lstrcpy(missyouactions[0].lpzTitle, Translate("Disable Miss You"));
 	missyouactions[0].wParam = missyouactions[0].lParam = 1;
-	
+
 	hideactions[0].cbSize = sizeof(POPUPACTION);
 	hideactions[0].lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"hide_icon");
 	lstrcpy(hideactions[0].lpzTitle, Translate("Hide contact"));
 	hideactions[0].wParam = hideactions[0].lParam = 2;
-	
+
 	hideactions[1].cbSize = sizeof(POPUPACTION);
 	hideactions[1].lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"neverhide_icon");
 	lstrcpy(hideactions[1].lpzTitle, Translate("Never hide this contact"));
 	hideactions[1].wParam = hideactions[1].lParam = 3;
-	
+
 	return 0;
 }
 
@@ -825,8 +825,8 @@ int ContactAdded(WPARAM wParam, LPARAM lParam)
 int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
 {
 	UnhookEvent(hEventContactSetting);
-    UnhookEvent(hEventContactAdded);
-    UnhookEvent(hEventUserInfoInit);
+	UnhookEvent(hEventContactAdded);
+	UnhookEvent(hEventUserInfoInit);
 	if (hPrebuildContactMenu) UnhookEvent(hPrebuildContactMenu);
 	UnhookEvent(hIcoLibIconsChanged);
 	UnhookEvent(hModulesLoaded);
@@ -834,19 +834,19 @@ int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
 	UnhookEvent(hSystemOKToExit);
 	UnhookEvent(hHookExtraIconsRebuild);
 	UnhookEvent(hHookExtraIconsApply);
-	
+
 	DestroyServiceFunction(hContactReturnedAction);
 	DestroyServiceFunction(hContactStillAbsentAction);
 	DestroyServiceFunction(hMissYouAction);
 	DestroyServiceFunction(hMenuMissYouClick);
 
 	DeinitOptions();
-	
+
 	if (hIcoLibIconsChanged)
 		CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
 	else
 		DestroyIcon(hIcon);
-	
+
 	return 0;	
 }
 
@@ -873,9 +873,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	DBVARIANT dbv;
 	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	DWORD current_time = (DWORD)time(0);
-	while (hContact != 0)
-	{
-		if (!DBGetContactSetting(hContact, MODULE_NAME, "CreationTime", &dbv))
+	while (hContact != 0) {
+		if ( !DBGetContactSetting(hContact, MODULE_NAME, "CreationTime", &dbv))
 			DBFreeVariant(&dbv);
 		else
 			DBWriteContactSettingDword(hContact, MODULE_NAME, "CreationTime", current_time);
@@ -892,4 +891,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	return 0;
 }
-

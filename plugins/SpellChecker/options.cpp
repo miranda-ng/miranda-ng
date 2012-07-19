@@ -175,7 +175,7 @@ static void DrawItem(HWND hwndDlg, LPDRAWITEMSTRUCT lpdis, Dictionary *dict)
 
 		rc.left += ICON_SIZE + 4;
 		
-		IcoLib_ReleaseIcon(hFlag);
+		Skin_ReleaseIcon(hFlag);
 	}
 
 	// Draw text

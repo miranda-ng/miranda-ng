@@ -1,8 +1,5 @@
 #include "metacontacts.h"
 
-HANDLE hIcoLibIconsChanged = NULL;
-
-
 typedef struct {
 	char* szDescr;
 	char* szName;
@@ -20,26 +17,18 @@ static IconStruct iconList[] = {
 };
 
 
-HICON LoadIconEx(IconIndex i) {
-	HICON hIcon;
-
-	if (hIcoLibIconsChanged)
-		hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)iconList[(int)i].szName);
-	else
-		hIcon = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(iconList[(int)i].defIconID), IMAGE_ICON, 0, 0, 0);
-
-	return hIcon;
+HICON LoadIconEx(IconIndex i)
+{
+	return Skin_GetIcon(iconList[i].szName);
 }
 
-
-void ReleaseIconEx(HICON hIcon) {
-	if (hIcoLibIconsChanged)
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
-	else
-		DestroyIcon(hIcon);
+void ReleaseIconEx(HICON hIcon)
+{
+	Skin_ReleaseIcon(hIcon);
 }
 
-int ReloadIcons(WPARAM wParam, LPARAM lParam) {
+int ReloadIcons(WPARAM wParam, LPARAM lParam)
+{
 	// fix menu icons
 	CLISTMENUITEM menu = {0};
 
@@ -73,29 +62,24 @@ int ReloadIcons(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-void InitIcons(void)  {
+void InitIcons(void) 
+{
+	TCHAR path[MAX_PATH];
+	GetModuleFileName(hInstance, path, SIZEOF(path));
+
 	SKINICONDESC sid = {0};
-	char path[MAX_PATH];
-	int i;
-	
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.pszSection = META_PROTO;
 	sid.pszDefaultFile = path;
-	GetModuleFileName(hInstance, path, sizeof(path));
 
-	for (i = 0; i < sizeof(iconList) / sizeof(IconStruct); ++i)
-	{
-		sid.pszDescription = Translate(iconList[i].szDescr);
+	for (int i=0; i < SIZEOF(iconList); ++i) {
+		sid.pszDescription = iconList[i].szDescr;
 		sid.pszName = iconList[i].szName;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		Skin_AddIcon(&sid);
 	}
 
-	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
+	HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
 
 	ReloadIcons(0, 0); 
-}
-
-void DeinitIcons(void) {
-	if (hIcoLibIconsChanged) UnhookEvent(hIcoLibIconsChanged);
 }

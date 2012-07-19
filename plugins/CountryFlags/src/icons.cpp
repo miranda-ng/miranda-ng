@@ -226,53 +226,51 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 
 void InitIcons(void)
 {
-	HIMAGELIST himl;
-	SKINICONDESC sid;
 	char szId[20];
-	int i,index;
-	HICON hIcon;
 
 	WCHAR szName[64];
-	LCID locale;
-	locale=(LCID)CallService(MS_LANGPACK_GETLOCALE,0,0);
-
+	LCID locale = (LCID)CallService(MS_LANGPACK_GETLOCALE,0,0);
 
 	/* register icons */
-	ZeroMemory(&sid,sizeof(sid));
-	sid.cbSize=sizeof(sid);
-	sid.pszName=szId;
-	sid.cx=GetSystemMetrics(SM_CXSMICON); 
-	sid.cy=GetSystemMetrics(SM_CYSMICON);
-	sid.flags=SIDF_SORTED|SIDF_TCHAR;
-	sid.ptszSection=TranslateT("Country Flags");
+	SKINICONDESC sid = { 0 };
+	sid.cbSize = sizeof(sid);
+	sid.pszName = szId;
+	sid.cx = GetSystemMetrics(SM_CXSMICON); 
+	sid.cy = GetSystemMetrics(SM_CYSMICON);
+	sid.flags = SIDF_SORTED | SIDF_TCHAR;
+	sid.ptszSection = TranslateT("Country Flags");
+
 	/* all those flag icons do not need any transparency mask (flags are always opaque),
 	 * storing them in a large bitmap to reduce file size */
-	himl=ImageList_LoadImage(hInst,MAKEINTRESOURCE(IDB_FLAGS),sid.cx,0,CLR_NONE,IMAGE_BITMAP,LR_CREATEDIBSECTION);
-	if(himl!=NULL) {
-		phIconHandles=(HANDLE*)mir_alloc(nCountriesCount*sizeof(HANDLE));
-		if(phIconHandles!=NULL)
-			for(i=0;i<nCountriesCount;++i) {
-
+	HIMAGELIST himl = ImageList_LoadImage(hInst,MAKEINTRESOURCE(IDB_FLAGS),sid.cx,0,CLR_NONE,IMAGE_BITMAP,LR_CREATEDIBSECTION);
+	if (himl != NULL) {
+		phIconHandles = (HANDLE*)mir_alloc(nCountriesCount*sizeof(HANDLE));
+		if (phIconHandles != NULL) {
+			for (int i=0; i < nCountriesCount; ++i) {
 				MultiByteToWideChar(locale,0,countries[i].szName,-1,szName,SIZEOF(szName));
-				szName[SIZEOF(szName)-1]=L'\0';
-				sid.pwszDescription=TranslateW(szName);
+				szName[SIZEOF(szName)-1] = L'\0';
+				sid.pwszDescription = TranslateW(szName);
 
 				/* create identifier */
-				wsprintfA(szId,(countries[i].id==0xFFFF)?"%s0x%X":"%s%i","flags_",countries[i].id); /* buffer safe */
-				index=CountryNumberToBitmapIndex(countries[i].id);
+				wsprintfA(szId,(countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i","flags_", countries[i].id); /* buffer safe */
+				int index = CountryNumberToBitmapIndex(countries[i].id);
 				/* create icon */
-				hIcon=ImageList_GetIcon(himl,index,ILD_NORMAL);
-				sid.hDefaultIcon=(hIcon!=NULL)?ResizeIconCentered(hIcon,sid.cx,sid.cy):NULL;
-				if(hIcon!=NULL) DestroyIcon(hIcon);
-				index=CountryNumberToIndex(countries[i].id);
+				HICON hIcon = ImageList_GetIcon(himl,index,ILD_NORMAL);
+				sid.hDefaultIcon = (hIcon != NULL) ? ResizeIconCentered(hIcon,sid.cx,sid.cy) : NULL;
+				if (hIcon != NULL)
+					DestroyIcon(hIcon);
+				index = CountryNumberToIndex(countries[i].id);
 				phIconHandles[index] = Skin_AddIcon(&sid);
-				if(sid.hDefaultIcon!=NULL) DestroyIcon(sid.hDefaultIcon);
+				if (sid.hDefaultIcon != NULL)
+					DestroyIcon(sid.hDefaultIcon);
 			}
+		}
 		ImageList_Destroy(himl);
 	}
+
 	/* create services */
-	hServiceLoadIcon=CreateServiceFunction(MS_FLAGS_LOADFLAGICON,ServiceLoadFlagIcon);
-	hServiceCreateMergedIcon=CreateServiceFunction(MS_FLAGS_CREATEMERGEDFLAGICON,ServiceCreateMergedFlagIcon);
+	hServiceLoadIcon = CreateServiceFunction(MS_FLAGS_LOADFLAGICON, ServiceLoadFlagIcon);
+	hServiceCreateMergedIcon = CreateServiceFunction(MS_FLAGS_CREATEMERGEDFLAGICON, ServiceCreateMergedFlagIcon);
 }
 
 void UninitIcons(void)

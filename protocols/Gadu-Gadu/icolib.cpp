@@ -22,48 +22,48 @@
 
 struct tagiconList
 {
-	const char*	szDescr;
-	const char*	szName;
-	int			defIconID;
+	char*	szDescr;
+	char*	szName;
+	int	defIconID;
 }
 static const iconList[] =
 {
-	{ LPGEN("Protocol icon"),				"main",			IDI_GG					},
-	{ LPGEN("Import list from server"),		"importserver",	IDI_IMPORT_SERVER		},
-	{ LPGEN("Import list from text file"),	"importtext",	IDI_IMPORT_TEXT			},
-	{ LPGEN("Remove list from server"),		"removeserver",	IDI_REMOVE_SERVER		},
-	{ LPGEN("Export list to server"),		"exportserver",	IDI_EXPORT_SERVER		},
-	{ LPGEN("Export list to text file"),	"exporttext",	IDI_EXPORT_TEXT			},
-	{ LPGEN("Account settings"),			"settings",		IDI_SETTINGS			},
-	{ LPGEN("Contact list"),				"list",			IDI_LIST				},
-	{ LPGEN("Block user"),					"block",		IDI_BLOCK				},
-	{ LPGEN("Previous image"),				"previous",		IDI_PREV				},
-	{ LPGEN("Next image"),					"next",			IDI_NEXT				},
-	{ LPGEN("Send image"), 					"image",		IDI_IMAGE				},
-	{ LPGEN("Save image"),					"save",			IDI_SAVE				},
-	{ LPGEN("Delete image"),				"delete",		IDI_DELETE				},
-	{ LPGEN("Open new conference"),			"conference",	IDI_CONFERENCE			},
-	{ LPGEN("Clear ignored conferences"),	"clearignored",	IDI_CLEAR_CONFERENCE	},
-	{ LPGEN("Concurrent sessions"),			"sessions",		IDI_SESSIONS			}
+	{ LPGEN("Protocol icon"),              "main",          IDI_GG               },
+	{ LPGEN("Import list from server"),    "importserver",  IDI_IMPORT_SERVER    },
+	{ LPGEN("Import list from text file"), "importtext",    IDI_IMPORT_TEXT      },
+	{ LPGEN("Remove list from server"),    "removeserver",  IDI_REMOVE_SERVER    },
+	{ LPGEN("Export list to server"),      "exportserver",  IDI_EXPORT_SERVER    },
+	{ LPGEN("Export list to text file"),   "exporttext",    IDI_EXPORT_TEXT      },
+	{ LPGEN("Account settings"),           "settings",      IDI_SETTINGS         },
+	{ LPGEN("Contact list"),               "list",          IDI_LIST             },
+	{ LPGEN("Block user"),                 "block",         IDI_BLOCK            },
+	{ LPGEN("Previous image"),             "previous",      IDI_PREV             },
+	{ LPGEN("Next image"),                 "next",          IDI_NEXT             },
+	{ LPGEN("Send image"),                 "image",         IDI_IMAGE            },
+	{ LPGEN("Save image"),                 "save",          IDI_SAVE             },
+	{ LPGEN("Delete image"),               "delete",        IDI_DELETE           },
+	{ LPGEN("Open new conference"),        "conference",    IDI_CONFERENCE       },
+	{ LPGEN("Clear ignored conferences"),  "clearignored",  IDI_CLEAR_CONFERENCE },
+	{ LPGEN("Concurrent sessions"),        "sessions",      IDI_SESSIONS         }
 };
 
 HANDLE hIconLibItem[SIZEOF(iconList)];
 
 void gg_icolib_init()
 {
-	SKINICONDESC sid = {0};
-	char szFile[MAX_PATH];
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(hInstance, szFile, MAX_PATH);
+
 	char szSectionName[100];
-	int i;
-
 	mir_snprintf(szSectionName, sizeof( szSectionName ), "%s/%s", LPGEN("Protocols"), LPGEN(GGDEF_PROTO));
-	GetModuleFileNameA(hInstance, szFile, MAX_PATH);
 
+	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
-	sid.pszDefaultFile = szFile;
+	sid.ptszDefaultFile = szFile;
 	sid.pszSection = szSectionName;
+	sid.flags = SIDF_PATH_TCHAR;
 
-	for(i = 0; i < SIZEOF(iconList); i++) {
+	for (int i = 0; i < SIZEOF(iconList); i++) {
 		char szSettingName[100];
 		mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", GGDEF_PROTO, iconList[i].szName);
 		sid.pszName = szSettingName;

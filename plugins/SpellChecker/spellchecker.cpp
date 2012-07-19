@@ -250,7 +250,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			if (hFlag != NULL)
 			{
 				// Already registered
-				IcoLib_ReleaseIcon(hFlag);
+				Skin_ReleaseIcon(hFlag);
 				continue;
 			}
 			
@@ -2135,7 +2135,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - ICON_SIZE) / 2;
 			DrawIconEx(lpdis->hDC, rc.left, rc.top, hFlag, 16, 16, 0, NULL, DI_NORMAL);
 
-			IcoLib_ReleaseIcon(hFlag);
+			Skin_ReleaseIcon(hFlag);
 
 			rc.left += ICON_SIZE + 4;
 

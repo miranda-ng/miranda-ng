@@ -429,9 +429,9 @@ void RegisterFonts( void )
 struct
 {
 	int	size;
-	const char* szSection;
-	const char* szDescr;
-	const char* szName;
+	char* szSection;
+	char* szDescr;
+	char* szName;
 	int   defIconID;
 }
 static const iconList[] =
@@ -477,19 +477,19 @@ static const iconList[] =
 
 void AddIcons(void)
 {
-	int i;
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(g_hInst, szFile, MAX_PATH);
+
 	SKINICONDESC sid = {0};
-	char szFile[MAX_PATH];
-	GetModuleFileNameA(g_hInst, szFile, MAX_PATH);
-
 	sid.cbSize = sizeof(SKINICONDESC);
-	sid.pszDefaultFile = szFile;
+	sid.ptszDefaultFile = szFile;
+	sid.flags = SIDF_PATH_TCHAR;
 
-	for ( i = 0; i < SIZEOF(iconList); i++ ) {
+	for (int i = 0; i < SIZEOF(iconList); i++ ) {
 		sid.cx = sid.cy = iconList[i].size;
-		sid.pszSection = (char*)iconList[i].szSection;
-		sid.pszDescription = (char*)iconList[i].szDescr;
-		sid.pszName = (char*)iconList[i].szName;
+		sid.pszSection = iconList[i].szSection;
+		sid.pszDescription = iconList[i].szDescr;
+		sid.pszName = iconList[i].szName;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		Skin_AddIcon(&sid);
 }	}

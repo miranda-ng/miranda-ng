@@ -55,10 +55,10 @@ HANDLE hIconLibItem[SIZEOF(iconList)];
 void MsnInitIcons(void)
 {
 	TCHAR szFile[MAX_PATH];
-	char szSectionName[100];
-
-	mir_snprintf(szSectionName, sizeof(szSectionName), "%s/%s", LPGEN("Protocols"), LPGEN("MSN"));
 	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
+
+	char szSectionName[100];
+	mir_snprintf(szSectionName, sizeof(szSectionName), "%s/%s", LPGEN("Protocols"), LPGEN("MSN"));
 
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
@@ -66,8 +66,7 @@ void MsnInitIcons(void)
 	sid.pszSection = szSectionName;
 	sid.flags = SIDF_PATH_TCHAR;
 
-	for (unsigned i = 0; i < SIZEOF(iconList); i++) 
-	{
+	for (int i = 0; i < SIZEOF(iconList); i++) {
 		char szSettingName[100];
 		mir_snprintf(szSettingName, sizeof(szSettingName), "MSN_%s", iconList[i].szName);
 		sid.pszName = szSettingName;
