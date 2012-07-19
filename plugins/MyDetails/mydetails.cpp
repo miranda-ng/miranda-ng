@@ -676,11 +676,11 @@ static int PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam)
 			}
 		}
 
-		if (proto_num == -1)
+		if (proto_num == -1) {
 			return -1;
+		}
 
-		if (protocols->CanSetStatusMsgPerProtocol() && !proto->CanSetStatusMsg())
-		{
+		if (protocols->CanSetStatusMsgPerProtocol() && !proto->CanSetStatusMsg()) {
 			return -2;
 		}
 	}
@@ -701,7 +701,8 @@ static int PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam)
 
 		return 0;
 	}
-	else if (proto == NULL || proto->status != ID_STATUS_OFFLINE)
+	
+	if (proto == NULL || proto->status != ID_STATUS_OFFLINE)
 	{
 		if ( !status_msg_dialog_open)
 		{
