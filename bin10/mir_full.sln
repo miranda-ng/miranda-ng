@@ -182,8 +182,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KeyboardNotify", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssocMgr", "..\plugins\AssocMgr\assocmgr.vcxproj", "{B57D997C-73E1-D5F7-ECCA-C204345C04A3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewAwaySys", "..\plugins\NewAwaySysMod\NewAwaySys.vcxproj", "{6A516E27-AC50-5374-756B-A1558DB2EFA9}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AddContactPlus", "..\plugins\AddContactPlus\addcontactplus_10.vcxproj", "{253ADD1D-F7C9-4643-A957-51BFCD61A5D2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleStatusMsg", "..\plugins\SimpleStatusMsg\simplestatusmsg_10.vcxproj", "{D3D80E27-D099-41EC-AFB2-A891A33F1608}"
@@ -283,13 +281,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SendSS", "..\plugins\SendSc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CheckSum", "..\tools\checksum\checksum_10.vcxproj", "{5153CD6C-6041-47CD-8BE3-2772326BB7C5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbeditorPP", "..\plugins\DbeditorPP\dbeditorpp_10.vcxproj", "{9C6040B8-1173-40FA-A3DB-DE044CCD8250}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbEditorPP", "..\plugins\DbeditorPP\dbeditorpp_10.vcxproj", "{9C6040B8-1173-40FA-A3DB-DE044CCD8250}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrashDumper", "..\plugins\CrashDumper\crshdmp_10.vcxproj", "{576EEEFD-E423-482B-879A-F0515D40B8E1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VersionInfo", "..\plugins\VersionInfo\VersionInfo_10.vcxproj", "{3CE5572B-B7B0-4D1C-9D10-4622FBA6198E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenFolder", "..\plugins\OpenFolder\openFolder.vcxproj", "{8D233B9A-2744-4B62-94FC-7872FDDA4683}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDetails", "..\plugins\MyDetails\mydetails.vcxproj", "{A4855451-6447-437C-B024-B36C3C7901EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1025,14 +1025,6 @@ Global
 		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Release|Win32.Build.0 = Release|Win32
 		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Release|x64.ActiveCfg = Release|x64
 		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Release|x64.Build.0 = Release|x64
-		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|Win32.Build.0 = Debug|Win32
-		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|x64.ActiveCfg = Debug|x64
-		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|x64.Build.0 = Debug|x64
-		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|Win32.ActiveCfg = Release|Win32
-		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|Win32.Build.0 = Release|Win32
-		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|x64.ActiveCfg = Release|x64
-		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|x64.Build.0 = Release|x64
 		{253ADD1D-F7C9-4643-A957-51BFCD61A5D2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{253ADD1D-F7C9-4643-A957-51BFCD61A5D2}.Debug|Win32.Build.0 = Debug|Win32
 		{253ADD1D-F7C9-4643-A957-51BFCD61A5D2}.Debug|x64.ActiveCfg = Debug|x64
@@ -1447,6 +1439,14 @@ Global
 		{8D233B9A-2744-4B62-94FC-7872FDDA4683}.Release|Win32.Build.0 = Release|Win32
 		{8D233B9A-2744-4B62-94FC-7872FDDA4683}.Release|x64.ActiveCfg = Release|X64
 		{8D233B9A-2744-4B62-94FC-7872FDDA4683}.Release|x64.Build.0 = Release|X64
+		{A4855451-6447-437C-B024-B36C3C7901EA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A4855451-6447-437C-B024-B36C3C7901EA}.Debug|Win32.Build.0 = Debug|Win32
+		{A4855451-6447-437C-B024-B36C3C7901EA}.Debug|x64.ActiveCfg = Debug|x64
+		{A4855451-6447-437C-B024-B36C3C7901EA}.Debug|x64.Build.0 = Debug|x64
+		{A4855451-6447-437C-B024-B36C3C7901EA}.Release|Win32.ActiveCfg = Release|Win32
+		{A4855451-6447-437C-B024-B36C3C7901EA}.Release|Win32.Build.0 = Release|Win32
+		{A4855451-6447-437C-B024-B36C3C7901EA}.Release|x64.ActiveCfg = Release|x64
+		{A4855451-6447-437C-B024-B36C3C7901EA}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
