@@ -738,15 +738,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		case VK_END:    dat->selection = cli.pfnGetGroupContentsCount(&dat->list, 1) - 1; selMoved = 1; break;
 		case VK_LEFT:   changeGroupExpand = 1; break;
 		case VK_RIGHT:  changeGroupExpand = 2; break;
-		case VK_RETURN: cli.pfnDoSelectionDefaultAction(hwnd, dat);
-			// TODO: clear filtering here somehow?
-			/*if (dat->filterSearch) {
-				dat->szQuickSearch[0] = 0;
+		case VK_RETURN:
+			cli.pfnDoSelectionDefaultAction(hwnd, dat);
+			dat->szQuickSearch[0] = 0;
+			if (dat->filterSearch)
 				cli.pfnSaveStateAndRebuildList(hwnd, dat);
-				//cli.pfnRebuildEntireList(hwnd, dat);
-			} else {
-				dat->szQuickSearch[0] = 0;
-			}*/
 			return 0;
 		case VK_F2:     cli.pfnBeginRenameSelection(hwnd, dat); return 0;
 		case VK_DELETE: cli.pfnDeleteFromContactList(hwnd, dat); return 0;
@@ -766,11 +762,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			int hit;
 			ClcContact *contact;
 			ClcGroup *group;
-			if (dat->filterSearch) {
-				// this shouldn't clear filtering, but it should refresh highlighting somehow?
-			} else {
+			if (!dat->filterSearch)
 				dat->szQuickSearch[0] = 0;
-			}
 			hit = cli.pfnGetRowByIndex(dat, dat->selection, &contact, &group);
 			if (hit != -1) {
 				if (changeGroupExpand == 1 && contact->type == CLCIT_CONTACT) {
@@ -1237,11 +1230,6 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnHideInfoTip(hwnd, dat);
 		KillTimer(hwnd, TIMERID_RENAME);
 		KillTimer(hwnd, TIMERID_INFOTIP);
-		if (dat->filterSearch) {
-			// this should remove filtering (same as pressing ENTER)?
-		} else {
-			dat->szQuickSearch[0] = 0;
-		}
 		dat->selection = cli.pfnHitTest(hwnd, dat, (short) LOWORD(lParam), (short) HIWORD(lParam), &contact, NULL, &hitFlags);
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		if (dat->selection != -1)
@@ -1250,6 +1238,9 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			break;
 		UpdateWindow(hwnd);
 		cli.pfnDoSelectionDefaultAction(hwnd, dat);
+		dat->szQuickSearch[0] = 0;
+		if (dat->filterSearch)
+			cli.pfnSaveStateAndRebuildList(hwnd, dat);
 		break;
 	}
 	case WM_CONTEXTMENU:

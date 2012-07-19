@@ -394,17 +394,15 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 
 			if (group != NULL) {
 				group->totalMembers++;
-				/*if (dat->filterSearch && dat->szQuickSearch) {
-					// search filtering
-
-					// how to get contact's visible name? this code is crashing :)
-					ClcCacheEntryBase* cache = cli.pfnGetCacheEntry(hContact);
-					if (cache) {
-						//if (!_tcsstr(CharLowerW(pdnce->tszName), CharLowerW(dat->szQuickSearch)))
-						if (_tcsnicmp(dat->szQuickSearch, cache->tszName, lstrlen(dat->szQuickSearch)))
-							cli.pfnAddContactToGroup(dat, group, hContact);
-					}
-				} else*/ if ( !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
+				
+				if (dat->filterSearch && dat->szQuickSearch[0] != '\0') {
+					TCHAR *name = cli.pfnGetContactDisplayName(hContact, GCDNF_TCHAR);
+					TCHAR *lowered_name = CharLowerW(NEWTSTR_ALLOCA(name));
+					TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
+					
+					if (_tcsstr(lowered_name, lowered_search))
+						cli.pfnAddContactToGroup(dat, group, hContact);
+				} else if ( !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 					if (szProto == NULL) {
 						if ( !cli.pfnIsHiddenMode(dat, ID_STATUS_OFFLINE))

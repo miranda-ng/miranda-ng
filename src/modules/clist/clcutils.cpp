@@ -369,21 +369,28 @@ int fnFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefi
 			continue;
 		}
 		if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) {
-			if ((prefixOk && !_tcsnicmp(text, group->cl.items[group->scanIndex]->szText, testlen))  || 
-				( !prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText))) {
-					ClcGroup *contactGroup = group;
-					int contactScanIndex = group->scanIndex;
-					for (; group; group = group->parent)
-						cli.pfnSetGroupExpand(hwnd, dat, group, 1);
-					return cli.pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex);
+			bool show;
+			if (dat->filterSearch) {
+				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(group->cl.items[group->scanIndex]->szText));
+				TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
+				show = _tcsstr(lowered_szText, lowered_text) != NULL;
+			}
+			else show = ((prefixOk && !_tcsnicmp(text, group->cl.items[group->scanIndex]->szText, testlen)) || ( !prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText)));
+
+			if (show) {
+				ClcGroup *contactGroup = group;
+				int contactScanIndex = group->scanIndex;
+				for (; group; group = group->parent)
+					cli.pfnSetGroupExpand(hwnd, dat, group, 1);
+				return cli.pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex);
+			}
+			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
+				if ( !(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || group->cl.items[group->scanIndex]->group->expanded) {
+					group = group->cl.items[group->scanIndex]->group;
+					group->scanIndex = 0;
+					continue;
 				}
-				if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-					if ( !(dat->exStyle & CLS_EX_QUICKSEARCHVISONLY) || group->cl.items[group->scanIndex]->group->expanded) {
-						group = group->cl.items[group->scanIndex]->group;
-						group->scanIndex = 0;
-						continue;
-					}
-				}
+			}
 		}
 		group->scanIndex++;
 	}
