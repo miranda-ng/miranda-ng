@@ -17,10 +17,8 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1252)
-#endif //_WIN32
+#pragma code_page(1250)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -520,31 +518,33 @@ BEGIN
     CONTROL         "only when statuses differ",IDC_ALWAYSPRIMARY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,190,94,98,10
 END
 
-IDD_OPT_META_CLC DIALOGEX 0, 0, 225, 173
+IDD_OPT_META_CLC DIALOGEX 0, 0, 225, 186
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Ignore Empty Extra icons places (arrange to right).",IDC_METASUBEXTRA_IGN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,29,201,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,25,201,10
     CONTROL         "Use 'Meta' protocol icons for Metacontacts",IDC_META,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,85,201,10
-    CONTROL         "Expand metacontacts",IDC_METAEXPAND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,97,201,16
-    CONTROL         "Avoid doubleclick expand",IDC_METADBLCLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,114,196,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,95,201,10
+    CONTROL         "Expand metacontacts",IDC_METAEXPAND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,107,201,16
+    CONTROL         "Avoid doubleclick expand",IDC_METADBLCLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,124,196,10
     CONTROL         "Hide all 'Extra icons' for subcontacts",IDC_METASUBEXTRA,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,127,196,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,137,196,10
     CONTROL         "Hide offline subcontacts.",IDC_METASUB_HIDEOFFLINE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,141,196,10
-    GROUPBOX        "MetaContacts stuff",IDC_FRAME_META,2,71,218,101
-    GROUPBOX        "Additional stuff",IDC_FRAME_META2,2,16,218,53
-    CTEXT           "For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-im.org/download",IDC_FRAME_META_CAPT,11,87,201,26,NOT WS_VISIBLE
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,151,196,10
+    GROUPBOX        "MetaContacts stuff",IDC_FRAME_META,2,81,218,101
+    GROUPBOX        "Additional stuff",IDC_FRAME_META2,2,12,218,65
+    CTEXT           "For other stuff MetaContacts plugin should be loaded.\n\nhttp://nightly.miranda.im",IDC_FRAME_META_CAPT,11,94,201,26,NOT WS_VISIBLE
     CONTROL         "Allow internal requesting of away message text",IDC_DISCOVER_AWAYMSG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,42,201,10
-    EDITTEXT        IDC_SUBINDENT,154,153,35,12,ES_NUMBER
-    CONTROL         "",IDC_SUBINDENTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,190,152,11,12
-    LTEXT           "Subcontacts indent:",IDC_SUBIDENTCAPT,26,154,126,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,38,201,10
+    EDITTEXT        IDC_SUBINDENT,154,163,35,12,ES_NUMBER
+    CONTROL         "",IDC_SUBINDENTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,190,162,11,12
+    LTEXT           "Subcontacts indent:",IDC_SUBIDENTCAPT,26,164,126,10
     CONTROL         "Remove away message if contact became offline",IDC_REMOVE_OFFLINE_AWAYMSG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,54,201,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,50,201,10
+    CONTROL         "Use improved search method in contactlist",IDC_FILTER_SEARCH,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,62,201,10
 END
 
 IDD_OPT_ITEM_CONTACT_TIME DIALOGEX 0, 0, 243, 52
@@ -974,7 +974,7 @@ BEGIN
         VERTGUIDE, 16
         VERTGUIDE, 212
         TOPMARGIN, 2
-        BOTTOMMARGIN, 168
+        BOTTOMMARGIN, 181
     END
 
     IDD_OPT_ITEM_CONTACT_TIME, DIALOG
@@ -1168,7 +1168,7 @@ END
 IDD_OPT_CLUI_2 DLGINIT
 BEGIN
     IDC_HIDEMETHOD, 0x403, 9, 0
-0x6f63, 0x706d, 0x656c, 0x6574, "\000"
+0x6f63, 0x706d, 0x656c, 0x6574, "\000" 
     0
 END
 
@@ -1179,19 +1179,19 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include <winresrc.h>\r\n"
-    "#include ""..\src\hdr\modern_statusmodes.h""\r\n"
+    "#include ""..\\src\\hdr\\modern_statusmodes.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -1213,3 +1213,4 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+

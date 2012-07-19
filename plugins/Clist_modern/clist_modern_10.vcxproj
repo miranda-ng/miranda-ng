@@ -278,10 +278,57 @@
     <ClInclude Include="src\hdr\modern_gettextasync.h" />
     <ClInclude Include="src\hdr\modern_global_structure.h" />
     <ClInclude Include="src\hdr\modern_skinselector.h" />
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\1.ico" />
+    <None Include="res\2.ico" />
+    <None Include="res\3.ico" />
+    <None Include="res\4.ico" />
+    <None Include="res\5.ico" />
+    <None Include="res\6.ico" />
+    <None Include="res\7.ico" />
+    <None Include="res\8.ico" />
+    <None Include="res\addgoupp.ico" />
+    <None Include="res\AlwaysVis.ico" />
+    <None Include="res\Away.ico" />
+    <None Include="res\Back.tga" />
+    <None Include="res\chat.ico" />
+    <None Include="res\Chatchannel.ico" />
+    <None Include="res\DND.ico" />
+    <None Include="res\hide_avatar.ico" />
+    <None Include="res\invisible.ico" />
+    <None Include="res\listening_to.ico" />
+    <None Include="res\lunch.ico" />
+    <None Include="res\MicroAway.ico" />
+    <None Include="res\Microchat.ico" />
+    <None Include="res\MicroDND.ico" />
+    <None Include="res\Microinvisible.ico" />
+    <None Include="res\Microlunch.ico" />
+    <None Include="res\MicroNA.ico" />
+    <None Include="res\Microoccupied.ico" />
+    <None Include="res\Microoffline.ico" />
+    <None Include="res\Microphone.ico" />
+    <None Include="res\NA.ico" />
+    <None Include="res\neo_meta_create.cur" />
+    <None Include="res\neo_meta_default.cur" />
+    <None Include="res\neo_meta_move.cur" />
+    <None Include="res\NeverVis.ico" />
+    <None Include="res\occupied.ico" />
+    <None Include="res\offline.ico" />
+    <None Include="res\phone.ico" />
+    <None Include="res\rate_high.ico" />
+    <None Include="res\rate_low.ico" />
+    <None Include="res\rate_med.ico" />
+    <None Include="res\rate_none.ico" />
+    <None Include="res\reset_view.ico" />
+    <None Include="res\set_view.ico" />
+    <None Include="res\show_avatar.ico" />
+    <None Include="res\skin.msf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

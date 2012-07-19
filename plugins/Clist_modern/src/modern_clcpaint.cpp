@@ -444,12 +444,19 @@ RECT  CLCPaint::_GetRectangle( struct ClcData *dat, RECT *row_rc, RECT *free_row
 
 
 
-void  CLCPaint::_DrawTextSmiley( HDC hdcMem, RECT * free_rc, SIZE * text_size, TCHAR *szText, int len, SortedList *plText, UINT uTextFormat, BOOL ResizeSizeSmiley )
+void  CLCPaint::_DrawTextSmiley( HDC hdcMem, RECT * free_rc, SIZE * text_size, TCHAR *szText, int start, int len, SortedList *plText, UINT uTextFormat, BOOL ResizeSizeSmiley )
 {
 	if ( szText == NULL )return;
 	uTextFormat  &= ~DT_RIGHT;
-	if ( plText == NULL )
-		ske_DrawText( hdcMem, szText, len, free_rc, uTextFormat );
+	if ( plText == NULL ) {
+		if (start) {
+			SIZE size;
+			GetTextExtentPoint32(hdcMem, szText, start, &size);
+			free_rc->left += size.cx;
+		}
+
+		ske_DrawText( hdcMem, szText + start, len, free_rc, uTextFormat );
+	}
 	else
 	{
 		// Draw list
@@ -488,13 +495,13 @@ void  CLCPaint::_DrawTextSmiley( HDC hdcMem, RECT * free_rc, SIZE * text_size, T
 				{
 					tmp_rc = text_rc;
 					tmp_rc.right  += 50;
-					ske_DrawText( hdcMem, &szText[piece->start_pos], min( len, piece->len ), &tmp_rc, DT_CALCRECT | ( uTextFormat & ~DT_END_ELLIPSIS ));
+					ske_DrawText( hdcMem, &szText[piece->start_pos + start], min( len, piece->len ), &tmp_rc, DT_CALCRECT | ( uTextFormat & ~DT_END_ELLIPSIS ));
 					pos_x  += tmp_rc.right - tmp_rc.left + 2;
 
 					if ( uTextFormat & DT_RTLREADING )
 						text_rc.left = max( text_rc.left, text_rc.right - ( tmp_rc.right - tmp_rc.left ));
 
-					ske_DrawText( hdcMem, &szText[piece->start_pos], min( len, piece->len ), &text_rc, uTextFormat );
+					ske_DrawText( hdcMem, &szText[piece->start_pos + start], min( len, piece->len ), &text_rc, uTextFormat );
 					len  -= piece->len;
 				}
 				else
@@ -935,11 +942,21 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 				else if ( hottrack )
 					_SetHotTrackColour( hdcMem, dat );
 				if ( dat->text_rtl != 0 ) _RTLRect( &nameRect, free_row_rc.right, dx );
-				_DrawTextSmiley( hdcMem, &nameRect, &text_size, Drawing->szText, lstrlen( Drawing->szText ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
-				if ( selected && dat->szQuickSearch[0] != '\0' )
+				_DrawTextSmiley( hdcMem, &nameRect, &text_size, Drawing->szText, 0, lstrlen( Drawing->szText ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
+				
+				if ( (dat->filterSearch || selected) && dat->szQuickSearch[0] != '\0' )
 				{
+					int idx = 0;
+					if ( dat->filterSearch )
+					{
+						TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+						TCHAR* p1 = _tcsstr(lowered, dat->szQuickSearch);
+						if (p1)
+							idx = int(p1 - lowered); 
+					}
+
 					SetTextColor( hdcMem, dat->quickSearchColour );
-					_DrawTextSmiley( hdcMem, &nameRect, &text_size, Drawing->szText, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
+					_DrawTextSmiley( hdcMem, &nameRect, &text_size, Drawing->szText, idx, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
 				}
 				if ( szCounts && strlen( szCounts )>0 )
 				{
@@ -1011,11 +1028,19 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 			else if ( hottrack )
 				_SetHotTrackColour( hdcMem, dat );
 			if ( dat->text_rtl != 0 ) _RTLRect( &text_rect, free_row_rc.right, dx );
-			_DrawTextSmiley( hdcMem, &text_rect, &text_size, Drawing->szText, lstrlen( Drawing->szText ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
-			if ( selected && dat->szQuickSearch[0] != '\0' )
+			_DrawTextSmiley( hdcMem, &text_rect, &text_size, Drawing->szText, 0, lstrlen( Drawing->szText ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
+			if ( (dat->filterSearch || selected) && dat->szQuickSearch[0] != '\0' )
 			{
+				int idx = 0;
+				if ( dat->filterSearch )
+				{
+					TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+					TCHAR* p1 = _tcsstr(lowered, dat->szQuickSearch);
+					if (p1)
+						idx = int(p1 - lowered); 
+				}
 				SetTextColor( hdcMem, dat->quickSearchColour );
-				_DrawTextSmiley( hdcMem, &text_rect, &text_size, Drawing->szText, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
+				_DrawTextSmiley( hdcMem, &text_rect, &text_size, Drawing->szText, idx, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
 			}
 			if ( Drawing->type == CLCIT_GROUP && szCounts && szCounts[0] && counts_rc.right-counts_rc.left>0 )
 			{
@@ -1096,11 +1121,19 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 							SetTextColor( hdcMem, dat->selTextColour );
 						else if ( hottrack )
 							_SetHotTrackColour( hdcMem, dat );
-						_DrawTextSmiley( hdcMem, &p_rect, &text_size, Drawing->szText, lstrlen( Drawing->szText ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
-						if ( selected && dat->szQuickSearch[0] != '\0' )
+						_DrawTextSmiley( hdcMem, &p_rect, &text_size, Drawing->szText, 0, lstrlen( Drawing->szText ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
+						if ( (dat->filterSearch || selected) && dat->szQuickSearch[0] != '\0' )
 						{
+							int idx = 0;
+							if ( dat->filterSearch )
+							{
+								TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+								TCHAR* p1 = _tcsstr(lowered, dat->szQuickSearch);
+								if (p1)
+									idx = int(p1 - lowered); 
+							}
 							SetTextColor( hdcMem, dat->quickSearchColour );
-							_DrawTextSmiley( hdcMem, &p_rect, &text_size, Drawing->szText, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
+							_DrawTextSmiley( hdcMem, &p_rect, &text_size, Drawing->szText, idx, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
 						}
 						Drawing->pos_rename_rect = p_rect;
 						{
@@ -1185,11 +1218,19 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 							SetTextColor( hdcMem, dat->selTextColour );
 						else if ( hottrack )
 							_SetHotTrackColour( hdcMem, dat );
-						_DrawTextSmiley( hdcMem, &nameRect, &text_size, Drawing->szText, lstrlen( Drawing->szText ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
-						if ( selected && dat->szQuickSearch[0] != '\0' )
+						_DrawTextSmiley( hdcMem, &nameRect, &text_size, Drawing->szText, 0, lstrlen( Drawing->szText ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
+						if ( (dat->filterSearch || selected) && dat->szQuickSearch[0] != '\0' )
 						{
+							int idx = 0;
+							if ( dat->filterSearch )
+							{
+								TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+								TCHAR* p1 = _tcsstr(lowered, dat->szQuickSearch);
+								if (p1)
+									idx = int(p1 - lowered); 
+							}
 							SetTextColor( hdcMem, dat->quickSearchColour );
-							_DrawTextSmiley( hdcMem, &nameRect, &text_size, Drawing->szText, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
+							_DrawTextSmiley( hdcMem, &nameRect, &text_size, Drawing->szText, idx, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
 						}
 						if ( szCounts && strlen( szCounts )>0 )
 						{
@@ -1232,7 +1273,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 					ChangeToFont( hdcMem, dat, FONTID_SECONDLINE, NULL );
 					uTextFormat = uTextFormat | ( gl_TrimText?DT_END_ELLIPSIS:0 )|DT_SINGLELINE;
 					if ( Drawing->type == CLCIT_CONTACT )
-						_DrawTextSmiley( hdcMem, &p_rect, &text_size, pdnce->szSecondLineText, lstrlen( pdnce->szSecondLineText ), pdnce->ssSecondLine.plText, uTextFormat, dat->text_resize_smileys );
+						_DrawTextSmiley( hdcMem, &p_rect, &text_size, pdnce->szSecondLineText, 0, lstrlen( pdnce->szSecondLineText ), pdnce->ssSecondLine.plText, uTextFormat, dat->text_resize_smileys );
 					break;
 				}
 			case TC_TEXT3:
@@ -1261,7 +1302,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 					ChangeToFont( hdcMem, dat, FONTID_THIRDLINE, NULL );
 					uTextFormat = uTextFormat | ( gl_TrimText?DT_END_ELLIPSIS:0 )|DT_SINGLELINE;
 					if ( Drawing->type == CLCIT_CONTACT )
-						_DrawTextSmiley( hdcMem, &p_rect, &text_size, pdnce->szThirdLineText, lstrlen( pdnce->szThirdLineText ), pdnce->ssThirdLine.plText, uTextFormat, dat->text_resize_smileys );
+						_DrawTextSmiley( hdcMem, &p_rect, &text_size, pdnce->szThirdLineText, 0, lstrlen( pdnce->szThirdLineText ), pdnce->ssThirdLine.plText, uTextFormat, dat->text_resize_smileys );
 					break;
 				}
 			case TC_STATUS:
@@ -3129,15 +3170,24 @@ void CLCPaint::_DrawContactText( HDC hdcMem, struct ClcData *dat, struct ClcCont
 	ChangeToFont( hdcMem, dat, GetBasicFontID( Drawing ), NULL );
 	if ( selected )
 		SetTextColor( hdcMem,  dat->force_in_dialog ? GetSysColor( COLOR_HIGHLIGHTTEXT ) : dat->selTextColour );
-	else if ( hottrack )
+	else if ( hottrack || (dat->filterSearch && dat->szQuickSearch[0] != '\0' ) )
 		_SetHotTrackColour( hdcMem, dat );
 
 	if ( Drawing->type == CLCIT_GROUP )
 	{
 		ske_DrawText( hdcMem, Drawing->szText, -1, prcItem, uTextFormat );
-		if ( selected && dat->szQuickSearch[0] != '\0' )
+		if ( (dat->filterSearch || selected) && dat->szQuickSearch[0] != '\0' )
 		{
+			int idx = 0;
+			if ( dat->filterSearch )
+			{
+				TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+				TCHAR* p1 = _tcsstr(lowered, dat->szQuickSearch);
+				if (p1)
+					idx = int(p1 - lowered); 
+			}
 			SetTextColor( hdcMem, dat->quickSearchColour );
+//			ske_DrawText( hdcMem, &Drawing->szText[idx], lstrlen( dat->szQuickSearch ), prcItem, uTextFormat );
 			ske_DrawText( hdcMem, Drawing->szText, lstrlen( dat->szQuickSearch ), prcItem, uTextFormat );
 		}
 	}
@@ -3148,11 +3198,19 @@ void CLCPaint::_DrawContactText( HDC hdcMem, struct ClcData *dat, struct ClcCont
 		text_size.cy = _rcHeight( prcItem );
 		uTextFormat |= DT_VCENTER;
 		//get font
-		_DrawTextSmiley( hdcMem, prcItem, &text_size, Drawing->szText, -1, Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );                                               
-		if ( selected && dat->szQuickSearch[0] != '\0' )
+		_DrawTextSmiley( hdcMem, prcItem, &text_size, Drawing->szText, 0, -1, Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );                                               
+		if ( (dat->filterSearch || selected) && dat->szQuickSearch[0] != '\0' )
 		{
+			int idx = 0;
+			if ( dat->filterSearch )
+			{
+				TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+				TCHAR* p1 = _tcsstr(lowered, dat->szQuickSearch);
+				if (p1)
+					idx = int(p1 - lowered); 
+			}
 			SetTextColor( hdcMem, dat->quickSearchColour );
-			_DrawTextSmiley( hdcMem, prcItem, &text_size, Drawing->szText, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
+			_DrawTextSmiley( hdcMem, prcItem, &text_size, Drawing->szText, idx, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
 		}
 	}
 	else
@@ -3194,9 +3252,9 @@ void CLCPaint::_DrawContactSubText( HDC hdcMem, struct ClcData *dat, struct ClcC
 				_SetHotTrackColour( hdcMem, dat );
 			uTextFormat |= DT_VCENTER;
 			if ( itemType == CIT_SUBTEXT1 )
-				_DrawTextSmiley( hdcMem, prcItem,  &text_size, pdnce->szSecondLineText, -1, pdnce->ssSecondLine.plText, uTextFormat, dat->text_resize_smileys );  
+				_DrawTextSmiley( hdcMem, prcItem,  &text_size, pdnce->szSecondLineText, 0, -1, pdnce->ssSecondLine.plText, uTextFormat, dat->text_resize_smileys );  
 			else
-				_DrawTextSmiley( hdcMem, prcItem,  &text_size, pdnce->szThirdLineText, -1, pdnce->ssThirdLine.plText, uTextFormat, dat->text_resize_smileys );    
+				_DrawTextSmiley( hdcMem, prcItem,  &text_size, pdnce->szThirdLineText, 0, -1, pdnce->ssThirdLine.plText, uTextFormat, dat->text_resize_smileys );    
 		}
 	}
 	text_rc.right = max( text_rc.right, prcItem->right );

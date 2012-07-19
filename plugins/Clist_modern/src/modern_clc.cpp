@@ -333,8 +333,12 @@ static int clcSearchNextContact(HWND hwnd, struct ClcData *dat, int index, const
 		}
 		if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) 
 		{
-			if ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, group->cl.items[group->scanIndex]->szText, testlen))  || 
-				(!prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText))) 
+			TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(group->cl.items[group->scanIndex]->szText));
+			if (_tcsstr(lowered, dat->szQuickSearch))
+			
+			//if ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, group->cl.items[group->scanIndex]->szText, testlen))  || 
+			//	(!prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText))) 
+
 			{
 				struct ClcGroup *contactGroup = group;
 				int contactScanIndex = group->scanIndex;					
@@ -625,7 +629,18 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	case VK_END: dat->selection = pcli->pfnGetGroupContentsCount(&dat->list,1)-1; selMoved = 1; break;
 	case VK_LEFT: changeGroupExpand = 1; break;
 	case VK_RIGHT: changeGroupExpand = 2; break;
-	case VK_RETURN: pcli->pfnDoSelectionDefaultAction(hwnd,dat); SetCapture(hwnd); return 0;
+	case VK_RETURN: pcli->pfnDoSelectionDefaultAction(hwnd,dat); SetCapture(hwnd); 
+		
+		// TODO: clear filtering here somehow?
+		if (dat->filterSearch) {
+			dat->szQuickSearch[0] = 0;
+			pcli->pfnSaveStateAndRebuildList(hwnd, dat);
+			//pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
+		} else {
+			dat->szQuickSearch[0] = 0;
+		}
+		
+		return 0;
 	case VK_F2: cliBeginRenameSelection(hwnd,dat); /*SetCapture(hwnd);*/ return 0;
 	case VK_DELETE: pcli->pfnDeleteFromContactList(hwnd,dat); SetCapture(hwnd);return 0;
 	case VK_ESCAPE: 
@@ -636,6 +651,10 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 				dat->iInsertionMark = -1;
 				dat->dragStage = 0;
 				ReleaseCapture();
+			} else if (dat->filterSearch && dat->szQuickSearch[0] != '\0') {
+				dat->szQuickSearch[0] = 0;
+				pcli->pfnSaveStateAndRebuildList(hwnd, dat);
+				//pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
 			}
 			return 0;
 		}
@@ -660,7 +679,7 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 		int hit;
 		struct ClcContact *contact;
 		struct ClcGroup *group;
-		dat->szQuickSearch[0] = 0;
+		//dat->szQuickSearch[0] = 0;
 		hit = cliGetRowByIndex(dat,dat->selection,&contact,&group);
 		if (hit != -1) 
 		{
@@ -761,7 +780,7 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	}
 	if (selMoved) 
 	{
-		dat->szQuickSearch[0] = 0;
+		//dat->szQuickSearch[0] = 0;
 		if (dat->selection >= pcli->pfnGetGroupContentsCount(&dat->list,1))
 			dat->selection = pcli->pfnGetGroupContentsCount(&dat->list,1)-1;
 		if (dat->selection < 0) dat->selection = 0;
@@ -927,7 +946,7 @@ static LRESULT clcOnLButtonDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM
 		pcli->pfnEndRename(hwnd,dat,1);
 		dat->ptDragStart.x = (short)LOWORD(lParam);
 		dat->ptDragStart.y = (short)HIWORD(lParam);
-		dat->szQuickSearch[0] = 0;
+		//dat->szQuickSearch[0] = 0;
 		hit = cliHitTest(hwnd,dat,(short)LOWORD(lParam),(short)HIWORD(lParam),&contact,&group,&hitFlags);
 		if (GetFocus() != hwnd) SetFocus(hwnd);
 		if (hit != -1 && !(hitFlags&CLCHT_NOWHERE)) 

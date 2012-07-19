@@ -736,6 +736,7 @@
 #define IDC_SC_STATIC                   1768
 #define IDC_COMBO_SAME                  1768
 #define IDC_TRANSPARENTOVERLAY          1768
+#define IDC_FILTER_SEARCH               1768
 #define IDC_SHOWUNREADEMAIL             1769
 #define IDC_IDC_MULTI_COUNT             1771
 #define IDC_MULTI_COUNT                 1771
@@ -1039,7 +1040,7 @@
 #define POPUP_DELETEGROUP               40053
 #define IDC_FRAME_META                  40054
 #define IDC_FRAME_META2                 40055
-#define IDC_STATIC						-1
+#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

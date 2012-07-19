@@ -822,8 +822,12 @@ int cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int pref
 		contact = group->cl.items[group->scanIndex];
 		if (contact->type != CLCIT_DIVIDER) 
 		{			
-			if ((prefixOk && !_tcsnicmp(text, contact->szText, testlen))  || 
-				(!prefixOk && !lstrcmpi(text, contact->szText))) 
+			TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(contact->szText));
+			TCHAR* lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
+			if (_tcsstr(lowered, lowered_text))
+			
+			/*if ((prefixOk && !_tcsnicmp(text, contact->szText, testlen))  || 
+				(!prefixOk && !lstrcmpi(text, contact->szText))) */
 			{
 				struct ClcGroup *contactGroup = group;
 				int contactScanIndex = group->scanIndex;
@@ -849,8 +853,12 @@ int cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int pref
 				for (i=0; i < contact->SubAllocated; i++)
 				{
 					struct ClcContact * subcontact = &(contact->subcontacts[i]);
-					if ((prefixOk && !_tcsnicmp(text, subcontact->szText, testlen))  || 
-						(!prefixOk && !lstrcmpi(text, subcontact->szText))) 
+					
+					TCHAR* lowered = CharLowerW(NEWTSTR_ALLOCA(subcontact->szText));
+					TCHAR* lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
+					if (_tcsstr(lowered, lowered_text))
+/*					if ((prefixOk && !_tcsnicmp(text, subcontact->szText, testlen))  || 
+						(!prefixOk && !lstrcmpi(text, subcontact->szText))) */
 					{
 						struct ClcGroup *contactGroup = group;
 						int contactScanIndex = group->scanIndex;

@@ -129,6 +129,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define SETTING_INTERNALAWAYMSGREQUEST_DEFAULT   1 //"ModernData","InternalAwayMsgDiscovery"
 #define SETTING_REMOVEAWAYMSGFOROFFLINE_DEFAULT  1 //"ModernData","RemoveAwayMessageForOffline"
+#define SETTING_FILTERSEARCH_DEFAULT			 0 //"ModernData","FilterSearch"
 #define SETTING_METAAVOIDDBLCLICK_DEFAULT        1 //"CLC","MetaDoubleClick"
 #define SETTING_METAIGNOREEMPTYEXTRA_DEFAULT     1 //"CLC","MetaIgnoreEmptyExtra"
 #define SETTING_METAHIDEEXTRA_DEFAULT            0 //"CLC","MetaHideExtra"
