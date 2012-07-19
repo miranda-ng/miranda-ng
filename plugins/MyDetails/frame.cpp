@@ -2069,10 +2069,9 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
 				HMENU submenu = GetSubMenu(menu, 3);
-				CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)submenu,0);
+				TranslateMenu(submenu);
 
-				if (protocols->CanSetStatusMsgPerProtocol())
-				{
+				if (protocols->CanSetStatusMsgPerProtocol()) {
 					// Add this proto to menu
 					mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set My Status Message for %s..."), proto->description);
 
@@ -2084,8 +2083,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					mii.cch = _tcslen(tmp);
 					mii.wID = 1;
 
-					if ( !proto->CanSetStatusMsg())
-					{
+					if ( !proto->CanSetStatusMsg()) {
 						mii.fMask |= MIIM_STATE;
 						mii.fState = MFS_DISABLED;
 					}
@@ -2093,50 +2091,42 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					InsertMenuItem(submenu, 0, TRUE, &mii);
 				}
 				
-				{
-					// Add this to menu
-					mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set My Status Message for %s..."), 
-								 CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, proto->status, 0));
+				// Add this to menu
+				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set My Status Message for %s..."), 
+					CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, proto->status, GSMDF_TCHAR));
 
-					MENUITEMINFO mii = {0};
-					mii.cbSize = sizeof(mii);
-					mii.fMask = MIIM_ID | MIIM_TYPE;
-					mii.fType = MFT_STRING;
-					mii.dwTypeData = tmp;
-					mii.cch = _tcslen(tmp);
-					mii.wID = 2;
+				MENUITEMINFO mii = {0};
+				mii.cbSize = sizeof(mii);
+				mii.fMask = MIIM_ID | MIIM_TYPE;
+				mii.fType = MFT_STRING;
+				mii.dwTypeData = tmp;
+				mii.cch = _tcslen(tmp);
+				mii.wID = 2;
 
-					if (proto->status == ID_STATUS_OFFLINE)
-					{
-						mii.fMask |= MIIM_STATE;
-						mii.fState = MFS_DISABLED;
-					}
-
-					InsertMenuItem(submenu, 0, TRUE, &mii);
+				if (proto->status == ID_STATUS_OFFLINE) {
+					mii.fMask |= MIIM_STATE;
+					mii.fState = MFS_DISABLED;
 				}
+
+				InsertMenuItem(submenu, 0, TRUE, &mii);
 				
 				ClientToScreen(hwnd, &p);
 	
 				int ret = TrackPopupMenu(submenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD, p.x, p.y, 0, hwnd, NULL);
 				DestroyMenu(menu);
 
-				switch(ret)
-				{
-					case 1:
-					{
-						CallService(MS_MYDETAILS_SETMYSTATUSMESSAGEUI, 0, (LPARAM) proto->name);
-						break;
-					}
-					case 2:
-					{
-						CallService(MS_MYDETAILS_SETMYSTATUSMESSAGEUI, (WPARAM) proto->status, 0);
-						break;
-					}
-					case ID_STATUSMESSAGEPOPUP_SETMYSTATUSMESSAGE:
-					{
-						CallService(MS_MYDETAILS_SETMYSTATUSMESSAGEUI, 0, 0);
-						break;
-					}
+				switch(ret) {
+				case 1:
+					CallService(MS_MYDETAILS_SETMYSTATUSMESSAGEUI, 0, (LPARAM) proto->name);
+					break;
+
+				case 2:
+					CallService(MS_MYDETAILS_SETMYSTATUSMESSAGEUI, (WPARAM) proto->status, 0);
+					break;
+	
+				case ID_STATUSMESSAGEPOPUP_SETMYSTATUSMESSAGE:
+					CallService(MS_MYDETAILS_SETMYSTATUSMESSAGEUI, 0, 0);
+					break;
 				}
 			}
 			// In status?
