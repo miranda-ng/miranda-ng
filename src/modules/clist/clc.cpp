@@ -782,11 +782,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				return 0;
 		}
 		if (selMoved) {
-			if (dat->filterSearch) {
-				// this shouldn't clear filtering, but it should refresh highlighting somehow?
-			} else {
+			if ( !dat->filterSearch)
 				dat->szQuickSearch[0] = 0;
-			}
 			if (dat->selection >= cli.pfnGetGroupContentsCount(&dat->list, 1))
 				dat->selection = cli.pfnGetGroupContentsCount(&dat->list, 1) - 1;
 			if (dat->selection < 0)
@@ -838,10 +835,9 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			_tcscat(dat->szQuickSearch, szNew);
 		}
 
-		if (dat->filterSearch) {
+		if (dat->filterSearch)
 			cli.pfnSaveStateAndRebuildList(hwnd, dat);
-			//cli.pfnRebuildEntireList(hwnd, dat);
-		}
+
 		if (dat->szQuickSearch[0]) {
 			int index;
 			index = cli.pfnFindRowByText(hwnd, dat, dat->szQuickSearch, 1);
@@ -944,11 +940,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnEndRename(hwnd, dat, 1);
 		dat->ptDragStart.x = (short) LOWORD(lParam);
 		dat->ptDragStart.y = (short) HIWORD(lParam);
-		if (dat->filterSearch) {
-			// this shouldn't clear filtering, but it should refresh highlighting somehow?
-		} else {
+		if ( !dat->filterSearch)
 			dat->szQuickSearch[0] = 0;
-		}
 		hit = cli.pfnHitTest(hwnd, dat, (short) LOWORD(lParam), (short) HIWORD(lParam), &contact, &group, &hitFlags);
 		if (hit != -1) {
 			if (hit == dat->selection && hitFlags & CLCHT_ONITEMLABEL && dat->exStyle & CLS_EX_EDITLABELS) {
@@ -1257,11 +1250,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		if (GetFocus() != hwnd)
 			SetFocus(hwnd);
 		dat->iHotTrack = -1;
-		if (dat->filterSearch) {
-			// this shouldn't remove filtering
-		} else {
+		if (!dat->filterSearch)
 			dat->szQuickSearch[0] = 0;
-		}
 		pt.x = (short) LOWORD(lParam);
 		pt.y = (short) HIWORD(lParam);
 		if (pt.x == -1 && pt.y == -1) {
