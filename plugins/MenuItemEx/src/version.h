@@ -1,19 +1,9 @@
 #define __FILEVERSION_STRING        1,3,0,9
 #define __VERSION_STRING            "1.3.0.9"
-#define __VERSION_DWORD             0x01030008
+#define __VERSION_DWORD             0x01030009
 
-#if defined (_WIN64)
-#define __PLUGIN_NAME "MenuItemEx (x64) plugin for Miranda IM"
-#define __PLUGIN_ID 4304
-#define __PLUGIN_ID_STR "4304"
-#else  (_UNICODE)
-#define __PLUGIN_NAME "MenuItemEx (Unicode) plugin for Miranda IM"
-#define __PLUGIN_ID 4036
-#define __PLUGIN_ID_STR "4036"
-#endif
-
-#define __WEB "http://addons.miranda-im.org/details.php?action=viewfile&id="
-
+#define __PLUGIN_NAME "MenuItemEx"
+#define __WEB "http://nightly.miranda.im"
 #define __DESC "Adds some useful options to a contacts menu."
 #define __AUTHORS "Heiko Schillinger, Baloo, Billy_Bons, Robert Posel"
 #define __EMAIL "micron@nexgo.de, baloo@bk.ru, tatarinov.sergey@gmail.com, robyer@seznam.cz"
