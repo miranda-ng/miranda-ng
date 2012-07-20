@@ -196,21 +196,21 @@ void Protocol::SetStatus(int aStatus)
 
 		// BEGIN From commomstatus.cpp (KeepStatus)
 		int i, count, pCount;
-		PROTOCOLDESCRIPTOR **protos;
+		PROTOACCOUNT **accs;
 
 		pCount = 0;
-		CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&count,(LPARAM)&protos);
-		for (i=0;i<count;i++) {
-			if (protos[i]->type!=PROTOTYPE_PROTOCOL || CallProtoService(protos[i]->szName,PS_GETCAPS,PFLAGNUM_2,0)==0) continue;
-			pCount += 1;
+		CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&count,(LPARAM)&accs);
+		for (i=0; i < count; i++) {
+			if (accs[i]->type != PROTOTYPE_PROTOCOL || CallProtoService(accs[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0)==0)
+				continue;
+			pCount++;
 		}
 		// END From commomstatus.cpp (KeepStatus)
 
 
 		PROTOCOLSETTINGEX **pse = (PROTOCOLSETTINGEX **) mir_alloc0(pCount * sizeof(PROTOCOLSETTINGEX *));
 
-		for (i = 0; i < pCount; i++)
-		{
+		for (i = 0; i < pCount; i++) {
 			pse[i] = (PROTOCOLSETTINGEX *) mir_alloc0(sizeof(PROTOCOLSETTINGEX));
 			pse[i]->szName = "";
 		}

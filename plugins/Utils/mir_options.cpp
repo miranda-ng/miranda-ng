@@ -241,45 +241,30 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						lvi.iSubItem = 0;
 						lvi.iItem = 1000;
 
-						PROTOACCOUNT **protos;
 						int count;
-
-						BOOL hasAccounts = ServiceExists(MS_PROTO_ENUMACCOUNTS);
-						if (hasAccounts)
-							CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&protos);
-						else
-							CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&count, (LPARAM)&protos);
+						PROTOACCOUNT **protos;
+						CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&protos);
 
 						for (int i = 0; i < count; i++) {
-							if (protos[i]->type != PROTOTYPE_PROTOCOL)
+							PROTOACCOUNT *p = protos[i];
+							if (p->type != PROTOTYPE_PROTOCOL)
 								continue;
 
-							if (protos[i]->szModuleName == NULL || protos[i]->szModuleName[0] == '\0')
+							if (p->szModuleName == NULL || p->szModuleName[0] == '\0')
 								continue;
 
-							if (ctrl->allowProtocol != NULL && !ctrl->allowProtocol(protos[i]->szModuleName))
+							if (ctrl->allowProtocol != NULL && !ctrl->allowProtocol(p->szModuleName))
 								continue;
-
-							TCHAR *name;
-							if (hasAccounts)
-								name = mir_tstrdup(protos[i]->tszAccountName);
-							else {
-								char szName[128];
-								CallProtoService(protos[i]->szModuleName, PS_GETNAME, sizeof(szName), (LPARAM)szName);
-								name = mir_a2t(szName);
-							}
 
 							char *setting = (char *) mir_alloc(128 * sizeof(char));
-							mir_snprintf(setting, 128, ctrl->setting, protos[i]->szModuleName);
+							mir_snprintf(setting, 128, ctrl->setting, p->szModuleName);
 
 							BOOL show = (BOOL)db_get_b(NULL, module, setting, ctrl->dwDefValue);
 
 							lvi.lParam = (LPARAM)setting;
-							lvi.pszText = TranslateTS(name);
+							lvi.pszText = TranslateTS(p->tszAccountName);
 							lvi.iItem = ListView_InsertItem(hwndProtocols, &lvi);
 							ListView_SetItemState(hwndProtocols, lvi.iItem, INDEXTOSTATEIMAGEMASK(show?2:1), LVIS_STATEIMAGEMASK);
-
-							mir_free(name);
 						}
 
 						ListView_SetColumnWidth(hwndProtocols, 0, LVSCW_AUTOSIZE);
