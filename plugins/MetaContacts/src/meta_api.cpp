@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //lParam=0
 //returns a handle to the parent metacontact, or null if this contact is not a subcontact
 INT_PTR MetaAPI_GetMeta(WPARAM wParam, LPARAM lParam) {
-	return (int)(HANDLE)DBGetContactSettingDword((HANDLE)wParam, META_PROTO, "Handle", 0);
+	return (INT_PTR)(HANDLE)DBGetContactSettingDword((HANDLE)wParam, META_PROTO, "Handle", 0);
 }
 
 //gets the handle for the default contact
@@ -42,7 +42,7 @@ INT_PTR MetaAPI_GetMeta(WPARAM wParam, LPARAM lParam) {
 INT_PTR MetaAPI_GetDefault(WPARAM wParam, LPARAM lParam) {
 	DWORD default_contact_number = DBGetContactSettingDword((HANDLE)wParam, META_PROTO, "Default", -1);
 	if (default_contact_number != -1) {
-		return (int)Meta_GetContactHandle((HANDLE)wParam, default_contact_number);
+		return (INT_PTR)Meta_GetContactHandle((HANDLE)wParam, default_contact_number);
 	}
 	return 0;
 }
@@ -60,7 +60,7 @@ INT_PTR MetaAPI_GetDefaultNum(WPARAM wParam, LPARAM lParam) {
 //lParam=0
 //returns a handle to the 'most online' contact
 INT_PTR MetaAPI_GetMostOnline(WPARAM wParam, LPARAM lParam) {
-	return (int)Meta_GetMostOnline((HANDLE)wParam);
+	return (INT_PTR)Meta_GetMostOnline((HANDLE)wParam);
 }
 
 //gets the number of subcontacts for a metacontact
@@ -77,7 +77,7 @@ INT_PTR MetaAPI_GetNumContacts(WPARAM wParam, LPARAM lParam) {
 //lParam=(DWORD)contact number
 //returns a handle to the specified subcontact
 INT_PTR MetaAPI_GetContact(WPARAM wParam, LPARAM lParam) {
-	return (int)Meta_GetContactHandle((HANDLE)wParam, (DWORD)lParam);
+	return (INT_PTR)Meta_GetContactHandle((HANDLE)wParam, (DWORD)lParam);
 }
 
 //sets the default contact, using the subcontact's contact number
@@ -203,7 +203,7 @@ INT_PTR MetaAPI_GetForceState(WPARAM wParam, LPARAM lParam) {
 // method to get protocol name - used to be sure you're dealing with a "real" metacontacts plugin :)
 // wParam=lParam=0
 INT_PTR MetaAPI_GetProtoName(WPARAM wParam, LPARAM lParam) {
-	return (int)META_PROTO;
+	return (INT_PTR)META_PROTO;
 }
 
 // added 0.9.5.0 (22/3/05)
