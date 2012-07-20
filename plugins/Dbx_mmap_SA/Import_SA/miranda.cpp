@@ -237,21 +237,14 @@ INT_PTR CALLBACK MirandaPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 				OPENFILENAME ofn;
 				TCHAR str[MAX_PATH], text[256];
 				TCHAR *pfd;
-				int index;
 
 				pfd = Utils_ReplaceVarsT(_T("%miranda_profile%"));
-
-				// TranslateTS doesnt translate \0 separated strings
-				index = mir_sntprintf(text, 64, _T("%s (*.dat)"), TranslateT("Miranda IM database")) + 1;
-				_tcscpy(text + index, _T("*.dat")); index += 6;
-				index += mir_sntprintf(text + index, 64, _T("%s (*.*)"), TranslateT("All Files")) + 1;
-				_tcscpy(text + index, _T("*.*")); index += 4;
-				text[index] = 0;
 
 				GetDlgItemText(hdlg, IDC_FILENAME, str, SIZEOF(str));
 				ZeroMemory(&ofn, sizeof(ofn));
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 				ofn.hwndOwner = hdlg;
+				mir_sntprintf(text, SIZEOF(text), _T("%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c"), TranslateT("Miranda IM database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
 				ofn.lpstrFilter = text;
 				ofn.lpstrDefExt = _T("dat");
 				ofn.lpstrFile = str;
@@ -259,7 +252,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 				ofn.nMaxFile = SIZEOF(str);
 				ofn.lpstrInitialDir = pfd;
 				if (GetOpenFileName(&ofn))
-					SetDlgItemText(hdlg,IDC_FILENAME,str);
+					SetDlgItemText(hdlg, IDC_FILENAME, str);
 
 				mir_free(pfd);
 				break;
