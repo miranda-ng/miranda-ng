@@ -60,7 +60,7 @@ public:
 
 	// Methods ///////////////
 
-	Protocol(const char *name);
+	Protocol(const char *name, const TCHAR *descr);
 	~Protocol();
 
 	bool IsValid();

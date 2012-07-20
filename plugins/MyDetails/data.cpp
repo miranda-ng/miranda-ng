@@ -21,45 +21,34 @@ Boston, MA 02111-1307, USA.
 #include "commons.h"
 #include "data.h"
 
-
 static char *StatusModeToDbSetting(int status,const char *suffix);
-
-
 
 ProtocolArray *protocols = NULL;
 
-
 void InitProtocolData()
 {
-	PROTOCOLDESCRIPTOR **protos;
-	int i, count;
-
-	CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&count, (LPARAM)&protos);
+	PROTOACCOUNT **protos;
+	int count;
+	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&protos);
 
 	protocols = new ProtocolArray(count);
 
-	for (i = 0; i < count; i++)
-	{
-		if (protos[i]->type != PROTOTYPE_PROTOCOL)
+	for (int i = 0; i < count; i++) {
+		PROTOACCOUNT* acc = protos[i];
+		if (acc->type != PROTOTYPE_PROTOCOL)
 			continue;
 
-		if (protos[i]->szName == NULL || protos[i]->szName[0] == '\0')
+		if (acc->szModuleName == NULL || acc->szModuleName[0] == '\0')
 			continue;
 
 		// Found a protocol
-		Protocol *p = new Protocol(protos[i]->szName);
-
-		if (p->IsValid())
-		{
+		Protocol *p = new Protocol(acc->szModuleName, acc->tszAccountName);
+		if ( p->IsValid())
 			protocols->Add(p);
-		}
 		else
-		{
 			delete p;
-		}
 	}
 }
-
 
 void DeInitProtocolData()
 {
@@ -69,12 +58,11 @@ void DeInitProtocolData()
 
 // Protocol Class ///////////////////////////////////////////////////////////////////////////////////////////
 
-
-Protocol::Protocol(const char *aName)
+Protocol::Protocol(const char *aName, const TCHAR* descr)
 {
 	lstrcpynA(name, aName, SIZEOF(name));
+	lstrcpyn(description, descr, SIZEOF(description));
 
-	description[0] = _T('\0');
 	nickname[0] = _T('\0');
 	status_message[0] = _T('\0');
 	listening_to[0] = _T('\0');
@@ -85,12 +73,8 @@ Protocol::Protocol(const char *aName)
 	data_changed = true;
 
 	// Load services
-
-	int caps;
-
-	caps = CallProtoService(name, PS_GETCAPS, PFLAGNUM_1, 0);
+	int caps = CallProtoService(name, PS_GETCAPS, PFLAGNUM_1, 0);
 	valid = (caps & PF1_IM) == PF1_IM && strcmp(aName, "MetaContacts");
-
 	if ( !valid)
 		return;
 
@@ -105,10 +89,6 @@ Protocol::Protocol(const char *aName)
 	avatar_max_height = 0;
 	if (ProtoServiceExists(name, PS_GETMYAVATARMAXSIZE))
 		CallProtoService(name, PS_GETMYAVATARMAXSIZE, (WPARAM) &avatar_max_width, (LPARAM) &avatar_max_height);
-
-	char tmp[100];
-	CallProtoService(name, PS_GETNAME, SIZEOF(tmp), (LPARAM)tmp);
-	lstrcpyn(description, _A2T(tmp), SIZEOF(description));
 
 	can_set_nick = ProtoServiceExists(name, PS_SETMYNICKNAME) != FALSE;
 
@@ -470,7 +450,7 @@ TCHAR * Protocol::GetListeningTo()
 	}
 
 	DBVARIANT dbv = {0};
-	if (DBGetContactSettingTString(NULL, name, "ListeningTo", &dbv))
+	if ( DBGetContactSettingTString(NULL, name, "ListeningTo", &dbv))
 	{
 		lcopystr(listening_to, _T(""), SIZEOF(listening_to));
 		return listening_to;
@@ -495,13 +475,9 @@ ProtocolArray::ProtocolArray(int max_size)
 
 ProtocolArray::~ProtocolArray()
 {
-	if (buffer != NULL)
-	{
+	if (buffer != NULL) {
 		for ( int i = 0 ; i < buffer_len ; i++ )
-		{
 			delete buffer[i];
-		}
-
 		free(buffer);
 	}
 }
@@ -622,7 +598,7 @@ void ProtocolArray::SetStatusMsgs(int status, const TCHAR *message)
 	DBWriteContactSettingTString(NULL,"SRAway",StatusModeToDbSetting(status,"Msg"),message);
 
 	// Save default also
-	if ( !DBGetContactSettingByte(NULL,"SRAway",StatusModeToDbSetting(status,"UsePrev"),0))
+	if ( !db_get_b(NULL,"SRAway",StatusModeToDbSetting(status,"UsePrev"),0))
 		DBWriteContactSettingTString(NULL,"SRAway",StatusModeToDbSetting(status,"Default"),message);
 
 	for ( int i = 0 ; i < buffer_len ; i++ )

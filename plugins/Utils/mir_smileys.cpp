@@ -33,8 +33,6 @@ Boston, MA 02111-1307, USA.
 #include <m_skin_eng.h>
 #include <tchar.h>
 
-
-
 // Prototypes
 
 #define TEXT_PIECE_TYPE_TEXT   0
@@ -56,16 +54,13 @@ typedef struct
 			int smiley_height;
 		};
 	};
-} TextPiece;
-
-
+}	
+	TextPiece;
 
 SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protocol, int *max_smiley_height);
 void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SortedList *plText, UINT uTextFormat, int max_smiley_height);
 void DestroySmileyList( SortedList* p_list );
 SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uTextFormat, int max_smiley_height);
-
-
 
 // Functions
 

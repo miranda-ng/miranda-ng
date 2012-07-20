@@ -17,15 +17,11 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
-
 #include "commons.h"
-#include "frame.h"
-#include "wingdi.h"
-#include "winuser.h"
 
+#include <m_skin_eng.h>
 
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
-
 
 #define WINDOW_NAME_PREFIX "mydetails_window"
 #define WINDOW_CLASS_NAME  _T("MyDetailsFrame")
@@ -92,8 +88,6 @@ INT_PTR ShowFrameFunc(WPARAM wParam, LPARAM lParam);
 INT_PTR HideFrameFunc(WPARAM wParam, LPARAM lParam);
 INT_PTR ShowHideFrameFunc(WPARAM wParam, LPARAM lParam);
 
-
-
 LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void SetCycleTime();
@@ -158,7 +152,7 @@ struct MyDetailsFrameData
 	int protocol_number;
 
 	bool showing_menu;
-
+	bool skinning;
 	bool recalc_rectangles;
 
 	bool get_status_messages;
@@ -264,8 +258,7 @@ int CreateFrame()
 	wndclass.lpszClassName = WINDOW_CLASS_NAME;
 	RegisterClass(&wndclass);
 
-	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) 
-	{
+	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		hwnd_frame = CreateWindow(WINDOW_CLASS_NAME, TranslateT("My Details"), 
 				WS_CHILD | WS_VISIBLE, 
 				0,0,10,10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, NULL);
@@ -277,32 +270,27 @@ int CreateFrame()
 		Frame.cbSize = sizeof(CLISTFrame);
 		Frame.hWnd = hwnd_frame;
 		Frame.align = alTop;
-		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER;
+		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_SKINNED;
 		Frame.height = 100;
-
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
-
 		
-		if (DBGetContactSettingByte(NULL, "MyDetails", "ForceHideFrame", 0))
-		{
+		if ( db_get_b(NULL, "MyDetails", "ForceHideFrame", 0)) {
 			int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
 			if (flags & F_VISIBLE) 
 				CallService(MS_CLIST_FRAMES_SHFRAME, frame_id, 0);
 
-			DBDeleteContactSetting(NULL, "MyDetails", "ForceHideFrame");
+			db_unset(NULL, "MyDetails", "ForceHideFrame");
 		}
 
-		if (DBGetContactSettingByte(NULL, "MyDetails", "ForceShowFrame", 0))
-		{	
+		if ( db_get_b(NULL, "MyDetails", "ForceShowFrame", 0)) {	
 			int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
 			if (!(flags & F_VISIBLE)) 
 				CallService(MS_CLIST_FRAMES_SHFRAME, frame_id, 0);
 
-			DBDeleteContactSetting(NULL, "MyDetails", "ForceShowFrame");
+			db_unset(NULL, "MyDetails", "ForceShowFrame");
 		}
 	}
-	else 
-	{
+	else {
 		wndclass.style         = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW;//CS_HREDRAW | CS_VREDRAW;
 		wndclass.lpfnWndProc   = FrameContainerWindowProc;
 		wndclass.cbClsExtra    = 0;
@@ -340,8 +328,7 @@ int CreateFrame()
 		menu.pszService= MODULE_NAME "/ShowHideMyDetails";
 		hMenuShowHideFrame = Menu_AddMainMenuItem(&menu);
 
-		if (DBGetContactSettingByte(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1) == 1) 
-		{
+		if ( db_get_b(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1) == 1) {
 			ShowWindow(hwnd_container, SW_SHOW);
 			FixMainMenu();
 		}
@@ -350,7 +337,6 @@ int CreateFrame()
 	CreateServiceFunction(MS_MYDETAILS_SHOWFRAME, ShowFrameFunc);
 	CreateServiceFunction(MS_MYDETAILS_HIDEFRAME, HideFrameFunc);
 	CreateServiceFunction(MS_MYDETAILS_SHOWHIDEFRAME, ShowHideFrameFunc);
-
 	return 0;
 }
 
@@ -358,35 +344,27 @@ int CreateFrame()
 bool FrameIsFloating() 
 {
 	if (frame_id == -1) 
-	{
 		return true; // no frames, always floating
-	}
 	
 	return (CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLOATING, frame_id), 0) != 0);
 }
 
 
-LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-	switch(msg) 
-	{
-		case WM_SHOWWINDOW:
-		{
-			if ((BOOL)wParam)
-				Utils_RestoreWindowPosition(hwnd, 0, MODULE_NAME, WINDOW_NAME_PREFIX);
-			else
-				Utils_SaveWindowPosition(hwnd, 0, MODULE_NAME, WINDOW_NAME_PREFIX);
-			break;
-		}
+LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch(msg) {
+	case WM_SHOWWINDOW:
+		if ((BOOL)wParam)
+			Utils_RestoreWindowPosition(hwnd, 0, MODULE_NAME, WINDOW_NAME_PREFIX);
+		else
+			Utils_SaveWindowPosition(hwnd, 0, MODULE_NAME, WINDOW_NAME_PREFIX);
+		break;
 
-		case WM_ERASEBKGND:
-		{
-			HWND child = (HWND)GetWindowLong(hwnd, GWLP_USERDATA);
+	case WM_ERASEBKGND:
+		SendMessage((HWND)GetWindowLong(hwnd, GWLP_USERDATA), WM_ERASEBKGND, wParam, lParam);
+		break;
 
-			SendMessage(child, WM_ERASEBKGND, wParam, lParam);
-			break;
-		}
-
-		case WM_SIZE:
+	case WM_SIZE:
 		{
 			HWND child = (HWND)GetWindowLong(hwnd, GWLP_USERDATA);
 			RECT r;
@@ -394,40 +372,32 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 			SetWindowPos(child, 0, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_NOZORDER | SWP_NOACTIVATE);
 			InvalidateRect(child, NULL, TRUE);
-
-			return TRUE;
 		}
+		return TRUE;
 
-		case WM_CLOSE:
-		{
-			DBWriteContactSettingByte(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 0);
-			ShowWindow(hwnd, SW_HIDE);
-			FixMainMenu();
-			return TRUE;
-		}
+	case WM_CLOSE:
+		DBWriteContactSettingByte(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 0);
+		ShowWindow(hwnd, SW_HIDE);
+		FixMainMenu();
+		return TRUE;
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
 
-
 BOOL ScreenToClient(HWND hWnd, LPRECT lpRect)
 {
-	BOOL ret;
-
 	POINT pt;
-
 	pt.x = lpRect->left;
 	pt.y = lpRect->top;
 
-	ret = ScreenToClient(hWnd, &pt);
-
-	if ( !ret) return ret;
+	BOOL ret = ScreenToClient(hWnd, &pt);
+	if ( !ret)
+		return ret;
 
 	lpRect->left = pt.x;
 	lpRect->top = pt.y;
-
 
 	pt.x = lpRect->right;
 	pt.y = lpRect->bottom;
@@ -440,17 +410,14 @@ BOOL ScreenToClient(HWND hWnd, LPRECT lpRect)
 	return ret;
 }
 
-
 BOOL MoveWindow(HWND hWnd, const RECT &rect, BOOL bRepaint)
 {
 	return MoveWindow(hWnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, bRepaint);
 }
 
-
 RECT GetInnerRect(const RECT &rc, const RECT &clipping)
 {
 	RECT rc_ret = rc;
-
 	rc_ret.left = max(rc.left, clipping.left);
 	rc_ret.top = max(rc.top, clipping.top);
 	rc_ret.right = min(rc.right, clipping.right);
@@ -458,7 +425,6 @@ RECT GetInnerRect(const RECT &rc, const RECT &clipping)
 
 	return rc_ret;
 }
-
 
 RECT GetRect(HDC hdc, RECT rc, SIZE s, UINT uFormat, int next_top, int text_left, bool frame = true, 
 			 bool end_elipsis_on_frame = true)
@@ -545,60 +511,50 @@ RECT GetRect(HDC hdc, RECT rc, const TCHAR *text, const TCHAR *def_text, Protoco
 
 HWND CreateTooltip(HWND hwnd, RECT &rect)
 {
-          // struct specifying control classes to register
-    INITCOMMONCONTROLSEX iccex; 
-    HWND hwndTT;                 // handle to the ToolTip control
-          // struct specifying info about tool in ToolTip control
-    TOOLINFO ti;
-    unsigned int uid = 0;       // for ti initialization
+	// struct specifying control classes to register
+	INITCOMMONCONTROLSEX iccex; 
+	HWND hwndTT;                 // handle to the ToolTip control
+	// struct specifying info about tool in ToolTip control
+	TOOLINFO ti;
+	unsigned int uid = 0;       // for ti initialization
 
 	// Load the ToolTip class from the DLL.
-    iccex.dwSize = sizeof(iccex);
-    iccex.dwICC  = ICC_BAR_CLASSES;
+	iccex.dwSize = sizeof(iccex);
+	iccex.dwICC  = ICC_BAR_CLASSES;
 
-    if (!InitCommonControlsEx(&iccex))
-       return NULL;
+	if (!InitCommonControlsEx(&iccex))
+		return NULL;
 
-    /* CREATE A TOOLTIP WINDOW */
-    hwndTT = CreateWindowEx(WS_EX_TOPMOST,
-        TOOLTIPS_CLASS,
-        NULL,
-        WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,		
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        hwnd,
-        NULL,
-        hInst,
-        NULL
-        );
+	/* CREATE A TOOLTIP WINDOW */
+	hwndTT = CreateWindowEx(WS_EX_TOPMOST,
+		TOOLTIPS_CLASS,
+		NULL,
+		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,		
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		hwnd,
+		NULL,
+		hInst,
+		NULL
+		);
 
-	/* Gives problem with mToolTip
-    SetWindowPos(hwndTT,
-        HWND_TOPMOST,
-        0,
-        0,
-        0,
-        0,
-        SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-	*/
+	/* INITIALIZE MEMBERS OF THE TOOLINFO STRUCTURE */
+	ti.cbSize = sizeof(TOOLINFO);
+	ti.uFlags = TTF_SUBCLASS;
+	ti.hwnd = hwnd;
+	ti.hinst = hInst;
+	ti.uId = uid;
+	ti.lpszText = LPSTR_TEXTCALLBACK;
+	// ToolTip control will cover the whole window
+	ti.rect.left = rect.left;    
+	ti.rect.top = rect.top;
+	ti.rect.right = rect.right;
+	ti.rect.bottom = rect.bottom;
 
-    /* INITIALIZE MEMBERS OF THE TOOLINFO STRUCTURE */
-    ti.cbSize = sizeof(TOOLINFO);
-    ti.uFlags = TTF_SUBCLASS;
-    ti.hwnd = hwnd;
-    ti.hinst = hInst;
-    ti.uId = uid;
-    ti.lpszText = LPSTR_TEXTCALLBACK;
-        // ToolTip control will cover the whole window
-    ti.rect.left = rect.left;    
-    ti.rect.top = rect.top;
-    ti.rect.right = rect.right;
-    ti.rect.bottom = rect.bottom;
-
-    /* SEND AN ADDTOOL MESSAGE TO THE TOOLTIP CONTROL WINDOW */
-    SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);	
+	/* SEND AN ADDTOOL MESSAGE TO THE TOOLTIP CONTROL WINDOW */
+	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);	
 	SendMessage(hwndTT, TTM_SETDELAYTIME, (WPARAM) (DWORD) TTDT_AUTOPOP, (LPARAM) MAKELONG(24 * 60 * 60 * 1000, 0));	
 
 	return hwndTT;
@@ -606,38 +562,32 @@ HWND CreateTooltip(HWND hwnd, RECT &rect)
 
 void DeleteTooltipWindows(MyDetailsFrameData *data)
 {
-	if (data->nick_tt_hwnd != NULL)
-	{ 
+	if (data->nick_tt_hwnd != NULL) { 
 		DestroyWindow(data->nick_tt_hwnd);
 		data->nick_tt_hwnd = NULL;
 	}
 
-	if (data->status_tt_hwnd != NULL)
-	{ 
+	if (data->status_tt_hwnd != NULL) { 
 		DestroyWindow(data->status_tt_hwnd);
 		data->status_tt_hwnd = NULL;
 	}
 
-	if (data->next_proto_tt_hwnd != NULL)
-	{ 
+	if (data->next_proto_tt_hwnd != NULL) { 
 		DestroyWindow(data->next_proto_tt_hwnd);
 		data->next_proto_tt_hwnd = NULL;
 	}
 
-	if (data->prev_proto_tt_hwnd != NULL)
-	{ 
+	if (data->prev_proto_tt_hwnd != NULL) { 
 		DestroyWindow(data->prev_proto_tt_hwnd);
 		data->prev_proto_tt_hwnd = NULL;
 	}
 
-	if (data->away_msg_tt_hwnd != NULL)
-	{ 
+	if (data->away_msg_tt_hwnd != NULL) { 
 		DestroyWindow(data->away_msg_tt_hwnd);
 		data->away_msg_tt_hwnd = NULL;
 	}
 
-	if (data->listening_to_tt_hwnd != NULL)
-	{ 
+	if (data->listening_to_tt_hwnd != NULL) { 
 		DestroyWindow(data->listening_to_tt_hwnd);
 		data->listening_to_tt_hwnd = NULL;
 	}
@@ -669,24 +619,18 @@ void CalcRectangles(HWND hwnd)
 
 	DeleteTooltipWindows(data);
 
-	if (ServiceExists(MS_CLIST_FRAMES_SETFRAMEOPTIONS) && frame_id != -1)
-	{
+	if (ServiceExists(MS_CLIST_FRAMES_SETFRAMEOPTIONS) && frame_id != -1) {
 		int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
-		if (flags & F_UNCOLLAPSED) 
-		{
+		if (flags & F_UNCOLLAPSED) {
 			RECT rf;
 			GetClientRect(hwnd, &rf);
 
 			int size = 0;
 
-			if (rf.bottom - rf.top != size)
-			{
-				if (FrameIsFloating()) 
-				{
+			if (rf.bottom - rf.top != size) {
+				if (FrameIsFloating()) {
 					HWND parent = GetParent(hwnd);
-
-					if (parent != NULL)
-					{
+					if (parent != NULL) {
 						RECT rp_client, rp_window, r_window;
 						GetClientRect(parent, &rp_client);
 						GetWindowRect(parent, &rp_window);
@@ -728,354 +672,312 @@ void CalcRectangles(HWND hwnd)
 	next_top = r.top;
 	text_left = r.left;
 
-	//if (r.right > r.left && r.bottom > r.top)
-	{
-		// Draw image?
-		//proto->GetAvatar();
-		if (proto->CanGetAvatar())
-		{
-			if (proto->avatar_bmp != NULL)
-			{
-				data->draw_img = true;
+	// Draw image?
+	if (proto->CanGetAvatar()) {
+		if (proto->avatar_bmp != NULL) {
+			data->draw_img = true;
 
-				BITMAP bmp;
-				if (GetObject(proto->avatar_bmp, sizeof(bmp), &bmp))
-				{
-					// make bounds
-					RECT rc = r;
+			BITMAP bmp;
+			if (GetObject(proto->avatar_bmp, sizeof(bmp), &bmp)) {
+				// make bounds
+				RECT rc = r;
 
-					LONG width;
-					LONG height;
+				LONG width;
+				LONG height;
 
-					if (opts.draw_avatar_custom_size)
-					{
-						rc.right = opts.draw_avatar_custom_size_pixels;
+				if (opts.draw_avatar_custom_size) {
+					rc.right = opts.draw_avatar_custom_size_pixels;
 
-						width = opts.draw_avatar_custom_size_pixels;
-						height = opts.draw_avatar_custom_size_pixels;
-					}
-					else if (opts.resize_frame)
-					{
-						rc.right = rc.left + (rc.right - rc.left) / 3;
-
-						width = rc.right - rc.left;
-						height = rc.bottom - rc.top;
-					}
-					else
-					{
-						rc.right = rc.left + min((rc.right - rc.left) / 3, rc.bottom - rc.top);
-
-						width = rc.right - rc.left;
-						height = rc.bottom - rc.top;
-					}
-
-					// Fit to image proportions
-					if ( !opts.draw_avatar_allow_to_grow)
-					{
-						if (width > bmp.bmWidth)
-							width = bmp.bmWidth;
-
-						if (height > bmp.bmHeight)
-							height = bmp.bmHeight;
-					}
-
-					if ( !opts.resize_frame && height * bmp.bmWidth / bmp.bmHeight <= width)
-					{
-						width = height * bmp.bmWidth / bmp.bmHeight;
-					}
-					else
-					{
-						height = width * bmp.bmHeight / bmp.bmWidth;
-					}
-
-					rc.right = rc.left + width;
-					rc.bottom = rc.top + height;
-
-					data->img_rect = rc;
-
-					avatar_bottom = data->img_rect.bottom + SPACE_TEXT_TEXT;
-
-					// Make space to nick
-					text_left = data->img_rect.right + SPACE_IMG_TEXT;
+					width = opts.draw_avatar_custom_size_pixels;
+					height = opts.draw_avatar_custom_size_pixels;
 				}
-			}
-		}
+				else if (opts.resize_frame) {
+					rc.right = rc.left + (rc.right - rc.left) / 3;
 
-		// Always draw nick
-		{
-			data->draw_nick = true;
-
-			SelectObject(hdc, hFont[FONT_NICK]);
-
-			data->nick_rect = GetRect(hdc, r, proto->nickname, DEFAULT_NICKNAME, proto, uFormat, 
-									  next_top, text_left);
-
-			if (proto->nickname[0] != '\0')
-				data->nick_tt_hwnd = CreateTooltip(hwnd, data->nick_rect);
-
-			next_top = data->nick_rect.bottom + SPACE_TEXT_TEXT;
-		}
-
-		// Fits more?
-		if (next_top > r.bottom) 
-			goto finish;
-
-		if (next_top > avatar_bottom && opts.use_avatar_space_to_draw_text)
-			text_left = r.left;
-
-		// Protocol?
-		if (opts.draw_show_protocol_name)
-		{
-			data->draw_proto = true;
-
-			SelectObject(hdc, hFont[FONT_PROTO]);
-
-			RECT tmp_r = r;
-			int tmp_text_left = text_left;
-			if (opts.show_protocol_cycle_button)
-			{
-				tmp_r.right -= 2 * ICON_SIZE;
-			}
-
-			data->proto_rect = GetRect(hdc, tmp_r, proto->description, _T(""), proto, uFormat, 
-									  next_top, tmp_text_left, false, true, false);
-
-
-			if (opts.show_protocol_cycle_button)
-			{
-				data->draw_proto_cycle= true;
-
-				RECT prev = r;
-				prev.top = next_top;
-				prev.bottom = min(r.bottom, prev.top + ICON_SIZE);
-
-				int diff = (data->proto_rect.bottom - data->proto_rect.top) - (prev.bottom - prev.top);
-				if (diff < 0)
-				{
-					diff = -diff / 2;
-					data->proto_rect.top += diff;
-					data->proto_rect.bottom += diff;
+					width = rc.right - rc.left;
+					height = rc.bottom - rc.top;
 				}
+				else {
+					rc.right = rc.left + min((rc.right - rc.left) / 3, rc.bottom - rc.top);
+
+					width = rc.right - rc.left;
+					height = rc.bottom - rc.top;
+				}
+
+				// Fit to image proportions
+				if ( !opts.draw_avatar_allow_to_grow) {
+					if (width > bmp.bmWidth)
+						width = bmp.bmWidth;
+
+					if (height > bmp.bmHeight)
+						height = bmp.bmHeight;
+				}
+
+				if ( !opts.resize_frame && height * bmp.bmWidth / bmp.bmHeight <= width)
+					width = height * bmp.bmWidth / bmp.bmHeight;
 				else
-				{
-					diff = diff / 2;
-					prev.top += diff;
-					prev.bottom += diff;
-				}
+					height = width * bmp.bmHeight / bmp.bmWidth;
 
-				prev.right -= ICON_SIZE;
-				prev.left = prev.right - ICON_SIZE;
+				rc.right = rc.left + width;
+				rc.bottom = rc.top + height;
 
-				RECT next = prev;
-				next.left += ICON_SIZE;
-				next.right += ICON_SIZE;
+				data->img_rect = rc;
 
-				prev.left = max(text_left, prev.left);
-				prev.right = min(r.right, prev.right);
-				next.left = max(text_left, next.left);
-				next.right = min(r.right, next.right);
+				avatar_bottom = data->img_rect.bottom + SPACE_TEXT_TEXT;
 
-				data->prev_proto_rect = prev;
-				data->next_proto_rect = next;
-
-				data->next_proto_tt_hwnd = CreateTooltip(hwnd, data->next_proto_rect);
-				data->prev_proto_tt_hwnd = CreateTooltip(hwnd, data->prev_proto_rect);
-
-
-				next_top = max(data->next_proto_rect.bottom, data->proto_rect.bottom) + SPACE_TEXT_TEXT;
-			}
-			else
-			{
-				next_top = data->proto_rect.bottom + SPACE_TEXT_TEXT;
+				// Make space to nick
+				text_left = data->img_rect.right + SPACE_IMG_TEXT;
 			}
 		}
+	}
 
-		// Fits more?
-		if (next_top + 2 * BORDER_SPACE > r.bottom) 
-			goto finish;
+	// Always draw nick
+	data->draw_nick = true;
+	SelectObject(hdc, hFont[FONT_NICK]);
 
-		if (next_top > avatar_bottom && opts.use_avatar_space_to_draw_text)
-			text_left = r.left;
+	data->nick_rect = GetRect(hdc, r, proto->nickname, DEFAULT_NICKNAME, proto, uFormat, next_top, text_left);
 
-		// Status data?
-		{
-			data->draw_status = true;
+	if (proto->nickname[0] != '\0')
+		data->nick_tt_hwnd = CreateTooltip(hwnd, data->nick_rect);
 
-			SelectObject(hdc, hFont[FONT_STATUS]);
+	next_top = data->nick_rect.bottom + SPACE_TEXT_TEXT;
+
+	// Fits more?
+	if (next_top > r.bottom) 
+		goto finish;
+
+	if (next_top > avatar_bottom && opts.use_avatar_space_to_draw_text)
+		text_left = r.left;
+
+	// Protocol?
+	if (opts.draw_show_protocol_name) {
+		data->draw_proto = true;
+
+		SelectObject(hdc, hFont[FONT_PROTO]);
+
+		RECT tmp_r = r;
+		int tmp_text_left = text_left;
+		if (opts.show_protocol_cycle_button)
+			tmp_r.right -= 2 * ICON_SIZE;
+
+		data->proto_rect = GetRect(hdc, tmp_r, proto->description, _T(""), proto, uFormat, 
+									next_top, tmp_text_left, false, true, false);
+
+		if (opts.show_protocol_cycle_button) {
+			data->draw_proto_cycle= true;
+
+			RECT prev = r;
+			prev.top = next_top;
+			prev.bottom = min(r.bottom, prev.top + ICON_SIZE);
+
+			int diff = (data->proto_rect.bottom - data->proto_rect.top) - (prev.bottom - prev.top);
+			if (diff < 0) {
+				diff = -diff / 2;
+				data->proto_rect.top += diff;
+				data->proto_rect.bottom += diff;
+			}
+			else {
+				diff = diff / 2;
+				prev.top += diff;
+				prev.bottom += diff;
+			}
+
+			prev.right -= ICON_SIZE;
+			prev.left = prev.right - ICON_SIZE;
+
+			RECT next = prev;
+			next.left += ICON_SIZE;
+			next.right += ICON_SIZE;
+
+			prev.left = max(text_left, prev.left);
+			prev.right = min(r.right, prev.right);
+			next.left = max(text_left, next.left);
+			next.right = min(r.right, next.right);
+
+			data->prev_proto_rect = prev;
+			data->next_proto_rect = next;
+
+			data->next_proto_tt_hwnd = CreateTooltip(hwnd, data->next_proto_rect);
+			data->prev_proto_tt_hwnd = CreateTooltip(hwnd, data->prev_proto_rect);
+
+
+			next_top = max(data->next_proto_rect.bottom, data->proto_rect.bottom) + SPACE_TEXT_TEXT;
+		}
+		else next_top = data->proto_rect.bottom + SPACE_TEXT_TEXT;
+	}
+
+	// Fits more?
+	if (next_top + 2 * BORDER_SPACE > r.bottom) 
+		goto finish;
+
+	if (next_top > avatar_bottom && opts.use_avatar_space_to_draw_text)
+		text_left = r.left;
+
+	// Status data?
+	{
+		data->draw_status = true;
+
+		SelectObject(hdc, hFont[FONT_STATUS]);
+
+		// Text size
+		RECT r_tmp = r;
+		DrawText(hdc, proto->status_name, _tcslen(proto->status_name), &r_tmp, 
+					DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
+
+		SIZE s;
+		s.cy = max(r_tmp.bottom - r_tmp.top, ICON_SIZE);
+		s.cx = ICON_SIZE + SPACE_ICON_TEXT + r_tmp.right - r_tmp.left;
+
+		// Status global rect
+		data->status_rect = GetRect(hdc, r, s, uFormat, next_top, text_left, true, false);
+
+		if (proto->status_name[0] != '\0')
+			data->status_tt_hwnd = CreateTooltip(hwnd, data->status_rect);
+
+		next_top = data->status_rect.bottom + SPACE_TEXT_TEXT;
+
+		RECT rc_inner = data->status_rect;
+		rc_inner.top += BORDER_SPACE;
+		rc_inner.bottom -= BORDER_SPACE;
+		rc_inner.left += BORDER_SPACE;
+		rc_inner.right -= BORDER_SPACE;
+
+		// Icon
+		data->status_icon_rect = rc_inner;
+
+		if (opts.draw_text_align_right || opts.draw_text_rtl)
+			data->status_icon_rect.left = max(data->status_icon_rect.right - ICON_SIZE, rc_inner.left);
+		else
+			data->status_icon_rect.right = min(data->status_icon_rect.left + ICON_SIZE, rc_inner.right);
+
+		if (r_tmp.bottom - r_tmp.top > ICON_SIZE) {
+			data->status_icon_rect.top += (r_tmp.bottom - r_tmp.top - ICON_SIZE) / 2;
+			data->status_icon_rect.bottom = data->status_icon_rect.top + ICON_SIZE;
+		}
+
+		// Text
+		data->status_text_rect = GetInnerRect(rc_inner, r);
+
+		if (opts.draw_text_align_right || opts.draw_text_rtl)
+			data->status_text_rect.right = max(data->status_icon_rect.left - SPACE_ICON_TEXT, rc_inner.left);
+		else
+			data->status_text_rect.left = min(data->status_icon_rect.right + SPACE_ICON_TEXT, rc_inner.right);
+
+		if (ICON_SIZE > r_tmp.bottom - r_tmp.top) {
+			data->status_text_rect.top += (ICON_SIZE - (r_tmp.bottom - r_tmp.top)) / 2;
+			data->status_text_rect.bottom = data->status_text_rect.top + r_tmp.bottom - r_tmp.top;
+		}
+	}
+
+	// Fits more?
+	if (next_top + 2 * BORDER_SPACE > r.bottom) 
+		goto finish;
+
+	if (next_top > avatar_bottom && opts.use_avatar_space_to_draw_text)
+		text_left = r.left;
+
+	// Away msg?
+	if (proto->CanGetStatusMsg()) {
+		data->draw_away_msg = true;
+
+		SelectObject(hdc, hFont[FONT_AWAY_MSG]);
+
+		data->away_msg_rect = GetRect(hdc, r, proto->status_message, DEFAULT_STATUS_MESSAGE, proto, uFormat, next_top, text_left);
+
+		if (proto->status_message[0] != '\0')
+			data->away_msg_tt_hwnd = CreateTooltip(hwnd, data->away_msg_rect);
+
+		next_top = data->away_msg_rect.bottom + SPACE_TEXT_TEXT;
+	}
+
+	// Fits more?
+	if (next_top + 2 * BORDER_SPACE > r.bottom) 
+		goto finish;
+
+	if (next_top > avatar_bottom && opts.use_avatar_space_to_draw_text)
+		text_left = r.left;
+
+	// Listening to
+	if (proto->ListeningToEnabled() && proto->GetStatus() > ID_STATUS_OFFLINE) {
+		data->draw_listening_to = true;
+
+		if (proto->listening_to[0] == '\0') {
+			SelectObject(hdc, hFont[FONT_LISTENING_TO]);
+
+			data->listening_to_rect = GetRect(hdc, r, proto->listening_to, DEFAULT_LISTENING_TO, proto, uFormat, 
+							next_top, text_left);
+
+			data->listening_to_text_rect = data->listening_to_rect;
+			ZeroMemory(&data->listening_to_icon_rect, sizeof(data->listening_to_icon_rect));
+
+			next_top = data->listening_to_rect.bottom + SPACE_TEXT_TEXT;
+		}
+		else {
+			SelectObject(hdc, hFont[FONT_LISTENING_TO]);
 
 			// Text size
 			RECT r_tmp = r;
-			DrawText(hdc, proto->status_name, _tcslen(proto->status_name), &r_tmp, 
-					 DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
+			DrawText(hdc, proto->listening_to, _tcslen(proto->listening_to), &r_tmp, 
+						DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
 
 			SIZE s;
 			s.cy = max(r_tmp.bottom - r_tmp.top, ICON_SIZE);
 			s.cx = ICON_SIZE + SPACE_ICON_TEXT + r_tmp.right - r_tmp.left;
 
-			// Status global rect
-			data->status_rect = GetRect(hdc, r, s, uFormat, next_top, text_left, true, false);
+			// listening to global rect
+			data->listening_to_rect = GetRect(hdc, r, s, uFormat, next_top, text_left, true, false);
 
-			if (proto->status_name[0] != '\0')
-				data->status_tt_hwnd = CreateTooltip(hwnd, data->status_rect);
+			data->listening_to_tt_hwnd = CreateTooltip(hwnd, data->listening_to_rect);
 
-			next_top = data->status_rect.bottom + SPACE_TEXT_TEXT;
+			next_top = data->listening_to_rect.bottom + SPACE_TEXT_TEXT;
 
-			RECT rc_inner = data->status_rect;
+			RECT rc_inner = data->listening_to_rect;
 			rc_inner.top += BORDER_SPACE;
 			rc_inner.bottom -= BORDER_SPACE;
 			rc_inner.left += BORDER_SPACE;
 			rc_inner.right -= BORDER_SPACE;
 
 			// Icon
-			data->status_icon_rect = rc_inner;
+			data->listening_to_icon_rect = rc_inner;
 
 			if (opts.draw_text_align_right || opts.draw_text_rtl)
-				data->status_icon_rect.left = max(data->status_icon_rect.right - ICON_SIZE, rc_inner.left);
+				data->listening_to_icon_rect.left = max(data->listening_to_icon_rect.right - ICON_SIZE, rc_inner.left);
 			else
-				data->status_icon_rect.right = min(data->status_icon_rect.left + ICON_SIZE, rc_inner.right);
+				data->listening_to_icon_rect.right = min(data->listening_to_icon_rect.left + ICON_SIZE, rc_inner.right);
 
-			if (r_tmp.bottom - r_tmp.top > ICON_SIZE)
-			{
-				data->status_icon_rect.top += (r_tmp.bottom - r_tmp.top - ICON_SIZE) / 2;
-				data->status_icon_rect.bottom = data->status_icon_rect.top + ICON_SIZE;
+			if (r_tmp.bottom - r_tmp.top > ICON_SIZE) {
+				data->listening_to_icon_rect.top += (r_tmp.bottom - r_tmp.top - ICON_SIZE) / 2;
+				data->listening_to_icon_rect.bottom = data->listening_to_icon_rect.top + ICON_SIZE;
 			}
 
 			// Text
-			data->status_text_rect = GetInnerRect(rc_inner, r);
+			data->listening_to_text_rect = GetInnerRect(rc_inner, r);
 
 			if (opts.draw_text_align_right || opts.draw_text_rtl)
-				data->status_text_rect.right = max(data->status_icon_rect.left - SPACE_ICON_TEXT, rc_inner.left);
+				data->listening_to_text_rect.right = max(data->listening_to_icon_rect.left - SPACE_ICON_TEXT, rc_inner.left);
 			else
-				data->status_text_rect.left = min(data->status_icon_rect.right + SPACE_ICON_TEXT, rc_inner.right);
+				data->listening_to_text_rect.left = min(data->listening_to_icon_rect.right + SPACE_ICON_TEXT, rc_inner.right);
 
-			if (ICON_SIZE > r_tmp.bottom - r_tmp.top)
-			{
-				data->status_text_rect.top += (ICON_SIZE - (r_tmp.bottom - r_tmp.top)) / 2;
-				data->status_text_rect.bottom = data->status_text_rect.top + r_tmp.bottom - r_tmp.top;
-			}
-		}
-
-		// Fits more?
-		if (next_top + 2 * BORDER_SPACE > r.bottom) 
-			goto finish;
-
-		if (next_top > avatar_bottom && opts.use_avatar_space_to_draw_text)
-			text_left = r.left;
-
-		// Away msg?
-		if (proto->CanGetStatusMsg()) 
-		{
-			data->draw_away_msg = true;
-
-			SelectObject(hdc, hFont[FONT_AWAY_MSG]);
-
-			data->away_msg_rect = GetRect(hdc, r, proto->status_message, DEFAULT_STATUS_MESSAGE, proto, uFormat, 
-						  next_top, text_left);
-
-			if (proto->status_message[0] != '\0')
-				data->away_msg_tt_hwnd = CreateTooltip(hwnd, data->away_msg_rect);
-
-			next_top = data->away_msg_rect.bottom + SPACE_TEXT_TEXT;
-		}
-
-		// Fits more?
-		if (next_top + 2 * BORDER_SPACE > r.bottom) 
-			goto finish;
-
-		if (next_top > avatar_bottom && opts.use_avatar_space_to_draw_text)
-			text_left = r.left;
-
-		// Listening to
-		if (proto->ListeningToEnabled() && proto->GetStatus() > ID_STATUS_OFFLINE) 
-		{
-			data->draw_listening_to = true;
-
-			if (proto->listening_to[0] == '\0')
-			{
-				SelectObject(hdc, hFont[FONT_LISTENING_TO]);
-
-				data->listening_to_rect = GetRect(hdc, r, proto->listening_to, DEFAULT_LISTENING_TO, proto, uFormat, 
-							  next_top, text_left);
-
-				data->listening_to_text_rect = data->listening_to_rect;
-				ZeroMemory(&data->listening_to_icon_rect, sizeof(data->listening_to_icon_rect));
-
-				next_top = data->listening_to_rect.bottom + SPACE_TEXT_TEXT;
-			}
-			else
-			{
-				SelectObject(hdc, hFont[FONT_LISTENING_TO]);
-
-				// Text size
-				RECT r_tmp = r;
-				DrawText(hdc, proto->listening_to, _tcslen(proto->listening_to), &r_tmp, 
-						 DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
-
-				SIZE s;
-				s.cy = max(r_tmp.bottom - r_tmp.top, ICON_SIZE);
-				s.cx = ICON_SIZE + SPACE_ICON_TEXT + r_tmp.right - r_tmp.left;
-
-				// listening to global rect
-				data->listening_to_rect = GetRect(hdc, r, s, uFormat, next_top, text_left, true, false);
-
-				data->listening_to_tt_hwnd = CreateTooltip(hwnd, data->listening_to_rect);
-
-				next_top = data->listening_to_rect.bottom + SPACE_TEXT_TEXT;
-
-				RECT rc_inner = data->listening_to_rect;
-				rc_inner.top += BORDER_SPACE;
-				rc_inner.bottom -= BORDER_SPACE;
-				rc_inner.left += BORDER_SPACE;
-				rc_inner.right -= BORDER_SPACE;
-
-				// Icon
-				data->listening_to_icon_rect = rc_inner;
-
-				if (opts.draw_text_align_right || opts.draw_text_rtl)
-					data->listening_to_icon_rect.left = max(data->listening_to_icon_rect.right - ICON_SIZE, rc_inner.left);
-				else
-					data->listening_to_icon_rect.right = min(data->listening_to_icon_rect.left + ICON_SIZE, rc_inner.right);
-
-				if (r_tmp.bottom - r_tmp.top > ICON_SIZE)
-				{
-					data->listening_to_icon_rect.top += (r_tmp.bottom - r_tmp.top - ICON_SIZE) / 2;
-					data->listening_to_icon_rect.bottom = data->listening_to_icon_rect.top + ICON_SIZE;
-				}
-
-				// Text
-				data->listening_to_text_rect = GetInnerRect(rc_inner, r);
-
-				if (opts.draw_text_align_right || opts.draw_text_rtl)
-					data->listening_to_text_rect.right = max(data->listening_to_icon_rect.left - SPACE_ICON_TEXT, rc_inner.left);
-				else
-					data->listening_to_text_rect.left = min(data->listening_to_icon_rect.right + SPACE_ICON_TEXT, rc_inner.right);
-
-				if (ICON_SIZE > r_tmp.bottom - r_tmp.top)
-				{
-					data->listening_to_text_rect.top += (ICON_SIZE - (r_tmp.bottom - r_tmp.top)) / 2;
-					data->listening_to_text_rect.bottom = data->listening_to_text_rect.top + r_tmp.bottom - r_tmp.top;
-				}
+			if (ICON_SIZE > r_tmp.bottom - r_tmp.top) {
+				data->listening_to_text_rect.top += (ICON_SIZE - (r_tmp.bottom - r_tmp.top)) / 2;
+				data->listening_to_text_rect.bottom = data->listening_to_text_rect.top + r_tmp.bottom - r_tmp.top;
 			}
 		}
 	}
 
 	r.bottom = max(next_top - SPACE_TEXT_TEXT, avatar_bottom);
 
-	if (opts.resize_frame && ServiceExists(MS_CLIST_FRAMES_SETFRAMEOPTIONS) && frame_id != -1)
-	{
+	if (opts.resize_frame && ServiceExists(MS_CLIST_FRAMES_SETFRAMEOPTIONS) && frame_id != -1) {
 		RECT rf;
 		GetClientRect(hwnd, &rf);
 
 		int size = r.bottom + opts.borders[BOTTOM];
 
-		if (rf.bottom - rf.top != size)
-		{
-			if (FrameIsFloating()) 
-			{
+		if (rf.bottom - rf.top != size) {
+			if (FrameIsFloating()) {
 				HWND parent = GetParent(hwnd);
 
-				if (parent != NULL)
-				{
+				if (parent != NULL) {
 					RECT rp_client, rp_window, r_window;
 					GetClientRect(parent, &rp_client);
 					GetWindowRect(parent, &rp_window);
@@ -1087,11 +989,9 @@ void CalcRectangles(HWND hwnd)
 					SetWindowPos(parent, 0, 0, 0, rp_window.right - rp_window.left, size + diff, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 				}
 			}
-			else if (IsWindowVisible(hwnd) && ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) 
-			{
+			else if (IsWindowVisible(hwnd) && ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 				int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
-				if (flags & F_VISIBLE) 
-				{
+				if (flags & F_VISIBLE) {
 					CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, frame_id), (LPARAM)(size));
 					CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)frame_id, (LPARAM)(FU_TBREDRAW | FU_FMREDRAW | FU_FMPOS));
 				}
@@ -1126,14 +1026,18 @@ HBITMAP CreateBitmap32(int cx, int cy)
 	return DirectBitmap;
 }
 
- void EraseBackground(HWND hwnd, HDC hdc)
+void EraseBackground(HWND hwnd, HDC hdc, MyDetailsFrameData* data)
 {
 	RECT r;
 	GetClientRect(hwnd, &r);
 
-	HBRUSH hB = CreateSolidBrush((COLORREF) DBGetContactSettingDword(NULL,"MyDetails","BackgroundColor",GetSysColor(COLOR_BTNFACE)));
-	FillRect(hdc, &r, hB);
-	DeleteObject(hB);
+	if (data->skinning)
+		SkinDrawWindowBack(hwnd, hdc, &r, "Main,ID=Background");
+	else {
+		HBRUSH hB = CreateSolidBrush((COLORREF) DBGetContactSettingDword(NULL,"MyDetails","BackgroundColor",GetSysColor(COLOR_BTNFACE)));
+		FillRect(hdc, &r, hB);
+		DeleteObject(hB);
+	}
 }
 
 void DrawTextWithRect(HDC hdc, const TCHAR *text, const TCHAR *def_text, RECT rc, UINT uFormat, 
@@ -1214,9 +1118,8 @@ void Draw(HWND hwnd, HDC hdc_orig)
 	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
 	Protocol *proto = protocols->Get(data->protocol_number);
 
-	if (proto == NULL)
-	{
-		EraseBackground(hwnd, hdc_orig);
+	if (proto == NULL) {
+		EraseBackground(hwnd, hdc_orig, data);
 		return;
 	}
 
@@ -1237,7 +1140,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 	SetStretchBltMode(hdc, HALFTONE);
 
 	// Erase
-	EraseBackground(hwnd, hdc);
+	EraseBackground(hwnd, hdc, data);
 
 	r.left += min(opts.borders[LEFT], r.right);
 	r.right = max(r.right - opts.borders[RIGHT], r.left);
@@ -1732,12 +1635,11 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			data->recalc_rectangles = true;
 			data->get_status_messages = false;
 			data->showing_menu = false;
+			data->skinning = ServiceExists(MS_SKIN_DRAWGLYPH) != 0;
 
 			data->protocol_number = DBGetContactSettingWord(NULL,"MyDetails","ProtocolNumber",0);
 			if (data->protocol_number >= protocols->GetSize())
-			{
 				data->protocol_number = 0;
-			}
 
 			SetCycleTime(hwnd);
 			SetStatusMessageRefreshTime(hwnd);
@@ -1752,20 +1654,9 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			return TRUE;
 		}
 
-		/*
-		case WM_ERASEBKGND:
-		{
-			//EraseBackground(hwnd, (HDC)wParam); 
-			Draw(hwnd, (HDC)wParam); 
-			return TRUE;
-		}
-		*/
-
 		case WM_PRINTCLIENT:
-		{
 			Draw(hwnd, (HDC)wParam);
 			return TRUE;
-		}
 
 		case WM_PAINT:
 		{
@@ -1906,8 +1797,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					mii.cch = _tcslen(protocols->Get(i)->description);
 					mii.wID = i + 1;
 
-					if (i == data->protocol_number)
-					{
+					if (i == data->protocol_number) {
 						mii.fMask |= MIIM_STATE;
 						mii.fState = MFS_DISABLED;
 					}
@@ -2615,20 +2505,10 @@ void FixMainMenu()
 
 void RedrawFrame() 
 {
-//	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWLP_USERDATA);
-//	if (data != NULL) 
-//	{
-//		data->recalc_rectangles = true;
-
-		if (frame_id == -1) 
-		{
-			InvalidateRect(hwnd_container, NULL, TRUE);
-		}
-		else
-		{
-			CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)frame_id, (LPARAM)FU_TBREDRAW | FU_FMREDRAW);
-		}
-//	}
+	if (frame_id == -1) 
+		InvalidateRect(hwnd_container, NULL, TRUE);
+	else
+		CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)frame_id, (LPARAM)FU_TBREDRAW | FU_FMREDRAW);
 }
 
 void RefreshFrameAndCalcRects() 

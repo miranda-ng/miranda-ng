@@ -82,7 +82,6 @@ extern long status_msg_dialog_open;
 #include "../utils/mir_options.h"
 #include "../utils/mir_icons.h"
 
-
 #define PS_SETMYAVATAR "/SetMyAvatar"
 #define PS_GETMYAVATAR "/GetMyAvatar"
 #define PS_GETMYAVATARMAXSIZE "/GetMyAvatarMaxSize"
@@ -90,7 +89,6 @@ extern long status_msg_dialog_open;
 #define PS_SETMYNICKNAME "/SetNickname"
 
 #define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"
-
 
 // See if a protocol service exists
 __inline static int ProtoServiceExists(const char *szModule,const char *szService)
@@ -100,7 +98,6 @@ __inline static int ProtoServiceExists(const char *szModule,const char *szServic
 	strcat(str,szService);
 	return ServiceExists(str);
 }
-
 
 // Helper
 static __inline int DRAW_TEXT(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, 
