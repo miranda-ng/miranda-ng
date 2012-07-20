@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -27,20 +27,20 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE MOVEABLE PURE
+1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE MOVEABLE PURE
+2 TEXTINCLUDE 
 BEGIN
     "#include <winres.h>\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE MOVEABLE PURE
+3 TEXTINCLUDE 
 BEGIN
-    "#include ""version.rc""\r\n"
+    "\r\n"
     "\0"
 END
 
@@ -51,7 +51,7 @@ END
 // Icon
 //
 
-IDI_RELOAD              ICON                    "res\\reload.ico"
+IDI_RELOAD              ICON                    "reload.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -195,7 +195,6 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-#include "version.rc"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED

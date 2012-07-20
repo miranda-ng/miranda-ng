@@ -2,9 +2,8 @@
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
-#ifndef _MAC 
-
-#include "version.h"
+#include "..\src\version.h"
+#include "afxres.h"
 
 ///////////////////////////////////////////////////////////////////////////// 
 //                                                                            
@@ -47,9 +46,3 @@ BEGIN
         VALUE "Translation", 0x0, 1200
     END
 END
-                                                                             
-#endif    // !_MAC                 
-                                   
-                                                                        
-                               
-                                                                              
