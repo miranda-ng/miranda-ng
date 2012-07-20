@@ -63,6 +63,20 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+// basic class for classes that should be cleared inside new()
+
+class MZeroedObject
+{
+public:
+	__inline void* operator new( size_t size )
+	{	return calloc( 1, size );
+	}
+	__inline void operator delete( void* p )
+	{	free( p );
+	}
+};
+
+///////////////////////////////////////////////////////////////////////////////
 // general lists' templates
 
 #define	NumericKeySortT -1

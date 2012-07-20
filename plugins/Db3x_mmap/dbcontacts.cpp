@@ -1,8 +1,8 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
+Copyright 2012 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -23,15 +23,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-HANDLE hContactDeletedEvent, hContactAddedEvent;
-
-DBCachedContactValueList* AddToCachedContactList(HANDLE hContact, int index)
+DBCachedContactValueList* CDdxMmap::AddToCachedContactList(HANDLE hContact, int index)
 {
-	DBCachedContactValueList* VL;
-	VL = (DBCachedContactValueList*)HeapAlloc(hCacheHeap,HEAP_ZERO_MEMORY,sizeof(DBCachedContactValueList));
+	DBCachedContactValueList* VL = (DBCachedContactValueList*)HeapAlloc(m_hCacheHeap,HEAP_ZERO_MEMORY,sizeof(DBCachedContactValueList));
 	VL->hContact = hContact;
-	if (index == -1) List_GetIndex(&lContacts,VL,&index);
-	List_Insert(&lContacts,VL,index);
+	if (index == -1)
+		m_lContacts.insert(VL);
+	else
+		m_lContacts.insert(VL,index);
 	return VL;
 }
 
@@ -54,23 +53,16 @@ int CDdxMmap::CheckProto(HANDLE hContact, const char *proto)
 	return !strcmp(protobuf,proto);
 }
 
-int InitContacts(void)
-{
-	hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
-	hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
-	return 0;
-}
-
 STDMETHODIMP_(LONG) CDdxMmap::GetContactCount(void)
 {
-	mir_cslock lck(csDbAccess);
-	return dbHeader.contactCount;
+	mir_cslock lck(m_csDbAccess);
+	return m_dbHeader.contactCount;
 }
 
 STDMETHODIMP_(HANDLE) CDdxMmap::FindFirstContact(const char *szProto)
 {
-	mir_cslock lck(csDbAccess);
-	HANDLE ret = (HANDLE)dbHeader.ofsFirstContact;
+	mir_cslock lck(m_csDbAccess);
+	HANDLE ret = (HANDLE)m_dbHeader.ofsFirstContact;
 	if (szProto && !CheckProto(ret, szProto))
 		ret = FindNextContact(ret, szProto);
 	return ret;
@@ -83,10 +75,10 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindNextContact(HANDLE hContact, const char *szP
 	DBCachedContactValueList VLtemp, *VL = NULL;
 	VLtemp.hContact = hContact;
 
-	mir_cslock lck(csDbAccess);
-	while(VLtemp.hContact) {
-		if ( List_GetIndex(&lContacts,&VLtemp,&index)) {
-			VL = ( DBCachedContactValueList* )lContacts.items[index];
+	mir_cslock lck(m_csDbAccess);
+	while (VLtemp.hContact) {
+		if (( index = m_lContacts.getIndex(&VLtemp)) != -1) {
+			VL = m_lContacts[index];
 			if (VL->hNext != NULL) {
 				if (!szProto || CheckProto(VL->hNext, szProto))
 					return VL->hNext;
@@ -96,18 +88,18 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindNextContact(HANDLE hContact, const char *szP
 		}	}
 
 		dbc = (DBContact*)DBRead(VLtemp.hContact,sizeof(DBContact),NULL);
-		if (dbc->signature!=DBCONTACT_SIGNATURE)
+		if (dbc->signature != DBCONTACT_SIGNATURE)
 			break;
-		else {
-			if ( VL == NULL )
-				VL = AddToCachedContactList(VLtemp.hContact,index);
 
-			VL->hNext = (HANDLE)dbc->ofsNext;
-			if (VL->hNext != NULL && (!szProto || CheckProto(VL->hNext, szProto)))
-				return VL->hNext;
+		if ( VL == NULL )
+			VL = AddToCachedContactList(VLtemp.hContact,index);
 
-			VLtemp.hContact = VL->hNext;
-	}	}
+		VL->hNext = (HANDLE)dbc->ofsNext;
+		if (VL->hNext != NULL && (!szProto || CheckProto(VL->hNext, szProto)))
+			return VL->hNext;
+
+		VLtemp.hContact = VL->hNext;
+	}
 
 	return NULL;
 }
@@ -123,56 +115,55 @@ STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
 		return 1;
 
 	{
-		mir_cslock lck(csDbAccess);
+		mir_cslock lck(m_csDbAccess);
 		DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
 		if (dbc->signature != DBCONTACT_SIGNATURE)
 			return 1;
 
-		if (hContact == (HANDLE)dbHeader.ofsUser) {
+		if (hContact == (HANDLE)m_dbHeader.ofsUser) {
 			log0("FATAL: del of user chain attempted.");
 			return 1;
 		}
 		log0("del contact");
 	}
 
-	//call notifier while outside mutex
+	// call notifier while outside mutex
 	NotifyEventHooks(hContactDeletedEvent, (WPARAM)hContact, 0);
 
-	//get back in
-	mir_cslock lck(csDbAccess);
+	// get back in
+	mir_cslock lck(m_csDbAccess);
 
 	DBCachedContactValueList VLtemp;
 	VLtemp.hContact = hContact;
-	if ( List_GetIndex(&lContacts,&VLtemp,&index))
-	{
-		DBCachedContactValueList *VL = ( DBCachedContactValueList* )lContacts.items[index];
+	if ((index = m_lContacts.getIndex(&VLtemp)) != -1) {
+		DBCachedContactValueList *VL = m_lContacts[index];
 		DBCachedContactValue* V = VL->first;
 		while ( V != NULL ) {
 			DBCachedContactValue* V1 = V->next;
 			FreeCachedVariant(&V->value);
-			HeapFree( hCacheHeap, 0, V );
+			HeapFree( m_hCacheHeap, 0, V );
 			V = V1;
 		}
-		HeapFree( hCacheHeap, 0, VL );
+		HeapFree( m_hCacheHeap, 0, VL );
 
-		if (VLtemp.hContact == hLastCachedContact)
-			hLastCachedContact = NULL;
-		List_Remove(&lContacts,index);
+		if (VLtemp.hContact == m_hLastCachedContact)
+			m_hLastCachedContact = NULL;
+		m_lContacts.remove(index);
 	}
 
 	DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
 	//delete settings chain
 	ofsThis = dbc->ofsFirstSettings;
 	ofsFirstEvent = dbc->ofsFirstEvent;
-	while(ofsThis) {
-		dbcs = (struct DBContactSettings*)DBRead(ofsThis,sizeof(struct DBContactSettings),NULL);
+	while (ofsThis) {
+		dbcs = (DBContactSettings*)DBRead(ofsThis,sizeof(DBContactSettings),NULL);
 		ofsNext = dbcs->ofsNext;
-		DeleteSpace(ofsThis,offsetof(struct DBContactSettings,blob)+dbcs->cbBlob);
+		DeleteSpace(ofsThis,offsetof(DBContactSettings,blob)+dbcs->cbBlob);
 		ofsThis = ofsNext;
 	}
 	//delete event chain
 	ofsThis = ofsFirstEvent;
-	while(ofsThis) {
+	while (ofsThis) {
 		dbe = (DBEvent*)DBRead(ofsThis,sizeof(DBEvent),NULL);
 		ofsNext = dbe->ofsNext;
 		DeleteSpace(ofsThis,offsetof(DBEvent,blob)+dbe->cbBlob);
@@ -180,15 +171,15 @@ STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
 	}
 	//find previous contact in chain and change ofsNext
 	dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
-	if (dbHeader.ofsFirstContact == (DWORD)hContact) {
-		dbHeader.ofsFirstContact = dbc->ofsNext;
-		DBWrite(0,&dbHeader,sizeof(dbHeader));
+	if (m_dbHeader.ofsFirstContact == (DWORD)hContact) {
+		m_dbHeader.ofsFirstContact = dbc->ofsNext;
+		DBWrite(0,&m_dbHeader,sizeof(m_dbHeader));
 	}
 	else {
 		ofsNext = dbc->ofsNext;
-		ofsThis = dbHeader.ofsFirstContact;
+		ofsThis = m_dbHeader.ofsFirstContact;
 		DBContact *dbcPrev = (DBContact*)DBRead(ofsThis,sizeof(DBContact),NULL);
-		while(dbcPrev->ofsNext != (DWORD)hContact) {
+		while (dbcPrev->ofsNext != (DWORD)hContact) {
 			if (dbcPrev->ofsNext == 0) DatabaseCorruption(NULL);
 			ofsThis = dbcPrev->ofsNext;
 			dbcPrev = (DBContact*)DBRead(ofsThis,sizeof(DBContact),NULL);
@@ -198,17 +189,17 @@ STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
 
 		DBCachedContactValueList VLtemp;
 		VLtemp.hContact = (HANDLE)ofsThis;
-		if ( List_GetIndex(&lContacts,&VLtemp,&index)) {
-			DBCachedContactValueList *VL = ( DBCachedContactValueList* )lContacts.items[index];
-			VL->hNext = ( HANDLE )ofsNext;
+		if ((index = m_lContacts.getIndex(&VLtemp)) != -1) {
+			DBCachedContactValueList *VL = m_lContacts[index];
+			VL->hNext = (HANDLE)ofsNext;
 		}
 	}
 
 	//delete contact
 	DeleteSpace((DWORD)hContact, sizeof(DBContact));
 	//decrement contact count
-	dbHeader.contactCount--;
-	DBWrite(0,&dbHeader,sizeof(dbHeader));
+	m_dbHeader.contactCount--;
+	DBWrite(0,&m_dbHeader,sizeof(m_dbHeader));
 	DBFlush(0);
 	return 0;
 }
@@ -218,16 +209,16 @@ STDMETHODIMP_(HANDLE) CDdxMmap::AddContact()
 	DWORD ofsNew;
 	log0("add contact");
    {
-		mir_cslock lck(csDbAccess);
+		mir_cslock lck(m_csDbAccess);
 		ofsNew = CreateNewSpace(sizeof(DBContact));
 
 		DBContact dbc = { 0 };
 		dbc.signature = DBCONTACT_SIGNATURE;
-		dbc.ofsNext = dbHeader.ofsFirstContact;
-		dbHeader.ofsFirstContact = ofsNew;
-		dbHeader.contactCount++;
+		dbc.ofsNext = m_dbHeader.ofsFirstContact;
+		m_dbHeader.ofsFirstContact = ofsNew;
+		m_dbHeader.contactCount++;
 		DBWrite(ofsNew,&dbc,sizeof(DBContact));
-		DBWrite(0,&dbHeader,sizeof(dbHeader));
+		DBWrite(0,&m_dbHeader,sizeof(m_dbHeader));
 		DBFlush(0);
 
 		AddToCachedContactList((HANDLE)ofsNew, -1);
@@ -243,12 +234,12 @@ STDMETHODIMP_(BOOL) CDdxMmap::IsDbContact(HANDLE hContact)
 	DWORD ofsContact = (DWORD)hContact;
 	int ret;
 
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	{
 		int index;
 		DBCachedContactValueList VLtemp;
 		VLtemp.hContact = hContact;
-		if ( List_GetIndex(&lContacts,&VLtemp,&index))
+		if ((index = m_lContacts.getIndex(&VLtemp)) != -1)
 			ret = TRUE;
 		else {
 			dbc = (DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
@@ -257,6 +248,6 @@ STDMETHODIMP_(BOOL) CDdxMmap::IsDbContact(HANDLE hContact)
 				AddToCachedContactList(hContact, index);
 	}	}
 
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	return ret;
 }

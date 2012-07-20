@@ -23,14 +23,126 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-CDdxMmap::CDdxMmap(const TCHAR* tszFileName)
+static int stringCompare(const char* p1, const char* p2)
 {
+	return strcmp(p1+1, p2+1);
+}
+
+static int stringCompare2(const char* p1, const char* p2)
+{
+	return strcmp(p1, p2);
+}
+
+static int compareGlobals(const DBCachedGlobalValue* p1, const DBCachedGlobalValue* p2)
+{
+	return strcmp(p1->name, p2->name);
+}
+
+static int ModCompare(const ModuleName *mn1, const ModuleName *mn2 )
+{
+	return strcmp( mn1->name, mn2->name );
+}
+
+static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2 )
+{
+	return ( mn1->ofs - mn2->ofs );
+}
+
+CDdxMmap::CDdxMmap(const TCHAR* tszFileName) :
+	m_hDbFile(INVALID_HANDLE_VALUE),
+	m_safetyMode(TRUE),
+	m_lSettings(100, stringCompare),
+	m_lContacts(50, LIST<DBCachedContactValueList>::FTSortFunc(HandleKeySort)),
+	m_lGlobalSettings(50, compareGlobals),
+	m_lResidentSettings(50, stringCompare2),
+	m_lMods(50, ModCompare),
+	m_lOfs(50, OfsCompare)
+{
+	m_tszProfileName = mir_tstrdup(tszFileName);
+
+	InitializeCriticalSection(&m_csDbAccess);
+
+	SYSTEM_INFO sinf;
+	GetSystemInfo(&sinf);
+	m_ChunkSize = sinf.dwAllocationGranularity;
+
+	m_codePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+	m_hCacheHeap = HeapCreate(0, 0, 0);
+	m_hModHeap = HeapCreate(0,0,0);
+
+	hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
+	hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
+	hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
+	hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
+}
+
+CDdxMmap::~CDdxMmap()
+{
+	// destroy settings
+	HeapDestroy(m_hCacheHeap);
+	m_lContacts.destroy();
+	m_lSettings.destroy();
+	m_lGlobalSettings.destroy();
+	m_lResidentSettings.destroy();
+
+	// destroy modules
+	HeapDestroy(m_hModHeap);
+	m_lMods.destroy();
+	m_lOfs.destroy();
+
+	// destroy map
+	KillTimer(NULL,m_flushBuffersTimerId);
+	if (m_pDbCache) {
+		FlushViewOfFile(m_pDbCache, 0);
+		UnmapViewOfFile(m_pDbCache);
+	}
+	if (m_hMap)
+		CloseHandle(m_hMap);
+	if (m_pNull)
+		free(m_pNull);
+
+	// update profile last modified time
+	DWORD bytesWritten;
+	SetFilePointer(m_hDbFile,0,NULL,FILE_BEGIN);
+	WriteFile(m_hDbFile,&dbSignature,1,&bytesWritten,NULL);
+	CloseHandle(m_hDbFile);
+
+	DeleteCriticalSection(&m_csDbAccess);
+
+	mir_free(m_tszProfileName);
+}
+
+int CDdxMmap::Load(bool bSkipInit)
+{
+	log0("DB logging running");
+	
+	DWORD dummy = 0;
+	m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, 0, NULL);
+	if ( m_hDbFile == INVALID_HANDLE_VALUE )
+		return 1;
+
+	if ( !ReadFile(m_hDbFile,&m_dbHeader,sizeof(m_dbHeader),&dummy,NULL)) {
+		CloseHandle(m_hDbFile);
+		return 1;
+	}
+
+	if ( !bSkipInit) {
+		if (InitCache()) return 1;
+		if (InitModuleNames()) return 1;
+	}
+	return 0;
+}
+
+int CDdxMmap::Create()
+{
+	m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
+	return ( m_hDbFile == INVALID_HANDLE_VALUE );
 }
 
 STDMETHODIMP_(void) CDdxMmap::SetCacheSafetyMode(BOOL bIsSet)
 {
-	{	mir_cslock lck(csDbAccess);
-		safetyMode = bIsSet;
+	{	mir_cslock lck(m_csDbAccess);
+		m_safetyMode = bIsSet;
 	}
 	DBFlush(1);
 }

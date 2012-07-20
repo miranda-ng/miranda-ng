@@ -65,14 +65,12 @@ MIR_CORE_DLL(void*) List_Find(SortedList* p_list, void* p_value)
 
 MIR_CORE_DLL(int) List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 {
-	if (p_value == NULL)
-	{
+	if (p_value == NULL) {
 		*p_index = -1;
 		return 0;
 	}
 
-	switch ((INT_PTR)p_list->sortFunc)
-	{
+	switch ((INT_PTR)p_list->sortFunc) {
 	case 0:
 		break;
 

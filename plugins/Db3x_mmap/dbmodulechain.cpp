@@ -1,8 +1,8 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
+Copyright 2012 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -23,67 +23,33 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-static INT_PTR EnumModuleNames(WPARAM wParam,LPARAM lParam);
-
-typedef struct {
-	char *name;
-	DWORD ofs;
-}  ModuleName;
-
-HANDLE hModHeap = NULL;
-static SortedList lMods, lOfs;
-
-static int ModCompare( ModuleName *mn1, ModuleName *mn2 )
+void CDdxMmap::AddToList(char *name, DWORD len, DWORD ofs)
 {
-	return strcmp( mn1->name, mn2->name );
-}
-
-static int OfsCompare( ModuleName *mn1, ModuleName *mn2 )
-{
-	return ( mn1->ofs - mn2->ofs );
-}
-
-void AddToList(char *name, DWORD len, DWORD ofs)
-{
-	int index;
-	ModuleName *mn = (ModuleName*)HeapAlloc(hModHeap,0,sizeof(ModuleName));
+	ModuleName *mn = (ModuleName*)HeapAlloc(m_hModHeap,0,sizeof(ModuleName));
 	mn->name = name;
 	mn->ofs = ofs;
 
-	if (List_GetIndex(&lMods,mn,&index))
+	if (m_lMods.getIndex(mn) != -1)
 		DatabaseCorruption( _T("%s (Module Name not unique)"));
+	m_lMods.insert(mn);
 
-	List_Insert(&lMods,mn,index);
-
-	if (List_GetIndex(&lOfs,mn,&index))
+	if (m_lOfs.getIndex(mn) != -1)
 		DatabaseCorruption( _T("%s (Module Offset not unique)"));
-
-	List_Insert(&lOfs,mn,index);
+	m_lOfs.insert(mn);
 }
 
-
-int InitModuleNames(void)
+int CDdxMmap::InitModuleNames(void)
 {
-	struct DBModuleName *dbmn;
-	DWORD ofsThis;
-	int nameLen;
-	char *mod;
+	DWORD ofsThis = m_dbHeader.ofsFirstModuleName;
+	DBModuleName *dbmn = (struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
+	while (ofsThis) {
+		if (dbmn->signature != DBMODULENAME_SIGNATURE)
+			DatabaseCorruption(NULL);
 
-	hModHeap = HeapCreate(0, 0, 0);
-	lMods.sortFunc = (FSortFunc)ModCompare;
-	lMods.increment = 50;
-	lOfs.sortFunc = (FSortFunc)OfsCompare;
-	lOfs.increment = 50;
+		int nameLen = dbmn->cbName;
 
-	ofsThis = dbHeader.ofsFirstModuleName;
-	dbmn = (struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
-	while(ofsThis) {
-		if (dbmn->signature != DBMODULENAME_SIGNATURE) DatabaseCorruption(NULL);
-
-		nameLen = dbmn->cbName;
-
-		mod = (char*)HeapAlloc(hModHeap,0,nameLen+1);
-		CopyMemory(mod,DBRead(ofsThis+offsetof(struct DBModuleName,name),nameLen,NULL),nameLen);
+		char *mod = (char*)HeapAlloc(m_hModHeap,0,nameLen+1);
+		CopyMemory(mod,DBRead(ofsThis + offsetof(struct DBModuleName,name),nameLen,NULL),nameLen);
 		mod[nameLen] = 0;
 
 		AddToList(mod, nameLen, ofsThis);
@@ -94,28 +60,16 @@ int InitModuleNames(void)
 	return 0;
 }
 
-void UninitModuleNames(void)
+DWORD CDdxMmap::FindExistingModuleNameOfs(const char *szName)
 {
-	HeapDestroy(hModHeap);
-	List_Destroy(&lMods);
-	List_Destroy(&lOfs);
-}
+	ModuleName mn = { (char*)szName, 0 };
+	if (m_lastmn && !strcmp(mn.name, m_lastmn->name))
+		return m_lastmn->ofs;
 
-static DWORD FindExistingModuleNameOfs(const char *szName)
-{
-	static ModuleName *lastmn = NULL;
-	ModuleName mn, *pmn;
-	int index;
-
-	mn.name = (char*)szName;
-	mn.ofs = 0;
-
-	if (lastmn && ModCompare(&mn,lastmn) == 0)
-		return lastmn->ofs;
-
-	if (List_GetIndex(&lMods,&mn,&index)) {
-		pmn = (ModuleName*)lMods.items[index];
-		lastmn = pmn;
+	int index = m_lMods.getIndex(&mn);
+	if (index != -1) {
+		ModuleName *pmn = m_lMods[index];
+		m_lastmn = pmn;
 		return pmn->ofs;
 	}
 
@@ -123,7 +77,7 @@ static DWORD FindExistingModuleNameOfs(const char *szName)
 }
 
 //will create the offset if it needs to
-DWORD GetModuleNameOfs(const char *szName)
+DWORD CDdxMmap::GetModuleNameOfs(const char *szName)
 {
 	struct DBModuleName dbmn;
 	int nameLen;
@@ -139,15 +93,15 @@ DWORD GetModuleNameOfs(const char *szName)
 	ofsNew = CreateNewSpace(nameLen+offsetof(struct DBModuleName,name));
 	dbmn.signature = DBMODULENAME_SIGNATURE;
 	dbmn.cbName = nameLen;
-	dbmn.ofsNext = dbHeader.ofsFirstModuleName;
-	dbHeader.ofsFirstModuleName = ofsNew;
-	DBWrite(0,&dbHeader,sizeof(dbHeader));
+	dbmn.ofsNext = m_dbHeader.ofsFirstModuleName;
+	m_dbHeader.ofsFirstModuleName = ofsNew;
+	DBWrite(0,&m_dbHeader,sizeof(m_dbHeader));
 	DBWrite(ofsNew,&dbmn,offsetof(struct DBModuleName,name));
 	DBWrite(ofsNew+offsetof(struct DBModuleName,name),(PVOID)szName,nameLen);
 	DBFlush(0);
 
 	//add to cache
-	mod = (char*)HeapAlloc(hModHeap,0,nameLen+1);
+	mod = (char*)HeapAlloc(m_hModHeap,0,nameLen+1);
 	strcpy(mod,szName);
 	AddToList(mod, nameLen, ofsNew);
 
@@ -155,21 +109,16 @@ DWORD GetModuleNameOfs(const char *szName)
 	return ofsNew;
 }
 
-char *GetModuleNameByOfs(DWORD ofs)
+char* CDdxMmap::GetModuleNameByOfs(DWORD ofs)
 {
-	static ModuleName *lastmn = NULL;
-	ModuleName mn, *pmn;
-	int index;
+	if (m_lastmn && m_lastmn->ofs == ofs)
+		return m_lastmn->name;
 
-	if (lastmn && lastmn->ofs == ofs)
-		return lastmn->name;
-
-	mn.name = NULL;
-	mn.ofs = ofs;
-
-	if (List_GetIndex(&lOfs,&mn,&index)) {
-		pmn = (ModuleName*)lOfs.items[index];
-		lastmn = pmn;
+	ModuleName mn = {NULL, ofs};
+	int index = m_lOfs.getIndex(&mn);
+	if (index != -1) {
+		ModuleName *pmn = m_lOfs[index];
+		m_lastmn = pmn;
 		return pmn->name;
 	}
 
@@ -179,11 +128,9 @@ char *GetModuleNameByOfs(DWORD ofs)
 
 STDMETHODIMP_(BOOL) CDdxMmap::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam)
 {
-	int ret;
-	ModuleName *pmn;
-	for(int i = 0; i < lMods.realCount; i++) {
-		pmn = (ModuleName *)lMods.items[i];
-		ret = pFunc(pmn->name, pmn->ofs, (LPARAM)pParam);
+	for (int i = 0; i < m_lMods.getCount(); i++) {
+		ModuleName *pmn = m_lMods[i];
+		int ret = pFunc(pmn->name, pmn->ofs, (LPARAM)pParam);
 		if (ret)
 			return ret;
 	}

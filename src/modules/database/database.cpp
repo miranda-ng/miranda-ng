@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "profilemanager.h"
 
-MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db);
-
 // contains the location of mirandaboot.ini
 extern TCHAR mirandabootini[MAX_PATH];
 bool dbCreated;
@@ -413,59 +411,59 @@ int makeDatabase(TCHAR *profile, DATABASELINK * link, HWND hwndDlg)
 }
 
 // enumerate all plugins that had valid DatabasePluginInfo()
-static int FindDbPluginForProfile(const TCHAR*, DATABASELINK *dblink, LPARAM lParam)
+int tryOpenDatabase(const TCHAR* tszProfile)
 {
-	TCHAR* tszProfile = (TCHAR*)lParam;
-	int res = DBPE_CONT;
-	if (dblink && dblink->cbSize == sizeof(DATABASELINK)) {
+	for (int i=0; i < arDbPlugins.getCount(); i++) {
+		DATABASELINK* p = arDbPlugins[i];
+
 		// liked the profile?
 		int err = 0;
-		if (dblink->grokHeader(tszProfile, &err) == 0) {
+		if ( p->grokHeader(tszProfile, &err) == 0) {
 			// added APIs?
-			MIDatabase* pDb = dblink->Load(tszProfile);
+			MIDatabase* pDb = p->Load(tszProfile);
 			if (pDb) {
 				fillProfileName(tszProfile);
+				currDblink = p;
 				db_setCurrent(currDb = pDb);
-				res = DBPE_DONE;
+				return 0;
 			}
-			else res = DBPE_HALT;
+			return 1;
 		}
 		else {
-			res = DBPE_HALT;
 			switch (err) {
 			case EGROKPRF_CANTREAD:
 			case EGROKPRF_UNKHEADER:
 				// just not supported.
-				res = DBPE_CONT;
+				continue;
 
 			case EGROKPRF_VERNEWER:
 			case EGROKPRF_DAMAGED:
-				break;
+				return 1;
 			}
 		} //if
 	}
-	return res;
+	return 1;
 }
 
 // enumerate all plugins that had valid DatabasePluginInfo()
-static int FindDbPluginAutoCreate(const TCHAR* ptszProfile, DATABASELINK * dblink, LPARAM lParam)
+static int tryCreateDatabase(const TCHAR* ptszProfile)
 {
-	int res = DBPE_CONT;
-	if (dblink && dblink->cbSize == sizeof(DATABASELINK)) {
-		TCHAR* tszProfile = NEWTSTR_ALLOCA(ptszProfile);
-		CreatePathToFileT(tszProfile);
+	TCHAR* tszProfile = NEWTSTR_ALLOCA(ptszProfile);
+	CreatePathToFileT(tszProfile);
+
+	for (int i=0; i < arDbPlugins.getCount(); i++) {
+		DATABASELINK* p = arDbPlugins[i];
 
 		int err;
-		if (dblink->makeDatabase(tszProfile, &err) == 0) {
-			dbCreated = true;
-			if ( !dblink->Load(tszProfile)) {
+		if (p->makeDatabase(tszProfile, &err) == 0) {
+			if ( !p->Load(tszProfile)) {
 				fillProfileName(tszProfile);
-				res = DBPE_DONE;
+				return 0;
 			}
-			else res = DBPE_HALT;
+			return 1;
 		}
 	}
-	return res;
+	return 1;
 }
 
 typedef struct {
@@ -514,28 +512,24 @@ int LoadDatabaseModule(void)
 	if ( !getProfile(szProfile, SIZEOF(szProfile)))
 		return 1;
 
-	pfnDbEnumCallback pFunc;
-	if (_taccess(szProfile, 0) && shouldAutoCreate(szProfile))
-		pFunc = FindDbPluginAutoCreate;
-	else
-		pFunc = FindDbPluginForProfile;
+	if ( arDbPlugins.getCount() == 0) {
+		TCHAR buf[256];
+		TCHAR* p = _tcsrchr(szProfile, '\\');
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent."), p ? ++p : szProfile);
+		MessageBox(0, buf, TranslateT("No profile support installed!"), MB_OK | MB_ICONERROR);
+	}
 
 	// find a driver to support the given profile	
 	bool retry;
 	int rc;
 	do {
 		retry = false;
-		rc = enumDbPlugins(pFunc, (LPARAM)szProfile);
-		switch (rc) {
-		case -1: {
-			// no plugins at all
-			TCHAR buf[256];
-			TCHAR* p = _tcsrchr(szProfile, '\\');
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent."), p ? ++p : szProfile);
-			MessageBox(0, buf, TranslateT("No profile support installed!"), MB_OK | MB_ICONERROR);
-			break;
-		}
-		case 1:
+		if ( _taccess(szProfile, 0) && shouldAutoCreate(szProfile))
+			rc = tryCreateDatabase(szProfile);
+		else
+			rc = tryOpenDatabase(szProfile);
+
+		if (rc != 0) {
 			// if there were drivers but they all failed cos the file is locked, try and find the miranda which locked it
 			if (fileExist(szProfile)) {
 				// file isn't locked, just no driver could open it.

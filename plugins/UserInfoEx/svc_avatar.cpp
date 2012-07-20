@@ -33,93 +33,22 @@ Last change by : $Author: ing.u.horn $
 #include "m_png.h"
 #include "m_avatars.h"
 
-namespace NServices 
+namespace NServices
 {
-	namespace NAvatar 
+	namespace NAvatar
 	{
 
 		static HANDLE ghChangedHook = NULL;
 
-/*
-		int SaveBitmapAsAvatar(HBITMAP hBitmap, LPCSTR szFileName) 
-		{
-			BITMAPINFO* bmi;
-			HDC hdc;
-			HBITMAP hOldBitmap;
-			BITMAPINFOHEADER* pDib;
-			BYTE* pDibBits;
-			long dwPngSize = 0;
-			DIB2PNG convertor;
-			FILE* out;
-
-			// file exists?
-			out = fopen(szFileName, "rb");
-			if (out != NULL) {
-				fclose(out);
-				return ERROR_SUCCESS;
-			}	
-
-			if (!ServiceExists(MS_DIB2PNG)) {
-				MsgErr(NULL, TranslateT("Your png2dib.dll is either obsolete or damaged."));
-				return 1;
-			}
-
-			hdc = CreateCompatibleDC(NULL);
-			hOldBitmap = (HBITMAP)SelectObject(hdc, hBitmap);
-
-			bmi = (BITMAPINFO*)_alloca(sizeof(BITMAPINFO) + sizeof(RGBQUAD) * 256);
-			memset(bmi, 0, sizeof(BITMAPINFO));
-			bmi->bmiHeader.biSize = 0x28;
-			if (GetDIBits(hdc, hBitmap, 0, 96, NULL, bmi, DIB_RGB_COLORS) == 0) {
-				return 2;
-			}
-
-			pDib = (BITMAPINFOHEADER*)GlobalAlloc(LPTR, sizeof(BITMAPINFO) + sizeof(RGBQUAD) * 256 + bmi->bmiHeader.biSizeImage);
-			if (pDib == NULL)
-				return 3;
-
-			memcpy(pDib, bmi, sizeof(BITMAPINFO) + sizeof(RGBQUAD) * 256);
-			pDibBits = ((BYTE*)pDib) + sizeof(BITMAPINFO) + sizeof(RGBQUAD) * 256;
-
-			GetDIBits(hdc, hBitmap, 0, pDib->biHeight, pDibBits, (BITMAPINFO*)pDib, DIB_RGB_COLORS);
-			SelectObject(hdc, hOldBitmap);
-			DeleteDC(hdc);
-
-			convertor.pbmi = (BITMAPINFO*)pDib;
-			convertor.pDiData = pDibBits;
-			convertor.pResult = NULL;
-			convertor.pResultLen = &dwPngSize;
-			if (!CallService(MS_DIB2PNG, 0, (LPARAM)&convertor)) {
-				GlobalFree(pDib);
-				return 2;
-			}
-
-			convertor.pResult = (PBYTE)mir_alloc(dwPngSize);
-			CallService(MS_DIB2PNG, 0, (LPARAM)&convertor);
-
-			GlobalFree(pDib);
-				
-			out = fopen(szFileName, "wb");
-			if (out != NULL) {
-				fwrite(convertor.pResult, dwPngSize, 1, out);
-				fclose(out);
-			}	
-
-			mir_free(convertor.pResult);
-
-			return ERROR_SUCCESS;
-		}
-*/
-
 		static INT GetContactAvatarFileName(LPCTSTR zodiac, LPSTR szFileName, INT cchFileName)
 		{
-			if (!CallService(MS_DB_GETPROFILEPATH, (WPARAM)cchFileName, (LPARAM)szFileName)) 
+			if (!CallService(MS_DB_GETPROFILEPATH, (WPARAM)cchFileName, (LPARAM)szFileName))
 			{
 				size_t len = mir_strlen(szFileName);
-	
+
 				CHAR tmp[64];
 
-				if (WideCharToMultiByte(CP_ACP, 0, zodiac, 64, tmp, SIZEOF(tmp),0,0) > 0) 
+				if (WideCharToMultiByte(CP_ACP, 0, zodiac, 64, tmp, SIZEOF(tmp),0,0) > 0)
 				{
 					mir_snprintf(szFileName + len, cchFileName - len, "\\avatars\\%s.png", tmp);
 				}
@@ -133,7 +62,7 @@ namespace NServices
 		 *
 		 *
 		 **/
-		static VOID SetZodiacAvatar(HANDLE hContact) 
+		static VOID SetZodiacAvatar(HANDLE hContact)
 		{
 			MAnnivDate mtb;
 
@@ -143,17 +72,17 @@ namespace NServices
 				MZodiac zodiac;
 				//ICONINFO iinfo;
 				CHAR szFileName[MAX_PATH];
-				
+
 				// get zodiac for birthday
 				zodiac = mtb.Zodiac();
 
-				if (!GetContactAvatarFileName(zodiac.pszName, szFileName, SIZEOF(szFileName))) 
+				if (!GetContactAvatarFileName(zodiac.pszName, szFileName, SIZEOF(szFileName)))
 				{
 					// extract the bitmap from the icon
 					//GetIconInfo(zodiac.hIcon, &iinfo);
 
 					// save the bitmap to a file used as avatar later
-					//if (!SaveBitmapAsAvatar(iinfo.hbmColor, szFileName)) 
+					//if (!SaveBitmapAsAvatar(iinfo.hbmColor, szFileName))
 					{
 						if (!CallService(MS_AV_SETAVATAR, (WPARAM)hContact, (LPARAM)szFileName))
 						{
@@ -177,7 +106,7 @@ namespace NServices
 				DB::Setting::Delete(hContact, "ContactPhoto", "ImageHash");
 
 				DB::Setting::WriteByte(hContact, "ContactPhoto", "IsZodiac", 0);
-				
+
 				/*
 				ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETMYAVATAR, NULL, (LPARAM)szProto);
 				if (ace)
@@ -204,7 +133,7 @@ namespace NServices
 				if (ace)
 				{
 					if (// check for correct structure
-							ace->cbSize == sizeof(AVATARCACHEENTRY) && 
+							ace->cbSize == sizeof(AVATARCACHEENTRY) &&
 							// set zodiac as avatar either if the desired avatar is invalid or a general protocol picture
 							((ace->dwFlags & AVS_PROTOPIC) || !(ace->dwFlags & AVS_BITMAP_VALID)))
 					{
@@ -232,12 +161,12 @@ namespace NServices
 		 *
 		 *
 		 **/
-		VOID Enable(BOOLEAN bEnable) 
+		VOID Enable(BOOLEAN bEnable)
 		{
 			HANDLE hContact;
 			DBVARIANT dbv;
 
-			if (bEnable && !ghChangedHook) 
+			if (bEnable && !ghChangedHook)
 			{
 
 				//walk through all the contacts stored in the DB
@@ -246,18 +175,18 @@ namespace NServices
 					hContact = DB::Contact::FindNext(hContact))
 				{
 					// don't set if avatar is locked!
-					if (!DB::Setting::GetByte(hContact, "ContactPhoto", "Locked", 0)) 
+					if (!DB::Setting::GetByte(hContact, "ContactPhoto", "Locked", 0))
 					{
 						BOOLEAN bInvalidAvatar = TRUE;
-						
+
 						// the relative file is valid
-						if (!DB::Setting::GetAString(hContact, "ContactPhoto", "RFile", &dbv)) 
+						if (!DB::Setting::GetAString(hContact, "ContactPhoto", "RFile", &dbv))
 						{
 							CHAR absolute[MAX_PATH];
 							absolute[0] = '\0';
 
 							// check if file exists
-							if (!CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)absolute)) 
+							if (!CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)absolute))
 							{
 								FILE *f = fopen(absolute, "rb");
 								if (f) {
@@ -269,7 +198,7 @@ namespace NServices
 						}
 
 						// the absolute file is valid
-						if (bInvalidAvatar && !DBGetContactSetting(hContact, "ContactPhoto", "File", &dbv)) 
+						if (bInvalidAvatar && !DBGetContactSetting(hContact, "ContactPhoto", "File", &dbv))
 						{
 							FILE *f = fopen(dbv.pszVal, "rb");
 							if (f) {
@@ -278,7 +207,7 @@ namespace NServices
 							}
 							DB::Variant::Free(&dbv);
 						}
-						
+
 						// set the zodiac as avatar
 						if (bInvalidAvatar) {
 							SetZodiacAvatar(hContact);
@@ -287,7 +216,7 @@ namespace NServices
 				}
 				ghChangedHook = HookEvent(ME_AV_AVATARCHANGED, (MIRANDAHOOK) OnAvatarChanged);
 			}
-			else if (!bEnable && ghChangedHook) 
+			else if (!bEnable && ghChangedHook)
 			{
 				UnhookEvent(ghChangedHook);
 				ghChangedHook = NULL;

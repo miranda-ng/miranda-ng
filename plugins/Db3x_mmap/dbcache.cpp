@@ -1,8 +1,8 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
+Copyright 2012 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -23,172 +23,154 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-BOOL safetyMode = TRUE;
-static UINT_PTR flushBuffersTimerId;
-
-static PBYTE pNull = 0;
-static PBYTE pDbCache = NULL;
-static HANDLE hMap = NULL;
-static DWORD dwFileSize = 0;
-static DWORD ChunkSize = 65536;
-static DWORD flushFailTick = 0;
-
-
-void Map()
+void CDdxMmap::Map()
 {
-	hMap = CreateFileMapping(hDbFile, NULL, PAGE_READWRITE, 0, dwFileSize, NULL);
+	m_hMap = CreateFileMapping(m_hDbFile, NULL, PAGE_READWRITE, 0, m_dwFileSize, NULL);
 
-	if (hMap)
+	if (m_hMap)
 	{
-		pDbCache = (PBYTE)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS/*FILE_MAP_WRITE*/, 0, 0 ,0);
-		if (!pDbCache)
+		m_pDbCache = (PBYTE)MapViewOfFile(m_hMap, FILE_MAP_ALL_ACCESS/*FILE_MAP_WRITE*/, 0, 0 ,0);
+		if (!m_pDbCache)
 			DatabaseCorruption( _T("%s (MapViewOfFile failed. Code: %d)"));
 	}
 	else
 		DatabaseCorruption( _T("%s (CreateFileMapping failed. Code: %d)"));
 }
 
-void ReMap(DWORD needed)
+void CDdxMmap::ReMap(DWORD needed)
 {
-	KillTimer(NULL,flushBuffersTimerId);
+	KillTimer(NULL,m_flushBuffersTimerId);
 
-	log3("remapping %d + %d (file end: %d)",dwFileSize,needed,dbHeader.ofsFileEnd);
+	log3("remapping %d + %d (file end: %d)",m_dwFileSize,needed,m_dbHeader.ofsFileEnd);
 
-	if (needed > ChunkSize)
+	if (needed > m_ChunkSize)
 	{
-		if (needed + dwFileSize > dbHeader.ofsFileEnd + ChunkSize)
+		if (needed + m_dwFileSize > m_dbHeader.ofsFileEnd + m_ChunkSize)
 			DatabaseCorruption( _T("%s (Too large increment)"));
 		else
 		{
-			DWORD x = dbHeader.ofsFileEnd/ChunkSize;
-			dwFileSize = (x+1)*ChunkSize;
+			DWORD x = m_dbHeader.ofsFileEnd/m_ChunkSize;
+			m_dwFileSize = (x+1)*m_ChunkSize;
 		}
 	}
 	else
-		dwFileSize  +=  ChunkSize;
+		m_dwFileSize  +=  m_ChunkSize;
 
-//	FlushViewOfFile(pDbCache, 0);
-	UnmapViewOfFile(pDbCache);
-	pDbCache = NULL;
-	CloseHandle(hMap);
+//	FlushViewOfFile(m_pDbCache, 0);
+	UnmapViewOfFile(m_pDbCache);
+	m_pDbCache = NULL;
+	CloseHandle(m_hMap);
 
 	Map();
 }
 
-void DBMoveChunk(DWORD ofsDest,DWORD ofsSource,int bytes)
+void CDdxMmap::DBMoveChunk(DWORD ofsDest,DWORD ofsSource,int bytes)
 {
-    int x = 0;
+	int x = 0;
 	log3("move %d %08x->%08x",bytes,ofsSource,ofsDest);
-	if (ofsDest+bytes>dwFileSize) ReMap(ofsDest+bytes-dwFileSize);
-	if (ofsSource+bytes>dwFileSize) {
-		x = ofsSource+bytes-dwFileSize;
+	if (ofsDest+bytes>m_dwFileSize) ReMap(ofsDest+bytes-m_dwFileSize);
+	if (ofsSource+bytes>m_dwFileSize) {
+		x = ofsSource+bytes-m_dwFileSize;
 		log0("buggy move!");
 		_ASSERT(0);
 	}
 	if (x > 0)
-		ZeroMemory(pDbCache+ofsDest+bytes-x, x);
-	if (ofsSource < dwFileSize)
-		MoveMemory(pDbCache+ofsDest,pDbCache+ofsSource, bytes-x);
+		ZeroMemory(m_pDbCache+ofsDest+bytes-x, x);
+	if (ofsSource < m_dwFileSize)
+		MoveMemory(m_pDbCache+ofsDest,m_pDbCache+ofsSource, bytes-x);
 
 	logg();
 }
 
 //we are assumed to be in a mutex here
-PBYTE DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
+PBYTE CDdxMmap::DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
 {
 	// buggy read
-	if (ofs>= dwFileSize) {
+	if (ofs>= m_dwFileSize) {
 		log2("read from outside %d@%08x",bytesRequired,ofs);
-		if (bytesAvail!=NULL) *bytesAvail = ChunkSize;
-		return pNull;
+		if (bytesAvail!=NULL) *bytesAvail = m_ChunkSize;
+		return m_pNull;
 	}
-	log3((ofs+bytesRequired>dwFileSize)?"read %d@%08x, only %d avaliable":"read %d@%08x",bytesRequired,ofs,dwFileSize-ofs);
-	if (bytesAvail!=NULL) *bytesAvail = dwFileSize - ofs;
-	return pDbCache+ofs;
+	log3((ofs+bytesRequired > m_dwFileSize)?"read %d@%08x, only %d avaliable":"read %d@%08x",bytesRequired,ofs,m_dwFileSize-ofs);
+	if (bytesAvail!=NULL) *bytesAvail = m_dwFileSize - ofs;
+	return m_pDbCache+ofs;
 }
 
 //we are assumed to be in a mutex here
-void DBWrite(DWORD ofs,PVOID pData,int bytes)
+void CDdxMmap::DBWrite(DWORD ofs,PVOID pData,int bytes)
 {
 	log2("write %d@%08x",bytes,ofs);
-	if (ofs+bytes>dwFileSize) ReMap(ofs+bytes-dwFileSize);
-	MoveMemory(pDbCache+ofs,pData,bytes);
+	if (ofs+bytes>m_dwFileSize) ReMap(ofs+bytes-m_dwFileSize);
+	MoveMemory(m_pDbCache+ofs,pData,bytes);
 	logg();
 }
 
 //we are assumed to be in a mutex here
-void DBFill(DWORD ofs,int bytes)
+void CDdxMmap::DBFill(DWORD ofs,int bytes)
 {
 	log2("zerofill %d@%08x",bytes,ofs);
-	if (ofs+bytes <= dwFileSize)
-		ZeroMemory(pDbCache+ofs,bytes);
+	if (ofs+bytes <= m_dwFileSize)
+		ZeroMemory(m_pDbCache+ofs,bytes);
 	logg();
 }
 
 static VOID CALLBACK DoBufferFlushTimerProc(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
 {
-    if (!pDbCache) return;
+	for (int i=0; i < g_Dbs.getCount(); i++) {
+		CDdxMmap* db = g_Dbs[i];
+		if (db->m_flushBuffersTimerId != idEvent)
+			continue;
 
-	KillTimer(NULL,flushBuffersTimerId);
-	log0("tflush1");
-	if (FlushViewOfFile(pDbCache, 0) == 0) {
-		if (flushFailTick == 0)
-			flushFailTick = GetTickCount();
-		else if (GetTickCount() - flushFailTick > 5000)
-			DatabaseCorruption(NULL);
+		if (!db->m_pDbCache)
+			return;
+
+		KillTimer(NULL, db->m_flushBuffersTimerId);
+		log0("tflush1");
+		if (FlushViewOfFile(db->m_pDbCache, 0) == 0) {
+			if (db->m_flushFailTick == 0)
+				db->m_flushFailTick = GetTickCount();
+			else if (GetTickCount() - db->m_flushFailTick > 5000)
+				db->DatabaseCorruption(NULL);
+		}
+		else db->m_flushFailTick = 0;
+		log0("tflush2");
 	}
-	else
-		flushFailTick = 0;
-	log0("tflush2");
 }
 
-void DBFlush(int setting)
+void CDdxMmap::DBFlush(int setting)
 {
 	if (!setting) {
 		log0("nflush1");
-		if (safetyMode && pDbCache) {
-			if (FlushViewOfFile(pDbCache, 0) == 0) {
-				if (flushFailTick == 0)
-					flushFailTick = GetTickCount();
-				else if (GetTickCount() - flushFailTick > 5000)
+		if (m_safetyMode && m_pDbCache) {
+			if (FlushViewOfFile(m_pDbCache, 0) == 0) {
+				if (m_flushFailTick == 0)
+					m_flushFailTick = GetTickCount();
+				else if (GetTickCount() - m_flushFailTick > 5000)
 					DatabaseCorruption(NULL);
 			}
 			else
-				flushFailTick = 0;
+				m_flushFailTick = 0;
 		}
 		log0("nflush2");
 		return;
 	}
-	KillTimer(NULL,flushBuffersTimerId);
-	flushBuffersTimerId = SetTimer(NULL,flushBuffersTimerId,50,DoBufferFlushTimerProc);
+	KillTimer(NULL, m_flushBuffersTimerId);
+	m_flushBuffersTimerId = SetTimer(NULL, m_flushBuffersTimerId, 50, DoBufferFlushTimerProc);
 }
 
-int InitCache(void)
+int CDdxMmap::InitCache(void)
 {
 	DWORD x;
-	SYSTEM_INFO sinf;
 
-	GetSystemInfo(&sinf);
-	ChunkSize = sinf.dwAllocationGranularity;
-
-	dwFileSize = GetFileSize(hDbFile,  NULL);
+	m_dwFileSize = GetFileSize(m_hDbFile,  NULL);
 
 	// Align to chunk
-	x = dwFileSize % ChunkSize;
-	if (x) dwFileSize  +=  ChunkSize - x;
+	x = m_dwFileSize % m_ChunkSize;
+	if (x) m_dwFileSize  +=  m_ChunkSize - x;
 
 	Map();
 
 	// zero region for reads outside the file
-	pNull = (PBYTE)calloc(ChunkSize, 1);
+	m_pNull = (PBYTE)calloc(m_ChunkSize, 1);
 	return 0;
-}
-
-void UninitCache(void)
-{
-	KillTimer(NULL,flushBuffersTimerId);
-	FlushViewOfFile(pDbCache, 0);
-	UnmapViewOfFile(pDbCache);
-	CloseHandle(hMap);
-	if (pNull) free(pNull);
 }

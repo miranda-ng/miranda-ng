@@ -44,13 +44,8 @@ CDdxMmap* g_Db = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int getCapability( int flag )
-{
-	return 0;
-}
-
 // returns 0 if the profile is created, EMKPRF*
-static int makeDatabase(TCHAR *profile, int * error)
+static int makeDatabase(const TCHAR *profile, int * error)
 {
 	HANDLE hFile = CreateFile(profile, GENERIC_READ|GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
 	if ( hFile != INVALID_HANDLE_VALUE ) {
@@ -63,7 +58,7 @@ static int makeDatabase(TCHAR *profile, int * error)
 }
 
 // returns 0 if the given profile has a valid header
-static int grokHeader(TCHAR *profile, int * error )
+static int grokHeader(const TCHAR *profile, int * error )
 {
 	int rc = 1;
 	int chk = 0;
@@ -115,7 +110,7 @@ static int grokHeader(TCHAR *profile, int * error )
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
-static MIDatabase* LoadDatabase(TCHAR *profile)
+static MIDatabase* LoadDatabase(const TCHAR *profile)
 {
 	if (g_Db) delete g_Db;
 	g_Db = new CDdxMmap(profile);
@@ -131,23 +126,16 @@ static MIDatabase* LoadDatabase(TCHAR *profile)
 	return g_Db;
 }
 
-static int UnloadDatabase(int wasLoaded)
+static int UnloadDatabase(MIDatabase* db)
 {
-	if ( !wasLoaded) return 0;
 	UnloadDatabaseModule();
-	return 0;
-}
-
-static int getFriendlyName( TCHAR *buf, size_t cch, int shortName )
-{
-	_tcsncpy(buf, shortName ? _T("db3x driver") : _T("db3x database support"), cch);
 	return 0;
 }
 
 static DATABASELINK dblink = {
 	sizeof(DATABASELINK),
-	getCapability,
-	getFriendlyName,
+	"db3x driver",
+	_T("db3x database support"),
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,
@@ -174,7 +162,8 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_DATABAS
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	return 1;
+	RegisterDatabasePlugin(&dblink);
+	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)

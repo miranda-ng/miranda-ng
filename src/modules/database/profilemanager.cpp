@@ -115,20 +115,6 @@ static LRESULT CALLBACK ProfileNameValidate(HWND edit, UINT msg, WPARAM wParam, 
 	return CallWindowProc((WNDPROC)GetWindowLongPtr(edit, GWLP_USERDATA), edit, msg, wParam, lParam);
 }
 
-static int FindDbProviders(const TCHAR* tszProfileName, DATABASELINK *dblink, LPARAM lParam)
-{
-	HWND hwndDlg = (HWND)lParam;
-	HWND hwndCombo = GetDlgItem(hwndDlg, IDC_PROFILEDRIVERS);
-	TCHAR szName[64];
-
-	if (dblink->getFriendlyName(szName, SIZEOF(szName), 1) == 0) {
-		// add to combo box
-		LRESULT index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)szName);
-		SendMessage(hwndCombo, CB_SETITEMDATA, index, (LPARAM)dblink);
-	}
-	return DBPE_CONT;
-}
-
 static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	struct DlgProfData * dat = (struct DlgProfData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -138,18 +124,26 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		dat = (struct DlgProfData *)lParam;
 		{
-			// fill in the db plugins present
-			if (enumDbPlugins(FindDbProviders, (LPARAM)hwndDlg) == -1) {
-				// what, no plugins?!
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILEDRIVERS), FALSE);
+			HWND hwndCombo = GetDlgItem(hwndDlg, IDC_PROFILEDRIVERS);
+
+			// what, no plugins?!
+			if (arDbPlugins.getCount() == 0) {
+				EnableWindow(hwndCombo, FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILENAME), FALSE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_NODBDRIVERS), TRUE);
 			}
+			else {
+				for (int i=0; i < arDbPlugins.getCount(); i++) {
+					DATABASELINK* p = arDbPlugins[i];
+					LRESULT index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(p->szFullName));
+					SendMessage(hwndCombo, CB_SETITEMDATA, index, (LPARAM)p);
+				}
+			}
+
 			// default item
-			SendDlgItemMessage(hwndDlg, IDC_PROFILEDRIVERS, CB_SETCURSEL, 0, 0);
-		}
-		// subclass the profile name box
-		{
+			SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
+
+			// subclass the profile name box
 			HWND hwndProfile = GetDlgItem(hwndDlg, IDC_PROFILENAME);
 			WNDPROC proc = (WNDPROC)GetWindowLongPtr(hwndProfile, GWLP_WNDPROC);
 			SetWindowLongPtr(hwndProfile, GWLP_USERDATA, (LONG_PTR)proc);
@@ -157,8 +151,7 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		}
 
 		// decide if there is a default profile name given in the INI and if it should be used
-		if (dat->pd->noProfiles || (shouldAutoCreate(dat->pd->szProfile) && _taccess(dat->pd->szProfile, 0))) 
-		{
+		if (dat->pd->noProfiles || (shouldAutoCreate(dat->pd->szProfile) && _taccess(dat->pd->szProfile, 0))) {
 			TCHAR* profile = _tcsrchr(dat->pd->szProfile, '\\');
 			if (profile) ++profile;
 			else profile = dat->pd->szProfile;
@@ -216,21 +209,6 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-static int DetectDbProvider(const TCHAR*, DATABASELINK * dblink, LPARAM lParam)
-{
-	int error;
-	int ret = dblink->grokHeader((TCHAR*)lParam, &error);
-	if (ret == 0) {
-
-		TCHAR tmp[ MAX_PATH ];
-		dblink->getFriendlyName(tmp, SIZEOF(tmp), 1);
-		_tcsncpy((TCHAR*)lParam, tmp, MAX_PATH);
-		return DBPE_HALT;
-	}
-
-	return DBPE_CONT;
-}
-
 BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 {
 	ProfileEnumData *ped = (ProfileEnumData*)lParam;
@@ -260,7 +238,6 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 			_tcscpy(sizeBuf+5, _T(" KB"));
 		}
 		bFileExists = TRUE;
-
 		bFileLocked = !fileExist(fullpath);
 	}
 
@@ -283,7 +260,8 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 		item2.mask = LVIF_TEXT;
 		item2.iItem = iItem;
 
-		if ( enumDbPlugins(DetectDbProvider, (LPARAM)szPath) == 1) {
+		DATABASELINK* dblink = FindDatabasePlugin(szPath);
+		if (dblink != NULL) {
 			if (bFileLocked) {
 				// file locked
 				item2.pszText = TranslateT("<In Use>");
@@ -291,10 +269,11 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 				SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item2);
 			}
 			else {
-				item.pszText = szPath;
+				item.pszText = TranslateTS(dblink->szFullName);
 				item.iSubItem = 1;
 				SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item);
-		}	}
+			}
+		}
 
 		item2.iSubItem = 3;
 		item2.pszText = trtrim(_tctime(&statbuf.st_ctime));

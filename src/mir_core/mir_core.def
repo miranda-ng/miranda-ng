@@ -126,3 +126,4 @@ UnloadCoreModule              @123
 Thread_SetName                @124
 replaceStr                    @125
 replaceStrW                   @126
+db_setCurrent                 @127

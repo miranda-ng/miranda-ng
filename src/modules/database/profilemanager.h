@@ -42,14 +42,3 @@ bool shouldAutoCreate(TCHAR *szProfile);
 
 extern TCHAR g_profileDir[MAX_PATH];
 extern TCHAR g_profileName[MAX_PATH];
-
-///////////////////////////////////////////////////////////////////////////////
-// former m_plugins.h
-
-#define DBPE_DONE 1
-#define DBPE_CONT 0
-#define DBPE_HALT (-1)
-
-typedef int (*pfnDbEnumCallback) (const TCHAR *pluginname, DATABASELINK* link, LPARAM lParam);
-
-int enumDbPlugins(pfnDbEnumCallback pFunc, LPARAM lParam);

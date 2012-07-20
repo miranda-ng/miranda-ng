@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "Interface.h"
+#include "DatabaseLink.h"
 
 HINSTANCE  hInstance = NULL;
 int hLangpack;
@@ -34,7 +35,7 @@ static PLUGININFOEX gPluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	gInternalNameLong,
 	gVersion,
-	gDescription " - build " __DATE__ " @ " __TIME__,
+	gDescription,
 	gAutor,
 	gAutorEmail,
 	gCopyright,
@@ -42,11 +43,6 @@ static PLUGININFOEX gPluginInfoEx = {
 	UNICODE_AWARE,
 	gGUID
 };
-
-extern "C" __declspec(dllexport) DATABASELINK* DatabasePluginInfo(void * Reserved)
-{
-	return &gDBLink;
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD MirandaVersion)
 {
@@ -58,14 +54,17 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_DATABAS
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&gPluginInfoEx);
-	return 1;
+
+	RegisterDatabasePlugin(&gDBLink);
+	RegisterServices();
+	CompatibilityRegister();
+	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	return 0;
 }
-
 
 BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
 {

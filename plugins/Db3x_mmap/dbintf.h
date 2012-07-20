@@ -23,10 +23,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_db_int.h>
 
-struct CDdxMmap : public MIDatabase
+struct ModuleName
+{
+	char *name;
+	DWORD ofs;
+};
+
+struct CDdxMmap : public MIDatabase, public MZeroedObject
 {
 	CDdxMmap(const TCHAR* tszFileName);
+	~CDdxMmap();
 
+	int Load(bool bSkipInit);
+	int Create(void);
+	int CreateDbHeaders();
+	int CheckDbHeaders();
+	void DatabaseCorruption(TCHAR *text);
+
+protected:
 	STDMETHODIMP_(void)   SetCacheSafetyMode(BOOL);
 
 	STDMETHODIMP_(LONG)   GetContactCount(void);
@@ -62,5 +76,85 @@ struct CDdxMmap : public MIDatabase
 	STDMETHODIMP_(BOOL)   EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
 
 private:
-	int CheckProto(HANDLE hContact, const char *proto);
+	TCHAR*   m_tszProfileName;
+	HANDLE   m_hDbFile;
+	DBHeader m_dbHeader;
+	DWORD    m_ChunkSize;
+	BOOL     m_safetyMode;
+	
+	////////////////////////////////////////////////////////////////////////////
+	// database stuff
+public:	
+	UINT_PTR m_flushBuffersTimerId;
+	DWORD    m_flushFailTick;
+	PBYTE    m_pDbCache;
+
+private:
+	PBYTE    m_pNull;
+	HANDLE   m_hMap;
+	DWORD    m_dwFileSize;
+
+	CRITICAL_SECTION m_csDbAccess;
+
+	int   CheckProto(HANDLE hContact, const char *proto);
+	DWORD CreateNewSpace(int bytes);
+	void  DeleteSpace(DWORD ofs, int bytes);
+	DWORD ReallocSpace(DWORD ofs, int oldSize, int newSize);
+
+	void  Map();
+	void  ReMap(DWORD needed);
+	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes);
+	PBYTE DBRead(DWORD ofs, int bytesRequired, int *bytesAvail);
+	void  DBWrite(DWORD ofs, PVOID pData, int bytes);
+	void  DBFill(DWORD ofs, int bytes);
+	void  DBFlush(int setting);
+	int   InitCache(void);
+
+	__forceinline PBYTE DBRead(HANDLE hContact, int bytesRequired, int *bytesAvail)
+	{	return DBRead((DWORD)hContact, bytesRequired, bytesAvail);
+	}
+
+	////////////////////////////////////////////////////////////////////////////
+	// settings 
+
+	int m_codePage;
+
+	HANDLE m_hCacheHeap;
+	HANDLE m_hLastCachedContact;
+	char* m_lastSetting;
+	DBCachedContactValueList *m_lastVL;
+
+	LIST<DBCachedContactValueList> m_lContacts;
+	LIST<DBCachedGlobalValue> m_lGlobalSettings;
+	LIST<char> m_lSettings, m_lResidentSettings;
+	HANDLE hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent;
+
+	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsModuleName);
+	char* InsertCachedSetting(const char* szName, size_t cbNameLen);
+	char* GetCachedSetting(const char *szModuleName,const char *szSettingName, int moduleNameLen, int settingNameLen);
+	void SetCachedVariant(DBVARIANT* s, DBVARIANT* d);
+	void FreeCachedVariant(DBVARIANT* V);
+	DBVARIANT* GetCachedValuePtr(HANDLE hContact, char* szSetting, int bAllocate);
+	int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs,int isStatic);
+
+	////////////////////////////////////////////////////////////////////////////
+	// contacts
+
+	DBCachedContactValueList* AddToCachedContactList(HANDLE hContact, int index);
+
+	////////////////////////////////////////////////////////////////////////////
+	// modules
+
+	HANDLE m_hModHeap;
+	LIST<ModuleName> m_lMods, m_lOfs;
+	HANDLE hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
+	ModuleName *m_lastmn;
+
+	void  AddToList(char *name, DWORD len, DWORD ofs);
+	DWORD FindExistingModuleNameOfs(const char *szName);
+	int   InitModuleNames(void);
+	DWORD GetModuleNameOfs(const char *szName);
+	char *GetModuleNameByOfs(DWORD ofs);
 };
+
+extern LIST<CDdxMmap> g_Dbs;

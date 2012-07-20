@@ -111,6 +111,8 @@ extern LPFN_WSAADDRESSTOSTRINGA MyWSAAddressToString;
 /**** database.cpp *********************************************************************/
 
 extern MIDatabase* currDb;
+extern DATABASELINK* currDblink;
+extern LIST<DATABASELINK> arDbPlugins;
 
 /**** fontService.cpp ******************************************************************/
 
@@ -251,4 +253,5 @@ public:
 extern "C"
 {
 	MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo);
+	MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db);
 };

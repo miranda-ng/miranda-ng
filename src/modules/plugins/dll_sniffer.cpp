@@ -42,7 +42,7 @@ MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin)
 
 	MUUID* pResult = NULL;
 	BYTE* ptr = NULL;
-	HANDLE hMap = CreateFileMapping( hFile, NULL, PAGE_WRITECOPY, 0, 0, NULL );
+	HANDLE hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL );
 
 	__try
 	{

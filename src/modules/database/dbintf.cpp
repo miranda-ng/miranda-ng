@@ -23,7 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\..\core\commonheaders.h"
 
-MIDatabase* currDb = NULL;
+MIDatabase *currDb = NULL;
+DATABASELINK *currDblink = NULL;
 
 MIR_CORE_DLL(void) db_setCurrent(MIDatabase*);
 
@@ -159,6 +160,34 @@ static INT_PTR srvEnumResidentSettings(WPARAM wParam,LPARAM lParam)
 {	return (currDb) ? (INT_PTR)currDb->EnumResidentSettings((DBMODULEENUMPROC)wParam, (void*)lParam) : 0;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// Database list
+
+LIST<DATABASELINK> arDbPlugins(5);
+
+static INT_PTR srvRegisterPlugin(WPARAM wParam,LPARAM lParam)
+{
+	DATABASELINK* pPlug = (DATABASELINK*)lParam;
+	if (pPlug == NULL)
+		return 1;
+
+	arDbPlugins.insert(pPlug);
+	return 0;
+}
+
+static INT_PTR srvFindPlugin(WPARAM wParam,LPARAM lParam)
+{
+	for (int i=0; i < arDbPlugins.getCount(); i++) {
+		int error;
+		if (arDbPlugins[i]->grokHeader((TCHAR*)lParam, &error) == ERROR_SUCCESS)
+			return (INT_PTR)arDbPlugins[i];
+	}
+
+	return NULL;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 int LoadDbintfModule()
 {
 	CreateServiceFunction(MS_DB_SETSAFETYMODE, srvSetSafetyMode);
@@ -194,5 +223,8 @@ int LoadDbintfModule()
 	CreateServiceFunction(MS_DB_CONTACT_ENUMSETTINGS, srvEnumContactSettings);
 	CreateServiceFunction(MS_DB_SETSETTINGRESIDENT, srvSetSettingResident);
 	CreateServiceFunction("DB/ResidentSettings/Enum", srvEnumResidentSettings);
+
+	CreateServiceFunction(MS_DB_REGISTER_PLUGIN, srvRegisterPlugin);
+	CreateServiceFunction(MS_DB_FIND_PLUGIN, srvFindPlugin);
 	return 0;
 }

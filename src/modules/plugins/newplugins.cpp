@@ -76,7 +76,7 @@ static int serviceModeIdx = -1, sttFakeID = -100;
 static HANDLE hPluginListHeap = NULL;
 static int askAboutIgnoredPlugins;
 
-static pluginEntry *pluginListSM, *pluginListDb, *pluginListUI, *pluginList_freeimg, *pluginList_crshdmp;
+static pluginEntry *pluginListSM, *pluginListUI, *pluginList_freeimg, *pluginList_crshdmp;
 
 int  InitIni(void);
 void UninitIni(void);
@@ -197,11 +197,6 @@ static int isPluginBanned(MUUID u1, DWORD dwVersion)
 	return 0;
 }
 
-// returns true if the API exports were good, otherwise, passed in data is returned
-#define CHECKAPI_NONE  0
-#define CHECKAPI_DB    1
-#define CHECKAPI_CLIST 2
-
 /*
  * historyeditor added by nightwish - plugin is problematic and can ruin database as it does not understand UTF-8 message
  * storage
@@ -291,17 +286,6 @@ LBL_Ok:
 		return 1;
 	}
 
-	// check for DB?
-	if (checkTypeAPI == CHECKAPI_DB) {
-		bpi->DbInfo = (Database_Plugin_Info) GetProcAddress(h, "DatabasePluginInfo");
-		if (bpi->DbInfo) {
-			// fetch internal database function pointers
-			bpi->dblink = bpi->DbInfo(NULL);
-			// validate returned link structure
-			if (bpi->dblink && bpi->dblink->cbSize == sizeof(DATABASELINK))
-				goto LBL_Ok;
-	}	}
-
 	// check clist ?
 	if (checkTypeAPI == CHECKAPI_CLIST) {
 		bpi->clistlink = (CList_Initialise) GetProcAddress(h, "CListInitialise");
@@ -316,10 +300,6 @@ LBL_Ok:
 // perform any API related tasks to freeing
 void Plugin_Uninit(pluginEntry* p)
 {
-	// if it was an installed database plugin, call its unload
-	if (p->pclass & PCLASS_DB)
-		p->bpi.dblink->Unload(p->pclass & PCLASS_OK);
-
 	// if the basic API check had passed, call Unload if Load(void) was ever called
 	if (p->pclass & PCLASS_LOADED)
 		p->bpi.Unload();
@@ -406,33 +386,6 @@ void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-// this is called by the db module to return all DBs plugins, then when it finds the one it likes the others are unloaded
-int enumDbPlugins(pfnDbEnumCallback pFunc, LPARAM lParam)
-{
-	pluginEntry *x = pluginListDb;
-	if (pFunc == NULL)
-		return 1;
-
-	while (x != NULL) {
-		int rc = pFunc(x->pluginname, x->bpi.dblink, lParam);
-		if (rc == DBPE_DONE) {
-			// this db has been picked, get rid of all the others
-			pluginEntry *y = pluginListDb, *n;
-			while (y != NULL) {
-				n = y->nextclass;
-				if (x != y)
-					Plugin_Uninit(y);
-				y = n;
-			} // while
-			x->pclass |= PCLASS_LOADED | PCLASS_OK | PCLASS_LAST;
-			return 0;
-		}
-		else if (rc == DBPE_HALT) return 1;
-		x = x->nextclass;
-	} // while
-	return pluginListDb != NULL ? 1 : -1;
-}
-
 pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 {
 	pluginEntry* p = (pluginEntry*)HeapAlloc(hPluginListHeap, HEAP_NO_SERIALIZE | HEAP_ZERO_MEMORY, sizeof(pluginEntry));
@@ -455,18 +408,19 @@ pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 	// plugin declared that it's a database. load it asap!
 	if ( hasMuuid(pIds, miid_database)) {
 		BASIC_PLUGIN_INFO bpi;
-		if (checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_DB)) {
+		if (checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 			// db plugin is valid
 			p->pclass |= (PCLASS_DB | PCLASS_BASICAPI);
 			// copy the dblink stuff
 			p->bpi = bpi;
-			// keep a faster list.
-			if (pluginListDb != NULL) p->nextclass = pluginListDb;
-			pluginListDb = p;
+
+			RegisterModule(p->bpi.hInst);
+			if (bpi.Load() != 0)
+				p->pclass |= PCLASS_FAILED;
+			else
+				p->pclass |= PCLASS_LOADED;
 		}
-		else
-			// didn't have basic APIs or DB exports - failed.
-			p->pclass |= PCLASS_FAILED;
+		else p->pclass |= PCLASS_FAILED;
 	}
 	// plugin declared that it's a contact list. mark it for the future load
 	else if ( hasMuuid(pIds, miid_clist)) {
@@ -859,6 +813,12 @@ void UnloadNewPluginsModule(void)
 		Plugin_Uninit(pluginList_crshdmp);
 
 	// unload the DB
+	if (currDb != NULL) {
+		db_setCurrent(NULL);
+		currDblink->Unload(currDb);
+		currDb = NULL;
+	}
+
 	for (int k = pluginList.getCount()-1; k >= 0; k--) {
 		pluginEntry* p = pluginList[k];
 		Plugin_Uninit(p);

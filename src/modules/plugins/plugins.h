@@ -1,8 +1,7 @@
 
 // returns true if the API exports were good, otherwise, passed in data is returned
 #define CHECKAPI_NONE 	 0
-#define CHECKAPI_DB 	 1
-#define CHECKAPI_CLIST   2
+#define CHECKAPI_CLIST   1
 
 // block these plugins
 #define DEFMOD_REMOVED_UIPLUGINOPTS     21
@@ -13,8 +12,6 @@ typedef int (__cdecl * Miranda_Plugin_Load) (void);
 typedef int (__cdecl * Miranda_Plugin_Unload) (void);
 // version control
 typedef PLUGININFOEX * (__cdecl * Miranda_Plugin_InfoEx) (DWORD mirandaVersion);
-// prototype for databases
-typedef DATABASELINK * (__cdecl * Database_Plugin_Info) (void * reserved);
 // prototype for clists
 typedef int (__cdecl * CList_Initialise) (void);
 
@@ -25,11 +22,9 @@ struct BASIC_PLUGIN_INFO
 	Miranda_Plugin_Load Load;
 	Miranda_Plugin_Unload Unload;
 	Miranda_Plugin_InfoEx InfoEx;
-	Database_Plugin_Info DbInfo;
 	CList_Initialise clistlink;
 	PLUGININFOEX * pluginInfo;	 // must be freed if hInst = = NULL then its a copy
 	MUUID *Interfaces;          // array of supported interfaces
-	DATABASELINK * dblink;		 // only valid during module being in memory
 };
 
 #define PCLASS_FAILED     0x1   // not a valid plugin, or API is invalid, pluginname is valid

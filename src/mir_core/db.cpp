@@ -227,7 +227,7 @@ MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const c
 	return currDb->WriteContactSetting(hContact, &cws);
 }
 
-MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db)
+extern "C" MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db)
 {
 	currDb = _db;
 }

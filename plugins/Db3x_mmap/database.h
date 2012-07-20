@@ -1,8 +1,8 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
+Copyright 2012 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -153,73 +153,26 @@ struct DBEvent
 
 #include <poppack.h>
 
-typedef struct
-{
-	BYTE bIsResident;
-	char name[1];
-}
-	DBCachedSettingName;
-
-typedef struct
+struct DBCachedGlobalValue
 {
 	char* name;
 	DBVARIANT value;
-}
-	DBCachedGlobalValue;
+};
 
-typedef struct DBCachedContactValue_tag
+struct DBCachedContactValue
 {
 	char* name;
 	DBVARIANT value;
-	struct DBCachedContactValue_tag* next;
-}
-	DBCachedContactValue;
+	DBCachedContactValue* next;
+};
 
-typedef struct
+struct DBCachedContactValueList
 {
 	HANDLE hContact;
 	HANDLE hNext;
 	DBCachedContactValue* first;
 	DBCachedContactValue* last;
-}
-	DBCachedContactValueList;
-
-//databasecorruption: with NULL called if any signatures are broken. very very fatal
-void DatabaseCorruption(TCHAR *text);
-PBYTE DBRead(DWORD ofs,int bytesRequired,int *bytesAvail);	//any preview result could be invalidated by the next call
-__forceinline PBYTE DBRead(HANDLE hContact,int bytesRequired,int *bytesAvail)
-{	return DBRead((DWORD)hContact, bytesRequired, bytesAvail);
-}
-void DBWrite(DWORD ofs,PVOID pData,int count);
-void DBFill(DWORD ofs,int bytes);
-void DBFlush(int setting);
-void DBMoveChunk(DWORD ofsDest,DWORD ofsSource,int bytes);
-DWORD CreateNewSpace(int bytes);
-void DeleteSpace(DWORD ofs,int bytes);
-DWORD ReallocSpace(DWORD ofs,int oldSize,int newSize);
-void GetProfileDirectory(char *szPath,int cbPath);
-int GetDefaultProfilePath(char *szPath,int cbPath,int *specified);
-int ShouldShowProfileManager(void);
-int CheckDbHeaders(struct DBHeader * hdr);
-int CreateDbHeaders(HANDLE hFile);
-int LoadDatabaseModule(void);
-void UnloadDatabaseModule(void);
-
-DBCachedContactValueList* AddToCachedContactList(HANDLE hContact, int index);
-int CheckProto(HANDLE hContact, const char *proto);
-
-void FreeCachedVariant( DBVARIANT* V );
-
-extern CRITICAL_SECTION csDbAccess;
-extern struct DBHeader dbHeader;
-extern HANDLE hDbFile;
-
-extern HANDLE hCacheHeap;
-extern SortedList lContacts;
-extern HANDLE hLastCachedContact;
-extern HANDLE hContactDeletedEvent,hContactAddedEvent;
-
-extern BOOL safetyMode;
+};
 
 #define MAXCACHEDREADSIZE     65536
 

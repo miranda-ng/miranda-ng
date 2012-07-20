@@ -516,7 +516,7 @@ int SkinEngineUnloadModule()
 
 	if (pEffectStack)
 	{
-		for (int i=0; i < pEffectStack->realCount; i++) 
+		for (int i=0; i < pEffectStack->realCount; i++)
 			if (pEffectStack->items[i]) {
 				EFFECTSSTACKITEM * effect = (EFFECTSSTACKITEM*)(pEffectStack->items[i]);
 				mir_free(effect);
@@ -1695,7 +1695,7 @@ INT_PTR ske_Service_DrawGlyph(WPARAM wParam,LPARAM lParam)
 		if (pgl->Data == NULL) return -1;
 		gl = (LPGLYPHOBJECT)pgl->Data;
 		if ((gl->Style&7)  == ST_SKIP) return ST_SKIP;
-		if (gl->hGlyph == NULL && gl->hGlyph != (HBITMAP)-1  && 
+		if (gl->hGlyph == NULL && gl->hGlyph != (HBITMAP)-1  &&
 			(  (gl->Style&7) == ST_IMAGE
 			 || (gl->Style&7) == ST_FRAGMENT
 			 || (gl->Style&7) == ST_SOLARIZE ))
@@ -1953,65 +1953,57 @@ static HBITMAP ske_LoadGlyphImage_TGA(char * szFilename)
 //this function is required to load PNG to dib buffer myself
 HBITMAP ske_LoadGlyphImage_Png2Dib(char * szFilename)
 {
+	HANDLE hFile, hMap = NULL;
+	BYTE* ppMap = NULL;
+	long  cbFileSize = 0;
+	BITMAPINFOHEADER* pDib;
+	BYTE* pDibBits;
 
-	{
-		HANDLE hFile, hMap = NULL;
-		BYTE* ppMap = NULL;
-		long  cbFileSize = 0;
-		BITMAPINFOHEADER* pDib;
-		BYTE* pDibBits;
-
-		if ( !ServiceExists( MS_PNG2DIB )) {
-			MessageBox( NULL, TranslateT( "You need an image services plugin to process PNG images." ), TranslateT( "Error" ), MB_OK );
-			return (HBITMAP)NULL;
-		}
-
-		if (( hFile = CreateFileA( szFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL )) != INVALID_HANDLE_VALUE )
-			if (( hMap = CreateFileMapping( hFile, NULL, PAGE_READONLY, 0, 0, NULL )) != NULL )
-				if (( ppMap = ( BYTE* )MapViewOfFile( hMap, FILE_MAP_READ, 0, 0, 0 )) != NULL )
-					cbFileSize = GetFileSize( hFile, NULL );
-
-		if ( cbFileSize != 0 ) {
-			PNG2DIB param;
-			param.pSource = ppMap;
-			param.cbSourceSize = cbFileSize;
-			param.pResult = &pDib;
-			if ( CallService( MS_PNG2DIB, 0, ( LPARAM )&param ))
-				pDibBits = ( BYTE* )( pDib+1 );
-			else
-				cbFileSize = 0;
-		}
-
-		if ( ppMap != NULL )	UnmapViewOfFile( ppMap );
-		if ( hMap  != NULL )	CloseHandle( hMap );
-		if ( hFile != NULL ) CloseHandle( hFile );
-
-		if ( cbFileSize == 0 )
-			return (HBITMAP)NULL;
-
-		{
-			BITMAPINFO* bi = ( BITMAPINFO* )pDib;
-			BYTE *pt = (BYTE*)bi;
-			pt += bi->bmiHeader.biSize;
-			if (bi->bmiHeader.biBitCount != 32)
-			{
-				HDC sDC = GetDC( NULL );
-				HBITMAP hBitmap = CreateDIBitmap( sDC, pDib, CBM_INIT, pDibBits, bi, DIB_PAL_COLORS );
-				SelectObject( sDC, hBitmap );
-				DeleteDC( sDC );
-				GlobalFree( pDib );
-				return hBitmap;
-			}
-			else
-			{
-				BYTE * ptPixels = pt;
-				HBITMAP hBitmap = CreateDIBSection(NULL,bi, DIB_RGB_COLORS, (void **)&ptPixels,  NULL, 0);
-				memcpy(ptPixels,pt,bi->bmiHeader.biSizeImage);
-				GlobalFree( pDib );
-				return hBitmap;
-			}
-		}
+	if ( !ServiceExists( MS_PNG2DIB )) {
+		MessageBox( NULL, TranslateT( "You need an image services plugin to process PNG images." ), TranslateT( "Error" ), MB_OK );
+		return (HBITMAP)NULL;
 	}
+
+	if (( hFile = CreateFileA( szFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL )) != INVALID_HANDLE_VALUE )
+		if (( hMap = CreateFileMapping( hFile, NULL, PAGE_READONLY, 0, 0, NULL )) != NULL )
+			if (( ppMap = ( BYTE* )MapViewOfFile( hMap, FILE_MAP_READ, 0, 0, 0 )) != NULL )
+				cbFileSize = GetFileSize( hFile, NULL );
+
+	if ( cbFileSize != 0 ) {
+		PNG2DIB param;
+		param.pSource = ppMap;
+		param.cbSourceSize = cbFileSize;
+		param.pResult = &pDib;
+		if ( CallService( MS_PNG2DIB, 0, ( LPARAM )&param ))
+			pDibBits = ( BYTE* )( pDib+1 );
+		else
+			cbFileSize = 0;
+	}
+
+	if ( ppMap != NULL )	UnmapViewOfFile( ppMap );
+	if ( hMap  != NULL )	CloseHandle( hMap );
+	if ( hFile != NULL ) CloseHandle( hFile );
+
+	if ( cbFileSize == 0 )
+		return (HBITMAP)NULL;
+
+	HBITMAP hBitmap;
+	BITMAPINFO* bi = ( BITMAPINFO* )pDib;
+	BYTE *pt = (BYTE*)bi;
+	pt += bi->bmiHeader.biSize;
+	if (bi->bmiHeader.biBitCount != 32) {
+		HDC sDC = GetDC( NULL );
+		hBitmap = CreateDIBitmap( sDC, pDib, CBM_INIT, pDibBits, bi, DIB_PAL_COLORS );
+		SelectObject( sDC, hBitmap );
+		DeleteDC( sDC );
+	}
+	else {
+		BYTE *ptPixels = pt;
+		HBITMAP hBitmap = CreateDIBSection(NULL,bi, DIB_RGB_COLORS, (void **)&ptPixels,  NULL, 0);
+		memcpy(ptPixels,pt,bi->bmiHeader.biSizeImage);
+	}
+	GlobalFree( pDib );
+	return hBitmap;
 }
 
 static HBITMAP ske_LoadGlyphImageByDecoders(char * szFileName)
@@ -2166,7 +2158,7 @@ int ske_UnloadSkin(SKINOBJECTSLIST * Skin)
 	DWORD i;
 	ske_LockSkin();
 	ClearMaskList(Skin->pMaskList);
-	
+
 	//clear font list
 	if (gl_plSkinFonts && gl_plSkinFonts->realCount > 0) {
 		for (int i=0; i < gl_plSkinFonts->realCount; i++) {

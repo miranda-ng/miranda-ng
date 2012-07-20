@@ -25,42 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "savestrings_gcc.h"
 #endif
 
-HANDLE hSystemModulesLoaded = 0;
-
-static int SystemModulesLoaded(WPARAM wParam, LPARAM lParam)
-{
-	
-	UnhookEvent(hSystemModulesLoaded);
-	hSystemModulesLoaded = 0;
-
-	return 0;
-}
-
-/*
-returns what the driver can do given the flag
-*/
-static int getCapability(int flag)
-{
-	return 0;
-}
-
-/*
-	buf: pointer to a string buffer
-	cch: length of buffer
-	shortName: if true, the driver should return a short but descriptive name, e.g. "3.xx profile"
-	Affect: The database plugin must return a "friendly name" into buf and not exceed cch bytes,
-	e.g. "Database driver for 3.xx profiles"
-	Returns: 0 on success, non zero on failure
-*/
-
-static int getFriendlyName(TCHAR *buf, size_t cch, int shortName)
-{
-	if (shortName)
-		_tcsncpy_s(buf, cch, _T(gInternalName), SIZEOF(gInternalName));
-	else
-		_tcsncpy_s(buf, cch, _T(gInternalNameLong), SIZEOF(gInternalNameLong));
-	return 0;
-}
 
 /*
 	profile: pointer to a string which contains full path + name
@@ -70,7 +34,7 @@ static int getFriendlyName(TCHAR *buf, size_t cch, int shortName)
 	Note: Do not initialise internal data structures at this point!
 	Returns: 0 on success, non zero on failure - error contains extended error information, see EMKPRF_*
 */
-static int makeDatabase(TCHAR *profile, int* error)
+static int makeDatabase(const TCHAR *profile, int* error)
 {
 	if (gDataBase) delete gDataBase;
 	gDataBase = new CDataBase(profile);
@@ -89,7 +53,7 @@ static int makeDatabase(TCHAR *profile, int* error)
 		etc.
 	Returns: 0 on success, non zero on failure
 */
-static int grokHeader(TCHAR *profile, int* error)
+static int grokHeader(const TCHAR *profile, int* error)
 {
 	if (gDataBase) delete gDataBase;
 	gDataBase = new CDataBase(profile);
@@ -104,15 +68,10 @@ Affect: Tell the database to create all services/hooks that a 3.xx legecy databa
 Returns: 0 on success, nonzero on failure
 */
 
-static MIDatabase* Load(TCHAR *profile)
+static MIDatabase* LoadDatabase(const TCHAR *profile)
 {
 	if (gDataBase) delete gDataBase;
 	gDataBase = new CDataBase(profile);
-
-	RegisterServices();
-	CompatibilityRegister();
-
-	hSystemModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, SystemModulesLoaded);
 
 	gDataBase->OpenDB();
 	return gDataBase;
@@ -123,7 +82,7 @@ Affect: The database plugin should shutdown, unloading things from the core and 
 Returns: 0 on success, nonzero on failure
 Note: Unload() might be called even if Load(void) was never called, wasLoaded is set to 1 if Load(void) was ever called.
 */
-static int Unload(int wasLoaded)
+static int UnloadDatabase(MIDatabase* db)
 {
 	if (gDataBase)
 		delete gDataBase;
@@ -134,10 +93,10 @@ static int Unload(int wasLoaded)
 
 DATABASELINK gDBLink = {
 	sizeof(DATABASELINK),
-	getCapability,
-	getFriendlyName,
+	gInternalName,
+	_T(gInternalNameLong),
 	makeDatabase,
 	grokHeader,
-	Load,
-	Unload,
+	LoadDatabase,
+	UnloadDatabase,
 };

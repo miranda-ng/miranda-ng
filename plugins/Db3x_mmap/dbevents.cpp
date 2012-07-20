@@ -1,8 +1,8 @@
 /*
 
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project,
+Copyright 2012 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-extern BOOL safetyMode;
+extern BOOL m_safetyMode;
 
 DWORD GetModuleNameOfs(const char *szName);
 char *GetModuleNameByOfs(DWORD ofs);
@@ -34,13 +34,13 @@ STDMETHODIMP_(LONG) CDdxMmap::GetEventCount(HANDLE hContact)
 {
 	LONG ret;
 
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	if (hContact == 0)
-		hContact = (HANDLE)dbHeader.ofsUser;
+		hContact = (HANDLE)m_dbHeader.ofsUser;
 	DBContact *dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
 	if (dbc->signature != DBCONTACT_SIGNATURE) ret = -1;
 	else ret = dbc->eventCount;
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	return ret;
 }
 
@@ -56,12 +56,12 @@ STDMETHODIMP_(HANDLE) CDdxMmap::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 	if (NotifyEventHooks(hEventFilterAddedEvent, (WPARAM)hContact, (LPARAM)dbei)) {
 		return 0;
 	}
-	EnterCriticalSection(&csDbAccess);
-	if (hContact == 0) ofsContact = dbHeader.ofsUser;
+	EnterCriticalSection(&m_csDbAccess);
+	if (hContact == 0) ofsContact = m_dbHeader.ofsUser;
 	else ofsContact = (DWORD)hContact;
 	dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
 	if (dbc.signature!=DBCONTACT_SIGNATURE) {
-		LeaveCriticalSection(&csDbAccess);
+		LeaveCriticalSection(&m_csDbAccess);
 	  	return 0;
 	}
 	ofsNew = CreateNewSpace(offsetof(DBEvent,blob)+dbei->cbBlob);
@@ -128,14 +128,14 @@ STDMETHODIMP_(HANDLE) CDdxMmap::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 		}
 		neednotify = TRUE;
 	}
-	else neednotify = safetyMode;
+	else neednotify = m_safetyMode;
 
 	DBWrite(ofsContact,&dbc,sizeof(DBContact));
 	DBWrite(ofsNew,&dbe,offsetof(DBEvent,blob));
 	DBWrite(ofsNew+offsetof(DBEvent,blob),dbei->pBlob,dbei->cbBlob);
 	DBFlush(0);
 
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	log1("add event @ %08x",ofsNew);
 
 	// Notify only in safe mode or on really new events
@@ -151,21 +151,21 @@ STDMETHODIMP_(BOOL) CDdxMmap::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 	DWORD ofsContact,ofsThis;
 	DBEvent dbe,*dbeNext,*dbePrev;
 
-	EnterCriticalSection(&csDbAccess);
-	if (hContact == 0) ofsContact = dbHeader.ofsUser;
+	EnterCriticalSection(&m_csDbAccess);
+	if (hContact == 0) ofsContact = m_dbHeader.ofsUser;
 	else ofsContact = (DWORD)hContact;
 	dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
 	dbe = *(DBEvent*)DBRead(hContact,sizeof(DBEvent),NULL);
 	if (dbc.signature!=DBCONTACT_SIGNATURE || dbe.signature!=DBEVENT_SIGNATURE) {
-		LeaveCriticalSection(&csDbAccess);
+		LeaveCriticalSection(&m_csDbAccess);
 		return 1;
 	}
 	log1("delete event @ %08x",wParam);
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	//call notifier while outside mutex
 	NotifyEventHooks(hEventDeletedEvent,(WPARAM)hContact, (LPARAM)hDbEvent);
 	//get back in
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
 	dbe = *(DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
 	//check if this was the first unread, if so, recalc the first unread
@@ -222,7 +222,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 	DBWrite(ofsContact,&dbc,sizeof(DBContact));
 	DBFlush(0);
 	//quit
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	return 0;
 }
 
@@ -231,11 +231,11 @@ STDMETHODIMP_(LONG) CDdxMmap::GetBlobSize(HANDLE hDbEvent)
 	INT_PTR ret;
 	DBEvent *dbe;
 
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	dbe = (DBEvent*)DBRead(hDbEvent, sizeof(DBEvent), NULL);
 	if (dbe->signature!=DBEVENT_SIGNATURE) ret = -1;
 	else ret = dbe->cbBlob;
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	return ret;
 }
 
@@ -249,10 +249,10 @@ STDMETHODIMP_(BOOL) CDdxMmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 		dbei->cbBlob = 0;
 		return 1;
 	}
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
 	if (dbe->signature!=DBEVENT_SIGNATURE) {
-		LeaveCriticalSection(&csDbAccess);
+		LeaveCriticalSection(&m_csDbAccess);
 	  	return 1;
 	}
 	dbei->szModule = GetModuleNameByOfs(dbe->ofsModuleName);
@@ -272,7 +272,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 			CopyMemory(dbei->pBlob+i,DBRead(DWORD(hDbEvent)+offsetof(DBEvent,blob)+i,MAXCACHEDREADSIZE,NULL),MAXCACHEDREADSIZE);
 		}
 	}
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	return 0;
 }
 
@@ -283,18 +283,18 @@ STDMETHODIMP_(BOOL) CDdxMmap::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 	DBContact dbc;
 	DWORD ofsThis;
 
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	if (hContact == 0)
-		hContact = (HANDLE)dbHeader.ofsUser;
+		hContact = (HANDLE)m_dbHeader.ofsUser;
 	dbc = *(DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
 	dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
 	if (dbe->signature!=DBEVENT_SIGNATURE || dbc.signature!=DBCONTACT_SIGNATURE) {
-		LeaveCriticalSection(&csDbAccess);
+		LeaveCriticalSection(&m_csDbAccess);
 	  	return -1;
 	}
 	if (dbe->flags&DBEF_READ || dbe->flags&DBEF_SENT) {
 		ret = (INT_PTR)dbe->flags;
-		LeaveCriticalSection(&csDbAccess);
+		LeaveCriticalSection(&m_csDbAccess);
 		return ret;
 	}
 	log1("mark read @ %08x",wParam);
@@ -319,23 +319,23 @@ STDMETHODIMP_(BOOL) CDdxMmap::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 	}
 	DBWrite((DWORD)hContact,&dbc,sizeof(DBContact));
 	DBFlush(0);
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	return ret;
 }
 
 STDMETHODIMP_(HANDLE) CDdxMmap::GetEventContact(HANDLE hDbEvent)
 {
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
 	if (dbe->signature != DBEVENT_SIGNATURE) {
-		LeaveCriticalSection(&csDbAccess);
+		LeaveCriticalSection(&m_csDbAccess);
 	  	return (HANDLE)-1;
 	}
-	while(!(dbe->flags & DBEF_FIRST))
+	while (!(dbe->flags & DBEF_FIRST))
 		dbe = (DBEvent*)DBRead(dbe->ofsPrev,sizeof(DBEvent),NULL);
 	
 	HANDLE ret = (HANDLE)dbe->ofsPrev;
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	return ret;
 }
 
@@ -343,16 +343,16 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindFirstEvent(HANDLE hContact)
 {
 	HANDLE ret;
 
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	if (hContact == 0)
-		hContact = (HANDLE)dbHeader.ofsUser;
+		hContact = (HANDLE)m_dbHeader.ofsUser;
 	
 	DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		ret = 0;
 	else
 		ret = (HANDLE)dbc->ofsFirstEvent;
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	return ret;
 }
 
@@ -360,13 +360,13 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindFirstUnreadEvent(HANDLE hContact)
 {
 	HANDLE ret;
 
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	if (hContact == 0)
-		hContact = (HANDLE)dbHeader.ofsUser;
+		hContact = (HANDLE)m_dbHeader.ofsUser;
 	DBContact *dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
 	if (dbc->signature!=DBCONTACT_SIGNATURE) ret = 0;
 	else ret = (HANDLE)dbc->ofsFirstUnreadEvent;
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	return ret;
 }
 
@@ -374,13 +374,13 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindLastEvent(HANDLE hContact)
 {
 	HANDLE ret;
 
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	if (hContact == 0)
-		hContact = (HANDLE)dbHeader.ofsUser;
+		hContact = (HANDLE)m_dbHeader.ofsUser;
 	DBContact *dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
 	if (dbc->signature!=DBCONTACT_SIGNATURE) ret = 0;
 	else ret = (HANDLE)dbc->ofsLastEvent;
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	return ret;
 }
 
@@ -388,11 +388,11 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindNextEvent(HANDLE hDbEvent)
 {
 	HANDLE ret;
 
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
 	if (dbe->signature!=DBEVENT_SIGNATURE) ret = 0;
 	else ret = (HANDLE)dbe->ofsNext;
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	return ret;
 }
 
@@ -400,21 +400,11 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindPrevEvent(HANDLE hDbEvent)
 {
 	HANDLE ret;
 
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
 	if (dbe->signature!=DBEVENT_SIGNATURE) ret = 0;
 	else if (dbe->flags&DBEF_FIRST) ret = 0;
 	else ret = (HANDLE)dbe->ofsPrev;
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 	return ret;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-int InitEvents(void)
-{
-	hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
-	hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
-	hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
-	return 0;
 }

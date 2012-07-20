@@ -66,33 +66,22 @@ interface MIDatabase
 	STDMETHOD_(BOOL,EnumResidentSettings)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
 };
 
-typedef struct {
+///////////////////////////////////////////////////////////////////////////////
+// Each database plugin should register itself using this structure
+
+struct DATABASELINK
+{
 	int cbSize;
-
-	/*
-	returns what the driver can do given the flag
-	*/
-	int (*getCapability) (int flag);
-
-	/*
-		buf: pointer to a string buffer
-		cch: length of buffer
-		shortName: if true, the driver should return a short but descriptive name, e.g. "3.xx profile"
-		Affect: The database plugin must return a "friendly name" into buf and not exceed cch bytes,
-			e.g. "Database driver for 3.xx profiles"
-		Returns: 0 on success, non zero on failure
-	*/
-	int (*getFriendlyName) (TCHAR *buf, size_t cch, int shortName);
+	char* szShortName;  // uniqie short database name
+	TCHAR* szFullName;  // in English, auto-translated by the core
 
 	/*
 		profile: pointer to a string which contains full path + name
 		Affect: The database plugin should create the profile, the filepath will not exist at
 			the time of this call, profile will be C:\..\<name>.dat
-		Note: Do not prompt the user in anyway about this operation.
-		Note: Do not initialise internal data structures at this point!
 		Returns: 0 on success, non zero on failure - error contains extended error information, see EMKPRF_*
 	*/
-	int (*makeDatabase) (TCHAR *profile, int * error);
+	int (*makeDatabase)(const TCHAR *profile, int *error);
 
 	/*
 		profile: [in] a null terminated string to file path of selected profile
@@ -104,22 +93,45 @@ typedef struct {
 			etc.
 		Returns: 0 on success, non zero on failure
 	*/
-	int (*grokHeader) (TCHAR *profile, int * error);
+	int (*grokHeader)(const TCHAR *profile, int * error);
 
 	/*
 	Affect: Tell the database to create all services/hooks that a 3.xx legecy database might support into link,
 		which is a PLUGINLINK structure
 	Returns: 0 on success, nonzero on failure
 	*/
-	MIDatabase* (*Load) (TCHAR *profile);
+	MIDatabase* (*Load) (const TCHAR *profile);
 
 	/*
 	Affect: The database plugin should shutdown, unloading things from the core and freeing internal structures
 	Returns: 0 on success, nonzero on failure
 	Note: Unload() might be called even if Load(void) was never called, wasLoaded is set to 1 if Load(void) was ever called.
 	*/
-	int (*Unload) (int wasLoaded);
+	int (*Unload)(MIDatabase*);
+};
 
-} DATABASELINK;
+///////////////////////////////////////////////////////////////////////////////
+// Database list's services
+
+// MS_DB_REGISTER_PLUGIN : registers a database plugin
+// wParam : 0 (unused)
+// lParam : DATABASELINK* = database link description
+
+#define MS_DB_REGISTER_PLUGIN "DB/RegisterPlugin"
+
+__inline static void RegisterDatabasePlugin(DATABASELINK* pDescr)
+{	CallService(MS_DB_REGISTER_PLUGIN, 0, (LPARAM)pDescr);
+}
+
+// MS_DB_FIND_PLUGIN : looks for a database plugin suitable to open this file
+// wParam : 0 (unused)
+// lParam : const TCHAR* = name of the database file
+// returns DATABASELINK* of the required plugin or NULL on error
+
+#define MS_DB_FIND_PLUGIN "DB/FindPlugin"
+
+__inline static DATABASELINK* FindDatabasePlugin(const TCHAR* ptszFileName)
+{	return (DATABASELINK*)CallService(MS_DB_FIND_PLUGIN, 0, (LPARAM)ptszFileName);
+}
 
 #endif // M_DB_INT_H__

@@ -45,13 +45,10 @@ PLUGININFOEX pluginInfo = {
 	{ 0x28ff9b91, 0x3e4d, 0x4f1c, { 0xb4, 0x7c, 0xc6, 0x41, 0xb0, 0x37, 0xff, 0x40 } }
 };
 
-static int getCapability( int flag )
-{
-	return 0;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 // returns 0 if the profile is created, EMKPRF*
-static int makeDatabase(TCHAR *profile, int *error)
+static int makeDatabase(const TCHAR *profile, int *error)
 {
 	HANDLE hFile = CreateFile(profile, GENERIC_READ|GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
 	if ( hFile != INVALID_HANDLE_VALUE ) {
@@ -64,7 +61,7 @@ static int makeDatabase(TCHAR *profile, int *error)
 }
 
 // returns 0 if the given profile has a valid header
-static int grokHeader(TCHAR *profile, int *error )
+static int grokHeader(const TCHAR *profile, int *error )
 {
 	int rc = 1;
 	int chk = 0;
@@ -116,7 +113,7 @@ static int grokHeader(TCHAR *profile, int *error )
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
-static MIDatabase* LoadDatabase(TCHAR *profile)
+static MIDatabase* LoadDatabase(const TCHAR *profile)
 {
 	if (g_Db) delete g_Db;
 	g_Db = new CDdxMmap(profile);
@@ -152,23 +149,17 @@ static MIDatabase* LoadDatabase(TCHAR *profile)
 	return g_Db;
 }
 
-static int UnloadDatabase(int wasLoaded)
+static int UnloadDatabase(MIDatabase* db)
 {
-	if ( !wasLoaded) return 0;
 	UnloadDatabaseModule();
-	return 0;
-}
-
-static int getFriendlyName( TCHAR* buf, size_t cch, int shortName )
-{
-	_tcsncpy(buf,shortName ? _T("db3x secured_mmap driver") : _T("db3x mmap database support"), cch);
+	delete g_Db; g_Db = 0;
 	return 0;
 }
 
 static DATABASELINK dblink = {
 	sizeof(DATABASELINK),
-	getCapability,
-	getFriendlyName,
+	"db3x secured_mmap driver",
+	_T("db3x mmap database support"),
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,
@@ -181,11 +172,6 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) DATABASELINK* DatabasePluginInfo(void * reserved)
-{
-	return &dblink;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
@@ -195,7 +181,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_DATABAS
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	return 1;
+	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)

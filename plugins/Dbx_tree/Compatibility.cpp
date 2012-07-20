@@ -797,8 +797,3 @@ bool CompatibilityRegister()
 	hContactAddedEvent     = CreateHookableEvent(ME_DB_CONTACT_ADDED);
 	return true;
 }
-
-bool CompatibilityUnRegister()
-{
-	return true;
-}
