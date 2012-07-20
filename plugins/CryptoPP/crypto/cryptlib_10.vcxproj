@@ -79,6 +79,10 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
+    <Lib>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -91,6 +95,10 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
+    <Lib>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -101,6 +109,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
     </ClCompile>
+    <Lib>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -111,255 +123,260 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
     </ClCompile>
+    <Lib>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="3way.cpp" />
-    <ClCompile Include="adler32.cpp" />
-    <ClCompile Include="algebra.cpp" />
-    <ClCompile Include="algparam.cpp" />
-    <ClCompile Include="arc4.cpp" />
-    <ClCompile Include="asn.cpp" />
-    <ClCompile Include="base32.cpp" />
-    <ClCompile Include="base64.cpp" />
-    <ClCompile Include="basecode.cpp" />
-    <ClCompile Include="bfinit.cpp" />
-    <ClCompile Include="blowfish.cpp" />
-    <ClCompile Include="blumshub.cpp" />
-    <ClCompile Include="camellia.cpp" />
-    <ClCompile Include="cast.cpp" />
-    <ClCompile Include="casts.cpp" />
-    <ClCompile Include="cbcmac.cpp" />
-    <ClCompile Include="channels.cpp" />
-    <ClCompile Include="cpu.cpp" />
-    <ClCompile Include="crc.cpp" />
-    <ClCompile Include="cryptlib.cpp" />
-    <ClCompile Include="default.cpp" />
-    <ClCompile Include="des.cpp" />
-    <ClCompile Include="dessp.cpp" />
-    <ClCompile Include="dh.cpp" />
-    <ClCompile Include="dh2.cpp" />
-    <ClCompile Include="dll.cpp">
+    <ClCompile Include="src\3way.cpp" />
+    <ClCompile Include="src\adler32.cpp" />
+    <ClCompile Include="src\algebra.cpp" />
+    <ClCompile Include="src\algparam.cpp" />
+    <ClCompile Include="src\arc4.cpp" />
+    <ClCompile Include="src\asn.cpp" />
+    <ClCompile Include="src\base32.cpp" />
+    <ClCompile Include="src\base64.cpp" />
+    <ClCompile Include="src\basecode.cpp" />
+    <ClCompile Include="src\bfinit.cpp" />
+    <ClCompile Include="src\blowfish.cpp" />
+    <ClCompile Include="src\blumshub.cpp" />
+    <ClCompile Include="src\camellia.cpp" />
+    <ClCompile Include="src\cast.cpp" />
+    <ClCompile Include="src\casts.cpp" />
+    <ClCompile Include="src\cbcmac.cpp" />
+    <ClCompile Include="src\channels.cpp" />
+    <ClCompile Include="src\cpu.cpp" />
+    <ClCompile Include="src\crc.cpp" />
+    <ClCompile Include="src\cryptlib.cpp" />
+    <ClCompile Include="src\default.cpp" />
+    <ClCompile Include="src\des.cpp" />
+    <ClCompile Include="src\dessp.cpp" />
+    <ClCompile Include="src\dh.cpp" />
+    <ClCompile Include="src\dh2.cpp" />
+    <ClCompile Include="src\dll.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="dsa.cpp" />
-    <ClCompile Include="ec2n.cpp" />
-    <ClCompile Include="eccrypto.cpp" />
-    <ClCompile Include="ecp.cpp" />
-    <ClCompile Include="elgamal.cpp" />
-    <ClCompile Include="emsa2.cpp" />
-    <ClCompile Include="eprecomp.cpp" />
-    <ClCompile Include="esign.cpp" />
-    <ClCompile Include="files.cpp" />
-    <ClCompile Include="filters.cpp" />
-    <ClCompile Include="fips140.cpp" />
-    <ClCompile Include="fipstest.cpp" />
-    <ClCompile Include="gf256.cpp" />
-    <ClCompile Include="gf2_32.cpp" />
-    <ClCompile Include="gf2n.cpp" />
-    <ClCompile Include="gfpcrypt.cpp" />
-    <ClCompile Include="gost.cpp" />
-    <ClCompile Include="gzip.cpp" />
-    <ClCompile Include="hex.cpp" />
-    <ClCompile Include="hmac.cpp" />
-    <ClCompile Include="hrtimer.cpp" />
-    <ClCompile Include="ida.cpp" />
-    <ClCompile Include="idea.cpp" />
-    <ClCompile Include="integer.cpp" />
-    <ClCompile Include="iterhash.cpp" />
-    <ClCompile Include="luc.cpp" />
-    <ClCompile Include="mars.cpp" />
-    <ClCompile Include="marss.cpp" />
-    <ClCompile Include="md2.cpp" />
-    <ClCompile Include="md4.cpp" />
-    <ClCompile Include="md5.cpp" />
-    <ClCompile Include="misc.cpp" />
-    <ClCompile Include="modes.cpp" />
-    <ClCompile Include="mqueue.cpp" />
-    <ClCompile Include="mqv.cpp" />
-    <ClCompile Include="nbtheory.cpp" />
-    <ClCompile Include="network.cpp" />
-    <ClCompile Include="oaep.cpp" />
-    <ClCompile Include="osrng.cpp" />
-    <ClCompile Include="panama.cpp" />
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="src\dsa.cpp" />
+    <ClCompile Include="src\ec2n.cpp" />
+    <ClCompile Include="src\eccrypto.cpp" />
+    <ClCompile Include="src\ecp.cpp" />
+    <ClCompile Include="src\elgamal.cpp" />
+    <ClCompile Include="src\emsa2.cpp" />
+    <ClCompile Include="src\eprecomp.cpp" />
+    <ClCompile Include="src\esign.cpp" />
+    <ClCompile Include="src\files.cpp" />
+    <ClCompile Include="src\filters.cpp" />
+    <ClCompile Include="src\fips140.cpp" />
+    <ClCompile Include="src\fipstest.cpp" />
+    <ClCompile Include="src\gf256.cpp" />
+    <ClCompile Include="src\gf2_32.cpp" />
+    <ClCompile Include="src\gf2n.cpp" />
+    <ClCompile Include="src\gfpcrypt.cpp" />
+    <ClCompile Include="src\gost.cpp" />
+    <ClCompile Include="src\gzip.cpp" />
+    <ClCompile Include="src\hex.cpp" />
+    <ClCompile Include="src\hmac.cpp" />
+    <ClCompile Include="src\hrtimer.cpp" />
+    <ClCompile Include="src\ida.cpp" />
+    <ClCompile Include="src\idea.cpp" />
+    <ClCompile Include="src\integer.cpp" />
+    <ClCompile Include="src\iterhash.cpp" />
+    <ClCompile Include="src\luc.cpp" />
+    <ClCompile Include="src\mars.cpp" />
+    <ClCompile Include="src\marss.cpp" />
+    <ClCompile Include="src\md2.cpp" />
+    <ClCompile Include="src\md4.cpp" />
+    <ClCompile Include="src\md5.cpp" />
+    <ClCompile Include="src\misc.cpp" />
+    <ClCompile Include="src\modes.cpp" />
+    <ClCompile Include="src\mqueue.cpp" />
+    <ClCompile Include="src\mqv.cpp" />
+    <ClCompile Include="src\nbtheory.cpp" />
+    <ClCompile Include="src\network.cpp" />
+    <ClCompile Include="src\oaep.cpp" />
+    <ClCompile Include="src\osrng.cpp" />
+    <ClCompile Include="src\panama.cpp" />
+    <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="pkcspad.cpp" />
-    <ClCompile Include="polynomi.cpp" />
-    <ClCompile Include="pssr.cpp" />
-    <ClCompile Include="pubkey.cpp" />
-    <ClCompile Include="queue.cpp" />
-    <ClCompile Include="rabin.cpp" />
-    <ClCompile Include="randpool.cpp" />
-    <ClCompile Include="rc2.cpp" />
-    <ClCompile Include="rc5.cpp" />
-    <ClCompile Include="rc6.cpp" />
-    <ClCompile Include="rdtables.cpp" />
-    <ClCompile Include="rijndael.cpp" />
-    <ClCompile Include="ripemd.cpp" />
-    <ClCompile Include="rng.cpp" />
-    <ClCompile Include="rsa.cpp" />
-    <ClCompile Include="rw.cpp" />
-    <ClCompile Include="safer.cpp" />
-    <ClCompile Include="salsa.cpp" />
-    <ClCompile Include="seal.cpp" />
-    <ClCompile Include="serpent.cpp" />
-    <ClCompile Include="sha.cpp" />
-    <ClCompile Include="shacal2.cpp" />
-    <ClCompile Include="shark.cpp" />
-    <ClCompile Include="sharkbox.cpp" />
-    <ClCompile Include="simple.cpp" />
-    <ClCompile Include="skipjack.cpp" />
-    <ClCompile Include="socketft.cpp" />
-    <ClCompile Include="sosemanuk.cpp" />
-    <ClCompile Include="square.cpp" />
-    <ClCompile Include="squaretb.cpp" />
-    <ClCompile Include="strciphr.cpp" />
-    <ClCompile Include="tea.cpp" />
-    <ClCompile Include="tftables.cpp" />
-    <ClCompile Include="tiger.cpp" />
-    <ClCompile Include="tigertab.cpp" />
-    <ClCompile Include="trdlocal.cpp" />
-    <ClCompile Include="ttmac.cpp" />
-    <ClCompile Include="twofish.cpp" />
-    <ClCompile Include="vmac.cpp" />
-    <ClCompile Include="wait.cpp" />
-    <ClCompile Include="wake.cpp" />
-    <ClCompile Include="whrlpool.cpp" />
-    <ClCompile Include="winpipes.cpp" />
-    <ClCompile Include="xtr.cpp" />
-    <ClCompile Include="xtrcrypt.cpp" />
-    <ClCompile Include="zdeflate.cpp" />
-    <ClCompile Include="zinflate.cpp" />
-    <ClCompile Include="zlib.cpp" />
+    <ClCompile Include="src\pkcspad.cpp" />
+    <ClCompile Include="src\polynomi.cpp" />
+    <ClCompile Include="src\pssr.cpp" />
+    <ClCompile Include="src\pubkey.cpp" />
+    <ClCompile Include="src\queue.cpp" />
+    <ClCompile Include="src\rabin.cpp" />
+    <ClCompile Include="src\randpool.cpp" />
+    <ClCompile Include="src\rc2.cpp" />
+    <ClCompile Include="src\rc5.cpp" />
+    <ClCompile Include="src\rc6.cpp" />
+    <ClCompile Include="src\rdtables.cpp" />
+    <ClCompile Include="src\rijndael.cpp" />
+    <ClCompile Include="src\ripemd.cpp" />
+    <ClCompile Include="src\rng.cpp" />
+    <ClCompile Include="src\rsa.cpp" />
+    <ClCompile Include="src\rw.cpp" />
+    <ClCompile Include="src\safer.cpp" />
+    <ClCompile Include="src\salsa.cpp" />
+    <ClCompile Include="src\seal.cpp" />
+    <ClCompile Include="src\serpent.cpp" />
+    <ClCompile Include="src\sha.cpp" />
+    <ClCompile Include="src\shacal2.cpp" />
+    <ClCompile Include="src\shark.cpp" />
+    <ClCompile Include="src\sharkbox.cpp" />
+    <ClCompile Include="src\simple.cpp" />
+    <ClCompile Include="src\skipjack.cpp" />
+    <ClCompile Include="src\socketft.cpp" />
+    <ClCompile Include="src\sosemanuk.cpp" />
+    <ClCompile Include="src\square.cpp" />
+    <ClCompile Include="src\squaretb.cpp" />
+    <ClCompile Include="src\strciphr.cpp" />
+    <ClCompile Include="src\tea.cpp" />
+    <ClCompile Include="src\tftables.cpp" />
+    <ClCompile Include="src\tiger.cpp" />
+    <ClCompile Include="src\tigertab.cpp" />
+    <ClCompile Include="src\trdlocal.cpp" />
+    <ClCompile Include="src\ttmac.cpp" />
+    <ClCompile Include="src\twofish.cpp" />
+    <ClCompile Include="src\vmac.cpp" />
+    <ClCompile Include="src\wait.cpp" />
+    <ClCompile Include="src\wake.cpp" />
+    <ClCompile Include="src\whrlpool.cpp" />
+    <ClCompile Include="src\winpipes.cpp" />
+    <ClCompile Include="src\xtr.cpp" />
+    <ClCompile Include="src\xtrcrypt.cpp" />
+    <ClCompile Include="src\zdeflate.cpp" />
+    <ClCompile Include="src\zinflate.cpp" />
+    <ClCompile Include="src\zlib.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Doxyfile" />
-    <None Include="GNUmakefile" />
-    <None Include="license.txt" />
-    <None Include="readme.txt" />
+    <None Include="docs\license.txt" />
+    <None Include="docs\readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="3way.h" />
-    <ClInclude Include="adler32.h" />
-    <ClInclude Include="aes.h" />
-    <ClInclude Include="algebra.h" />
-    <ClInclude Include="algparam.h" />
-    <ClInclude Include="arc4.h" />
-    <ClInclude Include="argnames.h" />
-    <ClInclude Include="asn.h" />
-    <ClInclude Include="base32.h" />
-    <ClInclude Include="base64.h" />
-    <ClInclude Include="basecode.h" />
-    <ClInclude Include="blowfish.h" />
-    <ClInclude Include="blumshub.h" />
-    <ClInclude Include="camellia.h" />
-    <ClInclude Include="cast.h" />
-    <ClInclude Include="cbcmac.h" />
-    <ClInclude Include="channels.h" />
-    <ClInclude Include="config.h" />
-    <ClInclude Include="crc.h" />
-    <ClInclude Include="cryptlib.h" />
-    <ClInclude Include="default.h" />
-    <ClInclude Include="des.h" />
-    <ClInclude Include="dh.h" />
-    <ClInclude Include="dh2.h" />
-    <ClInclude Include="dmac.h" />
-    <ClInclude Include="dsa.h" />
-    <ClInclude Include="dword.h" />
-    <ClInclude Include="ec2n.h" />
-    <ClInclude Include="eccrypto.h" />
-    <ClInclude Include="ecp.h" />
-    <ClInclude Include="elgamal.h" />
-    <ClInclude Include="emsa2.h" />
-    <ClInclude Include="eprecomp.h" />
-    <ClInclude Include="esign.h" />
-    <ClInclude Include="factory.h" />
-    <ClInclude Include="files.h" />
-    <ClInclude Include="filters.h" />
-    <ClInclude Include="fips140.h" />
-    <ClInclude Include="fltrimpl.h" />
-    <ClInclude Include="gf256.h" />
-    <ClInclude Include="gf2_32.h" />
-    <ClInclude Include="gf2n.h" />
-    <ClInclude Include="gfpcrypt.h" />
-    <ClInclude Include="gost.h" />
-    <ClInclude Include="gzip.h" />
-    <ClInclude Include="hex.h" />
-    <ClInclude Include="hmac.h" />
-    <ClInclude Include="hrtimer.h" />
-    <ClInclude Include="ida.h" />
-    <ClInclude Include="idea.h" />
-    <ClInclude Include="integer.h" />
-    <ClInclude Include="iterhash.h" />
-    <ClInclude Include="lubyrack.h" />
-    <ClInclude Include="luc.h" />
-    <ClInclude Include="mars.h" />
-    <ClInclude Include="md2.h" />
-    <ClInclude Include="md4.h" />
-    <ClInclude Include="md5.h" />
-    <ClInclude Include="mdc.h" />
-    <ClInclude Include="misc.h" />
-    <ClInclude Include="modarith.h" />
-    <ClInclude Include="modes.h" />
-    <ClInclude Include="modexppc.h" />
-    <ClInclude Include="mqueue.h" />
-    <ClInclude Include="mqv.h" />
-    <ClInclude Include="nbtheory.h" />
-    <ClInclude Include="network.h" />
-    <ClInclude Include="nr.h" />
-    <ClInclude Include="oaep.h" />
-    <ClInclude Include="oids.h" />
-    <ClInclude Include="osrng.h" />
-    <ClInclude Include="panama.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="pkcspad.h" />
-    <ClInclude Include="polynomi.h" />
-    <ClInclude Include="pssr.h" />
-    <ClInclude Include="pubkey.h" />
-    <ClInclude Include="pwdbased.h" />
-    <ClInclude Include="queue.h" />
-    <ClInclude Include="rabin.h" />
-    <ClInclude Include="randpool.h" />
-    <ClInclude Include="rc2.h" />
-    <ClInclude Include="rc5.h" />
-    <ClInclude Include="rc6.h" />
-    <ClInclude Include="rijndael.h" />
-    <ClInclude Include="ripemd.h" />
-    <ClInclude Include="rng.h" />
-    <ClInclude Include="rsa.h" />
-    <ClInclude Include="rw.h" />
-    <ClInclude Include="safer.h" />
-    <ClInclude Include="salsa.h" />
-    <ClInclude Include="seal.h" />
-    <ClInclude Include="secblock.h" />
-    <ClInclude Include="seckey.h" />
-    <ClInclude Include="serpent.h" />
-    <ClInclude Include="sha.h" />
-    <ClInclude Include="shacal2.h" />
-    <ClInclude Include="shark.h" />
-    <ClInclude Include="simple.h" />
-    <ClInclude Include="skipjack.h" />
-    <ClInclude Include="smartptr.h" />
-    <ClInclude Include="socketft.h" />
-    <ClInclude Include="square.h" />
-    <ClInclude Include="strciphr.h" />
-    <ClInclude Include="tea.h" />
-    <ClInclude Include="tiger.h" />
-    <ClInclude Include="trdlocal.h" />
-    <ClInclude Include="trunhash.h" />
-    <ClInclude Include="ttmac.h" />
-    <ClInclude Include="twofish.h" />
-    <ClInclude Include="wait.h" />
-    <ClInclude Include="wake.h" />
-    <ClInclude Include="whrlpool.h" />
-    <ClInclude Include="winpipes.h" />
-    <ClInclude Include="words.h" />
-    <ClInclude Include="xtr.h" />
-    <ClInclude Include="xtrcrypt.h" />
-    <ClInclude Include="zdeflate.h" />
-    <ClInclude Include="zinflate.h" />
-    <ClInclude Include="zlib.h" />
+    <ClInclude Include="src\3way.h" />
+    <ClInclude Include="src\adler32.h" />
+    <ClInclude Include="src\aes.h" />
+    <ClInclude Include="src\algebra.h" />
+    <ClInclude Include="src\algparam.h" />
+    <ClInclude Include="src\arc4.h" />
+    <ClInclude Include="src\argnames.h" />
+    <ClInclude Include="src\asn.h" />
+    <ClInclude Include="src\base32.h" />
+    <ClInclude Include="src\base64.h" />
+    <ClInclude Include="src\basecode.h" />
+    <ClInclude Include="src\blowfish.h" />
+    <ClInclude Include="src\blumshub.h" />
+    <ClInclude Include="src\camellia.h" />
+    <ClInclude Include="src\cast.h" />
+    <ClInclude Include="src\cbcmac.h" />
+    <ClInclude Include="src\channels.h" />
+    <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\crc.h" />
+    <ClInclude Include="src\cryptlib.h" />
+    <ClInclude Include="src\default.h" />
+    <ClInclude Include="src\des.h" />
+    <ClInclude Include="src\dh.h" />
+    <ClInclude Include="src\dh2.h" />
+    <ClInclude Include="src\dmac.h" />
+    <ClInclude Include="src\dsa.h" />
+    <ClInclude Include="src\dword.h" />
+    <ClInclude Include="src\ec2n.h" />
+    <ClInclude Include="src\eccrypto.h" />
+    <ClInclude Include="src\ecp.h" />
+    <ClInclude Include="src\elgamal.h" />
+    <ClInclude Include="src\emsa2.h" />
+    <ClInclude Include="src\eprecomp.h" />
+    <ClInclude Include="src\esign.h" />
+    <ClInclude Include="src\factory.h" />
+    <ClInclude Include="src\files.h" />
+    <ClInclude Include="src\filters.h" />
+    <ClInclude Include="src\fips140.h" />
+    <ClInclude Include="src\fltrimpl.h" />
+    <ClInclude Include="src\gf256.h" />
+    <ClInclude Include="src\gf2_32.h" />
+    <ClInclude Include="src\gf2n.h" />
+    <ClInclude Include="src\gfpcrypt.h" />
+    <ClInclude Include="src\gost.h" />
+    <ClInclude Include="src\gzip.h" />
+    <ClInclude Include="src\hex.h" />
+    <ClInclude Include="src\hmac.h" />
+    <ClInclude Include="src\hrtimer.h" />
+    <ClInclude Include="src\ida.h" />
+    <ClInclude Include="src\idea.h" />
+    <ClInclude Include="src\integer.h" />
+    <ClInclude Include="src\iterhash.h" />
+    <ClInclude Include="src\lubyrack.h" />
+    <ClInclude Include="src\luc.h" />
+    <ClInclude Include="src\mars.h" />
+    <ClInclude Include="src\md2.h" />
+    <ClInclude Include="src\md4.h" />
+    <ClInclude Include="src\md5.h" />
+    <ClInclude Include="src\mdc.h" />
+    <ClInclude Include="src\misc.h" />
+    <ClInclude Include="src\modarith.h" />
+    <ClInclude Include="src\modes.h" />
+    <ClInclude Include="src\modexppc.h" />
+    <ClInclude Include="src\mqueue.h" />
+    <ClInclude Include="src\mqv.h" />
+    <ClInclude Include="src\nbtheory.h" />
+    <ClInclude Include="src\network.h" />
+    <ClInclude Include="src\nr.h" />
+    <ClInclude Include="src\oaep.h" />
+    <ClInclude Include="src\oids.h" />
+    <ClInclude Include="src\osrng.h" />
+    <ClInclude Include="src\panama.h" />
+    <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\pkcspad.h" />
+    <ClInclude Include="src\polynomi.h" />
+    <ClInclude Include="src\pssr.h" />
+    <ClInclude Include="src\pubkey.h" />
+    <ClInclude Include="src\pwdbased.h" />
+    <ClInclude Include="src\queue.h" />
+    <ClInclude Include="src\rabin.h" />
+    <ClInclude Include="src\randpool.h" />
+    <ClInclude Include="src\rc2.h" />
+    <ClInclude Include="src\rc5.h" />
+    <ClInclude Include="src\rc6.h" />
+    <ClInclude Include="src\rijndael.h" />
+    <ClInclude Include="src\ripemd.h" />
+    <ClInclude Include="src\rng.h" />
+    <ClInclude Include="src\rsa.h" />
+    <ClInclude Include="src\rw.h" />
+    <ClInclude Include="src\safer.h" />
+    <ClInclude Include="src\salsa.h" />
+    <ClInclude Include="src\seal.h" />
+    <ClInclude Include="src\secblock.h" />
+    <ClInclude Include="src\seckey.h" />
+    <ClInclude Include="src\serpent.h" />
+    <ClInclude Include="src\sha.h" />
+    <ClInclude Include="src\shacal2.h" />
+    <ClInclude Include="src\shark.h" />
+    <ClInclude Include="src\simple.h" />
+    <ClInclude Include="src\skipjack.h" />
+    <ClInclude Include="src\smartptr.h" />
+    <ClInclude Include="src\socketft.h" />
+    <ClInclude Include="src\square.h" />
+    <ClInclude Include="src\strciphr.h" />
+    <ClInclude Include="src\tea.h" />
+    <ClInclude Include="src\tiger.h" />
+    <ClInclude Include="src\trdlocal.h" />
+    <ClInclude Include="src\trunhash.h" />
+    <ClInclude Include="src\ttmac.h" />
+    <ClInclude Include="src\twofish.h" />
+    <ClInclude Include="src\wait.h" />
+    <ClInclude Include="src\wake.h" />
+    <ClInclude Include="src\whrlpool.h" />
+    <ClInclude Include="src\winpipes.h" />
+    <ClInclude Include="src\words.h" />
+    <ClInclude Include="src\xtr.h" />
+    <ClInclude Include="src\xtrcrypt.h" />
+    <ClInclude Include="src\zdeflate.h" />
+    <ClInclude Include="src\zinflate.h" />
+    <ClInclude Include="src\zlib.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\cryptopp.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

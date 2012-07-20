@@ -6,32 +6,20 @@
 #include <list>
 #include <map>
 
-//#pragma warning(push)
-// 4231: nonstandard extension used : 'extern' before template explicit instantiation
-// 4250: dominance
-// 4251: member needs to have dll-interface
-// 4275: base needs to have dll-interface
-// 4660: explicitly instantiating a class that's already implicitly instantiated
-// 4661: no suitable definition provided for explicit template instantiation request
-// 4700: unused variable names...
-// 4706: long names...
-// 4786: identifer was truncated in debug information
-// 4355: 'this' : used in base member initializer list
 #pragma warning(disable: 4231 4250 4251 4275 4660 4661 4700 4706 4786 4355)
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
-#include "crypto/modes.h"
-#include "crypto/osrng.h"
-#include "crypto/rsa.h"
-#include "crypto/aes.h"
-#include "crypto/dh.h"
-#include "crypto/crc.h"
-#include "crypto/ripemd.h"
-#include "crypto/sha.h"
-#include "crypto/tiger.h"
-#include "crypto/gzip.h"
-#include "crypto/zlib.h"
-#include "crypto/files.h"
-//#pragma warning(pop)
+#include "../crypto/src/modes.h"
+#include "../crypto/src/osrng.h"
+#include "../crypto/src/rsa.h"
+#include "../crypto/src/aes.h"
+#include "../crypto/src/dh.h"
+#include "../crypto/src/crc.h"
+#include "../crypto/src/ripemd.h"
+#include "../crypto/src/sha.h"
+#include "../crypto/src/tiger.h"
+#include "../crypto/src/gzip.h"
+#include "../crypto/src/zlib.h"
+#include "../crypto/src/files.h"
 
 USING_NAMESPACE(CryptoPP);
 USING_NAMESPACE(std)

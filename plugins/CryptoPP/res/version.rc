@@ -2,7 +2,8 @@
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
-#include "version.h"
+#include "..\src\version.h"
+#include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 //

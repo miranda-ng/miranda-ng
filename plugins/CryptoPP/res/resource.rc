@@ -1,8 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 #include "afxres.h"
-#include "version.rc"
 
 /////////////////////////////////////////////////////////////////////////////
 // Russian resources
@@ -13,9 +12,9 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
 
 #ifdef DLL_FROM_RESOURCE
-1 666 "gpgw\\release\\gnupgw.dll"
-6 666 "pgpw\\release6\\pgpsdkw6.dll"
-8 666 "pgpw\\release8\\pgpsdkw8.dll"
+1 666 "..\\src\\gpgw\\release\\gnupgw.dll"
+6 666 "..\\src\\pgpw\\release6\\pgpsdkw6.dll"
+8 666 "..\\src\\pgpw\\release8\\pgpsdkw8.dll"
 #endif
 
 #endif //_WIN32
