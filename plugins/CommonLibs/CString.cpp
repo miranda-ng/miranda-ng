@@ -82,7 +82,7 @@ void TString<T>::SetAllocSize(int nNewAllocSize)
 	if (pBuf)
 	{
 		memcpy(pNewBuf, pBuf, sizeof(T) * min(nBufSize, nNewAllocSize));
-		//HeapFree(GetProcessHeap(), 0, pBuf); 
+		//HeapFree(GetProcessHeap(), 0, pBuf);
 		free(pBuf);
 	}
 	pBuf = pNewBuf;
@@ -177,7 +177,7 @@ TString<T>& TString<T>::Replace(int nIndex, int nCount, const T *szReplaceBy)
 	{
 		return *this;
 	}
-	
+
 	TString<T> Result;
 	Result.GetBuffer(1)[0] = '\0';
 	Result.ReleaseBuffer(0); // set the string to ""; we can't do it in a usual way (using a constructor or an assignment) because we don't know whether "" needs to be unicode or ansi
@@ -339,11 +339,7 @@ TCString DBGetContactSettingString(HANDLE hContact, const char *szModule, const 
 
 int DBGetContactSettingString(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
-#ifdef _DEBUG
 	return db_get_s(hContact, szModule, szSetting, dbv, DBVT_ASCIIZ);
-#else
-	return db_get_s(hContact, szModule, szSetting, dbv, DBVT_ASCIIZ);
-#endif	
 }
 
 

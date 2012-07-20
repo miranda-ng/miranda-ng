@@ -1,22 +1,22 @@
 // ---------------------------------------------------------------------------80
 //                ICQ plugin for Miranda Instant Messenger
 //                ________________________________________
-// 
+//
 // Copyright © 2000-2001 Richard Hughes, Roland Rabien, Tristan Van de Vreede
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2008 Joe Kucera, Bio
-// 
+//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -125,7 +125,7 @@ void g_MenuInit(void)
 
 	char str[MAXMODULELABELLENGTH], *pszDest = str + 3;
 	strcpy( str, "ICQ" );
-	
+
 	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof(CLISTMENUITEM);
 	mi.pszService = str;
@@ -222,20 +222,20 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM wParam, LPARAM)
 		DWORD dwUin = getContactUin(hContact);
 
 
-		sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_REQUEST], 
+		sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_REQUEST],
 			dwUin && (bCtrlPressed || (getSettingByte((HANDLE)wParam, "Auth", 0) && getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0))));
 		sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_GRANT], dwUin && (bCtrlPressed || getSettingByte((HANDLE)wParam, "Grant", 0)));
-		sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_REVOKE], 
+		sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_REVOKE],
 			dwUin && (bCtrlPressed || (getSettingByte(NULL, "PrivacyItems", 0) && !getSettingByte((HANDLE)wParam, "Grant", 0))));
-		sttEnableMenuItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST], 
-			m_bSsiEnabled && !getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0) && 
+		sttEnableMenuItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST],
+			m_bSsiEnabled && !getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0) &&
 			!getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_IGNORE, 0) &&
 			!DBGetContactSettingByte(hContact, "CList", "NotOnList", 0));
 	}
-	
+
 	sttEnableMenuItem(g_hContactMenuItems[ICMI_OPEN_PROFILE],getContactUin(hContact) != 0);
 	BYTE bXStatus = getContactXStatus((HANDLE)wParam);
-	
+
 	sttEnableMenuItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], m_bHideXStatusUI ? 0 : bXStatus != 0);
 	if (bXStatus && !m_bHideXStatusUI) {
 		CLISTMENUITEM clmi = {0};
@@ -254,7 +254,7 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM wParam, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// OnPrebuildContactMenu event
+// OnPreBuildStatusMenu event
 
 int CIcqProto::OnPreBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 {

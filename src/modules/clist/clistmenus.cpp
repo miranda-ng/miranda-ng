@@ -1193,7 +1193,7 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
 				mir_free(ptszName);	
 			}
 			if (pRoot == NULL) {
-				memset(&tmi, 0, sizeof(tmi));
+				TMO_MenuItem tmi = { 0 };
 				tmi.cbSize = sizeof(tmi);
 				tmi.flags = (mi->flags & CMIF_UNICODE) | CMIF_ROOTHANDLE;
 				tmi.position = 1001;
