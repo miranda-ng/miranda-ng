@@ -160,21 +160,19 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="options.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commonheaders.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\commonheaders.h" />
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\female.ico" />
-    <None Include="icons\male.ico" />
     <None Include="docs\gender-readme.txt" />
     <None Include="docs\gender-translate.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="gender.rc" />
+    <ResourceCompile Include="res\gender.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
