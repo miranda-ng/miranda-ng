@@ -118,7 +118,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>..\..\..\ExternalAPI</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\ExternalAPI</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

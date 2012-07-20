@@ -16,12 +16,9 @@
     <Filter Include="Players">
       <UniqueIdentifier>{b02fc25f-b248-4ac3-aa31-f386676c62b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{91320735-8950-495f-943e-010b395c8b37}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commons.h">
+    <ClInclude Include="src\commons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\utils\mir_buffer.h">
@@ -36,70 +33,47 @@
     <ClInclude Include="..\utils\mir_options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="music.h">
+    <ClInclude Include="src\music.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="options.h">
+    <ClInclude Include="src\options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="players\foobar.h">
+    <ClInclude Include="src\players\foobar.h">
       <Filter>Players</Filter>
     </ClInclude>
-    <ClInclude Include="players\generic.h">
+    <ClInclude Include="src\players\generic.h">
       <Filter>Players</Filter>
     </ClInclude>
-    <ClInclude Include="players\itunes.h">
+    <ClInclude Include="src\players\itunes.h">
       <Filter>Players</Filter>
     </ClInclude>
-    <ClInclude Include="players\mradio.h">
+    <ClInclude Include="src\players\mradio.h">
       <Filter>Players</Filter>
     </ClInclude>
-    <ClInclude Include="players\player.h">
+    <ClInclude Include="src\players\player.h">
       <Filter>Players</Filter>
     </ClInclude>
-    <ClInclude Include="players\watrack.h">
+    <ClInclude Include="src\players\watrack.h">
       <Filter>Players</Filter>
     </ClInclude>
-    <ClInclude Include="players\winamp.h">
+    <ClInclude Include="src\players\winamp.h">
       <Filter>Players</Filter>
     </ClInclude>
-    <ClInclude Include="players\wmp.h">
+    <ClInclude Include="src\players\wmp.h">
       <Filter>Players</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\listening_to.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Docs\langpack_listeningto.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="Docs\listeningto_changelog.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="Docs\listeningto_readme.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="Docs\listeningto_version.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="Docs\readme_players.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="res\listening_off.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="listeningto.cpp">
+    <ClCompile Include="src\listeningto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\utils\mir_icons.cpp">
@@ -108,34 +82,34 @@
     <ClCompile Include="..\utils\mir_options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="music.cpp">
+    <ClCompile Include="src\music.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="players\foobar.cpp">
+    <ClCompile Include="src\players\foobar.cpp">
       <Filter>Players</Filter>
     </ClCompile>
-    <ClCompile Include="players\generic.cpp">
+    <ClCompile Include="src\players\generic.cpp">
       <Filter>Players</Filter>
     </ClCompile>
-    <ClCompile Include="players\itunes.cpp">
+    <ClCompile Include="src\players\itunes.cpp">
       <Filter>Players</Filter>
     </ClCompile>
-    <ClCompile Include="players\mradio.cpp">
+    <ClCompile Include="src\players\mradio.cpp">
       <Filter>Players</Filter>
     </ClCompile>
-    <ClCompile Include="players\player.cpp">
+    <ClCompile Include="src\players\player.cpp">
       <Filter>Players</Filter>
     </ClCompile>
-    <ClCompile Include="players\watrack.cpp">
+    <ClCompile Include="src\players\watrack.cpp">
       <Filter>Players</Filter>
     </ClCompile>
-    <ClCompile Include="players\winamp.cpp">
+    <ClCompile Include="src\players\winamp.cpp">
       <Filter>Players</Filter>
     </ClCompile>
-    <ClCompile Include="players\wmp.cpp">
+    <ClCompile Include="src\players\wmp.cpp">
       <Filter>Players</Filter>
     </ClCompile>
   </ItemGroup>

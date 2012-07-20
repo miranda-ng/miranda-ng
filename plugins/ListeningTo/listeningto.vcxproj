@@ -73,12 +73,11 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;UNICODE;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -97,11 +96,10 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;UNICODE;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -121,11 +119,10 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;UNICODE;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <ResourceCompile>
@@ -148,11 +145,10 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;UNICODE;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <ResourceCompile>
@@ -171,49 +167,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="commons.h" />
+    <ClInclude Include="src\commons.h" />
     <ClInclude Include="..\utils\mir_buffer.h" />
     <ClInclude Include="..\utils\mir_icons.h" />
     <ClInclude Include="..\utils\mir_memory.h" />
     <ClInclude Include="..\utils\mir_options.h" />
-    <ClInclude Include="music.h" />
-    <ClInclude Include="options.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="players\foobar.h" />
-    <ClInclude Include="players\generic.h" />
-    <ClInclude Include="players\itunes.h" />
-    <ClInclude Include="players\mradio.h" />
-    <ClInclude Include="players\player.h" />
-    <ClInclude Include="players\watrack.h" />
-    <ClInclude Include="players\winamp.h" />
-    <ClInclude Include="players\wmp.h" />
+    <ClInclude Include="src\music.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\players\foobar.h" />
+    <ClInclude Include="src\players\generic.h" />
+    <ClInclude Include="src\players\itunes.h" />
+    <ClInclude Include="src\players\mradio.h" />
+    <ClInclude Include="src\players\player.h" />
+    <ClInclude Include="src\players\watrack.h" />
+    <ClInclude Include="src\players\winamp.h" />
+    <ClInclude Include="src\players\wmp.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\listening_off.ico" />
-    <None Include="res\listening_to.ico" />
-    <None Include="Docs\langpack_listeningto.txt" />
-    <None Include="Docs\listeningto_changelog.txt" />
-    <None Include="Docs\listeningto_readme.txt" />
-    <None Include="Docs\listeningto_version.txt" />
-    <None Include="Docs\readme_players.txt" />
+    <ResourceCompile Include="res\resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="listeningto.cpp" />
+    <ClCompile Include="src\listeningto.cpp" />
     <ClCompile Include="..\utils\mir_icons.cpp" />
     <ClCompile Include="..\utils\mir_options.cpp" />
-    <ClCompile Include="music.cpp" />
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="players\foobar.cpp" />
-    <ClCompile Include="players\generic.cpp" />
-    <ClCompile Include="players\itunes.cpp" />
-    <ClCompile Include="players\mradio.cpp" />
-    <ClCompile Include="players\player.cpp" />
-    <ClCompile Include="players\watrack.cpp" />
-    <ClCompile Include="players\winamp.cpp" />
-    <ClCompile Include="players\wmp.cpp" />
+    <ClCompile Include="src\music.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\players\foobar.cpp" />
+    <ClCompile Include="src\players\generic.cpp" />
+    <ClCompile Include="src\players\itunes.cpp" />
+    <ClCompile Include="src\players\mradio.cpp" />
+    <ClCompile Include="src\players\player.cpp" />
+    <ClCompile Include="src\players\watrack.cpp" />
+    <ClCompile Include="src\players\winamp.cpp" />
+    <ClCompile Include="src\players\wmp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
