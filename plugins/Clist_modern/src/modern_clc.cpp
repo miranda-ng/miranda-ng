@@ -333,8 +333,10 @@ static int clcSearchNextContact(HWND hwnd, struct ClcData *dat, int index, const
 		}
 		if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) 
 		{
-			bool found;
-			if (dat->filterSearch) {			
+			bool found;			
+			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
+				found = true;
+			} else if (dat->filterSearch) {
 				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(group->cl.items[group->scanIndex]->szText));
 				TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
 				found = _tcsstr(lowered_szText, lowered_search) != NULL;
@@ -631,17 +633,12 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	case VK_END: dat->selection = pcli->pfnGetGroupContentsCount(&dat->list,1)-1; selMoved = 1; break;
 	case VK_LEFT: changeGroupExpand = 1; break;
 	case VK_RIGHT: changeGroupExpand = 2; break;
-	case VK_RETURN: pcli->pfnDoSelectionDefaultAction(hwnd,dat); SetCapture(hwnd); 
-		
-		// TODO: clear filtering here somehow?
-		if (dat->filterSearch) {
-			dat->szQuickSearch[0] = 0;
+	case VK_RETURN:
+		pcli->pfnDoSelectionDefaultAction(hwnd,dat);
+		SetCapture(hwnd); 
+		dat->szQuickSearch[0] = 0;
+		if (dat->filterSearch)
 			pcli->pfnSaveStateAndRebuildList(hwnd, dat);
-			//pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
-		} else {
-			dat->szQuickSearch[0] = 0;
-		}
-		
 		return 0;
 	case VK_F2: cliBeginRenameSelection(hwnd,dat); /*SetCapture(hwnd);*/ return 0;
 	case VK_DELETE: pcli->pfnDeleteFromContactList(hwnd,dat); SetCapture(hwnd);return 0;

@@ -758,16 +758,16 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 	BOOL fEmbedded = dat->force_in_dialog;
 	// always hide subcontacts (but show them on embedded contact lists)
 
+	if (g_CluiData.bMetaAvail && dat != NULL && dat->IsMetaContactsEnabled && g_szMetaModuleName && db_get_b(hContact, g_szMetaModuleName, "IsSubcontact", 0))
+		return -1; //subcontact
+	if (pdnce && pdnce->isUnknown && !fEmbedded)
+		return 1; //'Unknown Contact'
 	if (dat->filterSearch && dat->szQuickSearch && pdnce->tszName) {
 		// search filtering
 		TCHAR *lowered_name = CharLowerW(NEWTSTR_ALLOCA(pdnce->tszName));
 		TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
 		return _tcsstr(lowered_name, lowered_search) ? 0 : 1;
 	}
-	if (g_CluiData.bMetaAvail && dat != NULL && dat->IsMetaContactsEnabled && g_szMetaModuleName && db_get_b(hContact, g_szMetaModuleName, "IsSubcontact", 0))
-		return -1; //subcontact
-	if (pdnce && pdnce->isUnknown && !fEmbedded)
-		return 1; //'Unknown Contact'
 	if (pdnce && g_CluiData.bFilterEffective && !fEmbedded) {
 		if (szProto == NULL)
 			szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
