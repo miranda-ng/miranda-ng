@@ -352,12 +352,12 @@ INT_PTR CALLBACK DlgProcVariables(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			case WM_INITDIALOG:
 				{
 					SetDlgItemText(hWnd, IDC_HELP_RICHEDIT, _T("\
-Don't forget to click on Apply to save the changes. If you don't then the changes won\'t\r\n\
+Don\'t forget to click on Apply to save the changes. If you don\'t then the changes won\'t\r\n\
 be saved to the database, they will only be valid for this session.\r\n\r\n\
 Variable string\t\tWhat it expands to:\r\n\
 %miranda_path%\tExpands to your miranda path (e.g: c:\program files\miranda im).\r\n\
 %profile_path%\t\tExpands to your profile path - the value found in mirandaboot.ini,\r\n\
-\t\t\tProfileDir section (usually inside miranda's folder).\r\n\
+\t\t\tProfileDir section (usually inside miranda\'s folder).\r\n\
 %current_profile%\tExpands to your current profile name without the extenstion.\r\n\
 \t\t\t(e.g.default if your your profile is default.dat).\r\n\r\n\r\n\
 Environment variables\r\n\
