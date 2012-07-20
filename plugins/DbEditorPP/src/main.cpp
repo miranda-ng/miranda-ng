@@ -154,7 +154,7 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 	ttbb.pszService = "DBEditorpp/MenuCommand";
 	ttbb.name = LPGEN("Database Editor++");
 	ttbb.hIconUp = ico;
-	ttbb.pszTooltipUp = LPGEN("Show DataBase Editor");
+	ttbb.pszTooltipUp = LPGEN("Open Database Editor");
 	hTTBButt = TopToolbar_AddButton(&ttbb);
 	return 0;
 }
