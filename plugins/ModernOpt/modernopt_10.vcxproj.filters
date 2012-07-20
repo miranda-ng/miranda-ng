@@ -15,61 +15,32 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="commonheaders.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\modernopt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="modernopt.cpp">
+    <ClCompile Include="src\mopt_home.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mopt_home.cpp">
+    <ClCompile Include="src\mopt_ignore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mopt_ignore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mopt_selector.cpp">
+    <ClCompile Include="src\mopt_selector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commonheaders.h">
+    <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="modernopt.h">
+    <ClInclude Include="src\modernopt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Res\big_advanced.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\big_buddylist.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\big_ignore.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\big_message.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\big_modules.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\big_network.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\big_skins.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Res\big_status.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

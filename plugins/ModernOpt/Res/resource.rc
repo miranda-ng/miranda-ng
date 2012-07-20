@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -86,14 +86,14 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_BIG_ADVANCED        ICON                    "res/big_advanced.ico"
-IDI_BIG_BUDDYLIST       ICON                    "res/big_buddylist.ico"
-IDI_BIG_IGNORE          ICON                    "res/big_ignore.ico"
-IDI_BIG_MESSAGE         ICON                    "res/big_message.ico"
-IDI_BIG_MODULES         ICON                    "res/big_modules.ico"
-IDI_BIG_NETWORK         ICON                    "res/big_network.ico"
-IDI_BIG_SKINS           ICON                    "res/big_skins.ico"
-IDI_BIG_STATUS          ICON                    "res/big_status.ico"
+IDI_BIG_ADVANCED        ICON                    "big_advanced.ico"
+IDI_BIG_BUDDYLIST       ICON                    "big_buddylist.ico"
+IDI_BIG_IGNORE          ICON                    "big_ignore.ico"
+IDI_BIG_MESSAGE         ICON                    "big_message.ico"
+IDI_BIG_MODULES         ICON                    "big_modules.ico"
+IDI_BIG_NETWORK         ICON                    "big_network.ico"
+IDI_BIG_SKINS           ICON                    "big_skins.ico"
+IDI_BIG_STATUS          ICON                    "big_status.ico"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
