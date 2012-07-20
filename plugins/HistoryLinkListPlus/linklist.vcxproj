@@ -104,7 +104,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <Optimization>Full</Optimization>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;LINKLIST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
@@ -178,24 +178,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="linklist.cpp" />
-    <ClCompile Include="linklist_dlg.cpp" />
-    <ClCompile Include="linklist_fct.cpp" />
-    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="src\linklist.cpp" />
+    <ClCompile Include="src\linklist_dlg.cpp" />
+    <ClCompile Include="src\linklist_fct.cpp" />
+    <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="language.h" />
-    <ClInclude Include="linklist.h" />
-    <ClInclude Include="linklist_dlg.h" />
-    <ClInclude Include="linklist_fct.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="utils.h" />
+    <ClInclude Include="src\language.h" />
+    <ClInclude Include="src\linklist.h" />
+    <ClInclude Include="src\linklist_dlg.h" />
+    <ClInclude Include="src\linklist_fct.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="linklist.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="linklist.rc" />
+    <ResourceCompile Include="res\linklist.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

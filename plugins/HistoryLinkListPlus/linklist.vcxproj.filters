@@ -15,47 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="linklist.cpp">
+    <ClCompile Include="src\linklist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="linklist_dlg.cpp">
+    <ClCompile Include="src\linklist_dlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utils.cpp">
+    <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="linklist_fct.cpp">
+    <ClCompile Include="src\linklist_fct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="linklist.h">
+    <ClInclude Include="src\linklist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="linklist_dlg.h">
+    <ClInclude Include="src\linklist_dlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="linklist_fct.h">
+    <ClInclude Include="src\linklist_fct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="language.h">
+    <ClInclude Include="src\language.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="utils.h">
+    <ClInclude Include="src\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="linklist.rc">
+    <ResourceCompile Include="res\linklist.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="linklist.ico">
-      <Filter>Resources</Filter>
-    </CustomBuild>
   </ItemGroup>
 </Project>
