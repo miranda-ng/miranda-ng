@@ -1,98 +1,98 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="ChatHTMLBuilder.cpp">
+    <ClCompile Include="src\ChatHTMLBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HistoryHTMLBuilder.cpp">
+    <ClCompile Include="src\HistoryHTMLBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HTMLBuilder.cpp">
+    <ClCompile Include="src\HTMLBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IEView.cpp">
+    <ClCompile Include="src\IEView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ieview_main.cpp">
+    <ClCompile Include="src\ieview_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ieview_services.cpp">
+    <ClCompile Include="src\ieview_services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MUCCHTMLBuilder.cpp">
+    <ClCompile Include="src\MUCCHTMLBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Options.cpp">
+    <ClCompile Include="src\Options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ScriverHTMLBuilder.cpp">
+    <ClCompile Include="src\ScriverHTMLBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TabSRMMHTMLBuilder.cpp">
+    <ClCompile Include="src\TabSRMMHTMLBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Template.cpp">
+    <ClCompile Include="src\Template.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TemplateHTMLBuilder.cpp">
+    <ClCompile Include="src\TemplateHTMLBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TextToken.cpp">
+    <ClCompile Include="src\TextToken.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils.cpp">
+    <ClCompile Include="src\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ChatHTMLBuilder.h">
+    <ClInclude Include="src\ChatHTMLBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HistoryHTMLBuilder.h">
+    <ClInclude Include="src\HistoryHTMLBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HTMLBuilder.h">
+    <ClInclude Include="src\HTMLBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IEView.h">
+    <ClInclude Include="src\IEView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ieview_common.h">
+    <ClInclude Include="src\ieview_common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ieview_services.h">
+    <ClInclude Include="src\ieview_services.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MUCCHTMLBuilder.h">
+    <ClInclude Include="src\MUCCHTMLBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Options.h">
+    <ClInclude Include="src\Options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ScriverHTMLBuilder.h">
+    <ClInclude Include="src\ScriverHTMLBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TabSRMMHTMLBuilder.h">
+    <ClInclude Include="src\TabSRMMHTMLBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Template.h">
+    <ClInclude Include="src\Template.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TemplateHTMLBuilder.h">
+    <ClInclude Include="src\TemplateHTMLBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextToken.h">
+    <ClInclude Include="src\TextToken.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utils.h">
+    <ClInclude Include="src\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ieview.rc">
+    <ResourceCompile Include="res\ieview.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
