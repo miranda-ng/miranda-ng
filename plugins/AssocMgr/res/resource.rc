@@ -38,12 +38,6 @@ BEGIN
     "\0"
 END
 
-3 TEXTINCLUDE MOVEABLE PURE 
-BEGIN
-    "#include ""version.rc""\r\n"
-    "\0"
-END
-
 #endif    // APSTUDIO_INVOKED
 
 

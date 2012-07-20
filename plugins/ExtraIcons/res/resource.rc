@@ -118,7 +118,7 @@ END
 
 2 TEXTINCLUDE DISCARDABLE 
 BEGIN
-    "#include ""resource.h""\r\n"
+    "#include ""..\\src\\resource.h""\r\n"
     "#include ""winresrc.h""\r\n"
     "\0"
 END

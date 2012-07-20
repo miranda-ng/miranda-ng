@@ -52,7 +52,6 @@ END
 
 2 TEXTINCLUDE DISCARDABLE 
 BEGIN
-    "#include ""autorun.h""\r\n"
     "#include ""afxres.h""\r\n"
     "\0"
 END
