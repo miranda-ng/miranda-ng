@@ -3,4 +3,4 @@
 #define __FILEVERSION_STRING        MIRANDA_VERSION_FILEVERSION
 #define __VERSION_STRING            MIRANDA_VERSION_STRING
 #define __VERSION_DWORD             MIRANDA_VERSION_DWORD
-#define __PLUGIN_NAME				"Miranda SecuredMMAP database driver"
+#define __PLUGIN_NAME				"Miranda NG secure database driver"

@@ -57,18 +57,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_folders.h"
 
 //own headers
-#include "database.h"
-#include "dbintf.h"
+#include "dbintf_sa.h"
+#include "..\Db3x_mmap\database.h"
 #include "resource.h"
 #include "version.h"
 
-extern CRITICAL_SECTION csDbAccess;
-extern struct DBHeader dbHeader;
-extern HANDLE hDbFile;
-extern BOOL bEncoding;
 extern HINSTANCE g_hInst;
 extern HANDLE hSetPwdMenu;
-extern CDdxMmap* g_Db;
 
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)
@@ -88,6 +83,13 @@ BOOL CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
 BOOL CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
 void xModifyMenu(HANDLE hMenu,long flags,const TCHAR* name, HICON hIcon);
 
+extern DBSignature dbSignature, dbSignatureSecured;
+
+extern LIST<CDdxMmapSA> g_Dbs;
+
+int InitPreset();
+void UninitPreset();
+
 typedef struct{
 	void* (__stdcall *GenerateKey)(char* pwd);
 	void (__stdcall *FreeKey)(void* key);
@@ -106,7 +108,10 @@ typedef struct{
 } Cryptor;
 
 typedef struct{
-	char dllname[255];
+	TCHAR dllname[MAX_PATH];
 	HMODULE hLib;
 	Cryptor* cryptor;
 } CryptoModule;
+
+extern Cryptor* CryptoEngine;
+extern void* key;

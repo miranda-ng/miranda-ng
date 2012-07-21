@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
+DBSignature dbSignature = {"Miranda ICQ DB",0x1A};
+
 static int stringCompare(const char* p1, const char* p2)
 {
 	return strcmp(p1+1, p2+1);
@@ -98,8 +100,8 @@ CDdxMmap::~CDdxMmap()
 
 	// update profile last modified time
 	DWORD bytesWritten;
-	SetFilePointer(m_hDbFile,0,NULL,FILE_BEGIN);
-	WriteFile(m_hDbFile,&dbSignature,1,&bytesWritten,NULL);
+	SetFilePointer(m_hDbFile, 0, NULL, FILE_BEGIN);
+	WriteFile(m_hDbFile, &dbSignature, 1, &bytesWritten, NULL);
 	CloseHandle(m_hDbFile);
 
 	DeleteCriticalSection(&m_csDbAccess);
@@ -149,3 +151,24 @@ STDMETHODIMP_(void) CDdxMmap::SetCacheSafetyMode(BOOL bIsSet)
 	}
 	DBFlush(1);
 }
+
+void CDdxMmap::EncodeCopyMemory(void *dst, void *src, size_t size)
+{
+	MoveMemory(dst, src, size);
+}
+
+void CDdxMmap::DecodeCopyMemory(void *dst, void *src, size_t size)
+{
+	MoveMemory(dst, src, size);
+}
+
+void CDdxMmap::EncodeDBWrite(DWORD ofs, void *src, int size)
+{
+	DBWrite(ofs, src, size);
+}
+
+void CDdxMmap::DecodeDBWrite(DWORD ofs, void *src, int size)
+{
+	DBWrite(ofs, src, size);
+}
+

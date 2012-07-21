@@ -52,6 +52,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "resource.h"
 #include "version.h"
 
+extern LIST<CDdxMmap> g_Dbs;
+
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)
 #else

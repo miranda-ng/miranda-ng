@@ -25,12 +25,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //the cache has not been loaded when these functions are used
 
+extern DBSignature dbSignature;
+
 int CDdxMmap::CreateDbHeaders()
 {
 	DBContact user;
 	DWORD bytesWritten;
 
-	CopyMemory(m_dbHeader.signature,&dbSignature,sizeof(m_dbHeader.signature));
+	CopyMemory(m_dbHeader.signature, &dbSignature,sizeof(m_dbHeader.signature));
 	m_dbHeader.version = DB_THIS_VERSION;
 	m_dbHeader.ofsFileEnd = sizeof(struct DBHeader);
 	m_dbHeader.slackSpace = 0;

@@ -45,11 +45,6 @@ LIST<CDdxMmap> g_Dbs(1, (LIST<CDdxMmap>::FTSortFunc)HandleKeySort);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int getCapability( int flag )
-{
-	return 0;
-}
-
 // returns 0 if the profile is created, EMKPRF*
 static int makeDatabase(const TCHAR *profile, int *error)
 {

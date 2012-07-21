@@ -73,7 +73,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;DB3X_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -102,7 +102,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;DB3X_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -133,7 +133,7 @@
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;DB3X_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -164,7 +164,7 @@
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;DB3X_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -189,15 +189,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="database.cpp" />
-    <ClCompile Include="dbcache.cpp" />
-    <ClCompile Include="dbcontacts.cpp" />
-    <ClCompile Include="dbevents.cpp" />
-    <ClCompile Include="dbheaders.cpp" />
-    <ClCompile Include="dbintf.cpp" />
-    <ClCompile Include="dbmodulechain.cpp" />
+    <ClCompile Include="..\Db3x_mmap\database.cpp" />
+    <ClCompile Include="..\Db3x_mmap\dbcache.cpp" />
+    <ClCompile Include="..\Db3x_mmap\dbcontacts.cpp" />
+    <ClCompile Include="..\Db3x_mmap\dbevents.cpp" />
+    <ClCompile Include="..\Db3x_mmap\dbheaders.cpp" />
+    <ClCompile Include="..\Db3x_mmap\dbintf.cpp" />
+    <ClCompile Include="..\Db3x_mmap\dbmodulechain.cpp" />
+    <ClCompile Include="..\Db3x_mmap\dbsettings.cpp" />
+    <ClCompile Include="dbintf_sa.cpp" />
     <ClCompile Include="dbpreset.cpp" />
-    <ClCompile Include="dbsettings.cpp" />
     <ClCompile Include="dialogs.cpp" />
     <ClCompile Include="init.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -205,9 +206,9 @@
     <ClCompile Include="security.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Db3x_mmap\dbintf.h" />
     <ClInclude Include="commonheaders.h" />
-    <ClInclude Include="database.h" />
-    <ClInclude Include="dbintf.h" />
+    <ClInclude Include="dbintf_sa.h" />
     <ClInclude Include="options.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="version.h" />

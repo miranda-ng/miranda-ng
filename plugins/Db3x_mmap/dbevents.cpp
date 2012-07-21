@@ -125,7 +125,7 @@ STDMETHODIMP_(HANDLE) CDdxMmap::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 
 	DBWrite(ofsContact,&dbc,sizeof(DBContact));
 	DBWrite(ofsNew,&dbe,offsetof(DBEvent,blob));
-	DBWrite(ofsNew+offsetof(DBEvent,blob),dbei->pBlob,dbei->cbBlob);
+	EncodeDBWrite(ofsNew+offsetof(DBEvent,blob),dbei->pBlob,dbei->cbBlob);
 	DBFlush(0);
 	lck.unlock();
 	
@@ -245,10 +245,10 @@ STDMETHODIMP_(BOOL) CDdxMmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 	if (bytesToCopy && dbei->pBlob) {
 		for (int i = 0;;i += MAXCACHEDREADSIZE) {
 			if (bytesToCopy-i <= MAXCACHEDREADSIZE) {
-				CopyMemory(dbei->pBlob+i, DBRead(DWORD(hDbEvent)+offsetof(DBEvent,blob)+i,bytesToCopy-i,NULL), bytesToCopy-i);
+				DecodeCopyMemory(dbei->pBlob+i, DBRead(DWORD(hDbEvent)+offsetof(DBEvent,blob)+i,bytesToCopy-i,NULL), bytesToCopy-i);
 				break;
 			}
-			CopyMemory(dbei->pBlob+i, DBRead(DWORD(hDbEvent)+offsetof(DBEvent,blob)+i, MAXCACHEDREADSIZE, NULL), MAXCACHEDREADSIZE);
+			DecodeCopyMemory(dbei->pBlob+i, DBRead(DWORD(hDbEvent)+offsetof(DBEvent,blob)+i, MAXCACHEDREADSIZE, NULL), MAXCACHEDREADSIZE);
 		}
 	}
 	return 0;

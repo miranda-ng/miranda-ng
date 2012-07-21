@@ -26,9 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 /* Public API */
-int InitPreset();
-void UninitPreset();
-
 int	DBPreset_QuerySetting	(const char *szModule, const char *szSetting, DBVARIANT *dbv, BOOL isStatic);
 int	DBPreset_CompareSetting	(const char *szModule, const char *szSetting, DBVARIANT *dbv);
 

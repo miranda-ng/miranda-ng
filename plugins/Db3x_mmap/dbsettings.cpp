@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 DWORD GetModuleNameOfs(const char *szName);
 DBCachedContactValueList* AddToCachedContactList(HANDLE hContact, int index);
 
+int DBPreset_QuerySetting(const char *szModule, const char *szSetting, DBVARIANT *dbv, BOOL isStatic);
+
 DWORD CDdxMmap::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsModuleName)
 {
 	DWORD ofsThis = dbc->ofsFirstSettings;
@@ -298,21 +300,21 @@ int CDdxMmap::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 						return 2;
 
 					case DBVT_BYTE: dbcgs->pValue->bVal = pBlob[1]; break;
-					case DBVT_WORD: dbcgs->pValue->wVal = *(PWORD)(pBlob+1); break;
-					case DBVT_DWORD: dbcgs->pValue->dVal = *(PDWORD)(pBlob+1); break;
+					case DBVT_WORD: DecodeCopyMemory(&(dbcgs->pValue->wVal), (PWORD)(pBlob+1), 2); break;
+					case DBVT_DWORD: DecodeCopyMemory(&(dbcgs->pValue->dVal), (PDWORD)(pBlob+1), 4); break;
 					case DBVT_UTF8:
 					case DBVT_ASCIIZ:
 						NeedBytes(3+*(PWORD)(pBlob+1));
 						if (isStatic) {
 							dbcgs->pValue->cchVal--;
 							if (*(PWORD)(pBlob+1)<dbcgs->pValue->cchVal) dbcgs->pValue->cchVal = *(PWORD)(pBlob+1);
-							CopyMemory(dbcgs->pValue->pszVal,pBlob+3,dbcgs->pValue->cchVal);
+							DecodeCopyMemory(dbcgs->pValue->pszVal,pBlob+3,dbcgs->pValue->cchVal);
 							dbcgs->pValue->pszVal[dbcgs->pValue->cchVal] = 0;
 							dbcgs->pValue->cchVal = *(PWORD)(pBlob+1);
 						}
 						else {
 							dbcgs->pValue->pszVal = (char*)mir_alloc(1+*(PWORD)(pBlob+1));
-							CopyMemory(dbcgs->pValue->pszVal,pBlob+3,*(PWORD)(pBlob+1));
+							DecodeCopyMemory(dbcgs->pValue->pszVal,pBlob+3,*(PWORD)(pBlob+1));
 							dbcgs->pValue->pszVal[*(PWORD)(pBlob+1)] = 0;
 						}
 						break;
@@ -320,19 +322,18 @@ int CDdxMmap::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 						NeedBytes(3+*(PWORD)(pBlob+1));
 						if (isStatic) {
 							if (*(PWORD)(pBlob+1)<dbcgs->pValue->cpbVal) dbcgs->pValue->cpbVal = *(PWORD)(pBlob+1);
-							CopyMemory(dbcgs->pValue->pbVal,pBlob+3,dbcgs->pValue->cpbVal);
+							DecodeCopyMemory(dbcgs->pValue->pbVal,pBlob+3,dbcgs->pValue->cpbVal);
 						}
 						else {
 							dbcgs->pValue->pbVal = (BYTE *)mir_alloc(*(PWORD)(pBlob+1));
-							CopyMemory(dbcgs->pValue->pbVal,pBlob+3,*(PWORD)(pBlob+1));
+							DecodeCopyMemory(dbcgs->pValue->pbVal,pBlob+3,*(PWORD)(pBlob+1));
 						}
 						dbcgs->pValue->cpbVal = *(PWORD)(pBlob+1);
 						break;
 				}
 
 				/**** add to cache **********************/
-				if ( dbcgs->pValue->type != DBVT_BLOB )
-				{
+				if ( dbcgs->pValue->type != DBVT_BLOB ) {
 					DBVARIANT* pCachedValue = GetCachedValuePtr( hContact, szCachedSettingName, 1 );
 					if ( pCachedValue != NULL )
 						SetCachedVariant(dbcgs->pValue,pCachedValue);
@@ -347,6 +348,19 @@ int CDdxMmap::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 			MoveAlong(1+GetSettingValueLength(pBlob));
 			NeedBytes(1);
 	}	}
+
+	#ifndef DB3X_EXPORTS
+		/**** nullbie: query info from preset **********************/
+		if (!hContact && DBPreset_QuerySetting(dbcgs->szModule, dbcgs->szSetting, dbcgs->pValue, isStatic)) {
+			/**** add to cache **********************/
+			if ( dbcgs->pValue->type != DBVT_BLOB ) {
+				DBVARIANT* pCachedValue = GetCachedValuePtr( hContact, szCachedSettingName, 1 );
+				if ( pCachedValue != NULL )
+					SetCachedVariant(dbcgs->pValue,pCachedValue);
+			}
+			return 0;
+		}
+	#endif
 
 	/**** add missing setting to cache **********************/
 	if ( dbcgs->pValue->type != DBVT_BLOB )
@@ -675,11 +689,11 @@ STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 				MoveAlong(1);	//skip data type
 				switch(tmp.value.type) {
 					case DBVT_BYTE: DBWrite(ofsBlobPtr,&tmp.value.bVal,1); break;
-					case DBVT_WORD: DBWrite(ofsBlobPtr,&tmp.value.wVal,2); break;
-					case DBVT_DWORD: DBWrite(ofsBlobPtr,&tmp.value.dVal,4); break;
+					case DBVT_WORD: EncodeDBWrite(ofsBlobPtr,&tmp.value.wVal,2); break;
+					case DBVT_DWORD: EncodeDBWrite(ofsBlobPtr,&tmp.value.dVal,4); break;
 					case DBVT_UTF8:
-					case DBVT_ASCIIZ: DBWrite(ofsBlobPtr+2,tmp.value.pszVal,(int)strlen(tmp.value.pszVal)); break;
-					case DBVT_BLOB: DBWrite(ofsBlobPtr+2,tmp.value.pbVal,tmp.value.cpbVal); break;
+					case DBVT_ASCIIZ: EncodeDBWrite(ofsBlobPtr+2,tmp.value.pszVal,(int)strlen(tmp.value.pszVal)); break;
+					case DBVT_BLOB: EncodeDBWrite(ofsBlobPtr+2,tmp.value.pbVal,tmp.value.cpbVal); break;
 				}
 				//quit
 				DBFlush(1);
@@ -745,19 +759,19 @@ STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	MoveAlong(1);
 	switch(tmp.value.type) {
 		case DBVT_BYTE: DBWrite(ofsBlobPtr,&tmp.value.bVal,1); MoveAlong(1); break;
-		case DBVT_WORD: DBWrite(ofsBlobPtr,&tmp.value.wVal,2); MoveAlong(2); break;
-		case DBVT_DWORD: DBWrite(ofsBlobPtr,&tmp.value.dVal,4); MoveAlong(4); break;
+		case DBVT_WORD: EncodeDBWrite(ofsBlobPtr,&tmp.value.wVal,2); MoveAlong(2); break;
+		case DBVT_DWORD: EncodeDBWrite(ofsBlobPtr,&tmp.value.dVal,4); MoveAlong(4); break;
 		case DBVT_UTF8:
 		case DBVT_ASCIIZ:
 			{	int len = (int)strlen(tmp.value.pszVal);
 				DBWrite(ofsBlobPtr,&len,2);
-				DBWrite(ofsBlobPtr+2,tmp.value.pszVal,len);
+				EncodeDBWrite(ofsBlobPtr+2,tmp.value.pszVal,len);
 				MoveAlong(2+len);
 			}
 			break;
 		case DBVT_BLOB:
 			DBWrite(ofsBlobPtr,&tmp.value.cpbVal,2)	;
-			DBWrite(ofsBlobPtr+2,tmp.value.pbVal,tmp.value.cpbVal);
+			EncodeDBWrite(ofsBlobPtr+2,tmp.value.pbVal,tmp.value.cpbVal);
 			MoveAlong(2+tmp.value.cpbVal);
 			break;
 	}

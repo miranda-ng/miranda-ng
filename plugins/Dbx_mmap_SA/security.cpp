@@ -2,20 +2,12 @@
 
 #include "commonheaders.h"
 
-BOOL bEncoding;
-BOOL bEncProcess = 0;
-
-char  encryptKey[255];
-size_t encryptKeyLength;
-
 int wrongPass = 0;
 void* key;
 
 Cryptor* CryptoEngine = NULL;
 
-int ModulesCount = 0;
-CryptoModule* Modules[100];
-
+LIST<CryptoModule> arCryptors(1);
 
 void zero_fill(BYTE * pBuf, size_t bufSize)
 {
@@ -26,83 +18,76 @@ void zero_fill(BYTE * pBuf, size_t bufSize)
 
 void InitSecurity()
 {
-	HMODULE hLib;	
-	WIN32_FIND_DATAA fd;
-
 	Cryptor* (__stdcall *GetCryptor)();	
 	
-	HANDLE hFile = FindFirstFileA(".\\plugins\\cryptors\\*.dll", &fd);	
+	TCHAR tszPath[MAX_PATH];
+	GetModuleFileName(g_hInst, tszPath, SIZEOF(tszPath));
+	TCHAR *p = _tcsrchr(tszPath, '\\')+1; _tcscpy(p, _T("cryptors\\*.dll"));
 
-	ModulesCount = 0;
-	while (hFile != INVALID_HANDLE_VALUE)
-	{	
-		char tmp[255];
-		strcpy(tmp, ".\\plugins\\cryptors\\");
-		strcat(tmp, fd.cFileName);
-		
-		hLib = LoadLibraryA(tmp);
+	WIN32_FIND_DATA fd;
+	HANDLE hFile = FindFirstFile(tszPath, &fd);	
+	while (hFile != INVALID_HANDLE_VALUE) {	
+		mir_sntprintf(p, MAX_PATH - (p-tszPath), _T("cryptors\\%s"), fd.cFileName);
+		HMODULE hLib = LoadLibrary(tszPath);
 		if (hLib){
 			GetCryptor = (Cryptor* (__stdcall *)()) GetProcAddress(hLib, "GetCryptor");
 			if (GetCryptor){
-				Modules[ModulesCount] = (CryptoModule*) malloc(sizeof(CryptoModule));
-				Modules[ModulesCount]->cryptor = GetCryptor();
-				strcpy(Modules[ModulesCount]->dllname, fd.cFileName);
-				Modules[ModulesCount]->hLib = hLib;
-				
-				ModulesCount++;
-			}else{
-				FreeLibrary(hLib);
+				CryptoModule* newItem = (CryptoModule*) malloc(sizeof(CryptoModule));
+				newItem->cryptor = GetCryptor();
+				_tcsncpy(newItem->dllname, fd.cFileName, MAX_PATH);
+				newItem->hLib = hLib;
+				arCryptors.insert(newItem);
 			}
+			else FreeLibrary(hLib);
 		}
-		if (ModulesCount >= 100) break;
-		if (!FindNextFileA(hFile, &fd)) break;
+		if (!FindNextFile(hFile, &fd))
+			break;
 	}
 }
 
 void UnloadSecurity()
 {
-	int i;
-
-	if (CryptoEngine) CryptoEngine->FreeKey(key);
+	if (CryptoEngine)
+		CryptoEngine->FreeKey(key);
 	
-	for (i = 0; i < ModulesCount; i++)
-	{
-		FreeLibrary(Modules[i]->hLib);
-		free(Modules[i]);
+	for (int i = 0; i < arCryptors.getCount(); i++) {
+		FreeLibrary(arCryptors[i]->hLib);
+		free(arCryptors[i]);
 	}
+	arCryptors.destroy();
 }
 
-void EncoderInit()
+void CDdxMmapSA::EncoderInit()
 {
-	if (!bEncoding) return;
+	if (!m_bEncoding) return;
 	
 	encryptKey[encryptKeyLength] = 0;
 	key = CryptoEngine->GenerateKey(encryptKey);
 }
 
-void EncodeCopyMemory(void * dst, void * src, size_t size )
+void CDdxMmapSA::EncodeCopyMemory(void * dst, void * src, size_t size )
 {
 	memcpy(dst, src, size);
 	
-	if (!bEncoding)
+	if (!m_bEncoding)
 		return;
 	
 	CryptoEngine->EncryptMem((BYTE *)dst, (int)size, key);
 }
 
-void DecodeCopyMemory(void * dst, void * src, size_t size )
+void CDdxMmapSA::DecodeCopyMemory(void * dst, void * src, size_t size )
 {
 	memcpy(dst, src, size);
 	
-	if (!bEncoding)
+	if (!m_bEncoding)
 		return;
 
 	CryptoEngine->DecryptMem((BYTE *)dst, (int)size, key);
 }
 
-void EncodeDBWrite(DWORD ofs, void * src, size_t size)
+void CDdxMmapSA::EncodeDBWrite(DWORD ofs, void *src, int size)
 {	
-	if (bEncoding)
+	if (m_bEncoding)
 	{
 		BYTE * buf;
 		
@@ -117,64 +102,55 @@ void EncodeDBWrite(DWORD ofs, void * src, size_t size)
 	}
 }
 
-void DecodeDBWrite(DWORD ofs, void * src, size_t size)
+void CDdxMmapSA::DecodeDBWrite(DWORD ofs, void *src, int size)
 {
-	
-	if (bEncoding)
-	{
-		BYTE * buf;
-
-		buf = (BYTE*)GlobalAlloc(GPTR, sizeof(BYTE)*size);
+	if (m_bEncoding) {
+		BYTE *buf = (BYTE*)GlobalAlloc(GPTR, sizeof(BYTE)*size);
 		DecodeCopyMemory(buf, src, size);
 		DBWrite(ofs, buf, (int)size);
 		GlobalFree(buf);
 	}
-	else
-	{
-		DBWrite(ofs, src, (int)size);
-	}
+	else DBWrite(ofs, src, (int)size);
 }
 
 int bCheckingPass = 0;
 
-int CDdxMmap::CheckPassword(WORD checkWord, TCHAR *szDBName)
+int CDdxMmapSA::CheckPassword(WORD checkWord, TCHAR *szDBName)
 {
-	WORD ver;
-	int res;
+	if (bCheckingPass)
+		return 0;
 
-	if (bCheckingPass) return 0;
 	bCheckingPass = 1;
 
-	{
-		int i;
-		int Found = 0;
-		for (i = 0; i < ModulesCount; i++) {
-			if (dbHeader.cryptorUID == Modules[i]->cryptor->uid){
-				CryptoEngine = Modules[i]->cryptor;
-				Found = 1;
-				break;
-			}
-		}
-		if (!Found){
-			MessageBoxA(0, "Sorry, but your database encrypted with unknown module", "Error", MB_OK);
-			bCheckingPass = 0;
-			return 0;
+	int Found = 0;
+	for (int i = 0; i < arCryptors.getCount(); i++) {
+		if ( HIWORD(m_dbHeader.version) == arCryptors[i]->cryptor->uid){
+			CryptoEngine = arCryptors[i]->cryptor;
+			Found = 1;
+			break;
 		}
 	}
+	if (!Found){
+		MessageBoxA(0, "Sorry, but your database encrypted with unknown module", "Error", MB_OK);
+		bCheckingPass = 0;
+		return 0;
+	}
 
-	while(1){
-		res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), NULL, (DLGPROC)DlgStdInProc, (LPARAM)szDBName);
-		if (res == IDCANCEL)
-		{
+	while(1) {
+		int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), NULL, (DLGPROC)DlgStdInProc, (LPARAM)szDBName);
+		if (res == IDCANCEL) {
 			wrongPass = 0;
 			bCheckingPass = 0;
 			return 0;
 		}
-		if (encryptKeyLength < 1) continue;
+		if (encryptKeyLength < 1)
+			continue;
+		
 		EncoderInit();
+	
+		WORD ver;
 		DecodeCopyMemory(&ver, &checkWord, sizeof(checkWord));
-		if (ver == 0x5195)
-		{
+		if (ver == 0x5195) {
 			wrongPass = 0;
 			bCheckingPass = 0;
 			return 1;
@@ -190,7 +166,7 @@ int SelectEncoder()
 	WORD uid;
 	int i;
 	
-	if (ModulesCount == 0){
+	if (arCryptors.getCount() == 0){
 		MessageBox(0, TranslateT("Crypto modules not found"), TranslateT("Error"), MB_OK);
 		return 1;
 	}
@@ -199,29 +175,29 @@ int SelectEncoder()
 	
 	if (uid == 0){
 		MessageBox(0, TranslateT("Crypto module hasn't been chosen, using first one found"), TranslateT("Notice"), MB_OK);
-		DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", Modules[0]->cryptor->uid);
-		CryptoEngine = Modules[0]->cryptor;
+		DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", arCryptors[0]->cryptor->uid);
+		CryptoEngine = arCryptors[0]->cryptor;
 	}
 	else{
 		int Found = 0;
-		for (i = 0; i < ModulesCount; i++) {
-			if (Modules[i]->cryptor->uid == uid){
-				CryptoEngine = Modules[i]->cryptor;
+		for (i = 0; i < arCryptors.getCount(); i++) {
+			if (arCryptors[i]->cryptor->uid == uid){
+				CryptoEngine = arCryptors[i]->cryptor;
 				Found = 1;
 				break;
 			}
 		}
 		if (!Found){
 			MessageBox(0, TranslateT("Crypto module hasn't been chosen, using first one found"), TranslateT("Notice"), MB_OK);
-			DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", Modules[0]->cryptor->uid);
-			CryptoEngine = Modules[0]->cryptor;
+			DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", arCryptors[0]->cryptor->uid);
+			CryptoEngine = arCryptors[0]->cryptor;
 		}
 	}
 	
 	return 0;
 }
 
-void CDdxMmap::EncodeAll()
+void CDdxMmapSA::EncodeAll()
 {
 	HANDLE hContact;
 
@@ -238,7 +214,7 @@ void CDdxMmap::EncodeAll()
 	EncodeContactSettings(NULL);
 }
 
-void CDdxMmap::DecodeAll()
+void CDdxMmapSA::DecodeAll()
 {
 	HANDLE hContact;	
 	
@@ -253,48 +229,39 @@ void CDdxMmap::DecodeAll()
 	DecodeContactSettings(NULL);
 }
 
-void CDdxMmap::WritePlainHeader()
+void CDdxMmapSA::WritePlainHeader()
 {
 	DWORD bytesWritten;
 
-	memcpy(dbHeader.signature, &dbSignature, sizeof(dbHeader.signature));
-	SetFilePointer(hDbFile,0,NULL,FILE_BEGIN);
-	WriteFile(hDbFile,dbHeader.signature,sizeof(dbHeader.signature),&bytesWritten,NULL);
-	{
-		WORD checkWord;
-		checkWord = 0x0700;
-		memcpy(&dbHeader.checkWord, &checkWord, sizeof(checkWord));
-		WriteFile(hDbFile,&dbHeader.checkWord,sizeof(dbHeader.checkWord),&bytesWritten,NULL);
+	memcpy(m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature));
+	SetFilePointer(m_hDbFile,0,NULL,FILE_BEGIN);
+	WriteFile(m_hDbFile,m_dbHeader.signature,sizeof(m_dbHeader.signature),&bytesWritten,NULL);
 
-		dbHeader.cryptorUID = 0x0000; //no encryption
-		WriteFile(hDbFile,&dbHeader.cryptorUID,sizeof(dbHeader.cryptorUID),&bytesWritten,NULL);
-	}
+	m_dbHeader.version = MAKELONG(0x0700, 0x0000); //no encryption
+	WriteFile(m_hDbFile,&m_dbHeader.version, sizeof(m_dbHeader.version),&bytesWritten,NULL);
 }
 
-void CDdxMmap::WriteCryptHeader()
+void CDdxMmapSA::WriteCryptHeader()
 {
 	DWORD bytesWritten;
 
-	memcpy(dbHeader.signature, &dbSignatureSecured, sizeof(dbHeader.signature));
-	SetFilePointer(hDbFile,0,NULL,FILE_BEGIN);
-	WriteFile(hDbFile,dbHeader.signature,sizeof(dbHeader.signature),&bytesWritten,NULL);
-	{
-		WORD checkWord;
-		checkWord = 0x5195;
-		EncodeCopyMemory(&dbHeader.checkWord, &checkWord, sizeof(checkWord));
-		WriteFile(hDbFile,&dbHeader.checkWord,sizeof(dbHeader.checkWord),&bytesWritten,NULL);
+	memcpy(m_dbHeader.signature, &dbSignatureSecured, sizeof(m_dbHeader.signature));
+	SetFilePointer(m_hDbFile,0,NULL,FILE_BEGIN);
+	WriteFile(m_hDbFile,m_dbHeader.signature,sizeof(m_dbHeader.signature),&bytesWritten,NULL);
 
-		dbHeader.cryptorUID = CryptoEngine->uid;
-		WriteFile(hDbFile,&dbHeader.cryptorUID,sizeof(dbHeader.cryptorUID),&bytesWritten,NULL);
-	}
+	WORD checkWord = 0x5195, cryptWord;
+	EncodeCopyMemory(&cryptWord, &checkWord, sizeof(checkWord));
+	m_dbHeader.version = MAKELONG(cryptWord, CryptoEngine->uid);
+	WriteFile(m_hDbFile,&m_dbHeader.version, sizeof(m_dbHeader.version),&bytesWritten,NULL);
 }
 
-void CDdxMmap::EncryptDB()
+void CDdxMmapSA::EncryptDB()
 {
 	int action = 0;
-	if (bEncProcess) return;		
+	if (bEncProcess)
+		return;		
 
-	if (memcmp(dbHeader.signature, &dbSignatureSecured, sizeof(dbHeader.signature)) == 0){
+	if (memcmp(m_dbHeader.signature, &dbSignatureSecured, sizeof(m_dbHeader.signature)) == 0){
 		MessageBox(0, TranslateT("DB is already secured!"), TranslateT("Error"), MB_OK);
 		return;
 	}
@@ -312,14 +279,14 @@ void CDdxMmap::EncryptDB()
 		return;
 	}
 
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 
-	bEncoding = 1;
+	m_bEncoding = 1;
 	EncoderInit();
 
 	EncodeAll();
 
-	LeaveCriticalSection(&csDbAccess);		
+	LeaveCriticalSection(&m_csDbAccess);		
 
 	WriteCryptHeader();
 
@@ -328,12 +295,12 @@ void CDdxMmap::EncryptDB()
 	bEncProcess = 0;
 }
 
-void CDdxMmap::DecryptDB()
+void CDdxMmapSA::DecryptDB()
 {
 	char oldKey[255];
 	strcpy(oldKey, encryptKey);
 
-	if ( !CheckPassword(dbHeader.checkWord, TranslateT("current database"))) {
+	if ( !CheckPassword( HIWORD(m_dbHeader.version), TranslateT("current database"))) {
 		strcpy(encryptKey, oldKey);
 		encryptKeyLength = strlen(oldKey);
 		return;
@@ -341,11 +308,11 @@ void CDdxMmap::DecryptDB()
 
 	WritePlainHeader();
 	
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 	DecodeAll();
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 
-	bEncoding = 0;
+	m_bEncoding = 0;
 
 	zero_fill((BYTE *)encryptKey, sizeof encryptKey);
 
@@ -358,9 +325,9 @@ void CDdxMmap::DecryptDB()
 	CryptoEngine = NULL;
 }
 
-void CDdxMmap::RecryptDB()
+void CDdxMmapSA::RecryptDB()
 {
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 
 	DecodeAll();
 	
@@ -368,7 +335,7 @@ void CDdxMmap::RecryptDB()
 
 	SelectEncoder();
 
-	bEncoding = 1;
+	m_bEncoding = 1;
 
 	EncoderInit();	
 
@@ -376,10 +343,10 @@ void CDdxMmap::RecryptDB()
 
 	WriteCryptHeader();
 
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 }
 
-void CDdxMmap::ChangePwd()
+void CDdxMmapSA::ChangePwd()
 {
 	char newpass[255] = {0};
 	
@@ -388,7 +355,7 @@ void CDdxMmap::ChangePwd()
 	if (action == IDCANCEL || (action == IDOK && !strlen(newpass)))
 		return;
 
-	EnterCriticalSection(&csDbAccess);
+	EnterCriticalSection(&m_csDbAccess);
 
 	DecodeAll();
 
@@ -397,7 +364,7 @@ void CDdxMmap::ChangePwd()
 	if (action == IDREMOVE){
 		WritePlainHeader();
 
-		bEncoding = 0;
+		m_bEncoding = 0;
 		CryptoEngine = NULL;
 		DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
 
@@ -410,7 +377,7 @@ void CDdxMmap::ChangePwd()
 		strcpy(encryptKey, newpass);
 		encryptKeyLength = strlen(newpass);		
 		
-		bEncoding = 1;
+		m_bEncoding = 1;
 
 		EncoderInit();	
 
@@ -421,5 +388,5 @@ void CDdxMmap::ChangePwd()
 
 	zero_fill((BYTE *)newpass, sizeof newpass);
 
-	LeaveCriticalSection(&csDbAccess);
+	LeaveCriticalSection(&m_csDbAccess);
 }
