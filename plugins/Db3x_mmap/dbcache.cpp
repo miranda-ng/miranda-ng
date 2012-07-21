@@ -88,11 +88,11 @@ PBYTE CDdxMmap::DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
 	// buggy read
 	if (ofs>= m_dwFileSize) {
 		log2("read from outside %d@%08x",bytesRequired,ofs);
-		if (bytesAvail!=NULL) *bytesAvail = m_ChunkSize;
+		if (bytesAvail != NULL) *bytesAvail = m_ChunkSize;
 		return m_pNull;
 	}
 	log3((ofs+bytesRequired > m_dwFileSize)?"read %d@%08x, only %d avaliable":"read %d@%08x",bytesRequired,ofs,m_dwFileSize-ofs);
-	if (bytesAvail!=NULL) *bytesAvail = m_dwFileSize - ofs;
+	if (bytesAvail != NULL) *bytesAvail = m_dwFileSize - ofs;
 	return m_pDbCache+ofs;
 }
 

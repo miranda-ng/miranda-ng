@@ -31,7 +31,7 @@ DWORD CDdxMmap::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsModul
 	DWORD ofsThis = dbc->ofsFirstSettings;
 	while (ofsThis) {
 		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis,sizeof(DBContactSettings),NULL);
-		if (dbcs->signature!=DBCONTACTSETTINGS_SIGNATURE) DatabaseCorruption(NULL);
+		if (dbcs->signature != DBCONTACTSETTINGS_SIGNATURE) DatabaseCorruption(NULL);
 		if (dbcs->ofsModuleName == ofsModuleName)
 			return ofsThis;
 
@@ -277,7 +277,7 @@ int CDdxMmap::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 	if (hContact == NULL) ofsContact = m_dbHeader.ofsUser;
 	else ofsContact = (DWORD)hContact;
 	dbc = (DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
-	if (dbc->signature!=DBCONTACT_SIGNATURE) {
+	if (dbc->signature != DBCONTACT_SIGNATURE) {
 		LeaveCriticalSection(&m_csDbAccess);
 		return 1;
 	}
@@ -563,7 +563,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 		else return 1;
 	}
 
-	if (tmp.value.type!=DBVT_BYTE && tmp.value.type!=DBVT_WORD && tmp.value.type!=DBVT_DWORD && tmp.value.type!=DBVT_ASCIIZ && tmp.value.type!=DBVT_UTF8 && tmp.value.type!=DBVT_BLOB)
+	if (tmp.value.type != DBVT_BYTE && tmp.value.type != DBVT_WORD && tmp.value.type != DBVT_DWORD && tmp.value.type != DBVT_ASCIIZ && tmp.value.type != DBVT_UTF8 && tmp.value.type != DBVT_BLOB)
 		return 1;
 	if ((!tmp.szModule) || (!tmp.szSetting) || ((tmp.value.type == DBVT_ASCIIZ || tmp.value.type == DBVT_UTF8 )&& tmp.value.pszVal == NULL) || (tmp.value.type == DBVT_BLOB && tmp.value.pbVal == NULL))
 		return 1;
@@ -617,7 +617,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	else ofsContact = (DWORD)hContact;
 
 	dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
-	if (dbc.signature!=DBCONTACT_SIGNATURE) {
+	if (dbc.signature != DBCONTACT_SIGNATURE) {
 		LeaveCriticalSection(&m_csDbAccess);
 		return 1;
 	}
@@ -663,7 +663,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 			MoveAlong(1+settingNameLen);
 			//if different type or variable length and length is different
 			NeedBytes(3);
-			if (pBlob[0]!=tmp.value.type || ((pBlob[0] == DBVT_ASCIIZ || pBlob[0] == DBVT_UTF8) && *(PWORD)(pBlob+1)!=strlen(tmp.value.pszVal)) || (pBlob[0] == DBVT_BLOB && *(PWORD)(pBlob+1)!=tmp.value.cpbVal)) {
+			if (pBlob[0] != tmp.value.type || ((pBlob[0] == DBVT_ASCIIZ || pBlob[0] == DBVT_UTF8) && *(PWORD)(pBlob+1) != strlen(tmp.value.pszVal)) || (pBlob[0] == DBVT_BLOB && *(PWORD)(pBlob+1) != tmp.value.cpbVal)) {
 				//bin it
 				int nameLen,valLen;
 				DWORD ofsSettingToCut;
@@ -724,7 +724,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 		if (ofsDbcsPrev == ofsSettingsGroup) ofsDbcsPrev = 0;
 		else {
 			dbcsPrev = (DBContactSettings*)DBRead(ofsDbcsPrev,sizeof(DBContactSettings),NULL);
-			while (dbcsPrev->ofsNext!=ofsSettingsGroup) {
+			while (dbcsPrev->ofsNext != ofsSettingsGroup) {
 				if (dbcsPrev->ofsNext == 0) DatabaseCorruption(NULL);
 				ofsDbcsPrev = dbcsPrev->ofsNext;
 				dbcsPrev = (DBContactSettings*)DBRead(ofsDbcsPrev,sizeof(DBContactSettings),NULL);
@@ -820,7 +820,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::DeleteContactSetting(HANDLE hContact, DBCONTACTGET
 		hContact = (HANDLE)m_dbHeader.ofsUser;
 
 	dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
-	if (dbc->signature!=DBCONTACT_SIGNATURE) {
+	if (dbc->signature != DBCONTACT_SIGNATURE) {
 		LeaveCriticalSection(&m_csDbAccess);
 		return 1;
 	}

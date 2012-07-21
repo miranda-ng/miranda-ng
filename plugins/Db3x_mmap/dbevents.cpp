@@ -32,110 +32,105 @@ static HANDLE hEventDeletedEvent,hEventAddedEvent,hEventFilterAddedEvent;
 
 STDMETHODIMP_(LONG) CDdxMmap::GetEventCount(HANDLE hContact)
 {
-	LONG ret;
-
-	EnterCriticalSection(&m_csDbAccess);
+	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
 		hContact = (HANDLE)m_dbHeader.ofsUser;
+
 	DBContact *dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
-	if (dbc->signature != DBCONTACT_SIGNATURE) ret = -1;
-	else ret = dbc->eventCount;
-	LeaveCriticalSection(&m_csDbAccess);
-	return ret;
+	return (dbc->signature != DBCONTACT_SIGNATURE) ? -1 : dbc->eventCount;
 }
 
 STDMETHODIMP_(HANDLE) CDdxMmap::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 {
-	DBContact dbc;
-	DBEvent dbe,*dbeTest;
-	DWORD ofsNew,ofsModuleName,ofsContact,ofsThis;
-	BOOL neednotify;
-
-	if (dbei == NULL||dbei->cbSize!=sizeof(DBEVENTINFO)) return 0;
+	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 0;
 	if (dbei->timestamp == 0) return 0;
-	if (NotifyEventHooks(hEventFilterAddedEvent, (WPARAM)hContact, (LPARAM)dbei)) {
+	if (NotifyEventHooks(hEventFilterAddedEvent, (WPARAM)hContact, (LPARAM)dbei))
 		return 0;
-	}
-	EnterCriticalSection(&m_csDbAccess);
-	if (hContact == 0) ofsContact = m_dbHeader.ofsUser;
-	else ofsContact = (DWORD)hContact;
-	dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
-	if (dbc.signature!=DBCONTACT_SIGNATURE) {
-		LeaveCriticalSection(&m_csDbAccess);
-	  	return 0;
-	}
-	ofsNew = CreateNewSpace(offsetof(DBEvent,blob)+dbei->cbBlob);
-	ofsModuleName = GetModuleNameOfs(dbei->szModule);
 
-	dbe.signature = DBEVENT_SIGNATURE;
-	dbe.ofsModuleName = ofsModuleName;
-	dbe.timestamp = dbei->timestamp;
-	dbe.flags = dbei->flags;
-	dbe.eventType = dbei->eventType;
-	dbe.cbBlob = dbei->cbBlob;
-	//find where to put it - sort by timestamp
-	if (dbc.eventCount == 0) {
-		dbe.ofsPrev = (DWORD)hContact;
-		dbe.ofsNext = 0;
-		dbe.flags |= DBEF_FIRST;
-		dbc.ofsFirstEvent = dbc.ofsLastEvent = ofsNew;
-	}
-	else {
-		dbeTest = (DBEvent*)DBRead(dbc.ofsFirstEvent,sizeof(DBEvent),NULL);
-		// Should new event be placed before first event in chain?
-		if (dbei->timestamp < dbeTest->timestamp) {
+	BOOL neednotify;
+	DWORD ofsNew;
+	{
+		mir_cslock lck(m_csDbAccess);
+
+		DWORD ofsContact = (hContact == 0) ? m_dbHeader.ofsUser : (DWORD)hContact;
+		DBContact dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
+		if (dbc.signature != DBCONTACT_SIGNATURE)
+	  		return 0;
+
+		ofsNew = CreateNewSpace(offsetof(DBEvent,blob) + dbei->cbBlob);
+		DWORD ofsModuleName = GetModuleNameOfs(dbei->szModule);
+
+		DBEvent dbe;
+		dbe.signature = DBEVENT_SIGNATURE;
+		dbe.ofsModuleName = ofsModuleName;
+		dbe.timestamp = dbei->timestamp;
+		dbe.flags = dbei->flags;
+		dbe.eventType = dbei->eventType;
+		dbe.cbBlob = dbei->cbBlob;
+		//find where to put it - sort by timestamp
+		if (dbc.eventCount == 0) {
 			dbe.ofsPrev = (DWORD)hContact;
-			dbe.ofsNext = dbc.ofsFirstEvent;
+			dbe.ofsNext = 0;
 			dbe.flags |= DBEF_FIRST;
-			dbc.ofsFirstEvent = ofsNew;
-			dbeTest = (DBEvent*)DBRead(dbe.ofsNext,sizeof(DBEvent),NULL);
-			dbeTest->flags &= ~DBEF_FIRST;
-			dbeTest->ofsPrev = ofsNew;
-			DBWrite(dbe.ofsNext,dbeTest,sizeof(DBEvent));
+			dbc.ofsFirstEvent = dbc.ofsLastEvent = ofsNew;
 		}
 		else {
-			// Loop through the chain, starting at the end
-			ofsThis = dbc.ofsLastEvent;
-			dbeTest = (DBEvent*)DBRead(ofsThis, sizeof(DBEvent), NULL);
-			for (;;) {
-				// If the new event's timesstamp is equal to or greater than the
-				// current dbevent, it will be inserted after. If not, continue
-				// with the previous dbevent in chain.
-				if (dbe.timestamp >= dbeTest->timestamp) {
-					dbe.ofsPrev = ofsThis;
-					dbe.ofsNext = dbeTest->ofsNext;
-					dbeTest->ofsNext = ofsNew;
-					DBWrite(ofsThis, dbeTest, sizeof(DBEvent));
-					if (dbe.ofsNext == 0)
-						dbc.ofsLastEvent = ofsNew;
-					else {
-						dbeTest = (DBEvent*)DBRead(dbe.ofsNext, sizeof(DBEvent), NULL);
-						dbeTest->ofsPrev = ofsNew;
-						DBWrite(dbe.ofsNext, dbeTest, sizeof(DBEvent));
-					}
-					break;
-				}
-				ofsThis = dbeTest->ofsPrev;
+			DBEvent *dbeTest = (DBEvent*)DBRead(dbc.ofsFirstEvent,sizeof(DBEvent),NULL);
+			// Should new event be placed before first event in chain?
+			if (dbei->timestamp < dbeTest->timestamp) {
+				dbe.ofsPrev = (DWORD)hContact;
+				dbe.ofsNext = dbc.ofsFirstEvent;
+				dbe.flags |= DBEF_FIRST;
+				dbc.ofsFirstEvent = ofsNew;
+				dbeTest = (DBEvent*)DBRead(dbe.ofsNext,sizeof(DBEvent),NULL);
+				dbeTest->flags &= ~DBEF_FIRST;
+				dbeTest->ofsPrev = ofsNew;
+				DBWrite(dbe.ofsNext,dbeTest,sizeof(DBEvent));
+			}
+			else {
+				// Loop through the chain, starting at the end
+				DWORD ofsThis = dbc.ofsLastEvent;
 				dbeTest = (DBEvent*)DBRead(ofsThis, sizeof(DBEvent), NULL);
+				for (;;) {
+					// If the new event's timesstamp is equal to or greater than the
+					// current dbevent, it will be inserted after. If not, continue
+					// with the previous dbevent in chain.
+					if (dbe.timestamp >= dbeTest->timestamp) {
+						dbe.ofsPrev = ofsThis;
+						dbe.ofsNext = dbeTest->ofsNext;
+						dbeTest->ofsNext = ofsNew;
+						DBWrite(ofsThis, dbeTest, sizeof(DBEvent));
+						if (dbe.ofsNext == 0)
+							dbc.ofsLastEvent = ofsNew;
+						else {
+							dbeTest = (DBEvent*)DBRead(dbe.ofsNext, sizeof(DBEvent), NULL);
+							dbeTest->ofsPrev = ofsNew;
+							DBWrite(dbe.ofsNext, dbeTest, sizeof(DBEvent));
+						}
+						break;
+					}
+					ofsThis = dbeTest->ofsPrev;
+					dbeTest = (DBEvent*)DBRead(ofsThis, sizeof(DBEvent), NULL);
+				}
 			}
 		}
-	}
-	dbc.eventCount++;
-	if (!(dbe.flags&(DBEF_READ|DBEF_SENT))) {
-		if (dbe.timestamp<dbc.timestampFirstUnread || dbc.timestampFirstUnread == 0) {
-			dbc.timestampFirstUnread = dbe.timestamp;
-			dbc.ofsFirstUnreadEvent = ofsNew;
+		dbc.eventCount++;
+
+		if (!(dbe.flags&(DBEF_READ|DBEF_SENT))) {
+			if (dbe.timestamp<dbc.timestampFirstUnread || dbc.timestampFirstUnread == 0) {
+				dbc.timestampFirstUnread = dbe.timestamp;
+				dbc.ofsFirstUnreadEvent = ofsNew;
+			}
+			neednotify = TRUE;
 		}
-		neednotify = TRUE;
+		else neednotify = m_safetyMode;
+
+		DBWrite(ofsContact,&dbc,sizeof(DBContact));
+		DBWrite(ofsNew,&dbe,offsetof(DBEvent,blob));
+		DBWrite(ofsNew+offsetof(DBEvent,blob),dbei->pBlob,dbei->cbBlob);
+		DBFlush(0);
 	}
-	else neednotify = m_safetyMode;
-
-	DBWrite(ofsContact,&dbc,sizeof(DBContact));
-	DBWrite(ofsNew,&dbe,offsetof(DBEvent,blob));
-	DBWrite(ofsNew+offsetof(DBEvent,blob),dbei->pBlob,dbei->cbBlob);
-	DBFlush(0);
-
-	LeaveCriticalSection(&m_csDbAccess);
+	
 	log1("add event @ %08x",ofsNew);
 
 	// Notify only in safe mode or on really new events
@@ -147,30 +142,29 @@ STDMETHODIMP_(HANDLE) CDdxMmap::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 
 STDMETHODIMP_(BOOL) CDdxMmap::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 {
-	DBContact dbc;
 	DWORD ofsContact,ofsThis;
-	DBEvent dbe,*dbeNext,*dbePrev;
+	{
+		mir_cslock lck(m_csDbAccess);
 
-	EnterCriticalSection(&m_csDbAccess);
-	if (hContact == 0) ofsContact = m_dbHeader.ofsUser;
-	else ofsContact = (DWORD)hContact;
-	dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
-	dbe = *(DBEvent*)DBRead(hContact,sizeof(DBEvent),NULL);
-	if (dbc.signature!=DBCONTACT_SIGNATURE || dbe.signature!=DBEVENT_SIGNATURE) {
-		LeaveCriticalSection(&m_csDbAccess);
-		return 1;
+		ofsContact = (hContact == 0) ? m_dbHeader.ofsUser : (DWORD)hContact;
+		DBContact dbc = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
+		DBEvent dbe = *(DBEvent*)DBRead(hDbEvent, sizeof(DBEvent), NULL);
+		if (dbc.signature != DBCONTACT_SIGNATURE || dbe.signature != DBEVENT_SIGNATURE)
+			return 1;
 	}
+
 	log1("delete event @ %08x",wParam);
-	LeaveCriticalSection(&m_csDbAccess);
+	
 	//call notifier while outside mutex
 	NotifyEventHooks(hEventDeletedEvent,(WPARAM)hContact, (LPARAM)hDbEvent);
+
 	//get back in
-	EnterCriticalSection(&m_csDbAccess);
-	dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
-	dbe = *(DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
+	mir_cslock lck(m_csDbAccess);
+	DBContact dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
+	DBEvent dbe = *(DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
 	//check if this was the first unread, if so, recalc the first unread
 	if (dbc.ofsFirstUnreadEvent == (DWORD)hDbEvent) {
-		dbeNext = &dbe;
+		DBEvent *dbeNext = &dbe;
 		for (;;) {
 			if (dbeNext->ofsNext == 0) {
 				dbc.ofsFirstUnreadEvent = 0;
@@ -179,20 +173,20 @@ STDMETHODIMP_(BOOL) CDdxMmap::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 			}
 			ofsThis = dbeNext->ofsNext;
 			dbeNext = (DBEvent*)DBRead(ofsThis,sizeof(DBEvent),NULL);
-			if (!(dbeNext->flags&(DBEF_READ|DBEF_SENT))) {
+			if ( !(dbeNext->flags & (DBEF_READ | DBEF_SENT))) {
 				dbc.ofsFirstUnreadEvent = ofsThis;
 				dbc.timestampFirstUnread = dbeNext->timestamp;
 				break;
 			}
 		}
 	}
+
 	//get previous and next events in chain and change offsets
 	if (dbe.flags&DBEF_FIRST) {
-		if (dbe.ofsNext == 0) {
+		if (dbe.ofsNext == 0)
 			dbc.ofsFirstEvent = dbc.ofsLastEvent = 0;
-		}
 		else {
-			dbeNext = (DBEvent*)DBRead(dbe.ofsNext,sizeof(DBEvent),NULL);
+			DBEvent *dbeNext = (DBEvent*)DBRead(dbe.ofsNext,sizeof(DBEvent),NULL);
 			dbeNext->flags |= DBEF_FIRST;
 			dbeNext->ofsPrev = dbe.ofsPrev;
 			DBWrite(dbe.ofsNext,dbeNext,sizeof(DBEvent));
@@ -201,16 +195,17 @@ STDMETHODIMP_(BOOL) CDdxMmap::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 	}
 	else {
 		if (dbe.ofsNext == 0) {
-			dbePrev = (DBEvent*)DBRead(dbe.ofsPrev,sizeof(DBEvent),NULL);
+			DBEvent *dbePrev = (DBEvent*)DBRead(dbe.ofsPrev,sizeof(DBEvent),NULL);
 			dbePrev->ofsNext = 0;
 			DBWrite(dbe.ofsPrev,dbePrev,sizeof(DBEvent));
 			dbc.ofsLastEvent = dbe.ofsPrev;
 		}
 		else {
-			dbePrev = (DBEvent*)DBRead(dbe.ofsPrev,sizeof(DBEvent),NULL);
+			DBEvent *dbePrev = (DBEvent*)DBRead(dbe.ofsPrev,sizeof(DBEvent),NULL);
 			dbePrev->ofsNext = dbe.ofsNext;
 			DBWrite(dbe.ofsPrev,dbePrev,sizeof(DBEvent));
-			dbeNext = (DBEvent*)DBRead(dbe.ofsNext,sizeof(DBEvent),NULL);
+			
+			DBEvent *dbeNext = (DBEvent*)DBRead(dbe.ofsNext,sizeof(DBEvent),NULL);
 			dbeNext->ofsPrev = dbe.ofsPrev;
 			DBWrite(dbe.ofsNext,dbeNext,sizeof(DBEvent));
 		}
@@ -221,58 +216,44 @@ STDMETHODIMP_(BOOL) CDdxMmap::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 	dbc.eventCount--;
 	DBWrite(ofsContact,&dbc,sizeof(DBContact));
 	DBFlush(0);
-	//quit
-	LeaveCriticalSection(&m_csDbAccess);
 	return 0;
 }
 
 STDMETHODIMP_(LONG) CDdxMmap::GetBlobSize(HANDLE hDbEvent)
 {
-	INT_PTR ret;
-	DBEvent *dbe;
-
-	EnterCriticalSection(&m_csDbAccess);
-	dbe = (DBEvent*)DBRead(hDbEvent, sizeof(DBEvent), NULL);
-	if (dbe->signature!=DBEVENT_SIGNATURE) ret = -1;
-	else ret = dbe->cbBlob;
-	LeaveCriticalSection(&m_csDbAccess);
-	return ret;
+	mir_cslock lck(m_csDbAccess);
+	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent, sizeof(DBEvent), NULL);
+	return (dbe->signature != DBEVENT_SIGNATURE) ? -1 : dbe->cbBlob;
 }
 
 STDMETHODIMP_(BOOL) CDdxMmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 {
-	DBEvent *dbe;
-	int bytesToCopy,i;
-
-	if (dbei == NULL||dbei->cbSize!=sizeof(DBEVENTINFO)) return 1;
-	if (dbei->cbBlob>0 && dbei->pBlob == NULL) {
+	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 1;
+	if (dbei->cbBlob > 0 && dbei->pBlob == NULL) {
 		dbei->cbBlob = 0;
 		return 1;
 	}
-	EnterCriticalSection(&m_csDbAccess);
-	dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
-	if (dbe->signature!=DBEVENT_SIGNATURE) {
-		LeaveCriticalSection(&m_csDbAccess);
+
+	mir_cslock lck(m_csDbAccess);
+	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
+	if (dbe->signature != DBEVENT_SIGNATURE)
 	  	return 1;
-	}
+
 	dbei->szModule = GetModuleNameByOfs(dbe->ofsModuleName);
 	dbei->timestamp = dbe->timestamp;
 	dbei->flags = dbe->flags;
 	dbei->eventType = dbe->eventType;
-	if (dbei->cbBlob<dbe->cbBlob) bytesToCopy = dbei->cbBlob;
-	else bytesToCopy = dbe->cbBlob;
+	int bytesToCopy = (dbei->cbBlob < dbe->cbBlob) ? dbei->cbBlob : dbe->cbBlob;
 	dbei->cbBlob = dbe->cbBlob;
-	if (bytesToCopy && dbei->pBlob)
-	{
-		for(i = 0;;i += MAXCACHEDREADSIZE) {
+	if (bytesToCopy && dbei->pBlob) {
+		for (int i = 0;;i += MAXCACHEDREADSIZE) {
 			if (bytesToCopy-i <= MAXCACHEDREADSIZE) {
-				CopyMemory(dbei->pBlob+i,DBRead(DWORD(hDbEvent)+offsetof(DBEvent,blob)+i,bytesToCopy-i,NULL),bytesToCopy-i);
+				CopyMemory(dbei->pBlob+i, DBRead(DWORD(hDbEvent)+offsetof(DBEvent,blob)+i,bytesToCopy-i,NULL), bytesToCopy-i);
 				break;
 			}
-			CopyMemory(dbei->pBlob+i,DBRead(DWORD(hDbEvent)+offsetof(DBEvent,blob)+i,MAXCACHEDREADSIZE,NULL),MAXCACHEDREADSIZE);
+			CopyMemory(dbei->pBlob+i, DBRead(DWORD(hDbEvent)+offsetof(DBEvent,blob)+i, MAXCACHEDREADSIZE, NULL), MAXCACHEDREADSIZE);
 		}
 	}
-	LeaveCriticalSection(&m_csDbAccess);
 	return 0;
 }
 
@@ -283,20 +264,19 @@ STDMETHODIMP_(BOOL) CDdxMmap::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 	DBContact dbc;
 	DWORD ofsThis;
 
-	EnterCriticalSection(&m_csDbAccess);
+	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
 		hContact = (HANDLE)m_dbHeader.ofsUser;
-	dbc = *(DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
-	dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
-	if (dbe->signature!=DBEVENT_SIGNATURE || dbc.signature!=DBCONTACT_SIGNATURE) {
-		LeaveCriticalSection(&m_csDbAccess);
+	dbc = *(DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
+	dbe = (DBEvent*)DBRead(hDbEvent, sizeof(DBEvent), NULL);
+	if (dbe->signature != DBEVENT_SIGNATURE || dbc.signature != DBCONTACT_SIGNATURE)
 	  	return -1;
-	}
+
 	if (dbe->flags&DBEF_READ || dbe->flags&DBEF_SENT) {
 		ret = (INT_PTR)dbe->flags;
-		LeaveCriticalSection(&m_csDbAccess);
 		return ret;
 	}
+
 	log1("mark read @ %08x",wParam);
 	dbe->flags |= DBEF_READ;
 	DBWrite((DWORD)hDbEvent,dbe,sizeof(DBEvent));
@@ -310,7 +290,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 			}
 			ofsThis = dbe->ofsNext;
 			dbe = (DBEvent*)DBRead(ofsThis,sizeof(DBEvent),NULL);
-			if (!(dbe->flags&(DBEF_READ|DBEF_SENT))) {
+			if ( !(dbe->flags & (DBEF_READ | DBEF_SENT))) {
 				dbc.ofsFirstUnreadEvent = ofsThis;
 				dbc.timestampFirstUnread = dbe->timestamp;
 				break;
@@ -319,92 +299,63 @@ STDMETHODIMP_(BOOL) CDdxMmap::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 	}
 	DBWrite((DWORD)hContact,&dbc,sizeof(DBContact));
 	DBFlush(0);
-	LeaveCriticalSection(&m_csDbAccess);
 	return ret;
 }
 
 STDMETHODIMP_(HANDLE) CDdxMmap::GetEventContact(HANDLE hDbEvent)
 {
-	EnterCriticalSection(&m_csDbAccess);
+	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
-	if (dbe->signature != DBEVENT_SIGNATURE) {
-		LeaveCriticalSection(&m_csDbAccess);
+	if (dbe->signature != DBEVENT_SIGNATURE)
 	  	return (HANDLE)-1;
-	}
+
 	while (!(dbe->flags & DBEF_FIRST))
 		dbe = (DBEvent*)DBRead(dbe->ofsPrev,sizeof(DBEvent),NULL);
 	
-	HANDLE ret = (HANDLE)dbe->ofsPrev;
-	LeaveCriticalSection(&m_csDbAccess);
-	return ret;
+	return (HANDLE)dbe->ofsPrev;
 }
 
 STDMETHODIMP_(HANDLE) CDdxMmap::FindFirstEvent(HANDLE hContact)
 {
-	HANDLE ret;
-
-	EnterCriticalSection(&m_csDbAccess);
+	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
 		hContact = (HANDLE)m_dbHeader.ofsUser;
 	
 	DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
-	if (dbc->signature != DBCONTACT_SIGNATURE)
-		ret = 0;
-	else
-		ret = (HANDLE)dbc->ofsFirstEvent;
-	LeaveCriticalSection(&m_csDbAccess);
-	return ret;
+	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsFirstEvent;
 }
 
 STDMETHODIMP_(HANDLE) CDdxMmap::FindFirstUnreadEvent(HANDLE hContact)
 {
-	HANDLE ret;
-
-	EnterCriticalSection(&m_csDbAccess);
+	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
 		hContact = (HANDLE)m_dbHeader.ofsUser;
+
 	DBContact *dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
-	if (dbc->signature!=DBCONTACT_SIGNATURE) ret = 0;
-	else ret = (HANDLE)dbc->ofsFirstUnreadEvent;
-	LeaveCriticalSection(&m_csDbAccess);
-	return ret;
+	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsFirstUnreadEvent;
 }
 
 STDMETHODIMP_(HANDLE) CDdxMmap::FindLastEvent(HANDLE hContact)
 {
-	HANDLE ret;
-
-	EnterCriticalSection(&m_csDbAccess);
+	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
 		hContact = (HANDLE)m_dbHeader.ofsUser;
+
 	DBContact *dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
-	if (dbc->signature!=DBCONTACT_SIGNATURE) ret = 0;
-	else ret = (HANDLE)dbc->ofsLastEvent;
-	LeaveCriticalSection(&m_csDbAccess);
-	return ret;
+	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsLastEvent;
 }
 
 STDMETHODIMP_(HANDLE) CDdxMmap::FindNextEvent(HANDLE hDbEvent)
 {
-	HANDLE ret;
-
-	EnterCriticalSection(&m_csDbAccess);
+	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
-	if (dbe->signature!=DBEVENT_SIGNATURE) ret = 0;
-	else ret = (HANDLE)dbe->ofsNext;
-	LeaveCriticalSection(&m_csDbAccess);
-	return ret;
+	return (dbe->signature != DBEVENT_SIGNATURE) ? 0 : (HANDLE)dbe->ofsNext;
 }
 
 STDMETHODIMP_(HANDLE) CDdxMmap::FindPrevEvent(HANDLE hDbEvent)
 {
-	HANDLE ret;
-
-	EnterCriticalSection(&m_csDbAccess);
+	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
-	if (dbe->signature!=DBEVENT_SIGNATURE) ret = 0;
-	else if (dbe->flags&DBEF_FIRST) ret = 0;
-	else ret = (HANDLE)dbe->ofsPrev;
-	LeaveCriticalSection(&m_csDbAccess);
-	return ret;
+	if (dbe->signature != DBEVENT_SIGNATURE) return 0;
+	return (dbe->flags & DBEF_FIRST) ? 0 : (HANDLE)dbe->ofsPrev;
 }
