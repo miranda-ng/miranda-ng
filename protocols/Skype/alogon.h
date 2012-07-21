@@ -1,0 +1,1 @@
+void setUserNamePassword(int dwPid);
