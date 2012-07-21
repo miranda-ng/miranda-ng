@@ -1,22 +1,22 @@
 // ---------------------------------------------------------------------------80
 //                ICQ plugin for Miranda Instant Messenger
 //                ________________________________________
-// 
+//
 // Copyright © 2000-2001 Richard Hughes, Roland Rabien, Tristan Van de Vreede
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
-// 
+//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -107,20 +107,12 @@ void* __fastcall SAFE_REALLOC(void* p, size_t size);
 __inline static void SAFE_FREE(char** str) { SAFE_FREE((void**)str); }
 __inline static void SAFE_FREE(WCHAR** str) { SAFE_FREE((void**)str); }
 
-struct void_struct
-{
-  __inline void* operator new(size_t size) { return SAFE_MALLOC(size); }
-  __inline void operator delete(void *p) { SAFE_FREE(&p); }
-
-  virtual ~void_struct() {};
-};
-
-struct lockable_struct: public void_struct
+struct lockable_struct: public MZeroedObject
 {
 private:
   int nLockCount;
 public:
-  lockable_struct(): void_struct() { _Lock(); };
+  lockable_struct() { _Lock(); };
   virtual ~lockable_struct() {};
 
   void _Lock() { nLockCount++; };
@@ -129,7 +121,7 @@ public:
   int getLockCount() { return nLockCount; };
 };
 
-void __fastcall SAFE_DELETE(void_struct **p);
+void __fastcall SAFE_DELETE(MZeroedObject **p);
 void __fastcall SAFE_DELETE(lockable_struct **p);
 
 DWORD ICQWaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds, int bWaitAlways = FALSE);

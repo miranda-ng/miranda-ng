@@ -52,15 +52,8 @@ static int g_iSectionRestore = 0;
 
 static int ModernOptionsObject_Comparator(const ModernOptionsObject *ptr1, const ModernOptionsObject *ptr2);
 
-struct ModernOptionsData
+struct ModernOptionsData : public MZeroedObject
 {
-	__inline void* operator new( size_t size )
-	{	return calloc( 1, size );
-	}
-	__inline void operator delete( void* p )
-	{	free( p );
-	}
-
 	ModernOptionsData(): pObjectList(1, ModernOptionsObject_Comparator) {}
 
 	LIST<ModernOptionsObject> pObjectList;
@@ -149,9 +142,9 @@ static int ModernOptionsObject_Comparator(const ModernOptionsObject *ptr1, const
 }
 
 void li_List_Destruct(LIST<ModernOptionsObject> &pList, ItemDestuctor pItemDestructor)
-{																			
+{
 	int i=0;
-	for (i=0; i<pList.getCount(); i++)	pItemDestructor(pList[i]);	
+	for (i=0; i<pList.getCount(); i++)	pItemDestructor(pList[i]);
 	pList.destroy();
 }
 
@@ -196,7 +189,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 	switch (msg) {
 	case WM_INITDIALOG:
 	{
-		TranslateDialogDefault(hwndDlg); 
+		TranslateDialogDefault(hwndDlg);
 		HIMAGELIST himl = 0;
 
 		dat = (struct ModernOptionsData *)lParam;
@@ -350,7 +343,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 // UI utilities
 static HWND ModernOptUI_ShowPage_Impl(HWND hwndDlg, struct ModernOptionsData *dat, int iPage, int dx, HWND hwndInsertAfter)
 {
-	if ((iPage < 0) || (iPage >= dat->pObjectList.getCount())) 
+	if ((iPage < 0) || (iPage >= dat->pObjectList.getCount()))
 		return NULL;
 
 	dat->iPage = iPage;
@@ -389,7 +382,7 @@ static HWND ModernOptUI_ShowPage_Impl(HWND hwndDlg, struct ModernOptionsData *da
 					if (ignoreObj->optObject.iType == MODERNOPT_TYPE_IGNOREOBJECT)
 						ModernOptIgnore_AddItem(&ignoreObj->optObject);
 		}	}	}
-	} 
+	}
 	else ShowWindow(obj->hwnd, SW_SHOW);
 
 	ShowWindow(GetDlgItem(hwndDlg, IDC_BTN_EXPERT), (obj->optObject.lpzClassicGroup || obj->optObject.lpzClassicPage) ? SW_SHOW : SW_HIDE);
@@ -422,7 +415,7 @@ static void ModernOptUI_ShowPage(HWND hwndDlg, struct ModernOptionsData *dat, in
 				RECT rcWnd; GetWindowRect(dat->pObjectList[i]->hwnd, &rcWnd);
 				dx += rcWnd.bottom - rcWnd.top;// + 30;
 			}
-		} 
+		}
 		else if (dat->pObjectList[i]->hwnd)
 		{
 			ShowWindow(dat->pObjectList[i]->hwnd, SW_HIDE);
@@ -436,7 +429,7 @@ static void ModernOptUI_SelectSection(HWND hwndDlg, struct ModernOptionsData *da
 
 	HWND hwndTree = GetDlgItem(hwndDlg, IDC_TV_SUBSECTIONS);
 	dat->iSection = iSection;
-	
+
 	SendMessage(hwndTree, WM_SETREDRAW, FALSE, 0);
 	TreeView_DeleteAllItems(hwndTree);
 	for (i = 0; i < dat->pObjectList.getCount(); ++i) {
@@ -449,8 +442,8 @@ static void ModernOptUI_SelectSection(HWND hwndDlg, struct ModernOptionsData *da
 		if (obj->optObject.iType == MODERNOPT_TYPE_SECTIONPAGE) {
 			ModernOptUI_ShowPage(hwndDlg, dat, i);
 			break;
-		} 
-		
+		}
+
 		if (obj->optObject.iType == MODERNOPT_TYPE_SUBSECTIONPAGE) {
 			TVINSERTSTRUCT tvis = {0};
 			tvis.hParent = TVI_ROOT;
@@ -472,7 +465,7 @@ static void ModernOptUI_SelectSection(HWND hwndDlg, struct ModernOptionsData *da
 		ShowWindow(hwndTree, SW_SHOW);
 		RedrawWindow(hwndTree, NULL, NULL, RDW_INVALIDATE);
 		TreeView_Select(hwndTree, TreeView_GetRoot(hwndTree), TVGN_CARET);
-	} 
+	}
 	else ShowWindow(hwndTree, SW_HIDE);
 }
 
@@ -486,7 +479,7 @@ static INT_PTR svcModernOpt_Impl(WPARAM wParam, LPARAM lParam)
 		NotifyEventHooks(hevtModernOpt_Initialize, (WPARAM)dat, 0);
 		hwndModernOpt = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MODERNOPT), NULL, ModernOptDlgProc, (LPARAM)dat);
 		ShowWindow(hwndModernOpt, SW_SHOW);
-	} 
+	}
 	else SetForegroundWindow(hwndModernOpt);
 
 	return 0;

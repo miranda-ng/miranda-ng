@@ -1,9 +1,9 @@
 /*
  * $Id: proto.h 14181 2012-03-11 17:51:16Z george.hazan $
  *
- * myYahoo Miranda Plugin 
+ * myYahoo Miranda Plugin
  *
- * Authors: Gennady Feldman (aka Gena01) 
+ * Authors: Gennady Feldman (aka Gena01)
  *          Laurent Marechal (aka Peorth)
  *
  * This code is under GPL and is based on AIM, MSN and Miranda source code.
@@ -33,17 +33,10 @@ extern "C"
 	typedef INT_PTR ( __cdecl CYahooProto::*YServiceFuncParam )( WPARAM, LPARAM, LPARAM );
 #endif
 
-struct CYahooProto : public PROTO_INTERFACE
+struct CYahooProto : public PROTO_INTERFACE, public MZeroedObject
 {
 				CYahooProto( const char*, const TCHAR* );
 				virtual ~CYahooProto();
-
-				__inline void* operator new( size_t size )
-				{	return calloc( 1, size );
-				}
-				__inline void operator delete( void* p )
-				{	free( p );
-				}
 
 	//====================================================================================
 	// PROTO_INTERFACE
@@ -92,7 +85,7 @@ struct CYahooProto : public PROTO_INTERFACE
 	virtual	int    __cdecl SendAwayMsg( HANDLE hContact, HANDLE hProcess, const char* msg );
 	virtual	int    __cdecl SetAwayMsg( int m_iStatus, const PROTOCHAR* msg );
 	virtual INT_PTR __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
-	
+
 	virtual	int    __cdecl UserIsTyping( HANDLE hContact, int type );
 
 	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
@@ -113,7 +106,7 @@ struct CYahooProto : public PROTO_INTERFACE
 	INT_PTR __cdecl OnRefreshCommand( WPARAM, LPARAM );
 	INT_PTR __cdecl OnShowMyProfileCommand( WPARAM, LPARAM );
 	INT_PTR __cdecl OnShowProfileCommand( WPARAM, LPARAM );
-	
+
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl GetUnreadEmailCount( WPARAM, LPARAM );
 	INT_PTR __cdecl SendNudge( WPARAM, LPARAM );
@@ -127,7 +120,7 @@ struct CYahooProto : public PROTO_INTERFACE
 	void   MenuMainInit( void );
 	void   MenuContactInit( void );
 	void   MenuUninit( void );
-	
+
 	//====| Data |========================================================================
 	BOOL   m_bLoggedIn;
 	YList *m_connections;
@@ -138,19 +131,19 @@ struct CYahooProto : public PROTO_INTERFACE
 		char *name;
 		YList *members;
 
-		ChatRoom(const char* name, YList *members) 
+		ChatRoom(const char* name, YList *members)
 			: name(strdup(name)), members(members) {}
 
 		~ChatRoom()
 		{ for (YList *l = members; l; l = l->next) free(l->data);
 		  free(name); y_list_free(members); }
 
-		static int compare(const ChatRoom* c1, const ChatRoom* c2) 
+		static int compare(const ChatRoom* c1, const ChatRoom* c2)
 		{ return strcmp(c1->name, c2->name); }
 	};
 
 	OBJLIST <ChatRoom> m_chatrooms;
-	
+
 	char*  m_startMsg;
 
 	// former ylad structure
@@ -177,7 +170,7 @@ struct CYahooProto : public PROTO_INTERFACE
 	void   ext_got_picture_status(const char *me, const char *who, int buddy_icon);
 	void   ext_got_picture_upload(const char *me, const char *url, unsigned int ts);
 	void   ext_got_avatar_share(int buddy_icon);
-	
+
 	void   reset_avatar(HANDLE hContact);
 	void   request_avatar(const char* who);
 
@@ -197,7 +190,7 @@ struct CYahooProto : public PROTO_INTERFACE
 	//====| filetransfer.cpp |============================================================
 	void __cdecl recv_filethread(void *psf);
 	void __cdecl send_filethread(void *psf);
-	
+
 	void   ext_got_file(const char *me, const char *who, const char *url, long expires, const char *msg, const char *fname, unsigned long fesize, const char *ft_token, int y7);
 	void   ext_got_files(const char *me, const char *who, const char *ft_token, int y7, YList* files);
 	void   ext_got_file7info(const char *me, const char *who, const char *url, const char *fname, const char *ft_token);
@@ -208,14 +201,14 @@ struct CYahooProto : public PROTO_INTERFACE
 	HICON  LoadIconEx(const char* name, bool big = false);
 	HANDLE GetIconHandle(int iconId);
 	void   ReleaseIconEx(const char* name, bool big = false);
-	
+
 	//====| ignore.cpp |==================================================================
 	const YList* GetIgnoreList(void);
 	void  IgnoreBuddy(const char *buddy, int ignore);
 	int   BuddyIgnored(const char *who);
 
 	void 	ext_got_ignore(YList * igns);
-	
+
 	//====| im.cpp |======================================================================
 	void   ext_got_im(const char *me, const char *who, int protocol, const char *msg, long tm, int stat, int utf8, int buddy_icon, const char *seqn=NULL, int sendn=0);
 
@@ -247,7 +240,7 @@ struct CYahooProto : public PROTO_INTERFACE
 
 	//====| user_info.cpp |===============================================================
 	int     __cdecl  OnUserInfoInit( WPARAM wParam, LPARAM lParam );
-	
+
 	//====| util.cpp |====================================================================
 	int  GetByte( const char* valueName, int parDefltValue );
 	int  SetByte( const char* valueName, int parValue );
@@ -257,12 +250,12 @@ struct CYahooProto : public PROTO_INTERFACE
 	int    GetString( const char* name, DBVARIANT* );
 	int    GetString( HANDLE hContact, const char* name, DBVARIANT* );
 	int    GetStringUtf( HANDLE hContact, const char* name, DBVARIANT* );
-	
+
 	void   SetString( const char* name, const char* value );
 	void   SetString( HANDLE hContact, const char* name, const char* value );
 	void   SetStringT( HANDLE hContact, const char* name, const TCHAR* value );
 	DWORD  SetStringUtf( HANDLE hContact, const char* valueName, const char* parValue );
-	
+
 	DWORD  GetDword( const char* valueName, DWORD parDefltValue );
 	DWORD  SetDword( const char* valueName, DWORD parValue );
 	DWORD  GetDword( HANDLE hContact, const char* valueName, DWORD parDefltValue );
@@ -328,10 +321,10 @@ struct CYahooProto : public PROTO_INTERFACE
 	void   AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg);
 
 	void   YAHOO_utils_logversion();
-	
+
 	unsigned int 	ext_add_handler(int fd, yahoo_input_condition cond, void *data);
 	void 			ext_remove_handler(unsigned int tag);
-	
+
 private:
 	int    m_startStatus;
 	int    m_unreadMessages;

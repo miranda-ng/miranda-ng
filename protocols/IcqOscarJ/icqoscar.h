@@ -76,6 +76,7 @@
 #include <m_protosvc.h>
 #include <m_options.h>
 #include <m_system.h>
+#include <m_system_cpp.h>
 #include <m_userinfo.h>
 #include <m_utils.h>
 #include <m_idle.h>

@@ -3,7 +3,7 @@
 Miranda IM: the free IM client for Microsoft* Windows*
 
 Copyright 2007 Artem Shpynov
-Copyright 2000-2007 Miranda ICQ/IM project, 
+Copyright 2000-2007 Miranda ICQ/IM project,
 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -13,7 +13,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -46,15 +46,8 @@ static BOOL IsVSMode()
 static LRESULT CALLBACK MHeaderbarWndProc(HWND hwnd, UINT  msg, WPARAM wParam, LPARAM lParam);
 
 // structure is used for storing list of tab info
-struct MHeaderbarCtrl
+struct MHeaderbarCtrl : public MZeroedObject
 {
-	__inline void* operator new(size_t size)
-	{	return mir_calloc(size);
-	}
-	__inline void operator delete(void* p)
-	{	mir_free(p);
-	}
-
 	MHeaderbarCtrl() {}
 	~MHeaderbarCtrl() { mir_free(controlsToRedraw); }
 
@@ -64,7 +57,7 @@ struct MHeaderbarCtrl
 	RECT		rc;
 	int			width, height;
     HICON       hIcon;
-    
+
 	// control colors
 	RGBQUAD		rgbBkgTop, rgbBkgBottom;
 	COLORREF	clText;
@@ -88,7 +81,7 @@ int LoadHeaderbarModule()
 	wc.cbWndExtra = sizeof(MHeaderbarCtrl*);
 	wc.hbrBackground = 0; //GetStockObject(WHITE_BRUSH);
 	wc.style = CS_GLOBALCLASS|CS_SAVEBITS;
-	RegisterClassEx(&wc);	
+	RegisterClassEx(&wc);
 	return 0;
 }
 
@@ -129,8 +122,8 @@ static void MHeaderbar_DrawGradient(HDC hdc, int x, int y, int width, int height
 	for (i = y+height; --i >= y;)
 	{
 		COLORREF color = RGB(
-			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height, 
-			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height, 
+			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height,
+			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height,
 			((height-i-1)*rgb0->rgbBlue  + i*rgb1->rgbBlue)  / height);
 		rc.top = rc.bottom = i;
 		++rc.bottom;
@@ -183,7 +176,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 		WTA_OPTIONS opts;
 		opts.dwFlags = opts.dwMask = WTNCA_NODRAWCAPTION | WTNCA_NODRAWICON;
 		setWindowThemeAttribute(GetParent(hwndDlg), WTA_NONCLIENT, &opts, sizeof(opts));
-	} 
+	}
 	else {
 		if (IsVSMode())
 			MHeaderbar_FillRect(tempDC, 0, 0, mit->width, mit->height, GetSysColor(COLOR_WINDOW));
@@ -345,14 +338,14 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 	case WM_LBUTTONDOWN:
 		SendMessage(GetParent(hwndDlg), WM_SYSCOMMAND, 0xF012, 0);
 		return 0;
-    
+
     case WM_SETICON:
 		if (wParam < 3) {
 			itc->hIcon = (HICON)lParam;
 			InvalidateRect(hwndDlg, NULL, FALSE);
 		}
 		break;
-        
+
 	case WM_ERASEBKGND:
 		return 1;
 

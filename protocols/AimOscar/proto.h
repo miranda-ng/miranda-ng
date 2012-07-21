@@ -27,15 +27,10 @@ typedef int     ( __cdecl CAimProto::*AimEventFunc )( WPARAM, LPARAM );
 typedef INT_PTR ( __cdecl CAimProto::*AimServiceFunc )( WPARAM, LPARAM );
 typedef INT_PTR ( __cdecl CAimProto::*AimServiceFuncParam )( WPARAM, LPARAM, LPARAM );
 
-struct CAimProto : public PROTO_INTERFACE
+struct CAimProto : public PROTO_INTERFACE, public MZeroedObject
 {
 	CAimProto( const char*, const TCHAR* );
 	~CAimProto();
-
-	__inline void* operator new( size_t size )
-	{ return calloc( 1, size ); }
-	__inline void operator delete( void* p )
-	{ free( p ); }
 
 	//====================================================================================
 	// PROTO_INTERFACE
@@ -158,7 +153,7 @@ struct CAimProto : public PROTO_INTERFACE
 	unsigned long internal_ip;  // our ip
 	unsigned long detected_ip;  // our ip
 	unsigned short local_port;  // our port
-	
+
 	//Peer connection stuff
 	HANDLE hNetlibPeer;//handle to the peer netlib
 	HANDLE hDirectBoundPort;//direct connection listening port
@@ -174,7 +169,7 @@ struct CAimProto : public PROTO_INTERFACE
 	//Some mail connection stuff
 	HANDLE hMailConn;
 	unsigned short mail_seqno;
-	
+
 	//avatar connection stuff
 	bool init_cst_fld_ran;
 	unsigned short avatar_seqno;
@@ -220,7 +215,7 @@ struct CAimProto : public PROTO_INTERFACE
 
 	//away message retrieval stuff
 	char *modeMsgs[9];
-	char *last_status_msg; 
+	char *last_status_msg;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// avatars.cpp
@@ -312,7 +307,7 @@ struct CAimProto : public PROTO_INTERFACE
 	int    aim_block_buddy(HANDLE hServerConn, unsigned short &seqno, bool remove, const char* sn, unsigned short item_id);
 	int    aim_chatnav_request_limits(HANDLE hServerConn,unsigned short &seqno);
 	int    aim_chatnav_create(HANDLE hServerConn,unsigned short &seqno, char* room, unsigned short exchage);
-	int    aim_chatnav_room_info(HANDLE hServerConn,unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance);  
+	int    aim_chatnav_room_info(HANDLE hServerConn,unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance);
 	int    aim_chat_join_room(HANDLE hServerConn,unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance,unsigned short id);
 	int    aim_chat_send_message(HANDLE hServerConn,unsigned short &seqno, char *amsg);
 	int    aim_chat_invite(HANDLE hServerConn,unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance, char* sn, char* msg);

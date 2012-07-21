@@ -29,14 +29,11 @@
 
 #define MODULENAME						"StartupStatus"
 
-struct TSSSetting : public PROTOCOLSETTINGEX
+struct TSSSetting : public PROTOCOLSETTINGEX, public MZeroedObject
 {
 	TSSSetting( PROTOACCOUNT* pa );
 	TSSSetting( int profile, PROTOACCOUNT* pa );
 	~TSSSetting();
-
-	__inline void* operator new( size_t size ) {	return calloc( 1, size ); }
-	__inline void operator delete( void* p ) { free( p ); }
 };
 
 typedef OBJLIST<TSSSetting> TSettingsList;
@@ -48,10 +45,8 @@ struct PROFILECE
 	TCHAR *msg;
 };
 
-struct PROFILEOPTIONS
+struct PROFILEOPTIONS : public MZeroedObject
 {
-	__inline void* operator new( size_t size ) {	return mir_calloc(size); }
-	__inline void operator delete( void* p ) { mir_free(p); }
 	__inline ~PROFILEOPTIONS()
 	{
 		delete ps;

@@ -60,15 +60,13 @@ int __fastcall strcmpnull(const char *str1, const char *str2) {
 }
 
 
-struct flash_avatar_item {
+struct flash_avatar_item : public MZeroedObject
+{
 	HANDLE hContact;
 	FLASHAVATAR hFA;
 	IShockwaveFlash* pFlash;
 
 	char* getProto() { return (hFA.cProto) ? hFA.cProto : (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hFA.hContact, 0); }
-
-	__inline void* operator new(size_t size) { return mir_calloc(size); }
-	__inline void operator delete( void* p ) { mir_free(p); }
 
 	flash_avatar_item(HANDLE contact, FLASHAVATAR& fa, IShockwaveFlash *flash) { hContact = contact; hFA = fa; pFlash = flash; }
 };

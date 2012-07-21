@@ -22,20 +22,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-class FacebookProto : public PROTO_INTERFACE
+class FacebookProto : public PROTO_INTERFACE, public MZeroedObject
 {
 public:
 	FacebookProto( const char *proto_name, const TCHAR *username );
 	~FacebookProto( );
-
-	__inline void* operator new( size_t size )
-	{
-		return calloc( 1, size );
-	}
-	__inline void operator delete( void* p )
-	{
-		free( p );
-	}
 
 	inline const char* ModuleName( ) const
 	{
@@ -162,7 +153,7 @@ public:
 	void __cdecl MessagingWorker(void*);
 	void __cdecl DeleteContactFromServer(void*);
 	void __cdecl AddContactToServer(void*);
-	void __cdecl ApproveContactToServer(void*);	
+	void __cdecl ApproveContactToServer(void*);
 	void __cdecl CancelFriendsRequest(void*);
 
 	// Contacts handling
@@ -170,7 +161,7 @@ public:
 	HANDLE  ContactIDToHContact(std::string);
 	HANDLE  ChatIDToHContact(std::string);
 	HANDLE  AddToContactList(facebook_user*, BYTE type, bool dont_check = false, const char *new_name = "");
-	void    SetAllContactStatuses(int);	
+	void    SetAllContactStatuses(int);
 	HANDLE  HContactFromAuthEvent(HANDLE hEvent);
 
 	// Chats handling

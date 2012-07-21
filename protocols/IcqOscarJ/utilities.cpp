@@ -1654,7 +1654,7 @@ BOOL CIcqProto::validateStatusMessageRequest(HANDLE hContact, WORD byMessageType
 }
 
 
-void __fastcall SAFE_DELETE(void_struct **p)
+void __fastcall SAFE_DELETE(MZeroedObject **p)
 {
 	if (*p)
 	{

@@ -104,17 +104,6 @@ struct CIrcProto;
 #include "mstring.h"
 typedef CMStringA String;
 
-class CCallocBase
-{
-public:
-	__inline void* operator new( size_t size )
-	{	return ::calloc( 1, size );
-	}
-	__inline void operator delete( void* p )
-	{	::free( p );
-	}
-};
-
 // special service for tweaking performance, implemented in chat.dll
 #define MS_GC_GETEVENTPTR  "GChat/GetNewEventPtr"
 typedef int (*GETEVENTFUNC)(WPARAM wParam, LPARAM lParam);
@@ -226,7 +215,7 @@ struct CIrcHandler
 	PfnIrcMessageHandler m_handler;
 };
 
-struct CIrcProto : public PROTO_INTERFACE, public CCallocBase
+struct CIrcProto : public PROTO_INTERFACE, public MZeroedObject
 {
 				CIrcProto( const char*, const TCHAR* );
 			   ~CIrcProto();

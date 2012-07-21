@@ -27,17 +27,10 @@ typedef void    ( __cdecl GGPROTO::*GGThreadFunc )( void* );
 typedef int     ( __cdecl GGPROTO::*GGEventFunc )( WPARAM, LPARAM );
 typedef INT_PTR ( __cdecl GGPROTO::*GGServiceFunc )( WPARAM, LPARAM );
 
-struct GGPROTO : public PROTO_INTERFACE
+struct GGPROTO : public PROTO_INTERFACE, public MZeroedObject
 {
 				GGPROTO( const char*, const TCHAR* );
 				~GGPROTO();
-
-	__inline void* operator new( size_t size )
-				{	return calloc( 1, size );
-				}
-	__inline void operator delete( void* p )
-				{	free( p );
-				}
 
 	//====================================================================================
 	// PROTO_INTERFACE

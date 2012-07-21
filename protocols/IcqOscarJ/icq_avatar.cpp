@@ -78,8 +78,7 @@ avatars_request* CIcqProto::ReleaseAvatarRequestInQueue(avatars_request *request
 		ar = ar->pNext;
 	}
 
-	SAFE_DELETE(&request);
-
+	delete request;
 	return pNext;
 }
 
@@ -859,7 +858,7 @@ int CIcqProto::GetAvatarData(HANDLE hContact, DWORD dwUin, const char *szUid, co
 	if (!ar->hash)
 	{ // alloc failed
 		m_avatarsMutex->Leave();
-		SAFE_DELETE(&ar);
+		delete ar;
 		return 0;
 	}
 	memcpy(ar->hash, hash, hashlen); // copy the data
@@ -932,7 +931,7 @@ int CIcqProto::SetAvatarData(HANDLE hContact, WORD wRef, const BYTE *data, unsig
 	if (!ar->pData)
 	{ // alloc failed
 		m_avatarsMutex->Leave();
-		SAFE_DELETE(&ar);
+		delete ar;
 		return 0;
 	}
 	memcpy(ar->pData, data, datalen); // copy the data
@@ -981,7 +980,7 @@ void __cdecl CIcqProto::AvatarThread(avatars_server_connection *pInfo)
 
 	{ // Release connection handler
 		icq_lock l(m_avatarsMutex);
-		SAFE_DELETE(&pInfo);
+		delete pInfo;
 	}
 
 	NetLog_Server("%s thread ended.", "Avatar");
@@ -1010,8 +1009,8 @@ isLoggedIn(FALSE), stopThread(FALSE), isActive(FALSE)
 
 avatars_server_connection::~avatars_server_connection()
 {
-	SAFE_DELETE(&m_ratesMutex);
-	SAFE_DELETE(&localSeqMutex);
+	delete m_ratesMutex;
+	delete localSeqMutex;
 }
 
 
@@ -1206,7 +1205,7 @@ void avatars_server_connection::checkRequestQueue()
 				if (GetTickCount() > pRequest->timeOut)
 				{ // expired contact block, remove
 					*ppRequest = pRequest->pNext;
-					SAFE_DELETE(&pRequest);
+					delete pRequest;
 				}
 				else // it is not time, move to next request
 					ppRequest = &pRequest->pNext;
@@ -1234,7 +1233,7 @@ void avatars_server_connection::checkRequestQueue()
 			sendUploadAvatarRequest(pRequest->hContact, pRequest->wRef, pRequest->pData, pRequest->cbData);
 			break;
 		}
-		SAFE_DELETE(&pRequest);
+		delete pRequest;
 
 		ppro->m_avatarsMutex->Enter();
 	}
@@ -1327,7 +1326,7 @@ void avatars_server_connection::connectionThread()
 
 	{ // release rates
 		icq_lock l(m_ratesMutex);
-		SAFE_DELETE((void_struct**)&m_rates);
+		SAFE_DELETE((MZeroedObject**)&m_rates);
 	}
 
 	SAFE_FREE((void**)&pCookie);

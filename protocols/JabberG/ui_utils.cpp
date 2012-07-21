@@ -1349,7 +1349,7 @@ BOOL CCtrlListView::Update(int iItem)
 
 #define FILTER_BOX_HEIGHT		21
 
-struct CFilterData
+struct CFilterData : public MZeroedObject
 {
 	HFONT m_hfntNormal;
 	HFONT m_hfntEmpty;
@@ -1362,14 +1362,6 @@ struct CFilterData
 	WNDPROC m_oldWndProc;
 	HWND m_hwndOwner;
 	HWND m_hwndEditBox;
-
-	__inline void* operator new( size_t size )
-	{	return calloc( 1, size );
-	}
-
-	__inline void operator delete( void* p )
-	{	free( p );
-	}
 
 	void ReleaseFilterData()
 	{

@@ -22,42 +22,6 @@
 
 CProtoStates g_ProtoStates;
 
-
-/*char *mystrdup(const char *szStr)
-{
-	char *szNew = (char *)malloc(lstrlen(szStr) + 1);
-	lstrcpy(szNew, szStr);
-	return szNew;
-}
-
-
-void *mymalloc(size_t size)
-{
-	return HeapAlloc(GetProcessHeap(), 0, size);//GlobalAlloc(GPTR, size);
-}
-
-
-void myfree(void *p)
-{
-	//GlobalFree(p);
-	HeapFree(GetProcessHeap(), 0, p);
-}
-
-
-void *__cdecl operator new(unsigned int size)
-{
-	return (void *)HeapAlloc(GetProcessHeap(), 0, size);//GlobalAlloc(GPTR, size);
-}
-
-
-void __cdecl operator delete(void *p)
-{
-//	GlobalFree((HGLOBAL)p);
-	HeapFree(GetProcessHeap(), 0, p);
-}
-*/
-
-
 void ResetContactSettingsOnStatusChange(HANDLE hContact)
 {
 	DBDeleteContactSetting(hContact, MOD_NAME, DB_REQUESTCOUNT);

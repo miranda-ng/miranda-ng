@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project, 
+Copyright 2000-2010 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -57,17 +57,10 @@ typedef struct _tagIntMenuItem
 }
 	TMO_IntMenuItem, *PMO_IntMenuItem;
 
-struct TIntMenuObject
+struct TIntMenuObject : public MZeroedObject
 {
 	TIntMenuObject();
 	~TIntMenuObject();
-
-	__inline void* operator new(size_t size)
-	{	return mir_calloc(size);
-	}
-	__inline void operator delete(void* p)
-	{	mir_free(p);
-	}
 
 	char* Name;
 	int   id;

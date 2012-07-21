@@ -93,7 +93,7 @@ public:
 __inline static void SAFE_DELETE(avatars_server_connection **p) { SAFE_DELETE((lockable_struct**)p); };
 
 
-struct avatars_request : public void_struct
+struct avatars_request : public MZeroedObject
 {
 	int    type;
 	HANDLE hContact;
@@ -112,7 +112,7 @@ public:
   virtual ~avatars_request();
 };
 
-__inline static void SAFE_DELETE(avatars_request **p) { SAFE_DELETE((void_struct**)p); };
+__inline static void SAFE_DELETE(avatars_request **p) { SAFE_DELETE((MZeroedObject**)p); };
 
 #define ART_GET     1
 #define ART_UPLOAD  2

@@ -33,7 +33,7 @@ char* ConvertIntegerToIP(unsigned long int_ip_addr);
 namespace irc {
 ////////////////////////////////////////////////////////////////////
 
-struct DCCINFO : public CCallocBase
+struct DCCINFO : public MZeroedObject
 {
 	DWORD   dwAdr;
 	unsigned __int64   dwSize;

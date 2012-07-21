@@ -53,17 +53,14 @@
 #define FLAG_MONITORMIRANDA			64 // db: monitor miranda activity only
 #define FLAG_ONLOCK					128 // db: on work station lock
 
-struct TAAAProtoSetting : public PROTOCOLSETTINGEX 
+struct TAAAProtoSetting : public PROTOCOLSETTINGEX, public MZeroedObject
 {
 	TAAAProtoSetting( PROTOACCOUNT* pa );
 	~TAAAProtoSetting();
 
-	__inline void* operator new( size_t size ) {	return calloc( 1, size ); }
-	__inline void operator delete( void* p ) { free( p ); }
-
 	int originalStatusMode;
-	STATES 
-		oldState, 
+	STATES
+		oldState,
 		curState;
 	BOOL statusChanged; // AAA changed the status, don't update mStatus
 	BOOL mStatus; // status changed manually or not ?

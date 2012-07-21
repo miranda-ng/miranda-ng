@@ -71,7 +71,7 @@ extern const SettingItem setting[];
 extern const int settingCount;
 
 //dlgproc.c
-struct ChangeInfoData : public void_struct
+struct ChangeInfoData : public MZeroedObject
 {
   HWND  hwndDlg;
   CIcqProto *ppro;

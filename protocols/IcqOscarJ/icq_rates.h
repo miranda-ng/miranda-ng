@@ -47,7 +47,7 @@ struct rates_group
   int nPairs;
 };
 
-struct rates : public void_struct
+struct rates : public MZeroedObject
 {
 private:
   CIcqProto *ppro;
@@ -90,7 +90,7 @@ public:
 //
 // generic queue item
 //
-struct rates_queue_item : public void_struct
+struct rates_queue_item : public MZeroedObject
 {
   friend struct rates_queue;
 protected:
@@ -119,7 +119,7 @@ typedef void (rates_queue::*IcqRateFunc)(void);
 //
 // generic item queue (FIFO)
 //
-struct rates_queue : public void_struct
+struct rates_queue : public MZeroedObject
 {
 private:
   CIcqProto *ppro;

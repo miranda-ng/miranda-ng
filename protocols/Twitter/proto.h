@@ -25,20 +25,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <m_protoint.h>
 
-class TwitterProto : public PROTO_INTERFACE
+class TwitterProto : public PROTO_INTERFACE, public MZeroedObject
 {
 public:
 	TwitterProto(const char *,const TCHAR *);
 	~TwitterProto();
-
-	__inline void* operator new(size_t size)
-	{
-		return calloc(1,size);
-	}
-	__inline void operator delete(void *p)
-	{
-		free(p);
-	}
 
 	inline const char * ModuleName() const
 	{

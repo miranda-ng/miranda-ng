@@ -50,10 +50,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 // TopButtonInt class
 
-struct TopButtonInt
+struct TopButtonInt : public MZeroedObject
 {
-	__inline void* operator new(size_t size) { return calloc( 1, size ); }
-	__inline void operator delete(void* p) { free( p ); }
 	~TopButtonInt();
 
 	DWORD CheckFlags(DWORD Flags);
@@ -77,12 +75,12 @@ struct TopButtonInt
 	int x, y, arrangedpos;
 	HICON hIconUp, hIconDn;
 	HANDLE hIconHandleUp, hIconHandleDn;
-	
+
 	char  *pszService;
 	TCHAR *ptszProgram;
 	char  *pszName;
 	TCHAR *ptszTooltip;
-	
+
 	LPARAM lParamUp;
 	WPARAM wParamUp;
 	LPARAM lParamDown;

@@ -51,17 +51,10 @@ struct userinfo
   time_t queued;
 };
 
-struct CIcqProto : public PROTO_INTERFACE
+struct CIcqProto : public PROTO_INTERFACE, public MZeroedObject
 {
 				CIcqProto( const char*, const TCHAR* );
 				~CIcqProto();
-
-				__inline void* operator new( size_t size )
-				{	return SAFE_MALLOC( size );
-				}
-				__inline void operator delete( void* p )
-				{	SAFE_FREE( &p );
-				}
 
 	//====================================================================================
 	// PROTO_INTERFACE

@@ -28,17 +28,10 @@ typedef int     (__cdecl CMsnProto::*MsnEventFunc)(WPARAM, LPARAM);
 typedef INT_PTR (__cdecl CMsnProto::*MsnServiceFunc)(WPARAM, LPARAM);
 typedef INT_PTR (__cdecl CMsnProto::*MsnServiceFuncParam)(WPARAM, LPARAM, LPARAM);
 
-struct CMsnProto : public PROTO_INTERFACE
+struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 {
 	CMsnProto(const char*, const TCHAR*);
 	~CMsnProto();
-
-	__inline void* operator new(size_t size)
-	{	return calloc(1, size);
-	}
-	__inline void operator delete(void* p)
-	{	free(p);
-	}
 
 	//====================================================================================
 	// PROTO_INTERFACE
@@ -130,13 +123,13 @@ struct CMsnProto : public PROTO_INTERFACE
 	//====| Data |========================================================================
 
 	// Security Tokens
-	char *pAuthToken, *tAuthToken; 
+	char *pAuthToken, *tAuthToken;
 	char *oimSendToken;
-	char *authStrToken, *authSecretToken; 
+	char *authStrToken, *authSecretToken;
 	char *authContactToken;
 	char *authStorageToken;
 	char *hotSecretToken, *hotAuthToken;
-	
+
 	char *abCacheKey, *sharingCacheKey, *storageCacheKey;
 
 	CRITICAL_SECTION csLists;
@@ -212,11 +205,11 @@ struct CMsnProto : public PROTO_INTERFACE
 	void        MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext);
 	int         MSN_SetMyAvatar(const TCHAR* szFname, void* pData, size_t cbLen);
 	void        MSN_GetCustomSmileyFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const char* SmileyName, int Type);
-	
+
 	const char*	MirandaStatusToMSN(int status);
 	WORD		MSNStatusToMiranda(const char *status);
 	char**		GetStatusMsgLoc(int status);
-	
+
 	void        MSN_SendStatusMessage(const char* msg);
 	void        MSN_SetServerStatus(int newStatus);
 	void		MSN_StartStopTyping(ThreadData* info, bool start);
@@ -235,7 +228,7 @@ struct CMsnProto : public PROTO_INTERFACE
 	void		sttCustomSmiley(const char* msgBody, char* email, char* nick, int iSmileyType);
 	void		sttInviteMessage(ThreadData* info, char* msgBody, char* email, char* nick);
 	void		sttSetMirVer(HANDLE hContact, DWORD dwValue, bool always);
-	
+
 	void        LoadOptions(void);
 
 	void		InitPopups(void);
@@ -282,7 +275,7 @@ struct CMsnProto : public PROTO_INTERFACE
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// MSN thread functions
-	
+
 	void __cdecl msn_keepAliveThread(void* arg);
 	void __cdecl MSNServerThread(void* arg);
 
@@ -361,14 +354,14 @@ struct CMsnProto : public PROTO_INTERFACE
 	void  p2p_processMsg(ThreadData* info, char* msgbody, const char* wlid);
 	void  p2p_processMsgV2(ThreadData* info, char* msgbody, const char* wlid);
 	void  p2p_processSIP(ThreadData* info, char* msgbody, P2PB_Header* hdr, const char* wlid);
-	
+
 	void  p2p_AcceptTransfer(MimeHeaders& tFileInfo, MimeHeaders& tFileInfo2, const char* wlid);
 	void  p2p_InitDirectTransfer(MimeHeaders& tFileInfo, MimeHeaders& tFileInfo2, const char* wlid);
 	void  p2p_InitDirectTransfer2(MimeHeaders& tFileInfo, MimeHeaders& tFileInfo2, const char* wlid);
 	void  p2p_InitFileTransfer(ThreadData* info, MimeHeaders& tFileInfo, MimeHeaders& tFileInfo2, const char* wlid);
 	void  p2p_pictureTransferFailed(filetransfer* ft);
 	void  p2p_savePicture2disk(filetransfer* ft);
-	
+
 	bool  p2p_createListener(filetransfer* ft, directconnection *dc, MimeHeaders& chdrs);
 	void  p2p_startConnect(const char* wlid, const char* szCallID, const char* addr, const char* port, bool ipv6);
 
@@ -418,7 +411,7 @@ struct CMsnProto : public PROTO_INTERFACE
 	void msnftp_invite(filetransfer *ft);
 	void msnftp_sendAcceptReject(filetransfer *ft, bool acc);
 	void msnftp_startFileSend(ThreadData* info, const char* Invcommand, const char* Invcookie);
-	
+
 	int  MSN_HandleMSNFTP(ThreadData *info, char *cmdString);
 
 	void __cdecl msnftp_sendFileThread(void* arg);
@@ -449,10 +442,10 @@ struct CMsnProto : public PROTO_INTERFACE
 	MsnContact* Lists_Get(const char* email);
 	MsnContact* Lists_Get(HANDLE hContact);
 	MsnContact* Lists_GetNext(int& i);
-	
+
 	MsnPlace* Lists_GetPlace(const char* wlid);
 	MsnPlace* Lists_AddPlace(const char* email, const char* id, unsigned cap1, unsigned cap2);
-	
+
 	void     Lists_Init(void);
 	void     Lists_Uninit(void);
 
@@ -504,7 +497,7 @@ struct CMsnProto : public PROTO_INTERFACE
 	void getMetaData(void);
 	void getOIMs(ezxml_t xmli);
 	ezxml_t oimRecvHdr(const char* service, ezxml_t& tbdy, char*& httphdr);
-	
+
 	void processMailData(char* mailData);
 	void sttNotificationMessage(char* msgBody, bool isInitial);
 	void displayEmailCount(HANDLE hContact);

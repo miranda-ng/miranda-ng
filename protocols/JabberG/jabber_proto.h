@@ -122,7 +122,7 @@ struct CJabberNetInterface: public IJabberNetInterface
 	int STDMETHODCALLTYPE			RemoveHandler(HJHANDLER hHandler);
 
 	int STDMETHODCALLTYPE			RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription); // Registers feature so that it's displayed with proper description in other users' details. Call this function in your ME_SYSTEM_MODULESLOADED handler. Returns TRUE on success or FALSE on error.
-	int STDMETHODCALLTYPE			AddFeatures(LPCTSTR szFeatures);			// Adds features to the list of features returned by the client. 
+	int STDMETHODCALLTYPE			AddFeatures(LPCTSTR szFeatures);			// Adds features to the list of features returned by the client.
 	int STDMETHODCALLTYPE			RemoveFeatures(LPCTSTR szFeatures);			// Removes features from the list of features returned by the client.
 	LPTSTR STDMETHODCALLTYPE		GetResourceFeatures(LPCTSTR jid);			// Returns all features supported by JID in format "feature1\0feature2\0...\0featureN\0\0". You must free returned string using mir_free().
 
@@ -144,19 +144,12 @@ struct CJabberInterface: public IJabberInterface
 	CJabberProto *m_psProto;
 };
 
-struct CJabberProto : public PROTO_INTERFACE
+struct CJabberProto : public PROTO_INTERFACE, public MZeroedObject
 {
 	typedef PROTO_INTERFACE CSuper;
 
 				CJabberProto( const char*, const TCHAR* );
 				~CJabberProto();
-
-				__inline void* operator new( size_t size )
-				{	return calloc( 1, size );
-				}
-				__inline void operator delete( void* p )
-				{	free( p );
-				}
 
 	//====================================================================================
 	// PROTO_INTERFACE
@@ -236,7 +229,7 @@ struct CJabberProto : public PROTO_INTERFACE
 	int  __cdecl JabberGcInit( WPARAM, LPARAM );
 
 	int  __cdecl CListMW_ExtraIconsApply( WPARAM, LPARAM );
-	
+
 	// Google Shared Status
 	BOOL m_bGoogleSharedStatus;
 	BOOL m_bGoogleSharedStatusLock;
@@ -391,14 +384,14 @@ struct CJabberProto : public PROTO_INTERFACE
 	HWND   GetWindowFromIq( HXML iqNode );
 	BOOL   HandleAdhocCommandRequest( HXML iqNode, CJabberIqInfo* pInfo );
 	BOOL   IsRcRequestAllowedByACL( CJabberIqInfo* pInfo );
-		  
+
 	int    AdhocSetStatusHandler( HXML iqNode, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession );
 	int    AdhocOptionsHandler( HXML iqNode, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession );
 	int    AdhocForwardHandler( HXML iqNode, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession );
 	int    AdhocLockWSHandler( HXML iqNode, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession );
 	int    AdhocQuitMirandaHandler( HXML iqNode, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession );
 	int    AdhocLeaveGroupchatsHandler( HXML iqNode, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession );
-		  
+
 	void   OnIqResult_ListOfCommands( HXML iqNode );
 	void   OnIqResult_CommandExecution( HXML iqNode );
 	int    AdHoc_RequestListOfCommands( TCHAR * szResponder, HWND hwndDlg );
@@ -409,7 +402,7 @@ struct CJabberProto : public PROTO_INTERFACE
 	int    AdHoc_OnJAHMProcessResult( HWND hwndDlg, HXML workNode, JabberAdHocData* dat );
 
 	void   ContactMenuAdhocCommands( struct CJabberAdhocStartupParams* param );
-	
+
 	//---- jabber_bookmarks.c ------------------------------------------------------------
 
 	INT_PTR    __cdecl OnMenuHandleBookmarks( WPARAM wParam, LPARAM lParam );
@@ -457,11 +450,11 @@ struct CJabberProto : public PROTO_INTERFACE
 	void   GcLogUpdateMemberStatus( JABBER_LIST_ITEM* item, const TCHAR* resource, const TCHAR* nick, const TCHAR* jid, int action, HXML reason, int nStatusCode = -1 );
 	void   GcLogShowInformation( JABBER_LIST_ITEM *item, JABBER_RESOURCE_STATUS *user, TJabberGcLogInfoType type );
 	void   GcQuit( JABBER_LIST_ITEM* jid, int code, HXML reason );
-		  
+
 	void   FilterList(HWND hwndList);
 	void   ResetListOptions(HWND hwndList);
 	void   InviteUser(TCHAR *room, TCHAR *pUser, TCHAR *text);
-		  
+
 	void   AdminSet( const TCHAR* to, const TCHAR* ns, const TCHAR* szItem, const TCHAR* itemVal, const TCHAR* var, const TCHAR* varVal );
 	void   AdminGet( const TCHAR* to, const TCHAR* ns, const TCHAR* var, const TCHAR* varVal, JABBER_IQ_PFUNC foo );
 	void   AdminSetReason( const TCHAR* to, const TCHAR* ns, const TCHAR* szItem, const TCHAR* itemVal, const TCHAR* var, const TCHAR* varVal, const TCHAR* rsn );
@@ -476,7 +469,7 @@ struct CJabberProto : public PROTO_INTERFACE
 
 	void   ConsoleInit( void );
 	void   ConsoleUninit( void );
-	
+
 	bool   FilterXml(HXML node, DWORD flags);
 	bool   RecursiveCheckFilter(HXML node, DWORD flags);
 
@@ -500,30 +493,30 @@ struct CJabberProto : public PROTO_INTERFACE
 	void   ApplyNodeIcon(HTREELISTITEM hItem, CJabberSDNode *pNode);
 	BOOL   SyncTree(HTREELISTITEM hIndex, CJabberSDNode* pNode);
 	void   ServiceDiscoveryShowMenu(CJabberSDNode *node, HTREELISTITEM hItem, POINT pt);
-		  
+
 	int    SetupServiceDiscoveryDlg( TCHAR* jid );
-		  
+
 	void   OnIqResultCapsDiscoInfo( HXML iqNode, CJabberIqInfo* pInfo );
 	void   OnIqResultCapsDiscoInfoSI( HXML iqNode, CJabberIqInfo* pInfo );
-		  
+
 	void   RegisterAgent( HWND hwndDlg, TCHAR* jid );
 
 	//---- jabber_file.cpp ---------------------------------------------------------------
 
 	int    FileReceiveParse( filetransfer* ft, char* buffer, int datalen );
 	int    FileSendParse( JABBER_SOCKET s, filetransfer* ft, char* buffer, int datalen );
-		  
+
 	void   UpdateChatUserStatus( wchar_t* chat_jid, wchar_t* jid, wchar_t* nick, int role, int affil, int status, BOOL update_nick );
-		  
+
 	void   GroupchatJoinRoomByJid(HWND hwndParent, TCHAR *jid);
-		  
+
 	void   RenameParticipantNick( JABBER_LIST_ITEM* item, const TCHAR* oldNick, HXML itemNode );
 	void   AcceptGroupchatInvite( const TCHAR* roomJid, const TCHAR* reason, const TCHAR* password );
 
 	//---- jabber_form.c -----------------------------------------------------------------
 
 	void   FormCreateDialog( HXML xNode, TCHAR* defTitle, JABBER_FORM_SUBMIT_FUNC pfnSubmit, void *userdata );
-	
+
 	//---- jabber_ft.c -------------------------------------------------------------------
 
 	void   __cdecl FileReceiveThread( filetransfer* ft );
@@ -536,7 +529,7 @@ struct CJabberProto : public PROTO_INTERFACE
 	void   FtAcceptIbbRequest( filetransfer* ft );
 	BOOL   FtHandleBytestreamRequest( HXML iqNode, CJabberIqInfo* pInfo );
 	BOOL   FtHandleIbbRequest( HXML iqNode, BOOL bOpen );
-	
+
 	//---- jabber_groupchat.c ------------------------------------------------------------
 
 	INT_PTR    __cdecl OnMenuHandleJoinGroupchat( WPARAM wParam, LPARAM lParam );
@@ -578,7 +571,7 @@ struct CJabberProto : public PROTO_INTERFACE
 	void   IqAdd( unsigned int iqId, JABBER_IQ_PROCID procId, JABBER_IQ_PFUNC func );
 	void   IqRemove( int index );
 	void   IqExpire();
-		  
+
 	void   OnIqResultBind( HXML iqNode, CJabberIqInfo* pInfo );
 	void   OnIqResultDiscoBookmarks( HXML iqNode );
 	void   OnIqResultEntityTime( HXML iqNode, CJabberIqInfo* pInfo );
@@ -625,7 +618,7 @@ struct CJabberProto : public PROTO_INTERFACE
 	BOOL   OnIqRequestOOB( HXML node, CJabberIqInfo *pInfo );
 	BOOL   OnIqHttpAuth( HXML node, CJabberIqInfo* pInfo );
 	BOOL   AddClistHttpAuthEvent( CJabberHttpAuthParams *pParams );
-		  
+
 	void   __cdecl IbbSendThread( JABBER_IBB_TRANSFER *jibb );
 	void   __cdecl IbbReceiveThread( JABBER_IBB_TRANSFER *jibb );
 
@@ -633,7 +626,7 @@ struct CJabberProto : public PROTO_INTERFACE
 	void   OnIbbCloseResult( HXML iqNode, CJabberIqInfo* pInfo );
 	BOOL   OnFtHandleIbbIq( HXML iqNode, CJabberIqInfo* pInfo );
 	BOOL   OnIbbRecvdData( const TCHAR *data, const TCHAR *sid, const TCHAR *seq );
-		  
+
 	void   OnFtSiResult( HXML iqNode, CJabberIqInfo* pInfo );
 	BOOL   FtIbbSend( int blocksize, filetransfer* ft );
 	BOOL   FtSend( HANDLE hConn, filetransfer* ft );
@@ -673,7 +666,7 @@ struct CJabberProto : public PROTO_INTERFACE
 
 	void   SetMucConfig( HXML node, void *from );
 	void   OnIqResultMucGetJidList( HXML iqNode, JABBER_MUC_JIDLIST_TYPE listType );
-		  
+
 	void   OnIqResultServerDiscoInfo( HXML iqNode );
 	void   OnIqResultGetVcardPhoto( const TCHAR* jid, HXML n, HANDLE hContact, BOOL& hasPhoto );
 	void   SetBookmarkRequest (XmlNodeIq& iqId);
@@ -700,7 +693,7 @@ struct CJabberProto : public PROTO_INTERFACE
 
 	void   MenuHideSrmmIcon(HANDLE hContact);
 	void   MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item);
-	
+
 	void   AuthWorker( HANDLE hContact, char* authReqType );
 
 	void   UpdatePriorityMenu(short priority);
@@ -744,7 +737,7 @@ struct CJabberProto : public PROTO_INTERFACE
 	void   _RosterHandleGetRequest( HXML node );
 
 	//---- jabber_password.cpp --------------------------------------------------------------
-	
+
 	INT_PTR    __cdecl OnMenuHandleChangePassword( WPARAM wParam, LPARAM lParam );
 
 	//---- jabber_privacy.cpp ------------------------------------------------------------
@@ -875,7 +868,7 @@ struct CJabberProto : public PROTO_INTERFACE
 	void   OnProcessError( HXML node, ThreadData *info );
 	void   OnProcessSuccess( HXML node, ThreadData *info );
 	void   OnProcessChallenge( HXML node, ThreadData *info );
-	void   OnProcessProceed( HXML node, ThreadData *info );	
+	void   OnProcessProceed( HXML node, ThreadData *info );
 	void   OnProcessCompressed( HXML node, ThreadData *info );
 	void   OnProcessMessage( HXML node, ThreadData *info );
 	void   OnProcessPresence( HXML node, ThreadData *info );
@@ -1003,7 +996,7 @@ private:
 	HGENMENU m_hPrivacyMenuRoot;
 	BOOL     m_menuItemsStatus;
 	LIST<void> m_hPrivacyMenuItems;
-	
+
 	int     m_nMenuResourceItems;
 	HANDLE* m_phMenuResourceItems;
 

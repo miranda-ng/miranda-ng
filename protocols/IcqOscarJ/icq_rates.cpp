@@ -334,7 +334,7 @@ rates_queue::rates_queue(CIcqProto *ppro, const char *szDescr, int nLimitLevel, 
 rates_queue::~rates_queue()
 {
 	cleanup();
-	SAFE_DELETE(&listsMutex);
+	delete listsMutex;
 }
 
 
@@ -377,7 +377,7 @@ void rates_queue::cleanup()
 		ppro->NetLog_Server("Rates: Purging %d %s(s).", pendingListSize, szDescr);
 
 	for (int i=0; i < pendingListSize; i++)
-		SAFE_DELETE((void_struct**)&pendingList[i]);
+		delete pendingList[i];
 	SAFE_FREE((void**)&pendingList);
 	pendingListSize = 0;
 }
@@ -439,7 +439,7 @@ void rates_queue::processQueue()
 		if (nDelay < 10) nDelay = 10;
 		initDelay(nDelay, &rates_queue::processQueue);
 	}
-	SAFE_DELETE((void_struct**)&item);
+	delete item;
 }
 
 
@@ -461,7 +461,7 @@ void rates_queue::putItem(rates_queue_item *pItem, int nMinDelay)
 			{ 
 				if (duplicates == -1)
 				{ // discard existing, append new item
-					SAFE_DELETE((void_struct**)&pendingList[i]);
+					delete pendingList[i];
 					memcpy(&pendingList[i], &pendingList[i + 1], (pendingListSize - i - 1) * sizeof(rates_queue_item*));
 					bFound = TRUE;
 				}

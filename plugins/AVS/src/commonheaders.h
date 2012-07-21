@@ -88,11 +88,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 // The same fields as avatarCacheEntry + proto name
-struct protoPicCacheEntry : public avatarCacheEntry
+struct protoPicCacheEntry : public avatarCacheEntry, public MZeroedObject
 {
-	__inline void* operator new( size_t size ) { return mir_alloc( size ); }
-	__inline void operator delete( void* p ) { mir_free( p ); }
-
     protoPicCacheEntry() { memset(this, 0, sizeof(*this)); };
 	~protoPicCacheEntry();
 

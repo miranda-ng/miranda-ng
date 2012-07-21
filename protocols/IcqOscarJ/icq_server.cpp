@@ -221,9 +221,9 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	{
 		icq_lock l(m_ratesMutex);
 
-		SAFE_DELETE((void_struct**)&m_ratesQueue_Request);
-		SAFE_DELETE((void_struct**)&m_ratesQueue_Response);
-		SAFE_DELETE((void_struct**)&m_rates);
+		SAFE_DELETE((MZeroedObject**)&m_ratesQueue_Request);
+		SAFE_DELETE((MZeroedObject**)&m_ratesQueue_Response);
+		SAFE_DELETE((MZeroedObject**)&m_rates);
 	}
 
 	FlushServerIDs();         // clear server IDs list

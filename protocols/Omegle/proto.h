@@ -22,20 +22,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-class OmegleProto : public PROTO_INTERFACE
+class OmegleProto : public PROTO_INTERFACE, public MZeroedObject
 {
 public:
 	OmegleProto( const char *proto_name, const TCHAR *username );
 	~OmegleProto( );
-
-	__inline void* operator new( size_t size )
-	{
-		return calloc( 1, size );
-	}
-	__inline void operator delete( void* p )
-	{
-		free( p );
-	}
 
 	inline const char* ModuleName( ) const
 	{
@@ -124,7 +115,7 @@ public:
 
 	void __cdecl SendMsgWorker(void*);
 	void __cdecl SendTypingWorker(void*);
-	
+
 	void __cdecl NewChatWorker(void*);
 	void __cdecl StopChatWorker(void*);
 
@@ -140,7 +131,7 @@ public:
 	void AddChatContact(const TCHAR *nick);
 	void DeleteChatContact(const TCHAR *name);
 	void SetChatStatus(int);
-	void ClearChat();	
+	void ClearChat();
 	void SetTopic(const TCHAR *topic = NULL);
 
 	// Connection client
