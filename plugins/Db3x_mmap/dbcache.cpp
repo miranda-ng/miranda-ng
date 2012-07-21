@@ -54,7 +54,7 @@ void CDdxMmap::ReMap(DWORD needed)
 		}
 	}
 	else
-		m_dwFileSize  +=  m_ChunkSize;
+		m_dwFileSize += m_ChunkSize;
 
 //	FlushViewOfFile(m_pDbCache, 0);
 	UnmapViewOfFile(m_pDbCache);
@@ -68,8 +68,8 @@ void CDdxMmap::DBMoveChunk(DWORD ofsDest,DWORD ofsSource,int bytes)
 {
 	int x = 0;
 	log3("move %d %08x->%08x",bytes,ofsSource,ofsDest);
-	if (ofsDest+bytes>m_dwFileSize) ReMap(ofsDest+bytes-m_dwFileSize);
-	if (ofsSource+bytes>m_dwFileSize) {
+	if (ofsDest+bytes > m_dwFileSize) ReMap(ofsDest+bytes-m_dwFileSize);
+	if (ofsSource+bytes > m_dwFileSize) {
 		x = ofsSource+bytes-m_dwFileSize;
 		log0("buggy move!");
 		_ASSERT(0);
@@ -100,7 +100,7 @@ PBYTE CDdxMmap::DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
 void CDdxMmap::DBWrite(DWORD ofs,PVOID pData,int bytes)
 {
 	log2("write %d@%08x",bytes,ofs);
-	if (ofs+bytes>m_dwFileSize) ReMap(ofs+bytes-m_dwFileSize);
+	if (ofs+bytes > m_dwFileSize) ReMap(ofs+bytes-m_dwFileSize);
 	MoveMemory(m_pDbCache+ofs,pData,bytes);
 	logg();
 }
@@ -160,13 +160,12 @@ void CDdxMmap::DBFlush(int setting)
 
 int CDdxMmap::InitCache(void)
 {
-	DWORD x;
-
 	m_dwFileSize = GetFileSize(m_hDbFile,  NULL);
 
 	// Align to chunk
-	x = m_dwFileSize % m_ChunkSize;
-	if (x) m_dwFileSize  +=  m_ChunkSize - x;
+	DWORD x = m_dwFileSize % m_ChunkSize;
+	if (x)
+		m_dwFileSize += m_ChunkSize - x;
 
 	Map();
 

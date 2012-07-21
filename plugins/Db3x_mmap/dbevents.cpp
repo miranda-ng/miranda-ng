@@ -48,88 +48,86 @@ STDMETHODIMP_(HANDLE) CDdxMmap::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 		return 0;
 
 	BOOL neednotify;
-	DWORD ofsNew;
-	{
-		mir_cslock lck(m_csDbAccess);
+	mir_cslockfull lck(m_csDbAccess);
 
-		DWORD ofsContact = (hContact == 0) ? m_dbHeader.ofsUser : (DWORD)hContact;
-		DBContact dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
-		if (dbc.signature != DBCONTACT_SIGNATURE)
-	  		return 0;
+	DWORD ofsContact = (hContact == 0) ? m_dbHeader.ofsUser : (DWORD)hContact;
+	DBContact dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
+	if (dbc.signature != DBCONTACT_SIGNATURE)
+	  	return 0;
 
-		ofsNew = CreateNewSpace(offsetof(DBEvent,blob) + dbei->cbBlob);
-		DWORD ofsModuleName = GetModuleNameOfs(dbei->szModule);
+	DWORD ofsNew = CreateNewSpace(offsetof(DBEvent,blob) + dbei->cbBlob);
+	DWORD ofsModuleName = GetModuleNameOfs(dbei->szModule);
 
-		DBEvent dbe;
-		dbe.signature = DBEVENT_SIGNATURE;
-		dbe.ofsModuleName = ofsModuleName;
-		dbe.timestamp = dbei->timestamp;
-		dbe.flags = dbei->flags;
-		dbe.eventType = dbei->eventType;
-		dbe.cbBlob = dbei->cbBlob;
-		//find where to put it - sort by timestamp
-		if (dbc.eventCount == 0) {
+	DBEvent dbe;
+	dbe.signature = DBEVENT_SIGNATURE;
+	dbe.ofsModuleName = ofsModuleName;
+	dbe.timestamp = dbei->timestamp;
+	dbe.flags = dbei->flags;
+	dbe.eventType = dbei->eventType;
+	dbe.cbBlob = dbei->cbBlob;
+	//find where to put it - sort by timestamp
+	if (dbc.eventCount == 0) {
+		dbe.ofsPrev = (DWORD)hContact;
+		dbe.ofsNext = 0;
+		dbe.flags |= DBEF_FIRST;
+		dbc.ofsFirstEvent = dbc.ofsLastEvent = ofsNew;
+	}
+	else {
+		DBEvent *dbeTest = (DBEvent*)DBRead(dbc.ofsFirstEvent,sizeof(DBEvent),NULL);
+		// Should new event be placed before first event in chain?
+		if (dbei->timestamp < dbeTest->timestamp) {
 			dbe.ofsPrev = (DWORD)hContact;
-			dbe.ofsNext = 0;
+			dbe.ofsNext = dbc.ofsFirstEvent;
 			dbe.flags |= DBEF_FIRST;
-			dbc.ofsFirstEvent = dbc.ofsLastEvent = ofsNew;
+			dbc.ofsFirstEvent = ofsNew;
+			dbeTest = (DBEvent*)DBRead(dbe.ofsNext,sizeof(DBEvent),NULL);
+			dbeTest->flags &= ~DBEF_FIRST;
+			dbeTest->ofsPrev = ofsNew;
+			DBWrite(dbe.ofsNext,dbeTest,sizeof(DBEvent));
 		}
 		else {
-			DBEvent *dbeTest = (DBEvent*)DBRead(dbc.ofsFirstEvent,sizeof(DBEvent),NULL);
-			// Should new event be placed before first event in chain?
-			if (dbei->timestamp < dbeTest->timestamp) {
-				dbe.ofsPrev = (DWORD)hContact;
-				dbe.ofsNext = dbc.ofsFirstEvent;
-				dbe.flags |= DBEF_FIRST;
-				dbc.ofsFirstEvent = ofsNew;
-				dbeTest = (DBEvent*)DBRead(dbe.ofsNext,sizeof(DBEvent),NULL);
-				dbeTest->flags &= ~DBEF_FIRST;
-				dbeTest->ofsPrev = ofsNew;
-				DBWrite(dbe.ofsNext,dbeTest,sizeof(DBEvent));
-			}
-			else {
-				// Loop through the chain, starting at the end
-				DWORD ofsThis = dbc.ofsLastEvent;
-				dbeTest = (DBEvent*)DBRead(ofsThis, sizeof(DBEvent), NULL);
-				for (;;) {
-					// If the new event's timesstamp is equal to or greater than the
-					// current dbevent, it will be inserted after. If not, continue
-					// with the previous dbevent in chain.
-					if (dbe.timestamp >= dbeTest->timestamp) {
-						dbe.ofsPrev = ofsThis;
-						dbe.ofsNext = dbeTest->ofsNext;
-						dbeTest->ofsNext = ofsNew;
-						DBWrite(ofsThis, dbeTest, sizeof(DBEvent));
-						if (dbe.ofsNext == 0)
-							dbc.ofsLastEvent = ofsNew;
-						else {
-							dbeTest = (DBEvent*)DBRead(dbe.ofsNext, sizeof(DBEvent), NULL);
-							dbeTest->ofsPrev = ofsNew;
-							DBWrite(dbe.ofsNext, dbeTest, sizeof(DBEvent));
-						}
-						break;
+			// Loop through the chain, starting at the end
+			DWORD ofsThis = dbc.ofsLastEvent;
+			dbeTest = (DBEvent*)DBRead(ofsThis, sizeof(DBEvent), NULL);
+			for (;;) {
+				// If the new event's timesstamp is equal to or greater than the
+				// current dbevent, it will be inserted after. If not, continue
+				// with the previous dbevent in chain.
+				if (dbe.timestamp >= dbeTest->timestamp) {
+					dbe.ofsPrev = ofsThis;
+					dbe.ofsNext = dbeTest->ofsNext;
+					dbeTest->ofsNext = ofsNew;
+					DBWrite(ofsThis, dbeTest, sizeof(DBEvent));
+					if (dbe.ofsNext == 0)
+						dbc.ofsLastEvent = ofsNew;
+					else {
+						dbeTest = (DBEvent*)DBRead(dbe.ofsNext, sizeof(DBEvent), NULL);
+						dbeTest->ofsPrev = ofsNew;
+						DBWrite(dbe.ofsNext, dbeTest, sizeof(DBEvent));
 					}
-					ofsThis = dbeTest->ofsPrev;
-					dbeTest = (DBEvent*)DBRead(ofsThis, sizeof(DBEvent), NULL);
+					break;
 				}
+				ofsThis = dbeTest->ofsPrev;
+				dbeTest = (DBEvent*)DBRead(ofsThis, sizeof(DBEvent), NULL);
 			}
 		}
-		dbc.eventCount++;
-
-		if (!(dbe.flags&(DBEF_READ|DBEF_SENT))) {
-			if (dbe.timestamp<dbc.timestampFirstUnread || dbc.timestampFirstUnread == 0) {
-				dbc.timestampFirstUnread = dbe.timestamp;
-				dbc.ofsFirstUnreadEvent = ofsNew;
-			}
-			neednotify = TRUE;
-		}
-		else neednotify = m_safetyMode;
-
-		DBWrite(ofsContact,&dbc,sizeof(DBContact));
-		DBWrite(ofsNew,&dbe,offsetof(DBEvent,blob));
-		DBWrite(ofsNew+offsetof(DBEvent,blob),dbei->pBlob,dbei->cbBlob);
-		DBFlush(0);
 	}
+	dbc.eventCount++;
+
+	if (!(dbe.flags&(DBEF_READ|DBEF_SENT))) {
+		if (dbe.timestamp<dbc.timestampFirstUnread || dbc.timestampFirstUnread == 0) {
+			dbc.timestampFirstUnread = dbe.timestamp;
+			dbc.ofsFirstUnreadEvent = ofsNew;
+		}
+		neednotify = TRUE;
+	}
+	else neednotify = m_safetyMode;
+
+	DBWrite(ofsContact,&dbc,sizeof(DBContact));
+	DBWrite(ofsNew,&dbe,offsetof(DBEvent,blob));
+	DBWrite(ofsNew+offsetof(DBEvent,blob),dbei->pBlob,dbei->cbBlob);
+	DBFlush(0);
+	lck.unlock();
 	
 	log1("add event @ %08x",ofsNew);
 
@@ -142,26 +140,25 @@ STDMETHODIMP_(HANDLE) CDdxMmap::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 
 STDMETHODIMP_(BOOL) CDdxMmap::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 {
-	DWORD ofsContact,ofsThis;
-	{
-		mir_cslock lck(m_csDbAccess);
+	mir_cslockfull lck(m_csDbAccess);
 
-		ofsContact = (hContact == 0) ? m_dbHeader.ofsUser : (DWORD)hContact;
-		DBContact dbc = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
-		DBEvent dbe = *(DBEvent*)DBRead(hDbEvent, sizeof(DBEvent), NULL);
-		if (dbc.signature != DBCONTACT_SIGNATURE || dbe.signature != DBEVENT_SIGNATURE)
-			return 1;
-	}
+	DWORD ofsContact = (hContact == 0) ? m_dbHeader.ofsUser : (DWORD)hContact;
+	DBContact dbc = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
+	DBEvent dbe = *(DBEvent*)DBRead(hDbEvent, sizeof(DBEvent), NULL);
+	if (dbc.signature != DBCONTACT_SIGNATURE || dbe.signature != DBEVENT_SIGNATURE)
+		return 1;
 
+	lck.unlock();
 	log1("delete event @ %08x",wParam);
 	
 	//call notifier while outside mutex
 	NotifyEventHooks(hEventDeletedEvent,(WPARAM)hContact, (LPARAM)hDbEvent);
 
 	//get back in
-	mir_cslock lck(m_csDbAccess);
-	DBContact dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
-	DBEvent dbe = *(DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
+	lck.lock();
+	dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
+	dbe = *(DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
+	
 	//check if this was the first unread, if so, recalc the first unread
 	if (dbc.ofsFirstUnreadEvent == (DWORD)hDbEvent) {
 		DBEvent *dbeNext = &dbe;
@@ -171,7 +168,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 				dbc.timestampFirstUnread = 0;
 				break;
 			}
-			ofsThis = dbeNext->ofsNext;
+			DWORD ofsThis = dbeNext->ofsNext;
 			dbeNext = (DBEvent*)DBRead(ofsThis,sizeof(DBEvent),NULL);
 			if ( !(dbeNext->flags & (DBEF_READ | DBEF_SENT))) {
 				dbc.ofsFirstUnreadEvent = ofsThis;
@@ -259,7 +256,6 @@ STDMETHODIMP_(BOOL) CDdxMmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 
 STDMETHODIMP_(BOOL) CDdxMmap::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 {
-	INT_PTR ret;
 	DBEvent *dbe;
 	DBContact dbc;
 	DWORD ofsThis;
@@ -272,15 +268,13 @@ STDMETHODIMP_(BOOL) CDdxMmap::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 	if (dbe->signature != DBEVENT_SIGNATURE || dbc.signature != DBCONTACT_SIGNATURE)
 	  	return -1;
 
-	if (dbe->flags&DBEF_READ || dbe->flags&DBEF_SENT) {
-		ret = (INT_PTR)dbe->flags;
-		return ret;
-	}
+	if ((dbe->flags & DBEF_READ) || (dbe->flags & DBEF_SENT))
+		return (INT_PTR)dbe->flags;
 
 	log1("mark read @ %08x",wParam);
 	dbe->flags |= DBEF_READ;
 	DBWrite((DWORD)hDbEvent,dbe,sizeof(DBEvent));
-	ret = (int)dbe->flags;
+	BOOL ret = dbe->flags;
 	if (dbc.ofsFirstUnreadEvent == (DWORD)hDbEvent) {
 		for (;;) {
 			if (dbe->ofsNext == 0) {
@@ -297,7 +291,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 			}
 		}
 	}
-	DBWrite((DWORD)hContact,&dbc,sizeof(DBContact));
+	DBWrite((DWORD)hContact, &dbc, sizeof(DBContact));
 	DBFlush(0);
 	return ret;
 }

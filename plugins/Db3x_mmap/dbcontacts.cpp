@@ -39,9 +39,9 @@ DBCachedContactValueList* CDdxMmap::AddToCachedContactList(HANDLE hContact, int 
 
 int CDdxMmap::CheckProto(HANDLE hContact, const char *proto)
 {
-	static char protobuf[MAX_PATH] = {0};
-	static DBVARIANT dbv;
-	static DBCONTACTGETSETTING sVal = {proto_module,proto_setting,&dbv};
+	char protobuf[MAX_PATH] = {0};
+	DBVARIANT dbv;
+	DBCONTACTGETSETTING sVal = {proto_module,proto_setting,&dbv};
 
  	dbv.type = DBVT_ASCIIZ;
 	dbv.pszVal = protobuf;
@@ -106,35 +106,31 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindNextContact(HANDLE hContact, const char *szP
 
 STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
 {
-	DWORD ofsThis,ofsNext,ofsFirstEvent;
-	DBContactSettings *dbcs;
-	DBEvent *dbe;
-	int index;
-
 	if (hContact == NULL)
 		return 1;
 
-	{
-		mir_cslock lck(m_csDbAccess);
-		DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
-		if (dbc->signature != DBCONTACT_SIGNATURE)
-			return 1;
+	mir_cslockfull lck(m_csDbAccess);
+	DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
+	if (dbc->signature != DBCONTACT_SIGNATURE)
+		return 1;
 
-		if (hContact == (HANDLE)m_dbHeader.ofsUser) {
-			log0("FATAL: del of user chain attempted.");
-			return 1;
-		}
-		log0("del contact");
+	if (hContact == (HANDLE)m_dbHeader.ofsUser) {
+		log0("FATAL: del of user chain attempted.");
+		return 1;
 	}
+
+	lck.unlock();
+	log0("del contact");
 
 	// call notifier while outside mutex
 	NotifyEventHooks(hContactDeletedEvent, (WPARAM)hContact, 0);
 
 	// get back in
-	mir_cslock lck(m_csDbAccess);
+	lck.lock();
 
 	DBCachedContactValueList VLtemp;
 	VLtemp.hContact = hContact;
+	int index;
 	if ((index = m_lContacts.getIndex(&VLtemp)) != -1) {
 		DBCachedContactValueList *VL = m_lContacts[index];
 		DBCachedContactValue* V = VL->first;
@@ -151,21 +147,21 @@ STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
 		m_lContacts.remove(index);
 	}
 
-	DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
+	dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
 	//delete settings chain
-	ofsThis = dbc->ofsFirstSettings;
-	ofsFirstEvent = dbc->ofsFirstEvent;
+	DWORD ofsThis = dbc->ofsFirstSettings;
+	DWORD ofsFirstEvent = dbc->ofsFirstEvent;
 	while (ofsThis) {
-		dbcs = (DBContactSettings*)DBRead(ofsThis,sizeof(DBContactSettings),NULL);
-		ofsNext = dbcs->ofsNext;
+		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis,sizeof(DBContactSettings),NULL);
+		DWORD ofsNext = dbcs->ofsNext;
 		DeleteSpace(ofsThis,offsetof(DBContactSettings,blob)+dbcs->cbBlob);
 		ofsThis = ofsNext;
 	}
 	//delete event chain
 	ofsThis = ofsFirstEvent;
 	while (ofsThis) {
-		dbe = (DBEvent*)DBRead(ofsThis,sizeof(DBEvent),NULL);
-		ofsNext = dbe->ofsNext;
+		DBEvent *dbe = (DBEvent*)DBRead(ofsThis,sizeof(DBEvent),NULL);
+		DWORD ofsNext = dbe->ofsNext;
 		DeleteSpace(ofsThis,offsetof(DBEvent,blob)+dbe->cbBlob);
 		ofsThis = ofsNext;
 	}
@@ -176,7 +172,7 @@ STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
 		DBWrite(0,&m_dbHeader,sizeof(m_dbHeader));
 	}
 	else {
-		ofsNext = dbc->ofsNext;
+		DWORD ofsNext = dbc->ofsNext;
 		ofsThis = m_dbHeader.ofsFirstContact;
 		DBContact *dbcPrev = (DBContact*)DBRead(ofsThis,sizeof(DBContact),NULL);
 		while (dbcPrev->ofsNext != (DWORD)hContact) {
@@ -230,24 +226,19 @@ STDMETHODIMP_(HANDLE) CDdxMmap::AddContact()
 
 STDMETHODIMP_(BOOL) CDdxMmap::IsDbContact(HANDLE hContact)
 {
-	DBContact *dbc;
-	DWORD ofsContact = (DWORD)hContact;
-	int ret;
+	mir_cslock lck(m_csDbAccess);
 
-	EnterCriticalSection(&m_csDbAccess);
-	{
-		int index;
-		DBCachedContactValueList VLtemp;
-		VLtemp.hContact = hContact;
-		if ((index = m_lContacts.getIndex(&VLtemp)) != -1)
-			ret = TRUE;
-		else {
-			dbc = (DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
-			ret = dbc->signature == DBCONTACT_SIGNATURE;
-			if (ret)
-				AddToCachedContactList(hContact, index);
-	}	}
+	DBCachedContactValueList VLtemp;
+	VLtemp.hContact = hContact;
+	int index = m_lContacts.getIndex(&VLtemp);
+	if (index != -1)
+		return TRUE;
 
-	LeaveCriticalSection(&m_csDbAccess);
-	return ret;
+	DBContact *dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
+	if (dbc->signature == DBCONTACT_SIGNATURE) {
+		AddToCachedContactList(hContact, index);
+		return TRUE;
+	}
+
+	return FALSE;
 }

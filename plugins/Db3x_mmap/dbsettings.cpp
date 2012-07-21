@@ -228,7 +228,7 @@ int CDdxMmap::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 		return 1;
 	}
 
-	EnterCriticalSection(&m_csDbAccess);
+	mir_cslock lck(m_csDbAccess);
 
 	log3("get [%08p] %s/%s",hContact,dbcgs->szModule,dbcgs->szSetting);
 
@@ -269,7 +269,6 @@ int CDdxMmap::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 				default:				log1( "get cached crap: %d", dbcgs->pValue->type ); break;
 			}
 
-			LeaveCriticalSection(&m_csDbAccess);
 			return ( pCachedValue->type == DBVT_DELETED ) ? 1 : 0;
 	}	}
 
@@ -277,10 +276,9 @@ int CDdxMmap::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 	if (hContact == NULL) ofsContact = m_dbHeader.ofsUser;
 	else ofsContact = (DWORD)hContact;
 	dbc = (DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
-	if (dbc->signature != DBCONTACT_SIGNATURE) {
-		LeaveCriticalSection(&m_csDbAccess);
+	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return 1;
-	}
+
 	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc,ofsModuleName);
 	if (ofsSettingsGroup) {
 		ofsBlobPtr = ofsSettingsGroup+offsetof(DBContactSettings,blob);
@@ -290,17 +288,15 @@ int CDdxMmap::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 			if (pBlob[0] == settingNameLen && !memcmp(pBlob+1,dbcgs->szSetting,settingNameLen)) {
 				MoveAlong(1+settingNameLen);
 				NeedBytes(5);
-				if (isStatic && pBlob[0]&DBVTF_VARIABLELENGTH && VLT(dbcgs->pValue->type) != VLT(pBlob[0])) {
-					LeaveCriticalSection(&m_csDbAccess);
+				if (isStatic && pBlob[0]&DBVTF_VARIABLELENGTH && VLT(dbcgs->pValue->type) != VLT(pBlob[0]))
 					return 1;
-				}
+
 				dbcgs->pValue->type = pBlob[0];
 				switch(pBlob[0]) {
-					case DBVT_DELETED: { /* this setting is deleted */
+					case DBVT_DELETED: /* this setting is deleted */
 						dbcgs->pValue->type = DBVT_DELETED;
-						LeaveCriticalSection(&m_csDbAccess);
 						return 2;
-					}
+
 					case DBVT_BYTE: dbcgs->pValue->bVal = pBlob[1]; break;
 					case DBVT_WORD: dbcgs->pValue->wVal = *(PWORD)(pBlob+1); break;
 					case DBVT_DWORD: dbcgs->pValue->dVal = *(PDWORD)(pBlob+1); break;
@@ -342,7 +338,6 @@ int CDdxMmap::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 						SetCachedVariant(dbcgs->pValue,pCachedValue);
 				}
 
-				LeaveCriticalSection(&m_csDbAccess);
 				logg();
 				return 0;
 			}
@@ -361,7 +356,6 @@ int CDdxMmap::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 			pCachedValue->type = DBVT_DELETED;
 	}
 
-	LeaveCriticalSection(&m_csDbAccess);
 	logg();
 	return 1;
 }
@@ -486,12 +480,12 @@ STDMETHODIMP_(BOOL) CDdxMmap::FreeVariant(DBVARIANT *dbv)
 STDMETHODIMP_(BOOL) CDdxMmap::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
 {
 	size_t cbSettingNameLen = strlen(pszSettingName) + 2;
-	if (cbSettingNameLen  < 512) {
+	if (cbSettingNameLen < 512) {
 		char*  szSetting;
 		char  szTemp[512];
 		strcpy( szTemp+1, pszSettingName);
 
-		EnterCriticalSection(&m_csDbAccess);
+		mir_cslock lck(m_csDbAccess);
 		int idx = m_lSettings.getIndex(szTemp);
 		if (idx == -1)
 			szSetting = InsertCachedSetting( szTemp, cbSettingNameLen);
@@ -507,8 +501,6 @@ STDMETHODIMP_(BOOL) CDdxMmap::SetSettingResident(BOOL bIsResident, const char *p
 		}
 		else if (!bIsResident)
 			m_lResidentSettings.remove(idx);
-
-		LeaveCriticalSection(&m_csDbAccess);
 	}
 	return 0;
 }
@@ -516,7 +508,6 @@ STDMETHODIMP_(BOOL) CDdxMmap::SetSettingResident(BOOL bIsResident, const char *p
 STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRITESETTING *dbcws)
 {
 	DBCONTACTWRITESETTING tmp;
-	DBContact dbc;
 	DWORD ofsModuleName;
 	DBContactSettings dbcs;
 	PBYTE pBlob;
@@ -581,46 +572,42 @@ STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 		}
 	}
 
-	EnterCriticalSection(&m_csDbAccess);
-	{
-		char* szCachedSettingName = GetCachedSetting(tmp.szModule, tmp.szSetting, moduleNameLen, settingNameLen);
-		if ( tmp.value.type != DBVT_BLOB ) {
-			DBVARIANT* pCachedValue = GetCachedValuePtr(hContact, szCachedSettingName, 1);
-			if ( pCachedValue != NULL ) {
-				BOOL bIsIdentical = FALSE;
-				if ( pCachedValue->type == tmp.value.type ) {
-					switch(tmp.value.type) {
-						case DBVT_BYTE:   bIsIdentical = pCachedValue->bVal == tmp.value.bVal;  break;
-						case DBVT_WORD:   bIsIdentical = pCachedValue->wVal == tmp.value.wVal;  break;
-						case DBVT_DWORD:  bIsIdentical = pCachedValue->dVal == tmp.value.dVal;  break;
-						case DBVT_UTF8:
-						case DBVT_ASCIIZ: bIsIdentical = strcmp( pCachedValue->pszVal, tmp.value.pszVal ) == 0; break;
-					}
-					if ( bIsIdentical ) {
-						LeaveCriticalSection(&m_csDbAccess);
-						return 0;
-					}
+	mir_cslockfull lck(m_csDbAccess);
+
+	char* szCachedSettingName = GetCachedSetting(tmp.szModule, tmp.szSetting, moduleNameLen, settingNameLen);
+	if ( tmp.value.type != DBVT_BLOB ) {
+		DBVARIANT* pCachedValue = GetCachedValuePtr(hContact, szCachedSettingName, 1);
+		if ( pCachedValue != NULL ) {
+			BOOL bIsIdentical = FALSE;
+			if ( pCachedValue->type == tmp.value.type ) {
+				switch(tmp.value.type) {
+					case DBVT_BYTE:   bIsIdentical = pCachedValue->bVal == tmp.value.bVal;  break;
+					case DBVT_WORD:   bIsIdentical = pCachedValue->wVal == tmp.value.wVal;  break;
+					case DBVT_DWORD:  bIsIdentical = pCachedValue->dVal == tmp.value.dVal;  break;
+					case DBVT_UTF8:
+					case DBVT_ASCIIZ: bIsIdentical = strcmp( pCachedValue->pszVal, tmp.value.pszVal ) == 0; break;
 				}
-				SetCachedVariant(&tmp.value, pCachedValue);
+				if ( bIsIdentical )
+					return 0;
 			}
-			if ( szCachedSettingName[-1] != 0 ) {
-				LeaveCriticalSection(&m_csDbAccess);
-				NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp);
-				return 0;
-			}
+			SetCachedVariant(&tmp.value, pCachedValue);
 		}
-		else GetCachedValuePtr(hContact, szCachedSettingName, -1);
+		if ( szCachedSettingName[-1] != 0 ) {
+			lck.unlock();
+			NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp);
+			return 0;
+		}
 	}
+	else GetCachedValuePtr(hContact, szCachedSettingName, -1);
 
 	ofsModuleName = GetModuleNameOfs(tmp.szModule);
  	if (hContact == 0) ofsContact = m_dbHeader.ofsUser;
 	else ofsContact = (DWORD)hContact;
 
-	dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
-	if (dbc.signature != DBCONTACT_SIGNATURE) {
-		LeaveCriticalSection(&m_csDbAccess);
+	DBContact dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
+	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 1;
-	}
+
 	log0("write setting");
 	//make sure the module group exists
 	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc,ofsModuleName);
@@ -696,7 +683,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 				}
 				//quit
 				DBFlush(1);
-				LeaveCriticalSection(&m_csDbAccess);
+				lck.unlock();
 				//notify
 				NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp);
 				return 0;
@@ -713,7 +700,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	else bytesRequired = tmp.value.type;
 	bytesRequired += 2+settingNameLen;
 	bytesRequired += ofsBlobPtr+1-(ofsSettingsGroup+offsetof(DBContactSettings,blob));
-	if ((DWORD)bytesRequired>dbcs.cbBlob) {
+	if ((DWORD)bytesRequired > dbcs.cbBlob) {
 		//doesn't fit: move entire group
 		DBContactSettings *dbcsPrev;
 		DWORD ofsDbcsPrev,ofsNew;
@@ -774,12 +761,14 @@ STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 			MoveAlong(2+tmp.value.cpbVal);
 			break;
 	}
-	{	BYTE zero = 0;
-		DBWrite(ofsBlobPtr,&zero,1);
-	}
+	
+	BYTE zero = 0;
+	DBWrite(ofsBlobPtr,&zero,1);
+	
 	//quit
 	DBFlush(1);
-	LeaveCriticalSection(&m_csDbAccess);
+	lck.unlock();
+
 	//notify
 	NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp );
 	return 0;
@@ -794,42 +783,39 @@ STDMETHODIMP_(BOOL) CDdxMmap::DeleteContactSetting(HANDLE hContact, DBCONTACTGET
 	char* szCachedSettingName;
 	WPARAM saveWparam = (WPARAM)hContact;
 
-	if ((!dbcgs->szModule) || (!dbcgs->szSetting))
+	if ( !dbcgs->szModule || !dbcgs->szSetting)
 		return 1;
+
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
 	settingNameLen = (int)strlen(dbcgs->szSetting);
 	moduleNameLen = (int)strlen(dbcgs->szModule);
-	if ( settingNameLen > 0xFE )
-	{
+	if ( settingNameLen > 0xFE ) {
 		#ifdef _DEBUG
 			OutputDebugStringA("DeleteContactSetting() got a > 255 setting name length. \n");
 		#endif
 		return 1;
 	}
-	if ( moduleNameLen > 0xFE )
-	{
+	if ( moduleNameLen > 0xFE ) {
 		#ifdef _DEBUG
 			OutputDebugStringA("DeleteContactSetting() got a > 255 module name length. \n");
 		#endif
 		return 1;
 	}
 
-	EnterCriticalSection(&m_csDbAccess);
+	mir_cslockfull lck(m_csDbAccess);
 	ofsModuleName = GetModuleNameOfs(dbcgs->szModule);
  	if (hContact == 0)
 		hContact = (HANDLE)m_dbHeader.ofsUser;
 
 	dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
-	if (dbc->signature != DBCONTACT_SIGNATURE) {
-		LeaveCriticalSection(&m_csDbAccess);
+	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return 1;
-	}
+
 	//make sure the module group exists
 	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc,ofsModuleName);
-	if (ofsSettingsGroup == 0) {
-		LeaveCriticalSection(&m_csDbAccess);
+	if (ofsSettingsGroup == 0)
 		return 1;
-	}
+
 	//find if the setting exists
 	ofsBlobPtr = ofsSettingsGroup+offsetof(DBContactSettings,blob);
 	pBlob = (PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
@@ -843,42 +829,40 @@ STDMETHODIMP_(BOOL) CDdxMmap::DeleteContactSetting(HANDLE hContact, DBCONTACTGET
 		MoveAlong(1+GetSettingValueLength(pBlob));
 		NeedBytes(1);
 	}
-	if (!pBlob[0]) {     //setting didn't exist
-		LeaveCriticalSection(&m_csDbAccess);
+	if (!pBlob[0]) //setting didn't exist
 		return 1;
-	}
-	{	//bin it
-		int nameLen,valLen;
-		DWORD ofsSettingToCut;
-		MoveAlong(1+settingNameLen);
+
+	//bin it
+	int nameLen,valLen;
+	DWORD ofsSettingToCut;
+	MoveAlong(1+settingNameLen);
+	NeedBytes(3);
+	nameLen = 1+settingNameLen;
+	valLen = 1+GetSettingValueLength(pBlob);
+	ofsSettingToCut = ofsBlobPtr-nameLen;
+	MoveAlong(valLen);
+	NeedBytes(1);
+	while (pBlob[0]) {
+		MoveAlong(pBlob[0]+1);
 		NeedBytes(3);
-		nameLen = 1+settingNameLen;
-		valLen = 1+GetSettingValueLength(pBlob);
-		ofsSettingToCut = ofsBlobPtr-nameLen;
-		MoveAlong(valLen);
+		MoveAlong(1+GetSettingValueLength(pBlob));
 		NeedBytes(1);
-		while (pBlob[0]) {
-			MoveAlong(pBlob[0]+1);
-			NeedBytes(3);
-			MoveAlong(1+GetSettingValueLength(pBlob));
-			NeedBytes(1);
-		}
-		DBMoveChunk(ofsSettingToCut,ofsSettingToCut+nameLen+valLen,ofsBlobPtr+1-ofsSettingToCut);
 	}
+	DBMoveChunk(ofsSettingToCut,ofsSettingToCut+nameLen+valLen,ofsBlobPtr+1-ofsSettingToCut);
 
 	szCachedSettingName = GetCachedSetting(dbcgs->szModule,dbcgs->szSetting,moduleNameLen,settingNameLen);
 	GetCachedValuePtr((HANDLE)saveWparam, szCachedSettingName, -1 );
 
 	//quit
 	DBFlush(1);
-	LeaveCriticalSection(&m_csDbAccess);
-	{	//notify
-		DBCONTACTWRITESETTING dbcws = {0};
-		dbcws.szModule = dbcgs->szModule;
-		dbcws.szSetting = dbcgs->szSetting;
-		dbcws.value.type = DBVT_DELETED;
-		NotifyEventHooks(hSettingChangeEvent,saveWparam,(LPARAM)&dbcws);
-	}
+	lck.unlock();
+	
+	//notify
+	DBCONTACTWRITESETTING dbcws = {0};
+	dbcws.szModule = dbcgs->szModule;
+	dbcws.szSetting = dbcgs->szSetting;
+	dbcws.value.type = DBVT_DELETED;
+	NotifyEventHooks(hSettingChangeEvent,saveWparam,(LPARAM)&dbcws);
 	return 0;
 }
 
@@ -893,27 +877,24 @@ STDMETHODIMP_(BOOL) CDdxMmap::EnumContactSettings(HANDLE hContact, DBCONTACTENUM
 	if (!dbces->szModule)
 		return -1;
 
-	EnterCriticalSection(&m_csDbAccess);
+	mir_cslock lck(m_csDbAccess);
 
 	ofsModuleName = GetModuleNameOfs(dbces->szModule);
 	if (hContact == 0) ofsContact = m_dbHeader.ofsUser;
 	else ofsContact = (DWORD)hContact;
 	dbc = (DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
-	if (dbc->signature != DBCONTACT_SIGNATURE) {
-		LeaveCriticalSection(&m_csDbAccess);
+	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return -1;
-	}
+
 	dbces->ofsSettings = GetSettingsGroupOfsByModuleNameOfs(dbc,ofsModuleName);
-	if (!dbces->ofsSettings) {
-		LeaveCriticalSection(&m_csDbAccess);
+	if ( !dbces->ofsSettings)
 		return -1;
-	}
+
 	ofsBlobPtr = dbces->ofsSettings+offsetof(DBContactSettings,blob);
 	pBlob = (PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
-	if (pBlob[0] == 0) {
-		LeaveCriticalSection(&m_csDbAccess);
+	if (pBlob[0] == 0)
 		return -1;
-	}
+
 	result = 0;
 	while (pBlob[0]) {
 		NeedBytes(1);
@@ -925,7 +906,6 @@ STDMETHODIMP_(BOOL) CDdxMmap::EnumContactSettings(HANDLE hContact, DBCONTACTENUM
 		MoveAlong(1+GetSettingValueLength(pBlob));
 		NeedBytes(1);
 	}
-	LeaveCriticalSection(&m_csDbAccess);
 	return result;
 }
 
