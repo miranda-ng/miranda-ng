@@ -142,7 +142,8 @@ MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin)
 	}
 	__finally
 	{
-		UnmapViewOfFile(ptr);
+		if (ptr) UnmapViewOfFile(ptr);
+		if (hMap) CloseHandle(hMap);
 		CloseHandle(hFile);
 	};
 
