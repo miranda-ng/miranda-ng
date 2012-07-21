@@ -69,11 +69,6 @@ CDdxMmap::CDdxMmap(const TCHAR* tszFileName) :
 	m_codePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
 	m_hCacheHeap = HeapCreate(0, 0, 0);
 	m_hModHeap = HeapCreate(0,0,0);
-
-	hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
-	hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
-	hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
-	hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
 }
 
 CDdxMmap::~CDdxMmap()
@@ -129,6 +124,14 @@ int CDdxMmap::Load(bool bSkipInit)
 	if ( !bSkipInit) {
 		if (InitCache()) return 1;
 		if (InitModuleNames()) return 1;
+
+		hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
+		hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
+		hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
+
+		hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
+		hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
+		hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
 	}
 	return 0;
 }
