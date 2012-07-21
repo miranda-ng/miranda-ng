@@ -19,9 +19,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "CPlugin.h"
-//#include "AggressiveOptimize.h"
 
 #include "common.h"
+
+#pragma comment(lib, "version.lib")
 
 const int cPLUGIN_UUID_MARK = 4;
 TCHAR PLUGIN_UUID_MARK[cPLUGIN_UUID_MARK];
@@ -41,8 +42,26 @@ CPlugin::CPlugin(LPCTSTR eFileName, LPCTSTR eShortName, MUUID pluginID, LPCTSTR 
 	lpzTimestamp = eTimestamp;
 	lpzLinkedModules = eLinkedModules;
 
+	int v1, v2, v3, v4;
+
+	DWORD unused, verInfoSize = GetFileVersionInfoSize(eFileName, &unused);
+	if (verInfoSize != 0) {
+		UINT blockSize;
+		VS_FIXEDFILEINFO* fi;
+		void* pVerInfo = mir_alloc(verInfoSize);
+		GetFileVersionInfo(eFileName, 0, verInfoSize, pVerInfo);
+		VerQueryValue(pVerInfo, _T("\\"), (LPVOID*)&fi, &blockSize);
+		v1 = HIWORD(fi->dwProductVersionMS), v2 = LOWORD(fi->dwProductVersionMS),
+		v3 = HIWORD(fi->dwProductVersionLS), v4 = LOWORD(fi->dwProductVersionLS);
+		mir_free(pVerInfo);
+	}
+	else {
+		DWORD ver = eVersion;
+		v1 = HIBYTE(HIWORD(ver)), v2 = LOBYTE(HIWORD(ver)), v3 = HIBYTE(LOWORD(ver)), v4 = LOBYTE(LOWORD(ver));
+	}
+
 	TCHAR aux[128];
-	mir_sntprintf(aux, SIZEOF(aux), _T("%d.%d.%d.%d"),	(eVersion>>24)&0xFF, (eVersion>>16)&0xFF, (eVersion>>8)&0xFF, (eVersion)&0xFF);
+	mir_sntprintf(aux, SIZEOF(aux), _T("%d.%d.%d.%d"),	v1, v2, v3, v4);
 	lpzVersion = aux;
 	
 	this->pluginID = pluginID;
@@ -58,17 +77,8 @@ CPlugin::CPlugin(const CPlugin& other) {
 	pluginID = other.pluginID;
 }
 
-CPlugin::~CPlugin() {
-	//Debug information
-//	char str[64]; wsprintf(str, "~CPlugin(): %s", lpzFileName.c_str());
-//	MB(str);
-	//
-	lpzFileName.~basic_string();
-	lpzShortName.~basic_string();
-	lpzVersion.~basic_string();
-	lpzUnicodeInfo.~basic_string();
-	lpzTimestamp.~basic_string();
-	lpzLinkedModules.~basic_string();
+CPlugin::~CPlugin()
+{
 }
 
 void CPlugin::SetErrorMessage(LPCTSTR error)

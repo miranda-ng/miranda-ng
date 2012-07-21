@@ -22,6 +22,7 @@ extern TCHAR* vertxt;
 extern TCHAR* profname;
 extern TCHAR* profpath;
 
+#pragma comment(lib, "version.lib")
 
 void CreateMiniDump(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr)
 {
@@ -241,10 +242,27 @@ static void GetPluginsString(bkstring& buffer, unsigned& flags)
 			const TCHAR *unica = (ep && ((PLUGININFOEX*)pi)->flags & 1) ? TEXT("|Unicode aware|") : TEXT("");
 
 			ListItem* lst = new ListItem;
-			DWORD ver = pi->version;
+			int v1, v2, v3, v4;
+
+			DWORD unused, verInfoSize = GetFileVersionInfoSize(path, &unused);
+			if (verInfoSize != 0) {
+				UINT blockSize;
+				VS_FIXEDFILEINFO* fi;
+				void* pVerInfo = mir_alloc(verInfoSize);
+				GetFileVersionInfo(path, 0, verInfoSize, pVerInfo);
+				VerQueryValue(pVerInfo, _T("\\"), (LPVOID*)&fi, &blockSize);
+				v1 = HIWORD(fi->dwProductVersionMS), v2 = LOWORD(fi->dwProductVersionMS),
+				v3 = HIWORD(fi->dwProductVersionLS), v4 = LOWORD(fi->dwProductVersionLS);
+				mir_free(pVerInfo);
+			}
+			else {
+				DWORD ver = pi->version;
+				v1 = HIBYTE(HIWORD(ver)), v2 = LOBYTE(HIWORD(ver)), v3 = HIBYTE(LOWORD(ver)), v4 = LOBYTE(LOWORD(ver));
+			}
+		
 			lst->str.appendfmt(format, ep ? TEXT('\xa4') : TEXT(' '), FindFileData.cFileName, 
 				(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""),
-				HIBYTE(HIWORD(ver)), LOBYTE(HIWORD(ver)), HIBYTE(LOWORD(ver)), LOBYTE(LOWORD(ver)), 
+				v1, v2, v3, v4, 
 				(flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""),
 				timebuf, pi->shortName ? pi->shortName : "", unica);
 
