@@ -51,7 +51,7 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// mir_cslock - automatic locker for the critical sections
+// mir_cslock - simple locker for the critical sections
 
 class mir_cslock
 {
@@ -60,6 +60,22 @@ class mir_cslock
 public:
 	__inline mir_cslock(CRITICAL_SECTION& _cs) : cs(_cs) { EnterCriticalSection(&cs); }
 	__inline ~mir_cslock() { LeaveCriticalSection(&cs); }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// mir_cslockfull - controllable locker for the critical sections
+
+class mir_cslockfull
+{
+	CRITICAL_SECTION& cs;
+	bool bIsLocked;
+
+public:
+	__inline void lock() { bIsLocked = true; EnterCriticalSection(&cs); }
+	__inline void unlock() { bIsLocked = false; LeaveCriticalSection(&cs); }
+
+	__inline mir_cslockfull(CRITICAL_SECTION& _cs) : cs(_cs) { lock(); }
+	__inline ~mir_cslockfull() { if (bIsLocked) unlock(); }
 };
 
 ///////////////////////////////////////////////////////////////////////////////
