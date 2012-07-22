@@ -554,8 +554,6 @@ namespace LangpackSuite {
         ///   Ищет локализованную строку, похожую на \q - silent generate
         ///\n - Langpack file name
         ///\o - Path for adding own File
-        ///\c - comment muid&apos;s
-        ///\a - ANSI format
         ///\u - link to VI from miranda-vi.org or full local path
         ///\l - Output Langpack path
         ///

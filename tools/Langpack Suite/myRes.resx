@@ -305,8 +305,6 @@ from the version info file, if available).</value>
     <value>\q - silent generate
 \n - Langpack file name
 \o - Path for adding own File
-\c - comment muid's
-\a - ANSI format
 \u - link to VI from miranda-vi.org or full local path
 \l - Output Langpack path
 
