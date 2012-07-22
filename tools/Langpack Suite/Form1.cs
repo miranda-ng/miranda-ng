@@ -226,17 +226,20 @@ namespace Langpack_Suite
                     ReadFile = new StreamReader(vipath);
                 else
                     ReadFile = new StreamReader(vipath, Encoding.Default);
-                while ((s = ReadFile.ReadLine().Trim()) != null)
+                while ((s = ReadFile.ReadLine()) != null)
                 {
                     if (s.StartsWith("Active Plugins"))
                     {
                         s = ReadFile.ReadLine().Trim();
                         while (s != "")
                         {
-                            if (s.StartsWith("¤") || s.StartsWith(" "))
+                            if (s.StartsWith("¤") || s.StartsWith(" ") || s.Contains(".dll"))
                             {
                                 int l = s.IndexOf(".");
-                                s = s.Substring(2, l - 2);
+                                if (s.StartsWith("¤") || s.StartsWith(" "))
+                                    s = s.Substring(2, l - 2);
+                                else
+                                    s = s.Substring(0, l);
                                 if (InclPlug == "Plugins-included: ")
                                     InclPlug = InclPlug + s;
                                 else
@@ -256,7 +259,7 @@ namespace Langpack_Suite
                     {
                         LangPack.WriteLine("");
                         ReadFile = new StreamReader(OwnFileEdit.Text);
-                        while ((s = ReadFile.ReadLine().Trim()) != null)
+                        while ((s = ReadFile.ReadLine()) != null)
                         {
                             LangPack.WriteLine(s);
                         }
@@ -276,7 +279,7 @@ namespace Langpack_Suite
                 if (File.Exists(FolderName + "\\=CORE=.txt"))
                 {
                     ReadFile = new StreamReader(FolderName + "\\=CORE=.txt");
-                    while ((s = ReadFile.ReadLine().Trim()) != null)
+                    while ((s = ReadFile.ReadLine()) != null)
                     {
                         LangPack.WriteLine(s);
                     }
@@ -295,7 +298,7 @@ namespace Langpack_Suite
                 if (File.Exists(FolderName + "\\=dbtool=.txt"))
                 {
                     ReadFile = new StreamReader(FolderName + "\\=dbtool=.txt");
-                    while ((s = ReadFile.ReadLine().Trim()) != null)
+                    while ((s = ReadFile.ReadLine()) != null)
                     {
                         LangPack.WriteLine(s);
                     }
@@ -314,7 +317,7 @@ namespace Langpack_Suite
                 if (File.Exists(FolderName + "\\=DUPES=.txt"))
                 {
                     ReadFile = new StreamReader(FolderName + "\\=DUPES=.txt");
-                    while ((s = ReadFile.ReadLine().Trim()) != null)
+                    while ((s = ReadFile.ReadLine()) != null)
                     {
                         LangPack.WriteLine(s);
                     }
@@ -336,7 +339,7 @@ namespace Langpack_Suite
                     ReadFile = new StreamReader(vipath);
                 else
                     ReadFile = new StreamReader(vipath, Encoding.Default);
-                while ((s = ReadFile.ReadLine().Trim()) != null)
+                while ((s = ReadFile.ReadLine()) != null)
                 {
                     if (s.StartsWith("Active Plugins"))
                     {
@@ -344,11 +347,14 @@ namespace Langpack_Suite
                         while (s != "")
                         {
                             StreamReader plug_in;
-                            if (s.StartsWith("¤") || s.StartsWith(" "))
+                            if (s.StartsWith("¤") || s.StartsWith(" ") || s.Contains(".dll"))
                             {
                                 string back_s = s;
                                 int l = s.IndexOf(".");
-                                s = s.Substring(2, l - 2);
+                                if (s.StartsWith("¤") || s.StartsWith(" "))
+                                    s = s.Substring(2, l - 2);
+                                else
+                                    s = s.Substring(0, l);
                                 string stmp = s.ToUpper();
                                 if (stmp == "IMPORT_SA")
                                     s = "Import";
@@ -358,7 +364,7 @@ namespace Langpack_Suite
                                     if (File.Exists(FolderName + "\\plugins\\" + s + ".txt"))
                                     {
                                         plug_in = new StreamReader(FolderName + "\\plugins\\" + s + ".txt");
-                                        while ((st = plug_in.ReadLine().Trim()) != null)
+                                        while ((st = plug_in.ReadLine()) != null)
                                         {
                                             LangPack.WriteLine(st);
                                         }
@@ -372,7 +378,7 @@ namespace Langpack_Suite
                                     }
 
                                     plug_in = new StreamReader(vipath);
-                                    while ((st = plug_in.ReadLine().Trim()) != null)
+                                    while ((st = plug_in.ReadLine()) != null)
                                     {
                                         if (st.StartsWith("Weather ini files:"))
                                         {
@@ -381,12 +387,12 @@ namespace Langpack_Suite
                                             while (st != "")
                                             {
                                                 int w = st.IndexOf(".");
-                                                st = st.Substring(1, w - 1);
+                                                st = st.Substring(0, w);
                                                 LangPack.WriteLine("");
                                                 if (File.Exists(FolderName + "\\weather\\" + st + ".txt"))
                                                 {
                                                     StreamReader weather = new StreamReader(FolderName + "\\weather\\" + st + ".txt");
-                                                    while ((we = weather.ReadLine().Trim()) != null)
+                                                    while ((we = weather.ReadLine()) != null)
                                                     {
                                                         LangPack.WriteLine(we);
                                                     }
@@ -409,7 +415,7 @@ namespace Langpack_Suite
                                 if (File.Exists(FolderName + "\\plugins\\" + s + ".txt"))
                                 {
                                     plug_in = new StreamReader(FolderName + "\\plugins\\" + s + ".txt");
-                                    while ((st = plug_in.ReadLine().Trim()) != null)
+                                    while ((st = plug_in.ReadLine()) != null)
                                     {
                                         LangPack.WriteLine(st);
                                     }
@@ -438,7 +444,7 @@ namespace Langpack_Suite
                 if (File.Exists(FolderName + "\\=VERSION=.txt"))
                 {
                     ReadFile = new StreamReader(FolderName + "\\=VERSION=.txt");
-                    while ((s = ReadFile.ReadLine().Trim()) != null)
+                    while ((s = ReadFile.ReadLine()) != null)
                     {
                         LangPack.WriteLine(s);
                     }
@@ -456,7 +462,7 @@ namespace Langpack_Suite
                     {
                         LangPack.WriteLine("");
                         ReadFile = new StreamReader(OwnFileEdit.Text);
-                        while ((s = ReadFile.ReadLine().Trim()) != null)
+                        while ((s = ReadFile.ReadLine()) != null)
                         {
                             LangPack.WriteLine(s);
                         }
@@ -476,7 +482,7 @@ namespace Langpack_Suite
                 if (File.Exists(FolderName + "\\=CORE=.txt"))
                 {
                     ReadFile = new StreamReader(FolderName + "\\=CORE=.txt");
-                    while ((s = ReadFile.ReadLine().Trim()) != null)
+                    while ((s = ReadFile.ReadLine()) != null)
                     {
                         LangPack.WriteLine(s);
                     }
@@ -495,7 +501,7 @@ namespace Langpack_Suite
                 if (File.Exists(FolderName + "\\=dbtool=.txt"))
                 {
                     ReadFile = new StreamReader(FolderName + "\\=dbtool=.txt");
-                    while ((s = ReadFile.ReadLine().Trim()) != null)
+                    while ((s = ReadFile.ReadLine()) != null)
                     {
                         LangPack.WriteLine(s);
                     }
@@ -514,7 +520,7 @@ namespace Langpack_Suite
                 if (File.Exists(FolderName + "\\=DUPES=.txt"))
                 {
                     ReadFile = new StreamReader(FolderName + "\\=DUPES=.txt");
-                    while ((s = ReadFile.ReadLine().Trim()) != null)
+                    while ((s = ReadFile.ReadLine()) != null)
                     {
                         LangPack.WriteLine(s);
                     }
@@ -533,37 +539,11 @@ namespace Langpack_Suite
                 foreach (FileInfo fi in PluginsDir.GetFiles())
                 {
                     string stmp = fi.Name.ToUpper();
-                    if (stmp == "ICQ.TXT")
-                    {
-                        LangPack.WriteLine("");
-                        ReadFile = new StreamReader(fi.FullName);
-                        while ((s = ReadFile.ReadLine().Trim()) != null)
-                        {
-                            LangPack.WriteLine(s);
-                        }
-                        ReadFile.Close();
-                        if (File.Exists(FolderName + "\\Plugins\\ICQ_Plus.txt"))
-                        {
-
-                            LangPack.WriteLine("");
-                            ReadFile = new StreamReader(FolderName + "\\Plugins\\ICQ_Plus.txt");
-                            while ((s = ReadFile.ReadLine().Trim()) != null)
-                            {
-                                LangPack.WriteLine(s);
-                            }
-                            ReadFile.Close();
-                        }
-                        continue;
-                    }
-                    if (stmp == "ICQ_PLUS.TXT")
-                    {
-                        continue;
-                    }
                     if (stmp == "WEATHER.TXT")
                     {
                         LangPack.WriteLine("");
                         ReadFile = new StreamReader(fi.FullName);
-                        while ((s = ReadFile.ReadLine().Trim()) != null)
+                        while ((s = ReadFile.ReadLine()) != null)
                         {
                             LangPack.WriteLine(s);
                         }
@@ -574,7 +554,7 @@ namespace Langpack_Suite
                         {
                             LangPack.WriteLine("");
                             ReadFile = new StreamReader(wi.FullName);
-                            while ((s = ReadFile.ReadLine().Trim()) != null)
+                            while ((s = ReadFile.ReadLine()) != null)
                             {
                                 LangPack.WriteLine(s);
                             }
@@ -584,7 +564,7 @@ namespace Langpack_Suite
                     }
                     LangPack.WriteLine("");
                     ReadFile = new StreamReader(fi.FullName);
-                    while ((s = ReadFile.ReadLine().Trim()) != null)
+                    while ((s = ReadFile.ReadLine()) != null)
                     {
                         LangPack.WriteLine(s);
                     }
