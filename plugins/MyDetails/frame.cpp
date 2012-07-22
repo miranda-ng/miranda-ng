@@ -221,7 +221,7 @@ int CreateFrame()
 	for (int i = 0 ; i < NUM_FONTS ; i++) {
 		ZeroMemory(&font_id[i], sizeof(font_id[i]));
 
-		font_id[i].cbSize = sizeof(FontID);
+		font_id[i].cbSize = sizeof(FontIDT);
 		_tcsncpy(font_id[i].group, LPGENT("My Details"), SIZEOF(font_id[i].group));
 		_tcsncpy(font_id[i].name, font_names[i], SIZEOF(font_id[i].name));
 		strncpy(font_id[i].dbSettingsGroup, MODULE_NAME, SIZEOF(font_id[i].dbSettingsGroup));
