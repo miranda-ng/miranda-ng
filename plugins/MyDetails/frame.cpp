@@ -63,12 +63,12 @@ HANDLE hMenuShowHideFrame = 0;
 #define FONT_LISTENING_TO 4
 #define NUM_FONTS 5
 
-FontID font_id[NUM_FONTS];
+FontIDT font_id[NUM_FONTS];
 HFONT hFont[NUM_FONTS];
 COLORREF font_colour[NUM_FONTS];
 
 // Defaults
-char *font_names[] = { "Nickname", "Protocol", "Status", "Status Message", "Listening To" };
+TCHAR *font_names[] = { LPGENT("Nickname"), LPGENT("Protocol"), LPGENT("Status"), LPGENT("Status Message"), LPGENT("Listening To") };
 char font_sizes[] = { 13, 8, 8, 8, 8 };
 BYTE font_styles[] = { DBFONTF_BOLD, 0, 0, DBFONTF_ITALIC, DBFONTF_ITALIC };
 COLORREF font_colors[] = { RGB(0,0,0), RGB(0,0,0), RGB(0,0,0), RGB(150,150,150), RGB(150,150,150) };
@@ -222,8 +222,8 @@ int CreateFrame()
 		ZeroMemory(&font_id[i], sizeof(font_id[i]));
 
 		font_id[i].cbSize = sizeof(FontID);
-		strncpy(font_id[i].group, Translate("My Details"), SIZEOF(font_id[i].group));
-		strncpy(font_id[i].name, Translate(font_names[i]), SIZEOF(font_id[i].name));
+		_tcsncpy(font_id[i].group, LPGENT("My Details"), SIZEOF(font_id[i].group));
+		_tcsncpy(font_id[i].name, font_names[i], SIZEOF(font_id[i].name));
 		strncpy(font_id[i].dbSettingsGroup, MODULE_NAME, SIZEOF(font_id[i].dbSettingsGroup));
 
 		char tmp[128];
@@ -234,10 +234,10 @@ int CreateFrame()
 		font_id[i].deffontsettings.size = -MulDiv(font_sizes[i], GetDeviceCaps(hdc, LOGPIXELSY), 72);
 		font_id[i].deffontsettings.style = font_styles[i];
 		font_id[i].deffontsettings.charset = DEFAULT_CHARSET;
-		strncpy(font_id[i].deffontsettings.szFace, "Tahoma", SIZEOF(font_id[i].deffontsettings.szFace));
+		_tcsncpy(font_id[i].deffontsettings.szFace, _T("Tahoma"), SIZEOF(font_id[i].deffontsettings.szFace));
 		font_id[i].order = i;
 		font_id[i].flags = FIDF_DEFAULTVALID;
-		FontRegister(&font_id[i]);
+		FontRegisterT(&font_id[i]);
 	}
 
 	ReleaseDC(NULL, hdc);
@@ -266,11 +266,11 @@ int CreateFrame()
 		CLISTFrame Frame = {0};
 		
 		Frame.cbSize = sizeof(Frame);
-		Frame.name = Translate("My Details");
+		Frame.tname = LPGENT("My Details");
 		Frame.cbSize = sizeof(CLISTFrame);
 		Frame.hWnd = hwnd_frame;
 		Frame.align = alTop;
-		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_SKINNED;
+		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_SKINNED | F_TCHAR;
 		Frame.height = 100;
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 		
@@ -319,12 +319,12 @@ int CreateFrame()
 		CLISTMENUITEM menu = {0};
 
 		menu.cbSize=sizeof(menu);
-		menu.flags = CMIM_ALL;
+		menu.flags = CMIF_TCHAR;
 		menu.popupPosition = -0x7FFFFFFF;
-		menu.pszPopupName = Translate("My Details");
+		menu.ptszPopupName = LPGENT("My Details");
 		menu.position = 1; // 500010000
 		menu.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-		menu.pszName = Translate("Show My Details");
+		menu.ptszName = LPGENT("Show My Details");
 		menu.pszService= MODULE_NAME "/ShowHideMyDetails";
 		hMenuShowHideFrame = Menu_AddMainMenuItem(&menu);
 

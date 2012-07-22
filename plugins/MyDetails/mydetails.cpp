@@ -155,11 +155,11 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	if (protocols->CanSetAvatars()) {
 		ZeroMemory(&mi,sizeof(mi));
 		mi.cbSize = sizeof(mi);
-		mi.flags = 0;
+		mi.flags = CMIF_TCHAR;
 		mi.popupPosition = 500050000;
-		mi.pszPopupName = LPGEN("My Details");
+		mi.ptszPopupName = LPGENT("My Details");
 		mi.position = 100001;
-		mi.pszName = LPGEN("Set My Avatar...");
+		mi.ptszName = LPGENT("Set My Avatar...");
 		CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYAVATARUI, Menu_SetMyAvatarUI);
 		mi.pszService = "MENU_" MS_MYDETAILS_SETMYAVATARUI;
 		Menu_AddMainMenuItem(&mi);
@@ -167,22 +167,22 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize = sizeof(mi);
-	mi.flags = 0;
+	mi.flags = CMIF_TCHAR;
 	mi.popupPosition = 500050000;
-	mi.pszPopupName = LPGEN("My Details");
+	mi.ptszPopupName = LPGENT("My Details");
 	mi.position = 100002;
-	mi.pszName = LPGEN("Set My Nickname...");
+	mi.ptszName = LPGENT("Set My Nickname...");
 	CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYNICKNAMEUI, Menu_SetMyNicknameUI);
 	mi.pszService = "MENU_" MS_MYDETAILS_SETMYNICKNAMEUI;
 	Menu_AddMainMenuItem(&mi);
 
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize = sizeof(mi);
-	mi.flags = 0;
+	mi.flags = CMIF_TCHAR;
 	mi.popupPosition = 500050000;
-	mi.pszPopupName = LPGEN("My Details");
+	mi.ptszPopupName = LPGENT("My Details");
 	mi.position = 100003;
-	mi.pszName = LPGEN("Set My Status Message...");
+	mi.ptszName = LPGENT("Set My Status Message...");
 	CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYSTATUSMESSAGEUI, Menu_SetMyStatusMessageUI);
 	mi.pszService = "MENU_" MS_MYDETAILS_SETMYSTATUSMESSAGEUI;
 	Menu_AddMainMenuItem(&mi);
@@ -190,11 +190,11 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	// Set protocols to show frame
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize = sizeof(mi);
-	mi.flags = 0;
+	mi.flags = CMIF_TCHAR;
 	mi.popupPosition = 500050000;
-	mi.pszPopupName = LPGEN("My Details");
+	mi.ptszPopupName = LPGENT("My Details");
 	mi.position = 200001;
-	mi.pszName = LPGEN("Show next protocol");
+	mi.ptszName = LPGENT("Show next protocol");
 	mi.pszService = MS_MYDETAILS_SHOWNEXTPROTOCOL;
 	Menu_AddMainMenuItem(&mi);
 
@@ -203,8 +203,9 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	if (CallService(MS_SKIN2_GETICON, 0, (LPARAM) "LISTENING_TO_ICON") == NULL) {
 		SKINICONDESC sid = {0};
 		sid.cbSize = sizeof(SKINICONDESC);
-		sid.pszSection = LPGEN("Contact List");
-		sid.pszDescription = LPGEN("Listening to");
+		sid.flags = SIDF_TCHAR;
+		sid.ptszSection = LPGENT("Contact List");
+		sid.ptszDescription = LPGENT("Listening to");
 		sid.pszName = "LISTENING_TO_ICON";
 		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LISTENINGTO));
 		Skin_AddIcon(&sid);
@@ -212,8 +213,9 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	{
 		SKINICONDESC sid = {0};
 		sid.cbSize = sizeof(SKINICONDESC);
-		sid.pszSection = LPGEN("My Details");
-		sid.pszDescription = LPGEN("Previous protocol");
+		sid.flags = SIDF_TCHAR;
+		sid.ptszSection = LPGENT("My Details");
+		sid.ptszDescription = LPGENT("Previous protocol");
 		sid.pszName = "MYDETAILS_PREV_PROTOCOL";
 		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LEFT_ARROW));
 		Skin_AddIcon(&sid);
@@ -221,8 +223,9 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	{
 		SKINICONDESC sid = {0};
 		sid.cbSize = sizeof(SKINICONDESC);
-		sid.pszSection = LPGEN("My Details");
-		sid.pszDescription = LPGEN("Next protocol");
+		sid.flags = SIDF_TCHAR;
+		sid.ptszSection = LPGENT("My Details");
+		sid.ptszDescription = LPGENT("Next protocol");
 		sid.pszName = "MYDETAILS_NEXT_PROTOCOL";
 		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RIGHT_ARROW));
 		Skin_AddIcon(&sid);

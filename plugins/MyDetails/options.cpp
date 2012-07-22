@@ -145,9 +145,9 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pfnDlgProc = DlgProcOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS);
-	odp.pszGroup = LPGEN("Customize");
-	odp.pszTitle = LPGEN("My Details");
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.ptszGroup = LPGENT("Customize");
+	odp.ptszTitle = LPGENT("My Details");
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
