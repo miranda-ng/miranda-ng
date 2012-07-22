@@ -82,11 +82,7 @@ extern long status_msg_dialog_open;
 #include "../utils/mir_options.h"
 #include "../utils/mir_icons.h"
 
-#define PS_SETMYAVATAR "/SetMyAvatar"
-#define PS_GETMYAVATAR "/GetMyAvatar"
 #define PS_GETMYAVATARMAXSIZE "/GetMyAvatarMaxSize"
-
-#define PS_SETMYNICKNAME "/SetNickname"
 
 #define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"
 
