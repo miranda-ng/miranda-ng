@@ -389,7 +389,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				break;
 			}
 			case IDC_GETMOREPLUGINS:
-				CallService(MS_UTILS_OPENURL, 0, (LPARAM) "http://addons.miranda-im.org/index.php?action = display&id = 1");
+				CallService(MS_UTILS_OPENURL, 0, (LPARAM) "http://nightly.miranda.im/");
 				break;
 		}	}
 		break;

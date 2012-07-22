@@ -7,7 +7,7 @@
 #define __PLUGIN_ID_STR "4305"
 #define __PLUGIN_NAME "BossKey+"
 
-#define __FL "http://addons.miranda-im.org/details.php?action=viewfile&id="
+#define __FL "http://nightly.miranda.im/"
 #define __DESC "Anti-Boss plugin."
 #define __AUTHORS "Goblineye Entertainment, Billy_Bons"
 #define __EMAIL "tatarinov.sergey@gmail.com"

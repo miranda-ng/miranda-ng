@@ -38,4 +38,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MIID_CONSOLE { 0x23d4f302, 0xd513, 0x45b7, { 0x90, 0x27, 0x44, 0x5f, 0x29, 0x55, 0x73, 0x11 }} // {23D4F302-D513-45b7-9027-445F29557311}
 
 #define __PLUGIN_NAME __PLUGIN_SHORTNAME
-#define __PLUGIN_URL "http://addons.miranda-im.org/details.php?action=viewfile&id=3791"
+#define __PLUGIN_URL "http://nightly.miranda.im/"

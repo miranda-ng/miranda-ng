@@ -16,5 +16,5 @@
 #define __DESCRIPTION 				"Advanced Database Editor."
 #define __AUTHOR					"Bio, Jonathan Gordon"
 #define __AUTHOREMAIL				"bio@msx.ru, jdgordy@gmail.com"
-#define __AUTHORWEB					"http://addons.miranda-im.org/details.php?action=viewfile&id=2957"
+#define __AUTHORWEB					"http://nightly.miranda.im/"
 #define __COPYRIGHT					"© 2003-2011 Bio, Jonathan Gordon"

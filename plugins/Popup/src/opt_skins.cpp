@@ -461,7 +461,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							}//end IDC_BTN_RELOAD:
 							break;
 						case IDC_GETSKINS:
-							CallService(MS_UTILS_OPENURL,0,(LPARAM)"http://addons.miranda-im.org/index.php?action=display&id=72");
+							CallService(MS_UTILS_OPENURL,0,(LPARAM)"http://nightly.miranda.im/");
 							break;
 						default:
 							break;

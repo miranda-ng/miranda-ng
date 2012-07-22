@@ -58,7 +58,7 @@ PLUGININFOEX pluginInfo = {
   "Joe Kucera, Todor Totev",
   "jokusoftware@miranda-im.org",
   "(C) 2004-2008 Joe Kucera, Original Code (C) 2002 Dominus Procellarum",
-  "http://addons.miranda-im.org/details.php?action=viewfile&id=1253",
+  "http://nightly.miranda.im/",
   UNICODE_AWARE,
   {0x0324785E, 0x74CE, 0x4600,  {0xB7, 0x81, 0x85, 0x17, 0x73, 0xB3, 0xEF, 0xC5 } } // {0324785E-74CE-4600-B781-851773B3EFC5}
 };

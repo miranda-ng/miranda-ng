@@ -472,7 +472,7 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					return TRUE;
 				}
 				case IDC_MORELANG:
-					CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)"http://addons.miranda-im.org/index.php?action = display&id = 23");
+					CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)"http://nightly.miranda.im/");
 					return TRUE;
 /*				case IDC_ENABLEAUTOUPDATES:
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0); /* enable apply */

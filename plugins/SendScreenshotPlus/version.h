@@ -25,16 +25,16 @@
 
 #ifdef _UNICODE
 #define __PLUGIN_NAME				"Send Screenshot+ (Unicode)"
-#define __FLVersionURL				"http://addons.miranda-im.org/details.php?action=viewfile&id=1428"
+#define __FLVersionURL				"http://nightly.miranda.im/"
 #define __FLVersionPrefix			"<span class=\"fileNameHeader\">SendSS (Unicode) "
-#define __FLUpdateURL				"http://addons.miranda-im.org/feed.php?dlfile=1428"
-#define __BetaUpdateURL				"http://merlins-miranda.googlecode.com/files/SendSSW.zip"
+#define __FLUpdateURL				"http://nightly.miranda.im/x32/sendss.zip"
+#define __BetaUpdateURL				"http://nightly.miranda.im/x32/sendss.zip"
 #else
 #define __PLUGIN_NAME				"Send Screenshot+ (2in1)"
-#define __FLVersionURL				"http://addons.miranda-im.org/details.php?action=viewfile&id=1428"
+#define __FLVersionURL				"http://nightly.miranda.im/"
 #define __FLVersionPrefix			"<span class=\"fileNameHeader\">SendSS (2in1) "
-#define __FLUpdateURL				"http://addons.miranda-im.org/feed.php?dlfile=1428"
-#define __BetaUpdateURL				"http://merlins-miranda.googlecode.com/files/SendSS.zip"
+#define __FLUpdateURL				"http://nightly.miranda.im/x32/sendss.zip"
+#define __BetaUpdateURL				"http://nightly.miranda.im/x32/sendss.zip"
 #endif
 
 #define __BetaVersionURL			"http://merlins-miranda.googlecode.com/svn/trunk/miranda/plugins/SendSS/changelog.txt"

@@ -1,13 +1,13 @@
 Splash Screen Plugin for Miranda IM
 Version 0.1.2.2
 Copyright: 2004-2007 nullbie, 2005-2010 Thief
-Addons page: http://addons.miranda-im.org/details.php?id=2624
-Beta site: http://thief.miranda.im
-Forum thread: http://forums.miranda-im.org/showthread.php?t=6868
+Addons page: http://nightly.miranda.im/
+Beta site: http://nightly.miranda.im/
+Forum thread: 
 
 REQUIREMENTS:
 advaimg.dll
-Get it from nigtlies: http://miranda-im.org/development
+Get it from nigtlies: http://nightly.miranda.im/
 
 NOTES:
 Splashes should be in PNG format (alpha channel supported) or BMP (no alfa)

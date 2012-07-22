@@ -38,14 +38,14 @@ Last change by : $Author: Merlin_de $
 
 	#define POPUP_FILENAME				"PopUp.dll"
 	#define POPUP_DISPLAYNAME			"PopUp Plus"
-	#define __FLVersionURL				"http://addons.miranda-im.org/details.php?action=viewfile&id=4292"
+	#define __FLVersionURL				"http://nightly.miranda.im/"
 	#define __FLVersionPrefix			"<span class=\"fileNameHeader\">PopUp Plus (Unicode) "
-	#define __FLUpdateURL				"http://addons.miranda-im.org/feed.php?dlfile=4292"			//.zip
+	#define __FLUpdateURL				"http://nightly.miranda.im/x32/popup.zip"			//.zip
 	#define __BetaUpdateURL				""
 
-	#define __BetaVersionURL			"http://svn.miranda.im/mainrepo/popup/trunk/docs/Changelog.txt"
+	#define __BetaVersionURL			"http://nightly.miranda.im/"
 	#define __BetaVersionPrefix			"beta: "
-	#define __BetaChangelogURL			"http://svn.miranda.im/mainrepo/popup/trunk/docs/Changelog.txt"
+	#define __BetaChangelogURL			"http://nightly.miranda.im/"
 
 	#define __MAJOR_VERSION				2
 	#define __MINOR_VERSION				1

@@ -567,7 +567,7 @@ INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		case IDC_STEP1:
 			// update current data
 			CallService(MS_UTILS_OPENURL, opt.NewBrowserWin, 
-				(WPARAM)"http://addons.miranda-im.org/index.php?action=display&id=78");
+				(WPARAM)"http://nightly.miranda.im/");
 			break;
 
 		case IDC_STEP2: 

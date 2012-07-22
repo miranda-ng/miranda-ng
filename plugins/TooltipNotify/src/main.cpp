@@ -75,7 +75,7 @@ static PLUGININFOEX sPluginInfo =
 	"perf",
 	"perf@mail333.com",
 	"© 2004-2008 Gneedah software",
-	"http://addons.miranda-im.org/details.php?action=viewfile&id=1290",
+	"http://nightly.miranda.im/",
 	UNICODE_AWARE,		//doesn't replace anything built-in
 	MIID_TOOLTIPNOTIFY_UNICODE
 };

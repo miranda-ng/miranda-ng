@@ -40,7 +40,7 @@ Miranda IM can be found here:
 http://www.miranda-im.org/
 
 Miranda IM plugins and tools can be found here:
-http://addons.miranda-im.org/
+http://nightly.miranda.im/
 
 ===============================================================================
 

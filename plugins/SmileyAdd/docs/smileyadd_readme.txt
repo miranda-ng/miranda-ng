@@ -55,7 +55,7 @@ As a result some Smiley Packs working under nConvers will give errors under Smil
 Although if these errors are fixed resulting Smiley Pack will work correctly under both plugins.
 
 Pre-packaged Smiley Packs could be found here:
-http://addons.miranda-im.org/index.php?action=display&id=41
+http://nightly.miranda.im/
 
 Any Smiley Pack from SmileyAdd, IEView or nConvers sections is usable with SmileyAdd
 

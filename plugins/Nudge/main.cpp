@@ -29,7 +29,7 @@ PLUGININFOEX pluginInfo={
 	"Tweety/GouZ, FREAK_THEMIGHTY",
 	"francois.mean@skynet.be, Sylvain.gougouzian@gmail.com, wishmaster51@googlemail.com",
 	"copyright to the miranda community",
-	"http://addons.miranda-im.org/",		// www
+	"http://nightly.miranda.im/",		// www
 	UNICODE_AWARE,		//doesn't replace anything built-in
 	{ 0xe47cc215, 0xd28, 0x462d, { 0xa0, 0xf6, 0x3a, 0xe4, 0x44, 0x3d, 0x29, 0x26 } } // {E47CC215-0D28-462D-A0F6-3AE4443D2926}
 };
