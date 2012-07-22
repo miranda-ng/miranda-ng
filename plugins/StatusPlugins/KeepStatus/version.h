@@ -18,7 +18,7 @@
 #define __DESC						"KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway."
 #define __AUTHOR					"P Boon"
 #define __AUTHOREMAIL				"unregistered@users.sourceforge.net"
-#define __AUTHORWEB					"http://www.miranda-im.org/"
+#define __AUTHORWEB					"http://nightly.miranda.im/"
 #define __COPYRIGHT					"(c) 2003-08 P. Boon, 2008-10 George Hazan"
 
 // other stuff for Version resource

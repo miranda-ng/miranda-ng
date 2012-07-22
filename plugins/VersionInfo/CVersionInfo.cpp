@@ -938,8 +938,8 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	if (!suppressHeader) {
 		out.append( _T("Miranda IM - VersionInformation plugin by Hrk, modified by Eblis\r\n"));
 		if (!forumStyle) {
-			out.append( _T("Miranda's homepage: http://www.miranda-im.org/\r\n")); //changed homepage
-			out.append( _T("Miranda tools: http://miranda-im.org/download/\r\n\r\n")); //was missing a / before download
+			out.append( _T("Miranda's homepage: http://nightly.miranda.im/\r\n")); //changed homepage
+			out.append( _T("Miranda tools: http://nightly.miranda.im/\r\n\r\n")); //was missing a / before download
 	}	}
 
 	TCHAR buffer[1024]; //for beautification

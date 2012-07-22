@@ -37,7 +37,7 @@ Written by: Hrk (Luca Santarelli)
 Updated by: Zazoo (Victor Pavlychko)
 
 Miranda IM can be found here:
-http://www.miranda-im.org/
+http://nightly.miranda.im/
 
 Miranda IM plugins and tools can be found here:
 http://nightly.miranda.im/

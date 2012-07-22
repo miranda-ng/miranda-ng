@@ -18,7 +18,7 @@ static PLUGININFOEX pluginInfo = {
 	"Nikolay Redko",
 	"nike000@users.sf.net",
 	"© 2003 Nike. Freeware. Please mail me all bugs & your suggestions.",	
-	"http://miranda-im.org",
+	"http://nightly.miranda.im/",
 	UNICODE_AWARE,
 	// {80DCA515-973A-4A7E-8B85-5D8EC88FC5A7}
 	{ 0x80dca515, 0x973a, 0x4a7e, { 0x8b, 0x85, 0x5d, 0x8e, 0xc8, 0x8f, 0xc5, 0xa7 } }

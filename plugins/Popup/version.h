@@ -64,7 +64,7 @@ Last change by : $Author: Merlin_de $
 	#define POPUP_AUTHOR		"MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)"
 	#define POPUP_EMAIL			"mp-king@web.de"
 	#define POPUP_COPYRIGHT		"�2002 Luca Santarelli, �2004-2007 Victor Pavlychko, �2010 MPK, Merlin_de"
-	#define POPUP_WEBPAGE		"http://www.miranda-im.org/"
+	#define POPUP_WEBPAGE		"http://nightly.miranda.im/"
 	#define POPUP_UUID			{0x26a9125d, 0x7863, 0x4e01, {0xaf, 0xe, 0xd1, 0x4e, 0xf9, 0x5c, 0x50, 0x54}}
 	#define POPUP_PID			0x12a3fdbdecd273ee67dbc4d6d00e9268
 

@@ -91,7 +91,7 @@ void __cdecl dbpanic(void *arg)
 		MessageBox(0,err,TranslateT("Database Error"),MB_SETFOREGROUND|MB_TOPMOST|MB_APPLMODAL|MB_ICONWARNING|MB_OK);
 	}
 	else
-		MessageBox(0,TranslateT("Miranda has detected corruption in your database. This corruption maybe fixed by DBTool.  Please download it from http://www.miranda-im.org. Miranda will now shutdown."),
+		MessageBox(0,TranslateT("Miranda has detected corruption in your database. This corruption maybe fixed by DBTool.  Please download it from http://nightly.miranda.im/. Miranda will now shutdown."),
 					TranslateT("Database Panic"),MB_SETFOREGROUND|MB_TOPMOST|MB_APPLMODAL|MB_ICONWARNING|MB_OK);
 	TerminateProcess(GetCurrentProcess(),255);
 }

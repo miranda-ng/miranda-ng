@@ -1992,7 +1992,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					DestroyWindow(hwndDlg);
 					return TRUE;
 				case IDC_SUPPORT:
-					CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-im.org/download/details.php?action=viewfile&id=2365");
+					CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://nightly.miranda.im/");
 					break;
 			}
 			break;

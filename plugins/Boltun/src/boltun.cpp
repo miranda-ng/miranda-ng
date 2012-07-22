@@ -65,7 +65,7 @@ PLUGININFOEX pluginInfo={
 	"Alexander S. Kiselev, Valentin Pavlyuchenko",
 	"Valentin.Pavlyuchenko@gmail.com",
 	"© 2003-2008 Alexander S. Kiselev A.K.A. KAS, Valentin Pavlyuchenko",
-	"http://miranda-im.org",
+	"http://nightly.miranda.im/",
 	UNICODE_AWARE,
 	// {488C5C84-56DA-434F-96F1-B18900DEF760}
 	{ 0x488c5c84, 0x56da, 0x434f, { 0x96, 0xf1, 0xb1, 0x89, 0x0, 0xde, 0xf7, 0x60 } }

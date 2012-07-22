@@ -59,7 +59,7 @@ static const PLUGININFOEX pluginInfo =
 	"Boris Krasnovskiy, Aaron Myles Landwehr",
 	"borkra@miranda-im.org",
 	"© 2008-2011 Boris Krasnovskiy, 2005-2006 Aaron Myles Landwehr",
-	"http://www.miranda-im.org",
+	"http://nightly.miranda.im/",
 	UNICODE_AWARE,
 	{0x3750a5a3, 0xbf0d, 0x490e, {0xb6, 0x5d, 0x41, 0xac, 0x4d, 0x29, 0xae, 0xb3}} // {3750A5A3-BF0D-490e-B65D-41AC4D29AEB3}
 };

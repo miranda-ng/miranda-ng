@@ -267,7 +267,7 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 	}
 	else {
 		if ( IDYES == MessageBox(0,TranslateT("The IRC protocol depends on another plugin called \'Chat\'\n\nDo you want to download it from the Miranda IM web site now?"),TranslateT("Information"),MB_YESNO|MB_ICONINFORMATION ))
-			CallService( MS_UTILS_OPENURL, 1, (LPARAM) "http://www.miranda-im.org/download/");
+			CallService( MS_UTILS_OPENURL, 1, (LPARAM) "http://nightly.miranda.im/");
 	}
 
 	TCHAR szTemp[MAX_PATH];

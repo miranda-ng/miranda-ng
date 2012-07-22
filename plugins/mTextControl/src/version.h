@@ -52,6 +52,6 @@ Last change by : $Author$
 	#define MTEXT_AUTHOR		"Merlin_de, Victor Pavlychko"
 	#define MTEXT_EMAIL			""
 	#define MTEXT_COPYRIGHT		"©2005-2006 Victor Pavlychko, ©2010 Merlin_de"
-	#define MTEXT_WEBPAGE		"http://www.miranda-im.org/"
+	#define MTEXT_WEBPAGE		"http://nightly.miranda.im/"
 	#define MTEXT_UUID			{0x69b9443b, 0xdc58, 0x4876, { 0xad, 0x39, 0xe3, 0xf4, 0x18, 0xa1, 0x33, 0xc5 } }
 								//{69B9443B-DC58-4876-AD39-E3F418A133C5}

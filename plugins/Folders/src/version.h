@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __AUTHOR                "Cristian Libotean"
 #define __AUTHOREMAIL           "eblis102@yahoo.com"
 #define __COPYRIGHT             "© 2005-2012 Cristian Libotean"
-#define __AUTHORWEB             "http://www.miranda-im.org/"
+#define __AUTHORWEB             "http://nightly.miranda.im/"
 #define __PLUGIN_DISPLAY_NAME   "Custom profile folders"
 
 

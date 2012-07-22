@@ -58,7 +58,7 @@ PLUGININFOEX pluginInfo = {
 	"Miranda team",
 	"project-info@miranda-im.org",
 	"© 2003-2010 Miranda team",
-	"http://miranda-im.org/",
+	"http://nightly.miranda.im/",
 	UNICODE_AWARE,
     {0x9d6c3213, 0x2b4, 0x4fe1, { 0x92, 0xe6, 0x52, 0x6d, 0xe2, 0x4f, 0x8d, 0x65 }} //{9D6C3213-02B4-4fe1-92E6-526DE24F8D65}
 };

@@ -13,7 +13,7 @@ PLUGININFOEX pluginInfoEx=
 	"Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)",
 	"",
 	"Copyright © 2002-2007 Sergey V. Gershovich a.k.a. Jazzy$",
-	"http://miranda-im.org/download/index.php?action=viewfile&id=285",
+	"http://nightly.miranda.im/",
 	UNICODE_AWARE,
 	MIID_AUTORUN
 };

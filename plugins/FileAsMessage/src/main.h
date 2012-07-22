@@ -36,7 +36,7 @@
 
 #define SERVICE_PREFIX "<%fAM-0023%>"
 
-#define PLUGIN_URL "http://miranda-im.org/download/details.php?action=viewfile&id=1811"
+#define PLUGIN_URL "http://nightly.miranda.im/"
 #define NOPLUGIN_MESSAGE "\nIf you see this \"garbage\", probably you "\
                          "have no \"fileAsMessage\" plugin installed, see "\
 						 PLUGIN_URL " for more information and download."

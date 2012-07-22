@@ -50,7 +50,7 @@ static const PLUGININFOEX pluginInfo =
 	"Boris Krasnovskiy, George Hazan, Richard Hughes",
 	"borkra@miranda-im.org",
 	"© 2001-2012 Richard Hughes, George Hazan, Boris Krasnovskiy",
-	"http://miranda-im.org",
+	"http://nightly.miranda.im/",
 	UNICODE_AWARE,	
 	// {97724AF9-F3FB-47d3-A3BF-EAA935C74E6D}
 	{0x97724af9, 0xf3fb, 0x47d3, {0xa3, 0xbf, 0xea, 0xa9, 0x35, 0xc7, 0x4e, 0x6d}}

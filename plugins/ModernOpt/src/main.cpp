@@ -12,7 +12,7 @@ PLUGININFOEX pluginInfoEx = {
 	"Victor Pavlychko, George Hazan",
 	"ghazan@miranda-im.org",
 	"é 2009 Victor Pavlychko, George Hazan",
-	"http://www.miranda-im.org",
+	"http://nightly.miranda.im/",
 	UNICODE_AWARE,
 	{ 0x621f886b, 0xa7f6, 0x457f, { 0x9d, 0x62, 0x8e, 0xe8, 0x4c, 0x27, 0x59, 0x93 }} // {621f886b-a7f6-457f-9d62-8ee84c275993}
 };

@@ -56,7 +56,7 @@ sizeof(PLUGININFOEX),
 	"Thief, idea by nile, icons by a0x",
 	"thief@miranda.im",
 	"2006-2011 Alexander Turyak",
-	"http://thief.miranda.im/",
+	"http://nightly.miranda.im/",
 	UNICODE_AWARE,      //doesn't replace anything built-in
 	{0xfb1c17e0, 0x77fc, 0x45a7, {0x9c, 0x8b, 0xe2, 0xbe, 0xf4, 0xf5, 0x6b, 0x28}} /* FB1C17E0-77FC-45A7-9C8B-E2BEF4F56B28 */
 };

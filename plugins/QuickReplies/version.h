@@ -16,5 +16,5 @@
 #define __DESCRIPTION 				"Plugin for quick insert (or sending) pre-defined messages in message input area."
 #define __AUTHOR					"Unsane"
 #define __AUTHOREMAIL				""
-#define __AUTHORWEB					"http://www.miranda-im.org"
+#define __AUTHORWEB					"http://nightly.miranda.im/"
 #define __COPYRIGHT					"© 2010 Unsane"

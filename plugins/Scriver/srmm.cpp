@@ -41,7 +41,7 @@ PLUGININFOEX pluginInfo = {
 	"Miranda IM Development Team",
 	"the_leech@users.berlios.de",
 	"Copyright (c) 2000-2012 Miranda IM Project",
-	"http://www.miranda-im.org",
+	"http://nightly.miranda.im/",
 	UNICODE_AWARE,
 	{0x84636f78, 0x2057, 0x4302, { 0x8a, 0x65, 0x23, 0xa1, 0x6d, 0x46, 0x84, 0x4c }} //{84636F78-2057-4302-8A65-23A16D46844C}
 };

@@ -270,7 +270,7 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "About Miranda", "Miranda IM is a new generation IM client, extensible with numerous plugins. Get Miranda IM at http://www.miranda-im.org"
+            VALUE "About Miranda", "Miranda IM is a new generation IM client, extensible with numerous plugins. Get Miranda IM at http://nightly.miranda.im/"
             VALUE "Comments", "Rozhuk_I@mail.ru"
             VALUE "FileDescription", "Miranda Mail.ru Agent protocol plugin"
             VALUE "FileVersion", "1, 20, 0, 1"

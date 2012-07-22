@@ -10,5 +10,5 @@
 #define __DESCRIPTIONSHORT			"Miranda IM Secured Import Plugin."
 #define __AUTHOR					"Miranda team"
 #define __AUTHOREMAIL				"info@miranda-im.org"
-#define __AUTHORWEB					"http://www.miranda-im.org"
+#define __AUTHORWEB					"http://nightly.miranda.im/"
 #define __COPYRIGHT					"© 2000-2011 Martin Oberg, Richard Hughes, Dmitry Kuzkin, George Hazan"
