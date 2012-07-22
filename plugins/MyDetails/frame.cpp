@@ -200,7 +200,7 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 	{
 		if (hFont[i] != 0) DeleteObject(hFont[i]);
 
-		font_colour[i] = CallService(MS_FONT_GET, (WPARAM)&font_id[i], (LPARAM)&log_font);
+		font_colour[i] = CallService(MS_FONT_GETT, (WPARAM)&font_id[i], (LPARAM)&log_font);
 		hFont[i] = CreateFontIndirect(&log_font);
 	}
 	
