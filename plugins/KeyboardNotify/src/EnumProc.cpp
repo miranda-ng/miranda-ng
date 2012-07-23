@@ -16,14 +16,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#define WIN32_LEAN_AND_MEAN
-
-#include <windows.h>
-#include <stdio.h>
-#include <tlhelp32.h>
-#include <vdmdbg.h>
-#include "EnumProc.h"
-
+#include "Common.h"
 
 BOOL findFilename(TCHAR *);
 TCHAR *filename(TCHAR *);

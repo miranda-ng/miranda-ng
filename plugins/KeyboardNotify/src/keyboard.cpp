@@ -16,15 +16,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#define WIN32_LEAN_AND_MEAN
-
-#include <stdio.h>
-#include <windows.h>
-#include <winioctl.h>
-#include "keypresses.h"
-#include <newpluginapi.h>
-#include <m_utils.h>
-
+#include "Common.h"
 
 // Globals
 extern BOOL bWindowsNT;

@@ -179,35 +179,7 @@
 
 */
 
-#define WIN32_LEAN_AND_MEAN
-#define _WIN32_WINNT 0x0500
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <windows.h>
-#include "flash.h"
-#include "ignore.h"
-#include "keyboard.h"
-#include "trigger.h"
-#include "constants.h"
-#include "protolist.h"
-#include "EnumProc.h"
-#include "utils.h"
-#include "m_kbdnotify.h"
-#include <newpluginapi.h>
-#include <m_database.h>
-#include <m_options.h>
-#include <m_clist.h>
-#include <m_system.h>
-#include <m_langpack.h>
-#include <m_protocols.h>
-#include <m_protosvc.h>
-#include <m_contacts.h>
-#include <m_message.h>
-#include <m_utils.h>
-#include <m_icq.h>
-#include <m_metacontacts.h>
-#pragma comment(lib, "advapi32.lib")
+#include "Common.h"
 
 #define NCONVERS_BLINKID ((HANDLE)123456) //nconvers' random identifier used to flash an icon for "incoming message" on contact list
 

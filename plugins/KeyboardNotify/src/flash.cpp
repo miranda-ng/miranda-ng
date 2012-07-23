@@ -16,16 +16,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#define WIN32_LEAN_AND_MEAN
-
-#include <windows.h>
-#include "flash.h"
-#include "keyboard.h"
-#include "keypresses.h"
-#include "utils.h"
-#include "constants.h"
-#include <newpluginapi.h>
-#include <m_database.h>
+#include "Common.h"
 
 typedef struct {
 	unsigned int size;

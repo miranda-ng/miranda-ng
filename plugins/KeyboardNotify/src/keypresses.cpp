@@ -16,13 +16,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#define WIN32_LEAN_AND_MEAN
-#define _WIN32_WINNT 0x0500
-
-#include <windows.h>
-#include "flash.h"
-#include "keypresses.h"
-
+#include "Common.h"
 
 // Prototypes
 void SetLock(WORD, BYTE, unsigned int *, INPUT *);

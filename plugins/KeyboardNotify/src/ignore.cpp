@@ -16,33 +16,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#define WIN32_LEAN_AND_MEAN
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <windows.h>
-#include <commctrl.h>
-#include <commdlg.h>
-#include "ignore.h"
-#include "resource.h"
-#include "constants.h"
-#include <newpluginapi.h>
-#include <m_clc.h>
-#include <m_clist.h>
-#include <m_database.h>
-#include <m_langpack.h>
-#include <m_options.h>
-#include <m_protosvc.h>
-#include <m_protocols.h>
-#include <m_skin.h>
-
+#include "Common.h"
 
 #define IGNOREEVENT_MAX  4
 #define IDI_SMALLDOT   211
 #define IDI_FILLEDBLOB 212
 #define IDI_EMPTYBLOB  213
-
-#define SIZEOF(a)  (sizeof(a) / sizeof(a[0]))
 
 static const DWORD ignoreIdToPf1[IGNOREEVENT_MAX] = {PF1_IMRECV, PF1_URLRECV, PF1_FILERECV, 0xFFFFFFFF};
 

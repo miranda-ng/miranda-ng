@@ -16,20 +16,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#define WIN32_LEAN_AND_MEAN
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <windows.h>
-#include <commctrl.h>
-#include <commdlg.h>
-#include "constants.h"
-#include "utils.h"
-#include "resource.h"
-#include <newpluginapi.h>
-#include <m_database.h>
-#include <m_langpack.h>
-#include "m_trigger.h"
+#include "Common.h"
 
 extern HINSTANCE hInst;
 
