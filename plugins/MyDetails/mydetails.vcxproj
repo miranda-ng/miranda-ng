@@ -75,7 +75,7 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MYDETAILS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -95,7 +95,7 @@
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -104,7 +104,7 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;MYDETAILS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -124,14 +124,14 @@
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;MYDETAILS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -151,14 +151,14 @@
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;MYDETAILS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -177,38 +177,38 @@
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Utils\mir_dblists.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="data.cpp" />
-    <ClCompile Include="frame.cpp" />
+    <ClCompile Include="src\data.cpp" />
+    <ClCompile Include="src\frame.cpp" />
     <ClCompile Include="..\utils\mir_options.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\utils\mir_smileys.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="mydetails.cpp">
+    <ClCompile Include="src\mydetails.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="options.cpp" />
+    <ClCompile Include="src\options.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="res\resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commons.h" />
-    <ClInclude Include="data.h" />
-    <ClInclude Include="frame.h" />
+    <ClInclude Include="src\commons.h" />
+    <ClInclude Include="src\data.h" />
+    <ClInclude Include="src\frame.h" />
     <ClInclude Include="..\utils\mir_dblists.h" />
     <ClInclude Include="..\utils\mir_memory.h" />
     <ClInclude Include="..\utils\mir_options.h" />
     <ClInclude Include="..\utils\mir_smileys.h" />
-    <ClInclude Include="options.h" />
+    <ClInclude Include="src\options.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

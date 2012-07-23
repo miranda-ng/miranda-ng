@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="data.cpp">
+    <ClCompile Include="src\data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="frame.cpp">
+    <ClCompile Include="src\frame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\utils\mir_options.cpp">
@@ -27,10 +27,10 @@
     <ClCompile Include="..\utils\mir_smileys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mydetails.cpp">
+    <ClCompile Include="src\mydetails.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Utils\mir_dblists.cpp">
@@ -38,18 +38,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commons.h">
+    <ClInclude Include="src\commons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="data.h">
+    <ClInclude Include="src\data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="frame.h">
+    <ClInclude Include="src\frame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\utils\mir_dblists.h">
@@ -64,7 +64,7 @@
     <ClInclude Include="..\utils\mir_smileys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="options.h">
+    <ClInclude Include="src\options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

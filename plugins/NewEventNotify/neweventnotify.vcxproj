@@ -78,7 +78,7 @@
       <MinimalRebuild>true</MinimalRebuild>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NEWEVENTNOTIFY_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <ResourceCompile>
@@ -101,7 +101,7 @@
       <Optimization>Disabled</Optimization>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;NEWEVENTNOTIFY_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <ResourceCompile>
@@ -125,7 +125,7 @@
       <Optimization>Full</Optimization>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NEWEVENTNOTIFY_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <ResourceCompile>
@@ -151,7 +151,7 @@
       <Optimization>Full</Optimization>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;NEWEVENTNOTIFY_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <ResourceCompile>
@@ -170,21 +170,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="menuitem.cpp" />
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="popup.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\menuitem.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\popup.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="neweventnotify.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\neweventnotify.h" />
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="res\popup.ico" />
-    <CustomBuild Include="res\popup_no.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="res\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

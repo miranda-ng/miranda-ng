@@ -15,38 +15,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="menuitem.cpp">
+    <ClCompile Include="src\menuitem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="popup.cpp">
+    <ClCompile Include="src\popup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="neweventnotify.h">
+    <ClInclude Include="src\neweventnotify.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="res\popup.ico">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="res\popup_no.ico">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
   </ItemGroup>
 </Project>
