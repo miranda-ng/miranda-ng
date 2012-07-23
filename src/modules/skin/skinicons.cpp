@@ -34,7 +34,7 @@ struct StandardIconDescription
 
 static const struct StandardIconDescription mainIcons[] = 
 {
-	{ SKINICON_OTHER_MIRANDA,         LPGEN("Miranda IM"),          -IDI_MIRANDA        }, 
+	{ SKINICON_OTHER_MIRANDA,         LPGEN("Miranda NG"),          -IDI_MIRANDA        }, 
 	{ SKINICON_EVENT_MESSAGE,         LPGEN("Message"),             -IDI_RECVMSG        }, 
 	{ SKINICON_EVENT_URL,             LPGEN("URL"),                 -IDI_URL            }, 
 	{ SKINICON_EVENT_FILE,            LPGEN("File"),                -IDI_FILE           }, 

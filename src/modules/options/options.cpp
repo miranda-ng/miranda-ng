@@ -1457,7 +1457,7 @@ static void OpenOptionsNow(const char *pszGroup, const char *pszPage, const char
 			psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
 			psh.nPages = opi.pageCount;
 			psh.pStartPage = (LPCTSTR)&ood;	  //more structure misuse
-			psh.pszCaption = TranslateT("Miranda IM Options");
+			psh.pszCaption = TranslateT("Miranda NG Options");
 			psh.ppsp = (PROPSHEETPAGE*)opi.odp;		  //blatent misuse of the structure, but what the hell
 
 			hwndOptions = CreateDialogParam(hInst, 

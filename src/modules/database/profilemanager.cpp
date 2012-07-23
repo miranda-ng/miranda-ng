@@ -78,7 +78,7 @@ static void ThemeDialogBackground(HWND hwnd)
 
 static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARAM lParam)
 {
-	// find in Miranda IM profile subfolders
+	// find in Miranda NG profile subfolders
 	HANDLE hFind = INVALID_HANDLE_VALUE;
 	WIN32_FIND_DATA ffd;
 	TCHAR searchspec[MAX_PATH];
@@ -303,7 +303,7 @@ void DeleteProfile(HWND hwndList, int iItem, DlgProfData* dat)
 
 	mir_sntprintf(profilef, SIZEOF(profilef), TranslateT("Are you sure you want to remove profile \"%s\"?"), profile);
 
-	if (IDYES != MessageBox(NULL, profilef, _T("Miranda IM"), MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
+	if (IDYES != MessageBox(NULL, profilef, _T("Miranda NG"), MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
 		return;
 
 	mir_sntprintf(profilef, SIZEOF(profilef), _T("%s\\%s%c"), dat->pd->szProfileDir, profile, 0);
@@ -512,7 +512,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			TCHAR buf[512];
 			mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s\n%s"), TranslateT("Miranda Profiles from"), prof->pd->szProfileDir, 
-				TranslateT("Select or create your Miranda IM user profile"));
+				TranslateT("Select or create your Miranda NG user profile"));
 			SetDlgItemText(hwndDlg, IDC_NAME, buf);
 		}
 

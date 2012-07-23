@@ -235,7 +235,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 				TCHAR buf[512];
 
 				mir_sntprintf(buf, SIZEOF(buf), TranslateTS(tszMoveMsg), path, path2);
-				MessageBox(NULL, buf, _T("Miranda IM"), MB_ICONERROR | MB_OK);
+				MessageBox(NULL, buf, _T("Miranda NG"), MB_ICONERROR | MB_OK);
 			}
 			else if (MoveFile(path, path2) == 0)
 			{
@@ -246,7 +246,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 				TCHAR buf[512];
 
 				mir_sntprintf(buf, SIZEOF(buf), TranslateTS(tszMoveMsg), path, path2);
-				MessageBox(NULL, buf, _T("Miranda IM"), MB_ICONERROR | MB_OK);
+				MessageBox(NULL, buf, _T("Miranda NG"), MB_ICONERROR | MB_OK);
 				break;
 			}
 			mir_free(profile);
@@ -333,7 +333,7 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 		MessageBox(NULL, 
 			_T("Profile cannot be placed into Miranda root folder.\n")
 			_T("Please move Miranda profile to some other location."), 
-			_T("Miranda IM"), MB_ICONERROR | MB_OK);
+			_T("Miranda NG"), MB_ICONERROR | MB_OK);
 		return 0;
 	}
 	if (getProfileAutoRun(szProfile))

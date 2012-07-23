@@ -103,7 +103,7 @@ int LoadHelpModule(void)
 
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_MIRANDAWEB);
 	mi.position = 2000050000;
-	mi.pszName = LPGEN("&Miranda IM Homepage");
+	mi.pszName = LPGEN("&Miranda NG Homepage");
 	mi.pszService = "Help/WebsiteCommand";
 	Menu_AddMainMenuItem(&mi);
 

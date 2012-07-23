@@ -720,9 +720,9 @@ int LoadNewPluginsModule(void)
 	if (clist == NULL) {
 		// result = 0, no clist_* can be found
 		if (pluginListUI)
-			MessageBox(NULL, TranslateT("Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any."), _T("Miranda IM"), MB_OK | MB_ICONINFORMATION);
+			MessageBox(NULL, TranslateT("Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any."), _T("Miranda NG"), MB_OK | MB_ICONINFORMATION);
 		else
-			MessageBox(NULL, TranslateT("Can't find a contact list plugin! you need clist_classic or any other clist plugin.") , _T("Miranda IM"), MB_OK | MB_ICONINFORMATION);
+			MessageBox(NULL, TranslateT("Can't find a contact list plugin! you need clist_classic or any other clist plugin.") , _T("Miranda NG"), MB_OK | MB_ICONINFORMATION);
 		return 1;
 	}
 
@@ -745,7 +745,7 @@ int LoadNewPluginsModule(void)
 	}
 
 	if ( !msgModule)
-		MessageBox(NULL, TranslateT("No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, \"srmm.dll\""), _T("Miranda IM"), MB_OK | MB_ICONINFORMATION);
+		MessageBox(NULL, TranslateT("No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, \"srmm.dll\""), _T("Miranda NG"), MB_OK | MB_ICONINFORMATION);
 
 	HookEvent(ME_OPT_INITIALISE, PluginOptionsInit);
 	return 0;
