@@ -2860,20 +2860,20 @@ LABEL_SHOWWINDOW:
 									break;
 
 								case ID_SEARCH_GOOGLE: {
-									char szURL[4096];
+									TCHAR szURL[4096];
 									if (pszWord[0]) {
-										mir_snprintf(szURL, sizeof(szURL), "http://www.google.com/search?q=" TCHAR_STR_PARAM, pszWord);
-										CallService(MS_UTILS_OPENURL, 1, (LPARAM) szURL);
+										mir_sntprintf(szURL, SIZEOF(szURL), _T("http://www.google.com/search?q=%s"), pszWord);
+										CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) szURL);
 									}
 									PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 								}
 								break;
 
 								case ID_SEARCH_WIKIPEDIA: {
-									char szURL[4096];
+									TCHAR szURL[4096];
 									if (pszWord[0]) {
-										mir_snprintf(szURL, sizeof(szURL), "http://en.wikipedia.org/wiki/" TCHAR_STR_PARAM, pszWord);
-										CallService(MS_UTILS_OPENURL, 1, (LPARAM) szURL);
+										mir_sntprintf(szURL, SIZEOF(szURL), _T("http://en.wikipedia.org/wiki/%s"), pszWord);
+										CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) szURL);
 									}
 									PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 								}
@@ -2938,7 +2938,6 @@ LABEL_SHOWWINDOW:
 								isLink = IsStringValidLink(tr.lpstrText);
 
 								if (isLink) {
-									char* pszUrl = t2a(tr.lpstrText, 0);
 									if (((ENLINK *) lParam)->msg == WM_RBUTTONDOWN) {
 										HMENU hSubMenu;
 										POINT pt;
@@ -2950,17 +2949,16 @@ LABEL_SHOWWINDOW:
 										ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
 										switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
 											case ID_NEW:
-												CallService(MS_UTILS_OPENURL, 1, (LPARAM) pszUrl);
+												CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) tr.lpstrText);
 												break;
 											case ID_CURR:
-												CallService(MS_UTILS_OPENURL, 0, (LPARAM) pszUrl);
+												CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM) tr.lpstrText);
 												break;
 											case ID_COPY: {
-												HGLOBAL hData;
 												if (!OpenClipboard(hwndDlg))
 													break;
 												EmptyClipboard();
-												hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR) * (lstrlen(tr.lpstrText) + 1));
+												HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR) * (lstrlen(tr.lpstrText) + 1));
 												lstrcpy((TCHAR*)GlobalLock(hData), tr.lpstrText);
 												GlobalUnlock(hData);
 												SetClipboardData(CF_UNICODETEXT, hData);
@@ -2970,13 +2968,11 @@ LABEL_SHOWWINDOW:
 											break;
 										}
 										mir_free(tr.lpstrText);
-										mir_free(pszUrl);
 										return TRUE;
 									} else if (((ENLINK *) lParam)->msg == WM_LBUTTONUP) {
-										CallService(MS_UTILS_OPENURL, 1, (LPARAM) pszUrl);
+										CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) tr.lpstrText);
 										SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 										mir_free(tr.lpstrText);
-										mir_free(pszUrl);
 										return TRUE;
 									}
 								} else if (g_Settings.ClickableNicks) {                    // clicked a nick name
