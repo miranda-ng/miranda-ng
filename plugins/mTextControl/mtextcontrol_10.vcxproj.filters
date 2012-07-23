@@ -80,7 +80,4 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Changelog.txt" />
-  </ItemGroup>
 </Project>
