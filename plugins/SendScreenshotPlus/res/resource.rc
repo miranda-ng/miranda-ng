@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -146,37 +146,29 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_PLUG_MAIN           ICON                    "res\\ssCamera_1.ico"
-IDI_PLUG_ICON1          ICON                    "res\\ssCamera_2.ico"
-IDI_PLUG_DEFAULT        ICON                    "res\\ssDefault.ico"
-IDI_PLUG_ICON2          ICON                    "res\\ssTarget.ico"
-IDI_PLUG_ICON3          ICON                    "res\\ssMonitor.ico"
-IDI_PLUG_HELP           ICON                    "res\\sshelp.ico"
-IDI_PLUG_FOLDERO        ICON                    "res\\ssOpen.ico"
-IDI_PLUG_ARROWL         ICON                    "res\\ssArrow_Left.ico"
-IDI_PLUG_ARROWR         ICON                    "res\\ssArrow_Right.ico"
-IDI_PLUG_OVERLAYOFF     ICON                    "res\\overlay_disabled.ico"
-IDI_PLUG_OVERLAYON      ICON                    "res\\overlay_enabled.ico"
-IDI_PLUG_DESKOFF        ICON                    "res\\ssDeskOff.ico"
-IDI_PLUG_DESKON         ICON                    "res\\ssDeskOn.ico"
-IDI_PLUG_DELOFF         ICON                    "res\\ssDelOff.ico"
-IDI_PLUG_DELON          ICON                    "res\\ssDelOn.ico"
+IDI_PLUG_MAIN           ICON                    "ssCamera_1.ico"
+IDI_PLUG_ICON1          ICON                    "ssCamera_2.ico"
+IDI_PLUG_DEFAULT        ICON                    "ssDefault.ico"
+IDI_PLUG_ICON2          ICON                    "ssTarget.ico"
+IDI_PLUG_ICON3          ICON                    "ssMonitor.ico"
+IDI_PLUG_HELP           ICON                    "sshelp.ico"
+IDI_PLUG_FOLDERO        ICON                    "ssOpen.ico"
+IDI_PLUG_ARROWL         ICON                    "ssArrow_Left.ico"
+IDI_PLUG_ARROWR         ICON                    "ssArrow_Right.ico"
+IDI_PLUG_OVERLAYOFF     ICON                    "overlay_disabled.ico"
+IDI_PLUG_OVERLAYON      ICON                    "overlay_enabled.ico"
+IDI_PLUG_DESKOFF        ICON                    "ssDeskOff.ico"
+IDI_PLUG_DESKON         ICON                    "ssDeskOn.ico"
+IDI_PLUG_DELOFF         ICON                    "ssDelOff.ico"
+IDI_PLUG_DELON          ICON                    "ssDelOn.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
 //
 
-IDB_Bmp1                BITMAP                  "res\\UEditForm_nvr_1.bmp"
-IDB_Bmp2                BITMAP                  "res\\UEditForm_nvr_2.bmp"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXT
-//
-
-IDR_CREDIT              TEXT                    "./res/credits.txt"
-IDR_LICENSE             TEXT                    "./res/license.txt"
+IDB_Bmp1                BITMAP                  "UEditForm_nvr_1.bmp"
+IDB_Bmp2                BITMAP                  "UEditForm_nvr_2.bmp"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -186,7 +178,7 @@ IDR_LICENSE             TEXT                    "./res/license.txt"
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 

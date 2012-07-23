@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -21,8 +21,6 @@
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
 #endif //_WIN32
-
-#include "version.rc"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -323,9 +321,8 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
     "afxres.h\0"
-    "version.rc\0"
 END
 
 #endif    // APSTUDIO_INVOKED

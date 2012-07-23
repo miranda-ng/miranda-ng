@@ -26,10 +26,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Version.h">
+    <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Utils.h">
@@ -40,30 +40,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\checked.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\load.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\loadlast.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\save.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\sessions.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\unchecked.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="sessions.rc">
+    <ResourceCompile Include="res\sessions.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="Version.rc">
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

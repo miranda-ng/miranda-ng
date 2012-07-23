@@ -15,152 +15,155 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commonheaders.h">
+    <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="crypt.h">
+    <ClInclude Include="src\crypt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cryptopp.h">
+    <ClInclude Include="src\cryptopp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dbevent.h">
+    <ClInclude Include="src\dbevent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gettime.h">
+    <ClInclude Include="src\gettime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="images.h">
+    <ClInclude Include="src\images.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="language.h">
+    <ClInclude Include="src\language.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="loadicons.h">
+    <ClInclude Include="src\loadicons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="loadlib.h">
+    <ClInclude Include="src\loadlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mmi.h">
+    <ClInclude Include="src\mmi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="options.h">
+    <ClInclude Include="src\options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="popupOptions.h">
+    <ClInclude Include="src\popupOptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rtfconv.h">
+    <ClInclude Include="src\rtfconv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="secureim.h">
+    <ClInclude Include="src\secureim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="splitmsg.h">
+    <ClInclude Include="src\splitmsg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="svcs_clist.h">
+    <ClInclude Include="src\svcs_clist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="svcs_menu.h">
+    <ClInclude Include="src\svcs_menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="svcs_proto.h">
+    <ClInclude Include="src\svcs_proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="svcs_rsa.h">
+    <ClInclude Include="src\svcs_rsa.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="svcs_srmm.h">
+    <ClInclude Include="src\svcs_srmm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="commonheaders.cpp">
+    <ClCompile Include="src\commonheaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="crypt_check.cpp">
+    <ClCompile Include="src\crypt_check.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="crypt_dll.cpp">
+    <ClCompile Include="src\crypt_dll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="crypt_icons.cpp">
+    <ClCompile Include="src\crypt_icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="crypt_lists.cpp">
+    <ClCompile Include="src\crypt_lists.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="crypt_metacontacts.cpp">
+    <ClCompile Include="src\crypt_metacontacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="crypt_misc.cpp">
+    <ClCompile Include="src\crypt_misc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="crypt_popups.cpp">
+    <ClCompile Include="src\crypt_popups.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbevent.cpp">
+    <ClCompile Include="src\dbevent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gettime.cpp">
+    <ClCompile Include="src\gettime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="images.cpp">
+    <ClCompile Include="src\images.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="language.cpp">
+    <ClCompile Include="src\language.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="loadicons.cpp">
+    <ClCompile Include="src\loadicons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="loadlib.cpp">
+    <ClCompile Include="src\loadlib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mmi.cpp">
+    <ClCompile Include="src\mmi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="popupOptions.cpp">
+    <ClCompile Include="src\popupOptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rtfconv.cpp">
+    <ClCompile Include="src\rtfconv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="splitmsg.cpp">
+    <ClCompile Include="src\splitmsg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="svcs_clist.cpp">
+    <ClCompile Include="src\svcs_clist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="svcs_menu.cpp">
+    <ClCompile Include="src\svcs_menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="svcs_proto.cpp">
+    <ClCompile Include="src\svcs_proto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="svcs_rsa.cpp">
+    <ClCompile Include="src\svcs_rsa.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="svcs_srmm.cpp">
+    <ClCompile Include="src\svcs_srmm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

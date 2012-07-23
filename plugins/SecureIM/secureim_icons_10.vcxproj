@@ -122,7 +122,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource_icons.rc" />
+    <ResourceCompile Include="res\resource_icons.rc" />
+    <ResourceCompile Include="res\version_icons.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

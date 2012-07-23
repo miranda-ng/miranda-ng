@@ -43,8 +43,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "m_sessions.h"
 
 #include "Utils.h"
-#include "../Version.h"
-#include "../Resource.h"
+#include "Version.h"
+#include "Resource.h"
 
 extern HANDLE hibChecked;
 extern HANDLE hibNotChecked;

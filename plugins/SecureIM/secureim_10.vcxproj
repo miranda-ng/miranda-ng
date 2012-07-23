@@ -73,7 +73,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -99,7 +99,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -126,7 +126,7 @@
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -156,7 +156,7 @@
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -181,60 +181,61 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commonheaders.h" />
-    <ClInclude Include="crypt.h" />
-    <ClInclude Include="cryptopp.h" />
-    <ClInclude Include="dbevent.h" />
-    <ClInclude Include="gettime.h" />
-    <ClInclude Include="images.h" />
-    <ClInclude Include="language.h" />
-    <ClInclude Include="loadicons.h" />
-    <ClInclude Include="loadlib.h" />
-    <ClInclude Include="mmi.h" />
-    <ClInclude Include="options.h" />
-    <ClInclude Include="popupOptions.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="rtfconv.h" />
-    <ClInclude Include="secureim.h" />
-    <ClInclude Include="splitmsg.h" />
-    <ClInclude Include="svcs_clist.h" />
-    <ClInclude Include="svcs_menu.h" />
-    <ClInclude Include="svcs_proto.h" />
-    <ClInclude Include="svcs_rsa.h" />
-    <ClInclude Include="svcs_srmm.h" />
-    <ClInclude Include="version.h" />
+    <ClInclude Include="src\commonheaders.h" />
+    <ClInclude Include="src\crypt.h" />
+    <ClInclude Include="src\cryptopp.h" />
+    <ClInclude Include="src\dbevent.h" />
+    <ClInclude Include="src\gettime.h" />
+    <ClInclude Include="src\images.h" />
+    <ClInclude Include="src\language.h" />
+    <ClInclude Include="src\loadicons.h" />
+    <ClInclude Include="src\loadlib.h" />
+    <ClInclude Include="src\mmi.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\popupOptions.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\rtfconv.h" />
+    <ClInclude Include="src\secureim.h" />
+    <ClInclude Include="src\splitmsg.h" />
+    <ClInclude Include="src\svcs_clist.h" />
+    <ClInclude Include="src\svcs_menu.h" />
+    <ClInclude Include="src\svcs_proto.h" />
+    <ClInclude Include="src\svcs_rsa.h" />
+    <ClInclude Include="src\svcs_srmm.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="commonheaders.cpp">
+    <ClCompile Include="src\commonheaders.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="crypt_check.cpp" />
-    <ClCompile Include="crypt_dll.cpp" />
-    <ClCompile Include="crypt_icons.cpp" />
-    <ClCompile Include="crypt_lists.cpp" />
-    <ClCompile Include="crypt_metacontacts.cpp" />
-    <ClCompile Include="crypt_misc.cpp" />
-    <ClCompile Include="crypt_popups.cpp" />
-    <ClCompile Include="dbevent.cpp" />
-    <ClCompile Include="gettime.cpp" />
-    <ClCompile Include="images.cpp" />
-    <ClCompile Include="language.cpp" />
-    <ClCompile Include="loadicons.cpp" />
-    <ClCompile Include="loadlib.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="mmi.cpp" />
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="popupOptions.cpp" />
-    <ClCompile Include="rtfconv.cpp" />
-    <ClCompile Include="splitmsg.cpp" />
-    <ClCompile Include="svcs_clist.cpp" />
-    <ClCompile Include="svcs_menu.cpp" />
-    <ClCompile Include="svcs_proto.cpp" />
-    <ClCompile Include="svcs_rsa.cpp" />
-    <ClCompile Include="svcs_srmm.cpp" />
+    <ClCompile Include="src\crypt_check.cpp" />
+    <ClCompile Include="src\crypt_dll.cpp" />
+    <ClCompile Include="src\crypt_icons.cpp" />
+    <ClCompile Include="src\crypt_lists.cpp" />
+    <ClCompile Include="src\crypt_metacontacts.cpp" />
+    <ClCompile Include="src\crypt_misc.cpp" />
+    <ClCompile Include="src\crypt_popups.cpp" />
+    <ClCompile Include="src\dbevent.cpp" />
+    <ClCompile Include="src\gettime.cpp" />
+    <ClCompile Include="src\images.cpp" />
+    <ClCompile Include="src\language.cpp" />
+    <ClCompile Include="src\loadicons.cpp" />
+    <ClCompile Include="src\loadlib.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mmi.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\popupOptions.cpp" />
+    <ClCompile Include="src\rtfconv.cpp" />
+    <ClCompile Include="src\splitmsg.cpp" />
+    <ClCompile Include="src\svcs_clist.cpp" />
+    <ClCompile Include="src\svcs_menu.cpp" />
+    <ClCompile Include="src\svcs_proto.cpp" />
+    <ClCompile Include="src\svcs_rsa.cpp" />
+    <ClCompile Include="src\svcs_srmm.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

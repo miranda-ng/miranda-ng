@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 
 1 TEXTINCLUDE DISCARDABLE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE DISCARDABLE 
@@ -221,8 +221,6 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
@@ -264,8 +262,6 @@ BEGIN
         VALUE "Translation", 0x0, 1200
     END
 END
-
-#endif    // !_MAC
 
 #endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////

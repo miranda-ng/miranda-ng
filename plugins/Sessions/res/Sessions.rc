@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -29,8 +29,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
-    "version.rc\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -212,12 +211,12 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_SESSIONS            ICON                    "icons\\sessions.ico"
-IDI_SESSIONS_LOAD       ICON                    "icons\\load.ico"
-IDD_SESSIONS_SAVE       ICON                    "icons\\save.ico"
-IDD_SESSIONS_LOADLAST   ICON                    "icons\\loadlast.ico"
-IDD_SESSION_CHECKED     ICON                    "icons\\checked.ico"
-IDD_SESSION_UNCHECKED   ICON                    "icons\\unchecked.ico"
+IDI_SESSIONS            ICON                    "sessions.ico"
+IDI_SESSIONS_LOAD       ICON                    "load.ico"
+IDD_SESSIONS_SAVE       ICON                    "save.ico"
+IDD_SESSIONS_LOADLAST   ICON                    "loadlast.ico"
+IDD_SESSION_CHECKED     ICON                    "checked.ico"
+IDD_SESSION_UNCHECKED   ICON                    "unchecked.ico"
 
 
 #endif    // Russian resources

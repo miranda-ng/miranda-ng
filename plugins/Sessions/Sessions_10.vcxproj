@@ -182,22 +182,14 @@
     <ClCompile Include="Src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Resource.h" />
+    <ClInclude Include="src\Resource.h" />
     <ClInclude Include="Src\Sessions.h" />
     <ClInclude Include="Src\Utils.h" />
-    <ClInclude Include="Version.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icons\Checked.ico" />
-    <None Include="Icons\Load.ico" />
-    <None Include="Icons\Loadlast.ico" />
-    <None Include="Icons\Save.ico" />
-    <None Include="Icons\Sessions.ico" />
-    <None Include="Icons\Unchecked.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Sessions.rc" />
-    <ResourceCompile Include="Version.rc" />
+    <ResourceCompile Include="res\Sessions.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
