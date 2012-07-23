@@ -78,34 +78,8 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CHAT, M
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	BOOL bFlag = FALSE;
-
 	// set the memory & utf8 managers
 	mir_getLP( &pluginInfo );
-
-	HINSTANCE hDll = LoadLibrary(_T("riched20.dll"));
-	if ( hDll ) {
-		TCHAR modulePath[MAX_PATH];
-		if (GetModuleFileName(hDll, modulePath, MAX_PATH)) {
-			DWORD dummy;
-			VS_FIXEDFILEINFO* vsInfo;
-			UINT vsInfoSize;
-			DWORD size = GetFileVersionInfoSize(modulePath, &dummy);
-			BYTE* buffer = (BYTE*) mir_alloc(size);
-
-			if (GetFileVersionInfo(modulePath, 0, size, buffer))
-                if (VerQueryValue(buffer, _T("\\"), (LPVOID*) &vsInfo, &vsInfoSize))
-                    if (LOWORD(vsInfo->dwFileVersionMS) != 0)
-                        bFlag= TRUE;
-			mir_free(buffer);
-	}	}
-
-	if ( !bFlag ) {
-		if (IDYES == MessageBox(0, TranslateT("Miranda could not load the Chat plugin because Microsoft Rich Edit v 3 is missing.\nIf you are using Windows 95/98/NT or WINE please upgrade your Rich Edit control.\n\nDo you want to download an update now?."),TranslateT("Information"),MB_YESNO|MB_ICONINFORMATION))
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) _T("http://members.chello.se/matrix/re3/richupd.exe"));
-		FreeLibrary(GetModuleHandleA("riched20.dll"));
-		return 1;
-	}
 
 	UpgradeCheck();
 
