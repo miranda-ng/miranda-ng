@@ -1,4 +1,4 @@
-﻿Miranda NG is proudly brought to you by:
+﻿Miranda NG is designed, written & supported by:
 
 Bartosz Białek
 Vadim Dashevsky
@@ -8,7 +8,7 @@ Alexey Koulakov
 Michael Kunz
 Dmitry Kuz'kin
 Eugene Lishnevsky
-Tobias M.
+Tobias Weimer
 Vlad Mironov
 Victor Pavlychko
 Robert Pösel
@@ -16,7 +16,7 @@ Ivan Rozhuk
 Artem Shpynov
 Kirill Volinsky
 
-People used to develop Miranda IM Project:
+People that previously used to develop Miranda IM Project:
 
 Ricardo Domenecci
 Gennady Feldman
