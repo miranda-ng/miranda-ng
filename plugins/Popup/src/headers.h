@@ -86,7 +86,7 @@ Last change by : $Author: Merlin_de $
 #endif
 
 	//Resources
-	#include "../resource.h"
+	#include "resource.h"
 
 	#define NOWIN2K
 	#define MIRANDA_VER 0x0A00
@@ -139,7 +139,7 @@ Last change by : $Author: Merlin_de $
 
 	//PopUp common handlers
 	#include "defs.h"
-	#include "../version.h"
+	#include "version.h"
 	#include "config.h"
 	#include "common.h"
 	#include "def_settings.h"

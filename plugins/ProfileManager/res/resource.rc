@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -28,8 +28,8 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ChangePM               ICON                    "res/ChangePM.ico"
-IDI_LoadPM              ICON                    "res/LoadPM.ico"
+IDI_ChangePM               ICON                    "ChangePM.ico"
+IDI_LoadPM              ICON                    "LoadPM.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 

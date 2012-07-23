@@ -13,76 +13,56 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\Docs">
-      <UniqueIdentifier>{e6bd3d70-0d30-4cf4-a284-c0fd38c83fa5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="src\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PasteToWeb.h">
+    <ClInclude Include="src\PasteToWeb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PasteToWeb1.h">
+    <ClInclude Include="src\PasteToWeb1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PasteToWeb2.h">
+    <ClInclude Include="src\PasteToWeb2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Options.h">
+    <ClInclude Include="src\Options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PasteIt.cpp">
+    <ClCompile Include="src\PasteIt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PasteToWeb.cpp">
+    <ClCompile Include="src\PasteToWeb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PasteToWeb1.cpp">
+    <ClCompile Include="src\PasteToWeb1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PasteToWeb2.cpp">
+    <ClCompile Include="src\PasteToWeb2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Options.cpp">
+    <ClCompile Include="src\Options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="PasteIt.rc">
+    <ResourceCompile Include="res\PasteIt.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="icons\Paste.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Docs\PasteIt_licence.txt">
-      <Filter>Resource Files\Docs</Filter>
-    </None>
-    <None Include="Docs\PasteIt_translate.txt">
-      <Filter>Resource Files\Docs</Filter>
-    </None>
-    <None Include="Docs\PasteIt_langpack_polish.txt">
-      <Filter>Resource Files\Docs</Filter>
-    </None>
-    <None Include="Docs\PasteIt_readme.txt">
-      <Filter>Resource Files\Docs</Filter>
-    </None>
   </ItemGroup>
 </Project>

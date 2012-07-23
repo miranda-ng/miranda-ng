@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -26,34 +26,34 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_POPUP               ICON                    "res\\popup.ico"
-IDI_PU_FULLSCREEN       ICON                    "res\\popup_fs.ico"
-IDI_PU_FAVOURITE        ICON                    "res\\popup_fav.ico"
-IDI_NOPOPUP             ICON                    "res\\popup_no.ico"
-IDI_HISTORY             ICON                    "res\\popup_history.ico"
-IDI_RELOAD              ICON                    "res\\reload.ico"
-IDI_OPT_CHECK_OFF       ICON                    "res\\Check_off.ico"
-IDI_OPT_CHECK_ON        ICON                    "res\\Check_on.ico"
-IDI_OPT_RADIO_OFF       ICON                    "res\\Radio_off.ico"
-IDI_OPT_RADIO_ON        ICON                    "res\\Radio_on.ico"
-IDI_ACT_INFO            ICON                    "res\\info.ico"
-IDI_ACT_MENU            ICON                    "res\\menu.ico"
-IDI_ACT_MESSAGE         ICON                    "res\\message.ico"
-IDI_ACT_OK              ICON                    "res\\ok.ico"
-IDI_ACT_ADD             ICON                    "res\\add.ico"
-IDI_ACT_CLOSE           ICON                    "res\\close.ico"
-IDI_ACT_PINNED          ICON                    "res\\pinned.ico"
-IDI_ACT_PIN             ICON                    "res\\pin.ico"
-IDI_RESIZE              ICON                    "res\\resize.ico"
-IDI_MB_STOP             ICON                    "res\\error.ico"
-IDI_MB_INFO             ICON                    "res\\notify.ico"
-IDI_MB_WARN             ICON                    "res\\warning.ico"
-IDI_OPT_GROUP           ICON                    "res\\popup_group.ico"
-IDI_OPT_FULLSCREEN      ICON                    "res\\fullscreen.ico"
-IDI_OPT_BLOCK           ICON                    "res\\block.ico"
-IDI_OPT_FAVORITE        ICON                    "res\\favorite.ico"
-IDI_ACT_REPLY           ICON                    "res\\reply.ico"
-IDI_ACT_COPY            ICON                    "res\\copy.ico"
+IDI_POPUP               ICON                    "popup.ico"
+IDI_PU_FULLSCREEN       ICON                    "popup_fs.ico"
+IDI_PU_FAVOURITE        ICON                    "popup_fav.ico"
+IDI_NOPOPUP             ICON                    "popup_no.ico"
+IDI_HISTORY             ICON                    "popup_history.ico"
+IDI_RELOAD              ICON                    "reload.ico"
+IDI_OPT_CHECK_OFF       ICON                    "Check_off.ico"
+IDI_OPT_CHECK_ON        ICON                    "Check_on.ico"
+IDI_OPT_RADIO_OFF       ICON                    "Radio_off.ico"
+IDI_OPT_RADIO_ON        ICON                    "Radio_on.ico"
+IDI_ACT_INFO            ICON                    "info.ico"
+IDI_ACT_MENU            ICON                    "menu.ico"
+IDI_ACT_MESSAGE         ICON                    "message.ico"
+IDI_ACT_OK              ICON                    "ok.ico"
+IDI_ACT_ADD             ICON                    "add.ico"
+IDI_ACT_CLOSE           ICON                    "close.ico"
+IDI_ACT_PINNED          ICON                    "pinned.ico"
+IDI_ACT_PIN             ICON                    "pin.ico"
+IDI_RESIZE              ICON                    "resize.ico"
+IDI_MB_STOP             ICON                    "error.ico"
+IDI_MB_INFO             ICON                    "notify.ico"
+IDI_MB_WARN             ICON                    "warning.ico"
+IDI_OPT_GROUP           ICON                    "popup_group.ico"
+IDI_OPT_FULLSCREEN      ICON                    "fullscreen.ico"
+IDI_OPT_BLOCK           ICON                    "block.ico"
+IDI_OPT_FAVORITE        ICON                    "favorite.ico"
+IDI_ACT_REPLY           ICON                    "reply.ico"
+IDI_ACT_COPY            ICON                    "copy.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -341,21 +341,14 @@ END
 // SKIN
 //
 
-CLASSIC.POPUPSKIN       SKIN                    "res\\classic.popupskin"
+CLASSIC.POPUPSKIN       SKIN                    "classic.popupskin"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
 //
 
-IDB_NOAVATAR            BITMAP                  "res\\avatar.bmp"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXT
-//
-
-IDR_WHATSNEW            TEXT                    "res\\whatsnew.txt"
+IDB_NOAVATAR            BITMAP                  "avatar.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -391,7 +384,7 @@ LANGUAGE LANG_ITALIAN, SUBLANG_ITALIAN
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 

@@ -1,4 +1,4 @@
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -134,7 +134,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MENU                ICON                    "icons\\Paste.ico"
+IDI_MENU                ICON                    "Paste.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 

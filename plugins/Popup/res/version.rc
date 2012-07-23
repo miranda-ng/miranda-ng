@@ -3,7 +3,7 @@
 #endif //APSTUDIO_INVOKED
 
 #include <windows.h> // include for version info constants
-#include "version.h"
+#include "..\src\version.h"
 
 //
 // TO CHANGE VERSION INFORMATION, EDIT PROJECT OPTIONS...

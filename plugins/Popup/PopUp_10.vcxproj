@@ -73,7 +73,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;POPUP_EXPORTS;MTEXT_NOHELPERS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;MTEXT_NOHELPERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>headers.h</PrecompiledHeaderFile>
@@ -98,7 +98,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;POPUP_EXPORTS;MTEXT_NOHELPERS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;MTEXT_NOHELPERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>headers.h</PrecompiledHeaderFile>
@@ -123,7 +123,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;POPUP_EXPORTS;MTEXT_NOHELPERS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MTEXT_NOHELPERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -152,7 +152,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;POPUP_EXPORTS;MTEXT_NOHELPERS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;MTEXT_NOHELPERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -223,7 +223,7 @@
     <ClInclude Include="src\popup_gdiplus.h" />
     <ClInclude Include="src\popup_thread.h" />
     <ClInclude Include="src\popup_wnd2.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\services.h" />
     <ClInclude Include="src\skin.h" />
     <ClInclude Include="src\srmm_menu.h" />
@@ -238,46 +238,11 @@
     <ClInclude Include="src\opt_skins.h" />
     <ClInclude Include="src\opttree.h" />
     <ClInclude Include="src\common.h" />
-    <ClInclude Include="version.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\add.ico" />
-    <None Include="res\avatar.bmp" />
-    <None Include="res\block.ico" />
-    <None Include="res\Check_off.ico" />
-    <None Include="res\Check_on.ico" />
-    <None Include="res\classic.popupskin" />
-    <None Include="res\close.ico" />
-    <None Include="res\error.ico" />
-    <None Include="res\favorite.ico" />
-    <None Include="res\fullscreen.ico" />
-    <None Include="res\img.ico" />
-    <None Include="res\info.ico" />
-    <None Include="res\menu.ico" />
-    <None Include="res\message.ico" />
-    <None Include="res\notify.ico" />
-    <None Include="res\ok.ico" />
-    <None Include="res\pin.ico" />
-    <None Include="res\pinned.ico" />
-    <None Include="res\popup.ico" />
-    <None Include="res\popup_fav.ico" />
-    <None Include="res\popup_fs.ico" />
-    <None Include="res\popup_group.ico" />
-    <None Include="res\popup_history.ico" />
-    <None Include="res\popup_no.ico" />
-    <None Include="res\popup_plus.ico" />
-    <None Include="res\Radio_off.ico" />
-    <None Include="res\Radio_on.ico" />
-    <None Include="res\reload.ico" />
-    <None Include="res\reply.ico" />
-    <None Include="res\resize.ico" />
-    <None Include="res\warning.ico" />
-    <None Include="docs\Changelog.txt" />
-    <None Include="res\whatsnew.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
-    <ResourceCompile Include="version.rc" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

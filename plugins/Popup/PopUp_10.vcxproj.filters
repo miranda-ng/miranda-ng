@@ -9,16 +9,9 @@
       <UniqueIdentifier>{58b87470-6530-4485-8a11-2b34996c3d54}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
-    <Filter Include="defs">
-      <UniqueIdentifier>{0fd67b29-f530-424d-a3c6-9cff1c322fe9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{19999220-077c-4521-b4e8-e28baf26ea12}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
-    </Filter>
-    <Filter Include="docs">
-      <UniqueIdentifier>{2c54b55f-1f99-474e-99ef-34c8f4210772}</UniqueIdentifier>
-      <Extensions>txt</Extensions>
     </Filter>
     <Filter Include="Option Pages">
       <UniqueIdentifier>{529f787f-6a3b-402b-8451-73ab712c2fd5}</UniqueIdentifier>
@@ -153,7 +146,7 @@
     <ClInclude Include="src\popup_wnd2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\services.h">
@@ -198,116 +191,15 @@
     <ClInclude Include="src\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\add.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\avatar.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\block.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Check_off.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Check_on.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\classic.popupskin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\close.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\error.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\favorite.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\fullscreen.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\img.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\info.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\menu.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\message.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\notify.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\ok.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\pin.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\pinned.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\popup.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\popup_fav.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\popup_fs.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\popup_group.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\popup_history.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\popup_no.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\popup_plus.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Radio_off.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Radio_on.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\reload.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\reply.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\resize.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\warning.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="docs\Changelog.txt">
-      <Filter>docs</Filter>
-    </None>
-    <None Include="res\whatsnew.txt">
-      <Filter>docs</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
