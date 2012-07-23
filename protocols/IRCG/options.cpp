@@ -225,7 +225,7 @@ void AddIcons(void)
 
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
-	sid.ptszSection = _T("Protocols/IRC");
+	sid.pszSection = "Protocols/IRC";
 	sid.ptszDefaultFile = szFile;
 	sid.flags = SIDF_PATH_TCHAR;
 	hIconLibItems = new HANDLE[ SIZEOF(iconList) ];
