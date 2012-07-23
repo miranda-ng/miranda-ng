@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -347,17 +347,17 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_RESET               ICON                    "res\\reset.ico"
-IDI_POPUP               ICON                    "res\\popup.ico"
-IDI_LOGGING             ICON                    "res\\logging.ico"
-IDI_SOUND               ICON                    "res\\sound.ico"
-IDI_NOTIFICATION_OFF    ICON                    "res\\main_off.ico"
-IDI_NOTIFICATION_ON     ICON                    "res\\main_on.ico"
-IDI_XSTATUS             ICON                    "res\\xstatus.ico"
-IDI_DISABLEALL          ICON                    "res\\disable_all.ico"
-IDI_ENABLEALL           ICON                    "res\\enable_all.ico"
-IDI_VARIABLES           ICON                    "res\\variables.ico"
-IDI_STATUS_MESSAGE      ICON                    "res\\status_message.ico"
+IDI_RESET               ICON                    "reset.ico"
+IDI_POPUP               ICON                    "popup.ico"
+IDI_LOGGING             ICON                    "logging.ico"
+IDI_SOUND               ICON                    "sound.ico"
+IDI_NOTIFICATION_OFF    ICON                    "main_off.ico"
+IDI_NOTIFICATION_ON     ICON                    "main_on.ico"
+IDI_XSTATUS             ICON                    "xstatus.ico"
+IDI_DISABLEALL          ICON                    "disable_all.ico"
+IDI_ENABLEALL           ICON                    "enable_all.ico"
+IDI_VARIABLES           ICON                    "variables.ico"
+IDI_STATUS_MESSAGE      ICON                    "status_message.ico"
 #endif    // Нейтральный resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -377,7 +377,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
