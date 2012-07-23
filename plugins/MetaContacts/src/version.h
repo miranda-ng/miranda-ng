@@ -16,7 +16,7 @@
 #define __AUTHOR					"J. Schaal & S. Ellis"
 #define __AUTHOREMAIL				"mail@scottellis.com.au"
 #define __COPYRIGHT					"© 2005,2006 Scott Ellis"
-#define __AUTHORWEB					"http://www.scottellis.com.au"
+#define __AUTHORWEB					"http://nightly.miranda.im/"
 #define __PLUGIN_NAME				"MetaContacts Plugin"
 #define __FILENAME					"MetaContacts.dll"
 

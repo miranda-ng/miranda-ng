@@ -17,5 +17,5 @@
 #define __DESCRIPTION 				"un4seen's BASS interface Miranda IM plugin."
 #define __AUTHOR					"tico-tico"
 #define __AUTHOREMAIL				""
-#define __AUTHORWEB					""
+#define __AUTHORWEB					"http://nightly.miranda.im/"
 #define __COPYRIGHT					"© 2010, 2011 tico-tico"

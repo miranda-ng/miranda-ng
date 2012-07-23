@@ -16,5 +16,5 @@
 #define __DESCRIPTION 				"Provides the ability to quickly add new contacts."
 #define __AUTHOR					"Bartosz 'Dezeath' Bia³ek"
 #define __AUTHOREMAIL				"dezred@gmail.com"
-#define __AUTHORWEB					"http://code.google.com/p/dezeath"
+#define __AUTHORWEB					"http://nightly.miranda.im/"
 #define __COPYRIGHT					"© 2007-2012 Bartosz 'Dezeath' Bia³ek"

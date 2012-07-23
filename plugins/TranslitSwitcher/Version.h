@@ -16,5 +16,5 @@
 #define __DESCRIPTION 				"Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support."
 #define __AUTHOR					"Mataes, tico-tico, Tim"
 #define __AUTHOREMAIL				"mataes2007@gmail.com"
-#define __AUTHORWEB					"http://mataes.googlecode.com/svn/Miranda/Plugins/TranslitSwitcher/"
+#define __AUTHORWEB					"http://nightly.miranda.im/"
 #define __COPYRIGHT					"© 2011-2010 Mataes, tico-tico © 2007 Dmitry Titkov"

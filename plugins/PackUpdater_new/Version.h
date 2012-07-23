@@ -16,5 +16,5 @@
 #define __DESCRIPTION 				"Simple updater for Miranda IM premodified packs."
 #define __AUTHOR					"Mataes, ZERO_BiT"
 #define __AUTHOREMAIL				"mataes2007@gmail.com, zero-bit@mail.ru"
-#define __AUTHORWEB					"http://mataes.googlecode.com/svn/Miranda/Plugins/PackUpdater/"
+#define __AUTHORWEB					"http://nightly.miranda.im/"
 #define __COPYRIGHT					"© 2011 Mataes, 2007 ZERO_BiT"
