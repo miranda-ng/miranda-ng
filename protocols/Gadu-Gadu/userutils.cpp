@@ -296,7 +296,7 @@ void GGPROTO::createProtoService(const char* szService, GGServiceFunc servicePro
 {
 	char str[MAXMODULELABELLENGTH];
 	mir_snprintf(str, sizeof(str), "%s%s", m_szModuleName, szService);
-	CreateServiceFunctionObj(szService, (MIRANDASERVICEOBJ)*( void** )&serviceProc, this);
+	CreateServiceFunctionObj(str, (MIRANDASERVICEOBJ)*( void** )&serviceProc, this);
 }
 
 //////////////////////////////////////////////////////////
