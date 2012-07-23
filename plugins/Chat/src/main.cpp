@@ -83,18 +83,18 @@ extern "C" __declspec(dllexport) int Load(void)
 	// set the memory & utf8 managers
 	mir_getLP( &pluginInfo );
 
-	HINSTANCE hDll = LoadLibraryA("riched20.dll");
+	HINSTANCE hDll = LoadLibrary(_T("riched20.dll"));
 	if ( hDll ) {
-		char modulePath[MAX_PATH];
-		if (GetModuleFileNameA(hDll, modulePath, MAX_PATH)) {
+		TCHAR modulePath[MAX_PATH];
+		if (GetModuleFileName(hDll, modulePath, MAX_PATH)) {
 			DWORD dummy;
 			VS_FIXEDFILEINFO* vsInfo;
 			UINT vsInfoSize;
-			DWORD size = GetFileVersionInfoSizeA(modulePath, &dummy);
+			DWORD size = GetFileVersionInfoSize(modulePath, &dummy);
 			BYTE* buffer = (BYTE*) mir_alloc(size);
 
-			if (GetFileVersionInfoA(modulePath, 0, size, buffer))
-                if (VerQueryValueA(buffer, "\\", (LPVOID*) &vsInfo, &vsInfoSize))
+			if (GetFileVersionInfo(modulePath, 0, size, buffer))
+                if (VerQueryValue(buffer, _T("\\"), (LPVOID*) &vsInfo, &vsInfoSize))
                     if (LOWORD(vsInfo->dwFileVersionMS) != 0)
                         bFlag= TRUE;
 			mir_free(buffer);
@@ -102,7 +102,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	if ( !bFlag ) {
 		if (IDYES == MessageBox(0, TranslateT("Miranda could not load the Chat plugin because Microsoft Rich Edit v 3 is missing.\nIf you are using Windows 95/98/NT or WINE please upgrade your Rich Edit control.\n\nDo you want to download an update now?."),TranslateT("Information"),MB_YESNO|MB_ICONINFORMATION))
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM) "http://members.chello.se/matrix/re3/richupd.exe");
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) _T("http://members.chello.se/matrix/re3/richupd.exe"));
 		FreeLibrary(GetModuleHandleA("riched20.dll"));
 		return 1;
 	}
@@ -137,7 +137,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	DestroyHookableEvents();
 	FreeIcons();
 	OptionsUnInit();
-	FreeLibrary(GetModuleHandleA("riched20.dll"));
+	FreeLibrary(GetModuleHandle(_T("riched20.dll")));
 	UnhookEvents();
 	return 0;
 }

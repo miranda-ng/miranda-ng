@@ -2295,10 +2295,10 @@ LABEL_SHOWWINDOW:
 
 					case ID_SEARCH_GOOGLE:
 						{
-							char szURL[4096];
+							TCHAR szURL[4096];
 							if (pszWord[0]) {
-								mir_snprintf( szURL, sizeof( szURL ), "http://www.google.com/search?q=" TCHAR_STR_PARAM, pszWord );
-								CallService(MS_UTILS_OPENURL, 1, (LPARAM) szURL);
+								mir_sntprintf( szURL, SIZEOF( szURL ), _T("http://www.google.com/search?q=%s"), pszWord );
+								CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) szURL);
 							}
 							PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0 );
 						}
@@ -2306,10 +2306,10 @@ LABEL_SHOWWINDOW:
 
 					case ID_SEARCH_WIKIPEDIA:
 						{
-							char szURL[4096];
+							TCHAR szURL[4096];
 							if (pszWord[0]) {
-								mir_snprintf( szURL, sizeof( szURL ), "http://en.wikipedia.org/wiki/" TCHAR_STR_PARAM, pszWord );
-								CallService(MS_UTILS_OPENURL, 1, (LPARAM) szURL);
+								mir_sntprintf( szURL, SIZEOF( szURL ), _T("http://en.wikipedia.org/wiki/%s"), pszWord );
+								CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) szURL);
 							}
 							PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0 );
 						}
@@ -2333,7 +2333,6 @@ LABEL_SHOWWINDOW:
 						{
 							TEXTRANGE tr;
 							CHARRANGE sel;
-							char* pszUrl;
 
 							SendMessage(pNmhdr->hwndFrom, EM_EXGETSEL, 0, (LPARAM) & sel);
 							if (sel.cpMin != sel.cpMax)
@@ -2341,7 +2340,6 @@ LABEL_SHOWWINDOW:
 							tr.chrg = ((ENLINK *) lParam)->chrg;
 							tr.lpstrText = (LPTSTR)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
 							SendMessage(pNmhdr->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
-							pszUrl = mir_t2a( tr.lpstrText );
 
 							if (((ENLINK *) lParam)->msg == WM_RBUTTONDOWN) {
 								HMENU hSubMenu;
@@ -2354,11 +2352,11 @@ LABEL_SHOWWINDOW:
 								ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
 								switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
 								case ID_NEW:
-									CallService(MS_UTILS_OPENURL, 1, (LPARAM) pszUrl);
+									CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) tr.lpstrText);
 									break;
 
 								case ID_CURR:
-									CallService(MS_UTILS_OPENURL, 0, (LPARAM) pszUrl);
+									CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM) tr.lpstrText);
 									break;
 
 								case ID_COPY:
@@ -2376,14 +2374,12 @@ LABEL_SHOWWINDOW:
 										break;
 								}	}
 								mir_free(tr.lpstrText);
-								mir_free(pszUrl);
 								return TRUE;
 							}
 
-							CallService(MS_UTILS_OPENURL, 1, (LPARAM) pszUrl);
+							CallService(MS_UTILS_OPENURL, OUF_TCHAR|OUF_NEWWINDOW, (LPARAM) tr.lpstrText);
 							SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 							mir_free(tr.lpstrText);
-							mir_free(pszUrl);
 							break;
 				}	}	}
 				break;
