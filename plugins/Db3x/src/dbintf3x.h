@@ -40,6 +40,8 @@ struct CDb3x : public CDb3Base
 
 protected:
 	virtual	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName);
+	virtual	void InvalidateSettingsGroupOfsCacheEntry(DWORD ofsSettingsGroup);
+
 	virtual	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes);
 	virtual	PBYTE DBRead(DWORD ofs, int bytesRequired, int *bytesAvail);
 	virtual	void  DBWrite(DWORD ofs, PVOID pData, int bytes);
@@ -69,6 +71,4 @@ protected:
 	int  FindLRUSection(void);
 	void LoadSection(const int i,DWORD ofs);
 	void MoveSection(int *sectId,int dest);
-
-	void InvalidateSettingsGroupOfsCacheEntry(DWORD ofsSettingsGroup);
 };

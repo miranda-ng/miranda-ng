@@ -206,6 +206,8 @@ protected:
 
 protected:
 	virtual	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName) = 0;
+	virtual	void InvalidateSettingsGroupOfsCacheEntry(DWORD ofsSettingsGroup) {}
+
 	virtual	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes) = 0;
 	virtual	PBYTE DBRead(DWORD ofs, int bytesRequired, int *bytesAvail) = 0;
 	virtual	void  DBWrite(DWORD ofs, PVOID pData, int bytes) = 0;

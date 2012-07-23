@@ -612,7 +612,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	//make sure the module group exists
 	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc,ofsContact,ofsModuleName);
 	if (ofsSettingsGroup == 0) {  //module group didn't exist - make it
-		if (tmp.value.type&DBVTF_VARIABLELENGTH) {
+		if (tmp.value.type & DBVTF_VARIABLELENGTH) {
 		  if (tmp.value.type == DBVT_ASCIIZ || tmp.value.type == DBVT_UTF8) bytesRequired = (int)strlen(tmp.value.pszVal)+2;
 		  else if (tmp.value.type == DBVT_BLOB) bytesRequired = tmp.value.cpbVal+2;
 		}
@@ -705,6 +705,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 		DBContactSettings *dbcsPrev;
 		DWORD ofsDbcsPrev,ofsNew;
 
+		InvalidateSettingsGroupOfsCacheEntry(ofsSettingsGroup);
 		bytesRequired += (DB_SETTINGS_RESIZE_GRANULARITY-(bytesRequired%DB_SETTINGS_RESIZE_GRANULARITY))%DB_SETTINGS_RESIZE_GRANULARITY;
 		//find previous group to change its offset
 		ofsDbcsPrev = dbc.ofsFirstSettings;
