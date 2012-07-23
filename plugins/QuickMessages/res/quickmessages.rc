@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -29,8 +29,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
-    "version.rc\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -179,7 +178,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_QICON               ICON                    "icons\\qicon.ico"
+IDI_QICON               ICON                    "qicon.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

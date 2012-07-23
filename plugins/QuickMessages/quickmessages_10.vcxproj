@@ -165,20 +165,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="quickmessages.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Utils.h" />
+    <ClInclude Include="src\quickmessages.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\qicon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="quickmessages.rc" />
+    <ResourceCompile Include="res\quickmessages.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
