@@ -288,7 +288,7 @@ void GGPROTO::block_init()
 	mi.flags = CMIF_ICONFROMICOLIB;
 
 	mir_snprintf(service, sizeof(service), GGS_BLOCKUSER, m_szModuleName);
-	createProtoService(service, &GGPROTO::blockuser);
+	createObjService(service, &GGPROTO::blockuser);
 	mi.position = -500050000;
 	mi.icolibItem = GetIconHandle(IDI_BLOCK);
 	mi.pszName = LPGEN("&Block");

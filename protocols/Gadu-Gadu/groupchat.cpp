@@ -72,7 +72,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 
 		// Conferencing
 		mir_snprintf(service, sizeof(service), GGS_OPEN_CONF, m_szModuleName);
-		createProtoService(service, &GGPROTO::gc_openconf);
+		createObjService(service, &GGPROTO::gc_openconf);
 		mi.position = 2000050001;
 		mi.icolibItem = GetIconHandle(IDI_CONFERENCE);
 		mi.pszName = LPGEN("Open &conference...");
@@ -81,7 +81,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 
 		// Clear ignored conferences
 		mir_snprintf(service, sizeof(service), GGS_CLEAR_IGNORED, m_szModuleName);
-		createProtoService(service, &GGPROTO::gc_clearignored);
+		createObjService(service, &GGPROTO::gc_clearignored);
 		mi.position = 2000050002;
 		mi.icolibItem = GetIconHandle(IDI_CLEAR_CONFERENCE);
 		mi.pszName = LPGEN("&Clear ignored conferences");

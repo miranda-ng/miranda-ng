@@ -234,6 +234,7 @@ struct GGPROTO : public PROTO_INTERFACE, public MZeroedObject
 	void sessions_menus_init(HGENMENU hRoot);
 
 	/* Event helpers */
+	void   createObjService(const char* szService, GGServiceFunc serviceProc);
 	void   createProtoService(const char* szService, GGServiceFunc serviceProc);
 	HANDLE hookProtoEvent(const char*, GGEventFunc);
 	void   forkThread(GGThreadFunc, void* );

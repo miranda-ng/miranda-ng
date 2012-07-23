@@ -433,7 +433,7 @@ void GGPROTO::sessions_menus_init(HGENMENU hRoot)
 	mi.hParentMenu = hRoot;
 
 	mir_snprintf(service, sizeof(service), GGS_CONCUR_SESS, m_szModuleName);
-	createProtoService(service, &GGPROTO::sessions_view);
+	createObjService(service, &GGPROTO::sessions_view);
 	if (hMenuRoot)
 		mi.position = 2050000001;
 	else

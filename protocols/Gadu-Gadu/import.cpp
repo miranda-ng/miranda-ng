@@ -606,7 +606,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	// Import from server item
 	mir_snprintf(service, sizeof(service), GGS_IMPORT_SERVER, m_szModuleName);
-	createProtoService(service, &GGPROTO::import_server);
+	createObjService(service, &GGPROTO::import_server);
 	mi.position = 2000500001;
 	mi.icolibItem = GetIconHandle(IDI_IMPORT_SERVER);
 	mi.pszName = LPGEN("Import List From &Server");
@@ -615,7 +615,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	// Import from textfile
 	mir_snprintf(service, sizeof(service), GGS_IMPORT_TEXT, m_szModuleName);
-	createProtoService(service, &GGPROTO::import_text);
+	createObjService(service, &GGPROTO::import_text);
 	mi.position = 2000500002;
 	mi.icolibItem = GetIconHandle(IDI_IMPORT_TEXT);
 	mi.pszName = LPGEN("Import List From &Text File...");
@@ -624,7 +624,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	// Remove from server
 	mir_snprintf(service, sizeof(service), GGS_REMOVE_SERVER, m_szModuleName);
-	createProtoService(service, &GGPROTO::remove_server);
+	createObjService(service, &GGPROTO::remove_server);
 	mi.position = 2000500003;
 	mi.icolibItem = GetIconHandle(IDI_REMOVE_SERVER);
 	mi.pszName = LPGEN("&Remove List From Server");
@@ -633,7 +633,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	// Export to server
 	mir_snprintf(service, sizeof(service), GGS_EXPORT_SERVER, m_szModuleName);
-	createProtoService(service, &GGPROTO::export_server);
+	createObjService(service, &GGPROTO::export_server);
 	mi.position = 2005000001;
 	mi.icolibItem = GetIconHandle(IDI_EXPORT_SERVER);
 	mi.pszName = LPGEN("Export List To &Server");
@@ -642,7 +642,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	// Export to textfile
 	mir_snprintf(service, sizeof(service), GGS_EXPORT_TEXT, m_szModuleName);
-	createProtoService(service, &GGPROTO::export_text);
+	createObjService(service, &GGPROTO::export_text);
 	mi.position = 2005000002;
 	mi.icolibItem = GetIconHandle(IDI_EXPORT_TEXT);
 	mi.pszName = LPGEN("Export List To &Text File...");

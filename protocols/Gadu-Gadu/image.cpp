@@ -76,7 +76,7 @@ int GGPROTO::img_init()
 
 	// Send image contact menu item
 	mir_snprintf(service, sizeof(service), GGS_SENDIMAGE, m_szModuleName);
-	createProtoService(service, &GGPROTO::img_sendimg);
+	createObjService(service, &GGPROTO::img_sendimg);
 	mi.position = -2000010000;
 	mi.icolibItem = GetIconHandle(IDI_IMAGE);
 	mi.pszName = LPGEN("&Image");
@@ -86,7 +86,7 @@ int GGPROTO::img_init()
 
 	// Receive image
 	mir_snprintf(service, sizeof(service), GGS_RECVIMAGE, m_szModuleName);
-	createProtoService(service, &GGPROTO::img_recvimage);
+	createObjService(service, &GGPROTO::img_recvimage);
 
 	return FALSE;
 }
