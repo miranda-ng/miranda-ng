@@ -23,73 +23,58 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-#define CACHESECTIONSIZE   4096
-#define CACHESECTIONCOUNT  32
-
-static BOOL safetyMode = TRUE;
-static PBYTE pDbCache;
-static DWORD lastUseCounter;
-struct DBCacheSectionInfo {
-	DWORD ofsBase;
-	DWORD lastUsed;
-} static cacheSectionInfo[CACHESECTIONCOUNT];
-
-static __inline int FindSectionForOffset(const DWORD ofs)
+int CDb3x::FindSectionForOffset(const DWORD ofs)
 {
-	int i;
-	for(i = 0;i<CACHESECTIONCOUNT;i++)
-		if (ofs >= cacheSectionInfo[i].ofsBase && ofs<cacheSectionInfo[i].ofsBase+CACHESECTIONSIZE)
+	for (int i = 0; i < CACHESECTIONCOUNT; i++)
+		if (ofs >= cacheSectionInfo[i].ofsBase && ofs<cacheSectionInfo[i].ofsBase + CACHESECTIONSIZE)
 			return i;
 	return -1;
 }
 
-static __inline int FindLRUSection(void)
+int CDb3x::FindLRUSection(void)
 {
-	int i,lru = 0;
+	int lru = 0;
 	DWORD lowestLastUse = cacheSectionInfo[0].lastUsed;
-	for(i = 1;i<CACHESECTIONCOUNT;i++) if (cacheSectionInfo[i].lastUsed<lowestLastUse) {lru = i; lowestLastUse = cacheSectionInfo[i].lastUsed;}
+	for (int i = 1; i < CACHESECTIONCOUNT; i++)
+		if (cacheSectionInfo[i].lastUsed < lowestLastUse) {
+			lru = i; 
+			lowestLastUse = cacheSectionInfo[i].lastUsed;
+		}
 	return lru;
 }
 
-static __inline void LoadSection(const int i,DWORD ofs)
+void CDb3x::LoadSection(const int i,DWORD ofs)
 {
-	cacheSectionInfo[i].ofsBase = ofs-ofs%CACHESECTIONSIZE;
+	cacheSectionInfo[i].ofsBase = ofs - ofs%CACHESECTIONSIZE;
 	log1("readsect %08x",ofs);
-	SetFilePointer(hDbFile,cacheSectionInfo[i].ofsBase,NULL,FILE_BEGIN);
-	ReadFile(hDbFile,pDbCache+i*CACHESECTIONSIZE,CACHESECTIONSIZE,&ofs,NULL);
+	SetFilePointer(m_hDbFile,cacheSectionInfo[i].ofsBase,NULL,FILE_BEGIN);
+	ReadFile(m_hDbFile,m_pDbCache+i*CACHESECTIONSIZE,CACHESECTIONSIZE,&ofs,NULL);
 }
 
-static __inline void MoveSection(int *sectId,int dest)
+void CDb3x::MoveSection(int *sectId,int dest)
 {
-	CopyMemory(pDbCache+dest*CACHESECTIONSIZE,pDbCache+(*sectId)*CACHESECTIONSIZE,CACHESECTIONSIZE);
+	CopyMemory(m_pDbCache+dest*CACHESECTIONSIZE,m_pDbCache+(*sectId)*CACHESECTIONSIZE,CACHESECTIONSIZE);
 	cacheSectionInfo[dest].ofsBase = cacheSectionInfo[*sectId].ofsBase;
 	*sectId = dest;
 }
 
-
-
 //we are assumed to be in a mutex here
-PBYTE DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
+PBYTE CDb3x::DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
 {
-
-	int part1sect;
-	int part2sect;
-
-
-	part1sect = FindSectionForOffset(ofs);
+	int part1sect = FindSectionForOffset(ofs);
 	if (ofs%CACHESECTIONSIZE+bytesRequired<CACHESECTIONSIZE) {
 		//only one section required
 		if (part1sect == -1) {
 			part1sect = FindLRUSection();
 			LoadSection(part1sect,ofs);
 		}
-		cacheSectionInfo[part1sect].lastUsed = ++lastUseCounter;
+		cacheSectionInfo[part1sect].lastUsed = ++m_lastUseCounter;
 		if (bytesAvail!= NULL) *bytesAvail = cacheSectionInfo[part1sect].ofsBase+CACHESECTIONSIZE-ofs;
-		return pDbCache+part1sect*CACHESECTIONSIZE+(ofs-cacheSectionInfo[part1sect].ofsBase);
+		return m_pDbCache+part1sect*CACHESECTIONSIZE+(ofs-cacheSectionInfo[part1sect].ofsBase);
 	}
 	//two sections are required
-	part2sect = FindSectionForOffset(ofs+CACHESECTIONSIZE);
-	if (part1sect!= -1) {
+	int part2sect = FindSectionForOffset(ofs+CACHESECTIONSIZE);
+	if (part1sect != -1) {
 		if (part2sect == -1) {  //first part in cache, but not second part
 			if (part1sect == CACHESECTIONCOUNT-1) MoveSection(&part1sect,0);
 			LoadSection(part1sect+1,ofs+CACHESECTIONSIZE);
@@ -116,107 +101,98 @@ PBYTE DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
 			LoadSection(part1sect,ofs);
 		}
 	}
+
 	//both sections are now consecutive, starting at part1sect
-	cacheSectionInfo[part1sect].lastUsed = ++lastUseCounter;
-	cacheSectionInfo[part1sect+1].lastUsed = ++lastUseCounter;
-	if (bytesAvail!= NULL) *bytesAvail = cacheSectionInfo[part1sect+1].ofsBase+CACHESECTIONSIZE-ofs;
-	return pDbCache+part1sect*CACHESECTIONSIZE+(ofs-cacheSectionInfo[part1sect].ofsBase);
+	cacheSectionInfo[part1sect].lastUsed = ++m_lastUseCounter;
+	cacheSectionInfo[part1sect+1].lastUsed = ++m_lastUseCounter;
+	if (bytesAvail!= NULL)
+		*bytesAvail = cacheSectionInfo[part1sect+1].ofsBase+CACHESECTIONSIZE-ofs;
+	return m_pDbCache+part1sect*CACHESECTIONSIZE+(ofs-cacheSectionInfo[part1sect].ofsBase);
 }
 
-
-
 //we are assumed to be in a mutex here
-void DBWrite(DWORD ofs,PVOID pData,int bytes)
+void CDb3x::DBWrite(DWORD ofs,PVOID pData,int bytes)
 {
 	//write direct, and rely on Windows' write caching
-	DWORD bytesWritten;
-	int i;
+	log2("write %d@%08x", bytes, ofs);
+	SetFilePointer(m_hDbFile, ofs, NULL, FILE_BEGIN);
 
-	log2("write %d@%08x",bytes,ofs);
-	SetFilePointer(hDbFile,ofs,NULL,FILE_BEGIN);
-	if (WriteFile(hDbFile,pData,bytes,&bytesWritten,NULL) == 0)
-	{
-		DatabaseCorruption();
-	}
+	DWORD bytesWritten;
+	if ( WriteFile(m_hDbFile, pData, bytes, &bytesWritten, NULL) == 0)
+		DatabaseCorruption( _T("%s (Write error)"));
+
 	logg();
+
 	//check if any of the cache sections contain this bit
-	for(i = 0;i<CACHESECTIONCOUNT;i++) {
+	for(int i = 0; i < CACHESECTIONCOUNT; i++) {
 		if (ofs+bytes >= cacheSectionInfo[i].ofsBase && ofs<cacheSectionInfo[i].ofsBase+CACHESECTIONSIZE) {
 			if (ofs<cacheSectionInfo[i].ofsBase) {  //don't start at beginning
 				if (ofs+bytes >= cacheSectionInfo[i].ofsBase+CACHESECTIONSIZE)   //don't finish at end
-					CopyMemory(pDbCache+i*CACHESECTIONSIZE,(PBYTE)pData+cacheSectionInfo[i].ofsBase-ofs,CACHESECTIONSIZE);
-				else CopyMemory(pDbCache+i*CACHESECTIONSIZE,(PBYTE)pData+cacheSectionInfo[i].ofsBase-ofs,bytes-(cacheSectionInfo[i].ofsBase-ofs));
+					CopyMemory(m_pDbCache+i*CACHESECTIONSIZE,(PBYTE)pData+cacheSectionInfo[i].ofsBase-ofs,CACHESECTIONSIZE);
+				else CopyMemory(m_pDbCache+i*CACHESECTIONSIZE,(PBYTE)pData+cacheSectionInfo[i].ofsBase-ofs,bytes-(cacheSectionInfo[i].ofsBase-ofs));
 			}
 			else {	  //start at beginning
 				if (ofs+bytes >= cacheSectionInfo[i].ofsBase+CACHESECTIONSIZE)   //don't finish at end
-					CopyMemory(pDbCache+i*CACHESECTIONSIZE+ofs-cacheSectionInfo[i].ofsBase,pData,cacheSectionInfo[i].ofsBase+CACHESECTIONSIZE-ofs);
-				else CopyMemory(pDbCache+i*CACHESECTIONSIZE+ofs-cacheSectionInfo[i].ofsBase,pData,bytes);
+					CopyMemory(m_pDbCache+i*CACHESECTIONSIZE+ofs-cacheSectionInfo[i].ofsBase,pData,cacheSectionInfo[i].ofsBase+CACHESECTIONSIZE-ofs);
+				else CopyMemory(m_pDbCache+i*CACHESECTIONSIZE+ofs-cacheSectionInfo[i].ofsBase,pData,bytes);
 			}
 		}
 	}
 }
 
-void DBMoveChunk(DWORD ofsDest,DWORD ofsSource,int bytes)
+void CDb3x::DBMoveChunk(DWORD ofsDest,DWORD ofsSource,int bytes)
 {
 	DWORD bytesRead;
 	PBYTE buf;
 
 	log3("move %d %08x->%08x",bytes,ofsSource,ofsDest);
 	buf = (PBYTE)mir_alloc(bytes);
-	SetFilePointer(hDbFile,ofsSource,NULL,FILE_BEGIN);
-	ReadFile(hDbFile,buf,bytes,&bytesRead,NULL);
+	SetFilePointer(m_hDbFile,ofsSource,NULL,FILE_BEGIN);
+	ReadFile(m_hDbFile,buf,bytes,&bytesRead,NULL);
 	DBWrite(ofsDest,buf,bytes);
 	mir_free(buf);
 	logg();
 }
 
-static UINT_PTR flushBuffersTimerId;
 static VOID CALLBACK DoBufferFlushTimerProc(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime)
 {
-	KillTimer(NULL,flushBuffersTimerId);
-	log0("tflush1");
-	FlushFileBuffers(hDbFile);
-	log0("tflush2");
+	for (int i=0; i < g_Dbs.getCount(); i++) {
+		CDb3x* db = g_Dbs[i];
+
+		KillTimer(NULL, db->m_flushBuffersTimerId);
+		log0("tflush1");
+		FlushFileBuffers(db->getFile());
+		log0("tflush2");
+	}
 }
 
-void DBFlush(int setting)
+void CDb3x::DBFlush(int setting)
 {
 	if (!setting) {
 		log0("nflush1");
-		if (safetyMode) FlushFileBuffers(hDbFile);
+		if (m_safetyMode) FlushFileBuffers(m_hDbFile);
 		log0("nflush2");
 		return;
 	}
-	KillTimer(NULL,flushBuffersTimerId);
-	flushBuffersTimerId = SetTimer(NULL,flushBuffersTimerId,50,DoBufferFlushTimerProc);
+	KillTimer(NULL,m_flushBuffersTimerId);
+	m_flushBuffersTimerId = SetTimer(NULL,m_flushBuffersTimerId,50,DoBufferFlushTimerProc);
 }
 
-static INT_PTR CacheSetSafetyMode(WPARAM wParam,LPARAM lParam)
+void CDb3x::DBFill(DWORD ofs,int bytes)
 {
-	EnterCriticalSection(&csDbAccess);
-	safetyMode = wParam;
-	LeaveCriticalSection(&csDbAccess);
-	if (safetyMode) FlushFileBuffers(hDbFile);
-	return 0;
 }
 
-int InitCache(void)
+int CDb3x::InitCache(void)
 {
-	pDbCache = (PBYTE)mir_alloc(CACHESECTIONSIZE*CACHESECTIONCOUNT);
-	lastUseCounter = CACHESECTIONCOUNT;
+	m_pDbCache = (PBYTE)mir_alloc(CACHESECTIONSIZE*CACHESECTIONCOUNT);
+	m_lastUseCounter = CACHESECTIONCOUNT;
 	for(int i = 0; i < CACHESECTIONCOUNT; i++) {
 		cacheSectionInfo[i].ofsBase = 0;
 		cacheSectionInfo[i].lastUsed = i;
-		SetFilePointer(hDbFile,cacheSectionInfo[i].ofsBase,NULL,FILE_BEGIN);
+		SetFilePointer(m_hDbFile,cacheSectionInfo[i].ofsBase,NULL,FILE_BEGIN);
 
 		DWORD bytesRead;
-		ReadFile(hDbFile,pDbCache+i*CACHESECTIONSIZE,CACHESECTIONSIZE,&bytesRead,NULL);
+		ReadFile(m_hDbFile,m_pDbCache+i*CACHESECTIONSIZE,CACHESECTIONSIZE,&bytesRead,NULL);
 	}
 	return 0;
-}
-
-void UninitCache(void)
-{
-	mir_free(pDbCache);
-	KillTimer(NULL,flushBuffersTimerId);
 }

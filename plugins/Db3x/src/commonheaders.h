@@ -49,16 +49,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_langpack.h>
 
 #include "version.h"
-#include "database.h"
-#include "dbintf.h"
+#include "dbintf3x.h"
 #include "resource.h"
-
-extern HANDLE hDbFile;
-extern CRITICAL_SECTION csDbAccess;
-extern struct DBHeader dbHeader;
-extern HANDLE hCacheHeap;
-extern SortedList lContacts;
-extern TCHAR szDbPath[MAX_PATH];
 
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)
@@ -69,3 +61,5 @@ extern TCHAR szDbPath[MAX_PATH];
 #ifndef MODULAR
 void Encrypt(char*msg,BOOL up);
 #endif
+
+extern LIST<CDb3x> g_Dbs;

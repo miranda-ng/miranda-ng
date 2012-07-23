@@ -13,45 +13,51 @@
       <UniqueIdentifier>{fbaceae7-3e4a-4853-96f3-eec77981b2c9}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Mmap">
+      <UniqueIdentifier>{640c5715-0e22-4240-8520-f7dedfc9fb87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\database.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbcache.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbcontacts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbevents.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbheaders.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbmodulechain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbsettings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dbintf.cpp">
+    <ClCompile Include="src\dbintf3x.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\database.cpp">
+      <Filter>Mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbcache3x.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbcontacts.cpp">
+      <Filter>Mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbevents.cpp">
+      <Filter>Mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbheaders.cpp">
+      <Filter>Mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbintf.cpp">
+      <Filter>Mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbmodulechain.cpp">
+      <Filter>Mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbsettings.cpp">
+      <Filter>Mmap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\database.h">
+    <ClInclude Include="src\dbintf3x.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\dbintf.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\db3x_mmap\dbintf.h">
+      <Filter>Mmap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

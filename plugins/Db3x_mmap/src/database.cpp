@@ -119,3 +119,21 @@ void CDb3Base::DatabaseCorruption(TCHAR *text)
 		Sleep(INFINITE);
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef DBLOGGING
+void DBLog(const char *file,int line,const char *fmt,...)
+{
+	FILE *fp;
+	va_list vararg;
+	char str[1024];
+
+	va_start(vararg,fmt);
+	mir_vsnprintf(str,sizeof(str),fmt,vararg);
+	va_end(vararg);
+	fp=fopen("c:\\mirandadatabase.log.txt","at");
+	fprintf(fp,"%u: %s %d: %s\n",GetTickCount(),file,line,str);
+	fclose(fp);
+}
+#endif

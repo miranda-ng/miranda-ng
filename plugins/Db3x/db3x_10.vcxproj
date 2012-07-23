@@ -199,22 +199,23 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\database.cpp" />
-    <ClCompile Include="src\dbcache.cpp" />
-    <ClCompile Include="src\dbcontacts.cpp" />
-    <ClCompile Include="src\dbevents.cpp" />
-    <ClCompile Include="src\dbheaders.cpp" />
-    <ClCompile Include="src\dbintf.cpp" />
-    <ClCompile Include="src\dbmodulechain.cpp" />
-    <ClCompile Include="src\dbsettings.cpp" />
+    <ClCompile Include="..\db3x_mmap\src\database.cpp" />
+    <ClCompile Include="..\db3x_mmap\src\dbcontacts.cpp" />
+    <ClCompile Include="..\db3x_mmap\src\dbevents.cpp" />
+    <ClCompile Include="..\db3x_mmap\src\dbheaders.cpp" />
+    <ClCompile Include="..\db3x_mmap\src\dbintf.cpp" />
+    <ClCompile Include="..\db3x_mmap\src\dbmodulechain.cpp" />
+    <ClCompile Include="..\db3x_mmap\src\dbsettings.cpp" />
+    <ClCompile Include="src\dbcache3x.cpp" />
+    <ClCompile Include="src\dbintf3x.cpp" />
     <ClCompile Include="src\init.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\db3x_mmap\dbintf.h" />
     <ClInclude Include="src\commonheaders.h" />
-    <ClInclude Include="src\database.h" />
-    <ClInclude Include="src\dbintf.h" />
+    <ClInclude Include="src\dbintf3x.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />

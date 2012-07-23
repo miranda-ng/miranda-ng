@@ -149,7 +149,7 @@ STDMETHODIMP_(BOOL) CDb3Base::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 		return 1;
 
 	lck.unlock();
-	log1("delete event @ %08x",wParam);
+	log1("delete event @ %08x", hContact);
 	
 	//call notifier while outside mutex
 	NotifyEventHooks(hEventDeletedEvent,(WPARAM)hContact, (LPARAM)hDbEvent);
@@ -271,7 +271,7 @@ STDMETHODIMP_(BOOL) CDb3Base::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 	if ((dbe->flags & DBEF_READ) || (dbe->flags & DBEF_SENT))
 		return (INT_PTR)dbe->flags;
 
-	log1("mark read @ %08x",wParam);
+	log1("mark read @ %08x", hContact);
 	dbe->flags |= DBEF_READ;
 	DBWrite((DWORD)hDbEvent,dbe,sizeof(DBEvent));
 	BOOL ret = dbe->flags;

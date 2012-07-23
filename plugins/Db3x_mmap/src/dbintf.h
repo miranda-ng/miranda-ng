@@ -205,6 +205,7 @@ protected:
 	STDMETHODIMP_(BOOL)   EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
 
 protected:
+	virtual	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName) = 0;
 	virtual	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes) = 0;
 	virtual	PBYTE DBRead(DWORD ofs, int bytesRequired, int *bytesAvail) = 0;
 	virtual	void  DBWrite(DWORD ofs, PVOID pData, int bytes) = 0;
@@ -261,7 +262,6 @@ protected:
 	LIST<char> m_lSettings, m_lResidentSettings;
 	HANDLE hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent;
 
-	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsModuleName);
 	char* InsertCachedSetting(const char* szName, size_t cbNameLen);
 	char* GetCachedSetting(const char *szModuleName,const char *szSettingName, int moduleNameLen, int settingNameLen);
 	void SetCachedVariant(DBVARIANT* s, DBVARIANT* d);
@@ -295,6 +295,7 @@ struct CDb3Mmap : public CDb3Base
 	~CDb3Mmap();
 
 protected:
+	virtual	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName);
 	virtual	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes);
 	virtual	PBYTE DBRead(DWORD ofs, int bytesRequired, int *bytesAvail);
 	virtual	void  DBWrite(DWORD ofs, PVOID pData, int bytes);

@@ -28,20 +28,6 @@ DBCachedContactValueList* AddToCachedContactList(HANDLE hContact, int index);
 
 int DBPreset_QuerySetting(const char *szModule, const char *szSetting, DBVARIANT *dbv, BOOL isStatic);
 
-DWORD CDb3Base::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsModuleName)
-{
-	DWORD ofsThis = dbc->ofsFirstSettings;
-	while (ofsThis) {
-		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis,sizeof(DBContactSettings),NULL);
-		if (dbcs->signature != DBCONTACTSETTINGS_SIGNATURE) DatabaseCorruption(NULL);
-		if (dbcs->ofsModuleName == ofsModuleName)
-			return ofsThis;
-
-		ofsThis = dbcs->ofsNext;
-	}
-	return 0;
-}
-
 DWORD __forceinline GetSettingValueLength(PBYTE pSetting)
 {
 	if (pSetting[0] & DBVTF_VARIABLELENGTH)
@@ -203,7 +189,6 @@ DBVARIANT* CDb3Base::GetCachedValuePtr( HANDLE hContact, char* szSetting, int bA
 
 int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs,int isStatic)
 {
-	DBContact *dbc;
 	DWORD ofsModuleName,ofsContact,ofsSettingsGroup,ofsBlobPtr;
 	int settingNameLen,moduleNameLen;
 	int bytesRemaining;
@@ -277,11 +262,12 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 	ofsModuleName = GetModuleNameOfs(dbcgs->szModule);
 	if (hContact == NULL) ofsContact = m_dbHeader.ofsUser;
 	else ofsContact = (DWORD)hContact;
-	dbc = (DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
-	if (dbc->signature != DBCONTACT_SIGNATURE)
+	
+	DBContact dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
+	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 1;
 
-	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc,ofsModuleName);
+	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc,ofsContact,ofsModuleName);
 	if (ofsSettingsGroup) {
 		ofsBlobPtr = ofsSettingsGroup+offsetof(DBContactSettings,blob);
 		pBlob = DBRead(ofsBlobPtr,sizeof(DBContactSettings),&bytesRemaining);
@@ -624,7 +610,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 
 	log0("write setting");
 	//make sure the module group exists
-	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc,ofsModuleName);
+	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc,ofsContact,ofsModuleName);
 	if (ofsSettingsGroup == 0) {  //module group didn't exist - make it
 		if (tmp.value.type&DBVTF_VARIABLELENGTH) {
 		  if (tmp.value.type == DBVT_ASCIIZ || tmp.value.type == DBVT_UTF8) bytesRequired = (int)strlen(tmp.value.pszVal)+2;
@@ -826,7 +812,7 @@ STDMETHODIMP_(BOOL) CDb3Base::DeleteContactSetting(HANDLE hContact, DBCONTACTGET
 		return 1;
 
 	//make sure the module group exists
-	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc,ofsModuleName);
+	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc,(DWORD)hContact,ofsModuleName);
 	if (ofsSettingsGroup == 0)
 		return 1;
 
@@ -900,7 +886,7 @@ STDMETHODIMP_(BOOL) CDb3Base::EnumContactSettings(HANDLE hContact, DBCONTACTENUM
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return -1;
 
-	dbces->ofsSettings = GetSettingsGroupOfsByModuleNameOfs(dbc,ofsModuleName);
+	dbces->ofsSettings = GetSettingsGroupOfsByModuleNameOfs(dbc,ofsContact,ofsModuleName);
 	if ( !dbces->ofsSettings)
 		return -1;
 
