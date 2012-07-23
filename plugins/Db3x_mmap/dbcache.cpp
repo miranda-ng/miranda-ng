@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-void CDb3Mmap::Map()
+void CDdxMmap::Map()
 {
 	m_hMap = CreateFileMapping(m_hDbFile, NULL, PAGE_READWRITE, 0, m_dwFileSize, NULL);
 
@@ -37,7 +37,7 @@ void CDb3Mmap::Map()
 		DatabaseCorruption( _T("%s (CreateFileMapping failed. Code: %d)"));
 }
 
-void CDb3Mmap::ReMap(DWORD needed)
+void CDdxMmap::ReMap(DWORD needed)
 {
 	KillTimer(NULL,m_flushBuffersTimerId);
 
@@ -64,7 +64,7 @@ void CDb3Mmap::ReMap(DWORD needed)
 	Map();
 }
 
-void CDb3Mmap::DBMoveChunk(DWORD ofsDest,DWORD ofsSource,int bytes)
+void CDdxMmap::DBMoveChunk(DWORD ofsDest,DWORD ofsSource,int bytes)
 {
 	int x = 0;
 	log3("move %d %08x->%08x",bytes,ofsSource,ofsDest);
@@ -82,7 +82,7 @@ void CDb3Mmap::DBMoveChunk(DWORD ofsDest,DWORD ofsSource,int bytes)
 }
 
 //we are assumed to be in a mutex here
-PBYTE CDb3Mmap::DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
+PBYTE CDdxMmap::DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
 {
 	// buggy read
 	if (ofs>= m_dwFileSize) {
@@ -96,7 +96,7 @@ PBYTE CDb3Mmap::DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
 }
 
 //we are assumed to be in a mutex here
-void CDb3Mmap::DBWrite(DWORD ofs,PVOID pData,int bytes)
+void CDdxMmap::DBWrite(DWORD ofs,PVOID pData,int bytes)
 {
 	log2("write %d@%08x",bytes,ofs);
 	if (ofs+bytes > m_dwFileSize) ReMap(ofs+bytes-m_dwFileSize);
@@ -105,7 +105,7 @@ void CDb3Mmap::DBWrite(DWORD ofs,PVOID pData,int bytes)
 }
 
 //we are assumed to be in a mutex here
-void CDb3Mmap::DBFill(DWORD ofs,int bytes)
+void CDdxMmap::DBFill(DWORD ofs,int bytes)
 {
 	log2("zerofill %d@%08x",bytes,ofs);
 	if (ofs+bytes <= m_dwFileSize)
@@ -116,7 +116,7 @@ void CDb3Mmap::DBFill(DWORD ofs,int bytes)
 static VOID CALLBACK DoBufferFlushTimerProc(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
 {
 	for (int i=0; i < g_Dbs.getCount(); i++) {
-		CDb3Mmap* db = g_Dbs[i];
+		CDdxMmap* db = g_Dbs[i];
 		if (db->m_flushBuffersTimerId != idEvent)
 			continue;
 
@@ -136,7 +136,7 @@ static VOID CALLBACK DoBufferFlushTimerProc(HWND hwnd, UINT message, UINT_PTR id
 	}
 }
 
-void CDb3Mmap::DBFlush(int setting)
+void CDdxMmap::DBFlush(int setting)
 {
 	if (!setting) {
 		log0("nflush1");
@@ -157,7 +157,7 @@ void CDb3Mmap::DBFlush(int setting)
 	m_flushBuffersTimerId = SetTimer(NULL, m_flushBuffersTimerId, 50, DoBufferFlushTimerProc);
 }
 
-int CDb3Mmap::InitCache(void)
+int CDdxMmap::InitCache(void)
 {
 	m_dwFileSize = GetFileSize(m_hDbFile,  NULL);
 

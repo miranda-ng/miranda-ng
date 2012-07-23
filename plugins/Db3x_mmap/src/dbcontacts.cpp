@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-DBCachedContactValueList* CDdxMmap::AddToCachedContactList(HANDLE hContact, int index)
+DBCachedContactValueList* CDb3Base::AddToCachedContactList(HANDLE hContact, int index)
 {
 	DBCachedContactValueList* VL = (DBCachedContactValueList*)HeapAlloc(m_hCacheHeap,HEAP_ZERO_MEMORY,sizeof(DBCachedContactValueList));
 	VL->hContact = hContact;
@@ -37,7 +37,7 @@ DBCachedContactValueList* CDdxMmap::AddToCachedContactList(HANDLE hContact, int 
 #define proto_module  "Protocol"
 #define proto_setting "p"
 
-int CDdxMmap::CheckProto(HANDLE hContact, const char *proto)
+int CDb3Base::CheckProto(HANDLE hContact, const char *proto)
 {
 	char protobuf[MAX_PATH] = {0};
 	DBVARIANT dbv;
@@ -53,13 +53,13 @@ int CDdxMmap::CheckProto(HANDLE hContact, const char *proto)
 	return !strcmp(protobuf,proto);
 }
 
-STDMETHODIMP_(LONG) CDdxMmap::GetContactCount(void)
+STDMETHODIMP_(LONG) CDb3Base::GetContactCount(void)
 {
 	mir_cslock lck(m_csDbAccess);
 	return m_dbHeader.contactCount;
 }
 
-STDMETHODIMP_(HANDLE) CDdxMmap::FindFirstContact(const char *szProto)
+STDMETHODIMP_(HANDLE) CDb3Base::FindFirstContact(const char *szProto)
 {
 	mir_cslock lck(m_csDbAccess);
 	HANDLE ret = (HANDLE)m_dbHeader.ofsFirstContact;
@@ -68,7 +68,7 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindFirstContact(const char *szProto)
 	return ret;
 }
 
-STDMETHODIMP_(HANDLE) CDdxMmap::FindNextContact(HANDLE hContact, const char *szProto)
+STDMETHODIMP_(HANDLE) CDb3Base::FindNextContact(HANDLE hContact, const char *szProto)
 {
 	int index;
 	DBContact *dbc;
@@ -104,7 +104,7 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindNextContact(HANDLE hContact, const char *szP
 	return NULL;
 }
 
-STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
+STDMETHODIMP_(LONG) CDb3Base::DeleteContact(HANDLE hContact)
 {
 	if (hContact == NULL)
 		return 1;
@@ -200,7 +200,7 @@ STDMETHODIMP_(LONG) CDdxMmap::DeleteContact(HANDLE hContact)
 	return 0;
 }
 
-STDMETHODIMP_(HANDLE) CDdxMmap::AddContact()
+STDMETHODIMP_(HANDLE) CDb3Base::AddContact()
 {
 	DWORD ofsNew;
 	log0("add contact");
@@ -224,7 +224,7 @@ STDMETHODIMP_(HANDLE) CDdxMmap::AddContact()
 	return (HANDLE)ofsNew;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::IsDbContact(HANDLE hContact)
+STDMETHODIMP_(BOOL) CDb3Base::IsDbContact(HANDLE hContact)
 {
 	mir_cslock lck(m_csDbAccess);
 

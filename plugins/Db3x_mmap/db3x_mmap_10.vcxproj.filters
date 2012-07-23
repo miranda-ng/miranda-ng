@@ -15,50 +15,50 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\database.cpp">
+    <ClCompile Include="database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dbcache.cpp">
+    <ClCompile Include="dbcontacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dbcontacts.cpp">
+    <ClCompile Include="dbevents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dbevents.cpp">
+    <ClCompile Include="dbheaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dbheaders.cpp">
+    <ClCompile Include="dbmodulechain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dbmodulechain.cpp">
+    <ClCompile Include="dbsettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dbsettings.cpp">
+    <ClCompile Include="init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\init.cpp">
+    <ClCompile Include="dbintf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dbintf.cpp">
+    <ClCompile Include="dbcache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\commonheaders.h">
+    <ClInclude Include="commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\database.h">
+    <ClInclude Include="database.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\dbintf.h">
+    <ClInclude Include="dbintf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\db3x_mmap.rc">
+    <ResourceCompile Include="db3x_mmap.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="res\version.rc">
+    <ResourceCompile Include="version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

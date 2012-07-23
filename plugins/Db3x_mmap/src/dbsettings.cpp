@@ -28,7 +28,7 @@ DBCachedContactValueList* AddToCachedContactList(HANDLE hContact, int index);
 
 int DBPreset_QuerySetting(const char *szModule, const char *szSetting, DBVARIANT *dbv, BOOL isStatic);
 
-DWORD CDdxMmap::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsModuleName)
+DWORD CDb3Base::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsModuleName)
 {
 	DWORD ofsThis = dbc->ofsFirstSettings;
 	while (ofsThis) {
@@ -49,7 +49,7 @@ DWORD __forceinline GetSettingValueLength(PBYTE pSetting)
 	return pSetting[0];
 }
 
-char* CDdxMmap::InsertCachedSetting(const char* szName, size_t cbNameLen)
+char* CDb3Base::InsertCachedSetting(const char* szName, size_t cbNameLen)
 {
 	char* newValue = (char*)HeapAlloc(m_hCacheHeap, 0, cbNameLen);
 	*newValue = 0;
@@ -58,7 +58,7 @@ char* CDdxMmap::InsertCachedSetting(const char* szName, size_t cbNameLen)
 	return newValue;
 }
 
-char* CDdxMmap::GetCachedSetting(const char *szModuleName,const char *szSettingName, int moduleNameLen, int settingNameLen)
+char* CDb3Base::GetCachedSetting(const char *szModuleName,const char *szSettingName, int moduleNameLen, int settingNameLen)
 {
 	char szFullName[512];
 	strcpy(szFullName+1,szModuleName);
@@ -77,7 +77,7 @@ char* CDdxMmap::GetCachedSetting(const char *szModuleName,const char *szSettingN
 	return m_lastSetting;
 }
 
-void CDdxMmap::SetCachedVariant( DBVARIANT* s /* new */, DBVARIANT* d /* cached */ )
+void CDb3Base::SetCachedVariant( DBVARIANT* s /* new */, DBVARIANT* d /* cached */ )
 {
 	char* szSave = ( d->type == DBVT_UTF8 || d->type == DBVT_ASCIIZ ) ? d->pszVal : NULL;
 
@@ -104,13 +104,13 @@ void CDdxMmap::SetCachedVariant( DBVARIANT* s /* new */, DBVARIANT* d /* cached 
 #endif
 }
 
-void CDdxMmap::FreeCachedVariant( DBVARIANT* V )
+void CDb3Base::FreeCachedVariant( DBVARIANT* V )
 {
 	if (( V->type == DBVT_ASCIIZ || V->type == DBVT_UTF8 ) && V->pszVal != NULL )
 		HeapFree(m_hCacheHeap,0,V->pszVal);
 }
 
-DBVARIANT* CDdxMmap::GetCachedValuePtr( HANDLE hContact, char* szSetting, int bAllocate )
+DBVARIANT* CDb3Base::GetCachedValuePtr( HANDLE hContact, char* szSetting, int bAllocate )
 {
 	if ( hContact == 0 ) {
 		DBCachedGlobalValue Vtemp, *V;
@@ -201,7 +201,7 @@ DBVARIANT* CDdxMmap::GetCachedValuePtr( HANDLE hContact, char* szSetting, int bA
 #define MoveAlong(n)   {int x = n; pBlob += (x); ofsBlobPtr += (x); bytesRemaining -= (x);}
 #define VLT(n) ((n == DBVT_UTF8)?DBVT_ASCIIZ:n)
 
-int CDdxMmap::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs,int isStatic)
+int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs,int isStatic)
 {
 	DBContact *dbc;
 	DWORD ofsModuleName,ofsContact,ofsSettingsGroup,ofsBlobPtr;
@@ -374,7 +374,7 @@ int CDdxMmap::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 	return 1;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::GetContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dgs)
+STDMETHODIMP_(BOOL) CDb3Base::GetContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dgs)
 {
 	dgs->pValue->type = 0;
 	if ( GetContactSettingWorker(hContact, dgs, 0 ))
@@ -408,7 +408,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::GetContactSetting(HANDLE hContact, DBCONTACTGETSET
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::GetContactSettingStr(HANDLE hContact, DBCONTACTGETSETTING *dgs)
+STDMETHODIMP_(BOOL) CDb3Base::GetContactSettingStr(HANDLE hContact, DBCONTACTGETSETTING *dgs)
 {
 	int iSaveType = dgs->pValue->type;
 
@@ -455,7 +455,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::GetContactSettingStr(HANDLE hContact, DBCONTACTGET
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::GetContactSettingStatic(HANDLE hContact, DBCONTACTGETSETTING *dgs)
+STDMETHODIMP_(BOOL) CDb3Base::GetContactSettingStatic(HANDLE hContact, DBCONTACTGETSETTING *dgs)
 {
 	if ( GetContactSettingWorker(hContact, dgs, 1 ))
 		return 1;
@@ -468,7 +468,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::GetContactSettingStatic(HANDLE hContact, DBCONTACT
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::FreeVariant(DBVARIANT *dbv)
+STDMETHODIMP_(BOOL) CDb3Base::FreeVariant(DBVARIANT *dbv)
 {
 	if ( dbv == 0 ) return 1;
 	switch ( dbv->type ) {
@@ -491,7 +491,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::FreeVariant(DBVARIANT *dbv)
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
+STDMETHODIMP_(BOOL) CDb3Base::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
 {
 	size_t cbSettingNameLen = strlen(pszSettingName) + 2;
 	if (cbSettingNameLen < 512) {
@@ -519,7 +519,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::SetSettingResident(BOOL bIsResident, const char *p
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRITESETTING *dbcws)
+STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRITESETTING *dbcws)
 {
 	DBCONTACTWRITESETTING tmp;
 	DWORD ofsModuleName;
@@ -788,7 +788,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::DeleteContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
+STDMETHODIMP_(BOOL) CDb3Base::DeleteContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
 {
 	DBContact *dbc;
 	DWORD ofsModuleName,ofsSettingsGroup,ofsBlobPtr;
@@ -880,7 +880,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::DeleteContactSetting(HANDLE hContact, DBCONTACTGET
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::EnumContactSettings(HANDLE hContact, DBCONTACTENUMSETTINGS* dbces)
+STDMETHODIMP_(BOOL) CDb3Base::EnumContactSettings(HANDLE hContact, DBCONTACTENUMSETTINGS* dbces)
 {
 	DBContact *dbc;
 	DWORD ofsModuleName,ofsContact,ofsBlobPtr;
@@ -923,7 +923,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::EnumContactSettings(HANDLE hContact, DBCONTACTENUM
 	return result;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
+STDMETHODIMP_(BOOL) CDb3Base::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
 {
 	for(int i = 0; i < m_lResidentSettings.getCount(); i++) {
 		int ret = pFunc(m_lResidentSettings[i], 0, (LPARAM)pParam);

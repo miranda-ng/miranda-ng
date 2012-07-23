@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern DBSignature dbSignature;
 
-int CDdxMmap::CreateDbHeaders()
+int CDb3Base::CreateDbHeaders()
 {
 	DBContact user;
 	DWORD bytesWritten;
@@ -56,7 +56,7 @@ int CDdxMmap::CreateDbHeaders()
 	return 0;
 }
 
-int CDdxMmap::CheckDbHeaders()
+int CDb3Base::CheckDbHeaders()
 {
 	if (memcmp(m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature))) return 1;
 	if (m_dbHeader.version != DB_THIS_VERSION) return 2;

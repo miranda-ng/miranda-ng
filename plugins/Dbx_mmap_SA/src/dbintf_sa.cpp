@@ -34,13 +34,13 @@ int  InitDialogs(void);
 DBSignature dbSignatureSecured = {"Miranda ICQ SD",0x1A};
 
 CDdxMmapSA::CDdxMmapSA(const TCHAR* tszFileName) :
-	CDdxMmap(tszFileName)
+	CDb3Mmap(tszFileName)
 {
 }
 
 int CDdxMmapSA::Load(bool bSkipInit)
 {
-	if ( CDdxMmap::Load(bSkipInit) != ERROR_SUCCESS)
+	if ( CDb3Mmap::Load(bSkipInit) != ERROR_SUCCESS)
 		return 1;
 
 	if ( CheckDbHeaders())

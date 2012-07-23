@@ -57,6 +57,9 @@
     <ClCompile Include="..\Db3x_mmap\src\dbevents.cpp">
       <Filter>Mmap files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Db3x_mmap\src\dbintfm.cpp">
+      <Filter>Mmap files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h">

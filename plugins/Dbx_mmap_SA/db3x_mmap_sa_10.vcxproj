@@ -191,6 +191,7 @@
     <ClCompile Include="..\Db3x_mmap\src\dbevents.cpp" />
     <ClCompile Include="..\Db3x_mmap\src\dbheaders.cpp" />
     <ClCompile Include="..\Db3x_mmap\src\dbintf.cpp" />
+    <ClCompile Include="..\Db3x_mmap\src\dbintfm.cpp" />
     <ClCompile Include="..\Db3x_mmap\src\dbmodulechain.cpp" />
     <ClCompile Include="..\Db3x_mmap\src\dbsettings.cpp" />
     <ClCompile Include="src\dbintf_sa.cpp" />

@@ -41,14 +41,14 @@ static PLUGININFOEX pluginInfo =
 
 HINSTANCE g_hInst = NULL;
 
-LIST<CDdxMmap> g_Dbs(1, (LIST<CDdxMmap>::FTSortFunc)HandleKeySort);
+LIST<CDb3Mmap> g_Dbs(1, (LIST<CDb3Mmap>::FTSortFunc)HandleKeySort);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // returns 0 if the profile is created, EMKPRF*
 static int makeDatabase(const TCHAR *profile, int *error)
 {
-	CDdxMmap *tmp = new CDdxMmap(profile);
+	CDb3Mmap *tmp = new CDb3Mmap(profile);
 	if (tmp->Create() == ERROR_SUCCESS) {
 		tmp->CreateDbHeaders();
 		delete tmp;
@@ -62,7 +62,7 @@ static int makeDatabase(const TCHAR *profile, int *error)
 // returns 0 if the given profile has a valid header
 static int grokHeader(const TCHAR *profile, int *error)
 {
-	CDdxMmap *tmp = new CDdxMmap(profile);
+	CDb3Mmap *tmp = new CDb3Mmap(profile);
 	if (tmp->Load(true) != ERROR_SUCCESS) {
 		delete tmp;
 		if (error != NULL) *error = EGROKPRF_CANTREAD;
@@ -104,7 +104,7 @@ static MIDatabase* LoadDatabase(const TCHAR *profile)
 	// set the memory, lists & UTF8 manager
 	mir_getLP( &pluginInfo );
 
-	CDdxMmap* db = new CDdxMmap(profile);
+	CDb3Mmap* db = new CDb3Mmap(profile);
 	if (db->Load(false) != ERROR_SUCCESS) {
 		delete db;
 		return NULL;
@@ -116,8 +116,8 @@ static MIDatabase* LoadDatabase(const TCHAR *profile)
 
 static int UnloadDatabase(MIDatabase* db)
 {
-	g_Dbs.remove((CDdxMmap*)db);
-	delete (CDdxMmap*)db;
+	g_Dbs.remove((CDb3Mmap*)db);
+	delete (CDb3Mmap*)db;
 	return 0;
 }
 

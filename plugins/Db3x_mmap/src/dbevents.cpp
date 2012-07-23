@@ -30,7 +30,7 @@ char *GetModuleNameByOfs(DWORD ofs);
 
 static HANDLE hEventDeletedEvent,hEventAddedEvent,hEventFilterAddedEvent;
 
-STDMETHODIMP_(LONG) CDdxMmap::GetEventCount(HANDLE hContact)
+STDMETHODIMP_(LONG) CDb3Base::GetEventCount(HANDLE hContact)
 {
 	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
@@ -40,7 +40,7 @@ STDMETHODIMP_(LONG) CDdxMmap::GetEventCount(HANDLE hContact)
 	return (dbc->signature != DBCONTACT_SIGNATURE) ? -1 : dbc->eventCount;
 }
 
-STDMETHODIMP_(HANDLE) CDdxMmap::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
+STDMETHODIMP_(HANDLE) CDb3Base::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 {
 	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 0;
 	if (dbei->timestamp == 0) return 0;
@@ -138,7 +138,7 @@ STDMETHODIMP_(HANDLE) CDdxMmap::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 	return (HANDLE)ofsNew;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
+STDMETHODIMP_(BOOL) CDb3Base::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 {
 	mir_cslockfull lck(m_csDbAccess);
 
@@ -216,14 +216,14 @@ STDMETHODIMP_(BOOL) CDdxMmap::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 	return 0;
 }
 
-STDMETHODIMP_(LONG) CDdxMmap::GetBlobSize(HANDLE hDbEvent)
+STDMETHODIMP_(LONG) CDb3Base::GetBlobSize(HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent, sizeof(DBEvent), NULL);
 	return (dbe->signature != DBEVENT_SIGNATURE) ? -1 : dbe->cbBlob;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
+STDMETHODIMP_(BOOL) CDb3Base::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 {
 	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 1;
 	if (dbei->cbBlob > 0 && dbei->pBlob == NULL) {
@@ -254,7 +254,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDdxMmap::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
+STDMETHODIMP_(BOOL) CDb3Base::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 {
 	DBEvent *dbe;
 	DBContact dbc;
@@ -296,7 +296,7 @@ STDMETHODIMP_(BOOL) CDdxMmap::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 	return ret;
 }
 
-STDMETHODIMP_(HANDLE) CDdxMmap::GetEventContact(HANDLE hDbEvent)
+STDMETHODIMP_(HANDLE) CDb3Base::GetEventContact(HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
@@ -309,7 +309,7 @@ STDMETHODIMP_(HANDLE) CDdxMmap::GetEventContact(HANDLE hDbEvent)
 	return (HANDLE)dbe->ofsPrev;
 }
 
-STDMETHODIMP_(HANDLE) CDdxMmap::FindFirstEvent(HANDLE hContact)
+STDMETHODIMP_(HANDLE) CDb3Base::FindFirstEvent(HANDLE hContact)
 {
 	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
@@ -319,7 +319,7 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindFirstEvent(HANDLE hContact)
 	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsFirstEvent;
 }
 
-STDMETHODIMP_(HANDLE) CDdxMmap::FindFirstUnreadEvent(HANDLE hContact)
+STDMETHODIMP_(HANDLE) CDb3Base::FindFirstUnreadEvent(HANDLE hContact)
 {
 	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
@@ -329,7 +329,7 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindFirstUnreadEvent(HANDLE hContact)
 	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsFirstUnreadEvent;
 }
 
-STDMETHODIMP_(HANDLE) CDdxMmap::FindLastEvent(HANDLE hContact)
+STDMETHODIMP_(HANDLE) CDb3Base::FindLastEvent(HANDLE hContact)
 {
 	mir_cslock lck(m_csDbAccess);
 	if (hContact == 0)
@@ -339,14 +339,14 @@ STDMETHODIMP_(HANDLE) CDdxMmap::FindLastEvent(HANDLE hContact)
 	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsLastEvent;
 }
 
-STDMETHODIMP_(HANDLE) CDdxMmap::FindNextEvent(HANDLE hDbEvent)
+STDMETHODIMP_(HANDLE) CDb3Base::FindNextEvent(HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);
 	return (dbe->signature != DBEVENT_SIGNATURE) ? 0 : (HANDLE)dbe->ofsNext;
 }
 
-STDMETHODIMP_(HANDLE) CDdxMmap::FindPrevEvent(HANDLE hDbEvent)
+STDMETHODIMP_(HANDLE) CDb3Base::FindPrevEvent(HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead(hDbEvent,sizeof(DBEvent),NULL);

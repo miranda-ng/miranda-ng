@@ -50,7 +50,7 @@ static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2 )
 	return ( mn1->ofs - mn2->ofs );
 }
 
-CDdxMmap::CDdxMmap(const TCHAR* tszFileName) :
+CDb3Base::CDb3Base(const TCHAR* tszFileName) :
 	m_hDbFile(INVALID_HANDLE_VALUE),
 	m_safetyMode(TRUE),
 	m_lSettings(100, stringCompare),
@@ -73,7 +73,7 @@ CDdxMmap::CDdxMmap(const TCHAR* tszFileName) :
 	m_hModHeap = HeapCreate(0,0,0);
 }
 
-CDdxMmap::~CDdxMmap()
+CDb3Base::~CDb3Base()
 {
 	// destroy settings
 	HeapDestroy(m_hCacheHeap);
@@ -93,10 +93,6 @@ CDdxMmap::~CDdxMmap()
 		FlushViewOfFile(m_pDbCache, 0);
 		UnmapViewOfFile(m_pDbCache);
 	}
-	if (m_hMap)
-		CloseHandle(m_hMap);
-	if (m_pNull)
-		free(m_pNull);
 
 	// update profile last modified time
 	DWORD bytesWritten;
@@ -109,7 +105,7 @@ CDdxMmap::~CDdxMmap()
 	mir_free(m_tszProfileName);
 }
 
-int CDdxMmap::Load(bool bSkipInit)
+int CDb3Base::Load(bool bSkipInit)
 {
 	log0("DB logging running");
 	
@@ -138,13 +134,13 @@ int CDdxMmap::Load(bool bSkipInit)
 	return 0;
 }
 
-int CDdxMmap::Create()
+int CDb3Base::Create()
 {
 	m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
 	return ( m_hDbFile == INVALID_HANDLE_VALUE );
 }
 
-STDMETHODIMP_(void) CDdxMmap::SetCacheSafetyMode(BOOL bIsSet)
+STDMETHODIMP_(void) CDb3Base::SetCacheSafetyMode(BOOL bIsSet)
 {
 	{	mir_cslock lck(m_csDbAccess);
 		m_safetyMode = bIsSet;
@@ -152,22 +148,22 @@ STDMETHODIMP_(void) CDdxMmap::SetCacheSafetyMode(BOOL bIsSet)
 	DBFlush(1);
 }
 
-void CDdxMmap::EncodeCopyMemory(void *dst, void *src, size_t size)
+void CDb3Base::EncodeCopyMemory(void *dst, void *src, size_t size)
 {
 	MoveMemory(dst, src, size);
 }
 
-void CDdxMmap::DecodeCopyMemory(void *dst, void *src, size_t size)
+void CDb3Base::DecodeCopyMemory(void *dst, void *src, size_t size)
 {
 	MoveMemory(dst, src, size);
 }
 
-void CDdxMmap::EncodeDBWrite(DWORD ofs, void *src, int size)
+void CDb3Base::EncodeDBWrite(DWORD ofs, void *src, int size)
 {
 	DBWrite(ofs, src, size);
 }
 
-void CDdxMmap::DecodeDBWrite(DWORD ofs, void *src, int size)
+void CDb3Base::DecodeDBWrite(DWORD ofs, void *src, int size)
 {
 	DBWrite(ofs, src, size);
 }
