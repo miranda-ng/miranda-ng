@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -213,20 +213,20 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ADDREMINDER             ICON                    "icons/addremin.ico"
-IDI_DELETEICON              ICON                    "icons/deleteic.ico"
-IDI_NOTEICON                ICON                    "icons/noteicon.ico"
-IDI_SHOWHIDE                ICON                    "icons/showhide.ico"
-IDI_CAPTIONICON             ICON                    "icons/captioni.ico"
-IDI_DELETEREMINDER          ICON                    "icons/deletere.ico"
-IDI_VIEWREMINDERS           ICON                    "icons/viewremi.ico"
-IDI_CAPTIONICONNOTTOP       ICON                    "icons/captionn.ico"
-IDI_HIDENOTE                ICON                    "icons/hidenote.ico"
-IDI_REMOVENOTE              ICON                    "icons/removeno.ico"
-IDI_REMINDER                ICON                    "icons/reminder.ico"
-IDI_BRINGFRONT              ICON                    "icons/bringfront.ico"
-IDI_PLAYSOUND               ICON                    "icons/playsound.ico"
-IDI_VIEWNOTES               ICON                    "icons/viewnotes.ico"
+IDI_ADDREMINDER             ICON                    "addremin.ico"
+IDI_DELETEICON              ICON                    "deleteic.ico"
+IDI_NOTEICON                ICON                    "noteicon.ico"
+IDI_SHOWHIDE                ICON                    "showhide.ico"
+IDI_CAPTIONICON             ICON                    "captioni.ico"
+IDI_DELETEREMINDER          ICON                    "deletere.ico"
+IDI_VIEWREMINDERS           ICON                    "viewremi.ico"
+IDI_CAPTIONICONNOTTOP       ICON                    "captionn.ico"
+IDI_HIDENOTE                ICON                    "hidenote.ico"
+IDI_REMOVENOTE              ICON                    "removeno.ico"
+IDI_REMINDER                ICON                    "reminder.ico"
+IDI_BRINGFRONT              ICON                    "bringfront.ico"
+IDI_PLAYSOUND               ICON                    "playsound.ico"
+IDI_VIEWNOTES               ICON                    "viewnotes.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

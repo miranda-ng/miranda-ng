@@ -73,11 +73,10 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;PACKUPDATER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Common.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -97,10 +96,9 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;PACKUPDATER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Common.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -121,9 +119,8 @@
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;PACKUPDATER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Common.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -133,8 +130,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalManifestDependencies>
-      </AdditionalManifestDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
     </Link>
@@ -148,9 +143,8 @@
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;PACKUPDATER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Common.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -169,14 +163,14 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
-    <ResourceCompile Include="Version.rc" />
+    <ResourceCompile Include="res\Resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Resource.h" />
+    <ClInclude Include="src\Resource.h" />
     <ClInclude Include="Src\Common.h" />
     <ClInclude Include="Src\Notifications.h" />
-    <ClInclude Include="Version.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Events.cpp" />
@@ -186,12 +180,6 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Src\Utils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\btnClose.ico" />
-    <None Include="res\btnOk.ico" />
-    <None Include="res\delete.ico" />
-    <None Include="res\menu.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

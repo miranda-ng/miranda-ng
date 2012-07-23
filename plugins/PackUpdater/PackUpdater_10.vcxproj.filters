@@ -15,18 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource.rc">
+    <ResourceCompile Include="res\Resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="Version.rc">
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Resource.h">
+    <ClInclude Include="src\Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Version.h">
+    <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Common.h">
@@ -52,19 +52,5 @@
     <ClCompile Include="Src\Events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\menu.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\delete.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\btnOk.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\btnClose.ico">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

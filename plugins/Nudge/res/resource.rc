@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ LANGUAGE LANG_BULGARIAN, SUBLANG_DEFAULT
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -262,16 +262,16 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_NUDGE               ICON                    "resources\\Nudge.ico"
-IDI_NUGDE_YAHOO         ICON                    "resources\\NudgeYahoo.ico"
-IDI_NUDGE_IRC           ICON                    "resources\\NudgeIRC.ico"
-IDI_NUDGE_MSN           ICON                    "resources\\NudgeMSN.ico"
-IDI_NUDGE_TLEN          ICON                    "resources\\NudgeTlen.ico"
-IDI_NUDGE_META          ICON                    "resources\\NudgeMeta.ico"
+IDI_NUDGE               ICON                    "Nudge.ico"
+IDI_NUGDE_YAHOO         ICON                    "NudgeYahoo.ico"
+IDI_NUDGE_IRC           ICON                    "NudgeIRC.ico"
+IDI_NUDGE_MSN           ICON                    "NudgeMSN.ico"
+IDI_NUDGE_TLEN          ICON                    "NudgeTlen.ico"
+IDI_NUDGE_META          ICON                    "NudgeMeta.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
-
+	
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

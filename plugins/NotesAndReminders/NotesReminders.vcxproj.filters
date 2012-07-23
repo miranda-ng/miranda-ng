@@ -13,51 +13,40 @@
       <UniqueIdentifier>{38ee8469-7af5-4130-90a1-f4e8c620f475}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Custom Files">
-      <UniqueIdentifier>{81e2a913-4aac-4c50-aa77-6c231f934c76}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="hotkeys.cpp">
+    <ClCompile Include="src\hotkeys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="miscutils.cpp">
+    <ClCompile Include="src\miscutils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="notes.cpp">
+    <ClCompile Include="src\notes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="reminders.cpp">
+    <ClCompile Include="src\reminders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="globals.h">
+    <ClInclude Include="src\globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="miscutils.h">
+    <ClInclude Include="src\miscutils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="N&amp;R - langpack.txt">
-      <Filter>Custom Files</Filter>
-    </None>
-    <None Include="N&amp;R - readme.txt">
-      <Filter>Custom Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

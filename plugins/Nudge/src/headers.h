@@ -3,6 +3,8 @@
 // are changed infrequently
 //
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #pragma once
 
 // Modify the following defines if you have to target a platform prior to the ones specified below.

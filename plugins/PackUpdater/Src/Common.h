@@ -17,6 +17,8 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #define MIRANDA_VER    0x0A00
 
 // Windows Header Files:
@@ -45,8 +47,8 @@ Boston, MA 02111-1307, USA.
 #include <m_folders.h>
 #include "m_popup2.h"
 
-#include "..\version.h"
-#include "..\resource.h"
+#include "version.h"
+#include "resource.h"
 #include "Notifications.h"
 
 #define MODNAME					"PackUpdater"
