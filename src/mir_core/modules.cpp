@@ -86,10 +86,9 @@ static int QueueMainThread(PAPCFUNC pFunc, void* pParam, HANDLE hDoneEvent)
 {
 	int result = QueueUserAPC(pFunc, hMainThread, (ULONG_PTR)pParam);
 	PostMessage(hAPCWindow, WM_NULL, 0, 0); // let this get processed in its own time
-	if (hDoneEvent) {
+	if (hDoneEvent)
 		WaitForSingleObject(hDoneEvent, INFINITE);
-		CloseHandle(hDoneEvent);
-	}
+
 	return result;
 }
 
@@ -257,8 +256,12 @@ MIR_CORE_DLL(int) NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 	if ( GetCurrentThreadId() == mainThreadId)
 		return CallHookSubscribers((THook*)hEvent, wParam, lParam);
 
+	MThreadData* pData = (MThreadData*)TlsGetValue(mir_tls);
+	if (pData == NULL)
+		return -1;
+
 	mir_ptr<THookToMainThreadItem> item;
-	item->hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	item->hDoneEvent = pData->m_hEvent;
 	item->hook = (THook*)hEvent;
 	item->wParam = wParam;
 	item->lParam = lParam;
@@ -527,11 +530,15 @@ MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam, LPARAM lP
 	if (GetCurrentThreadId() == mainThreadId)
 		return CallService(name, wParam, lParam);
 
+	MThreadData* pData = (MThreadData*)TlsGetValue(mir_tls);
+	if (pData == NULL)
+		return CALLSERVICE_NOTFOUND;
+
 	mir_ptr<TServiceToMainThreadItem> item;
 	item->wParam = wParam;
 	item->lParam = lParam;
 	item->name = name;
-	item->hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	item->hDoneEvent = pData->m_hEvent;
 	QueueMainThread(CallServiceToMainAPCFunc, item, item->hDoneEvent);
 	return item->result;
 }

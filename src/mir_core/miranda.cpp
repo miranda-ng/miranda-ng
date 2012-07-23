@@ -33,6 +33,7 @@ int hLangpack = 0;
 HINSTANCE hInst = 0;
 
 HANDLE hStackMutex, hThreadQueueEmpty;
+DWORD mir_tls = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // module init
@@ -80,6 +81,7 @@ MIR_CORE_DLL(void) UnloadCoreModule(void)
 	DestroyWindow(hAPCWindow);
 	CloseHandle(hStackMutex);
 	CloseHandle(hThreadQueueEmpty);
+	TlsFree(mir_tls);
 
 	DestroyModularEngine();
 	UnloadLangPackModule();
@@ -92,6 +94,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
 		hInst = hinstDLL;
+		mir_tls = TlsAlloc();
 		LoadCoreModule();
 	}
 	return TRUE;

@@ -87,6 +87,15 @@ TCHAR* LangPackTranslateStringT(int hLangpack, const TCHAR* tszEnglish);
 
 HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name);
 
+/**** threads.cpp **********************************************************************/
+
+struct MThreadData
+{
+	HANDLE m_hEvent;
+};
+
+extern DWORD mir_tls;
+
 /**** utils.cpp ************************************************************************/
 
 void HotkeyToName(TCHAR *buf, int size, BYTE shift, BYTE key);
