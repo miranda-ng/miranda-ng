@@ -75,7 +75,7 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SRMM_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -83,7 +83,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -107,7 +106,7 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;SRMM_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -115,7 +114,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -137,7 +135,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SRMM_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -146,7 +144,6 @@
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -166,7 +163,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;SRMM_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -174,7 +171,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -191,80 +187,72 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cmdlist.cpp" />
-    <ClCompile Include="globals.cpp" />
-    <ClCompile Include="infobar.cpp" />
-    <ClCompile Include="input.cpp" />
-    <ClCompile Include="msgdialog.cpp" />
-    <ClCompile Include="msglog.cpp" />
-    <ClCompile Include="msgoptions.cpp" />
-    <ClCompile Include="msgs.cpp" />
-    <ClCompile Include="msgtimedout.cpp" />
-    <ClCompile Include="msgwindow.cpp" />
-    <ClCompile Include="richutil.cpp" />
-    <ClCompile Include="sendqueue.cpp" />
-    <ClCompile Include="srmm.cpp">
+    <ClCompile Include="src\cmdlist.cpp" />
+    <ClCompile Include="src\globals.cpp" />
+    <ClCompile Include="src\infobar.cpp" />
+    <ClCompile Include="src\input.cpp" />
+    <ClCompile Include="src\msgdialog.cpp" />
+    <ClCompile Include="src\msglog.cpp" />
+    <ClCompile Include="src\msgoptions.cpp" />
+    <ClCompile Include="src\msgs.cpp" />
+    <ClCompile Include="src\msgtimedout.cpp" />
+    <ClCompile Include="src\msgwindow.cpp" />
+    <ClCompile Include="src\richutil.cpp" />
+    <ClCompile Include="src\sendqueue.cpp" />
+    <ClCompile Include="src\srmm.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="statusicon.cpp" />
-    <ClCompile Include="utils.cpp" />
-    <ClCompile Include="chat\clist.cpp">
+    <ClCompile Include="src\statusicon.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="src\chat\clist.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\colorchooser.cpp">
+    <ClCompile Include="src\chat\colorchooser.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\log.cpp">
+    <ClCompile Include="src\chat\log.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\main.cpp">
+    <ClCompile Include="src\chat\main.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\manager.cpp">
+    <ClCompile Include="src\chat\manager.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\message.cpp">
+    <ClCompile Include="src\chat\message.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\options.cpp">
+    <ClCompile Include="src\chat\options.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\services.cpp">
+    <ClCompile Include="src\chat\services.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\tools.cpp">
+    <ClCompile Include="src\chat\tools.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\window.cpp">
+    <ClCompile Include="src\chat\window.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cmdlist.h" />
-    <ClInclude Include="commonheaders.h" />
-    <ClInclude Include="globals.h" />
-    <ClInclude Include="infobar.h" />
-    <ClInclude Include="input.h" />
-    <ClInclude Include="msgs.h" />
-    <ClInclude Include="msgwindow.h" />
-    <ClInclude Include="multimon.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="richutil.h" />
-    <ClInclude Include="sendqueue.h" />
-    <ClInclude Include="statusicon.h" />
-    <ClInclude Include="utils.h" />
-    <ClInclude Include="chat\chat.h" />
+    <ClInclude Include="src\cmdlist.h" />
+    <ClInclude Include="src\commonheaders.h" />
+    <ClInclude Include="src\globals.h" />
+    <ClInclude Include="src\infobar.h" />
+    <ClInclude Include="src\input.h" />
+    <ClInclude Include="src\msgs.h" />
+    <ClInclude Include="src\msgwindow.h" />
+    <ClInclude Include="src\multimon.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\richutil.h" />
+    <ClInclude Include="src\sendqueue.h" />
+    <ClInclude Include="src\statusicon.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\chat\chat.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\addcontact.ico" />
-    <None Include="res\delete.ico" />
-    <None Include="res\dragcopy.cur" />
-    <None Include="res\hyperlin.cur" />
-    <None Include="res\quote.ico" />
-    <None Include="res\typingoff.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="res\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

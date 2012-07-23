@@ -1,9 +1,4 @@
-#include "resource.h"
-#ifdef __MINGW32__
-	#define WINVER 0x500
-	#define _WIN32_WINNT 0x501
-	#define _WIN32_IE 0x500
-#endif
+#include "..\src\resource.h"
 #include <windows.h>
 
 #undef RICHEDIT_CLASS
@@ -498,20 +493,18 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE
+1 TEXTINCLUDE
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE
+2 TEXTINCLUDE
 BEGIN
     "#include <windows.h>\r\n"
-    "#include <winres.h>\r\n"
-    "#include ""../../include/statusmodes.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -527,59 +520,59 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ADDCONTACT          ICON    DISCARDABLE     "res/addcontact.ico"
-IDI_USERDETAILS         ICON    DISCARDABLE     "res/details.ico"
-IDI_HISTORY             ICON    DISCARDABLE     "res/history.ico"
-IDI_SEND                ICON    DISCARDABLE     "res/send.ico"
-IDI_SMILEY              ICON    DISCARDABLE     "res/smiley.ico"
-IDI_TYPING              ICON    DISCARDABLE     "res/typing.ico"
-IDI_TYPINGOFF           ICON    DISCARDABLE     "res/typingoff.ico"
-IDI_UNICODEON           ICON    DISCARDABLE     "res/unicode.ico"
-IDI_UNICODEOFF          ICON    DISCARDABLE     "res/ansi.ico"
-IDI_TIMESTAMP           ICON    DISCARDABLE     "res/clock.ico"
-IDI_QUOTE               ICON    DISCARDABLE     "res/quote.ico"
-IDI_INCOMING            ICON    DISCARDABLE     "res/message.ico"
-IDI_OUTGOING            ICON    DISCARDABLE     "res/messageout.ico"
-IDI_NOTICE              ICON    DISCARDABLE     "res/highlight.ico"
-IDI_CLOSEX              ICON    DISCARDABLE     "res/closex.ico"
+IDI_ADDCONTACT          ICON                    "addcontact.ico"
+IDI_USERDETAILS         ICON                    "details.ico"
+IDI_HISTORY             ICON                    "history.ico"
+IDI_SEND                ICON                    "send.ico"
+IDI_SMILEY              ICON                    "smiley.ico"
+IDI_TYPING              ICON                    "typing.ico"
+IDI_TYPINGOFF           ICON                    "typingoff.ico"
+IDI_UNICODEON           ICON                    "unicode.ico"
+IDI_UNICODEOFF          ICON                    "ansi.ico"
+IDI_TIMESTAMP           ICON                    "clock.ico"
+IDI_QUOTE               ICON                    "quote.ico"
+IDI_INCOMING            ICON                    "message.ico"
+IDI_OUTGOING            ICON                    "messageout.ico"
+IDI_NOTICE              ICON                    "highlight.ico"
+IDI_CLOSEX              ICON                    "closex.ico"
 // chat icons
-IDI_BUNDERLINE          ICON                    "res/chat/underline.ico"
-IDI_BBOLD               ICON                    "res/chat/bold.ico"
-IDI_BITALICS            ICON                    "res/chat/italic.ico"
-IDI_JOIN                ICON                    "res/chat/join.ico"
-IDI_TOPIC               ICON                    "res/chat/topic.ico"
-IDI_ADDSTATUS           ICON                    "res/chat/addmode.ico"
-IDI_INFO                ICON                    "res/chat/info.ico"
-IDI_KICK                ICON                    "res/chat/kick.ico"
-IDI_NICK                ICON                    "res/chat/nick.ico"
-IDI_CHAT_NOTICE         ICON                    "res/chat/notice.ico"
-IDI_PART                ICON                    "res/chat/part.ico"
-IDI_QUIT                ICON                    "res/chat/quit.ico"
-IDI_REMSTATUS           ICON                    "res/chat/removestatus.ico"
-IDI_ACTION              ICON                    "res/chat/action.ico"
-IDI_TOPICBUT            ICON                    "res/chat/topicbut.ico"
-IDI_BKGCOLOR            ICON                    "res/chat/bkgcolor.ico"
-IDI_CHANMGR             ICON                    "res/chat/window.ico"
-IDI_COLOR               ICON                    "res/chat/color.ico"
-IDI_FILTER              ICON                    "res/chat/filter.ico"
-IDI_NICKLIST            ICON                    "res/chat/nicklist.ico"
-IDI_STATUS3             ICON                    "res/chat/4.ico"
-IDI_STATUS2             ICON                    "res/chat/3.ico"
-IDI_STATUS4             ICON                    "res/chat/5.ico"
-IDI_STATUS1             ICON                    "res/chat/2.ico"
-IDI_STATUS0             ICON                    "res/chat/1.ico"
-IDI_STATUS5             ICON                    "res/chat/6.ico"
-IDI_OVERLAY             ICON                    "res/chat/overlay.ico"
-IDI_NICKLIST2           ICON                    "res/chat/nicklist2.ico"
-IDI_FILTER2             ICON                    "res/chat/filter2.ico"
+IDI_BUNDERLINE          ICON                    "chat/underline.ico"
+IDI_BBOLD               ICON                    "chat/bold.ico"
+IDI_BITALICS            ICON                    "chat/italic.ico"
+IDI_JOIN                ICON                    "chat/join.ico"
+IDI_TOPIC               ICON                    "chat/topic.ico"
+IDI_ADDSTATUS           ICON                    "chat/addmode.ico"
+IDI_INFO                ICON                    "chat/info.ico"
+IDI_KICK                ICON                    "chat/kick.ico"
+IDI_NICK                ICON                    "chat/nick.ico"
+IDI_CHAT_NOTICE         ICON                    "chat/notice.ico"
+IDI_PART                ICON                    "chat/part.ico"
+IDI_QUIT                ICON                    "chat/quit.ico"
+IDI_REMSTATUS           ICON                    "chat/removestatus.ico"
+IDI_ACTION              ICON                    "chat/action.ico"
+IDI_TOPICBUT            ICON                    "chat/topicbut.ico"
+IDI_BKGCOLOR            ICON                    "chat/bkgcolor.ico"
+IDI_CHANMGR             ICON                    "chat/window.ico"
+IDI_COLOR               ICON                    "chat/color.ico"
+IDI_FILTER              ICON                    "chat/filter.ico"
+IDI_NICKLIST            ICON                    "chat/nicklist.ico"
+IDI_STATUS3             ICON                    "chat/4.ico"
+IDI_STATUS2             ICON                    "chat/3.ico"
+IDI_STATUS4             ICON                    "chat/5.ico"
+IDI_STATUS1             ICON                    "chat/2.ico"
+IDI_STATUS0             ICON                    "chat/1.ico"
+IDI_STATUS5             ICON                    "chat/6.ico"
+IDI_OVERLAY             ICON                    "chat/overlay.ico"
+IDI_NICKLIST2           ICON                    "chat/nicklist2.ico"
+IDI_FILTER2             ICON                    "chat/filter2.ico"
 
-IDI_GOOGLE              ICON                    "res/google.ico"
-IDI_BING                ICON                    "res/bing.ico"
-IDI_WIKIPEDIA           ICON                    "res/wikipedia.ico"
-IDI_GOOGLE_MAPS         ICON                    "res/gmaps.ico"
-IDI_GOOGLE_TRANSLATE    ICON                    "res/gtranslate.ico"
-IDI_YAHOO           	ICON                    "res/yahoo.ico"
-IDI_FOODNETWORK         ICON                    "res/foodnetwork.ico"
+IDI_GOOGLE              ICON                    "google.ico"
+IDI_BING                ICON                    "bing.ico"
+IDI_WIKIPEDIA           ICON                    "wikipedia.ico"
+IDI_GOOGLE_MAPS         ICON                    "gmaps.ico"
+IDI_GOOGLE_TRANSLATE    ICON                    "gtranslate.ico"
+IDI_YAHOO           	ICON                    "yahoo.ico"
+IDI_FOODNETWORK         ICON                    "foodnetwork.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -587,8 +580,8 @@ IDI_FOODNETWORK         ICON                    "res/foodnetwork.ico"
 // Cursor
 //
 
-IDC_HYPERLINKHAND       CURSOR  DISCARDABLE     "res/hyperlin.cur"
-IDC_DRAGCURSOR          CURSOR  DISCARDABLE     "res/dragcopy.cur"
+IDC_HYPERLINKHAND       CURSOR                  "hyperlin.cur"
+IDC_DRAGCURSOR          CURSOR                  "dragcopy.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -674,7 +667,6 @@ BEGIN
     END
 END
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
@@ -713,8 +705,6 @@ BEGIN
         VALUE "Translation", 0x415, 1251
     END
 END
-
-#endif    // !_MAC
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////

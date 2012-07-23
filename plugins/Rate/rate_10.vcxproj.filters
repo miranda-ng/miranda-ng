@@ -13,46 +13,26 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
     </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{629d9113-01ed-4da4-8f68-76e949ebdb7b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commonheaders.h">
+    <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="rate.rc">
+    <ResourceCompile Include="res\rate.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="icons\rate_high.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\rate_low.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\rate_med.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="docs\Rate-readme.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="docs\rate.txt">
-      <Filter>Docs</Filter>
-    </None>
   </ItemGroup>
 </Project>
