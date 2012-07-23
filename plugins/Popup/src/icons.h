@@ -34,7 +34,7 @@ Last change by : $Author: Merlin_de $
 #define __icons_h__
 
 //ICONS
-#define SECT_TOLBAR			"ToolBar"
+#define SECT_TOLBAR			"Toolbar"
 #define SECT_POPUP			MODULNAME_PLU
 #define SECT_POPUP_ACT		"/Actions"
 #define SECT_POPUP_OPT		"/Options"
