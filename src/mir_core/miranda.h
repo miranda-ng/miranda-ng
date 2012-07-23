@@ -89,11 +89,6 @@ HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name);
 
 /**** threads.cpp **********************************************************************/
 
-struct MThreadData
-{
-	HANDLE m_hEvent;
-};
-
 extern DWORD mir_tls;
 
 /**** utils.cpp ************************************************************************/

@@ -97,5 +97,10 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 		mir_tls = TlsAlloc();
 		LoadCoreModule();
 	}
+	else if (fdwReason == DLL_THREAD_DETACH) {
+		HANDLE hEvent = TlsGetValue(mir_tls);
+		if (hEvent)
+			CloseHandle(hEvent);
+	}
 	return TRUE;
 }

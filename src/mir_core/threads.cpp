@@ -103,9 +103,6 @@ struct FORK_ARG {
 
 void __cdecl forkthread_r(void * arg)
 {
-	MThreadData threadData = { CreateEvent(NULL, FALSE, FALSE, NULL) };
-	TlsSetValue(mir_tls, &threadData);
-
 	struct FORK_ARG * fa = (struct FORK_ARG *) arg;
 	void (*callercode)(void*)=fa->threadcode;
 	void * cookie=fa->arg;
@@ -121,7 +118,6 @@ void __cdecl forkthread_r(void * arg)
 
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 	Thread_Pop();
-	CloseHandle(threadData.m_hEvent);
 }
 
 MIR_CORE_DLL(UINT_PTR) forkthread( void (__cdecl *threadcode)(void*), unsigned long stacksize, void *arg)
@@ -144,9 +140,6 @@ MIR_CORE_DLL(UINT_PTR) forkthread( void (__cdecl *threadcode)(void*), unsigned l
 
 unsigned __stdcall forkthreadex_r(void * arg)
 {
-	MThreadData threadData = { CreateEvent(NULL, FALSE, FALSE, NULL) };
-	TlsSetValue(mir_tls, &threadData);
-
 	struct FORK_ARG *fa = (struct FORK_ARG *)arg;
 	pThreadFuncEx threadcode = fa->threadcodeex;
 	pThreadFuncOwner threadcodeex = (pThreadFuncOwner)fa->threadcodeex;
@@ -169,7 +162,6 @@ unsigned __stdcall forkthreadex_r(void * arg)
 
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 	Thread_Pop();
-	CloseHandle(threadData.m_hEvent);
 	return rc;
 }
 
