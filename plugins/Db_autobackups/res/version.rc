@@ -3,7 +3,7 @@
 #endif //APSTUDIO_INVOKED
 
 #include <windows.h>
-#include "version.h"
+#include "..\src\version.h"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -27,11 +27,11 @@ BEGIN
     BEGIN
         BLOCK "041904b0"
         BEGIN
-            VALUE "FileDescription", "Miranda NG Mmap DataBase Engine 3x"
+            VALUE "FileDescription", __PLUGIN_DESC
             VALUE "FileVersion", __VERSION_STRING
-            VALUE "LegalCopyright", "Copyright (C) 2012"
-            VALUE "OriginalFilename", "dbx_mmap.dll"
-            VALUE "ProductName", "Miranda NG Mmap DataBase Engine 3x"
+            VALUE "LegalCopyright", __COPYRIGHTS
+            VALUE "OriginalFilename", "db_autobackups.dll"
+            VALUE "ProductName", __PLUGIN_NAME
             VALUE "ProductVersion", __VERSION_STRING
         END
     END
