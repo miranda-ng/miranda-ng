@@ -47,7 +47,7 @@ If you want to restart Miranda now, press Yes, if you want to upgrade another ac
 Use Miranda IM options dialogs to change it's preferences."
 
 #define welcomeMsg \
-"Welcome to Miranda IM's account manager!\n \
+"Welcome to Miranda NG's account manager!\n \
 Here you can set up your IM accounts.\n\n \
 Select an account from the list on the left to see the available options. \
 Alternatively, just click on the Plus sign underneath the list to set up a new IM account."
