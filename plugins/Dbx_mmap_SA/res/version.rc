@@ -3,7 +3,7 @@
 #endif //APSTUDIO_INVOKED
 
 #include <windows.h>
-#include "version.h"
+#include "..\src\version.h"
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -13,78 +13,55 @@
       <UniqueIdentifier>{e10cb216-83c1-4eb2-95ec-09f1e42a2c96}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Documentation">
-      <UniqueIdentifier>{8ad8cb39-e207-46f6-8fbf-1f5871148568}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ICQserver.cpp">
+    <ClCompile Include="src\ICQserver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mirabilis.cpp">
+    <ClCompile Include="src\mirabilis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="miranda.cpp">
+    <ClCompile Include="src\miranda.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="progress.cpp">
+    <ClCompile Include="src\progress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="wizard.cpp">
+    <ClCompile Include="src\wizard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="encryption.cpp">
+    <ClCompile Include="src\encryption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ICQserver.h">
+    <ClInclude Include="src\ICQserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="import.h">
+    <ClInclude Include="src\import.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mirabilis.h">
+    <ClInclude Include="src\mirabilis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mirandadb0700.h">
+    <ClInclude Include="src\mirandadb0700.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="docs\import-ICQ_Db_Specs.txt">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="docs\import-license.txt">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="docs\import-readme.txt">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="docs\import-translation.txt">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="res\import.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\pass.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="Version.rc">
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

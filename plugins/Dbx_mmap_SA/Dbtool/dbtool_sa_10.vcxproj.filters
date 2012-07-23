@@ -21,100 +21,86 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="disk.cpp">
+    <ClCompile Include="src\disk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="wizard.cpp">
+    <ClCompile Include="src\wizard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="worker.cpp">
+    <ClCompile Include="src\worker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="aggressive.cpp">
+    <ClCompile Include="src\aggressive.cpp">
       <Filter>Source Files\Workers</Filter>
     </ClCompile>
-    <ClCompile Include="contactchain.cpp">
+    <ClCompile Include="src\contactchain.cpp">
       <Filter>Source Files\Workers</Filter>
     </ClCompile>
-    <ClCompile Include="eventchain.cpp">
+    <ClCompile Include="src\eventchain.cpp">
       <Filter>Source Files\Workers</Filter>
     </ClCompile>
-    <ClCompile Include="finaltasks.cpp">
+    <ClCompile Include="src\finaltasks.cpp">
       <Filter>Source Files\Workers</Filter>
     </ClCompile>
-    <ClCompile Include="initialchecks.cpp">
+    <ClCompile Include="src\initialchecks.cpp">
       <Filter>Source Files\Workers</Filter>
     </ClCompile>
-    <ClCompile Include="modulechain.cpp">
+    <ClCompile Include="src\modulechain.cpp">
       <Filter>Source Files\Workers</Filter>
     </ClCompile>
-    <ClCompile Include="settingschain.cpp">
+    <ClCompile Include="src\settingschain.cpp">
       <Filter>Source Files\Workers</Filter>
     </ClCompile>
-    <ClCompile Include="user.cpp">
+    <ClCompile Include="src\user.cpp">
       <Filter>Source Files\Workers</Filter>
     </ClCompile>
-    <ClCompile Include="cleaning.cpp">
+    <ClCompile Include="src\cleaning.cpp">
       <Filter>Source Files\Wizard Pages</Filter>
     </ClCompile>
-    <ClCompile Include="fileaccess.cpp">
+    <ClCompile Include="src\fileaccess.cpp">
       <Filter>Source Files\Wizard Pages</Filter>
     </ClCompile>
-    <ClCompile Include="finished.cpp">
+    <ClCompile Include="src\finished.cpp">
       <Filter>Source Files\Wizard Pages</Filter>
     </ClCompile>
-    <ClCompile Include="openerror.cpp">
+    <ClCompile Include="src\openerror.cpp">
       <Filter>Source Files\Wizard Pages</Filter>
     </ClCompile>
-    <ClCompile Include="progress.cpp">
+    <ClCompile Include="src\progress.cpp">
       <Filter>Source Files\Wizard Pages</Filter>
     </ClCompile>
-    <ClCompile Include="selectdb.cpp">
+    <ClCompile Include="src\selectdb.cpp">
       <Filter>Source Files\Wizard Pages</Filter>
     </ClCompile>
-    <ClCompile Include="welcome.cpp">
+    <ClCompile Include="src\welcome.cpp">
       <Filter>Source Files\Wizard Pages</Filter>
     </ClCompile>
-    <ClCompile Include="utf.cpp">
+    <ClCompile Include="src\utf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="encryption.cpp">
+    <ClCompile Include="src\encryption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="database.h">
+    <ClInclude Include="src\database.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dbtool.h">
+    <ClInclude Include="src\dbtool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Version.h">
+    <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\dbtool.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\profileg.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\profiler.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\profiley.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="Version.rc">
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

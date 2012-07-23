@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -95,8 +95,8 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON2               ICON                    "icos\\logo.ico"
-IDI_ICON3               ICON                    "icos\\pass.ico"
+IDI_ICON2               ICON                    "logo.ico"
+IDI_ICON3               ICON                    "pass.ico"
 #endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -242,7 +242,7 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 

@@ -69,14 +69,13 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;DATABASE_INDEPENDANT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dbtool.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -99,13 +98,12 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;WIN64;_WINDOWS;DATABASE_INDEPENDANT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dbtool.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -130,14 +128,13 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;DATABASE_INDEPENDANT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>false</ExceptionHandling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dbtool.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
@@ -166,14 +163,13 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;WIN64;_WINDOWS;DATABASE_INDEPENDANT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>false</ExceptionHandling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dbtool.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
@@ -197,44 +193,38 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="disk.cpp" />
-    <ClCompile Include="encryption.cpp" />
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\disk.cpp" />
+    <ClCompile Include="src\encryption.cpp" />
+    <ClCompile Include="src\main.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="utf.cpp" />
-    <ClCompile Include="wizard.cpp" />
-    <ClCompile Include="worker.cpp" />
-    <ClCompile Include="aggressive.cpp" />
-    <ClCompile Include="contactchain.cpp" />
-    <ClCompile Include="eventchain.cpp" />
-    <ClCompile Include="finaltasks.cpp" />
-    <ClCompile Include="initialchecks.cpp" />
-    <ClCompile Include="modulechain.cpp" />
-    <ClCompile Include="settingschain.cpp" />
-    <ClCompile Include="user.cpp" />
-    <ClCompile Include="cleaning.cpp" />
-    <ClCompile Include="fileaccess.cpp" />
-    <ClCompile Include="finished.cpp" />
-    <ClCompile Include="openerror.cpp" />
-    <ClCompile Include="progress.cpp" />
-    <ClCompile Include="selectdb.cpp" />
-    <ClCompile Include="welcome.cpp" />
+    <ClCompile Include="src\utf.cpp" />
+    <ClCompile Include="src\wizard.cpp" />
+    <ClCompile Include="src\worker.cpp" />
+    <ClCompile Include="src\aggressive.cpp" />
+    <ClCompile Include="src\contactchain.cpp" />
+    <ClCompile Include="src\eventchain.cpp" />
+    <ClCompile Include="src\finaltasks.cpp" />
+    <ClCompile Include="src\initialchecks.cpp" />
+    <ClCompile Include="src\modulechain.cpp" />
+    <ClCompile Include="src\settingschain.cpp" />
+    <ClCompile Include="src\user.cpp" />
+    <ClCompile Include="src\cleaning.cpp" />
+    <ClCompile Include="src\fileaccess.cpp" />
+    <ClCompile Include="src\finished.cpp" />
+    <ClCompile Include="src\openerror.cpp" />
+    <ClCompile Include="src\progress.cpp" />
+    <ClCompile Include="src\selectdb.cpp" />
+    <ClCompile Include="src\welcome.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="database.h" />
-    <ClInclude Include="dbtool.h" />
-    <ClInclude Include="Version.h" />
+    <ClInclude Include="src\database.h" />
+    <ClInclude Include="src\dbtool.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\dbtool.ico" />
-    <None Include="res\profileg.ico" />
-    <None Include="res\profiler.ico" />
-    <None Include="res\profiley.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
-    <ResourceCompile Include="Version.rc" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

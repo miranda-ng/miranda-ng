@@ -81,7 +81,6 @@
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <StringPooling>false</StringPooling>
     </ClCompile>
     <ResourceCompile>
@@ -109,7 +108,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <StringPooling>false</StringPooling>
     </ClCompile>
     <ResourceCompile>
@@ -139,7 +137,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -170,7 +167,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -189,37 +185,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Db3x_mmap\database.cpp" />
-    <ClCompile Include="..\Db3x_mmap\dbcache.cpp" />
-    <ClCompile Include="..\Db3x_mmap\dbcontacts.cpp" />
-    <ClCompile Include="..\Db3x_mmap\dbevents.cpp" />
-    <ClCompile Include="..\Db3x_mmap\dbheaders.cpp" />
-    <ClCompile Include="..\Db3x_mmap\dbintf.cpp" />
-    <ClCompile Include="..\Db3x_mmap\dbmodulechain.cpp" />
-    <ClCompile Include="..\Db3x_mmap\dbsettings.cpp" />
-    <ClCompile Include="dbintf_sa.cpp" />
-    <ClCompile Include="dbpreset.cpp" />
-    <ClCompile Include="dialogs.cpp" />
-    <ClCompile Include="init.cpp">
+    <ClCompile Include="..\Db3x_mmap\src\database.cpp" />
+    <ClCompile Include="..\Db3x_mmap\src\dbcache.cpp" />
+    <ClCompile Include="..\Db3x_mmap\src\dbcontacts.cpp" />
+    <ClCompile Include="..\Db3x_mmap\src\dbevents.cpp" />
+    <ClCompile Include="..\Db3x_mmap\src\dbheaders.cpp" />
+    <ClCompile Include="..\Db3x_mmap\src\dbintf.cpp" />
+    <ClCompile Include="..\Db3x_mmap\src\dbmodulechain.cpp" />
+    <ClCompile Include="..\Db3x_mmap\src\dbsettings.cpp" />
+    <ClCompile Include="src\dbintf_sa.cpp" />
+    <ClCompile Include="src\dbpreset.cpp" />
+    <ClCompile Include="src\dialogs.cpp" />
+    <ClCompile Include="src\init.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="security.cpp" />
+    <ClCompile Include="src\security.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Db3x_mmap\dbintf.h" />
-    <ClInclude Include="commonheaders.h" />
-    <ClInclude Include="dbintf_sa.h" />
-    <ClInclude Include="options.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="version.h" />
+    <ClInclude Include="..\Db3x_mmap\src\dbintf.h" />
+    <ClInclude Include="src\commonheaders.h" />
+    <ClInclude Include="src\dbintf_sa.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="db3x_mmap.rc" />
-    <ResourceCompile Include="version.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="icos\logo.ico" />
-    <None Include="icos\pass.ico" />
+    <ResourceCompile Include="res\db3x_mmap.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
