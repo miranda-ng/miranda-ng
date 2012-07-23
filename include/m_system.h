@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
 #ifndef MIRANDANAME
-	#define MIRANDANAME "Miranda IM"
+	#define MIRANDANAME "Miranda NG"
 #endif
 #ifndef MIRANDACLASS
 	#define MIRANDACLASS	"Miranda"
