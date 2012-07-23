@@ -299,16 +299,16 @@ LBL_charPtr:
 						switch(ci.type)
 						{
 							case CNFT_BYTE:
-								ltoa(ci.bVal,szdbsetting,10);
+								_ltot(ci.bVal, szdbsetting, 10);
 								break;
 							case CNFT_WORD:
-								ltoa(ci.wVal,szdbsetting,10);
+								_ltot(ci.wVal, szdbsetting, 10);
 								break;
 							case CNFT_DWORD:
-								ltoa(ci.dVal,szdbsetting,10);
+								_ltot(ci.dVal, szdbsetting, 10);
 								break;
 							case CNFT_ASCIIZ:
-								strcpy(szdbsetting,ci.pszVal);
+								strcpy(szdbsetting, ci.pszVal);
 								break;
 						}
 

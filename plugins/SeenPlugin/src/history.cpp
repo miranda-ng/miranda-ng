@@ -34,7 +34,7 @@ char* BuildSetting(int historyLast) {
 	static char sztemp[15];
 	*setting = '\0';
 	strcat(setting, "History_");
-	strcat(setting, itoa(historyLast, sztemp, 10));
+	strcat(setting, _itot(historyLast, sztemp, 10));
 	return setting;
 }
 

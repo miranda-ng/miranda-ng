@@ -16,19 +16,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-File name      : $URL: http://svn.berlios.de/svnroot/repos/mgoodies/trunk/lastseen-mod/seen.h $
-Revision       : $Rev: 1570 $
-Last change on : $Date: 2007-12-30 01:30:07 +0300 (Вс, 30 дек 2007) $
-Last change by : $Author: y_b $
 */
+
 #ifndef _WIN32_IE
 #define _WIN32_IE 0x0300
 #endif
 #define ETDT_ENABLE         0x00000002
 #define ETDT_USETABTEXTURE  0x00000004
 #define ETDT_ENABLETAB      (ETDT_ENABLE  | ETDT_USETABTEXTURE)
+
 #define MIRANDA_VER    0x0A00
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <windows.h>
 #include <win2k.h>
@@ -37,25 +35,24 @@ Last change by : $Author: y_b $
 #include <string.h>
 
 #include "resource.h"
+
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_langpack.h>
-
 #include <m_system.h>
 #include <m_skin.h>
 #include <m_utils.h>
 #include <m_options.h>
 #include <m_userinfo.h>
 #include <m_clist.h>
-#include <m_userinfo.h>
 #include <m_contacts.h>
 #include <m_message.h>
 #include <m_protosvc.h>
 #include <m_protocols.h>
 #include <m_popup.h>
-#include <m_system.h>
 
 #include "m_tipper.h"
+
 WCHAR *any_to_IdleNotidleUnknown(HANDLE hContact, const char *module_name, const char *setting_name, WCHAR *buff, int bufflen);
 WCHAR *any_to_Idle(HANDLE hContact, const char *module_name, const char *setting_name, WCHAR *buff, int bufflen);
 
