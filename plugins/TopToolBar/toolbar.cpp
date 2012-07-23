@@ -25,13 +25,6 @@ int sortfunc(const TopButtonInt* a, const TopButtonInt* b)
 
 LIST<TopButtonInt> Buttons(8, sortfunc);
 
-static void SetAllBitmaps()
-{
-	mir_cslock lck(csButtonsHook);
-	for (int i = 0; i < Buttons.getCount(); i++)
-		Buttons[i]->SetBitmap();
-}
-
 TopButtonInt* idtopos(int id, int* pPos)
 {
 	for ( int i = 0; i < Buttons.getCount(); i++)
@@ -523,20 +516,29 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 
 int OnIconChange(WPARAM wParam, LPARAM lParam)
 {
-	{	mir_cslock lck(csButtonsHook);
-		for (int i = 0; i < Buttons.getCount(); i++) {
-			TopButtonInt* b = Buttons[i];
+	mir_cslock lck(csButtonsHook);
+	for (int i = 0; i < Buttons.getCount(); i++) {
+		TopButtonInt* b = Buttons[i];
+		if ( !b->hIconHandleUp && !b->hIconHandleDn)
+			continue;
 
-			if (b->hIconHandleUp) {
-				Skin_ReleaseIcon(b->hIconUp);
-				b->hIconUp = Skin_GetIconByHandle(b->hIconHandleUp);
-			}
-			if (b->hIconHandleDn) {
-				Skin_ReleaseIcon(b->hIconDn);
-				b->hIconDn = Skin_GetIconByHandle(b->hIconHandleDn);
-	}	}	}
+		if (b->hIconHandleUp) {
+			Skin_ReleaseIcon(b->hIconUp);
+			b->hIconUp = Skin_GetIconByHandle(b->hIconHandleUp);
+		}
+		if (b->hIconHandleDn) {
+			Skin_ReleaseIcon(b->hIconDn);
+			b->hIconDn = Skin_GetIconByHandle(b->hIconHandleDn);
+		}
+		DestroyWindow(b->hwnd);
+		b->CreateWnd();
+	}
 
-	SetAllBitmaps();
+	if (g_ctrl->hWnd) {
+		g_ctrl->bOrderChanged = true;
+		PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, TRUE, 0);
+	}
+
 	return 0;
 }
 

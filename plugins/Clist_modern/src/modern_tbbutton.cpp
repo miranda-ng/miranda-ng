@@ -423,7 +423,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 	case MBM_REFRESHICOLIBICON:
 		if (bct->hIcolibHandle)
-			bct->hIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0 , (LPARAM) bct->hIcolibHandle);
+			bct->hIcon = Skin_GetIconByHandle(bct->hIcolibHandle);
 		else		
 			bct->hIcon = NULL;
 		InvalidateRect(hwndDlg,NULL,TRUE);
