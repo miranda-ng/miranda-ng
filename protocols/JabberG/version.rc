@@ -73,14 +73,14 @@ BEGIN
         BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", "Miranda\0"
-            VALUE "FileDescription", "Jabber Protocol Plugin for Miranda IM\0"
+            VALUE "FileDescription", "Jabber Protocol Plugin for Miranda NG\0"
             VALUE "FileVersion", __VERSION_STRING
             VALUE "InternalName", "jabber\0"
             VALUE "LegalCopyright", "Copyright ( c) 2002-04 Santithorn Bunchua, 2005 George Hazan \0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "jabber.dll\0"
             VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "Jabber Protocol Plugin for Miranda IM\0"
+            VALUE "ProductName", "Jabber Protocol Plugin for Miranda NG\0"
             VALUE "ProductVersion", __VERSION_STRING
             VALUE "SpecialBuild", "\0"
         END
