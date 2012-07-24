@@ -268,7 +268,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			ListView_InsertColumn(hwndList, 3, &col);
 
 			col.pszText = TranslateT("Version");
-			col.cx = 70;
+			col.cx = 75;
 			ListView_InsertColumn(hwndList, 4, &col);
 
 			// XXX: Won't work on windows 95 without IE3+ or 4.70
