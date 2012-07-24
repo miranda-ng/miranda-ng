@@ -7,7 +7,8 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "winres.h"
+#include "winres.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -120,10 +121,10 @@ BEGIN
     PUSHBUTTON      "Change",IDC_CHANGE,3,102,96,14
     PUSHBUTTON      "Delete",IDC_DELETE,3,118,96,14
     PUSHBUTTON      "Reset",IDC_RESET,3,134,96,14
-    GROUPBOX        " Options ",IDC_STATIC,107,3,111,50
+    GROUPBOX        "Options",IDC_STATIC,107,3,111,50
     CONTROL         "Protect the picture",IDC_PROTECTAVATAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,118,18,93,8
     CONTROL         "Set as hidden",IDC_HIDEAVATAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,118,34,93,11
-    GROUPBOX        " Background ",IDC_STATIC,107,59,111,89
+    GROUPBOX        "Background",IDC_STATIC,107,59,111,89
     CONTROL         "Transparent",IDC_MAKETRANSPBKG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,118,74,93,11
     LTEXT           "Points:",IDC_BKG_NUM_POINTS_L,129,91,38,11
     EDITTEXT        IDC_BKG_NUM_POINTS,169,89,42,12,ES_AUTOHSCROLL | ES_NUMBER
@@ -245,7 +246,8 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
+
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 
