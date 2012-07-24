@@ -48,7 +48,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 //#########################################################################################################################################
 //######################################################### MirandaIM clients #############################################################
 //#########################################################################################################################################
-	{ "client_Miranda_NG",				_T("*http://nightly.miranda.im*"),
+	{ "client_Miranda_NG",				_T("*http://nightly.miranda.im*")
 										_T("*Miranda*NG*"),								_T("Miranda NG"),						_T("ClientIcons_General"),	IDI_MIRANDA_NG, MIRANDA_CASE },
 
 	{ "client_Miranda_666",				_T("Miranda*6.6.6*"),							_T("Miranda evil"),						_T("ClientIcons_General"),	IDI_MIRANDA_666, MIRANDA_CASE },
