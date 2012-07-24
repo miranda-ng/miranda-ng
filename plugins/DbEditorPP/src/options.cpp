@@ -2,10 +2,12 @@
 
 INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	static bool bInitDone = true;
 	switch(msg)
 	{
 		case WM_INITDIALOG:
 		{
+			bInitDone = false;
 			DBVARIANT dbv;
 			CheckDlgButton(hwnd,IDC_EXPANDSETTINGS,DBGetContactSettingByte(NULL,modname,"ExpandSettingsOnOpen",0));
 			CheckDlgButton(hwnd,IDC_RESTORESETTINGS,DBGetContactSettingByte(NULL,modname,"RestoreOnOpen",1));
@@ -19,6 +21,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetDlgItemInt(hwnd,IDC_POPUPTIMEOUT,DBGetContactSettingWord(NULL,modname,"PopupDelay",4),0);
 			SendDlgItemMessage(hwnd, IDC_COLOUR, CPM_SETCOLOUR, 0, (LPARAM)DBGetContactSettingDword(NULL,modname,"PopupColour",RGB(255,0,0)));
 			TranslateDialogDefault(hwnd);
+			bInitDone = true;
 		}
 		return TRUE;
 		case WM_COMMAND:
@@ -27,14 +30,17 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				case IDC_RESTORESETTINGS:
 				case IDC_EXPANDSETTINGS:
 				case IDC_USEKNOWNMODS:
-				case IDC_MODULES:
 				case IDC_MENU:
 				case IDC_POPUPS:
 				case IDC_WARNONDEL:
 				case IDC_COLOUR:
-				case IDC_POPUPTIMEOUT:
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-				break;
+					break;
+				case IDC_POPUPTIMEOUT:
+				case IDC_MODULES:
+					if(bInitDone && (HIWORD(wParam) == EN_CHANGE))
+						SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+					break;
 			}
 		break;
 		case WM_NOTIFY:
