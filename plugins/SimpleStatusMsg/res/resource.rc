@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ LANGUAGE LANG_POLISH, SUBLANG_DEFAULT
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -181,14 +181,14 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_CROSS               ICON                    "res\\cross.ico"
-IDI_HISTORY             ICON                    "res\\history.ico"
-IDI_MESSAGE             ICON                    "res\\msg.ico"
-IDI_PLUS                ICON                    "res\\plus.ico"
-IDI_CHIST               ICON                    "res\\cbook.ico"
-IDI_COPY                ICON                    "res\\copy.ico"
-IDI_CSMSG               ICON                    "res\\csmsg.ico"
-IDI_GOTOURL             ICON                    "res\\gotourl.ico"
+IDI_CROSS               ICON                    "cross.ico"
+IDI_HISTORY             ICON                    "history.ico"
+IDI_MESSAGE             ICON                    "msg.ico"
+IDI_PLUS                ICON                    "plus.ico"
+IDI_CHIST               ICON                    "cbook.ico"
+IDI_COPY                ICON                    "copy.ico"
+IDI_CSMSG               ICON                    "csmsg.ico"
+IDI_GOTOURL             ICON                    "gotourl.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

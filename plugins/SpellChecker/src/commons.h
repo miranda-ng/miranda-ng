@@ -22,7 +22,6 @@ Boston, MA 02111-1307, USA.
 
 
 #define OEMRESOURCE 
-#define _CRT_SECURE_NO_WARNINGS
 #include <windows.h>
 #include <tchar.h>
 #include <stdio.h>

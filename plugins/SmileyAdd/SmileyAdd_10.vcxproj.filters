@@ -13,121 +13,104 @@
       <UniqueIdentifier>{f30ee13d-9b85-424d-bdb9-c991748ed97c}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Documents">
-      <UniqueIdentifier>{8efee3ee-a59a-4e9b-a0a4-b82a7481a40f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="anim.cpp">
+    <ClCompile Include="src\anim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AniSmileyObject.cpp">
+    <ClCompile Include="src\AniSmileyObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bkstring.cpp">
+    <ClCompile Include="src\bkstring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="customsmiley.cpp">
+    <ClCompile Include="src\customsmiley.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dlgboxsubclass.cpp">
+    <ClCompile Include="src\dlgboxsubclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="download.cpp">
+    <ClCompile Include="src\download.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="general.cpp">
+    <ClCompile Include="src\general.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="imagecache.cpp">
+    <ClCompile Include="src\imagecache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="richcall.cpp">
+    <ClCompile Include="src\richcall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="services.cpp">
+    <ClCompile Include="src\services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SmileyBase.cpp">
+    <ClCompile Include="src\SmileyBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="smileyroutines.cpp">
+    <ClCompile Include="src\smileyroutines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="smileys.cpp">
+    <ClCompile Include="src\smileys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="smltool.cpp">
+    <ClCompile Include="src\smltool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="anim.h">
+    <ClInclude Include="src\anim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bkstring.h">
+    <ClInclude Include="src\bkstring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="customsmiley.h">
+    <ClInclude Include="src\customsmiley.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="download.h">
+    <ClInclude Include="src\download.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="general.h">
+    <ClInclude Include="src\general.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="imagecache.h">
+    <ClInclude Include="src\imagecache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="options.h">
+    <ClInclude Include="src\options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="services.h">
+    <ClInclude Include="src\services.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SmileyBase.h">
+    <ClInclude Include="src\SmileyBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="smileyroutines.h">
+    <ClInclude Include="src\smileyroutines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="smileys.h">
+    <ClInclude Include="src\smileys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="smltool.h">
+    <ClInclude Include="src\smltool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="RES\smiley.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="docs\smileyadd_msl_specification.txt">
-      <Filter>Documents</Filter>
-    </None>
-    <None Include="docs\smileyadd_readme.txt">
-      <Filter>Documents</Filter>
-    </None>
-    <None Include="docs\smileyadd_translation.txt">
-      <Filter>Documents</Filter>
-    </None>
   </ItemGroup>
 </Project>

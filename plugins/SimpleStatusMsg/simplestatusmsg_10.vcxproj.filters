@@ -15,61 +15,35 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="awaymsg.cpp">
+    <ClCompile Include="src\awaymsg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msgbox.cpp">
+    <ClCompile Include="src\msgbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utils.cpp">
+    <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commonheaders.h">
+    <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="simplestatusmsg.h">
+    <ClInclude Include="src\simplestatusmsg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\cbook.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\copy.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\cross.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\csmsg.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\gotourl.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\history.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\msg.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\plus.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

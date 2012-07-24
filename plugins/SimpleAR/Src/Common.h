@@ -1,4 +1,5 @@
 #define MIRANDA_VER    0x0A00
+#define _CRT_SECURE_NO_WARNINGS
 
 // Windows Header Files
 #include <windows.h>
@@ -30,8 +31,8 @@
 #include "m_clc.h"
 #include <m_variables.h>
 
-#include "..\Resource.h"
-#include "..\Version.h"
+#include "Resource.h"
+#include "Version.h"
 
 #define protocolname		"SimpleAutoReplier" //no spaces here :)
 

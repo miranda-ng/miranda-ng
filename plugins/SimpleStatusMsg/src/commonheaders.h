@@ -25,6 +25,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #define _WIN32_IE 0x0501
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <m_stdhdr.h>
 
 #include <windows.h>

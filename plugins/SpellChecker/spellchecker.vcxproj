@@ -74,7 +74,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>HUNSPELL_STATIC;WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;HUNSPELL_STATIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
@@ -101,7 +101,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>HUNSPELL_STATIC;WIN64;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;HUNSPELL_STATIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
@@ -127,7 +127,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>HUNSPELL_STATIC;WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;HUNSPELL_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -150,7 +150,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>HUNSPELL_STATIC;WIN64;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;HUNSPELL_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -169,68 +169,59 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ardialog.h" />
-    <ClInclude Include="autoreplace.h" />
-    <ClInclude Include="commons.h" />
-    <ClInclude Include="dictionary.h" />
+    <ClInclude Include="src\ardialog.h" />
+    <ClInclude Include="src\autoreplace.h" />
+    <ClInclude Include="src\commons.h" />
+    <ClInclude Include="src\dictionary.h" />
     <ClInclude Include="..\utils\mir_icons.h" />
     <ClInclude Include="..\utils\mir_memory.h" />
     <ClInclude Include="..\utils\mir_options.h" />
-    <ClInclude Include="options.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="RichEdit.h" />
-    <ClInclude Include="hunspell\affentry.hxx" />
-    <ClInclude Include="hunspell\affixmgr.hxx" />
-    <ClInclude Include="hunspell\atypes.hxx" />
-    <ClInclude Include="hunspell\baseaffix.hxx" />
-    <ClInclude Include="hunspell\config.h" />
-    <ClInclude Include="hunspell\csutil.hxx" />
-    <ClInclude Include="hunspell\dictmgr.hxx" />
-    <ClInclude Include="hunspell\filemgr.hxx" />
-    <ClInclude Include="hunspell\hashmgr.hxx" />
-    <ClInclude Include="hunspell\htypes.hxx" />
-    <ClInclude Include="hunspell\hunspell.h" />
-    <ClInclude Include="hunspell\hunspell.hxx" />
-    <ClInclude Include="hunspell\hunzip.hxx" />
-    <ClInclude Include="hunspell\langnum.hxx" />
-    <ClInclude Include="hunspell\replist.hxx" />
-    <ClInclude Include="hunspell\suggestmgr.hxx" />
-    <ClInclude Include="hunspell\w_char.hxx" />
-    <ClInclude Include="Version.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\RichEdit.h" />
+    <ClInclude Include="src\hunspell\affentry.hxx" />
+    <ClInclude Include="src\hunspell\affixmgr.hxx" />
+    <ClInclude Include="src\hunspell\atypes.hxx" />
+    <ClInclude Include="src\hunspell\baseaffix.hxx" />
+    <ClInclude Include="src\hunspell\config.h" />
+    <ClInclude Include="src\hunspell\csutil.hxx" />
+    <ClInclude Include="src\hunspell\dictmgr.hxx" />
+    <ClInclude Include="src\hunspell\filemgr.hxx" />
+    <ClInclude Include="src\hunspell\hashmgr.hxx" />
+    <ClInclude Include="src\hunspell\htypes.hxx" />
+    <ClInclude Include="src\hunspell\hunspell.h" />
+    <ClInclude Include="src\hunspell\hunspell.hxx" />
+    <ClInclude Include="src\hunspell\hunzip.hxx" />
+    <ClInclude Include="src\hunspell\langnum.hxx" />
+    <ClInclude Include="src\hunspell\replist.hxx" />
+    <ClInclude Include="src\hunspell\suggestmgr.hxx" />
+    <ClInclude Include="src\hunspell\w_char.hxx" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\no_spellcheck.ico" />
-    <None Include="res\spellcheck.ico" />
-    <None Include="res\unknown.ico" />
-    <None Include="Docs\langpack_spellchecker.txt" />
-    <None Include="Docs\spellchecker_changelog.txt" />
-    <None Include="Docs\spellchecker_readme.txt" />
-    <None Include="Docs\spellchecker_version.txt" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
-    <ResourceCompile Include="Version.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ardialog.cpp" />
-    <ClCompile Include="autoreplace.cpp" />
-    <ClCompile Include="dictionary.cpp" />
+    <ClCompile Include="src\ardialog.cpp" />
+    <ClCompile Include="src\autoreplace.cpp" />
+    <ClCompile Include="src\dictionary.cpp" />
     <ClCompile Include="..\utils\mir_icons.cpp" />
     <ClCompile Include="..\utils\mir_options.cpp" />
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="RichEdit.cpp" />
-    <ClCompile Include="spellchecker.cpp" />
-    <ClCompile Include="hunspell\affentry.cxx" />
-    <ClCompile Include="hunspell\affixmgr.cxx" />
-    <ClCompile Include="hunspell\csutil.cxx" />
-    <ClCompile Include="hunspell\dictmgr.cxx" />
-    <ClCompile Include="hunspell\filemgr.cxx" />
-    <ClCompile Include="hunspell\hashmgr.cxx" />
-    <ClCompile Include="hunspell\hunspell.cxx" />
-    <ClCompile Include="hunspell\hunzip.cxx" />
-    <ClCompile Include="hunspell\phonet.cxx" />
-    <ClCompile Include="hunspell\replist.cxx" />
-    <ClCompile Include="hunspell\suggestmgr.cxx" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\RichEdit.cpp" />
+    <ClCompile Include="src\spellchecker.cpp" />
+    <ClCompile Include="src\hunspell\affentry.cxx" />
+    <ClCompile Include="src\hunspell\affixmgr.cxx" />
+    <ClCompile Include="src\hunspell\csutil.cxx" />
+    <ClCompile Include="src\hunspell\dictmgr.cxx" />
+    <ClCompile Include="src\hunspell\filemgr.cxx" />
+    <ClCompile Include="src\hunspell\hashmgr.cxx" />
+    <ClCompile Include="src\hunspell\hunspell.cxx" />
+    <ClCompile Include="src\hunspell\hunzip.cxx" />
+    <ClCompile Include="src\hunspell\phonet.cxx" />
+    <ClCompile Include="src\hunspell\replist.cxx" />
+    <ClCompile Include="src\hunspell\suggestmgr.cxx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

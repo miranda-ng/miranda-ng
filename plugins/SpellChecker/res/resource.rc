@@ -1,13 +1,12 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "resource.h"
 #include "winresrc.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -144,9 +143,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_NO_CHECK            ICON                    "res/no_spellcheck.ico"
-IDI_CHECK               ICON                    "res/spellcheck.ico"
-IDI_UNKNOWN_FLAG        ICON                    "res/unknown.ico"
+IDI_NO_CHECK            ICON                    "no_spellcheck.ico"
+IDI_CHECK               ICON                    "spellcheck.ico"
+IDI_UNKNOWN_FLAG        ICON                    "unknown.ico"
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -166,12 +165,11 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""resource.h""\r\n"
     "#include ""winresrc.h""\r\n"
     "\0"
 END

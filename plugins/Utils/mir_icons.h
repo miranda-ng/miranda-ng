@@ -21,8 +21,6 @@ Boston, MA 02111-1307, USA.
 #ifndef __MIR_ICONS_H__
 # define __MIR_ICONS_H__
 
-#define _CRT_SECURE_NO_WARNINGS
-
 HANDLE IcoLib_Register(char *name, char *section, char *description, int id);
 
 HICON IcoLib_LoadIcon(const char *iconName, BOOL copy = FALSE);

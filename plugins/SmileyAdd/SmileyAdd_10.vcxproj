@@ -72,8 +72,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WINDOWS=0x0410;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;src\regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -99,8 +99,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;src\regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -128,8 +128,8 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <OmitFramePointers>false</OmitFramePointers>
-      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WINDOWS=0x0410;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;src\regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>false</FunctionLevelLinking>
@@ -160,8 +160,8 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WINDOWS=0x0410;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;src\regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>false</FunctionLevelLinking>
@@ -188,47 +188,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="anim.cpp" />
-    <ClCompile Include="AniSmileyObject.cpp" />
-    <ClCompile Include="bkstring.cpp" />
-    <ClCompile Include="customsmiley.cpp" />
-    <ClCompile Include="dlgboxsubclass.cpp" />
-    <ClCompile Include="download.cpp" />
-    <ClCompile Include="general.cpp" />
-    <ClCompile Include="imagecache.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="richcall.cpp" />
-    <ClCompile Include="services.cpp" />
-    <ClCompile Include="SmileyBase.cpp" />
-    <ClCompile Include="smileyroutines.cpp" />
-    <ClCompile Include="smileys.cpp" />
-    <ClCompile Include="smltool.cpp" />
+    <ClCompile Include="src\anim.cpp" />
+    <ClCompile Include="src\AniSmileyObject.cpp" />
+    <ClCompile Include="src\bkstring.cpp" />
+    <ClCompile Include="src\customsmiley.cpp" />
+    <ClCompile Include="src\dlgboxsubclass.cpp" />
+    <ClCompile Include="src\download.cpp" />
+    <ClCompile Include="src\general.cpp" />
+    <ClCompile Include="src\imagecache.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\richcall.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\SmileyBase.cpp" />
+    <ClCompile Include="src\smileyroutines.cpp" />
+    <ClCompile Include="src\smileys.cpp" />
+    <ClCompile Include="src\smltool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="anim.h" />
-    <ClInclude Include="bkstring.h" />
-    <ClInclude Include="customsmiley.h" />
-    <ClInclude Include="download.h" />
-    <ClInclude Include="general.h" />
-    <ClInclude Include="imagecache.h" />
-    <ClInclude Include="options.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="services.h" />
-    <ClInclude Include="SmileyBase.h" />
-    <ClInclude Include="smileyroutines.h" />
-    <ClInclude Include="smileys.h" />
-    <ClInclude Include="smltool.h" />
-    <ClInclude Include="version.h" />
+    <ClInclude Include="src\anim.h" />
+    <ClInclude Include="src\bkstring.h" />
+    <ClInclude Include="src\customsmiley.h" />
+    <ClInclude Include="src\download.h" />
+    <ClInclude Include="src\general.h" />
+    <ClInclude Include="src\imagecache.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\services.h" />
+    <ClInclude Include="src\SmileyBase.h" />
+    <ClInclude Include="src\smileyroutines.h" />
+    <ClInclude Include="src\smileys.h" />
+    <ClInclude Include="src\smltool.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="RES\smiley.ico" />
-    <None Include="docs\smileyadd_msl_specification.txt" />
-    <None Include="docs\smileyadd_readme.txt" />
-    <None Include="docs\smileyadd_translation.txt" />
+    <ResourceCompile Include="res\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
