@@ -325,7 +325,8 @@ static void ImportHistory(HANDLE hContact, PROTOACCOUNT **protocol, int protoCou
 		return;
 	}
 
-	int i = 0, skipAll = 0, cbAlloc = 4096;
+	int i = 0, skipAll = 0;
+	DWORD cbAlloc = 4096;
 	BYTE* eventBuf = (PBYTE)mir_alloc(cbAlloc);
 	bool bIsVoidContact = dstDb->GetEventCount(hDst) == 0;
 
@@ -338,8 +339,8 @@ static void ImportHistory(HANDLE hContact, PROTOACCOUNT **protocol, int protoCou
 		DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
 		dbei.cbBlob = srcDb->GetBlobSize(hEvent);
 		if (dbei.cbBlob > cbAlloc) {
-			dbei.cbBlob += 4096 - dbei.cbBlob%4096;
-			eventBuf = (PBYTE)mir_realloc(eventBuf, dbei.cbBlob);
+			cbAlloc = dbei.cbBlob + 4096 - dbei.cbBlob%4096;
+			eventBuf = (PBYTE)mir_realloc(eventBuf, cbAlloc);
 		}
 		dbei.pBlob = eventBuf;
 
@@ -424,6 +425,7 @@ static void ImportHistory(HANDLE hContact, PROTOACCOUNT **protocol, int protoCou
 		hEvent = srcDb->FindNextEvent(hEvent);
 		i++;
 	}
+	mir_free(eventBuf);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
