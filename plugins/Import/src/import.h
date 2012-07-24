@@ -101,6 +101,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void AddMessage( const char* fmt, ... );
 
+void FreeVariant( DBVARIANT* dbv );
+void WriteVariant( HANDLE hContact, const char* module, const char* var, DBVARIANT* dbv );
+
 int CreateGroup(BYTE type, const char* name, HANDLE hContact);
 
 extern HWND hdlgProgress;

@@ -103,7 +103,7 @@ INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 		SendMessage(GetParent(hdlg), WIZM_SETCANCELTEXT, 0, (LPARAM)TranslateT("Finish"));
 		CheckDlgButton(hdlg, IDC_DONTLOADPLUGIN, BST_UNCHECKED);
 		return TRUE;
-		
+
 	case WM_COMMAND:
 		switch( LOWORD( wParam )) {
 		case IDOK:
@@ -114,7 +114,7 @@ INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 			if ( IsDlgButtonChecked( hdlg, IDC_DONTLOADPLUGIN )) {			
 				char sModuleFileName[MAX_PATH];
 				char *pszFileName;
-				
+
 				GetModuleFileNameA(hInst, sModuleFileName, sizeof(sModuleFileName));
 				pszFileName = strrchr(sModuleFileName, '\\' );
 				if (pszFileName == NULL)
@@ -135,7 +135,7 @@ INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 		}
 		break;
 	}
-	
+
 	return FALSE;
 }
 

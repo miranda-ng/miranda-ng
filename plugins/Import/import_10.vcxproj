@@ -204,6 +204,9 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Utils\mir_icons.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\ICQserver.cpp" />
     <ClCompile Include="src\main.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -211,6 +214,7 @@
     <ClCompile Include="src\mirabilis.cpp" />
     <ClCompile Include="src\miranda.cpp" />
     <ClCompile Include="src\progress.cpp" />
+    <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\wizard.cpp" />
   </ItemGroup>
   <ItemGroup>
