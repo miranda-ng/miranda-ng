@@ -41,6 +41,12 @@ BEGIN
     EDITTEXT        IDC_CREDITSFILE,4,32,202,67,ES_CENTER | ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_VSCROLL
 END
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXT
+//
+
+IDR_CREDITS             TEXT                    "../../docs/contributors.txt"
 
 #endif    // APSTUDIO_INVOKED
 
