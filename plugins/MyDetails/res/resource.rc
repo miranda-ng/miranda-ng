@@ -88,7 +88,7 @@ STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        " General ",IDC_STATIC,7,7,302,70
+    GROUPBOX        "General",IDC_STATIC,7,7,302,70
     CONTROL         "Cycle through protocols every:",
                     IDC_CYCLE_THROUGH_PROTOS,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,13,18,114,14
@@ -117,7 +117,7 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,105,60,96,14
     CONTROL         "Global on status message",IDC_GLOBAL_ON_STATUS_MESSAGE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,207,61,96,14
-    GROUPBOX        " Frame Options ",IDC_STATIC,7,78,302,44
+    GROUPBOX        "Frame Options",IDC_STATIC,7,78,302,44
     LTEXT           "Top:",IDC_STATIC,16,91,41,11
     EDITTEXT        IDC_BORDER_TOP,59,89,35,12,ES_NUMBER
     CONTROL         "",IDC_BORDER_TOP_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
@@ -141,7 +141,7 @@ BEGIN
     LTEXT           "Background Color:",IDC_AVATAR_BKG_COLOR_L,205,91,66,10
     CONTROL         "",IDC_AVATAR_BKG_COLOR,"ColourPicker",WS_TABSTOP,277,89,
                     17,13
-    GROUPBOX        " Avatar ",IDC_STATIC,7,124,302,83
+    GROUPBOX        "Avatar",IDC_STATIC,7,124,302,83
     CONTROL         "Custom size:",IDC_AVATAR_CUSTOM_SIZE_CHK,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,16,137,66,9
     EDITTEXT        IDC_AVATAR_CUSTOM_SIZE,87,135,35,12,ES_NUMBER
@@ -169,7 +169,7 @@ BEGIN
     CONTROL         "Use free space (under avatar) to other texts",
                     IDC_AVATAR_USE_FREE_SPACE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,16,195,280,8
-    GROUPBOX        " Protocol ",IDC_STATIC,7,209,302,28
+    GROUPBOX        "Protocol",IDC_STATIC,7,209,302,28
     CONTROL         "Show protocol name",IDC_SHOW_PROTO_NAME,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,13,221,138,14
     CONTROL         "Show protocol cycle button",IDC_SHOW_CYCLE_PROTO_BUTTON,
