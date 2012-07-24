@@ -1,0 +1,98 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\icons.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_DLG_DETAILS         ICON                    "dlgDetails.ico"
+IDI_MIRANDA             ICON                    "miranda.ico"
+IDI_BIRTHDAY            ICON                    "birthday.ico"
+IDI_CLOCK               ICON                    "clock.ico"
+IDI_FEMALE              ICON                    "female.ico"
+IDI_MALE                ICON                    "male.ico"
+IDI_MARITAL             ICON                    "marital.ico"
+IDI_PASSWORD            ICON                    "password.ico"
+IDI_TREE_ADDRESS        ICON                    "address.ico"
+IDI_TREE_GENERAL        ICON                    "treeGeneral.ico"
+IDI_TREE_ADVANCED       ICON                    "treeAdvanced.ico"
+IDI_TREE_COMPANY        ICON                    "treeCompany.ico"
+IDI_TREE_CONTACT        ICON                    "treeContact.ico"
+IDI_TREE_ABOUT          ICON                    "treeAbout.ico"
+IDI_TREE_PHOTO          ICON                    "treePhoto.ico"
+IDI_TREE_NOTES          ICON                    "treeNotes.ico"
+IDI_TREE_PROFILE        ICON                    "treeProfile.ico"
+IDI_DLG_PHONE           ICON                    "dlgPhone.ico"
+IDI_DLG_EMAIL           ICON                    "dlgMail.ico"
+IDI_EXPORT							ICON                    "Export.ico"
+IDI_IMPORT							ICON										"Import.ico"
+IDI_SEARCH							ICON                    "Search.ico"
+IDI_ANNIVERSARY					ICON                    "Anniversary.ico"
+IDI_BTN_EXIMPORT        ICON                    "btneximport.ico"
+IDI_BTN_GOTO            ICON                    "btnGoto.ico"
+IDI_BTN_ADD             ICON                    "btnAdd.ico"
+IDI_BTN_EDIT            ICON                    "btnEdit.ico"
+IDI_BTN_DELETE          ICON                    "btnDelete.ico"
+IDI_BTN_UPDATE          ICON                    "btnUpdate.ico"
+IDI_BTN_OK              ICON                    "btnOk.ico"
+IDI_BTN_CLOSE           ICON                    "btnClose.ico"
+IDI_BTN_APPLY           ICON                    "btnApply.ico"
+IDI_BTN_DOWNARROW       ICON                    "btnDownarrow.ico"
+IDI_BTN_PHONE           ICON                    "lstPhone.ico"
+IDI_BTN_FAX             ICON                    "lstFax.ico"
+IDI_BTN_CELLULAR        ICON                    "lstCellular.ico"
+IDI_BTN_CUSTOMPHONE     ICON                    "lstCustomPhone.ico"
+IDI_BTN_EMAIL           ICON				            "lstEmail.ico"
+IDI_BTN_BIRTHDAY_BACKUP ICON										"backup.ico"
+IDI_LST_MODULES         ICON                    "lstModules.ico"
+IDI_LST_FOLDER          ICON                    "lstFolder.ico"
+IDI_ZOD_AQUARIUS        ICON                    "zodiac2\\aquarius.ico"
+IDI_ZOD_ARIES           ICON                    "zodiac2\\aries.ico"
+IDI_ZOD_CANCER          ICON                    "zodiac2\\cancer.ico"
+IDI_ZOD_CAPRICORN       ICON                    "zodiac2\\capricorn.ico"
+IDI_ZOD_GEMINI          ICON                    "zodiac2\\gemini.ico"
+IDI_ZOD_LEO             ICON                    "zodiac2\\leo.ico"
+IDI_ZOD_LIBRA           ICON                    "zodiac2\\libra.ico"
+IDI_ZOD_PISCES          ICON                    "zodiac2\\pisces.ico"
+IDI_ZOD_SAGITTARIUS     ICON                    "zodiac2\\sagittarius.ico"
+IDI_ZOD_SCORPIO         ICON                    "zodiac2\\scorpio.ico"
+IDI_ZOD_TAURUS          ICON                    "zodiac2\\taurus.ico"
+IDI_ZOD_VIRGO           ICON                    "zodiac2\\virgo.ico"
+IDI_RMD_DTB0            ICON                    "birthday\\dtb0.ico"
+IDI_RMD_DTB1            ICON                    "birthday\\dtb1.ico"
+IDI_RMD_DTB2            ICON                    "birthday\\dtb2.ico"
+IDI_RMD_DTB3            ICON                    "birthday\\dtb3.ico"
+IDI_RMD_DTB4            ICON                    "birthday\\dtb4.ico"
+IDI_RMD_DTB5            ICON                    "birthday\\dtb5.ico"
+IDI_RMD_DTB6            ICON                    "birthday\\dtb6.ico"
+IDI_RMD_DTB7            ICON                    "birthday\\dtb7.ico"
+IDI_RMD_DTB8            ICON                    "birthday\\dtb8.ico"
+IDI_RMD_DTB9            ICON                    "birthday\\dtb9.ico"
+IDI_RMD_DTBX            ICON                    "birthday\\dtbx.ico"
+IDI_RMD_DTA0            ICON                    "anniversary\\dta0.ico"
+IDI_RMD_DTA1            ICON                    "anniversary\\dta1.ico"
+IDI_RMD_DTA2            ICON                    "anniversary\\dta2.ico"
+IDI_RMD_DTA3            ICON                    "anniversary\\dta3.ico"
+IDI_RMD_DTA4            ICON                    "anniversary\\dta4.ico"
+IDI_RMD_DTA5            ICON                    "anniversary\\dta5.ico"
+IDI_RMD_DTA6            ICON                    "anniversary\\dta6.ico"
+IDI_RMD_DTA7            ICON                    "anniversary\\dta7.ico"
+IDI_RMD_DTA8            ICON                    "anniversary\\dta8.ico"
+IDI_RMD_DTA9            ICON                    "anniversary\\dta9.ico"
+IDI_RMD_DTAX            ICON                    "anniversary\\dtax.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_ICOPACKVERSION      "__UserInfoEx_IconPack_1.2__"
+END
+
+/////////////////////////////////////////////////////////////////////////////
