@@ -1,8 +1,8 @@
 /*
 
-Import plugin for Miranda IM
+Import plugin for Miranda NG
 
-Copyright (C) 2001-2005 Martin Öberg, Richard Hughes, Roland Rabien & Tristan Van de Vreede
+Copyright (C) 2012 George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -32,7 +32,7 @@ int nCustomOptions;
 static HANDLE hImportService = NULL;
 
 HINSTANCE hInst;
-DLGPROC WizardDlgProc;
+INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 static HWND hwndWizard = NULL;
 int hLangpack;

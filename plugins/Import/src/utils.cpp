@@ -1,8 +1,8 @@
 /*
 
-Import plugin for Miranda IM
+Import plugin for Miranda NG
 
-Copyright (C) 2001-2005 Martin Öberg, Richard Hughes, Roland Rabien & Tristan Van de Vreede
+Copyright (C) 2012 George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -34,52 +34,6 @@ int      iICQAccount = 0;
 BOOL IsProtocolLoaded(char* pszProtocolName)
 {
 	return CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pszProtocolName) ? TRUE : FALSE;
-}
-
-BOOL EnumICQAccounts()
-{
-	int count, i = 0;
-	PROTOACCOUNT ** accs;
-
-	while (cICQAccounts)
-	{
-		cICQAccounts--;
-		free(szICQModuleName[cICQAccounts]);
-		free(tszICQAccountName[cICQAccounts]);
-	}
-
-	ProtoEnumAccounts(&count, &accs);
-	szICQModuleName   = (char**)realloc(szICQModuleName, count * sizeof(char**));
-	tszICQAccountName = (TCHAR**)realloc(tszICQAccountName, count * sizeof(TCHAR**));
-	while (i < count)
-	{
-		if ((0 == strcmp(ICQOSCPROTONAME, accs[i]->szProtoName)) && accs[i]->bIsEnabled)
-		{
-			szICQModuleName[cICQAccounts] = strdup(accs[i]->szModuleName);
-			tszICQAccountName[cICQAccounts] = _tcsdup(accs[i]->tszAccountName);
-			cICQAccounts++;
-		}
-		i++;
-	}
-	return cICQAccounts != 0;
-}
-
-void FreeICQAccountsList()
-{
-	while (cICQAccounts)
-	{
-		cICQAccounts--;
-		free(szICQModuleName[cICQAccounts]);
-		free(tszICQAccountName[cICQAccounts]);
-	}
-
-	if (szICQModuleName)
-		free(szICQModuleName);
-	if (tszICQAccountName)
-		free(tszICQAccountName);
-
-	szICQModuleName = NULL;
-	tszICQAccountName = NULL;
 }
 
 HANDLE HContactFromNumericID(char* pszProtoName, char* pszSetting, DWORD dwID)
@@ -141,76 +95,25 @@ HANDLE HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, DWORD uin
 	return hContact;
 }
 
-HANDLE AddContact(HWND hdlgProgress, char* pszProtoName, char* pszUniqueSetting,
-						DBVARIANT* id, DBVARIANT* nick, DBVARIANT* group)
-{
-	HANDLE hContact;
-	char szid[ 40 ];
-	char* pszUserID = ( id->type == DBVT_DWORD ) ? _ltoa( id->dVal, szid, 10 ) : id->pszVal;
-
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
-	if ( CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)pszProtoName) != 0) {
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
-		AddMessage( LPGEN("Failed to add %s contact %s"), pszProtoName, pszUserID );
-		FreeVariant( id );
-		FreeVariant( nick );
-		FreeVariant( group );
-		return INVALID_HANDLE_VALUE;
-	}
-
-	WriteVariant( hContact, pszProtoName, pszUniqueSetting, id );
-
-	if ( group->type )
-		CreateGroup( group->type, group->pszVal, hContact );
-
-	if ( nick->type && nick->pszVal[0] ) {
-		WriteVariant( hContact, "CList", "MyHandle", nick );
-		if (nick->type == DBVT_UTF8) {
-			char *tmp = mir_utf8decodeA(nick->pszVal);
-			AddMessage( LPGEN("Added %s contact %s, '%s'"), pszProtoName, pszUserID, tmp );
-			mir_free(tmp);
-		}
-		else AddMessage( LPGEN("Added %s contact %s, '%s'"), pszProtoName, pszUserID, nick->pszVal );
-	}
-	else AddMessage( LPGEN("Added %s contact %s"), pszProtoName, pszUserID );
-
-	FreeVariant( id );
-	FreeVariant( nick );
-	FreeVariant( group );
-	return hContact;
-}
-
 // ------------------------------------------------
 // Creates a group with a specified name in the
 // Miranda contact list.
 // If contact is specified adds it to group
 // ------------------------------------------------
 // Returns 1 if successful and 0 when it fails.
-int CreateGroup(BYTE type, const char* name, HANDLE hContact)
+int CreateGroup(const TCHAR* group, HANDLE hContact)
 {
-	int groupId;
-	TCHAR *tmp, *tszGrpName;
-	char groupIdStr[11];
-	size_t cbName;
-
-	if (type == DBVT_UTF8)
-		tmp = mir_utf8decodeT( name );
-    else if (type == DBVT_WCHAR)
-        tmp = mir_u2t(( wchar_t* )name );
-    else
-		tmp = mir_a2t( name );
-
-	if ( tmp == NULL )
+	if (group == NULL)
 		return 0;
 
-	cbName = _tcslen(tmp);
-	tszGrpName = (TCHAR*)_alloca(( cbName+2 )*sizeof( TCHAR ));
+	size_t cbName = _tcslen(group);
+	TCHAR *tszGrpName = (TCHAR*)_alloca(( cbName+2 )*sizeof( TCHAR ));
 	tszGrpName[0] = 1 | GROUPF_EXPANDED;
-	_tcscpy( tszGrpName+1, tmp );
-	mir_free( tmp );
+	_tcscpy(tszGrpName+1, group);
 
 	// Check for duplicate & find unused id
-	for (groupId = 0; ; groupId++) {
+	char groupIdStr[11];
+	for (int groupId = 0; ; groupId++) {
 		DBVARIANT dbv;
 		itoa(groupId, groupIdStr,10);
 		if (DBGetContactSettingTString(NULL, "CListGroups", groupIdStr, &dbv))

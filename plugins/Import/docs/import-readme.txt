@@ -1,5 +1,5 @@
 
-                   Import Plugin for Miranda IM
+                   Import plugin for Miranda NG
                    ____________________________
 
 
@@ -111,7 +111,7 @@ E-mail: strickz at miranda-im.org
 License and Copyright
 _____________________
 
-Copyright (C) 2001-2005 Martin Öberg, Richard Hughes, Roland Rabien & Tristan Van de Vreede
+Copyright (C) 2012 George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

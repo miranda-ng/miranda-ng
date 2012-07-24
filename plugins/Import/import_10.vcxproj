@@ -207,21 +207,17 @@
     <ClCompile Include="..\Utils\mir_icons.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\ICQserver.cpp" />
+    <ClCompile Include="src\import.cpp" />
     <ClCompile Include="src\main.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\mirabilis.cpp" />
     <ClCompile Include="src\miranda.cpp" />
     <ClCompile Include="src\progress.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\wizard.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ICQserver.h" />
     <ClInclude Include="src\import.h" />
-    <ClInclude Include="src\mirabilis.h" />
-    <ClInclude Include="src\mirandadb0700.h" />
     <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>

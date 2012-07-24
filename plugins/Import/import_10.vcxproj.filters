@@ -18,13 +18,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ICQserver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mirabilis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\miranda.cpp">
@@ -42,18 +36,12 @@
     <ClCompile Include="..\Utils\mir_icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\import.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ICQserver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\import.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mirabilis.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mirandadb0700.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">

@@ -5,7 +5,6 @@
 #define IDC_BACK                        3
 #define IDD_WIZARD                      101
 #define IDD_OPTIONS                     102
-#define IDD_ICQSERVER                   104
 #define IDD_IMPORTTYPE                  106
 #define IDD_WIZARDINTRO                 107
 #define IDD_FINISHED                    108
@@ -14,17 +13,13 @@
 #define IDD_PROGRESS                    111
 #define IDD_ADVOPTIONS                  112
 #define IDI_IMPORT                      177
-#define IDC_MIRABILIS                   1000
 #define IDC_DONTLOADPLUGIN              1001
-#define IDC_MIRANDA                     1001
-#define IDC_USEFINDADD                  1004
+#define IDC_MIRANDA                     1002
 #define IDC_OTHER                       1005
 #define IDC_LIST                        1006
 #define IDC_FILENAME                    1007
 #define IDC_PROGRESS                    1008
 #define IDC_STATUS                      1009
-#define IDC_MIRABILISRUNNING            1010
-#define IDC_MIRABILISACCOUNT            1011
 #define IDC_RADIO_ALL                   1016
 #define IDC_RADIO_CONTACTS              1017
 #define IDC_RADIO_CUSTOM                1018

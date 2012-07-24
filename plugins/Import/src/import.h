@@ -1,8 +1,8 @@
 /*
 
-Import plugin for Miranda IM
+Import plugin for Miranda NG
 
-Copyright (C) 2001,2002,2003,2004 Martin Öberg, Richard Hughes, Roland Rabien & Tristan Van de Vreede
+Copyright (C) 2012 George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -45,6 +45,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_system.h>
+#include <m_system_cpp.h>
 #include <m_database.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
@@ -101,11 +102,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void AddMessage( const char* fmt, ... );
 
-void FreeVariant( DBVARIANT* dbv );
-void WriteVariant( HANDLE hContact, const char* module, const char* var, DBVARIANT* dbv );
+void mySet( HANDLE hContact, const char* module, const char* var, DBVARIANT* dbv );
 
-int CreateGroup(BYTE type, const char* name, HANDLE hContact);
+INT_PTR CALLBACK WizardIntroPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK ProgressPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
+INT_PTR CALLBACK MirandaPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
+INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
+INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
+HANDLE HContactFromNumericID(char* pszProtoName, char* pszSetting, DWORD dwID);
+HANDLE HContactFromID(char* pszProtoName, char* pszSetting, char* pszID);
+
+HANDLE AddContact(HWND hdlgProgress, char* pszProtoName, char* pszUniqueSetting, DBVARIANT* id, TCHAR *nick, TCHAR *group);
+
+BOOL IsProtocolLoaded(char* pszProtocolName);
+BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei);
+
+int CreateGroup(const TCHAR* name, HANDLE hContact);
+
+extern HINSTANCE hInst;
 extern HWND hdlgProgress;
-
-extern DWORD nDupes, nContactsCount, nMessagesCount, nGroupsCount, nSkippedEvents, nSkippedContacts;
+extern void (*DoImport)(HWND);
+extern int nImportOption;
+extern int nCustomOptions;
+extern TCHAR importFile[];
+extern time_t dwSinceDate;

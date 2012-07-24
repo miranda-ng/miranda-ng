@@ -1,8 +1,8 @@
 /*
 
-Import plugin for Miranda IM
+Import plugin for Miranda NG
 
-Copyright (C) 2001-2005 Martin Öberg, Richard Hughes, Roland Rabien & Tristan Van de Vreede
+Copyright (C) 2012 George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,55 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "import.h"
 #include "resource.h"
 
-INT_PTR CALLBACK WizardIntroPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK MirabilisPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK MirandaPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK ICQserverPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-
-extern HINSTANCE hInst;
-BOOL IsProtocolLoaded(char* pszProtocolName);
-BOOL EnumICQAccounts();
-void FreeICQAccountsList();
-
-INT_PTR CALLBACK ImportTypePageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	switch( message ) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
-		CheckDlgButton(hdlg, IDC_MIRANDA, BST_CHECKED);
-
-		// Disable Mirabilis import if ICQ isn't loaded.
-		if (!EnumICQAccounts())
-			EnableWindow(GetDlgItem(hdlg, IDC_MIRABILIS), FALSE);
-
-		return TRUE;
-		
-	case WM_COMMAND:
-		switch( LOWORD( wParam )) {
-		case IDC_BACK:
-			PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc);
-			break;
-
-		case IDOK:
-			if (IsDlgButtonChecked(hdlg, IDC_MIRANDA))
-				PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_MIRANDADB, (LPARAM)MirandaPageProc);
-			else if (IsDlgButtonChecked(hdlg, IDC_MIRABILIS))
-				PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_MIRABILISDB, (LPARAM)MirabilisPageProc);
-			else if (IsDlgButtonChecked(hdlg, IDC_USEFINDADD)) {
-				CallService(MS_FINDADD_FINDADD, 0, 0);
-				PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_FINISHED, (LPARAM)FinishedPageProc);
-			}
-			break;
-
-		case IDCANCEL:
-			PostMessage(GetParent(hdlg), WM_CLOSE, 0, 0);
-			break;
-	}	}
-
-	return FALSE;
-}
-
 INT_PTR CALLBACK WizardIntroPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch( message ) {
@@ -83,7 +34,7 @@ INT_PTR CALLBACK WizardIntroPageProc(HWND hdlg, UINT message, WPARAM wParam, LPA
 	case WM_COMMAND:
 		switch( LOWORD( wParam )) {
 		case IDOK:
-			PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_IMPORTTYPE, (LPARAM)ImportTypePageProc);
+			PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_MIRANDADB, (LPARAM)MirandaPageProc);
 			break;
 			
 		case IDCANCEL:
@@ -107,7 +58,7 @@ INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 	case WM_COMMAND:
 		switch( LOWORD( wParam )) {
 		case IDOK:
-			PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_IMPORTTYPE, (LPARAM)ImportTypePageProc);
+			PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_MIRANDADB, (LPARAM)MirandaPageProc);
 			break;
 
 		case IDCANCEL:
@@ -207,8 +158,6 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 	case WM_CLOSE:
 		DestroyWindow(hwndPage);
 		DestroyWindow(hdlg);
-		
-		FreeICQAccountsList();
 		break;
 	}
 	
