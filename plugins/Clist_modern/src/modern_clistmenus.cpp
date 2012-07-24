@@ -73,8 +73,6 @@ static HANDLE *hFavoriteContactMenuItems = NULL;
 static HANDLE hShowIfOflineItem = NULL;
 static HANDLE hOnContactMenuBuild_FAV = NULL;
 
-
-
 static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 {
 	CLISTMENUITEM mi;

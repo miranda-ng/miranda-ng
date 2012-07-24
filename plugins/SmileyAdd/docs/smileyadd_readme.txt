@@ -1,4 +1,4 @@
-SmileyAdd plugin for Miranda IM
+SmileyAdd plugin for Miranda NG
 =====================================================================
 A plugin that adds smileys to the standard message dialog. 
 Features:
@@ -15,7 +15,7 @@ Features:
 - Graphical emoticons in the message input area, thus it will allow you to see these images while you are typing a message 
 - MSN Custom Emoticons (smileys) 
 - Supports plain text and regular expression smiley codes 
-- Supports sending ICQ tZers, Nudges and/or call any Miranda service from selector window.
+- Supports sending ICQ tZers, Nudges and/or call any Miranda NG service from selector window.
 - Unicode emoticons
 - Translation support
 
@@ -34,16 +34,11 @@ Licensing terms could be found below.
 
 Installation Instructions
 =========================
-Extract the zip file in the Miranda home directory. This will create a directory
+Extract the zip file in the Miranda NG home directory. This will create a directory
 'Smileys' with the default smiley pack. And the smileyadd.dll will go in the
 plugins directory. 
 Or you can copy this by hand from the archive. Note: to make the default work,
 the default smiley pack HAS to be in the 'Smileys' directory.
-
-GDI+ installation required to use non icon smiley packs
-GDI+ come pre-installed on Windows XP, Office XP and later, for everybody else you can get it here: 
-http://www.microsoft.com/downloads/details.aspx?FamilyID=6a63ab9c-df12-4d41-933c-be590feaa05a&DisplayLang=en
-
 
 Smiley Packs
 ================
@@ -75,9 +70,9 @@ It's recommended to use Unicode version in this case.
 
 For true Unicode operation of Unicode SmileyAdd Unicode Smiley Packs required
 
-SmileyAdd will work only with Miranda 0.6 or later. 
-Unicode SmileyAdd will only work with Unicode Miranda and 
-Windows 2000 or later.
+SmileyAdd will work only with Miranda NG 0.92 or later. 
+Unicode SmileyAdd will only work with Unicode Miranda NG and 
+Windows XP or later.
 
 GIF with "Disposal method" "To Previous" not supported
 
@@ -87,14 +82,13 @@ in separate image file (phg, gif, ico, jpg, etc.) could be used
 Bugs
 ====
 No guarantees, but probably there are some bugs. If you find something, and would 
-like to see this fixed then post on the Miranda forum as detailed as possible report 
+like to see this fixed then post on the Miranda NG forum as detailed as possible report 
 on the bug (version numbers, OS, how to reproduce it) and I will get back on that.
 
 
 Source
 ======
-Source is published on my Google Code site.
-http://code.google.com/p/mirandaimplugins/downloads/list
+Source is published on: http://trac.mysvn.ru/ghazan/myranda/browser/trunk
 
 
 Developers
@@ -119,7 +113,7 @@ Thanks to:
 - Wesslén      For even more enhancing the standard message dialog and 
                fine tuning my subclass routines.. :)
 - Various forum people tracking bugs for me
-- Miranda crew for Miranda IM... :)
+- Miranda NG crew for Miranda NG... :)
 - Everyone pointing out bugs to me!
 - Creators of all the smiley packs for SmileyAdd :)             
 
@@ -1088,14 +1082,6 @@ Second alpha release with OG smileys of MatriX
 0.0.1.0
 -------
 Initial alpha (test) release with beautyfully :) styled greenish icons.
-
-
-Miranda IM
-==========
-Miranda IM is an open source instant messenger framework that 
-support plugins for many different networks; ICQ, MSN, YAHOO
-AIM to mention a few (but not all). Get it at:
-http://www.miranda-im.org/
 
 
 Copyright and license

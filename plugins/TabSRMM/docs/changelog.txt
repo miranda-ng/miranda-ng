@@ -3,8 +3,8 @@
 
 Name: tabsrmm
 Homepage: http://miranda.or.at
-Download: http://code.google.com/p/silvercircle/downloads/list
-Source:   http://code.google.com/p/miranda     (tabSRMM code is in Miranda SVN)
+Download: http://nightly.miranda.im/
+Source:   http://trac.mysvn.ru/ghazan/myranda/browser/trunk
 
 Addtional annoucements can be found at my blog:
 	http://blog.miranda.or.at

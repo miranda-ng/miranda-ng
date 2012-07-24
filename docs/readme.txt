@@ -48,7 +48,7 @@ b) Update to the latest alpha version.
    section of our website.
 c) Check the list of known bugs.
    The official buglist is available at:
-   http://code.google.com/p/miranda/issues/list
+   http://trac.mysvn.ru/ghazan/myranda/report
    Look here before you submit a new report, dont submit a new report if
    it has already been reported.
 d) Submit a bugreport.

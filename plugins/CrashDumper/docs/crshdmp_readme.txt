@@ -1,6 +1,6 @@
-Crash Dumper plugin for Miranda IM
+Crash Dumper plugin for Miranda NG
 =====================================================================
-Plugin creates usable Crash Report and Version Information for Miranda IM
+Plugin creates usable Crash Report and Version Information for Miranda NG
 
 When Miranda crashes plugin ptrovides: 
 - text representation of crash report 
@@ -35,15 +35,9 @@ Text version of crash report includes:
 Plugin works with all current Operating Systems.
 
 It could be downloaded here:
-ANSI:    http://addons.miranda-im.org/details.php?action=viewfile&id=3695
-Unicode: http://addons.miranda-im.org/details.php?action=viewfile&id=3806
-x64:     http://addons.miranda-im.org/details.php?action=viewfile&id=4114
-All:     http://code.google.com/p/mirandaimplugins/downloads/list
-
-Win9x, WinNT users required to install dbghelp.dll v 5.0 or later. 
-dbghelp.dll v 5.0 is available here: 
-http://www.microsoft.com/downloads/details.aspx?FamilyID=cd1fc4b2-0885-47f4-af45-7fd5e14db6c0&DisplayLang=en 
-
+Unicode: http://nightly.miranda.im/x32/crashdumper.zip
+x64:     http://nightly.miranda.im/x64/crashdumper.zip
+All:     http://nightly.miranda.im/
 
 Author: Boris Krasnovskiy (borkra)
 
@@ -349,21 +343,12 @@ Allow Unicode compilation
 -------
 Initial release of the plugin
 
-
-Miranda IM
-==========
-Miranda IM is an open source instant messenger framework that 
-support plugins for many different networks; ICQ, MSN, YAHOO
-AIM to mention a few (but not all). Get it at:
-http://www.miranda-im.org/
-
-
 Copyright and license
 =====================
 
 Software:
 
-Copyright (C) 2008 - 2010 Boris Krasnovskiy All Rights Reserved
+Copyright (C) 2008 - 2012 Boris Krasnovskiy All Rights Reserved
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
