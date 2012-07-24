@@ -102,7 +102,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_CAPS_USER_MOOD_NOTIFY            ((JabberCapsBits)1<<26)
 #define JABBER_FEAT_PUBSUB                      "http://jabber.org/protocol/pubsub"
 #define JABBER_CAPS_PUBSUB                      ((JabberCapsBits)1<<27)
-#define JABBER_FEAT_SECUREIM                    "http://miranda-im.org/caps/secureim"
+#define JABBER_FEAT_SECUREIM                    "http://nightly.miranda.im/caps/secureim"
 #define JABBER_CAPS_SECUREIM                    ((JabberCapsBits)1<<28)
 #define JABBER_FEAT_PRIVACY_LISTS               "jabber:iq:privacy"
 #define JABBER_CAPS_PRIVACY_LISTS               ((JabberCapsBits)1<<29)
@@ -124,7 +124,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_CAPS_USER_ACTIVITY_NOTIFY        ((JabberCapsBits)1<<36)
 #define JABBER_FEAT_ATTENTION_0                 "urn:xmpp:attention:0"
 #define JABBER_CAPS_ATTENTION_0                 ((JabberCapsBits)1<<37)
-#define JABBER_FEAT_MIRANDA_NOTES               "http://miranda-im.org/storage#notes"
+#define JABBER_FEAT_MIRANDA_NOTES               "http://nightly.miranda.im/storage#notes"
 #define JABBER_CAPS_MIRANDA_NOTES               ((JabberCapsBits)1<<38)
 #define JABBER_FEAT_JINGLE                      "urn:xmpp:jingle:1"
 #define JABBER_CAPS_JINGLE                      ((JabberCapsBits)1<<39)
@@ -139,7 +139,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY  ((JabberCapsBits)1<<62)
 #define JABBER_CAPS_OTHER_SPECIAL               (JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY|JABBER_RESOURCE_CAPS_ERROR) // must contain all the caps not listed in g_JabberFeatCapPairs, to prevent using these bits for features registered through IJabberNetInterface::RegisterFeature()
 
-#define JABBER_CAPS_MIRANDA_NODE                "http://miranda-im.org/caps"
+#define JABBER_CAPS_MIRANDA_NODE                "http://nightly.miranda.im/caps"
 #define JABBER_CAPS_MIRANDA_ALL                 (JABBER_CAPS_DISCO_INFO|JABBER_CAPS_DISCO_ITEMS|JABBER_CAPS_MUC|JABBER_CAPS_ENTITY_CAPS|JABBER_CAPS_SI|JABBER_CAPS_SI_FT|JABBER_CAPS_BYTESTREAMS|JABBER_CAPS_IBB|JABBER_CAPS_OOB|JABBER_CAPS_CHATSTATES|JABBER_CAPS_AGENTS|JABBER_CAPS_BROWSE|JABBER_CAPS_VERSION|JABBER_CAPS_LAST_ACTIVITY|JABBER_CAPS_DATA_FORMS|JABBER_CAPS_MESSAGE_EVENTS|JABBER_CAPS_VCARD_TEMP|JABBER_CAPS_ENTITY_TIME|JABBER_CAPS_PING|JABBER_CAPS_PRIVACY_LISTS|JABBER_CAPS_MESSAGE_RECEIPTS|JABBER_CAPS_PRIVATE_STORAGE|JABBER_CAPS_ATTENTION_0|JABBER_CAPS_JINGLE|JABBER_CAPS_ROSTER_EXCHANGE|JABBER_CAPS_SECUREIM|JABBER_CAPS_COMMANDS|JABBER_CAPS_USER_MOOD_NOTIFY|JABBER_CAPS_USER_TUNE_NOTIFY|JABBER_CAPS_USER_ACTIVITY_NOTIFY)
 
 #define JABBER_CAPS_MIRANDA_PARTIAL             (JABBER_CAPS_DISCO_INFO|JABBER_CAPS_DISCO_ITEMS|JABBER_CAPS_MUC|JABBER_CAPS_ENTITY_CAPS|JABBER_CAPS_SI|JABBER_CAPS_SI_FT|JABBER_CAPS_BYTESTREAMS|JABBER_CAPS_IBB|JABBER_CAPS_OOB|JABBER_CAPS_CHATSTATES|JABBER_CAPS_AGENTS|JABBER_CAPS_BROWSE|JABBER_CAPS_VERSION|JABBER_CAPS_LAST_ACTIVITY|JABBER_CAPS_DATA_FORMS|JABBER_CAPS_MESSAGE_EVENTS|JABBER_CAPS_VCARD_TEMP|JABBER_CAPS_ENTITY_TIME|JABBER_CAPS_PING|JABBER_CAPS_PRIVACY_LISTS|JABBER_CAPS_MESSAGE_RECEIPTS|JABBER_CAPS_PRIVATE_STORAGE|JABBER_CAPS_ATTENTION_0|JABBER_CAPS_JINGLE|JABBER_CAPS_ROSTER_EXCHANGE)
@@ -160,8 +160,8 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_RC_SET_OPTIONS              "http://jabber.org/protocol/rc#set-options"
 #define JABBER_FEAT_RC_FORWARD                  "http://jabber.org/protocol/rc#forward"
 #define JABBER_FEAT_RC_LEAVE_GROUPCHATS			"http://jabber.org/protocol/rc#leave-groupchats"
-#define JABBER_FEAT_RC_WS_LOCK                  "http://miranda-im.org/rc#lock_workstation"
-#define JABBER_FEAT_RC_QUIT_MIRANDA             "http://miranda-im.org/rc#quit"
+#define JABBER_FEAT_RC_WS_LOCK                  "http://nightly.miranda.im/rc#lock_workstation"
+#define JABBER_FEAT_RC_QUIT_MIRANDA             "http://nightly.miranda.im/rc#quit"
 
 #define JABBER_FEAT_IQ_ROSTER                   "jabber:iq:roster"
 #define JABBER_FEAT_DELAY                       "jabber:x:delay"
