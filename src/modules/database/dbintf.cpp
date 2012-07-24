@@ -186,6 +186,11 @@ static INT_PTR srvFindPlugin(WPARAM wParam,LPARAM lParam)
 	return NULL;
 }
 
+static INT_PTR srvGetCurrentDb(WPARAM wParam,LPARAM lParam)
+{
+	return (INT_PTR)currDb;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 int LoadDbintfModule()
@@ -226,5 +231,6 @@ int LoadDbintfModule()
 
 	CreateServiceFunction(MS_DB_REGISTER_PLUGIN, srvRegisterPlugin);
 	CreateServiceFunction(MS_DB_FIND_PLUGIN, srvFindPlugin);
+	CreateServiceFunction(MS_DB_GET_CURRENT, srvGetCurrentDb);
 	return 0;
 }

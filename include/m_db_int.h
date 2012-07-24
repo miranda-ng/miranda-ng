@@ -134,4 +134,15 @@ __inline static DATABASELINK* FindDatabasePlugin(const TCHAR* ptszFileName)
 {	return (DATABASELINK*)CallService(MS_DB_FIND_PLUGIN, 0, (LPARAM)ptszFileName);
 }
 
+// MS_DB_GET_CURRENT : returns the database pointer for the current profile
+// wParam : 0 (unused)
+// lParam : 0 (unused)
+// returns MIDatabase* of the current profile or NULL on error
+
+#define MS_DB_GET_CURRENT "DB/GetCurrentDb"
+
+__inline static MIDatabase* GetCurrentDatabase(void)
+{	return (MIDatabase*)CallService(MS_DB_GET_CURRENT, 0, 0);
+}
+
 #endif // M_DB_INT_H__
