@@ -693,7 +693,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest( HXML, CJabberIqInfo* pInfo, co
 			form << XCHILD( _T("field")) << XATTR( _T("var"), _T("os")) << XCHILD( _T("value"), _T("Microsoft Windows"));
 			form << XCHILD( _T("field")) << XATTR( _T("var"), _T("os_version")) << XCHILD( _T("value"), os );
 		}
-		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("software")) << XCHILD( _T("value"), _T("Miranda IM Jabber Protocol (Unicode)"));
+		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("software")) << XCHILD( _T("value"), _T("Miranda NG Jabber Protocol"));
 		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("software_version")) << XCHILD( _T("value"), _T(__VERSION_STRING));
 		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("x-miranda-core-version")) << XCHILD( _T("value"), szCoreVersion );
 		
