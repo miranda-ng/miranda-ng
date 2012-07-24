@@ -158,8 +158,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhenWasIt", "..\plugins\Whe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAMN", "..\protocols\YAMN\YAMN_10.vcxproj", "{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAPP", "..\plugins\YAPP\popups2_10.vcxproj", "{B6FC188B-8E54-4197-9444-8BADE9AA75E2}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MRA", "..\protocols\MRA\Mra.vcxproj", "{EE182018-5D3D-43F3-955F-7B5AB0BE2FCA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GTalkExt", "..\protocols\GTalkExt\GTalkExt.vcxproj", "{2A737817-2443-48FF-A2E8-CA8D69E450F3}"
@@ -290,6 +288,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenFolder", "..\plugins\OpenFolder\openFolder.vcxproj", "{8D233B9A-2744-4B62-94FC-7872FDDA4683}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDetails", "..\plugins\MyDetails\mydetails.vcxproj", "{A4855451-6447-437C-B024-B36C3C7901EA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAPP", "..\plugins\YAPP\yapp_10.vcxproj", "{B6FC188B-8E54-4197-9444-8BADE9AA75E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -931,14 +931,6 @@ Global
 		{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}.Release|Win32.Build.0 = Release|Win32
 		{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}.Release|x64.ActiveCfg = Release|x64
 		{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}.Release|x64.Build.0 = Release|x64
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Debug|Win32.Build.0 = Debug|Win32
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Debug|x64.ActiveCfg = Debug|x64
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Debug|x64.Build.0 = Debug|x64
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|Win32.ActiveCfg = Release|Win32
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|Win32.Build.0 = Release|Win32
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|x64.ActiveCfg = Release|x64
-		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|x64.Build.0 = Release|x64
 		{EE182018-5D3D-43F3-955F-7B5AB0BE2FCA}.Debug|Win32.ActiveCfg = Debug|Win32
 		{EE182018-5D3D-43F3-955F-7B5AB0BE2FCA}.Debug|Win32.Build.0 = Debug|Win32
 		{EE182018-5D3D-43F3-955F-7B5AB0BE2FCA}.Debug|x64.ActiveCfg = Debug|x64
@@ -1447,6 +1439,14 @@ Global
 		{A4855451-6447-437C-B024-B36C3C7901EA}.Release|Win32.Build.0 = Release|Win32
 		{A4855451-6447-437C-B024-B36C3C7901EA}.Release|x64.ActiveCfg = Release|x64
 		{A4855451-6447-437C-B024-B36C3C7901EA}.Release|x64.Build.0 = Release|x64
+		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Debug|Win32.Build.0 = Debug|Win32
+		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Debug|x64.ActiveCfg = Debug|x64
+		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Debug|x64.Build.0 = Debug|x64
+		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|Win32.ActiveCfg = Release|Win32
+		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|Win32.Build.0 = Release|Win32
+		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|x64.ActiveCfg = Release|x64
+		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
