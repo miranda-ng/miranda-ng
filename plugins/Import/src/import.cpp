@@ -46,11 +46,12 @@ static TCHAR* myGetWs(HANDLE hContact, const char *szModule, const char *szSetti
 	return ( srcDb->GetContactSettingStr(hContact, &dgs)) ? NULL : dbv.ptszVal;
 }
 
-static char* myGetS(HANDLE hContact, const char *szModule, const char *szSetting)
+static BOOL myGetS(HANDLE hContact, const char *szModule, const char *szSetting, char* dest)
 {
 	DBVARIANT dbv = { DBVT_ASCIIZ };
+	dbv.pszVal = dest; dbv.cchVal = 100;
 	DBCONTACTGETSETTING dgs = { szModule, szSetting, &dbv };
-	return ( srcDb->GetContactSettingStr(hContact, &dgs)) ? NULL : dbv.pszVal;
+	return srcDb->GetContactSettingStatic(hContact, &dgs);
 }
 
 static void mySet(HANDLE hContact, const char *module, const char *var, DBVARIANT *dbv)
@@ -64,13 +65,13 @@ static void mySet(HANDLE hContact, const char *module, const char *var, DBVARIAN
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static HANDLE HContactFromNumericID(char* pszProtoName, char* pszSetting, DWORD dwID)
+static HANDLE HContactFromNumericID(char* szProto, char* pszSetting, DWORD dwID)
 {
 	HANDLE hContact = dstDb->FindFirstContact();
 	while (hContact != NULL) {
-		if ( db_get_dw(hContact, pszProtoName, pszSetting, 0) == dwID) {
+		if ( db_get_dw(hContact, szProto, pszSetting, 0) == dwID) {
 			char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-			if (szProto != NULL && !lstrcmpA(szProto, pszProtoName))
+			if (szProto != NULL && !lstrcmpA(szProto, szProto))
 				return hContact;
 		}
 		hContact = dstDb->FindNextContact(hContact);
@@ -78,13 +79,13 @@ static HANDLE HContactFromNumericID(char* pszProtoName, char* pszSetting, DWORD 
 	return INVALID_HANDLE_VALUE;
 }
 
-static HANDLE HContactFromID(char* pszProtoName, char* pszSetting, char* pszID)
+static HANDLE HContactFromID(char* szProto, char* pszSetting, char* pszID)
 {
 	HANDLE hContact = dstDb->FindFirstContact();
 	while (hContact != NULL) {
 		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		if ( !lstrcmpA(szProto, pszProtoName)) {
-			mir_ptr<char> id( db_get_sa(hContact, pszProtoName, pszSetting));
+		if ( !lstrcmpA(szProto, szProto)) {
+			mir_ptr<char> id( db_get_sa(hContact, szProto, pszSetting));
 			if ( !lstrcmpA(pszID, id))
 				return hContact;
 		}
@@ -117,29 +118,29 @@ static HANDLE HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, DW
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static HANDLE AddContact(HWND hdlgProgress, char* pszProtoName, char* pszUniqueSetting, DBVARIANT* id, TCHAR *nick, TCHAR *group)
+static HANDLE AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSetting, DBVARIANT* id, TCHAR *nick, TCHAR *group)
 {
 	HANDLE hContact;
 	char szid[ 40 ];
 	char* pszUserID = ( id->type == DBVT_DWORD ) ? _ltoa( id->dVal, szid, 10 ) : id->pszVal;
 
 	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
-	if ( CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)pszProtoName) != 0) {
+	if ( CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)szProto) != 0) {
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
-		AddMessage( LPGEN("Failed to add %s contact %s"), pszProtoName, pszUserID );
+		AddMessage( LPGEN("Failed to add %s contact %s"), szProto, pszUserID );
 		srcDb->FreeVariant( id );
 		return INVALID_HANDLE_VALUE;
 	}
 
-	mySet( hContact, pszProtoName, pszUniqueSetting, id );
+	mySet( hContact, szProto, pszUniqueSetting, id );
 
 	CreateGroup(group, hContact);
 
 	if (nick && *nick) {
 		db_set_ws(hContact, "CList", "MyHandle", nick );
-		AddMessage( LPGEN("Added %s contact %s, '%S'"), pszProtoName, pszUserID, nick);
+		AddMessage( LPGEN("Added %s contact %s, '%S'"), szProto, pszUserID, nick);
 	}
-	else AddMessage( LPGEN("Added %s contact %s"), pszProtoName, pszUserID);
+	else AddMessage( LPGEN("Added %s contact %s"), szProto, pszUserID);
 
 	srcDb->FreeVariant( id );
 	return hContact;
@@ -176,106 +177,105 @@ static HANDLE ImportContact(HANDLE hSrc)
 {
 	HANDLE hDst;
 	char* pszUserName;
-	char id[ 40 ];
+	char id[ 40 ], szProto[100];
 
 	// Check what protocol this contact belongs to
-	mir_ptr<char> pszProtoName( myGetS(hSrc, "Protocol", "p"));
-	if ( !pszProtoName) {
+	if ( myGetS(hSrc, "Protocol", "p", szProto)) {
 		AddMessage( LPGEN("Skipping contact with no protocol"));
 		return NULL;
 	}
 
-	if ( !IsProtocolLoaded(pszProtoName)) {
-		AddMessage( LPGEN("Skipping contact, %s not installed."), pszProtoName);
+	if ( !IsProtocolLoaded(szProto)) {
+		AddMessage( LPGEN("Skipping contact, %s not installed."), szProto);
 		return NULL;
 	}
 
 	// Skip protocols with no unique id setting (some non IM protocols return NULL)
-	char* pszUniqueSetting = (char*)CallProtoService(pszProtoName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+	char* pszUniqueSetting = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 	if ( !pszUniqueSetting || (INT_PTR)pszUniqueSetting == CALLSERVICE_NOTFOUND ) {
-		AddMessage( LPGEN("Skipping non-IM contact (%s)"), pszProtoName );
+		AddMessage( LPGEN("Skipping non-IM contact (%s)"), szProto );
 		return NULL;
 	}
 
 	DBVARIANT dbv;
-	if ( myGet(hSrc, pszProtoName, pszUniqueSetting, &dbv)) {
-		AddMessage( LPGEN("Skipping %s contact, ID not found"), pszProtoName);
+	if ( myGet(hSrc, szProto, pszUniqueSetting, &dbv)) {
+		AddMessage( LPGEN("Skipping %s contact, ID not found"), szProto);
 		return NULL;
 	}
 
 	// Does the contact already exist?
 	if ( dbv.type == DBVT_DWORD ) {
 		pszUserName = _ltoa(dbv.dVal, id, 10);
-		hDst = HContactFromNumericID( pszProtoName, pszUniqueSetting, dbv.dVal );
+		hDst = HContactFromNumericID( szProto, pszUniqueSetting, dbv.dVal );
 	}
 	else {
 		pszUserName = NEWSTR_ALLOCA(dbv.pszVal);
-		hDst = HContactFromID( pszProtoName, pszUniqueSetting, dbv.pszVal );
+		hDst = HContactFromID( szProto, pszUniqueSetting, dbv.pszVal );
 	}
 
 	if (hDst != INVALID_HANDLE_VALUE) {
-		AddMessage( LPGEN("Skipping duplicate %s contact %s"), pszProtoName, pszUserName );
+		AddMessage( LPGEN("Skipping duplicate %s contact %s"), szProto, pszUserName );
 		srcDb->FreeVariant( &dbv );
 		return NULL;
 	}
 
 	TCHAR *tszGroup = myGetWs(hSrc, "CList", "Group"), *tszNick = myGetWs(hSrc, "CList", "MyHandle");
 	if (tszNick == NULL)
-		tszNick = myGetWs(hSrc, pszProtoName, "Nick");
+		tszNick = myGetWs(hSrc, szProto, "Nick");
 
-	hDst = AddContact(hdlgProgress, pszProtoName, pszUniqueSetting, &dbv, tszNick, tszGroup);
+	hDst = AddContact(hdlgProgress, szProto, pszUniqueSetting, &dbv, tszNick, tszGroup);
 	mir_free(tszGroup), mir_free(tszNick);
 
 	if ( hDst != INVALID_HANDLE_VALUE) {
 		// Hidden?
-		if ( myGet(hSrc, "CList", "Hidden", &dbv )) {
+		if ( !myGet(hSrc, "CList", "Hidden", &dbv )) {
 			mySet(hDst, "CList", "Hidden", &dbv);
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// Ignore settings
-		if ( myGet(hSrc, "Ignore", "Mask1", &dbv )) {
+		if ( !myGet(hSrc, "Ignore", "Mask1", &dbv )) {
 			mySet( hDst, "Ignore", "Mask1", &dbv );
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// Apparent mode
-		if ( myGet(hSrc, pszProtoName, "ApparentMode", &dbv )) {
-			mySet( hDst, pszProtoName, "ApparentMode", &dbv );
+		if ( !myGet(hSrc, szProto, "ApparentMode", &dbv )) {
+			mySet( hDst, szProto, "ApparentMode", &dbv );
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// Nick
-		if ( myGet(hSrc, pszProtoName, "Nick", &dbv )) {
-			mySet( hDst, pszProtoName, "Nick", &dbv );
+		if ( !myGet(hSrc, szProto, "Nick", &dbv )) {
+			mySet( hDst, szProto, "Nick", &dbv );
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// Myhandle
-		if ( myGet(hSrc, pszProtoName, "MyHandle", &dbv )) {
-			mySet( hDst, pszProtoName, "MyHandle", &dbv );
+		if ( !myGet(hSrc, szProto, "MyHandle", &dbv )) {
+			mySet( hDst, szProto, "MyHandle", &dbv );
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// First name
-		if ( myGet(hSrc, pszProtoName, "FirstName", &dbv )) {
-			mySet( hDst, pszProtoName, "FirstName", &dbv );
+		if ( !myGet(hSrc, szProto, "FirstName", &dbv )) {
+			mySet( hDst, szProto, "FirstName", &dbv );
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// Last name
-		if ( myGet(hSrc, pszProtoName, "LastName", &dbv )) {
-			mySet( hDst, pszProtoName, "LastName", &dbv );
+		if ( !myGet(hSrc, szProto, "LastName", &dbv )) {
+			mySet( hDst, szProto, "LastName", &dbv );
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// About
-		if ( myGet(hSrc, pszProtoName, "About", &dbv )) {
-			mySet( hDst, pszProtoName, "About", &dbv );
+		if ( !myGet(hSrc, szProto, "About", &dbv )) {
+			mySet( hDst, szProto, "About", &dbv );
 			srcDb->FreeVariant(&dbv);
 		}
 	}
-	else AddMessage( LPGEN("Unknown error while adding %s contact %s"), pszProtoName, pszUserName );
+	else AddMessage( LPGEN("Unknown error while adding %s contact %s"), szProto, pszUserName );
 
 	return hDst;
 }
@@ -285,35 +285,39 @@ static HANDLE ImportContact(HANDLE hSrc)
 // would only be a repetition of the messages printed during contact
 // import.
 
-static void ImportHistory(HANDLE hContact, PROTOACCOUNT **protocol, int protoCount)
+static HANDLE convertContact(HANDLE hContact)
 {
+	// Check what protocol this contact belongs to
+	char szProto[100];
+	if ( myGetS(hContact, "Protocol", "p", szProto))
+		return INVALID_HANDLE_VALUE;
+
+	// Protocol installed?
+	if ( !IsProtocolLoaded(szProto))
+		return INVALID_HANDLE_VALUE;
+
+	// Is contact in database?
+	char* pszUniqueSetting = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+
+	// Skip protocols with no unique id setting (some non IM protocols return NULL)
 	HANDLE hDst = INVALID_HANDLE_VALUE;
-
-	// Is it contats history import?
-	if (protoCount == 0) {
-		// Check what protocol this contact belongs to
-		char* szProto = myGetS(hContact, "Protocol", "p");
-		if (szProto != NULL) {
-			// Protocol installed?
-			if ( IsProtocolLoaded(szProto)) {
-				// Is contact in database?
-				char* pszUniqueSetting = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-
-				// Skip protocols with no unique id setting (some non IM protocols return NULL)
-				if ( pszUniqueSetting && ( INT_PTR )pszUniqueSetting != CALLSERVICE_NOTFOUND ) {
-					DBVARIANT dbv;
-					if ( myGet(hContact, szProto, pszUniqueSetting, &dbv)) {
-						if ( dbv.type == DBVT_DWORD )
-							hDst = HContactFromNumericID(szProto, pszUniqueSetting, dbv.dVal);
-						else
-							hDst = HContactFromID(szProto, pszUniqueSetting, dbv.pszVal);
-						srcDb->FreeVariant( &dbv );
-			}	}	}
-			
-			mir_free(szProto);
+	if ( pszUniqueSetting && ( INT_PTR )pszUniqueSetting != CALLSERVICE_NOTFOUND ) {
+		DBVARIANT dbv;
+		if ( !myGet(hContact, szProto, pszUniqueSetting, &dbv)) {
+			if ( dbv.type == DBVT_DWORD )
+				hDst = HContactFromNumericID(szProto, pszUniqueSetting, dbv.dVal);
+			else
+				hDst = HContactFromID(szProto, pszUniqueSetting, dbv.pszVal);
+			srcDb->FreeVariant( &dbv );
 		}
 	}
-	else hDst = NULL; //system history import
+	return hDst;
+}
+
+static void ImportHistory(HANDLE hContact, PROTOACCOUNT **protocol, int protoCount)
+{
+	// Is it contats history import?
+	HANDLE hDst = (protoCount == 0) ? convertContact(hContact) : NULL; //system history import
 
 	// OK to import this chain?
 	if (hDst == INVALID_HANDLE_VALUE) {
@@ -321,7 +325,8 @@ static void ImportHistory(HANDLE hContact, PROTOACCOUNT **protocol, int protoCou
 		return;
 	}
 
-	int i = 0, skipAll = 0;
+	int i = 0, skipAll = 0, cbAlloc = 4096;
+	BYTE* eventBuf = (PBYTE)mir_alloc(cbAlloc);
 	bool bIsVoidContact = dstDb->GetEventCount(hDst) == 0;
 
 	// Get the start of the event chain
@@ -330,7 +335,14 @@ static void ImportHistory(HANDLE hContact, PROTOACCOUNT **protocol, int protoCou
 		int skip = 0;
 
 		// Copy the event and import it
-		DBEVENTINFO dbei = { 0 };
+		DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
+		dbei.cbBlob = srcDb->GetBlobSize(hEvent);
+		if (dbei.cbBlob > cbAlloc) {
+			dbei.cbBlob += 4096 - dbei.cbBlob%4096;
+			eventBuf = (PBYTE)mir_realloc(eventBuf, dbei.cbBlob);
+		}
+		dbei.pBlob = eventBuf;
+
 		if ( !srcDb->GetEvent(hEvent, &dbei)) {
 			// check protocols during system history import
 			if (hDst == NULL) {
