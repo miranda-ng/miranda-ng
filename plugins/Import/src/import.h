@@ -111,11 +111,6 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPA
 INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
-HANDLE HContactFromNumericID(char* pszProtoName, char* pszSetting, DWORD dwID);
-HANDLE HContactFromID(char* pszProtoName, char* pszSetting, char* pszID);
-
-HANDLE AddContact(HWND hdlgProgress, char* pszProtoName, char* pszUniqueSetting, DBVARIANT* id, TCHAR *nick, TCHAR *group);
-
 BOOL IsProtocolLoaded(char* pszProtocolName);
 BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei);
 

@@ -24,54 +24,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 #include "resource.h"
 
-int      cICQAccounts = 0;
-char  ** szICQModuleName = NULL;
-TCHAR ** tszICQAccountName = NULL;
-int      iICQAccount = 0;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL IsProtocolLoaded(char* pszProtocolName)
 {
 	return CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pszProtocolName) ? TRUE : FALSE;
-}
-
-HANDLE HContactFromNumericID(char* pszProtoName, char* pszSetting, DWORD dwID)
-{
-	char* szProto;
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	while (hContact != NULL)
-	{
-		if (DBGetContactSettingDword(hContact, pszProtoName, pszSetting, 0) == dwID)
-		{
-			szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-			if (szProto != NULL && !strcmp(szProto, pszProtoName))
-				return hContact;
-		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
-	}
-	return INVALID_HANDLE_VALUE;
-}
-
-HANDLE HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, DWORD uin, int addUnknown)
-{
-	HANDLE hContact = HContactFromNumericID(szModuleName, "UIN", uin);
-	if (hContact == NULL) {
-		AddMessage( LPGEN("Ignored event from/to self"));
-		return INVALID_HANDLE_VALUE;
-	}
-
-	if (hContact != INVALID_HANDLE_VALUE)
-		return hContact;
-
-	if (!addUnknown)
-		return INVALID_HANDLE_VALUE;
-
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
-	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)szModuleName);
-	DBWriteContactSettingDword(hContact, szModuleName, "UIN", uin);
-	AddMessage( LPGEN("Added contact %u (found in history)"), uin );
-	return hContact;
 }
 
 // ------------------------------------------------

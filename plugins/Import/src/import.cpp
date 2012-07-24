@@ -30,6 +30,8 @@ HWND hdlgProgress;
 static DWORD nDupes, nContactsCount, nMessagesCount, nGroupsCount, nSkippedEvents, nSkippedContacts;
 static MIDatabase *srcDb, *dstDb;
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int myGet(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
 	dbv->type = 0;
@@ -51,7 +53,7 @@ static char* myGetS(HANDLE hContact, const char *szModule, const char *szSetting
 	return ( srcDb->GetContactSettingStr(hContact, &dgs)) ? NULL : dbv.pszVal;
 }
 
-void mySet(HANDLE hContact, const char *module, const char *var, DBVARIANT *dbv)
+static void mySet(HANDLE hContact, const char *module, const char *var, DBVARIANT *dbv)
 {
 	DBCONTACTWRITESETTING dbw;
 	dbw.szModule = module;
@@ -60,32 +62,23 @@ void mySet(HANDLE hContact, const char *module, const char *var, DBVARIANT *dbv)
 	dstDb->WriteContactSetting(hContact, &dbw);
 }
 
-static int ImportGroup(const char* szSettingName, LPARAM lParam)
-{
-	int* pnGroups = (int*)lParam;
+/////////////////////////////////////////////////////////////////////////////////////////
 
-	TCHAR* tszGroup = myGetWs(NULL, "CListGroups", szSettingName);
-	if (tszGroup != NULL) {
-		if ( CreateGroup( tszGroup, NULL ))
-			pnGroups[0]++;
-		mir_free(tszGroup);
+static HANDLE HContactFromNumericID(char* pszProtoName, char* pszSetting, DWORD dwID)
+{
+	HANDLE hContact = dstDb->FindFirstContact();
+	while (hContact != NULL) {
+		if ( db_get_dw(hContact, pszProtoName, pszSetting, 0) == dwID) {
+			char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			if (szProto != NULL && !lstrcmpA(szProto, pszProtoName))
+				return hContact;
+		}
+		hContact = dstDb->FindNextContact(hContact);
 	}
-	return 0;
+	return INVALID_HANDLE_VALUE;
 }
 
-static int ImportGroups()
-{
-	int nGroups = 0;
-
-	DBCONTACTENUMSETTINGS param = { 0 };
-	param.szModule = "CListGroups";
-	param.pfnEnumProc = ImportGroup;
-	param.lParam = (LPARAM)&nGroups;
-	srcDb->EnumContactSettings(NULL, &param);
-	return nGroups;
-}
-
-HANDLE HContactFromID(char* pszProtoName, char* pszSetting, char* pszID)
+static HANDLE HContactFromID(char* pszProtoName, char* pszSetting, char* pszID)
 {
 	HANDLE hContact = dstDb->FindFirstContact();
 	while (hContact != NULL) {
@@ -101,7 +94,30 @@ HANDLE HContactFromID(char* pszProtoName, char* pszSetting, char* pszID)
 	return INVALID_HANDLE_VALUE;
 }
 
-HANDLE AddContact(HWND hdlgProgress, char* pszProtoName, char* pszUniqueSetting, DBVARIANT* id, TCHAR *nick, TCHAR *group)
+static HANDLE HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, DWORD uin, int addUnknown)
+{
+	HANDLE hContact = HContactFromNumericID(szModuleName, "UIN", uin);
+	if (hContact == NULL) {
+		AddMessage( LPGEN("Ignored event from/to self"));
+		return INVALID_HANDLE_VALUE;
+	}
+
+	if (hContact != INVALID_HANDLE_VALUE)
+		return hContact;
+
+	if (!addUnknown)
+		return INVALID_HANDLE_VALUE;
+
+	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)szModuleName);
+	DBWriteContactSettingDword(hContact, szModuleName, "UIN", uin);
+	AddMessage( LPGEN("Added contact %u (found in history)"), uin );
+	return hContact;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static HANDLE AddContact(HWND hdlgProgress, char* pszProtoName, char* pszUniqueSetting, DBVARIANT* id, TCHAR *nick, TCHAR *group)
 {
 	HANDLE hContact;
 	char szid[ 40 ];
@@ -127,6 +143,33 @@ HANDLE AddContact(HWND hdlgProgress, char* pszProtoName, char* pszUniqueSetting,
 
 	srcDb->FreeVariant( id );
 	return hContact;
+}
+
+static int ImportGroup(const char* szSettingName, LPARAM lParam)
+{
+	int* pnGroups = (int*)lParam;
+
+	TCHAR* tszGroup = myGetWs(NULL, "CListGroups", szSettingName);
+	if (tszGroup != NULL) {
+		if ( CreateGroup( tszGroup, NULL ))
+			pnGroups[0]++;
+		mir_free(tszGroup);
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int ImportGroups()
+{
+	int nGroups = 0;
+
+	DBCONTACTENUMSETTINGS param = { 0 };
+	param.szModule = "CListGroups";
+	param.pfnEnumProc = ImportGroup;
+	param.lParam = (LPARAM)&nGroups;
+	srcDb->EnumContactSettings(NULL, &param);
+	return nGroups;
 }
 
 static HANDLE ImportContact(HANDLE hSrc)
@@ -370,6 +413,8 @@ static void ImportHistory(HANDLE hContact, PROTOACCOUNT **protocol, int protoCou
 		i++;
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void MirandaImport(HWND hdlg)
 {
