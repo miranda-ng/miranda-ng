@@ -4,7 +4,7 @@
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
-#include "resource.h"
+#include "..\src\version.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,6 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include <winres.h>
-#include <version.h>
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 

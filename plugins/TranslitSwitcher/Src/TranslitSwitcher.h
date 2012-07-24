@@ -38,8 +38,8 @@ Boston, MA 02111-1307, USA.
 #include "m_msg_buttonsbar.h"
 #include "m_popup.h"
 
-#include "..\version.h"
-#include "..\resource.h"
+#include "version.h"
+#include "resource.h"
 #include "m_smileyadd.h"
 #include "m_ieview.h"
 #include "m_popup2.h"

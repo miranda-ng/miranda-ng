@@ -1,4 +1,4 @@
-#include "../headers.h"
+#include "headers.h"
 
 INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/)
 {

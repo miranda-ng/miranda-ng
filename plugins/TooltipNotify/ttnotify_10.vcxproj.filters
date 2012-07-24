@@ -1,73 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{c12316ee-1d9e-470b-a9d4-2f96e30ea10d}</UniqueIdentifier>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="doc">
-      <UniqueIdentifier>{9fe30d32-97fa-41fc-8586-9f52a8580112}</UniqueIdentifier>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DbHelpers.cpp">
-      <Filter>src</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
-      <Filter>src</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
-      <Filter>src</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Tooltip.cpp">
-      <Filter>src</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\TooltipNotify.cpp">
-      <Filter>src</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Utils.cpp">
-      <Filter>src</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DbHelpers.h">
-      <Filter>src</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">
-      <Filter>src</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Settings.h">
-      <Filter>src</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\stdafx.h">
-      <Filter>src</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Tooltip.h">
-      <Filter>src</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\TooltipNotify.h">
-      <Filter>src</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Utils.h">
-      <Filter>src</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\main.rc">
-      <Filter>src</Filter>
+    <ResourceCompile Include="res\main.rc">
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="doc\todo.txt">
-      <Filter>doc</Filter>
-    </None>
-    <None Include="doc\tt_wnd_def_style.txt">
-      <Filter>doc</Filter>
-    </None>
-    <None Include="doc\ttnotify-readme.txt">
-      <Filter>doc</Filter>
-    </None>
-    <None Include="doc\ttnotify_translation.txt">
-      <Filter>doc</Filter>
-    </None>
+    <ResourceCompile Include="res\version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

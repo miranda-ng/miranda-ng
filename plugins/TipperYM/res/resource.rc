@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -326,13 +326,13 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ITEM                ICON                    "res\\copy_item.ico"
-IDI_ITEM_ALL            ICON                    "res\\copy_all_items.ico"
-IDI_UP                  ICON                    "res\\arrow_up.ico"
-IDI_DOWN                ICON                    "res\\arrow_down.ico"
-IDI_SEPARATOR           ICON                    "res\\separator.ico"
-IDI_RELOAD              ICON                    "res\\reload.ico"
-IDI_APPLY               ICON                    "res\\apply.ico"
+IDI_ITEM                ICON                    "copy_item.ico"
+IDI_ITEM_ALL            ICON                    "copy_all_items.ico"
+IDI_UP                  ICON                    "arrow_up.ico"
+IDI_DOWN                ICON                    "arrow_down.ico"
+IDI_SEPARATOR           ICON                    "separator.ico"
+IDI_RELOAD              ICON                    "reload.ico"
+IDI_APPLY               ICON                    "apply.ico"
 #endif    // Czech (Czech Republic) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -352,7 +352,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 

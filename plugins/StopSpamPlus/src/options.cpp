@@ -1,4 +1,4 @@
-#include "../headers.h"
+#include "headers.h"
 
 char * pluginDescription = "No more spam! Robots can't go! Only human beings invited!\r\n\r\n"
 "This plugin works pretty simple:\r\n"

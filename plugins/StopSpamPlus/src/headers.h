@@ -26,9 +26,9 @@
 #include <m_skin.h>
 #include <m_clist.h>
 
-#include "src/eventhooker.h"
-#include "res/version.h"
-#include "res/resource.h"
+#include "eventhooker.h"
+#include "version.h"
+#include "resource.h"
 #include "m_stopspam.h"
 
 #include "m_variables.h"
@@ -50,7 +50,7 @@ extern HINSTANCE hInst;
 	#define PREF_TCHAR2 0
 #endif //_UNICODE
 
-#include "src/settings.h"
+#include "settings.h"
 
 //options
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

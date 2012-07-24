@@ -1,4 +1,4 @@
-#include "../headers.h"
+#include "headers.h"
 
 HANDLE hFunc, hTempRemove, hLoadHook;
 int hLangpack;

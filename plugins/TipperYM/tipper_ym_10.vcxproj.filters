@@ -15,109 +15,86 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bitmap_func.cpp">
+    <ClCompile Include="src\bitmap_func.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="message_pump.cpp">
+    <ClCompile Include="src\message_pump.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mir_smileys.cpp">
+    <ClCompile Include="src\mir_smileys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="popwin.cpp">
+    <ClCompile Include="src\popwin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="preset_items.cpp">
+    <ClCompile Include="src\preset_items.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="skin_parser.cpp">
+    <ClCompile Include="src\skin_parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="str_utils.cpp">
+    <ClCompile Include="src\str_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="subst.cpp">
+    <ClCompile Include="src\subst.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tipper.cpp">
+    <ClCompile Include="src\tipper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="translations.cpp">
+    <ClCompile Include="src\translations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bitmap_func.h">
+    <ClInclude Include="src\bitmap_func.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common.h">
+    <ClInclude Include="src\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="message_pump.h">
+    <ClInclude Include="src\message_pump.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mir_smileys.h">
+    <ClInclude Include="src\mir_smileys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="options.h">
+    <ClInclude Include="src\options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="popwin.h">
+    <ClInclude Include="src\popwin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="preset_items.h">
+    <ClInclude Include="src\preset_items.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="skin_parser.h">
+    <ClInclude Include="src\skin_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="str_utils.h">
+    <ClInclude Include="src\str_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="subst.h">
+    <ClInclude Include="src\subst.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="translations.h">
+    <ClInclude Include="src\translations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\apply.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\arrow_down.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\arrow_up.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\copy_all_items.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\copy_item.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\reload.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\separator.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

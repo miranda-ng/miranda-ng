@@ -5,7 +5,7 @@
 #endif //APSTUDIO_INVOKED
 
 #include "afxres.h"
-#include "version.h"
+#include "..\src\version.h"
 
 #ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL

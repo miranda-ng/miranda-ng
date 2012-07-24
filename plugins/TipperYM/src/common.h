@@ -40,6 +40,8 @@ Boston, MA 02111-1307, USA.
 
 #define MIRANDA_VER		0x0A00
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <m_stdhdr.h>
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers

@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -85,7 +85,7 @@ END
 // Bitmap
 //
 
-IDB_SEP                 BITMAP                  "bmp\\sep.bmp"
+IDB_SEP                 BITMAP                  "sep.bmp"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -95,7 +95,7 @@ IDB_SEP                 BITMAP                  "bmp\\sep.bmp"
 
 1 TEXTINCLUDE
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE
@@ -120,17 +120,17 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_SHOWONLINEUP        ICON                    "icos\\Show only Online Users_UP.ico"
-IDI_RUN                 ICON                    "icos\\run.ico"
-IDI_SHOWONLINEDN        ICON                    "icos\\Show only Online Users_DN.ico"
-IDI_GROUPSUP            ICON                    "icos\\Groups On_Off_UP.ico"
-IDI_GROUPSDN            ICON                    "icos\\Groups On_Off_DN.ico"
-IDI_SOUNDDN             ICON                    "icos\\Sounds Enable_Disable_DN.ico"
-IDI_SOUNDUP             ICON                    "icos\\Sounds Enable_Disable_UP.ico"
-IDI_OPTIONSUP           ICON                    "icos\\Show Options Page_UP.ico"
-IDI_MINIMIZEUP          ICON                    "icos\\Minimize Button_UP.ico"
-IDI_FINDADDUP           ICON                    "icos\\Find_Add Contacts_UP.ico"
-IDI_MIRANDAUP           ICON                    "icos\\Show Main Menu_UP.ico"
+IDI_SHOWONLINEUP        ICON                    "Show only Online Users_UP.ico"
+IDI_RUN                 ICON                    "run.ico"
+IDI_SHOWONLINEDN        ICON                    "Show only Online Users_DN.ico"
+IDI_GROUPSUP            ICON                    "Groups On_Off_UP.ico"
+IDI_GROUPSDN            ICON                    "Groups On_Off_DN.ico"
+IDI_SOUNDDN             ICON                    "Sounds Enable_Disable_DN.ico"
+IDI_SOUNDUP             ICON                    "Sounds Enable_Disable_UP.ico"
+IDI_OPTIONSUP           ICON                    "Show Options Page_UP.ico"
+IDI_MINIMIZEUP          ICON                    "Minimize Button_UP.ico"
+IDI_FINDADDUP           ICON                    "Find_Add Contacts_UP.ico"
+IDI_MIRANDAUP           ICON                    "Show Main Menu_UP.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
