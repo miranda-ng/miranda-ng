@@ -71,6 +71,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
    IDI_MIRANDA_010U        ICON    "icons\\MirandaIM\\MirandaIM_010U.ico"
    IDI_MIRANDA_666         ICON    "icons\\MirandaIM\\MirandaIM_666.ico"
    IDI_MIRANDA_U           ICON    "icons\\MirandaIM\\MirandaIM_U.ico"
+   IDI_MIRANDA_NG          ICON    "icons\\MirandaIM\\MirandaNG.ico"
    IDI_MIRANDA_UNKNOWN     ICON    "icons\\MirandaIM\\MirandaIM_unknown.ico"
 
 //##############################################################################################################

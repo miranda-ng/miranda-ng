@@ -352,6 +352,7 @@
 #define IDI_MIRANDA_666			457
 #define IDI_MIRANDA_U			458
 #define IDI_MIRANDA_UNKNOWN		459
+#define IDI_MIRANDA_NG			460
 
 //##############################################################################################################
 //Clients overlays
