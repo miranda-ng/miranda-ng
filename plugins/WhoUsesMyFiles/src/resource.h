@@ -7,7 +7,6 @@
 #define IDI_NOPOPUP                     103
 #define IDI_DRIVE                       106
 #define IDD_CONNLIST                    107
-#define IDB_DRIVE                       108
 #define IDC_COLOR_SET                   1000
 #define IDC_COLOR_WIN                   1001
 #define IDC_COLOR_DEF                   1002

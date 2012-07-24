@@ -4,9 +4,9 @@
 // that uses this DLL. This way any other project whose source files include this file see 
 // POPUPS2_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
-#ifdef POPUPS2_EXPORTS
-#define POPUPS2_API __declspec(dllexport)
+#ifdef YAPP_EXPORTS
+#define YAPP_API __declspec(dllexport)
 #else
-#define POPUPS2_API __declspec(dllimport)
+#define YAPP_API __declspec(dllimport)
 #endif
 

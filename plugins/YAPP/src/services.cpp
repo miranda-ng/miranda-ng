@@ -3,7 +3,7 @@
 #include "popwin.h"
 #include "message_pump.h"
 #include "resource.h"
-#include "popup_history.h"
+#include "yapp_history.h"
 
 #define NUM_SERVICES		20
 HANDLE hService[NUM_SERVICES];

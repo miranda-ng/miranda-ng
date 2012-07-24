@@ -15,68 +15,68 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="message_pump.cpp">
+    <ClCompile Include="src\message_pump.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="notify_imp.cpp">
+    <ClCompile Include="src\notify_imp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="popup_history.cpp">
+    <ClCompile Include="src\yapp_history.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="popup_history_dlg.cpp">
+    <ClCompile Include="src\yapp_history_dlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="popups2.cpp">
+    <ClCompile Include="src\yapp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="popwin.cpp">
+    <ClCompile Include="src\popwin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="services.cpp">
+    <ClCompile Include="src\services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="common.h">
+    <ClInclude Include="src\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="message_pump.h">
+    <ClInclude Include="src\message_pump.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="notify.h">
+    <ClInclude Include="src\notify.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="options.h">
+    <ClInclude Include="src\options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="popup_history.h">
+    <ClInclude Include="src\yapp_history.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="popups2.h">
+    <ClInclude Include="src\yapp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="popwin.h">
+    <ClInclude Include="src\popwin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="services.h">
+    <ClInclude Include="src\services.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="popups2.rc">
+    <ResourceCompile Include="res\yapp.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

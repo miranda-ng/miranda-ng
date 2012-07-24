@@ -73,7 +73,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;W7UI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -93,7 +93,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;W7UI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
@@ -112,7 +112,7 @@
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;W7UI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
@@ -133,7 +133,7 @@
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;W7UI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
@@ -150,31 +150,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="clistproxywindow.cpp" />
-    <ClCompile Include="dwmwindow.cpp" />
-    <ClCompile Include="jumplist.cpp" />
-    <ClCompile Include="jumplistarray.cpp" />
-    <ClCompile Include="jumplistbuilder.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="srmmproxywindow.cpp" />
-    <ClCompile Include="subclassmgr.cpp" />
-    <ClCompile Include="w7ui.cpp" />
-    <ClCompile Include="win7api.cpp" />
+    <ClCompile Include="src\clistproxywindow.cpp" />
+    <ClCompile Include="src\dwmwindow.cpp" />
+    <ClCompile Include="src\jumplist.cpp" />
+    <ClCompile Include="src\jumplistarray.cpp" />
+    <ClCompile Include="src\jumplistbuilder.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\srmmproxywindow.cpp" />
+    <ClCompile Include="src\subclassmgr.cpp" />
+    <ClCompile Include="src\w7ui.cpp" />
+    <ClCompile Include="src\win7api.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="clistproxywindow.h" />
-    <ClInclude Include="dwmwindow.h" />
-    <ClInclude Include="headers.h" />
-    <ClInclude Include="jumplist.h" />
-    <ClInclude Include="jumplistarray.h" />
-    <ClInclude Include="jumplistbuilder.h" />
-    <ClInclude Include="srmmproxywindow.h" />
-    <ClInclude Include="subclassmgr.h" />
-    <ClInclude Include="win7api.h" />
-    <ClInclude Include="win7api_ICustomDestinationList.h" />
-    <ClInclude Include="win7api_IObjectArray.h" />
-    <ClInclude Include="win7api_IObjectCollection.h" />
-    <ClInclude Include="win7api_ITaskbarList3.h" />
+    <ClInclude Include="src\clistproxywindow.h" />
+    <ClInclude Include="src\dwmwindow.h" />
+    <ClInclude Include="src\headers.h" />
+    <ClInclude Include="src\jumplist.h" />
+    <ClInclude Include="src\jumplistarray.h" />
+    <ClInclude Include="src\jumplistbuilder.h" />
+    <ClInclude Include="src\srmmproxywindow.h" />
+    <ClInclude Include="src\subclassmgr.h" />
+    <ClInclude Include="src\win7api.h" />
+    <ClInclude Include="src\win7api_ICustomDestinationList.h" />
+    <ClInclude Include="src\win7api_IObjectArray.h" />
+    <ClInclude Include="src\win7api_IObjectCollection.h" />
+    <ClInclude Include="src\win7api_ITaskbarList3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

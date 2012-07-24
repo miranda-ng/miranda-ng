@@ -2,14 +2,14 @@
 //
 
 #include "common.h"
-#include "popups2.h"
+#include "yapp.h"
 #include "version.h"
 #include "message_pump.h"
 #include "options.h"
 #include "popwin.h"
 #include "notify.h"
 
-#include "popup_history.h" //to be able to update the renderer
+#include "yapp_history.h" //to be able to update the renderer
 
 HMODULE hInst = 0;
 
@@ -52,7 +52,7 @@ extern "C" BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LP
     return TRUE;
 }
 
-extern "C" POPUPS2_API PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" YAPP_API PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
@@ -199,7 +199,7 @@ int PreShutdown(WPARAM wParam, LPARAM lParam) {
 
 HANDLE hEventPreShutdown, hEventModulesLoaded;
 
-extern "C" int POPUPS2_API Load(void) {
+extern "C" int YAPP_API Load(void) {
 
 	mir_getLP(&pluginInfo);
 
@@ -227,7 +227,7 @@ extern "C" int POPUPS2_API Load(void) {
 	return 0;
 }
 
-extern "C" int POPUPS2_API Unload()
+extern "C" int YAPP_API Unload()
 {
 	if(hEventReloadFont)
 		UnhookEvent(hEventReloadFont);

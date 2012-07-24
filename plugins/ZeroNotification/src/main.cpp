@@ -11,7 +11,7 @@ http://nightly.miranda.im/
 
 #include "version.h"
 #include "common.h"
-#include "res\resource.h"
+#include "resource.h"
 
 HINSTANCE hInst;
 

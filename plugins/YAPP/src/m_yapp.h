@@ -1,5 +1,5 @@
-#ifndef __m_popup2_h__
-#define __m_popup2_h__
+#ifndef __m_yapp_h__
+#define __m_yapp_h__
 
 #define NFOPT_POPUP2_BACKCOLOR    "Popup2/BackColor"
 #define NFOPT_POPUP2_TEXTCOLOR    "Popup2/TextColor"
@@ -26,4 +26,4 @@
 	#define MPopup2Remove(a) (CallService(MS_POPUP2_REMOVE, 0, (LPARAM)(a)))
 #endif
 
-#endif // __m_popup2_h__
+#endif // __m_yapp_h__

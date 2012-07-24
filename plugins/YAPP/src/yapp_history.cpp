@@ -1,5 +1,5 @@
 #include "common.h"
-#include "popup_history.h"
+#include "yapp_history.h"
 
 PopupHistoryList::PopupHistoryList(int renderer)
 {

@@ -552,7 +552,7 @@ int InitTopToolbar(WPARAM wparam,LPARAM lparam)
 {
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
-	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDB_DRIVE));
+	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_DRIVE));
 	ttb.pszService = MS_WUMF_CONNECTIONSSHOW;
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Show connections list");
