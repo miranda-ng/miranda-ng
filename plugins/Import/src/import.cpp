@@ -85,6 +85,22 @@ static int ImportGroups()
 	return nGroups;
 }
 
+HANDLE HContactFromID(char* pszProtoName, char* pszSetting, char* pszID)
+{
+	HANDLE hContact = dstDb->FindFirstContact();
+	while (hContact != NULL) {
+		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		if ( !lstrcmpA(szProto, pszProtoName)) {
+			mir_ptr<char> id( db_get_sa(hContact, pszProtoName, pszSetting));
+			if ( !lstrcmpA(pszID, id))
+				return hContact;
+		}
+
+		hContact = dstDb->FindNextContact(hContact);
+	}
+	return INVALID_HANDLE_VALUE;
+}
+
 HANDLE AddContact(HWND hdlgProgress, char* pszProtoName, char* pszUniqueSetting, DBVARIANT* id, TCHAR *nick, TCHAR *group)
 {
 	HANDLE hContact;

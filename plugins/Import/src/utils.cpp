@@ -53,27 +53,6 @@ HANDLE HContactFromNumericID(char* pszProtoName, char* pszSetting, DWORD dwID)
 	return INVALID_HANDLE_VALUE;
 }
 
-HANDLE HContactFromID(char* pszProtoName, char* pszSetting, char* pszID)
-{
-	DBVARIANT dbv;
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	while (hContact != NULL) {
-		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		if ( !lstrcmpA(szProto, pszProtoName)) {
-			if (DBGetContactSettingString(hContact, pszProtoName, pszSetting, &dbv) == 0) {
-				if (strcmp(pszID, dbv.pszVal) == 0) {
-					DBFreeVariant(&dbv);
-					return hContact;
-				}
-				DBFreeVariant(&dbv);
-			}
-		}
-
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
-	}
-	return INVALID_HANDLE_VALUE;
-}
-
 HANDLE HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, DWORD uin, int addUnknown)
 {
 	HANDLE hContact = HContactFromNumericID(szModuleName, "UIN", uin);
