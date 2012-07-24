@@ -76,15 +76,15 @@ static void ModernOptUI_SelectSection(HWND hwndDlg, struct ModernOptionsData *da
 // Main option pages
 struct ModernOptMainPageInfo g_ModernOptPages[MODERNOPT_PAGE_COUNT] =
 {
-	{0,					FALSE,	IDI_MIRANDA,		_T("Home"),			_T("Miranda IM configuration center")},
+	{0,					FALSE,	IDI_MIRANDA,		_T("Home"),			_T("Miranda NG configuration center")},
 	{IDC_BTN_ACCOUNTS,	TRUE,	IDI_BIG_NETWORK,	_T("Accounts"),		_T("Setup your account information to start messaging.")},
-	{IDC_BTN_SKINS,		TRUE,	IDI_BIG_SKINS,		_T("Style"),		_T("Change the look of Miranda IM according to your taste.")},
+	{IDC_BTN_SKINS,		TRUE,	IDI_BIG_SKINS,		_T("Style"),		_T("Change the look of Miranda NG according to your taste.")},
 	{IDC_BTN_CLIST,		TRUE,	IDI_BIG_BUDDYLIST,	_T("Contacts"),		_T("Configure behaviour of your contact list.")},
 	{IDC_BTN_MESSAGING,	TRUE,	IDI_BIG_MESSAGE,	_T("Chats"),		_T("Customize look&&feel of your chat windows here.")},
 	{IDC_BTN_IGNORE,	TRUE,	IDI_BIG_IGNORE,		_T("Ignore"),		_T("Ban those users and events, you are annoyed with.")},
 	{IDC_BTN_STATUS,	TRUE,	IDI_BIG_STATUS,		_T("Status"),		_T("Set your status messages and idle reporting.")},
 	{IDC_BTN_ADVANCED,	TRUE,	IDI_BIG_ADVANCED,	_T("Advanced"),		_T("")},
-	{IDC_BTN_PLUGINS,	TRUE,	IDI_BIG_MODULES,	_T("Addons"),		_T("Miranda IM is all about plugins. Manage all the plugins you have here.")},
+	{IDC_BTN_PLUGINS,	TRUE,	IDI_BIG_MODULES,	_T("Addons"),		_T("Miranda NG is all about plugins. Manage all the plugins you have here.")},
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -258,7 +258,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 			{
 				int idResult = MessageBox(hwndDlg,
 					TranslateT("You have some unsaved changes here.\n Do you wish to apply settings before switching?"),
-					_T("Miranda IM"), MB_ICONQUESTION|MB_YESNOCANCEL);
+					_T("Miranda NG"), MB_ICONQUESTION|MB_YESNOCANCEL);
 				if (idResult == IDCANCEL) break;
 				sttNotifyPages(dat, (idResult == IDYES) ? PSN_APPLY : PSN_RESET);
 			}
