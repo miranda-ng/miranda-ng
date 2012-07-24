@@ -224,7 +224,7 @@ BOOL CJabberAdhocManager::FillDefaultNodes()
 	AddNode( NULL, _T(JABBER_FEAT_RC_FORWARD), TranslateT("Forward unread messages"), &CJabberProto::AdhocForwardHandler );
 	AddNode( NULL, _T(JABBER_FEAT_RC_LEAVE_GROUPCHATS), TranslateT("Leave groupchats"), &CJabberProto::AdhocLeaveGroupchatsHandler );
 	AddNode( NULL, _T(JABBER_FEAT_RC_WS_LOCK), TranslateT("Lock workstation"), &CJabberProto::AdhocLockWSHandler );
-	AddNode( NULL, _T(JABBER_FEAT_RC_QUIT_MIRANDA), TranslateT("Quit Miranda IM"), &CJabberProto::AdhocQuitMirandaHandler );
+	AddNode( NULL, _T(JABBER_FEAT_RC_QUIT_MIRANDA), TranslateT("Quit Miranda NG"), &CJabberProto::AdhocQuitMirandaHandler );
 	return TRUE;
 }
 
@@ -695,7 +695,7 @@ int CJabberProto::AdhocQuitMirandaHandler( HXML, CJabberIqInfo* pInfo, CJabberAd
 			<< XCHILDNS( _T("x"), _T(JABBER_FEAT_DATA_FORMS)) << XATTR( _T("type"), _T("form"));
 
 		xNode << XCHILD( _T("title"), TranslateT("Confirmation needed"));
-		xNode << XCHILD( _T("instructions"), TranslateT("Please confirm Miranda IM shutdown"));
+		xNode << XCHILD( _T("instructions"), TranslateT("Please confirm Miranda NG shutdown"));
 
 		xNode << XCHILD( _T("field")) << XATTR( _T("type"), _T("hidden")) << XATTR( _T("var"), _T("FORM_TYPE")) 
 			<< XCHILD( _T("value"), _T(JABBER_FEAT_RC));

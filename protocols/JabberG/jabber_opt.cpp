@@ -582,7 +582,7 @@ private:
 		m_txtPassword.GetText(pass, SIZEOF(pass));
 		if (lstrcmp(buf, pass))
 		{
-			MessageBox(m_hwnd, TranslateT("Passwords do not match."), _T("Miranda IM"), MB_ICONSTOP|MB_OK);
+			MessageBox(m_hwnd, TranslateT("Passwords do not match."), _T("Miranda NG"), MB_ICONSTOP|MB_OK);
 			return;
 		}
 
@@ -1956,7 +1956,7 @@ private:
 		m_txtPassword.GetText(pass, SIZEOF(pass));
 		if (lstrcmp(buf, pass))
 		{
-			MessageBox(m_hwnd, TranslateT("Passwords do not match."), _T("Miranda IM"), MB_ICONSTOP|MB_OK);
+			MessageBox(m_hwnd, TranslateT("Passwords do not match."), _T("Miranda NG"), MB_ICONSTOP|MB_OK);
 			return;
 		}
 

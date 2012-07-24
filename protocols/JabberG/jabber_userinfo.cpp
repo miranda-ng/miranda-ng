@@ -308,7 +308,7 @@ static void sttFillResourceInfo( CJabberProto* ppro, HWND hwndTree, HTREEITEM ht
 		if ( res->pSoftwareInfo->szSoftwareVersion )
 			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Software version"), res->pSoftwareInfo->szSoftwareVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 		if ( res->pSoftwareInfo->szXMirandaCoreVersion ) {
-			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Miranda IM core version"), res->pSoftwareInfo->szXMirandaCoreVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Miranda NG core version"), res->pSoftwareInfo->szXMirandaCoreVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Unicode build"), res->pSoftwareInfo->bXMirandaIsUnicode ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Alpha build"), res->pSoftwareInfo->bXMirandaIsAlpha ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Debug build"), res->pSoftwareInfo->bXMirandaIsDebug ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));

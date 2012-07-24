@@ -521,7 +521,7 @@ void CJabberProto::FormatMirVer(JABBER_RESOURCE_STATUS *resource, TCHAR *buf, in
 	// attach additional info for fingerprint plguin
 	if (resource->resourceName && !_tcsstr(buf, resource->resourceName))
 	{
-		if (_tcsstr(buf, _T("Miranda IM")) || m_options.ShowForeignResourceInMirVer )
+		if (_tcsstr(buf, _T("Miranda IM")) || _tcsstr(buf, _T("Miranda NG")) || m_options.ShowForeignResourceInMirVer )
 		{
 			int offset = lstrlen(buf);
 			mir_sntprintf(buf + offset, bufSize - offset, _T(" [%s]"), resource->resourceName);
