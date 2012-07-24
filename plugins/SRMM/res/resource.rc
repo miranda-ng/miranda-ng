@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -9,7 +9,7 @@
 //
 #include <winres.h>
 #include <richedit.h>
-#include "../../include/statusmodes.h"
+#include "statusmodes.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -266,14 +266,14 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\sxr\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
 BEGIN
     "#include <winres.h>\r\n"
     "#include <richedit.h>\r\n"
-    "#include ""../../include/statusmodes.h""\r\n"
+    "#include ""statusmodes.h""\r\n"
     "\0"
 END
 
@@ -293,18 +293,18 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_INCOMING            ICON                    "res/incoming.ico"
-IDI_OUTGOING            ICON                    "res/outgoing.ico"
-IDI_NOTICE              ICON                    "res/notice.ico"
+IDI_INCOMING            ICON                    "incoming.ico"
+IDI_OUTGOING            ICON                    "outgoing.ico"
+IDI_NOTICE              ICON                    "notice.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Cursor
 //
 
-IDC_HYPERLINKHAND       CURSOR                  "res/hyperlin.cur"
-IDC_DROP                CURSOR                  "res/dragcopy.cur"
-IDC_DROPUSER            CURSOR                  "res/dropuser.cur"
+IDC_HYPERLINKHAND       CURSOR                  "hyperlin.cur"
+IDC_DROP                CURSOR                  "dragcopy.cur"
+IDC_DROPUSER            CURSOR                  "dropuser.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //

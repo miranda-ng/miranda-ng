@@ -13,12 +13,6 @@
       <UniqueIdentifier>{4cf2f797-4e6e-41e0-9836-39dbe0da6295}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{3457019d-5df6-405d-82d6-4a50c482396a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="API">
-      <UniqueIdentifier>{2bc381f4-bd10-4393-9bdd-e2a1ecc95d8d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bitmap_funcs.cpp">
@@ -55,22 +49,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\splash.rc">
+    <ResourceCompile Include="res\splash.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="src\version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="doc\splash_readme.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="doc\splash_translate.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="doc\todo.txt">
-      <Filter>Docs</Filter>
-    </None>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -120,7 +120,7 @@ LANGUAGE 0x22, 0x1
 
 1 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 3 TEXTINCLUDE MOVEABLE PURE 
