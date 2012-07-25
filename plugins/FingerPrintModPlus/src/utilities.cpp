@@ -30,11 +30,11 @@ LPVOID __fastcall SAFE_MALLOC(size_t size)
 {
 	LPVOID p = NULL;
 
-	if(size)
+	if (size)
 	{
 		p = malloc(size);
 
-		if(p)
+		if (p)
 			ZeroMemory(p, size);
 	}
 	return p;
@@ -42,7 +42,7 @@ LPVOID __fastcall SAFE_MALLOC(size_t size)
 
 size_t __fastcall strlennull(LPCSTR string)
 {
-	if(string)
+	if (string)
 		return strlen(string);
 
 	return 0;
@@ -62,7 +62,7 @@ int null_snprintf(LPSTR buffer, size_t count, LPCSTR fmt, ...)
 
 LPSTR __fastcall TranslateUtfStatic(LPCSTR src, LPSTR buf, size_t bufsize)
 { // this takes UTF-8 strings only!!!
-	if(strlennull(src))
+	if (strlennull(src))
 	{ // we can use unicode translate (0.5+)
 		LPWSTR usrc = make_unicode_string(src);
 
@@ -86,20 +86,20 @@ LPSTR make_utf8_string_static(LPCWSTR unicode, LPSTR utf8, size_t utf_size)
 	c = (WORD)unicode[index++];
 	while(c)
 	{
-		if(c < 0x080)
+		if (c < 0x080)
 		{
-			if(out_index + 1 >= utf_size) break;
+			if (out_index + 1 >= utf_size) break;
 			utf8[out_index++] = (CHAR)c;
 		}
-		else if(c < 0x800) 
+		else if (c < 0x800) 
 		{
-			if(out_index + 2 >= utf_size) break;
+			if (out_index + 2 >= utf_size) break;
 			utf8[out_index++] = 0xc0 | (c >> 6);
 			utf8[out_index++] = 0x80 | (c & 0x3f);
 		}
 		else
 		{
-			if(out_index + 3 >= utf_size) break;
+			if (out_index + 3 >= utf_size) break;
 			utf8[out_index++] = 0xe0 | (c >> 12);
 			utf8[out_index++] = 0x80 | ((c >> 6) & 0x3f);
 			utf8[out_index++] = 0x80 | (c & 0x3f);
@@ -124,9 +124,9 @@ LPSTR make_utf8_string(LPCWSTR unicode)
 	c = (WORD)unicode[index++];
 	while(c)
 	{
-		if(c < 0x0080)
+		if (c < 0x0080)
 			size++;
-		else if(c < 0x0800)
+		else if (c < 0x0800)
 			size += 2;
 		else
 			size += 3;
@@ -135,7 +135,7 @@ LPSTR make_utf8_string(LPCWSTR unicode)
 
 	//out = (unsigned char*)SAFE_MALLOC(size + 1);
 	out = (LPSTR)SAFE_MALLOC(size + 1);
-	if(out == NULL)
+	if (out == NULL)
 		return NULL;
 	else
 		return make_utf8_string_static(unicode, out, size + 1);
@@ -150,7 +150,7 @@ LPWSTR make_unicode_string_static(LPCSTR utf8, LPWSTR unicode, size_t unicode_le
 	c = (BYTE)utf8[index++];
 	while(c)
 	{
-		if(out_index + 1 >= unicode_len) break;
+		if (out_index + 1 >= unicode_len) break;
 		if ((c & 0x80) == 0)
 		{
 			unicode[out_index++] = c;
@@ -205,7 +205,7 @@ LPWSTR make_unicode_string(LPCSTR utf8)
 	}
 
 	out = (LPWSTR)SAFE_MALLOC((size + 1) * sizeof(WCHAR));
-	if(out == NULL)
+	if (out == NULL)
 		return NULL;
 	else
 		return make_unicode_string_static(utf8, out, size + 1);
@@ -245,7 +245,7 @@ int utf8_decode_static(LPCSTR from, LPSTR to, int to_size)
 		return 0;
 
 	// Use the native conversion routines when available
-	if(bHasCP_UTF8)
+	if (bHasCP_UTF8)
 	{
 		LPWSTR wszTemp = NULL;
 		size_t inlen = strlennull(from);
@@ -253,10 +253,10 @@ int utf8_decode_static(LPCSTR from, LPSTR to, int to_size)
 		wszTemp = (LPWSTR)_alloca((inlen + 1) * sizeof(WCHAR));
 
 		// Convert the UTF-8 string to UCS
-		if(MultiByteToWideChar(CP_UTF8, 0, from, -1, wszTemp, (int)inlen + 1))
+		if (MultiByteToWideChar(CP_UTF8, 0, from, -1, wszTemp, (int)inlen + 1))
 		{
 			// Convert the UCS string to local ANSI codepage
-			if(WideCharToMultiByte(CP_ACP, 0, wszTemp, -1, to, to_size, NULL, NULL))
+			if (WideCharToMultiByte(CP_ACP, 0, wszTemp, -1, to, to_size, NULL, NULL))
 			{
 				nResult = 1;
 			}
@@ -283,7 +283,7 @@ static LRESULT ControlAddStringUtf(HWND ctrl, DWORD msg, LPCSTR szString)
 	LPSTR szItem = TranslateUtfStatic(szString, str, MAX_PATH);
 	LRESULT item = -1;
 
-	if(gbUnicodeAPI)
+	if (gbUnicodeAPI)
 	{
 		LPWSTR wItem = make_unicode_string(szItem);
 
@@ -295,7 +295,7 @@ static LRESULT ControlAddStringUtf(HWND ctrl, DWORD msg, LPCSTR szString)
 		size_t size = strlennull(szItem) + 2;
 		LPSTR aItem = (LPSTR)_alloca(size);
 
-		if(utf8_decode_static(szItem, aItem, (int)size))
+		if (utf8_decode_static(szItem, aItem, (int)size))
 		item = SendMessageA(ctrl, msg, 0, (LPARAM)aItem);
 	}
 	return item;

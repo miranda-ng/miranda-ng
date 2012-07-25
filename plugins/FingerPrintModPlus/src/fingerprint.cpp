@@ -135,7 +135,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-extern "C"		__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
 }
@@ -162,14 +162,13 @@ extern "C" int	__declspec(dllexport) Load(void)
 
 extern "C" int	__declspec(dllexport) Unload()
 {
-	size_t i;
-
-	if(g_szClientDescription != NULL) mir_free(g_szClientDescription);
+	if (g_szClientDescription != NULL)
+		mir_free(g_szClientDescription);
 
 	HeapDestroy(hHeap);
 	ClearFI();
 
-	for(i = 0; i < SIZEOF(hStaticHooks); i++)
+	for (size_t i = 0; i < SIZEOF(hStaticHooks); i++)
 	{
 		UnhookEvent(hStaticHooks[i]);
 		hStaticHooks[i] = NULL;
@@ -185,7 +184,7 @@ extern "C" int	__declspec(dllexport) Unload()
 void FASTCALL FreeIcon(HICON hIcon, BOOL mode)
 {
 	if (!mode) return;
-	if(mode > 0)
+	if (mode > 0)
 		CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, (WPARAM)0);
 	else
 		DestroyIcon(hIcon);
@@ -202,7 +201,7 @@ void FASTCALL Prepare(KN_FP_MASK* mask)
 	LPTSTR pszNewMask;
 	LPTSTR pszTranslatedMask;
 
-	if(mask == &def_kn_fp_mask[UNKNOWN_MASK_NUMBER])
+	if (mask == &def_kn_fp_mask[UNKNOWN_MASK_NUMBER])
 		pszTranslatedMask = TranslateTS(mask->szMask);
 	else
 		pszTranslatedMask = mask->szMask;
@@ -234,8 +233,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 
-	if(g_bExtraIcon_Register_ServiceExist)
-	{
+	if (g_bExtraIcon_Register_ServiceExist) {
 		EXTRAICON_INFO ico = { 0 };
 
 		ico.cbSize = sizeof(ico);
@@ -248,61 +246,48 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		ico.descIcon = "client_Miranda_Unknown";
 		hExtraIcon = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
 	}
-	else
-	{
-		InitFingerEvents();
-	}
+	else InitFingerEvents();
 
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-	{
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
 		hIconFolder = FoldersRegisterCustomPathT("Fingerprint", "Icons", _T(MIRANDA_PATH) _T("\\") DEFAULT_SKIN_FOLDER);
 		FoldersGetCustomPathT(hIconFolder, g_szSkinLib, SIZEOF(g_szSkinLib), _T(""));
 	}
-	else
-		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)DEFAULT_SKIN_FOLDER, (LPARAM)g_szSkinLib);
-
+	else CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)DEFAULT_SKIN_FOLDER, (LPARAM)g_szSkinLib);
 
 	// prepare masks
 	KN_FP_MASK* mask;
 
-	for(i = 0; i < DEFAULT_KN_FP_MASK_COUNT; i++)
-	{
+	for (i=0; i < DEFAULT_KN_FP_MASK_COUNT; i++) {
 		mask = &def_kn_fp_mask[i];
-		if(mask) Prepare(mask);
+		if (mask) Prepare(mask);
 	}
-	if(DBGetContactSettingByte(NULL, "Finger", "Overlay1", 1))
-	{
-		for(i = 0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++)
-		{
+
+	if (DBGetContactSettingByte(NULL, "Finger", "Overlay1", 1)) {
+		for (i=0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++) {
 			mask = &def_kn_fp_overlays_mask[i];
-			if(mask) Prepare(mask);
+			if (mask) Prepare(mask);
 		}
 	}
-	if(DBGetContactSettingByte(NULL, "Finger", "Overlay2", 1))
-	{
-		if (DBGetContactSettingByte(NULL, "Finger", "ShowVersion", 0))
-		{
-			for(i = 0; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++)
-			{
+
+	if (DBGetContactSettingByte(NULL, "Finger", "Overlay2", 1)) {
+		if (DBGetContactSettingByte(NULL, "Finger", "ShowVersion", 0)) {
+			for (i = 0; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++) {
 				mask = &def_kn_fp_overlays2_mask[i];
-				if(mask) Prepare(mask);
+				if (mask) Prepare(mask);
 			}
 		}
-		else
-		{
-			for(i = 0; i < DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT; i++)
-			{
+		else {
+			for (i=0; i < DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT; i++) {
 				mask = &def_kn_fp_overlays2_mask[i];
-				if(mask) Prepare(mask);
+				if (mask) Prepare(mask);
 			}
 		}
 	}
-	if(DBGetContactSettingByte(NULL, "Finger", "Overlay3", 1))
-	{
-		for(i = 0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
-		{
+	
+	if (DBGetContactSettingByte(NULL, "Finger", "Overlay3", 1)) {
+		for (i=0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++) {
 			mask = &def_kn_fp_overlays3_mask[i];
-			if(mask) Prepare(mask);
+			if (mask) Prepare(mask);
 		}
 	}
 	return 0;
@@ -310,7 +295,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int OnExtraIconClicked(WPARAM wParam, LPARAM lParam)
 {
-	if(lParam == bColumn)
+	if (lParam == bColumn)
 		CallService(MS_USERINFO_SHOWDIALOG, wParam, NULL);
 	return 0;
 }
@@ -338,20 +323,18 @@ int FASTCALL ApplyFingerprintImage(HANDLE hContact, LPTSTR szMirVer)
 {
 	HANDLE hImage = INVALID_HANDLE_VALUE;
 
-	if(szMirVer)
+	if (szMirVer)
 		hImage = GetIconIndexFromFI(szMirVer);
 
-	if(hContact == NULL) return 0;
+	if (hContact == NULL)
+		return 0;
 
-	if(g_bCList_Extra_Set_Icon_ServiceExist && !g_bExtraIcon_Register_ServiceExist)
-	{
+	if (g_bCList_Extra_Set_Icon_ServiceExist && !g_bExtraIcon_Register_ServiceExist) {
 		IconExtraColumn iec;
 		WORD bColumn = DBGetContactSettingWord(NULL, "Finger", "Column", EXTRA_ICON_CLIENT);
 
-		if(bColumn <= 0 || bColumn > EXTRA_ICON_COUNT)
-		{
+		if (bColumn <= 0 || bColumn > EXTRA_ICON_COUNT)
 			bColumn = EXTRA_ICON_CLIENT;
-		}
 
 		iec.cbSize = sizeof(IconExtraColumn);
 		iec.hImage = hImage;
@@ -359,15 +342,12 @@ int FASTCALL ApplyFingerprintImage(HANDLE hContact, LPTSTR szMirVer)
 
 		CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
 	}
-	else if(g_bExtraIcon_Register_ServiceExist && hExtraIcon != INVALID_HANDLE_VALUE && hExtraIcon != NULL)
-	{
+	else if (g_bExtraIcon_Register_ServiceExist && hExtraIcon != INVALID_HANDLE_VALUE && hExtraIcon != NULL) {
 		EXTRAICON ei = { 0 };
-
 		ei.cbSize = sizeof(ei);
 		ei.hExtraIcon = hExtraIcon;
 		ei.hContact = hContact;
 		ei.hImage = hImage;
-
 		CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ei, 0);
 	}
 	return 0;
@@ -412,24 +392,20 @@ int OnIconsChanged(WPARAM wParam, LPARAM lParam)
 int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
+	if (hContact == NULL)
+		return 0;
 
-	if(hContact == NULL) return 0;
 	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
-
-	if(szProto!=NULL)
-	{
+	if (szProto != NULL) {
 		DBVARIANT dbvMirVer = { 0 };
 
-		if (!DBGetContactSettingTString(hContact, szProto, "MirVer", &dbvMirVer))
-		{
+		if (!DBGetContactSettingTString(hContact, szProto, "MirVer", &dbvMirVer)) {
 			ApplyFingerprintImage(hContact, dbvMirVer.ptszVal);
 			DBFreeVariant(&dbvMirVer);
 		}
-		else
-			ApplyFingerprintImage(hContact, NULL);
+		else ApplyFingerprintImage(hContact, NULL);
 	}
-	else
-		ApplyFingerprintImage(hContact, NULL);
+	else ApplyFingerprintImage(hContact, NULL);
 	return 0;
 }
 
@@ -439,52 +415,35 @@ int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 */
 int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	if ((HANDLE)wParam == NULL)	return 0;
-	{
-		DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
-		if(cws && cws->szSetting && !strcmp(cws->szSetting, "MirVer"))
-		{
-			if(cws->value.type == DBVT_UTF8)
-			{
+	if ((HANDLE)wParam == NULL)
+		return 0;
 
-				LPWSTR wszVal = NULL;
-				int iValLen;
-
-				iValLen = MultiByteToWideChar(CP_UTF8, 0, cws->value.pszVal, -1, NULL, 0);
-				if(iValLen > 0)
-				{
-					wszVal = (LPWSTR)mir_alloc(iValLen * sizeof(WCHAR));
-					MultiByteToWideChar(CP_UTF8, 0, cws->value.pszVal, -1, wszVal, iValLen);
-				}
-				ApplyFingerprintImage((HANDLE)wParam, wszVal);
-				mir_free(wszVal);
-
+	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
+	if (cws && cws->szSetting && !strcmp(cws->szSetting, "MirVer")) {
+		if (cws->value.type == DBVT_UTF8) {
+			LPWSTR wszVal = NULL;
+			int iValLen = MultiByteToWideChar(CP_UTF8, 0, cws->value.pszVal, -1, NULL, 0);
+			if (iValLen > 0) {
+				wszVal = (LPWSTR)mir_alloc(iValLen * sizeof(WCHAR));
+				MultiByteToWideChar(CP_UTF8, 0, cws->value.pszVal, -1, wszVal, iValLen);
 			}
-			else if(cws->value.type == DBVT_ASCIIZ)
-			{
-
-				LPWSTR wszVal = NULL;
-				int iValLen;
-
-				iValLen = MultiByteToWideChar(g_LPCodePage, 0, cws->value.pszVal, -1, NULL, 0);
-				if(iValLen > 0)
-				{
-					wszVal = (LPWSTR)mir_alloc(iValLen * sizeof(WCHAR));
-					MultiByteToWideChar(g_LPCodePage, 0, cws->value.pszVal, -1, wszVal, iValLen);
-				}
-				ApplyFingerprintImage((HANDLE)wParam, wszVal);
-				mir_free(wszVal);
-
-			}
-			else if(cws->value.type == DBVT_WCHAR)
-			{
-
-				ApplyFingerprintImage((HANDLE)wParam, cws->value.pwszVal);
-
-			}
-			else
-				ApplyFingerprintImage((HANDLE)wParam, NULL);
+			ApplyFingerprintImage((HANDLE)wParam, wszVal);
+			mir_free(wszVal);
 		}
+		else if (cws->value.type == DBVT_ASCIIZ) {
+			LPWSTR wszVal = NULL;
+			int iValLen = MultiByteToWideChar(g_LPCodePage, 0, cws->value.pszVal, -1, NULL, 0);
+			if (iValLen > 0) {
+				wszVal = (LPWSTR)mir_alloc(iValLen * sizeof(WCHAR));
+				MultiByteToWideChar(g_LPCodePage, 0, cws->value.pszVal, -1, wszVal, iValLen);
+			}
+			ApplyFingerprintImage((HANDLE)wParam, wszVal);
+			mir_free(wszVal);
+		}
+		else if (cws->value.type == DBVT_WCHAR) {
+			ApplyFingerprintImage((HANDLE)wParam, cws->value.pwszVal);
+		}
+		else ApplyFingerprintImage((HANDLE)wParam, NULL);
 	}
 	return 0;
 }
@@ -505,31 +464,27 @@ HICON FASTCALL LoadIconFromExternalFile(LPTSTR filename, int nLibrary, LPSTR Ico
 	HICON hIcon = NULL;
 	TCHAR destfile[MAX_PATH];
 
-	if(IconName == NULL) return NULL;
+	if (IconName == NULL)
+		return NULL;
 
 	if (filename == _T(""))
 		GetModuleFileName(g_hInst,destfile,MAX_PATH);
-	else
-	{
+	else {
 		mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, filename);
-		struct _stat64i32 stFileInfo;
 
-		if (_tstat(destfile, &stFileInfo) == -1)
+		struct _stat64i32 stFileInfo;
+		if ( _tstat(destfile, &stFileInfo) == -1)
 			return hIcon;
 	}
 
-	if(nLibrary == LIB_USE)
-	{
+	if (nLibrary == LIB_USE) {
 		hIcon = ((HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)IconName));
-		if (!hIcon)
-		{
+		if (!hIcon) {
 			ExtractIconEx(destfile, -internalidx, NULL, &hIcon, 1);
 			return hIcon;
 		}
 	}
-	else
-	{
-		SKINICONDESC sid;
+	else {
 		LPTSTR SectName = NULL;
 
 		switch(flag)
@@ -537,11 +492,10 @@ HICON FASTCALL LoadIconFromExternalFile(LPTSTR filename, int nLibrary, LPSTR Ico
 			#include "finger_groups.h"
 		}
 
-		if(SectName == NULL)
+		if (SectName == NULL)
 			return hIcon;
 
-		ZeroMemory(&sid, sizeof(sid));
-
+		SKINICONDESC sid = { 0 };
 		sid.cbSize = sizeof(sid);
 		sid.flags = SIDF_ALL_TCHAR;
 		sid.ptszSection = SectName;
@@ -555,7 +509,7 @@ HICON FASTCALL LoadIconFromExternalFile(LPTSTR filename, int nLibrary, LPSTR Ico
 		// hIcon = ((HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)IconName));
 	}
 
-	if(NeedFree)
+	if (NeedFree)
 		*NeedFree = (BOOL)hIcon;
 	return hIcon;
 }
@@ -585,35 +539,33 @@ HICON FASTCALL LoadIconFromExternalFile(LPTSTR filename, int nLibrary, LPSTR Ico
 */
 BOOL FASTCALL WildCompareA(LPSTR szName, LPSTR szMask)
 {
-	if (*szMask != '|') return WildCompareProcA(szName, szMask);
-	{
-		size_t s = 1, e = 1;
-//		static char temp[100];		//lets made temp static local var - should be faster than dynamic
-		LPSTR szTemp = (LPSTR)_alloca(strlen(szMask) * sizeof(CHAR) + sizeof(CHAR));
-		BOOL bExcept;
+	if (*szMask != '|')
+		return WildCompareProcA(szName, szMask);
+	
+	size_t s = 1, e = 1;
+	LPSTR szTemp = (LPSTR)_alloca(strlen(szMask) * sizeof(CHAR) + sizeof(CHAR));
+	BOOL bExcept;
 
-		while(szMask[e] != '\0')
-		{
-			s = e;
-			while(szMask[e] != '\0' && szMask[e] != '|') e++;
+	while(szMask[e] != '\0') {
+		s = e;
+		while(szMask[e] != '\0' && szMask[e] != '|') e++;
 
-			// exception mask
-			bExcept = (*(szMask + s) == '^');
-			if(bExcept) s++;
+		// exception mask
+		bExcept = (*(szMask + s) == '^');
+		if (bExcept) s++;
 
-			memcpy(szTemp, szMask + s, (e - s) * sizeof(CHAR));
-			szTemp[e - s] = '\0';
+		memcpy(szTemp, szMask + s, (e - s) * sizeof(CHAR));
+		szTemp[e - s] = '\0';
 
-			if(WildCompareProcA(szName, szTemp))
-				return !bExcept;
+		if (WildCompareProcA(szName, szTemp))
+			return !bExcept;
 
-			if(szMask[e] != '\0')
-				e++;
-			else
-				return FALSE;
-		}
-		return FALSE;
+		if (szMask[e] != '\0')
+			e++;
+		else
+			return FALSE;
 	}
+	return FALSE;
 }
 
 /*
@@ -641,46 +593,43 @@ BOOL FASTCALL WildCompareA(LPSTR szName, LPSTR szMask)
 */
 BOOL FASTCALL WildCompareW(LPWSTR wszName, LPWSTR wszMask)
 {
-	if (*wszMask != L'|') return WildCompareProcW(wszName, wszMask);
+	if (*wszMask != L'|')
+		return WildCompareProcW(wszName, wszMask);
+
+	size_t s = 1, e = 1;
+	LPWSTR wszTemp = (LPWSTR)_alloca(wcslen(wszMask) * sizeof(WCHAR) + sizeof(WCHAR));
+	BOOL bExcept;
+
+	while(wszMask[e] != L'\0')
 	{
-		size_t s = 1, e = 1;
-//		static char temp[100];		//lets made temp static local var - should be faster than dynamic
-		LPWSTR wszTemp = (LPWSTR)_alloca(wcslen(wszMask) * sizeof(WCHAR) + sizeof(WCHAR));
-		BOOL bExcept;
+		s = e;
+		while(wszMask[e] != L'\0' && wszMask[e] != L'|') e++;
 
-		while(wszMask[e] != L'\0')
-		{
-			s = e;
-			while(wszMask[e] != L'\0' && wszMask[e] != L'|') e++;
+		// exception mask
+		bExcept = (*(wszMask + s) == L'^');
+		if (bExcept) s++;
 
-			// exception mask
-			bExcept = (*(wszMask + s) == L'^');
-			if(bExcept) s++;
+		memcpy(wszTemp, wszMask + s, (e - s) * sizeof(WCHAR));
+		wszTemp[e - s] = L'\0';
 
-			memcpy(wszTemp, wszMask + s, (e - s) * sizeof(WCHAR));
-			wszTemp[e - s] = L'\0';
+		if (WildCompareProcW(wszName, wszTemp))
+			return !bExcept;
 
-			if(WildCompareProcW(wszName, wszTemp))
-				return !bExcept;
-
-			if(wszMask[e] != L'\0')
-				e++;
-			else
-				return FALSE;
-		}
-		return FALSE;
+		if (wszMask[e] != L'\0')
+			e++;
+		else
+			return FALSE;
 	}
+	return FALSE;
 }
 
 INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)
-	{
+	switch(msg) {
 	case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hwndDlg);
-			for (int i = 0; i < DEFAULT_SETTINGS_COUNT; i++)
-			{
+			for (int i = 0; i < DEFAULT_SETTINGS_COUNT; i++) {
 				if (lstrcmpA(settings[i].szSetName, "ShowVersion") == 0)
 					LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, 0);
 				else
@@ -704,26 +653,25 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				ComboBoxAddString(GetDlgItem(hwndDlg, IDC_ADVICON), CIdComboBox[i], i);
 
 			SendDlgItemMessage(hwndDlg, IDC_ADVICON, CB_SETCURSEL, (DBGetContactSettingWord(NULL, "Finger", "Column", EXTRA_ICON_CLIENT)) - 1, 0);
-			if(g_bExtraIcon_Register_ServiceExist)
+			if (g_bExtraIcon_Register_ServiceExist)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ADVICON), FALSE);
 
 			ShowWindow(GetDlgItem(hwndDlg, IDC_OPTCHANGENOTE), SW_HIDE);
 		}
 		break;
+
 	case WM_COMMAND:
-		switch(LOWORD(wParam))
-		{
-			BOOL show;
+		switch(LOWORD(wParam)) {
 		case IDC_ADVICON:
-			if(HIWORD(wParam) == CBN_SELCHANGE)
+			if (HIWORD(wParam) == CBN_SELCHANGE)
 				OptDlgChanged(hwndDlg, true);
 			break;
+
 		case IDC_OVERLAY1:
 		case IDC_OVERLAY2:
 		case IDC_OVERLAY3:
 		case IDC_VERSION:
-			show = true;
-			OptDlgChanged(hwndDlg, show);
+			OptDlgChanged(hwndDlg, true);
 			break;
 
 		case IDC_GROUPMIRANDA:
@@ -744,116 +692,100 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case IDC_GROUPVOIP:
 		case IDC_GROUPWEATHER:
 		case IDC_GROUPYAHOO:
-			show = false;
-			OptDlgChanged(hwndDlg, show);
+			OptDlgChanged(hwndDlg, false);
 			break;
 		default:
 			return 0;
 		}
 		break;
+
 	case WM_NOTIFY:
 		{
 			NMHDR *hdr = (NMHDR *)lParam;
-			if (hdr && hdr->code == PSN_APPLY)
-			{
+			if (hdr && hdr->code == PSN_APPLY) {
 				int i = SendDlgItemMessage(hwndDlg, IDC_ADVICON, CB_GETCURSEL, 0, 0) + 1;
 				DBWriteContactSettingWord(NULL, "Finger", "Column", (WORD)i);
 
 				// prepare masks
 				KN_FP_MASK* mask;
 
-				for(i = 0; i < DEFAULT_KN_FP_MASK_COUNT; i++)
-				{
+				for (i=0; i < DEFAULT_KN_FP_MASK_COUNT; i++) {
 					mask = &def_kn_fp_mask[i];
-					if(mask) CallService(MS_SKIN2_REMOVEICON, 0, (LPARAM)mask->szIconName);
+					if (mask) CallService(MS_SKIN2_REMOVEICON, 0, (LPARAM)mask->szIconName);
 				}
-				if(DBGetContactSettingByte(NULL, "Finger", "Overlay1", 1))
-				{
-					for(i = 0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++)
-					{
+
+				if (DBGetContactSettingByte(NULL, "Finger", "Overlay1", 1)) {
+					for (i=0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++) {
 						mask = &def_kn_fp_overlays_mask[i];
-						if(mask) CallService(MS_SKIN2_REMOVEICON, 0, (LPARAM)mask->szIconName);
+						if (mask) Skin_RemoveIcon(mask->szIconName);
 					}
 				}
-				if(DBGetContactSettingByte(NULL, "Finger", "Overlay2", 1))
-				{
-					if (DBGetContactSettingByte(NULL, "Finger", "ShowVersion", 0))
-					{
-						for(i = 0; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++)
-						{
+
+				if (DBGetContactSettingByte(NULL, "Finger", "Overlay2", 1)) {
+					if (DBGetContactSettingByte(NULL, "Finger", "ShowVersion", 0)) {
+						for (i=0; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++) {
 							mask = &def_kn_fp_overlays2_mask[i];
-							if(mask) CallService(MS_SKIN2_REMOVEICON, 0, (LPARAM)mask->szIconName);
+							if (mask) Skin_RemoveIcon(mask->szIconName);
 						}
 					}
-					else
-					{
-						for(i = 0; i < DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT; i++)
-						{
+					else {
+						for (i=0; i < DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT; i++) {
 							mask = &def_kn_fp_overlays2_mask[i];
-							if(mask) CallService(MS_SKIN2_REMOVEICON, 0, (LPARAM)mask->szIconName);
+							if (mask) Skin_RemoveIcon(mask->szIconName);
 						}
 					}
 				}
-				if(DBGetContactSettingByte(NULL, "Finger", "Overlay3", 1))
-				{
-					for(i = 0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
-					{
+				
+				if (DBGetContactSettingByte(NULL, "Finger", "Overlay3", 1)) {
+					for (i=0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++) {
 						mask = &def_kn_fp_overlays3_mask[i];
-						if(mask) CallService(MS_SKIN2_REMOVEICON, 0, (LPARAM)mask->szIconName);
+						if (mask) Skin_RemoveIcon(mask->szIconName);
 					}
 				}
 
 				for (int i = 0; i < DEFAULT_SETTINGS_COUNT; i++)
 					StoreDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName);
 
-				for(i = 0; i < DEFAULT_KN_FP_MASK_COUNT; i++)
-				{
+				for (i=0; i < DEFAULT_KN_FP_MASK_COUNT; i++) {
 					mask = &def_kn_fp_mask[i];
-					if(mask) Prepare(mask);
+					if (mask) Prepare(mask);
 				}
-				if(DBGetContactSettingByte(NULL, "Finger", "Overlay1", 1))
-				{
-					for(i = 0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++)
-					{
+				
+				if (DBGetContactSettingByte(NULL, "Finger", "Overlay1", 1)) {
+					for (i=0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++) {
 						mask = &def_kn_fp_overlays_mask[i];
-						if(mask) Prepare(mask);
+						if (mask) Prepare(mask);
 					}
 				}
-				if(DBGetContactSettingByte(NULL, "Finger", "Overlay2", 1))
-				{
-					if (DBGetContactSettingByte(NULL, "Finger", "ShowVersion", 0))
-					{
-						for(i = 0; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++)
-						{
+				
+				if (DBGetContactSettingByte(NULL, "Finger", "Overlay2", 1)) {
+					if (DBGetContactSettingByte(NULL, "Finger", "ShowVersion", 0)) {
+						for (i=0; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++) {
 							mask = &def_kn_fp_overlays2_mask[i];
-							if(mask) Prepare(mask);
+							if (mask) Prepare(mask);
 						}
 					}
-					else
-					{
-						for(i = 0; i < DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT; i++)
-						{
+					else {
+						for (i=0; i < DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT; i++) {
 							mask = &def_kn_fp_overlays2_mask[i];
-							if(mask) Prepare(mask);
+							if (mask) Prepare(mask);
 						}
 					}
 				}
-				if(DBGetContactSettingByte(NULL, "Finger", "Overlay3", 1))
-				{
-					for(i = 0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
-					{
+				
+				if (DBGetContactSettingByte(NULL, "Finger", "Overlay3", 1)) {
+					for (i=0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++) {
 						mask = &def_kn_fp_overlays3_mask[i];
-						if(mask) Prepare(mask);
+						if (mask) Prepare(mask);
 					}
 				}
 			}
-			break;
 		}
-	case WM_DESTROY:
 		break;
 	}
 	return FALSE;
 }
+
 int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
@@ -865,7 +797,6 @@ int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 
@@ -928,15 +859,13 @@ void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short
 	int iMirVerUpLen;
 	short i = 0, j = -1, k = -1, n = -1;
 
-	if(strcmp(szMirVer, "?") == 0)
-	{
+	if (strcmp(szMirVer, "?") == 0) {
 		*base = UNKNOWN_MASK_NUMBER;
 		*overlay = -1;
 		*overlay2 = -1;
 		*overlay3 = -1;
 		return;
 	}
-
 
 	iMirVerUpLen = MultiByteToWideChar(g_LPCodePage, 0, szMirVer, -1, NULL, 0);
 
@@ -946,12 +875,9 @@ void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short
 
 	_tcsupr_s(tszMirVerUp, iMirVerUpLen);
 
-	while(i < DEFAULT_KN_FP_MASK_COUNT)
-	{
-		if(WildCompare(tszMirVerUp, def_kn_fp_mask[i].szMask))
-		{
-			if (def_kn_fp_mask[i].szIconFileName != _T(""))
-			{
+	while(i < DEFAULT_KN_FP_MASK_COUNT) {
+		if (WildCompare(tszMirVerUp, def_kn_fp_mask[i].szMask)) {
+			if (def_kn_fp_mask[i].szIconFileName != _T("")) {
 				TCHAR destfile[MAX_PATH];
 				mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, def_kn_fp_mask[i].szIconFileName);
 				struct _stat64i32 stFileInfo;
@@ -963,47 +889,43 @@ void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short
 		}
 		i++;
 	}
-	if (!def_kn_fp_mask[i].fNotUseOverlay && i < DEFAULT_KN_FP_MASK_COUNT)
-	{
+	
+	if (!def_kn_fp_mask[i].fNotUseOverlay && i < DEFAULT_KN_FP_MASK_COUNT) {
 		j = 0;
-		while(j < DEFAULT_KN_FP_OVERLAYS_COUNT)
-		{
-			if(WildCompare(tszMirVerUp, def_kn_fp_overlays_mask[j].szMask))
-			{
-				if (def_kn_fp_overlays_mask[j].szIconFileName == _T("ClientIcons_Packs"))
-				{
-					TCHAR destfile[MAX_PATH];
-					mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, def_kn_fp_overlays_mask[i].szIconFileName);
-					struct _stat64i32 stFileInfo;
-
-					if (_tstat(destfile, &stFileInfo) == -1)
-						j++;
-					else
-						break;
-				}
-				else
+		while(j < DEFAULT_KN_FP_OVERLAYS_COUNT) {
+			if ( WildCompare(tszMirVerUp, def_kn_fp_overlays_mask[j].szMask)) {
+				if (def_kn_fp_overlays_mask[j].szIconFileName != _T("ClientIcons_Packs"))
+					break;
+					
+				TCHAR destfile[MAX_PATH];
+				mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, def_kn_fp_overlays_mask[i].szIconFileName);
+				
+				struct _stat64i32 stFileInfo;
+				if ( _tstat(destfile, &stFileInfo) != -1)
 					break;
 			}
 			j++;
 		}
+
 		k = 0;
-		while(k < DEFAULT_KN_FP_OVERLAYS2_COUNT)
-		{
-			if(WildCompare(tszMirVerUp, def_kn_fp_overlays2_mask[k].szMask)) break;
+		while(k < DEFAULT_KN_FP_OVERLAYS2_COUNT) {
+			if (WildCompare(tszMirVerUp, def_kn_fp_overlays2_mask[k].szMask))
+				break;
 			k++;
 		}
+
 		n = 0;
-		while(n < DEFAULT_KN_FP_OVERLAYS3_COUNT)
-		{
-			if(WildCompare(tszMirVerUp, def_kn_fp_overlays3_mask[n].szMask)) break;
+		while(n < DEFAULT_KN_FP_OVERLAYS3_COUNT) {
+			if (WildCompare(tszMirVerUp, def_kn_fp_overlays3_mask[n].szMask))
+				break;
 			n++;
 		}
 	}
+
 	*base = (i < DEFAULT_KN_FP_MASK_COUNT) ? i : -1;
 	*overlay = (j < DEFAULT_KN_FP_OVERLAYS_COUNT) ? j : -1;
 	*overlay2 = (k < DEFAULT_KN_FP_OVERLAYS2_COUNT) ? k : -1;
 	*overlay3 = (n < DEFAULT_KN_FP_OVERLAYS3_COUNT) ? n : -1;
-
 	mir_free(tszMirVerUp);
 }
 
@@ -1017,7 +939,7 @@ void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,sho
 	size_t iMirVerUpLen;
 	short i = 0, j = -1, k = -1, n = -1;
 
-	if(wcscmp(wszMirVer, L"?") == 0)
+	if (wcscmp(wszMirVer, L"?") == 0)
 	{
 		*base = UNKNOWN_MASK_NUMBER;
 		*overlay = -1;
@@ -1034,7 +956,7 @@ void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,sho
 
 	while(i < DEFAULT_KN_FP_MASK_COUNT)
 	{
-		if(WildCompareW(wszMirVerUp, def_kn_fp_mask[i].szMask))
+		if (WildCompareW(wszMirVerUp, def_kn_fp_mask[i].szMask))
 		{
 			if (def_kn_fp_mask[i].szIconFileName != _T(""))
 			{
@@ -1054,7 +976,7 @@ void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,sho
 		j = 0;
 		while(j < DEFAULT_KN_FP_OVERLAYS_COUNT)
 		{
-			if(WildCompare(wszMirVerUp, def_kn_fp_overlays_mask[j].szMask))
+			if (WildCompare(wszMirVerUp, def_kn_fp_overlays_mask[j].szMask))
 			{
 				if (def_kn_fp_overlays_mask[j].szIconFileName == _T("ClientIcons_Packs"))
 				{
@@ -1075,13 +997,13 @@ void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,sho
 		k = 0;
 		while(k < DEFAULT_KN_FP_OVERLAYS2_COUNT)
 		{
-			if(WildCompareW(wszMirVerUp, def_kn_fp_overlays2_mask[k].szMask)) break;
+			if (WildCompareW(wszMirVerUp, def_kn_fp_overlays2_mask[k].szMask)) break;
 			k++;
 		}
 		n = 0;
 		while(n < DEFAULT_KN_FP_OVERLAYS3_COUNT)
 		{
-			if(WildCompareW(wszMirVerUp, def_kn_fp_overlays3_mask[n].szMask)) break;
+			if (WildCompareW(wszMirVerUp, def_kn_fp_overlays3_mask[n].szMask)) break;
 			n++;
 		}
 	}
@@ -1115,7 +1037,7 @@ HICON FASTCALL CreateIconFromIndexes(short base, short overlay, short overlay2, 
 	KN_FP_MASK* mainMask = &(def_kn_fp_mask[base]);
 	icMain = LoadIconFromExternalFile(mainMask->szIconFileName, LIB_USE, mainMask->szIconName, mainMask->iSectionFlag, mainMask->szClientDescription, mainMask->iIconIndex, &needFreeBase);
 
-	if(icMain)
+	if (icMain)
 	{
 		KN_FP_MASK* overlayMask = (overlay != -1) ? &(def_kn_fp_overlays_mask[overlay]) : NULL;
 		KN_FP_MASK* overlay2Mask = (overlay2 != -1) ? &(def_kn_fp_overlays2_mask[overlay2]) : NULL;
@@ -1126,27 +1048,27 @@ HICON FASTCALL CreateIconFromIndexes(short base, short overlay, short overlay2, 
 
 		hIcon = icMain;
 
-		if(overlayMask)
+		if (overlayMask)
 		{
 			hIcon = CreateJoinedIcon(hIcon, icOverlay);
 			hTmp = hIcon;
 		}
 
-		if(overlay2Mask)
+		if (overlay2Mask)
 		{
 			hIcon = CreateJoinedIcon(hIcon, icOverlay2);
-			if(hTmp) DestroyIcon(hTmp);
+			if (hTmp) DestroyIcon(hTmp);
 			hTmp = hIcon;
 		}
 
-		if(overlay3Mask)
+		if (overlay3Mask)
 		{
 			hIcon = CreateJoinedIcon(hIcon, icOverlay3);
-			if(hTmp) DestroyIcon(hTmp);
+			if (hTmp) DestroyIcon(hTmp);
 		}
 	}
 
-	if(hIcon == icMain)
+	if (hIcon == icMain)
 		hIcon = CopyIcon(icMain);
 
 	FreeIcon(icMain, needFreeBase);
@@ -1169,14 +1091,14 @@ INT_PTR ServiceGetClientIconA(WPARAM wParam, LPARAM lParam)
 	LPSTR szMirVer = (LPSTR)wParam;			// MirVer value to get client for.
 /*
 	static HICON hIcon = NULL;	// returned HICON
-	if(hIcon)
+	if (hIcon)
 	{
 		DestroyIcon(hIcon);
 		hIcon = NULL;
 	}
 */
 
-	if(szMirVer == NULL) return 0;
+	if (szMirVer == NULL) return 0;
 
 	{
 		HICON hIcon = NULL;			// returned HICON
@@ -1185,12 +1107,12 @@ INT_PTR ServiceGetClientIconA(WPARAM wParam, LPARAM lParam)
 
 		GetIconsIndexesA(szMirVer, &base, &overlay, &overlay2, &overlay3);
 
-		if(base != -1)
+		if (base != -1)
 		{
 			hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3);
 		}
 /*
-		if(hIcon && !NoCopy)
+		if (hIcon && !NoCopy)
 			return (INT_PTR)CopyIcon(hIcon);
 */
 		return (INT_PTR)hIcon;
@@ -1230,21 +1152,21 @@ INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam)
 		_tcsupr_s(tszMirVerFirstUp, iMirVerFirstUpLen);
 		_tcsupr_s(tszMirVerSecondUp, iMirVerSecondUpLen);
 
-		if(_tcscmp(tszMirVerFirstUp, _T("?")) == 0)
+		if (_tcscmp(tszMirVerFirstUp, _T("?")) == 0)
 			firstIndex = UNKNOWN_MASK_NUMBER;
 		else
 			while(firstIndex < DEFAULT_KN_FP_MASK_COUNT)
 			{
-				if(WildCompare(tszMirVerFirstUp, def_kn_fp_mask[firstIndex].szMask))
+				if (WildCompare(tszMirVerFirstUp, def_kn_fp_mask[firstIndex].szMask))
 					break;
 				firstIndex++;
 			}
-		if(_tcscmp(tszMirVerSecondUp, _T("?")) == 0)
+		if (_tcscmp(tszMirVerSecondUp, _T("?")) == 0)
 			secondIndex = UNKNOWN_MASK_NUMBER;
 		else
 			while(secondIndex < DEFAULT_KN_FP_MASK_COUNT)
 			{
-				if(WildCompare(tszMirVerSecondUp, def_kn_fp_mask[secondIndex].szMask))
+				if (WildCompare(tszMirVerSecondUp, def_kn_fp_mask[secondIndex].szMask))
 					break;
 	 			secondIndex++;
 			}
@@ -1252,11 +1174,11 @@ INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam)
 		mir_free(tszMirVerFirstUp);
 		mir_free(tszMirVerSecondUp);
 
-		if(firstIndex == secondIndex && firstIndex < DEFAULT_KN_FP_MASK_COUNT)
+		if (firstIndex == secondIndex && firstIndex < DEFAULT_KN_FP_MASK_COUNT)
 		{
 
 			int iClientDescriptionLen = WideCharToMultiByte(g_LPCodePage, 0, def_kn_fp_mask[firstIndex].szClientDescription, -1, NULL, 0, NULL, NULL);
-			if(iClientDescriptionLen > 0)
+			if (iClientDescriptionLen > 0)
 				g_szClientDescription = (LPSTR)mir_realloc(g_szClientDescription, iClientDescriptionLen * sizeof(CHAR));
 			else
 				return (INT_PTR)NULL;
@@ -1281,14 +1203,14 @@ INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam)
 	LPWSTR wszMirVer = (LPWSTR)wParam;			// MirVer value to get client for.
 /*
 	static HICON hIcon = NULL;	// returned HICON
-	if(hIcon)
+	if (hIcon)
 	{
 		DestroyIcon(hIcon);
 		hIcon = NULL;
 	}
 */
 
-	if(wszMirVer == NULL) return 0;
+	if (wszMirVer == NULL) return 0;
 
 	{
 		HICON hIcon = NULL;			// returned HICON
@@ -1297,12 +1219,12 @@ INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam)
 
 		GetIconsIndexesW(wszMirVer, &base, &overlay, &overlay2, &overlay3);
 
-		if(base != -1)
+		if (base != -1)
 		{
 			hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3);
 		}
 /*
-		if(hIcon && !NoCopy)
+		if (hIcon && !NoCopy)
 			return (INT_PTR)CopyIcon(hIcon);
 */
 		return (INT_PTR)hIcon;
@@ -1342,21 +1264,21 @@ INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam)
 		_wcsupr_s(wszMirVerFirstUp, iMirVerFirstUpLen);
 		_wcsupr_s(wszMirVerSecondUp, iMirVerSecondUpLen);
 
-		if(wcscmp(wszMirVerFirstUp, L"?") == 0)
+		if (wcscmp(wszMirVerFirstUp, L"?") == 0)
 			firstIndex = UNKNOWN_MASK_NUMBER;
 		else
 			while(firstIndex < DEFAULT_KN_FP_MASK_COUNT)
 			{
-				if(WildCompareW(wszMirVerFirstUp, def_kn_fp_mask[firstIndex].szMask))
+				if (WildCompareW(wszMirVerFirstUp, def_kn_fp_mask[firstIndex].szMask))
 					break;
 				firstIndex++;
 			}
-		if(wcscmp(wszMirVerSecondUp, L"?") == 0)
+		if (wcscmp(wszMirVerSecondUp, L"?") == 0)
 			secondIndex = UNKNOWN_MASK_NUMBER;
 		else
 			while(secondIndex < DEFAULT_KN_FP_MASK_COUNT)
 			{
-				if(WildCompareW(wszMirVerSecondUp, def_kn_fp_mask[secondIndex].szMask))
+				if (WildCompareW(wszMirVerSecondUp, def_kn_fp_mask[secondIndex].szMask))
 					break;
 	 			secondIndex++;
 			}
@@ -1364,7 +1286,7 @@ INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam)
 		mir_free(wszMirVerFirstUp);
 		mir_free(wszMirVerSecondUp);
 
-		if(firstIndex == secondIndex && firstIndex < DEFAULT_KN_FP_MASK_COUNT)
+		if (firstIndex == secondIndex && firstIndex < DEFAULT_KN_FP_MASK_COUNT)
 		{
 			return (INT_PTR)def_kn_fp_mask[firstIndex].szClientDescription;
 		}
@@ -1395,7 +1317,7 @@ HBITMAP FASTCALL CreateBitmap32Point(int cx, int cy, LPVOID* bits)
 	LPVOID ptPixels = NULL;
 	HBITMAP DirectBitmap;
 
-	if(cx < 0 || cy < 0) return NULL;
+	if (cx < 0 || cy < 0) return NULL;
 
 	bmpi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	bmpi.bmiHeader.biWidth = cx;
@@ -1410,8 +1332,8 @@ HBITMAP FASTCALL CreateBitmap32Point(int cx, int cy, LPVOID* bits)
 					&ptPixels,
 					NULL, 0);
  	GdiFlush();
-	if(ptPixels) memset(ptPixels, 0, cx * cy * 4);
-	if(bits != NULL) *bits = ptPixels;
+	if (ptPixels) memset(ptPixels, 0, cx * cy * 4);
+	if (bits != NULL) *bits = ptPixels;
 
 	return DirectBitmap;
 }
@@ -1441,9 +1363,9 @@ BOOL FASTCALL checkHasAlfa(LPBYTE from, int width, int height)
 BOOL FASTCALL checkMaskUsed(LPBYTE from)
 {
 	int i;
-	for(i = 0; i < 16 * 16 / 8; i++)
+	for (i=0; i < 16 * 16 / 8; i++)
 	{
-		if(from[i] != 0) return TRUE;
+		if (from[i] != 0) return TRUE;
 	}
 	return FALSE;
 }
@@ -1475,7 +1397,7 @@ DWORD FASTCALL blend(DWORD X1,DWORD X2)
 
 	ar = (q2->a > ar) ? q2->a : ar;
 
-	if(ar == 0) return 0;
+	if (ar == 0) return 0;
 
 	{
 		WORD arm = ar * 255;
@@ -1504,9 +1426,9 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 	nImage = CreateBitmap32Point(16, 16, (LPVOID*)&ptPixels);
 	oImage = (HBITMAP)SelectObject(tempDC, nImage);
 
-//	if(ptPixels) memset(ptPixels, 0, 16 * 16 * 4);
+//	if (ptPixels) memset(ptPixels, 0, 16 * 16 * 4);
 
-	if(IsWinVerXPPlus())
+	if (IsWinVerXPPlus())
 	{
 		ICONINFO iciBottom = { 0 };
 		ICONINFO iciTop = { 0 };
@@ -1525,7 +1447,7 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 		GetObject(iciTop.hbmColor, sizeof(BITMAP), &bmp_top);
 		GetObject(iciTop.hbmMask, sizeof(BITMAP), &bmp_top_mask);
 
-		if(bmp_bottom.bmBitsPixel == 32 && bmp_top.bmBitsPixel == 32)
+		if (bmp_bottom.bmBitsPixel == 32 && bmp_top.bmBitsPixel == 32)
 		{
 			LPBYTE BottomBuffer, TopBuffer, BottomMaskBuffer, TopMaskBuffer;
 			LPBYTE bb, tb, bmb, tmb;
@@ -1536,7 +1458,7 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 			int vstep_bm = bmp_bottom_mask.bmWidthBytes;
 			int vstep_tm = bmp_top_mask.bmWidthBytes;
 
-			if(bmp_bottom.bmBits)
+			if (bmp_bottom.bmBits)
 				bb = BottomBuffer = (LPBYTE)bmp_bottom.bmBits;
 			else
 			{
@@ -1545,7 +1467,7 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 				bb = BottomBuffer + vstep_b * (bmp_bottom.bmHeight - 1);
 				vstep_b = -vstep_b;
 			}
-			if(bmp_top.bmBits)
+			if (bmp_top.bmBits)
 				tb = TopBuffer = (LPBYTE)bmp_top.bmBits;
 			else
 			{
@@ -1554,7 +1476,7 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 				tb = TopBuffer + vstep_t * (bmp_top.bmHeight - 1);
 				vstep_t = -vstep_t;
 			}
-			if(bmp_bottom_mask.bmBits)
+			if (bmp_bottom_mask.bmBits)
 				bmb = BottomMaskBuffer = (LPBYTE)bmp_bottom_mask.bmBits;
 			else
 			{
@@ -1563,7 +1485,7 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 				bmb = BottomMaskBuffer + vstep_bm * (bmp_bottom_mask.bmHeight - 1);
 				vstep_bm = -vstep_bm;
 			}
-			if(bmp_top_mask.bmBits)
+			if (bmp_top_mask.bmBits)
 				tmb = TopMaskBuffer = (LPBYTE)bmp_top_mask.bmBits;
 			else
 			{
@@ -1586,9 +1508,9 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 						DWORD bottom_d = ((LPDWORD)bb)[x];
 						DWORD top_d = ((LPDWORD)tb)[x];
 
-						if(topMaskUsed)
+						if (topMaskUsed)
 						{
-							if(GetMaskBit(tmb, x))
+							if (GetMaskBit(tmb, x))
 								top_d &= 0x00FFFFFF;
 							else
 								top_d |= 0xFF000000;
@@ -1596,9 +1518,9 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 						else if (!topHasAlpha)
 							top_d |= 0xFF000000;
 
-						if(bottomMaskUsed)
+						if (bottomMaskUsed)
 						{
-							if(GetMaskBit(bmb, x))
+							if (GetMaskBit(bmb, x))
 								bottom_d &= 0x00FFFFFF;
 							else
 								bottom_d |= 0xFF000000;
@@ -1674,21 +1596,21 @@ HANDLE FASTCALL GetIconIndexFromFI(LPTSTR szMirVer)
 
 	GetIconsIndexes(szMirVer, &base, &overlay, &overlay2, &overlay3);
 
-	if(base == -1 || nFICount == 0xFF) return hFoundImage;
+	if (base == -1 || nFICount == 0xFF) return hFoundImage;
 
 	// MAX: 1024 + 256 + 128 + 128
 	val = (base << 22) | ((overlay & 0xFF) << 14) | ((overlay2 & 0x7F) << 7) | (overlay3 & 0x7F);
 
-	for(i = 0; i < nFICount; i++)
+	for (i=0; i < nFICount; i++)
 	{
-		if(fiList[i].dwArray == val)
+		if (fiList[i].dwArray == val)
 		{
 			hFoundImage = fiList[i].hRegisteredImage;
 			break;
 		}
 	}
 
-	if(hFoundImage == INVALID_HANDLE_VALUE && i == nFICount) //not found - then add
+	if (hFoundImage == INVALID_HANDLE_VALUE && i == nFICount) //not found - then add
 	{
 
 		HICON hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3);
@@ -1696,7 +1618,7 @@ HANDLE FASTCALL GetIconIndexFromFI(LPTSTR szMirVer)
 		fiList = (FOUNDINFO*)mir_realloc(fiList, sizeof(FOUNDINFO) * (nFICount + 1));
 		fiList[nFICount].dwArray = val;
 
-		if(hIcon != NULL)
+		if (hIcon != NULL)
 		{
 			fiList[nFICount].hRegisteredImage = (hIcon) ? (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0) : INVALID_HANDLE_VALUE;
 
@@ -1716,7 +1638,7 @@ HANDLE FASTCALL GetIconIndexFromFI(LPTSTR szMirVer)
 
 VOID FASTCALL ClearFI()
 {
-	if(fiList != NULL)
+	if (fiList != NULL)
 		mir_free(fiList);
 	fiList = NULL;
 	nFICount = 0;
