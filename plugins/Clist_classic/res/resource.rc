@@ -208,7 +208,7 @@ BEGIN
     CONTROL         "Show protocol names",IDC_SHOWPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,48,166,10
     CONTROL         "Show status text",IDC_SHOWSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,63,166,10
     CONTROL         "Right click opens status menu",IDC_RIGHTSTATUS,"Button",BS_AUTORADIOBUTTON,22,160,166,10
-    CONTROL         "Right click opens Miranda IM menu",IDC_RIGHTMIRANDA,
+    CONTROL         "Right click opens Miranda NG menu",IDC_RIGHTMIRANDA,
                     "Button",BS_AUTORADIOBUTTON,22,147,166,10
     CONTROL         "Make sections equal width",IDC_EQUALSECTIONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,78,166,10
     CONTROL         "Show bevels on panels",IDC_SBPANELBEVEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,94,166,10
@@ -301,7 +301,7 @@ BEGIN
     CONTROL         "Show bevels on panels",IDC_SBPANELBEVEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,27,107,10
     CONTROL         "Show resize grip indicator",IDC_SHOWGRIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,39,96,10
     CONTROL         "Right click opens status menu",IDC_RIGHTSTATUS,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE,22,160,142,10
-    CONTROL         "Right click opens Miranda IM menu",IDC_RIGHTMIRANDA,
+    CONTROL         "Right click opens Miranda NG menu",IDC_RIGHTMIRANDA,
                     "Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE,22,147,142,10
 END
 

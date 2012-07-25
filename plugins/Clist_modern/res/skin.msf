@@ -15,9 +15,9 @@
 fProfFont = sVerdana,12,---
 
 
-tProfile0 = s$$Window,26,4,-32,19,LTRTCC,fProfFont,0x80535666,0,Miranda IM
-tProfile1 = s$$Window,28,6,-30,21,LTRTCC,fProfFont,0x80FFFFFF,0,Miranda IM
-tProfile2 = s$$Window,27,5,-31,20,LTRTCC,fProfFont,0x395C7E,0,Miranda IM
+tProfile0 = s$$Window,26,4,-32,19,LTRTCC,fProfFont,0x80535666,0,Miranda NG
+tProfile1 = s$$Window,28,6,-30,21,LTRTCC,fProfFont,0x80FFFFFF,0,Miranda NG
+tProfile2 = s$$Window,27,5,-31,20,LTRTCC,fProfFont,0x395C7E,0,Miranda NG
 
 $$Window = sGlyph,Fragment,back%.tga,0,0,100,50,StretchBoth,11,24,12,12,255
 

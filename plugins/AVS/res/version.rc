@@ -72,15 +72,15 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-			VALUE "Comments", "Service plugin to load and update avatars for Miranda IM"
-            VALUE "CompanyName", "Written by Nightwish and Pescuma for Miranda IM project"
-            VALUE "FileDescription", "Service plugin to load and update avatars for Miranda IM"
+			VALUE "Comments", "Service plugin to load and update avatars for Miranda NG"
+            VALUE "CompanyName", "Written by Nightwish and Pescuma for Miranda NG project"
+            VALUE "FileDescription", "Service plugin to load and update avatars for Miranda NG"
             VALUE "FileVersion", __FILEVERSION_STRING
             VALUE "InternalName", "avs"
             VALUE "LegalCopyright", "Copyright (C) 2010, Nightwish, Pescuma"
             VALUE "LegalTrademarks", "Licensed under the Gnu General Public License V2 or any later version"
             VALUE "OriginalFilename", "avs.dll"
-            VALUE "ProductName", "Miranda IM Avatar Service"
+            VALUE "ProductName", "Miranda NG Avatar Service"
             VALUE "ProductVersion", __FILEVERSION_STRING
 		END
     END

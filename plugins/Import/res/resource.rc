@@ -58,7 +58,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Choose how you would like to import:",IDC_STATIC,5,16,
                     210,8
-    CONTROL         "From a Miranda IM database.",IDC_MIRANDA,"Button",
+    CONTROL         "From a Miranda NG database.",IDC_MIRANDA,"Button",
                     BS_AUTORADIOBUTTON,11,31,204,10
 END
 
@@ -311,12 +311,12 @@ BEGIN
         BEGIN
             VALUE "Comments", "Licensed under the terms of the GNU General Public License"
             VALUE "CompanyName", " "
-            VALUE "FileDescription", "Miranda IM Import Plugin"
+            VALUE "FileDescription", "Miranda NG Import Plugin"
             VALUE "FileVersion", "0.8.0.1"
             VALUE "InternalName", "import"
             VALUE "LegalCopyright", "Copyright © 2000-2009,  Martin Öberg, Richard Hughes, Dmitry Kuzkin, George Hazan"
             VALUE "OriginalFilename", "import.dll"
-            VALUE "ProductName", "Miranda IM"
+            VALUE "ProductName", "Miranda NG"
             VALUE "ProductVersion", "0.8.0.1"
         END
     END

@@ -562,9 +562,9 @@ BEGIN
         BLOCK "000004e4"
         BEGIN
             VALUE "Comments", "Licensed under the terms of the GNU General Public License"
-            VALUE "FileDescription", "ICQ protocol plugin for Miranda IM, enhanced"
+            VALUE "FileDescription", "ICQ protocol plugin for Miranda NG, enhanced"
             VALUE "FileVersion", __VERSION_STRING
-            VALUE "InternalName", "ICQJ protocol plugin for Miranda IM"
+            VALUE "InternalName", "ICQJ protocol plugin for Miranda NG"
             VALUE "LegalCopyright", "Copyright (C) 2000-2010 Joe Kucera, Angeli-Ka, Bio, Martin Öberg, Richard Hughes, Jon Keating"
             VALUE "OriginalFilename", "ICQ.dll"
             VALUE "ProductName", "ICQ Protocol Support"

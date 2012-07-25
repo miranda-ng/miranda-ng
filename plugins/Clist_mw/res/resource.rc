@@ -674,12 +674,12 @@ BEGIN
         BEGIN
             VALUE "Comments", "Licensed under the terms of the GNU General Public License"
             VALUE "CompanyName", " "
-            VALUE "FileDescription", "Miranda IM Contact List"
+            VALUE "FileDescription", "Miranda NG Contact List"
             VALUE "FileVersion", "0.3.4 alpha"
             VALUE "InternalName", "mwclist"
             VALUE "LegalCopyright", "Copyright © 2000-2006 Richard Hughes, Roland Rabien, Tristan Van de Vreede, Martin Oberg, Robert Rainwater, Sam Kothari and Lyon Lim"
             VALUE "OriginalFilename", "mwclist.dll"
-            VALUE "ProductName", "Miranda IM Contact List"
+            VALUE "ProductName", "Miranda NG Contact List"
             VALUE "ProductVersion", "0.3.4 alpha"
         END
     END

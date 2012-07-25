@@ -37,7 +37,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "Yes",IDOK,26,83,50,14
     PUSHBUTTON      "No",IDCANCEL,81,83,50,14
-    LTEXT           "A file containing new database settings has been placed in the Miranda IM directory.",
+    LTEXT           "A file containing new database settings has been placed in the Miranda NG directory.",
                     IDC_STATIC,5,5,202,16
     LTEXT           "Do you want to import the settings now?",IDC_STATIC,5,
                     69,202,8

@@ -143,7 +143,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			
 			/*if ( restartRequired )
-				MessageBoxA( hwndDlg, Translate( "The changes you have made require you to restart Miranda IM before they take effect"), Translate("YAHOO Options"), MB_OK );
+				MessageBoxA( hwndDlg, Translate( "The changes you have made require you to restart Miranda NG before they take effect"), Translate("YAHOO Options"), MB_OK );
 			else */
 			if ( reconnectRequired && ppro->m_bLoggedIn )
 				MessageBoxA( hwndDlg, Translate( "The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
@@ -240,7 +240,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 			ppro->SetByte("YahooJapan", ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_YAHOO_JAPAN ));
 
 			/*if ( restartRequired )
-				MessageBoxA( hwndDlg, Translate( "The changes you have made require you to restart Miranda IM before they take effect"), Translate("YAHOO Options"), MB_OK );
+				MessageBoxA( hwndDlg, Translate( "The changes you have made require you to restart Miranda NG before they take effect"), Translate("YAHOO Options"), MB_OK );
 			else */
 			if ( reconnectRequired && ppro->m_bLoggedIn )
 				MessageBoxA( hwndDlg, Translate( "The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );

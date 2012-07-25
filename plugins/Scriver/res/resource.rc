@@ -690,11 +690,11 @@ BEGIN
         BLOCK "041504e3"
         BEGIN
             VALUE "Comments", "http://nightly.miranda.im/"
-            VALUE "CompanyName", "Miranda IM Development Team"
+            VALUE "CompanyName", "Miranda NG Development Team"
             VALUE "FileDescription", "Scriver - send and receive instant messages"
             VALUE "FileVersion", "2.10.0.1"
             VALUE "InternalName", "scriver"
-            VALUE "LegalCopyright", "Copyright (c) 2000-2012 Miranda IM Project"
+            VALUE "LegalCopyright", "Copyright (c) 2000-2012 Miranda NG Project"
             VALUE "OriginalFilename", "scriver.dll"
             VALUE "ProductName", "Scriver"
             VALUE "ProductVersion", "2.10.0.1"

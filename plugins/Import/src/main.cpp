@@ -41,7 +41,7 @@ PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	"Import contacts and messages",
 	__VERSION_DWORD,
-	"Imports contacts and messages from Mirabilis ICQ and Miranda IM.",
+	"Imports contacts and messages from another Miranda profile or from an external program.",
 	"Miranda team",
 	"info@miranda-im.org",
 	"© 2000-2010 Martin Öberg, Richard Hughes, Dmitry Kuzkin, George Hazan",

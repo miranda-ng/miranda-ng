@@ -78,14 +78,14 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "CompanyName", "Miranda IM project"
+            VALUE "CompanyName", "Miranda NG project"
             VALUE "FileDescription", RES_FILE_DESC
             VALUE "FileVersion", VER_PLAIN
             VALUE "InternalName", "TabSRMsg"
             VALUE "LegalCopyright", "Copyright (C) 2004-2010"
             VALUE "LegalTrademarks", "Licensed under the Gnu general public license V2 or any later version."
             VALUE "OriginalFilename", "tabsrmm.dll"
-            VALUE "ProductName", "TabSRMM message window plugin for Miranda IM"
+            VALUE "ProductName", "TabSRMM message window plugin for Miranda NG"
             VALUE "ProductVersion", VER_PLAIN
         END
     END

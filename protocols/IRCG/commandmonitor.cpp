@@ -826,7 +826,7 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 
 		// incoming VERSION
 		else if (pmsg->m_bIncoming && command == _T("version")) {
-			PostIrcMessage( _T("/NOTICE %s \001VERSION Miranda IM %s (IRC v.%s%s), (c) 2003-09 J.Persson, G.Hazan\001"), 
+			PostIrcMessage( _T("/NOTICE %s \001VERSION Miranda NG %s (IRC v.%s%s), (c) 2003-09 J.Persson, G.Hazan\001"), 
 				pmsg->prefix.sNick.c_str(), _T("%mirver"), _T("%version"),
 				_T(" Unicode"));
 				

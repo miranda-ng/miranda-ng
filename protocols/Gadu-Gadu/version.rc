@@ -49,7 +49,7 @@ BEGIN
             VALUE "InternalName", "gg"
             VALUE "LegalCopyright", "Copyright © 2009-2012 Bartosz Bia³ek, 2003-2009 Adam Strzelecki"
             VALUE "OriginalFilename", "gg.dll"
-            VALUE "ProductName", "Gadu-Gadu Protocol Plugin for Miranda IM"
+            VALUE "ProductName", "Gadu-Gadu Protocol Plugin for Miranda NG"
             VALUE "ProductVersion", __VERSION_STRING
         END
     END

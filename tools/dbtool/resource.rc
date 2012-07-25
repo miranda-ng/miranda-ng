@@ -284,7 +284,7 @@ BEGIN
         BLOCK "080904b0"
         BEGIN
             VALUE "CompanyName", " "
-            VALUE "FileDescription", "Miranda IM Database Tool"
+            VALUE "FileDescription", "Miranda NG Database Tool"
             VALUE "FileVersion", "0.8.2.0"
             VALUE "InternalName", "dbtool"
             VALUE "LegalCopyright", "Copyright © 2001-2008 Richard Hughes, Bio"

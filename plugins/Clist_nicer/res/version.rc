@@ -29,14 +29,14 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "CompanyName", "Miranda IM project"
+            VALUE "CompanyName", "Miranda NG project"
             VALUE "FileDescription", RES_FILE_DESC
             VALUE "FileVersion", VERSION_STRING
             VALUE "InternalName", "clist_nicer"
             VALUE "LegalCopyright", "Copyright (C) 2004-2010"
             VALUE "LegalTrademarks", "Licensed under the Gnu general public license V2 or any later version."
             VALUE "OriginalFilename", "clist_nicer.dll"
-            VALUE "ProductName", "Contact list plugin for Miranda IM"
+            VALUE "ProductName", "Contact list plugin for Miranda NG"
             VALUE "ProductVersion", VERSION_STRING
         END
     END

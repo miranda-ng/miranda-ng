@@ -152,7 +152,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 				ZeroMemory(&ofn, sizeof(ofn));
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 				ofn.hwndOwner = hdlg;
-				mir_sntprintf(text, SIZEOF(text), _T("%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c"), TranslateT("Miranda IM database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+				mir_sntprintf(text, SIZEOF(text), _T("%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c"), TranslateT("Miranda NG database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
 				ofn.lpstrFilter = text;
 				ofn.lpstrDefExt = _T("dat");
 				ofn.lpstrFile = str;
