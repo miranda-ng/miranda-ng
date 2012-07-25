@@ -1233,7 +1233,7 @@ INT_PTR EnableDisableMenuCommand(WPARAM wParam, LPARAM lParam)
 	}
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hEnableDisableMenu, (LPARAM)&mi);
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton, opt.TempDisabled ? TTBST_PUSHED : TTBST_RELEASED);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton, opt.TempDisabled ? TTBST_RELEASED : TTBST_PUSHED);
 	return 0;
 }
 
@@ -1303,13 +1303,17 @@ int InitTopToolbar(WPARAM, LPARAM)
 	TTBButton tbb = {0};
 	tbb.cbSize = sizeof(TTBButton);
 	tbb.pszService = MS_STATUSCHANGE_MENUCOMMAND;
+	tbb.lParamUp = 1;
+	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
+	if (!opt.TempDisabled)
+		tbb.dwFlags |= TTBBF_PUSHED;
 	tbb.name = LPGEN("Toggle status notification");
-	tbb.pszTooltipUp = LPGEN("Status notification enabled");
-	tbb.pszTooltipDn = LPGEN("Status notification disabled");
-	tbb.hIconHandleUp = GetIconHandle(ICO_NOTIFICATION_ON);
-	tbb.hIconHandleDn = GetIconHandle(ICO_NOTIFICATION_OFF);
-	tbb.dwFlags = (opt.TempDisabled ? TTBBF_PUSHED : 0);
+	tbb.hIconHandleUp = GetIconHandle(ICO_NOTIFICATION_OFF);
+	tbb.hIconHandleDn = GetIconHandle(ICO_NOTIFICATION_ON);
+	tbb.pszTooltipUp = LPGEN("Enable status notification");
+	tbb.pszTooltipDn = LPGEN("Disable status notification");
 	hToolbarButton = TopToolbar_AddButton(&tbb);
+
 	return 0;
 }
 
