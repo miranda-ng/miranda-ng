@@ -2672,10 +2672,10 @@ int SettingsChangedHook(WPARAM wParam, LPARAM lParam)
 		if ( !strcmp(cws->szSetting,"Status") 
 				|| ( proto != NULL && proto->custom_status != 0 
 					 && proto->custom_status_name != NULL 
-					 && !strcmp(cws->szSetting, _T2A(proto->custom_status_name)))
+					 && !strcmp(cws->szSetting, proto->custom_status_name))
 				|| ( proto != NULL && proto->custom_status != 0 
 					 && proto->custom_status_message != NULL 
-					 && !strcmp(cws->szSetting, _T2A(proto->custom_status_message))))
+					 && !strcmp(cws->szSetting, proto->custom_status_message)))
 		{
 			// Status changed
 			if (proto != NULL)

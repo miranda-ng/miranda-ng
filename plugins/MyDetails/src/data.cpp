@@ -126,46 +126,31 @@ int Protocol::GetStatus()
 	if (old_status != status)
 		data_changed = true;
 
-	if (/*status > ID_STATUS_OFFLINE &&*/ ProtoServiceExists(name, PS_ICQ_GETCUSTOMSTATUS))
-	{
-		custom_status = CallProtoService(name, PS_ICQ_GETCUSTOMSTATUS, (WPARAM) &custom_status_name, 
-																		(LPARAM) &custom_status_message);
-	}
+	if (ProtoServiceExists(name, PS_ICQ_GETCUSTOMSTATUS))
+		custom_status = CallProtoService(name, PS_ICQ_GETCUSTOMSTATUS, (WPARAM) &custom_status_name, (LPARAM) &custom_status_message);
 	else
-	{
 		custom_status = 0;
-	}
 
-	if (custom_status == 0)
-	{
+	if (custom_status == 0) {
 		TCHAR *tmp = (TCHAR*) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
 		lcopystr(status_name, tmp, SIZEOF(status_name));
-	}
-	else
-	{
+	} else {
 		DBVARIANT dbv;
 		TCHAR tmp[256]; tmp[0] = 0;
 
-		if (custom_status_name != NULL && custom_status_name[0] != '\0' 
-				&& !DBGetContactSettingTString(0, name, _T2A(custom_status_name), &dbv))
-		{
+		if (custom_status_name != NULL && custom_status_name[0] != '\0' && !DBGetContactSettingTString(0, name, custom_status_name, &dbv)) {
 			if (dbv.ptszVal != NULL && dbv.ptszVal[0] != _T('\0'))
 				lstrcpyn(tmp, dbv.ptszVal, SIZEOF(tmp));
 			else
 				lstrcpyn(tmp, TranslateT("<no status name>"), SIZEOF(tmp));
 
 			DBFreeVariant(&dbv);
-		}
-		else
-		{
+		} else {
 			lstrcpyn(tmp, TranslateT("<no status name>"), SIZEOF(tmp));
 		}
 
-		if (custom_status_message != NULL && custom_status_message[0] != '\0' 
-				&& !DBGetContactSettingTString(0, name, _T2A(custom_status_message), &dbv))
-		{
-			if (dbv.ptszVal != NULL && dbv.ptszVal[0] != '\0')
-			{
+		if (custom_status_message != NULL && custom_status_message[0] != '\0' && !DBGetContactSettingTString(0, name, custom_status_message, &dbv)) {
+			if (dbv.ptszVal != NULL && dbv.ptszVal[0] != '\0') {
 				int len = lstrlen(tmp);
 
 				if (len < SIZEOF(tmp))
