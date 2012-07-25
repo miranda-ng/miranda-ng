@@ -1303,10 +1303,7 @@ int InitTopToolbar(WPARAM, LPARAM)
 	TTBButton tbb = {0};
 	tbb.cbSize = sizeof(TTBButton);
 	tbb.pszService = MS_STATUSCHANGE_MENUCOMMAND;
-	tbb.lParamUp = 1;
-	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
-	if (!opt.TempDisabled)
-		tbb.dwFlags |= TTBBF_PUSHED;
+	tbb.dwFlags = (opt.TempDisabled ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON;
 	tbb.name = LPGEN("Toggle status notification");
 	tbb.hIconHandleUp = GetIconHandle(ICO_NOTIFICATION_OFF);
 	tbb.hIconHandleDn = GetIconHandle(ICO_NOTIFICATION_ON);
