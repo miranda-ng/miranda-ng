@@ -152,7 +152,7 @@ static int ImportGroup(const char* szSettingName, LPARAM lParam)
 
 	TCHAR* tszGroup = myGetWs(NULL, "CListGroups", szSettingName);
 	if (tszGroup != NULL) {
-		if ( CreateGroup( tszGroup, NULL ))
+		if ( CreateGroup( tszGroup+1, NULL ))
 			pnGroups[0]++;
 		mir_free(tszGroup);
 	}
