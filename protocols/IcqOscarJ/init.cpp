@@ -33,8 +33,6 @@
 HINSTANCE hInst;
 int hLangpack;
 
-DWORD MIRANDA_VERSION;
-
 HANDLE hStaticServices[1];
 IcqIconHandle hStaticIcons[4];
 HANDLE hStaticHooks[1];;
@@ -93,37 +91,12 @@ static int OnModulesLoaded( WPARAM, LPARAM )
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP( &pluginInfo );
 
-	// Get Miranda version
-	MIRANDA_VERSION = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0);
-
-	{ // Are we running under unicode Miranda core ?
-		char szVer[MAX_PATH];
-
-		CallService(MS_SYSTEM_GETVERSIONTEXT, MAX_PATH, (LPARAM)szVer);
-		_strlwr(szVer); // make sure it is lowercase
-
-		if (strstrnull(szVer, "alpha") != NULL)
-		{ // Are we running under Alpha Core
-			MIRANDA_VERSION |= 0x80000000;
-		}
-		else if (strstrnull(szVer, "preview") == NULL)
-		{ // for Final Releases of Miranda 0.5+ clear build number
-			MIRANDA_VERSION &= 0xFFFFFF00;
-		}
-
-		// Check if _UNICODE matches Miranda's _UNICODE
-		if (strstrnull(szVer, "unicode") == NULL)
-		{
-			char szMsg[MAX_PATH], szCaption[100];
-
-			MessageBoxUtf(NULL, ICQTranslateUtfStatic("You cannot use Unicode version of ICQ Protocol plug-in with Ansi version of Miranda IM.", szMsg, MAX_PATH),
-				ICQTranslateUtfStatic("ICQ Plugin", szCaption, 100), MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST);
-			return 1; // Failure
-		}
-	}
+	// Are we running under unicode Miranda core ?
+	char szVer[MAX_PATH];
+	CallService(MS_SYSTEM_GETVERSIONTEXT, MAX_PATH, (LPARAM)szVer);
+	_strlwr(szVer); // make sure it is lowercase
 
 	srand(time(NULL));
 	_tzset();

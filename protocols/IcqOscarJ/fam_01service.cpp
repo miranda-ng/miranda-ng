@@ -755,11 +755,15 @@ void CIcqProto::setUserInfo()
 #ifdef DBG_CAPHTML
 	packShortCapability(&packet, 0x0002);      // CAP_HTMLMSGS
 #endif
-
+	
 	packDWord(&packet, 0x4D697261);   // Miranda Signature
-	packDWord(&packet, 0x6E64614D);
-	packDWord(&packet, MIRANDA_VERSION);
-	packDWord(&packet, ICQ_PLUG_VERSION);
+	packDWord(&packet, 0x6E64614E);
+
+	WORD ver[4] = { MIRANDA_VERSION_FILEVERSION };
+	packWord(&packet, ver[0]);
+	packWord(&packet, ver[1]);
+	packWord(&packet, ver[2]);
+	packWord(&packet, ver[3]);
 
 	//MIM/PackName
 	if ( bHasPackName ) {

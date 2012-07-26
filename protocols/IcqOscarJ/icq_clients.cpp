@@ -29,8 +29,7 @@
 // -----------------------------------------------------------------------------
 #include "icqoscar.h"
 
-
-const capstr capShortCaps   = {0x09, 0x46, 0x00, 0x00, 0x4c, 0x7f, 0x11, 0xd1, 0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00}; // CAP_AIM_BUDDYICON
+const capstr capShortCaps = {0x09, 0x46, 0x00, 0x00, 0x4c, 0x7f, 0x11, 0xd1, 0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00}; // CAP_AIM_BUDDYICON
 
 static const char* makeClientVersion(char *szBuf, const char *szClient, unsigned v1, unsigned v2, unsigned v3, unsigned v4)
 {
@@ -103,6 +102,7 @@ char* MirandaModToString(char* szStr, capstr* capId, int bUnicode, const char* s
 }
 
 const capstr capMirandaIm = {'M', 'i', 'r', 'a', 'n', 'd', 'a', 'M', 0, 0, 0, 0, 0, 0, 0, 0};
+const capstr capMirandaNg = {'M', 'i', 'r', 'a', 'n', 'd', 'a', 'N', 0, 0, 0, 0, 0, 0, 0, 0};
 const capstr capIcqJs7    = {'i', 'c', 'q', 'j', ' ', 'S', 'e', 'c', 'u', 'r', 'e', ' ', 'I', 'M', 0, 0};
 const capstr capIcqJSin   = {'s', 'i', 'n', 'j', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // Miranda ICQJ S!N
 const capstr capIcqJp     = {'i', 'c', 'q', 'p', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -344,20 +344,18 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 		if (nIsICQ && caps)
 		{
 			// check capabilities for client identification
-			if (capId = MatchCapability(caps, wLen, &capMirandaIm, 8))
-			{	// new Miranda Signature
+			if (capId = MatchCapability(caps, wLen, &capMirandaIm, 8)) {
+				// new Miranda Signature
 				DWORD iver = (*capId)[0xC] << 0x18 | (*capId)[0xD] << 0x10 | (*capId)[0xE] << 8 | (*capId)[0xF];
 				DWORD mver = (*capId)[0x8] << 0x18 | (*capId)[0x9] << 0x10 | (*capId)[0xA] << 8 | (*capId)[0xB];
 
 				szClient = MirandaVersionToString(szClientBuf, dwFT1 == 0x7fffffff, iver, mver);
 
-				if (MatchCapability(caps, wLen, &capIcqJs7, 0x4))
-				{	// detect mod
+				if (MatchCapability(caps, wLen, &capIcqJs7, 0x4)) {
+					// detect mod
 					strcat(szClientBuf, " (s7 & sss)");
 					if (MatchCapability(caps, wLen, &capIcqJs7, 0xE))
-					{
 						strcat(szClientBuf, " + SecureIM");
-					}
 				}
 				else if ((dwFT1 & 0x7FFFFFFF) == 0x7FFFFFFF)
 				{
@@ -367,6 +365,19 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 					if (dwFT3 == 0x5AFEC0DE)
 						strcat(szClientBuf, " + SecureIM");
 				}
+				*bClientId = CLID_MIRANDA;
+				bMirandaIM = TRUE;
+			}
+			else if (capId = MatchCapability(caps, wLen, &capMirandaNg, 8)) {
+				WORD v[4];
+				BYTE *buf = *capId + 8;
+				unpackWord(&buf, &v[0]); unpackWord(&buf, &v[1]); unpackWord(&buf, &v[2]); unpackWord(&buf, &v[3]);
+				mir_snprintf(szClientBuf, MAX_PATH, "Miranda NG ICQ %d.%d.%d.%d", v[0], v[1], v[2], v[3]);
+
+				szClient = szClientBuf;
+				if ((dwFT1 & 0x7FFFFFFF) == 0x7FFFFFFF && dwFT3 == 0x5AFEC0DE)
+					strcat(szClientBuf, " + SecureIM");
+
 				*bClientId = CLID_MIRANDA;
 				bMirandaIM = TRUE;
 			}
