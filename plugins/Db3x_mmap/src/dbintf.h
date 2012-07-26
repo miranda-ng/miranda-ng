@@ -221,6 +221,14 @@ protected:
 	virtual	void EncodeDBWrite(DWORD ofs, void *src, int size);
 	virtual	void DecodeDBWrite(DWORD ofs, void *src, int size);
 
+public:  // Check functions
+	int WorkInitialChecks(DBCHeckCallback*, int);
+	int WorkModuleChain(DBCHeckCallback*, int);
+	int WorkUser(DBCHeckCallback*, int);
+	int WorkContactChain(DBCHeckCallback*, int);
+	int WorkAggressive(DBCHeckCallback*, int);
+	int WorkFinalTasks(DBCHeckCallback*, int);
+
 protected:
 	TCHAR*   m_tszProfileName;
 	HANDLE   m_hDbFile;
@@ -312,3 +320,5 @@ protected:
 	void  Map();
 	void  ReMap(DWORD needed);
 };
+
+typedef int (CDb3Mmap::*CheckWorker)(DBCHeckCallback*, int);

@@ -34,10 +34,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <time.h>
 
 #include <m_database.h>
-#include "database.h" // Note: This is a copy of database.h from the Miranda IM v0.3 tree.
-                      //       Remember to update this when releasing new dbtool versions.
-#include "resource.h"
+#include <m_db_int.h>
 
+#include "resource.h"
 
 #define WinVerMajor()      LOBYTE(LOWORD(GetVersion()))
 #define IsWinVerXPPlus()   (WinVerMajor()>=5 && LOWORD(GetVersion())!=5)
@@ -56,30 +55,31 @@ struct DbToolOptions {
 	HANDLE hMap;
 	BYTE *pFile;
 	DWORD error;
-	int bCheckOnly,bBackup,bAggressive;
-	int bEraseHistory,bMarkRead,bConvertUtf;
+	int bCheckOnly, bBackup, bAggressive;
+	int bEraseHistory, bMarkRead, bConvertUtf;
 };
 
 extern HINSTANCE hInst;
 extern DbToolOptions opts;
-extern DBHeader dbhdr;
+extern HANDLE hEventRun, hEventAbort;
+extern int errorCount;
 
-int DoMyControlProcessing(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam,INT_PTR *bReturn);
+int DoMyControlProcessing(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam, INT_PTR *bReturn);
 
-INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK CleaningDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK ProgressDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK FileAccessDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK WizardDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK FinishedDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK WelcomeDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
+INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK CleaningDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK FileAccessDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK FinishedDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK WelcomeDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 struct DBSignature {
   char name[15];
   BYTE eof;
 };
-static struct DBSignature dbSignature={"Miranda ICQ DB",0x1A};
+static struct DBSignature dbSignature = {"Miranda ICQ DB", 0x1A};
 
 #define SIZEOF(X) (sizeof(X)/sizeof(X[0]))
 
@@ -89,18 +89,17 @@ static struct DBSignature dbSignature={"Miranda ICQ DB",0x1A};
 #define STATUS_FATAL      3
 #define STATUS_SUCCESS    4
 #define STATUS_CLASSMASK  0x0f
-int AddToStatus(DWORD flags, TCHAR* fmt,...);
+void AddToStatus(int flags, const TCHAR* fmt, ...);
 void SetProgressBar(int perThou);
 
-int PeekSegment(DWORD ofs,PVOID buf,int cbBytes);
-int ReadSegment(DWORD ofs,PVOID buf,int cbBytes);
+int PeekSegment(DWORD ofs, PVOID buf, int cbBytes);
+int ReadSegment(DWORD ofs, PVOID buf, int cbBytes);
 #define WSOFS_END   0xFFFFFFFF
 #define WS_ERROR    0xFFFFFFFF
-DWORD WriteSegment(DWORD ofs,PVOID buf,int cbBytes);
-int ReadWrittenSegment(DWORD ofs,PVOID buf,int cbBytes);
-int SignatureValid(DWORD ofs,DWORD signature);
+DWORD WriteSegment(DWORD ofs, PVOID buf, int cbBytes);
+int ReadWrittenSegment(DWORD ofs, PVOID buf, int cbBytes);
+int SignatureValid(DWORD ofs, DWORD signature);
 DWORD ConvertModuleNameOfs(DWORD ofsOld);
 void FreeModuleChain();
 
 bool is_utf8_string(const char* str);
-

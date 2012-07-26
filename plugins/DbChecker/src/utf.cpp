@@ -24,7 +24,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "dbtool.h"
+#include "dbchecker.h"
 
 bool is_utf8_string(const char* str)
 {
@@ -59,7 +59,7 @@ bool is_utf8_string(const char* str)
 			}
 			/* OK, next byte of UTF-8 character */
 			/* Decrement number of expected bytes */
-			if ( --expect_bytes == 0 )
+			if (--expect_bytes == 0)
 				utf_found = 1;
 		}
 		str++;

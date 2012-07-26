@@ -120,7 +120,26 @@ static int UnloadDatabase(MIDatabase* db)
 	delete (CDb3Mmap*)db;
 	return 0;
 }
+/*
+static CheckWorker Workers[6] = 
+{
+	&CDb3Mmap::WorkInitialChecks,
+	&CDb3Mmap::WorkModuleChain,
+	&CDb3Mmap::WorkUser,
+	&CDb3Mmap::WorkContactChain,
+	&CDb3Mmap::WorkAggressive,
+	&CDb3Mmap::WorkFinalTasks
+};
 
+static int CheckDb(DBCHeckCallback *callback, int phase, int firstTime)
+{
+	if (phase >= SIZEOF(Workers))
+		return ERROR_NO_MORE_ITEMS;
+
+	CDb3Mmap* db = (CDb3Mmap*)callback->db;
+	return (db->*Workers[phase])(callback, firstTime);
+}
+*/
 static DATABASELINK dblink =
 {
 	sizeof(DATABASELINK),
@@ -129,7 +148,8 @@ static DATABASELINK dblink =
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,
-	UnloadDatabase
+	UnloadDatabase,
+	//CheckDb
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -69,6 +69,15 @@ interface MIDatabase
 ///////////////////////////////////////////////////////////////////////////////
 // Each database plugin should register itself using this structure
 
+struct DBCHeckCallback
+{
+	int cbSize;
+	MIDatabase* db;
+	DWORD spaceProcessed, spaceUsed;
+
+	void (*pfnAddLogMessage)(int type, const TCHAR* ptszFormat, ...);
+};
+
 struct DATABASELINK
 {
 	int cbSize;
@@ -108,6 +117,13 @@ struct DATABASELINK
 	Note: Unload() might be called even if Load(void) was never called, wasLoaded is set to 1 if Load(void) was ever called.
 	*/
 	int (*Unload)(MIDatabase*);
+
+	/*
+	Affect: performs one of the database check steps. 
+	Returns: If there're no more steps to execute, returns ERROR_NO_MORE_ITEMS, or ERROR_SUCCESS, or the error code.
+	Warning: this code is never executed in the main thread.
+	*/
+	int (*CheckDb)(DBCHeckCallback *callback, int phase, int firstTime);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

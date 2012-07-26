@@ -13,52 +13,82 @@
       <UniqueIdentifier>{e5e10389-c0d7-4cf8-8442-6714f0d5aff1}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Source Files\Checker">
+      <UniqueIdentifier>{18e1a858-92e5-48e6-98f1-e08f4b562ea8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="database.cpp">
+    <ClCompile Include="src\database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbcontacts.cpp">
+    <ClCompile Include="src\dbcache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbevents.cpp">
+    <ClCompile Include="src\dbcontacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbheaders.cpp">
+    <ClCompile Include="src\dbevents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbmodulechain.cpp">
+    <ClCompile Include="src\dbheaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbsettings.cpp">
+    <ClCompile Include="src\dbintf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="init.cpp">
+    <ClCompile Include="src\dbintfm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbintf.cpp">
+    <ClCompile Include="src\dbmodulechain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbcache.cpp">
+    <ClCompile Include="src\dbsettings.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\init.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbtool\aggressive.cpp">
+      <Filter>Source Files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbtool\contactchain.cpp">
+      <Filter>Source Files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbtool\eventchain.cpp">
+      <Filter>Source Files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbtool\finaltasks.cpp">
+      <Filter>Source Files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbtool\initialchecks.cpp">
+      <Filter>Source Files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbtool\modulechain.cpp">
+      <Filter>Source Files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbtool\settingschain.cpp">
+      <Filter>Source Files\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbtool\user.cpp">
+      <Filter>Source Files\Checker</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commonheaders.h">
+    <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="database.h">
+    <ClInclude Include="src\database.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dbintf.h">
+    <ClInclude Include="src\dbintf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="db3x_mmap.rc">
+    <ResourceCompile Include="res\db3x_mmap.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
