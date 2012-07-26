@@ -48,11 +48,11 @@ KN_FP_MASK def_kn_fp_mask[] =
 //#########################################################################################################################################
 //######################################################### MirandaIM clients #############################################################
 //#########################################################################################################################################
-   { "client_Miranda_NG",      _T("|*http://miranda-ng.org*")             _T("|*http://nightly.miranda.im*")
-	                            _T("|*Miranda*NG*"),                      _T("Miranda NG"),             _T("ClientIcons_General"),   IDI_MIRANDA_NG,   MIRANDA_CASE },
+   { "client_Miranda_NG",      _T("|*http://miranda-ng.org*"),           _T("|*http://nightly.miranda.im*")
+                               _T("|*Miranda*NG*"),                      _T("Miranda NG"),             _T("ClientIcons_General"),   IDI_MIRANDA_NG,   MIRANDA_CASE },
    { "client_Miranda_666",     _T("Miranda*6.6.6*"),                     _T("Miranda evil"),           _T("ClientIcons_General"),   IDI_MIRANDA_666,  MIRANDA_CASE },
    { "client_Miranda_010U",    _T("|Miranda IM*0.10.*Unicode*") 
-	                            _T("|Miranda IM*Unicode*0.10.*"),         _T("Miranda v0.10 Unicode"),  _T("ClientIcons_General"),   IDI_MIRANDA_010U, MIRANDA_CASE },
+                               _T("|Miranda IM*Unicode*0.10.*"),         _T("Miranda v0.10 Unicode"),  _T("ClientIcons_General"),   IDI_MIRANDA_010U, MIRANDA_CASE },
    { "client_Miranda_09U",     _T("|Miranda IM*0.9.*Unicode*")
                                _T("|Miranda IM*Unicode*0.9.*"),          _T("Miranda v0.9 Unicode"),   _T("ClientIcons_General"),   IDI_MIRANDA_09U,  MIRANDA_CASE },
    { "client_Miranda_08U",     _T("|Miranda IM*0.8.*Unicode*")
