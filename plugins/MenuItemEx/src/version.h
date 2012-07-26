@@ -3,7 +3,7 @@
 #define __VERSION_DWORD             0x01030009
 
 #define __PLUGIN_NAME "MenuItemEx"
-#define __WEB "http://nightly.miranda.im/"
+#define __WEB "http://miranda-ng.org/"
 #define __DESC "Adds some useful options to a contacts menu."
 #define __AUTHORS "Heiko Schillinger, Baloo, Billy_Bons, Robert Posel"
 #define __EMAIL "micron@nexgo.de, baloo@bk.ru, tatarinov.sergey@gmail.com, robyer@seznam.cz"

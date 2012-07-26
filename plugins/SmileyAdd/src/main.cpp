@@ -50,8 +50,8 @@ static const PLUGININFOEX pluginInfoEx =
 	"Peacow, nightwish, bid, borkra",
 	"borkra@miranda-im.org",
 	"Copyright© 2004 - 2012 Boris Krasnovskiy, portions by Rein-Peter de Boer",
-	"http://nightly.miranda.im/",
-	//	"http://nightly.miranda.im/",
+	"http://miranda-ng.org/",
+	//	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {BD542BB4-5AE4-4d0e-A435-BA8DBE39607F}
 	{ 0xbd542bb4, 0x5ae4, 0x4d0e, { 0xa4, 0x35, 0xba, 0x8d, 0xbe, 0x39, 0x60, 0x7f } }

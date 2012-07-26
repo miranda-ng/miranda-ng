@@ -837,7 +837,7 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 
 		// incoming SOURCE
 		else if (pmsg->m_bIncoming && command == _T("source")) {
-			PostIrcMessage( _T("/NOTICE %s \001SOURCE Get Miranda IRC here: http://nightly.miranda.im/ \001"), pmsg->prefix.sNick.c_str());
+			PostIrcMessage( _T("/NOTICE %s \001SOURCE Get Miranda IRC here: http://miranda-ng.org/ \001"), pmsg->prefix.sNick.c_str());
 			
 			TCHAR temp[300];
 			mir_sntprintf( temp, SIZEOF(temp), TranslateT("CTCP SOURCE requested by %s"), pmsg->prefix.sNick.c_str());

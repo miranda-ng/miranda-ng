@@ -16,5 +16,5 @@
 #define __DESCRIPTION 				"History viewer for Miranda IM."
 #define __AUTHOR					"Krzysztof Kral"
 #define __AUTHOREMAIL				"krzysztof.kral@gmail.com"
-#define __AUTHORWEB					"http://programista.free.of.pl/miranda/"
+#define __AUTHORWEB					"http://miranda-ng.org/"
 #define __COPYRIGHT					"Copyright (c) 2011-2012 Krzysztof Kral"

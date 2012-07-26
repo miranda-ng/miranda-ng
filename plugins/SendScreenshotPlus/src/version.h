@@ -17,7 +17,7 @@
 #define __AUTHOR					"Merlin"
 #define __AUTHOREMAIL				"ing.u.horn@googlemail.com"
 #define __COPYRIGHT					"© 2010 Merlin, © 2004-2006 Sergio Vieira Rolanski"
-#define __AUTHORWEB					"http://code.google.com/p/merlins-miranda"
+#define __AUTHORWEB					"http://miranda-ng.org/"
 
 #ifndef MIID_PLUGIN	// {ED39AF7C-BECD-404e-9499-4D04F711B9CB}
 #define MIID_PLUGIN	{ 0xed39af7c, 0xbecd, 0x404e, { 0x94, 0x99, 0x4d, 0x04, 0xf7, 0x11, 0xb9, 0xcb } }
@@ -25,13 +25,13 @@
 
 #ifdef _UNICODE
 #define __PLUGIN_NAME				"Send Screenshot+ (Unicode)"
-#define __FLVersionURL				"http://nightly.miranda.im/"
+#define __FLVersionURL				"http://miranda-ng.org/"
 #define __FLVersionPrefix			"<span class=\"fileNameHeader\">SendSS (Unicode) "
 #define __FLUpdateURL				"http://nightly.miranda.im/x32/sendss.zip"
 #define __BetaUpdateURL				"http://nightly.miranda.im/x32/sendss.zip"
 #else
 #define __PLUGIN_NAME				"Send Screenshot+ (2in1)"
-#define __FLVersionURL				"http://nightly.miranda.im/"
+#define __FLVersionURL				"http://miranda-ng.org/"
 #define __FLVersionPrefix			"<span class=\"fileNameHeader\">SendSS (2in1) "
 #define __FLUpdateURL				"http://nightly.miranda.im/x32/sendss.zip"
 #define __BetaUpdateURL				"http://nightly.miranda.im/x32/sendss.zip"

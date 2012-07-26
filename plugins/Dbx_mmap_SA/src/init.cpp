@@ -38,7 +38,7 @@ PLUGININFOEX pluginInfo = {
 	"Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons",
 	"chaos.persei@gmail.com; ashpynov@gmail.com; bio@msx.ru; ghazan@miranda.im",
 	"Copyright 2000-2011 Miranda IM project, FYR, chaos.persei, induction, nullbie",
-	"http://dbmmapmod.googlecode.com/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {28FF9B91-3E4D-4f1c-B47C-C641B037FF40}
 	{ 0x28ff9b91, 0x3e4d, 0x4f1c, { 0xb4, 0x7c, 0xc6, 0x41, 0xb0, 0x37, 0xff, 0x40 } }

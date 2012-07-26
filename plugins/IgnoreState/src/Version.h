@@ -16,5 +16,5 @@
 #define __DESCRIPTION 				"Show ignore state of contact in contacts list."
 #define __AUTHOR					"Kildor"
 #define __AUTHOREMAIL				"kostia@ngs.ru"
-#define __AUTHORWEB					"http://nightly.miranda.im/"
+#define __AUTHORWEB					"http://miranda-ng.org/"
 #define __COPYRIGHT					"© 2009-2010 Kostia Romanov"

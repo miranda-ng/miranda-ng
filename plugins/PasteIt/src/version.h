@@ -16,5 +16,5 @@
 #define __DESCRIPTION 				"Uploads the text to web page and sends the URL to your friends."
 #define __AUTHOR					"Krzysztof Kral"
 #define __AUTHOREMAIL				"programista@poczta.of.pl"
-#define __AUTHORWEB					"http://programista.free.of.pl/miranda/"
+#define __AUTHORWEB					"http://miranda-ng.org/"
 #define __COPYRIGHT					"Copyright (c) 2011 KrzysztofKral"

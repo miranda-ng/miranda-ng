@@ -19,7 +19,7 @@ PLUGININFOEX pluginInfo={
 	"chaos.persei, sje, Kildor, Billy_Bons",
 	"chaos.persei@gmail.com",
 	__COPYRIGHTS,
-	"http://mods.mirandaim.ru/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,		//doesn't replace anything built-in
     // Generate your own unique id for your plugin.
     // Do not use this UUID!

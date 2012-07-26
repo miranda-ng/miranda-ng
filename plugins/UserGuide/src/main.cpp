@@ -13,7 +13,7 @@ PLUGININFOEX pluginInfo={
 	"Yasnovidyashii",
 	"yasnovidyashii@gmail.com",
 	"© 2009 Mikhail Yuriev",
-	"http://nightly.miranda.im/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	MIID_USERGUIDE
 };

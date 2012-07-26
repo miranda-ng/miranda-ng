@@ -32,6 +32,6 @@
 
 #define AUTHOR						"ProgAndy & CHEF-KOCH"
 #define AUTHOR_MAIL					""
-#define HOMEPAGE					"http://progandy.co.cc"
+#define HOMEPAGE					"http://miranda-ng.org/"
 
 #endif /*OTR_PRIVATE_H*/

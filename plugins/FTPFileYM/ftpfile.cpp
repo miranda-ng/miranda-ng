@@ -48,7 +48,7 @@ static PLUGININFOEX pluginInfoEx =
 	"yaho",
 	"yaho@miranda-easy.net",
 	"Copyright © 2007-2010 Jan Holub",
-	"http://miranda-easy.net/mods.php",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,		
 	MIID_FTPFILE
 };

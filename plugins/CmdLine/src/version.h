@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __AUTHOR                "Cristian Libotean"
 #define __AUTHOREMAIL           "eblis102@yahoo.com"
 #define __COPYRIGHT             "© 2007-2011 Cristian Libotean"
-#define __AUTHORWEB             "http://nightly.miranda.im/"
+#define __AUTHORWEB             "http://miranda-ng.org/"
 
 #if defined(WIN64) || defined(_WIN64)
 #define __PLUGIN_DISPLAY_NAME   "Command Line (x64)"

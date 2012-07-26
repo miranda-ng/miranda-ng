@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Core module for sending/receiving auth requests."
 #define __AUTHOR                 "Myranda team"
 #define __AUTHOREMAIL				""
-#define __AUTHORWEB					"http://nightly.miranda.im"
+#define __AUTHORWEB					"http://miranda-ng.org/"
 #define __COPYRIGHT					"© 2012 Myranda team"

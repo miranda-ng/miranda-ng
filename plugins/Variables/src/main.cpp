@@ -63,7 +63,7 @@ PLUGININFOEX pluginInfoEx = {
 	"P Boon",
 	"unregistered@users.sourceforge.net",
 	"© 2003-2008 P. Boon, Ricardo Pescuma, George Hazan",
-	"http://nightly.miranda.im/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	MIID_VARIABLES
 };

@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __PLUGIN_DESC        "ToptoolBar adds buttons in top frame for fast access."
 #define __PLUGIN_LONGDESC    __PLUGIN_DESC
 #define __PLUGIN_AUTHOR      "Bethoven"
-#define __PLUGIN_AUTHORWEB   "http://nightly.miranda.im/"
+#define __PLUGIN_AUTHORWEB   "http://miranda-ng.org/"
 #define __PLUGIN_EMAIL       "Bethoven@mailgate.ru"
 #define __PLUGIN_RIGHTS      "© 2003-2008 Bethoven"
 #define __PLUGIN_FILE        "TopToolbar.dll"

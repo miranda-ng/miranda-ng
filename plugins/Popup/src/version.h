@@ -38,14 +38,14 @@ Last change by : $Author: Merlin_de $
 
 	#define POPUP_FILENAME				"PopUp.dll"
 	#define POPUP_DISPLAYNAME			"PopUp Plus"
-	#define __FLVersionURL				"http://nightly.miranda.im/"
+	#define __FLVersionURL				"http://miranda-ng.org/"
 	#define __FLVersionPrefix			"<span class=\"fileNameHeader\">PopUp Plus (Unicode) "
 	#define __FLUpdateURL				"http://nightly.miranda.im/x32/popup.zip"			//.zip
 	#define __BetaUpdateURL				""
 
-	#define __BetaVersionURL			"http://nightly.miranda.im/"
+	#define __BetaVersionURL			"http://miranda-ng.org/"
 	#define __BetaVersionPrefix			"beta: "
-	#define __BetaChangelogURL			"http://nightly.miranda.im/"
+	#define __BetaChangelogURL			"http://miranda-ng.org/"
 
 	#define __MAJOR_VERSION				2
 	#define __MINOR_VERSION				1
@@ -64,7 +64,7 @@ Last change by : $Author: Merlin_de $
 	#define POPUP_AUTHOR		"MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)"
 	#define POPUP_EMAIL			"mp-king@web.de"
 	#define POPUP_COPYRIGHT		"�2002 Luca Santarelli, �2004-2007 Victor Pavlychko, �2010 MPK, Merlin_de"
-	#define POPUP_WEBPAGE		"http://nightly.miranda.im/"
+	#define POPUP_WEBPAGE		"http://miranda-ng.org/"
 	#define POPUP_UUID			{0x26a9125d, 0x7863, 0x4e01, {0xaf, 0xe, 0xd1, 0x4e, 0xf9, 0x5c, 0x50, 0x54}}
 	#define POPUP_PID			0x12a3fdbdecd273ee67dbc4d6d00e9268
 

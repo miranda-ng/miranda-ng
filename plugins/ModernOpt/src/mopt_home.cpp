@@ -62,7 +62,7 @@ INT_PTR CALLBACK ModernOptHome_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 			break;
 
 		case IDC_BTN_HELP:
-			ShellExecuteA(hwndDlg, "open", "http://nightly.miranda.im/", "", "", SW_SHOW);
+			ShellExecuteA(hwndDlg, "open", "http://miranda-ng.org/", "", "", SW_SHOW);
 			break;
 
 		default:

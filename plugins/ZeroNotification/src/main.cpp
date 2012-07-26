@@ -6,7 +6,7 @@ His plugin NoSound can be found at:
 http://anders.nilsson.net/programs/miranda
 
 Miranda can be found here:
-http://nightly.miranda.im/
+http://miranda-ng.org/
 */
 
 #include "version.h"
@@ -45,7 +45,7 @@ PLUGININFOEX pluginInfoEx = {
 	AUTHOR,
 	"",
 	COPYRIGHT,
-	"",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	UID
 };

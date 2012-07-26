@@ -110,7 +110,7 @@ PLUGININFOEX pluginInfo =
 	"Pixel, egoDust, cyreve, Nightwish",
 	"", 
 	"Copyright 2000-2010 Miranda-IM project", 
-	"http://nightly.miranda.im/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {8F79B4EE-EB48-4a03-873E-27BE6B7E9A25}
 	{0x8f79b4ee, 0xeb48, 0x4a03, { 0x87, 0x3e, 0x27, 0xbe, 0x6b, 0x7e, 0x9a, 0x25 }}

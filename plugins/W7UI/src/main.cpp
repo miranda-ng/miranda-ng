@@ -41,7 +41,7 @@ PLUGININFOEX pluginInfo = {
 	"nullbie, persei",
 	"nullbie@miranda.im",
 	"2009 Victor Pavlychko, Vitaliy Igonin",
-	"http://nullbie.miranda.im",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,	           // replace internal version (if any)
 	// {D38EEB0B-B8EE-4177-B9E5-91EBE101E054}
 	{ 0xd38eeb0b, 0xb8ee, 0x4177, { 0xb9, 0xe5, 0x91, 0xeb, 0xe1, 0x1, 0xe0, 0x54 } }

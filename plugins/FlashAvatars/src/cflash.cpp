@@ -41,7 +41,7 @@ PLUGININFOEX pluginInfo = {
 	"Big Muscle",
 	"",
 	"Copyright 2000-2009 Miranda-IM project",
-	"http://nightly.miranda.im/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {72765A6F-B017-42f1-B30F-5E0941273A3F}
 	{ 0x72765a6f, 0xb017, 0x42f1, { 0xb3, 0xf, 0x5e, 0x9, 0x41, 0x27, 0x3a, 0x3f } }

@@ -32,4 +32,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  #define USERAGENT_VERSION          "1.0.2.3"
 #endif
 
- #define PLUGIN_WEBSITE            "http://nightly.miranda.im/"
+ #define PLUGIN_WEBSITE            "http://miranda-ng.org/"

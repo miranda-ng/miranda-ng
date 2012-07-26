@@ -44,7 +44,7 @@ PLUGININFOEX pluginInfo={
 	"Ricardo Pescuma Domenecci",
 	"",
 	"© 2006-2009 Ricardo Pescuma Domenecci",
-	"http://pescuma.org/miranda/listeningto",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,		//doesn't replace anything built-in
 	{ 0xf981f3f5, 0x35a, 0x444f, { 0x98, 0x92, 0xca, 0x72, 0x2c, 0x19, 0x5a, 0xda } } // {F981F3F5-035A-444f-9892-CA722C195ADA}
 };

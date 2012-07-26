@@ -37,7 +37,7 @@ PLUGININFOEX pluginInfo={
 		"Heiko Schillinger, YB",
 		"y_b@saaplugin.no-ip.info",
 		"© 2001-2002 Heiko Schillinger, 2003 modified by Bruno Rino, 2005-7 Modified by YB",
-		"http://nightly.miranda.im/",
+		"http://miranda-ng.org/",
 		UNICODE_AWARE,
 		{ 0x2d506d46,0xc94e,0x4ef8,{0x85, 0x37, 0xf1, 0x12, 0x33, 0xa8, 0x03, 0x81}}/* 2d506d46-c94e-4ef8-8537-f11233a80381 */
 };

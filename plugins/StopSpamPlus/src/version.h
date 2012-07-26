@@ -26,7 +26,7 @@
 #define __DESC						"No more spam! Robots can't go! Only human beings invited!"
 #define __AUTHOR					"Roman Miklashevsky, A. Petkevich, Kosh&chka, persei"
 #define __AUTHOREMAIL				"koshechka@miranda.im"
-#define __AUTHORWEB					"http://nightly.miranda.im/"
+#define __AUTHORWEB					"http://miranda-ng.org/"
 #define __COPYRIGHT					"© 2004-2010 Roman Miklashevsky, A. Petkevich, Kosh&chka, persei"
 
 // other stuff for Version resource

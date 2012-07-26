@@ -66,7 +66,7 @@ PLUGININFOEX pluginInfo={
 	"Matthew Wild (MattJ), Ricardo Pescuma Domenecci",
 	"mwild1@gmail.com",
 	"© 2006-2012 Matthew Wild, Ricardo Pescuma Domenecci",
-	"http://pescuma.org/miranda/avatarhist",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	{ 0xdbe8c990, 0x7aa0, 0x458d, { 0xba, 0xb7, 0x33, 0xeb, 0x7, 0x23, 0x8e, 0x71 } } // {DBE8C990-7AA0-458d-BAB7-33EB07238E71}
 };

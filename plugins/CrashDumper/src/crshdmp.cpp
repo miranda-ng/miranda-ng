@@ -50,7 +50,7 @@ static const PLUGININFOEX pluginInfoEx =
 	"borkra",
 	"borkra@miranda-im.org",
 	"Copyright© 2008 - 2012 Boris Krasnovskiy All Rights Reserved",
-	"http://nightly.miranda.im/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {F62C1D7A-FFA4-4065-A251-4C9DD9101CC8}
 	{ 0xf62c1d7a, 0xffa4, 0x4065, { 0xa2, 0x51, 0x4c, 0x9d, 0xd9, 0x10, 0x1c, 0xc8 } }

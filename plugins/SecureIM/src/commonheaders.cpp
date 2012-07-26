@@ -33,7 +33,7 @@ PLUGININFOEX pluginInfoEx = {
 		"Johell, Ghost, Nightwish, __alex, Baloo",
 		"Johell@ifrance.com, baloo@bk.ru",
 		"© 2003 Johell, © 2005-09 Baloo",
-		"http://nightly.miranda.im/",
+		"http://miranda-ng.org/",
 		0,
 		MIID_SECUREIM
 };

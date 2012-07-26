@@ -492,12 +492,12 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 			break;
 
 		case ID__FORTUNEAWAYMSG:
-			CallService(MS_UTILS_OPENURL,1,(LPARAM)"http://nightly.miranda.im/");
+			CallService(MS_UTILS_OPENURL,1,(LPARAM)"http://miranda-ng.org/");
 			break;
 
 		case ID__VARIABLES:
 
-			CallService(MS_UTILS_OPENURL,1,(LPARAM)"http://nightly.miranda.im/");
+			CallService(MS_UTILS_OPENURL,1,(LPARAM)"http://miranda-ng.org/");
 
 			break;
 

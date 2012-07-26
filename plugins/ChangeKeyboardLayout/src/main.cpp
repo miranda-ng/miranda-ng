@@ -20,7 +20,7 @@ PLUGININFOEX pluginInfoEx = {
 	"Yasnovidyashii",
 	"Yasnovidyashii@gmail.com",
 	"© 2006-2009 Mikhail Yur'ev",
-	"http://lemnews.com/forum/viewtopic.php?t = 1493",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,		//doesn't replace anything built-in
 	// {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 	{0xc5ef53a8, 0x80d4, 0x4ce9, { 0xb3, 0x41, 0xec, 0x90, 0xd3, 0xec, 0x91, 0x56 }}

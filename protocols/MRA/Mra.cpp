@@ -12,7 +12,7 @@ PLUGININFOEX pluginInfoEx={
 	"Rozhuk Ivan",
 	"Rozhuk_I@mail.ru",
 	"© 2006-2011 Rozhuk Ivan",
-	"http://nightly.miranda.im/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {E7C48BAB-8ACE-4CB3-8446-D4B73481F497}
 	{ 0xe7c48bab, 0x8ace, 0x4cb3, { 0x84, 0x46, 0xd4, 0xb7, 0x34, 0x81, 0xf4, 0x97 } }

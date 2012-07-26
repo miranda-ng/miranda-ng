@@ -227,7 +227,7 @@ void UndoSubItemChanges(HWND htv, HTREEITEM hItem, int cmd)
 
 static void OpenIconsPage()
 {
-	CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://nightly.miranda.im/");
+	CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-ng.org/");
 }
 
 static int OpenPopupMenu(HWND hwndDlg)

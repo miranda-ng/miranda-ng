@@ -71,7 +71,7 @@ static const PLUGININFOEX pluginInfoEx =
 	AUTH,
 	"borkra@miranda-im.org",
 	"(c) 2002-2005 NoName, 2005-2010 Boris Krasnovskiy",
-	"http://nightly.miranda.im/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	MIID_WEATHER
 };

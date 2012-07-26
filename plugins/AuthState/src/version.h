@@ -16,5 +16,5 @@
 #define __DESCRIPTION 				"If contact didn't authorized you this plugin puts an icon in front of contacts name."
 #define __AUTHOR					"Thief, idea by snwbrdr"
 #define __AUTHOREMAIL				"thief@miranda.im"
-#define __AUTHORWEB					"http://nightly.miranda.im/"
+#define __AUTHORWEB					"http://miranda-ng.org/"
 #define __COPYRIGHT					"© 2006-2010 Alexander Turyak"

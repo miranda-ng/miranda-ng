@@ -34,7 +34,7 @@ PLUGININFOEX pluginInfo={
 	"H. Herkenrath",
 	"hrathh@users.sourceforge.net",  /* @ will be set later */
 	"© 2004-2007 H. Herkenrath",
-	"http://nightly.miranda.im/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {9DE24579-5C5C-49aa-80E8-4D38E4344E63}
 	{0x9de24579,0x5c5c,0x49aa,{0x80,0xe8,0x4d,0x38,0xe4,0x34,0x4e,0x63}},

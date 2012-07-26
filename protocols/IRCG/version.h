@@ -9,7 +9,7 @@
 #define __AUTHOR                 "Miranda team"
 #define __AUTHOREMAIL            "ghazan@miranda-im.org"
 #define __COPYRIGHT              "c 2003-2011 Jurgen Persson, George Hazan"
-#define __AUTHORWEB              "http://www.miranda-im.org"
+#define __AUTHORWEB              "http://miranda-ng.org/"
 
 #define __PLUGIN_NAME            "IRC protocol"
 #define __FILENAME               "IRC.dll"

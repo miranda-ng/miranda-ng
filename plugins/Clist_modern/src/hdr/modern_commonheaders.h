@@ -68,7 +68,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLINTERFACE                  static
 
 #define PLUGININTERFACE extern "C" __declspec( dllexport )
-#define UPDATER_PATH "http://nightly.miranda.im/"
+#define UPDATER_PATH "http://miranda-ng.org/"
 
 #include "m_stdhdr.h"
 

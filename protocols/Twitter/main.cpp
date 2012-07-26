@@ -35,7 +35,7 @@ PLUGININFOEX pluginInfo={
 	"dentist, omniwolf, Thief",
 	"",
 	"© 2009-2010 dentist, 2010-2011 omniwolf and Thief",
-	"http://code.google.com/p/miranda-twitter-oauth/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	//{BC09A71B-B86E-4d33-B18D-82D30451DD3C}
 	{ 0xbc09a71b, 0xb86e, 0x4d33, { 0xb1, 0x8d, 0x82, 0xd3, 0x4, 0x51, 0xdd, 0x3c } }

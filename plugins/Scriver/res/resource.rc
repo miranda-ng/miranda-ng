@@ -689,7 +689,7 @@ BEGIN
     BEGIN
         BLOCK "041504e3"
         BEGIN
-            VALUE "Comments", "http://nightly.miranda.im/"
+            VALUE "Comments", "http://miranda-ng.org/"
             VALUE "CompanyName", "Miranda NG Development Team"
             VALUE "FileDescription", "Scriver - send and receive instant messages"
             VALUE "FileVersion", "2.10.0.1"

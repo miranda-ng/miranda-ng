@@ -316,7 +316,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SetDlgItemText(hwndDlg, IDC_LOCATION, strFull);
 		}
 		if (LOWORD(wParam) == IDC_GETMORE) {
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://nightly.miranda.im/");
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-ng.org/");
 			break;
 		}
 		if (LOWORD(wParam) == IDC_LOCATION)

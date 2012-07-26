@@ -22,7 +22,7 @@ PLUGININFOEX pluginInfoEx = {
 		"Baloo",
 		"baloo@bk.ru",
 		"© 2006-09 Baloo",
-		"http://nightly.miranda.im/",
+		"http://miranda-ng.org/",
 		0,
 		MIID_CRYPTOPP
 };

@@ -16,5 +16,5 @@
 #define __DESCRIPTION 				"Extra Icons Service."
 #define __AUTHOR					"Ricardo Pescuma Domenecci"
 #define __AUTHOREMAIL				""
-#define __AUTHORWEB					"http://nightly.miranda.im/"
+#define __AUTHORWEB					"http://miranda-ng.org/"
 #define __COPYRIGHT					"© 2009 Ricardo Pescuma Domenecci"

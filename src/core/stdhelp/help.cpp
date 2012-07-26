@@ -46,7 +46,7 @@ static INT_PTR IndexCommand(WPARAM, LPARAM)
 
 static INT_PTR WebsiteCommand(WPARAM, LPARAM)
 {
-	CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://nightly.miranda.im/");
+	CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-ng.org/");
 	return 0;
 }
 

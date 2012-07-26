@@ -64,7 +64,7 @@ PLUGININFOEX pluginInfo = {
 	"Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven",
 	"ashpynov@gmail.com" ,
 	"Copyright 2000-2010 Miranda-IM project",
-	"http://nightly.miranda.im/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	//{043909B6-AAD8-4d82-8EB5-9F64CFE867CD}
 	{0x43909b6, 0xaad8, 0x4d82, { 0x8e, 0xb5, 0x9f, 0x64, 0xcf, 0xe8, 0x67, 0xcd }}

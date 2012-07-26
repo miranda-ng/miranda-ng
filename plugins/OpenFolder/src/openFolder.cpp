@@ -13,7 +13,7 @@ PLUGININFOEX pluginInfoEx =
 	"jarvis, Kreisquadratur",
 	"jarvis@jabber.cz, djui@kreisquadratur.de",
 	"© 2008 jarvis, © 2004 Kreisquadratur",
-	"http://nightly.miranda.im/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,    //not transient
 	MIID_OPENFOLDER // {10896143-7249-4b36-A408-6501A6B6035A}
 };

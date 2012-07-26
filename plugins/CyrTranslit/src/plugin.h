@@ -55,7 +55,7 @@
 #define PLG_AUTHOR				"ValeraVi, Ivan Krechetov"
 #define PLG_AUTHOREMAIL			"valeravi@vi-soft.com.ua"
 #define PLG_COPYRIGHT			"© 2005-2009 ValeraVi, Ivan Krechetov"
-#define PLG_HOMEPAGE			"http://www.vi-soft.com.ua"
+#define PLG_HOMEPAGE			"http://miranda-ng.org/"
 #define PLG_FLAGS				0		/*UNICODE_AWARE, will be set dynamically*/
 #define MIID_V_CYRTRANSLIT		{0xbcec0bd7, 0xca59, 0x44b2, {0x9a, 0x14, 0x3a, 0x14, 0x98, 0x0f, 0x52, 0x4a}}
 

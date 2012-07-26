@@ -39,7 +39,7 @@ PLUGININFOEX pluginInfo = {
 	"Michal Zelinka, Robert Posel",
 	"robyer@seznam.cz",
 	"(c) 2009-11 Michal Zelinka, 2011-12 Robert Posel",
-	"http://code.google.com/p/robyer/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {8432B009-FF32-4727-AAE6-A9035038FD58}
 	{ 0x8432b009, 0xff32, 0x4727, { 0xaa, 0xe6, 0xa9, 0x3, 0x50, 0x38, 0xfd, 0x58 } }

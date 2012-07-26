@@ -83,7 +83,7 @@ PLUGININFOEX pluginInfo = {
 	"",
 	"bethoven@mailgate.ru" ,
 	"Copyright 2000-2010 Miranda-IM project ["__DATE__" "__TIME__"]",
-	"http://nightly.miranda.im/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	//{2A417AB9-16F2-472d-9AE3-415103C78A64}
 	{0x2a417ab9, 0x16f2, 0x472d, { 0x9a, 0xe3, 0x41, 0x51, 0x3, 0xc7, 0x8a, 0x64 }}

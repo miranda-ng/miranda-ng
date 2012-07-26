@@ -36,7 +36,7 @@ PLUGININFOEX pluginInfo = {
 	"code by Victor Pavlychko, icons by Angeli-Ka",
 	"nullbie@gmail.com",
 	"Copyright 2007-2009 Victor Pavlychko",
-	"http://nullbie.miranda.im/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,	           // replace internal version (if any)
 	// {CE2C0401-F9E0-40d7-8E95-1A4197D7AB04}
 	{ 0xce2c0401, 0xf9e0, 0x40d7, { 0x8e, 0x95, 0x1a, 0x41, 0x97, 0xd7, 0xab, 0x4 } }

@@ -43,7 +43,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __AUTHOR      "DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol"
 #define __AUTHOREMAIL "deathaxe@web.de"
 #define __COPYRIGHT   "© 2006-2009 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol"
-#define __AUTHORWEB   "http://nightly.miranda.im/" __STRINGIFY(__UPDATER_DOWNLOAD_ID)
+#define __AUTHORWEB   "http://miranda-ng.org/" __STRINGIFY(__UPDATER_DOWNLOAD_ID)
 
 #define __UPDATER_DOWNLOAD_ID 2537
 #define __PLUGIN_DISPLAY_NAME	"UserInfoEx"

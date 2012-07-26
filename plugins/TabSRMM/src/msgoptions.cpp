@@ -1670,7 +1670,7 @@ static int ModernOptInitialise(WPARAM wParam, LPARAM lParam)
 	obj.iBoldControls = iBoldControls;
 	obj.lpzClassicGroup = NULL;
 	obj.lpzClassicPage = "Message Sessions";
-	obj.lpzHelpUrl = "http://nightly.miranda.im/";
+	obj.lpzHelpUrl = "http://wiki.miranda.or.at/";
 
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPTS);
 	obj.pfnDlgProc = DlgProcTabSrmmModernOptions;

@@ -18,5 +18,5 @@
 #define __DESCRIPTION 				"This plugin offers simple management functions to keep your extra statuses on one place."
 #define __AUTHOR					"Mataes, jarvis"
 #define __AUTHOREMAIL				"mataes2007@gmail.com"
-#define __AUTHORWEB					"http://nightly.miranda.im/"
+#define __AUTHORWEB					"http://miranda-ng.org/"
 #define __COPYRIGHT					"© 2011-10 Mataes, 2009-2007 jarvis"

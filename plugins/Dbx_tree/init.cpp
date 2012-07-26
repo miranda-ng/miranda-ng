@@ -39,7 +39,7 @@ static PLUGININFOEX gPluginInfoEx = {
 	gAutor,
 	gAutorEmail,
 	gCopyright,
-	"http://www-user.tu-chemnitz.de/~kunmi/?dbx_tree&lang=en",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	gGUID
 };

@@ -44,7 +44,7 @@ PLUGININFOEX pluginInfo =
 	"ValeraVi, Kildor",
 	"kostia@ngs.ru",
 	"© 2005 ValeraVi, © 2009 Kildor",
-	"http://kildor.miranda.im",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,  	//doesn't replace anything built-in
 	{ 0x0e5f3b9d, 0xebcd, 0x44d7, {0x93, 0x74, 0xd8, 0xe5, 0xd8, 0x8d, 0xf4, 0xe3}}
 	/* 0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3 */

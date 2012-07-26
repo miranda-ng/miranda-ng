@@ -107,7 +107,7 @@ PLUGININFOEX pluginInfoEx = {
 	"Artem Shpynov aka FYR, Bio, Faith Healer, HierOS",
 	"crazy.hieros@gmail.com",
 	__LEGAL_COPYRIGHT_STRING,
-	"http://code.google.com/p/fingerprintmod/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	MIID_THIS_PLUGIN
 };

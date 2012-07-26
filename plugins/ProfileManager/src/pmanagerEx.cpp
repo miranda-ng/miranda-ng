@@ -35,7 +35,7 @@ PLUGININFOEX pluginInfo={
 	"Roman Gemini",
 	"woobind@ukr.net",
 	"© 2008 - 2010 Roman Gemini",
-	"http://code.google.com/p/alfamar/",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	{0x7eeeb55e, 0x9d83, 0x4e1a, { 0xa1, 0x2f, 0x8f, 0x13, 0xf1, 0xa1, 0x24, 0xfb } }
 };
