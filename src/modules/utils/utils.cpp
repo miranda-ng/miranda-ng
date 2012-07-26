@@ -422,7 +422,7 @@ static INT_PTR RestartMiranda(WPARAM, LPARAM)
 	STARTUPINFO si = { 0 };
 	si.cb = sizeof(si);
 	GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
-	mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("/restart:%d"), GetCurrentProcessId());
+	mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
 	CallService("CloseAction", 0, 0);
 	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 	return 0;
