@@ -30,7 +30,8 @@ static DWORD  mainThreadId;
 static HANDLE hMainThread;
 static HANDLE hMissingService;
 
-void ParseCommandLine();		// core: IDD_WAITRESTART
+void CheckRestart();		// core: IDD_WAITRESTART
+
 int LoadSystemModule(void);		// core: m_system.h services
 int LoadNewPluginsModuleInfos(void); // core: preloading plugins
 int LoadNewPluginsModule(void);	// core: N.O. plugins
@@ -86,7 +87,7 @@ int LoadDefaultModules(void)
     //load order is very important for these
 	if ( LoadSystemModule()) return 1;
 	if ( LoadLangpackModule()) return 1;		// langpack will be a system module in the new order so this is moved here
-	ParseCommandLine();						// IDD_WAITRESTART need langpack  so this is moved here
+	CheckRestart();
 	if ( LoadUtilsModule()) return 1;		//order not important for this, but no dependencies and no point in pluginising
 	if ( LoadIcoTabsModule()) return 1;
 	if ( LoadHeaderbarModule()) return 1;

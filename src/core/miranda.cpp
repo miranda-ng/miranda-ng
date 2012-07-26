@@ -195,12 +195,11 @@ static INT_PTR CALLBACK WaitForProcessDlgProc(HWND hwnd, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
-void ParseCommandLine()
+void CheckRestart()
 {
-	char* cmdline = GetCommandLineA();
-	char* p = strstr(cmdline, "/restart:");
-	if (p) {
-		HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, atol(p+9));
+	LPCTSTR tszPID = CmdLine_GetOption( _T("restart"));
+	if (tszPID) {
+		HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, _ttol(tszPID));
 		if (hProcess) {
 			DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WAITRESTART), NULL, WaitForProcessDlgProc, (LPARAM)hProcess);
 			CloseHandle(hProcess);
@@ -208,14 +207,11 @@ void ParseCommandLine()
 	}
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
+int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 {
-	DWORD myPid = 0;
-	int messageloop = 1;
-	int result = 0;
-
 	hInst = hInstance;
 
+	CmdLine_Parse(cmdLine);
 	setlocale(LC_ALL, "");
 
 #ifdef _DEBUG
@@ -291,6 +287,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	if ( IsWinVer7Plus())
 		CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
 
+	int result = 0;
 	if ( LoadDefaultModules()) {
 		NotifyEventHooks(hShutdownEvent, 0, 0);
 		UnloadDefaultModules();
@@ -308,7 +305,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	CreateServiceFunction(MS_SYSTEM_SETIDLECALLBACK, SystemSetIdleCallback);
 	CreateServiceFunction(MS_SYSTEM_GETIDLE, SystemGetIdle);
 	dwEventTime = GetTickCount();
-	myPid = GetCurrentProcessId();
+	DWORD myPid = GetCurrentProcessId();
+	
+	bool messageloop = true;
 	while (messageloop) {
 		MSG msg;
 		DWORD rc;
@@ -345,7 +344,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 				PostQuitMessage(0);
 			}
 			else if (dying)
-				messageloop = 0;
+				messageloop = false;
 		}
 	}
 

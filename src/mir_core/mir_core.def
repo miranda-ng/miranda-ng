@@ -127,3 +127,5 @@ Thread_SetName                @124
 replaceStr                    @125
 replaceStrW                   @126
 db_setCurrent                 @127
+CmdLine_GetOption             @128
+CmdLine_Parse                 @129

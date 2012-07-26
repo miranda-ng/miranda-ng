@@ -39,6 +39,12 @@ extern "C"
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
+// command line support
+
+MIR_CORE_DLL(void)    CmdLine_Parse(LPTSTR ptszCmdLine);
+MIR_CORE_DLL(LPCTSTR) CmdLine_GetOption(LPCTSTR ptszParameter);
+
+///////////////////////////////////////////////////////////////////////////////
 // database functions
 
 // DBVARIANT: used by db/contact/getsetting and db/contact/writesetting
