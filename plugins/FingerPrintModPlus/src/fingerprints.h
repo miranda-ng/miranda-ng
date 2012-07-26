@@ -652,7 +652,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
    { "client_JGmail_over",      _T("*IM*JGmail*"),                 _T("JGmail"),                      _T("ClientIcons_General"),   IDI_GMAIL_OVERLAY, OVER1_CASE },
    { "client_JGTalk_over",      _T("*IM*JGTalk*"),                 _T("JGTalk"),                      _T("ClientIcons_General"),   IDI_JGTALK_OVERLAY, OVER1_CASE },
    { "client_JMeebo_over",      _T("*IM*JMeebo*"),                 _T("JMeebo"),                      _T("ClientIcons_General"),   IDI_JMEEBO_OVERLAY, OVER1_CASE },
-   { "client_Jabber_over",      _T("|*IM*jabber*|*t Jabber*"),     _T("Jabber"),                      _T("ClientIcons_General"),   IDI_JABBER_OVERLAY, OVER1_CASE },
+   { "client_Jabber_over",      _T("|*NG*jabber*|*IM*jabber*|*t Jabber*"), _T("Jabber"),              _T("ClientIcons_General"),   IDI_JABBER_OVERLAY, OVER1_CASE },
    { "client_MailRu_over",      _T("|*Mail.ru*IM*|*MRA*"),         _T("MailRu Agent"),                _T("ClientIcons_General"),   IDI_MAILRU_OVERLAY, OVER1_CASE },
    { "client_MSN_over",         _T("Miranda*MSN*"),                _T("MSN"),                         _T("ClientIcons_General"),   IDI_MSN_OVERLAY, OVER1_CASE },
    { "client_QQ_over",          _T("|Miranda*QQ*|MIMQQ*"),         _T("QQ"),                          _T("ClientIcons_General"),   IDI_QQ_OVERLAY, OVER1_CASE },
@@ -725,13 +725,13 @@ KN_FP_MASK def_kn_fp_overlays2_mask[] =
    { "client_mobile_overlay",      _T("|*[*mobile*]*|*[*pda*]*"),   _T("[Mobile]"),                   _T("ClientIcons_Jabber"),   IDI_MOBILE_OVERLAY, OVER2_CASE },
    { "client_notebook_overlay",    _T("|*[*note*]*|*[*portable*]*|*[*usb*]*")
                                    _T("|*[*laptop*]*|*[*flash*]*"), _T("[Portable]"),                 _T("ClientIcons_Jabber"),   IDI_NOTEBOOK_OVERLAY, OVER2_CASE },
-   { "client_Miranda_010_overlay", _T("*Miranda*0.10.*"),           _T("Miranda v0.10"),              _T("ClientIcons_General"),   IDI_MIRANDA_10s, OVER2_CASE },
-   { "client_Miranda_09_overlay",  _T("*Miranda*0.9.*"),            _T("Miranda v0.9"),               _T("ClientIcons_General"),   IDI_MIRANDA_9s, OVER2_CASE },
-   { "client_Miranda_08_overlay",  _T("*Miranda*0.8.*"),            _T("Miranda v0.8"),               _T("ClientIcons_General"),   IDI_MIRANDA_8s, OVER2_CASE },
-   { "client_Miranda_07_overlay",  _T("*Miranda*0.7.*"),            _T("Miranda v0.7"),               _T("ClientIcons_General"),   IDI_MIRANDA_7s, OVER2_CASE },
-   { "client_Miranda_06_overlay",  _T("*Miranda*0.6.*"),            _T("Miranda v0.6"),               _T("ClientIcons_General"),   IDI_MIRANDA_6s, OVER2_CASE },
-   { "client_Miranda_05_overlay",  _T("*Miranda*0.5.*"),            _T("Miranda v0.5"),               _T("ClientIcons_General"),   IDI_MIRANDA_5s, OVER2_CASE },
-   { "client_Miranda_04_overlay",  _T("*Miranda*0.4.*"),            _T("Miranda v0.4"),               _T("ClientIcons_General"),   IDI_MIRANDA_4s, OVER2_CASE },
+   { "client_Miranda_010_overlay", _T("*Miranda*0.10.*"),           _T("Miranda v0.10"),              _T("ClientIcons_General"),  IDI_MIRANDA_10s, OVER2_CASE },
+   { "client_Miranda_09_overlay",  _T("*Miranda*0.9.*"),            _T("Miranda v0.9"),               _T("ClientIcons_General"),  IDI_MIRANDA_9s, OVER2_CASE },
+   { "client_Miranda_08_overlay",  _T("*Miranda*0.8.*"),            _T("Miranda v0.8"),               _T("ClientIcons_General"),  IDI_MIRANDA_8s, OVER2_CASE },
+   { "client_Miranda_07_overlay",  _T("*Miranda*0.7.*"),            _T("Miranda v0.7"),               _T("ClientIcons_General"),  IDI_MIRANDA_7s, OVER2_CASE },
+   { "client_Miranda_06_overlay",  _T("*Miranda*0.6.*"),            _T("Miranda v0.6"),               _T("ClientIcons_General"),  IDI_MIRANDA_6s, OVER2_CASE },
+   { "client_Miranda_05_overlay",  _T("*Miranda*0.5.*"),            _T("Miranda v0.5"),               _T("ClientIcons_General"),  IDI_MIRANDA_5s, OVER2_CASE },
+   { "client_Miranda_04_overlay",  _T("*Miranda*0.4.*"),            _T("Miranda v0.4"),               _T("ClientIcons_General"),  IDI_MIRANDA_4s, OVER2_CASE },
 };
 
 #define DEFAULT_KN_FP_OVERLAYS2_COUNT SIZEOF(def_kn_fp_overlays2_mask)               //should contain the count of records above
