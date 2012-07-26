@@ -269,7 +269,7 @@ int PreShutdown(WPARAM wParam,LPARAM lParam)
 INT_PTR ServiceMode(WPARAM wParam,LPARAM lParam)
 {
 	bServiceMode = TRUE;
-	return 0;
+	return SERVICE_ONLYDB;  // load database and then call us
 }
 
 INT_PTR ImportFromFile(WPARAM wParam,LPARAM lParam) 

@@ -72,5 +72,5 @@ INT_PTR ServiceModeService(WPARAM wParam, LPARAM lParam)
 {
 	bServiceMode = 1;
 	DoDebugTo(TO_ASK);
-	return 0;
+	return SERVICE_ONLYDB;  // load database and open a window
 }

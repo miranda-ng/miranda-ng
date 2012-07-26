@@ -92,7 +92,19 @@ typedef struct _MUUID {
 
 #define MIID_SERVICEMODE    {0x8a92c026, 0x953a, 0x4f5f, { 0x99, 0x21, 0xf2, 0xc2, 0xdc, 0x19, 0x5e, 0xc5}}
 
-/* Each service mode plugin must implement MS_SERVICEMODE_LAUNCH */
+/* Each service mode plugin must implement MS_SERVICEMODE_LAUNCH 
+   This service might return one of the following values:
+	SERVICE_CONTINUE - load Miranda normally, like there's no service plugins at all
+	SERVICE_ONLYDB - load database and then execute service plugin only
+	SERVICE_MONOPOLY - execute only service plugin, even without database
+	SERVICE_FAILED - terminate Miranda execution
+*/
+
+#define SERVICE_CONTINUE    0
+#define SERVICE_ONLYDB      1
+#define SERVICE_MONOPOLY    2
+#define SERVICE_FAILED      (-1)
+
 #define MS_SERVICEMODE_LAUNCH "ServiceMode/Launch"
 
 typedef struct PLUGININFOEX_tag

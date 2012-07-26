@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../modules/plugins/plugins.h"
 
 // other static variables
-static BOOL bServiceMode = FALSE;
 static DWORD  mainThreadId;
 static HANDLE hMainThread;
 static HANDLE hMissingService;
@@ -67,6 +66,7 @@ void UnloadUtilsModule(void);
 void UnloadButtonModule(void);
 void UnloadClcModule(void);
 void UnloadContactListModule(void);
+void UnloadDatabase(void);
 void UnloadEventsModule(void);
 void UnloadSslModule(void);
 void UnloadNetlibModule(void);
@@ -101,11 +101,16 @@ int LoadDefaultModules(void)
 
 //	if ( LoadErrorsModule()) return 1;
 
-	bServiceMode = LoadServiceModePlugin();
-	switch (bServiceMode) {
-		case 1:	return 0; // stop loading here
-		case 0: break;
-		default: return 1;
+	switch ( LoadServiceModePlugin()) {
+	case SERVICE_CONTINUE:  // continue loading Miranda normally
+		break;
+	case SERVICE_ONLYDB:    // load database and go to the message cycle
+		return 0; 
+	case SERVICE_MONOPOLY:  // unload database and go to the message cycle
+		UnloadDatabase();
+		return 0;
+	default:                // smth went wrong, terminating
+		return 1;
 	}
 
 	if ( LoadSkinSounds()) return 1;

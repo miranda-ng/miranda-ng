@@ -41,7 +41,7 @@ bool servicemode;
 bool clsdates;
 bool dtsubfldr;
 
-static const PLUGININFOEX pluginInfoEx = 
+static const PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	"Crash Dumper",
@@ -59,7 +59,7 @@ static const PLUGININFOEX pluginInfoEx =
 const PLUGININFOEX* GetPluginInfoEx(void) { return &pluginInfoEx; }
 
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVersion) 
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVersion)
 {
 	::mirandaVersion = mirVersion;
 	return (PLUGININFOEX*)&pluginInfoEx;
@@ -84,7 +84,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, NULL,
 		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	if (hDumpFile != INVALID_HANDLE_VALUE) 
+	if (hDumpFile != INVALID_HANDLE_VALUE)
 	{
 		bkstring buffer;
 
@@ -143,7 +143,7 @@ INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 	if (hRichModule == NULL && GetModuleHandle(TEXT("Riched20.dll")) == NULL)
 		hRichModule = LoadLibrary(TEXT("Riched20.dll"));
 
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_VIEWVERSION), NULL, 
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_VIEWVERSION), NULL,
 		DlgProcView, wParam ? (VI_FLAG_PRNVAR | VI_FLAG_PRNDLL) : VI_FLAG_PRNVAR);
 
 	return 0;
@@ -167,7 +167,7 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 INT_PTR ServiceModeLaunch(WPARAM, LPARAM)
 {
 	servicemode = true;
-	return 0;
+	return SERVICE_ONLYDB;
 }
 
 
@@ -341,7 +341,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	if (servicemode) ViewVersionInfo(0, 0);
 	else
 	{
-		if (DBGetContactSettingByte(NULL, PluginName, "UploadChanged", 0) && !ProcessVIHash(false)) 
+		if (DBGetContactSettingByte(NULL, PluginName, "UploadChanged", 0) && !ProcessVIHash(false))
 			UploadVersionInfo(0, 0xa1);
 	}
 

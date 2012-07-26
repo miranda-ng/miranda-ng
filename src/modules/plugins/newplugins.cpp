@@ -592,18 +592,21 @@ void SetServiceModePlugin(pluginEntry *p)
 int LoadServiceModePlugin(void)
 {
 	if (serviceModePlugin == NULL)
-		return 0;
+		return SERVICE_CONTINUE;
 
-	if (serviceModePlugin->bpi.Load() == 0) {
-		serviceModePlugin->pclass |= PCLASS_LOADED;
-		if (CallService(MS_SERVICEMODE_LAUNCH, 0, 0) != CALLSERVICE_NOTFOUND)
-			return 1;
-
-		MessageBox(NULL, TranslateT("Unable to load plugin in Service Mode!"), serviceModePlugin->pluginname, 0);
-		return -1;
+	// plugin load failed - terminating Miranda
+	if (serviceModePlugin->bpi.Load() != ERROR_SUCCESS) {
+		Plugin_Uninit(serviceModePlugin);
+		return SERVICE_FAILED;
 	}
-	Plugin_Uninit(serviceModePlugin);
-	return -1;
+
+	serviceModePlugin->pclass |= PCLASS_LOADED;
+	INT_PTR res = CallService(MS_SERVICEMODE_LAUNCH, 0, 0);
+	if (res != CALLSERVICE_NOTFOUND)
+		return res;
+
+	MessageBox(NULL, TranslateT("Unable to load plugin in Service Mode!"), serviceModePlugin->pluginname, 0);
+	return SERVICE_FAILED;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -754,6 +757,16 @@ int LoadNewPluginsModuleInfos(void)
 //   Plugins module unloading
 //   called at the end of module chain unloading, just modular engine left at this point
 
+void UnloadDatabase(void)
+{
+	if (currDb != NULL) {
+		db_setCurrent(NULL);
+		currDblink->Unload(currDb);
+		currDb = NULL;
+		currDblink = NULL;
+	}
+}
+
 void UnloadNewPluginsModule(void)
 {
 	if ( !bModuleInitialized)
@@ -771,12 +784,7 @@ void UnloadNewPluginsModule(void)
 	if (pluginList_crshdmp)
 		Plugin_Uninit(pluginList_crshdmp);
 
-	// unload the DB
-	if (currDb != NULL) {
-		db_setCurrent(NULL);
-		currDblink->Unload(currDb);
-		currDb = NULL;
-	}
+	UnloadDatabase();
 
 	for (int k = pluginList.getCount()-1; k >= 0; k--) {
 		pluginEntry* p = pluginList[k];
