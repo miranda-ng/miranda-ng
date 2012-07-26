@@ -126,10 +126,12 @@ int Protocol::GetStatus()
 	if (old_status != status)
 		data_changed = true;
 
+	// check if custom status is set
 	if (ProtoServiceExists(name, PS_ICQ_GETCUSTOMSTATUS))
 		custom_status = CallProtoService(name, PS_ICQ_GETCUSTOMSTATUS, (WPARAM) &custom_status_name, (LPARAM) &custom_status_message);
-	else
-		custom_status = 0;
+	
+	// if custom status is not set (custom_status will be -1), show normal status
+	if (custom_status < 0) custom_status = 0;
 
 	if (custom_status == 0) {
 		TCHAR *tmp = (TCHAR*) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
