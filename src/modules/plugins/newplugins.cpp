@@ -31,22 +31,14 @@ static int sttComparePluginsByName(const pluginEntry* p1, const pluginEntry* p2)
 {	return lstrcmp(p1->pluginname, p2->pluginname);
 }
 
-LIST<pluginEntry> pluginList(10, sttComparePluginsByName);
+LIST<pluginEntry>
+	pluginList(10, sttComparePluginsByName),
+	servicePlugins(5, sttComparePluginsByName),
+	clistPlugins(5, sttComparePluginsByName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #define MAX_MIR_VER ULONG_MAX
-
-struct PluginUUIDList {
-	MUUID uuid;
-	DWORD maxVersion;
-}
-static const pluginBannedList[] = 
-{
-	{{0x7f65393b, 0x7771, 0x4f3f, { 0xa9, 0xeb, 0x5d, 0xba, 0xf2, 0xb3, 0x61, 0xf1 }}, MAX_MIR_VER}, // png2dib
-	{{0xe00f1643, 0x263c, 0x4599, { 0xb8, 0x4b, 0x05, 0x3e, 0x5c, 0x51, 0x1d, 0x28 }}, MAX_MIR_VER}, // loadavatars (unicode)
-	{{0xc9e01eb0, 0xa119, 0x42d2, { 0xb3, 0x40, 0xe8, 0x67, 0x8f, 0x5f, 0xea, 0xd9 }}, MAX_MIR_VER}, // loadavatars (ansi)
-};
 
 MuuidReplacement pluginDefault[] = 
 {
@@ -72,11 +64,11 @@ static BOOL bModuleInitialized = FALSE;
 
 TCHAR  mirandabootini[MAX_PATH];
 static DWORD mirandaVersion;
-static int serviceModeIdx = -1, sttFakeID = -100;
+static int sttFakeID = -100;
 static HANDLE hPluginListHeap = NULL;
 static int askAboutIgnoredPlugins;
 
-static pluginEntry *pluginListSM, *pluginListUI, *pluginList_freeimg, *pluginList_crshdmp;
+static pluginEntry *pluginList_freeimg, *pluginList_crshdmp, *serviceModePlugin = NULL;
 
 int  InitIni(void);
 void UninitIni(void);
@@ -166,7 +158,6 @@ int GetPluginFakeId(const MUUID &uuid, int hLangpack)
 	return 0;
 }
 
-
 MUUID miid_last = MIID_LAST;
 MUUID miid_chat = MIID_CHAT;
 MUUID miid_srmm = MIID_SRMM;
@@ -183,18 +174,6 @@ static bool validInterfaceList(MUUID *piface)
 		return false;
 
 	return true;
-}
-
-static int isPluginBanned(MUUID u1, DWORD dwVersion)
-{
-	for (int i=0; i < SIZEOF(pluginBannedList); i++) {
-		if ( equalUUID(pluginBannedList[i].uuid, u1)) {
-			if (dwVersion < pluginBannedList[i].maxVersion)
-				return 1;
-			return 0;
-		}
-	}
-	return 0;
 }
 
 /*
@@ -227,7 +206,7 @@ static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 	if (bpi->InfoEx == NULL || pi->cbSize != sizeof(PLUGININFOEX))
 		return FALSE;
 
-	if ( !validInterfaceList(bpi->Interfaces) || isPluginBanned(pi->uuid, pi->version))
+	if ( !validInterfaceList(bpi->Interfaces))
 		return FALSE;
 
 	if (pi->shortName == NULL || pi->description == NULL || pi->author == NULL ||
@@ -425,8 +404,7 @@ pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 	// plugin declared that it's a contact list. mark it for the future load
 	else if ( hasMuuid(pIds, miid_clist)) {
 		// keep a note of this plugin for later
-		if (pluginListUI != NULL) p->nextclass = pluginListUI;
-		pluginListUI = p;
+		clistPlugins.insert(p);
 		p->pclass |= PCLASS_CLIST;
 	}
 	// plugin declared that it's a service mode plugin. 
@@ -438,9 +416,7 @@ pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 			p->bpi = bpi;
 			if ( hasMuuid(bpi, miid_servicemode)) {
 				p->pclass |= (PCLASS_SERVICE);
-				if (pluginListSM != NULL)
-					p->nextclass = pluginListSM;
-				pluginListSM = p;
+				servicePlugins.insert(p);
 			}
 		}
 		else
@@ -567,7 +543,8 @@ LBL_Error:
 
 static pluginEntry* getCListModule(TCHAR *exe, TCHAR *slice, int useWhiteList)
 {
-	for (pluginEntry *p = pluginListUI; p != NULL; p = p->nextclass) {
+	for (int i=0; i < clistPlugins.getCount(); i++) {
+		pluginEntry *p = clistPlugins[i];
 		mir_sntprintf(slice, &exe[MAX_PATH] - slice, _T("\\Plugins\\%s"), p->pluginname);
 		CharLower(p->pluginname);
 		if (useWhiteList && !isPluginOnWhiteList(p->pluginname))
@@ -607,55 +584,25 @@ int UnloadPlugin(TCHAR* buf, int bufLen)
 //
 //   Service plugins functions
 
-char **GetServiceModePluginsList(void)
+void SetServiceModePlugin(pluginEntry *p)
 {
-	int i=0;
-	char **list = NULL;
-	pluginEntry * p = pluginListSM;
-	while (p != NULL) {
-		i++;
-		p = p->nextclass;
-	}
-	if (i) {
-		list = (char**)mir_calloc((i + 1) * sizeof(char*));
-		p = pluginListSM;
-		i=0;
-		while (p != NULL) {
-			list[i++] = p->bpi.pluginInfo->shortName;
-			p = p->nextclass;
-		}
-	}
-	return list;
-}
-
-void SetServiceModePlugin(int idx)
-{
-	serviceModeIdx = idx;
+	serviceModePlugin = p;
 }
 
 int LoadServiceModePlugin(void)
 {
-	int i=0;
-	pluginEntry* p = pluginListSM;
-
-	if (serviceModeIdx < 0)
+	if (serviceModePlugin == NULL)
 		return 0;
 
-	while (p != NULL) {
-		if (serviceModeIdx == i++) {
-			if (p->bpi.Load() == 0) {
-				p->pclass |= PCLASS_LOADED;
-				if (CallService(MS_SERVICEMODE_LAUNCH, 0, 0) != CALLSERVICE_NOTFOUND)
-					return 1;
+	if (serviceModePlugin->bpi.Load() == 0) {
+		serviceModePlugin->pclass |= PCLASS_LOADED;
+		if (CallService(MS_SERVICEMODE_LAUNCH, 0, 0) != CALLSERVICE_NOTFOUND)
+			return 1;
 
-				MessageBox(NULL, TranslateT("Unable to load plugin in Service Mode!"), p->pluginname, 0);
-				return -1;
-			}
-			Plugin_Uninit(p);
-			return -1;
-		}
-		p = p->nextclass;
+		MessageBox(NULL, TranslateT("Unable to load plugin in Service Mode!"), serviceModePlugin->pluginname, 0);
+		return -1;
 	}
+	Plugin_Uninit(serviceModePlugin);
 	return -1;
 }
 
@@ -719,7 +666,7 @@ int LoadNewPluginsModule(void)
 	/* the loop above will try and get one clist DLL to work, if all fail then just bail now */
 	if (clist == NULL) {
 		// result = 0, no clist_* can be found
-		if (pluginListUI)
+		if (clistPlugins.getCount())
 			MessageBox(NULL, TranslateT("Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any."), _T("Miranda NG"), MB_OK | MB_ICONINFORMATION);
 		else
 			MessageBox(NULL, TranslateT("Can't find a contact list plugin! you need clist_classic or any other clist plugin.") , _T("Miranda NG"), MB_OK | MB_ICONINFORMATION);
@@ -727,13 +674,10 @@ int LoadNewPluginsModule(void)
 	}
 
 	/* enable and disable as needed  */
-	p = pluginListUI;
-	while (p != NULL) {
-		SetPluginOnWhiteList(p->pluginname, clist != p ? 0 : 1);
-		p = p->nextclass;
-	}
-	/* now loop thru and load all the other plugins, do this in one pass */
+	for (i=0; i < clistPlugins.getCount(); i++)
+		SetPluginOnWhiteList(p->pluginname, clist != clistPlugins[i] ? 0 : 1);
 
+	/* now loop thru and load all the other plugins, do this in one pass */
 	for (i=0; i < pluginList.getCount(); i++) {
 		p = pluginList[i];
 		if ( !TryLoadPlugin(p, false)) {
@@ -828,5 +772,7 @@ void UnloadNewPluginsModule(void)
 	hPluginListHeap = 0;
 
 	pluginList.destroy();
+	servicePlugins.destroy();
+	clistPlugins.destroy();
 	UninitIni();
 }

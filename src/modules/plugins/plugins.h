@@ -44,10 +44,9 @@ struct pluginEntry
 	unsigned int pclass; // PCLASS_*
 	int hLangpack;
 	BASIC_PLUGIN_INFO bpi;
-	pluginEntry* nextclass;
 };
 
-extern LIST<pluginEntry> pluginList;
+extern LIST<pluginEntry> pluginList, servicePlugins, clistPlugins;
 extern MUUID miid_last;
 
 int PluginOptionsInit(WPARAM, LPARAM);

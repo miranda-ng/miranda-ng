@@ -30,7 +30,8 @@ TCHAR g_profileDir[MAX_PATH], g_profileName[MAX_PATH];
 
 bool fileExist(TCHAR* fname)
 {
-	if (fname[0] == 0) return false;
+	if (*fname == 0)
+		return false;
 
 	FILE* fp = _tfopen(fname, _T("r+"));
 	bool res = fp != NULL;
@@ -56,10 +57,8 @@ bool IsInsideRootDir(TCHAR* profiledir, bool exact)
 	if (exact)
 		res = _tcsicmp(profiledir, pfd);
 	else
-	{
-		size_t len = _tcslen(pfd);
-		res = _tcsnicmp(profiledir, pfd, len);
-	}
+		res = _tcsnicmp(profiledir, pfd, _tcslen(pfd));
+
 	mir_free(pfd);
 	return res == 0;
 }
@@ -130,73 +129,41 @@ static void getDefaultProfile(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
 }
 
 // returns 1 if something that looks like a profile is there
-static int getProfileCmdLineArgs(TCHAR *szProfile, size_t cch)
-{
-	TCHAR *szCmdLine = GetCommandLine();
-	TCHAR *szEndOfParam;
-	TCHAR szThisParam[1024];
-	int firstParam = 1;
-
-	while (szCmdLine[0]) 
-	{
-		if (szCmdLine[0] == '"') 
-		{
-			szEndOfParam = _tcschr(szCmdLine+1, '"');
-			if (szEndOfParam == NULL) break;
-			lstrcpyn(szThisParam, szCmdLine+1, min(SIZEOF(szThisParam), szEndOfParam - szCmdLine));
-			szCmdLine = szEndOfParam + 1;
-		}
-		else 
-		{
-			szEndOfParam = szCmdLine + _tcscspn(szCmdLine, _T(" \t"));
-			lstrcpyn(szThisParam, szCmdLine, min(SIZEOF(szThisParam), szEndOfParam - szCmdLine+1));
-			szCmdLine = szEndOfParam;
-		}
-		while (*szCmdLine && *szCmdLine <= ' ') szCmdLine++;
-		if (firstParam) { firstParam = 0; continue; }   //first param is executable name
-		if (szThisParam[0] == '/' || szThisParam[0] == '-') continue;  //no switches supported
-
-		TCHAR* res = Utils_ReplaceVarsT(szThisParam);
-		if (res == NULL) return 0;
-		_tcsncpy(szProfile, res, cch); szProfile[cch-1] = 0;
-		mir_free(res);
-		return 1;
-	}
-	return 0;
-}
-
 void getProfileCmdLine(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
 {
+	LPCTSTR ptszProfileName = CmdLine_GetOption( _T("profile"));
+	if (ptszProfileName == NULL) {
+		szProfile[0] = 0;
+		return;
+	}
+
 	TCHAR buf[MAX_PATH];
-	if (getProfileCmdLineArgs(buf, SIZEOF(buf))) 
-	{
-		TCHAR *p, profileName[MAX_PATH], newProfileDir[MAX_PATH];
+	_tcsncpy(buf, ptszProfileName, SIZEOF(buf));
 
-		p = _tcsrchr(buf, '\\'); if (p) ++p; else p = buf; 
+	TCHAR *p = _tcsrchr(buf, '\\'); if (p) ++p; else p = buf;
+	if ( !isValidProfileName(buf) && *p)
+		_tcscat(buf, _T(".dat"));
 
-		if ( !isValidProfileName(buf) && *p)
-			_tcscat(buf, _T(".dat"));
+	TCHAR profileName[MAX_PATH], newProfileDir[MAX_PATH];
+	_tcscpy(profileName, p);
+	if ( !isValidProfileName(profileName) && *p)
+		_tcscat(profileName, _T(".dat"));
 
-		_tcscpy(profileName, p);
-		p = _tcsrchr(profileName, '.'); if (p) *p = 0; 
+	_tcscpy(profileName, p);
+	p = _tcsrchr(profileName, '.'); if (p) *p = 0; 
 
-		mir_sntprintf(newProfileDir, cch, _T("%s\\%s\\"), profiledir, profileName);
-		PathToAbsoluteT(buf, szProfile, newProfileDir);
+	mir_sntprintf(newProfileDir, cch, _T("%s\\%s\\"), profiledir, profileName);
+	PathToAbsoluteT(buf, szProfile, newProfileDir);
 
-		if (_tcschr(buf, '\\')) 
-		{
-			_tcscpy(profiledir, szProfile);
-			if (profileName[0])
-			{
-				p = _tcsrchr(profiledir, '\\'); *p = 0;
-				p = _tcsrchr(profiledir, '\\');
-				if (p && _tcsicmp(p + 1, profileName) == 0)
-					*p = 0;
-			}
-			else
-				szProfile[0] = 0;
-
+	if ( _tcschr(buf, '\\')) {
+		_tcscpy(profiledir, szProfile);
+		if (profileName[0]) {
+			p = _tcsrchr(profiledir, '\\'); *p = 0;
+			p = _tcsrchr(profiledir, '\\');
+			if (p && _tcsicmp(p + 1, profileName) == 0)
+				*p = 0;
 		}
+		else szProfile[0] = 0;
 	}
 }
 
@@ -209,8 +176,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 		mir_sntprintf(pfd, SIZEOF(pfd), _T("%s"), path);
 		mir_free(path);
 	}
-	else
-		mir_sntprintf(pfd, SIZEOF(pfd), _T("%s\\*.dat"), profiledir);
+	else mir_sntprintf(pfd, SIZEOF(pfd), _T("%s\\*.dat"), profiledir);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(pfd, &ffd);
@@ -226,8 +192,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 			mir_sntprintf(path2, SIZEOF(path2), _T("%s\\%s"), profiledir, profile);
 			CreateDirectoryTreeT(path2);
 			mir_sntprintf(path2, SIZEOF(path2), _T("%s\\%s\\%s"), profiledir, profile, ffd.cFileName);
-			if (_taccess(path2, 0) == 0)
-			{
+			if (_taccess(path2, 0) == 0) {
 				const TCHAR tszMoveMsg[] = 
 					_T("Miranda is trying upgrade your profile structure.\n")
 					_T("It cannot move profile %s to the new location %s\n")
@@ -237,8 +202,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 				mir_sntprintf(buf, SIZEOF(buf), TranslateTS(tszMoveMsg), path, path2);
 				MessageBox(NULL, buf, _T("Miranda NG"), MB_ICONERROR | MB_OK);
 			}
-			else if (MoveFile(path, path2) == 0)
-			{
+			else if (MoveFile(path, path2) == 0) {
 				const TCHAR tszMoveMsg[] = 
 					_T("Miranda is trying upgrade your profile structure.\n")
 					_T("It cannot move profile %s to the new location %s automatically\n")
@@ -320,16 +284,13 @@ static int getProfileAutoRun(TCHAR *szProfile)
 static int getProfile(TCHAR *szProfile, size_t cch)
 {
 	getProfilePath(g_profileDir, SIZEOF(g_profileDir));
-	if (IsInsideRootDir(g_profileDir, true)) 
-	{
+	if (IsInsideRootDir(g_profileDir, true))
 		if (WritePrivateProfileString(_T("Database"), _T("ProfileDir"), _T(""), mirandabootini))
 			getProfilePath(g_profileDir, SIZEOF(g_profileDir));
-	}
 
 	getDefaultProfile(szProfile, cch, g_profileDir);
 	getProfileCmdLine(szProfile, cch, g_profileDir);
-	if (IsInsideRootDir(g_profileDir, true)) 
-	{
+	if (IsInsideRootDir(g_profileDir, true)) {
 		MessageBox(NULL, 
 			_T("Profile cannot be placed into Miranda root folder.\n")
 			_T("Please move Miranda profile to some other location."), 
