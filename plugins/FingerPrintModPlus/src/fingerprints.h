@@ -652,7 +652,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
    { "client_JGmail_over",      _T("*IM*JGmail*"),                 _T("JGmail"),                      _T("ClientIcons_General"),   IDI_GMAIL_OVERLAY, OVER1_CASE },
    { "client_JGTalk_over",      _T("*IM*JGTalk*"),                 _T("JGTalk"),                      _T("ClientIcons_General"),   IDI_JGTALK_OVERLAY, OVER1_CASE },
    { "client_JMeebo_over",      _T("*IM*JMeebo*"),                 _T("JMeebo"),                      _T("ClientIcons_General"),   IDI_JMEEBO_OVERLAY, OVER1_CASE },
-   { "client_Jabber_over",      _T("|*NG*jabber*|*IM*jabber*|*t Jabber*"), _T("Jabber"),              _T("ClientIcons_General"),   IDI_JABBER_OVERLAY, OVER1_CASE },
+   { "client_Jabber_over",      _T("|Miranda*Jabber*|*t Jabber*"), _T("Jabber"),                      _T("ClientIcons_General"),   IDI_JABBER_OVERLAY, OVER1_CASE },
    { "client_MailRu_over",      _T("|*Mail.ru*IM*|*MRA*"),         _T("MailRu Agent"),                _T("ClientIcons_General"),   IDI_MAILRU_OVERLAY, OVER1_CASE },
    { "client_MSN_over",         _T("Miranda*MSN*"),                _T("MSN"),                         _T("ClientIcons_General"),   IDI_MSN_OVERLAY, OVER1_CASE },
    { "client_QQ_over",          _T("|Miranda*QQ*|MIMQQ*"),         _T("QQ"),                          _T("ClientIcons_General"),   IDI_QQ_OVERLAY, OVER1_CASE },
