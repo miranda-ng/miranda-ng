@@ -129,7 +129,7 @@ protected:
 #define JABBER_IQID "mir_"
 #define JABBER_MAX_JID_LEN  1024
 
-#define JABBER_GC_MSG_QUIT				LPGENT("I'm happy Miranda NG user. Get it at http://nightly.miranda.im/.")
+#define JABBER_GC_MSG_QUIT				LPGENT("I'm happy Miranda NG user. Get it at http://miranda-ng.org/.")
 #define JABBER_GC_MSG_SLAP				LPGENT("/me slaps %s around a bit with a large trout")
 
 // registered db event types
