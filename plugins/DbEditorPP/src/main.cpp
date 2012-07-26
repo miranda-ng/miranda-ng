@@ -266,7 +266,8 @@ int PreShutdown(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ServiceMode(WPARAM wParam,LPARAM lParam) {
+INT_PTR ServiceMode(WPARAM wParam,LPARAM lParam)
+{
 	bServiceMode = TRUE;
 	return 0;
 }
@@ -279,7 +280,6 @@ INT_PTR ImportFromFile(WPARAM wParam,LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP(&pluginInfoEx);
 
 	hwnd2mainWindow = 0;
