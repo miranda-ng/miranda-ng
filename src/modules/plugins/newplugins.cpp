@@ -675,7 +675,7 @@ int LoadNewPluginsModule(void)
 
 	/* enable and disable as needed  */
 	for (i=0; i < clistPlugins.getCount(); i++)
-		SetPluginOnWhiteList(p->pluginname, clist != clistPlugins[i] ? 0 : 1);
+		SetPluginOnWhiteList(clistPlugins[i]->pluginname, clist != clistPlugins[i] ? 0 : 1);
 
 	/* now loop thru and load all the other plugins, do this in one pass */
 	for (i=0; i < pluginList.getCount(); i++) {
@@ -729,9 +729,24 @@ int LoadNewPluginsModuleInfos(void)
 	// look for all *.dll's
 	enumPlugins(scanPluginsDir, 0, 0);
 	// the database will select which db plugin to use, or fail if no profile is selected
-	if ( LoadDatabaseModule()) return 1;
+	if ( LoadDatabaseModule())
+		return 1;
+	
+	if (serviceModePlugin == NULL) {
+		LPCTSTR param = CmdLine_GetOption( _T("svc"));
+		if (param != NULL) {
+			size_t cbLen = _tcslen(param);
+			for (int i=0; i < servicePlugins.getCount(); i++) {
+				if ( !_tcsnicmp(servicePlugins[i]->pluginname, param, cbLen)) {
+					serviceModePlugin = servicePlugins[i];
+					break;
+				}
+			}
+		}
+	}
+
 	InitIni();
-	//  could validate the plugin entries here but internal modules arent loaded so can't call Load(void) in one pass
+	// could validate the plugin entries here but internal modules arent loaded so can't call Load(void) in one pass
 	return 0;
 }
 

@@ -480,11 +480,11 @@ static INT_PTR CheckIniImportNow(WPARAM, LPARAM)
 
 int InitIni(void)
 {
-	TCHAR szMirandaDir[MAX_PATH];
-
 	bModuleInitialized = true;
 
 	DoAutoExec();
+
+	TCHAR szMirandaDir[MAX_PATH];
 	PathToAbsoluteT(_T("."), szMirandaDir, NULL);
 	hIniChangeNotification = FindFirstChangeNotification(szMirandaDir, 0, FILE_NOTIFY_CHANGE_FILE_NAME);
 	if (hIniChangeNotification != INVALID_HANDLE_VALUE) {
@@ -496,7 +496,9 @@ int InitIni(void)
 
 void UninitIni(void)
 {
-	if ( !bModuleInitialized) return;
+	if ( !bModuleInitialized)
+		return;
+
 	CallService(MS_SYSTEM_REMOVEWAIT, (WPARAM)hIniChangeNotification, 0);
 	FindCloseChangeNotification(hIniChangeNotification);
 }
