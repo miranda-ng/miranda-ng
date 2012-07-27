@@ -141,9 +141,6 @@
   <data name="CreateLangpackBtn" xml:space="preserve">
     <value>Сгенерировать ленгпак</value>
   </data>
-  <data name="DbtoolNotFound" xml:space="preserve">
-    <value>Файл =dbtool=.txt не найден...</value>
-  </data>
   <data name="Done" xml:space="preserve">
     <value>Выполнено!</value>
   </data>

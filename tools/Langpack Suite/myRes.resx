@@ -141,9 +141,6 @@
   <data name="CreateLangpackBtn" xml:space="preserve">
     <value>Create Langpack</value>
   </data>
-  <data name="DbtoolNotFound" xml:space="preserve">
-    <value>File =dbtool=.txt not found...</value>
-  </data>
   <data name="Done" xml:space="preserve">
     <value>Done!</value>
   </data>

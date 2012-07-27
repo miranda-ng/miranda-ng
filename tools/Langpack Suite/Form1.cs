@@ -295,25 +295,6 @@ namespace Langpack_Suite
                 }
 
                 LangPack.WriteLine("");
-                if (File.Exists(FolderName + "\\=dbtool=.txt"))
-                {
-                    ReadFile = new StreamReader(FolderName + "\\=dbtool=.txt");
-                    while ((s = ReadFile.ReadLine()) != null)
-                    {
-                        LangPack.WriteLine(s);
-                    }
-                    ReadFile.Close();
-                }
-                else
-                {
-                    LocaleText = rm.GetString("DbtoolNotFound", culture);
-                    InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText + "\r\n";
-                    LocaleText = rm.GetString("GenStop", culture);
-                    InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText;
-                    return;
-                }
-
-                LangPack.WriteLine("");
                 if (File.Exists(FolderName + "\\=DUPES=.txt"))
                 {
                     ReadFile = new StreamReader(FolderName + "\\=DUPES=.txt");
@@ -491,25 +472,6 @@ namespace Langpack_Suite
                 else
                 {
                     LocaleText = rm.GetString("CoreNotFound", culture);
-                    InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText + "\r\n";
-                    LocaleText = rm.GetString("GenStop", culture);
-                    InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText;
-                    return;
-                }
-
-                LangPack.WriteLine("");
-                if (File.Exists(FolderName + "\\=dbtool=.txt"))
-                {
-                    ReadFile = new StreamReader(FolderName + "\\=dbtool=.txt");
-                    while ((s = ReadFile.ReadLine()) != null)
-                    {
-                        LangPack.WriteLine(s);
-                    }
-                    ReadFile.Close();
-                }
-                else
-                {
-                    LocaleText = rm.GetString("DbtoolNotFound", culture);
                     InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText + "\r\n";
                     LocaleText = rm.GetString("GenStop", culture);
                     InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText;
