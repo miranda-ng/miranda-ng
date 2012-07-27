@@ -131,7 +131,7 @@ struct DATABASELINK
 
 	/*
 	Returns a pointer to the database checker or NULL if a database doesn't support checking
-	Note: Unload() might be called even if Load(void) was never called, wasLoaded is set to 1 if Load(void) was ever called.
+	When you don't need this object aanymore,  call its Destroy() method
 	*/
 	MIDatabaseChecker* (*CheckDB) (const TCHAR *profile, int *error);
 };
