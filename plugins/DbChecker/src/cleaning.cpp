@@ -49,16 +49,7 @@ INT_PTR CALLBACK CleaningDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			break;
 
 		case IDOK:
-			if (!opts.hFile) {
-				opts.hFile = CreateFile(opts.filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-				if (opts.hFile == INVALID_HANDLE_VALUE) {
-					opts.hFile = NULL;
-					opts.error = GetLastError();
-					SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
-					break;
-				}
-			}
-			SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
+			OpenDatabase(hdlg, IDD_PROGRESS);
 			break;
 		}
 		break;

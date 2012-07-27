@@ -47,19 +47,10 @@ INT_PTR CALLBACK FileAccessDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			break;
 
 		case IDOK:
-			if (opts.bCheckOnly) {
-				if (!opts.hFile) {
-					opts.hFile = CreateFile(opts.filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-					if (opts.hFile == INVALID_HANDLE_VALUE) {
-						opts.hFile = NULL;
-						opts.error = GetLastError();
-						SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
-						break;
-					}
-				}
-				SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
-			}
-			else SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
+			if (opts.bCheckOnly)
+				OpenDatabase(hdlg, IDD_PROGRESS);
+			else
+				SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
 			break;
 
 		case IDC_CHECKONLY:

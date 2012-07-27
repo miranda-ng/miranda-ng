@@ -18,6 +18,43 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "dbchecker.h"
 
+void OpenDatabase(HWND hdlg, INT iNextPage)
+{
+	TCHAR tszMsg[1024];
+
+	if (opts.dbChecker == NULL) {
+		DATABASELINK* dblink = FindDatabasePlugin(opts.filename);
+		if (dblink == NULL) {
+			mir_sntprintf(tszMsg, SIZEOF(tszMsg),
+				TranslateT("Database Checker cannot find a suitable database plugin to open '%s'."), 
+				opts.filename);
+LBL_Error:
+			MessageBox(hdlg, tszMsg, TranslateT("Error"), MB_OK | MB_ICONERROR);
+			return;
+		}
+
+		if (dblink->CheckDB == NULL) {
+			mir_sntprintf(tszMsg, SIZEOF(tszMsg),
+				TranslateT("Database driver '%s' doesn't support checking."), 
+				TranslateTS(dblink->szFullName));
+			goto LBL_Error;
+		}
+
+		int error = 0;
+		opts.dbChecker = opts.dblink->CheckDB(opts.filename, &error);
+		if (opts.dbChecker == NULL) {
+			opts.error = error;
+			SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
+			return;
+		}
+	}
+	
+	if (iNextPage == IDD_FILEACCESS)
+		SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
+	else
+		SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
+}
+
 void GetProfileDirectory(TCHAR* szMirandaDir, TCHAR* szPath, int cbPath)
 {
 	TCHAR szProfileDir[MAX_PATH], szExpandedProfileDir[MAX_PATH], szMirandaBootIni[MAX_PATH];
@@ -175,7 +212,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 
 			FindAdd(hdlg, szMirandaProfiles, _T("[prf]\\"));
 			// search in current dir (as DBTOOL)
-			FindAdd(hdlg, szMirandaPath, _T("[ . ]\\"));
+			FindAdd(hdlg, szMirandaPath, _T("[.]\\"));
 
 			// search in profile dir (using registry path + ini file)
 			if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\miranda32.exe"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
@@ -194,9 +231,10 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 				i = 0;
 			ListView_SetItemState(GetDlgItem(hdlg, IDC_DBLIST), i, LVIS_SELECTED, LVIS_SELECTED);
 		}
-		if (opts.hFile != NULL && opts.hFile != INVALID_HANDLE_VALUE) {
-			CloseHandle(opts.hFile);
-			opts.hFile = NULL;
+
+		if (opts.dbChecker != NULL) {
+			opts.dbChecker->Destroy();
+			opts.dbChecker = NULL;
 		}
 		return TRUE;
 
@@ -251,16 +289,11 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			break;
 
 		case IDOK:
-			opts.hFile = CreateFile(opts.filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-			if (opts.hFile == INVALID_HANDLE_VALUE) {
-				opts.hFile = NULL;
-				opts.error = GetLastError();
-				SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
-			}
-			else SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
+			OpenDatabase(hdlg, IDD_FILEACCESS);
 			break;
 		}
 		break;
+
 	case WM_NOTIFY:
 		switch(((LPNMHDR)lParam)->idFrom) {
 		case IDC_DBLIST:

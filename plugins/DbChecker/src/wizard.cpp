@@ -128,13 +128,19 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_DESTROY:
-		if (opts.hFile)
-			CloseHandle(opts.hFile);
+		if (opts.dbChecker) {
+			opts.dbChecker->Destroy();
+			opts.dbChecker = NULL;
+		}
+
 		if (opts.hOutFile)
 			CloseHandle(opts.hOutFile);
+
 		DestroyWindow(hdlgPage);
 		if (hBoldFont != NULL) DeleteObject(hBoldFont);
 		if (hEmfHeaderLogo != NULL) DeleteEnhMetaFile(hEmfHeaderLogo);
+		if (bServiceMode)
+			PostQuitMessage(0);
 		break;
 	}
 	return FALSE;

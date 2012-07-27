@@ -33,8 +33,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commctrl.h>
 #include <time.h>
 
+#include <m_system.h>
+#include <m_system_cpp.h>
+#include <newpluginapi.h>
 #include <m_database.h>
 #include <m_db_int.h>
+#include <m_langpack.h>
 
 #include "resource.h"
 
@@ -45,15 +49,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define WZN_PAGECHANGING  (WM_USER+1221)
 #define WZN_CANCELCLICKED (WM_USER+1222)
 
-struct DbToolOptions {
+struct DbToolOptions
+{
 	TCHAR filename[MAX_PATH];
 	TCHAR workingFilename[MAX_PATH];
 	TCHAR outputFilename[MAX_PATH];
 	TCHAR backupFilename[MAX_PATH];
-	HANDLE hFile;
+	DATABASELINK *dblink;
+	MIDatabaseChecker* dbChecker;
 	HANDLE hOutFile;
-	HANDLE hMap;
-	BYTE *pFile;
 	DWORD error;
 	int bCheckOnly, bBackup, bAggressive;
 	int bEraseHistory, bMarkRead, bConvertUtf;
@@ -63,6 +67,7 @@ extern HINSTANCE hInst;
 extern DbToolOptions opts;
 extern HANDLE hEventRun, hEventAbort;
 extern int errorCount;
+extern bool bServiceMode;
 
 int DoMyControlProcessing(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam, INT_PTR *bReturn);
 
@@ -75,11 +80,7 @@ INT_PTR CALLBACK FinishedDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 INT_PTR CALLBACK WelcomeDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
-struct DBSignature {
-  char name[15];
-  BYTE eof;
-};
-static struct DBSignature dbSignature = {"Miranda ICQ DB", 0x1A};
+void OpenDatabase(HWND hdlg, INT iNextPage);
 
 #define SIZEOF(X) (sizeof(X)/sizeof(X[0]))
 

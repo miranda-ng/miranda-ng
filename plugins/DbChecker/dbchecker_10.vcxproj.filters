@@ -21,9 +21,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\utf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\worker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,6 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dbchecker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

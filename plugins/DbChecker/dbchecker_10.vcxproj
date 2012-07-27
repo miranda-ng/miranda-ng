@@ -188,7 +188,6 @@
     <ClCompile Include="src\main.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\utf.cpp" />
     <ClCompile Include="src\wizard.cpp" />
     <ClCompile Include="src\worker.cpp" />
     <ClCompile Include="src\cleaning.cpp" />
@@ -201,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dbchecker.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />

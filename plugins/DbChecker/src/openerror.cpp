@@ -43,13 +43,7 @@ INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 			break;
 
 		case IDOK:
-			opts.hFile = CreateFile(opts.filename, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-			if (opts.hFile == INVALID_HANDLE_VALUE) {
-				opts.hFile = NULL;
-				opts.error = GetLastError();
-				SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
-			}
-			else SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
+			OpenDatabase(hdlg, IDD_FILEACCESS);
 			break;
 		}
 		break;

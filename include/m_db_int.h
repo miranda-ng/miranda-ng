@@ -28,6 +28,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#include <m_core.h>
 #endif
 
+///////////////////////////////////////////////////////////////////////////////
+// basic database interface
+
 interface MIDatabase
 {
 	STDMETHOD_(void,SetCacheSafetyMode)(BOOL) PURE;
@@ -67,16 +70,24 @@ interface MIDatabase
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// Each database plugin should register itself using this structure
+// basic database checker interface
 
 struct DBCHeckCallback
 {
 	int cbSize;
-	MIDatabase* db;
 	DWORD spaceProcessed, spaceUsed;
 
 	void (*pfnAddLogMessage)(int type, const TCHAR* ptszFormat, ...);
 };
+
+interface MIDatabaseChecker
+{
+	STDMETHOD_(BOOL,CheckDb)(DBCHeckCallback *callback, int phase, int firstTime) PURE;
+	STDMETHOD_(VOID,Destroy)() PURE;
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// Each database plugin should register itself using this structure
 
 struct DATABASELINK
 {
@@ -102,10 +113,10 @@ struct DATABASELINK
 			etc.
 		Returns: 0 on success, non zero on failure
 	*/
-	int (*grokHeader)(const TCHAR *profile, int * error);
+	int (*grokHeader)(const TCHAR *profile, int *error);
 
 	/*
-	Affect: Tell the database to create all services/hooks that a 3.xx legecy database might support into link,
+	Affect: Tell the database to create all services/hooks that a 3.xx legacy database might support into link,
 		which is a PLUGINLINK structure
 	Returns: 0 on success, nonzero on failure
 	*/
@@ -119,11 +130,10 @@ struct DATABASELINK
 	int (*Unload)(MIDatabase*);
 
 	/*
-	Affect: performs one of the database check steps. 
-	Returns: If there're no more steps to execute, returns ERROR_NO_MORE_ITEMS, or ERROR_SUCCESS, or the error code.
-	Warning: this code is never executed in the main thread.
+	Returns a pointer to the database checker or NULL if a database doesn't support checking
+	Note: Unload() might be called even if Load(void) was never called, wasLoaded is set to 1 if Load(void) was ever called.
 	*/
-	int (*CheckDb)(DBCHeckCallback *callback, int phase, int firstTime);
+	MIDatabaseChecker* (*CheckDB) (const TCHAR *profile, int *error);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

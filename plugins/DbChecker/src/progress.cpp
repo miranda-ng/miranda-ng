@@ -55,14 +55,6 @@ void SetProgressBar(int perThou)
 
 void ProcessingDone(void)
 {
-	if (opts.pFile) {
-		UnmapViewOfFile(opts.pFile);
-		opts.pFile = NULL;
-	}
-	if (opts.hMap) {
-		CloseHandle(opts.hMap);
-		opts.hMap = NULL;
-	}
 	SendMessage(hdlgProgress, WM_PROCESSINGDONE, 0, 0);
 }
 
