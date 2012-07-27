@@ -42,7 +42,9 @@ void CDb3Base::ConvertOldEvent(DBEvent*& dbei)
 			if (p[i] == 0) {
 				msglenW = i;
 				break;
-	}	}	}
+			}
+		}
+	}
 	else {
 		if (!Utf8CheckString((char*)dbei->blob))
 			dbei->flags &= ~DBEF_UTF;
@@ -50,12 +52,15 @@ void CDb3Base::ConvertOldEvent(DBEvent*& dbei)
 
 	if (msglenW > 0 && msglenW <= msglen) {
 		char* utf8str = Utf8EncodeW((WCHAR*)&dbei->blob[ msglen ]);
+		if (utf8str == NULL)
+			return;
+
 		dbei->cbBlob = (DWORD)strlen(utf8str)+1;
 		dbei->flags |= DBEF_UTF;
 		if (offsetof(DBEvent,blob)+dbei->cbBlob > memsize) {
 			memsize = offsetof(DBEvent,blob)+dbei->cbBlob;
 			memblock = (DBEvent*)realloc(memblock, memsize);
-            dbei = memblock;
+			dbei = memblock;
 		}
 		memcpy(&dbei->blob, utf8str, dbei->cbBlob);
 		mir_free(utf8str);
@@ -132,15 +137,14 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 		FinishUp(ofsDestPrevEvent,dbc);
 		return ERROR_NO_MORE_ITEMS;
 	}
-	if (!SignatureValid(ofsThisEvent,DBEVENT_SIGNATURE))
-	{
+
+	if ( !SignatureValid(ofsThisEvent,DBEVENT_SIGNATURE)) {
 		DWORD ofsNew = 0;
 		DWORD ofsTmp = dbc->ofsLastEvent;
 
 		if (!backLookup && ofsTmp) {
 			backLookup = 1;
-			while(SignatureValid(ofsTmp,DBEVENT_SIGNATURE))
-			{
+			while ( SignatureValid(ofsTmp,DBEVENT_SIGNATURE)) {
 				if (PeekSegment(ofsTmp,&dbeOld,sizeof(dbeOld)) != ERROR_SUCCESS)
 					break;
 				ofsNew = ofsTmp;
@@ -150,7 +154,8 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 		if (ofsNew) {
 			cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Event chain corrupted, trying to recover..."));
 			ofsThisEvent = ofsNew;
-		} else {
+		}
+		else {
 			cb->pfnAddLogMessage(STATUS_ERROR,TranslateT("Event chain corrupted, further entries ignored"));
 			FinishUp(ofsDestPrevEvent,dbc);
 			return ERROR_NO_MORE_ITEMS;
@@ -165,30 +170,30 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 	if (firstTime) {
 		if (!(dbeOld.flags&DBEF_FIRST)) {
 			cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("First event not marked as such: correcting"));
-			dbeOld.flags|=DBEF_FIRST;
+			dbeOld.flags |= DBEF_FIRST;
 		}
 		dbeOld.ofsPrev = ofsContact;
 		lastTimestamp = dbeOld.timestamp;
 	}
 	else if (dbeOld.flags&DBEF_FIRST) {
 		cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Event marked as first which is not: correcting"));
-		dbeOld.flags&=~DBEF_FIRST;
+		dbeOld.flags &= ~DBEF_FIRST;
 	}
 
-	if (dbeOld.flags&~(DBEF_FIRST|DBEF_READ|DBEF_SENT|DBEF_RTL|DBEF_UTF)) {
+	if (dbeOld.flags & ~(DBEF_FIRST | DBEF_READ | DBEF_SENT | DBEF_RTL | DBEF_UTF)) {
 		cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Extra flags found in event: removing"));
-		dbeOld.flags&=(DBEF_FIRST|DBEF_READ|DBEF_SENT|DBEF_RTL|DBEF_UTF);
+		dbeOld.flags &= (DBEF_FIRST | DBEF_READ | DBEF_SENT | DBEF_RTL | DBEF_UTF);
 	}
 
-	if (!(dbeOld.flags&(DBEF_READ|DBEF_SENT))) {
-		if (cb->bMarkRead) dbeOld.flags|=DBEF_READ;
+	if (!(dbeOld.flags & (DBEF_READ | DBEF_SENT))) {
+		if (cb->bMarkRead) dbeOld.flags |= DBEF_READ;
 		else if (ofsFirstUnread == 0) {
 			if (dbc->ofsFirstUnreadEvent != ofsThisEvent || dbc->timestampFirstUnread != dbeOld.timestamp)
 				cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("First unread event marked wrong: fixing"));
 			isUnread = 1;
 	}	}
 
-	if (dbeOld.cbBlob>1024*1024 || dbeOld.cbBlob == 0) {
+	if (dbeOld.cbBlob > 1024*1024 || dbeOld.cbBlob == 0) {
 		cb->pfnAddLogMessage(STATUS_ERROR,TranslateT("Infeasibly large event blob: skipping"));
 		ofsThisEvent = dbeOld.ofsNext;
 		return ERROR_SUCCESS;
@@ -223,11 +228,19 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 	dbeNew->ofsPrev = ofsDestPrevEvent;
 	dbeNew->ofsNext = 0;
 
-	if (dbeOld.eventType == EVENTTYPE_MESSAGE && cb->bConvertUtf)
+	if (dbeOld.eventType == EVENTTYPE_MESSAGE && cb->bConvertUtf) {
+		DWORD oldSize = dbeNew->cbBlob;
+		BYTE* pOldMemo = (BYTE*)_alloca(dbeNew->cbBlob);
+		memcpy(pOldMemo, dbeNew->blob, dbeNew->cbBlob);
+		DecodeCopyMemory(dbeNew->blob, pOldMemo, dbeNew->cbBlob);
 		ConvertOldEvent(dbeNew);
+		if (dbeNew->cbBlob > oldSize)
+			pOldMemo = (BYTE*)_alloca(dbeNew->cbBlob);
+		memcpy(pOldMemo, dbeNew->blob, dbeNew->cbBlob);
+		EncodeCopyMemory(dbeNew->blob, pOldMemo, dbeNew->cbBlob);
+	}
 
-	if (dbePrev)
-	{
+	if (dbePrev) {
 		if (dbePrev->cbBlob == dbeNew->cbBlob &&
 			 dbePrev->ofsModuleName == dbeNew->ofsModuleName &&
 			 dbePrev->eventType == dbeNew->eventType &&
@@ -247,7 +260,7 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 	}
 	else if (!firstTime && dbeNew->timestamp < lastTimestamp) 
 	{
-	    DWORD found = 0;
+		DWORD found = 0;
 		DBEvent dbeTmp;
 		DWORD ofsTmp;
 
@@ -294,7 +307,7 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 
 		// insert before FIRST
 		if (found == 1 && !cb->bCheckOnly) {
-			dbeNew->flags|=DBEF_FIRST;
+			dbeNew->flags |= DBEF_FIRST;
 			dbeNew->ofsPrev = ofsContact;
 			dbeNew->ofsNext = dbc->ofsFirstEvent;
 
@@ -310,7 +323,7 @@ int CDb3Base::WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 			WriteOfsNextToPrevious(0,dbc,ofsDestThis);
 			// fix next event
 			WriteSegment(dbeNew->ofsNext+offsetof(DBEvent,ofsPrev),&ofsDestThis,sizeof(DWORD));
-			dbeTmp.flags &=~DBEF_FIRST;
+			dbeTmp.flags  &= ~DBEF_FIRST;
 			WriteSegment(dbeNew->ofsNext+offsetof(DBEvent,flags),&dbeTmp.flags,sizeof(DWORD));
 		}
 		else if (found == 2 && !cb->bCheckOnly) {
