@@ -58,7 +58,7 @@ void CDb3Base::ConvertOldEvent(DBEvent*& dbei)
             dbei = memblock;
 		}
 		memcpy(&dbei->blob, utf8str, dbei->cbBlob);
-		free(utf8str);
+		mir_free(utf8str);
 }	}
 
 void CDb3Base::WriteOfsNextToPrevious(DWORD ofsPrev,DBContact *dbc,DWORD ofsNext)
