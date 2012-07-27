@@ -132,10 +132,8 @@ static void getDefaultProfile(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
 void getProfileCmdLine(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
 {
 	LPCTSTR ptszProfileName = CmdLine_GetOption( _T("profile"));
-	if (ptszProfileName == NULL) {
-		szProfile[0] = 0;
+	if (ptszProfileName == NULL)
 		return;
-	}
 
 	TCHAR buf[MAX_PATH];
 	_tcsncpy(buf, ptszProfileName, SIZEOF(buf));
