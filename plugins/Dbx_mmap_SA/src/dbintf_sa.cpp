@@ -255,4 +255,6 @@ int CDdxMmapSA::WorkInitialCheckHeaders(void)
 		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Database is marked as belonging to an unknown version of Miranda"));
 		return ERROR_BAD_FORMAT;
 	}
+
+	return ERROR_SUCCESS;
 }
