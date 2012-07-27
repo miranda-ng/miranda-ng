@@ -508,7 +508,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 		} TBPFLAG;
 
 		typedef struct THUMBBUTTON *LPTHUMBBUTTON;
-		                                
+
 		static const GUID IID_ITaskbarList3 = { 0xea1afb91, 0x9e28, 0x4b86, { 0x90, 0xE9, 0x9e, 0x9f, 0x8a, 0x5e, 0xef, 0xaf } };
 
 	#ifdef INTERFACE
@@ -548,26 +548,28 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 	#endif 	/* __ITaskbarList3_INTERFACE_DEFINED__ */
 #endif  /* _SHLOBJ_H_ */
 
-#define FTA_Exclude					0x00000001
-#define FTA_Show					0x00000002
-#define FTA_HasExtension			0x00000004
-#define FTA_NoEdit					0x00000008
-#define FTA_NoRemove				0x00000010
-#define FTA_NoNewVerb				0x00000020
-#define FTA_NoEditVerb				0x00000040
-#define FTA_NoRemoveVerb			0x00000080
-#define FTA_NoEditDesc				0x00000100
-#define FTA_NoEditIcon				0x00000200
-#define FTA_NoEditDflt				0x00000400
-#define FTA_NoEditVerbCmd			0x00000800
-#define FTA_NoEditVerbExe			0x00001000
-#define FTA_NoDDE					0x00002000
-#define FTA_NoEditMIME				0x00008000
-#define FTA_OpenIsSafe				0x00010000
-#define FTA_AlwaysUnsafe			0x00020000
-#define FTA_AlwaysShowExt			0x00040000
-#define FTA_NoRecentDocs			0x00100000
-#define FTA_SafeForElevation		0x00200000
-#define FTA_AlwaysUseDirectInvoke	0x00400000
+#ifndef FTA_Exclude
+	#define FTA_Exclude               0x00000001
+	#define FTA_Show                  0x00000002
+	#define FTA_HasExtension          0x00000004
+	#define FTA_NoEdit                0x00000008
+	#define FTA_NoRemove              0x00000010
+	#define FTA_NoNewVerb             0x00000020
+	#define FTA_NoEditVerb            0x00000040
+	#define FTA_NoRemoveVerb          0x00000080
+	#define FTA_NoEditDesc            0x00000100
+	#define FTA_NoEditIcon            0x00000200
+	#define FTA_NoEditDflt            0x00000400
+	#define FTA_NoEditVerbCmd         0x00000800
+	#define FTA_NoEditVerbExe         0x00001000
+	#define FTA_NoDDE                 0x00002000
+	#define FTA_NoEditMIME            0x00008000
+	#define FTA_OpenIsSafe            0x00010000
+	#define FTA_AlwaysUnsafe          0x00020000
+	#define FTA_AlwaysShowExt         0x00040000
+	#define FTA_NoRecentDocs          0x00100000
+	#define FTA_SafeForElevation      0x00200000
+	#define FTA_AlwaysUseDirectInvoke 0x00400000
+#endif  /* FTA_Exclude */
 
 #endif // WIN2K_H__
