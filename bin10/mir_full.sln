@@ -287,6 +287,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDetails", "..\plugins\MyD
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAPP", "..\plugins\YAPP\yapp_10.vcxproj", "{B6FC188B-8E54-4197-9444-8BADE9AA75E2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbChecker", "..\plugins\DbChecker\dbchecker_10.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1427,6 +1429,14 @@ Global
 		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|Win32.Build.0 = Release|Win32
 		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|x64.ActiveCfg = Release|x64
 		{B6FC188B-8E54-4197-9444-8BADE9AA75E2}.Release|x64.Build.0 = Release|x64
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug|Win32.Build.0 = Debug|Win32
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug|x64.ActiveCfg = Debug|x64
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug|x64.Build.0 = Debug|x64
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|Win32.ActiveCfg = Release|Win32
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|Win32.Build.0 = Release|Win32
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|x64.ActiveCfg = Release|x64
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
