@@ -47,6 +47,8 @@ protected:
 	virtual	void EncodeDBWrite(DWORD ofs, void *src, int size);
 	virtual	void DecodeDBWrite(DWORD ofs, void *src, int size);
 
+	virtual	int  WorkInitialCheckHeaders(void);
+
 protected:
 	int  CheckProto(HANDLE hContact, const char *proto);
 

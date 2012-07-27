@@ -16,95 +16,91 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "dbtool.h"
 
-extern DWORD spaceProcessed, sourceFileSize;
+#include "..\commonheaders.h"
 
-int SignatureValid(DWORD ofs, DWORD signature)
+int CDb3Base::SignatureValid(DWORD ofs, DWORD signature)
 {
 	DWORD sig;
 
 	if (ofs+sizeof(sig) >= sourceFileSize)	{
-		AddToStatus(STATUS_ERROR, TranslateT("Invalid offset found (database truncated?)"));
+		cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Invalid offset found (database truncated?)"));
 		return 0;
 	}
 
-	sig = *(DWORD*)(opts.pFile+ofs);
+	sig = *(DWORD*)(m_pDbCache+ofs);
 
 	return sig == signature;
 }
 
-int PeekSegment(DWORD ofs, PVOID buf, int cbBytes)
+int CDb3Base::PeekSegment(DWORD ofs, PVOID buf, int cbBytes)
 {
 	DWORD bytesRead;
 
 	if (ofs >= sourceFileSize) {
-		AddToStatus(STATUS_ERROR, TranslateT("Invalid offset found"));
+		cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Invalid offset found"));
 		return ERROR_SEEK;
 	}
 
-	if (ofs+cbBytes>sourceFileSize)
+	if (ofs+cbBytes > sourceFileSize)
 		bytesRead = sourceFileSize - ofs;
 	else
 		bytesRead = cbBytes;
 
 	if (bytesRead == 0) {
-		AddToStatus(STATUS_ERROR, TranslateT("Error reading, database truncated? (%u)"), GetLastError());
+		cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Error reading, database truncated? (%u)"), GetLastError());
 		return ERROR_READ_FAULT;
 	}
 
-	CopyMemory(buf, opts.pFile+ofs, bytesRead);
+	CopyMemory(buf, m_pDbCache+ofs, bytesRead);
 
 	if ((int)bytesRead<cbBytes) return ERROR_HANDLE_EOF;
 	return ERROR_SUCCESS;
 }
 
-int ReadSegment(DWORD ofs, PVOID buf, int cbBytes)
+int CDb3Base::ReadSegment(DWORD ofs, PVOID buf, int cbBytes)
 {
-	int ret;
-
-	ret = PeekSegment(ofs, buf, cbBytes);
+	int ret = PeekSegment(ofs, buf, cbBytes);
 	if (ret != ERROR_SUCCESS && ret != ERROR_HANDLE_EOF) return ret;
 
-	if (opts.bAggressive) {
-		if (ofs+cbBytes>sourceFileSize) {
-			AddToStatus(STATUS_WARNING, TranslateT("Can't write to working file, aggressive mode may be too aggressive now"));
-			ZeroMemory(opts.pFile+ofs, sourceFileSize-ofs);
+	if (cb->bAggressive) {
+		if (ofs+cbBytes > sourceFileSize) {
+			cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Can't write to working file, aggressive mode may be too aggressive now"));
+			ZeroMemory(m_pDbCache+ofs, sourceFileSize-ofs);
 		}
 		else
-			ZeroMemory(opts.pFile+ofs, cbBytes);
+			ZeroMemory(m_pDbCache+ofs, cbBytes);
 	}
-	spaceProcessed += cbBytes;
+	cb->spaceProcessed += cbBytes;
 	return ERROR_SUCCESS;
 }
 
-DWORD WriteSegment(DWORD ofs, PVOID buf, int cbBytes)
+DWORD CDb3Base::WriteSegment(DWORD ofs, PVOID buf, int cbBytes)
 {
 	DWORD bytesWritten;
-	if (opts.bCheckOnly) return 0xbfbfbfbf;
+	if (cb->bCheckOnly) return 0xbfbfbfbf;
 	if (ofs == WSOFS_END) {
-		ofs = dbhdr.ofsFileEnd;
-		dbhdr.ofsFileEnd += cbBytes;
+		ofs = m_dbHeader.ofsFileEnd;
+		m_dbHeader.ofsFileEnd += cbBytes;
 	}
-	SetFilePointer(opts.hOutFile, ofs, NULL, FILE_BEGIN);
-	WriteFile(opts.hOutFile, buf, cbBytes, &bytesWritten, NULL);
+	SetFilePointer(cb->hOutFile, ofs, NULL, FILE_BEGIN);
+	WriteFile(cb->hOutFile, buf, cbBytes, &bytesWritten, NULL);
 	if ((int)bytesWritten<cbBytes) {
-		AddToStatus(STATUS_FATAL, TranslateT("Can't write to output file - disk full? (%u)"), GetLastError());
+		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Can't write to output file - disk full? (%u)"), GetLastError());
 		return WS_ERROR;
 	}
 	return ofs;
 }
 
-
-int ReadWrittenSegment(DWORD ofs, PVOID buf, int cbBytes)
+int CDb3Base::ReadWrittenSegment(DWORD ofs, PVOID buf, int cbBytes)
 {
 	DWORD bytesRead;
-	if (opts.bCheckOnly) return 0xbfbfbfbf;
-	if (ofs + cbBytes > dbhdr.ofsFileEnd)
+	if (cb->bCheckOnly) return 0xbfbfbfbf;
+	if (ofs + cbBytes > m_dbHeader.ofsFileEnd)
 		return ERROR_SEEK;
 
-	SetFilePointer(opts.hOutFile, ofs, NULL, FILE_BEGIN);
-	ReadFile(opts.hOutFile, buf, cbBytes, &bytesRead, NULL);
+	SetFilePointer(cb->hOutFile, ofs, NULL, FILE_BEGIN);
+	ReadFile(cb->hOutFile, buf, cbBytes, &bytesRead, NULL);
 	if ((int)bytesRead<cbBytes)
 		return ERROR_READ_FAULT;
 

@@ -134,18 +134,4 @@ typedef struct PLUGININFOEX_tag
 //lParam = HINSTANCE of the plugin to be unloaded
 #define ME_SYSTEM_MODULEUNLOAD "Miranda/System/UnloadModule"
 
-/*
- Database plugin stuff
-*/
-
-// grokHeader() error codes
-#define EGROKPRF_NOERROR	0
-#define EGROKPRF_CANTREAD	1	// can't open the profile for reading
-#define EGROKPRF_UNKHEADER  2	// header not supported, not a supported profile
-#define EGROKPRF_VERNEWER   3	// header correct, version in profile newer than reader/writer
-#define EGROKPRF_DAMAGED	4	// header/version fine, other internal data missing, damaged.
-
-// makeDatabase() error codes
-#define EMKPRF_CREATEFAILED 1   // for some reason CreateFile() didnt like something
-
 #endif // M_NEWPLUGINAPI_H__

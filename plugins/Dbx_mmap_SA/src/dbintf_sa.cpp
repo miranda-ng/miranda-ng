@@ -68,12 +68,12 @@ int CDdxMmapSA::CheckDbHeaders()
 	else {
 		m_bEncoding = false;
 		if ( memcmp(m_dbHeader.signature,&dbSignature,sizeof(m_dbHeader.signature)))
-			return 1;
+			return EGROKPRF_UNKHEADER;
 		if ( LOWORD(m_dbHeader.version) != 0x0700)
-			return 2;
+			return EGROKPRF_VERNEWER;
 	}
 	if (m_dbHeader.ofsUser == 0)
-		return 3;
+		return EGROKPRF_DAMAGED;
 	return 0;
 }
 
@@ -230,5 +230,29 @@ void CDdxMmapSA::DecodeContactEvents(HANDLE hContact)
 	while (hEvent != 0) {
 		DecodeEvent(hEvent);
 		hEvent = FindNextEvent(hEvent);
+	}
+}
+
+int CDdxMmapSA::WorkInitialCheckHeaders(void)
+{
+	if (m_bEncoding) {
+		cb->pfnAddLogMessage(STATUS_SUCCESS,TranslateT("Database is Secured MMAP database"));
+
+		TCHAR* p = _tcsrchr(m_tszProfileName, '\\');
+		if (!p)
+			return ERROR_BAD_FORMAT;
+
+		g_Db = this;
+		if (!CheckPassword( LOWORD(m_dbHeader.version), p+1)) {
+			cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("You are not authorized for access to Database"));
+			return ERROR_BAD_FORMAT;
+		}
+
+		cb->pfnAddLogMessage(STATUS_SUCCESS,TranslateT("Secured MMAP: authorization successful"));
+	}
+
+	if ( LOWORD(m_dbHeader.version) != 0x0700 && !m_bEncoding) {
+		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Database is marked as belonging to an unknown version of Miranda"));
+		return ERROR_BAD_FORMAT;
 	}
 }

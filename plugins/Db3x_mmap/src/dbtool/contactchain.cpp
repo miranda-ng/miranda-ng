@@ -16,10 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "..\commonheaders.h"
 
-int WorkSettingsChain(DWORD ofsContact,DBContact *dbc,int firstTime);
-int WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime);
+#include "..\commonheaders.h"
 
 static DWORD ofsThisContact,ofsDestPrevContact;
 static DWORD contactCount;
@@ -27,17 +25,17 @@ static DWORD ofsDestThis,ofsNextContact;
 static int phase;
 static DBContact dbc;
 
-int WorkContactChain(int firstTime)
+int CDb3Base::WorkContactChain(int firstTime)
 {
 	int first = 0;
 	int ret;
 
 	if (firstTime) {
-		AddToStatus(STATUS_MESSAGE,TranslateT("Processing contact chain"));
+		cb->pfnAddLogMessage(STATUS_MESSAGE,TranslateT("Processing contact chain"));
 		ofsDestPrevContact = 0;
-		ofsThisContact = dbhdr.ofsFirstContact;
+		ofsThisContact = m_dbHeader.ofsFirstContact;
 		contactCount = 0;
-		dbhdr.ofsFirstContact = 0;
+		m_dbHeader.ofsFirstContact = 0;
 		phase = 0;
 	}
 
@@ -45,13 +43,13 @@ int WorkContactChain(int firstTime)
 	case 0:
 		if (ofsThisContact == 0) {
 LBL_FinishUp:
-			if (contactCount != dbhdr.contactCount)
-				AddToStatus(STATUS_WARNING,TranslateT("Contact count marked wrongly: correcting"));
-			dbhdr.contactCount = contactCount;
+			if (contactCount != m_dbHeader.contactCount)
+				cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Contact count marked wrongly: correcting"));
+			m_dbHeader.contactCount = contactCount;
 			return ERROR_NO_MORE_ITEMS;
 		}
 		if (!SignatureValid(ofsThisContact,DBCONTACT_SIGNATURE)) {
-			AddToStatus(STATUS_ERROR,TranslateT("Contact chain corrupted, further entries ignored"));
+			cb->pfnAddLogMessage(STATUS_ERROR,TranslateT("Contact chain corrupted, further entries ignored"));
 			goto LBL_FinishUp;
 		}
 		if (ReadSegment(ofsThisContact,&dbc,sizeof(dbc)) != ERROR_SUCCESS)
@@ -59,13 +57,13 @@ LBL_FinishUp:
 
 		ofsNextContact = dbc.ofsNext;
 		dbc.ofsNext = 0;
-		if (!opts.bCheckOnly) {
+		if (!cb->bCheckOnly) {
 			if ((ofsDestThis = WriteSegment(WSOFS_END,&dbc,sizeof(dbc))) == WS_ERROR)
 				return ERROR_HANDLE_DISK_FULL;
 			if (ofsDestPrevContact) 
 				WriteSegment(ofsDestPrevContact+offsetof(DBContact,ofsNext),&ofsDestThis,sizeof(DWORD));
 			else 
-				dbhdr.ofsFirstContact = ofsDestThis;
+				m_dbHeader.ofsFirstContact = ofsDestThis;
 		} else 
 			ofsDestThis = ofsThisContact; // needed in event chain worker
 		contactCount++;

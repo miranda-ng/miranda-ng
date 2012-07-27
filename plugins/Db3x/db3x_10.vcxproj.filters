@@ -16,6 +16,9 @@
     <Filter Include="Mmap">
       <UniqueIdentifier>{640c5715-0e22-4240-8520-f7dedfc9fb87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mmap\Checker">
+      <UniqueIdentifier>{1603e383-8555-4ad2-b245-83442f3c44ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\init.cpp">
@@ -47,6 +50,33 @@
     </ClCompile>
     <ClCompile Include="..\db3x_mmap\src\dbsettings.cpp">
       <Filter>Mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\aggressive.cpp">
+      <Filter>Mmap\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\user.cpp">
+      <Filter>Mmap\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\contactchain.cpp">
+      <Filter>Mmap\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\disk.cpp">
+      <Filter>Mmap\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\eventchain.cpp">
+      <Filter>Mmap\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\finaltasks.cpp">
+      <Filter>Mmap\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\initialchecks.cpp">
+      <Filter>Mmap\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\modulechain.cpp">
+      <Filter>Mmap\Checker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\settingschain.cpp">
+      <Filter>Mmap\Checker</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

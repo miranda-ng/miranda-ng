@@ -72,22 +72,45 @@ interface MIDatabase
 ///////////////////////////////////////////////////////////////////////////////
 // basic database checker interface
 
+#define STATUS_MESSAGE    0
+#define STATUS_WARNING    1
+#define STATUS_ERROR      2
+#define STATUS_FATAL      3
+#define STATUS_SUCCESS    4
+
 struct DBCHeckCallback
 {
-	int cbSize;
-	DWORD spaceProcessed, spaceUsed;
+	int    cbSize;
+	DWORD  spaceProcessed, spaceUsed;
+	HANDLE hOutFile;
+	int    bCheckOnly, bBackup, bAggressive, bEraseHistory, bMarkRead, bConvertUtf;
 
 	void (*pfnAddLogMessage)(int type, const TCHAR* ptszFormat, ...);
 };
 
 interface MIDatabaseChecker
 {
-	STDMETHOD_(BOOL,CheckDb)(DBCHeckCallback *callback, int phase, int firstTime) PURE;
+	STDMETHOD_(BOOL,Start)(DBCHeckCallback *callback) PURE;
+	STDMETHOD_(BOOL,CheckDb)(int phase, int firstTime) PURE;
 	STDMETHOD_(VOID,Destroy)() PURE;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 // Each database plugin should register itself using this structure
+
+/*
+ Codes for DATABASELINK functions
+*/
+
+// grokHeader() error codes
+#define EGROKPRF_NOERROR	0
+#define EGROKPRF_CANTREAD	1	// can't open the profile for reading
+#define EGROKPRF_UNKHEADER  2	// header not supported, not a supported profile
+#define EGROKPRF_VERNEWER   3	// header correct, version in profile newer than reader/writer
+#define EGROKPRF_DAMAGED	4	// header/version fine, other internal data missing, damaged.
+
+// makeDatabase() error codes
+#define EMKPRF_CREATEFAILED 1   // for some reason CreateFile() didnt like something
 
 struct DATABASELINK
 {

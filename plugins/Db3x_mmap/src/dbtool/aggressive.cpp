@@ -20,44 +20,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define BLOCKSIZE  65536
 
-extern DWORD sourceFileSize;
-extern DWORD spaceProcessed;
-extern DWORD sp;
-static DWORD ofsCurrent;
-
-int WorkAggressive(int firstTime)
+int CDb3Base::WorkAggressive(int firstTime)
 {
-	int blockBytes,i;
-	BYTE *buf;
-
 	if (firstTime) {
-		if (!opts.bAggressive)
+		if (!cb->bAggressive)
 			return ERROR_NO_MORE_ITEMS;
 
-		AddToStatus(STATUS_MESSAGE,TranslateT("Performing aggressive pass"));
-		ofsCurrent = 0;
-		spaceProcessed = 0;
-		sp = 0;
+		cb->pfnAddLogMessage(STATUS_MESSAGE,TranslateT("Performing aggressive pass"));
+		ofsAggrCur = 0;
+		cb->spaceProcessed = 0;
 	}
-	blockBytes = min(BLOCKSIZE+3,(int)(sourceFileSize-ofsCurrent));
+	
+	int blockBytes = min(BLOCKSIZE+3,(int)(sourceFileSize-ofsAggrCur));
 	if (blockBytes <= 0)
 		return ERROR_NO_MORE_ITEMS;
 
-	buf = opts.pFile+ofsCurrent;
+	BYTE *buf = m_pDbCache + ofsAggrCur;
 	blockBytes -= 3;
-	for(i = 0;i<blockBytes;i++) {
+	for (int i=0; i < blockBytes; i++) {
 		if (buf[i]) {
-			if ((*(PDWORD)&buf[i]&0x00FFFFFF) != 0xDECADE)
-				AddToStatus(STATUS_WARNING,TranslateT("Aggressive: random junk at %08X: skipping"),ofsCurrent+i);
-			else {
+			if ((*(PDWORD)&buf[i] & 0x00FFFFFF) != 0xDECADE)
+				cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Aggressive: random junk at %08X: skipping"),ofsAggrCur+i);
+			else
 				//TODO: give user the option of placing manually
-				AddToStatus(STATUS_ERROR,TranslateT("Aggressive: unlinked data at %08X: can't automatically place"),ofsCurrent+i);
-			}
-			for(; i < blockBytes; i++)
+				cb->pfnAddLogMessage(STATUS_ERROR,TranslateT("Aggressive: unlinked data at %08X: can't automatically place"),ofsAggrCur+i);
+
+			for (; i < blockBytes; i++)
 				if (buf[i] == 0) {i--; break;}
 		}
 	}
-	ofsCurrent += BLOCKSIZE;
-	spaceProcessed = ofsCurrent;
+	ofsAggrCur += BLOCKSIZE;
+	cb->spaceProcessed = ofsAggrCur;
 	return ERROR_SUCCESS;
 }

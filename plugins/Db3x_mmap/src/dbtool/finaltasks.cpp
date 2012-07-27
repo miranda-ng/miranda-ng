@@ -18,61 +18,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\commonheaders.h"
 
-extern int errorCount;
-
-int WorkFinalTasks(int firstTime)
+int CDb3Base::WorkFinalTasks(int firstTime)
 {
 	FreeModuleChain();
-	AddToStatus(STATUS_MESSAGE,TranslateT("Processing final tasks"));
-	dbhdr.slackSpace = 0;
-	if (WriteSegment(0,&dbhdr,sizeof(dbhdr)) == WS_ERROR)
+	cb->pfnAddLogMessage(STATUS_MESSAGE,TranslateT("Processing final tasks"));
+	m_dbHeader.slackSpace = 0;
+	if (WriteSegment(0,&m_dbHeader,sizeof(m_dbHeader)) == WS_ERROR)
 		return ERROR_WRITE_FAULT;
-	if (opts.hFile) {
-		CloseHandle(opts.hFile);
-		opts.hFile = NULL;
+
+	if (m_hDbFile) {
+		CloseHandle(m_hDbFile);
+		m_hDbFile = NULL;
 	}
-	if (opts.hOutFile) {
-		CloseHandle(opts.hOutFile);
-		opts.hOutFile = NULL;
+	if (m_pDbCache) {
+		UnmapViewOfFile(m_pDbCache);
+		m_pDbCache = NULL;
 	}
-	if (opts.pFile) {
-		UnmapViewOfFile(opts.pFile);
-		opts.pFile = NULL;
+	if (m_hMap) {
+		CloseHandle(m_hMap);
+		m_hMap = NULL;
 	}
-	if (opts.hMap) {
-		CloseHandle(opts.hMap);
-		opts.hMap = NULL;
-	}
-	if (errorCount && !opts.bBackup && !opts.bCheckOnly) {
-		extern time_t ts;
-		time_t dlg_ts = time(NULL);
-		if (IDYES == MessageBox(NULL,
-							TranslateT("Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?"),
-							TranslateT("Miranda Database Tool"), MB_YESNO))
-			opts.bBackup = 1;
-		ts  +=  time(NULL) - dlg_ts;
-	}
-	if (opts.bBackup) {
-		int i;
-		TCHAR dbPath[MAX_PATH],dbFile[MAX_PATH];
-		_tcscpy(dbPath, opts.filename);
-		TCHAR* str2 = _tcsrchr(dbPath, '\\');
-		if (str2 != NULL) {
-			_tcscpy(dbFile, str2+1);
-			*str2 = 0;
-		}
-		else {
-			_tcscpy(dbFile, dbPath);
-			dbPath[0] = 0;
-		}
-		for(i = 1;;i++) {
-			if (i == 1) wsprintf(opts.backupFilename,TranslateT("%s\\Backup of %s"),dbPath,dbFile);
-			else wsprintf(opts.backupFilename,TranslateT("%s\\Backup (%d) of %s"),dbPath,i,dbFile);
-			if (_taccess(opts.backupFilename,0) == -1) break;
-		}
-		MoveFile(opts.filename,opts.backupFilename) || AddToStatus(STATUS_WARNING,TranslateT("Unable to rename original file"));
-	}
-	else if (!opts.bCheckOnly) DeleteFile(opts.filename) || AddToStatus(STATUS_WARNING,TranslateT("Unable to delete original file"));
-	if (!opts.bCheckOnly) MoveFile(opts.outputFilename,opts.filename) || AddToStatus(STATUS_WARNING,TranslateT("Unable to rename output file"));
 	return ERROR_NO_MORE_ITEMS;
 }

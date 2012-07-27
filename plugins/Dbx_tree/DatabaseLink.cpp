@@ -99,4 +99,5 @@ DATABASELINK gDBLink = {
 	grokHeader,
 	LoadDatabase,
 	UnloadDatabase,
+	NULL  // does not support file checking
 };

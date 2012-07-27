@@ -41,12 +41,13 @@ LBL_Error:
 		}
 
 		int error = 0;
-		opts.dbChecker = opts.dblink->CheckDB(opts.filename, &error);
+		opts.dbChecker = dblink->CheckDB(opts.filename, &error);
 		if (opts.dbChecker == NULL) {
 			opts.error = error;
 			SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
 			return;
 		}
+		opts.dblink = dblink;
 	}
 	
 	if (iNextPage == IDD_FILEACCESS)

@@ -72,6 +72,9 @@
     <ClCompile Include="src\dbtool\user.cpp">
       <Filter>Source Files\Checker</Filter>
     </ClCompile>
+    <ClCompile Include="src\dbtool\disk.cpp">
+      <Filter>Source Files\Checker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h">

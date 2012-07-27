@@ -69,33 +69,9 @@ static int grokHeader(const TCHAR *profile, int *error)
 		return 1;
 	}
 
-	int chk = tmp->CheckDbHeaders();
+	*error = tmp->CheckDbHeaders();
 	delete tmp;
-	if ( chk == 0 ) {
-		// all the internal tests passed, hurrah
-		if (error != NULL) *error = 0;
-		return 0;
-	}
-	
-	// didn't pass at all, or some did.
-	switch ( chk ) {
-	case 1:
-		// "Miranda ICQ DB" wasn't present
-		if (error != NULL) *error = EGROKPRF_UNKHEADER;
-		break;
-
-	case 2:
-		// header was present, but version information newer
-		if (error != NULL) *error =  EGROKPRF_VERNEWER;
-		break;
-
-	case 3:
-		// header/version OK, internal data missing
-		if (error != NULL) *error = EGROKPRF_DAMAGED;
-		break;
-	}
-
-	return 1;
+	return (*error == 0) ? 0 : 1;
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
@@ -120,26 +96,27 @@ static int UnloadDatabase(MIDatabase* db)
 	delete (CDb3Mmap*)db;
 	return 0;
 }
-/*
-static CheckWorker Workers[6] = 
-{
-	&CDb3Mmap::WorkInitialChecks,
-	&CDb3Mmap::WorkModuleChain,
-	&CDb3Mmap::WorkUser,
-	&CDb3Mmap::WorkContactChain,
-	&CDb3Mmap::WorkAggressive,
-	&CDb3Mmap::WorkFinalTasks
-};
 
-static int CheckDb(DBCHeckCallback *callback, int phase, int firstTime)
+MIDatabaseChecker* CheckDb(const TCHAR* ptszFileName, int *error)
 {
-	if (phase >= SIZEOF(Workers))
-		return ERROR_NO_MORE_ITEMS;
+	CDb3Mmap *tmp = new CDb3Mmap(ptszFileName);
+	if (tmp->Load(true) != ERROR_SUCCESS) {
+		delete tmp;
+		if (error != NULL) *error = EGROKPRF_CANTREAD;
+		return NULL;
+	}
 
-	CDb3Mmap* db = (CDb3Mmap*)callback->db;
-	return (db->*Workers[phase])(callback, firstTime);
+	int chk = tmp->CheckDbHeaders();
+	if (chk != ERROR_SUCCESS) {
+		delete tmp;
+		*error = chk;
+		return NULL;
+	}
+
+	*error = 0;
+	return tmp;
 }
-*/
+
 static DATABASELINK dblink =
 {
 	sizeof(DATABASELINK),
@@ -149,7 +126,7 @@ static DATABASELINK dblink =
 	grokHeader,
 	LoadDatabase,
 	UnloadDatabase,
-	//CheckDb
+	CheckDb
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\commonheaders.h"
 
 struct ModChainEntry {
@@ -29,18 +30,18 @@ static int phase,iCurrentModName;
 static DWORD ofsLast;
 static int last_mod = 0;
 
-int WorkModuleChain(int firstTime)
+int CDb3Base::WorkModuleChain(int firstTime)
 {
 	DBModuleName moduleName,*newModName;
 
 	if (firstTime) {
-		AddToStatus(STATUS_MESSAGE,TranslateT("Processing module name chain"));
+		cb->pfnAddLogMessage(STATUS_MESSAGE,TranslateT("Processing module name chain"));
 		modChainCount = 0;
 		last_mod = 0;
 		if (modChain != NULL) free(modChain);
 		modChain = (ModChainEntry*)malloc(sizeof(ModChainEntry));
 		phase = 0;
-		ofsCurrent = dbhdr.ofsFirstModuleName;
+		ofsCurrent = m_dbHeader.ofsFirstModuleName;
 	}
 	switch(phase) {
 		case 0:
@@ -49,7 +50,7 @@ int WorkModuleChain(int firstTime)
 				return ERROR_SUCCESS;
 			}
 			if (!SignatureValid(ofsCurrent,DBMODULENAME_SIGNATURE)) {
-				AddToStatus(STATUS_ERROR,TranslateT("Module chain corrupted, further entries ignored"));
+				cb->pfnAddLogMessage(STATUS_ERROR,TranslateT("Module chain corrupted, further entries ignored"));
 				phase++;
 				return ERROR_SUCCESS;
 			}
@@ -58,7 +59,7 @@ int WorkModuleChain(int firstTime)
 				return ERROR_SUCCESS;
 			}
 			if (moduleName.cbName>256)
-				AddToStatus(STATUS_WARNING,TranslateT("Unreasonably long module name, skipping"));
+				cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Unreasonably long module name, skipping"));
 			else {
 				modChain = (ModChainEntry*)realloc(modChain,sizeof(ModChainEntry)*++modChainCount);
 
@@ -75,7 +76,7 @@ int WorkModuleChain(int firstTime)
 		case 1:
 			ofsLast = 0;
 			iCurrentModName = 0;
-			dbhdr.ofsFirstModuleName = 0;
+			m_dbHeader.ofsFirstModuleName = 0;
 			phase++;
 		case 2:
 			if (iCurrentModName >= modChainCount) {
@@ -91,7 +92,7 @@ int WorkModuleChain(int firstTime)
 					return ERROR_HANDLE_DISK_FULL;
 				{ // check duplicated modulenames
 					int i, n = 0;
-					for(i = iCurrentModName+1;i<modChainCount;i++)
+					for (i = iCurrentModName+1;i<modChainCount;i++)
 						if (!strcmp(modChain[i].name, modChain[iCurrentModName].name)) {
 							modChain[i].ofsNew = modChain[iCurrentModName].ofsNew;
 							n++;
@@ -103,11 +104,11 @@ int WorkModuleChain(int firstTime)
 						MultiByteToWideChar(CP_ACP, 0, modChain[iCurrentModName].name, -1, szModuleName, sizeof(szModuleName) / sizeof(TCHAR));
 						pszModuleName = szModuleName;
 
-						AddToStatus(STATUS_WARNING,TranslateT("Module name '%s' is not unique: %d duplicates found)"), pszModuleName, n);
+						cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Module name '%s' is not unique: %d duplicates found)"), pszModuleName, n);
 					}
 				}
 				if (iCurrentModName == 0)
-					dbhdr.ofsFirstModuleName = modChain[iCurrentModName].ofsNew;
+					m_dbHeader.ofsFirstModuleName = modChain[iCurrentModName].ofsNew;
 				else
 					if (WriteSegment(ofsLast+offsetof(DBModuleName,ofsNext),&modChain[iCurrentModName].ofsNew,sizeof(DWORD)) == WS_ERROR)
 						return ERROR_HANDLE_DISK_FULL;
@@ -119,24 +120,24 @@ int WorkModuleChain(int firstTime)
 	return ERROR_SUCCESS;
 }
 
-DWORD ConvertModuleNameOfs(DWORD ofsOld)
+DWORD CDb3Base::ConvertModuleNameOfs(DWORD ofsOld)
 {
 	int i;
 
 	if (modChain[last_mod].ofsOld == ofsOld)
 		return modChain[last_mod].ofsNew;
 
-	for(i = 0;i<modChainCount;i++)
+	for (i = 0;i<modChainCount;i++)
 		if (modChain[i].ofsOld == ofsOld) {
 			last_mod = i;
 			return modChain[last_mod].ofsNew;
 		}
 
-	AddToStatus(STATUS_ERROR,TranslateT("Invalid module name offset, skipping data"));
+	cb->pfnAddLogMessage(STATUS_ERROR,TranslateT("Invalid module name offset, skipping data"));
 	return 0;
 }
 
-void FreeModuleChain()
+void CDb3Base::FreeModuleChain()
 {
 	if (modChain != NULL) {
 		free(modChain);

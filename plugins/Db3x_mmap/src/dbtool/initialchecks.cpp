@@ -18,64 +18,49 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\commonheaders.h"
 
-extern DWORD sourceFileSize,spaceUsed;
+extern DBSignature dbSignature;
 
-int WorkInitialChecks(int firstTime)
+int CDb3Base::WorkInitialCheckHeaders()
 {
-	DWORD bytesRead;
+	if (memcmp(m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature))) {
+		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Database signature is corrupted, automatic repair is impossible"));
+		return ERROR_BAD_FORMAT;
+	}
+	if (m_dbHeader.version != 0x00000700) {
+		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Database is marked as belonging to an unknown version of Miranda"));
+		return ERROR_BAD_FORMAT;
+	}
+	return ERROR_SUCCESS;
+}
 
-	sourceFileSize = GetFileSize(opts.hFile,NULL);
+int CDb3Base::WorkInitialChecks(int firstTime)
+{
+	sourceFileSize = GetFileSize(m_hDbFile,NULL);
 	if (sourceFileSize == 0) {
-		AddToStatus(STATUS_WARNING,TranslateT("Database is newly created and has no data to process"));
-		AddToStatus(STATUS_SUCCESS,TranslateT("Processing completed successfully"));
+		cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Database is newly created and has no data to process"));
+		cb->pfnAddLogMessage(STATUS_SUCCESS,TranslateT("Processing completed successfully"));
 		return ERROR_INVALID_DATA;
 	}
-	ReadFile(opts.hFile,&dbhdr,sizeof(dbhdr),&bytesRead,NULL);
-	if (bytesRead<sizeof(dbhdr)) {
-		AddToStatus(STATUS_FATAL,TranslateT("Database is corrupted and too small to contain any recoverable data"));
-		return ERROR_BAD_FORMAT;
-	}
-	if (memcmp(dbhdr.signature,&dbSignature,sizeof(dbhdr.signature))) {
-		AddToStatus(STATUS_FATAL,TranslateT("Database signature is corrupted, automatic repair is impossible"));
-		return ERROR_BAD_FORMAT;
-	}
-	if (dbhdr.version != 0x00000700) {
-		AddToStatus(STATUS_FATAL,TranslateT("Database is marked as belonging to an unknown version of Miranda"));
-		return ERROR_BAD_FORMAT;
-	}
-	_tcscpy(opts.workingFilename,opts.filename);
 
-	if (opts.bCheckOnly) {
-		_tcscpy(opts.outputFilename, TranslateT("<check only>"));
-		opts.hOutFile = INVALID_HANDLE_VALUE;
-	}
+	int res = WorkInitialCheckHeaders();
+	if (res)
+		return res;
+
+	m_hMap = CreateFileMapping(m_hDbFile, NULL, cb->bAggressive?PAGE_WRITECOPY:PAGE_READONLY, 0, 0, NULL);
+	if (m_hMap)
+		m_pDbCache = (BYTE*)MapViewOfFile(m_hMap, cb->bAggressive?FILE_MAP_COPY:FILE_MAP_READ, 0, 0 ,0);
 	else {
-		_tcscpy(opts.outputFilename,opts.filename);
-		*_tcsrchr(opts.outputFilename,'.') = 0;
-		_tcscat(opts.outputFilename,TranslateT(" (Output).dat"));
-		opts.hOutFile = CreateFile(opts.outputFilename,GENERIC_WRITE,FILE_SHARE_READ,NULL,CREATE_ALWAYS,FILE_FLAG_SEQUENTIAL_SCAN,NULL);
-		if (opts.hOutFile == INVALID_HANDLE_VALUE) {
-			AddToStatus(STATUS_FATAL,TranslateT("Can't create output file (%u)"),GetLastError());
-			return ERROR_ACCESS_DENIED;
-		}
-	}
-
-	opts.hMap = CreateFileMapping(opts.hFile, NULL, opts.bAggressive?PAGE_WRITECOPY:PAGE_READONLY, 0, 0, NULL);
-
-	if (opts.hMap)
-		opts.pFile = (BYTE*)MapViewOfFile(opts.hMap, opts.bAggressive?FILE_MAP_COPY:FILE_MAP_READ, 0, 0 ,0);
-	else {
-		AddToStatus(STATUS_FATAL,TranslateT("Can't create file mapping (%u)"),GetLastError());
+		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Can't create file mapping (%u)"),GetLastError());
 		return ERROR_ACCESS_DENIED;
 	}
 
-	if (!opts.pFile) {
-		AddToStatus(STATUS_FATAL,TranslateT("Can't create map view of file (%u)"),GetLastError());
+	if (!m_pDbCache) {
+		cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("Can't create map view of file (%u)"),GetLastError());
 		return ERROR_ACCESS_DENIED;
 	}
-	if (ReadSegment(0,&dbhdr,sizeof(dbhdr)) != ERROR_SUCCESS) return ERROR_READ_FAULT;
-	if (WriteSegment(0,&dbhdr,sizeof(dbhdr)) == WS_ERROR) return ERROR_HANDLE_DISK_FULL;
-	spaceUsed = dbhdr.ofsFileEnd-dbhdr.slackSpace;
-	dbhdr.ofsFileEnd = sizeof(dbhdr);
+	if (ReadSegment(0,&m_dbHeader,sizeof(m_dbHeader)) != ERROR_SUCCESS) return ERROR_READ_FAULT;
+	if (WriteSegment(0,&m_dbHeader,sizeof(m_dbHeader)) == WS_ERROR) return ERROR_HANDLE_DISK_FULL;
+	cb->spaceUsed = m_dbHeader.ofsFileEnd-m_dbHeader.slackSpace;
+	m_dbHeader.ofsFileEnd = sizeof(m_dbHeader);
 	return ERROR_NO_MORE_ITEMS;
 }

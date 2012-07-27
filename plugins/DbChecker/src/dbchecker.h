@@ -84,23 +84,7 @@ void OpenDatabase(HWND hdlg, INT iNextPage);
 
 #define SIZEOF(X) (sizeof(X)/sizeof(X[0]))
 
-#define STATUS_MESSAGE    0
-#define STATUS_WARNING    1
-#define STATUS_ERROR      2
-#define STATUS_FATAL      3
-#define STATUS_SUCCESS    4
 #define STATUS_CLASSMASK  0x0f
 void AddToStatus(int flags, const TCHAR* fmt, ...);
 void SetProgressBar(int perThou);
 
-int PeekSegment(DWORD ofs, PVOID buf, int cbBytes);
-int ReadSegment(DWORD ofs, PVOID buf, int cbBytes);
-#define WSOFS_END   0xFFFFFFFF
-#define WS_ERROR    0xFFFFFFFF
-DWORD WriteSegment(DWORD ofs, PVOID buf, int cbBytes);
-int ReadWrittenSegment(DWORD ofs, PVOID buf, int cbBytes);
-int SignatureValid(DWORD ofs, DWORD signature);
-DWORD ConvertModuleNameOfs(DWORD ofsOld);
-void FreeModuleChain();
-
-bool is_utf8_string(const char* str);

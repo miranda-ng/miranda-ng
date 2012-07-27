@@ -47,6 +47,9 @@ DBHeader
 #define DB_THIS_VERSION          0x00000700u
 #define DB_SETTINGS_RESIZE_GRANULARITY  128
 
+#define WSOFS_END   0xFFFFFFFF
+#define WS_ERROR    0xFFFFFFFF
+
 struct DBSignature {
   char name[15];
   BYTE eof;
@@ -156,7 +159,7 @@ struct DBCachedContactValueList
 
 #define MAXCACHEDREADSIZE     65536
 
-struct CDb3Base : public MIDatabase, public MZeroedObject
+struct CDb3Base : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
 	CDb3Base(const TCHAR* tszFileName);
 	~CDb3Base();
@@ -205,8 +208,14 @@ protected:
 	STDMETHODIMP_(BOOL)   EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
 
 protected:
+	STDMETHODIMP_(BOOL)   Start(DBCHeckCallback *callback);
+	STDMETHODIMP_(BOOL)   CheckDb(int phase, int firstTime);
+	STDMETHODIMP_(VOID)   Destroy();
+
+protected:
 	virtual	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,DWORD ofsModuleName) = 0;
-	virtual	void InvalidateSettingsGroupOfsCacheEntry(DWORD ofsSettingsGroup) {}
+	virtual	void  InvalidateSettingsGroupOfsCacheEntry(DWORD ofsSettingsGroup) {}
+	virtual	int   WorkInitialCheckHeaders(void);
 
 	virtual	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes) = 0;
 	virtual	PBYTE DBRead(DWORD ofs, int bytesRequired, int *bytesAvail) = 0;
@@ -222,12 +231,12 @@ protected:
 	virtual	void DecodeDBWrite(DWORD ofs, void *src, int size);
 
 public:  // Check functions
-	int WorkInitialChecks(DBCHeckCallback*, int);
-	int WorkModuleChain(DBCHeckCallback*, int);
-	int WorkUser(DBCHeckCallback*, int);
-	int WorkContactChain(DBCHeckCallback*, int);
-	int WorkAggressive(DBCHeckCallback*, int);
-	int WorkFinalTasks(DBCHeckCallback*, int);
+	int WorkInitialChecks(int);
+	int WorkModuleChain(int);
+	int WorkUser(int);
+	int WorkContactChain(int);
+	int WorkAggressive(int);
+	int WorkFinalTasks(int);
 
 protected:
 	TCHAR*   m_tszProfileName;
@@ -242,6 +251,7 @@ public:
 	UINT_PTR m_flushBuffersTimerId;
 	DWORD    m_flushFailTick;
 	PBYTE    m_pDbCache;
+	HANDLE   m_hMap;
 
 protected:
 	DWORD    m_dwFileSize;
@@ -297,6 +307,29 @@ protected:
 	int   InitModuleNames(void);
 	DWORD GetModuleNameOfs(const char *szName);
 	char *GetModuleNameByOfs(DWORD ofs);
+
+	////////////////////////////////////////////////////////////////////////////
+	// checker
+
+	int PeekSegment(DWORD ofs, PVOID buf, int cbBytes);
+	int ReadSegment(DWORD ofs, PVOID buf, int cbBytes);
+	int ReadWrittenSegment(DWORD ofs, PVOID buf, int cbBytes);
+	int SignatureValid(DWORD ofs, DWORD signature);
+	void FreeModuleChain();
+
+	DWORD ConvertModuleNameOfs(DWORD ofsOld);
+	void ConvertOldEvent(DBEvent*& dbei);
+
+	int WorkSettingsChain(DWORD ofsContact, DBContact *dbc, int firstTime);
+	int WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime);
+
+	DWORD WriteSegment(DWORD ofs, PVOID buf, int cbBytes);
+	DWORD WriteEvent(DBEvent *dbe);
+	void WriteOfsNextToPrevious(DWORD ofsPrev,DBContact *dbc,DWORD ofsNext);
+	void FinishUp(DWORD ofsLast,DBContact *dbc);
+
+	DBCHeckCallback *cb;
+	DWORD sourceFileSize, ofsAggrCur;
 };
 
 struct CDb3Mmap : public CDb3Base
@@ -315,10 +348,9 @@ protected:
 
 protected:
 	PBYTE    m_pNull;
-	HANDLE   m_hMap;
 
 	void  Map();
 	void  ReMap(DWORD needed);
 };
 
-typedef int (CDb3Mmap::*CheckWorker)(DBCHeckCallback*, int);
+typedef int (CDb3Base::*CheckWorker)(int);

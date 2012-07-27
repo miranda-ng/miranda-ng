@@ -94,6 +94,9 @@ CDb3Base::~CDb3Base()
 		UnmapViewOfFile(m_pDbCache);
 	}
 
+	if (m_hMap)
+		CloseHandle(m_hMap);
+
 	// update profile last modified time
 	DWORD bytesWritten;
 	SetFilePointer(m_hDbFile, 0, NULL, FILE_BEGIN);
@@ -168,3 +171,34 @@ void CDb3Base::DecodeDBWrite(DWORD ofs, void *src, int size)
 	DBWrite(ofs, src, size);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// MIDatabaseChecker
+
+static CheckWorker Workers[6] = 
+{
+	&CDb3Base::WorkInitialChecks,
+	&CDb3Base::WorkModuleChain,
+	&CDb3Base::WorkUser,
+	&CDb3Base::WorkContactChain,
+	&CDb3Base::WorkAggressive,
+	&CDb3Base::WorkFinalTasks
+};
+
+int CDb3Base::Start(DBCHeckCallback *callback)
+{
+	cb = callback;
+	return ERROR_SUCCESS;
+}
+
+int CDb3Base::CheckDb(int phase, int firstTime)
+{
+	if (phase >= SIZEOF(Workers))
+		return ERROR_OUT_OF_PAPER;
+
+	return (this->*Workers[phase])(firstTime);
+}
+
+void CDb3Base::Destroy()
+{
+	delete this;
+}

@@ -206,6 +206,33 @@
     <ClCompile Include="..\db3x_mmap\src\dbintf.cpp" />
     <ClCompile Include="..\db3x_mmap\src\dbmodulechain.cpp" />
     <ClCompile Include="..\db3x_mmap\src\dbsettings.cpp" />
+    <ClCompile Include="..\db3x_mmap\src\dbtool\aggressive.cpp">
+      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\contactchain.cpp">
+      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\disk.cpp">
+      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\eventchain.cpp">
+      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\finaltasks.cpp">
+      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\initialchecks.cpp">
+      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\modulechain.cpp">
+      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\settingschain.cpp">
+      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="..\db3x_mmap\src\dbtool\user.cpp">
+      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="src\dbcache3x.cpp" />
     <ClCompile Include="src\dbintf3x.cpp" />
     <ClCompile Include="src\init.cpp">

@@ -121,6 +121,26 @@ static int UnloadDatabase(MIDatabase* db)
 	return 0;
 }
 
+MIDatabaseChecker* CheckDb(const TCHAR* ptszFileName, int *error)
+{
+	CDb3x *tmp = new CDb3x(ptszFileName);
+	if (tmp->Load(true) != ERROR_SUCCESS) {
+		delete tmp;
+		if (error != NULL) *error = EGROKPRF_CANTREAD;
+		return NULL;
+	}
+
+	int chk = tmp->CheckDbHeaders();
+	if (chk != ERROR_SUCCESS) {
+		delete tmp;
+		*error = chk;
+		return NULL;
+	}
+
+	*error = 0;
+	return tmp;
+}
+
 static DATABASELINK dblink =
 {
 	sizeof(DATABASELINK),
@@ -129,7 +149,8 @@ static DATABASELINK dblink =
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,
-	UnloadDatabase
+	UnloadDatabase,
+	CheckDb
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

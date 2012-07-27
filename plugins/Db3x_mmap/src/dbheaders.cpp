@@ -58,8 +58,14 @@ int CDb3Base::CreateDbHeaders()
 
 int CDb3Base::CheckDbHeaders()
 {
-	if (memcmp(m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature))) return 1;
-	if (m_dbHeader.version != DB_THIS_VERSION) return 2;
-	if (m_dbHeader.ofsUser == 0) return 3;
+	if (memcmp(m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature)))
+		return EGROKPRF_UNKHEADER;
+
+	if (m_dbHeader.version != DB_THIS_VERSION)
+		return EGROKPRF_VERNEWER;
+	
+	if (m_dbHeader.ofsUser == 0)
+		return EGROKPRF_DAMAGED;
+
 	return 0;
 }

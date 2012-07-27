@@ -16,11 +16,12 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\commonheaders.h"
 
 static DWORD ofsThisSettings,ofsDestPrevSettings;
 
-int WorkSettingsChain(DWORD ofsContact,DBContact *dbc,int firstTime)
+int CDb3Base::WorkSettingsChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 {
 	DBContactSettings *dbcsNew,dbcsOld;
 	DWORD ofsDestThis;
@@ -33,14 +34,15 @@ int WorkSettingsChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 	}
 	if (ofsThisSettings == 0)
 		return ERROR_NO_MORE_ITEMS;
+
 	if (!SignatureValid(ofsThisSettings,DBCONTACTSETTINGS_SIGNATURE)) {
-		AddToStatus(STATUS_ERROR,TranslateT("Settings chain corrupted, further entries ignored"));
+		cb->pfnAddLogMessage(STATUS_ERROR,TranslateT("Settings chain corrupted, further entries ignored"));
 		return ERROR_NO_MORE_ITEMS;
 	}
 	if (PeekSegment(ofsThisSettings,&dbcsOld,sizeof(dbcsOld)) != ERROR_SUCCESS)
 		return ERROR_NO_MORE_ITEMS;
 	if (dbcsOld.cbBlob>256*1024 || dbcsOld.cbBlob == 0) {
-		AddToStatus(STATUS_ERROR,TranslateT("Infeasibly large settings blob: skipping"));
+		cb->pfnAddLogMessage(STATUS_ERROR,TranslateT("Infeasibly large settings blob: skipping"));
 		ofsThisSettings = dbcsOld.ofsNext;
 		return ERROR_SUCCESS;
 	}
@@ -55,7 +57,7 @@ int WorkSettingsChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 		return ERROR_SUCCESS;
 	}
 	if (dbcsNew->blob[0] == 0) {
-		AddToStatus(STATUS_MESSAGE,TranslateT("Empty settings group at %08X: skipping"),ofsThisSettings);
+		cb->pfnAddLogMessage(STATUS_MESSAGE,TranslateT("Empty settings group at %08X: skipping"),ofsThisSettings);
 		ofsThisSettings = dbcsOld.ofsNext;
 		return ERROR_SUCCESS;
 	}

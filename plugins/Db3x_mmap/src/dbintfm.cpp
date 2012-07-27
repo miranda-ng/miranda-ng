@@ -24,9 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 CDb3Mmap::CDb3Mmap(const TCHAR* tszFileName) :
-	CDb3Base(tszFileName),
-	m_hMap(NULL),
-	m_pNull(NULL)
+	CDb3Base(tszFileName)
 {
 	SYSTEM_INFO sinf;
 	GetSystemInfo(&sinf);
@@ -35,8 +33,6 @@ CDb3Mmap::CDb3Mmap(const TCHAR* tszFileName) :
 
 CDb3Mmap::~CDb3Mmap()
 {
-	if (m_hMap)
-		CloseHandle(m_hMap);
 	if (m_pNull)
 		free(m_pNull);
 }
