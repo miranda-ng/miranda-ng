@@ -404,3 +404,48 @@ MIR_CORE_DLL(char*) Utf8EncodeW(const wchar_t* src)
 
 	return result;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Utf8Encode - converts UCS2 string to the UTF8-encoded format
+
+MIR_CORE_DLL(BOOL) Utf8CheckString(const char* str)
+{
+	int expect_bytes = 0, utf_found = 0;
+
+	if (!str) return 0;
+
+	while (*str) {
+		if ((*str & 0x80) == 0) {
+			/* Looks like an ASCII character */
+			if (expect_bytes)
+				/* byte of UTF-8 character expected */
+				return 0;
+		}
+		else {
+			/* Looks like byte of an UTF-8 character */
+			if (expect_bytes) {
+				/* expect_bytes already set: first byte of UTF-8 char already seen */
+				if ((*str & 0xC0) != 0x80) {
+					/* again first byte ?!?! */
+					return 0;
+				}
+			}
+			else {
+				/* First byte of the UTF-8 character */
+				/* count initial one bits and set expect_bytes to 1 less */
+				char ch = *str;
+				while (ch & 0x80) {
+					expect_bytes++;
+					ch = (ch & 0x7f) << 1;
+				}
+			}
+			/* OK, next byte of UTF-8 character */
+			/* Decrement number of expected bytes */
+			if (--expect_bytes == 0)
+				utf_found = 1;
+		}
+		str++;
+	}
+
+	return (utf_found && expect_bytes == 0);
+}

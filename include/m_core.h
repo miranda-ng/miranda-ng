@@ -497,8 +497,9 @@ MIR_CORE_DLL(char*) Utf8Encode(const char* str);
 MIR_CORE_DLL(char*) Utf8EncodeCP(const char* src, int codepage);
 
 MIR_CORE_DLL(char*) Utf8EncodeW(const wchar_t* str);
-
 MIR_CORE_DLL(int)   Ucs2toUtf8Len(const wchar_t *src);
+
+MIR_CORE_DLL(BOOL)  Utf8CheckString(const char* str);
 
 #define Utf8DecodeT Utf8DecodeW
 #define Utf8EncodeT Utf8EncodeW
