@@ -55,7 +55,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_ALARMS, MIID_LAST};
 
-static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) {
 		case WM_COMMAND:
@@ -79,35 +79,28 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 void ShowPopup(HANDLE hContact, const TCHAR *msg) {
 	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		POPUPDATAT ppd;
-		TCHAR *lpzContactName;
 
 		ZeroMemory(&ppd, sizeof(ppd)); //This is always a good thing to do.
 		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
 		ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 
-		lpzContactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+		TCHAR *lpzContactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 	
 		lstrcpy(ppd.lptzContactName, lpzContactName);
 		lstrcpy(ppd.lptzText, msg);
-		ppd.colorBack = GetSysColor(COLOR_BTNFACE);;
+		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd.colorText = RGB(0,0,0);
-		ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+		ppd.PluginWindowProc = PopupDlgProc;
 		ppd.PluginData = 0;
 		ppd.iSeconds = 3;
 
 		//Now that every field has been filled, we want to see the popup.
-		CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
+		PUAddPopUpT(&ppd);
 	}
 }
 
 static int PluginSendMessage(WPARAM wParam,LPARAM lParam) {
-	CCSDATA css;
-	css.hContact = (HANDLE)wParam;
-	css.szProtoService = PSS_MESSAGE;
-	css.wParam = 0;
-	css.lParam = lParam;
-
-	CallService(MS_PROTO_CALLCONTACTSERVICE, 0, (LPARAM)&css);
+	CallContactService((HANDLE)wParam,PSS_MESSAGE,0,lParam);
 	return 0;
 }
 

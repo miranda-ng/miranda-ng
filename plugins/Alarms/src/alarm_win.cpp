@@ -10,8 +10,8 @@ HMODULE hUserDll;
 BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD) = 0;
 BOOL (WINAPI *MyAnimateWindow)(HWND hWnd,DWORD dwTime,DWORD dwFlags) = 0;
 
-FontID title_font_id, window_font_id;
-ColourID bk_colour_id;
+FontIDT title_font_id, window_font_id;
+ColourIDT bk_colour_id;
 HFONT hTitleFont = 0, hWindowFont = 0;
 COLORREF title_font_colour, window_font_colour;
 HBRUSH hBackgroundBrush = 0;
@@ -354,15 +354,15 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 int ReloadFonts(WPARAM wParam, LPARAM lParam) {
 	LOGFONT log_font;
-	title_font_colour = CallService(MS_FONT_GET, (WPARAM)&title_font_id, (LPARAM)&log_font);
+	title_font_colour = CallService(MS_FONT_GETT, (WPARAM)&title_font_id, (LPARAM)&log_font);
 	DeleteObject(hTitleFont);
 	hTitleFont = CreateFontIndirect(&log_font);
 
-	window_font_colour = CallService(MS_FONT_GET, (WPARAM)&window_font_id, (LPARAM)&log_font);
+	window_font_colour = CallService(MS_FONT_GETT, (WPARAM)&window_font_id, (LPARAM)&log_font);
 	DeleteObject(hWindowFont);
 	hWindowFont = CreateFontIndirect(&log_font);
 
-	COLORREF bkCol = CallService(MS_COLOUR_GET, (WPARAM)&bk_colour_id, 0);
+	COLORREF bkCol = CallService(MS_COLOUR_GETT, (WPARAM)&bk_colour_id, 0);
 	DeleteObject(hBackgroundBrush);
 	hBackgroundBrush = CreateSolidBrush(bkCol);
 
@@ -372,34 +372,38 @@ int ReloadFonts(WPARAM wParam, LPARAM lParam) {
 
 int AlarmWinModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	title_font_id.cbSize = sizeof(FontID);
-	strcpy(title_font_id.group, Translate("Alarms"));
-	strcpy(title_font_id.name, Translate("Title"));
+	title_font_id.cbSize = sizeof(FontIDT);
+	_tcscpy(title_font_id.group, LPGENT("Alarms"));
+	_tcscpy(title_font_id.name, LPGENT("Title"));
 	strcpy(title_font_id.dbSettingsGroup, MODULE);
 	strcpy(title_font_id.prefix, "FontTitle");
+	_tcscpy(title_font_id.backgroundGroup,LPGENT("Alarms"));
+	_tcscpy(title_font_id.backgroundName,LPGENT("Background"));
 	title_font_id.flags = 0;
 	title_font_id.order = 0;
-	FontRegister(&title_font_id);
+	FontRegisterT(&title_font_id);
 
-	window_font_id.cbSize = sizeof(FontID);
-	strcpy(window_font_id.group, Translate("Alarms"));
-	strcpy(window_font_id.name, Translate("Window"));
+	window_font_id.cbSize = sizeof(FontIDT);
+	_tcscpy(window_font_id.group, LPGENT("Alarms"));
+	_tcscpy(window_font_id.name, LPGENT("Window"));
 	strcpy(window_font_id.dbSettingsGroup, MODULE);
 	strcpy(window_font_id.prefix, "FontWindow");
+	_tcscpy(window_font_id.backgroundGroup,LPGENT("Alarms"));
+	_tcscpy(window_font_id.backgroundName,LPGENT("Background"));
 	window_font_id.flags = 0;
 	window_font_id.order = 1;
-	FontRegister(&window_font_id);
+	FontRegisterT(&window_font_id);
 
-	bk_colour_id.cbSize = sizeof(ColourID);
+	bk_colour_id.cbSize = sizeof(ColourIDT);
 	strcpy(bk_colour_id.dbSettingsGroup, MODULE);
-	strcpy(bk_colour_id.group, Translate("Alarms"));
-	strcpy(bk_colour_id.name, Translate("Background"));
+	_tcscpy(bk_colour_id.group, LPGENT("Alarms"));
+	_tcscpy(bk_colour_id.name, LPGENT("Background"));
 	strcpy(bk_colour_id.setting, "BkColour");
 	bk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
 	bk_colour_id.flags = 0;
 	bk_colour_id.order = 0;
 
-	ColourRegister(&bk_colour_id);
+	ColourRegisterT(&bk_colour_id);
 
 	ReloadFonts(0, 0);
 	HookEvent(ME_FONT_RELOAD, ReloadFonts);
