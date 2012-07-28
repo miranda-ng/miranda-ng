@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE hInst;
 int hLangpack = 0;
-bool bServiceMode = false;
+bool bServiceMode = false, bLaunchMiranda = false;
 
 static HANDLE hLaunchFunc;
 
@@ -47,7 +47,7 @@ PLUGININFOEX pluginInfoEx =
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 
@@ -63,22 +63,15 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SERVICE
 
 static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
+	bLaunchMiranda = false;
 	bServiceMode = true;
-	return SERVICE_MONOPOLY;  // unload db and open a wizard
-}
-
-static int OnModulesLoaded(WPARAM, LPARAM)
-{
-	if (bServiceMode)
-		DialogBox(hInst, MAKEINTRESOURCE(IDD_WIZARD), NULL, WizardDlgProc);
-	return 0;
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_WIZARD), NULL, WizardDlgProc);
+	return (bLaunchMiranda) ? SERVICE_CONTINUE : SERVICE_FAILED;
 }
 
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	hLaunchFunc = CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
 	return 0;

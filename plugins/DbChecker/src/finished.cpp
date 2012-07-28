@@ -16,9 +16,9 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "dbchecker.h"
 
-#define WM_LAUNCHMIRANDA  (WM_USER+1)
 INT_PTR CALLBACK FinishedDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR bReturn;
@@ -28,6 +28,7 @@ INT_PTR CALLBACK FinishedDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 	switch(message) {
 	case WM_INITDIALOG:
 		EnableWindow(GetDlgItem(GetParent(hdlg), IDC_BACK), FALSE);
+		EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), FALSE);
 		SetDlgItemText(GetParent(hdlg), IDCANCEL, TranslateT("&Finish"));
 		SetWindowLongPtr(GetDlgItem(hdlg, IDC_DBFILE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_DBFILE), GWL_STYLE)|SS_PATHELLIPSIS);
 		SetDlgItemText(hdlg, IDC_DBFILE, opts.filename);
@@ -40,47 +41,11 @@ INT_PTR CALLBACK FinishedDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		TranslateDialogDefault(hdlg);
 		return TRUE;
 
-	case WM_LAUNCHMIRANDA:
-		if (IsDlgButtonChecked(hdlg, IDC_LAUNCHMIRANDA)) {
-			TCHAR dbFile[MAX_PATH], dbPath[MAX_PATH], *str2;
-			_tcscpy(dbPath, opts.filename);
-			str2 = _tcsrchr(dbPath, '\\');
-			if (str2 == NULL) {
-				_tcscpy(dbFile, dbPath);
-				dbPath[ 0 ] = 0;
-			}
-			else {
-				_tcscpy(dbFile, str2+1);
-				*str2 = 0;
-			}
-			str2 = _tcsrchr(dbFile, '.');
-			if (str2 != NULL)
-				*str2 = 0;
-			_tcscat(dbPath, _T("\\miranda32.exe"));
-			if (GetFileAttributes(dbPath) == INVALID_FILE_ATTRIBUTES) {
-				GetModuleFileName(NULL, dbPath, SIZEOF(dbPath));
-				if ((str2 = _tcsrchr(dbPath, '\\')) != NULL)
-					*str2 = 0;
-				else
-					dbPath[0] = 0;
-				_tcscat(dbPath, _T("\\miranda32.exe"));
-			}
-			ShellExecute(hdlg, NULL, dbPath, dbFile, _T(""), 0);
-		}
-		break;
-
 	case WZN_CANCELCLICKED:
-		SendMessage(hdlg, WM_LAUNCHMIRANDA, 0, 0);
-		break;
-
-	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
-		case IDOK:
-			SendMessage(hdlg, WM_LAUNCHMIRANDA, 0, 0);
-			SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
-			break;
-		}
-		break;
+		bLaunchMiranda = true;
+		CallService(MS_DB_SETDEFAULTPROFILE, (WPARAM)opts.filename, 0);
+		EndDialog( GetParent(hdlg), 1);
+		return TRUE;
 	}
 	return FALSE;
 }

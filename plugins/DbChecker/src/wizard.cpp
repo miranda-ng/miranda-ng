@@ -97,6 +97,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 	case WM_INITDIALOG:
 		SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_DBTOOL)));
 		hdlgPage = NULL;
+		bLaunchMiranda = false;
 		SendMessage(hdlg, WZM_GOTOPAGE, IDD_WELCOME, (LPARAM)WelcomeDlgProc);
 		TranslateDialogDefault(hdlg);
 		return TRUE;
@@ -139,8 +140,6 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		DestroyWindow(hdlgPage);
 		if (hBoldFont != NULL) DeleteObject(hBoldFont);
 		if (hEmfHeaderLogo != NULL) DeleteEnhMetaFile(hEmfHeaderLogo);
-		if (bServiceMode)
-			PostQuitMessage(0);
 		break;
 	}
 	return FALSE;
