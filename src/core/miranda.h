@@ -114,6 +114,9 @@ extern MIDatabase* currDb;
 extern DATABASELINK* currDblink;
 extern LIST<DATABASELINK> arDbPlugins;
 
+int  InitIni(void);
+void UninitIni(void);
+
 /**** fontService.cpp ******************************************************************/
 
 void KillModuleFonts(int hLangpack);

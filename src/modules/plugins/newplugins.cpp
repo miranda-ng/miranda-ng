@@ -70,12 +70,7 @@ static int askAboutIgnoredPlugins;
 
 static pluginEntry *pluginList_freeimg, *pluginList_crshdmp, *serviceModePlugin = NULL;
 
-int  InitIni(void);
-void UninitIni(void);
-
 #define PLUGINDISABLELIST "PluginDisable"
-
-int LoadDatabaseModule(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // basic functions
@@ -387,7 +382,7 @@ pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 	// plugin declared that it's a database. load it asap!
 	if ( hasMuuid(pIds, miid_database)) {
 		BASIC_PLUGIN_INFO bpi;
-		if (checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
+		if ( checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 			// db plugin is valid
 			p->pclass |= (PCLASS_DB | PCLASS_BASICAPI);
 			// copy the dblink stuff
@@ -589,24 +584,50 @@ void SetServiceModePlugin(pluginEntry *p)
 	serviceModePlugin = p;
 }
 
-int LoadServiceModePlugin(void)
+static int LaunchServicePlugin(pluginEntry* p)
 {
-	if (serviceModePlugin == NULL)
-		return SERVICE_CONTINUE;
-
 	// plugin load failed - terminating Miranda
-	if (serviceModePlugin->bpi.Load() != ERROR_SUCCESS) {
-		Plugin_Uninit(serviceModePlugin);
-		return SERVICE_FAILED;
+	if ( !( p->pclass & PCLASS_LOADED)) {
+		if (p->bpi.Load() != ERROR_SUCCESS) {
+			p->pclass |= PCLASS_FAILED;
+			Plugin_Uninit(p);
+			return SERVICE_FAILED;
+		}
+		p->pclass |= PCLASS_LOADED;
 	}
 
-	serviceModePlugin->pclass |= PCLASS_LOADED;
 	INT_PTR res = CallService(MS_SERVICEMODE_LAUNCH, 0, 0);
 	if (res != CALLSERVICE_NOTFOUND)
 		return res;
 
-	MessageBox(NULL, TranslateT("Unable to load plugin in Service Mode!"), serviceModePlugin->pluginname, 0);
+	MessageBox(NULL, TranslateT("Unable to load plugin in Service Mode!"), p->pluginname, 0);
+	Plugin_Uninit(p);
 	return SERVICE_FAILED;
+}
+
+int LoadDefaultServiceModePlugin()
+{
+	LPCTSTR param = CmdLine_GetOption( _T("svc"));
+	if (param == NULL)
+		return SERVICE_CONTINUE;
+
+	size_t cbLen = _tcslen(param);
+	for (int i=0; i < servicePlugins.getCount(); i++) {
+		pluginEntry* p = servicePlugins[i];
+		if ( !_tcsnicmp(p->pluginname, param, cbLen)) {
+			int res = LaunchServicePlugin(p);
+			if (res == SERVICE_ONLYDB) // load it later
+				serviceModePlugin = p;
+			return res;
+		}
+	}
+
+	return SERVICE_CONTINUE;
+}
+
+int LoadServiceModePlugin()
+{
+	return (serviceModePlugin == NULL) ? SERVICE_CONTINUE : LaunchServicePlugin(serviceModePlugin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -731,25 +752,6 @@ int LoadNewPluginsModuleInfos(void)
 	PathToAbsoluteT(_T("mirandaboot.ini"), mirandabootini, NULL);
 	// look for all *.dll's
 	enumPlugins(scanPluginsDir, 0, 0);
-	// the database will select which db plugin to use, or fail if no profile is selected
-	if ( LoadDatabaseModule())
-		return 1;
-	
-	if (serviceModePlugin == NULL) {
-		LPCTSTR param = CmdLine_GetOption( _T("svc"));
-		if (param != NULL) {
-			size_t cbLen = _tcslen(param);
-			for (int i=0; i < servicePlugins.getCount(); i++) {
-				if ( !_tcsnicmp(servicePlugins[i]->pluginname, param, cbLen)) {
-					serviceModePlugin = servicePlugins[i];
-					break;
-				}
-			}
-		}
-	}
-
-	InitIni();
-	// could validate the plugin entries here but internal modules arent loaded so can't call Load(void) in one pass
 	return 0;
 }
 
@@ -765,6 +767,8 @@ void UnloadDatabase(void)
 		currDb = NULL;
 		currDblink = NULL;
 	}
+
+	UninitIni();
 }
 
 void UnloadNewPluginsModule(void)
@@ -797,5 +801,4 @@ void UnloadNewPluginsModule(void)
 	pluginList.destroy();
 	servicePlugins.destroy();
 	clistPlugins.destroy();
-	UninitIni();
 }

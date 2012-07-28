@@ -86,7 +86,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /************************* SERVICES *******************************/
 /******************************************************************/
 
-/* DB/Contact/GetProfileName service
+/* DB/GetProfileName service
 Gets the name of the profile currently being used by the database module. This
 is the same as the filename of the database
   wParam = (WPARAM)(UINT)cbName
@@ -98,7 +98,7 @@ Returns 0 on success or nonzero otherwise
 #define MS_DB_GETPROFILENAME  "DB/GetProfileName"
 #define MS_DB_GETPROFILENAMEW "DB/GetProfileNameW"
 
-/* DB/Contact/GetProfilePath service
+/* DB/GetProfilePath service
 Get the path of the base folder where Miranda will store all individual profiles
 The returned path does NOT include a trailing backslash.
 Essentially this is what has been set in mirandaboot.ini as ProfileDir.
@@ -119,6 +119,15 @@ Returns 0 on success or nonzero otherwise
 	#define MS_DB_GETPROFILEPATHT MS_DB_GETPROFILEPATH
 	#define MS_DB_GETPROFILENAMET MS_DB_GETPROFILENAME
 #endif
+
+/* DB/SetDefaultProfile service
+Sets the default profile name programmatically
+Analog of Database/DefaultProfile in mirandaboot.ini
+  wParam = (WPARAM)(TCHAR*)ptszProfileName
+  lParam = 0 (unused)
+*/
+
+#define MS_DB_SETDEFAULTPROFILE "DB/SetDefaultProfile"
 
 /************************* Contact ********************************/
 

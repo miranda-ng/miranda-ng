@@ -30,8 +30,6 @@ struct PROFILEMANAGERDATA
 	DATABASELINK *dblink;	// out
 };
 
-int InitUtils(void);
-
 char* makeFileName(const TCHAR* tszOriginalName);
 int makeDatabase(TCHAR *profile, DATABASELINK * link, HWND hwndDlg);
 int getProfileManager(PROFILEMANAGERDATA * pd);

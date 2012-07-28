@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern TCHAR mirandabootini[MAX_PATH];
 bool dbCreated;
 TCHAR g_profileDir[MAX_PATH], g_profileName[MAX_PATH];
+TCHAR* g_defaultProfile;
 
 bool fileExist(TCHAR* fname)
 {
@@ -129,14 +130,10 @@ static void getDefaultProfile(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
 }
 
 // returns 1 if something that looks like a profile is there
-void getProfileCmdLine(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
-{
-	LPCTSTR ptszProfileName = CmdLine_GetOption( _T("profile"));
-	if (ptszProfileName == NULL)
-		return;
-
+static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cch, TCHAR *profiledir)
+{	
 	TCHAR buf[MAX_PATH];
-	_tcsncpy(buf, ptszProfileName, SIZEOF(buf));
+	_tcsncpy(buf, src, SIZEOF(buf));
 
 	TCHAR *p = _tcsrchr(buf, '\\'); if (p) ++p; else p = buf;
 	if ( !isValidProfileName(buf) && *p)
@@ -162,6 +159,21 @@ void getProfileCmdLine(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
 				*p = 0;
 		}
 		else szProfile[0] = 0;
+	}
+}
+
+void getProfileCmdLine(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
+{
+	LPCTSTR ptszProfileName = CmdLine_GetOption( _T("profile"));
+	if (ptszProfileName != NULL)
+		loadProfileByShortName(ptszProfileName, szProfile, cch, profiledir);
+}
+
+void getProfileDefault(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
+{
+	if (g_defaultProfile != NULL) {
+		loadProfileByShortName(g_defaultProfile, szProfile, cch, profiledir);
+		mir_free(g_defaultProfile);
 	}
 }
 
@@ -288,6 +300,7 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 
 	getDefaultProfile(szProfile, cch, g_profileDir);
 	getProfileCmdLine(szProfile, cch, g_profileDir);
+	getProfileDefault(szProfile, cch, g_profileDir);
 	if (IsInsideRootDir(g_profileDir, true)) {
 		MessageBox(NULL, 
 			_T("Profile cannot be placed into Miranda root folder.\n")
@@ -464,9 +477,6 @@ int LoadDatabaseModule(void)
 	_tchdir(szProfile);
 	szProfile[0] = 0;
 
-	// load the older basic services of the db
-	InitUtils();
-
 	// find out which profile to load
 	if ( !getProfile(szProfile, SIZEOF(szProfile)))
 		return 1;
@@ -508,5 +518,10 @@ int LoadDatabaseModule(void)
 	}
 		while (retry);
 
-	return (rc != 0);
+	if (rc == ERROR_SUCCESS) {
+		InitIni();
+		return 0;
+	}
+	
+	return rc;
 }

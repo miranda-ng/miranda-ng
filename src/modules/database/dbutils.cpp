@@ -304,9 +304,16 @@ static INT_PTR GetProfileNameW(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static INT_PTR SetDefaultProfile(WPARAM wParam, LPARAM lParam)
+{
+	extern TCHAR* g_defaultProfile;
+	replaceStrT(g_defaultProfile, (TCHAR*)wParam);
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int InitUtils()
+int LoadEventsModule()
 {
 	bModuleInitialized = TRUE;
 
@@ -322,16 +329,17 @@ int InitUtils()
 	CreateServiceFunction(MS_DB_GETPROFILENAME, GetProfileName);
 	CreateServiceFunction(MS_DB_GETPROFILEPATHW, GetProfilePathW);
 	CreateServiceFunction(MS_DB_GETPROFILENAMEW, GetProfileNameW);
+
+	CreateServiceFunction(MS_DB_SETDEFAULTPROFILE, SetDefaultProfile);
 	return 0;
 }
 
 void UnloadEventsModule()
 {
-	int i;
+	if ( !bModuleInitialized)
+		return;
 
-	if ( !bModuleInitialized) return;
-
-	for (i=0; i < eventTypes.getCount(); i++) {
+	for (int i=0; i < eventTypes.getCount(); i++) {
 		DBEVENTTYPEDESCR* p = eventTypes[i];
 		mir_free(p->module);
 		mir_free(p->descr);

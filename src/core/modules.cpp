@@ -42,8 +42,10 @@ int LoadProtocolsModule(void);	// core: protocol manager
 int LoadAccountsModule(void);    // core: account manager
 int LoadIgnoreModule(void);		// protocol filter: ignore
 int LoadDbintfModule(void);
+int LoadEventsModule(void);
 
 int LoadContactListModule(void);// ui: clist
+int LoadDatabaseModule(void);
 int LoadOptionsModule(void);	// ui: options dialog
 int LoadFindAddModule(void);	// ui: search/add users
 int LoadSkinIcons(void);
@@ -60,6 +62,7 @@ int LoadButtonModule(void);		// window class: button class
 int LoadFontserviceModule(void); // ui: font manager
 int LoadIcoLibModule(void);   // ui: icons manager
 int LoadServiceModePlugin(void);
+int LoadDefaultServiceModePlugin(void);
 int LoadErrorsModule();
 
 void UnloadUtilsModule(void);
@@ -92,7 +95,22 @@ int LoadDefaultModules(void)
 	if ( LoadIcoTabsModule()) return 1;
 	if ( LoadHeaderbarModule()) return 1;
 	if ( LoadDbintfModule()) return 1;
+	if ( LoadEventsModule()) return 1;
+	
+	// load database drivers & service plugins without executing their Load()
 	if ( LoadNewPluginsModuleInfos()) return 1;
+
+	switch ( LoadDefaultServiceModePlugin()) {
+	case SERVICE_CONTINUE:  // continue loading Miranda normally
+		break;
+	case SERVICE_MONOPOLY:  // unload database and go to the message cycle
+		return 0;
+	default:                // smth went wrong, terminating
+		return 1;
+	}
+
+	// the database will select which db plugin to use, or fail if no profile is selected
+	if ( LoadDatabaseModule()) return 1;
 
 	// database is available here
 	if ( LoadButtonModule()) return 1;
