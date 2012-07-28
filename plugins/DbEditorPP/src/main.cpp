@@ -161,6 +161,34 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 
 int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
+	// Register menu item
+	CLISTMENUITEM mi = { 0 };
+	mi.cbSize = sizeof(mi);
+	mi.position = 1900000001;
+	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT));
+	mi.pszName = modFullname;
+	mi.pszService = "DBEditorpp/MenuCommand";
+	Menu_AddMainMenuItem(&mi);
+
+	ZeroMemory(&mi, sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.position = 1900000001;
+	mi.flags = DBGetContactSettingByte(NULL,modname,"UserMenuItem",0)?0:CMIF_HIDDEN;
+	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGUSER));
+	mi.pszName = LPGEN("Open user tree in DBE++");
+	mi.pszService = "DBEditorpp/MenuCommand";
+	hUserMenu = Menu_AddContactMenuItem(&mi);
+
+	// Register hotkeys
+	HOTKEYDESC hkd = {0};
+	hkd.cbSize = sizeof(hkd);
+	hkd.pszName = "hk_dbepp_open";
+	hkd.pszService = "DBEditorpp/MenuCommand";
+	hkd.ptszDescription = LPGEN("Open Database Editor");
+	hkd.ptszSection = modFullname;
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT|HOTKEYF_EXT, 'D');
+	Hotkey_Register(&hkd);
+
 	DBVARIANT dbv;
 	char *coreMods = "";
 	char *mods;
@@ -169,22 +197,18 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	int i=0, len;
 	if (!DBGetContactSetting(NULL,modname,"CoreModules",&dbv) && dbv.type == DBVT_ASCIIZ)
 		mods = dbv.pszVal;
-	else
-	{
+	else {
 		DBWriteContactSettingString(NULL,modname,"CoreModules",coreMods);
 		mods = coreMods;
 	}
 
 	len = (int)strlen(mods);
-	while (i < len)
-	{
-		if (mods[i] == '\\' && mods[i+1] == ' ')
-		{
+	while (i < len) {
+		if (mods[i] == '\\' && mods[i+1] == ' ') {
 			strcat(mod," ");
 			i++;
 		}
-		else if (mods[i] == ' ' || mods[i] == ',' || mods[i] == '\r' || mods[i] == '\n'|| mods[i] == '\0')
-		{
+		else if (mods[i] == ' ' || mods[i] == ',' || mods[i] == '\r' || mods[i] == '\n'|| mods[i] == '\0') {
 			if (mod[0])
 				CallService("DBEditorpp/RegisterSingleModule",(WPARAM)mod,0);
 			mod[0] = '\0';
@@ -192,7 +216,9 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 		else strncat(mod,&mods[i],1);
 		i++;
 	}
-	if (mod[0]) CallService("DBEditorpp/RegisterSingleModule",(WPARAM)mod,0);
+
+	if (mod[0])
+		CallService("DBEditorpp/RegisterSingleModule",(WPARAM)mod,0);
 
 	doOldKnownModulesList(); // add the old plugins which havnt been changed over yet..
 
@@ -206,10 +232,10 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	usePopUps = DBGetContactSettingByte(NULL,modname,"UsePopUps",0);
 
 	// Load the name order
-	for(i=0;i<NAMEORDERCOUNT;i++) nameOrder[i]=i;
+	for(i=0; i < NAMEORDERCOUNT; i++)
+		nameOrder[i] = i;
 
-	if (!DBGetContactSetting(NULL,"Contact","NameOrder",&dbv))
-	{
+	if (!DBGetContactSetting(NULL,"Contact","NameOrder",&dbv)) {
 		CopyMemory(nameOrder,dbv.pbVal,dbv.cpbVal);
 		DBFreeVariant(&dbv);
 	}
@@ -217,8 +243,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	// check DB engine for unicode support
 	UDB = FALSE;
 
-	if (ServiceExists(MS_DB_CONTACT_GETSETTING_STR))
-	{
+	if (ServiceExists(MS_DB_CONTACT_GETSETTING_STR)) {
 		DBCONTACTGETSETTING cgs;
 		dbv.type = 0;
 
@@ -232,7 +257,6 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 		if (!CallService(MS_DB_CONTACT_GETSETTING_STR, 0,(LPARAM)&cgs))
 			if (dbv.type == DBVT_BYTE)
 				UDB = TRUE;
-
 	}
 
 	// check OS support for unicode
@@ -262,7 +286,6 @@ int PreShutdown(WPARAM wParam,LPARAM lParam)
 	DestroyServiceFunction(sRegisterModule);
 	DestroyServiceFunction(sRegisterSingleModule);
 	DestroyServiceFunction(sImport);
-
 	return 0;
 }
 
@@ -295,23 +318,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	sRegisterSingleModule = CreateServiceFunction("DBEditorpp/RegisterSingleModule", RegisterSingleModule);
 	sImport = CreateServiceFunction("DBEditorpp/Import", ImportFromFile);
 	
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
-	mi.position = 1900000001;
-	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT));
-	mi.pszName = modFullname;
-	mi.pszService = "DBEditorpp/MenuCommand";
-	Menu_AddMainMenuItem(&mi);
-
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
-	mi.position = 1900000001;
-	mi.flags = DBGetContactSettingByte(NULL,modname,"UserMenuItem",0)?0:CMIF_HIDDEN;
-	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGUSER));
-	mi.pszName = LPGEN("Open user tree in DBE++");
-	mi.pszService = "DBEditorpp/MenuCommand";
-	hUserMenu = Menu_AddContactMenuItem(&mi);
-
 	sServicemodeLaunch = CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
 
 	CallService("DBEditorpp/RegisterSingleModule",(WPARAM)modname,0);
@@ -323,17 +329,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitCommonControlsEx(&icex);
 
 	ZeroMemory(&WatchListArray, sizeof(WatchListArray));
-
-	// Register hotkeys
-	HOTKEYDESC hkd = {0};
-	hkd.cbSize = sizeof(hkd);
-	hkd.pszName = "hk_dbepp_open";
-	hkd.pszService = "DBEditorpp/MenuCommand";
-	hkd.ptszDescription = LPGEN("Open Database Editor");
-	hkd.ptszSection = modFullname;
-	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT|HOTKEYF_EXT, 'D');
-	Hotkey_Register(&hkd);
-
 	return 0;
 }
 
