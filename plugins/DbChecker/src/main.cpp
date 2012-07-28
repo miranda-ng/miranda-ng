@@ -22,9 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE hInst;
 int hLangpack = 0;
-bool bServiceMode = false, bLaunchMiranda = false;
-
-static HANDLE hLaunchFunc;
+bool bServiceMode, bLaunchMiranda, bShortMode;
 
 DbToolOptions opts = {0};
 
@@ -63,22 +61,31 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SERVICE
 
 static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
-	bLaunchMiranda = false;
+	bLaunchMiranda = bShortMode = false;
 	bServiceMode = true;
 	DialogBox(hInst, MAKEINTRESOURCE(IDD_WIZARD), NULL, WizardDlgProc);
 	return (bLaunchMiranda) ? SERVICE_CONTINUE : SERVICE_FAILED;
+}
+
+static INT_PTR CheckProfile(WPARAM wParam, LPARAM)
+{
+	bShortMode = true;
+	bLaunchMiranda = bServiceMode = false;
+	_tcsncpy(opts.filename, (TCHAR*)wParam, SIZEOF(opts.filename));
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_WIZARD), NULL, WizardDlgProc);
+	return 0;
 }
 
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	hLaunchFunc = CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
+	CreateServiceFunction(MS_DB_CHECKPROFILE, CheckProfile);
+	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	DestroyServiceFunction(hLaunchFunc);
 	return 0;
 }

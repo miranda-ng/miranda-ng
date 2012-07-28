@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "profilemanager.h"
 #include <sys/stat.h>
 
+void EnsureCheckerLoaded(void);
+
 #define WM_INPUTCHANGED (WM_USER + 0x3000)
 #define WM_FOCUSTEXTBOX (WM_USER + 0x3001)
 
@@ -286,7 +288,25 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 	return TRUE;
 }
 
-void DeleteProfile(HWND hwndList, int iItem, DlgProfData* dat)
+void CheckProfile(HWND hwndList, int iItem, DlgProfData *dat)
+{
+	if (iItem < 0)
+		return;
+	
+	TCHAR profile[MAX_PATH], fullName[MAX_PATH];
+	LVITEM item = {0};
+	item.mask = LVIF_TEXT;
+	item.iItem = iItem;
+	item.pszText = profile;
+	item.cchTextMax = SIZEOF(profile);
+	if ( !ListView_GetItem(hwndList, &item))
+		return;
+
+	mir_sntprintf(fullName, SIZEOF(fullName), _T("%s\\%s\\%s.dat"), dat->pd->szProfileDir, profile, profile);
+	CallService(MS_DB_CHECKPROFILE, (WPARAM)fullName, 0);
+}
+
+void DeleteProfile(HWND hwndList, int iItem, DlgProfData *dat)
 {
 	if (iItem < 0)
 		return;
@@ -318,21 +338,19 @@ void DeleteProfile(HWND hwndList, int iItem, DlgProfData* dat)
 
 static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	DlgProfData* dat = (struct DlgProfData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	DlgProfData *dat = (struct DlgProfData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_PROFILELIST);
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		EnsureCheckerLoaded();
 		{
-			HIMAGELIST hImgList;
-			LVCOLUMN col;
-
-			TranslateDialogDefault(hwndDlg);
-
 			dat = (DlgProfData*) lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 			// set columns
+			LVCOLUMN col;
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.pszText = TranslateT("Profile");
 			col.cx = 122;
@@ -355,7 +373,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			ListView_InsertColumn(hwndList, 4, &col);
 
 			// icons
-			hImgList = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 2, 1);
+			HIMAGELIST hImgList = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 2, 1);
 			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_USERDETAILS));
 			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_DELETE));
 
@@ -410,19 +428,28 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			lvht.pt.x = GET_X_LPARAM(lParam); 
 			lvht.pt.y = GET_Y_LPARAM(lParam); 
 			ScreenToClient(hwndList, &lvht.pt);
-			if (ListView_HitTest(hwndList, &lvht) < 0) break;
+			if (ListView_HitTest(hwndList, &lvht) < 0)
+				break;
 
 			lvht.pt.x = GET_X_LPARAM(lParam); 
 			lvht.pt.y = GET_Y_LPARAM(lParam); 
 
 			HMENU hMenu = CreatePopupMenu();
 			AppendMenu(hMenu, MF_STRING, 1, TranslateT("Run"));
-			AppendMenu(hMenu, MF_SEPARATOR, 2, NULL);
+			AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
+			if (ServiceExists(MS_DB_CHECKPROFILE)) {
+				AppendMenu(hMenu, MF_STRING, 2, TranslateT("Check"));
+				AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
+			}
 			AppendMenu(hMenu, MF_STRING, 3, TranslateT("Delete"));
 			int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, lvht.pt.x, lvht.pt.y, 0, hwndDlg, NULL);
 			switch (index) {
 			case 1:
 				SendMessage(GetParent(hwndDlg), WM_COMMAND, IDOK, 0);
+				break;
+
+			case 2:
+				CheckProfile(hwndList, lvht.iItem, dat);
 				break;
 
 			case 3:
@@ -445,12 +472,9 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					EnableWindow(dat->hwndOK, ListView_GetSelectedCount(hwndList) == 1);
 
 				case NM_DBLCLK:
-					{
-						LVITEM item = {0};
+					if (dat != NULL) {
 						TCHAR profile[MAX_PATH];
-
-						if (dat == NULL) break;
-
+						LVITEM item = {0};
 						item.mask = LVIF_TEXT;
 						item.iItem = ListView_GetNextItem(hwndList, -1, LVNI_SELECTED | LVNI_ALL);
 						item.pszText = profile;
@@ -468,8 +492,8 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 							CloseHandle(hFile);
 							if (hdr->code == NM_DBLCLK) EndDialog(GetParent(hwndDlg), 1);
 						}
-						return TRUE;
 					}	
+					return TRUE;
 
 				case LVN_KEYDOWN:
 					{

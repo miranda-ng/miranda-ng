@@ -129,6 +129,15 @@ Analog of Database/DefaultProfile in mirandaboot.ini
 
 #define MS_DB_SETDEFAULTPROFILE "DB/SetDefaultProfile"
 
+/* DB/CheckProfile service
+Checks the specified profile like dbtool did.
+Implemented in the dbchecker plugins, thus it might not exist
+  wParam = (WPARAM)(TCHAR*)ptszProfileName
+  lParam = 0 (unused)
+*/
+
+#define MS_DB_CHECKPROFILE "DB/CheckProfile"
+
 /************************* Contact ********************************/
 
 /* DB/Contact/GetSetting service

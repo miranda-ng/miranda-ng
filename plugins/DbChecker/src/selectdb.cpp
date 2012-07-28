@@ -44,16 +44,16 @@ LBL_Error:
 		opts.dbChecker = dblink->CheckDB(opts.filename, &error);
 		if (opts.dbChecker == NULL) {
 			opts.error = error;
-			SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
+			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
 			return;
 		}
 		opts.dblink = dblink;
 	}
 	
 	if (iNextPage == IDD_FILEACCESS)
-		SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
+		PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
 	else
-		SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
+		PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
 }
 
 void GetProfileDirectory(TCHAR* szMirandaDir, TCHAR* szPath, int cbPath)
@@ -237,6 +237,9 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			opts.dbChecker->Destroy();
 			opts.dbChecker = NULL;
 		}
+
+		if (bShortMode)
+			OpenDatabase(hdlg, IDD_FILEACCESS);
 		return TRUE;
 
 	case WZN_PAGECHANGING:
@@ -286,7 +289,8 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			break;
 
 		case IDC_BACK:
-			SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_WELCOME, (LPARAM)WelcomeDlgProc);
+			if (!bShortMode)
+				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_WELCOME, (LPARAM)WelcomeDlgProc);
 			break;
 
 		case IDOK:

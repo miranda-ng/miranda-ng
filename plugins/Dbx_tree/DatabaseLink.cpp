@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static int makeDatabase(const TCHAR *profile)
 {
 	std::auto_ptr<CDataBase> db( new CDataBase(profile));
-	return gDataBase->CreateDB();
+	return db->CreateDB();
 }
 
 /*
@@ -54,7 +54,7 @@ static int makeDatabase(const TCHAR *profile)
 static int grokHeader(const TCHAR *profile)
 {
 	std::auto_ptr<CDataBase> db( new CDataBase(profile));
-	return gDataBase->CheckDB();
+	return db->CheckDB();
 }
 
 /*

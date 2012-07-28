@@ -21,8 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR bReturn;
+	if ( DoMyControlProcessing(hdlg, message, wParam, lParam, &bReturn))
+		return bReturn;
 
-	if (DoMyControlProcessing(hdlg, message, wParam, lParam, &bReturn)) return bReturn;
 	switch(message) {
 	case WM_INITDIALOG:
 		{
@@ -39,7 +40,7 @@ INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDC_BACK:
-			SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
+			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
 			break;
 
 		case IDOK:

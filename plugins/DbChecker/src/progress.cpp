@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void __cdecl WorkerThread(void *unused);
 static HWND hwndStatus, hdlgProgress, hwndBar;
+static bool bShortModeDone;
 HANDLE hEventRun = NULL, hEventAbort = NULL;
 int errorCount;
 
@@ -74,6 +75,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		hdlgProgress = hdlg;
 		hwndStatus = GetDlgItem(hdlg, IDC_STATUS);
 		errorCount = 0;
+		bShortModeDone = false;
 		hwndBar = GetDlgItem(hdlg, IDC_PROGRESS);
 		SendMessage(hwndBar, PBM_SETRANGE, 0, MAKELPARAM(0, 1000));
 		{
@@ -147,25 +149,41 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 
 	case WM_PROCESSINGDONE:
 		SetProgressBar(1000);
-		EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), TRUE);
+		if (bShortMode) {
+			EnableWindow(GetDlgItem(GetParent(hdlg), IDC_BACK), FALSE);
+			EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), FALSE);
+			SetDlgItemText(GetParent(hdlg), IDCANCEL, TranslateT("&Finish"));
+			bShortModeDone = true;
+		}
+		else {
+			AddToStatus(STATUS_SUCCESS, TranslateT("Click Next to continue"));
+			EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), TRUE);
+		}
+
 		if (manualAbort == 1)
 			EndDialog(GetParent(hdlg), 0);
 		else if (manualAbort == 2) {
 			if (opts.bCheckOnly)
-				SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
+				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
 			else {
-				SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
+				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
 				CloseHandle(opts.hOutFile);
 				opts.hOutFile = NULL;
 			}
 			break;
 		}
-		AddToStatus(STATUS_SUCCESS, TranslateT("Click Next to continue"));
 		break;
 
 	case WZN_CANCELCLICKED:
+		if (bShortModeDone) {
+			EndDialog( GetParent(hdlg), 1);
+			return TRUE;
+		}
+
 		ResetEvent(hEventRun);
-		if (IsWindowEnabled(GetDlgItem(GetParent(hdlg), IDOK))) break;
+		if (IsWindowEnabled(GetDlgItem(GetParent(hdlg), IDOK)))
+			break;
+
 		if (MessageBox(hdlg, TranslateT("Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?"), TranslateT("Miranda Database Tool"), MB_YESNO) == IDYES) {
 			manualAbort = 1;
 			SetEvent(hEventAbort);
@@ -188,12 +206,12 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			}
 			SetEvent(hEventRun);
 			if (opts.bCheckOnly)
-				SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
+				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
 			else
-				SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
+				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
 			break;
 		case IDOK:
-			SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FINISHED, (LPARAM)FinishedDlgProc);
+			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FINISHED, (LPARAM)FinishedDlgProc);
 			break;
 		}
 		break;

@@ -56,7 +56,7 @@ INT_PTR CALLBACK WelcomeDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM l
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDOK:
-			SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
+			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
 			break;
 		}
 		break;

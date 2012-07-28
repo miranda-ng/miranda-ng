@@ -98,7 +98,10 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_DBTOOL)));
 		hdlgPage = NULL;
 		bLaunchMiranda = false;
-		SendMessage(hdlg, WZM_GOTOPAGE, IDD_WELCOME, (LPARAM)WelcomeDlgProc);
+		if (bShortMode)
+			SendMessage(hdlg, WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
+		else
+			SendMessage(hdlg, WZM_GOTOPAGE, IDD_WELCOME, (LPARAM)WelcomeDlgProc);
 		TranslateDialogDefault(hdlg);
 		return TRUE;
 
@@ -138,8 +141,14 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 			CloseHandle(opts.hOutFile);
 
 		DestroyWindow(hdlgPage);
-		if (hBoldFont != NULL) DeleteObject(hBoldFont);
-		if (hEmfHeaderLogo != NULL) DeleteEnhMetaFile(hEmfHeaderLogo);
+		if (hBoldFont != NULL) {
+			DeleteObject(hBoldFont);
+			hBoldFont = NULL;
+		}
+		if (hEmfHeaderLogo != NULL) {
+			DeleteEnhMetaFile(hEmfHeaderLogo);
+			hEmfHeaderLogo = NULL;
+		}
 		break;
 	}
 	return FALSE;

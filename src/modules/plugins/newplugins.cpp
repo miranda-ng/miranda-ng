@@ -421,7 +421,6 @@ pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 	return p;
 }
 
-
 void SetPluginOnWhiteList(const TCHAR* pluginname, int allow)
 {
 	char plugName[MAX_PATH];
@@ -589,7 +588,6 @@ static int LaunchServicePlugin(pluginEntry* p)
 	// plugin load failed - terminating Miranda
 	if ( !( p->pclass & PCLASS_LOADED)) {
 		if (p->bpi.Load() != ERROR_SUCCESS) {
-			p->pclass |= PCLASS_FAILED;
 			Plugin_Uninit(p);
 			return SERVICE_FAILED;
 		}
@@ -628,6 +626,23 @@ int LoadDefaultServiceModePlugin()
 int LoadServiceModePlugin()
 {
 	return (serviceModePlugin == NULL) ? SERVICE_CONTINUE : LaunchServicePlugin(serviceModePlugin);
+}
+
+void EnsureCheckerLoaded(void)
+{
+	for (int i=0; i < servicePlugins.getCount(); i++) {
+		pluginEntry* p = servicePlugins[i];
+		if ( _tcsicmp(p->pluginname, _T("dbchecker.dll")))
+			continue;
+
+		if ( !(p->pclass & PCLASS_LOADED)) {
+			if (p->bpi.Load() != ERROR_SUCCESS)
+				Plugin_Uninit(p);
+			else
+				p->pclass |= PCLASS_LOADED;
+		}
+		break;
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

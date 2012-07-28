@@ -26,6 +26,8 @@ INT_PTR CALLBACK FileAccessDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 
 	switch(message) {
 	case WM_INITDIALOG:
+		if (bShortMode)
+			EnableWindow(GetDlgItem(GetParent(hdlg), IDC_BACK), FALSE);
 		CheckDlgButton(hdlg, IDC_CHECKONLY, opts.bCheckOnly);
 		CheckDlgButton(hdlg, IDC_BACKUP, opts.bBackup);
 		CheckDlgButton(hdlg, IDC_AGGRESSIVE, opts.bAggressive);
@@ -43,14 +45,14 @@ INT_PTR CALLBACK FileAccessDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDC_BACK:
-			SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
+			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
 			break;
 
 		case IDOK:
 			if (opts.bCheckOnly)
-				OpenDatabase(hdlg, IDD_PROGRESS);
+				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
 			else
-				SendMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
+				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
 			break;
 
 		case IDC_CHECKONLY:

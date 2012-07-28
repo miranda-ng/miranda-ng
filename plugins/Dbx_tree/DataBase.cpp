@@ -106,25 +106,25 @@ int CDataBase::CheckFile(TDBFileType Index)
 	HANDLE htmp = CreateFile(m_FileName[Index], GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_FLAG_RANDOM_ACCESS, NULL);
 	if (htmp != INVALID_HANDLE_VALUE)
 	{
-        SetFilePointer(htmp, 0, NULL, FILE_BEGIN);
-        if (ReadFile(htmp, &h, sizeof(h), &r, NULL))
-        {
-            if (0 != memcmp(h.Gen.Signature, cFileSignature[Index], sizeof(cFileSignature[Index])))
-            {
-                CloseHandle(htmp);
-                return EGROKPRF_UNKHEADER;
-            }
+		SetFilePointer(htmp, 0, NULL, FILE_BEGIN);
+		if (ReadFile(htmp, &h, sizeof(h), &r, NULL))
+		{
+			if (0 != memcmp(h.Gen.Signature, cFileSignature[Index], sizeof(cFileSignature[Index])))
+			{
+				CloseHandle(htmp);
+				return EGROKPRF_UNKHEADER;
+			}
 
-            if (cDBVersion < h.Gen.Version)
-            {
-                CloseHandle(htmp);
-                return EGROKPRF_VERNEWER;
-            }
+			if (cDBVersion < h.Gen.Version)
+			{
+				CloseHandle(htmp);
+				return EGROKPRF_VERNEWER;
+			}
 
-            CloseHandle(htmp);
-            return EGROKPRF_NOERROR;
-        }
-        CloseHandle(htmp);
+			CloseHandle(htmp);
+			return EGROKPRF_NOERROR;
+		}
+		CloseHandle(htmp);
 	}
 
 	return EGROKPRF_CANTREAD;
