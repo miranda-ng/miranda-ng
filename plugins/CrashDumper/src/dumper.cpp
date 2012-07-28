@@ -519,7 +519,7 @@ void PrintVersionInfo(bkstring& buffer, unsigned flags)
 		buffer.append(TEXT("\r\n"));
 	}
 
-	buffer.appendfmt(TEXT("\r\nMiranda IM Version: %s"), vertxt); 
+	buffer.appendfmt(TEXT("\r\nMiranda NG Version: %s"), vertxt); 
 	GetWow64String(buffer);
 	buffer.append(TEXT("\r\n"));
 

@@ -936,7 +936,7 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	else out = _T("");
 
 	if (!suppressHeader) {
-		out.append( _T("Miranda IM - VersionInformation plugin by Hrk, modified by Eblis\r\n"));
+		out.append( _T("Miranda NG - VersionInformation plugin by Hrk, modified by Eblis\r\n"));
 		if (!forumStyle) {
 			out.append( _T("Miranda's homepage: http://miranda-ng.org/\r\n")); //changed homepage
 			out.append( _T("Miranda tools: http://nightly.miranda.im/\r\n\r\n")); //was missing a / before download
@@ -988,7 +988,7 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	
 	//Miranda
 	out.append( _T("Miranda path: ")	+ lpzMirandaPath + _T("\r\n"));
-	out.append( _T("Miranda IM version: ") + lpzMirandaVersion);
+	out.append( _T("Miranda NG version: ") + lpzMirandaVersion);
 	if (bIsWOW64)
 		out.append( _T(" [running inside WOW64]"));
 	if (bServiceMode)

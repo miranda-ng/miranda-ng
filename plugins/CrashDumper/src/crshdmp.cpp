@@ -46,7 +46,7 @@ static const PLUGININFOEX pluginInfoEx =
 	sizeof(PLUGININFOEX),
 	"Crash Dumper",
 	__VERSION_DWORD,
-	"Crash Dumper for Miranda IM.",
+	"Crash Dumper for Miranda NG.",
 	"borkra",
 	"borkra@miranda-im.org",
 	"Copyright© 2008 - 2012 Boris Krasnovskiy All Rights Reserved",
