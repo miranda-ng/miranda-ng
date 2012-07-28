@@ -38,6 +38,10 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					return FALSE;
 				break;
 			}
+		case ID_DESCRIPTION: 
+			{
+				return FALSE;
+			}
 		}
 		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 					}
