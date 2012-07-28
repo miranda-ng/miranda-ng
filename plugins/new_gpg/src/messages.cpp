@@ -567,13 +567,6 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 				DWORD uin = DBGetContactSettingDword(ccs->hContact, proto, "UIN", 0);
 				if(uin)
 				{
-					if(ServiceExists("ICQ"PS_ICQ_CHECKCAPABILITY))
-					{
-						ICQ_CUSTOMCAP cap = {0};
-						strcpy(cap.caps, "GPG AutoExchange");
-						if(CallService("ICQ"PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap))
-							CallContactService(ccs->hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)"-----PGP KEY REQUEST-----");
-					}
 				}
 				else
 				{
@@ -827,19 +820,6 @@ int SendMsgSvc(WPARAM w, LPARAM l)
 			DWORD uin = DBGetContactSettingDword(ccs->hContact, proto, "UIN", 0);
 			if(uin)
 			{
-				if(ServiceExists("ICQ"PS_ICQ_CHECKCAPABILITY))
-				{
-					ICQ_CUSTOMCAP cap = {0};
-					strcpy(cap.caps, "GPG AutoExchange");
-					if(CallService("ICQ"PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap))
-					{
-						CallContactService(ccs->hContact, PSS_MESSAGE, (WPARAM)ccs->wParam, (LPARAM)"-----PGP KEY REQUEST-----");
-						hcontact_data[ccs->hContact].msgs_to_send.push_back(msg);
-						boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, ccs->hContact));
-						mir_free(msg);
-						return returnNoError(ccs->hContact);
-					}
-				}
 			}
 			else
 			{
@@ -854,7 +834,7 @@ int SendMsgSvc(WPARAM w, LPARAM l)
 						if(caps)
 						{
 							wstring str;
-							for(int i =0;;i++)
+							for(int i=0;;i++)
 							{
 								str.push_back(caps[i]);
 								if(caps[i] == '\0')

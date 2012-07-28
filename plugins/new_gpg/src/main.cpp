@@ -2022,16 +2022,6 @@ void InitCheck()
 		}
 		mir_free(path);
 	}
-	extern bool bAutoExchange;
-	if(bAutoExchange && (ServiceExists("ICQ"PS_ICQ_ADDCAPABILITY))) //work only for one icq instance
-	{
-		ICQ_CUSTOMCAP cap;
-		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
-		cap.hIcon = 0;
-		strcpy(cap.name, "GPG Key AutoExchange");
-		strcpy(cap.caps, "GPG AutoExchange");
-		CallService("ICQ"PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
-	}
 }
 
 void ImportKey()
