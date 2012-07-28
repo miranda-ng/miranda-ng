@@ -28,6 +28,16 @@ const
   CoreDLL = 'mir_core.dll';
 
 ///////////////////////////////////////////////////////////////////////////////
+// command line support
+
+// Parse ptszCmdLine. it must NOT be a constant (content will be patched)
+procedure CmdLine_Parse(ptszCmdLine:PWideChar); stdcall;
+                        external CoreDLL name 'CmdLine_Parse';
+
+function CmdLine_GetOption(ptszParameter:PWideChar):PWideChar; stdcall;
+                           external CoreDLL name 'CmdLine_GetOption';
+
+///////////////////////////////////////////////////////////////////////////////
 // database functions
 
 const
@@ -530,6 +540,9 @@ function Utf8EncodeW(const src:PWideChar):PAnsiChar;stdcall;
 
 function Ucs2toUtf8Len(const src:pWideChar):int; stdcall;
                        external CoreDLL name 'Ucs2toUtf8Len';
+
+function Utf8CheckString(const astr:PAnsiChar):bool;stdcall;
+                         external CoreDLL name 'Utf8CheckString';
 }
 // aliases
 function mir_utf8decode(str:PAnsiChar; var ucs2:pWideChar):PAnsiChar;stdcall;
@@ -550,6 +563,8 @@ function mir_utf8encodew(const src:PWideChar):PAnsiChar;stdcall;
 function mir_utf8lenW(const src:pWideChar):int; stdcall;
                        external CoreDLL name 'Ucs2toUtf8Len';
 
+function mir_utf8checkstring(const astr:PAnsiChar):bool;stdcall;
+                         external CoreDLL name 'Utf8CheckString';
 
 ///////////////////////////////////////////////////////////////////////////////
 

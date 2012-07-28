@@ -156,18 +156,21 @@ const
 }
   ME_SYSTEM_MODULEUNLOAD:pAnsiChar = 'Miranda/System/UnloadModule';
 
-  { Database plugin stuff  }
-
-  // grokHeader() error codes
+{
+  Each service mode plugin must implement MS_SERVICEMODE_LAUNCH 
+   This service might return one of the following values:
+	SERVICE_CONTINUE - load Miranda normally, like there's no service plugins at all
+	SERVICE_ONLYDB - load database and then execute service plugin only
+	SERVICE_MONOPOLY - execute only service plugin, even without database
+	SERVICE_FAILED - terminate Miranda execution
+}
 const
-   EGROKPRF_NOERROR   = 0;
-   EGROKPRF_CANTREAD  = 1; // can't open the profile for reading
-   EGROKPRF_UNKHEADER = 2; // header not supported, not a supported profile
-   EGROKPRF_VERNEWER  = 3; // header correct, version in profile newer than reader/writer
-   EGROKPRF_DAMAGED   = 4; // header/version fine, other internal data missing, damaged.
-// makeDatabase() error codes
-   EMKPRF_CREATEFAILED = 1; // for some reason CreateFile() didnt like something
+  SERVICE_CONTINUE = 0;
+  SERVICE_ONLYDB   = 1;
+  SERVICE_MONOPOLY = 2;
+  SERVICE_FAILED   = (-1);
 
+  MS_SERVICEMODE_LAUNCH:PansiChar = 'ServiceMode/Launch';
 
 {-- end newpluginapi --}
 
@@ -241,8 +244,6 @@ var
   {$include m_metacontacts.inc}
   {$include m_timezones.inc}
   {$include m_crypto.inc}
-
-  {$include m_newawaysys.inc}
 
 implementation
 

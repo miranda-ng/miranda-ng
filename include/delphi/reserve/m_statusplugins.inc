@@ -25,10 +25,10 @@
 type
   PROTOCOLSETTINGEX = record
     cbSize    :integer;
-    szName    :PAnsiChar;   // pointer to protocol modulename
-    szMsg     :PAnsiChar;   // pointer to the status message (may be NULL)
-    status    :word;    // the status
-    lastStatus:word;    // last status
+    szName    :PAnsiChar; // pointer to protocol modulename
+    szMsg     :TChar;     // pointer to the status message (may be NULL)
+    status    :word;      // the status
+    lastStatus:word;      // last status
     tszAccName:TChar;
   end;
 
@@ -160,7 +160,7 @@ const
 // returns 0
   MS_KS_ANNOUNCESTATUSCHANGE:PAnsiChar = 'KeepStatus/AnnounceStatusChange';
 
-function announce_status_change(szProto:PAnsiChar;newstatus:integer;szMsg:PAnsiChar):integer;// cdecl;
+function announce_status_change(szProto:PAnsiChar;newstatus:integer;szMsg:TChar):integer;// cdecl;
 var
   ps:PROTOCOLSETTINGEX;
 begin
