@@ -46,32 +46,23 @@ LIST<CDb3Mmap> g_Dbs(1, (LIST<CDb3Mmap>::FTSortFunc)HandleKeySort);
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // returns 0 if the profile is created, EMKPRF*
-static int makeDatabase(const TCHAR *profile, int *error)
+static int makeDatabase(const TCHAR *profile)
 {
-	CDb3Mmap *tmp = new CDb3Mmap(profile);
-	if (tmp->Create() == ERROR_SUCCESS) {
-		tmp->CreateDbHeaders();
-		delete tmp;
-		return 0;
-	}
-	delete tmp;
-	if (error != NULL) *error = EMKPRF_CREATEFAILED;
-	return 1;
+	std::auto_ptr<CDb3Mmap> db( new CDb3Mmap(profile));
+	if (db->Create() != ERROR_SUCCESS)
+		return EMKPRF_CREATEFAILED;
+
+	return db->CreateDbHeaders();
 }
 
 // returns 0 if the given profile has a valid header
-static int grokHeader(const TCHAR *profile, int *error)
+static int grokHeader(const TCHAR *profile)
 {
-	CDb3Mmap *tmp = new CDb3Mmap(profile);
-	if (tmp->Load(true) != ERROR_SUCCESS) {
-		delete tmp;
-		if (error != NULL) *error = EGROKPRF_CANTREAD;
-		return 1;
-	}
+	std::auto_ptr<CDb3Mmap> db( new CDb3Mmap(profile));
+	if (db->Load(true) != ERROR_SUCCESS)
+		return EGROKPRF_CANTREAD;
 
-	*error = tmp->CheckDbHeaders();
-	delete tmp;
-	return (*error == 0) ? 0 : 1;
+	return db->CheckDbHeaders();
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
@@ -80,14 +71,12 @@ static MIDatabase* LoadDatabase(const TCHAR *profile)
 	// set the memory, lists & UTF8 manager
 	mir_getLP( &pluginInfo );
 
-	CDb3Mmap* db = new CDb3Mmap(profile);
-	if (db->Load(false) != ERROR_SUCCESS) {
-		delete db;
+	std::auto_ptr<CDb3Mmap> db( new CDb3Mmap(profile));
+	if (db->Load(false) != ERROR_SUCCESS)
 		return NULL;
-	}
 
-	g_Dbs.insert(db);
-	return db;
+	g_Dbs.insert(db.get());
+	return db.release();
 }
 
 static int UnloadDatabase(MIDatabase* db)
@@ -97,24 +86,22 @@ static int UnloadDatabase(MIDatabase* db)
 	return 0;
 }
 
-MIDatabaseChecker* CheckDb(const TCHAR* ptszFileName, int *error)
+MIDatabaseChecker* CheckDb(const TCHAR* profile, int *error)
 {
-	CDb3Mmap *tmp = new CDb3Mmap(ptszFileName);
-	if (tmp->Load(true) != ERROR_SUCCESS) {
-		delete tmp;
-		if (error != NULL) *error = EGROKPRF_CANTREAD;
+	std::auto_ptr<CDb3Mmap> db( new CDb3Mmap(profile));
+	if (db->Load(true) != ERROR_SUCCESS) {
+		*error = EGROKPRF_CANTREAD;
 		return NULL;
 	}
 
-	int chk = tmp->CheckDbHeaders();
+	int chk = db->CheckDbHeaders();
 	if (chk != ERROR_SUCCESS) {
-		delete tmp;
 		*error = chk;
 		return NULL;
 	}
 
 	*error = 0;
-	return tmp;
+	return db.release();
 }
 
 static DATABASELINK dblink =

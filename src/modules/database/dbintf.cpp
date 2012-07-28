@@ -178,8 +178,8 @@ static INT_PTR srvRegisterPlugin(WPARAM wParam,LPARAM lParam)
 static INT_PTR srvFindPlugin(WPARAM wParam,LPARAM lParam)
 {
 	for (int i=0; i < arDbPlugins.getCount(); i++) {
-		int error;
-		if (arDbPlugins[i]->grokHeader((TCHAR*)lParam, &error) == ERROR_SUCCESS)
+		int error = arDbPlugins[i]->grokHeader((TCHAR*)lParam);
+		if (error == ERROR_SUCCESS)
 			return (INT_PTR)arDbPlugins[i];
 	}
 

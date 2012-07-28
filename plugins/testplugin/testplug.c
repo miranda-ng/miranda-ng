@@ -48,10 +48,6 @@ __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 }
 
 extern "C" __declspec(dllexport) const MUUID interfaces[] = {MIID_TESTPLUGIN, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
 
 int __declspec(dllexport) Load(PLUGINLINK *link)
 {
@@ -64,8 +60,8 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	mi.flags=0;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 	mi.pszName=LPGEN("&Test Plugin...");
-	mi.pszService="TestPlug/MenuCommand";
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	mi.pszService ="TestPlug/MenuCommand";
+	Menu_AddMenuItem(&mi);
 	return 0;
 }
 

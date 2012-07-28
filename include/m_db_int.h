@@ -124,7 +124,7 @@ struct DATABASELINK
 			the time of this call, profile will be C:\..\<name>.dat
 		Returns: 0 on success, non zero on failure - error contains extended error information, see EMKPRF_*
 	*/
-	int (*makeDatabase)(const TCHAR *profile, int *error);
+	int (*makeDatabase)(const TCHAR *profile);
 
 	/*
 		profile: [in] a null terminated string to file path of selected profile
@@ -136,7 +136,7 @@ struct DATABASELINK
 			etc.
 		Returns: 0 on success, non zero on failure
 	*/
-	int (*grokHeader)(const TCHAR *profile, int *error);
+	int (*grokHeader)(const TCHAR *profile);
 
 	/*
 	Affect: Tell the database to create all services/hooks that a 3.xx legacy database might support into link,

@@ -46,56 +46,23 @@ LIST<CDb3x> g_Dbs(1, (LIST<CDb3x>::FTSortFunc)HandleKeySort);
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // returns 0 if the profile is created, EMKPRF*
-static int makeDatabase(const TCHAR *profile, int *error)
+static int makeDatabase(const TCHAR *profile)
 {
-	CDb3x *tmp = new CDb3x(profile);
-	if (tmp->Create() == ERROR_SUCCESS) {
-		tmp->CreateDbHeaders();
-		delete tmp;
-		return 0;
-	}
-	delete tmp;
-	if (error != NULL) *error = EMKPRF_CREATEFAILED;
-	return 1;
+	std::auto_ptr<CDb3x> db(new CDb3x(profile));
+	if (db->Create() != ERROR_SUCCESS)
+		return EMKPRF_CREATEFAILED;
+	
+	return db->CreateDbHeaders();
 }
 
 // returns 0 if the given profile has a valid header
-static int grokHeader(const TCHAR *profile, int *error)
+static int grokHeader(const TCHAR *profile)
 {
-	CDb3x *tmp = new CDb3x(profile);
-	if (tmp->Load(true) != ERROR_SUCCESS) {
-		delete tmp;
-		if (error != NULL) *error = EGROKPRF_CANTREAD;
-		return 1;
-	}
+	std::auto_ptr<CDb3x> db(new CDb3x(profile));
+	if (db->Load(true) != ERROR_SUCCESS)
+		return EGROKPRF_CANTREAD;
 
-	int chk = tmp->CheckDbHeaders();
-	delete tmp;
-	if ( chk == 0 ) {
-		// all the internal tests passed, hurrah
-		if (error != NULL) *error = 0;
-		return 0;
-	}
-	
-	// didn't pass at all, or some did.
-	switch ( chk ) {
-	case 1:
-		// "Miranda ICQ DB" wasn't present
-		if (error != NULL) *error = EGROKPRF_UNKHEADER;
-		break;
-
-	case 2:
-		// header was present, but version information newer
-		if (error != NULL) *error =  EGROKPRF_VERNEWER;
-		break;
-
-	case 3:
-		// header/version OK, internal data missing
-		if (error != NULL) *error = EGROKPRF_DAMAGED;
-		break;
-	}
-
-	return 1;
+	return db->CheckDbHeaders();
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
@@ -104,14 +71,12 @@ static MIDatabase* LoadDatabase(const TCHAR *profile)
 	// set the memory, lists & UTF8 manager
 	mir_getLP( &pluginInfo );
 
-	CDb3x* db = new CDb3x(profile);
-	if (db->Load(false) != ERROR_SUCCESS) {
-		delete db;
+	std::auto_ptr<CDb3x> db(new CDb3x(profile));
+	if (db->Load(false) != ERROR_SUCCESS)
 		return NULL;
-	}
 
-	g_Dbs.insert(db);
-	return db;
+	g_Dbs.insert(db.get());
+	return db.release();
 }
 
 static int UnloadDatabase(MIDatabase* db)
@@ -121,24 +86,22 @@ static int UnloadDatabase(MIDatabase* db)
 	return 0;
 }
 
-MIDatabaseChecker* CheckDb(const TCHAR* ptszFileName, int *error)
+MIDatabaseChecker* CheckDb(const TCHAR* profile, int *error)
 {
-	CDb3x *tmp = new CDb3x(ptszFileName);
-	if (tmp->Load(true) != ERROR_SUCCESS) {
-		delete tmp;
+	std::auto_ptr<CDb3x> db(new CDb3x(profile));
+	if (db->Load(true) != ERROR_SUCCESS) {
 		if (error != NULL) *error = EGROKPRF_CANTREAD;
 		return NULL;
 	}
 
-	int chk = tmp->CheckDbHeaders();
+	int chk = db->CheckDbHeaders();
 	if (chk != ERROR_SUCCESS) {
-		delete tmp;
 		*error = chk;
 		return NULL;
 	}
 
 	*error = 0;
-	return tmp;
+	return db.release();
 }
 
 static DATABASELINK dblink =

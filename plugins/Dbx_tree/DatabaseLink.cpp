@@ -34,13 +34,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	Note: Do not initialise internal data structures at this point!
 	Returns: 0 on success, non zero on failure - error contains extended error information, see EMKPRF_*
 */
-static int makeDatabase(const TCHAR *profile, int* error)
-{
-	if (gDataBase) delete gDataBase;
-	gDataBase = new CDataBase(profile);
 
-	*error = gDataBase->CreateDB();
-	return *error;
+static int makeDatabase(const TCHAR *profile)
+{
+	std::auto_ptr<CDataBase> db( new CDataBase(profile));
+	return gDataBase->CreateDB();
 }
 
 /*
@@ -53,13 +51,10 @@ static int makeDatabase(const TCHAR *profile, int* error)
 		etc.
 	Returns: 0 on success, non zero on failure
 */
-static int grokHeader(const TCHAR *profile, int* error)
+static int grokHeader(const TCHAR *profile)
 {
-	if (gDataBase) delete gDataBase;
-	gDataBase = new CDataBase(profile);
-
-	*error = gDataBase->CheckDB();
-	return *error;
+	std::auto_ptr<CDataBase> db( new CDataBase(profile));
+	return gDataBase->CheckDB();
 }
 
 /*
@@ -70,9 +65,7 @@ Returns: 0 on success, nonzero on failure
 
 static MIDatabase* LoadDatabase(const TCHAR *profile)
 {
-	if (gDataBase) delete gDataBase;
 	gDataBase = new CDataBase(profile);
-
 	gDataBase->OpenDB();
 	return gDataBase;
 }
@@ -82,12 +75,12 @@ Affect: The database plugin should shutdown, unloading things from the core and 
 Returns: 0 on success, nonzero on failure
 Note: Unload() might be called even if Load(void) was never called, wasLoaded is set to 1 if Load(void) was ever called.
 */
+
 static int UnloadDatabase(MIDatabase* db)
 {
-	if (gDataBase)
-		delete gDataBase;
-
-	gDataBase = NULL;
+	if (gDataBase == db)
+		gDataBase = NULL;
+	delete db;
 	return 0;
 }
 

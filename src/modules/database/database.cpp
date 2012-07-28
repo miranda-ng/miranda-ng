@@ -359,7 +359,7 @@ int makeDatabase(TCHAR *profile, DATABASELINK * link, HWND hwndDlg)
 	}
 	// ask the database to create the profile
 	CreatePathToFileT(profile);
-	if (link->makeDatabase(profile, &err)) {
+	if ((err = link->makeDatabase(profile)) != ERROR_SUCCESS) {
 		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Unable to create the profile '%s', the error was %x"), file, err);
 		MessageBox(hwndDlg, buf, TranslateT("Problem creating profile"), MB_ICONERROR|MB_OK);
 		return 0;
@@ -376,8 +376,8 @@ int tryOpenDatabase(const TCHAR* tszProfile)
 		DATABASELINK* p = arDbPlugins[i];
 
 		// liked the profile?
-		int err = 0;
-		if ( p->grokHeader(tszProfile, &err) == 0) {
+		int err = p->grokHeader(tszProfile);
+		if (err == ERROR_SUCCESS) {
 			// added APIs?
 			MIDatabase* pDb = p->Load(tszProfile);
 			if (pDb) {
@@ -413,8 +413,8 @@ static int tryCreateDatabase(const TCHAR* ptszProfile)
 	for (int i=0; i < arDbPlugins.getCount(); i++) {
 		DATABASELINK* p = arDbPlugins[i];
 
-		int err;
-		if (p->makeDatabase(tszProfile, &err) == 0) {
+		int err = p->makeDatabase(tszProfile);
+		if (err == ERROR_SUCCESS) {
 			if ( !p->Load(tszProfile)) {
 				fillProfileName(tszProfile);
 				return 0;
