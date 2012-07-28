@@ -23,9 +23,7 @@
     <ClInclude Include="..\..\include\m_database.h" />
     <ClInclude Include="..\..\include\m_system.h" />
     <ClInclude Include="commonheaders.h" />
-    <ClInclude Include="forkthread.h" />
     <ClInclude Include="miranda.h" />
-    <ClInclude Include="modules.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cmdline.cpp" />

@@ -209,11 +209,9 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="UI\askauthentication.h" />
     <ClInclude Include="capabilities.h" />
     <ClInclude Include="channels.h" />
     <ClInclude Include="cookies.h" />
-    <ClInclude Include="directpackets.h" />
     <ClInclude Include="families.h" />
     <ClInclude Include="guids.h" />
     <ClInclude Include="i18n.h" />
@@ -224,32 +222,25 @@
     <ClInclude Include="icq_direct.h" />
     <ClInclude Include="icq_fieldnames.h" />
     <ClInclude Include="icq_http.h" />
-    <ClInclude Include="icq_infoupdate.h" />
-    <ClInclude Include="icq_opts.h" />
     <ClInclude Include="icq_packet.h" />
     <ClInclude Include="icq_proto.h" />
     <ClInclude Include="icq_rates.h" />
     <ClInclude Include="icq_server.h" />
     <ClInclude Include="icq_servlist.h" />
-    <ClInclude Include="icq_uploadui.h" />
-    <ClInclude Include="icq_xtraz.h" />
     <ClInclude Include="icqosc_svcs.h" />
     <ClInclude Include="icqoscar.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="log.h" />
-    <ClInclude Include="UI\loginpassword.h" />
     <ClInclude Include="oscar_filetransfer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdpackets.h" />
     <ClInclude Include="tlv.h" />
-    <ClInclude Include="UI\userinfotab.h" />
     <ClInclude Include="utilities.h" />
     <ClInclude Include="changeinfo\changeinfo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="icos\icq.ico" />
     <None Include="docs\icq-readme.txt" />
-    <None Include="docs\IcqOscarJ-translation.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />

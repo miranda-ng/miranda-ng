@@ -298,8 +298,6 @@
     <ClInclude Include="src\ctrl_contact.h" />
     <ClInclude Include="src\ctrl_edit.h" />
     <ClInclude Include="src\ctrl_tzcombo.h" />
-    <ClInclude Include="src\Res\resource.h" />
-    <ClInclude Include="src\Res\version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Res\resource.rc" />

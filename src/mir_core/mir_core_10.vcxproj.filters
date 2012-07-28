@@ -57,12 +57,6 @@
     <ClInclude Include="commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="modules.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="forkthread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\m_core.h">
       <Filter>Header Files</Filter>
     </ClInclude>

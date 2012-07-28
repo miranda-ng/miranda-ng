@@ -240,7 +240,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\db3x_mmap\dbintf.h" />
+    <ClInclude Include="..\Db3x_mmap\src\dbintf.h" />
     <ClInclude Include="src\commonheaders.h" />
     <ClInclude Include="src\dbintf3x.h" />
   </ItemGroup>

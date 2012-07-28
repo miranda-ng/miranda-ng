@@ -13,9 +13,6 @@
       <UniqueIdentifier>{160168fd-2f10-425e-bd83-f37565fffc2c}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Resource Files\res">
-      <UniqueIdentifier>{98ef713e-45a0-4ca0-929b-636ed86d9478}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\init.cpp">
@@ -257,152 +254,16 @@
     <ClInclude Include="src\hdr\MString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="res\version.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="res\resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\resource.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
     <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\hide_avatar.ico">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\show_avatar.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\addgoupp.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\listening_to.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\AlwaysVis.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\NeverVis.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Chatchannel.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\rate_none.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\rate_low.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\rate_med.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\rate_high.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\NA.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\occupied.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\offline.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\phone.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Away.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\DND.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\invisible.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\lunch.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\chat.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\MicroNA.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Microoccupied.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Microoffline.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Microphone.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\MicroAway.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\MicroDND.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Microinvisible.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Microlunch.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Microchat.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\1.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\3.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\4.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\5.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\6.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\7.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\8.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\set_view.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\reset_view.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\neo_meta_default.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\neo_meta_create.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\neo_meta_move.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Back.tga" />
-    <None Include="res\skin.msf" />
+    </ResourceCompile>
   </ItemGroup>
 </Project>

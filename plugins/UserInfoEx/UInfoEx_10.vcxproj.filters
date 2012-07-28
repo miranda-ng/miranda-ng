@@ -27,9 +27,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="SDK">
-      <UniqueIdentifier>{ea8b021b-f82f-4940-933d-15d813da6e9b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\classMAnnivDate.cpp">
@@ -343,8 +340,6 @@
     <ClInclude Include="src\ctrl_tzcombo.h">
       <Filter>Source Files\Controls</Filter>
     </ClInclude>
-    <ClInclude Include="src\Res\resource.h" />
-    <ClInclude Include="src\Res\version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Res\resource.rc">

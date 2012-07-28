@@ -86,7 +86,7 @@
     <ClInclude Include="src\dbintf3x.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\db3x_mmap\dbintf.h">
+    <ClInclude Include="..\Db3x_mmap\src\dbintf.h">
       <Filter>Mmap</Filter>
     </ClInclude>
   </ItemGroup>

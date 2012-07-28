@@ -33,9 +33,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UI\askauthentication.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="capabilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -43,9 +40,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cookies.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="directpackets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="families.h">
@@ -78,12 +72,6 @@
     <ClInclude Include="icq_http.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_infoupdate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="icq_opts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="icq_packet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -99,12 +87,6 @@
     <ClInclude Include="icq_servlist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_uploadui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="icq_xtraz.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="icqosc_svcs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -115,9 +97,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="log.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\loginpassword.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="oscar_filetransfer.h">
@@ -132,9 +111,6 @@
     <ClInclude Include="tlv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UI\userinfotab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -147,9 +123,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="docs\icq-readme.txt">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="docs\IcqOscarJ-translation.txt">
       <Filter>Documentation</Filter>
     </None>
   </ItemGroup>

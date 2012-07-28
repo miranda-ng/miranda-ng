@@ -33,7 +33,7 @@ void EncryptDirectPacket(directconnect* dc, icq_packet* p);
 
 void packEmptyMsg(icq_packet *packet);
 
-void packDirectMsgHeader(icq_packet* packet, WORD wDataLen, WORD wCommand, DWORD dwCookie, BYTE bMsgType, BYTE bMsgFlags, WORD wX1, WORD wX2)
+static void packDirectMsgHeader(icq_packet* packet, WORD wDataLen, WORD wCommand, DWORD dwCookie, BYTE bMsgType, BYTE bMsgFlags, WORD wX1, WORD wX2)
 {
 	directPacketInit(packet, 29 + wDataLen);
 	packByte(packet, 2);        /* channel */
