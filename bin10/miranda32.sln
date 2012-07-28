@@ -98,8 +98,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdAway", "..\src\core\stda
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TopToolBar", "..\plugins\TopToolBar\TopToolBar.vcxproj", "{ECE691D0-BFB3-483B-A699-084269EFCE89}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CheckSum", "..\tools\checksum\checksum_10.vcxproj", "{5153CD6C-6041-47CD-8BE3-2772326BB7C5}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbChecker", "..\plugins\DbChecker\dbchecker_10.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
 EndProject
 Global
@@ -493,14 +491,6 @@ Global
 		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|Win32.Build.0 = Release|Win32
 		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|x64.ActiveCfg = Release|x64
 		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|x64.Build.0 = Release|x64
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Debug|Win32.Build.0 = Debug|Win32
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Debug|x64.ActiveCfg = Debug|x64
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Debug|x64.Build.0 = Debug|x64
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Release|Win32.ActiveCfg = Release|Win32
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Release|Win32.Build.0 = Release|Win32
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Release|x64.ActiveCfg = Release|x64
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Release|x64.Build.0 = Release|x64
 		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug|Win32.ActiveCfg = Debug|Win32
 		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug|Win32.Build.0 = Debug|Win32
 		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug|x64.ActiveCfg = Debug|x64
