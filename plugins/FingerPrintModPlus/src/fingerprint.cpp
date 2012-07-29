@@ -548,7 +548,7 @@ void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short
 		return;
 	}
 
-	LPTSTR tszMirVerUp = mir_a2t_cp(szMirVer, g_LPCodePage);
+	LPTSTR tszMirVerUp = mir_a2t(szMirVer);
 	size_t iMirVerUpLen = lstrlen(tszMirVerUp);
 	_tcsupr_s(tszMirVerUp, iMirVerUpLen);
 
