@@ -655,7 +655,7 @@ tstring GetFilePathFromUser( HANDLE hContact )
 
 			// Here we will try to avoide the (Unknown Contact) in cases where the protocol for 
 			// this user has been removed.
-			if( bNickUsed && ( _tcsstr( NickFromHandle( hContact ),TranslateTS(_T("(Unknown Contact)"))) != 0) )
+			if( bNickUsed && ( _tcsstr( NickFromHandle( hContact ),LPGENT("(Unknown Contact)")) != 0) )
 			{
 				// Then the filename must have changed from a correct path to one including the (Unknown Contact)
 				return sPrevFileName;
@@ -974,8 +974,8 @@ void DisplayErrorDialog( const _TCHAR * pszError , tstring& sFilePath , DBEVENTI
 	sError += _T("\nError :");
 	sError += sGetErrorString();
 	sError += _T("\n");
-	sError += TranslateTS(_T("Message has not been saved !\n"));
-	sError += TranslateTS(_T("Do you wish to save debug information ?"));
+	sError += LPGENT("Message has not been saved !\n");
+	sError += LPGENT("Do you wish to save debug information ?");
 	if( MessageBox( NULL , sError.c_str() ,MSG_BOX_TITEL,MB_YESNO ) == IDYES )
 	{
 		OPENFILENAME ofn;       // common dialog box structure
@@ -1246,12 +1246,12 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 
 				if( dbei.eventType == EVENTTYPE_URL )
 				{
-					pszType = TranslateTS(_T("URL: "));
+					pszType = LPGENT("URL: ");
 					pszData = (char *)dbei.pBlob;
 				}
 				else
 				{
-					pszType = TranslateTS(_T("File: "));
+					pszType = LPGENT("File: ");
 					pszData = (char *)(dbei.pBlob + sizeof( DWORD ));
 				}
 
@@ -1274,7 +1274,7 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 							if( (pszData - (char *)dbei.pBlob) + nLen < (int)dbei.cbBlob )
 							{
 								if( bWriteNewLine( hFile , nIndent ) &&  
-									 bWriteTextToFile( hFile , TranslateTS(_T("Description: ")) , bWriteUTF8Format) && 
+									 bWriteTextToFile( hFile , LPGENT("Description: ") , bWriteUTF8Format) && 
 									 bWriteIndentedToFile( hFile , nIndent , pszData , bWriteUTF8Format ) )
 								{
 									bWriteOk = true;
@@ -1319,18 +1319,18 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 				{	// request 
 					//blob is: uin(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 					nStringCount = 5;
-					pszTitle = TranslateTS(_T("The following user made an authorization request:"));
+					pszTitle = LPGENT("The following user made an authorization request:");
 				}
 				else
 				{  // Added
 					//blob is: uin(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 					nStringCount = 4;
-					pszTitle = TranslateTS(_T("The following user added you to their contact list:"));
+					pszTitle = LPGENT("The following user added you to their contact list:");
 				}
 
 				if( bWriteTextToFile( hFile , pszTitle , bWriteUTF8Format ) &&
 					 bWriteNewLine( hFile , nIndent ) &&
-					 bWriteTextToFile( hFile , TranslateTS(_T("UIN       :")) , bWriteUTF8Format ) )
+					 bWriteTextToFile( hFile , LPGENT("UIN       :") , bWriteUTF8Format ) )
 				{
 					DWORD uin = *((PDWORD)(dbei.pBlob));
 					int n = _sntprintf( szTemp , sizeof( szTemp ) ,_T("%d"), uin );
@@ -1380,9 +1380,9 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 				const char* pszStr = (const char*)dbei.pBlob;
 
 				if( dbei.eventType == ICQEVENTTYPE_EMAILEXPRESS )
-					bWriteTextToFile(  hFile , TranslateTS(_T("EmailExpress from:")) , bWriteUTF8Format);
+					bWriteTextToFile(  hFile , LPGENT("EmailExpress from:") , bWriteUTF8Format);
 				else
-					bWriteTextToFile(  hFile , TranslateTS(_T("WebPager from:")) , bWriteUTF8Format );
+					bWriteTextToFile(  hFile , LPGENT("WebPager from:") , bWriteUTF8Format );
 
 				bWriteNewLine( hFile , nIndent );
 
@@ -1402,7 +1402,7 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 				}
 				else
 				{
-					bWriteTextToFile(  hFile , TranslateTS(_T("No from address")) , bWriteUTF8Format );
+					bWriteTextToFile(  hFile , LPGENT("No from address") , bWriteUTF8Format );
 				}
 
 				if( ! bWriteNewLine( hFile , nIndent ) ||
@@ -1685,8 +1685,7 @@ int nContactDeleted(WPARAM wparam,LPARAM /*lparam*/)
 
 		_TCHAR szTemp[500];
 		_sntprintf( szTemp , sizeof( szTemp ) , _T("%s\r\n%s") ,
-			TranslateTS(_T("User has been deleted do you want to delete the file ?")) ,
-			sFilePath.c_str() );
+			LPGENT("User has been deleted do you want to delete the file ?"), sFilePath.c_str() );
 
 		if( enDeleteAction == eDAAutomatic ||
 			 MessageBox( NULL , szTemp ,MSG_BOX_TITEL,MB_YESNO ) == IDYES )
@@ -1695,7 +1694,7 @@ int nContactDeleted(WPARAM wparam,LPARAM /*lparam*/)
 			{
 				_sntprintf( szTemp , sizeof( szTemp ) , 
 					_T("%s\r\n%s"),
-					TranslateTS(_T("Failed to delete the file")),
+					LPGENT("Failed to delete the file"),
 					sFilePath.c_str() );
 
 				DisplayLastError( szTemp );

@@ -960,7 +960,7 @@ LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				res = SendMessage(hwnd, EM_FINDTEXT, (WPARAM)fr->Flags,(LPARAM)&ft);
 				if(res == -1) 
 				{
-					MessageBox( hwnd , TranslateTS(_T("Search string was not found !")),MSG_BOX_TITEL,MB_OK );
+					MessageBox( hwnd , LPGENT("Search string was not found !"),MSG_BOX_TITEL,MB_OK );
 					return 0;
 				}
 			}			
@@ -1104,12 +1104,12 @@ static BOOL CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			HMENU hSysMenu = GetSystemMenu( hwndDlg , FALSE );
 
 			InsertMenu( hSysMenu , 0 , MF_SEPARATOR | MF_BYPOSITION , 0 , 0 );
-			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION , ID_FV_SAVE_AS_RTF, TranslateTS(_T("Save as RTF")) );
+			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION , ID_FV_SAVE_AS_RTF, LPGENT("Save as RTF") );
 
 			InsertMenu( hSysMenu , 0 , MF_SEPARATOR | MF_BYPOSITION , 0 , 0 );
 
 			BYTE bUseCC = (BYTE)DBGetContactSettingByte( NULL , MODULE , szFileViewDB "UseCC" , 0 );
-			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION | ( bUseCC ? MF_CHECKED : 0 ) , ID_FV_COLOR, TranslateTS(_T("Color...")) );
+			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION | ( bUseCC ? MF_CHECKED : 0 ) , ID_FV_COLOR, LPGENT("Color...") );
 
 			if( bUseCC )
 			{
@@ -1118,11 +1118,11 @@ static BOOL CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				);
 			}
 
-			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION , ID_FV_FONT, TranslateTS(_T("Font...")) );
+			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION , ID_FV_FONT, LPGENT("Font...") );
 
 
 			bool bUseSyntaxHL = DBGetContactSettingByte( NULL , MODULE , szFileViewDB "UseSyntaxHL" , 1 )!=0;
-			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION | ( bUseSyntaxHL ? MF_CHECKED : 0 ) , ID_FV_SYNTAX_HL, TranslateTS(_T("Syntax highlight")) );
+			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION | ( bUseSyntaxHL ? MF_CHECKED : 0 ) , ID_FV_SYNTAX_HL, LPGENT("Syntax highlight") );
 
 			SetRichEditFont( hRichEdit , bUseSyntaxHL );
 

@@ -194,13 +194,13 @@ int MainInit(WPARAM /*wparam*/,LPARAM /*lparam*/)
 	if( bReplaceHistory )
 	{
 		mi.position= 1000090000;
-		mi.pszName=Translate("View &History");
+		mi.pszName=LPGEN("View &History");
 		mi.pszService=MS_HISTORY_SHOWCONTACTHISTORY;
 	}
 	else
 	{
 		mi.position = 1000090100;
-		mi.pszName=Translate("Open E&xported History");
+		mi.pszName=LPGEN("Open E&xported History");
 		mi.pszService=MS_SHOW_EXPORT_HISTORY;
 	}
 	hOpenHistoryMenuItem  = Menu_AddContactMenuItem(&mi);
@@ -359,7 +359,7 @@ int __declspec(dllexport)Load()
 		}*/
 
 		if( ! hServiceFunc ) 
-			MessageBox( NULL , TranslateTS(_T("Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.")) , MSG_BOX_TITEL , MB_OK );
+			MessageBox( NULL , LPGENT("Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.") , MSG_BOX_TITEL , MB_OK );
 	}
 
 	if( ! hServiceFunc )

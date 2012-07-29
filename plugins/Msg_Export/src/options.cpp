@@ -225,7 +225,7 @@ int nExportCompleatList(HWND hParent , bool bOnlySelected )
 
 	if( !hMapUser || nContacts <= 0 )
 	{
-		MessageBox( hParent , TranslateTS(_T("No contacts found to export")),MSG_BOX_TITEL,MB_OK );
+		MessageBox( hParent , LPGENT("No contacts found to export"),MSG_BOX_TITEL,MB_OK );
 		return 0;
 	}
 
@@ -235,7 +235,7 @@ int nExportCompleatList(HWND hParent , bool bOnlySelected )
 
 	SendMessage( hProg , PBM_SETRANGE , 0 , MAKELPARAM( 0 , nContacts ) );
 	
-	SetWindowText( hStatus , TranslateTS(_T("Reading database information ( Phase 1 of 2 )")) );
+	SetWindowText( hStatus , LPGENT("Reading database information ( Phase 1 of 2 )") );
 
 	{ // position and show proigrassbar dialog 
 
@@ -269,7 +269,7 @@ int nExportCompleatList(HWND hParent , bool bOnlySelected )
 			sItem.iItem = nCur;
 			if( ! ListView_GetItem( hMapUser, &sItem ) )
 			{
-				MessageBox( hParent , TranslateTS(_T("Failed to export at least one contact")),MSG_BOX_TITEL,MB_OK );
+				MessageBox( hParent , LPGENT("Failed to export at least one contact"),MSG_BOX_TITEL,MB_OK );
 				continue;
 			}
 
@@ -292,14 +292,14 @@ int nExportCompleatList(HWND hParent , bool bOnlySelected )
 
 /*
 		if( hContact )
-			MessageBox( hParent , TranslateTS(_T("Failed to export at least one contact")),MSG_BOX_TITEL,MB_OK );
+			MessageBox( hParent , LPGENT("Failed to export at least one contact"),MSG_BOX_TITEL,MB_OK );
 			*/
 	}
 
 
 	{ // window text update 
 
-		SetWindowText( hStatus , TranslateTS(_T("Sorting and writing database information ( Phase 2 of 2 )")) );
+		SetWindowText( hStatus , LPGENT("Sorting and writing database information ( Phase 2 of 2 )") );
 		SendMessage( hProg , PBM_SETRANGE , 0 , MAKELPARAM( 0 , AllEvents.size() ) );
 		SendMessage( hProg , PBM_SETPOS , 0 , 0);
 	}
@@ -434,7 +434,7 @@ BOOL bApplyChanges( HWND hwndDlg )
 	if( bReplaceHistory != bNewRp )
 	{
 		bReplaceHistory = bNewRp;
-		MessageBox( hwndDlg , TranslateTS(_T("You need to restart miranda to change the history function")) ,MSG_BOX_TITEL,MB_OK );
+		MessageBox( hwndDlg , LPGENT("You need to restart miranda to change the history function") ,MSG_BOX_TITEL,MB_OK );
 	}
 
 	bAppendNewLine = IsDlgButtonChecked( hwndDlg , IDC_APPEND_NEWLINE ) == BST_CHECKED;
@@ -649,7 +649,7 @@ void OpenHelp(HWND hwndDlg)
 		}
 	}
 
-	MessageBox( hwndDlg , TranslateTS(_T("Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self")),MSG_BOX_TITEL,MB_OK );
+	MessageBox( hwndDlg , LPGENT("Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self"),MSG_BOX_TITEL,MB_OK );
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -703,17 +703,17 @@ static BOOL CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				LVCOLUMN cCol = { 0 };
 				cCol.mask = LVCF_TEXT | LVCF_WIDTH;
 				cCol.cx = nColumnWidth;
-				cCol.pszText = TranslateTS(_T("File"));
+				cCol.pszText = LPGENT("File");
 				ListView_InsertColumn( hMapUser , 0 , &cCol );
-				cCol.pszText = TranslateTS(_T("Nick"));
+				cCol.pszText = LPGENT("Nick");
 				ListView_InsertColumn( hMapUser , 1 , &cCol );
 				cCol.cx = nProtoColWitdh;
-				cCol.pszText = TranslateTS(_T("Proto"));
+				cCol.pszText = LPGENT("Proto");
 				ListView_InsertColumn( hMapUser , 2 , &cCol );
 				cCol.cx = nUINColWitdh;
 				cCol.mask |= LVCF_FMT;
 				cCol.fmt = LVCFMT_RIGHT;
-				cCol.pszText = TranslateTS(_T("UIN"));
+				cCol.pszText = LPGENT("UIN");
 
 				ListView_InsertColumn( hMapUser , 3 , &cCol );
 
@@ -850,7 +850,7 @@ static BOOL CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				{
 					if( bUnaplyedChanges )
 					{
-						DWORD res = MessageBox( hwndDlg , TranslateTS(_T("You have unapplyed changes do you wish to apply these first ?")),MSG_BOX_TITEL,MB_YESNOCANCEL );
+						DWORD res = MessageBox( hwndDlg , LPGENT("You have unapplyed changes do you wish to apply these first ?"),MSG_BOX_TITEL,MB_YESNOCANCEL );
 						if( res == IDCANCEL )
 							return TRUE;
 						if( res == IDYES )
@@ -999,7 +999,7 @@ static BOOL CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					sBrowseInfo.hwndOwner = hwndDlg;
 					sBrowseInfo.pidlRoot = NULL;
 					sBrowseInfo.pszDisplayName = lpDestDir;
-					sBrowseInfo.lpszTitle = TranslateTS(_T("Select Destination Directory"));
+					sBrowseInfo.lpszTitle = LPGENT("Select Destination Directory");
 					sBrowseInfo.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX;;
 					sBrowseInfo.lpfn = NULL;
 					sBrowseInfo.lParam = 0;
@@ -1326,7 +1326,7 @@ static BOOL CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wParam
 				LVCOLUMN cCol = { 0 };
 				cCol.mask = LVCF_TEXT | LVCF_WIDTH;
 				cCol.cx = nColumnWidth;
-				cCol.pszText = TranslateTS(_T("Export Protocols"));
+				cCol.pszText = LPGENT("Export Protocols");
 				ListView_InsertColumn( hMapUser , 0 , &cCol );
 			}
 
@@ -1467,8 +1467,8 @@ int OptionsInitialize(WPARAM wParam,LPARAM /*lParam*/)
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT);
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszTitle = Translate("Message export");
-	odp.pszGroup = Translate("Plugins");
+	odp.pszTitle = LPGEN("Message export");
+	odp.pszGroup = LPGEN("Plugins");
 	odp.groupPosition = 100000000;
 	odp.pfnDlgProc = (DLGPROC)DlgProcMsgExportOpts;
 	Options_AddPage(wParam,&odp);
@@ -1476,7 +1476,7 @@ int OptionsInitialize(WPARAM wParam,LPARAM /*lParam*/)
 	
 	odp.position = 100000001;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT2);
-	odp.pszTitle = Translate("Message export2");
+	odp.pszTitle = LPGEN("Message export2");
 	odp.pfnDlgProc = (DLGPROC)DlgProcMsgExportOpts2;
 	Options_AddPage(wParam,&odp);
 	return 0;
