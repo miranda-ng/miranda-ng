@@ -87,8 +87,8 @@ static VOID CALLBACK CheckContinueslyTimer(HWND hwnd,UINT message, UINT_PTR idEv
 INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam);
 
 static int ProcessPopup(int reason, LPARAM lParam);
-static int ShowPopup(char* msg, HICON hIcon);
-int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+static INT_PTR ShowPopup(char* msg, HICON hIcon);
+LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 static int Exit(WPARAM wParam, LPARAM lParam);
@@ -1043,7 +1043,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 	return ShowPopup(text, hIcon);
 }
 
-static int ShowPopup(char* msg, HICON hIcon)
+static INT_PTR ShowPopup(char* msg, HICON hIcon)
 {
 	POPUPDATAEX ppd = { NULL };
 	ppd.lchContact = NULL;
@@ -1053,42 +1053,41 @@ static int ShowPopup(char* msg, HICON hIcon)
 	strncpy(ppd.lpzContactName, Translate("KeepStatus"), sizeof(ppd.lpzContactName)-1);
 	strncpy(ppd.lpzText, msg, sizeof(ppd.lpzText)-1);
 	if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_USEWINCOLORS, 0))
+	{
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-	else if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_USEDEFCOLORS, 0))
-		ppd.colorBack = (COLORREF)NULL;
-	else
-		ppd.colorBack = DBGetContactSettingDword(NULL, MODULENAME, SETTING_POPUP_BACKCOLOR, 0xAAAAAA);
-	if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_USEWINCOLORS, 0))
 		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-	else if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_USEDEFCOLORS, 0))
-		ppd.colorText = (COLORREF)NULL;
-	else
-		ppd.colorText = DBGetContactSettingDword(NULL, MODULENAME, SETTING_POPUP_TEXTCOLOR, 0x0000CC);
-	ppd.PluginWindowProc = ( WNDPROC )PopupDlgProc;
-	ppd.PluginData = NULL;
-	if (!ServiceExists(MS_POPUP_ADDPOPUPEX))
-		return CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
-	else {
-		switch (DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
-		case POPUP_DELAYCUSTOM:
-			ppd.iSeconds = (int)DBGetContactSettingDword(NULL, MODULENAME, SETTING_POPUP_TIMEOUT, 0);
-			if (ppd.iSeconds == 0) {
-				ppd.iSeconds = currentDelay/1000-1;
-			}
-			break;
-		case POPUP_DELAYPERMANENT:
-			ppd.iSeconds = -1;
-			break;
-		case POPUP_DELAYFROMPU:
-		default:
-			ppd.iSeconds = 0;
-			break;
-		}
-		return CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
 	}
+	else if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_USEDEFCOLORS, 0))
+	{
+		ppd.colorBack = NULL;
+		ppd.colorText = NULL;
+	}
+	else
+	{
+		ppd.colorBack = DBGetContactSettingDword(NULL, MODULENAME, SETTING_POPUP_BACKCOLOR, 0xAAAAAA);
+		ppd.colorText = DBGetContactSettingDword(NULL, MODULENAME, SETTING_POPUP_TEXTCOLOR, 0x0000CC);
+	}
+	ppd.PluginWindowProc = PopupDlgProc;
+	ppd.PluginData = NULL;
+	switch (DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
+	case POPUP_DELAYCUSTOM:
+		ppd.iSeconds = (int)DBGetContactSettingDword(NULL, MODULENAME, SETTING_POPUP_TIMEOUT, 0);
+		if (ppd.iSeconds == 0) {
+			ppd.iSeconds = currentDelay/1000-1;
+		}
+		break;
+	case POPUP_DELAYPERMANENT:
+		ppd.iSeconds = -1;
+		break;
+	case POPUP_DELAYFROMPU:
+	default:
+		ppd.iSeconds = 0;
+		break;
+	}
+	return PUAddPopUpEx(&ppd);
 }
 
-int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {	
 	switch(message) {
 	case WM_CONTEXTMENU: // right

@@ -133,6 +133,6 @@ extern unsigned long mainThreadId;
 // keepstatus.cpp
 
 int LoadMainOptions();
-int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 #endif //__KEEPSTATUS_HEADER
