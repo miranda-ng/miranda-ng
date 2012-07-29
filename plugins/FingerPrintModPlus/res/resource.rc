@@ -77,7 +77,7 @@ BEGIN
     CONTROL         "VoIP",IDC_GROUPVOIP,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,173,144,10
     CONTROL         "Weather",IDC_GROUPWEATHER,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,183,144,10
     CONTROL         "Yahoo",IDC_GROUPYAHOO,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,193,144,10
-    LTEXT           "Note: Miranda IM will have to be restarted for changes to take effect.",IDC_OPTCHANGENOTE,0,240,302,10
+    LTEXT           "Note: Miranda NG will have to be restarted for changes to take effect.",IDC_OPTCHANGENOTE,0,240,302,10
 END
 
 ///////////////////////////////////////////////////////////////////////////////
