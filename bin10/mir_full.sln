@@ -287,6 +287,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAPP", "..\plugins\YAPP\yap
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbChecker", "..\plugins\DbChecker\dbchecker_10.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "New_GPG1", "..\plugins\new_gpg\new_gpg_10.vcxproj", "{F29D0C8D-141A-43CF-86B2-34A04653F8D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1427,6 +1429,14 @@ Global
 		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|Win32.Build.0 = Release|Win32
 		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|x64.ActiveCfg = Release|x64
 		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|x64.Build.0 = Release|x64
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Debug|Win32.Build.0 = Debug|Win32
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Debug|x64.ActiveCfg = Debug|X64
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Debug|x64.Build.0 = Debug|X64
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Release|Win32.ActiveCfg = Release|Win32
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Release|Win32.Build.0 = Release|Win32
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Release|x64.ActiveCfg = Release|X64
+		{F29D0C8D-141A-43CF-86B2-34A04653F8D4}.Release|x64.Build.0 = Release|X64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
