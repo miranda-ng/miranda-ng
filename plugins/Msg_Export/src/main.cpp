@@ -343,7 +343,7 @@ int __declspec(dllexport)Load()
 
 	if( bReplaceHistory )
 	{
-		hServiceFunc = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY,ShowExportHistory); //this need new code
+		hServiceFunc = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY,(MIRANDASERVICE)ShowExportHistory); //this need new code
 /*		if( hServiceFunc )
 		{
 			int *disableDefaultModule=(int*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY,0,0);
@@ -364,7 +364,7 @@ int __declspec(dllexport)Load()
 
 	if( ! hServiceFunc )
 	{
-		hServiceFunc = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY,ShowExportHistory);
+		hServiceFunc = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY,(MIRANDASERVICE)ShowExportHistory);
 	}
 
 	if( ! hServiceFunc )

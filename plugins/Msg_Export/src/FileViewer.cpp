@@ -880,8 +880,7 @@ bool bAdvancedCopy(HWND hwnd)
 
 LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CLHistoryDlg * pclDlg = (CLHistoryDlg *)GetWindowLong(hwnd,GWL_USERDATA);
-
+	CLHistoryDlg * pclDlg = (CLHistoryDlg *)GetWindowLongPtr(hwnd, -21);
 	switch( msg )
 	{
 		case WM_CONTEXTMENU:
@@ -1080,13 +1079,13 @@ void SetRichEditFont(HWND hRichEdit, bool bUseSyntaxHL )
 
 static BOOL CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CLHistoryDlg * pclDlg = (CLHistoryDlg *)GetWindowLong(hwndDlg,GWL_USERDATA);
+	CLHistoryDlg * pclDlg = (CLHistoryDlg *)GetWindowLongPtr(hwndDlg,-21);
 
 	switch (msg)
 	{
 		case WM_INITDIALOG:
 		{
-			SetWindowLong(hwndDlg,GWL_USERDATA,lParam);
+			SetWindowLongPtr(hwndDlg,-21,lParam);
 			CLHistoryDlg * pclDlg = (CLHistoryDlg *)lParam;
 #ifdef _UNICODE
 			EnableWindow( GetDlgItem( hwndDlg , IDC_FV_FIND ) , FALSE );
@@ -1095,7 +1094,7 @@ static BOOL CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				(LPARAM)LoadIcon( hInstance, MAKEINTRESOURCE(IDI_EXPORT_MESSAGE)));
 
 			HWND hRichEdit = GetDlgItem( hwndDlg , IDC_RICHEDIT );
-			pclDlg->wpOrigEditProc = (WNDPROC) SetWindowLongPtr( hRichEdit, GWL_WNDPROC, (LONG) EditSubclassProc); 
+			pclDlg->wpOrigEditProc = (WNDPROC) SetWindowLongPtr( hRichEdit, -4, (LONG) EditSubclassProc); 
 			
 			SetWindowLongPtr( hRichEdit, GWLP_USERDATA, (LONG) pclDlg ); 
 			
@@ -1185,7 +1184,7 @@ static BOOL CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			LeaveCriticalSection( &csHistoryList );
 
 			delete pclDlg;
-         SetWindowLong(hwndDlg,GWL_USERDATA,NULL);
+         SetWindowLongPtr(hwndDlg,-21,NULL);
          return 0;
       }
       case WM_DESTROY:
@@ -1408,7 +1407,7 @@ static BOOL CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 bool bShowFileViewer( HANDLE hContact )
 {
 	CLHistoryDlg * pcl = new CLHistoryDlg( hContact );
-	pcl->hWnd = CreateDialogParam( hInstance,MAKEINTRESOURCE(IDD_FILE_VIEWER),NULL,DlgProcFileViewer,(LPARAM)pcl);
+	pcl->hWnd = CreateDialogParam( hInstance,MAKEINTRESOURCE(IDD_FILE_VIEWER),NULL,(DLGPROC)DlgProcFileViewer,(LPARAM)pcl);
 	if( pcl->hWnd )
 	{
 		EnterCriticalSection( &csHistoryList );

@@ -1158,7 +1158,7 @@ static BOOL CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						{
 							case CDDS_PREPAINT:
 							{
-								SetWindowLong(hwndDlg, DWL_MSGRESULT, CDRF_NOTIFYITEMDRAW);
+								SetWindowLongPtr(hwndDlg, 0, CDRF_NOTIFYITEMDRAW);
 								return true;
 							}
 							case CDDS_ITEMPREPAINT:
@@ -1167,7 +1167,7 @@ static BOOL CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 								{
 									lplvcd->clrText = RGB( 0 , 0 , 255 );
 								}
-								SetWindowLong(hwndDlg, DWL_MSGRESULT, CDRF_NEWFONT);
+								SetWindowLongPtr(hwndDlg, 0, CDRF_NEWFONT);
 								return true;
 							}
 						}
@@ -1470,14 +1470,14 @@ int OptionsInitialize(WPARAM wParam,LPARAM /*lParam*/)
 	odp.pszTitle = Translate("Message export");
 	odp.pszGroup = Translate("Plugins");
 	odp.groupPosition = 100000000;
-	odp.pfnDlgProc = DlgProcMsgExportOpts;
+	odp.pfnDlgProc = (DLGPROC)DlgProcMsgExportOpts;
 	Options_AddPage(wParam,&odp);
 
 	
 	odp.position = 100000001;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT2);
 	odp.pszTitle = Translate("Message export2");
-	odp.pfnDlgProc = DlgProcMsgExportOpts2;
+	odp.pfnDlgProc = (DLGPROC)DlgProcMsgExportOpts2;
 	Options_AddPage(wParam,&odp);
 	return 0;
 }
