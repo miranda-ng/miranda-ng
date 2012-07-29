@@ -18,7 +18,7 @@
 extern char g_szProtoName[];
 
 static CRITICAL_SECTION m_WriteFileMutex;
-static FILE *m_fpLogFile = INVALID_HANDLE_VALUE;
+static FILE *m_fpLogFile = NULL;
 static char *m_szLogBuf = NULL;
 static DWORD m_iBufSize = 0;
 

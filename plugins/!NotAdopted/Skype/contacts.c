@@ -262,8 +262,10 @@ int __cdecl  PrebuildContactMenu(WPARAM wParam, LPARAM lParam) {
             if (DBGetContactSettingByte((HANDLE)wParam, SKYPE_PROTONAME, "ChatRoom", 0)==0)
 			    mi.flags ^= CMIF_HIDDEN;
 			mi.flags |= CMIM_FLAGS;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuFileTransferItem,(LPARAM)&mi);
-            
+			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuFileTransferItem,(LPARAM)&mi);           
+		}
+
+		if (protocol>=5 || bIsImoproxy) {
             mi=ChatInitItem();
 			if (DBGetContactSettingByte(NULL, SKYPE_PROTONAME, "UseGroupchat", 0) &&
 				DBGetContactSettingByte((HANDLE)wParam, SKYPE_PROTONAME, "ChatRoom", 0)==0)

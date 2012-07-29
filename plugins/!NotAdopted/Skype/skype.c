@@ -799,7 +799,7 @@ void __cdecl SkypeSystemInit(char *dummy) {
 		SkypeSend ("CREATE APPLICATION libpurple_typing");
 		testfor ("CREATE APPLICATION libpurple_typing", 2000);
 	}
-	if (protocol>=5) {
+	if (protocol>=5 || bIsImoproxy) {
 		SearchUsersWaitingMyAuthorization(NULL);
 		if (DBGetContactSettingByte(NULL, SKYPE_PROTONAME, "UseGroupchat", 0))
 			SearchRecentChats(NULL);
@@ -1127,6 +1127,11 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 						if (ci.pszVal) miranda_sys_free (ci.pszVal);
 					}
 					free_nonutf_tchar_string((void*)gcd.ptszID);
+					if (!args.bDontMarkSeen)
+					{
+						MsgList_Add (pre.lParam, INVALID_HANDLE_VALUE);
+						SkypeSend("SET %s %s SEEN", cmdMessage, args.msgnum);
+					}
 					__leave;
 				}
 				if (!strcmp(type,"LEFT") || (bAddedMembers = strcmp(type,"ADDEDMEMBERS")==0)) 
@@ -1165,7 +1170,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 								if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)) gce.ptszNick=ci.pszVal; 
 								else gce.ptszNick=gce.ptszUID;
         
-								CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
+								CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 								free_nonutf_tchar_string((void*)gce.ptszUID);
 								if (ci.pszVal) miranda_sys_free (ci.pszVal);
 							}
@@ -3431,7 +3436,7 @@ int __declspec( dllexport ) Unload(void)
 		
 	}
 	SkypeMsgCleanup();
-	WSACleanup();
+	//WSACleanup();
 	FreeVSApi();
 	UnhookEvents();
 	UnhookEvent(hChatEvent);

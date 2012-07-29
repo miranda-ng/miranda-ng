@@ -1463,6 +1463,12 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 		}
 		for ( ;; ) {
 			char *ptr = SkypeRcv ("CONNSTATUS", INFINITE);
+			if (!ptr) 
+			{
+				AttachStatus=SKYPECONTROLAPI_ATTACH_NOT_AVAILABLE;
+				return -1;
+			}
+
 			if (strcmp (ptr+11, "CONNECTING"))
 			{
 				free (ptr);
