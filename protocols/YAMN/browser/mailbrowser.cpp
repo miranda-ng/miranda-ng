@@ -525,7 +525,7 @@ int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumb
 	NewMailPopUp.colorText=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopUpT : GetSysColor(COLOR_WINDOWTEXT);
 	NewMailPopUp.iSeconds=ActualAccount->NewMailN.PopUpTime;
 
-	NewMailPopUp.PluginWindowProc=(WNDPROC)NewMailPopUpProc;
+	NewMailPopUp.PluginWindowProc=NewMailPopUpProc;
 	NewMailPopUp.PluginData=(void *)0;					//it's new mail popup
 
 	for (msgq=(HYAMNMAIL)ActualAccount->Mails;msgq!=NULL;msgq=msgq->Next,lfoundi++)
@@ -699,7 +699,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 		NewMailPopUp.colorText=nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopUpT : GetSysColor(COLOR_WINDOWTEXT);
 		NewMailPopUp.iSeconds=ActualAccount->NewMailN.PopUpTime;
 
-		NewMailPopUp.PluginWindowProc=(WNDPROC)NewMailPopUpProc;
+		NewMailPopUp.PluginWindowProc=NewMailPopUpProc;
 		NewMailPopUp.PluginData=(void *)0;	//multiple popups
 
 		lstrcpyn(NewMailPopUp.lptzContactName, _A2T(ActualAccount->Name),SIZEOF(NewMailPopUp.lptzContactName));
@@ -802,7 +802,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 		NoNewMailPopUp.colorText=ActualAccount->NoNewMailN.Flags & YAMN_ACC_POPC ? ActualAccount->NoNewMailN.PopUpT : GetSysColor(COLOR_WINDOWTEXT);
 		NoNewMailPopUp.iSeconds=ActualAccount->NoNewMailN.PopUpTime;
 
-		NoNewMailPopUp.PluginWindowProc=(WNDPROC)NoNewMailPopUpProc;
+		NoNewMailPopUp.PluginWindowProc=NoNewMailPopUpProc;
 		NoNewMailPopUp.PluginData=(void *)0;					//it's not new mail popup
 
 		lstrcpyn(NoNewMailPopUp.lptzContactName,_A2T(ActualAccount->Name),SIZEOF(NoNewMailPopUp.lptzContactName));

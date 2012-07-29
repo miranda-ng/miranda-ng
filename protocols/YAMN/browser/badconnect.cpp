@@ -133,7 +133,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 				BadConnectPopUp.colorText=ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopUpT : GetSysColor(COLOR_WINDOWTEXT);
 				BadConnectPopUp.iSeconds=ActualAccount->BadConnectN.PopUpTime;
 
-				BadConnectPopUp.PluginWindowProc=(WNDPROC)BadConnectPopUpProc;
+				BadConnectPopUp.PluginWindowProc=BadConnectPopUpProc;
 				BadConnectPopUp.PluginData=0;					//it's bad connect popup
 				lstrcpyn(BadConnectPopUp.lptzContactName,_A2T(ActualAccount->Name),SIZEOF(BadConnectPopUp.lptzContactName));
 			}
