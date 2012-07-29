@@ -100,7 +100,7 @@ void RefreshInfobar(InfobarWindowData* idat) {
 	mir_free(szXStatusMsg);
 }
 
-static LRESULT CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static BOOL bWasCopy;
 	InfobarWindowData* idat = (InfobarWindowData *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -286,7 +286,7 @@ InfobarWindowData *CreateInfobar(HWND hParent, struct SrmmWindowData *dat)
 {
 	InfobarWindowData *idat = (InfobarWindowData *) mir_alloc(sizeof(InfobarWindowData));
 	idat->mwd = dat;
-	idat->hWnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_INFOBAR), hParent, (DLGPROC)InfobarWndProc, (LPARAM)idat);
+	idat->hWnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_INFOBAR), hParent, InfobarWndProc, (LPARAM)idat);
 	RichUtil_SubClass(idat->hWnd);
 	SetWindowPos(idat->hWnd, HWND_TOP, 0, 0, 0, 0, SWP_HIDEWINDOW | SWP_NOSIZE | SWP_NOREPOSITION);
 	return idat;
