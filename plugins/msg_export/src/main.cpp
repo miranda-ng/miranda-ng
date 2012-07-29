@@ -343,8 +343,8 @@ int __declspec(dllexport)Load()
 
 	if( bReplaceHistory )
 	{
-/*		hServiceFunc = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY,ShowExportHistory); //this need new code
-		if( hServiceFunc )
+		hServiceFunc = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY,ShowExportHistory); //this need new code
+/*		if( hServiceFunc )
 		{
 			int *disableDefaultModule=(int*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY,0,0);
 			if( disableDefaultModule )
@@ -356,9 +356,9 @@ int __declspec(dllexport)Load()
 				DestroyServiceFunction( hServiceFunc );
 				hServiceFunc = 0;
 			}
-		}
+		}*/
 
-		if( ! hServiceFunc )  */
+		if( ! hServiceFunc ) 
 			MessageBox( NULL , TranslateTS(_T("Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.")) , MSG_BOX_TITEL , MB_OK );
 	}
 

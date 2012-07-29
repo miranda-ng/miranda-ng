@@ -582,7 +582,6 @@ bool bReadMirandaDirAndPath()
 	tmp2 = mir_utf8decodeT(tmp);
 	sMirandaPath = tmp2;
 	sMirandaPath.erase(sMirandaPath.find_last_of(_T("\\")));
-	mir_free(tmp);
 	CallService(MS_DB_GETPROFILEPATHT, (WPARAM)MAX_PATH - 1, (LPARAM)szDBPath);
 	sDBPath = szDBPath;
 	CallService(MS_DB_GETPROFILENAMET, (WPARAM)MAX_PATH - 1, (LPARAM)szDBPath);

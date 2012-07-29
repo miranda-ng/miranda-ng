@@ -710,11 +710,11 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 
 		if( nDBCount == -1 )
 		{
-			_stprintf( szTmp , _T("Failed to open file\r\n%s\r\n\r\nContact handle is invalid") , pclDlg->sPath.c_str() );
+			mir_sntprintf(szTmp, 1499, _T("Failed to open file\r\n%s\r\n\r\nContact handle is invalid") , pclDlg->sPath.c_str());
 		}
 		else
 		{
-			_stprintf( szTmp , _T("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events") , pclDlg->sPath.c_str() , nDBCount );
+			mir_sntprintf( szTmp , 1499, _T("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events") , pclDlg->sPath.c_str() , nDBCount );
 		}
 		
 		SETTEXTEX stText = {0};
@@ -784,7 +784,7 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 	//delete [] pabFileData;
 
 	_TCHAR szTmp[100];
-	_stprintf( szTmp , _T("File open time %d\n") , GetTickCount() - dwStart );
+	mir_sntprintf( szTmp , 99, _T("File open time %d\n") , GetTickCount() - dwStart );
 	OutputDebugString( szTmp );
 
 
@@ -798,7 +798,7 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 	if( ! bScrollToBottom )
 		SendMessage( hRichEdit , EM_SETSCROLLPOS , 0 , (LPARAM) &ptOldPos );
 
-	_stprintf( szTmp , _T("With scroll to bottom %d\n") , GetTickCount() - dwStart );
+	mir_sntprintf( szTmp , 99, _T("With scroll to bottom %d\n") , GetTickCount() - dwStart );
 	OutputDebugString( szTmp );
 
 	return true;
