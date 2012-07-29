@@ -25,7 +25,7 @@
 #ifndef M_ICQPLUS_H__
 #define M_ICQPLUS_H__ 1
 
-#define PS_ICQP_SERVER_IGNORE			"/ServerIgnore"
+/*#define PS_ICQP_SERVER_IGNORE			"/ServerIgnore"
 
 #define MS_INCOGNITO_REQUEST	"/IncognitoRequest"
 
@@ -38,7 +38,7 @@
 
 
 
-
+*/
 
 #define MAX_CAPNAME 64
 typedef struct
@@ -59,7 +59,7 @@ typedef struct
 // lParam = (LPARAM)(ICQ_CUSTOMCAP *)&icqCustomCap;
 // returns non-zero if capability is supported
 #define PS_ICQ_CHECKCAPABILITY "/IcqCheckCapability"
-
+/*
 
 #ifndef ICQ_NOHELPERS
 static __inline void IcqBuildMirandaCap(ICQ_CUSTOMCAP *icqCustomCap, const char *name, HICON hIcon, const char *id)
@@ -72,7 +72,7 @@ static __inline void IcqBuildMirandaCap(ICQ_CUSTOMCAP *icqCustomCap, const char 
 	strncpy(icqCustomCap->caps+0, "Miranda/", 8);
 	strncpy(icqCustomCap->caps+8, id, 8);
 }
-#endif
+#endif*/
 
 /* usage:
 char icqCustomCapStr[0x10] = {...};
@@ -86,7 +86,7 @@ CallProtoService("ICQ", PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&icqCustomCap);
 //check user status via ASD 
 //wParam=(WPARAM)hContact;
 
-#define MS_ICQ_GET_USER_STATUS "/IcqGetUserStatus"
+//#define MS_ICQ_GET_USER_STATUS "/IcqGetUserStatus"
 
 
 #endif // M_ICQPLUS_H__
