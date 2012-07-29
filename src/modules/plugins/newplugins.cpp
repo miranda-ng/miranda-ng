@@ -103,9 +103,13 @@ bool hasMuuid(const BASIC_PLUGIN_INFO& bpi, const MUUID& uuid)
 
 int getDefaultPluginIdx(const MUUID& muuid)
 {
-	for (int i=0; i < SIZEOF(pluginDefault); i++)
+	for (int i=0; i < SIZEOF(pluginDefault); i++) {
+		if (pluginDefault[i].stdplugname == NULL)
+			break;
+
 		if (equalUUID(muuid, pluginDefault[i].uuid))
 			return i;
+	}
 
 	return -1;
 }
@@ -479,7 +483,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 						SetPluginOnWhiteList(p->pluginname, 0);
 						return false;
 					}
-					if ( !(p->pclass & PCLASS_CORE)) {
+					if (bDynamic && !(p->pclass & PCLASS_CORE)) {
 						Plugin_UnloadDyn(pluginDefault[idx].pImpl);
 						pluginDefault[idx].pImpl = NULL;
 		}	}	}	}

@@ -133,7 +133,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 			break;
 
 		case IDC_LIST:
-			if(HIWORD(wParam)==LBN_SELCHANGE) {
+			if (HIWORD(wParam)==LBN_SELCHANGE) {
 				int sel = SendDlgItemMessage(hdlg, IDC_LIST, LB_GETCURSEL, 0, 0);
 				if (sel == LB_ERR) break;
 				SetDlgItemText(hdlg, IDC_FILENAME, (TCHAR*)SendDlgItemMessage(hdlg, IDC_LIST, LB_GETITEMDATA, sel, 0));
@@ -200,7 +200,7 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPA
 			break;
 
 		case IDOK:
-			if(IsDlgButtonChecked(hdlg,IDC_RADIO_ALL)) {
+			if (IsDlgButtonChecked(hdlg,IDC_RADIO_ALL)) {
 				nImportOption = IMPORT_ALL;
 				nCustomOptions = 0;//IOPT_MSGSENT|IOPT_MSGRECV|IOPT_URLSENT|IOPT_URLRECV;
 				DoImport = MirandaImport;
@@ -208,7 +208,7 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPA
 				break;
 			}
 
-			if(IsDlgButtonChecked(hdlg,IDC_RADIO_CONTACTS)) {
+			if (IsDlgButtonChecked(hdlg,IDC_RADIO_CONTACTS)) {
 				nImportOption = IMPORT_CONTACTS;
 				nCustomOptions = 0;
 				DoImport = MirandaImport;
@@ -216,7 +216,7 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPA
 				break;
 			}
 
-			if(IsDlgButtonChecked(hdlg,IDC_RADIO_CUSTOM)) {
+			if (IsDlgButtonChecked(hdlg,IDC_RADIO_CUSTOM)) {
 				PostMessage(GetParent(hdlg),WIZM_GOTOPAGE,IDD_ADVOPTIONS,(LPARAM)MirandaAdvOptionsPageProc);
 				break;
 			}
