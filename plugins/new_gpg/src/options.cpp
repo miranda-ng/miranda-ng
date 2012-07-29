@@ -796,7 +796,7 @@ static BOOL CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LP
 		{
 			tmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", _T(""));
 			wstring str = tmp;
-			mir_free(tmp);
+			mir_free(tmp); tmp = NULL;
 			wstring::size_type p = 0, stop = 0;
 			if(!str.empty())
 			{
@@ -878,7 +878,8 @@ static BOOL CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LP
 				}
 				mir_free(tmp2);
 			}
-			mir_free(tmp);
+			if(tmp)
+				mir_free(tmp);
 			SetDlgItemText(hwndDlg, IDC_PUBLIC_KEY_EDIT, !str.empty()?str.c_str():_T(""));
 		}
 		hPubKeyEdit = GetDlgItem(hwndDlg, IDC_PUBLIC_KEY_EDIT);
@@ -904,16 +905,16 @@ static BOOL CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LP
 			  ws1 = 0;
 			  if(((ws2 = key_buf.find(_T("-----END PGP PUBLIC KEY BLOCK-----"))) != wstring::npos) && ((ws1 = key_buf.find(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----"))) != wstring::npos))
 			  {
-				  begin = new TCHAR [_tcslen(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----")) + 1];
+				  begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (_tcslen(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----")) + 1));
 				  _tcscpy(begin, _T("-----BEGIN PGP PUBLIC KEY BLOCK-----"));
-				  end = new TCHAR [_tcslen(_T("-----END PGP PUBLIC KEY BLOCK-----")) + 1];
+				  end = (TCHAR*)mir_alloc(sizeof( TCHAR) * (_tcslen(_T("-----END PGP PUBLIC KEY BLOCK-----")) + 1));
 				  _tcscpy(end, _T("-----END PGP PUBLIC KEY BLOCK-----"));
 			  }
 			  else if(((ws2 = key_buf.find(_T("-----END PGP PRIVATE KEY BLOCK-----"))) != wstring::npos) && ((ws1 = key_buf.find(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----"))) != wstring::npos))
 			  {
-				  begin = new TCHAR [_tcslen(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----")) + 1];
+				  begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (_tcslen(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----")) + 1));
 				  _tcscpy(begin, _T("-----BEGIN PGP PRIVATE KEY BLOCK-----"));
-				  end = new TCHAR [_tcslen(_T("-----END PGP PRIVATE KEY BLOCK-----")) + 1];
+				  end = (TCHAR*)mir_alloc(sizeof(TCHAR) * (_tcslen(_T("-----END PGP PRIVATE KEY BLOCK-----")) + 1));
 				  _tcscpy(end, _T("-----END PGP PRIVATE KEY BLOCK-----"));
 			  }
 			  else
@@ -944,7 +945,7 @@ static BOOL CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LP
 				  else
 					  DBWriteContactSettingTString(hContact, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
 			  }
-			  tmp = new TCHAR [key_buf.length()+1];
+			  tmp = (TCHAR*)mir_alloc(sizeof( TCHAR) * (key_buf.length()+1));
 			  _tcscpy(tmp, key_buf.substr(ws1,ws2-ws1).c_str());
 			  { //gpg execute block
 				  wstring cmd;
@@ -1030,7 +1031,7 @@ static BOOL CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LP
 					  char *tmp2;
 					  string::size_type s = output.find("gpg: key ") + strlen("gpg: key ");
 					  string::size_type s2 = output.find(":", s);
-					  tmp2 = new char [output.substr(s,s2-s).length()+1];
+					  tmp2 = (char*)mir_alloc(output.substr(s,s2-s).length()+1);
 					  strcpy(tmp2, output.substr(s,s2-s).c_str());
 					  mir_utf8decode(tmp2, 0);
 					  {
@@ -1072,7 +1073,7 @@ static BOOL CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LP
 						  s2 = output.find("<", s);
 					  if(s2 != string::npos)
 					  {
-					  tmp2 = new char [output.substr(s,s2-s-1).length()+1];
+					  tmp2 = (char*)mir_alloc(output.substr(s,s2-s-1).length()+1);
 					  strcpy(tmp2, output.substr(s,s2-s-1).c_str());
 					  mir_utf8decode(tmp2, 0);
 					  if(hContact)
@@ -1167,7 +1168,7 @@ static BOOL CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LP
 					  }
 					  else
 					  {
-						  tmp2 = new char [output.substr(s2,s-s2).length()+1];
+						  tmp2 = (char*)mir_alloc(output.substr(s2,s-s2).length()+1);
 						  strcpy(tmp2, output.substr(s2,s-s2).c_str());
 						  mir_utf8decode(tmp2, 0);
 						  if(hContact)

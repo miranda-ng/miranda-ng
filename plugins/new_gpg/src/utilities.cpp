@@ -23,9 +23,9 @@ TCHAR* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,c
   DBVARIANT dbv = {DBVT_DELETED};
   TCHAR* szRes;
   if (DBGetContactSettingTString(hContact, szModule, szSetting, &dbv))
-	 return _tcsdup(szDef);
+	  return mir_tstrdup(szDef);
   if(dbv.pszVal)
-	  szRes = _tcsdup(dbv.ptszVal);
+	  szRes = mir_tstrdup(dbv.ptszVal);
   DBFreeVariant(&dbv);
   return szRes;
 }
@@ -35,9 +35,9 @@ char* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,co
   DBVARIANT dbv = {DBVT_DELETED};
   char* szRes;
   if (DBGetContactSettingString(hContact, szModule, szSetting, &dbv))
-	 return _strdup(szDef);
+	  return mir_strdup(szDef);
   if(dbv.pszVal)
-	  szRes = _strdup(dbv.pszVal);
+	  szRes = mir_strdup(dbv.pszVal);
   DBFreeVariant(&dbv);
   return szRes;
 }
@@ -1089,14 +1089,14 @@ bool isGPGValid()
 	else
 	{
 		mir_free(tmp);
-		TCHAR *path = new TCHAR [MAX_PATH];
-		char *mir_path = new char [MAX_PATH];
+		TCHAR *path = (TCHAR*)mir_alloc(sizeof(TCHAR)*MAX_PATH);
+		char *mir_path = (char*)mir_alloc(MAX_PATH);
 		CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
 		SetCurrentDirectoryA(mir_path);
 		tmp = mir_a2t(mir_path);
 		mir_free(mir_path);
-		mir_realloc(path, (_tcslen(path)+128)*sizeof(TCHAR));
-		TCHAR *gpg_path = new TCHAR [MAX_PATH];
+		//mir_realloc(path, (_tcslen(path)+64)*sizeof(TCHAR));
+		TCHAR *gpg_path = (TCHAR*)mir_alloc(sizeof(TCHAR)*MAX_PATH);
 		_tcscpy(gpg_path, tmp);
 		_tcscat(gpg_path, _T("\\GnuPG\\gpg.exe"));
 		mir_free(tmp);
@@ -1106,8 +1106,8 @@ bool isGPGValid()
 			_tcscpy(path, _T("GnuPG\\gpg.exe"));
 		}
 		mir_free(gpg_path);
-		tmp = mir_wstrdup(path);
-		delete [] path;
+		tmp = mir_tstrdup(path);
+		mir_free(path);
 	}
 	DWORD len = MAX_PATH;
 	if(gpg_exists)
@@ -1137,14 +1137,15 @@ bool isGPGValid()
 		if(p1 == string::npos)
 			is_valid = false;
 	}
-	mir_free(tmp);
+	mir_free(tmp); tmp = NULL;
 	if(!gpg_exists)
 	{
 		wstring path_ = _wgetenv(_T("APPDATA"));
 		path_ += _T("\\GnuPG");
 		tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", (TCHAR*)path_.c_str());
 	}
-	mir_free(tmp);
+	if(tmp)
+		mir_free(tmp);
 	return is_valid;
 }
 

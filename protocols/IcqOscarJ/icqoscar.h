@@ -48,6 +48,10 @@
 #include <direct.h>
 #include <fcntl.h>
 #include <process.h>
+
+//C++
+#include <list>
+
 #ifndef _DEBUG
 #ifdef _MSC_VER
 	#include <crtdbg.h>
@@ -115,6 +119,7 @@
 #include "channels.h"
 #include "families.h"
 #include "m_icq.h"
+#include "m_icqplus.h"
 #include "icq_advsearch.h"
 #include "log.h"
 

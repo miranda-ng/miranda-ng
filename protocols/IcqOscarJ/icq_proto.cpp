@@ -126,6 +126,7 @@ cheekySearchId( -1 )
 	CreateResidentSetting("AwayTS");
 	CreateResidentSetting("LogonTS");
 	CreateResidentSetting("DCStatus");
+	CreateResidentSetting("CapBuf"); //capabilities bufer
 	CreateResidentSetting(DBSETTING_STATUS_NOTE_TIME);
 	CreateResidentSetting(DBSETTING_STATUS_MOOD);
 
@@ -164,6 +165,11 @@ cheekySearchId( -1 )
 	CreateProtoService(MS_REVOKE_AUTH, &CIcqProto::RevokeAuthorization);
 
 	CreateProtoService(MS_XSTATUS_SHOWDETAILS, &CIcqProto::ShowXStatusDetails);
+
+	// Custom caps
+	CreateProtoService(PS_ICQ_ADDCAPABILITY, &CIcqProto::IcqAddCapability);
+	CreateProtoService(PS_ICQ_CHECKCAPABILITY, &CIcqProto::IcqCheckCapability);
+
 
 	HookProtoEvent(ME_SKIN2_ICONSCHANGED, &CIcqProto::OnReloadIcons);
 
@@ -269,6 +275,8 @@ CIcqProto::~CIcqProto()
 	cookies.destroy();
 
 	UninitContactsCache();
+
+	CustomCapList.clear();
 
 	SAFE_DELETE(&m_ratesMutex);
 

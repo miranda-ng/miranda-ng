@@ -96,8 +96,8 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 		commandline += _T("--display-charset utf-8 ");
 		commandline += _T("-z 9 ");
 		commandline += *acommandline;
-		delete [] bin_path; //hmm
-		delete [] home_dir;
+		mir_free(bin_path);
+		mir_free(home_dir);
 	}
 
 	debuglog<<time_str()<<": gpg in: "<<commandline<<"\n";

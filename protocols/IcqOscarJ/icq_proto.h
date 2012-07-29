@@ -805,6 +805,10 @@ struct CIcqProto : public PROTO_INTERFACE, public MZeroedObject
 	HANDLE AddToListByUID(const char *szUID, DWORD dwFlags);
 
 	void   ICQAddRecvEvent(HANDLE hContact, WORD wType, PROTORECVEVENT* pre, DWORD cbBlob, PBYTE pBlob, DWORD flags);
+	INT_PTR __cdecl IcqAddCapability(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl IcqCheckCapability(WPARAM wParam, LPARAM lParam);
+
+	std::list<ICQ_CUSTOMCAP*> CustomCapList;
 
 	//----| icq_uploadui.cpp |------------------------------------------------------------
 	void   ShowUploadContactsDialog(void);

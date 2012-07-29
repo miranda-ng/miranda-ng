@@ -683,6 +683,8 @@ void CIcqProto::setUserInfo()
 	wAdditionalData += 16;
 #endif
 
+	wAdditionalData += CustomCapList.size() * 16;
+
 	//MIM/PackName
 	bool bHasPackName = false;
 	DBVARIANT dbv;
@@ -769,6 +771,12 @@ void CIcqProto::setUserInfo()
 	if ( bHasPackName ) {
 		packBuffer(&packet, (BYTE*)dbv.pszVal, 0x10);
 		ICQFreeVariant(&dbv);
+	}
+
+	if(!CustomCapList.empty())
+	{
+		for(std::list<ICQ_CUSTOMCAP*>::iterator it = CustomCapList.begin(), end = CustomCapList.end(); it != end; ++it)
+			packBuffer(&packet, (BYTE*)(*it)->caps, 0x10);
 	}
 
 	sendServPacket(&packet);

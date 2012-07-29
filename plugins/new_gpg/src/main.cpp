@@ -650,62 +650,271 @@ void ShowFirstRunDialog();
 static BOOL CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *tmp = NULL;
-	switch (msg)
-	{
-	case WM_INITDIALOG:
+  switch (msg)
+  {
+  case WM_INITDIALOG:
+    {
+		TranslateDialogDefault(hwndDlg);
+		TCHAR *path = new TCHAR [MAX_PATH];
+		bool gpg_exists = false, lang_exists = false;
 		{
-			TranslateDialogDefault(hwndDlg);
-			TCHAR *path = new TCHAR [MAX_PATH];
-			bool gpg_exists = false, lang_exists = false;
+			char *mir_path = new char [MAX_PATH];
+			CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+			SetCurrentDirectoryA(mir_path);
+			tmp = mir_a2t(mir_path);
+			mir_free(mir_path);
+			mir_realloc(path, (_tcslen(path)+128)*sizeof(TCHAR));
+			TCHAR *gpg_path = new TCHAR [MAX_PATH], *gpg_lang_path = new TCHAR [MAX_PATH];
+			_tcscpy(gpg_path, tmp);
+			_tcscat(gpg_path, _T("\\GnuPG\\gpg.exe"));
+			_tcscpy(gpg_lang_path, tmp);
+			_tcscat(gpg_lang_path, _T("\\GnuPG\\gnupg.nls\\en@quot.mo"));
+			mir_free(tmp);
+			if(_waccess(gpg_path, 0) != -1)
+			{
+				gpg_exists = true;
+				_tcscpy(path, _T("GnuPG\\gpg.exe"));
+			}
+			if(_waccess(gpg_lang_path, 0) != -1)
+				lang_exists = true;
+			if(gpg_exists && !lang_exists) //TODO: check gpg version
+				MessageBox(0, TranslateT("gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned."), TranslateT("Warning"), MB_OK);
+			mir_free(gpg_path);
+			mir_free(gpg_lang_path);
+		}
+		DWORD len = MAX_PATH;
+		if(!gpg_exists)
+		{
+			tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", (SHGetValue(HKEY_CURRENT_USER, _T("Software\\GNU\\GnuPG"), _T("gpgProgram"), 0, path, &len) == ERROR_SUCCESS)?path:_T(""));
+			if(tmp[0])
 			{
 				char *mir_path = new char [MAX_PATH];
 				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
 				SetCurrentDirectoryA(mir_path);
-				tmp = mir_a2t(mir_path);
-				delete[] mir_path;
-				mir_realloc(path, (_tcslen(path)+128)*sizeof(TCHAR));
-				TCHAR *gpg_path = new TCHAR [MAX_PATH], *gpg_lang_path = new TCHAR [MAX_PATH];
-				_tcscpy(gpg_path, tmp);
-				_tcscat(gpg_path, _T("\\GnuPG\\gpg.exe"));
-				_tcscpy(gpg_lang_path, tmp);
-				_tcscat(gpg_lang_path, _T("\\GnuPG\\gnupg.nls\\en@quot.mo"));
-				mir_free(tmp);
-				if(_waccess(gpg_path, 0) != -1)
+				delete [] mir_path;
+				if(_waccess(tmp, 0) == -1)
 				{
-					gpg_exists = true;
-					_tcscpy(path, _T("GnuPG\\gpg.exe"));
+					if(errno == ENOENT)
+						MessageBox(0, TranslateT("wrong gpg binary location found in system.\nplease choose another location"), TranslateT("Warning"), MB_OK);
 				}
-				if(_waccess(gpg_lang_path, 0) != -1)
-					lang_exists = true;
-				if(gpg_exists && !lang_exists) //TODO: check gpg version
-					MessageBox(0, TranslateT("gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned."), TranslateT("Warning"), MB_OK);
-				mir_free(gpg_path);
-				mir_free(gpg_lang_path);
 			}
-			DWORD len = MAX_PATH;
-			if(!gpg_exists)
+		}
+		else
+			tmp = mir_wstrdup(path);
+		delete [] path;
+		SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
+		bool bad_version = false;
+		if(gpg_exists && lang_exists)
+		{
+			DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+			string out;
+			DWORD code;
+			wstring cmd = _T("--version");
+			gpg_execution_params params;
+			pxResult result;
+			params.cmd = &cmd;
+			params.useless = "";
+			params.out = &out;
+			params.code = &code;
+			params.result = &result;
+			gpg_valid = true;
+			boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
+			if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
 			{
-				tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", (SHGetValue(HKEY_CURRENT_USER, _T("Software\\GNU\\GnuPG"), _T("gpgProgram"), 0, path, &len) == ERROR_SUCCESS)?path:_T(""));
-				if(tmp[0])
+				gpg_thread.~thread();
+				TerminateProcess(params.hProcess, 1);
+				params.hProcess = NULL;
+				debuglog<<time_str()<<": GPG execution timed out, aborted\n";
+			}
+			gpg_valid = false;
+			DBDeleteContactSetting(NULL, szGPGModuleName, "szGpgBinPath");
+			string::size_type p1 = out.find("(GnuPG) ");
+			if(p1 != string::npos)
+			{
+				p1 += strlen("(GnuPG) ");
+				if(out[p1] != '1')
+					bad_version = true;
+			}
+			else
+			{
+				bad_version = false;
+				MessageBox(0, TranslateT("This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
+			}
+			if(bad_version)
+				MessageBox(0, TranslateT("Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
+		}
+		mir_free(tmp);
+		if(!gpg_exists)
+		{
+			wstring path_ = _wgetenv(_T("APPDATA"));
+			path_ += _T("\\GnuPG");
+			tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", (TCHAR*)path_.c_str());
+		}
+		SetDlgItemText(hwndDlg, IDC_HOME_DIR, !gpg_exists?tmp:_T("gpg"));
+		mir_free(tmp);
+		if(gpg_exists && lang_exists && !bad_version)
+			MessageBox(0, TranslateT("Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue."), TranslateT("Info"), MB_OK);
+		extern bool bIsMiranda09;
+		EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), bIsMiranda09);
+      return TRUE;
+    }
+    
+ 
+  case WM_COMMAND:
+    {
+      switch (LOWORD(wParam))
+      {
+	  case IDC_SET_BIN_PATH:
+		  {
+			  GetFilePath(_T("Choose gpg.exe"), "szGpgBinPath", _T("*.exe"), _T("EXE Executables"));
+			  tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", _T("gpg.exe"));
+			  SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
+			  char mir_path[MAX_PATH];
+			  char *atmp = mir_t2a(tmp);
+			  mir_free(tmp);
+			  CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+			  char* p_path = NULL;
+			  if(StriStr(atmp, mir_path))
+			  {
+				  p_path = atmp + strlen(mir_path);
+				  tmp = mir_a2t(p_path);
+				  SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
+			  }
+		  }
+		  break;
+	  case IDC_SET_HOME_DIR:
+		  {
+			  GetFolderPath(_T("Set home diractory"), "szHomePath");
+			  tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+			  SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
+			  char mir_path[MAX_PATH];
+			  char *atmp = mir_t2a(tmp);
+			  mir_free(tmp);
+			  CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+			  char* p_path = NULL;
+			  if(StriStr(atmp, mir_path))
+			  {
+				  p_path = atmp + strlen(mir_path);
+				  tmp = mir_a2t(p_path);
+				  SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
+			  }
+		  }
+		  break;
+      case ID_OK:
+        {
+		  TCHAR tmp[512];
+		  GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, 512);
+		  if(tmp[0])
+		  {
+			  char *mir_path = new char [MAX_PATH];
+			  CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+			  SetCurrentDirectoryA(mir_path);
+			  delete [] mir_path;
+			  if(_waccess(tmp, 0) == -1)
+			  {
+				  if(errno == ENOENT)
+				  {
+					  MessageBox(0, TranslateT("gpg binary does not exists.\nplease choose another location"), TranslateT("Warning"), MB_OK);
+					  break;
+				  }
+			  }
+		  }
+		  else
+		  {
+			  MessageBox(0, TranslateT("please choose gpg binary location"), TranslateT("Warning"), MB_OK);
+			  break;
+		  }
+		  {
+			  bool bad_version = false;
+			  DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+			  string out;
+			  DWORD code;
+			  wstring cmd = _T("--version");
+			  gpg_execution_params params;
+			  pxResult result;
+			  params.cmd = &cmd;
+			  params.useless = "";
+			  params.out = &out;
+			  params.code = &code;
+			  params.result = &result;
+			  gpg_valid = true;
+			  boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
+			  if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
+			  {
+				  TerminateProcess(params.hProcess, 1);
+				  params.hProcess = NULL;
+				  gpg_thread.~thread();
+				  debuglog<<time_str()<<": GPG execution timed out, aborted\n";
+			  }
+			  gpg_valid = false;
+			  DBDeleteContactSetting(NULL, szGPGModuleName, "szGpgBinPath");
+			  string::size_type p1 = out.find("(GnuPG) ");
+			  if(p1 != string::npos)
+			  {
+				  p1 += strlen("(GnuPG) ");
+				  if(out[p1] != '1')
+					  bad_version = true;
+			  }
+			  else
+			  {
+				  bad_version = false;
+				  MessageBox(0, TranslateT("This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
+			  }
+			  if(bad_version)
+				  MessageBox(0, TranslateT("Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
+		  }
+		  DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+		  GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, 512);
+		  while(tmp[_tcslen(tmp)-1] == '\\')
+			  tmp[_tcslen(tmp)-1] = '\0';
+		  if(!tmp[0])
+		  {
+			  MessageBox(0, TranslateT("please set keyring's home directory"), TranslateT("Warning"), MB_OK);
+			  break;
+		  }
+		  DBWriteContactSettingTString(NULL, szGPGModuleName, "szHomePath", tmp);
+		  {
+			  TCHAR *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+			  DWORD dwFileAttr = GetFileAttributes(path);
+			  if (dwFileAttr != INVALID_FILE_ATTRIBUTES)
+			  {
+				  dwFileAttr &=~ FILE_ATTRIBUTE_READONLY;
+				  SetFileAttributes(path, dwFileAttr);
+			  }
+			  mir_free(path);
+		  }
+		  gpg_valid = true;
+		  DBWriteContactSettingByte(NULL, szGPGModuleName, "FirstRun", 0);
+		  DestroyWindow(hwndDlg);
+		  ShowFirstRunDialog();
+        }
+		break;
+	  case IDC_GENERATE_RANDOM:
+        {
+			TCHAR tmp[512];
+			GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, 512);
+			if(tmp[0])
+			{
+				char *mir_path = new char [MAX_PATH];
+				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+				SetCurrentDirectoryA(mir_path);
+				delete [] mir_path;
+				if(_waccess(tmp, 0) == -1)
 				{
-					char *mir_path = new char [MAX_PATH];
-					CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
-					SetCurrentDirectoryA(mir_path);
-					delete [] mir_path;
-					if(_waccess(tmp, 0) == -1)
+					if(errno == ENOENT)
 					{
-						if(errno == ENOENT)
-							MessageBox(0, TranslateT("wrong gpg binary location found in system.\nplease choose another location"), TranslateT("Warning"), MB_OK);
+						MessageBox(0, TranslateT("gpg binary does not exists.\nplease choose another location"), TranslateT("Warning"), MB_OK);
+						break;
 					}
 				}
 			}
 			else
-				tmp = mir_wstrdup(path);
-			delete [] path;
-			SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
-			bool bad_version = false;
-			if(gpg_exists && lang_exists)
 			{
+				MessageBox(0, TranslateT("please choose gpg binary location"), TranslateT("Warning"), MB_OK);
+				break;
+			}
+			{
+				bool bad_version = false;
 				DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 				string out;
 				DWORD code;
@@ -721,9 +930,9 @@ static BOOL CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
 				if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
 				{
-					gpg_thread.~thread();
 					TerminateProcess(params.hProcess, 1);
 					params.hProcess = NULL;
+					gpg_thread.~thread();
 					debuglog<<time_str()<<": GPG execution timed out, aborted\n";
 				}
 				gpg_valid = false;
@@ -743,370 +952,161 @@ static BOOL CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if(bad_version)
 					MessageBox(0, TranslateT("Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
 			}
-			mir_free(tmp);
-			if(!gpg_exists)
+			DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+			GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, 512);
+			while(tmp[_tcslen(tmp)-1] == '\\')
+				tmp[_tcslen(tmp)-1] = '\0';
+			if(!tmp[0])
 			{
-				wstring path_ = _wgetenv(_T("APPDATA"));
-				path_ += _T("\\GnuPG");
-				tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", (TCHAR*)path_.c_str());
-			}
-			SetDlgItemText(hwndDlg, IDC_HOME_DIR, !gpg_exists?tmp:_T("gpg"));
-			mir_free(tmp);
-			if(gpg_exists && lang_exists && !bad_version)
-				MessageBox(0, TranslateT("Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue."), TranslateT("Info"), MB_OK);
-			extern bool bIsMiranda09;
-			EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), bIsMiranda09);
-			return TRUE;
-		}
-
-
-	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam))
-			{
-			case IDC_SET_BIN_PATH:
-				{
-					GetFilePath(_T("Choose gpg.exe"), "szGpgBinPath", _T("*.exe"), _T("EXE Executables"));
-					tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", _T("gpg.exe"));
-					SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
-					char mir_path[MAX_PATH];
-					char *atmp = mir_t2a(tmp);
-					mir_free(tmp);
-					CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
-					char* p_path = NULL;
-					if(StriStr(atmp, mir_path))
-					{
-						p_path = atmp + strlen(mir_path);
-						tmp = mir_a2t(p_path);
-						SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
-					}
-				}
-				break;
-			case IDC_SET_HOME_DIR:
-				{
-					GetFolderPath(_T("Set home diractory"), "szHomePath");
-					tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-					SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
-					char mir_path[MAX_PATH];
-					char *atmp = mir_t2a(tmp);
-					mir_free(tmp);
-					CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
-					char* p_path = NULL;
-					if(StriStr(atmp, mir_path))
-					{
-						p_path = atmp + strlen(mir_path);
-						tmp = mir_a2t(p_path);
-						SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
-					}
-				}
-				break;
-			case ID_OK:
-				{
-					TCHAR tmp[512];
-					GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, 512);
-					if(tmp[0])
-					{
-						char *mir_path = new char [MAX_PATH];
-						CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
-						SetCurrentDirectoryA(mir_path);
-						delete [] mir_path;
-						if(_waccess(tmp, 0) == -1)
-						{
-							if(errno == ENOENT)
-							{
-								MessageBox(0, TranslateT("gpg binary does not exists.\nplease choose another location"), TranslateT("Warning"), MB_OK);
-								break;
-							}
-						}
-					}
-					else
-					{
-						MessageBox(0, TranslateT("please choose gpg binary location"), TranslateT("Warning"), MB_OK);
-						break;
-					}
-					{
-						bool bad_version = false;
-						DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-						string out;
-						DWORD code;
-						wstring cmd = _T("--version");
-						gpg_execution_params params;
-						pxResult result;
-						params.cmd = &cmd;
-						params.useless = "";
-						params.out = &out;
-						params.code = &code;
-						params.result = &result;
-						gpg_valid = true;
-						boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-						if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
-						{
-							TerminateProcess(params.hProcess, 1);
-							params.hProcess = NULL;
-							gpg_thread.~thread();
-							debuglog<<time_str()<<": GPG execution timed out, aborted\n";
-						}
-						gpg_valid = false;
-						DBDeleteContactSetting(NULL, szGPGModuleName, "szGpgBinPath");
-						string::size_type p1 = out.find("(GnuPG) ");
-						if(p1 != string::npos)
-						{
-							p1 += strlen("(GnuPG) ");
-							if(out[p1] != '1')
-								bad_version = true;
-						}
-						else
-						{
-							bad_version = false;
-							MessageBox(0, TranslateT("This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
-						}
-						if(bad_version)
-							MessageBox(0, TranslateT("Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
-					}
-					DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-					GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, 512);
-					while(tmp[_tcslen(tmp)-1] == '\\')
-						tmp[_tcslen(tmp)-1] = '\0';
-					if(!tmp[0])
-					{
-						MessageBox(0, TranslateT("please set keyring's home directory"), TranslateT("Warning"), MB_OK);
-						break;
-					}
-					DBWriteContactSettingTString(NULL, szGPGModuleName, "szHomePath", tmp);
-					{
-						TCHAR *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-						DWORD dwFileAttr = GetFileAttributes(path);
-						if (dwFileAttr != INVALID_FILE_ATTRIBUTES)
-						{
-							dwFileAttr &=~ FILE_ATTRIBUTE_READONLY;
-							SetFileAttributes(path, dwFileAttr);
-						}
-						mir_free(path);
-					}
-					gpg_valid = true;
-					DBWriteContactSettingByte(NULL, szGPGModuleName, "FirstRun", 0);
-					DestroyWindow(hwndDlg);
-					ShowFirstRunDialog();
-				}
-				break;
-			case IDC_GENERATE_RANDOM:
-				{
-					TCHAR tmp[512];
-					GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, 512);
-					if(tmp[0])
-					{
-						char *mir_path = new char [MAX_PATH];
-						CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
-						SetCurrentDirectoryA(mir_path);
-						delete [] mir_path;
-						if(_waccess(tmp, 0) == -1)
-						{
-							if(errno == ENOENT)
-							{
-								MessageBox(0, TranslateT("gpg binary does not exists.\nplease choose another location"), TranslateT("Warning"), MB_OK);
-								break;
-							}
-						}
-					}
-					else
-					{
-						MessageBox(0, TranslateT("please choose gpg binary location"), TranslateT("Warning"), MB_OK);
-						break;
-					}
-					{
-						bool bad_version = false;
-						DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-						string out;
-						DWORD code;
-						wstring cmd = _T("--version");
-						gpg_execution_params params;
-						pxResult result;
-						params.cmd = &cmd;
-						params.useless = "";
-						params.out = &out;
-						params.code = &code;
-						params.result = &result;
-						gpg_valid = true;
-						boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-						if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
-						{
-							TerminateProcess(params.hProcess, 1);
-							params.hProcess = NULL;
-							gpg_thread.~thread();
-							debuglog<<time_str()<<": GPG execution timed out, aborted\n";
-						}
-						gpg_valid = false;
-						DBDeleteContactSetting(NULL, szGPGModuleName, "szGpgBinPath");
-						string::size_type p1 = out.find("(GnuPG) ");
-						if(p1 != string::npos)
-						{
-							p1 += strlen("(GnuPG) ");
-							if(out[p1] != '1')
-								bad_version = true;
-						}
-						else
-						{
-							bad_version = false;
-							MessageBox(0, TranslateT("This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
-						}
-						if(bad_version)
-							MessageBox(0, TranslateT("Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
-					}
-					DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-					GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, 512);
-					while(tmp[_tcslen(tmp)-1] == '\\')
-						tmp[_tcslen(tmp)-1] = '\0';
-					if(!tmp[0])
-					{
-						MessageBox(0, TranslateT("please set keyring's home directory"), TranslateT("Warning"), MB_OK);
-						break;
-					}
-					DBWriteContactSettingTString(NULL, szGPGModuleName, "szHomePath", tmp);
-					{
-						TCHAR *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-						DWORD dwFileAttr = GetFileAttributes(path);
-						if (dwFileAttr != INVALID_FILE_ATTRIBUTES)
-						{
-							dwFileAttr &=~ FILE_ATTRIBUTE_READONLY;
-							SetFileAttributes(path, dwFileAttr);
-						}
-						mir_free(path);
-					}
-				}
-				{
-					wstring path;
-					{ //generating key file
-						TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-						path = tmp;
-						mir_free(tmp);
-						path.append(_T("\\new_key"));
-						wfstream f(path.c_str(), std::ios::out);
-						if(!f.is_open())
-						{
-							MessageBox(0, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
-							break;
-						}
-						f<<"Key-Type: RSA";
-						f<<"\n";
-						f<<"Key-Length: 2048";
-						f<<"\n";
-						f<<"Subkey-Type: RSA";
-						f<<"\n";
-						f<<"Name-Real: ";
-						f<<get_random(6).c_str();
-						f<<"\n";
-						f<<"Name-Email: ";
-						f<<get_random(5).c_str();
-						f<<"@";
-						f<<get_random(5).c_str();
-						f<<".";
-						f<<get_random(3).c_str();
-						f<<"\n";
-						f.close();
-					}
-					{ //gpg execution
-						DWORD code;
-						string out;
-						wstring cmd;
-						cmd += _T("--batch --yes --gen-key \"");
-						cmd += path;
-						cmd += _T("\"");
-						gpg_execution_params params;
-						pxResult result;
-						params.cmd = &cmd;
-						params.useless = "";
-						params.out = &out;
-						params.code = &code;
-						params.result = &result;
-						gpg_valid = true;
-						boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-						if(!gpg_thread.timed_join(boost::posix_time::minutes(10)))
-						{
-							gpg_thread.~thread();
-							TerminateProcess(params.hProcess, 1);
-							params.hProcess = NULL;
-							debuglog<<time_str()<<": GPG execution timed out, aborted";
-							gpg_valid = false;
-							break;
-						}
-						gpg_valid = false;
-						if(result == pxNotFound)
-							break;
-						DeleteFile(path.c_str());
-						string::size_type p1 = 0;
-						if((p1 = out.find("key ")) != string::npos)
-							path = toUTF16(out.substr(p1+4, 8));
-						else
-							path.clear();
-					}
-					if(!path.empty())
-					{
-						string out;
-						DWORD code;
-						wstring cmd = _T("--batch -a --export ");
-						cmd += path;
-						gpg_execution_params params;
-						pxResult result;
-						params.cmd = &cmd;
-						params.useless = "";
-						params.out = &out;
-						params.code = &code;
-						params.result = &result;
-						gpg_valid = true;
-						boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-						if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
-						{
-							gpg_thread.~thread();
-							TerminateProcess(params.hProcess, 1);
-							params.hProcess = NULL;
-							debuglog<<time_str()<<"GPG execution timed out, aborted\n";
-							gpg_valid = false;
-							break;
-						}
-						gpg_valid = false;
-						if(result == pxNotFound)
-							break;
-						string::size_type s = 0;
-						while((s = out.find("\r", s)) != string::npos)
-						{
-							out.erase(s, 1);
-						}
-						DBWriteContactSettingString(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
-						DBWriteContactSettingTString(NULL, szGPGModuleName, "KeyID", path.c_str());
-						extern HWND hwndCurKey_p;
-						SetWindowText(hwndCurKey_p, path.c_str());
-					}
-				}
-				bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange");
-				gpg_valid = true;
-				DBWriteContactSettingByte(NULL, szGPGModuleName, "FirstRun", 0);
-				DestroyWindow(hwndDlg);
-				break;
-			default:
+				MessageBox(0, TranslateT("please set keyring's home directory"), TranslateT("Warning"), MB_OK);
 				break;
 			}
-
-			break;
-		}
-
-	case WM_NOTIFY:
-		{
-			/*      switch (((LPNMHDR)lParam)->code)
+			DBWriteContactSettingTString(NULL, szGPGModuleName, "szHomePath", tmp);
 			{
-			default:
-			break;
-			}*/
+				TCHAR *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+				DWORD dwFileAttr = GetFileAttributes(path);
+				if (dwFileAttr != INVALID_FILE_ATTRIBUTES)
+				{
+					dwFileAttr &=~ FILE_ATTRIBUTE_READONLY;
+					SetFileAttributes(path, dwFileAttr);
+				}
+				mir_free(path);
+			}
 		}
+		  {
+			  wstring path;
+			  { //generating key file
+				  TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+				  path = tmp;
+				  mir_free(tmp);
+				  path.append(_T("\\new_key"));
+				  wfstream f(path.c_str(), std::ios::out);
+				  if(!f.is_open())
+				  {
+					  MessageBox(0, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
+					  break;
+				  }
+				  f<<"Key-Type: RSA";
+				  f<<"\n";
+				  f<<"Key-Length: 2048";
+				  f<<"\n";
+				  f<<"Subkey-Type: RSA";
+				  f<<"\n";
+				  f<<"Name-Real: ";
+				  f<<get_random(6).c_str();
+				  f<<"\n";
+				  f<<"Name-Email: ";
+				  f<<get_random(5).c_str();
+				  f<<"@";
+				  f<<get_random(5).c_str();
+				  f<<".";
+				  f<<get_random(3).c_str();
+				  f<<"\n";
+				  f.close();
+			  }
+			  { //gpg execution
+				  DWORD code;
+				  string out;
+				  wstring cmd;
+				  cmd += _T("--batch --yes --gen-key \"");
+				  cmd += path;
+				  cmd += _T("\"");
+				  gpg_execution_params params;
+				  pxResult result;
+				  params.cmd = &cmd;
+				  params.useless = "";
+				  params.out = &out;
+				  params.code = &code;
+				  params.result = &result;
+				  gpg_valid = true;
+				  boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
+				  if(!gpg_thread.timed_join(boost::posix_time::minutes(10)))
+				  {
+					  gpg_thread.~thread();
+					  TerminateProcess(params.hProcess, 1);
+					  params.hProcess = NULL;
+					  debuglog<<time_str()<<": GPG execution timed out, aborted";
+					  gpg_valid = false;
+					  break;
+				  }
+				  gpg_valid = false;
+				  if(result == pxNotFound)
+					  break;
+				  DeleteFile(path.c_str());
+				  string::size_type p1 = 0;
+				  if((p1 = out.find("key ")) != string::npos)
+					  path = toUTF16(out.substr(p1+4, 8));
+				  else
+					  path.clear();
+			  }
+			  if(!path.empty())
+			  {
+				  string out;
+				  DWORD code;
+				  wstring cmd = _T("--batch -a --export ");
+				  cmd += path;
+				  gpg_execution_params params;
+				  pxResult result;
+				  params.cmd = &cmd;
+				  params.useless = "";
+				  params.out = &out;
+				  params.code = &code;
+				  params.result = &result;
+				  gpg_valid = true;
+				  boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
+				  if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
+				  {
+					  gpg_thread.~thread();
+					  TerminateProcess(params.hProcess, 1);
+					  params.hProcess = NULL;
+					  debuglog<<time_str()<<"GPG execution timed out, aborted\n";
+					  gpg_valid = false;
+					  break;
+				  }
+				  gpg_valid = false;
+				  if(result == pxNotFound)
+					  break;
+				  string::size_type s = 0;
+				  while((s = out.find("\r", s)) != string::npos)
+				  {
+					  out.erase(s, 1);
+				  }
+				  DBWriteContactSettingString(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
+				  DBWriteContactSettingTString(NULL, szGPGModuleName, "KeyID", path.c_str());
+				  extern HWND hwndCurKey_p;
+				  SetWindowText(hwndCurKey_p, path.c_str());
+			  }
+		  }
+		  bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange");
+		  gpg_valid = true;
+		  DBWriteContactSettingByte(NULL, szGPGModuleName, "FirstRun", 0);
+		  DestroyWindow(hwndDlg);
+		  break;
+	  default:
 		break;
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-	case WM_DESTROY:
-		hwndSetDirs = NULL;
-		break;
-
+      }
+      
+      break;
+    }
+    
+  case WM_NOTIFY:
+    {
+/*      switch (((LPNMHDR)lParam)->code)
+      {
+	  default:
+		  break;
+      }*/
 	}
-	return FALSE;
+    break;
+  case WM_CLOSE:
+	  DestroyWindow(hwndDlg);
+	  break;
+  case WM_DESTROY:
+	  hwndSetDirs = NULL;
+	  break;
+
+  }
+  return FALSE;
 }
 
 static BOOL CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1116,561 +1116,299 @@ static BOOL CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	static HANDLE hContact = INVALID_HANDLE_VALUE;
 	void ImportKey();
 	TCHAR *tmp = NULL;
-	switch (msg)
-	{
-	case WM_INITDIALOG:
-		{
-			hContact = new_key_hcnt;
-			new_key_hcnt_mutex.unlock();
-			SetWindowPos(hwndDlg, 0, new_key_rect.left, new_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
-			TranslateDialogDefault(hwndDlg);
-			TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
-			SetDlgItemText(hwndDlg, IDC_MESSAGE, tmp[0]?TranslateT("There is existing key for contact, would you like to replace with new key ?"):TranslateT("New public key was received, do you want to import it?"));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_IMPORT_AND_USE), DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0)?0:1);
-			SetDlgItemText(hwndDlg, ID_IMPORT, tmp[0]?TranslateT("Replace"):TranslateT("Accept"));
-			mir_free(tmp);
-			tmp = new TCHAR [256];
-			_tcscpy(tmp, TranslateT("Received key from "));
-			_tcscat(tmp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, (LPARAM)GCDNF_TCHAR));
-			SetDlgItemText(hwndDlg, IDC_KEY_FROM, tmp);
-			delete [] tmp;
-			return TRUE;
-		}
-
-
-	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam))
-			{
-			case ID_IMPORT:
-				ImportKey();
-				DestroyWindow(hwndDlg);
-				break;
-			case IDC_IMPORT_AND_USE:
-				ImportKey();
-				DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 1);
-				void setSrmmIcon(HANDLE hContact);
-				void setClistIcon(HANDLE hContact);
-				setSrmmIcon(hContact);
-				setClistIcon(hContact);
-				DestroyWindow(hwndDlg);
-				break;
-			case IDC_IGNORE_KEY:
-				DestroyWindow(hwndDlg);
-				break;
-			default:
-				break;
-			}
-
-			break;
-		}
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
+  switch (msg)
+  {
+  case WM_INITDIALOG:
+    {
+		hContact = new_key_hcnt;
+		new_key_hcnt_mutex.unlock();
+		SetWindowPos(hwndDlg, 0, new_key_rect.left, new_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
+		TranslateDialogDefault(hwndDlg);
+		TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
+		SetDlgItemText(hwndDlg, IDC_MESSAGE, tmp[0]?TranslateT("There is existing key for contact, would you like to replace with new key ?"):TranslateT("New public key was received, do you want to import it?"));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_IMPORT_AND_USE), DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0)?0:1);
+		SetDlgItemText(hwndDlg, ID_IMPORT, tmp[0]?TranslateT("Replace"):TranslateT("Accept"));
+		mir_free(tmp);
+		tmp = new TCHAR [256];
+		_tcscpy(tmp, TranslateT("Received key from "));
+		_tcscat(tmp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, (LPARAM)GCDNF_TCHAR));
+		SetDlgItemText(hwndDlg, IDC_KEY_FROM, tmp);
+		delete [] tmp;
+      return TRUE;
+    }
+    
+ 
+  case WM_COMMAND:
+    {
+      switch (LOWORD(wParam))
+      {
+	  case ID_IMPORT:
+		  ImportKey();
+		  DestroyWindow(hwndDlg);
+		  break;
+	  case IDC_IMPORT_AND_USE:
+		  ImportKey();
+		  DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 1);
+		  void setSrmmIcon(HANDLE hContact);
+		  void setClistIcon(HANDLE hContact);
+		  setSrmmIcon(hContact);
+		  setClistIcon(hContact);
+		  DestroyWindow(hwndDlg);
+		  break;
+	  case IDC_IGNORE_KEY:
+		  DestroyWindow(hwndDlg);
+		  break;
+	  default:
 		break;
-
-	case WM_DESTROY:
-		{
-			GetWindowRect(hwndDlg, &new_key_rect);
-			DBWriteContactSettingDword(NULL, szGPGModuleName, "NewKeyWindowX", new_key_rect.left);
-			DBWriteContactSettingDword(NULL, szGPGModuleName, "NewKeyWindowY", new_key_rect.top);
-		}
-		hwndNewKey = NULL;
-		break;
-
+      }
+      
+      break;
+    }
+    
+  case WM_NOTIFY:
+    {
+/*      switch (((LPNMHDR)lParam)->code)
+      {
+	  default:
+		  break;
+      }*/
 	}
-	return FALSE;
+    break;
+  case WM_CLOSE:
+	  DestroyWindow(hwndDlg);
+	  break;
+  case WM_DESTROY:
+	  {
+		  GetWindowRect(hwndDlg, &new_key_rect);
+		  DBWriteContactSettingDword(NULL, szGPGModuleName, "NewKeyWindowX", new_key_rect.left);
+		  DBWriteContactSettingDword(NULL, szGPGModuleName, "NewKeyWindowY", new_key_rect.top);
+	  }
+	  hwndNewKey = NULL;
+	  break;
+
+  }
+  return FALSE;
 }
 static BOOL CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-	case WM_INITDIALOG:
-		{
-			SetWindowPos(hwndDlg, 0, key_gen_rect.left, key_gen_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
-			TranslateDialogDefault(hwndDlg);
-			SetWindowText(hwndDlg, TranslateT("Key Generation dialog"));
-			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEY_TYPE), _T("RSA"), 0);
-			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEY_TYPE), _T("DSA"), 1);
-			SendDlgItemMessage(hwndDlg, IDC_KEY_TYPE, CB_SETCURSEL, (WPARAM)1, 0);
-			SetDlgItemInt(hwndDlg, IDC_KEY_EXPIRE_DATE, 0, 0);
-			SetDlgItemInt(hwndDlg, IDC_KEY_LENGTH, 4096, 0);
-			return TRUE;
-		}
-
-
-	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam))
-			{
-			case IDCANCEL:
-				DestroyWindow(hwndDlg);
-				break;
-			case IDOK:
-				{
-					wstring path;
-					{ //data sanity checks
-						TCHAR *tmp = new TCHAR [5];
-						GetDlgItemText(hwndDlg, IDC_KEY_TYPE, tmp, 5);
-						if(_tcslen(tmp) < 3)
-						{
-							mir_free(tmp);
-							MessageBox(0, TranslateT("You must set encryption algorythm first"), TranslateT("Error"), MB_OK);
-							break;
-						}
-						mir_free(tmp);
-						tmp = new TCHAR [5];
-						GetDlgItemText(hwndDlg, IDC_KEY_LENGTH, tmp, 5);
-						int length = _ttoi(tmp);
-						mir_free(tmp);
-						if(length < 1024 || length > 4096)
-						{
-							MessageBox(0, TranslateT("Key length must be of length from 1024 to 4096 bits"), TranslateT("Error"), MB_OK);
-							break;
-						}
-						tmp = new TCHAR [12];
-						GetDlgItemText(hwndDlg, IDC_KEY_EXPIRE_DATE, tmp, 12);
-						if(_tcslen(tmp) != 10 && tmp[0] != '0')
-						{
-							MessageBox(0, TranslateT("Invalid date"), TranslateT("Error"), MB_OK);
-							delete [] tmp;
-							break;
-						}
-						delete [] tmp;
-						tmp = new TCHAR [128];
-						GetDlgItemText(hwndDlg, IDC_KEY_REAL_NAME, tmp, 128);
-						if(_tcslen(tmp) < 5)
-						{
-							MessageBox(0, TranslateT("Name must contain at least 5 characters"), TranslateT("Error"), MB_OK);
-							delete [] tmp;
-							break;
-						}
-						else if (_tcschr(tmp, _T('(')) || _tcschr(tmp, _T(')')))
-						{
-							MessageBox(0, TranslateT("Name cannot contain '(' or ')'"), TranslateT("Error"), MB_OK);
-							delete [] tmp;
-							break;
-						}
-						delete [] tmp;
-						tmp = new TCHAR [128];
-						GetDlgItemText(hwndDlg, IDC_KEY_EMAIL, tmp, 128);
-						if((_tcslen(tmp)) < 5 || (!_tcschr(tmp, _T('@'))) || (!_tcschr(tmp, _T('.'))))
-						{
-							MessageBox(0, TranslateT("Invalid Email"), TranslateT("Error"), MB_OK);
-							delete [] tmp;
-							break;
-						}
-						delete [] tmp;
-					}		  
-					{ //generating key file
-						TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-						char  *tmp2;// = mir_t2a(tmp);
-						path = tmp;
-						mir_free(tmp);
-						//			  mir_free(tmp2);
-						path.append(_T("\\new_key"));
-						wfstream f(path.c_str(), std::ios::out);
-						if(!f.is_open())
-						{
-							MessageBox(0, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
-							break;
-						}
-						f<<"Key-Type: ";
-						tmp = new TCHAR [5];
-						GetDlgItemText(hwndDlg, IDC_KEY_TYPE, tmp, 5);
-						tmp2 = mir_t2a(tmp);
-						delete [] tmp;
-						char *subkeytype = new char [6];
-						if(strstr(tmp2, "RSA"))
-							strcpy(subkeytype, "RSA");
-						else if(strstr(tmp2, "DSA")) //this is useless check for now, but it will be required if someone add another key types support
-							strcpy(subkeytype, "ELG-E");
-						f<<tmp2;
-						mir_free(tmp2);
-						f<<"\n";
-						f<<"Key-Length: ";
-						tmp = new TCHAR [5]; 
-						GetDlgItemText(hwndDlg, IDC_KEY_LENGTH, tmp, 5);
-						int length = _ttoi(tmp);
-						delete [] tmp;
-						f<<length;
-						f<<"\n";
-						f<<"Subkey-Length: ";
-						f<<length;
-						f<<"\n";
-						f<<"Subkey-Type: ";
-						f<<subkeytype;
-						delete [] subkeytype;
-						f<<"\n";
-						tmp = new TCHAR [64]; //i hope this is enough for password
-						GetDlgItemText(hwndDlg, IDC_KEY_PASSWD, tmp, 64);
-						if(tmp[0])
-						{
-							f<<"Passphrase: ";
-							tmp2 = mir_strdup(toUTF8(tmp).c_str());
-							f<<tmp2;
-							f<<"\n";
-							mir_free(tmp2);
-						}
-						delete [] tmp;
-						f<<"Name-Real: ";
-						tmp = new TCHAR [128];
-						GetDlgItemText(hwndDlg, IDC_KEY_REAL_NAME, tmp, 128);
-						tmp2 = mir_strdup(toUTF8(tmp).c_str());
-						f<<tmp2;
-						mir_free(tmp2);
-						delete [] tmp;
-						f<<"\n";
-						tmp = new TCHAR [512];
-						GetDlgItemText(hwndDlg, IDC_KEY_COMMENT, tmp, 512);
-						if(tmp[0])
-						{
-							tmp2 = mir_strdup(toUTF8(tmp).c_str());
-							f<<"Name-Comment: ";
-							f<<tmp2;
-							f<<"\n";
-						}
-						mir_free(tmp2);
-						delete [] tmp;
-						f<<"Name-Email: ";
-						tmp = new TCHAR [128];
-						GetDlgItemText(hwndDlg, IDC_KEY_EMAIL, tmp, 128);
-						tmp2 = mir_strdup(toUTF8(tmp).c_str());
-						f<<tmp2;
-						mir_free(tmp2);
-						delete [] tmp;
-						f<<"\n";
-						f<<"Expire-Date: ";
-						tmp = new TCHAR [12];
-						GetDlgItemText(hwndDlg, IDC_KEY_EXPIRE_DATE, tmp, 12);
-						tmp2 = mir_strdup(toUTF8(tmp).c_str());
-						f<<tmp2;
-						mir_free(tmp2);
-						delete [] tmp;
-						f<<"\n";
-						f.close();
-					}
-					{ //gpg execution
-						DWORD code;
-						string out;
-						wstring cmd;
-						cmd += _T("--batch --yes --gen-key \"");
-						cmd += path;
-						cmd += _T("\"");
-						gpg_execution_params params;
-						pxResult result;
-						params.cmd = &cmd;
-						params.useless = "";
-						params.out = &out;
-						params.code = &code;
-						params.result = &result;
-						SetWindowTextA(GetDlgItem(hwndDlg, IDC_GENERATING_TEXT), Translate("Generating new key, please wait..."));
-						EnableWindow(GetDlgItem(hwndDlg, IDCANCEL), 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDOK), 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_TYPE), 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_LENGTH), 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_PASSWD), 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_REAL_NAME), 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_EMAIL), 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_COMMENT), 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_EXPIRE_DATE), 0);
-						boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-						if(!gpg_thread.timed_join(boost::posix_time::minutes(10)))
-						{
-							gpg_thread.~thread();
-							TerminateProcess(params.hProcess, 1);
-							params.hProcess = NULL;
-							debuglog<<time_str()<<": GPG execution timed out, aborted\n";
-							break;
-						}
-						if(result == pxNotFound)
-							break;
-					}
-					DeleteFile(path.c_str());
-					DestroyWindow(hwndDlg);
-					{//parse gpg output
-						LVITEM item = {0};
-						int i = 1, iRow = 0;
-						item.mask = LVIF_TEXT;
-						item.iItem = i;
-						item.iSubItem = 0;
-						item.pszText = _T("");				
-						string out;
-						DWORD code;
-						string::size_type p = 0, p2 = 0, stop = 0;
-						{
-							wstring cmd = _T("--list-secret-keys");
-							gpg_execution_params params;
-							pxResult result;
-							params.cmd = &cmd;
-							params.useless = "";
-							params.out = &out;
-							params.code = &code;
-							params.result = &result;
-							boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-							if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
-							{
-								gpg_thread.~thread();
-								TerminateProcess(params.hProcess, 1);
-								params.hProcess = NULL;
-								debuglog<<time_str()<<": GPG execution timed out, aborted\n";
-								break;
-							}
-							if(result == pxNotFound)
-								break;
-						}
-						ListView_DeleteAllItems(hwndList_g);
-						while(p != string::npos)
-						{
-							if((p = out.find("sec  ", p)) == string::npos)
-								break;
-							p += 5;
-							if(p < stop)
-								break;
-							stop = p;
-							p2 = out.find("/", p) - 1;
-							TCHAR *tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
-							item.pszText = tmp;
-							iRow = ListView_InsertItem(hwndList_g, &item);
-							ListView_SetItemText(hwndList_g, iRow, 4, tmp);
-							mir_free(tmp);
-							p2+=2;
-							p = out.find(" ", p2);
-							tmp = mir_wstrdup(toUTF16(out.substr(p2,p-p2)).c_str());
-							ListView_SetItemText(hwndList_g, iRow, 0, tmp);
-							mir_free(tmp);
-							p = out.find("uid  ", p);
-							p2 = out.find_first_not_of(" ", p+5);
-							p = out.find("<", p2);
-							tmp = mir_wstrdup(toUTF16(out.substr(p2,p-p2)).c_str());
-							ListView_SetItemText(hwndList_g, iRow, 2, tmp);
-							mir_free(tmp);
-							p++;
-							p2 = out.find(">", p);
-							tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
-							ListView_SetItemText(hwndList_g, iRow, 1, tmp);
-							mir_free(tmp);
-							p = out.find("ssb  ", p2) + 6;
-							p = out.find(" ", p) + 1;
-							p2 = out.find("\n", p);
-							tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p-1)).c_str());
-							ListView_SetItemText(hwndList_g, iRow, 3, tmp);
-							mir_free(tmp);
-							ListView_SetColumnWidth(hwndList_g, 0, LVSCW_AUTOSIZE);// not sure about this
-							ListView_SetColumnWidth(hwndList_g, 1, LVSCW_AUTOSIZE);
-							ListView_SetColumnWidth(hwndList_g, 2, LVSCW_AUTOSIZE);
-							ListView_SetColumnWidth(hwndList_g, 3, LVSCW_AUTOSIZE);
-							ListView_SetColumnWidth(hwndList_g, 4, LVSCW_AUTOSIZE);
-							i++;
-						}
-					}
-				}
-				break;
-			default:
-				break;
-			}
-
-			break;
-		}
-
-	case WM_NOTIFY:
-		{
-			/*      switch (((LPNMHDR)lParam)->code)
-			{
-			default:
-			break;
-			} */
-		}
-		break;
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-	case WM_DESTROY:
-		{
-			GetWindowRect(hwndDlg, &key_gen_rect);
-			DBWriteContactSettingDword(NULL, szGPGModuleName, "KeyGenWindowX", key_gen_rect.left);
-			DBWriteContactSettingDword(NULL, szGPGModuleName, "KeyGenWindowY", key_gen_rect.top);
-		}
-		hwndKeyGen = NULL;
-		break;
-
-	}
-	return FALSE;
-}
-
-int itemnum2 = 0;
-
-static BOOL CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
-{
-	HWND hwndList=GetDlgItem(hwndDlg, IDC_EXISTING_KEY_LIST);
-	hwndList_g = hwndList;
-	LVCOLUMN col = {0};
-	LVITEM item = {0};
-	NMLISTVIEW * hdr = (NMLISTVIEW *) lParam;
-	TCHAR id[16] = {0};
-	switch (msg)
-	{
-	case WM_INITDIALOG:
-		{
-			SetWindowPos(hwndDlg, 0, load_existing_key_rect.left, load_existing_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
-			TranslateDialogDefault(hwndDlg);
-			col.pszText = _T("Key ID");
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 50;
-			ListView_InsertColumn(hwndList, 0, &col);
-			ZeroMemory(&col,sizeof(col));
-			col.pszText = _T("Email");
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 30;
-			ListView_InsertColumn(hwndList, 1, &col);
-			ZeroMemory(&col,sizeof(col));
-			col.pszText = _T("Name");
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 250;
-			ListView_InsertColumn(hwndList, 2, &col);
-			ZeroMemory(&col,sizeof(col));
-			col.pszText = _T("Creation date");
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 30;
-			ListView_InsertColumn(hwndList, 3, &col);
-			ZeroMemory(&col,sizeof(col));
-			col.pszText = _T("Expiration date");
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 30;
-			ListView_InsertColumn(hwndList, 4, &col);
-			ZeroMemory(&col,sizeof(col));
-			col.pszText = _T("Key length");
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 30;
-			ListView_InsertColumn(hwndList, 5, &col);
-			ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_FULLROWSELECT);
-			int i = 1, iRow = 0;
-			{ 
+  switch (msg)
+  {
+  case WM_INITDIALOG:
+    {
+		SetWindowPos(hwndDlg, 0, key_gen_rect.left, key_gen_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
+		TranslateDialogDefault(hwndDlg);
+		SetWindowText(hwndDlg, TranslateT("Key Generation dialog"));
+		ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEY_TYPE), _T("RSA"), 0);
+		ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEY_TYPE), _T("DSA"), 1);
+		SendDlgItemMessage(hwndDlg, IDC_KEY_TYPE, CB_SETCURSEL, (WPARAM)1, 0);
+		SetDlgItemInt(hwndDlg, IDC_KEY_EXPIRE_DATE, 0, 0);
+		SetDlgItemInt(hwndDlg, IDC_KEY_LENGTH, 4096, 0);
+      return TRUE;
+    }
+    
+ 
+  case WM_COMMAND:
+    {
+      switch (LOWORD(wParam))
+      {
+	  case IDCANCEL:
+		  DestroyWindow(hwndDlg);
+		  break;
+	  case IDOK:
+		  {
+			  wstring path;
+			  { //data sanity checks
+				  TCHAR *tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*5);
+				  GetDlgItemText(hwndDlg, IDC_KEY_TYPE, tmp, 5);
+				  if(_tcslen(tmp) < 3)
+				  {
+					  mir_free(tmp); tmp = NULL;
+					  MessageBox(0, TranslateT("You must set encryption algorythm first"), TranslateT("Error"), MB_OK);
+					  break;
+				  }
+				  if(tmp)
+					  mir_free(tmp);
+				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*6);
+				  GetDlgItemText(hwndDlg, IDC_KEY_LENGTH, tmp, 5);
+				  int length = _ttoi(tmp);
+				  mir_free(tmp);
+				  if(length < 1024 || length > 4096)
+				  {
+					  MessageBox(0, TranslateT("Key length must be of length from 1024 to 4096 bits"), TranslateT("Error"), MB_OK);
+					  break;
+				  }
+				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*12);
+				  GetDlgItemText(hwndDlg, IDC_KEY_EXPIRE_DATE, tmp, 11);
+				  if(_tcslen(tmp) != 10 && tmp[0] != '0')
+				  {
+					  MessageBox(0, TranslateT("Invalid date"), TranslateT("Error"), MB_OK);
+					  mir_free(tmp);
+					  break;
+				  }
+				  mir_free(tmp);
+				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*128);
+				  GetDlgItemText(hwndDlg, IDC_KEY_REAL_NAME, tmp, 127);
+				  if(_tcslen(tmp) < 5)
+				  {
+					  MessageBox(0, TranslateT("Name must contain at least 5 characters"), TranslateT("Error"), MB_OK);
+					  mir_free(tmp);
+					  break;
+				  }
+				  else if (_tcschr(tmp, _T('(')) || _tcschr(tmp, _T(')')))
+				  {
+					  MessageBox(0, TranslateT("Name cannot contain '(' or ')'"), TranslateT("Error"), MB_OK);
+					  mir_free(tmp);
+					  break;
+				  }
+				  mir_free(tmp);
+				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*128);
+				  GetDlgItemText(hwndDlg, IDC_KEY_EMAIL, tmp, 128);
+				  if((_tcslen(tmp)) < 5 || (!_tcschr(tmp, _T('@'))) || (!_tcschr(tmp, _T('.'))))
+				  {
+					  MessageBox(0, TranslateT("Invalid Email"), TranslateT("Error"), MB_OK);
+					  mir_free(tmp);
+					  break;
+				  }
+				  mir_free(tmp);
+			  }		  
+			  { //generating key file
+				  TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+				  char  *tmp2;// = mir_t2a(tmp);
+				  path = tmp;
+				  mir_free(tmp);
+				  //			  mir_free(tmp2);
+				  path.append(_T("\\new_key"));
+				  wfstream f(path.c_str(), std::ios::out);
+				  if(!f.is_open())
+				  {
+					  MessageBox(0, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
+					  break;
+				  }
+				  f<<"Key-Type: ";
+				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*5);
+				  GetDlgItemText(hwndDlg, IDC_KEY_TYPE, tmp, 5);
+				  tmp2 = mir_t2a(tmp);
+				  mir_free(tmp);
+				  char *subkeytype = (char*)mir_alloc(6);
+				  if(strstr(tmp2, "RSA"))
+					  strcpy(subkeytype, "RSA");
+				  else if(strstr(tmp2, "DSA")) //this is useless check for now, but it will be required if someone add another key types support
+					  strcpy(subkeytype, "ELG-E");
+				  f<<tmp2;
+				  mir_free(tmp2);
+				  f<<"\n";
+				  f<<"Key-Length: ";
+				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*5); 
+				  GetDlgItemText(hwndDlg, IDC_KEY_LENGTH, tmp, 5);
+				  int length = _ttoi(tmp);
+				  mir_free(tmp);
+				  f<<length;
+				  f<<"\n";
+				  f<<"Subkey-Length: ";
+				  f<<length;
+				  f<<"\n";
+				  f<<"Subkey-Type: ";
+				  f<<subkeytype;
+				  mir_free(subkeytype);
+				  f<<"\n";
+				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*64); //i hope this is enough for password
+				  GetDlgItemText(hwndDlg, IDC_KEY_PASSWD, tmp, 64);
+				  if(tmp[0])
+				  {
+					  f<<"Passphrase: ";
+					  tmp2 = mir_strdup(toUTF8(tmp).c_str());
+					  f<<tmp2;
+					  f<<"\n";
+					  mir_free(tmp2);
+				  }
+				  mir_free(tmp);
+				  f<<"Name-Real: ";
+				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*128);
+				  GetDlgItemText(hwndDlg, IDC_KEY_REAL_NAME, tmp, 128);
+				  tmp2 = mir_strdup(toUTF8(tmp).c_str());
+				  f<<tmp2;
+				  mir_free(tmp2);
+				  mir_free(tmp);
+				  f<<"\n";
+				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*512);
+				  GetDlgItemText(hwndDlg, IDC_KEY_COMMENT, tmp, 512);
+				  if(tmp[0])
+				  {
+					  tmp2 = mir_strdup(toUTF8(tmp).c_str());
+					  f<<"Name-Comment: ";
+					  f<<tmp2;
+					  f<<"\n";
+				  }
+				  mir_free(tmp2);
+				  mir_free(tmp);
+				  f<<"Name-Email: ";
+				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*128);
+				  GetDlgItemText(hwndDlg, IDC_KEY_EMAIL, tmp, 128);
+				  tmp2 = mir_strdup(toUTF8(tmp).c_str());
+				  f<<tmp2;
+				  mir_free(tmp2);
+				  mir_free(tmp);
+				  f<<"\n";
+				  f<<"Expire-Date: ";
+				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*12);
+				  GetDlgItemText(hwndDlg, IDC_KEY_EXPIRE_DATE, tmp, 12);
+				  tmp2 = mir_strdup(toUTF8(tmp).c_str());
+				  f<<tmp2;
+				  mir_free(tmp2);
+				  mir_free(tmp);
+				  f<<"\n";
+				  f.close();
+			  }
+			  { //gpg execution
+				  DWORD code;
+				  string out;
+				  wstring cmd;
+				  cmd += _T("--batch --yes --gen-key \"");
+				  cmd += path;
+				  cmd += _T("\"");
+				  gpg_execution_params params;
+				  pxResult result;
+				  params.cmd = &cmd;
+				  params.useless = "";
+				  params.out = &out;
+				  params.code = &code;
+				  params.result = &result;
+				  SetWindowTextA(GetDlgItem(hwndDlg, IDC_GENERATING_TEXT), Translate("Generating new key, please wait..."));
+				  EnableWindow(GetDlgItem(hwndDlg, IDCANCEL), 0);
+				  EnableWindow(GetDlgItem(hwndDlg, IDOK), 0);
+				  EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_TYPE), 0);
+				  EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_LENGTH), 0);
+				  EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_PASSWD), 0);
+				  EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_REAL_NAME), 0);
+				  EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_EMAIL), 0);
+				  EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_COMMENT), 0);
+				  EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_EXPIRE_DATE), 0);
+				  boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
+				  if(!gpg_thread.timed_join(boost::posix_time::minutes(10)))
+				  {
+					  gpg_thread.~thread();
+					  TerminateProcess(params.hProcess, 1);
+					  params.hProcess = NULL;
+					  debuglog<<time_str()<<": GPG execution timed out, aborted\n";
+					  break;
+				  }
+				  if(result == pxNotFound)
+					  break;
+			  }
+			  DeleteFile(path.c_str());
+			  DestroyWindow(hwndDlg);
+			{//parse gpg output
+				LVITEM item = {0};
+				int i = 1, iRow = 0;
 				item.mask = LVIF_TEXT;
 				item.iItem = i;
 				item.iSubItem = 0;
-				item.pszText = _T("");
-				{//parse gpg output
-					string out;
-					DWORD code;
-					string::size_type p = 0, p2 = 0, stop = 0;
-					{
-						wstring cmd = _T("--batch --list-keys");
-						gpg_execution_params params;
-						pxResult result;
-						params.cmd = &cmd;
-						params.useless = "";
-						params.out = &out;
-						params.code = &code;
-						params.result = &result;
-						boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-						if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
-						{
-							gpg_thread.~thread();
-							TerminateProcess(params.hProcess, 1);
-							params.hProcess = NULL;
-							debuglog<<time_str()<<": GPG execution timed out, aborted\n";
-							break;
-						}
-						if(result == pxNotFound)
-							break;
-					}
-					while(p != string::npos)
-					{
-						if((p = out.find("pub  ", p)) == string::npos)
-							break;
-						p += 5;
-						if(p < stop)
-							break;
-						stop = p;
-						p2 = out.find("/", p) - 1;
-						TCHAR *tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
-						item.pszText = tmp;
-						iRow = ListView_InsertItem(hwndList, &item);
-						ListView_SetItemText(hwndList, iRow, 5, tmp);
-						mir_free(tmp);
-						p2+=2;
-						p = out.find(" ", p2);
-						tmp = mir_wstrdup(toUTF16(out.substr(p2,p-p2)).c_str());
-						ListView_SetItemText(hwndList, iRow, 0, tmp);
-						mir_free(tmp);
-						p++;
-						p2 = out.find("\n", p);
-						string::size_type p3 = out.substr(p, p2-p).find("[");
-						if(p3 != string::npos)
-						{
-							p3+=p;
-							p2 = p3;
-							p2--;
-							p3++;
-							p3+=strlen("expires: ");
-							string::size_type p4 = out.find("]", p3);
-							tmp = mir_wstrdup(toUTF16(out.substr(p3,p4-p3)).c_str());
-							ListView_SetItemText(hwndList, iRow, 4, tmp);
-							mir_free(tmp);
-						}
-						else
-							p2--;
-						tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
-						ListView_SetItemText(hwndList, iRow, 3, tmp);
-						mir_free(tmp);
-						p = out.find("uid  ", p);
-						p+= strlen("uid ");
-						p2 = out.find("\n", p);
-						p3 = out.substr(p, p2-p).find("<");
-						if(p3 != string::npos)
-						{
-							p3+=p;
-							p2=p3;
-							p2--;
-							p3++;
-							string::size_type p4 = out.find(">", p3);
-							tmp = mir_wstrdup(toUTF16(out.substr(p3,p4-p3)).c_str());
-							ListView_SetItemText(hwndList, iRow, 1, tmp);
-							mir_free(tmp);
-						}
-						else
-							p2--;
-						p = out.find_first_not_of(" ", p);
-						tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
-						ListView_SetItemText(hwndList, iRow, 2, tmp);
-						mir_free(tmp);
-						//					p = out.find("sub  ", p2) + 6;
-						//					p = out.find(" ", p) + 1;
-						//					p2 = out.find("\n", p);
-						//					tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p-1)).c_str());
-						//					ListView_SetItemText(hwndList, iRow, 3, tmp);
-						//					mir_free(tmp);
-						ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);// not sure about this
-						ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE);
-						ListView_SetColumnWidth(hwndList, 2, LVSCW_AUTOSIZE);
-						ListView_SetColumnWidth(hwndList, 3, LVSCW_AUTOSIZE);
-						ListView_SetColumnWidth(hwndList, 4, LVSCW_AUTOSIZE);
-						ListView_SetColumnWidth(hwndList, 5, LVSCW_AUTOSIZE);
-						i++;
-					}
-				}
-			}
-			return TRUE;
-		} 
-	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam))
-			{
-			case IDOK:
+				item.pszText = _T("");				
+				string out;
+				DWORD code;
+				string::size_type p = 0, p2 = 0, stop = 0;
 				{
-					ListView_GetItemText(hwndList, itemnum2, 0, id, 16);
-					extern HWND hPubKeyEdit;
-					string out;
-					DWORD code;
-					wstring cmd = _T("--batch -a --export ");
-					cmd += id;
+					wstring cmd = _T("--list-secret-keys");
 					gpg_execution_params params;
 					pxResult result;
 					params.cmd = &cmd;
@@ -1689,61 +1427,332 @@ static BOOL CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wParam,
 					}
 					if(result == pxNotFound)
 						break;
-					string::size_type s = 0;
-					while((s = out.find("\r", s)) != string::npos)
+				}
+				ListView_DeleteAllItems(hwndList_g);
+				while(p != string::npos)
+				{
+					if((p = out.find("sec  ", p)) == string::npos)
+						break;
+					p += 5;
+					if(p < stop)
+						break;
+					stop = p;
+					p2 = out.find("/", p) - 1;
+					TCHAR *tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
+					item.pszText = tmp;
+					iRow = ListView_InsertItem(hwndList_g, &item);
+					ListView_SetItemText(hwndList_g, iRow, 4, tmp);
+					mir_free(tmp);
+					p2+=2;
+					p = out.find(" ", p2);
+					tmp = mir_wstrdup(toUTF16(out.substr(p2,p-p2)).c_str());
+					ListView_SetItemText(hwndList_g, iRow, 0, tmp);
+					mir_free(tmp);
+					p = out.find("uid  ", p);
+					p2 = out.find_first_not_of(" ", p+5);
+					p = out.find("<", p2);
+					tmp = mir_wstrdup(toUTF16(out.substr(p2,p-p2)).c_str());
+					ListView_SetItemText(hwndList_g, iRow, 2, tmp);
+					mir_free(tmp);
+					p++;
+					p2 = out.find(">", p);
+					tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
+					ListView_SetItemText(hwndList_g, iRow, 1, tmp);
+					mir_free(tmp);
+					p = out.find("ssb  ", p2) + 6;
+					p = out.find(" ", p) + 1;
+					p2 = out.find("\n", p);
+					tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p-1)).c_str());
+					ListView_SetItemText(hwndList_g, iRow, 3, tmp);
+					mir_free(tmp);
+					ListView_SetColumnWidth(hwndList_g, 0, LVSCW_AUTOSIZE);// not sure about this
+					ListView_SetColumnWidth(hwndList_g, 1, LVSCW_AUTOSIZE);
+					ListView_SetColumnWidth(hwndList_g, 2, LVSCW_AUTOSIZE);
+					ListView_SetColumnWidth(hwndList_g, 3, LVSCW_AUTOSIZE);
+					ListView_SetColumnWidth(hwndList_g, 4, LVSCW_AUTOSIZE);
+					i++;
+				}
+			}
+		  }
+		  break;
+	  default:
+		break;
+      }
+      
+      break;
+    }
+    
+  case WM_NOTIFY:
+    {
+/*      switch (((LPNMHDR)lParam)->code)
+      {
+	  default:
+		  break;
+      } */
+	}
+    break;
+  case WM_CLOSE:
+	  DestroyWindow(hwndDlg);
+	  break;
+  case WM_DESTROY:
+	  {
+		  GetWindowRect(hwndDlg, &key_gen_rect);
+		  DBWriteContactSettingDword(NULL, szGPGModuleName, "KeyGenWindowX", key_gen_rect.left);
+		  DBWriteContactSettingDword(NULL, szGPGModuleName, "KeyGenWindowY", key_gen_rect.top);
+	  }
+	  hwndKeyGen = NULL;
+	  break;
+
+  }
+  return FALSE;
+}
+
+int itemnum2 = 0;
+
+static BOOL CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+{
+	HWND hwndList=GetDlgItem(hwndDlg, IDC_EXISTING_KEY_LIST);
+	hwndList_g = hwndList;
+	LVCOLUMN col = {0};
+	LVITEM item = {0};
+	NMLISTVIEW * hdr = (NMLISTVIEW *) lParam;
+	TCHAR id[16] = {0};
+  switch (msg)
+  {
+  case WM_INITDIALOG:
+    {
+		SetWindowPos(hwndDlg, 0, load_existing_key_rect.left, load_existing_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
+		TranslateDialogDefault(hwndDlg);
+		col.pszText = _T("Key ID");
+		col.mask = LVCF_TEXT | LVCF_WIDTH;
+		col.fmt = LVCFMT_LEFT;
+		col.cx = 50;
+		ListView_InsertColumn(hwndList, 0, &col);
+		ZeroMemory(&col,sizeof(col));
+		col.pszText = _T("Email");
+		col.mask = LVCF_TEXT | LVCF_WIDTH;
+		col.fmt = LVCFMT_LEFT;
+		col.cx = 30;
+		ListView_InsertColumn(hwndList, 1, &col);
+		ZeroMemory(&col,sizeof(col));
+		col.pszText = _T("Name");
+		col.mask = LVCF_TEXT | LVCF_WIDTH;
+		col.fmt = LVCFMT_LEFT;
+		col.cx = 250;
+		ListView_InsertColumn(hwndList, 2, &col);
+		ZeroMemory(&col,sizeof(col));
+		col.pszText = _T("Creation date");
+		col.mask = LVCF_TEXT | LVCF_WIDTH;
+		col.fmt = LVCFMT_LEFT;
+		col.cx = 30;
+		ListView_InsertColumn(hwndList, 3, &col);
+		ZeroMemory(&col,sizeof(col));
+		col.pszText = _T("Expiration date");
+		col.mask = LVCF_TEXT | LVCF_WIDTH;
+		col.fmt = LVCFMT_LEFT;
+		col.cx = 30;
+		ListView_InsertColumn(hwndList, 4, &col);
+		ZeroMemory(&col,sizeof(col));
+		col.pszText = _T("Key length");
+		col.mask = LVCF_TEXT | LVCF_WIDTH;
+		col.fmt = LVCFMT_LEFT;
+		col.cx = 30;
+		ListView_InsertColumn(hwndList, 5, &col);
+		ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_FULLROWSELECT);
+		int i = 1, iRow = 0;
+		{ 
+			item.mask = LVIF_TEXT;
+			item.iItem = i;
+			item.iSubItem = 0;
+			item.pszText = _T("");
+			{//parse gpg output
+				string out;
+				DWORD code;
+				string::size_type p = 0, p2 = 0, stop = 0;
+				{
+					wstring cmd = _T("--batch --list-keys");
+					gpg_execution_params params;
+					pxResult result;
+					params.cmd = &cmd;
+					params.useless = "";
+					params.out = &out;
+					params.code = &code;
+					params.result = &result;
+					boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
+					if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
 					{
-						out.erase(s, 1);
+						gpg_thread.~thread();
+						TerminateProcess(params.hProcess, 1);
+						params.hProcess = NULL;
+						debuglog<<time_str()<<": GPG execution timed out, aborted\n";
+						break;
 					}
-					std::string::size_type p1 = 0, p2 = 0;
-					p1 = out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----");
-					if(p1 != std::string::npos)
+					if(result == pxNotFound)
+						break;
+				}
+				while(p != string::npos)
+				{
+					if((p = out.find("pub  ", p)) == string::npos)
+						break;
+					p += 5;
+					if(p < stop)
+						break;
+					stop = p;
+					p2 = out.find("/", p) - 1;
+					TCHAR *tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
+					item.pszText = tmp;
+					iRow = ListView_InsertItem(hwndList, &item);
+					ListView_SetItemText(hwndList, iRow, 5, tmp);
+					mir_free(tmp);
+					p2+=2;
+					p = out.find(" ", p2);
+					tmp = mir_wstrdup(toUTF16(out.substr(p2,p-p2)).c_str());
+					ListView_SetItemText(hwndList, iRow, 0, tmp);
+					mir_free(tmp);
+					p++;
+					p2 = out.find("\n", p);
+					string::size_type p3 = out.substr(p, p2-p).find("[");
+					if(p3 != string::npos)
 					{
-						p2 = out.find("-----END PGP PUBLIC KEY BLOCK-----", p1);
-						if(p2 != std::string::npos)
-						{
-							p2 += strlen("-----END PGP PUBLIC KEY BLOCK-----");
-							out = out.substr(p1, p2-p1);
-							TCHAR *tmp = mir_a2t(out.c_str());
-							SetWindowText(hPubKeyEdit, tmp);
-							mir_free(tmp);
-						}
-						else
-							MessageBox(NULL, TranslateT("Failed to export public key."), TranslateT("Error"), MB_OK);
+						p3+=p;
+						p2 = p3;
+						p2--;
+						p3++;
+						p3+=strlen("expires: ");
+						string::size_type p4 = out.find("]", p3);
+						tmp = mir_wstrdup(toUTF16(out.substr(p3,p4-p3)).c_str());
+						ListView_SetItemText(hwndList, iRow, 4, tmp);
+						mir_free(tmp);
 					}
 					else
-						MessageBox(NULL, TranslateT("Failed to export public key."), TranslateT("Error"), MB_OK);
-					//			  SetDlgItemText(hPubKeyEdit, IDC_PUBLIC_KEY_EDIT, tmp);
+						p2--;
+					tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
+					ListView_SetItemText(hwndList, iRow, 3, tmp);
+					mir_free(tmp);
+					p = out.find("uid  ", p);
+					p+= strlen("uid ");
+					p2 = out.find("\n", p);
+					p3 = out.substr(p, p2-p).find("<");
+					if(p3 != string::npos)
+					{
+						p3+=p;
+						p2=p3;
+						p2--;
+						p3++;
+						string::size_type p4 = out.find(">", p3);
+						tmp = mir_wstrdup(toUTF16(out.substr(p3,p4-p3)).c_str());
+						ListView_SetItemText(hwndList, iRow, 1, tmp);
+						mir_free(tmp);
+					}
+					else
+						p2--;
+					p = out.find_first_not_of(" ", p);
+					tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
+					ListView_SetItemText(hwndList, iRow, 2, tmp);
+					mir_free(tmp);
+//					p = out.find("sub  ", p2) + 6;
+//					p = out.find(" ", p) + 1;
+//					p2 = out.find("\n", p);
+//					tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p-1)).c_str());
+//					ListView_SetItemText(hwndList, iRow, 3, tmp);
+//					mir_free(tmp);
+					ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);// not sure about this
+					ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE);
+					ListView_SetColumnWidth(hwndList, 2, LVSCW_AUTOSIZE);
+					ListView_SetColumnWidth(hwndList, 3, LVSCW_AUTOSIZE);
+					ListView_SetColumnWidth(hwndList, 4, LVSCW_AUTOSIZE);
+					ListView_SetColumnWidth(hwndList, 5, LVSCW_AUTOSIZE);
+					i++;
 				}
-				DestroyWindow(hwndDlg);
-				break;
-			case IDCANCEL:
-				DestroyWindow(hwndDlg);
-				break;
 			}
-			break;
 		}
-
-	case WM_NOTIFY:
+		return TRUE;
+    } 
+  case WM_COMMAND:
+    {
+      switch (LOWORD(wParam))
+      {
+	  case IDOK:
+		  {
+			  ListView_GetItemText(hwndList, itemnum2, 0, id, 16);
+			  extern HWND hPubKeyEdit;
+			  string out;
+			  DWORD code;
+			  wstring cmd = _T("--batch -a --export ");
+			  cmd += id;
+			  gpg_execution_params params;
+			  pxResult result;
+			  params.cmd = &cmd;
+			  params.useless = "";
+			  params.out = &out;
+			  params.code = &code;
+			  params.result = &result;
+			  boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
+			  if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
+			  {
+				  gpg_thread.~thread();
+				  TerminateProcess(params.hProcess, 1);
+				  params.hProcess = NULL;
+				  debuglog<<time_str()<<": GPG execution timed out, aborted\n";
+				  break;
+			  }
+			  if(result == pxNotFound)
+				  break;
+			  string::size_type s = 0;
+			  while((s = out.find("\r", s)) != string::npos)
+			  {
+				  out.erase(s, 1);
+			  }
+			  std::string::size_type p1 = 0, p2 = 0;
+			  p1 = out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----");
+			  if(p1 != std::string::npos)
+			  {
+				  p2 = out.find("-----END PGP PUBLIC KEY BLOCK-----", p1);
+				  if(p2 != std::string::npos)
+				  {
+					  p2 += strlen("-----END PGP PUBLIC KEY BLOCK-----");
+					  out = out.substr(p1, p2-p1);
+					  TCHAR *tmp = mir_a2t(out.c_str());
+					  SetWindowText(hPubKeyEdit, tmp);
+					  mir_free(tmp);
+				  }
+				  else
+					  MessageBox(NULL, TranslateT("Failed to export public key."), TranslateT("Error"), MB_OK);
+			  }
+			  else
+				  MessageBox(NULL, TranslateT("Failed to export public key."), TranslateT("Error"), MB_OK);
+//			  SetDlgItemText(hPubKeyEdit, IDC_PUBLIC_KEY_EDIT, tmp);
+		  }
+		  DestroyWindow(hwndDlg);
+		  break;
+	  case IDCANCEL:
+		  DestroyWindow(hwndDlg);
+		  break;
+      }
+      break;
+    }
+    
+  case WM_NOTIFY:
+    {
+		if(hdr && IsWindowVisible(hdr->hdr.hwndFrom) && hdr->iItem != (-1))
 		{
-			if(hdr && IsWindowVisible(hdr->hdr.hwndFrom) && hdr->iItem != (-1))
-			{
-				if(hdr->hdr.code == NM_CLICK)
-				{				
-					EnableWindow(GetDlgItem(hwndDlg, IDOK), 1);
-					itemnum2 = hdr->iItem;
-				}
-			}
-
-			switch (((LPNMHDR)lParam)->code)
-			{
-
-			case PSN_APPLY:
-				{
-					return TRUE;
-				}
+			if(hdr->hdr.code == NM_CLICK)
+			{				
+				EnableWindow(GetDlgItem(hwndDlg, IDOK), 1);
+				itemnum2 = hdr->iItem;
 			}
 		}
-		break;
+
+      switch (((LPNMHDR)lParam)->code)
+      {
+        
+      case PSN_APPLY:
+        {
+          return TRUE;
+        }
+      }
+	}
+	break;
 	case WM_CLOSE:
 		DestroyWindow(hwndDlg);
 		break;
@@ -1756,89 +1765,94 @@ static BOOL CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wParam,
 		hwndSelectExistingKey = NULL;
 		break;
 
-	}
+  }
 
-	return FALSE;
+  return FALSE;
 }
 static BOOL CALLBACK DlgProcImportKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	extern HANDLE new_key_hcnt;
-	extern boost::mutex new_key_hcnt_mutex;
-	HANDLE hContact = INVALID_HANDLE_VALUE;
-	switch (msg) {
-	case WM_INITDIALOG:
-		{
-			hContact = new_key_hcnt;
-			new_key_hcnt_mutex.unlock();
-			SetWindowPos(hwndDlg, 0 , import_key_rect.left, import_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
-			TranslateDialogDefault(hwndDlg);
-			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), _T("subkeys.pgp.net"), 0);
-			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), _T("keys.gnupg.net"), 0);
-			return TRUE;
-		}
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_IMPORT:
-			{
-				string out;
-				DWORD code;
-				wstring cmd = _T(" --keyserver \"");
-				TCHAR *server= new TCHAR [128];
-				GetDlgItemText(hwndDlg, IDC_KEYSERVER, server, 128);
-				cmd += server;
-				delete [] server;
-				cmd += _T("\" --recv-keys ");
-				//			  char *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID_Prescense", "");
-				//			  TCHAR *tmp2 = mir_a2t(tmp);
-				//			  mir_free(tmp);
-				cmd += toUTF16(hcontact_data[hContact].key_in_prescense);
-				//			  mir_free(tmp2);
-				gpg_execution_params params;
-				pxResult result;
-				params.cmd = &cmd;
-				params.useless = "";
-				params.out = &out;
-				params.code = &code;
-				params.result = &result;
-				boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-				if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
-				{
-					gpg_thread.~thread();
-					TerminateProcess(params.hProcess, 1);
-					params.hProcess = NULL;
-					debuglog<<time_str()<<": GPG execution timed out, aborted\n";
-				}
-				MessageBoxA(0, out.c_str(), "GPG output", MB_OK);
-			}
-			break;
-		default:
-			break;
-		}
+  extern HANDLE new_key_hcnt;
+  extern boost::mutex new_key_hcnt_mutex;
+  HANDLE hContact = INVALID_HANDLE_VALUE;
+  switch (msg)
+  {
+  case WM_INITDIALOG:
+    {
+		hContact = new_key_hcnt;
+		new_key_hcnt_mutex.unlock();
+		SetWindowPos(hwndDlg, 0 , import_key_rect.left, import_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
+		TranslateDialogDefault(hwndDlg);
+		ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), _T("subkeys.pgp.net"), 0);
+		ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), _T("keys.gnupg.net"), 0);
+      return TRUE;
+    }
+    
+ 
+  case WM_COMMAND:
+    {
+      switch (LOWORD(wParam))
+      {
+	  case IDC_IMPORT:
+		  {
+			  string out;
+			  DWORD code;
+			  wstring cmd = _T(" --keyserver \"");
+			  TCHAR *server= new TCHAR [128];
+			  GetDlgItemText(hwndDlg, IDC_KEYSERVER, server, 128);
+			  cmd += server;
+			  delete [] server;
+			  cmd += _T("\" --recv-keys ");
+//			  char *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID_Prescense", "");
+//			  TCHAR *tmp2 = mir_a2t(tmp);
+//			  mir_free(tmp);
+			  cmd += toUTF16(hcontact_data[hContact].key_in_prescense);
+//			  mir_free(tmp2);
+			  gpg_execution_params params;
+			  pxResult result;
+			  params.cmd = &cmd;
+			  params.useless = "";
+			  params.out = &out;
+			  params.code = &code;
+			  params.result = &result;
+			  boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
+			  if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
+			  {
+				  gpg_thread.~thread();
+				  TerminateProcess(params.hProcess, 1);
+				  params.hProcess = NULL;
+				  debuglog<<time_str()<<": GPG execution timed out, aborted\n";
+			  }
+			  MessageBoxA(0, out.c_str(), "GPG output", MB_OK);
+		  }
+		  break;
+	  default:
 		break;
-
-	case WM_NOTIFY:
-		{
-			/*      switch (((LPNMHDR)lParam)->code)
-			{
-			default:
-			break;
-			} */
-		}
-		break;
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-	case WM_DESTROY:
-		{
-			GetWindowRect(hwndDlg, &import_key_rect);
-			DBWriteContactSettingDword(NULL, szGPGModuleName, "ImportKeyWindowX", import_key_rect.left);
-			DBWriteContactSettingDword(NULL, szGPGModuleName, "ImportKeyWindowY", import_key_rect.top);
-		}
-		break;
-
+      }
+      break;
+    }
+    
+  case WM_NOTIFY:
+    {
+/*      switch (((LPNMHDR)lParam)->code)
+      {
+	  default:
+		  break;
+      } */
 	}
-	return FALSE;
+    break;
+  case WM_CLOSE:
+	  DestroyWindow(hwndDlg);
+	  break;
+  case WM_DESTROY:
+	  {
+		  GetWindowRect(hwndDlg, &import_key_rect);
+		  DBWriteContactSettingDword(NULL, szGPGModuleName, "ImportKeyWindowX", import_key_rect.left);
+		  DBWriteContactSettingDword(NULL, szGPGModuleName, "ImportKeyWindowY", import_key_rect.top);
+	  }
+	  break;
+
+  }
+  return FALSE;
 }
 
 
@@ -2008,6 +2022,27 @@ void InitCheck()
 			SetFileAttributes(path, dwFileAttr);
 		}
 		mir_free(path);
+	}
+	extern bool bAutoExchange;
+	if(bAutoExchange)
+	{
+		int count = 0;
+		PROTOACCOUNT **accounts;
+		ProtoEnumAccounts(&count, &accounts);
+		ICQ_CUSTOMCAP cap;
+		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
+		cap.hIcon = 0;
+		strcpy(cap.name, "GPG Key AutoExchange");
+		strcpy(cap.caps, "GPG AutoExchange");
+
+		for(int i = 0; i < count; i++)
+		{
+			char svc[64];
+			strcpy(svc, accounts[i]->szProtoName);
+			strcat(svc, PS_ICQ_ADDCAPABILITY);
+			if(ServiceExists(svc))
+				CallService(svc, 0, (LPARAM)&cap);
+		}
 	}
 }
 

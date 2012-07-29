@@ -182,6 +182,24 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 					char *szEncoding = NULL;
 
 					// Get Profile encoding TLV
+					
+					pTLV = pChain->getTLV(0x05, 1);
+					if (pTLV && (pTLV->wLen > 0))
+					{
+						// store client capabilities
+						BYTE* capBuf = pTLV->pData;
+						WORD capLen = pTLV->wLen;
+						DBCONTACTWRITESETTING dbcws;
+						dbcws.value.type = DBVT_BLOB;
+						dbcws.value.cpbVal = capLen;
+						dbcws.value.pbVal = capBuf;
+						dbcws.szModule = m_szModuleName;
+						dbcws.szSetting = "CapBuf";
+						CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&dbcws);
+					}
+					else
+						deleteSetting(hContact, "CapBuf");
+
 					pTLV = pChain->getTLV(0x01, 1);
 					if (pTLV && (pTLV->wLen >= 1))
 					{

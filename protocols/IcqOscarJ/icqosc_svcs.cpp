@@ -727,6 +727,41 @@ void CIcqProto::ICQAddRecvEvent(HANDLE hContact, WORD wType, PROTORECVEVENT* pre
 	AddEvent(hContact, wType, pre->timestamp, flags, cbBlob, pBlob);
 }
 
+INT_PTR __cdecl CIcqProto::IcqAddCapability(WPARAM wParam, LPARAM lParam)
+{
+    ICQ_CUSTOMCAP *icqCustomCapIn = (ICQ_CUSTOMCAP *)lParam;
+    ICQ_CUSTOMCAP *icqCustomCap = (ICQ_CUSTOMCAP *)malloc(sizeof(ICQ_CUSTOMCAP));
+    memcpy(icqCustomCap, icqCustomCapIn, sizeof(ICQ_CUSTOMCAP));
+	CustomCapList.push_back(icqCustomCap);
+//	MessageBoxA(NULL, ((ICQ_CUSTOMCAP *)(lstCustomCaps->items[lstCustomCaps->realCount-1]))->name, "custom cap", MB_OK);
+	return 0;
+}
+
+
+INT_PTR __cdecl CIcqProto::IcqCheckCapability(WPARAM wParam, LPARAM lParam)
+{
+    int res = 0;
+    DBCONTACTGETSETTING dbcgs;
+    DBVARIANT dbvariant;
+    HANDLE hContact = (HANDLE)wParam;
+    ICQ_CUSTOMCAP *icqCustomCap = (ICQ_CUSTOMCAP *)lParam;
+    dbcgs.pValue = &dbvariant;
+    dbcgs.szModule = m_szModuleName;
+    dbcgs.szSetting = "CapBuf";
+
+    CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&dbcgs);
+
+    if (dbvariant.type == DBVT_BLOB)
+    {
+        res = MatchCapability(dbvariant.pbVal, dbvariant.cpbVal, (const capstr*)&icqCustomCap->caps, 0x10)?1:0;	// FIXME: Why icqCustomCap->caps is not capstr?
+    }
+
+    CallService(MS_DB_CONTACT_FREEVARIANT,0,(LPARAM)(DBVARIANT*)&dbvariant);
+
+    return res;
+}
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

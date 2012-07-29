@@ -456,7 +456,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 						s2 = output.find("<", s);
 					else if(s2 > output.find("<", s))
 						s2 = output.find("<", s);
-					tmp = new char [output.substr(s,s2-s-1).length()+1];
+					tmp = (char*)mir_alloc(output.substr(s,s2-s-1).length()+1);
 					strcpy(tmp, output.substr(s,s2-s-1).c_str());
 					mir_utf8decode(tmp, 0);
 					DBWriteContactSettingString(ccs->hContact, szGPGModuleName, "KeyMainName", tmp);
@@ -468,14 +468,14 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 					s2++;
 					if(output[s] == ')')
 					{
-						tmp = new char [output.substr(s2,s-s2).length()+1];
+						tmp = (char*)mir_alloc(output.substr(s2,s-s2).length()+1);
 						strcpy(tmp, output.substr(s2,s-s2).c_str());
 						mir_utf8decode(tmp, 0);
 						DBWriteContactSettingString(ccs->hContact, szGPGModuleName, "KeyComment", tmp);
 						mir_free(tmp);
 						s+=3;
 						s2 = output.find(">", s);
-						tmp = new char [output.substr(s,s2-s).length()+1];
+						tmp = (char*)mir_alloc(output.substr(s,s2-s).length()+1);
 						strcpy(tmp, output.substr(s,s2-s).c_str());
 						mir_utf8decode(tmp, 0);
 						DBWriteContactSettingString(ccs->hContact, szGPGModuleName, "KeyMainEmail", tmp);
@@ -483,7 +483,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 					}
 					else
 					{
-						tmp = new char [output.substr(s2,s-s2).length()+1];
+						tmp = (char*)mir_alloc(output.substr(s2,s-s2).length()+1);
 						strcpy(tmp, output.substr(s2,s-s2).c_str());
 						mir_utf8decode(tmp, 0);
 						DBWriteContactSettingString(ccs->hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
@@ -561,47 +561,64 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 				DBWriteContactSettingByte(ccs->hContact, szGPGModuleName, "GPGEncryption", 1);
 			}
 			mir_free(tmp);
-			if(!isContactHaveKey(ccs->hContact) && bAutoExchange && gpg_valid && gpg_keyexist)
+			return returnNoError(ccs->hContact);
+		}
+		else if(!isContactHaveKey(ccs->hContact) && bAutoExchange && gpg_valid && gpg_keyexist)
+		{
+			LPSTR proto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+			DWORD uin = DBGetContactSettingDword(ccs->hContact, proto, "UIN", 0);
+			if(uin)
 			{
-				LPSTR proto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
-				DWORD uin = DBGetContactSettingDword(ccs->hContact, proto, "UIN", 0);
-				if(uin)
+				char *proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+				char svc[64];
+				strcpy(svc, proto);
+				strcat(svc, PS_ICQ_CHECKCAPABILITY);
+				if(ServiceExists(svc))
 				{
-				}
-				else
-				{
-					TCHAR *jid = UniGetContactSettingUtf(ccs->hContact, proto, "jid", _T(""));
-					if(jid[0])
+					ICQ_CUSTOMCAP cap = {0};
+					strcpy(cap.caps, "GPG AutoExchange");
+					if(CallService(svc, (WPARAM)ccs->hContact, (LPARAM)&cap))
 					{
-						extern list <JabberAccount*> Accounts;
-						list<JabberAccount*>::iterator end = Accounts.end();
-						for(list<JabberAccount*>::iterator p = Accounts.begin(); p != end; p++)
+						CallContactService(ccs->hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)"-----PGP KEY REQUEST-----");
+						return returnNoError(ccs->hContact);
+					}
+				}
+			}
+			else
+			{
+				TCHAR *jid = UniGetContactSettingUtf(ccs->hContact, proto, "jid", _T(""));
+				if(jid[0])
+				{
+					extern list <JabberAccount*> Accounts;
+					list<JabberAccount*>::iterator end = Accounts.end();
+					for(list<JabberAccount*>::iterator p = Accounts.begin(); p != end; p++)
+					{
+						TCHAR *caps = (*p)->getJabberInterface()->Net()->GetResourceFeatures(jid);
+						if(caps)
 						{
-							TCHAR *caps = (*p)->getJabberInterface()->Net()->GetResourceFeatures(jid);
-							if(caps)
+							wstring str;
+							for(int i =0;;i++)
 							{
-								wstring str;
-								for(int i =0;;i++)
-								{
-									str.push_back(caps[i]);
-									if(caps[i] == '\0')
-										if(caps[i+1] == '\0')
-											break;
-								}
-								mir_free(caps);
-								if(str.find(_T("GPG_Key_Auto_Exchange:0")) != string::npos)
-									CallContactService(ccs->hContact, PSS_MESSAGE, (WPARAM)0, (LPARAM)"-----PGP KEY REQUEST-----");
+								str.push_back(caps[i]);
+								if(caps[i] == '\0')
+									if(caps[i+1] == '\0')
+										break;
+							}
+							mir_free(caps);
+							if(str.find(_T("GPG_Key_Auto_Exchange:0")) != string::npos)
+							{
+								CallContactService(ccs->hContact, PSS_MESSAGE, (WPARAM)0, (LPARAM)"-----PGP KEY REQUEST-----");
+								return returnNoError(ccs->hContact);
 							}
 						}
 					}
 				}
 			}
-			return 1;
 		}
 		if(!(strstr(msg, "-----BEGIN PGP MESSAGE-----") && strstr(msg, "-----END PGP MESSAGE-----")))
 			return CallService(MS_PROTO_CHAINRECV, w, l);
-	boost::thread *thr = new boost::thread(boost::bind(RecvMsgSvc_func, ccs->hContact, str, msg, ccs->wParam, pre->timestamp));
-	return returnNoError(ccs->hContact);
+		boost::thread *thr = new boost::thread(boost::bind(RecvMsgSvc_func, ccs->hContact, str, msg, ccs->wParam, pre->timestamp));
+		return returnNoError(ccs->hContact);
 }
 
 int SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
@@ -820,6 +837,24 @@ int SendMsgSvc(WPARAM w, LPARAM l)
 			DWORD uin = DBGetContactSettingDword(ccs->hContact, proto, "UIN", 0);
 			if(uin)
 			{
+				char *proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+				char svc[64];
+				strcpy(svc, proto);
+				strcat(svc, PS_ICQ_CHECKCAPABILITY);
+
+				if(ServiceExists(svc))
+				{
+					ICQ_CUSTOMCAP cap = {0};
+					strcpy(cap.caps, "GPG AutoExchange");
+					if(CallService(svc, (WPARAM)ccs->hContact, (LPARAM)&cap))
+					{
+						CallContactService(ccs->hContact, PSS_MESSAGE, (WPARAM)ccs->wParam, (LPARAM)"-----PGP KEY REQUEST-----");
+						hcontact_data[ccs->hContact].msgs_to_send.push_back(msg);
+						boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, ccs->hContact));
+						mir_free(msg);
+						return returnNoError(ccs->hContact);
+					}
+				}
 			}
 			else
 			{

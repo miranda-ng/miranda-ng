@@ -283,6 +283,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	mir_free(outopentag);
 	mir_free(outclosetag);
 	if(password)
-		delete [] password;
+		mir_free(password);
 	return 0;
 }
