@@ -466,15 +466,80 @@ BOOL __inline WildCompareProcW(LPWSTR wszName, LPWSTR wszMask)
 	}
 }
 
+static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay,short *overlay2,short *overlay3)
+{
+	short i = 0, j = -1, k = -1, n = -1;
+
+	for (i=0; i < DEFAULT_KN_FP_MASK_COUNT; i++) {
+		KN_FP_MASK& p = def_kn_fp_mask[i];
+		if (p.hIcolibItem == NULL)
+			continue;
+
+		if ( !WildCompareW(szMirVer, p.szMaskUpper))
+			continue;
+
+		if (p.szIconFileName != _T("")) {
+			TCHAR destfile[MAX_PATH];
+			mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, p.szIconFileName);
+			struct _stat64i32 stFileInfo;
+
+			if (_tstat(destfile, &stFileInfo) == -1)
+				i = NOTFOUND_MASK_NUMBER;
+		}
+		break;
+	}
+
+	if (!def_kn_fp_mask[i].fNotUseOverlay && i < DEFAULT_KN_FP_MASK_COUNT) {
+		for (j = 0; j < DEFAULT_KN_FP_OVERLAYS_COUNT; j++) {
+			KN_FP_MASK& p = def_kn_fp_overlays_mask[j];
+			if (p.hIcolibItem == NULL)
+				continue;
+
+			if ( !WildCompare(szMirVer, p.szMaskUpper))
+				continue;
+
+			if (p.szIconFileName != _T("ClientIcons_Packs"))
+				break;
+
+			TCHAR destfile[MAX_PATH];
+			mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, p.szIconFileName);
+
+			struct _stat64i32 stFileInfo;
+			if ( _tstat(destfile, &stFileInfo) != -1)
+				break;
+		}
+
+		for (k = 0; k < DEFAULT_KN_FP_OVERLAYS2_COUNT; k++) {
+			KN_FP_MASK& p = def_kn_fp_overlays2_mask[k];
+			if (p.hIcolibItem == NULL)
+				continue;
+
+			if ( WildCompareW(szMirVer, p.szMaskUpper))
+				break;
+		}
+
+		for (n = 0; n < DEFAULT_KN_FP_OVERLAYS3_COUNT; n++) {
+			KN_FP_MASK& p = def_kn_fp_overlays3_mask[n];
+			if (p.hIcolibItem == NULL)
+				continue;
+
+			if ( WildCompareW(szMirVer, p.szMaskUpper))
+				break;
+		}
+	}
+
+	*base = (i < DEFAULT_KN_FP_MASK_COUNT) ? i : -1;
+	*overlay = (j < DEFAULT_KN_FP_OVERLAYS_COUNT) ? j : -1;
+	*overlay2 = (k < DEFAULT_KN_FP_OVERLAYS2_COUNT) ? k : -1;
+	*overlay3 = (n < DEFAULT_KN_FP_OVERLAYS3_COUNT) ? n : -1;
+}
+
 /*	GetIconsIndexesA
 *	Retrieves Icons indexes by Mirver
 */
+
 void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short *overlay2,short *overlay3)
 {
-	LPTSTR tszMirVerUp;
-	int iMirVerUpLen;
-	short i = 0, j = -1, k = -1, n = -1;
-
 	if (strcmp(szMirVer, "?") == 0) {
 		*base = UNKNOWN_MASK_NUMBER;
 		*overlay = -1;
@@ -483,65 +548,12 @@ void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short
 		return;
 	}
 
-	iMirVerUpLen = MultiByteToWideChar(g_LPCodePage, 0, szMirVer, -1, NULL, 0);
-
-	tszMirVerUp = (LPTSTR)mir_alloc(iMirVerUpLen * sizeof(TCHAR));
-
-	MultiByteToWideChar(g_LPCodePage, 0, szMirVer, -1, tszMirVerUp, iMirVerUpLen);
-
+	LPTSTR tszMirVerUp = mir_a2t_cp(szMirVer, g_LPCodePage);
+	size_t iMirVerUpLen = lstrlen(tszMirVerUp);
 	_tcsupr_s(tszMirVerUp, iMirVerUpLen);
 
-	while(i < DEFAULT_KN_FP_MASK_COUNT) {
-		if (WildCompare(tszMirVerUp, def_kn_fp_mask[i].szMaskUpper)) {
-			if (def_kn_fp_mask[i].szIconFileName != _T("")) {
-				TCHAR destfile[MAX_PATH];
-				mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, def_kn_fp_mask[i].szIconFileName);
-				struct _stat64i32 stFileInfo;
+	MatchMasks(tszMirVerUp, base, overlay, overlay2, overlay3);
 
-				if (_tstat(destfile, &stFileInfo) == -1)
-					i = NOTFOUND_MASK_NUMBER;
-			}
-			break;
-		}
-		i++;
-	}
-
-	if (!def_kn_fp_mask[i].fNotUseOverlay && i < DEFAULT_KN_FP_MASK_COUNT) {
-		j = 0;
-		while(j < DEFAULT_KN_FP_OVERLAYS_COUNT) {
-			if ( WildCompare(tszMirVerUp, def_kn_fp_overlays_mask[j].szMaskUpper)) {
-				if (def_kn_fp_overlays_mask[j].szIconFileName != _T("ClientIcons_Packs"))
-					break;
-
-				TCHAR destfile[MAX_PATH];
-				mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, def_kn_fp_overlays_mask[i].szIconFileName);
-
-				struct _stat64i32 stFileInfo;
-				if ( _tstat(destfile, &stFileInfo) != -1)
-					break;
-			}
-			j++;
-		}
-
-		k = 0;
-		while(k < DEFAULT_KN_FP_OVERLAYS2_COUNT) {
-			if (WildCompare(tszMirVerUp, def_kn_fp_overlays2_mask[k].szMaskUpper))
-				break;
-			k++;
-		}
-
-		n = 0;
-		while(n < DEFAULT_KN_FP_OVERLAYS3_COUNT) {
-			if (WildCompare(tszMirVerUp, def_kn_fp_overlays3_mask[n].szMaskUpper))
-				break;
-			n++;
-		}
-	}
-
-	*base = (i < DEFAULT_KN_FP_MASK_COUNT) ? i : -1;
-	*overlay = (j < DEFAULT_KN_FP_OVERLAYS_COUNT) ? j : -1;
-	*overlay2 = (k < DEFAULT_KN_FP_OVERLAYS2_COUNT) ? k : -1;
-	*overlay3 = (n < DEFAULT_KN_FP_OVERLAYS3_COUNT) ? n : -1;
 	mir_free(tszMirVerUp);
 }
 
@@ -551,10 +563,6 @@ void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short
 
 void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,short *overlay2,short *overlay3)
 {
-	LPWSTR wszMirVerUp;
-	size_t iMirVerUpLen;
-	short i = 0, j = -1, k = -1, n = -1;
-
 	if (wcscmp(wszMirVer, L"?") == 0)
 	{
 		*base = UNKNOWN_MASK_NUMBER;
@@ -564,66 +572,12 @@ void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,sho
 		return;
 	}
 
-	iMirVerUpLen = wcslen(wszMirVer) + 1;
-	wszMirVerUp = (LPWSTR)mir_alloc(iMirVerUpLen * sizeof(WCHAR));
-
+	size_t iMirVerUpLen = wcslen(wszMirVer) + 1;
+	LPWSTR wszMirVerUp = (LPWSTR)mir_alloc(iMirVerUpLen * sizeof(WCHAR));
 	wcscpy_s(wszMirVerUp, iMirVerUpLen, wszMirVer);
 	_wcsupr_s(wszMirVerUp, iMirVerUpLen);
 
-	while(i < DEFAULT_KN_FP_MASK_COUNT) {
-		if ( WildCompareW(wszMirVerUp, def_kn_fp_mask[i].szMaskUpper)) {
-			if (def_kn_fp_mask[i].szIconFileName != _T("")) {
-				TCHAR destfile[MAX_PATH];
-				mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, def_kn_fp_mask[i].szIconFileName);
-				struct _stat64i32 stFileInfo;
-
-				if (_tstat(destfile, &stFileInfo) == -1)
-					i = NOTFOUND_MASK_NUMBER;
-			}
-			break;
-		}
-		i++;
-	}
-
-	if (!def_kn_fp_mask[i].fNotUseOverlay && i < DEFAULT_KN_FP_MASK_COUNT) {
-		j = 0;
-		while(j < DEFAULT_KN_FP_OVERLAYS_COUNT) {
-			if (WildCompare(wszMirVerUp, def_kn_fp_overlays_mask[j].szMaskUpper)) {
-				if (def_kn_fp_overlays_mask[j].szIconFileName == _T("ClientIcons_Packs")) {
-					TCHAR destfile[MAX_PATH];
-					mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, def_kn_fp_overlays_mask[j].szIconFileName);
-					struct _stat64i32 stFileInfo;
-
-					if (_tstat(destfile, &stFileInfo) == -1)
-						j++;
-					else
-						break;
-				}
-				else
-					break;
-			}
-			j++;
-		}
-
-		k = 0;
-		while(k < DEFAULT_KN_FP_OVERLAYS2_COUNT) {
-			if ( WildCompareW(wszMirVerUp, def_kn_fp_overlays2_mask[k].szMaskUpper))
-				break;
-			k++;
-		}
-
-		n = 0;
-		while(n < DEFAULT_KN_FP_OVERLAYS3_COUNT) {
-			if ( WildCompareW(wszMirVerUp, def_kn_fp_overlays3_mask[n].szMaskUpper))
-				break;
-			n++;
-		}
-	}
-
-	*base = (i < DEFAULT_KN_FP_MASK_COUNT) ? i : -1;
-	*overlay = (j < DEFAULT_KN_FP_OVERLAYS_COUNT) ? j : -1;
-	*overlay2 = (k < DEFAULT_KN_FP_OVERLAYS2_COUNT) ? k : -1;
-	*overlay3 = (n < DEFAULT_KN_FP_OVERLAYS3_COUNT) ? n : -1;
+	MatchMasks(wszMirVerUp, base, overlay, overlay2, overlay3);
 
 	mir_free(wszMirVerUp);
 }
