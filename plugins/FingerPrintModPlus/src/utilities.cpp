@@ -283,21 +283,9 @@ static LRESULT ControlAddStringUtf(HWND ctrl, DWORD msg, LPCSTR szString)
 	LPSTR szItem = TranslateUtfStatic(szString, str, MAX_PATH);
 	LRESULT item = -1;
 
-	if (gbUnicodeAPI)
-	{
-		LPWSTR wItem = make_unicode_string(szItem);
-
-		item = SendMessageW(ctrl, msg, 0, (LPARAM)wItem);
-		SAFE_FREE(wItem);
-	}
-	else
-	{
-		size_t size = strlennull(szItem) + 2;
-		LPSTR aItem = (LPSTR)_alloca(size);
-
-		if (utf8_decode_static(szItem, aItem, (int)size))
-		item = SendMessageA(ctrl, msg, 0, (LPARAM)aItem);
-	}
+	LPWSTR wItem = make_unicode_string(szItem);
+	item = SendMessageW(ctrl, msg, 0, (LPARAM)wItem);
+	SAFE_FREE(wItem);
 	return item;
 }
 

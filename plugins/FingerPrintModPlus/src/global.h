@@ -24,9 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define WINVER 0x0501		// Change this to the appropriate value to target other versions of Windows.
 #endif
 
-#ifndef _WIN32_WINNT		// Allow use of features specific to Windows XP or later.                   
+#ifndef _WIN32_WINNT		// Allow use of features specific to Windows XP or later.
 #define _WIN32_WINNT 0x0501	// Change this to the appropriate value to target other versions of Windows.
-#endif						
+#endif
 
 #ifndef _WIN32_WINDOWS		// Allow use of features specific to Windows 98 or later.
 #define _WIN32_WINDOWS 0x0410 // Change this to the appropriate value to target Windows Me or later.
@@ -62,7 +62,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //plugins header
 #include "version.h"
 #include "m_fingerprint.h"
-#include "resource.h"			  
+#include "resource.h"
 #include "utilities.h"
 
 #if defined(__GNUC__)
@@ -79,16 +79,19 @@ typedef struct {
 	BYTE	a;
 } RGBA;
 
-typedef struct _knfpMask
+struct KN_FP_MASK
 {
-	LPSTR	szIconName;
-	LPTSTR	szMask;
-	LPTSTR	szClientDescription;
-	LPTSTR	szIconFileName;
-	int		iIconIndex;
-	int		iSectionFlag;
-	BOOL	fNotUseOverlay;
-} KN_FP_MASK;
+	LPSTR	  szIconName;
+	LPTSTR  szMask;
+	LPTSTR  szClientDescription;
+	LPTSTR  szIconFileName;
+	int     iIconIndex;
+	int     iSectionFlag;
+	BOOL    fNotUseOverlay;
+
+	HANDLE  hIcolibItem;
+	LPTSTR  szMaskUpper;
+};
 
 typedef struct _foundInfo
 {
@@ -120,44 +123,61 @@ typedef struct _foundInfo
 #define QQ_CASE					22
 #define TLEN_CASE				23
 
-typedef struct _settingsInfo
-{
-	int idCtrl;
-	LPCSTR szSetName;
-} SETTINGS_INFO;
-
-SETTINGS_INFO settings [] =
-{
-	{IDC_OVERLAY1, "Overlay1"},
-	{IDC_OVERLAY2, "Overlay2"},
-	{IDC_OVERLAY3, "Overlay3"},
-	{IDC_VERSION, "ShowVersion"},
-
-	{IDC_GROUPMIRANDA, "GroupMiranda"},
-	{IDC_GROUPMULTI, "GroupMulti"},
-	{IDC_GROUPPACKS, "GroupPacks"},
-	{IDC_GROUPOTHERS, "GroupOtherProtos"},
-
-	{IDC_GROUPAIM, "GroupAim"},
-	{IDC_GROUPGADU, "GroupGadu"},
-	{IDC_GROUPICQ, "GroupIcq"}, 
-	{IDC_GROUPIRC, "GroupIrc"},
-	{IDC_GROUPJABBER, "GroupJabber"},
-	{IDC_GROUPMAIL, "GroupMail"},
-	{IDC_GROUPMSN, "GroupMsn"},
-	{IDC_GROUPQQ, "GroupQQ"},
-	{IDC_GROUPRSS, "GroupRSS"},
-	{IDC_GROUPSKYPE, "GroupSkype"},
-	{IDC_GROUPTLEN, "GroupTlen"},
-	{IDC_GROUPVOIP, "GroupVoIP"},
-	{IDC_GROUPWEATHER, "GroupWeather"},
-	{IDC_GROUPYAHOO, "GroupYahoo"}
-};
-#define DEFAULT_SETTINGS_COUNT SIZEOF(settings)
-
 #define PtrIsValid(p)		(((p)!=0)&&(((HANDLE)(p))!=INVALID_HANDLE_VALUE))
 #define SAFE_FREE(p)		{if (PtrIsValid(p)){free((VOID*)p);(p)=NULL;}}
 
+#define LIB_REG		2
+#define LIB_USE		3
+
 #define DEFAULT_SKIN_FOLDER		_T("Icons\\Fp_ClientIcons")
 
-extern BYTE gbUnicodeAPI;
+void InitFingerEvents();
+void FASTCALL ClearFI();
+
+int OnIconsChanged(WPARAM wParam, LPARAM lParam);
+int OnExtraIconClick(WPARAM wParam, LPARAM lParam);
+int OnExtraIconListRebuild(WPARAM wParam, LPARAM lParam);
+int OnExtraImageApply(WPARAM wParam, LPARAM lParam);
+int OnContactSettingChanged(WPARAM wParam, LPARAM lParam);
+int OnOptInitialise(WPARAM wParam, LPARAM lParam);
+int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
+int OnPreShutdown(WPARAM wParam, LPARAM lParam);
+
+INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam);
+INT_PTR ServiceGetClientIconA(WPARAM wParam, LPARAM lParam);
+INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam);
+INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam);
+
+HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop);
+HBITMAP __inline CreateBitmap32(int cx, int cy);
+HBITMAP FASTCALL CreateBitmap32Point(int cx, int cy, LPVOID* bits);
+HANDLE FASTCALL GetIconIndexFromFI(LPTSTR szMirVer);
+
+BOOL FASTCALL WildCompareA(LPSTR name, LPSTR mask);
+BOOL FASTCALL WildCompareW(LPWSTR name, LPWSTR mask);
+BOOL __inline WildCompareProcA(LPSTR name, LPSTR mask);
+BOOL __inline WildCompareProcW(LPWSTR name, LPWSTR mask);
+
+void FASTCALL Prepare(KN_FP_MASK* mask);
+void RegisterIcons();
+
+#define WildCompare		WildCompareW
+#define GetIconsIndexes	GetIconsIndexesW
+
+extern int g_bExtraIcon_Register_ServiceExist, g_bCList_Extra_Set_Icon_ServiceExist;
+extern HINSTANCE g_hInst;
+extern HANDLE hHeap;
+extern LPSTR g_szClientDescription;
+
+extern KN_FP_MASK 
+	def_kn_fp_mask[], 
+	def_kn_fp_overlays_mask[], 
+	def_kn_fp_overlays1_mask[], 
+	def_kn_fp_overlays2_mask[],
+	def_kn_fp_overlays3_mask[];
+
+extern int DEFAULT_KN_FP_MASK_COUNT, DEFAULT_KN_FP_OVERLAYS_COUNT, DEFAULT_KN_FP_OVERLAYS2_COUNT, DEFAULT_KN_FP_OVERLAYS3_COUNT;
+
+#define UNKNOWN_MASK_NUMBER (DEFAULT_KN_FP_MASK_COUNT - 2)								// second from end
+#define NOTFOUND_MASK_NUMBER (DEFAULT_KN_FP_MASK_COUNT - 3)								// third from end
+#define DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT (DEFAULT_KN_FP_OVERLAYS2_COUNT - 7)

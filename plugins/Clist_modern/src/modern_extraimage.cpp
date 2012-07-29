@@ -472,9 +472,8 @@ INT_PTR WideSetIconForExtraColumn(WPARAM wParam,LPARAM lParam)
 //return hImage on success,-1 on failure
 INT_PTR WideAddIconToExtraImageList(WPARAM wParam,LPARAM lParam)
 {
-	int res = -1;
 	if (hWideExtraImageList == 0 || wParam == 0){return(-1);};
-	res = ((int)ImageList_AddIcon(hWideExtraImageList,(HICON)wParam));
+	int res = ((int)ImageList_AddIcon(hWideExtraImageList,(HICON)wParam));
 	if (res == 0xFF)	res = ((int)ImageList_AddIcon(hWideExtraImageList,(HICON)wParam));
 	if (res>0xFFFE) return -1;
 	return res;
