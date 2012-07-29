@@ -18,7 +18,7 @@ BOOL DlgShowAccountColors(HWND hDlg,WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //Options dialog procedure
-BOOL CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //Options dialog procedure
 INT_PTR CALLBACK DlgProcYAMNOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);

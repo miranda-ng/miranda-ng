@@ -89,7 +89,7 @@ LRESULT CALLBACK BadConnectPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPa
 	return DefWindowProc(hWnd,msg,wParam,lParam);
 }
 
-LRESULT CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg)
 	{
@@ -255,7 +255,7 @@ DWORD WINAPI BadConnection(LPVOID Param)
 
 	__try
 	{
-		hBadConnect=CreateDialogParam(YAMNVar.hInst,MAKEINTRESOURCE(IDD_DLGBADCONNECT),NULL,(DLGPROC)DlgProcYAMNBadConnection,(LPARAM)&MyParam);
+		hBadConnect=CreateDialogParam(YAMNVar.hInst,MAKEINTRESOURCE(IDD_DLGBADCONNECT),NULL,DlgProcYAMNBadConnection,(LPARAM)&MyParam);
 		SendMessage(hBadConnect,WM_SETICON,ICON_BIG,(LPARAM)g_LoadIconEx(3));
 		SendMessage(hBadConnect,WM_SETICON,ICON_SMALL,(LPARAM)g_LoadIconEx(3));
 

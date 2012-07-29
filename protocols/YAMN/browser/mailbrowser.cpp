@@ -149,7 +149,7 @@ LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 LRESULT CALLBACK NoNewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam);
 
 //Dialog callback procedure for mail browser
-BOOL CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam);
+INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 
 //MailBrowser thread function creates window if needed, tray icon and plays sound
 DWORD WINAPI MailBrowser(LPVOID Param);
@@ -1669,7 +1669,7 @@ DWORD WINAPI ShowEmailThread(LPVOID Param){
 		}
 	} else {
 CREADTEVIEWMESSAGEWINDOW:
-		MyParam.mail->MsgWindow = CreateDialogParamW(YAMNVar.hInst,MAKEINTRESOURCEW(IDD_DLGSHOWMESSAGE),NULL,(DLGPROC)DlgProcYAMNShowMessage,(LPARAM)&MyParam);
+		MyParam.mail->MsgWindow = CreateDialogParamW(YAMNVar.hInst,MAKEINTRESOURCEW(IDD_DLGSHOWMESSAGE),NULL,DlgProcYAMNShowMessage,(LPARAM)&MyParam);
 		WindowList_Add(YAMNVar.MessageWnds,MyParam.mail->MsgWindow,NULL);
 		MSG msg;
 		while(GetMessage(&msg,NULL,0,0)) {
@@ -1688,7 +1688,7 @@ CREADTEVIEWMESSAGEWINDOW:
 	return 1;
 }
 
-BOOL CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg)
 	{
@@ -2538,7 +2538,7 @@ DWORD WINAPI MailBrowser(LPVOID Param)
 			WndFound=TRUE;
 		if ((hMailBrowser==NULL) && ((MyParam.nflags & YAMN_ACC_MSG) || (MyParam.nflags & YAMN_ACC_ICO) || (MyParam.nnflags & YAMN_ACC_MSG)))
 		{
-			hMailBrowser=CreateDialogParamW(YAMNVar.hInst,MAKEINTRESOURCEW(IDD_DLGVIEWMESSAGES),NULL,(DLGPROC)DlgProcYAMNMailBrowser,(LPARAM)&MyParam);
+			hMailBrowser=CreateDialogParamW(YAMNVar.hInst,MAKEINTRESOURCEW(IDD_DLGVIEWMESSAGES),NULL,DlgProcYAMNMailBrowser,(LPARAM)&MyParam);
 			SendMessageW(hMailBrowser,WM_SETICON,(WPARAM)ICON_BIG,(LPARAM)g_LoadIconEx(2,true));
 			SendMessageW(hMailBrowser,WM_SETICON,(WPARAM)ICON_SMALL,(LPARAM)g_LoadIconEx(2));
 			MoveWindow(hMailBrowser,PosX,PosY,SizeX,SizeY,TRUE);

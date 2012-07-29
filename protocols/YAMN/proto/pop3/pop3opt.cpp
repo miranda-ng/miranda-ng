@@ -580,7 +580,7 @@ BOOL DlgSetItemTextW(HWND hDlg,WPARAM wParam,const WCHAR* str)
 	return TRUE;
 }
 
-BOOL CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	static HPOP3ACCOUNT ActualAccount;
 	switch(msg)
@@ -849,7 +849,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 				break;
 
 			case IDC_BTNSTATUS:
-				DialogBoxParamW(pYAMNVar->hInst,MAKEINTRESOURCEW(IDD_CHOOSESTATUSMODES),hDlg,(DLGPROC)DlgProcPOP3AccStatusOpt,(LPARAM)NULL);										
+				DialogBoxParamW(pYAMNVar->hInst,MAKEINTRESOURCEW(IDD_CHOOSESTATUSMODES),hDlg,DlgProcPOP3AccStatusOpt,NULL);										
 				break;
 
 			case IDC_BTNADD:
@@ -1379,9 +1379,9 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 						TesterN.colorBack=GetSysColor(COLOR_BTNFACE);
 						TesterN.colorText=GetSysColor(COLOR_WINDOWTEXT);
 					}
-					Tester.PluginWindowProc=(WNDPROC)NULL;
-					TesterF.PluginWindowProc=(WNDPROC)NULL;
-					TesterN.PluginWindowProc=(WNDPROC)NULL;
+					Tester.PluginWindowProc=NULL;
+					TesterF.PluginWindowProc=NULL;
+					TesterN.PluginWindowProc=NULL;
 					Tester.PluginData=NULL;	
 					TesterF.PluginData=NULL;
 					TesterN.PluginData=NULL;
