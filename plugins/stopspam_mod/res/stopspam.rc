@@ -1,0 +1,244 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "src/resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Русский (Россия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MESSAGES DIALOGEX 0, 0, 302, 225
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_POPUP | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Question: (Ctrl-Enter for carriage return)",IDC_STATIC,0,5,156,8
+    EDITTEXT        ID_QUESTION,0,17,300,57,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    PUSHBUTTON      "Restore defaults",ID_RESTOREDEFAULTS,234,208,66,14,NOT WS_TABSTOP
+    LTEXT           "Answer:",IDC_STATIC,0,82,270,8
+    EDITTEXT        ID_ANSWER,0,94,300,14,ES_AUTOHSCROLL
+    LTEXT           "Congratulation:",IDC_STATIC,0,112,270,8
+    EDITTEXT        ID_CONGRATULATION,0,123,300,48,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "Auth. request reply:",IDC_STATIC,0,174,270,8
+    EDITTEXT        ID_AUTHREPL,0,187,300,14,ES_AUTOHSCROLL
+    CONTROL         "Vars",IDC_VARS,"MButtonClass",WS_TABSTOP,0,206,16,16
+END
+
+IDD_PROTO DIALOGEX 0, 0, 230, 173
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Available accounts:",IDC_STATIC,6,8,84,8
+    LISTBOX         ID_ALLPROTO,6,20,84,138,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      ">>>>",ID_ADDALL,96,26,36,14
+    PUSHBUTTON      ">>",ID_ADD,96,44,36,14
+    PUSHBUTTON      "<<",ID_REMOVE,96,62,36,14
+    PUSHBUTTON      "<<<<",ID_REMOVEALL,96,80,36,14
+    LTEXT           "Filtered accounts:",IDC_STATIC,138,8,85,8
+    LISTBOX         ID_USEDPROTO,138,20,84,138,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_MAIN DIALOGEX 0, 0, 309, 219
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        ID_DESCRIPTION,12,7,290,82,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | NOT WS_TABSTOP
+    LTEXT           "Do not send more than ",IDC_STATIC,11,89,87,12,SS_CENTERIMAGE
+    EDITTEXT        ID_MAXQUESTCOUNT,107,89,30,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           " questions to one contact (0 - for no limit)",IDC_STATIC,144,89,155,12,SS_CENTERIMAGE
+    CONTROL         "Enable StopSpam-StopSpam infinite talk protection",ID_INFTALKPROT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,106,290,10
+    CONTROL         "Add contact permanently",ID_ADDPERMANENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,118,290,8
+    CONTROL         "Enable auth. requests blocking",ID_HANDLEAUTHREQ,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,130,290,8
+    CONTROL         "Hide unanswered contacts and spammers from contact list",ID_HIDECONTACTS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,140,290,10
+    CONTROL         "Ignore spammers (do not write messages to history)",ID_IGNORESPAMMERS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,151,290,10
+    CONTROL         "Log spam to file",ID_LOGSPAMTOFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,162,290,10
+END
+
+IDD_ADVANCED DIALOGEX 0, 0, 309, 219
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Case insensitive answer checking",IDC_CASE_INSENSITIVE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,66,279,10
+    CONTROL         "Disable question in invisible mode",IDC_INVIS_DISABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,77,287,10
+    CONTROL         "Enable integration with DOS plugin",ID_DOS_INTEGRATION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,89,287,8
+    CONTROL         "Exclude contacts which we sending something from spam check",ID_EXCLUDE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,33,287,8
+    CONTROL         "Remove Excluded contacts after restart",ID_REMOVE_TMP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,44,287,8
+    CONTROL         "Add contacts to specified group:",ID_SPECIALGROUP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,16,196,10
+    EDITTEXT        ID_SPECIALGROUPNAME,217,15,79,12,ES_AUTOHSCROLL
+    CONTROL         "Ignore URL in messages and auth requests",ID_IGNOREURL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,100,287,10
+    CONTROL         "Add contact to server list",IDC_ADDTOSRVLST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,146,187,10
+    EDITTEXT        IDC_AUTOADDGROUP,210,144,76,14,ES_AUTOHSCROLL
+    GROUPBOX        "After congratulation (ICQ only)",IDC_STATIC,15,135,278,51
+    CONTROL         "Automatically grant authorization",IDC_AUTOAUTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,158,263,10
+    CONTROL         "Request authorization from contacts which pass stopspam test",IDC_REQAUTH,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,170,267,10
+    CONTROL         "Remove all tempory contacts after restart",ID_REMOVE_TMP_ALL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,55,287,8
+    CONTROL         "Use regex for answers checking",IDC_REGEX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,111,287,10
+    CONTROL         "Log Spammers to system history",IDC_HISTORY_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,121,218,10
+    CONTROL         "Use math expression in question",IDC_MATH_QUESTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,188,129,10
+    PUSHBUTTON      "Details..",IDC_MATH_DETAILS,152,187,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_MESSAGES, DIALOG
+    BEGIN
+        RIGHTMARGIN, 300
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 222
+    END
+
+    IDD_PROTO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 223
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 166
+    END
+
+    IDD_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 212
+    END
+
+    IDD_ADVANCED, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        VERTGUIDE, 15
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 212
+        HORZGUIDE, 11
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,2,0
+ PRODUCTVERSION 0,7,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "Licensed under the terms of the GNU General Public License"
+            VALUE "CompanyName", " "
+            VALUE "FileDescription", "StopSpam plugin for Miranda IM"
+            VALUE "FileVersion", "0.0.2.0"
+            VALUE "InternalName", "stopspam"
+            VALUE "LegalCopyright", "Copyright © 2000-2010 Miranda IM Project. This software is released under the terms of the GNU General Public License."
+            VALUE "OriginalFilename", "stopspam.dll"
+            VALUE "ProductName", "StopSpam"
+            VALUE "ProductVersion", "0.7.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Английский (США) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Английский (США) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
