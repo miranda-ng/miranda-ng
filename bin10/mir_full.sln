@@ -287,7 +287,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAPP", "..\plugins\YAPP\yap
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbChecker", "..\plugins\DbChecker\dbchecker_10.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "New_GPG1", "..\plugins\new_gpg\new_gpg_10.vcxproj", "{F29D0C8D-141A-43CF-86B2-34A04653F8D4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "New_GPG", "..\plugins\new_gpg\new_gpg_10.vcxproj", "{F29D0C8D-141A-43CF-86B2-34A04653F8D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
