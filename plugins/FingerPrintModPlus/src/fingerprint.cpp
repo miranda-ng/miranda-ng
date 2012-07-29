@@ -549,11 +549,8 @@ void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short
 	}
 
 	LPTSTR tszMirVerUp = mir_a2t(szMirVer);
-	size_t iMirVerUpLen = lstrlen(tszMirVerUp);
-	_tcsupr_s(tszMirVerUp, iMirVerUpLen);
-
+	_tcsupr(tszMirVerUp);
 	MatchMasks(tszMirVerUp, base, overlay, overlay2, overlay3);
-
 	mir_free(tszMirVerUp);
 }
 
@@ -572,14 +569,9 @@ void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,sho
 		return;
 	}
 
-	size_t iMirVerUpLen = wcslen(wszMirVer) + 1;
-	LPWSTR wszMirVerUp = (LPWSTR)mir_alloc(iMirVerUpLen * sizeof(WCHAR));
-	wcscpy_s(wszMirVerUp, iMirVerUpLen, wszMirVer);
-	_wcsupr_s(wszMirVerUp, iMirVerUpLen);
-
+	LPWSTR wszMirVerUp = NEWWSTR_ALLOCA(wszMirVer);
+	_wcsupr(wszMirVerUp);
 	MatchMasks(wszMirVerUp, base, overlay, overlay2, overlay3);
-
-	mir_free(wszMirVerUp);
 }
 
 /*
