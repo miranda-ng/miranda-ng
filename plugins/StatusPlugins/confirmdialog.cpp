@@ -165,7 +165,7 @@ static int SetStatusList(HWND hwndDlg)
 	return 0;
 }
 
-static BOOL CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg) {
 	case WM_INITDIALOG:
@@ -434,7 +434,7 @@ INT_PTR ShowConfirmDialogEx(WPARAM wParam, LPARAM lParam)
 		timeOut = DEF_CLOSE_TIME;
 
 	if ( GetWindow(win, 0) == NULL ) {
-		win = CreateDialogParam( hInst,(LPCTSTR)MAKEINTRESOURCE(IDD_CONFIRMDIALOG),(HWND)NULL,(DLGPROC)ConfirmDlgProc,(LPARAM)NULL);
+		win = CreateDialogParam( hInst,MAKEINTRESOURCE(IDD_CONFIRMDIALOG),NULL,ConfirmDlgProc,NULL);
 		EnableWindow(win,TRUE);
 	}
 	
