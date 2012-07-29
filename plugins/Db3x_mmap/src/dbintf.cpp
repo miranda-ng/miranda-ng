@@ -52,7 +52,8 @@ static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2 )
 
 CDb3Base::CDb3Base(const TCHAR* tszFileName) :
 	m_hDbFile(INVALID_HANDLE_VALUE),
-	m_safetyMode(TRUE),
+	m_safetyMode(true),
+	m_bReadOnly(true),
 	m_lSettings(100, stringCompare),
 	m_lContacts(50, LIST<DBCachedContactValueList>::FTSortFunc(HandleKeySort)),
 	m_lGlobalSettings(50, compareGlobals),
@@ -98,9 +99,11 @@ CDb3Base::~CDb3Base()
 		CloseHandle(m_hMap);
 
 	// update profile last modified time
-	DWORD bytesWritten;
-	SetFilePointer(m_hDbFile, 0, NULL, FILE_BEGIN);
-	WriteFile(m_hDbFile, &dbSignature, 1, &bytesWritten, NULL);
+	if (!m_bReadOnly) {
+		DWORD bytesWritten;
+		SetFilePointer(m_hDbFile, 0, NULL, FILE_BEGIN);
+		WriteFile(m_hDbFile, &dbSignature, 1, &bytesWritten, NULL);
+	}
 	CloseHandle(m_hDbFile);
 
 	DeleteCriticalSection(&m_csDbAccess);
@@ -126,6 +129,8 @@ int CDb3Base::Load(bool bSkipInit)
 		if (InitCache()) return 1;
 		if (InitModuleNames()) return 1;
 
+		m_bReadOnly = false;
+
 		hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
 		hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
 		hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
@@ -146,7 +151,7 @@ int CDb3Base::Create()
 STDMETHODIMP_(void) CDb3Base::SetCacheSafetyMode(BOOL bIsSet)
 {
 	{	mir_cslock lck(m_csDbAccess);
-		m_safetyMode = bIsSet;
+		m_safetyMode = bIsSet != 0;
 	}
 	DBFlush(1);
 }

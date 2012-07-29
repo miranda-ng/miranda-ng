@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-extern BOOL m_safetyMode;
-
 DWORD GetModuleNameOfs(const char *szName);
 char *GetModuleNameByOfs(DWORD ofs);
 
@@ -47,7 +45,7 @@ STDMETHODIMP_(HANDLE) CDb3Base::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 	if (NotifyEventHooks(hEventFilterAddedEvent, (WPARAM)hContact, (LPARAM)dbei))
 		return 0;
 
-	BOOL neednotify;
+	bool neednotify;
 	mir_cslockfull lck(m_csDbAccess);
 
 	DWORD ofsContact = (hContact == 0) ? m_dbHeader.ofsUser : (DWORD)hContact;
