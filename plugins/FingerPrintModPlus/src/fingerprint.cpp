@@ -44,13 +44,16 @@ static TCHAR* getSectionName(int flag)
 	return NULL;
 }
 
-void FASTCALL Prepare(KN_FP_MASK* mask)
+void FASTCALL Prepare(KN_FP_MASK* mask, bool bEnable)
 {
-	if (!mask->szMask || !mask->szIconFileName)
-		return;
+	mask->szMaskUpper = NULL;
 
 	if (mask->hIcolibItem)
 		Skin_RemoveIcon(mask->szIconName);
+	mask->hIcolibItem = NULL;
+
+	if (!mask->szMask || !mask->szIconFileName || !bEnable)
+		return;
 
 	size_t iMaskLen = _tcslen(mask->szMask) + 1;
 	LPTSTR pszNewMask = (LPTSTR)HeapAlloc(hHeap, HEAP_NO_SERIALIZE, iMaskLen * sizeof(TCHAR));
@@ -99,26 +102,27 @@ void RegisterIcons()
 	hHeap = HeapCreate(HEAP_NO_SERIALIZE, 0, 0);
 
 	for (i=0; i < DEFAULT_KN_FP_MASK_COUNT; i++)
-		Prepare(&def_kn_fp_mask[i]);
+		Prepare(&def_kn_fp_mask[i], true);
 
-	if (DBGetContactSettingByte(NULL, "Finger", "Overlay1", 1))
-		for (i=0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++)
-			Prepare( &def_kn_fp_overlays_mask[i] );
+	bool bEnable = DBGetContactSettingByte(NULL, "Finger", "Overlay1", 1) != 0;
+	for (i=0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++)
+		Prepare(&def_kn_fp_overlays_mask[i], bEnable);
 
-	if (DBGetContactSettingByte(NULL, "Finger", "Overlay2", 1)) {
-		if (DBGetContactSettingByte(NULL, "Finger", "ShowVersion", 0)) {
-			for (i = 0; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++)
-				Prepare(&def_kn_fp_overlays2_mask[i]);
-		}
-		else {
-			for (i=0; i < DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT; i++)
-				Prepare(&def_kn_fp_overlays2_mask[i]);
-		}
+	bEnable = DBGetContactSettingByte(NULL, "Finger", "Overlay2", 1) != 0;
+	if (DBGetContactSettingByte(NULL, "Finger", "ShowVersion", 0)) {
+		for (i = 0; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++)
+			Prepare(&def_kn_fp_overlays2_mask[i], bEnable);
+	}
+	else {
+		for (i=0; i < DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT; i++)
+			Prepare(&def_kn_fp_overlays2_mask[i], bEnable);
+		for (; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++)
+			Prepare(&def_kn_fp_overlays2_mask[i], false);
 	}
 
-	if (DBGetContactSettingByte(NULL, "Finger", "Overlay3", 1))
-		for (i=0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
-			Prepare(&def_kn_fp_overlays3_mask[i]);
+	bEnable = DBGetContactSettingByte(NULL, "Finger", "Overlay3", 1) != 0;
+	for (i=0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
+		Prepare(&def_kn_fp_overlays3_mask[i], bEnable);
 }
 
 /*
