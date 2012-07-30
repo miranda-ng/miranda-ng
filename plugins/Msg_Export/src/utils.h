@@ -29,7 +29,6 @@
 #endif // defined ( _MSC_VER )
 
 #pragma warning (push, 3 )
-#pragma warning (disable:4996)
 
 #include "stdio.h"
 
@@ -50,18 +49,14 @@
 #include <list>
 #include <string>
 #include <map>
-#pragma warning (default:4996)
+
 #pragma warning (pop)
 
 using namespace std;
 
-#ifdef _UNICODE
-	#define tstring wstring
-	#define _DBGetString _DBGetStringW
-#else 
-    #define tstring string
-	#define _DBGetString _DBGetStringA
-#endif
+
+#define tstring wstring
+#define _DBGetString _DBGetStringW
 
 enum ENDialogAction
 {
@@ -114,12 +109,10 @@ void ReplaceDefines( HANDLE hContact , tstring & sTarget );
 void ReplaceTimeVariables( tstring &sRet );
 
 bool bCreatePathToFile( tstring sFilePath );
-#ifdef _UNICODE
+
 bool bWriteIndentedToFile( HANDLE hFile , int nIndent , const char * pszSrc , bool bUtf8File );
-#endif
 bool bWriteIndentedToFile( HANDLE hFile , int nIndent , const _TCHAR * pszSrc , bool bUtf8File );
 bool bWriteNewLine( HANDLE hFile , DWORD dwIndent );
 bool bIsUtf8Header( BYTE * pucByteOrder );
-
 
 #endif

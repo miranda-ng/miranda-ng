@@ -407,7 +407,7 @@ BOOL bApplyChanges( HWND hwndDlg )
 	int nTmp = GetDlgItemInt( hwndDlg , IDC_MAX_CLOUMN_WIDTH , &bTrans , TRUE );
 	if( !bTrans || nTmp < 5 )
 	{
-		_sntprintf( szTemp , sizeof( szTemp ) ,CheckedTranslate(_T("Max line width must be at least %d"),1) , 5 );
+		_sntprintf( szTemp , sizeof( szTemp ) ,LPGENT("Max line width must be at least %d"), 5 );
 		MessageBox( hwndDlg , szTemp ,MSG_BOX_TITEL,MB_OK );
 		bRet = false;
 	}
@@ -562,7 +562,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 			sItem.cchTextMax = sizeof( szSubCur );
 			if( ListView_GetItem( hMapUser, &sItem ) )
 			{
-				int nLen = _tcslen( szSubCur );
+				size_t nLen = _tcslen( szSubCur );
 				if( _tcsncicmp( szSubCur , szSearch , nLen ) == 0 )
 				{
 					if( nLen < nShortestMatch )
@@ -630,7 +630,7 @@ void OpenHelp(HWND hwndDlg)
 	_TCHAR szPath[MAX_PATH];
 	if( GetModuleFileName( hInstance , szPath , sizeof( szPath ) ) )
 	{
-		int nLen = _tcslen( szPath );
+		size_t nLen = _tcslen( szPath );
 		if( nLen > 3 )
 		{
 			szPath[nLen-1] = 't';
@@ -955,7 +955,7 @@ static BOOL CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					ofn.hwndOwner = hwndDlg;
 					ofn.lpstrFile = szFile;
 					ofn.nMaxFile = sizeof(szFile);
-					ofn.lpstrFilter = _T("Executable files (*.exe;*.com;*.bat;*.cmd)\0*.exe;*.com;*.bat;*.cmd\0All files(*.*)\0*.*\0");
+					ofn.lpstrFilter = LPGENT("Executable files (*.exe;*.com;*.bat;*.cmd)\0*.exe;*.com;*.bat;*.cmd\0All files(*.*)\0*.*\0");
 					ofn.nFilterIndex = 1;
 					//ofn.lpstrFileTitle = NULL;
 					//ofn.nMaxFileTitle = 0;
@@ -982,7 +982,7 @@ static BOOL CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					// Get the shells allocator
 					if (FAILED(SHGetMalloc(&pMalloc))) // we need to use this to support old Windows versions 
 					{
-						MessageBox( hwndDlg , _T("Failed to get the shells allocator !"),MSG_BOX_TITEL,MB_OK );
+						MessageBox( hwndDlg , LPGENT("Failed to get the shells allocator !"),MSG_BOX_TITEL,MB_OK );
 						return TRUE; // TRUE because we have handled the message , sort of *S*
 					}
 
@@ -991,7 +991,7 @@ static BOOL CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if ( ! lpDestDir )
 					{
 						pMalloc->Release();
-						MessageBox( hwndDlg , _T("Failed to Allocate buffer space"),MSG_BOX_TITEL,MB_OK );
+						MessageBox( hwndDlg , LPGENT("Failed to Allocate buffer space"),MSG_BOX_TITEL,MB_OK );
 						return TRUE;
 					}
 
@@ -1009,7 +1009,7 @@ static BOOL CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if( psItemIDList )
 					{
 						SHGetPathFromIDList(psItemIDList, lpDestDir);
-						int n = _tcslen( lpDestDir );
+						size_t n = _tcslen( lpDestDir );
 						if( n > 0 && lpDestDir[n] != '\\' )
 						{
 							lpDestDir[n] = '\\' ; 

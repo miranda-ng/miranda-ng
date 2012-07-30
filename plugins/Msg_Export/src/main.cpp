@@ -60,11 +60,7 @@ PLUGININFOEX pluginInfo = {
 	"© 2002 Kennet Nielsen",
 	"http://sourceforge.net/projects/msg-export/",
 	UNICODE_AWARE,
-    #ifdef _UNICODE
 	{ 0x46102b07, 0xc215, 0x4162, { 0x9c, 0x83, 0xd3, 0x77, 0x88, 0x1d, 0xa7, 0xcc } } // {46102B07-C215-4162-9C83-D377881DA7CC}
-    #else
-	{ 0x13ff3b7e, 0x4976, 0x471f, { 0xa4, 0x75, 0x16, 0x62, 0xa4, 0xdd, 0xc, 0x3e } } // {13FF3B7E-4976-471f-A475-1662A4DD0C3E}
-    #endif
 };
 
 
@@ -171,17 +167,17 @@ int MainInit(WPARAM /*wparam*/,LPARAM /*lparam*/)
 
 	hDBEventAdded = HookEvent( ME_DB_EVENT_ADDED , nExportEvent );
 	if( !hDBEventAdded )
-		MessageBox( NULL , _T("Failed to HookEvent ME_DB_EVENT_ADDED") , MSG_BOX_TITEL , MB_OK );
+		MessageBox( NULL , LPGENT("Failed to HookEvent ME_DB_EVENT_ADDED") , MSG_BOX_TITEL , MB_OK );
 
 
 	hDBContactDeleted = HookEvent( ME_DB_CONTACT_DELETED , nContactDeleted );
 	if( !hDBContactDeleted )
-		MessageBox( NULL , _T("Failed to HookEvent ME_DB_CONTACT_DELETED") , MSG_BOX_TITEL , MB_OK );
+		MessageBox( NULL , LPGENT("Failed to HookEvent ME_DB_CONTACT_DELETED") , MSG_BOX_TITEL , MB_OK );
 	
 
 	hEventOptionsInitialize = HookEvent( ME_OPT_INITIALISE , OptionsInitialize );
 	if( !hEventOptionsInitialize )
-		MessageBox( NULL , _T("Failed to HookEvent ME_OPT_INITIALISE") , MSG_BOX_TITEL , MB_OK );
+		MessageBox( NULL , LPGENT("Failed to HookEvent ME_OPT_INITIALISE") , MSG_BOX_TITEL , MB_OK );
 
 
 	CLISTMENUITEM mi;
@@ -206,7 +202,7 @@ int MainInit(WPARAM /*wparam*/,LPARAM /*lparam*/)
 	hOpenHistoryMenuItem  = Menu_AddContactMenuItem(&mi);
 
 	if( !hOpenHistoryMenuItem )
-		MessageBox( NULL , _T("Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)") , MSG_BOX_TITEL , MB_OK );
+		MessageBox( NULL , LPGENT("Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)") , MSG_BOX_TITEL , MB_OK );
 
 /*
 	hEventSystemShutdown = HookEvent( ME_SYSTEM_SHUTDOWN , nSystemShutdown );
@@ -314,7 +310,7 @@ int __declspec(dllexport)Load()
 
 	if( !hEventSystemInit )
 	{
-		MessageBox( NULL , _T("Failed to HookEvent ME_SYSTEM_MODULESLOADED") , MSG_BOX_TITEL , MB_OK );
+		MessageBox( NULL , LPGENT("Failed to HookEvent ME_SYSTEM_MODULESLOADED") , MSG_BOX_TITEL , MB_OK );
 		return 0;
 	}
 
@@ -369,7 +365,7 @@ int __declspec(dllexport)Load()
 
 	if( ! hServiceFunc )
 	{
-		MessageBox( NULL , _T("Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY") , MSG_BOX_TITEL , MB_OK );
+		MessageBox( NULL , LPGENT("Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY") , MSG_BOX_TITEL , MB_OK );
 	}
 
 	return 0;

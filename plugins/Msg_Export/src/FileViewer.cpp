@@ -234,7 +234,7 @@ int CLStreamRTFInfo::nWriteHeader( char * pszTarget , int nLen )
 
 	if( nSrcLen > nLen )
 	{
-		MessageBox( NULL , _T("Failed to write to the RichEdit the buffer was to small."),MSG_BOX_TITEL,MB_OK );
+		MessageBox( NULL , LPGENT("Failed to write to the RichEdit the buffer was to small."),MSG_BOX_TITEL,MB_OK );
 		return 0; // target buffer to small
 	}
 
@@ -267,7 +267,7 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 
 	if( nOptimalReadLen < 500 )
 	{
-		MessageBox( NULL , _T("Error: Optimal buffer size decrecied to a to low size !!"),MSG_BOX_TITEL,MB_OK );
+		MessageBox( NULL , LPGENT("Error: Optimal buffer size decrecied to a to low size !!"),MSG_BOX_TITEL,MB_OK );
 		return 0;
 	}
 
@@ -290,12 +290,8 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 		dwCurrent += nWriteHeader( (char*)pbBuff , cb );
 		
 		tstring sMyNick = NickFromHandle(0);
-#ifdef _UNICODE
-		nNickLen = WideCharToMultiByte(bUtf8File ? CP_UTF8 : CP_ACP , 0, sMyNick.c_str(), sMyNick.length() , szMyNick , sizeof( szMyNick ), NULL , NULL );
-#else
-		strcpy( szMyNick , sMyNick.c_str() );
-		nNickLen = sMyNick.length();
-#endif
+
+		nNickLen = WideCharToMultiByte(bUtf8File ? CP_UTF8 : CP_ACP , 0, sMyNick.c_str(), (int)sMyNick.length() , szMyNick , sizeof( szMyNick ), NULL , NULL );
 	}
 	else
 	{
@@ -361,7 +357,7 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 					
 					LONG lExtraRead = (n+1) - dwRead;
 					if( lExtraRead >= 0 )
-						MessageBox( NULL , _T("Internal error !! (lExtraRead >= 0)"),MSG_BOX_TITEL,MB_OK );
+						MessageBox( NULL , LPGENT("Internal error !! (lExtraRead >= 0)"),MSG_BOX_TITEL,MB_OK );
 					SetFilePointer( hFile , lExtraRead , NULL , FILE_CURRENT );
 					bCheckFirstForNick = true;
 					return dwCurrent;
@@ -556,7 +552,7 @@ bool bOpenExternaly( HANDLE hContact )
 				&sStartupInfo,
 				&stProcesses ) )
 	{
-		DisplayLastError( _T("Faile to execute external file view") );
+		DisplayLastError( LPGENT("Faile to execute external file view") );
 	}
 	return true;
 }
@@ -601,7 +597,7 @@ bool bUseInternalViewer( bool bNew )
       hRichEditDll = LoadLibraryA("RICHED32.DLL");
 		if( !hRichEditDll )
 		{
-			DisplayLastError( _T("Failed to load Rich Edit ( RICHED32.DLL )" ));
+			DisplayLastError( LPGENT("Failed to load Rich Edit ( RICHED32.DLL )" ));
 			return false;
 		}
    }
@@ -609,7 +605,7 @@ bool bUseInternalViewer( bool bNew )
    {
       if( ::FreeLibrary(hRichEditDll) == 0 )
 		{
-			DisplayLastError( _T("Failed to unload Rich Edit ( RICHED32.DLL )") );
+			DisplayLastError( LPGENT("Failed to unload Rich Edit ( RICHED32.DLL )") );
 			hRichEditDll = NULL;
 			return false;
 		}
@@ -693,7 +689,7 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 	HWND hRichEdit = GetDlgItem( hwndDlg , IDC_RICHEDIT );
 	if( ! hRichEdit )
 	{
-		MessageBox( hwndDlg , _T("Failed to get handle to RichEdit!"),MSG_BOX_TITEL,MB_OK );
+		MessageBox( hwndDlg , LPGENT("Failed to get handle to RichEdit!"),MSG_BOX_TITEL,MB_OK );
 		return false;
 	}
 
@@ -710,11 +706,11 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 
 		if( nDBCount == -1 )
 		{
-			mir_sntprintf(szTmp, 1499, _T("Failed to open file\r\n%s\r\n\r\nContact handle is invalid") , pclDlg->sPath.c_str());
+			mir_sntprintf(szTmp, 1499, LPGENT("Failed to open file\r\n%s\r\n\r\nContact handle is invalid") , pclDlg->sPath.c_str());
 		}
 		else
 		{
-			mir_sntprintf( szTmp , 1499, _T("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events") , pclDlg->sPath.c_str() , nDBCount );
+			mir_sntprintf( szTmp , 1499, LPGENT("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events") , pclDlg->sPath.c_str() , nDBCount );
 		}
 		
 		SETTEXTEX stText = {0};
@@ -784,7 +780,7 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 	//delete [] pabFileData;
 
 	_TCHAR szTmp[100];
-	mir_sntprintf( szTmp , 99, _T("File open time %d\n") , GetTickCount() - dwStart );
+	mir_sntprintf( szTmp , 99, LPGENT("File open time %d\n") , GetTickCount() - dwStart );
 	OutputDebugString( szTmp );
 
 
@@ -798,7 +794,7 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 	if( ! bScrollToBottom )
 		SendMessage( hRichEdit , EM_SETSCROLLPOS , 0 , (LPARAM) &ptOldPos );
 
-	mir_sntprintf( szTmp , 99, _T("With scroll to bottom %d\n") , GetTickCount() - dwStart );
+	mir_sntprintf( szTmp , 99, LPGENT("With scroll to bottom %d\n") , GetTickCount() - dwStart );
 	OutputDebugString( szTmp );
 
 	return true;
@@ -1303,7 +1299,7 @@ static BOOL CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				if( hFile == INVALID_HANDLE_VALUE  )
 				{
-					DisplayLastError( _T("Failed to create file") );
+					DisplayLastError( LPGENT("Failed to create file") );
 					return TRUE;
 				}
 
@@ -1314,12 +1310,12 @@ static BOOL CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				int nWriteOk = SendMessage(hRichEdit, EM_STREAMOUT, (WPARAM)SF_RTF , (LPARAM)&eds);
 				if( nWriteOk <= 0 || eds.dwError != 0 )
 				{
-					DisplayLastError( _T("Failed to save file") );
+					DisplayLastError( LPGENT("Failed to save file") );
 					CloseHandle( hFile );
 					return TRUE;
 				}
 				CloseHandle( hFile );
-				tstring sReport = _T("History was saved successfully in file\r\n");
+				tstring sReport = LPGENT("History was saved successfully in file\r\n");
 				sReport += sFile;
 				MessageBox( NULL , sReport.c_str() ,MSG_BOX_TITEL ,MB_OK );
 				return TRUE;
@@ -1417,7 +1413,7 @@ bool bShowFileViewer( HANDLE hContact )
 		ShowWindow( pcl->hWnd , SW_SHOWNORMAL );
 		return true;
 	}
-	DisplayLastError( _T("Failed to create history dialog") );
+	DisplayLastError( LPGENT("Failed to create history dialog") );
 	delete pcl;
 	return false;
 }
