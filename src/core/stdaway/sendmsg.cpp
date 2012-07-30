@@ -78,9 +78,9 @@ static const char *StatusModeToDbSetting(int status, const char *suffix)
 	return str;
 }
 
-static bool GetStatusModeByte(int status, const char *suffix)
+static bool GetStatusModeByte(int status, const char *suffix, bool bDefault = false)
 {
-	return db_get_b(NULL, "SRAway", StatusModeToDbSetting(status, suffix), 0) != 0;
+	return db_get_b(NULL, "SRAway", StatusModeToDbSetting(status, suffix), bDefault) != 0;
 }
 
 static void SetStatusModeByte(int status, const char *suffix, BYTE value)
@@ -344,7 +344,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 	if (GetStatusModeByte(statusMode, "Ignore"))
 		ChangeAllProtoMessages(szProto, statusMode, NULL);
 
-	else if (bScreenSaverRunning || ( !GetAsyncKeyState(VK_CONTROL) && GetStatusModeByte(statusMode, "NoDlg"))) {
+	else if (bScreenSaverRunning || ( !GetAsyncKeyState(VK_CONTROL) && GetStatusModeByte(statusMode, "NoDlg", true))) {
 		TCHAR *msg = GetAwayMessage(statusMode, szProto);
 		ChangeAllProtoMessages(szProto, statusMode, msg);
 		mir_free(msg);
@@ -409,7 +409,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				}
 
 				dat->info[j].ignore = GetStatusModeByte(statusModes[i], "Ignore");
-				dat->info[j].noDialog = GetStatusModeByte(statusModes[i], "NoDlg");
+				dat->info[j].noDialog = GetStatusModeByte(statusModes[i], "NoDlg", true);
 				dat->info[j].usePrevious = GetStatusModeByte(statusModes[i], "UsePrev");
 
 				DBVARIANT dbv;
