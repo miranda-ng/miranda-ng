@@ -569,6 +569,9 @@
     <ClCompile Include="modules\crypt\encrypt.cpp">
       <Filter>Modules\crypt</Filter>
     </ClCompile>
+    <ClCompile Include="modules\clist\contacts.cpp">
+      <Filter>Modules\clist</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

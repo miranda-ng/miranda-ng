@@ -44,6 +44,7 @@ int LoadIgnoreModule(void);		// protocol filter: ignore
 int LoadDbintfModule(void);
 int LoadEventsModule(void);
 
+int LoadContactsModule(void);
 int LoadContactListModule(void);// ui: clist
 int LoadDatabaseModule(void);
 int LoadOptionsModule(void);	// ui: options dialog
@@ -142,6 +143,7 @@ int LoadDefaultModules(void)
 	     NetlibInitSsl();
 	if ( LoadProtocolsModule()) return 1;
 	     LoadDbAccounts();                    // retrieves the account array from a database
+	if ( LoadContactsModule()) return 1;
 	if ( LoadContactListModule()) return 1;
 	if ( LoadAddContactModule()) return 1;
 	if ( LoadNewPluginsModule()) return 1;    // will call Load(void) on everything, clist will load first
