@@ -632,18 +632,26 @@ int LoadServiceModePlugin()
 	return (serviceModePlugin == NULL) ? SERVICE_CONTINUE : LaunchServicePlugin(serviceModePlugin);
 }
 
-void EnsureCheckerLoaded(void)
+void EnsureCheckerLoaded(bool bEnable)
 {
 	for (int i=0; i < servicePlugins.getCount(); i++) {
 		pluginEntry* p = servicePlugins[i];
 		if ( _tcsicmp(p->pluginname, _T("dbchecker.dll")))
 			continue;
 
-		if ( !(p->pclass & PCLASS_LOADED)) {
-			if (p->bpi.Load() != ERROR_SUCCESS)
-				Plugin_Uninit(p);
-			else
-				p->pclass |= PCLASS_LOADED;
+		if (bEnable) {
+			if ( !(p->pclass & PCLASS_LOADED)) {
+				if (p->bpi.Load() != ERROR_SUCCESS)
+					Plugin_Uninit(p);
+				else
+					p->pclass |= PCLASS_LOADED;
+			}
+		}
+		else {
+			if (p->pclass & PCLASS_LOADED) {
+				p->bpi.Unload();
+				p->pclass &= ~PCLASS_LOADED;
+			}
 		}
 		break;
 	}
