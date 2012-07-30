@@ -291,6 +291,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "New_GPG", "..\plugins\New_G
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Msg_Export", "..\plugins\Msg_Export\msg_export_10.vcxproj", "{4CE78D43-FF23-4134-A5AC-B2CF0F8D9F3B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StopSpamMod", "..\plugins\StopSpamMod\stopspam_mod_10.vcxproj", "{0FF6989B-880A-4C3F-B69D-AFF93296044D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1445,6 +1447,12 @@ Global
 		{4CE78D43-FF23-4134-A5AC-B2CF0F8D9F3B}.Release|Win32.Build.0 = Release|Win32
 		{4CE78D43-FF23-4134-A5AC-B2CF0F8D9F3B}.Release|x64.ActiveCfg = Release|x64
 		{4CE78D43-FF23-4134-A5AC-B2CF0F8D9F3B}.Release|x64.Build.0 = Release|x64
+		{0FF6989B-880A-4C3F-B69D-AFF93296044D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0FF6989B-880A-4C3F-B69D-AFF93296044D}.Debug|Win32.Build.0 = Debug|Win32
+		{0FF6989B-880A-4C3F-B69D-AFF93296044D}.Debug|x64.ActiveCfg = Debug|x64
+		{0FF6989B-880A-4C3F-B69D-AFF93296044D}.Debug|x64.Build.0 = Debug|x64
+		{0FF6989B-880A-4C3F-B69D-AFF93296044D}.Release|Win32.ActiveCfg = Release|Win32
+		{0FF6989B-880A-4C3F-B69D-AFF93296044D}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
