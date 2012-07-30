@@ -438,7 +438,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			AppendMenu(hMenu, MF_STRING, 1, TranslateT("Run"));
 			AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
 			if (ServiceExists(MS_DB_CHECKPROFILE)) {
-				AppendMenu(hMenu, MF_STRING, 2, TranslateT("Check"));
+				AppendMenu(hMenu, MF_STRING, 2, TranslateT("Check database"));
 				AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
 			}
 			AppendMenu(hMenu, MF_STRING, 3, TranslateT("Delete"));
