@@ -668,7 +668,7 @@ void OpenHelp(HWND hwndDlg)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-static BOOL CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 // Used to prevent sending the PSM_CHANGED to miranda
 // when initilizing 
@@ -1158,7 +1158,7 @@ static BOOL CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						{
 							case CDDS_PREPAINT:
 							{
-								SetWindowLongPtr(hwndDlg, 0, CDRF_NOTIFYITEMDRAW);
+								SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, CDRF_NOTIFYITEMDRAW);
 								return true;
 							}
 							case CDDS_ITEMPREPAINT:
@@ -1167,7 +1167,7 @@ static BOOL CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 								{
 									lplvcd->clrText = RGB( 0 , 0 , 255 );
 								}
-								SetWindowLongPtr(hwndDlg, 0, CDRF_NEWFONT);
+								SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, CDRF_NEWFONT);
 								return true;
 							}
 						}
@@ -1272,7 +1272,7 @@ BOOL bApplyChanges2( HWND hwndDlg )
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-static BOOL CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static BOOL bWindowTextSet = FALSE;
 
@@ -1466,18 +1466,18 @@ int OptionsInitialize(WPARAM wParam,LPARAM /*lParam*/)
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT);
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszTitle = LPGEN("Message export");
-	odp.pszGroup = LPGEN("Plugins");
+	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.ptszTitle = LPGENT("Message export");
+	odp.ptszGroup = LPGENT("Plugins");
 	odp.groupPosition = 100000000;
-	odp.pfnDlgProc = (DLGPROC)DlgProcMsgExportOpts;
+	odp.pfnDlgProc = DlgProcMsgExportOpts;
 	Options_AddPage(wParam,&odp);
 
 	
 	odp.position = 100000001;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT2);
-	odp.pszTitle = LPGEN("Message export2");
-	odp.pfnDlgProc = (DLGPROC)DlgProcMsgExportOpts2;
+	odp.ptszTitle = LPGENT("Message export2");
+	odp.pfnDlgProc = DlgProcMsgExportOpts2;
 	Options_AddPage(wParam,&odp);
 	return 0;
 }

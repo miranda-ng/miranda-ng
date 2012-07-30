@@ -78,7 +78,7 @@ PLUGININFOEX pluginInfo = {
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-static int ShowExportHistory(WPARAM wParam,LPARAM /*lParam*/)
+static INT_PTR ShowExportHistory(WPARAM wParam,LPARAM /*lParam*/)
 {
 	if( bUseInternalViewer() )
 	{
@@ -339,7 +339,7 @@ int __declspec(dllexport)Load()
 
 	if( bReplaceHistory )
 	{
-		hServiceFunc = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY,(MIRANDASERVICE)ShowExportHistory); //this need new code
+		hServiceFunc = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY,ShowExportHistory); //this need new code
 /*		if( hServiceFunc )
 		{
 			int *disableDefaultModule=(int*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY,0,0);
@@ -360,7 +360,7 @@ int __declspec(dllexport)Load()
 
 	if( ! hServiceFunc )
 	{
-		hServiceFunc = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY,(MIRANDASERVICE)ShowExportHistory);
+		hServiceFunc = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY,ShowExportHistory);
 	}
 
 	if( ! hServiceFunc )
