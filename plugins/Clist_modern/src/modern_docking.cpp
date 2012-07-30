@@ -229,7 +229,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 				g_CluiData.mutexPreventDockMoving = 0;
 				SetWindowPos(msg->hwnd,0,rcWindow.left,rcWindow.top,0,0,SWP_NOSIZE|SWP_NOZORDER|SWP_NOREDRAW|SWP_NOSENDCHANGING);
 				Sync(CLUIFrames_OnMoving,msg->hwnd,&rcWindow);
-				ModernSkinButton_ReposButtons( msg->hwnd, SBRF_DO_NOT_DRAW, NULL );// -=  -=  -= 
+				ModernSkinButton_ReposButtons( msg->hwnd, SBRF_DO_NOT_DRAW, NULL );// -= -=  -= 
 				g_CluiData.mutexPreventDockMoving = 1;		  
 				return 1;
 			}
@@ -244,7 +244,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 					Docking_AdjustPosition(msg->hwnd,&rcMonitor,&rc);
 					MoveWindow(msg->hwnd,rc.left,rc.top,rc.right-rc.left,rc.bottom-rc.top,TRUE);
 					Sync(CLUIFrames_OnMoving,msg->hwnd,&rc); 
-					ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW, NULL);// -=  -=  -= 
+					ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW, NULL);// -= -=  -= 
 
 					return 1;
 				}
@@ -265,7 +265,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 				rc = *(RECT*)(msg->lParam);
 				g_CluiData.mutexPreventDockMoving = 0;
 				Sync(CLUIFrames_OnMoving,msg->hwnd,&rc);
-				// -=  -=  -= 		
+				// -= -=  -= 		
 				return TRUE;
 			}
 		case WM_SHOWWINDOW:
@@ -286,7 +286,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 					Docking_AdjustPosition(msg->hwnd,&rcMonitor,&rc);
 					MoveWindow(msg->hwnd,rc.left,rc.top,rc.right-rc.left,rc.bottom-rc.top,FALSE);
 					Sync(CLUIFrames_OnMoving,msg->hwnd,&rc);
-					ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW,NULL);// -=  -=  -= 
+					ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW,NULL);// -= -=  -= 
 				}
 				else {
 					SHAppBarMessage(ABM_REMOVE,&abd);
@@ -350,7 +350,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 				Docking_GetMonitorRectFromWindow(msg->hwnd,&rcMonitor);
 				GetWindowRect(msg->hwnd,&rc);
 				Docking_AdjustPosition(msg->hwnd,&rcMonitor,&rc);
-				Sync(CLUIFrames_OnMoving,msg->hwnd,&rc); // -=  -=  -= 		
+				Sync(CLUIFrames_OnMoving,msg->hwnd,&rc); // -= -=  -= 		
 				ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW, NULL);
 
 				g_CluiData.mutexPreventDockMoving = 1;

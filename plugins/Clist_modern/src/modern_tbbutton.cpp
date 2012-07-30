@@ -175,9 +175,9 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 		/* correct rect according to rcMargins */
 
 		rcTemp.left	 += bct->rcMargins.left;
-		rcTemp.top  += bct->rcMargins.top;
-		rcTemp.bottom  -= bct->rcMargins.bottom;
-		rcTemp.right  -= bct->rcMargins.right;
+		rcTemp.top += bct->rcMargins.top;
+		rcTemp.bottom -= bct->rcMargins.bottom;
+		rcTemp.right -= bct->rcMargins.right;
 	}
 
 	rcIcon = rcTemp;

@@ -348,7 +348,7 @@ int RestoreSelection( struct ClcData *dat, HANDLE hSelected )
 		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact->subcontacts ));
 	
 		if (dat->selection != -1 ) 
-			dat->selection  += selcontact->isSubcontact;
+			dat->selection += selcontact->isSubcontact;
 	}
 	return dat->selection;
 
@@ -726,7 +726,7 @@ int cliGetGroupContentsCount(struct ClcGroup *group, int visibleOnly)
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && (!(visibleOnly&0x01) || group->cl.items[group->scanIndex]->group->expanded)) {
 			group = group->cl.items[group->scanIndex]->group;
 			group->scanIndex = 0;
-			count  += group->cl.count;
+			count += group->cl.count;
 			continue;
 		}
         else if ((group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) && 
@@ -806,7 +806,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 			PDNCE pdnce = (PDNCE)pcli->pfnGetCacheEntry(hContact);
 			if (pdnce) {
 				now = g_CluiData.t_now;
-				now  -= g_CluiData.lastMsgFilter;
+				now -= g_CluiData.lastMsgFilter;
 				if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG_OLDERTHAN)
 					filterResult = filterResult & (pdnce->dwLastMsgTime < now);
 				else if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG_NEWERTHAN)

@@ -407,12 +407,12 @@ void rowCalculateMinSize(ROWCELL* cell)
 			if (curchild->layer)
 			{
 				//w = max(w, curchild->r.right);
-				wl  += curchild->r.right;
+				wl += curchild->r.right;
 				fullWidth = max(fullWidth,max(curchild->full_width,curchild->w));
 			}
 			else
 			{
-				w  += curchild->r.right;
+				w += curchild->r.right;
 				fullWidth += max(curchild->full_width,curchild->w);
 			}
 		}
@@ -432,7 +432,7 @@ void rowCalculateMinSize(ROWCELL* cell)
 				//				h = max(h, curchild->r.bottom);
 			}
 			else
-				h  += curchild->r.bottom;
+				h += curchild->r.bottom;
 
 			curchild = curchild->next;
 		}
@@ -499,7 +499,7 @@ void rowPlacing(pROWCELL cell)
 	case TC_TEXT2:
 	case TC_TEXT3:
 	case TC_SPACE:
-		cell->r.right  += cell->r.left;
+		cell->r.right += cell->r.left;
 		break;
 	default:
 		{
@@ -508,10 +508,10 @@ void rowPlacing(pROWCELL cell)
 			case TC_LEFT:
 				break;
 			case TC_HCENTER:
-				cell->r.left  += (cell->r.right - cell->w)/2;
+				cell->r.left += (cell->r.right - cell->w)/2;
 				break;
 			case TC_RIGHT:
-				cell->r.left  += cell->r.right - cell->w;
+				cell->r.left += cell->r.right - cell->w;
 			}
 			cell->r.right = cell->r.left + cell->w;
 		}
@@ -522,10 +522,10 @@ void rowPlacing(pROWCELL cell)
 	case TC_TOP:
 		break;
 	case TC_VCENTER:
-		cell->r.top  += (cell->r.bottom - cell->h)/2;
+		cell->r.top += (cell->r.bottom - cell->h)/2;
 		break;
 	case TC_BOTTOM:
-		cell->r.top  += cell->r.bottom - cell->h;
+		cell->r.top += cell->r.bottom - cell->h;
 	}
 	cell->r.bottom = cell->r.top + cell->h;
 }
@@ -541,7 +541,7 @@ void rowLayerProc(pROWCELL cell, pROWCELL parent)
 	if (cell->sizing)
 	{
 		cell->r.left = parent->r.left;
-		//cell->r.right  += cell->r.left;
+		//cell->r.right += cell->r.left;
 	}
 	else
 	{
@@ -620,7 +620,7 @@ void rowPositioning(pROWCELL cell, int &dist)
 				continue;
 			}
 
-			cw  += curchild->r.right;
+			cw += curchild->r.right;
 
 			if (curchild->sizing)
 			{
@@ -628,12 +628,12 @@ void rowPositioning(pROWCELL cell, int &dist)
 				r++;
 			}
 			else
-				size  += curchild->r.right;
+				size += curchild->r.right;
 
 			curchild = curchild->next;
 		}
 
-		w  -= size;
+		w -= size;
 		fixedsized -= size;
 
 		if (r == 0)
@@ -641,10 +641,10 @@ void rowPositioning(pROWCELL cell, int &dist)
 			switch(cell->halign)
 			{
 			case TC_HCENTER:
-				x  += (dist - cw)/2;// - 1;
+				x += (dist - cw)/2;// - 1;
 				break;
 			case TC_RIGHT:
-				x  += dist - cw;
+				x += dist - cw;
 				break;
 			}
 		}
@@ -667,7 +667,7 @@ void rowPositioning(pROWCELL cell, int &dist)
 				curchild->r.left = x;
 
 
-				w  -= size;
+				w -= size;
 				if (curchild->sizing)
 				{
 					if ((0&!curchild->fitwidth) || r>1)  //пока отключено -проблемы с выравниванием
@@ -703,7 +703,7 @@ void rowPositioning(pROWCELL cell, int &dist)
 					size = curchild->r.right;
 
 				rowPositioning(curchild, size);
-				x  += size;
+				x += size;
 
 				if ( !curchild->sizing)
 					size = 0;
@@ -725,7 +725,7 @@ void rowPositioning(pROWCELL cell, int &dist)
 				continue;
 			}
 
-			size  += curchild->r.bottom;
+			size += curchild->r.bottom;
 			curchild = curchild->next;
 		}
 
@@ -734,10 +734,10 @@ void rowPositioning(pROWCELL cell, int &dist)
 			switch(cell->valign)
 			{
 			case TC_VCENTER:
-				y  += (h - size) / 2;
+				y += (h - size) / 2;
 				break;
 			case TC_BOTTOM:
-				y  += (h - size);
+				y += (h - size);
 				break;
 			}
 		}
@@ -753,7 +753,7 @@ void rowPositioning(pROWCELL cell, int &dist)
 			else
 			{
 				curchild->r.top = y;
-				y  += curchild->r.bottom;
+				y += curchild->r.bottom;
 
 				curchild->r.left  = cell->r.left;
 				curchild->r.right = dist;

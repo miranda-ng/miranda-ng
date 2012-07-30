@@ -1624,8 +1624,8 @@ int CLUI_SizingOnBorder(POINT pt, int PerformSize)
 			else if ( pt.y >= r.top    && pt.y <= r.top + SIZING_MARGIN )       sizeOnBorderFlag  = SCF_TOP;
 		}
 
-		if ( pt.x <= r.right && pt.x >= r.right - SIZING_MARGIN )               sizeOnBorderFlag  += SCF_RIGHT;
-		else if ( pt.x >= r.left && pt.x <= r.left + SIZING_MARGIN )            sizeOnBorderFlag  += SCF_LEFT;
+		if ( pt.x <= r.right && pt.x >= r.right - SIZING_MARGIN )               sizeOnBorderFlag += SCF_RIGHT;
+		else if ( pt.x >= r.left && pt.x <= r.left + SIZING_MARGIN )            sizeOnBorderFlag += SCF_LEFT;
 
 		if ( !(pt.x >= r.left && pt.x <= r.right && pt.y >= r.top && pt.y <= r.bottom))  sizeOnBorderFlag  = SCF_NONE;
 

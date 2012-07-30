@@ -411,11 +411,11 @@ RECT  CLCPaint::_GetRectangle( struct ClcData *dat, RECT *row_rc, RECT *free_row
 		if ( dat->row_align_left_items_to_left )
 			width_tmp = real_width;
 
-		rc.left  += ( width_tmp - real_width ) >> 1;
+		rc.left += ( width_tmp - real_width ) >> 1;
 		rc.right = rc.left + real_width;
-		rc.top  += ( rc.bottom - rc.top - height ) >> 1;
+		rc.top += ( rc.bottom - rc.top - height ) >> 1;
 		rc.bottom = rc.top + height;
-		*left_pos  += width_tmp + horizontal_space;
+		*left_pos += width_tmp + horizontal_space;
 		free_row_rc->left = row_rc->left + *left_pos;
 	}
 	else // if ( !left )
@@ -431,10 +431,10 @@ RECT  CLCPaint::_GetRectangle( struct ClcData *dat, RECT *row_rc, RECT *free_row
 		{
 			rc.left = max( rc.left + horizontal_space, rc.right - width_tmp )  + (( width_tmp - real_width ) >> 1 );
 			rc.right = min( rc.left + real_width, rc.right );
-			rc.top  += max( 0, ( rc.bottom - rc.top - height ) >> 1 );
+			rc.top += max( 0, ( rc.bottom - rc.top - height ) >> 1 );
 			rc.bottom = min( rc.top + height, rc.bottom );
 
-			*right_pos  += min( width_tmp + horizontal_space, free_row_rc->right - free_row_rc->left );
+			*right_pos += min( width_tmp + horizontal_space, free_row_rc->right - free_row_rc->left );
 			free_row_rc->right = row_rc->right - *right_pos;
 		}
 	}
@@ -481,28 +481,28 @@ void  CLCPaint::_DrawTextSmiley( HDC hdcMem, RECT * free_rc, SIZE * text_size, T
 		else
 		{
 			// Draw text and smileys
-			for ( ; i < plText->realCount && i >= 0 && pos_x < text_size->cx && len > 0; i  += ( uTextFormat & DT_RTLREADING ? -1 : 1 ))
+			for ( ; i < plText->realCount && i >= 0 && pos_x < text_size->cx && len > 0; i += ( uTextFormat & DT_RTLREADING ? -1 : 1 ))
 			{
 				ClcContactTextPiece *piece = ( ClcContactTextPiece * ) plText->items[i];
 				RECT text_rc = *free_rc;
 
 				if ( uTextFormat & DT_RTLREADING )
-					text_rc.right  -= pos_x;
+					text_rc.right -= pos_x;
 				else
-					text_rc.left  += pos_x;
+					text_rc.left += pos_x;
 
 				if ( piece->type == TEXT_PIECE_TYPE_TEXT )
 				{
 					tmp_rc = text_rc;
-					tmp_rc.right  += 50;
+					tmp_rc.right += 50;
 					ske_DrawText( hdcMem, &szText[piece->start_pos + start], min( len, piece->len ), &tmp_rc, DT_CALCRECT | ( uTextFormat & ~DT_END_ELLIPSIS ));
-					pos_x  += tmp_rc.right - tmp_rc.left + 2;
+					pos_x += tmp_rc.right - tmp_rc.left + 2;
 
 					if ( uTextFormat & DT_RTLREADING )
 						text_rc.left = max( text_rc.left, text_rc.right - ( tmp_rc.right - tmp_rc.left ));
 
 					ske_DrawText( hdcMem, &szText[piece->start_pos + start], min( len, piece->len ), &text_rc, uTextFormat );
-					len  -= piece->len;
+					len -= piece->len;
 				}
 				else
 				{
@@ -515,7 +515,7 @@ void  CLCPaint::_DrawTextSmiley( HDC hdcMem, RECT * free_rc, SIZE * text_size, T
 					else
 					{
 						LONG fac_width, fac_height;
-						len  -= piece->len;
+						len -= piece->len;
 
 						if ( piece->smiley_height > row_height && ResizeSizeSmiley )
 						{
@@ -534,7 +534,7 @@ void  CLCPaint::_DrawTextSmiley( HDC hdcMem, RECT * free_rc, SIZE * text_size, T
 
 						if ( fac_width <= text_rc.right - text_rc.left )
 						{
-							text_rc.top  += ( row_height - fac_height ) >> 1;
+							text_rc.top += ( row_height - fac_height ) >> 1;
 
 							ske_DrawIconEx( hdcMem, text_rc.left, text_rc.top, piece->smiley, 
 								fac_width, fac_height, 0, NULL, DI_NORMAL|(( factor < 1 )?128:0 )); //TO DO enchance drawing quality
@@ -544,7 +544,7 @@ void  CLCPaint::_DrawTextSmiley( HDC hdcMem, RECT * free_rc, SIZE * text_size, T
 							ske_DrawText( hdcMem, _T( "..." ), 3, &text_rc, uTextFormat );
 						}
 
-						pos_x  += fac_width;
+						pos_x += fac_width;
 					}
 				}
 			}
@@ -888,7 +888,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 					count_rc.right = 0;
 					count_rc.left = 0;
 					ske_DrawTextA( hdcMem, szCounts, lstrlenA( szCounts ), &count_rc, DT_CALCRECT );
-					count_size.cx  += count_rc.right-count_rc.left;
+					count_size.cx += count_rc.right-count_rc.left;
 					count_size.cy = count_rc.bottom-count_rc.top;
 				}
 				// modify text rect
@@ -1155,7 +1155,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 							count_rc.right = 0;
 							count_rc.left = 0;
 							ske_DrawTextA( hdcMem, szCounts, lstrlenA( szCounts ), &count_rc, DT_CALCRECT );
-							count_size.cx  += count_rc.right-count_rc.left;
+							count_size.cx += count_rc.right-count_rc.left;
 							count_size.cy = count_rc.bottom-count_rc.top;
 						}
 						// modify text rect
@@ -1989,10 +1989,10 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 
 				SetRect( &row_rc, clRect.left, y, clRect.right, y + dat->row_heights[line_num] );
 				free_row_rc = row_rc;
-				free_row_rc.left  += left_pos;
-				free_row_rc.right  -= right_pos;
-				free_row_rc.top  += dat->row_border;
-				free_row_rc.bottom  -= dat->row_border;
+				free_row_rc.left += left_pos;
+				free_row_rc.right -= right_pos;
+				free_row_rc.top += dat->row_border;
+				free_row_rc.bottom -= dat->row_border;
 				free_row_height = free_row_rc.bottom - free_row_rc.top;
 
 				{
@@ -2120,7 +2120,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 					//RECT rc;
 					rc = free_row_rc;
 					rc.right = rc.left + dat->checkboxSize;
-					rc.top  += ( rc.bottom - rc.top - dat->checkboxSize ) >> 1;
+					rc.top += ( rc.bottom - rc.top - dat->checkboxSize ) >> 1;
 					rc.bottom = rc.top + dat->checkboxSize;
 
 					if ( dat->text_rtl != 0 ) _RTLRect( &rc, free_row_rc.right, 0 );
@@ -2130,7 +2130,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 					}
 					else DrawFrameControl( pc.hdcMem, &rc, DFC_BUTTON, DFCS_BUTTONCHECK|DFCS_FLAT|( Drawing->flags&CONTACTF_CHECKED?DFCS_CHECKED:0 )|( hottrack?DFCS_HOT:0 ));
 
-					left_pos  += dat->checkboxSize + EXTRA_CHECKBOX_SPACE + HORIZONTAL_SPACE;
+					left_pos += dat->checkboxSize + EXTRA_CHECKBOX_SPACE + HORIZONTAL_SPACE;
 					free_row_rc.left = row_rc.left + left_pos;
 
 					// Store pos
@@ -2158,7 +2158,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 				}
 			}
 		}
-		y  += dat->row_heights[line_num];
+		y += dat->row_heights[line_num];
 		//increment by subcontacts
 		if  (( group->cl.items && group->scanIndex < group->cl.count && group->cl.items[group->scanIndex]->subcontacts != NULL && group->cl.items[group->scanIndex]->type != CLCIT_GROUP )
 			&& ( group->cl.items[group->scanIndex]->SubExpanded && dat->expandMeta ))
@@ -2541,7 +2541,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 				// Store init text position:
 				text_left_pos = left_pos;
 
-				left_pos  += MIN_TEXT_WIDTH;
+				left_pos += MIN_TEXT_WIDTH;
 				free_row_rc.left = row_rc.left + left_pos;
 
 				item_text = item;
@@ -2613,8 +2613,8 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 		// Get rect
 		text_rc = free_row_rc;
 
-		free_height  -= text_size.cy;
-		text_rc.top  += free_height >> 1;
+		free_height -= text_size.cy;
+		text_rc.top += free_height >> 1;
 		text_rc.bottom = text_rc.top + text_size.cy;
 
 		if ( dat->text_align_right )
@@ -2671,7 +2671,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 				}
 
 				// Get rect
-				free_height  -= max( text_size.cy, counts_size.cy );
+				free_height -= max( text_size.cy, counts_size.cy );
 				text_rc.top = free_row_rc.top + ( free_height >> 1 );
 				text_rc.bottom = text_rc.top + max( text_size.cy, counts_size.cy );
 
@@ -2734,7 +2734,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 				// Get rect
 				tmp = min( free_height, dat->second_line_top_space + second_line_text_size.cy );
 
-				free_height  -= tmp;
+				free_height -= tmp;
 				text_rc.top = free_row_rc.top + ( free_height >> 1 );
 				text_rc.bottom = text_rc.top + free_row_rc.bottom - free_row_rc.top - free_height;
 
@@ -2770,7 +2770,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 				// Get rect
 				tmp = min( free_height, dat->third_line_top_space + third_line_text_size.cy );
 
-				free_height  -= tmp;
+				free_height -= tmp;
 				text_rc.top = free_row_rc.top + ( free_height >> 1 );
 				text_rc.bottom = text_rc.top + free_row_rc.bottom - free_row_rc.top - free_height;
 
@@ -2816,14 +2816,14 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 					//devider
 					RECT trc = free_row_rc;
 					RECT rc = free_row_rc;
-					rc.top  += ( rc.bottom - rc.top ) >> 1;
+					rc.top += ( rc.bottom - rc.top ) >> 1;
 					rc.bottom = rc.top + 2;
 					rc.right = rc.left + (( rc.right - rc.left - text_size.cx )>>1 ) - 3;
 					trc.left = rc.right + 3;
 					trc.right = trc.left + text_size.cx + 6;
 					if ( text_size.cy < trc.bottom - trc.top )
 					{
-						trc.top  += ( trc.bottom - trc.top - text_size.cy ) >> 1;
+						trc.top += ( trc.bottom - trc.top - text_size.cy ) >> 1;
 						trc.bottom = trc.top + text_size.cy;
 					}
 					_StoreItemPos( Drawing, CIT_TEXT, &trc );
@@ -2844,7 +2844,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 
 					if ( text_size.cy < rc.bottom - rc.top )
 					{
-						rc.top  += ( rc.bottom - rc.top - text_size.cy ) >> 1;
+						rc.top += ( rc.bottom - rc.top - text_size.cy ) >> 1;
 						rc.bottom = rc.top + text_size.cy;
 					}
 
@@ -2863,7 +2863,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 
 						if ( counts_size.cy < counts_rc.bottom - counts_rc.top )
 						{
-							counts_rc.top  += ( counts_rc.bottom - counts_rc.top - counts_size.cy + 1 ) >> 1;
+							counts_rc.top += ( counts_rc.bottom - counts_rc.top - counts_size.cy + 1 ) >> 1;
 							counts_rc.bottom = counts_rc.top + counts_size.cy;
 						}
 						// Draw counts
@@ -2895,7 +2895,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 					uTextFormat &= ~DT_VCENTER;
 					if ( second_line_text_size.cx > 0 && free_rc.bottom > free_rc.top )
 					{
-						free_rc.top  += dat->second_line_top_space;
+						free_rc.top += dat->second_line_top_space;
 
 						if ( free_rc.bottom > free_rc.top )
 						{
@@ -2916,7 +2916,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
 
 					if ( third_line_text_size.cx > 0 && free_rc.bottom > free_rc.top )
 					{
-						free_rc.top  += dat->third_line_top_space;
+						free_rc.top += dat->third_line_top_space;
 
 						if ( free_rc.bottom > free_rc.top )
 						{
@@ -3280,9 +3280,9 @@ void CLCPaint::_DrawContactLine( HDC hdcMem, struct ClcData *dat, struct ClcCont
 	RECT rc2 = *free_row_rc;
 	rc1.right = text_rc.left-3;
 	rc2.left = text_rc.right+3;
-	rc1.top  += ( rc1.bottom - rc1.top ) >> 1;
+	rc1.top += ( rc1.bottom - rc1.top ) >> 1;
 	rc1.bottom = rc1.top + 2;
-	rc2.top  += ( rc2.bottom - rc2.top ) >> 1;
+	rc2.top += ( rc2.bottom - rc2.top ) >> 1;
 	rc2.bottom = rc2.top + 2;
 	{   
 		RECT rcTemp = rc1;

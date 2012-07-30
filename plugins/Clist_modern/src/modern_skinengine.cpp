@@ -748,9 +748,9 @@ BOOL ske_SetRectOpaque(HDC memdc,RECT *fr, BOOL force)
 		for ( int x = 0; x < width; x++ )
 		{
 			*pColumn = 255;
-			pColumn  += 4;
+			pColumn += 4;
 		}
-		pLine  -= bmp.bmWidthBytes;
+		pLine -= bmp.bmWidthBytes;
 	}
 	if (f)
 	{
@@ -1852,7 +1852,7 @@ static BOOL ske_ReadTGAImageData(void * From, DWORD fromSize, BYTE * destBuf, DW
 					fromCount += 4;
 				}
 				else fread (rgba, sizeof (BYTE), 4, fp);
-				for (i=0; i < size; ++i, ptr  += 4)
+				for (i=0; i < size; ++i, ptr += 4)
 				{
 					ptr[2] = rgba[2];
 					ptr[1] = rgba[1];
@@ -1862,7 +1862,7 @@ static BOOL ske_ReadTGAImageData(void * From, DWORD fromSize, BYTE * destBuf, DW
 			}
 			else
 			{	/* not run-length packet */
-				for (i=0; i < size; ++i, ptr  += 4)
+				for (i=0; i < size; ++i, ptr += 4)
 				{
 					ptr[0] = from? from[fromCount++]:(BYTE)fgetc (fp);
 					ptr[1] = from? from[fromCount++]:(BYTE)fgetc (fp);
@@ -2843,7 +2843,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 
 	// Calc sizes and offsets
 
-	textSize.cx  += 2;             // CORRECTION: for italic
+	textSize.cx += 2;             // CORRECTION: for italic
 
 	int drx = 0;                  // x-axis offset of draw point
 
@@ -2881,8 +2881,8 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 		textSize.cy = workRectHeight;
 	}
 
-	textSize.cx  += 4;    // CORRECTION: for effects ???
-	textSize.cy  += 4;	 // CORRECTION: for effects ???
+	textSize.cx += 4;    // CORRECTION: for effects ???
+	textSize.cy += 4;	 // CORRECTION: for effects ???
 
 	if ( textSize.cx > 0 && textSize.cy > 0 )     // Ok we need to paint
 	{

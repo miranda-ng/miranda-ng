@@ -144,11 +144,11 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
                 // calc width and height
                 g_clcPainter.ChangeToFont(hdc,dat,contact->group->expanded?FONTID_OPENGROUPCOUNTS:FONTID_CLOSEDGROUPCOUNTS,NULL);
                 ske_DrawText(hdc,_T(" "),1,&count_rc,DT_CALCRECT | DT_NOPREFIX);
-                size.cx  += count_rc.right-count_rc.left;
+                size.cx += count_rc.right-count_rc.left;
                 count_rc.right = 0;
                 count_rc.left = 0;
                 ske_DrawTextA(hdc,szCounts,lstrlenA(szCounts),&count_rc,DT_CALCRECT);
-                size.cx  += count_rc.right-count_rc.left;
+                size.cx += count_rc.right-count_rc.left;
                 tmp = max(tmp,count_rc.bottom-count_rc.top);
               }
             }
@@ -395,7 +395,7 @@ BOOL RowHeights_Alloc(struct ClcData *dat, int size)
     {
       int size_grow = size;
 
-      size_grow  += 100 - (size_grow % 100);
+      size_grow += 100 - (size_grow % 100);
 
       if (dat->row_heights != NULL)
       {
@@ -458,7 +458,7 @@ int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd)
     {
       tmp = max(tmp, dat->text_smiley_height);
     }
-    max_height  += tmp; 
+    max_height += tmp; 
 
     if (dat->second_line_show)
     {
@@ -467,7 +467,7 @@ int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd)
       {
         tmp = max(tmp, dat->text_smiley_height);
       }
-      max_height  += dat->second_line_top_space + tmp; 
+      max_height += dat->second_line_top_space + tmp; 
     }
 
     if (dat->third_line_show)
@@ -477,7 +477,7 @@ int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd)
       {
         tmp = max(tmp, dat->text_smiley_height);
       }
-      max_height  += dat->third_line_top_space + tmp; 
+      max_height += dat->third_line_top_space + tmp; 
     }
 
     // Get other font sizes
@@ -506,7 +506,7 @@ int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd)
     max_height = max(max_height, ICON_HEIGHT);
   }
 
-  max_height  += 2 * dat->row_border;
+  max_height += 2 * dat->row_border;
 
   // Min size
   max_height = max(max_height, dat->row_min_heigh);
@@ -645,7 +645,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
         {
           tmp = max(tmp, contact->ssText.iMaxSmileyHeight);
         }
-        height  += tmp;
+        height += tmp;
 
         if ( !minimalistic && dat->second_line_show && pdnce->szSecondLineText && pdnce->szSecondLineText[0])
         {
@@ -654,7 +654,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
           {
             tmp = max(tmp, pdnce->ssSecondLine.iMaxSmileyHeight);
           }
-          height  += dat->second_line_top_space + tmp;
+          height += dat->second_line_top_space + tmp;
         }
 
         if ( !minimalistic && dat->third_line_show && pdnce->szThirdLineText && pdnce->szThirdLineText[0])
@@ -664,7 +664,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
           {
             tmp = max(tmp, pdnce->ssThirdLine.iMaxSmileyHeight);
           }
-          height  += dat->third_line_top_space + tmp;
+          height += dat->third_line_top_space + tmp;
         }
       }
 
@@ -702,7 +702,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
         }
       }
 
-      height  += 2 * dat->row_border;
+      height += 2 * dat->row_border;
 
       // Min size
       height = max(height, dat->row_min_heigh);
@@ -729,7 +729,7 @@ int cliGetRowTopY(struct ClcData *dat, int item)
 
   for (i=0 ; i < item ; i++)
   {
-    y  += dat->row_heights[i];
+    y += dat->row_heights[i];
   }
 
   return y;
@@ -747,7 +747,7 @@ int cliGetRowBottomY(struct ClcData *dat, int item)
 
   for (i=0 ; i <= item ; i++)
   {
-    y  += dat->row_heights[i];
+    y += dat->row_heights[i];
   }
 
   return y;
@@ -762,7 +762,7 @@ int cliGetRowTotalHeight(struct ClcData *dat)
 
   for (i=0 ; i < dat->row_heights_size ; i++)
   {
-    y  += dat->row_heights[i];
+    y += dat->row_heights[i];
   }
 
   return y;
@@ -779,7 +779,7 @@ int cliRowHitTest(struct ClcData *dat, int pos_y)
 
   for (i=0 ; i < dat->row_heights_size ; i++)
   {
-    y  += dat->row_heights[i];
+    y += dat->row_heights[i];
 
     if (pos_y < y)
       return i;

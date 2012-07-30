@@ -2146,7 +2146,7 @@ static int CLUIFrameMoveResize(const FRAMEWND *Frame)
 		{
 			SetWindowPos(Frame->OwnerWindow,NULL,Frame->wndSize.left+Off.x,Frame->wndSize.top+Off.y,
 				Frame->wndSize.right-Frame->wndSize.left,
-				Frame->wndSize.bottom-Frame->wndSize.top,SWP_NOZORDER|SWP_NOACTIVATE );   //- -=  -= 
+				Frame->wndSize.bottom-Frame->wndSize.top,SWP_NOZORDER|SWP_NOACTIVATE );   //- -= -= 
 
 			SetWindowPos(Frame->hWnd,NULL,0,0,
 				Frame->wndSize.right-Frame->wndSize.left,
