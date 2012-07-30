@@ -643,16 +643,13 @@ void EnsureCheckerLoaded(bool bEnable)
 			if ( !(p->pclass & PCLASS_LOADED)) {
 				if (p->bpi.Load() != ERROR_SUCCESS)
 					Plugin_Uninit(p);
-				else
+				else {
 					p->pclass |= PCLASS_LOADED;
+					servicePlugins.remove(i);
+				}
 			}
 		}
-		else {
-			if (p->pclass & PCLASS_LOADED) {
-				p->bpi.Unload();
-				p->pclass &= ~PCLASS_LOADED;
-			}
-		}
+		else Plugin_Uninit(p);
 		break;
 	}
 }

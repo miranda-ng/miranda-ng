@@ -118,11 +118,11 @@ int CDb3Base::Load(bool bSkipInit)
 	DWORD dummy = 0;
 	m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, 0, NULL);
 	if ( m_hDbFile == INVALID_HANDLE_VALUE )
-		return 1;
+		return EGROKPRF_CANTREAD;
 
 	if ( !ReadFile(m_hDbFile,&m_dbHeader,sizeof(m_dbHeader),&dummy,NULL)) {
 		CloseHandle(m_hDbFile);
-		return 1;
+		return EGROKPRF_CANTREAD;
 	}
 
 	if ( !bSkipInit) {
