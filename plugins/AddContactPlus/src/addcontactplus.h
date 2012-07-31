@@ -53,3 +53,4 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam);
 extern HINSTANCE hInst;
+extern HWND hAddDlg;

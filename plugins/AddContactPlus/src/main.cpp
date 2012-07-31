@@ -25,6 +25,7 @@ int hLangpack;
 static HANDLE hModulesLoaded = 0, hChangedIcons = 0, hAccListChanged = 0,
 			  hMainMenuItem = 0, hToolBarItem = 0, hService = 0;
 HANDLE hIconLibItem;
+HWND hAddDlg;
 
 PLUGININFOEX pluginInfo = {
     sizeof(PLUGININFOEX),
@@ -55,7 +56,15 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_ADDCONT
 
 INT_PTR AddContactPlusDialog(WPARAM, LPARAM)
 {
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDCONTACT), (HWND)NULL, AddContactDlgProc, 0);
+	if(hAddDlg)
+	{
+		SetForegroundWindow(hAddDlg); 
+		SetFocus(hAddDlg);
+	}
+	else
+	{
+		hAddDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDCONTACT), NULL, AddContactDlgProc, 0);
+	}
 	return 0;
 }
 
@@ -78,13 +87,12 @@ static int OnAccListChanged(WPARAM, LPARAM)
 {
 	PROTOACCOUNT** pAccounts;
 	int iRealAccCount, iAccCount = 0;
-	DWORD dwCaps;
 
 	ProtoEnumAccounts(&iRealAccCount, &pAccounts);
 	for (int i = 0; i < iRealAccCount; i++)
 	{
 		if (!IsAccountEnabled(pAccounts[i])) continue;
-		dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+		DWORD dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (dwCaps & PF1_BASICSEARCH || dwCaps & PF1_EXTSEARCH || dwCaps & PF1_SEARCHBYEMAIL || dwCaps & PF1_SEARCHBYNAME)
 			iAccCount++;
 	}
@@ -133,12 +141,12 @@ static int CreateButton(WPARAM, LPARAM)
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	SKINICONDESC sid = {0};
-	char szFile[MAX_PATH];
-	GetModuleFileNameA(hInst, szFile, MAX_PATH);
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(hInst, szFile, MAX_PATH);
 	sid.cbSize = sizeof(SKINICONDESC);
-	sid.flags = SIDF_TCHAR;
-	sid.pszDefaultFile = szFile;
-	sid.ptszSection = _T("AddContact+");
+	sid.flags = SIDF_ALL_TCHAR;
+	sid.ptszDefaultFile = szFile;
+	sid.ptszSection = LPGENT("AddContact+");
 	sid.iDefaultIndex = -IDI_ADDCONTACT;
 	sid.ptszDescription = LPGENT("Add Contact");
 	sid.pszName = ICON_ADD;

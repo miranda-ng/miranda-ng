@@ -409,6 +409,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 		}
 
 		case WM_DESTROY:
+			hAddDlg = NULL;
 			CallService(MS_SKIN2_RELEASEICONBIG, (WPARAM)SendMessage(hdlg, WM_SETICON, ICON_BIG, (LPARAM)NULL), 0);
 			CallService(MS_SKIN2_RELEASEICON, (WPARAM)SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)NULL), 0);
 			ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_GETIMAGELIST, 0, 0));
