@@ -85,6 +85,11 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			SetDlgItemText(hwndDlg, IDC_VIEWVERSIONINFO, buffer.c_str());
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
+			if(lParam & VI_FLAG_PRNDLL)
+			{
+				SetWindowText(hwndDlg,TranslateT("View Version Information (with DLLs)"));
+			}
+
 			Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, PluginName, "ViewInfo_");
 			ShowWindow(hwndDlg, SW_SHOW);
 		}
