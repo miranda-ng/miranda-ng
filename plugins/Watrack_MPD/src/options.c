@@ -18,8 +18,7 @@
 #include <uxtheme.h>
 
 HINSTANCE hInst;
-
-static BOOL CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 int WaMpdOptInit(WPARAM wParam,LPARAM lParam)
 {
@@ -27,17 +26,17 @@ int WaMpdOptInit(WPARAM wParam,LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WA_MPD);
-	odp.pszTitle = "Winamp Track";
-	odp.pszGroup = "Plugins";
-	odp.pszTab = "Watrack MPD";
-	odp.flags=ODPF_BOLDGROUPS;
+	odp.ptszTitle = LPGENT("Winamp Track");
+	odp.ptszGroup = LPGENT("Plugins");
+	odp.ptszTab = LPGENT("Watrack MPD");
+	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcWaMpdOpts;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
 
-static BOOL CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
   switch (msg)
   {
