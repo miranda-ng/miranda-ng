@@ -1031,7 +1031,7 @@ void EraseBackground(HWND hwnd, HDC hdc, MyDetailsFrameData* data)
 	RECT r;
 	GetClientRect(hwnd, &r);
 
-	if (data->skinning)
+	if ( isSkinEngineEnabled())
 		SkinDrawWindowBack(hwnd, hdc, &r, "Main,ID=Background");
 	else {
 		HBRUSH hB = CreateSolidBrush((COLORREF) DBGetContactSettingDword(NULL,"MyDetails","BackgroundColor",GetSysColor(COLOR_BTNFACE)));
