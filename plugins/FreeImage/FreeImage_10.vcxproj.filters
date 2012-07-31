@@ -532,7 +532,4 @@
       <Filter>Source Files\LibPNG\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Todo.txt" />
-  </ItemGroup>
 </Project>
