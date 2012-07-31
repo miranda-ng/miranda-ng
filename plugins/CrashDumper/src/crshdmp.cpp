@@ -41,6 +41,8 @@ bool servicemode;
 bool clsdates;
 bool dtsubfldr;
 
+extern HWND hViewWnd;
+
 static const PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
@@ -142,9 +144,16 @@ INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 
 	if (hRichModule == NULL && GetModuleHandle(TEXT("Riched20.dll")) == NULL)
 		hRichModule = LoadLibrary(TEXT("Riched20.dll"));
-
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_VIEWVERSION), NULL,
-		DlgProcView, wParam ? (VI_FLAG_PRNVAR | VI_FLAG_PRNDLL) : VI_FLAG_PRNVAR);
+	if(hViewWnd)
+	{
+		SetForegroundWindow(hViewWnd);
+		SetFocus(hViewWnd);
+	}
+	else
+	{
+		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_VIEWVERSION), NULL,
+			DlgProcView, wParam ? (VI_FLAG_PRNVAR | VI_FLAG_PRNDLL) : VI_FLAG_PRNVAR);
+	}
 
 	return 0;
 }
