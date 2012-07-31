@@ -634,8 +634,8 @@ int LoadServiceModePlugin()
 
 void EnsureCheckerLoaded(bool bEnable)
 {
-	for (int i=0; i < servicePlugins.getCount(); i++) {
-		pluginEntry* p = servicePlugins[i];
+	for (int i=0; i < pluginList.getCount(); i++) {
+		pluginEntry* p = pluginList[i];
 		if ( _tcsicmp(p->pluginname, _T("dbchecker.dll")))
 			continue;
 
@@ -645,7 +645,7 @@ void EnsureCheckerLoaded(bool bEnable)
 					Plugin_Uninit(p);
 				else {
 					p->pclass |= PCLASS_LOADED;
-					servicePlugins.remove(i);
+					servicePlugins.remove(p);
 				}
 			}
 		}
