@@ -1458,7 +1458,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 						{
 							int w = width;
 							int h = height;
-							if ( !g_CluiData.fGDIPlusFail ) //Use gdi+ engine
+/*							if ( !g_CluiData.fGDIPlusFail ) //Use gdi+ engine
 							{
 								DrawAvatarImageWithGDIp( hdcMem, p_rect.left, p_rect.top, w, h, Drawing->avatar_data->hbmPic, 0, 0, Drawing->avatar_data->bmWidth, Drawing->avatar_data->bmHeight, Drawing->avatar_data->dwFlags, blendmode );
 							}
@@ -1495,7 +1495,8 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 									SelectObject( hdcTempAv, hbmTempAvOld );
 									mod_DeleteDC( hdcTempAv );
 								}
-							}
+							}*/
+							_DrawContactAvatar( hdcMem, dat, Drawing, &row_rc, selected, hottrack, p_rect, &p_rect );
 						}
 						else
 						{
