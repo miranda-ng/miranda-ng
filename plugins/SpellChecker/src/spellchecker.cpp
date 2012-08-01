@@ -230,7 +230,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	{
 		// Load flags dll
 		TCHAR flag_file[1024];
-		mir_sntprintf(flag_file, SIZEOF(flag_file), _T("%s\\flags.dll"), flagsDllFolder);
+		mir_sntprintf(flag_file, SIZEOF(flag_file), _T("%s\\flags_icons.dll"), flagsDllFolder);
 		HMODULE hFlagsDll = LoadLibraryEx(flag_file, NULL, LOAD_LIBRARY_AS_DATAFILE);
 
 		sid.flags = SIDF_ALL_TCHAR | SIDF_SORTED;
