@@ -222,51 +222,26 @@ bool GetSmileyFile(bkstring& url, const bkstring& packstr)
 	return false;
 }
 
-void GetDefaultSmileyCacheFolder(TCHAR* szPath, size_t cbLen)
-{
-	TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_userdata%\\SmileyCache"));
-	if ((INT_PTR)tmpPath != CALLSERVICE_NOTFOUND)
-	{
-		mir_sntprintf(szPath, cbLen, _T("%s"), tmpPath);
-		mir_free(tmpPath);
-	}
-	else
-	{
-		char dbPath[MAX_PATH];
-		CallService(MS_DB_GETPROFILEPATH, SIZEOF(dbPath), (LPARAM)dbPath);
-		mir_sntprintf(szPath, cbLen, _T("%s\\SmileyCache"), A2T_SM(dbPath));
-	}
-}
-
 int FolderChanged(WPARAM, LPARAM)
 {
-	FOLDERSGETDATA fgd = {0};
-	fgd.cbSize = sizeof(FOLDERSGETDATA);
-	fgd.nMaxPathSize = SIZEOF(cachepath);
-	fgd.szPathT = cachepath;
-	if (CallService(MS_FOLDERS_GET_PATH, (WPARAM) hFolder, (LPARAM) &fgd))
-	{
-		GetDefaultSmileyCacheFolder(cachepath, SIZEOF(cachepath));
-	}
-
+	FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, _T(""));
 	return 0;
 }
 
 void GetSmileyCacheFolder(void)
 {
 	TCHAR defaultPath[MAX_PATH];
-
-	GetDefaultSmileyCacheFolder(defaultPath, SIZEOF(defaultPath));
-
-	FOLDERSDATA fd = {0};
-	fd.cbSize = sizeof(FOLDERSDATA);
-	strcpy(fd.szSection, "SmileyAdd");
-	strcpy(fd.szName,"Smiley Cache");
-	fd.szFormatT = defaultPath;
-	fd.flags = FF_TCHAR;
-	hFolder = (HANDLE)CallService(MS_FOLDERS_REGISTER_PATH, 0, (LPARAM) &fd);
-
-	FolderChanged(0, 0);
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
+	{
+		hFolder = FoldersRegisterCustomPathT("SmileyAdd", "Smiley Cache", MIRANDA_USERDATAT _T("\\SmileyCache"));
+		FoldersGetCustomPathT(hFolder, defaultPath, MAX_PATH, _T(""));
+	}
+	else
+	{
+		TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\SmileyCache"));
+		lstrcpyn(defaultPath, tszFolder, SIZEOF(defaultPath));
+		mir_free(tszFolder);
+	}
 
 	hFolderHook = HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
 }
