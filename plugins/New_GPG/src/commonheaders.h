@@ -15,6 +15,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef COMMONHEADERS_H
 #define COMMONHEADERS_H
+
+#define _CRT_SECURE_NO_WARNINGS
+
 #define MIRANDA_VER 0x0901
 //windows
 #include <windows.h>

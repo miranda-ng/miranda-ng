@@ -68,12 +68,6 @@
     <ClInclude Include="src\log.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\m_extraicons.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\m_metacontacts.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="src\main.h">
       <Filter>Headers</Filter>
     </ClInclude>
