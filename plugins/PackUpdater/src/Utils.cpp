@@ -225,6 +225,11 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap&
 		if ( IsPluginDisabled(szFileName)) //check if plugin disabled
 			continue;
 
+		// Read version info
+		hashMap::iterator boo = hashes.find(szFileName);
+		if (boo == hashes.end())
+			continue;
+
 		TCHAR *plugname = ffd.cFileName;
 		FILEINFO FileInfo = { 0 };
 		DBVARIANT dbv;
@@ -239,11 +244,6 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap&
 			CalculateModuleHash(tszMask, FileInfo.curhash);
 			DBWriteContactSettingString(NULL, MODNAME, szFileName, FileInfo.curhash);
 		}
-
-		// Read version info
-		hashMap::iterator boo = hashes.find(szFileName);
-		if (boo == hashes.end())
-			continue;
 
 		strncpy(FileInfo.newhash, boo->second.c_str(), SIZEOF(FileInfo.newhash));
 
