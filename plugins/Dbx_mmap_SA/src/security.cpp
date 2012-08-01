@@ -137,7 +137,7 @@ int CDdxMmapSA::CheckPassword(WORD checkWord, TCHAR *szDBName)
 	}
 
 	while(1) {
-		int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), NULL, (DLGPROC)DlgStdInProc, (LPARAM)szDBName);
+		int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), NULL, DlgStdInProc, (LPARAM)szDBName);
 		if (res == IDCANCEL) {
 			wrongPass = 0;
 			bCheckingPass = 0;
@@ -272,7 +272,7 @@ void CDdxMmapSA::EncryptDB()
 	
 	bEncProcess = 1;
 
-	action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_NEWPASS), NULL, (DLGPROC)DlgStdNewPass, (LPARAM)NULL);
+	action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_NEWPASS), NULL, DlgStdNewPass, (LPARAM)NULL);
 	if (action != IDOK || !strlen(encryptKey)) {
 		bEncProcess = 0;		
 		db_set_b(NULL, "SecureMMAP", "CryptoModule", 0);		
@@ -350,7 +350,7 @@ void CDdxMmapSA::ChangePwd()
 {
 	char newpass[255] = {0};
 	
-	int action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHANGEPASS), NULL, (DLGPROC)DlgChangePass, (LPARAM)newpass);	
+	int action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHANGEPASS), NULL, DlgChangePass, (LPARAM)newpass);	
 	
 	if (action == IDCANCEL || (action == IDOK && !strlen(newpass)))
 		return;

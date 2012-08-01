@@ -81,9 +81,9 @@ void DecodeCopyMemory(void * dst, void * src, size_t size );
 void EncodeDBWrite(DWORD ofs, void * src, size_t size);
 void DecodeDBWrite(DWORD ofs, void * src, size_t size);
 
-BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
-BOOL CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
-BOOL CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
+INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
+INT_PTR CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
+INT_PTR CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
 void xModifyMenu(HANDLE hMenu,long flags,const TCHAR* name, HICON hIcon);
 
 extern DBSignature dbSignature, dbSignatureSecured;
