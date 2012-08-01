@@ -70,19 +70,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				CheckDlgButton(hwndDlg, (i+1029), (DBGetContactSettingByte(NULL, MODNAME, str, DEFAULT_MESSAGE_ENABLED)) ? BST_CHECKED: BST_UNCHECKED);
 			}
 		}
-
-		{
-			DBVARIANT dbVar;
-			if ( !DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar)) {
-				SetDlgItemText(hwndDlg, IDC_UPDATE_URL, dbVar.ptszVal);
-				DBFreeVariant(&dbVar);
-			}
-			else {
-				std::tstring url = _T(DEFAULT_UPDATE_URL); url.append( _T("hashes.txt"));
-				SetDlgItemText(hwndDlg, IDC_UPDATE_URL, url.c_str());
-				DBWriteContactSettingTString(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
-			}
-		}
 		return TRUE;
 
 	case WM_COMMAND:
@@ -129,7 +116,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case IDC_ERRORS2:
 		case IDC_INFO_MESSAGES2:
 		case IDC_PROGR_DLG2:
-		case IDC_UPDATE_URL:
 			if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -169,10 +155,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						DBWriteContactSettingByte(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hwndDlg, (i+1029))));
 					}
 				}
-
-				TCHAR buf[MAX_PATH];
-				GetDlgItemText(hwndDlg, IDC_UPDATE_URL, buf, SIZEOF(buf));
-				DBWriteContactSettingTString(NULL, MODNAME, "UpdateURL", buf);
 			}
 			break;
 		}

@@ -73,6 +73,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof(mi);
 	mi.position = -0x7FFFFFFF;
+	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = Skin_GetIconHandle("check_update");
 	mi.pszName = LPGEN("Check for pack updates");
 	mi.pszService = MODNAME"/CheckUpdates";

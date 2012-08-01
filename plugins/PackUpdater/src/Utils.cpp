@@ -194,7 +194,7 @@ BOOL IsPluginDisabled(const char *filename)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void ScanFolder(const TCHAR* tszFolder, hashMap& hashes, vector<FILEINFO>& UpdateFiles)
+static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap& hashes, vector<FILEINFO>& UpdateFiles)
 {
 	TCHAR tszMask[MAX_PATH], tszFileBack[MAX_PATH];
 	mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\*"), tszFolder);
@@ -211,7 +211,7 @@ static void ScanFolder(const TCHAR* tszFolder, hashMap& hashes, vector<FILEINFO>
 
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 			mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, ffd.cFileName);
-			ScanFolder(tszMask, hashes, UpdateFiles);
+			ScanFolder(tszMask, tszBaseUrl, hashes, UpdateFiles);
 			continue;
 		}
 
@@ -252,7 +252,7 @@ static void ScanFolder(const TCHAR* tszFolder, hashMap& hashes, vector<FILEINFO>
 			_tcscpy(FileInfo.tszDescr, ffd.cFileName);
 
 			*p = 0;
-			mir_sntprintf(FileInfo.File.tszDownloadURL, SIZEOF(FileInfo.File.tszDownloadURL), _T("%s%s.zip"), _T(DEFAULT_UPDATE_URL), ffd.cFileName);
+			mir_sntprintf(FileInfo.File.tszDownloadURL, SIZEOF(FileInfo.File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, ffd.cFileName);
 			_tcslwr(FileInfo.File.tszDownloadURL);
 
 			mir_sntprintf(FileInfo.File.tszDiskPath, SIZEOF(FileInfo.File.tszDiskPath), _T("%s\\%s.zip"), tszFileBack, ffd.cFileName);
@@ -281,23 +281,15 @@ static void CheckUpdates(void *)
 
 	// Load files info
 	if (DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar)) { // URL is not set 
-		LPCTSTR Title=TranslateT("Pack Updater");
-		LPCTSTR Text = TranslateT("URL for checking updates not found.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
-			Number = 1;
-			show_popup(0, Title, Text, Number, 0);
-		}
-		else if (DBGetContactSettingByte(NULL, MODNAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
-			MessageBox(NULL, Text, Title, MB_ICONSTOP);
-		DBFreeVariant(&dbVar);
-		CheckThread = NULL;
-		return;
+		DBWriteContactSettingString(NULL, MODNAME, "UpdateURL", DEFAULT_UPDATE_URL);
+		DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar);
 	}
+	TCHAR* tszBaseUrl = NEWTSTR_ALLOCA(dbVar.ptszVal);
+	DBFreeVariant(&dbVar);
 
 	// Download version info
 	FILEURL *pFileUrl = (FILEURL *)mir_alloc(sizeof(*pFileUrl));
-	lstrcpyn(pFileUrl->tszDownloadURL, dbVar.ptszVal, SIZEOF(pFileUrl->tszDownloadURL));
-	DBFreeVariant(&dbVar);
+	mir_sntprintf(pFileUrl->tszDownloadURL, SIZEOF(pFileUrl->tszDownloadURL), _T("%s/hashes.txt"), tszBaseUrl);
 	mir_sntprintf(tszBuff, SIZEOF(tszBuff), _T("%s\\tmp.ini"), tszRoot);
 	lstrcpyn(pFileUrl->tszDiskPath, tszBuff, SIZEOF(pFileUrl->tszDiskPath));
 	lstrcpyn(tszTmpIni, tszBuff, SIZEOF(tszTmpIni));
@@ -331,7 +323,7 @@ static void CheckUpdates(void *)
 	DeleteFile(tszTmpIni);
 
 	TCHAR *dirname = Utils_ReplaceVarsT(_T("%miranda_path%"));
-	ScanFolder(dirname, hashes, UpdateFiles);
+	ScanFolder(dirname, tszBaseUrl, hashes, UpdateFiles);
 	mir_free(dirname);
 
 	// Show dialog

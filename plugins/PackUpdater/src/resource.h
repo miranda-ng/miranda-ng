@@ -54,8 +54,6 @@
 #define IDC_PERIOD                      1038
 #define IDC_PERIODSPIN                  1039
 #define IDC_PERIODMEASURE               1040
-#define IDC_EDIT1                       1041
-#define IDC_UPDATE_URL                  1041
 #define IDC_MSG_BOXES                   40071
 #define IDC_ERRORS                      40072
 #define IDC_INFO_MESSAGES               40073
