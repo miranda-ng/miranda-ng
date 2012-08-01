@@ -112,7 +112,7 @@ static LRESULT CALLBACK OnlyCharsEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		case WM_PASTE:
 		{
 			TCHAR text[256];
-			GetWindowText(hwnd, text, MAX_REGS(text));
+			GetWindowText(hwnd, text, SIZEOF(text));
 
 			scoped_free<TCHAR> dest = data->dict->autoReplace->filterText(text);
 			SetWindowText(hwnd, dest);
@@ -250,16 +250,16 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 					TCHAR find[256];
 					if (data->findReadOnly)
 					{
-						lstrcpyn(find, data->find.c_str(), MAX_REGS(find));
+						lstrcpyn(find, data->find.c_str(), SIZEOF(find));
 					}
 					else
 					{
-						GetDlgItemText(hwndDlg, IDC_OLD, find, MAX_REGS(find));
+						GetDlgItemText(hwndDlg, IDC_OLD, find, SIZEOF(find));
 						lstrtrim(find);
 					}
 
 					TCHAR replace[256];
-					GetDlgItemText(hwndDlg, IDC_NEW, replace, MAX_REGS(replace));
+					GetDlgItemText(hwndDlg, IDC_NEW, replace, SIZEOF(replace));
 					lstrtrim(replace);
 
 					if (!data->findReadOnly && find[0] == 0)

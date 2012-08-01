@@ -20,8 +20,7 @@ Boston, MA 02111-1307, USA.
 #ifndef __COMMONS_H__
 # define __COMMONS_H__
 
-
-#define OEMRESOURCE 
+#define OEMRESOURCE
 #include <windows.h>
 #include <tchar.h>
 #include <stdio.h>
@@ -31,9 +30,6 @@ Boston, MA 02111-1307, USA.
 #include <richole.h>
 #include <commctrl.h>
 
-// Disable "...truncated to '255' characters in the debug information" warnings
-#pragma warning(disable: 4786)
-
 #include <map>
 #include <vector>
 #include <string>
@@ -41,8 +37,7 @@ using namespace std;
 
 
 // Miranda headers
-#define MIRANDA_VER 0x0900
-#define MIRANDA_CUSTOM_LP
+#define MIRANDA_VER 0x0A00
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_system_cpp.h>
@@ -59,6 +54,7 @@ using namespace std;
 #include <m_message.h>
 #include <m_icolib.h>
 #include <m_hotkeys.h>
+#include <win2k.h>
 
 //own includes
 #include "m_folders.h"
@@ -95,7 +91,6 @@ extern BOOL uinfoex_enabled;
 extern BOOL variables_enabled;
 
 
-#define MAX_REGS(_A_)	( sizeof(_A_) / sizeof(_A_[0]))
 #define FREE(_m_)		if (_m_ != NULL) { free(_m_); _m_ = NULL; }
 
 

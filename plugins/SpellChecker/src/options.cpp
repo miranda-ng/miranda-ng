@@ -74,7 +74,7 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.nIDBottomSimpleControl = IDC_SPELL_CHECKER;
 	odp.expertOnlyControls = optionsExpertControls;
-	odp.nExpertOnlyControls = MAX_REGS(optionsExpertControls);
+	odp.nExpertOnlyControls = SIZEOF(optionsExpertControls);
 	Options_AddPage(wParam, &odp);
 
 	ZeroMemory(&odp,sizeof(odp));
@@ -106,8 +106,8 @@ void DeInitOptions()
 
 void LoadOptions()
 {
-	LoadOpts(optionsControls, MAX_REGS(optionsControls), MODULE_NAME);
-	LoadOpts(autoReplaceControls, MAX_REGS(autoReplaceControls), MODULE_NAME);
+	LoadOpts(optionsControls, SIZEOF(optionsControls), MODULE_NAME);
+	LoadOpts(autoReplaceControls, SIZEOF(autoReplaceControls), MODULE_NAME);
 	
 	if (languages.getCount() <= 0)
 	{
@@ -118,7 +118,7 @@ void LoadOptions()
 	DBVARIANT dbv;
 	if (!DBGetContactSettingTString(NULL, MODULE_NAME, "DefaultLanguage", &dbv))
 	{
-		lstrcpyn(opts.default_language, dbv.ptszVal, MAX_REGS(opts.default_language));
+		lstrcpyn(opts.default_language, dbv.ptszVal, SIZEOF(opts.default_language));
 		DBFreeVariant(&dbv);
 	}
 
@@ -290,7 +290,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 	}
 
-	return SaveOptsDlgProc(optionsControls, MAX_REGS(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	return SaveOptsDlgProc(optionsControls, SIZEOF(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }
 
 
@@ -411,7 +411,7 @@ static void ShowAddReplacement(HWND hwndDlg, int item = -1)
 	}
 	else
 	{
-		ListView_GetItemText(GetDlgItem(hwndDlg, IDC_REPLACEMENTS), item, 0, find, MAX_REGS(find));
+		ListView_GetItemText(GetDlgItem(hwndDlg, IDC_REPLACEMENTS), item, 0, find, SIZEOF(find));
 	}
 
 	if (lstrlen(find) > 0)
@@ -438,7 +438,7 @@ static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	{
 		case WM_INITDIALOG:
 		{
-			BOOL ret = SaveOptsDlgProc(autoReplaceControls, MAX_REGS(autoReplaceControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+			BOOL ret = SaveOptsDlgProc(autoReplaceControls, SIZEOF(autoReplaceControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
 			int sel = -1;
 			for(int i = 0; i < languages.getCount(); i++)
@@ -510,7 +510,7 @@ static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 				while(sel >= 0)
 				{
 					TCHAR tmp[256];
-					ListView_GetItemText(hList, sel, 0, tmp, MAX_REGS(tmp));
+					ListView_GetItemText(hList, sel, 0, tmp, SIZEOF(tmp));
 
 					data->RemoveWord(tmp);
 					changed = TRUE;
@@ -599,7 +599,7 @@ static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	}
 
 
-	return SaveOptsDlgProc(autoReplaceControls, MAX_REGS(autoReplaceControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	return SaveOptsDlgProc(autoReplaceControls, SIZEOF(autoReplaceControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }
 
 

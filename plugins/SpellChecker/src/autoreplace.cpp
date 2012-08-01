@@ -35,7 +35,7 @@ AutoReplacement::AutoReplacement(const TCHAR *replace, BOOL useVariables)
 AutoReplaceMap::AutoReplaceMap(TCHAR *aFilename, Dictionary *dict)
 {
 	this->dict = dict;
-	lstrcpyn(filename, aFilename, MAX_REGS(filename));
+	lstrcpyn(filename, aFilename, SIZEOF(filename));
 	loadAutoReplaceMap();
 }
 
@@ -50,7 +50,7 @@ void AutoReplaceMap::loadAutoReplaceMap()
 	int pos = 0;
 	while((c = fgetc(file)) != EOF) 
 	{
-		if (c == '\n' || c == '\r' || pos >= MAX_REGS(tmp) - 1) 
+		if (c == '\n' || c == '\r' || pos >= SIZEOF(tmp) - 1) 
 		{
 			if (pos > 0)
 			{

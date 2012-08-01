@@ -212,7 +212,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	sid.ptszSection = LPGENT("Spell Checker");
 	sid.ptszDefaultFile = path;
 
-	for (unsigned i = 0; i < MAX_REGS(iconList); ++i)
+	for (unsigned i = 0; i < SIZEOF(iconList); ++i)
 	{
 		sid.ptszDescription = iconList[i].szDescr;
 		sid.pszName = iconList[i].szName;
@@ -230,7 +230,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	{
 		// Load flags dll
 		TCHAR flag_file[1024];
-		mir_sntprintf(flag_file, MAX_REGS(flag_file), _T("%s\\flags.dll"), flagsDllFolder);
+		mir_sntprintf(flag_file, SIZEOF(flag_file), _T("%s\\flags.dll"), flagsDllFolder);
 		HMODULE hFlagsDll = LoadLibraryEx(flag_file, NULL, LOAD_LIBRARY_AS_DATAFILE);
 
 		sid.flags = SIDF_ALL_TCHAR | SIDF_SORTED;
@@ -242,7 +242,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			sid.ptszDescription = languages[i]->full_name;
 
 			char lang[32];
-			mir_snprintf(lang, MAX_REGS(lang), "%S", languages[i]->language);
+			mir_snprintf(lang, SIZEOF(lang), "%S", languages[i]->language);
 			sid.pszName = lang;
 
 
@@ -315,7 +315,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			sid.dwId = i;
 
 			char tmp[128];
-			mir_snprintf(tmp, MAX_REGS(tmp), "%s - " TCHAR_STR_PARAM, 
+			mir_snprintf(tmp, SIZEOF(tmp), "%s - " TCHAR_STR_PARAM, 
 				Translate("Spell Checker"), languages[i]->full_name);
 			sid.szTooltip = tmp;
 
@@ -359,7 +359,7 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 			sid.dwId = i;
 
 			char tmp[128];
-			mir_snprintf(tmp, MAX_REGS(tmp), "%s - " TCHAR_STR_PARAM, 
+			mir_snprintf(tmp, SIZEOF(tmp), "%s - " TCHAR_STR_PARAM, 
 				Translate("Spell Checker"), languages[i]->full_name);
 			sid.szTooltip = tmp;
 
@@ -379,10 +379,10 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 int PreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	int i;
-	for(i = 0; i < MAX_REGS(hServices); i++)
+	for(i = 0; i < SIZEOF(hServices); i++)
 		DestroyServiceFunction(hServices[i]);
 
-	for(i = 0; i < MAX_REGS(hHooks); i++)
+	for(i = 0; i < SIZEOF(hHooks); i++)
 		UnhookEvent(hHooks[i]);
 
 	DeInitOptions();
@@ -672,7 +672,7 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 {
 	int errors = 0;
 	TCHAR text[1024];
-	dlg->re->GetLine(line, text, MAX_REGS(text));
+	dlg->re->GetLine(line, text, SIZEOF(text));
 	int len = lstrlen(text);
 	int first_char = dlg->re->GetFirstCharOfLine(line);
 
@@ -774,7 +774,7 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 			if (dif != 0)
 			{
 				// Read line again
-				dlg->re->GetLine(line, text, MAX_REGS(text));
+				dlg->re->GetLine(line, text, SIZEOF(text));
 				len = lstrlen(text);
 
 				int old_first_char = first_char;
@@ -859,8 +859,8 @@ void ToLocaleID(TCHAR *szKLName, size_t size)
 
 	TCHAR ini[32];
 	TCHAR end[32];
-	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO639LANGNAME, ini, MAX_REGS(ini));
-	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO3166CTRYNAME, end, MAX_REGS(end));
+	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO639LANGNAME, ini, SIZEOF(ini));
+	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO3166CTRYNAME, end, SIZEOF(end));
 
 	mir_sntprintf(szKLName, size, _T("%s_%s"), ini, end);
 }
@@ -872,12 +872,12 @@ void LoadDictFromKbdl(Dialog *dlg)
 
 	// Use default input language
 	HKL hkl = GetKeyboardLayout(0);
-	mir_sntprintf(szKLName, MAX_REGS(szKLName), _T("%x"), (int) LOWORD(hkl));
-	ToLocaleID(szKLName, MAX_REGS(szKLName));
+	mir_sntprintf(szKLName, SIZEOF(szKLName), _T("%x"), (int) LOWORD(hkl));
+	ToLocaleID(szKLName, SIZEOF(szKLName));
 
 	// Old code (use keyboard layout)
 //	GetKeyboardLayoutName(szKLName);
-//	ToLocaleID(szKLName, MAX_REGS(szKLName));
+//	ToLocaleID(szKLName, SIZEOF(szKLName));
 
 	int d = GetClosestLanguage(szKLName);
 	if (d >= 0)
@@ -934,7 +934,7 @@ LRESULT CALLBACK OwnerProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (errors > 0)
 			{
 				TCHAR text[500];
-				mir_sntprintf(text,MAX_REGS(text),TranslateT("There are %d spelling errors. Are you sure you want to send this message?"),errors);
+				mir_sntprintf(text,SIZEOF(text),TranslateT("There are %d spelling errors. Are you sure you want to send this message?"),errors);
 				if (MessageBox(hwnd,text,TranslateT("Spell Checker"), MB_ICONQUESTION | MB_YESNO) == IDNO)
 				{
 					return TRUE;
@@ -1068,7 +1068,7 @@ LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 					TCHAR text[1024];
 					int first_char;
-					GetWordCharRange(dlg, sel, text, MAX_REGS(text), first_char);
+					GetWordCharRange(dlg, sel, text, SIZEOF(text), first_char);
 
 					SetNoUnderline(dlg->re, sel.cpMin, sel.cpMax);
 
@@ -1152,7 +1152,7 @@ int GetClosestLanguage(TCHAR *lang_name)
 
 	// Try searching by the prefix only
 	TCHAR lang[128];
-	lstrcpyn(lang, lang_name, MAX_REGS(lang));
+	lstrcpyn(lang, lang_name, SIZEOF(lang));
 
 	TCHAR *p = _tcschr(lang, _T('_'));
 	if (p != NULL)
@@ -1225,7 +1225,7 @@ void GetUserProtoLanguageSetting(Dialog *dlg, HANDLE hContact, char *group, char
 				|| lstrcmpi(dict->english_name, lang) == 0
 				|| lstrcmpi(dict->language, lang) == 0)
 			{
-				lstrcpyn(dlg->lang_name, dict->language, MAX_REGS(dlg->lang_name));
+				lstrcpyn(dlg->lang_name, dict->language, SIZEOF(dlg->lang_name));
 				break;
 			}
 		}
@@ -1283,7 +1283,7 @@ void GetContactLanguage(Dialog *dlg)
 	{
 		if (!DBGetContactSettingTString(NULL, MODULE_NAME, dlg->name, &dbv))
 		{
-			lstrcpyn(dlg->lang_name, dbv.ptszVal, MAX_REGS(dlg->lang_name));
+			lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
 			DBFreeVariant(&dbv);
 		}
 	}
@@ -1291,13 +1291,13 @@ void GetContactLanguage(Dialog *dlg)
 	{
 		if (!DBGetContactSettingTString(dlg->hContact, MODULE_NAME, "TalkLanguage", &dbv))
 		{
-			lstrcpyn(dlg->lang_name, dbv.ptszVal, MAX_REGS(dlg->lang_name));
+			lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
 			DBFreeVariant(&dbv);
 		}
 
 		if (dlg->lang_name[0] == _T('\0') && !DBGetContactSettingTString(dlg->hContact, "eSpeak", "TalkLanguage", &dbv))
 		{
-			lstrcpyn(dlg->lang_name, dbv.ptszVal, MAX_REGS(dlg->lang_name));
+			lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
 			DBFreeVariant(&dbv);
 		}
 
@@ -1312,13 +1312,13 @@ void GetContactLanguage(Dialog *dlg)
 				{
 					if (!DBGetContactSettingTString(hMetaContact, MODULE_NAME, "TalkLanguage", &dbv))
 					{
-						lstrcpyn(dlg->lang_name, dbv.ptszVal, MAX_REGS(dlg->lang_name));
+						lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
 						DBFreeVariant(&dbv);
 					}
 
 					if (dlg->lang_name[0] == _T('\0') && !DBGetContactSettingTString(hMetaContact, "eSpeak", "TalkLanguage", &dbv))
 					{
-						lstrcpyn(dlg->lang_name, dbv.ptszVal, MAX_REGS(dlg->lang_name));
+						lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
 						DBFreeVariant(&dbv);
 					}
 				}
@@ -1337,14 +1337,14 @@ void GetContactLanguage(Dialog *dlg)
 
 		// Use default lang
 		if (dlg->lang_name[0] == _T('\0'))
-			lstrcpyn(dlg->lang_name, opts.default_language, MAX_REGS(dlg->lang_name));
+			lstrcpyn(dlg->lang_name, opts.default_language, SIZEOF(dlg->lang_name));
 	}
 
 	int i = GetClosestLanguage(dlg->lang_name);
 	if (i < 0)
 	{
 		// Lost a dict?
-		lstrcpyn(dlg->lang_name, opts.default_language, MAX_REGS(dlg->lang_name));
+		lstrcpyn(dlg->lang_name, opts.default_language, SIZEOF(dlg->lang_name));
 		i = GetClosestLanguage(dlg->lang_name);
 	}
 
@@ -1580,7 +1580,7 @@ TCHAR *GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel)
 	TCHAR text[1024];
 	int first_char;
 
-	if (!GetWordCharRange(dlg, sel, text, MAX_REGS(text), first_char))
+	if (!GetWordCharRange(dlg, sel, text, SIZEOF(text), first_char))
 		return NULL;
 
 	// copy the word
@@ -1689,7 +1689,7 @@ void AddMenuForWord(Dialog *dlg, TCHAR *word, CHARRANGE &pos, HMENU hMenu, BOOL 
 		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
 
 		TCHAR text[128];
-		mir_sntprintf(text, MAX_REGS(text), TranslateT("Wrong word: %s"), word);
+		mir_sntprintf(text, SIZEOF(text), TranslateT("Wrong word: %s"), word);
 		InsertMenu(hMenu, 0, MF_BYPOSITION, 0, text);
 	}
 }
@@ -2232,7 +2232,7 @@ BOOL lstreq(TCHAR *a, TCHAR *b, size_t len)
 BOOL CreatePath(const TCHAR *path) 
 {
 	TCHAR folder[1024];
-	lstrcpyn(folder, path, MAX_REGS(folder));
+	lstrcpyn(folder, path, SIZEOF(folder));
 
 	TCHAR *p = folder;
 	if (p[0] && p[1] && p[1] == _T(':') && p[2] == _T('\\')) p += 3; // skip drive letter
