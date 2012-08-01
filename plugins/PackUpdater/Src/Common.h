@@ -26,7 +26,9 @@ Boston, MA 02111-1307, USA.
 #include <stdio.h>
 #include <windows.h>
 #include <Windowsx.h>
-#include "vector"       // stl vector header
+#include <vector>       // stl vector header
+#include <map>
+#include <string>
 #include <Shlobj.h>
 
 // Miranda header files
@@ -39,6 +41,7 @@ Boston, MA 02111-1307, USA.
 #include <m_database.h>
 #include <m_utils.h>
 #include <m_system.h>
+#include <m_system_cpp.h>
 #include <m_popup.h>
 #include <m_hotkeys.h>
 #include <m_netlib.h>
@@ -66,12 +69,8 @@ struct FILEURL
 
 struct FILEINFO
 {
-	TCHAR tszCurVer[16];
-	TCHAR tszNewVer[16];
-	TCHAR tszLastVer[16];
-	TCHAR tszAdvFolder[256];
-	TCHAR tszInfoURL[2048];
-	TCHAR tszMessage[5000];
+	char  curhash[32+1];
+	char  newhash[32+1];
 	TCHAR tszDescr[256];
 	FILEURL File;
 	BOOL enabled;
@@ -80,21 +79,24 @@ struct FILEINFO
 	BYTE Force;
 };
 
-struct PackUpdaterIconList
+struct PopupDataText
 {
-	char*  szIconName;
-	TCHAR*  tszDescr;
-	int    IconID;
+	TCHAR*  Title;
+	TCHAR*  Text;
 };
 
-#define DEFAULT_REMINDER					1
-#define DEFAULT_UPDATEONSTARTUP				1
-#define DEFAULT_ONLYONCEADAY				0
-#define DEFAULT_UPDATEONPERIOD				0
-#define DEFAULT_PERIOD						1
-#define DEFAULT_PERIODMEASURE				1
-#define DEFAULT_FILECOUNT					0
-#define DEFAULT_FILETYPE					0 //0 - not defined, 1 - pack, 2 - plugin, 3 - icon, 4 - files in miranda root (e.g. langpack, dbtool), 5 - same as 4 without restart
+#define DEFAULT_REMINDER          1
+#define DEFAULT_UPDATEONSTARTUP   1
+#define DEFAULT_ONLYONCEADAY      0
+#define DEFAULT_UPDATEONPERIOD    0
+#define DEFAULT_PERIOD            1
+#define DEFAULT_PERIODMEASURE     1
+
+#ifdef WIN32
+	#define DEFAULT_UPDATE_URL					"http://nightly.miranda.im/x32/"
+#else
+	#define DEFAULT_UPDATE_URL					"http://nightly.miranda.im/x64/"
+#endif
 
 #define IDINFO				3
 #define IDDOWNLOAD			4
@@ -104,16 +106,15 @@ using std::wstring;
 using namespace std;
 
 extern HINSTANCE hInst;
-extern INT FileCount, CurrentFile, Number, UpdatesCount, Period;
+extern INT /*CurrentFile,*/ Number, Period;
 extern BOOL Silent, DlgDld;
 extern BYTE Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
 extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048];
 extern FILEINFO* pFileInfo;
-extern FILEURL* pFileUrl;
-extern HANDLE CheckThread, hOnPreShutdown, hOptHook, hLoadHook;
+//extern FILEURL* pFileUrl;
+extern HANDLE CheckThread;
 extern MYOPTIONS MyOptions;
 extern aPopups PopupsList[POPUPS];
-extern LPCTSTR Title, Text;
 extern HANDLE Timer;
 
 VOID InitPopupList();
@@ -129,7 +130,7 @@ INT OptInit(WPARAM wParam, LPARAM lParam);
 VOID DoCheck(INT iFlag, INT iFlag2);
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
 VOID show_popup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, INT Number, INT ActType);
-VOID DlgDownloadProc();
+VOID DlgDownloadProc(FILEURL *pFileUrl, PopupDataText temp);
 INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 void __stdcall ExitMe(void*);

@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Resource.rc
+// Used by D:\Myranda\plugins\PackUpdater\res\Resource.rc
 //
 #define IDI_MENU                        101
 #define IDD_UPDATE                      102
@@ -14,8 +14,10 @@
 #define IDC_UPDATETEXT                  1001
 #define IDC_CURVER                      1002
 #define IDC_NEWVER                      1003
-#define IDC_INFO                        1004
+#define IDC_SELALL                      1004
 #define IDC_PB                          1005
+#define IDC_INFO2                       1005
+#define IDC_SELNONE                     1005
 #define IDC_LABEL                       1006
 #define IDC_USEWINCOLORS                1007
 #define IDC_RC                          1008
@@ -52,6 +54,8 @@
 #define IDC_PERIOD                      1038
 #define IDC_PERIODSPIN                  1039
 #define IDC_PERIODMEASURE               1040
+#define IDC_EDIT1                       1041
+#define IDC_UPDATE_URL                  1041
 #define IDC_MSG_BOXES                   40071
 #define IDC_ERRORS                      40072
 #define IDC_INFO_MESSAGES               40073
@@ -71,7 +75,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        110
 #define _APS_NEXT_COMMAND_VALUE         40075
-#define _APS_NEXT_CONTROL_VALUE         1041
+#define _APS_NEXT_CONTROL_VALUE         1042
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

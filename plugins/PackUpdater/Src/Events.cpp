@@ -24,7 +24,6 @@ BOOL Silent;
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	UnhookEvent(hLoadHook);
 	Silent = true;
 	HOTKEYDESC hkd = {0};
 	hkd.cbSize = sizeof(hkd);
@@ -75,8 +74,5 @@ INT OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	CancelWaitableTimer(Timer);
 	CloseHandle(Timer);
-
-	UnhookEvent(hOptHook);
-	UnhookEvent(hOnPreShutdown);
 	return 0;
 }

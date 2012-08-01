@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Source Files\Minizip">
+      <UniqueIdentifier>{845e5403-a8df-47fc-a179-7ac2048f954d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Resource.rc">
@@ -35,6 +38,27 @@
     <ClInclude Include="Src\Notifications.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Minizip\crypt.h">
+      <Filter>Source Files\Minizip</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Minizip\ioapi.h">
+      <Filter>Source Files\Minizip</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Minizip\iowin32.h">
+      <Filter>Source Files\Minizip</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Minizip\unzip.h">
+      <Filter>Source Files\Minizip</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Minizip\zconf.h">
+      <Filter>Source Files\Minizip</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Minizip\zip.h">
+      <Filter>Source Files\Minizip</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Minizip\zlib.h">
+      <Filter>Source Files\Minizip</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Notifications.cpp">
@@ -52,5 +76,34 @@
     <ClCompile Include="Src\Events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\checksum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\unzipfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Minizip\ioapi.c">
+      <Filter>Source Files\Minizip</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Minizip\iowin32.c">
+      <Filter>Source Files\Minizip</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Minizip\unzip.c">
+      <Filter>Source Files\Minizip</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\menu.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\delete.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\btnOk.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\btnClose.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -41,13 +41,12 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | 
 CAPTION "Updates found!"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "Update",IDOK,24,187,50,14
-    DEFPUSHBUTTON   "View info",IDC_INFO,84,187,66,14,WS_DISABLED | NOT WS_TABSTOP
-    PUSHBUTTON      "Cancel",IDCANCEL,160,187,50,14
+    DEFPUSHBUTTON   "Update",IDOK,12,187,50,14
+    PUSHBUTTON      "Select &all",IDC_SELALL,68,187,50,14,NOT WS_TABSTOP
+    PUSHBUTTON      "Cancel",IDCANCEL,180,187,50,14
     CTEXT           "PackUpdater has detected updated versions\nof the following Miranda components:",IDC_UPDATETEXT,9,9,217,22
-    CONTROL         "",IDC_LIST_UPDATES,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,9,37,217,105
-    GROUPBOX        "Description",IDC_DESCR,9,142,217,43
-    EDITTEXT        IDC_MESSAGE,12,152,212,30,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | NOT WS_BORDER | WS_VSCROLL
+    CONTROL         "",IDC_LIST_UPDATES,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,6,37,229,145
+    PUSHBUTTON      "Select &none",IDC_SELNONE,124,187,50,14,NOT WS_TABSTOP
 END
 
 IDD_DOWNLOAD DIALOGEX 0, 0, 172, 39
@@ -64,26 +63,30 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
 END
 
-IDD_OPT_UPDATENOTIFY DIALOGEX 0, 0, 258, 174
+IDD_OPT_UPDATENOTIFY DIALOGEX 0, 0, 262, 181
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Pack update options",IDC_STATIC,2,32,253,63
+    GROUPBOX        "Pack update options",IDC_STATIC,2,27,253,86
     CONTROL         "On startup",IDC_UPDATEONSTARTUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,44,52,10
-    CONTROL         "Remind about not installed pack update",IDC_REMINDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,72,198,10
+    CONTROL         "Remind about not installed pack update",IDC_REMINDER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,72,198,10
     GROUPBOX        "Hotkey",IDC_STATIC,2,0,253,26
-    CONTROL         "Go to Customize -> Hotkeys to change the hotkey",IDC_LINK_HOTKEY,"Hyperlink",WS_TABSTOP,9,11,199,10
-    GROUPBOX        "Notifications",IDC_NOTIFY2,1,95,253,76
-    CONTROL         "Message boxes",IDC_MSG_BOXES2,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,7,111,79,10
-    CONTROL         "Errors",IDC_ERRORS2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,124,57,10
-    CONTROL         "Info messages",IDC_INFO_MESSAGES2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,137,80,10
-    CONTROL         "Progress dialogs",IDC_PROGR_DLG2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,151,80,10
+    CONTROL         "Go to Customize -> Hotkeys to change the hotkey",IDC_LINK_HOTKEY,
+                    "Hyperlink",WS_TABSTOP,9,11,199,10
+    CONTROL         "Message boxes",IDC_MSG_BOXES2,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,8,126,79,10
+    CONTROL         "Errors",IDC_ERRORS2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,136,57,10
+    CONTROL         "Info messages",IDC_INFO_MESSAGES2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,146,80,10
+    CONTROL         "Progress dialogs",IDC_PROGR_DLG2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,157,80,10
     CONTROL         "Every",IDC_UPDATEONPERIOD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,58,52,10
     EDITTEXT        IDC_PERIOD,65,56,28,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
     CONTROL         "",IDC_PERIODSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_DISABLED,92,56,10,15
     COMBOBOX        IDC_PERIODMEASURE,114,56,58,30,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     CONTROL         "(but only once a day)",IDC_ONLYONCEADAY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,92,44,161,10
+    GROUPBOX        "Notifications",IDC_NOTIFY2,1,115,253,58
+    RTEXT           "Update File URL:",IDC_STATIC,7,86,59,8
+    EDITTEXT        IDC_UPDATE_URL,69,84,177,14,ES_AUTOHSCROLL
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 182
@@ -172,14 +175,26 @@ BEGIN
         BOTTOMMARGIN, 201
     END
 
+    IDD_DOWNLOAD, DIALOG
+    BEGIN
+    END
+
+    IDD_POPUPDUMMI, DIALOG
+    BEGIN
+    END
+
     IDD_OPT_UPDATENOTIFY, DIALOG
     BEGIN
         BOTTOMMARGIN, 95
     END
+
+    IDD_POPUP, DIALOG
+    BEGIN
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Русский (Россия) resources
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

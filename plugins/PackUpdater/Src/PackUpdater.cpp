@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 HINSTANCE hInst = NULL;
 
-HANDLE hOptHook = NULL, hLoadHook = NULL, hPackUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL, hOnPreShutdown = NULL;
+HANDLE hPackUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL;
 TCHAR tszRoot[MAX_PATH] = {0};
 int hLangpack;
 
@@ -52,17 +52,16 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	CLISTMENUITEM mi;
-
 	mir_getLP(&pluginInfoEx);
+
 	TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\"DEFAULT_UPDATES_FOLDER));
 	lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-	{
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
 		hPackUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, "Pack Updater", MIRANDA_USERDATAT _T("\\")DEFAULT_UPDATES_FOLDER);
 		FoldersGetCustomPathT(hPackUpdaterFolder, tszRoot, MAX_PATH, _T(""));
 	}
 	mir_free(tszFolder);
+
 	LoadOptions();
 	InitPopupList();
 	NetlibInit();
@@ -70,30 +69,27 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	// Add cheking update menu item
 	hCheckUpdates = CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
-	ZeroMemory(&mi, sizeof(mi));
+
+	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof(mi);
 	mi.position = -0x7FFFFFFF;
-	mi.flags = CMIF_TCHAR;
-	mi.hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"check_update");
-	mi.ptszName = _T("Check for pack updates");
+	mi.icolibItem = Skin_GetIconHandle("check_update");
+	mi.pszName = LPGEN("Check for pack updates");
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
+
 	// Add empty updates folder menu item
 	hEmptyFolder = CreateServiceFunction(MODNAME"/EmptyFolder", EmptyFolder);
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
-	mi.position = -0x7FFFFFFF;
-	mi.flags = CMIF_TCHAR;
-	mi.hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"empty_folder");
-	mi.ptszName = _T("Clear pack updates folder");
+
+	mi.icolibItem = Skin_GetIconHandle("empty_folder");
+	mi.pszName = LPGEN("Clear pack updates folder");
 	mi.pszService = MODNAME"/EmptyFolder";
 	Menu_AddMainMenuItem(&mi);
 
 	// Add options hook
-	hOptHook = HookEvent(ME_OPT_INITIALISE, OptInit);
-	hLoadHook = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	hOnPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
-
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	return 0;
 }
 
@@ -101,6 +97,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 {
 	if (CheckThread)
 		CheckThread = NULL;
+
 	NetlibUnInit();
 	DestroyServiceFunction(hCheckUpdates);
 	DestroyServiceFunction(hEmptyFolder);
