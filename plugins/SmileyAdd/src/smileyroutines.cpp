@@ -281,7 +281,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 
 		TCHAR classname[20];
 		GetClassName(hwnd, classname, SIZEOF(classname));
-		bool ishpp = (_tcsncmp(classname, _T("THppRichEdit"), 12) == 0) | fireView;
+		bool ishpp = (_tcsncmp(classname, _T("THppRichEdit"), 12) == 0) || fireView;
 
 		SetRichCallback(hwnd, NULL, false, true);
 
