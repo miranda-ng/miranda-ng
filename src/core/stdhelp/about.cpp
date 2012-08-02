@@ -61,9 +61,6 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				mir_sntprintf(newTitle, SIZEOF(newTitle), oldTitle, str);
 				SetDlgItemText(hwndDlg, IDC_HEADERBAR, newTitle);
 			}
-            
-			mir_sntprintf(str, SIZEOF(str), TranslateT("Built %s %s"), _T(__DATE__), _T(__TIME__));
-			SetDlgItemText(hwndDlg, IDC_BUILDTIME, str);
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_HIDE);
 		{	
@@ -102,14 +99,12 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				iState = 0;
 				SetDlgItemText(hwndDlg, IDC_CONTRIBLINK, TranslateT("Credits >"));
 				ShowWindow(GetDlgItem(hwndDlg, IDC_DEVS), SW_SHOW);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_BUILDTIME), SW_SHOW);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_HIDE);
 			}
 			else {
 				iState = 1;
 				SetDlgItemText(hwndDlg, IDC_CONTRIBLINK, TranslateT("< Copyright"));
 				ShowWindow(GetDlgItem(hwndDlg, IDC_DEVS), SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_BUILDTIME), SW_HIDE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_SHOW);
 			}
 			break;
@@ -120,7 +115,6 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_CTLCOLORSTATIC:
 		switch (GetWindowLongPtr((HWND)lParam, GWL_ID)) {
 		case IDC_WHITERECT:
-		case IDC_BUILDTIME:
 		case IDC_CREDITSFILE:
 		case IDC_DEVS:
 			SetTextColor((HDC)wParam, GetSysColor(COLOR_WINDOWTEXT));

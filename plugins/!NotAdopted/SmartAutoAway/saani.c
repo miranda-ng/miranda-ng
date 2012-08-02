@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2006 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2006 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //#ifdef VCL_VC60
 #include "AggressiveOptimize.h"
 //#endif
-#include <windows.h> 
+#include <windows.h>
 #include <newpluginapi.h>
 
 PLUGININFOEX pluginInfo = {
@@ -55,9 +55,8 @@ __declspec(dllexport) PLUGININFOEX *MirandaPluginInfo(DWORD mirandaVersion)
 			mirandaVersion&0xFF
 		);
 	}
-	sprintf(description,"%s\r\n[Build %s %s]",description, __DATE__,__TIME__);
 	pluginInfo.description = description;
-    return &pluginInfo;
+	return &pluginInfo;
 }
 __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 {
@@ -65,7 +64,7 @@ __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 	pluginInfo.cbSize = sizeof( PLUGININFOEX );
 	return MirandaPluginInfo(mirandaVersion);
 }
-  	 
+
 extern "C" __declspec(dllexport) const MUUID interfaces[] = {MIID_IDLE, MIID_LAST};
 __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
 {
@@ -82,4 +81,3 @@ int __declspec(dllexport) Unload(void)
 //	AutoAwayShutdown(0,0);
     return 0; //if 1 we dont want to shutdown because we have hooked ME_SYSTEM_SHUTDOWN
 }
-

@@ -42,7 +42,7 @@ YAMN_FILTERREGISTRATION FilterRegistration=		//classical YAMN registration
 #else
 	"Base filter plugin for YAMN",
 #endif
-	__DATE__,
+	"",
 	"© majvan",
 	"Classifies mails using the rules stored in file",
 	"om3tn@psg.sk",

@@ -111,7 +111,6 @@
 #define IDC_LEFTMARGINSPIN              1092
 #define IDC_NOGROUPICON                 1102
 #define IDC_ONECLK                      1105
-#define IDC_BUILDTIME                   1108
 #define IDC_RIGHTMARGIN                 1121
 #define IDC_ROWGAP                      1122
 #define IDC_TRANSPARENT                 1124

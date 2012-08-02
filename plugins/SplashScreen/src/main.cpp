@@ -85,7 +85,6 @@ void SplashMain()
 		#ifdef _DEBUG
 			mir_sntprintf(szLogFile, SIZEOF(szLogFile), _T("%s\\%s.log"), szMirDir, _T(__INTERNAL_NAME));
 			initLog();
-			logTimeStamp();
 			TCHAR* mirandaVerString = mir_a2t(szVersion);
 			logMessage(_T("Miranda version"), mirandaVerString);
 			mir_free(mirandaVerString);

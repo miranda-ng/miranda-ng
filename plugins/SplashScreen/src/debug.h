@@ -48,17 +48,6 @@ int inline initLog()
 }
 
 /*
- * log timestamp
- */
-
-void inline logTimeStamp()
-{
-	FILE *f = _tfopen(szLogFile, _T("a"));
-	_ftprintf(f, _T("Time:\t\t\t\t%s\n"), _T(__TIME__));
-	fclose(f);
-}
-
-/*
  * logging func
  */
 

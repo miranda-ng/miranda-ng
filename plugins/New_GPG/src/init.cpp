@@ -26,7 +26,6 @@ HINSTANCE hInst;
 HANDLE hLoadPubKey = NULL, hToggleEncryption = NULL, hOnPreBuildContactMenu = NULL, hSendKey = NULL, g_hCLIcon = NULL, hExportGpgKeys = NULL, hImportGpgKeys = NULL;
 IconExtraColumn g_IEC = {0};
 static int OnModulesLoaded(WPARAM wParam,LPARAM lParam);
-extern char *date();
 RECT key_from_keyserver_rect = {0}, firstrun_rect = {0}, new_key_rect = {0}, key_gen_rect = {0}, load_key_rect = {0}, import_key_rect = {0}, key_password_rect = {0}, load_existing_key_rect = {0};
 XML_API xi = {0};
 int hLangpack = 0;
@@ -39,7 +38,7 @@ std::map<HANDLE, contact_data> hcontact_data;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	0,
+	"GPG",
 	PLUGIN_MAKE_VERSION(0,0,0,11),
 	"new GPG encryption support plugin, based on code from old gpg plugin and secureim",
 	"sss",
@@ -59,13 +58,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	static char plugname[52];
-	strcpy(plugname, szGPGModuleName" [");
-	strcat(plugname, date());
-	strcat(plugname, " ");
-	strcat(plugname, __TIME__);
-	strcat(plugname, "]");
-	pluginInfo.shortName = plugname;
 	return &pluginInfo;
 }
 

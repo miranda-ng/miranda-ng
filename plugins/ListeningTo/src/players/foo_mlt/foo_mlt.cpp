@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2005-2009 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "foobar2000/SDK/foobar2000.h"
@@ -51,7 +51,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 	{
 		class_name[255] = _T('\0');
 
-		if (lstrcmpi(MIRANDA_WINDOWCLASS, class_name) == 0) 
+		if (lstrcmpi(MIRANDA_WINDOWCLASS, class_name) == 0)
 		{
 			COPYDATASTRUCT *cds = (COPYDATASTRUCT *) lParam;
 			SendMessage(hwnd, WM_COPYDATA, (WPARAM) NULL, (LPARAM) cds);
@@ -61,7 +61,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 	return TRUE;
 }
 
-inline void SendData(WCHAR *text) 
+inline void SendData(WCHAR *text)
 {
 	static WCHAR lastMsg[DATA_SIZE] = L"";
 
@@ -214,7 +214,7 @@ void SendDataMusic(const char *filename, const file_info *info)
 		{
 			Concat(data, size);
 		}
-		else 
+		else
 		{
 			const char *dot = strrchr(name, '.');
 			Concat(data, size, name + 1, dot == NULL ? 0 : dot - name - 1);
@@ -299,7 +299,7 @@ class play_callback_miranda : public play_callback_static
 		KillTimer();
 		if (IsRadio(p_track))
 			return;
-		
+
 		in_metadb_sync_fromhandle l_sync(p_track);
 
 		const file_info *info;
@@ -328,7 +328,7 @@ class play_callback_miranda : public play_callback_static
 	}
 	virtual void on_playback_edited(metadb_handle_ptr p_track) {}
 	virtual void on_playback_dynamic_info(const file_info & info) {}
-	virtual void on_playback_dynamic_info_track(const file_info & info) 
+	virtual void on_playback_dynamic_info_track(const file_info & info)
 	{
 		if (g_off) return;
 		metadb_handle_ptr p_track;
@@ -350,8 +350,8 @@ class play_callback_miranda : public play_callback_static
 	}
 	virtual void on_playback_time(double p_time)  {}
 	virtual void on_volume_change(float p_new_val) {};
-	
-	virtual unsigned get_flags() 
+
+	virtual unsigned get_flags()
 	{
 		return flag_on_playback_new_track | flag_on_playback_pause | flag_on_playback_stop | flag_on_playback_dynamic_info_track;
 	}
@@ -383,7 +383,7 @@ static initquit_factory_t<myinitquit> g_myinitquit_factory;
 
 DECLARE_COMPONENT_VERSION("Miranda ListeningTo foobar2000 Plugin",
 "1.1.1",
-"compiled: " __DATE__ " with foo_SDK-2010-10-02\r\n\
+"compiled with foo_SDK-2010-10-02\r\n\
 Sending listeningto information to Mitanda IM client\r\n\
 if no foo_comserver2 is present.\r\n\
 Copyright (C) 2006-2010 Ricardo Pescuma Domenecci\r\n\

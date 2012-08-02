@@ -106,7 +106,6 @@ BEGIN
     CTEXT           "Copyright © 2004-2010 by the Miranda IM project, 2012 by the Miranda NG project. More detailed copyright information can be found in the included README file.",IDC_COPYRIGHT,5,39,217,47
     ICON            0,IDC_LOGO,201,2,20,20
     LTEXT           "Version",IDC_VERSION,5,19,150,15
-    CTEXT           "build time",IDC_BUILDTIME,37,105,150,11
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,117,228,1
     CONTROL         "Support and latest version information",IDC_SUPPORT,
                     "Hyperlink",WS_TABSTOP | 0x1,18,91,192,12

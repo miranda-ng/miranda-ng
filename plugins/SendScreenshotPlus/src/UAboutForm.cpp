@@ -40,7 +40,6 @@ LRESULT CALLBACK TfrmAbout::DlgTfrmAbout(HWND hWnd, UINT msg, WPARAM wParam, LPA
 	if (msg == WM_CTLCOLOREDIT || msg == WM_CTLCOLORSTATIC) {
 		switch ( GetWindowLongPtr(( HWND )lParam, GWL_ID )) {
 			case IDC_WHITERECT:
-			case IDC_BUILDTIME:
 			case IDC_CREDIT:
 			case IDC_LICENSE:
 				SetTextColor((HDC)wParam,GetSysColor(COLOR_WINDOWTEXT));
@@ -99,10 +98,6 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	mir_freeAndNil(pszVer);
 	SetDlgItemText( m_hWnd, IDC_HEADERBAR, newTitle );
 	SendMessage(GetDlgItem(m_hWnd, IDC_HEADERBAR), WM_SETICON, 0, (WPARAM)IcoLib_GetIcon(ICO_PLUG_SSWINDOW1, true));
-
-	//Buildtime
-	mir_sntprintf(newTitle,SIZEOF(newTitle),TranslateT("Built %s %s"),_T(__DATE__),_T(__TIME__));
-	SetDlgItemText(m_hWnd,IDC_BUILDTIME,newTitle);
 
 	//License
 	{	mir_tcsadd(pszTitle ,_T(__COPYRIGHT));

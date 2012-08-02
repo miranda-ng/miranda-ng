@@ -1977,8 +1977,6 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				DWORD v = pluginInfo.version;
 				mir_snprintf(str, sizeof(str), "%s %d.%d.%d.%d", Translate("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
 				SetDlgItemTextA(hwndDlg, IDC_VERSION, str);
-				mir_snprintf(str, sizeof(str), Translate("Built %s %s"), __DATE__, __TIME__);
-				SetDlgItemTextA(hwndDlg, IDC_BUILDTIME, str);
 			}
 			hIcon = LoadIcon(GetModuleHandleA("miranda32.exe"), MAKEINTRESOURCE(102));
 			SendDlgItemMessage(hwndDlg, IDC_LOGO, STM_SETICON, (WPARAM)hIcon, 0);
@@ -2001,7 +1999,6 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_WHITERECT)
 					|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_CLNICER)
 					|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_VERSION)
-					|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_BUILDTIME)
 					|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_COPYRIGHT)
 					|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_SUPPORT)
 					|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_LOGO)) {

@@ -151,7 +151,7 @@ PLUGININFOEX pluginInfoEx={
 	sizeof(PLUGININFOEX),
 	PROTOCOL_DISPLAY_NAME_ORIG" (Unicode)",
 	PLUGIN_VERSION_DWORD,
-	"Send SMS text messages to mobile phones through the IM networks ("__DATE__" "__TIME__")",
+	"Send SMS text messages to mobile phones through the IM networks",
 	"Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan",
 	"Rozhuk_I@mail.ru",
 	"© 2001-2 Richard Hughes, 2003 Ariel Shulman, 2007-2009 Rozhuk Ivan (Rozhuk_I@mail.ru)",
@@ -194,7 +194,7 @@ return(TRUE);
 
 __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion<MIN_MIR_VER_VERSION_DWORD) 
+	if (mirandaVersion<MIN_MIR_VER_VERSION_DWORD)
 	{
 		MessageBox(NULL,TEXT("Pleace, update your Miranda IM, SMS will not load with this version."),NULL,(MB_OK|MB_ICONERROR));
 		return(NULL);

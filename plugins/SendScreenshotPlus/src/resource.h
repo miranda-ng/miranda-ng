@@ -49,7 +49,6 @@
 #define STATIC_LINE2                    1103
 #define ICO_DLGLOGO                     1105
 #define ICO_MSGDLG                      1106
-#define IDC_BUILDTIME                   1108
 #define TXT_NAME                        1114
 #define TXT_MESSAGE                     1126
 #define ID_edtCaption                   1201

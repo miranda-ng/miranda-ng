@@ -42,55 +42,6 @@ char* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,co
   return szRes;
 }
 
-
-char *date()
-{
-	setlocale( LC_ALL, "C" );
-	static char d[11];	
-	char *tmp = __DATE__, m[4], mn[3] = "01";
-	m[0]=tmp[0];
-	m[1]=tmp[1];
-	m[2]=tmp[2];
-	if(strstr(m,"Jan"))
-		strcpy(mn,"01");
-	else if(strstr(m,"Feb"))
-		strcpy(mn,"02");
-	else if(strstr(m,"Mar"))
-		strcpy(mn,"03");
-	else if(strstr(m,"Apr"))
-		strcpy(mn,"04");
-	else if(strstr(m,"May"))
-		strcpy(mn,"05");
-	else if(strstr(m,"Jun"))
-		strcpy(mn,"06");
-	else if(strstr(m,"Jul"))
-		strcpy(mn,"07");
-	else if(strstr(m,"Aug"))
-		strcpy(mn,"08");
-	else if(strstr(m,"Sep"))
-		strcpy(mn,"09");
-	else if(strstr(m,"Oct"))
-		strcpy(mn,"10");
-	else if(strstr(m,"Nov"))
-		strcpy(mn,"11");
-	else if(strstr(m,"Dec"))
-		strcpy(mn,"12");
-	d[0]=tmp[7];
-	d[1]=tmp[8];
-	d[2]=tmp[9];
-	d[3]=tmp[10];
-	d[4]='.';
-	d[5]=mn[0];
-	d[6]=mn[1];
-	d[7]='.';
-	if (tmp[4] == ' ')
-		d[8] = '0';
-	else
-		d[8]=tmp[4];
-	d[9]=tmp[5];
-	return d;
-}
-
 void GetFilePath(TCHAR *WindowTittle, char *szSetting, TCHAR *szExt, TCHAR *szExtDesc)
 {
 	TCHAR str[MAX_PATH+2] = {0}, *tmp;

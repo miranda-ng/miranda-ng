@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2006 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2006 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -81,7 +81,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfo(DWORD mirandaVe
 			mirandaVersion&0xFF
 		);
 	};
-	sprintf(description,"%s\r\n[Build %s %s]",description, __DATE__,__TIME__);
+
 	pluginInfo.description = description;
 	if ( mirandaVersion < PLUGIN_MAKE_VERSION( 0,7,0,17 )) pluginInfo.cbSize = sizeof( PLUGININFO );
     return &pluginInfo;
@@ -92,7 +92,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirand
 	isNewMiranda=true;
 	return MirandaPluginInfo(mirandaVersion);
 }
-  	 
+
 extern "C" __declspec(dllexport) const MUUID interfaces[] = {MIID_AUTOAWAY, MIID_IDLE, MIID_LAST};
 extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
 {
@@ -104,7 +104,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
 	pluginLink = link;
 	LoadAutoAwayModule();
     hUxTheme = GetModuleHandle(_T("uxtheme.dll"));
-    if(hUxTheme)   
+    if(hUxTheme)
        enableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
 	return 0;
 }
@@ -126,5 +126,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 
     return 1; //if 1 we dont want to shutdown because we have hooked ME_SYSTEM_SHUTDOWN
 }
-
-

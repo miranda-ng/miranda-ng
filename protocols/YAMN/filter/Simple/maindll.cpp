@@ -26,7 +26,7 @@ YAMN_FILTERIMPORTFCN FilterFunctions=	//we set for YAMN which is our filter func
 YAMN_FILTERREGISTRATION FilterRegistration=		//classical YAMN registration
 {
 	"Simple filter plugin for YAMN",
-	__DATE__,
+	"",
 	"© porter+ majvan",
 	"Classifies mails using the blacklist emails stored in file",
 	"porterbox@hotmail.com",
@@ -107,9 +107,9 @@ DWORD WINAPI FilterMail(HACCOUNT Account,DWORD AccountVer,HYAMNMAIL Mail,DWORD M
 	if(fp != NULL) {
 		if (!(Mail->Flags & YAMN_MSG_VIRTUAL))
 			for(Browser=Mail->MailData->TranslatedHeader;Browser!=NULL;Browser=Browser->Next) {	//we browse all header stored in Mail->TranslatedHeader
-				if ((!lstrcmp(Browser->name,"Return-Path")) || (!lstrcmp(Browser->name,"From"))) {		//and if we find 
+				if ((!lstrcmp(Browser->name,"Return-Path")) || (!lstrcmp(Browser->name,"From"))) {		//and if we find
 					fseek(fp, 0L, SEEK_SET);
-					while(!feof(fp)) {				
+					while(!feof(fp)) {
 						if(fscanf(fp, "%255s", EmailSpam) != 0) {
 							if (!feof(fp))
 								if(fscanf(fp, "%d", &spamLevel)==0)
