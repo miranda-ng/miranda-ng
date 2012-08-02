@@ -207,9 +207,9 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 
 				if ( type == LINK_MAIL && _tcsstr(link, _T("mailto:")) == NULL )
 				{
-					_tcscpy_s(templink, _countof(templink), link);
-					_tcscpy_s(link, _countof(link), _T("mailto:"));
-					_tcsncpy_s(link + _mstrlen(_T("mailto:")), _countof(link), templink, LINK_MAX-_mstrlen(_T("mailto:")));
+					_tcsncpy_s(templink, _countof(templink), link, LINK_MAX-1);
+					_tcsncpy_s(link, _countof(link), _T("mailto:"), LINK_MAX-1);
+					_tcsncpy_s(link + _mstrlen(_T("mailto:")), _countof(link), templink, LINK_MAX-_mstrlen(_T("mailto:"))-1);
 				}
 				
 				// Add new Element to list:
@@ -220,9 +220,9 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 				ZeroMemory(newElement, sizeof(LISTELEMENT));
 				newElement->direction = direction;
 				newElement->type = type;
-				_tcscpy_s(newElement->date, _countof(newElement->date), date);
-				_tcscpy_s(newElement->time, _countof(newElement->time), time);
-				_tcscpy_s(newElement->link, _countof(newElement->link), link);
+				_tcsncpy_s(newElement->date, _countof(newElement->date), date, DATE_SIZE-1);
+				_tcsncpy_s(newElement->time, _countof(newElement->time), time, TIME_SIZE-1);
+				_tcsncpy_s(newElement->link, _countof(newElement->link), link, LINK_MAX-1);
 				newElement->hEvent = hEvent;
 				
 				actualElement = listStart;
