@@ -281,7 +281,7 @@ static void CheckUpdates(void *)
 
 	// Load files info
 	if (DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar)) { // URL is not set 
-		DBWriteContactSettingString(NULL, MODNAME, "UpdateURL", DEFAULT_UPDATE_URL);
+		DBWriteContactSettingTString(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
 		DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar);
 	}
 	TCHAR* tszBaseUrl = NEWTSTR_ALLOCA(dbVar.ptszVal);
