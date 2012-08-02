@@ -40,7 +40,7 @@ typedef SMOBJLIST<ReplaceSmileyType> SmileysQueueType;
 void LookupAllSmileys(SmileyPackType* smileyPack, SmileyPackCType* smileyCPack, const TCHAR* lpstrText,
 	SmileysQueueType& smllist, const bool firstOnly);
 void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const CHARRANGE& sel,
-	bool useHidden, bool ignoreLast, bool unFreeze);
+	bool useHidden, bool ignoreLast, bool unFreeze, bool fireView = 0);
 void ReplaceSmileysWithText(HWND hwnd, CHARRANGE& sel, bool keepFrozen);
 void FindSmileyInText(SmileyPackType* smp, const TCHAR* str, 
 	unsigned& first, unsigned& size, SmileyType** index);

@@ -106,7 +106,7 @@ INT_PTR ReplaceSmileysCommand(WPARAM, LPARAM lParam)
 		(smrec.flags & (SAFLRE_OUTGOING | SAFLRE_NOCUSTOM)) ? NULL : &smcp);
 
 	ReplaceSmileys(smre->hwndRichEditControl, SmileyPack, smcp, *smrec.rangeToReplace, 
-		smrec.hContact == NULL, false, false);
+		smrec.hContact == NULL, false, false, (smre->flags & SAFLRE_FIREVIEW)?true:false);
 
 	return TRUE;
 }

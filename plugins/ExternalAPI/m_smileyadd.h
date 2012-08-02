@@ -20,8 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define SAFLRE_INSERTEMF  2     // insert smiley as EMF into RichEdit, otherwise bitmap inserted
                                 // this flag allows "true" transparency
-#define SAFLRE_OUTGOING  4      // Parsing outgoing message
-#define SAFLRE_NOCUSTOM  8      // Do not use custom smileys
+#define SAFLRE_OUTGOING   4     // Parsing outgoing message
+#define SAFLRE_NOCUSTOM   8     // Do not use custom smileys
+#define SAFLRE_FIREVIEW   16    // use NM_FIREVIEWCHANGE messages
 
 typedef struct 
 {

@@ -219,7 +219,7 @@ void UpdateSelection(CHARRANGE& sel, int pos, int dif)
 }
 
 void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const CHARRANGE& sel, 
-	bool useHidden, bool ignoreLast, bool unFreeze)
+	bool useHidden, bool ignoreLast, bool unFreeze, bool fireView)
 {
 /*
 	LARGE_INTEGER freq, strt, end;
@@ -281,7 +281,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 
 		TCHAR classname[20];
 		GetClassName(hwnd, classname, SIZEOF(classname));
-		bool ishpp = (_tcsncmp(classname, _T("THppRichEdit"), 12) == 0);
+		bool ishpp = (_tcsncmp(classname, _T("THppRichEdit"), 12) == 0) | fireView;
 
 		SetRichCallback(hwnd, NULL, false, true);
 
