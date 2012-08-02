@@ -78,6 +78,10 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 	ZeroMemory(time, _countof(time)*sizeof(TCHAR));
 
 	msg = DbGetEventTextT(dbei, CP_ACP);
+	
+	if ( msg == NULL )
+		return 0;
+
 	for ( i=0; msg[i]; ) 
 	{
 		//hyperlinks are delimited by: <non-alphanumeric>"hyperlink"<whitespace>
