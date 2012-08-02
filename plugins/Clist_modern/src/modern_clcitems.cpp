@@ -750,6 +750,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 {
 	int dbHidden = db_get_b(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
 	int filterResult = 1;
+	int searchResult = 0;
 	DBVARIANT dbv = {0};
 	char szTemp[64];
 	TCHAR szGroupMask[256];
@@ -766,7 +767,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 		// search filtering
 		TCHAR *lowered_name = CharLowerW(NEWTSTR_ALLOCA(pdnce->tszName));
 		TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
-		return _tcsstr(lowered_name, lowered_search) ? 0 : 1;
+		searchResult = _tcsstr(lowered_name, lowered_search) ? 0 : 1;
 	}
 	if (pdnce && g_CluiData.bFilterEffective && !fEmbedded) {
 		if (szProto == NULL)
@@ -776,9 +777,9 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 			if ((dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode, 0)) != 0) {
 				if (g_CluiData.bFilterEffective & CLVM_FILTER_STICKYSTATUS) {
 					WORD wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-					return !((1 << (wStatus - ID_STATUS_OFFLINE)) & HIWORD(dwLocalMask));
+					return !((1 << (wStatus - ID_STATUS_OFFLINE)) & HIWORD(dwLocalMask)) | searchResult;
 				}
-				return 0;
+				return 0 | searchResult;
 			}
 		}
 		// check the proto, use it as a base filter result for all further checks
@@ -813,8 +814,8 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 					filterResult = filterResult & (pdnce->dwLastMsgTime > now);
 			}
 		}
-		return (dbHidden | !filterResult);
+		return (dbHidden | !filterResult | searchResult);
 	}
 	else
-		return dbHidden;
+		return dbHidden | searchResult;
 }
