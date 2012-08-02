@@ -18,7 +18,7 @@ PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 		MODULENAME,
 		__VERSION_DWORD,
-		MODULENAME" library for SecureIM plugin ("__DATE__")",
+		MODULENAME" library for SecureIM plugin.",
 		"Baloo",
 		"baloo@bk.ru",
 		"© 2006-09 Baloo",

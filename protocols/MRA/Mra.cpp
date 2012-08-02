@@ -8,7 +8,7 @@ PLUGININFOEX pluginInfoEx={
 	sizeof(PLUGININFOEX),
 	PROTOCOL_DISPLAY_NAME_ORIGA,
 	PLUGIN_VERSION_DWORD,
-	"Provides support for Mail.ru agent Instant Messenger protocol ("__DATE__" "__TIME__")",
+	"Provides support for Mail.ru agent Instant Messenger protocol.",
 	"Rozhuk Ivan",
 	"Rozhuk_I@mail.ru",
 	"© 2006-2011 Rozhuk Ivan",

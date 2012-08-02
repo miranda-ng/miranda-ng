@@ -226,7 +226,7 @@ extern "C" int __declspec( dllexport ) Load()
 	CallService( MS_UTILS_GETCOUNTRYLIST, ( WPARAM )&g_cbCountries, ( LPARAM )&g_countries );
 	
 	setlocale(LC_ALL, "");
-	mir_snprintf( szVersion, sizeof( szVersion ), Translate("Jabber protocol plugin for Miranda NG (%s)"), __DATE__ );
+	mir_snprintf( szVersion, sizeof( szVersion ), Translate("Jabber protocol plugin for Miranda NG."));
 
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
 

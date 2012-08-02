@@ -29,7 +29,7 @@ PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 		MODULENAME,
 		__VERSION_DWORD,
-		MODULENAME" plugin for Miranda IM ("__DATE__")",
+		MODULENAME" plugin for Miranda IM.",
 		"Johell, Ghost, Nightwish, __alex, Baloo",
 		"Johell@ifrance.com, baloo@bk.ru",
 		"© 2003 Johell, © 2005-09 Baloo",

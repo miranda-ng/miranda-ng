@@ -35,7 +35,7 @@ PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	"Facebook Protocol RM",
 	__VERSION_DWORD,
-	"Provides basic support for Facebook Chat protocol. [Built: "__DATE__" "__TIME__"]",
+	"Provides basic support for Facebook Chat protocol.",
 	"Michal Zelinka, Robert Posel",
 	"robyer@seznam.cz",
 	"(c) 2009-11 Michal Zelinka, 2011-12 Robert Posel",

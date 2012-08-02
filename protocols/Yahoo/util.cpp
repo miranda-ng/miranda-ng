@@ -346,7 +346,7 @@ void CYahooProto::YAHOO_utils_logversion()
 
 #ifdef YAHOO_CVSBUILD
     _snprintf(str, sizeof(str), "Yahoo v%d.%d.%d.%da (%s %s)", (pluginInfo.version >> 24) & 0xFF, (pluginInfo.version >> 16) & 0xFF,
-              (pluginInfo.version >> 8) & 0xFF, pluginInfo.version & 0xFF, __DATE__, __TIME__);
+              (pluginInfo.version >> 8) & 0xFF, pluginInfo.version & 0xFF);
 #else
     _snprintf(str, sizeof(str), "Yahoo v%d.%d.%d.%d", (pluginInfo.version >> 24) & 0xFF, (pluginInfo.version >> 16) & 0xFF,
               (pluginInfo.version >> 8) & 0xFF, pluginInfo.version & 0xFF);

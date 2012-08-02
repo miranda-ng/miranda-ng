@@ -31,7 +31,7 @@ PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"Twitter Plugin",
 	__VERSION_DWORD,
-	"Provides basic support for Twitter protocol. [Built: "__DATE__" "__TIME__"]",
+	"Provides basic support for Twitter protocol.",
 	"dentist, omniwolf, Thief",
 	"",
 	"© 2009-2010 dentist, 2010-2011 omniwolf and Thief",
