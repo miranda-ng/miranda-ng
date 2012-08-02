@@ -1,8 +1,7 @@
-#include "m_version.h"
+#define __FILEVERSION_STRING        0,92,2,0
+#define __VERSION_STRING            "0.92.2.0"
+#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0, 92, 2, 0)
 
-#define __FILEVERSION_STRING        MIRANDA_VERSION_FILEVERSION
-#define __VERSION_STRING            MIRANDA_VERSION_STRING
-#define __VERSION_DWORD             MIRANDA_VERSION_DWORD
 #define __PLUGIN_NAME				"Miranda Image services"
 #define __INTERNAL_NAME				"AdvaImg"
 #define __FILENAME					"AdvaImg.dll"

@@ -1,6 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "..\src\resource.h"
+#include "..\src\version.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -293,8 +294,8 @@ IDI_IMPORT              ICON                    "import.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,8,0,1
- PRODUCTVERSION 0,8,0,1
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -312,12 +313,12 @@ BEGIN
             VALUE "Comments", "Licensed under the terms of the GNU General Public License"
             VALUE "CompanyName", " "
             VALUE "FileDescription", "Miranda NG Import Plugin"
-            VALUE "FileVersion", "0.8.0.1"
+            VALUE "FileVersion", __FILEVERSION_STRING
             VALUE "InternalName", "import"
             VALUE "LegalCopyright", "Copyright © 2000-2009,  Martin Öberg, Richard Hughes, Dmitry Kuzkin, George Hazan"
             VALUE "OriginalFilename", "import.dll"
             VALUE "ProductName", "Miranda NG"
-            VALUE "ProductVersion", "0.8.0.1"
+            VALUE "ProductVersion", __FILEVERSION_STRING
         END
     END
     BLOCK "VarFileInfo"
