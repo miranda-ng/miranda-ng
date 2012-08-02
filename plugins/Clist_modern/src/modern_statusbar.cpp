@@ -23,9 +23,9 @@ COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
 #define DBFONTF_ITALIC     2
 #define DBFONTF_UNDERLINE  4
 
-typedef struct _ProtoItemData : public MZeroedObject
+struct ProtoItemData : public MZeroedObject
 {
-	~_ProtoItemData()
+	~ProtoItemData()
 	{
 		mir_free(ProtoXStatus);
 		mir_free(ProtoName);
@@ -61,8 +61,7 @@ typedef struct _ProtoItemData : public MZeroedObject
 	int    PaddingRight;
 
 	bool   isDimmed;
-}
-	ProtoItemData;
+};
 
 static OBJLIST<ProtoItemData> ProtosData(5);
 
@@ -203,7 +202,6 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 	for (int j = 0; j < protoCount; j++) {
 		int vis;
-		char buf[256];
 
 		i = pcli->pfnGetAccountIndexByPos(j);
 		if (i == -1) 
@@ -213,6 +211,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		if ( !vis)
 			continue;
 				
+		char buf[256];
 		mir_snprintf(buf, SIZEOF(buf), "SBarAccountIsCustom_%s", accs[i]->szModuleName);
 
 		ProtoItemData* p = new ProtoItemData;
@@ -350,8 +349,10 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		//Code for each line
 		DWORD sw;
 		rectwidth = rc.right-rc.left-g_StatusBarData.rectBorders.left-g_StatusBarData.rectBorders.right;
-		if (visProtoCount > 1) sw = (rectwidth-(g_StatusBarData.extraspace*(visProtoCount-1)))/visProtoCount;
-		else sw = rectwidth;
+		if (visProtoCount > 1)
+			sw = (rectwidth-(g_StatusBarData.extraspace*(visProtoCount-1)))/visProtoCount;
+		else
+			sw = rectwidth;
 		
 		int *ProtoWidth = (int*)mir_alloc(sizeof(int)*visProtoCount);
 		for (i=0; i < visProtoCount; i++) {

@@ -563,7 +563,6 @@
 #define IDC_PLUS_CHECKTREE              2000
 #define IDC_COPYRIGHT                   2002
 #define IDC_PLUS_HELP                   2004
-#define IDC_BUILDTIME                   2005
 #define IDC_O_HELP_TITLEFORMAT          2064
 #define IDC_OPTIONSTAB                  2111
 #define IDC_HEADERBAR                   2397
