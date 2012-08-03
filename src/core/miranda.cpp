@@ -402,10 +402,9 @@ static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 	pVerInfo = mir_alloc(verInfoSize);
 	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
 	VerQueryValue(pVerInfo, _T("\\StringFileInfo\\000004b0\\ProductVersion"), (LPVOID*)&productVersion, &blockSize);
+	strncpy((char*)lParam, _T2A(productVersion), wParam);
 	#if defined(_WIN64)
-		mir_snprintf((char*)lParam, wParam, "%S x64 Unicode", productVersion);
-	#else
-		mir_snprintf((char*)lParam, wParam, "%S Unicode", productVersion);
+		strcat_s((char*)lParam, wParam, " x64");
 	#endif
 	mir_free(pVerInfo);
 	return 0;
