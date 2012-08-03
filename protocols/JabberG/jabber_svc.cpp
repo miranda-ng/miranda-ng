@@ -391,7 +391,7 @@ static void appendString( bool bIsTipper, const TCHAR* tszTitle, const TCHAR* ts
 		mir_sntprintf(buf, bufSize, _T("%s%s%s%s"), _T("<b>"), TranslateTS(tszTitle), _T("</b>\t"), tszValue);
 	else {
 		TCHAR* p = TranslateTS(tszTitle);
-		mir_sntprintf(buf, bufSize, _T("%s%s\t"), p, _tcslen(p)>7 ? _T("\t") : _T(""), tszValue);
+		mir_sntprintf(buf, bufSize, _T("%s%s\t%s"), p, _tcslen(p)<=7 ? _T("\t") : _T(""), tszValue);
 	}
 }
 
