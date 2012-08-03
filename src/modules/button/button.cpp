@@ -190,25 +190,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			iy++;
 		}
 		
-		HIMAGELIST hImageList;
-		HICON hIconNew;
-
-		hImageList = ImageList_Create(g_cxsmIcon, g_cysmIcon, IsWinVerXPPlus()? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, 1, 0);
-		ImageList_AddIcon(hImageList, ctl->hIcon);
-		hIconNew = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
-		if (textLen != 0) {
-			if(g_cxsmIcon + sz.cx + 8 > rcClient.right - rcClient.left)
-				sz.cx = (rcClient.right - rcClient.left) - g_cxsmIcon - 8;
-			else
-				sz.cx += 4;
-                
-			ix = (rcClient.right - rcClient.left) / 2 - ((g_cxsmIcon + sz.cx) / 2);
-			xOffset = ix + g_cxsmIcon + 4;
-		}
-		DrawState(hdcMem, NULL, NULL, (LPARAM) hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
-		ImageList_RemoveAll(hImageList);
-		ImageList_Destroy(hImageList);
-		DestroyIcon(hIconNew);
+		DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->hIcon, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
 	}
 	else if (ctl->hBitmap) {
 		BITMAP bminfo;
@@ -223,7 +205,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		}
 		DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->hBitmap, 0, ix, iy, bminfo.bmWidth, bminfo.bmHeight, IsWindowEnabled(ctl->hwnd)?DST_BITMAP:DST_BITMAP|DSS_DISABLED);
 	}
-	if (textLen>0) {
+	else if (textLen > 0) {
 		// Draw the text and optinally the arrow
 		HFONT hOldFont;
 

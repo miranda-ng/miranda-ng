@@ -172,7 +172,6 @@ static BOOL CoreCheck()
 	bOk *= (GetVersion() & 0x80000000) == 0;
 
 	bOk *= _tcsstr(_tcsrchr(tszExePath, '\\'), _T("miranda")) != 0;
-	bOk *= !strstr(szVer, "coffee") && strncmp(szVer, "1.", 2) && !strstr(szVer, " 1.");
 	bOk *= myGlobals.mirandaVersion < PLUGIN_MAKE_VERSION(1,0,0,0);
 	return bOk;
 }
