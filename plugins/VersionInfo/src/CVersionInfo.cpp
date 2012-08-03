@@ -96,7 +96,7 @@ CVersionInfo::~CVersionInfo()
 	listInactivePlugins.clear();
 	listActivePlugins.clear();
 	listUnloadablePlugins.clear();
-	
+
 	lpzMirandaVersion.~basic_string();
 	lpzNightly.~basic_string();
 	lpzUnicodeBuild.~basic_string();
@@ -118,7 +118,7 @@ void CVersionInfo::Initialize()
 		if (verbose) PUShowMessage("Before GetProfileSettings().", SM_NOTIFY);
 #endif
 	GetProfileSettings();
-	
+
 #ifdef _DEBUG
 		if (verbose) PUShowMessage("Before GetLangpackInfo().", SM_NOTIFY);
 #endif
@@ -158,10 +158,7 @@ bool CVersionInfo::GetMirandaVersion()
 	else
 		lpzNightly = _T("No");
 
-	if (lpzMirandaVersion.find( _T("Unicode"), 0) != std::string::npos)
-		lpzUnicodeBuild = _T("Yes");
-	else
-		lpzUnicodeBuild = _T("No");
+	lpzUnicodeBuild = _T("Yes");
 
 	TCHAR time[128], date[128];
 	GetModuleTimeStamp(date, time);
@@ -310,7 +307,7 @@ end:
 		NotifyError(GetLastError(), _T("RegOpenKeyEx()"), __LINE__);
 		lpzOSName = _T("<Error in RegOpenKeyEx()>");
 	}
-	
+
 	//Now we can improve it if we can.
 	switch (LOWORD(osvi.dwBuildNumber)) {
 	case 950: lpzOSName = _T("Microsoft Windows 95"); break;
@@ -326,7 +323,7 @@ end:
 			lpzOSName = _T("Microsoft Windows 2003 R2");
 		else
 			lpzOSName = _T("Microsoft Windows 2003");
-				
+
 		break; //added windows 2003 info
 	}
 
@@ -336,7 +333,7 @@ end:
 bool CVersionInfo::GetHWSettings() {
 	//Free space on Miranda Partition.
 	TCHAR szMirandaPath[MAX_PATH] = { 0 };
-	{ 
+	{
 		GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
 		TCHAR* str2 = _tcsrchr(szMirandaPath,'\\');
 		if ( str2 != NULL) *str2=0;
@@ -344,16 +341,16 @@ bool CVersionInfo::GetHWSettings() {
 	HMODULE hKernel32;
 	hKernel32 = LoadLibraryA("kernel32.dll");
 	if (hKernel32) {
-		
+
 			MyGetDiskFreeSpaceEx = (BOOL (WINAPI *)(LPCTSTR,PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER))GetProcAddress(hKernel32, "GetDiskFreeSpaceExW");
-		
+
 
 		MyIsWow64Process = (BOOL (WINAPI *) (HANDLE, PBOOL)) GetProcAddress(hKernel32, "IsWow64Process");
 		MyGetSystemInfo = (void (WINAPI *) (LPSYSTEM_INFO)) GetProcAddress(hKernel32, "GetNativeSystemInfo");
 		MyGlobalMemoryStatusEx = (BOOL (WINAPI *) (LPMEMORYSTATUSEX)) GetProcAddress(hKernel32, "GlobalMemoryStatusEx");
 		if ( !MyGetSystemInfo )
 			MyGetSystemInfo = GetSystemInfo;
-		
+
 		FreeLibrary(hKernel32);
 	}
 	if ( MyGetDiskFreeSpaceEx ) {
@@ -365,25 +362,25 @@ bool CVersionInfo::GetHWSettings() {
 		luiFreeDiskSpace = (unsigned long int)aux;
 	}
 	else luiFreeDiskSpace = 0;
-	
+
 	TCHAR szInfo[1024];
 	GetWindowsShell(szInfo, SIZEOF(szInfo));
 	lpzShell = szInfo;
 	GetInternetExplorerVersion(szInfo, SIZEOF(szInfo));
 	lpzIEVersion = szInfo;
-	
-	
+
+
 	lpzAdministratorPrivileges = (IsCurrentUserLocalAdministrator()) ? _T("Yes") : _T("No");
-	
+
 	bIsWOW64 = 0;
 	if (MyIsWow64Process)
 		if (!MyIsWow64Process(GetCurrentProcess(), &bIsWOW64))
 			bIsWOW64 = 0;
-	
+
 	SYSTEM_INFO sysInfo = {0};
 	GetSystemInfo(&sysInfo);
 	luiProcessors = sysInfo.dwNumberOfProcessors;
-	
+
 	//Installed RAM
 	if (MyGlobalMemoryStatusEx) { //windows 2000+
 		MEMORYSTATUSEX ms = {0};
@@ -438,7 +435,7 @@ BOOL CALLBACK EnumSystemLocalesProc(TCHAR *szLocale)
 		_tcscat(szSystemLocales, name);
 		_tcscat(szSystemLocales, _T(", "));
 	}
-	
+
 	return TRUE;
 }
 
@@ -456,14 +453,14 @@ BOOL CALLBACK EnumResLangProc(HMODULE hModule, LPCTSTR lpszType, LPCTSTR lpszNam
 bool CVersionInfo::GetOSLanguages()
 {
 	lpzOSLanguages = _T("(UI | Locale (User/System)) : ");
-	
+
 	LANGID UILang;
-	
+
 	OSVERSIONINFO os = {0};
 	os.dwOSVersionInfoSize = sizeof(os);
 	GetVersionEx(&os);
 	if (os.dwMajorVersion == 4) {
-		if (os.dwPlatformId == VER_PLATFORM_WIN32_NT) { //Win NT 
+		if (os.dwPlatformId == VER_PLATFORM_WIN32_NT) { //Win NT
 			HMODULE hLib = LoadLibraryA("ntdll.dll");
 
 			if (hLib) {
@@ -488,7 +485,7 @@ bool CVersionInfo::GetOSLanguages()
 						case 1256:    // Arabic code page activated, it's a Arabic enabled system
 							systemLangID = MAKELANGID(LANG_ARABIC, SUBLANG_ARABIC_SAUDI_ARABIA);
 							break;
-								
+
 						default:
 							break;
 					}
@@ -500,7 +497,7 @@ bool CVersionInfo::GetOSLanguages()
 			TCHAR szLangID[128] = _T("0x");
 			DWORD size = SIZEOF(szLangID) - 2;
 			TCHAR err[512];
-				
+
 			if (RegOpenKeyEx(HKEY_CURRENT_USER, _T("Control Panel\\Desktop\\ResourceLocale"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
 				if (RegQueryValueEx(hKey, _T(""), 0, NULL, (LPBYTE) &szLangID + 2, &size) == ERROR_SUCCESS)
 					_tscanf(szLangID, _T("%lx"), &systemLangID);
@@ -523,10 +520,10 @@ bool CVersionInfo::GetOSLanguages()
 		if (hKernel32) {
 			MyGetUserDefaultUILanguage = (LANGID (WINAPI *)()) GetProcAddress(hKernel32, "GetUserDefaultUILanguage");
 			MyGetSystemDefaultUILanguage = (LANGID (WINAPI *)()) GetProcAddress(hKernel32, "GetSystemDefaultUILanguage");
-				
+
 			FreeLibrary(hKernel32);
 		}
-		
+
 		if ((MyGetUserDefaultUILanguage) && (MyGetSystemDefaultUILanguage)) {
 			UILang = MyGetUserDefaultUILanguage();
 			lpzOSLanguages += GetLanguageName(UILang);
@@ -536,7 +533,7 @@ bool CVersionInfo::GetOSLanguages()
 		}
 		else lpzOSLanguages += _T("Missing functions in kernel32.dll (GetUserDefaultUILanguage, GetSystemDefaultUILanguage)");
 	}
-	
+
 	lpzOSLanguages += _T(" | ");
 	lpzOSLanguages += GetLanguageName(LOCALE_USER_DEFAULT);
 	lpzOSLanguages += _T("/");
@@ -552,7 +549,7 @@ bool CVersionInfo::GetOSLanguages()
 		lpzOSLanguages += szSystemLocales;
 		lpzOSLanguages += _T("]");
 	}
-	
+
 	return true;
 }
 
@@ -564,7 +561,7 @@ int SaveInfo(const char *data, const char *lwrData, const char *search, TCHAR *d
 		_tcsncpy(dest, _A2T(&data[strlen(search)]), size);
 		res = 0;
 	}
-	
+
 	return res;
 }
 
@@ -573,13 +570,13 @@ bool CVersionInfo::GetLangpackInfo()
 	TCHAR langpackPath[MAX_PATH] = {0};
 	TCHAR search[MAX_PATH] = {0};
 
-	lpzLangpackModifiedDate = _T("");	
+	lpzLangpackModifiedDate = _T("");
 	GetModuleFileName(GetModuleHandle(NULL), langpackPath, SIZEOF(langpackPath));
 	TCHAR* p = _tcsrchr(langpackPath, '\\');
 	if (p) {
 		WIN32_FIND_DATA data = {0};
 		HANDLE hLangpack;
-		
+
 		p[1] = '\0';
 		_tcscpy(search, langpackPath);
 		_tcscat(search, _T("langpack_*.txt"));
@@ -588,16 +585,16 @@ bool CVersionInfo::GetLangpackInfo()
 			char buffer[1024];
 			char temp[1024];
 			FillLocalTime(lpzLangpackModifiedDate, &data.ftLastWriteTime);
-					
+
 			TCHAR locale[128] = {0};
 			TCHAR language[128] = {0};
 			TCHAR version[128] = {0};
 			_tcscpy(version, _T("N/A"));
-			
+
 			_tcsncpy(language, data.cFileName, SIZEOF(language));
 			p = _tcsrchr(language, '.');
 			p[0] = '\0';
-			
+
 			_tcscat(langpackPath, data.cFileName);
 			FILE *fin = _tfopen(langpackPath, _T("rt"));
 			if (fin) {
@@ -627,7 +624,7 @@ bool CVersionInfo::GetLangpackInfo()
 								else
 									_tcsncpy(version, _T("<unknown>"), SIZEOF(version));
 				}	}	}	}
-				
+
 				lpzLangpackInfo = std::tstring(language) + _T(" [") + std::tstring(locale) + _T("]");
 				if ( version[0] )
 					lpzLangpackInfo += _T(" v. ") + std::tstring(version);
@@ -641,8 +638,8 @@ bool CVersionInfo::GetLangpackInfo()
 			FindClose(hLangpack);
 		}
 		else lpzLangpackInfo = _T("No language pack installed");
-	}	
-	
+	}
+
 	return true;
 }
 
@@ -673,7 +670,7 @@ bool CVersionInfo::GetPluginLists()
 	//	SYSTEMTIME sysTime; //for timestamp
 
 	mirandaVersion=(DWORD)CallService(MS_SYSTEM_GETVERSION,0,0);
-	{	
+	{
 		GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
 		TCHAR* str2 = _tcsrchr(szMirandaPath,'\\');
 		if(str2!=NULL) *str2=0;
@@ -710,7 +707,7 @@ bool CVersionInfo::GetPluginLists()
 				loadError = GetLastError();
 				int bUnknownError = 1; //assume plugin didn't load because of unknown error
 				//Some error messages.
-				//get the dlls the plugin statically links to 
+				//get the dlls the plugin statically links to
 				if (DBGetContactSettingByte(NULL, ModuleName, "CheckForDependencies", TRUE))
 				{
 					std::tstring linkedModules;
@@ -738,7 +735,7 @@ bool CVersionInfo::GetPluginLists()
 			else { //It was successfully loaded.
 				MirandaPluginInfo = (PLUGININFOEX *(*)(DWORD))GetProcAddress(hInstPlugin, "MirandaPluginInfoEx");
 				if (!MirandaPluginInfo)
-					MirandaPluginInfo = (PLUGININFOEX *(*)(DWORD))GetProcAddress(hInstPlugin, "MirandaPluginInfo"); 
+					MirandaPluginInfo = (PLUGININFOEX *(*)(DWORD))GetProcAddress(hInstPlugin, "MirandaPluginInfo");
 
 				if (!MirandaPluginInfo) //There is no function: it's not a valid plugin. Let's move on to the next file.
 					continue;
@@ -904,7 +901,7 @@ std::tstring CVersionInfo::GetListAsString(std::list<CPlugin> &aList, DWORD flag
 		GetStringFromDatabase("BoldBegin", _T("[b]"), szHeader, SIZEOF(szHeader));
 		GetStringFromDatabase("BoldEnd", _T("[/b]"), szFooter, SIZEOF(szFooter));
 	}
-	
+
 	while (pos != aList.end()) {
 		out.append(std::tstring((*pos).getInformations(flags, szHeader, szFooter)));
 		pos++;
@@ -943,7 +940,7 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	}	}
 
 	TCHAR buffer[1024]; //for beautification
-	GetStringFromDatabase("BeautifyHorizLine", _T("<hr />"), buffer, SIZEOF(buffer));	
+	GetStringFromDatabase("BeautifyHorizLine", _T("<hr />"), buffer, SIZEOF(buffer));
 	BeautifyReport(beautify, buffer, _T(""), out);
 	GetStringFromDatabase("BeautifyBlockStart", _T("<blockquote>"), buffer, SIZEOF(buffer));
 	BeautifyReport(beautify, buffer, _T(""), out);
@@ -965,27 +962,27 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 		out.append(noProcs);
 	}
 	out.append( _T("\r\n"));
-	
+
 	//RAM
 	TCHAR szRAM[64]; wsprintf(szRAM, _T("%d"), luiRAM);
 	out.append( _T("Installed RAM: ") + std::tstring(szRAM) + _T(" MBytes\r\n"));
-	
+
 	//operating system
 	out.append( _T("Operating System: ") + lpzOSName + _T(" [version: ") + lpzOSVersion + _T("]\r\n"));
-	
+
 	//shell, IE, administrator
 	out.append( _T("Shell: ") + lpzShell + _T(", Internet Explorer ") + lpzIEVersion + _T("\r\n"));
 	out.append( _T("Administrator privileges: ") + lpzAdministratorPrivileges + _T("\r\n"));
-	
+
 	//languages
 	out.append( _T("OS Languages: ") + lpzOSLanguages + _T("\r\n"));
-	
+
 	//FreeDiskSpace
 	if (luiFreeDiskSpace) {
 		TCHAR szDiskSpace[64]; wsprintf(szDiskSpace, _T("%d"), luiFreeDiskSpace);
 		out.append( _T("Free disk space on Miranda partition: ") + std::tstring(szDiskSpace) + _T(" MBytes\r\n"));
 	}
-	
+
 	//Miranda
 	out.append( _T("Miranda path: ")	+ lpzMirandaPath + _T("\r\n"));
 	out.append( _T("Miranda NG version: ") + lpzMirandaVersion);
@@ -1001,10 +998,10 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	out.append( _T("Language pack: ") + lpzLangpackInfo);
 	out.append((lpzLangpackModifiedDate.size() > 0) ? _T(", modified: ") + lpzLangpackModifiedDate : _T(""));
 	out.append( _T("\r\n"));
-		
+
 	out.append( _T("Nightly: ") + lpzNightly + _T("\r\n"));
 	out.append( _T("Unicode core: ") + lpzUnicodeBuild);
-	
+
 	GetStringFromDatabase("BeautifyBlockEnd", _T("</blockquote>"), buffer, SIZEOF(buffer));
 	BeautifyReport(beautify, buffer, _T("\r\n"), out);
 }
@@ -1056,7 +1053,7 @@ std::tstring CVersionInfo::GetInformationsAsString(int bDisableForumStyle) {
 	TCHAR normalPluginsEnd[1024]; //for beautification purposes, for normal plugins text (end)
 	TCHAR horizLine[1024]; //for beautification purposes
 	TCHAR buffer[1024]; //for beautification purposes
-	
+
 	TCHAR headerHighlightStart[10] = _T("");
 	TCHAR headerHighlightEnd[10] = _T("");
 	if (forumStyle) {
@@ -1105,7 +1102,7 @@ std::tstring CVersionInfo::GetInformationsAsString(int bDisableForumStyle) {
 		out.append( _T("\r\n"));
 		BeautifyReport(beautify, normalPluginsStart, _T(""), out);
 		out.append(GetListAsString(listUnloadablePlugins, flags, beautify));
-		BeautifyReport(beautify, normalPluginsEnd, _T(""), out);			
+		BeautifyReport(beautify, normalPluginsEnd, _T(""), out);
 	}
 	AddInfoFooter(suppressHeader, forumStyle, beautify, out);
 	return out;
@@ -1123,7 +1120,7 @@ void CVersionInfo::PrintInformationsToFile(const TCHAR *info)
 	else GetStringFromDatabase("OutputFile", _T("VersionInfo.txt"), buffer, SIZEOF(buffer));
 
 	RelativePathToAbsolute(buffer, outputFileName, SIZEOF(buffer));
-	
+
 	FILE *fp = _tfopen(outputFileName, _T("wb"));
 	if ( fp != NULL ) {
 		char* utf = mir_utf8encodeT( info );
@@ -1163,7 +1160,7 @@ void CVersionInfo::PrintInformationsToDialogBox()
 	HWND DialogBox = CreateDialogParam(hInst,
 			MAKEINTRESOURCE(IDD_DIALOGINFO),
 			NULL, DialogBoxProc, (LPARAM) this);
-	
+
 	SetDlgItemText(DialogBox, IDC_TEXT, GetInformationsAsString().c_str());
 }
 
@@ -1173,7 +1170,7 @@ void CVersionInfo::PrintInformationsToClipboard(bool showLog)
 		Log( TranslateT("The clipboard is not available, retry."));
 		return;
 	}
-	
+
 	OpenClipboard(NULL);
 	//Ok, let's begin, then.
 	EmptyClipboard();
@@ -1188,7 +1185,7 @@ void CVersionInfo::PrintInformationsToClipboard(bool showLog)
 	lptstrCopy[length] = '\0';
 	GlobalUnlock(hData);
 	//Now set the clipboard data.
-	
+
 		SetClipboardData(CF_UNICODETEXT, hData);
 
 	//Remove the lock on the clipboard.

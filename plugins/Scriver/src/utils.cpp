@@ -148,15 +148,10 @@ enum MIMFLAGS {
 };
 
 int IsUnicodeMIM() {
-	if (!(mimFlags & MIM_CHECKED)) {
-		char str[512];
-		mimFlags = MIM_CHECKED;
-		CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)500, (LPARAM)(char*)str);
-		if (strstr(str, "Unicode")) {
-			mimFlags |= MIM_UNICODE;
-		}
-	}
-	return (mimFlags & MIM_UNICODE) != 0;
+	if (!(mimFlags & MIM_CHECKED))
+		mimFlags = MIM_CHECKED | MIM_UNICODE;
+
+	return TRUE;
 }
 
 const char *filename = "scriver.log";
@@ -283,7 +278,7 @@ char* GetRichTextRTF(HWND hwnd)
 	return pszText; // pszText contains the text
 }
 
-void rtrimText(TCHAR *text) 
+void rtrimText(TCHAR *text)
 {
 	static TCHAR szTrimString[] = _T(":;,.!?\'\"><()[]- \r\n");
 	int iLen = lstrlen(text)-1;
@@ -296,7 +291,7 @@ void rtrimText(TCHAR *text)
 TCHAR *limitText(TCHAR *text, int limit)
 {
 	int len = lstrlen(text);
-	if (len > g_dat->limitNamesLength) 
+	if (len > g_dat->limitNamesLength)
 	{
 		TCHAR *ptszTemp = (TCHAR *)mir_alloc(sizeof(TCHAR) * (limit + 4));
 		_tcsncpy(ptszTemp, text, limit + 1);
@@ -312,11 +307,11 @@ TCHAR *GetRichTextWord(HWND hwnd, POINTL *ptl)
 	pszWord = GetRichEditSelection(hwnd);
 	if (pszWord == NULL) {
 		iCharIndex = SendMessage(hwnd, EM_CHARFROMPOS, 0, (LPARAM)ptl);
-		if (iCharIndex >= 0) 
+		if (iCharIndex >= 0)
 		{
 			start = SendMessage(hwnd, EM_FINDWORDBREAK, WB_LEFT, iCharIndex);//-iChars;
 			end = SendMessage(hwnd, EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);//-iChars;
-			if (end - start > 0) 
+			if (end - start > 0)
 			{
 				TEXTRANGE tr;
 				CHARRANGE cr;
@@ -327,7 +322,7 @@ TCHAR *GetRichTextWord(HWND hwnd, POINTL *ptl)
 				tr.chrg = cr;
 				tr.lpstrText = pszWord;
 				iRes = SendMessage(hwnd, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-				if (iRes <= 0) 
+				if (iRes <= 0)
 				{
 					mir_free(pszWord);
 					pszWord = NULL;
@@ -335,7 +330,7 @@ TCHAR *GetRichTextWord(HWND hwnd, POINTL *ptl)
 			}
 		}
 	}
-	if (pszWord != NULL) 
+	if (pszWord != NULL)
 	{
 		rtrimText(pszWord);
 	}
@@ -353,7 +348,7 @@ static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
     return 0;
 }
 
-TCHAR *GetRichEditSelection(HWND hwnd) 
+TCHAR *GetRichEditSelection(HWND hwnd)
 {
 	CHARRANGE sel;
 	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
@@ -467,11 +462,11 @@ char *url_encode(char *str) {
 		if ( (48 <= *pstr && *pstr <= 57) ||//0-9
              (65 <= *pstr && *pstr <= 90) ||//ABC...XYZ
              (97 <= *pstr && *pstr <= 122) ||//abc...xyz
-			*pstr == '-' || *pstr == '_' || *pstr == '.') 
+			*pstr == '-' || *pstr == '_' || *pstr == '.')
 				*pbuf++ = *pstr;
-		else if (*pstr == ' ') 
+		else if (*pstr == ' ')
 			*pbuf++ = '+';
-		else 
+		else
 			*pbuf++ = '%', *pbuf++ = to_hex(*pstr >> 4), *pbuf++ = to_hex(*pstr & 15);
 		pstr++;
 	}
@@ -560,7 +555,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT* rec
 	HWND hwndTT;
 	hwndTT = CreateWindowEx(WS_EX_TOPMOST,
 		TOOLTIPS_CLASS, NULL,
-		WS_POPUP | TTS_NOPREFIX,		
+		WS_POPUP | TTS_NOPREFIX,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		hwndParent, NULL, g_hInst, NULL);
@@ -575,7 +570,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT* rec
 	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);
 	SendMessage(hwndTT, TTM_SETTITLE, TTI_NONE, (LPARAM)ptszTitle);
 	return hwndTT;
-} 
+}
 
 void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTitle) {
 	TOOLINFO ti = { 0 };
@@ -595,7 +590,7 @@ void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT* rect)
 	ti.hwnd = hwndParent;
 	ti.rect = *rect;
 	SendMessage(hwndTT, TTM_NEWTOOLRECT, 0, (LPARAM) (LPTOOLINFO) &ti);
-} 
+}
 
 /* toolbar-related stuff, to be moved to a separate file */
 

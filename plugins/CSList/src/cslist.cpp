@@ -29,7 +29,7 @@
   Last change on : $Date$
   Last change by : $Author$
 
-  ============================================================================  
+  ============================================================================
 
 
   DESCRIPTION:
@@ -98,14 +98,7 @@ extern "C" __declspec( dllexport ) int Load(  )
 	CSList::bAccountsSupported = ( CSList::dwMirandaVersion >= PLUGIN_MAKE_VERSION( 0, 8, 0, 9 ));
 
 	// are we running under Unicode core?
-	{
-		char szVer[MAX_PATH];
-
-		CallService( MS_SYSTEM_GETVERSIONTEXT, MAX_PATH, ( LPARAM )szVer );
-		_strlwr( szVer ); // make sure it is lowercase
-
-		CSList::bUnicodeCore = ( strstr( szVer, "unicode" ) != NULL );
-	}
+	CSList::bUnicodeCore = true;
 
 	// TODO: Alerts with wrong combination of ANSI/Unicode Windows/core/plugin
 
@@ -682,7 +675,7 @@ CSAMWindow::CSAMWindow( WORD action, CSWindow* parent )
 	this->parent = parent;
 	this->bChanged = FALSE;
 	this->hCombo = this->hMessage = NULL;
-	
+
 	if ( this->action == IDC_ADD )
 		this->item = new StatusItem( );
 	else
@@ -1185,8 +1178,8 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 				csw->listview->reinitItems( csw->itemslist->list->getListHead( ));
 			break;
 
-		case IDCLOSE:    // close and save, no custom status 
-        case IDCANCEL:   // close and save, no custom status 
+		case IDCLOSE:    // close and save, no custom status
+        case IDCANCEL:   // close and save, no custom status
         case IDC_CANCEL:   // close and save, cancel custom status
         case IDOK:       // close and save, set selected custom status
 			if ( LOWORD( wparam ) == IDOK && csw->toggleButtons( ))

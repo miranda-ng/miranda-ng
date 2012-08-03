@@ -112,16 +112,16 @@ static int WriteToDebugLogA(const char *szMsg) {
 		OutputDebugStringA(szMsg);
 		OutputDebugStringA("\r\n");
 	}
-	
+
 	return res;
 }
 
 int AddDebugLogMessageA(const char* fmt, ...)
-{	
+{
 	int res;
 	char szText[MAX_DEBUG], szFinal[MAX_DEBUG];
 	va_list va;
-	
+
 	va_start(va,fmt);
 	_vsnprintf(szText, sizeof(szText), fmt, va);
 	va_end(va);
@@ -165,7 +165,7 @@ int AddErrorLogMessageA(const char* fmt, ...) {
 	int res;
 	char szText[MAX_DEBUG], szFinal[MAX_DEBUG];
 	va_list va;
-	
+
 	va_start(va,fmt);
 	_vsnprintf(szText, sizeof(szText), fmt, va);
 	va_end(va);
@@ -181,7 +181,7 @@ int AddErrorLogMessageA(const char* fmt, ...) {
 }
 
 int AddErrorLogMessage(const TCHAR* fmt, ...) {
-	
+
 	int res;
 	TCHAR tszText[MAX_DEBUG], tszFinal[MAX_DEBUG];
 	char *szFinal;
@@ -228,30 +228,7 @@ TCHAR *itot(int num) {
 // Helper functions that need MODULENAME
 #define SETTING_NOENCODINGCHECK		"NoEncodingCheck"
 
-int Hlp_UnicodeCheck(char *szPluginName, BOOL bForce, const char *szModule) {
-
-#ifndef _DEBUG
-	char *ptr;
-	char szVersionText[256];
-
-	if (!CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)sizeof(szVersionText), (LPARAM)szVersionText)) {
-		ptr = strstr(szVersionText, "Unicode");
-
-		if ((ptr == NULL) && (!DBGetContactSettingByte(NULL, szModule, SETTING_NOENCODINGCHECK, 0))) {
-			if (bForce) {
-				MessageBoxA(NULL, "You are running the ANSI version Miranda. Please use the ANSI build of this plugin.", szPluginName, MB_OK);
-				
-				return -1;
-			}
-			else {
-				MessageBoxA(NULL, "You are running the ANSI version Miranda. It's recommened to use the ANSI build of this plugin.", szPluginName, MB_OK);
-				DBWriteContactSettingByte(NULL, szModule, SETTING_NOENCODINGCHECK, 1);
-
-				return 0;
-			}
-		}
-	}
-#endif
-
+int Hlp_UnicodeCheck(char *szPluginName, BOOL bForce, const char *szModule)
+{
 	return 0;
 }

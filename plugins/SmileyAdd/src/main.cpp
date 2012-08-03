@@ -41,9 +41,9 @@ static HANDLE hService[13];
 int hLangpack;
 
 
-static const PLUGININFOEX pluginInfoEx = 
+static const PLUGININFOEX pluginInfoEx =
 {
-	sizeof(PLUGININFOEX), 
+	sizeof(PLUGININFOEX),
 	"SmileyAdd",
 	__VERSION_DWORD,
 	"Smiley support for Miranda Instant Messanger",
@@ -57,14 +57,14 @@ static const PLUGININFOEX pluginInfoEx =
 	{ 0xbd542bb4, 0x5ae4, 0x4d0e, { 0xa4, 0x35, 0xba, 0x8d, 0xbe, 0x39, 0x60, 0x7f } }
 };
 
-static SKINICONDESC skinDesc = 
-{  
-	sizeof(SKINICONDESC), "SmileyAdd", NULL, 
-	"SmileyAdd_ButtonSmiley", NULL, -IDI_SMILINGICON 
+static SKINICONDESC skinDesc =
+{
+	sizeof(SKINICONDESC), "SmileyAdd", NULL,
+	"SmileyAdd_ButtonSmiley", NULL, -IDI_SMILINGICON
 };
 
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /* mirandaVersion */) 
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /* mirandaVersion */)
 {
 	return (PLUGININFOEX*)&pluginInfoEx;
 }
@@ -82,7 +82,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	HANDLE hSkinIcon = Skin_AddIcon(&skinDesc);
 
 	INT_PTR temp = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-	metaProtoName = mir_strdup(temp == CALLSERVICE_NOTFOUND ? NULL : (char*)temp); 
+	metaProtoName = mir_strdup(temp == CALLSERVICE_NOTFOUND ? NULL : (char*)temp);
 
 	CLISTMENUITEM mi = {0};
 	mi.cbSize = sizeof(mi);
@@ -97,7 +97,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	DownloadInit();
 
 	//install hooks if enabled
-	InstallDialogBoxHook(); 
+	InstallDialogBoxHook();
 
 	g_SmileyCategories.AddAllProtocolsAsCategory();
 	g_SmileyCategories.ClearAndLoadAll();
@@ -119,22 +119,11 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS))
 	{
 		static const TCHAR errmsg[] = _T("Only one instance of SmileyAdd could be executed.\n")
-			_T("Remove duplicate instances from 'Plugins' directory"); 
+			_T("Remove duplicate instances from 'Plugins' directory");
 		ReportError(TranslateTS(errmsg));
 
 		return 1;
 	}
-
-	char temp[80];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)SIZEOF(temp), (LPARAM)temp);
-
-
-	if (strstr(temp, "Unicode") == NULL)
-	{
-		ReportError(TranslateT("Please update SmileyAdd to ANSI Version"));
-		return 1;
-	}
-
 
 	InitImageCache();
 
@@ -165,7 +154,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hService[8] = CreateServiceFunction(MS_SMILEYADD_BATCHFREE, FreeTextBatch);
 	hService[9] = CreateServiceFunction(MS_SMILEYADD_CUSTOMCATMENU, CustomCatMenu);
 	hService[10] = CreateServiceFunction(MS_SMILEYADD_RELOAD, ReloadPack);
-	hService[11] = CreateServiceFunction(MS_SMILEYADD_LOADCONTACTSMILEYS, LoadContactSmileys); 
+	hService[11] = CreateServiceFunction(MS_SMILEYADD_LOADCONTACTSMILEYS, LoadContactSmileys);
 
 
 	hService[12] = CreateServiceFunction(MS_SMILEYADD_PARSEW, ParseTextW);

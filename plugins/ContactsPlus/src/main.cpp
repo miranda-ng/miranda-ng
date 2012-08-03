@@ -1,20 +1,20 @@
 // --------------------------------------------------------------------------
 //                Contacts+ for Miranda Instant Messenger
 //                _______________________________________
-// 
-// Copyright © 2002 Dominus Procellarum 
+//
+// Copyright © 2002 Dominus Procellarum
 // Copyright © 2004-2008 Joe Kucera
-// 
+//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -113,15 +113,15 @@ static void ProcessUnreadEvents(void)
   dbei.cbSize = sizeof(dbei);
 
   hContact = SRCFindFirstContact();
-  while (hContact) 
+  while (hContact)
   {
     hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD,(WPARAM)hContact,0);
 
-    while (hDbEvent) 
+    while (hDbEvent)
     {
       dbei.cbBlob=0;
       CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei);
-      if (!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType==EVENTTYPE_CONTACTS) 
+      if (!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType==EVENTTYPE_CONTACTS)
       { //process the event
         HookDBEventAdded((WPARAM)hContact, (LPARAM)hDbEvent);
       }
@@ -196,7 +196,7 @@ static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
   mi.flags = CMIF_KEEPUNTRANSLATED;
   if (g_UnicodeCore)
     mi.flags |= CMIF_UNICODE;
-  mi.pszService = MS_CONTACTS_SEND; 
+  mi.pszService = MS_CONTACTS_SEND;
   mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
   hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
@@ -229,7 +229,7 @@ static int HookContactDeleted(WPARAM wParam, LPARAM lParam)
 {  // if our contact gets deleted close his window
   HWND h = WindowList_Find(ghSendWindowList,(HANDLE)wParam);
 
-  if (h) 
+  if (h)
   {
     SendMessageT(h,WM_CLOSE,0,0);
   }
@@ -269,7 +269,7 @@ static INT_PTR ServiceReceiveCommand(WPARAM wParam, LPARAM lParam)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	return &pluginInfo; 
+	return &pluginInfo;
 }
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SRCONTACTS, MIID_LAST};
@@ -280,13 +280,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitCommonControls();
   	InitI18N();
 
-  { // Are we running under unicode Miranda core ?
-    char szVer[MAX_PATH];
+   g_UnicodeCore = true;
 
-    CallService(MS_SYSTEM_GETVERSIONTEXT, MAX_PATH, (LPARAM)szVer);
-    _strlwr(szVer);
-    g_UnicodeCore = (strstr(szVer, "unicode") != NULL);
-  }
   //init hooks
   hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, HookModulesLoaded);
   hHookDBEventAdded = HookEvent(ME_DB_EVENT_ADDED, HookDBEventAdded);

@@ -93,11 +93,6 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP( &pluginInfo );
 
-	// Are we running under unicode Miranda core ?
-	char szVer[MAX_PATH];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, MAX_PATH, (LPARAM)szVer);
-	_strlwr(szVer); // make sure it is lowercase
-
 	srand(time(NULL));
 	_tzset();
 

@@ -114,11 +114,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	if (bIsComCtl6)	iBmpDepth = ILC_COLOR32 | ILC_MASK;  // 32-bit images are supported
 	else		iBmpDepth = ILC_COLOR24 | ILC_MASK;
 
-//	iBmpDepth = ILC_COLOR32 | ILC_MASK;
-
-	char version[512];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(version), (LPARAM)&version);
-	bCoreUnicode = strstr(version, "Unicode")!=0;
+	bCoreUnicode = true;
 	iCoreVersion = CallService(MS_SYSTEM_GETVERSION,0,0);
 
 	// load crypo++ dll

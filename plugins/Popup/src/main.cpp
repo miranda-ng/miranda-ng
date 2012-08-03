@@ -425,13 +425,8 @@ static int OkToExit(WPARAM wParam, LPARAM lParam)
 //Called when the plugin is loaded into Miranda
 MIRAPI int Load(void)
 {
-	char ver[1024];
-
-
 	g_popup.isOsUnicode = (GetVersion() & 0x80000000) == 0;
-
-	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM) sizeof(ver), (LPARAM) ver);
-	g_popup.isMirUnicode = strstr(ver, "Unicode") != NULL;
+	g_popup.isMirUnicode = true;
 
 	hGetStatus = CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
 

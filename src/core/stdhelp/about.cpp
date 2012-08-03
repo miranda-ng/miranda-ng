@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2009 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "commonheaders.h"
 
-#define STR_VERSION_FORMAT "%s%S%S"
+#define STR_VERSION_FORMAT "%s%S"
 
 INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -44,26 +44,17 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			SetDlgItemText(hwndDlg, IDC_DEVS, productCopyright);
 			mir_free(pVerInfo);
 		}
-		{	char productVersion[56], *p;
-            int isAnsi = 0;
+		{
 			TCHAR str[64];
-			CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(productVersion), (LPARAM)productVersion);
-            // Hide Unicode from version text as it is assumed at this point
-            p = strstr(productVersion, " Unicode"); 
-			if (p)
-				*p = '\0';
-            else
-                isAnsi = 1;
-			mir_sntprintf(str, SIZEOF(str), _T(STR_VERSION_FORMAT), TranslateT("v"), productVersion, isAnsi?" ANSI":"");
-            {
-                TCHAR oldTitle[256], newTitle[256];
-				GetDlgItemText(hwndDlg, IDC_HEADERBAR, oldTitle, SIZEOF(oldTitle));
-				mir_sntprintf(newTitle, SIZEOF(newTitle), oldTitle, str);
-				SetDlgItemText(hwndDlg, IDC_HEADERBAR, newTitle);
-			}
+			mir_sntprintf(str, SIZEOF(str), _T(STR_VERSION_FORMAT), TranslateT("v"), productVersion);
+
+			TCHAR oldTitle[256], newTitle[256];
+			GetDlgItemText(hwndDlg, IDC_HEADERBAR, oldTitle, SIZEOF(oldTitle));
+			mir_sntprintf(newTitle, SIZEOF(newTitle), oldTitle, str);
+			SetDlgItemText(hwndDlg, IDC_HEADERBAR, newTitle);
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_HIDE);
-		{	
+		{
 			HRSRC   hResInfo = FindResource(hInst, MAKEINTRESOURCE(IDR_CREDITS), _T("TEXT"));
 			DWORD   ResSize = SizeofResource(hInst, hResInfo);
 			HGLOBAL hRes = LoadResource(hInst, hResInfo);
@@ -127,10 +118,10 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case WM_DESTROY:
 		Window_FreeIcon_IcoLib(hwndDlg);
-		{	
+		{
 			HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_GETFONT, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_SETFONT, SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0), 0);
-			DeleteObject(hFont);				
+			DeleteObject(hFont);
 		}
 		break;
 	}

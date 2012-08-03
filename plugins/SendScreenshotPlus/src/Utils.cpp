@@ -1,7 +1,7 @@
 /*
 
 Miranda IM: the free IM client for Microsoft* Windows*
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-2009 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
@@ -176,7 +176,7 @@ FIBITMAP* CaptureScreen  (HDC hDC, SIZE size, HWND hCapture) {
 	}
 
 	dib = FIP->FI_CreateDIBFromHBITMAP(hBitmap);
-	
+
 	//alpha channel from window is always wrong,
 	//coz GDI do not draw all in alpha mode.
 	//we have to create our own new alpha channel.
@@ -309,7 +309,7 @@ FIBITMAP* CaptureDesktop/*emulate print screen*/()  {
 	int i = 0;
 	keybd_event(VK_SNAPSHOT, 0x45, KEYEVENTF_EXTENDEDKEY, 0);
 	keybd_event(VK_SNAPSHOT, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-	do {//Clipboard need time to get bitmap from keybd_event, 
+	do {//Clipboard need time to get bitmap from keybd_event,
 		i++;	//we use a counter to get this time.
 		bBitmap = IsClipboardFormatAvailable(CF_BITMAP);
 		if(i == 500) return (FIBITMAP*)0;		//emergency exit if something go wrong
@@ -410,9 +410,7 @@ BOOL GetLmouse() {
 //---------------------------------------------------------------------------
 //is miranda unicode
 BOOL mir_is_unicode() {
-	char ver[1024];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM) sizeof(ver), (LPARAM) ver);
-	return strstr(ver, "Unicode") != NULL;
+	return TRUE;
 }
 
 //---------------------------------------------------------------------------
@@ -544,11 +542,11 @@ INT_PTR SaveTIF(HBITMAP hBmp, LPTSTR szFilename) {
 			EncParams->Count = 2 ;
 			EncParams->Parameter[0].Guid = Gdiplus::EncoderCompression ;
 			EncParams->Parameter[0].Type = Gdiplus::EncoderParameterValueTypeLong ;
-			EncParams->Parameter[0].NumberOfValues = 1 ; 
+			EncParams->Parameter[0].NumberOfValues = 1 ;
 			EncParams->Parameter[0].Value = &ulCompression ;
 			EncParams->Parameter[1].Guid = Gdiplus::EncoderColorDepth ;
 			EncParams->Parameter[1].Type = Gdiplus::EncoderParameterValueTypeLong ;
-			EncParams->Parameter[1].NumberOfValues = 1 ; 
+			EncParams->Parameter[1].NumberOfValues = 1 ;
 			EncParams->Parameter[1].Value = &ulColorDepth ;
 
 			LPWSTR pswFile = mir_t2u(szFilename);
@@ -576,4 +574,3 @@ void ShowPopUp(char *title, char *text) {
 
 	CallService(MS_POPUP_ADDPOPUP, (WPARAM)&pude, 0);
 }*/
-

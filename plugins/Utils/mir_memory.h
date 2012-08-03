@@ -27,18 +27,11 @@ Boston, MA 02111-1307, USA.
 
 static BOOL mir_is_unicode()
 {
-	static int is_unicode = -1;
-	if (is_unicode == -1)
-	{
-		char ver[1024];
-		CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM) sizeof(ver), (LPARAM) ver);
-		is_unicode = (strstr(ver, "Unicode") != NULL ? 1 : 0);
-	}
-	return is_unicode;
+	return TRUE;
 }
 
 
-static void * mir_alloc0(size_t size) 
+static void * mir_alloc0(size_t size)
 {
 	void * ptr = mir_alloc(size);
 

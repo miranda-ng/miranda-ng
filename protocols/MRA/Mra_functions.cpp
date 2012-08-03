@@ -55,7 +55,7 @@ DWORD MraGetSelfVersionString(LPSTR lpszSelfVersion,SIZE_T dwSelfVersionSize,SIZ
 		SIZE_T dwSelfVersionSizeRet;
 
 		dwSelfVersionSizeRet=mir_snprintf(lpszSelfVersion,dwSelfVersionSize,"Miranda IM %lu.%lu.%lu.%lu%s (MRA v%lu.%lu.%lu.%lu)%s, version: %lu.%lu",(((dwMirVer)>>24)&0xFF),(((dwMirVer)>>16)&0xFF),(((dwMirVer)>>8)&0xFF),((dwMirVer)&0xFF),lpszUnicode,(((PLUGIN_VERSION_DWORD)>>24)&0xFF),(((PLUGIN_VERSION_DWORD)>>16)&0xFF),(((PLUGIN_VERSION_DWORD)>>8)&0xFF),((PLUGIN_VERSION_DWORD)&0xFF),lpszSecIM,PROTO_MAJOR(PROTO_VERSION),PROTO_MINOR(PROTO_VERSION));
-		
+
 		if (pdwSelfVersionSizeRet) (*pdwSelfVersionSizeRet)=dwSelfVersionSizeRet;
 		dwRetErrorCode=NO_ERROR;
 	}else{
@@ -169,7 +169,7 @@ DWORD MraAddrListGetFromBuff(LPSTR lpszAddreses,SIZE_T dwAddresesSize,MRA_ADDR_L
 		pmalAddrList->dwAddrCount=0;
 		pmalAddrList->pmaliAddress=(MRA_ADDR_LIST_ITEM*)MEMALLOC(sizeof(MRA_ADDR_LIST_ITEM)*dwAllocatedCount);
 		lpszCurrentItem=lpszAddreses;
-		
+
 		while(TRUE)
 		{
 			lpszEndItem=(LPSTR)MemoryFindByte((lpszCurrentItem-lpszAddreses),lpszAddreses,dwAddresesSize,';');
@@ -336,7 +336,7 @@ return(bRet);
 BOOL DB_SetStringExA(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPSTR lpszValue,SIZE_T dwValueSize)
 {
 	BOOL bRet=FALSE;
-	
+
 	if (lpszValue && dwValueSize)
 	{
 		LPWSTR lpwszValueLocal;
@@ -371,11 +371,11 @@ return(bRet);
 BOOL DB_SetStringExW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszValue,SIZE_T dwValueSize)
 {
 	BOOL bRet=FALSE;
-	
+
 	if (lpwszValue && dwValueSize)
 	{
 		LPWSTR lpwszValueLocal=(LPWSTR)MEMALLOC(((dwValueSize+MAX_PATH)*sizeof(WCHAR)));
-		
+
 		if (lpwszValueLocal)
 		{
 			DBCONTACTWRITESETTING cws={0};
@@ -386,7 +386,7 @@ BOOL DB_SetStringExW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR
 			cws.value.pwszVal=(WCHAR*)lpwszValueLocal;
 			memmove(lpwszValueLocal,lpwszValue,(dwValueSize*sizeof(WCHAR)));
 			bRet=(CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws)==0);
-			
+
 			MEMFREE(lpwszValueLocal);
 		}
 	}else{
@@ -461,7 +461,7 @@ DWORD GetContactFlags(HANDLE hContact)
 		}
 
 		if (DBGetContactSettingByte(hContact,"CList","Hidden",0)) dwRet|=CONTACT_FLAG_SHADOW;
-		
+
 		switch(DB_Mra_GetWord(hContact,"ApparentMode",0)) {
 		case ID_STATUS_OFFLINE:
 			dwRet|=CONTACT_FLAG_INVISIBLE;
@@ -567,7 +567,7 @@ DWORD SetContactBasicInfoW(HANDLE hContact,DWORD dwSetInfoFlags,DWORD dwFlags,DW
 
 		// поля которые нужны, и изменения которых не отслеживаются
 		if(dwFlags&SCBIF_ID) DB_Mra_SetDword(hContact,"ContactID",dwID);
-		
+
 		if(dwFlags&SCBIF_EMAIL)
 		{
 			if (lpszEMail && dwEMailSize) DB_Mra_SetStringExA(hContact,"e-mail",lpszEMail,dwEMailSize);
@@ -575,7 +575,7 @@ DWORD SetContactBasicInfoW(HANDLE hContact,DWORD dwSetInfoFlags,DWORD dwFlags,DW
 
 		// поля изменения которых отслеживаются
 		if(dwFlags&SCBIF_GROUP_ID) DB_Mra_SetDword(hContact,"GroupID",dwGroupID);
-		
+
 		if(dwFlags&SCBIF_NICK)
 		{
 			if ((dwFlags&SCBIF_FLAG) && ((dwContactFlag&CONTACT_FLAG_UNICODE_NAME)==0))
@@ -694,7 +694,7 @@ HANDLE MraHContactFromEmail(LPSTR lpszEMail,SIZE_T dwEMailSize,BOOL bAddIfNeeded
 				hContact=(HANDLE)CallService(MS_DB_CONTACT_ADD,0,0);
 				CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)PROTOCOL_NAMEA);
 			}
-			
+
 			if (hContact)
 			{
 				if (IsEMailChatAgent(lpszEMail,dwEMailSize))
@@ -760,7 +760,7 @@ return(DB_Mra_GetWord(hContact,"Status",ID_STATUS_OFFLINE));
 DWORD MraSetContactStatus(HANDLE hContact,DWORD dwNewStatus)
 {
 	DWORD dwOldStatus=MraGetContactStatus(hContact);
-	
+
 	if (dwNewStatus!=dwOldStatus)
 	{
 		BOOL bChatAgent;
@@ -838,7 +838,7 @@ void MraUpdateEmailStatus(LPSTR lpszFrom,SIZE_T dwFromSize,LPSTR lpszSubject,SIZ
 		}else{
 			lstrcpynW(szStatusText,szMailBoxStatus,SIZEOF(szStatusText));
 		}
-		
+
 		if (bTrayIconNewMailNotify)
 		{
 			char szServiceFunction[MAX_PATH],*pszServiceFunctionName;
@@ -887,15 +887,7 @@ void MraUpdateEmailStatus(LPSTR lpszFrom,SIZE_T dwFromSize,LPSTR lpszSubject,SIZ
 
 BOOL IsUnicodeEnv()
 {// Are we running under unicode Miranda core ?
-	BOOL bRet=FALSE;
-	char szBuff[64]={0};
-
-	if (CallService(MS_SYSTEM_GETVERSIONTEXT,SIZEOF(szBuff),(LPARAM)szBuff)==0)
-	{
-		BuffToLowerCase(szBuff,szBuff,SIZEOF(szBuff));
-		bRet=(MemoryFind(0,szBuff,SIZEOF(szBuff),"unicode",7)!=NULL);
-	}
-return(bRet);
+	return TRUE;
 }
 
 
@@ -1166,7 +1158,7 @@ return(bRet);
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// 
+//
 DWORD MraAPCQueueAdd(PAPCFUNC pfnAPC,PFIFO_MT pffmtAPCQueue,ULONG_PTR dwData)
 {
 	DWORD dwRetErrorCode;
@@ -1352,11 +1344,11 @@ DWORD CreateBlobFromContact(HANDLE hContact,LPWSTR lpwszRequestReason,SIZE_T dwR
 {
 	DWORD dwRetErrorCode;
 	SIZE_T dwBuffSizeRet=((sizeof(DWORD)*2)+dwRequestReasonSize+5),dwSize;
-	
+
 	if (dwBuffSize>=dwBuffSizeRet)
 	{
 		PBYTE pCurBlob=lpbBuff;
-		
+
 		(*(DWORD*)pCurBlob)=0;pCurBlob+=sizeof(DWORD);
 		(*(DWORD*)pCurBlob)=(DWORD)hContact;pCurBlob+=sizeof(DWORD);
 
@@ -1380,7 +1372,7 @@ DWORD CreateBlobFromContact(HANDLE hContact,LPWSTR lpwszRequestReason,SIZE_T dwR
 		//memmove(pCurBlob,lpszRequestReason,dwRequestReasonSize);
 		(*(pCurBlob+dwSize))=0;
 		pCurBlob+=(dwSize+1);
-		
+
 		dwBuffSizeRet=(pCurBlob-lpbBuff);
 		dwRetErrorCode=NO_ERROR;
 	}else{
@@ -1490,7 +1482,7 @@ int ExtraSetIcon(HANDLE hExtraIcon,HANDLE hContact,HANDLE hImage,int iColumnType
 		iRet=ExtraIcon_SetIcon(hExtraIcon,hContact,hImage);
 	}else{
 		IconExtraColumn iec;
-		
+
 		iec.cbSize=sizeof(iec);
 		iec.ColumnType=iColumnType;
 		iec.hImage=((hImage!=NULL)? hImage:INVALID_HANDLE_VALUE);
@@ -1657,25 +1649,25 @@ LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 	WNDPROC OldMessageEditProc=(WNDPROC)GetWindowLongPtr(hwnd,GWLP_USERDATA);
 
 	if (msg==WM_CHAR)
-	if (GetKeyState(VK_CONTROL)&0x8000) 
+	if (GetKeyState(VK_CONTROL)&0x8000)
 	{
-		if(wParam=='\n') 
+		if(wParam=='\n')
 		{
 			PostMessage(GetParent(hwnd),WM_COMMAND,IDOK,0);
 			return(0);
 		}
-		if (wParam==1) 
+		if (wParam==1)
 		{// ctrl-a
 			SendMessage(hwnd,EM_SETSEL,0,-1);
 			return(0);
 		}
-		if (wParam==23) 
+		if (wParam==23)
 		{// ctrl-w
 			SendMessage(GetParent(hwnd),WM_CLOSE,0,0);
 			return(0);
 		}
 	}
-	
+
 	if (OldMessageEditProc) lrRet=CallWindowProc(OldMessageEditProc,hwnd,msg,wParam,lParam);
 
 return(lrRet);
@@ -1752,7 +1744,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARA
 		}
 		break;
 	case WM_TIMER:
-		if(psxsData->dwCountdown!=-1) 
+		if(psxsData->dwCountdown!=-1)
 		{
 			WCHAR szBuff[MAX_PATH];
 			mir_sntprintf(szBuff,SIZEOF(szBuff),L"%s %ld",TranslateW(L"Closing in"),psxsData->dwCountdown);
@@ -1811,7 +1803,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARA
 			mir_snprintf(szValueName,SIZEOF(szValueName),"XStatus%dName",psxsData->dwXStatus);
 			DB_Mra_SetStringExW(NULL,szValueName,szBuff,dwBuffSize);
 			DB_Mra_SetStringExW(NULL,DBSETTING_XSTATUSNAME,szBuff,dwBuffSize);
-			
+
 			mi.cbSize=sizeof(mi);
 			mi.flags=(CMIM_NAME|CMIF_UNICODE);
 			mi.ptszName=szBuff;
@@ -1933,7 +1925,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg,UINT message,WPARAM wPa
 				mir_sntprintf(wszBuff,SIZEOF(wszBuff),L"%d/%d",dwMessageSize,MICBLOG_STATUS_MAX);
 				SET_DLG_ITEM_TEXTW(hWndDlg,IDC_STATIC_CHARS_COUNTER,wszBuff);
 			}
-			break;			
+			break;
 		}
 		break;
     case WM_DESTROY:
@@ -2071,7 +2063,7 @@ DWORD FindFile(LPWSTR lpszFolder,DWORD dwFolderLen,LPWSTR lpszFileName,DWORD dwF
 							}
 						}
 					}
-					
+
 					if (prdsiItems) FindClose(prdsiItems[dwRecDeepCurPos].hFind);
 					dwRecDeepCurPos--;
 				}while(dwRecDeepCurPos!=-1);
@@ -2135,7 +2127,7 @@ BOOL SetPassDB(LPSTR lpszBuff,SIZE_T dwBuffSize)
 
 
 #if /*defined (_DEBUG) ||*/ defined (REL_DEB)
-	
+
 	DB_Mra_SetStringExA(NULL,"Pass",lpszBuff,dwBuffSize);
 	bRet=TRUE;
 #else
@@ -2157,11 +2149,11 @@ BOOL SetPassDB(LPSTR lpszBuff,SIZE_T dwBuffSize)
 		CopyMemoryReverseDWORD(btCryptedPass,btCryptedPass,sizeof(btCryptedPass));
 		RC4(btCryptedPass,sizeof(btCryptedPass),bthmacSHA1,SHA1HashSize);
 
-	
+
 		DB_Mra_SetDword(NULL,"pCryptVer",MRA_PASS_CRYPT_VER);
 		DB_Mra_WriteContactSettingBlob(NULL,"pCryptData",btRandomData,sizeof(btRandomData));
 		DB_Mra_WriteContactSettingBlob(NULL,"pCryptPass",btCryptedPass,sizeof(btCryptedPass));
-		
+
 		bRet=TRUE;
 	}
 #endif
@@ -2180,7 +2172,7 @@ BOOL SetPassDB(LPSTR lpszBuff,SIZE_T dwBuffSize)
 
 
 #if /*defined (_DEBUG) ||*/ defined (REL_DEB)
-	
+
 	DB_Mra_SetStringExA(NULL,"Pass",lpszBuff,dwBuffSize);
 	bRet=TRUE;
 #else
@@ -2203,11 +2195,11 @@ BOOL SetPassDB(LPSTR lpszBuff,SIZE_T dwBuffSize)
 		CopyMemoryReverseDWORD(btCryptedPass,btCryptedPass,sizeof(btCryptedPass));
 		RC4(btCryptedPass,sizeof(btCryptedPass),bthmacSHA1,SHA1HashSize);
 
-	
+
 		DB_Mra_SetDword(NULL,"pCryptVer",MRA_PASS_CRYPT_VER);
 		DB_Mra_WriteContactSettingBlob(NULL,"pCryptData",btRandomData,sizeof(btRandomData));
 		DB_Mra_WriteContactSettingBlob(NULL,"pCryptPass",btCryptedPass,sizeof(btCryptedPass));
-		
+
 		bRet=TRUE;
 	}
 #endif
@@ -2415,8 +2407,7 @@ return(dwRet);
 DWORD EncodeXML(LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConverted,SIZE_T dwMessageConvertedBuffSize,SIZE_T *pdwMessageConvertedSize)
 {
 	DWORD dwRet=ReplaceInBuff(lptszMessage,(dwMessageSize*sizeof(TCHAR)),SIZEOF(lpszXMLTags),(LPVOID*)lpszXMLSymbols,(SIZE_T*)dwXMLSymbolsCount,(LPVOID*)lpszXMLTags,(SIZE_T*)dwXMLTagsCount,lptszMessageConverted,(dwMessageConvertedBuffSize*sizeof(TCHAR)),pdwMessageConvertedSize);
-	
+
 	if (pdwMessageConvertedSize) (*pdwMessageConvertedSize)/=sizeof(TCHAR);
 return(dwRet);
 }
-

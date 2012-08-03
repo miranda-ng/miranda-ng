@@ -241,7 +241,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites( const TCHAR *jid, BOOL appe
 			pInfo->SetTimeout( JABBER_RESOURCE_CAPS_QUERY_TIMEOUT );
 			m_clientCapsManager.SetClientCaps( r->szCapsNode, r->szCapsVer, JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId());
 			r->dwDiscoInfoRequestTime = pInfo->GetRequestTime();
-			
+
 			TCHAR queryNode[512];
 			mir_sntprintf( queryNode, SIZEOF(queryNode), _T("%s#%s"), r->szCapsNode, r->szCapsVer );
 			m_ThreadInfo->send( XmlNodeIq( pInfo ) << XQUERY( _T(JABBER_FEAT_DISCO_INFO)) << XATTR( _T("node"), queryNode ));
@@ -309,7 +309,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites( const TCHAR *jid, BOOL appe
 			CJabberIqInfo *pInfo = m_iqManager.AddHandler( &CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE );
 			pInfo->SetTimeout( JABBER_RESOURCE_CAPS_QUERY_TIMEOUT );
 			r->dwVersionRequestTime = pInfo->GetRequestTime();
-			
+
 			XmlNodeIq iq( pInfo );
 			iq << XQUERY( _T(JABBER_FEAT_VERSION));
 			m_ThreadInfo->send( iq );
@@ -653,7 +653,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest( HXML, CJabberIqInfo* pInfo, co
 	if ( szNode )
 		query << XATTR( _T("node"), szNode );
 
-	query << XCHILD( _T("identity")) << XATTR( _T("category"), _T("client")) 
+	query << XCHILD( _T("identity")) << XATTR( _T("category"), _T("client"))
 			<< XATTR( _T("type"), _T("pc")) << XATTR( _T("name"), _T("Miranda"));
 
 	for ( i = 0; g_JabberFeatCapPairs[i].szFeature; i++ )
@@ -679,9 +679,6 @@ BOOL CJabberClientCapsManager::HandleInfoRequest( HXML, CJabberIqInfo* pInfo, co
 			}
 		}
 
-		char szCoreVersion[ 256 ];
-		JCallService( MS_SYSTEM_GETVERSIONTEXT, SIZEOF(szCoreVersion), (LPARAM)szCoreVersion);
-
 		HXML form = query << XCHILDNS( _T("x"), _T(JABBER_FEAT_DATA_FORMS)) << XATTR( _T("type"), _T("result"));
 		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("FORM_TYPE")) << XATTR( _T("type"), _T("hidden"))
 			<< XCHILD( _T("value"), _T("urn:xmpp:dataforms:softwareinfo"));
@@ -695,6 +692,6 @@ BOOL CJabberClientCapsManager::HandleInfoRequest( HXML, CJabberIqInfo* pInfo, co
 	}
 
 	ppro->m_ThreadInfo->send( iq );
-	
+
 	return TRUE;
 }

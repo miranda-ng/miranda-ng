@@ -164,19 +164,12 @@ static INT OnShutdown(WPARAM wParam, LPARAM lParam)
 static BOOL CoreCheck()
 {
 	BOOL	bOk = TRUE;
-	CHAR	szVer[260];
+
 	TCHAR	tszExePath[1024];
-
 	GetModuleFileName(GetModuleHandle(NULL), tszExePath, SIZEOF(tszExePath));
-	CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(szVer), (LPARAM)szVer);
-
-	strlwr(szVer);
 	_tcslwr(tszExePath);
 
-
 	bOk *= (GetVersion() & 0x80000000) == 0;
-	bOk *= strstr(szVer, "unicode") != 0;
-
 
 	bOk *= _tcsstr(_tcsrchr(tszExePath, '\\'), _T("miranda")) != 0;
 	bOk *= !strstr(szVer, "coffee") && strncmp(szVer, "1.", 2) && !strstr(szVer, " 1.");
