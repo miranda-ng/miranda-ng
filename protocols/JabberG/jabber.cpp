@@ -43,13 +43,13 @@ int hLangpack;
 int g_cbCountries;
 struct CountryListEntry* g_countries;
 
-static char szVersion[200] = "";
+char szCoreVersion[200];
 
 PLUGININFOEX pluginInfo = {
 	sizeof( PLUGININFOEX ),
 	"Jabber Protocol",
 	__VERSION_DWORD,
-	szVersion,
+	"Jabber protocol plugin for Miranda NG.",
 	"George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura",
 	"ghazan@miranda-im.org",
 	"(c) 2005-2012 George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura",
@@ -223,10 +223,10 @@ extern "C" int __declspec( dllexport ) Load()
 	mir_getTMI( &tmi );
 	mir_getLP( &pluginInfo );
 
-	CallService( MS_UTILS_GETCOUNTRYLIST, ( WPARAM )&g_cbCountries, ( LPARAM )&g_countries );
+	JCallService( MS_SYSTEM_GETVERSIONTEXT, SIZEOF(szCoreVersion), (LPARAM)szCoreVersion);
+	JCallService( MS_UTILS_GETCOUNTRYLIST, ( WPARAM )&g_cbCountries, ( LPARAM )&g_countries );
 	
 	setlocale(LC_ALL, "");
-	mir_snprintf( szVersion, sizeof( szVersion ), Translate("Jabber protocol plugin for Miranda NG."));
 
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
 

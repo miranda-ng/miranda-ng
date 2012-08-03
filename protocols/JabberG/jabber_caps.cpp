@@ -549,7 +549,7 @@ CJabberClientCaps * CJabberClientCapsManager::FindClient( const TCHAR *szNode )
 }
 
 void CJabberClientCapsManager::AddDefaultCaps() {
-	SetClientCaps( _T(JABBER_CAPS_MIRANDA_NODE), _T(__VERSION_STRING), JABBER_CAPS_MIRANDA_ALL );
+	SetClientCaps( _T(JABBER_CAPS_MIRANDA_NODE), _A2T(szCoreVersion), JABBER_CAPS_MIRANDA_ALL );
 
 	for ( int i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++ )
 		SetClientCaps( _T(JABBER_CAPS_MIRANDA_NODE), g_JabberFeatCapPairsExt[i].szFeature, g_JabberFeatCapPairsExt[i].jcbCap );
@@ -680,11 +680,8 @@ BOOL CJabberClientCapsManager::HandleInfoRequest( HXML, CJabberIqInfo* pInfo, co
 			}
 		}
 
-		DWORD dwCoreVersion = JCallService( MS_SYSTEM_GETVERSION, NULL, NULL );
-		TCHAR szCoreVersion[ 256 ];
-		mir_sntprintf( szCoreVersion, SIZEOF( szCoreVersion ), _T("%d.%d.%d.%d"),
-			( dwCoreVersion >> 24 ) & 0xFF, ( dwCoreVersion >> 16 ) & 0xFF,
-			( dwCoreVersion >> 8)  & 0xFF, dwCoreVersion & 0xFF );
+		char szCoreVersion[ 256 ];
+		JCallService( MS_SYSTEM_GETVERSIONTEXT, SIZEOF(szCoreVersion), (LPARAM)szCoreVersion);
 
 		HXML form = query << XCHILDNS( _T("x"), _T(JABBER_FEAT_DATA_FORMS)) << XATTR( _T("type"), _T("result"));
 		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("FORM_TYPE")) << XATTR( _T("type"), _T("hidden"))
@@ -695,19 +692,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest( HXML, CJabberIqInfo* pInfo, co
 			form << XCHILD( _T("field")) << XATTR( _T("var"), _T("os_version")) << XCHILD( _T("value"), os );
 		}
 		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("software")) << XCHILD( _T("value"), _T("Miranda NG Jabber Protocol"));
-		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("software_version")) << XCHILD( _T("value"), _T(MIRANDA_VERSION_STRING));
-		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("x-miranda-core-version")) << XCHILD( _T("value"), szCoreVersion );
-		
-#ifdef _DEBUG
-		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("x-miranda-jabber-is-debug")) << XCHILD( _T("value"), _T("1"));
-#endif
-
-		char szMirandaVersion[100];
-		if (!JCallService( MS_SYSTEM_GETVERSIONTEXT, sizeof( szMirandaVersion ), ( LPARAM )szMirandaVersion )) {
-			_strlwr( szMirandaVersion );
-			form << XCHILD( _T("field")) << XATTR( _T("var"), _T("x-miranda-core-is-unicode")) << XCHILD( _T("value"), strstr( szMirandaVersion, "unicode" ) ? _T("1") : _T("0"));
-			form << XCHILD( _T("field")) << XATTR( _T("var"), _T("x-miranda-core-is-alpha")) << XCHILD( _T("value"), strstr( szMirandaVersion, "alpha" ) ? _T("1") : _T("0"));
-		}
+		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("software_version")) << XCHILD( _T("value"), _A2T(szCoreVersion));
 	}
 
 	ppro->m_ThreadInfo->send( iq );
