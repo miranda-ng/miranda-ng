@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aim.h"
 #include "version.h"
+#include <m_version.h>
 
 void CAimProto::snac_md5_authkey(SNAC &snac,HANDLE hServerConn,unsigned short &seqno, const char* username, const char* password)//family 0x0017
 {
@@ -1068,7 +1069,7 @@ void CAimProto::snac_contact_list(SNAC &snac,HANDLE hServerConn,unsigned short &
 			if (getDword(AIM_KEY_LV, 0) < 0x80500)
 			{
 				upload_nicks();
-				setDword(AIM_KEY_LV, __VERSION_DWORD);
+				setDword(AIM_KEY_LV, MIRANDA_VERSION_DWORD);
 			}
 
 			if (getByte(AIM_KEY_CM, 0))
