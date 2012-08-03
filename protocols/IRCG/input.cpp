@@ -162,7 +162,7 @@ CMString CIrcProto::DoAlias( const TCHAR *text, TCHAR *window)
 CMString CIrcProto::DoIdentifiers( CMString text, const TCHAR* )
 {
 	SYSTEMTIME time;
-	TCHAR str[100];
+	TCHAR str[2];
 
 	GetLocalTime( &time );
 	ReplaceString( text, _T("%mnick"), m_nick);
@@ -174,8 +174,9 @@ CMString CIrcProto::DoIdentifiers( CMString text, const TCHAR* )
 	ReplaceString( text, _T("%network"), m_info.sNetwork.c_str());
 	ReplaceString( text, _T("%me"), m_info.sNick.c_str());
 
-	mir_sntprintf( str, SIZEOF(str), _T("%d.%d.%d.%d"), MIRANDA_VERSION_FILEVERSION);
-	ReplaceString(text, _T("%mirver"), str);
+	char mirver[100];
+	CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(mirver), LPARAM(mirver));
+	ReplaceString(text, _T("%mirver"), _A2T(mirver));
 
 	ReplaceString(text, _T("%version"), _T(__VERSION_STRING));
 

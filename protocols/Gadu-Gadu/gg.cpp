@@ -21,14 +21,13 @@
 
 #include "gg.h"
 #include "version.h"
-#include <m_version.h>
 #include <errno.h>
 
 // Plugin info
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	"Gadu-Gadu Protocol",
-	MIRANDA_VERSION_DWORD,
+	__VERSION_DWORD,
 	"Provides support for Gadu-Gadu protocol",
 	"Bartosz Bia³ek, Adam Strzelecki",
 	"dezred"/*antispam*/"@"/*antispam*/"gmail"/*antispam*/"."/*antispam*/"com",

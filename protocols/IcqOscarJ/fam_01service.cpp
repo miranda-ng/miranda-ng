@@ -761,11 +761,14 @@ void CIcqProto::setUserInfo()
 	packDWord(&packet, 0x4D697261);   // Miranda Signature
 	packDWord(&packet, 0x6E64614E);
 
-	WORD ver[4] = { MIRANDA_VERSION_FILEVERSION };
-	packWord(&packet, ver[0]);
-	packWord(&packet, ver[1]);
-	packWord(&packet, ver[2]);
-	packWord(&packet, ver[3]);
+	int v[4];
+	char mirver[100];
+	CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(mirver), LPARAM(mirver));
+	sscanf(mirver, "%d.%d.%d.%d", &v[0], &v[1], &v[2], &v[3]);
+	packWord(&packet, v[0]);
+	packWord(&packet, v[1]);
+	packWord(&packet, v[2]);
+	packWord(&packet, v[3]);
 
 	//MIM/PackName
 	if ( bHasPackName ) {

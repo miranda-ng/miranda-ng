@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aim.h"
 #include "version.h"
-#include <m_version.h>
 
 int CAimProto::aim_send_connection_packet(HANDLE hServerConn,unsigned short &seqno,char *buf)
 {
@@ -53,8 +52,9 @@ int CAimProto::aim_auth_request(HANDLE hServerConn,unsigned short &seqno,const c
 	mir_md5_append(&state,(mir_md5_byte_t*)AIM_MD5_STRING, sizeof(AIM_MD5_STRING)-1);
 	mir_md5_finish(&state,auth_hash);
 
-	char client_id[64];
-	int client_id_len = mir_snprintf(client_id, sizeof(client_id), "Miranda AIM, version %s", MIRANDA_VERSION_STRING);
+	char client_id[64], mirver[64];
+	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(mirver), (LPARAM)mirver);
+	int client_id_len = mir_snprintf(client_id, sizeof(client_id), "Miranda AIM, version %s", mirver);
 
 	char* buf=(char*)alloca(SNAC_SIZE+TLV_HEADER_SIZE*14+MD5_HASH_LENGTH+strlen(username)+client_id_len+30+strlen(language)+strlen(country));
 
