@@ -4,9 +4,9 @@
 
 #include "winres.h"
 
-#define VERSION_STRING "0.10.0.1"
+#define VERSION_STRING "0.11.0.1"
 #define VER_MAJOR 0
-#define VER_MINOR 10
+#define VER_MINOR 11
 #define VER_REVISION 0
 #define VER_BUILD 1
 
