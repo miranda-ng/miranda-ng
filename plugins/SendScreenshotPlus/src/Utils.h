@@ -1,7 +1,7 @@
 /*
 
 Miranda IM: the free IM client for Microsoft* Windows*
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-2009 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
@@ -64,7 +64,6 @@ LPTSTR			SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, LPTSTR pszFilename, LPT
 
 void			DrawBorderInverted(HWND hWindow);
 BOOL			GetLmouse();
-BOOL			mir_is_unicode();
 INT_PTR			GetFileName(LPTSTR pszPath, UINT typ);
 INT_PTR			GetFileExt (LPTSTR pszPath, UINT typ);
 

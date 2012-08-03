@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2005 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 
@@ -112,7 +112,7 @@ void Protocol::lcopystr(TCHAR *dest, TCHAR *src, size_t maxlen)
 	}
 }
 
-bool Protocol::IsValid() 
+bool Protocol::IsValid()
 {
 	return valid;
 }
@@ -132,7 +132,7 @@ int Protocol::GetStatus()
 		custom_status = CallProtoService(name, PS_ICQ_GETCUSTOMSTATUS, (WPARAM) &custom_status_name, (LPARAM) &custom_status_message);
 	else
 		custom_status = 0;
-	
+
 	// if protocol supports custom status, but it is not set (custom_status will be -1), show normal status
 	if (custom_status < 0) custom_status = 0;
 
@@ -198,10 +198,10 @@ void Protocol::SetStatus(int aStatus)
 		// END From commomstatus.cpp (KeepStatus)
 
 
-		PROTOCOLSETTINGEX **pse = (PROTOCOLSETTINGEX **) mir_alloc0(pCount * sizeof(PROTOCOLSETTINGEX *));
+		PROTOCOLSETTINGEX **pse = (PROTOCOLSETTINGEX **) mir_calloc(pCount * sizeof(PROTOCOLSETTINGEX *));
 
 		for (i = 0; i < pCount; i++) {
-			pse[i] = (PROTOCOLSETTINGEX *) mir_alloc0(sizeof(PROTOCOLSETTINGEX));
+			pse[i] = (PROTOCOLSETTINGEX *) mir_calloc(sizeof(PROTOCOLSETTINGEX));
 			pse[i]->szName = "";
 		}
 
@@ -238,7 +238,7 @@ bool Protocol::CanGetStatusMsg()
 
 bool Protocol::CanGetStatusMsg(int aStatus)
 {
-	return (CallProtoService(name, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) != 0 
+	return (CallProtoService(name, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) != 0
 			&& (PF3 & Proto_Status2Flag(aStatus));
 }
 
@@ -265,7 +265,7 @@ void Protocol::GetStatusMsg(int aStatus, TCHAR *msg, size_t msg_size)
 	{
 		TCHAR *tmp = (TCHAR*) CallProtoService(name, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
 		lcopystr(msg, tmp == NULL ? _T("") : tmp, msg_size);
-	} 
+	}
 
 	else if (ServiceExists(MS_AWAYMSG_GETSTATUSMSG))
 	{
@@ -370,7 +370,7 @@ TCHAR* Protocol::GetNick()
 	ci.dwFlag |= CNF_UNICODE;
 #endif
 
-	if ( !CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) 
+	if ( !CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci))
 	{
 		// CNF_DISPLAY always returns a string type
 		lcopystr(nickname, ci.pszVal, SIZEOF(nickname));
@@ -404,7 +404,7 @@ void Protocol::SetNick(const TCHAR *nick)
 
 bool Protocol::CanSetAvatar()
 {
-	return ServiceExists(MS_AV_SETMYAVATAR) != FALSE && ServiceExists(MS_AV_CANSETMYAVATAR) != FALSE && 
+	return ServiceExists(MS_AV_SETMYAVATAR) != FALSE && ServiceExists(MS_AV_CANSETMYAVATAR) != FALSE &&
 			CallService(MS_AV_CANSETMYAVATAR, (WPARAM) name, 0);
 }
 
@@ -566,7 +566,7 @@ void ProtocolArray::SetNicks(const TCHAR *nick)
 	lstrcpyn(default_nick, nick, SIZEOF(default_nick));
 
 	DBWriteContactSettingTString(0, MODULE_NAME, SETTING_DEFAULT_NICK, nick);
-	
+
 	for ( int i = 0 ; i < buffer_len ; i++ )
 		buffer[i]->SetNick(default_nick);
 }
@@ -675,5 +675,3 @@ static char *StatusModeToDbSetting(int status,const char *suffix)
 	lstrcpyA(str,prefix); lstrcatA(str,suffix);
 	return str;
 }
-
-

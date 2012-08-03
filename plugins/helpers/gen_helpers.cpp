@@ -224,11 +224,3 @@ TCHAR *itot(int num) {
 	return mir_a2t(tRes);
 
 }
-
-// Helper functions that need MODULENAME
-#define SETTING_NOENCODINGCHECK		"NoEncodingCheck"
-
-int Hlp_UnicodeCheck(char *szPluginName, BOOL bForce, const char *szModule)
-{
-	return 0;
-}

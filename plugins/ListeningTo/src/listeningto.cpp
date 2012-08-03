@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2006-2009 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 
@@ -34,7 +34,7 @@ Boston, MA 02111-1307, USA.
 #define MS_LISTENINGTO_HOTKEYS_DISABLE		"ListeningTo/HotkeysDisable"
 #define MS_LISTENINGTO_HOTKEYS_TOGGLE		"ListeningTo/HotkeysToggle"
 
-int hLangpack; 
+int hLangpack;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -108,7 +108,7 @@ TCHAR* VariablesParsePlayer(ARGUMENTSINFO *ai);
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) 
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -122,12 +122,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_LISTENINGTO, MIID_LAST };
 
-extern "C" int __declspec(dllexport) Load(void) 
+extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfo);
-
-	CHECK_VERSION("Listening To")
 
 	CoInitialize(NULL);
 
@@ -143,7 +140,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_ENABLE, HotkeysEnable);
 	CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_DISABLE, HotkeysDisable);
 	CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_TOGGLE, HotkeysToggle);
-	
+
 	// Hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
@@ -158,7 +155,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Unload(void) 
+extern "C" int __declspec(dllexport) Unload(void)
 {
 	CoUninitialize();
 
@@ -180,7 +177,7 @@ void UpdateGlobalStatusMenus()
 
 	CLISTMENUITEM clmi = {0};
 	clmi.cbSize = sizeof(clmi);
-	clmi.flags = CMIM_FLAGS 
+	clmi.flags = CMIM_FLAGS
 			| (enabled ? CMIF_CHECKED : 0)
 			| (opts.enable_sending ? 0 : CMIF_GRAYED);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto_itens[0].hMenu, (LPARAM) &clmi);
@@ -231,7 +228,7 @@ void RebuildMenu()
 }
 
 void RegisterProtocol(char *proto, TCHAR *account)
-{		
+{
 	if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) &&
 		!ProtoServiceExists(proto, PS_ICQ_SETCUSTOMSTATUSEX))
 		return;
@@ -251,7 +248,7 @@ void RegisterProtocol(char *proto, TCHAR *account)
 }
 
 
-int AccListChanged(WPARAM wParam, LPARAM lParam) 
+int AccListChanged(WPARAM wParam, LPARAM lParam)
 {
 	PROTOACCOUNT *proto = (PROTOACCOUNT *) lParam;
 	if (proto == NULL || proto->type != PROTOTYPE_PROTOCOL)
@@ -272,7 +269,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 			clmi.flags = CMIM_NAME | CMIF_TCHAR;
 			clmi.ptszName = text;
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->hMenu, (LPARAM) &clmi);
-		} 
+		}
 		else if (wParam == PRAC_REMOVED || (wParam == PRAC_CHECKED && !proto->bIsEnabled))
 		{
 			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM) info->hMenu, 0);
@@ -303,7 +300,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 
 
 // Called when all the modules are loaded
-int ModulesLoaded(WPARAM wParam, LPARAM lParam) 
+int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	EnableDisablePlayers();
 
@@ -331,7 +328,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 				{
 					if (dbv.ptszVal != NULL && dbv.ptszVal[0] != 0)
 						SetExtraIcon(hContact, TRUE);
-					
+
 					DBFreeVariant(&dbv);
 				}
 			}
@@ -515,7 +512,7 @@ static INT_PTR TopToolBarClick(WPARAM wParam, LPARAM lParam)
 }
 
 // Toptoolbar hook to put an icon in the toolbar
-int TopToolBarLoaded(WPARAM wParam, LPARAM lParam) 
+int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 {
 	BOOL enabled = ListeningToEnabled(NULL, TRUE);
 
@@ -549,7 +546,7 @@ INT_PTR MainMenuClicked(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal) 
+BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal)
 {
 	if (!ignoreGlobal && !opts.enable_sending)
 		return FALSE;
@@ -578,7 +575,7 @@ BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal)
 	}
 }
 
-INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam) 
+INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam)
 {
 	if (!loaded)
 		return -1;
@@ -625,7 +622,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 				if (opts.xstatus_set == SET_XSTATUS)
 				{
 					ProtocolInfo *pi = GetProtoInfo(proto);
-					if (pi != NULL) 
+					if (pi != NULL)
 					{
 						pi->old_xstatus = 0;
 						pi->old_xstatus_name[0] = _T('\0');
@@ -638,7 +635,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 			if (opts.xstatus_set == CHECK_XSTATUS_MUSIC)
 			{
 				// Set text to nothing
-				TCHAR *fr[] = { 
+				TCHAR *fr[] = {
 					_T("listening"), opts.nothing
 				};
 
@@ -664,7 +661,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 			{
 				// Set to old text
 				ProtocolInfo *pi = GetProtoInfo(proto);
-				if (pi != NULL) 
+				if (pi != NULL)
 				{
 					ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS |	CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 					ics.status = &pi->old_xstatus;
@@ -679,7 +676,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 
 				CallProtoService(proto, PS_ICQ_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
 
-				if (pi != NULL) 
+				if (pi != NULL)
 				{
 					pi->old_xstatus = 0;
 					pi->old_xstatus_name[0] = _T('\0');
@@ -721,7 +718,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 				}
 			}
 
-			TCHAR *fr[] = { 
+			TCHAR *fr[] = {
 				_T("listening"), (TCHAR *) GetParsedFormat(0, (WPARAM) lti),
 				_T("artist"), UNKNOWN(lti->ptszArtist),
 				_T("album"), UNKNOWN(lti->ptszAlbum),
@@ -749,15 +746,15 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 
 			mir_free(fr[1]);
 		}
-	} 
-	else if (ProtoServiceExists(proto, PS_SETAWAYMSG)) 
+	}
+	else if (ProtoServiceExists(proto, PS_SETAWAYMSG))
 	{
 		if (lti == NULL)
 		{
 			int status = CallProtoService(proto, PS_GETSTATUS, 0, 0);
 			CallProtoService(proto, PS_SETAWAYMSG, (WPARAM) status, 0);
 		}
-		else 
+		else
 		{
 			TCHAR *fr = (TCHAR *)GetParsedFormat(0, (WPARAM) lti);
 			char *info = mir_t2a(fr);
@@ -770,7 +767,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 	}
 }
 
-INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam) 
+INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 {
 	if (!loaded)
 		return -1;
@@ -802,7 +799,7 @@ INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 		{
 			CLISTMENUITEM clmi = {0};
 			clmi.cbSize = sizeof(clmi);
-			clmi.flags = CMIM_FLAGS 
+			clmi.flags = CMIM_FLAGS
 					| (lParam ? CMIF_CHECKED : 0)
 					| (opts.enable_sending ? 0 : CMIF_GRAYED);
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->hMenu, (LPARAM) &clmi);
@@ -824,22 +821,22 @@ INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR HotkeysEnable(WPARAM wParam,LPARAM lParam) 
+INT_PTR HotkeysEnable(WPARAM wParam,LPARAM lParam)
 {
 	return EnableListeningTo(lParam, TRUE);
 }
 
-INT_PTR HotkeysDisable(WPARAM wParam,LPARAM lParam) 
+INT_PTR HotkeysDisable(WPARAM wParam,LPARAM lParam)
 {
 	return EnableListeningTo(lParam, FALSE);
 }
 
-INT_PTR HotkeysToggle(WPARAM wParam,LPARAM lParam) 
+INT_PTR HotkeysToggle(WPARAM wParam,LPARAM lParam)
 {
 	return EnableListeningTo(lParam, !ListeningToEnabled((char *)lParam, TRUE));
 }
 
-INT_PTR GetTextFormat(WPARAM wParam,LPARAM lParam) 
+INT_PTR GetTextFormat(WPARAM wParam,LPARAM lParam)
 {
 	if (!loaded)
 		return NULL;
@@ -847,7 +844,7 @@ INT_PTR GetTextFormat(WPARAM wParam,LPARAM lParam)
 	return ( INT_PTR )mir_tstrdup(opts.templ);
 }
 
-INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam) 
+INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam)
 {
 	if (!loaded)
 		return NULL;
@@ -857,7 +854,7 @@ INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam)
 	if (lti == NULL)
 		return NULL;
 
-	TCHAR *fr[] = { 
+	TCHAR *fr[] = {
 		_T("artist"), UNKNOWN(lti->ptszArtist),
 		_T("album"), UNKNOWN(lti->ptszAlbum),
 		_T("title"), UNKNOWN(lti->ptszTitle),
@@ -874,13 +871,13 @@ INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam)
 	return (int) ret.detach();
 }
 
-INT_PTR GetOverrideContactOption(WPARAM wParam,LPARAM lParam) 
+INT_PTR GetOverrideContactOption(WPARAM wParam,LPARAM lParam)
 {
 	return ( INT_PTR )opts.override_contact_template;
 }
 
 
-INT_PTR GetUnknownText(WPARAM wParam,LPARAM lParam) 
+INT_PTR GetUnknownText(WPARAM wParam,LPARAM lParam)
 {
 	return ( INT_PTR )opts.unknown;
 }
@@ -890,7 +887,7 @@ void SetListeningInfos(LISTENINGTOINFO *lti)
 	for (unsigned int i = 1; i < proto_itens.size(); ++i)
 		SetListeningInfo(proto_itens[i].proto, lti);
 
-	TCHAR *fr = NULL; 
+	TCHAR *fr = NULL;
 	char *info = NULL;
 
 	if (lti) {
@@ -1029,7 +1026,7 @@ void SetExtraIcon(HANDLE hContact, BOOL set)
 		{
 			iec.ColumnType = opts.adv_icon_slot + EXTRA_ICON_ADV1;
 		}
-		else 
+		else
 		{
 			int first = CallService(MS_CLUI_GETCAPS, 0, CLUIF2_USEREXTRASTART);
 			iec.ColumnType = opts.adv_icon_slot - 2 + first;
@@ -1093,7 +1090,7 @@ TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
 		return mir_tstrdup(_T(""));
 	}
 
-	TCHAR *fr[] = { 
+	TCHAR *fr[] = {
 		_T("artist"), UNKNOWN(lti->ptszArtist),
 		_T("album"), UNKNOWN(lti->ptszAlbum),
 		_T("title"), UNKNOWN(lti->ptszTitle),

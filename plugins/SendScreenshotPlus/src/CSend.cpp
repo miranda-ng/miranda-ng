@@ -1,7 +1,7 @@
 /*
 
 Miranda IM: the free IM client for Microsoft* Windows*
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-2009 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
@@ -83,7 +83,7 @@ void	CSend::svcSendMsg(const char* szMessage) {
 	m_cbEventMsg=lstrlenA(szMessage)+1;
 	m_szEventMsg=(char*)mir_realloc(m_szEventMsg, sizeof(char)*m_cbEventMsg);
 	ZeroMemory(m_szEventMsg, m_cbEventMsg);
-	lstrcpyA(m_szEventMsg,szMessage); 
+	lstrcpyA(m_szEventMsg,szMessage);
 	if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
 		char *temp = mir_t2a(m_pszFileDesc);
 		mir_stradd(m_szEventMsg, "\r\n");
@@ -115,7 +115,7 @@ void	CSend::svcSendUrl(const char* url) {
 	m_cbEventMsg=lstrlenA(url)+2;
 	m_szEventMsg=(char*)mir_realloc(m_szEventMsg, m_cbEventMsg);
 	ZeroMemory(m_szEventMsg, m_cbEventMsg);
-	lstrcpyA(m_szEventMsg,url); 
+	lstrcpyA(m_szEventMsg,url);
 	if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
 		char *temp = mir_t2a(m_pszFileDesc);
 		m_cbEventMsg += lstrlenA(temp);
@@ -161,12 +161,7 @@ void	CSend::svcSendChat() {
 			gcd.ptszID = gci.pszID;
 #else	//dirty fix coz MS_GC_GETINFO dont know if caller is ansi or unicode.
 		//result from MS_GC_GETINFO only depend on type of chat.dll and not of caller type
-			if (mir_is_unicode()) {
-				dirtyFix = mir_u2t((wchar_t*)gci.pszID);
-			}
-			else {
-				dirtyFix = mir_tstrdup(gci.pszID);
-			}
+			dirtyFix = mir_u2t((wchar_t*)gci.pszID);
 			gcd.ptszID = dirtyFix;			//fixed gci.pszID;
 #endif
 			gce.cbSize		= sizeof(GCEVENT);
@@ -213,7 +208,7 @@ void	CSend::svcSendFile() {
 		char* temp = mir_t2a(m_pszFileDesc);
 		m_cbEventMsg += lstrlenA(temp);
 		m_szEventMsg=(char*)mir_realloc(m_szEventMsg, sizeof(char)*m_cbEventMsg);
-		lstrcpyA(m_szEventMsg+lstrlenA(szFile)+1,temp); 
+		lstrcpyA(m_szEventMsg+lstrlenA(szFile)+1,temp);
 		m_szEventMsg[m_cbEventMsg-1] = 0;
 		mir_freeAndNil(temp);
 	}
@@ -225,34 +220,16 @@ void	CSend::svcSendFile() {
 		hookProc = &CSend::OnSend;
 		m_hOnSend = HookEventObj(ME_PROTO_ACK, (MIRANDAHOOKOBJ)*(void **)&hookProc, this);
 	}
+
 	// Start miranda PSS_FILE based on mir ver (T)
-	if ((CallService(MS_SYSTEM_GETVERSION,0,0) >= 0x090000) && mir_is_unicode()) {
-		TCHAR *ppFile[2]={0,0};
-		TCHAR *pDesc = mir_tstrdup(m_pszFileDesc);
-		ppFile[0] = mir_tstrdup (m_pszFile);
-/*		#if defined( _UNICODE )
-			TCHAR *ppFile[2]={0,0};
-			TCHAR *pDesc = mir_tstrdup(m_pszFileDesc);
-			ppFile[0] = mir_tstrdup (m_pszFile);
-		#else
-			wchar_t *ppFile[2]={0,0};
-			wchar_t *pDesc = mir_t2u (m_pszFileDesc);
-			ppFile[0] = mir_t2u (m_pszFile);
-		#endif */
-		ppFile[1] = NULL;
-		m_hSend = (HANDLE)CallContactService(m_hContact, PSS_FILET, (WPARAM)pDesc, (LPARAM)ppFile);
-		mir_free(pDesc);
-		mir_free(ppFile[0]);
-	}
-	else {
-		char *pDesc = mir_t2a(m_pszFileDesc);
-		char *ppFile[2]={0};
-		ppFile[0] = mir_t2a(m_pszFile);
-		ppFile[1] = NULL;
-		m_hSend = (HANDLE)CallContactService(m_hContact, PSS_FILE, (WPARAM)pDesc, (LPARAM)ppFile);
-		mir_free(pDesc);
-		mir_free(ppFile[0]);
-	}
+	TCHAR *ppFile[2]={0,0};
+	TCHAR *pDesc = mir_tstrdup(m_pszFileDesc);
+	ppFile[0] = mir_tstrdup (m_pszFile);
+	ppFile[1] = NULL;
+	m_hSend = (HANDLE)CallContactService(m_hContact, PSS_FILET, (WPARAM)pDesc, (LPARAM)ppFile);
+	mir_free(pDesc);
+	mir_free(ppFile[0]);
+
 	// check we actually got an ft handle back from the protocol
 	if (!m_hSend) {
 		Unhook();
@@ -270,7 +247,7 @@ int __cdecl	CSend::OnSend(WPARAM wParam, LPARAM lParam){
 				dat->waitingForAcceptance=0;
 			}
 		*/
-	
+
 	switch(ack->result) {
 		case ACKRESULT_INITIALISING:	//SetFtStatus(hwndDlg, LPGENT("Initialising..."), FTS_TEXT); break;
 		case ACKRESULT_CONNECTING:		//SetFtStatus(hwndDlg, LPGENT("Connecting..."), FTS_TEXT); break;
@@ -390,7 +367,7 @@ void	CSend::Exit(unsigned int Result) {
 
 void	CSend::Error(LPCTSTR pszFormat, ...) {
 	if(!pszFormat) return;
-	
+
 	TCHAR	tszTemp[MAX_SECONDLINE];
 	va_list	vl;
 
@@ -413,4 +390,3 @@ void	CSend::Error(LPCTSTR pszFormat, ...) {
 	m_box.ptszMsg		= m_ErrorMsg;
 	m_box.uType			= MB_OK|MB_ICON_ERROR;
 }
-

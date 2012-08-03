@@ -20,26 +20,7 @@ Boston, MA 02111-1307, USA.
 #ifndef __MIR_MEMORY_H__
 # define __MIR_MEMORY_H__
 
-
 #include <windows.h>
-
-
-
-static BOOL mir_is_unicode()
-{
-	return TRUE;
-}
-
-
-static void * mir_alloc0(size_t size)
-{
-	void * ptr = mir_alloc(size);
-
-	if (ptr != NULL)
-		memset(ptr, 0, size);
-
-	return ptr;
-}
 
 static int strcmpnull(char *str1, char *str2)
 {
@@ -65,31 +46,14 @@ static int strcmpnullW(WCHAR *str1, WCHAR *str2)
 	return lstrcmpW(str1, str2);
 }
 
-
-
-#define CHECK_VERSION(_NAME_)																\
-	if ( !mir_is_unicode())																	\
-	{																						\
-		MessageBox(NULL, _T("Your Miranda is ansi. You have to install ansi ") _T(_NAME_),	\
-						_T(_NAME_), MB_OK | MB_ICONERROR);									\
-		return -1;																			\
-	}
-
 # define lstrcmpnull strcmpnullW
 
 #define INPLACE_CHAR_TO_TCHAR(_new_var_, _size_, _old_var_)									\
 	TCHAR _new_var_[_size_];																\
 	MultiByteToWideChar(CP_ACP, 0, _old_var_, -1, _new_var_, _size_)
 
-
 #define INPLACE_TCHAR_TO_CHAR(_new_var_, _size_, _old_var_)									\
 	char _new_var_[_size_];																	\
 	WideCharToMultiByte(CP_ACP, 0, _old_var_, -1, _new_var_, _size_, NULL, NULL);
-
-
-// Free memory and set to NULL
-//#define MIR_FREE(_x_) if (_x_ != NULL) { mir_free(_x_); _x_ = NULL; }
-
-
 
 #endif // __MIR_MEMORY_H__

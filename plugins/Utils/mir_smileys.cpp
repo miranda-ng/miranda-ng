@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 
@@ -37,7 +37,7 @@ Boston, MA 02111-1307, USA.
 
 #define TEXT_PIECE_TYPE_TEXT   0
 #define TEXT_PIECE_TYPE_SMILEY 1
-typedef struct 
+typedef struct
 {
 	int type;
 	int len;
@@ -54,7 +54,7 @@ typedef struct
 			int smiley_height;
 		};
 	};
-}	
+}
 	TextPiece;
 
 SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protocol, int *max_smiley_height);
@@ -64,7 +64,7 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uText
 
 // Functions
 
-int InitContactListSmileys() 
+int InitContactListSmileys()
 {
 	// Register smiley category
 	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY))
@@ -83,7 +83,7 @@ int InitContactListSmileys()
 
 SmileysParseInfo Smileys_PreParse(const TCHAR* lpString, int nCount, const char *protocol)
 {
-	SmileysParseInfo info = (SmileysParseInfo) mir_alloc0(sizeof(_SmileysParseInfo));
+	SmileysParseInfo info = (SmileysParseInfo) mir_calloc(sizeof(_SmileysParseInfo));
 
 	info->pieces = ReplaceSmileys(lpString, nCount, protocol, &info->max_height);
 
@@ -191,7 +191,7 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 			}
 
 			ret = text_size.cy;
-			
+
 			DrawTextSmiley(hDC, rc, lpString, nCount, info->pieces, uFormat, info->max_height);
 		}
 
@@ -228,7 +228,7 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uText
 		DrawText(hdcMem,szText,lstrlen(szText), &text_rc, DT_CALCRECT | uTextFormat);
 		text_size.cy = text_rc.bottom - text_rc.top;
 
-		if (plText == NULL) 
+		if (plText == NULL)
 		{
 			text_size.cx = text_rc.right - text_rc.left;
 		}
@@ -254,7 +254,7 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uText
 				else
 				{
 					double factor;
-					
+
 					if ((uTextFormat & DT_RESIZE_SMILEYS) && piece->smiley_height > text_size.cy)
 					{
 						factor = text_size.cy / (double) piece->smiley_height;
@@ -277,7 +277,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, Sort
 {
 	if (szText == NULL)
 		return;
-	
+
 	uTextFormat &= ~DT_RIGHT;
 
 	// Draw list
@@ -359,8 +359,8 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, Sort
 					{
 						text_rc.top += (row_height - (LONG)(piece->smiley_height * factor)) >> 1;
 
-						skin_DrawIconEx(hdcMem, text_rc.left, text_rc.top, piece->smiley, 
-							(LONG)(piece->smiley_width * factor), (LONG)(piece->smiley_height * factor), 0, NULL, DI_NORMAL); 
+						skin_DrawIconEx(hdcMem, text_rc.left, text_rc.top, piece->smiley,
+							(LONG)(piece->smiley_width * factor), (LONG)(piece->smiley_height * factor), 0, NULL, DI_NORMAL);
 					}
 					else
 					{
@@ -439,13 +439,13 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 	{
 		TCHAR* start = _tcsninc(text, spres[i].startChar);
 		TCHAR* end = _tcsninc(start, spres[i].size);
-		
+
 		if (spres[i].hIcon != NULL)	// For deffective smileypacks
 		{
 			// Add text
 			if (start > next_text_pos)
 			{
-				TextPiece *piece = (TextPiece *) mir_alloc0(sizeof(TextPiece));
+				TextPiece *piece = (TextPiece *) mir_calloc(sizeof(TextPiece));
 
 				piece->type = TEXT_PIECE_TYPE_TEXT;
 				piece->start_pos = next_text_pos - text;
@@ -458,7 +458,7 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 			{
 				BITMAP bm;
 				ICONINFO icon;
-				TextPiece *piece = (TextPiece *) mir_alloc0(sizeof(TextPiece));
+				TextPiece *piece = (TextPiece *) mir_calloc(sizeof(TextPiece));
 
 				piece->type = TEXT_PIECE_TYPE_SMILEY;
 				piece->len = end - start;
@@ -490,7 +490,7 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 	// Add rest of text
 	if (last_text_pos > next_text_pos)
 	{
-		TextPiece *piece = (TextPiece *) mir_alloc0(sizeof(TextPiece));
+		TextPiece *piece = (TextPiece *) mir_calloc(sizeof(TextPiece));
 
 		piece->type = TEXT_PIECE_TYPE_TEXT;
 		piece->start_pos = next_text_pos - text;

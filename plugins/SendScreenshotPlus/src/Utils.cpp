@@ -408,12 +408,6 @@ BOOL GetLmouse() {
 }
 
 //---------------------------------------------------------------------------
-//is miranda unicode
-BOOL mir_is_unicode() {
-	return TRUE;
-}
-
-//---------------------------------------------------------------------------
 INT_PTR GetFileName(LPTSTR pszPath, UINT typ) {
 	/*DBVT_ASCIIZ, DBVT_WCHAR, DBVT_TCHAR*/
 	LPTSTR slash = _tcsrchr(pszPath,_T('\\'));

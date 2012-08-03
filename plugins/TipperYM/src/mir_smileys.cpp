@@ -15,7 +15,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
@@ -24,7 +24,7 @@ Boston, MA 02111-1307, USA.
 
 
 
-void *mir_alloc0(size_t size) 
+void *mir_calloc(size_t size)
 {
 	void *ptr = mir_alloc(size);
 	if (ptr) memset(ptr, 0, size);
@@ -32,10 +32,10 @@ void *mir_alloc0(size_t size)
 	return ptr;
 }
 
-int InitTipperSmileys() 
+int InitTipperSmileys()
 {
 	// Register smiley category
-	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY)) 
+	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY))
 	{
 		SMADD_REGCAT rc;
 		rc.cbSize = sizeof(rc);
@@ -49,13 +49,13 @@ int InitTipperSmileys()
 
 SMILEYPARSEINFO Smileys_PreParse(LPCTSTR lpString, int nCount, const char *protocol)
 {
-	if (!(opt.iSmileyAddFlags & SMILEYADD_ENABLE)) 
+	if (!(opt.iSmileyAddFlags & SMILEYADD_ENABLE))
 		return NULL;
 
 	if (nCount == -1)
 		nCount = (int)lstrlen(lpString);
 
-	SMILEYPARSEINFO info = (SMILEYPARSEINFO) mir_alloc0(sizeof(tagSMILEYPARSEINFO));
+	SMILEYPARSEINFO info = (SMILEYPARSEINFO) mir_calloc(sizeof(tagSMILEYPARSEINFO));
 	info->pieces = ReplaceSmileys(lpString, nCount, protocol, &info->max_height);
 
 	if (!info->pieces)
@@ -69,7 +69,7 @@ SMILEYPARSEINFO Smileys_PreParse(LPCTSTR lpString, int nCount, const char *proto
 
 void Smileys_FreeParse(SMILEYPARSEINFO parseInfo)
 {
-	if (parseInfo != NULL) 
+	if (parseInfo != NULL)
 	{
 		if (parseInfo->pieces != NULL)
 			DestroySmileyList(parseInfo->pieces);
@@ -88,12 +88,12 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 	if (nCount == -1)
 		nCount = (int)lstrlen(lpString);
 
-	if (uFormat & DT_CALCRECT) 
+	if (uFormat & DT_CALCRECT)
 	{
 		SIZE text_size = GetTextSize(hDC, lpString, parseInfo, uFormat, parseInfo->max_height, (lpRect->right - lpRect->left));
 		lpRect->bottom = text_size.cy;
 
-		if (text_size.cx < lpRect->right - lpRect->left) 
+		if (text_size.cx < lpRect->right - lpRect->left)
 		{
 			if (uFormat & DT_RIGHT)
 				lpRect->left = lpRect->right - text_size.cx;
@@ -102,7 +102,7 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 		}
 
 		result = text_size.cy;
-	} 
+	}
 	else
 	{
 		// Draw
@@ -110,12 +110,12 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 		{
 			result = DrawText(hDC, lpString, nCount, lpRect, uFormat);
 		}
-		else 
+		else
 		{
 			RECT rc = *lpRect;
 			SIZE text_size = GetTextSize(hDC, lpString, parseInfo, uFormat, parseInfo->max_height, (lpRect->right - lpRect->left));
 
-			if (text_size.cx < rc.right - rc.left) 
+			if (text_size.cx < rc.right - rc.left)
 			{
 				if (uFormat & DT_RIGHT)
 					rc.left = rc.right - text_size.cx;
@@ -137,29 +137,29 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTe
 	int text_height;
 	int row_count = 0, pos_x = 0;
 
-	if (szText == NULL || _tcsclen(szText) == 0) 
+	if (szText == NULL || _tcsclen(szText) == 0)
 	{
 		text_size.cy = 0;
 		text_size.cx = 0;
 	}
-	else 
+	else
 	{
 		RECT text_rc = {0, 0, 2048, 2048};
 
-		if (info->pieces == NULL) 
+		if (info->pieces == NULL)
 		{
 			DrawText(hdcMem, szText, -1, &text_rc, DT_CALCRECT | uTextFormat);
 			text_size.cx = text_rc.right - text_rc.left;
 			text_size.cy = text_rc.bottom - text_rc.top;
-		} 
-		else 
+		}
+		else
 		{
 			// Get real height of the line
 			text_height = DrawText(hdcMem, _T("A"), 1, &text_rc, DT_CALCRECT | uTextFormat);
 
 			// See each item of list
 			int i;
-			for (i = 0; i < info->pieces->realCount; i++) 
+			for (i = 0; i < info->pieces->realCount; i++)
 			{
 				TEXTPIECE *piece = (TEXTPIECE *) info->pieces->items[i];
 				info->row_height[row_count] = max(info->row_height[row_count], text_height);
@@ -170,7 +170,7 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTe
 
 					DrawText(hdcMem, szText + piece->start_pos, piece->len, &text_rc, DT_CALCRECT | uTextFormat);
 					pos_x += (text_rc.right - text_rc.left);
-					if (pos_x > max_width) 
+					if (pos_x > max_width)
 					{
 						text_size.cx = max(text_size.cx, pos_x - (text_rc.right - text_rc.left));
 						pos_x = text_rc.right - text_rc.left;
@@ -184,8 +184,8 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTe
 						info->row_height[++row_count] = 0;
 					}
 
-				} 
-				else 
+				}
+				else
 				{
 					double factor;
 
@@ -202,7 +202,7 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTe
 						text_size.cx = max(text_size.cx, pos_x - (piece->smiley_width * factor));
 						pos_x = piece->smiley_width * factor;
 						info->row_height[++row_count] = piece->smiley_height * factor;
-					}		
+					}
 				}
 			}
 
@@ -219,13 +219,13 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMIL
 {
 	if (szText == NULL)
 		return;
-	
+
 	uTextFormat &= ~DT_RIGHT;
 
 	// Draw list
 	int text_height, i, shift;
 	int row_count = 0, pos_x = 0;
-	
+
 	RECT tmp_rc = free_rc;
 
 	if (uTextFormat & DT_RTLREADING)
@@ -244,7 +244,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMIL
 	{
 		DrawText(hdcMem, _T("..."), 3, &free_rc, uTextFormat & ~DT_END_ELLIPSIS);
 	}
-	else 
+	else
 	{
 		// Draw text and smileys
 		RECT text_rc = free_rc;
@@ -257,15 +257,15 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMIL
 			else
 				text_rc.left = free_rc.left + pos_x;
 
-			if (piece->type == TEXT_PIECE_TYPE_TEXT) 
+			if (piece->type == TEXT_PIECE_TYPE_TEXT)
 			{
 				tmp_rc = text_rc;
 				tmp_rc.right = 2048;
 
-				DrawText(hdcMem, szText + piece->start_pos, min(len, piece->len), &tmp_rc, DT_CALCRECT | (uTextFormat & ~DT_END_ELLIPSIS));	
+				DrawText(hdcMem, szText + piece->start_pos, min(len, piece->len), &tmp_rc, DT_CALCRECT | (uTextFormat & ~DT_END_ELLIPSIS));
 
 				pos_x += (tmp_rc.right - tmp_rc.left);
-				if (pos_x > (free_rc.right - free_rc.left)) 
+				if (pos_x > (free_rc.right - free_rc.left))
 				{
 					pos_x = tmp_rc.right - tmp_rc.left;
 					text_rc.left = free_rc.left;
@@ -273,7 +273,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMIL
 					text_rc.top += info->row_height[row_count];
 					row_count++;
 				}
-		
+
 				shift = (info->row_height[row_count] - text_height) >> 1;
 				text_rc.top += shift;
 
@@ -284,7 +284,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMIL
 				len -= piece->len;
 				text_rc.top -= shift;
 
-				if (szText[piece->start_pos + piece->len - 1] == '\n') 
+				if (szText[piece->start_pos + piece->len - 1] == '\n')
 				{
 					text_rc.left = free_rc.left;
 					text_rc.right = free_rc.right;
@@ -292,8 +292,8 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMIL
 					pos_x = 0;
 					row_count++;
 				}
-			} 
-			else 
+			}
+			else
 			{
 				double factor;
 
@@ -301,7 +301,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMIL
 				{
 					len = 0;
 				}
-				else 
+				else
 				{
 					len -= piece->len;
 
@@ -314,7 +314,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMIL
 						text_rc.left = max(text_rc.right - (int)(piece->smiley_width * factor), text_rc.left);
 
 					pos_x += piece->smiley_width * factor;
-					if (pos_x > (free_rc.right - free_rc.left)) 
+					if (pos_x > (free_rc.right - free_rc.left))
 					{
 						pos_x = piece->smiley_width * factor;
 						text_rc.left = free_rc.left;
@@ -322,9 +322,9 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMIL
 						text_rc.top += info->row_height[row_count];
 						row_count++;
 					}
-					
+
 					shift = (info->row_height[row_count] - (LONG)(piece->smiley_height * factor)) >> 1;
-					DrawIconExAlpha(hdcMem, text_rc.left, text_rc.top + shift, piece->smiley, piece->smiley_width * factor, piece->smiley_height * factor, 0, NULL, DI_NORMAL, true); 
+					DrawIconExAlpha(hdcMem, text_rc.left, text_rc.top + shift, piece->smiley, piece->smiley_width * factor, piece->smiley_height * factor, 0, NULL, DI_NORMAL, true);
 				}
 			}
 		}
@@ -339,13 +339,13 @@ void DestroySmileyList(SortedList* p_list)
 	if (p_list == NULL)
 		return;
 
-	if (p_list->items != NULL) 
+	if (p_list->items != NULL)
 	{
 		int i;
-		for (i = 0 ; i < p_list->realCount ; i++) 
+		for (i = 0 ; i < p_list->realCount ; i++)
 		{
 			TEXTPIECE *piece = (TEXTPIECE *)p_list->items[i];
-			if (piece != NULL) 
+			if (piece != NULL)
 			{
 				if (piece->type == TEXT_PIECE_TYPE_SMILEY)
 					DestroyIcon(piece->smiley);
@@ -396,17 +396,17 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 
 	word_start = word_end = (TCHAR *)text;
 
-	for (unsigned i = 0; i < sp.numSmileys; i++) 
+	for (unsigned i = 0; i < sp.numSmileys; i++)
 	{
 		// Get smile position
 		smiley_start = _tcsninc(text, spres[i].startChar);
 		smiley_end = _tcsninc(smiley_start, spres[i].size);
-		
-		if (spres[i].hIcon) // For deffective smileypacks		 
-		{ 	
-			if (opt.iSmileyAddFlags & SMILEYADD_ONLYISOLATED) 
+
+		if (spres[i].hIcon) // For deffective smileypacks
+		{
+			if (opt.iSmileyAddFlags & SMILEYADD_ONLYISOLATED)
 			{
-				if ((smiley_start > text && *(smiley_start - 1) != ' ' && *(smiley_start - 1) != '\n' && *smiley_end != '\r') || 
+				if ((smiley_start > text && *(smiley_start - 1) != ' ' && *(smiley_start - 1) != '\n' && *smiley_end != '\r') ||
 					(*smiley_end != '\0' && *smiley_end != ' ' && *smiley_end != '\n' && *smiley_end != '\r'))
 					continue;
 			}
@@ -422,9 +422,9 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 				else
 					word_end++;
 
-				if (word_end > word_start) 
+				if (word_end > word_start)
 				{
-					TEXTPIECE *piece = (TEXTPIECE *)mir_alloc0(sizeof(TEXTPIECE));
+					TEXTPIECE *piece = (TEXTPIECE *)mir_calloc(sizeof(TEXTPIECE));
 					piece->type = TEXT_PIECE_TYPE_TEXT;
 					piece->start_pos = word_start - text;
 					piece->len = word_end - word_start;
@@ -437,7 +437,7 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 			{
 				BITMAP bm;
 				ICONINFO icon;
-				TEXTPIECE *piece = (TEXTPIECE *) mir_alloc0(sizeof(TEXTPIECE));
+				TEXTPIECE *piece = (TEXTPIECE *) mir_calloc(sizeof(TEXTPIECE));
 
 				piece->type = TEXT_PIECE_TYPE_SMILEY;
 				piece->len = spres[i].size;
@@ -445,9 +445,9 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 
 				piece->smiley_width = 16;
 				piece->smiley_height = 16;
-				if (GetIconInfo(piece->smiley, &icon)) 
+				if (GetIconInfo(piece->smiley, &icon))
 				{
-					if (GetObject(icon.hbmColor, sizeof(BITMAP), &bm)) 
+					if (GetObject(icon.hbmColor, sizeof(BITMAP), &bm))
 					{
 						piece->smiley_width = bm.bmWidth;
 						piece->smiley_height = bm.bmHeight;
@@ -466,7 +466,7 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 	}
 
 	// Add rest of the text
-	while (word_end != last_text_pos) 
+	while (word_end != last_text_pos)
 	{
 		while (word_end[0] && word_end[0] != ' ' && word_end[0] != '\n')
 			word_end++;
@@ -474,9 +474,9 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 		if (word_end[0])
 			word_end++;
 
-		if (word_end > word_start) 
+		if (word_end > word_start)
 		{
-			TEXTPIECE *piece = (TEXTPIECE *)mir_alloc0(sizeof(TEXTPIECE));
+			TEXTPIECE *piece = (TEXTPIECE *)mir_calloc(sizeof(TEXTPIECE));
 			piece->type = TEXT_PIECE_TYPE_TEXT;
 			piece->start_pos = word_start - text;
 			piece->len = word_end - word_start;
@@ -493,13 +493,13 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 
 int DrawTextExt(HDC hdc, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, LPCSTR lpProto, SMILEYPARSEINFO spi)
 {
-	if ((opt.iSmileyAddFlags & SMILEYADD_ENABLE) && spi != NULL) 
+	if ((opt.iSmileyAddFlags & SMILEYADD_ENABLE) && spi != NULL)
 	{
 		if (opt.iSmileyAddFlags & SMILEYADD_RESIZE)
 			uFormat |= DT_RESIZE_SMILEYS;
 
 		return Smileys_DrawText(hdc, lpString, nCount, lpRect, uFormat, lpProto, spi);
-	} 
+	}
 	else
 	{
 		if (uFormat & DT_CALCRECT)
