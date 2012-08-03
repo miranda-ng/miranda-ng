@@ -45,6 +45,9 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			mir_free(pVerInfo);
 		}
 		{
+			char productVersion[56];
+			CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(productVersion), (LPARAM)productVersion);
+
 			TCHAR str[64];
 			mir_sntprintf(str, SIZEOF(str), _T(STR_VERSION_FORMAT), TranslateT("v"), productVersion);
 
