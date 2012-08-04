@@ -212,7 +212,7 @@ LONG PeriodToMilliseconds(const INT period, BYTE& periodMeasure)
 
 VOID CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHighValue)
 {
-	DoCheck(1, (int)CheckThread);
+	DoCheck(1);
 }
 
 VOID InitTimer()

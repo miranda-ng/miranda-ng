@@ -19,6 +19,8 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
+HWND hwndDialog = NULL;
+
 void unzip(const TCHAR* ptszZipFile, TCHAR* ptszDestPath, TCHAR* ptszBackPath);
 
 void PopupAction(HWND hWnd, BYTE action)
@@ -301,6 +303,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 	switch (message) {
 	case WM_INITDIALOG:
+		hwndDialog = hDlg;
 		TranslateDialogDefault( hDlg );
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 		SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
@@ -411,6 +414,11 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			}
 		}
 		break;
+
+	case WM_DESTROY:
+		hwndDialog = NULL;
+		delete (vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+		break;			
 	}
 
 	return FALSE;

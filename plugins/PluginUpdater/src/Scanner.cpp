@@ -36,7 +36,7 @@ static bool Exists(LPCTSTR strName)
 typedef map<string, string> hashMap;
 typedef pair<string, string> hashItem;
 
-static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap& hashes, vector<FILEINFO>& UpdateFiles)
+static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap& hashes, vector<FILEINFO>* UpdateFiles)
 {
 	TCHAR tszMask[MAX_PATH], tszFileBack[MAX_PATH];
 	mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\*"), tszFolder);
@@ -102,7 +102,7 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap&
 
 			mir_sntprintf(FileInfo.File.tszDiskPath, SIZEOF(FileInfo.File.tszDiskPath), _T("%s\\%s.zip"), tszFileBack, ffd.cFileName);
 
-			UpdateFiles.push_back(FileInfo);
+			UpdateFiles->push_back(FileInfo);
 		} // end compare versions
 	}
 		while (FindNextFile(hFind, &ffd) != 0);
@@ -110,13 +110,16 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap&
 	FindClose(hFind);
 }
 
+static void __stdcall LaunchDialog(void* param)
+{
+	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)param);
+}
+
 static void CheckUpdates(void *)
 {
 	TCHAR tszBuff[2048] = {0}, /*tszFileInfo[30] = {0},*/ tszTmpIni[MAX_PATH] = {0};
 	char szKey[64] = {0};
-	INT upd_ret;
 	DBVARIANT dbVar = {0};
-	vector<FILEINFO> UpdateFiles;
 
 	if (!Exists(tszRoot))
 		CreateDirectoryTreeT(tszRoot);
@@ -168,27 +171,24 @@ static void CheckUpdates(void *)
 	fclose(fp);
 	DeleteFile(tszTmpIni);
 
+	vector<FILEINFO>* UpdateFiles = new vector<FILEINFO>;
 	TCHAR *dirname = Utils_ReplaceVarsT(_T("%miranda_path%"));
 	ScanFolder(dirname, tszBaseUrl, hashes, UpdateFiles);
 	mir_free(dirname);
 
 	// Show dialog
-	if (UpdateFiles.size() > 0)
-		upd_ret = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)&UpdateFiles);
-	if (upd_ret == IDCANCEL) {
-		CheckThread = NULL;
-		return;
+	if (UpdateFiles->size() == 0) {
+		if ( !Silent)
+			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("No updates found."), 2, 0);
 	}
-
-	if (!UpdateFiles.size() && !Silent)
-		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("No updates found."), 2, 0);
+	else CallFunctionAsync(LaunchDialog, UpdateFiles);
 
 	CheckThread = NULL;
 }
 
-void DoCheck(int iFlag, int iFlag2)
+void DoCheck(int iFlag)
 {
-	if (iFlag2)
+	if (CheckThread || hwndDialog)
 		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("Update checking already started!"), 2, 0);
 	else if (iFlag) {
 		CheckThread = mir_forkthread(CheckUpdates, 0);

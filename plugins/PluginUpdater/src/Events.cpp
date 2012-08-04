@@ -37,7 +37,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Hotkey_Register(&hkd);
 
 	if (AllowUpdateOnStartup())
-		DoCheck(UpdateOnStartup, (int)CheckThread);
+		DoCheck(UpdateOnStartup);
 
 	Timer = CreateWaitableTimer(NULL, FALSE, NULL);
 	InitTimer();
@@ -48,7 +48,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 {
 	Silent = false;
-	DoCheck(1, (int)CheckThread);
+	DoCheck(1);
 	return 0;
 }
 

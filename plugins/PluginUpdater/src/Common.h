@@ -116,6 +116,7 @@ extern HANDLE CheckThread;
 extern MYOPTIONS MyOptions;
 extern aPopups PopupsList[POPUPS];
 extern HANDLE Timer;
+extern HWND hwndDialog;
 
 VOID InitPopupList();
 VOID LoadOptions();
@@ -127,7 +128,7 @@ INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam);
 INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam);
 INT OnPreShutdown(WPARAM wParam, LPARAM lParam);
 INT OptInit(WPARAM wParam, LPARAM lParam);
-VOID DoCheck(INT iFlag, INT iFlag2);
+VOID DoCheck(INT iFlag);
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
 VOID ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, INT Number, INT ActType);
 VOID DlgDownloadProc(FILEURL *pFileUrl, PopupDataText temp);
