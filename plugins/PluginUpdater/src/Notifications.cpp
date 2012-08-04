@@ -291,7 +291,10 @@ LBL_Skip:
 		FILEINFO& p = todo[i];
 		unzip(p.File.tszDiskPath, tszMirandaPath, tszFileTemp);
 
-		DBWriteContactSettingString(NULL, MODNAME, _T2A(p.tszDescr), p.newhash);
+		char szFileName[MAX_PATH];
+		strncpy(szFileName, _T2A(p.tszDescr), SIZEOF(szFileName));
+		_strlwr(szFileName);
+		DBWriteContactSettingString(NULL, MODNAME, szFileName, p.newhash);
 	}
 
 	CallFunctionAsync(RestartMe, 0);
