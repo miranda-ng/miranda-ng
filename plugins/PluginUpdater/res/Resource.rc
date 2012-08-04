@@ -68,7 +68,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Plugin update options",IDC_STATIC,1,27,253,60
+    GROUPBOX        "Plugin updates options",IDC_STATIC,1,27,253,60
     CONTROL         "On startup",IDC_UPDATEONSTARTUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,44,52,10
     CONTROL         "Remind about not installed plugin updates",IDC_REMINDER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,72,198,10
