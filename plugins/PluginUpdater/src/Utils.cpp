@@ -222,6 +222,7 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap&
 
 		char szFileName[MAX_PATH];
 		strncpy(szFileName, _T2A(ffd.cFileName), SIZEOF(szFileName));
+		_strlwr(szFileName);
 		if ( IsPluginDisabled(szFileName)) //check if plugin disabled
 			continue;
 
