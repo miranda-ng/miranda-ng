@@ -325,7 +325,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					for (int i = 0; i < POPUPS; i++) {
 						if ((!IsDlgButtonChecked(hdlg, (i+40071))) || (!IsWindowEnabled(GetDlgItem(hdlg, (i+40071)))))
 							continue;
-						show_popup(0, Title, Text, i, 0);
+						ShowPopup(0, Title, Text, i, 0);
 					}
 				}
 				break;

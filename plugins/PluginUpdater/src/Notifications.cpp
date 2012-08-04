@@ -113,43 +113,58 @@ static VOID MakePopupAction(POPUPACTION &pa, INT id)
 	}
 }
 
-VOID show_popup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType)
+void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int ActType)
 {
-	POPUPDATAT_V2 pd;
-	LPMSGPOPUPDATA	pmpd;
-	pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
-	if (pmpd) {
-		ZeroMemory(&pd, sizeof(pd));
-		pd.cbSize = sizeof(POPUPDATAT_V2);
-		pd.lchContact = NULL; //(HANDLE)wParam;
-		pd.lchIcon = LoadSkinnedIcon(PopupsList[Number].Icon);
-		lstrcpyn(pd.lptzText, Text, SIZEOF(pd.lptzText));
-		lstrcpyn(pd.lptzContactName, Title, SIZEOF(pd.lptzContactName));
-		switch (MyOptions.DefColors) {
-		case byCOLOR_WINDOWS:
-			pd.colorBack = GetSysColor(COLOR_BTNFACE);
-			pd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-			break;
-		case byCOLOR_OWN:
-			pd.colorBack = PopupsList[Number].colorBack;
-			pd.colorText = PopupsList[Number].colorText;
-			break;
-		case byCOLOR_POPUP:
-			pd.colorBack = pd.colorText = 0;
-			break;
+	if ( !ServiceExists(MS_POPUP_ADDPOPUPEX) || !DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) || !DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
+		char setting[100];
+		mir_snprintf(setting, SIZEOF(setting), "Popups%sM", Number);
+		if (DBGetContactSettingByte(NULL, MODNAME, setting, DEFAULT_MESSAGE_ENABLED)) {
+			int iMsgType;
+			switch( Number ) {
+				case 1: iMsgType = MB_ICONSTOP; break;
+				case 2: iMsgType = MB_ICONINFORMATION; break;
+				default: iMsgType = 0;
+			}
+			MessageBox(hDlg, TranslateTS(ptszText), TranslateTS(ptszTitle), iMsgType);
 		}
-		if (Number == 0 && ActType != 0)
-			pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
-		else
-			pd.PluginWindowProc = (WNDPROC)PopupDlgProc2;
-		pd.PluginData = pmpd;
-		if (Number == 0)
-			pd.iSeconds = -1;
-		else
-			pd.iSeconds = MyOptions.Timeout;
-		pd.hNotification = NULL;
-		pd.lpActions = pmpd->pa;
+		return;
 	}
+
+	LPMSGPOPUPDATA	pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
+	if (!pmpd)
+		return;
+
+	POPUPDATAT_V2 pd = { 0 };
+	pd.cbSize = sizeof(POPUPDATAT_V2);
+	pd.lchContact = NULL; //(HANDLE)wParam;
+	pd.lchIcon = LoadSkinnedIcon(PopupsList[Number].Icon);
+	lstrcpyn(pd.lptzText, TranslateTS(ptszText), SIZEOF(pd.lptzText));
+	lstrcpyn(pd.lptzContactName, TranslateTS(ptszTitle), SIZEOF(pd.lptzContactName));
+	switch (MyOptions.DefColors) {
+	case byCOLOR_WINDOWS:
+		pd.colorBack = GetSysColor(COLOR_BTNFACE);
+		pd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+		break;
+	case byCOLOR_OWN:
+		pd.colorBack = PopupsList[Number].colorBack;
+		pd.colorText = PopupsList[Number].colorText;
+		break;
+	case byCOLOR_POPUP:
+		pd.colorBack = pd.colorText = 0;
+		break;
+	}
+	if (Number == 0 && ActType != 0)
+		pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	else
+		pd.PluginWindowProc = (WNDPROC)PopupDlgProc2;
+	pd.PluginData = pmpd;
+	if (Number == 0)
+		pd.iSeconds = -1;
+	else
+		pd.iSeconds = MyOptions.Timeout;
+	pd.hNotification = NULL;
+	pd.lpActions = pmpd->pa;
+
 	pmpd->hDialog = hDlg;
 	switch (ActType) {
 	case 0:
@@ -181,8 +196,7 @@ INT_PTR CALLBACK DlgDownloadPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		PopupDataText *temp = (PopupDataText*)lParam;
-		Number = 3;
-		show_popup(hDlg, temp->Title, temp->Text, Number, 0);
+		ShowPopup(hDlg, temp->Title, temp->Text, 3, 0);
 		return TRUE;
 	}
 	return FALSE;
@@ -198,16 +212,9 @@ void DlgDownloadProc(FILEURL *pFileUrl, PopupDataText temp)
 		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DOWNLOAD), NULL, DlgDownload);
 	}
 
-	if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath)) {
-		LPCTSTR Title = TranslateT("Plugin Updater");
-		LPCTSTR Text = TranslateT("An error occured while downloading the update.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
-			Number = 1;
-			show_popup(0, Title, Text, Number, 0);
-		}
-		else if (DBGetContactSettingByte(NULL, MODNAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
-			MessageBox(NULL, Text, Title, MB_ICONSTOP);
-	}
+	if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath))
+		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
+
 	DestroyWindow(hDlgDld);
 }
 
@@ -272,14 +279,7 @@ LBL_Skip:
 		rc = MessageBox(NULL, temp.Text, temp.Title, MB_YESNO | MB_ICONQUESTION);
 	if (rc != IDYES) {
 		mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s"), tszFileBack);
-		LPCTSTR Title = TranslateT("Plugin Updater");
-		LPCTSTR Text = tszBuff;
-		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
-			Number = 2;
-			show_popup(0, Title, Text, Number, 0);
-		}
-		else if (DBGetContactSettingByte(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
-			MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
+		ShowPopup(0, LPGENT("Plugin Updater"), tszBuff, 2, 0);
 		return;
 	}
 
@@ -421,8 +421,7 @@ INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		PopupDataText *temp = (PopupDataText*)lParam;
-		Number = 0;
-		show_popup(hDlg, temp->Title, temp->Text, Number, 1);
+		ShowPopup(hDlg, temp->Title, temp->Text, 0, 1);
 		return TRUE;
 	}
 	ShowWindow(hDlg, SW_HIDE);

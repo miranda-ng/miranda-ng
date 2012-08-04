@@ -106,7 +106,7 @@ using std::wstring;
 using namespace std;
 
 extern HINSTANCE hInst;
-extern INT /*CurrentFile,*/ Number, Period;
+extern INT Period;
 extern BOOL Silent, DlgDld;
 extern BYTE Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
 extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048];
@@ -129,7 +129,7 @@ INT OnPreShutdown(WPARAM wParam, LPARAM lParam);
 INT OptInit(WPARAM wParam, LPARAM lParam);
 VOID DoCheck(INT iFlag, INT iFlag2);
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
-VOID show_popup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, INT Number, INT ActType);
+VOID ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, INT Number, INT ActType);
 VOID DlgDownloadProc(FILEURL *pFileUrl, PopupDataText temp);
 INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);

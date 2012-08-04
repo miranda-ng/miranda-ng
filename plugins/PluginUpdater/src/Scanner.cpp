@@ -178,33 +178,16 @@ static void CheckUpdates(void *)
 		return;
 	}
 
-	if (!UpdateFiles.size() && !Silent) {
-		LPCTSTR Title = TranslateT("Plugin Updater");
-		LPCTSTR Text = TranslateT("No updates found.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
-			Number = 2;
-			show_popup(0, Title, Text, Number, 0);
-		}
-		else if (DBGetContactSettingByte(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
-			MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
-	}
+	if (!UpdateFiles.size() && !Silent)
+		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("No updates found."), 2, 0);
 
 	CheckThread = NULL;
 }
 
 void DoCheck(int iFlag, int iFlag2)
 {
-	if (iFlag2) {
-		LPCTSTR Title = TranslateT("Plugin Updater");
-		LPCTSTR Text = TranslateT("Update checking already started!");
-		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
-		{
-			Number = 2;
-			show_popup(0, Title, Text, Number, 0);
-		}
-		else if (DBGetContactSettingByte(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
-			MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
-	}
+	if (iFlag2)
+		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("Update checking already started!"), 2, 0);
 	else if (iFlag) {
 		CheckThread = mir_forkthread(CheckUpdates, 0);
 		DBWriteContactSettingDword(NULL, MODNAME, "LastUpdate", time(NULL));
