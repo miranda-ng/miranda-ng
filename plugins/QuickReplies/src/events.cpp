@@ -111,9 +111,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 			ood.pszGroup = "Message Sessions";
 			ood.pszPage = "Quick Replies";
 			ood.pszTab = buttonName;
-
-			CallService(MS_OPT_OPENOPTIONS, NULL, (LPARAM)&ood);
-
+			Options_Open(&ood);
 			return 0;
 		}
 

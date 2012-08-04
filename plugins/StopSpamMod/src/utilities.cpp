@@ -511,7 +511,7 @@ std::string toUTF8(std::wstring str)
 	try{
 	utf8::utf16to8(str.begin(), str.end(), back_inserter(ustr));
 	}
-	catch(const std::exception &e)
+	catch(const std::exception&)
 	{
 		//TODO: handle utf8cpp exceptions
 	}
@@ -532,7 +532,7 @@ std::wstring toUTF16(std::string str) //convert as much as possible
 	utf8::replace_invalid(str.begin(), str.end(), back_inserter(tmpstr));
 	utf8::utf8to16(tmpstr.begin(), tmpstr.end(), back_inserter(ustr));
 	}
-	catch(const std::exception &e)
+	catch(const std::exception &)
 	{
 		//TODO: handle utf8cpp exceptions
 	}

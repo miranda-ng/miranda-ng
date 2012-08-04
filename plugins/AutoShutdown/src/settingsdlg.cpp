@@ -326,12 +326,13 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					}
 					break;
 				case IDC_URL_IDLE:
-				{	OPENOPTIONSDIALOG ood;
-					ood.cbSize=sizeof(ood);
-					ood.pszGroup="Status"; /* autotranslated */
-					ood.pszPage="Idle"; /* autotranslated */
-					ood.pszTab=NULL;
-					CallService(MS_OPT_OPENOPTIONS,0,(LPARAM)&ood);
+				{	
+					OPENOPTIONSDIALOG ood;
+					ood.cbSize = sizeof(ood);
+					ood.pszGroup = "Status"; /* autotranslated */
+					ood.pszPage = "Idle"; /* autotranslated */
+					ood.pszTab = NULL;
+					Options_Open(&ood);
 					return TRUE;
 				}
 				case IDC_COMBO_SHUTDOWNTYPE:

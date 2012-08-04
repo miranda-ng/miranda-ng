@@ -118,18 +118,25 @@ __inline static INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
 //activated, the page won't be changed. This may change in the future.
 typedef struct {
 	int cbSize;
-	const char *pszGroup;	 //set to NULL if it's a root item
-	const char *pszPage;	 //set to NULL to just open the options at no
+	const char *pszGroup;    //set to NULL if it's a root item
+	const char *pszPage;     //set to NULL to just open the options at no
 	                         //specific page
-	const char *pszTab;		 //set to NULL to just open the options at no
+	const char *pszTab;      //set to NULL to just open the options at no
 	                         //specific tab
 }
 	OPENOPTIONSDIALOG;
 
-#define MS_OPT_OPENOPTIONS  "Opt/OpenOptions"
+__inline static INT_PTR Options_Open(OPENOPTIONSDIALOG *ood)
+{
+	return CallService("Opt/OpenOptions", hLangpack, (LPARAM)ood);
+}
 
 //Opens the options dialog, with only specified page    v0.8.0.x+
-#define MS_OPT_OPENOPTIONSPAGE  "Opt/OpenOptionsPage"
+
+__inline static HWND Options_OpenPage(OPENOPTIONSDIALOG *ood)
+{
+	return (HWND)CallService("Opt/OpenOptionsPage", hLangpack, (LPARAM)ood);
+}
 
 #define SETTING_SHOWEXPERT_DEFAULT  1
 

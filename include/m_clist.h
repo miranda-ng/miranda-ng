@@ -181,11 +181,11 @@ __inline static HGENMENU Menu_AddProtoMenuItem(CLISTMENUITEM *mi)
 //hMenuItem will have been returned by clist/add*menuItem
 //clmi.flags should contain cmim_ constants below specifying which fields to
 //update. Fields without a mask flag cannot be changed and will be ignored
-#define CMIM_NAME     0x80000000
-#define CMIM_FLAGS	  0x40000000
-#define CMIM_ICON     0x20000000
-#define CMIM_HOTKEY   0x10000000
-#define CMIM_ALL      0xF0000000
+#define CMIM_NAME    0x80000000
+#define CMIM_FLAGS   0x40000000
+#define CMIM_ICON    0x20000000
+#define CMIM_HOTKEY  0x10000000
+#define CMIM_ALL     0xF0000000
 #define MS_CLIST_MODIFYMENUITEM         "CList/ModifyMenuItem"
 
 //the context menu for a contact is about to be built     v0.1.0.1+

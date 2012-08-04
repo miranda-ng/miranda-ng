@@ -829,7 +829,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 						ood.pszGroup = "Customize";
 						ood.pszPage = "Fonts & Colors";
 						ood.pszTab = NULL;
-						CallService( MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood );
+						Options_Open(&ood);
 					}
 					break;
 				case IDC_LOADCOUNT:

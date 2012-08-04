@@ -2298,7 +2298,7 @@ INT_PTR __cdecl CJabberProto::OnMenuOptions( WPARAM, LPARAM )
 	ood.pszGroup = "Network";
 	ood.pszPage = mir_t2a(m_tszUserName);
 	ood.pszTab = "Account";
-	CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood);
+	Options_Open(&ood);
 
 	mir_free((void *)ood.pszPage);
 	return 0;

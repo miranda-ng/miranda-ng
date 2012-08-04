@@ -273,7 +273,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 					ood.pszGroup = obj->optObject.lpzClassicGroup;
 					ood.pszPage = obj->optObject.lpzClassicPage;
 					ood.pszTab = obj->optObject.lpzClassicTab;
-					HWND hwndOpt = (HWND)CallService(MS_OPT_OPENOPTIONSPAGE, 0, (LPARAM)&ood);
+					HWND hwndOpt = Options_OpenPage(&ood);
 					PostMessage(hwndDlg, WM_CLOSE, 0, 0);
 				}
 				else {

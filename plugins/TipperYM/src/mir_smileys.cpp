@@ -22,16 +22,6 @@ Boston, MA 02111-1307, USA.
 #include "options.h"
 #include "mir_smileys.h"
 
-
-
-void *mir_calloc(size_t size)
-{
-	void *ptr = mir_alloc(size);
-	if (ptr) memset(ptr, 0, size);
-
-	return ptr;
-}
-
 int InitTipperSmileys()
 {
 	// Register smiley category

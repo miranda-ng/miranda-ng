@@ -397,7 +397,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 							ood.cbSize = sizeof(OPENOPTIONSDIALOG);
 							ood.pszGroup = "Customize";
 							ood.pszPage = "Fonts & Colors";
-							CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood);
+							Options_Open(&ood);
 						}
 						break;
 					case IDC_SOFFLINE:		case IDC_SONLINE:		case IDC_SAWAY:			case IDC_SNA:		case IDC_SOCCUPIED:

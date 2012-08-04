@@ -19,8 +19,8 @@
 const int vf_default = VF_VS|VF_HFL|VF_IGN|VF_CID|VF_SHOWID|VF_RECV|VF_STAT|VF_SMNAME|VF_CIDN|VF_CIP;
 
 HINSTANCE hinstance;
-HANDLE hmenuVis,hmenuOff,hmenuHide,hmenuIgnore,hmenuProto,hmenuAdded,hmenuAuthReq;
-HANDLE hmenuCopyID,hmenuRecvFiles,hmenuStatusMsg,hmenuCopyIP,hmenuCopyMirVer;
+HGENMENU hmenuVis,hmenuOff,hmenuHide,hmenuIgnore,hmenuProto,hmenuAdded,hmenuAuthReq;
+HGENMENU hmenuCopyID,hmenuRecvFiles,hmenuStatusMsg,hmenuCopyIP,hmenuCopyMirVer;
 static HANDLE hIgnoreItem[9], hProtoItem[MAX_PROTOS], hHooks[8], hServices[12];
 HICON hIcon[5];
 BOOL bMetaContacts, bMir_08;
@@ -914,20 +914,17 @@ INT_PTR onIgnore(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-static HANDLE AddSubmenuItem(HANDLE hRoot, TCHAR* name, HICON icon, DWORD flag, char* service, int pos, int param)
+static HANDLE AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD flag, char* service, int pos, int param)
 {
-	CLISTMENUITEM mi	 =  { 0 };
-	mi.cbSize			 =  sizeof(mi);
-	mi.hParentMenu		 =  (HGENMENU)hRoot;
-	mi.pszPopupName		 =  (char*)hRoot; // for Miranda 0.7
-	mi.popupPosition	 =  param;
-	mi.position			 =  pos;
-	mi.ptszName			 =  name;
-	mi.hIcon			 =  icon; 
-	mi.flags			 =  CMIF_TCHAR | CMIF_CHILDPOPUP;
-	if (flag)
-		mi.flags		|= flag;
-	mi.pszService		 =  service;
+	CLISTMENUITEM mi =  { 0 };
+	mi.cbSize        =  sizeof(mi);
+	mi.hParentMenu   =  hRoot;
+	mi.popupPosition =  param;
+	mi.position      =  pos;
+	mi.ptszName      =  name;
+	mi.hIcon         =  icon; 
+	mi.flags         =  CMIF_TCHAR | CMIF_CHILDPOPUP | flag;
+	mi.pszService    =  service;
 	return Menu_AddContactMenuItem(&mi);
 }
 
@@ -1094,7 +1091,7 @@ int EnumProtoSubmenu(WPARAM wparam, LPARAM lparam)
 		protoCount = MAX_PROTOS;
 	for (i = 0; i < protoCount; i++) 
 	{
-		hProtoItem[i] = AddSubmenuItem((HGENMENU)hmenuProto, accs[i]->tszAccountName, 
+		hProtoItem[i] = AddSubmenuItem(hmenuProto, accs[i]->tszAccountName, 
 			LoadSkinnedProtoIcon(accs[i]->szModuleName, ID_STATUS_ONLINE), CMIF_KEEPUNTRANSLATED, 
 			MS_PROTO, pos++, (int)accs[i]->szModuleName);
 	}
@@ -1270,7 +1267,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	ood.cbSize = sizeof(ood);
 	ood.pszGroup = "Events";
 	ood.pszPage = "Ignore";
-	AddSubmenuItem(hmenuIgnore, LPGENT("Open ignore settings"), (HICON)CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_ignore"), 0, MS_OPT_OPENOPTIONS, pos, (int)&ood );
+	AddSubmenuItem(hmenuIgnore, LPGENT("Open ignore settings"), (HICON)CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_ignore"), 0, "Opt/OpenOptions", pos, (int)&ood );
 
 	mi.pszPopupName = 0;
 	if (bMir_08) {

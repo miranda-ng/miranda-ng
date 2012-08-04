@@ -407,7 +407,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						oop.pszGroup = Translate("Events");
 						oop.pszPage = Translate("Alarms");
 						oop.pszTab = 0;
-						CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)&oop);
+						Options_Open(&oop);
 					}
 					break;
 				case ID_REMINDERFRAMECONTEXT_SUSPEND:

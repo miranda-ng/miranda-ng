@@ -566,7 +566,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			odp.pszGroup = "Services";
 			odp.pszPage = modFullname;
 			odp.pszTab = 0;
-			CallService(MS_OPT_OPENOPTIONS,0,(LPARAM)&odp);
+			Options_Open(&odp);
 			break;
 		}
 		return TRUE; // case WM_COMMAND

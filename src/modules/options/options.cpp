@@ -105,9 +105,8 @@ struct OptionsDlgData
 
 HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name)
 {
-	TVITEM tvi;
 	TCHAR str[128];
-
+	TVITEM tvi;
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = str;
 	tvi.cchTextMax = SIZEOF(str);
@@ -1419,27 +1418,27 @@ void OpenAccountOptions(PROTOACCOUNT* pa)
 		FreeOptionsData(&opi);
 }	}
 
-static void OpenOptionsNow(const char *pszGroup, const char *pszPage, const char *pszTab, bool bSinglePage = false)
+static void OpenOptionsNow(int hLangpack, const char *pszGroup, const char *pszPage, const char *pszTab, bool bSinglePage = false)
 {
 	if (IsWindow(hwndOptions)) {
 		ShowWindow(hwndOptions, SW_RESTORE);
 		SetForegroundWindow(hwndOptions);
 		if (pszPage != NULL) {
-			TCHAR *ptszPage = mir_a2t(pszPage);
+			mir_ptr<TCHAR> ptszPage( mir_a2t(pszPage));
 			HTREEITEM hItem = NULL;
 			if (pszGroup != NULL) {
-				TCHAR *ptszGroup = mir_a2t(pszGroup);
-				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), ptszGroup);
-				if (hItem != NULL) {
-					hItem = FindNamedTreeItemAtChildren(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, ptszPage);
-				}
+				mir_ptr<TCHAR> ptszGroup( mir_a2t(pszGroup));
+				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(hLangpack, ptszGroup));
+				if (hItem != NULL)
+					hItem = FindNamedTreeItemAtChildren(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, TranslateTH(hLangpack, ptszPage));
+
 				mir_free(ptszGroup);
-			} else {
-				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), ptszPage);
 			}
-			if (hItem != NULL) {
+			else hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(hLangpack, ptszPage));
+
+			if (hItem != NULL)
 				TreeView_SelectItem(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem);
-			}
+
 			mir_free(ptszPage);
 		}	
 	}
@@ -1467,32 +1466,34 @@ static void OpenOptionsNow(const char *pszGroup, const char *pszPage, const char
 			FreeOptionsData(&opi);
 }	}	}
 
-static INT_PTR OpenOptions(WPARAM, LPARAM lParam)
+static INT_PTR OpenOptions(WPARAM wParam, LPARAM lParam)
 {
 	OPENOPTIONSDIALOG *ood = (OPENOPTIONSDIALOG*)lParam;
 	if (ood == NULL)
 		return 1;
 
+	int hLangpack = (int)wParam;
 	if (ood->cbSize == OPENOPTIONSDIALOG_OLD_SIZE)
-		OpenOptionsNow(ood->pszGroup, ood->pszPage, NULL);
+		OpenOptionsNow(hLangpack, ood->pszGroup, ood->pszPage, NULL);
 	else if (ood->cbSize == sizeof(OPENOPTIONSDIALOG))
-		OpenOptionsNow(ood->pszGroup, ood->pszPage, ood->pszTab);
+		OpenOptionsNow(hLangpack, ood->pszGroup, ood->pszPage, ood->pszTab);
 	else
 		return 1;
 
 	return 0;
 }
 
-static INT_PTR OpenOptionsPage(WPARAM, LPARAM lParam)
+static INT_PTR OpenOptionsPage(WPARAM wParam, LPARAM lParam)
 {
 	OPENOPTIONSDIALOG *ood = (OPENOPTIONSDIALOG*)lParam;
 	if (ood == NULL)
 		return 1;
 
+	int hLangpack = (int)wParam;
 	if (ood->cbSize == OPENOPTIONSDIALOG_OLD_SIZE)
-		OpenOptionsNow(ood->pszGroup, ood->pszPage, NULL, true);
+		OpenOptionsNow(hLangpack, ood->pszGroup, ood->pszPage, NULL, true);
 	else if (ood->cbSize == sizeof(OPENOPTIONSDIALOG))
-		OpenOptionsNow(ood->pszGroup, ood->pszPage, ood->pszTab, true);
+		OpenOptionsNow(hLangpack, ood->pszGroup, ood->pszPage, ood->pszTab, true);
 	else
 		return 1;
 
@@ -1502,7 +1503,7 @@ static INT_PTR OpenOptionsPage(WPARAM, LPARAM lParam)
 static INT_PTR OpenOptionsDialog(WPARAM, LPARAM)
 {
 	if (hwndOptions || GetAsyncKeyState(VK_CONTROL) || !ServiceExists(MS_MODERNOPT_SHOW))
-		OpenOptionsNow(NULL, NULL, NULL);
+		OpenOptionsNow(NULL, NULL, NULL, NULL);
 	else
 		CallService(MS_MODERNOPT_SHOW, 0, 0);
 	return 0;
@@ -1584,8 +1585,8 @@ int LoadOptionsModule(void)
 	hwndOptions = NULL;
 	hOptionsInitEvent = CreateHookableEvent(ME_OPT_INITIALISE);
 	CreateServiceFunction("Opt/AddPage", AddOptionsPage);
-	CreateServiceFunction(MS_OPT_OPENOPTIONS, OpenOptions);
-	CreateServiceFunction(MS_OPT_OPENOPTIONSPAGE, OpenOptionsPage);
+	CreateServiceFunction("Opt/OpenOptions", OpenOptions);
+	CreateServiceFunction("Opt/OpenOptionsPage", OpenOptionsPage);
 	CreateServiceFunction("Options/OptionsCommand", OpenOptionsDialog);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OptModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownOptionsModule);

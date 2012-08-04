@@ -593,7 +593,7 @@ void OpenOptions(char* group, char* page, char* tab = NULL)
 	op.pszGroup = group;
 	op.pszPage = page;
 	op.pszTab = tab;
-	CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)&op);
+	Options_Open(&op);
 }
 
 #define DlgReturn(ret){\
@@ -668,7 +668,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 				OPENOPTIONSDIALOG opd = {0};
 				opd.cbSize = sizeof(OPENOPTIONSDIALOG);
 				opd.pszPage = LPGEN("History");
-				CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)&opd);
+				Options_Open(&opd);
 				DlgReturn(TRUE);
 			}
 

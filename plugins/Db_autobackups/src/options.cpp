@@ -268,7 +268,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				ood.cbSize = sizeof(ood);
 				ood.pszGroup = "Customize";
 				ood.pszPage = "Folders";
-				CallService( MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood );
+				Options_Open(&ood);
 				break;
 			}
 		}

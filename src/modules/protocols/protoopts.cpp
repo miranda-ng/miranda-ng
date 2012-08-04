@@ -892,7 +892,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 						ood.pszGroup = "Network";
 						ood.pszPage = pa->szModuleName;
 						ood.pszTab = NULL;
-						CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood);
+						Options_Open(&ood);
 					}
 					else OpenAccountOptions(pa);
 			}	}
@@ -918,7 +918,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				OPENOPTIONSDIALOG ood = {0};
 				ood.cbSize = sizeof(ood);
 				ood.pszPage = "Network";
-				CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood);
+				Options_Open(&ood);
 				break;
 			}
 

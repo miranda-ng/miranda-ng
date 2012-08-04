@@ -244,7 +244,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 							ood.cbSize = sizeof(ood);
 							ood.pszGroup = "Customize";
 							ood.pszPage = "Hotkeys";
-							CallService( MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood );
+							Options_Open(&ood);
 							return (true);
 						} break;
 					}

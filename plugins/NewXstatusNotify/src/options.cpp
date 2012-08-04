@@ -249,7 +249,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					ood.cbSize = sizeof(ood);
 					ood.pszGroup = "Customize";
 					ood.pszPage = "Sounds";
-					CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood);
+					Options_Open(&ood);
 					return FALSE;
 				}
 			}

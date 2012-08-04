@@ -485,7 +485,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 				ood.pszPage = "Message Sessions";
 				ood.pszTab = NULL;
 				M->WriteByte(SRMSGMOD_T, "opage", 3);			// force 3th tab to appear
-				CallService (MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood);
+				Options_Open(&ood);
 				return 1;
 			}
 

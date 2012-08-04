@@ -57,7 +57,7 @@ INT_PTR CALLBACK ModernOptHome_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 			{
 				OPENOPTIONSDIALOG ood = {0};
 				ood.cbSize = sizeof(ood);
-				CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood);
+				Options_Open(&ood);
 			}
 			break;
 
