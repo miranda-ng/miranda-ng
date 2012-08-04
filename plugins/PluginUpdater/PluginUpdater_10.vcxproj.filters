@@ -91,6 +91,9 @@
     <ClCompile Include="src\Minizip\unzip.c">
       <Filter>Source Files\Minizip</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\menu.ico">
