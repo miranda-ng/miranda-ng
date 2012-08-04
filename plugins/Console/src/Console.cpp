@@ -1230,8 +1230,6 @@ static int OnFontChange(WPARAM wParam,LPARAM lParam)
 
 static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	HookEvent( ME_NETLIB_FASTDUMP, OnFastDump );
-
 	CreateServiceFunction(MS_CONSOLE_SHOW_HIDE, ShowHideConsole);
 
 	FontIDT fid = {0};
