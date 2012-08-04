@@ -45,8 +45,8 @@ struct
 }
 static iconList[] =
 {
-	{ "check_update", LPGEN("Check for pack updates"),    IDI_MENU },
-	{ "empty_folder", LPGEN("Clear pack updates folder"), IDI_DELETE },
+	{ "check_update", LPGEN("Check for plugin updates"),    IDI_MENU },
+	{ "empty_folder", LPGEN("Clear plugin updates folder"), IDI_DELETE },
 	{ "btn_ok",			LPGEN("'Yes' Button"),              IDI_OK },
 	{ "btn_cancel",   LPGEN("'No' Button"),               IDI_CANCEL }
 };
@@ -76,7 +76,7 @@ BOOL NetlibInit()
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;	// | NUF_HTTPGATEWAY;
-	nlu.ptszDescriptiveName = TranslateT("Pack Updater HTTP connection");
+	nlu.ptszDescriptiveName = TranslateT("Plugin Updater HTTP connection");
 	nlu.szSettingsModule = MODNAME;
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
@@ -294,7 +294,7 @@ static void CheckUpdates(void *)
 	lstrcpyn(pFileUrl->tszDiskPath, tszBuff, SIZEOF(pFileUrl->tszDiskPath));
 	lstrcpyn(tszTmpIni, tszBuff, SIZEOF(tszTmpIni));
 	PopupDataText temp;
-	temp.Title = TranslateT("Pack Updater");
+	temp.Title = TranslateT("Plugin Updater");
 	temp.Text = TranslateT("Downloading version info...");
 	DlgDownloadProc(pFileUrl, temp);
 	mir_free(pFileUrl);
@@ -335,7 +335,7 @@ static void CheckUpdates(void *)
 	}
 
 	if (!UpdateFiles.size() && !Silent) {
-		LPCTSTR Title = TranslateT("Pack Updater");
+		LPCTSTR Title = TranslateT("Plugin Updater");
 		LPCTSTR Text = TranslateT("No updates found.");
 		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
@@ -351,7 +351,7 @@ static void CheckUpdates(void *)
 void DoCheck(int iFlag, int iFlag2)
 {
 	if (iFlag2) {
-		LPCTSTR Title = TranslateT("Pack Updater");
+		LPCTSTR Title = TranslateT("Plugin Updater");
 		LPCTSTR Text = TranslateT("Update checking already started!");
 		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
 		{

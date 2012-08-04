@@ -44,7 +44,7 @@ BEGIN
     DEFPUSHBUTTON   "Update",IDOK,12,187,50,14
     PUSHBUTTON      "Select &all",IDC_SELALL,68,187,50,14,NOT WS_TABSTOP
     PUSHBUTTON      "Cancel",IDCANCEL,180,187,50,14
-    CTEXT           "PackUpdater has detected updated versions\nof the following Miranda components:",IDC_UPDATETEXT,9,9,217,22
+    CTEXT           "PluginUpdater has detected updated versions\nof the following Miranda components:",IDC_UPDATETEXT,9,9,217,22
     CONTROL         "",IDC_LIST_UPDATES,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,6,37,229,145
     PUSHBUTTON      "Select &none",IDC_SELNONE,124,187,50,14,NOT WS_TABSTOP
 END
@@ -68,9 +68,9 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Pack update options",IDC_STATIC,1,27,253,60
+    GROUPBOX        "Plugin update options",IDC_STATIC,1,27,253,60
     CONTROL         "On startup",IDC_UPDATEONSTARTUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,44,52,10
-    CONTROL         "Remind about not installed pack update",IDC_REMINDER,
+    CONTROL         "Remind about not installed plugin updates",IDC_REMINDER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,72,198,10
     GROUPBOX        "Hotkey",IDC_STATIC,2,0,253,26
     CONTROL         "Go to Customize -> Hotkeys to change the hotkey",IDC_LINK_HOTKEY,

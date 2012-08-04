@@ -199,7 +199,7 @@ void DlgDownloadProc(FILEURL *pFileUrl, PopupDataText temp)
 	}
 
 	if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath)) {
-		LPCTSTR Title = TranslateT("Pack Updater");
+		LPCTSTR Title = TranslateT("Plugin Updater");
 		LPCTSTR Text = TranslateT("An error occured while downloading the update.");
 		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
 			Number = 1;
@@ -248,9 +248,9 @@ LBL_Skip:
 		// download update
 		FILEURL *pFileUrl = &todo[i].File;
 		PopupDataText temp;
-		temp.Title = TranslateT("Pack Updater");
+		temp.Title = TranslateT("Plugin Updater");
 		if (todo[i].FileType == 1)
-			temp.Text = TranslateT("Downloading pack updates...");
+			temp.Text = TranslateT("Downloading plugin updates...");
 		else
 			temp.Text = TranslateT("Downloading update...");
 		DlgDownloadProc(pFileUrl, temp);
@@ -263,7 +263,7 @@ LBL_Skip:
 
 	INT rc = -1;
 	PopupDataText temp;
-	temp.Title = TranslateT("Pack Updater");
+	temp.Title = TranslateT("Plugin Updater");
 	temp.Text = tszBuff;
 	lstrcpyn(tszBuff, TranslateT("Download complete. Start updating? All your data will be saved and Miranda IM will be closed."), SIZEOF(tszBuff));
 	if (ServiceExists(MS_POPUP_ADDPOPUPEX) && ServiceExists(MS_POPUP_REGISTERACTIONS) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL,MODNAME, "Popups0", DEFAULT_POPUP_ENABLED) && (DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1))
@@ -271,8 +271,8 @@ LBL_Skip:
 	else
 		rc = MessageBox(NULL, temp.Text, temp.Title, MB_YESNO | MB_ICONQUESTION);
 	if (rc != IDYES) {
-		mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s"), tszFileBack);
-		LPCTSTR Title = TranslateT("Pack Updater");
+		mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s"), tszFileBack);
+		LPCTSTR Title = TranslateT("Plugin Updater");
 		LPCTSTR Text = tszBuff;
 		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;

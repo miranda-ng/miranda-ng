@@ -54,10 +54,10 @@ Boston, MA 02111-1307, USA.
 #include "resource.h"
 #include "Notifications.h"
 
-#define MODNAME					"PackUpdater"
-#define MODULEA					"Pack Updater"
-#define MODULEW					L"Pack Updater"
-#define DEFAULT_UPDATES_FOLDER	L"Pack Updates"
+#define MODNAME					"PluginUpdater"
+#define MODULEA					"Plugin Updater"
+#define MODULEW					L"Plugin Updater"
+#define DEFAULT_UPDATES_FOLDER	L"Plugin Updates"
 typedef std::wstring tString;
 #define MODULE	MODULEW
 

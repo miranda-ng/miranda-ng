@@ -28,9 +28,9 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HOTKEYDESC hkd = {0};
 	hkd.cbSize = sizeof(hkd);
 	hkd.dwFlags = HKD_TCHAR;
-	hkd.pszName = "Check for pack updates";
-	hkd.ptszDescription = _T("Check for pack updates");
-	hkd.ptszSection = _T("Pack Updater");
+	hkd.pszName = "Check for plugin updates";
+	hkd.ptszDescription = _T("Check for plugin updates");
+	hkd.ptszSection = _T("Plugin Updater");
 	hkd.pszService = MODNAME"/CheckUpdates";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;

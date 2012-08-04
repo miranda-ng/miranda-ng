@@ -320,7 +320,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			case IDC_PREVIEW: 
 				{//Declarations and initializations
-					LPCTSTR Title = TranslateT("Pack Updater");
+					LPCTSTR Title = TranslateT("Plugin Updater");
 					LPCTSTR Text = TranslateT("Test");
 					for (int i = 0; i < POPUPS; i++) {
 						if ((!IsDlgButtonChecked(hdlg, (i+40071))) || (!IsWindowEnabled(GetDlgItem(hdlg, (i+40071)))))
@@ -417,14 +417,14 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_UPDATENOTIFY);
 	odp.ptszGroup = LPGENT("Events");
-	odp.ptszTitle = LPGENT("Pack Updater");
+	odp.ptszTitle = LPGENT("Plugin Updater");
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
 	Options_AddPage(wParam, &odp);
 
 	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.ptszGroup = LPGENT("PopUps");
-		odp.ptszTitle = LPGENT("Pack Updater");
+		odp.ptszTitle = LPGENT("Plugin Updater");
 		odp.pfnDlgProc = DlgPopUpOpts;
 		Options_AddPage(wParam, &odp);
 	}

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>PackUpdater</ProjectName>
+    <ProjectName>PluginUpdater</ProjectName>
     <ProjectGuid>{21F6C0E4-DD1A-49E6-82FD-64574BB902BD}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -202,7 +202,7 @@
     </ClCompile>
     <ClCompile Include="src\Notifications.cpp" />
     <ClCompile Include="src\Options.cpp" />
-    <ClCompile Include="src\PackUpdater.cpp">
+    <ClCompile Include="src\PluginUpdater.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\unzipfile.cpp" />

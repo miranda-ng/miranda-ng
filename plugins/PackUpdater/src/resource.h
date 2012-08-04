@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Myranda\plugins\PackUpdater\res\Resource.rc
+// Used by D:\Myranda\plugins\PluginUpdater\res\Resource.rc
 //
 #define IDI_MENU                        101
 #define IDD_UPDATE                      102

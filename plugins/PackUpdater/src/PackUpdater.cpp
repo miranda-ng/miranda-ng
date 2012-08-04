@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 HINSTANCE hInst = NULL;
 
-HANDLE hPackUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL;
+HANDLE hPluginUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL;
 TCHAR tszRoot[MAX_PATH] = {0};
 int hLangpack;
 
@@ -57,8 +57,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\"DEFAULT_UPDATES_FOLDER));
 	lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		hPackUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, "Pack Updater", MIRANDA_USERDATAT _T("\\")DEFAULT_UPDATES_FOLDER);
-		FoldersGetCustomPathT(hPackUpdaterFolder, tszRoot, MAX_PATH, _T(""));
+		hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, "Plugin Updater", MIRANDA_USERDATAT _T("\\")DEFAULT_UPDATES_FOLDER);
+		FoldersGetCustomPathT(hPluginUpdaterFolder, tszRoot, MAX_PATH, _T(""));
 	}
 	mir_free(tszFolder);
 
@@ -75,7 +75,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = Skin_GetIconHandle("check_update");
-	mi.pszName = LPGEN("Check for pack updates");
+	mi.pszName = LPGEN("Check for plugin updates");
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
 
@@ -83,7 +83,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hEmptyFolder = CreateServiceFunction(MODNAME"/EmptyFolder", EmptyFolder);
 
 	mi.icolibItem = Skin_GetIconHandle("empty_folder");
-	mi.pszName = LPGEN("Clear pack updates folder");
+	mi.pszName = LPGEN("Clear plugin updates folder");
 	mi.pszService = MODNAME"/EmptyFolder";
 	Menu_AddMainMenuItem(&mi);
 
