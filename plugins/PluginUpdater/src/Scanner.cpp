@@ -48,10 +48,12 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap&
 		return;
 
 	do {
-		if ( !_tcscmp(ffd.cFileName, _T(".")) || !_tcscmp(ffd.cFileName, _T("..")))
-			continue;
-
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+			if ( !_tcscmp(ffd.cFileName, _T(".")) || !_tcscmp(ffd.cFileName, _T("..")))
+				continue;
+			if ( !_tcsicmp(ffd.cFileName, _T("Profiles")))
+				continue;
+
 			mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, ffd.cFileName);
 			ScanFolder(tszMask, tszBaseUrl, hashes, UpdateFiles);
 			continue;
