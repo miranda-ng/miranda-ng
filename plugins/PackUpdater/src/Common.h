@@ -92,10 +92,10 @@ struct PopupDataText
 #define DEFAULT_PERIOD            1
 #define DEFAULT_PERIODMEASURE     1
 
-#ifdef WIN32
-	#define DEFAULT_UPDATE_URL					"http://nightly.miranda.im/x32"
-#else
+#ifdef WIN64
 	#define DEFAULT_UPDATE_URL					"http://nightly.miranda.im/x64"
+#else
+	#define DEFAULT_UPDATE_URL					"http://nightly.miranda.im/x32"
 #endif
 
 #define IDINFO				3
