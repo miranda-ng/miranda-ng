@@ -73,7 +73,7 @@ void LoadOptions()
 	// IDD_OPT_GENERAL
 	opt.FromOffline = DBGetContactSettingByte(0, MODULE, "FromOffline", 1);
 	opt.AutoDisable = DBGetContactSettingByte(0, MODULE, "AutoDisable", 1);
-	opt.HiddenContactsToo = DBGetContactSettingByte(0, MODULE, "HiddenContactsToo", 1);
+	opt.HiddenContactsToo = DBGetContactSettingByte(0, MODULE, "HiddenContactsToo", 0);
 	opt.UseIndSnd = DBGetContactSettingByte(0, MODULE, "UseIndSounds", 1);
 	opt.BlinkIcon = DBGetContactSettingByte(0, MODULE, "BlinkIcon", 0);
 	opt.BlinkIcon_Status = DBGetContactSettingByte(0, MODULE, "BlinkIcon_Status", 0);
