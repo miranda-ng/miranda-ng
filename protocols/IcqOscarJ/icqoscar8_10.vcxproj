@@ -148,7 +148,7 @@
       <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalOptions>/ALIGN:4096 /ignore:4108 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
       <AdditionalDependencies>ws2_32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27X86%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27;%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -183,7 +183,7 @@
       <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalOptions>/ALIGN:4096 /ignore:4108 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
       <AdditionalDependencies>ws2_32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27;%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -158,18 +158,6 @@
     <ClInclude Include="src\srmm_menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\config.h">
-      <Filter>defs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\def_settings.h">
-      <Filter>defs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\defs.h">
-      <Filter>defs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\headers.h">
-      <Filter>defs</Filter>
-    </ClInclude>
     <ClInclude Include="src\opt_adv.h">
       <Filter>Option Pages</Filter>
     </ClInclude>
@@ -192,6 +180,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\def_settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

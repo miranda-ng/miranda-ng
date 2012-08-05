@@ -67,11 +67,11 @@
     <ResourceCompile Include="res\Resources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\Version.rc">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="docs\ccn_readme.txt">
       <Filter>Documentation</Filter>
     </None>

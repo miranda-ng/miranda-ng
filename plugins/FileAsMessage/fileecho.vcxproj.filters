@@ -40,25 +40,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\abort.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="file.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\pause.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\play.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\refresh.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resources.rc">
-      <Filter>Resource Files</Filter>
+    <ResourceCompile Include="res\resources.rc">
+      <Filter>Source Files</Filter>
     </ResourceCompile>
   </ItemGroup>
 </Project>

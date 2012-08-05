@@ -31,7 +31,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="rs\contact_add.ico">
+    <None Include="res\contact_add.ico">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
