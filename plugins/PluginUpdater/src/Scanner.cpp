@@ -77,18 +77,9 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap&
 
 		TCHAR *plugname = ffd.cFileName;
 		FILEINFO FileInfo = { 0 };
-		DBVARIANT dbv;
-		if ( !DBGetContactSettingString(NULL, MODNAME, szFileName, &dbv)) {
-			//считать хэш файла
-			lstrcpynA(FileInfo.curhash, dbv.pszVal, SIZEOF(FileInfo.curhash));
-			_strlwr(FileInfo.curhash);
-			DBFreeVariant(&dbv);
-		}
-		else {
-			mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, ffd.cFileName);
-			CalculateModuleHash(tszMask, FileInfo.curhash);
-			DBWriteContactSettingString(NULL, MODNAME, szFileName, FileInfo.curhash);
-		}
+
+		mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, ffd.cFileName);
+		CalculateModuleHash(tszMask, FileInfo.curhash);
 
 		strncpy(FileInfo.newhash, boo->second.c_str(), SIZEOF(FileInfo.newhash));
 

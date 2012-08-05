@@ -206,13 +206,8 @@ INT_PTR CALLBACK DlgDownloadPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 void DlgDownloadProc(FILEURL *pFileUrl, PopupDataText temp)
 {
-	HWND hDlgDld = NULL;
-	if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL,MODNAME, "Popups3", DEFAULT_POPUP_ENABLED))
-		hDlgDld = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), NULL, DlgDownloadPop, (LPARAM)&temp);
-	else if (DBGetContactSettingByte(NULL,MODNAME, "Popups3M", DEFAULT_MESSAGE_ENABLED)) {
-		lstrcpyn(tszDialogMsg, temp.Text, SIZEOF(tszDialogMsg));
-		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DOWNLOAD), NULL, DlgDownload);
-	}
+	lstrcpyn(tszDialogMsg, temp.Text, SIZEOF(tszDialogMsg));
+	HWND hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DOWNLOAD), NULL, DlgDownload);
 
 	if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath))
 		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
@@ -231,14 +226,17 @@ void SelectAll(HWND hDlg, bool bEnable)
 	}
 }
 
-static void ApplyUpdates(HWND hDlg)
+static void SetStringText(HWND hWnd, size_t i, TCHAR* ptszText)
 {
-	vector<FILEINFO> &todo = *(vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-	ShowWindow(hDlg, SW_HIDE);
-	TCHAR tszBuff[2048], tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
+	ListView_SetItemText(hWnd, i, 1, ptszText);
+}
 
-	SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
-	Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
+static void ApplyUpdates(void* param)
+{
+	HWND hDlg = (HWND)param;
+	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
+	vector<FILEINFO> &todo = *(vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	TCHAR tszBuff[2048], tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
 	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
 	CreateDirectory(tszFileBack, NULL);
@@ -246,29 +244,27 @@ static void ApplyUpdates(HWND hDlg)
 	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
 	CreateDirectory(tszFileTemp, NULL);
 
-	for(size_t i=0; i < todo.size(); ++i) {
+	for (size_t i=0; i < todo.size(); ++i) {
+		ListView_EnsureVisible(hwndList, i, FALSE);
 		if ( !todo[i].enabled) {
-LBL_Skip:
-			todo.erase( todo.begin() + i);
-			i--;
+			SetStringText(hwndList, i, TranslateT("Skipped"));
 			continue;
 		}
 		
 		// download update
+		SetStringText(hwndList, i, TranslateT("Downloading..."));
+
 		FILEURL *pFileUrl = &todo[i].File;
-		PopupDataText temp;
-		temp.Title = TranslateT("Plugin Updater");
-		if (todo[i].FileType == 1)
-			temp.Text = TranslateT("Downloading plugin updates...");
+		if ( !DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath))
+			SetStringText(hwndList, i, TranslateT("Failed!"));
 		else
-			temp.Text = TranslateT("Downloading update...");
-		DlgDownloadProc(pFileUrl, temp);
-		if (!DlgDld)
-			goto LBL_Skip;
+			SetStringText(hwndList, i, TranslateT("Succeeded."));
 	}
 
-	if (todo.size() == 0)
+	if (todo.size() == 0) {
+		EndDialog(hDlg, IDOK);
 		return;
+	}
 
 	INT rc = -1;
 	PopupDataText temp;
@@ -282,21 +278,21 @@ LBL_Skip:
 	if (rc != IDYES) {
 		mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s"), tszFileBack);
 		ShowPopup(0, LPGENT("Plugin Updater"), tszBuff, 2, 0);
+		EndDialog(hDlg, IDOK);
 		return;
 	}
 
 	TCHAR* tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
 
 	for (size_t i = 0; i < todo.size(); i++) {
+		if ( !todo[i].enabled)
+			continue;
+
 		FILEINFO& p = todo[i];
 		unzip(p.File.tszDiskPath, tszMirandaPath, tszFileTemp);
-
-		char szFileName[MAX_PATH];
-		strncpy(szFileName, _T2A(p.tszDescr), SIZEOF(szFileName));
-		_strlwr(szFileName);
-		DBWriteContactSettingString(NULL, MODNAME, szFileName, p.newhash);
 	}
 
+	EndDialog(hDlg, IDOK);
 	CallFunctionAsync(RestartMe, 0);
 }
 
@@ -308,7 +304,6 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 	case WM_INITDIALOG:
 		hwndDialog = hDlg;
 		TranslateDialogDefault( hDlg );
-		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 		SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 		{
 			RECT r;
@@ -323,18 +318,22 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 			lvc.iSubItem = 0;
 			lvc.pszText = TranslateT("Component Name");
-			lvc.cx = r.right - GetSystemMetrics(SM_CXVSCROLL); // width of column in pixels
+			lvc.cx = 220; // width of column in pixels
 			ListView_InsertColumn(hwndList, 0, &lvc);
+
+			lvc.iSubItem = 1;
+			lvc.pszText = TranslateT("State");
+			lvc.cx = 120; // width of column in pixels
+			ListView_InsertColumn(hwndList, 1, &lvc);
 
 			//enumerate plugins, fill in list
 			//bool one_enabled = false;
 			ListView_DeleteAllItems(hwndList);
 
-			LVITEM lvI = {0};
-
 			// Some code to create the list-view control.
 			// Initialize LVITEM members that are common to all
 			// items.
+			LVITEM lvI = {0};
 			lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
 
 			vector<FILEINFO> &todo = *(vector<FILEINFO> *)lParam;
@@ -395,11 +394,8 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 		if (HIWORD( wParam ) == BN_CLICKED) {
 			switch(LOWORD(wParam)) {
 			case IDOK:
-				{
-					ApplyUpdates(hDlg);
-					EndDialog(hDlg, IDOK);
-					return TRUE;
-				}
+				mir_forkthread(ApplyUpdates, hDlg);
+				return TRUE;
 
 			case IDC_SELALL:
 				SelectAll(hDlg, true);
@@ -410,7 +406,6 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 				break;
 
 			case IDCANCEL:
-				SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 				Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
 				EndDialog(hDlg, IDCANCEL);
 				return TRUE;
@@ -419,8 +414,10 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 		break;
 
 	case WM_DESTROY:
+		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
 		hwndDialog = NULL;
 		delete (vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 		break;			
 	}
 
