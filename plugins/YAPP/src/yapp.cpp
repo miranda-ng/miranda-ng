@@ -42,9 +42,6 @@ PLUGININFOEX pluginInfo={
 	{ 0xefd15f16, 0x7ae4, 0x40d7, { 0xa8, 0xe3, 0xa4, 0x11, 0xed, 0x74, 0x7b, 0xd5 } } // {EFD15F16-7AE4-40d7-A8E3-A411ED747BD5}
 };
 
-
-
-
 extern "C" BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
 	hInst = hModule;
@@ -61,55 +58,26 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_POPUPS,
 
 int ReloadFont(WPARAM wParam, LPARAM lParam) 
 {
+	LOGFONTW log_font;
+	if(hFontFirstLine) DeleteObject(hFontFirstLine);
+	colFirstLine = CallService(MS_FONT_GETW, (WPARAM)&font_id_firstlinew, (LPARAM)&log_font);
+	hFontFirstLine = CreateFontIndirectW(&log_font);
+	if(hFontSecondLine) DeleteObject(hFontSecondLine);
+	colSecondLine = CallService(MS_FONT_GETW, (WPARAM)&font_id_secondlinew, (LPARAM)&log_font);
+	hFontSecondLine = CreateFontIndirectW(&log_font);
+	if(hFontTime) DeleteObject(hFontTime);
+	colTime = CallService(MS_FONT_GETW, (WPARAM)&font_id_timew, (LPARAM)&log_font);
+	hFontTime = CreateFontIndirectW(&log_font);
 
-	if(ServiceExists(MS_FONT_GETW)) {
-		LOGFONTW log_font;
-		if(hFontFirstLine) DeleteObject(hFontFirstLine);
-		colFirstLine = CallService(MS_FONT_GETW, (WPARAM)&font_id_firstlinew, (LPARAM)&log_font);
-		hFontFirstLine = CreateFontIndirectW(&log_font);
-		if(hFontSecondLine) DeleteObject(hFontSecondLine);
-		colSecondLine = CallService(MS_FONT_GETW, (WPARAM)&font_id_secondlinew, (LPARAM)&log_font);
-		hFontSecondLine = CreateFontIndirectW(&log_font);
-		if(hFontTime) DeleteObject(hFontTime);
-		colTime = CallService(MS_FONT_GETW, (WPARAM)&font_id_timew, (LPARAM)&log_font);
-		hFontTime = CreateFontIndirectW(&log_font);
-
-		colBg = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_bgw, 0);
-		colBorder = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_borderw, 0);
-		colSidebar = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_sidebarw, 0);
-		colTitleUnderline = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_titleunderlinew, 0);
-	} else
-
-	{
-		LOGFONTA log_font;
-		if(hFontFirstLine) DeleteObject(hFontFirstLine);
-		colFirstLine = CallService(MS_FONT_GET, (WPARAM)&font_id_firstline, (LPARAM)&log_font);
-		hFontFirstLine = CreateFontIndirectA(&log_font);
-		if(hFontSecondLine) DeleteObject(hFontSecondLine);
-		colSecondLine = CallService(MS_FONT_GET, (WPARAM)&font_id_secondline, (LPARAM)&log_font);
-		hFontSecondLine = CreateFontIndirectA(&log_font);
-		if(hFontTime) DeleteObject(hFontTime);
-		colTime = CallService(MS_FONT_GET, (WPARAM)&font_id_time, (LPARAM)&log_font);
-		hFontTime = CreateFontIndirectA(&log_font);
-
-		colBg = CallService(MS_COLOUR_GET, (WPARAM)&colour_id_bg, 0);
-		colBorder = CallService(MS_COLOUR_GET, (WPARAM)&colour_id_border, 0);
-		colSidebar = CallService(MS_COLOUR_GET, (WPARAM)&colour_id_sidebar, 0);
-		colTitleUnderline = CallService(MS_COLOUR_GET, (WPARAM)&colour_id_titleunderline, 0);
-	}
-
+	colBg = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_bgw, 0);
+	colBorder = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_borderw, 0);
+	colSidebar = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_sidebarw, 0);
+	colTitleUnderline = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_titleunderlinew, 0);
 	return 0;
 }
 
-HANDLE hEventReloadFont = 0;
-
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+static void InitFonts()
 {
-	MNotifyGetLink();
-
-	if (ServiceExists(MS_HPP_EG_WINDOW))
-		lstPopupHistory.SetRenderer(RENDER_HISTORYPP);
-
 	font_id_firstlinew.cbSize = sizeof(FontIDW);
 	font_id_firstlinew.flags = FIDF_ALLOWEFFECTS;
 	_tcscpy(font_id_firstlinew.group, _T("Popups"));
@@ -180,6 +148,16 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	ColourRegisterT(&colour_id_titleunderlinew);
 		
 	ReloadFont(0, 0);
+}
+
+HANDLE hEventReloadFont = 0;
+
+int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+{
+	MNotifyGetLink();
+
+	if (ServiceExists(MS_HPP_EG_WINDOW))
+		lstPopupHistory.SetRenderer(RENDER_HISTORYPP);
 
 	hEventReloadFont = HookEvent(ME_FONT_RELOAD, ReloadFont);
 	
@@ -206,6 +184,7 @@ extern "C" int YAPP_API Load(void) {
 	InitMessagePump();
 	InitOptions();
 	InitNotify();
+	InitFonts();
 
 	hEventPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	hEventModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
