@@ -543,8 +543,4 @@ MIR_CORE_DLL(void) UnloadCoreModule(void);
 	#endif
 #endif
 
-#ifdef NDEBUG
-	#pragma comment(linker,"/merge:.rdata=.edata")
-#endif
-
 #endif // M_CORE_H
