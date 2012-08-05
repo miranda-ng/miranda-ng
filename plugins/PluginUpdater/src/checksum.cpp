@@ -13,10 +13,32 @@
 #define RESULT_INVALID		50
 #define RESULT_NONE			100
 
+
 #define DEBUG_SECTIONS		1
 #define DEBUG_REALLOCS		1
 
 int debug = 0;
+
+static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, BYTE* pBase);
+
+static void PatchResourceEntry(PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE, BYTE* pBase)
+{
+	if ( pIRDE->DataIsDirectory )
+		PatchResourcesDirectory( PIMAGE_RESOURCE_DIRECTORY(pBase + pIRDE->OffsetToDirectory), pBase);
+}
+
+static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase)
+{
+	UINT i;
+	pIRD->TimeDateStamp = 0;
+
+	PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE = PIMAGE_RESOURCE_DIRECTORY_ENTRY(pIRD+1);
+	for ( i=0; i < pIRD->NumberOfNamedEntries; i++, pIRDE++ )
+		PatchResourceEntry(pIRDE, pBase);
+
+	for ( i=0; i < pIRD->NumberOfIdEntries; i++, pIRDE++ )
+		PatchResourceEntry(pIRDE, pBase);
+}
 
 int CalculateModuleHash(const TCHAR *filename, char* szDest)
 {
@@ -38,21 +60,25 @@ int CalculateModuleHash(const TCHAR *filename, char* szDest)
 	// check minimum and maximum size
 	filesize = GetFileSize( hFile, &hsize );
 
-	if ( !filesize || filesize == INVALID_FILE_SIZE || hsize) {
+	if ( !filesize || filesize == INVALID_FILE_SIZE || hsize )
+	{
 		CloseHandle( hFile );
 		return RESULT_INVALID;
 	}
 
-	if (filesize < sizeof(IMAGE_DOS_HEADER) + sizeof(IMAGE_NT_HEADERS)) {
+	if ( filesize < sizeof(IMAGE_DOS_HEADER) + sizeof(IMAGE_NT_HEADERS))
+	{
 		CloseHandle( hFile );
 		return RESULT_NOTPE;
 	}
 
 	hMap = CreateFileMapping( hFile, NULL, PAGE_WRITECOPY, 0, 0, NULL );
+
 	if ( hMap )
 		ptr = (PBYTE)MapViewOfFile( hMap, FILE_MAP_COPY, 0, 0 ,0 );
 
-	if ( ptr ) {
+	if ( ptr )
+	{
 		PIMAGE_DOS_HEADER pIDH = 0;
 		PIMAGE_NT_HEADERS pINTH = 0;
 
@@ -69,22 +95,22 @@ int CalculateModuleHash(const TCHAR *filename, char* szDest)
 		else
 		if ( pINTH->Signature != IMAGE_NT_SIGNATURE )
 			res = RESULT_NOTPE;
-		else {
+		else
+		{
 			machine = pINTH->FileHeader.Machine;
 			sections = pINTH->FileHeader.NumberOfSections;
 
 			if ( !sections )
 				res = RESULT_INVALID;
-			else {
+			else
+			{
 				PIMAGE_DATA_DIRECTORY pIDD = 0;
 				PIMAGE_DEBUG_DIRECTORY pDBG = 0;
-				DWORD dbgsize = 0;
-				DWORD dbgvaddr = 0;
-				DWORD expsize = 0;
-				DWORD expvaddr = 0;
+				DWORD dbgSize = 0, dbgAddr = 0;    // debug information
+				DWORD expSize = 0, expAddr = 0;    // export table
+				DWORD resSize = 0, resAddr = 0;    // resource directory
+				DWORD relocSize = 0, relocAddr = 0; // relocation table
 				PBYTE pRealloc = 0;
-				DWORD realvaddr = 0;
-				DWORD realsize = 0;
 				DWORD offset;
 				ULONGLONG base = 0;
 
@@ -109,127 +135,140 @@ int CalculateModuleHash(const TCHAR *filename, char* szDest)
 
 				if ( pIDD ) {
 					// Debugging information entry
-					dbgvaddr = pIDD[IMAGE_DIRECTORY_ENTRY_DEBUG].VirtualAddress;
-					dbgsize = pIDD[IMAGE_DIRECTORY_ENTRY_DEBUG].Size;
+					dbgAddr = pIDD[IMAGE_DIRECTORY_ENTRY_DEBUG].VirtualAddress;
+					dbgSize = pIDD[IMAGE_DIRECTORY_ENTRY_DEBUG].Size;
 
 					// Export information entry
-					expvaddr = pIDD[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
-					expsize = pIDD[IMAGE_DIRECTORY_ENTRY_EXPORT].Size;
+					expAddr = pIDD[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
+					expSize = pIDD[IMAGE_DIRECTORY_ENTRY_EXPORT].Size;
+
+					// Resource directory
+					resAddr = pIDD[IMAGE_DIRECTORY_ENTRY_RESOURCE].VirtualAddress;
+					resSize = pIDD[IMAGE_DIRECTORY_ENTRY_RESOURCE].Size;
 
 					// Reallocation information entry
-					realvaddr = pIDD[IMAGE_DIRECTORY_ENTRY_BASERELOC].VirtualAddress;
-					realsize = pIDD[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size;
+					relocAddr = pIDD[IMAGE_DIRECTORY_ENTRY_BASERELOC].VirtualAddress;
+					relocSize = pIDD[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size;
 				}
 
-				if ( dbgsize || expsize || realsize ) {
-					DWORD idx = 0;
-					PIMAGE_SECTION_HEADER pISH = 0;
+				// verify image integrity
+				for (DWORD idx=0; idx < sections; idx++)
+				{
+					PIMAGE_SECTION_HEADER pISH = (PIMAGE_SECTION_HEADER)( ptr + offset + idx * sizeof(IMAGE_SECTION_HEADER));
 
-					while ( idx < sections ) {
-						pISH = (PIMAGE_SECTION_HEADER)( ptr + offset + idx * sizeof(IMAGE_SECTION_HEADER));
-						if (((PBYTE)pISH + sizeof(IMAGE_SECTION_HEADER) > ptr + filesize ) || ( pISH->PointerToRawData + pISH->SizeOfRawData > filesize )) {
-							res = RESULT_CORRUPTED;
-							break;
-						}
+					if (((PBYTE)pISH + sizeof(IMAGE_SECTION_HEADER) > ptr + filesize ) || ( pISH->PointerToRawData + pISH->SizeOfRawData > filesize ))
+					{
+						res = RESULT_CORRUPTED;
+						break;
+					}
 
-						// erase timestamp
-						if (( dbgsize >= sizeof( IMAGE_DEBUG_DIRECTORY )) &&
-							( dbgvaddr >= pISH->VirtualAddress ) &&
-							( dbgvaddr + dbgsize <= pISH->VirtualAddress + pISH->SizeOfRawData ))
-						{
-						    DWORD shift = dbgvaddr - pISH->VirtualAddress;
-						    pDBG = (PIMAGE_DEBUG_DIRECTORY)( ptr + shift + pISH->PointerToRawData );
+					// erase timestamp
+					if (( dbgSize >= sizeof( IMAGE_DEBUG_DIRECTORY )) &&
+						 ( dbgAddr >= pISH->VirtualAddress ) &&
+						 ( dbgAddr + dbgSize <= pISH->VirtualAddress + pISH->SizeOfRawData ))
+					{
+						DWORD shift = dbgAddr - pISH->VirtualAddress;
+						pDBG = (PIMAGE_DEBUG_DIRECTORY)( ptr + shift + pISH->PointerToRawData );
+						pDBG->TimeDateStamp = 0;
+					}
 
-							pDBG->TimeDateStamp = 0;
-							//ZeroMemory( ptr + pISH->PointerToRawData + shift, dbgsize );
-						}
+					// erase export timestamp
+					if (( expSize >= sizeof( IMAGE_EXPORT_DIRECTORY )) &&
+						 ( expAddr >= pISH->VirtualAddress ) &&
+						 ( expAddr + expSize <= pISH->VirtualAddress + pISH->SizeOfRawData ))
+					{
+						DWORD shift = expAddr - pISH->VirtualAddress;
+						PIMAGE_EXPORT_DIRECTORY pEXP = (PIMAGE_EXPORT_DIRECTORY)( ptr + shift + pISH->PointerToRawData );
 
-						// erase export timestamp
-						if (( expsize >= sizeof( IMAGE_EXPORT_DIRECTORY )) &&
-							( expvaddr >= pISH->VirtualAddress ) &&
-							( expvaddr + expsize <= pISH->VirtualAddress + pISH->SizeOfRawData ))
-						{
-						    DWORD shift = expvaddr - pISH->VirtualAddress;
-						    PIMAGE_EXPORT_DIRECTORY pEXP = (PIMAGE_EXPORT_DIRECTORY)( ptr + shift + pISH->PointerToRawData );
+						pEXP->TimeDateStamp = 0;
+					}
 
-							pEXP->TimeDateStamp = 0;
-						}
-
-						// find realocation table
-						if (( realsize >= sizeof( IMAGE_BASE_RELOCATION )) &&
-							( realvaddr >= pISH->VirtualAddress ) &&
-							( realvaddr + realsize <= pISH->VirtualAddress + pISH->SizeOfRawData ))
-						{
-						    DWORD shift = realvaddr - pISH->VirtualAddress;
-							pRealloc = ptr + shift + pISH->PointerToRawData;
-						}
-
-						idx++;
+					// find realocation table
+					if (( relocSize >= sizeof( IMAGE_BASE_RELOCATION )) &&
+						 ( relocAddr >= pISH->VirtualAddress ) &&
+						 ( relocAddr + relocSize <= pISH->VirtualAddress + pISH->SizeOfRawData ))
+					{
+						DWORD shift = relocAddr - pISH->VirtualAddress;
+						pRealloc = ptr + shift + pISH->PointerToRawData;
 					}
 				}
 
 				if ( res == RESULT_OK )
 				{
-					PIMAGE_SECTION_HEADER pISH = 0;
-					DWORD idx = 0;
-
 					mir_md5_state_t pms;
 					mir_md5_init( &pms );
 
-					while ( idx < sections ) {
-						pISH = (PIMAGE_SECTION_HEADER)( ptr + offset + idx * sizeof(IMAGE_SECTION_HEADER));
-						if (((PBYTE)pISH + sizeof(IMAGE_SECTION_HEADER) > ptr + filesize ) || ( pISH->PointerToRawData + pISH->SizeOfRawData > filesize )) {
+					for (size_t idx=0; idx < sections; idx++)
+					{
+						PIMAGE_SECTION_HEADER pISH = (PIMAGE_SECTION_HEADER)( ptr + offset + idx * sizeof(IMAGE_SECTION_HEADER));
+
+						if (((PBYTE)pISH + sizeof(IMAGE_SECTION_HEADER) > ptr + filesize ) || ( pISH->PointerToRawData + pISH->SizeOfRawData > filesize ))
+						{
 							res = RESULT_CORRUPTED;
 							break;
 						}
 
 						// erase debug information
-						if ( pDBG && ( pDBG->SizeOfData > 0 ) &&
-							( pDBG->PointerToRawData >= pISH->PointerToRawData ) &&
-							( pDBG->PointerToRawData + pDBG->SizeOfData <= pISH->PointerToRawData + pISH->SizeOfRawData ))
+						if ( pDBG && pDBG->SizeOfData > 0 &&
+							  pDBG->PointerToRawData >= pISH->PointerToRawData &&
+							  pDBG->PointerToRawData + pDBG->SizeOfData <= pISH->PointerToRawData + pISH->SizeOfRawData )
 						{
 							ZeroMemory( ptr + pDBG->PointerToRawData, pDBG->SizeOfData );
 						}
 
-						// rebase to zero address
-						if ( pRealloc ) {
-							PIMAGE_BASE_RELOCATION pIBR = 0;
+						// patch resources
+						if ( resSize > 0 && resAddr >= pISH->VirtualAddress && resAddr + resSize <= pISH->VirtualAddress + pISH->SizeOfRawData )
+						{
+							DWORD shift = resAddr - pISH->VirtualAddress + pISH->PointerToRawData;
+							IMAGE_RESOURCE_DIRECTORY* pIRD = (IMAGE_RESOURCE_DIRECTORY*)( ptr + shift );
+							PatchResourcesDirectory(pIRD, ptr + shift);
+						}
 
-							DWORD blocklen = realsize;
+						// rebase to zero address
+						if ( pRealloc )
+						{
+							DWORD blocklen = relocSize;
 							PWORD pw;
 							DWORD type;
-							int len;
+							int   len;
 							PBYTE pAddr;
 							DWORD shift;
 							DWORD addr;
 
-							pIBR = (PIMAGE_BASE_RELOCATION)pRealloc;
-							while( pIBR ) {
+							PIMAGE_BASE_RELOCATION pIBR = (PIMAGE_BASE_RELOCATION)pRealloc;
+							while( pIBR )
+							{
 								if (( pIBR->VirtualAddress >= pISH->VirtualAddress ) &&
-									( pIBR->VirtualAddress < pISH->VirtualAddress + pISH->SizeOfRawData ) &&
-									( pIBR->SizeOfBlock <= blocklen ))
+									 ( pIBR->VirtualAddress < pISH->VirtualAddress + pISH->SizeOfRawData ) &&
+									 ( pIBR->SizeOfBlock <= blocklen ))
 								{
 									shift = pIBR->VirtualAddress - pISH->VirtualAddress + pISH->PointerToRawData;
+
 									len = pIBR->SizeOfBlock - sizeof(IMAGE_BASE_RELOCATION);
+
 									pw = (PWORD)((PBYTE)pIBR + sizeof(IMAGE_BASE_RELOCATION));
 
-									while( len > 0 ) {
+									while( len > 0 )
+									{
 										type = *pw >> 12;
+
 										addr = ( *pw & 0x0FFF );
+
 										pAddr = ptr + shift + addr;
 
 										switch( type ) {
 										case IMAGE_REL_BASED_HIGHLOW:
-											if ( addr + pIBR->VirtualAddress + sizeof(DWORD) >= pISH->VirtualAddress + pISH->SizeOfRawData ) {
+											if ( addr + pIBR->VirtualAddress + sizeof(DWORD) >= pISH->VirtualAddress + pISH->SizeOfRawData )
+											{
 												len = 0;
 												break;
 											}
-
 											*(PDWORD)pAddr = (DWORD)((*(PDWORD)pAddr) - (DWORD)base );
 											break;
 
 										case IMAGE_REL_BASED_DIR64:
-											if ( addr + pIBR->VirtualAddress + sizeof(ULONGLONG) >= pISH->VirtualAddress + pISH->SizeOfRawData ) {
+											if ( addr + pIBR->VirtualAddress + sizeof(ULONGLONG) >= pISH->VirtualAddress + pISH->SizeOfRawData )
+											{
 												len = 0;
 												break;
 											}
@@ -261,8 +300,6 @@ int CalculateModuleHash(const TCHAR *filename, char* szDest)
 						}
 
 						mir_md5_append( &pms, ptr + pISH->PointerToRawData, pISH->SizeOfRawData );
-
-						idx++;
 					}
 
 					if ( res == RESULT_OK ) {

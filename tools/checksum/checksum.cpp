@@ -1,5 +1,5 @@
 
-// Checksum Tool 
+// Checksum Tool
 // By Bio (C) 2012
 
 #define _VERSION_ "3.1"
@@ -67,7 +67,7 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 	{
 		CloseHandle( hFile );
 		return RESULT_INVALID;
-	}	
+	}
 
 	if ( filesize < sizeof(IMAGE_DOS_HEADER) + sizeof(IMAGE_NT_HEADERS))
 	{
@@ -118,13 +118,13 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 					_ftprintf( stderr, _T("Build: unknown :-(\n"));
 					break;
 				}
-			}	
+			}
 #endif
 			sections = pINTH->FileHeader.NumberOfSections;
-			
+
 			if ( !sections )
 				res = RESULT_INVALID;
-			else 
+			else
 			{
 				PIMAGE_DATA_DIRECTORY pIDD = 0;
 				PIMAGE_DEBUG_DIRECTORY pDBG = 0;
@@ -136,34 +136,30 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 				DWORD offset;
 				ULONGLONG base = 0;
 
-				// try to found correct offset independent of architectures 
+				// try to found correct offset independent of architectures
 				offset = pIDH->e_lfanew + pINTH->FileHeader.SizeOfOptionalHeader + sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_OPTIONAL_HEADER);
 
-				if (( machine == IMAGE_FILE_MACHINE_I386 ) && 
+				if (( machine == IMAGE_FILE_MACHINE_I386 ) &&
 					( pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER32)) &&
 					( pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR32_MAGIC ))
 				{
-				    pIDD = (PIMAGE_DATA_DIRECTORY)((PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS32, OptionalHeader.DataDirectory ));
-				    base = *(DWORD*)((PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS32, OptionalHeader.ImageBase ));
+					pIDD = (PIMAGE_DATA_DIRECTORY)((PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS32, OptionalHeader.DataDirectory ));
+					base = *(DWORD*)((PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS32, OptionalHeader.ImageBase ));
 				}
-			   	else 
-				if (( machine == IMAGE_FILE_MACHINE_AMD64 ) && 
+				else if (( machine == IMAGE_FILE_MACHINE_AMD64 ) &&
 					( pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER64)) &&
 					( pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR64_MAGIC ))
 				{
-
-				    pIDD = (PIMAGE_DATA_DIRECTORY)((PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS64, OptionalHeader.DataDirectory ));
-				    base = *(ULONGLONG*)((PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS64, OptionalHeader.ImageBase ));
+					pIDD = (PIMAGE_DATA_DIRECTORY)((PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS64, OptionalHeader.DataDirectory ));
+					base = *(ULONGLONG*)((PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS64, OptionalHeader.ImageBase ));
 				}
-				else 
-					res = RESULT_CORRUPTED;
-					                                     
+				else res = RESULT_CORRUPTED;
+
 #ifdef DEBUG_REALLOCS
-				if ( debug ) 
+				if ( debug )
 					_ftprintf( stderr, _T("Image base is 0x%I64x \n"), base );
 #endif
-				if ( pIDD )
-				{	
+				if ( pIDD ) {
 					// Debugging information entry
 					dbgAddr = pIDD[IMAGE_DIRECTORY_ENTRY_DEBUG].VirtualAddress;
 					dbgSize = pIDD[IMAGE_DIRECTORY_ENTRY_DEBUG].Size;
@@ -179,7 +175,7 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 					// Reallocation information entry
 					relocAddr = pIDD[IMAGE_DIRECTORY_ENTRY_BASERELOC].VirtualAddress;
 					relocSize = pIDD[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size;
-				}					
+				}
 
 				// verify image integrity
 				for (DWORD idx=0; idx < sections; idx++)
@@ -191,46 +187,46 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 						res = RESULT_CORRUPTED;
 						break;
 					}
-	
+
 					// erase timestamp
-					if (( dbgSize >= sizeof( IMAGE_DEBUG_DIRECTORY )) && 
-						 ( dbgAddr >= pISH->VirtualAddress ) && 
+					if (( dbgSize >= sizeof( IMAGE_DEBUG_DIRECTORY )) &&
+						 ( dbgAddr >= pISH->VirtualAddress ) &&
 						 ( dbgAddr + dbgSize <= pISH->VirtualAddress + pISH->SizeOfRawData ))
 					{
 						DWORD shift = dbgAddr - pISH->VirtualAddress;
-						pDBG = (PIMAGE_DEBUG_DIRECTORY)( ptr + shift + pISH->PointerToRawData ); 
+						pDBG = (PIMAGE_DEBUG_DIRECTORY)( ptr + shift + pISH->PointerToRawData );
 						pDBG->TimeDateStamp = 0;
 
 #ifdef DEBUG_SECTIONS
-						if ( debug ) 
+						if ( debug )
 							_ftprintf( stderr, _T("Found debug section entry at 0x%08X (%d), data at 0x%08X (%d)\n"), pISH->PointerToRawData + shift, dbgSize, pDBG->PointerToRawData, pDBG->SizeOfData );
-#endif							
+#endif
 					}
 
 					// erase export timestamp
-					if (( expSize >= sizeof( IMAGE_EXPORT_DIRECTORY )) && 
-						 ( expAddr >= pISH->VirtualAddress ) && 
+					if (( expSize >= sizeof( IMAGE_EXPORT_DIRECTORY )) &&
+						 ( expAddr >= pISH->VirtualAddress ) &&
 						 ( expAddr + expSize <= pISH->VirtualAddress + pISH->SizeOfRawData ))
 					{
 						DWORD shift = expAddr - pISH->VirtualAddress;
-						PIMAGE_EXPORT_DIRECTORY pEXP = (PIMAGE_EXPORT_DIRECTORY)( ptr + shift + pISH->PointerToRawData ); 
+						PIMAGE_EXPORT_DIRECTORY pEXP = (PIMAGE_EXPORT_DIRECTORY)( ptr + shift + pISH->PointerToRawData );
 
 						pEXP->TimeDateStamp = 0;
 #ifdef DEBUG_SECTIONS
-						if ( debug ) 
+						if ( debug )
 							_ftprintf( stderr, _T("Found export section entry at 0x%08X\n"), pISH->PointerToRawData + shift );
 #endif
 					}
 
 					// find realocation table
-					if (( relocSize >= sizeof( IMAGE_BASE_RELOCATION )) && 
-						 ( relocAddr >= pISH->VirtualAddress ) && 
+					if (( relocSize >= sizeof( IMAGE_BASE_RELOCATION )) &&
+						 ( relocAddr >= pISH->VirtualAddress ) &&
 						 ( relocAddr + relocSize <= pISH->VirtualAddress + pISH->SizeOfRawData ))
 					{
 						DWORD shift = relocAddr - pISH->VirtualAddress;
-						pRealloc = ptr + shift + pISH->PointerToRawData; 
+						pRealloc = ptr + shift + pISH->PointerToRawData;
 #ifdef DEBUG_SECTIONS
-						if ( debug ) 
+						if ( debug )
 							_ftprintf( stderr, _T("Found reallocation table entry at 0x%08X (%d)\n"), pISH->PointerToRawData + shift, relocSize );
 #endif
 					}
@@ -252,8 +248,8 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 						}
 
 						// erase debug information
-						if ( pDBG && pDBG->SizeOfData > 0 && 
-							  pDBG->PointerToRawData >= pISH->PointerToRawData && 
+						if ( pDBG && pDBG->SizeOfData > 0 &&
+							  pDBG->PointerToRawData >= pISH->PointerToRawData &&
 							  pDBG->PointerToRawData + pDBG->SizeOfData <= pISH->PointerToRawData + pISH->SizeOfRawData )
 						{
 							ZeroMemory( ptr + pDBG->PointerToRawData, pDBG->SizeOfData );
@@ -268,7 +264,7 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 						}
 
 						// rebase to zero address
-						if ( pRealloc ) 
+						if ( pRealloc )
 						{
 							DWORD blocklen = relocSize;
 							PWORD pw;
@@ -281,8 +277,8 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 							PIMAGE_BASE_RELOCATION pIBR = (PIMAGE_BASE_RELOCATION)pRealloc;
 							while( pIBR )
 							{
-								if (( pIBR->VirtualAddress >= pISH->VirtualAddress ) && 
-									 ( pIBR->VirtualAddress < pISH->VirtualAddress + pISH->SizeOfRawData ) && 
+								if (( pIBR->VirtualAddress >= pISH->VirtualAddress ) &&
+									 ( pIBR->VirtualAddress < pISH->VirtualAddress + pISH->SizeOfRawData ) &&
 									 ( pIBR->SizeOfBlock <= blocklen ))
 								{
 									shift = pIBR->VirtualAddress - pISH->VirtualAddress + pISH->PointerToRawData;
@@ -291,7 +287,7 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 
 									pw = (PWORD)((PBYTE)pIBR + sizeof(IMAGE_BASE_RELOCATION));
 #ifdef DEBUG_REALLOCS
-									if ( debug ) 
+									if ( debug )
 										_ftprintf( stderr, _T("Realloc block at %08X (%d)\n"), pIBR->VirtualAddress, pIBR->SizeOfBlock );
 #endif
 
@@ -333,13 +329,13 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 										case IMAGE_REL_BASED_ABSOLUTE:
 											// stop processing
 											len = 0;
-											break;	
+											break;
 
 										case IMAGE_REL_BASED_HIGH:
 										case IMAGE_REL_BASED_LOW:
 										case IMAGE_REL_BASED_HIGHADJ:
 #ifdef DEBUG_REALLOCS
-											if ( debug )	
+											if ( debug )
 												_ftprintf( stderr, _T("Unexpected block type %d\n"), type );
 #endif
 											break;
@@ -349,7 +345,7 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 											if ( debug )
 												_ftprintf( stderr, _T("Unknown block type %d\n"), type );
 #endif
-											break;	
+											break;
 										}
 
 										len -= sizeof(WORD);
@@ -357,7 +353,7 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 									}
 								}
 
-								blocklen -= pIBR->SizeOfBlock; 
+								blocklen -= pIBR->SizeOfBlock;
 								if ( blocklen > sizeof(IMAGE_BASE_RELOCATION))
 									pIBR = (PIMAGE_BASE_RELOCATION)((PBYTE)pIBR + pIBR->SizeOfBlock );
 								else
@@ -365,9 +361,9 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 							}
 						}
 #ifdef DEBUG_SECTIONS
-						if ( debug )  
+						if ( debug )
 						{
-							int i;			
+							int i;
 							mir_md5_byte_t digest2[16];
 							mir_md5_state_t pms2;
 
@@ -386,20 +382,19 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 						mir_md5_append( &pms, ptr + pISH->PointerToRawData, pISH->SizeOfRawData );
 					}
 
-					if ( res == RESULT_OK ) 
+					if ( res == RESULT_OK )
 						mir_md5_finish( &pms, digest );
 				}
 			}
 		}
 	}
-	else
-		res = RESULT_READERROR;
+	else res = RESULT_READERROR;
 
-		if ( ptr )
+	if ( ptr )
 		UnmapViewOfFile( ptr );
 
 	if ( hMap )
-		CloseHandle( hMap );		
+		CloseHandle( hMap );
 
 	CloseHandle( hFile );
 
@@ -412,7 +407,7 @@ TCHAR* trtrim( TCHAR *str )
 		return NULL;
 
 	TCHAR* p = _tcschr( str, 0 );
-	while ( --p >= str ) 
+	while ( --p >= str )
 	{
 		switch ( *p ) {
 		case L' ': case L'\t': case L'\n': case L'\r':
@@ -432,7 +427,7 @@ int process(TCHAR *filename)
 
 	res = PEChecksum( filename,  digest);
 
-	switch(res) { 
+	switch(res) {
 		case RESULT_NOTFOUND:
 			_ftprintf( stderr, _T("'%s'... not found!\n"), filename );
 			break;
@@ -460,7 +455,7 @@ int process(TCHAR *filename)
 	return res;
 }
 
-			
+
 int _tmain( int argc, TCHAR *argv[] )
 {
 	TCHAR buf[ MAX_PATH ];
@@ -473,7 +468,7 @@ int _tmain( int argc, TCHAR *argv[] )
 	if ( argc > 1 )
 	{
 		WIN32_FIND_DATA ffd;
-		HANDLE hFind = INVALID_HANDLE_VALUE;			
+		HANDLE hFind = INVALID_HANDLE_VALUE;
 
 		for ( i = 1; i < argc; i++ )
 		{
@@ -499,9 +494,9 @@ int _tmain( int argc, TCHAR *argv[] )
 				continue;
 			}
 
-			hFind = FindFirstFile( argv[i], &ffd );	
+			hFind = FindFirstFile( argv[i], &ffd );
 
-			while( hFind != INVALID_HANDLE_VALUE ) 
+			while( hFind != INVALID_HANDLE_VALUE )
 			{
 				if ( ! ( ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ))
 				{
