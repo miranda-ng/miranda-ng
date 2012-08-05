@@ -195,7 +195,7 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 					{
 						DWORD shift = dbgAddr - pISH->VirtualAddress;
 						pDBG = (PIMAGE_DEBUG_DIRECTORY)( ptr + shift + pISH->PointerToRawData );
-						memset(pDBG, 0, pDBG->SizeOfData);
+						pDBG->TimeDateStamp = 0;
 
 #ifdef DEBUG_SECTIONS
 						if ( debug )
