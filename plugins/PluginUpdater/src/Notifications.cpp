@@ -255,7 +255,7 @@ static void ApplyUpdates(void* param)
 	}
 
 	if (todo.size() == 0) {
-		EndDialog(hDlg, IDOK);
+		DestroyWindow(hDlg);
 		return;
 	}
 
@@ -271,7 +271,7 @@ static void ApplyUpdates(void* param)
 	if (rc != IDYES) {
 		mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s"), tszFileBack);
 		ShowPopup(0, LPGENT("Plugin Updater"), tszBuff, 2, 0);
-		EndDialog(hDlg, IDOK);
+		DestroyWindow(hDlg);
 		return;
 	}
 
@@ -285,7 +285,7 @@ static void ApplyUpdates(void* param)
 		unzip(p.File.tszDiskPath, tszMirandaPath, tszFileTemp);
 	}
 
-	EndDialog(hDlg, IDOK);
+	DestroyWindow(hDlg);
 	CallFunctionAsync(RestartMe, 0);
 }
 
@@ -400,7 +400,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 			case IDCANCEL:
 				Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
-				EndDialog(hDlg, IDCANCEL);
+				DestroyWindow(hDlg);
 				return TRUE;
 			}
 		}
