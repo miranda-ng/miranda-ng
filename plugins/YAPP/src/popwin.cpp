@@ -18,14 +18,14 @@ int global_mouse_in = 0;
 void trimW(wchar_t *str) {
 	int len = (int)wcslen(str), pos;
 	// trim whitespace (e.g. from OTR detection)
-	for(pos = len - 1; pos >= 0; pos--) {
-		if(str[pos] == L' ' || str[pos] == L'\t' || str[pos] == L'\r' || str[pos] == L'\n') str[pos] = 0;
+	for (pos = len - 1; pos >= 0; pos--) {
+		if (str[pos] == L' ' || str[pos] == L'\t' || str[pos] == L'\r' || str[pos] == L'\n') str[pos] = 0;
 		else break;
 	}
 
 	// remove tabs
-	for(pos = len - 1; pos >= 0; pos--)
-		if(str[pos] == L'\t') str[pos] = L' ';
+	for (pos = len - 1; pos >= 0; pos--)
+		if (str[pos] == L'\t') str[pos] = L' ';
 }
 
 void SetStartValues(void) 
@@ -46,12 +46,12 @@ void SetStartValues(void)
 		}
 	}
 
-	if(options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
+	if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
 		pop_start_x = wa_rect.right - options.win_width - 1;
 	else
 		pop_start_x = wa_rect.left + 1;
 
-	if(options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT)
+	if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT)
 		pop_start_y = wa_rect.bottom - 1;
 	else
 		pop_start_y = wa_rect.top + 1;
@@ -82,9 +82,9 @@ void RepositionWindows() {
 	current = hwnd_stack_top;
 	while(current) {
 		SendMessage(current->hwnd, PUM_GETHEIGHT, (WPARAM)&height, 0);
-		if(options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT) y -= height + 1;
+		if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT) y -= height + 1;
 		SendMessage(current->hwnd, PUM_MOVE, (WPARAM)x, (LPARAM)y);		
-		if(options.location == PL_TOPRIGHT || options.location == PL_TOPLEFT) y += height + 1;
+		if (options.location == PL_TOPRIGHT || options.location == PL_TOPLEFT) y += height + 1;
 
 		current = current->next;
 	}
@@ -102,14 +102,14 @@ void AddWindowToStack(HWND hwnd) {
 	SendMessage(hwnd, PUM_GETHEIGHT, (WPARAM)&height, 0);
 
 	int x = pop_start_x, y = pop_start_y;
-	if(options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
+	if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
 		x += options.win_width;
 	else
 		x -= options.win_width;
 
-	if(options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT) y -= height;
+	if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT) y -= height;
 	SetWindowPos(hwnd, 0, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
-	if(options.location == PL_TOPRIGHT || options.location == PL_TOPLEFT) y += height;
+	if (options.location == PL_TOPRIGHT || options.location == PL_TOPLEFT) y += height;
 
 	stack_size++;
 
@@ -119,8 +119,8 @@ void AddWindowToStack(HWND hwnd) {
 void RemoveWindowFromStack(HWND hwnd) {
 	HWNDStackNode *current = hwnd_stack_top, *prev = 0;
 	while(current) {
-		if(current->hwnd == hwnd) {
-			if(prev) {
+		if (current->hwnd == hwnd) {
+			if (prev) {
 				prev->next = current->next;
 			} else {
 				hwnd_stack_top = current->next;
@@ -134,7 +134,7 @@ void RemoveWindowFromStack(HWND hwnd) {
 		current = current->next;
 	}
 
-	if(hwnd_stack_top) RepositionWindows();
+	if (hwnd_stack_top) RepositionWindows();
 }
 
 void ClearStack() {
@@ -168,7 +168,7 @@ struct PopupWindowData {
 LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	PopupWindowData *pwd = (PopupWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	PopupData *pd = 0;
-	if(pwd) pd = pwd->pd;
+	if (pwd) pd = pwd->pd;
 
 	switch(uMsg) {
 		case WM_CREATE:
@@ -190,7 +190,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				pwd->tb_height = pwd->av_height = pwd->text_height = pwd->time_height = pwd->time_width = 0;
 				pwd->have_av = false;
 
-				if(pwd->custom_col) {
+				if (pwd->custom_col) {
 					pwd->bkBrush = CreateSolidBrush(pd->colorBack);
 					
 					//pwd->barBrush = CreateSolidBrush(pd->colorBack / 2); // make sidebar a dark version of the bg
@@ -206,7 +206,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					pwd->underlineBrush = CreateSolidBrush(colTitleUnderline);
 				}
 
-				if(options.border) pwd->bPen = (HPEN)CreatePen(PS_SOLID, 1, colBorder); 
+				if (options.border) pwd->bPen = (HPEN)CreatePen(PS_SOLID, 1, colBorder); 
 				else pwd->bPen = CreatePen(PS_SOLID, 1, pwd->custom_col ? pd->colorBack : colBg);
 				
 				SYSTEMTIME st;
@@ -215,11 +215,11 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pwd);
 
-				if(pd->timeout == -1 || (pd->timeout == 0 && options.default_timeout == -1)) {
+				if (pd->timeout == -1 || (pd->timeout == 0 && options.default_timeout == -1)) {
 					// make a really long timeout - say 7 days? ;)
 					SetTimer(hwnd, ID_CLOSETIMER, 7 * 24 * 60 * 60 * 1000, 0);
 				} else {
-					if(pd->timeout == 0) {
+					if (pd->timeout == 0) {
 						SetTimer(hwnd, ID_CLOSETIMER, options.default_timeout * 1000, 0);
 					} else {
 						SetTimer(hwnd, ID_CLOSETIMER, pd->timeout * 1000, 0);
@@ -241,11 +241,11 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 #endif
 
 #ifdef LWA_ALPHA
-			if(MySetLayeredWindowAttributes) {
+			if (MySetLayeredWindowAttributes) {
 				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (int)(options.opacity / 100.0 * 255), LWA_ALPHA);
-				if(options.trans_bg) {
+				if (options.trans_bg) {
 					COLORREF bg;
-					if(pd->colorBack == pd->colorText)
+					if (pd->colorBack == pd->colorText)
 						bg = colBg;
 					else
 						bg = pd->colorBack;
@@ -256,7 +256,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			PostMessage(hwnd, PM_INIT, (WPARAM)hwnd, 0);
 			return 0;
 		case WM_MOUSEMOVE:
-			if(pwd && !pwd->mouse_in) {
+			if (pwd && !pwd->mouse_in) {
 				pwd->mouse_in = true;
 				global_mouse_in++;
 				TRACKMOUSEEVENT tme = { sizeof(tme) };
@@ -266,7 +266,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 			break;
 		case WM_MOUSELEAVE:
-			if(pwd && pwd->mouse_in) {
+			if (pwd && pwd->mouse_in) {
 				pwd->mouse_in = false;
 				global_mouse_in--;
 			}
@@ -276,25 +276,25 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(0, STN_CLICKED), 0);
 			break;
 		case WM_TIMER:
-			if(wParam == ID_CLOSETIMER) {
+			if (wParam == ID_CLOSETIMER) {
 				KillTimer(hwnd, ID_CLOSETIMER);
-				if(pwd->mouse_in || (options.global_hover && global_mouse_in))
+				if (pwd->mouse_in || (options.global_hover && global_mouse_in))
 					SetTimer(hwnd, ID_CLOSETIMER, 800, 0); // reset timer if mouse in window - allow another 800 ms
 				else {
 					PostMessage(hwnd, PM_DESTROY, 0, 0);
 				}
 				return TRUE;
-			} else if(wParam == ID_MOVETIMER) {
+			} else if (wParam == ID_MOVETIMER) {
 				RECT r;
 				GetWindowRect(hwnd, &r);
 
-				if(r.left == pwd->new_x && r.top == pwd->new_y) {
+				if (r.left == pwd->new_x && r.top == pwd->new_y) {
 					KillTimer(hwnd, ID_MOVETIMER);
 					return TRUE;
 				} 
 				int adj_x = (pwd->new_x - r.left) / 4, adj_y = (pwd->new_y - r.top) / 4;
-				if(adj_x == 0) adj_x = (pwd->new_x - r.left);
-				if(adj_y == 0) adj_y = (pwd->new_y - r.top);
+				if (adj_x == 0) adj_x = (pwd->new_x - r.left);
+				if (adj_y == 0) adj_y = (pwd->new_y - r.top);
 
 				int x = r.left + adj_x, y = r.top + adj_y;
 				//SetWindowPos(hwnd, 0, x, y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
@@ -322,7 +322,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				CombineRgn(hMonRgn, hMonRgn, hWndRgn, RGN_AND);
 
 				// round corners
-				if(options.round) {
+				if (options.round) {
 					HRGN hRgn1;
 					int v,h, w=10;
 					h=(r.right-r.left)>(w*2)?w:(r.right-r.left);
@@ -360,13 +360,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				r_bar.right = r.left + options.sb_width;
 				FillRect(hdc, &r_bar, pwd->barBrush);
 				// border
-				if(options.border) {
+				if (options.border) {
 
 					HBRUSH hOldBrush = (HBRUSH)SelectObject(hdc, GetStockObject(NULL_BRUSH));
 					HPEN hOldPen = (HPEN)SelectObject(hdc, pwd->bPen);
 
 					int h = 0;
-					if(options.round) {
+					if (options.round) {
 						int v;
 						int w=14;
 						h=(r.right-r.left)>(w*2)?w:(r.right-r.left);
@@ -386,49 +386,49 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		case WM_PAINT:
 			{
 				RECT r;
-				//if(GetUpdateRect(hwnd, &r, TRUE)) {
+				//if (GetUpdateRect(hwnd, &r, TRUE)) {
 					PAINTSTRUCT ps;
 					BeginPaint(hwnd, &ps);
 					HDC hdc = ps.hdc;
 					GetClientRect(hwnd, &r);
 
 					// text background
-					//if(pwd->custom_col) SetBkColor(ps.hdc, pd->colorBack);
+					//if (pwd->custom_col) SetBkColor(ps.hdc, pd->colorBack);
 					//else SetBkColor(ps.hdc, colBg);
 					SetBkMode(hdc, TRANSPARENT);
 
 					// avatar & time if with avatar
-					if(options.av_layout != PAV_NONE && (pwd->have_av || options.time_layout == PT_WITHAV)) {
+					if (options.av_layout != PAV_NONE && (pwd->have_av || options.time_layout == PT_WITHAV)) {
 						RECT avr;
 						avr.top = options.av_padding;
 			
-						if(options.av_layout == PAV_LEFT) {
+						if (options.av_layout == PAV_LEFT) {
 							avr.left = r.left + options.av_padding;
-							if(pwd->have_av && options.time_layout == PT_WITHAV) avr.right = avr.left + max(pwd->real_av_width, pwd->time_width);
-							else if(pwd->have_av) avr.right = avr.left + pwd->real_av_width;
+							if (pwd->have_av && options.time_layout == PT_WITHAV) avr.right = avr.left + max(pwd->real_av_width, pwd->time_width);
+							else if (pwd->have_av) avr.right = avr.left + pwd->real_av_width;
 							else avr.right = avr.left + pwd->time_width;
 							r.left = avr.right;
-						} else if(options.av_layout == PAV_RIGHT) {
+						} else if (options.av_layout == PAV_RIGHT) {
 							avr.right = r.right - options.av_padding;
-							if(pwd->have_av && options.time_layout == PT_WITHAV) avr.left = avr.right - max(pwd->real_av_width, pwd->time_width);
-							else if(pwd->have_av) avr.left = avr.right - pwd->real_av_width;
+							if (pwd->have_av && options.time_layout == PT_WITHAV) avr.left = avr.right - max(pwd->real_av_width, pwd->time_width);
+							else if (pwd->have_av) avr.left = avr.right - pwd->real_av_width;
 							else avr.left = avr.right - pwd->time_width;
 							r.right = avr.left;
 						}
 						
-						if(options.time_layout == PT_WITHAV) {
+						if (options.time_layout == PT_WITHAV) {
 							avr.top = options.padding;
 							avr.bottom = avr.top + pwd->time_height;
-							if(pwd->custom_col) SetTextColor(ps.hdc, pd->colorText);
+							if (pwd->custom_col) SetTextColor(ps.hdc, pd->colorText);
 							else SetTextColor(ps.hdc, colTime);
-							if(hFontTime) SelectObject(hdc, (HGDIOBJ)hFontTime);
+							if (hFontTime) SelectObject(hdc, (HGDIOBJ)hFontTime);
 							DrawText(ps.hdc, pwd->tbuff, (int)_tcslen(pwd->tbuff), &avr, DT_VCENTER | DT_CENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
 							avr.top = avr.bottom + options.av_padding;
 						}
 
-						if(pwd->have_av) {
+						if (pwd->have_av) {
 							// correct for wider time
-							if(options.time_layout == PT_WITHAV && pwd->time_width > options.av_size) {
+							if (options.time_layout == PT_WITHAV && pwd->time_width > options.av_size) {
 								avr.left = avr.left + (pwd->time_width - pwd->real_av_width) / 2;
 								avr.right = avr.left + pwd->real_av_width;
 							}
@@ -448,8 +448,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					
 					// title icon
 					int iconx, textxmin = r.left + options.padding, textxmax = r.right - options.padding;
-					if(pd->hIcon) {
-						if(options.right_icon) {
+					if (pd->hIcon) {
+						if (options.right_icon) {
 							iconx = r.right - (16 + options.padding);
 							textxmax -= 16 + options.padding;
 						} else {
@@ -460,12 +460,12 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 
 					// title time
-					if(options.time_layout == PT_LEFT || options.time_layout == PT_RIGHT) {
+					if (options.time_layout == PT_LEFT || options.time_layout == PT_RIGHT) {
 						RECT ttr;
 						ttr.top = r.top + options.padding; ttr.bottom = ttr.top + pwd->tb_height;
-						if(pwd->custom_col) SetTextColor(ps.hdc, pd->colorText);
+						if (pwd->custom_col) SetTextColor(ps.hdc, pd->colorText);
 						else SetTextColor(ps.hdc, colTime);
-						if(hFontTime) SelectObject(hdc, (HGDIOBJ)hFontTime);
+						if (hFontTime) SelectObject(hdc, (HGDIOBJ)hFontTime);
 						switch(options.time_layout) {
 							case PT_LEFT:
 								ttr.left = textxmin; ttr.right = ttr.left + pwd->time_width;
@@ -482,14 +482,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						}
 					}
 
-					if(textxmin < options.sb_width) textxmin = options.sb_width + options.padding / 2;
+					if (textxmin < options.sb_width) textxmin = options.sb_width + options.padding / 2;
 
 					// title text
-					if(hFontFirstLine) SelectObject(ps.hdc, (HGDIOBJ)hFontFirstLine);
+					if (hFontFirstLine) SelectObject(ps.hdc, (HGDIOBJ)hFontFirstLine);
 					RECT tr;
 					tr.left = r.left + options.padding + options.text_indent; tr.right = textxmax; tr.top = r.top + options.padding; tr.bottom = tr.top + pwd->tb_height;
 					
-					if(pwd->custom_col) SetTextColor(ps.hdc, pd->colorText);
+					if (pwd->custom_col) SetTextColor(ps.hdc, pd->colorText);
 					else SetTextColor(ps.hdc, colFirstLine);
 					TCHAR *title = mir_u2t(pd->pwzTitle);
 					DrawText(ps.hdc, title, (int)_tcslen(title), &tr, DT_VCENTER | DT_LEFT | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX);
@@ -504,13 +504,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					FillRect(ps.hdc, &tur, pwd->underlineBrush);
 
 					// second line(s)
-					if(pd->pwzText[0]) {
-						if(hFontSecondLine) SelectObject(ps.hdc, (HGDIOBJ)hFontSecondLine);
+					if (pd->pwzText[0]) {
+						if (hFontSecondLine) SelectObject(ps.hdc, (HGDIOBJ)hFontSecondLine);
 						if (!pwd->custom_col)
 							SetTextColor(ps.hdc, colSecondLine);
 
 						// expand text if no avatar and the time isn't too large
-						if(options.av_layout != PAV_NONE && options.time_layout == PT_WITHAV && pwd->time_height <= pwd->tb_height && !pwd->have_av)
+						if (options.av_layout != PAV_NONE && options.time_layout == PT_WITHAV && pwd->time_height <= pwd->tb_height && !pwd->have_av)
 							GetClientRect(hwnd, &r);
 
 						TCHAR *text = mir_u2t(pd->pwzText);
@@ -525,7 +525,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return 0;
 
 		case WM_DESTROY: 
-			if(pwd->mouse_in) global_mouse_in--;
+			if (pwd->mouse_in) global_mouse_in--;
 
 			ShowWindow(hwnd, SW_HIDE);				
 
@@ -551,7 +551,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		case PUM_UPDATERGN:
 			// round corners
-			if(pwd->is_round) {
+			if (pwd->is_round) {
 				HRGN hRgn1;
 				RECT r;
 				
@@ -567,7 +567,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return TRUE;
 
 		case PUM_MOVE:
-			if(options.animate) {
+			if (options.animate) {
 				KillTimer(hwnd, ID_MOVETIMER);
 				pwd->new_x = (int)wParam;
 				pwd->new_y = (int)lParam;
@@ -591,7 +591,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				HANDLE *phContact = (HANDLE *)wParam;
 				*phContact = pd->hContact;
-				if(lParam) SetEvent((HANDLE)lParam);
+				if (lParam) SetEvent((HANDLE)lParam);
 			}
 			return TRUE;
 		case PUM_GETHEIGHT:
@@ -601,30 +601,30 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SIZE size;
 
 				// time_height + width
-				if(options.time_layout != PT_NONE) {
+				if (options.time_layout != PT_NONE) {
 					SIZE size_t;
-					if(hFontTime) SelectObject(hdc, (HGDIOBJ)hFontTime);
+					if (hFontTime) SelectObject(hdc, (HGDIOBJ)hFontTime);
 					GetTextExtentPoint32(hdc, pwd->tbuff, (int)_tcslen(pwd->tbuff), &size_t);
 					pwd->time_height = size_t.cy;
 					pwd->time_width = size_t.cx;
 				}
 
 				// titlebar height
-				if(hFontFirstLine) SelectObject(hdc, (HGDIOBJ)hFontFirstLine);
+				if (hFontFirstLine) SelectObject(hdc, (HGDIOBJ)hFontFirstLine);
 				TCHAR *title = mir_u2t(pd->pwzTitle);
 				GetTextExtentPoint32(hdc, title, (int)_tcslen(title), &size);
 				mir_free(title);
 				pwd->tb_height = size.cy;
-				if(options.time_layout == PT_LEFT || options.time_layout == PT_RIGHT) {
-					if(pwd->tb_height < pwd->time_height) pwd->tb_height = pwd->time_height;
+				if (options.time_layout == PT_LEFT || options.time_layout == PT_RIGHT) {
+					if (pwd->tb_height < pwd->time_height) pwd->tb_height = pwd->time_height;
 				}
-				if(pwd->tb_height < 16) pwd->tb_height = 16;
+				if (pwd->tb_height < 16) pwd->tb_height = 16;
 
 				// avatar height
-				if(options.av_layout != PAV_NONE && ServiceExists(MS_AV_DRAWAVATAR)) {
+				if (options.av_layout != PAV_NONE && ServiceExists(MS_AV_DRAWAVATAR)) {
 					AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)pd->hContact, 0);
-					if(ace && (ace->dwFlags & AVS_BITMAP_VALID) && !(ace->dwFlags & AVS_HIDEONCLIST)) {
-						if(ace->bmHeight >= ace->bmWidth) {
+					if (ace && (ace->dwFlags & AVS_BITMAP_VALID) && !(ace->dwFlags & AVS_HIDEONCLIST)) {
+						if (ace->bmHeight >= ace->bmWidth) {
 							pwd->real_av_height = options.av_size;
 							pwd->real_av_width = options.av_size * ace->bmWidth / ace->bmHeight;
 						} else {
@@ -641,14 +641,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					RECT r;
 					r.left = r.top = 0; 
 					r.right = options.win_width - 2 * options.padding - options.text_indent;
-					if(pwd->have_av && options.time_layout == PT_WITHAV)
+					if (pwd->have_av && options.time_layout == PT_WITHAV)
 						r.right -= (max(options.av_size, pwd->time_width) + options.padding); 
-					else if(pwd->have_av)
+					else if (pwd->have_av)
 						r.right -= (options.av_size + options.padding); 
-					else if(options.av_layout != PAV_NONE && options.time_layout == PT_WITHAV && pwd->time_height >= pwd->tb_height)
+					else if (options.av_layout != PAV_NONE && options.time_layout == PT_WITHAV && pwd->time_height >= pwd->tb_height)
 						r.right -= pwd->time_width + options.padding;
 
-					if(hFontSecondLine) SelectObject(hdc, (HGDIOBJ)hFontSecondLine);
+					if (hFontSecondLine) SelectObject(hdc, (HGDIOBJ)hFontSecondLine);
 					TCHAR *text = mir_u2t(pd->pwzText);
 					DrawText(hdc, text, (int)_tcslen(text), &r, DT_CALCRECT | DT_NOPREFIX | DT_WORDBREAK | DT_EXTERNALLEADING | DT_TOP | DT_LEFT | DT_WORD_ELLIPSIS);
 					pwd->text_height = r.bottom;
@@ -657,7 +657,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				ReleaseDC(hwnd, hdc);
 
-				if(options.time_layout == PT_WITHAV && options.av_layout != PAV_NONE) 
+				if (options.time_layout == PT_WITHAV && options.av_layout != PAV_NONE) 
 					*pHeight = max(pwd->tb_height + pwd->text_height + 3 * options.padding, pwd->av_height + pwd->time_height + options.padding + 2 * options.av_padding);
 				else 
 					*pHeight = max(pwd->tb_height + pwd->text_height + 3 * options.padding, pwd->av_height + 2 * options.av_padding);
@@ -666,7 +666,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				RECT r;
 				GetWindowRect(hwnd, &r);
-				if(r.right - r.left != options.win_width || r.bottom - r.top != *pHeight) {
+				if (r.right - r.left != options.win_width || r.bottom - r.top != *pHeight) {
 					SetWindowPos(hwnd, 0, 0, 0, options.win_width, *pHeight, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
 					SendMessage(hwnd, PUM_UPDATERGN, 0, 0);
 					InvalidateRect(hwnd, 0, TRUE);
@@ -676,8 +676,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		case PUM_GETOPAQUE:
 			{
 				void **pData = (void **)wParam;
-				if(pd) *pData = pd->opaque;
-				if(lParam) SetEvent((HANDLE)lParam);
+				if (pd) *pData = pd->opaque;
+				if (lParam) SetEvent((HANDLE)lParam);
 			}
 			return TRUE;
 		case PUM_CHANGE:
@@ -690,8 +690,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 				pwd->pd = pd = (PopupData *)lParam;
 
-				if(pd->timeout != -1) {
-					if(pd->timeout == 0) {
+				if (pd->timeout != -1) {
+					if (pd->timeout == 0) {
 						SetTimer(hwnd, ID_CLOSETIMER, 7 * 1000, 0);
 					} else {
 						SetTimer(hwnd, ID_CLOSETIMER, pd->timeout * 1000, 0);
@@ -711,7 +711,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return TRUE;
 
 		case PUM_UPDATENOTIFY:
-			if(pwd->hNotify == (HANDLE)wParam) {
+			if (pwd->hNotify == (HANDLE)wParam) {
 				pd->colorBack = MNotifyGetDWord(pwd->hNotify, NFOPT_BACKCOLOR, colBg);
 				pd->colorText = MNotifyGetDWord(pwd->hNotify, NFOPT_TEXTCOLOR, colSecondLine);
 				pd->timeout = MNotifyGetDWord(pwd->hNotify, NFOPT_TIMEOUT, options.default_timeout);
@@ -732,7 +732,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			return TRUE;
 		case PUM_KILLNOTIFY:
-			if(pwd->hNotify != (HANDLE)wParam)
+			if (pwd->hNotify != (HANDLE)wParam)
 				return TRUE;
 			// drop through
 
@@ -742,11 +742,11 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 	}
 
 
-	if(pd && pd->windowProc)
+	if (pd && pd->windowProc)
 		return CallWindowProc(pd->windowProc, hwnd, uMsg, wParam, lParam);
 	else {
 		// provide a way to close popups, if no PluginWindowProc is provided
-		if(uMsg == WM_CONTEXTMENU) {
+		if (uMsg == WM_CONTEXTMENU) {
 			SendMessage(hwnd, PM_DESTROY, 0, 0);
 			return TRUE;
 		} else

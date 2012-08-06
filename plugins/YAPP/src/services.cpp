@@ -10,7 +10,7 @@ HANDLE hService[NUM_SERVICES];
 HANDLE hMenuShowHistory, hMenuToggleOnOff;
 
 void StripBBCodesInPlace(wchar_t *text) {
-	if(text == 0 || DBGetContactSettingByte(0, MODULE, "StripBBCodes", 1) == 0)
+	if (text == 0 || db_get_b(0, MODULE, "StripBBCodes", 1) == 0)
 		return;
 
 	int read = 0, write = 0;
@@ -18,27 +18,27 @@ void StripBBCodesInPlace(wchar_t *text) {
 
 	while(read <= len) { // copy terminating null too
 		while(read <= len && text[read] != L'[') {
-			if(text[read] != text[write]) text[write] = text[read];
+			if (text[read] != text[write]) text[write] = text[read];
 			read++; write++;
 		}
-		if(read > len) break;
+		if (read > len) break;
 
-		if(len - read >= 3 && (_wcsnicmp(text + read, L"[b]", 3) == 0 || _wcsnicmp(text + read, L"[i]", 3) == 0))
+		if (len - read >= 3 && (_wcsnicmp(text + read, L"[b]", 3) == 0 || _wcsnicmp(text + read, L"[i]", 3) == 0))
 			read += 3;
-		else if(len - read >= 4 && (_wcsnicmp(text + read, L"[/b]", 4) == 0 || _wcsnicmp(text + read, L"[/i]", 4) == 0))
+		else if (len - read >= 4 && (_wcsnicmp(text + read, L"[/b]", 4) == 0 || _wcsnicmp(text + read, L"[/i]", 4) == 0))
 			read += 4;
-		else if(len - read >= 6 && (_wcsnicmp(text + read, L"[color", 6) == 0)) {
+		else if (len - read >= 6 && (_wcsnicmp(text + read, L"[color", 6) == 0)) {
 			while(read < len && text[read] != L']') read++; 
 			read++;// skip the ']'
-		} else if(len - read >= 8 && (_wcsnicmp(text + read, L"[/color]", 8) == 0))
+		} else if (len - read >= 8 && (_wcsnicmp(text + read, L"[/color]", 8) == 0))
 			read += 8;
-		else if(len - read >= 5 && (_wcsnicmp(text + read, L"[size", 5) == 0)) {
+		else if (len - read >= 5 && (_wcsnicmp(text + read, L"[size", 5) == 0)) {
 			while(read < len && text[read] != L']') read++; 
 			read++;// skip the ']'
-		} else if(len - read >= 7 && (_wcsnicmp(text + read, L"[/size]", 7) == 0))
+		} else if (len - read >= 7 && (_wcsnicmp(text + read, L"[/size]", 7) == 0))
 			read += 7;
 		else {
-			if(text[read] != text[write]) text[write] = text[read];
+			if (text[read] != text[write]) text[write] = text[read];
 			read++; write++;
 		}
 	}
@@ -57,7 +57,7 @@ INT_PTR OldCreatePopupA(WPARAM wParam, LPARAM lParam) {
 
 	pd_out->hContact = pd_in->lchContact;
 	pd_out->hIcon = pd_in->lchIcon;
-	if(pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
+	if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
 		pd_out->colorBack = pd_out->colorText = 0;
 	else {
 		pd_out->colorBack = pd_in->colorBack & 0xFFFFFF;
@@ -69,7 +69,7 @@ INT_PTR OldCreatePopupA(WPARAM wParam, LPARAM lParam) {
 
 	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
 
-	if (!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) {
+	if (!db_get_b(0, MODULE, "Enabled", 1)) {
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
 		mir_free(pd_out);
@@ -95,7 +95,7 @@ INT_PTR OldCreatePopupExA(WPARAM wParam, LPARAM lParam) {
 
 	pd_out->hContact = pd_in->lchContact;
 	pd_out->hIcon = pd_in->lchIcon;
-	if(pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
+	if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
 		pd_out->colorBack = pd_out->colorText = 0;
 	else {
 		pd_out->colorBack = pd_in->colorBack & 0xFFFFFF;
@@ -106,7 +106,7 @@ INT_PTR OldCreatePopupExA(WPARAM wParam, LPARAM lParam) {
 	pd_out->timeout = pd_in->iSeconds;
 
 	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
-	if (!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) {
+	if (!db_get_b(0, MODULE, "Enabled", 1)) {
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
 		mir_free(pd_out);
@@ -132,7 +132,7 @@ INT_PTR OldCreatePopupW(WPARAM wParam, LPARAM lParam) {
 
 	pd_out->hContact = pd_in->lchContact;
 	pd_out->hIcon = pd_in->lchIcon;
-	if(pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
+	if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
 		pd_out->colorBack = pd_out->colorText = 0;
 	else {
 		pd_out->colorBack = pd_in->colorBack & 0xFFFFFF;
@@ -143,7 +143,7 @@ INT_PTR OldCreatePopupW(WPARAM wParam, LPARAM lParam) {
 	pd_out->timeout = pd_in->iSeconds;
 
 	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
-	if (!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) {
+	if (!db_get_b(0, MODULE, "Enabled", 1)) {
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
 		mir_free(pd_out);
@@ -161,7 +161,7 @@ INT_PTR ChangeTextW(WPARAM wParam, LPARAM lParam)
 	wchar_t *newText = NEWWSTR_ALLOCA((wchar_t *)lParam);
 	StripBBCodesInPlace(newText);
 
-	if(IsWindow(hwndPop))
+	if (IsWindow(hwndPop))
 		SendMessage(hwndPop, PUM_SETTEXT, 0, (LPARAM)newText);
 	else
 		mir_free(newText);
@@ -174,7 +174,7 @@ INT_PTR ChangeTextA(WPARAM wParam, LPARAM lParam) {
 	wchar_t* buff = mir_a2u(newText);
 	StripBBCodesInPlace(buff);
 
-	if(IsWindow(hwndPop))
+	if (IsWindow(hwndPop))
 		SendMessage(hwndPop, PUM_SETTEXT, 0, (LPARAM)buff);
 
 	mir_free(buff);
@@ -198,7 +198,7 @@ void ShowPopup(PopupData &pd_in)
 
 	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
 
-	if (!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) 
+	if (!db_get_b(0, MODULE, "Enabled", 1)) 
 	{
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
@@ -211,7 +211,7 @@ void ShowPopup(PopupData &pd_in)
 INT_PTR GetContact(WPARAM wParam, LPARAM lParam) {
 	HWND hwndPop = (HWND)wParam;
 	HANDLE hContact;
-	if(GetCurrentThreadId() == message_pump_thread_id) {
+	if (GetCurrentThreadId() == message_pump_thread_id) {
 		SendMessage(hwndPop, PUM_GETCONTACT, (WPARAM)&hContact, 0);
 	} else {
 		HANDLE hEvent = CreateEvent(0, 0, 0, 0);
@@ -226,7 +226,7 @@ INT_PTR GetContact(WPARAM wParam, LPARAM lParam) {
 INT_PTR GetOpaque(WPARAM wParam, LPARAM lParam) {
 	HWND hwndPop = (HWND)wParam;
 	void *data = 0;
-	if(GetCurrentThreadId() == message_pump_thread_id) {
+	if (GetCurrentThreadId() == message_pump_thread_id) {
 		SendMessage(hwndPop, PUM_GETOPAQUE, (WPARAM)&data, 0);
 	} else {
 		HANDLE hEvent = CreateEvent(0, 0, 0, 0);
@@ -245,7 +245,7 @@ INT_PTR IsSecondLineShown(WPARAM wParam, LPARAM lParam) {
 void UpdateMenu() {
 	CLISTMENUITEM mi = {0};
 	mi.cbSize = sizeof(CLISTMENUITEM);
-	mi.pszName = (char*)(DBGetContactSettingByte(0, MODULE, "Enabled", 1) == 1 ? LPGEN("Disable Popups") : LPGEN("Enable Popups"));
+	mi.pszName = (char*)(db_get_b(0, MODULE, "Enabled", 1) == 1 ? LPGEN("Disable Popups") : LPGEN("Enable Popups"));
 	mi.flags = CMIM_NAME;// | CMIM_ICON;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuToggleOnOff, (LPARAM)&mi);
 }
@@ -254,20 +254,20 @@ INT_PTR PopupQuery(WPARAM wParam, LPARAM lParam) {
 	switch(wParam) {
 		case PUQS_ENABLEPOPUPS:
 			{
-				bool enabled = DBGetContactSettingByte(0, MODULE, "Enabled", 1) != 0;
-				if (!enabled) DBWriteContactSettingByte(0, MODULE, "Enabled", 1);
+				bool enabled = db_get_b(0, MODULE, "Enabled", 1) != 0;
+				if (!enabled) db_set_b(0, MODULE, "Enabled", 1);
 				return !enabled;
 			}
 			break;
 		case PUQS_DISABLEPOPUPS:
 			{
-				bool enabled = DBGetContactSettingByte(0, MODULE, "Enabled", 1) != 0;
-				if (enabled) DBWriteContactSettingByte(0, MODULE, "Enabled", 0);
+				bool enabled = db_get_b(0, MODULE, "Enabled", 1) != 0;
+				if (enabled) db_set_b(0, MODULE, "Enabled", 0);
 				return enabled;
 			}
 			break;
 		case PUQS_GETSTATUS:
-			return DBGetContactSettingByte(0, MODULE, "Enabled", 1);
+			return db_get_b(0, MODULE, "Enabled", 1);
 		default:
 			return 1;
 	}
@@ -276,8 +276,8 @@ INT_PTR PopupQuery(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR TogglePopups(WPARAM wParam, LPARAM lParam) {
-	BYTE val = DBGetContactSettingByte(0, MODULE, "Enabled", 1);
-	DBWriteContactSettingByte(0, MODULE, "Enabled", !val);
+	BYTE val = db_get_b(0, MODULE, "Enabled", 1);
+	db_set_b(0, MODULE, "Enabled", !val);
 	UpdateMenu();
 	return 0;
 }
@@ -286,7 +286,7 @@ INT_PTR PopupChangeA(WPARAM wParam, LPARAM lParam) {
 	HWND hwndPop = (HWND)wParam;
 	POPUPDATAEX *pd_in = (POPUPDATAEX *)lParam;
 
-	if(IsWindow(hwndPop)) {
+	if (IsWindow(hwndPop)) {
 		PopupData pd_out;
 		pd_out.cbSize = sizeof(PopupData);
 		pd_out.flags = PDF_UNICODE;
@@ -298,7 +298,7 @@ INT_PTR PopupChangeA(WPARAM wParam, LPARAM lParam) {
 
 		pd_out.hContact = pd_in->lchContact;
 		pd_out.hIcon = pd_in->lchIcon;
-		if(pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
+		if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
 			pd_out.colorBack = pd_out.colorText = 0;
 		else {
 			pd_out.colorBack = pd_in->colorBack & 0xFFFFFF;
@@ -321,7 +321,7 @@ INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam) {
 	HWND hwndPop = (HWND)wParam;
 	POPUPDATAW *pd_in = (POPUPDATAW *)lParam;
 
-	if(IsWindow(hwndPop)) {
+	if (IsWindow(hwndPop)) {
 		PopupData pd_out;
 		pd_out.cbSize = sizeof(PopupData);
 		pd_out.flags = PDF_UNICODE;
@@ -333,7 +333,7 @@ INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam) {
 
 		pd_out.hContact = pd_in->lchContact;
 		pd_out.hIcon = pd_in->lchIcon;
-		if(pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
+		if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
 			pd_out.colorBack = pd_out.colorText = 0;
 		else {
 			pd_out.colorBack = pd_in->colorBack & 0xFFFFFF;
@@ -353,7 +353,7 @@ INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam) {
-	if (!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) return 0;
+	if (!db_get_b(0, MODULE, "Enabled", 1)) return 0;
 
 	POPUPDATAT pd = {0};
 	_tcscpy(pd.lptzContactName, lParam == SM_WARNING ? _T("Warning") : _T("Notification"));
@@ -368,7 +368,7 @@ INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam) {
-	if (!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) return 0;
+	if (!db_get_b(0, MODULE, "Enabled", 1)) return 0;
 
 	POPUPDATAW pd = {0};
 	wcscpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
@@ -402,7 +402,7 @@ INT_PTR RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 	num_classes++;
 
 	pc->pszName = mir_strdup(pc->pszName);
-	if(pc->flags & PCF_UNICODE)
+	if (pc->flags & PCF_UNICODE)
 		pc->pwszDescription = mir_wstrdup(pc->pwszDescription);
 	else
 		pc->pszDescription = mir_strdup(pc->pszDescription);
@@ -410,11 +410,11 @@ INT_PTR RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 	char setting[256];
 	mir_snprintf(setting, 256, "%s/Timeout", pc->pszName);
 	pc->iSeconds = DBGetContactSettingWord(0, MODULE, setting, pc->iSeconds);
-	if(pc->iSeconds == (WORD)-1) pc->iSeconds = -1;
+	if (pc->iSeconds == (WORD)-1) pc->iSeconds = -1;
 	mir_snprintf(setting, 256, "%s/TextCol", pc->pszName);
-	pc->colorText = (COLORREF)DBGetContactSettingDword(0, MODULE, setting, (DWORD)pc->colorText);
+	pc->colorText = (COLORREF)db_get_dw(0, MODULE, setting, (DWORD)pc->colorText);
 	mir_snprintf(setting, 256, "%s/BgCol", pc->pszName);
-	pc->colorBack = (COLORREF)DBGetContactSettingDword(0, MODULE, setting, (DWORD)pc->colorBack);
+	pc->colorBack = (COLORREF)db_get_dw(0, MODULE, setting, (DWORD)pc->colorBack);
 
 	return 0;
 }
@@ -422,22 +422,22 @@ INT_PTR RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 {
 	POPUPDATACLASS *pdc = (POPUPDATACLASS *)lParam;
-	if(pdc->cbSize < sizeof(POPUPDATACLASS)) return 1;
+	if (pdc->cbSize < sizeof(POPUPDATACLASS)) return 1;
 
 	POPUPCLASS *pc = 0;
-	if(wParam) 
+	if (wParam) 
 		pc = (POPUPCLASS *)wParam;
 	else {
-		for(int i = 0; i < num_classes; i++) {
-			if(strcmp(classes[i].pszName, pdc->pszClassName) == 0) {
+		for (int i = 0; i < num_classes; i++) {
+			if (strcmp(classes[i].pszName, pdc->pszClassName) == 0) {
 				pc = &classes[i];
 				break;
 			}
 		}
 	}
-	if(pc) {
+	if (pc) {
 		PopupData pd = {sizeof(PopupData)};
-		if(pc->flags & PCF_UNICODE) pd.flags |= PDF_UNICODE;
+		if (pc->flags & PCF_UNICODE) pd.flags |= PDF_UNICODE;
 		pd.colorBack = pc->colorBack;
 		pd.colorText = pc->colorText;
 		pd.hIcon = pc->hIcon;
@@ -502,7 +502,7 @@ void InitServices()
 	
 	mi.hIcon = NULL;
 	mi.pszService = "PopUp/ToggleEnabled";
-	mi.pszName = (char*)(DBGetContactSettingByte(0, MODULE, "Enabled", 1) ? 
+	mi.pszName = (char*)(db_get_b(0, MODULE, "Enabled", 1) ? 
 		LPGEN("Disable Popups") : LPGEN("Enable Popups"));
 	hMenuToggleOnOff = Menu_AddMainMenuItem(&mi);
 
@@ -511,7 +511,7 @@ void InitServices()
 
 void DeinitServices() {
 	int i;
-	for(i = 0; i < num_classes; i++) {
+	for (i = 0; i < num_classes; i++) {
 		mir_free(classes[i].pszName);
 		mir_free(classes[i].pszDescription);
 	}
@@ -519,6 +519,6 @@ void DeinitServices() {
 
 	UnhookEvent(hEventBuildMenu);
 
-	for(i = 0; i < NUM_SERVICES; i++)
-		if(hService[i]) DestroyServiceFunction(hService[i]);
+	for (i = 0; i < NUM_SERVICES; i++)
+		if (hService[i]) DestroyServiceFunction(hService[i]);
 }

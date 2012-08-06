@@ -59,13 +59,13 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_POPUPS,
 int ReloadFont(WPARAM wParam, LPARAM lParam) 
 {
 	LOGFONTW log_font;
-	if(hFontFirstLine) DeleteObject(hFontFirstLine);
+	if (hFontFirstLine) DeleteObject(hFontFirstLine);
 	colFirstLine = CallService(MS_FONT_GETW, (WPARAM)&font_id_firstlinew, (LPARAM)&log_font);
 	hFontFirstLine = CreateFontIndirectW(&log_font);
-	if(hFontSecondLine) DeleteObject(hFontSecondLine);
+	if (hFontSecondLine) DeleteObject(hFontSecondLine);
 	colSecondLine = CallService(MS_FONT_GETW, (WPARAM)&font_id_secondlinew, (LPARAM)&log_font);
 	hFontSecondLine = CreateFontIndirectW(&log_font);
-	if(hFontTime) DeleteObject(hFontTime);
+	if (hFontTime) DeleteObject(hFontTime);
 	colTime = CallService(MS_FONT_GETW, (WPARAM)&font_id_timew, (LPARAM)&log_font);
 	hFontTime = CreateFontIndirectW(&log_font);
 
@@ -163,7 +163,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	
 	LoadModuleDependentOptions(); 
 
-	if(GetModuleHandle(_T("neweventnotify")))
+	if (GetModuleHandle(_T("neweventnotify")))
 		ignore_gpd_passed_addy = true;
 
 	return 0;
@@ -208,7 +208,7 @@ extern "C" int YAPP_API Load(void) {
 
 extern "C" int YAPP_API Unload()
 {
-	if(hEventReloadFont)
+	if (hEventReloadFont)
 		UnhookEvent(hEventReloadFont);
 	UnhookEvent(hEventPreShutdown);
 	UnhookEvent(hEventModulesLoaded);

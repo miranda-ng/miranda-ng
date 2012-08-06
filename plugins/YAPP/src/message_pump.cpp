@@ -27,7 +27,7 @@ bool is_full_screen() {
 
 	// check foregroundwindow
 	hWnd = GetForegroundWindow();
-	if(hWnd && hWnd != hWndDesktop && hWnd != hWndShell) {
+	if (hWnd && hWnd != hWndDesktop && hWnd != hWndShell) {
 		GetClientRect(hWnd, &ClientRect);
 		if ((ClientRect.right - ClientRect.left) >= w && (ClientRect.bottom - ClientRect.top) >= h)
 			return true;
@@ -35,10 +35,10 @@ bool is_full_screen() {
 	
 	// check other top level windows
 	while ((hWnd = FindWindowEx(NULL, hWnd, NULL, NULL))) {
-		if(IsWindowVisible(hWnd) == 0 || IsIconic(hWnd) || hWnd == hWndDesktop || hWnd == hWndShell)
+		if (IsWindowVisible(hWnd) == 0 || IsIconic(hWnd) || hWnd == hWndDesktop || hWnd == hWndShell)
 			continue;
 			
-//		if(DBGetContactSettingByte(0, MODULE, "ShowForNonTopmostFullscreenWindows", 0) == 1) {
+//		if (db_get_b(0, MODULE, "ShowForNonTopmostFullscreenWindows", 0) == 1) {
 			if (!(GetWindowLongPtr(hWnd, GWL_EXSTYLE) & WS_EX_TOPMOST))
 				continue;
 //		}
@@ -58,9 +58,9 @@ bool is_workstation_locked()
 {
 	bool rc = false;
 	HDESK hDesk = OpenDesktop((TCHAR*)_T("default"), 0, FALSE, DESKTOP_SWITCHDESKTOP);
-	if(hDesk != 0) {
+	if (hDesk != 0) {
 		HDESK hDeskInput = OpenInputDesktop(0, FALSE, DESKTOP_SWITCHDESKTOP);
-		if(hDeskInput == 0) {
+		if (hDeskInput == 0) {
 			rc = true;
 		} else
 			CloseDesktop(hDeskInput);
@@ -76,7 +76,7 @@ unsigned __stdcall MessagePumpThread(void* param)
 {
 	InitWindowStack();
 
-	if(param) SetEvent((HANDLE)param);
+	if (param) SetEvent((HANDLE)param);
 
 	MSG hwndMsg = {0};
 	while(GetMessage(&hwndMsg, 0, 0, 0) > 0 && !Miranda_Terminated()) {
@@ -86,17 +86,17 @@ unsigned __stdcall MessagePumpThread(void* param)
 				{
 					bool enabled = true;
 					int status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
-					if(status >= ID_STATUS_OFFLINE && status <= ID_STATUS_OUTTOLUNCH && options.disable_status[status - ID_STATUS_OFFLINE])
+					if (status >= ID_STATUS_OFFLINE && status <= ID_STATUS_OUTTOLUNCH && options.disable_status[status - ID_STATUS_OFFLINE])
 						enabled = false;
 					if ((options.disable_full_screen && is_full_screen()) || is_workstation_locked())
 						enabled = false;
 
 					PopupData *pd = (PopupData *)hwndMsg.lParam;
-					if(enabled && num_popups < MAX_POPUPS) {
+					if (enabled && num_popups < MAX_POPUPS) {
 						//HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, _T("Popup"), WS_POPUP, 0, 0, 0, 0, GetDesktopWindow(), 0, hInst, (LPVOID)hwndMsg.lParam);
 						HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, _T("Popup"), WS_POPUP, 0, 0, 0, 0, 0, 0, hInst, (LPVOID)hwndMsg.lParam);
 						num_popups++;
-						if(hwndMsg.wParam) // set notifyer handle
+						if (hwndMsg.wParam) // set notifyer handle
 							SendMessage(hwnd, PUM_SETNOTIFYH, hwndMsg.wParam, 0);
 					} else {
 						if (pd) {
@@ -111,7 +111,7 @@ unsigned __stdcall MessagePumpThread(void* param)
 			case MUM_DELETEPOPUP:
 				{
 					HWND hwnd = (HWND)hwndMsg.lParam;
-					if(IsWindow(hwnd)) {
+					if (IsWindow(hwnd)) {
 						DestroyWindow(hwnd);
 						num_popups--;
 					}
@@ -147,7 +147,7 @@ unsigned __stdcall MessagePumpThread(void* param)
 	DeinitWindowStack();
 	num_popups = 0;
 
-	//if(param) SetEvent((HANDLE)param);
+	//if (param) SetEvent((HANDLE)param);
 
 	DeinitOptions();
 	DeinitServices();

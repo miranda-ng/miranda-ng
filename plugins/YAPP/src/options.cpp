@@ -9,78 +9,80 @@ Options options;
 HICON hPopupIcon = 0;
 
 void LoadModuleDependentOptions() {
-	if(ServiceExists(MS_AV_DRAWAVATAR))
-		options.av_layout = (PopupAvLayout)DBGetContactSettingByte(0, MODULE, "AVLayout", PAV_RIGHT);
+	if (ServiceExists(MS_AV_DRAWAVATAR))
+		options.av_layout = (PopupAvLayout)db_get_b(0, MODULE, "AVLayout", PAV_RIGHT);
 	else
 		options.av_layout = PAV_NONE;
 
-	options.time_layout = (PopupTimeLayout)DBGetContactSettingByte(0, MODULE, "TimeLayout", (ServiceExists(MS_AV_DRAWAVATAR) ? PT_WITHAV : PT_RIGHT));
-	if(options.time_layout == PT_WITHAV && !ServiceExists(MS_AV_DRAWAVATAR))
+	options.time_layout = (PopupTimeLayout)db_get_b(0, MODULE, "TimeLayout", (ServiceExists(MS_AV_DRAWAVATAR) ? PT_WITHAV : PT_RIGHT));
+	if (options.time_layout == PT_WITHAV && !ServiceExists(MS_AV_DRAWAVATAR))
 		options.time_layout = PT_RIGHT;
 }
 
-void LoadOptions() {
-	options.default_timeout = DBGetContactSettingDword(0, MODULE, "DefaultTimeout", 7);
-	options.win_width = DBGetContactSettingDword(0, MODULE, "WinWidth", 220);
-	options.win_max_height = DBGetContactSettingDword(0, MODULE, "WinMaxHeight", 400);
-	options.location = (PopupLocation)DBGetContactSettingByte(0, MODULE, "Location", (BYTE)PL_BOTTOMRIGHT);
-	options.opacity = DBGetContactSettingByte(0, MODULE, "Opacity", 75);
-	options.border = (DBGetContactSettingByte(0, MODULE, "Border", 1) == 1);
-	options.round = (DBGetContactSettingByte(0, MODULE, "RoundCorners", 1) == 1);
-	options.av_round = (DBGetContactSettingByte(0, MODULE, "AvatarRoundCorners", 1) == 1);
-	options.animate = (DBGetContactSettingByte(0, MODULE, "Animate", 1) == 1);
-	options.trans_bg = (DBGetContactSettingByte(0, MODULE, "TransparentBg", 0) == 1);
-	options.use_mim_monitor = (DBGetContactSettingByte(0, MODULE, "UseMimMonitor", 1) == 1);
-	options.right_icon = (DBGetContactSettingByte(0, MODULE, "RightIcon", 0) == 1);
-	options.av_layout = PAV_NONE; // corrected in LoadModuleDependentOptions function above
-	options.av_size = DBGetContactSettingDword(0, MODULE, "AVSize", 40); //tweety
-	options.text_indent = DBGetContactSettingDword(0, MODULE, "TextIndent", 22); 
-	options.global_hover = (DBGetContactSettingByte(0, MODULE, "GlobalHover", 1) == 1); 
-	options.time_layout = PT_RIGHT; // corrected in LoadModuleDependentOptions function above
+void LoadOptions()
+{
+	options.default_timeout = db_get_dw(0, MODULE, "DefaultTimeout", 7);
+	options.win_width       = db_get_dw(0, MODULE, "WinWidth", 220);
+	options.win_max_height  = db_get_dw(0, MODULE, "WinMaxHeight", 400);
+	options.location        = (PopupLocation)db_get_b(0, MODULE, "Location", (BYTE)PL_BOTTOMRIGHT);
+	options.opacity         = db_get_b(0, MODULE, "Opacity", 75);
+	options.border          = db_get_b(0, MODULE, "Border", 1) == 1;
+	options.round           = db_get_b(0, MODULE, "RoundCorners", 1) == 1;
+	options.av_round        = db_get_b(0, MODULE, "AvatarRoundCorners", 1) == 1;
+	options.animate         = db_get_b(0, MODULE, "Animate", 1) == 1;
+	options.trans_bg        = db_get_b(0, MODULE, "TransparentBg", 0) == 1;
+	options.use_mim_monitor = db_get_b(0, MODULE, "UseMimMonitor", 1) == 1;
+	options.right_icon      = db_get_b(0, MODULE, "RightIcon", 0) == 1;
+	options.av_layout       = PAV_NONE; // corrected in LoadModuleDependentOptions function above
+	options.av_size         = db_get_dw(0, MODULE, "AVSize", 40); //tweety
+	options.text_indent     = db_get_dw(0, MODULE, "TextIndent", 22); 
+	options.global_hover    = db_get_b(0, MODULE, "GlobalHover", 1) == 1;
+	options.time_layout     = (PopupTimeLayout)db_get_b(0, MODULE, "TimeLayout", PT_RIGHT);
 
 	char buff[128];
-	for(int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10; i++) {
 		sprintf(buff, "DisableStatus%d", i - 1); // -1 because i forgot offline status earlier!
-		options.disable_status[i] = (DBGetContactSettingByte(0, MODULE, buff, 0) == 1);
+		options.disable_status[i] = (db_get_b(0, MODULE, buff, 0) == 1);
 	}
 
-	options.disable_full_screen = (DBGetContactSettingByte(0, MODULE, "DisableFullScreen", 1) == 1);
-	options.drop_shadow = (DBGetContactSettingByte(0, MODULE, "DropShadow", 0) == 1);
-	options.sb_width = DBGetContactSettingDword(0, MODULE, "SidebarWidth", 22);
-	options.padding = DBGetContactSettingDword(0, MODULE, "Padding", 4);
-	options.av_padding = DBGetContactSettingDword(0, MODULE, "AvatarPadding", 4);
+	options.disable_full_screen = db_get_b(0, MODULE, "DisableFullScreen", 1) == 1;
+	options.drop_shadow = db_get_b(0, MODULE, "DropShadow", 0) == 1;
+	options.sb_width = db_get_dw(0, MODULE, "SidebarWidth", 22);
+	options.padding = db_get_dw(0, MODULE, "Padding", 4);
+	options.av_padding = db_get_dw(0, MODULE, "AvatarPadding", 4);
 }
 
-void SaveOptions() {
-	DBWriteContactSettingDword(0, MODULE, "DefaultTimeout", options.default_timeout);
-	DBWriteContactSettingDword(0, MODULE, "WinWidth", options.win_width);
-	DBWriteContactSettingDword(0, MODULE, "WinMaxHeight", options.win_max_height);
-	DBWriteContactSettingByte(0, MODULE, "Location", (BYTE)options.location);
-	DBWriteContactSettingByte(0, MODULE, "Opacity", (BYTE)options.opacity);
-	DBWriteContactSettingByte(0, MODULE, "Border", (options.border ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "RoundCorners", (options.round ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "AvatarRoundCorners", (options.av_round ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "Animate", (options.animate ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "TransparentBg", (options.trans_bg ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "UseMimMonitor", (options.use_mim_monitor ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "RightIcon", (options.right_icon ? 1 : 0));
-	if(ServiceExists(MS_AV_DRAWAVATAR))
-		DBWriteContactSettingByte(0, MODULE, "AVLayout", (BYTE)options.av_layout);
-	DBWriteContactSettingDword(0, MODULE, "AVSize", options.av_size);
-	DBWriteContactSettingDword(0, MODULE, "TextIndent", options.text_indent);
-	DBWriteContactSettingByte(0, MODULE, "GlobalHover", (options.global_hover ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "TimeLayout", (BYTE)options.time_layout);
+void SaveOptions()
+{
+	db_set_dw(0, MODULE, "DefaultTimeout", options.default_timeout);
+	db_set_dw(0, MODULE, "WinWidth", options.win_width);
+	db_set_dw(0, MODULE, "WinMaxHeight", options.win_max_height);
+	db_set_b(0, MODULE, "Location", (BYTE)options.location);
+	db_set_b(0, MODULE, "Opacity", (BYTE)options.opacity);
+	db_set_b(0, MODULE, "Border", (options.border ? 1 : 0));
+	db_set_b(0, MODULE, "RoundCorners", (options.round ? 1 : 0));
+	db_set_b(0, MODULE, "AvatarRoundCorners", (options.av_round ? 1 : 0));
+	db_set_b(0, MODULE, "Animate", (options.animate ? 1 : 0));
+	db_set_b(0, MODULE, "TransparentBg", (options.trans_bg ? 1 : 0));
+	db_set_b(0, MODULE, "UseMimMonitor", (options.use_mim_monitor ? 1 : 0));
+	db_set_b(0, MODULE, "RightIcon", (options.right_icon ? 1 : 0));
+	if (ServiceExists(MS_AV_DRAWAVATAR))
+		db_set_b(0, MODULE, "AVLayout", (BYTE)options.av_layout);
+	db_set_dw(0, MODULE, "AVSize", options.av_size);
+	db_set_dw(0, MODULE, "TextIndent", options.text_indent);
+	db_set_b(0, MODULE, "GlobalHover", (options.global_hover ? 1 : 0));
+	db_set_b(0, MODULE, "TimeLayout", (BYTE)options.time_layout);
 
 	char buff[128];
-	for(int i = 0; i < 9; i++) {
+	for (int i = 0; i < 9; i++) {
 		sprintf(buff, "DisableStatus%d", i - 1);
-		DBWriteContactSettingByte(0, MODULE, buff, options.disable_status[i] ? 1 : 0);
+		db_set_b(0, MODULE, buff, options.disable_status[i] ? 1 : 0);
 	}
-	DBWriteContactSettingByte(0, MODULE, "DisableFullScreen", (options.disable_full_screen ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "DropShadow", (options.drop_shadow ? 1 : 0));
-	DBWriteContactSettingDword(0, MODULE, "SidebarWidth", options.sb_width);
-	DBWriteContactSettingDword(0, MODULE, "Padding", options.padding);
-	DBWriteContactSettingDword(0, MODULE, "AvatarPadding", options.av_padding);
+	db_set_b(0, MODULE, "DisableFullScreen", (options.disable_full_screen ? 1 : 0));
+	db_set_b(0, MODULE, "DropShadow", (options.drop_shadow ? 1 : 0));
+	db_set_dw(0, MODULE, "SidebarWidth", options.sb_width);
+	db_set_dw(0, MODULE, "Padding", options.padding);
+	db_set_dw(0, MODULE, "AvatarPadding", options.av_padding);
 }
 
 void ShowExamplePopups() {
@@ -102,9 +104,9 @@ void ShowExamplePopups() {
 
 	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while(hContact) {
-		if(options.av_layout != PAV_NONE && ServiceExists(MS_AV_DRAWAVATAR)) {
+		if (options.av_layout != PAV_NONE && ServiceExists(MS_AV_DRAWAVATAR)) {
 			AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
-			if(ace && (ace->dwFlags & AVS_BITMAP_VALID)) {
+			if (ace && (ace->dwFlags & AVS_BITMAP_VALID)) {
 				pd.hContact = hContact;
 				pd.ptzText = TranslateT("An avatar.");
 				ShowPopup(pd);
@@ -135,12 +137,12 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SendDlgItemMessage(hwndDlg, IDC_CMB_TIME, CB_ADDSTRING, 0, (LPARAM)TranslateT("No time"));
 		SendDlgItemMessage(hwndDlg, IDC_CMB_TIME, CB_ADDSTRING, 0, (LPARAM)TranslateT("Time on left"));
 		SendDlgItemMessage(hwndDlg, IDC_CMB_TIME, CB_ADDSTRING, 0, (LPARAM)TranslateT("Time on right"));
-		if(ServiceExists(MS_AV_DRAWAVATAR))
+		if (ServiceExists(MS_AV_DRAWAVATAR))
 			SendDlgItemMessage(hwndDlg, IDC_CMB_TIME, CB_ADDSTRING, 0, (LPARAM)TranslateT("Time above avatar"));
 		SendDlgItemMessage(hwndDlg, IDC_CMB_TIME, CB_SETCURSEL, (int)options.time_layout, 0);
 
 		SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("No avatar"));
-		if(ServiceExists(MS_AV_DRAWAVATAR)) {
+		if (ServiceExists(MS_AV_DRAWAVATAR)) {
 			SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Left avatar"));
 			SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Right avatar"));
 		} else {
@@ -207,7 +209,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_SBWIDTH, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 0));
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_PADDING, UDM_SETRANGE, 0, (LPARAM)MAKELONG(400, 0));
 
-		if(options.default_timeout == -1) {
+		if (options.default_timeout == -1) {
 			CheckDlgButton(hwndDlg, IDC_RAD_NOTIMEOUT, TRUE);
 			HWND hw = GetDlgItem(hwndDlg, IDC_ED_TIMEOUT);
 			EnableWindow(hw, FALSE);
@@ -216,10 +218,10 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			CheckDlgButton(hwndDlg, IDC_RAD_TIMEOUT, TRUE);
 			SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, options.default_timeout, FALSE);
 		}
-		if(options.right_icon) CheckDlgButton(hwndDlg, IDC_RAD_RIGHTICON, TRUE);
+		if (options.right_icon) CheckDlgButton(hwndDlg, IDC_RAD_RIGHTICON, TRUE);
 		else CheckDlgButton(hwndDlg, IDC_RAD_LEFTICON, TRUE);
 
-		if(ServiceExists(MS_AV_DRAWAVATAR)) {
+		if (ServiceExists(MS_AV_DRAWAVATAR)) {
 			switch(options.av_layout) {
 				case PAV_NONE: CheckDlgButton(hwndDlg, IDC_RAD_NOAV, TRUE); break;
 				case PAV_RIGHT: CheckDlgButton(hwndDlg, IDC_RAD_RIGHTAV, TRUE); break;
@@ -262,7 +264,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		} else if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus()) {
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		} else if ( HIWORD( wParam ) == BN_CLICKED ) {
-			if(LOWORD(wParam) == IDC_BTN_PREVIEW) {
+			if (LOWORD(wParam) == IDC_BTN_PREVIEW) {
 				ShowExamplePopups();
 			} else {
 				switch( LOWORD( wParam )) {
@@ -284,7 +286,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		break;
 	case WM_NOTIFY:
-		if(IsWindowVisible(hwndDlg) && ((LPNMHDR) lParam)->hwndFrom == GetDlgItem(hwndDlg, IDC_LST_STATUS)) {
+		if (IsWindowVisible(hwndDlg) && ((LPNMHDR) lParam)->hwndFrom == GetDlgItem(hwndDlg, IDC_LST_STATUS)) {
 			switch (((LPNMHDR) lParam)->code) {
 				
 				case LVN_ITEMCHANGED:
@@ -300,30 +302,30 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY ) {
 			BOOL trans;
 			int new_val;
-			if(IsDlgButtonChecked(hwndDlg, IDC_RAD_NOTIMEOUT))
+			if (IsDlgButtonChecked(hwndDlg, IDC_RAD_NOTIMEOUT))
 				options.default_timeout = -1;
 			else {
 				new_val = GetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, &trans, FALSE);
-				if(trans) options.default_timeout = new_val;
+				if (trans) options.default_timeout = new_val;
 			}
-			if(options.default_timeout == 0) {
+			if (options.default_timeout == 0) {
 				SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, options.default_timeout, FALSE);
 				MessageBox(hwndDlg, TranslateT("You cannot set a default timeout of 0.\nValue has been reset."), TranslateT("Error"), MB_OK | MB_ICONWARNING);
 				options.default_timeout = 7; // prevent instant timeout
 			}
 
 			new_val = GetDlgItemInt(hwndDlg, IDC_ED_WIDTH, &trans, FALSE);
-			if(trans) options.win_width = new_val;
+			if (trans) options.win_width = new_val;
 			new_val = GetDlgItemInt(hwndDlg, IDC_ED_MAXHEIGHT, &trans, FALSE);
-			if(trans) options.win_max_height = new_val;
+			if (trans) options.win_max_height = new_val;
 			new_val = GetDlgItemInt(hwndDlg, IDC_ED_AVSIZE, &trans, FALSE);
-			if(trans) options.av_size = new_val;
+			if (trans) options.av_size = new_val;
 			new_val = GetDlgItemInt(hwndDlg, IDC_ED_INDENT, &trans, FALSE);
-			if(trans) options.text_indent = new_val;
+			if (trans) options.text_indent = new_val;
 			new_val = GetDlgItemInt(hwndDlg, IDC_ED_SBWIDTH, &trans, FALSE);
-			if(trans) options.sb_width = new_val;
+			if (trans) options.sb_width = new_val;
 			new_val = GetDlgItemInt(hwndDlg, IDC_ED_PADDING, &trans, FALSE);
-			if(trans) options.padding = new_val;
+			if (trans) options.padding = new_val;
 
 			options.location = (PopupLocation)SendDlgItemMessage(hwndDlg, IDC_CMB_PLACEMENT, CB_GETCURSEL, 0, 0);
 			options.right_icon = (SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_GETCURSEL, 0, 0) == 1);
@@ -331,7 +333,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			options.time_layout = (PopupTimeLayout)SendDlgItemMessage(hwndDlg, IDC_CMB_TIME, CB_GETCURSEL, 0, 0);
 			
 			new_val = GetDlgItemInt(hwndDlg, IDC_ED_TRANS, &trans, FALSE);
-			if(trans) options.opacity = new_val;			
+			if (trans) options.opacity = new_val;			
 			options.border = IsDlgButtonChecked(hwndDlg, IDC_CHK_BORDER) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_BORDER)) ? true : false;
 			options.round = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERS) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERS))  ? true : false;
 			options.av_round = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERSAV) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERSAV))  ? true : false;
@@ -359,15 +361,15 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 	case WM_INITDIALOG:
 		TranslateDialogDefault( hwndDlg );
 		{
-			if(num_classes) {
+			if (num_classes) {
 				newclasses = (POPUPCLASS *)mir_alloc(num_classes * sizeof(POPUPCLASS));
 				memcpy(newclasses, classes, num_classes * sizeof(POPUPCLASS));
 
 				POPUPCLASS *pc;
 				int index;
-				for(int i = 0; i < num_classes; i++) {
+				for (int i = 0; i < num_classes; i++) {
 					pc = &newclasses[i];
-					if(pc->flags & PCF_UNICODE) {
+					if (pc->flags & PCF_UNICODE) {
 						index = SendDlgItemMessageW(hwndDlg, IDC_LST_CLASSES, LB_ADDSTRING, 0, (LPARAM)pc->pwszDescription);
 					} else {
 						index = SendDlgItemMessageA(hwndDlg, IDC_LST_CLASSES, LB_ADDSTRING, 0, (LPARAM)pc->pszDescription);
@@ -384,7 +386,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			EnableWindow(GetDlgItem(hwndDlg, IDC_COL_TEXT), index != -1);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_COL_BG), index != -1);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_TIMEOUT), index != -1);
-			if(index != -1) {
+			if (index != -1) {
 				int i = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETITEMDATA, index, 0);
 				SendDlgItemMessage(hwndDlg, IDC_COL_TEXT, CPM_SETCOLOUR, 0, (LPARAM)newclasses[i].colorText);
 				SendDlgItemMessage(hwndDlg, IDC_COL_BG, CPM_SETCOLOUR, 0, (LPARAM)newclasses[i].colorBack);
@@ -395,7 +397,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			return TRUE;
 		} else if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus()) {
 			int index = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETCURSEL, 0, 0);
-			if(index != -1) {
+			if (index != -1) {
 				int i = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETITEMDATA, index, 0);
 				BOOL tr;
 				int t = GetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, &tr, FALSE);
@@ -405,14 +407,14 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 		} else {
 			int index = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETCURSEL, 0, 0);
-			if(index != -1) {
+			if (index != -1) {
 				int i = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETITEMDATA, index, 0);
 				switch(LOWORD(wParam)) {
 					case IDC_CHK_TIMEOUT: 
 						{
 							BOOL isChecked = IsDlgButtonChecked(hwndDlg, IDC_CHK_TIMEOUT);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TIMEOUT), isChecked);
-							if(isChecked) newclasses[i].iSeconds = 0;
+							if (isChecked) newclasses[i].iSeconds = 0;
 							else newclasses[i].iSeconds = -1;
 							SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, newclasses[i].iSeconds, TRUE);
 						}
@@ -427,7 +429,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 						SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 						break;
 					case IDC_BTN_PREVIEW:
-						if(newclasses[i].flags & PCF_UNICODE) {
+						if (newclasses[i].flags & PCF_UNICODE) {
 							POPUPCLASS pc = newclasses[i];
 							pc.PluginWindowProc = 0;
 							POPUPDATACLASS d = {sizeof(d), pc.pszName};
@@ -451,13 +453,13 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY ) {
 			memcpy(classes, newclasses, num_classes * sizeof(POPUPCLASS));
 			char setting[256];
-			for(int i = 0; i < num_classes; i++) {
+			for (int i = 0; i < num_classes; i++) {
 				mir_snprintf(setting, 256, "%s/Timeout", classes[i].pszName);
 				DBWriteContactSettingWord(0, MODULE, setting, classes[i].iSeconds);
 				mir_snprintf(setting, 256, "%s/TextCol", classes[i].pszName);
-				DBWriteContactSettingDword(0, MODULE, setting, (DWORD)classes[i].colorText);
+				db_set_dw(0, MODULE, setting, (DWORD)classes[i].colorText);
 				mir_snprintf(setting, 256, "%s/BgCol", classes[i].pszName);
-				DBWriteContactSettingDword(0, MODULE, setting, (DWORD)classes[i].colorBack);
+				db_set_dw(0, MODULE, setting, (DWORD)classes[i].colorBack);
 			}
 			return TRUE;
 		}

@@ -141,6 +141,6 @@ void DeinitNotify() {
 	UnhookEvent(hEventNotifyOptInit);
 	UnhookEvent(hEventNotifyModulesLoaded);
 
-	for(int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; i++)
 		DestroyServiceFunction(hServicesNotify[i]);
 }
