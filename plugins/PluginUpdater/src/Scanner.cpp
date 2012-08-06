@@ -175,8 +175,13 @@ static void CheckUpdates(void *)
 
 void DoCheck(int iFlag)
 {
-	if (CheckThread || hwndDialog)
+	if (CheckThread)
 		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("Update checking already started!"), 2, 0);
+	else if (hwndDialog) {
+		ShowWindow(hwndDialog, SW_SHOW);
+		SetForegroundWindow(hwndDialog);
+		SetFocus(hwndDialog);
+	}
 	else if (iFlag) {
 		CheckThread = mir_forkthread(CheckUpdates, 0);
 		DBWriteContactSettingDword(NULL, MODNAME, "LastUpdate", time(NULL));
