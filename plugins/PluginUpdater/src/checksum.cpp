@@ -169,7 +169,7 @@ int CalculateModuleHash(const TCHAR *filename, char* szDest)
 					{
 						DWORD shift = dbgAddr - pISH->VirtualAddress;
 						pDBG = (PIMAGE_DEBUG_DIRECTORY)( ptr + shift + pISH->PointerToRawData );
-						memset(pDBG, 0, pDBG->SizeOfData);
+						pDBG->TimeDateStamp = 0;
 					}
 
 					// erase export timestamp
