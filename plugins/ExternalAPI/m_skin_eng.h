@@ -304,13 +304,13 @@ typedef int (/*__stdcall*/ *tPaintCallbackProc)(HWND hWnd, HDC hDC, RECT * rcPai
 // HELPER TO UPDATEIMAGEFRAME
 
 
-inline BOOL isSkinEngineEnabled()
+__inline BOOL isSkinEngineEnabled()
 {
 	return ServiceExists(MS_SKINENG_REGISTERPAINTSUB) && !DBGetContactSettingByte(NULL, "ModernData", "DisableEngine", FALSE);
 }
 
 
-inline BOOL isLayeredEnabled()
+__inline BOOL isLayeredEnabled()
 {
 	return isSkinEngineEnabled() && DBGetContactSettingByte(NULL, "ModernData", "EnableLayering", TRUE);
 }
