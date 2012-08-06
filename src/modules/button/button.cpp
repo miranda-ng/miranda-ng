@@ -190,7 +190,13 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			iy++;
 		}
 		
-		DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->hIcon, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
+		HIMAGELIST hImageList = ImageList_Create(g_cxsmIcon, g_cysmIcon, ILC_MASK | (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 1, 0);
+		ImageList_AddIcon(hImageList, ctl->hIcon);
+		HICON hIconNew = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
+		DrawState(hdcMem, NULL, NULL, (LPARAM) hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, DST_ICON | (IsWindowEnabled(ctl->hwnd) ? DSS_NORMAL : DSS_DISABLED));
+		ImageList_RemoveAll(hImageList);
+		ImageList_Destroy(hImageList);
+		DestroyIcon(hIconNew);
 	}
 	else if (ctl->hBitmap) {
 		BITMAP bminfo;
