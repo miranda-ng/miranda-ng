@@ -103,13 +103,9 @@ bool hasMuuid(const BASIC_PLUGIN_INFO& bpi, const MUUID& uuid)
 
 int getDefaultPluginIdx(const MUUID& muuid)
 {
-	for (int i=0; i < SIZEOF(pluginDefault); i++) {
-		if (pluginDefault[i].stdplugname == NULL)
-			break;
-
+	for (int i=0; i < SIZEOF(pluginDefault); i++)
 		if (equalUUID(muuid, pluginDefault[i].uuid))
 			return i;
-	}
 
 	return -1;
 }
