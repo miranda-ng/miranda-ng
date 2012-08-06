@@ -119,7 +119,7 @@ void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int A
 {
 	if ( !ServiceExists(MS_POPUP_ADDPOPUPEX) || !DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) || !DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 		char setting[100];
-		mir_snprintf(setting, SIZEOF(setting), "Popups%sM", Number);
+		mir_snprintf(setting, SIZEOF(setting), "Popups%dM", Number);
 		if (DBGetContactSettingByte(NULL, MODNAME, setting, DEFAULT_MESSAGE_ENABLED)) {
 			int iMsgType;
 			switch( Number ) {
