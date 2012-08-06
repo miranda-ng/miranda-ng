@@ -40,7 +40,7 @@ void InitPopUps()
 }
 
 static const UINT icqPopupsControls[] = {
-	IDC_POPUPS_LOG_ENABLED, IDC_POPUPS_SPAM_ENABLED, IDC_PREVIEW, IDC_USEWINCOLORS, IDC_USESYSICONS, IDC_POPUP_LOG0_TIMEOUT,
+	IDC_POPUPS_LOG_ENABLED, IDC_POPUPS_SPAM_ENABLED, IDC_PREVIEW, IDC_USESYSICONS, IDC_POPUP_LOG0_TIMEOUT,
 	IDC_POPUP_LOG1_TIMEOUT, IDC_POPUP_LOG2_TIMEOUT, IDC_POPUP_LOG3_TIMEOUT, IDC_POPUP_SPAM_TIMEOUT
 };
 
@@ -82,12 +82,27 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SetDlgItemInt(hwndDlg, IDC_POPUP_SPAM_TIMEOUT, ppro->getSettingDword(NULL,"PopupsSpamTimeout",DEFAULT_SPAM_TIMEOUT),FALSE);
 		bEnabled = ppro->getSettingByte(NULL,"PopupsWinColors",DEFAULT_POPUPS_WIN_COLORS);
 		CheckDlgButton(hwndDlg, IDC_USEWINCOLORS, bEnabled);
+		bEnabled |= ppro->getSettingByte(NULL,"PopupsDefColors",DEFAULT_POPUPS_DEF_COLORS);
+		CheckDlgButton(hwndDlg, IDC_USEDEFCOLORS, bEnabled);
 		icq_EnableMultipleControls(hwndDlg, icqPopupColorControls, SIZEOF(icqPopupColorControls), bEnabled);
 		CheckDlgButton(hwndDlg, IDC_USESYSICONS, ppro->getSettingByte(NULL,"PopupsSysIcons",DEFAULT_POPUPS_SYS_ICONS));
 		bEnabled = ppro->getSettingByte(NULL,"PopupsEnabled",DEFAULT_POPUPS_ENABLED);
 		CheckDlgButton(hwndDlg, IDC_POPUPS_ENABLED, bEnabled);
 		icq_EnableMultipleControls(hwndDlg, icqPopupsControls, SIZEOF(icqPopupsControls), bEnabled);
-		icq_EnableMultipleControls(hwndDlg, icqPopupColorControls, SIZEOF(icqPopupColorControls), bEnabled & !IsDlgButtonChecked(hwndDlg,IDC_USEWINCOLORS));
+		if (bEnabled)
+		{
+			if (IsDlgButtonChecked(hwndDlg, IDC_USEDEFCOLORS))
+			{
+				EnableWindow(GetDlgItem(hwndDlg, IDC_USEWINCOLORS), !WM_ENABLE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_USEDEFCOLORS), WM_ENABLE);
+			}
+			else
+			{
+				EnableWindow(GetDlgItem(hwndDlg, IDC_USEWINCOLORS), WM_ENABLE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_USEDEFCOLORS), !WM_ENABLE);
+			}
+		}
+		icq_EnableMultipleControls(hwndDlg, icqPopupColorControls, SIZEOF(icqPopupColorControls), bEnabled & (!IsDlgButtonChecked(hwndDlg,IDC_USEWINCOLORS) && !IsDlgButtonChecked(hwndDlg,IDC_USEDEFCOLORS)));
 		bInitDone = true;
 		return TRUE;
 
@@ -105,11 +120,47 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case IDC_POPUPS_ENABLED:
 			bEnabled = IsDlgButtonChecked(hwndDlg,IDC_POPUPS_ENABLED);
+			if (bEnabled)
+			{
+				if (IsDlgButtonChecked(hwndDlg, IDC_USEDEFCOLORS))
+				{
+					EnableWindow(GetDlgItem(hwndDlg, IDC_USEWINCOLORS), !WM_ENABLE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_USEDEFCOLORS), WM_ENABLE);
+				}
+				else
+				{
+					EnableWindow(GetDlgItem(hwndDlg, IDC_USEWINCOLORS), WM_ENABLE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_USEDEFCOLORS), !WM_ENABLE);
+				}
+			}
+			else
+			{
+				EnableWindow(GetDlgItem(hwndDlg, IDC_USEWINCOLORS), !WM_ENABLE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_USEDEFCOLORS), !WM_ENABLE);
+			}
 			icq_EnableMultipleControls(hwndDlg, icqPopupsControls, SIZEOF(icqPopupsControls), bEnabled);
 
 		case IDC_USEWINCOLORS:
 			bEnabled = IsDlgButtonChecked(hwndDlg,IDC_POPUPS_ENABLED);
+			if (bEnabled)
+			{
+				if (IsDlgButtonChecked(hwndDlg, IDC_USEWINCOLORS))
+					EnableWindow(GetDlgItem(hwndDlg, IDC_USEDEFCOLORS), !WM_ENABLE);
+				else
+					EnableWindow(GetDlgItem(hwndDlg, IDC_USEDEFCOLORS), WM_ENABLE);
+			}
 			icq_EnableMultipleControls(hwndDlg, icqPopupColorControls, SIZEOF(icqPopupColorControls), bEnabled & !IsDlgButtonChecked(hwndDlg,IDC_USEWINCOLORS));
+
+		case IDC_USEDEFCOLORS:
+			bEnabled = IsDlgButtonChecked(hwndDlg,IDC_POPUPS_ENABLED);
+			if (bEnabled)
+			{
+				if (IsDlgButtonChecked(hwndDlg, IDC_USEDEFCOLORS))
+					EnableWindow(GetDlgItem(hwndDlg, IDC_USEWINCOLORS), !WM_ENABLE);
+				else
+					EnableWindow(GetDlgItem(hwndDlg, IDC_USEWINCOLORS), WM_ENABLE);
+			}
+			icq_EnableMultipleControls(hwndDlg, icqPopupColorControls, SIZEOF(icqPopupColorControls), bEnabled & !IsDlgButtonChecked(hwndDlg,IDC_USEDEFCOLORS));
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_POPUP_LOG0_TIMEOUT:
@@ -148,6 +199,7 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ppro->setSettingDword(NULL,"PopupsSpamBackColor",SendDlgItemMessage(hwndDlg,IDC_POPUP_SPAM_BACKCOLOR,CPM_GETCOLOUR,0,0));
 			ppro->setSettingDword(NULL,"PopupsSpamTimeout",GetDlgItemInt(hwndDlg, IDC_POPUP_SPAM_TIMEOUT, NULL, FALSE));
 			ppro->setSettingByte(NULL,"PopupsWinColors",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_USEWINCOLORS));
+			ppro->setSettingByte(NULL,"PopupsDefColors",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_USEDEFCOLORS));
 			ppro->setSettingByte(NULL,"PopupsSysIcons",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_USESYSICONS));
 			return TRUE;
 		}
@@ -217,12 +269,20 @@ int CIcqProto::ShowPopUpMsg(HANDLE hContact, const char *szTitle, const char *sz
 		}
 		else
 		{
-			strcpy(szSetting, szPrefix);
-			strcat(szSetting, "TextColor");
-			ppd.colorText = getSettingDword(NULL, szSetting, ppd.colorText);
-			strcpy(szSetting, szPrefix);
-			strcat(szSetting, "BackColor");
-			ppd.colorBack = getSettingDword(NULL, szSetting, ppd.colorBack);
+			if (getSettingByte(NULL, "PopupsDefColors", DEFAULT_POPUPS_DEF_COLORS))
+			{
+				ppd.colorText = NULL;
+				ppd.colorBack = NULL;
+			}
+			else
+			{
+				strcpy(szSetting, szPrefix);
+				strcat(szSetting, "TextColor");
+				ppd.colorText = getSettingDword(NULL, szSetting, ppd.colorText);
+				strcpy(szSetting, szPrefix);
+				strcat(szSetting, "BackColor");
+				ppd.colorBack = getSettingDword(NULL, szSetting, ppd.colorBack);
+			}
 		}
 		strcpy(szSetting, szPrefix);
 		strcat(szSetting, "Timeout");
