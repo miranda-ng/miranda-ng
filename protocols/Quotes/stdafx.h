@@ -6,8 +6,7 @@
 #pragma once
 
 #include "targetver.h"
-#define MIRANDA_VER 0x0800
-#define MIRANDA_CUSTOM_LP
+#define MIRANDA_VER 0x0A00
 // #define CHART_IMPLEMENT
 #define TEST_IMPORT_EXPORT
 
