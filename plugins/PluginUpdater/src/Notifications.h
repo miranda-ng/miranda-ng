@@ -61,7 +61,7 @@ typedef struct tagMYOPTIONS {
 	BYTE LeftClickAction;
 	BYTE RightClickAction;
 	int Timeout;
-} MYOPTIONS;
+} POPUP_OPTIONS;
 
 static struct {
 	TCHAR *Text;

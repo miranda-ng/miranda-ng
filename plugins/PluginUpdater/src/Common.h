@@ -32,7 +32,6 @@ Boston, MA 02111-1307, USA.
 #include <Shlobj.h>
 
 // Miranda header files
-#include "win2k.h"
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_skin.h>
@@ -46,19 +45,19 @@ Boston, MA 02111-1307, USA.
 #include <m_hotkeys.h>
 #include <m_netlib.h>
 #include <m_icolib.h>
+#include <win2k.h>
 
 #include <m_folders.h>
-#include "m_popup2.h"
+#include <m_popup2.h>
 
 #include "version.h"
 #include "resource.h"
 #include "Notifications.h"
 
-#define MODNAME					"PluginUpdater"
-#define MODULEA					"Plugin Updater"
-#define MODULEW					L"Plugin Updater"
-#define DEFAULT_UPDATES_FOLDER	L"Plugin Updates"
-typedef std::wstring tString;
+#define MODNAME "PluginUpdater"
+#define MODULEA "Plugin Updater"
+#define MODULEW L"Plugin Updater"
+#define DEFAULT_UPDATES_FOLDER L"Plugin Updates"
 #define MODULE	MODULEW
 
 struct FILEURL
@@ -85,7 +84,17 @@ struct PopupDataText
 	TCHAR*  Text;
 };
 
+struct PlugOptions
+{
+	BYTE bReminder, bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bUpdateIcons;
+	BOOL bSilent, bDlgDld;
+
+	BYTE bPeriodMeasure;
+	INT  Period;
+};
+
 #define DEFAULT_REMINDER          1
+#define DEFAULT_UPDATEICONS       0
 #define DEFAULT_UPDATEONSTARTUP   1
 #define DEFAULT_ONLYONCEADAY      0
 #define DEFAULT_UPDATEONPERIOD    0
@@ -102,18 +111,15 @@ struct PopupDataText
 #define IDDOWNLOAD			4
 #define IDDOWNLOADALL		5
 
-using std::wstring;
 using namespace std;
 
 extern HINSTANCE hInst;
-extern INT Period;
-extern BOOL Silent, DlgDld;
-extern BYTE Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
+
 extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048];
 extern FILEINFO* pFileInfo;
-//extern FILEURL* pFileUrl;
 extern HANDLE CheckThread;
-extern MYOPTIONS MyOptions;
+extern PlugOptions opts;
+extern POPUP_OPTIONS PopupOptions;
 extern aPopups PopupsList[POPUPS];
 extern HANDLE Timer;
 extern HWND hwndDialog;
@@ -131,7 +137,6 @@ INT OptInit(WPARAM wParam, LPARAM lParam);
 VOID DoCheck(INT iFlag);
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
 VOID ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, INT Number, INT ActType);
-VOID DlgDownloadProc(FILEURL *pFileUrl, PopupDataText temp);
 INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 void __stdcall ExitMe(void*);

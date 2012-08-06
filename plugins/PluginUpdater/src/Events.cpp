@@ -20,24 +20,13 @@ Boston, MA 02111-1307, USA.
 #include "common.h"
 
 HANDLE Timer;
-BOOL Silent;
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	Silent = true;
-	HOTKEYDESC hkd = {0};
-	hkd.cbSize = sizeof(hkd);
-	hkd.dwFlags = HKD_TCHAR;
-	hkd.pszName = "Check for plugin updates";
-	hkd.ptszDescription = _T("Check for plugin updates");
-	hkd.ptszSection = _T("Plugin Updater");
-	hkd.pszService = MODNAME"/CheckUpdates";
-	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
-	hkd.lParam = FALSE;
-	Hotkey_Register(&hkd);
+	opts.bSilent = true;
 
 	if (AllowUpdateOnStartup())
-		DoCheck(UpdateOnStartup);
+		DoCheck(opts.bUpdateOnStartup);
 
 	Timer = CreateWaitableTimer(NULL, FALSE, NULL);
 	InitTimer();
@@ -47,7 +36,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 {
-	Silent = false;
+	opts.bSilent = false;
 	DoCheck(1);
 	return 0;
 }

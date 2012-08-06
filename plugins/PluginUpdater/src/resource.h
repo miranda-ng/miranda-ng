@@ -4,7 +4,6 @@
 //
 #define IDI_MENU                        101
 #define IDD_UPDATE                      102
-#define IDD_DOWNLOAD                    103
 #define IDD_OPT_UPDATENOTIFY            104
 #define IDD_POPUP                       105
 #define IDD_POPUPDUMMI                  106
@@ -40,13 +39,8 @@
 #define IDC_ERRORS_MSG                  1025
 #define IDC_INFO_MESSAGES_MSG           1026
 #define IDC_PROGR_DLG_MSG               1027
-#define IDC_SYSLINK1                    1028
 #define IDC_LINK_HOTKEY                 1028
-#define IDC_MSG_BOXES2                  1029
-#define IDC_ERRORS2                     1030
-#define IDC_INFO_MESSAGES2              1031
-#define IDC_PROGR_DLG2                  1032
-#define IDC_NOTIFY2                     1033
+#define IDC_UPDATEICONS                 1029
 #define IDC_NOTIFY                      1034
 #define IDC_UPDATEONSTARTUP             1035
 #define IDC_ONLYONCEADAY                1036

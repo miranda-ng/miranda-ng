@@ -103,7 +103,7 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap&
 
 static void __stdcall LaunchDialog(void* param)
 {
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)param);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)param);
 }
 
 static void CheckUpdates(void *)
@@ -115,9 +115,6 @@ static void CheckUpdates(void *)
 	if (!Exists(tszRoot))
 		CreateDirectoryTreeT(tszRoot);
 
-	//Files.clear();
-	Reminder = DBGetContactSettingByte(NULL, MODNAME, "Reminder", DEFAULT_REMINDER);
-
 	// Load files info
 	if (DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar)) { // URL is not set
 		DBWriteContactSettingTString(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
@@ -127,17 +124,16 @@ static void CheckUpdates(void *)
 	DBFreeVariant(&dbVar);
 
 	// Download version info
-	FILEURL *pFileUrl = (FILEURL *)mir_alloc(sizeof(*pFileUrl));
-	mir_sntprintf(pFileUrl->tszDownloadURL, SIZEOF(pFileUrl->tszDownloadURL), _T("%s/hashes.txt"), tszBaseUrl);
+	FILEURL pFileUrl;
+	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.txt"), tszBaseUrl);
 	mir_sntprintf(tszBuff, SIZEOF(tszBuff), _T("%s\\tmp.ini"), tszRoot);
-	lstrcpyn(pFileUrl->tszDiskPath, tszBuff, SIZEOF(pFileUrl->tszDiskPath));
+	lstrcpyn(pFileUrl.tszDiskPath, tszBuff, SIZEOF(pFileUrl.tszDiskPath));
 	lstrcpyn(tszTmpIni, tszBuff, SIZEOF(tszTmpIni));
-	PopupDataText temp;
-	temp.Title = TranslateT("Plugin Updater");
-	temp.Text = TranslateT("Downloading version info...");
-	DlgDownloadProc(pFileUrl, temp);
-	mir_free(pFileUrl);
-	if (!DlgDld) {
+
+	ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Downloading version info..."), 3, 0);
+
+	if (!DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath)) {
+		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
 		CheckThread = NULL;
 		return;
 	}
@@ -169,7 +165,7 @@ static void CheckUpdates(void *)
 
 	// Show dialog
 	if (UpdateFiles->size() == 0) {
-		if ( !Silent)
+		if ( !opts.bSilent)
 			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("No updates found."), 2, 0);
 	}
 	else CallFunctionAsync(LaunchDialog, UpdateFiles);

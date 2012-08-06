@@ -76,11 +76,11 @@ static INT_PTR CALLBACK PopupDlgProc2(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 {
 	switch (uMsg) {
 	case WM_COMMAND:
-		PopupAction(hDlg, MyOptions.LeftClickAction);
+		PopupAction(hDlg, PopupOptions.LeftClickAction);
 		break;
 
 	case WM_CONTEXTMENU:
-		PopupAction(hDlg, MyOptions.RightClickAction);
+		PopupAction(hDlg, PopupOptions.RightClickAction);
 		break;
 
 	case UM_FREEPLUGINDATA:
@@ -142,7 +142,7 @@ void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int A
 	pd.lchIcon = LoadSkinnedIcon(PopupsList[Number].Icon);
 	lstrcpyn(pd.lptzText, TranslateTS(ptszText), SIZEOF(pd.lptzText));
 	lstrcpyn(pd.lptzContactName, TranslateTS(ptszTitle), SIZEOF(pd.lptzContactName));
-	switch (MyOptions.DefColors) {
+	switch (PopupOptions.DefColors) {
 	case byCOLOR_WINDOWS:
 		pd.colorBack = GetSysColor(COLOR_BTNFACE);
 		pd.colorText = GetSysColor(COLOR_WINDOWTEXT);
@@ -163,7 +163,7 @@ void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int A
 	if (Number == 0)
 		pd.iSeconds = -1;
 	else
-		pd.iSeconds = MyOptions.Timeout;
+		pd.iSeconds = PopupOptions.Timeout;
 	pd.hNotification = NULL;
 	pd.lpActions = pmpd->pa;
 
@@ -206,13 +206,6 @@ INT_PTR CALLBACK DlgDownloadPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 void DlgDownloadProc(FILEURL *pFileUrl, PopupDataText temp)
 {
-	lstrcpyn(tszDialogMsg, temp.Text, SIZEOF(tszDialogMsg));
-	HWND hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DOWNLOAD), NULL, DlgDownload);
-
-	if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath))
-		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
-
-	DestroyWindow(hDlgDld);
 }
 
 void SelectAll(HWND hDlg, bool bEnable)
@@ -323,7 +316,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 			lvc.iSubItem = 1;
 			lvc.pszText = TranslateT("State");
-			lvc.cx = 120; // width of column in pixels
+			lvc.cx = 120 - GetSystemMetrics(SM_CXVSCROLL); // width of column in pixels
 			ListView_InsertColumn(hwndList, 1, &lvc);
 
 			//enumerate plugins, fill in list

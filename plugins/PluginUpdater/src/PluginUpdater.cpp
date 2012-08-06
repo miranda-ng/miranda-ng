@@ -87,6 +87,18 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.pszService = MODNAME"/EmptyFolder";
 	Menu_AddMainMenuItem(&mi);
 
+	// Add hotkey
+	HOTKEYDESC hkd = {0};
+	hkd.cbSize = sizeof(hkd);
+	hkd.dwFlags = HKD_TCHAR;
+	hkd.pszName = "Check for plugin updates";
+	hkd.ptszDescription = _T("Check for plugin updates");
+	hkd.ptszSection = _T("Plugin Updater");
+	hkd.pszService = MODNAME"/CheckUpdates";
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
+	hkd.lParam = FALSE;
+	Hotkey_Register(&hkd);
+
 	// Add options hook
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

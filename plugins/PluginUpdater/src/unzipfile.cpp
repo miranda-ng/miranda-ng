@@ -37,28 +37,8 @@ bool extractCurrentFile(unzFile uf, TCHAR* ptszDestPath, TCHAR* ptszBackPath)
 	if (err != UNZ_OK)
 		return false;
 
-	// Get Unicode file name for InfoZip style archives, otherwise assume PKZip/WinZip style
-	if (file_info.size_file_extra)
-	{
-		char *p = buf; 
-		unsigned long size = min(file_info.size_file_extra, sizeof(buf));
-		while (size > 0)
-		{
-			unsigned short id =  *(unsigned short*)p;
-			unsigned len =  *(unsigned short*)(p + 2);
-
-			if (size < (len + 4)) break;
-
-			if (id == 0x7075 && len > 5 && (len - 5) < sizeof(filename) && *(p + 4) == 1)
-			{
-				memcpy(filename, p + 9, len - 5);
-				filename[len - 5] = 0;
-				break;
-			}
-			size -= len + 4;
-			p += len + 4;
-		}
-	}
+	if (!opts.bUpdateIcons && !_strnicmp(filename, "Icons/", 6))
+		return true;
 
 	TCHAR tszDestFile[MAX_PATH], tszBackFile[MAX_PATH];
 	TCHAR* p = mir_utf8decodeT(filename);

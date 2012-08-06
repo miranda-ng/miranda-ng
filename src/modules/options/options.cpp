@@ -1431,15 +1431,11 @@ static void OpenOptionsNow(int hLangpack, const char *pszGroup, const char *pszP
 				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(hLangpack, ptszGroup));
 				if (hItem != NULL)
 					hItem = FindNamedTreeItemAtChildren(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, TranslateTH(hLangpack, ptszPage));
-
-				mir_free(ptszGroup);
 			}
 			else hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(hLangpack, ptszPage));
 
 			if (hItem != NULL)
 				TreeView_SelectItem(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem);
-
-			mir_free(ptszPage);
 		}	
 	}
 	else {

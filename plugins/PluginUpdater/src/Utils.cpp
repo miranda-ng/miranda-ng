@@ -22,14 +22,11 @@ Boston, MA 02111-1307, USA.
 //vector<FILEINFO> Files;
 BOOL DlgDld;
 INT /*CurrentFile = 0,*/ Number = 0;
-BYTE Reminder, AutoUpdate;
-BYTE UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
-INT Period;
 TCHAR tszDialogMsg[2048] = {0};
 FILEINFO* pFileInfo = NULL;
 //FILEURL* pFileUrl = NULL;
 HANDLE CheckThread = NULL, hNetlibUser = NULL;
-MYOPTIONS MyOptions = {0};
+POPUP_OPTIONS PopupOptions = {0};
 aPopups PopupsList[POPUPS];
 
 struct
@@ -113,16 +110,18 @@ VOID InitPopupList()
 
 VOID LoadOptions()
 {
-	MyOptions.DefColors = DBGetContactSettingByte(NULL, MODNAME, "DefColors", DEFAULT_COLORS);
-	MyOptions.LeftClickAction= DBGetContactSettingByte(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
-	MyOptions.RightClickAction = DBGetContactSettingByte(NULL, MODNAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
-	MyOptions.Timeout = DBGetContactSettingDword(NULL, MODNAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
-	UpdateOnStartup = DBGetContactSettingByte(NULL, MODNAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
-	OnlyOnceADay = DBGetContactSettingByte(NULL, MODNAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
-	UpdateOnPeriod = DBGetContactSettingByte(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
-	Period = DBGetContactSettingDword(NULL, MODNAME, "Period", DEFAULT_PERIOD);
-	PeriodMeasure = DBGetContactSettingByte(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
-	Reminder = DBGetContactSettingByte(NULL, MODNAME, "Reminder", DEFAULT_REMINDER);
+	PopupOptions.DefColors = DBGetContactSettingByte(NULL, MODNAME, "DefColors", DEFAULT_COLORS);
+	PopupOptions.LeftClickAction= DBGetContactSettingByte(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
+	PopupOptions.RightClickAction = DBGetContactSettingByte(NULL, MODNAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
+	PopupOptions.Timeout = DBGetContactSettingDword(NULL, MODNAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
+	
+	opts.bUpdateOnStartup = DBGetContactSettingByte(NULL, MODNAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
+	opts.bOnlyOnceADay = DBGetContactSettingByte(NULL, MODNAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
+	opts.bUpdateOnPeriod = DBGetContactSettingByte(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
+	opts.Period = DBGetContactSettingDword(NULL, MODNAME, "Period", DEFAULT_PERIOD);
+	opts.bPeriodMeasure = DBGetContactSettingByte(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
+	opts.bReminder = DBGetContactSettingByte(NULL, MODNAME, "Reminder", DEFAULT_REMINDER);
+	opts.bUpdateIcons = DBGetContactSettingByte(NULL, MODNAME, "UpdateIcons", DEFAULT_UPDATEICONS);
 }
 
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
@@ -181,7 +180,7 @@ VOID __stdcall RestartMe(void*)
 
 BOOL AllowUpdateOnStartup()
 {
-	if (OnlyOnceADay) {
+	if (opts.bOnlyOnceADay) {
 		time_t now = time(NULL);
 		time_t was = DBGetContactSettingDword(NULL, MODNAME, "LastUpdate", 0);
 
@@ -218,8 +217,8 @@ VOID CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHig
 VOID InitTimer()
 {
 	CancelWaitableTimer(Timer);
-	if (UpdateOnPeriod) {
-		LONG interval = PeriodToMilliseconds(Period, PeriodMeasure);
+	if (opts.bUpdateOnPeriod) {
+		LONG interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
 
 		_int64 qwDueTime = -10000i64 * interval;
 
