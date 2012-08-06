@@ -269,7 +269,7 @@ static void ApplyUpdates(void* param)
 	else
 		rc = MessageBox(NULL, temp.Text, temp.Title, MB_YESNO | MB_ICONQUESTION);
 	if (rc != IDYES) {
-		mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s"), tszFileBack);
+		mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s"), tszFileTemp);
 		ShowPopup(0, LPGENT("Plugin Updater"), tszBuff, 2, 0);
 		DestroyWindow(hDlg);
 		return;
@@ -282,7 +282,7 @@ static void ApplyUpdates(void* param)
 			continue;
 
 		FILEINFO& p = todo[i];
-		unzip(p.File.tszDiskPath, tszMirandaPath, tszFileTemp);
+		unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack);
 	}
 
 	DestroyWindow(hDlg);

@@ -40,7 +40,7 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap&
 {
 	TCHAR tszMask[MAX_PATH], tszFileBack[MAX_PATH];
 	mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\*"), tszFolder);
-	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
+	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Temp"), tszRoot);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(tszMask, &ffd);
