@@ -38,9 +38,9 @@ typedef pair<string, string> hashItem;
 
 static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap& hashes, vector<FILEINFO>* UpdateFiles)
 {
-	TCHAR tszMask[MAX_PATH], tszFileBack[MAX_PATH];
+	TCHAR tszMask[MAX_PATH], tszFileTemp[MAX_PATH];
 	mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\*"), tszFolder);
-	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Temp"), tszRoot);
+	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(tszMask, &ffd);
@@ -91,7 +91,7 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap&
 			mir_sntprintf(FileInfo.File.tszDownloadURL, SIZEOF(FileInfo.File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, ffd.cFileName);
 			_tcslwr(FileInfo.File.tszDownloadURL);
 
-			mir_sntprintf(FileInfo.File.tszDiskPath, SIZEOF(FileInfo.File.tszDiskPath), _T("%s\\%s.zip"), tszFileBack, ffd.cFileName);
+			mir_sntprintf(FileInfo.File.tszDiskPath, SIZEOF(FileInfo.File.tszDiskPath), _T("%s\\%s.zip"), tszFileTemp, ffd.cFileName);
 
 			UpdateFiles->push_back(FileInfo);
 		} // end compare versions
@@ -108,7 +108,7 @@ static void __stdcall LaunchDialog(void* param)
 
 static void CheckUpdates(void *)
 {
-	TCHAR tszBuff[2048] = {0}, /*tszFileInfo[30] = {0},*/ tszTmpIni[MAX_PATH] = {0};
+	TCHAR tszBuff[2048] = {0}, tszTmpIni[MAX_PATH] = {0};
 	char szKey[64] = {0};
 	DBVARIANT dbVar = {0};
 

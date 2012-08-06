@@ -59,6 +59,7 @@ bool extractCurrentFile(unzFile uf, TCHAR* ptszDestPath, TCHAR* ptszBackPath)
 		if (err != UNZ_OK)
 			return false;
 
+		DeleteFile(tszBackFile);
 		MoveFile(tszDestFile, tszBackFile);
 
 		HANDLE hFile = CreateFile(tszDestFile, GENERIC_WRITE, FILE_SHARE_WRITE, 0, 
