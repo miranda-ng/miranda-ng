@@ -84,7 +84,7 @@ INT_PTR GetPathSizeService(WPARAM wParam, LPARAM lParam)
 INT_PTR GetPathService(WPARAM wParam, LPARAM lParam)
 {
 	FOLDERSGETDATA* data = (FOLDERSGETDATA *) lParam;
-	if (data->cbSize != sizeof(FOLDERSGETDATA))
+	if (data->cbSize != sizeof	(FOLDERSGETDATA))
 		return 1;
 
 	if (data->flags & FF_UNICODE)

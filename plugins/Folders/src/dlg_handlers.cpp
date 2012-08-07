@@ -83,7 +83,7 @@ void LoadRegisteredFolderItems(HWND hWnd)
 	SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_RESETCONTENT, 0, 0);
 	for (int i = 0; i < lstRegisteredFolders.Count(); i++) {
 		PFolderItem item = lstRegisteredFolders.Get(i + 1);
-		if ( !strcmp(buffer, item->GetSection()) == 0) {
+		if ( !strcmp(buffer, item->GetSection())) {
 			mir_ptr<TCHAR> wide( mir_a2t( item->GetName()));
 			SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_ADDSTRING, 0, (LPARAM)TranslateTS(wide));
 		}
