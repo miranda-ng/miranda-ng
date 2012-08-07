@@ -24,39 +24,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdarg.h>
 #include "commonheaders.h"
 
-int Log(char *format, ...);
+TCHAR *StrReplace(TCHAR *source, const TCHAR *what, const TCHAR *withWhat);
+TCHAR *StrCopy(TCHAR *source, size_t index, const TCHAR *what, size_t count);
+TCHAR *StrDelete(TCHAR *source, size_t index, size_t count);
+TCHAR *StrInsert(TCHAR *source, size_t index, const TCHAR *what);
+TCHAR *StrTrim(TCHAR *szText, const TCHAR *szTrimChars);
 
-char *StrReplace(char *source, const char *what, const char *withWhat);
-char *StrCopy(char *source, size_t index, const char *what, size_t count);
-char *StrDelete(char *source, size_t index, size_t count);
-char *StrInsert(char *source, size_t index, const char *what);
-char *StrTrim(char *szText, const char *szTrimChars);
+void RemoveDirectories(TCHAR *szPath);
+int DirectoryExists(TCHAR *szPath);
 
-wchar_t *StrReplace(wchar_t *source, const wchar_t *what, const wchar_t *withWhat);
-wchar_t *StrCopy(wchar_t *source, size_t index, const wchar_t *what, size_t count);
-wchar_t *StrDelete(wchar_t *source, size_t index, size_t count);
-wchar_t *StrInsert(wchar_t *source, size_t index, const wchar_t *what);
-wchar_t *StrTrim(wchar_t *szText, const wchar_t *szTrimChars);
-
-void CreateDirectories(char *szPath);
-void RemoveDirectories(char *szPath);
-int DirectoryExists(char *szPath);
-
-void CreateDirectories(wchar_t *szPath);
-void RemoveDirectories(wchar_t *szPath);
-int DirectoryExists(wchar_t *szPath);
-
-int GetStringFromDatabase(char *szSettingName, const char *szError, char *szResult, size_t size);
-int WriteStringToDatabase(char *szSettingName, const char *szValue);
-
-int GetStringFromDatabase(char *szSettingName, const wchar_t *szError, wchar_t *szResult, size_t size);
-int WriteStringToDatabase(char *szSettingName, const wchar_t *szValue);
-
-__inline static wchar_t *Utils_ReplaceVarsW(wchar_t *szData) {
-	REPLACEVARSDATA dat = {0};
-	dat.cbSize = sizeof(dat);
-	dat.dwFlags = RVF_UNICODE;
-	return (wchar_t *) CallService(MS_UTILS_REPLACEVARS, (WPARAM) szData, (LPARAM) &dat);
-}
+int GetStringFromDatabase(char *szSettingName, const TCHAR *szError, TCHAR *szResult, size_t size);
 
 #endif

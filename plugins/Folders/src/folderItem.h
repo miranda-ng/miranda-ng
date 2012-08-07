@@ -35,44 +35,34 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FOLDER_SUCCESS 1
 #define FOLDER_FAILURE 0
 
-class CFolderItem{
-	protected:
-		char szSection[FOLDERS_NAME_MAX_SIZE];
-		char szName[FOLDERS_NAME_MAX_SIZE]; //don't forget to modify in m_folders.h
-		union{
-			char *szFormat;
-			wchar_t *szFormatW;
-		};
-		union{
-			char *szOldFormat;
-			wchar_t *szOldFormatW;
-		};
-		DWORD flags;
+class CFolderItem
+{
+				char  *m_szSection;
+				char  *m_szName;
+				TCHAR *m_tszFormat, *m_tszOldFormat;
+				DWORD  m_flags;
 
-		void GetDataFromDatabase(const char *szNotFound);
-		void WriteDataToDatabase();
+				void GetDataFromDatabase(const TCHAR *szNotFound);
+				void WriteDataToDatabase();
 		
-		int FolderCreateDirectory(int showFolder = 0);
-		int FolderDeleteOldDirectory(int showFolder = 0);
+				int FolderCreateDirectory(int showFolder = 0);
+				int FolderDeleteOldDirectory(int showFolder = 0);
+public:
+				CFolderItem(const char *sectionName, const char *name, const TCHAR *format, const DWORD flags);
+				virtual ~CFolderItem();
+				
+				void Expand(TCHAR *buffer, int size);
+				void Save();
 		
-	public:
-		CFolderItem(const char *sectionName, const char *name, const char *format, const DWORD flags);
-		virtual ~CFolderItem();
-		void Expand(char *buffer, int size);
-		void Save();
-		
-		int IsUnicode() const;
-		int IsEqual(const CFolderItem *other);
-		int IsEqual(const char *section, const char *name);
-		int IsEqualTranslated(const char *trSection, const char *trName);
-		int operator ==(const CFolderItem *other);
+				int IsEqual(const CFolderItem *other);
+				int IsEqual(const char *section, const char *name);
+				int IsEqualTranslated(const char *trSection, const char *trName);
+				int operator ==(const CFolderItem *other);
 
-		const char *GetSection() const;
-		const char *GetName() const;
-		const char *GetFormat() const;
-		const wchar_t *GetFormatW() const;
-		void SetFormat(const char *newFormat);
-		void SetFormatW(const wchar_t *newFormat);
+	__inline const char*  GetSection() const { return m_szSection; }
+	__inline const char*  GetName() const { return m_szName; }
+	__inline const TCHAR* GetFormat() const { return m_tszFormat; }
+				void SetFormat(const TCHAR *newFormat);
 };
 
 typedef CFolderItem *PFolderItem;

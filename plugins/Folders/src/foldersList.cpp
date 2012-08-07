@@ -36,11 +36,8 @@ CFoldersList::~CFoldersList()
 
 void CFoldersList::Clear()
 {
-	int i;
-	for (i = 0; i < count; i++)
-		{
-			delete (list[i]);
-		}
+	for (int i = 0; i < count; i++)
+		delete (list[i]);
 	
 	count = 0;
 }
@@ -57,145 +54,79 @@ int CFoldersList::Capacity()
 
 void CFoldersList::Save()
 {
-	int i;
-	for (i = 0; i < count; i++)
-		{
-			list[i]->Save();
-		}
+	for (int i = 0; i < count; i++)
+		list[i]->Save();
 }
 
 PFolderItem CFoldersList::Get(int index)
 {
 	index--;
 	if ((index < 0) || (index >= count))
-		{
-			return NULL;
-		}
+		return NULL;
+
 	return list[index];	
 }
 
 PFolderItem CFoldersList::Get(const char *section, const char *name)
 {
-	int i;
-	for (i = 0; i < count; i++)
-		{
-			if (list[i]->IsEqual(section, name))
-				{
-					return list[i];
-				}
-		}
-	return NULL;
-}
+	for (int i = 0; i < count; i++)
+		if (list[i]->IsEqual(section, name))
+			return list[i];
 
-PFolderItem CFoldersList::Get(const WCHAR *section, const WCHAR *name)
-{
-	const int MAX_SIZE = 2048;
-	char aSection[MAX_SIZE];
-	char aName[MAX_SIZE];
-	UINT cp = static_cast<UINT>(CallService(MS_LANGPACK_GETCODEPAGE, 0, 0));
-	
-	WideCharToMultiByte(cp, 0, section, -1, aSection, MAX_SIZE, NULL, NULL);
-	WideCharToMultiByte(cp, 0, name, -1, aName, MAX_SIZE, NULL, NULL);
-	
-	return Get(aSection, aName);
+	return NULL;
 }
 
 PFolderItem CFoldersList::GetTranslated(const char *trSection, const char *trName)
 {
-	int i;
-	for (i = 0; i < count; i++)
-	{
+	for (int i = 0; i < count; i++)
 		if (list[i]->IsEqualTranslated(trSection, trName))
-		{
 			return list[i];
-		}
-	}
 	
 	return NULL;
 }
 
-PFolderItem CFoldersList::GetTranslated(WCHAR *trSection, const WCHAR *trName)
-{
-	const int MAX_SIZE = 2048;
-	char aSection[MAX_SIZE];
-	char aName[MAX_SIZE];
-	UINT cp = static_cast<UINT>(CallService(MS_LANGPACK_GETCODEPAGE, 0, 0));
-	
-	WideCharToMultiByte(cp, 0, trSection, -1, aSection, MAX_SIZE, NULL, NULL);
-	WideCharToMultiByte(cp, 0, trName, -1, aName, MAX_SIZE, NULL, NULL);
-	
-	return GetTranslated(aSection, aName);
-}
-
-
-int CFoldersList::Expand(int index, char *szResult, int size)
+int CFoldersList::Expand(int index, TCHAR *szResult, int size)
 {
 	PFolderItem tmp = Get(index);
-	int res = 1;
-	if (tmp)
-		{
-			tmp->Expand(szResult, size);
-			res = 0;
-		}
-		else{
-			memset(szResult, 0, size);
-		}
-	return res;
+	if (tmp) {
+		tmp->Expand(szResult, size);
+		return 0;
+	}
+
+	memset(szResult, 0, size);
+	return 1;
 }
 
 int CFoldersList::Add(CFolderItem *item)
 {
 	EnsureCapacity();
 	int pos = Contains(item);
-	if (!pos)
-		{
-			list[count++] = item;
-			return count;
-		}
-		else{
-			delete item;
-			return pos;
-		}
+	if (!pos) {
+		list[count++] = item;
+		return count;
+	}
+
+	delete item;
 	return 0;
 }
 
-int CFoldersList::Add(FOLDERSDATA data)
+int CFoldersList::Add(FOLDERSDATA* data)
 {
 	CFolderItem *item;
-	if (data.flags & FF_UNICODE)
-		{
-			item = new CFolderItem(data.szSection, data.szName, (char *) data.szFormatW, data.flags);
-		}
-		else{
-			item = new CFolderItem(data.szSection, data.szName, data.szFormat, data.flags);
-		}
+	if (data->flags & FF_UNICODE)
+		item = new CFolderItem(data->szSection, data->szName, data->szFormatW, data->flags);
+	else
+		item = new CFolderItem(data->szSection, data->szName, _A2T(data->szFormat), data->flags);
+
 	return Add(item);
 }
 
 void CFoldersList::Remove(CFolderItem *item)
 {
-//	Remove(item->GetUniqueID());
 }
 
 void CFoldersList::Remove(int uniqueID)
 {
-/*	int i, j;
-	CFolderItem *tmp;
-	for (i = 0; i < count; i++)
-		{
-			if (list[i]->GetUniqueID() == uniqueID)
-				{
-					tmp = list[i];
-					for (j = i; j < count - 1; j++)
-						{
-							list[j] = list[j + 1];
-						}
-					count--;
-					delete tmp;
-					return;
-				}
-		}
-*/
 }
 
 int CFoldersList::Contains(CFolderItem *item)
@@ -205,23 +136,17 @@ int CFoldersList::Contains(CFolderItem *item)
 
 int CFoldersList::Contains(const char *section, const char *name)
 {
-	int i;
-	for (i = 0; i < count; i++)
-		{
-			if (list[i]->IsEqual(section, name))
-				{
-					return i + 1;
-				}
-		}
+	for (int i = 0; i < count; i++)
+		if (list[i]->IsEqual(section, name))
+			return i + 1;
+
 	return 0;
 }
 
 void CFoldersList::EnsureCapacity()
 {
 	if (count >= capacity)
-		{
-			Enlarge(capacity / 2);
-		}
+		Enlarge(capacity / 2);
 }
 
 void CFoldersList::Enlarge(int increaseAmount)

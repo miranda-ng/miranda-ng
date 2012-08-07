@@ -26,25 +26,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MAX_FOLDERS_PATH 512
 
-extern char szCurrentProfilePath[MAX_FOLDERS_PATH];
-extern char szCurrentProfile[MAX_FOLDERS_PATH];
-extern char szMirandaPath[MAX_FOLDERS_PATH];
-
-extern wchar_t szCurrentProfilePathW[MAX_FOLDERS_PATH];
-extern wchar_t szCurrentProfileW[MAX_FOLDERS_PATH];
-extern wchar_t szMirandaPathW[MAX_FOLDERS_PATH];
+extern TCHAR szCurrentProfilePath[MAX_FOLDERS_PATH];
+extern TCHAR szCurrentProfile[MAX_FOLDERS_PATH];
+extern TCHAR szMirandaPath[MAX_FOLDERS_PATH];
 
 int InitServices();
 int DestroyServices();
-INT_PTR ExpandPath(char *szResult, char *format, int size);
-INT_PTR ExpandPathW(wchar_t *szResult, wchar_t *format, int size);
-INT_PTR GetPath(int hRegisteredFolder, char *szResult, int size);
-
-INT_PTR RegisterPathService(WPARAM wParam, LPARAM lParam);
-INT_PTR GetPathSizeService(WPARAM wParam, LPARAM lParam);
-INT_PTR GetPathService(WPARAM wParam, LPARAM lParam);
-INT_PTR GetPathAllocService(WPARAM wParam, LPARAM lParam);
-//int GetPathAppendService(WPARAM wParam, LPARAM lParam);
-//int GetPathAllocAppendService(WPARAM wParam, LPARAM lParam);
+INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size);
+INT_PTR GetPath(int hRegisteredFolder, TCHAR *szResult, int size);
 
 #endif //M_FOLDERS_PROVIDED_SERVICES_H

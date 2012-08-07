@@ -47,7 +47,7 @@ class CFoldersList{
 		
 		void Clear();
 		int Add(CFolderItem *item);
-		int Add(FOLDERSDATA data);
+		int Add(FOLDERSDATA* data);
 		void Remove(CFolderItem *item);
 		void Remove(int uniqueID);
 		int Contains(CFolderItem *item);
@@ -58,10 +58,8 @@ class CFoldersList{
 		
 		PFolderItem Get(int index);
 		PFolderItem Get(const char *section, const char *name);
-		PFolderItem Get(const WCHAR *section, const WCHAR *name);
 		PFolderItem GetTranslated(const char *trSection, const char *trName);
-		PFolderItem GetTranslated(WCHAR *trSection, const WCHAR *trName);
-		int Expand(int index, char *szResult, int size);
+		int Expand(int index, TCHAR *szResult, int size);
 		void Save();
 };
 
