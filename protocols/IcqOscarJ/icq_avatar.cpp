@@ -92,9 +92,7 @@ void CIcqProto::InitAvatars()
 		if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 		{ // check if it does make sense
 			TCHAR tszPath[MAX_PATH * 2];
-			TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));
-			null_snprintf(tszPath, MAX_PATH * 2, _T("%s\\") _T(TCHAR_STR_PARAM) _T("\\"), tmpPath, m_szModuleName);
-			mir_free(tmpPath);
+			null_snprintf(tszPath, MAX_PATH * 2, _T("%%miranda_avatarcache%%\\") _T(TCHAR_STR_PARAM) _T("\\"), m_szModuleName);
 
 			hAvatarsFolder = FoldersRegisterCustomPathT(m_szModuleName, "Avatars Cache", tszPath);
 		}
