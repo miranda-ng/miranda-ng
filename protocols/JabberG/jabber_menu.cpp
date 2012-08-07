@@ -487,12 +487,10 @@ int CJabberProto::OnPrebuildContactMenu( WPARAM wParam, LPARAM )
 						clmi.flags = CMIM_NAME|CMIM_FLAGS | CMIF_CHILDPOPUP|CMIF_TCHAR;
 						if ((item->resourceMode == RSMODE_MANUAL) && (item->manualResource == i))
 							clmi.flags |= CMIF_CHECKED;
-						if (ServiceExists( "Fingerprint/GetClientIcon" )) {
+						if (ServiceExists(MS_FP_GETCLIENTICONT)) {
 							clmi.flags |= CMIM_ICON;
 							FormatMirVer(&item->resource[i], szTmp, SIZEOF(szTmp));
-							char *szMirver = mir_t2a(szTmp);
-							clmi.hIcon = (HICON)CallService( "Fingerprint/GetClientIcon", (WPARAM)szMirver, 0 );
-							mir_free( szMirver );
+							clmi.hIcon = (HICON)CallService( MS_FP_GETCLIENTICONT, (WPARAM)szTmp, 0 );
 						}
 						mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s [%s, %d]"),
 							item->resource[i].resourceName,

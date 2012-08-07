@@ -453,10 +453,7 @@ int CJabberProto::SearchRenewFields(HWND hwndDlg, JabberSearchData * dat)
 	JabberSearchFreeData( hwndDlg, dat );
 	JabberSearchRefreshFrameScroll( hwndDlg, dat );
 
-	if ( m_bJabberOnline )
-		SetDlgItemText(hwndDlg,IDC_INSTRUCTIONS,TranslateT("Please wait...\r\nConnecting search server..."));
-	else
-		SetDlgItemText(hwndDlg,IDC_INSTRUCTIONS,TranslateT("You have to be connected to server"));
+	SetDlgItemText(hwndDlg,IDC_INSTRUCTIONS,m_bJabberOnline ? TranslateT("Please wait...\r\nConnecting search server...") : TranslateT("You have to be connected to server"));
 
 	if ( !m_bJabberOnline )
 		return 0;

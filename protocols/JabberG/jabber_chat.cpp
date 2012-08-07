@@ -883,7 +883,7 @@ struct TUserInfoData
 	JABBER_RESOURCE_STATUS *me, *him;
 };
 
-static LRESULT CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TUserInfoData *dat = (TUserInfoData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
@@ -1135,7 +1135,7 @@ static void sttNickListHook( CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK*
 		dat->him = him;
 		dat->item = item;
 		dat->ppro = ppro;
-		HWND hwndInfo = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_GROUPCHAT_INFO), NULL, (DLGPROC)sttUserInfoDlgProc, (LPARAM)dat);
+		HWND hwndInfo = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_GROUPCHAT_INFO), NULL, sttUserInfoDlgProc, (LPARAM)dat);
 		ShowWindow(hwndInfo, SW_SHOW);
 		break;
 	}
