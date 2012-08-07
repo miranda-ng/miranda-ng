@@ -37,13 +37,11 @@ int GetCurrentItemText(HWND hWnd, char *buffer, int count)
 int GetCurrentSectionText(HWND hWnd, char *buffer, int count)
 {
 	int index = GetCurrentSectionSelection(hWnd);
-	if (index != LB_ERR) {
+	if (index != LB_ERR)
 		SendDlgItemMessageA(hWnd, IDC_FOLDERS_SECTIONS_LIST, LB_GETTEXT, index, (LPARAM) buffer);
-		return 1;
-	}
-
-	buffer[0] = L'0';
-	return 0;
+	else
+		buffer[0] = L'0';
+	return index;
 }
 
 static void GetEditText(HWND hWnd, TCHAR *buffer, int size)
@@ -66,11 +64,15 @@ int ContainsSection(HWND hWnd, const WCHAR *section)
 
 void LoadRegisteredFolderSections(HWND hWnd)
 {
+	HWND hwndList = GetDlgItem(hWnd, IDC_FOLDERS_SECTIONS_LIST);
+
 	for (int i = 0; i < lstRegisteredFolders.Count(); i++) {
 		PFolderItem tmp = lstRegisteredFolders.Get(i + 1);
 		TCHAR *translated = mir_a2t( tmp->GetSection());
-		if (!ContainsSection(hWnd, translated))
-			SendDlgItemMessage(hWnd, IDC_FOLDERS_SECTIONS_LIST, LB_ADDSTRING, 0, (LPARAM)TranslateTS(translated));
+		if ( !ContainsSection(hWnd, TranslateTS(translated))) {
+			int idx = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)TranslateTS(translated));
+			SendMessage(hwndList, LB_SETITEMDATA, idx, (LPARAM)tmp->GetSection());
+		}
 
 		mir_free(translated);
 	}
@@ -78,12 +80,14 @@ void LoadRegisteredFolderSections(HWND hWnd)
 
 void LoadRegisteredFolderItems(HWND hWnd)
 {
-	char buffer[MAX_FOLDER_SIZE];
-	GetCurrentSectionText(hWnd, buffer, MAX_FOLDER_SIZE);
+	int idx = GetCurrentSectionSelection(hWnd);
+	char* szSection = (char*)SendDlgItemMessage(hWnd, IDC_FOLDERS_SECTIONS_LIST, LB_GETITEMDATA, idx, 0);
+
 	SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_RESETCONTENT, 0, 0);
+
 	for (int i = 0; i < lstRegisteredFolders.Count(); i++) {
 		PFolderItem item = lstRegisteredFolders.Get(i + 1);
-		if ( !strcmp(buffer, item->GetSection())) {
+		if ( !strcmp(szSection, item->GetSection())) {
 			mir_ptr<TCHAR> wide( mir_a2t( item->GetName()));
 			SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_ADDSTRING, 0, (LPARAM)TranslateTS(wide));
 		}
@@ -195,8 +199,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			case LBN_SELCHANGE:
 				{
 					PFolderItem item = GetSelectedItem(hWnd);
-					if (item != NULL)
-					{
+					if (item != NULL) {
 						CheckForChanges(hWnd);
 						LoadItem(hWnd, item);
 					}
