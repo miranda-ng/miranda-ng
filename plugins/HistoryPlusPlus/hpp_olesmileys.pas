@@ -94,39 +94,11 @@ type
 
 *)
 
-const
+const // additional for animated smileys (idk where introduced)
     // Type of Event one of
-    FVCN_PREFIRE  = 1;
-    FVCN_POSTFIRE = 2;
     FVCN_GETINFO  = 255;
-
     // Action of event are going to be done
-    FVCA_NONE           = 0;
-    FVCA_DRAW           = 1;   // do not modify hdc in case of _DRAW, Use _CUSTOMDRAW
-    FVCA_CUSTOMDRAW     = 2;
-    FVCA_INVALIDATE     = 3;
-    FVCA_SENDVIEWCHANGE = 4;
-    FVCA_SKIPDRAW       = 5;
     FVCA_INFO           = 255;
-
-type
-    // Extended NMHDR structure for WM_NOTIFY
-    PFVCNDATA_NMHDR= ^TFVCNDATA_NMHDR;
-    TFVCNDATA_NMHDR = record
-        nmhdr: TNMHdr;
-        cbSize: Integer;
-        bEvent: Byte;
-        bAction: Byte;
-        hDC: HDC;
-        rcRect: TRect;
-        clrBackground: COLORREF;
-        fTransparent: BOOL;
-        lParam: LPARAM;
-    end;
-
-const
-    // Code of WM_NOTIFY message (code)
-    NM_FIREVIEWCHANGE = NM_FIRST+1;
 
 implementation
 

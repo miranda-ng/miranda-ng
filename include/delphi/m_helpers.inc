@@ -73,6 +73,9 @@ procedure EffectRegisterW(pEffectID:pEffectIDW);
 
 function TopToolbar_AddButton(pButton:PTTBButton):THANDLE;
 
+function Options_Open(ood:POPENOPTIONSDIALOG):int_ptr;
+function Options_OpenPage(ood:POPENOPTIONSDIALOG):HWND;
+
 {$ELSE}
 
 function ProtoServiceExists(const proto,service: PAnsiChar): int;
@@ -494,6 +497,16 @@ end;
 function TopToolbar_AddButton(pButton:PTTBButton):THANDLE;
 begin
   result:=CallService(MS_TTB_ADDBUTTON, WPARAM(pButton), hLangpack);
+end;
+
+function Options_Open(ood:POPENOPTIONSDIALOG):int_ptr;
+begin
+	result:=CallService(MS_OPT_OPENOPTIONS, hLangpack, LPARAM(ood));
+end;
+
+function Options_OpenPage(ood:POPENOPTIONSDIALOG):HWND;
+begin
+	result:=CallService(MS_OPT_OPENOPTIONSPAGE, hLangpack, LPARAM(ood));
 end;
 
 {$ENDIF}

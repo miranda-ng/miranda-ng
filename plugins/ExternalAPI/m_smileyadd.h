@@ -222,9 +222,9 @@ typedef struct
 typedef struct  
 {   
     //NMHDR structure
-    HWND hwndFrom;              // Window of smiley host
-    UINT idFrom;                // ignored
-    UINT code;                  // NM_FIREVIEWCHANGE
+    HWND     hwndFrom;          // Window of smiley host
+    UINT_PTR idFrom;            // ignored
+    UINT     code;              // NM_FIREVIEWCHANGE
     
     size_t      cbSize;
     BYTE        bEvent;         // FVCN_ value - pre- or post- painting

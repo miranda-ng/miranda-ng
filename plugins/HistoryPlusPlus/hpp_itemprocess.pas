@@ -459,7 +459,7 @@ begin
   sare.rangeToReplace := nil;
   sare.ProtocolName := ird^.pProto;
   //sare.flags := SAFLRE_INSERTEMF + mesSent[ird^.IsEventSent];
-  sare.flags := mesSent[ird^.IsEventSent];
+  sare.flags := mesSent[ird^.IsEventSent] or SAFLRE_FIREVIEW;
   sare.disableRedraw := True;
   sare.hContact := ird^.hContact;
   CallService(MS_SMILEYADD_REPLACESMILEYS,0,LPARAM(@sare));

@@ -21,10 +21,11 @@
 {$IFNDEF M_SMILEYADD}
 {$DEFINE M_SMILEYADD}
 const
-  SAFLRE_INSERTEMF = 2; // insert smiley as EMF into RichEdit, otherwise bitmap
-                        // inserted this flag allows "true" transparency
-  SAFLRE_OUTGOING  = 4; // Parsing outgoing message
-  SAFLRE_NOCUSTOM  = 8; // Do not use custom smileys
+  SAFLRE_INSERTEMF =  2; // insert smiley as EMF into RichEdit, otherwise bitmap
+                         // inserted this flag allows "true" transparency
+  SAFLRE_OUTGOING  =  4; // Parsing outgoing message
+  SAFLRE_NOCUSTOM  =  8; // Do not use custom smileys
+  SAFLRE_FIREVIEW  = 16; // use NM_FIREVIEWCHANGE messages
 
 type
   PSMADD_RICHEDIT3 = ^TSMADD_RICHEDIT3;
@@ -109,10 +110,10 @@ const
 // Message dialogs usually need to redraw it's content on reception of this event
   ME_SMILEYADD_OPTIONSCHANGED:PAnsiChar = 'SmileyAdd/OptionsChanged';
 
-  SAFL_PATH     = 1; // provide smiley file path, icon otherwise
-  SAFL_UNICODE  = 2; // string fields in OPTIONSDIALOGPAGE are WCHAR*
-  SAFL_OUTGOING = 4; // Parsing outgoing message
-  SAFL_NOCUSTOM = 8; // Do not use custom smileys
+  SAFL_PATH     = 1;  // provide smiley file path, icon otherwise
+  SAFL_UNICODE  = 2;  // string fields in OPTIONSDIALOGPAGE are WCHAR*
+  SAFL_OUTGOING = 4;  // Parsing outgoing message
+  SAFL_NOCUSTOM = 8;  // Do not use custom smileys
 
 type
   PSMADD_BATCHPARSE2 = ^TSMADD_BATCHPARSE2;
