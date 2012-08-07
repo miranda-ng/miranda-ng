@@ -199,6 +199,7 @@ static void __cdecl loadFlash_Thread(void *p) {
 		fgd.cbSize = sizeof(FOLDERSGETDATA);
 		fgd.nMaxPathSize = MAX_PATH;
 		fgd.szPathT = path;
+		fgd.flags = FF_TCHAR;
 		if (!hAvatarsFolder || CallService(MS_FOLDERS_GET_PATH, (WPARAM)hAvatarsFolder, (LPARAM)&fgd)) {
 			if(ServiceExists(MS_UTILS_REPLACEVARS)) {
 				TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));

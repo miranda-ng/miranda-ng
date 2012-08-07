@@ -1,22 +1,22 @@
 // ---------------------------------------------------------------------------80
 //                ICQ plugin for Miranda Instant Messenger
 //                ________________________________________
-// 
+//
 // Copyright © 2000-2001 Richard Hughes, Roland Rabien, Tristan Van de Vreede
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
-// 
+//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -135,6 +135,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 	fgd.cbSize = sizeof(FOLDERSGETDATA);
 	fgd.nMaxPathSize = MAX_PATH * 2;
 	fgd.szPathT = szPath;
+	fgd.flags = FF_TCHAR;
 	if (CallService(MS_FOLDERS_GET_PATH, (WPARAM)hAvatarsFolder, (LPARAM)&fgd))
 	{
 		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));
@@ -143,7 +144,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 	}
 	else
 		_tcscat(szPath, _T("\\"));
-	
+
 	// fill the destination
 	lstrcpyn(pszDest, szPath, cbLen - 1);
 	int tPathLen = strlennull(pszDest);
@@ -151,7 +152,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 	// make sure the avatar cache directory exists
 	CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)szPath);
 
-	if (dwUin != 0) 
+	if (dwUin != 0)
 	{
 		_ltot(dwUin, pszDest + tPathLen, 10);
 	}
@@ -167,7 +168,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 
 		if (CallService(MS_DB_GETPROFILENAMET, MAX_PATH, (LPARAM)szBuf))
 			_tcscpy(pszDest + tPathLen, _T("avatar"));
-		else 
+		else
 		{
 			TCHAR *szLastDot = _tcsrchr(szBuf, '.');
 			if (szLastDot) szLastDot[0] = '\0';
@@ -545,7 +546,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 		BYTE itemFlags = pHash[2];
 
 		// just some validity check
-		if (itemLen + 4 > nHashLen) 
+		if (itemLen + 4 > nHashLen)
 			itemLen = nHashLen - 4;
 
 		if (itemLen && memcmp(pHash + 4, emptyItem, itemLen > 0x10 ? 0x10 : itemLen))
@@ -775,7 +776,7 @@ int CIcqProto::GetAvatarData(HANDLE hContact, DWORD dwUin, const char *szUid, co
 {
 	uid_str szUidData;
 	char *pszUid = NULL;
-	if (!dwUin && szUid) 
+	if (!dwUin && szUid)
 	{ // create a copy in local writable buffer
 		strcpy(szUidData, szUid);
 		pszUid = szUidData;
@@ -879,7 +880,7 @@ int CIcqProto::GetAvatarData(HANDLE hContact, DWORD dwUin, const char *szUid, co
 
 // upload avatar data to server
 int CIcqProto::SetAvatarData(HANDLE hContact, WORD wRef, const BYTE *data, unsigned int datalen)
-{ 
+{
 	m_avatarsMutex->Enter();
 
 	if (m_avatarsConnection && m_avatarsConnection->isReady()) // check if we are ready
@@ -987,7 +988,7 @@ void __cdecl CIcqProto::AvatarThread(avatars_server_connection *pInfo)
 }
 
 
-avatars_server_connection::avatars_server_connection(CIcqProto *ppro, HANDLE hConnection, char *pCookie, WORD wCookieLen): 
+avatars_server_connection::avatars_server_connection(CIcqProto *ppro, HANDLE hConnection, char *pCookie, WORD wCookieLen):
 isLoggedIn(FALSE), stopThread(FALSE), isActive(FALSE)
 {
 	this->ppro = ppro;
@@ -1294,14 +1295,14 @@ void avatars_server_connection::connectionThread()
 #endif
 					SleepEx(500, TRUE); // wait some time, can we do anything else ??
 					if (Miranda_Terminated())
-					{ 
+					{
 						stopThread = 1;
 						continue;
 					}
 				}
 				// check if we got something to request
 				checkRequestQueue();
-				continue; 
+				continue;
 			}
 			if (!stopThread)
 				NetLog_Server("Abortive closure of server socket, error: %d", GetLastError());
@@ -1320,7 +1321,7 @@ void avatars_server_connection::connectionThread()
 	}
 	{ // release connection
 		icq_lock l(localSeqMutex);
-		NetLib_SafeCloseHandle(&hPacketRecver); // Close the packet receiver 
+		NetLib_SafeCloseHandle(&hPacketRecver); // Close the packet receiver
 		NetLib_CloseConnection(&hConnection, FALSE); // Close the connection
 	}
 
@@ -1449,7 +1450,7 @@ void avatars_server_connection::handleLoginChannel(BYTE *buf, WORD datalen)
 
 	if (*(DWORD*)buf == 0x1000000)
 	{  // here check if we received SRV_HELLO
-		wLocalSequence = generate_flap_sequence(); 
+		wLocalSequence = generate_flap_sequence();
 
 		serverCookieInit(&packet, (LPBYTE)pCookie, wCookieLen);
 		sendServerPacket(&packet);
@@ -1603,7 +1604,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 				ai.format = PA_FORMAT_JPEG; // this is for error only
 				ai.hContact = pCookieData->hContact;
 				lstrcpyn(ai.filename, pCookieData->szFile, SIZEOF(ai.filename));
-				AddAvatarExt(PA_FORMAT_JPEG, ai.filename); 
+				AddAvatarExt(PA_FORMAT_JPEG, ai.filename);
 
 				ppro->FreeCookie(pSnacHeader->dwRef);
 
@@ -1668,7 +1669,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 						lstrcpyn(ai.filename, tszImageFile, SIZEOF(ai.filename));
 
 						int out = _topen(tszImageFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
-						if (out != -1) 
+						if (out != -1)
 						{
 							DBVARIANT dbv = {DBVT_DELETED};
 
@@ -1703,7 +1704,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 							}
 
 							ppro->BroadcastAck(pCookieData->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
-						}  
+						}
 					}
 					else
 					{ // avatar is broken
@@ -1801,7 +1802,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 
 			if (wBufferLength >= 2)
 				unpackWord(&pBuffer, &wError);
-			else 
+			else
 				wError = 0;
 
 			ppro->LogFamilyError(ICQ_AVATAR_FAMILY, wError);

@@ -186,6 +186,7 @@ static int FoldersPathChanged(WPARAM, LPARAM)
 	fgd.cbSize = sizeof(FOLDERSGETDATA);
 	fgd.nMaxPathSize = MAX_PATH;
 	fgd.szPathT = CrashLogFolder;
+	fgd.flags = FF_TCHAR;
 	CallService(MS_FOLDERS_GET_PATH, (WPARAM) hCrashLogFolder, (LPARAM) &fgd);
 
 	fgd.szPathT = VersionInfoFolder;
