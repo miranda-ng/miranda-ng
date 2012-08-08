@@ -280,7 +280,8 @@ static void ApplyUpdates(void* param)
 			continue;
 
 		FILEINFO& p = todo[i];
-		unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack);
+		if ( unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack))
+			DeleteFile(p.File.tszDiskPath);
 	}
 
 	DestroyWindow(hDlg);

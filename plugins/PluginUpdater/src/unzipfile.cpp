@@ -91,17 +91,22 @@ bool extractCurrentFile(unzFile uf, TCHAR* ptszDestPath, TCHAR* ptszBackPath)
 	return true;
 }
 
-void unzip(const TCHAR* ptszZipFile, TCHAR* ptszDestPath, TCHAR* ptszBackPath)
+bool unzip(const TCHAR* ptszZipFile, TCHAR* ptszDestPath, TCHAR* ptszBackPath)
 {
+	bool bResult = true;
+
 	zlib_filefunc64_def ffunc;
 	fill_fopen64_filefunc(&ffunc);
-
+	
 	unzFile uf = unzOpen2_64(ptszZipFile, &ffunc);
 	if (uf) {
 		do {
-			extractCurrentFile(uf, ptszDestPath, ptszBackPath);
+			if ( !extractCurrentFile(uf, ptszDestPath, ptszBackPath))
+				bResult = false;
 		}
 			while (unzGoToNextFile(uf) == UNZ_OK);
 		unzClose(uf);
 	}
+
+	return bResult;
 }
