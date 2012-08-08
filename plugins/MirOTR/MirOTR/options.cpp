@@ -36,7 +36,6 @@ int FoldersChanged(WPARAM wParam, LPARAM lParam) {
 	fgd.cbSize = sizeof(FOLDERSGETDATA);
 	fgd.nMaxPathSize = MAX_PATH;
 	fgd.szPath = path;
-	fgd.flags = FF_TCHAR;
 	if (CallService(MS_FOLDERS_GET_PATH, (LPARAM)hPATH_MIROTR, (LPARAM)&fgd)) {
 		char *mypath = Utils_ReplaceVars(DATA_DIRECTORY);
 		SetFilenames(mypath);
