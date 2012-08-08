@@ -262,7 +262,7 @@ static void ApplyUpdates(void* param)
 	PopupDataText temp;
 	temp.Title = TranslateT("Plugin Updater");
 	temp.Text = tszBuff;
-	lstrcpyn(tszBuff, TranslateT("Download complete. Start updating? All your data will be saved and Miranda IM will be closed."), SIZEOF(tszBuff));
+	lstrcpyn(tszBuff, TranslateT("Download complete. Start updating? All your data will be saved and Miranda NG will be closed."), SIZEOF(tszBuff));
 	if (ServiceExists(MS_POPUP_ADDPOPUPEX) && ServiceExists(MS_POPUP_REGISTERACTIONS) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL,MODNAME, "Popups0", DEFAULT_POPUP_ENABLED) && (DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1))
 		rc = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), NULL, DlgMsgPop, (LPARAM)&temp);
 	else
