@@ -159,6 +159,8 @@ static void CheckUpdates(void *)
 		char* szName = strrchr(str, '\\');
 		if (szName == NULL)
 			szName = str;
+		else 
+			szName++;
 
 		_strlwr(p);
 		hashes[szName] = p;
