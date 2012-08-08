@@ -284,6 +284,7 @@ static void ApplyUpdates(void* param)
 			DeleteFile(p.File.tszDiskPath);
 	}
 
+	DBWriteContactSettingByte(NULL, MODULEA, "RestartCount", 2);
 	DestroyWindow(hDlg);
 	CallFunctionAsync(RestartMe, 0);
 }

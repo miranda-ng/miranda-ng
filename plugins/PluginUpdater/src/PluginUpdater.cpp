@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 HINSTANCE hInst = NULL;
 
-HANDLE hPluginUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL;
+HANDLE hPluginUpdaterFolder = NULL, hCheckUpdates = NULL;
 TCHAR tszRoot[MAX_PATH] = {0};
 int hLangpack;
 
@@ -79,14 +79,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
 
-	// Add empty updates folder menu item
-	hEmptyFolder = CreateServiceFunction(MODNAME"/EmptyFolder", EmptyFolder);
-
-	mi.icolibItem = Skin_GetIconHandle("empty_folder");
-	mi.pszName = LPGEN("Clear plugin updates folder");
-	mi.pszService = MODNAME"/EmptyFolder";
-	Menu_AddMainMenuItem(&mi);
-
 	// Add hotkey
 	HOTKEYDESC hkd = {0};
 	hkd.cbSize = sizeof(hkd);
@@ -113,6 +105,5 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	NetlibUnInit();
 	DestroyServiceFunction(hCheckUpdates);
-	DestroyServiceFunction(hEmptyFolder);
 	return 0;
 }

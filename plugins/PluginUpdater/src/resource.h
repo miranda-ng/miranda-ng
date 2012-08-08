@@ -7,7 +7,6 @@
 #define IDD_OPT_UPDATENOTIFY            104
 #define IDD_POPUP                       105
 #define IDD_POPUPDUMMI                  106
-#define IDI_DELETE                      107
 #define IDI_OK                          108
 #define IDI_CANCEL                      109
 #define IDC_UPDATETEXT                  1001

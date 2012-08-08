@@ -38,7 +38,6 @@ struct
 static iconList[] =
 {
 	{ "check_update", LPGEN("Check for plugin updates"),    IDI_MENU },
-	{ "empty_folder", LPGEN("Clear plugin updates folder"), IDI_DELETE },
 	{ "btn_ok",			LPGEN("'Yes' Button"),              IDI_OK },
 	{ "btn_cancel",   LPGEN("'No' Button"),               IDI_CANCEL }
 };
