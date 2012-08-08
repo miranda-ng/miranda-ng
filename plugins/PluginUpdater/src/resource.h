@@ -17,6 +17,7 @@
 #define IDC_INFO2                       1005
 #define IDC_SELNONE                     1005
 #define IDC_LABEL                       1006
+#define IDC_DETAILS                     1006
 #define IDC_USEWINCOLORS                1007
 #define IDC_RC                          1008
 #define IDC_USEPOPUPCOLORS              1009
@@ -40,6 +41,7 @@
 #define IDC_PROGR_DLG_MSG               1027
 #define IDC_LINK_HOTKEY                 1028
 #define IDC_UPDATEICONS                 1029
+#define IDC_SEPARATOR                   1030
 #define IDC_NOTIFY                      1034
 #define IDC_UPDATEONSTARTUP             1035
 #define IDC_ONLYONCEADAY                1036
@@ -47,6 +49,7 @@
 #define IDC_PERIOD                      1038
 #define IDC_PERIODSPIN                  1039
 #define IDC_PERIODMEASURE               1040
+#define IDC_EDIT1                       1042
 #define IDC_MSG_BOXES                   40071
 #define IDC_ERRORS                      40072
 #define IDC_INFO_MESSAGES               40073
@@ -61,12 +64,12 @@
 #define IDC_PROGR_DLG_BG                42074
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        110
 #define _APS_NEXT_COMMAND_VALUE         40075
-#define _APS_NEXT_CONTROL_VALUE         1042
+#define _APS_NEXT_CONTROL_VALUE         1043
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

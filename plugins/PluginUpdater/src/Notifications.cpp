@@ -20,6 +20,7 @@ Boston, MA 02111-1307, USA.
 #include "common.h"
 
 HWND hwndDialog = NULL;
+static bool bShowDetails;
 
 void PopupAction(HWND hWnd, BYTE action)
 {
@@ -289,6 +290,14 @@ static void ApplyUpdates(void* param)
 	CallFunctionAsync(RestartMe, 0);
 }
 
+static void ResizeVert(HWND hDlg, int yy)
+{
+	RECT r = { 0, 0, 244, yy };
+	MapDialogRect(hDlg, &r);
+	r.bottom += GetSystemMetrics(SM_CYSMCAPTION);
+	SetWindowPos(hDlg, 0, 0, 0, r.right, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
+}
+
 INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
@@ -343,8 +352,12 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 				todo[i].enabled = true;
 			}
 			HWND hwOk = GetDlgItem(hDlg, IDOK);
-			EnableWindow(hwOk, true/*one_enabled ? TRUE : FALSE*/);
+			EnableWindow(hwOk, true);
 		}
+
+		bShowDetails = false;
+		ResizeVert(hDlg, 60);
+
 		// do this after filling list - enables 'ITEMCHANGED' below
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
 		Utils_RestoreWindowPositionNoSize(hDlg,0,MODNAME,"ConfirmWindow");
@@ -389,6 +402,11 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			case IDOK:
 				mir_forkthread(ApplyUpdates, hDlg);
 				return TRUE;
+
+			case IDC_DETAILS:
+				bShowDetails = !bShowDetails;
+				ResizeVert(hDlg, bShowDetails ? 242 : 60);
+				break;
 
 			case IDC_SELALL:
 				SelectAll(hDlg, true);
