@@ -24,11 +24,10 @@ Boston, MA 02111-1307, USA.
 // Windows Header Files:
 #include <time.h>
 #include <stdio.h>
+#include <malloc.h>
+#include <stddef.h>
 #include <windows.h>
 #include <Windowsx.h>
-#include <vector>       // stl vector header
-#include <map>
-#include <string>
 #include <Shlobj.h>
 
 // Miranda header files
@@ -77,6 +76,8 @@ struct FILEINFO
 	INT FileNum;
 	BYTE Force;
 };
+
+typedef OBJLIST<FILEINFO> FILELIST;
 
 struct PopupDataText
 {

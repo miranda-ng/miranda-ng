@@ -33,10 +33,24 @@ static bool Exists(LPCTSTR strName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-typedef map<string, string> hashMap;
-typedef pair<string, string> hashItem;
+struct ServListEntry
+{
+	~ServListEntry()
+	{	mir_free(m_name);
+	}
 
-static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap& hashes, vector<FILEINFO>* UpdateFiles)
+	char *m_name, *m_searchName;
+	char m_szHash[32+1];
+};
+
+static int CompareHashes(const ServListEntry* p1, const ServListEntry* p2)
+{
+	return strcmp(p1->m_searchName, p2->m_searchName);
+}
+
+typedef OBJLIST<ServListEntry> SERVLIST;
+
+static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO>* UpdateFiles)
 {
 	TCHAR tszMask[MAX_PATH], tszFileTemp[MAX_PATH];
 	mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\*"), tszFolder);
@@ -71,29 +85,30 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, hashMap&
 			continue;
 
 		// Read version info
-		hashMap::iterator boo = hashes.find(szFileName);
-		if (boo == hashes.end())
+		ServListEntry tmp = { NULL, szFileName };
+		int idx = hashes.getIndex( &tmp );
+		if (idx == -1)
 			continue;
 
-		TCHAR *plugname = ffd.cFileName;
-		FILEINFO FileInfo = { 0 };
-
+		char szMyHash[33];
 		mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, ffd.cFileName);
-		CalculateModuleHash(tszMask, FileInfo.curhash);
-
-		strncpy(FileInfo.newhash, boo->second.c_str(), SIZEOF(FileInfo.newhash));
+		CalculateModuleHash(tszMask, szMyHash);
 
 		// Compare versions
-		if ( strcmp(FileInfo.curhash, FileInfo.newhash)) { // Yeah, we've got new version.
-			_tcscpy(FileInfo.tszDescr, ffd.cFileName);
+		if ( strcmp(szMyHash, hashes[idx].m_szHash)) { // Yeah, we've got new version.
+			FILEINFO* FileInfo = new FILEINFO;
+			strncpy(FileInfo->newhash, hashes[idx].m_szHash, SIZEOF(FileInfo->newhash));
+			strncpy(FileInfo->curhash, szMyHash, SIZEOF(FileInfo->newhash));
+			_tcscpy(FileInfo->tszDescr, ffd.cFileName);
 
 			*p = 0;
-			mir_sntprintf(FileInfo.File.tszDownloadURL, SIZEOF(FileInfo.File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, ffd.cFileName);
-			_tcslwr(FileInfo.File.tszDownloadURL);
+			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\%s.zip"), tszFileTemp, ffd.cFileName);
 
-			mir_sntprintf(FileInfo.File.tszDiskPath, SIZEOF(FileInfo.File.tszDiskPath), _T("%s\\%s.zip"), tszFileTemp, ffd.cFileName);
+			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%S"), tszBaseUrl, hashes[idx].m_name);
+			if ((p = _tcsrchr(FileInfo->File.tszDownloadURL, '.')) != NULL)
+				_tcscpy(p, _T(".zip"));
 
-			UpdateFiles->push_back(FileInfo);
+			UpdateFiles->insert(FileInfo);
 		} // end compare versions
 	}
 		while (FindNextFile(hFind, &ffd) != 0);
@@ -143,7 +158,7 @@ static void CheckUpdates(void *)
 	if (!fp)
 		return;
 
-	hashMap hashes;
+	SERVLIST hashes(50, CompareHashes);
 	char str[200];
 	while(fgets(str, SIZEOF(str), fp) != NULL) {
 		rtrim(str);
@@ -152,29 +167,33 @@ static void CheckUpdates(void *)
 			continue;
 
 		*p++ = 0;
-		_strlwr(str);
-		if ( !opts.bUpdateIcons && !strncmp(str, "icons\\", 6))
+		if ( !opts.bUpdateIcons && !_strnicmp(str, "icons\\", 6))
 			continue;
 
-		char* szName = strrchr(str, '\\');
-		if (szName == NULL)
-			szName = str;
-		else 
-			szName++;
+		ServListEntry* newItem = new ServListEntry;
+		newItem->m_name = mir_strdup(str);
 
 		_strlwr(p);
-		hashes[szName] = p;
+		strncpy(newItem->m_szHash, p, sizeof(newItem->m_szHash));
+
+		for (p = strchr(newItem->m_name, '\\'); p != NULL; p = strchr(p+1, '\\'))
+			*p = '/';
+
+		char* szName = strrchr(newItem->m_name, '/');
+		newItem->m_searchName = (szName == NULL) ? newItem->m_name : szName+1;
+		_strlwr(newItem->m_searchName);
+		hashes.insert(newItem);
 	}
 	fclose(fp);
 	DeleteFile(tszTmpIni);
 
-	vector<FILEINFO>* UpdateFiles = new vector<FILEINFO>;
+	FILELIST *UpdateFiles = new FILELIST(20);
 	TCHAR *dirname = Utils_ReplaceVarsT(_T("%miranda_path%"));
 	ScanFolder(dirname, tszBaseUrl, hashes, UpdateFiles);
 	mir_free(dirname);
 
 	// Show dialog
-	if (UpdateFiles->size() == 0) {
+	if (UpdateFiles->getCount() == 0) {
 		if ( !opts.bSilent)
 			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("No updates found."), 2, 0);
 	}

@@ -208,10 +208,10 @@ void DlgDownloadProc(FILEURL *pFileUrl, PopupDataText temp)
 
 void SelectAll(HWND hDlg, bool bEnable)
 {
-	vector<FILEINFO> &todo = *(vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 
-	for (size_t i=0; i < todo.size(); i++) {
+	for (int i=0; i < todo.getCount(); i++) {
 		ListView_SetCheckState(hwndList, i, bEnable);
 		todo[i].enabled = bEnable;
 	}
@@ -226,7 +226,7 @@ static void ApplyUpdates(void* param)
 {
 	HWND hDlg = (HWND)param;
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
-	vector<FILEINFO> &todo = *(vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	TCHAR tszBuff[2048], tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
 	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
@@ -235,7 +235,7 @@ static void ApplyUpdates(void* param)
 	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
 	CreateDirectory(tszFileTemp, NULL);
 
-	for (size_t i=0; i < todo.size(); ++i) {
+	for (int i=0; i < todo.getCount(); ++i) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
 		if ( !todo[i].enabled) {
 			SetStringText(hwndList, i, TranslateT("Skipped"));
@@ -252,7 +252,7 @@ static void ApplyUpdates(void* param)
 			SetStringText(hwndList, i, TranslateT("Succeeded."));
 	}
 
-	if (todo.size() == 0) {
+	if (todo.getCount() == 0) {
 		DestroyWindow(hDlg);
 		return;
 	}
@@ -275,7 +275,7 @@ static void ApplyUpdates(void* param)
 
 	TCHAR* tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
 
-	for (size_t i = 0; i < todo.size(); i++) {
+	for (int i = 0; i < todo.getCount(); i++) {
 		if ( !todo[i].enabled)
 			continue;
 
@@ -329,8 +329,8 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			LVITEM lvI = {0};
 			lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
 
-			vector<FILEINFO> &todo = *(vector<FILEINFO> *)lParam;
-			for (int i = 0; i < (int)todo.size(); ++i) {
+			OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)lParam;
+			for (int i = 0; i < todo.getCount(); ++i) {
 				lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_IMAGE;
 				lvI.iSubItem = 0;
 				lvI.lParam = (LPARAM)&todo[i];
@@ -363,12 +363,12 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 					lvI.mask = LVIF_PARAM;
 					ListView_GetItem(hwndList, &lvI);
 
-					vector<FILEINFO> &todo = *(vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+					OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
 						todo[lvI.iItem].enabled = ListView_GetCheckState(hwndList, nmlv->iItem);
 
 						bool enableOk = false;
-						for(int i=0; i<(int)todo.size(); ++i) {
+						for(int i=0; i < todo.getCount(); ++i) {
 							if(todo[i].enabled) {
 								enableOk = true;
 								break;
@@ -409,7 +409,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 	case WM_DESTROY:
 		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
 		hwndDialog = NULL;
-		delete (vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 		break;			
 	}
