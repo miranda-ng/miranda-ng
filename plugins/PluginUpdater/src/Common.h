@@ -87,17 +87,16 @@ struct PopupDataText
 
 struct PlugOptions
 {
-	BYTE bReminder, bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bUpdateIcons;
+	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bUpdateIcons;
 	BOOL bSilent, bDlgDld;
 
 	BYTE bPeriodMeasure;
 	INT  Period;
 };
 
-#define DEFAULT_REMINDER          1
 #define DEFAULT_UPDATEICONS       0
 #define DEFAULT_UPDATEONSTARTUP   1
-#define DEFAULT_ONLYONCEADAY      0
+#define DEFAULT_ONLYONCEADAY      1
 #define DEFAULT_UPDATEONPERIOD    0
 #define DEFAULT_PERIOD            1
 #define DEFAULT_PERIODMEASURE     1

@@ -25,9 +25,9 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	opts.bSilent = true;
 
-	int iRestartCount = DBGetContactSettingByte(NULL, MODULEA, "RestartCount", 2);
+	int iRestartCount = DBGetContactSettingByte(NULL, MODNAME, "RestartCount", 2);
 	if (iRestartCount > 0)
-		DBWriteContactSettingByte(NULL, MODULEA, "RestartCount", iRestartCount-1);
+		DBWriteContactSettingByte(NULL, MODNAME, "RestartCount", iRestartCount-1);
 	else
 		EmptyFolder(0, TRUE); // silently
 

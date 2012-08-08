@@ -55,7 +55,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 1, TranslateT("days"));
 		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), opts.bPeriodMeasure);
 
-		CheckDlgButton(hwndDlg, IDC_REMINDER, opts.bReminder);
 		CheckDlgButton(hwndDlg, IDC_UPDATEICONS, opts.bUpdateIcons);
 		return TRUE;
 
@@ -86,7 +85,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			break;
 
 		case IDC_UPDATEICONS:
-		case IDC_REMINDER:
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
@@ -127,8 +125,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				DBWriteContactSettingByte(NULL, MODNAME, "UpdateOnPeriod", opts.bUpdateOnPeriod);
 				DBWriteContactSettingByte(NULL, MODNAME, "PeriodMeasure", opts.bPeriodMeasure);
 				DBWriteContactSettingDword(NULL, MODNAME, "Period", opts.Period);
-				opts.bReminder = IsDlgButtonChecked(hwndDlg, IDC_REMINDER);
-				DBWriteContactSettingByte(NULL, MODNAME, "Reminder", opts.bReminder);
 				opts.bUpdateIcons = IsDlgButtonChecked(hwndDlg, IDC_UPDATEICONS);
 				DBWriteContactSettingByte(NULL, MODNAME, "UpdateIcons", opts.bUpdateIcons);
 			}

@@ -31,7 +31,6 @@
 #define IDC_TIMEOUT_VALUE               1017
 #define IDC_USEOWNCOLORS                1018
 #define IDC_ENABLEUPDATES               1019
-#define IDC_REMINDER                    1020
 #define IDC_LIST_UPDATES                1021
 #define IDC_MESSAGE                     1022
 #define IDC_DESCR                       1023

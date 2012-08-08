@@ -119,7 +119,6 @@ VOID LoadOptions()
 	opts.bUpdateOnPeriod = DBGetContactSettingByte(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
 	opts.Period = DBGetContactSettingDword(NULL, MODNAME, "Period", DEFAULT_PERIOD);
 	opts.bPeriodMeasure = DBGetContactSettingByte(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
-	opts.bReminder = DBGetContactSettingByte(NULL, MODNAME, "Reminder", DEFAULT_REMINDER);
 	opts.bUpdateIcons = DBGetContactSettingByte(NULL, MODNAME, "UpdateIcons", DEFAULT_UPDATEICONS);
 }
 

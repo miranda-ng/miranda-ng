@@ -285,7 +285,7 @@ static void ApplyUpdates(void* param)
 			DeleteFile(p.File.tszDiskPath);
 	}
 
-	DBWriteContactSettingByte(NULL, MODULEA, "RestartCount", 2);
+	DBWriteContactSettingByte(NULL, MODNAME, "RestartCount", 2);
 	DestroyWindow(hDlg);
 	CallFunctionAsync(RestartMe, 0);
 }
@@ -400,6 +400,9 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 		if (HIWORD( wParam ) == BN_CLICKED) {
 			switch(LOWORD(wParam)) {
 			case IDOK:
+				EnableWindow( GetDlgItem(hDlg, IDOK), FALSE);
+				EnableWindow( GetDlgItem(hDlg, IDC_SELALL), FALSE);
+				EnableWindow( GetDlgItem(hDlg, IDC_SELNONE), FALSE);
 				mir_forkthread(ApplyUpdates, hDlg);
 				return TRUE;
 
