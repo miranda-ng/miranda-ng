@@ -153,8 +153,15 @@ static void CheckUpdates(void *)
 
 		*p++ = 0;
 		_strlwr(str);
+		if ( !opts.bUpdateIcons && !strncmp(str, "icons\\", 6))
+			continue;
+
+		char* szName = strrchr(str, '\\');
+		if (szName == NULL)
+			szName = str;
+
 		_strlwr(p);
-		hashes[str] = p;
+		hashes[szName] = p;
 	}
 	fclose(fp);
 	DeleteFile(tszTmpIni);
