@@ -143,3 +143,5 @@ void __stdcall ExitMe(void*);
 void __stdcall RestartMe(void*);
 BOOL AllowUpdateOnStartup();
 VOID InitTimer();
+
+void unzip(const TCHAR* ptszZipFile, TCHAR* ptszDestPath, TCHAR* ptszBackPath);

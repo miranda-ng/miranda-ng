@@ -108,7 +108,6 @@ static void __stdcall LaunchDialog(void* param)
 
 static void CheckUpdates(void *)
 {
-	TCHAR tszBuff[2048] = {0}, tszTmpIni[MAX_PATH] = {0};
 	char szKey[64] = {0};
 	DBVARIANT dbVar = {0};
 
@@ -124,20 +123,22 @@ static void CheckUpdates(void *)
 	DBFreeVariant(&dbVar);
 
 	// Download version info
-	FILEURL pFileUrl;
-	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.txt"), tszBaseUrl);
-	mir_sntprintf(tszBuff, SIZEOF(tszBuff), _T("%s\\tmp.ini"), tszRoot);
-	lstrcpyn(pFileUrl.tszDiskPath, tszBuff, SIZEOF(pFileUrl.tszDiskPath));
-	lstrcpyn(tszTmpIni, tszBuff, SIZEOF(tszTmpIni));
-
 	ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Downloading version info..."), 3, 0);
 
+	FILEURL pFileUrl;
+	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), tszBaseUrl);
+	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszRoot);
 	if (!DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath)) {
 		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
 		CheckThread = NULL;
 		return;
 	}
 
+	unzip(pFileUrl.tszDiskPath, tszRoot, tszRoot);
+	DeleteFile(pFileUrl.tszDiskPath);
+
+	TCHAR tszTmpIni[MAX_PATH] = {0};
+	mir_sntprintf(tszTmpIni, SIZEOF(tszTmpIni), _T("%s\\hashes.txt"), tszRoot);
 	FILE* fp = _tfopen(tszTmpIni, _T("r"));
 	if (!fp)
 		return;

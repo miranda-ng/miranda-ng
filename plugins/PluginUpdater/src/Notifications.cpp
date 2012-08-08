@@ -21,8 +21,6 @@ Boston, MA 02111-1307, USA.
 
 HWND hwndDialog = NULL;
 
-void unzip(const TCHAR* ptszZipFile, TCHAR* ptszDestPath, TCHAR* ptszBackPath);
-
 void PopupAction(HWND hWnd, BYTE action)
 {
 	switch (action)
