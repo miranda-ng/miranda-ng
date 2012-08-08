@@ -15,140 +15,80 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="birthdays.cpp">
+    <ClCompile Include="src\src\birthdays.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="date_utils.cpp">
+    <ClCompile Include="src\src\date_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dlg_handlers.cpp">
+    <ClCompile Include="src\src\dlg_handlers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="events.cpp">
+    <ClCompile Include="src\events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hooked_events.cpp">
+    <ClCompile Include="src\hooked_events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="icons.cpp">
+    <ClCompile Include="src\icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="notifiers.cpp">
+    <ClCompile Include="src\notifiers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="services.cpp">
+    <ClCompile Include="src\services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utils.cpp">
+    <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WhenWasIt.cpp">
+    <ClCompile Include="src\WhenWasIt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="birthdays.h">
+    <ClInclude Include="src\birthdays.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="commonheaders.h">
+    <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="date_utils.h">
+    <ClInclude Include="src\date_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dlg_handlers.h">
+    <ClInclude Include="src\dlg_handlers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="events.h">
+    <ClInclude Include="src\events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hooked_events.h">
+    <ClInclude Include="src\hooked_events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icons.h">
+    <ClInclude Include="src\icons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="notifiers.h">
+    <ClInclude Include="src\notifiers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="services.h">
+    <ClInclude Include="src\services.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="utils.h">
+    <ClInclude Include="src\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\add.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\check.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\check.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\dlg.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\dtb0.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\dtb1.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\dtb2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\dtb3.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\dtb4.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\dtb5.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\dtb6.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\dtb7.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\dtb8.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\dtb9.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\dtbX.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\export.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\import.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\list.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\refresh.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="docs\WhenWasIt_readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="WhenWasIt.rc">
+    <ResourceCompile Include="res\WhenWasIt.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

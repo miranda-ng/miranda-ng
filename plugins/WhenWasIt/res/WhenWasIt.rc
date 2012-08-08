@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 1 TEXTINCLUDE
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE
@@ -222,24 +222,24 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_BIRTHDAYS_DLG       ICON                    "icons\\dlg.ico"
-IDI_CHECK               ICON                    "icons\\check.ico"
-IDI_LIST                ICON                    "icons\\list.ico"
-IDI_DTB1                ICON                    "icons\\dtb1.ico"
-IDI_DTB9                ICON                    "icons\\dtb9.ico"
-IDI_DTB2                ICON                    "icons\\dtb2.ico"
-IDI_DTB3                ICON                    "icons\\dtb3.ico"
-IDI_DTB4                ICON                    "icons\\dtb4.ico"
-IDI_DTB5                ICON                    "icons\\dtb5.ico"
-IDI_DTB6                ICON                    "icons\\dtb6.ico"
-IDI_DTB7                ICON                    "icons\\dtb7.ico"
-IDI_DTB8                ICON                    "icons\\dtb8.ico"
-IDI_DTB0                ICON                    "icons\\dtb0.ico"
-IDI_DTBMORE             ICON                    "icons\\dtbX.ico"
-IDI_ADD                 ICON                    "icons\\add.ico"
-IDI_REFRESH_USERDETAILS ICON                    "icons\\refresh.ico"
-IDI_IMPORT_BIRTHDAYS    ICON                    "icons\\import.ico"
-IDI_EXPORT_BIRTHDAYS    ICON                    "icons\\export.ico"
+IDI_BIRTHDAYS_DLG       ICON                    "dlg.ico"
+IDI_CHECK               ICON                    "check.ico"
+IDI_LIST                ICON                    "list.ico"
+IDI_DTB1                ICON                    "dtb1.ico"
+IDI_DTB9                ICON                    "dtb9.ico"
+IDI_DTB2                ICON                    "dtb2.ico"
+IDI_DTB3                ICON                    "dtb3.ico"
+IDI_DTB4                ICON                    "dtb4.ico"
+IDI_DTB5                ICON                    "dtb5.ico"
+IDI_DTB6                ICON                    "dtb6.ico"
+IDI_DTB7                ICON                    "dtb7.ico"
+IDI_DTB8                ICON                    "dtb8.ico"
+IDI_DTB0                ICON                    "dtb0.ico"
+IDI_DTBMORE             ICON                    "dtbX.ico"
+IDI_ADD                 ICON                    "add.ico"
+IDI_REFRESH_USERDETAILS ICON                    "refresh.ico"
+IDI_IMPORT_BIRTHDAYS    ICON                    "import.ico"
+IDI_EXPORT_BIRTHDAYS    ICON                    "export.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
