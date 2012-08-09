@@ -143,7 +143,7 @@ static void CheckUpdates(void *)
 	DBFreeVariant(&dbVar);
 
 	// Download version info
-	ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Downloading version info..."), 3, 0);
+	ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Downloading version info..."), 4, 0);
 
 	FILEURL pFileUrl;
 	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), tszBaseUrl);

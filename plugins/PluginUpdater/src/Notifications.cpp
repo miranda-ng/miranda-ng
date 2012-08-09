@@ -124,6 +124,8 @@ void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int A
 			switch( Number ) {
 				case 1: iMsgType = MB_ICONSTOP; break;
 				case 2: iMsgType = MB_ICONINFORMATION; break;
+				case 3: iMsgType = MB_ICONQUESTION; break;
+				case 4: return;
 				default: iMsgType = 0;
 			}
 			MessageBox(hDlg, TranslateTS(ptszText), TranslateTS(ptszTitle), iMsgType);
