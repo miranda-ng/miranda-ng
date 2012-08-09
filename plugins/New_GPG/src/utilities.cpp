@@ -563,16 +563,18 @@ int onSendFile(WPARAM w, LPARAM l)
 void storeOutput(HANDLE ahandle, string *output)
 {
 	BOOL success;
-	char readbuffer[4096] = {0};
+	char *readbuffer = NULL;
 	unsigned long transfered, available;
 	
 	do {
 		PeekNamedPipe(ahandle,NULL,0,NULL,&available,NULL);
 		if (!available)
 			continue;
-		success=ReadFile(ahandle,readbuffer,sizeof(readbuffer),&transfered,NULL);
+		readbuffer = (char*)mir_alloc(available);
+		success=ReadFile(ahandle,readbuffer,available,&transfered,NULL);
 		if (success && transfered)
-			output->append(readbuffer, 4096);
+			output->append(readbuffer, available);
+		mir_free(readbuffer);
 	} while (available>0);
 }
 

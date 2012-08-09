@@ -120,7 +120,7 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 
 	inputpos=ainput;
 
-	while (TRUE)
+	while (true)
 	{
 		if(!pri.hProcess)
 			break;
@@ -135,7 +135,7 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 
 		success=WriteFile(writestdin,inputpos,size,&transfered,NULL);
 		inputpos+=transfered;
-		boost::this_thread::sleep(boost::posix_time::milliseconds(200));
+		boost::this_thread::sleep(boost::posix_time::milliseconds(50));
 	}
 
 	storeOutput(readstdout,aoutput);
