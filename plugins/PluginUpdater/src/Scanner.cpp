@@ -39,13 +39,13 @@ struct ServListEntry
 	{	mir_free(m_name);
 	}
 
-	char *m_name, *m_searchName;
-	char m_szHash[32+1];
+	TCHAR *m_name, *m_searchName;
+	char   m_szHash[32+1];
 };
 
 static int CompareHashes(const ServListEntry* p1, const ServListEntry* p2)
 {
-	return strcmp(p1->m_searchName, p2->m_searchName);
+	return _tcscmp(p1->m_searchName, p2->m_searchName);
 }
 
 typedef OBJLIST<ServListEntry> SERVLIST;
@@ -53,8 +53,8 @@ typedef OBJLIST<ServListEntry> SERVLIST;
 static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO>* UpdateFiles)
 {
 	TCHAR tszMask[MAX_PATH], tszFileTemp[MAX_PATH];
-	mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\*"), tszFolder);
 	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
+	mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\*"), tszFolder);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(tszMask, &ffd);
@@ -73,40 +73,45 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, SERVLIST
 			continue;
 		}
 
-		TCHAR *p = _tcsrchr(ffd.cFileName, '.');
-		if (!p) continue;
-		if ( _tcsicmp(p, _T(".dll")) && _tcsicmp(p, _T(".exe")))
+		TCHAR *pExt = _tcsrchr(ffd.cFileName, '.');
+		if (pExt == NULL) continue;
+		if ( _tcsicmp(pExt, _T(".dll")) && _tcsicmp(pExt, _T(".exe")))
 			continue;
-
-		char szFileName[MAX_PATH];
-		strncpy(szFileName, _T2A(ffd.cFileName), SIZEOF(szFileName));
-		_strlwr(szFileName);
-		if ( IsPluginDisabled(szFileName)) //check if plugin disabled
-			continue;
-
+		
 		// Read version info
-		ServListEntry tmp = { NULL, szFileName };
-		int idx = hashes.getIndex( &tmp );
-		if (idx == -1)
+		TCHAR key[MAX_PATH];
+		_tcscpy(key, ffd.cFileName);
+		_tcslwr(key);
+		ServListEntry tmp = {NULL, key};
+		ServListEntry* item = hashes.find(&tmp);
+		if (item == NULL)
+			continue;
+
+		size_t cbLenOrig = _tcslen(item->m_name);
+		size_t cbLen = (size_t)mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, ffd.cFileName);
+		if (cbLenOrig > cbLen)  // wtf?
+			continue;
+		for (TCHAR *p = _tcschr(tszMask, '\\'); p != NULL; p = _tcschr(p+1, '\\'))
+			*p = '/';
+		if ( _tcsicmp(tszMask + cbLen - cbLenOrig, item->m_name)) // now verify the rest
 			continue;
 
 		char szMyHash[33];
-		mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, ffd.cFileName);
 		CalculateModuleHash(tszMask, szMyHash);
 
 		// Compare versions
-		if ( strcmp(szMyHash, hashes[idx].m_szHash)) { // Yeah, we've got new version.
+		if ( strcmp(szMyHash, item->m_szHash)) { // Yeah, we've got new version.
 			FILEINFO* FileInfo = new FILEINFO;
-			strncpy(FileInfo->newhash, hashes[idx].m_szHash, SIZEOF(FileInfo->newhash));
+			strncpy(FileInfo->newhash, item->m_szHash, SIZEOF(FileInfo->newhash));
 			strncpy(FileInfo->curhash, szMyHash, SIZEOF(FileInfo->newhash));
 			_tcscpy(FileInfo->tszDescr, ffd.cFileName);
 
-			*p = 0;
+			*pExt = 0;
 			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\%s.zip"), tszFileTemp, ffd.cFileName);
 
-			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%S"), tszBaseUrl, hashes[idx].m_name);
-			if ((p = _tcsrchr(FileInfo->File.tszDownloadURL, '.')) != NULL)
-				_tcscpy(p, _T(".zip"));
+			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%S"), tszBaseUrl, item->m_name);
+			if ((pExt = _tcsrchr(FileInfo->File.tszDownloadURL, '.')) != NULL)
+				_tcscpy(pExt, _T(".zip"));
 
 			UpdateFiles->insert(FileInfo);
 		} // end compare versions
@@ -171,17 +176,17 @@ static void CheckUpdates(void *)
 			continue;
 
 		ServListEntry* newItem = new ServListEntry;
-		newItem->m_name = mir_strdup(str);
-
 		_strlwr(p);
 		strncpy(newItem->m_szHash, p, sizeof(newItem->m_szHash));
 
-		for (p = strchr(newItem->m_name, '\\'); p != NULL; p = strchr(p+1, '\\'))
+		for (p = strchr(str, '\\'); p != NULL; p = strchr(p+1, '\\'))
 			*p = '/';
 
-		char* szName = strrchr(newItem->m_name, '/');
+		newItem->m_name = mir_a2t(str);
+
+		TCHAR* szName = _tcsrchr(newItem->m_name, '/');
 		newItem->m_searchName = (szName == NULL) ? newItem->m_name : szName+1;
-		_strlwr(newItem->m_searchName);
+		_tcslwr(newItem->m_searchName);
 		hashes.insert(newItem);
 	}
 	fclose(fp);
