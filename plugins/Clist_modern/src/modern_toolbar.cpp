@@ -320,9 +320,9 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 #define TTB_OPTDIR "TopToolBar"
 
 #if defined(WIN64)
-	static char szUrl[] = "http://nightly.miranda.im/x64/toptoolbar.zip";
+	static char szUrl[] = "http://miranda-ng.org/x64/Plugins/toptoolbar.zip";
 #else
-	static char szUrl[] = "http://nightly.miranda.im/x32/toptoolbar.zip";
+	static char szUrl[] = "http://miranda-ng.org/x32/Plugins/toptoolbar.zip";
 #endif
 
 static TCHAR szWarning[] = LPGENT("To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue");
