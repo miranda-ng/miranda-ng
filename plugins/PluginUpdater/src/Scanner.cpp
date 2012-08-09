@@ -109,7 +109,7 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, SERVLIST
 			*pExt = 0;
 			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\%s.zip"), tszFileTemp, ffd.cFileName);
 
-			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%S"), tszBaseUrl, item->m_name);
+			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s"), tszBaseUrl, item->m_name);
 			if ((pExt = _tcsrchr(FileInfo->File.tszDownloadURL, '.')) != NULL)
 				_tcscpy(pExt, _T(".zip"));
 
