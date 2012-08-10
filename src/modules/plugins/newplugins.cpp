@@ -475,11 +475,13 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 			for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
 				int idx = getDefaultPluginIdx( piface[i] );
 				if (idx != -1 && pluginDefault[idx].pImpl) {
-					if ( bModulesLoadedFired && !bDynamic) {
+					if (!bDynamic) { // this place is already occupied, skip & disable
 						SetPluginOnWhiteList(p->pluginname, 0);
 						return false;
 					}
-					if (bDynamic && !(p->pclass & PCLASS_CORE)) {
+
+					// we're loading new implementation dynamically, let the old one die
+					if ( !(p->pclass & PCLASS_CORE)) {
 						Plugin_UnloadDyn(pluginDefault[idx].pImpl);
 						pluginDefault[idx].pImpl = NULL;
 		}	}	}	}
