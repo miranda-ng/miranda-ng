@@ -64,7 +64,8 @@ int LoadFontserviceModule(void); // ui: font manager
 int LoadIcoLibModule(void);   // ui: icons manager
 int LoadServiceModePlugin(void);
 int LoadDefaultServiceModePlugin(void);
-int LoadErrorsModule();
+int LoadErrorsModule(void);
+int LoadStdPlugins(void);
 
 void UnloadUtilsModule(void);
 void UnloadButtonModule(void);
@@ -156,15 +157,7 @@ int LoadDefaultModules(void)
 	if ( LoadFindAddModule()) return 1;
 	if ( LoadIgnoreModule()) return 1;
 	if ( LoadVisibilityModule()) return 1;
-
-	for (int i=0; i < 11; i++) {
-		if ( pluginDefault[i].pImpl )
-			continue;
-
-		if ( !LoadCorePlugin(pluginDefault[i]))
-			return 1;
-	}
-
+	if ( LoadStdPlugins()) return 1;
 	return 0;
 }
 

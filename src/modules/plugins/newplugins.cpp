@@ -40,26 +40,6 @@ LIST<pluginEntry>
 
 #define MAX_MIR_VER ULONG_MAX
 
-MuuidReplacement pluginDefault[] = 
-{
-	{	MIID_UIUSERINFO,      _T("stduserinfo"),   NULL },  // 0
-	{	MIID_SRURL,           _T("stdurl"),        NULL },  // 1
-	{	MIID_SREMAIL,         _T("stdemail"),      NULL },  // 2
-	{	MIID_SRAUTH,          _T("stdauth"),       NULL },  // 3
-	{	MIID_SRFILE,          _T("stdfile"),       NULL },  // 4
-	{	MIID_UIHELP,          _T("stdhelp"),       NULL },  // 5
-	{	MIID_UIHISTORY,       _T("stduihist"),     NULL },  // 6
-	{	MIID_IDLE,            _T("stdidle"),       NULL },  // 7
-	{	MIID_AUTOAWAY,        _T("stdautoaway"),   NULL },  // 8
-	{	MIID_USERONLINE,      _T("stduseronline"), NULL },  // 9
-	{	MIID_SRAWAY,          _T("stdaway"),       NULL },  // 10
-
-	{	MIID_CLIST,           NULL,   NULL },  // 11
-	{	MIID_CHAT,            NULL,   NULL },  // 12
-	{	MIID_SRMM,            NULL,   NULL },  // 13
-	{	MIID_DATABASE,        NULL,   NULL },  // 14
-};
-
 static BOOL bModuleInitialized = FALSE;
 
 TCHAR  mirandabootini[MAX_PATH];
@@ -101,6 +81,27 @@ bool hasMuuid(const BASIC_PLUGIN_INFO& bpi, const MUUID& uuid)
 	return false;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// default plugins
+
+static MuuidReplacement pluginDefault[] = 
+{
+	{	MIID_UIUSERINFO,      _T("stduserinfo"),   NULL },  // 0
+	{	MIID_SRURL,           _T("stdurl"),        NULL },  // 1
+	{	MIID_SREMAIL,         _T("stdemail"),      NULL },  // 2
+	{	MIID_SRAUTH,          _T("stdauth"),       NULL },  // 3
+	{	MIID_SRFILE,          _T("stdfile"),       NULL },  // 4
+	{	MIID_UIHELP,          _T("stdhelp"),       NULL },  // 5
+	{	MIID_UIHISTORY,       _T("stduihist"),     NULL },  // 6
+	{	MIID_IDLE,            _T("stdidle"),       NULL },  // 7
+	{	MIID_AUTOAWAY,        _T("stdautoaway"),   NULL },  // 8
+	{	MIID_USERONLINE,      _T("stduseronline"), NULL },  // 9
+	{	MIID_SRAWAY,          _T("stdaway"),       NULL },  // 10
+	{	MIID_CLIST,           _T("stdclist"),      NULL },  // 11
+	{	MIID_CHAT,            _T("stdchat"),       NULL },  // 12
+	{	MIID_SRMM,            _T("stdmsg"),        NULL }   // 13
+};
+
 int getDefaultPluginIdx(const MUUID& muuid)
 {
 	for (int i=0; i < SIZEOF(pluginDefault); i++)
@@ -108,6 +109,18 @@ int getDefaultPluginIdx(const MUUID& muuid)
 			return i;
 
 	return -1;
+}
+
+int LoadStdPlugins()
+{
+	for (int i=0; i < SIZEOF(pluginDefault); i++) {
+		if ( pluginDefault[i].pImpl )
+			continue;
+
+		if ( !LoadCorePlugin(pluginDefault[i]))
+			return 1;
+	}
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

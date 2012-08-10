@@ -78,8 +78,6 @@ struct MuuidReplacement
 	pluginEntry* pImpl; // replacement plugin
 };
 
-extern MuuidReplacement pluginDefault[];
-
 bool LoadCorePlugin( MuuidReplacement& );
 
 MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin);

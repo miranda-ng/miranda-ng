@@ -58,16 +58,16 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Classic contact list",
-	__VERSION_DWORD,
-	"Display contacts, event notifications, protocol status.",
-	"Miranda IM project",
-	"ghazan@miranda-im.org",
-	"Copyright 2000-2008 Miranda IM project",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	MIRANDA_VERSION_DWORD,
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	//{240A91DC-9464-457a-9787-FF1EA88E77E3}
-    {0x240a91dc, 0x9464, 0x457a, { 0x97, 0x87, 0xff, 0x1e, 0xa8, 0x8e, 0x77, 0xe3 }} 
+    {0x240a91dc, 0x9464, 0x457a, { 0x97, 0x87, 0xff, 0x1e, 0xa8, 0x8e, 0x77, 0xe3 }}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
