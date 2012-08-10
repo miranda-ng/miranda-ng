@@ -120,6 +120,10 @@ int LoadStdPlugins()
 		if ( !LoadCorePlugin(pluginDefault[i]))
 			return 1;
 	}
+
+	if (pluginDefault[13].pImpl == NULL)
+		MessageBox(NULL, TranslateT("No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, \"srmm.dll\""), _T("Miranda NG"), MB_OK | MB_ICONINFORMATION);
+
 	return 0;
 }
 
@@ -550,6 +554,9 @@ LBL_Error:
 	return TRUE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Contact list plugins support
+
 static bool loadClistModule(TCHAR* exe, pluginEntry *p)
 {
 	BASIC_PLUGIN_INFO bpi;
@@ -580,11 +587,13 @@ static pluginEntry* getCListModule(TCHAR *exe, TCHAR *slice, int useWhiteList)
 			return p;
 	}
 
-	MuuidReplacement& stdClist = pluginDefault[11];
-	if ( LoadCorePlugin(stdClist)) {
-		mir_sntprintf(slice, &exe[MAX_PATH] - slice, _T("\\Core\\%s.dll"), stdClist.stdplugname);
-		if ( loadClistModule(exe, stdClist.pImpl))
-			return stdClist.pImpl;
+	if ( !useWhiteList) {
+		MuuidReplacement& stdClist = pluginDefault[11];
+		if ( LoadCorePlugin(stdClist)) {
+			mir_sntprintf(slice, &exe[MAX_PATH] - slice, _T("\\Core\\%s.dll"), stdClist.stdplugname);
+			if ( loadClistModule(exe, stdClist.pImpl))
+				return stdClist.pImpl;
+		}
 	}
 
 	return NULL;
@@ -605,8 +614,7 @@ int UnloadPlugin(TCHAR* buf, int bufLen)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//
-//   Service plugins functions
+// Service plugins functions
 
 void SetServiceModePlugin(pluginEntry *p)
 {
@@ -681,8 +689,8 @@ void EnsureCheckerLoaded(bool bEnable)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//   Event hook to unload all non-core plugins
-//   hooked very late, after all the internal plugins, blah
+// Event hook to unload all non-core plugins
+// hooked very late, after all the internal plugins, blah
 
 void UnloadNewPlugins(void)
 {
@@ -694,20 +702,16 @@ void UnloadNewPlugins(void)
 }	}
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//   Loads all plugins
+// Loads all plugins
 
 int LoadNewPluginsModule(void)
 {
-	TCHAR exe[MAX_PATH];
-	TCHAR* slice;
-	pluginEntry* p;
-	pluginEntry* clist = NULL;
 	int useWhiteList, i;
-	bool msgModule = false;
 
 	// make full path to the plugin
+	TCHAR exe[MAX_PATH];
 	GetModuleFileName(NULL, exe, SIZEOF(exe));
-	slice = _tcsrchr(exe, '\\');
+	TCHAR *slice = _tcsrchr(exe, '\\');
 	if (slice) *slice = 0;
 
 	// remember some useful options
@@ -735,8 +739,10 @@ int LoadNewPluginsModule(void)
 	}	}
 
 	// first load the clist cos alot of plugins need that to be present at Load(void)
+	pluginEntry* clist = NULL;
 	for (useWhiteList = 1; useWhiteList >= 0 && clist == NULL; useWhiteList--)
 		clist = getCListModule(exe, slice, useWhiteList);
+
 	/* the loop above will try and get one clist DLL to work, if all fail then just bail now */
 	if (clist == NULL) {
 		// result = 0, no clist_* can be found
@@ -753,25 +759,20 @@ int LoadNewPluginsModule(void)
 
 	/* now loop thru and load all the other plugins, do this in one pass */
 	for (i=0; i < pluginList.getCount(); i++) {
-		p = pluginList[i];
+		pluginEntry *p = pluginList[i];
 		if ( !TryLoadPlugin(p, false)) {
 			Plugin_Uninit(p);
 			i--;
 		}
-		else if (p->pclass & PCLASS_LOADED)
-			msgModule |= hasMuuid(p->bpi, miid_srmm);
 	}
-
-	if ( !msgModule)
-		MessageBox(NULL, TranslateT("No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, \"srmm.dll\""), _T("Miranda NG"), MB_OK | MB_ICONINFORMATION);
 
 	HookEvent(ME_OPT_INITIALISE, PluginOptionsInit);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//   Plugins module initialization
-//   called before anything real is loaded, incl. database
+// Plugins module initialization
+// called before anything real is loaded, incl. database
 
 static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM)
 {
@@ -806,8 +807,8 @@ int LoadNewPluginsModuleInfos(void)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//   Plugins module unloading
-//   called at the end of module chain unloading, just modular engine left at this point
+// Plugins module unloading
+// called at the end of module chain unloading, just modular engine left at this point
 
 void UnloadDatabase(void)
 {
