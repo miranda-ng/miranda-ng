@@ -74,15 +74,15 @@ bool			 CGlobals::m_exAllowContinue = false;
 #if defined(_WIN64)
 	static char szCurrentVersion[30];
 	static char *szVersionUrl = "http://download.miranda.or.at/tabsrmm/3/version.txt";
-	static char *szUpdateUrl = "http://nightly.miranda.im/x64/tabsrmm.zip";
-	static char *szFLVersionUrl = "http://nightly.miranda.im/";
-	static char *szFLUpdateurl = "http://nightly.miranda.im/";
+	static char *szUpdateUrl = "http://miranda-ng.org/distr/x64/Plugins/tabsrmm.zip";
+	static char *szFLVersionUrl = "http://miranda-ng.org/";
+	static char *szFLUpdateurl = "http://miranda-ng.org/";
 #else
 	static char szCurrentVersion[30];
 	static char *szVersionUrl = "http://download.miranda.or.at/tabsrmm/3/version.txt";
-	static char *szUpdateUrl = "http://nightly.miranda.im/x32/tabsrmm.zip";
-	static char *szFLVersionUrl = "http://nightly.miranda.im/";
-	static char *szFLUpdateurl =  "http://nightly.miranda.im/";
+	static char *szUpdateUrl = "http://miranda-ng.org/distr/x32/Plugins/tabsrmm.zip";
+	static char *szFLVersionUrl = "http://miranda-ng.org/";
+	static char *szFLUpdateurl =  "http://miranda-ng.org/";
 #endif
 	static char *szPrefix = "tabsrmm ";
 

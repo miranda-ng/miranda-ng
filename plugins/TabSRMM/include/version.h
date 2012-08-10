@@ -6,10 +6,10 @@
 
 #if defined(_WIN64)
 	#define RES_FILE_DESC "TabSRMM (Unicode) x86_amd64"
-	#define ADDONS_UPDATE_URL "http://nightly.miranda.im/"
-	#define ADDONS_DL_URL "http://nightly.miranda.im/x64/tabsrmm.zip"
+	#define ADDONS_UPDATE_URL "http://miranda-ng.org/"
+	#define ADDONS_DL_URL "http://miranda-ng.org/distr/x64/Plugins/tabsrmm.zip"
 #else
 	#define RES_FILE_DESC "TabSRMM (Unicode) x86"
-	#define ADDONS_UPDATE_URL "http://nightly.miranda.im/"
-	#define ADDONS_DL_URL "http://nightly.miranda.im/x32/tabsrmm.zip"
+	#define ADDONS_UPDATE_URL "http://miranda-ng.org/"
+	#define ADDONS_DL_URL "http://miranda-ng.org/distr/x32/Plugins/tabsrmm.zip"
 #endif

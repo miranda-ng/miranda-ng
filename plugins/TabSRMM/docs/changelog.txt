@@ -3,7 +3,7 @@
 
 Name: tabsrmm
 Homepage: http://miranda.or.at
-Download: http://nightly.miranda.im/
+Download: http://miranda-ng.org
 Source:   http://trac.mysvn.ru/ghazan/myranda/browser/trunk
 
 Addtional annoucements can be found at my blog:

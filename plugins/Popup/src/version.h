@@ -40,7 +40,7 @@ Last change by : $Author: Merlin_de $
 	#define POPUP_DISPLAYNAME			"PopUp Plus"
 	#define __FLVersionURL				"http://miranda-ng.org/"
 	#define __FLVersionPrefix			"<span class=\"fileNameHeader\">PopUp Plus (Unicode) "
-	#define __FLUpdateURL				"http://nightly.miranda.im/x32/popup.zip"			//.zip
+	#define __FLUpdateURL				"http://miranda-ng.org/distr/x32/Plugins/popup.zip"			//.zip
 	#define __BetaUpdateURL				""
 
 	#define __BetaVersionURL			"http://miranda-ng.org/"
