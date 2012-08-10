@@ -119,25 +119,25 @@ int FreeVSApi()
 static void GetProfileDirectory(TCHAR *szPath, int cbPath)
 //This is copied from Miranda's sources. In 0.2.1.0 it is needed, in newer vesions of Miranda use MS_DB_GETPROFILEPATH service
 {
-	if (ServiceExists(MS_DB_GETPROFILEPATH))
-		if (!CallService(MS_DB_GETPROFILEPATHT, (WPARAM)cbPath, (LPARAM)szPath)) {
-			lstrcpy(szProfileDir, szPath);
-			return; //success
-		}
+	TCHAR tszOldPath[MAX_PATH];
+	CallService(MS_DB_GETPROFILEPATHT, SIZEOF(tszOldPath), (LPARAM)tszOldPath);
+	_tcscat(tszOldPath, _T("\\*.book"));
 
-	TCHAR szMirandaIni[MAX_PATH], szExpandedProfileDir[MAX_PATH];
-	DWORD dwAttributes;
+	TCHAR* ptszNewPath = Utils_ReplaceVarsT( _T("%miranda_userdata%"));
 
-	lstrcpy(szMirandaIni, szMirandaDir);
-	lstrcat(szMirandaIni, _T("\\mirandaboot.ini"));
-	GetPrivateProfileString( _T("Database"), _T("ProfileDir"), _T("."), szProfileDir, sizeof(szProfileDir), szMirandaIni);
-	ExpandEnvironmentStrings(szProfileDir, szExpandedProfileDir, sizeof(szExpandedProfileDir));
-	_tchdir(szMirandaDir);
-	if (!_tfullpath(szPath, szExpandedProfileDir, cbPath))
-		lstrcpyn(szPath, szMirandaDir, cbPath);
-	if (szPath[lstrlen(szPath)-1] == '\\') szPath[lstrlen(szPath)-1] = '\0';
-	if ((dwAttributes = GetFileAttributes(szPath))!=0xffffffff&&dwAttributes&FILE_ATTRIBUTE_DIRECTORY) return;
-	CreateDirectory(szPath, NULL);
+	SHFILEOPSTRUCT file_op = {
+		NULL,
+		FO_MOVE,
+		tszOldPath,
+		ptszNewPath,
+		FOF_NOERRORUI | FOF_NOCONFIRMATION | FOF_SILENT,
+		false,
+		0,
+		_T("") };
+	SHFileOperation(&file_op);
+
+	_tcsncpy(szPath, ptszNewPath, cbPath);
+	mir_free(ptszNewPath);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -374,8 +374,6 @@ static void LoadPlugins()
 extern "C" int __declspec(dllexport) Load(void)
 {
 	int i, k;
-
-
 	mir_getLP(&pluginInfo);
 
 	YAMN_STATUS = ID_STATUS_OFFLINE;
@@ -388,6 +386,11 @@ extern "C" int __declspec(dllexport) Load(void)
 		TCHAR* str2 = _tcsrchr(szMirandaDir, '\\');
 		if (str2!=NULL) *str2 = 0;
 	}
+
+	// retrieve the current profile name
+	CallService(MS_DB_GETPROFILENAMET, (WPARAM)SIZEOF(ProfileName), (LPARAM)ProfileName);	//not to pass entire array to fcn
+	TCHAR *fc = _tcsrchr(ProfileName, '.');
+	if ( fc != NULL ) *fc = 0;
 
 	//	we get the user path where our yamn-account.book.ini is stored from mirandaboot.ini file
 	GetProfileDirectory(UserDirectory, SIZEOF(UserDirectory));
@@ -407,10 +410,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.szName = YAMN_DBMODULE;
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
-
-	CallService(MS_DB_GETPROFILENAMET, (WPARAM)SIZEOF(ProfileName), (LPARAM)ProfileName);	//not to pass entire array to fcn
-	TCHAR *fc = _tcsrchr(ProfileName, '.');
-	if ( fc != NULL ) *fc = 0;
 
 	InitializeCriticalSection(&AccountStatusCS);
 	InitializeCriticalSection(&FileWritingCS);
