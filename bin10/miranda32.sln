@@ -132,10 +132,19 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbChecker", "..\plugins\DbChecker\dbchecker_10.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdChat", "..\src\core\stdchat\stdchat.vcxproj", "{268BD296-8DD3-4715-A386-CF120398EC98}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdClist", "..\src\core\stdclist\stdclist.vcxproj", "{E71C1722-A41D-4475-87F4-29961A3654BB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdMsg", "..\src\core\stdmsg\stdmsg.vcxproj", "{F47EAB99-C78F-4A92-87D5-B0E16FE5A133}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
