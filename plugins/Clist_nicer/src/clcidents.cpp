@@ -69,7 +69,7 @@ int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **c
 					*isVisible = 0;
 				else {
 					int posy = RowHeight::getItemTopY(dat,index+1);
-					if(posy<dat->yScroll) 
+					if (posy<dat->yScroll) 
 						*isVisible=0;
 					//if ((index + 1) * dat->rowHeight< dat->yScroll)
 					//    *isVisible = 0;

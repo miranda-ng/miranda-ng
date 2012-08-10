@@ -136,9 +136,9 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When space is available"));
 			SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When needed by status message"));
 
-			if(cfg::clcdat) {
+			if (cfg::clcdat) {
 				FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL); 
-				if(contact && contact->type != CLCIT_CONTACT) {
+				if (contact && contact->type != CLCIT_CONTACT) {
 					DestroyWindow(hWnd);
 					return FALSE;
 				} 
@@ -160,45 +160,45 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					Utils::enableDlgControl(hWnd, IDC_IGN_PRIORITY, TRUE);
 					Utils::enableDlgControl(hWnd, IDC_AVATARDISPMODE, TRUE);
 					Utils::enableDlgControl(hWnd, IDC_SECONDLINEMODE, TRUE);
-					if(dwFlags & ECF_FORCEAVATAR)
+					if (dwFlags & ECF_FORCEAVATAR)
 						SendDlgItemMessage(hWnd, IDC_AVATARDISPMODE, CB_SETCURSEL, 1, 0);
-					else if(dwFlags & ECF_HIDEAVATAR)
+					else if (dwFlags & ECF_HIDEAVATAR)
 						SendDlgItemMessage(hWnd, IDC_AVATARDISPMODE, CB_SETCURSEL, 2, 0);
 					else
 						SendDlgItemMessage(hWnd, IDC_AVATARDISPMODE, CB_SETCURSEL, 0, 0);
 
-					if(dwFlags & ECF_FORCEOVERLAY)
+					if (dwFlags & ECF_FORCEOVERLAY)
 						SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_SETCHECK, BST_CHECKED, 0);
-					else if(dwFlags & ECF_HIDEOVERLAY)
+					else if (dwFlags & ECF_HIDEOVERLAY)
 						SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_SETCHECK, BST_UNCHECKED, 0);
 					else
 						SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_SETCHECK, BST_INDETERMINATE, 0);
 
-					if(dwFlags & ECF_FORCELOCALTIME)
+					if (dwFlags & ECF_FORCELOCALTIME)
 						SendDlgItemMessage(hWnd, IDC_SHOWLOCALTIME1, BM_SETCHECK, BST_CHECKED, 0);
-					else if(dwFlags & ECF_HIDELOCALTIME)
+					else if (dwFlags & ECF_HIDELOCALTIME)
 						SendDlgItemMessage(hWnd, IDC_SHOWLOCALTIME1, BM_SETCHECK, BST_UNCHECKED, 0);
 					else
 						SendDlgItemMessage(hWnd, IDC_SHOWLOCALTIME1, BM_SETCHECK, BST_INDETERMINATE, 0);
 
-					if(dwFlags & ECF_FORCEVISIBILITY)
+					if (dwFlags & ECF_FORCEVISIBILITY)
 						SendDlgItemMessage(hWnd, IDC_SHOWVISIBILITY, BM_SETCHECK, BST_CHECKED, 0);
-					else if(dwFlags & ECF_HIDEVISIBILITY)
+					else if (dwFlags & ECF_HIDEVISIBILITY)
 						SendDlgItemMessage(hWnd, IDC_SHOWVISIBILITY, BM_SETCHECK, BST_UNCHECKED, 0);
 					else
 						SendDlgItemMessage(hWnd, IDC_SHOWVISIBILITY, BM_SETCHECK, BST_INDETERMINATE, 0);
 
 					while(xImgCtrlIds[i] != 0) {
-						if(dwXMask & (1 << (2 * xImgCtrlBits[i])))
+						if (dwXMask & (1 << (2 * xImgCtrlBits[i])))
 							SendDlgItemMessage(hWnd, xImgCtrlIds[i], BM_SETCHECK, BST_CHECKED, 0);
-						else if(dwXMask & (1 << (2 * xImgCtrlBits[i] + 1)))
+						else if (dwXMask & (1 << (2 * xImgCtrlBits[i] + 1)))
 							SendDlgItemMessage(hWnd, xImgCtrlIds[i], BM_SETCHECK, BST_UNCHECKED, 0);
 						else
 							SendDlgItemMessage(hWnd, xImgCtrlIds[i], BM_SETCHECK, BST_INDETERMINATE, 0);
 						i++;
 					}
 
-					if(bSecondLine == 0xff)
+					if (bSecondLine == 0xff)
 						SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_SETCURSEL, 0, 0);
 					else
 						SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_SETCURSEL, (WPARAM)(bSecondLine + 1), 0);
@@ -221,11 +221,11 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			SendMessage(hWnd, WM_USER + 100, (WPARAM)hContact, (LPARAM)0);
 		  	return 0;
 		case IDC_IGN_ALWAYSONLINE:
-			if(IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSONLINE))
+			if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSONLINE))
 				CheckDlgButton(hWnd, IDC_IGN_ALWAYSOFFLINE, FALSE);
 			break;
 		case IDC_IGN_ALWAYSOFFLINE:
-			if(IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSOFFLINE))
+			if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSOFFLINE))
 				CheckDlgButton(hWnd, IDC_IGN_ALWAYSONLINE, FALSE);
 			break;
 		case IDC_HIDECONTACT:
@@ -265,21 +265,21 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 				cfg::writeDword(hContact, "Ignore", "Mask1", newMask);
 				SendMessage(hWnd, WM_USER + 130, 0, 0);
 
-				if(cfg::clcdat) {
+				if (cfg::clcdat) {
 					LRESULT iSel = SendDlgItemMessage(hWnd, IDC_AVATARDISPMODE, CB_GETCURSEL, 0, 0);
 					DWORD dwFlags = cfg::getDword(hContact, "CList", "CLN_Flags", 0), dwXMask = 0;
 					LRESULT  checked = 0;
 					int      i = 0;
 
 					FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL); 
-					if(iSel != CB_ERR) {
+					if (iSel != CB_ERR) {
 						dwFlags &= ~(ECF_FORCEAVATAR | ECF_HIDEAVATAR);
 
-						if(iSel == 1)
+						if (iSel == 1)
 							dwFlags |= ECF_FORCEAVATAR;
-						else if(iSel == 2)
+						else if (iSel == 2)
 							dwFlags |= ECF_HIDEAVATAR;
-						if(contact)
+						if (contact)
 							LoadAvatarForContact(contact);
 					}
 
@@ -287,55 +287,55 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 						ECF_FORCEVISIBILITY | ECF_HIDEVISIBILITY);
 
 					checked = SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_GETCHECK, 0, 0);
-					if(checked == BST_CHECKED)
+					if (checked == BST_CHECKED)
 						dwFlags |= ECF_FORCEOVERLAY;
-					else if(checked == BST_UNCHECKED)
+					else if (checked == BST_UNCHECKED)
 						dwFlags |= ECF_HIDEOVERLAY;
 
 					checked = SendDlgItemMessage(hWnd, IDC_SHOWLOCALTIME1, BM_GETCHECK, 0, 0);
-					if(checked == BST_CHECKED)
+					if (checked == BST_CHECKED)
 						dwFlags |= ECF_FORCELOCALTIME;
-					else if(checked == BST_UNCHECKED)
+					else if (checked == BST_UNCHECKED)
 						dwFlags |= ECF_HIDELOCALTIME;
 
 					checked = SendDlgItemMessage(hWnd, IDC_SHOWVISIBILITY, BM_GETCHECK, 0, 0);
-					if(checked == BST_CHECKED)
+					if (checked == BST_CHECKED)
 						dwFlags |= ECF_FORCEVISIBILITY;
-					else if(checked == BST_UNCHECKED)
+					else if (checked == BST_UNCHECKED)
 						dwFlags |= ECF_HIDEVISIBILITY;
 
 					cfg::writeDword(hContact, "CList", "CLN_Flags", dwFlags);
 
 					if ((iSel = SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_GETCURSEL, 0, 0)) != CB_ERR) {
-						if(iSel == 0) {
+						if (iSel == 0) {
 							DBDeleteContactSetting(hContact, "CList", "CLN_2ndline");
-							if(contact)
+							if (contact)
 								contact->bSecondLine = cfg::dat.dualRowMode;
 						}
 						else {
 							DBWriteContactSettingByte(hContact, "CList", "CLN_2ndline", (BYTE)(iSel - 1));
-							if(contact)
+							if (contact)
 								contact->bSecondLine = (BYTE)(iSel - 1);
 						}
 					}
 					while(xImgCtrlIds[i] != 0) {
 						checked = SendDlgItemMessage(hWnd, xImgCtrlIds[i], BM_GETCHECK, 0, 0);
-						if(checked == BST_CHECKED)
+						if (checked == BST_CHECKED)
 							dwXMask |= (1 << (2 * xImgCtrlBits[i]));
-						else if(checked == BST_UNCHECKED)
+						else if (checked == BST_UNCHECKED)
 							dwXMask |= (1 << (2 * xImgCtrlBits[i] + 1));
 						i++;
 					}
 					cfg::writeDword(hContact, "CList", "CLN_xmask", dwXMask);
-					if(contact) {
-						if(contact->extraCacheEntry >= 0 && contact->extraCacheEntry <= cfg::nextCacheEntry) {
+					if (contact) {
+						if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry <= cfg::nextCacheEntry) {
 							cfg::eCache[contact->extraCacheEntry].dwDFlags = dwFlags;
 							cfg::eCache[contact->extraCacheEntry].dwXMask = CalcXMask(hContact);
 						}
 					}
 					else {
 						int iIndex = cfg::getCache(hContact, NULL);
-						if(iIndex >= 0 && iIndex <= cfg::nextCacheEntry) {
+						if (iIndex >= 0 && iIndex <= cfg::nextCacheEntry) {
 							cfg::eCache[iIndex].dwDFlags = dwFlags;
 							cfg::eCache[iIndex].dwXMask = CalcXMask(hContact);
 						}
@@ -370,7 +370,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 				(IsDlgButtonChecked(hWnd, IDC_IGN_ADD) ? (1 << (IGNOREEVENT_YOUWEREADDED - 1)) : 0) |
 				(IsDlgButtonChecked(hWnd, IDC_IGN_ONLINE) ? (1 << (IGNOREEVENT_USERONLINE - 1)) : 0);
 
-			if(dwNewMask)
+			if (dwNewMask)
 				*dwNewMask = dwMask;
 			return 0;
 		}
@@ -378,8 +378,8 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		{
 			struct ClcContact *contact = NULL;
 
-			if(FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL)) {
-				if(contact) {
+			if (FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL)) {
+				if (contact) {
 					WORD wApparentMode = cfg::getWord(contact->hContact, contact->proto, "ApparentMode", 0);
 
 					CheckDlgButton(hWnd, IDC_IGN_ALWAYSOFFLINE, wApparentMode == ID_STATUS_OFFLINE ? TRUE : FALSE);
@@ -392,17 +392,17 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		{
 			struct ClcContact *contact = NULL;
 
-			if(FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL)) {
-				if(contact) {
+			if (FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL)) {
+				if (contact) {
 					WORD wApparentMode = 0, oldApparentMode = cfg::getWord(hContact, contact->proto, "ApparentMode", 0);
 
-					if(IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSONLINE))
+					if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSONLINE))
 						wApparentMode = ID_STATUS_ONLINE;
-					else if(IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSOFFLINE))
+					else if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSOFFLINE))
 						wApparentMode = ID_STATUS_OFFLINE;
 
 					//DBWriteContactSettingWord(hContact, contact->proto, "ApparentMode", wApparentMode);
-					//if(oldApparentMode != wApparentMode)
+					//if (oldApparentMode != wApparentMode)
 					CallContactService(hContact, PSS_SETAPPARENTMODE, (WPARAM)wApparentMode, 0);
 					SendMessage(hWnd, WM_USER + 120, 0, 0);
 				}
@@ -433,7 +433,7 @@ static INT_PTR SetContactIgnore(WPARAM wParam, LPARAM lParam)
 {
 	HWND hWnd = 0;
 
-	if(hWindowListIGN == 0)
+	if (hWindowListIGN == 0)
 		hWindowListIGN = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	hWnd = WindowList_Find(hWindowListIGN, (HANDLE)wParam);

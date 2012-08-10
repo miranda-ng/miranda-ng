@@ -97,9 +97,9 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct Clc
     right = clRect.right;
 
     // avatar check
-    if(hitcontact->type == CLCIT_CONTACT && cfg::dat.dwFlags & CLUI_FRAME_AVATARS && hitcontact->ace != NULL && hitcontact->avatarLeft != -1) {
-        if(testx < right - hitcontact->avatarLeft && testx > right - hitcontact->avatarLeft - cfg::dat.avatarSize) {
-            if(flags)
+    if (hitcontact->type == CLCIT_CONTACT && cfg::dat.dwFlags & CLUI_FRAME_AVATARS && hitcontact->ace != NULL && hitcontact->avatarLeft != -1) {
+        if (testx < right - hitcontact->avatarLeft && testx > right - hitcontact->avatarLeft - cfg::dat.avatarSize) {
+            if (flags)
                 *flags |= CLCHT_ONAVATAR;
         }
     }
@@ -135,7 +135,7 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct Clc
             return hit;
         }
     }
-    if(hitcontact->extraCacheEntry >= 0 && hitcontact->extraCacheEntry < cfg::nextCacheEntry && cfg::eCache[hitcontact->extraCacheEntry].iExtraValid) {
+    if (hitcontact->extraCacheEntry >= 0 && hitcontact->extraCacheEntry < cfg::nextCacheEntry && cfg::eCache[hitcontact->extraCacheEntry].iExtraValid) {
         int rightOffset = hitcontact->extraIconRightBegin;
         int images_present = 0;
 
@@ -241,20 +241,20 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcCont
     }
 
     if (!dat->bisEmbedded) {
-        if(hitcontact->type == CLCIT_CONTACT) {
-            if(mirror_mode == 1 || (mirror_mode == 2 && cfg::eCache[hitcontact->extraCacheEntry].dwCFlags & ECF_RTLNICK))
+        if (hitcontact->type == CLCIT_CONTACT) {
+            if (mirror_mode == 1 || (mirror_mode == 2 && cfg::eCache[hitcontact->extraCacheEntry].dwCFlags & ECF_RTLNICK))
                 return RTL_HitTest(hwnd, dat, testx, testy, hitcontact, flags, indent, hit);
         }
-        else if(hitcontact->type == CLCIT_GROUP) {
-            if(cfg::dat.bGroupAlign == CLC_GROUPALIGN_RIGHT || (hitcontact->isRtl && cfg::dat.bGroupAlign == CLC_GROUPALIGN_AUTO))
+        else if (hitcontact->type == CLCIT_GROUP) {
+            if (cfg::dat.bGroupAlign == CLC_GROUPALIGN_RIGHT || (hitcontact->isRtl && cfg::dat.bGroupAlign == CLC_GROUPALIGN_AUTO))
                 return RTL_HitTest(hwnd, dat, testx, testy, hitcontact, flags, indent, hit);
         }
     }
 
     // avatar check
-    if(hitcontact->type == CLCIT_CONTACT && cfg::dat.dwFlags & CLUI_FRAME_AVATARS && hitcontact->ace != NULL && hitcontact->avatarLeft != -1) {
-        if(testx >hitcontact->avatarLeft && testx < hitcontact->avatarLeft + cfg::dat.avatarSize) {
-            if(flags)
+    if (hitcontact->type == CLCIT_CONTACT && cfg::dat.dwFlags & CLUI_FRAME_AVATARS && hitcontact->ace != NULL && hitcontact->avatarLeft != -1) {
+        if (testx >hitcontact->avatarLeft && testx < hitcontact->avatarLeft + cfg::dat.avatarSize) {
+            if (flags)
                 *flags |= CLCHT_ONAVATAR;
         }
     }
@@ -290,7 +290,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcCont
             return hit;
         }
     }
-    if(hitcontact->extraCacheEntry >= 0 && hitcontact->extraCacheEntry < cfg::nextCacheEntry && cfg::eCache[hitcontact->extraCacheEntry].iExtraValid) {
+    if (hitcontact->extraCacheEntry >= 0 && hitcontact->extraCacheEntry < cfg::nextCacheEntry && cfg::eCache[hitcontact->extraCacheEntry].iExtraValid) {
         //int rightOffset = clRect.right;
         int rightOffset = hitcontact->extraIconRightBegin;
         int images_present = 0;
@@ -380,7 +380,7 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 			else
 				InvalidateRect(hwnd, NULL, FALSE);
 			previousy = dat->yScroll;
-            if(cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
+            if (cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
                 CoolSB_SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
             else
                 SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
@@ -397,7 +397,7 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 	else
 		InvalidateRect(hwnd, NULL, FALSE);
 
-    if(cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
+    if (cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
         CoolSB_SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
     else
         SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
@@ -422,14 +422,14 @@ void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
 
     if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
         if (dat->noVScrollbar == 0) {
-            if(cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
+            if (cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
                 CoolSB_SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
             else
                 SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
         }
     }
     else {
-        if(cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
+        if (cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
             CoolSB_SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
         else
             SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
@@ -463,16 +463,16 @@ void SetGroupExpand(HWND hwnd,struct ClcData *dat,struct ClcGroup *group,int new
     contentCount = pcli->pfnGetGroupContentsCount(group,1);
 
 	groupy=pcli->pfnGetRowsPriorTo(&dat->list,group,-1);
-	if(dat->selection>groupy && dat->selection<groupy+contentCount) dat->selection=groupy;
+	if (dat->selection>groupy && dat->selection<groupy+contentCount) dat->selection=groupy;
 	pcli->pfnRecalcScrollBar(hwnd,dat);
 
 	GetClientRect(hwnd,&clRect);
 	newy=dat->yScroll;
 	posy = RowHeight::getItemBottomY(dat, groupy+contentCount);
-	if(posy>=newy+clRect.bottom)
+	if (posy>=newy+clRect.bottom)
 		newy=posy-clRect.bottom;
 	posy = RowHeight::getItemTopY(dat, groupy);
-	if(newy>posy) newy=posy;
+	if (newy>posy) newy=posy;
 	ScrollTo(hwnd,dat,newy,0);
 
 	nm.hdr.code=CLN_EXPANDED;
@@ -581,11 +581,11 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat)
 	dat->bkColour =  cfg::getByte("CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS) ?
                      GetSysColor(COLOR_3DFACE) : cfg::getDword("CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
 	if (!dat->bkChanged) {
-		if(cfg::dat.hBrushCLCBk)
+		if (cfg::dat.hBrushCLCBk)
 			DeleteObject(cfg::dat.hBrushCLCBk);
 		cfg::dat.hBrushCLCBk = CreateSolidBrush(dat->bkColour);
 		if (dat->hBmpBackground) {
-			if(cfg::dat.hdcPic) {
+			if (cfg::dat.hdcPic) {
 				SelectObject(cfg::dat.hdcPic, cfg::dat.hbmPicOld);
 				DeleteDC(cfg::dat.hdcPic);
 				cfg::dat.hdcPic = 0;
@@ -593,7 +593,7 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat)
 		}	}
 
 		cfg::dat.bmpBackground = dat->hBmpBackground;
-		if(cfg::dat.bmpBackground) {
+		if (cfg::dat.bmpBackground) {
 			HDC hdcThis = GetDC(pcli->hwndContactList);
 			GetObject(cfg::dat.bmpBackground, sizeof(cfg::dat.bminfoBg), &(cfg::dat.bminfoBg));
 			cfg::dat.hdcPic = CreateCompatibleDC(hdcThis);
@@ -613,7 +613,7 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat)
 			dat->hBmpBackground = reinterpret_cast<HBITMAP>(LoadImageA(NULL, wpbuf, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE));
 		}
 		cfg::dat.bmpBackground = dat->hBmpBackground;
-		if(cfg::dat.bmpBackground) {
+		if (cfg::dat.bmpBackground) {
 			HDC hdcThis = GetDC(pcli->hwndContactList);
 			GetObject(cfg::dat.bmpBackground, sizeof(cfg::dat.bminfoBg), &(cfg::dat.bminfoBg));
 			cfg::dat.hdcPic = CreateCompatibleDC(hdcThis);

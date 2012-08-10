@@ -48,7 +48,7 @@ DWORD __forceinline argb_from_cola(COLORREF col, UINT32 alpha)
 
 void __forceinline DrawBorderStyle(HDC hdcwnd, RECT *rc, DWORD BORDERSTYLE)
 {
-    if(BORDERSTYLE >= 0) {
+    if (BORDERSTYLE >= 0) {
         HPEN hPenOld = 0;
         POINT pt;
         
@@ -77,7 +77,7 @@ void __forceinline DrawBorderStyle(HDC hdcwnd, RECT *rc, DWORD BORDERSTYLE)
                 DrawEdge(hdcwnd, rc, BORDERSTYLE, BF_RECT | BF_SOFT);
                 break;
         }
-        if(hPenOld)
+        if (hPenOld)
             SelectObject(hdcwnd, hPenOld);
     }
 }
@@ -125,7 +125,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 		g_hottrack_done = 1;
     }
 
-    if(imageItem) {
+    if (imageItem) {
         IMG_RenderImageItem(hdcwnd, imageItem, rc);
         return;
     }
@@ -136,7 +136,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
     if (rc->right < rc->left || rc->bottom < rc->top || (realHeight <= 0) || (realWidth <= 0))
         return;
 
-	if(cfg::dat.bUseFastGradients && !(FLG_CORNER & CORNER_ACTIVE)) {
+	if (cfg::dat.bUseFastGradients && !(FLG_CORNER & CORNER_ACTIVE)) {
 		GRADIENT_RECT grect;
 		TRIVERTEX tvtx[2];
 		int orig = 1, dest = 0;
@@ -148,7 +148,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 			tvtx[0].Alpha = tvtx[1].Alpha = 0;
 		}
 		else {
-			if(FLG_GRADIENT & GRADIENT_LR || FLG_GRADIENT & GRADIENT_TB) {
+			if (FLG_GRADIENT & GRADIENT_LR || FLG_GRADIENT & GRADIENT_TB) {
 				orig = 0;
 				dest = 1;
 			}
@@ -168,7 +168,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 
 	    saved_alpha = (UCHAR) (basecolor >> 24);
 
-		if(alpha < 100) {
+		if (alpha < 100) {
 			BLENDFUNCTION bf;
 			HDC hdc;
 			HBITMAP hbm, hbmOld;
@@ -307,7 +307,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
         // TL+BL CORNER
         hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
 
-        if(hbitmap == 0 || pvBits == NULL)  {
+        if (hbitmap == 0 || pvBits == NULL)  {
             DeleteObject(BrMask);
             DeleteDC(hdc);
             return;
@@ -456,7 +456,7 @@ void __fastcall IMG_RenderImageItem(HDC hdc, ImageItem *item, RECT *rc)
     LONG srcOrigX = isGlyph ? item->glyphMetrics[0] : 0;
     LONG srcOrigY = isGlyph ? item->glyphMetrics[1] : 0;
 
-    if(item->dwFlags & IMAGE_FLAG_DIVIDED) {
+    if (item->dwFlags & IMAGE_FLAG_DIVIDED) {
         // top 3 items
 
     	API::pfnAlphaBlend(hdc, rc->left, rc->top, l, t, hdcSrc, srcOrigX, srcOrigY, l, t, item->bf);
@@ -467,7 +467,7 @@ void __fastcall IMG_RenderImageItem(HDC hdc, ImageItem *item, RECT *rc)
 
     	API::pfnAlphaBlend(hdc, rc->left, rc->top + t, l, height - t - b, hdcSrc, srcOrigX, srcOrigY + t, l, item->inner_height, item->bf);
 
-        if(item->dwFlags & IMAGE_FILLSOLID && item->fillBrush) {
+        if (item->dwFlags & IMAGE_FILLSOLID && item->fillBrush) {
             RECT rcFill;
             rcFill.left = rc->left + l; rcFill.top = rc->top +t;
             rcFill.right = rc->right - r; rcFill.bottom = rc->bottom - b;
@@ -492,7 +492,7 @@ void __fastcall IMG_RenderImageItem(HDC hdc, ImageItem *item, RECT *rc)
                 LONG top = rc->top;
 
                 do {
-                    if(top + item->height <= rc->bottom) {
+                    if (top + item->height <= rc->bottom) {
                     	API::pfnAlphaBlend(hdc, rc->left, top, width, item->height, hdcSrc, srcOrigX, srcOrigY, item->width, item->height, item->bf);
                         top += item->height;
                     }
@@ -509,7 +509,7 @@ void __fastcall IMG_RenderImageItem(HDC hdc, ImageItem *item, RECT *rc)
                 LONG left = rc->left;
 
                 do {
-                    if(left + item->width <= rc->right) {
+                    if (left + item->width <= rc->right) {
                     	API::pfnAlphaBlend(hdc, left, rc->top, item->width, height, hdcSrc, srcOrigX, srcOrigY, item->width, item->height, item->bf);
                         left += item->width;
                     }

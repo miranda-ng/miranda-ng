@@ -85,8 +85,8 @@ struct ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, D
 
 struct ClcGroup *RemoveItemFromGroup(HWND hwnd, struct ClcGroup *group, struct ClcContact *contact, int updateTotalCount)
 {
-	if(contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry) {
-		if(cfg::eCache[contact->extraCacheEntry].floater && cfg::eCache[contact->extraCacheEntry].floater->hwnd)
+	if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry) {
+		if (cfg::eCache[contact->extraCacheEntry].floater && cfg::eCache[contact->extraCacheEntry].floater->hwnd)
 			ShowWindow(cfg::eCache[contact->extraCacheEntry].floater->hwnd, SW_HIDE);
 	}
 	return(saveRemoveItemFromGroup(hwnd, group, contact, updateTotalCount));
@@ -96,25 +96,25 @@ void LoadAvatarForContact(struct ClcContact *p)
 {
     DWORD dwFlags;
 
-    if(p->extraCacheEntry >= 0 && p->extraCacheEntry < cfg::nextCacheEntry)
+    if (p->extraCacheEntry >= 0 && p->extraCacheEntry < cfg::nextCacheEntry)
         dwFlags = cfg::eCache[p->extraCacheEntry].dwDFlags;
     else
         dwFlags = cfg::getDword(p->hContact, "CList", "CLN_Flags", 0);
 
-    if(cfg::dat.dwFlags & CLUI_FRAME_AVATARS)
+    if (cfg::dat.dwFlags & CLUI_FRAME_AVATARS)
         p->cFlags = (dwFlags & ECF_HIDEAVATAR ? p->cFlags & ~ECF_AVATAR : p->cFlags | ECF_AVATAR);
     else
         p->cFlags = (dwFlags & ECF_FORCEAVATAR ? p->cFlags | ECF_AVATAR : p->cFlags & ~ECF_AVATAR);
 
     p->ace = NULL;
-    if(cfg::dat.bAvatarServiceAvail && (p->cFlags & ECF_AVATAR) && (!cfg::dat.bNoOfflineAvatars || p->wStatus != ID_STATUS_OFFLINE)) {
+    if (cfg::dat.bAvatarServiceAvail && (p->cFlags & ECF_AVATAR) && (!cfg::dat.bNoOfflineAvatars || p->wStatus != ID_STATUS_OFFLINE)) {
         p->ace = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)p->hContact, 0);
         if (p->ace != NULL && p->ace->cbSize != sizeof(struct avatarCacheEntry))
             p->ace = NULL;
         if (p->ace != NULL)
             p->ace->t_lastAccess = cfg::dat.t_now;
     }
-    if(p->ace == NULL)
+    if (p->ace == NULL)
         p->cFlags &= ~ECF_AVATAR;
 }
 
@@ -143,15 +143,15 @@ int AddContactToGroup(struct ClcData *dat, struct ClcGroup *group, HANDLE hConta
 	p->codePage = cfg::getDword(hContact, "Tab_SRMsg", "ANSIcodepage", cfg::getDword(hContact, "UserInfo", "ANSIcodepage", CP_ACP));
     p->bSecondLine = cfg::getByte(hContact, "CList", "CLN_2ndline", cfg::dat.dualRowMode);
 
-	if(dat->bisEmbedded)
+	if (dat->bisEmbedded)
 		p->extraCacheEntry = -1;
 	else {
 		p->extraCacheEntry = cfg::getCache(p->hContact, p->proto);
 		GetExtendedInfo( p, dat);
-		if(p->extraCacheEntry >= 0 && p->extraCacheEntry < cfg::nextCacheEntry) {
+		if (p->extraCacheEntry >= 0 && p->extraCacheEntry < cfg::nextCacheEntry) {
 			cfg::eCache[p->extraCacheEntry].proto_status_item = GetProtocolStatusItem(p->bIsMeta ? p->metaProto : p->proto);
-			if(cfg::getByte(p->hContact, "CList", "floating", 0) && g_floatoptions.enabled) {
-				if(cfg::eCache[p->extraCacheEntry].floater == NULL)
+			if (cfg::getByte(p->hContact, "CList", "floating", 0) && g_floatoptions.enabled) {
+				if (cfg::eCache[p->extraCacheEntry].floater == NULL)
 					FLT_Create(p->extraCacheEntry);
 				else {
 					ShowWindow(cfg::eCache[p->extraCacheEntry].floater->hwnd, SW_SHOWNOACTIVATE);
@@ -265,7 +265,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 	struct TExtraCache *cEntry;
 	int result;
 
-	if(iExtraCacheEntry < 0 || iExtraCacheEntry > cfg::nextCacheEntry)
+	if (iExtraCacheEntry < 0 || iExtraCacheEntry > cfg::nextCacheEntry)
 		return 0;
 
 	cEntry = &cfg::eCache[iExtraCacheEntry];
@@ -279,7 +279,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 	else {
 		if (!szProto)
 			szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		if(szProto) {
+		if (szProto) {
 			if ( !result )
 				DBFreeVariant( &dbv );
 			if ( !( result = cfg::getTString(hContact, szProto, "YMsg", &dbv)) && lstrlen(dbv.ptszVal) > 1)
@@ -290,7 +290,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 				cEntry->bStatusMsgValid = STATUSMSG_XSTATUS;
 	}	}
 
-	if(cEntry->bStatusMsgValid == STATUSMSG_NOTFOUND) {      // no status msg, consider xstatus name (if available)
+	if (cEntry->bStatusMsgValid == STATUSMSG_NOTFOUND) {      // no status msg, consider xstatus name (if available)
 		if ( !result )
 			DBFreeVariant( &dbv );
 		result = cfg::getTString(hContact, szProto, "XStatusName", &dbv);
@@ -312,7 +312,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 			cst.cbSize = sizeof(ICQ_CUSTOM_STATUS);
 			cst.flags = CSSF_MASK_STATUS;
 			cst.status = &xStatus;
-			if(ServiceExists(szServiceName) && !CallService(szServiceName, (WPARAM)hContact, (LPARAM)&cst) && xStatus > 0) {
+			if (ServiceExists(szServiceName) && !CallService(szServiceName, (WPARAM)hContact, (LPARAM)&cst) && xStatus > 0) {
 				cst.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
  				cst.wParam = &xStatus2;
 				cst.ptszName = xStatusName;
@@ -325,11 +325,11 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 			}
 		}
 	}
-	if(cEntry->bStatusMsgValid > STATUSMSG_XSTATUSNAME) {
+	if (cEntry->bStatusMsgValid > STATUSMSG_XSTATUSNAME) {
 		int j = 0, i;
 		cEntry->statusMsg = (TCHAR *)realloc(cEntry->statusMsg, (lstrlen(dbv.ptszVal) + 2) * sizeof(TCHAR));
 		for (i = 0; dbv.ptszVal[i]; i++) {
-			if(dbv.ptszVal[i] == (TCHAR)0x0d)
+			if (dbv.ptszVal[i] == (TCHAR)0x0d)
 				continue;
 			cEntry->statusMsg[j] = dbv.ptszVal[i] == (wchar_t)0x0a ? (wchar_t)' ' : dbv.ptszVal[i];
 			j++;
@@ -340,7 +340,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 		DBFreeVariant( &dbv );
 
 
-	if(cEntry->bStatusMsgValid != STATUSMSG_NOTFOUND) {
+	if (cEntry->bStatusMsgValid != STATUSMSG_NOTFOUND) {
 		WORD infoTypeC2[12];
 		int iLen, i
 			;
@@ -349,14 +349,14 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 		GetStringTypeW(CT_CTYPE2, cEntry->statusMsg, iLen, infoTypeC2);
 		cEntry->dwCFlags &= ~ECF_RTLSTATUSMSG;
 		for (i = 0; i < 10; i++) {
-			if(infoTypeC2[i] == C2_RIGHTTOLEFT) {
+			if (infoTypeC2[i] == C2_RIGHTTOLEFT) {
 				cEntry->dwCFlags |= ECF_RTLSTATUSMSG;
 				break;
 			}
 		}
 	}
 
-	if(cEntry->hTimeZone == NULL)
+	if (cEntry->hTimeZone == NULL)
 		TZ_LoadTimeZone(hContact, cEntry, szProto);
 	return cEntry->bStatusMsgValid;;
 }
@@ -379,9 +379,9 @@ static void TZ_LoadTimeZone(HANDLE hContact, struct TExtraCache *c, const char *
 
 void ReloadExtraInfo(HANDLE hContact)
 {
-	if(hContact && pcli->hwndContactTree) {
+	if (hContact && pcli->hwndContactTree) {
 		int index = cfg::getCache(hContact, NULL);
-		if(index >= 0 && index < cfg::nextCacheEntry) {
+		if (index >= 0 && index < cfg::nextCacheEntry) {
 			char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 
 			TZ_LoadTimeZone(hContact, &cfg::eCache[index], szProto);
@@ -404,7 +404,7 @@ void RTL_DetectAndSet(struct ClcContact *contact, HANDLE hContact)
 
     ZeroMemory(infoTypeC2, sizeof(WORD) * 12);
 
-    if(contact == NULL) {
+    if (contact == NULL) {
         szText = pcli->pfnGetContactDisplayName(hContact, 0);
         index = cfg::getCache(hContact, NULL);
     }
@@ -412,12 +412,12 @@ void RTL_DetectAndSet(struct ClcContact *contact, HANDLE hContact)
         szText = contact->szText;
         index = contact->extraCacheEntry;
     }
-    if(index >= 0 && index < cfg::nextCacheEntry) {
+    if (index >= 0 && index < cfg::nextCacheEntry) {
         iLen = min(lstrlenW(szText), 10);
         GetStringTypeW(CT_CTYPE2, szText, iLen, infoTypeC2);
         cfg::eCache[index].dwCFlags &= ~ECF_RTLNICK;
         for (i = 0; i < 10; i++) {
-            if(infoTypeC2[i] == C2_RIGHTTOLEFT) {
+            if (infoTypeC2[i] == C2_RIGHTTOLEFT) {
                 cfg::eCache[index].dwCFlags |= ECF_RTLNICK;
                 return;
             }
@@ -433,11 +433,11 @@ void RTL_DetectGroupName(struct ClcContact *group)
 
     group->isRtl = 0;
 
-    if(group->szText) {
+    if (group->szText) {
         iLen = min(lstrlenW(group->szText), 10);
         GetStringTypeW(CT_CTYPE2, group->szText, iLen, infoTypeC2);
         for (i = 0; i < 10; i++) {
-            if(infoTypeC2[i] == C2_RIGHTTOLEFT) {
+            if (infoTypeC2[i] == C2_RIGHTTOLEFT) {
                 group->isRtl = 1;
                 return;
             }
@@ -456,10 +456,10 @@ void GetExtendedInfo(struct ClcContact *contact, struct ClcData *dat)
     BOOL iCacheNew = FALSE;
     int index;
 
-    if(dat->bisEmbedded || contact == NULL)
+    if (dat->bisEmbedded || contact == NULL)
         return;
 
-    if(contact->proto == NULL || contact->hContact == 0)
+    if (contact->proto == NULL || contact->hContact == 0)
         return;
 
     index = contact->extraCacheEntry;
@@ -471,8 +471,8 @@ void GetExtendedInfo(struct ClcContact *contact, struct ClcData *dat)
     //g_ExtraCache[index].msgFrequency = new_freq;
     //DBWriteContactSettingDword(contact->hContact, "CList", "mf_freq", new_freq);
 
-    if(index >= 0 && index < cfg::nextCacheEntry) {
-        if(cfg::eCache[index].valid)
+    if (index >= 0 && index < cfg::nextCacheEntry) {
+        if (cfg::eCache[index].valid)
             return;
         cfg::eCache[index].valid = TRUE;
     }
@@ -527,8 +527,8 @@ void LoadSkinItemToCache(struct TExtraCache *cEntry, const char *szProto)
 {
     HANDLE hContact = cEntry->hContact;
 
-    if(cfg::getByte(hContact, "EXTBK", "VALID", 0)) {
-        if(cEntry->status_item == NULL)
+    if (cfg::getByte(hContact, "EXTBK", "VALID", 0)) {
+        if (cEntry->status_item == NULL)
             cEntry->status_item = reinterpret_cast<StatusItems_t *>(malloc(sizeof(StatusItems_t)));
         ZeroMemory(cEntry->status_item, sizeof(StatusItems_t));
         strcpy(cEntry->status_item->szName, "{--CONTACT--}");           // mark as "per contact" item
@@ -550,7 +550,7 @@ void LoadSkinItemToCache(struct TExtraCache *cEntry, const char *szProto)
         cEntry->status_item->CORNER = cfg::getByte(hContact, "EXTBK", "CORNER", 0);
         cEntry->status_item->GRADIENT = cfg::getByte(hContact, "EXTBK", "GRAD", 0);
     }
-    else if(cEntry->status_item) {
+    else if (cEntry->status_item) {
         free(cEntry->status_item);
         cEntry->status_item = NULL;
     }
@@ -563,7 +563,7 @@ void ReloadSkinItemsToCache()
 
     for (i = 0; i < cfg::nextCacheEntry; i++) {
         szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cfg::eCache[i].hContact, 0);
-        if(szProto)
+        if (szProto)
             LoadSkinItemToCache(&cfg::eCache[i], szProto);
     }
 }
@@ -577,11 +577,11 @@ DWORD CalcXMask(HANDLE hContact)
     for (i = 0; i <= 10; i++) {
         bForced = (dwXMask & (1 << (2 * i)));
         bHidden = (dwXMask & (1 << (2 * i + 1)));
-        if(bForced == 0 && bHidden == 0)
+        if (bForced == 0 && bHidden == 0)
             continue;
-        else if(bForced)
+        else if (bForced)
             dwResult |= (1 << i);
-        else if(bHidden)
+        else if (bHidden)
             dwResult &= ~(1 << i);
     }
     return(dwResult);
@@ -604,16 +604,16 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 
     // always hide subcontacts (but show them on embedded contact lists)
 
-    if(cfg::dat.bMetaAvail && dat != NULL && dat->bHideSubcontacts && cfg::dat.bMetaEnabled && cfg::getByte(hContact, cfg::dat.szMetaName, "IsSubcontact", 0))
+    if (cfg::dat.bMetaAvail && dat != NULL && dat->bHideSubcontacts && cfg::dat.bMetaEnabled && cfg::getByte(hContact, cfg::dat.szMetaName, "IsSubcontact", 0))
         return 1;
 
-    if(cfg::dat.bFilterEffective) {
-        if(szProto == NULL)
+    if (cfg::dat.bFilterEffective) {
+        if (szProto == NULL)
             szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
-        if(cfg::dat.bFilterEffective & CLVM_STICKY_CONTACTS) {
+        if (cfg::dat.bFilterEffective & CLVM_STICKY_CONTACTS) {
             if ((dwLocalMask = cfg::getDword(hContact, "CLVM", cfg::dat.current_viewmode, 0)) != 0) {
-                if(cfg::dat.bFilterEffective & CLVM_FILTER_STICKYSTATUS) {
+                if (cfg::dat.bFilterEffective & CLVM_FILTER_STICKYSTATUS) {
                     WORD wStatus = cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
                     return !((1 << (wStatus - ID_STATUS_OFFLINE)) & HIWORD(dwLocalMask));
                 }
@@ -621,34 +621,34 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
             }
         }
         // check the proto, use it as a base filter result for all further checks
-		if(cfg::dat.bFilterEffective & CLVM_FILTER_PROTOS) {
+		if (cfg::dat.bFilterEffective & CLVM_FILTER_PROTOS) {
             mir_snprintf(szTemp, sizeof(szTemp), "%s|", szProto);
             filterResult = strstr(cfg::dat.protoFilter, szTemp) ? 1 : 0;
         }
-        if(cfg::dat.bFilterEffective & CLVM_FILTER_GROUPS) {
+        if (cfg::dat.bFilterEffective & CLVM_FILTER_GROUPS) {
             if (!cfg::getTString(hContact, "CList", "Group", &dbv)) {
                 _sntprintf(szGroupMask, safe_sizeof(szGroupMask), _T("%s|"), &dbv.ptszVal[1]);
                 filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (_tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (_tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0));
                 mir_free(dbv.ptszVal);
             }
-            else if(cfg::dat.filterFlags & CLVM_INCLUDED_UNGROUPED)
+            else if (cfg::dat.filterFlags & CLVM_INCLUDED_UNGROUPED)
                 filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? filterResult : filterResult & 1;
             else
                 filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? filterResult : filterResult & 0;
         }
-        if(cfg::dat.bFilterEffective & CLVM_FILTER_STATUS) {
+        if (cfg::dat.bFilterEffective & CLVM_FILTER_STATUS) {
             WORD wStatus = cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
             filterResult = (cfg::dat.filterFlags & CLVM_GROUPSTATUS_OP) ? ((filterResult | ((1 << (wStatus - ID_STATUS_OFFLINE)) & cfg::dat.statusMaskFilter ? 1 : 0))) : (filterResult & ((1 << (wStatus - ID_STATUS_OFFLINE)) & cfg::dat.statusMaskFilter ? 1 : 0));
         }
-		if(cfg::dat.bFilterEffective & CLVM_FILTER_LASTMSG) {
+		if (cfg::dat.bFilterEffective & CLVM_FILTER_LASTMSG) {
 			DWORD now;
 			int iEntry = cfg::getCache(hContact, szProto);
-			if(iEntry >= 0 && iEntry <= cfg::nextCacheEntry) {
+			if (iEntry >= 0 && iEntry <= cfg::nextCacheEntry) {
 				now = cfg::dat.t_now;
 				now -= cfg::dat.lastMsgFilter;
-				if(cfg::dat.bFilterEffective & CLVM_FILTER_LASTMSG_OLDERTHAN)
+				if (cfg::dat.bFilterEffective & CLVM_FILTER_LASTMSG_OLDERTHAN)
 					filterResult = filterResult & (cfg::eCache[iEntry].dwLastMsgTime < now);
-				else if(cfg::dat.bFilterEffective & CLVM_FILTER_LASTMSG_NEWERTHAN)
+				else if (cfg::dat.bFilterEffective & CLVM_FILTER_LASTMSG_NEWERTHAN)
 					filterResult = filterResult & (cfg::eCache[iEntry].dwLastMsgTime > now);
 			}
 		}

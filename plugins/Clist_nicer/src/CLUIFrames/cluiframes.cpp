@@ -1154,7 +1154,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 				ulockfrm();
 				return -1;
 			}
-			if(Frames[pos].Skinned) {
+			if (Frames[pos].Skinned) {
 				int uID = (Frames[pos].TitleBar.ShowTitleBar ? ID_EXTBKOWNEDFRAMEBORDERTB - ID_STATUS_OFFLINE : ID_EXTBKOWNEDFRAMEBORDER - ID_STATUS_OFFLINE);
 				lParam += (StatusItems[uID].MARGIN_BOTTOM + StatusItems[uID].MARGIN_TOP);
 			}
@@ -1168,7 +1168,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 
 				if (Frames[pos].height != oldHeight) {
 					CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
-					if(Frames[pos].Skinned)
+					if (Frames[pos].Skinned)
 						RedrawWindow(Frames[pos].hWnd, 0, 0, RDW_FRAME|RDW_UPDATENOW|RDW_INVALIDATE);
 				}
 			}
@@ -2384,7 +2384,7 @@ int SizeFramesByWindowRect(RECT *r)
 			if (!Frames[i].floating) {
 				if (Frames[i].OwnerWindow && Frames[i].OwnerWindow != (HWND) - 2) {
 					/*
-					if(Frames[i].wndSize.right - Frames[i].wndSize.left == Frames[i].oldWndSize.right - Frames[i].oldWndSize.left &&
+					if (Frames[i].wndSize.right - Frames[i].wndSize.left == Frames[i].oldWndSize.right - Frames[i].oldWndSize.left &&
 					   Frames[i].wndSize.bottom - Frames[i].wndSize.top == Frames[i].oldWndSize.bottom - Frames[i].oldWndSize.top)
 					    noSize = SWP_NOSIZE;
 					else {
@@ -2657,7 +2657,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			case WM_NCPAINT:
 			    {
 
-			//	if(wParam==1) break;
+			//	if (wParam==1) break;
 			    {	POINT ptTopLeft={0,0};
 			        HRGN hClientRgn;
 			        ClientToScreen(hwnd,&ptTopLeft);
@@ -3097,7 +3097,7 @@ int CLUIFrameResizeFloatingFrame(int framepos)
 	height = rect.bottom - rect.top;
 	floatingHeight = cfg::dat.titleBarHeight;
 
-	if(floatingHeight <= 0 || floatingHeight > 50)
+	if (floatingHeight <= 0 || floatingHeight > 50)
 		floatingHeight = 18;
 
 	Frames[framepos].visible ? ShowWindow(Frames[framepos].ContainerWnd, SW_SHOWNOACTIVATE) : ShowWindow(Frames[framepos].ContainerWnd, SW_HIDE);
@@ -3428,15 +3428,15 @@ static INT_PTR SkinDrawBgService(WPARAM wParam, LPARAM lParam)
 
     SKINDRAWREQUEST *sdrq = (SKINDRAWREQUEST *)wParam;
 
-    if(wParam == 0 || IsBadCodePtr((FARPROC)wParam) || pDrawAlpha == NULL)
+    if (wParam == 0 || IsBadCodePtr((FARPROC)wParam) || pDrawAlpha == NULL)
         return 0;
 
     hwnd = WindowFromDC(sdrq->hDC);
     GetClientRect(hwnd, &rc);
-    if(strstr(sdrq->szObjectID, "/Background") && EqualRect(&sdrq->rcClipRect, &sdrq->rcDestRect)) {
+    if (strstr(sdrq->szObjectID, "/Background") && EqualRect(&sdrq->rcClipRect, &sdrq->rcDestRect)) {
         SkinDrawBg(hwnd, sdrq->hDC);
         GetItemByStatus(ID_EXTBKEVTAREA, &item);
-        if(item.IGNORED)
+        if (item.IGNORED)
             FillRect(sdrq->hDC, &(sdrq->rcClipRect), GetSysColorBrush(COLOR_3DFACE));
         else {
             DrawAlpha(sdrq->hDC, &(sdrq->rcClipRect), item.COLOR, item.ALPHA, item.COLOR2, item.COLOR2_TRANSPARENT,
@@ -3445,7 +3445,7 @@ static INT_PTR SkinDrawBgService(WPARAM wParam, LPARAM lParam)
     }
     else {
         GetItemByStatus(ID_EXTBKEVTAREA, &item);
-        if(item.IGNORED)
+        if (item.IGNORED)
             FillRect(sdrq->hDC, &(sdrq->rcClipRect), GetSysColorBrush(COLOR_3DFACE));
         else {
             DrawAlpha(sdrq->hDC, &(sdrq->rcClipRect), item.COLOR, item.ALPHA, item.COLOR2, item.COLOR2_TRANSPARENT,

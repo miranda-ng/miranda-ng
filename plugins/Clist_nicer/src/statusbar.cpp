@@ -64,13 +64,13 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_NCHITTEST:
 	{
 		LRESULT lr = SendMessage(GetParent(hwnd), WM_NCHITTEST, wParam, lParam);
-		if(lr == HTLEFT || lr == HTRIGHT || lr == HTBOTTOM || lr == HTTOP || lr == HTTOPLEFT || lr == HTTOPRIGHT
+		if (lr == HTLEFT || lr == HTRIGHT || lr == HTBOTTOM || lr == HTTOP || lr == HTTOPLEFT || lr == HTTOPRIGHT
 			|| lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT)
 			return HTTRANSPARENT;
 		break;
 	}
 	case WM_ERASEBKGND:
-		if(cfg::dat.bSkinnedStatusBar)
+		if (cfg::dat.bSkinnedStatusBar)
 			return 1;
 		return CallWindowProc(OldStatusBarProc, hwnd, msg, wParam, lParam);
 
@@ -83,10 +83,10 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_PAINT:
-		if(cfg::shutDown || !StatusItems)
+		if (cfg::shutDown || !StatusItems)
 			return 0;
 
-		if(cfg::dat.bSkinnedStatusBar) {
+		if (cfg::dat.bSkinnedStatusBar) {
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hwnd, &ps);
 			HDC hdcMem = CreateCompatibleDC(hdc);
@@ -136,7 +136,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				SendMessage(pcli->hwndContactList, WM_DRAWITEM, 0, (LPARAM)&dis);
 			}
 			BitBlt(hdc, 0, 0, rcClient.right, rcClient.bottom, hdcMem, 0, 0, SRCCOPY);
-			if(hOldFont)
+			if (hOldFont)
 				SelectObject(hdcMem, hOldFont);
 			SelectObject(hdcMem, hbmOld);
 			DeleteObject(hbmMem);
@@ -150,7 +150,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_TIMER:
-		if(wParam == TIMERID_HOVER) {
+		if (wParam == TIMERID_HOVER) {
 			POINT pt;
 			KillTimer(hwnd, TIMERID_HOVER);
 
@@ -163,14 +163,14 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				nParts = SendMessage(hwnd, SB_GETPARTS, 0, 0);
 				for (i = 0; i < nParts; i++) {
 					SendMessage(hwnd, SB_GETRECT, i, (LPARAM)&rc);
-					if(PtInRect(&rc,pt)) {
+					if (PtInRect(&rc,pt)) {
 						ProtocolData *PD;
 						PD = (ProtocolData *)SendMessageA(hwnd, SB_GETTEXTA, i, 0);
 
-						if(PD) {
-							if(NotifyEventHooks(hStatusBarShowToolTipEvent, (WPARAM)PD->RealName, 0) > 0) // a plugin handled this event
+						if (PD) {
+							if (NotifyEventHooks(hStatusBarShowToolTipEvent, (WPARAM)PD->RealName, 0) > 0) // a plugin handled this event
 								tooltip_active = TRUE;
-							else if(cfg::getDword("mToolTip", "ShowStatusTip", 0)) {
+							else if (cfg::getDword("mToolTip", "ShowStatusTip", 0)) {
 								CLCINFOTIP ti = {0};
 								BYTE isLocked = 0;
 								char szTipText[256], *szStatus = NULL;

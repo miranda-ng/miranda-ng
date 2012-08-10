@@ -37,7 +37,7 @@ void GetWallpaperPattern()
 {
 	// \Control Panel\Desktop
 	char wpbuf[MAX_PATH];
-	if(hPattern) {DeleteObject(hPattern); hPattern=NULL;}
+	if (hPattern) {DeleteObject(hPattern); hPattern=NULL;}
 	SystemParametersInfo(SPI_GETDESKWALLPAPER,MAX_PATH,wpbuf,NULL);
 
 	if (strlen(wpbuf)>0)

@@ -201,7 +201,7 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 		caps1 = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if ((caps1 & PF1_IM) && (caps2 & (PF2_LONGAWAY | PF2_SHORTAWAY))) {
 			onlineness = GetStatusOnlineness(status);
-			if(onlineness > maxOnline) {
+			if (onlineness > maxOnline) {
 				maxStatus = status;
 				maxOnline = onlineness;
 				szMaxProto = pa->szModuleName;
@@ -221,7 +221,7 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 		wStatus = maxStatus;
 		iIcon = IconFromStatusMode((wStatus >= ID_STATUS_CONNECTING && wStatus < ID_STATUS_OFFLINE) ? szMaxProto : NULL, (int) wStatus, 0, &hIcon);
 		g_maxStatus = (int)wStatus;
-		if(szMaxProto) {
+		if (szMaxProto) {
 			lstrcpynA(g_maxProto, szMaxProto, 100);
 			g_maxProto[99] = 0;
 		}
@@ -241,21 +241,25 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 	*/
 
 	if (szStatus) {
-		if(pcli->hwndContactList && IsWindow(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS)) && IsWindow(GetDlgItem(pcli->hwndContactList, IDC_TBTOPSTATUS))) {
+		if (pcli->hwndContactList && IsWindow(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS))) {
+			HWND hwndTtbStatus = ClcGetButtonWindow(IDC_TBTOPSTATUS);
+
 			SendMessage(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS), WM_SETTEXT, 0, (LPARAM) szStatus);
 			if (!hIcon) {
 				SendMessage(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS), BUTTONSETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);
-                if(g_ButtonItems == NULL)
-                    SendMessage(GetDlgItem(pcli->hwndContactList, IDC_TBTOPSTATUS), BUTTONSETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);
+				if (g_ButtonItems == NULL && hwndTtbStatus)
+					SendMessage( hwndTtbStatus, BUTTONSETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);
 			}
 			else {
 				SendMessage(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS), BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);
-                if(g_ButtonItems == NULL)
-                    SendMessage(GetDlgItem(pcli->hwndContactList, IDC_TBTOPSTATUS), BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);
+				if (g_ButtonItems == NULL && hwndTtbStatus)
+					SendMessage(hwndTtbStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);
 			}
 			InvalidateRect(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS), NULL, TRUE);
-			InvalidateRect(GetDlgItem(pcli->hwndContactList, IDC_TBTOPSTATUS), NULL, TRUE);
+			if (hwndTtbStatus)
+				InvalidateRect(hwndTtbStatus, NULL, TRUE);
 			SFL_Update(hIcon, iIcon, hCListImages, szStatus, TRUE);
-	}	}
+		}
+	}
 	return;
 }

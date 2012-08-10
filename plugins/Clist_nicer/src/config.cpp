@@ -207,14 +207,14 @@ int cfg::getCache(const HANDLE hContact, const char *szProto)
     int i, iFound = -1;
 
     for (i = 0; i < nextCacheEntry; i++) {
-        if(eCache[i].hContact == hContact) {
+        if (eCache[i].hContact == hContact) {
             iFound = i;
             break;
         }
     }
-    if(iFound == -1) {
+    if (iFound == -1) {
 		EnterCriticalSection(&cachecs);
-        if(nextCacheEntry == maxCacheEntry) {
+        if (nextCacheEntry == maxCacheEntry) {
             maxCacheEntry += 100;
             cfg::eCache = (TExtraCache *)realloc(cfg::eCache, maxCacheEntry * sizeof(TExtraCache));
         }
@@ -267,7 +267,7 @@ void API::onInit()
 	sysConfig.isXPPlus = (IsWinVerXPPlus() ? true : false);
 	sysConfig.isWin2KPlus = (IsWinVer2000Plus() ? true : false);
 
-	if(sysConfig.isXPPlus) {
+	if (sysConfig.isXPPlus) {
 		if ((hUxTheme = Utils::loadSystemLibrary(_T("\\uxtheme.dll")), true) != 0) {
 			pfnIsThemeActive = (pfnIsThemeActive_t)GetProcAddress(hUxTheme, "IsThemeActive");
 			pfnOpenThemeData = (pfnOpenThemeData_t)GetProcAddress(hUxTheme, "OpenThemeData");
@@ -286,7 +286,7 @@ void API::onInit()
 			}
 		}
 	}
-	if(sysConfig.isVistaPlus) {
+	if (sysConfig.isVistaPlus) {
 		if ((hDwm = Utils::loadSystemLibrary(_T("\\dwmapi.dll")), true) != 0) {
 			pfnDwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled_t)GetProcAddress(hDwm, "DwmIsCompositionEnabled");
             pfnDwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea_t)GetProcAddress(hDwm,"DwmExtendFrameIntoClientArea");
@@ -298,7 +298,7 @@ void API::onInit()
 
 void API::onUnload()
 {
-	if(hUxTheme)
+	if (hUxTheme)
 		FreeLibrary(hUxTheme);
 }
 
@@ -314,10 +314,10 @@ void API::updateState()
 
 	::ZeroMemory(&sysState, sizeof(TSysState));
 
-	if(sysConfig.uxThemeValid)
+	if (sysConfig.uxThemeValid)
 		sysState.isThemed = pfnIsThemeActive() ? true : false;
 
-	if(sysConfig.isVistaPlus) {
+	if (sysConfig.isVistaPlus) {
 		sysState.isDwmActive = (pfnDwmIsCompositionEnabled && (pfnDwmIsCompositionEnabled(&result) == S_OK) && result) ? true : false;
 		sysState.isAero = /* (CSkin::m_skinEnabled == false) && */ cfg::getByte("CLUI", "useAero", 1) /* && CSkin::m_fAeroSkinsValid */ && sysState.isDwmActive;
 	}
@@ -325,7 +325,7 @@ void API::updateState()
 
 BOOL API::SetLayeredWindowAttributes(HWND hWnd, COLORREF clr, BYTE alpha, DWORD dwFlags)
 {
-	if(sysConfig.isWin2KPlus)
+	if (sysConfig.isWin2KPlus)
 		return(pfnSetLayeredWindowAttributes(hWnd, clr, alpha, dwFlags));
 
 	return(FALSE);
@@ -410,7 +410,7 @@ int API::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, TCH
 	exLine = line;
 	exLastResult = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EXCEPTION), 0, Ex_DlgProc, 0);
 	exAllowContinue = fAllowContinue;
-	if(IDCANCEL == exLastResult)
+	if (IDCANCEL == exLastResult)
 		ExitProcess(1);
 	return 1;
 }
@@ -444,19 +444,19 @@ HMODULE Utils::loadSystemLibrary(const TCHAR* szFilename, bool useGetHandle)
 	HMODULE		_h = 0;
 
 	try {
-		if(0 == ::GetSystemDirectory(sysPathName, MAX_PATH))
+		if (0 == ::GetSystemDirectory(sysPathName, MAX_PATH))
 			throw(CRTException("Error while loading system library", szFilename));
 
 		sysPathName[MAX_PATH - 1] = 0;
-		if(_tcslen(sysPathName) + _tcslen(szFilename) >= MAX_PATH)
+		if (_tcslen(sysPathName) + _tcslen(szFilename) >= MAX_PATH)
 			throw(CRTException("Error while loading system library", szFilename));
 
 		lstrcat(sysPathName, szFilename);
-		if(useGetHandle)
+		if (useGetHandle)
 			_h = ::GetModuleHandle(sysPathName);
 		else
 			_h = LoadLibrary(sysPathName);
-		if(0 == _h)
+		if (0 == _h)
 			throw(CRTException("Error while loading system library", szFilename));
 	}
 	catch(CRTException& ex) {

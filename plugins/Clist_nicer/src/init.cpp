@@ -152,7 +152,7 @@ void _DebugTraceA(const char *fmt, ...)
         CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szDataPath);
         mir_snprintf(szLogFileName, MAX_PATH, "%s\\%s", szDataPath, "clist_nicer.log");
         f = fopen(szLogFileName, "a+");
-        if(f) {
+        if (f) {
             fputs(debug, f);
             fputs("\n", f);
             fclose(f);
@@ -185,17 +185,17 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	GetSystemTime(&cfg::dat.st);
 	SystemTimeToFileTime(&cfg::dat.st, &cfg::dat.ft);
 	cfg::dat.bMetaAvail = ServiceExists(MS_MC_GETDEFAULTCONTACT) ? TRUE : FALSE;
-	if(cfg::dat.bMetaAvail)
+	if (cfg::dat.bMetaAvail)
 		mir_snprintf(cfg::dat.szMetaName, 256, "%s", (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0));
 	else
 		strncpy(cfg::dat.szMetaName, "MetaContacts", 255);
 
-	if(ServiceExists(MS_MC_DISABLEHIDDENGROUP))
+	if (ServiceExists(MS_MC_DISABLEHIDDENGROUP))
 		CallService(MS_MC_DISABLEHIDDENGROUP, 1, 0);
 	cfg::dat.bMetaEnabled = cfg::getByte(cfg::dat.szMetaName, "Enabled", 1);
 
 	cfg::dat.bAvatarServiceAvail = ServiceExists(MS_AV_GETAVATARBITMAP) ? TRUE : FALSE;
-	if(cfg::dat.bAvatarServiceAvail)
+	if (cfg::dat.bAvatarServiceAvail)
 		HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
 	cfg::dat.tabSRMM_Avail = ServiceExists("SRMsg_MOD/GetWindowFlags") ? TRUE : FALSE;
 
@@ -274,16 +274,16 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	cfg::dat.sortOrder[1] = HIBYTE(LOWORD(sortOrder));
 	cfg::dat.sortOrder[2] = LOBYTE(HIWORD(sortOrder));
 
-	if(cfg::dat.bFirstRun)
+	if (cfg::dat.bFirstRun)
 		cfg::writeByte("CLUI", "firstrun", 0);
 
 	if (!cfg::getString(NULL, "CLUI", "exIconOrder", &dbv)) {
-		if(lstrlenA(dbv.pszVal) < EXICON_COUNT) {
+		if (lstrlenA(dbv.pszVal) < EXICON_COUNT) {
 			for (i = 1; i <= EXICON_COUNT; i++)
 				cfg::dat.exIconOrder[i - 1] = i;
 		} else {
 			for (i = 0; i < EXICON_COUNT; i++)
-				if(dbv.pszVal[i] < EXICON_COUNT+1 && dbv.pszVal[i] >0)
+				if (dbv.pszVal[i] < EXICON_COUNT+1 && dbv.pszVal[i] >0)
 					cfg::dat.exIconOrder[i] = dbv.pszVal[i];
 				else
 					cfg::dat.exIconOrder[i] = i+1;

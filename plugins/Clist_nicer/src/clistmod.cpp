@@ -71,8 +71,8 @@ int IconFromStatusMode(const char *szProto, int status, HANDLE hContact, HICON *
 		finalStatus = status;
 	}
 
-	if(status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE && phIcon != NULL) {
-		if(szProto) {
+	if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE && phIcon != NULL) {
+		if (szProto) {
 			char szBuf[128];
 			mir_snprintf(szBuf, 128, "%s_conn", szProto);
 			*phIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szBuf);
@@ -160,7 +160,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 		 * also, clip at least 2 pixels from the border (same reason)
 		 */
 
-        if(g_CLUIImageItem)
+        if (g_CLUIImageItem)
             clip = 5;
         else
             clip = 0;
@@ -172,7 +172,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 			pt.y = i;
 			//for (j = rc.left + 3 + clip; j < rc.right - 3 - clip; j += (width / iStepX)) {
             for (j = rc.left + clip; j < rc.right; j += (width / iStepX)) {
-				/*if(rgn) {
+				/*if (rgn) {
 					ptTest.x = j;
 					ptTest.y = i;
 					if (!PtInRegion(rgn, ptTest.x, ptTest.y)) {
@@ -190,7 +190,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 				iCountedDots++; //Let's keep track of how many dots we checked.
 			}
 		}
-		if(rgn)
+		if (rgn)
 			DeleteObject(rgn);
 
 		if (iNotCoveredDots == iCountedDots) //Every dot was not covered: the window is visible.
@@ -208,7 +208,7 @@ int ShowHide(WPARAM wParam, LPARAM lParam)
 
 	int iVisibleState = pcli->pfnGetWindowVisibleState(pcli->hwndContactList, 0, 0);
 
-	if(IsIconic(pcli->hwndContactList)) {
+	if (IsIconic(pcli->hwndContactList)) {
 		SendMessage(pcli->hwndContactList, WM_SYSCOMMAND, SC_RESTORE, 0);
 		bShow = TRUE;
 	}

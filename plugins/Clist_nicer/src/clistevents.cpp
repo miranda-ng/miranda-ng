@@ -58,7 +58,7 @@ HANDLE hNotifyFrame = (HANDLE)-1;
 struct CListEvent* fnCreateEvent( void )
 {
 	CListEvent *p = reinterpret_cast<CListEvent *>(mir_alloc(sizeof(struct CListEvent)));
-	if(p)
+	if (p)
 		ZeroMemory(p, sizeof(struct CListEvent));
 
 	return p;
@@ -69,17 +69,17 @@ void HideShowNotifyFrame()
 	int dwVisible = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hNotifyFrame), 0) & F_VISIBLE;
     int desired;
 
-    if(cfg::dat.dwFlags & CLUI_FRAME_AUTOHIDENOTIFY)
+    if (cfg::dat.dwFlags & CLUI_FRAME_AUTOHIDENOTIFY)
         desired = cfg::dat.notifyActive ? TRUE : FALSE;
     else
         desired = dwVisible;
 
-    if(desired) {
+    if (desired) {
 		if (!dwVisible)
 			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
 	}
 	else {
-		if(dwVisible)
+		if (dwVisible)
 			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
 	}
 }
@@ -151,11 +151,11 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			break;
 		}
 	case WM_LBUTTONUP:
-		if(cfg::dat.bEventAreaEnabled)
+		if (cfg::dat.bEventAreaEnabled)
 			SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDC_NOTIFYBUTTON, 0), 0);
 		break;
 	case WM_COMMAND:
-		if(LOWORD(wParam) == IDC_NOTIFYBUTTON) {
+		if (LOWORD(wParam) == IDC_NOTIFYBUTTON) {
 			int iSelection;
 			MENUITEMINFO mii = {0};
 			POINT pt;
@@ -210,13 +210,13 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			hbmold = reinterpret_cast<HBITMAP>(SelectObject(hdcMem, hbm));
 			SetBkMode(hdcMem, TRANSPARENT);
 
-			if(cfg::clcdat)
+			if (cfg::clcdat)
 				hFontOld = ChangeToFont(hdcMem, cfg::clcdat, FONTID_EVENTAREA, &height);
 
-			if(cfg::dat.bWallpaperMode)
+			if (cfg::dat.bWallpaperMode)
 				SkinDrawBg(hwnd, hdcMem);
 			item = &StatusItems[ID_EXTBKEVTAREA - ID_STATUS_OFFLINE];
-			if(item->IGNORED) {
+			if (item->IGNORED) {
 				FillRect(hdcMem, &rc, GetSysColorBrush(COLOR_3DFACE));
 			}
 			else {
@@ -231,14 +231,14 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			dwLeft = rc.left;
 
 			PaintNotifyArea(hdcMem, &rc);
-			if(cfg::dat.dwFlags & CLUI_FRAME_EVENTAREASUNKEN) {
+			if (cfg::dat.dwFlags & CLUI_FRAME_EVENTAREASUNKEN) {
 				rc.left = dwLeft;
 				InflateRect(&rc, -2, -2);
 				DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
 			}
 			BitBlt(hdc, 0, 0, rcClient.right, rcClient.bottom, hdcMem, 0, 0, SRCCOPY);
 			SelectObject(hdcMem, hbmold);
-			if(hFontOld)
+			if (hFontOld)
 				SelectObject(hdcMem, hFontOld);
 			DeleteObject(hbm);
 			DeleteDC(hdcMem);
@@ -325,7 +325,7 @@ struct CListEvent* AddEvent(CLISTEVENT *cle)
 			}
 		}
 		InvalidateRect(hwndEventFrame, NULL, FALSE);
-		if(cfg::dat.bUseFloater & CLUI_USE_FLOATER && cfg::dat.bUseFloater & CLUI_FLOATER_EVENTS)
+		if (cfg::dat.bUseFloater & CLUI_USE_FLOATER && cfg::dat.bUseFloater & CLUI_FLOATER_EVENTS)
 			SFL_Update(0, 0, 0, NULL, FALSE);
 	}
 
@@ -389,7 +389,7 @@ int RemoveEvent(HANDLE hContact, HANDLE hDbEvent)
 
 	if (cfg::dat.notifyActive) {
 		InvalidateRect(hwndEventFrame, NULL, FALSE);
-		if(cfg::dat.bUseFloater & CLUI_USE_FLOATER && cfg::dat.bUseFloater & CLUI_FLOATER_EVENTS)
+		if (cfg::dat.bUseFloater & CLUI_USE_FLOATER && cfg::dat.bUseFloater & CLUI_FLOATER_EVENTS)
 			SFL_Update(0, 0, 0, NULL, FALSE);
 	}
 

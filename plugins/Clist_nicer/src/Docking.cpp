@@ -104,7 +104,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
         return 0;
     switch (msg->message) {
         case WM_CREATE:
-    //if(GetSystemMetrics(SM_CMONITORS)>1) return 0;
+    //if (GetSystemMetrics(SM_CMONITORS)>1) return 0;
             if (cfg::getByte("CList", "Docked", 0))
                 PostMessage(msg->hwnd, WM_CREATEDOCKED, 0, 0);
             draggingTitle = 0;

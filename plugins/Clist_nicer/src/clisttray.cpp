@@ -64,7 +64,7 @@ void TrayIconUpdateBase(const char *szChangedProto)
 				if (cfg::getByte("CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)) {
 					HICON hIcon = 0;
 					int iIcon = IconFromStatusMode(szChangedProto, averageMode, 0, &hIcon);
-					if(hIcon)
+					if (hIcon)
 						changed = pcli->pfnTrayIconSetBaseInfo(CopyIcon(hIcon), szChangedProto);
 					else
 						changed = pcli->pfnTrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL), szChangedProto);
@@ -77,7 +77,7 @@ void TrayIconUpdateBase(const char *szChangedProto)
 					HICON hIcon = 0;
 					int iIcon = IconFromStatusMode(NULL, averageMode, 0, &hIcon);
 
-					if(hIcon)
+					if (hIcon)
 						changed = pcli->pfnTrayIconSetBaseInfo(CopyIcon(hIcon), NULL);
 					else
 						changed = pcli->pfnTrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL), NULL);
@@ -86,7 +86,7 @@ void TrayIconUpdateBase(const char *szChangedProto)
 				HICON hIcon = 0;
 				int iIcon = IconFromStatusMode(NULL, averageMode, 0, &hIcon);
 
-				if(hIcon)
+				if (hIcon)
 					changed = pcli->pfnTrayIconSetBaseInfo(CopyIcon(hIcon), NULL);
 				else
 					changed = pcli->pfnTrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL), NULL);
@@ -104,7 +104,7 @@ void TrayIconUpdateBase(const char *szChangedProto)
 					else
 						szProto = dbv.pszVal;
 					iIcon = IconFromStatusMode(szProto, szProto ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0), 0, &hIcon);
-					if(hIcon)
+					if (hIcon)
 						changed = pcli->pfnTrayIconSetBaseInfo(CopyIcon(hIcon), NULL);
 					else
 						changed = pcli->pfnTrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL), NULL);
@@ -117,7 +117,7 @@ void TrayIconUpdateBase(const char *szChangedProto)
 					int iIcon = IconFromStatusMode(szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0), 0, &hIcon);
 
 					pcli->cycleTimerId = SetTimer(NULL, 0, cfg::getWord("CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, pcli->pfnTrayCycleTimerProc);
-					if(hIcon)
+					if (hIcon)
 						changed = pcli->pfnTrayIconSetBaseInfo(CopyIcon(hIcon), NULL);
 					else
 						changed = pcli->pfnTrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL), NULL);
@@ -130,7 +130,7 @@ void TrayIconUpdateBase(const char *szChangedProto)
 					HICON hIcon = 0;
 					int iIcon = IconFromStatusMode(szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0), 0, &hIcon);
 
-					if(hIcon)
+					if (hIcon)
 						changed = pcli->pfnTrayIconSetBaseInfo(CopyIcon(hIcon), szChangedProto);
 					else
 						changed = pcli->pfnTrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL), szChangedProto);

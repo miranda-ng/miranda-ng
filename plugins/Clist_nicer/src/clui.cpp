@@ -1079,7 +1079,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			rcFrame.bottom -= cfg::dat.statusBarHeight;
 			rcFrame.top += (cfg::dat.topOffset - 1);
 
-			//if(g_CluiData.neeedSnap)
+			//if (g_CluiData.neeedSnap)
 			//    goto skipbg;
 			if (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN) {
 				if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
@@ -1175,7 +1175,7 @@ skipbg:
 					SetWindowPos(pcli->hwndStatus, 0, 0, new_window_rect.bottom - 20, new_window_rect.right, 20, SWP_NOZORDER);
 					GetWindowRect(pcli->hwndStatus, &rcStatus);
 					cfg::dat.statusBarHeight = (rcStatus.bottom - rcStatus.top);
-					if(wp->cx != g_oldSize.cx)
+					if (wp->cx != g_oldSize.cx)
 						SendMessage(hwnd, CLUIINTM_STATUSBARUPDATE, 0, 0);
 					RedrawWindow(pcli->hwndStatus, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 				} else
@@ -1418,8 +1418,8 @@ skipbg:
 
 		case WM_SYSCOMMAND: {
 			BYTE	bWindowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
-			if(SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle) {
-				if(wParam == SC_RESTORE) {
+			if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle) {
+				if (wParam == SC_RESTORE) {
 					CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
 					SendMessage(hwnd, WM_SIZE, 0, 0);
 					SendMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
@@ -1432,7 +1432,7 @@ skipbg:
 			if (wParam == SC_MAXIMIZE)
 				return 0;
 			else if (wParam == SC_MINIMIZE) {
-				if(SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle && !cfg::getByte("CList", "AlwaysHideOnTB", 0)) {
+				if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle && !cfg::getByte("CList", "AlwaysHideOnTB", 0)) {
 					cfg::writeByte("CList", "State", SETTING_STATE_MINIMIZED);
 					break;
 				}
@@ -1880,7 +1880,7 @@ buttons_done:
 		}
 
 		case WM_CLOSE:
-			if(SETTING_WINDOWSTYLE_DEFAULT == cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT) && !cfg::getByte("CList", "AlwaysHideOnTB", 0)) {
+			if (SETTING_WINDOWSTYLE_DEFAULT == cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT) && !cfg::getByte("CList", "AlwaysHideOnTB", 0)) {
 				PostMessage(hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 				return(0);
 			}

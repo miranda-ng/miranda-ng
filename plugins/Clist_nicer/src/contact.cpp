@@ -87,19 +87,19 @@ static void MF_CalcFrequency(HANDLE hContact, DWORD dwCutoffDays, int doSleep)
         dbei.pBlob = NULL;
         CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbei);
 
-        if(dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) { // record time of last event
+        if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) { // record time of last event
             eventCount++;
         }
-        if(eventCount >= 100 || dbei.timestamp < curTime - (dwCutoffDays * 86400))
+        if (eventCount >= 100 || dbei.timestamp < curTime - (dwCutoffDays * 86400))
             break;
         hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hEvent, 0);
-        if(doSleep && mf_updatethread_running == FALSE)
+        if (doSleep && mf_updatethread_running == FALSE)
             return;
-        if(doSleep)
+        if (doSleep)
             Sleep(100);
     }
 
-    if(eventCount == 0) {
+    if (eventCount == 0) {
         frequency = 0x7fffffff;
         cfg::writeDword(hContact, "CList", "mf_firstEvent", curTime - (dwCutoffDays * 86400));
     }
@@ -126,12 +126,12 @@ DWORD WINAPI MF_UpdateThread(LPVOID p)
         hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
         while (hContact != NULL && mf_updatethread_running) {
             MF_CalcFrequency(hContact, 50, 1);
-            if(mf_updatethread_running)
+            if (mf_updatethread_running)
                 WaitForSingleObject(hEvent, 5000);
             ResetEvent(hEvent);
             hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
         }
-        if(mf_updatethread_running)
+        if (mf_updatethread_running)
             WaitForSingleObject(hEvent, 1000000);
         ResetEvent(hEvent);
     }
@@ -163,7 +163,7 @@ void LoadContactTree(void)
         if ((!hideOffline || status != ID_STATUS_OFFLINE) && !CLVM_GetContactHiddenStatus(hContact, NULL, NULL))
             pcli->pfnChangeContactIcon(hContact, IconFromStatusMode((char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0), status, hContact, NULL), 1);
 
-        if(mc_disablehgh && !mc_hgh_removed) {
+        if (mc_disablehgh && !mc_hgh_removed) {
             if (!DBGetContactSetting(hContact, "CList", "Group", &dbv)) {
                 if (!strcmp(dbv.pszVal, "MetaContacts Hidden Group"))
                    DBDeleteContactSetting(hContact, "CList", "Group");
@@ -194,7 +194,7 @@ DWORD INTSORT_GetLastMsgTime(HANDLE hContact)
         dbei.pBlob = 0;
         dbei.cbBlob = 0;
         CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
-        if(dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
+        if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
             return dbei.timestamp;
         hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hDbEvent, 0);
     }
@@ -230,7 +230,7 @@ int __forceinline INTSORT_CompareContacts(const struct ClcContact* c1, const str
 	if ((c1->flags & CONTACTF_STICKY) != (c2->flags & CONTACTF_STICKY))
 		return 2 * (c2->flags & CONTACTF_STICKY) - 1;
 
-	if(bywhat == SORTBY_PRIOCONTACTS) {
+	if (bywhat == SORTBY_PRIOCONTACTS) {
 		if ((cfg::clcdat->exStyle & CLS_EX_DIVIDERONOFF) && ((c1->flags & CONTACTF_ONLINE) != (c2->flags & CONTACTF_ONLINE)))
 			return 0;
 		if ((c1->flags & CONTACTF_PRIORITY) != (c2->flags & CONTACTF_PRIORITY))
@@ -261,7 +261,7 @@ int __forceinline INTSORT_CompareContacts(const struct ClcContact* c1, const str
 		return CompareString(LOCALE_USER_DEFAULT, NORM_IGNORECASE, namea, -1, nameb, -1) - 2;
 	
 	case SORTBY_LASTMSG:
-		if(c1->extraCacheEntry >= 0 && c1->extraCacheEntry < cfg::nextCacheEntry && 
+		if (c1->extraCacheEntry >= 0 && c1->extraCacheEntry < cfg::nextCacheEntry && 
 		   c2->extraCacheEntry >= 0 && c2->extraCacheEntry < cfg::nextCacheEntry)
 			return(cfg::eCache[c2->extraCacheEntry].dwLastMsgTime - cfg::eCache[c1->extraCacheEntry].dwLastMsgTime);
 		else {
@@ -277,9 +277,9 @@ int __forceinline INTSORT_CompareContacts(const struct ClcContact* c1, const str
 		break;
 
 	case SORTBY_PROTO:
-      if(c1->bIsMeta)
+      if (c1->bIsMeta)
          szProto1 = c1->metaProto ? c1->metaProto : c1->proto;
-      if(c2->bIsMeta)
+      if (c2->bIsMeta)
          szProto2 = c2->metaProto ? c2->metaProto : c2->proto;
 
       rc = GetProtoIndex(szProto1) - GetProtoIndex(szProto2);
@@ -295,13 +295,13 @@ int CompareContacts(const struct ClcContact* c1, const struct ClcContact* c2)
 	int i, result;
 
 	result = INTSORT_CompareContacts(c1, c2, SORTBY_PRIOCONTACTS);
-	if(result)
+	if (result)
 		return result;
 
 	for (i = 0; i <= 2; i++) {
-		if(cfg::dat.sortOrder[i]) {
+		if (cfg::dat.sortOrder[i]) {
 			result = INTSORT_CompareContacts(c1, c2, cfg::dat.sortOrder[i]);
-			if(result != 0)
+			if (result != 0)
 				return result;
 		}
 	}

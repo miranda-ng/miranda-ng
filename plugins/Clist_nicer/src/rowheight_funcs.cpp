@@ -161,7 +161,7 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 		{
 			group=group->parent;
 			indent--;
-			if(group==NULL) break;	// Finished list
+			if (group==NULL) break;	// Finished list
 			group->scanIndex++;
 			continue;
 		}
@@ -173,7 +173,7 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 		// Calc row height
 		getRowHeight(dat, hwnd, Drawing, line_num, dwStyle);
 
-		if(group->cl.items[group->scanIndex]->type==CLCIT_GROUP && /*!IsBadCodePtr((FARPROC)group->cl.items[group->scanIndex]->group) && */ (group->cl.items[group->scanIndex]->group->expanded & 0x0000ffff)) {
+		if (group->cl.items[group->scanIndex]->type==CLCIT_GROUP && /*!IsBadCodePtr((FARPROC)group->cl.items[group->scanIndex]->group) && */ (group->cl.items[group->scanIndex]->group->expanded & 0x0000ffff)) {
 			group=group->cl.items[group->scanIndex]->group;
 			indent++;
 			group->scanIndex=0;
@@ -271,7 +271,7 @@ int RowHeight::getFloatingRowHeight(const ClcData *dat, HWND hwnd, ClcContact *c
 
     if (!dat->bisEmbedded) {
 		if (!(dwFlags & FLT_SIMPLE)) {
-			if(dwFlags & FLT_DUALROW) {
+			if (dwFlags & FLT_DUALROW) {
 				height += (dat->fontInfo[FONTID_STATUS].fontHeight + cfg::dat.avatarPadding);
 			}
 			// Avatar size

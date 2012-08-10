@@ -244,7 +244,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				clr_cluiframes = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_CLUIFRAMESBDR, CPM_GETCOLOUR, 0, 0);
 
-				if(g_hPenCLUIFrames)
+				if (g_hPenCLUIFrames)
 					DeleteObject(g_hPenCLUIFrames);
 				g_hPenCLUIFrames = CreatePen(PS_SOLID, 1, clr_cluiframes);
 				cfg::writeDword("CLUI", "clr_frameborder", clr_cluiframes);
@@ -290,16 +290,16 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (cfg::dat.bLayeredHack)
 					SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
 
-				if(g_CLUISkinnedBkColorRGB)
+				if (g_CLUISkinnedBkColorRGB)
 					cfg::dat.colorkey = g_CLUISkinnedBkColorRGB;
-				else if(cfg::dat.bClipBorder == 0 && !(cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME))
+				else if (cfg::dat.bClipBorder == 0 && !(cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME))
 					cfg::dat.colorkey = cfg::getDword("CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
 				else {
 					SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 					cfg::dat.colorkey = RGB(255, 0, 255);
 				}
 				if (cfg::dat.isTransparent || cfg::dat.bFullTransparent) {
-					if(API::sysConfig.isWin2KPlus) {
+					if (API::sysConfig.isWin2KPlus) {
 						SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 						SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
 						API::SetLayeredWindowAttributes(pcli->hwndContactList, 0, 255, LWA_ALPHA | LWA_COLORKEY);
@@ -435,11 +435,11 @@ DWORD GetCLUIWindowStyle(BYTE style)
 {
 	DWORD dwBasic = WS_CLIPCHILDREN;
 
-	if(style == SETTING_WINDOWSTYLE_THINBORDER)
+	if (style == SETTING_WINDOWSTYLE_THINBORDER)
 		return dwBasic | WS_BORDER;
-	else if(style == SETTING_WINDOWSTYLE_TOOLWINDOW || style == 0)
+	else if (style == SETTING_WINDOWSTYLE_TOOLWINDOW || style == 0)
 		return dwBasic | (WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME);
-	else if(style == SETTING_WINDOWSTYLE_NOBORDER)
+	else if (style == SETTING_WINDOWSTYLE_NOBORDER)
 		return dwBasic;
 
 	return dwBasic;
@@ -457,11 +457,11 @@ void ApplyCLUIBorderStyle(HWND hwnd)
 
 	if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT || windowStyle == SETTING_WINDOWSTYLE_TOOLWINDOW) {
 		SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME);
-		if(SETTING_WINDOWSTYLE_DEFAULT == windowStyle) {
+		if (SETTING_WINDOWSTYLE_DEFAULT == windowStyle) {
 			SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) & ~(WS_MAXIMIZEBOX/* | WS_MINIMIZEBOX*/));
 			minToTray = FALSE;
 		}
-	} else if(windowStyle == SETTING_WINDOWSTYLE_THINBORDER) {
+	} else if (windowStyle == SETTING_WINDOWSTYLE_THINBORDER) {
 		SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME));
 		SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) | WS_BORDER | WS_CLIPCHILDREN);
 	}

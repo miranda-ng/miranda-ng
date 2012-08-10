@@ -27,6 +27,7 @@ struct
 	char *pszButtonID, *pszButtonDn, *pszButtonName;
 	int    isPush, isVis, isAction;
 	HANDLE hButton;
+	HWND   hwndButton;
 }
 static BTNS[] = 
 {
@@ -101,6 +102,15 @@ void ClcSetButtonState(int ctrlid, int status)
 		}
 }
 
+HWND ClcGetButtonWindow(int ctrlid)
+{
+	for (int i=0; i < SIZEOF(BTNS); i++)
+		if (BTNS[i].ctrlid == ctrlid)
+			return BTNS[i].hwndButton;
+
+	return NULL;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 struct MButtonExtension : public MButtonCtrl
@@ -170,7 +180,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				HBRUSH hbr;
 				RECT rc = rcClient;
 
-				if(ctl->buttonItem) {
+				if (ctl->buttonItem) {
 					RECT rcParent;
 					POINT pt;
 					HWND hwndParent = pcli->hwndContactList;
@@ -184,16 +194,16 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 					ScreenToClient(pcli->hwndContactList, &pt);
 
 					BitBlt(hdcMem, 0, 0, rc.right, rc.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
-					if(imgItem)
+					if (imgItem)
 						DrawAlpha(hdcMem, &rc, 0, 0, 0, 0, 0, 0, 0, imgItem);
-					if(g_glyphItem) {
+					if (g_glyphItem) {
 						API::pfnAlphaBlend(hdcMem, (rc.right - glyphMetrics[2]) / 2, (rc.bottom - glyphMetrics[3]) / 2,
 							glyphMetrics[2], glyphMetrics[3], g_glyphItem->hdc,
 							glyphMetrics[0], glyphMetrics[1], glyphMetrics[2],
 							glyphMetrics[3], g_glyphItem->bf);
 					}
 				}
-				else if(ctl->bIsSkinned) {      // skinned
+				else if (ctl->bIsSkinned) {      // skinned
 					RECT rcParent;
 					POINT pt;
 					HWND hwndParent = pcli->hwndContactList;
@@ -206,21 +216,21 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 
 					ScreenToClient(pcli->hwndContactList, &pt);
 
-					if(HIWORD(ctl->bIsSkinned))
+					if (HIWORD(ctl->bIsSkinned))
 						item_id = ctl->stateId == PBS_HOT ? ID_EXTBKTBBUTTONMOUSEOVER : (ctl->stateId == PBS_PRESSED ? ID_EXTBKTBBUTTONSPRESSED : ID_EXTBKTBBUTTONSNPRESSED);
 					else
 						item_id = ctl->stateId == PBS_HOT ? ID_EXTBKBUTTONSMOUSEOVER : (ctl->stateId == PBS_PRESSED ? ID_EXTBKBUTTONSPRESSED : ID_EXTBKBUTTONSNPRESSED);
 					item = &StatusItems[item_id - ID_STATUS_OFFLINE];
 
 					SetTextColor(hdcMem, item->TEXTCOLOR);
-					if(item->IGNORED) {
-						if(pt.y < 10 || cfg::dat.bWallpaperMode)
+					if (item->IGNORED) {
+						if (pt.y < 10 || cfg::dat.bWallpaperMode)
 							BitBlt(hdcMem, 0, 0, rc.right, rc.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
 						else
 							FillRect(hdcMem, &rc, GetSysColorBrush(COLOR_3DFACE));
 					}
 					else {
-						if(pt.y < 10 || cfg::dat.bWallpaperMode)
+						if (pt.y < 10 || cfg::dat.bWallpaperMode)
 							BitBlt(hdcMem, 0, 0, rc.right, rc.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
 						else
 							FillRect(hdcMem, &rc, GetSysColorBrush(COLOR_3DFACE));
@@ -247,7 +257,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 						DeleteObject(hbr);
 					}
 				}
-				if(!ctl->bIsSkinned && ctl->buttonItem == 0) {
+				if (!ctl->bIsSkinned && ctl->buttonItem == 0) {
 					if (ctl->stateId == PBS_HOT || ctl->focus) {
 						if (ctl->bIsPushed)
 							DrawEdge(hdcMem, &rc, EDGE_ETCHED, BF_RECT | BF_SOFT);
@@ -303,7 +313,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 			} else {
 				GetTextExtentPoint32(hdcMem, ctl->szText, lstrlen(ctl->szText), &ctl->sLabel);
 
-				if(g_cxsmIcon + ctl->sLabel.cx + 8 > rcClient.right - rcClient.left)
+				if (g_cxsmIcon + ctl->sLabel.cx + 8 > rcClient.right - rcClient.left)
 					ctl->sLabel.cx = (rcClient.right - rcClient.left) - g_cxsmIcon - 8;
 				else
 					ctl->sLabel.cx += 4;
@@ -335,7 +345,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 			CopyRect(&rcText, &rcClient);
 			SetBkMode(hdcMem, TRANSPARENT);
 			// XP w/themes doesn't used the glossy disabled text.  Is it always using COLOR_GRAYTEXT?  Seems so.
-			if(!ctl->bIsSkinned)
+			if (!ctl->bIsSkinned)
 				SetTextColor(hdcMem, IsWindowEnabled(ctl->hwnd) || !ctl->hThemeButton ? GetSysColor(COLOR_BTNTEXT) : GetSysColor(COLOR_GRAYTEXT));
 			if (ctl->arrow)
 				DrawState(hdcMem, NULL, NULL, (LPARAM) ctl->arrow, 0, rcClient.right - rcClient.left - 5 - g_cxsmIcon + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), (rcClient.bottom - rcClient.top) / 2 - g_cysmIcon / 2 + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON : DST_ICON | DSS_DISABLED);
@@ -383,7 +393,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case BM_SETIMAGE:
-		if(!lParam)
+		if (!lParam)
 			break;
 
 		bct->hIml = 0;
@@ -518,6 +528,7 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 	MButtonExtension *bct = (MButtonExtension*) GetWindowLongPtr(hWnd, 0);
 	int idx = getButtonIndex(hButton);
 	if (idx != -1) { // adding built-in button
+		BTNS[idx].hwndButton = hWnd;
 		bct->iCtrlID = BTNS[idx].ctrlid;
 		if (BTNS[idx].isAction) 
 			bct->bSendOnDown = TRUE;
