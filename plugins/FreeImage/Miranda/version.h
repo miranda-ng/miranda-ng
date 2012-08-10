@@ -5,7 +5,7 @@
 #define __PLUGIN_NAME				"Miranda Image services"
 #define __INTERNAL_NAME				"AdvaImg"
 #define __FILENAME					"AdvaImg.dll"
-#define __DESCRIPTION 				"Generic image services for Miranda IM."
+#define __DESCRIPTION 				"Generic image services for Miranda NG."
 #define __AUTHOR					"Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)"
 #define __AUTHOREMAIL				""
 #define __AUTHORWEB					"http://miranda-ng.org/"
