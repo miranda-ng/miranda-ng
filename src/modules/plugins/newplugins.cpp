@@ -550,6 +550,23 @@ LBL_Error:
 	return TRUE;
 }
 
+static bool loadClistModule(TCHAR* exe, pluginEntry *p)
+{
+	BASIC_PLUGIN_INFO bpi;
+	if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_CLIST)) {
+		p->bpi = bpi;
+		p->pclass |= PCLASS_LAST | PCLASS_OK | PCLASS_BASICAPI;
+		RegisterModule(p->bpi.hInst);
+		if (bpi.clistlink() == 0) {
+			p->bpi = bpi;
+			p->pclass |= PCLASS_LOADED;
+			return true;
+		}
+		Plugin_Uninit(p);
+	}
+	return false;
+}
+
 static pluginEntry* getCListModule(TCHAR *exe, TCHAR *slice, int useWhiteList)
 {
 	for (int i=0; i < clistPlugins.getCount(); i++) {
@@ -559,19 +576,17 @@ static pluginEntry* getCListModule(TCHAR *exe, TCHAR *slice, int useWhiteList)
 		if (useWhiteList && !isPluginOnWhiteList(p->pluginname))
 			continue;
 
-		BASIC_PLUGIN_INFO bpi;
-		if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_CLIST)) {
-			p->bpi = bpi;
-			p->pclass |= PCLASS_LAST | PCLASS_OK | PCLASS_BASICAPI;
-			RegisterModule(p->bpi.hInst);
-			if (bpi.clistlink() == 0) {
-				p->bpi = bpi;
-				p->pclass |= PCLASS_LOADED;
-				return p;
-			}
-			Plugin_Uninit(p);
-		}
+		if ( loadClistModule(exe, p))
+			return p;
 	}
+
+	MuuidReplacement& stdClist = pluginDefault[11];
+	if ( LoadCorePlugin(stdClist)) {
+		mir_sntprintf(slice, &exe[MAX_PATH] - slice, _T("\\Core\\%s.dll"), stdClist.stdplugname);
+		if ( loadClistModule(exe, stdClist.pImpl))
+			return stdClist.pImpl;
+	}
+
 	return NULL;
 }
 
