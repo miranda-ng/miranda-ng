@@ -2,7 +2,7 @@
 astyle --force-indent=tab=4 --brackets=linux --indent-switches
 		--pad=oper --one-line=keep-blocks  --unpad=paren
 
-Chat module plugin for Miranda IM
+Chat module plugin for Miranda NG
 
 Copyright (C) 2003 Jörgen Persson
 

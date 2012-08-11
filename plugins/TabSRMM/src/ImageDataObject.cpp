@@ -2,7 +2,7 @@
  * astyle --force-indent=tab=4 --brackets=linux --indent-switches
  *		  --pad=oper --one-line=keep-blocks  --unpad=paren
  *
- * Miranda IM: the free IM client for Microsoft* Windows*
+ * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
  * all portions of this codebase are copyrighted to the people
@@ -30,7 +30,7 @@
  * This inserts a bitmap into a rich edit control using OLE
  * code partially taken from public example on the internet, source unknown.
  *
- * originally part of the smileyadd plugin for Miranda IM
+ * originally part of the smileyadd plugin for Miranda NG
  *
  */
 

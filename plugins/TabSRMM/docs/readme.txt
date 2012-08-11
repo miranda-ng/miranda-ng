@@ -1,4 +1,4 @@
-				tabbed  SRMM plugin for Miranda IM 0.9.0
+				tabbed  SRMM plugin for Miranda NG 0.9.0
 				----------------------------------------
 
 Online resources at: http://wiki.miranda.or.at, http://blog.miranda.or.at and
@@ -12,7 +12,7 @@ Created: August 2009
 1. Overview
 -----------
 
-tabSRMM is an advanced messaging module for Miranda IM (version 0.9.x or later
+tabSRMM is an advanced messaging module for Miranda NG (version 0.9.x or later
 required). It adds many new options and features to make instant messaging more
 enjoyable and allows you to tweak almost every aspect of the message window to
 fit your needs.
@@ -111,7 +111,7 @@ the development phase. I cannot name you all here, because it's just too many.
    requested new features to the plugin.
 
 * Joergen Persson for the original MUC ("multiuser chat") module for
-  Miranda IM. Large parts of tabSRMM's multiuser chat integration are based
+  Miranda NG. Large parts of tabSRMM's multiuser chat integration are based
   on his code.
 
 ------------

@@ -2,7 +2,7 @@
  * astyle --force-indent=tab=4 --brackets=linux --indent-switches
  *		  --pad=oper --one-line=keep-blocks  --unpad=paren
  *
- * Miranda IM: the free IM client for Microsoft* Windows*
+ * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
  * all portions of this codebase are copyrighted to the people
@@ -25,7 +25,7 @@
  * part of tabSRMM messaging plugin for Miranda.
  *
  * This code is based on and still contains large parts of the the
- * original chat module for Miranda IM, written and copyrighted
+ * original chat module for Miranda NG, written and copyrighted
  * by Joergen Persson in 2005.
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors

@@ -2,7 +2,7 @@
  * astyle --force-indent=tab=4 --brackets=linux --indent-switches
  *		  --pad=oper --one-line=keep-blocks  --unpad=paren
  *
- * Miranda IM: the free IM client for Microsoft* Windows*
+ * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
  * all portions of this codebase are copyrighted to the people
@@ -29,7 +29,7 @@
  * $Id: eventpopups.cpp 13750 2011-08-03 20:10:43Z george.hazan $
  *
  * This implements the event notification module for tabSRMM. The code
- * is largely based on the NewEventNotify plugin for Miranda IM. See
+ * is largely based on the NewEventNotify plugin for Miranda NG. See
  * notices below.
  *
  *  Name: NewEventNotify - Plugin for Miranda ICQ

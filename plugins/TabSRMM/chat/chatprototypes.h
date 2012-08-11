@@ -1,5 +1,5 @@
 /*
-Chat module plugin for Miranda IM
+Chat module plugin for Miranda NG
 
 Copyright (C) 2003-2009 Joergen Persson and others
 
