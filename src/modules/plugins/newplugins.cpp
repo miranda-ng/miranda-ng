@@ -82,6 +82,25 @@ bool hasMuuid(const BASIC_PLUGIN_INFO& bpi, const MUUID& uuid)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// banned plugins
+
+static const MUUID pluginBannedList[] = 
+{
+	{0x9d6c3213, 0x02b4, 0x4fe1, { 0x92, 0xe6, 0x52, 0x6d, 0xe2, 0x4f, 0x8d, 0x65 }},  // old chat
+	{0x240a91dc, 0x9464, 0x457a, { 0x97, 0x87, 0xff, 0x1e, 0xa8, 0x8e, 0x77, 0xe3 }},  // old clist
+	{0x657fe89b, 0xd121, 0x40c2, { 0x8a, 0xc9, 0xb9, 0xfa, 0x57, 0x55, 0xb3, 0x0c }}   // old srmm
+};
+
+static bool isPluginBanned(const MUUID& u1)
+{
+	for (int i=0; i < SIZEOF(pluginBannedList); i++)
+		if (equalUUID(pluginBannedList[i], u1))
+			return true;
+
+	return false;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // default plugins
 
 static MuuidReplacement pluginDefault[] = 
@@ -218,7 +237,7 @@ static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 	if (bpi->InfoEx == NULL || pi->cbSize != sizeof(PLUGININFOEX))
 		return FALSE;
 
-	if ( !validInterfaceList(bpi->Interfaces))
+	if ( !validInterfaceList(bpi->Interfaces) || isPluginBanned(pi->uuid))
 		return FALSE;
 
 	if (pi->shortName == NULL || pi->description == NULL || pi->author == NULL ||
