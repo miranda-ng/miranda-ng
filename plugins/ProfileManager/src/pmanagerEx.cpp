@@ -54,7 +54,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 static INT_PTR ChangePM(WPARAM wParam, LPARAM lParam)
 {
 	GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
-	ShellExecute(0, _T("open"), fn, _T("/FORCESHOW"), _T(""), 1);
+	ShellExecute(0, _T("open"), fn, _T("/ForceShowPM"), _T(""), 1);
 	CallService("CloseAction", 0, 0);
 	return 0;
 }
@@ -62,7 +62,7 @@ static INT_PTR ChangePM(WPARAM wParam, LPARAM lParam)
 static INT_PTR LoadPM(WPARAM wParam, LPARAM lParam)
 {
 	GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
-	ShellExecute(0, _T("open"), fn, _T("/FORCESHOW"), _T(""), 1);
+	ShellExecute(0, _T("open"), fn, _T("/ForceShowPM"), _T(""), 1);
 	return 0;
 }
 
@@ -82,7 +82,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.ptszName = _T("Load profile");
 	mi.pszService = "Database/LoadPM";
 	Menu_AddMainMenuItem(&mi);
-	
+
 	hChangePM = CreateServiceFunction("Database/ChangePM", ChangePM);
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);

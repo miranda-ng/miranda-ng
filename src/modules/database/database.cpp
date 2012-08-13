@@ -293,6 +293,7 @@ static int getProfileAutoRun(TCHAR *szProfile)
 // returns 1 if a profile was selected
 static int getProfile(TCHAR *szProfile, size_t cch)
 {
+	PROFILEMANAGERDATA pd = {0};
 	getProfilePath(g_profileDir, SIZEOF(g_profileDir));
 	if (IsInsideRootDir(g_profileDir, true))
 		if (WritePrivateProfileString(_T("Database"), _T("ProfileDir"), _T(""), mirandabootini))
@@ -308,16 +309,21 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 			_T("Miranda NG"), MB_ICONERROR | MB_OK);
 		return 0;
 	}
+
+	if ( CmdLine_GetOption( _T("ForceShowPM"))) {
+LBL_Show:
+		pd.szProfile = szProfile;
+		pd.szProfileDir = g_profileDir;
+		return getProfileManager(&pd);
+	}
+
 	if (getProfileAutoRun(szProfile))
 		return 1;
 
-	PROFILEMANAGERDATA pd = {0};
 	if (getProfile1(szProfile, cch, g_profileDir, &pd.noProfiles))
 		return 1;
 
-	pd.szProfile = szProfile;
-	pd.szProfileDir = g_profileDir;
-	return getProfileManager(&pd);
+	goto LBL_Show;
 }
 
 // carefully converts a file name from TCHAR* to char*
