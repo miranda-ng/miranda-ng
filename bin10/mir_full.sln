@@ -339,6 +339,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdMsg", "..\src\core\stdms
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PManagerEx", "..\plugins\ProfileManager\pmanagerEx.vcxproj", "{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1491,6 +1493,14 @@ Global
 		{F47EAB99-C78F-4A92-87D5-B0E16FE5A133}.Release|Win32.Build.0 = Release|Win32
 		{F47EAB99-C78F-4A92-87D5-B0E16FE5A133}.Release|x64.ActiveCfg = Release|x64
 		{F47EAB99-C78F-4A92-87D5-B0E16FE5A133}.Release|x64.Build.0 = Release|x64
+		{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}.Debug|Win32.Build.0 = Debug|Win32
+		{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}.Debug|x64.ActiveCfg = Debug|x64
+		{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}.Debug|x64.Build.0 = Debug|x64
+		{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}.Release|Win32.ActiveCfg = Release|Win32
+		{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}.Release|Win32.Build.0 = Release|Win32
+		{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}.Release|x64.ActiveCfg = Release|x64
+		{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
