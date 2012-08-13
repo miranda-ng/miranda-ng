@@ -21,6 +21,55 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void ProcessingDone(void);
 
+static void Finalize(time_t& ts)
+{
+	opts.dbChecker->Destroy();
+	opts.dbChecker = NULL;
+
+	if ( opts.hOutFile ) {
+		CloseHandle(opts.hOutFile);
+		opts.hOutFile = NULL;
+	}
+
+	if (errorCount && !opts.bBackup && !opts.bCheckOnly) {
+		time_t dlg_ts = time(NULL);
+		if (IDYES == MessageBox(NULL,
+							TranslateT("Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?"),
+							TranslateT("Miranda Database Tool"), MB_YESNO))
+			opts.bBackup = 1;
+		ts += time(NULL) - dlg_ts;
+	}
+
+	if (opts.bBackup) {
+		TCHAR dbPath[MAX_PATH],dbFile[MAX_PATH];
+		_tcscpy(dbPath, opts.filename);
+		TCHAR* str2 = _tcsrchr(dbPath, '\\');
+		if (str2 != NULL) {
+			_tcscpy(dbFile, str2+1);
+			*str2 = 0;
+		}
+		else {
+			_tcscpy(dbFile, dbPath);
+			dbPath[0] = 0;
+		}
+		for (int i = 1;;i++) {
+			if (i == 1) wsprintf(opts.backupFilename,TranslateT("%s\\Backup of %s"),dbPath,dbFile);
+			else wsprintf(opts.backupFilename,TranslateT("%s\\Backup (%d) of %s"),dbPath,i,dbFile);
+			if (_taccess(opts.backupFilename,0) == -1) break;
+		}
+
+		if ( !MoveFile(opts.filename,opts.backupFilename))
+			AddToStatus(STATUS_WARNING,TranslateT("Unable to rename original file"));
+	}
+	else if (!opts.bCheckOnly)
+		if ( !DeleteFile(opts.filename))
+			AddToStatus(STATUS_WARNING,TranslateT("Unable to delete original file"));
+
+	if (!opts.bCheckOnly)
+		if ( !MoveFile(opts.outputFilename,opts.filename))
+			AddToStatus(STATUS_WARNING,TranslateT("Unable to rename output file"));
+}
+
 void __cdecl WorkerThread(void *unused)
 {
 	int task, firstTime;
@@ -77,6 +126,7 @@ void __cdecl WorkerThread(void *unused)
 		int ret = opts.dbChecker->CheckDb(task, firstTime);
 		firstTime = 0;
 		if (ret == ERROR_OUT_OF_PAPER) {
+			Finalize(ts);
 			AddToStatus(STATUS_MESSAGE, TranslateT("Elapsed time: %d sec"), time(NULL)-ts);
 			if (errorCount) 
 				AddToStatus(STATUS_SUCCESS, TranslateT("All tasks completed but with errors (%d)"), errorCount);
@@ -91,52 +141,6 @@ void __cdecl WorkerThread(void *unused)
 		else if (ret != ERROR_SUCCESS)
 			break;
 	}
-
-	opts.dbChecker->Destroy();
-	opts.dbChecker = NULL;
-
-	if ( opts.hOutFile ) {
-		CloseHandle(opts.hOutFile);
-		opts.hOutFile = NULL;
-	}
-
-	if (errorCount && !opts.bBackup && !opts.bCheckOnly) {
-		time_t dlg_ts = time(NULL);
-		if (IDYES == MessageBox(NULL,
-							TranslateT("Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?"),
-							TranslateT("Miranda Database Tool"), MB_YESNO))
-			opts.bBackup = 1;
-		ts += time(NULL) - dlg_ts;
-	}
-
-	if (opts.bBackup) {
-		TCHAR dbPath[MAX_PATH],dbFile[MAX_PATH];
-		_tcscpy(dbPath, opts.filename);
-		TCHAR* str2 = _tcsrchr(dbPath, '\\');
-		if (str2 != NULL) {
-			_tcscpy(dbFile, str2+1);
-			*str2 = 0;
-		}
-		else {
-			_tcscpy(dbFile, dbPath);
-			dbPath[0] = 0;
-		}
-		for (int i = 1;;i++) {
-			if (i == 1) wsprintf(opts.backupFilename,TranslateT("%s\\Backup of %s"),dbPath,dbFile);
-			else wsprintf(opts.backupFilename,TranslateT("%s\\Backup (%d) of %s"),dbPath,i,dbFile);
-			if (_taccess(opts.backupFilename,0) == -1) break;
-		}
-
-		if ( !MoveFile(opts.filename,opts.backupFilename))
-			AddToStatus(STATUS_WARNING,TranslateT("Unable to rename original file"));
-	}
-	else if (!opts.bCheckOnly)
-		if ( !DeleteFile(opts.filename))
-			AddToStatus(STATUS_WARNING,TranslateT("Unable to delete original file"));
-
-	if (!opts.bCheckOnly)
-		if ( !MoveFile(opts.outputFilename,opts.filename))
-			AddToStatus(STATUS_WARNING,TranslateT("Unable to rename output file"));
 
 	ProcessingDone();
 }
