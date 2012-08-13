@@ -631,7 +631,7 @@ int LoadToolbarModule()
 {
 	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		if ( !db_get_b(NULL, TTB_OPTDIR, "WarningDone", 0))
-			MessageBox(0, TranslateT("Frames Services not found - plugin disabled.You need MultiWindow plugin."), _T("TopToolBar"), 0);
+			MessageBox(0, TranslateT("Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get it on http://miranda-ng.org"), _T("TopToolBar"), 0);
 		db_set_b(NULL, TTB_OPTDIR, "WarningDone", 1);
 		return 1;
 	}
