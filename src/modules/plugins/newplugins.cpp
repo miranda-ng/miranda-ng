@@ -739,9 +739,7 @@ int LoadNewPluginsModule(void)
 
 	// if Crash Dumper is present, load it to provide Crash Reports
 	if (pluginList_crshdmp != NULL && isPluginOnWhiteList(pluginList_crshdmp->pluginname)) {
-		if (pluginList_crshdmp->bpi.Load() == 0)
-			pluginList_crshdmp->pclass |= PCLASS_LOADED | PCLASS_LAST;
-		else
+		if ( !TryLoadPlugin(pluginList_crshdmp, false))
 			Plugin_Uninit(pluginList_crshdmp);
 	}
 

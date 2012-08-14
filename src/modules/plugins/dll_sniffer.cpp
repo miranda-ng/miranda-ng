@@ -123,6 +123,9 @@ MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin)
 				bHasMuuids = true;
 				pIds = (MUUID*)&pSecStart[ ptrFuncList[*ptrOrdRVA]];
 			}
+			// old plugin, skip it
+			else if ( !lstrcmpA(szName, "MirandaPluginInterfaces"))
+				__leave;
 		}
 
 		// a plugin might have no interfaces
