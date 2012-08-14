@@ -586,6 +586,7 @@ static bool loadClistModule(TCHAR* exe, pluginEntry *p)
 		if (bpi.clistlink() == 0) {
 			p->bpi = bpi;
 			p->pclass |= PCLASS_LOADED;
+			pluginDefault[11].pImpl = p;
 			return true;
 		}
 		Plugin_Uninit(p);
