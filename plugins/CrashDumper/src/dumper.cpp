@@ -555,7 +555,7 @@ void PrintVersionInfo(bkstring& buffer, unsigned flags)
 	buffer.append(TEXT("\r\n"));
 
 	buffer.appendfmt(TEXT("Nightly: %s\r\n"), _tcsstr(vertxt, TEXT("alpha")) ? TEXT("Yes") : TEXT("No")); 
-	buffer.appendfmt(TEXT("Unicode: %s\r\n"), _tcsstr(vertxt, TEXT("Unicode")) ? TEXT("Yes") : TEXT("No")); 
+	//buffer.appendfmt(TEXT("Unicode: %s\r\n"), _tcsstr(vertxt, TEXT("Unicode")) ? TEXT("Yes") : TEXT("No")); 
 
 	GetPluginsString(buffer, flags);
 
