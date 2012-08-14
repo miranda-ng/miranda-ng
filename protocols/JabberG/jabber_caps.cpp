@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_iq.h"
 #include "jabber_caps.h"
 #include "version.h"
+#include <m_version.h>
 
 const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 	{	_T(JABBER_FEAT_DISCO_INFO),           JABBER_CAPS_DISCO_INFO,           _T("Supports Service Discovery info"), },
@@ -81,7 +82,7 @@ const JabberFeatCapPair g_JabberFeatCapPairsExt[] = {
 	{	_T(JABBER_EXT_USER_ACTIVITY),     JABBER_CAPS_USER_ACTIVITY_NOTIFY },
 	{	_T(JABBER_EXT_GTALK_PMUC),        JABBER_CAPS_GTALK_PMUC           },
 	{	_T(JABBER_EXT_MIR_NOTES),         JABBER_CAPS_MIRANDA_NOTES,       },
-	{	_T(__VERSION_STRING),             JABBER_CAPS_MIRANDA_PARTIAL      },
+	{	_T(MIRANDA_VERSION_DISPLAY),      JABBER_CAPS_MIRANDA_PARTIAL      },
 	{	NULL,                             0                                }
 };
 
