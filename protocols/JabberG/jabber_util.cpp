@@ -809,7 +809,7 @@ void CJabberProto::SendPresenceTo( int status, TCHAR* to, HXML extra, const TCHA
 
 	// XEP-0115:Entity Capabilities
 	HXML c = p << XCHILDNS( _T("c"), _T(JABBER_FEAT_ENTITY_CAPS)) << XATTR( _T("node"), _T(JABBER_CAPS_MIRANDA_NODE)) 
-		<< XATTR( _T("ver"), _A2T(szCoreVersion));
+		<< XATTR( _T("ver"), szCoreVersion);
 
 	TCHAR szExtCaps[ 512 ] = _T("");
 

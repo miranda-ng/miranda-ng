@@ -43,7 +43,7 @@ int hLangpack;
 int g_cbCountries;
 struct CountryListEntry* g_countries;
 
-char szCoreVersion[200];
+TCHAR szCoreVersion[100];
 
 PLUGININFOEX pluginInfo = {
 	sizeof( PLUGININFOEX ),
@@ -223,7 +223,10 @@ extern "C" int __declspec( dllexport ) Load()
 	mir_getTMI( &tmi );
 	mir_getLP( &pluginInfo );
 
-	JCallService( MS_SYSTEM_GETVERSIONTEXT, SIZEOF(szCoreVersion), (LPARAM)szCoreVersion);
+	WORD v[4];
+	JCallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
+	mir_sntprintf(szCoreVersion, SIZEOF(szCoreVersion), _T("%d.%d.%d.%d"), v[0], v[1], v[2], v[3]);
+
 	JCallService( MS_UTILS_GETCOUNTRYLIST, ( WPARAM )&g_cbCountries, ( LPARAM )&g_countries );
 	
 	setlocale(LC_ALL, "");

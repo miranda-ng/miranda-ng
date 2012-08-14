@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_iq.h"
 #include "jabber_caps.h"
 #include "version.h"
-#include <m_version.h>
 
 const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 	{	_T(JABBER_FEAT_DISCO_INFO),           JABBER_CAPS_DISCO_INFO,           _T("Supports Service Discovery info"), },
@@ -82,7 +81,7 @@ const JabberFeatCapPair g_JabberFeatCapPairsExt[] = {
 	{	_T(JABBER_EXT_USER_ACTIVITY),     JABBER_CAPS_USER_ACTIVITY_NOTIFY },
 	{	_T(JABBER_EXT_GTALK_PMUC),        JABBER_CAPS_GTALK_PMUC           },
 	{	_T(JABBER_EXT_MIR_NOTES),         JABBER_CAPS_MIRANDA_NOTES,       },
-	{	_T(MIRANDA_VERSION_DISPLAY),      JABBER_CAPS_MIRANDA_PARTIAL      },
+	{	szCoreVersion,                    JABBER_CAPS_MIRANDA_PARTIAL      },
 	{	NULL,                             0                                }
 };
 
@@ -549,7 +548,7 @@ CJabberClientCaps * CJabberClientCapsManager::FindClient( const TCHAR *szNode )
 }
 
 void CJabberClientCapsManager::AddDefaultCaps() {
-	SetClientCaps( _T(JABBER_CAPS_MIRANDA_NODE), _A2T(szCoreVersion), JABBER_CAPS_MIRANDA_ALL );
+	SetClientCaps( _T(JABBER_CAPS_MIRANDA_NODE), szCoreVersion, JABBER_CAPS_MIRANDA_ALL );
 
 	for ( int i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++ )
 		SetClientCaps( _T(JABBER_CAPS_MIRANDA_NODE), g_JabberFeatCapPairsExt[i].szFeature, g_JabberFeatCapPairsExt[i].jcbCap );
@@ -689,7 +688,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest( HXML, CJabberIqInfo* pInfo, co
 			form << XCHILD( _T("field")) << XATTR( _T("var"), _T("os_version")) << XCHILD( _T("value"), os );
 		}
 		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("software")) << XCHILD( _T("value"), _T("Miranda NG Jabber Protocol"));
-		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("software_version")) << XCHILD( _T("value"), _A2T(szCoreVersion));
+		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("software_version")) << XCHILD( _T("value"), szCoreVersion);
 	}
 
 	ppro->m_ThreadInfo->send( iq );

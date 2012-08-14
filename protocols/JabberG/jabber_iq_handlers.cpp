@@ -293,7 +293,7 @@ BOOL CJabberProto::OnIqRequestVersion( HXML, CJabberIqInfo* pInfo )
 	XmlNodeIq iq( _T("result"), pInfo );
 	HXML query = iq << XQUERY( _T(JABBER_FEAT_VERSION));
 	query << XCHILD( _T("name"), _T("Miranda NG Jabber"));
-	query << XCHILD( _T("version"), _A2T(szCoreVersion));
+	query << XCHILD( _T("version"), szCoreVersion);
 
 	if ( m_options.ShowOSVersion )
 	{

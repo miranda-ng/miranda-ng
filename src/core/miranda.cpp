@@ -375,7 +375,7 @@ static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
 	GetModuleFileName(NULL, filename, SIZEOF(filename));
 
 	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
-	PVOID pVerInfo = mir_alloc(verInfoSize);
+	PVOID pVerInfo = _alloca(verInfoSize);
 	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
 
 	UINT blockSize;
@@ -385,28 +385,45 @@ static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
 		((vsffi->dwProductVersionMS&0xFF)<<16)|
 		(((vsffi->dwProductVersionLS>>16)&0xFF)<<8)|
 		(vsffi->dwProductVersionLS&0xFF);
-	mir_free(pVerInfo);
 	return (INT_PTR)ver;
+}
+
+static INT_PTR GetMirandaFileVersion(WPARAM, LPARAM lParam)
+{
+	TCHAR filename[MAX_PATH];
+	GetModuleFileName(NULL, filename, SIZEOF(filename));
+
+	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
+	PVOID pVerInfo = _alloca(verInfoSize);
+	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
+
+	UINT blockSize;
+	VS_FIXEDFILEINFO *vsffi;
+	VerQueryValue(pVerInfo, _T("\\"), (PVOID*)&vsffi, &blockSize);
+
+	WORD* p = (WORD*)lParam;
+	p[0] = HIWORD(vsffi->dwProductVersionMS);
+	p[1] = LOWORD(vsffi->dwProductVersionMS);
+	p[2] = HIWORD(vsffi->dwProductVersionLS);
+	p[3] = LOWORD(vsffi->dwProductVersionLS);
+	return 0;
 }
 
 static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR filename[MAX_PATH], *productVersion;
-	DWORD unused;
-	DWORD verInfoSize;
-	UINT blockSize;
-	PVOID pVerInfo;
-
 	GetModuleFileName(NULL, filename, SIZEOF(filename));
-	verInfoSize = GetFileVersionInfoSize(filename, &unused);
-	pVerInfo = mir_alloc(verInfoSize);
+
+	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
+	PVOID pVerInfo = _alloca(verInfoSize);
 	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
+
+	UINT blockSize;
 	VerQueryValue(pVerInfo, _T("\\StringFileInfo\\000004b0\\ProductVersion"), (LPVOID*)&productVersion, &blockSize);
 	strncpy((char*)lParam, _T2A(productVersion), wParam);
 	#if defined(_WIN64)
 		strcat_s((char*)lParam, wParam, " x64");
 	#endif
-	mir_free(pVerInfo);
 	return 0;
 }
 
@@ -452,6 +469,7 @@ int LoadSystemModule(void)
 	CreateServiceFunction(MS_SYSTEM_TERMINATED, MirandaIsTerminated);
 	CreateServiceFunction(MS_SYSTEM_OKTOEXIT, OkToExit);
 	CreateServiceFunction(MS_SYSTEM_GETVERSION, GetMirandaVersion);
+	CreateServiceFunction(MS_SYSTEM_GETFILEVERSION, GetMirandaFileVersion);
 	CreateServiceFunction(MS_SYSTEM_GETVERSIONTEXT, GetMirandaVersionText);
 	CreateServiceFunction(MS_SYSTEM_WAITONHANDLE, WaitOnHandle);
 	CreateServiceFunction(MS_SYSTEM_REMOVEWAIT, RemoveWait);
