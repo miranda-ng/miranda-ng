@@ -524,89 +524,73 @@ static BOOL CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
  *
  * @return
  */
+
 static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 {
-	TCHAR	*commentFix = NULL;
 	char	*pBlob = (char *)dbe->pBlob;
 	bool	fAddEllipsis = false;
 
-	int		iPreviewLimit = nen_options.iLimitPreview;
-
+	int iPreviewLimit = nen_options.iLimitPreview;
 	if (iPreviewLimit > 500 || iPreviewLimit == 0)
 		iPreviewLimit = 500;
 
 	switch (eventType) {
-		case EVENTTYPE_MESSAGE:
-			if (pBlob) {
-				if (nen_options.bPreview) {
-					TCHAR* buf = DbGetEventTextT(dbe, CP_ACP);
-					if (lstrlen(buf) > iPreviewLimit) {
-						fAddEllipsis = true;
-						int iIndex = iPreviewLimit;
-						int iWordThreshold = 20;
-						while(iIndex && buf[iIndex] != ' ' && iWordThreshold--) {
-							buf[iIndex--] = 0;
-						}
-						buf[iIndex] = 0;
+	case EVENTTYPE_MESSAGE:
+		if (pBlob) {
+			if (nen_options.bPreview) {
+				TCHAR* buf = DbGetEventTextT(dbe, CP_ACP);
+				if (lstrlen(buf) > iPreviewLimit) {
+					fAddEllipsis = true;
+					int iIndex = iPreviewLimit;
+					int iWordThreshold = 20;
+					while(iIndex && buf[iIndex] != ' ' && iWordThreshold--) {
+						buf[iIndex--] = 0;
 					}
-					buf = (TCHAR *)mir_realloc(buf, (lstrlen(buf) + 5) * sizeof(TCHAR));
-					if (fAddEllipsis)
-						_tcscat(buf, _T("..."));
-					return(buf);
+					buf[iIndex] = 0;
+				}
+				buf = (TCHAR *)mir_realloc(buf, (lstrlen(buf) + 5) * sizeof(TCHAR));
+				if (fAddEllipsis)
+					_tcscat(buf, _T("..."));
+				return buf;
+			}
+		}
+		return mir_tstrdup( TranslateT("Message"));
+
+	case EVENTTYPE_FILE:
+		if (pBlob) {
+			if (!nen_options.bPreview)
+				return mir_tstrdup(TranslateT("Incoming file"));
+
+			if (dbe->cbBlob > 5) { // min valid size = (sizeof(DWORD) + 1 character file name + terminating 0)
+				char* szFileName = (char *)dbe->pBlob + sizeof(DWORD);
+				char* szDescr = 0;
+				size_t namelength = Utils::safe_strlen(szFileName, dbe->cbBlob - sizeof(DWORD));
+
+				if (dbe->cbBlob > (sizeof(DWORD) + namelength + 1))
+					szDescr = szFileName + namelength + 1;
+
+				mir_ptr<TCHAR> tszFileName( DbGetEventStringT(dbe, szFileName));
+				TCHAR buf[1024];
+
+				if (szDescr && Utils::safe_strlen(szDescr, dbe->cbBlob - sizeof(DWORD) - namelength - 1) > 0) {
+					mir_ptr<TCHAR> tszDescr( DbGetEventStringT(dbe, szDescr));
+					if (tszFileName && tszDescr) {
+						mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s (%s)"), TranslateT("Incoming file"), tszFileName, tszDescr);
+						return mir_tstrdup(buf);
+					}
+				}
+
+				if (tszFileName) {
+					mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s (%s)"), TranslateT("Incoming file"), tszFileName, TranslateT("No description given"));
+					return mir_tstrdup(buf);
 				}
 			}
-			commentFix = mir_tstrdup(TranslateT("Message"));
-			break;
-		case EVENTTYPE_FILE:
-			if (pBlob) {
-				if (!nen_options.bPreview) {
-					commentFix = mir_tstrdup(TranslateT("Incoming file"));
-					break;
-				}
-				if (dbe->cbBlob > 5) {			// min valid size = (sizeof(DWORD) + 1 character file name + terminating 0)
-					char* szFileName = (char *)dbe->pBlob + sizeof(DWORD);
-					char* szDescr = 0;
-					size_t namelength = Utils::safe_strlen(szFileName, dbe->cbBlob - sizeof(DWORD));
+		}
+		return mir_tstrdup(TranslateT("Incoming file (invalid format"));
 
-					if (dbe->cbBlob > (sizeof(DWORD) + namelength + 1))
-						szDescr = szFileName + namelength + 1;
-
-					TCHAR* tszFileName = DbGetEventStringT(dbe, szFileName );
-					TCHAR* buf = 0;
-
-					if (szDescr && Utils::safe_strlen(szDescr, dbe->cbBlob - sizeof(DWORD) - namelength - 1) > 0) {
-						TCHAR* tszDescr = DbGetEventStringT(dbe, szDescr);
-
-						if (tszFileName && tszDescr) {
-							size_t uRequired = sizeof(TCHAR) * (_tcslen(TranslateT("Incoming file")) + namelength + _tcslen(tszDescr) + 10);
-							buf = (TCHAR *)mir_alloc(uRequired);
-							mir_sntprintf(buf, uRequired, _T("%s: %s (%s)"), TranslateT("Incoming file"),
-										  tszFileName, tszDescr);
-							mir_free(tszDescr);
-							mir_free(tszFileName);
-							return(buf);
-						}
-					}
-
-					if (tszFileName) {
-						size_t uRequired = sizeof(TCHAR) * (_tcslen(TranslateT("Incoming file")) + namelength +
-								_tcslen(TranslateT("No description given")) + 10);
-						buf = (TCHAR *)mir_alloc(uRequired);
-						mir_sntprintf(buf, uRequired, _T("%s: %s (%s)"), TranslateT("Incoming file"),
-									  tszFileName, TranslateT("No description given"));
-						mir_free(tszFileName);
-					}
-					if (buf)
-						return(buf);
-				}
-			}
-			commentFix = mir_tstrdup(TranslateT("Incoming file (invalid format"));
-			break;
-		default:
-			commentFix = mir_tstrdup(TranslateT("Unknown event"));
-			break;
+	default:
+		return mir_tstrdup(TranslateT("Unknown event"));
 	}
-	return commentFix;
 }
 
 static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)

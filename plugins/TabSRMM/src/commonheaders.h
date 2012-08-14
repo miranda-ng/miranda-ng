@@ -183,6 +183,7 @@
 #include  <newpluginapi.h>
 #include  <m_imgsrvc.h>
 #include  <m_system.h>
+#include  <m_system_cpp.h>
 #include  <m_database.h>
 #include  <m_langpack.h>
 #include  <m_button.h>
