@@ -26,7 +26,7 @@ BEGIN
         BLOCK "000004b0"
         BEGIN
             VALUE "Comments", MTEXT_DESCRIPTION
-            VALUE "CompanyName", "Miranda IM"
+            VALUE "CompanyName", "Miranda NG"
             VALUE "FileDescription", MTEXT_DISPLAYNAME
             VALUE "FileVersion", __VERSION_STRING_DOT
             VALUE "InternalName", MODULNAME

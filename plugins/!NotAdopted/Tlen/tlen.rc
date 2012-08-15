@@ -395,7 +395,7 @@ BEGIN
         BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", "http://mtlen.berlios.de\0"
-            VALUE "FileDescription", "Tlen Protocol Plugin for Miranda IM\0"
+            VALUE "FileDescription", "Tlen Protocol Plugin for Miranda NG\0"
             VALUE "FileVersion", TLEN_VERSION_STRING
             VALUE "InternalName", "tlen\0"
             VALUE "LegalCopyright", "Copyright (c) 2002-2011 Santithorn Bunchua, Piotr Piastucki\0"

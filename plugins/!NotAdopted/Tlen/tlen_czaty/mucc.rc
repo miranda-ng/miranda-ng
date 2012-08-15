@@ -514,7 +514,7 @@ BEGIN
         BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", "http://mtlen.berlios.de\0"
-            VALUE "FileDescription", "Group Chats GUI Plugin for Miranda IM\0"
+            VALUE "FileDescription", "Group Chats GUI Plugin for Miranda NG\0"
             VALUE "FileVersion", MUCC_VERSION_STRING
             VALUE "InternalName", "tlen_chat\0"
             VALUE "LegalCopyright", "Copyright (c) 2004-2006 Piotr Piastucki\0"

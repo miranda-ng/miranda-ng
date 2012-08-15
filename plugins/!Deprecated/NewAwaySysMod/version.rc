@@ -33,7 +33,7 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "NightFox; Deathdemon; XF007; Goblineye Entertainment"
-            VALUE "FileDescription", "New Away System plugin for Miranda IM"
+            VALUE "FileDescription", "New Away System plugin for Miranda NG"
             VALUE "FileVersion", STRFILEVER
             VALUE "LegalCopyright", "© 2010 NightFox; © 2005-2006 Chervov Dmitry; © 2004-2005 Iksaif Entertainment; © 2002-2003 Goblineye Entertainment"
 #ifdef _UNICODE

@@ -9,7 +9,7 @@ BLOCK "StringFileInfo"
 	BLOCK "000004b0"
 	{
 		VALUE "CompanyName", "Miranda Open Source Project"
-		VALUE "FileDescription", "ImportTXT plugin for Miranda IM"
+		VALUE "FileDescription", "ImportTXT plugin for Miranda NG"
 		VALUE "FileVersion", "0.0.1.10"
 		VALUE "InternalName", "importtxt"
 		VALUE "LegalCopyright", "© 2008 Abyss"

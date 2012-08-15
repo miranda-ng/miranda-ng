@@ -446,7 +446,7 @@ BEGIN
     CONTROL         "Ex-/Import items",RADIO_OPT_MI_ACCOUNT_EXIMPORT,"Button",BS_AUTORADIOBUTTON,222,84,80,10
     GROUPBOX        "Extra Icons",GROUP_OPT_EXTRAICONS,6,105,144,117
     LTEXT           "This options require a contact list which supports extra icons.",TXT_OPT_DEFAULTICONS2,12,117,131,24
-    LTEXT           "Note: Miranda IM will have to be restarted for changes to take effect.",TXT_OPT_EXTRAICONS,12,148,131,24,NOT WS_VISIBLE
+    LTEXT           "Note: Miranda NG will have to be restarted for changes to take effect.",TXT_OPT_EXTRAICONS,12,148,131,24,NOT WS_VISIBLE
     LTEXT           "Gender:",TXT_OPT_GENDER,12,148,40,8
     COMBOBOX        COMBO_OPT_GENDER,12,158,131,137,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Replace the following default icons:",TXT_OPT_DEFAULTICONS,12,180,132,8

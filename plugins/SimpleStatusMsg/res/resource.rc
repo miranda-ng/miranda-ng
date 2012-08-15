@@ -45,7 +45,7 @@ BEGIN
         BEGIN
             VALUE "Comments", "Licensed under the terms of the GNU General Public License"
             VALUE "CompanyName", "Bartosz 'Dezeath' Bia³ek, Harven"
-            VALUE "FileDescription", "Simple Status Message plugin for Miranda IM"
+            VALUE "FileDescription", "Simple Status Message plugin for Miranda NG"
             VALUE "FileVersion", "1.9.0.4"
             VALUE "InternalName", "simplestatusmsg"
             VALUE "LegalCopyright", "Copyright © 2006-2011 Bartosz Bia³ek, © 2005 Harven"

@@ -42,7 +42,7 @@ STYLE DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Start Skype with Miranda IM if not running using the following command line options:",
+    CONTROL         "Start Skype with Miranda NG if not running using the following command line options:",
                     IDC_STARTSKYPE,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
                     WS_TABSTOP,10,4,290,10
     CONTROL         "/NOSPLASH - Don't show splash screen on startup",
@@ -66,9 +66,9 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,36,103,264,10
     EDITTEXT        IDC_COMMANDLINE,47,116,236,12,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BROWSECMDL,285,115,16,15
-    CTEXT           "* Relative path root is Miranda IM folder",
+    CTEXT           "* Relative path root is Miranda NG folder",
                     IDC_STATIC_PATHINFO,10,136,290,8,NOT WS_GROUP
-    CONTROL         "Shutdown Skype when you close Miranda IM",IDC_SHUTDOWN,
+    CONTROL         "Shutdown Skype when you close Miranda NG",IDC_SHUTDOWN,
                     "Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,10,151,
                     290,10
     CONTROL         "Unload Skype when you change to Offline status",
@@ -141,7 +141,7 @@ BEGIN
     EDITTEXT        IDC_HOST,41,19,133,12,ES_AUTOHSCROLL
     LTEXT           "Port:",IDC_STATIC_PORT,180,21,16,10,0,WS_EX_RIGHT
     EDITTEXT        IDC_PORT,200,19,29,12,ES_AUTOHSCROLL | ES_NUMBER
-    CTEXT           "* You must restart Miranda IM in order to let the settings take effect",
+    CTEXT           "* You must restart Miranda NG in order to let the settings take effect",
                     IDC_STATIC_RESTART,10,54,290,8,NOT WS_GROUP
     CONTROL         "This Skype proxy requires password authentication:",
                     IDC_REQPASS,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
@@ -401,7 +401,7 @@ BEGIN
         BLOCK "000004b0"
         BEGIN
             VALUE "Comments", "\0"
-            VALUE "CompanyName", "Miranda IM community\0"
+            VALUE "CompanyName", "Miranda NG community\0"
             VALUE "FileDescription", "Skype\0"
             VALUE "FileVersion", "0, 0, 0, 53\0"
             VALUE "InternalName", "Skype\0"
@@ -409,7 +409,7 @@ BEGIN
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "Skype.dll\0"
             VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "Skype Protocol for Miranda IM\0"
+            VALUE "ProductName", "Skype Protocol for Miranda NG\0"
             VALUE "ProductVersion", "0, 0, 0, 53\0"
             VALUE "SpecialBuild", "\0"
         END

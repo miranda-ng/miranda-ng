@@ -69,7 +69,7 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "New ""Notes And Reminders"" plugin for Miranda IM"
+            VALUE "Comments", "New ""Notes And Reminders"" plugin for Miranda NG"
             VALUE "CompanyName", "Jokusoftware, Digital Forcess"
             VALUE "FileDescription", "New ""Notes And Reminders"""
             VALUE "FileVersion", "0.0.5.1"

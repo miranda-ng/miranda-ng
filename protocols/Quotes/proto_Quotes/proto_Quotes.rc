@@ -94,7 +94,7 @@ BEGIN
             VALUE "InternalName", "proto_Quotes"
             VALUE "LegalCopyright", "Do not worry!"
             VALUE "OriginalFilename", "proto_Quotes.dll"
-            VALUE "ProductName", "Miranda IM"
+            VALUE "ProductName", "Miranda NG"
             VALUE "ProductVersion", "0, 0, 0, 15"
             VALUE "SpecialBuild", "3"
         END

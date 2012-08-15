@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Gadu-Gadu Plugin for Miranda IM
+// Gadu-Gadu Plugin for Miranda NG
 //
 // Copyright (c) 2010-2012 Bartosz Bia³ek
 //
@@ -44,7 +44,7 @@ BEGIN
         BEGIN
             VALUE "Comments", "Licensed under the terms of the GNU General Public License"
             VALUE "CompanyName", "Bartosz Bia³ek, Adam Strzelecki"
-            VALUE "FileDescription", "Gadu-Gadu Protocol Plugin for Miranda IM"
+            VALUE "FileDescription", "Gadu-Gadu Protocol Plugin for Miranda NG"
             VALUE "FileVersion", __VERSION_STRING
             VALUE "InternalName", "gg"
             VALUE "LegalCopyright", "Copyright © 2009-2012 Bartosz Bia³ek, 2003-2009 Adam Strzelecki"

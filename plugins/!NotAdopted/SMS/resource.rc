@@ -50,7 +50,7 @@ BEGIN
             VALUE "InternalName", "sms plugin"
             VALUE "LegalCopyright", "Copyright © 2002-3 Ariel Shulman (Original by Richard Hughes), 2007-2009 Rozhuk Ivan (Ivan 83)"
             VALUE "OriginalFilename", "sms.dll"
-            VALUE "ProductName", "Miranda IM"
+            VALUE "ProductName", "Miranda NG"
             VALUE "ProductVersion", "0.2.5.3"
         END
     END

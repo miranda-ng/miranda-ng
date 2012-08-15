@@ -71,7 +71,7 @@ BEGIN
                     WS_TABSTOP,137,27,9,11
     LTEXT           "seconds",IDC_TEXT_SECONDS,146,29,48,8,NOT WS_GROUP
     GROUPBOX        "Shutdown Events",IDC_STATIC,3,51,196,66,WS_GROUP
-    CONTROL         "&Activate automatic shutdown with the same settings again if Miranda IM was closed with automatic shutdown enabled",
+    CONTROL         "&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled",
                     IDC_CHECK_REMEMBERONRESTART,"Button",BS_AUTOCHECKBOX | 
                     BS_TOP | BS_MULTILINE | WS_TABSTOP,12,64,182,27
     CONTROL         "&Ignore hidden or temporary contacts when watching for all contacts being offline",
@@ -127,7 +127,7 @@ BEGIN
                     BS_MULTILINE | WS_GROUP | WS_TABSTOP,13,78,211,18
     EDITTEXT        IDC_EDIT_MESSAGE,25,96,199,21,ES_MULTILINE | 
                     ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
-    CONTROL         "Shutdown when Miranda IM becomes &idle",IDC_CHECK_IDLE,
+    CONTROL         "Shutdown when Miranda NG becomes &idle",IDC_CHECK_IDLE,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | 
                     WS_GROUP | WS_TABSTOP,13,123,164,9
     CONTROL         "Configure",IDC_URL_IDLE,"Hyperlink",WS_TABSTOP,179,124,
@@ -171,7 +171,7 @@ BEGIN
                     WS_EX_TRANSPARENT
     LTEXT           "",IDC_TEXT_HEADER,34,8,162,18,SS_NOPREFIX | NOT 
                     WS_GROUP
-    LTEXT           "Unsaved data in open applications except Miranda IM might get lost.",
+    LTEXT           "Unsaved data in open applications except Miranda NG might get lost.",
                     IDC_TEXT_UNSAVEDWARNING,33,31,161,17,SS_NOPREFIX | NOT 
                     WS_VISIBLE
     LTEXT           "Please click ""Cancel"" if you would like to abort the process.",

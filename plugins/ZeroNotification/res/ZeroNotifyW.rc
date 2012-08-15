@@ -43,12 +43,12 @@ BEGIN
     BEGIN
         BLOCK "080004b0"
         BEGIN
-            VALUE "FileDescription", "Zero Notification Plugin for Miranda IM"
+            VALUE "FileDescription", "Zero Notification Plugin for Miranda NG"
             VALUE "FileVersion", "VER_MAJOR.VER_MINOR.VER_RELEASE.VER_BUILD"
             VALUE "InternalName", "ZeroNotify"
             VALUE "LegalCopyright", "© 2005 bidyut, © 2009 Maat"
             VALUE "OriginalFilename", "zeronotifyw.dll"
-            VALUE "ProductName", "Zero Notification Plugin for Miranda IM"
+            VALUE "ProductName", "Zero Notification Plugin for Miranda NG"
             VALUE "ProductVersion", "0.0.0.5"
         END
     END

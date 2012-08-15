@@ -34,7 +34,7 @@ BEGIN
         BEGIN
             VALUE "Comments", "Shows a small tooltip above system tray area when a contact status is changed."
             VALUE "CompanyName", "Gneedah software"
-            VALUE "FileDescription", "Tooltip Notify plugin for Miranda IM."
+            VALUE "FileDescription", "Tooltip Notify plugin for Miranda NG."
             VALUE "FileVersion", "*,*,*,*"
             VALUE "InternalName", "ttnotify.dll"
             VALUE "LegalCopyright", "© 2004-2008  Gneedah software"

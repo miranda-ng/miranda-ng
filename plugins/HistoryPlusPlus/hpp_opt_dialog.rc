@@ -33,5 +33,5 @@ FONT 8, "MS SHELL DLG"
 
    CONTROL "Visit Wiki page for more options", 250, "Hyperlink", WS_CHILD | WS_TABSTOP | 0x1, 23, 217, 268, 10
 
-   CONTROL "Please restart Miranda IM for your changes to take effect.", 999, STATIC, SS_CENTER | NOT WS_VISIBLE, 6, 230, 302, 10
+   CONTROL "Please restart Miranda NG for your changes to take effect.", 999, STATIC, SS_CENTER | NOT WS_VISIBLE, 6, 230, 302, 10
 }

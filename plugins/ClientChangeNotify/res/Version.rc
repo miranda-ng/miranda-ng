@@ -28,7 +28,7 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "FileDescription", "ClientChangeNotify plugin for Miranda IM."
+            VALUE "FileDescription", "ClientChangeNotify plugin for Miranda NG."
             VALUE "InternalName", "ClientChangeNotify"
             VALUE "LegalCopyright", "© 2006-2008 Chervov Dmitry"
             VALUE "OriginalFilename", "ClientChangeNotify.dll"

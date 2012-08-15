@@ -32,9 +32,9 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg"
 BEGIN
     GROUPBOX        "Autorun",0,3,3,193,60
-    CONTROL         "Launch Miranda IM at system startup",IDC_AUTORUN,"Button",
+    CONTROL         "Launch Miranda NG at system startup",IDC_AUTORUN,"Button",
                     BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,15,20,165,10
-    LTEXT           "Note: At startup Miranda IM will use current profile",
+    LTEXT           "Note: At startup Miranda NG will use current profile",
                     IDC_STATIC,15,35,165,20,NOT WS_GROUP
 END
 

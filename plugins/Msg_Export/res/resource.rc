@@ -43,7 +43,7 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "Message export plugin for Miranda IM (mod by ring0)"
+            VALUE "Comments", "Message export plugin for Miranda NG (mod by ring0)"
             VALUE "CompanyName", "Tip Top Tools"
             VALUE "FileDescription", "Message export"
             VALUE "FileVersion", "3, 1, 0, 3"

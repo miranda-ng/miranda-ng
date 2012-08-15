@@ -33,7 +33,7 @@ BEGIN
             VALUE "LegalCopyright", __COPYRIGHT
             VALUE "OriginalFilename", __FILENAME
             VALUE "FileVersion", __VERSION_STRING
-            VALUE "ProductName", "Miranda IM"
+            VALUE "ProductName", "Miranda NG"
         END
     END
     BLOCK "VarFileInfo"

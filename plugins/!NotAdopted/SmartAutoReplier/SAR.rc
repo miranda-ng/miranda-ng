@@ -242,7 +242,7 @@ BEGIN
         BLOCK "042204b0"
         BEGIN
             VALUE "CompanyName", "Volodymyr Shcherbyna, www.shcherbyna.com"
-            VALUE "FileDescription", "Smart Auto Replier plugin for Miranda IM, http://shcherbyna.com/forum/viewforum.php?f=8"
+            VALUE "FileDescription", "Smart Auto Replier plugin for Miranda NG, http://shcherbyna.com/forum/viewforum.php?f=8"
             VALUE "FileVersion", "2.0.0.3"
             VALUE "InternalName", "sar.dll"
             VALUE "LegalCopyright", "Copyright (C) 2004 - 2012 by Volodymyr Shcherbyna"

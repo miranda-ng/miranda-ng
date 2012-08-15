@@ -26,7 +26,7 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "FileDescription", "Iconpack for SecureIM plugin of Miranda IM"
+            VALUE "FileDescription", "Iconpack for SecureIM plugin of Miranda NG"
             VALUE "FileVersion", __VERSION_STRING
             VALUE "InternalName", "SecureIM_icons"
             VALUE "LegalCopyright", "Copyright é 2006-09 Baloo"

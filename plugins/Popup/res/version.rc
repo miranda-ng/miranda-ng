@@ -27,7 +27,7 @@ BEGIN
         BEGIN
             VALUE "Comments", POPUP_DESCRIPTION
             VALUE "CompanyName", "MPK"
-            VALUE "FileDescription", "Popup Plus plugin for Miranda IM"
+            VALUE "FileDescription", "Popup Plus plugin for Miranda NG"
             VALUE "FileVersion", __VERSION_STRING_DOT
             VALUE "InternalName", MODULNAME
             VALUE "LegalCopyright", POPUP_COPYRIGHT

@@ -26,7 +26,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 IDD_LOGIN DIALOGEX 0, 0, 190, 86
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW
-CAPTION "Login to Miranda IM"
+CAPTION "Login to Miranda NG"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,190,26
@@ -121,7 +121,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "Yes",IDOK,26,83,50,14
     PUSHBUTTON      "No",IDCANCEL,81,83,50,14
-    LTEXT           "A file containing new database settings has been placed in the Miranda IM directory.",IDC_STATIC,5,5,202,16
+    LTEXT           "A file containing new database settings has been placed in the Miranda NG directory.",IDC_STATIC,5,5,202,16
     LTEXT           "Do you want to import the settings now?",IDC_STATIC,5,69,202,8
     PUSHBUTTON      "No to all",IDC_NOTOALL,136,83,50,14
     LTEXT           "",IDC_ININAME,5,24,143,16,SS_NOPREFIX | SS_CENTERIMAGE

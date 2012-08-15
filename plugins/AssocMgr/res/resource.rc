@@ -51,16 +51,16 @@ STYLE DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg"
 BEGIN
-    LTEXT           "Registered associations for Miranda IM:",
+    LTEXT           "Registered associations for Miranda NG:",
                     IDC_HEADERTEXT,3,0,295,8,SS_NOPREFIX
     CONTROL         "",IDC_ASSOCLIST,"SysListView32",LVS_REPORT | 
                     LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
                     WS_BORDER | WS_TABSTOP,3,10,295,169
     GROUPBOX        "Miscellaneous",IDC_MISCLABEL,3,183,295,41,WS_GROUP
-    CONTROL         "&Start Miranda IM automatically when the Computer starts (using current profile)",
+    CONTROL         "&Start Miranda NG automatically when the Computer starts (using current profile)",
                     IDC_AUTOSTART,"Button",BS_AUTOCHECKBOX | BS_TOP | 
                     WS_TABSTOP,10,195,284,10
-    CONTROL         "Only associate with Miranda IM while it is &running",
+    CONTROL         "Only associate with Miranda NG while it is &running",
                     IDC_ONLYWHILERUNNING,"Button",BS_AUTOCHECKBOX | BS_TOP | 
                     WS_TABSTOP,10,208,284,10
 END

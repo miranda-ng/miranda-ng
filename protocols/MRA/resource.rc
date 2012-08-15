@@ -270,13 +270,13 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "About Miranda", "Miranda IM is a new generation IM client, extensible with numerous plugins. Get Miranda NG at http://miranda-ng.org/"
+            VALUE "About Miranda", "Miranda NG is a new generation IM client, extensible with numerous plugins. Get Miranda NG at http://miranda-ng.org/"
             VALUE "Comments", "Rozhuk_I@mail.ru"
             VALUE "FileDescription", "Miranda Mail.ru Agent protocol plugin"
             VALUE "FileVersion", "1, 20, 0, 1"
             VALUE "LegalCopyright", "Copyright © 2005-2009 Rozhuk Ivan"
             VALUE "OriginalFilename", "Mra.dll"
-            VALUE "ProductName", "Plugin for Miranda IM"
+            VALUE "ProductName", "Plugin for Miranda NG"
             VALUE "ProductVersion", "1, 20, 0, 1"
         END
     END

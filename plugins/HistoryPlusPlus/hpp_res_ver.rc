@@ -10,7 +10,7 @@ FILETYPE VFT_DLL
     BLOCK "000004b0"
     {
       VALUE "CompanyName", "Miranda Open Source Project\000"
-      VALUE "FileDescription", "History++ plugin for Miranda IM\000"
+      VALUE "FileDescription", "History++ plugin for Miranda NG\000"
       VALUE "FileVersion", "1.5.1.5\000"
       VALUE "InternalName", "historypp\000"
       VALUE "LegalCopyright", "© 2006-2009 theMIROn, 2003-2006 Art Fedorov.\000"
