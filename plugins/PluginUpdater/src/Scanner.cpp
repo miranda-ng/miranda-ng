@@ -52,8 +52,11 @@ typedef OBJLIST<ServListEntry> SERVLIST;
 
 static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO>* UpdateFiles)
 {
-	TCHAR tszMask[MAX_PATH], tszFileTemp[MAX_PATH];
-	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
+	// skip updater's own folder
+	if ( !_tcsicmp(tszFolder, tszRoot))
+		return;
+
+	TCHAR tszMask[MAX_PATH];
 	mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\*"), tszFolder);
 
 	WIN32_FIND_DATA ffd;
@@ -107,7 +110,7 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, SERVLIST
 			_tcscpy(FileInfo->tszDescr, ffd.cFileName);
 
 			*pExt = 0;
-			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\%s.zip"), tszFileTemp, ffd.cFileName);
+			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, ffd.cFileName);
 
 			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s"), tszBaseUrl, item->m_name);
 			if ((pExt = _tcsrchr(FileInfo->File.tszDownloadURL, '.')) != NULL)

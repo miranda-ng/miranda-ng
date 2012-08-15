@@ -21,8 +21,19 @@ Boston, MA 02111-1307, USA.
 
 HANDLE Timer;
 
+int OnFoldersChanged(WPARAM, LPARAM)
+{
+	FoldersGetCustomPathT(hPluginUpdaterFolder, tszRoot, MAX_PATH, _T(""));
+	size_t len = _tcslen(tszRoot);
+	if (tszRoot[len-1] == '\\' || tszRoot[len-1] == '/')
+		tszRoot[len-1] = 0;
+	return 0;
+}
+
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
+	HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
+
 	opts.bSilent = true;
 
 	int iRestartCount = DBGetContactSettingByte(NULL, MODNAME, "RestartCount", 2);
@@ -65,7 +76,7 @@ INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT OnPreShutdown(WPARAM wParam, LPARAM lParam)
+int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	CancelWaitableTimer(Timer);
 	CloseHandle(Timer);

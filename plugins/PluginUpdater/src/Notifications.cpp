@@ -95,7 +95,7 @@ static INT_PTR CALLBACK PopupDlgProc2(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 	return DefWindowProc(hDlg, uMsg, wParam, lParam);
 }
 
-static VOID MakePopupAction(POPUPACTION &pa, INT id)
+static void MakePopupAction(POPUPACTION &pa, int id)
 {
 	pa.cbSize = sizeof(POPUPACTION);
 	pa.flags = PAF_ENABLED;
@@ -260,7 +260,7 @@ static void ApplyUpdates(void* param)
 		return;
 	}
 
-	INT rc = -1;
+	int rc = -1;
 	PopupDataText temp;
 	temp.Title = TranslateT("Plugin Updater");
 	temp.Text = tszBuff;

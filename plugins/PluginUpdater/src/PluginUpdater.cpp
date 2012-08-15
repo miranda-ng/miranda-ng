@@ -58,7 +58,7 @@ extern "C" __declspec(dllexport) int Load(void)
 		hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, "Plugin Updater", MIRANDA_USERDATAT _T("\\")DEFAULT_UPDATES_FOLDER);
 
 	if (hPluginUpdaterFolder)
-		FoldersGetCustomPathT(hPluginUpdaterFolder, tszRoot, MAX_PATH, _T(""));
+		OnFoldersChanged(0, 0);
 	else {
 		mir_ptr<TCHAR> tszFolder( Utils_ReplaceVarsT(_T("%miranda_userdata%\\"DEFAULT_UPDATES_FOLDER)));
 		lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));

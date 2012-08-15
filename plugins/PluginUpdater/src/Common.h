@@ -73,7 +73,7 @@ struct FILEINFO
 	FILEURL File;
 	BOOL enabled;
 	BYTE FileType;
-	INT FileNum;
+	int  FileNum;
 	BYTE Force;
 };
 
@@ -91,7 +91,7 @@ struct PlugOptions
 	BOOL bSilent, bDlgDld;
 
 	BYTE bPeriodMeasure;
-	INT  Period;
+	int  Period;
 };
 
 #define DEFAULT_UPDATEICONS       0
@@ -117,31 +117,36 @@ extern HINSTANCE hInst;
 
 extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048];
 extern FILEINFO* pFileInfo;
-extern HANDLE CheckThread;
+extern HANDLE CheckThread, hPluginUpdaterFolder;
 extern PlugOptions opts;
 extern POPUP_OPTIONS PopupOptions;
 extern aPopups PopupsList[POPUPS];
 extern HANDLE Timer;
 extern HWND hwndDialog;
 
-VOID InitPopupList();
-VOID LoadOptions();
+void InitPopupList();
+void LoadOptions();
 BOOL NetlibInit();
-VOID IcoLibInit();
-VOID NetlibUnInit();
-INT ModulesLoaded(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam);
-INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam);
-INT OnPreShutdown(WPARAM wParam, LPARAM lParam);
-INT OptInit(WPARAM wParam, LPARAM lParam);
-VOID DoCheck(INT iFlag);
+void IcoLibInit();
+void NetlibUnInit();
+int  ModulesLoaded(WPARAM wParam, LPARAM lParam);
+
+int  OnFoldersChanged(WPARAM, LPARAM);
+int  OnPreShutdown(WPARAM, LPARAM);
+int  OptInit(WPARAM, LPARAM);
+
+void DoCheck(int iFlag);
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
-VOID ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, INT Number, INT ActType);
-INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+void ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType);
 void __stdcall ExitMe(void*);
 void __stdcall RestartMe(void*);
 BOOL AllowUpdateOnStartup();
-VOID InitTimer();
+void InitTimer();
+
+INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam);
+INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam);
+
+INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 bool unzip(const TCHAR* ptszZipFile, TCHAR* ptszDestPath, TCHAR* ptszBackPath);

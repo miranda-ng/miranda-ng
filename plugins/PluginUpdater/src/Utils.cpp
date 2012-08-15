@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 //vector<FILEINFO> Files;
 BOOL DlgDld;
-INT /*CurrentFile = 0,*/ Number = 0;
+int  Number = 0;
 TCHAR tszDialogMsg[2048] = {0};
 FILEINFO* pFileInfo = NULL;
 //FILEURL* pFileUrl = NULL;
@@ -42,7 +42,7 @@ static iconList[] =
 	{ "btn_cancel",   LPGEN("'No' Button"),               IDI_CANCEL }
 };
 
-VOID IcoLibInit()
+void IcoLibInit()
 {
 	TCHAR destfile[MAX_PATH];
 	GetModuleFileName(hInst, destfile, MAX_PATH);
@@ -74,13 +74,13 @@ BOOL NetlibInit()
 	return hNetlibUser != NULL;
 }
 
-VOID NetlibUnInit()
+void NetlibUnInit()
 {
 	Netlib_CloseHandle(hNetlibUser);
 	hNetlibUser = NULL;
 }
 
-VOID InitPopupList()
+void InitPopupList()
 {
 	int index = 0;
 	PopupsList[index].ID = index;
@@ -107,7 +107,7 @@ VOID InitPopupList()
 	PopupsList[index].colorText = DBGetContactSettingDword(NULL, MODNAME, "Popups3Tx", COLOR_TX_DEFAULT);
 }
 
-VOID LoadOptions()
+void LoadOptions()
 {
 	PopupOptions.DefColors = DBGetContactSettingByte(NULL, MODNAME, "DefColors", DEFAULT_COLORS);
 	PopupOptions.LeftClickAction= DBGetContactSettingByte(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
@@ -164,12 +164,12 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	return ret;
 }
 
-VOID __stdcall ExitMe(void*)
+void __stdcall ExitMe(void*)
 {
 	CallService("CloseAction", 0, 0);
 }
 
-VOID __stdcall RestartMe(void*)
+void __stdcall RestartMe(void*)
 {
 	CallService(MS_SYSTEM_RESTART, 0, 0);
 }
@@ -188,7 +188,7 @@ BOOL AllowUpdateOnStartup()
 	return TRUE;
 }
 
-LONG PeriodToMilliseconds(const INT period, BYTE& periodMeasure)
+LONG PeriodToMilliseconds(const int period, BYTE& periodMeasure)
 {
 	LONG result = period * 1000;
 	switch(periodMeasure) {
@@ -207,12 +207,12 @@ LONG PeriodToMilliseconds(const INT period, BYTE& periodMeasure)
 	return result;
 }
 
-VOID CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHighValue)
+void CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHighValue)
 {
 	DoCheck(1);
 }
 
-VOID InitTimer()
+void InitTimer()
 {
 	CancelWaitableTimer(Timer);
 	if (opts.bUpdateOnPeriod) {
