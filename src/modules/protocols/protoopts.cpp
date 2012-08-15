@@ -44,7 +44,7 @@ If you want to restart Miranda now, press Yes, if you want to upgrade another ac
 
 #define legacyMsg \
 "This account uses legacy protocol plugin. \
-Use Miranda IM options dialogs to change it's preferences."
+Use Miranda NG options dialogs to change it's preferences."
 
 #define welcomeMsg \
 "Welcome to Miranda NG's account manager!\n \
