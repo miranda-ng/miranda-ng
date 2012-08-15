@@ -136,8 +136,12 @@ int LoadStdPlugins()
 		if ( pluginDefault[i].pImpl )
 			continue;
 
-		if ( !LoadCorePlugin(pluginDefault[i]))
+		if ( !LoadCorePlugin(pluginDefault[i])) {
+			TCHAR tszBuf[512];
+			mir_sntprintf(tszBuf, SIZEOF(tszBuf), TranslateT("Core plugin '%s' cannot be loaded or missing. Miranda will exit now"), pluginDefault[i].stdplugname);
+			MessageBox(NULL, tszBuf, TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
 			return 1;
+		}
 	}
 
 	if (pluginDefault[13].pImpl == NULL)
