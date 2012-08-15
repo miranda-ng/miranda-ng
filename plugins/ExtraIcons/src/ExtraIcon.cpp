@@ -67,7 +67,7 @@ void ExtraIcon::applyIcons()
 	while (hContact != NULL)
 	{
 		// Clear to assert that it will be cleared
-		Clist_SetExtraIcon(hContact, slot, NULL);
+		Clist_SetExtraIcon(hContact, slot, (HANDLE) -1);
 
 		applyIcon(hContact);
 

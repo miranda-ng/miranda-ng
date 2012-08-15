@@ -157,7 +157,7 @@ int Clist_SetExtraIcon(HANDLE hContact, int slot, HANDLE hImage)
 	IconExtraColumn iec = { 0 };
 	iec.cbSize = sizeof(iec);
 	iec.ColumnType = ConvertToClistSlot(slot);
-	iec.hImage = (hImage == NULL ? (HANDLE) -1 : hImage);
+	iec.hImage = hImage;
 
 	return CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) hContact, (LPARAM) &iec);
 }

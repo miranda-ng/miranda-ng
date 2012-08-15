@@ -46,7 +46,7 @@ void IcolibExtraIcon::applyIcon(HANDLE hContact)
 	if (!isEnabled() || hContact == NULL)
 		return;
 
-	HANDLE hImage = NULL;
+	HANDLE hImage = (HANDLE) -1;
 
 	DBVARIANT dbv = { 0 };
 	if (!DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv))
@@ -85,7 +85,7 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, void *icon)
 
 		HANDLE hImage;
 		if (IsEmpty(icolibName))
-			hImage = NULL;
+			hImage = (HANDLE) -1;
 		else
 			hImage = AddIcon(icolibName);
 

@@ -91,7 +91,7 @@ static void RemoveExtraIcons(int slot)
 	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact != NULL)
 	{
-		Clist_SetExtraIcon(hContact, slot, NULL);
+		Clist_SetExtraIcon(hContact, slot, (HANDLE) -1);
 
 		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
 	}

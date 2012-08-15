@@ -26,7 +26,7 @@ struct Icon
 	HANDLE hImage;
 
 	Icon(const char *icolibName) :
-		name(icolibName), refCount(0), hImage(NULL)
+		name(icolibName), refCount(0), hImage((HANDLE) -1)
 	{
 	}
 };
@@ -105,6 +105,6 @@ void ResetIcons()
 	usedIcons.erase(std::remove_if(usedIcons.begin(), usedIcons.end(), NotUsedIcon), usedIcons.end());
 
 	for (unsigned int i = 0; i < usedIcons.size(); ++i)
-		usedIcons[i].hImage = NULL;
+		usedIcons[i].hImage = (HANDLE) -1;
 }
 

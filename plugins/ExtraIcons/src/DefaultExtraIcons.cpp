@@ -343,7 +343,7 @@ static ProtoInfo *FindProto(const char * proto)
 		return NULL;
 
 	HANDLE hImage = (HANDLE) CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM) hIcon, 0);
-	if (hImage == NULL)
+	if (hImage == (HANDLE) -1)
 		return NULL;
 
 	ProtoInfo tmp;
@@ -364,7 +364,7 @@ static int ProtocolApplyIcon(WPARAM wParam, LPARAM lParam)
 
 	ProtoInfo *pi = FindProto(proto);
 
-	HANDLE hImage = NULL;
+	HANDLE hImage = (HANDLE) -1;
 	if (pi != NULL)
 		hImage = pi->hImage;
 

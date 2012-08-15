@@ -1133,11 +1133,7 @@ HANDLE FASTCALL GetIconIndexFromFI(LPTSTR szMirVer)
 		fiList[nFICount].dwArray = val;
 
 		if (hIcon != NULL) {
-			do {
-				hFoundImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
-			}
-				while (hFoundImage == 0);			
-
+			hFoundImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
 			fiList[nFICount].hRegisteredImage = hFoundImage;
 			DestroyIcon(hIcon);
 		}

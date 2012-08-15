@@ -205,7 +205,7 @@ int ExtraIconGroup::getType() const
 
 int ExtraIconGroup::ClistSetExtraIcon(HANDLE hContact, HANDLE hImage)
 {
-	if (hImage != NULL && hImage != (HANDLE) -1)
+	if (hImage != (HANDLE) -1)
 		setValidExtraIcon = true;
 
 	return Clist_SetExtraIcon(hContact, slot, hImage);
