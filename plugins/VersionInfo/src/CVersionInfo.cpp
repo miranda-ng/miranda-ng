@@ -999,8 +999,8 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	out.append((lpzLangpackModifiedDate.size() > 0) ? _T(", modified: ") + lpzLangpackModifiedDate : _T(""));
 	out.append( _T("\r\n"));
 
-	out.append( _T("Nightly: ") + lpzNightly + _T("\r\n"));
-	out.append( _T("Unicode core: ") + lpzUnicodeBuild);
+	// out.append( _T("Nightly: ") + lpzNightly + _T("\r\n"));
+	// out.append( _T("Unicode core: ") + lpzUnicodeBuild);
 
 	GetStringFromDatabase("BeautifyBlockEnd", _T("</blockquote>"), buffer, SIZEOF(buffer));
 	BeautifyReport(beautify, buffer, _T("\r\n"), out);
