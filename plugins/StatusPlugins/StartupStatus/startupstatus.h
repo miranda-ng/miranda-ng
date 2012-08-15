@@ -125,8 +125,8 @@ typedef struct {
 #define SETTING_SETPROFILEDELAY			"SetStatusDelay"
 #define SETTING_DLGTIMEOUT				"DialogTimeout"
 
-#define SHORTCUT_DESC					"Miranda IM"
-#define SHORTCUT_FILENAME				"\\Miranda IM.lnk"
+#define SHORTCUT_DESC					"Miranda NG"
+#define SHORTCUT_FILENAME				"\\Miranda NG.lnk"
 
 #define DOCKED_NONE						0
 #define DOCKED_LEFT						1

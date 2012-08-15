@@ -1037,7 +1037,7 @@ void InitAssocList(void)
 		ftd.cbSize = sizeof(FILETYPEDESC);
 		ftd.pszFileExt = ".dat";
 		ftd.pszMimeType = NULL;
-		ftd.ptszDescription = TranslateT("Miranda IM Database");
+		ftd.ptszDescription = TranslateT("Miranda NG Database");
 		ftd.hInstance = hInst;
 		ftd.nIconResID = IDI_MIRANDAFILE;
 		ftd.ptszVerbDesc = NULL;

@@ -9,4 +9,4 @@
 #define __AUTHOR					"Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)"
 #define __AUTHOREMAIL				""
 #define __AUTHORWEB					"http://miranda-ng.org/"
-#define __COPYRIGHT					"© 2000-2012 Miranda-IM project, uses the FreeImage distribution"
+#define __COPYRIGHT					"© 2000-2012 Miranda-IM project, 2012 Miranda-NG project uses the FreeImage distribution"

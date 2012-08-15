@@ -13,7 +13,7 @@
 #define __PLUGIN_NAME				"Basic History"
 #define __INTERNAL_NAME				"BasicHistory"
 #define __FILENAME					"BasicHistory.dll"
-#define __DESCRIPTION 				"History viewer for Miranda IM."
+#define __DESCRIPTION 				"History viewer for Miranda NG."
 #define __AUTHOR					"Krzysztof Kral"
 #define __AUTHOREMAIL				"krzysztof.kral@gmail.com"
 #define __AUTHORWEB					"http://miranda-ng.org/"

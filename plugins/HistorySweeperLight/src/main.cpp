@@ -33,7 +33,7 @@ static PLUGININFOEX pluginInfoEx =
 	sizeof(PLUGININFOEX),
 	"History Sweeper Light",
 	__VERSION_DWORD,
-	"This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda IM startup/shutdown.",
+	"This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.",
 	"Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico",
 	"",
 	"© 2002-2003 Sergey V. Gershovich a.k.a. Jazzy$, 2006-2009 Boris Krasnovskiy, 2010, 2011 tico-tico",

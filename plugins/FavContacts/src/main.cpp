@@ -90,7 +90,7 @@ bool CoreCheck()
 	{
 		MessageBoxA(0,
 			Translate(
-				"Favourite Contacts plugin was designed to be used with Miranda IM only.\n"
+				"Favourite Contacts plugin was designed to be used with Miranda IM and Miranda NG only.\n"
 				"For use with any other application, please contact author.\n"
 				),
 			"Favourite Contacts Error",

@@ -37,7 +37,7 @@ PLUGININFOEX pluginInfo = {
 	"Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.",
 	"Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons",
 	"chaos.persei@gmail.com; ashpynov@gmail.com; bio@msx.ru; ghazan@miranda.im",
-	"Copyright 2000-2011 Miranda IM project, FYR, chaos.persei, induction, nullbie",
+	"Copyright 2000-2011 Miranda IM project, 2012 Miranda NG project FYR, chaos.persei, induction, nullbie",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {28FF9B91-3E4D-4f1c-B47C-C641B037FF40}

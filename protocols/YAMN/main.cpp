@@ -42,7 +42,7 @@ PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX), 
 	YAMN_SHORTNAME, 
 	YAMN_VERSION, 
-	"Mail notifier and browser for Miranda IM. Included POP3 protocol.", 
+	"Mail notifier and browser for Miranda NG. Included POP3 protocol.", 
 	"y_b tweety (majvan)", 
 	"francois.mean@skynet.be", 
 	"© (2002-2004 majvan) 2005-2007 tweety y_b Miranda community", 

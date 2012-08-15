@@ -113,7 +113,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 					SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER);
 			}
 			SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
-			SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), _T("Miranda IM is locked.\nEnter password to unlock it."));
+			SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), _T("Miranda NG is locked.\nEnter password to unlock it."));
 
 			TranslateDialogDefault(hDlg);
 			oldLangID = 0;
@@ -146,7 +146,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 				if (passlen == 0)
 				{
-					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Miranda IM is locked.\nEnter password to unlock it."));
+					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Miranda NG is locked.\nEnter password to unlock it."));
 					SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 				}
 				else if (lstrcmpA(password, g_password))
@@ -320,7 +320,7 @@ static void CreateTrayIcon(bool create)
 		DBFreeVariant(&dbVar);
 	}
 	else
-		lstrcpy(nim.szTip, _T("Miranda IM"));
+		lstrcpy(nim.szTip, _T("Miranda NG"));
 
     nim.cbSize = sizeof(nim);
     nim.hWnd = g_hListenWindow;
@@ -612,7 +612,7 @@ static int IcoLibInit (void) // Icolib support
 	sid.cx = sid.cy = 16;
 	sid.ptszSection = _T("BossKey");
 	sid.pszName = "hidemim";
-	sid.ptszDescription = _T("Hide Miranda IM");
+	sid.ptszDescription = _T("Hide Miranda NG");
 	sid.iDefaultIndex = -IDI_DLGPASSWD;
 	g_hIcon = Skin_AddIcon(&sid);
 	return 0;
@@ -679,7 +679,7 @@ static int ModernToolbarInit(WPARAM, LPARAM) // Modern toolbar support
 	TTBButton button = {0};
 	button.cbSize = sizeof(button);
 	button.pszService = MS_BOSSKEY_HIDE;
-	button.pszTooltipUp = button.name = LPGEN("Hide Miranda IM");
+	button.pszTooltipUp = button.name = LPGEN("Hide Miranda NG");
 	button.dwFlags = TTBBF_DISABLED | TTBBF_SHOWTOOLTIP;
 	button.hIconHandleUp = g_hIcon;
 	TopToolbar_AddButton(&button);
@@ -704,7 +704,7 @@ static int TabsrmmButtonsInit(WPARAM wParam, LPARAM lParam)
 	bbd.cbSize = sizeof(BBButton);
 	bbd.pszModuleName = MOD_NAME;
 	bbd.dwDefPos = 5000;
-	bbd.ptszTooltip = _T("Hide Miranda IM");
+	bbd.ptszTooltip = _T("Hide Miranda NG");
 	bbd.bbbFlags = BBBF_ISRSIDEBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = g_hIcon;
 	CallService (MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);

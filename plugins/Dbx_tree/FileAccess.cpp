@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 #include "Logger.h"
 
-const uint8_t CFileAccess::cJournalSignature[20] = "Miranda IM Journal!";
+const uint8_t CFileAccess::cJournalSignature[20] = "Miranda NG Journal!";
 
 CFileAccess::CFileAccess(const TCHAR* FileName)
 {

@@ -36,11 +36,11 @@ project file.
 Written by: Hrk (Luca Santarelli)
 Updated by: Zazoo (Victor Pavlychko)
 
-Miranda IM can be found here:
+Miranda NG can be found here:
 http://miranda-ng.org/
 
-Miranda IM plugins and tools can be found here:
-http://miranda-ng.org/
+Miranda NG plugins and tools can be found here:
+http://miranda-ng.org/distr/
 
 ===============================================================================
 

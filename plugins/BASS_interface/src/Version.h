@@ -14,7 +14,7 @@
 #define __PLUGIN_NAME				"BASS_interface"
 #define __INTERNAL_NAME				"BASS_interface"
 #define __FILENAME					"BASS_interface.dll"
-#define __DESCRIPTION 				"un4seen's BASS interface Miranda IM plugin."
+#define __DESCRIPTION 				"un4seen's BASS interface Miranda NG plugin."
 #define __AUTHOR					"tico-tico"
 #define __AUTHOREMAIL				""
 #define __AUTHORWEB					"http://miranda-ng.org/"

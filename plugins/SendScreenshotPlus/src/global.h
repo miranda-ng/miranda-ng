@@ -61,7 +61,7 @@ Last change by : $Author: ing.u.horn $
 #include <gdiplus.h>
 using namespace std;
 
-// Miranda IM SDK includes
+// Miranda NG SDK includes
 #include <win2k.h>
 #include <msapi/vsstyle.h>
 #include <msapi/vssym32.h>

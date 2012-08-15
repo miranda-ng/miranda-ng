@@ -66,7 +66,7 @@ using namespace std;
 typedef std::basic_string<TCHAR>	tstring;
 
 /***********************************************************************************************************
- * Miranda IM SDK includes and macros
+ * Miranda NG SDK includes and macros
  ***********************************************************************************************************/
 
 #define MIRANDA_VER 0x0A00

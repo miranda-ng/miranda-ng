@@ -9,7 +9,7 @@ PLUGININFOEX pluginInfoEx=
 	sizeof(PLUGININFOEX),
 	"Autorun",
 	PLUGIN_MAKE_VERSION(0,1,0,1),
-	"This plugin is a simple way to enable/disable to launch Miranda IM with system startup.",
+	"This plugin is a simple way to enable/disable to launch Miranda NG with system startup.",
 	"Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)",
 	"",
 	"Copyright © 2002-2007 Sergey V. Gershovich a.k.a. Jazzy$",

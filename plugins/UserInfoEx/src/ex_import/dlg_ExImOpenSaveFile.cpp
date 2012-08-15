@@ -39,7 +39,7 @@ Last change by : $Author: ing.u.horn $
 
 
 
-#define HKEY_MIRANDA_PLACESBAR	_T("Software\\Miranda IM\\PlacesBar")
+#define HKEY_MIRANDA_PLACESBAR	_T("Software\\Miranda NG\\PlacesBar")
 #define HKEY_WINPOL_PLACESBAR	_T("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\ComDlg32\\PlacesBar")
 
 static WNDPROC	DefPlacesBarProc;
@@ -149,7 +149,7 @@ static LRESULT PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM
 					case 41063:
 						ZeroMemory(szBtnText, sizeof(szBtnText));
 						
-						mir_tcsncpy(szBtnText, TranslateT("Miranda IM"), SIZEOF(szBtnText));
+						mir_tcsncpy(szBtnText, TranslateT("Miranda NG"), SIZEOF(szBtnText));
 						iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM)szBtnText);
 						if (iString != -1) tbb->iString = iString;
 						// set tooltip

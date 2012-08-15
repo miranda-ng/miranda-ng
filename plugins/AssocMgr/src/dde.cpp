@@ -37,10 +37,10 @@ static void __stdcall FileActionAsync(void *param)
 	switch(InvokeFileHandler(pszFilePath)) { /* pszFilePath is always a long path name */
 		case 0: /* success */ break;
 		case CALLSERVICE_NOTFOUND:
-			ShowInfoMessage(NIIF_ERROR,Translate("Miranda IM could not open file"),Translate("Miranda IM was not able to open \""TCHAR_STR_PARAM"\".\n\nThere is no registered handler for this file type."),pszFilePath);
+			ShowInfoMessage(NIIF_ERROR,Translate("Miranda NG could not open file"),Translate("Miranda NG was not able to open \""TCHAR_STR_PARAM"\".\n\nThere is no registered handler for this file type."),pszFilePath);
 			break;
 		default:
-			ShowInfoMessage(NIIF_ERROR,Translate("Miranda IM could not open file"),Translate("Miranda IM was not able to open \""TCHAR_STR_PARAM"\".\n\nThe file could not be processed."),pszFilePath);
+			ShowInfoMessage(NIIF_ERROR,Translate("Miranda NG could not open file"),Translate("Miranda NG was not able to open \""TCHAR_STR_PARAM"\".\n\nThe file could not be processed."),pszFilePath);
 	}
 	mir_free(pszFilePath); /* async param */
 }
@@ -53,10 +53,10 @@ static void __stdcall UrlActionAsync(void *param)
 	switch(InvokeUrlHandler(pszUrl)) {
 		case 0: /* success */ break;
 		case CALLSERVICE_NOTFOUND:
-			ShowInfoMessage(NIIF_ERROR,Translate("Miranda IM could not open URL"),Translate("Miranda IM was not able to open \""TCHAR_STR_PARAM"\".\n\nThere is no registered handler for this URL type."),pszUrl);
+			ShowInfoMessage(NIIF_ERROR,Translate("Miranda NG could not open URL"),Translate("Miranda NG was not able to open \""TCHAR_STR_PARAM"\".\n\nThere is no registered handler for this URL type."),pszUrl);
 			break;
 		default:
-			ShowInfoMessage(NIIF_ERROR,Translate("Miranda IM could not open URL"),Translate("Miranda IM was not able to open \""TCHAR_STR_PARAM"\".\n\nThe given URL is invalid and can not be parsed."),pszUrl);
+			ShowInfoMessage(NIIF_ERROR,Translate("Miranda NG could not open URL"),Translate("Miranda NG was not able to open \""TCHAR_STR_PARAM"\".\n\nThe given URL is invalid and can not be parsed."),pszUrl);
 	}
 	mir_free(pszUrl); /* async param */
 }

@@ -145,8 +145,8 @@ static BOOL LoadPackData(LANGPACK_INFO *pack, BOOL fEnabledPacks, const char *ps
 		Miranda Language Pack Version 1
 		Language: (optional)
 		Locale: 0809
-		Authors: Miranda IM Development Team (multiple tags allowed)
-		Author-email: project-info at miranda-im.org (" at " instead of "@" allowed)
+		Authors: Miranda NG Development Team (multiple tags allowed)
+		Author-email: project-info at miranda-ng.org (" at " instead of "@" allowed)
 		Last-Modified-Using: Miranda IM 0.7
 		Plugins-included: (multiple tags allowed)
 		X-FLName: name as used on the file listing (non-standard extension)
@@ -295,8 +295,8 @@ BOOL EnumPacks(ENUM_PACKS_CALLBACK callback, const TCHAR *pszFilePattern, const 
 		ZeroMemory(&pack, sizeof(pack));
 		pack.Locale = LOCALE_USER_DEFAULT; /* miranda uses default locale in this case */
 		lstrcpy(pack.szLanguage, _T("English (default)")); /* buffer safe */
-		lstrcpyA(pack.szAuthors, "Miranda IM Development Team"); /* buffer safe */
-		lstrcpyA(pack.szAuthorEmail, "project-info at miranda-im.org"); /* buffer safe */
+		lstrcpyA(pack.szAuthors, "Miranda NG Development Team"); /* buffer safe */
+		lstrcpyA(pack.szAuthorEmail, "project-info at miranda-ng.org"); /* buffer safe */
 		CleanupEmail(pack.szAuthorEmail); /* correct " at " */
 		CleanupLastModifiedUsing(pack.szLastModifiedUsing, sizeof(pack.szLastModifiedUsing));
 		/* file date */

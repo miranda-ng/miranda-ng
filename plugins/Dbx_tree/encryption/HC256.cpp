@@ -195,7 +195,7 @@ inline void HC256::EncryptBlock(uint32_t *Data)
 inline void HC256::CreateTables(uint8_t* Key)
 {
 	uint32_t i, j;
-	uint8_t iv[32] = "Miranda IM dbx_tree Protogenes!";
+	uint8_t iv[32] = "Miranda NG dbx_tree Protogenes!";
 	//expand the key and iv into P and Q
 	for (i = 0; i < 8; i++)
 		P[i] = Key[i];

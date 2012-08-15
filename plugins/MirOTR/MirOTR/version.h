@@ -12,10 +12,10 @@
 
 #ifdef _UNICODE
 	#define SHORT_NAME_STRING 		"Miranda OTR"
-	#define DESC_STRING 			"OTR (Off-the-Record) plugin for Miranda IM"
+	#define DESC_STRING 			"OTR (Off-the-Record) plugin for Miranda NG"
 #else
 	#define SHORT_NAME_STRING 		"Miranda OTR (x64)"
-	#define DESC_STRING 			"OTR (Off-the-Record) plugin for Miranda IM (64Bit)"
+	#define DESC_STRING 			"OTR (Off-the-Record) plugin for Miranda NG (64Bit)"
 #endif
 #define LONGDESC_STRING				DESC_STRING "\r\n(using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE))."
 #define COMPANY_NAME				""

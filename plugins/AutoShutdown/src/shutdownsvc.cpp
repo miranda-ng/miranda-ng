@@ -440,8 +440,8 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			return TRUE;
 		case M_UPDATE_COUNTDOWN:  /* lParam=(WORD)countdown */
 		{	TCHAR szText[256];
-			TCHAR *desc[]={_T("Miranda IM is going to be automatically closed in %u second(s)."),
-			               _T("All Miranda IM protocols are going to be set to offline in %u second(s)."),
+			TCHAR *desc[]={_T("Miranda NG is going to be automatically closed in %u second(s)."),
+			               _T("All Miranda NG protocols are going to be set to offline in %u second(s)."),
 			               _T("You will be logged off automatically in %u second(s)."),
 			               _T("The computer will automatically be restarted in %u second(s)."),
 			               _T("The computer will automatically be set to standby mode in %u second(s)."),
@@ -517,13 +517,13 @@ INT_PTR ServiceIsTypeEnabled(WPARAM wParam,LPARAM lParam)
 INT_PTR ServiceGetTypeDescription(WPARAM wParam,LPARAM lParam)
 {
 	TCHAR *pszDesc;
-	const TCHAR *apszShort[]={_T("Close Miranda IM"),_T("Set Miranda IM offline"),_T("Log off user"),
+	const TCHAR *apszShort[]={_T("Close Miranda NG"),_T("Set Miranda NG offline"),_T("Log off user"),
 	                          _T("Restart computer"),_T("Shutdown computer"),_T("Standby mode"),_T("Hibernate mode"),
-	                          _T("Lock workstation"),_T("Hang up dialup connections"),_T("Close Miranda IM"),
-	                          _T("Set Miranda IM offline"),_T("Log off user"),_T("Restart computer"),_T("Shutdown computer"),
+	                          _T("Lock workstation"),_T("Hang up dialup connections"),_T("Close Miranda NG"),
+	                          _T("Set Miranda NG offline"),_T("Log off user"),_T("Restart computer"),_T("Shutdown computer"),
 	                          _T("Standby mode"),_T("Hibernate mode"),_T("Lock workstation"),_T("Hang up dialup connections")};
-	const TCHAR *apszLong[]={_T("Sets all Miranda IM protocols to offline and closes Miranda IM."),
-	                         _T("Sets all Miranda IM protocols to offline."),
+	const TCHAR *apszLong[]={_T("Sets all Miranda NG protocols to offline and closes Miranda IM."),
+	                         _T("Sets all Miranda NG protocols to offline."),
 	                         _T("Logs the current Windows user off so that another user can log in."),
 	                         _T("Shuts down Windows and then restarts Windows."),
 	                         _T("Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power."),

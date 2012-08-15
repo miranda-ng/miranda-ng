@@ -112,7 +112,7 @@ int CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
         	if (IsUserAnAdmin()) {
 				SetTimer(NULL, 777, TIME,(TIMERPROC) TimerProc);
 			} else {
-				MessageBox(NULL, "Plugin WhoUsesMyFiles requires admin privileges in order to work.", "Miranda IM", MB_OK);
+				MessageBox(NULL, "Plugin WhoUsesMyFiles requires admin privileges in order to work.", "Miranda NG", MB_OK);
 			}
         	ShowList(lst, hList);
         	Utils_RestoreWindowPosition(hWnd, NULL, ModuleName,"conn");

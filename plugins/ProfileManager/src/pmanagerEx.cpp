@@ -29,9 +29,9 @@ HANDLE hLoadPM, hChangePM;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"Miranda IM Profile Changer",
+	"Miranda NG Profile Changer",
 	PLUGIN_MAKE_VERSION(0,0,0,3),
-	"Adds a menu item to change or load a different profile of Miranda IM.",
+	"Adds a menu item to change or load a different profile of Miranda NG.",
 	"Roman Gemini",
 	"woobind@ukr.net",
 	"© 2008 - 2010 Roman Gemini",

@@ -14,7 +14,7 @@
 #define __PLUGIN_NAME				"Sessions"
 #define __INTERNAL_NAME				"Sessions"
 #define __FILENAME					"Sessions.dll"
-#define __DESCRIPTION 				"Sessions Manager for Miranda IM."
+#define __DESCRIPTION 				"Sessions Manager for Miranda NG."
 #define __AUTHOR					"MaD_CLuSTeR"
 #define __AUTHOREMAIL				"daniok@yandex.ru"
 #define __AUTHORWEB					"http://miranda-ng.org/"

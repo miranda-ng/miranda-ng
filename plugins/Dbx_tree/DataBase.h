@@ -48,7 +48,7 @@ typedef enum TDBFileType {
 	DBFileMax = 2
 } TDBFileType;
 
-static const uint8_t cFileSignature[DBFileMax][20] = {"Miranda IM Settings", "Miranda IM DataTree"};
+static const uint8_t cFileSignature[DBFileMax][20] = {"Miranda NG Settings", "Miranda NG DataTree"};
 static const uint32_t cDBVersion = 0x00000001;
 
 static const uint32_t cHeaderBlockSignature = 0x7265491E;
