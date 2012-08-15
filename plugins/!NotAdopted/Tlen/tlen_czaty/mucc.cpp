@@ -47,7 +47,7 @@ PLUGININFOEX pluginInfoEx = {
 	"Tlen Czaty",
 #endif
 	PLUGIN_MAKE_VERSION(MUCC_MAJOR_VERSION,MUCC_MINOR_VERSION,MUCC_RELEASE_NUM,MUCC_BUILD_NUM),
-	"Group chats GUI plugin for Miranda IM (formerly known as mucc.dll) (version: " MUCC_VERSION_STRING ")",
+	"Group chats GUI plugin for Miranda NG (formerly known as mucc.dll) (version: " MUCC_VERSION_STRING ")",
 	"Piotr Piastucki",
 	"the_leech@users.berlios.de",
 	"(c) 2004-2012 Piotr Piastucki",

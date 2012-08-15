@@ -572,7 +572,7 @@ static void TlenProcessIqGetVersion(TlenProtocol *proto, XmlNode* node)
 
 	if ( os == NULL ) os = JabberTextEncode( Translate( "Windows" ));
 
-	strcpy(mversion, "Miranda IM ");
+	strcpy(mversion, "Miranda NG ");
 	CallService( MS_SYSTEM_GETVERSIONTEXT, sizeof( mversion ) - 11, ( LPARAM )mversion + 11 );
 	strcat(mversion, " (Tlen v.");
 	strcat(mversion, TLEN_VERSION_STRING);

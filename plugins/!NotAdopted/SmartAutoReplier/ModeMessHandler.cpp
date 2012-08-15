@@ -67,7 +67,7 @@ LPTSTR CModeMessHandler::GetDefaultMessage(INT status)
 		case ID_STATUS_NA:		return TranslateTS(TEXT("Give it up, I'm not in!"));
 		case ID_STATUS_OCCUPIED: return TranslateTS(TEXT("Not right now."));
 		case ID_STATUS_DND: return TranslateTS(TEXT("Give a guy some peace, would ya?"));
-		case ID_STATUS_FREECHAT: return TranslateTS(TEXT("Well, I would talk to you if Miranda IM supported chat"));
+		case ID_STATUS_FREECHAT: return TranslateTS(TEXT("Well, I would talk to you if Miranda NG supported chat"));
 		case ID_STATUS_ONLINE: return TranslateTS(TEXT("Yep, I'm here."));
 		case ID_STATUS_OFFLINE: return TranslateTS(TEXT("Nope, not here."));
 		case ID_STATUS_INVISIBLE: return TranslateTS(TEXT("I'm hiding from the mafia."));

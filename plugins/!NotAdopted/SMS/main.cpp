@@ -196,7 +196,7 @@ __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	if (mirandaVersion<MIN_MIR_VER_VERSION_DWORD)
 	{
-		MessageBox(NULL,TEXT("Pleace, update your Miranda IM, SMS will not load with this version."),NULL,(MB_OK|MB_ICONERROR));
+		MessageBox(NULL,TEXT("Pleace, update your Miranda NG, SMS will not load with this version."),NULL,(MB_OK|MB_ICONERROR));
 		return(NULL);
 	}
 return(&pluginInfoEx);
