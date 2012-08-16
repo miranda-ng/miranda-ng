@@ -23,19 +23,11 @@
 #define MIID_PLUGIN	{ 0xed39af7c, 0xbecd, 0x404e, { 0x94, 0x99, 0x4d, 0x04, 0xf7, 0x11, 0xb9, 0xcb } }
 #endif
 
-#ifdef _UNICODE
-#define __PLUGIN_NAME				"Send Screenshot+ (Unicode)"
+#define __PLUGIN_NAME				"Send Screenshot+"
 #define __FLVersionURL				"http://miranda-ng.org/"
-#define __FLVersionPrefix			"<span class=\"fileNameHeader\">SendSS (Unicode) "
+#define __FLVersionPrefix			"<span class=\"fileNameHeader\">SendSS "
 #define __FLUpdateURL				"http://miranda-ng.org/distr/x32/Plugins/sendss.zip"
 #define __BetaUpdateURL				"http://miranda-ng.org/distr/x32/Plugins/sendss.zip"
-#else
-#define __PLUGIN_NAME				"Send Screenshot+ (2in1)"
-#define __FLVersionURL				"http://miranda-ng.org/"
-#define __FLVersionPrefix			"<span class=\"fileNameHeader\">SendSS (2in1) "
-#define __FLUpdateURL				"http://miranda-ng.org/distr/x32/Plugins/sendss.zip"
-#define __BetaUpdateURL				"http://miranda-ng.org/distr/x32/Plugins/sendss.zip"
-#endif
 
 #define __BetaVersionURL			"http://merlins-miranda.googlecode.com/svn/trunk/miranda/plugins/SendSS/changelog.txt"
 #define __BetaVersionPrefix			"SendSS Plus: "
