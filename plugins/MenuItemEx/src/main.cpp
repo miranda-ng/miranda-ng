@@ -1149,57 +1149,69 @@ static int ContactWindowOpen(WPARAM wparam,LPARAM lParam)
 	return 0; 
 }
 
-static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
-{ // NSN
-	DBCONTACTWRITESETTING *cws = ( DBCONTACTWRITESETTING* )lParam;
-	WORD newStatus = 0, oldStatus = 0;
-	DWORD dwStatuses = 0;
-	time_t tCurrentTime;
-	char *lpzProto;
+//========================================================================================
 
-	if ( ( HANDLE )wParam == NULL || lstrcmpA( cws->szSetting, "Status" ))
+struct SaveStatus
+{
+	HANDLE hContact;
+	int    iStatus;
+};
+
+static LIST<SaveStatus> saveStatuses(100, (LIST<SaveStatus>::FTSortFunc)HandleKeySortT);
+
+static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
+{
+	DBCONTACTWRITESETTING *cws = ( DBCONTACTWRITESETTING* )lParam;
+	HANDLE hContact = ( HANDLE )wParam;
+	if (hContact == NULL || lstrcmpA( cws->szSetting, "Status" ))
 		return 0;
 
-	newStatus = cws->value.wVal;
-	oldStatus = DBGetContactSettingWord((HANDLE)wParam,"UserOnline","OldStatus2",ID_STATUS_OFFLINE );
+	int oldStatus = ID_STATUS_OFFLINE, newStatus = cws->value.wVal;
+
+	SaveStatus tmp = { hContact, 0 }, *p;
+	if (( p = saveStatuses.find( &tmp )) != NULL)
+		oldStatus = p->iStatus;
 	if (oldStatus == newStatus)
 		return 0;
 
-	tCurrentTime = time( NULL );
-	lpzProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM )wParam, 0);
+	char *lpzProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM )wParam, 0);
 
 	// ignore chat rooms
-	if (DBGetContactSettingByte((HANDLE)wParam, lpzProto, "ChatRoom", 0))
+	if (DBGetContactSettingByte(hContact, lpzProto, "ChatRoom", 0))
 		return 0;
 
 	if (oldStatus == ID_STATUS_OFFLINE)
 	{ 
 		// set online timestamp for this contact, only when not set already
-		if (!DBGetContactSettingDword( ( HANDLE )wParam, lpzProto, "LogonTS", FALSE))
-			DBWriteContactSettingDword( ( HANDLE )wParam, lpzProto, "LogonTS", ( DWORD )tCurrentTime);
+		DBWriteContactSettingDword(hContact, lpzProto, "LogonTS", ( DWORD )time(NULL));
 
 		// TODO: dont reset logoff timestamp?
-		DBDeleteContactSetting( ( HANDLE )wParam, lpzProto, "LogoffTS");
+		DBDeleteContactSetting(hContact, lpzProto, "LogoffTS");
 	
 		// TESTING: updating user's details
 		if (DBGetContactSettingDword(NULL, VISPLG, "flags", vf_default) & VF_REFRESH)
 		{	
 			// don't refresh Hidden or NotOnList contact's details
-			if (!DBGetContactSettingByte((HANDLE)wParam, "CList", "Hidden", 0) && !DBGetContactSettingByte((HANDLE)wParam, "CList", "NotOnList", 0))
-				CallContactService( ( HANDLE )wParam, PSS_GETINFO, 0, 0 );
+			if (!DBGetContactSettingByte(hContact, "CList", "Hidden", 0) && !DBGetContactSettingByte((HANDLE)wParam, "CList", "NotOnList", 0))
+				CallContactService(hContact, PSS_GETINFO, 0, 0 );
 		}
 	}
 	if (newStatus == ID_STATUS_OFFLINE)
 	{
 		// set offline timestamp for this contact
-		DBWriteContactSettingDword( ( HANDLE )wParam, lpzProto, "LogoffTS", ( DWORD )tCurrentTime);
+		DBWriteContactSettingDword(hContact, lpzProto, "LogoffTS", ( DWORD )time(NULL));
 		// reset logon timestamp
-		DBDeleteContactSetting( ( HANDLE )wParam, lpzProto, "LogonTS");
-
-		// set last status for this contact
-		DBWriteContactSettingDword( ( HANDLE )wParam, lpzProto, "LastStatus", ( DWORD )oldStatus);
+		DBDeleteContactSetting(hContact, lpzProto, "LogonTS");
 	}
-	DBWriteContactSettingWord( ( HANDLE )wParam, "UserOnline", "OldStatus2", newStatus);
+
+	if (p != NULL)
+		p->iStatus = newStatus;
+	else {
+		p = new SaveStatus;
+		p->hContact = hContact;
+		p->iStatus = newStatus;
+		saveStatuses.insert(p);
+	}
 
 	return 0;
 }
