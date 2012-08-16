@@ -4,7 +4,7 @@
 #define __FILEVERSION_STRING		MIRANDA_VERSION_FILEVERSION
 #define __VERSION_STRING			MIRANDA_VERSION_STRING
 
-#define __PLUGIN_NAME				"stdemail"
+#define __PLUGIN_NAME				"Standard Email module"
 #define __INTERNAL_NAME				"stdemail"
 #define __FILENAME					"stdemail.dll"
 #define __DESCRIPTION 				"Core module for e-mail urls handling."

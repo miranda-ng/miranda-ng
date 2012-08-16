@@ -4,7 +4,7 @@
 #define __FILEVERSION_STRING		MIRANDA_VERSION_FILEVERSION
 #define __VERSION_STRING			MIRANDA_VERSION_STRING
 
-#define __PLUGIN_NAME				"stduihist"
+#define __PLUGIN_NAME				"Standard History UI"
 #define __INTERNAL_NAME				"stduihist"
 #define __FILENAME					"stduihist.dll"
 #define __DESCRIPTION 				"Core module for built-in history viewer."

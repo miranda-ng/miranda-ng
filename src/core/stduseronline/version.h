@@ -4,7 +4,7 @@
 #define __FILEVERSION_STRING		MIRANDA_VERSION_FILEVERSION
 #define __VERSION_STRING			MIRANDA_VERSION_STRING
 
-#define __PLUGIN_NAME				"stduseronline"
+#define __PLUGIN_NAME				"Standard User-Is-Online module"
 #define __INTERNAL_NAME				"stduseronline"
 #define __FILENAME					"stduseronline.dll"
 #define __DESCRIPTION 				"Core module for user-is-online event processing."

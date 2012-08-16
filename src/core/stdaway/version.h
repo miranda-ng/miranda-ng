@@ -4,7 +4,7 @@
 #define __FILEVERSION_STRING		MIRANDA_VERSION_FILEVERSION
 #define __VERSION_STRING			MIRANDA_VERSION_STRING
 
-#define __PLUGIN_NAME				"stdaway"
+#define __PLUGIN_NAME				"Standard Away module"
 #define __INTERNAL_NAME				"stdaway"
 #define __FILENAME					"stdaway.dll"
 #define __DESCRIPTION 				"Core module for the away messages processing."

@@ -4,7 +4,7 @@
 #define __FILEVERSION_STRING		MIRANDA_VERSION_FILEVERSION
 #define __VERSION_STRING			MIRANDA_VERSION_STRING
 
-#define __PLUGIN_NAME				"stdfile"
+#define __PLUGIN_NAME				"Standard File Transfers"
 #define __INTERNAL_NAME				"stdfile"
 #define __FILENAME					"stdfile.dll"
 #define __DESCRIPTION 				"Core module for sending/receiving files."

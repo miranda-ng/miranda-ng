@@ -4,7 +4,7 @@
 #define __FILEVERSION_STRING		MIRANDA_VERSION_FILEVERSION
 #define __VERSION_STRING			MIRANDA_VERSION_STRING
 
-#define __PLUGIN_NAME				"stdhelp"
+#define __PLUGIN_NAME				"Standard Help module"
 #define __INTERNAL_NAME				"stdhelp"
 #define __FILENAME					"stdhelp.dll"
 #define __DESCRIPTION 				"Core module for the Help/About dialog."
