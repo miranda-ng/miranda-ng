@@ -26,7 +26,7 @@ struct Icon
 	HANDLE hImage;
 
 	Icon(const char *icolibName) :
-		name(icolibName), refCount(0), hImage((HANDLE) -1)
+		name(icolibName), refCount(0), hImage(INVALID_HANDLE_VALUE)
 	{
 	}
 };
@@ -53,15 +53,12 @@ static Icon * FindIcon(const char *icolibName)
 		icon = &usedIcons[usedIcons.size() - 1];
 	}
 
-	if (icon->hImage == NULL)
+	if (icon->hImage == INVALID_HANDLE_VALUE)
 	{
 		HICON hIcon = IcoLib_LoadIcon(icon->name.c_str());
 		if (hIcon != NULL)
 		{
 			icon->hImage = (HANDLE) CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM) hIcon, 0);
-			if (icon->hImage == (HANDLE) -1)
-				icon->hImage = NULL;
-
 			Skin_ReleaseIcon(hIcon);
 		}
 	}
@@ -105,6 +102,6 @@ void ResetIcons()
 	usedIcons.erase(std::remove_if(usedIcons.begin(), usedIcons.end(), NotUsedIcon), usedIcons.end());
 
 	for (unsigned int i = 0; i < usedIcons.size(); ++i)
-		usedIcons[i].hImage = (HANDLE) -1;
+		usedIcons[i].hImage = INVALID_HANDLE_VALUE;
 }
 

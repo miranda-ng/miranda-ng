@@ -134,10 +134,9 @@ int ExtraIconGroup::setIcon(int id, HANDLE hContact, void *icon)
 	}
 
 	if (storePos == items.size())
-	{
 		return -1;
-	}
-	else if (storePos > currentPos)
+
+	if (storePos > currentPos)
 	{
 		items[storePos]->storeIcon(hContact, icon);
 		return 0;
@@ -205,7 +204,7 @@ int ExtraIconGroup::getType() const
 
 int ExtraIconGroup::ClistSetExtraIcon(HANDLE hContact, HANDLE hImage)
 {
-	if (hImage != (HANDLE) -1)
+	if (hImage != INVALID_HANDLE_VALUE)
 		setValidExtraIcon = true;
 
 	return Clist_SetExtraIcon(hContact, slot, hImage);
