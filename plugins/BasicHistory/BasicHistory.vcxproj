@@ -89,7 +89,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\..\include\msapi;..\..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\msapi;..\..\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -110,7 +110,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\..\include\msapi;..\..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\msapi;..\..\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -136,7 +136,7 @@
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\..\include\msapi;..\..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\msapi;..\..\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -162,7 +162,7 @@
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\..\include\msapi;..\..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\msapi;..\..\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
