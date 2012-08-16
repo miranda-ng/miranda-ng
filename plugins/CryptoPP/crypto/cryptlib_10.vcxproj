@@ -79,6 +79,9 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>..\..\..\include\msapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Lib>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -95,6 +98,9 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>..\..\..\include\msapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Lib>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
@@ -109,6 +115,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
     </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>..\..\..\include\msapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Lib>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -123,6 +132,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
     </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>..\..\..\include\msapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Lib>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
@@ -280,7 +292,6 @@
     <ClInclude Include="src\dh2.h" />
     <ClInclude Include="src\dmac.h" />
     <ClInclude Include="src\dsa.h" />
-    <ClInclude Include="src\dword.h" />
     <ClInclude Include="src\ec2n.h" />
     <ClInclude Include="src\eccrypto.h" />
     <ClInclude Include="src\ecp.h" />

@@ -64,9 +64,6 @@
     <CustomBuild Include="res\flags.bmp">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="res\ip-to-country.bin">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="docs\Flags-Developer.txt">
       <Filter>Documentation</Filter>
     </CustomBuild>
@@ -74,9 +71,6 @@
       <Filter>Documentation</Filter>
     </CustomBuild>
     <CustomBuild Include="docs\Flags-Readme.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\Flags-Translation.txt">
       <Filter>Documentation</Filter>
     </CustomBuild>
     <CustomBuild Include="docs\Info_Src.txt">
