@@ -769,7 +769,7 @@ bool CVersionInfo::GetPluginLists()
 				if (pluginInfo != NULL) {
 					//We have loaded the informations into pluginInfo.
 					std::tstring timedate = GetPluginTimestamp(&fd.ftLastWriteTime);
-					CPlugin thePlugin(fd.cFileName, _A2T(pluginInfo->shortName), pluginInfo->uuid, (pluginInfo->flags & 1) ? _T("Unicode aware") : _T(""), (DWORD) pluginInfo->version, timedate.c_str(), _T(""));
+					CPlugin thePlugin(fd.cFileName, _A2T(pluginInfo->shortName), pluginInfo->uuid, /*(pluginInfo->flags & 1) ? _T("Unicode aware") :*/ _T(""), (DWORD) pluginInfo->version, timedate.c_str(), _T(""));
 
 					if (PluginIsEnabled)
 						AddPlugin(thePlugin, listActivePlugins);
@@ -802,7 +802,7 @@ bool CVersionInfo::GetPluginLists()
 						version = pluginInfo->version;
 					}
 
-					CPlugin thePlugin(fd.cFileName, _A2T(szShortName), (pluginInfo) ? pluginInfo->uuid : UUID_NULL, (((pluginInfo) && (pluginInfo->flags & 1)) ? _T("Unicode aware") : _T("")), version, time.c_str(), _T("    Plugin refuses to load. Miranda version too old."));
+					CPlugin thePlugin(fd.cFileName, _A2T(szShortName), (pluginInfo) ? pluginInfo->uuid : UUID_NULL, (/*((pluginInfo) && (pluginInfo->flags & 1)) ? _T("Unicode aware") :*/ _T("")), version, time.c_str(), _T("    Plugin refuses to load. Miranda version too old."));
 
 					AddPlugin(thePlugin, listUnloadablePlugins);
 					if (pluginInfo)
