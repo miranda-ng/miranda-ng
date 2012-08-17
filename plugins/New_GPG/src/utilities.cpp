@@ -1150,7 +1150,7 @@ int SendBroadcast( HANDLE hContact, int type, int result, HANDLE hProcess, LPARA
 	ACKDATA ack;
 	memset(&ack,0,sizeof(ack));
 	ack.cbSize = sizeof( ACKDATA );
-	ack.szModule = 	(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	ack.szModule = szGPGModuleName;//	(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	ack.hContact = hContact;
 	ack.type = type;
 	ack.result = result;
@@ -1187,6 +1187,7 @@ int returnNoError(HANDLE hContact) {
 	return 777;
 }
 // end from secureim
+
 
 
 string toUTF8(wstring str)

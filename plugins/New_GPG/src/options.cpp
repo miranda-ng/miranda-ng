@@ -669,22 +669,22 @@ static BOOL CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				GetDlgItemText(hwndDlg, IDC_IN_OPEN_TAG, tmp, 128);
 				DBWriteContactSettingTString(NULL, szGPGModuleName, "szInOpenTag", tmp);
 				mir_free(inopentag);
-				inopentag = new TCHAR [_tcslen(tmp)+1];
+				inopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (_tcslen(tmp)+1));
 				_tcscpy(inopentag, tmp);
 				GetDlgItemText(hwndDlg, IDC_IN_CLOSE_TAG, tmp, 128);
 				DBWriteContactSettingTString(NULL, szGPGModuleName, "szInCloseTag", tmp);
 				mir_free(inclosetag);
-				inclosetag = new TCHAR [_tcslen(tmp)+1];
+				inclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (_tcslen(tmp)+1));
 				_tcscpy(inclosetag, tmp);
 				GetDlgItemText(hwndDlg, IDC_OUT_OPEN_TAG, tmp, 128);
 				DBWriteContactSettingTString(NULL, szGPGModuleName, "szOutOpenTag", tmp);
 				mir_free(outopentag);
-				outopentag = new TCHAR [_tcslen(tmp)+1];
+				outopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (_tcslen(tmp)+1));
 				_tcscpy(outopentag, tmp);
 				GetDlgItemText(hwndDlg, IDC_OUT_CLOSE_TAG, tmp, 128);
 				DBWriteContactSettingTString(NULL, szGPGModuleName, "szOutCloseTag", tmp);
 				mir_free(outclosetag);
-				outclosetag = new TCHAR [_tcslen(tmp)+1];
+				outclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(tmp)+1));
 				_tcscpy(outclosetag, tmp);
 			}
           return TRUE;

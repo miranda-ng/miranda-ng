@@ -223,7 +223,7 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	if(bJabberAPI && bIsMiranda09)
 		HookEvent(ME_PROTO_ACCLISTCHANGED, GetJabberInterface);
 
-	HookEvent(ME_PROTO_ACK, onProtoAck); //filetransfer unimplemented now
+	HookEvent(ME_PROTO_ACK, onProtoAck);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildContactMenu);
 

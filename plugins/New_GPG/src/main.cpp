@@ -2261,7 +2261,7 @@ void ImportKey()
 					s2 = output.find("<", s);
 				else if(s2 > output.find("<", s))
 					s2 = output.find("<", s);
-				tmp = new char [output.substr(s,s2-s-1).length()+1];
+				tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s,s2-s-1).length()+1));
 				strcpy(tmp, output.substr(s,s2-s-1).c_str());
 				mir_utf8decode(tmp, 0);
 				DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainName", tmp);
@@ -2273,14 +2273,14 @@ void ImportKey()
 				s2++;
 				if(output[s] == ')')
 				{
-					tmp = new char [output.substr(s2,s-s2).length()+1];
+					tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
 					strcpy(tmp, output.substr(s2,s-s2).c_str());
 					mir_utf8decode(tmp, 0);
 					DBWriteContactSettingString(hContact, szGPGModuleName, "KeyComment", tmp);
 					mir_free(tmp);
 					s+=3;
 					s2 = output.find(">", s);
-					tmp = new char [output.substr(s,s2-s).length()+1];
+					tmp = (char*) mir_alloc(sizeof(char)*(output.substr(s,s2-s).length()+1));
 					strcpy(tmp, output.substr(s,s2-s).c_str());
 					mir_utf8decode(tmp, 0);
 					DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", tmp);
@@ -2288,7 +2288,7 @@ void ImportKey()
 				}
 				else
 				{
-					tmp = new char [output.substr(s2,s-s2).length()+1];
+					tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
 					strcpy(tmp, output.substr(s2,s-s2).c_str());
 					mir_utf8decode(tmp, 0);
 					DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());

@@ -25,7 +25,7 @@ int returnNoError(HANDLE hContact);
 
 std::list<HANDLE> sent_msgs;
 
-int RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, DWORD timestamp)
+void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, DWORD timestamp)
 {		
 	DWORD dbflags = DBEF_UTF;
 	{ //check for gpg related data
@@ -69,7 +69,7 @@ int RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, D
 				{
 					
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
-					return 0;
+					return;
 				}
 			}
 			{
@@ -169,13 +169,13 @@ int RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, D
 					CallContactService(hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)"Unable to decrypt PGP encrypted message");
 					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
 					DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", enc);
-					return 0;
+					return;
 				}
 				if(result == pxNotFound)
 				{
 					DeleteFile(path.c_str());
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
-					return 0;
+					return;
 				}
 				//TODO: check gpg output for errors
 				_terminate = false;
@@ -233,13 +233,13 @@ int RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, D
 						CallContactService(hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)"Unable to decrypt PGP encrypted message");
 						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
 						DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", enc);
-						return 0;
+						return;
 					}
 					if(result == pxNotFound)
 					{
 						DeleteFile(path.c_str());
 						HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
-						return 0;
+						return;
 					}
 					//TODO: check gpg output for errors
 				}
@@ -258,7 +258,7 @@ int RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, D
 					CallContactService(hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)"Unable to decrypt PGP encrypted message");
 					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
 					DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", enc);
-					return 0;
+					return;
 				}
 				if(result == pxNotFound)
 				{
@@ -292,7 +292,7 @@ int RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, D
 							HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
 							DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", enc);
 							mir_free(tmp);
-							return 0;
+							return;
 						}
 					}
 				}
@@ -329,7 +329,7 @@ int RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, D
 						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
 						DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", enc);
 						mir_free(tmp);
-						return 0;
+						return;
 					}
 					else
 					{
@@ -344,12 +344,12 @@ int RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, D
 							HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags|DBEF_READ));
 							HistoryLog(metaGetContact(hContact), db_event(msg, timestamp, 0, dbflags));
 							mir_free(msg);
-							return 0;
+							return;
 						}
 						char *tmp = mir_strdup(toUTF8(str).c_str());
 						HistoryLog(hContact, db_event(tmp, timestamp, 0, dbflags));
 						mir_free(tmp);
-						return 0;
+						return;
 					}
 				}
 			}
@@ -361,13 +361,13 @@ int RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, D
 		{
 			HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags|DBEF_READ));
 			HistoryLog(metaGetContact(hContact), db_event(msg, timestamp, 0, dbflags));
-			return 0;
+			return;
 		}
 		HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags|DBEF_READ));
-		return 0;
+		return;
 	}
 	HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
-	return 0;
+	return;
 }
 
 int RecvMsgSvc(WPARAM w, LPARAM l)
@@ -621,7 +621,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 		return returnNoError(ccs->hContact);
 }
 
-int SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
+void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 {
 	wstring str;
 	bool isansi = false;
@@ -668,7 +668,8 @@ int SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		HistoryLog(hContact, db_event("Failed to encrypt message with GPG", 0,0, DBEF_SENT));
 		hcontact_data[hContact].msgs_to_pass.push_back("Failed to encrypt message with GPG");
 		mir_free(msg);
-		return CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+		CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+		return;
 	}
 	if(!bJabberAPI || !bIsMiranda09) //force jabber to handle encrypted message by itself
 		cmd += _T("--comment \"\" --no-version ");
@@ -714,12 +715,14 @@ int SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		params.hProcess = NULL;
 		debuglog<<time_str()<<": GPG execution timed out, aborted\n";
 		mir_free(msg);
-		return CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+		CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+		return;
 	}
 	if(result == pxNotFound)
 	{
 		mir_free(msg);
-		return CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+		CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+		return;
 	}
 	//TODO: check gpg output for errors
 	if(out.find("There is no assurance this key belongs to the named user") != string::npos)
@@ -744,19 +747,21 @@ int SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 				params.hProcess = NULL;
 				debuglog<<time_str()<<": GPG execution timed out, aborted\n";
 				mir_free(msg);
-				return CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+				CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+				return;
 			}
 			if(result == pxNotFound)
 			{
 				mir_free(msg);
-				return CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+				CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+				return;
 			}
 			//TODO: check gpg output for errors
 		}
 		else
 		{
 			mir_free(msg);
-			return 0;
+			return;
 		}
 	}
 	if(out.find("usage: ") != string::npos)
@@ -764,7 +769,8 @@ int SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		MessageBox(0, _T("Something wrong, gpg does not understand us, aborting encryption."), _T("Warning"), MB_OK);
 		DeleteFile(path.c_str());
 		mir_free(msg);
-		return CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+		CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+		return;
 	}
 	DeleteFile(path.c_str());
 	path.append(_T(".asc"));
@@ -790,7 +796,8 @@ int SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		hcontact_data[hContact].msgs_to_pass.push_back("Failed to encrypt message with GPG");
 		debuglog<<time_str()<<": info: Failed to encrypt message with GPG\n";
 		mir_free(msg);
-		return CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+		CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
+		return;
 	}
 	string str_event = msg;
 	if(bAppendTags)
@@ -810,9 +817,10 @@ int SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	HistoryLog(hContact, db_event((char*)str_event.c_str(), 0,0, dbflags|DBEF_SENT));
 	if(!(flags & PREF_UTF))
 		flags |= PREF_UTF; 
-	sent_msgs.push_back((HANDLE)CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)toUTF8(str).c_str()));
+	HANDLE hProcess = NULL;
+	sent_msgs.push_back(hProcess = (HANDLE)CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)toUTF8(str).c_str()));
 	mir_free(msg);
-	return 0;
+	return;
 }
 
 int SendMsgSvc(WPARAM w, LPARAM l)
