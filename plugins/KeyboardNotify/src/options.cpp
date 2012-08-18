@@ -630,7 +630,7 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			if (bFlashEffect != FLASH_INSEQUENCE)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SEQORDER), FALSE);
 			CheckDlgButton(hwndDlg, IDC_CUSTOM, bFlashEffect == FLASH_CUSTOM ? BST_CHECKED:BST_UNCHECKED);
-			for (i=0; !DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
+			for (i=0; !DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
 				int index = SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)dbv.ptszVal);
 				DBFreeVariant(&dbv);
 				if (index != CB_ERR && index != CB_ERRSPACE)
@@ -767,16 +767,16 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendDlgItemMessage(hwndDlg, IDC_THEME, EM_LIMITTEXT, MAX_PATH, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CUSTOMSTRING, EM_LIMITTEXT, MAX_PATH, 0);
 
-			for (i=0; !DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
+			for (i=0; !DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
 				int index = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)dbv.pszVal);
 				DBFreeVariant(&dbv);
 				if (index != CB_ERR && index != CB_ERRSPACE) {
 					str = (TCHAR *)malloc(MAX_PATH+1);
 					if (str)
-						if (DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv))
+						if (DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv))
 							str[0] = _T('\0');
 						else {
-							wcscpy(str, dbv.ptszVal);
+							_tcscpy(str, dbv.ptszVal);
 							DBFreeVariant(&dbv);
 						}
 					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETITEMDATA, (WPARAM)index, (LPARAM)str);
@@ -934,15 +934,15 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
-				wcscpy(filter,_T("Keyboard Notify Theme"));
+				_tcscpy(filter,_T("Keyboard Notify Theme"));
 				wcscat(filter, _T(" (*.knt)"));
-				pfilter = filter + wcslen(filter) + 1;
-				wcscpy(pfilter, _T("*.knt"));
-				pfilter = pfilter + wcslen(pfilter) + 1;
-				wcscpy(pfilter, _T("All Files"));
-				pfilter = pfilter + wcslen(pfilter) + 1;
-				wcscpy(pfilter, _T("*.*"));
-				pfilter = pfilter + wcslen(pfilter) + 1;
+				pfilter = filter + _tcslen(filter) + 1;
+				_tcscpy(pfilter, _T("*.knt"));
+				pfilter = pfilter + _tcslen(pfilter) + 1;
+				_tcscpy(pfilter, _T("All Files"));
+				pfilter = pfilter + _tcslen(pfilter) + 1;
+				_tcscpy(pfilter, _T("*.*"));
+				pfilter = pfilter + _tcslen(pfilter) + 1;
 				*pfilter = _T('\0');  
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = path;
@@ -962,15 +962,15 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
-				wcscpy(filter, _T("Keyboard Notify Theme"));
+				_tcscpy(filter, _T("Keyboard Notify Theme"));
 				wcscat(filter, _T(" (*.knt)"));
-				pfilter = filter + wcslen(filter) + 1;
-				wcscpy(pfilter, _T("*.knt"));
-				pfilter = pfilter + wcslen(pfilter) + 1;
-				wcscpy(pfilter, _T("All Files"));
-				pfilter = pfilter + wcslen(pfilter) + 1;
-				wcscpy(pfilter, _T("*.*"));
-				pfilter = pfilter + wcslen(pfilter) + 1;
+				pfilter = filter + _tcslen(filter) + 1;
+				_tcscpy(pfilter, _T("*.knt"));
+				pfilter = pfilter + _tcslen(pfilter) + 1;
+				_tcscpy(pfilter, _T("All Files"));
+				pfilter = pfilter + _tcslen(pfilter) + 1;
+				_tcscpy(pfilter, _T("*.*"));
+				pfilter = pfilter + _tcslen(pfilter) + 1;
 				*pfilter = _T('\0');  
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = path;
@@ -998,8 +998,8 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				case 0:
 					switch (((LPNMHDR)lParam)->code) {
 					case PSN_APPLY:
-						if (!DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", wCustomTheme), &dbv))
-							wcscpy(theme, dbv.ptszVal);
+						if (!DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", wCustomTheme), &dbv))
+							_tcscpy(theme, dbv.ptszVal);
 						else
 							theme[0] = _T('\0');
 
@@ -1009,12 +1009,12 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
 						for (i=0, wCustomTheme=0; i < count; i++) {
 							SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETLBTEXT, (WPARAM)i, (LPARAM)themeAux);
-							DBWriteContactSettingWString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), themeAux);
+							DBWriteContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), themeAux);
 							str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)i, 0);
 							if (str)
-								DBWriteContactSettingWString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), str);
+								DBWriteContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), str);
 							else
-								DBWriteContactSettingWString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), _T(""));
+								DBWriteContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), _T(""));
 
 							if (!wcscmp(theme, themeAux))
 								wCustomTheme = i;
@@ -1062,26 +1062,26 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 void exportThemes(const TCHAR *filename)
 {
 	int i;
-	FILE *fExport;
+	FILE *fExport = _tfopen(filename, _T("wt"));
 	DBVARIANT dbv;
 
-	if (!(fExport = _wfopen(filename, _T("wt"))))
+	if (!fExport)
 		return;
 
 	fwprintf(fExport, TranslateT("\n; Automatically generated Keyboard Notify Theme file\n\n\n"));
 
-	for (i=0; !DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
-		fwprintf(fExport, _T("[%s]\n"), dbv.ptszVal);
+	for (i=0; !DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
+		_ftprintf(fExport, _T("[%s]\n"), dbv.ptszVal);
 		DBFreeVariant(&dbv);
-		if (DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv))
-			fwprintf(fExport, _T("0\n\n"));
+		if (DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv))
+			_ftprintf(fExport, _T("0\n\n"));
 		else {
-			fwprintf(fExport, _T("%s\n\n"), dbv.ptszVal);
+			_ftprintf(fExport, _T("%s\n\n"), dbv.ptszVal);
 			DBFreeVariant(&dbv);
 		}
 	}
 
-	fwprintf(fExport, TranslateT("\n; End of automatically generated Keyboard Notify Theme file\n"));
+	_ftprintf(fExport, TranslateT("\n; End of automatically generated Keyboard Notify Theme file\n"));
 
 	fclose(fExport);
 }
@@ -1091,22 +1091,22 @@ void importThemes(const TCHAR *filename, BOOL overrideExisting)
 {
 	int status=0;
 	size_t i;
-	FILE *fImport;
+	FILE *fImport = _tfopen(filename, _T("rt"));
 	TCHAR buffer[MAX_PATH+1], theme[MAX_PATH+1], *str;
 
-	if (!(fImport = _wfopen(filename, _T("rt"))))
+	if (!fImport)
 		return;
 
-	while (fgetws(buffer, MAX_PATH, fImport) != NULL) {
+	while (_fgetts(buffer, MAX_PATH, fImport) != NULL) {
 		for (str=buffer; *str && isspace(*str); str++); //ltrim
 		if (!*str || *str == ';') //empty line or comment
 			continue;
-		for (i=wcslen(str)-1; isspace(str[i]); str[i--]='\0'); //rtrim
+		for (i=_tcslen(str)-1; isspace(str[i]); str[i--]='\0'); //rtrim
 		switch (status) {
 			case 0:
 				if (i > 1 && str[0] == '[' && str[i] == ']') {
 					status = 1;
-					wcscpy(theme, str+1);
+					_tcscpy(theme, str+1);
 					theme[i-1] = '\0';
 				}
 				break;
@@ -1131,13 +1131,13 @@ void writeThemeToCombo(const TCHAR *theme, const TCHAR *custom, BOOL overrideExi
 		item = SendDlgItemMessage(hwndTheme, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
 		str = (TCHAR *)malloc(MAX_PATH+1);
 		if (str)
-			wcscpy(str, custom);
+			_tcscpy(str, custom);
 		SendDlgItemMessage(hwndTheme, IDC_THEME, CB_SETITEMDATA, (WPARAM)item, (LPARAM)str);
 	} else
 		if (overrideExisting) {
 			str = (TCHAR *)SendDlgItemMessage(hwndTheme, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 			if (str)
-				wcscpy(str, custom);
+				_tcscpy(str, custom);
 		}
 }
 
@@ -1232,9 +1232,9 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						TCHAR szFileNameAux[MAX_PATH+1];
 
 						SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETLBTEXT, (WPARAM)i, (LPARAM)szFileNameAux);
-						ProcessListAux.szFileName[i] = (TCHAR *)malloc(wcslen(szFileNameAux) + 1);
+						ProcessListAux.szFileName[i] = (TCHAR *)malloc(_tcslen(szFileNameAux) + 1);
 						if (ProcessListAux.szFileName[i])
-							wcscpy(ProcessListAux.szFileName[i], szFileNameAux);
+							_tcscpy(ProcessListAux.szFileName[i], szFileNameAux);
 					}
 	
 			case IDC_CANCELPGM:
@@ -1261,9 +1261,9 @@ void createProcessListAux(void)
 			if (!ProcessList.szFileName[i])
 				ProcessListAux.szFileName[i] = NULL;
 			else {
-				ProcessListAux.szFileName[i] = (TCHAR *)malloc(wcslen(ProcessList.szFileName[i]) + 1);
+				ProcessListAux.szFileName[i] = (TCHAR *)malloc(_tcslen(ProcessList.szFileName[i]) + 1);
 				if (ProcessListAux.szFileName[i])
-					wcscpy(ProcessListAux.szFileName[i], ProcessList.szFileName[i]);
+					_tcscpy(ProcessListAux.szFileName[i], ProcessList.szFileName[i]);
 			}
 
 }
