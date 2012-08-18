@@ -341,7 +341,7 @@ BOOL checkOpenWindow(HANDLE hContact)
 
 BOOL IsSaverOnNT4()
 {
-	HDESK hd = OpenDesktop(L"screen-saver", 0, FALSE, MAXIMUM_ALLOWED);
+	HDESK hd = OpenDesktop(_T("screen-saver"), 0, FALSE, MAXIMUM_ALLOWED);
 
 	if(hd == NULL)
 		return GetLastError()==ERROR_ACCESS_DENIED;
@@ -1036,14 +1036,14 @@ void createEventPrefix(TCHAR *prefixName, size_t maxLen)
 
 	getAbsoluteProfileName(profileName, MAX_PATH);
 
-	while (str = wcschr(profileName, _T('\\')))
+	while (str = _tcschr(profileName, _T('\\')))
 		*str = _T('/');
-	if ((len = wcslen(profileName)) <= maxLen)
-		wcscpy(prefixName, profileName);
+	if ((len = _tcslen(profileName)) <= maxLen)
+		_tcscpy(prefixName, profileName);
 	else {
 		str = profileName + len - maxLen / 2;
-		_snwprintf(prefixName, maxLen / 2, L"%s", profileName);
-		wcscat(prefixName, str);
+		mir_sntprintf(prefixName, maxLen / 2, _T("%s"), profileName);
+		_tcscat(prefixName, str);
 	}
 }
 
@@ -1059,7 +1059,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	LoadProcsLibrary();
 	if (bWindowsNT && dWinVer >= 5)
-		MyGetLastInputInfo = (BOOL (WINAPI *)(PLASTINPUTINFO)) GetProcAddress(GetModuleHandle(L"user32"), "GetLastInputInfo");
+		MyGetLastInputInfo = (BOOL (WINAPI *)(PLASTINPUTINFO)) GetProcAddress(GetModuleHandle(_T("user32")), "GetLastInputInfo");
 	else
 		MyGetLastInputInfo = NULL;
 
@@ -1068,9 +1068,9 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	// Create some synchronisation objects
 	createEventPrefix(eventPrefix, MAX_PATH - 11);
-	_snwprintf(eventName, sizeof(eventName), _T("%s/FlashEvent"), eventPrefix);
+	mir_sntprintf(eventName, SIZEOF(eventName), _T("%s/FlashEvent"), eventPrefix);
 	hFlashEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
-	_snwprintf(eventName, sizeof(eventName), _T("%s/ExitEvent"), eventPrefix);
+	mir_sntprintf(eventName, SIZEOF(eventName), _T("%s/ExitEvent"), eventPrefix);
 	hExitEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
 
 	hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)FlashThreadFunction, NULL, 0, &IDThread);
@@ -1301,65 +1301,6 @@ static LRESULT CALLBACK MirandaWndProcHookFunction(int code, WPARAM wParam, LPAR
  	return CallNextHookEx(hMirandaWndProcHook, code, wParam, lParam);
 }
 
-
-//===================== Check Window Message function =====================
-
-// Took this snippet of code from "EventNotify" by micron-x, thx *g*
-// and updated with NGEventNotify and pete's patch
-// checks if the message-dialog window is already opened and returns:
-//	TRUE  - Windows found
-//	FALSE - No window found
-
-HWND findMessageWindow(HANDLE hContact)
-{
-	HWND hwnd;
-	TCHAR newtitle[256];
-	char *szProto, *contactName, *szStatus;
-	CONTACTINFO ci = {0};
-
-	szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	contactName = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0);
-	szStatus = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto==NULL?ID_STATUS_OFFLINE:DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
-
-	_snwprintf(newtitle, sizeof(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message Received"));
-	if(hwnd = FindWindow(NULL, newtitle))
-		return hwnd;
-
-	_snwprintf(newtitle, sizeof(newtitle), _T("%s %s"), contactName, szStatus);
-	if(hwnd = FindWindow(NULL, newtitle))
-		return hwnd;
-	_snwprintf(newtitle, sizeof(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message Session"));
-	if(hwnd = FindWindow(NULL, newtitle))
-		return hwnd;
-	_snwprintf(newtitle, sizeof(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message Session is typing..."));
-	if(hwnd = FindWindow(NULL, newtitle))
-		return hwnd;
-	// search for the nconvers++ message window that uses the UIN
-	ci.cbSize = sizeof(CONTACTINFO);
-	ci.dwFlag = CNF_UNIQUEID;
-	ci.hContact = hContact;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-		switch(ci.type) {
-			case CNFT_BYTE:
-				_snwprintf(newtitle, sizeof(newtitle), _T("%s (%d) %s"), contactName, ci.bVal, szStatus);
-				break;
-			case CNFT_WORD:
-				_snwprintf(newtitle, sizeof(newtitle), _T("%s (%d) %s"), contactName, ci.wVal, szStatus);
-				break;
-			case CNFT_DWORD:
-				_snwprintf(newtitle, sizeof(newtitle), _T("%s (%d) %s"), contactName, ci.dVal, szStatus);
-				break;
-			case CNFT_ASCIIZ:
-				_snwprintf(newtitle, sizeof(newtitle), _T("%s (%s) %s"), contactName, ci.pszVal, szStatus);
-				break;
-		}
-		if(hwnd = FindWindow(NULL, newtitle))
-			return hwnd;
-	}
-
-	return NULL;
-}
-
 BOOL CheckMsgWnd(HANDLE hContact, BOOL *focus)
 {
 	if (ServiceExists(MS_MSG_GETWINDOWDATA)) {	// use the new message API
@@ -1372,13 +1313,6 @@ BOOL CheckMsgWnd(HANDLE hContact, BOOL *focus)
 		mwd.hContact = hContact;
 		if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd) && mwd.hwndWindow) {
 			*focus = mwd.uState & MSG_WINDOW_STATE_FOCUS;
-			return TRUE;
-		}
-	} else {	// old way: find it by using the window class & title
-		HWND hwnd;
-
-		if(hwnd = findMessageWindow(hContact)) {
-			*focus = hwnd==GetForegroundWindow();
 			return TRUE;
 		}
 	}
