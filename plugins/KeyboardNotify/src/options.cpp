@@ -449,7 +449,6 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case IDC_IFOLDER:
 			case IDC_UNTILBLK:
 			case IDC_UNTILATTENDED:
-			case IDC_MIRORWIN:
 			case IDC_UNTILOPEN:
 			case IDC_UNTILCOND:
 			case IDC_FSCREEN:
@@ -503,6 +502,10 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				return TRUE;
 			case IDC_SREMCHECK:
 				if(HIWORD(wParam) == EN_CHANGE && !initDlg)
+					SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+				return TRUE;
+			case IDC_MIRORWIN:
+				if(HIWORD(wParam) == CBN_SELCHANGE)
 					SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 				return TRUE;
 			}
@@ -672,10 +675,8 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			case IDC_SAMETIME:
 			case IDC_INTURN:
 			case IDC_INSEQUENCE:
-			case IDC_SEQORDER:
 			case IDC_CUSTOM:
 			case IDC_TRILLIAN:
-			case IDC_SCUSTOM:
 			case IDC_SPEED:
 			case IDC_KEYPRESSES:
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SEQORDER), IsDlgButtonChecked(hwndDlg, IDC_INSEQUENCE) == BST_CHECKED);
@@ -693,6 +694,11 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				return TRUE;
 			case IDC_PREVIEW:
 				previewFlashing(IsDlgButtonChecked(hwndDlg, IDC_PREVIEW) == BST_CHECKED);
+				return TRUE;
+			case IDC_SEQORDER:
+			case IDC_SCUSTOM:
+				if(HIWORD(wParam) == CBN_SELCHANGE)
+					SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 				return TRUE;
 			}
 			break;
