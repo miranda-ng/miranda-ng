@@ -18,10 +18,8 @@ MNOTIFYLINK *notifyLink = 0;
 // used to work around a bug in neweventnotify and others with the address passed in the GetPluginData function
 bool ignore_gpd_passed_addy = false;
 
-FontID font_id_firstline = {0}, font_id_secondline = {0}, font_id_time = {0};
-ColourID colour_id_bg = {0}, colour_id_border = {0}, colour_id_sidebar = {0}, colour_id_titleunderline = {0};
-FontIDW font_id_firstlinew = {0}, font_id_secondlinew = {0}, font_id_timew = {0};
-ColourIDW colour_id_bgw = {0}, colour_id_borderw = {0}, colour_id_sidebarw = {0}, colour_id_titleunderlinew = {0};
+FontIDT font_id_firstline = {0}, font_id_secondline = {0}, font_id_time = {0};
+ColourIDT colour_id_bg = {0}, colour_id_border = {0}, colour_id_sidebar = {0}, colour_id_titleunderline = {0};
 
 COLORREF colBg = GetSysColor(COLOR_3DSHADOW);
 HFONT hFontFirstLine = 0, hFontSecondLine = 0, hFontTime = 0;
@@ -58,94 +56,94 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_POPUPS,
 
 int ReloadFont(WPARAM wParam, LPARAM lParam) 
 {
-	LOGFONTW log_font;
+	LOGFONT log_font;
 	if (hFontFirstLine) DeleteObject(hFontFirstLine);
-	colFirstLine = CallService(MS_FONT_GETW, (WPARAM)&font_id_firstlinew, (LPARAM)&log_font);
-	hFontFirstLine = CreateFontIndirectW(&log_font);
+	colFirstLine = CallService(MS_FONT_GETT, (WPARAM)&font_id_firstline, (LPARAM)&log_font);
+	hFontFirstLine = CreateFontIndirect(&log_font);
 	if (hFontSecondLine) DeleteObject(hFontSecondLine);
-	colSecondLine = CallService(MS_FONT_GETW, (WPARAM)&font_id_secondlinew, (LPARAM)&log_font);
-	hFontSecondLine = CreateFontIndirectW(&log_font);
+	colSecondLine = CallService(MS_FONT_GETT, (WPARAM)&font_id_secondline, (LPARAM)&log_font);
+	hFontSecondLine = CreateFontIndirect(&log_font);
 	if (hFontTime) DeleteObject(hFontTime);
-	colTime = CallService(MS_FONT_GETW, (WPARAM)&font_id_timew, (LPARAM)&log_font);
-	hFontTime = CreateFontIndirectW(&log_font);
+	colTime = CallService(MS_FONT_GETT, (WPARAM)&font_id_time, (LPARAM)&log_font);
+	hFontTime = CreateFontIndirect(&log_font);
 
-	colBg = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_bgw, 0);
-	colBorder = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_borderw, 0);
-	colSidebar = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_sidebarw, 0);
-	colTitleUnderline = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_titleunderlinew, 0);
+	colBg = CallService(MS_COLOUR_GETT, (WPARAM)&colour_id_bg, 0);
+	colBorder = CallService(MS_COLOUR_GETT, (WPARAM)&colour_id_border, 0);
+	colSidebar = CallService(MS_COLOUR_GETT, (WPARAM)&colour_id_sidebar, 0);
+	colTitleUnderline = CallService(MS_COLOUR_GETT, (WPARAM)&colour_id_titleunderline, 0);
 	return 0;
 }
 
 static void InitFonts()
 {
-	font_id_firstlinew.cbSize = sizeof(FontIDW);
-	font_id_firstlinew.flags = FIDF_ALLOWEFFECTS;
-	_tcscpy(font_id_firstlinew.group, _T("Popups"));
-	_tcscpy(font_id_firstlinew.name, _T("First line"));
-	strcpy(font_id_firstlinew.dbSettingsGroup, MODULE);
-	strcpy(font_id_firstlinew.prefix, "FontFirst");
-	_tcscpy(font_id_firstlinew.backgroundGroup, _T("Popups"));
-	_tcscpy(font_id_firstlinew.backgroundName, _T("Background"));
-	font_id_firstlinew.order = 0;
-	FontRegisterT(&font_id_firstlinew);
+	font_id_firstline.cbSize = sizeof(FontIDT);
+	font_id_firstline.flags = FIDF_ALLOWEFFECTS;
+	_tcscpy(font_id_firstline.group, LPGENT("Popups"));
+	_tcscpy(font_id_firstline.name, LPGENT("First line"));
+	strcpy(font_id_firstline.dbSettingsGroup, MODULE);
+	strcpy(font_id_firstline.prefix, "FontFirst");
+	_tcscpy(font_id_firstline.backgroundGroup, _T("Popups"));
+	_tcscpy(font_id_firstline.backgroundName, _T("Background"));
+	font_id_firstline.order = 0;
+	FontRegisterT(&font_id_firstline);
 
-	font_id_secondlinew.cbSize = sizeof(FontIDW);
-	font_id_secondlinew.flags = FIDF_ALLOWEFFECTS;
-	_tcscpy(font_id_secondlinew.group, _T("Popups"));
-	_tcscpy(font_id_secondlinew.name, _T("Second line"));
-	strcpy(font_id_secondlinew.dbSettingsGroup, MODULE);
-	strcpy(font_id_secondlinew.prefix, "FontSecond");
-	_tcscpy(font_id_secondlinew.backgroundGroup, _T("Popups"));
-	_tcscpy(font_id_secondlinew.backgroundName, _T("Background"));
-	font_id_secondlinew.order = 1;
-	FontRegisterT(&font_id_secondlinew);
+	font_id_secondline.cbSize = sizeof(FontIDT);
+	font_id_secondline.flags = FIDF_ALLOWEFFECTS;
+	_tcscpy(font_id_secondline.group, LPGENT("Popups"));
+	_tcscpy(font_id_secondline.name, LPGENT("Second line"));
+	strcpy(font_id_secondline.dbSettingsGroup, MODULE);
+	strcpy(font_id_secondline.prefix, "FontSecond");
+	_tcscpy(font_id_secondline.backgroundGroup, _T("Popups"));
+	_tcscpy(font_id_secondline.backgroundName, _T("Background"));
+	font_id_secondline.order = 1;
+	FontRegisterT(&font_id_secondline);
 
-	font_id_timew.cbSize = sizeof(FontIDW);
-	font_id_timew.flags = FIDF_ALLOWEFFECTS;
-	_tcscpy(font_id_timew.group, _T("Popups"));
-	_tcscpy(font_id_timew.name, _T("Time"));
-	strcpy(font_id_timew.dbSettingsGroup, MODULE);
-	strcpy(font_id_timew.prefix, "FontTime");
-	_tcscpy(font_id_timew.backgroundGroup, _T("Popups"));
-	_tcscpy(font_id_timew.backgroundName, _T("Background"));
-	font_id_timew.order = 2;
-	FontRegisterT(&font_id_timew);
+	font_id_time.cbSize = sizeof(FontIDT);
+	font_id_time.flags = FIDF_ALLOWEFFECTS;
+	_tcscpy(font_id_time.group, LPGENT("Popups"));
+	_tcscpy(font_id_time.name, LPGENT("Time"));
+	strcpy(font_id_time.dbSettingsGroup, MODULE);
+	strcpy(font_id_time.prefix, "FontTime");
+	_tcscpy(font_id_time.backgroundGroup, _T("Popups"));
+	_tcscpy(font_id_time.backgroundName, _T("Background"));
+	font_id_time.order = 2;
+	FontRegisterT(&font_id_time);
 		
-	colour_id_bgw.cbSize = sizeof(ColourIDW);
-	_tcscpy(colour_id_bgw.group, _T("Popups"));
-	_tcscpy(colour_id_bgw.name, _T("Background"));
-	strcpy(colour_id_bgw.dbSettingsGroup, MODULE);
-	strcpy(colour_id_bgw.setting, "ColourBg");
-	colour_id_bgw.defcolour = GetSysColor(COLOR_3DSHADOW);
-	colour_id_bgw.order = 0;
-	ColourRegisterT(&colour_id_bgw);
+	colour_id_bg.cbSize = sizeof(ColourIDT);
+	_tcscpy(colour_id_bg.group, LPGENT("Popups"));
+	_tcscpy(colour_id_bg.name, LPGENT("Background"));
+	strcpy(colour_id_bg.dbSettingsGroup, MODULE);
+	strcpy(colour_id_bg.setting, "ColourBg");
+	colour_id_bg.defcolour = GetSysColor(COLOR_3DSHADOW);
+	colour_id_bg.order = 0;
+	ColourRegisterT(&colour_id_bg);
 
-	colour_id_borderw.cbSize = sizeof(ColourIDW);
-	_tcscpy(colour_id_borderw.group, _T("Popups"));
-	_tcscpy(colour_id_borderw.name, _T("Border"));
-	strcpy(colour_id_borderw.dbSettingsGroup, MODULE);
-	strcpy(colour_id_borderw.setting, "ColourBorder");
-	colour_id_borderw.defcolour = RGB(0, 0, 0);
-	colour_id_borderw.order = 1;
-	ColourRegisterT(&colour_id_borderw);
+	colour_id_border.cbSize = sizeof(ColourIDT);
+	_tcscpy(colour_id_border.group, LPGENT("Popups"));
+	_tcscpy(colour_id_border.name, LPGENT("Border"));
+	strcpy(colour_id_border.dbSettingsGroup, MODULE);
+	strcpy(colour_id_border.setting, "ColourBorder");
+	colour_id_border.defcolour = RGB(0, 0, 0);
+	colour_id_border.order = 1;
+	ColourRegisterT(&colour_id_border);
 
-	colour_id_sidebarw.cbSize = sizeof(ColourIDW);
-	_tcscpy(colour_id_sidebarw.group, _T("Popups"));
-	_tcscpy(colour_id_sidebarw.name, _T("Sidebar"));
-	strcpy(colour_id_sidebarw.dbSettingsGroup, MODULE);
-	strcpy(colour_id_sidebarw.setting, "ColourSidebar");
-	colour_id_sidebarw.defcolour = RGB(128, 128, 128);
-	colour_id_sidebarw.order = 2;
-	ColourRegisterT(&colour_id_sidebarw);
+	colour_id_sidebar.cbSize = sizeof(ColourIDT);
+	_tcscpy(colour_id_sidebar.group, LPGENT("Popups"));
+	_tcscpy(colour_id_sidebar.name, LPGENT("Sidebar"));
+	strcpy(colour_id_sidebar.dbSettingsGroup, MODULE);
+	strcpy(colour_id_sidebar.setting, "ColourSidebar");
+	colour_id_sidebar.defcolour = RGB(128, 128, 128);
+	colour_id_sidebar.order = 2;
+	ColourRegisterT(&colour_id_sidebar);
 
-	colour_id_titleunderlinew.cbSize = sizeof(ColourIDW);
-	_tcscpy(colour_id_titleunderlinew.group, _T("Popups"));
-	_tcscpy(colour_id_titleunderlinew.name, _T("Title underline"));
-	strcpy(colour_id_titleunderlinew.dbSettingsGroup, MODULE);
-	strcpy(colour_id_titleunderlinew.setting, "ColourTitleUnderline");
-	colour_id_titleunderlinew.defcolour = GetSysColor(COLOR_3DSHADOW);
-	colour_id_titleunderlinew.order = 3;
-	ColourRegisterT(&colour_id_titleunderlinew);
+	colour_id_titleunderline.cbSize = sizeof(ColourIDT);
+	_tcscpy(colour_id_titleunderline.group, LPGENT("Popups"));
+	_tcscpy(colour_id_titleunderline.name, LPGENT("Title underline"));
+	strcpy(colour_id_titleunderline.dbSettingsGroup, MODULE);
+	strcpy(colour_id_titleunderline.setting, "ColourTitleUnderline");
+	colour_id_titleunderline.defcolour = GetSysColor(COLOR_3DSHADOW);
+	colour_id_titleunderline.order = 3;
+	ColourRegisterT(&colour_id_titleunderline);
 		
 	ReloadFont(0, 0);
 }
