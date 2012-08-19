@@ -165,7 +165,6 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			{
 				DBVARIANT dbv = {0};
 				PAINTSTRUCT ps;
-				HDC hdc;
 				LOGFONT lfnt, lfnt1;
 				COLORREF fntc, fntc1;
 				COLORREF clr;
@@ -201,7 +200,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 				GetClientRect(hwnd, &rc);
 
-				hdc = BeginPaint(hwnd, &ps);
+				HDC hdc = BeginPaint(hwnd, &ps);
 
 				if (ServiceExists(MS_SKIN_DRAWGLYPH)) {
 					SKINDRAWREQUEST rq;
@@ -270,13 +269,11 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 static void addWindow(HANDLE hContact) 
 {
-	DWORD frameID;
-
 	DBVARIANT dbv;
-	DBGetContactSettingString(hContact, WEATHERPROTONAME, "Nick", &dbv);
+	DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Nick", &dbv);
 
-	char winname[512];
-	mir_snprintf(winname, SIZEOF(winname), "Weather: %s", dbv.pszVal);
+	TCHAR winname[512];
+	mir_sntprintf(winname, SIZEOF(winname), _T("Weather: %s"), dbv.ptszVal);
 	DBFreeVariant(&dbv);
 
 	HWND hWnd = CreateWindow( _T("WeatherFrame"), _T(""), WS_CHILD | WS_VISIBLE, 
@@ -284,13 +281,13 @@ static void addWindow(HANDLE hContact)
 	WindowList_Add(hMwinWindowList, hWnd, hContact);
 
 	CLISTFrame Frame = {0};
-	Frame.name = winname;
+	Frame.tname = winname;
 	Frame.cbSize = sizeof(Frame);
 	Frame.hWnd = hWnd;
 	Frame.align = alBottom;
-	Frame.Flags = F_VISIBLE|F_NOBORDER;
+	Frame.Flags = F_VISIBLE|F_NOBORDER|F_TCHAR;
 	Frame.height = 32;
-	frameID = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+	DWORD frameID = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 
 	DBWriteContactSettingDword(hContact, WEATHERPROTONAME, "mwin", frameID);
 	DBWriteContactSettingByte(hContact, "CList", "Hidden", TRUE);
