@@ -566,8 +566,7 @@ INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 		case IDC_STEP1:
 			// update current data
-			CallService(MS_UTILS_OPENURL, opt.NewBrowserWin, 
-				(WPARAM)"http://miranda-ng.org/");
+			CallService(MS_UTILS_OPENURL, opt.NewBrowserWin | OUF_TCHAR, (WPARAM)_T("http://miranda-ng.org/"));
 			break;
 
 		case IDC_STEP2: 

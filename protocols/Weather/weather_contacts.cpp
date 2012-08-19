@@ -31,9 +31,7 @@ static void OpenUrl( TCHAR* format, TCHAR* id )
 	GetID( id );
 	mir_sntprintf( loc, SIZEOF(loc), format, id );
 	
-	char* szUrl = mir_t2a( loc );
-	CallService(MS_UTILS_OPENURL, opt.NewBrowserWin, (LPARAM)szUrl );
-	mir_free( szUrl );
+	CallService(MS_UTILS_OPENURL, opt.NewBrowserWin | OUF_TCHAR, (LPARAM)loc );
 }
 
 //============ BASIC CONTACTS FUNCTIONS AND LINKS  ============
