@@ -250,18 +250,18 @@ void UpdateMenu(BOOL State)
 
 	if (State) 
 	{	// to enable auto-update
-		mi.pszName = "Auto Update Enabled";
+		mi.ptszName = LPGENT("Auto Update Enabled");
 		mi.icolibItem = GetIconHandle("main");
 	}
 	else 
 	{	// to disable auto-update
-		mi.pszName = "Auto Update Disabled";
+		mi.ptszName = LPGENT("Auto Update Disabled");
 		mi.icolibItem = GetIconHandle("disabled");
 	}
 	// update option setting
 	opt.CAutoUpdate = State;
 	DBWriteContactSettingByte(NULL, WEATHERPROTONAME, "AutoUpdate", (BYTE)opt.AutoUpdate);
-	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 
 	// update menu item
 	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hEnableDisableMenu,(LPARAM)&mi);
@@ -282,18 +282,18 @@ void UpdatePopupMenu(BOOL State)
 
 	if (State) 
 	{	// to enable popup
-		mi.pszName = "Disable &weather notification";
+		mi.ptszName = LPGENT("Disable &weather notification");
 		mi.icolibItem = GetIconHandle("popup");
 	}
 	else 
 	{	// to disable popup
-		mi.pszName = "Enable &weather notification";
+		mi.ptszName = LPGENT("Enable &weather notification");
 		mi.icolibItem = GetIconHandle("nopopup");
 	}
 	// update option setting
 	opt.UsePopup = State;
 	DBWriteContactSettingByte(NULL, WEATHERPROTONAME, "UsePopUp", (BYTE)opt.UsePopup);
-	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 
 	// update menu item
 	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hEnableDisablePopupMenu,(LPARAM)&mi);
@@ -321,64 +321,64 @@ void AddMenuItems(void)
 
 	mi.cbSize = sizeof(mi);
 	mi.pszContactOwner = WEATHERPROTONAME;
-	mi.flags = CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_ICONFROMICOLIB|CMIF_TCHAR;
 
 	// contact menu
 	hService[15] = CreateServiceFunction(MS_WEATHER_UPDATE, UpdateSingleStation);
 	mi.position = -0x7FFFFFFA;
 	mi.icolibItem = GetIconHandle("update");
-	mi.pszName = "Update Weather";
+	mi.ptszName = LPGENT("Update Weather");
 	mi.pszService = MS_WEATHER_UPDATE;
 	Menu_AddContactMenuItem(&mi);
 
 	hService[16] = CreateServiceFunction(MS_WEATHER_REFRESH, UpdateSingleRemove);
 	mi.position = -0x7FFFFFF9;
 	mi.icolibItem = GetIconHandle("update2");
-	mi.pszName = "Remove Old Data then Update";
+	mi.ptszName = LPGENT("Remove Old Data then Update");
 	mi.pszService = MS_WEATHER_REFRESH;
 	Menu_AddContactMenuItem(&mi);
 
 	hService[17] = CreateServiceFunction(MS_WEATHER_BRIEF, BriefInfoSvc);
 	mi.position = -0x7FFFFFF8;
 	mi.icolibItem = GetIconHandle("brief");
-	mi.pszName = "Brief Information";
+	mi.ptszName = LPGENT("Brief Information");
 	mi.pszService = MS_WEATHER_BRIEF;
 	Menu_AddContactMenuItem(&mi);
 
 	hService[18] = CreateServiceFunction(MS_WEATHER_COMPLETE, LoadForecast);
 	mi.position = -0x7FFFFFF7;
 	mi.icolibItem = GetIconHandle("read");
-	mi.pszName = "Read Complete Forecast";
+	mi.ptszName = LPGENT("Read Complete Forecast");
 	mi.pszService = MS_WEATHER_COMPLETE;
 	Menu_AddContactMenuItem(&mi);
 
 	hService[19] = CreateServiceFunction(MS_WEATHER_MAP, WeatherMap);
 	mi.position = -0x7FFFFFF6;
 	mi.icolibItem = GetIconHandle("map");
-	mi.pszName = "Weather Map";
+	mi.ptszName = LPGENT("Weather Map");
 	mi.pszService = MS_WEATHER_MAP;
 	Menu_AddContactMenuItem(&mi);
 
 	hService[20] = CreateServiceFunction(MS_WEATHER_LOG, ViewLog);
 	mi.position = -0x7FFFFFF5;
 	mi.icolibItem = GetIconHandle("log");
-	mi.pszName = "View Log";
+	mi.ptszName = LPGENT("View Log");
 	mi.pszService = MS_WEATHER_LOG;
 	Menu_AddContactMenuItem(&mi);
 
 	hService[21] = CreateServiceFunction(MS_WEATHER_EDIT, EditSettings);
 	mi.position = -0x7FFFFFF4;
 	mi.icolibItem = GetIconHandle("edit");
-	mi.pszName = "Edit Settings";
+	mi.ptszName = LPGENT("Edit Settings");
 	mi.pszService = MS_WEATHER_EDIT;
 	Menu_AddContactMenuItem(&mi);
 
 	// adding main menu items
-	mi.pszPopupName = "Weather";
+	mi.ptszPopupName = LPGENT("Weather");
 	mi.popupPosition = 500099000;
 
 	hService[22] = CreateServiceFunction(MS_WEATHER_ENABLED, EnableDisableCmd);
-	mi.pszName = "Enable/Disable Weather Update";
+	mi.ptszName = LPGENT("Enable/Disable Weather Update");
 	mi.icolibItem = GetIconHandle("main");
 	mi.position = 10100001;
 	mi.pszService = MS_WEATHER_ENABLED;
@@ -388,24 +388,24 @@ void AddMenuItems(void)
 	hService[23] = CreateServiceFunction(MS_WEATHER_UPDATEALL, UpdateAllInfo);
 	mi.position = 20100001;
 	mi.icolibItem = GetIconHandle("update");
-	mi.pszName = "Update All Weather";
+	mi.ptszName = LPGENT("Update All Weather");
 	mi.pszService = MS_WEATHER_UPDATEALL;
 	Menu_AddMainMenuItem(&mi);
 
 	hService[24] = CreateServiceFunction(MS_WEATHER_REFRESHALL, UpdateAllRemove);
 	mi.position = 20100002;
 	mi.icolibItem = GetIconHandle("update2");
-	mi.pszName = "Remove Old Data then Update All";
+	mi.ptszName = LPGENT("Remove Old Data then Update All");
 	mi.pszService = MS_WEATHER_REFRESHALL;
 	Menu_AddMainMenuItem(&mi);
 
 	// only run if popup service exists
-	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		hService[25] = CreateServiceFunction(WEATHERPROTONAME "/PopupMenu", MenuitemNotifyCmd);
-		mi.pszName = "Weather Notification";
+		mi.ptszName = LPGENT("Weather Notification");
 		mi.icolibItem = GetIconHandle("popup");
 		mi.position = 0;
-		mi.pszPopupName = "PopUps";
+		mi.ptszPopupName = LPGENT("PopUps");
 		mi.pszService = WEATHERPROTONAME "/PopupMenu";
 		hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
 		UpdatePopupMenu(opt.UsePopup);
@@ -415,8 +415,8 @@ void AddMenuItems(void)
 		hService[26] = CreateServiceFunction("Weather/mwin_menu", Mwin_MenuClicked);
 		mi.position = -0x7FFFFFF0;
 		mi.hIcon = NULL;
-		mi.flags = 0;
-		mi.pszName = "Display in a frame";
+		mi.flags = CMIF_TCHAR;
+		mi.ptszName = LPGENT("Display in a frame");
 		mi.pszService = "Weather/mwin_menu";
 		hMwinMenu = Menu_AddContactMenuItem(&mi);
 	}

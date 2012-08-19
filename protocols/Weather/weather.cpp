@@ -141,7 +141,7 @@ int WeatherInit(WPARAM wParam,LPARAM lParam)
 	AddMenuItems();
 
 	// timer for the first update
-	timerId = SetTimer(NULL, 0, 5000, (TIMERPROC)timerProc2);  // first update is 5 sec after load
+	timerId = SetTimer(NULL, 0, 5000, timerProc2);  // first update is 5 sec after load
 
 	// weather user detail
 	hHooks[0] = HookEvent(ME_USERINFO_INITIALISE, UserInfoInit);
@@ -210,7 +210,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 extern "C" int __declspec(dllexport) Load(void) 
 {
-	PROTOCOLDESCRIPTOR pd = {0};
 	DWORD lastver;
 
 
@@ -258,6 +257,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	hUpdateMutex = CreateMutex(NULL, FALSE, NULL);
 
 	// register weather protocol
+	PROTOCOLDESCRIPTOR pd = {0};
 	pd.cbSize = PROTOCOLDESCRIPTOR_V3_SIZE;
 	pd.szName = WEATHERPROTONAME;
 	pd.type = PROTOTYPE_PROTOCOL;
@@ -270,8 +270,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	DBWriteContactSettingString(NULL, "KnownModules", "Weather Protocol", "Weather,WeatherCondition,Current");
 
 	// add sound event
-	SkinAddNewSoundEx("weatherupdated", NULL, LPGEN("Weather Condition Changed"));
-	SkinAddNewSoundEx("weatheralert", NULL, LPGEN("Weather Alert Issued"));
+	SkinAddNewSoundExT("weatherupdated", _T(WEATHERPROTONAME), LPGENT("Weather Condition Changed"));
+	SkinAddNewSoundExT("weatheralert", _T(WEATHERPROTONAME), LPGENT("Weather Alert Issued"));
 
 	// window needed for popup commands
 	TCHAR SvcFunc[100];

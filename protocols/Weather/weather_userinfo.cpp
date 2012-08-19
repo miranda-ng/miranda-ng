@@ -38,7 +38,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.position = 100000000;
-	odp.pszTitle = LPGEN(WEATHERPROTONAME);
+	odp.ptszTitle = _T(WEATHERPROTONAME);
 
 	if (lParam == 0) 
 	{
@@ -54,7 +54,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 			// register the contact info page
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 			odp.pfnDlgProc = DlgProcUIPage;
-			odp.flags = ODPF_BOLDGROUPS;
+			odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 			UserInfo_AddPage(wParam, &odp);
 		}
 	}

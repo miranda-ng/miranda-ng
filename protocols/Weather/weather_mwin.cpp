@@ -188,13 +188,13 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				clr = DBGetContactSettingDword(NULL, WEATHERPROTONAME, "ColorMwinFrame", GetSysColor(COLOR_3DFACE));
 
 				{
-					FontID fntid = {0};
-					strcpy(fntid.group, WEATHERPROTONAME);
-					strcpy(fntid.name, "Frame Font");
-					fntc = CallService(MS_FONT_GET, (WPARAM)&fntid, (LPARAM)&lfnt);
+					FontIDT fntid = {0};
+					_tcscpy(fntid.group, _T(WEATHERPROTONAME));
+					_tcscpy(fntid.name, LPGENT("Frame Font"));
+					fntc = CallService(MS_FONT_GETT, (WPARAM)&fntid, (LPARAM)&lfnt);
 
-					strcpy(fntid.name, "Frame Title Font");
-					fntc1 = CallService(MS_FONT_GET, (WPARAM)&fntid, (LPARAM)&lfnt1);
+					_tcscpy(fntid.name, LPGENT("Frame Title Font"));
+					fntc1 = CallService(MS_FONT_GETT, (WPARAM)&fntid, (LPARAM)&lfnt1);
 				}
 
 				DBGetContactSettingTString(data->hContact, WEATHERCONDITION, "WeatherInfo", &dbv);
@@ -348,7 +348,7 @@ int RedrawFrame(WPARAM wParam, LPARAM lParam)
 void InitMwin(void) 
 {
 	HANDLE hContact;
-	HMODULE hUser = GetModuleHandleA("user32.dll");
+	HMODULE hUser = GetModuleHandle(_T("user32.dll"));
 
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) return;
 
@@ -373,21 +373,21 @@ void InitMwin(void)
 	}
 
 	{
-		ColourID colourid = {0};
-		colourid.cbSize = sizeof(ColourID);
+		ColourIDT colourid = {0};
+		colourid.cbSize = sizeof(ColourIDT);
 		strcpy(colourid.dbSettingsGroup, WEATHERPROTONAME);
 		strcpy(colourid.setting, "ColorMwinFrame");
-		strcpy(colourid.name, "Frame Background");
-		strcpy(colourid.group, WEATHERPROTONAME);
+		_tcscpy(colourid.name, LPGENT("Frame Background"));
+		_tcscpy(colourid.group, _T(WEATHERPROTONAME));
 		colourid.defcolour = GetSysColor(COLOR_3DFACE);
-		ColourRegister(&colourid);
+		ColourRegisterT(&colourid);
 
-		FontID fontid = {0};
-		fontid.cbSize = sizeof(FontID);
+		FontIDT fontid = {0};
+		fontid.cbSize = sizeof(FontIDT);
 		fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
 		strcpy(fontid.dbSettingsGroup, WEATHERPROTONAME);
-		strcpy(fontid.group, WEATHERPROTONAME);
-		strcpy(fontid.name, "Frame Font");
+		_tcscpy(fontid.group, _T(WEATHERPROTONAME));
+		_tcscpy(fontid.name, LPGENT("Frame Font"));
 		strcpy(fontid.prefix, "fnt0");
 
 		HDC hdc = GetDC(NULL);
@@ -395,15 +395,15 @@ void InitMwin(void)
 		ReleaseDC(0, hdc);
 
 		fontid.deffontsettings.charset = DEFAULT_CHARSET;
-		strcpy(fontid.deffontsettings.szFace, "Verdana");
-		strcpy(fontid.backgroundGroup, WEATHERPROTONAME);
-		strcpy(fontid.backgroundName, "Frame Background");
-		FontRegister(&fontid);
+		_tcscpy(fontid.deffontsettings.szFace, _T("Verdana"));
+		_tcscpy(fontid.backgroundGroup, _T(WEATHERPROTONAME));
+		_tcscpy(fontid.backgroundName, LPGENT("Frame Background"));
+		FontRegisterT(&fontid);
 
 		fontid.deffontsettings.style = DBFONTF_BOLD;
-		strcpy(fontid.name, "Frame Title Font");
+		_tcscpy(fontid.name, LPGENT("Frame Title Font"));
 		strcpy(fontid.prefix, "fnt1");
-		FontRegister(&fontid);
+		FontRegisterT(&fontid);
 	}
 
 	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);

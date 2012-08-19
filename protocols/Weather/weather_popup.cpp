@@ -47,7 +47,7 @@ int WeatherPopup(WPARAM wParam, LPARAM lParam)
 			ppd.PluginData = ppd.lchIcon = LoadSkinnedProtoIcon(WEATHERPROTONAME, winfo.status);
 			GetDisplay(&winfo, opt.pTitle, ppd.lptzContactName);
 			GetDisplay(&winfo, opt.pText, ppd.lptzText);
-			ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+			ppd.PluginWindowProc = PopupDlgProc;
 //		}
 //		else {	// for preview
 //			ppd.lchIcon = LoadSkinnedProtoIcon(WEATHERPROTONAME, ONLINE);
