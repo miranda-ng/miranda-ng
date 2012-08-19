@@ -37,13 +37,8 @@ extern HANDLE hUpdateMutex;
 int UpdateWeather(HANDLE hContact) 
 {
 	TCHAR str[256], str2[MAX_TEXT_SIZE];
-	int code;
-	FILE *file;
 	DBVARIANT dbv;
 	BOOL Ch = FALSE;
-	WEATHERINFO winfo;
-	HWND hMoreDataDlg;
-	int dbres;
 
 	if (hContact == NULL) return 1;		// some error prevention
 
@@ -51,13 +46,13 @@ int UpdateWeather(HANDLE hContact)
 
 	// log to netlib log for debug purpose
 	Netlib_Logf(hNetlibUser, "************************************************************************");
-	dbres = DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Nick", &dbv);
+	int dbres = DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Nick", &dbv);
 
 	Netlib_Logf(hNetlibUser, "<-- Start update for station -->");
 
 	// download the info and parse it
 	// result are stored in database
-	code = GetWeatherData(hContact);
+	int code = GetWeatherData(hContact);
 	if (code != 0) 
 	{
 		// error occurs if the return value is not equals to 0
@@ -78,7 +73,7 @@ int UpdateWeather(HANDLE hContact)
 	if (!dbres) DBFreeVariant(&dbv);
 
 	// initialize, load new weather Data
-	winfo = LoadWeatherInfo(hContact);
+	WEATHERINFO winfo = LoadWeatherInfo(hContact);
 
 	// translate weather condition
 	_tcscpy(winfo.cond, TranslateTS(winfo.cond));
@@ -176,7 +171,7 @@ int UpdateWeather(HANDLE hContact)
 				if (DBGetContactSettingByte(hContact,WEATHERPROTONAME,"Overwrite",0))
 					DeleteFile(dbv.ptszVal);
 				// open the file and set point to the end of file
-				file = fopen( dbv.pszVal, "a");
+				FILE *file = _tfopen( dbv.ptszVal, _T("a"));
 				DBFreeVariant(&dbv);
 				if (file != NULL) {
 					// write data to the file and close
@@ -212,7 +207,7 @@ int UpdateWeather(HANDLE hContact)
 	UpdateMwinData(hContact);
 
 	// update brief info if its opened
-	hMoreDataDlg = WindowList_Find(hDataWindowList, hContact);
+	HWND hMoreDataDlg = WindowList_Find(hDataWindowList, hContact);
 	if (hMoreDataDlg != NULL) PostMessage(hMoreDataDlg, WM_UPDATEDATA, 0, 0);
 	return 0;
 }

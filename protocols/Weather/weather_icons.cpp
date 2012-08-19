@@ -23,24 +23,24 @@ HANDLE hIcoLibIconsChanged = NULL;
 
 struct _tag_iconList
 {
-	char*  szDescr;
+	TCHAR*  szDescr;
 	char*  szName;
 	int    defIconID;
 	HANDLE hIconLibItem;
 }
 static iconList[] =
 {
-	{	"Protocol icon",      "main",      IDI_ICON       },
-	{	"Update Disabled",    "disabled",  IDI_DISABLED   },
-	{	"View Log",           "log",       IDI_LOG        },
-	{	"Update with Clear",  "update2",   IDI_UPDATE2    },
-	{	"View Brief",         "brief",     IDI_S          },
-	{	"View Complete",      "read",      IDI_READ       },
-	{	"Weather Update",     "update",    IDI_UPDATE     },
-	{	"Weather Map",        "map",       IDI_MAP        },
-	{	"Popup",              "popup",     IDI_POPUP      },
-	{	"No Popup",           "nopopup",   IDI_NOPOPUP    },
-	{	"Edit Settings",      "edit",      IDI_EDIT       },
+	{	LPGENT("Protocol icon"),      "main",      IDI_ICON       },
+	{	LPGENT("Update Disabled"),    "disabled",  IDI_DISABLED   },
+	{	LPGENT("View Log"),           "log",       IDI_LOG        },
+	{	LPGENT("Update with Clear"),  "update2",   IDI_UPDATE2    },
+	{	LPGENT("View Brief"),         "brief",     IDI_S          },
+	{	LPGENT("View Complete"),      "read",      IDI_READ       },
+	{	LPGENT("Weather Update"),     "update",    IDI_UPDATE     },
+	{	LPGENT("Weather Map"),        "map",       IDI_MAP        },
+	{	LPGENT("Popup"),              "popup",     IDI_POPUP      },
+	{	LPGENT("No Popup"),           "nopopup",   IDI_NOPOPUP    },
+	{	LPGENT("Edit Settings"),      "edit",      IDI_EDIT       },
 };
 
 void InitIcons(void)
@@ -53,15 +53,15 @@ void InitIcons(void)
 	sid.cbSize = sizeof(sid);
 	sid.ptszDefaultFile = szFile;
 	sid.pszName = szSettingName;
-	sid.pszSection = WEATHERPROTONAME;
-	sid.flags = SIDF_PATH_TCHAR;
+	sid.ptszSection = _T(WEATHERPROTONAME);
+	sid.flags = SIDF_ALL_TCHAR;
 
 	for (int i = 0; i < SIZEOF(iconList); i++) {
 		mir_snprintf(szSettingName, SIZEOF( szSettingName ), "%s_%s", WEATHERPROTONAME, iconList[i].szName);
 
-		sid.pszDescription = iconList[i].szDescr;
+		sid.ptszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIconLibItem = ( HANDLE )Skin_AddIcon(&sid);
+		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
 }	}
 
 HICON  LoadIconEx(const char* name, BOOL big)

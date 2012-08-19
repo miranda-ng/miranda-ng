@@ -44,6 +44,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 	{
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);
 		odp.pfnDlgProc = DlgProcINIPage;
+		odp.flags = ODPF_TCHAR;
 		UserInfo_AddPage(wParam, &odp);
 	}
 	else
@@ -285,7 +286,7 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				ListView_DeleteAllItems(hList);
 				lvi.mask = LVIF_TEXT | LVIF_PARAM;
 				lvi.lParam = 1;
-				lvi.pszText = (LPTSTR)_T("");
+				lvi.pszText = _T("");
 				lvi.iItem = ListView_InsertItem(hList, &lvi);
 				lvi.pszText = TranslateT("Retrieving new data, please wait...");
 				ListView_SetItemText(hList, lvi.iItem, 1, lvi.pszText);
