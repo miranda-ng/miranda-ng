@@ -20,22 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "weather.h"
 #include "m_acc.h"
 
-/* DRAWGLYPH Request structure */
-typedef struct s_SKINDRAWREQUEST
-{
-	char szObjectID[255];      // Unic Object ID (path) to paint
-	RECT rcDestRect;           // Rectangle to fit
-	RECT rcClipRect;           // Rectangle to paint in.
-	HDC hDC;                   // Handler to device context to paint in. 
-} SKINDRAWREQUEST,*LPSKINDRAWREQUEST;
-
-
-// Request painting glyph object 
-// wParam = pointer to SKINDRAWREQUEST structure
-// lParam = 0
-#define MS_SKIN_DRAWGLYPH "ModernList/DrawGlyph"
-
-
 #define MS_TOOLTIP_SHOWTIP		"mToolTip/ShowTip"
 #define MS_TOOLTIP_HIDETIP		"mToolTip/HideTip"
 

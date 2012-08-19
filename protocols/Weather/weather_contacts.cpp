@@ -168,13 +168,13 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		SendDlgItemMessage(hwndDlg, IDC_RESET2, BUTTONSETASFLATBTN, TRUE, 0);
 
 		// set tooltip for the buttons
-		SendDlgItemMessage(hwndDlg, IDC_GETNAME, BUTTONADDTOOLTIP, (WPARAM)"Get city name from ID", 0);
-		SendDlgItemMessage(hwndDlg, IDC_SVCINFO, BUTTONADDTOOLTIP, (WPARAM)"Weather INI information", 0);
-		SendDlgItemMessage(hwndDlg, IDC_BROWSE, BUTTONADDTOOLTIP, (WPARAM)"Browse", 0);
-		SendDlgItemMessage(hwndDlg, IDC_VIEW1, BUTTONADDTOOLTIP, (WPARAM)"View webpage", 0);
-		SendDlgItemMessage(hwndDlg, IDC_RESET1, BUTTONADDTOOLTIP, (WPARAM)"Reset to default", 0);
-		SendDlgItemMessage(hwndDlg, IDC_VIEW2, BUTTONADDTOOLTIP, (WPARAM)"View webpage", 0);
-		SendDlgItemMessage(hwndDlg, IDC_RESET2, BUTTONADDTOOLTIP, (WPARAM)"Reset to default", 0);
+		SendDlgItemMessage(hwndDlg, IDC_GETNAME, BUTTONADDTOOLTIP, (WPARAM) LPGENT("Get city name from ID"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_SVCINFO, BUTTONADDTOOLTIP, (WPARAM) LPGENT("Weather INI information"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BROWSE, BUTTONADDTOOLTIP, (WPARAM) LPGENT("Browse"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_VIEW1, BUTTONADDTOOLTIP, (WPARAM) LPGENT("View webpage"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_RESET1, BUTTONADDTOOLTIP, (WPARAM) LPGENT("Reset to default"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_VIEW2, BUTTONADDTOOLTIP, (WPARAM) LPGENT("View webpage"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_RESET2, BUTTONADDTOOLTIP, (WPARAM) LPGENT("Reset to default"), BATF_TCHAR);
 
 		// save the handle for the contact
 		WindowList_Add(hWindowList, hwndDlg, hContact);
@@ -246,13 +246,12 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			{
 				// the button for getting station name from the internet
 				// this function uses the ID search for add/find weather station
-				WIDATA *sData; 
 
 				if (!CheckSearch()) return TRUE;	// don't download if update is in progress
 				// get the weather update data using the string in the ID field
 				GetDlgItemText(hwndDlg, IDC_ID, str, SIZEOF(str));
 				GetSvc(str);
-				sData = GetWIData(str);
+				WIDATA *sData = GetWIData(str);
 				GetDlgItemText(hwndDlg, IDC_ID, str, SIZEOF(str));
 				GetID(str);
 				// if ID search is available, do it
