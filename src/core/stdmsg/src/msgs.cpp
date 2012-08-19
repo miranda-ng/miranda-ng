@@ -64,7 +64,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	hwnd = WindowList_Find(g_dat->hMessageWindowList, (HANDLE) wParam);
 	if (hwnd) 
 	{
-		if (!DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS))
+		if (!db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS))
 		{
 			ShowWindow(hwnd, SW_RESTORE);
 			SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
@@ -88,7 +88,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		{
 			struct NewMessageWindowLParam newData = { 0 };
 			newData.hContact = (HANDLE) wParam;
-			newData.noActivate = DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
+			newData.noActivate = db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
 			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM) & newData);
 			return 0;
 		}
@@ -283,7 +283,7 @@ static void RestoreUnreadMessageAlerts(void)
 				{
 					struct NewMessageWindowLParam newData = {0};
 					newData.hContact = hContact;
-					newData.noActivate = DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
+					newData.noActivate = db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
 					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM) & newData);
 				}
 				else 
@@ -382,7 +382,7 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 		if ( szProto ) {
 			// leave this menu item hidden for chats
-			if ( !DBGetContactSettingByte( hContact, szProto, "ChatRoom", 0 ))
+			if ( !db_get_b( hContact, szProto, "ChatRoom", 0 ))
 				if ( CallProtoService( szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND )
 					clmi.flags &= ~CMIF_HIDDEN;
 		}

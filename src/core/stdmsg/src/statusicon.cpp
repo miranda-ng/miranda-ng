@@ -145,7 +145,7 @@ void DrawStatusIcons(HANDLE hContact, HDC hDC, RECT r, int gap) {
 	int x = r.left;
 	while(current && x < r.right) {
 		sprintf(buff, "SRMMStatusIconFlags%d", current->sid.dwId);
-		flags = DBGetContactSettingByte(hContact, current->sid.szModule, buff, current->sid.flags);
+		flags = db_get_b(hContact, current->sid.szModule, buff, current->sid.flags);
 		if (!(flags & MBF_HIDDEN)) {
 			if ((flags & MBF_DISABLED) && current->sid.hIconDisabled) hIcon = current->sid.hIconDisabled;
 			else hIcon = current->sid.hIcon;
@@ -168,7 +168,7 @@ void CheckIconClick(HANDLE hContact, HWND hwndFrom, POINT pt, RECT r, int gap, i
 
 	while(current && iconNum >= 0) {
 		sprintf(buff, "SRMMStatusIconFlags%d", current->sid.dwId);
-		flags = DBGetContactSettingByte(hContact, current->sid.szModule, buff, current->sid.flags);
+		flags = db_get_b(hContact, current->sid.szModule, buff, current->sid.flags);
 		if (!(flags & MBF_HIDDEN)) iconNum--;
 		if(iconNum >= 0) 
 			current = current->next;
@@ -211,7 +211,7 @@ int GetStatusIconsCount(HANDLE hContact) {
 	struct StatusIconListNode *current = status_icon_list;
 	while(current) {
 		sprintf(buff, "SRMMStatusIconFlags%d", (int)current->sid.dwId);
-		flags = DBGetContactSettingByte(hContact, current->sid.szModule, buff, current->sid.flags);
+		flags = db_get_b(hContact, current->sid.szModule, buff, current->sid.flags);
 		if (!(flags & MBF_HIDDEN)) {
 			count ++;
 		}

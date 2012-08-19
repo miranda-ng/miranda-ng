@@ -171,14 +171,6 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 
 	// If we have an icon or a bitmap, ignore text and only draw the image on the button
 	int textLen = GetWindowTextLength(ctl->hwnd);
-	int xOffset = 0;
-	SIZE sz;
-	TCHAR szText[MAX_PATH];
-	if (textLen>0) {
-		GetWindowText(ctl->hwnd, szText, SIZEOF(szText));
-		GetTextExtentPoint32(hdcMem, szText, lstrlen(szText), &sz);
-		xOffset = (rcClient.right-rcClient.left-sz.cx)/2;
-	}
 
 	if (ctl->hIcon) {
 	  	LONG g_cxsmIcon = GetSystemMetrics(SM_CXSMICON);
@@ -213,26 +205,31 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 	}
 	else if (textLen > 0) {
 		// Draw the text and optinally the arrow
-		HFONT hOldFont;
-
 		SetBkMode(hdcMem, TRANSPARENT);
-		hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
+		HFONT hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
+
+		SIZE sz;
+		TCHAR szText[MAX_PATH];
+		GetWindowText(ctl->hwnd, szText, SIZEOF(szText));
+		GetTextExtentPoint32(hdcMem, szText, lstrlen(szText), &sz);
+		int xOffset = (rcClient.right - rcClient.left - sz.cx)/2;
+		int yOffset = (rcClient.bottom - rcClient.top - sz.cy)/2;
+
 		// XP w/themes doesn't used the glossy disabled text.  Is it always using COLOR_GRAYTEXT?  Seems so.
 		SetTextColor(hdcMem, IsWindowEnabled(ctl->hwnd) || !ctl->hThemeButton?GetSysColor(COLOR_BTNTEXT):GetSysColor(COLOR_GRAYTEXT));
 		//!! move it up, to text extent points?
 		if (ctl->cHot) {
 			SIZE szHot;
-
 			GetTextExtentPoint32 (hdcMem, _T("&"), 1, &szHot);
 			sz.cx -= szHot.cx;
 		}
-		if (ctl->arrow) {
+		if (ctl->arrow)
 			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->arrow, 0, rcClient.right-rcClient.left-5-GetSystemMetrics(SM_CXSMICON)+( !ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), (rcClient.bottom-rcClient.top)/2-GetSystemMetrics(SM_CYSMICON)/2+(!ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWindowEnabled(ctl->hwnd)?DST_ICON:DST_ICON|DSS_DISABLED);
-		}
+
 		SelectObject(hdcMem, ctl->hFont);
 		DrawState(hdcMem, NULL, NULL, (LPARAM)szText, 0,
 			xOffset+(!ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0),
-			ctl->hThemeButton?(rcClient.bottom-rcClient.top-sz.cy)/2:(rcClient.bottom-rcClient.top-sz.cy)/2-(ctl->stateId == PBS_PRESSED?0:1),
+			ctl->hThemeButton ? yOffset : yOffset - (ctl->stateId == PBS_PRESSED?0:1),
 			sz.cx, sz.cy,
 			IsWindowEnabled(ctl->hwnd) || ctl->hThemeButton?DST_PREFIXTEXT|DSS_NORMAL:DST_PREFIXTEXT|DSS_DISABLED);
 		SelectObject(hdcMem, hOldFont);
