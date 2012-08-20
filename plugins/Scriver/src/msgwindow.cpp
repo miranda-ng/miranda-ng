@@ -346,16 +346,6 @@ static void ActivateChild(ParentWindowData *dat, HWND child) {
 	}
 }
 
-static void UpdateTabsPadding(ParentWindowData *dat)
-{
-	if (dat->childrenCount > 1) {
-//		ws |= 0x2000; //TCS_OWNERDRAWFIXED
-		TabCtrl_SetPadding(dat->hwndTabs, GetSystemMetrics(SM_CXEDGE) + 12, GetSystemMetrics(SM_CYEDGE) + 1);
-	} else {
-		TabCtrl_SetPadding(dat->hwndTabs, GetSystemMetrics(SM_CXEDGE) + 4, GetSystemMetrics(SM_CYEDGE) + 1);
-	}
-}
-
 static void AddChild(ParentWindowData *dat, HWND hwnd, HANDLE hContact)
 {
 	TCITEM tci;
@@ -372,7 +362,6 @@ static void AddChild(ParentWindowData *dat, HWND hwnd, HANDLE hContact)
 	tci.pszText = _T("");
 	tabId = TabCtrl_InsertItem(dat->hwndTabs, dat->childrenCount-1, &tci);
 //	ActivateChild(dat, mdat->hwnd);
-	UpdateTabsPadding(dat);
 	SetWindowPos(mwtd->hwnd, HWND_TOP, dat->childRect.left, dat->childRect.top, dat->childRect.right-dat->childRect.left, dat->childRect.bottom - dat->childRect.top, SWP_HIDEWINDOW);
 	SendMessage(dat->hwnd, WM_SIZE, 0, 0);
 
@@ -398,7 +387,6 @@ static void RemoveChild(ParentWindowData *dat, HWND child)
 			else
 				dat->hwndActive = NULL;
 		}
-		UpdateTabsPadding(dat);
 		ReleaseIcon(tci.iImage);
 	}
 }
@@ -413,7 +401,6 @@ static void CloseOtherChilden(ParentWindowData *dat, HWND child)
 			SendMessage(mwtd->hwnd, WM_CLOSE, 0, 0);
 		}
 	}
-	UpdateTabsPadding(dat);
 	ActivateChild(dat, child);
 }
 
@@ -471,7 +458,7 @@ static void SetContainerWindowStyle(ParentWindowData *dat)
 		ws |= TCS_BOTTOM;
 	}
 	ws |= 0x2000; //TCS_OWNERDRAWFIXED
-	if (dat->childrenCount > 1) {
+	if (dat->flags2 & SMF2_TABCLOSEBUTTON) {
 //		ws |= 0x2000; //TCS_OWNERDRAWFIXED
 		TabCtrl_SetPadding(dat->hwndTabs, GetSystemMetrics(SM_CXEDGE) + 12, GetSystemMetrics(SM_CYEDGE) + 1);
 	} else {
@@ -1231,7 +1218,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 					ImageList_DrawEx(g_dat->hTabIconList, tci.iImage, lpDIS->hDC, rIcon.left, rIcon.top, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
 					rect.left = rIcon.left + (info.rcImage.right - info.rcImage.left);
 				}
-				if (dat->childrenCount > 1) {
+				if (dat->flags2 & SMF2_TABCLOSEBUTTON) {
                     ImageList_GetImageInfo(g_dat->hButtonIconList, 0, &info);
                     rIcon.left = rect.right - GetSystemMetrics(SM_CXEDGE) - (bSelected ? 6 : 2) - (info.rcImage.right - info.rcImage.left);
                     ImageList_DrawEx(g_dat->hButtonIconList, 0, lpDIS->hDC, rIcon.left, rIcon.top, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
@@ -1247,7 +1234,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 					ImageList_DrawEx(g_dat->hTabIconList, tci.iImage, lpDIS->hDC, rIcon.left, rIcon.top, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
 					rect.left = rIcon.left + (info.rcImage.right - info.rcImage.left);
 				}
-				if (dat->childrenCount > 1) {
+				if (dat->flags2 & SMF2_TABCLOSEBUTTON) {
                     ImageList_GetImageInfo(g_dat->hButtonIconList, 0, &info);
                     rIcon.top = rect.bottom - (info.rcImage.bottom - info.rcImage.top) - 2;
                     rIcon.left = rect.right - GetSystemMetrics(SM_CXEDGE) - (bSelected ? 6 : 2) - (info.rcImage.right - info.rcImage.left);
@@ -1462,7 +1449,7 @@ BOOL CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						dat->destTab = -1;
 						RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 					}
-				} else if (dat->srcTab >= 0 && TabCtrl_GetItemCount(hwnd) > 1) {
+				} else if (dat->srcTab >= 0 && g_dat->flags2 & SMF2_TABCLOSEBUTTON) {
 					IMAGEINFO info;
 					POINT pt;
 					RECT rect;

@@ -67,22 +67,26 @@ BEGIN
     GROUPBOX        "Tabs",IDC_STATIC,0,0,304,118
     CONTROL         "Enable tabs",IDC_USETABS,"Button",BS_AUTOCHECKBOX |
 					WS_TABSTOP,8,12,260,10
+    CONTROL         "Always show tab bar",IDC_ALWAYSSHOWTABS,
+					"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,23,252,10
     CONTROL         "Tabs at bottom",IDC_TABSATBOTTOM,"Button",
-					BS_AUTOCHECKBOX | WS_TABSTOP,20,23,252,10
+					BS_AUTOCHECKBOX | WS_TABSTOP,20,34,252,10
     CONTROL         "Limit names on tabs to",IDC_LIMITNAMES,
-					"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,34,126,10
-    EDITTEXT        IDC_LIMITNAMESLEN,212,33,20,12,ES_RIGHT | ES_NUMBER
-    LTEXT           "characters",IDC_CHARS,236,34,65,8,WS_DISABLED
+					"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,45,126,10
+    EDITTEXT        IDC_LIMITNAMESLEN,212,44,20,12,ES_RIGHT | ES_NUMBER
+    LTEXT           "characters",IDC_CHARS,236,45,65,8,WS_DISABLED
+    CONTROL         "Show close button on each tab ",IDC_TABCLOSEBUTTON,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,56,192,10
     CONTROL         "Switch to active tab",IDC_SWITCHTOACTIVE,
-					"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,45,252,10
+					"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,67,252,10
     CONTROL         "Limit number of tabs per window to",IDC_LIMITTABS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,56,180,10
-    EDITTEXT        IDC_LIMITTABSNUM,212,55,20,12,ES_RIGHT | ES_NUMBER
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,78,180,10
+    EDITTEXT        IDC_LIMITTABSNUM,212,77,20,12,ES_RIGHT | ES_NUMBER
     CONTROL         "Use separate windows for group chats",IDC_SEPARATECHATSCONTAINERS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,67,192,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,89,192,10
     CONTROL         "Limit number of group chats tabs per window to",IDC_LIMITCHATSTABS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,78,180,10
-    EDITTEXT        IDC_LIMITCHATSTABSNUM,212,77,20,12,ES_RIGHT | ES_NUMBER
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,100,180,10
+    EDITTEXT        IDC_LIMITCHATSTABSNUM,212,99,20,12,ES_RIGHT | ES_NUMBER
 END
 
 IDD_OPT_LAYOUT DIALOGEX 2, 0, 304, 230
@@ -673,8 +677,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,10,0,1
- PRODUCTVERSION 2,10,0,1
+ FILEVERSION 2,10,0,2
+ PRODUCTVERSION 2,10,0,2
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -692,12 +696,12 @@ BEGIN
             VALUE "Comments", "http://miranda-ng.org/"
             VALUE "CompanyName", "Miranda NG Development Team"
             VALUE "FileDescription", "Scriver - send and receive instant messages"
-            VALUE "FileVersion", "2.10.0.1"
+            VALUE "FileVersion", "2.10.0.2"
             VALUE "InternalName", "scriver"
             VALUE "LegalCopyright", "Copyright (c) 2000-2012 Miranda NG Project"
             VALUE "OriginalFilename", "scriver.dll"
             VALUE "ProductName", "Scriver"
-            VALUE "ProductVersion", "2.10.0.1"
+            VALUE "ProductVersion", "2.10.0.2"
         END
     END
     BLOCK "VarFileInfo"
