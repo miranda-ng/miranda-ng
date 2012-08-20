@@ -524,18 +524,27 @@ static void MessageDialogResize(HWND hwndDlg, struct SrmmWindowData *dat, int w,
 	ParentWindowData *pdat = dat->parent;
 	int hSplitterPos = dat->splitterPos, toolbarHeight = pdat->flags2&SMF2_SHOWTOOLBAR ? IsToolbarVisible(SIZEOF(toolbarButtons), g_dat->buttonVisibility) ? dat->toolbarSize.cy : dat->toolbarSize.cy / 3 : 0;
 	int hSplitterMinTop = toolbarHeight + dat->windowData.minLogBoxHeight, hSplitterMinBottom = dat->windowData.minEditBoxHeight;
-	int infobarHeight = INFO_BAR_INNER_HEIGHT;
+	int infobarInnerHeight = INFO_BAR_INNER_HEIGHT;
+	int infobarHeight = INFO_BAR_HEIGHT;
 	int avatarWidth = 0, avatarHeight = 0;
 	int toolbarWidth = w;
 	int messageEditWidth = w - 2;
 	int logY, logH;
 
+	if (!dat->infobarData)
+		return;
+
 	if (!(pdat->flags2 & SMF2_SHOWINFOBAR)) {
 		infobarHeight = 0;
+		infobarInnerHeight = 0;
 	}
 	hSplitterPos = dat->desiredInputAreaHeight + SPLITTER_HEIGHT + 3;
-	if (h - hSplitterPos - INFO_BAR_HEIGHT< hSplitterMinTop) {
-		hSplitterPos = h - hSplitterMinTop - INFO_BAR_HEIGHT;
+
+	if (hSplitterPos > ( h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1 ) / 2)
+		hSplitterPos =  ( h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1 ) / 2;
+	
+	if (h - hSplitterPos - infobarHeight < hSplitterMinTop) {
+		hSplitterPos = h - hSplitterMinTop - infobarHeight;
 	}
 	if (hSplitterPos < avatarHeight) {
 		hSplitterPos = avatarHeight;
@@ -567,10 +576,10 @@ static void MessageDialogResize(HWND hwndDlg, struct SrmmWindowData *dat, int w,
 
 	dat->splitterPos = hSplitterPos;
 
-	logY = infobarHeight;
-	logH = h-hSplitterPos-toolbarHeight - infobarHeight;
+	logY = infobarInnerHeight;
+	logH = h-hSplitterPos-toolbarHeight - infobarInnerHeight;
 	hdwp = BeginDeferWindowPos(15);
-	hdwp = DeferWindowPos(hdwp, dat->infobarData->hWnd, 0, 1, 0, w - 2, infobarHeight - 2, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, dat->infobarData->hWnd, 0, 1, 0, w - 2, infobarInnerHeight - 2, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_LOG), 0, 1, logY, w-2, logH, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_MESSAGE), 0, 1, h - hSplitterPos + SPLITTER_HEIGHT, messageEditWidth, hSplitterPos - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_AVATAR), 0, w-avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);
