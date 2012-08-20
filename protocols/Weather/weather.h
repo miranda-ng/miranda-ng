@@ -62,7 +62,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_clui.h>
 #include <m_clc.h>
 #include <m_fontservice.h>
-#include "m_cluiframes.h"
+#include <m_skin_eng.h>
+#include <m_cluiframes.h>
 
 #include <m_popup.h>
 
