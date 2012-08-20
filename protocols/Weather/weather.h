@@ -62,8 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_clui.h>
 #include <m_clc.h>
 #include <m_fontservice.h>
-#include <m_skin_eng.h>
-#include <m_cluiframes.h>
+#include "m_cluiframes.h"
 
 #include <m_popup.h>
 
@@ -157,15 +156,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 505 HTTP Version Not Supported
 
 // defaults constants
-#define C_DEFAULT Translate("%n  [%t, %c]")
-#define N_DEFAULT Translate("%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]")
-#define B_DEFAULT Translate("Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]")
-#define b_DEFAULT Translate("Weather Condition for %n as of %u")
+#define C_DEFAULT "%n"
+#define N_DEFAULT ""
+#define B_DEFAULT "Max/Min: %[Max]%[High]/%[Min]%[Low]\r\nCondition: %[Condition]\r\nTemperature: %[Temperature]\r\nPressure: %[Pressure] (%[Pressure Change])\r\nWind: %[Wind Direction], %[Wind Speed]\r\nHumidity: %[Humidity]\r\nVisibility: %[Visibility]\r\nDew Point: %[Dewpoint]\r\nUV Index: %[UV Index]\r\nMoon: %[Moon]\r\nCoordinates: Latitude: %[Latitude] Longitude: %[Longitude]\r\n\r\nSunrise: %[Sunrise]\r\nSunset: %[Sunset]\r\nDay Length: %[Day Length]\r\n\r\n5 Days Forecast:\r\n%[Forecast Day 1]\r\n%[Forecast Day 2]\r\n%[Forecast Day 3]\r\n%[Forecast Day 4]\r\n%[Forecast Day 5]"
+#define b_DEFAULT "Weather Condition for %n as of %u"
 #define X_DEFAULT N_DEFAULT
-#define H_DEFAULT Translate("%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m")
-#define E_DEFAULT Translate("%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m")
-#define P_DEFAULT Translate("%n   (%u)")
-#define p_DEFAULT Translate("%c, %t\nToday:  High %h, Low %l")
+#define H_DEFAULT ""
+#define E_DEFAULT ""
+#define P_DEFAULT "Weather Condition for %n as of %u"
+#define p_DEFAULT "Condition: %[Condition]\r\nTemperature: %[Temperature]\r\nPressure: %[Pressure] (%[Pressure Change])\r\nWind: %[Wind Direction], %[Wind Speed]\r\nHumidity: %[Humidity]\r\nVisibility: %[Visibility]\r\nUV Index: %[UV Index]"
+#define s_DEFAULT "Temperature: %[Temperature]"
 
 
 //============  OPTION STRUCT  ============
