@@ -154,7 +154,7 @@ LRESULT CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-int CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -218,7 +218,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-int CALLBACK PopupDlgProcNoSet(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK PopupDlgProcNoSet(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -365,7 +365,7 @@ void GoneNotify(HANDLE hContact, TCHAR *message)
 			ppd.colorBack = options.iPopUpColorBack;
 			ppd.colorText = options.iPopUpColorFore;
 		}
-		ppd.PluginWindowProc = (WNDPROC)PopupDlgProcNoSet;
+		ppd.PluginWindowProc = PopupDlgProcNoSet;
 		ppd.PluginData = NULL;
 		ppd.iSeconds = options.iPopUpDelay;
 	
@@ -601,7 +601,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 				ppd.colorBack = options.iPopUpColorBack;
 				ppd.colorText = options.iPopUpColorFore;
 			}
-			ppd.PluginWindowProc = (WNDPROC)MissYouPopupDlgProc;
+			ppd.PluginWindowProc = MissYouPopupDlgProc;
 			ppd.PluginData = NULL;
 			ppd.iSeconds = -1;
 			
