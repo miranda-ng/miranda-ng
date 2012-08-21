@@ -119,7 +119,7 @@ time_t getLastInputMsg(HANDLE hContact)
  * PopUp window procedures
  */
 
-int CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -189,7 +189,7 @@ int CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -262,7 +262,7 @@ bool isContactGoneFor(HANDLE hContact, int days)
 		if (daysSinceMessage >= options.iSilencePeriod)
 			if (!DBGetContactSettingByte(hContact, "CList", "Hidden", 0) && !DBGetContactSettingByte(hContact, MODULE_NAME, "NeverHide", 0))
 			{
-				char szInfo[200];
+				TCHAR szInfo[200];
 				
 				POPUPDATAT_V2 ppd = {0};
 				ppd.cbSize = sizeof(POPUPDATAT_V2);
@@ -270,16 +270,16 @@ bool isContactGoneFor(HANDLE hContact, int days)
 				ppd.lchContact = hContact;
 				ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"enabled_icon");
 				
-				mir_snprintf(szInfo, 200, Translate("Hiding %s (%s)"), (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0), (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0));
-				strncpy(ppd.lpzContactName, szInfo, MAX_CONTACTNAME);
-				mir_snprintf(szInfo, 200, Translate("%d days since last message"), daysSinceMessage);
-				strncpy(ppd.lpzText, szInfo, MAX_SECONDLINE);
+				mir_sntprintf(szInfo, 200, TranslateT("Hiding %s (%S)"), (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0));
+				_tcsncpy(ppd.lptzContactName, szInfo, MAX_CONTACTNAME);
+				mir_sntprintf(szInfo, 200, TranslateT("%d days since last message"), daysSinceMessage);
+				_tcsncpy(ppd.lptzText, szInfo, MAX_SECONDLINE);
 				if (!options.iUsePopupColors)
 				{
 					ppd.colorBack = options.iPopUpColorBack;
 					ppd.colorText = options.iPopUpColorFore;
 				}
-				ppd.PluginWindowProc = (WNDPROC)HidePopupDlgProc;
+				ppd.PluginWindowProc = HidePopupDlgProc;
 				ppd.PluginData = NULL;
 				ppd.iSeconds = -1;
 				
@@ -287,7 +287,7 @@ bool isContactGoneFor(HANDLE hContact, int days)
 				ppd.lpActions = hideactions;
 				ppd.actionCount = 2;
 				
-				CallService(MS_POPUP_ADDPOPUPEX, (WPARAM) &ppd, APF_NEWDATA);
+				CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &ppd, APF_NEWDATA);
 
 				SkinPlaySound("buddyExpectatorHide");
 			}
@@ -296,7 +296,7 @@ bool isContactGoneFor(HANDLE hContact, int days)
 	return (daysSinceOnline >= days && (daysSinceMessage == -1 || daysSinceMessage >= days));
 }
 
-void ReturnNotify(HANDLE hContact, char *message)
+void ReturnNotify(HANDLE hContact, TCHAR *message)
 {
 	if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) == 1 || DBGetContactSettingByte(hContact, "CList", "Hidden", 0) == 1)
 		return;
@@ -311,14 +311,14 @@ void ReturnNotify(HANDLE hContact, char *message)
 
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
-		strncpy(ppd.lpzContactName, (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0), MAX_CONTACTNAME);
-		strncpy(ppd.lpzText, message, MAX_SECONDLINE);
+		_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
+		_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
 		if (!options.iUsePopupColors)
 		{
 			ppd.colorBack = options.iPopUpColorBack;
 			ppd.colorText = options.iPopUpColorFore;
 		}
-		ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+		ppd.PluginWindowProc = PopupDlgProc;
 		ppd.PluginData = NULL;
 		ppd.iSeconds = options.iPopUpDelay;
 
@@ -333,18 +333,19 @@ void ReturnNotify(HANDLE hContact, char *message)
 		cle.cbSize = sizeof(cle);
 		cle.hContact = hContact;
 		cle.hIcon = hIcon;
-		cle.pszService = (char *)"BuddyExpectator/actionReturned";
+		cle.pszService = "BuddyExpectator/actionReturned";
+		cle.flags = CLEF_TCHAR;
 
-		char* nick = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0);
-		char tmpMsg[512];
-		mir_snprintf(tmpMsg, 512, "%s %s", nick, message);
-		cle.pszTooltip = tmpMsg;
+		TCHAR* nick = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR);
+		TCHAR tmpMsg[512];
+		mir_sntprintf(tmpMsg, 512, _T("%s %s"), nick, message);
+		cle.ptszTooltip = tmpMsg;
 
 		CallServiceSync(MS_CLIST_ADDEVENT, 0, (LPARAM) &cle);
 	}
 }
 
-void GoneNotify(HANDLE hContact, char *message)
+void GoneNotify(HANDLE hContact, TCHAR *message)
 {
 	if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) == 1 || DBGetContactSettingByte(hContact, "CList", "Hidden", 0) == 1)
 		return;
@@ -357,8 +358,8 @@ void GoneNotify(HANDLE hContact, char *message)
 
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
-		strncpy(ppd.lpzContactName, (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0), MAX_CONTACTNAME);
-		strncpy(ppd.lpzText, message, MAX_SECONDLINE);
+		_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
+		_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
 		if (!options.iUsePopupColors)
 		{
 			ppd.colorBack = options.iPopUpColorBack;
@@ -368,7 +369,7 @@ void GoneNotify(HANDLE hContact, char *message)
 		ppd.PluginData = NULL;
 		ppd.iSeconds = options.iPopUpDelay;
 	
-		CallService(MS_POPUP_ADDPOPUPEX, (WPARAM) &ppd, 0);
+		PUAddPopUpT(&ppd);
 	}
 
 	if (options.iShowEvent2 > 0)
@@ -593,8 +594,8 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 			
 			ppd.lchContact = hContact;
 			ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"enabled_icon");
-			strncpy(ppd.lpzContactName, (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0), MAX_CONTACTNAME);
-			strncpy(ppd.lpzText, Translate("You awaited this contact!"), MAX_SECONDLINE);
+			_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
+			_tcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
 			if (!options.iUsePopupColors)
 			{
 				ppd.colorBack = options.iPopUpColorBack;
@@ -630,7 +631,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 
 	if (DBGetContactSettingDword(hContact, MODULE_NAME, "LastSeen", (DWORD)-1) == (DWORD)-1 && options.notifyFirstOnline)
 	{
-		ReturnNotify(hContact, Translate("has gone online for the first time."));
+		ReturnNotify(hContact, TranslateT("has gone online for the first time."));
 
 		setLastSeen(hContact);
 	}
@@ -638,13 +639,13 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 	unsigned int AbsencePeriod = DBGetContactSettingDword(hContact, MODULE_NAME, "iAbsencePeriod", options.iAbsencePeriod);
     if (isContactGoneFor(hContact, AbsencePeriod))
 	{
-        char* message = Translate("has returned after a long absence.");
+        TCHAR* message = TranslateT("has returned after a long absence.");
         time_t tmpTime;
-		char tmpBuf[251] = {0};
+		TCHAR tmpBuf[251] = {0};
         tmpTime = getLastSeen(hContact);
         if (tmpTime != -1)
 		{
-            strftime(tmpBuf, 250, Translate("has returned after being absent since %#x"), gmtime(&tmpTime));
+            _tcsftime(tmpBuf, 250, TranslateT("has returned after being absent since %#x"), gmtime(&tmpTime));
             message = tmpBuf;
         }
 		else
@@ -652,7 +653,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
             tmpTime = getLastInputMsg(hContact);
             if (tmpTime != -1)
 			{
-                strftime(tmpBuf, 250, Translate("has returned after being absent since %#x"), gmtime(&tmpTime));
+                _tcsftime(tmpBuf, 250, TranslateT("has returned after being absent since %#x"), gmtime(&tmpTime));
                 message = tmpBuf;
             }
         }
@@ -681,13 +682,13 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 			DBWriteContactSettingByte(hContact, MODULE_NAME, "StillAbsentNotified", 1);
 			SkinPlaySound("buddyExpectatorStillAbsent");
 
-			char* message = Translate("has not returned after a long absence.");
+			TCHAR* message = TranslateT("has not returned after a long absence.");
 			time_t tmpTime;
-			char tmpBuf[251] = {0};
+			TCHAR tmpBuf[251] = {0};
 			tmpTime = getLastSeen(hContact);
 			if (tmpTime != -1)
 			{
-				strftime(tmpBuf, 250, Translate("has not returned after being absent since %#x"), gmtime(&tmpTime));
+				_tcsftime(tmpBuf, 250, TranslateT("has not returned after being absent since %#x"), gmtime(&tmpTime));
 				message = tmpBuf;
 			}
 			else
@@ -695,7 +696,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 				tmpTime = getLastInputMsg(hContact);
 				if (tmpTime != -1)
 				{
-					strftime(tmpBuf, 250, Translate("has not returned after being absent since %#x"), gmtime(&tmpTime));
+					_tcsftime(tmpBuf, 250, TranslateT("has not returned after being absent since %#x"), gmtime(&tmpTime));
 					message = tmpBuf;
 				}
 			}
@@ -725,10 +726,10 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hEventUserInfoInit = HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
 	
 	// add sounds support
-	SkinAddNewSoundEx("buddyExpectatorReturn", LPGEN("BuddyExpectator"), LPGEN("Contact returned"));
-	SkinAddNewSoundEx("buddyExpectatorStillAbsent", LPGEN("BuddyExpectator"), LPGEN("Contact still absent"));
-	SkinAddNewSoundEx("buddyExpectatorMissYou", LPGEN("BuddyExpectator"), LPGEN("Miss you event"));
-	SkinAddNewSoundEx("buddyExpectatorHide", LPGEN("BuddyExpectator"), LPGEN("Hide contact event"));
+	SkinAddNewSoundExT("buddyExpectatorReturn", LPGENT("BuddyExpectator"), LPGENT("Contact returned"));
+	SkinAddNewSoundExT("buddyExpectatorStillAbsent", LPGENT("BuddyExpectator"), LPGENT("Contact still absent"));
+	SkinAddNewSoundExT("buddyExpectatorMissYou", LPGENT("BuddyExpectator"), LPGENT("Miss you event"));
+	SkinAddNewSoundExT("buddyExpectatorHide", LPGENT("BuddyExpectator"), LPGENT("Hide contact event"));
 	
 	timer_id = SetTimer(0, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
 	
@@ -743,35 +744,36 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 	
 	TCHAR szFile[MAX_PATH];
-	GetModuleFileNameA(hInst, szFile, MAX_PATH);
+	GetModuleFileName(hInst, szFile, MAX_PATH);
 
 	// IcoLib support
 	SKINICONDESC sid = {0};
-	sid.pszDefaultFile = szFile;
+	sid.ptszDefaultFile = szFile;
 	sid.cbSize = sizeof(sid);
-	sid.pszSection = "BuddyExpectator";
+	sid.flags = SIDF_ALL_TCHAR;
+	sid.ptszSection = LPGENT("BuddyExpectator");
 		
-	sid.pszDescription = "Tray/popup icon";
+	sid.ptszDescription = LPGENT("Tray/popup icon");
 	sid.pszName = "main_icon";
 	sid.iDefaultIndex = -IDI_MAINICON;
 	Skin_AddIcon(&sid);
 		
-	sid.pszDescription = "Enabled";
+	sid.ptszDescription = LPGENT("Enabled");
 	sid.pszName = "enabled_icon";
 	sid.iDefaultIndex = -IDI_ENABLED;
 	hEnabledIcon = Skin_AddIcon(&sid);
 		
-	sid.pszDescription = "Disabled";
+	sid.ptszDescription = LPGENT("Disabled");
 	sid.pszName = "disabled_icon";
 	sid.iDefaultIndex = -IDI_DISABLED;
 	hDisabledIcon = Skin_AddIcon(&sid);
 		
-	sid.pszDescription = "Hide";
+	sid.ptszDescription = LPGENT("Hide");
 	sid.pszName = "hide_icon";
 	sid.iDefaultIndex = -IDI_HIDE;
 	Skin_AddIcon(&sid);
 		
-	sid.pszDescription = "NeverHide";
+	sid.ptszDescription = LPGENT("NeverHide");
 	sid.pszName = "neverhide_icon";
 	sid.iDefaultIndex = -IDI_NEVERHIDE;
 	Skin_AddIcon(&sid);
@@ -785,27 +787,27 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		CLISTMENUITEM mi = {0};
 		mi.cbSize = sizeof(CLISTMENUITEM);
-		mi.flags = CMIF_ICONFROMICOLIB;
+		mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 		mi.icolibItem = hDisabledIcon;
 		mi.position = 200000;
-		mi.pszName = Translate("Enable Miss You");
+		mi.ptszName = LPGENT("Enable Miss You");
 		mi.pszService = "BuddyExpectator/actionMissYouClick";
 		hContactMenu = Menu_AddContactMenuItem(&mi);
 	}
 
 	missyouactions[0].cbSize = sizeof(POPUPACTION);
 	missyouactions[0].lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"disabled_icon");
-	lstrcpy(missyouactions[0].lpzTitle, Translate("Disable Miss You"));
+	lstrcpyA(missyouactions[0].lpzTitle, LPGEN("Disable Miss You"));
 	missyouactions[0].wParam = missyouactions[0].lParam = 1;
 
 	hideactions[0].cbSize = sizeof(POPUPACTION);
 	hideactions[0].lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"hide_icon");
-	lstrcpy(hideactions[0].lpzTitle, Translate("Hide contact"));
+	lstrcpyA(hideactions[0].lpzTitle, LPGEN("Hide contact"));
 	hideactions[0].wParam = hideactions[0].lParam = 2;
 
 	hideactions[1].cbSize = sizeof(POPUPACTION);
 	hideactions[1].lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"neverhide_icon");
-	lstrcpy(hideactions[1].lpzTitle, Translate("Never hide this contact"));
+	lstrcpyA(hideactions[1].lpzTitle, LPGEN("Never hide this contact"));
 	hideactions[1].wParam = hideactions[1].lParam = 3;
 
 	return 0;

@@ -105,10 +105,10 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 
             //iAbsencePeriod
             SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_RESETCONTENT, 0, 0); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) Translate("days")); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) Translate("weeks")); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) Translate("months")); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) Translate("years")); 
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("days")); 
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks")); 
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("months")); 
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("years")); 
             if (options.iAbsencePeriod % 365 == 0)
 			{
                 SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, options.iAbsencePeriod/365, FALSE);
@@ -132,10 +132,10 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 
             //iAbsencePeriod2
             SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_RESETCONTENT, 0, 0); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) Translate("days")); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) Translate("weeks")); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) Translate("months")); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) Translate("years")); 
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("days")); 
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks")); 
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("months")); 
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("years")); 
             if (options.iAbsencePeriod2 % 365 == 0)
 			{
                 SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE2, options.iAbsencePeriod2/365, FALSE);
@@ -159,10 +159,10 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 
 			//iSilencePeriod
 			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_RESETCONTENT, 0, 0); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) Translate("days")); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) Translate("weeks")); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) Translate("months")); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) Translate("years")); 
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("days")); 
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks")); 
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("months")); 
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("years")); 
 			if (options.iSilencePeriod % 365 == 0)
 			{
 				SetDlgItemInt(hwndDlg, IDC_EDIT_SILENTFOR, options.iSilencePeriod/365, FALSE);
@@ -197,10 +197,10 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			
 			
 			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_RESETCONTENT, 0, 0); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) Translate("Do nothing")); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) Translate("Delete the contact")); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) Translate("Open User Details")); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) Translate("Open message window")); 
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Do nothing")); 
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Delete the contact")); 
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Open User Details")); 
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Open message window")); 
 			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_SETCURSEL, options.action2, 0);
 
 			return TRUE;
@@ -346,7 +346,7 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
         case WM_COMMAND:
 			if (LOWORD(wParam) == IDC_PREVIEW)
 			{
-				POPUPDATAEX ppd;
+				POPUPDATAT ppd;
 				ZeroMemory(&ppd, sizeof(ppd));
         
                 //iPopUpDelay
@@ -361,10 +361,10 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
                 }
 				ppd.lchContact = NULL;
 				ppd.lchIcon = hIcon;
-				strncpy(ppd.lpzContactName, Translate("Contact name"), MAX_CONTACTNAME);
-				char szPreviewText[50];
-				mir_snprintf(szPreviewText,50,Translate("has returned after being absent since %d days"),rand() % 30);
-				strncpy(ppd.lpzText, szPreviewText, MAX_SECONDLINE);
+				_tcsncpy(ppd.lptzContactName, TranslateT("Contact name"), MAX_CONTACTNAME);
+				TCHAR szPreviewText[50];
+				mir_sntprintf(szPreviewText,50,TranslateT("has returned after being absent since %d days"),rand() % 30);
+				_tcsncpy(ppd.lptzText, szPreviewText, MAX_SECONDLINE);
 				
 				// Get current popups colors options
 				if (IsDlgButtonChecked(hwndDlg, IDC_COLORS_POPUP))
@@ -384,12 +384,12 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 				ppd.PluginData = NULL;
 				ppd.iSeconds = options.iPopUpDelay;
 
-				CallService(MS_POPUP_ADDPOPUPEX, (WPARAM) &ppd, APF_NO_HISTORY);
+				CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &ppd, APF_NO_HISTORY);
 				
-				strncpy(ppd.lpzText, Translate("You awaited this contact!"), MAX_SECONDLINE);
+				_tcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
 				ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"enabled_icon");;
 				
-				CallService(MS_POPUP_ADDPOPUPEX, (WPARAM) &ppd, APF_NO_HISTORY);
+				CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &ppd, APF_NO_HISTORY);
 			}
 			else
 			{
@@ -493,16 +493,16 @@ static int OptionsInit(WPARAM wParam, LPARAM lParam)
 	ZeroMemory(&odp, sizeof(odp));
 	odp.cbSize      = sizeof(odp);
 	odp.hInstance   = hInst;
-	odp.pszGroup    = LPGEN("Plugins");
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONSPANEL);
-	odp.pszTitle    = LPGEN("Buddy Expectator");
+	odp.ptszGroup   = LPGENT("Plugins");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPANEL);
+	odp.ptszTitle   = LPGENT("Buddy Expectator");
 	odp.pfnDlgProc  = OptionsFrameProc;
-    odp.flags       = ODPF_BOLDGROUPS;
+    odp.flags       = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
-		odp.pszGroup    = LPGEN("PopUps");
-		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUPPANEL);
+		odp.ptszGroup    = LPGENT("PopUps");
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPPANEL);
 		odp.pfnDlgProc  = PopUpOptionsFrameProc;
 		Options_AddPage(wParam, &odp);
 	}
@@ -517,26 +517,26 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 	case WM_INITDIALOG:
 		{
 			time_t tmpTime;
-			char tmpBuf[51] = {0};
+			TCHAR tmpBuf[51] = {0};
 			tmpTime = getLastSeen((HANDLE)lparam);
 			if (tmpTime == -1)
-				SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, Translate("not detected"));
+				SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, TranslateT("not detected"));
 			else
 			{
 				/*
 				int status = DBGetContactSettingWord((HANDLE)lparam, MODULE_NAME, "LastStatus", ID_STATUS_OFFLINE);
 				char *strptr = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, (LPARAM)0);
 				*/
-				strftime(tmpBuf, 50, "%#x", gmtime(&tmpTime));
+				_tcsftime(tmpBuf, 50, _T("%#x"), gmtime(&tmpTime));
 				SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, tmpBuf);
 			}
 
 			tmpTime = getLastInputMsg((HANDLE)lparam);
 			if (tmpTime == -1)
-				SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, Translate("not found"));
+				SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, TranslateT("not found"));
 			else
 			{
-				strftime(tmpBuf, 50, "%#x", gmtime(&tmpTime));
+				_tcsftime(tmpBuf, 50, _T("%#x"), gmtime(&tmpTime));
 				SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, tmpBuf);
 			}
 
@@ -547,11 +547,11 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 
 			if (isContactGoneFor((HANDLE)lparam, options.iAbsencePeriod2))
 			{
-				SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, Translate("This contact has been absent for an extended period of time."));
+				SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, TranslateT("This contact has been absent for an extended period of time."));
 			}
 			else
 			{
-				SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, "");
+				SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, _T(""));
 			}
 
 			SendMessage(GetDlgItem(hdlg, IDC_CHECK_MISSYOU), BM_SETCHECK, DBGetContactSettingByte((HANDLE)lparam, MODULE_NAME, "MissYou", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
@@ -604,8 +604,9 @@ int UserinfoInit(WPARAM wparam, LPARAM lparam)
 		OPTIONSDIALOGPAGE uip = {0};
 		uip.cbSize = sizeof(uip);
 		uip.hInstance = hInst;
-		uip.pszTemplate = MAKEINTRESOURCE(IDD_USERINFO);
-		uip.pszTitle = Translate("Buddy Expectator");
+		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
+		uip.flags = ODPF_TCHAR;
+		uip.ptszTitle = LPGENT("Buddy Expectator");
 		uip.pfnDlgProc = UserinfoDlgProc;
 
 		UserInfo_AddPage(wparam, &uip);
