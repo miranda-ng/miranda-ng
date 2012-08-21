@@ -378,12 +378,13 @@ void GoneNotify(HANDLE hContact, TCHAR *message)
 		cle.cbSize = sizeof(cle);
 		cle.hContact = hContact;
 		cle.hIcon = hIcon;
-		cle.pszService = (char *)"BuddyExpectator/actionStillAbsent";
+		cle.pszService = "BuddyExpectator/actionStillAbsent";
 
-		char* nick = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0);
-		char tmpMsg[512];
-		mir_snprintf(tmpMsg, 512, "%s %s", nick, message);
-		cle.pszTooltip = tmpMsg;
+		TCHAR* nick = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR);
+		TCHAR tmpMsg[512];
+		mir_sntprintf(tmpMsg, 512, _T("%s %s"), nick, message);
+		cle.ptszTooltip = tmpMsg;
+		cle.flags = CLEF_TCHAR;
 
 		CallServiceSync(MS_CLIST_ADDEVENT, 0, (LPARAM) &cle);
 	}
@@ -404,7 +405,7 @@ INT_PTR MissYouAction(WPARAM wParam, LPARAM lParam)
 	} else
 		hContact = (HANDLE)wParam;
 
-    CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+    CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
 
     return 0;
 }
@@ -426,7 +427,7 @@ INT_PTR ContactReturnedAction(WPARAM wParam, LPARAM lParam)
 
     if (options.iShowMessageWindow>0)
 	{
-        CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+        CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
     }
 
     if (options.iShowUDetails>0)
@@ -518,14 +519,14 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
    if (DBGetContactSettingByte((HANDLE)wParam, MODULE_NAME, "MissYou", 0))
    {
-		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB;
-		mi.pszName = Translate("Disable Miss You");
+		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+		mi.ptszName = LPGENT("Disable Miss You");
 		mi.icolibItem = hEnabledIcon;
    }
    else
    {
-		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB;
-		mi.pszName = Translate("Enable Miss You");
+		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+		mi.ptszName = LPGENT("Enable Miss You");
 		mi.icolibItem = hDisabledIcon;
    }
    
@@ -608,7 +609,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 			ppd.lpActions = missyouactions;
 			ppd.actionCount = 1;
 
-			CallService(MS_POPUP_ADDPOPUPEX, (WPARAM) &ppd, APF_NEWDATA);
+			CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &ppd, APF_NEWDATA);
 			
 			SkinPlaySound("buddyExpectatorMissYou");			
 		}
