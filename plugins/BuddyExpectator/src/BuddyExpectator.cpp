@@ -322,8 +322,7 @@ void ReturnNotify(HANDLE hContact, TCHAR *message)
 		ppd.PluginData = NULL;
 		ppd.iSeconds = options.iPopUpDelay;
 
-		CallService(MS_POPUP_ADDPOPUPEX, (WPARAM) &ppd, 0);
-
+		PUAddPopUpT(&ppd);
 	}
 
 	if (options.iShowEvent > 0)
