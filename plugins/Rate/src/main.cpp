@@ -171,13 +171,13 @@ static void init_icolib (void)
 
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(sid);
-	sid.pszSection = Translate("Contact Rate");
-	sid.pszDefaultFile = szFile;
-	sid.flags = SIDF_PATH_TCHAR;
+	sid.ptszSection = LPGENT("Contact Rate");
+	sid.ptszDefaultFile = szFile;
+	sid.flags = SIDF_ALL_TCHAR;
 
 	for (int i = 0; i < SIZEOF(iconList); i++ ) {
 		sid.pszName = iconList[i].szName;
-		sid.pszDescription =  iconList[i].szDescr;
+		sid.ptszDescription =  iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
 	}
@@ -220,7 +220,7 @@ int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
-	if (wParam != NULL && !lstrcmp(cws->szModule,"CList") && !lstrcmp(cws->szSetting,"Rate"))
+	if (wParam != NULL && !lstrcmpA(cws->szModule,"CList") && !lstrcmpA(cws->szSetting,"Rate"))
 		setExtaIcon((HANDLE)wParam, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal);
 
 	return 0;

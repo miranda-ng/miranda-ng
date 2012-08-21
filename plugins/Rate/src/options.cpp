@@ -55,32 +55,32 @@ enum {
 	clist_nicer
 };
 
-const char *szAdvancedIconsModern[] = {
-	"E-mail",
-	"Web page",
-	"Phone/SMS",
-	"Advanced #1",
-	"Advanced #2",
-	"Advanced #3",
-	"Client",
-	"Advanced #4",
-	"Protocol",
-	"Visibility/Chat activity"
+const TCHAR *szAdvancedIconsModern[] = {
+	LPGENT("E-mail"),
+	LPGENT("Web page"),
+	LPGENT("Phone/SMS"),
+	LPGENT("Advanced #1"),
+	LPGENT("Advanced #2"),
+	LPGENT("Advanced #3"),
+	LPGENT("Client"),
+	LPGENT("Advanced #4"),
+	LPGENT("Protocol"),
+	LPGENT("Visibility/Chat activity")
 };
 //const int cAdvancedIconsModern = sizeof(szAdvancedIconsModern) / sizeof(szAdvancedIconsModern[0]);
 
-const char *szAdvancedIconsNicer[] = {
-	"Reserved",
-	"E-mail",
-	"Homepage",
-	"Telephone",
-	"Advanced #1",
-	"Advanced #2",
-	"Client",
-	"Advanced #3",
-	"Advanced #4",
-	"Reserved #1",
-	"Reserved #2"
+const TCHAR *szAdvancedIconsNicer[] = {
+	LPGENT("Reserved"),
+	LPGENT("E-mail"),
+	LPGENT("Homepage"),
+	LPGENT("Telephone"),
+	LPGENT("Advanced #1"),
+	LPGENT("Advanced #2"),
+	LPGENT("Client"),
+	LPGENT("Advanced #3"),
+	LPGENT("Advanced #4"),
+	LPGENT("Reserved #1"),
+	LPGENT("Reserved #2")
 	};
 //const int cAdvancedIconsNicer = sizeof(szAdvancedIconsNicer) / sizeof(szAdvancedIconsNicer[0]);
 
@@ -138,7 +138,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (usedClist != clist_none) {
 				for (int i = 0; i < cAdvancedIcons; i++)
 				{
-					SendMessage(GetDlgItem(hwndDlg, IDC_ADVICON), CB_ADDSTRING, 0, (LPARAM) Translate( usedClist==clist_modern ? szAdvancedIconsModern[i] : szAdvancedIconsNicer[i]));
+					SendMessage(GetDlgItem(hwndDlg, IDC_ADVICON), CB_ADDSTRING, 0, (LPARAM) TranslateTS( usedClist==clist_modern ? szAdvancedIconsModern[i] : szAdvancedIconsNicer[i]));
 				}
 
 				if (usedClist == clist_modern )
@@ -210,11 +210,11 @@ int onOptInitialise(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInst;
-	odp.pszGroup = LPGEN("Contact List");
-	odp.pszTitle = LPGEN("Rate");
+	odp.ptszGroup = LPGENT("Contact List");
+	odp.ptszTitle = LPGENT("Rate");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_RATE_OPT);
 	odp.pfnDlgProc = DlgProcOptions;
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	Options_AddPage(wParam, &odp);
 
 	return 0;

@@ -29,12 +29,6 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-//needed by m_utils.h
-#include <stdio.h>
-
-// needed by m_icolib.h > r9256
-#include <stddef.h>
-
 //Miranda API headers
 #include <windows.h>
 #include <win2k.h>
@@ -61,15 +55,15 @@ static const int DefaultSlot = EXTRA_ICON_PROTO;
 
 static struct
 {
-	char*  szDescr;
+	TCHAR*  szDescr;
 	char*  szName;
 	int    defIconID;
 	HANDLE hIconLibItem;
 } iconList[] =
 {
-  { LPGEN( "Rate high" ), "rate_high", IDI_RATEHI },
-  { LPGEN( "Rate medium" ), "rate_medium", IDI_RATEME },
-  { LPGEN( "Rate low" ), "rate_low", IDI_RATELO },
+  { LPGENT( "Rate high" ), "rate_high", IDI_RATEHI },
+  { LPGENT( "Rate medium" ), "rate_medium", IDI_RATEME },
+  { LPGENT( "Rate low" ), "rate_low", IDI_RATELO },
 };
 
 
