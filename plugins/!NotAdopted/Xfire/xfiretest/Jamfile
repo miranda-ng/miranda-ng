@@ -1,0 +1,152 @@
+SubDir TOP src ;
+
+LOCATE_TARGET = bin ;
+Library libxfirelib :
+	SHA1.cpp
+	socket.cpp
+	packetreader.cpp
+	client.cpp
+	xfirepacket.cpp
+	xfirepacketcontent.cpp
+	clientinformationpacket.cpp
+	xfireutils.cpp
+	clientversionpacket.cpp
+	authpacket.cpp
+	xfireparse.cpp
+	variablevalue.cpp
+	clientloginpacket.cpp
+	loginfailedpacket.cpp
+	loginsuccesspacket.cpp
+	messagepacket.cpp
+	buddylistonlinepacket.cpp
+	buddylistnamespacket.cpp
+        buddylistgamespacket.cpp
+        buddylistgames2packet.cpp
+	buddylist.cpp
+        otherloginpacket.cpp
+	messageackpacket.cpp
+	invitebuddypacket.cpp
+	inviterequestpacket.cpp
+	xfirerecvpacketcontent.cpp
+        recvdidpacket.cpp
+        recvprefspacket.cpp
+	xfiresendpacketcontent.cpp
+	recvstatusmessagepacket.cpp
+	sendstatusmessagepacket.cpp
+        sendmessagepacket.cpp
+	sendacceptinvitationpacket.cpp
+	sendgamestatuspacket.cpp
+	sendgameserverpacket.cpp
+	senddenyinvitationpacket.cpp
+	recvremovebuddypacket.cpp
+	sendremovebuddypacket.cpp
+        sendnickchangepacket.cpp
+        sendkeepalivepacket.cpp
+	xfiregame.cpp
+        recvoldversionpacket.cpp
+	xfiregameresolver.cpp
+	dummyxfiregameresolver.cpp
+	monitoredobj.cpp
+	sendgamestatus2packet.cpp
+	;
+
+InstallLib $(LIBDIR) : libxfirelib$(SUFLIB) ;
+#InstallFile $(DESTDIR) : sendkeepalivepacket.h ;
+
+
+##########
+## IsElem, DoInstall copied from Crystal Space Installation !
+########
+#============================================================================
+# Helper rules
+# Copyright (C)2003 by Matze Braun <matzebraun@users.sourceforge.net>
+# Copyright (C)2004 by Eric Sunshine <sunshine@sunshineco.com>
+#
+#    This library is free software; you can redistribute it and/or modify it
+#    under the terms of the GNU Library General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or (at your
+#    option) any later version.
+#
+#    This library is distributed in the hope that it will be useful, but
+#    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+#    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Library General Public
+#    License for more details.
+#
+#    You should have received a copy of the GNU Library General Public License
+#    along with this library; if not, write to the Free Software Foundation,
+#    Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#============================================================================
+
+
+##  IsElem element : list
+##    Returns "true" if the element is in the list. Otherwise nothing is
+##    returned.
+rule IsElem
+{
+  local i ;
+
+  for i in $(>)
+  {
+    if $(i) = $(<)
+    {
+      return "true" ;
+    }
+  }
+
+  return ;
+}
+
+rule DoInstall
+{
+  InstallFile /usr/local/include/xfirelib : $(1) ;
+}
+
+
+##  Recurse [ rule ] : types [ : prefix ]
+##    Recursively scan current directory, $(SUBDIR), for files matching 'types'
+##    and invoke 'rule' for each file which matches one of the 'types'.
+##    'types' is a list of file extensions (with the leading dot).  'rule' will
+##    be invoked with two arguments: (1) the basename of the file including the
+##    extension, (2) a list of the path components from the current directory
+##    to the file's directory.  When 'rule' is invoked, it will see a $(SUBDIR)
+##    value of the directory containing the file (as if the rule had been
+##    invoked from within the file's directory).  'prefix' is an optional list
+##    of path components which will be prepended to rule's second argument.
+##    Returns the list of visited files.  It is legal to omit 'rule', if you
+##    are interested only in obtaining the list of files matching 'types'.
+rule Recurse
+{
+  local innerrule = $(1) ;
+  local types = $(2) ;
+  local prefix = $(3) ;
+  local files = [ GLOB $(SUBDIR) : * ] ;
+  local visited ;
+
+  local i ;
+  for i in $(files)
+  {
+    if [ IsElem $(i:S) : $(types) ]
+    {
+      visited += [ FDirName $(prefix) $(i:BS) ] ;
+      if $(innerrule)
+      {
+        $(innerrule) $(i:BS) : $(prefix) ;
+      }
+    }
+    else
+    {
+      if ! [ IsElem $(i:BS) : $(DOT) $(DOTDOT) ]
+      {
+        local SUBDIR = $(i) ; # Called rules see this new temporary value.
+        visited += [ Recurse $(innerrule) : $(types) : $(prefix) $(i:BS) ] ;
+      }
+    }
+  }
+  return $(visited) ;
+}
+
+
+
+
+Recurse DoInstall : .h ;

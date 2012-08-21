@@ -1,0 +1,6 @@
+LIBRARY XFIREDLL
+EXPORTS 
+	Load @1
+	Unload @2
+	MirandaPluginInfoEx @3
+	MirandaPluginInterfaces @4

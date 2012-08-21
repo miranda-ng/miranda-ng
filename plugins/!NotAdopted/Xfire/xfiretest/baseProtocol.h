@@ -1,0 +1,374 @@
+/*
+ *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network. 
+ *
+ *  Copyright (C) 2010 by
+ *          dufte <dufte@justmail.de>
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ *
+ *  Based on J. Lawler              - BaseProtocol
+ *			 Herbert Poul/Beat Wolf - xfirelib
+ *
+ *  Miranda ICQ: the free icq client for MS Windows 
+ *  Copyright (C) 2000-2008  Richard Hughes, Roland Rabien & Tristan Van de Vreede
+ *
+ */
+
+//=====================================================
+//	Includes (yea why not include lots of stuff :D )
+//=====================================================
+#include <windows.h>
+#include <gdiplus.h>
+#include <Wininet.h>
+#include <commctrl.h>
+#include <stdio.h>
+#include <time.h>
+#include <stddef.h>
+#include <process.h>
+#include <string.h>
+#include <winsock.h>
+#include "resource.h"
+#include <winbase.h>
+#include <tlhelp32.h>
+#include <Psapi.h>
+#include <string.h>
+#include <Iphlpapi.h>
+
+//Miranda SDK headers
+#include <newpluginapi.h>
+#include <m_clist.h>
+#include <m_clui.h>
+#include <m_skin.h>
+#include <m_langpack.h>
+#include <m_protomod.h>
+#include <m_database.h>
+#include <m_system.h>
+#include <m_protocols.h>
+#include <m_protomod.h>
+#include <m_protosvc.h>
+#include <m_protoint.h>
+#include <m_userinfo.h>
+#include <m_options.h>
+#include <m_protosvc.h>
+#include <m_utils.h>
+#include <m_ignore.h>
+#include <m_clc.h>
+#include <m_netlib.h>
+#include <m_avatars.h>
+#include <m_folders.h>
+#include <m_assocmgr.h>
+#include <services.h>
+#include <m_extraicons.h>
+
+/*#pragma comment(lib, "atl.lib")
+#include <atldef.h>
+#define _ATL_DLL_IMPL
+#include <atliface.h>*/
+
+#ifndef _BASEPROTO_H
+#define _BASEPROTO_H
+
+//=======================================================
+//	Definitions
+//=======================================================
+#define protocolname		"XFire" //no spaces here :)
+
+/* */
+typedef DWORD (*pGetExtendedTcpTable)(
+	__out_bcount_opt(*pdwSize)    PVOID           pTcpTable,
+    __inout                       PDWORD          pdwSize,
+    __in                          BOOL            bOrder,
+    __in                          ULONG           ulAf,
+    __in                          TCP_TABLE_CLASS TableClass,
+    __in                          ULONG           Reserved
+    ); 
+
+typedef DWORD (*pGetExtendedUdpTable)(
+    __out_bcount_opt(*pdwSize)    PVOID           pUdpTable,
+    __inout                       PDWORD          pdwSize,
+    __in                          BOOL            bOrder,
+    __in                          ULONG           ulAf,
+    __in                          UDP_TABLE_CLASS TableClass,
+    __in                          ULONG           Reserved
+    );
+
+//=======================================================
+//	Defines
+//=======================================================
+//General
+extern HINSTANCE hinstance;
+extern int bpStatus;
+
+//Services.c
+int GetCaps(WPARAM wParam,LPARAM lParam);
+int GetName(WPARAM wParam,LPARAM lParam);
+int TMLoadIcon(WPARAM wParam,LPARAM lParam);
+int SetStatus(WPARAM wParam,LPARAM lParam);
+int GetStatus(WPARAM wParam,LPARAM lParam);
+BOOL IsXFireContact(HANDLE h);
+int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hhicon=NULL);
+BOOL CreateToolTip(int toolID, HWND hDlg, CHAR* pText);
+void EnableDlgItem(HWND hwndDlg, UINT control, int state);
+BOOL str_replace(char*src,char*find,char*rep);
+extern void Message(LPVOID msg);
+extern void MessageE(LPVOID msg);
+char* GetLaunchPath(char*launch);
+unsigned short r(unsigned short data);
+BOOL GetServerIPPort(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,char*ip2,char*ip3,char*ip4,long*port);
+BOOL GetServerIPPort2(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,char*ip2,char*ip3,char*ip4,long*port);
+int SetNickName(WPARAM newnick, LPARAM lparam);
+BOOL FindTeamSpeak(DWORD*pid,int*vid);
+char*menuitemtext(char*mtext);
+BOOL checkCommandLine(HANDLE hProcess,char * mustcontain,char * mustnotcontain);
+char * getItem(char * string,char delim,int count);
+BOOL GetWWWContent(char*host,char* request,char*filename,BOOL dontoverwrite);
+BOOL GetWWWContent2(char*address,char*filename,BOOL dontoverwrite,char**tobuf=NULL,unsigned int* size=NULL);
+BOOL CheckWWWContent(char*address);
+unsigned int getfilesize(char*path);
+void UpdateMyXFireIni(LPVOID dummy);
+void UpdateMyIcons(LPVOID dummy);
+BOOL IsContactMySelf(std::string buddyusername);
+DWORD xfire_GetPrivateProfileString(__in   LPCTSTR lpAppName, __in   LPCTSTR lpKeyName, __in   LPCTSTR lpDefault, __out  LPTSTR lpReturnedString, __in   DWORD nSize, __in   LPCTSTR lpFileName);
+BOOL mySleep(int ms,HANDLE evt);
+void __stdcall XFireLog( const char* fmt, ... );
+
+#define ID_STATUS_RECONNECT ID_STATUS_OFFLINE-1
+
+struct CONTACT // Contains info about users
+{
+	TCHAR* name;
+	TCHAR* user;
+	TCHAR* host;
+	bool ExactOnly;
+	bool ExactWCOnly;
+	bool ExactNick;
+};
+
+
+#define MSGBOX(msg) mir_forkthread(Message,(LPVOID)msg)
+#define MSGBOXE(msg)  mir_forkthread(MessageE,(LPVOID)msg)
+
+/*#define  EXTRA_ICON_EMAIL  1
+#define  EXTRA_ICON_PROTO  2
+#define  EXTRA_ICON_SMS    3
+#define  EXTRA_ICON_ADV1  4
+#define  EXTRA_ICON_ADV2  9 //5
+#define  EXTRA_ICON_ADV3        9
+#define  EXTRA_ICON_ADV4        10 */
+
+static int icoslot[] = { 4, 5, 9, 10 };
+
+
+typedef struct
+{
+int cbSize;      //must be sizeof(IconExtraColumn)
+int ColumnType;
+HANDLE hImage;    //return value from MS_CLIST_EXTRA_ADD_ICON
+}IconExtraColumn,*pIconExtraColumn;
+
+
+//Set icon for contact at needed column
+//wparam=hContact
+//lparam=pIconExtraColumn
+//return 0 on success,-1 on failure
+//
+//See above for supported columns
+#define MS_CLIST_EXTRA_SET_ICON      "CListFrames/SetIconForExraColumn"
+
+//Adding icon to extra image list. 
+//Call this in ME_CLIST_EXTRA_LIST_REBUILD event
+//
+//wparam=hIcon
+//lparam=0
+//return hImage on success,-1 on failure
+#define MS_CLIST_EXTRA_ADD_ICON      "CListFrames/AddIconToExtraImageList"
+
+
+
+#define ME_CLIST_EXTRA_LIST_REBUILD      "CListFrames/OnExtraListRebuild"
+
+#define PS_GETAWAYMSG  "/GetAwayMsg"
+
+//called with wparam=hContact
+#define ME_CLIST_EXTRA_IMAGE_APPLY      "CListFrames/OnExtraImageApply"
+
+#define FU_TBREDRAW      1 //redraw titlebar
+#define FU_FMREDRAW      2 //redraw Frame
+#define FU_FMPOS      4 //update Frame position
+#define MS_CLIST_FRAMES_UPDATEFRAME      "CListFrame/UpdateFrame"
+
+#define SKINICONDESC_SIZE     sizeof(SKINICONDESC)
+#define SKINICONDESC_SIZE_V1  0x18
+#define SKINICONDESC_SIZE_V2  0x1C
+#define SKINICONDESC_SIZE_V3  0x24
+
+typedef struct {
+  int cbSize;
+  union {
+    char *pszSection;         // section name used to group icons
+    TCHAR *ptszSection;
+    wchar_t *pwszSection;
+  };
+  union {
+    char *pszDescription;     // description for options dialog
+    TCHAR *ptszDescription;
+    wchar_t *pwszDescription;
+  };
+  char *pszName;              // name to refer to icon when playing and in db
+  char *pszDefaultFile;       // default icon file to use
+  int  iDefaultIndex;         // index of icon in default file
+  HICON hDefaultIcon;         // handle to default icon
+  int cx,cy;                  // dimensions of icon
+  int flags; 
+} SKINICONDESC;
+
+#define SIDF_UNICODE  0x100   // Section and Description are in UCS-2
+
+#if defined(_UNICODE)
+  #define SIDF_TCHAR  SIDF_UNICODE
+#else
+  #define SIDF_TCHAR  0
+#endif
+
+// entfernt menuitems
+#define MS_CLIST_REMOVEMAINMENUITEM					"CList/RemoveMainMenuItem"
+
+//
+//  Add a icon into options UI
+//
+//  wParam = (WPARAM)0
+//  lParam = (LPARAM)(SKINICONDESC*)sid;
+//
+#define MS_SKIN2_ADDICON "Skin2/Icons/AddIcon"
+
+//
+//  Retrieve HICON with name specified in lParam
+//  Returned HICON SHOULDN'T be destroyed, it is managed by IcoLib
+//
+
+#define MS_SKIN2_GETICON "Skin2/Icons/GetIcon"
+
+//
+//  Icons change notification
+//
+#define ME_SKIN2_ICONSCHANGED "Skin2/IconsChanged"
+
+#define MS_SKIN2_GETICONBYHANDLE "Skin2/Icons/GetIconByHandle"
+
+
+#pragma comment(lib,"Advapi32.lib")
+#pragma comment(lib,"Psapi.lib")
+#pragma comment(lib,"gdiplus.lib")
+#pragma comment(lib,"comdlg32.lib")
+#pragma comment(lib,"comctl32.lib")
+#pragma comment(lib,"shell32.lib")
+
+//=====================================================
+//	Definitions
+//=====================================================
+
+struct GameIco {
+	int gameid;
+	HANDLE handle;
+	HICON hicon;
+};
+
+struct XFireContact {
+	char * username;
+	char * nick;
+	int id;
+	int sid;
+};
+
+struct XFireAvatar {
+	int type;
+	char backup[256];
+	char file[256];
+	char rfile[256];
+};
+
+struct XFire_FoundGame
+{
+	int gameid;
+	int gameid2;
+	short send_gameid;
+	char path[256];
+	char mpath[9][256];
+	int morepaths;
+	char launchparams[1024];
+	char networkparams[1024];
+	char userparams[1024];
+	char pwparams[1024];
+	char mustcontain[1024];
+	char notcontain[1024];
+	char temp[128];
+	BOOL setstatusmsg;
+	BOOL custom;
+	BOOL skip;
+	BOOL noicqstatus;
+	HANDLE menuitem;
+};
+
+struct XFire_SetAvatar
+{
+	HANDLE hContact;
+	char* username;
+};
+
+struct gServerstats {
+	int players;
+	int maxplayers;
+	char name[512];
+	char map[512];
+	char gametype[512];
+	char fgametype[512];
+	BOOL password;
+};
+
+struct GameServerQuery_query {
+	int xfiregameid;
+	char ip[16];
+	WORD port;
+	HANDLE handle; //will be overwritten
+	int queryengine; // immer 0
+};
+
+#define XFIRE_MAX_STATIC_STRING_LEN 1024
+#define XFIRE_SCAN_VAL 0x3
+
+#define XFIRE_GAME_ICON 0
+#define XFIRE_VOICE_ICON 1
+
+
+typedef struct {
+	int cbSize;
+	char *szProto; // pointer to protocol modulename (NULL means global)
+	union
+	{
+		char *szMsg;
+		WCHAR *wszMsg;
+		TCHAR *tszMsg;
+	}; // pointer to the status message _format_ (i.e. it's an unparsed message containing variables, in any case. NAS takes care of parsing) (may be NULL - means that there's no specific message for this protocol - then the global status message will be used)
+/*
+	Be aware that MS_NAS_GETSTATE allocates memory for szMsg through Miranda's
+	memory management interface (MS_SYSTEM_GET_MMI). And MS_NAS_SETSTATE
+	expects szMsg to be allocated through the same service. MS_NAS_SETSTATE deallocates szMsg.
+*/
+	WORD status; // status mode. 0 means current (NAS will overwrite 0 with the current status mode)
+// for MS_NAS_GETSTATE if the specified status is not 0, MS_NAS_GETSTATE will return the default/last status message (depends on settings) - i.e. the same message that will be shown by default when user changes status to the specified one. please note that, for example, if current status mode is ID_STATUS_AWAY, then status messages returned by MS_NAS_GETSTATE for status=0 and status=ID_STATUS_AWAY may be different! for status=ID_STATUS_AWAY it always returns the default/last status message, and for status=0 it returns _current_ status message.
+	int Flags;
+} NAS_PROTOINFO;
+
+#endif

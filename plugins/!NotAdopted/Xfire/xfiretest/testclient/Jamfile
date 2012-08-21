@@ -1,0 +1,5 @@
+SubDir TOP src testclient ;
+
+LOCATE_TARGET = bin/testclient ;
+Main xfirelibtest : test.cpp ;
+LinkLibraries xfirelibtest : libxfirelib ;
