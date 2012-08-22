@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2010 Mataes
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
@@ -95,7 +95,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				ood.pszGroup = "Customize";
 				ood.pszPage = "Hotkeys";
 				Options_Open(&ood);
-			} 
+			}
 			return true;
 		}
 		break;
@@ -111,13 +111,13 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				opts.bOnlyOnceADay = IsDlgButtonChecked(hwndDlg, IDC_ONLYONCEADAY);
 
 				opts.bUpdateOnPeriod = IsDlgButtonChecked(hwndDlg, IDC_UPDATEONPERIOD);
-				
+
 				char buffer[3] = {0};
 				Edit_GetText(GetDlgItem(hwndDlg, IDC_PERIOD), (LPWSTR)&buffer, 2);
-				opts.Period = atoi(buffer); 
+				opts.Period = atoi(buffer);
 
 				opts.bPeriodMeasure = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE));
-				
+
 				InitTimer();
 
 				DBWriteContactSettingByte(NULL, MODNAME, "UpdateOnStartup", opts.bUpdateOnStartup);
@@ -134,7 +134,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int i;
 	char str[20] = {0}, str2[20] = {0};
@@ -169,7 +169,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		//Timeout
 		SendDlgItemMessage(hdlg, IDC_TIMEOUT_VALUE, EM_LIMITTEXT, 4, 0);
-		SendDlgItemMessage(hdlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, -1, 9999);	
+		SendDlgItemMessage(hdlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, -1, 9999);
 		SetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, PopupOptions.Timeout, TRUE);
 		//Mouse actions
 		for (i = 0; i < SIZEOF(PopupActions); i++) {
@@ -191,29 +191,15 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				EnableWindow(GetDlgItem(hdlg, (i+1024)), TRUE);
 		}
 
-		if ( !(DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1) || !ServiceExists(MS_POPUP_REGISTERACTIONS)) {
-			EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
-			EnableWindow(GetDlgItem(hdlg, (41071)), FALSE);
-			EnableWindow(GetDlgItem(hdlg, (42071)), FALSE);
-		}
-		else {
-			EnableWindow(GetDlgItem(hdlg, (40071)), TRUE);
-			EnableWindow(GetDlgItem(hdlg, (41071)), (PopupOptions.DefColors == byCOLOR_OWN));
-			EnableWindow(GetDlgItem(hdlg, (42071)), (PopupOptions.DefColors == byCOLOR_OWN));
-		}
+		EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
+		EnableWindow(GetDlgItem(hdlg, (41071)), FALSE);
+		EnableWindow(GetDlgItem(hdlg, (42071)), FALSE);
 		return TRUE;
 
 	case WM_SHOWWINDOW:
-		if ( !(DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1) || !ServiceExists(MS_POPUP_REGISTERACTIONS)) {
-			EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
-			EnableWindow(GetDlgItem(hdlg, (41071)), FALSE);
-			EnableWindow(GetDlgItem(hdlg, (42071)), FALSE);
-		}
-		else {
-			EnableWindow(GetDlgItem(hdlg, (40071)), TRUE);
-			EnableWindow(GetDlgItem(hdlg, (41071)), (PopupOptions.DefColors == byCOLOR_OWN));
-			EnableWindow(GetDlgItem(hdlg, (42071)), (PopupOptions.DefColors == byCOLOR_OWN));
-		}
+		EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
+		EnableWindow(GetDlgItem(hdlg, (41071)), FALSE);
+		EnableWindow(GetDlgItem(hdlg, (42071)), FALSE);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -233,7 +219,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 			}
 
-			if (wNotifyCode == CBN_SELCHANGE) { 	
+			if (wNotifyCode == CBN_SELCHANGE) {
 				if (idCtrl == IDC_LC)
 					PopupOptions.LeftClickAction = (BYTE)SendDlgItemMessage(hdlg, IDC_LC, CB_GETCURSEL, 0, 0);
 				else if(idCtrl == IDC_RC)
@@ -243,20 +229,15 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			}
 			switch(idCtrl) {
-			case IDC_USEOWNCOLORS: 
-				if (wNotifyCode != BN_CLICKED) 
+			case IDC_USEOWNCOLORS:
+				if (wNotifyCode != BN_CLICKED)
 					break;
 
 				PopupOptions.DefColors = byCOLOR_OWN;
 
-				if ( !(DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1) || !ServiceExists(MS_POPUP_REGISTERACTIONS)) {
-					EnableWindow(GetDlgItem(hdlg, (41071)), FALSE);
-					EnableWindow(GetDlgItem(hdlg, (42071)), FALSE);
-				}
-				else {
-					EnableWindow(GetDlgItem(hdlg, (41071)), TRUE);
-					EnableWindow(GetDlgItem(hdlg, (42071)), TRUE);
-				}
+				EnableWindow(GetDlgItem(hdlg, (41071)), FALSE);
+				EnableWindow(GetDlgItem(hdlg, (42071)), FALSE);
+
 				for (i = 1; i < POPUPS; i++) {
 					EnableWindow(GetDlgItem(hdlg, (i+42071)), TRUE); //Background
 					EnableWindow(GetDlgItem(hdlg, (i+41071)), TRUE); //Text
@@ -264,8 +245,8 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 				break;
 
-			case IDC_USEWINCOLORS: 
-				if (wNotifyCode != BN_CLICKED) 
+			case IDC_USEWINCOLORS:
+				if (wNotifyCode != BN_CLICKED)
 					break;
 
 				//Use Windows colors
@@ -290,7 +271,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 				break;
 
-			case IDC_PREVIEW: 
+			case IDC_PREVIEW:
 				{//Declarations and initializations
 					LPCTSTR Title = TranslateT("Plugin Updater");
 					LPCTSTR Text = TranslateT("Test");
@@ -333,7 +314,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		}//end* case WM_COMMAND:
 		break;
 
-	case WM_NOTIFY: 
+	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_RESET:
 			//Restore the options stored in memory.
@@ -341,7 +322,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			InitPopupList();
 			return TRUE;
 
-		case PSN_APPLY: 
+		case PSN_APPLY:
 			{
 				//Text color
 				char szSetting[20] = {0};

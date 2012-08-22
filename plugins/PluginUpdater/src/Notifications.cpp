@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2010 Mataes
 
 This is free software; you can redistribute it and/or
@@ -47,7 +47,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM
 						EndDialog(pmpd->hDialog, LOWORD(wParam));
 					PUDeletePopUp(hDlg);
 					break;
-	
+
 				case IDNO:
 					if (IsWindow(pmpd->hDialog))
 						EndDialog(pmpd->hDialog, LOWORD(wParam));
@@ -244,7 +244,7 @@ static void ApplyUpdates(void* param)
 			SetStringText(hwndList, i, TranslateT("Skipped"));
 			continue;
 		}
-		
+
 		// download update
 		SetStringText(hwndList, i, TranslateT("Downloading..."));
 
@@ -260,15 +260,11 @@ static void ApplyUpdates(void* param)
 		return;
 	}
 
-	int rc = -1;
 	PopupDataText temp;
 	temp.Title = TranslateT("Plugin Updater");
 	temp.Text = tszBuff;
 	lstrcpyn(tszBuff, TranslateT("Download complete. Start updating? All your data will be saved and Miranda NG will be closed."), SIZEOF(tszBuff));
-	if (ServiceExists(MS_POPUP_ADDPOPUPEX) && ServiceExists(MS_POPUP_REGISTERACTIONS) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL,MODNAME, "Popups0", DEFAULT_POPUP_ENABLED) && (DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1))
-		rc = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), NULL, DlgMsgPop, (LPARAM)&temp);
-	else
-		rc = MessageBox(NULL, temp.Text, temp.Title, MB_YESNO | MB_ICONQUESTION);
+	int rc = MessageBox(NULL, temp.Text, temp.Title, MB_YESNO | MB_ICONQUESTION);
 	if (rc != IDYES) {
 		mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s"), tszFileTemp);
 		ShowPopup(0, LPGENT("Plugin Updater"), tszBuff, 2, 0);
@@ -434,7 +430,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 		hwndDialog = NULL;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
-		break;			
+		break;
 	}
 
 	return FALSE;
