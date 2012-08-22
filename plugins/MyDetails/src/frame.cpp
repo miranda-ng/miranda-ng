@@ -270,6 +270,7 @@ int CreateFrame()
 		Frame.cbSize = sizeof(CLISTFrame);
 		Frame.hWnd = hwnd_frame;
 		Frame.align = alTop;
+		Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_SKINNED | F_TCHAR;
 		Frame.height = 100;
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
