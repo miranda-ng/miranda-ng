@@ -392,8 +392,6 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 		{
 			s2 += _tcslen(_T("-----END PGP PUBLIC KEY BLOCK-----"));
 			DBWriteContactSettingTString(ccs->hContact, szGPGModuleName, "GPGPubKey", str.substr(s1,s2-s1).c_str());
-			DBWriteContactSettingByte(ccs->hContact, szGPGModuleName, "GPGEncryption", 1);
-			DBWriteContactSettingByte(ccs->hContact, szGPGModuleName, "bViaAutoExchange", 1);
 			{ //gpg execute block
 				wstring cmd;
 				TCHAR tmp2[MAX_PATH] = {0};
@@ -490,6 +488,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 						DBWriteContactSettingString(ccs->hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
 						mir_free(tmp);
 					}
+					DBWriteContactSettingByte(ccs->hContact, szGPGModuleName, "GPGEncryption", 1);
 					DBWriteContactSettingByte(ccs->hContact, szGPGModuleName, "bAlwatsTrust", 1);
 					void setSrmmIcon(HANDLE);
 					void setClistIcon(HANDLE);
@@ -675,8 +674,6 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
 		return;
 	}
-	if(DBGetContactSettingByte(hContact, szGPGModuleName, "bViaAutoExchange", 0))
-		DBWriteContactSettingByte(hContact, szGPGModuleName, "bAlwaysTrust", 1);
 	if(!bJabberAPI || !bIsMiranda09) //force jabber to handle encrypted message by itself
 		cmd += _T("--comment \"\" --no-version ");
 	if(DBGetContactSettingByte(hContact, szGPGModuleName, "bAlwaysTrust", 0))
