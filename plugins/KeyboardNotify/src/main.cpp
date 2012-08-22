@@ -846,7 +846,7 @@ void createProcessList(void)
 	ProcessList.szFileName = (TCHAR **)malloc(count * sizeof(TCHAR *));
 	if (ProcessList.szFileName) {
 		for(i=0; i < count; i++)
-			if (DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i), &dbv))
+			if (DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i), &dbv))
 				ProcessList.szFileName[i] = NULL;
 			else {
 				ProcessList.szFileName[i] = (TCHAR *)malloc(wcslen(dbv.ptszVal) + 1);

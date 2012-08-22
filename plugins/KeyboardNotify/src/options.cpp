@@ -575,7 +575,7 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 						for (i=0, j=0; j < ProcessListAux.count; j++)
 							if (ProcessListAux.szFileName[j])
-								DBWriteContactSettingWString(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
+								DBWriteContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
 						DBWriteContactSettingWord(NULL, KEYBDMODULE, "processcount", (WORD)i);
 						while (!DBDeleteContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++)));
 
