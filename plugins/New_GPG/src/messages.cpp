@@ -384,7 +384,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 	wstring str = toUTF16(msg);
 	wstring::size_type s1 = wstring::npos, s2 = wstring::npos;
 	DWORD dbflags = DBEF_UTF;
-	if((str.find(_T("-----PGP KEY RESPONSE-----")) != wstring::npos) && !metaIsProtoMetaContacts(ccs->hContact))
+	if(bAutoExchange && (str.find(_T("-----PGP KEY RESPONSE-----")) != wstring::npos) && !metaIsProtoMetaContacts(ccs->hContact))
 	{
 		s2 = str.find(_T("-----END PGP PUBLIC KEY BLOCK-----"));
 		s1 = str.find(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----"));
@@ -393,6 +393,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 			s2 += _tcslen(_T("-----END PGP PUBLIC KEY BLOCK-----"));
 			DBWriteContactSettingTString(ccs->hContact, szGPGModuleName, "GPGPubKey", str.substr(s1,s2-s1).c_str());
 			DBWriteContactSettingByte(ccs->hContact, szGPGModuleName, "GPGEncryption", 1);
+			DBWriteContactSettingByte(ccs->hContact, szGPGModuleName, "bViaAutoExchange", 1);
 			{ //gpg execute block
 				wstring cmd;
 				TCHAR tmp2[MAX_PATH] = {0};
@@ -554,11 +555,14 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 			char *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
 			if(tmp[0])
 			{
-				DBWriteContactSettingByte(ccs->hContact, szGPGModuleName, "GPGEncryption", 0);
+				int enc_state = DBGetContactSettingByte(ccs->hContact, szGPGModuleName, "GPGEncryption", 0);
+				if(enc_state)
+					DBWriteContactSettingByte(ccs->hContact, szGPGModuleName, "GPGEncryption", 0);
 				string str = "-----PGP KEY RESPONSE-----";
 				str.append(tmp);
 				CallContactService(ccs->hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)str.c_str());
-				DBWriteContactSettingByte(ccs->hContact, szGPGModuleName, "GPGEncryption", 1);
+				if(enc_state)
+					DBWriteContactSettingByte(ccs->hContact, szGPGModuleName, "GPGEncryption", 1);
 			}
 			mir_free(tmp);
 			return returnNoError(ccs->hContact);
@@ -671,6 +675,8 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
 		return;
 	}
+	if(DBGetContactSettingByte(hContact, szGPGModuleName, "bViaAutoExchange", 0))
+		DBWriteContactSettingByte(hContact, szGPGModuleName, "bAlwaysTrust", 1);
 	if(!bJabberAPI || !bIsMiranda09) //force jabber to handle encrypted message by itself
 		cmd += _T("--comment \"\" --no-version ");
 	if(DBGetContactSettingByte(hContact, szGPGModuleName, "bAlwaysTrust", 0))
@@ -922,12 +928,14 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	DBEVENTINFO * dbei = (DBEVENTINFO*)l;
 	if(dbei->eventType != EVENTTYPE_MESSAGE)
 		return 0;
+	HANDLE hContact = (HANDLE)w;
 	if(dbei->flags & DBEF_SENT)
 	{
-		if(strstr((char*)dbei->pBlob, "-----BEGIN PGP MESSAGE-----") || strstr((char*)dbei->pBlob, "-----PGP KEY RESPONSE-----") || strstr((char*)dbei->pBlob, "-----PGP KEY REQUEST-----") || strstr((char*)dbei->pBlob, "-----PGP KEY RESPONSE-----")) //our service data, can be double added by metacontacts e.t.c.
+		if(isContactSecured(hContact) && strstr((char*)dbei->pBlob, "-----BEGIN PGP MESSAGE-----")) //our service data, can be double added by metacontacts e.t.c.
+			return 1;
+		if(bAutoExchange && (strstr((char*)dbei->pBlob, "-----PGP KEY RESPONSE-----") || strstr((char*)dbei->pBlob, "-----PGP KEY REQUEST-----"))) ///do not show service data in history
 			return 1;
 	}
-	HANDLE hContact = (HANDLE)w;
 	if(isContactSecured(hContact) && (dbei->flags & DBEF_SENT)) //aggressive outgoing events filtering
 	{
 		if(!hcontact_data[hContact].msgs_to_pass.empty())
