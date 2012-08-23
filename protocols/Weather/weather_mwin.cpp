@@ -63,9 +63,8 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_CONTEXTMENU:
 		{
 			POINT pt;
-			HMENU hMenu;
 
-			hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)data->hContact, 0);
+			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)data->hContact, 0);
 			GetCursorPos(&pt);
 			TrackPopupMenu(hMenu, TPM_LEFTALIGN, pt.x, pt.y, 0, hwnd, NULL);
 			DestroyMenu(hMenu);
@@ -266,6 +265,7 @@ static void addWindow(HANDLE hContact)
 
 	CLISTFrame Frame = {0};
 	Frame.tname = winname;
+	Frame.hIcon = LoadIconEx("main",FALSE);
 	Frame.cbSize = sizeof(Frame);
 	Frame.hWnd = hWnd;
 	Frame.align = alBottom;
@@ -328,7 +328,6 @@ int RedrawFrame(WPARAM wParam, LPARAM lParam)
 
 void InitMwin(void) 
 {
-	HANDLE hContact;
 	HMODULE hUser = GetModuleHandle(_T("user32.dll"));
 
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) return;
@@ -387,7 +386,7 @@ void InitMwin(void)
 		FontRegisterT(&fontid);
 	}
 
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while(hContact) 
 	{
 		// see if the contact is a weather contact
