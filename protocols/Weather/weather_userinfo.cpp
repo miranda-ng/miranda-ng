@@ -122,9 +122,7 @@ INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		switch(LOWORD(wParam)) {
 		case IDC_MOREDETAIL: 
 			{
-				HWND hMoreDataDlg;
-
-				hMoreDataDlg = WindowList_Find(hDataWindowList, hContact);
+				HWND hMoreDataDlg = WindowList_Find(hDataWindowList, hContact);
 				if (hMoreDataDlg == NULL)
 					hMoreDataDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_BRIEF), NULL, 
 					DlgProcMoreData, (LPARAM)hContact);

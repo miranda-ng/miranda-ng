@@ -32,57 +32,57 @@ int RedrawFrame(WPARAM wParam, LPARAM lParam);
 // in = string to determine which field to set default "CBNEHXPp"
 void SetTextDefault(const char* in) 
 {
-	char str[MAX_TEXT_SIZE];
+	TCHAR str[MAX_TEXT_SIZE];
 
 	if (strchr(in, 'C') != NULL)
 	{
-		strcpy(str, C_DEFAULT);
-		wSetData(&opt.cText, Translate(str));
+		_tcscpy(str, C_DEFAULT);
+		wSetData(&opt.cText, str);
 	}
 	if (strchr(in, 'b') != NULL)
 	{
-		strcpy(str, b_DEFAULT);
-		wSetData(&opt.bTitle, Translate(str));
+		_tcscpy(str, b_DEFAULT);
+		wSetData(&opt.bTitle, str);
 	}
 	if (strchr(in, 'B') != NULL)
 	{
-		strcpy(str, B_DEFAULT);
-		wSetData(&opt.bText, Translate(str));
+		_tcscpy(str, B_DEFAULT);
+		wSetData(&opt.bText, str);
 	}
 	if (strchr(in, 'N') != NULL)
 	{
-		strcpy(str, N_DEFAULT);
-		wSetData(&opt.nText, Translate(str));
+		_tcscpy(str, N_DEFAULT);
+		wSetData(&opt.nText, str);
 	}
 	if (strchr(in, 'E') != NULL)
 	{
-		strcpy(str, E_DEFAULT);
-		wSetData(&opt.eText, Translate(str));
+		_tcscpy(str, E_DEFAULT);
+		wSetData(&opt.eText, str);
 	}
 	if (strchr(in, 'H') != NULL)
 	{
-		strcpy(str, H_DEFAULT);
-		wSetData(&opt.hText, Translate(str));
+		_tcscpy(str, H_DEFAULT);
+		wSetData(&opt.hText, str);
 	}
 	if (strchr(in, 'X') != NULL)
 	{
-		strcpy(str, X_DEFAULT);
-		wSetData(&opt.xText, Translate(str));
+		_tcscpy(str, X_DEFAULT);
+		wSetData(&opt.xText, str);
 	}
 	if (strchr(in, 'P') != NULL)
 	{
-		strcpy(str, P_DEFAULT);
-		wSetData(&opt.pTitle, Translate(str));
+		_tcscpy(str, P_DEFAULT);
+		wSetData(&opt.pTitle, str);
 	}
 	if (strchr(in, 'p') != NULL)
 	{
-		strcpy(str, p_DEFAULT);
-		wSetData(&opt.pText, Translate(str));
+		_tcscpy(str, p_DEFAULT);
+		wSetData(&opt.pText, str);
 	}
 	if (strchr(in, 'S') != NULL)
 	{
-		strcpy(str, s_DEFAULT);
-		wSetData(&opt.sText, Translate(str));
+		_tcscpy(str, s_DEFAULT);
+		wSetData(&opt.sText, str);
 	}
 }
 

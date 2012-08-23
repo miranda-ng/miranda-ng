@@ -157,16 +157,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 505 HTTP Version Not Supported
 
 // defaults constants
-#define C_DEFAULT "%n  [%t, %c]"
-#define N_DEFAULT "%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]"
-#define B_DEFAULT "Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]"
-#define b_DEFAULT "Weather Condition for %n as of %u"
+#define C_DEFAULT TranslateT("%n  [%t, %c]")
+#define N_DEFAULT TranslateT("%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]")
+#define B_DEFAULT TranslateT("Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]")
+#define b_DEFAULT TranslateT("Weather Condition for %n as of %u")
 #define X_DEFAULT N_DEFAULT
-#define H_DEFAULT "%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m"
-#define E_DEFAULT "%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m"
-#define P_DEFAULT "%n   (%u)"
-#define p_DEFAULT "%c, %t\nToday:  High %h, Low %l"
-#define s_DEFAULT "Temperature: %[Temperature]"
+#define H_DEFAULT TranslateT("%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m")
+#define E_DEFAULT TranslateT("%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m")
+#define P_DEFAULT TranslateT("%n   (%u)")
+#define p_DEFAULT TranslateT("%c, %t\nToday:  High %h, Low %l")
+#define s_DEFAULT TranslateT("Temperature: %[Temperature]")
 
 
 //============  OPTION STRUCT  ============

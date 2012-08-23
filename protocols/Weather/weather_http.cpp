@@ -50,18 +50,15 @@ int InternetDownloadFile (char *szUrl, char* cookie, TCHAR** szData)
 {
 	int result = 0xBADBAD;
 	char* szRedirUrl = NULL;
-	NETLIBHTTPREQUEST nlhr = {0}, *nlhrReply;
+	NETLIBHTTPREQUEST nlhr = {0};
 	NETLIBHTTPHEADER headers[6];
 
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
-	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
+	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
 	nlhr.szUrl = szUrl;
 	nlhr.nlc = hNetlibHttp;
-
-	if (CallService(MS_SYSTEM_GETVERSION, 0, 0) >= PLUGIN_MAKE_VERSION(0,9,0,5))
-		nlhr.flags |= NLHRF_PERSISTENT | NLHRF_REDIRECT;
 
 	// change the header so the plugin is pretended to be IE 6 + WinXP
 	nlhr.headersCount = 5;
@@ -83,7 +80,7 @@ int InternetDownloadFile (char *szUrl, char* cookie, TCHAR** szData)
 
 	while (result == 0xBADBAD) {
 		// download the page
-		nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
+		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
 			(WPARAM)hNetlibUser,(LPARAM)&nlhr);
 
 		if (nlhrReply) {
@@ -190,9 +187,9 @@ void NetlibInit(void)
 {
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_NOHTTPSOPTION;
+	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_NOHTTPSOPTION|NUF_TCHAR;
 	nlu.szSettingsModule = WEATHERPROTONAME;
-	nlu.szDescriptiveName = Translate("Weather HTTP connections");
+	nlu.ptszDescriptiveName = TranslateT("Weather HTTP connections");
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
 }
 

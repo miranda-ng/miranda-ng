@@ -45,10 +45,10 @@ int UpdateWeather(HANDLE hContact)
 	dbv.pszVal = "";
 
 	// log to netlib log for debug purpose
-	Netlib_Logf(hNetlibUser, "************************************************************************");
+	Netlib_LogfT(hNetlibUser, _T("************************************************************************"));
 	int dbres = DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Nick", &dbv);
 
-	Netlib_Logf(hNetlibUser, "<-- Start update for station -->");
+	Netlib_LogfT(hNetlibUser, _T("<-- Start update for station -->"));
 
 	// download the info and parse it
 	// result are stored in database
@@ -65,8 +65,8 @@ int UpdateWeather(HANDLE hContact)
 			WPShowMessage(str, SM_WARNING);
 		}
 		// log to netlib
-		Netlib_Logf(hNetlibUser, "Error! Update cannot continue... Start to free memory");
-		Netlib_Logf(hNetlibUser, "<-- Error occurs while updating station: %s -->", dbv.ptszVal);
+		Netlib_LogfT(hNetlibUser, _T("Error! Update cannot continue... Start to free memory"));
+		Netlib_LogfT(hNetlibUser, _T("<-- Error occurs while updating station: %s -->"), dbv.ptszVal);
 		if (!dbres) DBFreeVariant(&dbv);
 		return 1;
 	}
@@ -187,7 +187,7 @@ int UpdateWeather(HANDLE hContact)
 			dbei.cbSize = sizeof(dbei);
 			dbei.szModule = WEATHERPROTONAME;
 			dbei.timestamp = (DWORD)time(NULL);
-			dbei.flags = DBEF_READ;
+			dbei.flags = DBEF_READ|DBEF_UTF;
 			dbei.eventType = EVENTTYPE_MESSAGE;
 			dbei.pBlob = (PBYTE)mir_utf8encodeT(str2);
 			dbei.cbBlob = (DWORD)strlen((char*)dbei.pBlob)+1;
@@ -200,8 +200,8 @@ int UpdateWeather(HANDLE hContact)
 		NotifyEventHooks(hHookWeatherUpdated, (WPARAM)hContact, (LPARAM)Ch);
 	}
 
-	Netlib_Logf(hNetlibUser, "Update Completed - Start to free memory");
-	Netlib_Logf(hNetlibUser, "<-- Update successful for station -->");
+	Netlib_LogfT(hNetlibUser, _T("Update Completed - Start to free memory"));
+	Netlib_LogfT(hNetlibUser, _T("<-- Update successful for station -->"));
 
 	// Update frame data
 	UpdateMwinData(hContact);
@@ -219,9 +219,7 @@ int UpdateWeather(HANDLE hContact)
 // hContact = current contact
 void UpdateListAdd(HANDLE hContact) 
 {
-	UPDATELIST *newItem;
-
-	newItem = (UPDATELIST*)mir_alloc(sizeof(UPDATELIST));
+	UPDATELIST *newItem = (UPDATELIST*)mir_alloc(sizeof(UPDATELIST));
 	newItem->hContact = hContact;
 	newItem->next = NULL;
 
@@ -260,11 +258,9 @@ HANDLE UpdateGetFirst()
 
 void DestroyUpdateList(void) 
 {
-	UPDATELIST *temp;
-
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
-	temp = UpdateListHead;
+	UPDATELIST *temp = UpdateListHead;
 
 	// free the list one by one
 	while (temp != NULL) 
