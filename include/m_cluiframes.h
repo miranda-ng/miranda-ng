@@ -17,6 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#ifndef M_CLUIFRAMES_H__
+#define M_CLUIFRAMES_H__ 1
+
 #if !defined(M_GENMENU_H)
 #include "m_genmenu.h"
 #endif
@@ -323,3 +326,5 @@ __inline static HGENMENU Menu_AddContextFrameMenuItem(CLISTMENUITEM *mi)
 //needed by cluiframes module to add frames menu to main menu.
 //it just calls NotifyEventHooks(hPreBuildFrameMenuEvent,wParam,lParam);
 #define MS_CLIST_FRAMEMENUNOTIFY					"CList/ContextFrameMenuNotify"
+
+#endif /* M_CLUIFRAMES_H__ */
