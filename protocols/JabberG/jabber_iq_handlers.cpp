@@ -78,7 +78,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 	SYSTEM_INFO si;
 	PGNSI pGNSI;
 	PGPI pGPI;
-	BOOL bOsVersionInfoEx;
+	
 	DWORD dwType;
 
 	ZeroMemory(&si, sizeof(SYSTEM_INFO));
@@ -86,25 +86,27 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
-	if ( !(bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi)))
-		return FALSE;
+	BOOL bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi);
+	if ( !bOsVersionInfoEx )
+	{
+		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+		if (!GetVersionEx((OSVERSIONINFO*)&osvi)) 
+			return;
+	}
 
 	// Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
-
-	pGNSI = (PGNSI) GetProcAddress(
-		GetModuleHandle(TEXT("kernel32.dll")), 
-		"GetNativeSystemInfo");
+	HMODULE hKernel = GetModuleHandle(TEXT("kernel32.dll"));
+	pGNSI = (PGNSI) GetProcAddress(hKernel,"GetNativeSystemInfo");
 	if(NULL != pGNSI)
 		pGNSI(&si);
 	else GetSystemInfo(&si);
 
-	if ( VER_PLATFORM_WIN32_NT==osvi.dwPlatformId && 
-		osvi.dwMajorVersion > 4 )
+	//Some code from Crash Dumper Plugin :-)
+	if ( VER_PLATFORM_WIN32_NT==osvi.dwPlatformId && osvi.dwMajorVersion > 4 )
 	{
 		StringCchCopy(pszOS, BUFSIZE, TEXT("Microsoft "));
 
 		// Test for the specific product.
-
 		if (osvi.dwMajorVersion == 6)
 		{
 			switch (osvi.dwMinorVersion)
@@ -129,19 +131,10 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 				else 
 					StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2012 "));
 				break;
-		}
+			}
 
-		if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 )
-		{
-			if ( osvi.wProductType == VER_NT_WORKSTATION )
-				StringCchCat(pszOS, BUFSIZE, TEXT("Windows Vista "));
-			else StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2008 " ));
-
-			pGPI = (PGPI) GetProcAddress(
-				GetModuleHandle(TEXT("kernel32.dll")), 
-				"GetProductInfo");
-
-			pGPI( 6, 0, 0, 0, &dwType);
+			pGPI = (PGPI) GetProcAddress(hKernel, "GetProductInfo");
+			if(pGPI != NULL) pGPI( 6, 0, 0, 0, &dwType);
 
 			switch( dwType )
 			{
