@@ -105,11 +105,30 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 		// Test for the specific product.
 
-		if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 1 )
+		if (osvi.dwMajorVersion == 6)
 		{
-			if ( osvi.wProductType == VER_NT_WORKSTATION )
-				StringCchCat(pszOS, BUFSIZE, TEXT("Windows 7 "));
-			else StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2008 R2 " ));
+			switch (osvi.dwMinorVersion)
+			{
+			case 0:
+				if (osvi.wProductType == VER_NT_WORKSTATION)
+					StringCchCat(pszOS, BUFSIZE, TEXT("Windows Vista "));
+				else 
+					StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2008 "));
+				break;
+
+			case 1:
+				if (osvi.wProductType == VER_NT_WORKSTATION)
+					StringCchCat(pszOS, BUFSIZE, TEXT("Windows 7 "));
+				else 
+					StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2008 R2 "));
+				break;
+
+			default:
+				if (osvi.wProductType == VER_NT_WORKSTATION)
+					StringCchCat(pszOS, BUFSIZE, TEXT("Windows 8 "));
+				else 
+					StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2012 "));
+				break;
 		}
 
 		if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 )
