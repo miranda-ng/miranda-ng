@@ -91,7 +91,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 	{
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 		if (!GetVersionEx((OSVERSIONINFO*)&osvi)) 
-			return;
+			return FALSE;
 	}
 
 	// Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
