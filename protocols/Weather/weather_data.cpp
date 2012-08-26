@@ -447,9 +447,6 @@ void DBDataManage(HANDLE hContact, WORD Mode, WPARAM wParam, LPARAM lParam)
 
 			case WDBM_DETAILDISPLAY: 
 				{
-					HWND hList = GetDlgItem((HWND)wParam, IDC_DATALIST);
-					LV_ITEM lvi = { 0 };
-
 					// skip the "WeatherInfo" variable
 					if (strcmp(wc.value[wc.current], "WeatherInfo") == 0 ||
 						strcmp(wc.value[wc.current], "Ignore") == 0 ||
@@ -460,9 +457,11 @@ void DBDataManage(HANDLE hContact, WORD Mode, WPARAM wParam, LPARAM lParam)
 						continue;
 					}
 
+					HWND hList = GetDlgItem((HWND)wParam, IDC_DATALIST);
+					LV_ITEM lvi = { 0 };
 					lvi.mask = LVIF_TEXT | LVIF_PARAM;
 					lvi.iItem = 0;
-					lvi.iSubItem = 1;
+					lvi.iSubItem = 0;
 					lvi.lParam = (LPARAM)wc.current;
 					lvi.pszText = TranslateTS( _A2T(wc.value[wc.current] ));
 					lvi.iItem = ListView_InsertItem(hList, &lvi);
