@@ -62,7 +62,7 @@ VOID CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 
 	if (!Miranda_Terminated())
 	{
-		CheckAllFeeds(0,0);
+		CheckAllFeeds(0, 1);
 		timerId = SetTimer(NULL, 0, 30000, (TIMERPROC)timerProc);
 	}
 }

@@ -169,13 +169,13 @@ INT_PTR NewsAggrGetInfo(WPARAM wParam,LPARAM lParam)
 
 INT_PTR CheckAllFeeds(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact= (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact != NULL) 
 	{
-		if(IsMyContact(hContact)) 
-		{
+		if (IsMyContact(hContact) && lParam && DBGetContactSettingDword(hContact, MODULE, "UpdateTime", 60)) 
 			UpdateListAdd(hContact);
-		}
+		else if (IsMyContact(hContact) && !lParam)
+			UpdateListAdd(hContact);
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 	}
 	if (!ThreadRunning)
@@ -238,9 +238,8 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam,LPARAM lParam)
 
 	// if GAIF_FORCE is set, we are updating the feed
 	// otherwise, cached avatar is used
-	if (wParam & GAIF_FORCE)
+	if (wParam & GAIF_FORCE && DBGetContactSettingDword(pai->hContact, MODULE, "UpdateTime", 60))
 		UpdateListAdd(pai->hContact);
-		//CheckCurrentFeed(pai->hContact);
 	if (!ThreadRunning)
 		mir_forkthread(UpdateThreadProc, NULL);
 
