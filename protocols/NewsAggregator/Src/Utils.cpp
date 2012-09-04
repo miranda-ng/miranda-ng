@@ -711,9 +711,9 @@ HRESULT TestDocumentText(IHTMLDocument3* pHtmlDoc, BSTR& message)
 VOID ClearText(TCHAR*& message)
 {
 	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
-	BSTR bstrHtml = SysAllocString(message), bstrRes = NULL;
+	BSTR bstrHtml = SysAllocString(message), bstrRes = SysAllocString(L"");
 	HRESULT hr = TestMarkupServices(bstrHtml, &TestDocumentText, bstrRes);
-	if (bstrRes) {
+	if ( SUCCEEDED(hr)) {
 		replaceStrT(message, bstrRes);
 		SysFreeString(bstrRes);
 	}
