@@ -664,7 +664,17 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	wstring file = toUTF16(get_random(10));
 	wstring path;
 	extern bool bJabberAPI, bIsMiranda09;
-	char *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
+	LPSTR proto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETCONTACTBASEPROTO, 0, (LPARAM)proto);
+	std::string acc_str;
+	if(acc)
+	{
+		acc_str = toUTF8(acc->tszAccountName);
+		acc_str += "(";
+		acc_str += acc->szModuleName;
+		acc_str += ")" ;
+	}
+	char *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, acc_str.empty()?"KeyID":acc_str.c_str(), "");
 	if(!tmp[0])
 	{
 		mir_free(tmp);

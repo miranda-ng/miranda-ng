@@ -159,7 +159,11 @@ static BOOL CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 					continue;
 				if(StriStr(accounts[i]->szModuleName, "weather"))
 					continue;
-				SendMessageA(GetDlgItem(hwndDlg, IDC_ACCOUNT), CB_ADDSTRING, 0, (LPARAM)accounts[i]->szModuleName);
+				std::string acc = toUTF8(accounts[i]->tszAccountName);
+				acc += "(";
+				acc += accounts[i]->szModuleName;
+				acc += ")";
+				SendMessageA(GetDlgItem(hwndDlg, IDC_ACCOUNT), CB_ADDSTRING, 0, (LPARAM)acc.c_str());
 			}
 			SendMessageA(GetDlgItem(hwndDlg, IDC_ACCOUNT), CB_SELECTSTRING, 0, (LPARAM)Translate("Default"));
 			string keyinfo = Translate("key id");
@@ -2137,7 +2141,6 @@ void ImportKey()
 							string::size_type s = output.find("gpg: key ") + strlen("gpg: key ");
 							string::size_type s2 = output.find(":", s);
 							DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyID", output.substr(s,s2-s).c_str());
-							s2+=2;
 							s = output.find("“", s2);
 							if(s == string::npos)
 							{
@@ -2146,42 +2149,59 @@ void ImportKey()
 							}
 							else
 								s += 3;
+							bool uncommon = false;
 							if((s2 = output.find("(", s)) == string::npos)
-								s2 = output.find("<", s);
+							{
+								if((s2 = output.find("<", s)) == string::npos)
+								{
+									s2 = output.find("”", s);
+									uncommon = true;
+								}
+							}
 							else if(s2 > output.find("<", s))
 								s2 = output.find("<", s);
-							tmp = new char [output.substr(s,s2-s-1).length()+1];
-							strcpy(tmp, output.substr(s,s2-s-1).c_str());
-							mir_utf8decode(tmp, 0);
-							DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainName", tmp);
-							mir_free(tmp);
+							if(s != string::npos && s2 != string::npos)
+							{
+								tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s,s2-s-(uncommon?1:0)).length()+1));
+								strcpy(tmp, output.substr(s,s2-s-(uncommon?1:0)).c_str());
+								mir_utf8decode(tmp, 0);
+								DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainName", tmp);
+								mir_free(tmp);
+							}
+
 							if((s = output.find(")", s2)) == string::npos)
 								s = output.find(">", s2);
 							else if(s > output.find(">", s2))
 								s = output.find(">", s2);
 							s2++;
-							if(output[s] == ')')
+							if(s != string::npos && s2 != string::npos)
 							{
-								tmp = new char [output.substr(s2,s-s2).length()+1];
-								strcpy(tmp, output.substr(s2,s-s2).c_str());
-								mir_utf8decode(tmp, 0);
-								DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyComment", tmp);
-								mir_free(tmp);
-								s+=3;
-								s2 = output.find(">", s);
-								tmp = new char [output.substr(s,s2-s).length()+1];
-								strcpy(tmp, output.substr(s,s2-s).c_str());
-								mir_utf8decode(tmp, 0);
-								DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainEmail", tmp);
-								mir_free(tmp);
-							}
-							else
-							{
-								tmp = new char [output.substr(s2,s-s2).length()+1];
-								strcpy(tmp, output.substr(s2,s-s2).c_str());
-								mir_utf8decode(tmp, 0);
-								DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
-								mir_free(tmp);
+								if(output[s] == ')')
+								{
+									tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
+									strcpy(tmp, output.substr(s2,s-s2).c_str());
+									mir_utf8decode(tmp, 0);
+									DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyComment", tmp);
+									mir_free(tmp);
+									s+=3;
+									s2 = output.find(">", s);
+									if(s != string::npos && s2 != string::npos)
+									{
+										tmp = (char*) mir_alloc(sizeof(char)*(output.substr(s,s2-s).length()+1));
+										strcpy(tmp, output.substr(s,s2-s).c_str());
+										mir_utf8decode(tmp, 0);
+										DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainEmail", tmp);
+										mir_free(tmp);
+									}
+								}
+								else
+								{
+									tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
+									strcpy(tmp, output.substr(s2,s-s2).c_str());
+									mir_utf8decode(tmp, 0);
+									DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+									mir_free(tmp);
+								}
 							}
 							DBDeleteContactSetting(hcnt, szGPGModuleName, "bAlwatsTrust");
 						}
@@ -2193,7 +2213,6 @@ void ImportKey()
 					string::size_type s = output.find("gpg: key ") + strlen("gpg: key ");
 					string::size_type s2 = output.find(":", s);
 					DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyID", output.substr(s,s2-s).c_str());
-					s2+=2;
 					s = output.find("“", s2);
 					if(s == string::npos)
 					{
@@ -2202,42 +2221,58 @@ void ImportKey()
 					}
 					else
 						s += 3;
+					bool uncommon = false;
 					if((s2 = output.find("(", s)) == string::npos)
-						s2 = output.find("<", s);
+					{
+						if((s2 = output.find("<", s)) == string::npos)
+						{
+							s2 = output.find("”", s);
+							uncommon = true;
+						}
+					}
 					else if(s2 > output.find("<", s))
 						s2 = output.find("<", s);
-					tmp = new char [output.substr(s,s2-s-1).length()+1];
-					strcpy(tmp, output.substr(s,s2-s-1).c_str());
-					mir_utf8decode(tmp, 0);
-					DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", tmp);
-					mir_free(tmp);
+					if(s != string::npos && s2 != string::npos)
+					{
+						tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s,s2-s-(uncommon?1:0)).length()+1));
+						strcpy(tmp, output.substr(s,s2-s-(uncommon?1:0)).c_str());
+						mir_utf8decode(tmp, 0);
+						DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", tmp);
+						mir_free(tmp);
+					}
 					if((s = output.find(")", s2)) == string::npos)
 						s = output.find(">", s2);
 					else if(s > output.find(">", s2))
 						s = output.find(">", s2);
 					s2++;
-					if(output[s] == ')')
+					if(s != string::npos && s2 != string::npos)
 					{
-						tmp = new char [output.substr(s2,s-s2).length()+1];
-						strcpy(tmp, output.substr(s2,s-s2).c_str());
-						mir_utf8decode(tmp, 0);
-						DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", tmp);
-						mir_free(tmp);
-						s+=3;
-						s2 = output.find(">", s);
-						tmp = new char [output.substr(s,s2-s).length()+1];
-						strcpy(tmp, output.substr(s,s2-s).c_str());
-						mir_utf8decode(tmp, 0);
-						DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", tmp);
-						mir_free(tmp);
-					}
-					else
-					{
-						tmp = new char [output.substr(s2,s-s2).length()+1];
-						strcpy(tmp, output.substr(s2,s-s2).c_str());
-						mir_utf8decode(tmp, 0);
-						DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
-						mir_free(tmp);
+						if(output[s] == ')')
+						{
+							tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
+							strcpy(tmp, output.substr(s2,s-s2).c_str());
+							mir_utf8decode(tmp, 0);
+							DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", tmp);
+							mir_free(tmp);
+							s+=3;
+							s2 = output.find(">", s);
+							if(s != string::npos && s2 != string::npos)
+							{
+								tmp = (char*) mir_alloc(sizeof(char)*(output.substr(s,s2-s).length()+1));
+								strcpy(tmp, output.substr(s,s2-s).c_str());
+								mir_utf8decode(tmp, 0);
+								DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", tmp);
+								mir_free(tmp);
+							}
+						}
+						else
+						{
+							tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
+							strcpy(tmp, output.substr(s2,s-s2).c_str());
+							mir_utf8decode(tmp, 0);
+							DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+							mir_free(tmp);
+						}
 					}
 					DBDeleteContactSetting(metaGetMostOnline(hContact), szGPGModuleName, "bAlwatsTrust");
 				}
@@ -2248,7 +2283,6 @@ void ImportKey()
 				string::size_type s = output.find("gpg: key ") + strlen("gpg: key ");
 				string::size_type s2 = output.find(":", s);
 				DBWriteContactSettingString(hContact, szGPGModuleName, "KeyID", output.substr(s,s2-s).c_str());
-				s2+=2;
 				s = output.find("“", s2);
 				if(s == string::npos)
 				{
@@ -2257,42 +2291,58 @@ void ImportKey()
 				}
 				else
 					s += 3;
+				bool uncommon = false;
 				if((s2 = output.find("(", s)) == string::npos)
-					s2 = output.find("<", s);
+				{
+					if((s2 = output.find("<", s)) == string::npos)
+					{
+						s2 = output.find("”", s);
+						uncommon = true;
+					}
+				}
 				else if(s2 > output.find("<", s))
 					s2 = output.find("<", s);
-				tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s,s2-s-1).length()+1));
-				strcpy(tmp, output.substr(s,s2-s-1).c_str());
-				mir_utf8decode(tmp, 0);
-				DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainName", tmp);
-				mir_free(tmp);
+				if(s != string::npos && s2 != string::npos)
+				{
+					tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s,s2-s-(uncommon?1:0)).length()+1));
+					strcpy(tmp, output.substr(s,s2-s-(uncommon?1:0)).c_str());
+					mir_utf8decode(tmp, 0);
+					DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainName", tmp);
+					mir_free(tmp);
+				}
 				if((s = output.find(")", s2)) == string::npos)
 					s = output.find(">", s2);
 				else if(s > output.find(">", s2))
 					s = output.find(">", s2);
 				s2++;
-				if(output[s] == ')')
+				if(s != string::npos && s2 != string::npos)
 				{
-					tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
-					strcpy(tmp, output.substr(s2,s-s2).c_str());
-					mir_utf8decode(tmp, 0);
-					DBWriteContactSettingString(hContact, szGPGModuleName, "KeyComment", tmp);
-					mir_free(tmp);
-					s+=3;
-					s2 = output.find(">", s);
-					tmp = (char*) mir_alloc(sizeof(char)*(output.substr(s,s2-s).length()+1));
-					strcpy(tmp, output.substr(s,s2-s).c_str());
-					mir_utf8decode(tmp, 0);
-					DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", tmp);
-					mir_free(tmp);
-				}
-				else
-				{
-					tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
-					strcpy(tmp, output.substr(s2,s-s2).c_str());
-					mir_utf8decode(tmp, 0);
-					DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
-					mir_free(tmp);
+					if(output[s] == ')')
+					{
+						tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
+						strcpy(tmp, output.substr(s2,s-s2).c_str());
+						mir_utf8decode(tmp, 0);
+						DBWriteContactSettingString(hContact, szGPGModuleName, "KeyComment", tmp);
+						mir_free(tmp);
+						s+=3;
+						s2 = output.find(">", s);
+						if(s != string::npos && s2 != string::npos)
+						{
+							tmp = (char*) mir_alloc(sizeof(char)*(output.substr(s,s2-s).length()+1));
+							strcpy(tmp, output.substr(s,s2-s).c_str());
+							mir_utf8decode(tmp, 0);
+							DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", tmp);
+							mir_free(tmp);
+						}
+					}
+					else
+					{
+						tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
+						strcpy(tmp, output.substr(s2,s-s2).c_str());
+						mir_utf8decode(tmp, 0);
+						DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+						mir_free(tmp);
+					}
 				}
 				DBDeleteContactSetting(hContact, szGPGModuleName, "bAlwatsTrust");
 			}
