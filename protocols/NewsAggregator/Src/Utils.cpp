@@ -420,36 +420,103 @@ time_t __stdcall DateToUnixTime(TCHAR* stamp, BOOL FeedType)
 		return ( time_t ) 0;
 }
 
-VOID StrReplace(TCHAR* Search, TCHAR* Replace, TCHAR*& Resource)
+/******************************************************************************/
+
+TCHAR * _tcsistr(const TCHAR * str, const TCHAR * substr)
 {
-	int i = 0;
-	int SearchLen = (int)_tcslen(Search);
-	TCHAR* Work = mir_tstrdup(Replace);
-	int ReplaceLen = (int)_tcslen(Work);
+	if (!str || !substr || (substr[0] == _T('\0')))
+		return (TCHAR *) str;
 
-	TCHAR* Pointer = _tcsstr(Resource, Search);
-
-	while (Pointer != NULL)
+	size_t nLen = _tcslen(substr);
+	while (*str)
 	{
-		int PointerLen = (int)_tcslen(Pointer);
-		int ResourceLen = (int)_tcslen(Resource);
-
-		TCHAR* NewText = (TCHAR*)mir_calloc((ResourceLen - SearchLen + ReplaceLen + 1)*sizeof(TCHAR));
-
-		_tcsncpy(NewText, Resource, ResourceLen - PointerLen);
-		_tcscat(NewText, Work);
-		_tcscat(NewText, Pointer + SearchLen);
-
-		Resource = (TCHAR*)mir_alloc((ResourceLen - SearchLen + ReplaceLen + 1)*sizeof(TCHAR));
-
-		for (i = 0; i < (ResourceLen - SearchLen + ReplaceLen); i++)
-			Resource[i] = NewText[i];
-		Resource[i] = 0;
-		mir_free(NewText);
-
-		Pointer = _tcsstr(Resource + (ResourceLen - PointerLen + ReplaceLen), Search);
+		if (_tcsnicmp(str, substr, nLen) == 0)
+			break;
+		str++;
 	}
-	mir_free(Work);
+
+	if (*str == _T('\0'))
+		str = NULL;
+
+	return (TCHAR *) str;
+}
+
+int StrReplace(TCHAR* lpszOld, TCHAR* lpszNew, TCHAR*& lpszStr)
+{
+	if (!lpszStr || !lpszOld || !lpszNew)
+		return 0;
+
+	size_t nStrLen = _tcslen(lpszStr);
+	if (nStrLen == 0)
+		return 0;
+
+	size_t nOldLen = _tcslen(lpszOld);
+	if (nOldLen == 0)
+		return 0;
+
+	size_t nNewLen = _tcslen(lpszNew);
+
+	// loop once to figure out the size of the result string
+	int nCount = 0;
+	TCHAR *pszStart = (TCHAR *) lpszStr;
+	TCHAR *pszEnd = (TCHAR *) lpszStr + nStrLen;
+	TCHAR *pszTarget = NULL;
+	TCHAR * pszResultStr = NULL;
+
+	while (pszStart < pszEnd)
+	{
+		while ((pszTarget = _tcsistr(pszStart, lpszOld)) != NULL)
+		{
+			nCount++;
+			pszStart = pszTarget + nOldLen;
+		}
+		pszStart += _tcslen(pszStart);
+	}
+
+	// if any changes, make them now
+	if (nCount > 0)
+	{
+		// allocate buffer for result string
+		size_t nResultStrSize = nStrLen + (nNewLen - nOldLen) * nCount + 2;
+		pszResultStr = new TCHAR [nResultStrSize];
+		ZeroMemory(pszResultStr, nResultStrSize*sizeof(TCHAR));
+
+		pszStart = (TCHAR *) lpszStr;
+		pszEnd = (TCHAR *) lpszStr + nStrLen;
+		TCHAR *cp = pszResultStr;
+
+		// loop again to actually do the work
+		while (pszStart < pszEnd)
+		{
+			while ((pszTarget = _tcsistr(pszStart, lpszOld)) != NULL)
+			{
+				int nCopyLen = (int)(pszTarget - pszStart);
+				_tcsncpy(cp, &lpszStr[pszStart-lpszStr], nCopyLen);
+
+				cp += nCopyLen;
+
+				pszStart = pszTarget + nOldLen;
+
+				_tcscpy(cp, lpszNew);
+
+				cp += nNewLen;
+			}
+			_tcscpy(cp, pszStart);
+			pszStart += _tcslen(pszStart);
+		}
+
+		if (pszResultStr)
+			lpszStr = mir_tstrdup(pszResultStr);
+	}
+
+	int nSize = 0;
+	if (pszResultStr)
+	{
+		nSize = (int)_tcslen(pszResultStr);
+		delete [] pszResultStr;
+	}
+
+	return nSize;
 }
 
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
