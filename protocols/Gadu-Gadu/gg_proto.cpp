@@ -125,8 +125,8 @@ GGPROTO::~GGPROTO()
 // Dummies for function that have to be implemented
 
 HANDLE GGPROTO::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return NULL; }
-int    GGPROTO::Authorize(HANDLE hContact) { return 0; }
-int    GGPROTO::AuthDeny(HANDLE hContact, const TCHAR *szReason) { return 0; }
+int    GGPROTO::Authorize(HANDLE hDbEvent) { return 0; }
+int    GGPROTO::AuthDeny(HANDLE hDbEvent, const TCHAR *szReason) { return 0; }
 int    GGPROTO::AuthRecv(HANDLE hContact, PROTORECVEVENT *pre) { return 0; }
 int    GGPROTO::AuthRequest(HANDLE hContact, const TCHAR *szMessage) { return 0; }
 HANDLE GGPROTO::ChangeInfo(int iInfoType, void *pInfoData) { return NULL; }
@@ -535,7 +535,7 @@ static INT_PTR CALLBACK gg_advancedsearchdlgproc(HWND hwndDlg,UINT message,WPARA
 		SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Female"));	// 1
 		SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Male"));	// 2
 		return TRUE;
-		
+
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDOK:
@@ -803,4 +803,3 @@ int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 	}
 	return TRUE;
 }
-

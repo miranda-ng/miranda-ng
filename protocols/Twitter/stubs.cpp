@@ -22,12 +22,12 @@ HANDLE TwitterProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 	return 0;
 }
 
-int TwitterProto::Authorize(HANDLE hContact)
+int TwitterProto::Authorize(HANDLE hDbEvent)
 {
 	return 0;
 }
 
-int TwitterProto::AuthDeny(HANDLE hContact,const TCHAR *reason)
+int TwitterProto::AuthDeny(HANDLE hDbEvent,const TCHAR *reason)
 {
 	return 0;
 }
@@ -134,6 +134,6 @@ int TwitterProto::SetAwayMsg(int status,const TCHAR *msg)
 }
 
 int TwitterProto::UserIsTyping(HANDLE hContact,int type)
-{ 
+{
 	return 0;
 }

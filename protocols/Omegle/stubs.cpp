@@ -32,12 +32,12 @@ HANDLE OmegleProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 	return 0;
 };
 
-int OmegleProto::Authorize(HANDLE hContact)
+int OmegleProto::Authorize(HANDLE hDbEvent)
 {
 	return 0;
 }
 
-int OmegleProto::AuthDeny(HANDLE hContact,const PROTOCHAR *reason)
+int OmegleProto::AuthDeny(HANDLE hDbEvent,const PROTOCHAR *reason)
 {
 	return 0;
 }

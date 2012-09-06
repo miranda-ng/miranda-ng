@@ -210,7 +210,7 @@ CJabberProto::CJabberProto( const char* aProtoName, const TCHAR* aUserName ) :
 		JFreeVariant(&dbv);
 		JDeleteSetting(NULL, "Password");
 	}
-	
+
 	CleanLastResourceMap();
 }
 
@@ -468,7 +468,7 @@ HANDLE __cdecl CJabberProto::AddToListByEvent( int flags, int /*iContact*/, HAND
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberAuthAllow - processes the successful authorization
 
-int CJabberProto::Authorize( HANDLE hContact )
+int CJabberProto::Authorize( HANDLE hDbEvent )
 {
 	DBEVENTINFO dbei;
 	char* nick, *firstName, *lastName, *jid;
@@ -478,18 +478,18 @@ int CJabberProto::Authorize( HANDLE hContact )
 
 	memset( &dbei, 0, sizeof( dbei ));
 	dbei.cbSize = sizeof( dbei );
-	if (( dbei.cbBlob=JCallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hContact, 0 )) == ( DWORD )( -1 ))
+	if (( dbei.cbBlob=JCallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hDbEvent, 0 )) == ( DWORD )( -1 ))
 		return 1;
 	if (( dbei.pBlob=( PBYTE )alloca( dbei.cbBlob )) == NULL )
 		return 1;
-	if ( JCallService( MS_DB_EVENT_GET, ( WPARAM )hContact, ( LPARAM )&dbei ))
+	if ( JCallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, ( LPARAM )&dbei ))
 		return 1;
 	if ( dbei.eventType != EVENTTYPE_AUTHREQUEST )
 		return 1;
 	if ( strcmp( dbei.szModule, m_szModuleName ))
 		return 1;
 
-	nick = ( char* )( dbei.pBlob + sizeof( DWORD )+ sizeof( HANDLE ));
+	nick = ( char* )(dbei.pBlob + sizeof(DWORD)*2);
 	firstName = nick + strlen( nick ) + 1;
 	lastName = firstName + strlen( firstName ) + 1;
 	jid = lastName + strlen( lastName ) + 1;
@@ -576,12 +576,12 @@ int __cdecl CJabberProto::AuthRecv( HANDLE, PROTORECVEVENT* )
 // PSS_AUTHREQUEST
 
 int __cdecl CJabberProto::AuthRequest( HANDLE, const TCHAR* )
-{	
+{
 	return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// ChangeInfo 
+// ChangeInfo
 
 HANDLE __cdecl CJabberProto::ChangeInfo( int /*iInfoType*/, void* )
 {
@@ -730,7 +730,7 @@ HICON __cdecl CJabberProto::GetIcon( int iconIndex )
 	{
 		if (iconIndex & PLIF_ICOLIBHANDLE)
 			return (HICON)GetIconHandle(IDI_JABBER);
-		
+
 		bool big = (iconIndex & PLIF_SMALL) == 0;
 		HICON hIcon = LoadIconEx("main", big);
 
@@ -886,7 +886,7 @@ HANDLE __cdecl CJabberProto::SearchBasic( const TCHAR* szJid )
 				numericjid = (*i >= '0') && (*i <= '9');
 
 			mir_free( szServer );
-			szServer = JGetStringT( NULL, "LoginServer" ); 
+			szServer = JGetStringT( NULL, "LoginServer" );
 			if ( !szServer )
 			{
 				szServer = mir_tstrdup( _T( "jabber.org" ));
@@ -922,7 +922,7 @@ HANDLE __cdecl CJabberProto::SearchByEmail( const TCHAR* email )
 
 	int iqId = SerialNext();
 	IqAdd( iqId, IQ_PROC_GETSEARCH, &CJabberProto::OnIqResultSetSearch );
-	m_ThreadInfo->send( XmlNodeIq( _T("set"), iqId, _A2T(szServerName)) << XQUERY( _T("jabber:iq:search")) 
+	m_ThreadInfo->send( XmlNodeIq( _T("set"), iqId, _A2T(szServerName)) << XQUERY( _T("jabber:iq:search"))
 		<< XCHILD( _T("email"), email));
 	return ( HANDLE )iqId;
 }
@@ -1047,7 +1047,7 @@ int __cdecl CJabberProto::SendContacts( HANDLE hContact, int flags, int nContact
 
 	for ( int i = 0; i < nContacts; ++i ) {
 		if (!JGetStringT( hContactsList[i], "jid", &dbv )) {
-			x << XCHILD( _T("item")) << XATTR( _T("action"), _T("add")) << 
+			x << XCHILD( _T("item")) << XATTR( _T("action"), _T("add")) <<
 				XATTR( _T("jid"), dbv.ptszVal);
 			JFreeVariant( &dbv );
 		}
@@ -1159,7 +1159,7 @@ HANDLE __cdecl CJabberProto::SendFile( HANDLE hContact, const TCHAR* szDescripti
 
 struct TFakeAckParams
 {
-	inline TFakeAckParams( HANDLE p1, const char* p2 ) 
+	inline TFakeAckParams( HANDLE p1, const char* p2 )
 		: hContact( p1 ), msg( p2 ) {}
 
 	HANDLE	hContact;
@@ -1171,8 +1171,8 @@ void __cdecl CJabberProto::SendMessageAckThread( void* param )
 	TFakeAckParams *par = ( TFakeAckParams* )param;
 	Sleep( 100 );
 	Log( "Broadcast ACK" );
-	JSendBroadcast( par->hContact, ACKTYPE_MESSAGE, 
-		par->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS, 
+	JSendBroadcast( par->hContact, ACKTYPE_MESSAGE,
+		par->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
 		( HANDLE ) 1, ( LPARAM ) par->msg );
 	Log( "Returning from thread" );
 	delete par;
@@ -1208,9 +1208,9 @@ int __cdecl CJabberProto::SendMsg( HANDLE hContact, int flags, const char* pszSr
 	else isEncrypted = 0;
 
 	if ( flags & PREF_UTF ) {
-		
+
 			mir_utf8decode( NEWSTR_ALLOCA( pszSrc ), &msg );
-		
+
 	}
 	else if ( flags & PREF_UNICODE )
 		msg = mir_u2t(( wchar_t* )&pszSrc[ strlen( pszSrc )+1 ] );
@@ -1308,7 +1308,7 @@ int __cdecl CJabberProto::SetApparentMode( HANDLE hContact, int mode )
 {
 	if ( mode != 0 && mode != ID_STATUS_ONLINE && mode != ID_STATUS_OFFLINE )
 		return 1;
-	
+
 	int oldMode = JGetWord( hContact, "ApparentMode", 0 );
 	if ( mode == oldMode )
 		return 1;
@@ -1349,7 +1349,7 @@ int __cdecl CJabberProto::SetApparentMode( HANDLE hContact, int mode )
 
 int __cdecl CJabberProto::SetStatus( int iNewStatus )
 {
-	if (m_iDesiredStatus == iNewStatus) 
+	if (m_iDesiredStatus == iNewStatus)
 		return 0;
 
 	int oldStatus = m_iStatus;
@@ -1458,7 +1458,7 @@ HANDLE __cdecl CJabberProto::GetAwayMsg( HANDLE hContact )
 // PSR_AWAYMSG
 
 int __cdecl CJabberProto::RecvAwayMsg( HANDLE /*hContact*/, int /*statusMode*/, PROTORECVEVENT* )
-{	
+{
 	return 1;
 }
 
@@ -1466,7 +1466,7 @@ int __cdecl CJabberProto::RecvAwayMsg( HANDLE /*hContact*/, int /*statusMode*/, 
 // PSS_AWAYMSG
 
 int __cdecl CJabberProto::SendAwayMsg( HANDLE /*hContact*/, HANDLE /*hProcess*/, const char* )
-{	
+{
 	return 1;
 }
 
@@ -1642,7 +1642,7 @@ int __cdecl CJabberProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPAR
 
 	case EV_PROTO_ONRENAME:
 		if ( m_hMenuRoot )
-		{	
+		{
 			CLISTMENUITEM clmi = { 0 };
 			clmi.cbSize = sizeof(CLISTMENUITEM);
 			clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -1656,6 +1656,6 @@ int __cdecl CJabberProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPAR
 
 	case EV_PROTO_DBSETTINGSCHANGED:
 		return OnDbSettingChanged(wParam, lParam);
-	}	
+	}
 	return 1;
 }

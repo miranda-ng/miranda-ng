@@ -158,7 +158,7 @@ HANDLE __cdecl CAimProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEv
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthAllow - processes the successful authorization
 
-int CAimProto::Authorize(HANDLE hContact)
+int CAimProto::Authorize(HANDLE hDbEvent)
 {
 	return 0;
 }
@@ -166,7 +166,7 @@ int CAimProto::Authorize(HANDLE hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthDeny - handles the unsuccessful authorization
 
-int CAimProto::AuthDeny(HANDLE hContact, const TCHAR* szReason)
+int CAimProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 {
 	return 0;
 }

@@ -158,8 +158,8 @@ struct CJabberProto : public PROTO_INTERFACE, public MZeroedObject
 	virtual	HANDLE __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
 	virtual	HANDLE __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
 
-	virtual	int    __cdecl Authorize( HANDLE hContact );
-	virtual	int    __cdecl AuthDeny( HANDLE hContact, const TCHAR* szReason );
+	virtual	int    __cdecl Authorize( HANDLE hDbEvent );
+	virtual	int    __cdecl AuthDeny( HANDLE hDbEvent, const TCHAR* szReason );
 	virtual	int    __cdecl AuthRecv( HANDLE hContact, PROTORECVEVENT* );
 	virtual	int    __cdecl AuthRequest( HANDLE hContact, const TCHAR* szMessage );
 
