@@ -148,19 +148,18 @@ int SendKey(WPARAM w, LPARAM l)
 		hContact = metaGetMostOnline(hContact);
 	char *szMessage;
 	{
-		char *proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		char setting[64];
-		if(proto)
+		LPSTR proto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETCONTACTBASEPROTO, 0, (LPARAM)proto);
+		std::string acc_str;
+		if(acc)
 		{
-			strcpy(setting, proto);
-			strcat(setting, "_GPGPubKey");
-			szMessage = UniGetContactSettingUtf(NULL, szGPGModuleName, setting, "");
+			acc_str = toUTF8(acc->tszAccountName);
+			acc_str += "(";
+			acc_str += acc->szModuleName;
+			acc_str += ")" ;
+			acc_str += "_GPGPubKey";
 		}
-		if(!szMessage[0])
-		{
-			mir_free(szMessage);
-			szMessage = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
-		}
+		char *szMessage = UniGetContactSettingUtf(hContact, szGPGModuleName, acc_str.empty()?"GPGPubKey":acc_str.c_str(), "");
 	}
 	if(szMessage[0])
 	{
