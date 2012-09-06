@@ -192,7 +192,7 @@ INT_PTR AddFeed(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ChangeFeed(WPARAM wParam,LPARAM lParam)
+INT_PTR ChangeFeed(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE) wParam;
 	HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList,hContact);
@@ -209,17 +209,17 @@ INT_PTR ChangeFeed(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ImportFeeds(WPARAM wParam,LPARAM lParam)
+INT_PTR ImportFeeds(WPARAM wParam, LPARAM lParam)
 {
 	return 0;
 }
 
-INT_PTR ExportFeeds(WPARAM wParam,LPARAM lParam)
+INT_PTR ExportFeeds(WPARAM wParam, LPARAM lParam)
 {
 	return 0;
 }
 
-INT_PTR CheckFeed(WPARAM wParam,LPARAM lParam)
+INT_PTR CheckFeed(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if(IsMyContact(hContact))
@@ -229,7 +229,7 @@ INT_PTR CheckFeed(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam,LPARAM lParam)
+INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONT* pai = (PROTO_AVATAR_INFORMATIONT*) lParam;
 
@@ -250,4 +250,10 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam,LPARAM lParam)
 	}
 	DBFreeVariant(&dbv);
 	return GAIR_WAITFOR;
+}
+
+INT_PTR NewsAggrRecvMessage(WPARAM wParam, LPARAM lParam)
+{
+	CallService(MS_PROTO_RECVMSG, 0, lParam);
+	return 0;
 }

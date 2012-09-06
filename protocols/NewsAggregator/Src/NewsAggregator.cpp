@@ -23,7 +23,7 @@ HINSTANCE hInst = NULL;
 
 int hLangpack;
 HANDLE hOptHook = NULL,  hLoadHook = NULL, hOnPreShutdown = NULL, hPrebuildMenuHook = NULL, hPackUpdaterFolder = NULL;
-HANDLE hProtoService[7];
+HANDLE hProtoService[8];
 HWND hAddFeedDlg;
 HANDLE hChangeFeedDlgList = NULL;
 XML_API xi = {0};
@@ -99,6 +99,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hProtoService[4] = CreateProtoServiceFunction(MODULE, PS_LOADICON, NewsAggrLoadIcon);
 	hProtoService[5] = CreateProtoServiceFunction(MODULE, PSS_GETINFO, NewsAggrGetInfo);
 	hProtoService[6] = CreateProtoServiceFunction(MODULE, PS_GETAVATARINFOT, NewsAggrGetAvatarInfo);
+	hProtoService[7] = CreateProtoServiceFunction(MODULE, PSR_MESSAGE, NewsAggrRecvMessage);
 
 	hService[0] = CreateServiceFunction(MS_NEWSAGGR_CHECKALLFEEDS, CheckAllFeeds);
 	hService[1] = CreateServiceFunction(MS_NEWSAGGR_ADDFEED, AddFeed);

@@ -62,31 +62,31 @@ static void arrayToHex(BYTE* data, size_t datasz, char* res)
 
 int GetImageFormat(const TCHAR* ext)
 {
-	if(!lstrcmp(ext,_T(".jpg")) || !lstrcmp(ext,_T(".jpeg")))
+	if (!lstrcmp(ext,_T(".jpg")) || !lstrcmp(ext,_T(".jpeg")))
 	{
 		return PA_FORMAT_JPEG;
 	}
-	else if(!lstrcmp(ext,_T(".png")))
+	else if (!lstrcmp(ext,_T(".png")))
 	{
 		return PA_FORMAT_PNG;
 	}
-	else if(!lstrcmp(ext,_T(".gif")))
+	else if (!lstrcmp(ext,_T(".gif")))
 	{
 		return PA_FORMAT_GIF;
 	}
-	else if(!lstrcmp(ext,_T(".ico")))
+	else if (!lstrcmp(ext,_T(".ico")))
 	{
 		return PA_FORMAT_ICON;
 	}
-	else if(!lstrcmp(ext,_T(".bmp")))
+	else if (!lstrcmp(ext,_T(".bmp")))
 	{
 		return PA_FORMAT_BMP;
 	}
-	else if(!lstrcmp(ext,_T(".swf")))
+	else if (!lstrcmp(ext,_T(".swf")))
 	{
 		return PA_FORMAT_SWF;
 	}
-	else if(!lstrcmp(ext,_T(".xml")))
+	else if (!lstrcmp(ext,_T(".xml")))
 	{
 		return PA_FORMAT_XML;
 	}
@@ -97,7 +97,7 @@ int GetImageFormat(const TCHAR* ext)
 }
 void CreateAuthString(char* auth, HANDLE hContact, HWND hwndDlg)
 {
-    char *user = NULL, *pass = NULL;
+	char *user = NULL, *pass = NULL;
 	TCHAR *tlogin = NULL, *tpass = NULL, buf[MAX_PATH] = {0};
 	if (hContact && DBGetContactSettingByte(hContact, MODULE, "UseAuth", 0))
 	{
@@ -125,7 +125,7 @@ void CreateAuthString(char* auth, HANDLE hContact, HWND hwndDlg)
 	pass = mir_t2a(tpass);
 
 	char str[MAX_PATH];
-    int len = mir_snprintf(str, SIZEOF(str), "%s:%s", user, pass);
+	int len = mir_snprintf(str, SIZEOF(str), "%s:%s", user, pass);
 	mir_free(user);
 	mir_free(pass);
 	mir_free(tlogin);
@@ -179,7 +179,7 @@ VOID GetNewsData(TCHAR *tszUrl, char** szData, HANDLE hContact, HWND hwndDlg)
 	if (nlhrReply) 
 	{
 		// if the recieved code is 200 OK
-		switch(nlhrReply->resultCode)
+		switch (nlhrReply->resultCode)
 		{
 			case 200: 
 			{
@@ -218,8 +218,7 @@ VOID GetNewsData(TCHAR *tszUrl, char** szData, HANDLE hContact, HWND hwndDlg)
 							rlen = szPath != NULL ? szPath - szUrl : strlen(szUrl); 
 						}
 
-						szRedirUrl = (char*)mir_realloc(szRedirUrl, 
-							rlen + strlen(nlhrReply->headers[i].szValue)*3 + 1);
+						szRedirUrl = (char*)mir_realloc(szRedirUrl, rlen + strlen(nlhrReply->headers[i].szValue)*3 + 1);
 
 						strncpy(szRedirUrl, szUrl, rlen);
 						strcpy(szRedirUrl+rlen, nlhrReply->headers[i].szValue); 
@@ -239,7 +238,7 @@ VOID GetNewsData(TCHAR *tszUrl, char** szData, HANDLE hContact, HWND hwndDlg)
 	mir_free(szUrl);
 }
 
-VOID CreateList (HWND hwndList)
+VOID CreateList(HWND hwndList)
 {
 	SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);	
 
@@ -261,7 +260,7 @@ VOID CreateList (HWND hwndList)
 	ListView_InsertColumn(hwndList, 1, &lvc);
 }
 
-VOID UpdateList (HWND hwndList)
+VOID UpdateList(HWND hwndList)
 {
 	LVITEM lvI = {0};
 
@@ -420,8 +419,6 @@ time_t __stdcall DateToUnixTime(TCHAR* stamp, BOOL FeedType)
 		return ( time_t ) 0;
 }
 
-/******************************************************************************/
-
 TCHAR * _tcsistr(const TCHAR * str, const TCHAR * substr)
 {
 	if (!str || !substr || (substr[0] == _T('\0')))
@@ -544,7 +541,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	bool ret = false;
 	NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
 
-	if(pReply)
+	if (pReply)
 	{
 		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) 
 		{
@@ -730,23 +727,18 @@ TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg)
 		GetNewsData(tszURL, &szData, NULL, hwndDlg);
 		if (szData)
 		{
-			TCHAR *tszData = mir_a2t(szData);
+			TCHAR *tszData = mir_utf8decodeT(szData);
+			if (!tszData)
+				tszData = mir_a2t(szData);
 			int bytesParsed = 0;
 			HXML hXml = xi.parseString(tszData, &bytesParsed, NULL);
-			BOOL UtfEncode = FALSE;
-			TCHAR *newtszData = mir_utf8decodeT(szData);
-			if (newtszData)
-			{
-				UtfEncode = TRUE;
-				mir_free(newtszData);
-			}
 			mir_free(tszData);
 			mir_free(szData);
-			if(hXml != NULL)
+			if (hXml != NULL)
 			{
 				int childcount = 0;
 				HXML node = xi.getChild(hXml, childcount);
-				while(node)
+				while (node)
 				{
 					if (!lstrcmpi(xi.getName(node), _T("rss")) || !lstrcmpi(xi.getName(node), _T("rdf")))
 					{
@@ -760,15 +752,6 @@ TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg)
 								mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
 								MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONINFORMATION);
 								TCHAR *tszTitle = (TCHAR*)xi.getText(child);
-								if (UtfEncode)
-								{
-									char* szstring = mir_t2a(tszTitle);
-									TCHAR* tszstring = mir_utf8decodeT(szstring);
-									tszTitle = (TCHAR*)mir_alloc(sizeof(TCHAR)*lstrlen(tszstring)+1);
-									_tcscpy(tszTitle, tszstring);
-									mir_free(tszstring);
-									mir_free(szstring);
-								}
 								return tszTitle;
 							}
 						}
@@ -784,15 +767,6 @@ TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg)
 								mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
 								MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONINFORMATION);
 								TCHAR *tszTitle = (TCHAR*)xi.getText(child);
-								if (UtfEncode)
-								{
-									char* szstring = mir_t2a(tszTitle);
-									TCHAR* tszstring = mir_utf8decodeT(szstring);
-									tszTitle = (TCHAR*)mir_alloc(sizeof(TCHAR)*lstrlen(tszstring)+1);
-									_tcscpy(tszTitle, tszstring);
-									mir_free(tszstring);
-									mir_free(szstring);
-								}
 								return tszTitle;
 							}
 						}
@@ -825,23 +799,18 @@ VOID CheckCurrentFeed(HANDLE hContact)
 		DBFreeVariant(&dbURL);
 		if (szData)
 		{
-			TCHAR *tszData = mir_a2t(szData);
+			TCHAR *tszData = mir_utf8decodeT(szData);
+			if (!tszData)
+				tszData = mir_a2t(szData);
 			int bytesParsed = 0;
 			HXML hXml = xi.parseString(tszData, &bytesParsed, NULL);
-			BOOL UtfEncode = FALSE;
-			TCHAR *newtszData = mir_utf8decodeT(szData);
-			if (newtszData)
-			{
-				UtfEncode = TRUE;
-				mir_free(newtszData);
-			}
 			mir_free(tszData);
 			mir_free(szData);
 			if(hXml != NULL)
 			{
 				int childcount = 0;
 				HXML node = xi.getChild(hXml, childcount);
-				while(node)
+				while (node)
 				{
 					if (!lstrcmpi(xi.getName(node), _T("rss")) || !lstrcmpi(xi.getName(node), _T("rdf")))
 					{
@@ -871,16 +840,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 							{
 								TCHAR *string = mir_tstrdup(xi.getText(child));
 								ClearText(string);
-								if (UtfEncode)
-								{
-									char *szstring = mir_t2a(string);
-									TCHAR* tszstring = mir_utf8decodeT(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "FirstName", tszstring);
-									mir_free(tszstring);
-									mir_free(szstring);
-								}
-								else
-									DBWriteContactSettingTString(hContact, MODULE, "FirstName", string);
+								DBWriteContactSettingTString(hContact, MODULE, "FirstName", string);
 								mir_free(string);
 								continue;
 							}
@@ -893,20 +853,8 @@ VOID CheckCurrentFeed(HANDLE hContact)
 							{
 								TCHAR *string = mir_tstrdup(xi.getText(child));
 								ClearText(string);
-								if (UtfEncode)
-								{
-									char *szstring = mir_t2a(string);
-									TCHAR* tszstring = mir_utf8decodeT(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "About", tszstring);
-									DBWriteContactSettingTString(hContact, "CList", "StatusMsg", tszstring);
-									mir_free(tszstring);
-									mir_free(szstring);
-								}
-								else
-								{
-									DBWriteContactSettingTString(hContact, MODULE, "About", string);
-									DBWriteContactSettingTString(hContact, "CList", "StatusMsg", string);
-								}
+								DBWriteContactSettingTString(hContact, MODULE, "About", string);
+								DBWriteContactSettingTString(hContact, "CList", "StatusMsg", string);
 								mir_free(string);
 								continue;
 							}
@@ -914,16 +862,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 							{
 								TCHAR *string = mir_tstrdup(xi.getText(child));
 								ClearText(string);
-								if (UtfEncode)
-								{
-									char *szstring = mir_t2a(string);
-									TCHAR* tszstring = mir_utf8decodeT(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "Language1", tszstring);
-									mir_free(tszstring);
-									mir_free(szstring);
-								}
-								else
-									DBWriteContactSettingTString(hContact, MODULE, "Language1", string);
+								DBWriteContactSettingTString(hContact, MODULE, "Language1", string);
 								mir_free(string);
 								continue;
 							}
@@ -931,16 +870,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 							{
 								TCHAR *string = mir_tstrdup(xi.getText(child));
 								ClearText(string);
-								if (UtfEncode)
-								{
-									char *szstring = mir_t2a(string);
-									TCHAR* tszstring = mir_utf8decodeT(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "e-mail", tszstring);
-									mir_free(tszstring);
-									mir_free(szstring);
-								}
-								else
-									DBWriteContactSettingTString(hContact, MODULE, "e-mail", string);
+								DBWriteContactSettingTString(hContact, MODULE, "e-mail", string);
 								mir_free(string);
 								continue;
 							}
@@ -948,16 +878,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 							{
 								TCHAR *string = mir_tstrdup(xi.getText(child));
 								ClearText(string);
-								if (UtfEncode)
-								{
-									char *szstring = mir_t2a(string);
-									TCHAR* tszstring = mir_utf8decodeT(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", tszstring);
-									mir_free(tszstring);
-									mir_free(szstring);
-								}
-								else
-									DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", string);
+								DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", string);
 								mir_free(string);
 								continue;
 							}
@@ -1140,47 +1061,43 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									mir_free(category);
 								}
 
-								char* pszUtf;
-								if (!UtfEncode)
-									pszUtf = mir_utf8encodeT(message);
-								else
-									pszUtf = mir_t2a(message);
-
 								time_t stamp;
 								if (!datetime)
 									stamp = time(NULL);
 								else
 									stamp = DateToUnixTime(datetime, 0);
 
-								DBEVENTINFO olddbei = { 0 };
-								HANDLE		hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
+								HANDLE	hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
 								BOOL MesExist = FALSE;
-								while(hDbEvent)
+								while (hDbEvent)
 								{
-									ZeroMemory(&olddbei, sizeof(olddbei));
+									DBEVENTINFO olddbei = {0};
 									olddbei.cbSize = sizeof(olddbei);
 									olddbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
 									olddbei.pBlob = (PBYTE)mir_alloc(olddbei.cbBlob);
 									CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&olddbei);
-									if (olddbei.cbBlob == lstrlenA(pszUtf) + 1 && !lstrcmpA((char*)olddbei.pBlob, pszUtf))
+									char *pszTemp = mir_utf8encodeT(message);
+									if (olddbei.cbBlob == lstrlenA(pszTemp) + 1 && !lstrcmpA((char*)olddbei.pBlob, pszTemp))
 										MesExist = TRUE;
 									hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
 									mir_free(olddbei.pBlob);
+									mir_free(pszTemp);
 								}
 
 								if (!MesExist)
 								{
-									DBEVENTINFO dbei = {0};
-									dbei.cbSize = sizeof(dbei);
-									dbei.eventType = EVENTTYPE_MESSAGE;
-									dbei.flags = DBEF_UTF;
-									dbei.szModule = MODULE;
-									dbei.timestamp = stamp;
-									dbei.cbBlob = lstrlenA(pszUtf) + 1;
-									dbei.pBlob = (PBYTE)pszUtf;
-									CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+									PROTORECVEVENT recv;
+									recv.flags = PREF_TCHAR;
+									recv.timestamp = stamp;
+									recv.tszMessage = message;
+
+									CCSDATA ccs;
+									ccs.hContact = hContact;
+									ccs.wParam = 0;
+									ccs.szProtoService = PSR_MESSAGE;
+									ccs.lParam = ( LPARAM )&recv;
+									CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 								}
-								mir_free(pszUtf);
 								mir_free(message);
 							}
 						}
@@ -1195,16 +1112,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 							{
 								TCHAR *string = mir_tstrdup(xi.getText(child));
 								ClearText(string);
-								if (UtfEncode)
-								{
-									char *szstring = mir_t2a(string);
-									TCHAR* tszstring = mir_utf8decodeT(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "FirstName", tszstring);
-									mir_free(tszstring);
-									mir_free(szstring);
-								}
-								else
-									DBWriteContactSettingTString(hContact, MODULE, "FirstName", string);
+								DBWriteContactSettingTString(hContact, MODULE, "FirstName", string);
 								mir_free(string);
 								continue;
 							}
@@ -1228,20 +1136,8 @@ VOID CheckCurrentFeed(HANDLE hContact)
 							{
 								TCHAR *string = mir_tstrdup(xi.getText(child));
 								ClearText(string);
-								if (UtfEncode)
-								{
-									char *szstring = mir_t2a(string);
-									TCHAR* tszstring = mir_utf8decodeT(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "About", tszstring);
-									DBWriteContactSettingTString(hContact, "CList", "StatusMsg", tszstring);
-									mir_free(tszstring);
-									mir_free(szstring);
-								}
-								else
-								{
-									DBWriteContactSettingTString(hContact, MODULE, "About", string);
-									DBWriteContactSettingTString(hContact, "CList", "StatusMsg", string);
-								}
+								DBWriteContactSettingTString(hContact, MODULE, "About", string);
+								DBWriteContactSettingTString(hContact, "CList", "StatusMsg", string);
 								mir_free(string);
 								continue;
 							}
@@ -1249,16 +1145,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 							{
 								TCHAR *string = mir_tstrdup(xi.getText(child));
 								ClearText(string);
-								if (UtfEncode)
-								{
-									char *szstring = mir_t2a(string);
-									TCHAR* tszstring = mir_utf8decodeT(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "Language1", tszstring);
-									mir_free(tszstring);
-									mir_free(szstring);
-								}
-								else
-									DBWriteContactSettingTString(hContact, MODULE, "Language1", string);
+								DBWriteContactSettingTString(hContact, MODULE, "Language1", string);
 								mir_free(string);
 								continue;
 							}
@@ -1279,16 +1166,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 							{
 								TCHAR *string = mir_tstrdup(xi.getText(child));
 								ClearText(string);
-								if (UtfEncode)
-								{
-									char *szstring = mir_t2a(string);
-									TCHAR* tszstring = mir_utf8decodeT(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", tszstring);
-									mir_free(tszstring);
-									mir_free(szstring);
-								}
-								else
-									DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", string);
+								DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", string);
 								mir_free(string);
 								continue;
 							}
@@ -1482,46 +1360,43 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									mir_free(category);
 								}
 
-								char* pszUtf;
-								if (!UtfEncode)
-									pszUtf = mir_utf8encodeT(message);
-								else
-									pszUtf = mir_t2a(message);
-
 								time_t stamp;
 								if (!datetime)
 									stamp = time(NULL);
 								else
 									stamp = DateToUnixTime(datetime, 1);
 
-								DBEVENTINFO olddbei = { 0 };
-								HANDLE		hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
+								HANDLE	hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
 								BOOL MesExist = FALSE;
-								while(hDbEvent)
+								while (hDbEvent)
 								{
-									ZeroMemory(&olddbei, sizeof(olddbei));
+									DBEVENTINFO olddbei = {0};
 									olddbei.cbSize = sizeof(olddbei);
 									olddbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
-									olddbei.pBlob = (PBYTE)malloc(olddbei.cbBlob);
+									olddbei.pBlob = (PBYTE)mir_alloc(olddbei.cbBlob);
 									CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&olddbei);
-									if (olddbei.cbBlob == lstrlenA(pszUtf) + 1 && !lstrcmpA((char*)olddbei.pBlob, pszUtf))
+									char *pszTemp = mir_utf8encodeT(message);
+									if (olddbei.cbBlob == lstrlenA(pszTemp) + 1 && !lstrcmpA((char*)olddbei.pBlob, pszTemp))
 										MesExist = TRUE;
 									hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
+									mir_free(olddbei.pBlob);
+									mir_free(pszTemp);
 								}
 
 								if (!MesExist)
 								{
-									DBEVENTINFO dbei = {0};
-									dbei.cbSize = sizeof(dbei);
-									dbei.eventType = EVENTTYPE_MESSAGE;
-									dbei.flags = DBEF_UTF;
-									dbei.szModule = MODULE;
-									dbei.timestamp = stamp;
-									dbei.cbBlob = lstrlenA(pszUtf) + 1;
-									dbei.pBlob = (PBYTE)pszUtf;
-									CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+									PROTORECVEVENT recv;
+									recv.flags = PREF_TCHAR;
+									recv.timestamp = stamp;
+									recv.tszMessage = message;
+
+									CCSDATA ccs;
+									ccs.hContact = hContact;
+									ccs.wParam = 0;
+									ccs.szProtoService = PSR_MESSAGE;
+									ccs.lParam = ( LPARAM )&recv;
+									CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 								}
-								mir_free(pszUtf);
 								mir_free(message);
 							}
 						}
