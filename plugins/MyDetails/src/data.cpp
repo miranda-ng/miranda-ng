@@ -74,8 +74,11 @@ Protocol::Protocol(const char *aName, const TCHAR* descr)
 
 	// Load services
 	int caps = CallProtoService(name, PS_GETCAPS, PFLAGNUM_1, 0);
-	valid = (caps & PF1_IM) == PF1_IM && strcmp(aName, "MetaContacts");
-	if ( !valid)
+	if ((caps & PF1_IM) && !(!strcmp(aName, "MetaContacts") || !strcmp(aName, "NewsAggr")))
+		valid = true;
+	else
+		valid = false;
+	if (!valid)
 		return;
 
 	can_have_listening_to = (ProtoServiceExists(name, PS_SET_LISTENINGTO) != 0);
