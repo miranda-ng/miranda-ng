@@ -176,20 +176,13 @@ void IEViewSink::TitleChange(BSTR text) {}
 void IEViewSink::PropertyChange(BSTR text) {}
 void IEViewSink::BeforeNavigate2(IDispatch* pDisp,VARIANT* url,VARIANT* flags, VARIANT* targetFrameName,
 								VARIANT* postData, VARIANT* headers, VARIANT_BOOL* cancel) {
-	int i = (int)wcslen(url->bstrVal);
-	char *tTemp = new char[i+1];
-	WideCharToMultiByte(CP_ACP, 0, url->bstrVal, -1, tTemp, i+1, NULL, NULL);
 #ifndef GECKO
-	if (strcmp(tTemp, "about:blank")) {
-//		if (smileyWindow==NULL) {
-			CallService(MS_UTILS_OPENURL, (WPARAM) 1, (LPARAM) tTemp);
-//		} else {
-	//		smileyWindow->choose(tTemp);
-	//	}
+	if (_tcscmp(url->bstrVal, _T("about:blank")))
+	{
+		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) url->bstrVal);
 		*cancel = VARIANT_TRUE;
 	}
 #endif
-	delete tTemp;
 }
 
 void IEViewSink::NewWindow2(IDispatch** ppDisp, VARIANT_BOOL* cancel) {}
@@ -1168,11 +1161,7 @@ bool IEView::mouseClick(POINT pt) {
 				&& !(GetKeyState(VK_MENU) & 0x8000)) {
 					SendMessage(GetParent(hwnd), WM_COMMAND, IDCANCEL, 0);
 				}
-				int i = (int)wcslen(url);
-				char *tTemp = new char[i+1];
-				WideCharToMultiByte(CP_ACP, 0, url, -1, tTemp, i+1, NULL, NULL);
-				CallService(MS_UTILS_OPENURL, (WPARAM) 1, (LPARAM) tTemp);
-				delete tTemp;
+				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) url);
 				delete url;
 				result = true;
 			}
