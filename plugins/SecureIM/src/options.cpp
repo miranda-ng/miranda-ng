@@ -329,7 +329,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 		  		if(ptr) {
 					LPSTR buffer = (LPSTR)alloca(PSKSIZE+1);
 					getContactName(ptr->hContact, buffer);
-					int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PSK),NULL,(DLGPROC)DlgProcSetPSK,(LPARAM)buffer);
+					int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PSK),NULL,DlgProcSetPSK,(LPARAM)buffer);
 					if(res == IDOK) {
 					    setListViewPSK(hLV,idx,1);
 					    DBWriteContactSettingString(ptr->hContact,szModuleName,"tPSK",buffer);
@@ -613,7 +613,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 		  	} break;
 		  	case IDC_RSA_EXPPRIV: {
 				LPSTR passphrase = (LPSTR) alloca(RSASIZE);
-				int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PASSPHRASE),NULL,(DLGPROC)DlgProcSetPassphrase,(LPARAM)passphrase);
+				int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PASSPHRASE),NULL,DlgProcSetPassphrase,(LPARAM)passphrase);
 				if ( res==IDOK ) {
 		  			LPSTR priv = (LPSTR) alloca(RSASIZE);
 		  			exp->rsa_export_keypair(CPP_MODE_RSA,priv,NULL,passphrase);
@@ -627,7 +627,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 				if ( !LoadImportRSAKeyDlg(hDlg,priv,1)) return TRUE;
 				//
 				LPSTR passphrase = (LPSTR) alloca(RSASIZE);
-				int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PASSPHRASE),NULL,(DLGPROC)DlgProcSetPassphrase,(LPARAM)passphrase);
+				int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PASSPHRASE),NULL,DlgProcSetPassphrase,(LPARAM)passphrase);
 				if ( res==IDOK ) {
 	  				if ( !exp->rsa_import_keypair(CPP_MODE_RSA,priv,passphrase)) {
 						msgbox(hDlg,sim113,szModuleName,MB_OK|MB_ICONEXCLAMATION);
@@ -1026,7 +1026,7 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 }
 
 
-BOOL CALLBACK DlgProcSetPSK(HWND hDlg,UINT uMsg,WPARAM wParam,LPARAM lParam) {
+INT_PTR CALLBACK DlgProcSetPSK(HWND hDlg,UINT uMsg,WPARAM wParam,LPARAM lParam) {
     static char *buffer;
 	switch(uMsg) {
 	case WM_INITDIALOG: {
@@ -1064,7 +1064,7 @@ BOOL CALLBACK DlgProcSetPSK(HWND hDlg,UINT uMsg,WPARAM wParam,LPARAM lParam) {
 }
 
 
-BOOL CALLBACK DlgProcSetPassphrase(HWND hDlg,UINT uMsg,WPARAM wParam,LPARAM lParam) {
+INT_PTR CALLBACK DlgProcSetPassphrase(HWND hDlg,UINT uMsg,WPARAM wParam,LPARAM lParam) {
 	static LPSTR buffer;
 	switch(uMsg) {
 	case WM_INITDIALOG: {
@@ -1208,8 +1208,8 @@ void RefreshProtoDlg(HWND hDlg) {
 		ListView_SetCheckState(hLV,itemNum,proto[i].inspecting);
 	}
 
-	SetDlgItemText(hDlg,IDC_SPLITON,"0");
-	SetDlgItemText(hDlg,IDC_SPLITOFF,"0");
+	SetDlgItemText(hDlg,IDC_SPLITON,_T("0"));
+	SetDlgItemText(hDlg,IDC_SPLITOFF,_T("0"));
 	EnableWindow(GetDlgItem(hDlg,IDC_SPLITON), false);
 	EnableWindow(GetDlgItem(hDlg,IDC_SPLITOFF), false);
 
@@ -1364,8 +1364,8 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit) {
 
 void ResetGeneralDlg(HWND hDlg) {
 
-	SetDlgItemText(hDlg,IDC_KET,"10");
-	SetDlgItemText(hDlg,IDC_OKT,"2");
+	SetDlgItemText(hDlg,IDC_KET,_T("10"));
+	SetDlgItemText(hDlg,IDC_OKT,_T("2"));
 
 	SendMessage(GetDlgItem(hDlg,IDC_SFT),BM_SETCHECK,BST_UNCHECKED,0L);
 	SendMessage(GetDlgItem(hDlg,IDC_SOM),BM_SETCHECK,BST_UNCHECKED,0L);
@@ -1801,8 +1801,8 @@ BOOL ShowSelectKeyDlg(HWND hParent, LPSTR KeyPath)
    ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON;
 
    ofn.lpstrFile = KeyPath;
-   ofn.lpstrFilter = "ASC files\0*.asc\0All files (*.*)\0*.*\0";
-   ofn.lpstrTitle = "Open Key File";
+   ofn.lpstrFilter = _T("ASC files\0*.asc\0All files (*.*)\0*.*\0");
+   ofn.lpstrTitle = _T("Open Key File");
    if (!GetOpenFileName(&ofn)) return FALSE;
 
    return TRUE;
@@ -1861,8 +1861,8 @@ LPSTR LoadKeys(LPCSTR file,BOOL priv) {
 
 BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 {
-   char szFile[MAX_PATH] = "rsa_pub.asc"; 
-   if ( priv ) strcpy(szFile,"rsa_priv.asc");
+   TCHAR szFile[MAX_PATH] = _T("rsa_pub.asc"); 
+   if ( priv ) _tcscpy(szFile,_T("rsa_priv.asc"));
 
    OPENFILENAME ofn; memset(&ofn, 0, sizeof(ofn));
    ofn.lStructSize = sizeof(ofn);
@@ -1870,11 +1870,11 @@ BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
    ofn.nMaxFile = MAX_PATH;
    ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON;
    ofn.lpstrFile = szFile;
-   ofn.lpstrFilter = "ASC files\0*.asc\0All files (*.*)\0*.*\0";
-   ofn.lpstrTitle = (priv)?"Save Private Key File":"Save Public Key File";
+   ofn.lpstrFilter = _T("ASC files\0*.asc\0All files (*.*)\0*.*\0");
+   ofn.lpstrTitle = (priv)?_T("Save Private Key File"):_T("Save Public Key File");
    if (!GetSaveFileName(&ofn)) return FALSE;
 
-   FILE *f=fopen(szFile,"wb");
+   FILE *f=_tfopen(szFile,_T("wb"));
    if ( !f ) return FALSE;
    fwrite(key,strlen(key),1,f);
    fclose(f);
@@ -1885,8 +1885,8 @@ BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 
 BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 {
-   char szFile[MAX_PATH] = "rsa_pub.asc"; 
-   if ( priv ) strcpy(szFile,"rsa_priv.asc");
+   TCHAR szFile[MAX_PATH] = _T("rsa_pub.asc"); 
+   if ( priv ) _tcscpy(szFile,_T("rsa_priv.asc"));
 
    OPENFILENAME ofn; memset(&ofn, 0, sizeof(ofn));
    ofn.lStructSize = sizeof(ofn);
@@ -1894,11 +1894,11 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
    ofn.nMaxFile = MAX_PATH;
    ofn.Flags = OFN_EXPLORER | OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT | OFN_NOREADONLYRETURN;
    ofn.lpstrFile = szFile;
-   ofn.lpstrFilter = "ASC files\0*.asc\0All files (*.*)\0*.*\0";
-   ofn.lpstrTitle = (priv)?"Load Private Key File":"Load Public Key File";
+   ofn.lpstrFilter = _T("ASC files\0*.asc\0All files (*.*)\0*.*\0");
+   ofn.lpstrTitle = (priv)?_T("Load Private Key File"):_T("Load Public Key File");
    if (!GetOpenFileName(&ofn)) return FALSE;
 
-   FILE *f=fopen(szFile,"rb");
+   FILE *f=_tfopen(szFile,_T("rb"));
    if ( !f ) return FALSE;
 
    fseek(f,0,SEEK_END);
@@ -1917,7 +1917,7 @@ int onRegisterOptions(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInst;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONSTAB);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSTAB);
 	odp.pszTitle = (char*)szModuleName;
 	odp.pszGroup = LPGEN("Services");
 	odp.pfnDlgProc = OptionsDlgProc;

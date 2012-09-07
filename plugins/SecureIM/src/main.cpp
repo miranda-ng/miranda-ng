@@ -96,7 +96,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 
 	// check for support TrueColor Icons
 	BOOL bIsComCtl6 = FALSE;
-	HMODULE hComCtlDll = LoadLibrary("comctl32.dll");
+	HMODULE hComCtlDll = LoadLibrary(_T("comctl32.dll"));
 	if ( hComCtlDll ) {
 		typedef HRESULT (CALLBACK *PFNDLLGETVERSION)(DLLVERSIONINFO*);
 		PFNDLLGETVERSION pfnDllGetVersion = (PFNDLLGETVERSION) GetProcAddress(hComCtlDll,"DllGetVersion");
@@ -391,9 +391,9 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 
 	// hook message transport
 	AddProtoServiceFunction(PSR_MESSAGE, onRecvMsg);
-	AddProtoServiceFunction(PSS_MESSAGE, (MIRANDASERVICE)onSendMsg);
-	AddProtoServiceFunction(PSS_MESSAGE"W", (MIRANDASERVICE)onSendMsgW);
-	AddProtoServiceFunction(PSS_FILE, (MIRANDASERVICE)onSendFile);
+	AddProtoServiceFunction(PSS_MESSAGE, onSendMsg);
+	AddProtoServiceFunction(PSS_MESSAGE"W", onSendMsgW);
+	AddProtoServiceFunction(PSS_FILE, onSendFile);
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("create Native/RSA menu");

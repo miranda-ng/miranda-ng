@@ -7,9 +7,9 @@ RTFCONVSTRING pRtfconvString = NULL;
 
 BOOL load_rtfconv () {
 
-    hRtfconv = LoadLibrary( "rtfconv.dll" ) ;
+    hRtfconv = LoadLibrary(_T("rtfconv.dll")) ;
     if ( hRtfconv == NULL ) {
-   	    hRtfconv = LoadLibrary( "plugins\\rtfconv.dll" ) ;
+   	    hRtfconv = LoadLibrary(_T("plugins\\rtfconv.dll")) ;
 	    if ( hRtfconv == NULL )
     		return FALSE;
     }
