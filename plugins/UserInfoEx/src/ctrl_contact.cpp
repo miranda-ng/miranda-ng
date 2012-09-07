@@ -703,12 +703,12 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 						switch (GetWindowLongPtr(hwnd, GWLP_ID)) {
 							case EDIT_PHONE:
 								dlgID = IDD_ADDPHONE;
-								dlgProc = (DLGPROC)DlgProc_Phone;
+								dlgProc = DlgProc_Phone;
 								cbi.pszIcon = ICO_BTN_CUSTOMPHONE;
 								break;
 							case EDIT_EMAIL:
 								dlgID = IDD_ADDEMAIL;
-								dlgProc = (DLGPROC)DlgProc_EMail;
+								dlgProc = DlgProc_EMail;
 								cbi.pszIcon = ICO_BTN_EMAIL;
 								break;
 							default:
@@ -761,11 +761,11 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 						switch (GetWindowLongPtr(hwnd, GWLP_ID)) {
 							case EDIT_PHONE:
 								dlgID = IDD_ADDPHONE;
-								dlgProc = (DLGPROC)DlgProc_Phone;
+								dlgProc = DlgProc_Phone;
 								break;
 							case EDIT_EMAIL:
 								dlgID = IDD_ADDEMAIL;
-								dlgProc = (DLGPROC)DlgProc_EMail;
+								dlgProc = DlgProc_EMail;
 								break;
 							default:
 								return 1;

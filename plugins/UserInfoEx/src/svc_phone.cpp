@@ -28,7 +28,6 @@ Last change by : $Author: ing.u.horn $
 ===============================================================================
 */
 #include "commonheaders.h"
-#include "m_icq.h"
 
 enum EPhoneType 
 {

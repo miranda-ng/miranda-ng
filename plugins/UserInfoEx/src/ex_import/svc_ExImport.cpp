@@ -28,7 +28,7 @@ Last change by : $Author: ing.u.horn $
 ===============================================================================
 */
 
-#include "commonheaders.h"
+#include "..\commonheaders.h"
 #include "classExImContactBase.h"
 #include "dlg_ExImModules.h"
 #include "dlg_ExImOpenSaveFile.h"

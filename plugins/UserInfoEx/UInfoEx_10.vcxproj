@@ -204,15 +204,42 @@
     <ClCompile Include="src\svc_reminder.cpp" />
     <ClCompile Include="src\svc_timezone.cpp" />
     <ClCompile Include="src\svc_timezone_old.cpp" />
-    <ClCompile Include="src\ex_import\classExImContactBase.cpp" />
-    <ClCompile Include="src\ex_import\classExImContactXML.cpp" />
-    <ClCompile Include="src\ex_import\dlg_ExImModules.cpp" />
-    <ClCompile Include="src\ex_import\dlg_ExImOpenSaveFile.cpp" />
-    <ClCompile Include="src\ex_import\dlg_ExImProgress.cpp" />
-    <ClCompile Include="src\ex_import\svc_ExImINI.cpp" />
-    <ClCompile Include="src\ex_import\svc_ExImport.cpp" />
-    <ClCompile Include="src\ex_import\svc_ExImVCF.cpp" />
-    <ClCompile Include="src\ex_import\svc_ExImXML.cpp" />
+    <ClCompile Include="src\ex_import\classExImContactBase.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\classExImContactXML.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\dlg_ExImModules.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\dlg_ExImOpenSaveFile.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\dlg_ExImProgress.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\svc_ExImINI.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\svc_ExImport.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\svc_ExImVCF.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\svc_ExImXML.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="src\ex_import\tinystr.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>

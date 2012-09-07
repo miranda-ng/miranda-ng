@@ -28,7 +28,7 @@ Last change by : $Author: ing.u.horn $
 ===============================================================================
 */
 
-#include "commonheaders.h"
+#include "..\commonheaders.h"
 #include "dlg_ExImProgress.h"
 
 /***********************************************************************************************************
@@ -41,7 +41,7 @@ Last change by : $Author: ing.u.horn $
  * params:	none
  * return:	nothing
  **/
-LRESULT CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) 
 	{
@@ -102,7 +102,7 @@ LRESULT CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPar
 CProgress::CProgress()
 {
 	_dwStartTime = GetTickCount();
-	_hDlg = CreateDialog(ghInst, MAKEINTRESOURCE(IDD_COPYPROGRESS), 0, (DLGPROC)DlgProcProgress);
+	_hDlg = CreateDialog(ghInst, MAKEINTRESOURCE(IDD_COPYPROGRESS), 0, DlgProcProgress);
 }
 
 /**

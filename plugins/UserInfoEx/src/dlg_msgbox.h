@@ -98,6 +98,6 @@ INT_PTR CALLBACK	MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInf
 INT_PTR CALLBACK	MsgErr(HWND hParent, LPCTSTR pszFormat, ...);
 INT_PTR				MsgBoxService(WPARAM wParam, LPARAM lParam);
 
-INT_PTR CALLBACK	PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK	PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 #endif /* _SVC_DLG_INCLUDED_ */

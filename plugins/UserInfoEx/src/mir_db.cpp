@@ -29,7 +29,6 @@ Last change by : $Author: ing.u.horn $
 */
 
 #include "commonheaders.h"
-#include <m_metacontacts.h>
 #include "ctrl_base.h"
 #include "mir_string.h"
 #include "mir_db.h"

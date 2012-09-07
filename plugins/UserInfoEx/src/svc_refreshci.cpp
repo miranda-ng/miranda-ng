@@ -302,7 +302,7 @@ public:
 		_hWnd = CreateDialogParam(ghInst, 
 							MAKEINTRESOURCE(IDD_REFRESHDETAILS), 
 							0, 
-							(DLGPROC)CDlgUpdProgress::WndProc, 
+							CDlgUpdProgress::WndProc, 
 							(LPARAM) this);
 		if (_hWnd)
 		{
@@ -382,7 +382,7 @@ class CPopupUpdProgress : public CUpdProgress
 	 * if passed to the default windows procedure.
 	 *
 	 **/
-	static INT_PTR CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
+	static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 	{
 		// Filter out messages, which must not be passed to default windows procedure or even
 		// to the callback function!
@@ -439,7 +439,7 @@ public:
 		pd.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
 		pd.iSeconds = -1;
 		pd.PluginData = this;
-		pd.PluginWindowProc = (WNDPROC)CPopupUpdProgress::WndProc;
+		pd.PluginWindowProc = CPopupUpdProgress::WndProc;
 		pd.actionCount = SIZEOF(_popupButtons);
 		pd.lpActions = _popupButtons;
 

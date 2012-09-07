@@ -94,6 +94,8 @@ typedef std::basic_string<TCHAR>	tstring;
 #include <m_imgsrvc.h>
 #include <m_message.h>
 #include <m_userinfo.h>
+#include <m_icq.h>
+#include <m_email.h>
 #include <win2k.h>
 #include <msapi/vsstyle.h>
 #include <msapi/vssym32.h>

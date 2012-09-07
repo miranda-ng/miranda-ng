@@ -974,7 +974,7 @@ public:
 		_rcWin.left		= _rcWin.right = _rcWin.top = _rcWin.bottom = 0;
 		LoadFilter();
 
-		_hDlg = CreateDialogParam(ghInst, MAKEINTRESOURCE(IDD_ANNIVERSARY_LIST), NULL, (DLGPROC)DlgProc, (LPARAM)this);
+		_hDlg = CreateDialogParam(ghInst, MAKEINTRESOURCE(IDD_ANNIVERSARY_LIST), NULL, DlgProc, (LPARAM)this);
 		if (_hDlg) {
 				MagneticWindows_AddWindow(_hDlg);
 				_mHookExit = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, _hDlg, WM_CLOSE);

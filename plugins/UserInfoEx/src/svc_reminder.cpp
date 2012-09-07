@@ -333,7 +333,7 @@ static VOID NotifyWithExtraIcon(HANDLE hContact, const CEvent &evt)
  *
  * @return	message specific
  **/
-static INT_PTR CALLBACK PopupWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
@@ -374,7 +374,7 @@ static INT NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, INT DaysToA
 		POPUPDATAT_V2 ppd;
 
 		ZeroMemory(&ppd, sizeof(POPUPDATAT_V2));
-		ppd.PluginWindowProc = (WNDPROC)PopupWindowProc;
+		ppd.PluginWindowProc = PopupWindowProc;
 		ppd.iSeconds = (INT)DB::Setting::GetByte(SET_POPUP_DELAY, 0);
 
 		if (hContact)

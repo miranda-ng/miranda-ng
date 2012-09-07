@@ -27,7 +27,7 @@ Last change by : $Author: ing.u.horn $
 
 ===============================================================================
 */
-#include "commonheaders.h"
+#include "..\commonheaders.h"
 #include "..\svc_contactinfo.h"
 #include "classExImContactBase.h"
 #include "mir_rfcCodecs.h"

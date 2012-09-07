@@ -31,17 +31,12 @@ Last change by : $Author: ing.u.horn $
 /**
  * system & local includes:
  **/
-#include "commonheaders.h"
+#include "..\commonheaders.h"
 #include "classExImContactBase.h"
 #include "dlg_ExImModules.h"
 #include "svc_ExImport.h"
 #include "svc_ExImINI.h"
 
-/**
- * Miranda includes
- **/
-#include <m_protocols.h>
-#include <m_protosvc.h>
 
 /***********************************************************************************************************
  * exporting stuff

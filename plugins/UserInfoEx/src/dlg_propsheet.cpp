@@ -37,12 +37,6 @@ Last change by : $Author: ing.u.horn $
 #include "svc_ExImport.h"
 #include "svc_reminder.h"
 
-/**
- * Miranda includes:
- **/
-#include <m_protocols.h>
-#include <m_icq.h>
-
 #define OPTIONPAGE_OLD_SIZE  (offsetof(OPTIONSDIALOGPAGE, hLangpack))
 
 #define UPDATEANIMFRAMES		20

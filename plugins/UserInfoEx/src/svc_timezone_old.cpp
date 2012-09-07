@@ -28,7 +28,6 @@ Last change by : $Author: ing.u.horn $
 ===============================================================================
 */
 #include "commonheaders.h"
-#include "m_icq.h"
 #include "svc_timezone_old.h"
 
 #define TZREG		"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones"

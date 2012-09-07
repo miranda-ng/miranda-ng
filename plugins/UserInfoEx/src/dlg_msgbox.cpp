@@ -591,7 +591,7 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 					mir_tcsncpy(pd.lptzText, pMsgBox->ptszMsg, SIZEOF(pd.lptzText));
 				
 					// CALLBAC Proc
-					pd.PluginWindowProc = (WNDPROC)PopupProc;
+					pd.PluginWindowProc = PopupProc;
 					// 
 					pd.PluginData = pmpd;
 
@@ -709,7 +709,7 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
  *
  * @return	TRUE, FALSE, IDOK, IDYES, IDALL, IDNO or IDCANCEL
  **/
-static INT_PTR CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
@@ -791,11 +791,11 @@ INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
 				DB::Setting::GetByte(SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX)	// user likes popups?
 			)
 		{
-			rc = DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, (DLGPROC)MsgBoxPop, lParam);
+			rc = DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, MsgBoxPop, lParam);
 		}
 		else
 		{
-			rc = DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOX), pMsgBox->hParent, (DLGPROC)MsgBoxProc, lParam);
+			rc = DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOX), pMsgBox->hParent, MsgBoxProc, lParam);
 		}
 	}
 	return rc;

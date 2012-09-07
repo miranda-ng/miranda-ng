@@ -28,7 +28,6 @@ Last change by : $Author: ing.u.horn $
 ===============================================================================
 */
 #include "commonheaders.h"
-#include "m_contacts.h"
 
 static HANDLE ghExtraIconF			= INVALID_HANDLE_VALUE;
 static HANDLE ghExtraIconM			= INVALID_HANDLE_VALUE;

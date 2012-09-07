@@ -28,7 +28,6 @@ Last change by : $Author: ing.u.horn $
 ===============================================================================
 */
 #include "commonheaders.h"
-#include "m_email.h"
 
 static HANDLE ghMenuItem			= NULL;
 static HANDLE ghExtraIconDef		= INVALID_HANDLE_VALUE;

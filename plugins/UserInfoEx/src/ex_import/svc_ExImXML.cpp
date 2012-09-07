@@ -27,7 +27,7 @@ Last change by : $Author: ing.u.horn $
 
 ===============================================================================
 */
-#include "commonheaders.h"
+#include "..\commonheaders.h"
 
 #define XMLCARD_VERSION	"1.1"
 
@@ -38,7 +38,7 @@ Last change by : $Author: ing.u.horn $
 #include "classExImContactXML.h"
 #include "svc_ExImport.h"
 
-LRESULT CALLBACK DlgProc_DataHistory(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProc_DataHistory(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) 
 	{
@@ -112,7 +112,7 @@ INT CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 
 	result = (DWORD)DialogBox(ghInst, 
 							MAKEINTRESOURCE(IDD_EXPORT_DATAHISTORY),
-							NULL, (DLGPROC)DlgProc_DataHistory);
+							NULL, DlgProc_DataHistory);
 	if (LOWORD(result) != IDOK)
 	{
 		return 0;

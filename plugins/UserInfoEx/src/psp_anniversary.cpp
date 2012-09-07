@@ -258,7 +258,7 @@ INT_PTR CALLBACK PSPProcAnniversary(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					if (HIWORD(wParam) == BN_CLICKED && PtrIsValid(pDateCtrl)) 
 					{
 						MAnnivDate Date;
-						if (IDOK == DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_ANNIVERSARY_EDITOR), hDlg, (DLGPROC)DlgProc_AnniversaryEditor, (LPARAM)&Date)) 
+						if (IDOK == DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_ANNIVERSARY_EDITOR), hDlg, DlgProc_AnniversaryEditor, (LPARAM)&Date)) 
 						{ 
 							SendMessage(GetParent(hDlg), PSM_CHANGED, NULL, NULL);
 							if (!pDateCtrl->AddDate(Date))
