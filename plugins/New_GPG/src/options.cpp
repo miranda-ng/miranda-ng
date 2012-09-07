@@ -18,10 +18,10 @@
 
 extern HINSTANCE hInst;
 
-static BOOL CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static BOOL CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static BOOL CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static BOOL CALLBACK DlgProcGpgAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+static INT_PTR CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+static INT_PTR CALLBACK DlgProcGpgAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 BOOL CheckStateLoadDB(HWND hwndDlg, int idCtrl, const char* szSetting, BYTE bDef)
 {
@@ -44,11 +44,11 @@ int GpgOptInit(WPARAM wParam,LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG);
-	odp.pszTitle = szGPGModuleName;
-	odp.pszGroup = "Services";
-	odp.pszTab = "Main";
-	odp.flags=ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = (DLGPROC)DlgProcGpgOpts;
+	odp.ptszTitle = _T(szGPGModuleName);
+	odp.ptszGroup = LPGENT("Services");
+	odp.ptszTab = LPGENT("Main");
+	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.pfnDlgProc = DlgProcGpgOpts;
 	Options_AddPage(wParam, &odp);
 
 	ZeroMemory(&odp, sizeof(odp));
@@ -56,11 +56,11 @@ int GpgOptInit(WPARAM wParam,LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG_BIN);
-	odp.pszTitle = szGPGModuleName;
-	odp.pszGroup = "Services";
-	odp.pszTab = "GnuPG Variables";
-	odp.flags=ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = (DLGPROC)DlgProcGpgBinOpts;
+	odp.ptszTitle = _T(szGPGModuleName);
+	odp.ptszGroup = LPGENT("Services");
+	odp.ptszTab = LPGENT("GnuPG Variables");
+	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.pfnDlgProc = DlgProcGpgBinOpts;
 	Options_AddPage(wParam, &odp);
 
 	ZeroMemory(&odp, sizeof(odp));
@@ -68,11 +68,11 @@ int GpgOptInit(WPARAM wParam,LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG_MESSAGES);
-	odp.pszTitle = szGPGModuleName;
-	odp.pszGroup = "Services";
-	odp.pszTab = "Messages";
-	odp.flags=ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = (DLGPROC)DlgProcGpgMsgOpts;
+	odp.ptszTitle = _T(szGPGModuleName);
+	odp.ptszGroup = LPGENT("Services");
+	odp.ptszTab = LPGENT("Messages");
+	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.pfnDlgProc = DlgProcGpgMsgOpts;
 	Options_AddPage(wParam, &odp);
 
 	ZeroMemory(&odp, sizeof(odp));
@@ -80,11 +80,11 @@ int GpgOptInit(WPARAM wParam,LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG_ADVANCED);
-	odp.pszTitle = szGPGModuleName;
-	odp.pszGroup = "Services";
-	odp.pszTab = "Advanced";
-	odp.flags=ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
-	odp.pfnDlgProc = (DLGPROC)DlgProcGpgAdvOpts;
+	odp.ptszTitle = _T(szGPGModuleName);
+	odp.ptszGroup = LPGENT("Services");
+	odp.ptszTab = LPGENT("Advanced");
+	odp.flags=ODPF_BOLDGROUPS | ODPF_EXPERTONLY | ODPF_TCHAR;
+	odp.pfnDlgProc = DlgProcGpgAdvOpts;
 	Options_AddPage(wParam, &odp);
 
 	return 0;
@@ -97,7 +97,7 @@ HWND hwndList_p = NULL;
 HWND hwndCurKey_p = NULL;
 
 void ShowLoadPublicKeyDialog();
-static BOOL CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList=GetDlgItem(hwndDlg, IDC_USERLIST);
 	hwndList_p = hwndList;
@@ -113,31 +113,31 @@ static BOOL CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
   case WM_INITDIALOG:
     {
 		TranslateDialogDefault(hwndDlg);
-		col.pszText = TranslateW(_T("Contact"));
+		col.pszText = TranslateT("Contact");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 60;
 		ListView_InsertColumn(hwndList, 0, &col);
 		ZeroMemory(&col,sizeof(col));
-		col.pszText = TranslateW(_T("Key ID"));
+		col.pszText = TranslateT("Key ID");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 50;
 		ListView_InsertColumn(hwndList, 1, &col);
 		ZeroMemory(&col,sizeof(col));
-		col.pszText = TranslateW(_T("Name"));
+		col.pszText = TranslateT("Name");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 50;
 		ListView_InsertColumn(hwndList, 2, &col);
 		ZeroMemory(&col,sizeof(col));
-		col.pszText = TranslateW(_T("Email"));
+		col.pszText = TranslateT("Email");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 50;
 		ListView_InsertColumn(hwndList, 3, &col);
 		ZeroMemory(&col,sizeof(col));
-		col.pszText = TranslateW(_T("Protocol"));
+		col.pszText = TranslateT("Protocol");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 60;
@@ -481,7 +481,7 @@ static BOOL CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 }
 
 
-static BOOL CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *tmp = NULL;
   switch (msg)
@@ -614,7 +614,7 @@ static BOOL CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
   return FALSE;
 }
 
-static BOOL CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
   switch (msg)
   {
@@ -696,7 +696,7 @@ static BOOL CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
   return FALSE;
 }
 
-static BOOL CALLBACK DlgProcGpgAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcGpgAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
   switch (msg)
   {
@@ -754,7 +754,7 @@ static BOOL CALLBACK editctrl_ctrl_a(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 	return ret;
 }
 
-static BOOL CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	static HANDLE hContact = user_data[item_num+1];
 
@@ -786,10 +786,10 @@ static BOOL CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ENABLE_ENCRYPTION), 0);
 		}
 		if(isContactSecured(hcnt))
-			SetDlgItemText(hwndDlg, IDC_ENABLE_ENCRYPTION, TranslateW(_T("Turn off encryption")));
+			SetDlgItemText(hwndDlg, IDC_ENABLE_ENCRYPTION, TranslateT("Turn off encryption"));
 		else
 		{
-			SetDlgItemText(hwndDlg, IDC_ENABLE_ENCRYPTION, TranslateW(_T("Turn on encryption")));
+			SetDlgItemText(hwndDlg, IDC_ENABLE_ENCRYPTION, TranslateT("Turn on encryption"));
 			CheckDlgButton(hwndDlg, IDC_ENABLE_ENCRYPTION, 1);
 		}
 		if(hcnt)
@@ -1383,5 +1383,5 @@ static BOOL CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LP
 
 void ShowLoadPublicKeyDialog()
 {
-	DialogBox(hInst, MAKEINTRESOURCE(IDD_LOAD_PUBLIC_KEY), NULL, (DLGPROC)DlgProcLoadPublicKey);
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_LOAD_PUBLIC_KEY), NULL, DlgProcLoadPublicKey);
 }

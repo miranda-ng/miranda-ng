@@ -972,7 +972,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 }
 
 
-static BOOL CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	char *inkeyid = NULL;
   switch (msg)
@@ -1067,5 +1067,5 @@ static BOOL CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam, L
 void ShowLoadKeyPasswordWindow()
 {
 	extern HINSTANCE hInst;
-	DialogBox(hInst, MAKEINTRESOURCE(IDD_KEY_PASSWD), NULL, (DLGPROC)DlgProcKeyPassword);
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_KEY_PASSWD), NULL, DlgProcKeyPassword);
 }

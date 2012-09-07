@@ -27,7 +27,7 @@ int itemnum = 0;
 HWND hwndList_g = NULL;
 BOOL CheckStateStoreDB(HWND hwndDlg, int idCtrl, const char* szSetting);
 
-static BOOL CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	HWND hwndList=GetDlgItem(hwndDlg, IDC_KEY_LIST);
 	hwndList_g = hwndList;
@@ -41,32 +41,32 @@ static BOOL CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
     {
 		SetWindowPos(hwndDlg, 0, firstrun_rect.left, firstrun_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
 		TranslateDialogDefault(hwndDlg);
-		SetWindowText(hwndDlg, TranslateW(_T("Set own key")));
+		SetWindowText(hwndDlg, TranslateT("Set own key"));
 		col.pszText = _T("Key ID");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 50;
 		ListView_InsertColumn(hwndList, 0, &col);
 		ZeroMemory(&col,sizeof(col));
-		col.pszText = TranslateW(_T("Email"));
+		col.pszText = TranslateT("Email");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 30;
 		ListView_InsertColumn(hwndList, 1, &col);
 		ZeroMemory(&col,sizeof(col));
-		col.pszText = TranslateW(_T("Name"));
+		col.pszText = TranslateT("Name");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 250;
 		ListView_InsertColumn(hwndList, 2, &col);
 		ZeroMemory(&col,sizeof(col));
-		col.pszText = TranslateW(_T("Creation date"));
+		col.pszText = TranslateT("Creation date");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 30;
 		ListView_InsertColumn(hwndList, 3, &col);
 		ZeroMemory(&col,sizeof(col));
-		col.pszText = TranslateW(_T("Key length"));
+		col.pszText = TranslateT("Key length");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 30;
@@ -709,7 +709,7 @@ static BOOL CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 void ShowFirstRunDialog();
 
-static BOOL CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *tmp = NULL;
   switch (msg)
@@ -1171,7 +1171,7 @@ static BOOL CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
   return FALSE;
 }
 
-static BOOL CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	extern HANDLE new_key_hcnt;
 	extern boost::mutex new_key_hcnt_mutex;
@@ -1251,7 +1251,7 @@ static BOOL CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, 
   }
   return FALSE;
 }
-static BOOL CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
   switch (msg)
   {
@@ -1571,7 +1571,7 @@ static BOOL CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 int itemnum2 = 0;
 
-static BOOL CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	HWND hwndList=GetDlgItem(hwndDlg, IDC_EXISTING_KEY_LIST);
 	hwndList_g = hwndList;
@@ -1831,7 +1831,7 @@ static BOOL CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wParam,
 
   return FALSE;
 }
-static BOOL CALLBACK DlgProcImportKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcImportKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
   extern HANDLE new_key_hcnt;
   extern boost::mutex new_key_hcnt_mutex;
@@ -1925,7 +1925,7 @@ void ShowFirstRunDialog()
 {
 	if (hwndFirstRun == NULL)
 	{
-		hwndFirstRun = CreateDialog(hInst, MAKEINTRESOURCE(IDD_FIRST_RUN), NULL, (DLGPROC)DlgProcFirstRun);
+		hwndFirstRun = CreateDialog(hInst, MAKEINTRESOURCE(IDD_FIRST_RUN), NULL, DlgProcFirstRun);
 	}
 	SetForegroundWindow(hwndFirstRun);
 }
@@ -1935,14 +1935,14 @@ void ShowSetDirsDialog()
 {
 	if (hwndSetDirs == NULL)
 	{
-		hwndSetDirs = CreateDialog(hInst, MAKEINTRESOURCE(IDD_BIN_PATH), NULL, (DLGPROC)DlgProcGpgBinOpts);
+		hwndSetDirs = CreateDialog(hInst, MAKEINTRESOURCE(IDD_BIN_PATH), NULL, DlgProcGpgBinOpts);
 	}
 	SetForegroundWindow(hwndSetDirs);
 }
 
 void ShowNewKeyDialog()
 {
-	hwndNewKey = CreateDialog(hInst, MAKEINTRESOURCE(IDD_NEW_KEY), NULL, (DLGPROC)DlgProcNewKeyDialog);
+	hwndNewKey = CreateDialog(hInst, MAKEINTRESOURCE(IDD_NEW_KEY), NULL, DlgProcNewKeyDialog);
 	SetForegroundWindow(hwndNewKey);
 }
 
@@ -1950,7 +1950,7 @@ void ShowKeyGenDialog()
 {
 	if (hwndKeyGen == NULL)
 	{
-		hwndKeyGen = CreateDialog(hInst, MAKEINTRESOURCE(IDD_KEY_GEN), NULL, (DLGPROC)DlgProcKeyGenDialog);
+		hwndKeyGen = CreateDialog(hInst, MAKEINTRESOURCE(IDD_KEY_GEN), NULL, DlgProcKeyGenDialog);
 	}
 	SetForegroundWindow(hwndKeyGen);
 }
@@ -1959,14 +1959,14 @@ void ShowSelectExistingKeyDialog()
 {
 	if (hwndSelectExistingKey == NULL)
 	{
-		hwndSelectExistingKey = CreateDialog(hInst, MAKEINTRESOURCE(IDD_LOAD_EXISTING_KEY), NULL, (DLGPROC)DlgProcLoadExistingKey);
+		hwndSelectExistingKey = CreateDialog(hInst, MAKEINTRESOURCE(IDD_LOAD_EXISTING_KEY), NULL, DlgProcLoadExistingKey);
 	}
 	SetForegroundWindow(hwndSelectExistingKey);
 }
 
 void ShowImportKeyDialog()
 {
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_IMPORT_KEY), NULL, (DLGPROC)DlgProcImportKeyDialog);
+	CreateDialog(hInst, MAKEINTRESOURCE(IDD_IMPORT_KEY), NULL, DlgProcImportKeyDialog);
 }
 
 

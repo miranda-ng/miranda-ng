@@ -139,10 +139,9 @@ void setSrmmIcon(HANDLE h)
 
 void RefreshContactListIcons() 
 {
-	HANDLE hContact;
 	extern HANDLE g_hCLIcon;
 	CallService(MS_CLUI_LISTBEGINREBUILD,0,0);
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact) 
 	{
 		setClistIcon(hContact);

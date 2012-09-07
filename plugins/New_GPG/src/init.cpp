@@ -67,11 +67,11 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-int LoadKey(WPARAM w, LPARAM l);
-int ToggleEncryption(WPARAM w, LPARAM l);
-int SendKey(WPARAM w, LPARAM l);
-int ExportGpGKeys(WPARAM w, LPARAM l);
-int ImportGpGKeys(WPARAM w, LPARAM l);
+INT_PTR LoadKey(WPARAM w, LPARAM l);
+INT_PTR ToggleEncryption(WPARAM w, LPARAM l);
+INT_PTR SendKey(WPARAM w, LPARAM l);
+INT_PTR ExportGpGKeys(WPARAM w, LPARAM l);
+INT_PTR ImportGpGKeys(WPARAM w, LPARAM l);
 
 void init_vars()
 {
@@ -111,49 +111,54 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getXI(&xi);	//TODO: check if we have access to api
 	mir_getLP(&pluginInfo);
 	init_vars();
-	CreateServiceFunction("/LoadPubKey",(MIRANDASERVICE)LoadKey);
-	CreateServiceFunction("/ToggleEncryption",(MIRANDASERVICE)ToggleEncryption);
-	CreateServiceFunction("/SendKey",(MIRANDASERVICE)SendKey);
-	CreateServiceFunction("/ExportGPGKeys",(MIRANDASERVICE)ExportGpGKeys);
-	CreateServiceFunction("/ImportGPGKeys",(MIRANDASERVICE)ImportGpGKeys);
+	CreateServiceFunction("/LoadPubKey",LoadKey);
+	CreateServiceFunction("/ToggleEncryption",ToggleEncryption);
+	CreateServiceFunction("/SendKey",SendKey);
+	CreateServiceFunction("/ExportGPGKeys",ExportGpGKeys);
+	CreateServiceFunction("/ImportGPGKeys",ImportGpGKeys);
+
 	CLISTMENUITEM mi = {0};
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFF;
-	mi.flags=0;
+	mi.flags=CMIF_TCHAR;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	mi.pszName="Load GPG public key";
+	mi.ptszName=LPGENT("Load GPG public key");
 	mi.pszService="/LoadPubKey";
 	hLoadPubKey = Menu_AddContactMenuItem(&mi);
+
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFe;
-	mi.flags=0;
+	mi.flags=CMIF_TCHAR;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	mi.pszName="Toggle GPG encryption";
+	mi.ptszName=LPGENT("Toggle GPG encryption");
 	mi.pszService="/ToggleEncryption";
 	hToggleEncryption = Menu_AddContactMenuItem(&mi);
+
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFe;
-	mi.flags=0;
+	mi.flags=CMIF_TCHAR;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	mi.pszName="Send public key";
+	mi.ptszName=LPGENT("Send public key");
 	mi.pszService="/SendKey";
 	hSendKey = Menu_AddContactMenuItem(&mi);
+
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFF;
-	mi.flags=0;
+	mi.flags=CMIF_TCHAR;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	mi.pszName="Export GPG Public keys from all users";
+	mi.ptszName=LPGENT("Export GPG Public keys from all users");
 	mi.pszService="/ExportGPGKeys";
 	hExportGpgKeys = Menu_AddMainMenuItem(&mi);
+
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFF;
-	mi.flags=0;
+	mi.flags=CMIF_TCHAR;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	mi.pszName="Import GPG Public keys from all users";
+	mi.ptszName=LPGENT("Import GPG Public keys from all users");
 	mi.pszService="/ImportGPGKeys";
 	hImportGpgKeys = Menu_AddMainMenuItem(&mi);
 
