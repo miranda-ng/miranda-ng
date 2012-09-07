@@ -587,13 +587,17 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			{
 				case PSN_APPLY:
 					{
-						HANDLE hContact= (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+						HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 						int i = 0;
 						while (hContact != NULL) 
 						{
 							if(IsMyContact(hContact)) 
 							{
 								DBWriteContactSettingByte(hContact, MODULE, "CheckState", ListView_GetCheckState(hwndList, i));
+								if (!ListView_GetCheckState(hwndList, i))
+									DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
+								else
+									DBDeleteContactSetting(hContact,"CList","Hidden");
 								i += 1;
 							}
 							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
@@ -607,8 +611,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						int sel = ListView_GetHotItem(hwndList);
 						if (sel != -1)
 						{
-							ListView_GetItemText(hwndList, sel, 0, SelItem.nick, MAX_PATH);								
-							ListView_GetItemText(hwndList, sel, 1, SelItem.url, MAX_PATH);								
+							ListView_GetItemText(hwndList, sel, 0, SelItem.nick, MAX_PATH);
+							ListView_GetItemText(hwndList, sel, 1, SelItem.url, MAX_PATH);
 							SelItem.hwndList = hwndList;
 							SelItem.SelNumber = sel;
 							CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcChangeFeedOpts, (LPARAM)&SelItem);
