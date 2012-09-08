@@ -130,7 +130,7 @@ void GetFolderPath(TCHAR *WindowTittle, char *szSetting)
 	}
 }
 
-int LoadKey(WPARAM w, LPARAM l)
+INT_PTR LoadKey(WPARAM w, LPARAM l)
 {
 	void ShowLoadPublicKeyDialog();
 	extern map<int, HANDLE> user_data;
@@ -141,7 +141,7 @@ int LoadKey(WPARAM w, LPARAM l)
 	return 0;
 }
 
-int SendKey(WPARAM w, LPARAM l)
+INT_PTR SendKey(WPARAM w, LPARAM l)
 {
 	HANDLE hContact = (HANDLE)w;
 	if(metaIsProtoMetaContacts(hContact))
@@ -175,7 +175,7 @@ int SendKey(WPARAM w, LPARAM l)
 
 extern HANDLE hLoadPublicKey, hToggleEncryption;
 
-int ToggleEncryption(WPARAM w, LPARAM l)
+INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 {
 	HANDLE hContact = (HANDLE)w;
 	BYTE enc = 0;
@@ -1290,7 +1290,7 @@ bool isTabsrmmUsed()
 }
 
 
-int ExportGpGKeys(WPARAM w, LPARAM l)
+INT_PTR ExportGpGKeys(WPARAM w, LPARAM l)
 {
 	TCHAR *p = GetFilePath(_T("Choose file to export public keys"), _T("*"), _T("Any file"), true);
 	if(!p || !p[0])
@@ -1453,7 +1453,7 @@ int ExportGpGKeys(WPARAM w, LPARAM l)
 	return 0;
 }
 
-int ImportGpGKeys(WPARAM w, LPARAM l)
+INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 {
 	TCHAR *p = GetFilePath(_T("Choose file to import keys from"), _T("*"), _T("Any file"));
 	if(!p || !p[0])
