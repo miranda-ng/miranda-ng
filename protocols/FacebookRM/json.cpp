@@ -514,11 +514,17 @@ int facebook_json_parser::parse_messages( void* data, std::vector< facebook_mess
 				else
 					CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 			}
-			else if ( type.Value( ) == "visibility" ) // change of chat status
+			else if ( type.Value( ) == "privacy_changed")
 			{
-				const Boolean visibility = objMember["visibility"];
-				proto->Log("      Requested chat switch to %s", visibility ? "Online" : "Offline");
-				proto->SetStatus( visibility ? ID_STATUS_ONLINE : ID_STATUS_INVISIBLE );				
+				const String& event_type = objMember["event"];
+				const Object& event_data = objMember["data"];
+
+				if ( event_type.Value( ) == "visibility_update" )
+				{ // change of chat status
+					const Boolean visibility = event_data["visibility"];
+					proto->Log("      Requested chat switch to %s", visibility ? "Online" : "Offline");
+					proto->SetStatus( visibility ? ID_STATUS_ONLINE : ID_STATUS_INVISIBLE );
+				}				
 			}
 			else
 				continue;
