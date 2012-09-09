@@ -116,9 +116,10 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 
 void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int ActType)
 {
-	if ( !ServiceExists(MS_POPUP_ADDPOPUPEX) || !DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) || !DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
-		char setting[100];
-		mir_snprintf(setting, SIZEOF(setting), "Popups%dM", Number);
+	char setting[100];
+	mir_snprintf(setting, SIZEOF(setting), "Popups%dM", Number);
+	
+	if ( !ServiceExists(MS_POPUP_ADDPOPUPEX) || !DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) ) {
 		if (DBGetContactSettingByte(NULL, MODNAME, setting, DEFAULT_MESSAGE_ENABLED)) {
 			int iMsgType;
 			switch( Number ) {
