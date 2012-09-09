@@ -115,11 +115,10 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 }
 
 void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int ActType)
-{
-	char setting[100];
-	mir_snprintf(setting, SIZEOF(setting), "Popups%dM", Number);
-	
+{	
 	if ( !ServiceExists(MS_POPUP_ADDPOPUPEX) || !DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) ) {
+		char setting[100];
+		mir_snprintf(setting, SIZEOF(setting), "Popups%dM", Number);
 		if (DBGetContactSettingByte(NULL, MODNAME, setting, DEFAULT_MESSAGE_ENABLED)) {
 			int iMsgType;
 			switch( Number ) {
