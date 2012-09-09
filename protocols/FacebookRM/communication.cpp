@@ -785,9 +785,9 @@ bool facebook_client::home( )
 		}
 
 		// Get avatar
-		std::string avatar = utils::text::source_get_value( &resp.data, 3, "class=\\\"fbxWelcomeBoxImg", "src=\\\"", "\\\"" );
-		if (avatar.empty())
-			avatar = utils::text::source_get_value( &resp.data, 3, "class=\"fbxWelcomeBoxImg", "src=\"", "\"" );
+		std::string avatar = utils::text::source_get_value( &resp.data, 4, "fbxWelcomeBoxImg", "src=", "\"", "\"" );
+		if (avatar[avatar.length()-1] == '\\')
+			avatar = avatar.substr(0, avatar.length()-1);
 
 		this->self_.image_url = utils::text::trim( utils::text::special_expressions_decode( avatar ));
 		parent->Log("      Got self avatar: %s", this->self_.image_url.c_str());
