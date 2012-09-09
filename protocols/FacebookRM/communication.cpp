@@ -27,10 +27,10 @@ void facebook_client::client_notify( TCHAR* message )
 	parent->NotifyEvent( parent->m_tszUserName, message, NULL, FACEBOOK_EVENT_CLIENT );
 }
 
-http::response facebook_client::flap( const int request_type, std::string* request_data, std::string* request_get_data )
+http::response facebook_client::flap( const int request_type, std::string* request_data, std::string* request_get_data, int method )
 {
 	NETLIBHTTPREQUEST nlhr = {sizeof( NETLIBHTTPREQUEST )};
-	nlhr.requestType = choose_method( request_type );
+	nlhr.requestType = !method ? choose_method( request_type ) : method;
 	std::string url = choose_request_url( request_type, request_data, request_get_data );
 	nlhr.szUrl = (char*)url.c_str( );
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_NODUMP | choose_security_level( request_type );
@@ -615,31 +615,31 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 		// Check whether setting Machine name is required
 		if ( resp.headers["Location"].find("/checkpoint/") != std::string::npos )
 		{
-			resp = flap( FACEBOOK_REQUEST_SETUP_MACHINE );
+			resp = flap( FACEBOOK_REQUEST_SETUP_MACHINE, NULL, NULL, REQUEST_GET );
 			
 			std::string inner_data;
 			if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
 				// Multi step with approving last unrecognized device
 				// 1) Continue
 				inner_data = "submit[Continue]=Continue";
-				inner_data += "&lsd=" + utils::text::source_get_value(&resp.data, 3, "name=\"lsd\"", "value=\"", "\"" );
 				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"" );
+				inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"" );
 				resp = flap( FACEBOOK_REQUEST_SETUP_MACHINE, &inner_data );
 
 				// 2) Approve last unknown login
 				// inner_data = "submit[I%20don't%20recognize]=I%20don't%20recognize"; // Don't recognize - this will force to change account password
 				inner_data = "submit[This%20is%20Okay]=This%20is%20Okay"; // Recognize
-				inner_data += "&lsd=" + utils::text::source_get_value(&resp.data, 3, "name=\"lsd\"", "value=\"", "\"" );
 				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"" );
+				inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"" );
 				resp = flap( FACEBOOK_REQUEST_SETUP_MACHINE, &inner_data );
 			}
 
 			// Save actual machine name
-			// inner_data = "machine_name=Miranda%20IM&submit[Don't%20Save]=Don't%20Save"; // Don't save
-			inner_data = "machine_name=Miranda%20IM&submit[Save%20Device]=Save%20Device"; // Save
-			inner_data += "&post_form_id=" + utils::text::source_get_value(&resp.data, 3, "name=\"post_form_id\"", "value=\"", "\"" );
+			// inner_data = "machine_name=Miranda%20NG&submit[Don't%20Save]=Don't%20Save"; // Don't save
+			inner_data = "machine_name=Miranda%20NG&submit[Save%20Device]=Save%20Device"; // Save
 			inner_data += "&lsd=" + utils::text::source_get_value(&resp.data, 3, "name=\"lsd\"", "value=\"", "\"" );
 			inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"" );
+			inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"" );
 
 			resp = flap( FACEBOOK_REQUEST_SETUP_MACHINE, &inner_data );
 			validate_response(&resp);

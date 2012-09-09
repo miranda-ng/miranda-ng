@@ -164,7 +164,7 @@ public:
 
 	// HTTP communication
 
-	http::response  flap( const int request_type, std::string* request_data = NULL, std::string* request_get_data = NULL );
+	http::response  flap( const int request_type, std::string* request_data = NULL, std::string* request_get_data = NULL, int method = 0 );
 	bool    save_url(const std::string &url,const std::tstring &filename, HANDLE &nlc);
 
 	DWORD   choose_security_level( int );

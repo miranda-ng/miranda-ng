@@ -113,7 +113,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	{
 		std::stringstream agent;
 //		DWORD mir_ver = ( DWORD )CallService( MS_SYSTEM_GETVERSION, NULL, NULL );
-		agent << "MirandaIM/";
+		agent << "MirandaNG/";
 		agent << (( g_mirandaVersion >> 24) & 0xFF);
 		agent << ".";
 		agent << (( g_mirandaVersion >> 16) & 0xFF);
