@@ -1182,12 +1182,12 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 
 	if (oldStatus == ID_STATUS_OFFLINE)
 	{ 
-		// set online timestamp for this contact, only when not set already
+		// set logon timestamp for this contact, only when not set already
 		if (!DBGetContactSettingDword(hContact, lpzProto, "LogonTS", FALSE))
 			DBWriteContactSettingDword(hContact, lpzProto, "LogonTS", ( DWORD )time(NULL));
 
-		// TODO: don't reset logoff timestamp?
-		// DBDeleteContactSetting(hContact, lpzProto, "LogoffTS");
+		// reset logoff timestamp
+		DBDeleteContactSetting(hContact, lpzProto, "LogoffTS");
 	
 		// TESTING: updating user's details
 		if (DBGetContactSettingDword(NULL, VISPLG, "flags", vf_default) & VF_REFRESH)
@@ -1199,7 +1199,7 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 	}
 	if (newStatus == ID_STATUS_OFFLINE)
 	{
-		// set offline timestamp for this contact
+		// set logoff timestamp for this contact
 		DBWriteContactSettingDword(hContact, lpzProto, "LogoffTS", ( DWORD )time(NULL));
 		// reset logon timestamp
 		DBDeleteContactSetting(hContact, lpzProto, "LogonTS");
