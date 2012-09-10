@@ -159,7 +159,7 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 			acc_str += ")" ;
 			acc_str += "_GPGPubKey";
 		}
-		char *szMessage = UniGetContactSettingUtf(hContact, szGPGModuleName, acc_str.empty()?"GPGPubKey":acc_str.c_str(), "");
+		szMessage = UniGetContactSettingUtf(hContact, szGPGModuleName, acc_str.empty()?"GPGPubKey":acc_str.c_str(), "");
 	}
 	if(szMessage[0])
 	{
