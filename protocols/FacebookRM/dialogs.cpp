@@ -309,7 +309,8 @@ INT_PTR CALLBACK FBOptionsAdvancedProc( HWND hwnd, UINT message, WPARAM wparam, 
 
 		EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
 
-	} return TRUE;
+		return TRUE;
+	}
 
 	case WM_COMMAND: {
 		if ( LOWORD( wparam ) == IDC_SECURE ) {			
@@ -320,8 +321,9 @@ INT_PTR CALLBACK FBOptionsAdvancedProc( HWND hwnd, UINT message, WPARAM wparam, 
 			MessageBox( hwnd, TranslateT("Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly."), proto->m_tszUserName, MB_OK );
 
 		SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
-
-	} break;
+		
+		break;
+	}
 
 	case WM_NOTIFY:
 		if ( reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY )
@@ -348,8 +350,9 @@ INT_PTR CALLBACK FBOptionsAdvancedProc( HWND hwnd, UINT message, WPARAM wparam, 
 
 			return TRUE;
 		}
-		
-	} break;
+
+		break;	
+	}
 
 	return FALSE;
 }
