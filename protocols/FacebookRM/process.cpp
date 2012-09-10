@@ -555,7 +555,7 @@ void FacebookProto::ProcessFriendRequests( void* )
 	std::string::size_type pos2 = 0;
 	bool last = false;
 
-	while (!last) {
+	while (!last && !reqs.empty()) {
 		std::string req;
 		if ((pos2 = reqs.find("<div class=\"mRequestItem", pos)) != std::string::npos) {
 			req = reqs.substr(pos, pos2 - pos);
