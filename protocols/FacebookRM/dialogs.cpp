@@ -159,7 +159,8 @@ INT_PTR CALLBACK FBMindProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lpar
 			ShowWindow(hwnd,SW_HIDE);
 
 			char *narrow = mir_utf8encodeT(mindMessage);
-			if (proto->last_status_msg_ != narrow) proto->last_status_msg_ = narrow;
+			if (proto->last_status_msg_ != narrow)
+				proto->last_status_msg_ = narrow;
 			utils::mem::detract(narrow);
 
 			//char *narrow = mir_t2a_cp(mindMessage,CP_UTF8);
@@ -339,7 +340,7 @@ INT_PTR CALLBACK FBOptionsAdvancedProc( HWND hwnd, UINT message, WPARAM wparam, 
 			if (setStatus != setStatusOld)
 			{
 				DBWriteContactSettingByte(NULL, proto->m_szModuleName, FACEBOOK_KEY_SET_MIRANDA_STATUS, setStatus);
-				if (setStatus && proto->isOnline() && DBGetContactSettingByte(NULL, proto->m_szModuleName, FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS))
+				if (setStatus && proto->isOnline())
 				{
 					ForkThread(&FacebookProto::SetAwayMsgWorker, proto, NULL);
 				}
@@ -347,9 +348,8 @@ INT_PTR CALLBACK FBOptionsAdvancedProc( HWND hwnd, UINT message, WPARAM wparam, 
 
 			return TRUE;
 		}
-		break;
-
-	}
+		
+	} break;
 
 	return FALSE;
 }
