@@ -7,18 +7,15 @@
 #endif // _MSC_VER > 1000
 
 
-INT_PTR CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
-DWORD	MraFilesQueueInitialize			(DWORD dwFilesTimeOutInterval,HANDLE *phFilesQueueHandle);
+INT_PTR CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+DWORD	MraFilesQueueInitialize			(DWORD dwFilesTimeOutInterval, HANDLE *phFilesQueueHandle);
 void	MraFilesQueueDestroy			(HANDLE hFilesQueueHandle);
 
-HANDLE	MraFilesQueueItemProxyByID		(HANDLE hFilesQueueHandle,DWORD dwIDRequest);
-DWORD	MraFilesQueueAddReceive			(HANDLE hFilesQueueHandle,DWORD dwFlags,HANDLE hContact,DWORD dwIDRequest,LPWSTR lpwszFiles,SIZE_T dwFilesSize,LPSTR lpszAddreses,SIZE_T dwAddresesSize);
-DWORD	MraFilesQueueAddSend			(HANDLE hFilesQueueHandle,DWORD dwFlags,HANDLE hContact,LPWSTR *plpwszFiles,SIZE_T dwFilesCount,DWORD *pdwIDRequest);
-DWORD	MraFilesQueueAccept				(HANDLE hFilesQueueHandle,DWORD dwIDRequest,LPWSTR lpwszPath,SIZE_T dwPathSize);
-DWORD	MraFilesQueueCancel				(HANDLE hFilesQueueHandle,DWORD dwIDRequest,BOOL bSendDecline);
-DWORD	MraFilesQueueStartMrimProxy		(HANDLE hFilesQueueHandle,DWORD dwIDRequest);
-DWORD	MraFilesQueueFree				(HANDLE hFilesQueueHandle,DWORD dwCMDNum);
-DWORD	MraFilesQueueSendMirror			(HANDLE hFilesQueueHandle,DWORD dwIDRequest,LPSTR lpszAddreses,SIZE_T dwAddresesSize);
+void MraFilesQueueConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, void *pExtra);
+
+HANDLE	MraFilesQueueItemProxyByID		(HANDLE hFilesQueueHandle, DWORD dwIDRequest);
+DWORD	MraFilesQueueStartMrimProxy		(HANDLE hFilesQueueHandle, DWORD dwIDRequest);
+DWORD	MraFilesQueueFree				(HANDLE hFilesQueueHandle, DWORD dwCMDNum);
 
 
 

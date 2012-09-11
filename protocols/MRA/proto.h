@@ -1,5 +1,5 @@
 //***************************************************************************
-// $Id: proto.h,v 1.141 2005/10/24 15:32:33 shingrus Exp $
+// $Id: proto.h, v 1.141 2005/10/24 15:32:33 shingrus Exp $
 //***************************************************************************
 
 #ifndef MRIM_PROTO_H
@@ -7,14 +7,7 @@
 
 #include <sys/types.h>
 
-#define PROTO_VERSION_MAJOR     1
-#define PROTO_VERSION_MINOR     21
-#define PROTO_VERSION ((((u_long)(PROTO_VERSION_MAJOR))<<16)|(u_long)(PROTO_VERSION_MINOR))
-
-
-#define PROTO_MAJOR(p) (((p)&0xFFFF0000)>>16)
-#define PROTO_MINOR(p) ((p)&0x0000FFFF)
-
+#include "version.h"
 
 typedef struct mrim_packet_header_t
 {
@@ -30,7 +23,7 @@ mrim_packet_header_t;
 #define CS_MAGIC    0xDEADBEEF		// Клиентский Magic ( C <-> S )
 
 
-// UNICODE = (UTF-16LE) (>=1.17)
+// UNICODE = (UTF-16LE) ( >= 1.17)
 
 /***************************************************************************
 
@@ -82,8 +75,8 @@ mrim_packet_header_t;
 	#define MESSAGE_FLAG_CP1251			0x00200000
 // LPS to e-mail ANSI
 // LPS message ANSI/UNICODE (see flags)
-// LPS rtf-formatted message (>=1.1) ???
-// LPS multichat_data (>=1.20) ???
+// LPS rtf-formatted message ( >= 1.1) ???
+// LPS multichat_data ( >= 1.20) ???
 
 #define MAX_MULTICAST_RECIPIENTS 50
 	#define MESSAGE_USERFLAGS_MASK	0x000036A8	// Flags that user is allowed to set himself
@@ -94,15 +87,15 @@ mrim_packet_header_t;
 // UL flags
 // LPS from e-mail ANSI
 // LPS message UNICODE
-// LPS rtf-formatted message (>=1.1)	- MESSAGE_FLAG_RTF
+// LPS rtf-formatted message ( >= 1.1)	- MESSAGE_FLAG_RTF
 //		//BASE64(						- MESSAGE_FLAG_AUTHORIZE
 //				UL parts count = 2
 //				LPS auth_sender_nick  UNICODE
 //				LPS auth_request_text  UNICODE
-//[ LPS multichat_data ] (>= 1.20) - MESSAGE_FLAG_MULTICHAT
+//[ LPS multichat_data ] ( >=  1.20) - MESSAGE_FLAG_MULTICHAT
 //				UL type
 //				LPS multichat_name
-//				switch(type) {
+//				switch (type) {
 //					MULTICHAT_MESSAGE {
 //						LPS sender ANSI
 //					}
@@ -154,14 +147,14 @@ mrim_packet_header_t;
 	#define STATUS_UNDETERMINATED   0x00000003
 	#define STATUS_USER_DEFINED     0x00000004
 	#define STATUS_FLAG_INVISIBLE   0x80000000
-// LPS spec_status_uri ANSI (>=1.14)
+// LPS spec_status_uri ANSI ( >= 1.14)
 	#define SPEC_STATUS_URI_MAX 256
-// LPS status_title UNICODE (>=1.14)
+// LPS status_title UNICODE ( >= 1.14)
 	#define STATUS_TITLE_MAX 16
-// LPS status_desc UNICODE (>=1.14)
+// LPS status_desc UNICODE ( >= 1.14)
 	#define STATUS_DESC_MAX 64
 // LPS user e-mail ANSI
-// UL com_support (>=1.14)
+// UL com_support ( >= 1.14)
 	#define FEATURE_FLAG_RTF_MESSAGE       0x00000001
 	#define FEATURE_FLAG_BASE_SMILES       0x00000002
 	#define FEATURE_FLAG_ADVANCED_SMILES   0x00000004
@@ -174,11 +167,11 @@ mrim_packet_header_t;
 	#define FEATURE_FLAG_GAMES             0x00000200
 	#define FEATURE_FLAG_LAST              0x00000200
 	#define FEATURE_UA_FLAG_MASK           ((FEATURE_FLAG_LAST << 1) - 1)
-// LPS user_agent (>=1.14) ANSI
+// LPS user_agent ( >= 1.14) ANSI
 	#define USER_AGENT_MAX 255
 	// Format:
 	//  user_agent       = param *(param )
-	//  param            = pname "=" pvalue
+	//  param            = pname " = " pvalue
 	//  pname            = token
 	//  pvalue           = token / quoted-string
 	//
@@ -215,8 +208,8 @@ mrim_packet_header_t;
 	#define CONTACT_FLAG_IGNORE			0x00000010
 	#define CONTACT_FLAG_SHADOW			0x00000020
 	#define CONTACT_FLAG_AUTHORIZED		0x00000040 // ( >= 1.15)
-	#define CONTACT_FLAG_MULTICHAT		0x00000080 // ( >= 1.20) =128
-	#define CONTACT_FLAG_UNICODE_NAME	0x00000200 // =512
+	#define CONTACT_FLAG_MULTICHAT		0x00000080 // ( >= 1.20)  = 128
+	#define CONTACT_FLAG_UNICODE_NAME	0x00000200 //  = 512
 	#define CONTACT_FLAG_PHONE			0x00100000
 
 // UL group id (unused if contact is group)
@@ -230,7 +223,7 @@ mrim_packet_header_t;
 //	)
 // UL actions ( >= 1.15) 
 // [LPS multichat_data]
-//		CLPS members (>= 1.20)
+//		CLPS members ( >=  1.20)
 //		[ LPS owner ]
     #define ADD_CONTACT_FLAG_MYMAIL_INVITE		0x00000001
     #define ADD_CONTACT_FLAG_MULTICHAT_ATTACHE	0x00000002
@@ -249,7 +242,7 @@ mrim_packet_header_t;
 	#define CONTACT_OPER_USER_EXISTS	0x0005
 	#define CONTACT_OPER_GROUP_LIMIT	0x6
 // UL contact_id or (u_long)-1 if status is not OK
-// [LPS multichat_contact (>= 1.20)]
+// [LPS multichat_contact ( >=  1.20)]
 
 
 #define MRIM_CS_MODIFY_CONTACT			0x101B	// C -> S
@@ -279,10 +272,10 @@ mrim_packet_header_t;
 
 #define MRIM_CS_CHANGE_STATUS			0x1022	// C -> S
 // UL new status
-// LPS spec_status_uri ANSI (>=1.14)
-// LPS status_title UNICODE (>=1.14)
-// LPS status_desc UNICODE (>=1.14)
-// UL com_support (>=1.14) (see MRIM_CS_USER_STATUS)
+// LPS spec_status_uri ANSI ( >= 1.14)
+// LPS status_title UNICODE ( >= 1.14)
+// LPS status_desc UNICODE ( >= 1.14)
+// UL com_support ( >= 1.14) (see MRIM_CS_USER_STATUS)
 
 
 #define MRIM_CS_GET_MPOP_SESSION		0x1024	// C -> S
@@ -329,23 +322,23 @@ mrim_packet_header_t;
 // params define
 // must be  in consecutive order (0..N) to quick check in check_anketa_info_request
 	enum {
-	MRIM_CS_WP_REQUEST_PARAM_USER		= 0,// ANSI
-	MRIM_CS_WP_REQUEST_PARAM_DOMAIN,		// ANSI
-	MRIM_CS_WP_REQUEST_PARAM_NICKNAME,		// UNICODE
-	MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME,		// UNICODE
-	MRIM_CS_WP_REQUEST_PARAM_LASTNAME,		// UNICODE
-	MRIM_CS_WP_REQUEST_PARAM_SEX	,		// ANSI
-	MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY,		// not used for search
-	MRIM_CS_WP_REQUEST_PARAM_DATE1	,		// ANSI
-	MRIM_CS_WP_REQUEST_PARAM_DATE2	,		// ANSI
+	MRIM_CS_WP_REQUEST_PARAM_USER		 =  0, // ANSI
+	MRIM_CS_WP_REQUEST_PARAM_DOMAIN, 		// ANSI
+	MRIM_CS_WP_REQUEST_PARAM_NICKNAME, 		// UNICODE
+	MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME, 		// UNICODE
+	MRIM_CS_WP_REQUEST_PARAM_LASTNAME, 		// UNICODE
+	MRIM_CS_WP_REQUEST_PARAM_SEX	, 		// ANSI
+	MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY, 		// not used for search
+	MRIM_CS_WP_REQUEST_PARAM_DATE1	, 		// ANSI
+	MRIM_CS_WP_REQUEST_PARAM_DATE2	, 		// ANSI
 	//!!!!!!!!!!!!!!!!!!!online request param must be at end of request!!!!!!!!!!!!!!!
-	MRIM_CS_WP_REQUEST_PARAM_ONLINE	,		// ANSI
-	MRIM_CS_WP_REQUEST_PARAM_STATUS	,		// we do not used it, yet
-	MRIM_CS_WP_REQUEST_PARAM_CITY_ID,		// ANSI
-	MRIM_CS_WP_REQUEST_PARAM_ZODIAC,		// ANSI
-	MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_MONTH,// ANSI	
-	MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_DAY,	// ANSI
-	MRIM_CS_WP_REQUEST_PARAM_COUNTRY_ID,	// ANSI
+	MRIM_CS_WP_REQUEST_PARAM_ONLINE	, 		// ANSI
+	MRIM_CS_WP_REQUEST_PARAM_STATUS	, 		// we do not used it, yet
+	MRIM_CS_WP_REQUEST_PARAM_CITY_ID, 		// ANSI
+	MRIM_CS_WP_REQUEST_PARAM_ZODIAC, 		// ANSI
+	MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_MONTH, // ANSI	
+	MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_DAY, 	// ANSI
+	MRIM_CS_WP_REQUEST_PARAM_COUNTRY_ID, 	// ANSI
 	MRIM_CS_WP_REQUEST_PARAM_MAX		
 	};
 
@@ -373,19 +366,19 @@ mrim_packet_header_t;
 // DWORD msg internal game message
 	enum {
 	GAME_BASE, 
-	GAME_CONNECTION_INVITE,
-	GAME_CONNECTION_ACCEPT,
-	GAME_DECLINE,
-	GAME_INC_VERSION,
-	GAME_NO_SUCH_GAME,
-	GAME_JOIN,
-	GAME_CLOSE,
-	GAME_SPEED,
-	GAME_SYNCHRONIZATION,
-	GAME_USER_NOT_FOUND,
-	GAME_ACCEPT_ACK,
-	GAME_PING,
-	GAME_RESULT,
+	GAME_CONNECTION_INVITE, 
+	GAME_CONNECTION_ACCEPT, 
+	GAME_DECLINE, 
+	GAME_INC_VERSION, 
+	GAME_NO_SUCH_GAME, 
+	GAME_JOIN, 
+	GAME_CLOSE, 
+	GAME_SPEED, 
+	GAME_SYNCHRONIZATION, 
+	GAME_USER_NOT_FOUND, 
+	GAME_ACCEPT_ACK, 
+	GAME_PING, 
+	GAME_RESULT, 
 	GAME_MESSAGES_NUMBER
 	};
 // DWORD msg_id id for ack
@@ -420,88 +413,88 @@ mrim_packet_header_t;
 // LPS login e-mail ANSI
 // LPS password ANSI
 // DWORD status
-// LPS spec_status_uri ANSI (>=1.14)
-// LPS status_title UNICODE (>=1.14)
-// LPS status_desc UNICODE (>=1.14)
-// UL com_support (>=1.14) (see MRIM_CS_USER_STATUS)
-// LPS user_agent ANSI (>=1.14) (see MRIM_CS_USER_STATUS)
+// LPS spec_status_uri ANSI ( >= 1.14)
+// LPS status_title UNICODE ( >= 1.14)
+// LPS status_desc UNICODE ( >= 1.14)
+// UL com_support ( >= 1.14) (see MRIM_CS_USER_STATUS)
+// LPS user_agent ANSI ( >= 1.14) (see MRIM_CS_USER_STATUS)
 	// + statistic packet data:
-// LPS lang (>=1.16)
-// LPS ua session (>=1.20) - шли пустой
-// LPS replaced ua session (>=1.20) - шли пустой
+// LPS lang ( >= 1.16)
+// LPS ua session ( >= 1.20) - шли пустой
+// LPS replaced ua session ( >= 1.20) - шли пустой
 // LPS client description ANSI
 	#define MAX_CLIENT_DESCRIPTION 256
 // unknown data
-// LPS unknown id (len=32)
-/*		SetUL(&lpbDataCurrent,0);//00 00 00 00
-		SetUL(&lpbDataCurrent,0);//02 BA 0A 00
-		SetUL(&lpbDataCurrent,0);//00 00 00 03
-		SetUL(&lpbDataCurrent,0);//00 00 00 02
+// LPS unknown id (len = 32)
+/*		SetUL(&lpbDataCurrent, 0);//00 00 00 00
+		SetUL(&lpbDataCurrent, 0);//02 BA 0A 00
+		SetUL(&lpbDataCurrent, 0);//00 00 00 03
+		SetUL(&lpbDataCurrent, 0);//00 00 00 02
 
-		SetUL(&lpbDataCurrent,0);//E2 FD 1E 22
-		SetUL(&lpbDataCurrent,0);//04 00 00 00
-		SetUL(&lpbDataCurrent,0);//02 FF FF FF
-		SetUL(&lpbDataCurrent,0);//FF 05 00 00
+		SetUL(&lpbDataCurrent, 0);//E2 FD 1E 22
+		SetUL(&lpbDataCurrent, 0);//04 00 00 00
+		SetUL(&lpbDataCurrent, 0);//02 FF FF FF
+		SetUL(&lpbDataCurrent, 0);//FF 05 00 00
 
-		SetUL(&lpbDataCurrent,0);//00 02 FF FF
-		SetUL(&lpbDataCurrent,0);//FF FF 06 00
-		SetUL(&lpbDataCurrent,0);//00 00 02 FF
-		SetUL(&lpbDataCurrent,0);//FF FF FF 07
+		SetUL(&lpbDataCurrent, 0);//00 02 FF FF
+		SetUL(&lpbDataCurrent, 0);//FF FF 06 00
+		SetUL(&lpbDataCurrent, 0);//00 00 02 FF
+		SetUL(&lpbDataCurrent, 0);//FF FF FF 07
 
-		SetUL(&lpbDataCurrent,0);//00 00 00 02
-		SetUL(&lpbDataCurrent,0);//FF FF FF FF
-		SetUL(&lpbDataCurrent,0);//14 00 00 00
-		SetUL(&lpbDataCurrent,0);//02 00 00 00
+		SetUL(&lpbDataCurrent, 0);//00 00 00 02
+		SetUL(&lpbDataCurrent, 0);//FF FF FF FF
+		SetUL(&lpbDataCurrent, 0);//14 00 00 00
+		SetUL(&lpbDataCurrent, 0);//02 00 00 00
 
-		SetUL(&lpbDataCurrent,0);//00 16 00 00
-		SetUL(&lpbDataCurrent,0);//00 02 00 00
-		SetUL(&lpbDataCurrent,0);//00 00 17 00
-		SetUL(&lpbDataCurrent,0);//00 00 02 00
+		SetUL(&lpbDataCurrent, 0);//00 16 00 00
+		SetUL(&lpbDataCurrent, 0);//00 02 00 00
+		SetUL(&lpbDataCurrent, 0);//00 00 17 00
+		SetUL(&lpbDataCurrent, 0);//00 00 02 00
 
-		SetUL(&lpbDataCurrent,0);//00 00 00 18
-		SetUL(&lpbDataCurrent,0);//00 00 00 02
-		SetUL(&lpbDataCurrent,0);//00 00 00 00
-		SetUL(&lpbDataCurrent,0);//19 00 00 00
+		SetUL(&lpbDataCurrent, 0);//00 00 00 18
+		SetUL(&lpbDataCurrent, 0);//00 00 00 02
+		SetUL(&lpbDataCurrent, 0);//00 00 00 00
+		SetUL(&lpbDataCurrent, 0);//19 00 00 00
 
-		SetUL(&lpbDataCurrent,0);//02 00 00 00
-		SetUL(&lpbDataCurrent,0);//00 1A 00 00
-		SetUL(&lpbDataCurrent,0);//00 02 00 00
-		SetUL(&lpbDataCurrent,0);//00 00 1C 00
+		SetUL(&lpbDataCurrent, 0);//02 00 00 00
+		SetUL(&lpbDataCurrent, 0);//00 1A 00 00
+		SetUL(&lpbDataCurrent, 0);//00 02 00 00
+		SetUL(&lpbDataCurrent, 0);//00 00 1C 00
 
-		SetUL(&lpbDataCurrent,0);//00 00 02 00
-		SetUL(&lpbDataCurrent,0);//00 00 00 1D
-		SetUL(&lpbDataCurrent,0);//00 00 00 02
-		SetUL(&lpbDataCurrent,0);//00 00 00 00
+		SetUL(&lpbDataCurrent, 0);//00 00 02 00
+		SetUL(&lpbDataCurrent, 0);//00 00 00 1D
+		SetUL(&lpbDataCurrent, 0);//00 00 00 02
+		SetUL(&lpbDataCurrent, 0);//00 00 00 00
 
-		SetUL(&lpbDataCurrent,0);//23 00 00 00
-		SetUL(&lpbDataCurrent,0);//02 01 00 00
-		SetUL(&lpbDataCurrent,0);//00 24 00 00
-		SetUL(&lpbDataCurrent,0);//00 02 01 00
+		SetUL(&lpbDataCurrent, 0);//23 00 00 00
+		SetUL(&lpbDataCurrent, 0);//02 01 00 00
+		SetUL(&lpbDataCurrent, 0);//00 24 00 00
+		SetUL(&lpbDataCurrent, 0);//00 02 01 00
 
-		SetUL(&lpbDataCurrent,0);//00 00 25 00
-		SetUL(&lpbDataCurrent,0);//00 00 02 01
-		SetUL(&lpbDataCurrent,0);//00 00 00 26
-		SetUL(&lpbDataCurrent,0);//00 00 00 02
+		SetUL(&lpbDataCurrent, 0);//00 00 25 00
+		SetUL(&lpbDataCurrent, 0);//00 00 02 01
+		SetUL(&lpbDataCurrent, 0);//00 00 00 26
+		SetUL(&lpbDataCurrent, 0);//00 00 00 02
 
-		SetUL(&lpbDataCurrent,0);//00 00 00 00
-		SetUL(&lpbDataCurrent,0);//27 00 00 00
-		SetUL(&lpbDataCurrent,0);//02 00 00 00
-		SetUL(&lpbDataCurrent,0);//00 28 00 00
+		SetUL(&lpbDataCurrent, 0);//00 00 00 00
+		SetUL(&lpbDataCurrent, 0);//27 00 00 00
+		SetUL(&lpbDataCurrent, 0);//02 00 00 00
+		SetUL(&lpbDataCurrent, 0);//00 28 00 00
 
-		SetUL(&lpbDataCurrent,0);//00 02 00 00
-		SetUL(&lpbDataCurrent,0);//00 00 29 00
-		SetUL(&lpbDataCurrent,0);//00 00 02 01
-		SetUL(&lpbDataCurrent,0);//00 00 00 2A
+		SetUL(&lpbDataCurrent, 0);//00 02 00 00
+		SetUL(&lpbDataCurrent, 0);//00 00 29 00
+		SetUL(&lpbDataCurrent, 0);//00 00 02 01
+		SetUL(&lpbDataCurrent, 0);//00 00 00 2A
 
-		SetUL(&lpbDataCurrent,0);//00 00 00 02
-		SetUL(&lpbDataCurrent,0);//00 00 00 00
-		SetUL(&lpbDataCurrent,0);//2B 00 00 00
-		SetUL(&lpbDataCurrent,0);//02 00 00 00
+		SetUL(&lpbDataCurrent, 0);//00 00 00 02
+		SetUL(&lpbDataCurrent, 0);//00 00 00 00
+		SetUL(&lpbDataCurrent, 0);//2B 00 00 00
+		SetUL(&lpbDataCurrent, 0);//02 00 00 00
 
-		SetUL(&lpbDataCurrent,0);//00 2C 00 00
-		SetUL(&lpbDataCurrent,0);//00 01
+		SetUL(&lpbDataCurrent, 0);//00 2C 00 00
+		SetUL(&lpbDataCurrent, 0);//00 01
 
-		SetLPS(&lpbDataCurrent,"d3a4a3d0c95e5ba24f160a499ec8b4ea",32);
+		SetLPS(&lpbDataCurrent, "d3a4a3d0c95e5ba24f160a499ec8b4ea", 32);
 */
 
 
@@ -575,7 +568,7 @@ mrim_packet_header_t;
 // DWORD flags
 // LPS text (MRIM_BLOG_STATUS_MUSIC: track)
 	#define MICBLOG_STATUS_MAX 500
-// switch(flags) {
+// switch (flags) {
 // MRIM_BLOG_STATUS_REPLY:
 //      UINT64 orig_id
 // }

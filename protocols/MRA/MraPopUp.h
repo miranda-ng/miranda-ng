@@ -19,16 +19,4 @@
 #define	MRA_POPUP_TYPE_ERROR		5	// IDI_ERROR
 #define	MRA_POPUP_TYPE_EMAIL_STATUS	6	// 
 
-
-int		MraPopupOptInit					(WPARAM wParam,LPARAM lParam);
-
-void	MraPopupShowFromContactW		(HANDLE hContact,DWORD dwType,DWORD dwFlags,LPWSTR lpszMessage);
-#define MraPopupShowFromAgentW(dwType,dwFlags,lpszMessage) MraPopupShowFromContactW(NULL,dwType,dwFlags,lpszMessage)
-
-void	MraPopupShowW					(HANDLE hContact,DWORD dwType,DWORD dwFlags,LPWSTR lpszTitle,LPWSTR lpszMessage);
-
-
-
-
-
 #endif // !defined(AFX_MRA_POPUP_H__F58D13FF_F6F2_476C_B8F0_7B9E9357CF48__INCLUDED_)

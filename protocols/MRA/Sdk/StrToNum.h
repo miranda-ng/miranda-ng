@@ -40,9 +40,9 @@
 
 
 
-__inline SIZE_T StrToUNum(LPCSTR lpcszString,SIZE_T dwStringLen)
+__inline size_t StrToUNum(LPCSTR lpcszString,size_t dwStringLen)
 {
-	SIZE_T dwNum=0;
+	size_t dwNum=0;
 	BYTE bCurentFigure;
 
 
@@ -61,7 +61,7 @@ return(dwNum);
 }
 
 
-__inline DWORD StrToUNum32(LPCSTR lpcszString,SIZE_T dwStringLen)
+__inline DWORD StrToUNum32(LPCSTR lpcszString,size_t dwStringLen)
 {
 	DWORD dwNum=0;
 	BYTE bCurentFigure;
@@ -82,7 +82,7 @@ return(dwNum);
 }
 
 
-__inline DWORDLONG StrToUNum64(LPCSTR lpcszString,SIZE_T dwStringLen)
+__inline DWORDLONG StrToUNum64(LPCSTR lpcszString,size_t dwStringLen)
 {
 	DWORDLONG dwlNum=0;
 	BYTE bCurentFigure;
@@ -105,10 +105,10 @@ return(dwlNum);
 
 
 
-__inline DWORD StrToUNumEx(LPCSTR lpcszString,SIZE_T dwStringLen,SIZE_T *pdwNum)
+__inline DWORD StrToUNumEx(LPCSTR lpcszString,size_t dwStringLen,size_t *pdwNum)
 {
 	DWORD dwRetErrorCode;
-	SIZE_T dwNum=0,dwProcessed=0;
+	size_t dwNum=0,dwProcessed=0;
 	BYTE bCurentFigure;
 
 
@@ -140,7 +140,7 @@ return(dwRetErrorCode);
 }
 
 
-__inline DWORD StrToUNumEx32(LPCSTR lpcszString,SIZE_T dwStringLen,DWORD *pdwNum)
+__inline DWORD StrToUNumEx32(LPCSTR lpcszString,size_t dwStringLen,DWORD *pdwNum)
 {
 	DWORD dwRetErrorCode;
 	DWORD dwNum=0,dwProcessed=0;
@@ -175,11 +175,11 @@ return(dwRetErrorCode);
 }
 
 
-__inline DWORD StrToUNumEx64(LPCSTR lpcszString,SIZE_T dwStringLen,DWORDLONG *pdwlNum)
+__inline DWORD StrToUNumEx64(LPCSTR lpcszString,size_t dwStringLen,DWORDLONG *pdwlNum)
 {
 	DWORD dwRetErrorCode;
 	DWORDLONG dwlNum=0;
-	SIZE_T dwProcessed=0;
+	size_t dwProcessed=0;
 	BYTE bCurentFigure;
 
 
@@ -213,7 +213,7 @@ return(dwRetErrorCode);
 
 
 
-__inline SSIZE_T StrToNum(LPCSTR lpcszString,SIZE_T dwStringLen)
+__inline SSIZE_T StrToNum(LPCSTR lpcszString,size_t dwStringLen)
 {
 	SSIZE_T lNum=0,lSingn=1;
 	BYTE bCurentFigure;
@@ -244,7 +244,7 @@ return(lNum);
 }
 
 
-__inline LONG StrToNum32(LPCSTR lpcszString,SIZE_T dwStringLen)
+__inline LONG StrToNum32(LPCSTR lpcszString,size_t dwStringLen)
 {
 	LONG lNum=0,lSingn=1;
 	BYTE bCurentFigure;
@@ -275,7 +275,7 @@ return(lNum);
 }
 
 
-__inline LONGLONG StrToNum64(LPCSTR lpcszString,SIZE_T dwStringLen)
+__inline LONGLONG StrToNum64(LPCSTR lpcszString,size_t dwStringLen)
 {
 	LONGLONG llNum=0,llSingn=1;
 	BYTE bCurentFigure;
@@ -307,10 +307,10 @@ return(llNum);
 
 
 
-__inline DWORD StrToNumEx(LPCSTR lpcszString,SIZE_T dwStringLen,SSIZE_T *plNum)
+__inline DWORD StrToNumEx(LPCSTR lpcszString,size_t dwStringLen,SSIZE_T *plNum)
 {
 	DWORD dwRetErrorCode;
-	SIZE_T dwProcessed=0;
+	size_t dwProcessed=0;
 	SSIZE_T lNum=0,lSingn=1;
 	BYTE bCurentFigure;
 
@@ -352,10 +352,10 @@ return(dwRetErrorCode);
 }
 
 
-__inline DWORD StrToNumEx32(LPCSTR lpcszString,SIZE_T dwStringLen,LONG *plNum)
+__inline DWORD StrToNumEx32(LPCSTR lpcszString,size_t dwStringLen,LONG *plNum)
 {
 	DWORD dwRetErrorCode;
-	SIZE_T dwProcessed=0;
+	size_t dwProcessed=0;
 	LONG lNum=0,lSingn=1;
 	BYTE bCurentFigure;
 
@@ -397,10 +397,10 @@ return(dwRetErrorCode);
 }
 
 
-__inline DWORD StrToNumEx64(LPCSTR lpcszString,SIZE_T dwStringLen,LONGLONG *pllNum)
+__inline DWORD StrToNumEx64(LPCSTR lpcszString,size_t dwStringLen,LONGLONG *pllNum)
 {
 	DWORD dwRetErrorCode;
-	SIZE_T dwProcessed=0;
+	size_t dwProcessed=0;
 	LONGLONG llNum=0,llSingn=1;
 	BYTE bCurentFigure;
 

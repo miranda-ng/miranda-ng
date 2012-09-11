@@ -1,2288 +1,1179 @@
 #include "Mra.h"
 #include "proto.h"
 
-
-
-
-
-INT_PTR		MraXStatusMenu			(WPARAM wParam,LPARAM lParam,LPARAM param);
-
-int			MraContactDeleted		(WPARAM wParam,LPARAM lParam);
-int			MraDbSettingChanged		(WPARAM wParam,LPARAM lParam);
-int			MraRebuildContactMenu	(WPARAM wParam,LPARAM lParam);
-int			MraExtraIconsApply		(WPARAM wParam,LPARAM lParam);
-int			MraExtraIconsRebuild	(WPARAM wParam,LPARAM lParam);
-int			MraRebuildStatusMenu	(WPARAM wParam,LPARAM lParam);
-int			MraMusicChanged			(WPARAM wParam,LPARAM lParam);
-
-DWORD		MraSendNewStatus		(DWORD dwStatusMir,DWORD dwXStatusMir,LPWSTR lpwszStatusTitle,SIZE_T dwStatusTitleSize,LPWSTR lpwszStatusDesc,SIZE_T dwStatusDescSize);
-
-
-HANDLE		AddToListByEmail		(MRA_LPS *plpsEMail,MRA_LPS *plpsNick,MRA_LPS *plpsFirstName,MRA_LPS *plpsLastName,DWORD dwFlags);
-
-
-
-INT_PTR LoadServices(void)
+const GUI_DISPLAY_ITEM gdiMenuItems[] = 
 {
-	CHAR szServiceFunction[MAX_PATH],*pszServiceFunctionName;
+	{ MRA_GOTO_INBOX,         MRA_GOTO_INBOX_STR,         IDI_INBOX,          &CMraProto::MraGotoInbox }, 
+	{ MRA_SHOW_INBOX_STATUS,  MRA_SHOW_INBOX_STATUS_STR,  IDI_MAIL_NOTIFY,    &CMraProto::MraShowInboxStatus }, 
+	{ MRA_EDIT_PROFILE,       MRA_EDIT_PROFILE_STR,       IDI_PROFILE,        &CMraProto::MraEditProfile }, 
+	{ MRA_MY_ALBUM,           MRA_MY_ALBUM_STR,           IDI_MRA_PHOTO,      &CMraProto::MyAlbum }, 
+	{ MRA_MY_BLOG,            MRA_MY_BLOG_STR,            IDI_MRA_BLOGS,      &CMraProto::MyBlog }, 
+	{ MRA_MY_BLOGSTATUS,      MRA_MY_BLOGSTATUS_STR,      IDI_BLOGSTATUS,     &CMraProto::MyBlogStatus }, 
+	{ MRA_MY_VIDEO,           MRA_MY_VIDEO_STR,           IDI_MRA_VIDEO,      &CMraProto::MyVideo }, 
+	{ MRA_MY_ANSWERS,         MRA_MY_ANSWERS_STR,         IDI_MRA_ANSWERS,    &CMraProto::MyAnswers }, 
+	{ MRA_MY_WORLD,           MRA_MY_WORLD_STR,           IDI_MRA_WORLD,      &CMraProto::MyWorld }, 
+	{ MRA_ZHUKI,              MRA_ZHUKI_STR,              IDI_MRA_ZHUKI,      &CMraProto::MraZhuki }, 
+	{ MRA_CHAT,               MRA_CHAT_STR,               IDI_MRA_CHAT,       &CMraProto::MraChat }, 
+	{ MRA_WEB_SEARCH,         MRA_WEB_SEARCH_STR,         IDI_MRA_WEB_SEARCH, &CMraProto::MraWebSearch }, 
+	{ MRA_UPD_ALL_USERS_INFO, MRA_UPD_ALL_USERS_INFO_STR, IDI_PROFILE,        &CMraProto::MraUpdateAllUsersInfo }, 
+	{ MRA_CHK_USERS_AVATARS,  MRA_CHK_USERS_AVATARS_STR,  IDI_PROFILE,        &CMraProto::MraCheckUpdatesUsersAvt }, 
+	{ MRA_REQ_AUTH_FOR_ALL,   MRA_REQ_AUTH_FOR_ALL_STR,   IDI_AUTHRUGUEST,    &CMraProto::MraRequestAuthForAll }
+};
 
-	memmove(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
-	pszServiceFunctionName=szServiceFunction+PROTOCOL_NAME_LEN;
+const int gdiMenuItemsCount = SIZEOF(gdiMenuItems);
 
-	// Service creation
-	for (SIZE_T i=0;i<SIZEOF(siPluginServices);i++) {
-		memmove(pszServiceFunctionName,siPluginServices[i].lpszName,(lstrlenA(siPluginServices[i].lpszName)+1));
-		CreateServiceFunction(szServiceFunction,siPluginServices[i].lpFunc);
-	}
-
-	DebugPrintCRLFW(L"MRA/LoadServices - DONE");
-return(0);
-}
-
-
-INT_PTR LoadModules(void)
+const GUI_DISPLAY_ITEM gdiContactMenuItems[] = 
 {
-	CHAR szServiceFunction[MAX_PATH],*pszServiceFunctionName;
+	{ MRA_REQ_AUTH,           MRA_REQ_AUTH_STR,           IDI_AUTHRUGUEST,    &CMraProto::MraRequestAuthorization }, 
+	{ MRA_GRANT_AUTH,         MRA_GRANT_AUTH_STR,         IDI_AUTHGRANT,      &CMraProto::MraGrantAuthorization }, 
+	{ MRA_SEND_POSTCARD,      MRA_SEND_POSTCARD_STR,      IDI_MRA_POSTCARD,   &CMraProto::MraSendPostcard }, 
+	{ MRA_VIEW_ALBUM,         MRA_VIEW_ALBUM_STR,         IDI_MRA_PHOTO,      &CMraProto::MraViewAlbum }, 
+	{ MRA_READ_BLOG,          MRA_READ_BLOG_STR    ,      IDI_MRA_BLOGS,      &CMraProto::MraReadBlog }, 
+	{ MRA_REPLY_BLOG_STATUS,  MRA_REPLY_BLOG_STATUS_STR,  IDI_BLOGSTATUS,     &CMraProto::MraReplyBlogStatus }, 
+	{ MRA_VIEW_VIDEO,         MRA_VIEW_VIDEO_STR,         IDI_MRA_VIDEO,      &CMraProto::MraViewVideo }, 
+	{ MRA_ANSWERS,            MRA_ANSWERS_STR,            IDI_MRA_ANSWERS,    &CMraProto::MraAnswers }, 
+	{ MRA_WORLD,              MRA_WORLD_STR,              IDI_MRA_WORLD,      &CMraProto::MraWorld }, 
+	{ MRA_SEND_NUDGE,         MRA_SENDNUDGE_STR,          IDI_MRA_ALARM,      NULL }
+};
 
-	memmove(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
-	pszServiceFunctionName=szServiceFunction+PROTOCOL_NAME_LEN;
+const int gdiContactMenuItemsCount = SIZEOF(gdiContactMenuItems);
 
-	IconsLoad();
-	masMraSettings.hExtraXstatusIcon=ExtraIcon_Register("MRAXstatus","Mail.ru Xstatus","MRA_xstatus25",MraExtraIconsRebuild,MraExtraIconsApply,NULL,NULL);
-	masMraSettings.hExtraInfo=ExtraIcon_Register("MRAStatus","Mail.ru extra info","MRA_xstatus49",MraExtraIconsRebuild,MraExtraIconsApply,NULL,NULL);
-
-
-	masMraSettings.hHookOptInitialize=HookEvent(ME_OPT_INITIALISE,OptInit);
-	masMraSettings.hHookContactDeleted=HookEvent(ME_DB_CONTACT_DELETED,MraContactDeleted);
-	masMraSettings.hHookSettingChanged=HookEvent(ME_DB_CONTACT_SETTINGCHANGED,MraDbSettingChanged);
-	masMraSettings.hHookRebuildCMenu=HookEvent(ME_CLIST_PREBUILDCONTACTMENU,MraRebuildContactMenu);
-	if (ServiceExists(MS_NUDGE_SEND)) 
-	{
-		memmove(pszServiceFunctionName,MS_NUDGE,sizeof(MS_NUDGE));
-		masMraSettings.heNudgeReceived=CreateHookableEvent(szServiceFunction);
-	}
-	masMraSettings.hHookExtraIconsApply=HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,MraExtraIconsApply);
-	masMraSettings.hHookExtraIconsRebuild=HookEvent(ME_CLIST_EXTRA_LIST_REBUILD,MraExtraIconsRebuild);
-
-	// Main menu initialization
-	HICON hMainIcon = (HICON)LoadImage(masMraSettings.hInstance,MAKEINTRESOURCE(IDI_MRA),IMAGE_ICON,0,0,LR_SHARED);
-	CListCreateMenu(200001,500085000,hMainIcon,NULL,TRUE,gdiMenuItems,masMraSettings.hMainMenuIcons,SIZEOF(gdiMenuItems),masMraSettings.hMainMenuItems);
-
-	// Contact menu initialization
-	CListCreateMenu(2000060000,-500050000,NULL,NULL,FALSE,gdiContactMenuItems,masMraSettings.hContactMenuIcons,(SIZEOF(gdiContactMenuItems) - ((masMraSettings.heNudgeReceived==NULL)? 0:1)),masMraSettings.hContactMenuItems);
-
-	// xstatus menu
-	InitXStatusIcons();
-	for(SIZE_T i=0;i<MRA_XSTATUS_COUNT;i++) {
-		mir_snprintf(pszServiceFunctionName,(SIZEOF(szServiceFunction)-PROTOCOL_NAME_LEN),"/menuXStatus%ld",i);
-		CreateServiceFunctionParam(szServiceFunction,MraXStatusMenu,i);
-	}
-
-	masMraSettings.bHideXStatusUI=FALSE;
-	masMraSettings.dwXStatusMode=DB_Mra_GetByte(NULL,DBSETTING_XSTATUSID,MRA_MIR_XSTATUS_NONE);
-	if (IsXStatusValid(masMraSettings.dwXStatusMode)==FALSE) masMraSettings.dwXStatusMode=MRA_MIR_XSTATUS_NONE;
-
-	masMraSettings.hHookRebuildStatusMenu=HookEvent(ME_CLIST_PREBUILDSTATUSMENU,MraRebuildStatusMenu);
-	MraRebuildStatusMenu(0,0);
-
-	MraExtraIconsRebuild(0,0);
-
-	masMraSettings.hWATrack=HookEvent(ME_WAT_NEWSTATUS,MraMusicChanged);
-
-
-	mir_snprintf(masMraSettings.szNewMailSound,SIZEOF(masMraSettings.szNewMailSound),"%s: %s",PROTOCOL_NAMEA,MRA_SOUND_NEW_EMAIL);
-	SkinAddNewSoundEx(masMraSettings.szNewMailSound,PROTOCOL_NAMEA,MRA_SOUND_NEW_EMAIL);
-
-	masMraSettings.bChatExist=MraChatRegister();
-
-
-	DebugPrintCRLFW(L"MRA/LoadModules - DONE");
-return(0);
-}
-
-
-void UnloadModules()
+const GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[]  = 
 {
-	CHAR szServiceFunction[MAX_PATH],*pszServiceFunctionName;
+   { ADV_ICON_DELETED_ID,        ADV_ICON_DELETED_STR,      	(INT_PTR)IDI_ERROR, NULL }, 
+   { ADV_ICON_NOT_ON_SERVER_ID,  ADV_ICON_NOT_ON_SERVER_STR, 	IDI_AUTHGRANT,      NULL }, 
+   { ADV_ICON_NOT_AUTHORIZED_ID, ADV_ICON_NOT_AUTHORIZED_STR, 	IDI_AUTHRUGUEST,    NULL }, 
+   { ADV_ICON_PHONE_ID,          ADV_ICON_PHONE_STR,           IDI_MRA_PHONE,      NULL }, 
+   { ADV_ICON_BLOGSTATUS_ID,     ADV_ICON_BLOGSTATUS_STR,   	IDI_BLOGSTATUS,     NULL }, 
+};
 
-	memmove(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
-	pszServiceFunctionName=szServiceFunction+PROTOCOL_NAME_LEN;
+const int gdiExtraStatusIconsItemsCount = SIZEOF(gdiExtraStatusIconsItems);
 
-	if (masMraSettings.bChatExist)
-	{// destroy all chat sessions
-		MraChatSessionDestroy(NULL);
-	}
-
-	// xstatus menu destroy
-	if (masMraSettings.hHookRebuildStatusMenu) {
-		UnhookEvent(masMraSettings.hHookRebuildStatusMenu);
-		masMraSettings.hHookRebuildStatusMenu=NULL;
-	}
-
-	bzero(masMraSettings.hXStatusMenuItems,sizeof(masMraSettings.hXStatusMenuItems));
-	
-	// Service deletion
-	for(SIZE_T i=0;i<MRA_XSTATUS_COUNT;i++) {
-		mir_snprintf(pszServiceFunctionName,(SIZEOF(szServiceFunction)-PROTOCOL_NAME_LEN),"/menuXStatus%ld",i);
-		DestroyServiceFunction(szServiceFunction);
-	}
-	DestroyXStatusIcons();
-
-	// Main menu destroy
-	CListDestroyMenu(gdiMenuItems,SIZEOF(gdiMenuItems));
-	bzero(masMraSettings.hMainMenuItems,sizeof(masMraSettings.hMainMenuItems));
-
-	// Contact menu destroy
-	CListDestroyMenu(gdiContactMenuItems,(SIZEOF(gdiContactMenuItems) - ((masMraSettings.heNudgeReceived==NULL)? 0:1)));
-	bzero(masMraSettings.hContactMenuItems,sizeof(masMraSettings.hContactMenuItems));
-
-	if (masMraSettings.heNudgeReceived)			{DestroyHookableEvent(masMraSettings.heNudgeReceived);	masMraSettings.heNudgeReceived=NULL;}
-	if (masMraSettings.hWATrack)				{UnhookEvent(masMraSettings.hWATrack);					masMraSettings.hWATrack=NULL;}
-	if (masMraSettings.hHookIconsChanged)		{UnhookEvent(masMraSettings.hHookIconsChanged);			masMraSettings.hHookIconsChanged=NULL;}
-	if (masMraSettings.hHookExtraIconsRebuild)	{UnhookEvent(masMraSettings.hHookExtraIconsRebuild);	masMraSettings.hHookExtraIconsRebuild=NULL;}
-	if (masMraSettings.hHookExtraIconsApply)	{UnhookEvent(masMraSettings.hHookExtraIconsApply);		masMraSettings.hHookExtraIconsApply=NULL;}
-	if (masMraSettings.hHookRebuildCMenu)		{UnhookEvent(masMraSettings.hHookRebuildCMenu);			masMraSettings.hHookRebuildCMenu=NULL;}
-	if (masMraSettings.hHookSettingChanged)		{UnhookEvent(masMraSettings.hHookSettingChanged);		masMraSettings.hHookSettingChanged=NULL;}
-	if (masMraSettings.hHookContactDeleted)		{UnhookEvent(masMraSettings.hHookContactDeleted);		masMraSettings.hHookContactDeleted=NULL;}
-	if (masMraSettings.hHookOptInitialize)		{UnhookEvent(masMraSettings.hHookOptInitialize);		masMraSettings.hHookOptInitialize=NULL;}
-
-	IconsUnLoad();
-
-
-	DebugPrintCRLFW(L"MRA/UnloadModules - DONE");
-}
-
-
-void UnloadServices()
+const LPSTR lpcszStatusUri[] = 
 {
-	CHAR szServiceFunction[MAX_PATH],*pszServiceFunctionName;
+	"", // offline // "status_0", 
+	"STATUS_ONLINE", // "status_1", 
+	"STATUS_AWAY", 	// "status_2", 
+	"STATUS_INVISIBLE", // "status_3", 
+	"status_dnd", 
+	"status_chat", 
+	"status_4", 
+	"status_5", 
+	"status_6", 
+	"status_7", 
+	"status_8", 
+	"status_9", 
+	"status_10", 
+	"status_11", 
+	"status_12", 
+	"status_13", 
+	"status_14", 
+	"status_15", 
+	"status_16", 
+	"status_17", 
+	"status_18", 
+	"status_19", 
+	"status_20", 
+	"status_21", 
+	"status_22", 
+	"status_23", 
+	"status_24", 
+	//"status_25", // chat/dnd
+	"status_26", 
+	"status_27", 
+	"status_28", 
+	"status_29", 
+	"status_30", 
+	//"status_31", // chat/dnd
+	"status_32", 
+	"status_33", 
+	"status_34", 
+	"status_35", 
+	"status_36", 
+	"status_37", 
+	"status_38", 
+	"status_39", 
+	"status_40", 
+	"status_41", 
+	"status_42", 
+	"status_43", 
+	"status_44", 
+	"status_45", 
+	"status_46", 
+	"status_47", 
+	"status_48", 
+	"status_49", 
+	"status_50", 
+	"status_51", 
+	"status_52", 
+	"status_53", 
+	"status_dating", 
+	//"status_127", 145, 154
+	NULL
+};
 
-	memmove(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
-	pszServiceFunctionName=szServiceFunction+PROTOCOL_NAME_LEN;
-
-
-	// destroy plugin services
-	for (SIZE_T i=0;i<SIZEOF(siPluginServices);i++)
-	{
-		memmove(pszServiceFunctionName,siPluginServices[i].lpszName,(lstrlenA(siPluginServices[i].lpszName)+1));
-		DestroyServiceFunction(szServiceFunction);
-	}
-
-	DebugPrintCRLFW(L"MRA/UnloadServices - DONE");
-}
-
-
-
-void SetExtraIcons(HANDLE hContact)
+const LPWSTR lpcszXStatusNameDef[] = 
 {
-	if(masMraSettings.hHookExtraIconsApply)
-	{
-		DWORD dwID,dwGroupID,dwContactSeverFlags;
+	L"None", 
+	L"Sick", 
+	L"Home", 
+	L"Eating", 
+	L"Compass", 
+	L"On WC", 
+	L"Cooking", 
+	L"Walking", 
+	L"Alien", 
+	L"Shrimp", 
+	L"Got lost", 
+	L"Crazy", 
+	L"Duck", 
+	L"Playing", 
+	L"Smoking", 
+	L"Office", 
+	L"Meeting", 
+	L"Beer", 
+	L"Coffee", 
+	L"Working", 
+	L"Relaxing", 
+	L"On the phone", 
+	L"In institute", 
+	L"At school", 
+	L"Wrong number", 
+	L"Laughing", 
+	L"Malicious", 
+	L"Imp", 
+	L"Blind", 
+	L"Disappointed", 
+	L"Almost crying", 
+	L"Fearful", 
+	L"Angry", 
+	L"Vampire", 
+	L"Ass", 
+	L"Love", 
+	L"Sleeping", 
+	L"Cool!", 
+	L"Peace!", 
+	L"Cock a snook", 
+	L"Get out", 
+	L"Death", 
+	L"Rocket", 
+	L"Devil-fish", 
+	L"Heavy metal", 
+	L"Things look bad", 
+	L"Squirrel", 
+	L"Star", 
+	L"Music", 
+	L"Dating", 
+	NULL
+};
 
-		if (GetContactBasicInfoW(hContact,&dwID,&dwGroupID,NULL,&dwContactSeverFlags,NULL,NULL,0,NULL,NULL,0,NULL,NULL,0,NULL)==NO_ERROR)
-		{
-			DWORD dwIconID=-1;
-			DWORD dwXStatus=MRA_MIR_XSTATUS_NONE;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			if(masMraSettings.bLoggedIn)
-			{
-				dwXStatus=DB_Mra_GetByte(hContact,DBSETTING_XSTATUSID,MRA_MIR_XSTATUS_NONE);
-
-				if(dwID==-1)
-				{
-					if(dwContactSeverFlags==-1)
-					{
-						dwIconID=ADV_ICON_DELETED;
-					}else{
-						dwIconID=ADV_ICON_NOT_ON_SERVER;
-					}
-				}else{
-					if (dwGroupID==103)
-					{//***deb
-						dwIconID=ADV_ICON_PHONE;
-					}else{
-						if(dwContactSeverFlags)
-						if(dwContactSeverFlags==-1)
-						{
-							dwIconID=ADV_ICON_DELETED;
-						}else{
-							dwIconID=ADV_ICON_NOT_AUTHORIZED;
-						}
-					}
-				}
-			}
-
-			if (dwIconID==-1)
-			{
-				SIZE_T dwBlogStatusMsgSize=0;
-
-				DB_Mra_GetStaticStringW(hContact,DBSETTING_BLOGSTATUS,NULL,0,&dwBlogStatusMsgSize);
-				if (dwBlogStatusMsgSize) dwIconID=ADV_ICON_BLOGSTATUS;
-			}
-
-			ExtraSetIcon(masMraSettings.hExtraXstatusIcon,hContact,((IsXStatusValid(dwXStatus) || dwXStatus==MRA_MIR_XSTATUS_UNKNOWN)? masMraSettings.hXStatusAdvancedStatusItems[dwXStatus]:NULL),EXTRA_ICON_ADV1);
-			ExtraSetIcon(masMraSettings.hExtraInfo,hContact,((dwIconID!=-1)? masMraSettings.hAdvancedStatusItems[dwIconID]:NULL),EXTRA_ICON_ADV2);
-		}
-	}
-}
-
-
-
-INT_PTR MraXStatusMenu(WPARAM wParam,LPARAM lParam,LPARAM param)
+void CMraProto::SetExtraIcons(HANDLE hContact)
 {
-	if (MraRequestXStatusDetails(param)==FALSE) MraSetXStatusInternal(param);
-return(0);
-}
+	if (!hHookExtraIconsApply)
+		return;
 
+	DWORD dwID, dwGroupID, dwContactSeverFlags;
+	if ( GetContactBasicInfoW(hContact, &dwID, &dwGroupID, NULL, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL))
+		return;
 
-INT_PTR MraGotoInbox(WPARAM wParam,LPARAM lParam)
-{
-	MraMPopSessionQueueAddUrl(masMraSettings.hMPopSessionQueue,MRA_WIN_INBOX_URL,sizeof(MRA_WIN_INBOX_URL));
-return(0);
-}
+	DWORD dwIconID = -1;
+	DWORD dwXStatus = MRA_MIR_XSTATUS_NONE;
 
-INT_PTR MraShowInboxStatus(WPARAM wParam,LPARAM lParam)
-{
-	MraUpdateEmailStatus(NULL,0,NULL,0,0,0);
-return(0);
-}
-
-INT_PTR MraSendSMS(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=0;
-
-	if (masMraSettings.bLoggedIn && wParam && lParam)
-	{
-		LPSTR lpszMessageUTF;
-		LPWSTR lpwszMessageXMLEncoded,lpwszMessageXMLDecoded;
-		SIZE_T dwMessageUTFSize,dwBuffLen,dwMessageXMLEncodedSize,dwMessageXMLDecodedSize;
-
-		lpszMessageUTF=(LPSTR)lParam;
-		dwMessageUTFSize=lstrlenA(lpszMessageUTF);
-		dwBuffLen=(dwMessageUTFSize+MAX_PATH);
-		lpwszMessageXMLEncoded=(LPWSTR)MEMALLOC((dwBuffLen*sizeof(WCHAR)));
-		lpwszMessageXMLDecoded=(LPWSTR)MEMALLOC((dwBuffLen*sizeof(WCHAR)));
-		if (lpwszMessageXMLEncoded && lpwszMessageXMLDecoded)
-		{
-			dwMessageXMLEncodedSize=MultiByteToWideChar(CP_UTF8,0,lpszMessageUTF,dwMessageUTFSize,lpwszMessageXMLEncoded,dwBuffLen);
-			DecodeXML(lpwszMessageXMLEncoded,dwMessageXMLEncodedSize,lpwszMessageXMLDecoded,dwBuffLen,&dwMessageXMLDecodedSize);
-
-			if (dwMessageXMLDecodedSize)
-			{
-				iRet=MraSendCommand_SMSW(NULL,(LPSTR)wParam,lstrlenA((LPSTR)wParam),lpwszMessageXMLDecoded,dwMessageXMLDecodedSize);
-				/*{// имитируем получение смс
-					char szBuff[16384];
-					DWORD dwFlags;
-					MRA_LPS lpsEMail,lpsText,lpsRTFText={0};
-
-					dwFlags=(MESSAGE_FLAG_SMS|MESSAGE_FLAG_CP1251);
-					lpsEMail.lpszData=(LPSTR)wParam;
-					lpsEMail.dwSize=lstrlenA(lpsEMail.lpszData);
-					lpsText.lpszData=szBuff;//LPS ## message ## текстовая версия сообщения
-					lpsText.dwSize=WideCharToMultiByte(MRA_CODE_PAGE,0,lpwszMessageXMLDecoded,dwMessageXMLDecodedSize,szBuff,sizeof(szBuff),NULL,NULL);
-
-					MraRecvCommand_Message((DWORD)_time32(NULL),dwFlags,&lpsEMail,&lpsText,&lpsRTFText,NULL);
-				}//*/
-			}else{// conversion failed?
-				DebugBreak();
+	if (m_bLoggedIn) {
+		dwXStatus = mraGetByte(hContact, DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
+		if (dwID == -1)
+			dwIconID = (dwContactSeverFlags == -1) ? ADV_ICON_DELETED : ADV_ICON_NOT_ON_SERVER;
+		else {
+			if (dwGroupID == 103)
+				dwIconID = ADV_ICON_PHONE;
+			else {
+				if (dwContactSeverFlags)
+				if (dwContactSeverFlags == -1)
+					dwIconID = ADV_ICON_DELETED;
+				else
+					dwIconID = ADV_ICON_NOT_AUTHORIZED;
 			}
 		}
-		MEMFREE(lpwszMessageXMLDecoded);
-		MEMFREE(lpwszMessageXMLEncoded);
 	}
-return(iRet);
+
+	if (dwIconID == -1) {
+		size_t dwBlogStatusMsgSize = 0;
+
+		mraGetStaticStringW(hContact, DBSETTING_BLOGSTATUS, NULL, 0, &dwBlogStatusMsgSize);
+		if (dwBlogStatusMsgSize) dwIconID = ADV_ICON_BLOGSTATUS;
+	}
+
+	ExtraSetIcon(hExtraXstatusIcon, hContact, (( IsXStatusValid(dwXStatus) || dwXStatus == MRA_MIR_XSTATUS_UNKNOWN)? hXStatusAdvancedStatusItems[dwXStatus]:NULL), EXTRA_ICON_ADV1);
+	ExtraSetIcon(hExtraInfo, hContact, ((dwIconID != -1) ? hAdvancedStatusItems[dwIconID]:NULL), EXTRA_ICON_ADV2);
 }
 
-INT_PTR MraEditProfile(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraXStatusMenu(WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	MraMPopSessionQueueAddUrl(masMraSettings.hMPopSessionQueue,MRA_EDIT_PROFILE_URL,sizeof(MRA_EDIT_PROFILE_URL));
-return(0);
+	if ( MraRequestXStatusDetails(param) == FALSE)
+		MraSetXStatusInternal(param);
+	return 0;
 }
 
-INT_PTR MyAlbum(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraGotoInbox(WPARAM wParam, LPARAM lParam)
 {
-return(MraViewAlbum(0,0));
+	MraMPopSessionQueueAddUrl(hMPopSessionQueue, MRA_WIN_INBOX_URL, sizeof(MRA_WIN_INBOX_URL));
+	return 0;
 }
 
-INT_PTR MyBlog(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraShowInboxStatus(WPARAM wParam, LPARAM lParam)
 {
-return(MraReadBlog(0,0));
+	MraUpdateEmailStatus(NULL, 0, NULL, 0, 0, 0);
+	return 0;
 }
 
-INT_PTR MyBlogStatus(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraSendSMS(WPARAM wParam, LPARAM lParam)
 {
-return(MraReplyBlogStatus(0,0));
+	if (!m_bLoggedIn || !wParam || !lParam)
+		return 0;
+
+	mir_ptr<WCHAR> lpwszMessageXMLEncoded( mir_utf8decodeW((LPSTR)lParam));
+	size_t dwBuffLen = lstrlenA((LPSTR)lParam) + MAX_PATH;
+	LPWSTR lpwszMessageXMLDecoded = (LPWSTR)mir_calloc((dwBuffLen*sizeof(WCHAR)));
+	if (lpwszMessageXMLEncoded && lpwszMessageXMLDecoded) {
+		size_t dwMessageXMLDecodedSize;
+		DecodeXML(lpwszMessageXMLEncoded, lstrlen(lpwszMessageXMLEncoded), lpwszMessageXMLDecoded, dwBuffLen, &dwMessageXMLDecodedSize);
+		if (dwMessageXMLDecodedSize)
+			MraSMSW(NULL, (LPSTR)wParam , lstrlenA((LPSTR)wParam), lpwszMessageXMLDecoded, dwMessageXMLDecodedSize);
+	}
+	mir_free(lpwszMessageXMLDecoded);
+	return 0;
 }
 
-INT_PTR MyVideo(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraEditProfile(WPARAM wParam, LPARAM lParam)
 {
-return(MraViewVideo(0,0));
+	MraMPopSessionQueueAddUrl(hMPopSessionQueue, MRA_EDIT_PROFILE_URL, sizeof(MRA_EDIT_PROFILE_URL));
+	return 0;
 }
 
-INT_PTR MyAnswers(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MyAlbum(WPARAM wParam, LPARAM lParam)
 {
-return(MraAnswers(0,0));
+	return MraViewAlbum(0, 0);
 }
 
-INT_PTR MyWorld(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MyBlog(WPARAM wParam, LPARAM lParam)
 {
-return(MraWorld(0,0));
+	return MraReadBlog(0, 0);
 }
 
-INT_PTR MraZhuki(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MyBlogStatus(WPARAM wParam, LPARAM lParam)
 {
-	MraMPopSessionQueueAddUrl(masMraSettings.hMPopSessionQueue,MRA_ZHUKI_URL,sizeof(MRA_ZHUKI_URL));
-return(0);
+	return MraReplyBlogStatus(0, 0);
 }
 
-INT_PTR MraChat(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MyVideo(WPARAM wParam, LPARAM lParam)
 {
-	MraMPopSessionQueueAddUrl(masMraSettings.hMPopSessionQueue,MRA_CHAT_URL,sizeof(MRA_CHAT_URL));
-return(0);
+	return MraViewVideo(0, 0);
 }
 
-INT_PTR MraWebSearch(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MyAnswers(WPARAM wParam, LPARAM lParam)
 {
-	CallService(MS_UTILS_OPENURL,TRUE,(LPARAM)MRA_SEARCH_URL);
-return(0);
+	return MraAnswers(0, 0);
 }
 
-INT_PTR MraUpdateAllUsersInfo(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MyWorld(WPARAM wParam, LPARAM lParam)
 {
-	if (MessageBox(NULL,TranslateW(L"Are you sure?"),TranslateW(MRA_UPD_ALL_USERS_INFO_STR),(MB_YESNO|MB_ICONQUESTION))==IDYES)
-	{
-		CHAR szEMail[MAX_EMAIL_LEN];
-		SIZE_T dwEMailSize;
-		HANDLE hContact;
+	return MraWorld(0, 0);
+}
 
-		for(hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);hContact!=NULL;hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
-		{
+INT_PTR CMraProto::MraZhuki(WPARAM wParam, LPARAM lParam)
+{
+	MraMPopSessionQueueAddUrl(hMPopSessionQueue, MRA_ZHUKI_URL, sizeof(MRA_ZHUKI_URL));
+	return 0;
+}
+
+INT_PTR CMraProto::MraChat(WPARAM wParam, LPARAM lParam)
+{
+	MraMPopSessionQueueAddUrl(hMPopSessionQueue, MRA_CHAT_URL, sizeof(MRA_CHAT_URL));
+	return 0;
+}
+
+INT_PTR CMraProto::MraWebSearch(WPARAM wParam, LPARAM lParam)
+{
+	CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)MRA_SEARCH_URL);
+	return 0;
+}
+
+INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
+{
+	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES ) {
+		for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); 
+			  hContact != NULL; 
+			  hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0)) {
+			size_t dwEMailSize;
+			CHAR szEMail[MAX_EMAIL_LEN];
+			if ( IsContactMra(hContact))
+			if ( mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
+				MraWPRequestByEMail(hContact, ACKTYPE_GETINFO, szEMail, dwEMailSize);
+		}
+	}
+	return 0;
+}
+
+INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
+{
+	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+		for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); 
+			  hContact != NULL; 
+			  hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0)) {
+			size_t dwEMailSize;
+			CHAR szEMail[MAX_EMAIL_LEN];
+
 			if (IsContactMra(hContact))
-			if (DB_Mra_GetStaticStringA(hContact,"e-mail",szEMail,SIZEOF(szEMail),&dwEMailSize))
-			{
-				MraSendCommand_WPRequestByEMail(hContact,ACKTYPE_GETINFO,szEMail,dwEMailSize);
-			}
+			if (mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
+			if (IsEMailChatAgent(szEMail, dwEMailSize) == FALSE)// только для оптимизации, MraAvatarsQueueGetAvatarSimple сама умеет фильтровать чатконтакты
+				MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, 0/*GAIF_FORCE*/, hContact, 0);
 		}
 	}
-	return(0);
+	return 0;
 }
 
-INT_PTR MraCheckUpdatesUsersAvt(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 {
-	if (MessageBox(NULL,TranslateW(L"Are you sure?"),TranslateW(MRA_CHK_UPDATES_USERS_AVATARS_STR),(MB_YESNO|MB_ICONQUESTION))==IDYES)
-	{
-		CHAR szEMail[MAX_EMAIL_LEN];
-		SIZE_T dwEMailSize;
-		HANDLE hContact;
-
-		for(hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);hContact!=NULL;hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
-		{
-			if (IsContactMra(hContact))
-			if (DB_Mra_GetStaticStringA(hContact,"e-mail",szEMail,SIZEOF(szEMail),&dwEMailSize))
-			if (IsEMailChatAgent(szEMail,dwEMailSize)==FALSE)// только для оптимизации, MraAvatarsQueueGetAvatarSimple сама умеет фильтровать чатконтакты
-				MraAvatarsQueueGetAvatarSimple(masMraSettings.hAvatarsQueueHandle,0/*GAIF_FORCE*/,hContact,0);
+	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_REQ_AUTH_FOR_ALL_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+		for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); 
+			  hContact != NULL; 
+			  hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0)) {
+			DWORD dwContactSeverFlags;
+			if (GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL) == NO_ERROR)
+			if (dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED && dwContactSeverFlags != -1)
+				MraRequestAuthorization((WPARAM)hContact, 0);
 		}
 	}
-	return(0);
+	return 0;
 }
 
-INT_PTR MraRequestAuthForAll(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraRequestAuthorization(WPARAM wParam, LPARAM lParam)
 {
-	if (MessageBox(NULL,TranslateW(L"Are you sure?"),TranslateW(MRA_REQ_AUTH_FOR_ALL_STR),(MB_YESNO|MB_ICONQUESTION))==IDYES)
-	{
-		DWORD dwContactSeverFlags;
-		HANDLE hContact;
-
-		for(hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);hContact!=NULL;hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
-		{
-			if (GetContactBasicInfoW(hContact,NULL,NULL,NULL,&dwContactSeverFlags,NULL,NULL,0,NULL,NULL,0,NULL,NULL,0,NULL)==NO_ERROR)
-			if (dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED && dwContactSeverFlags!=-1)
-			{
-				MraRequestAuthorization((WPARAM)hContact,0);
-			}
-
-			/*if (IsContactMra(hContact))// inviz check
-			//if ((MraContactCapabilitiesGet(hContact)&MRACCF_INVIS_ALLOWED)==0)
-			if (MraGetContactStatus(hContact)==ID_STATUS_OFFLINE || MraGetContactStatus(hContact)==ID_STATUS_INVISIBLE)
-			{
-				CHAR szEMail[MAX_EMAIL_LEN];
-				SIZE_T dwEMailSize;
-
-				if (DB_Mra_GetStaticStringA(hContact,"e-mail",szEMail,SIZEOF(szEMail),&dwEMailSize))
-				{
-					MraSetContactStatus(hContact,ID_STATUS_OFFLINE);
-					MraSendCommand_Game(szEMail,dwEMailSize,111,GAME_CONNECTION_INVITE,222,NULL,0);
-				}
-			}*/
-		}
-	}
-return(0);
-}
-
-
-
-
-INT_PTR MraRequestAuthorization(WPARAM wParam,LPARAM lParam)
-{//**deb add dialog?
-	INT_PTR iRet=0;
-
-	if (wParam)
-	{
+	if (wParam) {
 		WCHAR wszAuthMessage[MAX_PATH];
-		CCSDATA cs={0};
 
-		if (DB_Mra_GetStaticStringW(NULL,"AuthMessage",wszAuthMessage,SIZEOF(wszAuthMessage),NULL)==FALSE)
-		{// def auth message
-			lstrcpynW(wszAuthMessage,TranslateW(MRA_DEFAULT_AUTH_MESSAGE),SIZEOF(wszAuthMessage));
-		}
+		if (mraGetStaticStringW(NULL, "AuthMessage", wszAuthMessage, SIZEOF(wszAuthMessage), NULL) == FALSE)
+			lstrcpynW(wszAuthMessage, TranslateW(MRA_DEFAULT_AUTH_MESSAGE), SIZEOF(wszAuthMessage));
 
-		cs.hContact=(HANDLE)wParam;
-		cs.szProtoService=PSS_AUTHREQUESTW;
-		cs.wParam=PREF_UNICODE;
-		cs.lParam=(LPARAM)wszAuthMessage;
-		iRet=MraSendAuthRequest(0,(LPARAM)&cs);
+		return AuthRequest((HANDLE)wParam, wszAuthMessage);
 	}
-return(iRet);
+	return 0;
 }
 
-INT_PTR MraGrantAuthorization(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraGrantAuthorization(WPARAM wParam, LPARAM lParam)
 {
-	if (masMraSettings.bLoggedIn && wParam)
-	{
+	if (!m_bLoggedIn || !wParam)
+		return 0;
+
+	CHAR szEMail[MAX_EMAIL_LEN];
+	size_t dwEMailSize;
+
+	// send without reason, do we need any ?
+	if (mraGetStaticStringA((HANDLE)wParam, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
+		MraAuthorize(szEMail, dwEMailSize);
+
+	return 0;
+}
+
+INT_PTR CMraProto::MraSendPostcard(WPARAM wParam, LPARAM lParam)
+{
+	if (!m_bLoggedIn)
+		return 0;
+
+	DWORD dwContactEMailCount = GetContactEMailCount((HANDLE)wParam, FALSE);
+	if (dwContactEMailCount) {
+		if (dwContactEMailCount == 1) {
+			size_t dwUrlSize, dwEMailSize;
+			CHAR szUrl[BUFF_SIZE_URL], szEMail[MAX_EMAIL_LEN];
+
+			if ( GetContactFirstEMail((HANDLE)wParam, FALSE, szEMail, SIZEOF(szEMail), &dwEMailSize)) {
+				BuffToLowerCase(szEMail, szEMail, dwEMailSize);
+				dwUrlSize = mir_snprintf(szUrl, SIZEOF(szUrl), "http://cards.mail.ru/event.html?rcptname = %s&rcptemail = %s", GetContactNameA((HANDLE)wParam), szEMail);
+				MraMPopSessionQueueAddUrl(hMPopSessionQueue, szUrl, dwUrlSize);
+			}
+		}
+		else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_SEND_POSTCARD);
+	}
+	return 0;
+}
+
+INT_PTR CMraProto::MraViewAlbum(WPARAM wParam, LPARAM lParam)
+{
+	if (!m_bLoggedIn)
+		return 0;
+
+	DWORD dwContactEMailMRCount = GetContactEMailCount((HANDLE)wParam, TRUE);
+	if (dwContactEMailMRCount) {
+		if (dwContactEMailMRCount == 1) {
+			size_t dwEMailSize;
+			CHAR szEMail[MAX_EMAIL_LEN];
+			if (GetContactFirstEMail((HANDLE)wParam, TRUE, szEMail, SIZEOF(szEMail), &dwEMailSize))
+				MraMPopSessionQueueAddUrlAndEMail(hMPopSessionQueue, MRA_FOTO_URL, sizeof(MRA_FOTO_URL), szEMail, dwEMailSize);
+		}
+		else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_VIEW_ALBUM);
+	}
+	return 0;
+}
+
+INT_PTR CMraProto::MraReadBlog(WPARAM wParam, LPARAM lParam)
+{
+	if (!m_bLoggedIn)
+		return 0;
+
+	DWORD dwContactEMailMRCount = GetContactEMailCount((HANDLE)wParam, TRUE);
+	if (dwContactEMailMRCount)
+	if (dwContactEMailMRCount == 1) {
 		CHAR szEMail[MAX_EMAIL_LEN];
-		SIZE_T dwEMailSize;
-
-		if (DB_Mra_GetStaticStringA((HANDLE)wParam,"e-mail",szEMail,SIZEOF(szEMail),&dwEMailSize))
-		{// send without reason, do we need any ?
-			MraSendCommand_Authorize(szEMail,dwEMailSize);
-
-			//MraChatSessionJoinUser((HANDLE)wParam,"123",3,(DWORD)_time32(NULL));
-
-			/*//if ((MraContactCapabilitiesGet((HANDLE)wParam)&MRACCF_INVIS_ALLOWED)==0)
-			if (MraGetContactStatus((HANDLE)wParam)==ID_STATUS_OFFLINE || MraGetContactStatus((HANDLE)wParam)==ID_STATUS_INVISIBLE)
-			{// inviz check
-				MraSetContactStatus((HANDLE)wParam,ID_STATUS_OFFLINE);
-				MraSendCommand_Game(szEMail,dwEMailSize,111,GAME_CONNECTION_INVITE,222,NULL,0);
-			}*/
-
-			/*MRA_GUID mguidSessionID={0};
-			for(DWORD i=0;i<8;i++)
-			{
-				MraSendCommand_Proxy(szEMail,dwEMailSize,211+i,MRIM_PROXY_TYPE_FILES,"1.txt;111;",10,"172.0.0.1:111;",15,mguidSessionID);
-				MraSendCommand_ProxyAck(j,szEMail,dwEMailSize,111+i,MRIM_PROXY_TYPE_FILES,"1.txt;111;",10,"127.0.0.1:111;",15,mguidSessionID);
-			}//*/
-		}
+		size_t dwEMailSize;
+		if (GetContactFirstEMail((HANDLE)wParam, TRUE, szEMail, SIZEOF(szEMail), &dwEMailSize))
+			MraMPopSessionQueueAddUrlAndEMail(hMPopSessionQueue, MRA_BLOGS_URL, sizeof(MRA_BLOGS_URL), szEMail, dwEMailSize);
 	}
-return(0);
+	else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_READ_BLOG);
+
+	return 0;
 }
 
-INT_PTR MraSendPostcard(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraReplyBlogStatus(WPARAM wParam, LPARAM lParam)
 {
-	if (masMraSettings.bLoggedIn)
-	{
-		DWORD dwContactEMailCount=GetContactEMailCount((HANDLE)wParam,FALSE);
-		
-		if (dwContactEMailCount)
-		if (dwContactEMailCount==1)
-		{
-			SIZE_T dwUrlSize,dwEMailSize;
-			CHAR szUrl[BUFF_SIZE_URL],szEMail[MAX_EMAIL_LEN];
+	if (!m_bLoggedIn)
+		return 0;
 
-			if (GetContactFirstEMail((HANDLE)wParam,FALSE,szEMail,SIZEOF(szEMail),&dwEMailSize))
-			{
-				BuffToLowerCase(szEMail,szEMail,dwEMailSize);
-				dwUrlSize=mir_snprintf(szUrl,SIZEOF(szUrl),"http://cards.mail.ru/event.html?rcptname=%s&rcptemail=%s",GetContactNameA((HANDLE)wParam),szEMail);
-				MraMPopSessionQueueAddUrl(masMraSettings.hMPopSessionQueue,szUrl,dwUrlSize);
-			}
-		}else{// show dialog box
-			MraSelectEMailDlgShow((HANDLE)wParam,MRA_SELECT_EMAIL_TYPE_SEND_POSTCARD);
-		}
-	}
-return(0);
+	size_t dwBlogStatusMsgSize = 0;
+	mraGetStaticStringW((HANDLE)wParam, DBSETTING_BLOGSTATUS, NULL, 0, &dwBlogStatusMsgSize);
+	if (dwBlogStatusMsgSize || wParam == 0)
+		MraSendReplyBlogStatus((HANDLE)wParam);
+
+	return 0;
 }
 
-INT_PTR MraViewAlbum(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraViewVideo(WPARAM wParam, LPARAM lParam)
 {
-	if (masMraSettings.bLoggedIn)
-	{
-		DWORD dwContactEMailMRCount=GetContactEMailCount((HANDLE)wParam,TRUE);
-		
-		if (dwContactEMailMRCount)
-		if (dwContactEMailMRCount==1)
-		{
-			SIZE_T dwEMailSize;
+	if (!m_bLoggedIn)
+		return 0;
+
+	DWORD dwContactEMailMRCount = GetContactEMailCount((HANDLE)wParam, TRUE);
+	if (dwContactEMailMRCount) {
+		if (dwContactEMailMRCount == 1) {
 			CHAR szEMail[MAX_EMAIL_LEN];
-
-			if (GetContactFirstEMail((HANDLE)wParam,TRUE,szEMail,SIZEOF(szEMail),&dwEMailSize))
-			{
-				MraMPopSessionQueueAddUrlAndEMail(masMraSettings.hMPopSessionQueue,MRA_FOTO_URL,sizeof(MRA_FOTO_URL),szEMail,dwEMailSize);
-			}
-		}else{// show dialog box
-			MraSelectEMailDlgShow((HANDLE)wParam,MRA_SELECT_EMAIL_TYPE_VIEW_ALBUM);
+			size_t dwEMailSize;
+			if (GetContactFirstEMail((HANDLE)wParam, TRUE, szEMail, SIZEOF(szEMail), &dwEMailSize))
+				MraMPopSessionQueueAddUrlAndEMail(hMPopSessionQueue, MRA_VIDEO_URL, sizeof(MRA_VIDEO_URL), szEMail, dwEMailSize);
 		}
+		else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_VIEW_VIDEO);
 	}
-return(0);
+	return 0;
 }
 
-INT_PTR MraReadBlog(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraAnswers(WPARAM wParam, LPARAM lParam)
 {
-	if (masMraSettings.bLoggedIn)
-	{
-		DWORD dwContactEMailMRCount=GetContactEMailCount((HANDLE)wParam,TRUE);
-		
-		if (dwContactEMailMRCount)
-		if (dwContactEMailMRCount==1)
-		{
+	if (!m_bLoggedIn)
+		return 0;
+
+	DWORD dwContactEMailMRCount = GetContactEMailCount((HANDLE)wParam, TRUE);
+	if (dwContactEMailMRCount) {
+		if (dwContactEMailMRCount == 1) {
 			CHAR szEMail[MAX_EMAIL_LEN];
-			SIZE_T dwEMailSize;
-
-			if (GetContactFirstEMail((HANDLE)wParam,TRUE,szEMail,SIZEOF(szEMail),&dwEMailSize))
-			{
-				MraMPopSessionQueueAddUrlAndEMail(masMraSettings.hMPopSessionQueue,MRA_BLOGS_URL,sizeof(MRA_BLOGS_URL),szEMail,dwEMailSize);
-			}
-		}else{// show dialog box
-			MraSelectEMailDlgShow((HANDLE)wParam,MRA_SELECT_EMAIL_TYPE_READ_BLOG);
+			size_t dwEMailSize;
+			if (GetContactFirstEMail((HANDLE)wParam, TRUE, szEMail, SIZEOF(szEMail), &dwEMailSize))
+				MraMPopSessionQueueAddUrlAndEMail(hMPopSessionQueue, MRA_ANSWERS_URL, sizeof(MRA_ANSWERS_URL), szEMail, dwEMailSize);
 		}
+		else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_ANSWERS);
 	}
-return(0);
+	return 0;
 }
 
-INT_PTR MraReplyBlogStatus(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraWorld(WPARAM wParam, LPARAM lParam)
 {
-	if (masMraSettings.bLoggedIn)
-	{
-		SIZE_T dwBlogStatusMsgSize=0;
-		
-		DB_Mra_GetStaticStringW((HANDLE)wParam,DBSETTING_BLOGSTATUS,NULL,0,&dwBlogStatusMsgSize);
-		if (dwBlogStatusMsgSize || wParam==0)
-		{
-			MraSendReplyBlogStatus((HANDLE)wParam);
-		}
-	}
-return(0);
-}
+	if (!m_bLoggedIn)
+		return 0;
 
-INT_PTR MraViewVideo(WPARAM wParam,LPARAM lParam)
-{
-	if (masMraSettings.bLoggedIn)
-	{
-		DWORD dwContactEMailMRCount=GetContactEMailCount((HANDLE)wParam,TRUE);
-		
-		if (dwContactEMailMRCount)
-		if (dwContactEMailMRCount==1)
-		{
+	DWORD dwContactEMailMRCount = GetContactEMailCount((HANDLE)wParam, TRUE);
+	if (dwContactEMailMRCount) {
+		if (dwContactEMailMRCount == 1) {
 			CHAR szEMail[MAX_EMAIL_LEN];
-			SIZE_T dwEMailSize;
-
-			if (GetContactFirstEMail((HANDLE)wParam,TRUE,szEMail,SIZEOF(szEMail),&dwEMailSize))
-			{
-				MraMPopSessionQueueAddUrlAndEMail(masMraSettings.hMPopSessionQueue,MRA_VIDEO_URL,sizeof(MRA_VIDEO_URL),szEMail,dwEMailSize);
-			}
-		}else{// show dialog box
-			MraSelectEMailDlgShow((HANDLE)wParam,MRA_SELECT_EMAIL_TYPE_VIEW_VIDEO);
+			size_t dwEMailSize;
+			if (GetContactFirstEMail((HANDLE)wParam, TRUE, szEMail, SIZEOF(szEMail), &dwEMailSize))
+				MraMPopSessionQueueAddUrlAndEMail(hMPopSessionQueue, MRA_WORLD_URL, sizeof(MRA_WORLD_URL), szEMail, dwEMailSize);
 		}
+		else MraSelectEMailDlgShow((HANDLE)wParam, MRA_SELECT_EMAIL_TYPE_WORLD);
 	}
-return(0);
+	return 0;
 }
 
-INT_PTR MraAnswers(WPARAM wParam,LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int CMraProto::MraContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	if (masMraSettings.bLoggedIn)
-	{
-		DWORD dwContactEMailMRCount=GetContactEMailCount((HANDLE)wParam,TRUE);
-		
-		if (dwContactEMailMRCount)
-		if (dwContactEMailMRCount==1)
-		{
-			CHAR szEMail[MAX_EMAIL_LEN];
-			SIZE_T dwEMailSize;
+	HANDLE hContact = (HANDLE)wParam;
+	if (!m_bLoggedIn || !hContact)
+		return 0;
 
-			if (GetContactFirstEMail((HANDLE)wParam,TRUE,szEMail,SIZEOF(szEMail),&dwEMailSize))
-			{
-				MraMPopSessionQueueAddUrlAndEMail(masMraSettings.hMPopSessionQueue,MRA_ANSWERS_URL,sizeof(MRA_ANSWERS_URL),szEMail,dwEMailSize);
-			}
-		}else{// show dialog box
-			MraSelectEMailDlgShow((HANDLE)wParam,MRA_SELECT_EMAIL_TYPE_ANSWERS);
-		}
-	}
-return(0);
-}
-
-INT_PTR MraWorld(WPARAM wParam,LPARAM lParam)
-{
-	if (masMraSettings.bLoggedIn)
-	{
-		DWORD dwContactEMailMRCount=GetContactEMailCount((HANDLE)wParam,TRUE);
-		
-		if (dwContactEMailMRCount)
-		if (dwContactEMailMRCount==1)
-		{
-			CHAR szEMail[MAX_EMAIL_LEN];
-			SIZE_T dwEMailSize;
-
-			if (GetContactFirstEMail((HANDLE)wParam,TRUE,szEMail,SIZEOF(szEMail),&dwEMailSize))
-			{
-				MraMPopSessionQueueAddUrlAndEMail(masMraSettings.hMPopSessionQueue,MRA_WORLD_URL,sizeof(MRA_WORLD_URL),szEMail,dwEMailSize);
-			}
-		}else{// show dialog box
-			MraSelectEMailDlgShow((HANDLE)wParam,MRA_SELECT_EMAIL_TYPE_WORLD);
-		}
-	}
-return(0);
-}
-
-
-
-
-
-
-
-int MraContactDeleted(WPARAM wParam,LPARAM lParam)
-{
-	if (masMraSettings.bLoggedIn && wParam)
-	{
-		HANDLE hContact=(HANDLE)wParam;
-		if (IsContactMra(hContact))
-		{
-			CHAR szEMail[MAX_EMAIL_LEN];
-			DWORD dwID,dwGroupID;
-			SIZE_T dwEMailSize;
-
-			GetContactBasicInfoW(hContact,&dwID,&dwGroupID,NULL,NULL,NULL,szEMail,SIZEOF(szEMail),&dwEMailSize,NULL,0,NULL,NULL,0,NULL);
+	if ( IsContactMra(hContact)) {
+		CHAR szEMail[MAX_EMAIL_LEN];
+		DWORD dwID, dwGroupID;
+		size_t dwEMailSize;
+		GetContactBasicInfoW(hContact, &dwID, &dwGroupID, NULL, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, NULL, 0, NULL, NULL, 0, NULL);
 			
-			MraSetContactStatus(hContact,ID_STATUS_OFFLINE);
-			if (DBGetContactSettingByte(hContact,"CList","NotOnList",0)==0 || dwID!=-1) MraSendCommand_ModifyContactW(hContact,dwID,CONTACT_FLAG_REMOVED,dwGroupID,szEMail,dwEMailSize,NULL,0,NULL,0);
-			MraAvatarsDeleteContactAvatarFile(masMraSettings.hAvatarsQueueHandle,hContact);
-		}
+		MraSetContactStatus(hContact, ID_STATUS_OFFLINE);
+		if ( !db_get_b(hContact, "CList", "NotOnList", 0) || dwID != -1)
+			MraModifyContactW(hContact, dwID, CONTACT_FLAG_REMOVED, dwGroupID, szEMail, dwEMailSize, NULL, 0, NULL, 0);
+		MraAvatarsDeleteContactAvatarFile(hAvatarsQueueHandle, hContact);
 	}
-return(0);
+	return 0;
 }
 
-
-int MraDbSettingChanged(WPARAM wParam,LPARAM lParam)
+int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	if (masMraSettings.bLoggedIn && lParam)
-	{
-		HANDLE hContact=(HANDLE)wParam;
-		DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
+	if (!m_bLoggedIn || !lParam)
+		return 0;
 
-		if (hContact)
-		{
-			if (IsContactMra(hContact) && DBGetContactSettingByte(hContact,"CList","NotOnList",0)==0 && DB_Mra_GetDword(hContact,"HooksLocked",FALSE)==FALSE)
-			{// это наш контакт, он не временный (есть в списке на сервере) и его обновление разрешено
-				CHAR szEMail[MAX_EMAIL_LEN],szPhones[MAX_EMAIL_LEN];
-				WCHAR wszNick[MAX_EMAIL_LEN];
-				DWORD dwID,dwGroupID,dwContactFlag;
-				SIZE_T dwEMailSize,dwNickSize,dwPhonesSize;
+	HANDLE hContact = (HANDLE)wParam;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
-				if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,cws->szModule,-1,"CList",5)==CSTR_EQUAL)
-				{// CList section
-					if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,cws->szSetting,-1,"MyHandle",8)==CSTR_EQUAL)
-					{// MyHandle setting
-						LPWSTR lpwszNewNick;
+	if (hContact) {
+		// это наш контакт, он не временный (есть в списке на сервере) и его обновление разрешено
+		if ( IsContactMra(hContact) && !db_get_b(hContact, "CList", "NotOnList", 0) && mraGetDword(hContact, "HooksLocked", FALSE) == FALSE) {
+			CHAR szEMail[MAX_EMAIL_LEN], szPhones[MAX_EMAIL_LEN];
+			WCHAR wszNick[MAX_EMAIL_LEN];
+			DWORD dwID, dwGroupID, dwContactFlag;
+			size_t dwEMailSize, dwNickSize, dwPhonesSize;
 
-						if (cws->value.type==DBVT_DELETED)
-						{// allways store custom nick
-							lstrcpynW(wszNick,GetContactNameW(hContact),SIZEOF(wszNick));
-							lpwszNewNick=wszNick;
-							dwNickSize=lstrlenW(lpwszNewNick);
-							DB_SetStringExW(hContact,"CList","MyHandle",lpwszNewNick,dwNickSize);
-						}else{
-							if (cws->value.pszVal)
-							{
-								switch(cws->value.type){
-								case DBVT_WCHAR:
-									lpwszNewNick=cws->value.pwszVal;
-									dwNickSize=lstrlenW(lpwszNewNick);
-									break;
-								case DBVT_UTF8:
-									lpwszNewNick=wszNick;
-									dwNickSize=MultiByteToWideChar(CP_UTF8,0,cws->value.pszVal,-1,wszNick,SIZEOF(wszNick));
-									break;
-								case DBVT_ASCIIZ:
-									lpwszNewNick=wszNick;
-									dwNickSize=MultiByteToWideChar(MRA_CODE_PAGE,0,cws->value.pszVal,-1,wszNick,SIZEOF(wszNick));
-									break;
-								default:
-									lpwszNewNick=NULL;
-									dwNickSize=0;
-									break;
-								}
-								if (lpwszNewNick)
-								if (GetContactBasicInfoW(hContact,&dwID,&dwGroupID,&dwContactFlag,NULL,NULL,szEMail,SIZEOF(szEMail),&dwEMailSize,NULL,0,NULL,szPhones,SIZEOF(szPhones),&dwPhonesSize)==NO_ERROR)
-								{
-									MraSendCommand_ModifyContactW(hContact,dwID,dwContactFlag,dwGroupID,szEMail,dwEMailSize,lpwszNewNick,dwNickSize,szPhones,dwPhonesSize);
-								}
-							}
-						}
-					}else
-					if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,cws->szSetting,-1,"Group",5)==CSTR_EQUAL)
-					{// Group setting //***deb
-						if (TRUE)
-						{// manage group on server
-							switch(cws->value.type){
-							case DBVT_ASCIIZ:
+			if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szModule, -1, "CList", 5) == CSTR_EQUAL) {
+				// MyHandle setting
+				if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "MyHandle", 8) == CSTR_EQUAL) {
+					LPWSTR lpwszNewNick;
 
-								break;
-							case DBVT_DELETED:
-
-								break;
-							}
-						}
-					}else
-					if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,cws->szSetting,-1,"NotOnList",9)==CSTR_EQUAL)
-					{// NotOnList setting // Has a temporary contact just been added permanently?
-						if (cws->value.type==DBVT_DELETED || (cws->value.type==DBVT_BYTE && cws->value.bVal==0))
-						{
-							WCHAR wszAuthMessage[MAX_PATH];
-							SIZE_T dwAuthMessageSize;
-
-							if (DB_Mra_GetStaticStringW(NULL,"AuthMessage",wszAuthMessage,SIZEOF(wszAuthMessage),&dwAuthMessageSize)==FALSE)
-							{// def auth message
-								lstrcpynW(wszAuthMessage,TranslateW(MRA_DEFAULT_AUTH_MESSAGE),SIZEOF(wszAuthMessage));
-								dwAuthMessageSize=lstrlenW(wszAuthMessage);
-							}
-
-							DBDeleteContactSetting(hContact,"CList","Hidden");
-							GetContactBasicInfoW(hContact,NULL,&dwGroupID,&dwContactFlag,NULL,NULL,szEMail,SIZEOF(szEMail),&dwEMailSize,wszNick,SIZEOF(wszNick),&dwNickSize,szPhones,SIZEOF(szPhones),&dwPhonesSize);
-							MraSendCommand_AddContactW(hContact,dwContactFlag,dwGroupID,szEMail,dwEMailSize,wszNick,dwNickSize,szPhones,dwPhonesSize,wszAuthMessage,dwAuthMessageSize,0);
-						}
-					}else
-					if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,cws->szSetting,-1,"Hidden",6)==CSTR_EQUAL)
-					{// Hidden setting
-						GetContactBasicInfoW(hContact,&dwID,&dwGroupID,&dwContactFlag,NULL,NULL,szEMail,SIZEOF(szEMail),&dwEMailSize,wszNick,SIZEOF(wszNick),&dwNickSize,szPhones,SIZEOF(szPhones),&dwPhonesSize);
-						if(cws->value.type==DBVT_DELETED || (cws->value.type==DBVT_BYTE && cws->value.bVal==0))
-						{
-							dwContactFlag&=~CONTACT_FLAG_SHADOW;
-						}else{
-							dwContactFlag|=CONTACT_FLAG_SHADOW;
-						}
-						MraSendCommand_ModifyContactW(hContact,dwID,dwContactFlag,dwGroupID,szEMail,dwEMailSize,wszNick,dwNickSize,szPhones,dwPhonesSize);
+					// allways store custom nick
+					if (cws->value.type == DBVT_DELETED) {
+						lstrcpynW(wszNick, GetContactNameW(hContact), SIZEOF(wszNick));
+						lpwszNewNick = wszNick;
+						dwNickSize = lstrlenW(lpwszNewNick);
+						DB_SetStringExW(hContact, "CList", "MyHandle", lpwszNewNick, dwNickSize);
 					}
-				}else
-				if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,cws->szModule,-1,"Ignore",6)==CSTR_EQUAL)
-				{// Ignore section
-					if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,cws->szSetting,-1,"Mask1",5)==CSTR_EQUAL)
-					{
-						GetContactBasicInfoW(hContact,&dwID,&dwGroupID,&dwContactFlag,NULL,NULL,szEMail,SIZEOF(szEMail),&dwEMailSize,wszNick,SIZEOF(wszNick),&dwNickSize,szPhones,SIZEOF(szPhones),&dwPhonesSize);
-						if(cws->value.type==DBVT_DELETED || (cws->value.type==DBVT_DWORD && cws->value.dVal&IGNOREEVENT_MESSAGE)==0)
-						{
-							dwContactFlag&=~CONTACT_FLAG_IGNORE;
-						}else{
-							dwContactFlag|=CONTACT_FLAG_IGNORE;
+					else if (cws->value.pszVal) {
+						switch (cws->value.type) {
+						case DBVT_WCHAR:
+							lpwszNewNick = cws->value.pwszVal;
+							dwNickSize = lstrlenW(lpwszNewNick);
+							break;
+						case DBVT_UTF8:
+							lpwszNewNick = wszNick;
+							dwNickSize = MultiByteToWideChar(CP_UTF8, 0, cws->value.pszVal, -1, wszNick, SIZEOF(wszNick));
+							break;
+						case DBVT_ASCIIZ:
+							lpwszNewNick = wszNick;
+							dwNickSize = MultiByteToWideChar(MRA_CODE_PAGE, 0, cws->value.pszVal, -1, wszNick, SIZEOF(wszNick));
+							break;
+						default:
+							lpwszNewNick = NULL;
+							dwNickSize = 0;
+							break;
 						}
-						MraSendCommand_ModifyContactW(hContact,dwID,dwContactFlag,dwGroupID,szEMail,dwEMailSize,wszNick,dwNickSize,szPhones,dwPhonesSize);
-					}
-				}else
-				if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,cws->szModule,-1,"UserInfo",8)==CSTR_EQUAL)
-				{// User info section
-					if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,cws->szSetting,-1,"MyPhone0",8)==CSTR_EQUAL
-						|| CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,cws->szSetting,-1,"MyPhone1",8)==CSTR_EQUAL
-						|| CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,cws->szSetting,-1,"MyPhone2",8)==CSTR_EQUAL)
-					{
-						//if(cws->value.type!=DBVT_DELETED)
-						{
-							GetContactBasicInfoW(hContact,&dwID,&dwGroupID,&dwContactFlag,NULL,NULL,szEMail,SIZEOF(szEMail),&dwEMailSize,wszNick,SIZEOF(wszNick),&dwNickSize,szPhones,SIZEOF(szPhones),&dwPhonesSize);
-							MraSendCommand_ModifyContactW(hContact,dwID,dwContactFlag,dwGroupID,szEMail,dwEMailSize,wszNick,dwNickSize,szPhones,dwPhonesSize);
-						}
+						if (lpwszNewNick)
+						if (GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, NULL, 0, NULL, szPhones, SIZEOF(szPhones), &dwPhonesSize) == NO_ERROR)
+							MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEMail, dwEMailSize, lpwszNewNick, dwNickSize, szPhones, dwPhonesSize);
 					}
 				}
-			}
-		}else{// not contact
-			if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,cws->szModule,-1,"CListGroups",11)==CSTR_EQUAL)
-			{// CList section //***deb
-				if (TRUE)
-				{// manage group on server
-					switch(cws->value.type){
+				// Group setting
+				else if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "Group", 5) == CSTR_EQUAL ) {
+					// manage group on server
+					switch (cws->value.type) {
 					case DBVT_ASCIIZ:
-
 						break;
 					case DBVT_DELETED:
-
 						break;
 					}
 				}
-			}
-		}
+				// NotOnList setting. Has a temporary contact just been added permanently?
+				else if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "NotOnList", 9) == CSTR_EQUAL) {
+					if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0)) {
+						WCHAR wszAuthMessage[MAX_PATH];
+						size_t dwAuthMessageSize;
+						if ( mraGetStaticStringW(NULL, "AuthMessage", wszAuthMessage, SIZEOF(wszAuthMessage), &dwAuthMessageSize) == FALSE) {
+							lstrcpynW(wszAuthMessage, TranslateW(MRA_DEFAULT_AUTH_MESSAGE), SIZEOF(wszAuthMessage));
+							dwAuthMessageSize = lstrlenW(wszAuthMessage);
+						}
 
-
-		/*if ( hContact == NULL && MyOptions.ManageServer && !strcmp( cws->szModule, "CListGroups" )) {
-			int iNumber = atol( cws->szSetting );
-			LPCSTR szId = MSN_GetGroupByNumber( iNumber );
-			if ( szId != NULL ) {
-				if ( cws->value.type == DBVT_DELETED ) {
-					msnNsThread->sendPacket( "RMG", szId );
-				}
-				else if ( cws->value.type == DBVT_ASCIIZ ) {
-					LPCSTR oldId = MSN_GetGroupByName( cws->value.pszVal+1 );
-					if ( oldId == NULL ) {
-						CHAR* p = Utf8Encode( cws->value.pszVal+1 ), szNewName[ 200 ];
-						UrlEncode( p, szNewName, sizeof szNewName );
-						msnNsThread->sendPacket( "REG", "%s %s", szId, szNewName );
-						free( p );
+						DBDeleteContactSetting(hContact, "CList", "Hidden");
+						GetContactBasicInfoW(hContact, NULL, &dwGroupID, &dwContactFlag, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, wszNick, SIZEOF(wszNick), &dwNickSize, szPhones, SIZEOF(szPhones), &dwPhonesSize);
+						MraAddContactW(hContact, dwContactFlag, dwGroupID, szEMail, dwEMailSize, wszNick, dwNickSize, szPhones, dwPhonesSize, wszAuthMessage, dwAuthMessageSize, 0);
 					}
-					else MSN_SetGroupNumber( oldId, iNumber );
-			}	}
-			else if ( cws->value.type == DBVT_ASCIIZ )
-				MSN_AddServerGroup( cws->value.pszVal+1 );
-
-			return 0;
-		}
-
-		if ( !strcmp( cws->szModule, "CList" ) && MyOptions.ManageServer ) {
-			CHAR* szProto = ( CHAR* )MSN_CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
-			if ( szProto == NULL || strcmp( szProto, msnProtocolName ))
-				return 0;
-
-			if ( !strcmp( cws->szSetting, "Group" )) {
-				if ( cws->value.type == DBVT_DELETED )
-					MSN_MoveContactToGroup( hContact, NULL );
-				else if ( cws->value.type == DBVT_ASCIIZ ) {
-					LPCSTR p = MSN_GetGroupByName( cws->value.pszVal );
-					if ( p == NULL )
-						MSN_AddServerGroup( cws->value.pszVal );
-
-					MSN_MoveContactToGroup( hContact, cws->value.pszVal );
 				}
-				return 0;
+				// Hidden setting
+				else if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "Hidden" , 6) == CSTR_EQUAL) {
+					GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, wszNick, SIZEOF(wszNick), &dwNickSize, szPhones, SIZEOF(szPhones), &dwPhonesSize);
+					if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
+						dwContactFlag &= ~CONTACT_FLAG_SHADOW;
+					else
+						dwContactFlag |= CONTACT_FLAG_SHADOW;
+
+					MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEMail, dwEMailSize, wszNick, dwNickSize, szPhones, dwPhonesSize);
+				}
 			}
+			// Ignore section
+			else if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szModule, -1, "Ignore", 6) == CSTR_EQUAL) {
+				if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "Mask1", 5) == CSTR_EQUAL) {
+					GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, wszNick, SIZEOF(wszNick), &dwNickSize, szPhones, SIZEOF(szPhones), &dwPhonesSize);
+					if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_DWORD && cws->value.dVal&IGNOREEVENT_MESSAGE) == 0)
+						dwContactFlag &= ~CONTACT_FLAG_IGNORE;
+					else
+						dwContactFlag |= CONTACT_FLAG_IGNORE;
 
-	}	}*/
-
+					MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEMail, dwEMailSize, wszNick, dwNickSize, szPhones, dwPhonesSize);
+				}
+			}
+			// User info section
+			else if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szModule, -1, "UserInfo", 8) == CSTR_EQUAL) {
+				if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "MyPhone0", 8) == CSTR_EQUAL ||
+					  CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "MyPhone1", 8) == CSTR_EQUAL ||
+					  CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "MyPhone2", 8) == CSTR_EQUAL) {
+					GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, wszNick, SIZEOF(wszNick), &dwNickSize, szPhones, SIZEOF(szPhones), &dwPhonesSize);
+					MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEMail, dwEMailSize, wszNick, dwNickSize, szPhones, dwPhonesSize);
+				}
+			}
+		}
 	}
-return(0);
+	// not contact
+	else {
+		if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szModule, -1, "CListGroups", 11) == CSTR_EQUAL) {
+			// manage group on server
+			switch (cws->value.type) {
+			case DBVT_ASCIIZ:
+				break;
+			case DBVT_DELETED:
+				break;
+			}
+		}
+	}
+
+	return 0;
 }
 
-
-int MraRebuildContactMenu(WPARAM wParam,LPARAM lParam)
+int CMraProto::MraRebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	BOOL bIsContactMRA,bHasEMail,bHasEMailMR,bChatAgent;
-	DWORD dwContactSeverFlags=0;
-	SIZE_T dwBlogStatusMsgSize=0;
-	HANDLE hContact=(HANDLE)wParam;
+	BOOL bIsContactMRA, bHasEMail, bHasEMailMR, bChatAgent;
+	DWORD dwContactSeverFlags = 0;
+	size_t dwBlogStatusMsgSize = 0;
+	HANDLE hContact = (HANDLE)wParam;
 
-	bIsContactMRA=IsContactMra(hContact);
-	if (bIsContactMRA)//**deb телефонные контакты!
-	{// proto own contact
-		bHasEMail=TRUE;
-		bHasEMailMR=TRUE;
-		bChatAgent=IsContactChatAgent(hContact);
-		GetContactBasicInfoW(hContact,NULL,NULL,NULL,&dwContactSeverFlags,NULL,NULL,0,NULL,NULL,0,NULL,NULL,0,NULL);
-		DB_Mra_GetStaticStringW(hContact,DBSETTING_BLOGSTATUS,NULL,0,&dwBlogStatusMsgSize);
-	}else{// non proto contact
-		bHasEMail=FALSE;
-		bHasEMailMR=FALSE;
-		bChatAgent=FALSE;
-		if (DB_Mra_GetByte(NULL,"HideMenuItemsForNonMRAContacts",MRA_DEFAULT_HIDE_MENU_ITEMS_FOR_NON_MRA)==FALSE)
-		if (IsContactMraProto(hContact)==FALSE)// избегаем добавления менюшек в контакты других копий MRA
-		if (GetContactEMailCount(hContact,FALSE))
-		{
-			bHasEMail=TRUE;
-			if (GetContactEMailCount(hContact,TRUE)) bHasEMailMR=TRUE;
+	// proto own contact
+	bIsContactMRA = IsContactMra(hContact);
+	if (bIsContactMRA) {
+		bHasEMail = TRUE;
+		bHasEMailMR = TRUE;
+		bChatAgent = IsContactChatAgent(hContact);
+		GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL);
+		mraGetStaticStringW(hContact, DBSETTING_BLOGSTATUS, NULL, 0, &dwBlogStatusMsgSize);
+	}
+	// non proto contact
+	else {
+		bHasEMail = FALSE;
+		bHasEMailMR = FALSE;
+		bChatAgent = FALSE;
+		if (mraGetByte(NULL, "HideMenuItemsForNonMRAContacts", MRA_DEFAULT_HIDE_MENU_ITEMS_FOR_NON_MRA) == FALSE)
+		if (IsContactMraProto(hContact) == FALSE)// избегаем добавления менюшек в контакты других копий MRA
+		if (GetContactEMailCount(hContact, FALSE)) {
+			bHasEMail = TRUE;
+			if (GetContactEMailCount(hContact, TRUE)) bHasEMailMR = TRUE;
 		}
 	}
 
 	//"Request authorization"
-	CListShowMenuItem(masMraSettings.hContactMenuItems[0],(masMraSettings.bLoggedIn && bIsContactMRA));// && (dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED)
+	CListShowMenuItem(hContactMenuItems[0], (m_bLoggedIn && bIsContactMRA));// && (dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED)
 
 	//"Grant authorization"
-	CListShowMenuItem(masMraSettings.hContactMenuItems[1],(masMraSettings.bLoggedIn && bIsContactMRA && bChatAgent==FALSE));
+	CListShowMenuItem(hContactMenuItems[1], (m_bLoggedIn && bIsContactMRA && bChatAgent == FALSE));
 
 	//"&Send postcard"
-	CListShowMenuItem(masMraSettings.hContactMenuItems[2],(masMraSettings.bLoggedIn && bHasEMail && bChatAgent==FALSE));
+	CListShowMenuItem(hContactMenuItems[2], (m_bLoggedIn && bHasEMail && bChatAgent == FALSE));
 
 	//"&View Album"
-	CListShowMenuItem(masMraSettings.hContactMenuItems[3],(masMraSettings.bLoggedIn && bHasEMailMR && bChatAgent==FALSE));
+	CListShowMenuItem(hContactMenuItems[3], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
 
 	//"&Read Blog"
-	CListShowMenuItem(masMraSettings.hContactMenuItems[4],(masMraSettings.bLoggedIn && bHasEMailMR && bChatAgent==FALSE));
+	CListShowMenuItem(hContactMenuItems[4], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
 
 	//"Reply Blog Status"
-	CListShowMenuItem(masMraSettings.hContactMenuItems[5],(masMraSettings.bLoggedIn && dwBlogStatusMsgSize && bChatAgent==FALSE));
+	CListShowMenuItem(hContactMenuItems[5], (m_bLoggedIn && dwBlogStatusMsgSize && bChatAgent == FALSE));
 		
 	//"View Video"
-	CListShowMenuItem(masMraSettings.hContactMenuItems[6],(masMraSettings.bLoggedIn && bHasEMailMR && bChatAgent==FALSE));
+	CListShowMenuItem(hContactMenuItems[6], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
 
 	//"Answers"
-	CListShowMenuItem(masMraSettings.hContactMenuItems[7],(masMraSettings.bLoggedIn && bHasEMailMR && bChatAgent==FALSE));
+	CListShowMenuItem(hContactMenuItems[7], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
 
 	//"World"
-	CListShowMenuItem(masMraSettings.hContactMenuItems[8],(masMraSettings.bLoggedIn && bHasEMailMR && bChatAgent==FALSE));
+	CListShowMenuItem(hContactMenuItems[8], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
 
 	//"Send &Nudge"
-	if (masMraSettings.heNudgeReceived==NULL)
-	{
-		CListShowMenuItem(masMraSettings.hContactMenuItems[9],(masMraSettings.bLoggedIn && bIsContactMRA));
-	}
+	if (heNudgeReceived == NULL)
+		CListShowMenuItem(hContactMenuItems[9], (m_bLoggedIn && bIsContactMRA));
 
-return(0);
+	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Extra icons
 
-int MraExtraIconsApply(WPARAM wParam,LPARAM lParam)
+int CMraProto::MraExtraIconsApply(WPARAM wParam, LPARAM lParam)
 {
 	SetExtraIcons((HANDLE)wParam);
-return(0);
+	return 0;
 }
 
-
-int MraExtraIconsRebuild(WPARAM wParam,LPARAM lParam)
+int CMraProto::MraExtraIconsRebuild(WPARAM wParam, LPARAM lParam)
 {
-	for(SIZE_T i=0;i<ADV_ICON_MAX;i++)			masMraSettings.hAdvancedStatusItems[i]=(HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON,(WPARAM)IconLibGetIcon(masMraSettings.hAdvancedStatusIcons[i]),0);
-	for(SIZE_T i=0;i<(MRA_XSTATUS_COUNT+1);i++)	masMraSettings.hXStatusAdvancedStatusItems[i]=(HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON,(WPARAM)IconLibGetIcon(masMraSettings.hXStatusAdvancedStatusIcons[i]),0);
+	for (size_t i = 0; i < ADV_ICON_MAX; i++)
+		hAdvancedStatusItems[i] = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)IconLibGetIcon(hAdvancedStatusIcons[i]), 0);
+	
+	for (size_t i = 0; i < MRA_XSTATUS_COUNT+1; i++)
+		hXStatusAdvancedStatusItems[i] = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)IconLibGetIcon(hXStatusAdvancedStatusIcons[i]), 0);
 
-return(0);
+	return 0;
 }
 
-int MraRebuildStatusMenu(WPARAM wParam,LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int CMraProto::MraRebuildStatusMenu(WPARAM wParam, LPARAM lParam)
 {
-	CHAR szServiceFunction[MAX_PATH*2],*pszServiceFunctionName,szValueName[MAX_PATH];
-	WCHAR szItem[MAX_PATH+64],szStatusTitle[STATUS_TITLE_MAX+4];
-	CLISTMENUITEM mi={0};
+	CHAR szServiceFunction[MAX_PATH*2], *pszServiceFunctionName, szValueName[MAX_PATH];
+	strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
+	pszServiceFunctionName = szServiceFunction + strlen(m_szModuleName);
 
-	memmove(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
-	pszServiceFunctionName=szServiceFunction+PROTOCOL_NAME_LEN;
-	//memmove(pszServiceFunctionName,MRA_XSTATUS_MENU,sizeof(MRA_XSTATUS_MENU));
+	WCHAR szItem[MAX_PATH+64], szStatusTitle[STATUS_TITLE_MAX+4];
+	mir_sntprintf(szItem, SIZEOF(szItem), L"%s Custom Status", m_tszUserName);
 
-	mir_sntprintf(szItem,SIZEOF(szItem),L"%s Custom Status",PROTOCOL_NAMEW);
-	mi.cbSize=sizeof(mi);
-	mi.position=2000060000;
-	mi.popupPosition=500085000;
-	mi.ptszPopupName=szItem;
-	//mi.ptszName=szStatusTitle;
-	mi.flags=(CMIF_UNICODE|CMIF_ICONFROMICOLIB);
-	mi.pszService=szServiceFunction;
-	mi.pszContactOwner=PROTOCOL_NAMEA;
+	CLISTMENUITEM mi = {0};
+	mi.cbSize = sizeof(mi);
+	mi.position = 2000060000;
+	mi.popupPosition = 500085000;
+	mi.ptszPopupName = szItem;
+	mi.flags = (CMIF_UNICODE|CMIF_ICONFROMICOLIB);
+	mi.pszService = szServiceFunction;
+	mi.pszContactOwner = m_szModuleName;
 
-	for(SIZE_T i=0;i<MRA_XSTATUS_COUNT;i++) 
-	{
-		mir_snprintf(pszServiceFunctionName,(SIZEOF(szServiceFunction)-PROTOCOL_NAME_LEN),"/menuXStatus%ld",i);
+	for (size_t i = 0; i < MRA_XSTATUS_COUNT; i++)  {
+		mir_snprintf(pszServiceFunctionName, 100, "/menuXStatus%ld", i);
 		mi.position++;
-		if (i)
-		{
-			mir_snprintf(szValueName,SIZEOF(szValueName),"XStatus%ldName",i);
-			if (DB_Mra_GetStaticStringW(NULL,szValueName,szStatusTitle,(STATUS_TITLE_MAX+1),NULL))
-			{
-				szStatusTitle[STATUS_TITLE_MAX]=0;
-				mi.ptszName=szStatusTitle;
-			}else{// default xstatus name
-				mi.ptszName=lpcszXStatusNameDef[i];
+		if (i) {
+			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", i);
+			if (mraGetStaticStringW(NULL, szValueName, szStatusTitle, (STATUS_TITLE_MAX+1), NULL)) {
+				szStatusTitle[STATUS_TITLE_MAX] = 0;
+				mi.ptszName = szStatusTitle;
 			}
-			mi.icolibItem=masMraSettings.hXStatusAdvancedStatusIcons[i];
-		}else{
-			mi.ptszName=lpcszXStatusNameDef[i];
-			mi.hIcon=NULL;
+			else mi.ptszName = lpcszXStatusNameDef[i];
+
+			mi.icolibItem = hXStatusAdvancedStatusIcons[i];
 		}
-		masMraSettings.hXStatusMenuItems[i] = Menu_AddStatusMenuItem(&mi);
+		else {
+			mi.ptszName = lpcszXStatusNameDef[i];
+			mi.hIcon = NULL;
+		}
+		hXStatusMenuItems[i] = Menu_AddStatusMenuItem(&mi);
 	}
-return(0);
+	return 0;
 }
 
-
-INT_PTR MraSetListeningTo(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraSetListeningTo(WPARAM wParam, LPARAM lParam)
 {
-	LISTENINGTOINFO *pliInfo=(LISTENINGTOINFO*)lParam;
+	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;
 
-	if ( pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO))
+	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO))
 	{
-		MraSendCommand_ChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC,NULL,0,0);
-		DB_Mra_DeleteValue(NULL,DBSETTING_BLOGSTATUSMUSIC);
-	}else
-	if (pliInfo->dwFlags & LTI_UNICODE)
-	{
+		MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, NULL, 0, 0);
+		mraDelValue(NULL, DBSETTING_BLOGSTATUSMUSIC);
+	}
+	else if (pliInfo->dwFlags & LTI_UNICODE) {
 		LPWSTR pwszListeningTo;
 		WCHAR wszListeningTo[MICBLOG_STATUS_MAX+4];
-		SIZE_T dwListeningToSize;
+		size_t dwListeningToSize;
 
-		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
-		{
-			pwszListeningTo=(LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT,(WPARAM)L"%track%. %title% - %artist% - %player%",(LPARAM)pliInfo);
-			dwListeningToSize=lstrlenW(pwszListeningTo);
-		}else{
-			pwszListeningTo=wszListeningTo;
-			dwListeningToSize=mir_sntprintf(pwszListeningTo,SIZEOF(wszListeningTo),L"%s. %s - %s - %s", pliInfo->ptszTrack?pliInfo->ptszTrack:L"", pliInfo->ptszTitle?pliInfo->ptszTitle:L"", pliInfo->ptszArtist?pliInfo->ptszArtist:L"", pliInfo->ptszPlayer?pliInfo->ptszPlayer:L"");
+		if ( ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT)) {
+			pwszListeningTo = (LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%track%. %title% - %artist% - %player%", (LPARAM)pliInfo);
+			dwListeningToSize = lstrlenW(pwszListeningTo);
+		}
+		else {
+			pwszListeningTo = wszListeningTo;
+			dwListeningToSize = mir_sntprintf(pwszListeningTo, SIZEOF(wszListeningTo), L"%s. %s - %s - %s", pliInfo->ptszTrack?pliInfo->ptszTrack:L"", pliInfo->ptszTitle?pliInfo->ptszTitle:L"", pliInfo->ptszArtist?pliInfo->ptszArtist:L"", pliInfo->ptszPlayer?pliInfo->ptszPlayer:L"");
 		}
 
-		DB_Mra_SetStringExW(NULL,DBSETTING_BLOGSTATUSMUSIC,pwszListeningTo,dwListeningToSize);
-		MraSendCommand_ChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC,pwszListeningTo,dwListeningToSize,0);
+		mraSetStringExW(NULL, DBSETTING_BLOGSTATUSMUSIC, pwszListeningTo, dwListeningToSize);
+		MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, pwszListeningTo, dwListeningToSize, 0);
 
-		if (pwszListeningTo!=wszListeningTo) mir_free(pwszListeningTo);
+		if (pwszListeningTo != wszListeningTo)
+			mir_free(pwszListeningTo);
 	}
 
-return(0);
+	return 0;
 }
 
-
-int MraMusicChanged(WPARAM wParam,LPARAM lParam)
+int CMraProto::MraMusicChanged(WPARAM wParam, LPARAM lParam)
 {
-	switch (wParam){
+	switch (wParam) {
 	case WAT_EVENT_PLAYERSTATUS:
-		if (1==lParam)
-		{// stopped
-			DB_Mra_DeleteValue(NULL,DBSETTING_BLOGSTATUSMUSIC);
-			MraSendCommand_ChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC,NULL,0,0);
+		// stopped
+		if (1 == lParam) {
+			mraDelValue(NULL, DBSETTING_BLOGSTATUSMUSIC);
+			MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, NULL, 0, 0);
 		}
 		break;
+
 	case WAT_EVENT_NEWTRACK:
 		{
 			SONGINFO *psiSongInfo;
-
-			if (WAT_RES_OK==CallService(MS_WAT_GETMUSICINFO,WAT_INF_UNICODE,(LPARAM)&psiSongInfo))
-			{
+			if (WAT_RES_OK == CallService(MS_WAT_GETMUSICINFO, WAT_INF_UNICODE, (LPARAM)&psiSongInfo)) {
 				WCHAR wszMusic[MICBLOG_STATUS_MAX+4];
-				SIZE_T dwMusicSize;
+				size_t dwMusicSize;
 
-				dwMusicSize=mir_sntprintf(wszMusic,SIZEOF(wszMusic),L"%ld. %s - %s - %s",psiSongInfo->track,psiSongInfo->artist,psiSongInfo->title,psiSongInfo->player);
-				DB_Mra_SetStringExW(NULL,DBSETTING_BLOGSTATUSMUSIC,wszMusic,dwMusicSize);
-				MraSendCommand_ChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC,wszMusic,dwMusicSize,0);
+				dwMusicSize = mir_sntprintf(wszMusic, SIZEOF(wszMusic), L"%ld. %s - %s - %s", psiSongInfo->track, psiSongInfo->artist, psiSongInfo->title, psiSongInfo->player);
+				mraSetStringExW(NULL, DBSETTING_BLOGSTATUSMUSIC, wszMusic, dwMusicSize);
+				MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, wszMusic, dwMusicSize, 0);
 			}
 		}
 		break;
-	default:
-		break;
 	}
 
-return(0);
+	return 0;
 }
 
-
-INT_PTR MraGetCaps(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet;
-
-	switch(wParam){
-	case PFLAGNUM_1:
-		iRet=PF1_IM|PF1_FILE|PF1_MODEMSG|PF1_SERVERCLIST|PF1_AUTHREQ|PF1_ADDED|PF1_VISLIST|PF1_INVISLIST|PF1_INDIVSTATUS|PF1_PEER2PEER|/*PF1_NEWUSER|*/PF1_CHAT|PF1_BASICSEARCH|PF1_EXTSEARCH|PF1_CANRENAMEFILE|PF1_FILERESUME|PF1_ADDSEARCHRES|PF1_CONTACT|PF1_SEARCHBYEMAIL|PF1_USERIDISEMAIL|PF1_SEARCHBYNAME|PF1_EXTSEARCHUI;
-		break;
-	case PFLAGNUM_2:
-		iRet=PF2_ONLINE|PF2_INVISIBLE|PF2_SHORTAWAY|PF2_HEAVYDND|PF2_FREECHAT;
-		break;
-	case PFLAGNUM_3:
-		iRet=PF2_ONLINE|PF2_INVISIBLE|PF2_SHORTAWAY|PF2_HEAVYDND|PF2_FREECHAT;
-		break;
-	case PFLAGNUM_4:
-		iRet=PF4_FORCEAUTH|PF4_FORCEADDED|/*PF4_NOCUSTOMAUTH|*/PF4_SUPPORTTYPING|PF4_AVATARS|PF4_IMSENDUTF;
-		break;
-	case PFLAG_UNIQUEIDTEXT:
-		iRet=(INT_PTR)Translate("E-mail address");
-		break;
-	case PFLAG_MAXCONTACTSPERPACKET:
-		iRet=MRA_MAXCONTACTSPERPACKET;
-		break;
-	case PFLAG_UNIQUEIDSETTING:
-		iRet=(INT_PTR)"e-mail";
-		break;
-	case PFLAG_MAXLENOFMESSAGE:
-		iRet=MRA_MAXLENOFMESSAGE;
-		break;
-	default:
-		iRet=0;
-		break;
-	}
-return(iRet);
-}
-
-
-INT_PTR MraGetName(WPARAM wParam,LPARAM lParam)
-{
-	lstrcpynA((LPSTR)lParam,PROTOCOL_DISPLAY_NAMEA,wParam);
-return(0);
-}
-
-
-INT_PTR MraLoadIcon(WPARAM wParam,LPARAM lParam)
-{
-	UINT id;
-
-	switch(wParam&0xFFFF){
-	case PLI_PROTOCOL:id=IDI_MRA;break;// IDI_TM is the main icon for the protocol
-	default:return(0);	
-	}
-return((INT_PTR)LoadImage(masMraSettings.hInstance,MAKEINTRESOURCE(id),IMAGE_ICON,GetSystemMetrics((wParam&PLIF_SMALL)?SM_CXSMICON:SM_CXICON),GetSystemMetrics((wParam&PLIF_SMALL)?SM_CYSMICON:SM_CYICON),0));
-}
-
-
-INT_PTR MraSetStatus(WPARAM wParam,LPARAM lParam)
-{
-	// remap global statuses to local supported
-	switch(wParam){
-	case ID_STATUS_OFFLINE:
-		wParam=ID_STATUS_OFFLINE;
-		break;
-	case ID_STATUS_ONLINE:
-		wParam=ID_STATUS_ONLINE;
-		break;
-	case ID_STATUS_AWAY:
-		wParam=ID_STATUS_AWAY;
-		break;
-	case ID_STATUS_DND:
-	case ID_STATUS_OCCUPIED:
-		wParam=ID_STATUS_DND;
-		break;
-	case ID_STATUS_FREECHAT:
-		wParam=ID_STATUS_FREECHAT;
-		break;
-	case ID_STATUS_INVISIBLE:
-		wParam=ID_STATUS_INVISIBLE;
-		break;
-	case ID_STATUS_NA:
-	case ID_STATUS_ONTHEPHONE:
-	case ID_STATUS_OUTTOLUNCH:
-		wParam=ID_STATUS_AWAY;
-		break;
-	default:
-		wParam=ID_STATUS_OFFLINE;
-		break;
-	}
-
-
-	if (InterlockedExchangeAdd((volatile LONG*)&masMraSettings.dwStatusMode,0)==wParam && wParam!=lParam)
-	{// nothink to change
-		ProtoBroadcastAckAsynchEx(PROTOCOL_NAMEA,NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)wParam,wParam,0);
-	}else{
-		DWORD dwOldStatusMode;
-
-		if ((masMraSettings.dwDesiredStatusMode=wParam)==ID_STATUS_OFFLINE)
-		{//set all contacts to offline
-			masMraSettings.bLoggedIn=FALSE;
-			dwOldStatusMode=InterlockedExchange((volatile LONG*)&masMraSettings.dwStatusMode,masMraSettings.dwDesiredStatusMode);
-
-			if (dwOldStatusMode>ID_STATUS_OFFLINE)
-			{// всех в offline, только если мы бывали подключены
-				for(HANDLE hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);hContact!=NULL;hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
-				{// функция сама проверяет принадлежность контакта к MRA
-					SetContactBasicInfoW(hContact,SCBIFSI_LOCK_CHANGES_EVENTS,(SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS),-1,-1,0,0,ID_STATUS_OFFLINE,NULL,0,NULL,0,NULL,0);
-				}
-			}
-			Netlib_CloseHandle(masMraSettings.hConnection);
-		}else{
-			// если offline то сразу ставим connecting, но обработка как offline
-			dwOldStatusMode=InterlockedCompareExchange((volatile LONG*)&masMraSettings.dwStatusMode,ID_STATUS_CONNECTING,ID_STATUS_OFFLINE);
-
-			switch(dwOldStatusMode){
-			case ID_STATUS_OFFLINE:// offline, connecting
-				if (StartConnect()!=NO_ERROR)
-				{//err
-					masMraSettings.bLoggedIn=FALSE;
-					masMraSettings.dwDesiredStatusMode=ID_STATUS_OFFLINE;
-					dwOldStatusMode=InterlockedExchange((volatile LONG*)&masMraSettings.dwStatusMode,masMraSettings.dwDesiredStatusMode);
-				}
-				break;
-			case ID_STATUS_ONLINE:// connected, change status
-			case ID_STATUS_AWAY:
-			case ID_STATUS_DND:
-			case ID_STATUS_FREECHAT:
-			case ID_STATUS_INVISIBLE:
-				MraSendNewStatus(masMraSettings.dwDesiredStatusMode,MraGetXStatusInternal(),NULL,0,NULL,0);
-			case ID_STATUS_CONNECTING:
-				if (dwOldStatusMode==ID_STATUS_CONNECTING && wParam!=lParam)
-				{// предотвращаем переход в любой статус (кроме offline) из статуса connecting, если он не вызван самим плагином
-					break;
-				}
-			default:
-				dwOldStatusMode=InterlockedExchange((volatile LONG*)&masMraSettings.dwStatusMode,masMraSettings.dwDesiredStatusMode);
-				//MraSendNewStatus(masMraSettings.dwDesiredStatusMode,MraGetXStatusInternal(),NULL,0,NULL,0);
-				break;
-			}
-		}
-		MraSetContactStatus(NULL,masMraSettings.dwStatusMode);
-		ProtoBroadcastAckAsynchEx(PROTOCOL_NAMEA,NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)dwOldStatusMode,masMraSettings.dwStatusMode,0);
-	}
-return(0);
-}
-
-
-INT_PTR MraGetStatus(WPARAM wParam,LPARAM lParam)
-{
-return(InterlockedExchangeAdd((volatile LONG*)&masMraSettings.dwStatusMode,0));
-}
-
-
-DWORD MraSetXStatusInternal(DWORD dwXStatus)
+DWORD CMraProto::MraSetXStatusInternal(DWORD dwXStatus)
 {
 	DWORD dwOldStatusMode;
 
-	if (IsXStatusValid(dwXStatus))
-	{
+	if ( IsXStatusValid(dwXStatus)) {
 		CHAR szValueName[MAX_PATH];
 		WCHAR szBuff[4096];
-		SIZE_T dwBuffSize;
+		size_t dwBuffSize;
 
 		// obsolete (TODO: remove in next version)
-		mir_snprintf(szValueName,SIZEOF(szValueName),"XStatus%ldName",dwXStatus);
-		if (DB_Mra_GetStaticStringW(NULL,szValueName,szBuff,SIZEOF(szBuff),&dwBuffSize)==FALSE)
-		{// default xstatus name
-			lstrcpynW(szBuff,lpcszXStatusNameDef[dwXStatus],SIZEOF(szBuff));
-			dwBuffSize=lstrlenW(szBuff);
+		mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatus);
+		if (mraGetStaticStringW(NULL, szValueName, szBuff, SIZEOF(szBuff), &dwBuffSize) == FALSE) {
+			lstrcpynW(szBuff, lpcszXStatusNameDef[dwXStatus], SIZEOF(szBuff));
+			dwBuffSize = lstrlenW(szBuff);
 		}
-		if (dwBuffSize>STATUS_TITLE_MAX) dwBuffSize=STATUS_TITLE_MAX;
-		DB_Mra_SetStringExW(NULL,DBSETTING_XSTATUSNAME,szBuff,dwBuffSize);
+		if (dwBuffSize>STATUS_TITLE_MAX) dwBuffSize = STATUS_TITLE_MAX;
+		mraSetStringExW(NULL, DBSETTING_XSTATUSNAME, szBuff, dwBuffSize);
 
 		// obsolete (TODO: remove in next version)
-		mir_snprintf(szValueName,SIZEOF(szValueName),"XStatus%ldMsg",dwXStatus);
-		if (DB_Mra_GetStaticStringW(NULL,szValueName,szBuff,SIZEOF(szBuff),&dwBuffSize))
-		{// custom xstatus description
-			if (dwBuffSize>STATUS_DESC_MAX) dwBuffSize=STATUS_DESC_MAX;
-			DB_Mra_SetStringExW(NULL,DBSETTING_XSTATUSMSG,szBuff,dwBuffSize);
-		}else{// default xstatus description
-			DB_Mra_DeleteValue(NULL,DBSETTING_XSTATUSMSG);
+		mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldMsg", dwXStatus);
+		if (mraGetStaticStringW(NULL, szValueName, szBuff, SIZEOF(szBuff), &dwBuffSize)) {
+			if (dwBuffSize>STATUS_DESC_MAX) dwBuffSize = STATUS_DESC_MAX;
+			mraSetStringExW(NULL, DBSETTING_XSTATUSMSG, szBuff, dwBuffSize);
 		}
-	}else{
-		DB_Mra_DeleteValue(NULL,DBSETTING_XSTATUSNAME);
-		DB_Mra_DeleteValue(NULL,DBSETTING_XSTATUSMSG);
-		dwXStatus=MRA_MIR_XSTATUS_NONE;
+		else mraDelValue(NULL, DBSETTING_XSTATUSMSG);
+	}
+	else {
+		mraDelValue(NULL, DBSETTING_XSTATUSNAME);
+		mraDelValue(NULL, DBSETTING_XSTATUSMSG);
+		dwXStatus = MRA_MIR_XSTATUS_NONE;
 	}
 
-	dwOldStatusMode=InterlockedExchange((volatile LONG*)&masMraSettings.dwXStatusMode,dwXStatus);
-	DB_Mra_SetByte(NULL,DBSETTING_XSTATUSID,(BYTE)dwXStatus);
+	dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iXStatus, dwXStatus);
+	mraSetByte(NULL, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
 
-	MraSendNewStatus(MraGetStatus(0,0),dwXStatus,NULL,0,NULL,0);
+	MraSendNewStatus(m_iStatus, dwXStatus, NULL, 0, NULL, 0);
 
-return(dwOldStatusMode);
+	return dwOldStatusMode;
 }
 
-DWORD MraGetXStatusInternal()
+// obsolete (TODO: remove in next version)
+INT_PTR CMraProto::MraSetXStatus(WPARAM wParam, LPARAM lParam)
 {
-return(InterlockedExchangeAdd((volatile LONG*)&masMraSettings.dwXStatusMode,0));
-}
-
-
-
-INT_PTR MraSetXStatus(WPARAM wParam,LPARAM lParam)
-{// obsolete (TODO: remove in next version)
-	INT_PTR iRet=0;
-
-	if (IsXStatusValid(wParam) || wParam==MRA_MIR_XSTATUS_NONE)
-	{
+	INT_PTR iRet = 0;
+	if ( IsXStatusValid(wParam) || wParam == MRA_MIR_XSTATUS_NONE) {
 		MraSetXStatusInternal(wParam);
-		iRet=wParam;
+		iRet = wParam;
 	}
-return(iRet);
-}
-
-INT_PTR MraSetXStatusEx(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=1;
-	DWORD dwXStatus;
-	ICQ_CUSTOM_STATUS *pData=(ICQ_CUSTOM_STATUS*)lParam;
-
-	if (pData->cbSize>=sizeof(ICQ_CUSTOM_STATUS))
-	{
-		iRet=0;
-
-		if (pData->flags&CSSF_MASK_STATUS)
-		{// fill status member
-			dwXStatus=(*pData->status);
-			if (IsXStatusValid(dwXStatus)==FALSE && dwXStatus!=MRA_MIR_XSTATUS_NONE) iRet=1;
-		}else{
-			dwXStatus=MraGetXStatusInternal();
-		}
-
-		if (pData->flags&(CSSF_MASK_NAME|CSSF_MASK_MESSAGE) && iRet==0)
-		{//
-			if (IsXStatusValid(dwXStatus) || dwXStatus==MRA_MIR_XSTATUS_NONE)
-			{
-				CHAR szValueName[MAX_PATH];
-				SIZE_T dwBuffSize;
-
-				if (pData->flags&CSSF_MASK_NAME)
-				{// set custom status name
-					mir_snprintf(szValueName,SIZEOF(szValueName),"XStatus%ldName",dwXStatus);
-					if (pData->flags&CSSF_UNICODE)
-					{
-						dwBuffSize=lstrlenW(pData->pwszName);
-						if (dwBuffSize>STATUS_TITLE_MAX) dwBuffSize=STATUS_TITLE_MAX;
-
-						DB_Mra_SetStringExW(NULL,szValueName,pData->pwszName,dwBuffSize);
-						DB_Mra_SetStringExW(NULL,DBSETTING_XSTATUSNAME,pData->pwszName,dwBuffSize);
-					}else{
-						dwBuffSize=lstrlenA(pData->pszName);
-						if (dwBuffSize>STATUS_TITLE_MAX) dwBuffSize=STATUS_TITLE_MAX;
-
-						DB_Mra_SetStringExA(NULL,szValueName,pData->pszName,dwBuffSize);
-						DB_Mra_SetStringExA(NULL,DBSETTING_XSTATUSNAME,pData->pszName,dwBuffSize);
-					}
-				}
-
-				if (pData->flags&CSSF_MASK_MESSAGE)
-				{// set custom status message
-					mir_snprintf(szValueName,SIZEOF(szValueName),"XStatus%ldMsg",dwXStatus);
-					if (pData->flags&CSSF_UNICODE)
-					{
-						dwBuffSize=lstrlenW(pData->pwszMessage);
-						if (dwBuffSize>STATUS_TITLE_MAX) dwBuffSize=STATUS_DESC_MAX;
-
-						DB_Mra_SetStringExW(NULL,szValueName,pData->pwszMessage,dwBuffSize);
-						DB_Mra_SetStringExW(NULL,DBSETTING_XSTATUSMSG,pData->pwszMessage,dwBuffSize);
-					}else{
-						dwBuffSize=lstrlenA(pData->pszMessage);
-						if (dwBuffSize>STATUS_TITLE_MAX) dwBuffSize=STATUS_DESC_MAX;
-
-						DB_Mra_SetStringExA(NULL,szValueName,pData->pszMessage,dwBuffSize);
-						DB_Mra_SetStringExA(NULL,DBSETTING_XSTATUSMSG,pData->pszMessage,dwBuffSize);
-					}
-				}
-			}else{// неудача только если мы не ставили Хстатус и попытались записать сообщения для "нет" статуса
-				if ((pData->flags&CSSF_MASK_STATUS)==0) iRet=1;
-			}
-		}
-
-		if (pData->flags&(CSSF_MASK_STATUS|CSSF_MASK_NAME|CSSF_MASK_MESSAGE) && iRet==0)
-		{// set/update xstatus code and/or message
-			MraSetXStatusInternal(dwXStatus);
-		}
-
-		if (pData->flags&CSSF_DISABLE_UI)
-		{// hide menu items
-			masMraSettings.bHideXStatusUI=(*pData->wParam)? FALSE:TRUE;
-			for (DWORD i=0;i<MRA_XSTATUS_COUNT;i++) CListShowMenuItem(masMraSettings.hXStatusMenuItems[i],!masMraSettings.bHideXStatusUI);
-		}
-	}
-return(iRet);
-}
-
-INT_PTR MraGetXStatus(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet;
-
-	if (masMraSettings.bLoggedIn)
-	{
-		if (wParam) *((CHAR**)wParam)=DBSETTING_XSTATUSNAME;
-		if (lParam) *((CHAR**)lParam)=DBSETTING_XSTATUSMSG;
-		iRet=MraGetXStatusInternal();
-	}else{
-		iRet=0;
-	}
-
-return(iRet);
-}
-
-INT_PTR MraGetXStatusEx(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=1;
-	HANDLE hContact=(HANDLE)wParam;
-	ICQ_CUSTOM_STATUS *pData=(ICQ_CUSTOM_STATUS*)lParam;
-
-	if (pData->cbSize>=sizeof(ICQ_CUSTOM_STATUS))
-	{
-		DWORD dwXStatus;
-
-		iRet=0;
-
-		if (pData->flags&CSSF_MASK_STATUS)
-		{// fill status member
-			*pData->status=MraGetXStatusInternal();
-		}
-
-		if (pData->flags&CSSF_MASK_NAME)
-		{// fill status name member
-			if (pData->flags&CSSF_DEFAULT_NAME)
-			{
-				dwXStatus=(*pData->wParam);
-				if (IsXStatusValid(dwXStatus))
-				{
-					if (pData->flags&CSSF_UNICODE)
-					{
-						lstrcpynW(pData->pwszName,lpcszXStatusNameDef[dwXStatus],(STATUS_TITLE_MAX+1));
-					}else{
-						SIZE_T dwStatusTitleSize;
-
-						dwStatusTitleSize=lstrlenW(lpcszXStatusNameDef[dwXStatus]);
-						if (dwStatusTitleSize>STATUS_TITLE_MAX) dwStatusTitleSize=STATUS_TITLE_MAX;
-
-						WideCharToMultiByte(MRA_CODE_PAGE,0,lpcszXStatusNameDef[dwXStatus],dwStatusTitleSize,pData->pszName,MAX_PATH,NULL,NULL );
-						(*((CHAR*)(pData->pszName+dwStatusTitleSize)))=0;
-					}
-				}else{// failure
-					iRet=1;
-				}
-			}else{
-				if (pData->flags&CSSF_UNICODE)
-				{
-					DB_Mra_GetStaticStringW(hContact,DBSETTING_XSTATUSNAME,pData->pwszName,(STATUS_TITLE_MAX+1),NULL);
-				}else{
-					DB_Mra_GetStaticStringA(hContact,DBSETTING_XSTATUSNAME,pData->pszName,(STATUS_TITLE_MAX+1),NULL);
-				}
-			}
-		}
-
-		if (pData->flags&CSSF_MASK_MESSAGE)
-		{// fill status message member
-			if (pData->flags&CSSF_UNICODE)
-			{
-				DB_Mra_GetStaticStringW(hContact,DBSETTING_XSTATUSMSG,pData->pwszMessage,(STATUS_DESC_MAX+1),NULL);
-			}else{
-				DB_Mra_GetStaticStringA(hContact,DBSETTING_XSTATUSMSG,pData->pszMessage,(STATUS_DESC_MAX+1),NULL);
-			}
-		}
-
-		if (pData->flags&CSSF_DISABLE_UI)
-		{
-			if (pData->wParam) (*pData->wParam)=masMraSettings.bHideXStatusUI;
-		}
-
-		if (pData->flags&CSSF_STATUSES_COUNT)
-		{
-			if (pData->wParam) (*pData->wParam)=(MRA_XSTATUS_COUNT-1);
-		}
-
-		if (pData->flags&CSSF_STR_SIZES)
-		{//**deb можно оптимизировать, данный параметр возможно уже был вычислен при получении самих текстов
-			if (pData->wParam) DB_Mra_GetStaticStringW(hContact,DBSETTING_XSTATUSNAME,NULL,0,(SIZE_T*)pData->wParam);
-			if (pData->lParam) DB_Mra_GetStaticStringW(hContact,DBSETTING_XSTATUSMSG,NULL,0,(SIZE_T*)pData->lParam);
-		}
-	}
-return(iRet);
-}
-
-INT_PTR MraGetXStatusIcon(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet;
-
-	if (wParam==0) wParam=MraGetXStatusInternal();
-	iRet=(INT_PTR)IconLibGetIconEx(masMraSettings.hXStatusAdvancedStatusIcons[wParam],lParam);
-
-return(iRet);
-}
-
-
-DWORD MraSendNewStatus(DWORD dwStatusMir,DWORD dwXStatusMir,LPWSTR lpwszStatusTitle,SIZE_T dwStatusTitleSize,LPWSTR lpwszStatusDesc,SIZE_T dwStatusDescSize)
-{
-	if (masMraSettings.bLoggedIn)
-	{
-		CHAR szValueName[MAX_PATH];
-		WCHAR wszStatusTitle[STATUS_TITLE_MAX+4],wszStatusDesc[STATUS_DESC_MAX+4];
-		DWORD dwStatus,dwXStatus;
-
-		dwStatus=GetMraStatusFromMiradaStatus(dwStatusMir,dwXStatusMir,&dwXStatus);
-		if (IsXStatusValid(dwXStatusMir))
-		{// xstatuses
-			if (lpwszStatusTitle==NULL || dwStatusTitleSize==0)
-			{
-				mir_snprintf(szValueName,SIZEOF(szValueName),"XStatus%ldName",dwXStatusMir);
-				if (DB_Mra_GetStaticStringW(NULL,szValueName,wszStatusTitle,(STATUS_TITLE_MAX+1),&dwStatusTitleSize))
-				{// custom xstatus name
-					lpwszStatusTitle=wszStatusTitle;
-				}else{// default xstatus name
-					lpwszStatusTitle=TranslateW(lpcszXStatusNameDef[dwXStatusMir]);
-					dwStatusTitleSize=lstrlenW(lpwszStatusTitle);
-				}
-			}
-
-			if (lpwszStatusDesc==NULL || dwStatusDescSize==0)
-			{
-				mir_snprintf(szValueName,SIZEOF(szValueName),"XStatus%ldMsg",dwXStatusMir);
-				if (DB_Mra_GetStaticStringW(NULL,szValueName,wszStatusDesc,(STATUS_DESC_MAX+1),&dwStatusDescSize))
-				{// custom xstatus description
-					lpwszStatusDesc=wszStatusDesc;
-				}else{// default xstatus description
-					lpwszStatusDesc=NULL;
-					dwStatusDescSize=0;
-				}
-			}
-		}else{// not xstatuses
-			if (lpwszStatusTitle==NULL || dwStatusTitleSize==0)
-			{
-				lpwszStatusTitle=GetStatusModeDescriptionW(dwStatusMir);
-				dwStatusTitleSize=lstrlenW(lpwszStatusTitle);
-			}
-		}
-
-		MraSendCommand_ChangeStatusW(dwStatus,lpcszStatusUri[dwXStatus],lstrlenA(lpcszStatusUri[dwXStatus]),lpwszStatusTitle,dwStatusTitleSize,lpwszStatusDesc,dwStatusDescSize,((DB_Mra_GetByte(NULL,"RTFReceiveEnable",MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS));
-	}
-
-return(0);
-}
-
-
-
-INT_PTR MraSetAwayMsgA(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=1;
-
-	if (masMraSettings.bLoggedIn)
-	{
-		WCHAR wszStatusDesc[STATUS_DESC_MAX+1];
-		SIZE_T dwStatusDescSize;
-
-		if (lParam)
-		{
-			dwStatusDescSize=MultiByteToWideChar(MRA_CODE_PAGE,0,(LPSTR)lParam,-1,wszStatusDesc,(SIZEOF(wszStatusDesc)-1));
-		}else{
-			dwStatusDescSize=0;
-		}
-		wszStatusDesc[dwStatusDescSize]=0;
-
-		iRet=MraSetAwayMsg(wParam,(LPARAM)wszStatusDesc);
-	}
-return(iRet);
-}
-
-INT_PTR MraSetAwayMsg(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=1;
-
-	if (masMraSettings.bLoggedIn)
-	{
-		LPWSTR lpwszStatusDesc;
-		DWORD dwStatus,dwXStatus;
-		SIZE_T dwStatusDescSize;
-
-		lpwszStatusDesc=(LPWSTR)lParam;
-		dwStatusDescSize=lstrlenW(lpwszStatusDesc);
-		dwStatus=MraGetStatus(0,0);
-		dwXStatus=MraGetXStatusInternal();
-
-		if (dwStatus!=ID_STATUS_ONLINE || IsXStatusValid(dwXStatus)==FALSE)
-		{// не отправляем новый статусный текст для хстатусов, для хстатусов только эвей сообщения
-			dwStatusDescSize=min(dwStatusDescSize,STATUS_DESC_MAX);
-			MraSendNewStatus(dwStatus,dwXStatus,NULL,0,lpwszStatusDesc,dwStatusDescSize);
-		}
-		iRet=0;
-	}
-return(iRet);
-}
-
-
-INT_PTR MraGetAwayMsg(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=0;
-
-	if (masMraSettings.bLoggedIn && lParam)
-	{
-		CHAR szStatusDesc[MICBLOG_STATUS_MAX+MICBLOG_STATUS_MAX+MAX_PATH],szBlogStatus[MICBLOG_STATUS_MAX+4],szTime[64];
-		DWORD dwTime;
-		SIZE_T dwStatusDescSize;
-		CCSDATA* ccs=(CCSDATA*)lParam;
-		SYSTEMTIME stBlogStatusTime={0};
-
-		if (DB_Mra_GetStaticStringA(ccs->hContact,DBSETTING_BLOGSTATUS,szBlogStatus,SIZEOF(szBlogStatus),NULL))
-		{
-			dwTime=DB_Mra_GetDword(ccs->hContact,DBSETTING_BLOGSTATUSTIME,0);
-			if (dwTime && MakeLocalSystemTimeFromTime32(dwTime,&stBlogStatusTime))
-			{
-				mir_snprintf(szTime,SIZEOF(szTime),"%04ld.%02ld.%02ld %02ld:%02ld: ",stBlogStatusTime.wYear,stBlogStatusTime.wMonth,stBlogStatusTime.wDay,stBlogStatusTime.wHour,stBlogStatusTime.wMinute);
-			}else{
-				szTime[0]=0;
-			}
-			
-			dwStatusDescSize=mir_snprintf(szStatusDesc,SIZEOF(szStatusDesc),"%s%s",szTime,szBlogStatus);
-
-			iRet=GetTickCount();
-			ProtoBroadcastAckAsynchEx(PROTOCOL_NAMEA,ccs->hContact,ACKTYPE_AWAYMSG,ACKRESULT_SUCCESS,(HANDLE)iRet,(LPARAM)szStatusDesc,dwStatusDescSize);
-		}
-	}
-return(iRet);
-}
-
-
-INT_PTR MraAuthAllow(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=1;
-
-	if (masMraSettings.bLoggedIn)
-	{
-		DBEVENTINFO dbei={0};
-
-		dbei.cbSize=sizeof(dbei);
-		if ((dbei.cbBlob=CallService(MS_DB_EVENT_GETBLOBSIZE,wParam,0))!=-1)
-		{
-			dbei.pBlob=(PBYTE)MEMALLOC(dbei.cbBlob);
-			if (dbei.pBlob)
-			{
-				if (CallService(MS_DB_EVENT_GET,wParam,(LPARAM)&dbei)==0)
-				if (dbei.eventType==EVENTTYPE_AUTHREQUEST)
-				if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,dbei.szModule,-1,PROTOCOL_NAMEA,PROTOCOL_NAME_LEN)==CSTR_EQUAL)
-				{
-					LPSTR lpszNick,lpszFirstName,lpszLastName,lpszEMail,lpszRequestReason;
-					
-					lpszNick=(LPSTR)(dbei.pBlob+sizeof(DWORD)*2);
-					lpszFirstName=lpszNick+lstrlenA(lpszNick)+1;
-					lpszLastName=lpszFirstName+lstrlenA(lpszFirstName)+1;
-					lpszEMail=lpszLastName+lstrlenA(lpszLastName)+1;
-					lpszRequestReason=lpszEMail+lstrlenA(lpszEMail)+1;
-
-					MraSendCommand_Authorize(lpszEMail,lstrlenA(lpszEMail));
-					iRet=0;
-				}
-				MEMFREE(dbei.pBlob);
-			}
-		}
-	}
-return(iRet);
-}
-
-
-INT_PTR MraAuthDeny(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=1;
-
-	if (lParam && masMraSettings.bLoggedIn)
-	{
-		DBEVENTINFO dbei={0};
-
-		dbei.cbSize=sizeof(dbei);
-		if ((dbei.cbBlob=CallService(MS_DB_EVENT_GETBLOBSIZE,wParam,0))!=-1)
-		{
-			dbei.pBlob=(PBYTE)MEMALLOC(dbei.cbBlob);
-			if (dbei.pBlob)
-			{
-				if (CallService(MS_DB_EVENT_GET,wParam,(LPARAM)&dbei)==0)
-				if (dbei.eventType==EVENTTYPE_AUTHREQUEST)
-				if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,dbei.szModule,-1,PROTOCOL_NAMEA,PROTOCOL_NAME_LEN)==CSTR_EQUAL)
-				{
-					LPSTR lpszNick,lpszFirstName,lpszLastName,lpszEMail,lpszRequestReason;
-					SIZE_T dwEMailSize,dwRequestReasonSize;
-					//HANDLE hContact;
-					
-					lpszNick=(LPSTR)(dbei.pBlob+sizeof(DWORD)*2);
-					lpszFirstName=lpszNick+lstrlenA(lpszNick)+1;
-					lpszLastName=lpszFirstName+lstrlenA(lpszFirstName)+1;
-					lpszEMail=lpszLastName+lstrlenA(lpszLastName)+1;
-					dwEMailSize=lstrlenA(lpszEMail);
-					lpszRequestReason=(LPSTR)lParam;
-					dwRequestReasonSize=lstrlenA(lpszRequestReason);
-
-					if (dwRequestReasonSize) MraSendCommand_MessageW(FALSE,NULL,0,0,lpszEMail,dwEMailSize,(LPWSTR)lpszRequestReason,dwRequestReasonSize,NULL,0);
-					//hContact=MraHContactFromEmail(lpszEMail,dwEMailSize,FALSE,TRUE,NULL);
-					//if (DBGetContactSettingByte(hContact,"CList","NotOnList",0)) CallService(MS_DB_CONTACT_DELETE,(WPARAM)hContact,0);
-
-					iRet=0;
-				}
-				MEMFREE(dbei.pBlob);
-			}
-		}
-	}
-return(iRet);
-}
-
-
-
-HANDLE AddToListByEmail(MRA_LPS *plpsEMail,MRA_LPS *plpsNick,MRA_LPS *plpsFirstName,MRA_LPS *plpsLastName,DWORD dwFlags)
-{
-	HANDLE hContact=NULL;
-
-	if (plpsEMail)
-	if (plpsEMail->dwSize)
-	{
-		BOOL bAdded;
-
-		hContact=MraHContactFromEmail(plpsEMail->lpszData,plpsEMail->dwSize,TRUE,TRUE,&bAdded);
-		if (hContact)
-		{
-			if (plpsNick)
-			if (plpsNick->dwSize)
-			{
-				DB_Mra_SetLPSStringA(hContact,"Nick",plpsNick);
-				if (bAdded)
-				{// впервые добавляется контакт в базу///***deb
-					//SetContactBasicInfoW(hContact,SCBIFSI_LOCK_CHANGES_EVENTS,SCBIF_NICK,0,0,0,0,0,NULL,0,plpsNick->lpszData,plpsNick->dwSize,NULL,0);
-				}
-			}
-
-			if (plpsFirstName)
-			if (plpsFirstName->dwSize) DB_Mra_SetLPSStringA(hContact,"FirstName",plpsFirstName);
-
-			if (plpsLastName)
-			if (plpsLastName->dwSize) DB_Mra_SetLPSStringA(hContact,"LastName",plpsLastName);
-
-			if (dwFlags&PALF_TEMPORARY)
-			{
-				DBWriteContactSettingByte(hContact,"CList","Hidden",1);
-			}else{
-				DBDeleteContactSetting(hContact,"CList","NotOnList");
-			}
-
-			if (bAdded) MraUpdateContactInfo(hContact);
-		}
-	}
-return(hContact);
-}
-
-
-INT_PTR MraAddToList(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet;
-	PROTOSEARCHRESULT *psr=(PROTOSEARCHRESULT*)lParam;
-
-	if (psr->cbSize==sizeof(PROTOSEARCHRESULT))
-	{
-		MRA_LPS lpsEMail,lpsNick,lpsFirstName,lpsLastName;
-		
-		lpsEMail.dwSize=lstrlenA((LPSTR)psr->email);
-		lpsEMail.lpwszData=psr->email;
-		lpsNick.dwSize=lstrlenA((LPSTR)psr->nick);
-		lpsNick.lpwszData=psr->nick;
-		lpsFirstName.dwSize=lstrlenA((LPSTR)psr->firstName);
-		lpsFirstName.lpwszData=psr->firstName;
-		lpsLastName.dwSize=lstrlenA((LPSTR)psr->lastName);
-		lpsLastName.lpwszData=psr->lastName;
-
-		iRet=(INT_PTR)AddToListByEmail(&lpsEMail,&lpsNick,&lpsFirstName,&lpsLastName,wParam);
-	}else{
-		iRet=0;
-	}
-return(iRet);
-}
-
-
-INT_PTR MraAddToListByEvent(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=0;
-	DBEVENTINFO dbei={0};
-
-	dbei.cbSize=sizeof(dbei);
-	if ((dbei.cbBlob=CallService(MS_DB_EVENT_GETBLOBSIZE,lParam,0))!=-1)
-	{
-		dbei.pBlob=(PBYTE)MEMALLOC(dbei.cbBlob);
-		if (dbei.pBlob)
-		{
-			if (CallService(MS_DB_EVENT_GET,lParam,(LPARAM)&dbei)==0)
-			if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,dbei.szModule,-1,PROTOCOL_NAMEA,PROTOCOL_NAME_LEN)==CSTR_EQUAL)
-			if (dbei.eventType==EVENTTYPE_AUTHREQUEST || dbei.eventType==EVENTTYPE_CONTACTS)
-			{
-				LPSTR lpszRequestReason;
-				MRA_LPS lpsEMail,lpsNick,lpsFirstName,lpsLastName;
-
-				lpsNick.lpszData=(LPSTR)(dbei.pBlob+ ((dbei.eventType==EVENTTYPE_AUTHREQUEST)?(sizeof(DWORD)*2):0));
-				lpsNick.dwSize=lstrlenA(lpsNick.lpszData);
-				lpsFirstName.lpszData=lpsNick.lpszData+lpsNick.dwSize+1;
-				lpsFirstName.dwSize=lstrlenA(lpsFirstName.lpszData);
-				lpsLastName.lpszData=lpsFirstName.lpszData+lpsFirstName.dwSize+1;
-				lpsLastName.dwSize=lstrlenA(lpsLastName.lpszData);
-				lpsEMail.lpszData=lpsLastName.lpszData+lpsLastName.dwSize+1;
-				lpsEMail.dwSize=lstrlenA(lpsEMail.lpszData);
-				lpszRequestReason=lpsEMail.lpszData+lpsEMail.dwSize+1;
-
-				iRet=(INT_PTR)AddToListByEmail(&lpsEMail,&lpsNick,&lpsFirstName,&lpsLastName,0);
-			}else{
-				dbei.eventType=dbei.eventType;
-				DebugBreak();
-			}
-			MEMFREE(dbei.pBlob);
-		}
-	}
-return(iRet);
-}
-
-
-/*
-   ---------------------------------
-   |           Receiving           |
-   ---------------------------------
-*/
-INT_PTR MraRecvMessage(WPARAM wParam,LPARAM lParam)
-{
-	CallService(MS_PROTO_RECVMSG,0,(LPARAM)lParam);
-return(0);
-}
-
-
-INT_PTR MraRecvContacts(WPARAM wParam,LPARAM lParam)
-{
-	CCSDATA* ccs=(CCSDATA*)lParam;
-	DBEVENTINFO dbei={0};
-	PROTORECVEVENT* pre=(PROTORECVEVENT*)ccs->lParam;
-
-	dbei.cbSize=sizeof(dbei);
-	dbei.szModule=PROTOCOL_NAMEA;
-	dbei.timestamp=pre->timestamp;
-	dbei.flags=(pre->flags&PREF_CREATEREAD)?DBEF_READ:0;
-	dbei.eventType=EVENTTYPE_CONTACTS;
-	dbei.cbBlob=pre->lParam;
-	dbei.pBlob=(PBYTE)pre->szMessage;
-
-	CallService(MS_DB_EVENT_ADD,(WPARAM)ccs->hContact,(LPARAM)&dbei);
-return(0);
-}
-
-
-INT_PTR MraRecvFile(WPARAM wParam,LPARAM lParam)
-{
-	CCSDATA* ccs=(CCSDATA*)lParam;
-	PROTORECVFILET* pre=(PROTORECVFILET*)ccs->lParam;
-
-	CallService(MS_PROTO_RECVFILET,0,(LPARAM)lParam);
-return(0);
-}
-
-
-INT_PTR MraRecvAuth(WPARAM wParam,LPARAM lParam)
-{
-	CCSDATA* ccs=(CCSDATA*)lParam;
-	DBEVENTINFO dbei={0};
-	PROTORECVEVENT* pre=(PROTORECVEVENT*)ccs->lParam;
-
-	dbei.cbSize=sizeof(dbei);
-	dbei.szModule=PROTOCOL_NAMEA;
-	dbei.timestamp=pre->timestamp;
-	dbei.flags=(pre->flags&PREF_CREATEREAD)?DBEF_READ:0;
-	dbei.eventType=EVENTTYPE_AUTHREQUEST;
-	dbei.cbBlob=pre->lParam;
-	dbei.pBlob=(PBYTE)pre->szMessage;
-
-	CallService(MS_DB_EVENT_ADD,(WPARAM)NULL,(LPARAM)&dbei);
-return(0);
-}
-
-
-/*
-   ---------------------------------
-   |           Sending             |
-   ---------------------------------
-*/
-INT_PTR MraSendAuthRequest(WPARAM wParam,LPARAM lParam)
-{// internal only
-	INT_PTR iRet=1;
-
-	if (masMraSettings.bLoggedIn && lParam)
-	{
-		BOOL bSlowSend;
-		CHAR szEMail[MAX_EMAIL_LEN];
-		LPWSTR lpwszMessage;
-		SIZE_T dwEMailSize,dwMessageSize;
-		CCSDATA* ccs=(CCSDATA*)lParam;
-
-		if (ccs->wParam&PREF_UNICODE)//flags
-		{
-			lpwszMessage=(LPWSTR)ccs->lParam;
-			dwMessageSize=lstrlenW(lpwszMessage);
-		}else{
-			dwEMailSize=lstrlenA((LPSTR)ccs->lParam);
-			lpwszMessage=(LPWSTR)MEMALLOC(((dwEMailSize+MAX_PATH)*sizeof(WCHAR)));
-			if (lpwszMessage)
-			{
-				dwMessageSize=MultiByteToWideChar(MRA_CODE_PAGE,0,(LPSTR)ccs->lParam,dwEMailSize,lpwszMessage,(dwEMailSize+MAX_PATH));
-			}
-		}
-
-		if (lpwszMessage)
-		{
-			if (DB_Mra_GetStaticStringA(ccs->hContact,"e-mail",szEMail,SIZEOF(szEMail),&dwEMailSize))
-			{
-				bSlowSend=DB_Mra_GetByte(NULL,"SlowSend",MRA_DEFAULT_SLOW_SEND);
-				iRet=MraSendCommand_MessageW(bSlowSend,ccs->hContact,ACKTYPE_AUTHREQ,MESSAGE_FLAG_AUTHORIZE,szEMail,dwEMailSize,lpwszMessage,dwMessageSize,NULL,0);
-				if (bSlowSend==FALSE)
-				{
-					ProtoBroadcastAckAsynchEx(PROTOCOL_NAMEA,ccs->hContact,ACKTYPE_AUTHREQ,ACKRESULT_SUCCESS,(HANDLE)iRet,(LPARAM)NULL,0);
-				}
-				iRet=0;
-			}
-
-			if (lpwszMessage!=(LPWSTR)ccs->lParam) MEMFREE(lpwszMessage);
-		}
-	}
-return(iRet);
-}
-
-
-INT_PTR MraSendMessage(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=0;
-	CCSDATA* ccs=(CCSDATA*)lParam;
-
-	if (masMraSettings.bLoggedIn)
-	{
-		BOOL bSlowSend,bMemAllocated=FALSE;
-		CHAR szEMail[MAX_EMAIL_LEN];
-		DWORD dwFlags=0;
-		LPSTR lpszMessage;
-		LPWSTR lpwszMessage=NULL;
-		SIZE_T dwEMailSize,dwMessageSize=0;
-
-		lpszMessage=(LPSTR)ccs->lParam;
-		dwMessageSize=lstrlenA(lpszMessage);
-		if (ccs->wParam&PREF_UNICODE)//flags
-		{
-			lpwszMessage=(LPWSTR)(lpszMessage+dwMessageSize+1);
-		}else
-		if (ccs->wParam&PREF_UTF){// convert to unicode from utf8
-			lpwszMessage=(LPWSTR)MEMALLOC(((dwMessageSize+MAX_PATH)*sizeof(WCHAR)));
-			if (lpwszMessage)
-			{
-				dwMessageSize=MultiByteToWideChar(CP_UTF8,0,lpszMessage,dwMessageSize,lpwszMessage,(dwMessageSize+MAX_PATH));
-				bMemAllocated=TRUE;
-			}
-		}else{// convert to unicode from ansi
-			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG,0,TranslateW(L"Send ANSI"));
-			lpwszMessage=(LPWSTR)MEMALLOC(((dwMessageSize+MAX_PATH)*sizeof(WCHAR)));
-			if (lpwszMessage)
-			{
-				dwMessageSize=MultiByteToWideChar(MRA_CODE_PAGE,0,lpszMessage,dwMessageSize,lpwszMessage,(dwMessageSize+MAX_PATH));
-				bMemAllocated=TRUE;
-			}
-		}
-
-		if (lpwszMessage)
-		{
-			if (DB_Mra_GetStaticStringA(ccs->hContact,"e-mail",szEMail,SIZEOF(szEMail),&dwEMailSize))
-			{
-				bSlowSend=DB_Mra_GetByte(NULL,"SlowSend",MRA_DEFAULT_SLOW_SEND);
-
-				if (DB_Mra_GetByte(NULL,"RTFSendEnable",MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(ccs->hContact)&FEATURE_FLAG_RTF_MESSAGE))
-				{
-					dwFlags|=MESSAGE_FLAG_RTF;
-				}
-
-				iRet=MraSendCommand_MessageW(bSlowSend,ccs->hContact,ACKTYPE_MESSAGE,dwFlags,szEMail,dwEMailSize,lpwszMessage,dwMessageSize,NULL,0);
-				if (bSlowSend==FALSE)
-				{
-					ProtoBroadcastAckAsynchEx(PROTOCOL_NAMEA,ccs->hContact,ACKTYPE_MESSAGE,ACKRESULT_SUCCESS,(HANDLE)iRet,(LPARAM)NULL,0);
-				}
-			}
-
-			if (bMemAllocated) MEMFREE(lpwszMessage);
-		}else{
-			ProtoBroadcastAckAsynchEx(PROTOCOL_NAMEA,ccs->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,NULL,(LPARAM)"Cant allocate buffer for convert to unicode.",-1);
-		}
-	}else{
-		ProtoBroadcastAckAsynchEx(PROTOCOL_NAMEA,ccs->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,NULL,(LPARAM)"You cannot send when you are offline.",-1);
-	}
-return(iRet);
-}
-
-
-INT_PTR MraSendContacts(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=0;
-	CCSDATA* ccs=(CCSDATA*)lParam;
-
-	if (masMraSettings.bLoggedIn && lParam)
-	{
-		BOOL bSlowSend;
-		CHAR szEMail[MAX_EMAIL_LEN];
-		LPWSTR lpwszData,lpwszDataCurrent,lpwszNick;
-		SIZE_T i,dwContacts,dwDataBuffSize,dwEMailSize,dwStringSize,dwNickSize;
-		HANDLE *hContactsList=(HANDLE*)ccs->lParam;
-
-		dwContacts=HIWORD(ccs->wParam);
-		dwDataBuffSize=(dwContacts*(MAX_EMAIL_LEN*2));
-		lpwszData=(LPWSTR)MEMALLOC((dwDataBuffSize*sizeof(WCHAR)));
-		if (lpwszData)
-		{
-			lpwszDataCurrent=lpwszData;
-			if (DB_Mra_GetStaticStringA(ccs->hContact,"e-mail",szEMail,SIZEOF(szEMail),&dwEMailSize))
-			{
-				for(i=0;i<dwContacts;i++)
-				{
-					if (IsContactMra(hContactsList[i]))
-					if (DB_Mra_GetStaticStringW(hContactsList[i],"e-mail",lpwszDataCurrent,(dwDataBuffSize-(lpwszDataCurrent-lpwszData)),&dwStringSize))
-					{
-						lpwszDataCurrent+=dwStringSize;
-						(*lpwszDataCurrent)=';';
-						lpwszDataCurrent++;
-
-						lpwszNick=GetContactNameW(hContactsList[i]);
-						dwNickSize=lstrlenW(lpwszNick);
-						memmove(lpwszDataCurrent,lpwszNick,(dwNickSize*sizeof(WCHAR)));
-						lpwszDataCurrent+=dwNickSize;
-						(*lpwszDataCurrent)=';';
-						lpwszDataCurrent++;
-					}
-				}
-
-				bSlowSend=DB_Mra_GetByte(NULL,"SlowSend",MRA_DEFAULT_SLOW_SEND);
-				iRet=MraSendCommand_MessageW(bSlowSend,ccs->hContact,ACKTYPE_CONTACTS,MESSAGE_FLAG_CONTACT,szEMail,dwEMailSize,lpwszData,(lpwszDataCurrent-lpwszData),NULL,0);
-				if (bSlowSend==FALSE)
-				{
-					ProtoBroadcastAckAsynchEx(PROTOCOL_NAMEA,ccs->hContact,ACKTYPE_CONTACTS,ACKRESULT_SUCCESS,(HANDLE)iRet,(LPARAM)NULL,0);
-				}
-			}
-			MEMFREE(lpwszData);
-		}
-	}else{
-		ProtoBroadcastAckAsynchEx(PROTOCOL_NAMEA,ccs->hContact,ACKTYPE_CONTACTS,ACKRESULT_FAILED,NULL,(LPARAM)"You cannot send when you are offline.",-1);
-	}
-return(iRet);
-}
-
-
-INT_PTR MraSendUserIsTyping(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=1;
-
-	if (masMraSettings.bLoggedIn && wParam && lParam!=PROTOTYPE_SELFTYPING_OFF)
-	{
-		CHAR szEMail[MAX_EMAIL_LEN];
-		SIZE_T dwEMailSize;
-		HANDLE hContact=(HANDLE)wParam;
-
-		if (MraGetContactStatus(hContact)!=ID_STATUS_OFFLINE && MraGetStatus(0,0)!=ID_STATUS_INVISIBLE)
-		if (DB_Mra_GetStaticStringA(hContact,"e-mail",szEMail,SIZEOF(szEMail),&dwEMailSize))
-		{
-			if (MraSendCommand_MessageW(FALSE,hContact,0,MESSAGE_FLAG_NOTIFY,szEMail,dwEMailSize,L" ",1,NULL,0)) iRet=0;
-		}
-	}
-return(iRet);
-}
-
-
-INT_PTR MraSendNudge(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=1;
-
-	if (masMraSettings.bLoggedIn && wParam)
-	{
-		CHAR szEMail[MAX_EMAIL_LEN];
-		LPWSTR lpwszAlarmMessage=TranslateW(MRA_ALARM_MESSAGE);
-		SIZE_T dwEMailSize;
-		HANDLE hContact=(HANDLE)wParam;
-
-		if (DB_Mra_GetStaticStringA(hContact,"e-mail",szEMail,SIZEOF(szEMail),&dwEMailSize))
-		{
-			if (MraSendCommand_MessageW(FALSE,hContact,0,(MESSAGE_FLAG_RTF|MESSAGE_FLAG_ALARM),szEMail,dwEMailSize,lpwszAlarmMessage,lstrlenW(lpwszAlarmMessage),NULL,0)) iRet=0;
-		}
-	}
-return(iRet);
-}
-
-
-INT_PTR MraSetApparentMode(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=1;
-
-	if (masMraSettings.bLoggedIn && lParam)
-	{
-		CCSDATA *ccs=(CCSDATA*)lParam;
-
-		if (ccs->hContact && ccs->wParam==0 || ccs->wParam==ID_STATUS_ONLINE || ccs->wParam==ID_STATUS_OFFLINE)
-		{// Only 3 modes are supported
-			DWORD dwOldMode=DB_Mra_GetWord(ccs->hContact,"ApparentMode",0);
-
-			// Dont send redundant updates
-			if (ccs->wParam!=dwOldMode)
-			{
-				CHAR szEMail[MAX_EMAIL_LEN],szPhones[MAX_EMAIL_LEN];
-				WCHAR wszNick[MAX_EMAIL_LEN];
-				DWORD dwID,dwGroupID,dwContactFlag=0;
-				SIZE_T dwEMailSize,dwNickSize,dwPhonesSize;
-
-				GetContactBasicInfoW(ccs->hContact,&dwID,&dwGroupID,&dwContactFlag,NULL,NULL,szEMail,SIZEOF(szEMail),&dwEMailSize,wszNick,SIZEOF(wszNick),&dwNickSize,szPhones,SIZEOF(szPhones),&dwPhonesSize);
-
-				dwContactFlag&=~(CONTACT_FLAG_INVISIBLE|CONTACT_FLAG_VISIBLE);
-				switch(ccs->wParam){
-				case ID_STATUS_OFFLINE:
-					dwContactFlag|=CONTACT_FLAG_INVISIBLE;
-					break;
-				case ID_STATUS_ONLINE:
-					dwContactFlag|=CONTACT_FLAG_VISIBLE;
-					break;
-				}
-
-				if (MraSendCommand_ModifyContactW(ccs->hContact,dwID,dwContactFlag,dwGroupID,szEMail,dwEMailSize,wszNick,dwNickSize,szPhones,dwPhonesSize))
-				{
-					SetContactBasicInfoW(ccs->hContact,0,SCBIF_FLAG,0,0,dwContactFlag,0,0,NULL,0,NULL,0,NULL,0);
-					iRet=0;// Success
-				}
-			}
-		}
-	}
-return(iRet);
-}
-
-
-INT_PTR MraGetInfo(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=1;
-
-	if (MraUpdateContactInfo(((CCSDATA*)lParam)->hContact))
-	{
-		iRet=0;
-	}
-return(iRet);
-}
-
-
-INT_PTR MraGetAvatarCaps(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=0;
-
-	switch(wParam){
-	case AF_MAXSIZE:
-		iRet=-1;
-		break;
-	case AF_PROPORTION:
-		iRet=PIP_NONE;
-		break;
-	case AF_FORMATSUPPORTED:
-		iRet=0;// no formats to set
-		break;
-	case AF_ENABLED:
-		iRet=1;// allways on
-		break;
-	case AF_DONTNEEDDELAYS:
-		iRet=0;// need delay
-		break;
-	case AF_MAXFILESIZE:
-		iRet=0;// 
-		break;
-	case AF_DELAYAFTERFAIL:
-		iRet=5000;
-		break;
-	}
-
 	return iRet;
 }
 
+INT_PTR CMraProto::MraSetXStatusEx(WPARAM wParam, LPARAM lParam)
+{
+	INT_PTR iRet = 1;
+	DWORD dwXStatus;
+	ICQ_CUSTOM_STATUS *pData = (ICQ_CUSTOM_STATUS*)lParam;
 
-INT_PTR MraGetAvatarInfo(WPARAM wParam,LPARAM lParam)
+	if (pData->cbSize >= sizeof(ICQ_CUSTOM_STATUS)) {
+		iRet = 0;
+
+		if (pData->flags & CSSF_MASK_STATUS) {
+			dwXStatus = *pData->status;
+			if ( IsXStatusValid(dwXStatus) == FALSE && dwXStatus != MRA_MIR_XSTATUS_NONE)
+				iRet = 1;
+		}
+		else dwXStatus = m_iXStatus;
+
+		if (pData->flags & (CSSF_MASK_NAME|CSSF_MASK_MESSAGE) && iRet == 0) {
+			if ( IsXStatusValid(dwXStatus) || dwXStatus == MRA_MIR_XSTATUS_NONE) {
+				CHAR szValueName[MAX_PATH];
+				size_t dwBuffSize;
+
+				// set custom status name
+				if (pData->flags & CSSF_MASK_NAME) {
+					mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatus);
+					if (pData->flags & CSSF_UNICODE) {
+						dwBuffSize = lstrlenW(pData->pwszName);
+						if (dwBuffSize>STATUS_TITLE_MAX) dwBuffSize = STATUS_TITLE_MAX;
+
+						mraSetStringExW(NULL, szValueName, pData->pwszName, dwBuffSize);
+						mraSetStringExW(NULL, DBSETTING_XSTATUSNAME, pData->pwszName, dwBuffSize);
+					}
+					else {
+						dwBuffSize = lstrlenA(pData->pszName);
+						if (dwBuffSize > STATUS_TITLE_MAX)
+							dwBuffSize = STATUS_TITLE_MAX;
+
+						mraSetStringExA(NULL, szValueName, pData->pszName, dwBuffSize);
+						mraSetStringExA(NULL, DBSETTING_XSTATUSNAME, pData->pszName, dwBuffSize);
+					}
+				}
+
+				// set custom status message
+				if (pData->flags & CSSF_MASK_MESSAGE) {
+					mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldMsg", dwXStatus);
+					if (pData->flags & CSSF_UNICODE) {
+						dwBuffSize = lstrlenW(pData->pwszMessage);
+						if (dwBuffSize>STATUS_TITLE_MAX) dwBuffSize = STATUS_DESC_MAX;
+
+						mraSetStringExW(NULL, szValueName, pData->pwszMessage, dwBuffSize);
+						mraSetStringExW(NULL, DBSETTING_XSTATUSMSG, pData->pwszMessage, dwBuffSize);
+					}
+					else {
+						dwBuffSize = lstrlenA(pData->pszMessage);
+						if (dwBuffSize>STATUS_TITLE_MAX) dwBuffSize = STATUS_DESC_MAX;
+
+						mraSetStringExA(NULL, szValueName, pData->pszMessage, dwBuffSize);
+						mraSetStringExA(NULL, DBSETTING_XSTATUSMSG, pData->pszMessage, dwBuffSize);
+					}
+				}
+			}
+			// неудача только если мы не ставили Хстатус и попытались записать сообщения для "нет" статуса
+			else if ( !(pData->flags & CSSF_MASK_STATUS))
+				iRet = 1;
+		}
+
+		// set/update xstatus code and/or message
+		if (pData->flags & (CSSF_MASK_STATUS|CSSF_MASK_NAME|CSSF_MASK_MESSAGE) && iRet == 0)
+			MraSetXStatusInternal(dwXStatus);
+
+		// hide menu items
+		if (pData->flags & CSSF_DISABLE_UI) {
+			bHideXStatusUI = (*pData->wParam)? FALSE:TRUE;
+			for (DWORD i = 0; i < MRA_XSTATUS_COUNT; i++)
+				CListShowMenuItem(hXStatusMenuItems[i], !bHideXStatusUI);
+		}
+	}
+	return iRet;
+}
+
+INT_PTR CMraProto::MraGetXStatus(WPARAM wParam, LPARAM lParam)
+{
+	if (m_bLoggedIn) {
+		if (wParam) *((CHAR**)wParam) = DBSETTING_XSTATUSNAME;
+		if (lParam) *((CHAR**)lParam) = DBSETTING_XSTATUSMSG;
+		return m_iXStatus;
+	}
+
+	return 0;
+}
+
+INT_PTR CMraProto::MraGetXStatusEx(WPARAM wParam, LPARAM lParam)
+{
+	INT_PTR iRet = 1;
+	HANDLE hContact = (HANDLE)wParam;
+	ICQ_CUSTOM_STATUS *pData = (ICQ_CUSTOM_STATUS*)lParam;
+
+	if (pData->cbSize >= sizeof(ICQ_CUSTOM_STATUS)) {
+		DWORD dwXStatus;
+
+		iRet = 0;
+
+		// fill status member
+		if (pData->flags & CSSF_MASK_STATUS)
+			*pData->status = m_iXStatus;
+
+		// fill status name member
+		if (pData->flags & CSSF_MASK_NAME) {
+			if (pData->flags & CSSF_DEFAULT_NAME) {
+				dwXStatus = (*pData->wParam);
+				if ( IsXStatusValid(dwXStatus)) {
+					if (pData->flags & CSSF_UNICODE) {
+						lstrcpynW(pData->pwszName, lpcszXStatusNameDef[dwXStatus], (STATUS_TITLE_MAX+1));
+					}
+					else {
+						size_t dwStatusTitleSize = lstrlenW( lpcszXStatusNameDef[dwXStatus] );
+						if (dwStatusTitleSize>STATUS_TITLE_MAX) dwStatusTitleSize = STATUS_TITLE_MAX;
+
+						WideCharToMultiByte(MRA_CODE_PAGE, 0, lpcszXStatusNameDef[dwXStatus], (DWORD)dwStatusTitleSize, pData->pszName, MAX_PATH, NULL, NULL );
+						(*((CHAR*)(pData->pszName+dwStatusTitleSize))) = 0;
+					}
+				}
+				else iRet = 1;
+			}
+			else {
+				if (pData->flags & CSSF_UNICODE)
+					mraGetStaticStringW(hContact, DBSETTING_XSTATUSNAME, pData->pwszName, (STATUS_TITLE_MAX+1), NULL);
+				else
+					mraGetStaticStringA(hContact, DBSETTING_XSTATUSNAME, pData->pszName, (STATUS_TITLE_MAX+1), NULL);
+			}
+		}
+
+		// fill status message member
+		if (pData->flags & CSSF_MASK_MESSAGE) {
+			if (pData->flags & CSSF_UNICODE)
+				mraGetStaticStringW(hContact, DBSETTING_XSTATUSMSG, pData->pwszMessage, (STATUS_DESC_MAX+1), NULL);
+			else
+				mraGetStaticStringA(hContact, DBSETTING_XSTATUSMSG, pData->pszMessage, (STATUS_DESC_MAX+1), NULL);
+		}
+
+		if (pData->flags & CSSF_DISABLE_UI)
+			if (pData->wParam)
+				*pData->wParam = bHideXStatusUI;
+
+		if (pData->flags & CSSF_STATUSES_COUNT)
+			if (pData->wParam)
+				*pData->wParam = MRA_XSTATUS_COUNT-1;
+
+		//**deb можно оптимизировать, данный параметр возможно уже был вычислен при получении самих текстов
+		if (pData->flags & CSSF_STR_SIZES) {
+			if (pData->wParam) mraGetStaticStringW(hContact, DBSETTING_XSTATUSNAME, NULL, 0, (size_t*)pData->wParam);
+			if (pData->lParam) mraGetStaticStringW(hContact, DBSETTING_XSTATUSMSG, NULL, 0, (size_t*)pData->lParam);
+		}
+	}
+	return iRet;
+}
+
+INT_PTR CMraProto::MraGetXStatusIcon(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam == 0)
+		wParam = m_iXStatus;
+
+	return (INT_PTR)IconLibGetIconEx(hXStatusAdvancedStatusIcons[wParam], lParam);
+}
+
+DWORD CMraProto::MraSendNewStatus(DWORD dwStatusMir, DWORD dwXStatusMir, LPCWSTR lpwszStatusTitle, size_t dwStatusTitleSize, LPCWSTR lpwszStatusDesc, size_t dwStatusDescSize)
+{
+	if (!m_bLoggedIn)
+		return 0;
+
+	CHAR szValueName[MAX_PATH];
+	WCHAR wszStatusTitle[STATUS_TITLE_MAX+4], wszStatusDesc[STATUS_DESC_MAX+4];
+	DWORD dwStatus, dwXStatus;
+
+	dwStatus = GetMraStatusFromMiradaStatus(dwStatusMir, dwXStatusMir, &dwXStatus);
+	if ( IsXStatusValid(dwXStatusMir)) {
+		if (lpwszStatusTitle == NULL || dwStatusTitleSize == 0) {
+			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatusMir);
+			// custom xstatus name
+			if (mraGetStaticStringW(NULL, szValueName, wszStatusTitle, (STATUS_TITLE_MAX+1), &dwStatusTitleSize))
+				lpwszStatusTitle = wszStatusTitle;
+			// default xstatus name
+			else {
+				lpwszStatusTitle = TranslateW(lpcszXStatusNameDef[dwXStatusMir]);
+				dwStatusTitleSize = lstrlenW(lpwszStatusTitle);
+			}
+		}
+
+		if (lpwszStatusDesc == NULL || dwStatusDescSize == 0) {
+			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldMsg", dwXStatusMir);
+			// custom xstatus description
+			if (mraGetStaticStringW(NULL, szValueName, wszStatusDesc, (STATUS_DESC_MAX+1), &dwStatusDescSize))
+				lpwszStatusDesc = wszStatusDesc;
+			// default xstatus description
+			else {
+				lpwszStatusDesc = NULL;
+				dwStatusDescSize = 0;
+			}
+		}
+	}
+	else {
+		if (lpwszStatusTitle == NULL || dwStatusTitleSize == 0) {
+			lpwszStatusTitle = GetStatusModeDescriptionW(dwStatusMir);
+			dwStatusTitleSize = lstrlenW(lpwszStatusTitle);
+		}
+	}
+
+	MraChangeStatusW(dwStatus, lpcszStatusUri[dwXStatus], lstrlenA(lpcszStatusUri[dwXStatus]), lpwszStatusTitle, dwStatusTitleSize, lpwszStatusDesc, dwStatusDescSize, ((mraGetByte(NULL, "RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS));
+	return 0;
+}
+
+INT_PTR CMraProto::MraSendNudge(WPARAM wParam, LPARAM lParam)
+{
+	if (m_bLoggedIn && wParam) {
+		CHAR szEMail[MAX_EMAIL_LEN];
+		LPWSTR lpwszAlarmMessage = TranslateW(MRA_ALARM_MESSAGE);
+		size_t dwEMailSize;
+		HANDLE hContact = (HANDLE)wParam;
+
+		if (mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
+			if (MraMessageW(FALSE, hContact, 0, (MESSAGE_FLAG_RTF|MESSAGE_FLAG_ALARM), szEMail, dwEMailSize, lpwszAlarmMessage, lstrlenW(lpwszAlarmMessage), NULL, 0))
+				return 0;
+	}
+	return 1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Avatars
+
+INT_PTR CMraProto::MraGetAvatarCaps(WPARAM wParam, LPARAM lParam)
+{
+	switch (wParam) {
+	case AF_MAXSIZE:
+		return -1;
+		
+	case AF_PROPORTION:
+		return PIP_NONE;
+
+	case AF_FORMATSUPPORTED:
+		return 0; // no formats to set
+
+	case AF_ENABLED:
+		return 1; // allways on
+
+	case AF_DONTNEEDDELAYS:
+		return 0; // need delay
+
+	case AF_MAXFILESIZE:
+		return 0;
+
+	case AF_DELAYAFTERFAIL:
+		return 5000;
+	}
+
+	return 0;
+}
+
+
+INT_PTR CMraProto::MraGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam) {
 		PROTO_AVATAR_INFORMATIONT *ppai = (PROTO_AVATAR_INFORMATIONT*)lParam;
-		return (INT_PTR)MraAvatarsQueueGetAvatar(masMraSettings.hAvatarsQueueHandle,(DWORD)wParam,ppai->hContact,NULL,(DWORD*)&ppai->format,ppai->filename);
+		return (INT_PTR)MraAvatarsQueueGetAvatar(hAvatarsQueueHandle, (DWORD)wParam, ppai->hContact, NULL, (DWORD*)&ppai->format, ppai->filename);
 	}
 	return GAIR_NOAVATAR;
 }
 
 
-INT_PTR MraGetMyAvatar(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraGetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	if ( MraAvatarsGetFileName(masMraSettings.hAvatarsQueueHandle, NULL, GetContactAvatarFormat(NULL, PA_FORMAT_DEFAULT), (LPTSTR)wParam, (SIZE_T)lParam, NULL) == NO_ERROR) {
+	if ( MraAvatarsGetFileName(hAvatarsQueueHandle, NULL, GetContactAvatarFormat(NULL, PA_FORMAT_DEFAULT), (LPTSTR)wParam, (size_t)lParam, NULL) == NO_ERROR) {
 		LPSTR lpsz = (LPSTR)wParam;
 		return 0;
 	}
 	return 1;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR MraBasicSearch(WPARAM wParam,LPARAM lParam)
+INT_PTR LoadModules(void)
 {
-	return(MraSearchByEmail(wParam,lParam));
+	DebugPrintCRLFW(L"MRA/LoadModules - DONE");
+	return 0;
 }
 
-INT_PTR MraSearchByEmail(WPARAM wParam,LPARAM lParam)
+void UnloadModules()
 {
-	INT_PTR iRet=0;
-
-	if (masMraSettings.bLoggedIn && lParam)
-	{
-		CHAR szEMail[MAX_EMAIL_LEN]={0};
-		SIZE_T dwEMailSize;
-
-		dwEMailSize=(WideCharToMultiByte(MRA_CODE_PAGE,0,(LPWSTR)lParam,-1,szEMail,SIZEOF(szEMail),NULL,NULL)-1);
-		iRet=MraSendCommand_WPRequestByEMail(NULL,ACKTYPE_SEARCH,szEMail,dwEMailSize);
-	}
-return(iRet);
-}
-
-INT_PTR MraSearchByName(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=0;
-
-	if (masMraSettings.bLoggedIn && lParam)
-	{
-		PROTOSEARCHBYNAME *psbn=(PROTOSEARCHBYNAME*)lParam;
-
-		if (psbn->pszNick || psbn->pszFirstName || psbn->pszLastName)
-		{
-			DWORD dwRequestFlags=0;
-			SIZE_T dwNickSize=0,dwFirstNameSize=0,dwLastNameSize=0;
-
-			if (psbn->pszNick)		dwNickSize=lstrlenW(psbn->pszNick);
-			if (psbn->pszFirstName)	dwFirstNameSize=lstrlenW(psbn->pszFirstName);
-			if (psbn->pszLastName)	dwLastNameSize=lstrlenW(psbn->pszLastName);
-
-			if (dwNickSize)			SetBit(dwRequestFlags,MRIM_CS_WP_REQUEST_PARAM_NICKNAME);
-			if (dwFirstNameSize)	SetBit(dwRequestFlags,MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME);
-			if (dwLastNameSize)		SetBit(dwRequestFlags,MRIM_CS_WP_REQUEST_PARAM_LASTNAME);
-
-			iRet=MraSendCommand_WPRequestW(NULL,ACKTYPE_SEARCH,dwRequestFlags,NULL,0,NULL,0,psbn->pszNick,dwNickSize,psbn->pszFirstName,dwFirstNameSize,psbn->pszLastName,dwLastNameSize,0,0,0,0,0,0,0,0,0);
-		}
-	}
-return(iRet);
-}
-
-INT_PTR MraCreateAdvSearchUI(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=0;
-
-	if (masMraSettings.hInstance && lParam)
-	{
-		iRet=(INT_PTR)CreateDialogParam(masMraSettings.hInstance,MAKEINTRESOURCE(IDD_MRAADVANCEDSEARCH),(HWND)lParam,AdvancedSearchDlgProc,0);
-	}
-return(iRet);
-}
-
-INT_PTR MraSearchByAdvanced(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=0;
-
-	if (masMraSettings.bLoggedIn && lParam)
-	{
-		iRet=(INT_PTR)AdvancedSearchFromDlg((HWND)lParam);
-	}
-return(iRet);
-}
-
-
-
-
-
-INT_PTR MraFileResume(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=1;
-
-	if (wParam && lParam)
-	{
-		PROTOFILERESUME *pfr=(PROTOFILERESUME*)lParam;
-		//icq_sendFileResume((filetransfer*)wParam,pfr->action,pfr->szFilename);
-		iRet=0;// Success
-	}
-return(iRet);
-}
-
-INT_PTR MraFileAllow(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=0;
-
-	if (lParam)
-	if (((CCSDATA*)lParam)->wParam) 
-	{
-		LPWSTR lpwszPath;
-		SIZE_T dwPathSize;
-		CCSDATA *pcds=(CCSDATA*)lParam;
-		PROTORECVEVENT *prce=(PROTORECVEVENT*)pcds->lParam;
-		PROTORECVFILET *prcf=(PROTORECVFILET*)pcds->lParam;
-
-		lpwszPath=(LPWSTR)((CCSDATA*)lParam)->lParam;
-		dwPathSize=lstrlenW(lpwszPath);
-
-		if (MraFilesQueueAccept(masMraSettings.hFilesQueueHandle,((CCSDATA*)lParam)->wParam,lpwszPath,dwPathSize)==NO_ERROR)
-		{
-			iRet=((CCSDATA*)lParam)->wParam; // Success
-		}
-	}
-return(iRet);
-}
-
-INT_PTR MraFileDenyCancel(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=1;
-
-	if (lParam)
-	if (((CCSDATA*)lParam)->wParam) 
-	{// description: (LPSTR)((CCSDATA*)lParam)->lParam
-		MraFilesQueueCancel(masMraSettings.hFilesQueueHandle,((CCSDATA*)lParam)->wParam,TRUE);
-		iRet=0; // Success
-	}
-return(iRet);
-}
-
-
-
-INT_PTR MraFileSend(WPARAM wParam,LPARAM lParam)
-{
-	INT_PTR iRet=0;
-
-	if (masMraSettings.bLoggedIn && wParam && lParam)
-	if (((CCSDATA*)lParam)->hContact && ((CCSDATA*)lParam)->lParam) 
-	{// (LPSTR)((CCSDATA*)lParam)->wParam,lstrlenA((LPSTR)((CCSDATA*)lParam)->wParam) - description
-		LPWSTR *plpwszFiles=(LPWSTR*)((CCSDATA*)lParam)->lParam;
-		SIZE_T dwFilesCount;
-
-		for(dwFilesCount=0;plpwszFiles[dwFilesCount];dwFilesCount++);
-
-		MraFilesQueueAddSend(masMraSettings.hFilesQueueHandle,0,((CCSDATA*)lParam)->hContact,plpwszFiles,dwFilesCount,(DWORD*)&iRet);
-	}
-return(iRet);
+	DebugPrintCRLFW(L"MRA/UnloadModules - DONE");
 }

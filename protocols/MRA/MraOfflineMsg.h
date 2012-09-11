@@ -10,7 +10,7 @@
 
 
 
-DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg,DWORD *pdwTime,DWORD *pdwFlags,MRA_LPS *plpsEMail,MRA_LPS *plpsText,MRA_LPS *plpsRTFText,MRA_LPS *plpsMultiChatData,LPBYTE *plpbBuff);
+DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MRA_LPS *plpsEMail, MRA_LPS *plpsText, MRA_LPS *plpsRTFText, MRA_LPS *plpsMultiChatData, LPBYTE *plpbBuff);
 
 
 

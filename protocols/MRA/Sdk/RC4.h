@@ -36,7 +36,7 @@
 
 
 
-__inline void RC4(LPBYTE lpBuff,SIZE_T dwBuffSize,LPBYTE lpKey,SIZE_T dwKeySize)
+__inline void RC4(LPBYTE lpBuff,size_t dwBuffSize,LPBYTE lpKey,size_t dwKeySize)
 {// RC4
 // www.codeproject.com/cpp/crypt_routine.asp%3Fdf%3D100%26forumid%3D4418%26exp%3D0%26select%3D251879+RC4+c%2B%2B+source+DWORD&hl=ru&gl=ru&ct=clnk&cd=2
 // http://www.thecodeproject.com/cpp/crypt_routine.asp
@@ -46,7 +46,7 @@ __inline void RC4(LPBYTE lpBuff,SIZE_T dwBuffSize,LPBYTE lpKey,SIZE_T dwKeySize)
     //(extra byte are only to prevent any mishep just in case)
     BYTE temp;
 	BYTE Sbox[260]={0},Sbox2[260]={0};
-    SIZE_T i,j,t,x;
+    size_t i,j,t,x;
 
     i=j=t=x=0;
     temp=0;

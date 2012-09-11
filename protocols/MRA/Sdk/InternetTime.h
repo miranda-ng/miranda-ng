@@ -67,15 +67,15 @@ static LPCSTR lpcszenmDayOfWeakEnum[7]=	{"Sun","Mon","Tue","Wed","Thu","Fri","Sa
 #define SEPARATOR "\r\n\r\n"
 
 
-//DWORD	InternetTimeGetTime	(LPCSTR lpszTime,SIZE_T dwTimeSize,INTERNET_TIME *pitTime);
-//BOOL	SkeepSPWSP			(LPCSTR lpszBuff,SIZE_T dwBuffSize,LPSTR *plpszRetBuff,SIZE_T *pdwRetBuffSize);
-//BOOL	WSP2SP				(LPCSTR lpszBuff,SIZE_T dwBuffSize,LPSTR lpszRetBuff,SIZE_T *pdwRetBuffSize);
+//DWORD	InternetTimeGetTime	(LPCSTR lpszTime,size_t dwTimeSize,INTERNET_TIME *pitTime);
+//BOOL	SkeepSPWSP			(LPCSTR lpszBuff,size_t dwBuffSize,LPSTR *plpszRetBuff,size_t *pdwRetBuffSize);
+//BOOL	WSP2SP				(LPCSTR lpszBuff,size_t dwBuffSize,LPSTR lpszRetBuff,size_t *pdwRetBuffSize);
 
 
 
 
 
-__inline BOOL SkeepSPWSP(LPCSTR lpszBuff,SIZE_T dwBuffSize,LPSTR *plpszRetBuff,SIZE_T *pdwRetBuffSize)
+__inline BOOL SkeepSPWSP(LPCSTR lpszBuff,size_t dwBuffSize,LPSTR *plpszRetBuff,size_t *pdwRetBuffSize)
 {
 	BOOL bRet=TRUE;
 
@@ -96,14 +96,14 @@ return(bRet);
 }
 
 
-__inline BOOL WSP2SP(LPCSTR lpszBuff,SIZE_T dwBuffSize,LPSTR lpszRetBuff,SIZE_T *pdwRetBuffSize)
+__inline BOOL WSP2SP(LPCSTR lpszBuff,size_t dwBuffSize,LPSTR lpszRetBuff,size_t *pdwRetBuffSize)
 {//	WSP->SP
 	BOOL bRet=TRUE;
 
 	if (lpszBuff && dwBuffSize && lpszRetBuff)
 	{
 		LPSTR lpszCurReadPos,pCRLF,lpszCurWritePos;
-		SIZE_T dwToCopy,dwRetBuffSize;
+		size_t dwToCopy,dwRetBuffSize;
 
 		pCRLF=(LPSTR)lpszBuff;
 		lpszCurReadPos=(LPSTR)lpszBuff;
@@ -144,14 +144,14 @@ return(bRet);
 
 
 
-__inline BOOL HT2SP(LPCSTR lpszBuff,SIZE_T dwBuffSize,LPSTR lpszRetBuff,SIZE_T *pdwRetBuffSize)
+__inline BOOL HT2SP(LPCSTR lpszBuff,size_t dwBuffSize,LPSTR lpszRetBuff,size_t *pdwRetBuffSize)
 {//	HT->SP
 	BOOL bRet=TRUE;
 
 	if (lpszBuff && dwBuffSize && lpszRetBuff)
 	{
 		LPSTR lpszCurReadPos,pHT,lpszCurWritePos;
-		SIZE_T dwToCopy,dwRetBuffSize;
+		size_t dwToCopy,dwRetBuffSize;
 
 		pHT=(LPSTR)lpszBuff;
 		lpszCurReadPos=(LPSTR)lpszBuff;
@@ -189,14 +189,14 @@ return(bRet);
 
 
 
-__inline BOOL CleanUnneededSP(LPCSTR lpszBuff,SIZE_T dwBuffSize,LPSTR lpszRetBuff,SIZE_T *pdwRetBuffSize)
+__inline BOOL CleanUnneededSP(LPCSTR lpszBuff,size_t dwBuffSize,LPSTR lpszRetBuff,size_t *pdwRetBuffSize)
 {//	nSP->SP, SPCRLF->CRLF, CRLFSP->CRLF
 	BOOL bRet=TRUE;
 
 	if (lpszBuff && dwBuffSize && lpszRetBuff)
 	{
 		LPSTR lpszCurReadPos,pSP,pSPStart,pSPEnd,lpszCurWritePos,pEnd;
-		SIZE_T dwToCopy,dwRetBuffSize;
+		size_t dwToCopy,dwRetBuffSize;
 
 		pSP=(LPSTR)lpszBuff;
 		lpszCurReadPos=(LPSTR)lpszBuff;
@@ -252,16 +252,16 @@ return(bRet);
 
 
 
-__inline SIZE_T CopyText(LPVOID lpOutBuff,LPCVOID lpcBuff,SIZE_T dwLen)
+__inline size_t CopyText(LPVOID lpOutBuff,LPCVOID lpcBuff,size_t dwLen)
 {
-	SIZE_T dwRet=0;
+	size_t dwRet=0;
 
 	if (lpOutBuff && lpcBuff && dwLen)
 	{
 		BYTE bt;
 		LPBYTE lpbtIn=(LPBYTE)lpcBuff,lpbtOut=(LPBYTE)lpOutBuff;
 
-		for(SIZE_T i=dwLen;i;i--)
+		for(size_t i=dwLen;i;i--)
 		{
 			bt=(*(lpbtIn++));
 			if (bt<127 && (bt>31 || bt==9 || bt==10 || bt==13))
@@ -284,14 +284,14 @@ __inline void InternetTimeGetCurrentTime(INTERNET_TIME *pitTime)
 }
 
 
-__inline DWORD InternetTimeGetString(INTERNET_TIME *pitTime,LPSTR lpszBuff,SIZE_T dwBuffSize,SIZE_T *pdwBuffSizeRet)
+__inline DWORD InternetTimeGetString(INTERNET_TIME *pitTime,LPSTR lpszBuff,size_t dwBuffSize,size_t *pdwBuffSizeRet)
 {//	Переводит время из MAILTIME в строковое
 	DWORD dwRet=NO_ERROR;
 
 	if (dwBuffSize>31)
 	{
 		LPSTR lpszCurPos=lpszBuff;
-		SIZE_T dwTimeLen=0,dwtm;
+		size_t dwTimeLen=0,dwtm;
 
 		// day of weak// date of mounth// mounth name// year// hours // minutes// seconds
 		dwtm=wsprintfA(lpszCurPos,"%s, %02lu %s %04lu %02lu:%02lu:%02lu ",lpcszenmDayOfWeakEnum[pitTime->stTime.wDayOfWeek],pitTime->stTime.wDay,lpcszenmMonthEnum[pitTime->stTime.wMonth],pitTime->stTime.wYear,pitTime->stTime.wHour,pitTime->stTime.wMinute,pitTime->stTime.wSecond);
@@ -327,7 +327,7 @@ return(dwRet);
 
 
 
-__inline DWORD InternetTimeGetTime(LPCSTR lpszTime,SIZE_T dwTimeSize,INTERNET_TIME *pitTime)
+__inline DWORD InternetTimeGetTime(LPCSTR lpszTime,size_t dwTimeSize,INTERNET_TIME *pitTime)
 {//	Переводит время из строкового в INTERNET_TIME
 	DWORD dwRet=NO_ERROR;
 
@@ -335,7 +335,7 @@ __inline DWORD InternetTimeGetTime(LPCSTR lpszTime,SIZE_T dwTimeSize,INTERNET_TI
 	{// = Thu, 21 May 1998 05:33:29 -0700 =
 		char sztmBuff[4096];
 		LPSTR lpszCurPos=sztmBuff,lpszTemp;
-		SIZE_T i,dwCurSize=4096,dwTemp;
+		size_t i,dwCurSize=4096,dwTemp;
 
 		memset(pitTime, 0, sizeof(INTERNET_TIME));
 		WSP2SP((LPSTR)lpszTime,dwTimeSize,lpszCurPos,&dwCurSize);

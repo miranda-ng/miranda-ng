@@ -60,9 +60,9 @@ typedef PCLIST_MT_ITERATOR	PCFIFO_MT_ITERATOR, LPCFIFO_MT_ITERATOR;
 #define FifoMTDestroy(pcpmtFifoMT) ListMTDestroy(pcpmtFifoMT)
 
 
-__inline SIZE_T FifoMTItemPush(PCFIFO_MT pcpmtFifoMT,PCFIFO_MT_ITEM pcffmtiFifoItem,LPVOID lpData)
+__inline size_t FifoMTItemPush(PCFIFO_MT pcpmtFifoMT,PCFIFO_MT_ITEM pcffmtiFifoItem,LPVOID lpData)
 {
-	SIZE_T dwRet;
+	size_t dwRet;
 
 	ListMTLock(pcpmtFifoMT);
 	dwRet=ListMTItemAdd(pcpmtFifoMT,pcffmtiFifoItem,lpData);

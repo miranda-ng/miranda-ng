@@ -121,13 +121,13 @@ __inline DWORD BSWAP(DWORD dwIn)
 return((((dwIn<<8) & 0x00ff0000) | (dwIn<<24) | ((dwIn>>8) & 0x0000ff00) | (dwIn>>24)));
 }
 
-__inline void CopyMemoryReverseDWORD(LPCVOID lpcDestination,LPCVOID lpcSource,SIZE_T dwSize)
+__inline void CopyMemoryReverseDWORD(LPCVOID lpcDestination,LPCVOID lpcSource,size_t dwSize)
 {
 #ifdef  _WIN64
 	BYTE *pDestination=(BYTE*)lpcDestination,*pSource=(BYTE*)lpcSource;
 
-	//for(SIZE_T i=0;i<dwSize;i++) pDestination[i]=pSource[(i&~0x00000003)+(3-(i&0x00000003))];
-	for(SIZE_T i=0;i<dwSize;i+=4) (*((DWORD*)(pDestination+i)))=BSWAP((*((DWORD*)(pSource+i))));
+	//for(size_t i=0;i<dwSize;i++) pDestination[i]=pSource[(i&~0x00000003)+(3-(i&0x00000003))];
+	for(size_t i=0;i<dwSize;i+=4) (*((DWORD*)(pDestination+i)))=BSWAP((*((DWORD*)(pSource+i))));
 
 #else
 	__asm{
@@ -276,7 +276,7 @@ __inline void SHA1PadMessage(SHA1Context *context)
 	*  block, process it, and then continue padding into a second
 	*  block.
 	*/
-	SIZE_T Message_Block_Index=(SIZE_T)((context->Length.LowPart>>3) & 0x3F);
+	size_t Message_Block_Index=(size_t)((context->Length.LowPart>>3) & 0x3F);
     context->Message_Block[Message_Block_Index++]=0x80;
 	if (Message_Block_Index>56)
 	{
@@ -384,15 +384,15 @@ return(NO_ERROR);
 *      sha Error Code.
 *
 */
-__inline DWORD SHA1Input(SHA1Context *context,const BYTE *message_array,SIZE_T length)
+__inline DWORD SHA1Input(SHA1Context *context,const BYTE *message_array,size_t length)
 {
 	if (context->Computed==TRUE) return(ERROR_INVALID_HANDLE_STATE);
 
 	if ((context->Length.QuadPart+(length<<3))>=(length<<3))
 	{
-		SIZE_T i,Message_Block_Index,partLen;
+		size_t i,Message_Block_Index,partLen;
 		/* Compute number of bytes mod 64 */
-		Message_Block_Index=(SIZE_T)((context->Length.LowPart>>3) & 0x3F);
+		Message_Block_Index=(size_t)((context->Length.LowPart>>3) & 0x3F);
 		/* Update number of bits */
 		context->Length.QuadPart+=(((ULONGLONG)length)<<3);
 		partLen=(64-Message_Block_Index);
@@ -418,7 +418,7 @@ return(NO_ERROR);
 //////////////////////////////RFC 2104//////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
-__inline void hmac_sha1(BYTE *text,SIZE_T text_len,BYTE *key,SIZE_T key_len,BYTE *digest)
+__inline void hmac_sha1(BYTE *text,size_t text_len,BYTE *key,size_t key_len,BYTE *digest)
 {
 //BYTE*	text;		/* pointer to data stream */
 //int	text_len;	/* length of data stream */
@@ -460,7 +460,7 @@ __inline void hmac_sha1(BYTE *text,SIZE_T text_len,BYTE *key,SIZE_T key_len,BYTE
     memset(&k_opad[key_len], 0 , (sizeof(k_opad)-key_len));
 
 	/* XOR key with ipad and opad values */
-	for (SIZE_T i=0;i<(64/sizeof(ULONGLONG));i++)
+	for (size_t i=0;i<(64/sizeof(ULONGLONG));i++)
 	{
         ((ULONGLONG*)k_ipad)[i]^=0x3636363636363636;
         ((ULONGLONG*)k_opad)[i]^=0x5C5C5C5C5C5C5C5C;
@@ -489,7 +489,7 @@ __inline void SHA1CvtHex(BYTE *Bin,BYTE *Hex)
 {
 	BYTE j;
 
-	for (SIZE_T i=0;i<SHA1HashSize;i++)
+	for (size_t i=0;i<SHA1HashSize;i++)
 	{
 		j=(Bin[i]>>4)&0xf;
 		if(j<=9)
@@ -520,7 +520,7 @@ __inline void SHA1CvtStringA(BYTE *digest,LPSTR lpszDigest)
 
 __inline void SHA1CvtStringW(BYTE *digest,LPWSTR lpszDigest)
 {
-	SIZE_T i,p=0;
+	size_t i,p=0;
 	for (i=0;i<SHA1HashSize;i++,p+=2)
 	{
 		wsprintfW((LPWSTR)(lpszDigest+p),L"%02x",digest[i]);
@@ -532,13 +532,13 @@ __inline void SHA1CvtStringW(BYTE *digest,LPWSTR lpszDigest)
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
-__inline void SHA1HMACGetDigest(LPVOID lpBuff,SIZE_T dwBuffSize,LPVOID lpKey,SIZE_T dwKeySize,BYTE *digest)
+__inline void SHA1HMACGetDigest(LPVOID lpBuff,size_t dwBuffSize,LPVOID lpKey,size_t dwKeySize,BYTE *digest)
 {
 	hmac_sha1((BYTE*)lpBuff,dwBuffSize,(BYTE*)lpKey,dwKeySize,digest);
 }
 
 
-__inline void SHA1HMACGetStringA(LPSTR lpszBuff,SIZE_T dwBuffSize,LPSTR lpszKey,SIZE_T dwKeySize,LPSTR lpszDigest)
+__inline void SHA1HMACGetStringA(LPSTR lpszBuff,size_t dwBuffSize,LPSTR lpszKey,size_t dwKeySize,LPSTR lpszDigest)
 {
 	BYTE digest[SHA1HashSize];
 	hmac_sha1((BYTE*)lpszBuff,dwBuffSize,(BYTE*)lpszKey,dwKeySize,digest);
@@ -546,7 +546,7 @@ __inline void SHA1HMACGetStringA(LPSTR lpszBuff,SIZE_T dwBuffSize,LPSTR lpszKey,
 }
 
 
-__inline void SHA1HMACGetStringW(LPWSTR lpszBuff,SIZE_T dwBuffSize,LPWSTR lpszKey,SIZE_T dwKeySize,LPWSTR lpszDigest)
+__inline void SHA1HMACGetStringW(LPWSTR lpszBuff,size_t dwBuffSize,LPWSTR lpszKey,size_t dwKeySize,LPWSTR lpszDigest)
 {
 	BYTE digest[SHA1HashSize];
 	hmac_sha1((BYTE*)lpszBuff,dwBuffSize,(BYTE*)lpszKey,dwKeySize,digest);
@@ -555,7 +555,7 @@ __inline void SHA1HMACGetStringW(LPWSTR lpszBuff,SIZE_T dwBuffSize,LPWSTR lpszKe
 
 
 
-__inline void SHA1GetDigest(LPVOID lpBuff,SIZE_T dwBuffSize,BYTE *digest)
+__inline void SHA1GetDigest(LPVOID lpBuff,size_t dwBuffSize,BYTE *digest)
 {
 	SHA1Context sha;
 
@@ -565,7 +565,7 @@ __inline void SHA1GetDigest(LPVOID lpBuff,SIZE_T dwBuffSize,BYTE *digest)
 }
 
 
-__inline void SHA1GetStringDigestA(LPSTR lpszBuff,SIZE_T dwBuffSize,LPSTR lpszDigest)
+__inline void SHA1GetStringDigestA(LPSTR lpszBuff,size_t dwBuffSize,LPSTR lpszDigest)
 {
 	SHA1Context sha;
 	BYTE digest[SHA1HashSize];
@@ -578,7 +578,7 @@ __inline void SHA1GetStringDigestA(LPSTR lpszBuff,SIZE_T dwBuffSize,LPSTR lpszDi
 }
 
 
-__inline void SHA1GetStringDigestW(LPWSTR lpszBuff,SIZE_T dwBuffSize,LPWSTR lpszDigest)
+__inline void SHA1GetStringDigestW(LPWSTR lpszBuff,size_t dwBuffSize,LPWSTR lpszDigest)
 {
 	SHA1Context sha;
 	BYTE digest[SHA1HashSize];

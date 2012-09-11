@@ -35,7 +35,7 @@
 
 
 
-__inline BOOL BuffToLowerCase(LPCVOID lpcOutBuff,LPCVOID lpcBuff,SIZE_T dwLen)
+__inline BOOL BuffToLowerCase(LPCVOID lpcOutBuff,LPCVOID lpcBuff,size_t dwLen)
 {
 	BOOL bRet=TRUE;
 
@@ -45,7 +45,7 @@ __inline BOOL BuffToLowerCase(LPCVOID lpcOutBuff,LPCVOID lpcBuff,SIZE_T dwLen)
 		BYTE bt;
 		LPBYTE lpbtIn=(LPBYTE)lpcBuff,lpbtOut=(LPBYTE)lpcOutBuff;
 
-		for(SIZE_T i=dwLen;i;i--)
+		for(size_t i=dwLen;i;i--)
 		{
 			bt=(*(lpbtIn++));
 			if (bt>='A' && bt<='Z') bt|=32;

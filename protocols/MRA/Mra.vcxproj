@@ -187,6 +187,7 @@
     <ClCompile Include="Mra.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MraProto.cpp" />
     <ClCompile Include="Mra_functions.cpp" />
     <ClCompile Include="Mra_options.cpp" />
     <ClCompile Include="Mra_proto.cpp" />
@@ -207,24 +208,6 @@
     <ClCompile Include="MraSendQueue.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icons\Alarm.ico" />
-    <None Include="Icons\answers.ico" />
-    <None Include="Icons\AuthGrant.ico" />
-    <None Include="Icons\AuthReguest.ico" />
-    <None Include="Icons\Bagz.ico" />
-    <None Include="Icons\Blogs.ico" />
-    <None Include="Icons\BlogStatus.ico" />
-    <None Include="Icons\Chat.ico" />
-    <None Include="Icons\Info.ico" />
-    <None Include="Icons\Magent.ico" />
-    <None Include="Icons\Mail.ico" />
-    <None Include="Icons\MailNotify.ico" />
-    <None Include="Icons\my world.ico" />
-    <None Include="Icons\Phone.ico" />
-    <None Include="Icons\Photo.ico" />
-    <None Include="Icons\PostCards.ico" />
-    <None Include="Icons\video.ico" />
-    <None Include="Icons\WebSearch.ico" />
     <None Include="langpack_MRA_russian.txt" />
     <None Include="Readme_MRA.txt" />
     <None Include="TODO.txt" />
@@ -242,15 +225,18 @@
     <ClInclude Include="MraOfflineMsg.h" />
     <ClInclude Include="MraPlaces.h" />
     <ClInclude Include="MraPopUp.h" />
+    <ClInclude Include="MraProto.h" />
     <ClInclude Include="MraRTFMsg.h" />
     <ClInclude Include="MraSelectEMail.h" />
     <ClInclude Include="MraSendCommand.h" />
     <ClInclude Include="MraSendQueue.h" />
     <ClInclude Include="proto.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

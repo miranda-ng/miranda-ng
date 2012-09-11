@@ -72,62 +72,11 @@
     <ClCompile Include="MraSendQueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MraProto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icons\Alarm.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\answers.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\AuthGrant.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\AuthReguest.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\Bagz.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\Blogs.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\BlogStatus.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\Chat.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\Info.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\Magent.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\Mail.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\MailNotify.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\my world.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\Phone.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\Photo.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\PostCards.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\video.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\WebSearch.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="langpack_MRA_russian.txt" />
     <None Include="Readme_MRA.txt" />
     <None Include="TODO.txt" />
@@ -187,9 +136,18 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MraProto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

@@ -346,7 +346,7 @@ return(dwRetErrorCode);
 ////////////////////////////////////////////////////////////////////////
 #if(_WIN32_WINNT >= 0x0501)
 
-__inline DWORD SockAddrInDataSet(LPCVOID lpcsasSockAddrStorage,DWORD dwPort,LPCVOID lpcAddress,SIZE_T dwAddressSize)
+__inline DWORD SockAddrInDataSet(LPCVOID lpcsasSockAddrStorage,DWORD dwPort,LPCVOID lpcAddress,size_t dwAddressSize)
 {
 	DWORD dwRetErrorCode=NO_ERROR;
 
@@ -398,7 +398,7 @@ return(dwRetErrorCode);
 }
 
 
-__inline DWORD SockAddrInAddressSet(LPCVOID lpcsasSockAddrStorage,LPCVOID lpcAddress,SIZE_T dwAddressSize)
+__inline DWORD SockAddrInAddressSet(LPCVOID lpcsasSockAddrStorage,LPCVOID lpcAddress,size_t dwAddressSize)
 {
 	DWORD dwRetErrorCode=NO_ERROR;
 
@@ -424,7 +424,7 @@ return(dwRetErrorCode);
 }
 
 
-__inline DWORD SockAddrAddressSet(LPCVOID lpcsasSockAddrStorage,LPCVOID lpcAddress,SIZE_T dwAddressSize)
+__inline DWORD SockAddrAddressSet(LPCVOID lpcsasSockAddrStorage,LPCVOID lpcAddress,size_t dwAddressSize)
 {
 	DWORD dwRetErrorCode=NO_ERROR;
 
@@ -450,9 +450,9 @@ return(dwRetErrorCode);
 }
 
 
-__inline SIZE_T SockAddrGetSize(LPCVOID lpcsasSockAddrStorage)
+__inline size_t SockAddrGetSize(LPCVOID lpcsasSockAddrStorage)
 {
-	SIZE_T dwRet;
+	size_t dwRet;
 
 	if (lpcsasSockAddrStorage)
 	{

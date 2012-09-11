@@ -55,7 +55,7 @@ static BYTE btDeCodingTableBASE64[256]={64,64,64,64,64,64,64,64,64,64,64,64,64,6
 
 
 
-__inline void BASE64CopyUnSafe(LPCVOID lpcSource,LPCVOID lpcDestination,SIZE_T dwSize,SIZE_T *pdwCopyedSize)
+__inline void BASE64CopyUnSafe(LPCVOID lpcSource,LPCVOID lpcDestination,size_t dwSize,size_t *pdwCopyedSize)
 {// копируем только б64 символы
 	LPBYTE lpbSource,lpbDestination;
 
@@ -66,15 +66,15 @@ __inline void BASE64CopyUnSafe(LPCVOID lpcSource,LPCVOID lpcDestination,SIZE_T d
 		if ((*lpbSource)>32 && (*lpbSource)<128) (*lpbDestination++)=(*lpbSource);
 		lpbSource++;
 	}
-	if (pdwCopyedSize) (*pdwCopyedSize)=((SIZE_T)lpbDestination-(SIZE_T)lpcDestination);
+	if (pdwCopyedSize) (*pdwCopyedSize)=((size_t)lpbDestination-(size_t)lpcDestination);
 }
 
 
 
-__inline DWORD BASE64EncodeUnSafe(LPCVOID lpcSource,SIZE_T dwSourceSize,LPCVOID lpcDestination,SIZE_T dwDestinationSize,SIZE_T *pdwEncodedSize)
+__inline DWORD BASE64EncodeUnSafe(LPCVOID lpcSource,size_t dwSourceSize,LPCVOID lpcDestination,size_t dwDestinationSize,size_t *pdwEncodedSize)
 {// BASE64 кодирование
 	DWORD dwRetErrorCode;
-	SIZE_T dwEncodedSize=((dwSourceSize*4+11)/12*4+1);//(((dwSourceSize+2)/3)*4);
+	size_t dwEncodedSize=((dwSourceSize*4+11)/12*4+1);//(((dwSourceSize+2)/3)*4);
 		
 	if ((dwDestinationSize<dwEncodedSize))
 	{// выходной буффер слишком мал
@@ -85,7 +85,7 @@ __inline DWORD BASE64EncodeUnSafe(LPCVOID lpcSource,SIZE_T dwSourceSize,LPCVOID 
 		{
 #ifdef  _WIN64
 			LPBYTE lpbtSource=(LPBYTE)lpcSource,lpbtDestination=(LPBYTE)lpcDestination;
-			SIZE_T i;
+			size_t i;
 
 			for (i=0;i<dwSourceSize;i+=3)
 			{
@@ -230,7 +230,7 @@ return(dwRetErrorCode);
 }
 
 
-__inline DWORD BASE64Encode(LPCVOID lpcSource,SIZE_T dwSourceSize,LPCVOID lpcDestination,SIZE_T dwDestinationSize,SIZE_T *pdwEncodedSize)
+__inline DWORD BASE64Encode(LPCVOID lpcSource,size_t dwSourceSize,LPCVOID lpcDestination,size_t dwDestinationSize,size_t *pdwEncodedSize)
 {// BASE64 кодирование
 	DWORD dwRetErrorCode;
 
@@ -245,10 +245,10 @@ return(dwRetErrorCode);
 
 
 
-__inline DWORD BASE64DecodeUnSafe(LPCVOID lpcSource,SIZE_T dwSourceSize,LPCVOID lpcDestination,SIZE_T dwDestinationSize,SIZE_T *pdwDecodedSize)
+__inline DWORD BASE64DecodeUnSafe(LPCVOID lpcSource,size_t dwSourceSize,LPCVOID lpcDestination,size_t dwDestinationSize,size_t *pdwDecodedSize)
 {// BASE64 декодирование
 	DWORD dwRetErrorCode;
-	SIZE_T dwDecodedSize=((dwSourceSize>>2)*3);// ((dwSourceSize/4)*3);
+	size_t dwDecodedSize=((dwSourceSize>>2)*3);// ((dwSourceSize/4)*3);
 
 	if ((dwDestinationSize<dwDecodedSize))
 	{// выходной буффер слишком мал
@@ -262,7 +262,7 @@ __inline DWORD BASE64DecodeUnSafe(LPCVOID lpcSource,SIZE_T dwSourceSize,LPCVOID 
 #ifdef  _WIN64
 				LPBYTE lpbtSource=(LPBYTE)lpcSource,lpbtDestination=(LPBYTE)lpcDestination;
 
-				for(SIZE_T i=0;i<dwSourceSize;i+=4)
+				for(size_t i=0;i<dwSourceSize;i+=4)
 				{
 					*(lpbtDestination++)=(unsigned char) (btDeCodingTableBASE64[(*lpbtSource)] << 2 | btDeCodingTableBASE64[lpbtSource[1]] >> 4);
 					*(lpbtDestination++)=(unsigned char) (btDeCodingTableBASE64[lpbtSource[1]] << 4 | btDeCodingTableBASE64[lpbtSource[2]] >> 2);
@@ -346,7 +346,7 @@ return(dwRetErrorCode);
 }
 
 
-__inline DWORD BASE64Decode(LPCVOID lpcSource,SIZE_T dwSourceSize,LPCVOID lpcDestination,SIZE_T dwDestinationSize,SIZE_T *pdwDecodedSize)
+__inline DWORD BASE64Decode(LPCVOID lpcSource,size_t dwSourceSize,LPCVOID lpcDestination,size_t dwDestinationSize,size_t *pdwDecodedSize)
 {// BASE64 декодирование
 	DWORD dwRetErrorCode;
 
@@ -360,7 +360,7 @@ return(dwRetErrorCode);
 }
 
 
-__inline DWORD BASE64DecodeFormated(LPCVOID lpcSource,SIZE_T dwSourceSize,LPCVOID lpcDestination,SIZE_T dwDestinationSize,SIZE_T *pdwDecodedSize)
+__inline DWORD BASE64DecodeFormated(LPCVOID lpcSource,size_t dwSourceSize,LPCVOID lpcDestination,size_t dwDestinationSize,size_t *pdwDecodedSize)
 {// BASE64 декодирование и игнорирование форматирования
 	DWORD dwRetErrorCode;
 

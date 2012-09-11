@@ -16,10 +16,4 @@
 #define MRA_SELECT_EMAIL_TYPE_WORLD			6
 
 
-DWORD MraSelectEMailDlgShow(HANDLE hContact,DWORD dwType);
-
-
-
-
-
 #endif // !defined(AFX_MRA_SELECT_EMAIL_H__F58D13FF_F6F2_476C_B8F0_7B9E9357CF48__INCLUDED_)
