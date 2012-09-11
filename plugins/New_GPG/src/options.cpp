@@ -767,7 +767,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
   {
   case WM_INITDIALOG:
     {
-		default_edit_proc = GetWindowLong(GetDlgItem(hwndDlg, IDC_PUBLIC_KEY_EDIT), GWLP_WNDPROC);
+		default_edit_proc = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PUBLIC_KEY_EDIT), GWLP_WNDPROC);
 		SetWindowPos(hwndDlg, 0, load_key_rect.left, load_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PUBLIC_KEY_EDIT), GWLP_WNDPROC, (LONG_PTR)editctrl_ctrl_a);
 		HANDLE hcnt = hContact;
