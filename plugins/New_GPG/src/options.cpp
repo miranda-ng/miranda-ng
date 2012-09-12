@@ -756,17 +756,15 @@ static BOOL CALLBACK editctrl_ctrl_a(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
-	static HANDLE hContact = user_data[item_num+1];
-
-
+	static HANDLE hContact;
 	TCHAR *tmp = NULL;
-
 	wstring key_buf;
 	wstring::size_type ws1 = 0, ws2 = 0;
   switch (msg)
   {
   case WM_INITDIALOG:
     {
+		hContact = user_data[1];
 		default_edit_proc = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PUBLIC_KEY_EDIT), GWLP_WNDPROC);
 		SetWindowPos(hwndDlg, 0, load_key_rect.left, load_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PUBLIC_KEY_EDIT), GWLP_WNDPROC, (LONG_PTR)editctrl_ctrl_a);
