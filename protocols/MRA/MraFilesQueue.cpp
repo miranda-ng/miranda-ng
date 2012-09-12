@@ -82,6 +82,7 @@ INT_PTR CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam,
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWndDlg);
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
+		ppro = (CMraProto*)lParam;
 		{
 			WCHAR szBuff[MAX_PATH];
 			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN, ppro->mraGetByte(NULL, "FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN));

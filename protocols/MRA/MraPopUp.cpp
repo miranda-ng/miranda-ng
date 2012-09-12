@@ -22,6 +22,7 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWndDlg);
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
+		ppro = (CMraProto*)lParam;
 		{
 			HWND hWndCombo = GetDlgItem(hWndDlg, IDC_COMBO_POPUP_TYPE);
 			SendMessage(hWndCombo, CB_RESETCONTENT, 0, 0);
