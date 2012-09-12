@@ -1,0 +1,35 @@
+/* THIS FILE WILL BE OVERWRITTEN BY DEV-C++ */
+/* DO NOT EDIT! */
+
+#include "private.h"
+#include "afxres.h"
+//
+// TO CHANGE VERSION INFORMATION, EDIT PROJECT OPTIONS...
+//
+1 VERSIONINFO
+FILEVERSION VER_MAJOR,VER_MINOR,VER_RELEASE,VER_BUILD
+PRODUCTVERSION VER_MAJOR,VER_MINOR,VER_RELEASE,VER_BUILD
+FILETYPE VFT_DLL
+{
+  BLOCK "StringFileInfo"
+	 {
+		 BLOCK "0C0904E4"
+		 {
+			 VALUE "CompanyName", COMPANY_NAME
+			 VALUE "FileVersion", FILE_VERSION
+			 VALUE "FileDescription", FILE_DESCRIPTION
+			 VALUE "InternalName", INTERNAL_NAME
+			 VALUE "LegalCopyright", LEGAL_COPYRIGHT
+			 VALUE "LegalTrademarks", LEGAL_TRADEMARKS
+			 VALUE "OriginalFilename", ORIGINAL_FILENAME
+			 VALUE "ProductName", PRODUCT_NAME
+			 VALUE "ProductVersion", PRODUCT_VERSION
+		 }
+	 }
+  BLOCK "VarFileInfo"
+	 {
+		 VALUE "Translation", 0x0C09, 1252
+	 }
+}
+
+
