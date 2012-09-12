@@ -513,7 +513,8 @@ int CMraProto::RecvFile(HANDLE hContact, PROTORECVFILET *pre)
 
 int CMraProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
 {
-	CallService(MS_PROTO_RECVMSG, 0, (LPARAM)pre);
+	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)pre };
+	CallService(MS_PROTO_RECVMSG, 0, (LPARAM)&ccs);
 	return 0;
 }
 
