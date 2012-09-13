@@ -323,7 +323,7 @@ int CMraProto::AuthDeny(HANDLE hDBEvent, const TCHAR* szReason)
 
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
-	if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDBEvent, 0)) != -1)
+	if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDBEvent, 0)) == -1)
 		return 1;
 
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);

@@ -4,11 +4,11 @@
 #include "MraAntiSpam.h"
 #include "MraRTFMsg.h"
 
-typedef struct
+struct MRA_ANTISPAM_BAD_WORD
 {
-	LPWSTR			lpwszBadWord;
-	DWORD			dwBadWordLen;
-} MRA_ANTISPAM_BAD_WORD;
+	LPWSTR lpwszBadWord;
+	DWORD  dwBadWordLen;
+};
 
 static MRA_ANTISPAM_BAD_WORD *pmabwBadWords = NULL;
 static size_t dwBadWordsCount = 0;
@@ -49,8 +49,8 @@ size_t MraAntiSpamLoadBadWordsW()
 		pmabwBadWords[i].lpwszBadWord = (LPWSTR)mir_calloc((dwValueSize*sizeof(WCHAR)));
 		if (pmabwBadWords[i].lpwszBadWord) {
 			memmove(pmabwBadWords[i].lpwszBadWord, dbv.pwszVal, (dwValueSize*sizeof(WCHAR)));
-			CharLowerBuffW(pmabwBadWords[i].lpwszBadWord, dwValueSize);
-			pmabwBadWords[i].dwBadWordLen = dwValueSize;
+			CharLowerBuffW(pmabwBadWords[i].lpwszBadWord, DWORD(dwValueSize));
+			pmabwBadWords[i].dwBadWordLen = DWORD(dwValueSize);
 		}
 		DBFreeVariant(&dbv);
 
@@ -305,13 +305,13 @@ BOOL CMraProto::MraAntiSpamHasMessageBadWordsW(LPWSTR lpwszMessage, size_t dwMes
 	BOOL bRet = FALSE;
 
 	if (lpwszMessage && dwMessageSize) {
-		LPWSTR lpwszMessageConverted = (LPWSTR)mir_calloc((dwMessageSize*sizeof(WCHAR)));
+		LPWSTR lpwszMessageConverted = (LPWSTR)mir_alloc((dwMessageSize+1)*sizeof(WCHAR));
 		if (lpwszMessageConverted) {
 			size_t dwtm;
 
 			// в нижний регистр всё сообщение
 			memmove(lpwszMessageConverted, lpwszMessage, (dwMessageSize*sizeof(WCHAR)));
-			CharLowerBuffW(lpwszMessageConverted, dwMessageSize);
+			CharLowerBuffW(lpwszMessageConverted, DWORD(dwMessageSize));
 
 			// 1 проход: считаем колличество переключений языка
 			dwtm = mraGetDword(NULL, "AntiSpamMaxLangChanges", MRA_ANTISPAM_DEFAULT_MAX_LNG_CHANGES);
@@ -396,7 +396,7 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 
 				if (bAntiSpamWriteToSystemHistory) {
 					CHAR szBuff[MRA_MAXLENOFMESSAGE*2];
-					WideCharToMultiByte(CP_UTF8, 0, wszBuff, dwDBMessageSize, szBuff, SIZEOF(szBuff), NULL, NULL);
+					WideCharToMultiByte(CP_UTF8, 0, wszBuff, DWORD(dwDBMessageSize), szBuff, SIZEOF(szBuff), NULL, NULL);
 
 					DBEVENTINFO dbei = {0};
 					dbei.cbSize = sizeof(dbei);
@@ -404,7 +404,7 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 					dbei.timestamp = _time32(NULL);
 					dbei.flags = (DBEF_READ|DBEF_UTF);
 					dbei.eventType = EVENTTYPE_MESSAGE;
-					dbei.cbBlob = (dwDBMessageSize*sizeof(WCHAR));
+					dbei.cbBlob = DWORD(dwDBMessageSize*sizeof(WCHAR));
 					dbei.pBlob = (PBYTE)szBuff;
 
 					CallService(MS_DB_EVENT_ADD, 0, (LPARAM)&dbei);
@@ -421,7 +421,7 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 						dwDBMessageSize += sizeof(DWORD);
 
 						CHAR szBuff[MRA_MAXLENOFMESSAGE*2];
-						WideCharToMultiByte(CP_UTF8, 0, wszBuff, dwDBMessageSize, szBuff, SIZEOF(szBuff), NULL, NULL);
+						WideCharToMultiByte(CP_UTF8, 0, wszBuff, DWORD(dwDBMessageSize), szBuff, SIZEOF(szBuff), NULL, NULL);
 
 						DBEVENTINFO dbei = {0};
 						dbei.cbSize = sizeof(dbei);
@@ -429,7 +429,7 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 						dbei.timestamp = _time32(NULL);
 						dbei.flags = (DBEF_READ|DBEF_UTF);
 						dbei.eventType = EVENTTYPE_MESSAGE;
-						dbei.cbBlob = (dwDBMessageSize*sizeof(WCHAR));
+						dbei.cbBlob = DWORD(dwDBMessageSize*sizeof(WCHAR));
 						dbei.pBlob = (PBYTE)szBuff;
 						CallService(MS_DB_EVENT_ADD, 0, (LPARAM)&dbei);
 					}
