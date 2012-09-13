@@ -256,7 +256,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  }
 			  }
 			  if(!keep)
-				  if(MessageBox(0, _T("This key not used by any contact, do you want to remove it from public keyring ?"), _T("Key info"), MB_YESNO) == IDYES)
+				  if(MessageBox(0, TranslateT("This key not used by any contact, do you want to remove it from public keyring ?"), TranslateT("Key info"), MB_YESNO) == IDYES)
 				  {
 					  wstring cmd;
 					  string output;
@@ -288,14 +288,14 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						  break;
 					  }
 					  if(output.find("--delete-secret-keys") != string::npos)
-						  MessageBoxA(0, "we have secret key for this public key, do not removing from GPG keyring", "info", MB_OK);
+						  MessageBox(0, TranslateT("we have secret key for this public key, do not removing from GPG keyring"), TranslateT("info"), MB_OK);
 					  else
-						  MessageBoxA(0, "Key removed from GPG keyring", "info", MB_OK);
+						  MessageBox(0, TranslateT("Key removed from GPG keyring"), TranslateT("info"), MB_OK);
 				  }
 				  mir_free(tmp);
 				  if(ismetacontact)
 				  {
-					  if(MessageBox(0, _T("Do you want to remove key from entire metacontact (all subcontacts) ?"), _T("Metacontact detected"), MB_YESNO) == IDYES)
+					  if(MessageBox(0, TranslateT("Do you want to remove key from entire metacontact (all subcontacts) ?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 					  {
 						  HANDLE hcnt = NULL;
 						  int count = metaGetContactsNum(meta);
@@ -339,9 +339,9 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					  setSrmmIcon(user_data[item_num+1]);
 				  }
 		  }
-		  ListView_SetItemText(hwndList, item_num, 3, _T("not set"));
-		  ListView_SetItemText(hwndList, item_num, 2, _T("not set"));
-		  ListView_SetItemText(hwndList, item_num, 1, _T("not set"));
+		  ListView_SetItemText(hwndList, item_num, 3, TranslateT("not set"));
+		  ListView_SetItemText(hwndList, item_num, 2, TranslateT("not set"));
+		  ListView_SetItemText(hwndList, item_num, 1, TranslateT("not set"));
 		  break;
 	  case IDC_SELECT_KEY:
 		  {
@@ -351,7 +351,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		  break;
 	  case IDC_SAVE_KEY_BUTTON:
 		  {
-			  tmp = GetFilePath(_T("Export public key"), _T("*"), _T(".asc pubkey file"), true);
+			  tmp = GetFilePath(TranslateT("Export public key"), _T("*"), TranslateT(".asc pubkey file"), true);
 			  if(!tmp)
 			  {
 				  break;
@@ -385,7 +385,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, str.size() +1);
 				  if(!hMem)
 				  {
-					  MessageBoxA(0, "Failed to alocate memory", "Error", MB_OK);
+					  MessageBox(0, TranslateT("Failed to alocate memory"), TranslateT("Error"), MB_OK);
 					  break;
 				  }
 				  szKey = (char*)GlobalLock(hMem);
@@ -420,7 +420,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		  break;
 	  case IDC_LOG_FILE_SET:
 		  {
-			  tmp = GetFilePath(_T("Set log file"), _T("*"), _T("LOG files"), 1);
+			  tmp = GetFilePath(TranslateT("Set log file"), _T("*"), TranslateT("LOG files"), 1);
 			  SetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, tmp);
 			  mir_free(tmp);
 		  }
@@ -505,7 +505,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
       {
 	  case IDC_SET_BIN_PATH:
 		  {
-			  GetFilePath(_T("Choose gpg.exe"), "szGpgBinPath", _T("*.exe"), _T("EXE Executables"));
+			  GetFilePath(TranslateT("Choose gpg.exe"), "szGpgBinPath", _T("*.exe"), TranslateT("EXE Executables"));
 			  tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", _T("gpg.exe"));
 			  SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 			  bool gpg_exists = false;
@@ -546,7 +546,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					  else
 					  {
 						  bad_version = false;
-						  MessageBox(0, TranslateT("This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn."), _T("Warning"), MB_OK);
+						  MessageBox(0, TranslateT("This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
 					  }
 /*					  if(bad_version) //looks like working fine with gpg2
 						  MessageBox(0, TranslateT("Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn."), _T("Warning"), MB_OK); */
@@ -567,7 +567,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		  break;
 	  case IDC_SET_HOME_DIR:
 		  {
-			  GetFolderPath(_T("Set home diractory"), "szHomePath");
+			  GetFolderPath(TranslateT("Set home diractory"), "szHomePath");
 			  tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 			  SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
 			  char mir_path[MAX_PATH];
@@ -858,18 +858,18 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						TCHAR *tmp3 = mir_a2t(out.c_str());
 						str.clear();
 						str.append(tmp3);
-						string msg = "Load Public GPG Key for ";
+						string msg = Translate("Load Public GPG Key for ");
 						msg += (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hcnt, 0);
 						msg += " (Key ID: ";
 						msg += hcontact_data[hcnt].key_in_prescense;
-						msg += " found in prescense, and exists in keyring.)";
+						msg += Translate(" found in prescense, and exists in keyring.)");
 						SetWindowTextA(hwndDlg, msg.c_str());
 					}
 					else
 					{
-						string msg = "Load Public GPG Key (Key ID: ";
+						string msg = Translate("Load Public GPG Key (Key ID: ");
 						msg += hcontact_data[hcnt].key_in_prescense;
-						msg += " found in prescense.)";
+						msg += Translate(" found in prescense.)");
 						SetWindowTextA(hwndDlg, msg.c_str());
 						EnableWindow(GetDlgItem(hwndDlg, IDC_IMPORT), 1);
 					}
@@ -917,7 +917,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 			  }
 			  else
 			  {
-				  MessageBox(0, _T("This is not public or private key"), _T("INFO"), MB_OK);
+				  MessageBox(0, TranslateT("This is not public or private key"), _T("INFO"), MB_OK);
 				  break;
 			  }
 			  ws2 += _tcslen(end);
@@ -926,7 +926,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 				  if(metaIsProtoMetaContacts(hContact))
 				  {
 					  HANDLE hcnt = NULL;
-					  if(MessageBox(0, _T("Do you want load key for all subcontacts ?"), _T("Metacontact detected"), MB_YESNO) == IDYES)
+					  if(MessageBox(0, TranslateT("Do you want load key for all subcontacts ?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 					  {
 						  allsubcontacts = true;
 						  int count = metaGetContactsNum(hContact);
@@ -1022,14 +1022,14 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					  TCHAR *tmp;
 					  if(output.find("already in secret keyring") != string::npos)
 					  {
-						  MessageBox(0, _T("Key already in scret key ring."), _T("Info"), MB_OK);
+						  MessageBox(0, TranslateT("Key already in scret key ring."), TranslateT("Info"), MB_OK);
 						  DeleteFile(tmp2);
 						  break;
 					  }
 					  char *tmp2;
 					  string::size_type s = output.find("gpg: key ") + strlen("gpg: key ");
 					  string::size_type s2 = output.find(":", s);
-					  tmp2 = (char*)mir_alloc(output.substr(s,s2-s).length()+1);
+					  tmp2 = (char*)mir_alloc((output.substr(s,s2-s).length()+1)*sizeof(char));
 					  strcpy(tmp2, output.substr(s,s2-s).c_str());
 					  mir_utf8decode(tmp2, 0);
 					  {
@@ -1065,50 +1065,21 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					  }
 					  else
 						  s += 3;
+					  bool uncommon = false;
 					  if((s2 = output.find("(", s)) == string::npos)
-						  s2 = output.find("<", s);
+					  {
+						  if((s2 = output.find("<", s)) == string::npos)
+						  {
+							  s2 = output.find("”", s);
+							  uncommon = true;
+						  }
+					  }
 					  else if(s2 > output.find("<", s))
 						  s2 = output.find("<", s);
-					  if(s2 != string::npos)
+					  if(s2 != string::npos && s != string::npos)
 					  {
-					  tmp2 = (char*)mir_alloc(output.substr(s,s2-s-1).length()+1);
-					  strcpy(tmp2, output.substr(s,s2-s-1).c_str());
-					  mir_utf8decode(tmp2, 0);
-					  if(hContact)
-					  {
-						  if(metaIsProtoMetaContacts(hContact))
-						  {
-							  HANDLE hcnt = NULL;
-							  if(allsubcontacts)
-							  {
-								  int count = metaGetContactsNum(hContact);
-								  for(int i = 0; i < count; i++)
-								  {
-									  hcnt = metaGetSubcontact(hContact, i);
-									  if(hcnt)
-										  DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
-								  }
-							  }
-							  else
-								  DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
-						  }
-						  else
-							  DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
-					  }
-					  mir_free(tmp2);
-					  tmp = mir_wstrdup(toUTF16(output.substr(s,s2-s-1)).c_str());
-					  if(hContact && hwndList_p)
-						  ListView_SetItemText(hwndList_p, item_num, 2, tmp);
-					  mir_free(tmp);
-					  if((s = output.find(")", s2)) == string::npos)
-						  s = output.find(">", s2);
-					  else if(s > output.find(">", s2))
-						  s = output.find(">", s2);
-					  s2++;
-					  if(output[s] == ')')
-					  {
-						  tmp2 = new char [output.substr(s2,s-s2).length()+1];
-						  strcpy(tmp2, output.substr(s2,s-s2).c_str());
+						  tmp2 = (char*)mir_alloc(sizeof(char)*(output.substr(s,s2-s-(uncommon?1:0)).length()+1));
+						  strcpy(tmp2, output.substr(s,s2-s-(uncommon?1:0)).c_str());
 						  mir_utf8decode(tmp2, 0);
 						  if(hContact)
 						  {
@@ -1122,80 +1093,119 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 									  {
 										  hcnt = metaGetSubcontact(hContact, i);
 										  if(hcnt)
-											  DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
+											  DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
 									  }
 								  }
 								  else
-									  DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
+									  DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
 							  }
 							  else
-								  DBWriteContactSettingString(hContact, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
+								  DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
 						  }
 						  mir_free(tmp2);
-						  s+=3;
-						  s2 = output.find(">", s);
-						  tmp2 = new char [output.substr(s,s2-s).length()+1];
-						  strcpy(tmp2, output.substr(s,s2-s).c_str());
-						  mir_utf8decode(tmp2, 0);
-						  if(hContact)
-						  {
-							  if(metaIsProtoMetaContacts(hContact))
-							  {
-								  HANDLE hcnt = NULL;
-								  if(allsubcontacts)
-								  {
-									  int count = metaGetContactsNum(hContact);
-									  for(int i = 0; i < count; i++)
-									  {
-										  hcnt = metaGetSubcontact(hContact, i);
-										  if(hcnt)
-											  DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
-									  }
-								  }
-								  else
-									  DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
-							  }
-							  else
-								  DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
-						  }
-						  mir_free(tmp2);
-						  tmp = mir_wstrdup(toUTF16(output.substr(s,s2-s)).c_str());
+						  tmp = mir_wstrdup(toUTF16(output.substr(s,s2-s-1)).c_str());
 						  if(hContact && hwndList_p)
-							  ListView_SetItemText(hwndList_p, item_num, 3, tmp);
+							  ListView_SetItemText(hwndList_p, item_num, 2, tmp);
 						  mir_free(tmp);
-					  }
-					  else
-					  {
-						  tmp2 = (char*)mir_alloc(output.substr(s2,s-s2).length()+1);
-						  strcpy(tmp2, output.substr(s2,s-s2).c_str());
-						  mir_utf8decode(tmp2, 0);
-						  if(hContact)
+						  if((s = output.find(")", s2)) == string::npos)
+							  s = output.find(">", s2);
+						  else if(s > output.find(">", s2))
+							  s = output.find(">", s2);
+						  s2++;
+						  if(s != string::npos && s2 != string::npos)
 						  {
-							  if(metaIsProtoMetaContacts(hContact))
+							  if(output[s] == ')')
 							  {
-								  HANDLE hcnt = NULL;
-								  if(allsubcontacts)
+								  tmp2 = (char*)mir_alloc((output.substr(s2,s-s2).length()+1)*sizeof(char));
+								  strcpy(tmp2, output.substr(s2,s-s2).c_str());
+								  mir_utf8decode(tmp2, 0);
+								  if(hContact)
 								  {
-									  int count = metaGetContactsNum(hContact);
-									  for(int i = 0; i < count; i++)
+									  if(metaIsProtoMetaContacts(hContact))
 									  {
-										  hcnt = metaGetSubcontact(hContact, i);
-										  if(hcnt)
-											  DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+										  HANDLE hcnt = NULL;
+										  if(allsubcontacts)
+										  {
+											  int count = metaGetContactsNum(hContact);
+											  for(int i = 0; i < count; i++)
+											  {
+												  hcnt = metaGetSubcontact(hContact, i);
+												  if(hcnt)
+													  DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
+											  }
+										  }
+										  else
+											  DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
 									  }
+									  else
+										  DBWriteContactSettingString(hContact, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
 								  }
-								  else
-									  DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+								  mir_free(tmp2);
+								  s+=3;
+								  s2 = output.find(">", s);
+								  tmp2 = new char [output.substr(s,s2-s).length()+1];
+								  strcpy(tmp2, output.substr(s,s2-s).c_str());
+								  mir_utf8decode(tmp2, 0);
+								  if(hContact)
+								  {
+									  if(metaIsProtoMetaContacts(hContact))
+									  {
+										  HANDLE hcnt = NULL;
+										  if(allsubcontacts)
+										  {
+											  int count = metaGetContactsNum(hContact);
+											  for(int i = 0; i < count; i++)
+											  {
+												  hcnt = metaGetSubcontact(hContact, i);
+												  if(hcnt)
+													  DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
+											  }
+										  }
+										  else
+											  DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
+									  }
+									  else
+										  DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
+								  }
+								  mir_free(tmp2);
+								  tmp = mir_wstrdup(toUTF16(output.substr(s,s2-s)).c_str());
+								  if(hContact && hwndList_p)
+								  ListView_SetItemText(hwndList_p, item_num, 3, tmp);
+								  mir_free(tmp);
 							  }
 							  else
-								  DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+							  {
+								  tmp2 = (char*)mir_alloc(output.substr(s2,s-s2).length()+1);
+								  strcpy(tmp2, output.substr(s2,s-s2).c_str());
+								  mir_utf8decode(tmp2, 0);
+								  if(hContact)
+								  {
+									  if(metaIsProtoMetaContacts(hContact))
+									  {
+										  HANDLE hcnt = NULL;
+										  if(allsubcontacts)
+										  {
+											  int count = metaGetContactsNum(hContact);
+											  for(int i = 0; i < count; i++)
+											  {
+												  hcnt = metaGetSubcontact(hContact, i);
+												  if(hcnt)
+													  DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+											  }
+										  }
+										  else
+											  DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+									  }
+									  else
+										  DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+								  }
+								  mir_free(tmp2);
+								  tmp = mir_wstrdup(toUTF16(output.substr(s2,s-s2)).c_str());
+								  if(hContact && hwndList_p)
+									  ListView_SetItemText(hwndList_p, item_num, 3, tmp);
+								  mir_free(tmp);
+							  }
 						  }
-						  mir_free(tmp2);
-						  tmp = mir_wstrdup(toUTF16(output.substr(s2,s-s2)).c_str());
-						  if(hContact && hwndList_p)
-							  ListView_SetItemText(hwndList_p, item_num, 3, tmp);
-						  mir_free(tmp);
-					  }
 					  }
 					  if(hContact && hwndList_p)
 					  {					  
@@ -1288,7 +1298,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 			  break;
 	  case ID_LOAD_FROM_FILE:
 		  {
-			  tmp = GetFilePath(_T("Set file containing GPG public key"), _T("*"), _T("GPG public key file"));
+			  tmp = GetFilePath(TranslateT("Set file containing GPG public key"), _T("*"), TranslateT("GPG public key file"));
 			  if(!tmp)
 			  {
 				  break;
@@ -1297,7 +1307,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 			  delete [] tmp;
 			  if(!f.is_open())
 			  {
-				  MessageBox(0, _T("Failed to open file"), _T("Error"), MB_OK);
+				  MessageBox(0, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
 				  break;
 			  }
 			  if(f.is_open())
@@ -1326,7 +1336,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 			  }
 			  if(ws2 == wstring::npos || ws1 == wstring::npos)
 			  {
-				  MessageBox(0, _T("Where is no public or private key."), _T("Info"), MB_OK);
+				  MessageBox(0, TranslateT("Where is no public or private key."), TranslateT("Info"), MB_OK);
 				  break;
 			  }
 			  ws2 += _tcslen(_T("-----END PGP PUBLIC KEY BLOCK-----"));

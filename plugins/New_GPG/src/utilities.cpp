@@ -134,8 +134,6 @@ INT_PTR LoadKey(WPARAM w, LPARAM l)
 {
 	void ShowLoadPublicKeyDialog();
 	extern map<int, HANDLE> user_data;
-	extern int item_num;
-	item_num = 0;		 //black magic here
 	user_data[1] = (HANDLE)w;
 	ShowLoadPublicKeyDialog();
 	return 0;

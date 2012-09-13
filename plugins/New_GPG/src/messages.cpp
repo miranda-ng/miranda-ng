@@ -41,7 +41,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 			if(!isContactSecured(hContact))
 			{
 				debuglog<<time_str()<<": info: "<<"received message from: "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)<<" with turned off encryption\n";
-				if(MessageBox(0, _T("We received encrypted message from contact with encryption turned off.\nDo you want turn on encryption for this contact ?"), _T("Warning"), MB_YESNO) == IDYES)
+				if(MessageBox(0, TranslateT("We received encrypted message from contact with encryption turned off.\nDo you want turn on encryption for this contact ?"), TranslateT("Warning"), MB_YESNO) == IDYES)
 				{
 					if(!isContactHaveKey(hContact))
 					{
@@ -65,7 +65,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 						setClistIcon(hContact);
 					}
 				}
-				else if(MessageBox(0, _T("Do you want try to decrypt encrypted message ?"), _T("Warning"), MB_YESNO) == IDNO)
+				else if(MessageBox(0, TranslateT("Do you want try to decrypt encrypted message ?"), TranslateT("Warning"), MB_YESNO) == IDNO)
 				{
 					
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
@@ -731,7 +731,7 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	if(out.find("There is no assurance this key belongs to the named user") != string::npos)
 	{
 		out.clear();
-		if(MessageBox(0, _T("We trying to encrypt with untrusted key, do you want to trust this key permanently ?"), _T("Warning"), MB_YESNO) == IDYES)
+		if(MessageBox(0, TranslateT("We trying to encrypt with untrusted key, do you want to trust this key permanently ?"), TranslateT("Warning"), MB_YESNO) == IDYES)
 		{
 			DBWriteContactSettingByte(hContact, szGPGModuleName, "bAlwaysTrust", 1);
 			cmd.insert(0, _T("--trust-model always "));
@@ -769,7 +769,7 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	}
 	if(out.find("usage: ") != string::npos)
 	{
-		MessageBox(0, _T("Something wrong, gpg does not understand us, aborting encryption."), _T("Warning"), MB_OK);
+		MessageBox(0, TranslateT("Something wrong, gpg does not understand us, aborting encryption."), TranslateT("Warning"), MB_OK);
 		DeleteFile(path.c_str());
 		mir_free(msg);
 		CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
@@ -808,20 +808,19 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		str_event.insert(0, toUTF8(outopentag));
 		str_event.append(toUTF8(outclosetag));
 	}
-	if(metaIsSubcontact(hContact))
+/*	if(metaIsSubcontact(hContact))
 	{
 		hcontact_data[metaGetContact(hContact)].msgs_to_pass.push_back(str_event);
 		debuglog<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)<<"is subcontact of"<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)metaGetContact(hContact), GCDNF_TCHAR)<<"\n";
 		debuglog<<time_str()<<": adding event to metacontact: "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)metaGetContact(hContact), GCDNF_TCHAR)<<" on send message.\n";
 		HistoryLog(metaGetContact(hContact), db_event((char*)str_event.c_str(), 0,0, DBEF_SENT|dbflags));
-	}
+	} */ //unneeded ?
 	hcontact_data[hContact].msgs_to_pass.push_back(str_event);
 	debuglog<<time_str()<<": adding event to contact: "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)<<" on send message.\n";
 	HistoryLog(hContact, db_event((char*)str_event.c_str(), 0,0, dbflags|DBEF_SENT));
 	if(!(flags & PREF_UTF))
 		flags |= PREF_UTF; 
-	HANDLE hProcess = NULL;
-	sent_msgs.push_back(hProcess = (HANDLE)CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)toUTF8(str).c_str()));
+	sent_msgs.push_back((HANDLE)CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)toUTF8(str).c_str()));
 	mir_free(msg);
 	return;
 }
