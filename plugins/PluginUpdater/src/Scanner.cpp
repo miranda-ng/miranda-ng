@@ -142,6 +142,14 @@ static void CheckUpdates(void *)
 		DBWriteContactSettingTString(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
 		DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar);
 	}
+	else {
+		#ifdef WIN64
+			if (_tcsstr(dbVar.ptszVal, _T"x32")) {
+				DBWriteContactSettingTString(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
+				DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar);
+			}
+		#endif
+	}
 	TCHAR* tszBaseUrl = NEWTSTR_ALLOCA(dbVar.ptszVal);
 	DBFreeVariant(&dbVar);
 
