@@ -766,13 +766,19 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				else _tcsncpy(prototemplate->ProtoTemplate, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplate));
 
 				mir_free(szprotoname);
-				ListView_InsertItem(hList,&lvItem);
+				ListView_InsertItem(hList, &lvItem);
 				ProtoTemplates.insert(prototemplate, ProtoTemplates.getCount());
 
 				char dbSetting[128];
 				mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", protos[i]->szModuleName);
 				ListView_SetCheckState(hList, lvItem.iItem, DBGetContactSettingByte(NULL, MODULE, dbSetting, TRUE));
 				lvItem.iItem++;
+			}
+			if (lvItem.iItem)
+			{
+				ListView_SetSelectionMark(hList, 0);
+				PROTOTEMPLATE *prototemplate = ProtoTemplates[0];
+				SetDlgItemText(hwndDlg, IDC_POPUPTEXT, prototemplate->ProtoTemplate);
 			}
 			UpdateListFlag = FALSE;
 		}
@@ -811,12 +817,12 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
 					if (nmlv->uNewState == 3 && !UpdateListFlag)
 					{
-						HWND hList = GetDlgItem(hwndDlg,IDC_PROTOCOLLIST);
+						HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
 						PROTOTEMPLATE *prototemplate;
 						if (ListView_GetHotItem(hList) != ListView_GetSelectionMark(hList)) {
 							prototemplate = ProtoTemplates[ListView_GetSelectionMark(hList)];
 							GetDlgItemText(hwndDlg, IDC_POPUPTEXT, prototemplate->ProtoTemplate, MAX_PATH);
-							ProtoTemplates.remove( ListView_GetSelectionMark(hList));
+							ProtoTemplates.remove(ListView_GetSelectionMark(hList));
 							ProtoTemplates.insert(prototemplate, ListView_GetSelectionMark(hList));
 
 						}
