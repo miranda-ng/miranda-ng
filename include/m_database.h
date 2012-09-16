@@ -434,6 +434,7 @@ typedef struct {
 	DWORD cbBlob;	  //size of pBlob in bytes
 	PBYTE pBlob;	  //pointer to buffer containing module-defined event data
 } DBEVENTINFO;
+
 #define EVENTTYPE_MESSAGE   0
 #define EVENTTYPE_URL       1
 #define EVENTTYPE_CONTACTS  2	//v0.1.2.2+
@@ -441,6 +442,10 @@ typedef struct {
 #define EVENTTYPE_AUTHREQUEST   1001  //specific codes, hence the module-
 #define EVENTTYPE_FILE          1002  //specific limit has been raised to 2000
 #define MS_DB_EVENT_ADD  "DB/Event/Add"
+
+__forceinline HANDLE DbGetAuthEventContact(DBEVENTINFO* dbei)
+{	return (HANDLE)(*(DWORD*)&dbei->pBlob[sizeof(DWORD)]);
+}
 
 /* DB/Event/Delete
 Removes a single event from the database
@@ -499,17 +504,17 @@ typedef struct {
 
 #define MS_DB_EVENT_GETTEXT "DB/Event/GetText"
 
-__inline static char* DbGetEventTextA(DBEVENTINFO* dbei, int codepage)
+__forceinline char* DbGetEventTextA(DBEVENTINFO* dbei, int codepage)
 {  DBEVENTGETTEXT temp = { dbei, DBVT_ASCIIZ, codepage };
    return (char*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
-__inline static WCHAR* DbGetEventTextW(DBEVENTINFO* dbei, int codepage)
+__forceinline WCHAR* DbGetEventTextW(DBEVENTINFO* dbei, int codepage)
 {  DBEVENTGETTEXT temp = { dbei, DBVT_WCHAR, codepage };
    return (WCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
-__inline static TCHAR* DbGetEventTextT(DBEVENTINFO* dbei, int codepage)
+__forceinline TCHAR* DbGetEventTextT(DBEVENTINFO* dbei, int codepage)
 {  DBEVENTGETTEXT temp = { dbei, DBVT_TCHAR, codepage };
    return (TCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
@@ -540,7 +545,7 @@ Caller must free the result using mir_free
 
 #define MS_DB_EVENT_GETSTRINGT "DB/Event/GetStringT"
 
-__inline static TCHAR* DbGetEventStringT(DBEVENTINFO* dbei, const char* str)
+__forceinline TCHAR* DbGetEventStringT(DBEVENTINFO* dbei, const char* str)
 {
    return (TCHAR*)CallService(MS_DB_EVENT_GETSTRINGT, (WPARAM)dbei, (LPARAM)str);
 }

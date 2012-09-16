@@ -105,7 +105,7 @@ typedef struct {
 #define PSM_ISEXPERT      (WM_USER+101)   //returns true/false
 #define PSM_GETBOLDFONT   (WM_USER+102)   //returns HFONT used for group box titles
 
-__inline static INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
+__forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
 {	odp->hLangpack = hLangpack;
 	return CallService("Opt/AddPage", wParam, (LPARAM)odp);
 }
@@ -126,14 +126,14 @@ typedef struct {
 }
 	OPENOPTIONSDIALOG;
 
-__inline static INT_PTR Options_Open(OPENOPTIONSDIALOG *ood)
+__forceinline INT_PTR Options_Open(OPENOPTIONSDIALOG *ood)
 {
 	return CallService("Opt/OpenOptions", hLangpack, (LPARAM)ood);
 }
 
 //Opens the options dialog, with only specified page    v0.8.0.x+
 
-__inline static HWND Options_OpenPage(OPENOPTIONSDIALOG *ood)
+__forceinline HWND Options_OpenPage(OPENOPTIONSDIALOG *ood)
 {
 	return (HWND)CallService("Opt/OpenOptionsPage", hLangpack, (LPARAM)ood);
 }

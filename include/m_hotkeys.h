@@ -68,7 +68,7 @@ Registers new hotkey
 Returns 0 on failure or hotkey atom id on success
 */
 
-__inline static INT_PTR Hotkey_Register(HOTKEYDESC *hk)
+__forceinline INT_PTR Hotkey_Register(HOTKEYDESC *hk)
 {	
 	return CallService("CoreHotkeys/Register", (WPARAM)hLangpack, (LPARAM)hk);
 }

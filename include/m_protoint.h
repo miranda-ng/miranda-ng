@@ -110,7 +110,6 @@ typedef struct tagPROTO_INTERFACE
 
 	DWORD  reserved[ 40 ];
 
-	#ifdef __cplusplus
 	virtual	HANDLE   __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr) = 0;
 	virtual	HANDLE   __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) = 0;
 
@@ -157,7 +156,6 @@ typedef struct tagPROTO_INTERFACE
 	virtual	int       __cdecl UserIsTyping(HANDLE hContact, int type) = 0;
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) = 0;
-	#endif
 }
 	PROTO_INTERFACE;
 

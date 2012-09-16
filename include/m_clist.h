@@ -145,7 +145,7 @@ typedef struct {
 #define CMIF_ROOTPOPUP  128   //root item for new popup(save return id for childs)
 #define CMIF_CHILDPOPUP 256   //child for rootpopup menu
 
-__inline static HGENMENU Menu_AddMainMenuItem(CLISTMENUITEM *mi)
+__forceinline HGENMENU Menu_AddMainMenuItem(CLISTMENUITEM *mi)
 {	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddMainMenuItem", 0, (LPARAM)mi);
 }
@@ -159,17 +159,17 @@ __inline static HGENMENU Menu_AddMainMenuItem(CLISTMENUITEM *mi)
 //displayed in brackets after the menu item text. This only works in debug
 //builds.
 
-__inline static HGENMENU Menu_AddContactMenuItem(CLISTMENUITEM *mi)
+__forceinline HGENMENU Menu_AddContactMenuItem(CLISTMENUITEM *mi)
 {	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddContactMenuItem", 0, (LPARAM)mi);
 }
 
-__inline static HGENMENU Menu_AddStatusMenuItem(CLISTMENUITEM *mi)
+__forceinline HGENMENU Menu_AddStatusMenuItem(CLISTMENUITEM *mi)
 {	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddStatusMenuItem", 0, (LPARAM)mi);
 }
 
-__inline static HGENMENU Menu_AddProtoMenuItem(CLISTMENUITEM *mi)
+__forceinline HGENMENU Menu_AddProtoMenuItem(CLISTMENUITEM *mi)
 {	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddProtoMenuItem", 0, (LPARAM)mi);
 }

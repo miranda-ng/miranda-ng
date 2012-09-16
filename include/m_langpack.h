@@ -83,13 +83,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #if defined(MIRANDA_CUSTOM_LP)
 
-__inline static INT_PTR Langpack_PCharToTChar(const char* str)
+__forceinline INT_PTR Langpack_PCharToTChar(const char* str)
 {	return CallService(MS_LANGPACK_PCHARTOTCHAR, hLangpack, (LPARAM)str);
 }
 
 #else
 
-__inline static INT_PTR Langpack_PCharToTChar(const char* str)
+__forceinline INT_PTR Langpack_PCharToTChar(const char* str)
 {	return CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)str);
 }
 
@@ -102,7 +102,7 @@ __inline static INT_PTR Langpack_PCharToTChar(const char* str)
 #define MS_LANGPACK_REGISTER "LangPack/Register"
 
 #if defined(MIRANDA_CUSTOM_LP)
-__inline static void mir_getLP(const PLUGININFOEX* pInfo)
+__forceinline void mir_getLP(const PLUGININFOEX* pInfo)
 {	CallService(MS_LANGPACK_REGISTER, (WPARAM)&hLangpack, (LPARAM)pInfo);
 }
 #endif

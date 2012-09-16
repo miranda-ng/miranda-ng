@@ -168,7 +168,7 @@ struct DATABASELINK
 
 #define MS_DB_REGISTER_PLUGIN "DB/RegisterPlugin"
 
-__inline static void RegisterDatabasePlugin(DATABASELINK* pDescr)
+__forceinline void RegisterDatabasePlugin(DATABASELINK* pDescr)
 {	CallService(MS_DB_REGISTER_PLUGIN, 0, (LPARAM)pDescr);
 }
 
@@ -179,7 +179,7 @@ __inline static void RegisterDatabasePlugin(DATABASELINK* pDescr)
 
 #define MS_DB_FIND_PLUGIN "DB/FindPlugin"
 
-__inline static DATABASELINK* FindDatabasePlugin(const TCHAR* ptszFileName)
+__forceinline DATABASELINK* FindDatabasePlugin(const TCHAR* ptszFileName)
 {	return (DATABASELINK*)CallService(MS_DB_FIND_PLUGIN, 0, (LPARAM)ptszFileName);
 }
 
@@ -190,7 +190,7 @@ __inline static DATABASELINK* FindDatabasePlugin(const TCHAR* ptszFileName)
 
 #define MS_DB_GET_CURRENT "DB/GetCurrentDb"
 
-__inline static MIDatabase* GetCurrentDatabase(void)
+__forceinline MIDatabase* GetCurrentDatabase(void)
 {	return (MIDatabase*)CallService(MS_DB_GET_CURRENT, 0, 0);
 }
 

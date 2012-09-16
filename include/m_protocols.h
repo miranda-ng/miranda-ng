@@ -293,7 +293,7 @@ typedef struct tagACCOUNT
 //lParam = (LPARAM)(PROTOACCOUNT**)paAccounts
 #define MS_PROTO_ENUMACCOUNTS "Proto/EnumAccounts"
 
-__inline static INT_PTR ProtoEnumAccounts(int* accNumber, PROTOACCOUNT*** accArray)
+__forceinline INT_PTR ProtoEnumAccounts(int* accNumber, PROTOACCOUNT*** accArray)
 {	return CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)accNumber, (LPARAM)accArray);
 }
 
@@ -303,7 +303,7 @@ __inline static INT_PTR ProtoEnumAccounts(int* accNumber, PROTOACCOUNT*** accArr
 //return value = PROTOACCOUNT* or NULL
 #define MS_PROTO_GETACCOUNT "Proto/GetAccount"
 
-__inline static PROTOACCOUNT* ProtoGetAccount(const char* accName)
+__forceinline PROTOACCOUNT* ProtoGetAccount(const char* accName)
 {	return (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)accName);
 }
 
@@ -331,7 +331,7 @@ __inline static PROTOACCOUNT* ProtoGetAccount(const char* accName)
 //Returns 1 if an account is valid and enabled, 0 otherwise
 #define MS_PROTO_ISACCOUNTENABLED "Proto/IsAccountEnabled"
 
-__inline static int IsAccountEnabled(const PROTOACCOUNT* pa)
+__forceinline int IsAccountEnabled(const PROTOACCOUNT* pa)
 {
   return (int)CallService(MS_PROTO_ISACCOUNTENABLED, 0, (LPARAM)pa);
 }

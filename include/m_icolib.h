@@ -75,7 +75,7 @@ typedef struct {
 //  lParam = (LPARAM)(SKINICONDESC*)sid;
 //  returns a handle to the newly added item
 
-__inline static HANDLE Skin_AddIcon(SKINICONDESC* si)
+__forceinline HANDLE Skin_AddIcon(SKINICONDESC* si)
 {	return (HANDLE)CallService("Skin2/Icons/AddIcon", hLangpack, (LPARAM)si);
 }
 
@@ -88,7 +88,7 @@ __inline static HANDLE Skin_AddIcon(SKINICONDESC* si)
 //
 #define MS_SKIN2_REMOVEICON "Skin2/Icons/RemoveIcon"
 
-__inline static void Skin_RemoveIcon(const char* szIconName)
+__forceinline void Skin_RemoveIcon(const char* szIconName)
 {	CallService(MS_SKIN2_REMOVEICON, 0, (LPARAM)szIconName);
 }
 
@@ -101,9 +101,9 @@ __inline static void Skin_RemoveIcon(const char* szIconName)
 #define MS_SKIN2_GETICON "Skin2/Icons/GetIcon"
 
 #ifdef __cplusplus
-__inline static HICON Skin_GetIcon(const char* szIconName, int size=0)
+__forceinline HICON Skin_GetIcon(const char* szIconName, int size=0)
 #else
-__inline static HICON Skin_GetIcon(const char* szIconName, int size)
+__forceinline HICON Skin_GetIcon(const char* szIconName, int size)
 #endif
 {	return (HICON)CallService(MS_SKIN2_GETICON, size, (LPARAM)szIconName);
 }
@@ -115,7 +115,7 @@ __inline static HICON Skin_GetIcon(const char* szIconName, int size)
 //
 #define MS_SKIN2_GETICONHANDLE "Skin2/Icons/GetIconHandle"
 
-__inline static HANDLE Skin_GetIconHandle(const char* szIconName)
+__forceinline HANDLE Skin_GetIconHandle(const char* szIconName)
 {	return (HANDLE)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)szIconName);
 }
 
@@ -128,9 +128,9 @@ __inline static HANDLE Skin_GetIconHandle(const char* szIconName)
 #define MS_SKIN2_GETICONBYHANDLE "Skin2/Icons/GetIconByHandle"
 
 #ifdef __cplusplus
-__inline static HICON Skin_GetIconByHandle(HANDLE hIcolibIcon, int size=0)
+__forceinline HICON Skin_GetIconByHandle(HANDLE hIcolibIcon, int size=0)
 #else
-__inline static HICON Skin_GetIconByHandle(HANDLE hIcolibIcon, int size)
+__forceinline HICON Skin_GetIconByHandle(HANDLE hIcolibIcon, int size)
 #endif
 {	return (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, size, (LPARAM)hIcolibIcon);
 }
@@ -151,14 +151,14 @@ __inline static HICON Skin_GetIconByHandle(HANDLE hIcolibIcon, int size)
 //
 #define MS_SKIN2_RELEASEICON "Skin2/Icons/ReleaseIcon"
 
-__inline static void Skin_ReleaseIcon(const char* szIconName)
+__forceinline void Skin_ReleaseIcon(const char* szIconName)
 {	CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)szIconName);
 }
 
 #ifdef __cplusplus
-__inline static void Skin_ReleaseIcon(HICON hIcon)
+__forceinline void Skin_ReleaseIcon(HICON hIcon)
 #else
-__inline static void Skin_ReleaseIcon2(HICON hIcon)
+__forceinline void Skin_ReleaseIcon2(HICON hIcon)
 #endif
 {	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
 }

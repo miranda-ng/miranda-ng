@@ -120,7 +120,7 @@ int lParam;
 //wParam=lpGroupMenuParam, params to call when exec menuitem
 //lParam=(LPARAM)(CLISTMENUITEM*)&mi
 
-__inline static HGENMENU Menu_AddSubGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM *mi)
+__forceinline HGENMENU Menu_AddSubGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM *mi)
 {	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddSubGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
 }
@@ -144,7 +144,7 @@ __inline static HGENMENU Menu_AddSubGroupMenuItem(lpGroupMenuParam gmp, CLISTMEN
 //wParam=lpGroupMenuParam, params to call when exec menuitem
 //lParam=(LPARAM)(CLISTMENUITEM*)&mi
 
-__inline static HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM *mi)
+__forceinline HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM *mi)
 {	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
 }
@@ -172,7 +172,7 @@ __inline static HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUIT
 //wParam=0
 //lParam=(LPARAM)(CLISTMENUITEM*)&mi
 
-__inline static HGENMENU Menu_AddTrayMenuItem(CLISTMENUITEM *mi)
+__forceinline HGENMENU Menu_AddTrayMenuItem(CLISTMENUITEM *mi)
 {	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddTrayMenuItem", 0, (LPARAM)mi);
 }

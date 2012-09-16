@@ -201,12 +201,12 @@ of shutting down
 #ifdef _STATIC
 INT_PTR MirandaIsTerminated(WPARAM, LPARAM);
 
-__inline static INT_PTR Miranda_Terminated(void)
+__forceinline INT_PTR Miranda_Terminated(void)
 {
 	return MirandaIsTerminated(0, 0);
 }
 #else
-__inline static INT_PTR Miranda_Terminated(void)
+__forceinline INT_PTR Miranda_Terminated(void)
 {
 	return CallService(MS_SYSTEM_TERMINATED, 0, 0);
 }
@@ -241,13 +241,13 @@ obtain this filter and call it inside the __except section
 
 #define MS_SYSTEM_GETEXCEPTFILTER "System/GetExceptFilter"
 
-__inline static pfnExceptionFilter Miranda_GetExceptFilter(void)
+__forceinline pfnExceptionFilter Miranda_GetExceptFilter(void)
 {	return GetExceptionFilter();
 }
 
 #define MS_SYSTEM_SETEXCEPTFILTER "System/SetExceptFilter"
 
-__inline static pfnExceptionFilter Miranda_SetExceptFilter(pfnExceptionFilter foo)
+__forceinline pfnExceptionFilter Miranda_SetExceptFilter(pfnExceptionFilter foo)
 {	return SetExceptionFilter(foo);
 }
 

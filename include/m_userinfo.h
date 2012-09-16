@@ -73,7 +73,7 @@ All PSN_ WM_NOTIFY messages have PSHNOTIFY.lParam = (LPARAM)hContact
 
 extern int hLangpack;
 
-__inline static INT_PTR UserInfo_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
+__forceinline INT_PTR UserInfo_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
 {	odp->hLangpack = hLangpack;
 	return CallService("UserInfo/AddPage", wParam, (LPARAM)odp);
 }

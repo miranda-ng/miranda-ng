@@ -286,7 +286,7 @@ typedef struct tagCLISTFrame {
 //popupposition=frameid
 //contactowner=advanced parameter
 
-__inline static HGENMENU Menu_AddContextFrameMenuItem(CLISTMENUITEM *mi)
+__forceinline HGENMENU Menu_AddContextFrameMenuItem(CLISTMENUITEM *mi)
 {	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddContextFrameMenuItem", 0, (LPARAM)mi);
 }

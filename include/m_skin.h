@@ -33,9 +33,9 @@ extern int hLangpack;
 //returns NULL if id is invalid, but will always succeed for a valid id
 #define MS_SKIN_LOADICON     "Skin/Icons/Load"
 //nice function to wrap this:
-__inline static HICON LoadSkinnedIcon(int id) {return (HICON)CallService(MS_SKIN_LOADICON, id, 0);}
-__inline static HANDLE LoadSkinnedIconHandle(int id) {return (HANDLE)CallService(MS_SKIN_LOADICON, id, 1);}
-__inline static HICON LoadSkinnedIconBig(int id) {return (HICON)CallService(MS_SKIN_LOADICON, id, 2);}
+__forceinline HICON LoadSkinnedIcon(int id) {return (HICON)CallService(MS_SKIN_LOADICON, id, 0);}
+__forceinline HANDLE LoadSkinnedIconHandle(int id) {return (HANDLE)CallService(MS_SKIN_LOADICON, id, 1);}
+__forceinline HICON LoadSkinnedIconBig(int id) {return (HICON)CallService(MS_SKIN_LOADICON, id, 2);}
 
 //event icons
 #define SKINICON_EVENT_MESSAGE       100
@@ -113,8 +113,8 @@ __inline static HICON LoadSkinnedIconBig(int id) {return (HICON)CallService(MS_S
 #define MS_SKIN_LOADPROTOICON     "Skin/Icons/LoadProto"
 #define MS_SKIN_LOADPROTOICONBIG  "Skin/Icons/LoadProtoBig"
 //nice function to wrap this:
-__inline static HICON LoadSkinnedProtoIcon(const char *szProto, int status) {return (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)szProto, status);}
-__inline static HICON LoadSkinnedProtoIconBig(const char *szProto, int status) {return (HICON)CallService(MS_SKIN_LOADPROTOICONBIG, (WPARAM)szProto, status);}
+__forceinline HICON LoadSkinnedProtoIcon(const char *szProto, int status) {return (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)szProto, status);}
+__forceinline HICON LoadSkinnedProtoIconBig(const char *szProto, int status) {return (HICON)CallService(MS_SKIN_LOADPROTOICONBIG, (WPARAM)szProto, status);}
 
 //add a new sound so it has a default and can be changed in the options dialog
 //wParam = hLangpack
@@ -148,7 +148,7 @@ typedef struct {
 }
 	SKINSOUNDDESCEX;
 
-__inline static INT_PTR SkinAddNewSoundEx(const char *name, const char *section, const char *description)
+__forceinline INT_PTR SkinAddNewSoundEx(const char *name, const char *section, const char *description)
 {
 	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize = sizeof(ssd);
@@ -158,7 +158,7 @@ __inline static INT_PTR SkinAddNewSoundEx(const char *name, const char *section,
 	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)&ssd);
 }
 
-__inline static INT_PTR SkinAddNewSound(const char *name, const char *description, const char *defaultFile)
+__forceinline INT_PTR SkinAddNewSound(const char *name, const char *description, const char *defaultFile)
 {
 	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize = sizeof(ssd);
@@ -168,7 +168,7 @@ __inline static INT_PTR SkinAddNewSound(const char *name, const char *descriptio
 	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)&ssd);
 }
 
-__inline static INT_PTR SkinAddNewSoundExT(const char *name, const TCHAR *section, const TCHAR *description)
+__forceinline INT_PTR SkinAddNewSoundExT(const char *name, const TCHAR *section, const TCHAR *description)
 {
 	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize = sizeof(ssd);
@@ -179,7 +179,7 @@ __inline static INT_PTR SkinAddNewSoundExT(const char *name, const TCHAR *sectio
 	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)&ssd);
 }
 
-__inline static INT_PTR Skin_AddSound(SKINSOUNDDESCEX *ssd)
+__forceinline INT_PTR Skin_AddSound(SKINSOUNDDESCEX *ssd)
 {
 	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)ssd);
 }
@@ -191,7 +191,7 @@ __inline static INT_PTR Skin_AddSound(SKINSOUNDDESCEX *ssd)
 //function will not fail, it will play the Windows default sound instead.
 #define MS_SKIN_PLAYSOUND        "Skin/Sounds/Play"
 
-__inline static INT_PTR SkinPlaySound(const char *name)
+__forceinline INT_PTR SkinPlaySound(const char *name)
 {
 	return CallService(MS_SKIN_PLAYSOUND, 0, (LPARAM)name);
 }
