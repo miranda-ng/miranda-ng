@@ -417,7 +417,7 @@ HICON CMraProto::GetIcon(int iconIndex)
 {
 	UINT id;
 
-	switch ( iconIndex ) {
+	switch (iconIndex & 0xFFFF) {
 		case PLI_PROTOCOL: id = IDI_MRA; break; // IDI_TM is the main icon for the protocol
 		default: return NULL;
 	}
