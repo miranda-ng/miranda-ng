@@ -348,24 +348,6 @@ int CMraProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 
 int CMraProto::AuthRequest(HANDLE hContact, const TCHAR *lptszMessage)
 {
-	if (!m_bLoggedIn )
-		return 1;
-
-	CHAR szEMail[MAX_EMAIL_LEN];
-	size_t dwEMailSize, dwMessageSize;
-
-	dwMessageSize = lstrlen(lptszMessage);
-	if (dwMessageSize) {
-		if (mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
-			BOOL bSlowSend = mraGetByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
-			int iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEMail, dwEMailSize, lptszMessage, dwMessageSize, NULL, 0);
-			if (bSlowSend == FALSE)
-				ProtoBroadcastAckAsynchEx(hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)NULL, 0);
-	
-			return 0;
-		}
-	}
-
 	return 1;
 }
 

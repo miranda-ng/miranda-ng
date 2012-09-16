@@ -386,6 +386,8 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 	lpbDataCurrent = lpbData;
 	dwDataSize = pmaHeader->dlen;
 
+	Netlib_Logf(hNetlibUser, "Received packet %x\n", pmaHeader->msg);
+
 	switch (pmaHeader->msg) {
 	case MRIM_CS_HELLO_ACK://ѕодтверждение установки соединени€// UL ## ping_period ## ќжидаема€ частота подтверждени€ соединени€ (в секундах)
 		//bit of a security hole here, since it's easy to extract a password from an edit box
@@ -1873,6 +1875,8 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 			}
 		}
 	}
+
+	Netlib_Logf(hNetlibUser, "Processing message: %08X, from '%s', text '%S'\n", dwFlags, plpsFrom->lpszData, lpwszMessage);
 
 	// processing
 	if (dwRetErrorCode == NO_ERROR)

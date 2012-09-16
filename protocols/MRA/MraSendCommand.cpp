@@ -67,6 +67,8 @@ static void SetLPSLowerCaseW(LPBYTE *plpBuff, LPCWSTR lpwszData, DWORD dwSize)
 
 DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType, DWORD dwFlags, LPSTR lpszEMail, size_t dwEMailSize, LPCWSTR lpwszMessage, size_t dwMessageSize, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize)
 {
+	Netlib_Logf(hNetlibUser, "Sending message: flags %08x, to '%S', message '%S'\n", dwFlags, lpszEMail, lpwszMessage);
+
 	DWORD dwRet = 0;
 	LPBYTE lpbData, lpbDataCurrent;
 	LPSTR lpszMessageConverted = (LPSTR)lpwszMessage;
@@ -660,6 +662,8 @@ DWORD CMraProto::MraSendPacket(HANDLE hConnection, DWORD dwCMDNum, DWORD dwType,
 		pmaHeader->seq = dwCMDNum;// Sequence
 		pmaHeader->msg = dwType;// Тип пакета
 		pmaHeader->dlen = dwDataSize;// Длина данных
+
+		Netlib_Logf(hNetlibUser, "Sending packet %08x\n", dwType);
 
 		memmove((lpbData+sizeof(mrim_packet_header_t)), lpData, dwDataSize);
 		dwRet = Netlib_Send(hConnection, (LPSTR)lpbData, (dwDataSize+sizeof(mrim_packet_header_t)), 0);

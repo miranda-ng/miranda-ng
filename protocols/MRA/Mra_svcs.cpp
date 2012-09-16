@@ -357,7 +357,23 @@ INT_PTR CMraProto::MraRequestAuthorization(WPARAM wParam, LPARAM lParam)
 		if (mraGetStaticStringW(NULL, "AuthMessage", wszAuthMessage, SIZEOF(wszAuthMessage), NULL) == FALSE)
 			lstrcpynW(wszAuthMessage, TranslateW(MRA_DEFAULT_AUTH_MESSAGE), SIZEOF(wszAuthMessage));
 
-		return AuthRequest((HANDLE)wParam, wszAuthMessage);
+		CHAR szEMail[MAX_EMAIL_LEN];
+		size_t dwEMailSize, dwMessageSize;
+
+		dwMessageSize = lstrlen(wszAuthMessage);
+		if (dwMessageSize) {
+			HANDLE hContact = (HANDLE)wParam;
+			if ( mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
+				BOOL bSlowSend = mraGetByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
+				int iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEMail, dwEMailSize, wszAuthMessage, dwMessageSize, NULL, 0);
+				if (bSlowSend == FALSE)
+					ProtoBroadcastAckAsynchEx(hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)NULL, 0);
+	
+				return 0;
+			}
+		}
+
+		return 1;
 	}
 	return 0;
 }
