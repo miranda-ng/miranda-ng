@@ -1593,9 +1593,9 @@ int __cdecl CIcqProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc )
 
 		BOOL plain_ascii = IsUSASCII(puszText, strlennull(puszText));
 
-		BOOL oldAnsi = plain_ascii || !m_bUtfEnabled || 
+		BOOL oldAnsi = plain_ascii || !m_bUtfEnabled ||
 			(!(flags & (PREF_UTF | PREF_UNICODE)) && m_bUtfEnabled == 1) ||
-			!CheckContactCapabilities(hContact, CAPF_UTF) || 
+			!CheckContactCapabilities(hContact, CAPF_UTF) ||
 			!getSettingByte(hContact, "UnicodeSend", 1);
 
 		if (m_bTempVisListEnabled && m_iStatus == ID_STATUS_INVISIBLE)
@@ -1648,7 +1648,7 @@ int __cdecl CIcqProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc )
 				// on failure, fallback to send thru server
 			}
 
-			if (!dwUin || !CheckContactCapabilities(hContact, CAPF_SRV_RELAY) || 
+			if (!dwUin || !CheckContactCapabilities(hContact, CAPF_SRV_RELAY) ||
 				wRecipientStatus == ID_STATUS_OFFLINE || wRecipientStatus == ID_STATUS_INVISIBLE ||
 				getSettingByte(hContact, "OnlyServerAcks", getSettingByte(NULL, "OnlyServerAcks", DEFAULT_ONLYSERVERACKS)) ||
 				!getSettingByte(hContact, "SlowSend", getSettingByte(NULL, "SlowSend", DEFAULT_SLOWSEND)))
@@ -2086,23 +2086,6 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 
 	return 0;
 }
-
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvAuth - returns a contact's away message
-
-INT_PTR __cdecl CIcqProto::RecvAuth(WPARAM wParam, LPARAM lParam)
-{
-	CCSDATA* ccs = (CCSDATA*)lParam;
-	PROTORECVEVENT* pre = (PROTORECVEVENT*)ccs->lParam;
-
-	setContactHidden(ccs->hContact, 0);
-
-	ICQAddRecvEvent(NULL, EVENTTYPE_AUTHREQUEST, pre, pre->lParam, (PBYTE)pre->szMessage, 0);
-
-	return 0;
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetAwayMsgThread - return a contact's status message
