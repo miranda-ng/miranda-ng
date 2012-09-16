@@ -89,7 +89,7 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 			lpbDataCurrent = lpbAuthMsgBuff;
 			SetUL(&lpbDataCurrent, 2);
 			SetLPSW(&lpbDataCurrent, NULL, 0);//***deb possible nick here
-			SetLPSW(&lpbDataCurrent, (LPWSTR)lpwszMessage, dwMessageSize);
+			SetLPSW(&lpbDataCurrent, lpwszMessage, dwMessageSize);
 
 			BASE64EncodeUnSafe(lpbAuthMsgBuff, (lpbDataCurrent-lpbAuthMsgBuff), lpszMessageConverted, dwMessageConvertedBuffSize, &dwMessageConvertedSize);
 		}
@@ -343,27 +343,27 @@ DWORD CMraProto::MraChangeStatusW(DWORD dwStatus, LPSTR lpszStatusUri, size_t dw
 }
 
 // Отправка файлов
-DWORD CMraProto::MraFileTransfer(LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest, DWORD dwFilesTotalSize, LPWSTR lpwszFiles, size_t dwFilesSize, LPSTR lpszAddreses, size_t dwAddresesSize)
+DWORD CMraProto::MraFileTransfer(LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest, DWORD dwFilesTotalSize, LPWSTR lpwszFiles, size_t dwFilesSize, LPSTR lpszAddreses, size_t dwAddressesSize)
 {
 	DWORD dwRet = 0;
 
 	if (lpszEMail && dwEMailSize>4) {
 		int dwFilesSizeA = WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszFiles, dwFilesSize, NULL, 0, NULL, NULL);
-		LPBYTE lpbData = (LPBYTE)mir_calloc((dwEMailSize+dwFilesSizeA+(dwFilesSize*sizeof(WCHAR))+dwAddresesSize+MAX_PATH));
+		LPBYTE lpbData = (LPBYTE)mir_calloc((dwEMailSize+dwFilesSizeA+(dwFilesSize*sizeof(WCHAR))+dwAddressesSize+MAX_PATH));
 		if (lpbData) {
 			LPBYTE lpbDataCurrent = lpbData;
 			SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);
 			SetUL(&lpbDataCurrent, dwIDRequest);
 			SetUL(&lpbDataCurrent, dwFilesTotalSize);
-			SetUL(&lpbDataCurrent, (sizeof(DWORD)+dwFilesSizeA + sizeof(DWORD)+(sizeof(DWORD)+sizeof(DWORD)+(dwFilesSize*sizeof(WCHAR))) + sizeof(DWORD)+(DWORD)dwAddresesSize));
+			SetUL(&lpbDataCurrent, sizeof(DWORD)*5 + dwFilesSizeA + dwFilesSize*sizeof(WCHAR) + DWORD(dwAddressesSize));
 
 			SetLPSWtoA(&lpbDataCurrent, lpwszFiles, dwFilesSize);
-			SetUL(&lpbDataCurrent, (sizeof(DWORD)+sizeof(DWORD)+(dwFilesSize*sizeof(WCHAR))));
+			SetUL(&lpbDataCurrent, sizeof(DWORD)*2 + dwFilesSize*sizeof(WCHAR));
 
 			SetUL(&lpbDataCurrent, 1);
 			SetLPSW(&lpbDataCurrent, lpwszFiles, dwFilesSize);
 
-			SetLPS(&lpbDataCurrent, lpszAddreses, dwAddresesSize);
+			SetLPS(&lpbDataCurrent, lpszAddreses, dwAddressesSize);
 
 			dwRet = MraSendCMD(MRIM_CS_FILE_TRANSFER, lpbData, lpbDataCurrent-lpbData);
 			mir_free(lpbData);
@@ -583,19 +583,19 @@ DWORD CMraProto::MraSMSW(HANDLE hContact, LPSTR lpszPhone, size_t dwPhoneSize, L
 }
 
 // Соединение с прокси
-DWORD CMraProto::MraProxy(LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest, DWORD dwDataType, LPSTR lpszData, size_t dwDataSize, LPSTR lpszAddreses, size_t dwAddresesSize, MRA_GUID mguidSessionID)
+DWORD CMraProto::MraProxy(LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest, DWORD dwDataType, LPSTR lpszData, size_t dwDataSize, LPSTR lpszAddreses, size_t dwAddressesSize, MRA_GUID mguidSessionID)
 {
 	DWORD dwRet = 0;
 
 	if (lpszEMail && dwEMailSize>4) {
-		LPBYTE lpbData = (LPBYTE)mir_calloc((dwEMailSize+(sizeof(DWORD)*2)+dwDataSize+dwAddresesSize+sizeof(MRA_GUID)+32));
+		LPBYTE lpbData = (LPBYTE)mir_calloc((dwEMailSize+(sizeof(DWORD)*2)+dwDataSize+dwAddressesSize+sizeof(MRA_GUID)+32));
 		if (lpbData) {
 			LPBYTE lpbDataCurrent = lpbData;
 			SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);
 			SetUL(&lpbDataCurrent, dwIDRequest);
 			SetUL(&lpbDataCurrent, dwDataType);
 			SetLPS(&lpbDataCurrent, lpszData, dwDataSize);
-			SetLPS(&lpbDataCurrent, lpszAddreses, dwAddresesSize);
+			SetLPS(&lpbDataCurrent, lpszAddreses, dwAddressesSize);
 			SetGUID(&lpbDataCurrent, mguidSessionID);
 
 			dwRet = MraSendCMD(MRIM_CS_PROXY, lpbData, (lpbDataCurrent-lpbData));
@@ -606,12 +606,12 @@ DWORD CMraProto::MraProxy(LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest
 }
 
 // Ответ на соединение с прокси
-DWORD CMraProto::MraProxyAck(DWORD dwStatus, LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest, DWORD dwDataType, LPSTR lpszData, size_t dwDataSize, LPSTR lpszAddreses, size_t dwAddresesSize, MRA_GUID mguidSessionID)
+DWORD CMraProto::MraProxyAck(DWORD dwStatus, LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest, DWORD dwDataType, LPSTR lpszData, size_t dwDataSize, LPSTR lpszAddreses, size_t dwAddressesSize, MRA_GUID mguidSessionID)
 {
 	DWORD dwRet = 0;
 
 	if (lpszEMail && dwEMailSize>4) {
-		LPBYTE lpbData = (LPBYTE)mir_calloc((dwEMailSize+(sizeof(DWORD)*3)+dwDataSize+dwAddresesSize+sizeof(MRA_GUID)+32));
+		LPBYTE lpbData = (LPBYTE)mir_calloc((dwEMailSize+(sizeof(DWORD)*3)+dwDataSize+dwAddressesSize+sizeof(MRA_GUID)+32));
 		if (lpbData) {
 			LPBYTE lpbDataCurrent = lpbData;
 			SetUL(&lpbDataCurrent, dwStatus);
@@ -619,7 +619,7 @@ DWORD CMraProto::MraProxyAck(DWORD dwStatus, LPSTR lpszEMail, size_t dwEMailSize
 			SetUL(&lpbDataCurrent, dwIDRequest);
 			SetUL(&lpbDataCurrent, dwDataType);
 			SetLPS(&lpbDataCurrent, lpszData, dwDataSize);
-			SetLPS(&lpbDataCurrent, lpszAddreses, dwAddresesSize);
+			SetLPS(&lpbDataCurrent, lpszAddreses, dwAddressesSize);
 			SetGUID(&lpbDataCurrent, mguidSessionID);
 
 			dwRet = MraSendCMD(MRIM_CS_PROXY_ACK, lpbData, (lpbDataCurrent-lpbData));
