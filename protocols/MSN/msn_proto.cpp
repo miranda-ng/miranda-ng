@@ -308,7 +308,8 @@ HANDLE __cdecl CMsnProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEv
 
 int CMsnProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 {
-	return Proto_AuthRecv(m_szModuleName, pre);	
+	Proto_AuthRecv(m_szModuleName, pre);
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

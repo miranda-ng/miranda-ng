@@ -290,7 +290,9 @@ int __cdecl CYahooProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 {
 	DebugLog("[YahooRecvAuth] ");
 	DBDeleteContactSetting(hContact,"CList","Hidden");
-	return Proto_AuthRecv(m_szModuleName, pre);	
+
+	Proto_AuthRecv(m_szModuleName, pre);
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

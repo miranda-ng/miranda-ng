@@ -684,7 +684,7 @@ void CIcqProto::setUserInfo()
 	wAdditionalData += 16;
 #endif
 
-	wAdditionalData += CustomCapList.size() * 16;
+	wAdditionalData += (WORD)CustomCapList.size() * 16;
 
 	//MIM/PackName
 	bool bHasPackName = false;

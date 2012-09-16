@@ -342,7 +342,8 @@ int CMraProto::AuthDeny(HANDLE hDBEvent, const TCHAR* szReason)
 
 int CMraProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 {
-	return Proto_AuthRecv(m_szModuleName, pre);	
+	Proto_AuthRecv(m_szModuleName, pre);
+	return 0;
 }
 
 int CMraProto::AuthRequest(HANDLE hContact, const TCHAR *lptszMessage)
