@@ -161,7 +161,7 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 	if (pre->flags & PREF_UNICODE) {
 		pszTemp = mir_utf8encodeT(pre->tszMessage);
 		dbei.pBlob = (PBYTE)(char*)pszTemp;
-		dbei.cbBlob = strlen(pszTemp) + 1;
+		dbei.cbBlob = (DWORD)strlen(pszTemp) + 1;
 		dbei.flags |= DBEF_UTF;
 	}
 	else {

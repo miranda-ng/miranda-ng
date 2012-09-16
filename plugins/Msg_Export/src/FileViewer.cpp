@@ -701,7 +701,7 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 
 	if( hFile == INVALID_HANDLE_VALUE )
 	{
-		int nDBCount = CallService( MS_DB_EVENT_GETCOUNT , (WPARAM)(pclDlg->hContact) ,0 );
+		int nDBCount = (int)CallService( MS_DB_EVENT_GETCOUNT , (WPARAM)(pclDlg->hContact) ,0 );
 		_TCHAR szTmp[1500];
 
 		if( nDBCount == -1 )
@@ -788,7 +788,7 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 	sData.flags = GTL_NUMCHARS;
 	sData.flags = GTL_DEFAULT;
 
-	DWORD dwDataRead = SendMessage( hRichEdit , EM_GETTEXTLENGTHEX, (WPARAM)&sData , 0 );
+	DWORD dwDataRead = (DWORD)SendMessage( hRichEdit , EM_GETTEXTLENGTHEX, (WPARAM)&sData , 0 );
 	SendMessage(  hRichEdit , EM_SETSEL , dwDataRead - 1, dwDataRead - 1 );
 
 	if( ! bScrollToBottom )
@@ -949,19 +949,18 @@ LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&ft.chrg);
 			ft.chrg.cpMin = ft.chrg.cpMax+1;
 			ft.chrg.cpMax = -1;
-			int res = SendMessage(hwnd, EM_FINDTEXT, (WPARAM)fr->Flags,(LPARAM)&ft);
-			if(res == -1) 
-			{
+			LRESULT res = SendMessage(hwnd, EM_FINDTEXT, (WPARAM)fr->Flags,(LPARAM)&ft);
+			if(res == -1) {
 				ft.chrg.cpMin = 0;
-				res = SendMessage(hwnd, EM_FINDTEXT, (WPARAM)fr->Flags,(LPARAM)&ft);
+				res = (int)SendMessage(hwnd, EM_FINDTEXT, (WPARAM)fr->Flags,(LPARAM)&ft);
 				if(res == -1) 
 				{
 					MessageBox( hwnd , LPGENT("Search string was not found !"),MSG_BOX_TITEL,MB_OK );
 					return 0;
 				}
 			}			
-			ft.chrg.cpMin = res;
-			ft.chrg.cpMax = res + _tcslen(fr->lpstrFindWhat);
+			ft.chrg.cpMin = LONG(res);
+			ft.chrg.cpMax = LONG(res + _tcslen(fr->lpstrFindWhat));
 			SendMessage(hwnd , EM_EXSETSEL, 0, (LPARAM)&ft.chrg);
 			return 0;
 		}
@@ -1307,7 +1306,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				eds.dwCookie = (DWORD )hFile;
 				eds.dwError = 0;
 				eds.pfnCallback = RichEditStreamSaveFile;
-				int nWriteOk = SendMessage(hRichEdit, EM_STREAMOUT, (WPARAM)SF_RTF , (LPARAM)&eds);
+				LRESULT nWriteOk = SendMessage(hRichEdit, EM_STREAMOUT, (WPARAM)SF_RTF , (LPARAM)&eds);
 				if( nWriteOk <= 0 || eds.dwError != 0 )
 				{
 					DisplayLastError( LPGENT("Failed to save file") );
