@@ -451,11 +451,11 @@ HANDLE CMraProto::SearchByName(const TCHAR *pszNick, const TCHAR *pszFirstName, 
 {
 	INT_PTR iRet = 0;
 
-	if (m_bLoggedIn && (pszNick || pszFirstName || pszLastName)) {
+	if (m_bLoggedIn && (*pszNick || *pszFirstName || *pszLastName)) {
 		DWORD dwRequestFlags = 0;
-		if (pszNick)      dwRequestFlags |= MRIM_CS_WP_REQUEST_PARAM_NICKNAME;
-		if (pszFirstName) dwRequestFlags |= MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME;
-		if (pszLastName)  dwRequestFlags |= MRIM_CS_WP_REQUEST_PARAM_LASTNAME;
+		if (*pszNick)      SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME);
+		if (*pszFirstName) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME);
+		if (*pszLastName)  SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_LASTNAME);
 		return MraWPRequestW(NULL, ACKTYPE_SEARCH, dwRequestFlags, NULL, 0, NULL, 0, 
 			pszNick, lstrlen(pszNick), pszFirstName, lstrlen(pszFirstName), pszLastName, lstrlen(pszLastName), 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
