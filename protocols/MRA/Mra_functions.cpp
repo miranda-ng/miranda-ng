@@ -1344,13 +1344,16 @@ void CMraProto::CListShowMenuItem(HANDLE hMenuItem, BOOL bShow)
 
 int ExtraSetIcon(HANDLE hExtraIcon, HANDLE hContact, HANDLE hImage, int iColumnType)
 {
+	if (hImage == NULL)
+		hImage = INVALID_HANDLE_VALUE;
+
 	if (hExtraIcon)
 		return ExtraIcon_SetIcon(hExtraIcon, hContact, hImage);
 
 	IconExtraColumn iec;
 	iec.cbSize = sizeof(iec);
 	iec.ColumnType = iColumnType;
-	iec.hImage = ((hImage != NULL)? hImage:INVALID_HANDLE_VALUE);
+	iec.hImage = hImage;
 	return CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
 }
 
