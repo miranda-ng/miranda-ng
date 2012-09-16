@@ -754,6 +754,8 @@ Copies the EVENTTYPE_AUTHREQUEST event from PROTORECVEVENT into DBEVENTINFO and 
   lParam = PROTORECVEVENT*
 Returns the result of MS_DB_EVENT_ADD
 */
+#define PSR_AUTH		"/RecvAuth"
+
 #define MS_PROTO_AUTHRECV  "Proto/AuthRecv"
 
 __forceinline INT_PTR Proto_AuthRecv(const char *szProtoName, PROTORECVEVENT *pcre)
@@ -819,14 +821,6 @@ Use PS_ADDTOLISTBYEVENT to add the contacts from one of these to the list.
 //wParam = statusMode
 //lParam = (LPARAM)(PROTORECVEVENT*)&pre
 #define PSR_AWAYMSG    "/RecvAwayMsg"
-
-//An authorization request has been received
-//wParam = 0
-//lParam = (LPARAM)(PROTORECVEVENT*)&pre
-//pre.szMessage is same format as blob
-//pre.lParam is the size of the blob
-#define PSR_AUTH		"/RecvAuth"
-
 
 #ifdef _UNICODE
 

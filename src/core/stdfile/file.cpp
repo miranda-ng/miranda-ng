@@ -387,33 +387,6 @@ static void sttRecvCreateBlob(DBEVENTINFO& dbei, int fileCount, char** pszFiles,
 	strcpy((char*)p, (szDescr == NULL) ? "" : szDescr);
 }
 
-static INT_PTR Proto_RecvFile(WPARAM, LPARAM lParam)
-{
-	CCSDATA* ccs = (CCSDATA*)lParam;
-	PROTORECVEVENT* pre = (PROTORECVEVENT*)ccs->lParam;
-	char* szFile = pre->szMessage + sizeof(DWORD);
-	char* szDescr = szFile + strlen(szFile) + 1;
-
-	// Suppress the standard event filter
-	if (pre->lParam != NULL)
-		*(DWORD*)pre->szMessage = 0;
-
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
-	dbei.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
-	dbei.timestamp = pre->timestamp;
-	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
-	dbei.flags |= (pre->flags & PREF_UTF) ? DBEF_UTF : 0;
-	dbei.eventType = EVENTTYPE_FILE;
-	dbei.cbBlob = (DWORD)(sizeof(DWORD) + strlen(szFile) + strlen(szDescr) + 2);
-	dbei.pBlob = (PBYTE)pre->szMessage;
-	HANDLE hdbe = (HANDLE)CallService(MS_DB_EVENT_ADD, (WPARAM)ccs->hContact, (LPARAM)&dbei);
-
-	if (pre->lParam != NULL)
-		PushFileEvent(ccs->hContact, hdbe, pre->lParam);
-	return 0;
-}
-
 static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 {
 	CCSDATA* ccs = (CCSDATA*)lParam;
@@ -467,7 +440,6 @@ int LoadSendRecvFileModule(void)
 	HookEvent(ME_OPT_INITIALISE, FileOptInitialise);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
 
-	CreateServiceFunction(MS_PROTO_RECVFILET, Proto_RecvFile);
 	CreateServiceFunction(MS_PROTO_RECVFILET, Proto_RecvFileT);
 
 	CreateServiceFunction(MS_FILE_SENDFILE, SendFileCommand);
