@@ -662,7 +662,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc( HWND hwndDlg, UINT msg, WPARAM w
 					if ( item->photoFileName ) {
 						photoInfo->ppro->Log( "Showing picture from " TCHAR_STR_PARAM, item->photoFileName );
 						char* p = mir_t2a( item->photoFileName );
-						photoInfo->hBitmap = ( HBITMAP ) JCallService( MS_UTILS_LOADBITMAP, 0, ( LPARAM )p );
+						photoInfo->hBitmap = ( HBITMAP ) CallService( MS_UTILS_LOADBITMAP, 0, ( LPARAM )p );
 						mir_free( p );
 						JabberBitmapPremultiplyChannels(photoInfo->hBitmap);
 						ShowWindow( GetDlgItem( hwndDlg, IDC_SAVE ), SW_SHOW );
@@ -843,7 +843,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc( HWND hwndDlg, UINT msg, WPARAM w
 
 int CJabberProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 {
-	if ( !JCallService( MS_PROTO_ISPROTOCOLLOADED, 0, ( LPARAM )m_szModuleName ))
+	if ( !CallService( MS_PROTO_ISPROTOCOLLOADED, 0, ( LPARAM )m_szModuleName ))
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = {0};
@@ -853,7 +853,7 @@ int CJabberProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 
 	HANDLE hContact = ( HANDLE )lParam;
 	if ( hContact ) {
-		char* szProto = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
+		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( szProto != NULL && !strcmp( szProto, m_szModuleName )) {
 			odp.pfnDlgProc = JabberUserInfoDlgProc;
 			odp.position = -2000000000;

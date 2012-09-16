@@ -33,10 +33,10 @@ int ThreadData::send(const char data[], size_t datalen)
 	if (proto->usingGateway && !(mType == SERVER_FILETRANS || mType == SERVER_P2P_DIRECT)) 
 	{
 		mGatewayTimeout = 2;
-		MSN_CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
+		CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
 	}
 
-	int rlen = MSN_CallService(MS_NETLIB_SEND, (WPARAM)s, (LPARAM)&nlb);
+	int rlen = CallService(MS_NETLIB_SEND, (WPARAM)s, (LPARAM)&nlb);
 	if (rlen == SOCKET_ERROR) 
 	{
 		// should really also check if sendlen is the same as datalen
@@ -127,7 +127,7 @@ int ThreadData::recv(char* data, size_t datalen)
 
 		for (;;)
 		{
-			int ret = MSN_CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls);
+			int ret = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls);
 			if (ret < 0) 
 			{
 				proto->MSN_DebugLog("Connection abortively closed, error %d", WSAGetLastError());
@@ -143,7 +143,7 @@ int ThreadData::recv(char* data, size_t datalen)
 	}
 
 LBL_RecvAgain:
-	int ret = MSN_CallService(MS_NETLIB_RECV, (WPARAM)s, (LPARAM)&nlb);
+	int ret = CallService(MS_NETLIB_RECV, (WPARAM)s, (LPARAM)&nlb);
 	if (ret == 0) 
 	{
 		proto->MSN_DebugLog("Connection closed gracefully");
@@ -163,14 +163,14 @@ LBL_RecvAgain:
 			if (sessionClosed || isTimeout()) return 0;
 			if ((mGatewayTimeout += 2) > 20) mGatewayTimeout = 20;
 
-			MSN_CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
+			CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
 			goto LBL_RecvAgain;
 		}
 		else 
 		{
 			resetTimeout();
 			mGatewayTimeout = 1;
-			MSN_CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
+			CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
 		}
 	}
 

@@ -236,10 +236,10 @@ void  CMsnProto::Lists_Remove(int list, const char* email)
 
 void  CMsnProto::Lists_Populate(void)
 {
-	HANDLE hContact = (HANDLE)MSN_CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact != NULL)
 	{
-		HANDLE hContactN = (HANDLE)MSN_CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		HANDLE hContactN = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 		if (MSN_IsMyContact(hContact)) 
 		{
 			char szEmail[MSN_MAX_EMAIL_LEN] = "";;
@@ -255,7 +255,7 @@ void  CMsnProto::Lists_Populate(void)
 					Lists_Add(0, NETID_UNKNOWN, szEmail, hContact);
 			}
 			else
-				MSN_CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+				CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 		}
 		hContact = hContactN;
 	}
@@ -304,7 +304,7 @@ void CMsnProto::MSN_CleanupLists(void)
 
 			if (!(p.list & (LIST_LL | LIST_FL)))
 			{
-				MSN_CallService(MS_DB_CONTACT_DELETE, (WPARAM)p.hContact, 0);
+				CallService(MS_DB_CONTACT_DELETE, (WPARAM)p.hContact, 0);
 				p.hContact = NULL;
 			}
 
@@ -322,7 +322,7 @@ void CMsnProto::MSN_CleanupLists(void)
 				cont.type = 0;
 				cont.path = path;
 
-				MSN_CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
+				CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
 			}
 		}
 	}
@@ -571,7 +571,7 @@ static void SaveSettings(HANDLE hItem, HWND hwndList, CMsnProto* proto)
 			{
 				if (!IsHContactInfo(hItem))
 				{
-					MSN_CallService(MS_DB_CONTACT_DELETE, (WPARAM)hItem, 0);
+					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hItem, 0);
 					MsnContact* msc = proto->Lists_Get(szEmail);
 					if (msc) msc->hContact = NULL; 
 				}

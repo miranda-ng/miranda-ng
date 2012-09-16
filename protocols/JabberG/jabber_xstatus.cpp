@@ -1249,7 +1249,7 @@ int CJabberProto::CListMW_ExtraIconsApply( WPARAM wParam, LPARAM )
 {
 	if (m_bJabberOnline && m_bPepSupported && ServiceExists(MS_CLIST_EXTRA_SET_ICON))
 	{
-		char* szProto = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, wParam, 0 );
+		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, wParam, 0 );
 		if ( szProto==NULL || strcmp( szProto, m_szModuleName ))
 			return 0; // only apply icons to our contacts, do not mess others
 

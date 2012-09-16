@@ -346,7 +346,7 @@ void CMsnProto::msn_storeAvatarThread(void* arg)
 		size_t szEncPngSize = Netlib_GetBase64EncodedBufferSize(dat->dataSize);
 		szEncBuf = (char*)mir_alloc(szEncPngSize);
 		NETLIBBASE64 nlb = { szEncBuf, (int)szEncPngSize, dat->data, (int)dat->dataSize };
-		MSN_CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
+		CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
 	}
  
 	if (photoid[0] && dat)

@@ -467,7 +467,7 @@ int LoadSendRecvFileModule(void)
 	HookEvent(ME_OPT_INITIALISE, FileOptInitialise);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
 
-	CreateServiceFunction(MS_PROTO_RECVFILE, Proto_RecvFile);
+	CreateServiceFunction(MS_PROTO_RECVFILET, Proto_RecvFile);
 	CreateServiceFunction(MS_PROTO_RECVFILET, Proto_RecvFileT);
 
 	CreateServiceFunction(MS_FILE_SENDFILE, SendFileCommand);

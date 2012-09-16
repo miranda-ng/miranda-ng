@@ -597,16 +597,16 @@ void FacebookProto::ProcessFriendRequests( void* )
 				dbei.timestamp = ::time( NULL );
 				dbei.flags = DBEF_UTF;
 				dbei.eventType = EVENTTYPE_AUTHREQUEST;
-				dbei.cbBlob = (DWORD)(sizeof( DWORD )+ sizeof( HANDLE ) + fbu->real_name.length() + 5);
+				dbei.cbBlob = (DWORD)(sizeof( DWORD )*2 + fbu->real_name.length() + 5);
 					
 				PBYTE pCurBlob = dbei.pBlob = ( PBYTE ) mir_alloc( dbei.cbBlob );					
-				*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);									// UID
-				*(PHANDLE)pCurBlob = hContact; pCurBlob += sizeof(HANDLE);							// Contact Handle
+				*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);                    // UID
+				*(PDWORD)pCurBlob = (DWORD)hContact; pCurBlob += sizeof(DWORD);      // Contact Handle
 				strcpy((char*)pCurBlob, fbu->real_name.data()); pCurBlob += fbu->real_name.length()+1;	// Nickname
-				*pCurBlob = '\0'; pCurBlob++;														// First Name
-				*pCurBlob = '\0'; pCurBlob++;														// Last Name
-				*pCurBlob = '\0'; pCurBlob++;														// E-mail
-				*pCurBlob = '\0';																	// Reason
+				*pCurBlob = '\0'; pCurBlob++;                                        // First Name
+				*pCurBlob = '\0'; pCurBlob++;                                        // Last Name
+				*pCurBlob = '\0'; pCurBlob++;                                        // E-mail
+				*pCurBlob = '\0';                                                    // Reason
 
 				CallService(MS_DB_EVENT_ADD, (WPARAM)NULL, (LPARAM)&dbei);				
 

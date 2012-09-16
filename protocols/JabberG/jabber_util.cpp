@@ -62,7 +62,7 @@ void CJabberProto::Log( const char* fmt, ... )
 	mir_vsnprintf( str, 32000, fmt, vararg );
 	va_end( vararg );
 
-	JCallService( MS_NETLIB_LOG, ( WPARAM )m_hNetlibUser, ( LPARAM )str );
+	CallService( MS_NETLIB_LOG, ( WPARAM )m_hNetlibUser, ( LPARAM )str );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -74,9 +74,9 @@ HANDLE CJabberProto::ChatRoomHContactFromJID( const TCHAR* jid )
 		return ( HANDLE )NULL;
 	
 	HANDLE hContactMatched = NULL;
-	HANDLE hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 	while ( hContact != NULL ) {
-		char* szProto = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
+		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( szProto != NULL && !strcmp( m_szModuleName, szProto )) {
 			DBVARIANT dbv;
 			int result = JGetStringT( hContact, "ChatRoomID", &dbv );
@@ -92,7 +92,7 @@ HANDLE CJabberProto::ChatRoomHContactFromJID( const TCHAR* jid )
 					break;
 		}	}	}
 
-		hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+		hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
 	}
 
 	return hContactMatched;
@@ -109,9 +109,9 @@ HANDLE CJabberProto::HContactFromJID( const TCHAR* jid , BOOL bStripResource )
 	JABBER_LIST_ITEM* item = ListGetItemPtr( LIST_CHATROOM, jid );
 
 	HANDLE hContactMatched = NULL;
-	HANDLE hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 	while ( hContact != NULL ) {
-		char* szProto = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
+		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( szProto != NULL && !strcmp( m_szModuleName, szProto )) {
 			DBVARIANT dbv;
 			int result;
@@ -145,7 +145,7 @@ HANDLE CJabberProto::HContactFromJID( const TCHAR* jid , BOOL bStripResource )
 					break;
 		}	}	}
 
-		hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+		hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
 	}
 
 	return hContactMatched;
@@ -1692,7 +1692,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 		nlhr.szUrl = avs[i].Url;
 		nlhr.nlc = hHttpCon;
 
-		NETLIBHTTPREQUEST * res = (NETLIBHTTPREQUEST*)JCallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&nlhr);
+		NETLIBHTTPREQUEST * res = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&nlhr);
 		if (res)
 		{
 			hHttpCon = res->nlc;
@@ -1741,7 +1741,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					}
 				}
 			}
-			JCallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)res);
+			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)res);
 		}
 		else
 			hHttpCon = NULL;

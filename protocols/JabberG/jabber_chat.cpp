@@ -1427,7 +1427,7 @@ static void sttLogListHook( CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* 
 			if (item != NULL) {
 				item->type = _T("conference");
 				HANDLE hContact = ppro->HContactFromJID( item->jid );
-				item->name = ( TCHAR* )JCallService( MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR );
+				item->name = ( TCHAR* )CallService( MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR );
 				ppro->AddEditBookmark( item );
 			}
 		}
@@ -1507,7 +1507,7 @@ static void sttSendPrivateMessage( CJabberProto* ppro, JABBER_LIST_ITEM* item, c
 		DBWriteContactSettingByte( hContact, "CList", "Hidden", 1 );
 		ppro->JSetStringT( hContact, "Nick", nick );
 		DBWriteContactSettingDword( hContact, "Ignore", "Mask1", 0 );
-		JCallService( MS_MSG_SENDMESSAGE, ( WPARAM )hContact, 0 );
+		CallService( MS_MSG_SENDMESSAGE, ( WPARAM )hContact, 0 );
 }	}
 
 /////////////////////////////////////////////////////////////////////////////////////////

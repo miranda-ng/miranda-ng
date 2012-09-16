@@ -133,7 +133,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 	char szPassword[100];
 	getStaticString(NULL, "Password", szPassword, sizeof(szPassword));
-	MSN_CallService(MS_DB_CRYPT_DECODESTRING, strlen(szPassword)+1, (LPARAM)szPassword);
+	CallService(MS_DB_CRYPT_DECODESTRING, strlen(szPassword)+1, (LPARAM)szPassword);
 	szPassword[16] = 0;
 	char* szEncPassword = HtmlEncode(szPassword);
 
@@ -254,7 +254,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 					if (errurl)
 					{
 						MSN_DebugLog("Starting URL: '%s'", errurl);
-						MSN_CallService(MS_UTILS_OPENURL, 1, (LPARAM)errurl);
+						CallService(MS_UTILS_OPENURL, 1, (LPARAM)errurl);
 					}
 
 					ezxml_t tokf = ezxml_get(xml, "S:Body", 0, "S:Fault", 0, "S:Detail", -1);
@@ -436,7 +436,7 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 	unsigned char* key1 = (unsigned char*)alloca(key1len);
 
 	NETLIBBASE64 nlb = { authSecretToken, (int)keylen, key1, (int)key1len };
-	MSN_CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb));
+	CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb));
 	key1len = nlb.cbDecoded; 
 
 	mir_sha1_byte_t key2[MIR_SHA1_HASH_SIZE+4];
@@ -464,7 +464,7 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 	p += sizeof(MsgrUsrKeyHdr);
 
 	unsigned char iv[8];
-	MSN_CallService(MS_UTILS_GETRANDOM, sizeof(iv), (LPARAM)iv);
+	CallService(MS_UTILS_GETRANDOM, sizeof(iv), (LPARAM)iv);
 
 	memcpy(p, iv, sizeof(iv));
 	p += sizeof(iv);
@@ -483,7 +483,7 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 	char* buf = (char*)mir_alloc(rlen);
 
 	NETLIBBASE64 nlb1 = { buf, (int)rlen, userKey, (int)pktsz };
-	MSN_CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb1));
+	CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb1));
 
 	return buf;
 }
@@ -492,14 +492,14 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 char* CMsnProto::HotmailLogin(const char* url)
 {
 	unsigned char nonce[24];
-	MSN_CallService(MS_UTILS_GETRANDOM, sizeof(nonce), (LPARAM)nonce);
+	CallService(MS_UTILS_GETRANDOM, sizeof(nonce), (LPARAM)nonce);
 
 	const size_t hotSecretlen = strlen(hotSecretToken);
 	size_t key1len = Netlib_GetBase64DecodedBufferSize(hotSecretlen);
 	unsigned char* key1 = (unsigned char*)alloca(key1len);
 
 	NETLIBBASE64 nlb = { hotSecretToken, (int)hotSecretlen, key1, (int)key1len };
-	MSN_CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb));
+	CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb));
 	key1len = nlb.cbDecoded; 
 
 	static const unsigned char encdata[] = "WS-SecureConversation";
@@ -519,7 +519,7 @@ char* CMsnProto::HotmailLogin(const char* url)
 	size_t noncenclen = Netlib_GetBase64EncodedBufferSize(sizeof(nonce));
 	char* noncenc = (char*)alloca(noncenclen);
 	NETLIBBASE64 nlb1 = { noncenc, (int)noncenclen, nonce, sizeof(nonce) };
-	MSN_CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb1));
+	CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb1));
 	noncenclen = nlb1.cchEncoded - 1;
 
 	const size_t fnpstlen = strlen(xmlenc) + strlen(url) + 3*noncenclen + 100;
@@ -534,7 +534,7 @@ char* CMsnProto::HotmailLogin(const char* url)
 	hmac_sha1(hash, key2, sizeof(key2), (mir_sha1_byte_t*)fnpst, sz);
 
 	NETLIBBASE64 nlb2 = { noncenc, (int)noncenclen, hash, sizeof(hash) };
-	MSN_CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb2));
+	CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb2));
 
 	sz += mir_snprintf(fnpst + sz, fnpstlen - sz, "&hash=");
 

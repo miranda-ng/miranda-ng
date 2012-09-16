@@ -656,8 +656,7 @@ int __cdecl CIrcProto::RecvContacts( HANDLE, PROTORECVEVENT* )
 
 int __cdecl CIrcProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt )
 {
-	CCSDATA ccs = { hContact, PSR_FILE, 0, ( LPARAM )evt };
-	return CallService( MS_PROTO_RECVFILET, 0, ( LPARAM )&ccs );
+	return Proto_RecvFile(hContact, evt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -665,8 +664,7 @@ int __cdecl CIrcProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt )
 
 int __cdecl CIrcProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* evt )
 {
-	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, ( LPARAM )evt };
-	return CallService( MS_PROTO_RECVMSG, 0, ( LPARAM )&ccs );
+	return Proto_RecvMessage(hContact, evt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

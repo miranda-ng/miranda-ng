@@ -31,7 +31,7 @@
 void CYahooProto::logoff_buddies()
 {
 	//set all contacts to 'offline'
-	HANDLE hContact = ( HANDLE )YAHOO_CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 	while ( hContact != NULL ) 
 	{
 		if (IsMyContact(hContact)) {
@@ -45,7 +45,7 @@ void CYahooProto::logoff_buddies()
 			//DBDeleteContactSetting(hContact, m_szModuleName, "MirVer" );
 		}
 
-		hContact = ( HANDLE )YAHOO_CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
 	}	
 }
 
@@ -393,7 +393,7 @@ void CYahooProto::MenuMainInit( void )
 	}
 	else {
 		if ( mainMenuRoot )
-			YAHOO_CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )mainMenuRoot, 0 );
+			CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )mainMenuRoot, 0 );
 		mainMenuRoot = NULL;
 	}
 		
@@ -500,9 +500,9 @@ void CYahooProto::MenuContactInit( void )
 void CYahooProto::MenuUninit( void )
 {
 	if ( mainMenuRoot )
-		YAHOO_CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )mainMenuRoot, 0 );
+		CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )mainMenuRoot, 0 );
 	
-	YAHOO_CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )hShowProfileMenuItem, 0 );
+	CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )hShowProfileMenuItem, 0 );
 }
 
 int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
@@ -522,7 +522,7 @@ int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
     if (GetWord( hContact, "yprotoid", 0) != 0) 
 		mi.flags |= CMIF_HIDDEN;
 	
-	YAHOO_CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hShowProfileMenuItem, (LPARAM)&mi);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hShowProfileMenuItem, (LPARAM)&mi);
 
     return 0;
 }

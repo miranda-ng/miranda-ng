@@ -439,38 +439,37 @@ HANDLE __cdecl CIcqProto::AddToListByEvent( int flags, int iContact, HANDLE hDbE
 	if (strcmpnull(dbei.szModule, m_szModuleName))
 		return 0; // this event is not ours
 
-	if (dbei.eventType == EVENTTYPE_CONTACTS)
-	{
-		int i;
-		char *pbOffset, *pbEnd;
-
-		for (i = 0, pbOffset = (char*)dbei.pBlob, pbEnd = pbOffset + dbei.cbBlob; i <= iContact; i++)
+	switch(dbei.eventType) {
+	case EVENTTYPE_CONTACTS:
 		{
-			pbOffset += strlennull(pbOffset) + 1;  // Nick
-			if (pbOffset >= pbEnd) break;
-			if (i == iContact)
-			{ // we found the contact, get uid
-				if (IsStringUIN((char*)pbOffset))
-					uin = atoi((char*)pbOffset);
-				else
-				{
-					uin = 0;
-					strcpy(uid, (char*)pbOffset);
+			char *pbOffset = (char*)dbei.pBlob;
+			char *pbEnd = pbOffset + dbei.cbBlob;
+			for (int i = 0; i <= iContact; i++) {
+				pbOffset += strlennull(pbOffset) + 1;  // Nick
+				if (pbOffset >= pbEnd) break;
+				if (i == iContact)
+				{ // we found the contact, get uid
+					if (IsStringUIN((char*)pbOffset))
+						uin = atoi((char*)pbOffset);
+					else
+					{
+						uin = 0;
+						strcpy(uid, (char*)pbOffset);
+					}
 				}
+				pbOffset += strlennull(pbOffset) + 1;  // Uin
+				if (pbOffset >= pbEnd) break;
 			}
-			pbOffset += strlennull(pbOffset) + 1;  // Uin
-			if (pbOffset >= pbEnd) break;
 		}
-	}
-	else if (dbei.eventType != EVENTTYPE_AUTHREQUEST && dbei.eventType != EVENTTYPE_ADDED)
-	{
-		return 0;
-	}
-	else // auth req or added event
-	{
-		HANDLE hContact = *(HANDLE*)(dbei.pBlob + sizeof(DWORD)); // this sucks - awaiting new auth system
-		if (getContactUid(hContact, &uin, &uid))
+		break;
+
+	case EVENTTYPE_AUTHREQUEST:
+	case EVENTTYPE_ADDED:
+		if ( getContactUid( DbGetAuthEventContact(&dbei), &uin, &uid))
 			return 0;
+
+	default:
+		return 0;
 	}
 
 	if (uin != 0)
@@ -548,7 +547,6 @@ int __cdecl CIcqProto::AuthRecv( HANDLE hContact, PROTORECVEVENT* pre )
 	ICQAddRecvEvent( NULL, EVENTTYPE_AUTHREQUEST, pre, pre->lParam, (PBYTE)pre->szMessage, 0 );
 	return 0;
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
@@ -1111,8 +1109,7 @@ int __cdecl CIcqProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* pre )
 
 int __cdecl CIcqProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt )
 {
-	CCSDATA ccs = { hContact, PSR_FILE, 0, ( LPARAM )evt };
-	return CallService( MS_PROTO_RECVFILE, 0, ( LPARAM )&ccs );
+	return Proto_RecvFile(hContact, evt);
 }
 
 

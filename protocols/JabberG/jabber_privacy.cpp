@@ -432,10 +432,10 @@ public:
 
 				SendDlgItemMessage( m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0 );
 
-				HANDLE hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+				HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 				while ( hContact != NULL )
 				{
-					char* szProto = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
+					char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 					if ( szProto != NULL && !strcmp( szProto, m_proto->m_szModuleName ))
 					{
 						DBVARIANT dbv;
@@ -445,7 +445,7 @@ public:
 							JFreeVariant( &dbv );
 						}
 					}
-					hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+					hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
 				}
 
 				// append known chatroom jids from bookmarks
@@ -2278,7 +2278,7 @@ void CJabberProto::BuildPrivacyListsMenu( bool bDeleteOld )
 	int i;
 	if ( bDeleteOld )
 		for ( i=0; i < m_hPrivacyMenuItems.getCount(); i++ )
-			JCallService( MO_REMOVEMENUITEM, (WPARAM)m_hPrivacyMenuItems[i], 0 );
+			CallService( MO_REMOVEMENUITEM, (WPARAM)m_hPrivacyMenuItems[i], 0 );
 	m_hPrivacyMenuItems.destroy();
 
 	m_privacyListManager.Lock();

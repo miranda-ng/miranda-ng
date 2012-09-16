@@ -275,7 +275,7 @@ int CJabberProto::AdhocSetStatusHandler( HXML, CJabberIqInfo* pInfo, CJabberAdho
 		
 		fieldNode << XCHILD( _T("required"));
 
-		int status = JCallService( MS_CLIST_GETSTATUSMODE, 0, 0 );
+		int status = CallService( MS_CLIST_GETSTATUSMODE, 0, 0 );
 		switch ( status ) {
 		case ID_STATUS_INVISIBLE:
 			fieldNode << XCHILD( _T("value"), _T("invisible"));
@@ -323,7 +323,7 @@ int CJabberProto::AdhocSetStatusHandler( HXML, CJabberIqInfo* pInfo, CJabberAdho
 		fieldNode = xNode << XCHILD( _T("field")) << XATTR( _T("label"), TranslateT("Change global status"))
 			<< XATTR( _T("type"), _T("boolean")) << XATTR( _T("var"), _T("status-global"));
 
-		char* szStatusMsg = (char *)JCallService( MS_AWAYMSG_GETSTATUSMSG, status, 0 );
+		char* szStatusMsg = (char *)CallService( MS_AWAYMSG_GETSTATUSMSG, status, 0 );
 		if ( szStatusMsg ) {
 			fieldNode << XCHILD( _T("value"), _A2T(szStatusMsg));
 			mir_free( szStatusMsg );
@@ -387,7 +387,7 @@ int CJabberProto::AdhocSetStatusHandler( HXML, CJabberIqInfo* pInfo, CJabberAdho
 		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("status-global"));
 		if ( fieldNode && (valueNode = xmlGetChild( fieldNode , "value" ))) {
 			if ( xmlGetText( valueNode ) && _ttoi( xmlGetText( valueNode )))
-				JCallService( MS_CLIST_SETSTATUSMODE, status, NULL );
+				CallService( MS_CLIST_SETSTATUSMODE, status, NULL );
 			else
 				CallProtoService( m_szModuleName, PS_SETSTATUS, status, NULL );
 		}
@@ -476,20 +476,20 @@ int CJabberProto::AdhocOptionsHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocS
 int CJabberProto::RcGetUnreadEventsCount()
 {
 	int nEventsSent = 0;
-	HANDLE hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 	while ( hContact != NULL ) {
-		char* szProto = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
+		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( szProto != NULL && !strcmp( szProto, m_szModuleName )) {
 			DBVARIANT dbv;
 			if ( !JGetStringT( hContact, "jid", &dbv )) {
-				HANDLE hDbEvent = (HANDLE)JCallService( MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0 );
+				HANDLE hDbEvent = (HANDLE)CallService( MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0 );
 				while ( hDbEvent ) {
 					DBEVENTINFO dbei = { 0 };
 					dbei.cbSize = sizeof(dbei);
 					dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0 );
 					if ( dbei.cbBlob != -1 ) {
 						dbei.pBlob = (PBYTE)mir_alloc( dbei.cbBlob + 1 );
-						int nGetTextResult = JCallService( MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei );
+						int nGetTextResult = CallService( MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei );
 						if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
 							TCHAR* szEventText = DbGetEventTextT( &dbei, CP_ACP );
 							if ( szEventText ) {
@@ -499,12 +499,12 @@ int CJabberProto::RcGetUnreadEventsCount()
 						}
 						mir_free( dbei.pBlob );
 					}
-					hDbEvent = (HANDLE)JCallService( MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0 );
+					hDbEvent = (HANDLE)CallService( MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0 );
 				}
 				JFreeVariant( &dbv );
 			}
 		}
-		hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+		hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
 	}
 	return nEventsSent;
 }
@@ -573,21 +573,21 @@ int CJabberProto::AdhocForwardHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocS
 		m_options.RcMarkMessagesAsRead = bRemoveCListEvents ? 1 : 0;
 
 		int nEventsSent = 0;
-		HANDLE hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+		HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 		while ( hContact != NULL ) {
-			char* szProto = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
+			char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 			if ( szProto != NULL && !strcmp( szProto, m_szModuleName )) {
 				DBVARIANT dbv;
 				if ( !JGetStringT( hContact, "jid", &dbv )) {
 					
-					HANDLE hDbEvent = (HANDLE)JCallService( MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0 );
+					HANDLE hDbEvent = (HANDLE)CallService( MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0 );
 					while ( hDbEvent ) {
 						DBEVENTINFO dbei = { 0 };
 						dbei.cbSize = sizeof(dbei);
 						dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0 );
 						if ( dbei.cbBlob != -1 ) {
 							dbei.pBlob = (PBYTE)mir_alloc( dbei.cbBlob + 1 );
-							int nGetTextResult = JCallService( MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei );
+							int nGetTextResult = CallService( MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei );
 							if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
 								TCHAR* szEventText = DbGetEventTextT( &dbei, CP_ACP );
 								if ( szEventText ) {
@@ -618,21 +618,21 @@ int CJabberProto::AdhocForwardHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocS
 
 									nEventsSent++;
 
-									JCallService( MS_DB_EVENT_MARKREAD, (WPARAM)hContact, (LPARAM)hDbEvent );
+									CallService( MS_DB_EVENT_MARKREAD, (WPARAM)hContact, (LPARAM)hDbEvent );
 									if ( bRemoveCListEvents )
-										JCallService( MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hDbEvent );
+										CallService( MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hDbEvent );
 
 									mir_free( szEventText );
 								}
 							}
 							mir_free( dbei.pBlob );
 						}
-						hDbEvent = (HANDLE)JCallService( MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0 );
+						hDbEvent = (HANDLE)CallService( MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0 );
 					}
 					JFreeVariant( &dbv );
 				}
 			}
-			hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+			hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
 		}
 
 		mir_sntprintf( szMsg, SIZEOF(szMsg), TranslateT("%d message(s) forwarded"), nEventsSent );
@@ -679,7 +679,7 @@ int CJabberProto::AdhocLockWSHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 
 static void __stdcall JabberQuitMirandaIMThread( void* )
 {
-	JCallService( "CloseAction", 0, 0 );
+	CallService( "CloseAction", 0, 0 );
 }
 
 int CJabberProto::AdhocQuitMirandaHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession )

@@ -118,7 +118,7 @@ void  CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const c
 	strcpy(pCurBlob, email); pCurBlob += emaillen + 1;              // E-mail
 	strcpy(pCurBlob, reason);                                       // Reason
 
-	MSN_CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+	CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ void CMsnProto::MSN_DebugLog(const char *fmt, ...)
 	if (_vsnprintf(str, sizeof(str), fmt, vararg) != 0)
 	{
 		str[sizeof(str)-1] = 0;
-		MSN_CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)str);
+		CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)str);
 	}
 	va_end(vararg);
 }
@@ -170,7 +170,7 @@ char* MSN_GetAvatarHash(char* szContext)
 		const size_t len = strlen(szAvatarHash);
 
 		NETLIBBASE64 nlb = { (char*)szAvatarHash, (int)len, szActHash, sizeof(szActHash) };
-		int decod = MSN_CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb));
+		int decod = CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb));
 		if (decod != 0 && nlb.cbDecoded > 0)
 			res = arrayToHex(szActHash, nlb.cbDecoded);
 	}
@@ -203,7 +203,7 @@ void  CMsnProto::MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t c
 	}
 
 	if (_taccess(pszDest, 0))
-		MSN_CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
+		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
 
 	size_t tPathLen2 = tPathLen;
 	if (hContact != NULL) 
@@ -323,7 +323,7 @@ int  CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen
 
 	{
 		NETLIBBASE64 nlb = { szSha1d, sizeof(szSha1d), (PBYTE)sha1d, sizeof(sha1d) };
-		MSN_CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
+		CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
 	}
 
 	mir_sha1_init(&sha1ctx);
@@ -359,7 +359,7 @@ int  CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen
 
 	{
 		NETLIBBASE64 nlb = { szSha1c, sizeof(szSha1c), (PBYTE)sha1c, sizeof(sha1c) };
-		MSN_CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
+		CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
 	}
 
 	//	ezxml_set_attr(xmlp, "SHA1C", szSha1c);
@@ -457,7 +457,7 @@ void  CMsnProto::MSN_GetCustomSmileyFileName(HANDLE hContact, TCHAR* pszDest, si
 	}
 
 	if (!exist)
-		MSN_CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
+		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
 
 	TCHAR *sztSmileyName = mir_a2t(SmileyName);
 	mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s.%s"), sztSmileyName,
@@ -580,7 +580,7 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 void ThreadData::sendCaps(void)
 {
 	char mversion[100], capMsg[1000];
-	MSN_CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(mversion), (LPARAM)mversion);
+	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(mversion), (LPARAM)mversion);
 
 	mir_snprintf(capMsg, sizeof(capMsg),
 		"Content-Type: text/x-clientcaps\r\n\r\n"
@@ -927,7 +927,7 @@ void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 	}
 
 	MSN_DebugLog("Starting URL: '%s'", hippy);
-	MSN_CallService(MS_UTILS_OPENURL, 1, (LPARAM)hippy);
+	CallService(MS_UTILS_OPENURL, 1, (LPARAM)hippy);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -938,7 +938,7 @@ void CMsnProto::MSN_ShowError(const char* msgtext, ...)
 	TCHAR   tBuffer[4096];
 	va_list tArgs;
 
-	TCHAR *buf = (TCHAR*)MSN_CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)msgtext);
+	TCHAR *buf = (TCHAR*)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)msgtext);
 
 	va_start(tArgs, msgtext);
 	mir_vsntprintf(tBuffer, SIZEOF(tBuffer), buf, tArgs);
@@ -971,7 +971,7 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				else
 				{
 					if (tData->url != NULL)
-						MSN_CallService(MS_UTILS_OPENURL, 1, (LPARAM)tData->url);
+						CallService(MS_UTILS_OPENURL, 1, (LPARAM)tData->url);
 				}
 			}
 			PUDeletePopUp(hWnd);
@@ -1365,7 +1365,7 @@ char* MSN_Base64Decode(const char* str)
 	}
 
 	NETLIBBASE64 nlb = { p, (int)len, (PBYTE)res, (int)reslen };
-	if (!MSN_CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb))) nlb.cbDecoded = 0;
+	if (!CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb))) nlb.cbDecoded = 0;
 	res[nlb.cbDecoded] = 0;
 
 	return res;
@@ -1373,7 +1373,7 @@ char* MSN_Base64Decode(const char* str)
 
 bool CMsnProto::MSN_IsMyContact(HANDLE hContact)
 {
-	const char* szProto = (char*)MSN_CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	const char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	return szProto != NULL && strcmp(m_szModuleName, szProto) == 0;
 }
 
@@ -1396,14 +1396,14 @@ bool MSN_MsgWndExist(HANDLE hContact)
 	MessageWindowData msgWinData = {0};
 	msgWinData.cbSize = sizeof(MessageWindowData);
 
-	bool res = MSN_CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgWinInData, (LPARAM)&msgWinData) != 0;
+	bool res = CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgWinInData, (LPARAM)&msgWinData) != 0;
 	res = res || msgWinData.hwndWindow;
 	if (res) 
 	{	
-		msgWinInData.hContact = (HANDLE)MSN_CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+		msgWinInData.hContact = (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
 		if (msgWinInData.hContact != NULL) 
 		{
-			res = MSN_CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgWinInData, (LPARAM)&msgWinData) != 0;
+			res = CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgWinInData, (LPARAM)&msgWinData) != 0;
 			res |= (msgWinData.hwndWindow == NULL);
 		}
 	}

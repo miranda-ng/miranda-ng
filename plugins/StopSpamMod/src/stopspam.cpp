@@ -50,8 +50,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 	{
 		if(!(dbei.flags & DBEF_SENT) && !(dbei.flags & DBEF_READ) && dbei.eventType == EVENTTYPE_AUTHREQUEST)
 		{
-			HANDLE hcntct;
-			hcntct=*((PHANDLE)(dbei.pBlob+sizeof(DWORD)));
+			HANDLE hcntct = DbGetAuthEventContact(&dbei);
 
 			// if request is from unknown or not marked Answered contact
 			int a = DBGetContactSettingByte(hcntct, "CList", "NotOnList", 0);

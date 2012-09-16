@@ -86,7 +86,7 @@ bool CMsnProto::p2p_createListener(filetransfer* ft, directconnection *dc, MimeH
 	nlb.cbSize = sizeof(nlb);
 	nlb.pfnNewConnectionV2 = MSN_ConnectionProc;
 	nlb.pExtra = this;
-	HANDLE sb = (HANDLE) MSN_CallService(MS_NETLIB_BINDPORT, (WPARAM) hNetlibUser, (LPARAM)&nlb);
+	HANDLE sb = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM) hNetlibUser, (LPARAM)&nlb);
 	if (sb == NULL) 
 	{
 		MSN_DebugLog("Unable to bind the port for incoming transfers");
@@ -278,7 +278,7 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 
 				cont.path = pathcpy;
 
-				MSN_CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
+				CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
 				mir_free(pathcpy);
 			}
 			break;
@@ -731,7 +731,7 @@ bool CMsnProto::p2p_connectTo(ThreadData* info, directconnection *dc)
 
 	MSN_DebugLog("Connecting to %s:%d", tConn.szHost, tConn.wPort);
 
-	info->s = (HANDLE)MSN_CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&tConn);
+	info->s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&tConn);
 	if (info->s == NULL)
 	{
 		TWinErrorCode err;
@@ -1335,7 +1335,7 @@ void CMsnProto::p2p_InitFileTransfer(
 			ccs.szProtoService = PSR_FILE;
 			ccs.wParam = 0;
 			ccs.lParam = (LPARAM)&pre;
-			MSN_CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+			CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 		}
 		break;
 
@@ -2318,7 +2318,7 @@ void  CMsnProto::p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid)
 	int cbContextEnc = Netlib_GetBase64EncodedBufferSize((int)cbContext);
 	char* szContextEnc = (char*)alloca(cbContextEnc);
 	NETLIBBASE64 nlb = { szContextEnc, cbContextEnc, (PBYTE)pContext, (int)cbContext };
-	MSN_CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
+	CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
 
 	MimeHeaders chdrs(10);
 	chdrs.addString("EUF-GUID", szAppID);

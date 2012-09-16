@@ -268,7 +268,7 @@ HANDLE TlenAddToListByEvent(PROTO_INTERFACE *ptr, int flags, int iContact, HANDL
 		return (int)(HANDLE) NULL;
 	}
 
-	nick = (char *) (dbei.pBlob + sizeof(DWORD) + sizeof(HANDLE));
+	nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
 	firstName = nick + strlen(nick) + 1;
 	lastName = firstName + strlen(firstName) + 1;
 	jid = lastName + strlen(lastName) + 1;
@@ -307,7 +307,7 @@ int TlenAuthAllow(PROTO_INTERFACE *ptr, HANDLE hContact)
 		return 1;
 	}
 
-	nick = (char *) (dbei.pBlob + sizeof(DWORD) + sizeof(HANDLE));
+	nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
 	firstName = nick + strlen(nick) + 1;
 	lastName = firstName + strlen(firstName) + 1;
 	jid = lastName + strlen(lastName) + 1;
@@ -361,7 +361,7 @@ int TlenAuthDeny(PROTO_INTERFACE *ptr, HANDLE hContact, const TCHAR* szReason)
 		return 1;
 	}
 
-	nick = (char *) (dbei.pBlob + sizeof(DWORD) + sizeof(HANDLE));
+	nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
 	firstName = nick + strlen(nick) + 1;
 	lastName = firstName + strlen(firstName) + 1;
 	jid = lastName + strlen(lastName) + 1;
@@ -1297,4 +1297,3 @@ void TlenInitServicesVTbl(TlenProtocol *proto) {
 	CreateServiceFunction_Ex(s, proto, TlenAccMgrUI);
 
 }
-

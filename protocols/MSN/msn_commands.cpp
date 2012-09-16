@@ -161,7 +161,7 @@ void CMsnProto::sttInviteMessage(ThreadData* info, char* msgBody, char* email, c
 		ccs.szProtoService = PSR_FILE;
 		ccs.wParam = 0;
 		ccs.lParam = (LPARAM)&pre;
-		MSN_CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+		CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 		return;
 	}
 
@@ -310,7 +310,7 @@ void CMsnProto::sttCustomSmiley(const char* msgBody, char* email, char* nick, in
 			char* buf = (char*)mir_alloc(rlen);
 
 			NETLIBBASE64 nlb = { buf, (int)rlen, (PBYTE)lastsml, (int)slen };
-			MSN_CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
+			CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
 
 			char* smileyName = (char*)mir_alloc(rlen*3);
 			UrlEncode(buf, smileyName, rlen*3);
@@ -509,7 +509,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		{
 			if (!sentMsg)
 			{
-				MSN_CallService(MS_PROTO_CONTACTISTYPING, WPARAM(ccs.hContact), 0);
+				CallService(MS_PROTO_CONTACTISTYPING, WPARAM(ccs.hContact), 0);
 
 				PROTORECVEVENT pre;
 				pre.szMessage = (char*)msgBody;
@@ -520,7 +520,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 				ccs.szProtoService = PSR_MESSAGE;
 				ccs.wParam = 0;
 				ccs.lParam = (LPARAM)&pre;
-				MSN_CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+				CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 			}
 			else
 			{
@@ -535,7 +535,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 				dbei.timestamp = time(NULL);
 				dbei.cbBlob = (unsigned)strlen(msgBody) + 1;
 				dbei.pBlob = (PBYTE)msgBody;
-				MSN_CallService(MS_DB_EVENT_ADD, (WPARAM)ccs.hContact, (LPARAM)&dbei);
+				CallService(MS_DB_EVENT_ADD, (WPARAM)ccs.hContact, (LPARAM)&dbei);
 			}
 		}
 	}
@@ -564,7 +564,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		if (tTypingUser != NULL && info->mChatID[0] == 0 && _stricmp(email, MyOptions.szEmail))
 		{
 			HANDLE hContact = MSN_HContactFromEmail(tTypingUser, tTypingUser);
-			MSN_CallService(MS_PROTO_CONTACTISTYPING, (WPARAM) hContact, 7);
+			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM) hContact, 7);
 		}
 	}
 	else if (!_strnicmp(tContentType, "text/x-msnmsgr-datacast", 23))
@@ -789,7 +789,7 @@ void CMsnProto::sttProcessRemove(char* buf, size_t len)
 			{
 				if (msc->hContact && _stricmp(szEmail, MyOptions.szEmail))
 				{
-					MSN_CallService(MS_DB_CONTACT_DELETE, (WPARAM)msc->hContact, 0);
+					CallService(MS_DB_CONTACT_DELETE, (WPARAM)msc->hContact, 0);
 					msc->hContact = NULL;
 				}
 			}
@@ -984,7 +984,7 @@ void CMsnProto::sttProcessPage(char* buf, unsigned len)
 		ccs.hContact = MSN_HContactFromEmail(szTel, szTel, true, true);
 		ccs.szProtoService = PSR_MESSAGE;
 		ccs.lParam = (LPARAM)&pre;
-		MSN_CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+		CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 
 	}
 	ezxml_free(xmlnot);

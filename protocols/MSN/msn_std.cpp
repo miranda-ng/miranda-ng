@@ -79,7 +79,7 @@ int  CMsnProto::getStaticString(HANDLE hContact, const char* valueName, char* de
 	sVal.pValue = &dbv;
 	sVal.szModule = m_szModuleName;
 	sVal.szSetting = valueName;
-	if (MSN_CallService(MS_DB_CONTACT_GETSETTINGSTATIC, (WPARAM)hContact, (LPARAM)&sVal) != 0)
+	if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC, (WPARAM)hContact, (LPARAM)&sVal) != 0)
 		return 1;
 
 	return (dbv.type != DBVT_ASCIIZ);
@@ -171,7 +171,7 @@ void CMsnProto::ForkThread(MsnThreadFunc pFunc, void* param)
 	CloseHandle((HANDLE)mir_forkthreadowner((pThreadFuncOwner)*(void**)&pFunc, this, param, &threadID));
 }
 
-int  CMsnProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
+int CMsnProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
 	ACKDATA ack = {0};
 	ack.cbSize = sizeof(ACKDATA);
@@ -181,21 +181,14 @@ int  CMsnProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hPro
 	ack.result = result;
 	ack.hProcess = hProcess;
 	ack.lParam = lParam;
-	return MSN_CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
+	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
 }
 
 
-#if !defined(_DEBUG)
-INT_PTR MSN_CallService(const char* szSvcName, WPARAM wParam, LPARAM lParam)
-{
-	return CallService(szSvcName, wParam, lParam);
-}
-#endif
-
-TCHAR*  CMsnProto::GetContactNameT(HANDLE hContact)
+TCHAR* CMsnProto::GetContactNameT(HANDLE hContact)
 {
 	if (hContact)
-		return (TCHAR*)MSN_CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), GCDNF_TCHAR);
+		return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), GCDNF_TCHAR);
 	else
 	{
 		CONTACTINFO ci = {0};
@@ -214,7 +207,7 @@ void MSN_FreeVariant(DBVARIANT* dbv)
 	DBFreeVariant(dbv);
 }
 
-char*  MSN_Translate(const char* str)
+char* MSN_Translate(const char* str)
 {
 	return Translate(str);
 }
@@ -222,6 +215,6 @@ char*  MSN_Translate(const char* str)
 unsigned MSN_GenRandom(void)
 {
 	unsigned rndnum;
-	MSN_CallService(MS_UTILS_GETRANDOM, sizeof(rndnum), (LPARAM)&rndnum);
+	CallService(MS_UTILS_GETRANDOM, sizeof(rndnum), (LPARAM)&rndnum);
 	return rndnum & 0x7FFFFFFF;
 }

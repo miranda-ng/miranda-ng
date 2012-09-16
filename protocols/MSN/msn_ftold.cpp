@@ -342,7 +342,7 @@ void CMsnProto::msnftp_startFileSend(ThreadData* info, const char* Invcommand, c
 		nlb.pfnNewConnectionV2 = MSN_ConnectionProc;
 		nlb.pExtra = this;
 
-		sb = (HANDLE)MSN_CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlibUser, (LPARAM)&nlb);
+		sb = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlibUser, (LPARAM)&nlb);
 		if (sb == NULL)
 			MSN_DebugLog("Unable to bind the port for incoming transfers");
 	}

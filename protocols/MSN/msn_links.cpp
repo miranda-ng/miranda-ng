@@ -111,7 +111,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 			psr.flags = PSR_TCHAR;
 			psr.nick = email;
 			psr.email = email;
-			MSN_CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 		}
 		return 0;
 	}

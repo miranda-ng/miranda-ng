@@ -372,7 +372,7 @@ void CJabberProto::FtHandleSiRequest( HXML iqNode )
 					pre.tszDescription = ( TCHAR* )xmlGetText( n );
 
 				CCSDATA ccs = { ft->std.hContact, PSR_FILE, 0, ( LPARAM )&pre };
-				JCallService( MS_PROTO_CHAINRECV, 0, ( LPARAM )&ccs );
+				CallService( MS_PROTO_CHAINRECV, 0, ( LPARAM )&ccs );
 				return;
 			}
 			else {

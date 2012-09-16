@@ -370,7 +370,7 @@ void CJabberDlgBookmarks::OpenBookmark()
 	} else
 	{
 		char *szUrl = mir_t2a(item->jid);
-		JCallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
+		CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
 		mir_free(szUrl);
 	}
 }

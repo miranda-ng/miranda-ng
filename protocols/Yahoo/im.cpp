@@ -242,8 +242,7 @@ int __cdecl CYahooProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre )
 		return 0;
 	} 
 
-	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, ( LPARAM )pre };
-	return CallService( MS_PROTO_RECVMSG, 0, ( LPARAM )&ccs );
+	return Proto_RecvMessage(hContact, pre);
 }
 
 //=======================================================

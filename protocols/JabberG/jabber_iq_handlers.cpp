@@ -664,7 +664,7 @@ BOOL CJabberProto::OnIqRequestOOB( HXML, CJabberIqInfo *pInfo )
 		pre.lParam = ( LPARAM )ft;
 
 		CCSDATA ccs = { ft->std.hContact, PSR_FILE, 0, ( LPARAM )&pre };
-		JCallService( MS_PROTO_CHAINRECV, 0, ( LPARAM )&ccs );
+		CallService( MS_PROTO_CHAINRECV, 0, ( LPARAM )&ccs );
 		mir_free( str2 );
 	}
 	else {

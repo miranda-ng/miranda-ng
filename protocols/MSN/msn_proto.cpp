@@ -50,19 +50,19 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	m_szProtoName[0] = (char)toupper(m_szProtoName[0]);
 
 	mir_snprintf(path, sizeof(path), "%s/Status", m_szModuleName);
-	MSN_CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 
 	mir_snprintf(path, sizeof(path), "%s/IdleTS", m_szModuleName);
-	MSN_CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 
 	mir_snprintf(path, sizeof(path), "%s/p2pMsgId", m_szModuleName);
-	MSN_CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 
 	mir_snprintf(path, sizeof(path), "%s/MobileEnabled", m_szModuleName);
-	MSN_CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 
 	mir_snprintf(path, sizeof(path), "%s/MobileAllowed", m_szModuleName);
-	MSN_CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 
 	// Protocol services and events...
 	hMSNNudge = CreateProtoEvent("/Nudge");
@@ -94,7 +94,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	LoadOptions();
 
-	HANDLE hContact = (HANDLE)MSN_CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact != NULL)
 	{
 		if (MSN_IsMyContact(hContact))
@@ -104,7 +104,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 			deleteSetting(hContact, "p2pMsgId");
 			deleteSetting(hContact, "AccList");
 		}
-		hContact = (HANDLE)MSN_CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact, 0);
+		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact, 0);
 	}
 	deleteSetting(NULL, "MobileEnabled");
 	deleteSetting(NULL, "MobileAllowed");
@@ -149,7 +149,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	mir_snprintf(szDbsettings, sizeof(szDbsettings), "%s_HTTPS", m_szModuleName);
 	mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s plugin HTTPS connections"), m_tszUserName);
-	hNetlibUserHttps = (HANDLE)MSN_CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu1);
+	hNetlibUserHttps = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu1);
 
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
@@ -163,7 +163,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	nlu.pfnHttpGatewayUnwrapRecv = msn_httpGatewayUnwrapRecv;
 
 	mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s plugin connections"), m_tszUserName);
-	hNetlibUser = (HANDLE)MSN_CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 }
 
 CMsnProto::~CMsnProto()
@@ -290,15 +290,15 @@ HANDLE __cdecl CMsnProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEv
 {
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
-	if ((dbei.cbBlob = MSN_CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == (DWORD)(-1))
+	if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == (DWORD)(-1))
 		return NULL;
 
 	dbei.pBlob=(PBYTE) alloca(dbei.cbBlob);
-	if (MSN_CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei))	return NULL;
+	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei))	return NULL;
 	if (strcmp(dbei.szModule, m_szModuleName)) return NULL;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return NULL;
 
-	char* nick = (char *) (dbei.pBlob + sizeof(DWORD) + sizeof(HANDLE));
+	char* nick = (char *) (dbei.pBlob + sizeof(DWORD)*2);
 	char* firstName = nick + strlen(nick) + 1;
 	char* lastName = firstName + strlen(firstName) + 1;
 	char* email = lastName + strlen(lastName) + 1;
@@ -308,21 +308,7 @@ HANDLE __cdecl CMsnProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEv
 
 int CMsnProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 {
-	DBEVENTINFO dbei = { 0 };
-
-	dbei.cbSize = sizeof(dbei);
-	dbei.szModule = m_szModuleName;
-	dbei.timestamp = pre->timestamp;
-	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
-	dbei.flags |= (pre->flags & PREF_UTF) ? DBEF_UTF : 0;
-	dbei.eventType = EVENTTYPE_AUTHREQUEST;
-
-	/* Just copy the Blob from PSR_AUTH event. */
-	dbei.cbBlob = pre->lParam;
-	dbei.pBlob = (PBYTE)pre->szMessage;
-	MSN_CallService(MS_DB_EVENT_ADD, 0,(LPARAM)&dbei);
-
-	return 0;
+	return Proto_AuthRecv(m_szModuleName, pre);	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -375,11 +361,11 @@ int CMsnProto::Authorize(HANDLE hDbEvent)
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
 
-	if ((int)(dbei.cbBlob = MSN_CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == -1)
+	if ((int)(dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == -1)
 		return 1;
 
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-	if (MSN_CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei))
+	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei))
 		return 1;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
@@ -388,7 +374,7 @@ int CMsnProto::Authorize(HANDLE hDbEvent)
 	if (strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
-	char* nick = (char*)(dbei.pBlob + sizeof(DWORD) + sizeof(HANDLE));
+	char* nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
 	char* firstName = nick + strlen(nick) + 1;
 	char* lastName = firstName + strlen(firstName) + 1;
 	char* email = lastName + strlen(lastName) + 1;
@@ -415,11 +401,11 @@ int CMsnProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
 
-	if ((int)(dbei.cbBlob = MSN_CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == -1)
+	if ((int)(dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == -1)
 		return 1;
 
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-	if (MSN_CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei))
+	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei))
 		return 1;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
@@ -428,7 +414,7 @@ int CMsnProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 	if (strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
-	char* nick = (char*)(dbei.pBlob + sizeof(DWORD) + sizeof(HANDLE));
+	char* nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
 	char* firstName = nick + strlen(nick) + 1;
 	char* lastName = firstName + strlen(firstName) + 1;
 	char* email = lastName + strlen(lastName) + 1;
@@ -442,10 +428,10 @@ int CMsnProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 
 	if (!(msc->list & (LIST_FL | LIST_LL)))
 	{
-		if (msc->hContact) MSN_CallService(MS_DB_CONTACT_DELETE, (WPARAM)msc->hContact, 0);
+		if (msc->hContact) CallService(MS_DB_CONTACT_DELETE, (WPARAM)msc->hContact, 0);
 		msc->hContact = NULL;
 		HANDLE hContact = MSN_HContactFromEmail(email);
-		if (hContact) MSN_CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+		if (hContact) CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 	}
 
 	return 0;
@@ -808,8 +794,7 @@ int __cdecl CMsnProto::RecvContacts(HANDLE hContact, PROTORECVEVENT*)
 
 int __cdecl CMsnProto::RecvFile(HANDLE hContact, PROTOFILEEVENT* evt)
 {
-	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)evt };
-	return MSN_CallService(MS_PROTO_RECVFILET, 0, (LPARAM)&ccs);
+	return Proto_RecvFile(hContact, evt);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -823,9 +808,7 @@ int __cdecl CMsnProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 	if (Lists_IsInList(LIST_FL, tEmail))
 		DBDeleteContactSetting(hContact, "CList", "Hidden");
 
-	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)pre };
-	MSN_CallService(MS_PROTO_RECVMSG, 0, (LPARAM)&ccs);
-	return 0;
+	return Proto_RecvMessage(hContact, pre);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -1232,7 +1215,7 @@ int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 		{
 			char szDbsettings[64];
 			mir_snprintf(szDbsettings, sizeof(szDbsettings), "%s_HTTPS", m_szModuleName);
-			MSN_CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbsettings);
+			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbsettings);
 			break;
 		}
 
@@ -1243,7 +1226,7 @@ int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 			clmi.cbSize = sizeof(CLISTMENUITEM);
 			clmi.flags = CMIM_NAME | CMIF_TCHAR;
 			clmi.ptszName = m_tszUserName;
-			MSN_CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)mainMenuRoot, (LPARAM)&clmi);
+			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)mainMenuRoot, (LPARAM)&clmi);
 		}
 		break;
 

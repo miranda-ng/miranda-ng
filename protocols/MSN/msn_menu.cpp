@@ -155,17 +155,17 @@ int CMsnProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_ICONFROMICOLIB;
 		if (noChat) mi.flags |= CMIF_HIDDEN;
 		mi.pszName = (char*)((listId & LIST_BL) ? "&Unblock" : "&Block");
-		MSN_CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hBlockMenuItem, (LPARAM)&mi);
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hBlockMenuItem, (LPARAM)&mi);
 
 		mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_ICONFROMICOLIB;
 		if (!emailEnabled) mi.flags |= CMIF_HIDDEN;
 		mi.pszName = isMe ? LPGEN("Open &Hotmail Inbox") : LPGEN("Send &Hotmail E-mail");
-		MSN_CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hOpenInboxMenuItem, (LPARAM)&mi);
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hOpenInboxMenuItem, (LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS | CMIF_ICONFROMICOLIB | CMIF_NOTOFFLINE;
 		if (noChat) mi.flags |= CMIF_HIDDEN;
-		MSN_CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hNetmeetingMenuItem, (LPARAM)&mi);
-		MSN_CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hChatInviteMenuItem, (LPARAM)&mi);
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hNetmeetingMenuItem, (LPARAM)&mi);
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hChatInviteMenuItem, (LPARAM)&mi);
 	}
 
 	return 0;
@@ -359,7 +359,7 @@ void CMsnProto::MsnInitMainMenu(void)
 void CMsnProto::MsnRemoveMainMenus(void)
 {
 	if (mainMenuRoot) 
-		MSN_CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)mainMenuRoot, 0);
+		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)mainMenuRoot, 0);
 }
 
 void  CMsnProto::MSN_EnableMenuItems(bool bEnable)
@@ -373,14 +373,14 @@ void  CMsnProto::MSN_EnableMenuItems(bool bEnable)
 	for (unsigned i=0; i < SIZEOF(menuItemsMain); i++)
 	{
 		if (menuItemsMain[i] != NULL)
-			MSN_CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)menuItemsMain[i], (LPARAM)&mi);
+			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)menuItemsMain[i], (LPARAM)&mi);
 	}
 
 	if (bEnable)
 	{
 		mi.flags = CMIM_FLAGS;
 		if (!emailEnabled) mi.flags |= CMIF_HIDDEN;
-		MSN_CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)menuItemsMain[1], (LPARAM)&mi);
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)menuItemsMain[1], (LPARAM)&mi);
 	}
 }
 
@@ -499,11 +499,11 @@ void MSN_RemoveContactMenus(void)
 {
 	UnhookEvent(hPrebuildMenuHook);
 
-	MSN_CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hBlockMenuItem, 0);
-	MSN_CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hLiveSpaceMenuItem, 0);
-	MSN_CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hNetmeetingMenuItem, 0);
-	MSN_CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hChatInviteMenuItem, 0);
-	MSN_CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hOpenInboxMenuItem, 0);
+	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hBlockMenuItem, 0);
+	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hLiveSpaceMenuItem, 0);
+	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hNetmeetingMenuItem, 0);
+	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hChatInviteMenuItem, 0);
+	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hOpenInboxMenuItem, 0);
 
 	DestroyServiceFunction(hNetMeeting);
 	DestroyServiceFunction(hBlockCom);

@@ -1271,11 +1271,6 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 					LPGENT("e-mail    :"),
 					LPGENT("Reason    :")};
 
-				/*// test code 
-					dbei.pBlob = (BYTE*)("\xED\xA8\x29\x09nick\0first\0last\0email");
-					dbei.cbBlob = 26;
-				*/
-
 				if( dbei.cbBlob < 8 || dbei.cbBlob > 5000 )
 				{
 					int n = _sntprintf( szTemp , sizeof( szTemp ) , LPGENT("Invalid Database event received. Type %d, size %d"),dbei.eventType, dbei.cbBlob );
@@ -1287,16 +1282,19 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 				bool bWriteOk = false;
 
 				int nStringCount;
-				const _TCHAR * pszTitle;
+				const _TCHAR *pszTitle;
+				char *pszCurBlobPos;
 				if( dbei.eventType == EVENTTYPE_AUTHREQUEST )
 				{	// request 
-					//blob is: uin(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
+					//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 					nStringCount = 5;
+					pszCurBlobPos = (char *)dbei.pBlob + sizeof( DWORD )*2;
 					pszTitle = LPGENT("The following user made an authorization request:");
 				}
 				else
 				{  // Added
 					//blob is: uin(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
+					pszCurBlobPos = (char *)dbei.pBlob + sizeof(DWORD);
 					nStringCount = 4;
 					pszTitle = LPGENT("The following user added you to their contact list:");
 				}
@@ -1309,8 +1307,7 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 					int n = _sntprintf( szTemp , sizeof( szTemp ) ,_T("%d"), uin );
 					if( bWriteTextToFile( hFile , szTemp , bWriteUTF8Format , n ) )
 					{
-						char * pszCurBlobPos = (char *) (dbei.pBlob + sizeof( DWORD ));
-						char * pszEnd = (char *) (dbei.pBlob + dbei.cbSize);
+						char *pszEnd = (char *) (dbei.pBlob + dbei.cbSize);
 						for( int n = 0 ; n < nStringCount && pszCurBlobPos < pszEnd ; n++ )
 						{
 							if( *pszCurBlobPos )

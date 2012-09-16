@@ -273,7 +273,7 @@ HANDLE CMraProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 				!strcmp(dbei.szModule, m_szModuleName) &&
 				(dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_CONTACTS)) {
 
-			char *nick = (char*)(dbei.pBlob + sizeof(DWORD)+ sizeof(HANDLE));
+			char *nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
 			char *firstName = nick + strlen(nick) + 1;
 			char *lastName = firstName + strlen(firstName) + 1;
 			char *email = lastName + strlen(lastName) + 1;
@@ -342,16 +342,7 @@ int CMraProto::AuthDeny(HANDLE hDBEvent, const TCHAR* szReason)
 
 int CMraProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 {
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
-	dbei.szModule = m_szModuleName;
-	dbei.timestamp = pre->timestamp;
-	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
-	dbei.eventType = EVENTTYPE_AUTHREQUEST;
-	dbei.cbBlob = pre->lParam;
-	dbei.pBlob = (PBYTE)pre->szMessage;
-	CallService(MS_DB_EVENT_ADD, (WPARAM)NULL, (LPARAM)&dbei);
-	return 0;
+	return Proto_AuthRecv(m_szModuleName, pre);	
 }
 
 int CMraProto::AuthRequest(HANDLE hContact, const TCHAR *lptszMessage)
@@ -507,15 +498,12 @@ int CMraProto::RecvContacts(HANDLE hContact, PROTORECVEVENT* pre)
 
 int CMraProto::RecvFile(HANDLE hContact, PROTORECVFILET *pre)
 {
-	CallService(MS_PROTO_RECVFILET, 0, (LPARAM)pre);
-	return 0;
+	return Proto_RecvFile(hContact, pre);
 }
 
 int CMraProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
 {
-	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)pre };
-	CallService(MS_PROTO_RECVMSG, 0, (LPARAM)&ccs);
-	return 0;
+	return Proto_RecvMessage(hContact, pre);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

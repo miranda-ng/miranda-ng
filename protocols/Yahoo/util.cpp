@@ -49,11 +49,6 @@ void CYahooProto::YHookEvent( const char* szEvent, YEventFunc handler )
 	::HookEventObj( szEvent, ( MIRANDAHOOKOBJ )*( void** )&handler, this );
 }
 
-INT_PTR __stdcall YAHOO_CallService( const char* szSvcName, WPARAM wParam, LPARAM lParam )
-{
-	return CallService( szSvcName, wParam, lParam );
-}
-
 int CYahooProto::DebugLog( const char *fmt, ... )
 {
 	char str[ 4096 ];
@@ -114,7 +109,7 @@ DWORD CYahooProto::GetDword( HANDLE hContact, const char* valueName, DWORD parDe
 
 DWORD CYahooProto::SetDword( const char* valueName, DWORD parValue )
 {
-    return DBWriteContactSettingDword( NULL, m_szModuleName, valueName, parValue);
+	return DBWriteContactSettingDword( NULL, m_szModuleName, valueName, parValue);
 }
 
 DWORD CYahooProto::GetDword( const char* valueName, DWORD parDefltValue )
@@ -124,7 +119,7 @@ DWORD CYahooProto::GetDword( const char* valueName, DWORD parDefltValue )
 
 DWORD CYahooProto::SetDword( HANDLE hContact, const char* valueName, DWORD parValue )
 {
-    return DBWriteContactSettingDword( hContact, m_szModuleName, valueName, parValue);
+	return DBWriteContactSettingDword( hContact, m_szModuleName, valueName, parValue);
 }
 
 
@@ -171,7 +166,7 @@ int CYahooProto::SendBroadcast( HANDLE hContact, int type, int result, HANDLE hP
 	ack.result = result;
 	ack.hProcess = hProcess; 
 	ack.lParam = lParam;
-	return YAHOO_CallService( MS_PROTO_BROADCASTACK, 0, ( LPARAM )&ack );
+	return CallService( MS_PROTO_BROADCASTACK, 0, ( LPARAM )&ack );
 }
 
 int CYahooProto::GetString( const char* name, DBVARIANT* result )
@@ -267,7 +262,7 @@ int CYahooProto::ShowPopup( const char* nickname, const char* msg, const char *s
 	
 	DebugLog("[MS_POPUP_ADDPOPUPEX] Generating a popup for [%s] %s", nickname, msg);
 	
-	YAHOO_CallService( MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0 );
+	CallService( MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0 );
 	
 	return 1;
 }
@@ -332,7 +327,7 @@ bool CYahooProto::IsMyContact(HANDLE hContact)
 
 char* YAHOO_GetContactName( HANDLE hContact )
 {
-	return ( char* )YAHOO_CallService( MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0 );
+	return ( char* )CallService( MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0 );
 }
 
 extern PLUGININFOEX pluginInfo;

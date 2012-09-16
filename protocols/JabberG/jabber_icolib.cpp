@@ -310,7 +310,7 @@ HICON CJabberProto::LoadIconEx( const char* name, bool big )
 
 	char szSettingName[100];
 	mir_snprintf( szSettingName, sizeof( szSettingName ), "%s_%s", m_szModuleName, name );
-	return ( HICON )JCallService( MS_SKIN2_GETICON, big, (LPARAM)szSettingName );
+	return ( HICON )CallService( MS_SKIN2_GETICON, big, (LPARAM)szSettingName );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -585,9 +585,9 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR* jid, HANDLE hContact
 
 void CJabberProto::CheckAllContactsAreTransported()
 {
-	HANDLE hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 	while ( hContact != NULL ) {
-		char* szProto = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
+		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( !lstrcmpA( m_szModuleName, szProto )) {
 			DBVARIANT dbv;
 			if ( !JGetStringT( hContact, "jid", &dbv )) {
@@ -595,7 +595,7 @@ void CJabberProto::CheckAllContactsAreTransported()
 				JFreeVariant( &dbv );
 		}	}
 
-		hContact = ( HANDLE )JCallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 );
+		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 );
 }	}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -706,7 +706,7 @@ HICON g_LoadIconEx( const char* name, bool big )
 {
 	char szSettingName[100];
 	mir_snprintf( szSettingName, sizeof( szSettingName ), "%s_%s", GLOBAL_SETTING_PREFIX, name );
-	return ( HICON )JCallService( MS_SKIN2_GETICON, big, (LPARAM)szSettingName );
+	return ( HICON )CallService( MS_SKIN2_GETICON, big, (LPARAM)szSettingName );
 }
 
 void g_ReleaseIcon( HICON hIcon )

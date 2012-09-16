@@ -24,38 +24,38 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 HANDLE FacebookProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 {
-	return 0;
+	return NULL;
 }
 
 int FacebookProto::AuthRecv(HANDLE hContact,PROTORECVEVENT *)
 {
-	return 0;
+	return 1;
 }
 
 HANDLE FacebookProto::ChangeInfo(int type,void *info_data)
 {
 	MessageBoxA(0,"ChangeInfo","",0);
-	return 0;
+	return NULL;
 }
 
 HANDLE FacebookProto::FileAllow(HANDLE hContact,HANDLE hTransfer,const PROTOCHAR *path)
 {
-	return 0;
+	return NULL;
 }
 
 int FacebookProto::FileCancel(HANDLE hContact,HANDLE hTransfer)
 {
-	return 0;
+	return 1;
 }
 
 int FacebookProto::FileDeny(HANDLE hContact,HANDLE hTransfer,const PROTOCHAR *reason)
 {
-	return 0;
+	return 1;
 }
 
 int FacebookProto::FileResume(HANDLE hTransfer,int *action,const PROTOCHAR **filename)
 {
-	return 0;
+	return 1;
 }
 
 int FacebookProto::GetInfo( HANDLE hContact, int infoType )
@@ -66,55 +66,55 @@ int FacebookProto::GetInfo( HANDLE hContact, int infoType )
 
 HWND FacebookProto::SearchAdvanced(HWND owner)
 {
-	return 0;
+	return NULL;
 }
 
 HWND FacebookProto::CreateExtendedSearchUI(HWND owner)
 {
-	return 0;
+	return NULL;
 }
 
 int FacebookProto::RecvContacts(HANDLE hContact,PROTORECVEVENT *)
 {
-	return 0;
+	return 1;
 }
 
 int FacebookProto::RecvFile(HANDLE hContact,PROTORECVFILET *)
 {
-	return 0;
+	return 1;
 }
 
 int FacebookProto::RecvUrl(HANDLE hContact,PROTORECVEVENT *)
 {
-	return 0;
+	return 1;
 }
 
 int FacebookProto::SendContacts(HANDLE hContact,int flags,int nContacts,HANDLE *hContactsList)
 {
-	return 0;
+	return 1;
 }
 
 HANDLE FacebookProto::SendFile(HANDLE hContact,const PROTOCHAR *desc, PROTOCHAR **files)
 {
-	return 0;
+	return NULL;
 }
 
 int FacebookProto::SendUrl(HANDLE hContact,int flags,const char *url)
 {
-	return 0;
+	return 1;
 }
 
 int FacebookProto::SetApparentMode(HANDLE hContact,int mode)
 {
-	return 0;
+	return 1;
 }
 
 int FacebookProto::RecvAwayMsg(HANDLE hContact,int mode,PROTORECVEVENT *evt)
 {
-	return 0;
+	return 1;
 }
 
 int FacebookProto::SendAwayMsg(HANDLE hContact,HANDLE hProcess,const char *msg)
 {
-	return 0;
+	return 1;
 }

@@ -147,8 +147,7 @@ HICON TwitterProto::GetIcon(int index)
 
 int TwitterProto::RecvMsg(HANDLE hContact,PROTORECVEVENT *pre)
 {
-	CCSDATA ccs = { hContact,PSR_MESSAGE,0,reinterpret_cast<LPARAM>(pre) };
-	return (int)CallService(MS_PROTO_RECVMSG,0,reinterpret_cast<LPARAM>(&ccs));
+	return Proto_RecvMessage(hContact, pre);
 }
 
 // *************************

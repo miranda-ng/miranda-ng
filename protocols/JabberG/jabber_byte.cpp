@@ -207,7 +207,7 @@ void CJabberProto::ByteSendThread( JABBER_BYTE_TRANSFER *jbt )
 			nlb.pfnNewConnectionV2 = JabberByteSendConnection;
 			nlb.pExtra = this;
 			nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
-			jbt->hConn = ( HANDLE ) JCallService( MS_NETLIB_BINDPORT, ( WPARAM ) m_hNetlibUser, ( LPARAM )&nlb );
+			jbt->hConn = ( HANDLE ) CallService( MS_NETLIB_BINDPORT, ( WPARAM ) m_hNetlibUser, ( LPARAM )&nlb );
 			if ( jbt->hConn == NULL ) {
 				Log( "Cannot allocate port for bytestream_send thread, thread ended." );
 				delete jbt;
@@ -463,7 +463,7 @@ void CJabberProto::ByteSendViaProxy( JABBER_BYTE_TRANSFER *jbt )
 	nloc.cbSize = sizeof( nloc );
 	nloc.szHost = mir_t2a(szHost);
 	nloc.wPort = port;
-	hConn = ( HANDLE ) JCallService( MS_NETLIB_OPENCONNECTION, ( WPARAM ) m_hNetlibUser, ( LPARAM )&nloc );
+	hConn = ( HANDLE ) CallService( MS_NETLIB_OPENCONNECTION, ( WPARAM ) m_hNetlibUser, ( LPARAM )&nloc );
 	mir_free((void*)nloc.szHost);
 
 	if ( hConn != NULL ) {
@@ -645,7 +645,7 @@ void __cdecl CJabberProto::ByteReceiveThread( JABBER_BYTE_TRANSFER *jbt )
 						nloc.cbSize = sizeof( nloc );
 						nloc.szHost = mir_t2a(szHost);
 						nloc.wPort = port;
-						hConn = ( HANDLE ) JCallService( MS_NETLIB_OPENCONNECTION, ( WPARAM ) m_hNetlibUser, ( LPARAM )&nloc );
+						hConn = ( HANDLE ) CallService( MS_NETLIB_OPENCONNECTION, ( WPARAM ) m_hNetlibUser, ( LPARAM )&nloc );
 						mir_free((void*)nloc.szHost);
 
 						if ( hConn == NULL ) {

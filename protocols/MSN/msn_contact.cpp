@@ -33,8 +33,8 @@ HANDLE  CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick, 
 
 	if (hContact == NULL && addIfNeeded)
 	{
-		hContact = (HANDLE)MSN_CallService(MS_DB_CONTACT_ADD, 0, 0);
-		MSN_CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
+		hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
 		setString(hContact, "e-mail", szEmail);
 		setStringUtf(hContact, "Nick", msnNick ? msnNick : wlid);
 		if (temporary)

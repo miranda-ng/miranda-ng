@@ -80,7 +80,7 @@ HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "MSN_%s", name);
-	return (HICON)MSN_CallService(MS_SKIN2_GETICON, big, (LPARAM)szSettingName);
+	return (HICON)CallService(MS_SKIN2_GETICON, big, (LPARAM)szSettingName);
 }
 
 HANDLE GetIconHandle(int iconId)
@@ -96,7 +96,7 @@ void  ReleaseIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "MSN_%s", name);
-	MSN_CallService(big ? MS_SKIN2_RELEASEICONBIG : MS_SKIN2_RELEASEICON, 0, (LPARAM)szSettingName);
+	CallService(big ? MS_SKIN2_RELEASEICONBIG : MS_SKIN2_RELEASEICON, 0, (LPARAM)szSettingName);
 }
 
 INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -120,7 +120,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			char tBuffer[MAX_PATH];
 			if (!proto->getStaticString(NULL, "Password", tBuffer, sizeof(tBuffer))) 
 			{
-				MSN_CallService(MS_DB_CRYPT_DECODESTRING, strlen(tBuffer)+1, (LPARAM)tBuffer);
+				CallService(MS_DB_CRYPT_DECODESTRING, strlen(tBuffer)+1, (LPARAM)tBuffer);
 				tBuffer[16] = 0;
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, tBuffer);
 			}
@@ -161,7 +161,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_NEWMSNACCOUNTLINK) 
 		{
-			MSN_CallService(MS_UTILS_OPENURL, 1, (LPARAM)"https://signup.live.com");
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"https://signup.live.com");
 			return TRUE;
 		}
 
@@ -278,7 +278,7 @@ LBL_Continue:
 			}
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, sizeof(password));
-			MSN_CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(password),(LPARAM)password);
+			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(password),(LPARAM)password);
 			if (!proto->getString("Password", &dbv)) 
 			{
 				if (strcmp(password, dbv.pszVal)) 
@@ -601,7 +601,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			char tBuffer[MAX_PATH];
 			if (!proto->getStaticString(NULL, "Password", tBuffer, sizeof(tBuffer))) 
 			{
-				MSN_CallService(MS_DB_CRYPT_DECODESTRING, strlen(tBuffer)+1, (LPARAM)tBuffer);
+				CallService(MS_DB_CRYPT_DECODESTRING, strlen(tBuffer)+1, (LPARAM)tBuffer);
 				tBuffer[16] = 0;
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, tBuffer);
 			}
@@ -619,7 +619,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_NEWMSNACCOUNTLINK) 
 		{
-			MSN_CallService(MS_UTILS_OPENURL, 1, (LPARAM)"https://signup.live.com");
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"https://signup.live.com");
 			return TRUE;
 		}
 
@@ -649,7 +649,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, sizeof(password));
-			MSN_CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(password),(LPARAM)password);
+			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(password),(LPARAM)password);
 			if (!proto->getString("Password", &dbv))
 			{
 				if (strcmp(password, dbv.pszVal))

@@ -144,7 +144,7 @@ bool CJabberProto::ProcessCaptcha (HXML node, HXML parentNode, ThreadData* info 
 
 	GetCaptchaImage(parentNode, ImageBuf, PicType, CaptchaPath);
 	char* p = mir_t2a( CaptchaPath );
-	param.bmp = ( HBITMAP ) JCallService( MS_UTILS_LOADBITMAP, 0, ( LPARAM )p );
+	param.bmp = ( HBITMAP ) CallService( MS_UTILS_LOADBITMAP, 0, ( LPARAM )p );
 	DeleteFile(CaptchaPath);
 	mir_free(CaptchaPath);
 	mir_free(p);

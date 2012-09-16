@@ -182,18 +182,18 @@ CJabberProto::CJabberProto( const char* aProtoName, const TCHAR* aUserName ) :
 
 	char text[ MAX_PATH ];
 	mir_snprintf( text, sizeof( text ), "%s/Status", m_szModuleName );
-	JCallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
 	mir_snprintf( text, sizeof( text ), "%s/%s", m_szModuleName, DBSETTING_DISPLAY_UID );
-	JCallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
 
 	mir_snprintf( text, sizeof( text ), "%s/SubscriptionText", m_szModuleName );
-	JCallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
 	mir_snprintf( text, sizeof( text ), "%s/Subscription", m_szModuleName );
-	JCallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
 	mir_snprintf( text, sizeof( text ), "%s/Auth", m_szModuleName );
-	JCallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
 	mir_snprintf( text, sizeof( text ), "%s/Grant", m_szModuleName );
-	JCallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
 
 	DBVARIANT dbv;
 	if ( !JGetStringT( NULL, "XmlLang", &dbv )) {
@@ -203,7 +203,7 @@ CJabberProto::CJabberProto( const char* aProtoName, const TCHAR* aUserName ) :
 	else m_tszSelectedLang = mir_tstrdup( _T( "en" ));
 
 	if (!DBGetContactSettingString(NULL, m_szModuleName, "Password", &dbv)) {
-		JCallService(MS_DB_CRYPT_DECODESTRING, lstrlenA(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
+		CallService(MS_DB_CRYPT_DECODESTRING, lstrlenA(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		TCHAR *pssw = mir_a2t(dbv.pszVal);
 		JSetStringCrypt(NULL, "LoginPassword", pssw);
 		mir_free(pssw);
@@ -320,12 +320,12 @@ int CJabberProto::OnModulesLoadedEx( WPARAM, LPARAM )
 		JHookEvent( ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick );
 		JHookEvent( ME_MSG_WINDOWEVENT, &CJabberProto::OnProcessSrmmEvent );
 
-		HANDLE hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+		HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 		while ( hContact != NULL ) {
-			char* szProto = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
+			char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 			if ( szProto != NULL && !strcmp( szProto, m_szModuleName ))
 				MenuHideSrmmIcon(hContact);
-			hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+			hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
 	}	}
 
 	DBEVENTTYPEDESCR dbEventType = {0};
@@ -333,12 +333,12 @@ int CJabberProto::OnModulesLoadedEx( WPARAM, LPARAM )
 	dbEventType.eventType = JABBER_DB_EVENT_TYPE_CHATSTATES;
 	dbEventType.module = m_szModuleName;
 	dbEventType.descr = "Chat state notifications";
-	JCallService( MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType );
+	CallService( MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType );
 
 	dbEventType.eventType = JABBER_DB_EVENT_TYPE_PRESENCE;
 	dbEventType.module = m_szModuleName;
 	dbEventType.descr = "Presence notifications";
-	JCallService( MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType );
+	CallService( MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType );
 
 	JHookEvent( ME_IDLE_CHANGED, &CJabberProto::OnIdleChanged );
 
@@ -383,8 +383,8 @@ HANDLE CJabberProto::AddToListByJID( const TCHAR* newJid, DWORD flags )
 		// not already there: add
 		jid = mir_tstrdup( newJid );
 		Log( "Add new jid to contact jid = " TCHAR_STR_PARAM, jid );
-		hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_ADD, 0, 0 );
-		JCallService( MS_PROTO_ADDTOCONTACT, ( WPARAM ) hContact, ( LPARAM )m_szModuleName );
+		hContact = ( HANDLE ) CallService( MS_DB_CONTACT_ADD, 0, 0 );
+		CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM ) hContact, ( LPARAM )m_szModuleName );
 		JSetStringT( hContact, "jid", jid );
 		if (( nick=JabberNickFromJID( newJid )) == NULL )
 			nick = mir_tstrdup( newJid );
@@ -435,11 +435,11 @@ HANDLE __cdecl CJabberProto::AddToListByEvent( int flags, int /*iContact*/, HAND
 	Log( "AddToListByEvent" );
 	ZeroMemory( &dbei, sizeof( dbei ));
 	dbei.cbSize = sizeof( dbei );
-	if (( dbei.cbBlob = JCallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hDbEvent, 0 )) == ( DWORD )( -1 ))
+	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hDbEvent, 0 )) == ( DWORD )( -1 ))
 		return NULL;
 	if (( dbei.pBlob=( PBYTE ) alloca( dbei.cbBlob )) == NULL )
 		return NULL;
-	if ( JCallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, ( LPARAM )&dbei ))
+	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, ( LPARAM )&dbei ))
 		return NULL;
 	if ( strcmp( dbei.szModule, m_szModuleName ))
 		return NULL;
@@ -454,7 +454,7 @@ HANDLE __cdecl CJabberProto::AddToListByEvent( int flags, int /*iContact*/, HAND
 	if ( dbei.eventType != EVENTTYPE_AUTHREQUEST )
 		return NULL;
 
-	nick = ( char* )( dbei.pBlob + sizeof( DWORD )+ sizeof( HANDLE ));
+	nick = ( char* )( dbei.pBlob + sizeof( DWORD )*2);
 	firstName = nick + strlen( nick ) + 1;
 	lastName = firstName + strlen( firstName ) + 1;
 	jid = lastName + strlen( lastName ) + 1;
@@ -478,11 +478,11 @@ int CJabberProto::Authorize( HANDLE hDbEvent )
 
 	memset( &dbei, 0, sizeof( dbei ));
 	dbei.cbSize = sizeof( dbei );
-	if (( dbei.cbBlob=JCallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hDbEvent, 0 )) == ( DWORD )( -1 ))
+	if (( dbei.cbBlob=CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hDbEvent, 0 )) == ( DWORD )( -1 ))
 		return 1;
 	if (( dbei.pBlob=( PBYTE )alloca( dbei.cbBlob )) == NULL )
 		return 1;
-	if ( JCallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, ( LPARAM )&dbei ))
+	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, ( LPARAM )&dbei ))
 		return 1;
 	if ( dbei.eventType != EVENTTYPE_AUTHREQUEST )
 		return 1;
@@ -531,11 +531,11 @@ int CJabberProto::AuthDeny( HANDLE hDbEvent, const TCHAR* /*szReason*/ )
 	Log( "Entering AuthDeny" );
 	memset( &dbei, 0, sizeof( dbei ));
 	dbei.cbSize = sizeof( dbei );
-	if (( dbei.cbBlob=JCallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hDbEvent, 0 )) == ( DWORD )( -1 ))
+	if (( dbei.cbBlob=CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hDbEvent, 0 )) == ( DWORD )( -1 ))
 		return 1;
 	if (( dbei.pBlob=( PBYTE ) mir_alloc( dbei.cbBlob )) == NULL )
 		return 1;
-	if ( JCallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, ( LPARAM )&dbei )) {
+	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, ( LPARAM )&dbei )) {
 		mir_free( dbei.pBlob );
 		return 1;
 	}
@@ -548,7 +548,7 @@ int CJabberProto::AuthDeny( HANDLE hDbEvent, const TCHAR* /*szReason*/ )
 		return 1;
 	}
 
-	nick = ( char* )( dbei.pBlob + sizeof( DWORD )+ sizeof( HANDLE ));
+	nick = ( char* )( dbei.pBlob + sizeof(DWORD)*2);
 	firstName = nick + strlen( nick ) + 1;
 	lastName = firstName + strlen( firstName ) + 1;
 	jid = lastName + strlen( lastName ) + 1;
@@ -990,8 +990,7 @@ int __cdecl CJabberProto::RecvContacts( HANDLE /*hContact*/, PROTORECVEVENT* )
 
 int __cdecl CJabberProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt )
 {
-	CCSDATA ccs = { hContact, PSR_FILE, 0, ( LPARAM )evt };
-	return JCallService( MS_PROTO_RECVFILET, 0, ( LPARAM )&ccs );
+	return Proto_RecvFile(hContact, evt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -999,13 +998,12 @@ int __cdecl CJabberProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt )
 
 int __cdecl CJabberProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* evt )
 {
-	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, ( LPARAM )evt };
-	int nDbEvent = JCallService( MS_PROTO_RECVMSG, 0, ( LPARAM )&ccs );
+	INT_PTR nDbEvent = Proto_RecvMessage(hContact, evt);
 
 	EnterCriticalSection( &m_csLastResourceMap );
 	if (IsLastResourceExists( (void *)evt->lParam)) {
-		m_ulpResourceToDbEventMap[ m_dwResourceMapPointer++ ] = ( ULONG_PTR )nDbEvent;
-		m_ulpResourceToDbEventMap[ m_dwResourceMapPointer++ ] = ( ULONG_PTR )evt->lParam;
+		m_ulpResourceToDbEventMap[ m_dwResourceMapPointer++ ] = nDbEvent;
+		m_ulpResourceToDbEventMap[ m_dwResourceMapPointer++ ] = evt->lParam;
 		if ( m_dwResourceMapPointer >= SIZEOF( m_ulpResourceToDbEventMap ))
 			m_dwResourceMapPointer = 0;
 	}
@@ -1647,7 +1645,7 @@ int __cdecl CJabberProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPAR
 			clmi.cbSize = sizeof(CLISTMENUITEM);
 			clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			clmi.ptszName = m_tszUserName;
-			JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuRoot, ( LPARAM )&clmi );
+			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuRoot, ( LPARAM )&clmi );
 		}
 		break;
 

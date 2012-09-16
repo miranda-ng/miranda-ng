@@ -468,8 +468,7 @@ int __cdecl CAimProto::RecvContacts(HANDLE hContact, PROTORECVEVENT*)
 
 int __cdecl CAimProto::RecvFile(HANDLE hContact, PROTOFILEEVENT* evt)
 {
-	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)evt };
-	return CallService(MS_PROTO_RECVFILET, 0, (LPARAM)&ccs);
+	return Proto_RecvFile(hContact, evt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -477,8 +476,6 @@ int __cdecl CAimProto::RecvFile(HANDLE hContact, PROTOFILEEVENT* evt)
 
 int __cdecl CAimProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 {
-	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)pre };
-
 	char *omsg = pre->szMessage;
 	char *bbuf = NULL;
 	if (getByte(AIM_KEY_FI, 1))
@@ -489,10 +486,9 @@ int __cdecl CAimProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 	LOG("Stripping html.");
 	html_decode(pre->szMessage);
 
-	HANDLE res = (HANDLE)CallService(MS_PROTO_RECVMSG, 0, (LPARAM)&ccs);
-    mir_free(bbuf);
+	INT_PTR res = Proto_RecvMessage(hContact, pre);
+   mir_free(bbuf);
 	pre->szMessage = omsg;
-
 	return ( int )res;
 }
 

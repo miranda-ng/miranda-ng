@@ -526,9 +526,9 @@ void CJabberProto::OnIqResultGetRoster( HXML iqNode, CJabberIqInfo* pInfo )
 	if ( m_options.RosterSync == TRUE ) {
 		int listSize = 0, listAllocSize = 0;
 		HANDLE* list = NULL;
-		HANDLE hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+		HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 		while ( hContact != NULL ) {
-			char* str = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
+			char* str = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 			if ( str != NULL && !strcmp( str, m_szModuleName )) {
 				DBVARIANT dbv;
 				if ( !JGetStringT( hContact, "jid", &dbv )) {
@@ -546,12 +546,12 @@ void CJabberProto::OnIqResultGetRoster( HXML iqNode, CJabberIqInfo* pInfo )
 					JFreeVariant( &dbv );
 			}	}
 
-			hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+			hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
 		}
 
 		for ( i=0; i < listSize; i++ ) {
 			Log( "Syncing roster: deleting 0x%x", list[i] );
-			JCallService( MS_DB_CONTACT_DELETE, ( WPARAM ) list[i], 0 );
+			CallService( MS_DB_CONTACT_DELETE, ( WPARAM ) list[i], 0 );
 		}
 		if ( list != NULL )
 			mir_free( list );
@@ -694,7 +694,7 @@ LBL_Ret:
 	Log( "%d bytes written", nWritten );
 	if ( hContact == NULL ) {
 		hasPhoto = TRUE;
-		JCallService( MS_AV_SETMYAVATART, ( WPARAM )m_szModuleName, ( LPARAM )szAvatarFileName );
+		CallService( MS_AV_SETMYAVATART, ( WPARAM )m_szModuleName, ( LPARAM )szAvatarFileName );
 
 		Log( "My picture saved to " TCHAR_STR_PARAM, szAvatarFileName );
 	}

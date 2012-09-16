@@ -51,7 +51,7 @@ void __cdecl CJabberProto::FileReceiveThread( filetransfer* ft )
 	nloc.cbSize = sizeof( NETLIBOPENCONNECTION );
 	nloc.szHost = ft->httpHostName;
 	nloc.wPort = ft->httpPort;
-	info.s = ( HANDLE ) JCallService( MS_NETLIB_OPENCONNECTION, ( WPARAM ) m_hNetlibUser, ( LPARAM )&nloc );
+	info.s = ( HANDLE ) CallService( MS_NETLIB_OPENCONNECTION, ( WPARAM ) m_hNetlibUser, ( LPARAM )&nloc );
 	if ( info.s == NULL ) {
 		Log( "Connection failed ( %d ), thread ended", WSAGetLastError());
 		JSendBroadcast( ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0 );
@@ -262,7 +262,7 @@ void __cdecl CJabberProto::FileServerThread( filetransfer* ft )
 	nlb.pfnNewConnectionV2 = JabberFileServerConnection;
 	nlb.pExtra = this;
 	nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
-	info.s = ( HANDLE ) JCallService( MS_NETLIB_BINDPORT, ( WPARAM ) m_hNetlibUser, ( LPARAM )&nlb );
+	info.s = ( HANDLE ) CallService( MS_NETLIB_BINDPORT, ( WPARAM ) m_hNetlibUser, ( LPARAM )&nlb );
 	if ( info.s == NULL ) {
 		Log( "Cannot allocate port to bind for file server thread, thread ended." );
 		JSendBroadcast( ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0 );

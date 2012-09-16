@@ -457,7 +457,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 
 	// retrieve correct hContact for AUTH events
 	if (dbe.pBlob && (eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST))
-		hContact = *((PHANDLE)(dbe.pBlob + sizeof(DWORD)));
+		hContact = DbGetAuthEventContact(&dbe);
 
 	// set plugin_data ... will be usable within PopupDlgProc
 	pdata = (PLUGIN_DATA*)mir_alloc(sizeof(PLUGIN_DATA));

@@ -81,7 +81,7 @@ static INT_PTR JabberMenuChooseService( WPARAM wParam, LPARAM lParam )
 
 static CJabberProto* JabberGetInstanceByHContact( HANDLE hContact )
 {
-	char* szProto = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
+	char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 	if ( szProto == NULL )
 		return NULL;
 
@@ -172,7 +172,7 @@ static void sttEnableMenuItem( HANDLE hMenuItem, BOOL bEnable )
 	if ( !bEnable )
 		clmi.flags |= CMIF_HIDDEN;
 
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuItem, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuItem, ( LPARAM )&clmi );
 }
 
 static int JabberPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
@@ -206,7 +206,7 @@ void g_MenuInit( void )
 	mnu.cbSize = sizeof(mnu);
 	mnu.name = "JabberAccountChooser";
 	mnu.ExecService = "Jabber/MenuChoose";
-	hChooserMenu = (HANDLE)JCallService( MO_CREATENEWMENUOBJECT, 0, (LPARAM)&mnu );
+	hChooserMenu = (HANDLE)CallService( MO_CREATENEWMENUOBJECT, 0, (LPARAM)&mnu );
 
 	TMO_MenuItem tmi = { 0 };
 	tmi.cbSize = sizeof( tmi );
@@ -214,7 +214,7 @@ void g_MenuInit( void )
 	tmi.pszName = "Cancel";
 	tmi.position = 9999999;
 	tmi.hIcolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
-	JCallService( MO_ADDNEWMENUITEM, (WPARAM)hChooserMenu, ( LPARAM )&tmi );
+	CallService( MO_ADDNEWMENUITEM, (WPARAM)hChooserMenu, ( LPARAM )&tmi );
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
@@ -358,14 +358,14 @@ void g_MenuInit( void )
 
 void g_MenuUninit( void )
 {
-	JCallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuRequestAuth, 0 );
-	JCallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuGrantAuth, 0 );
-	JCallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuRevokeAuth, 0 );
-	JCallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuConvert, 0 );
-	JCallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuRosterAdd, 0 );
-	JCallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuLogin, 0 );
-	JCallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuRefresh, 0 );
-	JCallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuAddBookmark, 0 );
+	CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuRequestAuth, 0 );
+	CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuGrantAuth, 0 );
+	CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuRevokeAuth, 0 );
+	CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuConvert, 0 );
+	CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuRosterAdd, 0 );
+	CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuLogin, 0 );
+	CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuRefresh, 0 );
+	CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )g_hMenuAddBookmark, 0 );
 
 	UnhookEvent( hPrebuildMenuHook );
 	for (int i = 0; i < arServices.realCount; i++)
@@ -394,7 +394,7 @@ int CJabberProto::OnPrebuildContactMenu( WPARAM wParam, LPARAM )
 			clmi.cbSize = sizeof( clmi );
 			clmi.pszName = bIsChatRoom ? (char *)LPGEN("&Convert to Contact") : (char *)LPGEN("&Convert to Chat Room");
 			clmi.flags = CMIM_NAME | CMIM_FLAGS;
-			JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )g_hMenuConvert, ( LPARAM )&clmi );
+			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )g_hMenuConvert, ( LPARAM )&clmi );
 	}	}
 
 	if (!m_bJabberOnline)
@@ -678,7 +678,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd( WPARAM wParam, LPARAM )
 			item = ( JABBER_LIST_ITEM* )mir_alloc( sizeof( JABBER_LIST_ITEM ));
 			ZeroMemory( item, sizeof( JABBER_LIST_ITEM ));
 			item->jid = mir_tstrdup(roomID);
-			item->name = ( TCHAR* )JCallService( MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR );
+			item->name = ( TCHAR* )CallService( MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR );
 			item->type = _T("conference");
 			if ( !JGetStringT(( HANDLE ) wParam, "MyNick", &dbv )) {
 				item->nick = mir_tstrdup(dbv.ptszVal);
@@ -718,7 +718,7 @@ void CJabberProto::MenuInit()
 	}
 	else {
 		if ( m_hMenuRoot )
-			JCallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )m_hMenuRoot, 0 );
+			CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )m_hMenuRoot, 0 );
 		m_hMenuRoot = NULL;
 	}
 
@@ -918,7 +918,7 @@ void CJabberProto::GlobalMenuInit()
 	tmi.ownerdata = this;
 	tmi.position = iChooserMenuPos++;
 	tmi.ptszName = m_tszUserName;
-	m_hChooseMenuItem = (HANDLE)JCallService( MO_ADDNEWMENUITEM, (WPARAM)hChooserMenu, ( LPARAM )&tmi );
+	m_hChooseMenuItem = (HANDLE)CallService( MO_ADDNEWMENUITEM, (WPARAM)hChooserMenu, ( LPARAM )&tmi );
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Hotkeys
@@ -1005,14 +1005,14 @@ void CJabberProto::GlobalMenuUninit()
 {
 	if ( m_phMenuResourceItems ) {
 		for ( int i=0; i < m_nMenuResourceItems; i++ )
-			JCallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )m_phMenuResourceItems[i], 0 );
+			CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )m_phMenuResourceItems[i], 0 );
 		mir_free(m_phMenuResourceItems);
 		m_phMenuResourceItems = NULL;
 	}
 	m_nMenuResourceItems = 0;
 
 	if ( m_hMenuRoot )
-		JCallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )m_hMenuRoot, 0 );
+		CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )m_hMenuRoot, 0 );
 	m_hMenuRoot = NULL;
 }
 
@@ -1030,30 +1030,30 @@ void CJabberProto::CheckMenuItems()
 	if ( !m_menuItemsStatus )
 		clmi.flags |= CMIF_GRAYED;
 
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuChangePassword, ( LPARAM )&clmi );
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuGroupchat, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuChangePassword, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuGroupchat, ( LPARAM )&clmi );
 
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuPrivacyLists, ( LPARAM )&clmi );
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuRosterControl, ( LPARAM )&clmi );
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuServiceDiscovery, ( LPARAM )&clmi );
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuSDMyTransports, ( LPARAM )&clmi );
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuSDTransports, ( LPARAM )&clmi );
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuSDConferences, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuPrivacyLists, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuRosterControl, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuServiceDiscovery, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuSDMyTransports, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuSDTransports, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuSDConferences, ( LPARAM )&clmi );
 
 	clmi.flags = CMIM_FLAGS | (( m_ThreadInfo && ( m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE)) ? 0 : CMIF_HIDDEN );
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuBookmarks, ( LPARAM )&clmi );
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuNotes, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuBookmarks, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuNotes, ( LPARAM )&clmi );
 
 	clmi.flags = CMIM_FLAGS | (( m_ThreadInfo && ( m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVACY_LISTS)) ? 0 : CMIF_HIDDEN );
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hPrivacyMenuRoot, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hPrivacyMenuRoot, ( LPARAM )&clmi );
 
 	clmi.flags = CMIM_FLAGS | ( m_menuItemsStatus ? 0 : CMIF_HIDDEN);
-	JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuPriorityRoot, ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuPriorityRoot, ( LPARAM )&clmi );
 
 	if ( !m_bPepSupported )
 		clmi.flags |= CMIF_HIDDEN;
 	for ( int i=0; i < m_pepServices.getCount(); i++ )
-		JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_pepServices[i].GetMenu(), ( LPARAM )&clmi );
+		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_pepServices[i].GetMenu(), ( LPARAM )&clmi );
 
 	JabberUpdateDialogs( m_menuItemsStatus );
 }
@@ -1296,14 +1296,14 @@ CJabberProto *JabberChooseInstance(bool bIsLink)
 		}
 		else clmi.flags |= CMIF_HIDDEN;
 
-		JCallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )ppro->m_hChooseMenuItem, ( LPARAM )&clmi );
+		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )ppro->m_hChooseMenuItem, ( LPARAM )&clmi );
 	}
 
 	if ( nItems > 1 ) {
 		ListParam param = { 0 };
 		param.MenuObjectHandle = hChooserMenu;
 		HMENU hMenu = CreatePopupMenu();
-		JCallService( MO_BUILDMENU, ( WPARAM )hMenu, ( LPARAM )&param );
+		CallService( MO_BUILDMENU, ( WPARAM )hMenu, ( LPARAM )&param );
 
 		POINT pt;
 		GetCursorPos(&pt);
@@ -1313,7 +1313,7 @@ CJabberProto *JabberChooseInstance(bool bIsLink)
 
 		if ( res ) {
 			CJabberProto* pro = NULL;
-			JCallService( MO_PROCESSCOMMANDBYMENUIDENT, res, ( LPARAM )&pro );
+			CallService( MO_PROCESSCOMMANDBYMENUIDENT, res, ( LPARAM )&pro );
 			return pro;
 		}
 

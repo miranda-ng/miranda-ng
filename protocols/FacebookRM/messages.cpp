@@ -34,8 +34,7 @@ int FacebookProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
 
 	CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 
-	CCSDATA ccs = { hContact,PSR_MESSAGE,0,reinterpret_cast<LPARAM>(pre) };
-	return CallService(MS_PROTO_RECVMSG,0,reinterpret_cast<LPARAM>(&ccs));
+	return Proto_RecvMessage(hContact, pre);
 }
 
 void FacebookProto::SendMsgWorker(void *p)

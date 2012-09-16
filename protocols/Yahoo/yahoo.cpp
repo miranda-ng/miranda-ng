@@ -286,9 +286,9 @@ HANDLE CYahooProto::getbuddyH(const char *yahoo_id)
 {
 	HANDLE hContact;
 
-	for ( hContact = ( HANDLE )YAHOO_CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	for ( hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 		hContact != NULL;
-		hContact = ( HANDLE )YAHOO_CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 ))
+		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 ))
 	{
 		if (IsMyContact(hContact))
 		{
@@ -334,8 +334,8 @@ HANDLE CYahooProto::add_buddy( const char *yahoo_id, const char *yahoo_name, int
 
 	//not already there: add
 	LOG(("[add_buddy] Adding buddy id: %s (Nick: %s), flags: %lu", yid, yahoo_name, flags));
-	hContact = ( HANDLE )YAHOO_CallService( MS_DB_CONTACT_ADD, 0, 0 );
-	YAHOO_CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM )hContact,( LPARAM )m_szModuleName );
+	hContact = ( HANDLE )CallService( MS_DB_CONTACT_ADD, 0, 0 );
+	CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM )hContact,( LPARAM )m_szModuleName );
 	SetString( hContact, YAHOO_LOGINID, yid );
 	Set_Protocol( hContact, protocol );
 
@@ -621,9 +621,9 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 	if (stealthlist)
 		stealth = y_strsplit(stealthlist, ",", -1);
 
-	for ( hContact = ( HANDLE )YAHOO_CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	for ( hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 		   hContact != NULL;
-			hContact = ( HANDLE )YAHOO_CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 ))
+			hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 ))
 	{
 		if (IsMyContact(hContact)) {
 			DBVARIANT dbv;
@@ -751,7 +751,7 @@ void CYahooProto::ext_rejected(const char *who, const char *msg)
 		* Make sure the contact is temporary so we could delete it w/o extra traffic
 		*/ 
 		DBWriteContactSettingByte( hContact, "CList", "NotOnList", 1 );
-		YAHOO_CallService( MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);	
+		CallService( MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);	
 	}
 	else LOG(("[ext_rejected] Buddy not on our buddy list"));
 
@@ -780,7 +780,7 @@ void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status
 			ShowPopup( "Invalid Contact", "The id you tried to add is invalid.", NULL);
 			/* Make it TEMP first, we don't want to send any extra packets for FALSE ids */
 			DBWriteContactSettingByte( hContact, "CList", "NotOnList", 1 );
-			YAHOO_CallService( MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
+			CallService( MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
 		}
 		break;
 
@@ -790,7 +790,7 @@ void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status
 			ShowPopup( "Invalid Contact", "Unknown Error??.", NULL);
 			/* Make it TEMP first, we don't want to send any extra packets for FALSE ids */
 			DBWriteContactSettingByte( hContact, "CList", "NotOnList", 1 );
-			YAHOO_CallService( MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
+			CallService( MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
 		}
 
 		break;
@@ -1076,7 +1076,7 @@ void ext_yahoo_got_cookies(int id)
     //wsprintfA(z, "Cookie: %s; Y=%s", Bcookie, yahoo_get_cookie(id, "y"), yahoo_get_cookie(id, "t"));    
     wsprintfA(z, "Cookie: Y=%s; T=%s", yahoo_get_cookie(id, "y"), yahoo_get_cookie(id, "t"));    
     LOG(("Our Cookie: '%s'", z));
-    YAHOO_CallService(MS_NETLIB_SETSTICKYHEADERS, (WPARAM)hnuMain, (LPARAM)z);*/
+    CallService(MS_NETLIB_SETSTICKYHEADERS, (WPARAM)hnuMain, (LPARAM)z);*/
 
 #ifdef HTTP_GATEWAY	
 	if (iHTTPGateway) {
@@ -1086,7 +1086,7 @@ void ext_yahoo_got_cookies(int id)
 		mir_snprintf(z, sizeof(z), "Cookie: Y=%s; T=%s; C=%s", yahoo_get_cookie(id, "y"), 
 				yahoo_get_cookie(id, "t"), yahoo_get_cookie(id, "c"));    
 		LOG(("Our Cookie: '%s'", z));
-		YAHOO_CallService(MS_NETLIB_SETSTICKYHEADERS, (WPARAM)hNetlibUser, (LPARAM)z);
+		CallService(MS_NETLIB_SETSTICKYHEADERS, (WPARAM)hNetlibUser, (LPARAM)z);
 	}
 #endif
 	
@@ -1398,7 +1398,7 @@ static void connect_complete(void *data, int source, yahoo_input_condition condi
 	//tSelect.dwTimeout = T->mGatewayTimeout * 1000;
 	tSelect.dwTimeout = 1;
 	tSelect.hReadConns[ 0 ] = ( HANDLE )source;
-	error = YAHOO_CallService( MS_NETLIB_SELECT, 0, ( LPARAM )&tSelect );
+	error = CallService( MS_NETLIB_SELECT, 0, ( LPARAM )&tSelect );
 
 	if(error) {
 		//close(source);

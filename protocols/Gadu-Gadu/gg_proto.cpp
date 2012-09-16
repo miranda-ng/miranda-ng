@@ -125,19 +125,19 @@ GGPROTO::~GGPROTO()
 // Dummies for function that have to be implemented
 
 HANDLE GGPROTO::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return NULL; }
-int    GGPROTO::Authorize(HANDLE hDbEvent) { return 0; }
-int    GGPROTO::AuthDeny(HANDLE hDbEvent, const TCHAR *szReason) { return 0; }
-int    GGPROTO::AuthRecv(HANDLE hContact, PROTORECVEVENT *pre) { return 0; }
-int    GGPROTO::AuthRequest(HANDLE hContact, const TCHAR *szMessage) { return 0; }
+int    GGPROTO::Authorize(HANDLE hDbEvent) { return 1; }
+int    GGPROTO::AuthDeny(HANDLE hDbEvent, const TCHAR *szReason) { return 1; }
+int    GGPROTO::AuthRecv(HANDLE hContact, PROTORECVEVENT *pre) { return 1; }
+int    GGPROTO::AuthRequest(HANDLE hContact, const TCHAR *szMessage) { return 1; }
 HANDLE GGPROTO::ChangeInfo(int iInfoType, void *pInfoData) { return NULL; }
-int    GGPROTO::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR** szFilename) { return 0; }
+int    GGPROTO::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR** szFilename) { return 1; }
 HANDLE GGPROTO::SearchByEmail(const PROTOCHAR *email) { return NULL; }
-int    GGPROTO::RecvContacts(HANDLE hContact, PROTORECVEVENT *pre) { return 0; }
-int    GGPROTO::RecvUrl(HANDLE hContact, PROTORECVEVENT *pre) { return 0; }
-int    GGPROTO::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE *hContactsList) { return 0; }
-int    GGPROTO::SendUrl(HANDLE hContact, int flags, const char *url) { return 0; }
-int    GGPROTO::RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT *evt) { return 0; }
-int    GGPROTO::SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char *msg) { return 0; }
+int    GGPROTO::RecvContacts(HANDLE hContact, PROTORECVEVENT *pre) { return 1; }
+int    GGPROTO::RecvUrl(HANDLE hContact, PROTORECVEVENT *pre) { return 1; }
+int    GGPROTO::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE *hContactsList) { return 1; }
+int    GGPROTO::SendUrl(HANDLE hContact, int flags, const char *url) { return 1; }
+int    GGPROTO::RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT *evt) { return 1; }
+int    GGPROTO::SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char *msg) { return 1; }
 
 //////////////////////////////////////////////////////////
 // when contact is added to list
@@ -558,8 +558,7 @@ HWND GGPROTO::CreateExtendedSearchUI(HWND owner)
 
 int GGPROTO::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
 {
-	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, ( LPARAM )pre };
-	return CallService(MS_PROTO_RECVMSG, 0, ( LPARAM )&ccs);
+	return Proto_RecvMessage(hContact, pre);
 }
 
 //////////////////////////////////////////////////////////

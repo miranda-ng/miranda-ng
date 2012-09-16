@@ -177,6 +177,22 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 	return CallService(MS_DB_EVENT_ADD, (WPARAM) ccs->hContact, (LPARAM)&dbei);
 }
 
+static INT_PTR Proto_AuthRecv(WPARAM wParam, LPARAM lParam)
+{
+	PROTORECVEVENT* pre = (PROTORECVEVENT*)lParam;
+
+	DBEVENTINFO dbei = { 0 };
+	dbei.cbSize = sizeof(dbei);
+	dbei.szModule = (char*)wParam;
+	dbei.timestamp = pre->timestamp;
+	dbei.flags = pre->flags & (PREF_CREATEREAD?DBEF_READ:0);
+	dbei.flags |= (pre->flags & PREF_UTF) ? DBEF_UTF : 0;
+	dbei.eventType = EVENTTYPE_AUTHREQUEST;
+	dbei.cbBlob = pre->lParam;
+	dbei.pBlob = (PBYTE)pre->szMessage;
+	return CallService(MS_DB_EVENT_ADD,(WPARAM)NULL,(LPARAM)&dbei);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // User Typing Notification services
 
@@ -700,6 +716,7 @@ int LoadProtocolsModule(void)
 	CreateServiceFunction(MS_PROTO_CONTACTISTYPING,  Proto_ContactIsTyping);
 
 	CreateServiceFunction(MS_PROTO_RECVMSG,          Proto_RecvMessage);
+	CreateServiceFunction(MS_PROTO_AUTHRECV,         Proto_AuthRecv);
 
 	CreateServiceFunction("Proto/EnumProtocols",     Proto_EnumAccounts);
 	CreateServiceFunction(MS_PROTO_ENUMACCOUNTS,     Proto_EnumAccounts);

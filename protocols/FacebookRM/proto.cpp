@@ -566,12 +566,9 @@ int FacebookProto::OnCancelFriendshipRequest(WPARAM wParam,LPARAM lParam)
 
 HANDLE FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
 {
-	DBEVENTINFO dbei;
-	DWORD body[3];
-
-	ZeroMemory(&dbei, sizeof(dbei));
-	dbei.cbSize = sizeof(dbei);
-	dbei.cbBlob = sizeof(DWORD) + sizeof(HANDLE);
+	DWORD body[2];
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.cbBlob = sizeof(DWORD)*2;
 	dbei.pBlob = (PBYTE)&body;
 
 	if (CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbei))
@@ -583,5 +580,5 @@ HANDLE FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
 	if (strcmp(dbei.szModule, m_szModuleName))
 		return INVALID_HANDLE_VALUE;
 
-	return *(HANDLE*)&body[1]; // this is bad - needs new auth system
+	return DbGetAuthEventContact(&dbei);
 }

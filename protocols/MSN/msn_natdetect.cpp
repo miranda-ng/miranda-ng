@@ -194,7 +194,7 @@ void CMsnProto::MSNatDetect(void)
 	nlb.pfnNewConnectionV2 = MSN_ConnectionProc;
 	nlb.pExtra = this;
 
-	HANDLE sb = (HANDLE) MSN_CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlibUser, (LPARAM)&nlb);
+	HANDLE sb = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlibUser, (LPARAM)&nlb);
 	if ( sb != NULL )
 	{
 		MyConnection.upnpNAT = htonl(nlb.dwExternalIP) == MyConnection.extIP;

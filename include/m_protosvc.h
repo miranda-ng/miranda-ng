@@ -732,9 +732,57 @@ typedef struct {
 	#define PREF_TCHAR 0
 #endif
 
+/* Proto/RecvMessage
+Copies a message from a PROTORECVEVENT event into the database
+  wParam = 0 (unused)
+  lParam = CCSDATA*
+Returns the result of MS_DB_EVENT_ADD
+*/
 #define PSR_MESSAGE   "/RecvMessage"
 
 #define MS_PROTO_RECVMSG "Proto/RecvMessage"
+
+__forceinline INT_PTR Proto_RecvMessage(HANDLE hContact, PROTORECVEVENT *pcre)
+{	
+	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)pcre };
+	return CallService(MS_PROTO_RECVMSG, 0, (LPARAM)&ccs );
+}
+
+/* Proto/AuthRecv
+Copies the EVENTTYPE_AUTHREQUEST event from PROTORECVEVENT into DBEVENTINFO and adds it
+  wParam = char* : protocol name
+  lParam = PROTORECVEVENT*
+Returns the result of MS_DB_EVENT_ADD
+*/
+#define MS_PROTO_AUTHRECV  "Proto/AuthRecv"
+
+__forceinline INT_PTR Proto_AuthRecv(const char *szProtoName, PROTORECVEVENT *pcre)
+{	return CallService(MS_PROTO_AUTHRECV, (WPARAM)szProtoName, (LPARAM)pcre);
+}
+
+//File(s) have been received
+//wParam = 0
+//lParam = (LPARAM)(PROTORECVFILET*)&prf
+
+typedef struct {
+	DWORD flags;
+	DWORD timestamp;   //unix time
+	TCHAR *tszDescription;
+	int   fileCount;
+	TCHAR **ptszFiles;
+	LPARAM lParam;     //extra space for the network level protocol module
+} PROTORECVFILET;
+
+#define PSR_FILE       "/RecvFile"
+
+#define MS_PROTO_RECVFILET "Proto/RecvFileT"
+
+__forceinline INT_PTR Proto_RecvFile(HANDLE hContact, PROTORECVFILET *pcre)
+{
+	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pcre };
+	return CallService(MS_PROTO_RECVFILET, 0, ( LPARAM )&ccs);
+}
+
 
 //An URL has been received
 //wParam = 0
@@ -766,33 +814,6 @@ protocol identifying field of the user. Because of the need to be
 zero-terminated, binary data should be converted to text.
 Use PS_ADDTOLISTBYEVENT to add the contacts from one of these to the list.
 */
-
-//File(s) have been received (0.9.x)
-//wParam = 0
-//lParam = (LPARAM)(PROTORECVFILE*)&prf
-typedef struct {
-	DWORD flags;
-	DWORD timestamp;   //unix time
-	TCHAR *tszDescription;
-	int   fileCount;
-	TCHAR **ptszFiles;
-	LPARAM lParam;     //extra space for the network level protocol module
-} PROTORECVFILET;
-
-#define MS_PROTO_RECVFILET "Proto/RecvFileT"
-
-#define PSR_FILE       "/RecvFile"
-
-// left for compatibility with the old Miranda versions.
-
-typedef struct {
-	DWORD flags;
-	DWORD timestamp;   //unix time
-	char *szDescription;
-	char **pFiles;
-	LPARAM lParam;     //extra space for the network level protocol module
-} PROTORECVFILE;
-#define MS_PROTO_RECVFILE "Proto/RecvFile"
 
 //An away message reply has been received
 //wParam = statusMode

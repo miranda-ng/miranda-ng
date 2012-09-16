@@ -126,7 +126,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnInit = (pfnInitProto)msnProtoInit;
 	pd.fnUninit = (pfnUninitProto)msnProtoUninit;
 	pd.type = PROTOTYPE_PROTOCOL;
-	MSN_CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	MsnInitIcons();
 	MSN_InitContactMenu();

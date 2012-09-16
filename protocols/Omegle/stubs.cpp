@@ -24,57 +24,57 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 HANDLE OmegleProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	return 0;
+	return NULL;
 };
 
 HANDLE OmegleProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 {
-	return 0;
+	return NULL;
 };
 
 int OmegleProto::Authorize(HANDLE hDbEvent)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::AuthDeny(HANDLE hDbEvent,const PROTOCHAR *reason)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::AuthRecv(HANDLE hContact,PROTORECVEVENT *)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::AuthRequest(HANDLE hContact,const PROTOCHAR *message)
 {
-	return 0;
+	return 1;
 }
 
 HANDLE OmegleProto::ChangeInfo(int type,void *info_data)
 {
-	return 0;
+	return NULL;
 }
 
 HANDLE OmegleProto::FileAllow(HANDLE hContact,HANDLE hTransfer,const PROTOCHAR *path)
 {
-	return 0;
+	return NULL;
 }
 
 int OmegleProto::FileCancel(HANDLE hContact,HANDLE hTransfer)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::FileDeny(HANDLE hContact,HANDLE hTransfer,const PROTOCHAR *reason)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::FileResume(HANDLE hTransfer,int *action,const PROTOCHAR **filename)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::GetInfo( HANDLE hContact, int infoType )
@@ -84,90 +84,90 @@ int OmegleProto::GetInfo( HANDLE hContact, int infoType )
 
 HANDLE OmegleProto::SearchBasic( const PROTOCHAR* id )
 {
-	return 0;
+	return NULL;
 }
 
 HANDLE OmegleProto::SearchByEmail( const PROTOCHAR* email )
 {
-	return 0;
+	return NULL;
 }
 
 HANDLE OmegleProto::SearchByName( const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName )
 {
-	return 0;
+	return NULL;
 }
 
 HWND OmegleProto::SearchAdvanced(HWND owner)
 {
-	return 0;
+	return NULL;
 }
 
 HWND OmegleProto::CreateExtendedSearchUI(HWND owner)
 {
-	return 0;
+	return NULL;
 }
 
 int OmegleProto::RecvContacts(HANDLE hContact,PROTORECVEVENT *)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::RecvFile(HANDLE hContact,PROTORECVFILET *)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::RecvUrl(HANDLE hContact,PROTORECVEVENT *)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::SendContacts(HANDLE hContact,int flags,int nContacts,HANDLE *hContactsList)
 {
-	return 0;
+	return 1;
 }
 
 HANDLE OmegleProto::SendFile(HANDLE hContact,const PROTOCHAR *desc, PROTOCHAR **files)
 {
-	return 0;
+	return NULL;
 }
 
 int OmegleProto::SendUrl(HANDLE hContact,int flags,const char *url)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::SetApparentMode(HANDLE hContact,int mode)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::RecvAwayMsg(HANDLE hContact,int mode,PROTORECVEVENT *evt)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::SendAwayMsg(HANDLE hContact,HANDLE hProcess,const char *msg)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::UserIsTyping(HANDLE hContact, int type)
 {
-	return 0;
+	return 1;
 }
 
 int OmegleProto::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
 {
-	return 0;
+	return 1;
 }
 
 HANDLE OmegleProto::GetAwayMsg( HANDLE hContact )
 {
-	return 0;
+	return NULL;
 }
 
 int OmegleProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
 {
-	return 0;
+	return 1;
 }

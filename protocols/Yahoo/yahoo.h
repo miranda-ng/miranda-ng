@@ -116,8 +116,6 @@ extern HINSTANCE		hInstance;
 extern int 				iHTTPGateway;
 #endif
 
-INT_PTR __stdcall YAHOO_CallService( const char* szSvcName, WPARAM wParam, LPARAM lParam );
-
 #define YAHOO_hasnotification() ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)
 
 int YAHOO_util_dbsettingchanged(WPARAM wParam, LPARAM lParam);

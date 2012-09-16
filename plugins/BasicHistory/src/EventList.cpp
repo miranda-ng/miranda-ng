@@ -82,7 +82,7 @@ bool EventList::CanShowHistory(DBEVENTINFO* dbei)
 
 	else if(defFilter < 1)
 	{
-		switch( dbei->eventType ) 
+		switch( dbei->eventType )
 		{
 		case EVENTTYPE_MESSAGE:
 		case EVENTTYPE_URL:
@@ -92,7 +92,7 @@ bool EventList::CanShowHistory(DBEVENTINFO* dbei)
 		default:
 			{
 				DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )CallService( MS_DB_EVENT_GETTYPE, ( WPARAM )dbei->szModule, ( LPARAM )dbei->eventType );
-				if ( et && ( et->flags & DETF_HISTORY )) 
+				if ( et && ( et->flags & DETF_HISTORY ))
 				{
 					return true;
 				}
@@ -140,7 +140,7 @@ bool EventList::CanShowHistory(const IImport::ExternalMessage& message)
 
 	else if(defFilter < 1)
 	{
-		switch(message.eventType ) 
+		switch(message.eventType )
 		{
 		case EVENTTYPE_MESSAGE:
 		case EVENTTYPE_URL:
@@ -240,14 +240,14 @@ void EventList::GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, 
 	ti.isExternal = false;
 	ei.isExternal = false;
 	hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDFIRST,(WPARAM)_hContact,0);
-	while ( hDbEvent != NULL ) 
+	while ( hDbEvent != NULL )
 	{
 		if (isWndLocal && !IsWindow( hWnd ))
 			break;
 		ei.hEvent = hDbEvent;
 		if(GetEventData(ei, data))
 		{
-			if(noFilter || CanShowHistory(&gdbei)) 
+			if(noFilter || CanShowHistory(&gdbei))
 			{
 				ti.hEvent = hDbEvent;
 				ti.timestamp = data.timestamp;
@@ -286,7 +286,7 @@ void EventList::RefreshEventList()
 	if(useImportedMessages)
 	{
 		std::vector<IImport::ExternalMessage> messages;
-	
+
 		EnterCriticalSection(&criticalSection);
 		std::map<HANDLE, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
 		if(it != contactFileMap.end())
@@ -300,7 +300,7 @@ void EventList::RefreshEventList()
 		}
 
 		LeaveCriticalSection(&criticalSection);
-	
+
 		ImportMessages(messages);
 	}
 
@@ -314,7 +314,7 @@ void EventList::RefreshEventList()
 		revTempList.insert(revTempList.begin(), tempList.rbegin(), tempList.rend());
 		nrTempList = revTempList;
 	}
-	
+
 	eventList.clear();
 	eventList.push_back(std::deque<EventIndex>());
 	DWORD lastTime = MAXDWORD;
@@ -352,7 +352,7 @@ void EventList::RefreshEventList()
 		}
 	}
 
-	if(!eventList.back().empty()) 
+	if(!eventList.back().empty())
 	{
 		ei = eventList.back().front();
 		AddGroup(ei);
@@ -366,7 +366,7 @@ bool EventList::SearchInContact(HANDLE hContact, TCHAR *strFind, ComparatorInter
 	if(useImportedMessages)
 	{
 		std::vector<IImport::ExternalMessage> messages;
-	
+
 		EnterCriticalSection(&criticalSection);
 		std::map<HANDLE, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
 		if(it != contactFileMap.end())
@@ -391,7 +391,7 @@ bool EventList::SearchInContact(HANDLE hContact, TCHAR *strFind, ComparatorInter
 
 	std::list<EventTempIndex> tempList;
 	GetTempList(tempList, false, true, hContact);
-	
+
 	EventIndex ei;
 	EventData ed;
 	TCHAR str[MAXSELECTSTR + 8]; // for safety reason
@@ -458,7 +458,7 @@ void EventList::AddGroup(const EventIndex& ev)
 		eventText[Options::instance->groupMessageLen - 1] = '.';
 		eventText[Options::instance->groupMessageLen] = 0;
 	}
-	
+
 	int ico = 0;
 	GetEventIcon(data.isMe, data.eventType, ico);
 	AddGroup(data.isMe, time, user, eventText, ico);
@@ -478,26 +478,26 @@ std::wstring EventList::GetContactName()
 
 void GetInfo(CONTACTINFO& ci, std::wstring& str)
 {
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) 
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci))
 	{
-		if (ci.type == CNFT_ASCIIZ) 
+		if (ci.type == CNFT_ASCIIZ)
 		{
 			str =  ci.pszVal;
 			mir_free(ci.pszVal);
 
 		}
-		else if (ci.type == CNFT_DWORD) 
+		else if (ci.type == CNFT_DWORD)
 		{
 			TCHAR buf[20];
 			_ltot_s(ci.dVal, buf, 10 );
 			str = buf;
-		}	
-		else if (ci.type == CNFT_WORD) 
+		}
+		else if (ci.type == CNFT_WORD)
 		{
 			TCHAR buf[20];
 			_ltot_s(ci.wVal, buf, 10 );
 			str = buf;
-		}	
+		}
 	}
 }
 
@@ -591,13 +591,15 @@ static void GetAuthRequestDescription( DBEVENTINFO *dbei, TCHAR* buf, int cbBuf 
 {
 	std::wstring allName;
 	buf[0] = 0;
-	size_t pos = sizeof( DWORD ) + sizeof( HANDLE );
+	size_t pos = sizeof(DWORD)*2;
 	if(pos >= dbei->cbBlob)
 		return;
-	DWORD uin = *((DWORD*)dbei->pBlob);
-	HANDLE hContact = *((HANDLE*)(dbei->pBlob + sizeof( DWORD )));
+
+	PDWORD evDwords = (PDWORD)dbei->pBlob;
+	DWORD uin = evDwords[0];
+	HANDLE hContact = (HANDLE)evDwords[1];
 	char* nick, *firstName, *lastName, *jid, *reason;
-	nick = ( char* )( dbei->pBlob + sizeof( DWORD )+ sizeof( HANDLE ));
+	nick = (char*)&evDwords[2];
 	pos += strnlen_s(nick, dbei->cbBlob - pos) + 1;
 	if(pos >= dbei->cbBlob)
 		return;
@@ -649,7 +651,7 @@ static void GetAuthRequestDescription( DBEVENTINFO *dbei, TCHAR* buf, int cbBuf 
 		allName += _T(", ");
 	}
 
-	_sntprintf_s(buf, cbBuf, _TRUNCATE, TranslateT("Authorisation request by %s (%s%d): %s"), 
+	_sntprintf_s(buf, cbBuf, _TRUNCATE, TranslateT("Authorisation request by %s (%s%d): %s"),
 		(newNick[0] == 0 ? (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR) : newNick),
 		allName.c_str(), uin, newReason);
 	mir_free( newNick );
@@ -661,8 +663,7 @@ static void GetAuthRequestDescription( DBEVENTINFO *dbei, TCHAR* buf, int cbBuf 
 
 void EventList::GetObjectDescription( DBEVENTINFO *dbei, TCHAR* str, int cbStr )
 {
-	switch( dbei->eventType ) 
-	{
+	switch( dbei->eventType ) {
 	case EVENTTYPE_AUTHREQUEST:
 		GetAuthRequestDescription( dbei, str, cbStr );
 		break;
@@ -754,7 +755,7 @@ bool EventList::GetEventData(const EventIndex& ev, EventData& data)
 	if(!ev.isExternal)
 	{
 		DWORD newBlobSize=CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)ev.hEvent,0);
-		if(newBlobSize>goldBlobSize) 
+		if(newBlobSize>goldBlobSize)
 		{
 			gdbei.pBlob=(PBYTE)mir_realloc(gdbei.pBlob,newBlobSize);
 			goldBlobSize=newBlobSize;

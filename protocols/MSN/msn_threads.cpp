@@ -133,7 +133,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 
 	MSN_DebugLog("Thread started: server='%s:%d', type=%d", tConn.szHost, tConn.wPort, info->mType);
 
-	info->s = (HANDLE)MSN_CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&tConn);
+	info->s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&tConn);
 	if (info->s == NULL) 
 	{
 		MSN_DebugLog("Connection Failed (%d) server='%s:%d'", WSAGetLastError(), tConn.szHost, tConn.wPort);
@@ -152,7 +152,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 	}
 
 	if (usingGateway)
-		MSN_CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(info->s), info->mGatewayTimeout);
+		CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(info->s), info->mGatewayTimeout);
 
 	MSN_DebugLog("Connected with handle=%08X", info->s);
 
@@ -321,14 +321,14 @@ void  CMsnProto::MSN_CloseConnections(void)
 			if (T->s != NULL && !T->sessionClosed && !T->termPending)
 			{
 				nls.hReadConns[0] = T->s;
-				int res = MSN_CallService(MS_NETLIB_SELECTEX, 0, (LPARAM)&nls);
+				int res = CallService(MS_NETLIB_SELECTEX, 0, (LPARAM)&nls);
 				if (res >= 0 || nls.hReadStatus[0] == 0)
 					T->sendTerminate();
 			}
 			break;
 
 		case SERVER_P2P_DIRECT :
-			MSN_CallService(MS_NETLIB_SHUTDOWN, (WPARAM)T->s, 0);
+			CallService(MS_NETLIB_SHUTDOWN, (WPARAM)T->s, 0);
 			break;
 		}	
 	}
@@ -336,7 +336,7 @@ void  CMsnProto::MSN_CloseConnections(void)
 	LeaveCriticalSection(&sttLock);
 
 	if (hHttpsConnection)
-		MSN_CallService(MS_NETLIB_SHUTDOWN, (WPARAM)hHttpsConnection, 0);
+		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)hHttpsConnection, 0);
 }
 
 void  CMsnProto::MSN_CloseThreads(void)
@@ -363,7 +363,7 @@ void  CMsnProto::MSN_CloseThreads(void)
 		ThreadData* T = &sttThreads[i];
 		
 		if (T->s != NULL)
-			MSN_CallService(MS_NETLIB_SHUTDOWN, (WPARAM)T->s, 0);
+			CallService(MS_NETLIB_SHUTDOWN, (WPARAM)T->s, 0);
 	}
 
 	LeaveCriticalSection(&sttLock);
@@ -729,7 +729,7 @@ void ThreadData::applyGatewayData(HANDLE hConn, bool isPoll)
 	nlhpi.szHttpGetUrl = NULL;
 	nlhpi.szHttpPostUrl = szHttpPostUrl;
 	nlhpi.combinePackets = 5;
-	MSN_CallService(MS_NETLIB_SETHTTPPROXYINFO, (WPARAM)hConn, (LPARAM)&nlhpi);
+	CallService(MS_NETLIB_SETHTTPPROXYINFO, (WPARAM)hConn, (LPARAM)&nlhpi);
 }
 
 void ThreadData::getGatewayUrl(char* dest, int destlen, bool isPoll)

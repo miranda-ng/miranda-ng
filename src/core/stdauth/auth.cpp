@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2009 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -49,14 +49,14 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
 	CallService(MS_DB_EVENT_GET, (WPARAM)lParam, (LPARAM)&dbei);
-	if (dbei.flags & (DBEF_SENT | DBEF_READ) || (dbei.eventType != EVENTTYPE_AUTHREQUEST && dbei.eventType != EVENTTYPE_ADDED)) 
+	if (dbei.flags & (DBEF_SENT | DBEF_READ) || (dbei.eventType != EVENTTYPE_AUTHREQUEST && dbei.eventType != EVENTTYPE_ADDED))
 		return 0;
 
 	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, lParam, 0);
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 	CallService(MS_DB_EVENT_GET, lParam, (LPARAM)&dbei);
 
-	HANDLE hContact = *(PHANDLE)(dbei.pBlob + sizeof(DWORD));
+	HANDLE hContact = DbGetAuthEventContact(&dbei);
 
 	CLISTEVENT cli = {0};
 	cli.cbSize = sizeof(cli);
@@ -89,7 +89,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 		if (szUid[0])
 			mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("%s requests authorization"), szUid);
 		else
-			mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("%u requests authorization"), *((PDWORD)dbei.pBlob));
+			mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("%u requests authorization"), *(PDWORD)dbei.pBlob);
 
 		cli.hIcon = LoadSkinIcon(SKINICON_OTHER_MIRANDA);
 		cli.pszService = MS_AUTH_SHOWREQUEST;
@@ -100,7 +100,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 		if (szUid[0])
 			mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("%s added you to their contact list"), szUid);
 		else
-			mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("%u added you to their contact list"), *((PDWORD)dbei.pBlob));
+			mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("%u added you to their contact list"), *(PDWORD)dbei.pBlob);
 
 		cli.hIcon = LoadSkinIcon(SKINICON_OTHER_MIRANDA);
 		cli.pszService = MS_AUTH_SHOWADDED;
@@ -119,4 +119,4 @@ int LoadSendRecvAuthModule(void)
 	SkinAddNewSoundEx("AddedEvent",  LPGEN("Alerts"), LPGEN("Added event"));
 
 	return 0;
-} 
+}

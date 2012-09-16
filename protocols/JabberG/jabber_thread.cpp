@@ -427,7 +427,7 @@ LBL_FatalError:
 	// Determine local IP
 	if ( info->useSSL ) {
 		Log( "Intializing SSL connection" );
-		if (!JCallService( MS_NETLIB_STARTSSL, ( WPARAM )info->s, 0)) {
+		if (!CallService( MS_NETLIB_STARTSSL, ( WPARAM )info->s, 0)) {
 			Log( "SSL intialization failed" );
 			if ( info->type == JABBER_SESSION_NORMAL ) {
 				JSendBroadcast( NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK );
@@ -471,7 +471,7 @@ LBL_FatalError:
 				nls.cbSize = sizeof( NETLIBSELECT );
 				nls.dwTimeout = dwConnectionKeepAliveInterval - dwIdle;
 				nls.hReadConns[0] = info->s;
-				int nSelRes = JCallService( MS_NETLIB_SELECT, 0, ( LPARAM )&nls );
+				int nSelRes = CallService( MS_NETLIB_SELECT, 0, ( LPARAM )&nls );
 				if ( nSelRes == -1 ) // error
 					break;
 				else if ( nSelRes == 0 && m_bSendKeepAlive ) {
@@ -583,15 +583,15 @@ recvRest:
 			JSendBroadcast( NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, ( HANDLE ) oldStatus, m_iStatus );
 
 			// Set all contacts to offline
-			HANDLE hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+			HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 			while ( hContact != NULL ) {
-				if ( !lstrcmpA(( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 ), m_szModuleName ))
+				if ( !lstrcmpA(( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 ), m_szModuleName ))
 				{
 					SetContactOfflineStatus( hContact );
 					MenuHideSrmmIcon( hContact );
 				}
 
-				hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+				hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
 			}
 
 			mir_free( m_szJabberJID );
@@ -988,7 +988,7 @@ void CJabberProto::OnProcessProceed( HXML node, ThreadData* info )
 		NETLIBSSL ssl = {0};
 		ssl.cbSize = sizeof(ssl);
 		ssl.host = isHosted ? info->manualHost : info->server;
-		if (!JCallService( MS_NETLIB_STARTSSL, ( WPARAM )info->s, ( LPARAM )&ssl)) {
+		if (!CallService( MS_NETLIB_STARTSSL, ( WPARAM )info->s, ( LPARAM )&ssl)) {
 			Log( "SSL initialization failed" );
 			info->send( "</stream:stream>" );
 			info->shutdown();
@@ -1066,7 +1066,7 @@ void CJabberProto::OnProcessPubsubEvent( HXML node )
 DWORD JabberGetLastContactMessageTime( HANDLE hContact )
 {
 	// TODO: time cache can improve performance
-	HANDLE hDbEvent = (HANDLE)JCallService( MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0 );
+	HANDLE hDbEvent = (HANDLE)CallService( MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0 );
 	if ( !hDbEvent )
 		return 0;
 
@@ -1077,7 +1077,7 @@ DWORD JabberGetLastContactMessageTime( HANDLE hContact )
 	dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0 );
 	if ( dbei.cbBlob != -1 ) {
 		dbei.pBlob = (PBYTE)mir_alloc( dbei.cbBlob + 1 );
-		int nGetTextResult = JCallService( MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei );
+		int nGetTextResult = CallService( MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei );
 		if ( !nGetTextResult )
 			dwTime = dbei.timestamp;
 		mir_free( dbei.pBlob );
@@ -1204,15 +1204,15 @@ void CJabberProto::OnProcessMessage( HXML node, ThreadData* info )
 
 	// chatstates composing event
 	if ( hContact && xmlGetChildByTag( node, "composing", "xmlns", _T( JABBER_FEAT_CHATSTATES )))
-		JCallService( MS_PROTO_CONTACTISTYPING, ( WPARAM )hContact, 60 );
+		CallService( MS_PROTO_CONTACTISTYPING, ( WPARAM )hContact, 60 );
 
 	// chatstates paused event
 	if ( hContact && xmlGetChildByTag( node, "paused", "xmlns", _T( JABBER_FEAT_CHATSTATES )))
-		JCallService( MS_PROTO_CONTACTISTYPING, ( WPARAM )hContact, PROTOTYPE_CONTACTTYPING_OFF );
+		CallService( MS_PROTO_CONTACTISTYPING, ( WPARAM )hContact, PROTOTYPE_CONTACTTYPING_OFF );
 
 	// chatstates inactive event
 	if ( hContact && xmlGetChildByTag( node, "inactive", "xmlns", _T( JABBER_FEAT_CHATSTATES )))
-		JCallService( MS_PROTO_CONTACTISTYPING, ( WPARAM )hContact, PROTOTYPE_CONTACTTYPING_OFF );
+		CallService( MS_PROTO_CONTACTISTYPING, ( WPARAM )hContact, PROTOTYPE_CONTACTTYPING_OFF );
 
 	// message receipts delivery notification
 	if ( n = xmlGetChildByTag( node, "received", "xmlns", _T( JABBER_FEAT_MESSAGE_RECEIPTS ))) {
@@ -1348,12 +1348,12 @@ void CJabberProto::OnProcessMessage( HXML node, ThreadData* info )
 				}
 
 				if ( hContact && xmlGetChild( xNode , "composing" ) != NULL )
-					JCallService( MS_PROTO_CONTACTISTYPING, ( WPARAM ) hContact, 60 );
+					CallService( MS_PROTO_CONTACTISTYPING, ( WPARAM ) hContact, 60 );
 
 				// Maybe a cancel to the previous composing
 				HXML child = xmlGetChild( xNode ,0);
 				if ( hContact && ( !child || ( child && idNode != NULL )))
-					JCallService( MS_PROTO_CONTACTISTYPING, ( WPARAM ) hContact, PROTOTYPE_CONTACTTYPING_OFF );
+					CallService( MS_PROTO_CONTACTISTYPING, ( WPARAM ) hContact, PROTOTYPE_CONTACTTYPING_OFF );
 			}
 			else {
 				// Check whether any event is requested
@@ -1428,7 +1428,7 @@ void CJabberProto::OnProcessMessage( HXML node, ThreadData* info )
  					else if ( !_tcscmp( action, _T("delete"))) {
  						HANDLE hContact = HContactFromJID( jid );
  						if ( hContact )
- 							JCallService( MS_DB_CONTACT_DELETE, ( WPARAM ) hContact, 0 );
+ 							CallService( MS_DB_CONTACT_DELETE, ( WPARAM ) hContact, 0 );
  					}
  				}
  			}
@@ -1473,7 +1473,7 @@ void CJabberProto::OnProcessMessage( HXML node, ThreadData* info )
 		if ( item != NULL ) {
 			if ( resourceStatus ) resourceStatus->bMessageSessionActive = TRUE;
 			if ( hContact != NULL )
-				JCallService( MS_PROTO_CONTACTISTYPING, ( WPARAM ) hContact, PROTOTYPE_CONTACTTYPING_OFF );
+				CallService( MS_PROTO_CONTACTISTYPING, ( WPARAM ) hContact, PROTOTYPE_CONTACTTYPING_OFF );
 
 			// no we will monitor last resource in all modes
 			if ( /*item->resourceMode==RSMODE_LASTSEEN &&*/ ( fromResource = _tcschr( from, '/' ))!=NULL ) {
@@ -1513,7 +1513,7 @@ void CJabberProto::OnProcessMessage( HXML node, ThreadData* info )
 		ccs.wParam = 0;
 		ccs.szProtoService = PSR_MESSAGE;
 		ccs.lParam = ( LPARAM )&recv;
-		JCallService( MS_PROTO_CHAINRECV, 0, ( LPARAM )&ccs );
+		CallService( MS_PROTO_CHAINRECV, 0, ( LPARAM )&ccs );
 
 		mir_free(( void* )szMessage );
 		mir_free( buf );
@@ -1689,7 +1689,7 @@ void CJabberProto::OnProcessPresence( HXML node, ThreadData* info )
 		if ( _tcschr( from, '@' )==NULL ) {
 			UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 		}
-		Log( TCHAR_STR_PARAM " ( " TCHAR_STR_PARAM " ) online, set contact status to %s", nick, from, JCallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)status,0 ));
+		Log( TCHAR_STR_PARAM " ( " TCHAR_STR_PARAM " ) online, set contact status to %s", nick, from, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)status,0 ));
 		mir_free( nick );
 
 		HXML xNode;

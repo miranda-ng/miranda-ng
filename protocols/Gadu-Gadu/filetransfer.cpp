@@ -870,8 +870,7 @@ int GGPROTO::FileDeny(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szReas
 
 int GGPROTO::RecvFile(HANDLE hContact, PROTOFILEEVENT* pre)
 {
-	CCSDATA ccs = { hContact, PSR_FILE, 0, ( LPARAM )pre };
-	return CallService( MS_PROTO_RECVFILE, 0, ( LPARAM )&ccs );
+	return Proto_RecvFile(hContact, pre);
 }
 
 ////////////////////////////////////////////////////////////

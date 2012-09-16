@@ -259,7 +259,7 @@ void CYahooProto::ChatEvent(const char* room, const char* who, int evt, const TC
 	TCHAR* snt = mir_a2t(who);
 
 	HANDLE hContact = getbuddyH(who);
-	TCHAR* nick = hContact ? (TCHAR*)YAHOO_CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), GCDNF_TCHAR) : snt;
+	TCHAR* nick = hContact ? (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), GCDNF_TCHAR) : snt;
 
 	GCDEST gcd = { m_szModuleName, { NULL },  evt };
 	gcd.ptszID = idt;
@@ -320,7 +320,7 @@ int __cdecl CYahooProto::OnGCEventHook(WPARAM, LPARAM lParam)
 			break;
 
 		case GC_USER_PRIVMESS:
-			YAHOO_CallService(MS_MSG_SENDMESSAGE, (WPARAM)getbuddyH(who), 0);
+			CallService(MS_MSG_SENDMESSAGE, (WPARAM)getbuddyH(who), 0);
 			break;
 
 		case GC_USER_LOGMENU:
@@ -341,11 +341,11 @@ int __cdecl CYahooProto::OnGCEventHook(WPARAM, LPARAM lParam)
 			switch (gch->dwData) 
 			{
 			case 10:
-				YAHOO_CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)getbuddyH(who), 0);
+				CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)getbuddyH(who), 0);
 				break;
 
 			case 20:
-				YAHOO_CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)getbuddyH(who), 0);
+				CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)getbuddyH(who), 0);
 				break;
 
 			case 110:

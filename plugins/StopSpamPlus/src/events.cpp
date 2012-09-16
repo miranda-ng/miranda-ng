@@ -8,9 +8,9 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
 	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
-	if (-1 == dbei.cbBlob) 
+	if (-1 == dbei.cbBlob)
 		return 0;
-	
+
 	dbei.pBlob = new BYTE[dbei.cbBlob];
 	CallService(MS_DB_EVENT_GET, lParam, (LPARAM)&dbei);
 
@@ -23,34 +23,34 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 	// event is an auth request
 	if (!(dbei.flags & DBEF_SENT) && !(dbei.flags & DBEF_READ) && dbei.eventType == EVENTTYPE_AUTHREQUEST)
 	{
-		HANDLE hcntct=*(HANDLE*)(dbei.pBlob + sizeof(DWORD));
+		HANDLE hcntct = DbGetAuthEventContact(&dbei);
 
 		// if request is from unknown or not marked Answered contact
 		//and if I don't sent message to this contact
 
-		if(DBGetContactSettingByte(hcntct, "CList", "NotOnList", 0) && 
-			!DBGetContactSettingByte(hcntct, pluginName, answeredSetting, 0) && 
-			!IsExistMyMessage(hcntct)) 
+		if(DBGetContactSettingByte(hcntct, "CList", "NotOnList", 0) &&
+			!DBGetContactSettingByte(hcntct, pluginName, answeredSetting, 0) &&
+			!IsExistMyMessage(hcntct))
 		{
 			if (!plSets->HandleAuthReq.Get())
 			{
-				
+
 					char * buf=mir_utf8encodeW(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
 					CallContactService(hcntct, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
 					mir_free(buf);
-				
+
 			}
 			char *AuthRepl;
-			
+
 				AuthRepl=mir_u2a(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
-			
+
 			// ...send message
 			std::string allowService = dbei.szModule;
 			allowService += PS_AUTHDENY;
 			CallService(allowService.c_str(), (WPARAM)hDbEvent, (LPARAM)AuthRepl);
-		
+
 				mir_free(AuthRepl);
-		
+
 			DBWriteContactSettingByte(hcntct, "CList", "NotOnList", 1);
 			DBWriteContactSettingByte(hcntct, "CList", "Hidden", 1);
 			if (!plSets->HistLog.Get())
@@ -70,7 +70,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	if (!l) //fix potential DEP crash
 		return 0;
 	DBEVENTINFO * dbei = (DBEVENTINFO*)l;
-	
+
 	// if event is in protocol that is not despammed
 	if(plSets->ProtoDisabled(dbei->szModule))
 		// ...let the event go its way
@@ -101,7 +101,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		return 1;
 
 	tstring message;
-	
+
 	if(dbei->flags & DBEF_UTF){
 		WCHAR* msg_u=mir_utf8decodeW((char*)dbei->pBlob);
 
@@ -117,7 +117,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 
 	}
 
-	// if message equal right answer...	
+	// if message equal right answer...
 	tstring answers = variables_parse(plSets->Answer.Get(), hContact);
 	answers.append(plSets->AnswSplitString.Get());
 	tstring::size_type pos = 0;
@@ -146,11 +146,11 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 					DBDeleteContactSetting(hContact, "CList", "NotOnList");
 
 				// send congratulation
-		
+
 				char * buf=mir_utf8encodeW(variables_parse(plSets->Congratulation.Get(), hContact).c_str());
 				CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
 				mir_free(buf);
-		
+
 				// process the event
 				return 1;
 			}
@@ -171,7 +171,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
 		mir_free(buf);
 
-		
+
 		// increment question count
 		DWORD questCount = DBGetContactSettingDword(hContact, pluginName, questCountSetting, 0);
 		DBWriteContactSettingDword(hContact, pluginName, questCountSetting, questCount + 1);
@@ -234,4 +234,3 @@ MIRANDA_HOOK_EVENT(ME_DB_CONTACT_SETTINGCHANGED, w, l)
 
 	return 0;
 }
-

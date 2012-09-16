@@ -137,7 +137,7 @@ void __cdecl CJabberProto::OnRenameContact( DBCONTACTWRITESETTING* cws, HANDLE h
 		return;
 
 	if ( cws->value.type == DBVT_DELETED ) {
-		TCHAR* nick = ( TCHAR* )JCallService( MS_CLIST_GETCONTACTDISPLAYNAME, ( WPARAM )hContact, GCDNF_NOMYHANDLE | GCDNF_TCHAR );
+		TCHAR* nick = ( TCHAR* )CallService( MS_CLIST_GETCONTACTDISPLAYNAME, ( WPARAM )hContact, GCDNF_NOMYHANDLE | GCDNF_TCHAR );
 		AddContactToRoster( item->jid, nick, item->group );
 		mir_free(nick);
 		return;

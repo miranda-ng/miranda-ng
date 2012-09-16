@@ -94,7 +94,7 @@ static void JabberContactListCreateClistGroup( TCHAR* groupName )
 	_tcsncpy( newName+1, groupName, SIZEOF( newName )-1 );
 	newName[ SIZEOF( newName )-1] = '\0';
 	DBWriteContactSettingTString( NULL, "CListGroups", str, newName );
-	JCallService( MS_CLUI_GROUPADDED, i+1, 0 );
+	CallService( MS_CLUI_GROUPADDED, i+1, 0 );
 }
 
 void JabberContactListCreateGroup( TCHAR* groupName )
@@ -127,25 +127,24 @@ void CJabberProto::DBAddAuthRequest( const TCHAR* jid, const TCHAR* nick )
 	char* szJid = mir_utf8encodeT( jid );
 	char* szNick = mir_utf8encodeT( nick );
 
-	//blob is: uin( DWORD ), hContact( HANDLE ), nick( ASCIIZ ), first( ASCIIZ ), last( ASCIIZ ), email( ASCIIZ ), reason( ASCIIZ )
-	//blob is: 0( DWORD ), hContact( HANDLE ), nick( ASCIIZ ), ""( ASCIIZ ), ""( ASCIIZ ), email( ASCIIZ ), ""( ASCIIZ )
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof( DBEVENTINFO );
+	//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
+	//blob is: 0( DWORD ), hContact(DWORD), nick( ASCIIZ ), ""( ASCIIZ ), ""( ASCIIZ ), email( ASCIIZ ), ""( ASCIIZ )
+	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = ( DWORD )time( NULL );
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
-	dbei.cbBlob = (DWORD)(sizeof( DWORD )+ sizeof( HANDLE ) + strlen( szNick ) + strlen( szJid ) + 5);
-	PBYTE pCurBlob = dbei.pBlob = ( PBYTE ) mir_alloc( dbei.cbBlob );
-	*(( PDWORD ) pCurBlob ) = 0; pCurBlob += sizeof( DWORD );
-	*(( PHANDLE ) pCurBlob ) = hContact; pCurBlob += sizeof( HANDLE );
+	dbei.cbBlob = (DWORD)(sizeof(DWORD)*2 + strlen( szNick ) + strlen( szJid ) + 5);
+	PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
+	*((PDWORD)pCurBlob) = 0; pCurBlob += sizeof(DWORD);
+	*((PDWORD)pCurBlob) = (DWORD)hContact; pCurBlob += sizeof(DWORD);
 	strcpy(( char* )pCurBlob, szNick ); pCurBlob += strlen( szNick )+1;
 	*pCurBlob = '\0'; pCurBlob++;		//firstName
 	*pCurBlob = '\0'; pCurBlob++;		//lastName
 	strcpy(( char* )pCurBlob, szJid ); pCurBlob += strlen( szJid )+1;
 	*pCurBlob = '\0';					//reason
 
-	JCallService( MS_DB_EVENT_ADD, ( WPARAM ) ( HANDLE ) NULL, ( LPARAM )&dbei );
+	CallService( MS_DB_EVENT_ADD, ( WPARAM ) ( HANDLE ) NULL, ( LPARAM )&dbei );
 	Log( "Setup DBAUTHREQUEST with nick='%s' jid='%s'", szNick, szJid );
 
 	mir_free( szJid );
@@ -176,9 +175,9 @@ HANDLE CJabberProto::DBCreateContact( const TCHAR* jid, const TCHAR* nick, BOOL 
 	len = _tcslen( s );
 
 	// We can't use JabberHContactFromJID() here because of the stripResource option
-	HANDLE hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 	while ( hContact != NULL ) {
-		szProto = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
+		szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( szProto!=NULL && !strcmp( m_szModuleName, szProto )) {
 			DBVARIANT dbv;
 			if ( !JGetStringT( hContact, "jid", &dbv )) {
@@ -189,12 +188,12 @@ HANDLE CJabberProto::DBCreateContact( const TCHAR* jid, const TCHAR* nick, BOOL 
 				}
 				JFreeVariant( &dbv );
 		}	}
-		hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+		hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
 	}
 
 	if ( hContact == NULL ) {
-		hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_ADD, 0, 0 );
-		JCallService( MS_PROTO_ADDTOCONTACT, ( WPARAM ) hContact, ( LPARAM )m_szModuleName );
+		hContact = ( HANDLE ) CallService( MS_DB_CONTACT_ADD, 0, 0 );
+		CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM ) hContact, ( LPARAM )m_szModuleName );
 		JSetStringT( hContact, "jid", s );
 		if ( nick != NULL && *nick != '\0' )
 			JSetStringT( hContact, "Nick", nick );
@@ -277,7 +276,7 @@ void CJabberProto::GetAvatarFileName( HANDLE hContact, TCHAR* pszDest, size_t cb
 
 	DWORD dwAttributes = GetFileAttributes( pszDest );
 	if ( dwAttributes == 0xffffffff || ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ) == 0 )
-		JCallService( MS_UTILS_CREATEDIRTREET, 0, ( LPARAM )pszDest );
+		CallService( MS_UTILS_CREATEDIRTREET, 0, ( LPARAM )pszDest );
 
 	pszDest[ tPathLen++ ] = '\\';
 
@@ -328,10 +327,10 @@ void CJabberProto::ResolveTransportNicks( const TCHAR* jid )
 	// Set all contacts to offline
 	HANDLE hContact = m_ThreadInfo->resolveContact;
 	if ( hContact == NULL )
-		hContact = ( HANDLE ) JCallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+		hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 
-	for ( ; hContact != NULL; hContact = ( HANDLE )JCallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 )) {
-		char* szProto = ( char* )JCallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
+	for ( ; hContact != NULL; hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 )) {
+		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( lstrcmpA( szProto, m_szModuleName ))
 			continue;
 
@@ -620,7 +619,7 @@ void CJabberProto::InitPopups(void)
 	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Errors"));
 	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
 
-	JCallService(MS_POPUP_REGISTERCLASS, 0, (WPARAM)&ppc);
+	CallService(MS_POPUP_REGISTERCLASS, 0, (WPARAM)&ppc);
 }
 
 void CJabberProto::MsgPopup(HANDLE hContact, const TCHAR *szMsg, const TCHAR *szTitle)
@@ -635,7 +634,7 @@ void CJabberProto::MsgPopup(HANDLE hContact, const TCHAR *szMsg, const TCHAR *sz
 		ppd.hContact = hContact;
 		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
 
-		JCallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
+		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 	} else {
 		DWORD mtype = MB_OK | MB_SETFOREGROUND | MB_ICONSTOP;
 		MessageBox(NULL, szMsg, szTitle, mtype);

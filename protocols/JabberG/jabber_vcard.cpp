@@ -300,7 +300,7 @@ static INT_PTR CALLBACK PhotoDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				dat->ppro->Log( "Temp file = " TCHAR_STR_PARAM, szTempFileName );
 				if ( CopyFile( szAvatarFileName, szTempFileName, FALSE ) == TRUE ) {
 					char* p = mir_t2a( szTempFileName );
-					if (( dat->hBitmap=( HBITMAP ) JCallService( MS_UTILS_LOADBITMAP, 0, ( LPARAM )p )) != NULL ) {
+					if (( dat->hBitmap=( HBITMAP ) CallService( MS_UTILS_LOADBITMAP, 0, ( LPARAM )p )) != NULL ) {
 						JabberBitmapPremultiplyChannels( dat->hBitmap );
 						_tcscpy( dat->ppro->m_szPhotoFileName, szTempFileName );
 						EnableWindow( GetDlgItem( hwndDlg, IDC_DELETE ), TRUE );
@@ -327,7 +327,7 @@ static INT_PTR CALLBACK PhotoDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				TCHAR szFilter[512];
 				TCHAR szFileName[MAX_PATH];
 
-				JCallService( MS_UTILS_GETBITMAPFILTERSTRINGST, SIZEOF( szFilter ), ( LPARAM )szFilter );
+				CallService( MS_UTILS_GETBITMAPFILTERSTRINGST, SIZEOF( szFilter ), ( LPARAM )szFilter );
 
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
@@ -353,7 +353,7 @@ static INT_PTR CALLBACK PhotoDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						dat->ppro->Log( "Temp file = " TCHAR_STR_PARAM, szTempFileName );
 						if ( CopyFile( szFileName, szTempFileName, FALSE ) == TRUE ) {
 							char* pszTemp = mir_t2a( szTempFileName );
-							if (( hNewBitmap=( HBITMAP ) JCallService( MS_UTILS_LOADBITMAP, 0, ( LPARAM )pszTemp )) != NULL ) {
+							if (( hNewBitmap=( HBITMAP ) CallService( MS_UTILS_LOADBITMAP, 0, ( LPARAM )pszTemp )) != NULL ) {
 								if ( dat->hBitmap ) {
 									DeleteObject( dat->hBitmap );
 									DeleteFile( dat->ppro->m_szPhotoFileName );

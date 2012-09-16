@@ -703,12 +703,6 @@ struct JabberAdHocData
 void  __fastcall JFreeVariant( DBVARIANT* dbv );
 char* __fastcall JTranslate( const char* str );
 
-#if defined( _DEBUG )
-	#define JCallService CallService
-#else
-	INT_PTR __stdcall  JCallService( const char* szSvcName, WPARAM wParam, LPARAM lParam );
-#endif
-
 //---- jabber_util.cpp ------------------------------------------------------------------
 
 struct TStringPairsElem

@@ -103,7 +103,7 @@ int CYahooProto::OnModulesLoadedEx( WPARAM, LPARAM )
 	nlu.pfnHttpGatewayUnwrapRecv = YAHOO_httpGatewayUnwrapRecv;
 #endif
 
-	m_hNetlibUser = ( HANDLE )YAHOO_CallService( MS_NETLIB_REGISTERUSER, 0, ( LPARAM )&nlu );
+	m_hNetlibUser = ( HANDLE )CallService( MS_NETLIB_REGISTERUSER, 0, ( LPARAM )&nlu );
 	MenuContactInit();
 
 	return 0;
@@ -150,23 +150,19 @@ HANDLE CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 
 HANDLE __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HANDLE hDbEvent )
 {
-	DBEVENTINFO dbei = {0};
-	HANDLE hContact;
-
 	DebugLog("[YahooAddToListByEvent]");
 	if ( !m_bLoggedIn )
 		return 0;
 
-	dbei.cbSize = sizeof( dbei );
-
-	if (( dbei.cbBlob = YAHOO_CallService( MS_DB_EVENT_GETBLOBSIZE, ( LPARAM )hDbEvent, 0 )) == -1 ) {
+	DBEVENTINFO dbei = { sizeof( dbei ) };
+	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, ( LPARAM )hDbEvent, 0 )) == -1 ) {
 		DebugLog("[YahooAddToListByEvent] ERROR: Can't get blob size.");
 		return 0;
 	}
 
 	DebugLog("[YahooAddToListByEvent] Got blob size: %lu", dbei.cbBlob);
 	dbei.pBlob = ( PBYTE )_alloca( dbei.cbBlob );
-	if ( YAHOO_CallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, ( LPARAM )&dbei )) {
+	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, ( LPARAM )&dbei )) {
 		DebugLog("[YahooAddToListByEvent] ERROR: Can't get event.");
 		return 0;
 	}
@@ -181,29 +177,10 @@ HANDLE __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HANDL
 		return 0;
 	}
 
-	//Adds a contact to the contact list given an auth, added or contacts event
-//wParam=MAKEWPARAM(flags,iContact)
-//lParam=(LPARAM)(HANDLE)hDbEvent
-//Returns a HANDLE to the new contact, or NULL on failure
-//hDbEvent must be either EVENTTYPE_AUTHREQ or EVENTTYPE_ADDED
-//flags are the same as for PS_ADDTOLIST.
-//iContact is only used for contacts events. It is the 0-based index of the
-//contact in the event to add. There is no way to add two or more contacts at
-//once, you should just do lots of calls.
-
-	/* TYPE ADDED
-		blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ),
-		last(ASCIIZ), email(ASCIIZ)
-
-	   TYPE AUTH REQ
-		blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ),
-		last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
-	*/
-	memcpy(&hContact,( char* )( dbei.pBlob + sizeof( DWORD )), sizeof(HANDLE));
-
-	if (hContact != NULL) {
+	HANDLE hContact = DbGetAuthEventContact(&dbei);
+	if (hContact != NULL)
 		DebugLog("Temp Buddy found at: %p ", hContact);
-	} else
+	else
 		DebugLog("hContact NULL???");
 
 	return hContact;
@@ -220,27 +197,22 @@ int CYahooProto::Authorize( HANDLE hdbe )
 		return 1;
 	}
 
-	DBEVENTINFO dbei;
-	memset( &dbei, 0, sizeof( dbei ));
-	dbei.cbSize = sizeof( dbei );
-	if (( dbei.cbBlob = YAHOO_CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0 )) == -1 )
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0 )) == -1 )
 		return 1;
 
 	dbei.pBlob = ( PBYTE )_alloca( dbei.cbBlob );
-	if ( YAHOO_CallService( MS_DB_EVENT_GET, ( WPARAM )hdbe, ( LPARAM )&dbei ))
+	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hdbe, ( LPARAM )&dbei ))
 		return 1;
 
-	if ( dbei.eventType != EVENTTYPE_AUTHREQUEST )
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return 1;
 
-	if ( strcmp( dbei.szModule, m_szModuleName ))
+	if ( strcmp(dbei.szModule, m_szModuleName))
 		return 1;
-
-	HANDLE hContact;
-	memcpy(&hContact,( char* )( dbei.pBlob + sizeof( DWORD )), sizeof(HANDLE));
 
 	/* Need to remove the buddy from our Miranda Lists */
-
+	HANDLE hContact = DbGetAuthEventContact(&dbei);
 	if (hContact != NULL) {
 		char *who = DBGetString(hContact, m_szModuleName, YAHOO_LOGINID);
 		if (!who) return 0;
@@ -270,13 +242,13 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 	memset( &dbei, 0, sizeof( dbei ));
 	dbei.cbSize = sizeof( dbei );
 
-	if (( dbei.cbBlob = YAHOO_CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0 )) == -1 ) {
+	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0 )) == -1 ) {
 		DebugLog("[YahooAuthDeny] ERROR: Can't get blob size");
 		return 1;
 	}
 
 	dbei.pBlob = ( PBYTE )alloca( dbei.cbBlob );
-	if ( YAHOO_CallService( MS_DB_EVENT_GET, ( WPARAM )hdbe, ( LPARAM )&dbei )) {
+	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hdbe, ( LPARAM )&dbei )) {
 		DebugLog("YahooAuthDeny - Can't get db event!");
 		return 1;
 	}
@@ -291,12 +263,9 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 		return 1;
 	}
 
-	HANDLE hContact;
-	memcpy(&hContact, dbei.pBlob + sizeof(DWORD), sizeof(HANDLE));
-
 	/* Need to remove the buddy from our Miranda Lists */
-	if (hContact != NULL)
-	{
+	HANDLE hContact = DbGetAuthEventContact(&dbei);
+	if (hContact != NULL) {
 		char *who = DBGetString(hContact, m_szModuleName, YAHOO_LOGINID);
 		if (!who) return 0;
 
@@ -305,7 +274,7 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 
 		DebugLog("Rejecting buddy:%s msg: %s", who, u_reason);
 		reject(myid, who, GetWord(hContact, "yprotoid", 0), u_reason);
-		YAHOO_CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
+		CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
 
 		mir_free(u_reason);
 		mir_free(myid);
@@ -317,26 +286,11 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AUTH
 
-int __cdecl CYahooProto::AuthRecv( HANDLE hContact, PROTORECVEVENT* pre )
+int __cdecl CYahooProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 {
 	DebugLog("[YahooRecvAuth] ");
 	DBDeleteContactSetting(hContact,"CList","Hidden");
-
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
-	dbei.szModule = m_szModuleName;
-	dbei.timestamp = pre->timestamp;
-	dbei.flags = pre->flags & (PREF_CREATEREAD?DBEF_READ:0);
-	dbei.flags |= (pre->flags & PREF_UTF) ? DBEF_UTF : 0;
-	dbei.eventType = EVENTTYPE_AUTHREQUEST;
-
-	/* Just copy the Blob from PSR_AUTH event. */
-	dbei.cbBlob = pre->lParam;
-	dbei.pBlob = (PBYTE)pre->szMessage;
-
-	CallService(MS_DB_EVENT_ADD,(WPARAM)NULL,(LPARAM)&dbei);
-
-	return 0;
+	return Proto_AuthRecv(m_szModuleName, pre);	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -470,8 +424,7 @@ int __cdecl CYahooProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt )
 {
 	DBDeleteContactSetting(hContact, "CList", "Hidden");
 
-	CCSDATA ccs = { hContact, PSR_FILE, 0, ( LPARAM )evt };
-	return CallService( MS_PROTO_RECVFILE, 0, ( LPARAM )&ccs );
+	return Proto_RecvFile(hContact, evt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -811,7 +764,7 @@ int __cdecl CYahooProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARA
 				clmi.cbSize = sizeof(CLISTMENUITEM);
 				clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 				clmi.ptszName = m_tszUserName;
-				YAHOO_CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )mainMenuRoot, ( LPARAM )&clmi );
+				CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )mainMenuRoot, ( LPARAM )&clmi );
 			}
 			break;
 

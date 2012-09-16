@@ -169,7 +169,7 @@ char* TMD5Auth::getChallenge( const TCHAR* challenge )
 	DWORD digest[4], hash1[4], hash2[4];
 	mir_md5_state_t ctx;
 
-	JCallService( MS_UTILS_GETRANDOM, sizeof( digest ), ( LPARAM )digest );
+	CallService( MS_UTILS_GETRANDOM, sizeof( digest ), ( LPARAM )digest );
 	sprintf( cnonce, "%08x%08x%08x%08x", htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
 	char *uname = mir_utf8encodeT( info->username ), 
@@ -383,7 +383,7 @@ char* TScramAuth::getInitialRequest()
 		 *serv  = mir_utf8encode( info->server );
 
 	unsigned char nonce[24];
-	JCallService( MS_UTILS_GETRANDOM, sizeof(nonce), ( LPARAM )nonce );
+	CallService( MS_UTILS_GETRANDOM, sizeof(nonce), ( LPARAM )nonce );
 	cnonce = JabberBase64Encode(( char* )nonce, sizeof( nonce ));
 
 	char buf[4096];

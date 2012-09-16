@@ -65,13 +65,6 @@ HANDLE CJabberProto::JForkThreadEx( JThreadFunc pFunc, void *param, UINT* thread
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#if !defined( _DEBUG )
-INT_PTR __stdcall JCallService( const char* szSvcName, WPARAM wParam, LPARAM lParam )
-{
-	return CallService( szSvcName, wParam, lParam );
-}
-#endif
-
 void CJabberProto::JDeleteSetting( HANDLE hContact, const char* valueName )
 {
    DBDeleteContactSetting( hContact, m_szModuleName, valueName );
@@ -89,7 +82,7 @@ DWORD CJabberProto::JGetByte( HANDLE hContact, const char* valueName, int parDef
 
 char* __stdcall JGetContactName( HANDLE hContact )
 {
-	return ( char* )JCallService( MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM( hContact ), 0 );
+	return ( char* )CallService( MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM( hContact ), 0 );
 }
 
 DWORD CJabberProto::JGetDword( HANDLE hContact, const char* valueName, DWORD parDefltValue )
@@ -108,7 +101,7 @@ int CJabberProto::JGetStaticString( const char* valueName, HANDLE hContact, char
 	sVal.pValue = &dbv;
 	sVal.szModule = m_szModuleName;
 	sVal.szSetting = valueName;
-	if ( JCallService( MS_DB_CONTACT_GETSETTINGSTATIC, ( WPARAM )hContact, ( LPARAM )&sVal ) != 0 )
+	if ( CallService( MS_DB_CONTACT_GETSETTINGSTATIC, ( WPARAM )hContact, ( LPARAM )&sVal ) != 0 )
 		return 1;
 
 	return ( dbv.type != DBVT_ASCIIZ );
@@ -175,7 +168,7 @@ int CJabberProto::JSendBroadcast( HANDLE hContact, int type, int result, HANDLE 
 	ack.result = result;
 	ack.hProcess = hProcess;
 	ack.lParam = lParam;
-	return JCallService( MS_PROTO_BROADCASTACK, 0, ( LPARAM )&ack );
+	return CallService( MS_PROTO_BROADCASTACK, 0, ( LPARAM )&ack );
 }
 /*
 DWORD CJabberProto::JSetByte( const char* valueName, int parValue )

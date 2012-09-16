@@ -976,7 +976,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 				char* szCircleTicketEnc = (char*)alloca(cbCircleTicketEnc);
 
 				NETLIBBASE64 nlb = { szCircleTicketEnc, cbCircleTicketEnc, (PBYTE)szCircleTicket, cbCircleTicket };
-				MSN_CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
+				CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
 
 				if (szCircleTicketEnc[0])
 					msnNsThread->sendPacket("USR", "SHA A %s", szCircleTicketEnc);

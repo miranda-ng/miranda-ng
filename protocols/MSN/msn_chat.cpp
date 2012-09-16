@@ -382,7 +382,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 		{
 			char *email = mir_t2a(gch->ptszUID);
 			HANDLE hContact = MSN_HContactFromEmail(email);
-			MSN_CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 			mir_free(email);
 			break;
 		}
@@ -410,11 +410,11 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 			switch(gch->dwData) 
 			{
 			case 10:
-				MSN_CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+				CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
 				break;
 
 			case 20:
-				MSN_CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0);
+				CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0);
 				break;
 
 			case 110:
