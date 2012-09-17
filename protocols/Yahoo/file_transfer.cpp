@@ -480,19 +480,13 @@ void __cdecl CYahooProto::recv_filethread(void *psf)
 
 void CYahooProto::ext_got_file(const char *me, const char *who, const char *url, long expires, const char *msg, const char *fname, unsigned long fesize, const char *ft_token, int y7)
 {
-	HANDLE hContact;
-	char *szBlob;
-	y_filetransfer *ft;
-	char fn[1024];
-	struct yahoo_file_info *fi;
-	YList *files=NULL;
-
 	LOG(("[ext_yahoo_got_file] ident:%s, who: %s, url: %s, expires: %lu, msg: %s, fname: %s, fsize: %lu ftoken: %s y7: %d", me, who, url, expires, msg, fname, fesize, ft_token == NULL ? "NULL" : ft_token, y7));
 
-	hContact = getbuddyH(who);
+	HANDLE hContact = getbuddyH(who);
 	if (hContact == NULL) 
 		hContact = add_buddy(who, who, 0 /* NO FT for other IMs */, PALF_TEMPORARY);
 
+	char fn[1024];
 	ZeroMemory(fn, 1024);
 
 	if (fname != NULL)
@@ -513,28 +507,27 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 			lstrcpyA(fn, "filename.ext");
 	}
 
-	fi = y_new(struct yahoo_file_info,1);
+	yahoo_file_info *fi = y_new(struct yahoo_file_info,1);
 	fi->filename = strdup(fn);
 	fi->filesize = fesize;
 
-	files = y_list_append(files, fi);
+	YList *files = NULL;
+	y_list_append(files, fi);
 
-	ft = new_ft(this, m_id, hContact, who, msg,	url, ft_token, y7, files, 0 /* downloading */);
+	y_filetransfer *ft = new_ft(this, m_id, hContact, who, msg,	url, ft_token, y7, files, 0 /* downloading */);
 	if (ft == NULL) {
 		DebugLog("SF IS NULL!!!");
 		return;
 	}
 
-	// blob is DWORD(*ft), ASCIIZ(filenames), ASCIIZ(description)
-	szBlob = (char *) malloc(sizeof(DWORD) + lstrlenA(fn) + lstrlenA(ft->msg) + 2);
-	*((PDWORD) szBlob) = 0;
-	strcpy(szBlob + sizeof(DWORD), fn);
-	strcpy(szBlob + sizeof(DWORD) + lstrlenA(fn) + 1, ft->msg);
+	TCHAR* ptszFileName = mir_a2t(fn);
 
-	PROTORECVEVENT pre;
-	pre.flags = PREF_UTF;
-	pre.timestamp = (DWORD)time(NULL);
-	pre.szMessage = szBlob;
+	PROTORECVFILET pre = {0};
+	pre.flags = PREF_TCHAR;
+	pre.fileCount = 1;
+	pre.timestamp = time(NULL);
+	pre.tszDescription = mir_a2t(msg);
+	pre.ptszFiles = &ptszFileName;
 	pre.lParam = (LPARAM)ft;
 
 	CCSDATA ccs;
@@ -543,13 +536,14 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 	ccs.wParam = 0;
 	ccs.lParam = (LPARAM) & pre;
 	CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) & ccs);
-	free(szBlob);
+
+	mir_free(pre.tszDescription);
+	mir_free(ptszFileName);
 }
 
 void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_token, int y7, YList* files)
 {
 	HANDLE hContact;
-	char *szBlob;
 	y_filetransfer *ft;
 	YList *f;
 	char fn[4096];
@@ -582,16 +576,14 @@ void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_
 
 	}
 
-	// blob is DWORD(*ft), ASCIIZ(filenames), ASCIIZ(description)
-	szBlob = (char *) malloc(sizeof(DWORD) + lstrlenA(fn) + 2);
-	*((PDWORD) szBlob) = 0;
-	strcpy(szBlob + sizeof(DWORD), fn);
-	strcpy(szBlob + sizeof(DWORD) + lstrlenA(fn) + 1, "");
+	TCHAR* ptszFileName = mir_a2t(fn);
 
-	PROTORECVEVENT pre;
-	pre.flags = PREF_UTF;
-	pre.timestamp = (DWORD)time(NULL);
-	pre.szMessage = szBlob;
+	PROTORECVFILET pre = {0};
+	pre.flags = PREF_TCHAR;
+	pre.fileCount = 1;
+	pre.timestamp = time(NULL);
+	pre.tszDescription = _T("");
+	pre.ptszFiles = &ptszFileName;
 	pre.lParam = (LPARAM)ft;
 
 	CCSDATA ccs;
@@ -600,7 +592,8 @@ void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_
 	ccs.wParam = 0;
 	ccs.lParam = (LPARAM)&pre;
 	CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) & ccs);
-	free(szBlob);
+
+	mir_free(ptszFileName);
 }
 
 void CYahooProto::ext_got_file7info(const char *me, const char *who, const char *url, const char *fname, const char *ft_token)

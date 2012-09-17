@@ -124,13 +124,8 @@ filetransfer* CIcqProto::CreateFileTransfer(HANDLE hContact, DWORD dwUin, int nV
 // buf points to the first data after the string
 void CIcqProto::handleFileRequest(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCookie, DWORD dwID1, DWORD dwID2, char* pszDescription, int nVersion, BOOL bDC)
 {
-	char *pszFileName = NULL;
-	DWORD dwFileSize;
-	WORD wFilenameLength;
 	BOOL bEmptyDesc = FALSE;
-
-	if (strlennull(pszDescription) == 0)
-	{
+	if (strlennull(pszDescription) == 0) {
 		pszDescription = Translate("No description given");
 		bEmptyDesc = TRUE;
 	}
@@ -140,22 +135,21 @@ void CIcqProto::handleFileRequest(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCoo
 	wLen -= 4;
 
 	// Filename
+	WORD wFilenameLength;
 	unpackLEWord(&buf, &wFilenameLength);
-	if (wFilenameLength > 0)
-	{
-		pszFileName = (char*)_alloca(wFilenameLength + 1);
-		unpackString(&buf, pszFileName, wFilenameLength);
-		pszFileName[wFilenameLength] = '\0';
-	}
-	else
-	{
+	if (!wFilenameLength) {
 		NetLog_Direct("Ignoring malformed file send request");
 		return;
 	}
+	
+	char *pszFileName = (char*)_alloca(wFilenameLength + 1);
+	unpackString(&buf, pszFileName, wFilenameLength);
+	pszFileName[wFilenameLength] = '\0';
 
 	wLen = wLen - 2 - wFilenameLength;
 
 	// Total filesize
+	DWORD dwFileSize;
 	unpackLEDWord(&buf, &dwFileSize);
 	wLen -= 4;
 
@@ -174,17 +168,16 @@ void CIcqProto::handleFileRequest(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCoo
 	ft->bDC = bDC;
 	ft->bEmptyDesc = bEmptyDesc;
 
-  // Send chain event
-  char *szBlob = (char*)_alloca(sizeof(DWORD) + strlennull(pszFileName) + strlennull(pszDescription) + 2);
-  *(PDWORD)szBlob = 0;
-  strcpy(szBlob + sizeof(DWORD), pszFileName);
-  strcpy(szBlob + sizeof(DWORD) + strlennull(pszFileName) + 1, pszDescription);
+	// Send chain event
+	TCHAR* ptszFileName = mir_a2t(pszFileName);
 
-  PROTORECVEVENT pre;
-  pre.flags = 0;
-  pre.timestamp = time(NULL);
-  pre.szMessage = szBlob;
-  pre.lParam = (LPARAM)ft;
+	PROTORECVFILET pre = {0};
+	pre.flags = PREF_TCHAR;
+	pre.fileCount = 1;
+	pre.timestamp = time(NULL);
+	pre.tszDescription = mir_a2t(pszDescription);
+	pre.ptszFiles = &ptszFileName;
+	pre.lParam = (LPARAM)ft;
 
 	CCSDATA ccs;
 	ccs.szProtoService = PSR_FILE;
@@ -192,8 +185,10 @@ void CIcqProto::handleFileRequest(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCoo
 	ccs.wParam = 0;
 	ccs.lParam = (LPARAM)&pre;
 	CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
-}
 
+	mir_free(pre.tszDescription);
+	mir_free(ptszFileName);
+}
 
 void CIcqProto::handleDirectCancel(directconnect *dc, PBYTE buf, WORD wLen, WORD wCommand, DWORD dwCookie, WORD wMessageType, WORD wStatus, WORD wFlags, char* pszText)
 {

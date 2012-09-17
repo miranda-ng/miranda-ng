@@ -1020,33 +1020,24 @@ retry:
 
 					//////////////////////////////////////////////////
 					// Add file recv request
-					{
-						CCSDATA ccs;
-						PROTORECVEVENT pre;
-						char *szBlob;
-						char *szFilename = (char*)dcc7->filename;
-						char *szMsg = (char*)dcc7->filename;
-						netlog("gg_mainthread(%x): Client: %d, File ack filename \"%s\" size %d.", this, dcc7->peer_uin,
-							dcc7->filename, dcc7->size);
-						// Make new ggtransfer struct
-						szBlob = (char *)malloc(sizeof(DWORD) + strlen(szFilename) + strlen(szMsg) + 2);
-						// Store current dcc
-						*(PDWORD)szBlob = (DWORD)dcc7;
-						// Store filename
-						strcpy(szBlob + sizeof(DWORD), szFilename);
-						// Store description
-						strcpy(szBlob + sizeof(DWORD) + strlen(szFilename) + 1, szMsg);
-						ccs.szProtoService = PSR_FILE;
-						ccs.hContact = dcc7->contact;
-						ccs.wParam = 0;
-						ccs.lParam = (LPARAM)&pre;
-						pre.flags = 0;
-						pre.timestamp = time(NULL);
-						pre.szMessage = szBlob;
-						pre.lParam = 0;
-						CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
-						free(szBlob);
-					}
+
+					netlog("gg_mainthread(%x): Client: %d, File ack filename \"%s\" size %d.", this, dcc7->peer_uin,
+						dcc7->filename, dcc7->size);
+
+					TCHAR* filenameT = mir_utf8decodeT((char*)dcc7->filename);
+
+					PROTORECVFILET pre = {0};
+					pre.flags = PREF_TCHAR;
+					pre.fileCount = 1;
+					pre.timestamp = time(NULL);
+					pre.tszDescription = filenameT;
+					pre.ptszFiles = &filenameT;
+					pre.lParam = (LPARAM)dcc7;
+
+					CCSDATA ccs = { dcc7->contact, PSR_FILE, 0, (LPARAM)&pre };
+					CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+
+					mir_free(filenameT);
 					e->event.dcc7_new = NULL;
 				}
 				break;

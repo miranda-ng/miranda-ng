@@ -1185,7 +1185,7 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 						ccs.szProtoService = PSR_FILE;
 						ccs.hContact = hContact;
 						ccs.lParam = (LPARAM) & pre;
-						CallService( MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs );
+						CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 			}	}	}
 			// end type == "send"
 		}

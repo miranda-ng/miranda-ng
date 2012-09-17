@@ -515,19 +515,15 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 					else // or empty directory name
 						pszFileName = "";
 
-					{ // apply Filename / Directory Name encoding
-						oscar_tlv* charset = chain->getTLV(0x2712, 1);
-
-						if (charset)
-						{
-							char* szEnc = (char*)_alloca(charset->wLen + 1);
-
-							null_strcpy(szEnc, (char*)charset->pData, charset->wLen);
-							pszFileName = ApplyEncoding(pszFileName, szEnc);
-						}
-						else
-							pszFileName = ansi_to_utf8(pszFileName);
+					// apply Filename / Directory Name encoding
+					oscar_tlv* charset = chain->getTLV(0x2712, 1);
+					if (charset) {
+						char* szEnc = (char*)_alloca(charset->wLen + 1);
+						null_strcpy(szEnc, (char*)charset->pData, charset->wLen);
+						pszFileName = ApplyEncoding(pszFileName, szEnc);
 					}
+					else pszFileName = ansi_to_utf8(pszFileName);
+
 					if (ft->wFilesCount == 1)
 					{  // Filename - use for DB event
 						char *szFileName = (char*)_alloca(strlennull(pszFileName) + 1);
@@ -570,10 +566,14 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 				strcpy(szBlob + sizeof(DWORD), pszFileName);
 				strcpy(szBlob + sizeof(DWORD) + strlennull(pszFileName) + 1, pszDescription);
 
-				PROTORECVEVENT pre;
-				pre.flags = PREF_UTF;
+				TCHAR* ptszFileName = mir_a2t(pszFileName);
+
+				PROTORECVFILET pre = {0};
+				pre.flags = PREF_TCHAR;
+				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.szMessage = szBlob;
+				pre.tszDescription = mir_a2t(pszDescription);
+				pre.ptszFiles = &ptszFileName;
 				pre.lParam = (LPARAM)ft;
 
 				CCSDATA ccs;
@@ -582,6 +582,9 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 				ccs.wParam = 0;
 				ccs.lParam = (LPARAM)&pre;
 				CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+
+				mir_free(pre.tszDescription);
+				mir_free(ptszFileName);
 			}
 			else if (wAckType == 2)
 			{ // First attempt failed, reverse requested

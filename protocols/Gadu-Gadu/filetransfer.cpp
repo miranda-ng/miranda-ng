@@ -355,31 +355,22 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							//////////////////////////////////////////////////
 							// Add file recv request
 							{
-								CCSDATA ccs;
-								PROTORECVEVENT pre;
-								char *szBlob;
-								char *szFilename = (char*)dcc->file_info.filename;
-								char *szMsg = (char*)dcc->file_info.filename;
-
 								// Make new ggtransfer struct
 								dcc->contact = getcontact(dcc->peer_uin, 0, 0, NULL);
-								szBlob = (char *)malloc(sizeof(DWORD) + strlen(szFilename) + strlen(szMsg) + 2);
-								// Store current dcc
-								*(PDWORD)szBlob = (DWORD)dcc;
-								// Store filename
-								strcpy(szBlob + sizeof(DWORD), szFilename);
-								// Store description
-								strcpy(szBlob + sizeof(DWORD) + strlen(szFilename) + 1, szMsg);
-								ccs.szProtoService = PSR_FILE;
-								ccs.hContact = dcc->contact;
-								ccs.wParam = 0;
-								ccs.lParam = (LPARAM)&pre;
-								pre.flags = 0;
+								TCHAR* filenameT = mir_utf8decodeT((char*)dcc->file_info.filename);
+
+								PROTORECVFILET pre = {0};
+								pre.flags = PREF_TCHAR;
+								pre.fileCount = 1;
 								pre.timestamp = time(NULL);
-								pre.szMessage = szBlob;
-								pre.lParam = 0;
+								pre.tszDescription = filenameT;
+								pre.ptszFiles = &filenameT;
+								pre.lParam = (LPARAM)dcc7;
+
+								CCSDATA ccs = { dcc7->contact, PSR_FILE, 0, (LPARAM)&pre };
 								CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
-								free(szBlob);
+
+								mir_free(filenameT);
 							}
 							break;
 
