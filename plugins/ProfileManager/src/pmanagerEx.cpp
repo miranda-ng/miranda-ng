@@ -25,13 +25,13 @@ TCHAR fn[MAX_PATH];
 TCHAR lmn[MAX_PATH];
 TCHAR* pathn;
 int hLangpack;
-HANDLE hLoadPM, hChangePM;
+HANDLE hLoadPM, hChangePM, hDbchecker;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"Miranda NG Profile Changer",
-	PLUGIN_MAKE_VERSION(0,0,0,3),
-	"Adds a menu item to change or load a different profile of Miranda NG.",
+	PLUGIN_MAKE_VERSION(0,0,0,4),
+	"Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker.",
 	"Roman Gemini",
 	"woobind@ukr.net",
 	"© 2008 - 2010 Roman Gemini",
@@ -66,6 +66,16 @@ static INT_PTR LoadPM(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static INT_PTR CheckDb(WPARAM wParam, LPARAM lParam)
+{
+	if (MessageBox( 0, TranslateT("Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?"), TranslateT("Check Database"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2 ) == IDYES) {
+		GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
+		ShellExecute(0, _T("open"), fn, _T("/svc:dbchecker"), _T(""), 1);
+		CallService("CloseAction", 0, 0);
+	}
+	return 0;
+}
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	CLISTMENUITEM mi;
@@ -92,6 +102,27 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.ptszPopupName = _T("Database");
 	mi.ptszName = _T("Change profile");
 	mi.pszService = "Database/ChangePM";
+	Menu_AddMainMenuItem(&mi);
+
+	hDbchecker = CreateServiceFunction("Database/CheckDb", CheckDb);
+	ZeroMemory(&mi, sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.position = -500200000;
+	mi.flags = CMIF_TCHAR;
+	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_Dbchecker));
+	mi.ptszPopupName = _T("Database");
+	mi.ptszName = _T("Check database");
+	mi.pszService = "Database/CheckDb";
+	Menu_AddMainMenuItem(&mi);
+
+	ZeroMemory(&mi, sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.position = -500200000;
+	mi.flags = CMIF_TCHAR;
+	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_Restart));
+	mi.ptszPopupName = NULL;
+	mi.ptszName = _T("Restart");
+	mi.pszService = "Miranda/System/Restart";
 	Menu_AddMainMenuItem(&mi);
 
 	return 0;

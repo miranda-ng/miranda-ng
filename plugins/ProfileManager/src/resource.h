@@ -4,6 +4,8 @@
 //
 #define IDI_ChangePM                    101
 #define IDI_LoadPM                      102
+#define IDI_Restart                     103
+#define IDI_Dbchecker                   104
 
 // Next default values for new objects
 // 
