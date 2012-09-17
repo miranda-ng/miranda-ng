@@ -183,6 +183,12 @@ bool FacebookProto::NegotiateConnection( )
 	// Get info about secured connection
 	facy.https_ = DBGetContactSettingByte(NULL, m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, DEFAULT_FORCE_HTTPS ) != 0;
 
+	// Create default group for new contacts
+	if (!DBGetContactSettingTString(NULL, m_szModuleName, FACEBOOK_KEY_DEF_GROUP, &dbv) && lstrlen(dbv.ptszVal) > 0)
+	{
+		CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal);
+	}
+
 	return facy.login( user, pass );
 }
 
