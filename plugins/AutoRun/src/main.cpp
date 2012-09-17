@@ -42,15 +42,15 @@ static void SetAutorun(BOOL autorun)
 	DWORD dw;
 	switch (autorun) {
 	case TRUE:
-		if (RegCreateKeyEx(ROOT_KEY, SUB_KEY, 0, NULL, 0, KEY_CREATE_SUB_KEY|KEY_SET_VALUE,NULL,&hKey,&dw) == ERROR_SUCCESS) {
+		if ( RegCreateKeyEx(ROOT_KEY, SUB_KEY, 0, NULL, 0, KEY_CREATE_SUB_KEY|KEY_SET_VALUE,NULL,&hKey,&dw) == ERROR_SUCCESS) {
 			TCHAR result[MAX_PATH];
 			GetProfilePath(result);
-			RegSetValueEx(hKey, _T("MirandaNG"), 0, REG_SZ, (BYTE*)result, lstrlen(result)+1);
+			RegSetValueEx(hKey, _T("MirandaNG"), 0, REG_SZ, (BYTE*)result, sizeof(TCHAR)*lstrlen(result));
 			RegCloseKey(hKey);
 		}
 		break;
 	case FALSE:
-		if (RegOpenKey(ROOT_KEY, SUB_KEY, &hKey) == ERROR_SUCCESS) {
+		if ( RegOpenKey(ROOT_KEY, SUB_KEY, &hKey) == ERROR_SUCCESS) {
 			RegDeleteValue(hKey, _T("MirandaNG"));
 			RegCloseKey(hKey);
 		}
