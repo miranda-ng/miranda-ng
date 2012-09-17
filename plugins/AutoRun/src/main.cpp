@@ -47,14 +47,14 @@ static void SetAutorun(BOOL autorun)
 	{
 	  	TCHAR result[MAX_PATH];
 		GetProfilePath(result);
-		RegSetValueEx(hKey, _T("MirandaIM"), 0, REG_SZ, (BYTE*)result, lstrlen(result)+1);
+		RegSetValueEx(hKey, _T("MirandaNG"), 0, REG_SZ, (BYTE*)result, lstrlen(result)+1);
 		RegCloseKey(hKey);
 		break;
 	}
   case FALSE:
 	if (RegOpenKey(ROOT_KEY, SUB_KEY, &hKey) == ERROR_SUCCESS)
 	{
-		RegDeleteValue(hKey, _T("MirandaIM"));
+		RegDeleteValue(hKey, _T("MirandaNG"));
 		RegCloseKey(hKey);
 		break;
 	}
@@ -70,7 +70,7 @@ static BOOL CmpCurrentAndRegistry()
 	
 	if (RegOpenKeyEx(ROOT_KEY, SUB_KEY, 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
 	{
-		if (RegQueryValueEx(hKey, _T("MirandaIM"), NULL, NULL, (LPBYTE)dbpath, &dwBufLen) == ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, _T("MirandaNG"), NULL, NULL, (LPBYTE)dbpath, &dwBufLen) == ERROR_SUCCESS)
 		{
 			return (lstrcmpi(result,dbpath) == 0 ? TRUE : FALSE);
 		} 
@@ -117,7 +117,7 @@ static int AutorunOptInitialise(WPARAM wParam,LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTORUN);
 	odp.pszTitle = LPGEN(ModuleName);
-	odp.pszGroup = LPGEN("Plugins");
+	odp.pszGroup = LPGEN("Events");
 	odp.pfnDlgProc = DlgProcAutorunOpts;
 	odp.flags = ODPF_BOLDGROUPS;	
 	Options_AddPage(wParam, &odp);
