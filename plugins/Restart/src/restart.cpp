@@ -16,7 +16,7 @@ PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"Restart plugin",
 	PLUGIN_MAKE_VERSION(0,0,6,0),
-	"Adds Restart menu item",
+	"Adds Restart menu item.",
 	"(..нужное вписать..)",
 	"ep@eugn.me",
 	"© 2008 - 2012 -=J-Scar=-",
@@ -37,7 +37,7 @@ static INT_PTR RestartMenuCommand(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
