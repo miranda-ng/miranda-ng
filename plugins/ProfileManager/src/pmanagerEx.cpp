@@ -70,8 +70,8 @@ static INT_PTR CheckDb(WPARAM wParam, LPARAM lParam)
 {
 	if (MessageBox( 0, TranslateT("Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?"), TranslateT("Check Database"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2 ) == IDYES) {
 		GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
-		ShellExecute(0, _T("open"), fn, _T("/svc:dbchecker"), _T(""), 1);
 		CallService("CloseAction", 0, 0);
+		ShellExecute(0, _T("open"), fn, _T("/svc:dbchecker"), _T(""), 1);
 	}
 	return 0;
 }
