@@ -17,7 +17,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\restart.c">
+    <ClCompile Include="src\restart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
