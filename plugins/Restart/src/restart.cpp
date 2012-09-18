@@ -25,15 +25,15 @@ PLUGININFOEX pluginInfo={
 	0x61bedf3a, 0xcc2, 0x41a3, { 0xb9, 0x80, 0xbb, 0x93, 0x93, 0x36, 0x89, 0x35 } // {61BEDF3A-0CC2-41a3-B980-BB9393368935}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-static INT_PTR RestartMenuCommand(WPARAM wParam,LPARAM lParam)
+static INT_PTR RestartMenuCommand(WPARAM wParam, LPARAM lParam)
 {
-	CallService("Miranda/System/Restart",0,0);
+	CallService("Miranda/System/Restart", 0, 0);
 	return 0;
 }
 
@@ -42,7 +42,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-int __declspec(dllexport) Load(void)
+extern "C" __declspec(dllexport) int Load(void)
 {	
 	SKINICONDESC sid = {0};
 	CLISTMENUITEM mi = {0};
@@ -50,30 +50,30 @@ int __declspec(dllexport) Load(void)
 	
 	// IcoLib support
 	GetModuleFileName(hInst, szFile, MAX_PATH);
-	sid.pszDefaultFile = szFile;
+	sid.ptszDefaultFile = szFile;
 	sid.cbSize = sizeof(sid);
+	sid.flags = SIDF_ALL_TCHAR;
 
-	sid.pszSection = "Restart Plugin";
-	sid.pszDescription = "Restart";
+	sid.ptszSection = _T("Restart Plugin");
+	sid.ptszDescription = _T("Restart");
 	sid.pszName = "rst_restart_icon";
 	sid.iDefaultIndex = -IDI_RESTARTICON;
 	hIconHandle = Skin_AddIcon(&sid);
 	
-	CreateServiceFunction("RestartPlug/MenuCommand",RestartMenuCommand);
+	CreateServiceFunction("RestartPlug/MenuCommand", RestartMenuCommand);
 
 	mi.cbSize = sizeof(mi);
 	mi.position = -0x7FFFFFFF;
-	mi.flags = CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = hIconHandle;
-	mi.pszName="Restart";	
-	mi.pszService="RestartPlug/MenuCommand";
+	mi.ptszName = _T("Restart");
+	mi.pszService = "RestartPlug/MenuCommand";
 	Menu_AddMainMenuItem(&mi);
 	Menu_AddTrayMenuItem(&mi);
 	return 0;
 }
 
-
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	return 0;
 }
