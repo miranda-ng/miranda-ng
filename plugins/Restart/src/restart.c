@@ -34,7 +34,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 static INT_PTR RestartMenuCommand(WPARAM wParam,LPARAM lParam)
 {
 	CallService("Miranda/System/Restart",0,0);
-	CallService("CloseAction",0,0);
 	return 0;
 }
 
