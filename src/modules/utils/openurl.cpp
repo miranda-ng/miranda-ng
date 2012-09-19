@@ -52,7 +52,16 @@ static void OpenURLThread(void *arg)
 				wsprintf(szResult, _T("http://%s"), hUrlInfo->szUrl);
 		}
 	}
-	ShellExecute(NULL, _T("open"), szResult, NULL, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
+	
+	// check user defined browser for opening urls
+	DBVARIANT dbv;
+	if (!DBGetContactSettingTString(NULL, "Miranda", "OpenUrlBrowser", &dbv)) {
+		ShellExecute(NULL, _T("open"), dbv.ptszVal, szResult, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
+		DBFreeVariant(&dbv);
+	} else {
+		ShellExecute(NULL, _T("open"), szResult, NULL, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
+	}
+
 	mir_free(szResult);
 	mir_free(hUrlInfo->szUrl);
 	mir_free(hUrlInfo);
