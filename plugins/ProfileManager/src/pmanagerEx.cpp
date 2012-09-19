@@ -69,9 +69,14 @@ static INT_PTR LoadPM(WPARAM wParam, LPARAM lParam)
 static INT_PTR CheckDb(WPARAM wParam, LPARAM lParam)
 {
 	if (MessageBox( 0, TranslateT("Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?"), TranslateT("Check Database"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2 ) == IDYES) {
-		GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
+		TCHAR mirandaPath[MAX_PATH], cmdLine[100];
+		PROCESS_INFORMATION pi;
+		STARTUPINFO si = {0};
+		si.cb = sizeof(si);
+		GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
+		mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d /svc:dbchecker"), mirandaPath, GetCurrentProcessId());
 		CallService("CloseAction", 0, 0);
-		ShellExecute(0, _T("open"), fn, _T("/svc:dbchecker"), _T(""), 1);
+		CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 	}
 	return 0;
 }
