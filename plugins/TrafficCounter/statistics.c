@@ -277,7 +277,7 @@ BOOL CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 									switch (lplvcd->nmcd.dwDrawStage)
 									{
 										case CDDS_PREPAINT: // Перед началом рисования всего ListView.
-											SetWindowLong(hwndDlg, DWL_MSGRESULT, CDRF_NOTIFYITEMDRAW);
+											SetWindowLong(hwndDlg, DWLP_MSGRESULT, CDRF_NOTIFYITEMDRAW);
 											return TRUE;
 										case CDDS_ITEMPREPAINT: // Перед началом рисования строки.
 											{
@@ -295,7 +295,7 @@ BOOL CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 													b += b > 0x80 ? -40 : 40;
 													lplvcd->clrTextBk = RGB(r, g, b);;
 												}
-												SetWindowLong(hwndDlg, DWL_MSGRESULT, CDRF_NEWFONT);
+												SetWindowLong(hwndDlg, DWLP_MSGRESULT, CDRF_NEWFONT);
 												return TRUE;
 											}
 									}

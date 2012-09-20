@@ -22,7 +22,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MIRANDA_VER 0x0900
 #define MIRANDA_CUSTOM_LP
-#define _USE_32BIT_TIME_T 1
+
+#ifndef _WIN64
+	#define _USE_32BIT_TIME_T
+#endif
 
 // Standart includes
 #include <windows.h>
