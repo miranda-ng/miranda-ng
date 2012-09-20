@@ -416,12 +416,7 @@ HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser, LPSTR lpszHost, DWORD dwPort)
 	nloc.cbSize = sizeof(nloc);
 	nloc.flags = (NLOCF_HTTP|NLOCF_V2);
 	nloc.szHost = lpszHost;
-	if (IsHTTPSProxyUsed(hNetlibUser))
-	{// через https прокси только 443 порт
-		nloc.wPort = MRA_SERVER_PORT_HTTPS;
-	}else {
-		nloc.wPort = (WORD)dwPort;
-	}
+	nloc.wPort = ( IsHTTPSProxyUsed(hNetlibUser)) ? MRA_SERVER_PORT_HTTPS : dwPort;
 	nloc.timeout = DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "TimeOutConnect", MRA_AVT_DEFAULT_TIMEOUT_CONN);
 	if (nloc.timeout<MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
 	if (nloc.timeout>MRA_TIMEOUT_CONN_МАХ) nloc.timeout = MRA_TIMEOUT_CONN_МАХ;
@@ -439,101 +434,79 @@ HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser, LPSTR lpszHost, DWORD dwPort)
 
 DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPSTR lpszUser, LPSTR lpszDomain, LPSTR lpszHost, DWORD dwReqObj, BOOL bUseKeepAliveConn, DWORD *pdwResultCode, BOOL *pbKeepAlive, DWORD *pdwFormat, size_t *pdwAvatarSize, INTERNET_TIME *pitLastModifiedTime)
 {
-	DWORD dwRetErrorCode;
+	if (pdwResultCode)      *pdwResultCode = 0;
+	if (pbKeepAlive)        *pbKeepAlive = FALSE;
+	if (pdwFormat)          *pdwFormat = PA_FORMAT_UNKNOWN;
+	if (pdwAvatarSize)      *pdwAvatarSize = 0;
+	if (pitLastModifiedTime) bzero(pitLastModifiedTime, sizeof(INTERNET_TIME));
 
-	if (pdwResultCode)		(*pdwResultCode) = 0;
-	if (pbKeepAlive)		(*pbKeepAlive) = FALSE;
-	if (pdwFormat)			(*pdwFormat) = PA_FORMAT_UNKNOWN;
-	if (pdwAvatarSize)		(*pdwAvatarSize) = 0;
-	if (pitLastModifiedTime)bzero(pitLastModifiedTime, sizeof(INTERNET_TIME));
+	if (!hConnection)
+		return ERROR_INVALID_HANDLE;
 
-	if (hConnection)
-	{
-		char szBuff[4096], szSelfVersionString[MAX_PATH];
-		DWORD dwSended, dwBuffSize;
-		LPSTR lpszReqObj;
-		NETLIBHTTPHEADER nlbhHeaders[8] = {0};
-		NETLIBHTTPREQUEST *pnlhr, nlhr = {0};
+	LPSTR lpszReqObj;
 
-		switch (dwReqObj) {
-		case MAHTRO_AVT:			lpszReqObj = "_avatar";			break;
-		case MAHTRO_AVTMRIM:		lpszReqObj = "_mrimavatar";		break;
-		case MAHTRO_AVTSMALL:		lpszReqObj = "_avatarsmall";		break;
-		case MAHTRO_AVTSMALLMRIM:	lpszReqObj = "_mrimavatarsmall";	break;
-		default:					lpszReqObj = "";					break;
-		}
-		dwBuffSize = mir_snprintf(szBuff, SIZEOF(szBuff), "http://%s/%s/%s/%s", lpszHost, lpszDomain, lpszUser, lpszReqObj);
-
-		MraGetSelfVersionString(szSelfVersionString, SIZEOF(szSelfVersionString), NULL);
-
-		nlbhHeaders[0].szName = "User-Agent";		nlbhHeaders[0].szValue = szSelfVersionString;
-		nlbhHeaders[1].szName = "Accept-Encoding";nlbhHeaders[1].szValue = "deflate";
-		nlbhHeaders[2].szName = "Pragma";			nlbhHeaders[2].szValue = "no-cache";
-		nlbhHeaders[3].szName = "Connection";		nlbhHeaders[3].szValue = (bUseKeepAliveConn)? "keep-alive":"close";
-		//nlbhHeaders[4].szName = "If-Modified-Since";nlbhHeaders[4].szValue = "Thu, 03 Aug 2006 19:54:33 GMT";
-
-		nlhr.cbSize = sizeof(nlhr);
-		nlhr.requestType = dwRequestType;
-		nlhr.flags = (NLHRF_GENERATEHOST|NLHRF_SMARTREMOVEHOST|NLHRF_SMARTAUTHHEADER);
-		nlhr.szUrl = szBuff;
-		nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
-		nlhr.headersCount = 4;
-		//nlhr.pData = NULL;
-		//nlhr.dataLength = 0;
-		//nlhr.resultCode = 0;
-		//nlhr.szResultDescr = NULL;
-		//nlhr.nlc = NULL;
-		
-		dwSended = CallService(MS_NETLIB_SENDHTTPREQUEST, (WPARAM)hConnection, (LPARAM)&nlhr);
-		if (dwSended != SOCKET_ERROR && dwSended)
-		{
-			pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_RECVHTTPHEADERS, (WPARAM)hConnection, (LPARAM)0);
-			if (pnlhr)
-			{
-				for (size_t i = 0;i<(size_t)pnlhr->headersCount;i++)
-				{
-					if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, pnlhr->headers[i].szName, -1, "Connection", 10) == CSTR_EQUAL)
-					{
-						if (pbKeepAlive) (*pbKeepAlive) = (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, pnlhr->headers[i].szValue, -1, "keep-alive", 10) == CSTR_EQUAL);
-					}else
-					if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, pnlhr->headers[i].szName, -1, "Content-Type", 12) == CSTR_EQUAL)
-					{
-						if (pdwFormat)
-						{
-							for (size_t j = 0;j<PA_FORMAT_MAX;j++)
-							{
-								if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, pnlhr->headers[i].szValue, -1, lpcszContentType[j], -1) == CSTR_EQUAL)
-								{
-									(*pdwFormat) = j;
-									break;
-								}
-							}
-						}
-					}else
-					if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, pnlhr->headers[i].szName, -1, "Content-Length", 14) == CSTR_EQUAL)
-					{
-						if (pdwAvatarSize) (*pdwAvatarSize) = StrToUNum(pnlhr->headers[i].szValue, lstrlenA(pnlhr->headers[i].szValue));
-					}else
-					if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, pnlhr->headers[i].szName, -1, "Last-Modified", 13) == CSTR_EQUAL)
-					{
-						if (pitLastModifiedTime) InternetTimeGetTime(pnlhr->headers[i].szValue, lstrlenA(pnlhr->headers[i].szValue), pitLastModifiedTime);
-					}
-				}// end for
-
-				if (pdwResultCode) (*pdwResultCode) = pnlhr->resultCode;
-				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)pnlhr);
-				dwRetErrorCode = NO_ERROR;
-			}else {// err on receive
-				dwRetErrorCode = GetLastError();
-			}
-		}else {// err on send http request
-			dwRetErrorCode = GetLastError();
-		}
-	}else {
-		dwRetErrorCode = ERROR_INVALID_HANDLE;
+	switch (dwReqObj) {
+		case MAHTRO_AVT:          lpszReqObj = "_avatar"; break;
+		case MAHTRO_AVTMRIM:      lpszReqObj = "_mrimavatar"; break;
+		case MAHTRO_AVTSMALL:     lpszReqObj = "_avatarsmall"; break;
+		case MAHTRO_AVTSMALLMRIM: lpszReqObj = "_mrimavatarsmall"; break;
+		default:                  lpszReqObj = ""; break;
 	}
 
-return(dwRetErrorCode);
+	char szBuff[4096], szSelfVersionString[MAX_PATH];
+	DWORD dwBuffSize = mir_snprintf(szBuff, SIZEOF(szBuff), "http://%s/%s/%s/%s", lpszHost, lpszDomain, lpszUser, lpszReqObj);
+	MraGetSelfVersionString(szSelfVersionString, SIZEOF(szSelfVersionString), NULL);
+
+	NETLIBHTTPHEADER nlbhHeaders[8] = {0};
+	nlbhHeaders[0].szName = "User-Agent";		 nlbhHeaders[0].szValue = szSelfVersionString;
+	nlbhHeaders[1].szName = "Accept-Encoding"; nlbhHeaders[1].szValue = "deflate";
+	nlbhHeaders[2].szName = "Pragma";			 nlbhHeaders[2].szValue = "no-cache";
+	nlbhHeaders[3].szName = "Connection";		 nlbhHeaders[3].szValue = (bUseKeepAliveConn)? "keep-alive":"close";
+
+	NETLIBHTTPREQUEST *pnlhr, nlhr = {0};
+	nlhr.cbSize = sizeof(nlhr);
+	nlhr.requestType = dwRequestType;
+	nlhr.flags = (NLHRF_GENERATEHOST|NLHRF_SMARTREMOVEHOST|NLHRF_SMARTAUTHHEADER);
+	nlhr.szUrl = szBuff;
+	nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
+	nlhr.headersCount = 4;
+		
+	DWORD dwSent = CallService(MS_NETLIB_SENDHTTPREQUEST, (WPARAM)hConnection, (LPARAM)&nlhr);
+	if (dwSent == SOCKET_ERROR || !dwSent)
+		return GetLastError();
+
+	pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_RECVHTTPHEADERS, (WPARAM)hConnection, (LPARAM)0);
+	if (!pnlhr)
+		return GetLastError();
+
+	for (int i = 0; i < pnlhr->headersCount; i++) {
+		if ( !_strnicmp(pnlhr->headers[i].szName, "Connection", 10)) {
+			if (pbKeepAlive)
+				*pbKeepAlive = !_strnicmp(pnlhr->headers[i].szValue, "keep-alive", 10);
+		}
+		else if ( !_strnicmp(pnlhr->headers[i].szName, "Content-Type", 12)) {
+			if (pdwFormat) {
+				for (DWORD j = 0; j < PA_FORMAT_MAX; j++) {
+					if ( !_stricmp(pnlhr->headers[i].szValue, lpcszContentType[j])) {
+						*pdwFormat = j;
+						break;
+					}
+				}
+			}
+		}
+		else if ( !_strnicmp(pnlhr->headers[i].szName, "Content-Length", 14)) {
+			if (pdwAvatarSize)
+				*pdwAvatarSize = StrToUNum(pnlhr->headers[i].szValue, lstrlenA(pnlhr->headers[i].szValue));
+		}
+		else if ( !_strnicmp(pnlhr->headers[i].szName, "Last-Modified", 13)) {
+			if (pitLastModifiedTime)
+				InternetTimeGetTime(pnlhr->headers[i].szValue, lstrlenA(pnlhr->headers[i].szValue), pitLastModifiedTime);
+		}
+	}
+
+	if (pdwResultCode) (*pdwResultCode) = pnlhr->resultCode;
+	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)pnlhr);
+	return 0;
 }
 
 BOOL CMraProto::MraAvatarsGetContactTime(HANDLE hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime)
@@ -620,7 +593,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 		mir_free(lpszPathToAvatarsCache); 
 	} 
 	else {
-		FoldersGetCustomPathT( pmraaqAvatarsQueue->hAvatarsPath, lpszCurPath, dwPathSize, _T(""));
+		FoldersGetCustomPathT( pmraaqAvatarsQueue->hAvatarsPath, lpszCurPath, int(dwPathSize), _T(""));
 		dwEMailSize = lstrlen( lpszCurPath );
 	}
 

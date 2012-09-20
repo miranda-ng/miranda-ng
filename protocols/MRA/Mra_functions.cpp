@@ -459,121 +459,116 @@ DWORD CMraProto::SetContactFlags(HANDLE hContact, DWORD dwContactFlag)
 
 DWORD CMraProto::GetContactBasicInfoW(HANDLE hContact, DWORD *pdwID, DWORD *pdwGroupID, DWORD *pdwContactFlag, DWORD *pdwContactSeverFlags, DWORD *pdwStatus, LPSTR lpszEMail, size_t dwEMailSize, size_t *pdwEMailSize, LPWSTR lpwszNick, size_t dwNickSize, size_t *pdwNickSize, LPSTR lpszPhones, size_t dwPhonesSize, size_t *pdwPhonesSize)
 {
-	DWORD dwRetErrorCode = NO_ERROR;
+	if ( !IsContactMra(hContact))
+		return ERROR_INVALID_HANDLE;
 
-	if (IsContactMra(hContact))
-	{
-		if (pdwID)						(*pdwID) = mraGetDword(hContact, "ContactID", -1);
-		if (pdwGroupID)					(*pdwGroupID) = mraGetDword(hContact, "GroupID", -1);
-		if (pdwContactSeverFlags)		(*pdwContactSeverFlags) = mraGetDword(hContact, "ContactSeverFlags", 0);
-		if (pdwStatus)					(*pdwStatus) = MraGetContactStatus(hContact);
-		if (pdwContactFlag)				(*pdwContactFlag) = GetContactFlags(hContact);
+	if (pdwID)
+		*pdwID = mraGetDword(hContact, "ContactID", -1);
+	if (pdwGroupID)
+		*pdwGroupID = mraGetDword(hContact, "GroupID", -1);
+	if (pdwContactSeverFlags)
+		*pdwContactSeverFlags = mraGetDword(hContact, "ContactSeverFlags", 0);
+	if (pdwStatus)
+		*pdwStatus = MraGetContactStatus(hContact);
+	if (pdwContactFlag)
+		*pdwContactFlag = GetContactFlags(hContact);
+	if (lpszEMail && pdwEMailSize)
+		mraGetStaticStringA(hContact, "e-mail", lpszEMail, dwEMailSize, pdwEMailSize);
+	if (lpwszNick && pdwNickSize)
+		DB_GetStaticStringW(hContact, "CList", "MyHandle", lpwszNick, dwNickSize, pdwNickSize);
 
-		if (lpszEMail && pdwEMailSize)	mraGetStaticStringA(hContact, "e-mail", lpszEMail, dwEMailSize, pdwEMailSize);
-		if (lpwszNick && pdwNickSize)
-		{
-			DB_GetStaticStringW(hContact, "CList", "MyHandle", lpwszNick, dwNickSize, pdwNickSize);
-			//if ((*pdwNickSize) == 0) DebugBreak();
-		}
-		if (lpszPhones && pdwPhonesSize)
-		{
-			char szPhone[MAX_PATH], szValue[MAX_PATH];
-			size_t dwPhoneSize, dwCopyed = 0;
+	if (lpszPhones && pdwPhonesSize) {
+		char szPhone[MAX_PATH], szValue[MAX_PATH];
+		size_t dwPhoneSize, dwCopied = 0;
 
-			for (size_t i = 0;i<3;i++)
-			{
-				mir_snprintf(szValue, SIZEOF(szValue), "MyPhone%lu", i);
-				if (DB_GetStaticStringA(hContact, "UserInfo", szValue, szPhone, SIZEOF(szPhone), &dwPhoneSize))
-				{
-					if (dwCopyed) (*((LPBYTE)(lpszPhones+dwCopyed++))) = ',';
-					dwCopyed += CopyNumber((lpszPhones+dwCopyed), szPhone, dwPhoneSize);
-				}
+		for (size_t i = 0; i < 3; i++) {
+			mir_snprintf(szValue, SIZEOF(szValue), "MyPhone%lu", i);
+			if ( DB_GetStaticStringA(hContact, "UserInfo", szValue, szPhone, SIZEOF(szPhone), &dwPhoneSize)) {
+				if (dwCopied)
+					*((LPBYTE)(lpszPhones+dwCopied++)) = ',';
+				dwCopied += CopyNumber((lpszPhones+dwCopied), szPhone, dwPhoneSize);
 			}
-			(*pdwPhonesSize) = dwCopyed;
 		}
-	}else {
-		dwRetErrorCode = ERROR_INVALID_HANDLE;
+		*pdwPhonesSize = dwCopied;
 	}
-return(dwRetErrorCode);
+	return 0;
 }
-
 
 DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWORD dwFlags, DWORD dwID, DWORD dwGroupID, DWORD dwContactFlag, DWORD dwContactSeverFlags, DWORD dwStatus, LPSTR lpszEMail, size_t dwEMailSize, LPWSTR lpwszNick, size_t dwNickSize, LPSTR lpszPhones, size_t dwPhonesSize)
 {
-	DWORD dwRetErrorCode = NO_ERROR;
+	if ( !IsContactMra(hContact))
+		return ERROR_INVALID_HANDLE;
 
-	if (IsContactMra(hContact))
-	{
-		// LOCK
-		if (dwSetInfoFlags&SCBIFSI_LOCK_CHANGES_EVENTS) mraSetDword(hContact, "HooksLocked", TRUE);
+	// LOCK
+	if (dwSetInfoFlags & SCBIFSI_LOCK_CHANGES_EVENTS)
+		mraSetDword(hContact, "HooksLocked", TRUE);
 
-		// поля которые нужны, и изменения которых не отслеживаются
-		if (dwFlags&SCBIF_ID) mraSetDword(hContact, "ContactID", dwID);
+	// поля которые нужны, и изменения которых не отслеживаются
+	if (dwFlags & SCBIF_ID)
+		mraSetDword(hContact, "ContactID", dwID);
 
-		if (dwFlags&SCBIF_EMAIL)
+	if (dwFlags & SCBIF_EMAIL)
+		if (lpszEMail && dwEMailSize)
+			mraSetStringExA(hContact, "e-mail", lpszEMail, dwEMailSize);
+
+	// поля изменения которых отслеживаются
+	if (dwFlags & SCBIF_GROUP_ID)
+		mraSetDword(hContact, "GroupID", dwGroupID);
+
+	if (dwFlags & SCBIF_NICK) {
+		if ((dwFlags & SCBIF_FLAG) && ((dwContactFlag&CONTACT_FLAG_UNICODE_NAME) == 0))
 		{
-			if (lpszEMail && dwEMailSize) mraSetStringExA(hContact, "e-mail", lpszEMail, dwEMailSize);
+			if (lpwszNick && dwNickSize)
+				DB_SetStringExA(hContact, "CList", "MyHandle", (LPSTR)lpwszNick, dwNickSize);
 		}
-
-		// поля изменения которых отслеживаются
-		if (dwFlags&SCBIF_GROUP_ID) mraSetDword(hContact, "GroupID", dwGroupID);
-
-		if (dwFlags&SCBIF_NICK)
-		{
-			if ((dwFlags&SCBIF_FLAG) && ((dwContactFlag&CONTACT_FLAG_UNICODE_NAME) == 0))
-			{
-				if (lpwszNick && dwNickSize) DB_SetStringExA(hContact, "CList", "MyHandle", (LPSTR)lpwszNick, dwNickSize);
-			}else {
-				if (lpwszNick && dwNickSize) DB_SetStringExW(hContact, "CList", "MyHandle", lpwszNick, dwNickSize);
-				//if (dwNickSize == 0) DebugBreak();
-			}
+		else {
+			if (lpwszNick && dwNickSize)
+				DB_SetStringExW(hContact, "CList", "MyHandle", lpwszNick, dwNickSize);
 		}
-
-		if (dwFlags&SCBIF_PHONES)
-		{
-			if (lpszPhones && dwPhonesSize)
-			{
-				char szPhone[MAX_PATH], szValue[MAX_PATH];
-				LPSTR lpszCurPhone, lpszPhoneNext;
-				size_t i, dwCurPhoneSize;
-
-				i = 0;
-				lpszCurPhone = lpszPhones;
-				lpszPhoneNext = lpszPhones;
-				while(lpszPhoneNext)
-				{
-					lpszPhoneNext = (LPSTR)MemoryFindByte((lpszCurPhone-lpszPhones), lpszPhones, dwPhonesSize, ',');
-					if (lpszPhoneNext)
-					{
-						dwCurPhoneSize = (lpszPhoneNext-lpszCurPhone);
-					}else {
-						dwCurPhoneSize = ((lpszPhones+dwPhonesSize)-lpszCurPhone);
-					}
-
-					szPhone[0] = '+';
-					memmove((szPhone+1), lpszCurPhone, min(dwCurPhoneSize, (SIZEOF(szPhone)-1)));
-					mir_snprintf(szValue, SIZEOF(szValue), "MyPhone%lu", i);
-					DB_SetStringExA(hContact, "UserInfo", szValue, szPhone, (1+dwCurPhoneSize));
-
-					i++;
-					lpszCurPhone = (lpszPhoneNext+1);
-				}
-			}
-		}
-
-		if (dwFlags&SCBIF_FLAG) SetContactFlags(hContact, dwContactFlag);
-
-		if (dwFlags&SCBIF_SERVER_FLAG) mraSetDword(hContact, "ContactSeverFlags", dwContactSeverFlags);
-
-		if (dwFlags&SCBIF_STATUS) MraSetContactStatus(hContact, dwStatus);
-
-		SetExtraIcons(hContact);
-		// UNLOCK
-		if (dwSetInfoFlags&SCBIFSI_LOCK_CHANGES_EVENTS) mraSetDword(hContact, "HooksLocked", FALSE);
-	}else {
-		dwRetErrorCode = ERROR_INVALID_HANDLE;
 	}
-return(dwRetErrorCode);
+
+	if (dwFlags & SCBIF_PHONES) {
+		if (lpszPhones && dwPhonesSize) {
+			char szPhone[MAX_PATH], szValue[MAX_PATH];
+			LPSTR lpszCurPhone, lpszPhoneNext;
+			size_t i, dwCurPhoneSize;
+
+			i = 0;
+			lpszCurPhone = lpszPhones;
+			lpszPhoneNext = lpszPhones;
+			while(lpszPhoneNext) {
+				lpszPhoneNext = (LPSTR)MemoryFindByte((lpszCurPhone-lpszPhones), lpszPhones, dwPhonesSize, ',');
+				if (lpszPhoneNext)
+					dwCurPhoneSize = lpszPhoneNext - lpszCurPhone;
+				else 
+					dwCurPhoneSize = (lpszPhones + dwPhonesSize) - lpszCurPhone;
+
+				szPhone[0] = '+';
+				memmove((szPhone+1), lpszCurPhone, min(dwCurPhoneSize, (SIZEOF(szPhone)-1)));
+				mir_snprintf(szValue, SIZEOF(szValue), "MyPhone%lu", i);
+				DB_SetStringExA(hContact, "UserInfo", szValue, szPhone, (1+dwCurPhoneSize));
+
+				i++;
+				lpszCurPhone = (lpszPhoneNext+1);
+			}
+		}
+	}
+
+	if (dwFlags & SCBIF_FLAG)
+		SetContactFlags(hContact, dwContactFlag);
+
+	if (dwFlags & SCBIF_SERVER_FLAG)
+		mraSetDword(hContact, "ContactSeverFlags", dwContactSeverFlags);
+
+	if (dwFlags & SCBIF_STATUS)
+		MraSetContactStatus(hContact, dwStatus);
+
+	SetExtraIcons(hContact);
+	// UNLOCK
+	if (dwSetInfoFlags & SCBIFSI_LOCK_CHANGES_EVENTS)
+		mraSetDword(hContact, "HooksLocked", FALSE);
+
+	return 0;
 }
 
 HANDLE CMraProto::MraHContactFromEmail(LPSTR lpszEMail, size_t dwEMailSize, BOOL bAddIfNeeded, BOOL bTemporary, BOOL *pbAdded)

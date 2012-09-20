@@ -166,9 +166,6 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	INT_PTR __cdecl MraGotoInbox(WPARAM, LPARAM);
 	INT_PTR __cdecl MraShowInboxStatus(WPARAM, LPARAM);
 	INT_PTR __cdecl MraEditProfile(WPARAM, LPARAM);
-	INT_PTR __cdecl MyAlbum(WPARAM, LPARAM);
-	INT_PTR __cdecl MyBlog(WPARAM, LPARAM);
-	INT_PTR __cdecl MyBlogStatus(WPARAM, LPARAM);
 	INT_PTR __cdecl MyVideo(WPARAM, LPARAM);
 	INT_PTR __cdecl MyAnswers(WPARAM, LPARAM);
 	INT_PTR __cdecl MyWorld(WPARAM, LPARAM);

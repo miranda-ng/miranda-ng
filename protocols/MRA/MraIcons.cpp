@@ -6,9 +6,9 @@ GUI_DISPLAY_ITEM gdiMenuItems[] =
 	{ MRA_GOTO_INBOX,         MRA_GOTO_INBOX_STR,         IDI_INBOX,          &CMraProto::MraGotoInbox }, 
 	{ MRA_SHOW_INBOX_STATUS,  MRA_SHOW_INBOX_STATUS_STR,  IDI_MAIL_NOTIFY,    &CMraProto::MraShowInboxStatus }, 
 	{ MRA_EDIT_PROFILE,       MRA_EDIT_PROFILE_STR,       IDI_PROFILE,        &CMraProto::MraEditProfile }, 
-	{ MRA_MY_ALBUM,           MRA_MY_ALBUM_STR,           IDI_MRA_PHOTO,      &CMraProto::MyAlbum }, 
-	{ MRA_MY_BLOG,            MRA_MY_BLOG_STR,            IDI_MRA_BLOGS,      &CMraProto::MyBlog }, 
-	{ MRA_MY_BLOGSTATUS,      MRA_MY_BLOGSTATUS_STR,      IDI_BLOGSTATUS,     &CMraProto::MyBlogStatus }, 
+	{ MRA_MY_ALBUM,           MRA_MY_ALBUM_STR,           IDI_MRA_PHOTO,      &CMraProto::MraViewAlbum }, 
+	{ MRA_MY_BLOG,            MRA_MY_BLOG_STR,            IDI_MRA_BLOGS,      &CMraProto::MraReadBlog }, 
+	{ MRA_MY_BLOGSTATUS,      MRA_MY_BLOGSTATUS_STR,      IDI_BLOGSTATUS,     &CMraProto::MraReplyBlogStatus }, 
 	{ MRA_MY_VIDEO,           MRA_MY_VIDEO_STR,           IDI_MRA_VIDEO,      &CMraProto::MyVideo }, 
 	{ MRA_MY_ANSWERS,         MRA_MY_ANSWERS_STR,         IDI_MRA_ANSWERS,    &CMraProto::MyAnswers }, 
 	{ MRA_MY_WORLD,           MRA_MY_WORLD_STR,           IDI_MRA_WORLD,      &CMraProto::MyWorld }, 
@@ -101,9 +101,12 @@ void IconsLoad()
 
 void CMraProto::InitXStatusIcons()
 {
-	int iCurIndex;
-	char szBuff[MAX_PATH];
 	WCHAR wszSection[MAX_PATH], wszPath[MAX_FILEPATH];
+	mir_sntprintf(wszSection, SIZEOF(wszSection), L"Status Icons/%s/Custom Status", m_tszUserName);
+	if (masMraSettings.hDLLXStatusIcons)
+		GetModuleFileName(masMraSettings.hDLLXStatusIcons, wszPath, SIZEOF(wszPath));
+	else
+		bzero(wszPath, sizeof(wszPath));
 
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(sid);
@@ -112,18 +115,13 @@ void CMraProto::InitXStatusIcons()
 	sid.cx = sid.cy = 16;
 	sid.flags = SIDF_ALL_UNICODE;
 
-	if (masMraSettings.hDLLXStatusIcons)
-		GetModuleFileName(masMraSettings.hDLLXStatusIcons, wszPath, SIZEOF(wszPath));
-	else
-		bzero(wszPath, sizeof(wszPath));
-
-	mir_sntprintf(wszSection, SIZEOF(wszSection), L"Status Icons/%s/Custom Status", m_tszUserName);
-
 	hXStatusAdvancedStatusIcons[0] = NULL;
-	for (size_t i = 1; i < MRA_XSTATUS_COUNT+1; i++) {
+	for (int i = 1; i < MRA_XSTATUS_COUNT+1; i++) {
+		char szBuff[MAX_PATH];
 		mir_snprintf(szBuff, SIZEOF(szBuff), "%s_xstatus%ld", m_szModuleName, i);
-		iCurIndex = (IDI_XSTATUS1-1+i);
 		sid.pszName = szBuff;
+
+		int iCurIndex = i+IDI_XSTATUS1-1;
 		sid.pwszDescription = lpcszXStatusNameDef[i];
 		sid.iDefaultIndex = -iCurIndex;
 		if (masMraSettings.hDLLXStatusIcons)
@@ -171,6 +169,7 @@ void CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMain
 
 	CLISTMENUITEM mi = {0};
 	mi.cbSize = sizeof(mi);
+	mi.position = -1999901008;
 
 	HGENMENU (*fnAddFunc)(CLISTMENUITEM*);
 	if (bIsMain) {
@@ -179,7 +178,6 @@ void CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMain
 		HGENMENU hRootMenu = MO_GetProtoRootMenu(m_szModuleName);
 		if (hRootMenu == NULL) {
 			mi.ptszName = m_tszUserName;
-			mi.position = -1999901008;
 			mi.hParentMenu = HGENMENU_ROOT;
 			mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.hIcon = hMainIcon;

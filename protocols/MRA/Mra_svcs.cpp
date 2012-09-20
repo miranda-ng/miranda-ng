@@ -204,21 +204,6 @@ INT_PTR CMraProto::MraEditProfile(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MyAlbum(WPARAM wParam, LPARAM lParam)
-{
-	return MraViewAlbum(0, 0);
-}
-
-INT_PTR CMraProto::MyBlog(WPARAM wParam, LPARAM lParam)
-{
-	return MraReadBlog(0, 0);
-}
-
-INT_PTR CMraProto::MyBlogStatus(WPARAM wParam, LPARAM lParam)
-{
-	return MraReplyBlogStatus(0, 0);
-}
-
 INT_PTR CMraProto::MyVideo(WPARAM wParam, LPARAM lParam)
 {
 	return MraViewVideo(0, 0);
