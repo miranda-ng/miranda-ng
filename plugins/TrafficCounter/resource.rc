@@ -1,0 +1,233 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+#include <winres.h>
+#include "..\..\Include\statusmodes.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_UNINSTALL_ICON      ICON                    "res\\network.ico"
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_STATS DIALOGEX 0, 0, 305, 240
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_COMBO_UNITS,243,69,62,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    CONTROL         "",IDC_TAB_STATS,"SysTabControl32",0x0,0,84,305,149
+    LTEXT           "Selected totals",IDC_STATIC,7,220,69,8,0,WS_EX_TRANSPARENT
+    LTEXT           "Accounts",IDC_STATIC,5,4,30,8
+    RTEXT           "Units",IDC_STATIC,167,71,75,8
+    LTEXT           "0",IDC_STATIC_DNL,103,220,35,8,0,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    LTEXT           "0",IDC_STATIC_UPL,147,220,39,8,0,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    LTEXT           "0",IDC_STATIC_SUMM,195,220,39,8,0,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    CONTROL         "",IDC_LIST_DATA,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_OWNERDATA | WS_BORDER | WS_TABSTOP,3,99,298,118
+    PUSHBUTTON      "Clear statistics",IDC_BUTTON_CLEAR,243,13,62,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPT_STATS, DIALOG
+    BEGIN
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 233
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_TRAFFIC_POPUPS DIALOG 0, 0, 313, 233
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Notification",IDC_STATIC,4,5,302,104
+    CONTROL         "Notify me on every",IDC_NOTIFYSIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,15,86,10
+    EDITTEXT        IDC_ENOTIFYSIZE,96,13,29,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "kilobytes",IDC_STATIC,128,15,45,8
+    CONTROL         "Notify me on every",IDC_NOTIFYTIME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,30,85,10
+    EDITTEXT        IDC_ENOTIFYTIME,96,28,29,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "minutes",IDC_STATIC,129,30,44,8
+    LTEXT           "Background colour:",IDC_STATIC,178,17,63,8
+    CONTROL         "",IDC_COLOR1,"ColourPicker",WS_TABSTOP,242,14,33,12
+    LTEXT           "Text colour:",IDC_STATIC,178,30,60,8
+    CONTROL         "",IDC_COLOR2,"ColourPicker",WS_TABSTOP,242,28,33,12
+    PUSHBUTTON      "Reset to default",IDC_RESETCOLORS,178,44,97,14
+    GROUPBOX        "Popup timeout",IDC_STATIC,10,62,110,41
+    CONTROL         "From PopUp plugin",IDC_RADIO_FROMPOPUP,"Button",BS_AUTORADIOBUTTON,14,73,101,10
+    CONTROL         "Custom",IDC_RADIO_CUSTOM,"Button",BS_AUTORADIOBUTTON,14,88,73,10
+    EDITTEXT        IDC_POPUP_TIMEOUT,90,85,24,14,ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "Test",IDC_TEST,251,93,50,11
+END
+
+IDD_OPT_TRAFFIC DIALOGEX 0, 0, 305, 245
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_COMBO_AUTO_CLEAR,259,3,42,88,CBS_DROPDOWNLIST | WS_TABSTOP
+    PUSHBUTTON      "Show now",IDC_BSHOWHIDE,221,43,80,14
+    LTEXT           "Space between lines:",IDC_STATIC,190,25,70,8
+    CONTROL         "",IDC_APPEARANCEOPTIONS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_NOTOOLTIPS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,3,3,161,153
+    EDITTEXT        IDC_EDIT_SPACE,259,23,30,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_TABSTOP,287,25,9,12
+    LTEXT           "Counters format string:",IDC_STATIC,6,160,136,8
+    EDITTEXT        IDC_EDIT_COUNTER_FORMAT,3,168,298,38,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
+    EDITTEXT        IDC_EDIT_TOOLTIP_FORMAT,3,217,297,13,ES_MULTILINE | ES_AUTOHSCROLL
+    LTEXT           "Tooltip format string:",IDC_STATIC,5,208,81,8
+    LTEXT           "Display traffic for current",IDC_LAST_CLEAR,177,6,81,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPT_TRAFFIC, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 233
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <windows.h>\r\n"
+    "#include <winres.h>\r\n"
+    "#include ""..\\..\\Include\\statusmodes.h""\r\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+#include "version.h"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "Licensed under the terms of the GNU General Public License"
+            VALUE "CompanyName", " "
+            VALUE "FileDescription", "TrafficCounter"
+            VALUE "FileVersion", __VERSION_STRING
+            VALUE "InternalName", "TrafficCounter"
+            VALUE "LegalCopyright", "© 2002-2006 Ghost, © 2007-2012 Mironych"
+            VALUE "OriginalFilename", "TrafficCounter.dll"
+            VALUE "ProductName", "TrafficCounter"
+            VALUE "ProductVersion", __VERSION_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
