@@ -72,7 +72,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, &CMraProto::OnPreShutdown);
 	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, &CMraProto::MraExtraIconsRebuild);
 
-	InitMenus();
+	InitContactMenu();
 
 	// xstatus menu
 	InitXStatusIcons();
@@ -769,7 +769,7 @@ int CMraProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 //	case EV_PROTO_ONOPTIONS: return OnOptionsInit( wParam, lParam );
 
 	case EV_PROTO_ONMENU:
-//		MenuInit();
+		InitMainMenu();
 		break;
 	}
 	return 1;

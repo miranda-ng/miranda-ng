@@ -9,9 +9,9 @@ GUI_DISPLAY_ITEM gdiMenuItems[] =
 	{ MRA_MY_ALBUM,           MRA_MY_ALBUM_STR,           IDI_MRA_PHOTO,      &CMraProto::MraViewAlbum }, 
 	{ MRA_MY_BLOG,            MRA_MY_BLOG_STR,            IDI_MRA_BLOGS,      &CMraProto::MraReadBlog }, 
 	{ MRA_MY_BLOGSTATUS,      MRA_MY_BLOGSTATUS_STR,      IDI_BLOGSTATUS,     &CMraProto::MraReplyBlogStatus }, 
-	{ MRA_MY_VIDEO,           MRA_MY_VIDEO_STR,           IDI_MRA_VIDEO,      &CMraProto::MyVideo }, 
-	{ MRA_MY_ANSWERS,         MRA_MY_ANSWERS_STR,         IDI_MRA_ANSWERS,    &CMraProto::MyAnswers }, 
-	{ MRA_MY_WORLD,           MRA_MY_WORLD_STR,           IDI_MRA_WORLD,      &CMraProto::MyWorld }, 
+	{ MRA_MY_VIDEO,           MRA_MY_VIDEO_STR,           IDI_MRA_VIDEO,      &CMraProto::MraViewVideo }, 
+	{ MRA_MY_ANSWERS,         MRA_MY_ANSWERS_STR,         IDI_MRA_ANSWERS,    &CMraProto::MraAnswers }, 
+	{ MRA_MY_WORLD,           MRA_MY_WORLD_STR,           IDI_MRA_WORLD,      &CMraProto::MraWorld }, 
 	{ MRA_ZHUKI,              MRA_ZHUKI_STR,              IDI_MRA_ZHUKI,      &CMraProto::MraZhuki }, 
 	{ MRA_CHAT,               MRA_CHAT_STR,               IDI_MRA_CHAT,       &CMraProto::MraChat }, 
 	{ MRA_WEB_SEARCH,         MRA_WEB_SEARCH_STR,         IDI_MRA_WEB_SEARCH, &CMraProto::MraWebSearch }, 
@@ -148,13 +148,14 @@ void CMraProto::DestroyXStatusIcons()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMraProto::InitMenus()
+void CMraProto::InitMainMenu()
 {
-	// Main menu initialization
 	HICON hMainIcon = (HICON)LoadImage(masMraSettings.hInstance, MAKEINTRESOURCE(IDI_MRA), IMAGE_ICON, 0, 0, LR_SHARED);
 	CListCreateMenu(200001, 500085000, hMainIcon, NULL, TRUE, gdiMenuItems, SIZEOF(gdiMenuItems), hMainMenuItems);
+}
 
-	// Contact menu initialization
+void CMraProto::InitContactMenu()
+{
 	CListCreateMenu(2000060000, -500050000, NULL, NULL, FALSE, gdiContactMenuItems, SIZEOF(gdiContactMenuItems), hContactMenuItems);
 }
 
@@ -198,7 +199,7 @@ void CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMain
 	for (size_t i = 0; i < dwCount; i++) {
 		memmove(pszServiceFunctionName, pgdiItems[i].lpszName, lstrlenA(pgdiItems[i].lpszName)+1);
 		if (pgdiItems[i].lpFunc)
-			CreateObjectSvc(szServiceFunction, pgdiItems[i].lpFunc);
+			CreateObjectSvc(pgdiItems[i].lpszName, pgdiItems[i].lpFunc);
 		mi.position = int(lPosition + i);
 		mi.icolibItem = pgdiItems[i].hIconHandle;
 		mi.ptszName = pgdiItems[i].lpwszDescr;

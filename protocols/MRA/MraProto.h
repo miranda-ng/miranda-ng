@@ -166,9 +166,6 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	INT_PTR __cdecl MraGotoInbox(WPARAM, LPARAM);
 	INT_PTR __cdecl MraShowInboxStatus(WPARAM, LPARAM);
 	INT_PTR __cdecl MraEditProfile(WPARAM, LPARAM);
-	INT_PTR __cdecl MyVideo(WPARAM, LPARAM);
-	INT_PTR __cdecl MyAnswers(WPARAM, LPARAM);
-	INT_PTR __cdecl MyWorld(WPARAM, LPARAM);
 	INT_PTR __cdecl MraZhuki(WPARAM, LPARAM);
 	INT_PTR __cdecl MraChat(WPARAM, LPARAM);
 	INT_PTR __cdecl MraWebSearch(WPARAM, LPARAM);
@@ -317,7 +314,8 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	void   MraAPCQueueDestroy(PFIFO_MT pffmtAPCQueue);
 	void   __cdecl MraUserAPCThreadProc(LPVOID lpParameter);
 
-	void   InitMenus();
+	void   InitMainMenu();
+	void   InitContactMenu();
 	void   CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMainIcon, LPSTR pszContactOwner, BOOL bIsStatus, const struct GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount, HANDLE *hResult);
 	void   CListShowMenuItem(HANDLE hMenuItem, BOOL bShow);
 

@@ -204,21 +204,6 @@ INT_PTR CMraProto::MraEditProfile(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MyVideo(WPARAM wParam, LPARAM lParam)
-{
-	return MraViewVideo(0, 0);
-}
-
-INT_PTR CMraProto::MyAnswers(WPARAM wParam, LPARAM lParam)
-{
-	return MraAnswers(0, 0);
-}
-
-INT_PTR CMraProto::MyWorld(WPARAM wParam, LPARAM lParam)
-{
-	return MraWorld(0, 0);
-}
-
 INT_PTR CMraProto::MraZhuki(WPARAM wParam, LPARAM lParam)
 {
 	MraMPopSessionQueueAddUrl(hMPopSessionQueue, MRA_ZHUKI_URL, sizeof(MRA_ZHUKI_URL));
