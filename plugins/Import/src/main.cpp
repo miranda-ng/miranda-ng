@@ -32,6 +32,7 @@ int nCustomOptions;
 static HANDLE hImportService = NULL;
 
 HINSTANCE hInst;
+HANDLE hIcoHandle;
 INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 static HWND hwndWizard = NULL;
@@ -113,11 +114,13 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP( &pluginInfo );
 
 	hImportService = CreateServiceFunction(IMPORT_SERVICE, ImportCommand);
+
+	hIcoHandle = IcoLib_Register("import_main", "Import", LPGEN("Import..."), IDI_IMPORT);
 	
 	CLISTMENUITEM mi;
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);
-	mi.icolibItem = IcoLib_Register("import_main", "Import", LPGEN("Import..."), IDI_IMPORT);
+	mi.icolibItem = hIcoHandle;
 	mi.pszName = LPGEN("&Import...");
 	mi.position = 500050000;
 	mi.pszService = IMPORT_SERVICE;

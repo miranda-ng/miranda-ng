@@ -50,6 +50,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_protomod.h>
+#include <m_icolib.h>
 #include <m_utils.h>
 #include <m_findadd.h>
 #include <m_clist.h>
@@ -117,6 +118,7 @@ BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei);
 int CreateGroup(const TCHAR* name, HANDLE hContact);
 
 extern HINSTANCE hInst;
+extern HANDLE hIcoHandle;
 extern HWND hdlgProgress;
 extern void (*DoImport)(HWND);
 extern int nImportOption;
