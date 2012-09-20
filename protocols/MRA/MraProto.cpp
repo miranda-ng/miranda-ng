@@ -552,16 +552,13 @@ int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 		return 0;
 	}
 
-	BOOL bMemAllocated = FALSE;
 	CHAR szEMail[MAX_EMAIL_LEN];
 	DWORD dwFlags = 0;
 	LPWSTR lpwszMessage = NULL;
-	size_t dwEMailSize, dwMessageSize = 0;
 	int iRet = 0;
 
-	dwMessageSize = lstrlenA(lpszMessage);
 	if (flags & PREF_UNICODE)
-		lpwszMessage = (LPWSTR)(lpszMessage+dwMessageSize+1);
+		lpwszMessage = (LPWSTR)(lpszMessage + lstrlenA(lpszMessage)+1 );
 	else if (flags & PREF_UTF)
 		lpwszMessage = mir_utf8decodeT(lpszMessage);
 	else
@@ -572,12 +569,13 @@ int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 		return 0;
 	}
 
+	size_t dwEMailSize;
 	if ( mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
 		BOOL bSlowSend = mraGetByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
 		if ( mraGetByte(NULL, "RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact) & FEATURE_FLAG_RTF_MESSAGE))
 			dwFlags |= MESSAGE_FLAG_RTF;
 
-		iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEMail, dwEMailSize, lpwszMessage, dwMessageSize, NULL, 0);
+		iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEMail, dwEMailSize, lpwszMessage, lstrlen(lpwszMessage), NULL, 0);
 		if (bSlowSend == FALSE)
 			ProtoBroadcastAckAsynchEx(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)NULL, 0);
 	}
