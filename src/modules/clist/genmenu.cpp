@@ -76,7 +76,7 @@ LPTSTR GetMenuItemText(PMO_IntMenuItem pimi)
 {
 	if (pimi->mi.flags & CMIF_KEEPUNTRANSLATED)
 		return pimi->mi.ptszName;
-		
+
 	return TranslateTH(pimi->mi.hLangpack, pimi->mi.ptszName);
 }
 
@@ -823,7 +823,8 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 		mii.fType |= MFT_MENUBARBREAK;
 	}
 
-	mii.dwTypeData = GetMenuItemText(pimi);
+	if (!pimi->CustomName)
+		mii.dwTypeData = GetMenuItemText(pimi);
 
 	InsertMenuItem(hMenu, uItem, TRUE, &mii);
 }
@@ -923,10 +924,8 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			// mi.pszName
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_name", menuItemName);
 			if ( !DBGetContactSettingTString(NULL, MenuNameItems, DBString, &dbv)) {
-				if (_tcslen(dbv.ptszVal) > 0) {
-					if (pmi->CustomName) mir_free(pmi->CustomName);
-					pmi->CustomName = mir_tstrdup(dbv.ptszVal);
-				}
+				if (_tcslen(dbv.ptszVal) > 0)
+					replaceStrT(pmi->CustomName, dbv.ptszVal);
 				DBFreeVariant(&dbv);
 			}
 
