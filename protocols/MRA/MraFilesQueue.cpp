@@ -986,8 +986,6 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 
 DWORD CMraProto::MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, HANDLE hContact, LPWSTR *plpwszFiles, size_t dwFilesCount, DWORD *pdwIDRequest)
 {
-	DWORD dwRetErrorCode;
-
 	if ( !hFilesQueueHandle)
 		return ERROR_INVALID_HANDLE;
 
@@ -996,11 +994,10 @@ DWORD CMraProto::MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, H
 	if ( !dat)
 		return GetLastError();
 
-	size_t i;
 	ULARGE_INTEGER uliFileSize;
 	WIN32_FILE_ATTRIBUTE_DATA wfad;
 
-	//dat->lmtListMTItem;
+	dat->ppro = this;
 	dat->bIsWorking = TRUE;
 	dat->dwSendTime = GetTickCount();
 	dat->dwIDRequest = InterlockedIncrement((LONG volatile*)&dwCMDNum);// уникальный, рандомный идентификатор
