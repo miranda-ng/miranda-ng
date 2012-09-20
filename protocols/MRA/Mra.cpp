@@ -17,9 +17,10 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0xe7c48bab, 0x8ace, 0x4cb3, { 0x84, 0x46, 0xd4, 0xb7, 0x34, 0x81, 0xf4, 0x97 } }
 };
 
+void IconsLoad();
 
-int  OnModulesLoaded		(WPARAM wParam, LPARAM lParam);
-int  OnPreShutdown		(WPARAM wParam, LPARAM lParam);
+int  OnModulesLoaded(WPARAM wParam, LPARAM lParam);
+int  OnPreShutdown(WPARAM wParam, LPARAM lParam);
 
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID Reserved)
 {
@@ -75,6 +76,8 @@ static int mraProtoUninit(CMraProto *ppro)
 extern "C" MRA_API int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
+
+	IconsLoad();
 
 	size_t dwBuffLen;
 	WCHAR szBuff[MAX_FILEPATH];

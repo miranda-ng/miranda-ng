@@ -767,8 +767,7 @@ void CMraProto::MraUpdateEmailStatus(LPSTR lpszFrom, size_t dwFromSize, LPSTR lp
 			lstrcpynW(szStatusText, szMailBoxStatus, SIZEOF(szStatusText));
 		}
 
-		if (bTrayIconNewMailNotify)
-		{
+		if (bTrayIconNewMailNotify) {
 			char szServiceFunction[MAX_PATH], *pszServiceFunctionName;
 			CLISTEVENT cle = {0};
 
@@ -776,7 +775,7 @@ void CMraProto::MraUpdateEmailStatus(LPSTR lpszFrom, size_t dwFromSize, LPSTR lp
 			//cle.hContact;
 			//cle.hDbEvent;
 			cle.lpszProtocol = m_szModuleName;
-			cle.hIcon = IconLibGetIcon(hMainMenuIcons[0]);
+			cle.hIcon = IconLibGetIcon( gdiMenuItems[0].hIconHandle );
 			cle.flags = (CLEF_UNICODE|CLEF_PROTOCOLGLOBAL);
 			cle.pszService = "";
 			cle.ptszTooltip = szStatusText;
@@ -1283,54 +1282,6 @@ DWORD CMraProto::CreateBlobFromContact(HANDLE hContact, LPWSTR lpwszRequestReaso
 	return dwRetErrorCode;
 }
 
-void CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMainIcon, LPSTR pszContactOwner, BOOL bIsMain, const GUI_DISPLAY_ITEM *pgdiItems, HANDLE *hIcoLibIcons, size_t dwCount, HANDLE *hResult)
-{
-	if (!pgdiItems || !hIcoLibIcons || !dwCount || !hResult)
-		return;
-
-	char szServiceFunction[MAX_PATH], *pszServiceFunctionName;
-	strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
-	pszServiceFunctionName = szServiceFunction + strlen(m_szModuleName);
-
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
-
-	HGENMENU (*fnAddFunc)(CLISTMENUITEM*);
-	if (bIsMain) {
-		fnAddFunc = Menu_AddProtoMenuItem;
-
-		HGENMENU hRootMenu = MO_GetProtoRootMenu(m_szModuleName);
-		if (hRootMenu == NULL) {
-			mi.ptszName = m_tszUserName;
-			mi.position = -1999901008;
-			mi.hParentMenu = HGENMENU_ROOT;
-			mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-			mi.hIcon = hMainIcon;
-			hRootMenu = Menu_AddProtoMenuItem(&mi);
-		}
-		mi.hParentMenu = hRootMenu;
-		mi.flags = CMIF_UNICODE | CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP;
-	}
-	else {
-		fnAddFunc = Menu_AddContactMenuItem;
-		mi.ptszPopupName = m_tszUserName;
-		mi.flags = CMIF_UNICODE | CMIF_ICONFROMICOLIB;
-	}
-
-	mi.popupPosition = lPopupPosition;
-	mi.pszService = szServiceFunction;
-
-	for (size_t i = 0; i < dwCount; i++) {
-		memmove(pszServiceFunctionName, pgdiItems[i].lpszName, lstrlenA(pgdiItems[i].lpszName)+1);
-		if (pgdiItems[i].lpFunc)
-			CreateObjectSvc(szServiceFunction, pgdiItems[i].lpFunc);
-		mi.position = int(lPosition + i);
-		mi.icolibItem = hIcoLibIcons[i];
-		mi.ptszName = pgdiItems[i].lpwszDescr;
-		hResult[i] = fnAddFunc(&mi);
-	}
-}
-
 void CMraProto::CListShowMenuItem(HANDLE hMenuItem, BOOL bShow)
 {
 	CLISTMENUITEM mi = {0};
@@ -1568,7 +1519,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 			SetWindowLongPtr(hWndEdit, GWLP_USERDATA, (LONG_PTR)OldMessageEditProc);
 			SendMessage(hWndEdit, EM_LIMITTEXT, MICBLOG_STATUS_MAX, 0);
 
-			SendMessage(hWndDlg, WM_SETICON, ICON_BIG, (LPARAM)IconLibGetIcon(dat->ppro->hMainMenuIcons[5]));
+			SendMessage(hWndDlg, WM_SETICON, ICON_BIG, (LPARAM)IconLibGetIcon(gdiMenuItems[5].hIconHandle));
 
 			// blog status message
 			if (dat->ppro->mraGetStaticStringW(dat->hContact, DBSETTING_BLOGSTATUS, szBuff, SIZEOF(szBuff), NULL))

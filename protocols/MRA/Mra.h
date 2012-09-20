@@ -127,10 +127,11 @@ struct MRA_ADDR_LIST
 // структура содержащая информацию по построению меню или расширеных иконок
 struct GUI_DISPLAY_ITEM
 {
-	LPSTR       lpszName;		// имя сервиса, оно же имя в иколибе
-	LPWSTR      lpwszDescr;		// текстовое описание отображаемое юзеру
-	LONG        defIcon;		// иконка из ресурсов
-	ServiceFunc	lpFunc;			// функция вызываемая меню
+	LPSTR       lpszName;    // имя сервиса, оно же имя в иколибе
+	LPWSTR      lpwszDescr;  // текстовое описание отображаемое юзеру
+	LONG        defIcon;     // иконка из ресурсов
+	ServiceFunc	lpFunc;      // функция вызываемая меню
+	HANDLE      hIconHandle;
 };
 
 // структура содержащая информацию о сервисах/функциях
@@ -140,13 +141,9 @@ struct SERVICE_ITEM
 	ServiceFunc	lpFunc;			// функция вызываемая
 };
 
-extern const GUI_DISPLAY_ITEM gdiMenuItems[];
-extern const GUI_DISPLAY_ITEM gdiContactMenuItems[];
-extern const GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[];
-
-extern const int gdiMenuItemsCount;
-extern const int gdiContactMenuItemsCount;
-extern const int gdiExtraStatusIconsItemsCount;
+extern GUI_DISPLAY_ITEM gdiMenuItems[];
+extern GUI_DISPLAY_ITEM gdiContactMenuItems[];
+extern GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[];
 
 #include "proto.h"
 #include "MraSendCommand.h"
@@ -270,9 +267,5 @@ DWORD  EncodeXML                       (LPTSTR lptszMessage, size_t dwMessageSiz
 DWORD  GetMraStatusFromMiradaStatus    (DWORD dwMirandaStatus, DWORD dwXStatusMir, DWORD *pdwXStatusMra);
 DWORD  GetMiradaStatusFromMraStatus    (DWORD dwMraStatus, DWORD dwXStatusMra, DWORD *pdwXStatusMir);
 DWORD  GetMraXStatusIDFromMraUriStatus (LPSTR lpszStatusUri, size_t dwStatusUriSize);
-
-
-
-
 
 #endif // !defined(AFX_MRA_H__F58D13FF_F6F2_476C_B8F0_7B9E9357CF48__INCLUDED_)

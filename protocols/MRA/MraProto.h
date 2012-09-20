@@ -95,7 +95,6 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	void   ForkThread(ThreadFunc, void*);
 	HANDLE ForkThreadEx(ThreadFunc, void*, UINT* threadID = NULL);
 	HANDLE HookEvent(const char*, EventFunc);
-	void   AddIcoLibItems(LPWSTR lpwszRootSectionName, LPWSTR lpwszSubSectionName, const struct GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount, HANDLE *hResult);
 
 	void   ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode);
 	void   MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszTitle, LPWSTR lpszMessage);
@@ -225,13 +224,8 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	DWORD   dwAPCThreadRunning;
 	HANDLE  hAvatarsQueueHandle;
 
-	HANDLE  hMainMenuIcons[MAIN_MENU_ITEMS_COUNT+4];
 	HANDLE  hMainMenuItems[MAIN_MENU_ITEMS_COUNT+4];
-
-	HANDLE  hContactMenuIcons[CONTACT_MENU_ITEMS_COUNT+4];
 	HANDLE  hContactMenuItems[CONTACT_MENU_ITEMS_COUNT+4];
-
-	HANDLE  hAdvancedStatusIcons[ADV_ICON_MAX+4];
 	HANDLE  hAdvancedStatusItems[ADV_ICON_MAX+4];
 
 	HWND    hWndEMailPopupStatus;
@@ -312,8 +306,6 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 
 	DWORD  MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *plpsFrom, MRA_LPS *plpsText, MRA_LPS *plpsRFTText, MRA_LPS *plpsMultiChatData);
 
-	void   IconsLoad();
-	void   IconsUnLoad();
 	void   InitXStatusIcons();
 	void   DestroyXStatusIcons();
 	void   SetExtraIcons(HANDLE hContact);
@@ -328,7 +320,8 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	void   MraAPCQueueDestroy(PFIFO_MT pffmtAPCQueue);
 	void   __cdecl MraUserAPCThreadProc(LPVOID lpParameter);
 
-	void   CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMainIcon, LPSTR pszContactOwner, BOOL bIsStatus, const struct GUI_DISPLAY_ITEM *pgdiItems, HANDLE *hIcoLibIcons, size_t dwCount, HANDLE *hResult);
+	void   InitMenus();
+	void   CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMainIcon, LPSTR pszContactOwner, BOOL bIsStatus, const struct GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount, HANDLE *hResult);
 	void   CListShowMenuItem(HANDLE hMenuItem, BOOL bShow);
 
 	DWORD  ProtoBroadcastAckAsynchEx(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam, size_t dwLparamSize);

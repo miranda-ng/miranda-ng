@@ -72,14 +72,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, &CMraProto::OnPreShutdown);
 	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, &CMraProto::MraExtraIconsRebuild);
 
-	IconsLoad();
-
-	// Main menu initialization
-	HICON hMainIcon = (HICON)LoadImage(masMraSettings.hInstance, MAKEINTRESOURCE(IDI_MRA), IMAGE_ICON, 0, 0, LR_SHARED);
-	CListCreateMenu(200001, 500085000, hMainIcon, NULL, TRUE, gdiMenuItems, hMainMenuIcons, gdiMenuItemsCount, hMainMenuItems);
-
-	// Contact menu initialization
-	CListCreateMenu(2000060000, -500050000, NULL, NULL, FALSE, gdiContactMenuItems, hContactMenuIcons, gdiContactMenuItemsCount, hContactMenuItems);
+	InitMenus();
 
 	// xstatus menu
 	InitXStatusIcons();
@@ -112,7 +105,6 @@ CMraProto::~CMraProto()
 	Netlib_CloseHandle(hNetlibUser);
 
 	DestroyXStatusIcons();
-	IconsUnLoad();
 
 	if (heNudgeReceived)
 		DestroyHookableEvent(heNudgeReceived);
