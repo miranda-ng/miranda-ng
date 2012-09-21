@@ -636,7 +636,7 @@ static void UnloadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
 {
 	bool bToRebuildTree = false;
 
-	for (int i=0; i < dat->arOpd.getCount(); i++) {
+	for (int i=dat->arOpd.getCount()-1; i >= 0; i--) {
 		OptionsPageData* opd = dat->arOpd[i];
 		if (opd->hInst != hInst)
 			continue;
