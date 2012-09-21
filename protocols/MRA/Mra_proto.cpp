@@ -396,7 +396,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 			WCHAR wszStatusTitle[STATUS_TITLE_MAX+4], wszStatusDesc[STATUS_DESC_MAX+4];
 			DWORD dwStatus, dwXStatus, dwXStatusMir, dwFutureFlags;
 			LPWSTR lpwszStatusTitle, lpwszStatusDesc;
-			size_t dwEMailSize, dwSelfVersionSize, dwStatusTitleSize, dwStatusDescSize, dwUserAgentFormatedSize;
+			size_t dwEMailSize, dwSelfVersionSize, dwStatusTitleSize, dwStatusDescSize, dwUserAgentFormattedSize;
 
 			dwXStatusMir = m_iXStatus;
 			dwStatus = GetMraStatusFromMiradaStatus(m_iDesiredStatus, dwXStatusMir, &dwXStatus);
@@ -425,16 +425,16 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 			}
 
 			MraGetSelfVersionString(szSelfVersionString, SIZEOF(szSelfVersionString), &dwSelfVersionSize);
-			if ( mraGetStaticStringA(NULL, "MirVerCustom", szUserAgentFormated, SIZEOF(szUserAgentFormated), &dwUserAgentFormatedSize) == FALSE) {
-				dwUserAgentFormatedSize = mir_snprintf(szUserAgentFormated, SIZEOF(szUserAgentFormated), 
-					"client=\"magent\" name=\"Miranda IM\" title=\"%s\" version=\"777.%lu.%lu.%lu\" build=\"%lu\" protocol=\"%lu.%lu\"", 
+			if ( mraGetStaticStringA(NULL, "MirVerCustom", szUserAgentFormated, SIZEOF(szUserAgentFormated), &dwUserAgentFormattedSize) == FALSE) {
+				dwUserAgentFormattedSize = mir_snprintf(szUserAgentFormated, SIZEOF(szUserAgentFormated), 
+					"client=\"magent\" name=\"Miranda NG\" title=\"%s\" version=\"777.%lu.%lu.%lu\" build=\"%lu\" protocol=\"%lu.%lu\"", 
 					szSelfVersionString, __FILEVERSION_STRING, PROTO_VERSION_MAJOR, PROTO_VERSION_MINOR);
 			}
 
 			dwFutureFlags = ((mraGetByte(NULL, "RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS);
 
 			if (mraGetStaticStringA(NULL, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
-				MraLogin2W(szEMail, dwEMailSize, (LPSTR)szBuff, dwStringSize, dwStatus, lpcszStatusUri[dwXStatus], lstrlenA(lpcszStatusUri[dwXStatus]), lpwszStatusTitle, dwStatusTitleSize, lpwszStatusDesc, dwStatusDescSize, dwFutureFlags, szUserAgentFormated, dwUserAgentFormatedSize, szSelfVersionString, dwSelfVersionSize);
+				MraLogin2W(szEMail, dwEMailSize, (LPSTR)szBuff, dwStringSize, dwStatus, lpcszStatusUri[dwXStatus], lstrlenA(lpcszStatusUri[dwXStatus]), lpwszStatusTitle, dwStatusTitleSize, lpwszStatusDesc, dwStatusDescSize, dwFutureFlags, szUserAgentFormated, dwUserAgentFormattedSize, szSelfVersionString, dwSelfVersionSize);
 			else 
 				*pbContinue = FALSE;
 

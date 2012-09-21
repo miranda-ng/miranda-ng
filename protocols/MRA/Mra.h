@@ -241,7 +241,7 @@ void   MraAddrListFree(MRA_ADDR_LIST *pmalAddrList);
 DWORD  MraAddrListGetFromBuff(LPSTR lpszAddreses, size_t dwAddresesSize, MRA_ADDR_LIST *pmalAddrList);
 DWORD  MraAddrListGetToBuff(MRA_ADDR_LIST *pmalAddrList, LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSizeRet);
 
-DWORD  MraGetVersionStringFromFormatted (LPSTR lpszUserAgentFormated, size_t dwUserAgentFormatedSize, LPSTR lpszVersion, size_t dwVersionSize, size_t *pdwVersionSizeRet);
+DWORD  MraGetVersionStringFromFormatted (LPSTR dwUserAgentFormatted, size_t dwUserAgentFormattedSize, LPSTR lpszVersion, size_t dwVersionSize, size_t *pdwVersionSizeRet);
 BOOL   IsUnicodeEnv                    ();
 BOOL   IsHTTPSProxyUsed                (HANDLE hNetlibUser);
 BOOL   IsContactMraProto               (HANDLE hContact);

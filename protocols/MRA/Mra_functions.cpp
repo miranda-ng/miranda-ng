@@ -45,7 +45,7 @@ DWORD MraGetSelfVersionString(LPSTR lpszSelfVersion, size_t dwSelfVersionSize, s
 			lpszSecIM = ( ServiceExists("SecureIM/IsContactSecured")? " + SecureIM":"");
 	size_t dwSelfVersionSizeRet;
 
-	dwSelfVersionSizeRet = mir_snprintf(lpszSelfVersion, dwSelfVersionSize, "Miranda IM %lu.%lu.%lu.%lu%s (MRA v%lu.%lu.%lu.%lu)%s, version: %lu.%lu", 
+	dwSelfVersionSizeRet = mir_snprintf(lpszSelfVersion, dwSelfVersionSize, "Miranda NG %lu.%lu.%lu.%lu%s (MRA v%lu.%lu.%lu.%lu)%s, version: %lu.%lu", 
 		v[0], v[1], v[2], v[3], lpszUnicode, 
 		__FILEVERSION_STRING, lpszSecIM, PROTO_VERSION_MAJOR, PROTO_VERSION_MINOR);
 
@@ -79,57 +79,53 @@ DWORD GetParamValue(LPSTR lpszData, size_t dwDataSize, LPSTR lpszParamName, size
 	return ERROR_NOT_FOUND;
 }
 
-DWORD MraGetVersionStringFromFormatted(LPSTR lpszUserAgentFormated, size_t dwUserAgentFormatedSize, LPSTR lpszVersion, size_t dwVersionSize, size_t *pdwVersionSizeRet)
+DWORD MraGetVersionStringFromFormatted(LPSTR dwUserAgentFormatted, size_t dwUserAgentFormattedSize, LPSTR lpszVersion, size_t dwVersionSize, size_t *pdwVersionSizeRet)
 {
-	if (!lpszUserAgentFormated || !dwUserAgentFormatedSize || !lpszVersion || !dwVersionSize)
+	if (!dwUserAgentFormatted || !dwUserAgentFormattedSize || !lpszVersion || !dwVersionSize)
 		return ERROR_INVALID_HANDLE;
 
 	char szBuff[4096];
 	size_t dwBuffSize, dwVersionSizeRet;
 
-	if (GetParamValue(lpszUserAgentFormated, dwUserAgentFormatedSize, "name", 4, szBuff, SIZEOF(szBuff), &dwBuffSize) == NO_ERROR && CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, szBuff, ((dwBuffSize<10)? dwBuffSize:10), "Miranda IM", 10) == CSTR_EQUAL)
-	{// Miranda IM
-		GetParamValue(lpszUserAgentFormated, dwUserAgentFormatedSize, "title", 5, lpszVersion, dwVersionSize, pdwVersionSizeRet);
+	if ( !GetParamValue(dwUserAgentFormatted, dwUserAgentFormattedSize, "name", 4, szBuff, SIZEOF(szBuff), &dwBuffSize))
+		if ( !_strnicmp(szBuff, "Miranda IM", dwBuffSize) || !_strnicmp(szBuff, "Miranda NG", dwBuffSize)) {
+			GetParamValue(dwUserAgentFormatted, dwUserAgentFormattedSize, "title", 5, lpszVersion, dwVersionSize, pdwVersionSizeRet);
+			return 0;
+		}
+
+	dwVersionSizeRet = 0;
+	if ( !GetParamValue(dwUserAgentFormatted, dwUserAgentFormattedSize, "client", 6, lpszVersion, dwVersionSize, &dwBuffSize)) {
+		dwVersionSizeRet += dwBuffSize;
+		*((BYTE*)(lpszVersion+dwVersionSizeRet)) = ' ';
 	}
-	else {
-		dwVersionSizeRet = 0;
 
-		if (GetParamValue(lpszUserAgentFormated, dwUserAgentFormatedSize, "client", 6, lpszVersion, dwVersionSize, &dwBuffSize) == NO_ERROR)
-		{
-			dwVersionSizeRet += dwBuffSize;
-			(*((BYTE*)(lpszVersion+dwVersionSizeRet))) = ' ';
-		}
+	if ( !GetParamValue(dwUserAgentFormatted, dwUserAgentFormattedSize, "name", 4, lpszVersion, dwVersionSize, &dwBuffSize)) {
+		dwVersionSizeRet += dwBuffSize;
+		*((BYTE*)(lpszVersion+dwVersionSizeRet)) = ' ';
+	}
 
-		if (GetParamValue(lpszUserAgentFormated, dwUserAgentFormatedSize, "name", 4, lpszVersion, dwVersionSize, &dwBuffSize) == NO_ERROR)
-		{
-			dwVersionSizeRet += dwBuffSize;
-			(*((BYTE*)(lpszVersion+dwVersionSizeRet))) = ' ';
-		}
+	if ( !GetParamValue(dwUserAgentFormatted, dwUserAgentFormattedSize, "title", 5, lpszVersion, dwVersionSize, &dwBuffSize)) {
+		dwVersionSizeRet += dwBuffSize;
+		*((BYTE*)(lpszVersion+dwVersionSizeRet)) = ' ';
+	}
 
-		if (GetParamValue(lpszUserAgentFormated, dwUserAgentFormatedSize, "title", 5, lpszVersion, dwVersionSize, &dwBuffSize) == NO_ERROR)
-		{
-			dwVersionSizeRet += dwBuffSize;
-			(*((BYTE*)(lpszVersion+dwVersionSizeRet))) = ' ';
-		}
-
-		if (GetParamValue(lpszUserAgentFormated, dwUserAgentFormatedSize, "version", 7, (lpszVersion+dwVersionSizeRet+1), (dwVersionSize-dwVersionSizeRet), &dwBuffSize) == NO_ERROR)
-		{
+	if ( !GetParamValue(dwUserAgentFormatted, dwUserAgentFormattedSize, "version", 7, (lpszVersion+dwVersionSizeRet+1), (dwVersionSize-dwVersionSizeRet), &dwBuffSize)) {
+		dwVersionSizeRet += (dwBuffSize+1);
+		*((BYTE*)(lpszVersion+dwVersionSizeRet)) = '.';
+		if ( !GetParamValue(dwUserAgentFormatted, dwUserAgentFormattedSize, "build", 5, (lpszVersion+dwVersionSizeRet+1), (dwVersionSize-dwVersionSizeRet), &dwBuffSize))
 			dwVersionSizeRet += (dwBuffSize+1);
-			(*((BYTE*)(lpszVersion+dwVersionSizeRet))) = '.';
-			if (GetParamValue(lpszUserAgentFormated, dwUserAgentFormatedSize, "build", 5, (lpszVersion+dwVersionSizeRet+1), (dwVersionSize-dwVersionSizeRet), &dwBuffSize) == NO_ERROR)
-				dwVersionSizeRet += (dwBuffSize+1);
-		}
-
-		// no data extracted, copy raw
-		if (dwVersionSizeRet == 0) {
-			dwVersionSizeRet = ((dwUserAgentFormatedSize<dwVersionSize)? dwUserAgentFormatedSize:dwVersionSize);
-			memmove(lpszVersion, lpszUserAgentFormated, dwVersionSizeRet);
-		}
-
-		if (pdwVersionSizeRet)
-			*pdwVersionSizeRet = dwVersionSizeRet;
 	}
-	return NO_ERROR;
+
+	// no data extracted, copy raw
+	if (dwVersionSizeRet == 0) {
+		dwVersionSizeRet = (dwUserAgentFormattedSize < dwVersionSize) ? dwUserAgentFormattedSize : dwVersionSize;
+		memmove(lpszVersion, dwUserAgentFormatted, dwVersionSizeRet);
+	}
+
+	if (pdwVersionSizeRet)
+		*pdwVersionSizeRet = dwVersionSizeRet;
+
+	return 0;
 }
 
 DWORD MraAddrListGetFromBuff(LPSTR lpszAddreses, size_t dwAddresesSize, MRA_ADDR_LIST *pmalAddrList)

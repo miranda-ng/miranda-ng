@@ -518,17 +518,17 @@ DWORD CMraProto::MraGame(LPSTR lpszEMail, size_t dwEMailSize, DWORD dwGameSessio
 }
 
 // Авторизация
-DWORD CMraProto::MraLogin2W(LPSTR lpszLogin, size_t dwLoginSize, LPSTR lpszPassword, size_t dwPasswordSize, DWORD dwStatus, LPSTR lpszStatusUri, size_t dwStatusUriSize, LPWSTR lpwszStatusTitle, size_t dwStatusTitleSize, LPWSTR lpwszStatusDesc, size_t dwStatusDescSize, DWORD dwFutureFlags, LPSTR lpszUserAgentFormated, size_t dwUserAgentFormatedSize, LPSTR lpszUserAgent, size_t dwUserAgentSize)
+DWORD CMraProto::MraLogin2W(LPSTR lpszLogin, size_t dwLoginSize, LPSTR lpszPassword, size_t dwPasswordSize, DWORD dwStatus, LPSTR lpszStatusUri, size_t dwStatusUriSize, LPWSTR lpwszStatusTitle, size_t dwStatusTitleSize, LPWSTR lpwszStatusDesc, size_t dwStatusDescSize, DWORD dwFutureFlags, LPSTR dwUserAgentFormatted, size_t dwUserAgentFormattedSize, LPSTR lpszUserAgent, size_t dwUserAgentSize)
 {
 	DWORD dwRet = 0;
 
 	if (dwStatusUriSize>SPEC_STATUS_URI_MAX)    dwStatusUriSize = SPEC_STATUS_URI_MAX;
 	if (dwStatusTitleSize>STATUS_TITLE_MAX)     dwStatusTitleSize = STATUS_TITLE_MAX;
 	if (dwStatusDescSize>STATUS_DESC_MAX)       dwStatusDescSize = STATUS_DESC_MAX;
-	if (dwUserAgentFormatedSize>USER_AGENT_MAX) dwUserAgentFormatedSize = USER_AGENT_MAX;
+	if (dwUserAgentFormattedSize>USER_AGENT_MAX) dwUserAgentFormattedSize = USER_AGENT_MAX;
 	if (dwUserAgentSize>MAX_CLIENT_DESCRIPTION) dwUserAgentSize = MAX_CLIENT_DESCRIPTION;
 
-	LPBYTE lpbData = (LPBYTE)mir_calloc((dwLoginSize+dwPasswordSize+sizeof(DWORD)+dwStatusUriSize+(dwStatusTitleSize*sizeof(WCHAR))+(dwStatusDescSize*sizeof(WCHAR))+2+sizeof(DWORD)+(sizeof(DWORD)*2)+dwUserAgentFormatedSize+dwUserAgentSize+32));
+	LPBYTE lpbData = (LPBYTE)mir_calloc((dwLoginSize+dwPasswordSize+sizeof(DWORD)+dwStatusUriSize+(dwStatusTitleSize*sizeof(WCHAR))+(dwStatusDescSize*sizeof(WCHAR))+2+sizeof(DWORD)+(sizeof(DWORD)*2)+dwUserAgentFormattedSize+dwUserAgentSize+32));
 	if (lpbData) {
 		LPBYTE lpbDataCurrent = lpbData;
 		SetLPS(&lpbDataCurrent, lpszLogin, dwLoginSize);
@@ -538,7 +538,7 @@ DWORD CMraProto::MraLogin2W(LPSTR lpszLogin, size_t dwLoginSize, LPSTR lpszPassw
 		SetLPSW(&lpbDataCurrent, lpwszStatusTitle, dwStatusTitleSize);
 		SetLPSW(&lpbDataCurrent, lpwszStatusDesc, dwStatusDescSize);
 		SetUL(&lpbDataCurrent, dwFutureFlags);
-		SetLPS(&lpbDataCurrent, lpszUserAgentFormated, dwUserAgentFormatedSize);
+		SetLPS(&lpbDataCurrent, dwUserAgentFormatted, dwUserAgentFormattedSize);
 		SetLPS(&lpbDataCurrent, "ru", 2);
 		SetLPS(&lpbDataCurrent, NULL, 0);
 		SetLPS(&lpbDataCurrent, NULL, 0);
