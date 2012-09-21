@@ -74,13 +74,13 @@ static const WORD oftenProxyPorts[] = {1080, 1080, 1080, 8080, 8080, 8080};
 static void ShowMultipleControls(HWND hwndDlg, const UINT *controls, int cControls, int state)
 {
 	int i;
-	for (i=0;i<cControls;i++) ShowWindow(GetDlgItem(hwndDlg, controls[i]), state);
+	for (i=0;i<cControls;i++) ShowWindow( GetDlgItem(hwndDlg, controls[i]), state);
 }
 
 static void EnableMultipleControls(HWND hwndDlg, const UINT *controls, int cControls, int state)
 {
 	int i;
-	for (i=0;i<cControls;i++) EnableWindow(GetDlgItem(hwndDlg, controls[i]), state);
+	for (i=0;i<cControls;i++) EnableWindow( GetDlgItem(hwndDlg, controls[i]), state);
 }
 
 static void AddProxyTypeItem(HWND hwndDlg, int type, int selectType)
@@ -173,7 +173,7 @@ static void ChangeSettingIntByCheckbox(HWND hwndDlg, UINT ctrlId, int iUser, int
 
 static void ChangeSettingStringByEdit(HWND hwndDlg, UINT ctrlId, int iUser, int memberOffset)
 {
-	int newValueLen = GetWindowTextLength(GetDlgItem(hwndDlg, ctrlId));
+	int newValueLen = GetWindowTextLength( GetDlgItem(hwndDlg, ctrlId));
 	char *szNewValue = (char*)mir_alloc(newValueLen+1);
 	GetDlgItemTextA(hwndDlg, ctrlId, szNewValue, newValueLen+1);
 	if (iUser == -1) {
@@ -366,13 +366,13 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 							enableUser = enablePass = 1;
 					}
 				}
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PROXYAUTH), enableAuth);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC31),  enableUser);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PROXYUSER), enableUser);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC32),  enablePass);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PROXYPASS), enablePass);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PROXYHOST), enableServer);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PROXYPORT), enableServer);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_PROXYAUTH), enableAuth);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_STATIC31),  enableUser);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_PROXYUSER), enableUser);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_STATIC32),  enablePass);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_PROXYPASS), enablePass);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_PROXYHOST), enableServer);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_PROXYPORT), enableServer);
 			}
 			else EnableMultipleControls(hwndDlg, useProxyControls, SIZEOF(useProxyControls), FALSE);
 			EnableMultipleControls(hwndDlg, specifyPortsControls, SIZEOF(specifyPortsControls), IsDlgButtonChecked(hwndDlg, IDC_SPECIFYPORTS) != BST_UNCHECKED);
@@ -468,7 +468,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			ChangeSettingStringByEdit(hwndDlg, LOWORD(wParam), iUser, offsetof(NETLIBUSERSETTINGS, szOutgoingPorts));
 			break;
 		}
-		ShowWindow(GetDlgItem(hwndDlg, IDC_RECONNECTREQD), SW_SHOW);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_RECONNECTREQD), SW_SHOW);
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 	

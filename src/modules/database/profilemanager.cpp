@@ -131,8 +131,8 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			// what, no plugins?!
 			if (arDbPlugins.getCount() == 0) {
 				EnableWindow(hwndCombo, FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILENAME), FALSE);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_NODBDRIVERS), TRUE);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_PROFILENAME), FALSE);
+				ShowWindow( GetDlgItem(hwndDlg, IDC_NODBDRIVERS), TRUE);
 			}
 			else {
 				for (int i=0; i < arDbPlugins.getCount(); i++) {
@@ -171,12 +171,12 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		return TRUE;
 
 	case WM_FOCUSTEXTBOX:
-		SetFocus(GetDlgItem(hwndDlg, IDC_PROFILENAME));
+		SetFocus( GetDlgItem(hwndDlg, IDC_PROFILENAME));
 		break;
 
 	case WM_INPUTCHANGED: // when input in the edit box changes
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		EnableWindow(dat->hwndOK, GetWindowTextLength(GetDlgItem(hwndDlg, IDC_PROFILENAME)) > 0);
+		EnableWindow(dat->hwndOK, GetWindowTextLength( GetDlgItem(hwndDlg, IDC_PROFILENAME)) > 0);
 		break;
 
 	case WM_SHOWWINDOW:
@@ -550,17 +550,17 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 				tci.pszText = (TCHAR*)odp[i].ptszTitle;
 				if (dat->prof->pd->noProfiles || shouldAutoCreate(dat->prof->pd->szProfile))
 					dat->currentPage = 1;
-				TabCtrl_InsertItem(GetDlgItem(hwndDlg, IDC_TABS), i, &tci);
+				TabCtrl_InsertItem( GetDlgItem(hwndDlg, IDC_TABS), i, &tci);
 			}
 
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_TABS), &dat->rcDisplay);
-			TabCtrl_AdjustRect(GetDlgItem(hwndDlg, IDC_TABS), FALSE, &dat->rcDisplay);
+			GetWindowRect( GetDlgItem(hwndDlg, IDC_TABS), &dat->rcDisplay);
+			TabCtrl_AdjustRect( GetDlgItem(hwndDlg, IDC_TABS), FALSE, &dat->rcDisplay);
 
 			POINT pt = {0, 0};
 			ClientToScreen(hwndDlg, &pt);
 			OffsetRect(&dat->rcDisplay, -pt.x, -pt.y);
 
-			TabCtrl_SetCurSel(GetDlgItem(hwndDlg, IDC_TABS), dat->currentPage);
+			TabCtrl_SetCurSel( GetDlgItem(hwndDlg, IDC_TABS), dat->currentPage);
 			dat->opd[dat->currentPage].hwnd = CreateDialogIndirectParam(dat->opd[dat->currentPage].hInst, dat->opd[dat->currentPage].pTemplate, hwndDlg, dat->opd[dat->currentPage].dlgProc, (LPARAM)dat->prof);
 			ThemeDialogBackground(dat->opd[dat->currentPage].hwnd);
 			SetWindowPos(dat->opd[dat->currentPage].hwnd, HWND_TOP, dat->rcDisplay.left, dat->rcDisplay.top, 0, 0, SWP_NOSIZE);
@@ -574,8 +574,8 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			// service mode combobox
 			if (servicePlugins.getCount() == 0) {
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SM_LABEL), FALSE);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SM_COMBO), FALSE);
+				ShowWindow( GetDlgItem(hwndDlg, IDC_SM_LABEL), FALSE);
+				ShowWindow( GetDlgItem(hwndDlg, IDC_SM_COMBO), FALSE);
 			}
 			else {
 				HWND hwndCombo = GetDlgItem(hwndDlg, IDC_SM_COMBO);
@@ -642,7 +642,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (dat->currentPage != -1 && dat->opd[dat->currentPage].hwnd != NULL)
 					ShowWindow(dat->opd[ dat->currentPage ].hwnd, SW_HIDE);
 
-				dat->currentPage = TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_TABS));
+				dat->currentPage = TabCtrl_GetCurSel( GetDlgItem(hwndDlg, IDC_TABS));
 				if (dat->currentPage != -1) {
 					if (dat->opd[dat->currentPage].hwnd == NULL) {
 						PSHNOTIFY pshn;
@@ -709,7 +709,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 					pshn.hdr.hwndFrom = dat->opd[i].hwnd;
 					SendMessage(dat->opd[i].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 					if (GetWindowLongPtr(dat->opd[i].hwnd, DWLP_MSGRESULT) == PSNRET_INVALID_NOCHANGEPAGE) {
-						TabCtrl_SetCurSel(GetDlgItem(hwndDlg, IDC_TABS), i);
+						TabCtrl_SetCurSel( GetDlgItem(hwndDlg, IDC_TABS), i);
 						if (dat->currentPage != -1)
 							ShowWindow(dat->opd[ dat->currentPage ].hwnd, SW_HIDE);
 						dat->currentPage = i;

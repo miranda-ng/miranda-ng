@@ -329,7 +329,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 							iRow = ListView_GetNextItem(hwndList, iRow, LVNI_ALL);
 					}	}
 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_RESTART), TRUE);
+					ShowWindow( GetDlgItem(hwndDlg, IDC_RESTART), TRUE);
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
 				}
@@ -345,23 +345,23 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						PluginListItemData* dat = (PluginListItemData*)lvi.lParam;
 
 						ListView_GetItemText(hwndList, hdr->iItem, 1, buf, SIZEOF(buf));
-						SetWindowText(GetDlgItem(hwndDlg, IDC_PLUGININFOFRAME), sel ? buf : _T(""));
+						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGININFOFRAME), sel ? buf : _T(""));
 
-						SetWindowTextA(GetDlgItem(hwndDlg, IDC_PLUGINAUTHOR), sel ? dat->author : "");
-						SetWindowTextA(GetDlgItem(hwndDlg, IDC_PLUGINEMAIL), sel ? dat->authorEmail : "");
+						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINAUTHOR), sel ? dat->author : "");
+						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINEMAIL), sel ? dat->authorEmail : "");
 						{
 							TCHAR* p = Langpack_PcharToTchar(dat->description);
-							SetWindowText(GetDlgItem(hwndDlg, IDC_PLUGINLONGINFO), sel ? p : _T(""));
+							SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINLONGINFO), sel ? p : _T(""));
 							mir_free(p);
 						}
-						SetWindowTextA(GetDlgItem(hwndDlg, IDC_PLUGINCPYR), sel ? dat->copyright : "");
-						SetWindowTextA(GetDlgItem(hwndDlg, IDC_PLUGINURL), sel ? dat->homepage : "");
+						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINCPYR), sel ? dat->copyright : "");
+						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINURL), sel ? dat->homepage : "");
 						if (equalUUID(miid_last, dat->uuid))
-							SetWindowText(GetDlgItem(hwndDlg, IDC_PLUGINPID), sel ? TranslateT("<none>") : _T(""));
+							SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINPID), sel ? TranslateT("<none>") : _T(""));
 						else {
 							char szUID[128];
 							uuidToString(dat->uuid, szUID, sizeof(szUID));
-							SetWindowTextA(GetDlgItem(hwndDlg, IDC_PLUGINPID), sel ? szUID : "");
+							SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINPID), sel ? szUID : "");
 			}	}	}	}
 
 			if (hdr->hdr.code == PSN_APPLY) {
@@ -384,7 +384,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				char buf[512];
 				char *p = &buf[7];
 				lstrcpyA(buf, "mailto:");
-				if (GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), p, SIZEOF(buf) - 7))
+				if (GetWindowTextA( GetDlgItem(hwndDlg, LOWORD(wParam)), p, SIZEOF(buf) - 7))
 					CallService(MS_UTILS_OPENURL, 0, (LPARAM) (LOWORD(wParam) == IDC_PLUGINEMAIL ? buf : p));
 				break;
 			}
@@ -395,7 +395,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case WM_DESTROY:
-		RemoveAllItems(GetDlgItem(hwndDlg, IDC_PLUGLIST));
+		RemoveAllItems( GetDlgItem(hwndDlg, IDC_PLUGLIST));
 		break;
 	}
 	return FALSE;

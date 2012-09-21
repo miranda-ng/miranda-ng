@@ -275,6 +275,15 @@ MIR_CORE_DLL(int) NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 	return item->result;
 }
 
+extern "C" MIR_CORE_DLL(int) GetSubscribersCount(THook* pHook)
+{
+	switch ( checkHook(pHook)) {
+		case hookInvalid:
+		case hookEmpty: return 0;
+	}
+	return pHook->subscriberCount;
+}
+
 static HANDLE HookEventInt(int type, const char* name, MIRANDAHOOK hookProc, void* object, LPARAM lParam)
 {
 	mir_cslock lck(csHooks);

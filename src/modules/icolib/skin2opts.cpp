@@ -412,7 +412,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		}
 
 		if (shAutoComplete)
-			shAutoComplete(GetDlgItem(hwndDlg, IDC_ICONSET), 1);
+			shAutoComplete( GetDlgItem(hwndDlg, IDC_ICONSET), 1);
 
 		SetDlgItemText(hwndDlg, IDC_ICONSET, _T("icons.dll"));
 		return TRUE;
@@ -430,7 +430,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				RECT rcPreview, rcGroup;
 
 				GetWindowRect(hPreview, &rcPreview);
-				GetWindowRect(GetDlgItem(hwndDlg, IDC_IMPORTMULTI), &rcGroup);
+				GetWindowRect( GetDlgItem(hwndDlg, IDC_IMPORTMULTI), &rcGroup);
 				//SetWindowPos(hPreview, 0, 0, 0, rcPreview.right-rcPreview.left, rcGroup.bottom-rcPreview.top, SWP_NOZORDER|SWP_NOMOVE);
 			}
 
@@ -547,7 +547,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				ListView_GetItem(hPreview, &lvi);
 				mir_sntprintf(path, MAX_PATH, _T("%s,%d"), filename, (int)lvi.lParam);
 				SendMessage(hwndParent, DM_CHANGEICON, dropHiLite, (LPARAM)path);
-				ListView_SetItemState(GetDlgItem(hwndParent, IDC_PREVIEW), dropHiLite, 0, LVIS_DROPHILITED);
+				ListView_SetItemState( GetDlgItem(hwndParent, IDC_PREVIEW), dropHiLite, 0, LVIS_DROPHILITED);
 		}	}
 		break;
 
@@ -591,7 +591,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_CLOSE:
 		DestroyWindow(hwndDlg);
-		EnableWindow(GetDlgItem(hwndParent, IDC_IMPORT), TRUE);
+		EnableWindow( GetDlgItem(hwndParent, IDC_IMPORT), TRUE);
 		break;
 
 	}
@@ -1000,7 +1000,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_DESTROY:
-		SaveCollapseState(GetDlgItem(hwndDlg, IDC_CATEGORYLIST));
+		SaveCollapseState( GetDlgItem(hwndDlg, IDC_CATEGORYLIST));
 		DestroyWindow(dat->hwndIndex);
 		{
 			mir_cslock lck(csIconList);

@@ -227,11 +227,11 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 			SendDlgItemMessage(hwndDlg, IDC_TYPINGICON, STM_SETICON, (WPARAM)hIcons[8], 0);
 
 			if ( !SendMessage(GetParent(hwndDlg), PSM_ISEXPERT, 0, 0)) {
-				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE)&~(CLS_CHECKBOXES|CLS_GROUPCHECKBOXES|CLS_SHOWHIDDEN));
+				SetWindowLongPtr( GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE, GetWindowLongPtr( GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE)&~(CLS_CHECKBOXES|CLS_GROUPCHECKBOXES|CLS_SHOWHIDDEN));
 				SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_AUTOREBUILD, 0, 0);
 			}
 
-			ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
+			ResetListOptions( GetDlgItem(hwndDlg, IDC_LIST));
 			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRACOLUMNS, IGNOREEVENT_MAX+2, 0);
 
 			{	CLCINFOITEM cii = {0};
@@ -242,14 +242,14 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 
 				cii.pszText = TranslateT("** Unknown contacts **");
 				hItemUnknown = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
-				InitialiseItem(GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemUnknown, 0xFFFFFFFF, 0xFFFFFFFF);
+				InitialiseItem( GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemUnknown, 0xFFFFFFFF, 0xFFFFFFFF);
 			}
 
-			SetAllContactIcons(GetDlgItem(hwndDlg, IDC_LIST));
-			SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+			SetAllContactIcons( GetDlgItem(hwndDlg, IDC_LIST));
+			SetListGroupIcons( GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
 			return TRUE;
 		case WM_SETFOCUS:
-			SetFocus(GetDlgItem(hwndDlg, IDC_LIST));
+			SetFocus( GetDlgItem(hwndDlg, IDC_LIST));
 			break;
 		case WM_NOTIFY:
 			switch(((LPNMHDR)lParam)->idFrom) {
@@ -258,13 +258,13 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 					{
 						case CLN_NEWCONTACT:
 						case CLN_LISTREBUILT:
-							SetAllContactIcons(GetDlgItem(hwndDlg, IDC_LIST));
+							SetAllContactIcons( GetDlgItem(hwndDlg, IDC_LIST));
 							//fall through
 						case CLN_CONTACTMOVED:
-							SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+							SetListGroupIcons( GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
 							break;
 						case CLN_OPTIONSCHANGED:
-							ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
+							ResetListOptions( GetDlgItem(hwndDlg, IDC_LIST));
 							break;
 						case CLN_CHECKCHANGED:
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -281,19 +281,19 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 							if ( !(hitFlags&CLCHT_ONITEMEXTRA)) break;
 							if (nm->iColumn == IGNOREEVENT_MAX) {   //ignore all
 								for (iImage = 0;iImage<IGNOREEVENT_MAX;iImage++)
-									SetIconsForColumn(GetDlgItem(hwndDlg, IDC_LIST), hItem, hItemAll, iImage, iImage+3);
+									SetIconsForColumn( GetDlgItem(hwndDlg, IDC_LIST), hItem, hItemAll, iImage, iImage+3);
 							}
 							else if (nm->iColumn == IGNOREEVENT_MAX+1) {	//ignore none
 								for (iImage = 0;iImage<IGNOREEVENT_MAX;iImage++)
-									SetIconsForColumn(GetDlgItem(hwndDlg, IDC_LIST), hItem, hItemAll, iImage, 0);
+									SetIconsForColumn( GetDlgItem(hwndDlg, IDC_LIST), hItem, hItemAll, iImage, 0);
 							}
 							else {
 								iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
 								if (iImage == 0) iImage = nm->iColumn+3;
 								else if (iImage != 0xFF) iImage = 0;
-								SetIconsForColumn(GetDlgItem(hwndDlg, IDC_LIST), hItem, hItemAll, nm->iColumn, iImage);
+								SetIconsForColumn( GetDlgItem(hwndDlg, IDC_LIST), hItem, hItemAll, nm->iColumn, iImage);
 							}
-							SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+							SetListGroupIcons( GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 							break;
 						}
@@ -308,18 +308,18 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 							do {
 								hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-								if (hItem) SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), hContact, hItem, "Mask1");
+								if (hItem) SaveItemMask( GetDlgItem(hwndDlg, IDC_LIST), hContact, hItem, "Mask1");
 								if (SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
 									DBDeleteContactSetting(hContact, "CList", "Hidden");
 								else
 									DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
 							} while (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
-							SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemAll, "Default1");
-							SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemUnknown, "Mask1");
+							SaveItemMask( GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemAll, "Default1");
+							SaveItemMask( GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemUnknown, "Mask1");
 							return TRUE;
 						}
 						case PSN_EXPERTCHANGED:
-							SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE, ((PSHNOTIFY*)lParam)->lParam?GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE)|CLS_CHECKBOXES|CLS_GROUPCHECKBOXES|CLS_SHOWHIDDEN:GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE)&~(CLS_CHECKBOXES|CLS_GROUPCHECKBOXES|CLS_SHOWHIDDEN));
+							SetWindowLongPtr( GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE, ((PSHNOTIFY*)lParam)->lParam?GetWindowLongPtr( GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE)|CLS_CHECKBOXES|CLS_GROUPCHECKBOXES|CLS_SHOWHIDDEN:GetWindowLongPtr( GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE)&~(CLS_CHECKBOXES|CLS_GROUPCHECKBOXES|CLS_SHOWHIDDEN));
 							SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_AUTOREBUILD, 0, 0);
 							break;
 					}

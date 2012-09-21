@@ -184,13 +184,13 @@ static void SaveOptionsTreeState(HWND hdlg)
 	tvi.mask = TVIF_TEXT | TVIF_STATE;
 	tvi.pszText = str;
 	tvi.cchTextMax = SIZEOF(str);
-	tvi.hItem = TreeView_GetRoot(GetDlgItem(hdlg, IDC_PAGETREE));
+	tvi.hItem = TreeView_GetRoot( GetDlgItem(hdlg, IDC_PAGETREE));
 	while (tvi.hItem != NULL) {
-		if (SendMessageA(GetDlgItem(hdlg, IDC_PAGETREE), TVM_GETITEMA, 0, (LPARAM)&tvi)) {
+		if (SendMessageA( GetDlgItem(hdlg, IDC_PAGETREE), TVM_GETITEMA, 0, (LPARAM)&tvi)) {
 			mir_snprintf(buf, SIZEOF(buf), "%s%s", OPTSTATE_PREFIX, str);
 			DBWriteContactSettingByte(NULL, "Options", buf, (BYTE)((tvi.state&TVIS_EXPANDED)?1:0));
 		}
-		tvi.hItem = TreeView_GetNextSibling(GetDlgItem(hdlg, IDC_PAGETREE), tvi.hItem);
+		tvi.hItem = TreeView_GetNextSibling( GetDlgItem(hdlg, IDC_PAGETREE), tvi.hItem);
 }	}
 
 #define DM_FOCUSPAGE   (WM_USER+10)
@@ -479,7 +479,7 @@ static void CALLBACK FilterSearchTimerFunc(HWND hwnd, UINT, UINT_PTR, DWORD)
 		DestroyWindow(hFilterSearchWnd);
 		hFilterSearchWnd = NULL;
 	}
-	RedrawWindow(GetDlgItem(hwnd, IDC_KEYWORD_FILTER), NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_ERASE);
+	RedrawWindow( GetDlgItem(hwnd, IDC_KEYWORD_FILTER), NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_ERASE);
 }
 
 static void ExecuteFindFilterStringsTimer(HWND hdlg)
@@ -681,7 +681,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			if (getComboBoxInfo) {
 				COMBOBOXINFO cbi;
 				cbi.cbSize = sizeof(COMBOBOXINFO);
-				getComboBoxInfo(GetDlgItem(hdlg, IDC_KEYWORD_FILTER), &cbi);
+				getComboBoxInfo( GetDlgItem(hdlg, IDC_KEYWORD_FILTER), &cbi);
 				OptionsFilterDefaultProc = (WNDPROC)SetWindowLongPtr(cbi.hwndItem, GWLP_WNDPROC, (LONG_PTR) OptionsFilterSubclassProc);
 
 				if (IsAeroMode()) {
@@ -695,7 +695,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			Utils_RestoreWindowPositionNoSize(hdlg, NULL, "Options", "");
 			Window_SetIcon_IcoLib(hdlg, SKINICON_OTHER_OPTIONS);
 			CheckDlgButton(hdlg, IDC_EXPERT, DBGetContactSettingByte(NULL, "Options", "Expert", SETTING_SHOWEXPERT_DEFAULT)?BST_CHECKED:BST_UNCHECKED);
-			EnableWindow(GetDlgItem(hdlg, IDC_APPLY), FALSE);
+			EnableWindow( GetDlgItem(hdlg, IDC_APPLY), FALSE);
 			dat = new OptionsDlgData;
 			SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)dat);
 			SetWindowText(hdlg, psh->pszCaption);
@@ -754,7 +754,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			mir_free(lastPage);
 			mir_free(lastTab);
 
-			GetWindowRect(GetDlgItem(hdlg, IDC_STNOPAGE), &dat->rcDisplay);
+			GetWindowRect( GetDlgItem(hdlg, IDC_STNOPAGE), &dat->rcDisplay);
 			MapWindowPoints(NULL, hdlg, (LPPOINT)&dat->rcDisplay, 2);
 
 			// Add an item to count in height
@@ -762,11 +762,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			tie.mask = TCIF_TEXT | TCIF_IMAGE;
 			tie.iImage = -1;
 			tie.pszText = _T("X");
-			TabCtrl_InsertItem(GetDlgItem(hdlg, IDC_TAB), 0, &tie);
+			TabCtrl_InsertItem( GetDlgItem(hdlg, IDC_TAB), 0, &tie);
 
-			GetWindowRect(GetDlgItem(hdlg, IDC_TAB), &dat->rcTab);
+			GetWindowRect( GetDlgItem(hdlg, IDC_TAB), &dat->rcTab);
 			MapWindowPoints(NULL, hdlg, (LPPOINT)&dat->rcTab, 2);
-			TabCtrl_AdjustRect(GetDlgItem(hdlg, IDC_TAB), FALSE, &dat->rcTab);
+			TabCtrl_AdjustRect( GetDlgItem(hdlg, IDC_TAB), FALSE, &dat->rcTab);
 
 			//!!!!!!!!!! int enableKeywordFiltering = DBGetContactSettingWord(NULL, "Options", "EnableKeywordFiltering", TRUE); 
 			FillFilterCombo(0, hdlg, dat); //!!!!!!!!!!  enableKeywordFiltering, 
@@ -801,9 +801,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				_tcsncpy(dat->szFilterString, pos, SIZEOF(dat->szFilterString));
 			}
 			else  {
-				int sel = SendMessage(GetDlgItem(hdlg, IDC_KEYWORD_FILTER), (UINT) CB_GETCURSEL, 0, 0);
+				int sel = SendMessage( GetDlgItem(hdlg, IDC_KEYWORD_FILTER), (UINT) CB_GETCURSEL, 0, 0);
 				if (sel != -1) {
-					HINSTANCE hinst = (HINSTANCE)SendMessage(GetDlgItem(hdlg, IDC_KEYWORD_FILTER), (UINT) CB_GETITEMDATA,  sel , 0);
+					HINSTANCE hinst = (HINSTANCE)SendMessage( GetDlgItem(hdlg, IDC_KEYWORD_FILTER), (UINT) CB_GETITEMDATA,  sel , 0);
 					TCHAR szFileName[300];
 					GetModuleFileName(hinst, szFileName, SIZEOF(szFileName));
 					TCHAR *pos = _tcsrchr(szFileName, _T('\\'));
@@ -941,9 +941,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			}
 
 			if (dat->szFilterString[0] == 0) // Clear the keyword combo box
-				SetWindowText(GetDlgItem(hdlg, IDC_KEYWORD_FILTER), _T(""));
+				SetWindowText( GetDlgItem(hdlg, IDC_KEYWORD_FILTER), _T(""));
 			if ( !bRemoveFocusFromFilter)
-				SetFocus(GetDlgItem(hdlg, IDC_KEYWORD_FILTER)); //set the focus back to the combo box
+				SetFocus( GetDlgItem(hdlg, IDC_KEYWORD_FILTER)); //set the focus back to the combo box
 
 			SendDlgItemMessage(hdlg, IDC_KEYWORD_FILTER, CB_SETEDITSEL, 0, oldSel); //but don't select any of the text
 			
@@ -960,7 +960,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		break;
 
 	case PSM_CHANGED:
-		EnableWindow(GetDlgItem(hdlg, IDC_APPLY), TRUE);
+		EnableWindow( GetDlgItem(hdlg, IDC_APPLY), TRUE);
 		
 		opd = dat->getCurrent();
 		if (opd)
@@ -1003,7 +1003,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 			case TCN_SELCHANGE:
 			case TVN_SELCHANGED:
-				ShowWindow(GetDlgItem(hdlg, IDC_STNOPAGE), SW_HIDE);
+				ShowWindow( GetDlgItem(hdlg, IDC_STNOPAGE), SW_HIDE);
 				
 				opd = dat->getCurrent();
 				if (opd && opd->hwnd != NULL)
@@ -1016,14 +1016,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 					TreeView_GetItem(hwndTree, &tvi);
 					dat->currentPage = tvi.lParam;
-					ShowWindow(GetDlgItem(hdlg, IDC_TAB), SW_HIDE);
+					ShowWindow( GetDlgItem(hdlg, IDC_TAB), SW_HIDE);
 				} 
 				else {
 					TCITEM tie;
 					TVITEM tvi;
 
 					tie.mask = TCIF_PARAM;
-					TabCtrl_GetItem(GetDlgItem(hdlg, IDC_TAB), TabCtrl_GetCurSel(GetDlgItem(hdlg, IDC_TAB)), &tie);
+					TabCtrl_GetItem( GetDlgItem(hdlg, IDC_TAB), TabCtrl_GetCurSel( GetDlgItem(hdlg, IDC_TAB)), &tie);
 					dat->currentPage = tie.lParam;
 
 					tvi.hItem = dat->hCurrentPage;
@@ -1034,7 +1034,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				{
 					OptionsPageData* p = dat->getCurrent();
 					if (p == NULL) {
-						ShowWindow(GetDlgItem(hdlg, IDC_STNOPAGE), SW_SHOW);
+						ShowWindow( GetDlgItem(hdlg, IDC_STNOPAGE), SW_SHOW);
 						break;
 					}
 					if (p->hwnd == NULL) {
@@ -1051,13 +1051,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 						GetWindowRect(p->hwnd, &rc);
 
 						if (p->simpleBottomControlId) {
-							GetWindowRect(GetDlgItem(p->hwnd, p->simpleBottomControlId), &rcControl);
+							GetWindowRect( GetDlgItem(p->hwnd, p->simpleBottomControlId), &rcControl);
 							p->simpleHeight = rcControl.bottom-rc.top;
 						}
 						else p->simpleHeight = p->expertHeight;
 
 						if (p->simpleRightControlId) {
-							GetWindowRect(GetDlgItem(p->hwnd, p->simpleRightControlId), &rcControl);
+							GetWindowRect( GetDlgItem(p->hwnd, p->simpleRightControlId), &rcControl);
 							p->simpleWidth = rcControl.right-rc.left;
 						}
 						else p->simpleWidth = p->expertWidth;
@@ -1068,7 +1068,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 						}
 						else {
 							for (int i=0; i < p->nExpertOnlyControls; i++)
-								ShowWindow(GetDlgItem(p->hwnd, p->expertOnlyControls[i]), SW_HIDE);
+								ShowWindow( GetDlgItem(p->hwnd, p->expertOnlyControls[i]), SW_HIDE);
 							w = p->simpleWidth;
 							h = p->simpleHeight;
 						}
@@ -1219,7 +1219,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					SendMessage(opd->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 
 					for (int j = 0; j < opd->nExpertOnlyControls; j++)
-						ShowWindow(GetDlgItem(opd->hwnd, opd->expertOnlyControls[j]), expert ? SW_SHOW : SW_HIDE);
+						ShowWindow( GetDlgItem(opd->hwnd, opd->expertOnlyControls[j]), expert ? SW_SHOW : SW_HIDE);
 
 					opd->insideTab = IsInsideTab(hdlg, dat, i);
 
@@ -1264,9 +1264,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 							}
 						}
 						if (opd->insideTab)
-							ShowWindow(GetDlgItem(hdlg, IDC_TAB), SW_SHOW);
+							ShowWindow( GetDlgItem(hdlg, IDC_TAB), SW_SHOW);
 						else
-							ShowWindow(GetDlgItem(hdlg, IDC_TAB), SW_HIDE);
+							ShowWindow( GetDlgItem(hdlg, IDC_TAB), SW_HIDE);
 					}
 
 					if (opd->insideTab) {
@@ -1305,7 +1305,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					return TRUE;
 				
 				PSHNOTIFY pshn;
-				EnableWindow(GetDlgItem(hdlg, IDC_APPLY), FALSE);
+				EnableWindow( GetDlgItem(hdlg, IDC_APPLY), FALSE);
 				SetFocus(hwndTree);
 
 				opd = dat->getCurrent();
@@ -1428,14 +1428,14 @@ static void OpenOptionsNow(int hLangpack, const char *pszGroup, const char *pszP
 			HTREEITEM hItem = NULL;
 			if (pszGroup != NULL) {
 				mir_ptr<TCHAR> ptszGroup( mir_a2t(pszGroup));
-				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(hLangpack, ptszGroup));
+				hItem = FindNamedTreeItemAtRoot( GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(hLangpack, ptszGroup));
 				if (hItem != NULL)
-					hItem = FindNamedTreeItemAtChildren(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, TranslateTH(hLangpack, ptszPage));
+					hItem = FindNamedTreeItemAtChildren( GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, TranslateTH(hLangpack, ptszPage));
 			}
-			else hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(hLangpack, ptszPage));
+			else hItem = FindNamedTreeItemAtRoot( GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(hLangpack, ptszPage));
 
 			if (hItem != NULL)
-				TreeView_SelectItem(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem);
+				TreeView_SelectItem( GetDlgItem(hwndOptions, IDC_PAGETREE), hItem);
 		}	
 	}
 	else {

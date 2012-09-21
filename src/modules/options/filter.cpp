@@ -167,7 +167,7 @@ static INT_PTR CALLBACK DlgProcOptSearch(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		break;
 
 	case WM_SETFOCUS:
-		SetFocus(GetDlgItem(hWnd, IDC_ENABLE_KEYWORDFILTERING));
+		SetFocus( GetDlgItem(hWnd, IDC_ENABLE_KEYWORDFILTERING));
 		break;
 
 	case WM_NOTIFY:

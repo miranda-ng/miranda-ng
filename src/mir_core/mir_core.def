@@ -130,3 +130,4 @@ db_setCurrent                 @127
 CmdLine_GetOption             @128
 CmdLine_Parse                 @129
 Utf8CheckString               @130
+GetSubscribersCount           @131

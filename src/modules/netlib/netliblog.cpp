@@ -76,7 +76,8 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		CheckDlgButton(hwndDlg, IDC_DUMPSSL, logOptions.dumpSsl?BST_CHECKED:BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_TEXTDUMPS, logOptions.textDumps?BST_CHECKED:BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_AUTODETECTTEXT, logOptions.autoDetectText?BST_CHECKED:BST_UNCHECKED);
-		{	int i;
+		{	
+			int i;
 			for (i=0; i < SIZEOF(szTimeFormats); i++)
 				SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szTimeFormats[i]));
 		}
@@ -212,11 +213,11 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				mir_cslock lck(logOptions.cs);
 
 				mir_free(logOptions.szUserFile);
-				GetWindowText(GetDlgItem(hwndDlg, IDC_FILENAME), str, MAX_PATH);
+				GetWindowText( GetDlgItem(hwndDlg, IDC_FILENAME), str, MAX_PATH);
 				logOptions.szUserFile = mir_tstrdup(str);
 
 				mir_free(logOptions.szFile);
-				GetWindowText(GetDlgItem(hwndDlg, IDC_PATH), str, MAX_PATH);
+				GetWindowText( GetDlgItem(hwndDlg, IDC_PATH), str, MAX_PATH);
 				logOptions.szFile = mir_tstrdup(str);
 
 				logOptions.dumpRecv = IsDlgButtonChecked(hwndDlg, IDC_DUMPRECV);
@@ -286,7 +287,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		DestroyWindow(hwndDlg);
 		break;
 	case WM_DESTROY:
-		ImageList_Destroy(TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_FILTER), TVSIL_STATE));
+		ImageList_Destroy(TreeView_GetImageList( GetDlgItem(hwndDlg, IDC_FILTER), TVSIL_STATE));
 		logOptions.hwndOpts = NULL;
 		break;
 	}
@@ -318,13 +319,13 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	if ( !bIsActive)
 		return 0;
 
-	if ((nlu != NULL && GetNetlibHandleType(nlu) != NLH_USER) || pszMsg == NULL) 
-	{
+	if ((nlu != NULL && GetNetlibHandleType(nlu) != NLH_USER) || pszMsg == NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
-	if (nlu == NULL) /* if the Netlib user handle is NULL, just pretend its not */
-	{
+
+	/* if the Netlib user handle is NULL, just pretend its not */
+	if (nlu == NULL) { 
 		if ( !logOptions.toLog)
 			return 1;
 		nlu = &nludummy;
@@ -334,8 +335,7 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	dwOriginalLastError = GetLastError();
-	switch (logOptions.timeFormat) 
-	{
+	switch (logOptions.timeFormat) {
 	case TIMEFORMAT_HHMMSS:
 		GetTimeFormatA(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, 
 			NULL, NULL, szTime, SIZEOF(szTime));
@@ -361,13 +361,13 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	}
 	if (logOptions.timeFormat || logOptions.showUser)
 		mir_snprintf(szHead, SIZEOF(szHead) - 1, "[%s%s%s] ", szTime, 
-			(logOptions.showUser && logOptions.timeFormat) ? " " : "", 
-			logOptions.showUser ? nlu->user.szSettingsModule : "");
+		(logOptions.showUser && logOptions.timeFormat) ? " " : "", 
+		logOptions.showUser ? nlu->user.szSettingsModule : "");
 	else
 		szHead[0] = 0;
 
 	if (logOptions.toOutputDebugString) {
-	    if (szHead[0])
+		if (szHead[0])
 			OutputDebugStringA(szHead);
 		OutputDebugStringA(pszMsg);
 		OutputDebugStringA("\n");
@@ -432,7 +432,7 @@ void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, 
 	char *szBuf;
 	int titleLineLen;
 	struct NetlibUser *nlu;
-    bool useStack = false;
+	bool useStack = false;
 
 	// This section checks a number of conditions and aborts
 	// the dump if the data should not be written to the log
@@ -442,7 +442,7 @@ void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, 
 		return;
 
 	// Check user's log settings
-	if ( !(logOptions.toOutputDebugString || (logOptions.toFile && logOptions.szFile[0])))
+	if ( !(logOptions.toOutputDebugString || GetSubscribersCount(hLogEvent) != 0 || (logOptions.toFile && logOptions.szFile[0])))
 		return;
 	if ((sent && !logOptions.dumpSent) || (!sent && !logOptions.dumpRecv))
 		return;
@@ -458,8 +458,7 @@ void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, 
 	ReleaseMutex(hConnectionHeaderMutex);
 
 	// check filter settings
-	if (nlu == NULL) 
-	{
+	if (nlu == NULL) {
 		if ( !logOptions.toLog)
 			return;
 	}
@@ -468,29 +467,23 @@ void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, 
 
 	if ( !logOptions.textDumps)
 		isText = 0;
-	else if ( !(flags&MSG_DUMPASTEXT))
-	{
-		if (logOptions.autoDetectText) 
-		{
-			int i;
-			for (i=0; i<len; i++)
-			{
-				if ((buf[i]<' ' && buf[i] != '\t' && buf[i] != '\r' && buf[i] != '\n') || buf[i]>=0x80)
-				{
+	else if ( !(flags & MSG_DUMPASTEXT)) {
+		if (logOptions.autoDetectText) {
+			for (int i=0; i < len; i++) {
+				if ((buf[i] < ' ' && buf[i] != '\t' && buf[i] != '\r' && buf[i] != '\n') || buf[i] >= 0x80) {
 					isText = 0;
 					break;
 				}
 			}
 		}
-		else
-			isText = 0;
+		else isText = 0;
 	}
 
 	// Text data
 	if (isText) {
-        int sz = titleLineLen + len + 1;
-        useStack = sz <= 8192;
-        szBuf = (char*)(useStack ? alloca(sz) : mir_alloc(sz));
+		int sz = titleLineLen + len + 1;
+		useStack = sz <= 8192;
+		szBuf = (char*)(useStack ? alloca(sz) : mir_alloc(sz));
 		CopyMemory(szBuf, szTitleLine, titleLineLen);
 		CopyMemory(szBuf + titleLineLen, (const char*)buf, len);
 		szBuf[titleLineLen + len] = '\0';
@@ -498,13 +491,12 @@ void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, 
 	// Binary data
 	else {
 		int line, col, colsInLine;
-		char *pszBuf;
-        int sz = titleLineLen + ((len+16)>>4) * 78 + 1;
-        useStack = sz <= 8192;
+		int sz = titleLineLen + ((len+16)>>4) * 78 + 1;
+		useStack = sz <= 8192;
 
-        szBuf = (char*)(useStack ? alloca(sz) : mir_alloc(sz));
+		szBuf = (char*)(useStack ? alloca(sz) : mir_alloc(sz));
 		CopyMemory(szBuf, szTitleLine, titleLineLen);
-		pszBuf = szBuf + titleLineLen;
+		char *pszBuf = szBuf + titleLineLen;
 		for (line = 0;; line += 16) {
 			colsInLine = min(16, len - line);
 
@@ -520,8 +512,7 @@ void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, 
 				for (col = 0; col < colsInLine; col++)
 					pszBuf += wsprintfA(pszBuf, "%02X%c", buf[line + col], ((col&3) == 3 && col != 15)?'-':' ');
 				// Fill out last line with blanks
-				for (; col<16; col++)
-					{
+				for (; col<16; col++) {
 					lstrcpyA(pszBuf, "   ");
 					pszBuf += 3;
 				}
@@ -541,7 +532,8 @@ void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, 
 	}
 
 	NetlibLog((WPARAM)nlu, (LPARAM)szBuf);
-    if ( !useStack) mir_free(szBuf);
+	if ( !useStack)
+		mir_free(szBuf);
 }
 
 void NetlibLogInit(void)
@@ -572,8 +564,7 @@ void NetlibLogInit(void)
 	logOptions.toFile = DBGetContactSettingByte(NULL, "Netlib", "ToFile", 0);
 	logOptions.toLog = DBGetContactSettingDword(NULL, "Netlib", "NLlog", 1);
 
-	if ( !DBGetContactSettingTString(NULL, "Netlib", "File", &dbv))
-	{
+	if ( !DBGetContactSettingTString(NULL, "Netlib", "File", &dbv)) {
 		logOptions.szUserFile = mir_tstrdup(dbv.ptszVal);
 		TCHAR *pszNewPath = Utils_ReplaceVarsT(dbv.ptszVal);
 
@@ -584,8 +575,7 @@ void NetlibLogInit(void)
 		mir_free(pszNewPath);
 		DBFreeVariant(&dbv);
 	}
-	else 
-	{
+	else {
 		logOptions.szUserFile = mir_tstrdup(_T("%miranda_logpath%\\netlog.txt"));
 		logOptions.szFile = Utils_ReplaceVarsT(logOptions.szUserFile);
 	}

@@ -86,7 +86,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 				}
 			}
 			SendDlgItemMessage(hwndDlg, IDC_PROTOTYPECOMBO, CB_SETCURSEL, 0, 0);
-			EnableWindow(GetDlgItem(hwndDlg, IDOK), cnt != 0);
+			EnableWindow( GetDlgItem(hwndDlg, IDOK), cnt != 0);
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 			AccFormDlgParam* param = (AccFormDlgParam*)lParam;
@@ -96,7 +96,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 			else {
 				TCHAR str[200];
 				if (param->action == PRAC_CHANGED) { // update
-					EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOTYPECOMBO), FALSE);
+					EnableWindow( GetDlgItem(hwndDlg, IDC_PROTOTYPECOMBO), FALSE);
 					mir_sntprintf(str, SIZEOF(str), _T("%s: %s"), TranslateT("Editing account"), param->pa->tszAccountName);
 				}
 				else mir_sntprintf(str, SIZEOF(str), _T("%s: %s"), TranslateT("Upgrading account"), param->pa->tszAccountName);
@@ -106,7 +106,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 				SetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, param->pa->szModuleName);
 				SendDlgItemMessageA(hwndDlg, IDC_PROTOTYPECOMBO, CB_SELECTSTRING, -1, (LPARAM)param->pa->szProtoName);
 
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ACCINTERNALNAME), FALSE);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_ACCINTERNALNAME), FALSE);
 			}
 			SendDlgItemMessage(hwndDlg, IDC_ACCINTERNALNAME, EM_LIMITTEXT, 40, 0);
 		}
@@ -239,7 +239,7 @@ struct TAccListData
 
 static void sttClickButton(HWND hwndDlg, int idcButton)
 {
-	if (IsWindowEnabled(GetDlgItem(hwndDlg, idcButton)))
+	if (IsWindowEnabled( GetDlgItem(hwndDlg, idcButton)))
 		PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(idcButton, BN_CLICKED), (LPARAM)GetDlgItem(hwndDlg, idcButton));
 }
 
@@ -412,10 +412,10 @@ static void sttUpdateAccountInfo(HWND hwndDlg, struct TAccMgrData *dat)
 
 		PROTOACCOUNT *pa = (PROTOACCOUNT *)ListBox_GetItemData(hwndList, curSel);
 		if (pa) {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_UPGRADE), pa->bOldProto || pa->bDynDisabled);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT), !pa->bOldProto && !pa->bDynDisabled);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_OPTIONS), pa->ppro != 0);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_UPGRADE), pa->bOldProto || pa->bDynDisabled);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_EDIT), !pa->bOldProto && !pa->bDynDisabled);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_REMOVE), TRUE);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_OPTIONS), pa->ppro != 0);
 
 			if (dat->iSelected >= 0) {
 				PROTOACCOUNT *pa_old = (PROTOACCOUNT *)ListBox_GetItemData(hwndList, dat->iSelected);
@@ -424,12 +424,12 @@ static void sttUpdateAccountInfo(HWND hwndDlg, struct TAccMgrData *dat)
 			}
 
 			if (pa->hwndAccMgrUI) {
-				ShowWindow(GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_HIDE);
+				ShowWindow( GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_HIDE);
 				ShowWindow(pa->hwndAccMgrUI, SW_SHOW);
 			}
 			else if ( !pa->ppro) {
-				ShowWindow(GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_SHOW);
-				SetWindowText(GetDlgItem(hwndDlg, IDC_TXT_INFO), TranslateT("Account is disabled. Please activate it to access options."));
+				ShowWindow( GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_SHOW);
+				SetWindowText( GetDlgItem(hwndDlg, IDC_TXT_INFO), TranslateT("Account is disabled. Please activate it to access options."));
 			}
 			else {
 				mir_snprintf(svc, SIZEOF(svc), "%s%s", pa->szModuleName, PS_CREATEACCMGRUI);
@@ -437,28 +437,28 @@ static void sttUpdateAccountInfo(HWND hwndDlg, struct TAccMgrData *dat)
 				if (hwnd && (hwnd != (HWND)CALLSERVICE_NOTFOUND)) {
 					RECT rc;
 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_HIDE);
+					ShowWindow( GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_HIDE);
 
-					GetWindowRect(GetDlgItem(hwndDlg, IDC_TXT_INFO), &rc);
+					GetWindowRect( GetDlgItem(hwndDlg, IDC_TXT_INFO), &rc);
 					MapWindowPoints(NULL, hwndDlg, (LPPOINT)&rc, 2);
 					SetWindowPos(hwnd, hwndList, rc.left, rc.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
 
 					pa->hwndAccMgrUI = hwnd;
 				}
 				else {
-					ShowWindow(GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_SHOW);
-					SetWindowText(GetDlgItem(hwndDlg, IDC_TXT_INFO), TranslateT(legacyMsg));
+					ShowWindow( GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_SHOW);
+					SetWindowText( GetDlgItem(hwndDlg, IDC_TXT_INFO), TranslateT(legacyMsg));
 			}	}
 			return;
 	}	}
 	
-	EnableWindow(GetDlgItem(hwndDlg, IDC_UPGRADE), FALSE);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT), FALSE);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_OPTIONS), FALSE);
+	EnableWindow( GetDlgItem(hwndDlg, IDC_UPGRADE), FALSE);
+	EnableWindow( GetDlgItem(hwndDlg, IDC_EDIT), FALSE);
+	EnableWindow( GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
+	EnableWindow( GetDlgItem(hwndDlg, IDC_OPTIONS), FALSE);
 
-	ShowWindow(GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_SHOW);
-	SetWindowText(GetDlgItem(hwndDlg, IDC_TXT_INFO), TranslateT(welcomeMsg));
+	ShowWindow( GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_SHOW);
+	SetWindowText( GetDlgItem(hwndDlg, IDC_TXT_INFO), TranslateT(welcomeMsg));
 }
 
 INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -480,10 +480,10 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			Button_SetIcon_IcoLib(hwndDlg, IDC_OPTIONS, SKINICON_OTHER_OPTIONS, LPGEN("Configure..."));
 			Button_SetIcon_IcoLib(hwndDlg, IDC_UPGRADE, SKINICON_OTHER_ACCMGR, LPGEN("Upgrade account"));
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_OPTIONS), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_UPGRADE), FALSE);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_EDIT), FALSE);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_OPTIONS), FALSE);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_UPGRADE), FALSE);
 
 			{
 				LOGFONT lf;
@@ -517,7 +517,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			}
 
 			dat->iSelected = -1;
-			sttSubclassAccList(GetDlgItem(hwndDlg, IDC_ACCLIST), TRUE);
+			sttSubclassAccList( GetDlgItem(hwndDlg, IDC_ACCLIST), TRUE);
 			SendMessage(hwndDlg, WM_MY_REFRESH, 0, 0);
 
 			Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, "AccMgr", "");
@@ -861,7 +861,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 						ListBox_SetCurSel(hList, -1);
 						sttUpdateAccountInfo(hwndDlg, dat);
 						EnableWindow(hList, FALSE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
+						EnableWindow( GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 
 						ListBox_SetItemData(hList, idx, 0);
 
@@ -876,7 +876,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 						SendMessage(hwndDlg, WM_MY_REFRESH, 0, 0);
 
 						EnableWindow(hList, TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), TRUE);
+						EnableWindow( GetDlgItem(hwndDlg, IDC_ADD), TRUE);
 			}	}	}
 			break;
 
@@ -1010,7 +1010,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_OPTIONS);
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_UPGRADE);
 		Utils_SaveWindowPosition(hwndDlg, NULL, "AccMgr", "");
-		sttSubclassAccList(GetDlgItem(hwndDlg, IDC_ACCLIST), FALSE);
+		sttSubclassAccList( GetDlgItem(hwndDlg, IDC_ACCLIST), FALSE);
 		DeleteObject(dat->hfntTitle);
 		DeleteObject(dat->hfntText);
 		mir_free(dat);

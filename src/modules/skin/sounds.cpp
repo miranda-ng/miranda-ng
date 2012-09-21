@@ -199,29 +199,29 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case DM_HIDEPANE:
-		ShowWindow(GetDlgItem(hwndDlg, IDC_SGROUP), SW_HIDE);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_NAME), SW_HIDE);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_NAMEVAL), SW_HIDE);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_SLOC), SW_HIDE);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_LOCATION), SW_HIDE);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_CHANGE), SW_HIDE);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), SW_HIDE);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_GETMORE), SW_HIDE);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_SGROUP), SW_HIDE);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_NAME), SW_HIDE);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_NAMEVAL), SW_HIDE);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_SLOC), SW_HIDE);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_LOCATION), SW_HIDE);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_CHANGE), SW_HIDE);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_PREVIEW), SW_HIDE);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_GETMORE), SW_HIDE);
 		break;
 
 	case DM_SHOWPANE:
-		ShowWindow(GetDlgItem(hwndDlg, IDC_SGROUP), SW_SHOW);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_NAME), SW_SHOW);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_NAMEVAL), SW_SHOW);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_SLOC), SW_SHOW);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_LOCATION), SW_SHOW);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_CHANGE), SW_SHOW);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), SW_SHOW);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_GETMORE), SW_SHOW);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_SGROUP), SW_SHOW);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_NAME), SW_SHOW);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_NAMEVAL), SW_SHOW);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_SLOC), SW_SHOW);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_LOCATION), SW_SHOW);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_CHANGE), SW_SHOW);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_PREVIEW), SW_SHOW);
+		ShowWindow( GetDlgItem(hwndDlg, IDC_GETMORE), SW_SHOW);
 		break;
 
 	case DM_CHECKENABLED:
-		EnableWindow(GetDlgItem(hwndDlg, IDC_SOUNDTREE), IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS));
+		EnableWindow( GetDlgItem(hwndDlg, IDC_SOUNDTREE), IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS));
 		if ( !IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS))
 			SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 		else if (TreeView_GetSelection(hwndTree) && TreeView_GetParent(hwndTree, TreeView_GetSelection(hwndTree)))

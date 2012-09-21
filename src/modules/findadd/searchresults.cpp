@@ -351,10 +351,10 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 	dat = (struct FindAddDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	{	LVITEM lvi;
-		if (ListView_GetSelectedCount(GetDlgItem(hwndDlg, IDC_RESULTS)) != 1) return;
+		if (ListView_GetSelectedCount( GetDlgItem(hwndDlg, IDC_RESULTS)) != 1) return;
 		lvi.mask = LVIF_PARAM;
-		lvi.iItem = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_RESULTS), -1, LVNI_ALL|LVNI_SELECTED);
-		ListView_GetItem(GetDlgItem(hwndDlg, IDC_RESULTS), &lvi);
+		lvi.iItem = ListView_GetNextItem( GetDlgItem(hwndDlg, IDC_RESULTS), -1, LVNI_ALL|LVNI_SELECTED);
+		ListView_GetItem( GetDlgItem(hwndDlg, IDC_RESULTS), &lvi);
 		lsr = (struct ListSearchResult*)lvi.lParam;
 	}
 

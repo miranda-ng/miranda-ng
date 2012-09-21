@@ -259,11 +259,11 @@ UINT_PTR CALLBACK CFHookProc(HWND hdlg, UINT uiMsg, WPARAM wParam, LPARAM lParam
 			CHOOSEFONT* cf = (CHOOSEFONT *)lParam;
 
 			TranslateDialogDefault(hdlg);
-			ShowWindow(GetDlgItem(hdlg, 1095), SW_HIDE);
+			ShowWindow( GetDlgItem(hdlg, 1095), SW_HIDE);
 			if (cf && (cf->lCustData & FIDF_DISABLESTYLES)) {
-				EnableWindow(GetDlgItem(hdlg, 1137), FALSE);
-				ShowWindow(GetDlgItem(hdlg, 1137), SW_HIDE);
-				ShowWindow(GetDlgItem(hdlg, 1095), SW_SHOW);
+				EnableWindow( GetDlgItem(hdlg, 1137), FALSE);
+				ShowWindow( GetDlgItem(hdlg, 1137), SW_HIDE);
+				ShowWindow( GetDlgItem(hdlg, 1095), SW_SHOW);
 			}
 			return 0;
 		}
@@ -460,11 +460,11 @@ static void sttFreeListItems(HWND hList)
 
 static BOOL ShowEffectButton(HWND hwndDlg, BOOL bShow)
 {
-    ShowWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOUR), bShow ? SW_HIDE : SW_SHOW);
-    ShowWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOUR_STATIC), bShow ? SW_HIDE : SW_SHOW);
+    ShowWindow( GetDlgItem(hwndDlg, IDC_BKGCOLOUR), bShow ? SW_HIDE : SW_SHOW);
+    ShowWindow( GetDlgItem(hwndDlg, IDC_BKGCOLOUR_STATIC), bShow ? SW_HIDE : SW_SHOW);
 
-    ShowWindow(GetDlgItem(hwndDlg, IDC_EFFECT), bShow ? SW_SHOW : SW_HIDE);
-    ShowWindow(GetDlgItem(hwndDlg, IDC_EFFECT_STATIC), bShow ? SW_SHOW : SW_HIDE);
+    ShowWindow( GetDlgItem(hwndDlg, IDC_EFFECT), bShow ? SW_SHOW : SW_HIDE);
+    ShowWindow( GetDlgItem(hwndDlg, IDC_EFFECT_STATIC), bShow ? SW_SHOW : SW_HIDE);
     return TRUE;
 }
 
@@ -603,7 +603,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			FontInternal& F = font_id_list_w2[i];
 			// sync settings with database
 			UpdateFontSettings(&F, &F.value);
-			sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), F.group, F.hLangpack);
+			sttFsuiCreateSettingsTreeNode( GetDlgItem(hwndDlg, IDC_FONTGROUP), F.group, F.hLangpack);
 		}
 
 		for (i=0; i < colour_id_list_w2.getCount(); i++) {
@@ -611,7 +611,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			// sync settings with database
 			UpdateColourSettings(&C, &C.value);
-			sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), C.group, C.hLangpack);
+			sttFsuiCreateSettingsTreeNode( GetDlgItem(hwndDlg, IDC_FONTGROUP), C.group, C.hLangpack);
 		}
 
 		for (i=0; i < effect_id_list_w2.getCount(); i++) {
@@ -619,7 +619,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			// sync settings with database
 			UpdateEffectSettings(&E, &E.value);
-			sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), E.group, E.hLangpack);
+			sttFsuiCreateSettingsTreeNode( GetDlgItem(hwndDlg, IDC_FONTGROUP), E.group, E.hLangpack);
 		}
 
 		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETDEFAULTCOLOUR, 0, (LPARAM)GetSysColor(COLOR_WINDOW));
@@ -630,13 +630,13 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		TreeItem *treeItem;
 		TCHAR *group_buff = NULL;
 		TVITEM tvi = {0};
-		tvi.hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_FONTGROUP));
+		tvi.hItem = TreeView_GetSelection( GetDlgItem(hwndDlg, IDC_FONTGROUP));
 		tvi.mask = TVIF_HANDLE|TVIF_PARAM;
-		TreeView_GetItem(GetDlgItem(hwndDlg, IDC_FONTGROUP), &tvi);
+		TreeView_GetItem( GetDlgItem(hwndDlg, IDC_FONTGROUP), &tvi);
 		treeItem = (TreeItem *)tvi.lParam;
 		group_buff = treeItem->groupName;
 
-		sttFreeListItems(GetDlgItem(hwndDlg, IDC_FONTLIST));
+		sttFreeListItems( GetDlgItem(hwndDlg, IDC_FONTLIST));
 		SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_RESETCONTENT, 0, 0);
 
 		if (group_buff) {
@@ -665,7 +665,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					need_restart |= (F.flags & FIDF_NEEDRESTART);
 			}	}
 
-//			ShowWindow(GetDlgItem(hwndDlg, IDC_STAT_RESTART), (need_restart ? SW_SHOW : SW_HIDE));
+//			ShowWindow( GetDlgItem(hwndDlg, IDC_STAT_RESTART), (need_restart ? SW_SHOW : SW_HIDE));
 
 			if (hBkgColourBrush) {
 				DeleteObject(hBkgColourBrush);
@@ -679,7 +679,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (first_colour_index == -1)
 						first_colour_index = colourId;
 
-					if ( !sttFsuiBindColourIdToFonts(GetDlgItem(hwndDlg, IDC_FONTLIST), C.name, C.group, C.name, colourId)) {
+					if ( !sttFsuiBindColourIdToFonts( GetDlgItem(hwndDlg, IDC_FONTLIST), C.name, C.group, C.name, colourId)) {
 						itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
 						itemData->colour_id = colourId;
 						itemData->font_id = -1;
@@ -702,7 +702,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (first_effect_index == -1)
 						first_effect_index = effectId;
 
-					if ( !sttFsuiBindEffectIdToFonts(GetDlgItem(hwndDlg, IDC_FONTLIST), E.name, effectId)) {
+					if ( !sttFsuiBindEffectIdToFonts( GetDlgItem(hwndDlg, IDC_FONTLIST), E.name, effectId)) {
 						itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
 						itemData->effect_id = effectId;
 						itemData->font_id = -1;
@@ -712,16 +712,16 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}	}	}
 
 			SendDlgItemMessage(hwndDlg, IDC_FONTLIST, WM_SETREDRAW, TRUE, 0);
-			UpdateWindow(GetDlgItem(hwndDlg, IDC_FONTLIST));
+			UpdateWindow( GetDlgItem(hwndDlg, IDC_FONTLIST));
 
 			SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_SETSEL, TRUE, 0);
 			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_FONTLIST, LBN_SELCHANGE), 0);
 		}
 		else {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOUR), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_FONTCOLOUR), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHOOSEFONT), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_RESET), FALSE);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_BKGCOLOUR), FALSE);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_FONTCOLOUR), FALSE);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_CHOOSEFONT), FALSE);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_BTN_RESET), FALSE);
 			ShowEffectButton(hwndDlg, FALSE);
 		}
 		return TRUE;
@@ -754,7 +754,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					itemName = colour_id_list_w2[iItem].getName();
 			}
 
-			HDC hdc = GetDC(GetDlgItem(hwndDlg, mis->CtlID));
+			HDC hdc = GetDC( GetDlgItem(hwndDlg, mis->CtlID));
 			if (hFont)
 				hoFont = (HFONT) SelectObject(hdc, hFont);
 			else
@@ -764,7 +764,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			GetTextExtentPoint32(hdc, itemName, lstrlen(itemName), &fontSize);
 			if (hoFont) SelectObject(hdc, hoFont);
 			if (hFont) DeleteObject(hFont);
-			ReleaseDC(GetDlgItem(hwndDlg, mis->CtlID), hdc);
+			ReleaseDC( GetDlgItem(hwndDlg, mis->CtlID), hdc);
 			mis->itemWidth = fontSize.cx + 2*FSUI_FONTFRAMEHORZ + 4;
 			mis->itemHeight = fontSize.cy + 2*FSUI_FONTFRAMEVERT + 4;
 			return TRUE;
@@ -957,12 +957,12 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					bEnableEffect = 0;
 				}
 
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOUR), bEnableClBack);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_BKGCOLOUR), bEnableClBack);
 				ShowEffectButton(hwndDlg, bEnableEffect && !bEnableClBack);
 
-				EnableWindow(GetDlgItem(hwndDlg, IDC_FONTCOLOUR), bEnableClText);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CHOOSEFONT), bEnableFont);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_RESET), bEnableReset);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_FONTCOLOUR), bEnableClText);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_CHOOSEFONT), bEnableFont);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_BTN_RESET), bEnableReset);
 
 				if (bEnableClBack) SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETCOLOUR, 0, clBack);
 				if (bEnableClText) SendDlgItemMessage(hwndDlg, IDC_FONTCOLOUR, CPM_SETCOLOUR, 0, clText);
@@ -1035,8 +1035,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 						SendMessage(hwndDlg, WM_MEASUREITEM, 0, (LPARAM) & mis);
 						SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_SETITEMHEIGHT, selItems[i], mis.itemHeight);
 					}
-					InvalidateRect(GetDlgItem(hwndDlg, IDC_FONTLIST), NULL, TRUE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UNDO), TRUE);
+					InvalidateRect( GetDlgItem(hwndDlg, IDC_FONTLIST), NULL, TRUE);
+					EnableWindow( GetDlgItem(hwndDlg, IDC_BTN_UNDO), TRUE);
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 
@@ -1062,8 +1062,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 						EffectInternal& E1 = effect_id_list_w2[itemData->effect_id];
 						E1.value = es;
 					}
-					InvalidateRect(GetDlgItem(hwndDlg, IDC_FONTLIST), NULL, TRUE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UNDO), TRUE);
+					InvalidateRect( GetDlgItem(hwndDlg, IDC_FONTLIST), NULL, TRUE);
+					EnableWindow( GetDlgItem(hwndDlg, IDC_BTN_UNDO), TRUE);
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 
@@ -1081,8 +1081,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					font_id_list_w2[itemData->font_id].value.colour = SendDlgItemMessage(hwndDlg, IDC_FONTCOLOUR, CPM_GETCOLOUR, 0, 0);
 				}
 				mir_free(selItems);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_FONTLIST), NULL, FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UNDO), TRUE);
+				InvalidateRect( GetDlgItem(hwndDlg, IDC_FONTLIST), NULL, FALSE);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_BTN_UNDO), TRUE);
 			}
 			break;
 
@@ -1101,8 +1101,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 				}
 				mir_free(selItems);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_FONTLIST), NULL, FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UNDO), TRUE);
+				InvalidateRect( GetDlgItem(hwndDlg, IDC_FONTLIST), NULL, FALSE);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_BTN_UNDO), TRUE);
 			}
 			break;
 
@@ -1133,9 +1133,9 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				}
 				mir_free(selItems);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_FONTLIST), NULL, TRUE);
+				InvalidateRect( GetDlgItem(hwndDlg, IDC_FONTLIST), NULL, TRUE);
 				SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_FONTLIST, LBN_SELCHANGE), 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UNDO), TRUE);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_BTN_UNDO), TRUE);
 			}
 			break;
 
@@ -1166,7 +1166,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			font_id_list_w2 = font_id_list_w3;
 			colour_id_list_w2 = colour_id_list_w3;
 			effect_id_list_w2 = effect_id_list_w3;
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UNDO), FALSE);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_BTN_UNDO), FALSE);
 
 			SendMessage(hwndDlg, UM_SETFONTGROUP, 0, 0);
 			break;
@@ -1182,7 +1182,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			colour_id_list_w3 = colour_id_list;
 			effect_id_list_w3 = effect_id_list;
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UNDO), TRUE);
+			EnableWindow( GetDlgItem(hwndDlg, IDC_BTN_UNDO), TRUE);
 
 			font_id_list = font_id_list_w2;
 			colour_id_list = colour_id_list_w2;
@@ -1241,7 +1241,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 	case WM_DESTROY:
 		KillTimer(hwndDlg, TIMER_ID);
-		sttSaveCollapseState(GetDlgItem(hwndDlg, IDC_FONTGROUP));
+		sttSaveCollapseState( GetDlgItem(hwndDlg, IDC_FONTGROUP));
 		DeleteObject(hBkgColourBrush);
 		font_id_list_w2.destroy();
 		font_id_list_w3.destroy();
@@ -1249,7 +1249,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		colour_id_list_w3.destroy();
 		effect_id_list_w2.destroy();
 		effect_id_list_w3.destroy();
-		sttFreeListItems(GetDlgItem(hwndDlg, IDC_FONTLIST));
+		sttFreeListItems( GetDlgItem(hwndDlg, IDC_FONTLIST));
 		break;
 	}
 	return FALSE;
@@ -1377,9 +1377,9 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 					pf->value.charset = lf.lfCharSet;
 					_tcscpy(pf->value.szFace, lf.lfFaceName);
 
-					InvalidateRect(GetDlgItem(hwndDlg, IDC_PREVIEWHEADER), NULL, TRUE);
-					InvalidateRect(GetDlgItem(hwndDlg, IDC_PREVIEWGENERAL), NULL, TRUE);
-					InvalidateRect(GetDlgItem(hwndDlg, IDC_PREVIEWSMALL), NULL, TRUE);
+					InvalidateRect( GetDlgItem(hwndDlg, IDC_PREVIEWHEADER), NULL, TRUE);
+					InvalidateRect( GetDlgItem(hwndDlg, IDC_PREVIEWGENERAL), NULL, TRUE);
+					InvalidateRect( GetDlgItem(hwndDlg, IDC_PREVIEWSMALL), NULL, TRUE);
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 				return TRUE;
