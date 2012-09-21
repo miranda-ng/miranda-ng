@@ -116,28 +116,13 @@ __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
     return &pluginInfoEx;
 }
 
-static const MUUID interfaces[] = {MIID_TRAFFICCOUNTER, MIID_LAST};
+__declspec(dllexport) const MUUID interfaces[] = {MIID_TRAFFICCOUNTER, MIID_LAST};
 
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	return interfaces;
-}
+	hInst = hinstDLL;
+	DisableThreadLibraryCalls(hInst);
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
-{
-/*	switch(fdwReason)
-	{
-		case DLL_PROCESS_ATTACH:*/
-			hInst = hinstDLL;
-/*			DisableThreadLibraryCalls(hInst);
-			break;
-
-		case DLL_PROCESS_DETACH:
-			PostMessage(TrafficHwnd,WM_USER+697,0,666);
-			//
-			break;
-	}*/
-	//
 	return TRUE;
 }
 
