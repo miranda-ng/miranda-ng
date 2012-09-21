@@ -135,8 +135,9 @@
 					</folderInfo>
 					<folderInfo id="org.eclipse.cdt.msvc.toolchain.dll.debug.1048693141.1332487408.1959521771.1170774501" name="/" resourcePath="res">
 						<toolChain id="org.eclipse.cdt.msvc.toolchain.dll.debug.1775412055" name="org.eclipse.cdt.msvc.toolchain.dll.debug" superClass="org.eclipse.cdt.msvc.toolchain.dll.debug" unusedChildren="">
+							<targetPlatform id="org.eclipse.cdt.msvc.targetPlatform.dll.debug" superClass="org.eclipse.cdt.msvc.targetPlatform.dll.debug"/>
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.623649956" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug.1520652355">
-								<option id="org.eclipse.cdt.msvc.cl.option.includes.2092493535" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.2092493535" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;..\..\..\..\Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;..\..\ExternalAPI&quot;"/>
 								</option>

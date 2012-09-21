@@ -10,7 +10,7 @@
 //
 #include <windows.h>
 #include <winres.h>
-#include "..\..\Include\statusmodes.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -28,7 +28,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_UNINSTALL_ICON      ICON                    "res\\network.ico"
+IDI_UNINSTALL_ICON      ICON                    "network.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
