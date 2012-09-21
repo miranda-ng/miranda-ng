@@ -13,9 +13,9 @@ tRtlCaptureContext pRtlCaptureContext = (tRtlCaptureContext)GetProcAddress(hKern
 
 void SetExceptionHandler(void)
 {
-	//	if (pAddVectoredExceptionHandler && !exchndlrv)
-	//		exchndlrv = pAddVectoredExceptionHandler(0, myfilterv);
-	/*exchndlr = */ SetUnhandledExceptionFilter(myfilter);
+	if (pAddVectoredExceptionHandler && !exchndlrv)
+		exchndlrv = pAddVectoredExceptionHandler(0, myfilterv);
+	exchndlr = SetUnhandledExceptionFilter(myfilter);
 }
 
 void RemoveExceptionHandler(void)

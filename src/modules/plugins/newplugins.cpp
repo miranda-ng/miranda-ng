@@ -319,15 +319,18 @@ void Plugin_Uninit(pluginEntry* p)
 		p->bpi.Unload();
 
 	// release the library
-	if (p->bpi.hInst != NULL) {
+	HINSTANCE hInst = p->bpi.hInst;
+	if (hInst != NULL) {
 		// we need to kill all resources which belong to that DLL before calling FreeLibrary
-		KillModuleEventHooks(p->bpi.hInst);
-		KillModuleServices(p->bpi.hInst);
+		KillModuleEventHooks(hInst);
+		KillModuleServices(hInst);
 
-		FreeLibrary(p->bpi.hInst);
+		FreeLibrary(hInst);
 		ZeroMemory(&p->bpi, sizeof(p->bpi));
 	}
-	UnregisterModule(p->bpi.hInst);
+	UnregisterModule(hInst);
+	if (p == pluginList_crshdmp)
+		pluginList_crshdmp = NULL;
 	pluginList.remove(p);
 }
 
@@ -500,18 +503,20 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 		if ( !bDynamic && !isPluginOnWhiteList(p->pluginname))
 			return false;
 
-		BASIC_PLUGIN_INFO bpi;
-		mir_sntprintf(slice, &exe[SIZEOF(exe)] - slice, _T("\\%s\\%s"), (p->pclass & PCLASS_CORE) ? _T("Core") : _T("Plugins"), p->pluginname);
-		if ( !checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_NONE)) {
-			p->pclass |= PCLASS_FAILED;
-			return false;
-		}
+		if ( !(p->pclass & PCLASS_BASICAPI)) {
+			BASIC_PLUGIN_INFO bpi;
+			mir_sntprintf(slice, &exe[SIZEOF(exe)] - slice, _T("\\%s\\%s"), (p->pclass & PCLASS_CORE) ? _T("Core") : _T("Plugins"), p->pluginname);
+			if ( !checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_NONE)) {
+				p->pclass |= PCLASS_FAILED;
+				return false;
+			}
 		
-		p->bpi = bpi;
-		p->pclass |= PCLASS_OK | PCLASS_BASICAPI;
+			p->bpi = bpi;
+			p->pclass |= PCLASS_OK | PCLASS_BASICAPI;
+		}
 
 		if (p->bpi.Interfaces) {
-			MUUID *piface = bpi.Interfaces;
+			MUUID *piface = p->bpi.Interfaces;
 			for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
 				int idx = getDefaultPluginIdx( piface[i] );
 				if (idx != -1 && pluginDefault[idx].pImpl) {
@@ -527,12 +532,12 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 		}	}	}	}
 
 		RegisterModule(p->bpi.hInst);
-		if (bpi.Load() != 0)
+		if (p->bpi.Load() != 0)
 			return false;
 
 		p->pclass |= PCLASS_LOADED;
 		if (p->bpi.Interfaces) {
-			MUUID *piface = bpi.Interfaces;
+			MUUID *piface = p->bpi.Interfaces;
 			for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
 				int idx = getDefaultPluginIdx( piface[i] );
 				if (idx != -1)
@@ -742,10 +747,9 @@ int LoadNewPluginsModule(void)
 	askAboutIgnoredPlugins = (UINT) GetPrivateProfileInt(_T("PluginLoader"), _T("AskAboutIgnoredPlugins"), 0, mirandabootini);
 
 	// if Crash Dumper is present, load it to provide Crash Reports
-	if (pluginList_crshdmp != NULL && isPluginOnWhiteList(pluginList_crshdmp->pluginname)) {
+	if (pluginList_crshdmp != NULL && isPluginOnWhiteList(pluginList_crshdmp->pluginname))
 		if ( !TryLoadPlugin(pluginList_crshdmp, false))
 			Plugin_Uninit(pluginList_crshdmp);
-	}
 
 	// if freeimage is present, load it to provide the basic core functions
 	if (pluginList_freeimg != NULL) {
@@ -803,7 +807,7 @@ static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM)
 		if (pluginList_freeimg == NULL && lstrcmpi(fd->cFileName, _T("advaimg.dll")) == 0)
 			pluginList_freeimg = p;
 
-		if (pluginList_crshdmp == NULL && lstrcmpi(fd->cFileName, _T("svc_crshdmp.dll")) == 0) {
+		if (pluginList_crshdmp == NULL && lstrcmpi(fd->cFileName, _T("crashdumper.dll")) == 0) {
 			pluginList_crshdmp = p;
 			p->pclass |= PCLASS_LAST;
 		}
