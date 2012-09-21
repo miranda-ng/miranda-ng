@@ -346,10 +346,11 @@ HRESULT ToolbarLoadModule()
 
 		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"ModernToolBar");
 
-		if (bOldSetting == 1)
-			if (IDYES == MessageBox(NULL, TranslateTS(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
-				CallService(MS_UTILS_OPENURL, 0, (LPARAM)szUrl);
-	}
+		if ( !ServiceExists( MS_TTB_REMOVEBUTTON)) {
+			if (bOldSetting == 1)
+				if (IDYES == MessageBox(NULL, TranslateTS(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
+					CallService(MS_UTILS_OPENURL, 0, (LPARAM)szUrl);
+		} }
 
 	ehhToolBarBackgroundSettingsChanged(0,0);
 	HookEvent(ME_SYSTEM_MODULESLOADED, Toolbar_ModulesLoaded);
