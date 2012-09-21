@@ -823,7 +823,7 @@ void StoreStringToClip(bkstring& buffer)
 
 
 	SetClipboardData(CF_UNICODETEXT, hData);
-
+	CloseClipboard();
 }
 
 bool IsPluginEnabled(TCHAR* filename)
