@@ -996,11 +996,11 @@ void CJabberProto::OnIqResultGetVcard( HXML iqNode )
 								hasFax = TRUE;
 								JSetStringT( hContact, "Fax", xmlGetText( m ));
 							}
-							if ( !hasCell && xmlGetChild( n , "CELL" )!=NULL ) {
+							else if ( !hasCell && xmlGetChild( n , "CELL" )!=NULL ) {
 								hasCell = TRUE;
 								JSetStringT( hContact, "Cellular", xmlGetText( m ));
 							}
-							if ( !hasPhone &&
+							else if ( !hasPhone &&
 								( xmlGetChild( n , "HOME" )!=NULL ||
 								 xmlGetChild( n , "WORK" )!=NULL ||
 								 xmlGetChild( n , "VOICE" )!=NULL ||
