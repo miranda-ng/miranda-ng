@@ -306,17 +306,6 @@ void CustomizeToolbar(HWND hwnd)
 	pMTBInfo->mtbXPTheme = xpt_AddThemeHandle(hwnd, L"TOOLBAR");
 }
 
-static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
-{
-	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)"ToolBar Background/ToolBar",0);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ehhToolBarSettingsChanged);
-	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, ehhToolBarBackgroundSettingsChanged);
-	HookEvent(ME_TTB_INITBUTTONS, Modern_InitButtons);
-	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 #define TTB_OPTDIR "TopToolBar"
 
 #if defined(WIN64)
@@ -332,8 +321,13 @@ static void CopySettings(const char* to, const char* from)
 	db_set_b(NULL, TTB_OPTDIR, to, db_get_b(NULL,"ModernToolBar",from, 0));
 }
 
-HRESULT ToolbarLoadModule()
+static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 {
+	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)"ToolBar Background/ToolBar",0);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ehhToolBarSettingsChanged);
+	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, ehhToolBarBackgroundSettingsChanged);
+	HookEvent(ME_TTB_INITBUTTONS, Modern_InitButtons);
+	
 	BYTE bOldSetting = db_get_b(NULL, "CLUI", "ShowButtonBar", 255);
 	if (bOldSetting != 255) {
 		CopySettings("BUTTWIDTH",    "option_Bar0_BtnWidth");
@@ -345,13 +339,19 @@ HRESULT ToolbarLoadModule()
 		db_unset(NULL, "CLUI", "ShowButtonBar");
 
 		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"ModernToolBar");
-
-		if ( !ServiceExists( MS_TTB_REMOVEBUTTON)) {
+	}
+	if ( !ServiceExists( MS_TTB_REMOVEBUTTON)) {
 			if (bOldSetting == 1)
 				if (IDYES == MessageBox(NULL, TranslateTS(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
 					CallService(MS_UTILS_OPENURL, 0, (LPARAM)szUrl);
-		} }
+	}
+	return 0;
+}
 
+///////////////////////////////////////////////////////////////////////////////
+
+HRESULT ToolbarLoadModule()
+{
 	ehhToolBarBackgroundSettingsChanged(0,0);
 	HookEvent(ME_SYSTEM_MODULESLOADED, Toolbar_ModulesLoaded);
 	return S_OK;
