@@ -268,4 +268,6 @@ DWORD  GetMraStatusFromMiradaStatus    (DWORD dwMirandaStatus, DWORD dwXStatusMi
 DWORD  GetMiradaStatusFromMraStatus    (DWORD dwMraStatus, DWORD dwXStatusMra, DWORD *pdwXStatusMir);
 DWORD  GetMraXStatusIDFromMraUriStatus (LPSTR lpszStatusUri, size_t dwStatusUriSize);
 
+INT_PTR CALLBACK DlgProcAccount(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
+
 #endif // !defined(AFX_MRA_H__F58D13FF_F6F2_476C_B8F0_7B9E9357CF48__INCLUDED_)

@@ -53,19 +53,17 @@ IDI_MRA_WORLD           ICON                    "Icons\\my world.ico"
 // Dialog
 //
 
-IDD_MRAACCOUNT DIALOGEX 0, 0, 200, 101
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Mail.ru Account Setup"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
+IDD_MRAACCOUNT DIALOGEX 0, 0, 186, 134
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    EDITTEXT        IDC_LOGIN, 91, 34, 102, 13, ES_AUTOHSCROLL | NOT WS_BORDER, WS_EX_STATICEDGE
-    EDITTEXT        IDC_PASSWORD, 91, 54, 102, 13, ES_PASSWORD | ES_AUTOHSCROLL | NOT WS_BORDER, WS_EX_STATICEDGE
-    DEFPUSHBUTTON   "OK", IDOK, 87, 80, 50, 14
-    PUSHBUTTON      "Cancel", IDCANCEL, 143, 80, 50, 14
-    CONTROL         "Create new account", IDC_REGISTER, "Hyperlink", WS_TABSTOP, 7, 82, 74, 10
-    LTEXT           "Please enter your Mail.ru account details to continue:", IDC_STATIC, 7, 9, 186, 20
-    LTEXT           "Mail.ru e-mail:", IDC_STATIC, 9, 37, 77, 8
-    LTEXT           "Password:", IDC_STATIC, 9, 57, 77, 8
+    LTEXT           "E-mail:",IDC_STATIC,0,0,53,12
+    EDITTEXT        IDC_LOGIN,54,0,131,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,0,16,53,12
+    EDITTEXT        IDC_PASSWORD,54,16,131,12,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "Create a new account",IDC_NEW_ACCOUNT_LINK,
+                    "Hyperlink",WS_TABSTOP,0,40,174,12
 END
 
 IDD_OPT_CONNECTIONS DIALOGEX 0, 0, 295, 230

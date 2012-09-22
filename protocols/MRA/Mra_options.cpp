@@ -50,6 +50,56 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 	return FALSE;
 }
 
+INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CMraProto *ppro = (CMraProto*)GetWindowLongPtr(hWndDlg, GWLP_USERDATA);
+	WCHAR szBuff[MAX_EMAIL_LEN];
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hWndDlg);
+		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
+		ppro = (CMraProto*)lParam;
+
+		if ( ppro->mraGetStaticStringW(NULL, "e-mail", szBuff, SIZEOF(szBuff), NULL))
+			SET_DLG_ITEM_TEXTW(hWndDlg, IDC_LOGIN, szBuff);
+
+		SET_DLG_ITEM_TEXTW(hWndDlg, IDC_PASSWORD, (LPWSTR)L"");
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_NEW_ACCOUNT_LINK:
+			CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)MRA_REGISTER_URL);
+			return TRUE;
+		}
+		if ( HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
+		{
+			switch(LOWORD(wParam))
+			{
+			case IDC_LOGIN:
+			case IDC_PASSWORD:
+				SendMessage(GetParent(hWndDlg), PSM_CHANGED, 0, 0);
+			}
+		}
+		break;
+
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->code) {
+		case PSN_APPLY:
+			GET_DLG_ITEM_TEXT(hWndDlg, IDC_LOGIN, szBuff, SIZEOF(szBuff));
+			ppro->mraSetStringW(NULL, "e-mail", szBuff);
+
+			if (GET_DLG_ITEM_TEXTA(hWndDlg, IDC_PASSWORD, (LPSTR)szBuff, SIZEOF(szBuff))) {
+				ppro->SetPassDB((LPSTR)szBuff, lstrlenA((LPSTR)szBuff));
+				SecureZeroMemory(szBuff, sizeof(szBuff));
+			}
+			return TRUE;
+		}
+		break;
+	}
+	return FALSE;
+}
 
 INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -177,31 +227,31 @@ int CMraProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.dwInitParam = (LPARAM)this;
 	odp.hInstance = masMraSettings.hInstance;
-	odp.pszTitle = m_szModuleName;
-	odp.pszGroup = LPGEN("Network");
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.ptszTitle = m_tszUserName;
+	odp.ptszGroup = LPGENT("Network");
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 
-	odp.pszTab = LPGEN("Account");
+	odp.ptszTab = LPGENT("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ACCOUNT);
 	odp.pfnDlgProc = DlgProcOptsAccount;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Connections");
+	odp.ptszTab = LPGENT("Connections");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONNECTIONS);
 	odp.pfnDlgProc = DlgProcOptsConnections;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Anti spam");
+	odp.ptszTab = LPGENT("Anti spam");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ANTISPAM);
 	odp.pfnDlgProc = MraAntiSpamDlgProcOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Files");
+	odp.ptszTab = LPGENT("Files");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FILES);
 	odp.pfnDlgProc = MraFilesQueueDlgProcOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Avatars");
+	odp.ptszTab = LPGENT("Avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AVATRS);
 	odp.pfnDlgProc = MraAvatarsQueueDlgProcOpts;
 	Options_AddPage(wParam, &odp);
