@@ -603,26 +603,24 @@ static bool loadClistModule(TCHAR* exe, pluginEntry *p)
 	return false;
 }
 
-static pluginEntry* getCListModule(TCHAR *exe, TCHAR *slice, int useWhiteList)
+static pluginEntry* getCListModule(TCHAR *exe, TCHAR *slice)
 {
 	for (int i=0; i < clistPlugins.getCount(); i++) {
 		pluginEntry *p = clistPlugins[i];
 		mir_sntprintf(slice, &exe[MAX_PATH] - slice, _T("\\Plugins\\%s"), p->pluginname);
 		CharLower(p->pluginname);
-		if (useWhiteList && !isPluginOnWhiteList(p->pluginname))
+		if ( !isPluginOnWhiteList(p->pluginname))
 			continue;
 
 		if ( loadClistModule(exe, p))
 			return p;
 	}
 
-	if ( !useWhiteList) {
-		MuuidReplacement& stdClist = pluginDefault[11];
-		if ( LoadCorePlugin(stdClist)) {
-			mir_sntprintf(slice, &exe[MAX_PATH] - slice, _T("\\Core\\%s.dll"), stdClist.stdplugname);
-			if ( loadClistModule(exe, stdClist.pImpl))
-				return stdClist.pImpl;
-		}
+	MuuidReplacement& stdClist = pluginDefault[11];
+	if ( LoadCorePlugin(stdClist)) {
+		mir_sntprintf(slice, &exe[MAX_PATH] - slice, _T("\\Core\\%s.dll"), stdClist.stdplugname);
+		if ( loadClistModule(exe, stdClist.pImpl))
+			return stdClist.pImpl;
 	}
 
 	return NULL;
@@ -735,7 +733,7 @@ void UnloadNewPlugins(void)
 
 int LoadNewPluginsModule(void)
 {
-	int useWhiteList, i;
+	int i;
 
 	// make full path to the plugin
 	TCHAR exe[MAX_PATH];
@@ -765,9 +763,7 @@ int LoadNewPluginsModule(void)
 	}	}
 
 	// first load the clist cos alot of plugins need that to be present at Load(void)
-	pluginEntry* clist = NULL;
-	for (useWhiteList = 1; useWhiteList >= 0 && clist == NULL; useWhiteList--)
-		clist = getCListModule(exe, slice, useWhiteList);
+	pluginEntry* clist = getCListModule(exe, slice);
 
 	/* the loop above will try and get one clist DLL to work, if all fail then just bail now */
 	if (clist == NULL) {
