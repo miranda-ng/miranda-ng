@@ -248,13 +248,9 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-	{
-		profpath = _T("%miranda_userdata%");
-	}
+		profpath = mir_tstrdup( _T("%miranda_userdata%"));
 	else
-	{
 		profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
-	}
 
 	crs_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
 	crs_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), profpath);
@@ -416,13 +412,9 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	DestroyExceptionHandler();
 
-	if (!_tcsstr(profpath, _T("%miranda")))
-	{
-		mir_free(profpath);
-	}
+	mir_free(profpath);
 	mir_free(profname);
 	mir_free(vertxt);
-
 	return 0;
 }
 
