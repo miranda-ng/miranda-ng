@@ -673,7 +673,7 @@ static int LaunchServicePlugin(pluginEntry* p)
 int LoadDefaultServiceModePlugin()
 {
 	LPCTSTR param = CmdLine_GetOption( _T("svc"));
-	if (param == NULL)
+	if (param == NULL || *param == 0)
 		return SERVICE_CONTINUE;
 
 	size_t cbLen = _tcslen(param);
