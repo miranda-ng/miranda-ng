@@ -92,11 +92,11 @@ extern "C" MRA_API int Load(void)
 			masMraSettings.szMirWorkDirPath[masMraSettings.dwMirWorkDirPathLen] = 0;
 
 			// load xstatus icons lib
-			DWORD dwErrorCode = FindFile(masMraSettings.szMirWorkDirPath, masMraSettings.dwMirWorkDirPathLen, L"xstatus_MRA.dll", -1, szBuff, SIZEOF(szBuff), (DWORD*)&dwBuffLen);
+			DWORD dwErrorCode = FindFile(masMraSettings.szMirWorkDirPath, (DWORD)masMraSettings.dwMirWorkDirPathLen, L"xstatus_MRA.dll", -1, szBuff, SIZEOF(szBuff), (DWORD*)&dwBuffLen);
 			if (dwErrorCode == NO_ERROR) {
 				masMraSettings.hDLLXStatusIcons = LoadLibraryEx(szBuff, NULL, 0);
 				if (masMraSettings.hDLLXStatusIcons) {
-					if ((dwBuffLen = LoadStringW(masMraSettings.hDLLXStatusIcons, IDS_IDENTIFY, szBuff, MAX_FILEPATH)) == 0 || CompareStringW( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, L"# Custom Status Icons #", 23, szBuff, dwBuffLen) != CSTR_EQUAL) {
+					if ((dwBuffLen = LoadStringW(masMraSettings.hDLLXStatusIcons, IDS_IDENTIFY, szBuff, MAX_FILEPATH)) == 0 || _wcsnicmp(L"# Custom Status Icons #", szBuff, 23)) {
 						FreeLibrary(masMraSettings.hDLLXStatusIcons);
 						masMraSettings.hDLLXStatusIcons = NULL;
 					}
@@ -104,7 +104,7 @@ extern "C" MRA_API int Load(void)
 			}
 
 			// load zlib
-			dwErrorCode = FindFile(masMraSettings.szMirWorkDirPath, masMraSettings.dwMirWorkDirPathLen, L"zlib.dll", -1, szBuff, SIZEOF(szBuff), (DWORD*)&dwBuffLen);
+			dwErrorCode = FindFile(masMraSettings.szMirWorkDirPath, (DWORD)masMraSettings.dwMirWorkDirPathLen, L"zlib.dll", -1, szBuff, SIZEOF(szBuff), (DWORD*)&dwBuffLen);
 			if (dwErrorCode == NO_ERROR) {
 				masMraSettings.hDLLZLib = LoadLibraryEx(szBuff, NULL, 0);
 				if (masMraSettings.hDLLZLib) {

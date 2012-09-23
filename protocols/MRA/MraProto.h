@@ -84,7 +84,6 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	virtual	int    __cdecl RecvAwayMsg(HANDLE hContact, int mode, PROTORECVEVENT* evt);
 	virtual	int    __cdecl SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char* msg);
 	virtual	int    __cdecl SetAwayMsg(int m_iStatus, const TCHAR* msg);
-	virtual int    __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 
 	virtual	int    __cdecl UserIsTyping(HANDLE hContact, int type);
 
@@ -183,6 +182,7 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	INT_PTR __cdecl MraViewVideo(WPARAM, LPARAM);
 	INT_PTR __cdecl MraAnswers(WPARAM, LPARAM);
 	INT_PTR __cdecl MraWorld(WPARAM, LPARAM);
+	INT_PTR __cdecl MraCreateAccMgrUI(WPARAM, LPARAM);
 
 	// ====| Events  |====================================================================== 
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);

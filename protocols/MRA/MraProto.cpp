@@ -36,7 +36,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 
 	CreateObjectSvc(PS_SET_LISTENINGTO,         &CMraProto::MraSetListeningTo);
 
-	CreateObjectSvc(PS_CREATEACCMGRUI,          &CMraProto::SvcCreateAccMgrUI);
+	CreateObjectSvc(PS_CREATEACCMGRUI,          &CMraProto::MraCreateAccMgrUI);
 	CreateObjectSvc(PS_GETAVATARCAPS,           &CMraProto::MraGetAvatarCaps);
 	CreateObjectSvc(PS_GETAVATARINFOT,          &CMraProto::MraGetAvatarInfo);
 	CreateObjectSvc(PS_GETMYAVATART,            &CMraProto::MraGetMyAvatar);
@@ -116,10 +116,10 @@ CMraProto::~CMraProto()
 	DeleteCriticalSection(&csCriticalSectionSend);
 }
 
-int CMraProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
+INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 {
 	return (int)CreateDialogParam(masMraSettings.hInstance, MAKEINTRESOURCE(IDD_MRAACCOUNT), 
-		 (HWND)lParam, DlgProcAccount, LPARAM(this) );
+		 (HWND)lParam, DlgProcAccount, LPARAM(this));
 }
 
 int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
