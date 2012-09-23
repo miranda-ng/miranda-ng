@@ -120,12 +120,14 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 		if (!__strcmp(cws->szModule, "CList")) {
 			if (!__strcmp(cws->szSetting, "StatusMsg"))
 				SendMessage(pcli->hwndContactTree, INTM_STATUSMSGCHANGED, wParam, lParam);
-		} else if (!__strcmp(cws->szModule, "UserInfo")) {
+		}
+		else if (!__strcmp(cws->szModule, "UserInfo")) {
 			if (!__strcmp(cws->szSetting, "ANSIcodepage"))
 				pcli->pfnClcBroadcast(INTM_CODEPAGECHANGED, wParam, lParam);
 			else if (!__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
 				ReloadExtraInfo((HANDLE)wParam);
-		} else if (wParam != 0 && (szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0)) != NULL) {
+		}
+		else if (wParam != 0 && (szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0)) != NULL) {
 			char *id = NULL;
 			if (!__strcmp(cws->szModule, "Protocol") && !__strcmp(cws->szSetting, "p")) {
 				char *szProto_s;
@@ -155,7 +157,8 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 					}
 					SendMessage(pcli->hwndContactTree, INTM_STATUSCHANGED, wParam, lParam);
 					return 0;
-				} else if (strstr("YMsg|StatusDescr|XStatusMsg", cws->szSetting))
+				}
+				else if (strstr("YMsg|StatusDescr|XStatusMsg", cws->szSetting))
 					SendMessage(pcli->hwndContactTree, INTM_STATUSMSGCHANGED, wParam, lParam);
 				else if (strstr(cws->szSetting, "XStatus"))
 					SendMessage(pcli->hwndContactTree, INTM_XSTATUSCHANGED, wParam, lParam);
@@ -168,24 +171,25 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 					if ((lstrlenA(cws->szSetting) > 6 && !strncmp(cws->szSetting, "Status", 6)) || strstr("Default,ForceSend,Nick", cws->szSetting))
 						pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, wParam, lParam);
 				}
-				if (!__strcmp(cws->szSetting, "UseSound")) {
-					cfg::dat.soundsOff = cws->value.bVal ? 0 : 1;
-					ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff);
-				}
 			}
 			if (cfg::dat.bMetaAvail && cfg::dat.bMetaEnabled && !__strcmp(cws->szModule, cfg::dat.szMetaName) && !__strcmp(cws->szSetting, "IsSubcontact"))
 				pcli->pfnClcBroadcast(INTM_HIDDENCHANGED, wParam, lParam);
 		}
-	} else if (wParam == 0 && !__strcmp(cws->szModule, cfg::dat.szMetaName)) {
+	}
+	else if (wParam == 0 && !__strcmp(cws->szModule, cfg::dat.szMetaName)) {
 		BYTE bMetaEnabled = cfg::getByte(cfg::dat.szMetaName, "Enabled", 1);
 		if (bMetaEnabled != (BYTE)cfg::dat.bMetaEnabled) {
 			cfg::dat.bMetaEnabled = bMetaEnabled;
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
-	} else if (szProto == NULL && wParam == 0) {
+	}
+	else if (wParam == 0 && !__strcmp(cws->szModule, "Skin")) {
+		cfg::dat.soundsOff = cfg::getByte(cws->szModule, cws->szSetting, 0) ? 0 : 1;
+		ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff ? BST_UNCHECKED : BST_CHECKED);
+	}
+	else if (szProto == NULL && wParam == 0) {
 		if (!__strcmp(cws->szSetting, "XStatusId"))
 			CluiProtocolStatusChanged(0, cws->szModule);
-		return 0;
 	}
 	return 0;
 }

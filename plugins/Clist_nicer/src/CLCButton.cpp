@@ -78,7 +78,7 @@ static int InitDefaultButtons(WPARAM, LPARAM)
 			tbb.pszTooltipUp = tbb.name = LPGEN(BTNS[i].pszButtonName);
 			tbb.hIconHandleUp = Skin_GetIconHandle(BTNS[i].pszButtonID);
 			if (BTNS[i].pszButtonDn)
-				tbb.hIconHandleUp = Skin_GetIconHandle(BTNS[i].pszButtonDn);
+				tbb.hIconHandleDn = Skin_GetIconHandle(BTNS[i].pszButtonDn);
 		}
 		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
 
