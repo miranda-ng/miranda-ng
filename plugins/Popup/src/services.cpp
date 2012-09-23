@@ -71,7 +71,7 @@ static bool isFullScreen()
 
 	// check foregroundwindow
 	HWND hWnd = GetForegroundWindow();
-	if (hWnd && hWnd != hWndDesktop && hWnd != hWndShell) 
+	if (hWnd && hWnd != hWndDesktop && hWnd != hWndShell)
 	{
 		TCHAR tszClassName[128] = _T("");
 		GetClassName(hWnd, tszClassName, SIZEOF(tszClassName));
@@ -83,8 +83,8 @@ static bool isFullScreen()
 			GetClientRect(hWnd, &rect);
 			ClientToScreen(hWnd, (LPPOINT)&rect);
 			ClientToScreen(hWnd, (LPPOINT)&rect.right);
-			
-			if (EqualRect(&rect, &rectw) && IntersectRect(&recti, &rect, &rcScreen) && 
+
+			if (EqualRect(&rect, &rectw) && IntersectRect(&recti, &rect, &rcScreen) &&
 				EqualRect(&recti, &rcScreen))
 				return true;
 		}
@@ -189,10 +189,10 @@ INT_PTR PopUp_AddPopUpW(WPARAM wParam, LPARAM lParam)
 	ppd2.PluginWindowProc = ppd->PluginWindowProc;
 	ppd2.PluginData = ppd->PluginData;
 	ppd2.iSeconds = ppd->iSeconds;
-	ppd2.lchNotification = ppd->hNotification;
 
 	if (lParam&APF_NEWDATA)
 	{
+		ppd2.lchNotification = ppd->hNotification;
 		ppd2.actionCount = ppd->actionCount;
 		ppd2.lpActions = ppd->lpActions;
 //		ppd2.hbmAvatar = ppd->hbmAvatar;
@@ -667,9 +667,8 @@ INT_PTR PopUp_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
 		}
 		ppd2.lchContact			= pdc->hContact;
 		ppd2.PluginData			= pdc->PluginData;
-	
+
 		ret = PopUp_AddPopUp2((WPARAM)&ppd2, 0);
 	}
 	return ret!=0 ? 1 : 0;
 }
-
