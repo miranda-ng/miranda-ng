@@ -29,7 +29,7 @@ namespace
 tstring CreateFilePath(const tstring& rsName)
 {
 	TCHAR szPath[_MAX_PATH];
-	::GetModuleFileName(CModuleInfo::GetModuleHandle(),szPath,_MAX_PATH);
+	::GetModuleFileName(g_hInstance,szPath,_MAX_PATH);
 
 	TCHAR* p = _tcsrchr(szPath,_T('\\'));
 	if(p)

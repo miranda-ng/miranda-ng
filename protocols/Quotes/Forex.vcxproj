@@ -175,7 +175,6 @@
     <ClCompile Include="CreateFilePath.cpp" />
     <ClCompile Include="CurrencyConverter.cpp" />
     <ClCompile Include="DBUtils.cpp" />
-    <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ExtraImages.cpp" />
     <ClCompile Include="Forex.cpp" />
     <ClCompile Include="HTMLParserMS.cpp" />

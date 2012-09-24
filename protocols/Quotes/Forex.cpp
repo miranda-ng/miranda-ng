@@ -31,7 +31,7 @@
 #include "version.h"
 
 int hLangpack;
-
+HINSTANCE g_hInstance = NULL;
 HANDLE g_hEventWorkThreadStop;
 int g_nStatus = ID_STATUS_OFFLINE;
 HGENMENU g_hMenuEditSettings = NULL;
@@ -352,7 +352,7 @@ namespace
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.cbSize = sizeof(odp);
 		odp.position = 910000000;
-		odp.hInstance = CModuleInfo::GetModuleHandle();
+		odp.hInstance = g_hInstance;
 		odp.ptszTitle = _T(QUOTES_PROTOCOL_NAME);
 		odp.ptszGroup = LPGENT("Network");
 		odp.hIcon = Quotes_LoadIconEx(ICON_STR_MAIN);
@@ -390,6 +390,12 @@ namespace
 // 		return 0;
 // 	}
 
+}
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+{
+	g_hInstance = hinstDLL;
+	return TRUE;
 }
 
 extern "C" 

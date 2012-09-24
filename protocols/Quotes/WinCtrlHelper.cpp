@@ -41,7 +41,7 @@ namespace
 
 void show_variable_list(HWND hwndParent,const IQuotesProvider* pProvider)
 {
-	::DialogBoxParam(CModuleInfo::GetModuleHandle(),
+	::DialogBoxParam(g_hInstance,
 		MAKEINTRESOURCE(IDD_DIALOG_VARIABLE_LIST),
 		hwndParent,
 		VariableListDlgProc,

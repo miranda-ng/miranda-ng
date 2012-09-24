@@ -302,7 +302,7 @@ INT_PTR QuotesMenu_CurrencyConverter(WPARAM wp,LPARAM lp)
 	}
 	else
 	{
-		CreateDialogParam(CModuleInfo::GetModuleHandle(), MAKEINTRESOURCE(IDD_CURRENCY_CONVERTER), NULL, CurrencyConverterDlgProc, 0);
+		CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CURRENCY_CONVERTER), NULL, CurrencyConverterDlgProc, 0);
 	}
 
 	return 0;

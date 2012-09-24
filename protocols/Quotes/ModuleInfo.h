@@ -24,9 +24,6 @@ public:
 	HANDLE GetWindowList(const std::string& rsKey,bool bAllocateIfNonExist = true);
 	bool GetExtendedStatusFlag()const;
 
-	static void SetModuleHandle(HINSTANCE hInstance);
-	static HINSTANCE GetModuleHandle();
-
 	static bool Verify();
 
 	static TQuotesProvidersPtr GetQuoteProvidersPtr();

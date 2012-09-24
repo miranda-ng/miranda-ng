@@ -145,6 +145,7 @@ template<typename T> struct safe_string : public detail::safe_string_impl<T,deta
 	safe_string(PTR p) : detail::safe_string_impl<T,detail::OwnerFree<T>>(p){}
 };
 
+extern HINSTANCE g_hInstance;
 
 // #ifdef MIRANDA_VER
 // #undef MIRANDA_VER

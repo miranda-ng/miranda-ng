@@ -126,7 +126,7 @@ namespace
 		ofn.nMaxFile = (DWORD)aFileBuffer.size();
 		ofn.lpstrFilter = pszFilter;
 		ofn.nFilterIndex = 1;
-		ofn.hInstance = CModuleInfo::GetModuleHandle();
+		ofn.hInstance = g_hInstance;
 		ofn.lpstrDefExt = _T("log");
 // 		ofn.lpstrFileTitle = NULL;
 // 		ofn.nMaxFileTitle = 0;
@@ -407,7 +407,7 @@ namespace
 						pParam->m_pPopupSettings->InitForContact(pParam->m_hContact);
 					}
 
-					DialogBoxParam(CModuleInfo::GetModuleHandle(),
+					DialogBoxParam(g_hInstance,
 						MAKEINTRESOURCE(IDD_DIALOG_POPUP),
 						hWnd,
 						EditPopupSettingsDlgProc,reinterpret_cast<LPARAM>(pParam->m_pPopupSettings));
@@ -543,7 +543,7 @@ void ShowSettingsDlg(HANDLE hContact)
 	}
 	else
 	{
-		CreateDialogParam(CModuleInfo::GetModuleHandle(),MAKEINTRESOURCE(IDD_CONTACT_SETTINGS),NULL,EditSettingsPerContactDlgProc,reinterpret_cast<LPARAM>(hContact));
+		CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_CONTACT_SETTINGS),NULL,EditSettingsPerContactDlgProc,reinterpret_cast<LPARAM>(hContact));
 	}
 }
 
@@ -714,7 +714,7 @@ namespace
 			case IDC_BUTTON_POPUP_SETTINGS:
 				{
 					const CAdvProviderSettings* pAdvSettings = reinterpret_cast<CAdvProviderSettings*>(GetWindowLongPtr(hWnd,GWLP_USERDATA));
-					DialogBoxParam(CModuleInfo::GetModuleHandle(),
+					DialogBoxParam(g_hInstance,
 						MAKEINTRESOURCE(IDD_DIALOG_POPUP),
 						hWnd,
 						EditPopupSettingsDlgProc,reinterpret_cast<LPARAM>(pAdvSettings->GetPopupSettingsPtr()));
@@ -1051,7 +1051,7 @@ bool ShowSettingsDlg(HWND hWndParent,CAdvProviderSettings* pAdvSettings)
 {
 	assert(pAdvSettings);
 
-	return (IDOK == DialogBoxParam(CModuleInfo::GetModuleHandle(),
+	return (IDOK == DialogBoxParam(g_hInstance,
 								   MAKEINTRESOURCE(IDD_PROVIDER_ADV_SETTINGS),
 								   hWndParent,
 								   EditSettingsPerProviderDlgProc,

@@ -33,9 +33,6 @@
     <ClCompile Include="DBUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ExtraImages.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -152,7 +152,7 @@ int QuotesEventFunc_OnUserInfoInit(WPARAM wp,LPARAM lp)
 
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof( odp );
-	odp.hInstance = CModuleInfo::GetModuleHandle();
+	odp.hInstance = g_hInstance;
 
 	odp.hIcon = Quotes_LoadIconEx(ICON_STR_MAIN);
 	odp.pfnDlgProc = QuoteInfoDlgProc;
@@ -289,7 +289,7 @@ int Quotes_OnContactDoubleClick(WPARAM wp,LPARAM/* lp*/)
 		}
 		else if(true == IsMyContact(hContact))
 		{
-			CreateDialogParam(CModuleInfo::GetModuleHandle(),MAKEINTRESOURCE(IDD_DIALOG_QUOTE_INFO_1),NULL,QuoteInfoDlgProc1,reinterpret_cast<LPARAM>(hContact));
+			CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_DIALOG_QUOTE_INFO_1),NULL,QuoteInfoDlgProc1,reinterpret_cast<LPARAM>(hContact));
 		}
 
 		return 1;

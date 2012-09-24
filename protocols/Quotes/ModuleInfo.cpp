@@ -9,7 +9,6 @@
 
 namespace
 {
-	HINSTANCE g_hInstance = NULL;
 	CModuleInfo::TXMLEnginePtr g_pXMLEngine;
 	CModuleInfo::THTMLEnginePtr g_pHTMLEngine;
 	CLightMutex g_lmParsers;
@@ -56,20 +55,6 @@ void CModuleInfo::OnMirandaShutdown()
 	{
 		WindowList_Broadcast(p.second,WM_CLOSE,0,0);
 	}
-}
-
-void CModuleInfo::SetModuleHandle(HINSTANCE hInstance)
-{
-	assert(NULL == g_hInstance);
-	assert(NULL != hInstance);
-
-	g_hInstance = hInstance;
-}
-
-HINSTANCE CModuleInfo::GetModuleHandle()
-{
-	assert(NULL != g_hInstance);
-	return g_hInstance;
 }
 
 CModuleInfo::TQuotesProvidersPtr CModuleInfo::GetQuoteProvidersPtr()

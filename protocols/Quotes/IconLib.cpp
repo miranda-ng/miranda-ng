@@ -42,11 +42,11 @@ namespace
 
 void Quotes_IconsInit()
 {
- 	USES_CONVERSION;
+	USES_CONVERSION;
 
 	SKINICONDESC sid = {0};
 	TCHAR szFile[MAX_PATH];
-	::GetModuleFileName(CModuleInfo::GetModuleHandle(), szFile, MAX_PATH);
+	::GetModuleFileName(g_hInstance, szFile, MAX_PATH);
 
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.ptszDefaultFile = szFile;
