@@ -30,7 +30,7 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 		if ( DBGetContactSettingTString( hContact, "CList", "Group", &dbv ))
 			dbv.ptszVal = NULL;
 
-		if ( DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) || !lstrcmp(dbv.ptszVal, _T("Not In List")) || !lstrcmp(dbv.ptszVal, TranslateT("Not In List")) || DBGetContactSettingByte(hContact, "CList", "Hidden", 0 )) {
+		if ( DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) || _tcsstr(dbv.ptszVal, _T("Not In List")) || _tcsstr(dbv.ptszVal, TranslateT("Not In List")) || DBGetContactSettingByte(hContact, "CList", "Hidden", 0 )) {
 			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 			if ( szProto != NULL ) {
 				// Check if protocol uses server side lists
@@ -55,7 +55,7 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 	char *group_name;
 	do {
 		group_name = (char *)CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, 0);
-		if ( group_name && lstrcmpA(group_name, "Not In List") == 0 ) {
+		if ( group_name && (strstr(group_name, "Not In List") || strstr(group_name, Translate("Not In List"))) ) {
 			BYTE ConfirmDelete = DBGetContactSettingByte(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
 			if ( ConfirmDelete )
 				DBWriteContactSettingByte( NULL, "CList", "ConfirmDelete", 0 );
