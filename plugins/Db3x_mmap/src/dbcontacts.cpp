@@ -70,13 +70,12 @@ STDMETHODIMP_(HANDLE) CDb3Base::FindFirstContact(const char *szProto)
 
 STDMETHODIMP_(HANDLE) CDb3Base::FindNextContact(HANDLE hContact, const char *szProto)
 {
-	int index;
-	DBContact *dbc;
 	DBCachedContactValueList VLtemp, *VL = NULL;
 	VLtemp.hContact = hContact;
 
 	mir_cslock lck(m_csDbAccess);
 	while (VLtemp.hContact) {
+		int index;
 		if (( index = m_lContacts.getIndex(&VLtemp)) != -1) {
 			VL = m_lContacts[index];
 			if (VL->hNext != NULL) {
@@ -87,7 +86,7 @@ STDMETHODIMP_(HANDLE) CDb3Base::FindNextContact(HANDLE hContact, const char *szP
 				continue;
 		}	}
 
-		dbc = (DBContact*)DBRead(VLtemp.hContact,sizeof(DBContact),NULL);
+		DBContact *dbc = (DBContact*)DBRead(VLtemp.hContact,sizeof(DBContact),NULL);
 		if (dbc->signature != DBCONTACT_SIGNATURE)
 			break;
 

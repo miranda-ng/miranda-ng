@@ -80,7 +80,7 @@ static int UnloadDatabase(MIDatabase* db)
 {
 	if (gDataBase == db)
 		gDataBase = NULL;
-	delete db;
+	delete (CDataBase*)db;
 	return 0;
 }
 
