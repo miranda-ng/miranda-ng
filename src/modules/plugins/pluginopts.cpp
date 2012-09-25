@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define IS_DATABASE (1 << 14)
 
-extern MUUID miid_clist, miid_database;
+extern MUUID miid_clist, miid_database, miid_protocol;
 HANDLE hevLoadModule, hevUnloadModule;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +61,6 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 		return TRUE;
 
 	int isdb = hasMuuid(pi, miid_database);
-	int isclist = hasMuuid(pi, miid_clist);
 
 	PluginListItemData* dat = (PluginListItemData*)mir_alloc(sizeof(PluginListItemData));
 	dat->hInst = hInst;
@@ -81,7 +80,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 		it.iItem = iRow;
 		it.iSubItem = 1;
 		it.iImage = (hInst != NULL) ? 2 : 3;
-		if (isdb || isclist)
+		if (isdb || hasMuuid(pi, miid_clist) || hasMuuid(pi, miid_protocol))
 			it.iImage += 2;
 		ListView_SetItem(hwndList, &it);
 
@@ -304,7 +303,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					if ( !ListView_GetItem(hwndList, &it))
 						break;
 
-					PluginListItemData* dat = (PluginListItemData*)it.lParam;
+					PluginListItemData *dat = (PluginListItemData*)it.lParam;
 					if (dat->flags & IS_DATABASE) {
 						ListView_SetItemState(hwndList, hdr->iItem, 0x3000, LVIS_STATEIMAGEMASK);
 						return FALSE;
@@ -349,11 +348,10 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINAUTHOR), sel ? dat->author : "");
 						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINEMAIL), sel ? dat->authorEmail : "");
-						{
-							TCHAR* p = Langpack_PcharToTchar(dat->description);
-							SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINLONGINFO), sel ? p : _T(""));
-							mir_free(p);
-						}
+						
+						mir_ptr<TCHAR> p( Langpack_PcharToTchar(dat->description));
+						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINLONGINFO), sel ? p : _T(""));
+
 						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINCPYR), sel ? dat->copyright : "");
 						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINURL), sel ? dat->homepage : "");
 						if (equalUUID(miid_last, dat->uuid))

@@ -338,9 +338,6 @@ void Plugin_Uninit(pluginEntry* p)
 int Plugin_UnloadDyn(pluginEntry* p)
 {
 	if (p->bpi.hInst) {
-		if ( hasMuuid(p->bpi.Interfaces, miid_protocol))
-			KillProtoAccounts(p->bpi.pluginInfo->shortName);
-
 		if ( CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
 			return FALSE;
 

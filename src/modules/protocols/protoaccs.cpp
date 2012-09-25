@@ -614,15 +614,6 @@ void UnloadAccountsModule()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void KillProtoAccounts(const char *szProtoName)
-{
-	for (int i=0; i < accounts.getCount(); i++)
-		if ( !strcmp(szProtoName, accounts[i]->szProtoName))
-			DeactivateAccount(accounts[i], true, false);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 void BuildProtoMenus()
 {
 	for (int i=0; i < accounts.getCount(); i++) {
