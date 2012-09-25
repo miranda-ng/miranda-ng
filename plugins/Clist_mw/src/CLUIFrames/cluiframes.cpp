@@ -48,8 +48,6 @@ LOGFONTA TitleBarLogFont = {0};
 
 boolean FramesSysNotStarted = TRUE;
 
-HANDLE hService[20], hHook[4];
-
 typedef struct
 {
 	int order;
@@ -2935,59 +2933,52 @@ int LoadCLUIFramesModule(void)
 	InitializeCriticalSection(&csFrameHook);
 	InitFramesMenus();
 
-	hHook[0] = HookEvent(ME_SYSTEM_MODULESLOADED,CLUIFrameOnModulesLoad);
-	hHook[1] = HookEvent(ME_CLIST_PREBUILDFRAMEMENU,CLUIFramesModifyContextMenuForFrame);
-	hHook[2] = HookEvent(ME_CLIST_PREBUILDMAINMENU,CLUIFrameOnMainMenuBuild);
+	HookEvent(ME_SYSTEM_MODULESLOADED,CLUIFrameOnModulesLoad);
+	HookEvent(ME_CLIST_PREBUILDFRAMEMENU,CLUIFramesModifyContextMenuForFrame);
+	HookEvent(ME_CLIST_PREBUILDMAINMENU,CLUIFrameOnMainMenuBuild);
 
-	hService[0] = CreateServiceFunction(MS_CLIST_FRAMES_ADDFRAME,CLUIFramesAddFrame);
-	hService[1] = CreateServiceFunction(MS_CLIST_FRAMES_REMOVEFRAME,CLUIFramesRemoveFrame);
+	CreateServiceFunction(MS_CLIST_FRAMES_ADDFRAME,CLUIFramesAddFrame);
+	CreateServiceFunction(MS_CLIST_FRAMES_REMOVEFRAME,CLUIFramesRemoveFrame);
 
-	hService[2] = CreateServiceFunction(MS_CLIST_FRAMES_SETFRAMEOPTIONS,CLUIFramesSetFrameOptions);
-	hService[3] = CreateServiceFunction(MS_CLIST_FRAMES_GETFRAMEOPTIONS,CLUIFramesGetFrameOptions);
-	hService[4] = CreateServiceFunction(MS_CLIST_FRAMES_UPDATEFRAME,CLUIFramesUpdateFrame);
+	CreateServiceFunction(MS_CLIST_FRAMES_SETFRAMEOPTIONS,CLUIFramesSetFrameOptions);
+	CreateServiceFunction(MS_CLIST_FRAMES_GETFRAMEOPTIONS,CLUIFramesGetFrameOptions);
+	CreateServiceFunction(MS_CLIST_FRAMES_UPDATEFRAME,CLUIFramesUpdateFrame);
 
-	hService[5] = CreateServiceFunction(MS_CLIST_FRAMES_SHFRAMETITLEBAR,CLUIFramesShowHideFrameTitleBar);
-	hService[6] = CreateServiceFunction(MS_CLIST_FRAMES_SHOWALLFRAMESTB,CLUIFramesShowAllTitleBars);
-	hService[7] = CreateServiceFunction(MS_CLIST_FRAMES_HIDEALLFRAMESTB,CLUIFramesHideAllTitleBars);
-	hService[8] = CreateServiceFunction(MS_CLIST_FRAMES_SHFRAME,CLUIFramesShowHideFrame);
-	hService[9] = CreateServiceFunction(MS_CLIST_FRAMES_SHOWALLFRAMES,CLUIFramesShowAll);
+	CreateServiceFunction(MS_CLIST_FRAMES_SHFRAMETITLEBAR,CLUIFramesShowHideFrameTitleBar);
+	CreateServiceFunction(MS_CLIST_FRAMES_SHOWALLFRAMESTB,CLUIFramesShowAllTitleBars);
+	CreateServiceFunction(MS_CLIST_FRAMES_HIDEALLFRAMESTB,CLUIFramesHideAllTitleBars);
+	CreateServiceFunction(MS_CLIST_FRAMES_SHFRAME,CLUIFramesShowHideFrame);
+	CreateServiceFunction(MS_CLIST_FRAMES_SHOWALLFRAMES,CLUIFramesShowAll);
 
-	hService[10] = CreateServiceFunction(MS_CLIST_FRAMES_ULFRAME,CLUIFramesLockUnlockFrame);
-	hService[11] = CreateServiceFunction(MS_CLIST_FRAMES_UCOLLFRAME,CLUIFramesCollapseUnCollapseFrame);
-	hService[12] = CreateServiceFunction(MS_CLIST_FRAMES_SETUNBORDER,CLUIFramesSetUnSetBorder);
+	CreateServiceFunction(MS_CLIST_FRAMES_ULFRAME,CLUIFramesLockUnlockFrame);
+	CreateServiceFunction(MS_CLIST_FRAMES_UCOLLFRAME,CLUIFramesCollapseUnCollapseFrame);
+	CreateServiceFunction(MS_CLIST_FRAMES_SETUNBORDER,CLUIFramesSetUnSetBorder);
 
-	hService[13] = CreateServiceFunction(MS_CLUI_GETCAPS,CLUIGetCapsService);
+	CreateServiceFunction(MS_CLUI_GETCAPS,CLUIGetCapsService);
 
-	hService[14] = CreateServiceFunction(CLUIFRAMESSETALIGN,CLUIFramesSetAlign);
-	hService[15] = CreateServiceFunction(CLUIFRAMESMOVEUPDOWN,CLUIFramesMoveUpDown);
+	CreateServiceFunction(CLUIFRAMESSETALIGN,CLUIFramesSetAlign);
+	CreateServiceFunction(CLUIFRAMESMOVEUPDOWN,CLUIFramesMoveUpDown);
 
-	hService[16] = CreateServiceFunction(CLUIFRAMESSETALIGNALTOP,CLUIFramesSetAlignalTop);
-	hService[17] = CreateServiceFunction(CLUIFRAMESSETALIGNALCLIENT,CLUIFramesSetAlignalClient);
-	hService[18] = CreateServiceFunction(CLUIFRAMESSETALIGNALBOTTOM,CLUIFramesSetAlignalBottom);
+	CreateServiceFunction(CLUIFRAMESSETALIGNALTOP,CLUIFramesSetAlignalTop);
+	CreateServiceFunction(CLUIFRAMESSETALIGNALCLIENT,CLUIFramesSetAlignalClient);
+	CreateServiceFunction(CLUIFRAMESSETALIGNALBOTTOM,CLUIFramesSetAlignalBottom);
 
-	hService[19] = CreateServiceFunction("Set_Floating",CLUIFrameSetFloat);
+	CreateServiceFunction("Set_Floating",CLUIFrameSetFloat);
 	hWndExplorerToolBar = FindWindowExA(0,0,"Shell_TrayWnd",NULL);
 	OnFrameTitleBarBackgroundChange(0,0);
 	FramesSysNotStarted = FALSE;
-	hHook[3] = HookEvent(ME_SYSTEM_PRESHUTDOWN,  CLUIFrameOnModulesUnload);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN,  CLUIFrameOnModulesUnload);
 	return 0;
 }
 
 int UnLoadCLUIFramesModule(void)
 {
-	int i;
 	FramesSysNotStarted = TRUE;
-
-    for (i = 0; i<SIZEOF(hService); ++i)
-	    DestroyServiceFunction(hService[i]);
-
-    for (i = 0; i<SIZEOF(hHook); ++i)
-	    UnhookEvent(hHook[i]);
 
 	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	CLUIFramesStoreAllFrames();
 	lockfrm();
-	for (i = 0;i<nFramescount;i++) {
+	for (int i = 0; i < nFramescount; i++) {
 		DestroyWindow(Frames[i].hWnd);
 		Frames[i].hWnd = (HWND)-1;
 		DestroyWindow(Frames[i].TitleBar.hwnd);
