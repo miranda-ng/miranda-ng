@@ -38,4 +38,16 @@
 #include <win2k.h>
 #pragma warning(pop)
 
+// skype
+
+#define SSL_LIB_CYASSL 
+#define NO_FILESYSTEM
+
+// Enable desktop video
+//#define SKYPEKIT_SURFACE_RENDERING
+
+// Additional flags for desktop video for non-Windows targets
+//#define VIDEO_TRANSPORT_SYSV
+//#define VIDEO_TRANSPORT_POSIX
+
 extern HINSTANCE g_hInstance;
