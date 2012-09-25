@@ -26,6 +26,8 @@ UNICODE done
 #include <commonheaders.h>
 #include "../coolsb/coolscroll.h"
 
+#include <m_extraicons.h>
+
 #define DBFONTF_BOLD       1
 #define DBFONTF_ITALIC     2
 #define DBFONTF_UNDERLINE  4
@@ -894,18 +896,6 @@ static INT_PTR CALLBACK DlgProcXIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	case WM_USER + 100:
 		p = (DISPLAYPROFILE *)lParam;
 		if (p) {
-			CheckDlgButton(hwndDlg, IDC_XSTATUSASSTATUS, p->dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS ? 1 : 0);
-
-			CheckDlgButton(hwndDlg, IDC_SHOWSTATUSICONS, (p->dwFlags & CLUI_FRAME_STATUSICONS) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOWVISIBILITY, (p->dwFlags & CLUI_SHOWVISI) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOWMETA, (p->dwFlags & CLUI_USEMETAICONS) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hwndDlg, IDC_OVERLAYICONS, (p->dwFlags & CLUI_FRAME_OVERLAYICONS) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SELECTIVEICONS, (p->dwFlags & CLUI_FRAME_SELECTIVEICONS) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hwndDlg, IDC_STATUSICONSCENTERED, p->bCenterStatusIcons ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_IDLE, p->bDimIdle ? BST_CHECKED : BST_UNCHECKED);
-
 			SendDlgItemMessage(hwndDlg, IDC_EXICONSCALESPIN, UDM_SETRANGE, 0, MAKELONG(20, 8));
 			SendDlgItemMessage(hwndDlg, IDC_EXICONSCALESPIN, UDM_SETPOS, 0, (LPARAM)p->exIconScale);
 			FillOrderTree(hwndDlg, GetDlgItem(hwndDlg, IDC_EXTRAORDER), p->exIconOrder, p->dwExtraImageMask);
@@ -919,16 +909,6 @@ static INT_PTR CALLBACK DlgProcXIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 			p->exIconScale = SendDlgItemMessage(hwndDlg, IDC_EXICONSCALESPIN, UDM_GETPOS, 0, 0);
 			p->exIconScale = (p->exIconScale < 8 || p->exIconScale > 20) ? 16 : p->exIconScale;
-
-			p->dwFlags |= ((IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUSICONS) ? CLUI_FRAME_STATUSICONS : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_SHOWVISIBILITY) ? CLUI_SHOWVISI : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_SHOWMETA) ? CLUI_USEMETAICONS : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_OVERLAYICONS) ? CLUI_FRAME_OVERLAYICONS : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_XSTATUSASSTATUS) ? CLUI_FRAME_USEXSTATUSASSTATUS : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_SELECTIVEICONS) ? CLUI_FRAME_SELECTIVEICONS : 0));
-
-			p->bDimIdle = IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0;
-			p->bCenterStatusIcons = IsDlgButtonChecked(hwndDlg, IDC_STATUSICONSCENTERED) ? 1 : 0;
 		}
 		return 0;
 
@@ -1037,6 +1017,61 @@ static INT_PTR CALLBACK DlgProcXIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
+static INT_PTR CALLBACK DlgProcIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	DISPLAYPROFILE *p;
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		return TRUE;
+
+	case WM_COMMAND:
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		break;
+
+	case WM_USER + 100:
+		p = (DISPLAYPROFILE *)lParam;
+		if (p) {
+			CheckDlgButton(hwndDlg, IDC_XSTATUSASSTATUS, p->dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS ? 1 : 0);
+
+			CheckDlgButton(hwndDlg, IDC_SHOWSTATUSICONS, (p->dwFlags & CLUI_FRAME_STATUSICONS) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWVISIBILITY, (p->dwFlags & CLUI_SHOWVISI) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWMETA, (p->dwFlags & CLUI_USEMETAICONS) ? BST_CHECKED : BST_UNCHECKED);
+
+			CheckDlgButton(hwndDlg, IDC_OVERLAYICONS, (p->dwFlags & CLUI_FRAME_OVERLAYICONS) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SELECTIVEICONS, (p->dwFlags & CLUI_FRAME_SELECTIVEICONS) ? BST_CHECKED : BST_UNCHECKED);
+
+			CheckDlgButton(hwndDlg, IDC_STATUSICONSCENTERED, p->bCenterStatusIcons ? 1 : 0);
+			CheckDlgButton(hwndDlg, IDC_IDLE, p->bDimIdle ? BST_CHECKED : BST_UNCHECKED);
+		}
+		return 0;
+
+	case WM_USER + 200:
+		p = (DISPLAYPROFILE *)lParam;
+		if (p) {
+			p->dwFlags |= ((IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUSICONS) ? CLUI_FRAME_STATUSICONS : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_SHOWVISIBILITY) ? CLUI_SHOWVISI : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_SHOWMETA) ? CLUI_USEMETAICONS : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_OVERLAYICONS) ? CLUI_FRAME_OVERLAYICONS : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_XSTATUSASSTATUS) ? CLUI_FRAME_USEXSTATUSASSTATUS : 0) |
+				(IsDlgButtonChecked(hwndDlg, IDC_SELECTIVEICONS) ? CLUI_FRAME_SELECTIVEICONS : 0));
+
+			p->bDimIdle = IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0;
+			p->bCenterStatusIcons = IsDlgButtonChecked(hwndDlg, IDC_STATUSICONSCENTERED) ? 1 : 0;
+		}
+		return 0;
+
+	case WM_NOTIFY:
+		switch (((LPNMHDR) lParam)->code) {
+		case PSN_APPLY:
+			return TRUE;
+		}
+		break;
+	}
+	return FALSE;
+}
+
 static HWND hwndList;
 static DISPLAYPROFILE dsp_current;
 
@@ -1080,40 +1115,51 @@ static INT_PTR CALLBACK DlgProcDspProfiles(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			hwndTab = GetDlgItem(hwnd, IDC_OPTIONSTAB);
 			iInit = TRUE;
+			int iOrder = 0;
 
 			TCITEM tci;
 			tci.mask = TCIF_PARAM|TCIF_TEXT;
 			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_DSPITEMS), hwnd, DlgProcDspItems);
 			tci.pszText = TranslateT("Contacts");
-			TabCtrl_InsertItem(hwndTab, 0, &tci);
+			TabCtrl_InsertItem(hwndTab, iOrder, &tci);
 
 			int oPage = cfg::getByte("CLUI", "opage_d", 0);
 			MoveWindow((HWND)tci.lParam,64,25,rcClient.right-128,rcClient.bottom-67,1);
-			ShowWindow((HWND)tci.lParam, oPage == 0 ? SW_SHOW : SW_HIDE);
+			ShowWindow((HWND)tci.lParam, oPage == iOrder ? SW_SHOW : SW_HIDE);
 			if (IS_THEMED)
 				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 
 			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_DSPGROUPS), hwnd, DlgProcDspGroups);
 			tci.pszText = TranslateT("Groups and layout");
-			TabCtrl_InsertItem(hwndTab, 1, &tci);
+			TabCtrl_InsertItem(hwndTab, ++iOrder, &tci);
 			MoveWindow((HWND)tci.lParam,64,25,rcClient.right-128,rcClient.bottom-67,1);
-			ShowWindow((HWND)tci.lParam, oPage == 1 ? SW_SHOW : SW_HIDE);
+			ShowWindow((HWND)tci.lParam, oPage == iOrder ? SW_SHOW : SW_HIDE);
 			if (IS_THEMED)
 				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 
-			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_XICONS), hwnd, DlgProcXIcons);
+			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_ICONS), hwnd, DlgProcIcons);
 			tci.pszText = TranslateT("Icons");
-			TabCtrl_InsertItem(hwndTab, 2, &tci);
+			TabCtrl_InsertItem(hwndTab, ++iOrder, &tci);
 			MoveWindow((HWND)tci.lParam,64,25,rcClient.right-128,rcClient.bottom-67,1);
-			ShowWindow((HWND)tci.lParam, oPage == 2 ? SW_SHOW : SW_HIDE);
+			ShowWindow((HWND)tci.lParam, oPage == iOrder ? SW_SHOW : SW_HIDE);
 			if (IS_THEMED)
 				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
+
+			if ( !ServiceExists(MS_EXTRAICON_REGISTER)) {
+				tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_XICONS), hwnd, DlgProcXIcons);
+				tci.pszText = TranslateT("Extra Icons");
+				TabCtrl_InsertItem(hwndTab, ++iOrder, &tci);
+				MoveWindow((HWND)tci.lParam,64,25,rcClient.right-128,rcClient.bottom-67,1);
+				ShowWindow((HWND)tci.lParam, oPage == iOrder ? SW_SHOW : SW_HIDE);
+				if (IS_THEMED)
+					API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
+			}
 
 			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_DSPADVANCED), hwnd, DlgProcDspAdvanced);
 			tci.pszText = TranslateT("Advanced");
-			TabCtrl_InsertItem(hwndTab, 3, &tci);
+			TabCtrl_InsertItem(hwndTab, ++iOrder, &tci);
 			MoveWindow((HWND)tci.lParam,64,25,rcClient.right-128,rcClient.bottom-67,1);
-			ShowWindow((HWND)tci.lParam, oPage == 3 ? SW_SHOW : SW_HIDE);
+			ShowWindow((HWND)tci.lParam, oPage == iOrder ? SW_SHOW : SW_HIDE);
 			if (IS_THEMED)
 				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 

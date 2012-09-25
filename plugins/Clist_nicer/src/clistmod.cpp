@@ -103,6 +103,25 @@ int LoadContactListModule(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR GetCaps(WPARAM wParam, LPARAM)
+{
+	switch (wParam) {
+	case CLUICAPS_FLAGS1:
+		return CLUIF_HIDEEMPTYGROUPS | CLUIF_DISABLEGROUPS | CLUIF_HASONTOPOPTION | CLUIF_HASAUTOHIDEOPTION;
+	case CLUICAPS_FLAGS2:
+		return MAKELONG(MAXEXTRACOLUMNS,1);
+	}
+	return 0;
+}
+
+int PreloadContactListModule(void)
+{
+	CreateServiceFunction(MS_CLUI_GETCAPS, GetCaps);
+	return 0;
+}
+
 /*
 Begin of Hrk's code for bug
 */

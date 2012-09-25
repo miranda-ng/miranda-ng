@@ -25,39 +25,7 @@
 
 HANDLE hOptHook = NULL;
 
-static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
 // Functions //////////////////////////////////////////////////////////////////////////////////////
-
-
-int InitOptionsCallback(WPARAM wParam, LPARAM lParam)
-{
-	if (GetNumberOfSlots() < 1)
-		return 0;
-
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
-	odp.hInstance = hInst;
-	odp.pszGroup = LPGEN("Contact List");
-	odp.pszTitle = LPGEN("Extra icons");
-	odp.pszTab = LPGEN("General");
-	odp.pfnDlgProc = OptionsDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
-	Options_AddPage(wParam, &odp);
-
-	return 0;
-}
-
-void InitOptions()
-{
-	hOptHook = HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
-}
-
-void DeInitOptions()
-{
-	UnhookEvent(hOptHook);
-}
 
 BOOL ScreenToClient(HWND hWnd, LPRECT lpRect)
 {
@@ -863,4 +831,35 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	}
 
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int InitOptionsCallback(WPARAM wParam, LPARAM lParam)
+{
+	if (GetNumberOfSlots() < 1)
+		return 0;
+
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = hInst;
+	odp.pszGroup = LPGEN("Contact List");
+	odp.pszTitle = LPGEN("Extra icons");
+	odp.pszTab = LPGEN("General");
+	odp.pfnDlgProc = OptionsDlgProc;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
+	Options_AddPage(wParam, &odp);
+
+	return 0;
+}
+
+void InitOptions()
+{
+	hOptHook = HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
+}
+
+void DeInitOptions()
+{
+	UnhookEvent(hOptHook);
 }

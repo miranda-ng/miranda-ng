@@ -34,6 +34,7 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam);
 INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam);
 INT_PTR InvalidateDisplayName(WPARAM wParam, LPARAM lParam);
 int InitGroupServices(void);
+void LoadCluiServices();
 INT_PTR Docking_IsDocked(WPARAM wParam, LPARAM lParam);
 void InitDisplayNameCache(void);
 void FreeDisplayNameCache(void);
@@ -500,8 +501,11 @@ int LoadContactListModule2(void)
 	HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
 	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
 	hProtoAckHook = (HANDLE) HookEvent(ME_PROTO_ACK, ProtocolAck);
+
 	hContactDoubleClicked = CreateHookableEvent(ME_CLIST_DOUBLECLICKED);
 	hContactIconChangedEvent = CreateHookableEvent(ME_CLIST_CONTACTICONCHANGED);
+
+	LoadCluiServices();
 
 	CreateServiceFunction(MS_CLIST_CONTACTDOUBLECLICKED, ContactDoubleClicked);
 	CreateServiceFunction(MS_CLIST_CONTACTFILESDROPPED, ContactFilesDropped);

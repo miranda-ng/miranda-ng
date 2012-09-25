@@ -27,6 +27,7 @@
 #define IDC_DROPUSER                    215
 #define IDD_OPT_CLUI                    218
 #define IDD_OPT_XICONS                  219
+#define IDD_OPT_ICONS                   220
 #define IDD_OPT_CLC                     228
 #define IDD_OPT_CLCBKG                  230
 #define IDD_OPT_SBAR                    234

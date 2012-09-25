@@ -287,12 +287,20 @@ IDD_OPT_XICONS DIALOGEX 0, 0, 227, 205
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Extra icons (drag items to reorder them)",IDC_STATIC,1,100,224,87
-    EDITTEXT        IDC_EXICONSCALE,141,192,31,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "Extra icons (drag items to reorder them)",IDC_STATIC,1,0,224,164
+    PUSHBUTTON      "Reset order and visibility to default",IDC_RESETXICONS,5,169,216,15
+    CONTROL         "",IDC_EXTRAORDER,"SysTreeView32",TVS_NOTOOLTIPS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,4,12,216,148
+	 LTEXT           "Extra icon size",IDC_STATIC,51,193,87,11
+	 EDITTEXT        IDC_EXICONSCALE,141,192,31,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_EXICONSCALESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,160,187,12,14
-    LTEXT           "Extra icon size",IDC_STATIC,51,193,87,11
-    CONTROL         "Show status icons",IDC_SHOWSTATUSICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,10,106,10
+END
+
+IDD_OPT_ICONS DIALOGEX 0, 0, 227, 205
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
     GROUPBOX        "Icons",IDC_STATIC,1,0,224,99
+    CONTROL         "Show status icons",IDC_SHOWSTATUSICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,10,106,10
     CONTROL         "Show visibility icons",IDC_SHOWVISIBILITY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,22,214,10
     CONTROL         "When possible, draw status icons in avatar space",IDC_SELECTIVEICONS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,34,214,10
@@ -303,8 +311,6 @@ BEGIN
     CONTROL         "Dim idle contacts",IDC_IDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,70,214,10
     CONTROL         "Replace status icons with xStatus",IDC_XSTATUSASSTATUS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,82,214,10
-    CONTROL         "",IDC_EXTRAORDER,"SysTreeView32",TVS_NOTOOLTIPS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,22,111,182,56
-    PUSHBUTTON      "Reset order and visibility to default",IDC_RESETXICONS,5,169,216,15
 END
 
 IDD_OPT_CLUI DIALOGEX 0, 0, 305, 226
@@ -594,19 +600,19 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "..\\src\\include\\resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include <windows.h>\r\n"
     "#include <winres.h>\r\n"
     "#include <statusmodes.h>\r\n"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"

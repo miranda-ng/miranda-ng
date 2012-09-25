@@ -213,12 +213,10 @@ int CListMod_ContactListShutdownProc(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CLUIGetCapsService(WPARAM wParam,LPARAM lParam)
+INT_PTR GetCapsService(WPARAM wParam,LPARAM lParam)
 {
-	if (lParam)
-	{
-		switch (lParam)
-		{
+	if (lParam) {
+		switch (lParam) {
 		case 0:
 			return 0;
 		case CLUIF2_PLUGININFO:
@@ -230,12 +228,9 @@ INT_PTR CLUIGetCapsService(WPARAM wParam,LPARAM lParam)
 		case CLUIF2_USEREXTRASTART:
 			return EXTRA_ICON_ADV3;
 		}
-		return 0;
 	}
-	else
-	{
-		switch (wParam)
-		{
+	else {
+		switch (wParam) {
 		case CLUICAPS_FLAGS1:
 			return CLUIF_HIDEEMPTYGROUPS|CLUIF_DISABLEGROUPS|CLUIF_HASONTOPOPTION|CLUIF_HASAUTOHIDEOPTION;
 		case CLUICAPS_FLAGS2:
@@ -244,18 +239,18 @@ INT_PTR CLUIGetCapsService(WPARAM wParam,LPARAM lParam)
 	}
 	return 0;
 }
+
 HRESULT PreLoadContactListModule()
 {
 	/* Global data initialization */
-	{
-		g_CluiData.fOnDesktop = FALSE;
-		g_CluiData.dwKeyColor = RGB(255,0,255);
-		g_CluiData.bCurrentAlpha = 255;
-	}
+	g_CluiData.fOnDesktop = FALSE;
+	g_CluiData.dwKeyColor = RGB(255,0,255);
+	g_CluiData.bCurrentAlpha = 255;
 
 	//initialize firstly hooks
 	//clist interface is empty yet so handles should check
 	CreateServiceFunction(MS_CLIST_GETCONTACTICON, GetContactIcon);
+	CreateServiceFunction(MS_CLUI_GETCAPS, GetCapsService);
 	return S_OK;
 }
 
@@ -265,8 +260,6 @@ INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam);
 
 HRESULT  CluiLoadModule()
 {
-	CreateServiceFunction(MS_CLUI_GETCAPS,CLUIGetCapsService);
-
 	InitDisplayNameCache();
 	hookSystemShutdown_CListMod  = HookEvent(ME_SYSTEM_SHUTDOWN,CListMod_ContactListShutdownProc);
 	hookOptInitialise_CList      = HookEvent(ME_OPT_INITIALISE,CListOptInit);

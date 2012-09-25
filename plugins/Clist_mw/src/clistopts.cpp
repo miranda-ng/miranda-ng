@@ -99,7 +99,8 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CheckDlgButton(hwndDlg, IDC_AUTOHIDE, DBGetContactSettingByte(NULL,"CList","AutoHide",SETTING_AUTOHIDE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_HIDETIME),IsDlgButtonChecked(hwndDlg,IDC_AUTOHIDE));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_HIDETIMESPIN),IsDlgButtonChecked(hwndDlg,IDC_AUTOHIDE));
-			{	DWORD caps = CallService(MS_CLUI_GETCAPS,CLUICAPS_FLAGS1,0);
+			{	
+				DWORD caps = CallService(MS_CLUI_GETCAPS,CLUICAPS_FLAGS1,0);
 				if (!(caps&CLUIF_HIDEEMPTYGROUPS)) ShowWindow(GetDlgItem(hwndDlg,IDC_HIDEEMPTYGROUPS),SW_HIDE);
 				if (!(caps&CLUIF_DISABLEGROUPS)) ShowWindow(GetDlgItem(hwndDlg,IDC_DISABLEGROUPS),SW_HIDE);
 				if (caps&CLUIF_HASONTOPOPTION) ShowWindow(GetDlgItem(hwndDlg,IDC_ONTOP),SW_HIDE);
@@ -191,18 +192,18 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case WM_NOTIFY:
 			switch (((LPNMHDR)lParam)->idFrom) {
 				case 0:
-					switch (((LPNMHDR)lParam)->code)
-					{
+					switch (((LPNMHDR)lParam)->code) {
 						case PSN_APPLY:
 							DBWriteContactSettingByte(NULL,"CList","HideOffline",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_HIDEOFFLINE));
-							{	DWORD caps = CallService(MS_CLUI_GETCAPS,CLUICAPS_FLAGS1,0);
-								if (caps&CLUIF_HIDEEMPTYGROUPS) DBWriteContactSettingByte(NULL,"CList","HideEmptyGroups",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_HIDEEMPTYGROUPS));
-								if (caps&CLUIF_DISABLEGROUPS) DBWriteContactSettingByte(NULL,"CList","UseGroups",(BYTE)!IsDlgButtonChecked(hwndDlg,IDC_DISABLEGROUPS));
-								if (!(caps&CLUIF_HASONTOPOPTION)) {
+							{	
+								DWORD caps = CallService(MS_CLUI_GETCAPS,CLUICAPS_FLAGS1,0);
+								if (caps & CLUIF_HIDEEMPTYGROUPS) DBWriteContactSettingByte(NULL,"CList","HideEmptyGroups",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_HIDEEMPTYGROUPS));
+								if (caps & CLUIF_DISABLEGROUPS)   DBWriteContactSettingByte(NULL,"CList","UseGroups",(BYTE)!IsDlgButtonChecked(hwndDlg,IDC_DISABLEGROUPS));
+								if ( !(caps & CLUIF_HASONTOPOPTION)) {
 									DBWriteContactSettingByte(NULL,"CList","OnTop",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_ONTOP));
 									SetWindowPos(pcli->hwndContactList,IsDlgButtonChecked(hwndDlg,IDC_ONTOP)?HWND_TOPMOST:HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 								}
-								if (!(caps&CLUIF_HASAUTOHIDEOPTION)) {
+								if ( !(caps & CLUIF_HASAUTOHIDEOPTION)) {
 									DBWriteContactSettingByte(NULL,"CList","AutoHide",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_AUTOHIDE));
 									DBWriteContactSettingWord(NULL,"CList","HideTime",(WORD)SendDlgItemMessage(hwndDlg,IDC_HIDETIMESPIN,UDM_GETPOS,0,0));
 								}

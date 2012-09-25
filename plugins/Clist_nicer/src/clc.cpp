@@ -803,8 +803,5 @@ LBL_Def:
 		}
 	}
 
-	{
-		LRESULT result = saveContactListControlWndProc(hwnd, msg, wParam, lParam);
-		return result;
-	}
+	return saveContactListControlWndProc(hwnd, msg, wParam, lParam);
 }

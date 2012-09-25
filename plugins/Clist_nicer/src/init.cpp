@@ -175,6 +175,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirand
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CLIST, MIID_LAST};
 
+int  PreloadContactListModule(void);
 int  LoadContactListModule(void);
 int  LoadCLCModule(void);
 void LoadCLUIModule( void );
@@ -310,6 +311,8 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	cfg::dat.tszProfilePath[MAX_PATH - 1] = 0;
 
 	_tcslwr(cfg::dat.tszProfilePath);
+
+	PreloadContactListModule();
 
 	// get the clist interface
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);

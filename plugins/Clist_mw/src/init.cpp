@@ -104,6 +104,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CLIST, MIID_LAST};
 
 int LoadContactListModule(void);
+int PreloadCLCModule(void);
 int LoadCLCModule(void);
 int LoadCLUIModule();
 int InitSkinHotKeys();
@@ -150,69 +151,64 @@ extern "C" int __declspec(dllexport) CListInitialise()
 {
 	int rc = 0;
 
-	// get the internal malloc/free()
-	__try {
+	OutputDebugStringA("CListInitialise ClistMW\r\n");
+	mir_getLP( &pluginInfo );
 
-		OutputDebugStringA("CListInitialise ClistMW\r\n");
-		mir_getLP( &pluginInfo );
+	PreloadCLCModule();
 
-		pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
-		if ( (INT_PTR)pcli == CALLSERVICE_NOTFOUND ) {
+	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
+	if ( (INT_PTR)pcli == CALLSERVICE_NOTFOUND ) {
 LBL_Error:
-			MessageBoxA( NULL, "This version of plugin requires Miranda IM 0.8.0.9 or later", "Fatal error", MB_OK );
-			return 1;
-		}
-		if ( pcli->version < 6 )
-			goto LBL_Error;
-
-		pcli->pfnBuildGroupPopupMenu = BuildGroupPopupMenu;
-		pcli->pfnCalcEipPosition = CalcEipPosition;
-		pcli->pfnCheckCacheItem = CheckPDNCE;
-		pcli->pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
-		pcli->pfnCompareContacts = CompareContacts;
-		pcli->pfnCreateClcContact = fnCreateClcContact;
-		pcli->pfnCreateCacheItem = fnCreateCacheItem;
-		pcli->pfnFindItem = FindItem;
-		pcli->pfnFreeCacheItem = FreeDisplayNameCacheItem;
-		pcli->pfnGetDefaultFontSetting = GetDefaultFontSetting;
-		pcli->pfnGetRowsPriorTo = GetRowsPriorTo;
-		pcli->pfnGetRowByIndex = GetRowByIndex;
-		pcli->pfnHitTest = HitTest;
-		pcli->pfnPaintClc = PaintClc;
-		pcli->pfnRebuildEntireList = RebuildEntireList;
-		pcli->pfnRecalcScrollBar = RecalcScrollBar;
-		pcli->pfnScrollTo = ScrollTo;
-
-		saveIconFromStatusMode = pcli->pfnIconFromStatusMode;
-		pcli->pfnIconFromStatusMode = cli_IconFromStatusMode;
-
-		saveAddGroup = pcli->pfnAddGroup; pcli->pfnAddGroup = AddGroup;
-		saveAddInfoItemToGroup = pcli->pfnAddInfoItemToGroup; pcli->pfnAddInfoItemToGroup = AddInfoItemToGroup;
-		saveAddItemToGroup = pcli->pfnAddItemToGroup; pcli->pfnAddItemToGroup = AddItemToGroup;
-		saveRemoveItemFromGroup = pcli->pfnRemoveItemFromGroup; pcli->pfnRemoveItemFromGroup = RemoveItemFromGroup;
-		saveFreeContact = pcli->pfnFreeContact; pcli->pfnFreeContact = FreeContact;
-		saveFreeGroup = pcli->pfnFreeGroup; pcli->pfnFreeGroup = FreeGroup;
-		saveContactListControlWndProc = pcli->pfnContactListControlWndProc; pcli->pfnContactListControlWndProc = ContactListControlWndProc;
-		saveTrayIconProcessMessage = pcli->pfnTrayIconProcessMessage; pcli->pfnTrayIconProcessMessage = TrayIconProcessMessage;
-		saveContactListWndProc = pcli->pfnContactListWndProc; pcli->pfnContactListWndProc = ContactListWndProc;
-		saveLoadClcOptions = pcli->pfnLoadClcOptions; pcli->pfnLoadClcOptions = LoadClcOptions;
-		saveSortCLC = pcli->pfnSortCLC; pcli->pfnSortCLC = SortCLC;
-
-		memset(&SED,0,sizeof(SED));
-		CreateServiceFunction(CLUI_SetDrawerService,SetDrawer);
-
-		rc = LoadContactListModule();
-		if (rc == 0) rc = LoadCLCModule();
-
-		HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-		BGModuleLoad();
-
-		OutputDebugStringA("CListInitialise ClistMW...Done\r\n");
+		MessageBoxA( NULL, "This version of plugin requires Miranda IM 0.8.0.9 or later", "Fatal error", MB_OK );
+		return 1;
 	}
-	__except (exceptFunction(GetExceptionInformation()))
-	{
-		return 0;
-	}
+	if ( pcli->version < 6 )
+		goto LBL_Error;
+
+	pcli->pfnBuildGroupPopupMenu = BuildGroupPopupMenu;
+	pcli->pfnCalcEipPosition = CalcEipPosition;
+	pcli->pfnCheckCacheItem = CheckPDNCE;
+	pcli->pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
+	pcli->pfnCompareContacts = CompareContacts;
+	pcli->pfnCreateClcContact = fnCreateClcContact;
+	pcli->pfnCreateCacheItem = fnCreateCacheItem;
+	pcli->pfnFindItem = FindItem;
+	pcli->pfnFreeCacheItem = FreeDisplayNameCacheItem;
+	pcli->pfnGetDefaultFontSetting = GetDefaultFontSetting;
+	pcli->pfnGetRowsPriorTo = GetRowsPriorTo;
+	pcli->pfnGetRowByIndex = GetRowByIndex;
+	pcli->pfnHitTest = HitTest;
+	pcli->pfnPaintClc = PaintClc;
+	pcli->pfnRebuildEntireList = RebuildEntireList;
+	pcli->pfnRecalcScrollBar = RecalcScrollBar;
+	pcli->pfnScrollTo = ScrollTo;
+
+	saveIconFromStatusMode = pcli->pfnIconFromStatusMode;
+	pcli->pfnIconFromStatusMode = cli_IconFromStatusMode;
+
+	saveAddGroup = pcli->pfnAddGroup; pcli->pfnAddGroup = AddGroup;
+	saveAddInfoItemToGroup = pcli->pfnAddInfoItemToGroup; pcli->pfnAddInfoItemToGroup = AddInfoItemToGroup;
+	saveAddItemToGroup = pcli->pfnAddItemToGroup; pcli->pfnAddItemToGroup = AddItemToGroup;
+	saveRemoveItemFromGroup = pcli->pfnRemoveItemFromGroup; pcli->pfnRemoveItemFromGroup = RemoveItemFromGroup;
+	saveFreeContact = pcli->pfnFreeContact; pcli->pfnFreeContact = FreeContact;
+	saveFreeGroup = pcli->pfnFreeGroup; pcli->pfnFreeGroup = FreeGroup;
+	saveContactListControlWndProc = pcli->pfnContactListControlWndProc; pcli->pfnContactListControlWndProc = ContactListControlWndProc;
+	saveTrayIconProcessMessage = pcli->pfnTrayIconProcessMessage; pcli->pfnTrayIconProcessMessage = TrayIconProcessMessage;
+	saveContactListWndProc = pcli->pfnContactListWndProc; pcli->pfnContactListWndProc = ContactListWndProc;
+	saveLoadClcOptions = pcli->pfnLoadClcOptions; pcli->pfnLoadClcOptions = LoadClcOptions;
+	saveSortCLC = pcli->pfnSortCLC; pcli->pfnSortCLC = SortCLC;
+
+	memset(&SED,0,sizeof(SED));
+	CreateServiceFunction(CLUI_SetDrawerService,SetDrawer);
+
+	rc = LoadContactListModule();
+	if (rc == 0)
+		rc = LoadCLCModule();
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	BGModuleLoad();
+
+	OutputDebugStringA("CListInitialise ClistMW...Done\r\n");
 
 	return rc;
 }

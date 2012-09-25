@@ -36,8 +36,6 @@ UINT uMsgProcessProfile;
 
 #define M_RESTORESTATUS  (WM_USER+7)
 
-void LoadCluiServices();
-
 typedef struct {
 	int showsbar;
 	int showgrip;
@@ -275,7 +273,6 @@ int LoadCLUIModule(void)
 	hContactDraggingEvent = CreateHookableEvent(ME_CLUI_CONTACTDRAGGING);
 	hContactDroppedEvent  = CreateHookableEvent(ME_CLUI_CONTACTDROPPED);
 	hContactDragStopEvent = CreateHookableEvent(ME_CLUI_CONTACTDRAGSTOP);
-	LoadCluiServices();
 
 	WNDCLASSEX wndclass;
 	wndclass.cbSize = sizeof(wndclass);

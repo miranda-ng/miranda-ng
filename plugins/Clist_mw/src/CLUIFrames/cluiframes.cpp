@@ -2886,17 +2886,6 @@ static int CLUIFrameOnModulesUnload(WPARAM wParam,LPARAM lParam)
    return 0;
 }
 
-static INT_PTR CLUIGetCapsService(WPARAM wParam,LPARAM lParam)
-{
-	switch (wParam) {
-	case CLUICAPS_FLAGS1:
-		return CLUIF_HIDEEMPTYGROUPS | CLUIF_DISABLEGROUPS | CLUIF_HASONTOPOPTION | CLUIF_HASAUTOHIDEOPTION;
-	case CLUICAPS_FLAGS2:
-		return MAKELONG(EXTRACOLUMNCOUNT,1);
-	}
-	return 0;
-}
-
 int LoadCLUIFramesModule(void)
 {
 	WNDCLASS wndclass;
@@ -2953,8 +2942,6 @@ int LoadCLUIFramesModule(void)
 	CreateServiceFunction(MS_CLIST_FRAMES_ULFRAME,CLUIFramesLockUnlockFrame);
 	CreateServiceFunction(MS_CLIST_FRAMES_UCOLLFRAME,CLUIFramesCollapseUnCollapseFrame);
 	CreateServiceFunction(MS_CLIST_FRAMES_SETUNBORDER,CLUIFramesSetUnSetBorder);
-
-	CreateServiceFunction(MS_CLUI_GETCAPS,CLUIGetCapsService);
 
 	CreateServiceFunction(CLUIFRAMESSETALIGN,CLUIFramesSetAlign);
 	CreateServiceFunction(CLUIFRAMESMOVEUPDOWN,CLUIFramesMoveUpDown);

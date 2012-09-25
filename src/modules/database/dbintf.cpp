@@ -41,7 +41,7 @@ static INT_PTR srvGetContactCount(WPARAM, LPARAM)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Events
+// Contacts
 
 static INT_PTR srvFindFirstContact(WPARAM, LPARAM lParam)
 {	return (currDb) ? (INT_PTR)currDb->FindFirstContact((LPCSTR)lParam) : 0;

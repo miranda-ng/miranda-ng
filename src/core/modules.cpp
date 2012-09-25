@@ -54,7 +54,6 @@ int LoadSkinSounds(void);
 int LoadSkinHotkeys(void);
 int LoadUserInfoModule(void);	// ui: user info
 int LoadVisibilityModule(void);	// ui: visibility control
-int LoadCLUIModule(void);		// ui: CList UI
 int LoadPluginOptionsModule(void);	// ui: plugin viewer
 int LoadAddContactModule(void);	// ui: authcontrol contacts
 int LoadUtilsModule(void);		// ui: utils (has a few window classes, like HyperLink)
