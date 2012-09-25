@@ -286,6 +286,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		ProtosData.insert(p);
 	}
 
+	if ( ProtosData.getCount() == 0)
+		return 0;
+
 	//START MULTILINE HERE 
 	int orig_protoCount = protoCount;
 	int orig_visProtoCount = ProtosData.getCount();
