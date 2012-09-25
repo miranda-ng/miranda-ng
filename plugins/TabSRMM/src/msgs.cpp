@@ -567,17 +567,15 @@ static void TSAPI InitAPI()
 
 int LoadSendRecvMessageModule(void)
 {
-	INITCOMMONCONTROLSEX 	icex;
-
 	if (FIF == 0) {
 		MessageBox(0, TranslateT("The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled."), TranslateT("TabSRMM fatal error"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
-	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
-	icex.dwICC   = ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_LISTVIEW_CLASSES;;
-	InitCommonControlsEx(&icex);
 
-	Utils::loadSystemLibrary(L"\\riched20.dll");
+	INITCOMMONCONTROLSEX icex;
+	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
+	icex.dwICC  = ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_LISTVIEW_CLASSES;;
+	InitCommonControlsEx(&icex);
 
 	OleInitialize(NULL);
 	mREOLECallback = new REOLECallback;
