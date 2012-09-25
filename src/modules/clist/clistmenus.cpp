@@ -812,8 +812,7 @@ int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR ** proto, int protoCnt, int Pos)
 
 int fnGetAccountIndexByPos(int Pos)
 {
-	int i;
-	for (i=0; i < accounts.getCount(); i++)
+	for (int i=0; i < accounts.getCount(); i++)
 		if (accounts[i]->iOrder == Pos)
 			return i;
 

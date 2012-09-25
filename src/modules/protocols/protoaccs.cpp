@@ -452,28 +452,27 @@ BOOL ActivateAccount(PROTOACCOUNT* pa)
 	CreateProtoServiceEx(pa->szModuleName, PS_GETNAME, (MIRANDASERVICEOBJ)stub41, pa->ppro);
 	CreateProtoServiceEx(pa->szModuleName, PS_GETSTATUS, (MIRANDASERVICEOBJ)stub42, pa->ppro);
 
+	char szServiceName[ 200 ];
+	mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_GETAVATARINFO);
+	if ( !ServiceExists(szServiceName)) {
+		mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_GETAVATARINFOW);
+		if (ServiceExists(szServiceName))
+			CreateProtoServiceEx(pa->szModuleName, PS_GETAVATARINFO, (MIRANDASERVICEOBJ)stub43, pa->ppro);
+	}
 
-		char szServiceName[ 200 ];
-		mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_GETAVATARINFO);
-		if ( !ServiceExists(szServiceName)) {
-			mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_GETAVATARINFOW);
-			if (ServiceExists(szServiceName))
-				CreateProtoServiceEx(pa->szModuleName, PS_GETAVATARINFO, (MIRANDASERVICEOBJ)stub43, pa->ppro);
-		}
+	mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_GETMYAVATAR);
+	if ( !ServiceExists(szServiceName)) {
+		mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_GETMYAVATARW);
+		if (ServiceExists(szServiceName))
+			CreateProtoServiceEx(pa->szModuleName, PS_GETMYAVATAR, (MIRANDASERVICEOBJ)stub44, pa->ppro);
+	}
 
-		mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_GETMYAVATAR);
-		if ( !ServiceExists(szServiceName)) {
-			mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_GETMYAVATARW);
-			if (ServiceExists(szServiceName))
-				CreateProtoServiceEx(pa->szModuleName, PS_GETMYAVATAR, (MIRANDASERVICEOBJ)stub44, pa->ppro);
-		}
-
-		mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_SETMYAVATAR);
-		if ( !ServiceExists(szServiceName)) {
-			mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_SETMYAVATARW);
-			if (ServiceExists(szServiceName))
-				CreateProtoServiceEx(pa->szModuleName, PS_SETMYAVATAR, (MIRANDASERVICEOBJ)stub45, pa->ppro);
-		}
+	mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_SETMYAVATAR);
+	if ( !ServiceExists(szServiceName)) {
+		mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_SETMYAVATARW);
+		if (ServiceExists(szServiceName))
+			CreateProtoServiceEx(pa->szModuleName, PS_SETMYAVATAR, (MIRANDASERVICEOBJ)stub45, pa->ppro);
+	}
 
 	return TRUE;
 }
@@ -611,6 +610,15 @@ void UnloadAccountsModule()
 	}
 
 	accounts.destroy();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void KillProtoAccounts(const char *szProtoName)
+{
+	for (int i=0; i < accounts.getCount(); i++)
+		if ( !strcmp(szProtoName, accounts[i]->szProtoName))
+			DeactivateAccount(accounts[i], true, false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

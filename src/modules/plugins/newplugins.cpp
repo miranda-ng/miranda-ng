@@ -198,6 +198,7 @@ MUUID miid_chat = MIID_CHAT;
 MUUID miid_srmm = MIID_SRMM;
 MUUID miid_clist = MIID_CLIST;
 MUUID miid_database = MIID_DATABASE;
+MUUID miid_protocol = MIID_PROTOCOL;
 MUUID miid_servicemode = MIID_SERVICEMODE;
 
 static bool validInterfaceList(MUUID *piface)
@@ -337,7 +338,10 @@ void Plugin_Uninit(pluginEntry* p)
 int Plugin_UnloadDyn(pluginEntry* p)
 {
 	if (p->bpi.hInst) {
-		if (CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
+		if ( hasMuuid(p->bpi.Interfaces, miid_protocol))
+			KillProtoAccounts(p->bpi.pluginInfo->shortName);
+
+		if ( CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
 			return FALSE;
 
 		NotifyEventHooks(hevUnloadModule, (WPARAM)p->bpi.InfoEx, (LPARAM)p->bpi.hInst);

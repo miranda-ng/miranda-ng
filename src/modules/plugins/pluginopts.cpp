@@ -221,7 +221,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 					}
 				}
 				else if (lvi.iImage == 2) {
-					if (UnloadPluginDynamically(dat)) {
+					if ( UnloadPluginDynamically(dat)) {
 						lvi.iImage = 3;
 						ListView_SetItem(hwnd, &lvi);
 	}	}	}	}	}
