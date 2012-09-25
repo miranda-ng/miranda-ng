@@ -120,11 +120,14 @@ bool Protocol::IsValid()
 	return valid;
 }
 
-
 int Protocol::GetStatus()
 {
 	int old_status = status;
-	status = CallProtoService(name, PS_GETSTATUS, 0, 0);
+	INT_PTR iStatus = CallProtoService(name, PS_GETSTATUS, 0, 0);
+	if (iStatus == CALLSERVICE_NOTFOUND)
+		return status = ID_STATUS_OFFLINE;
+
+	status = (int)iStatus;
 
 	if (old_status != status)
 		data_changed = true;
