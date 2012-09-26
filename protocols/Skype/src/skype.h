@@ -35,7 +35,7 @@
 
 #include "version.h"
 #include "skype_proto.h"
-
+#include "resource.h"
 // skype
 
 #define SSL_LIB_CYASSL 
