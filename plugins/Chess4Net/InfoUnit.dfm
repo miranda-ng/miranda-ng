@@ -51,7 +51,7 @@ object InfoForm: TInfoForm
     Height = 13
     Alignment = taCenter
     AutoSize = False
-    Caption = #169' 2007-2010 no rights reserved'
+    Caption = #169' 2007-2011 no rights reserved'
   end
   object Label4: TLabel
     Left = 38

@@ -1,13 +1,14 @@
 Chess4Net
-(c) 2007-2010 No rights reserved
-E-Mail: packpaul@mail.ru
+(c) 2007-2011 No rights reserved
+E-Mail: packpaul@mail.ru, packpaul1@gmail.com
+Skype:  packpaul1
 URL:    http://chess4net.ru
-==============================
+==============================================
 
 Opening
 --------
 
-Chess4Net is a program for playing chess via Internet. It can be used as standalone application (Socket version for Microsoft Windows or Linux) or as plug-in for such instant messengers as Skype, Miranda, QIP Infium, Trillian Pro and &RQ. Two modes of chess game are supported: standart chess and its random counterpart - PP Random Chess. Chess4Net supports sudden death and incremental time controls as well as possibility to give your opponent a time-handicap. If you want to improve your chess skills there is also a support for a training mode. You can also invite other contacts to watch the games you're playing in real-time.
+Chess4Net is a program for playing chess via Internet. It can be used as a standalone application (Socket version for Microsoft Windows or Linux) or as plug-in for such instant messengers as Skype, Miranda, QIP Infium, Trillian Pro and &RQ. Two modes of chess game are supported: standart chess and its random counterpart - PP Random Chess. Chess4Net supports sudden death and incremental time controls as well as possibility to give your opponent a time-handicap. If you want to improve your chess skills there is also a support for a training mode. You can also invite other contacts to watch the games you're playing in real-time.
 
 Middle game
 ------------
@@ -18,7 +19,11 @@ Socket version:
   Extract the archive to desired folder on your computer.
 
 Skype plug-in:
-  There're two options. You can either install from installation package or download an archive and extract it to a desired folder on your computer.
+  * Windows:
+  There're two options. You can either install from installation package or download an archive and extract it to a desired folder on your computer (Windows version).
+
+  * Linux:
+  Extract downloaded archive to a folder. If you're root then make the user to have full access to the installation folder.
 
 Miranda plug-in:
   Extract archive to the Miranda Plugins directory and re/start Miranda.
@@ -43,9 +48,17 @@ Socket version:
   4) Click OK and wait until the connection is completed.
 
 Skype:
+  * Windows:
   1) Run Chess4Net_Skype.exe. If you don't have Skype running it will start automatically. Click 'Allow access' when dialog 'Chess4Net_Skype.exe wants to use Skype' pops-up.
   2) When a window with Skype contacts appears choose a contact you want to play chess with.
   3) Wait until connection is completed.
+  
+  * Linux
+  1) You should have Skype running and be logged in to it.
+  2) In terminal go to the installation folder for example:
+    cd ~/Chess4Net_Skype
+  3) Run Chess4Net:
+    ./Chess4Net_Skype
 
 Miranda:
   1) Right-click the contact you want to play chess with and select 'Chess4Net' from contact pop-up menu.
@@ -76,10 +89,15 @@ User DB can learn from your games in order to give you best choices. You can als
 
 Game transmitting mode:
 
-While you're playing some games you can invite other contacts to gollow up these games in real-time. Therefore you must
-start a new session of Chess4Net for a contact you want the game(s) be transmitted to. A mode selection dialog appears
-asking if game broadcasting has to be started. You must select 'Yes' (if you select 'No' an ordinary game session is created). After that you should select a game for transmition (only if there're several games in progress). After your contact
-connects he/she'll be able to watch the game.
+While you're playing some games you can invite other contacts to follow up these games in real-time. Therefore you must
+
+Miranda:
+  start a new session of Chess4Net for a contact you want the game(s) be transmitted to. A mode selection dialog appears asking if game broadcasting has to be started. You must select 'Yes' (if you select 'No' an ordinary game session is created). After that you should select a game for transmition (only if there're several games in progress).
+
+Skype:
+  select Broadcast... from pop-up menu. A list of contacts appears. Select a contact whom you want to transmit the game played to.
+  
+After your contact connects he/she'll be able to watch the game.
 
 
 Endgame
@@ -113,6 +131,15 @@ PP
 Change log
 -----------
 
+Chess4Net 2011.1 (Skype)
+[2011-08-06] Localization for German, French, Italian and Estonian
+[2011-08-01] Game resurection after application failure improved
+[2011-07-24] Keeping Skype connection alive feature
+[2011-05-23] Game transmition feature
+[2011-05-30] Incorrect chess clock timing on different locales fix
+[2011-06-01] Stay on top enabled
+
+
 Chess4Net 2010.0 (MI)
 [2010-05-28] Game retransmition feature added. Dialog handling improved (stay on top, out of screen etc). Majority of crashes fixed. Games numbering if several ones are played.
 
@@ -120,6 +147,7 @@ Chess4Net 2010.0 (MI)
 Chess4Net 2010.1 (Skype)
 [2010-02-07] Released with Credits reminder.
 [2010-03-06] Skype accept help image added.
+[2010-11-13] Linux version released
 
 
 Chess4net 2009.1 (MI)

@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////
+// All code below is exclusively owned by author of Chess4Net - Pavel Perminov
+// (packpaul@mail.ru, packpaul1@gmail.com).
+// Any changes, modifications, borrowing and adaptation are a subject for
+// explicit permition from the owner.
+
 unit DialogUnit;
 
 interface
@@ -13,7 +19,7 @@ type
     procedure ButtonClick(Sender: TObject);
   private
     m_ModID: TModalFormID;
-    msgDlg: TForm;
+    m_MsgDlg: TForm;
     function GetCaption: TCaption;
     procedure SetCaption(capt: TCaption);
   protected
@@ -25,6 +31,10 @@ type
     function GetTop_: integer; override;
     procedure SetTop_(y: integer); override;
     function GetModalID: TModalFormID; override;
+    function RGetModalResult: TModalResult; override;
+    procedure RSetModalResult(Value: TModalResult); override;
+
+    property MsgDlg: TForm read m_MsgDlg;
   public
     constructor Create(frmOwner: TForm; const wstrMsg: WideString;
       DlgType: TMsgDlgType; Buttons: TMsgDlgButtons; modID: TModalFormID = mfNone;
@@ -58,16 +68,16 @@ begin
   m_ModID := modID;
   RHandler := msgDlgHandler;
 
-  msgDlg := MessageDialogUnit.CreateMessageDialog(frmOwner, wstrMsg, DlgType, Buttons,
+  m_MsgDlg := MessageDialogUnit.CreateMessageDialog(frmOwner, wstrMsg, DlgType, Buttons,
     bStayOnTopIfNoOwner);
   // msgDlg.FormStyle := frmOwner.FormStyle;
-  msgDlg.OnShow := FormShow;
-  msgDlg.OnClose := FormClose;
+  m_MsgDlg.OnShow := FormShow;
+  m_MsgDlg.OnClose := FormClose;
 
-  for i := 0 to (msgDlg.ComponentCount - 1) do
+  for i := 0 to (m_MsgDlg.ComponentCount - 1) do
   begin
-    if (msgDlg.Components[i] is TButton) then
-      TButton(msgDlg.Components[i]).OnClick := ButtonClick;
+    if (m_MsgDlg.Components[i] is TButton) then
+      TButton(m_MsgDlg.Components[i]).OnClick := ButtonClick;
   end;
 end;
 
@@ -83,7 +93,7 @@ end;
 
 procedure TDialogForm.FormShow(Sender: TObject);
 begin
-  inherited FormShow(msgDlg);
+  inherited FormShow(m_MsgDlg);
 end;
 
 
@@ -91,10 +101,10 @@ procedure TDialogForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if Assigned(dlgOwner) then
     dlgOwner.UnsetShowing(self);
-  if (fsModal in msgDlg.FormState) then
+  if (fsModal in m_MsgDlg.FormState) then
     exit;
   if (Assigned(RHandler)) then
-    RHandler(TModalForm(msgDlg), GetModalID);
+    RHandler(self, GetModalID);
 //  Action := caFree;
   Release;
 end;
@@ -102,95 +112,106 @@ end;
 
 procedure TDialogForm.Show;
 begin
-  msgDlg.Show;
+  m_MsgDlg.Show;
 end;
 
 
 procedure TDialogForm.Close;
 begin
-  msgDlg.Close;
+  m_MsgDlg.Close;
 end;
 
 
 function TDialogForm.ShowModal: integer;
 begin
-  Result := msgDlg.ShowModal;
+  Result := m_MsgDlg.ShowModal;
 end;
 
 procedure TDialogForm.ButtonClick(Sender: TObject);
 begin
-  if not (fsModal in msgDlg.FormState) then
-    msgDlg.Close;
+  if not (fsModal in m_MsgDlg.FormState) then
+    m_MsgDlg.Close;
 end;
 
 destructor TDialogForm.Destroy;
 begin
-  msgDlg.Release;
+  m_MsgDlg.Release;
   inherited;
 end;
 
 function TDialogForm.GetCaption: TCaption;
 begin
-  Result := msgDlg.Caption;
+  Result := m_MsgDlg.Caption;
 end;
 
 procedure TDialogForm.SetCaption(capt: TCaption);
 begin
-  msgDlg.Caption := capt;
+  m_MsgDlg.Caption := capt;
 end;
 
 function TDialogForm.GetHandle: hWnd;
 begin
-  Result := msgDlg.Handle;
+  Result := m_MsgDlg.Handle;
 end;
 
 
 function TDialogForm.GetEnabled_: boolean;
 begin
-  Result := msgDlg.Enabled;
+  Result := m_MsgDlg.Enabled;
 end;
 
 
 procedure TDialogForm.SetEnabled_(flag: boolean);
 begin
-  msgDlg.Enabled := flag;
+  m_MsgDlg.Enabled := flag;
 end;
 
 
 procedure TDialogForm.SetFocus;
 begin
-  msgDlg.SetFocus;
-  msgDlg.Show;
+  m_MsgDlg.SetFocus;
+  m_MsgDlg.Show;
 end;
 
 
 function TDialogForm.GetLeft_: integer;
 begin
-  Result := msgDlg.Left;
+  Result := m_MsgDlg.Left;
 end;
 
 
 procedure TDialogForm.SetLeft_(x: integer);
 begin
-  msgDlg.Left := x;
+  m_MsgDlg.Left := x;
 end;
 
 
 function TDialogForm.GetTop_: integer;
 begin
-  Result := msgDlg.Top;
+  Result := m_MsgDlg.Top;
 end;
 
 
 procedure TDialogForm.SetTop_(y: integer);
 begin
-  msgDlg.Top := y;
+  m_MsgDlg.Top := y;
 end;
 
 
 function TDialogForm.GetModalID: TModalFormID;
 begin
   Result := m_ModID;
+end;
+
+function TDialogForm.RGetModalResult: TModalResult;
+begin
+  Result := m_MsgDlg.ModalResult;
+end;
+
+
+procedure TDialogForm.RSetModalResult(Value: TModalResult);
+begin
+  m_MsgDlg.ModalResult := Value;
 end;
 
 end.

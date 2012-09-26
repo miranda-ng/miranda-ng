@@ -31,6 +31,10 @@ object Manager: TManager
       Caption = 'About...'
       OnExecute = AboutActionExecute
     end
+    object BroadcastAction: TTntAction
+      Caption = 'Broadcast...'
+      OnExecute = BroadcastActionExecute
+    end
   end
   object ConnectedPopupMenu: TTntPopupMenu
     AutoPopup = False
@@ -67,6 +71,12 @@ object Manager: TManager
       Action = LookFeelOptionsAction
     end
     object N1: TTntMenuItem
+      Caption = '-'
+    end
+    object BroadcastConnected: TTntMenuItem
+      Action = BroadcastAction
+    end
+    object N3: TTntMenuItem
       Caption = '-'
     end
     object AboutConnected: TTntMenuItem
@@ -115,6 +125,12 @@ object Manager: TManager
       Action = LookFeelOptionsAction
     end
     object N2: TTntMenuItem
+      Caption = '-'
+    end
+    object Broadcast: TTntMenuItem
+      Action = BroadcastAction
+    end
+    object N7: TTntMenuItem
       Caption = '-'
     end
     object AboutGame: TTntMenuItem

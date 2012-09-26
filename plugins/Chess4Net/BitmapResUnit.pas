@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////
+// All code below is exclusively owned by author of Chess4Net - Pavel Perminov
+// (packpaul@mail.ru, packpaul1@gmail.com).
+// Any changes, modifications, borrowing and adaptation are a subject for
+// explicit permition from the owner.
+
 unit BitmapResUnit;
 
 interface
@@ -15,8 +21,14 @@ type
     m_iSetNumber: integer;
     m_iSquareSize: integer;
     procedure FCalculateClientBoardSizes(InitialSize: TSize);
+    function FGetOptimalBoardSize(const ClientSize: TSize; out iSetNumber: integer): TSize;
+    procedure FCalculateSetNumberFromSquareSize;
+    procedure FLoadPieceSet(iSetNumber: integer);
+    function FGetBoardResName(iSetNumber: integer): string;
+    function FGetSetResName(iSetNumber: integer): string;
   public
-    constructor Create(const ClientBoardSize: TSize);
+    constructor Create(const ClientBoardSize: TSize);  overload;
+    constructor Create(iSquareSize: integer); overload;
     destructor Destroy; override;
     procedure CreateBoardBitmap(ClientBoardSize: TSize; const BackgroundColor: TColor;
       out Bitmap: TBitmap);
@@ -38,17 +50,23 @@ const
   CHB_RES_X = 4; CHB_RES_Y = 4; // starting coordinates of A8 field in resources
 
 var
-  g_BitmapResInstance: TBitmapRes = nil;
   arrClientBoardSizes: array[1..7] of TSize;
-  bClientBoardSizesCalculated: boolean = FALSE;
+  g_bClientBoardSizesCalculated: boolean = FALSE;
 
 ////////////////////////////////////////////////////////////////////////////////
 // TBitmapRes
 
 constructor TBitmapRes.Create(const ClientBoardSize: TSize);
 begin
-  if (not bClientBoardSizesCalculated) then
-    FCalculateClientBoardSizes(ClientBoardSize);
+  inherited Create;
+  FCalculateClientBoardSizes(ClientBoardSize);
+end;
+
+
+constructor TBitmapRes.Create(iSquareSize: integer);
+begin
+  inherited Create;
+  m_iSquareSize := iSquareSize;
 end;
 
 
@@ -64,38 +82,58 @@ procedure TBitmapRes.CreateBoardBitmap(ClientBoardSize: TSize; const BackgroundC
 var
   Png: TPngObject;
   ResBoard: TBitmap;
+  iSetNumber: integer;
 begin
   Png := nil;
   ResBoard := nil;
-  m_iSquareSize := 0;
 
-  GetOptimalBoardSize(ClientBoardSize); // To refresh m_iSetNumber
-  if (m_iSetNumber = 0) then
+  FGetOptimalBoardSize(ClientBoardSize, iSetNumber);
+
+  if (iSetNumber = 0) then
     exit;
 
   Bitmap := TBitMap.Create;
   with Bitmap do
   try
     Png := TPngObject.Create;
-    Png.LoadFromResourceName(HInstance, 'BOARD' + IntToStr(m_iSetNumber));
+    Png.LoadFromResourceName(HInstance, FGetBoardResName(iSetNumber));
     ResBoard := TBitmap.Create;
     ResBoard.Assign(Png);
 
-    Width := arrClientBoardSizes[m_iSetNumber].cx;
-    Height := arrClientBoardSizes[m_iSetNumber].cy;
+    Width := arrClientBoardSizes[iSetNumber].cx;
+    Height := arrClientBoardSizes[iSetNumber].cy;
     Canvas.Brush.Color := BackgroundColor;
     Canvas.FillRect(Bounds(0, 0, Width, Height));
     Canvas.Draw(CHB_X - CHB_RES_X, CHB_Y - CHB_RES_Y, ResBoard);
 
     // Load appropriate set
-    FreeAndNil(m_ResSet);
-    Png.LoadFromResourceName(HInstance, 'SET' + IntToStr(m_iSetNumber));
+    FLoadPieceSet(iSetNumber);
+
+  finally;
+    m_iSetNumber := iSetNumber;
+    ResBoard.Free;
+    Png.Free;
+  end;
+end;
+
+
+procedure TBitmapRes.FLoadPieceSet(iSetNumber: integer);
+var
+  Png: TPngObject;
+begin
+  if (Assigned(m_ResSet) and (iSetNumber = m_iSetNumber)) then
+    exit;
+
+  FreeAndNil(m_ResSet);
+
+  Png := TPngObject.Create;
+  try
+    Png.LoadFromResourceName(HInstance, FGetSetResName(iSetNumber));
     m_ResSet := TBitmap.Create;
     m_ResSet.Assign(Png);
 
     m_iSquareSize := m_ResSet.Height;
-  finally;
-    ResBoard.Free;
+  finally
     Png.Free;
   end;
 end;
@@ -105,30 +143,68 @@ procedure TBitmapRes.CreateFigureBitmap(const Figure: TFigure; out Bitmap: TBitm
 const
   PNG_SET_POS: array[TFigure] of integer = (2, 4, 6, 8, 10, 12, 0, 3, 5, 7, 9, 11, 13);
 var
-  iSquareSize, iWidth: integer;
+  iWidth: integer;
 begin
   if (m_iSetNumber = 0) then
-    exit;
+  begin
+    FCalculateSetNumberFromSquareSize;
+    if (m_iSetNumber = 0) then
+      exit;
+  end;
 
-  iSquareSize := m_ResSet.Height;   
+  FLoadPieceSet(m_iSetNumber);
 
-  iWidth := IfThen((Figure = ES), iSquareSize + iSquareSize, iSquareSize);
+  iWidth := IfThen((Figure = ES), m_iSquareSize + m_iSquareSize, m_iSquareSize);
 
   Bitmap := TBitMap.Create;
   Bitmap.Width := iWidth;
-  Bitmap.Height := iSquareSize;
+  Bitmap.Height := m_iSquareSize;
 
-  Bitmap.Canvas.CopyRect(Bounds(0, 0, iWidth, iSquareSize), m_ResSet.Canvas,
-    Bounds(iSquareSize * PNG_SET_POS[Figure], 0, iWidth, iSquareSize));
+  Bitmap.Canvas.CopyRect(Bounds(0, 0, iWidth, m_iSquareSize), m_ResSet.Canvas,
+    Bounds(m_iSquareSize * PNG_SET_POS[Figure], 0, iWidth, m_iSquareSize));
   Bitmap.Transparent:= TRUE;
+end;
+
+
+procedure TBitmapRes.FCalculateSetNumberFromSquareSize;
+var
+  i: integer;
+begin
+  m_iSetNumber := 0;
+
+  with TPngObject.Create do
+  try
+    for i := High(arrClientBoardSizes) downto Low(arrClientBoardSizes) do
+    begin
+      LoadFromResourceName(HInstance, FGetSetResName(i));
+
+      if (Height <= m_iSquareSize) then
+      begin
+        m_iSetNumber := i;
+        exit;
+      end;
+    end;
+
+  finally
+    Free;
+  end;
+
 end;
 
 
 function TBitmapRes.GetOptimalBoardSize(ClientSize: TSize): TSize;
 var
+  iDummy: integer;
+begin
+  Result := FGetOptimalBoardSize(ClientSize, iDummy);
+end;
+
+
+function TBitmapRes.FGetOptimalBoardSize(const ClientSize: TSize; out iSetNumber: integer): TSize;
+var
   i: integer;
 begin
-  m_iSetNumber := 0;
+  iSetNumber := 0;
 
   for i := High(arrClientBoardSizes) downto Low(arrClientBoardSizes) do
   begin
@@ -136,7 +212,7 @@ begin
         (ClientSize.cy >= arrClientBoardSizes[i].cy)) then
     begin
       Result := arrClientBoardSizes[i];
-      m_iSetNumber := i;
+      iSetNumber := i;
       exit;
     end;
   end; { for i }
@@ -148,17 +224,18 @@ end;
 procedure TBitmapRes.FCalculateClientBoardSizes(InitialSize: TSize);
 var
   i: integer;
-  strResName: string;
   iOptimal: integer;
   iAddX, iAddY: integer;
 begin
+  if (g_bClientBoardSizesCalculated) then
+    exit;
+
   // Load board sizes from resources
   with TPngObject.Create do
   try
     for i := Low(arrClientBoardSizes) to High(arrClientBoardSizes) do
     begin
-      strResName := 'BOARD' + IntToStr(i);
-      LoadFromResourceName(HInstance, strResName);
+      LoadFromResourceName(HInstance, FGetBoardResName(i));
       arrClientBoardSizes[i] := Size(Width, Height);
     end;
   finally
@@ -187,7 +264,19 @@ begin
     inc(arrClientBoardSizes[i].cy, iAddY);
   end;
 
-  bClientBoardSizesCalculated := TRUE;
+  g_bClientBoardSizesCalculated := TRUE;
+end;
+
+
+function TBitmapRes.FGetBoardResName(iSetNumber: integer): string;
+begin
+  Result := 'BOARD' + IntToStr(iSetNumber);
+end;
+
+
+function TBitmapRes.FGetSetResName(iSetNumber: integer): string;
+begin
+  Result := 'SET' + IntToStr(iSetNumber);
 end;
 
 end.

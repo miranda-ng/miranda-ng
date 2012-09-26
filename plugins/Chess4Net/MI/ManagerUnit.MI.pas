@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////
+// All code below is exclusively owned by author of Chess4Net - Pavel Perminov
+// (packpaul@mail.ru, packpaul1@gmail.com).
+// Any changes, modifications, borrowing and adaptation are a subject for
+// explicit permition from the owner.
+
 unit ManagerUnit.MI;
 
 interface
@@ -5,16 +11,9 @@ interface
 uses
   SysUtils,
   //
-  ControlUnit, ManagerUnit, ConnectorUnit, ModalForm;
+  ControlUnit, ManagerUnit, ConnectorUnit, ModalForm, NonRefInterfacedObjectUnit;
 
 type
-  TNonRefInterfacedObject = class(TObject, IInterface)
-  protected
-    function QueryInterface(const IID: TGUID; out Obj): HResult; stdcall;
-    function _AddRef: Integer; stdcall;
-    function _Release: Integer; stdcall;
-  end;
-
   TManagerMIFactory = class(TNonRefInterfacedObject, IMirandaPlugin)
   private
     m_Connector: TConnector;
@@ -46,7 +45,8 @@ implementation
 uses
   Types, StrUtils, Classes, Dialogs, Controls,
   //
-  LocalizerUnit, TransmitGameSelectionUnit, GlobalsLocalUnit, ChessBoardUnit;
+  LocalizerUnit, TransmitGameSelectionUnit, GlobalsLocalUnit, ChessBoardUnit,
+  GameChessBoardUnit;
 
 type
   TManagerMI = class(TManager, IMirandaPlugin) // abstract
@@ -93,6 +93,7 @@ type
   private
     m_GamingManager: TGamingManagerMI;
     m_bReady: boolean; // ready for transmition
+    property Ready: boolean read m_bReady;
   protected
     procedure Start;
     procedure ROnCreate; override;
@@ -182,7 +183,7 @@ end;
 
 procedure TGamingManagerMI.FSetGameContextToTransmitter(ATransmitter: TTransmittingManagerMI);
 begin
-  if (not (Assigned(ATransmitter) and ATransmitter.m_bReady)) then
+  if (not (Assigned(ATransmitter) and ATransmitter.Ready)) then
     exit;
 
   ATransmitter.RSendData(CMD_NICK_ID + ' ' + PlayerNickId + ' ' + OpponentNickId + ' ' + OpponentNick);
@@ -294,12 +295,10 @@ begin
     ceError:
     begin
       Connector.Close;
-      inherited ConnectorHandler(e, d1, d2);
     end;
-
-  else
-    inherited ConnectorHandler(e, d1, d2);
   end; // case
+
+  inherited ConnectorHandler(e, d1, d2);
 end;
 
 
@@ -347,7 +346,7 @@ begin
   for i := 0 to m_lstTransmittingManagers.Count - 1 do
   begin
     ATransmitter := m_lstTransmittingManagers[i];
-    if (Assigned(ATransmitter) and (ATransmitter.m_bReady)) then
+    if (Assigned(ATransmitter) and (ATransmitter.Ready)) then
       ATransmitter.RSendData(strCmd);
   end;
 end;
@@ -646,29 +645,6 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// TNonRefInterfacedObject
-
-function TNonRefInterfacedObject.QueryInterface(const IID: TGUID; out Obj): HResult;
-begin
-  if GetInterface(IID, Obj) then
-    Result := 0
-  else
-    Result := E_NOINTERFACE;
-end;
-
-
-function TNonRefInterfacedObject._AddRef: Integer;
-begin
-  Result := -1;
-end;
-
-
-function TNonRefInterfacedObject._Release: Integer;
-begin
-  Result := -1;
-end;
-
-////////////////////////////////////////////////////////////////////////////////
 // TTransmittingManagerMI
 
 constructor TTransmittingManagerMI.Create(Connector: TConnector; GamingManager: TGamingManagerMI);
@@ -767,13 +743,13 @@ begin
   end
   else if (sl = CMD_GOODBYE) then
   begin
-    Stop;  
+    Stop;
   end
   else if (sl = CMD_WELCOME) then
   begin
     RSendData(CMD_WELCOME);
     m_bReady := TRUE;
-    m_GamingManager.FSetGameContextToTransmitter(self);     
+    m_GamingManager.FSetGameContextToTransmitter(self);
   end;
 end;
 

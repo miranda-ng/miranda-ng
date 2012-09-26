@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////
+// All code below is exclusively owned by author of Chess4Net - Pavel Perminov
+// (packpaul@mail.ru, packpaul1@gmail.com).
+// Any changes, modifications, borrowing and adaptation are a subject for
+// explicit permition from the owner.
+
 unit ConnectorUnit;
 
 interface
@@ -28,6 +34,7 @@ type
     _msg_sending, _unformated_msg_sending: string;
     _cntrMsgIn: integer;  // счётчик входящих сообщений
     _cntrMsgOut: integer; // счётчик исходящих сообщений
+    m_iLastCntrMsgOutInFormatting: integer;
     _msg_buf: string; // буфер сообщений
     // системное сообщение
     _systemDataList: TStringList;
@@ -53,6 +60,7 @@ type
     procedure FNotifySender;
     procedure FSendSystemData(sd: string);
     function FDeformatMsg(var msg: string; out lstId, msgCntr: integer): boolean;
+    // Formatting of outgoing messages
     function FFormatMsg(const msg: string): string;
     function FGetOwnerID: integer;
     function FGetMultiSession: boolean;
@@ -169,6 +177,83 @@ begin
     CallContactService(_hContact, PSS_MESSAGE, 0, LPARAM(PChar(vMessage)));
     Result := TRUE;
   end;
+end;
+
+
+function NotifySender(wParam: WPARAM; lParam_: LPARAM): int; cdecl;
+const
+  MSG_TRYS: integer = 1;
+var
+  connector: TConnector;
+  hContact: THandle;
+begin
+  Result := 0;
+  hContact := PACKDATA(lParam_).hContact;
+
+  if (PACKDATA(lParam_).type_ <> ACKTYPE_MESSAGE) then
+    exit;
+
+  case PACKDATA(lParam_)^.result_ of
+    ACKRESULT_SUCCESS:
+    begin
+      MSG_TRYS := 1;
+
+      connector := g_connectorList.GetFirstConnector(hContact);
+      while Assigned(connector) do
+      begin
+        if (connector._msg_sending <> '') then
+          connector.FNotifySender;
+        connector := g_connectorList.GetNextConnector;
+     end;
+    end;
+
+    ACKRESULT_FAILED:
+    begin
+      inc(MSG_TRYS);
+      if (MSG_TRYS <= MAX_MSG_TRYS) then
+        begin
+          connector := g_connectorList.GetFirstConnector(hContact);
+          while (Assigned(connector)) do
+          begin
+            if connector._msg_sending <> '' then
+              with connector do
+              begin
+                _msg_buf := _unformated_msg_sending + _msg_buf;
+                _sendTimer.Enabled := TRUE;
+              end;
+            connector := g_connectorList.GetNextConnector;
+          end; // while
+        end
+      else
+      begin
+        connector := g_connectorList.GetFirstConnector(hContact);
+        while (Assigned(connector)) do
+        begin
+          if (connector._msg_sending <> '') then
+          begin
+            connector.FPluginConnectorHandler(ceError);
+          end;
+          connector := g_connectorList.GetNextConnector;
+        end;
+      end; // if (MSG_TRYS <= MAX_MSG_TRYS)
+    end; // ACKRESULT_FAILED
+  end; // case PACKDATA
+end;
+
+
+procedure TConnector.FNotifySender;
+begin
+{$IFDEF DEBUG_LOG}
+  WriteToLog('<< ' + _msg_sending);
+{$ENDIF}
+  if (Connected and (_msg_sending <> MSG_INVITATION)) then
+  begin
+    _unformated_msg_sending := '';
+    inc(_cntrMsgOut);
+    if (_cntrMsgOut > m_iLastCntrMsgOutInFormatting) then
+      _cntrMsgOut := m_iLastCntrMsgOutInFormatting + 1;
+  end;
+  _msg_sending := '';
 end;
 
 
@@ -310,30 +395,23 @@ begin { TConnector.FFilterMsg }
   end
   else // Connected
   begin
-{
-    if (_msg_sending <> '') then
-    begin
-      _msg_sending := '';
-      _unformated_msg_sending := '';
-      inc(_cntrMsgOut);
-    end;
-}
-
     if (FDeformatMsg(msg, lstId, cntrMsg) and ((not g_bMultisession) or (lstId = _lstId))) then
     begin
       Result := TRUE;
 
-      if cntrMsg > _cntrMsgIn then
+      if (cntrMsg > _cntrMsgIn) then
+      begin
+        inc(_cntrMsgIn);
+        if (cntrMsg > _cntrMsgIn) then
         begin
-          inc(_cntrMsgIn);
-          if (cntrMsg > _cntrMsgIn) then
-            begin
-              FPluginConnectorHandler(ceError); // пакет исчез
-              exit;
-            end;
-        end
-      else
-        exit; // пропуск пакетов с более низкими номерами
+          FPluginConnectorHandler(ceError); // пакет исчез
+          exit;
+        end;
+      end
+      else if (cntrMsg < _cntrMsgIn) then
+        exit; // skipping packets with lower numbers
+
+      // if (cntrMsg = _cntrMsgIn) there's no garantee that packets are synchronized, but let's hope it's so.
 
       NProceedData(msg);
     end
@@ -343,21 +421,6 @@ begin { TConnector.FFilterMsg }
 end;
 
 
-procedure TConnector.FNotifySender;
-begin
-{$IFDEF DEBUG_LOG}
-  WriteToLog('<< ' + _msg_sending);
-{$ENDIF}
-  if (Connected and (_msg_sending <> MSG_INVITATION)) then
-  begin
-    _unformated_msg_sending := '';
-    inc(_cntrMsgOut);
-  end;
-  _msg_sending := '';
-end;
-
-
-// форматирование исходящих сообщений
 function TConnector.FFormatMsg(const msg: string): string;
 var
   contactLstIdStr: string;
@@ -367,6 +430,7 @@ begin
   else // -1
     contactLstIdStr := '';
   Result := PROMPT_HEAD + contactLstIdStr + PROMPT_SEPARATOR + IntToStr(_cntrMsgOut) + PROMPT_TAIL + msg;
+  m_iLastCntrMsgOutInFormatting := _cntrMsgOut;
 end;
 
 
@@ -470,67 +534,6 @@ begin
     Result := 0
   else
     Result := CallService(MS_PROTO_CHAINRECV, wParam, lParam_);
-end;
-
-
-function NotifySender(wParam: WPARAM; lParam_: LPARAM): int; cdecl;
-const
-  MSG_TRYS: integer = 1;
-var
-  connector: TConnector;
-  hContact: THandle;
-begin
-  Result := 0;
-  hContact := PACKDATA(lParam_).hContact;
-
-  if (PACKDATA(lParam_).type_ <> ACKTYPE_MESSAGE) then
-    exit;
-
-  case PACKDATA(lParam_)^.result_ of
-    ACKRESULT_SUCCESS:
-    begin
-      MSG_TRYS := 1;
-
-      connector := g_connectorList.GetFirstConnector(hContact);
-      while Assigned(connector) do
-      begin
-        if (connector._msg_sending <> '') then
-          connector.FNotifySender;
-        connector := g_connectorList.GetNextConnector;
-     end;
-    end;
-
-    ACKRESULT_FAILED:
-    begin
-      inc(MSG_TRYS);
-      if (MSG_TRYS <= MAX_MSG_TRYS) then
-        begin
-          connector := g_connectorList.GetFirstConnector(hContact);
-          while (Assigned(connector)) do
-          begin
-            if connector._msg_sending <> '' then
-              with connector do
-              begin
-                _msg_buf := _unformated_msg_sending + _msg_buf;
-                _sendTimer.Enabled := TRUE;
-              end;
-            connector := g_connectorList.GetNextConnector;
-          end; // while
-        end
-      else
-      begin
-        connector := g_connectorList.GetFirstConnector(hContact);
-        while (Assigned(connector)) do
-        begin
-          if (connector._msg_sending <> '') then
-          begin
-            connector.FPluginConnectorHandler(ceError);
-          end;
-          connector := g_connectorList.GetNextConnector;
-        end;
-      end; // if (MSG_TRYS <= MAX_MSG_TRYS)
-    end; // ACKRESULT_FAILED
-  end; // case PACKDATA
 end;
 
 
@@ -783,6 +786,15 @@ begin
 end;
 
 
+procedure TConnector.FSendSystemData(sd: string);
+begin
+  if ((sd <> MSG_INVITATION) and (sd <> CMD_CLOSE)) then
+    sd := sd + DATA_SEPARATOR;
+  _systemDataList.Add(sd);
+  _sendSystemTimer.Enabled := TRUE;
+end;
+
+
 procedure TConnector.FsendSystemTimerTimer(Sender: TObject);
 begin
   if _systemDataList.Count = 0 then
@@ -795,15 +807,6 @@ begin
   if FSendMessage(_msg_sending) then
     _systemDataList.Delete(0);
   // else: try to resend
-end;
-
-
-procedure TConnector.FSendSystemData(sd: string);
-begin
-  if ((sd <> MSG_INVITATION) and (sd <> CMD_CLOSE)) then
-    sd := sd + DATA_SEPARATOR;
-  _systemDataList.Add(sd);
-  _sendSystemTimer.Enabled := TRUE;
 end;
 
 

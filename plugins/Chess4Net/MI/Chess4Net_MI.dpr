@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////
+// All code below is exclusively owned by author of Chess4Net - Pavel Perminov
+// (packpaul@mail.ru, packpaul1@gmail.com).
+// Any changes, modifications, borrowing and adaptation are a subject for
+// explicit permition from the owner.
+
 library Chess4Net_MI;
 {*******************************
   plugin library for Miranda
@@ -19,6 +25,8 @@ uses
   BitmapResUnit in '..\BitmapResUnit.pas',
   ChessBoardHeaderUnit in '..\ChessBoardHeaderUnit.pas',
   ChessBoardUnit in '..\ChessBoardUnit.pas' {ChessBoard},
+  PosBaseChessBoardLayerUnit in '..\PosBaseChessBoardLayerUnit.pas',
+  GameChessBoardUnit in '..\GameChessBoardUnit.pas' {GameChessBoard},
   ConnectingUnit in '..\ConnectingUnit.pas' {ConnectingForm},
   ConnectorUnit in 'ConnectorUnit.pas',
   ContinueUnit in '..\ContinueUnit.pas' {ContinueForm},
@@ -34,12 +42,16 @@ uses
   MessageDialogUnit in '..\MessageDialogUnit.pas',
   ModalForm in '..\ModalForm.pas',
   PluginCommonUnit in 'PluginCommonUnit.pas',
-  PosBaseChessBoardUnit in '..\PosBaseChessBoardUnit.pas',
   PosBaseUnit in '..\PosBaseUnit.pas',
   PromotionUnit in '..\PromotionUnit.pas' {PromotionForm},
   ChessRulesEngine in '..\ChessRulesEngine.pas',
   ManagerUnit.MI in 'ManagerUnit.MI.pas',
-  TransmitGameSelectionUnit in 'TransmitGameSelectionUnit.pas' {TransmitGameSelectionForm};
+  TransmitGameSelectionUnit in 'TransmitGameSelectionUnit.pas' {TransmitGameSelectionForm},
+  ChessClockUnit in '..\ChessClockUnit.pas',
+  URLVersionQueryUnit in '..\URLVersionQueryUnit.pas',
+  DontShowMessageDlgUnit in '..\DontShowMessageDlgUnit.pas',
+  IniSettingsUnit in '..\IniSettingsUnit.pas',
+  NonRefInterfacedObjectUnit in '..\NonRefInterfacedObjectUnit.pas';
 
 {$R ..\Chess4Net.res}
 
@@ -50,11 +62,11 @@ begin
   with _PluginInfo^ do
     begin
       shortName := 'Chess4Net';
-      version := MakeMirandaPluginVersion(201,0,0,1); // 2010.0
-      description := PLUGIN_PLAYING_VIA;
+      version := MakeMirandaPluginVersion(201,1,0,1); // 2010.0
+      description := PLUGIN_PLAYING_OVER;
       author := 'Pavel Perminov';
       authorEmail := 'packpaul@mail.ru';
-      copyright := '(c) 2007-2010 No Copyrights';
+      copyright := '(c) 2007-2011 No Copyrights';
       homepage := 'http://www.chess4net.ru';
     end;
 

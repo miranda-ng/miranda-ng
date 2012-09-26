@@ -5,7 +5,7 @@ object GameOptionsForm: TGameOptionsForm
   BorderStyle = bsDialog
   Caption = 'Game Options'
   ClientHeight = 503
-  ClientWidth = 387
+  ClientWidth = 412
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,7 +18,7 @@ object GameOptionsForm: TGameOptionsForm
   PixelsPerInch = 96
   TextHeight = 13
   object OkButton: TTntButton
-    Left = 304
+    Left = 328
     Top = 16
     Width = 75
     Height = 25
@@ -28,7 +28,7 @@ object GameOptionsForm: TGameOptionsForm
     TabOrder = 3
   end
   object CancelButton: TTntButton
-    Left = 304
+    Left = 328
     Top = 48
     Width = 75
     Height = 25
@@ -40,7 +40,7 @@ object GameOptionsForm: TGameOptionsForm
   object TimeControlGroupBox: TTntGroupBox
     Left = 8
     Top = 8
-    Width = 281
+    Width = 305
     Height = 265
     Caption = 'Time Control'
     TabOrder = 0
@@ -58,17 +58,17 @@ object GameOptionsForm: TGameOptionsForm
     object YouGroupBox: TTntGroupBox
       Left = 32
       Top = 48
-      Width = 225
+      Width = 249
       Height = 97
       Caption = 'Your time'
       TabOrder = 1
       DesignSize = (
-        225
+        249
         97)
       object YouMinLabel: TTntLabel
         Left = 16
         Top = 42
-        Width = 129
+        Width = 145
         Height = 14
         AutoSize = False
         Caption = 'Minutes per game:'
@@ -76,7 +76,7 @@ object GameOptionsForm: TGameOptionsForm
       object YouIncLabel: TTntLabel
         Left = 16
         Top = 66
-        Width = 129
+        Width = 145
         Height = 14
         AutoSize = False
         Caption = 'Increment in seconds:'
@@ -105,7 +105,7 @@ object GameOptionsForm: TGameOptionsForm
       object YouUnlimitedCheckBox: TTntCheckBox
         Left = 16
         Top = 16
-        Width = 193
+        Width = 217
         Height = 17
         Anchors = [akLeft, akTop, akRight]
         Caption = 'Unlimited'
@@ -136,17 +136,17 @@ object GameOptionsForm: TGameOptionsForm
     object OpponentGroupBox: TTntGroupBox
       Left = 32
       Top = 152
-      Width = 225
+      Width = 249
       Height = 97
       Caption = 'Opponent'#39's time'
       TabOrder = 2
       DesignSize = (
-        225
+        249
         97)
       object OpponentMinLabel: TTntLabel
         Left = 16
         Top = 42
-        Width = 129
+        Width = 145
         Height = 13
         AutoSize = False
         Caption = 'Minutes per game:'
@@ -154,7 +154,7 @@ object GameOptionsForm: TGameOptionsForm
       object OpponentIncLabel: TTntLabel
         Left = 16
         Top = 66
-        Width = 129
+        Width = 145
         Height = 13
         AutoSize = False
         Caption = 'Increment in seconds:'
@@ -183,7 +183,7 @@ object GameOptionsForm: TGameOptionsForm
       object OpponentUnlimitedCheckBox: TTntCheckBox
         Left = 16
         Top = 16
-        Width = 193
+        Width = 217
         Height = 17
         Anchors = [akLeft, akTop, akRight]
         Caption = 'Unlimited'
@@ -215,18 +215,18 @@ object GameOptionsForm: TGameOptionsForm
   object Panel1: TPanel
     Left = 8
     Top = 390
-    Width = 281
+    Width = 305
     Height = 105
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 2
     DesignSize = (
-      281
+      305
       105)
     object AutoFlagCheckBox: TTntCheckBox
       Left = 8
       Top = 80
-      Width = 265
+      Width = 289
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       Caption = 'Auto Flag'
@@ -237,7 +237,7 @@ object GameOptionsForm: TGameOptionsForm
     object TakeBackCheckBox: TTntCheckBox
       Left = 8
       Top = 56
-      Width = 265
+      Width = 289
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       Caption = 'Allow takebacks to your partner'
@@ -246,7 +246,7 @@ object GameOptionsForm: TGameOptionsForm
     object GamePauseCheckBox: TTntCheckBox
       Left = 8
       Top = 8
-      Width = 265
+      Width = 289
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       Caption = 'Game can be paused'
@@ -255,7 +255,7 @@ object GameOptionsForm: TGameOptionsForm
     object GameAdjournCheckBox: TTntCheckBox
       Left = 8
       Top = 32
-      Width = 265
+      Width = 289
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       Caption = 'Game can be adjourned'
@@ -265,12 +265,12 @@ object GameOptionsForm: TGameOptionsForm
   object TrainingModeGroupBox: TTntGroupBox
     Left = 8
     Top = 280
-    Width = 281
+    Width = 305
     Height = 97
     Caption = 'Training Mode'
     TabOrder = 1
     DesignSize = (
-      281
+      305
       97)
     object ExtBaseLabel: TTntLabel
       Left = 16
@@ -292,7 +292,7 @@ object GameOptionsForm: TGameOptionsForm
     object ExtBaseComboBox: TTntComboBox
       Left = 104
       Top = 36
-      Width = 145
+      Width = 169
       Height = 21
       Enabled = False
       ItemHeight = 13
@@ -306,7 +306,7 @@ object GameOptionsForm: TGameOptionsForm
     object UsrBaseCheckBox: TTntCheckBox
       Left = 40
       Top = 64
-      Width = 233
+      Width = 257
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       Caption = 'Use user base'

@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////
+// All code below is exclusively owned by author of Chess4Net - Pavel Perminov
+// (packpaul@mail.ru, packpaul1@gmail.com).
+// Any changes, modifications, borrowing and adaptation are a subject for
+// explicit permition from the owner.
+
 unit ManagerUnit;
 
 {$DEFINE GAME_LOG}
@@ -5,15 +11,15 @@ unit ManagerUnit;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   Menus, TntMenus, ActnList, TntActnList, ExtCtrls,
 {$IFDEF TRILLIAN}
   plugin,
 {$ENDIF}
   // Chess4Net Units
-  ChessBoardHeaderUnit, ChessRulesEngine, ChessBoardUnit, PosBaseChessBoardUnit,
-  ConnectorUnit, ConnectingUnit, GameOptionsUnit,
-  ModalForm, DialogUnit, ContinueUnit, LocalizerUnit;
+  ChessBoardHeaderUnit, ChessRulesEngine, ChessBoardUnit,
+  GameChessBoardUnit, ConnectorUnit, ConnectingUnit, GameOptionsUnit,
+  ModalForm, DialogUnit, ContinueUnit, LocalizerUnit, URLVersionQueryUnit;
 
 type
   TManager = class(TForm, ILocalizable)
@@ -44,6 +50,12 @@ type
     N5: TTntMenuItem;
     N6: TTntMenuItem;
 
+    BroadcastAction: TTntAction;
+    N3: TTntMenuItem;
+    BroadcastConnected: TTntMenuItem;
+    N7: TTntMenuItem;
+    Broadcast: TTntMenuItem;
+    
     ConnectorTimer: TTimer;
 
     procedure FormCreate(Sender: TObject);
@@ -66,13 +78,13 @@ type
     procedure StartAdjournedGameConnectedClick(Sender: TObject);
     procedure AdjournGameClick(Sender: TObject);
     procedure GamePopupMenuPopup(Sender: TObject);
+    procedure BroadcastActionExecute(Sender: TObject);
 
   private
-    m_strAdjourned: string;
     m_ConnectingForm: TConnectingForm;
     m_ContinueForm: TContinueForm;
     m_Connector: TConnector;
-    m_ChessBoard: TPosBaseChessBoard;
+    m_ChessBoard: TGameChessBoard;
     m_Dialogs: TDialogs;
 
     m_ExtBaseList: TStringList;
@@ -86,11 +98,10 @@ type
     contactlistEntry: TTtkContactListEntry;
 {$ENDIF}
 {$IFDEF SKYPE}
-    m_bSkypeConnectionError: boolean;
     m_bDontShowCredits: boolean;
 {$ENDIF}
     m_lwOpponentClientVersion: LongWord;
-    // дл€ ChessBoard
+    // It's for ChessBoard
     you_unlimited, opponent_unlimited: boolean;
     you_time, opponent_time,
     you_inc, opponent_inc: word;
@@ -109,6 +120,9 @@ type
 
     m_bTransmittable: boolean;
 
+    m_iDontShowLastVersion: integer;
+    m_iQueriedDontShowLastVersion: integer;
+
 {$IFDEF GAME_LOG}
     // for game log
     gameLog: string;
@@ -116,11 +130,11 @@ type
     procedure FWriteToGameLog(const s: string);
     procedure FlushGameLog;
 {$ENDIF}
-    procedure ChessBoardHandler(e: TChessBoardEvent;
-                                d1: pointer = nil; d2: pointer = nil);
+    procedure ChessBoardHandler(e: TGameChessBoardEvent;
+      d1: pointer = nil; d2: pointer = nil);
     procedure SetClock; overload;
     procedure SetClock(var sr: string); overload;
-    procedure DialogFormHandler(modSender: TModalForm; msgDlgID: TModalFormID);
+
     procedure FPopulateExtBaseList;
 
     function FReadCommonSettings(setToOpponent: boolean): boolean;
@@ -137,6 +151,9 @@ type
     procedure FBuildAdjournedStr;
     procedure FStartAdjournedGame;
 
+    function FGetAdjournedStr: string;
+    procedure FSetAdjournedStr(const strValue: string);
+
     function FGetPlayerColor: TFigureColor;
     procedure FSetPlayerColor(Value: TFigureColor);
 
@@ -147,7 +164,9 @@ type
 
     procedure FSetTransmittable(bValue: boolean);
 
-    property AdjournedStr: string read m_strAdjourned write m_strAdjourned;
+    procedure FOnURLQueryReady(Sender: TURLVersionQuery);
+
+    property AdjournedStr: string read FGetAdjournedStr write FSetAdjournedStr;
     property _PlayerColor: TFigureColor read FGetPlayerColor write FSetPlayerColor;
 
   protected
@@ -183,23 +202,25 @@ type
     procedure RReleaseWithConnectorGracefully;
 
     procedure RRetransmit(const strCmd: string); virtual;
+    procedure RBroadcast; virtual;
 
     procedure RUpdateChessBoardCaption;
 
+    procedure DialogFormHandler(modSender: TModalForm; msgDlgID: TModalFormID); virtual;
+
     property Connector: TConnector read m_Connector write m_Connector;
-    property ChessBoard: TPosBaseChessBoard read m_ChessBoard write m_ChessBoard;
+    property ChessBoard: TGameChessBoard read m_ChessBoard write m_ChessBoard;
 
     property PlayerNick: string read m_strPlayerNick write m_strPlayerNick;
     property PlayerNickId: string read m_strPlayerNickId write m_strPlayerNickId;
     property OpponentNick: string read m_strOpponentNick write m_strOpponentNick;
     property OpponentId: string read m_strOpponentId write m_strOpponentId;
-    property OpponentNickId: string read FGetOpponentNickId write m_strOverridedOpponentNickId;    
+    property OpponentNickId: string read FGetOpponentNickId write m_strOverridedOpponentNickId;
 
     property Transmittable: boolean read m_bTransmittable write FSetTransmittable;
 
-{$IFDEF SKYPE}
-    property SkypeConnectionError: boolean read m_bSkypeConnectionError;
-{$ENDIF}
+    property pDialogs: TDialogs read m_Dialogs;
+
   public
 {$IFDEF AND_RQ}
     class function Create: TManager; reintroduce;
@@ -210,16 +231,13 @@ type
 {$IFDEF TRILLIAN}
     class function Create(const vContactlistEntry: TTtkContactListEntry): TManager; reintroduce;
 {$ENDIF}
-{$IFDEF SKYPE}
-    class function Create: TManager; reintroduce;
-{$ENDIF}
   end;
 
 const
-  CMD_DELIMITER = '&&'; // CMD_DELIMITER has to be present in arguments 
+  CMD_DELIMITER = '&&'; // CMD_DELIMITER has to be present in arguments
 
   CMD_VERSION = 'ver';
-  CMD_WELCOME = 'wlcm'; // Accept of connection  
+  CMD_WELCOME = 'wlcm'; // Accept of connection
   CMD_GOODBYE = 'gdb'; // Refusion of connection
   CMD_TRANSMITTING = 'trnsm';
   CMD_NICK_ID = 'nkid';
@@ -233,8 +251,10 @@ implementation
 
 uses
   // Chess4Net
-  DateUtils, Math, StrUtils, TntIniFiles, Dialogs,
-  LookFeelOptionsUnit, GlobalsLocalUnit, InfoUnit
+  DateUtils, Math, StrUtils, Dialogs,
+  //
+  LookFeelOptionsUnit, GlobalsUnit, GlobalsLocalUnit, InfoUnit, ChessClockUnit,
+  DontShowMessageDlgUnit, IniSettingsUnit, PosBaseChessBoardLayerUnit
 {$IFDEF AND_RQ}
   , CallExec
 {$ENDIF}
@@ -242,18 +262,15 @@ uses
   , ControlUnit
 {$ENDIF}
 {$IFDEF SKYPE}
-  , SelectSkypeContactUnit, CreditsFormUnit
+  , CreditsFormUnit
 {$ENDIF}
   ;
 
 const
   USR_BASE_NAME = 'Chess4Net';
-  INI_FILE_NAME = 'Chess4net.ini';
 
-  INITIAL_CLOCK_TIME = '5 0 5 0'; // 5:00 5:00
   NO_CLOCK_TIME ='u u';
 
-  FULL_TIME_FORMAT = 'h:n:s"."z';
   HOUR_TIME_FORMAT = 'h:nn:ss';
 
   // Command shorthands for Connector
@@ -300,36 +317,11 @@ const
   CMD_ADJOURN_GAME_NO = 'adjno';
   CMD_START_ADJOURNED_GAME = 'strtadj';
 
-//  CMD_DELIMITER = '&&'; // CMD_DELIMITER has to be present in arguments
-
+  // CMD_DELIMITER = '&&'; // CMD_DELIMITER has to be present in arguments
   // CMD_CLOSE = 'ext' - IS RESERVED
 
-  // INI-file
-  PRIVATE_SECTION_NAME = 'Private';
-  COMMON_SECTION_PREFIX = 'Common';
-  ANIMATION_KEY_NAME = 'Animation';
-  HILIGHT_LAST_MOVE_KEY_NAME = 'HilightLastMove';
-  FLASH_ON_MOVE_NAME = 'FlashOnMove';
-  SHOW_COORDINATES_KEY_NAME = 'ShowCoordinates';
-  STAY_ON_TOP_KEY_NAME = 'StayOnTop';
-  EXTRA_EXIT_KEY_NAME = 'ExtraExit';
-  CAN_PAUSE_GAME_KEY_NAME = 'CanPauseGame';
-  CAN_ADJOURN_GAME_KEY_NAME = 'CanAdjournGame';
-  ALLOW_TAKEBACKS_KEY_NAME = 'AllowTakebacks';
-  EXTERNAL_BASE_NAME_KEY_NAME = 'ExternalBaseName';
-  USE_USER_BASE_KEY_NAME = 'UseUserBase';
-  AUTO_FLAG_KEY_NAME = 'AutoFlag';
-  TRAINING_MODE_KEY_NAME = 'TrainingMode';
-  PLAYER_COLOR_KEY_NAME = 'PlayerColor';
-  CLOCK_KEY_NAME = 'Clock';
-  ADJOURNED_KEY_NAME = 'Adjourned';
-  LANGUAGE_KEY_NAME = 'Language';
-{$IFDEF SKYPE}
-  DONT_SHOW_CREDITS = 'DontShowCredits';
-{$ENDIF}
-
 type
-  TManagerDefault = class(TManager) // TODO: TRILLIAN, AND_RQ, QIP, SKYPE -> own classes
+  TManagerDefault = class(TManager) // TODO: TRILLIAN, AND_RQ, QIP-> own classes
   protected
     procedure ROnCreate; override;
     procedure ROnDestroy; override;
@@ -351,14 +343,17 @@ type
 
 procedure TManager.RCreateChessBoardAndDialogs;
 begin
-//  m_ChessBoard := TPosBaseChessBoard.Create(self, ChessBoardHandler, Chess4NetPath + USR_BASE_NAME);
-  m_ChessBoard := TPosBaseChessBoard.Create(nil, ChessBoardHandler, Chess4NetPath + USR_BASE_NAME);
+//  m_ChessBoard := TGameChessBoard.Create(self, ChessBoardHandler, Chess4NetPath + USR_BASE_NAME);
+  m_ChessBoard := TGameChessBoard.Create(nil, ChessBoardHandler, Chess4NetGamesLogPath + USR_BASE_NAME);
   m_Dialogs := TDialogs.Create(ChessBoard, DialogFormHandler);
 end;
 
 
 procedure TManager.FormCreate(Sender: TObject);
 begin
+{$IFNDEF SKYPE}
+  BroadcastAction.Visible := TRUE;
+{$ENDIF}
   ROnCreate;
 end;
 
@@ -370,7 +365,7 @@ begin
 end;
 
 
-procedure TManager.ChessBoardHandler(e: TChessBoardEvent;
+procedure TManager.ChessBoardHandler(e: TGameChessBoardEvent;
                             d1: pointer = nil; d2: pointer = nil);
 var
   s: string;
@@ -504,8 +499,8 @@ begin
           if (ClockColor <> _PlayerColor) then
           begin
             Time[_PlayerColor] := IncSecond(Time[_PlayerColor], you_inc);
-            LongTimeFormat:= FULL_TIME_FORMAT;
-            s := TimeToStr(Time[_PlayerColor]);
+            s := TChessClock.ConvertToFullStr(Time[_PlayerColor]);
+
             if ((not Unlimited[_PlayerColor]) or (m_lwOpponentClientVersion < 200706)) then
             begin
               strSwitchClockCmd := CMD_SWITCH_CLOCK + ' ' + s;
@@ -610,11 +605,6 @@ begin
   case e of
     ceConnected:
     begin
-{$IFDEF SKYPE}
-      PlayerNick := Connector.UserHandle;
-      OpponentNick := Connector.ContactHandle;
-      OpponentId := OpponentNick;
-{$ENDIF}
       if (Assigned(m_ConnectingForm)) then
         m_ConnectingForm.Shut;
       RSendData(CMD_VERSION + ' ' + IntToStr(CHESS4NET_VERSION));
@@ -623,12 +613,7 @@ begin
     ceDisconnected:
     begin
       if (not Connector.connected) then
-      begin
-{$IFDEF SKYPE}
-        Application.Terminate; // KLUDGE
-{$ENDIF}
         exit;
-      end;
 
       if (Transmittable) then
       begin
@@ -681,31 +666,6 @@ begin
                          'Chess4Net won''t start.', mtWarning, [mbOk], mfMsgLeave);
     end;
 {$ENDIF}
-{$IFDEF SKYPE}
-    ceSkypeError:
-    begin
-      m_bSkypeConnectionError := TRUE;
-      // TODO: Localize
-      m_Dialogs.MessageDlg('Chess4Net was unable to attach to your Skype application' + sLineBreak +
-                         'This can happen due to the following reasons:' + sLineBreak +
-                         '  1) You have an old version of Skype. OR' + sLineBreak +
-                         '  2) Your Skype is blocking Chess4Net. OR' + sLineBreak +
-                         '  3) Your Skype doesn''t support Skype applications. OR' + sLineBreak +
-                         '  4) Other reasons.' + sLineBreak +
-                         'Chess4Net won''t start.', mtWarning, [mbOk], mfMsgLeave);
-    end;
-
-    ceShowConnectableUsers:
-    begin
-      if (Assigned(ConnectingForm)) then
-        ConnectingForm.ShowSkypeAcceptLogo := FALSE;
-      with m_Dialogs.CreateDialog(TSelectSkypeContactForm) as TSelectSkypeContactForm do
-      begin
-        Init(d1);
-        Show;
-      end;
-    end;
-{$ENDIF}
 
     ceData:
     begin
@@ -732,6 +692,42 @@ end;
 procedure TManager.RSetConnectionOccured;
 begin
   m_bConnectionOccured := TRUE;
+{$IFNDEF TESTING}
+  with TURLVersionQuery.Create do
+  begin
+    OnQueryReady := FOnURLQueryReady;
+  {$IFDEF SKYPE}
+    Query(aidSkype, CHESS4NET_VERSION, osidWindows);
+  {$ELSE}
+    Free; // TODO: URL query for other clients
+  {$ENDIF}
+  end;
+{$ENDIF}
+end;
+
+
+procedure TManager.FOnURLQueryReady(Sender: TURLVersionQuery);
+begin
+  if (not Assigned(Sender)) then
+    exit;
+
+  try
+    if ((Sender.LastVersion <= m_iDontShowLastVersion)) then
+      exit;
+
+    if (Sender.Info <> '') then
+    begin
+      with TDontShowMessageDlg.Create(m_Dialogs, Sender.Info) do
+      begin
+        m_iQueriedDontShowLastVersion := Sender.LastVersion;
+        Show;
+      end;
+    end;
+
+  finally
+    Sender.Free;
+  end;
+
 end;
 
 
@@ -746,7 +742,6 @@ procedure TManager.RHandleConnectorDataCommand(sl: string);
 var
   AMode: TMode;
   sr: string;
-  ms: string;
   strSavedCmd: string;
   wstrMsg: WideString;
 begin
@@ -771,10 +766,9 @@ begin
         m_Dialogs.MessageDlg(TLocalizer.Instance.GetMessage(8), mtWarning,
           [mbOK], mfNone); // Your opponent is using an older version of Chess4Net. ...
       end;
-
-        // 2007.4 is the first client with a backward compatibility
-        // For incompatible versions:
-        // else RSendData(CMD_GOODBYE);
+      // 2007.4 is the first client with a backward compatibility
+      // For incompatible versions:
+      // else RSendData(CMD_GOODBYE);
     end
     else if (sl = CMD_WELCOME) then
     begin
@@ -991,21 +985,20 @@ begin
       with ChessBoard do
       begin
         RSplitStr(sr, sl, sr);
-        ms := RightStr(sl, length(sl) - LastDelimiter(':.', sl));
-        sl := LeftStr(sl, length(sl) - length(ms) - 1);
+
         if (Transmittable) then
         begin
           if (PositionColor = fcWhite) then
-            Time[fcBlack] := StrToTime(sl) + EncodeTime(0, 0, 0, StrToInt(ms))
+            Time[fcBlack] := TChessClock.ConvertFromFullStr(sl)
           else
-            Time[fcWhite] := StrToTime(sl) + EncodeTime(0, 0, 0, StrToInt(ms));
+            Time[fcWhite] := TChessClock.ConvertFromFullStr(sl);
         end
         else
         begin
           if (_PlayerColor = fcWhite) then
-            Time[fcBlack] := StrToTime(sl) + EncodeTime(0, 0, 0, StrToInt(ms))
+            Time[fcBlack] := TChessClock.ConvertFromFullStr(sl)
           else
-            Time[fcWhite] := StrToTime(sl) + EncodeTime(0, 0, 0, StrToInt(ms));
+            Time[fcWhite] := TChessClock.ConvertFromFullStr(sl);
         end;
       end; // with
       RRetransmit(strSavedCmd);
@@ -1200,6 +1193,8 @@ begin
     m_ChessBoard := nil;
   end;
   m_Dialogs.Free;
+
+  TIniSettings.FreeInstance;
 end;
 
 
@@ -1246,15 +1241,17 @@ end;
 
 procedure TManager.ChangeColorConnectedClick(Sender: TObject);
 begin
-  if (ChessBoard.Mode = mGame) then
-    exit;
-  ChangeColor;
-
   if (Transmittable) then
-    exit;
+  begin
+    ChangeColor;
+  end
+  else if (ChessBoard.Mode = mView) then
+  begin
+    ChangeColor;
 
-  RSendData(CMD_CHANGE_COLOR);
-  RRetransmit(CMD_CHANGE_COLOR);  
+    RSendData(CMD_CHANGE_COLOR);
+    RRetransmit(CMD_CHANGE_COLOR);
+  end;
 end;
 
 
@@ -1458,14 +1455,6 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF SKYPE}
-class function TManager.Create: TManager;
-begin
-  Result := TManagerDefault.Create;
-end;
-{$ENDIF}
-
-
 procedure TManager.DialogFormHandler(modSender: TModalForm; msgDlgID: TModalFormID);
 var
   modRes: TModalResult;
@@ -1557,7 +1546,7 @@ begin
         begin
           RSendData(CMD_DRAW_ACCEPTED);
           RRetransmit(CMD_DRAW_ACCEPTED);
-          
+
           FExitGameMode;
 {$IFDEF GAME_LOG}
             FWriteToGameLog('=' + sLineBreak + '1/2 - 1/2');
@@ -1636,7 +1625,7 @@ begin
             begin
               strCmd := CMD_SET_CLOCK + ' ' + s;
               RSendData(strCmd);
-              RRetransmit(strCmd); 
+              RRetransmit(strCmd);
             end;
             RSendData(CMD_ALLOW_TAKEBACKS + IfThen(TakeBackCheckBox.Checked, ' 1', ' 0'));
           end;
@@ -1718,25 +1707,13 @@ begin
       else // modRes = mrNo
         RSendData(CMD_PAUSE_GAME_NO);
     end;
-{$IFDEF SKYPE}
-    mfSelectSkypeContact:
+
+    mfDontShowDlg:
     begin
-      if (modRes = mrOk) then
-      begin
-        with modSender as TSelectSkypeContactForm do
-        begin
-          Connector.ConnectToContact(SelectedContactIndex);
-        end;
-      end
-      else
-      begin
-        if (Assigned(ConnectingForm)) then
-          ConnectingForm.Close
-        else
-          Close;
-      end;
+      if ((modSender as TDontShowMessageDlg).DontShow) then
+        m_iDontShowLastVersion := m_iQueriedDontShowLastVersion;
     end;
-{$ENDIF}
+
   end;
 end;
 
@@ -1750,7 +1727,7 @@ begin
 
   gameLog := '';
 
-  LongTimeFormat:= HOUR_TIME_FORMAT;
+  LongTimeFormat := HOUR_TIME_FORMAT;
   FWriteToGameLog('[' + DateTimeToStr(Now) + ']' + sLineBreak);
 
   FWriteToGameLog(RGetGameName);
@@ -1834,20 +1811,23 @@ begin
   if (not move_done) then
     exit;
 
-  AssignFile(gameLogFile, Chess4NetPath + 'Chess4Net_GAMELOG.txt');
+  AssignFile(gameLogFile, Chess4NetGamesLogPath + GAME_LOG_FILE);
 {$I-}
   Append(gameLogFile);
 {$I+}
-  if IOResult <> 0 then
+  if (IOResult <> 0) then
     begin
       Rewrite(gameLogFile);
-      if IOResult = 0 then
+      if (IOResult = 0) then
         writeln(gameLogFile, gameLog);
     end
   else
     writeln(gameLogFile, sLineBreak + gameLog);
 
   CloseFile(gameLogFile);
+{$IFDEF SKYPE}
+  CreateLinkForGameLogFile;
+{$ENDIF}
 end;
 {$ENDIF}
 
@@ -1879,43 +1859,36 @@ end;
 
 procedure TManager.RReadPrivateSettings;
 var
-  iniFile: TTntIniFile;
   initialClockTime: string;
 begin
   // ќбщие настройки по умолчанию
   initialClockTime := INITIAL_CLOCK_TIME;
   SetClock(initialClockTime);
+
   ChessBoard.AutoFlag := TRUE;
   you_takebacks := FALSE;
   opponent_takebacks := FALSE;
 
-  // —читывание личных настроек из INI-файла
-  iniFile := TTntIniFile.Create(Chess4NetPath + INI_FILE_NAME);
-  try
-    ChessBoard.animation := TAnimation(iniFile.ReadInteger(PRIVATE_SECTION_NAME, ANIMATION_KEY_NAME, Ord(aQuick)));
-    ChessBoard.LastMoveHilighted := iniFile.ReadBool(PRIVATE_SECTION_NAME, HILIGHT_LAST_MOVE_KEY_NAME, FALSE);
-    ChessBoard.FlashOnMove := iniFile.ReadBool(PRIVATE_SECTION_NAME, FLASH_ON_MOVE_NAME, FALSE);
-    ChessBoard.CoordinatesShown := iniFile.ReadBool(PRIVATE_SECTION_NAME, SHOW_COORDINATES_KEY_NAME, TRUE);
-    ChessBoard.StayOnTop := iniFile.ReadBool(PRIVATE_SECTION_NAME, STAY_ON_TOP_KEY_NAME, FALSE);
-    extra_exit := iniFile.ReadBool(PRIVATE_SECTION_NAME, EXTRA_EXIT_KEY_NAME, FALSE);
-    TLocalizer.Instance.ActiveLanguage := iniFile.ReadInteger(PRIVATE_SECTION_NAME, LANGUAGE_KEY_NAME, 1) - 1;
+  // Reading private settings
+  ChessBoard.animation := TIniSettings.Instance.Animation;
+  ChessBoard.LastMoveHilighted := TIniSettings.Instance.LastMoveHilighted;
+  ChessBoard.FlashOnMove := TIniSettings.Instance.FlashOnMove;
+  ChessBoard.CoordinatesShown := TIniSettings.Instance.CoordinatesShown;
+  // TODO: read screen position and size
+  ChessBoard.StayOnTop := TIniSettings.Instance.StayOnTop;
+  extra_exit := TIniSettings.Instance.ExtraExit;
+  TLocalizer.Instance.ActiveLanguage := TIniSettings.Instance.ActiveLanguage;
+  m_iDontShowLastVersion := TIniSettings.Instance.DontShowLastVersion;
 {$IFDEF SKYPE}
-    m_bDontShowCredits := iniFile.ReadBool(PRIVATE_SECTION_NAME, DONT_SHOW_CREDITS, FALSE);
+  m_bDontShowCredits := TIniSettings.Instance.DontShowCredits;
 {$ENDIF}
-
-  finally
-    iniFile.Free;
-  end;
 end;
 
 
 function TManager.FReadCommonSettings(setToOpponent: boolean): boolean;
 var
-  iniFile: TTntIniFile;
-  commonSectionName: string;
-  APlayerColor: TFigureColor;
-  clockStr: string;
-  flag: boolean;
+  strClock: string;
+  bFlag: boolean;
 begin
   if (m_lwOpponentClientVersion < 200705) then // For 2007.4 common settings are not applied
   begin
@@ -1924,138 +1897,120 @@ begin
   end;
 
   Result := FALSE;
-  iniFile := TTntIniFile.Create(Chess4NetPath + INI_FILE_NAME);
-  try
-    commonSectionName := COMMON_SECTION_PREFIX + ' ' + OpponentId;
-    if (not iniFile.SectionExists(commonSectionName)) then
-      exit;
 
-    if (setToOpponent) then
+  TIniSettings.Instance.SetOpponentId(OpponentId);
+  if (not TIniSettings.Instance.HasCommonSettings) then
+    exit;
+
+  if (setToOpponent) then
+  begin
+    if (_PlayerColor = TIniSettings.Instance.PlayerColor) then // Every time change the saved color to opposite one
     begin
-      APlayerColor := TFigureColor(iniFile.ReadInteger(commonSectionName, PLAYER_COLOR_KEY_NAME, Ord(fcBlack)));
-      if (_PlayerColor = APlayerColor) then // Every time change the saved color to opposite one
+      ChangeColor;
+      RSendData(CMD_CHANGE_COLOR);
+      RRetransmit(CMD_CHANGE_COLOR);
+    end;
+
+    strClock := TIniSettings.Instance.Clock;
+    if (strClock <> ClockToStr) then
+    begin
+      SetClock(strClock);
+      RSendData(CMD_SET_CLOCK + ' ' + ClockToStr);
+    end;
+
+    bFlag := TIniSettings.Instance.TrainingMode;
+    if (ChessBoard.pTrainingMode <> bFlag) then
+    begin
+      ChessBoard.pTrainingMode := bFlag;
+      RSendData(CMD_SET_TRAINING + IfThen(ChessBoard.pTrainingMode, ' 1', ' 0'));
+    end;
+
+    if (m_lwOpponentClientVersion >= 200706) then
+    begin
+      bFlag := TIniSettings.Instance.CanPauseGame;
+      if (can_pause_game <> bFlag) then
       begin
-        ChangeColor;
-        RSendData(CMD_CHANGE_COLOR);
-        RRetransmit(CMD_CHANGE_COLOR);
+        can_pause_game := bFlag;
+        RSendData(CMD_CAN_PAUSE_GAME + IfThen(can_pause_game, ' 1', ' 0'));
       end;
-      clockStr := iniFile.ReadString(commonSectionName, CLOCK_KEY_NAME, INITIAL_CLOCK_TIME);
-      if (clockStr <> ClockToStr) then
-      begin
-        SetClock(clockStr);
-        RSendData(CMD_SET_CLOCK + ' ' + ClockToStr);
-      end;
-
-      flag := iniFile.ReadBool(commonSectionName, TRAINING_MODE_KEY_NAME, FALSE);
-      if (ChessBoard.pTrainingMode <> flag) then
-      begin
-        ChessBoard.pTrainingMode := flag;
-        RSendData(CMD_SET_TRAINING + IfThen(ChessBoard.pTrainingMode, ' 1', ' 0'));
-      end;
-
-      if (m_lwOpponentClientVersion >= 200706) then
-      begin
-        flag := iniFile.ReadBool(commonSectionName, CAN_PAUSE_GAME_KEY_NAME, FALSE);
-        if (can_pause_game <> flag) then
-        begin
-          can_pause_game := flag;
-          RSendData(CMD_CAN_PAUSE_GAME + IfThen(can_pause_game, ' 1', ' 0'));
-        end;
-      end; { if opponentClientVersion >= 200706}
-
-      if (m_lwOpponentClientVersion >= 200801) then
-      begin
-        flag := iniFile.ReadBool(commonSectionName, CAN_ADJOURN_GAME_KEY_NAME, FALSE);
-        if (can_adjourn_game <> flag) then
-        begin
-          can_adjourn_game := flag;
-          RSendData(CMD_CAN_ADJOURN_GAME + IfThen(can_adjourn_game, ' 1', ' 0'));
-        end;
-      end; { opponentClientVersion >= 200801 }
-    end; { if setToOpponent }
-
-    m_strExtBaseName := iniFile.ReadString(commonSectionName, EXTERNAL_BASE_NAME_KEY_NAME, '');
-    if (m_strExtBaseName <> '') then
-      ChessBoard.SetExternalBase(Chess4NetPath + m_strExtBaseName)
-    else
-      ChessBoard.UnsetExternalBase;
-
-    ChessBoard.pUseUserBase := iniFile.ReadBool(commonSectionName, USE_USER_BASE_KEY_NAME, FALSE);
-    flag := iniFile.ReadBool(commonSectionName, ALLOW_TAKEBACKS_KEY_NAME, FALSE);
-    if you_takebacks <> flag then
-      begin
-        you_takebacks := flag;
-        RSendData(CMD_ALLOW_TAKEBACKS + IfThen(you_takebacks, ' 1', ' 0'));
-      end;
-    ChessBoard.AutoFlag := iniFile.ReadBool(commonSectionName, AUTO_FLAG_KEY_NAME, FALSE);
-
-    TakebackGame.Visible := (opponent_takebacks or ChessBoard.pTrainingMode);
-    GamePause.Visible := can_pause_game;
+    end; { if opponentClientVersion >= 200706}
 
     if (m_lwOpponentClientVersion >= 200801) then
     begin
-      AdjournedStr := iniFile.ReadString(commonSectionName, ADJOURNED_KEY_NAME, '');
-      if (AdjournedStr <> '') then
+      bFlag := TIniSettings.Instance.CanAdjournGame;
+      if (can_adjourn_game <> bFlag) then
       begin
-        RSendData(CMD_SET_ADJOURNED + ' ' + AdjournedStr);
-        iniFile.WriteString(commonSectionName, ADJOURNED_KEY_NAME, '');
+        can_adjourn_game := bFlag;
+        RSendData(CMD_CAN_ADJOURN_GAME + IfThen(can_adjourn_game, ' 1', ' 0'));
       end;
-    end;
-    
-  finally
-    iniFile.Free;
+    end; { opponentClientVersion >= 200801 }
+  end; { if setToOpponent }
+
+  m_strExtBaseName := TIniSettings.Instance.ExternalBaseName;
+  if (m_strExtBaseName <> '') then
+    ChessBoard.SetExternalBase(Chess4NetPath + m_strExtBaseName)
+  else
+    ChessBoard.UnsetExternalBase;
+
+  ChessBoard.pUseUserBase := TIniSettings.Instance.UseUserBase;
+
+  bFlag := TIniSettings.Instance.AllowTakebacks;
+  if (you_takebacks <> bFlag) then
+  begin
+    you_takebacks := bFlag;
+    RSendData(CMD_ALLOW_TAKEBACKS + IfThen(you_takebacks, ' 1', ' 0'));
   end;
 
-  Result := TRUE;  
+  ChessBoard.AutoFlag := TIniSettings.Instance.AutoFlag;
+
+  TakebackGame.Visible := (opponent_takebacks or ChessBoard.pTrainingMode);
+  GamePause.Visible := can_pause_game;
+
+  if (m_lwOpponentClientVersion >= 200801) then
+  begin
+    if (AdjournedStr <> '') then
+    begin
+      RSendData(CMD_SET_ADJOURNED + ' ' + AdjournedStr);
+    end;
+  end;
+
+  Result := TRUE;
 end;
 
 
 procedure TManager.FWritePrivateSettings;
-var
-  iniFile: TTntIniFile;
 begin
   // Write private settings
-  iniFile := TTntIniFile.Create(Chess4NetPath + INI_FILE_NAME);
-  try
-    iniFile.WriteInteger(PRIVATE_SECTION_NAME, ANIMATION_KEY_NAME, Ord(ChessBoard.animation));
-    iniFile.WriteBool(PRIVATE_SECTION_NAME, HILIGHT_LAST_MOVE_KEY_NAME, ChessBoard.LastMoveHilighted);
-    iniFile.WriteBool(PRIVATE_SECTION_NAME, FLASH_ON_MOVE_NAME, ChessBoard.FlashOnMove);
-    iniFile.WriteBool(PRIVATE_SECTION_NAME, SHOW_COORDINATES_KEY_NAME, ChessBoard.CoordinatesShown);
-    iniFile.WriteBool(PRIVATE_SECTION_NAME, STAY_ON_TOP_KEY_NAME, ChessBoard.StayOnTop);
-    iniFile.WriteBool(PRIVATE_SECTION_NAME, EXTRA_EXIT_KEY_NAME, extra_exit);
-    iniFile.WriteInteger(PRIVATE_SECTION_NAME, LANGUAGE_KEY_NAME, TLocalizer.Instance.ActiveLanguage + 1);
+  TIniSettings.Instance.Animation := ChessBoard.Animation;
+  TIniSettings.Instance.LastMoveHilighted := ChessBoard.LastMoveHilighted;
+  TIniSettings.Instance.FlashOnMove := ChessBoard.FlashOnMove;
+  TIniSettings.Instance.CoordinatesShown := ChessBoard.CoordinatesShown;
+  // TODO: write screen position
+  TIniSettings.Instance.StayOnTop := ChessBoard.StayOnTop;
+  TIniSettings.Instance.ExtraExit := extra_exit;
+  TIniSettings.Instance.ActiveLanguage := TLocalizer.Instance.ActiveLanguage;
+  if (m_iDontShowLastVersion > CHESS4NET_VERSION) then
+    TIniSettings.Instance.DontShowLastVersion := m_iDontShowLastVersion;
 {$IFDEF SKYPE}
-    if (m_bDontShowCredits) then
-      iniFile.WriteBool(PRIVATE_SECTION_NAME, DONT_SHOW_CREDITS, m_bDontShowCredits);
+  if (m_bDontShowCredits) then
+    TIniSettings.Instance.DontShowCredits := m_bDontShowCredits;
 {$ENDIF}
-  finally
-    iniFile.Free;
-  end;
 end;
 
 
 procedure TManager.FWriteCommonSettings;
-var
-  iniFile: TTntIniFile;
-  strCommonSectionName: string;
 begin
-  iniFile := TTntIniFile.Create(Chess4NetPath + INI_FILE_NAME);
-  try
-    strCommonSectionName := COMMON_SECTION_PREFIX + ' ' + OpponentId;
-    iniFile.WriteInteger(strCommonSectionName, PLAYER_COLOR_KEY_NAME, Ord(_PlayerColor));
-    iniFile.WriteString(strCommonSectionName, CLOCK_KEY_NAME, ClockToStr);
-    iniFile.WriteBool(strCommonSectionName, TRAINING_MODE_KEY_NAME, ChessBoard.pTrainingMode);
-    iniFile.WriteString(strCommonSectionName, EXTERNAL_BASE_NAME_KEY_NAME, m_strExtBaseName);
-    iniFile.WriteBool(strCommonSectionName, USE_USER_BASE_KEY_NAME, ChessBoard.pUseUserBase);
-    iniFile.WriteBool(strCommonSectionName, ALLOW_TAKEBACKS_KEY_NAME, you_takebacks);
-    iniFile.WriteBool(strCommonSectionName, CAN_PAUSE_GAME_KEY_NAME, can_pause_game);
-    iniFile.WriteBool(strCommonSectionName, CAN_ADJOURN_GAME_KEY_NAME, can_adjourn_game);
-    iniFile.WriteBool(strCommonSectionName, AUTO_FLAG_KEY_NAME, ChessBoard.AutoFlag);
-    iniFile.WriteString(strCommonSectionName, ADJOURNED_KEY_NAME, AdjournedStr);
+  TIniSettings.Instance.SetOpponentId(OpponentId);
 
-  finally
-    iniFile.Free;
-  end;
+  TIniSettings.Instance.PlayerColor := _PlayerColor;
+  TIniSettings.Instance.Clock := ClockToStr;
+  TIniSettings.Instance.TrainingMode := ChessBoard.pTrainingMode;
+  TIniSettings.Instance.ExternalBaseName := m_strExtBaseName;
+  TIniSettings.Instance.UseUserBase := ChessBoard.pUseUserBase;
+  TIniSettings.Instance.AllowTakebacks := you_takebacks;
+  TIniSettings.Instance.CanPauseGame := can_pause_game;
+  TIniSettings.Instance.CanAdjournGame := can_adjourn_game;
+  TIniSettings.Instance.AutoFlag := ChessBoard.AutoFlag;
 end;
 
 
@@ -2179,8 +2134,8 @@ begin
     // <time control>
     str := str + ClockToStr + '&';
     // <current time>
-    LongTimeFormat := HOUR_TIME_FORMAT;
-    str := str + TimeToStr(Time[fcWhite]) + ' ' + TimeToStr(Time[fcBlack]);
+    str := str + TChessClock.ConvertToFullStr(Time[fcWhite], FALSE) + ' ' +
+                 TChessClock.ConvertToFullStr(Time[fcBlack], FALSE);
   end;
 
   Result := str;
@@ -2214,6 +2169,18 @@ begin
 end;
 
 
+function TManager.FGetAdjournedStr: string;
+begin
+  Result := TIniSettings.Instance.Adjourned;
+end;
+
+
+procedure TManager.FSetAdjournedStr(const strValue: string);
+begin
+  TIniSettings.Instance.Adjourned := strValue;
+end;
+
+
 procedure TManager.RSetGameContext(const strValue: string);
 var
   str: string;
@@ -2225,7 +2192,7 @@ begin
 
   // strValue ::= <position>&<this player's color>&<time control>&<current time>
 
-  str := strValue;  
+  str := strValue;
 
   l := pos('&', str);
   strPosition := LeftStr(str, l - 1);
@@ -2239,7 +2206,7 @@ begin
   strTimeControl := LeftStr(str, l - 1);
   strCurrentTime := RightStr(str, length(str) - l);
 
-  SetClock(strTimeControl);    
+  SetClock(strTimeControl);
 
   if (((_PlayerColor = fcWhite) and (strPlayerColor <> 'w')) or
       ((_PlayerColor = fcBlack) and (strPlayerColor <> 'b'))) then
@@ -2250,9 +2217,9 @@ begin
     SetPosition(strPosition);
 
     RSplitStr(strCurrentTime, str, strCurrentTime);
-    LongTimeFormat := HOUR_TIME_FORMAT;
-    Time[fcWhite] := StrToTime(str);
-    Time[fcBlack] := StrToTime(strCurrentTime);
+
+    Time[fcWhite] := TChessClock.ConvertFromFullStr(str);
+    Time[fcBlack] := TChessClock.ConvertFromFullStr(strCurrentTime);
   end;
 end;
 
@@ -2284,6 +2251,7 @@ begin
     AdjournGame.Caption := GetLabel(61);
     GamePause.Caption := GetLabel(62);
     TakebackGame.Caption := GetLabel(63);
+    BroadcastAction.Caption := GetLabel(69);
   end;
 end;
 
@@ -2306,11 +2274,14 @@ begin
     StartAdjournedGameConnected.Visible := FALSE;
     StartStandartGameConnected.Visible := FALSE;
     StartPPRandomGameConnected.Visible := FALSE;
-    N5.Visible := FALSE;
-    ChangeColorConnected.Visible := FALSE;
+//    ChangeColorConnected.Visible := FALSE;
     GameOptionsConnected.Visible := FALSE;
 
-    ChessBoard.ViewGaming := TRUE;    
+{$IFDEF SKYPE}
+    BroadcastAction.Visible := FALSE;
+{$ENDIF}
+
+    ChessBoard.ViewGaming := TRUE;
   end;
 end;
 
@@ -2367,6 +2338,17 @@ begin
     Result := PlayerNick + ' - ' + OpponentNick
   else // fcBlack
     Result := OpponentNick + ' - ' + PlayerNick;
+end;
+
+
+procedure TManager.BroadcastActionExecute(Sender: TObject);
+begin
+  RBroadcast;
+end;
+
+
+procedure TManager.RBroadcast;
+begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

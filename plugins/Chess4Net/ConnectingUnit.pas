@@ -1,9 +1,15 @@
+////////////////////////////////////////////////////////////////////////////////
+// All code below is exclusively owned by author of Chess4Net - Pavel Perminov
+// (packpaul@mail.ru, packpaul1@gmail.com).
+// Any changes, modifications, borrowing and adaptation are a subject for
+// explicit permition from the owner.
+
 unit ConnectingUnit;
 
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, TntStdCtrls,
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, TntStdCtrls,
   Forms, {Dialogs, }ExtCtrls, StdCtrls,
   DialogUnit, ModalForm;
 

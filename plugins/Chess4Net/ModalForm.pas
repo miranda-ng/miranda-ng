@@ -1,9 +1,15 @@
+////////////////////////////////////////////////////////////////////////////////
+// All code below is exclusively owned by author of Chess4Net - Pavel Perminov
+// (packpaul@mail.ru, packpaul1@gmail.com).
+// Any changes, modifications, borrowing and adaptation are a subject for
+// explicit permition from the owner.
+
 unit ModalForm;
 
 interface
 
 uses
-  Forms, TntForms, Dialogs, Classes, Windows;
+  Forms, TntForms, Dialogs, Classes, Windows, Controls;
 
 type
   TModalForm = class;
@@ -11,14 +17,13 @@ type
 
   TModalFormID = (mfNone, mfMsgClose, mfMsgLeave, mfMsgAbort, mfMsgResign,
                   mfMsgDraw, mfMsgTakeBack, mfMsgAdjourn, mfConnecting, mfGameOptions,
-                  mfLookFeel, mfCanPause, mfContinue, mfIncompatible
+                  mfLookFeel, mfCanPause, mfContinue, mfIncompatible, mfDontShowDlg
 {$IFDEF SKYPE}
                   , mfSelectSkypeContact
 {$ENDIF}
 {$IFDEF MIRANDA}
                   , mfTransmitting, mfTransmitGame
 {$ENDIF}
-
                   );
 
   TModalFormHandler = procedure(modSender: TModalForm; modID: TModalFormID) of object;
@@ -61,8 +66,9 @@ type
   protected
     RHandler: TModalFormHandler;
     dlgOwner: TDialogs;
-    constructor Create(Owner: TForm; modHandler: TModalFormHandler = nil); reintroduce; overload; virtual;
+
     constructor Create(dlgOwner: TDialogs; modHandler: TModalFormHandler); reintroduce; overload; virtual;
+
     function GetHandle: hWnd; virtual;
     function GetEnabled_: boolean; virtual;
     procedure SetEnabled_(flag: boolean); virtual;
@@ -73,7 +79,12 @@ type
 
     function GetModalID: TModalFormID; virtual;
 
+    function RGetModalResult: TModalResult; virtual;
+    procedure RSetModalResult(Value: TModalResult); virtual;
+
   public
+    constructor Create(Owner: TForm; modHandler: TModalFormHandler = nil); reintroduce; overload; virtual;
+
     procedure Show; virtual;
     procedure Close; virtual;
 
@@ -81,12 +92,14 @@ type
     property Enabled: boolean read GetEnabled_ write SetEnabled_;
     property Left: integer read GetLeft_ write SetLeft_;
     property Top: integer read GetTop_ write SetTop_;
+
+    property ModalResult: TModalResult read RGetModalResult write RSetModalResult;
   end;
 
 implementation
 
 uses
-  SysUtils, StdCtrls, Controls,
+  SysUtils, StdCtrls,
   DialogUnit, GlobalsUnit;
 
 var
@@ -128,6 +141,7 @@ var
   iLeft, iTop: integer;
 begin // TModalForm.FormShow
   selfForm := Sender as TForm;
+  frmOwner := nil;
 
   if (Assigned(Owner)) then
   begin
@@ -269,8 +283,62 @@ begin
   inherited Top := y;
 end;
 
+
+function TModalForm.RGetModalResult: TModalResult;
+begin
+  Result := inherited ModalResult;
+end;
+
+procedure TModalForm.RSetModalResult(Value: TModalResult);
+begin
+  inherited ModalResult := Value;
+end;
+
 ////////////////////////////////////////////////////////////////////////////////
 // TDialogs
+
+constructor TDialogs.Create(Owner: TForm; Handler: TModalFormHandler);
+var
+  i: TModalFormID;
+begin
+  inherited Create;
+
+  self.Owner := Owner;
+  self.RHandler := Handler;
+  frmList := TList.Create;
+  for i := Low(TModalFormID) to High(TModalFormID) do
+    IDCount[i] := 0;
+
+  if (not Assigned(g_lstDialogs)) then
+    g_lstDialogs := TList.Create;
+  g_lstDialogs.Add(self);
+end;
+
+
+destructor TDialogs.Destroy;
+var
+  i: integer;
+  ModalForm: TModalForm;
+begin
+  if (Assigned(g_lstDialogs)) then
+  begin
+    g_lstDialogs.Remove(self);
+    if (g_lstDialogs.Count = 0) then
+      FreeAndNil(g_lstDialogs);
+  end;
+
+  for i := 0 to frmList.Count - 1 do
+  begin
+    ModalForm := frmList[i];
+    ModalForm.RHandler := nil;
+    ModalForm.dlgOwner := nil;
+//    ModalForm.Release;
+    ModalForm.Free;
+  end;
+
+  inherited;
+end;
+
 
 function TDialogs.GetShowing: boolean;
 var
@@ -356,46 +424,6 @@ function TDialogs.CreateDialog(modalFormClass: TModalFormClass): TModalForm;
 begin
   Result := modalFormClass.Create(self, RHandler);
   frmList.Add(Result);
-end;
-
-
-constructor TDialogs.Create(Owner: TForm; Handler: TModalFormHandler);
-var
-  i: TModalFormID;
-begin
-  inherited Create;
-
-  self.Owner := Owner;
-  self.RHandler := Handler;
-  frmList := TList.Create;
-  for i := Low(TModalFormID) to High(TModalFormID) do
-    IDCount[i] := 0;
-
-  if (not Assigned(g_lstDialogs)) then
-    g_lstDialogs := TList.Create;
-  g_lstDialogs.Add(self);
-end;
-
-
-destructor TDialogs.Destroy;
-var
-  i: integer;
-  ModalForm: TModalForm;
-begin
-  if (Assigned(g_lstDialogs)) then
-  begin
-    g_lstDialogs.Remove(self);
-    FreeAndNil(g_lstDialogs);
-  end;
-
-  for i := 0 to frmList.Count - 1 do
-  begin
-    ModalForm := frmList[i];
-    ModalForm.RHandler := nil;
-    ModalForm.Release;
-  end;
-
-  inherited;
 end;
 
 
