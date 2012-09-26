@@ -350,7 +350,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINEMAIL), sel ? dat->authorEmail : "");
 						
 						mir_ptr<TCHAR> p( Langpack_PcharToTchar(dat->description));
-						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINLONGINFO), sel ? p : _T(""));
+						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINLONGINFO), sel ? (TCHAR*)p : _T(""));
 
 						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINCPYR), sel ? dat->copyright : "");
 						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINURL), sel ? dat->homepage : "");
