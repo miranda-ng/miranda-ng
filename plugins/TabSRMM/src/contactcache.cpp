@@ -438,7 +438,7 @@ void CContactCache::releaseAlloced()
 	}
 
 	if (m_history) {
-		for (i = 0; i <= m_iHistorySize; i++) {
+		for (i=0; i <= m_iHistorySize; i++) {
 			if (m_history[i].szText != 0) {
 				free(m_history[i].szText);
 			}
@@ -573,7 +573,7 @@ TCHAR* CContactCache::getNormalizedStatusMsg(const TCHAR *src, bool fStripAll)
 
 	tstring dest;
 
-	for (i = 0; i < _tcslen(src); i++) {
+	for (i=0; i < _tcslen(src); i++) {
 		if (src[i] == 0x0d || src[i] == '\t')
 			continue;
 		if (i && src[i] == (TCHAR)0x0a) {

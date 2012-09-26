@@ -431,7 +431,7 @@ static int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATAT* pdata)
 	if (mask & MASK_OPEN) {
 		int i;
 
-		for (i = 0; i < pdata->nrMerged; i++) {
+		for (i=0; i < pdata->nrMerged; i++) {
 			if (pdata->eventData[i].hEvent != 0) {
 				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_HANDLECLISTEVENT, (WPARAM)pdata->hContact, (LPARAM)pdata->eventData[i].hEvent);
 				pdata->eventData[i].hEvent = 0;
@@ -441,7 +441,7 @@ static int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATAT* pdata)
 	if (mask & MASK_REMOVE) {
 		int i;
 
-		for (i = 0; i < pdata->nrMerged; i++) {
+		for (i=0; i < pdata->nrMerged; i++) {
 			if (pdata->eventData[i].hEvent != 0) {
 				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_REMOVECLISTEVENT, (WPARAM)pdata->hContact, (LPARAM)pdata->eventData[i].hEvent);
 				pdata->eventData[i].hEvent = 0;

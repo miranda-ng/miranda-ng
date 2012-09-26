@@ -56,7 +56,7 @@ static BOOL CALLBACK FillCpCombo(LPCTSTR str)
 	UINT cp;
 
 	cp = _ttoi(str);
-	for (i = 0; cpTable[i].cpName != NULL && cpTable[i].cpId != cp; i++);
+	for (i=0; cpTable[i].cpName != NULL && cpTable[i].cpId != cp; i++);
 	if (cpTable[i].cpName != NULL) {
 		LRESULT iIndex = SendMessage(hCpCombo, CB_ADDSTRING, -1, (LPARAM) TranslateTS(cpTable[i].cpName));
 		SendMessage(hCpCombo, CB_SETITEMDATA, (WPARAM)iIndex, cpTable[i].cpId);
@@ -162,7 +162,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (sCodePage == 0)
 				SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_SETCURSEL, (WPARAM)0, 0);
 			else {
-				for (i = 0; i < SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETCOUNT, 0, 0); i++) {
+				for (i=0; i < SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETCOUNT, 0, 0); i++) {
 					if (SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETITEMDATA, (WPARAM)i, 0) == (LRESULT)sCodePage)
 						SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_SETCURSEL, (WPARAM)i, 0);
 				}
@@ -545,7 +545,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					tci.mask = TCIF_PARAM;
 
 					count = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_OPTIONSTAB));
-					for (i = 0;i < count;i++) {
+					for (i=0;i < count;i++) {
 						TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), i, &tci);
 						SendMessage((HWND)tci.lParam, WM_COMMAND, WM_USER + 100, (LPARAM)&dwActionToTake);
 					}

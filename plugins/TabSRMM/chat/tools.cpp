@@ -704,7 +704,7 @@ int Chat_GetColorIndex(const char* pszModule, COLORREF cr)
 	if (!pMod || pMod->nColorCount == 0)
 		return -1;
 
-	for (i = 0; i < pMod->nColorCount; i++)
+	for (i=0; i < pMod->nColorCount; i++)
 		if (pMod->crColors[i] == cr)
 			return i;
 
@@ -728,7 +728,7 @@ void CheckColorsInModule(const char* pszModule)
 	if (!pMod)
 		return;
 
-	for (i = 0; i < pMod->nColorCount; i++) {
+	for (i=0; i < pMod->nColorCount; i++) {
 		if (pMod->crColors[i] == crFG || pMod->crColors[i] == crBG) {
 			if (pMod->crColors[i] == RGB(255, 255, 255))
 				pMod->crColors[i]--;
@@ -743,7 +743,7 @@ TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 	int i, j, k;
 
 	_tsetlocale(LC_ALL, _T(""));
-	for (i = 0;s1[i];i++)
+	for (i=0;s1[i];i++)
 		for (j = i, k = 0; _totlower(s1[j]) == _totlower(s2[k]);j++, k++)
 			if (!s2[k+1])
 				return (TCHAR*)(s1 + i);
@@ -986,7 +986,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	if (gcmi.nItems > 0)
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 
-	for (i = 0; i < gcmi.nItems; i++) {
+	for (i=0; i < gcmi.nItems; i++) {
 		TCHAR* ptszDescr = a2tf(gcmi.Item[i].pszDesc, si->dwFlags);
 		TCHAR* ptszText = TranslateTS(ptszDescr);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
@@ -1028,7 +1028,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		InsertMenu(PluginConfig.g_hMenuEncoding, 1, MF_BYPOSITION | MF_STRING, (UINT_PTR)CP_UTF8, TranslateT("UTF-8"));
 		pos = GetMenuItemCount(*hMenu);
 		InsertMenu(*hMenu, pos, MF_BYPOSITION | MF_POPUP, (UINT_PTR) PluginConfig.g_hMenuEncoding, TranslateT("Character Encoding"));
-		for (i = 0; i < GetMenuItemCount(PluginConfig.g_hMenuEncoding); i++)
+		for (i=0; i < GetMenuItemCount(PluginConfig.g_hMenuEncoding); i++)
 			CheckMenuItem(PluginConfig.g_hMenuEncoding, i, MF_BYPOSITION | MF_UNCHECKED);
 		if (codepage == CP_ACP)
 			CheckMenuItem(PluginConfig.g_hMenuEncoding, 0, MF_BYPOSITION | MF_CHECKED);
@@ -1231,7 +1231,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	dwMask = M->GetDword(si->hContact, "Chat", "FilterMask", 0);
 
 	si->iLogFilterFlags = dwFlags_default;
-	for (i = 0; i < 32; i++) {
+	for (i=0; i < 32; i++) {
 		if (dwMask & (1 << i))
 			si->iLogFilterFlags = (dwFlags_local & (1 << i) ? si->iLogFilterFlags | (1 << i) : si->iLogFilterFlags & ~(1 << i));
 	}
@@ -1241,7 +1241,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	dwMask = M->GetDword(si->hContact, "Chat", "PopupMask", 0);
 
 	si->iLogPopupFlags = dwFlags_default;
-	for (i = 0; i < 32; i++) {
+	for (i=0; i < 32; i++) {
 		if (dwMask & (1 << i))
 			si->iLogPopupFlags = (dwFlags_local & (1 << i) ? si->iLogPopupFlags | (1 << i) : si->iLogPopupFlags & ~(1 << i));
 	}
@@ -1251,7 +1251,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	dwMask = M->GetDword(si->hContact, "Chat", "TrayIconMask", 0);
 
 	si->iLogTrayFlags = dwFlags_default;
-	for (i = 0; i < 32; i++) {
+	for (i=0; i < 32; i++) {
 		if (dwMask & (1 << i))
 			si->iLogTrayFlags = (dwFlags_local & (1 << i) ? si->iLogTrayFlags | (1 << i) : si->iLogTrayFlags & ~(1 << i));
 	}

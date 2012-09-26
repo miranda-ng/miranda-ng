@@ -1204,7 +1204,7 @@ void CSkin::Unload()
 	m_SkinDarkShadowPen = 0;
 
 	if (m_SkinItems) {
-		for (i = 0; i < ID_EXTBK_LAST; i++) {
+		for (i=0; i < ID_EXTBK_LAST; i++) {
 			m_SkinItems[i].IGNORED = 1;
 			m_SkinItems[i].imageItem = 0;
 		}
@@ -1237,7 +1237,7 @@ void CSkin::Unload()
 
 	m_closeIcon = m_maxIcon = m_minIcon = 0;
 
-	for (i = 0; i < m_nrSkinIcons; i++) {
+	for (i=0; i < m_nrSkinIcons; i++) {
 		if (m_skinIcons[i].phIcon )
 			::DestroyIcon(*(m_skinIcons[i].phIcon));
 	}
@@ -1693,7 +1693,7 @@ void CSkin::Load(void)
 					p += (lstrlen(p) + 1);
 					continue;
 				}
-				for (i = 0; i <= ID_EXTBK_LAST; i++) {
+				for (i=0; i <= ID_EXTBK_LAST; i++) {
 					if (!_tcsicmp(&p[1], SkinItems[i].szName[0] == '{' ? &SkinItems[i].szName[3] : SkinItems[i].szName)) {
 						ReadItem(i, p);
 						break;

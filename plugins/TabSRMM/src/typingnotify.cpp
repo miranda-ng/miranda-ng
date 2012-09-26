@@ -180,7 +180,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				CheckDlgButton(hwndDlg, IDC_USEPOPUPCOLORS, BST_CHECKED);
 			}
 
-			for (i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++) {
+			for (i=0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++) {
 				SendDlgItemMessage(hwndDlg, colorPicker[i].res, CPM_SETCOLOUR, 0, colorPicker[i].color);
 				Utils::enableDlgControl(hwndDlg, colorPicker[i].res, (ColorMode == COLOR_OWN));
 			}
@@ -239,7 +239,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						bEnableOthers = TRUE;
 					}
 
-					for (i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
+					for (i=0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
 						Utils::enableDlgControl(hwndDlg, colorPicker[i].res, bEnableOthers);
 
 					Utils::enableDlgControl(hwndDlg, IDC_USEPOPUPCOLORS, bEnableOthers);
@@ -260,7 +260,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						bEnableOthers = TRUE;
 					}
 
-					for (i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
+					for (i=0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
 						Utils::enableDlgControl(hwndDlg, colorPicker[i].res, bEnableOthers);
 
 					Utils::enableDlgControl(hwndDlg, IDC_USEWINCOLORS, bEnableOthers);
@@ -295,7 +295,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 					}
 
-					for (i = 0; i < 2; i++) {
+					for (i=0; i < 2; i++) {
 
 						switch (i) {
 							case PROTOTYPE_CONTACTTYPING_OFF:
@@ -455,7 +455,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				case 0:
 					switch (((LPNMHDR) lParam)->code) {
 						case PSN_APPLY:
-							for (i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++) {
+							for (i=0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++) {
 								colorPicker[i].color = SendDlgItemMessage(hwndDlg, colorPicker[i].res, CPM_GETCOLOUR, 0, 0);
 								M->WriteDword(Module, colorPicker[i].desc, colorPicker[i].color);
 							}
@@ -534,7 +534,7 @@ int TN_ModuleInit()
 	Timeout2 = M->GetByte(Module,SET_TIMEOUT2,DEF_TIMEOUT2);
 
 	if (!(M->GetDword(Module, colorPicker[0].desc, 1) && !M->GetDword(Module, colorPicker[0].desc, 0)))
-		for (i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
+		for (i=0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
 			colorPicker[i].color = M->GetDword(Module,colorPicker[i].desc,0);
 
 	mir_sntprintf(szStart, sizeof(szStart), TranslateT("...is typing a message."));

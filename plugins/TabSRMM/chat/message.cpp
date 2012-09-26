@@ -31,7 +31,7 @@ static int RTFColorToIndex(int *pIndex, int iCol, SESSION_INFO* si)
 	int i;
 	MODULEINFO * pMod = MM_FindModule(si->pszModule);
 
-	for (i = 0; i < pMod->nColorCount ; i++)
+	for (i=0; i < pMod->nColorCount ; i++)
 		if (pIndex[i] == iCol)
 			return i;
 
@@ -57,7 +57,7 @@ static void CreateColorMap(char* Text, int *pIndex, SESSION_INFO* si)
 		if (sscanf(p2, lpszFmt, &szRed, &szGreen, &szBlue) > 0) {
 			int i;
 			MODULEINFO * pMod = MM_FindModule(si->pszModule);
-			for (i = 0; i < pMod->nColorCount ; i ++)
+			for (i=0; i < pMod->nColorCount ; i ++)
 				if (pMod->crColors[i] == RGB(atoi(szRed), atoi(szGreen), atoi(szBlue)))
 					pIndex[i] = iIndex;
 		}
@@ -99,7 +99,7 @@ TCHAR* Chat_DoRtfToTags(char* pszText, SESSION_INFO* si)
 	// create an index of colors in the module and map them to
 	// corresponding colors in the RTF color table
 	pIndex = (int *)mir_alloc(sizeof(int) * MM_FindModule(si->pszModule)->nColorCount);
-	for (i = 0; i < MM_FindModule(si->pszModule)->nColorCount ; i++)
+	for (i=0; i < MM_FindModule(si->pszModule)->nColorCount ; i++)
 		pIndex[i] = -1;
 
 	CreateColorMap(pszText, pIndex, si);

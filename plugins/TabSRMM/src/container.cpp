@@ -300,7 +300,7 @@ static BOOL CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				item_hot = &SkinItems[ID_EXTBKTITLEBUTTONMOUSEOVER];
 				item_pressed = &SkinItems[ID_EXTBKTITLEBUTTONPRESSED];
 
-				for (i = 0; i < 3; i++) {
+				for (i=0; i < 3; i++) {
 					RECT *rc = 0;
 					HICON hIcon;
 
@@ -425,7 +425,7 @@ static BOOL CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						else if (isClose)
 							PostMessage(hwndDlg, WM_SYSCOMMAND, SC_CLOSE, 0);
 					}
-					for (i = 0; i < 3; i++) {
+					for (i=0; i < 3; i++) {
 						if (pContainer->buttons[i].isHot != pContainer->oldbuttons[i].isHot) {
 							RECT *rc = 0;
 							HICON hIcon;
@@ -828,7 +828,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			 */
 			int nCount = TabCtrl_GetItemCount(hwndTab);
 
-			for (i = 0; i < nCount; i++) {
+			for (i=0; i < nCount; i++) {
 				item.mask = TCIF_PARAM;
 				TabCtrl_GetItem(hwndTab, i, &item);
 				if ((HWND)item.lParam == pContainer->hwndActive) {
@@ -1400,11 +1400,11 @@ buttons_done:
 				if ((dwTimeout = PluginConfig.m_TabAutoClose) > 0) {
 					int clients = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_MSGTABS));
 					HWND *hwndClients = (HWND *)mir_alloc(sizeof(HWND) * (clients + 1));
-					for (i = 0; i < clients; i++) {
+					for (i=0; i < clients; i++) {
 						TabCtrl_GetItem(hwndTab, i, &item);
 						hwndClients[i] = (HWND)item.lParam;
 					}
-					for (i = 0; i < clients; i++) {
+					for (i=0; i < clients; i++) {
 						if (IsWindow(hwndClients[i])) {
 							if ((HWND)hwndClients[i] != pContainer->hwndActive)
 								pContainer->bDontSmartClose = TRUE;
@@ -1868,7 +1868,7 @@ buttons_done:
 			ri->dwFirst = ri->dwMostRecent = 0;
 			ri->hwndFirst = ri->hwndMostRecent = 0;
 
-			for (i = 0; i < iItems; i++) {
+			for (i=0; i < iItems; i++) {
 				item.mask = TCIF_PARAM;
 				TabCtrl_GetItem(hwndTab,  i, &item);
 				SendMessage((HWND) item.lParam, DM_QUERYLASTUNREAD, 0, (LPARAM)&dwTimestamp);
@@ -2089,7 +2089,7 @@ buttons_done:
 					int    iOpenJobs = 0;
 
 					item.mask = TCIF_PARAM;
-					for (i = 0; i < clients; i++) {
+					for (i=0; i < clients; i++) {
 						TabCtrl_GetItem(hwndTab, i, &item);
 						if (item.lParam && IsWindow((HWND)item.lParam)) {
 							SendMessage((HWND)item.lParam, DM_CHECKQUEUEFORCLOSE, 0, (LPARAM)&iOpenJobs);
@@ -2126,7 +2126,7 @@ buttons_done:
 							SendMessage((HWND)item.lParam, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 							M->WriteByte(hContact, SRMSGMOD_T, "splitmax", (BYTE)((wp.showCmd==SW_SHOWMAXIMIZED)?1:0));
 
-							for (i = 0; i < TabCtrl_GetItemCount(hwndTab); i++) {
+							for (i=0; i < TabCtrl_GetItemCount(hwndTab); i++) {
 								if (TabCtrl_GetItem(hwndTab, i, &item)) {
 									SendMessage((HWND)item.lParam, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 									M->WriteDword(hContact, SRMSGMOD_T, "splitx", wp.rcNormalPosition.left);
@@ -2159,7 +2159,7 @@ buttons_done:
 
 					item.mask = TCIF_PARAM;
 					pContainer->dwFlags &= ~(CNT_DEFERREDCONFIGURE | CNT_CREATE_MINIMIZED | CNT_DEFERREDSIZEREQUEST | CNT_CREATE_CLONED);
-					for (i = 0; i < TabCtrl_GetItemCount(hwndTab); i++) {
+					for (i=0; i < TabCtrl_GetItemCount(hwndTab); i++) {
 						if (TabCtrl_GetItem(hwndTab, i, &item)) {
 							SendMessage((HWND)item.lParam, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 							//Utils::WriteContainerSettingsToDB(hContact, pContainer->settings);
@@ -2216,7 +2216,7 @@ int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
 	ZeroMemory((void *)&item, sizeof(item));
 	item.mask = TCIF_PARAM;
 
-	for (i = 0; i < iItems; i++) {
+	for (i=0; i < iItems; i++) {
 		TabCtrl_GetItem(hwndTab, i, &item);
 		if ((HWND)item.lParam == hwnd) {
 			return i;
@@ -2609,7 +2609,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg) {
 	szProtoMostOnline = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContactMostOnline, 0);
 	isForced = M->GetDword(dat->hContact, "tabSRMM_forced", -1);
 
-	for (i = 0; i < iNumProtos; i++) {
+	for (i=0; i < iNumProtos; i++) {
 		mir_snprintf(szTemp, sizeof(szTemp), "Protocol%d", i);
 		if (DBGetContactSettingString(dat->hContact, PluginConfig.szMetaName, szTemp, &dbv))
 			continue;
@@ -2719,7 +2719,7 @@ void TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WP
 	item.mask = TCIF_PARAM;
 
 	int nCount = TabCtrl_GetItemCount(hwndTab);
-	for (i = 0; i < nCount; i++) {
+	for (i=0; i < nCount; i++) {
 		TabCtrl_GetItem(hwndTab, i, &item);
 		if (IsWindow((HWND)item.lParam)) {
 			if (bType == SESSIONTYPE_ANY)

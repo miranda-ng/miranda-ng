@@ -550,7 +550,7 @@ static void TSAPI InitAPI()
 
 	ZeroMemory(PluginConfig.hSvc, sizeof(HANDLE) * CGlobals::SERVICE_LAST);
 
-	for (i = 0; i < safe_sizeof(SERVICES); i++)
+	for (i=0; i < safe_sizeof(SERVICES); i++)
 		*(SERVICES[i].h) = CreateServiceFunction(SERVICES[i].szName, SERVICES[i].pfnService);
 
 	*(SERVICES[CGlobals::H_MS_MSG_SENDMESSAGEW].h) = CreateServiceFunction(MS_MSG_SENDMESSAGE "W", SendMessageCommand_W);
@@ -1169,7 +1169,7 @@ static void UnloadIcons()
 	}
 	if (PluginConfig.g_hbmUnknown)
 		DeleteObject(PluginConfig.g_hbmUnknown);
-	for (i = 0; i < 4; i++) {
+	for (i=0; i < 4; i++) {
 		if (PluginConfig.m_AnimTrayIcons[i])
 			DestroyIcon(PluginConfig.m_AnimTrayIcons[i]);
 	}

@@ -1199,19 +1199,19 @@ char * Log_CreateRtfHeader(MODULEINFO * mi)
 
 	// font table
 	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
-	for (i = 0; i < OPTIONS_FONTCOUNT ; i++)
+	for (i=0; i < OPTIONS_FONTCOUNT ; i++)
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "{\\f%u\\fnil\\fcharset%u" TCHAR_STR_PARAM ";}", i, aFonts[i].lf.lfCharSet, aFonts[i].lf.lfFaceName);
 
 	// colour table
 	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "}{\\colortbl ;");
 
-	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
+	for (i=0; i < OPTIONS_FONTCOUNT; i++)
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(aFonts[i].color), GetGValue(aFonts[i].color), GetBValue(aFonts[i].color));
 
-	for (i = 0; i < mi->nColorCount; i++)
+	for (i=0; i < mi->nColorCount; i++)
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
 
-	for (i = 0; i < 5; i++)
+	for (i=0; i < 5; i++)
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(g_Settings.nickColors[i]), GetGValue(g_Settings.nickColors[i]), GetBValue(g_Settings.nickColors[i]));
 
 	// new paragraph
@@ -1290,7 +1290,7 @@ void LoadMsgLogBitmaps(void)
 	hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
 	hdcMem = CreateCompatibleDC(hdc);
 	pBmpBits = (PBYTE) mir_alloc(widthBytes * bih.biHeight);
-	for (i = 0; i < SIZEOF(pLogIconBmpBits); i++) {
+	for (i=0; i < SIZEOF(pLogIconBmpBits); i++) {
 		hIcon = hIcons[i];
 		pLogIconBmpBits[i] = (PBYTE) mir_alloc(RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2);
 		rtfHeaderSize = sprintf((char *)pLogIconBmpBits[i], "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight);
@@ -1327,7 +1327,7 @@ void LoadMsgLogBitmaps(void)
 		ReleaseDC(NULL, hdc);
 	}
 
-	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
+	for (i=0; i < OPTIONS_FONTCOUNT; i++)
 		mir_snprintf(CHAT_rtfFontsGlobal[i], RTFCACHELINESIZE, "\\f%u\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u", i, i + 1, aFonts[i].lf.lfWeight >= FW_BOLD ? 1 : 0, aFonts[i].lf.lfItalic,aFonts[i].lf.lfUnderline ,2 * abs(aFonts[i].lf.lfHeight) * 74 / logPixelSY);
 	CHAT_rtffonts = &(CHAT_rtfFontsGlobal[0][0]);
 }
@@ -1335,6 +1335,6 @@ void LoadMsgLogBitmaps(void)
 void FreeMsgLogBitmaps(void)
 {
 	int i;
-	for (i = 0; i < SIZEOF(pLogIconBmpBits); i++)
+	for (i=0; i < SIZEOF(pLogIconBmpBits); i++)
 		mir_free(pLogIconBmpBits[i]);
 }

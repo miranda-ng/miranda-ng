@@ -296,7 +296,7 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 				if (c == 0)
 					InsertMenu(PluginConfig.g_hMenuFavorites, 0, MF_BYPOSITION, (UINT_PTR)hContact, szMenuEntry);
 				else {
-					for (i = 0; i <= c; i++) {
+					for (i=0; i <= c; i++) {
 						mii2.cch = 0;
 						mii2.dwTypeData = NULL;
 						GetMenuItemInfo(PluginConfig.g_hMenuFavorites, i, TRUE, &mii2);
@@ -356,7 +356,7 @@ void TSAPI LoadFavoritesAndRecent()
 			return;
 		}
 
-		for (i = 0; i < iIndex - 1; i++) {
+		for (i=0; i < iIndex - 1; i++) {
 			for (j = 0; j < iIndex - 1; j++) {
 				if (recentEntries[j].dwTimestamp > recentEntries[j+1].dwTimestamp) {
 					rceTemp = recentEntries[j];
@@ -365,7 +365,7 @@ void TSAPI LoadFavoritesAndRecent()
 				}
 			}
 		}
-		for (i = 0; i < iIndex; i++)
+		for (i=0; i < iIndex; i++)
 			AddContactToFavorites(recentEntries[i].hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuRecent);
 
 		delete[] recentEntries;

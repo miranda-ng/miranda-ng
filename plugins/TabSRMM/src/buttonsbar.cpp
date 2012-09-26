@@ -40,7 +40,7 @@ static void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor)
 {
 	int i = 0;
 	if (!pList) return;
-	for (i = 0; i < pList->realCount; i++)	pItemDestructor(pList->items[i]);
+	for (i=0; i < pList->realCount; i++)	pItemDestructor(pList->items[i]);
 	List_Destroy(pList);
 	mir_free(pList);
 }
@@ -65,7 +65,7 @@ static void li_SortList(SortedList *pList, FSortFunc pSortFunct)
 	int i;
 	if (!pSortFunct) pSortFunct = pOldSort;
 	pList->sortFunc = NULL;
-	for (i = 0; i < pList->realCount - 1; i++)
+	for (i=0; i < pList->realCount - 1; i++)
 		if (pOldSort(pList->items[i], pList->items[i+1]) < 0) {
 			void * temp = pList->items[i];
 			pList->items[i] = pList->items[i+1];
@@ -121,7 +121,7 @@ static int Hlp_RemoveDatabaseSettings(HANDLE hContact, char *szModule, char *szP
 	}
 	count = 0;
 	if (rs.szSettings != NULL) {
-		for (i = 0; i < rs.count; i++) {
+		for (i=0; i < rs.count; i++) {
 			if (rs.szSettings[i] != NULL) {
 				if (!DBDeleteContactSetting(hContact, szModule, rs.szSettings[i])) {
 					count += 1;
@@ -172,7 +172,7 @@ void CB_DestroyAllButtons(HWND hwndDlg, struct TWindowData *dat)
 {
 	int i;
 	HWND hwndBtn = NULL;
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)LButtonsList->items[i];
 		{
 			hwndBtn = GetDlgItem(hwndDlg, cbd->dwButtonCID);
@@ -180,7 +180,7 @@ void CB_DestroyAllButtons(HWND hwndDlg, struct TWindowData *dat)
 		}
 	}
 
-	for (i = 0; i < RButtonsList->realCount; i++) {
+	for (i=0; i < RButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)RButtonsList->items[i];
 		{
 			hwndBtn = GetDlgItem(hwndDlg, cbd->dwButtonCID);
@@ -221,7 +221,7 @@ void CB_ReInitCustomButtons()
 {
 	int i;
 
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)LButtonsList->items[i];
 		//GetButtonSettings(NULL,cbd);
 		if (cbd->opFlags&BBSF_NTBSWAPED || cbd->opFlags&BBSF_NTBDESTRUCT) {
@@ -235,7 +235,7 @@ void CB_ReInitCustomButtons()
 		}
 	}
 
-	for (i = 0; i < RButtonsList->realCount; i++) {
+	for (i=0; i < RButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)RButtonsList->items[i];
 		if (cbd->opFlags&BBSF_NTBSWAPED || cbd->opFlags&BBSF_NTBDESTRUCT) {
 			cbd->opFlags ^= BBSF_NTBSWAPED;
@@ -336,7 +336,7 @@ static INT_PTR CB_GetButtonState(WPARAM wParam, LPARAM lParam)
 	BOOL realbutton = 0;
 	BBButton * bbdi = (BBButton *)lParam;
 	bbdi->bbbFlags = 0;
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)LButtonsList->items[i];
 		if (!strcmp(cbd->pszModuleName, bbdi->pszModuleName) && (cbd->dwButtonOrigID == bbdi->dwButtonID)) {
 			realbutton = 1;
@@ -344,7 +344,7 @@ static INT_PTR CB_GetButtonState(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	if (!realbutton)
-		for (i = 0; i < RButtonsList->realCount; i++) {
+		for (i=0; i < RButtonsList->realCount; i++) {
 			CustomButtonData* cbd = (CustomButtonData *)RButtonsList->items[i];
 			if (!strcmp(cbd->pszModuleName, bbdi->pszModuleName) && (cbd->dwButtonOrigID == bbdi->dwButtonID)) {
 				realbutton = 1;
@@ -365,7 +365,7 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 	BOOL realbutton = 0;
 	DWORD tempCID = 0;
 	BBButton * bbdi = (BBButton *)lParam;
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)LButtonsList->items[i];
 		if (!strcmp(cbd->pszModuleName, bbdi->pszModuleName) && (cbd->dwButtonOrigID == bbdi->dwButtonID)) {
 			realbutton = 1;
@@ -373,7 +373,7 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	if (!realbutton)
-		for (i = 0; i < RButtonsList->realCount; i++) {
+		for (i=0; i < RButtonsList->realCount; i++) {
 			CustomButtonData* cbd = (CustomButtonData *)RButtonsList->items[i];
 			if (!strcmp(cbd->pszModuleName, bbdi->pszModuleName) && (cbd->dwButtonOrigID == bbdi->dwButtonID)) {
 				realbutton = 1;
@@ -410,7 +410,7 @@ static INT_PTR CB_RemoveButton(WPARAM wParam, LPARAM lParam)
 	BBButton * bbdi = (BBButton *)lParam;
 
 	EnterCriticalSection(&ToolBarCS);
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)LButtonsList->items[i];
 		if (!strcmp(cbd->pszModuleName, bbdi->pszModuleName) && (cbd->dwButtonOrigID == bbdi->dwButtonID)) {
 			tempCID = cbd->dwButtonCID;
@@ -422,7 +422,7 @@ static INT_PTR CB_RemoveButton(WPARAM wParam, LPARAM lParam)
 	if (tempCID) qsort(LButtonsList->items, LButtonsList->realCount, sizeof(CustomButtonData *), sstSortButtons);
 
 	if (!tempCID) {
-		for (i = 0; i < RButtonsList->realCount; i++) {
+		for (i=0; i < RButtonsList->realCount; i++) {
 			CustomButtonData* cbd = (CustomButtonData *)RButtonsList->items[i];
 			if (!strcmp(cbd->pszModuleName, bbdi->pszModuleName) && (cbd->dwButtonOrigID == bbdi->dwButtonID)) {
 				tempCID = cbd->dwButtonCID;
@@ -448,7 +448,7 @@ static INT_PTR CB_ModifyButton(WPARAM wParam, LPARAM lParam)
 	BBButton * bbdi = (BBButton *)lParam;
 
 	EnterCriticalSection(&ToolBarCS);
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		cbd = (CustomButtonData *)LButtonsList->items[i];
 		if (!strcmp(cbd->pszModuleName, bbdi->pszModuleName) && (cbd->dwButtonOrigID == bbdi->dwButtonID)) {
 			bFound = 1;
@@ -458,7 +458,7 @@ static INT_PTR CB_ModifyButton(WPARAM wParam, LPARAM lParam)
 
 	if (!bFound) {
 		cbd = NULL;
-		for (i = 0; i < RButtonsList->realCount; i++) {
+		for (i=0; i < RButtonsList->realCount; i++) {
 			cbd = (CustomButtonData *)RButtonsList->items[i];
 			if (!strcmp(cbd->pszModuleName, bbdi->pszModuleName) && (cbd->dwButtonOrigID == bbdi->dwButtonID)) {
 				bFound = 1;
@@ -498,7 +498,7 @@ void BB_UpdateIcons(HWND hdlg, struct TWindowData *dat)
 	HWND hwndBtn = NULL;
 
 	qsort(LButtonsList->items, LButtonsList->realCount, sizeof(CustomButtonData *), sstSortButtons);
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)LButtonsList->items[i];
 		if (cbd) {
 			if (!cbd->bDummy)
@@ -511,7 +511,7 @@ void BB_UpdateIcons(HWND hdlg, struct TWindowData *dat)
 
 	hwndBtn = NULL;
 	qsort(RButtonsList->items, RButtonsList->realCount, sizeof(CustomButtonData *), sstSortButtons);
-	for (i = 0; i < RButtonsList->realCount; i++) {
+	for (i=0; i < RButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)RButtonsList->items[i];
 		if (cbd) {
 			if (!cbd->bDummy)
@@ -556,7 +556,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 
 	hwndBtn = NULL;
 	qsort(RButtonsList->items, RButtonsList->realCount, sizeof(CustomButtonData *), sstSortButtons);
-	for (i = 0; i < RButtonsList->realCount; i++) {
+	for (i=0; i < RButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)RButtonsList->items[i];
 		if (((dat->bType == SESSIONTYPE_IM && cbd->bIMButton)
 				|| (dat->bType == SESSIONTYPE_CHAT && cbd->bChatButton))) {
@@ -593,7 +593,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 
 	hwndBtn = NULL;
 	qsort(LButtonsList->items, LButtonsList->realCount, sizeof(CustomButtonData *), sstSortButtons);
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)LButtonsList->items[i];
 		if (((dat->bType == SESSIONTYPE_IM && cbd->bIMButton)
 				|| (dat->bType == SESSIONTYPE_CHAT && cbd->bChatButton))) {
@@ -638,7 +638,7 @@ void TSAPI BB_RedrawButtons(TWindowData *dat)
 	CustomButtonData*	cbd;
 	HWND				hwnd;
 
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		cbd = reinterpret_cast<CustomButtonData *>(LButtonsList->items[i]);
 		if (cbd) {
 			hwnd = GetDlgItem(dat->hwnd, cbd->dwButtonCID);
@@ -646,7 +646,7 @@ void TSAPI BB_RedrawButtons(TWindowData *dat)
 				InvalidateRect(hwnd, 0, TRUE);
 		}
 	}
-	for (i = 0; i < RButtonsList->realCount; i++) {
+	for (i=0; i < RButtonsList->realCount; i++) {
 		cbd = reinterpret_cast<CustomButtonData *>(RButtonsList->items[i]);
 		if (cbd) {
 			hwnd = GetDlgItem(dat->hwnd, cbd->dwButtonCID);
@@ -712,7 +712,7 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 		tempL -= 10;
 	}
 
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)LButtonsList->items[i];
 		if (((dat->bType == SESSIONTYPE_IM) && cbd->bIMButton)
 				|| ((dat->bType == SESSIONTYPE_CHAT) && cbd->bChatButton)) {
@@ -765,7 +765,7 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 		tempR -= 12;
 	}
 
-	for (i = 0; i < RButtonsList->realCount; i++) {
+	for (i=0; i < RButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)RButtonsList->items[i];
 		if (((dat->bType == SESSIONTYPE_IM) && cbd->bIMButton)
 				|| ((dat->bType == SESSIONTYPE_CHAT) && cbd->bChatButton)) {
@@ -823,7 +823,7 @@ void TSAPI BB_CustomButtonClick(struct TWindowData *dat, DWORD idFrom, HWND hwnd
 	cbcd.pt.x = rc.left;
 	cbcd.pt.y = rc.bottom;
 
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)LButtonsList->items[i];
 		if (cbd->dwButtonCID == idFrom) {
 			cbcd.pszModule = cbd->pszModuleName;
@@ -836,7 +836,7 @@ void TSAPI BB_CustomButtonClick(struct TWindowData *dat, DWORD idFrom, HWND hwnd
 	}
 
 	if (!cbcd.pszModule)
-		for (i = 0; i < RButtonsList->realCount; i++) {
+		for (i=0; i < RButtonsList->realCount; i++) {
 			CustomButtonData* cbd = (CustomButtonData *)RButtonsList->items[i];
 			if (cbd->dwButtonCID == idFrom) {
 				cbcd.pszModule = cbd->pszModuleName;
@@ -918,11 +918,11 @@ void BB_RefreshTheme(const TWindowData *dat)
 {
 	int i;
 
-	for (i = 0; i < RButtonsList->realCount; i++) {
+	for (i=0; i < RButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)RButtonsList->items[i];
 		SendMessage(GetDlgItem(dat->hwnd, cbd->dwButtonCID), WM_THEMECHANGED, 0, 0);
 	}
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)LButtonsList->items[i];
 		SendMessage(GetDlgItem(dat->hwnd, cbd->dwButtonCID), WM_THEMECHANGED, 0, 0);
 	}
@@ -1231,7 +1231,7 @@ static int BuildMenuObjectsTree(HWND hToolBarTree)
 	EnterCriticalSection(&ToolBarCS);
 	qsort(LButtonsList->items, LButtonsList->realCount, sizeof(CustomButtonData *), sstSortButtons);
 
-	for (i = 0; i < LButtonsList->realCount; i++) {
+	for (i=0; i < LButtonsList->realCount; i++) {
 		CustomButtonData * cbd = (CustomButtonData *)LButtonsList->items[i];
 		tvis.item.lParam  = (LPARAM)cbd;
 

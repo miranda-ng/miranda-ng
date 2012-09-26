@@ -145,7 +145,7 @@ void TSAPI CacheLogFonts()
 	ReleaseDC(NULL, hdc);
 
 	ZeroMemory((void *)logfonts, sizeof(LOGFONTA) * MSGDLGFONTCOUNT + 2);
-	for (i = 0; i < MSGDLGFONTCOUNT; i++) {
+	for (i=0; i < MSGDLGFONTCOUNT; i++) {
 		LoadLogfont(i, &logfonts[i], &fontcolors[i], FONTMODULE);
 		wsprintfA(rtfFontsGlobal[i], "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, logfonts[i].lfWeight >= FW_BOLD ? 1 : 0, logfonts[i].lfItalic,logfonts[i].lfUnderline, 2 * abs(logfonts[i].lfHeight) * 74 / logPixelSY);
 	}
@@ -162,7 +162,7 @@ void TSAPI CacheLogFonts()
 	COLORREF clr;
 	LOGFONTA lf;
 
-	for (i = 0; i < IPFONTCOUNT; i++) {
+	for (i=0; i < IPFONTCOUNT; i++) {
 		if (CInfoPanel::m_ipConfig.hFonts[i])
 			DeleteObject(CInfoPanel::m_ipConfig.hFonts[i]);
 		LoadLogfont(i + 100, &lf, &clr, FONTMODULE);
@@ -198,7 +198,7 @@ void FreeLogFonts()
 {
 	int i;
 
-	for (i = 0; i < IPFONTCOUNT; i++)
+	for (i=0; i < IPFONTCOUNT; i++)
 		if (CInfoPanel::m_ipConfig.hFonts[i])
 			DeleteObject(CInfoPanel::m_ipConfig.hFonts[i]);
 
@@ -454,12 +454,12 @@ static void Build_RTF_Header(char **buffer, int *bufferEnd, int *bufferAlloced, 
 	else
 		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
 
-	for (i = 0; i < MSGDLGFONTCOUNT; i++)
+	for (i=0; i < MSGDLGFONTCOUNT; i++)
 		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "{\\f%u\\fnil\\fcharset%u %s;}", i, logFonts[i].lfCharSet, logFonts[i].lfFaceName);
 	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "{\\f%u\\fnil\\fcharset%u %s;}", MSGDLGFONTCOUNT, logFonts[i].lfCharSet, "Arial");
 
 	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}{\\colortbl ");
-	for (i = 0; i < MSGDLGFONTCOUNT; i++)
+	for (i=0; i < MSGDLGFONTCOUNT; i++)
 		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(fontColors[i]), GetGValue(fontColors[i]), GetBValue(fontColors[i]));
 	if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL)
 		colour = RGB(0, 0, 255);
@@ -495,7 +495,7 @@ static void Build_RTF_Header(char **buffer, int *bufferEnd, int *bufferAlloced, 
 
 	// bbcode colors...
 
-	for (i = 0; i < Utils::rtf_ctable_size; i++)
+	for (i=0; i < Utils::rtf_ctable_size; i++)
 		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(Utils::rtf_ctable[i].clr), GetGValue(Utils::rtf_ctable[i].clr), GetBValue(Utils::rtf_ctable[i].clr));
 
 	/*
@@ -1586,7 +1586,7 @@ static BOOL CALLBACK LangAddCallback(LPTSTR str)
 
 	cp = _ttoi(str);
 	count = sizeof(cpTable) / sizeof(cpTable[0]);
-	for (i = 0; i < count && cpTable[i].cpId != cp; i++);
+	for (i=0; i < count && cpTable[i].cpId != cp; i++);
 	if (i < count)
 		AppendMenu(PluginConfig.g_hMenuEncoding, MF_STRING, cp, TranslateTS(cpTable[i].cpName));
 

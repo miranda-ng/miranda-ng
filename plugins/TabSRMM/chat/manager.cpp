@@ -1191,7 +1191,7 @@ static int UM_CompareItem(USERINFO * u1, const TCHAR* pszNick, WORD wStatus)
 	WORD dw1 = u1->Status;
 	WORD dw2 = wStatus;
 
-	for (i = 0; i < 8; i++) {
+	for (i=0; i < 8; i++) {
 		if ((dw1 & 1) && !(dw2 & 1))
 			return -1;
 		if ((dw2 & 1) && !(dw1 & 1))

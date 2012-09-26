@@ -200,7 +200,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_INSERTSTRING, -1,
 							   (LPARAM)TranslateT("Don't show them"));
 
-			for (i = 0; i < nr_layouts; i++)
+			for (i=0; i < nr_layouts; i++)
 				SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_INSERTSTRING, -1, (LPARAM)TranslateTS(sblayouts[i].szName));
 
 			/* bits 24 - 31 of dwFlagsEx hold the side bar layout id */
@@ -211,7 +211,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_TITLEFORMAT, EM_LIMITTEXT, TITLE_FORMATLEN - 1, 0);
 			SetDlgItemText(hwndDlg, IDC_TITLEFORMAT, pContainer->settings->szTitleFormat);
 			SetDlgItemText(hwndDlg, IDC_THEME, pContainer->szRelThemeFile);
-			for (i = 0; i < NR_O_PAGES; i++) {
+			for (i=0; i < NR_O_PAGES; i++) {
 				tvis.hParent = NULL;
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.mask = TVIF_TEXT | TVIF_PARAM;

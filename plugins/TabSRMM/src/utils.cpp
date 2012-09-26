@@ -177,7 +177,7 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 		}
 		beginmark = 0;
 		while (TRUE) {
-			for (i = 0; i < NR_CODES; i++) {
+			for (i=0; i < NR_CODES; i++) {
 				if ((tempmark = message.find(w_bbcodes_begin[i], 0)) != message.npos)
 					break;
 			}
@@ -590,7 +590,7 @@ int Utils::FindRTLLocale(TWindowData *dat)
 	if (dat->iHaveRTLLang == 0) {
 		ZeroMemory(layouts, 20 * sizeof(HKL));
 		GetKeyboardLayoutList(20, layouts);
-		for (i = 0; i < 20 && layouts[i]; i++) {
+		for (i=0; i < 20 && layouts[i]; i++) {
 			lcid = MAKELCID(LOWORD(layouts[i]), 0);
 			GetStringTypeA(lcid, CT_CTYPE2, "���", 3, wCtype2);
 			if (wCtype2[0] == C2_RIGHTTOLEFT || wCtype2[1] == C2_RIGHTTOLEFT || wCtype2[2] == C2_RIGHTTOLEFT)
@@ -656,7 +656,7 @@ void Utils::CreateColorMap(TCHAR *Text)
 
 	p2 = _tcsstr(p1, _T("\\red"));
 
-	for (i = 0; i < RTF_CTABLE_DEFSIZE; i++)
+	for (i=0; i < RTF_CTABLE_DEFSIZE; i++)
 		rtf_ctable[i].index = 0;
 
 	default_color = (COLORREF)M->GetDword(FONTMODULE, "Font16Col", 0);
@@ -664,7 +664,7 @@ void Utils::CreateColorMap(TCHAR *Text)
 	while (p2 && p2 < pEnd) {
 		if (_stscanf(p2, lpszFmt, &szRed, &szGreen, &szBlue) > 0) {
 			int i;
-			for (i = 0; i < RTF_CTABLE_DEFSIZE; i++) {
+			for (i=0; i < RTF_CTABLE_DEFSIZE; i++) {
 				if (rtf_ctable[i].clr == RGB(_ttoi(szRed), _ttoi(szGreen), _ttoi(szBlue)))
 					rtf_ctable[i].index = iIndex;
 			}
@@ -681,7 +681,7 @@ void Utils::CreateColorMap(TCHAR *Text)
 int Utils::RTFColorToIndex(int iCol)
 {
 	int i = 0;
-	for (i = 0; i < RTF_CTABLE_DEFSIZE; i++) {
+	for (i=0; i < RTF_CTABLE_DEFSIZE; i++) {
 		if (rtf_ctable[i].index == iCol)
 			return i + 1;
 	}
@@ -1117,7 +1117,7 @@ void Utils::sanitizeFilename(wchar_t* tszFilename)
 	static wchar_t *forbiddenCharacters = L"%/\\':|\"<>?";
 	int    i;
 
-	for (i = 0; i < lstrlenW(forbiddenCharacters); i++) {
+	for (i=0; i < lstrlenW(forbiddenCharacters); i++) {
 		wchar_t*	szFound = 0;
 
 		while ((szFound = wcschr(tszFilename, (int)forbiddenCharacters[i])) != NULL)

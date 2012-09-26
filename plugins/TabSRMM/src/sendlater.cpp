@@ -756,7 +756,7 @@ void CSendLater::qMgrSaveColumns()
 	LVCOLUMN	col = {0};
 
 	col.mask = LVCF_WIDTH;
-	for (i = 0; i < QMGR_LIST_NRCOLUMNS; i++) {
+	for (i=0; i < QMGR_LIST_NRCOLUMNS; i++) {
 		::SendMessage(m_hwndList, LVM_GETCOLUMN, i, reinterpret_cast<LPARAM>(&col));
 		nWidths[i] = max(col.cx, 10);
 	}

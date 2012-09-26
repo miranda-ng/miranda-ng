@@ -51,23 +51,25 @@ static const UINT addControls[] 			= { IDC_ADD, IDC_CANCELADD };
 
 static const UINT errorControls[] 			= { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER};
 
-static struct _tooltips {
+static struct {
 	int id;
 	const TCHAR* text;
-} tooltips[] = {
-	IDC_ADD, _T("Add this contact permanently to your contact list"),
-	IDC_CANCELADD, _T("Do not add this contact permanently"),
-	IDC_TOGGLESIDEBAR, _T("Expand or collapse the side bar")
-	-1, NULL
+}
+tooltips[] =
+{
+	{ IDC_ADD, _T("Add this contact permanently to your contact list") },
+	{ IDC_CANCELADD, _T("Do not add this contact permanently") },
+	{ IDC_TOGGLESIDEBAR, _T("Expand or collapse the side bar") }
 };
 
-static struct _buttonicons {
+static struct {
 	int id;
 	HICON *pIcon;
-} buttonicons[] = {
-	IDC_ADD, &PluginConfig.g_buttonBarIcons[ICON_BUTTON_ADD],
-	IDC_CANCELADD, &PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL],
-	-1, NULL
+}
+buttonicons[] =
+{
+	{ IDC_ADD, &PluginConfig.g_buttonBarIcons[ICON_BUTTON_ADD] },
+	{ IDC_CANCELADD, &PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL] }
 };
 
 static void _clrMsgFilter(LPARAM lParam)
@@ -151,7 +153,7 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 		//MAD: quote mod
 		InsertMenuA(hSubMenu, 6/*5*/, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
 		InsertMenu(hSubMenu, 7/*6*/, MF_BYPOSITION | MF_POPUP, (UINT_PTR) PluginConfig.g_hMenuEncoding, TranslateT("Character Encoding"));
-		for (i = 0; i < GetMenuItemCount(PluginConfig.g_hMenuEncoding); i++)
+		for (i=0; i < GetMenuItemCount(PluginConfig.g_hMenuEncoding); i++)
 			CheckMenuItem(PluginConfig.g_hMenuEncoding, i, MF_BYPOSITION | MF_UNCHECKED);
 		if (dat->codePage == CP_ACP)
 			CheckMenuItem(PluginConfig.g_hMenuEncoding, 0, MF_BYPOSITION | MF_CHECKED);
@@ -465,7 +467,7 @@ static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 void TSAPI ShowMultipleControls(HWND hwndDlg, const UINT *controls, int cControls, int state)
 {
 	int i;
-	for (i = 0; i < cControls; i++)
+	for (i=0; i < cControls; i++)
 		Utils::showDlgControl(hwndDlg, controls[i], state);
 }
 
@@ -672,7 +674,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 				_tcsncat(toInsert, PluginConfig.m_MathModStartDelimiter, 30);
 				SendMessage(hwnd, EM_REPLACESEL, TRUE, (LPARAM)toInsert);
 				SetKeyboardState(keyState);
-				for (i = 0; i < iLen; i++)
+				for (i=0; i < iLen; i++)
 					SendMessage(hwnd, WM_KEYDOWN, mwdat->dwFlags & MWF_LOG_RTL ? VK_RIGHT : VK_LEFT, 0);
 				return 0;
 			}
@@ -1470,11 +1472,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING, 0);
 
-			for (i = 0;;i++) {
-				if (tooltips[i].id == -1)
-					break;
+			for (i=0; i < SIZEOF(tooltips); i++)
 				SendDlgItemMessage(hwndDlg, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(tooltips[i].text), 0);
-			}
+
 			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? TranslateT("Contact not on list. You may add it...") :
 						   TranslateT("Autoscrolling is disabled (press F12 to enable it)"));
 
@@ -1485,7 +1485,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			{
 				UINT _ctrls[] = {IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER};
-				for (i = 0; i < 3; i++) {
+				for (i=0; i < 3; i++) {
 					SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASPUSHBTN, TRUE, 0);
 					SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASFLATBTN, FALSE, 0);
 					SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASTHEMEDBTN, TRUE, 0);
@@ -1700,7 +1700,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				CSkin::SkinDrawBG(hwndDlg, hwndContainer, m_pContainer, &rcClient, hdcMem);
 
 
-				for (i = 0; i < 2; i++) {
+				for (i=0; i < 2; i++) {
 					item = &SkinItems[item_ids[i]];
 					if (!item->IGNORED) {
 
@@ -2421,10 +2421,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			return 0;
 		case DM_LOADBUTTONBARICONS: {
-			int i;
-			for (i = 0;;i++) {
-				if (buttonicons[i].id == -1)
-					break;
+			for (int i=0; i < SIZEOF(buttonicons); i++) {
 				SendDlgItemMessage(hwndDlg, buttonicons[i].id, BM_SETIMAGE, IMAGE_ICON, (LPARAM)*buttonicons[i].pIcon);
 				SendDlgItemMessage(hwndDlg, buttonicons[i].id, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
 			}
@@ -2610,7 +2607,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case DM_REPLAYQUEUE: {
 			int i;
 
-			for (i = 0; i < dat->iNextQueuedEvent; i++) {
+			for (i=0; i < dat->iNextQueuedEvent; i++) {
 				if (dat->hQueuedEvents[i] != 0)
 					StreamInEvents(hwndDlg, dat->hQueuedEvents[i], 1, 1, NULL);
 			}
@@ -3072,7 +3069,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						ZeroMemory((void *)&tci, sizeof(tci));
 						tci.mask = TCIF_PARAM;
 
-						for (i = 0; i < tabCount; i++) {
+						for (i=0; i < tabCount; i++) {
 							TabCtrl_GetItem(hwndTab, i, &tci);
 							// get the contact from the tabs lparam which hopefully is the tabs hwnd so we can get its userdata.... hopefully
 							contacthwnd = (HWND)tci.lParam;
@@ -3537,7 +3534,7 @@ quote_from_last:
 				HDROP hDrop = (HDROP)wParam;
 				int fileCount = DragQueryFile(hDrop, -1, NULL, 0), totalCount = 0, i;
 				TCHAR** ppFiles = NULL;
-				for (i = 0; i < fileCount; i++) {
+				for (i=0; i < fileCount; i++) {
 					DragQueryFile(hDrop, i, szFilename, SIZEOF(szFilename));
 					Utils::AddToFileList(&ppFiles, &totalCount, szFilename);
 				}
@@ -3556,7 +3553,7 @@ quote_from_last:
 						SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 					}
 				}
-				for (i = 0;ppFiles[i];i++)
+				for (i=0;ppFiles[i];i++)
 					mir_free(ppFiles[i]);
 				mir_free(ppFiles);
 			}
@@ -3725,7 +3722,7 @@ quote_from_last:
 				 */
 				SendJob *jobs = sendQueue->getJobByIndex(0);
 
-				for (i = 0; i < SendQueue::NR_SENDJOBS; i++) {
+				for (i=0; i < SendQueue::NR_SENDJOBS; i++) {
 					if (jobs[i].hOwner == dat->hContact) {
 						if (jobs[i].iStatus > (unsigned)SendQueue::SQ_INPROGRESS)
 							sendQueue->clearJob(i);

@@ -126,7 +126,7 @@ void LoadIcons(void)
 {
 	int i;
 
-	for (i = 0; i < 20; i++)
+	for (i=0; i < 20; i++)
 		hIcons[i] = NULL;
 
 	LoadLogIcons();

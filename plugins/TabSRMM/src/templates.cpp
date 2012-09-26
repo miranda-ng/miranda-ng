@@ -89,7 +89,7 @@ static void LoadTemplatesFrom(TTemplateSet *tSet, HANDLE hContact, int rtl)
 	DBVARIANT dbv = {0};
 	int i;
 
-	for (i = 0; i <= TMPL_ERRMSG; i++) {
+	for (i=0; i <= TMPL_ERRMSG; i++) {
 		if (M->GetTString(hContact, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[i], &dbv))
 			continue;
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR)
@@ -106,12 +106,12 @@ void LoadDefaultTemplates()
 	RTL_Active = RTL_Default;
 
 	if (M->GetByte(RTLTEMPLATES_MODULE, "setup", 0) < 2) {
-		for (i = 0; i <= TMPL_ERRMSG; i++)
+		for (i=0; i <= TMPL_ERRMSG; i++)
 			M->WriteTString(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], RTL_Default.szTemplates[i]);
 		M->WriteByte(RTLTEMPLATES_MODULE, "setup", 2);
 	}
 	if (M->GetByte(TEMPLATES_MODULE, "setup", 0) < 2) {
-		for (i = 0; i <= TMPL_ERRMSG; i++)
+		for (i=0; i <= TMPL_ERRMSG; i++)
 			M->WriteTString(NULL, TEMPLATES_MODULE, TemplateNames[i], LTR_Default.szTemplates[i]);
 		M->WriteByte(TEMPLATES_MODULE, "setup", 2);
 	}
@@ -184,7 +184,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_FORGET, FALSE);
-			for (i = 0; i <= TMPL_ERRMSG; i++) {
+			for (i=0; i <= TMPL_ERRMSG; i++) {
 				SendDlgItemMessageA(hwndDlg, IDC_TEMPLATELIST, LB_ADDSTRING, 0, (LPARAM)Translate(TemplateNames[i]));
 				SendDlgItemMessage(hwndDlg, IDC_TEMPLATELIST, LB_SETITEMDATA, i, (LPARAM)i);
 			}

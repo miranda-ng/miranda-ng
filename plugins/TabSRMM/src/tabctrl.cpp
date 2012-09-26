@@ -138,7 +138,7 @@ static UINT FindLeftDownItem(HWND hwnd)
 	UINT nItem = 0;
 	int i;
 
-	for (i = 0;i < nCount;i++) {
+	for (i=0;i < nCount;i++) {
 		TabCtrl_GetItemRect(hwnd, i, &rctCur);
 		if (rctCur.left > 0 && rctCur.left <= rctLeft.left) {
 			if (rctCur.bottom > rctLeft.bottom) {
@@ -1270,7 +1270,7 @@ page_done:
 			ScreenToClient(hwnd, &hti.pt);
 			hti.flags = 0;
 			hotItem = TabCtrl_HitTest(hwnd, &hti);
-			for (i = 0; i < nCount; i++) {
+			for (i=0; i < nCount; i++) {
 				TWindowData* dat = 0;
 
 				if (i != iActive) {

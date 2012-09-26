@@ -172,7 +172,7 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 					else
 						p1 = 0;
 
-					for (i = 0; i < m_iTextPatterns && !result; i++)
+					for (i=0; i < m_iTextPatterns && !result; i++)
 						result = wildmatch(m_TextPatterns[i], p) ? MATCH_TEXT : 0;
 
 					if (p1) {

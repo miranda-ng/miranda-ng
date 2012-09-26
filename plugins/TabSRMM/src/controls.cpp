@@ -815,7 +815,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					CSkin::m_switchBarItem->Render(hdcMem, &rcFrame, true);
 				}
 			}
-			for (i = 0; i < (int)nParts; i++) {
+			for (i=0; i < (int)nParts; i++) {
 				SendMessage(hWnd, SB_GETRECT, (WPARAM)i, (LPARAM)&itemRect);
 				if (!item->IGNORED && !fAero && pContainer && CSkin::m_skinEnabled)
 					CSkin::DrawItem(hdcMem, &itemRect, item);

@@ -282,14 +282,14 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			if (iSelection == ID_FONT_DEFAULTCOLOR) {
 				int i = 0;
 				cf.crTextColor = M->GetDword(FONTMODULE, "Font16Col", 0);
-				for (i = 0; i < Utils::rtf_ctable_size; i++) {
+				for (i=0; i < Utils::rtf_ctable_size; i++) {
 					if (Utils::rtf_ctable[i].clr == cf.crTextColor)
 						cf.crTextColor = RGB(GetRValue(cf.crTextColor), GetGValue(cf.crTextColor), GetBValue(cf.crTextColor) == 0 ? GetBValue(cf.crTextColor) + 1 : GetBValue(cf.crTextColor) - 1);
 				}
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				break;
 			}
-			for (i = 0; i < RTF_CTABLE_DEFSIZE; i++) {
+			for (i=0; i < RTF_CTABLE_DEFSIZE; i++) {
 				if (Utils::rtf_ctable[i].menuid == iSelection) {
 					cf.crTextColor = Utils::rtf_ctable[i].clr;
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
@@ -828,7 +828,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	 * correct the input area text color to avoid a color from the table of usable bbcode colors
 	 */
 	if (!fIsChat) {
-		for (i = 0; i < Utils::rtf_ctable_size; i++) {
+		for (i=0; i < Utils::rtf_ctable_size; i++) {
 			if (Utils::rtf_ctable[i].clr == inputcharcolor)
 				inputcharcolor = RGB(GetRValue(inputcharcolor), GetGValue(inputcharcolor), GetBValue(inputcharcolor) == 0 ? GetBValue(inputcharcolor) + 1 : GetBValue(inputcharcolor) - 1);
 		}
@@ -2411,7 +2411,7 @@ int SI_DeinitStatusIcons()
 {
 	int i;
 	DestroyHookableEvent(hHookIconPressedEvt);
-	for (i = 0; i < 3; i++)
+	for (i=0; i < 3; i++)
 		DestroyServiceFunction(SI_hServiceIcon[i]);
 	SI_RemoveAllStatusIcons();
 	return 0;

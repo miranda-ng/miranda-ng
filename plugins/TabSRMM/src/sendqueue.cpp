@@ -82,7 +82,7 @@ int SendQueue::findNextFailed(const TWindowData *dat) const
 	if (dat) {
 		int i;
 
-		for (i = 0; i < NR_SENDJOBS; i++) {
+		for (i=0; i < NR_SENDJOBS; i++) {
 			if (m_jobs[i].hOwner == dat->hContact && m_jobs[i].iStatus == SQ_ERROR)
 				return i;
 		}
@@ -119,7 +119,7 @@ int SendQueue::addTo(TWindowData *dat, const int iLen, int dwFlags)
 	/*
 	 * find a free entry in the send queue...
 	 */
-	for (i = 0; i < NR_SENDJOBS; i++) {
+	for (i=0; i < NR_SENDJOBS; i++) {
 		if (m_jobs[i].hOwner != 0 || m_jobs[i].iStatus != 0) {
 			// this entry is used, check if it's orphaned and can be removed...
 			if (m_jobs[i].hwndOwner && IsWindow(m_jobs[i].hwndOwner))           // window exists, do not reuse it
@@ -630,7 +630,7 @@ void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 		dat->hTabIcon = dat->hTabStatusIcon;
 	}
 
-	for (i = 0; i < 5; i++) {
+	for (i=0; i < 5; i++) {
 		if (IsWindow(GetDlgItem(hwndDlg, myerrorControls[i])))
 			Utils::showDlgControl(hwndDlg, myerrorControls[i], showCmd ? SW_SHOW : SW_HIDE);
 	}
@@ -738,7 +738,7 @@ int SendQueue::RTL_Detect(const WCHAR *pszwText)
 
 		GetStringTypeW(CT_CTYPE2, pszwText, iLen, infoTypeC2);
 
-		for (i = 0; i < iLen; i++) {
+		for (i=0; i < iLen; i++) {
 			if (infoTypeC2[i] == C2_RIGHTTOLEFT)
 				n++;
 		}

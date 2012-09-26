@@ -317,7 +317,7 @@ static void FillBranch(HWND hwndTree, HTREEITEM hParent, struct branch_t *branch
 	tvis.hParent = hParent;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_TEXT | TVIF_STATE;
-	for (i = 0;i < nValues;i++) {
+	for (i=0;i < nValues;i++) {
 		tvis.item.pszText = TranslateTS(branch[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		if (branch[i].iMode)
@@ -337,7 +337,7 @@ static void SaveBranch(HWND hwndTree, struct branch_t *branch, int nValues)
 	int iState = 0;
 
 	tvi.mask = TVIF_HANDLE | TVIF_STATE;
-	for (i = 0;i < nValues;i++) {
+	for (i=0;i < nValues;i++) {
 		tvi.hItem = branch[i].hItem;
 		TreeView_GetItem(hwndTree, &tvi);
 		bChecked = ((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2) ? 0 : 1;
@@ -422,7 +422,7 @@ static void LoadLogFonts(void)
 {
 	int i;
 
-	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
+	for (i=0; i < OPTIONS_FONTCOUNT; i++)
 		LoadMsgDlgFont(FONTSECTION_CHAT, i, &aFonts[i].lf, &aFonts[i].color, CHAT_FONTMODULE);
 }
 
@@ -703,7 +703,7 @@ void RegisterFontServiceFonts() {
 
 	strncpy(fid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 
-	for (i = 0; i < SIZEOF(IM_fontOptionsList); i++) {
+	for (i=0; i < SIZEOF(IM_fontOptionsList); i++) {
 		fid.flags = FIDF_DEFAULTVALID|FIDF_ALLOWEFFECTS;
 		LoadMsgDlgFont(FONTSECTION_IM, i , &lf, &fontOptionsList[i].colour, FONTMODULE);
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
@@ -794,7 +794,7 @@ void RegisterFontServiceFonts() {
 	fid.flags&=~FIDF_SAVEPOINTSIZE;
 	_tcsncpy(fid.group, _T("TabSRMM/Group Chats"), SIZEOF(fid.group));
 	strncpy(fid.dbSettingsGroup, CHAT_FONTMODULE, SIZEOF(fid.dbSettingsGroup));
-	for (i = 0; i < msgDlgFontCount; i++) {
+	for (i=0; i < msgDlgFontCount; i++) {
 		LoadMsgDlgFont(FONTSECTION_CHAT, i , &lf, &fontOptionsList[i].colour, CHAT_FONTMODULE);
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
 		strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
@@ -815,7 +815,7 @@ void RegisterFontServiceFonts() {
 
 	_tcsncpy(cid.group, _T("TabSRMM/Group Chats"), SIZEOF(cid.group));
 	strncpy(cid.dbSettingsGroup, "Chat", SIZEOF(cid.dbSettingsGroup));
-	for (i = 0; i <= 7; i++) {
+	for (i=0; i <= 7; i++) {
 		mir_snprintf(szTemp, SIZEOF(szTemp), "NickColor%d", i);
 		_tcsncpy(cid.name, chatcolorsnames[i], SIZEOF(cid.name));
 		cid.order=i+1;
@@ -845,7 +845,7 @@ void RegisterFontServiceFonts() {
 	strncpy(fid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 	strncpy(cid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 
-	for (i = 0; i < (sizeof(_clrs) / sizeof(_clrs[0])); i++) {
+	for (i=0; i < (sizeof(_clrs) / sizeof(_clrs[0])); i++) {
 		cid.order = _clrs[i].order;
 		_tcsncpy(cid.group, _clrs[i].tszGroup, SIZEOF(fid.group));
 	 	_tcsncpy(cid.name, _clrs[i].tszName, SIZEOF(cid.name));
@@ -862,7 +862,7 @@ void RegisterFontServiceFonts() {
 	/*
 	 * text and background colors for tabs
 	 */
-	for (i = 0; i < (sizeof(_tabclrs) / sizeof(_tabclrs[0])); i++) {
+	for (i=0; i < (sizeof(_tabclrs) / sizeof(_tabclrs[0])); i++) {
 		cid.order = _tabclrs[i].order;
 		_tcsncpy(cid.group, _tabclrs[i].tszGroup, SIZEOF(fid.group));
 	 	_tcsncpy(cid.name, _tabclrs[i].tszName, SIZEOF(cid.name));
@@ -1409,7 +1409,7 @@ void LoadGlobalSettings(void)
 	ih2 = GetTextPixelSize(_T("AQGglo"), g_Settings.UserListHeadingsFont, FALSE);
 	g_Settings.iNickListFontHeight = max(M->GetByte("Chat", "NicklistRowDist", 12), (ih > ih2 ? ih : ih2));
 
-	for (i = 0; i < 7; i++) {
+	for (i=0; i < 7; i++) {
 		mir_snprintf(szBuf, 20, "NickColor%d", i);
 		g_Settings.nickColors[i] = M->GetDword("Chat", szBuf, g_Settings.crUserListColor);
 	}

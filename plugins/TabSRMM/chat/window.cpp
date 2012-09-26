@@ -729,7 +729,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				_tcsncat(toInsert, PluginConfig.m_MathModStartDelimiter, 30);
 				SendMessage(hwnd, EM_REPLACESEL, TRUE, (LPARAM)toInsert);
 				SetKeyboardState(keyState);
-				for (i = 0; i < iLen; i++)
+				for (i=0; i < iLen; i++)
 					SendMessage(hwnd, WM_KEYDOWN, mwdat->dwFlags & MWF_LOG_RTL ? VK_RIGHT : VK_LEFT, 0);
 				return 0;
 			}
@@ -1224,7 +1224,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				UINT result;
 				DWORD dwMask = 0, dwFlags = 0;
 
-				for (i = 0; _eventorder[i]; i++) {
+				for (i=0; _eventorder[i]; i++) {
 					result = IsDlgButtonChecked(hwndDlg, IDC_1 + i);
 					dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
 					iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
@@ -1245,7 +1245,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 				dwMask = iFlags = 0;
 
-				for (i = 0; _eventorder[i]; i++) {
+				for (i=0; _eventorder[i]; i++) {
 					result = IsDlgButtonChecked(hwndDlg, IDC_P1 + i);
 					dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
 					iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
@@ -1266,7 +1266,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 				dwMask = iFlags = 0;
 
-				for (i = 0; _eventorder[i]; i++) {
+				for (i=0; _eventorder[i]; i++) {
 					result = IsDlgButtonChecked(hwndDlg, IDC_T1 + i);
 					dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
 					iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
@@ -1664,7 +1664,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					* string we have
 					*/
 
-					for (i = 0; i < iItems; i++) {
+					for (i=0; i < iItems; i++) {
 						ui = UM_FindUserFromIndex(si->pUsers, i);
 						if (ui) {
 							if (!_tcsnicmp(ui->pszNick, si->szSearch, lstrlen(si->szSearch))) {
@@ -1788,7 +1788,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 										USERINFO *ui1 = NULL;
 										int i;
 
-										for (i = 0; i < iSelectedItems; i++) {
+										for (i=0; i < iSelectedItems; i++) {
 											ui1 = SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, pItems[i]);
 											if (ui1)
 												DoEventHookAsync(hwndParent, parentdat->ptszID, parentdat->pszModule, GC_USER_NICKLISTMENU, ui1->pszUID, NULL, (LPARAM)uID);
@@ -3409,7 +3409,7 @@ LABEL_SHOWWINDOW:
 
 			if (CSkin::m_skinEnabled && !fAero) {
 				CSkin::SkinDrawBG(hwndDlg, dat->pContainer->hwnd, dat->pContainer, &rcClient, hdcMem);
-				for (i = 0; i < 3; i++) {
+				for (i=0; i < 3; i++) {
 					item = &SkinItems[item_ids[i]];
 					if (!item->IGNORED) {
 

@@ -72,7 +72,7 @@ BOOL TSAPI IsStatusEvent(int eventType)
 	if (g_status_events_size == 0)
 		g_status_events_size = MAX_REGS(g_status_events);
 
-	for (i = 0; i < g_status_events_size; i++) {
+	for (i=0; i < g_status_events_size; i++) {
 		if (eventType == g_status_events[i])
 			return TRUE;
 	}
@@ -1579,7 +1579,7 @@ void TSAPI GetSendFormat(TWindowData *dat, int mode)
 		else if (dat->SendFormat == 0)
 			dat->SendFormat = PluginConfig.m_SendFormat ? 1 : 0;
 	}
-	for (i = 0; i < 5; i++)
+	for (i=0; i < 5; i++)
 		Utils::enableDlgControl(dat->hwnd, controls[i], dat->SendFormat != 0 ? TRUE : FALSE);
 	return;
 }

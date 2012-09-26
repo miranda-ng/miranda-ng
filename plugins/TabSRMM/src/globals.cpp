@@ -381,7 +381,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Skin->Init(true);
 	CSkin::initAeroEffect();
 
-	for (i = 0; i < NR_BUTTONBARICONS; i++)
+	for (i=0; i < NR_BUTTONBARICONS; i++)
 		PluginConfig.g_buttonBarIcons[i] = 0;
 	::LoadIconTheme();
 	::CreateImageList(TRUE);
@@ -390,7 +390,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mii.fMask = MIIM_BITMAP;
 	mii.hbmpItem = HBMMENU_CALLBACK;
 	submenu = GetSubMenu(PluginConfig.g_hMenuContext, 7);
-	for (i = 0; i <= 8; i++)
+	for (i=0; i <= 8; i++)
 		SetMenuItemInfoA(submenu, (UINT_PTR)i, TRUE, &mii);
 
 	PluginConfig.reloadSystemModulesChanged();
@@ -618,7 +618,7 @@ int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
 		}
 
-		for (i = 0; i < SERVICE_LAST; i++) {
+		for (i=0; i < SERVICE_LAST; i++) {
 			if (PluginConfig.hSvc[i])
 				DestroyServiceFunction(PluginConfig.hSvc[i]);
 		}

@@ -689,7 +689,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			LRESULT r = SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_GETCURSEL, 0, 0);
 			Utils::showDlgControl(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
 			Utils::showDlgControl(hwndDlg, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
-			for (i = 0; i < safe_sizeof(__ctrls); i++)
+			for (i=0; i < safe_sizeof(__ctrls); i++)
 				Utils::enableDlgControl(hwndDlg, __ctrls[i], r == 0 ? TRUE : FALSE);
 			return 0;
 		}
@@ -850,7 +850,7 @@ static void ResetCList(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP) NULL);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT, 10, 0);
-	for (i = 0; i <= FONTID_MAX; i++)
+	for (i=0; i <= FONTID_MAX; i++)
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
@@ -1512,7 +1512,7 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 
 			TranslateDialogDefault(hwndDlg);
 
-			for (i = 0; i < SIZEOF(opts); ++i)
+			for (i=0; i < SIZEOF(opts); ++i)
 				OptCheckBox_Load(hwndDlg, opts+i);
 
 			// Always on!
@@ -1605,7 +1605,7 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 						case PSN_APPLY:
 						{
 							int i;
-							for (i = 0; i < SIZEOF(opts); ++i)
+							for (i=0; i < SIZEOF(opts); ++i)
 								OptCheckBox_Save(hwndDlg, opts+i);
 
 							if (IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT))
