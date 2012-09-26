@@ -1,5 +1,4 @@
 #include "skype.h"
-#include "version.h"
 #include "skype_proto.h"
 
 int hLangpack;
@@ -10,13 +9,13 @@ Skype* g_skype;
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
-	"Skype Plugin",
-	PLUGIN_MAKE_VERSION(0,1,0,0),
-	"Provides basic support for Skype protocol.",
-	"unsane",
-	"",
-	"© 2012 unsane",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {9C448C61-FC3F-42F9-B9F0-4A30E1CF8671}
 	{ 0x9c448c61, 0xfc3f, 0x42f9, { 0xb9, 0xf0, 0x4a, 0x30, 0xe1, 0xcf, 0x86, 0x71 } }

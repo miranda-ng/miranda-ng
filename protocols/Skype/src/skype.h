@@ -3,7 +3,6 @@
 #define MIRANDA_VER 0x0A00
 
 #include <windows.h>
-#include <win2k.h>
 
 //#pragma warning(push)
 //#	pragma warning(disable:4312)
@@ -38,8 +37,10 @@
 #include <m_system_cpp.h>
 //#include <m_hotkeys.h>
 //#pragma warning(pop)
+#include <win2k.h>
 
 #include "resource.h"
+#include "version.h"
 
 extern HINSTANCE g_hInstance;
 
