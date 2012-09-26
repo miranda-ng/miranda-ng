@@ -1,0 +1,47 @@
+-$A8
+-$B-
+-$C+
+-$D+
+-$E-
+-$F-
+-$G+
+-$H+
+-$I-
+-$J+
+-$K-
+-$L+
+-$M-
+-$N+
+-$O-
+-$P+
+-$Q-
+-$R-
+-$S-
+-$T-
+-$U-
+-$V+
+-$W-
+-$X+
+-$YD
+-$Z1
+-cg
+-vn
+-vr
+-AWinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+-H+
+-W+
+-M
+-$M16384,1048576
+-K$00400000
+-E"..\..\Testing\IMEServices\IMEClient2\Plugins"
+-N".\dcu"
+-LE"c:\program files\borland\delphi7\Projects\Bpl"
+-LN"c:\program files\borland\delphi7\Projects\Bpl"
+-U"c:\program files\borland\delphi7\Lib\Debug;.\MirandaINC;..\lib\FastMM4;..\lib\PNGImage;..\lib\TntUnicodeControls\Source"
+-O"c:\program files\borland\delphi7\Lib\Debug;.\MirandaINC;..\lib\FastMM4;..\lib\PNGImage;..\lib\TntUnicodeControls\Source"
+-I"c:\program files\borland\delphi7\Lib\Debug;.\MirandaINC;..\lib\FastMM4;..\lib\PNGImage;..\lib\TntUnicodeControls\Source"
+-R"c:\program files\borland\delphi7\Lib\Debug;.\MirandaINC;..\lib\FastMM4;..\lib\PNGImage;..\lib\TntUnicodeControls\Source"
+-DMIRANDA;xFASTMM4;xDEBUG_LOG
+-w-UNSAFE_TYPE
+-w-UNSAFE_CODE
+-w-UNSAFE_CAST
