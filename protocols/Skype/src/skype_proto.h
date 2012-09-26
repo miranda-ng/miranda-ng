@@ -72,4 +72,6 @@ protected:
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam);
 	void CreateProtoService(const char* szService, SkypeServiceFunc serviceProc);
+
+	static INT_PTR CALLBACK SkypeAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 };

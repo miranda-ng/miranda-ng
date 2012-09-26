@@ -7,6 +7,9 @@
     <ClCompile Include="src\skype_proto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="skype_dialogs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -19,7 +22,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\skype_proto.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
