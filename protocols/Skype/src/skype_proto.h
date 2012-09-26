@@ -1,5 +1,10 @@
+#pragma once
+
+#include "skype.h"
+
 struct CSkypeProto;
-typedef INT_PTR (__cdecl CSkypeProto::*ServiceFunc)(WPARAM, LPARAM);
+
+typedef INT_PTR (__cdecl CSkypeProto::*SkypeServiceFunc)(WPARAM, LPARAM);
 
 struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
 {
@@ -55,8 +60,16 @@ public:
 
 	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
 
-	HANDLE m_hNetlibUser;
+	char* ModuleName();
+	bool IsOffline();
 
+protected:
+	bool isOffline;
+	Account::Ref account;
+
+	HANDLE hNetlibUser;
 	void Log( const char* fmt, ... );
-	void   CreateProtoService(const char* szService, ServiceFunc serviceProc);
+
+	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam);
+	void CreateProtoService(const char* szService, SkypeServiceFunc serviceProc);
 };
