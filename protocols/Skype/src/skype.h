@@ -1,11 +1,7 @@
-#pragma once
-
 #define MIRANDA_VER 0x0A00
 
 #include <windows.h>
 
-#pragma warning(push)
-#	pragma warning(disable:4312)
 #include <newpluginapi.h>
 #include <m_avatars.h>
 #include <m_button.h>
@@ -36,7 +32,9 @@
 #include <m_system_cpp.h>
 #include <m_hotkeys.h>
 #include <win2k.h>
-#pragma warning(pop)
+
+#include "version.h"
+#include "skype_proto.h"
 
 // skype
 

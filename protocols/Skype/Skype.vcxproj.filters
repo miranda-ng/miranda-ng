@@ -15,25 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="skype.h">
+    <ClInclude Include="src\skype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="skype_proto.h">
+    <ClInclude Include="src\skype_proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="skype_proto.cpp">
+    <ClCompile Include="src\skype_proto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="skype.cpp">
+    <ClCompile Include="src\skype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-#include "skype_proto.h"
+#include "skype.h"
 
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 {
