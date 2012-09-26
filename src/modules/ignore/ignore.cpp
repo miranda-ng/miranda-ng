@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2009 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -143,7 +143,7 @@ static void InitialiseItem(HWND hwndList, HANDLE hContact, HANDLE hItem, DWORD p
 {
 	DWORD mask;
 	int i;
-	
+
 	mask = GetMask(hContact);
 	for (i=0;i<IGNOREEVENT_MAX;i++)
 		if ((ignoreIdToPf1[i] == 0xFFFFFFFF && ignoreIdToPf4[i] == 0xFFFFFFFF) || (proto1Caps&ignoreIdToPf1[i] || proto4Caps&ignoreIdToPf4[i]))
@@ -418,10 +418,8 @@ static int IgnoreAddedNotify(WPARAM, LPARAM lParam)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO*)lParam;
 	if (dbei && dbei->eventType == EVENTTYPE_ADDED && dbei->pBlob != NULL) {
-		HANDLE hContact;
-		
-		hContact = *((PHANDLE)(dbei->pBlob+sizeof(DWORD)));
-		if (CallService(MS_DB_CONTACT_IS, (WPARAM)hContact, 0) && IsIgnored((WPARAM)hContact, IGNOREEVENT_YOUWEREADDED)) 
+		HANDLE hContact = DbGetAuthEventContact(dbei);
+		if (CallService(MS_DB_CONTACT_IS, (WPARAM)hContact, 0) && IsIgnored((WPARAM)hContact, IGNOREEVENT_YOUWEREADDED))
 			return 1;
 	}
 	return 0;
@@ -429,9 +427,9 @@ static int IgnoreAddedNotify(WPARAM, LPARAM lParam)
 
 static int IgnoreModernOptInit(WPARAM wParam, LPARAM)
 {
-	static int iBoldControls[] = 
+	static int iBoldControls[] =
 	{
-		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3, 
+		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3,
 		MODERNOPT_CTRL_LAST
 	};
 
@@ -460,7 +458,7 @@ int LoadIgnoreModule(void)
 
 	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact != NULL) {
-		if ( !CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)"Ignore")) 
+		if ( !CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)"Ignore"))
 			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)"Ignore");
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 	}

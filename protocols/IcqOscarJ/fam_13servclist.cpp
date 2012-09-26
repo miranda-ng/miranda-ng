@@ -374,7 +374,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 {
 	switch (sc->dwAction)
 	{
-	case SSA_VISIBILITY: 
+	case SSA_VISIBILITY:
 		{
 			if (wError)
 				NetLog_Server("Server visibility update failed, error %d", wError);
@@ -390,7 +390,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			}
 			break;
 		}
-	case SSA_PRIVACY_ADD: 
+	case SSA_PRIVACY_ADD:
 		{
 			if (wError)
 			{
@@ -399,7 +399,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			}
 			break;
 		}
-	case SSA_PRIVACY_REMOVE: 
+	case SSA_PRIVACY_REMOVE:
 		{
 			if (wError)
 			{
@@ -520,7 +520,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 				setSettingWord(sc->hContact, DBSETTING_SERVLIST_ID, 0); // clear the values
 				setSettingWord(sc->hContact, DBSETTING_SERVLIST_GROUP, 0);
 
-				FreeServerID(sc->wContactId, SSIT_ITEM); 
+				FreeServerID(sc->wContactId, SSIT_ITEM);
 
 				servlistPendingRemoveContact(sc->hContact, 0, sc->wGroupId, PENDING_RESULT_SUCCESS);
 
@@ -703,7 +703,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 				servlistPendingRemoveGroup(sc->szGroup, sc->wGroupId, PENDING_RESULT_FAILED);
 			}
 			else
-			{ 
+			{
 				setServListGroupName(sc->wGroupId, sc->szGroupName);
 				removeGroupPathLinks(sc->wGroupId);
 				{ // add group to known
@@ -955,7 +955,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 							szLocalGroup = null_strdup(DEFAULT_SS_GROUP);
 						}
 
-						if (strcmpnull(szActiveSrvGroup, szLocalGroup) && 
+						if (strcmpnull(szActiveSrvGroup, szLocalGroup) &&
 							(strlennull(szActiveSrvGroup) >= strlennull(szLocalGroup) || _strnicmp(szActiveSrvGroup, szLocalGroup, strlennull(szLocalGroup))))
 						{ // contact moved to new group or sub-group or not to master group
 							bRegroup = 1;
@@ -1264,7 +1264,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 			}
 			break;
 
-		case SSI_ITEM_IGNORE: 
+		case SSI_ITEM_IGNORE:
 			{
 				/* item on ignore list */
 				/* wItemId not related to contact ID */
@@ -1430,7 +1430,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 		{ // we got empty serv-list, create master group
 			cookie_servlist_action* ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
 			if (ack)
-			{ 
+			{
 				DWORD dwCookie;
 
 				ack->dwAction = SSA_GROUP_UPDATE;
@@ -1440,7 +1440,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 			}
 		}
 		// serv-list sync finished, clear just added contacts
-		FlushJustAddedContacts(); 
+		FlushJustAddedContacts();
 	}
 	else
 	{
@@ -1453,7 +1453,7 @@ void CIcqProto::handleServerCListItemAdd(const char *szRecordName, WORD wGroupId
 {
 	if (wItemType == SSI_ITEM_IMPORTTIME)
 	{
-		if (pItemData) 
+		if (pItemData)
 		{
 			setSettingDword(NULL, "ImportTS", pItemData->getDWord(SSI_TLV_TIMESTAMP, 1));
 			setSettingWord(NULL, "SrvImportID", wItemId);
@@ -1475,7 +1475,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 
 	if (hContact != INVALID_HANDLE_VALUE && wItemType == SSI_ITEM_BUDDY)
 	{ // a contact was updated on server
-		if (pItemData) 
+		if (pItemData)
 		{
 			oscar_tlv* pAuth = pItemData->getTLV(SSI_TLV_AWAITING_AUTH, 1);
 			BYTE bAuth = getSettingByte(hContact, "Auth", 0);
@@ -1653,7 +1653,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 		nReasonLen = strlennull(szReason);
 
 		char *temp = (char*)_alloca(nReasonLen + 2);
-		if (!IsUSASCII(szReason, nReasonLen) && UTF8_IsValid(szReason) && utf8_decode_static(szReason, temp, nReasonLen + 1)) 
+		if (!IsUSASCII(szReason, nReasonLen) && UTF8_IsValid(szReason) && utf8_decode_static(szReason, temp, nReasonLen + 1))
 			pre.flags |= PREF_UTF;
 	}
 	// Read nick name from DB
@@ -1682,7 +1682,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 	char *pCurBlob = szBlob;
 	memcpy(pCurBlob, &dwUin, sizeof(DWORD)); pCurBlob += sizeof(DWORD);
 	memcpy(pCurBlob, &hContact, sizeof(HANDLE)); pCurBlob += sizeof(HANDLE);
-	if (nNickLen) 
+	if (nNickLen)
 	{ // if we have nick we add it, otherwise keep trailing zero
 		memcpy(pCurBlob, szNick, nNickLen);
 		pCurBlob += nNickLen;
@@ -1729,7 +1729,7 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, WORD wLen)
 
 	HANDLE hContact = HContactFromUID(dwUin, szUid, &bAdded);
 
-	cbBlob=sizeof(DWORD)+sizeof(HANDLE)+4;
+	cbBlob=sizeof(DWORD)*2+4;
 
 	if (dwUin)
 	{
@@ -1748,9 +1748,9 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, WORD wLen)
 
 	pCurBlob=pBlob=(PBYTE)_alloca(cbBlob);
 	/*blob is: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ) */
-	memcpy(pCurBlob,&dwUin,sizeof(DWORD)); pCurBlob+=sizeof(DWORD);
-	memcpy(pCurBlob,&hContact,sizeof(HANDLE)); pCurBlob+=sizeof(HANDLE);
-	if (nNickLen && dwUin) 
+	*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
+	*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
+	if (nNickLen && dwUin)
 	{ // if we have nick we add it, otherwise keep trailing zero
 		memcpy(pCurBlob, szNick, nNickLen);
 		pCurBlob+=nNickLen;
@@ -1879,7 +1879,7 @@ void CIcqProto::updateServVisibilityCode(BYTE bCode)
 		}
 
 		ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
-		if (!ack) 
+		if (!ack)
 		{
 			NetLog_Server("Cookie alloc failure.");
 			return; // out of memory, go away
@@ -1942,7 +1942,7 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 		if (wAvatarID = getSettingWord(NULL, DBSETTING_SERVLIST_AVATAR, 0))
 		{
 			ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
-			if (!ack) 
+			if (!ack)
 			{
 				NetLog_Server("Cookie alloc failure.");
 				return; // out of memory, go away
@@ -1982,7 +1982,7 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 		}
 
 		ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
-		if (!ack) 
+		if (!ack)
 		{
 			NetLog_Server("Cookie alloc failure.");
 			return; // out of memory, go away
@@ -2037,7 +2037,7 @@ void CIcqProto::icq_sendServerBeginOperation(int bImport)
 
 	serverPacketInit(&packet, (WORD)(bImport?14:10));
 	packFNACHeader(&packet, ICQ_LISTS_FAMILY, ICQ_LISTS_CLI_MODIFYSTART);
-	if (bImport) packDWord(&packet, 1<<0x10); 
+	if (bImport) packDWord(&packet, 1<<0x10);
 	sendServPacket(&packet);
 }
 

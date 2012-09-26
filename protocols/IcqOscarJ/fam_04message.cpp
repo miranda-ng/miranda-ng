@@ -417,7 +417,7 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 		else
 			NetLog_Server("Failed to read TLV chain in message (format 1)");
 	}
-	else 
+	else
 		NetLog_Server("Unsupported TLV (%u) in message (format %u)", wTLVType, 1);
 
 	SAFE_FREE((void**)&pMsgTLV);
@@ -1117,7 +1117,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 
 						SAFE_FREE(&szUid);
 					}
-					else 
+					else
 					{
 						if (wContactsGroup) valid = 0;
 						break;
@@ -1188,7 +1188,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 							iContact++;
 							if (iContact >= nContacts) break;
 						}
-						else 
+						else
 							break;
 
 						wContactsGroup--;
@@ -1463,7 +1463,7 @@ int CIcqProto::unpackPluginTypeId(BYTE **pBuffer, WORD *pwLen, int *pTypeId, WOR
 	DWORD q1,q2,q3,q4;
 	WORD qt;
 
-	if (wLen < 24) 
+	if (wLen < 24)
 		return 0; // Failure
 
 	unpackLEWord(pBuffer, &wInfoLen);
@@ -1592,7 +1592,7 @@ void packPluginTypeId(icq_packet *packet, int nTypeID)
 		packDWord(packet, 0x00000000);
 		packDWord(packet, 0x00000000);
 		packDWord(packet, 0x00000000);
-		packByte(packet, 0x00);       
+		packByte(packet, 0x00);
 
 		break;
 
@@ -1610,7 +1610,7 @@ void packPluginTypeId(icq_packet *packet, int nTypeID)
 		packDWord(packet, 0x00000000);
 		packDWord(packet, 0x00000000);
 		packDWord(packet, 0x00000000);
-		packByte(packet, 0x00);       
+		packByte(packet, 0x00);
 
 		break;
 
@@ -1627,7 +1627,7 @@ void packPluginTypeId(icq_packet *packet, int nTypeID)
 		packDWord(packet, 0x00000000);
 		packDWord(packet, 0x00000000);
 		packDWord(packet, 0x00000000);
-		packByte(packet, 0x00);       
+		packByte(packet, 0x00);
 
 		break;
 	}
@@ -1752,7 +1752,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 	}
 
 	char *szMsg = (char *)SAFE_MALLOC(wMsgLen + 1);
-	if (wMsgLen > 0) 
+	if (wMsgLen > 0)
 	{
 		memcpy(szMsg, pMsg, wMsgLen);
 		pMsg += wMsgLen;
@@ -1956,16 +1956,16 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			hContact = HContactFromUIN(dwUin, &bAdded);
 
 			/*blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ) */
-			cbBlob=sizeof(DWORD)+sizeof(HANDLE)+strlennull(pszMsgField[0])+strlennull(pszMsgField[1])+strlennull(pszMsgField[2])+strlennull(pszMsgField[3])+4;
+			cbBlob=sizeof(DWORD)*2+strlennull(pszMsgField[0])+strlennull(pszMsgField[1])+strlennull(pszMsgField[2])+strlennull(pszMsgField[3])+4;
 			pCurBlob=pBlob=(PBYTE)_alloca(cbBlob);
-			memcpy(pCurBlob,&dwUin,sizeof(DWORD)); pCurBlob+=sizeof(DWORD);
-			memcpy(pCurBlob,&hContact,sizeof(HANDLE)); pCurBlob+=sizeof(HANDLE);
-			strcpy((char *)pCurBlob,pszMsgField[0]); pCurBlob+=strlennull((char *)pCurBlob)+1;
-			strcpy((char *)pCurBlob,pszMsgField[1]); pCurBlob+=strlennull((char *)pCurBlob)+1;
-			strcpy((char *)pCurBlob,pszMsgField[2]); pCurBlob+=strlennull((char *)pCurBlob)+1;
+			*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
+			*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
+			strcpy((char *)pCurBlob,pszMsgField[0]); pCurBlob += strlennull((char *)pCurBlob)+1;
+			strcpy((char *)pCurBlob,pszMsgField[1]); pCurBlob += strlennull((char *)pCurBlob)+1;
+			strcpy((char *)pCurBlob,pszMsgField[2]); pCurBlob += strlennull((char *)pCurBlob)+1;
 			strcpy((char *)pCurBlob,pszMsgField[3]);
 
-			AddEvent(NULL, EVENTTYPE_ADDED, dwTimestamp, 0, cbBlob, pBlob); 
+			AddEvent(NULL, EVENTTYPE_ADDED, dwTimestamp, 0, cbBlob, pBlob);
 		}
 		break;
 
@@ -2152,10 +2152,10 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			char **szMsg = MirandaStatusToAwayMsg(AwayMsgTypeToStatus(type));
 			if (szMsg)
 			{
-				struct rates_status_message_response: public rates_queue_item 
+				struct rates_status_message_response: public rates_queue_item
 				{
 				protected:
-					virtual rates_queue_item* copyItem(rates_queue_item *aDest = NULL) 
+					virtual rates_queue_item* copyItem(rates_queue_item *aDest = NULL)
 					{
 						rates_status_message_response *pDest = (rates_status_message_response*)aDest;
 						if (!pDest)
@@ -2174,10 +2174,10 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 					rates_status_message_response(CIcqProto *ppro, WORD wGroup): rates_queue_item(ppro, wGroup) { };
 					virtual ~rates_status_message_response() { };
 
-					virtual void execute() 
+					virtual void execute()
 					{
 						char **pszMsg = ppro->MirandaStatusToAwayMsg(AwayMsgTypeToStatus(nMsgType));
-						if (bExtended) 
+						if (bExtended)
 							ppro->icq_sendAwayMsgReplyServExt(dwUin, szUid, dwMsgID1, dwMsgID2, wCookie, wVersion, nMsgType, pszMsg);
 						else if (dwUin)
 							ppro->icq_sendAwayMsgReplyServ(dwUin, dwMsgID1, dwMsgID2, wCookie, wVersion, (BYTE)nMsgType, pszMsg);
@@ -2284,7 +2284,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 		unpackLEWord(&buf, &wLength);
 		wLen -= 2;
 	}
-	else 
+	else
 		wLength = 0;
 
 	if (wLength == 0x1b && pCookieData->bMessageType != MTYPE_REVERSE_REQUEST)
@@ -2386,7 +2386,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 				wLen -= 2;
 				szMsg = (char *)_alloca(wMsgLen + 1);
 				szMsg[wMsgLen] = '\0';
-				if (wMsgLen > 0) 
+				if (wMsgLen > 0)
 				{
 					memcpy(szMsg, buf, wMsgLen);
 					buf += wMsgLen;
@@ -2424,7 +2424,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 				wLen -= wMsgLen;
 
 				// This packet is malformed. Possibly a file accept from Miranda IM 0.1.2.1
-				if (wLen < 20) 
+				if (wLen < 20)
 				{
 					ReleaseCookie(dwCookie);
 					return;
@@ -2645,7 +2645,7 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD 
 			break;
 
 		case 0x0004:     // Recipient is not logged in (resend in a offline message)
-			if (pCookieData->bMessageType == MTYPE_PLAIN) 
+			if (pCookieData->bMessageType == MTYPE_PLAIN)
 			{
 				if (pCookieData->isOffline)
 				{ // offline failed - most probably to AIM contact
@@ -2915,7 +2915,7 @@ void CIcqProto::handleOffineMessagesReply(BYTE *buf, WORD wLen, WORD wFlags, DWO
 		NetLog_Server("End of offline msgs, %u received", cookie->nMessages);
 		if (cookie->nMissed)
 		{	// NASTY WORKAROUND!!
-			// The ICQ server has a bug that causes offline messages to be received again and again when some 
+			// The ICQ server has a bug that causes offline messages to be received again and again when some
 			// missed message notification is present (most probably it is not processed correctly and causes
 			// the server to fail the purging process); try to purge them using the old offline messages
 			// protocol.  2008/05/21
