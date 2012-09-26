@@ -89,6 +89,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
       <AdditionalDependencies>$(SolutionDir)..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\build\skypekit-cyassl_lib.lib;$(SolutionDir)..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\build\skypekit-cppwrapper_2_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
