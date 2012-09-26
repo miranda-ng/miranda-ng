@@ -714,8 +714,8 @@ var
 begin
   // blob is: uin(DWORD), hContact(THANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
   uin := PDWord(EventInfo.pBlob)^;
-  hContact := PInt_ptr(int_ptr(Pointer(EventInfo.pBlob)) + SizeOf(dword))^;
-  BytePos := SizeOf(dword) + SizeOf(THandle); // !!
+  hContact := PDWord(PDWord(Pointer(EventInfo.pBlob)) + SizeOf(dword))^;
+  BytePos := SizeOf(dword)*2;
   // read nick
   ReadStringTillZeroA(Pointer(EventInfo.pBlob), EventInfo.cbBlob, Nick, BytePos);
   if Nick = '' then
