@@ -7,7 +7,7 @@
     <ClCompile Include="src\skype_proto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="skype_dialogs.cpp">
+    <ClCompile Include="src\skype_dialogs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -27,9 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Resource.rc">
-      <Filter>Resource Filess</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="Skype.rc">
       <Filter>Resource Filess</Filter>
     </ResourceCompile>
     <ResourceCompile Include="res\Version.rc">

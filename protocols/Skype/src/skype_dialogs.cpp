@@ -1,4 +1,4 @@
-#include "src\skype_proto.h"
+#include "skype_proto.h"
 
 INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
