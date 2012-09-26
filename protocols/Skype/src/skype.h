@@ -22,6 +22,7 @@
 #include <m_protocols.h>
 #include <m_protomod.h>
 #include <m_protosvc.h>
+#include <m_protoint.h>
 #include <m_skin.h>
 #include <statusmodes.h>
 #include <m_system.h>

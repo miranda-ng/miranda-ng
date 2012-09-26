@@ -44,3 +44,11 @@ void CSkypeProto::Log( const char* fmt, ... )
 
 	CallService(MS_NETLIB_LOG, ( WPARAM )m_hNetlibUser, (LPARAM)msg);
 }
+
+void CSkypeProto::CreateProtoService(const char *szService, ServiceFunc serviceProc)
+{
+	char str[ MAXMODULELABELLENGTH ];
+	strcpy( str, m_szModuleName );
+	strcat( str, szService );
+	::CreateServiceFunctionObj( str, ( MIRANDASERVICEOBJ )*( void** )&serviceProc, this );
+}

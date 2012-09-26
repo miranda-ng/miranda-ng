@@ -1,7 +1,5 @@
-#pragma once
-
-#include "skype.h"
-#include <m_protoint.h>
+struct CSkypeProto;
+typedef INT_PTR (__cdecl CSkypeProto::*ServiceFunc)(WPARAM, LPARAM);
 
 struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
 {
@@ -10,7 +8,7 @@ public:
 	~CSkypeProto();
 
 	// PROTO_INTERFACE
-	/*virtual	HANDLE __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
+	virtual	HANDLE __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
 	virtual	HANDLE __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
 
 	virtual	int    __cdecl Authorize( HANDLE hDbEvent );
@@ -55,10 +53,10 @@ public:
 
 	virtual	int    __cdecl UserIsTyping( HANDLE hContact, int type );
 
-	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );*/
+	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
 
-protected:
 	HANDLE m_hNetlibUser;
 
 	void Log( const char* fmt, ... );
+	void   CreateProtoService(const char* szService, ServiceFunc serviceProc);
 };

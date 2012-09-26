@@ -40,10 +40,9 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 
 static CSkypeProto* SkypeProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
 {
-	//CSkypeProto *ppro = new CSkypeProto(pszProtoName, tszUserName);
-	//g_Instances.insert(ppro);
-	//return ppro;
-	return 0;
+	CSkypeProto *ppro = new CSkypeProto(pszProtoName, tszUserName);
+	g_Instances.insert(ppro);
+	return ppro;
 }
 
 static int SkypeProtoUninit(CSkypeProto* ppro)
@@ -55,14 +54,15 @@ static int SkypeProtoUninit(CSkypeProto* ppro)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	//mir_getLP(&pluginInfo);
+	mir_getLP(&pluginInfo);
 
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = {0};
+	pd.cbSize = sizeof(pd);
 	pd.szName = "Skype";
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)SkypeProtoInit;
 	pd.fnUninit = (pfnUninitProto)SkypeProtoUninit;
-	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&pd));
+	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	return 0;
 }
