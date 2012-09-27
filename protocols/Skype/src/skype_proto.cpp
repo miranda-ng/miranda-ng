@@ -109,6 +109,7 @@ int CSkypeProto::SetStatus(int new_status)
 		//todo: set all status to offline
 		this->account->Logout(true);
 		this->account->BlockWhileLoggingOut();
+		this->account->SetAvailability(CContact::OFFLINE);
 	}
 	else 
 	{
@@ -125,7 +126,28 @@ int CSkypeProto::SetStatus(int new_status)
 			}
 		}
 
-		//todo: change skype status
+		CContact::AVAILABILITY availability = CContact::UNKNOWN;
+		switch(this->m_iStatus)
+		{
+		case ID_STATUS_ONLINE:
+			availability = CContact::ONLINE;
+			break;
+
+		case ID_STATUS_AWAY:
+			availability = CContact::AWAY;
+			break;
+
+		case ID_STATUS_DND:
+			availability = CContact::DO_NOT_DISTURB;
+			break;
+
+		case ID_STATUS_INVISIBLE:
+			availability = CContact::INVISIBLE;
+			break;
+		}
+
+		if(availability != CContact::UNKNOWN)
+			this->account->SetAvailability(availability);	
 	}
 
 	this->SendBroadcast(ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, this->m_iStatus); 

@@ -25,3 +25,7 @@ public:
 	void BlockWhileLoggingOut();
 };
 
+class CContact : public Contact
+{
+};
+

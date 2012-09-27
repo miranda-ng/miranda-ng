@@ -16,10 +16,10 @@ void CAccount::OnChange(int prop)
   {
 	  CAccount::STATUS loginStatus;
 	  this->GetPropStatus(loginStatus);
-	  if (loginStatus == CAccount::STATUS::LOGGED_IN)  
+	  if (loginStatus == CAccount::LOGGED_IN)  
 		  this->isLoggedOut = false;
 		
-		if (loginStatus == CAccount::STATUS::LOGGED_OUT) 
+		if (loginStatus == CAccount::LOGGED_OUT) 
 		{ 
 			this->isLoggedOut = true; 
 			CAccount::LOGOUTREASON whyLogout;
