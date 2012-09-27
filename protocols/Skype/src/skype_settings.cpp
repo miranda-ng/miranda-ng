@@ -13,7 +13,7 @@ TCHAR* CSkypeProto::GetSettingString(HANDLE hContact, const char *szSetting, TCH
 
 TCHAR* CSkypeProto::GetDecodeSettingString(const char *szSetting, TCHAR* defVal)
 {
-	return this->GetSettingString(NULL, szSetting, defVal);
+	return this->GetDecodeSettingString(NULL, szSetting, defVal);
 }
 
 TCHAR* CSkypeProto::GetDecodeSettingString(HANDLE hContact, const char *szSetting, TCHAR* defVal)

@@ -41,11 +41,16 @@ void CSkypeProto::HookEvent(const char* szEvent, SkypeEventFunc handler)
 	HookEventObj(szEvent, (MIRANDAHOOKOBJ)*( void**)&handler, this);
 }
 
+int CSkypeProto::SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam)
+{
+	return this->SendBroadcast(NULL, type, result, hProcess, lParam);
+}
+
 int CSkypeProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
 	ACKDATA ack = {0};
 	ack.cbSize = sizeof(ACKDATA);
-	ack.szModule = m_szModuleName;
+	ack.szModule = this->m_szModuleName;
 	ack.hContact = hContact;
 	ack.type = type;
 	ack.result = result;

@@ -74,29 +74,37 @@ public:
 	bool IsOffline();
 
 protected:
-	bool isOffline;
 	CAccount::Ref account;
-	TCHAR*   password;
 
-	HANDLE hNetlibUser;
-	void Log(const char* fmt, ...);	
+
+	TCHAR*	login;
+	TCHAR*	password;
+
+	HANDLE	hNetlibUser;
+	void	Log(const char* fmt, ...);
+
+	HANDLE	signin_lock;
+	void __cdecl SignIn(void*);
+
 	
 	void	CreateService(const char* szService, SkypeServiceFunc serviceProc);
 	void	CreateServiceParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
 	
 	HANDLE	CreateHookableEvent(const char* szService);
 	void	HookEvent(const char*, SkypeEventFunc);
+
+	int		SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam);
 	int		SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 
 	void	ForkThread(SkypeThreadFunc, void*);
 	HANDLE	ForkThreadEx(SkypeThreadFunc, void*, UINT* threadID = NULL);
 
 
-	TCHAR* GetSettingString(const char *szSetting, TCHAR* defVal = NULL);
-	TCHAR* GetSettingString(HANDLE hContact, const char *szSetting, TCHAR* defVal = NULL);
+	TCHAR*	GetSettingString(const char *szSetting, TCHAR* defVal = NULL);
+	TCHAR*	GetSettingString(HANDLE hContact, const char *szSetting, TCHAR* defVal = NULL);
 
-	TCHAR* GetDecodeSettingString(const char *szSetting, TCHAR* defVal = NULL);
-	TCHAR* GetDecodeSettingString(HANDLE hContact, const char *szSetting, TCHAR* defVal = NULL);
+	TCHAR*	GetDecodeSettingString(const char *szSetting, TCHAR* defVal = NULL);
+	TCHAR*	GetDecodeSettingString(HANDLE hContact, const char *szSetting, TCHAR* defVal = NULL);
 
 
 	static INT_PTR CALLBACK SkypeAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);

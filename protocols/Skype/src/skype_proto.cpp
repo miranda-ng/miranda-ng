@@ -2,14 +2,15 @@
 
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 {
-	this->isOffline = true;
 	this->m_iVersion = 2;
 	this->m_iStatus = ID_STATUS_OFFLINE;
 	this->m_tszUserName = mir_tstrdup(userName);
 	this->m_szModuleName = mir_strdup(protoName);
 	this->m_szProtoName = mir_strdup(protoName);
-	_strlwr(m_szProtoName);
-	this->m_szProtoName[0] = toupper(m_szProtoName[0]);
+	//_strlwr(m_szProtoName);
+	//this->m_szProtoName[0] = toupper(m_szProtoName[0]);
+
+	this->signin_lock = CreateMutex(0, false, 0);
 
 	TCHAR name[128];
 	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), this->m_tszUserName);
@@ -30,6 +31,8 @@ CSkypeProto::~CSkypeProto()
 {
 	Netlib_CloseHandle(this->hNetlibUser);
 	this->hNetlibUser = NULL;
+
+	CloseHandle(this->signin_lock);
 
 	mir_free(this->m_szProtoName);
 	mir_free(this->m_szModuleName);
@@ -94,34 +97,43 @@ int    __cdecl CSkypeProto::SetApparentMode( HANDLE hContact, int mode ) { retur
 
 int CSkypeProto::SetStatus(int new_status)
 {
-	switch(new_status)
-	{
-	case ID_STATUS_OFFLINE:	
-		if ( !this->isOffline)
-		{
-			this->isOffline = true;
-			this->account->Logout(false);
-			this->account->BlockWhileLoggingOut();
-		};
-		break;
+	if (new_status == this->m_iStatus)
+		return 0;
 
-	case ID_STATUS_ONLINE:
-		
-		char* sn = mir_t2a(this->GetSettingString(NULL, "SkypeName"));
-		if (g_skype->GetAccount(sn, this->account))
-		{
-			this->isOffline = false;
-			char* pw = mir_t2a(this->GetDecodeSettingString(NULL, "Password"));
-			this->account->LoginWithPassword(pw, false, false);
-			this->account->BlockWhileLoggingIn();
-		}
-		break;
+	int old_status = this->m_iStatus;
+	this->m_iDesiredStatus = new_status;
+
+	if (new_status == ID_STATUS_OFFLINE && old_status != ID_STATUS_OFFLINE)
+	{
+		this->m_iStatus = new_status;
+		//todo: set all status to offline
+		this->account->Logout(true);
+		this->account->BlockWhileLoggingOut();
 	}
+	else 
+	{
+		this->m_iStatus = new_status;
+		if (old_status == ID_STATUS_OFFLINE)
+		{
+			this->login = this->GetSettingString(SKYPE_SETTINGS_LOGIN);
+			if (g_skype->GetAccount(mir_u2a(login), this->account))
+			{
+				this->m_iStatus = ID_STATUS_CONNECTING;
+				this->password = this->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD);
+			
+				this->ForkThread(&CSkypeProto::SignIn, this);
+			}
+		}
+
+		//todo: change skype status
+	}
+
+	this->SendBroadcast(ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, this->m_iStatus); 
 
 	return 0;
 }
 
-HANDLE __cdecl CSkypeProto::GetAwayMsg( HANDLE hContact ) { return 0; }
+HANDLE __cdecl CSkypeProto::GetAwayMsg(HANDLE hContact) { return 0; }
 int    __cdecl CSkypeProto::RecvAwayMsg( HANDLE hContact, int mode, PROTORECVEVENT* evt ) { return 0; }
 int    __cdecl CSkypeProto::SendAwayMsg( HANDLE hContact, HANDLE hProcess, const char* msg ) { return 0; }
 int    __cdecl CSkypeProto::SetAwayMsg( int m_iStatus, const TCHAR* msg ) { return 0; }
@@ -150,5 +162,16 @@ char* CSkypeProto::ModuleName()
 
 bool CSkypeProto::IsOffline()
 {
-	return this->isOffline;
+	return this->m_iStatus == ID_STATUS_OFFLINE;
+}
+
+void __cdecl CSkypeProto::SignIn(void*)
+{
+	WaitForSingleObject(&this->signin_lock, INFINITE);
+
+	this->account->LoginWithPassword(mir_u2a(this->password), false, false);
+	this->account->BlockWhileLoggingIn();
+	this->SetStatus(this->m_iDesiredStatus);
+
+	ReleaseMutex(this->signin_lock);
 }

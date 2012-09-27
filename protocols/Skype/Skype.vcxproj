@@ -97,7 +97,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="skype_subclassing.h" />
+    <ClInclude Include="src\skype_subclassing.h" />
     <ClInclude Include="src\skype.h" />
     <ClInclude Include="src\skype_proto.h" />
     <ClInclude Include="src\version.h" />

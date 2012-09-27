@@ -12,22 +12,22 @@ CAccount::CAccount(unsigned int oid, SERootObject* root) : Account(oid, root)
 
 void CAccount::OnChange(int prop)
 {
-  if (prop == Account::P_STATUS)
+  if (prop == CAccount::P_STATUS)
   {
-	  Account::STATUS loginStatus;
+	  CAccount::STATUS loginStatus;
 	  this->GetPropStatus(loginStatus);
-	  if (loginStatus == Account::LOGGED_IN)  
+	  if (loginStatus == CAccount::STATUS::LOGGED_IN)  
 		  this->isLoggedOut = false;
 		
-		if (loginStatus == Account::LOGGED_OUT) 
+		if (loginStatus == CAccount::STATUS::LOGGED_OUT) 
 		{ 
 			this->isLoggedOut = true; 
-			Account::LOGOUTREASON whyLogout;
+			CAccount::LOGOUTREASON whyLogout;
 			this->GetPropLogoutreason(whyLogout);
-			/*if (whyLogout != Account::LOGOUT_CALLED)
+			if (whyLogout != Account::LOGOUT_CALLED)
 			{
 				printf("%s\n", (const char*)tostring(whyLogout));
-			}*/
+			}
 		}
 	}
 };
