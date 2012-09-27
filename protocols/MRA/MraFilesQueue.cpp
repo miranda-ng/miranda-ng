@@ -150,7 +150,7 @@ DWORD MraFilesQueueInitialize(DWORD dwSendTimeOutInterval, HANDLE *phFilesQueueH
 	DWORD dwRetErrorCode = ListMTInitialize(pmrafqFilesQueue, 0);
 	if (dwRetErrorCode == NO_ERROR) {
 		pmrafqFilesQueue->dwSendTimeOutInterval = dwSendTimeOutInterval;
-		(*phFilesQueueHandle) = (HANDLE)pmrafqFilesQueue;
+		*phFilesQueueHandle = (HANDLE)pmrafqFilesQueue;
 	}
 	else mir_free(pmrafqFilesQueue);
 	
@@ -1030,7 +1030,6 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 	BYTE btBuff[BUFF_SIZE_RCV];
 	BOOL bFailed = TRUE, bOK, bConnected = FALSE;
 	DWORD dwReceived, dwSendBlockSize, dwUpdateTimeNext, dwUpdateTimeCur;
-	HANDLE hFile;
 	size_t i, j, dwBuffSizeUsed = 0;
 	LPWSTR lpwszFileName;
 
@@ -1104,7 +1103,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 					}
 
 					if (bFailed == FALSE) {
-						hFile = CreateFileW(dat->pmfqfFiles[j].lpwszName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, (FILE_ATTRIBUTE_NORMAL|FILE_FLAG_SEQUENTIAL_SCAN), NULL);
+						HANDLE hFile = CreateFileW(dat->pmfqfFiles[j].lpwszName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, (FILE_ATTRIBUTE_NORMAL|FILE_FLAG_SEQUENTIAL_SCAN), NULL);
 						if (hFile != INVALID_HANDLE_VALUE) {
 							bOK = FALSE;
 							dwUpdateTimeNext = GetTickCount();

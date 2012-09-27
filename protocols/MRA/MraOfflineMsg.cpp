@@ -99,7 +99,7 @@ DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MR
 					LPSTR lpszBoundary, lpszMIMEPart, lpszCurMIMEPos, lpszMIMEHeader, lpszMIMEHeaderLow, lpszMIMEBody, lpszMIMEContentType;
 					size_t i, dwBoundarySize, dwMIMEPartSize, dwMIMEHeaderSize, dwMIMEBodySize, dwMIMEContentTypeSize;
 
-					lpszBoundary = (LPSTR)MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "boundary = ", 9);
+					lpszBoundary = (LPSTR)MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "boundary=", 9);
 					if (lpszBoundary)
 					{
 						dwBoundarySize = ((dwContentTypeSize-(lpszBoundary-lpszContentTypeLow))-9);

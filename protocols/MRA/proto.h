@@ -171,7 +171,7 @@ mrim_packet_header_t;
 	#define USER_AGENT_MAX 255
 	// Format:
 	//  user_agent       = param *(param )
-	//  param            = pname " = " pvalue
+	//  param            = pname "=" pvalue
 	//  pname            = token
 	//  pvalue           = token / quoted-string
 	//

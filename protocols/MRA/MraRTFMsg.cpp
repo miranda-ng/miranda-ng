@@ -20,7 +20,7 @@ static const LPSTR lpszColours[COLORTABLE_COUNT] =
 #define PAR "\\par "
 
 
-#define BB_COLOR_TAG	"[color = "
+#define BB_COLOR_TAG	"[color="
 #define SYMBOLS_COUNT	19
 static const LPSTR lpszSimbols[SYMBOLS_COUNT] = 
 {
