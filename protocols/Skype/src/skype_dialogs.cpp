@@ -70,3 +70,12 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 
 	return FALSE;
 }
+
+INT_PTR __cdecl CSkypeProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
+{
+	return (int)CreateDialogParam(
+		g_hInstance, 
+		MAKEINTRESOURCE(IDD_SKYPEACCOUNT), 
+		(HWND)lParam, 
+		&CSkypeProto::SkypeAccountProc, (LPARAM)this);
+}

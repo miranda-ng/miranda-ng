@@ -59,8 +59,8 @@ extern HINSTANCE g_hInstance;
 #undef OCSP_REQUEST
 #undef OCSP_RESPONSE
 
-#include <skype-embedded_2.h>
+#include "skype_subclassing.h"
 
 static const char* g_keyFileName = "..\\..\\..\\SkypeKit\\keypair.crt";
 
-extern Skype* g_skype;
+extern CSkype* g_skype;

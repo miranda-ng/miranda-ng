@@ -1,6 +1,7 @@
 #pragma once
 
 #include "skype.h"
+#include "skype_subclassing.h"
 
 struct CSkypeProto;
 
@@ -65,13 +66,19 @@ public:
 
 protected:
 	bool isOffline;
-	Account::Ref account;
+	CAccount::Ref account;
 
 	HANDLE hNetlibUser;
 	void Log( const char* fmt, ... );
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam);
 	void CreateProtoService(const char* szService, SkypeServiceFunc serviceProc);
+
+	TCHAR* GetSettingString(const char *szSetting, TCHAR* defVal = NULL);
+	TCHAR* GetSettingString(HANDLE hContact, const char *szSetting, TCHAR* defVal = NULL);
+
+	TCHAR* GetDecodeSettingString(const char *szSetting, TCHAR* defVal = NULL);
+	TCHAR* GetDecodeSettingString(HANDLE hContact, const char *szSetting, TCHAR* defVal = NULL);
 
 	static INT_PTR CALLBACK SkypeAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 };

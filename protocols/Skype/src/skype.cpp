@@ -4,13 +4,13 @@
 int hLangpack;
 HINSTANCE g_hInstance;
 
-Skype* g_skype;
+CSkype* g_skype;
 
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__VERSION_DWORD,
 	__DESCRIPTION,
 	__AUTHOR,
 	__AUTHOREMAIL,
@@ -91,7 +91,7 @@ int LoadKeyPair()
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	g_skype = new Skype();
+	g_skype = new CSkype();
 	LoadKeyPair();
 	g_skype->init(keyBuf, "127.0.0.1", 8963, "streamlog.txt");
 	g_skype->start();	

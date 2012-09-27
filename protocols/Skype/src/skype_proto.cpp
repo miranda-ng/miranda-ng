@@ -36,15 +36,6 @@ CSkypeProto::~CSkypeProto()
 	mir_free(this->m_tszUserName);
 }
 
-INT_PTR __cdecl CSkypeProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
-{
-	return (int)CreateDialogParam(
-		g_hInstance, 
-		MAKEINTRESOURCE(IDD_SKYPEACCOUNT), 
-		(HWND)lParam, 
-		&CSkypeProto::SkypeAccountProc, (LPARAM)this);
-}
-
 HANDLE __cdecl CSkypeProto::AddToList( int flags, PROTOSEARCHRESULT* psr ) { return 0; }
 HANDLE __cdecl CSkypeProto::AddToListByEvent( int flags, int iContact, HANDLE hDbEvent ) { return 0; }
 int    __cdecl CSkypeProto::Authorize( HANDLE hDbEvent ) { return 0; }
@@ -88,18 +79,19 @@ int CSkypeProto::SetStatus(int new_status)
 		if ( !this->isOffline)
 		{
 			this->isOffline = true;
-		   account->Logout(false);
+			this->account->Logout(false);
 		};
 		break;
 
 	case ID_STATUS_ONLINE:
-		if (g_skype->GetAccount("", this->account))
+		
+		char* sn = mir_t2a(this->GetSettingString(NULL, "SkypeName"));
+		if (g_skype->GetAccount(sn, this->account))
 		{
 			this->isOffline = false;
-			account->LoginWithPassword("", false, false);
-
-			// Loop until LoggedIn or login failure
-			//while ( (!account->loggedIn) && (!account->loggedOut) ) { Delay(1); };
+			char* pw = mir_t2a(this->GetDecodeSettingString(NULL, "Password"));
+			this->account->LoginWithPassword(pw, false, false);
+			this->account->BlockWhileLoggingIn();
 		}
 		break;
 	}
@@ -116,29 +108,10 @@ int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type ) { return 0
 
 int    __cdecl CSkypeProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam ) { return 0; }
 
-void CSkypeProto::Log(const char* fmt, ...)
-{
-	va_list va;
-	char msg[1024];
-
-	va_start(va, fmt);
-	mir_vsnprintf(msg, sizeof(msg), fmt, va);
-	va_end(va);
-
-	CallService(MS_NETLIB_LOG, ( WPARAM )this->hNetlibUser, (LPARAM)msg);
-}
-
-void CSkypeProto::CreateProtoService(const char* szService, SkypeServiceFunc serviceProc)
-{
-	char temp[MAX_PATH*2];
-
-	mir_snprintf(temp, sizeof(temp), "%s%s", this->m_szModuleName, szService);
-	CreateServiceFunctionObj(temp, (MIRANDASERVICEOBJ)*(void**)&serviceProc, this);
-}
 
 char* CSkypeProto::ModuleName()
 {
-	return this->m_szProtoName;
+	return this->m_szModuleName;
 }
 
 bool CSkypeProto::IsOffline()
