@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -34,7 +34,8 @@ IDI_ICON                ICON                    "Main.ico"
 //
 
 IDD_SKYPEACCOUNT DIALOGEX 0, 0, 199, 92
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "Skype name:",IDC_STATIC,7,7,53,12
@@ -113,7 +114,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Русский (Россия) resources
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

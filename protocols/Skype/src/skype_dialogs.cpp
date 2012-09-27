@@ -71,27 +71,17 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 	return FALSE;
 }
 
-INT_PTR __cdecl CSkypeProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
-{
-	return (int)CreateDialogParam(
-		g_hInstance, 
-		MAKEINTRESOURCE(IDD_SKYPEACCOUNT), 
-		(HWND)lParam, 
-		&CSkypeProto::SkypeAccountProc, (LPARAM)this);
-}
-
-INT_PTR CALLBACK SkypeOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
+INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	CSkypeProto *proto;
 
 	switch (message)
 	{
-
 	case WM_INITDIALOG:
 	{
 		TranslateDialogDefault(hwnd);
 
-		proto = reinterpret_cast<FacebookProto*>(lparam);
+		proto = reinterpret_cast<CSkypeProto*>(lparam);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
 		DBVARIANT dbv;
@@ -119,7 +109,8 @@ INT_PTR CALLBACK SkypeOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM
 	}
 	return TRUE;
 
-	case WM_COMMAND: {
+	case WM_COMMAND: 
+	{
 		if (HIWORD(wparam) == EN_CHANGE && reinterpret_cast<HWND>(lparam) == GetFocus())
 		{
 			switch(LOWORD(wparam))
@@ -146,14 +137,23 @@ INT_PTR CALLBACK SkypeOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM
 
 			return TRUE;
 		}
-		break;
-
+	}
+	break;
 	}
 
 	return FALSE;
 }
 
-int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
+int __cdecl CSkypeProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
+{
+	return (int)CreateDialogParam(
+		g_hInstance, 
+		MAKEINTRESOURCE(IDD_SKYPEACCOUNT), 
+		(HWND)lParam, 
+		&CSkypeProto::SkypeAccountProc, (LPARAM)this);
+}
+
+int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);

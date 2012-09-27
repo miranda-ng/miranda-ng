@@ -23,7 +23,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 
 	this->Log("Setting protocol/module name to '%s/%s'", m_szProtoName, m_szModuleName);
 
-	this->CreateProtoService(PS_CREATEACCMGRUI, &CSkypeProto::SvcCreateAccMgrUI);
+	this->CreateService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 }
 
 CSkypeProto::~CSkypeProto()
@@ -107,12 +107,17 @@ int    __cdecl CSkypeProto::SetAwayMsg( int m_iStatus, const TCHAR* msg ) { retu
 
 int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type ) { return 0; }
 
-int    __cdecl CSkypeProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam )
+int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
-	switch ( eventType ) {
-	case EV_PROTO_ONLOAD:    return OnModulesLoaded( 0, 0 );
-	case EV_PROTO_ONEXIT:    return OnPreShutdown( 0, 0 );
+	switch (eventType) 
+	{
+	case EV_PROTO_ONLOAD:
+		return this->OnModulesLoaded(0, 0);
+	
+	case EV_PROTO_ONEXIT: 
+		return this->OnPreShutdown(0, 0);
 	}
+
 	return 1;
 }
 

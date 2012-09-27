@@ -1,18 +1,18 @@
 #include "skype_proto.h"
 
-void IconsLoad();
+//void IconsLoad();
 
 int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	IconsLoad();
-	HookEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
+	//IconsLoad();
+	this->HookEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
 
 	return 0;
 }
 
 int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 {
-	SetStatus(ID_STATUS_OFFLINE);
+	this->SetStatus(ID_STATUS_OFFLINE);
 
 	return 0;
 }

@@ -5,7 +5,11 @@
 
 struct CSkypeProto;
 
+typedef void    (__cdecl CSkypeProto::*SkypeThreadFunc) (void*);
 typedef INT_PTR (__cdecl CSkypeProto::*SkypeServiceFunc)(WPARAM, LPARAM);
+typedef int     (__cdecl CSkypeProto::*SkypeEventFunc)(WPARAM, LPARAM);
+typedef INT_PTR (__cdecl CSkypeProto::*SkypeServiceFuncParam)(WPARAM, LPARAM, LPARAM);
+
 
 struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
 {
@@ -64,6 +68,7 @@ public:
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 
 	char* ModuleName();
 	bool IsOffline();
@@ -75,8 +80,19 @@ protected:
 	HANDLE hNetlibUser;
 	void Log( const char* fmt, ... );
 
-	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam);
-	void CreateProtoService(const char* szService, SkypeServiceFunc serviceProc);
+	
+	
+	
+	void	CreateService(const char* szService, SkypeServiceFunc serviceProc);
+	//void	CreateServiceParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
+	
+	//HANDLE	CreateHookableEvent(const char* szService);
+	void	HookEvent(const char*, SkypeEventFunc);
+	//int		SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
+
+	//void	ForkThread(SkypeThreadFunc, void*);
+	//HANDLE	ForkThreadEx(SkypeThreadFunc, void*, UINT* threadID = NULL);
+
 
 	TCHAR* GetSettingString(const char *szSetting, TCHAR* defVal = NULL);
 	TCHAR* GetSettingString(HANDLE hContact, const char *szSetting, TCHAR* defVal = NULL);
@@ -84,5 +100,7 @@ protected:
 	TCHAR* GetDecodeSettingString(const char *szSetting, TCHAR* defVal = NULL);
 	TCHAR* GetDecodeSettingString(HANDLE hContact, const char *szSetting, TCHAR* defVal = NULL);
 
+
 	static INT_PTR CALLBACK SkypeAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
+	static INT_PTR CALLBACK SkypeOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 };

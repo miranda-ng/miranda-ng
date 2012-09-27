@@ -36,9 +36,7 @@
     <ClInclude Include="src\skype_proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\skype_subclassing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="skype_subclassing.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Resource.rc">
@@ -58,5 +56,8 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{b14a0070-da9c-49e8-8a47-d93df5eed672}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Main.ico" />
   </ItemGroup>
 </Project>

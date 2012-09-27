@@ -9,10 +9,15 @@ void CSkypeProto::Log(const char* fmt, ...)
 	mir_vsnprintf(msg, sizeof(msg), fmt, va);
 	va_end(va);
 
-	CallService(MS_NETLIB_LOG, ( WPARAM )this->hNetlibUser, (LPARAM)msg);
+	CallService(MS_NETLIB_LOG, (WPARAM)this->hNetlibUser, (LPARAM)msg);
 }
 
-void CSkypeProto::CreateProtoService(const char* szService, SkypeServiceFunc serviceProc)
+void CSkypeProto::HookEvent(const char* szEvent, SkypeEventFunc handler)
+{
+	HookEventObj(szEvent, (MIRANDAHOOKOBJ)*( void**)&handler, this);
+}
+
+void CSkypeProto::CreateService(const char* szService, SkypeServiceFunc serviceProc)
 {
 	char temp[MAX_PATH*2];
 
