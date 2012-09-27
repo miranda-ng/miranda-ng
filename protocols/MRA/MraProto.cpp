@@ -707,7 +707,7 @@ HANDLE CMraProto::GetAwayMsg(HANDLE hContact)
 
 		dwStatusDescSize = mir_sntprintf(szStatusDesc, SIZEOF(szStatusDesc), _T("%s%s"), szTime, szBlogStatus);
 		iRet = GetTickCount();
-		ProtoBroadcastAckAsync(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)szStatusDesc);
+		ProtoBroadcastAckAsync(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)szStatusDesc, (dwStatusDescSize+1)*sizeof(TCHAR));
 	}
 	return (HANDLE)iRet;
 }

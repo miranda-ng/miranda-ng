@@ -273,10 +273,10 @@ DWORD CMraProto::MraNetworkDispatcher()
 						ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)dwCMDNum, (LPARAM)"Undefined message deliver error, time out");
 						break;
 					case ACKTYPE_GETINFO:
-						ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)NULL);
+						ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)1, 0);
 						break;
 					case ACKTYPE_SEARCH:
-						ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)dwCMDNum, (LPARAM)NULL);
+						ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)dwCMDNum, 0);
 						break;
 					case ICQACKTYPE_SMS:
 						mir_free(lpbData);
@@ -487,7 +487,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 			dwTemp = GetUL(&lpbDataCurrent);
 			switch (dwTemp) {
 			case MESSAGE_DELIVERED:// Message delivered directly to user
-				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, (LPARAM)NULL);
+				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, 0);
 				break;//***deb возможны сбои из-за асинхронности тк там передаётся указатель
 			case MESSAGE_REJECTED_NOUSER:// Message rejected - no such user
 				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Message rejected - no such user");
@@ -508,8 +508,8 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"User does not accept offline flash animation");
 				break;
 			default:
-				dwTemp = mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "Undefined message deliver error, code: %lu", dwTemp);
-				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)szBuff);
+				dwTemp = mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "Undefined message delivery error, code: %lu", dwTemp);
+				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)szBuff, dwTemp+1);
 				break;
 			}
 			MraSendQueueFree(hSendQueueHandle, pmaHeader->seq);
@@ -1116,11 +1116,11 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 
 				switch (dwAckType) {
 				case ACKTYPE_GETINFO:
-					ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)NULL);
+					ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 					break;
 				case ACKTYPE_SEARCH:
 				default:
-					ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, (LPARAM)NULL);
+					ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, 0);
 					break;
 				}
 				break;
@@ -1131,10 +1131,10 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 			case MRIM_ANKETA_INFO_STATUS_RATELIMERR:// слишком много запросов, поиск временно запрещен
 				switch (dwAckType) {
 				case ACKTYPE_GETINFO:
-					ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)NULL);
+					ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)1, 0);
 					break;
 				case ACKTYPE_SEARCH:
-					ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, (LPARAM)NULL);
+					ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, 0);
 					break;
 				default:
 					DebugBreak();
@@ -1576,7 +1576,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 				lpwszMessage = (LPWSTR)(lpszPhone+dwPhoneSize+1);
 
 				dwTemp = mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "<sms_response><source>Mail.ru</source><deliverable>Yes</deliverable><network>Mail.ru, Russia</network><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><messages_left>0</messages_left></sms_response>\r\n", szEMail, lpszPhone, lpszPhone);
-				ProtoBroadcastAckAsync(NULL, dwAckType, ACKRESULT_SENTREQUEST, (HANDLE)pmaHeader->seq, (LPARAM)szBuff);
+				ProtoBroadcastAckAsync(NULL, dwAckType, ACKRESULT_SENTREQUEST, (HANDLE)pmaHeader->seq, (LPARAM)szBuff, dwTemp+1);
 			}
 
 			mir_free(lpsString.lpszData);
@@ -1902,11 +1902,11 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 
 				if (dwFlags & MESSAGE_SMS_DELIVERY_REPORT) {
 					dwBuffLen = mir_snprintf(lpszBuff, (dwBuffLen*sizeof(WCHAR)), "<sms_delivery_receipt><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><delivered>No</delivered><submition_time>%s</submition_time><error_code>0</error_code><error><id>15</id><params><param>%s</param></params></error></sms_delivery_receipt>", szEMail, szPhone, szPhone, szTime, lpszMessageUTF);
-					ProtoBroadcastAckAsync(NULL, ICQACKTYPE_SMS, ACKRESULT_FAILED, (HANDLE)0, (LPARAM)lpszBuff);
+					ProtoBroadcastAckAsync(NULL, ICQACKTYPE_SMS, ACKRESULT_FAILED, (HANDLE)0, (LPARAM)lpszBuff, dwBuffLen+1);
 				}
 				else { // new sms
 					dwBuffLen = mir_snprintf(lpszBuff, (dwBuffLen*sizeof(WCHAR)), "<sms_message><source>Mail.ru</source><destination_UIN>%s</destination_UIN><sender>%s</sender><senders_network>Mail.ru</senders_network><text>%s</text><time>%s</time></sms_message>", szEMail, szPhone, lpszMessageUTF, szTime);
-					ProtoBroadcastAckAsync(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, (HANDLE)0, (LPARAM)lpszBuff);
+					ProtoBroadcastAckAsync(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, (HANDLE)0, (LPARAM)lpszBuff, dwBuffLen+1);
 				}
 			}
 			else dwRetErrorCode = GetLastError();
