@@ -97,7 +97,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	g_skype->start();	
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
-	pd.szName = "Skype";
+	pd.szName = MODULE;
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)SkypeProtoInit;
 	pd.fnUninit = (pfnUninitProto)SkypeProtoUninit;

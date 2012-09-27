@@ -71,6 +71,7 @@ int    __cdecl CSkypeProto::SendMsg( HANDLE hContact, int flags, const char* msg
 int    __cdecl CSkypeProto::SendUrl( HANDLE hContact, int flags, const char* url ) { return 0; }
 
 int    __cdecl CSkypeProto::SetApparentMode( HANDLE hContact, int mode ) { return 0; }
+
 int CSkypeProto::SetStatus(int new_status)
 {
 	switch(new_status)
@@ -106,7 +107,14 @@ int    __cdecl CSkypeProto::SetAwayMsg( int m_iStatus, const TCHAR* msg ) { retu
 
 int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type ) { return 0; }
 
-int    __cdecl CSkypeProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam ) { return 0; }
+int    __cdecl CSkypeProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam )
+{
+	switch ( eventType ) {
+	case EV_PROTO_ONLOAD:    return OnModulesLoaded( 0, 0 );
+	case EV_PROTO_ONEXIT:    return OnPreShutdown( 0, 0 );
+	}
+	return 1;
+}
 
 
 char* CSkypeProto::ModuleName()

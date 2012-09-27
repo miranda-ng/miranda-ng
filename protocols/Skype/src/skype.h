@@ -42,6 +42,8 @@
 #include "resource.h"
 #include "version.h"
 
+#define MODULE "Skype"
+
 extern HINSTANCE g_hInstance;
 
 // skype
