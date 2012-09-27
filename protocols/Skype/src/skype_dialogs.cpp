@@ -13,13 +13,13 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingString(0, proto->ModuleName(), "SkypeName", &dbv))
+		if ( !DBGetContactSettingWString(0, proto->ModuleName(), SKYPE_SETTINGS_LOGIN, &dbv))
 		{
-			SetDlgItemText(hwnd, IDC_SN, dbv.ptszVal);
+			SetDlgItemText(hwnd, IDC_SL, dbv.ptszVal);
 			DBFreeVariant(&dbv);
 		}
 
-		if ( !DBGetContactSettingString(0, proto->ModuleName(), "Password", &dbv))
+		if ( !DBGetContactSettingWString(0, proto->ModuleName(), SKYPE_SETTINGS_PASSWORD, &dbv))
 		{
 			CallService(
 				MS_DB_CRYPT_DECODESTRING,
@@ -31,7 +31,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 
 		if ( !proto->IsOffline()) 
 		{
-			SendMessage(GetDlgItem(hwnd, IDC_SN), EM_SETREADONLY, 1, 0);
+			SendMessage(GetDlgItem(hwnd, IDC_SL), EM_SETREADONLY, 1, 0);
 			SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0); 
 		}
 
@@ -42,7 +42,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 		{
 			switch(LOWORD(wparam))
 			{
-			case IDC_SN:
+			case IDC_SL:
 			case IDC_PW:
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			}
@@ -55,12 +55,12 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 			TCHAR str[128];
 
-			GetDlgItemText(hwnd, IDC_SN, str, sizeof(str));
-			DBWriteContactSettingTString(0, proto->ModuleName(), "SkypeName", str);
+			GetDlgItemText(hwnd, IDC_SL, str, sizeof(str));
+			DBWriteContactSettingWString(0, proto->ModuleName(), SKYPE_SETTINGS_LOGIN, str);
 
 			GetDlgItemText(hwnd, IDC_PW, str, sizeof(str));
 			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), reinterpret_cast<LPARAM>(str));
-			DBWriteContactSettingTString(0, proto->ModuleName(), "Password", str);
+			DBWriteContactSettingWString(0, proto->ModuleName(), SKYPE_SETTINGS_PASSWORD, str);
 
 			return TRUE;
 		}
@@ -85,13 +85,13 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingString(0, proto->ModuleName(), "SkypeName", &dbv))
+		if ( !DBGetContactSettingString(0, proto->ModuleName(), SKYPE_SETTINGS_LOGIN, &dbv))
 		{
-			SetDlgItemText(hwnd, IDC_SN, dbv.ptszVal);
+			SetDlgItemText(hwnd, IDC_SL, dbv.ptszVal);
 			DBFreeVariant(&dbv);
 		}
 
-		if ( !DBGetContactSettingString(0, proto->ModuleName(), "Password", &dbv))
+		if ( !DBGetContactSettingString(0, proto->ModuleName(), SKYPE_SETTINGS_PASSWORD, &dbv))
 		{
 			CallService(
 				MS_DB_CRYPT_DECODESTRING,
@@ -103,7 +103,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 
 		if ( !proto->IsOffline()) 
 		{
-			SendMessage(GetDlgItem(hwnd, IDC_SN), EM_SETREADONLY, 1, 0);
+			SendMessage(GetDlgItem(hwnd, IDC_SL), EM_SETREADONLY, 1, 0);
 			SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0); 
 		}
 	}
@@ -115,7 +115,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 		{
 			switch(LOWORD(wparam))
 			{
-			case IDC_SN:
+			case IDC_SL:
 			case IDC_PW:
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			}
@@ -128,12 +128,12 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 			TCHAR str[128];
 
-			GetDlgItemText(hwnd, IDC_SN, str, sizeof(str));
-			DBWriteContactSettingTString(0, proto->ModuleName(), "SkypeName", str);
+			GetDlgItemText(hwnd, IDC_SL, str, sizeof(str));
+			DBWriteContactSettingTString(0, proto->ModuleName(), SKYPE_SETTINGS_LOGIN, str);
 
 			GetDlgItemText(hwnd, IDC_PW, str, sizeof(str));
 			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), reinterpret_cast<LPARAM>(str));
-			DBWriteContactSettingTString(0, proto->ModuleName(), "Password", str);
+			DBWriteContactSettingTString(0, proto->ModuleName(), SKYPE_SETTINGS_PASSWORD, str);
 
 			return TRUE;
 		}

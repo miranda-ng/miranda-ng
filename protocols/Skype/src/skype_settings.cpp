@@ -20,7 +20,7 @@ TCHAR* CSkypeProto::GetDecodeSettingString(HANDLE hContact, const char *szSettin
 {
 	DBVARIANT dbv;
 	TCHAR* result = NULL;
-	if ( !DBGetContactSettingString(0, this->m_szModuleName, szSetting, &dbv))
+	if ( !DBGetContactSettingWString(0, this->m_szModuleName, szSetting, &dbv))
 	{
 		CallService(
 			MS_DB_CRYPT_DECODESTRING,

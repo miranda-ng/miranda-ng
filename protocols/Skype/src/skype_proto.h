@@ -76,22 +76,20 @@ public:
 protected:
 	bool isOffline;
 	CAccount::Ref account;
+	TCHAR*   password;
 
 	HANDLE hNetlibUser;
-	void Log( const char* fmt, ... );
-
-	
-	
+	void Log(const char* fmt, ...);	
 	
 	void	CreateService(const char* szService, SkypeServiceFunc serviceProc);
-	//void	CreateServiceParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
+	void	CreateServiceParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
 	
-	//HANDLE	CreateHookableEvent(const char* szService);
+	HANDLE	CreateHookableEvent(const char* szService);
 	void	HookEvent(const char*, SkypeEventFunc);
-	//int		SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
+	int		SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 
-	//void	ForkThread(SkypeThreadFunc, void*);
-	//HANDLE	ForkThreadEx(SkypeThreadFunc, void*, UINT* threadID = NULL);
+	void	ForkThread(SkypeThreadFunc, void*);
+	HANDLE	ForkThreadEx(SkypeThreadFunc, void*, UINT* threadID = NULL);
 
 
 	TCHAR* GetSettingString(const char *szSetting, TCHAR* defVal = NULL);

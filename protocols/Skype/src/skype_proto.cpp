@@ -50,7 +50,27 @@ int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer ) { re
 int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const TCHAR* szReason ) { return 0; }
 int    __cdecl CSkypeProto::FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename ) { return 0; }
 
-DWORD_PTR __cdecl CSkypeProto:: GetCaps( int type, HANDLE hContact ) { return 0; }
+DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact) 
+{ 
+	switch(type)
+	{        
+	case PFLAGNUM_1:
+		return PF1_IM | PF1_PEER2PEER;
+	case PFLAGNUM_2:
+	case PFLAGNUM_3:
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_INVISIBLE;
+	case PFLAGNUM_4:
+		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS | 
+			PF4_OFFLINEFILES | PF4_IMSENDUTF | PF4_IMSENDOFFLINE;
+	case PFLAG_UNIQUEIDTEXT:
+		return (INT_PTR)Translate("Skype login");
+	case PFLAG_UNIQUEIDSETTING:
+		return (INT_PTR) "SL";
+	default:
+		return 0;
+	}
+}
+
 HICON  __cdecl CSkypeProto::GetIcon( int iconIndex ) { return 0; }
 int    __cdecl CSkypeProto::GetInfo( HANDLE hContact, int infoType ) { return 0; }
 
@@ -81,6 +101,7 @@ int CSkypeProto::SetStatus(int new_status)
 		{
 			this->isOffline = true;
 			this->account->Logout(false);
+			this->account->BlockWhileLoggingOut();
 		};
 		break;
 

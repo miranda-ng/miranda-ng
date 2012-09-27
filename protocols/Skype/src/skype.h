@@ -66,3 +66,6 @@ extern HINSTANCE g_hInstance;
 static const char* g_keyFileName = "..\\..\\..\\SkypeKit\\keypair.crt";
 
 extern CSkype* g_skype;
+
+#define SKYPE_SETTINGS_LOGIN "SkypeLogin"
+#define SKYPE_SETTINGS_PASSWORD "Password"
