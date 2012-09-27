@@ -153,7 +153,7 @@ DWORD MraSymbolsToRTFTags(DWORD dwFlags, LPSTR lpszMessage, size_t dwMessageSize
 		if (lpszFounded[i]) dwFoundCount++;
 	}
 
-	while(dwFoundCount) {
+	while (dwFoundCount) {
 		for (i = 0;i<SYMBOLS_COUNT;i++)
 			if (lpszFounded[i] && (lpszFounded[i]<lpszFounded[dwFirstFoundIndex] || lpszFounded[dwFirstFoundIndex] == NULL))
 				dwFirstFoundIndex = i;

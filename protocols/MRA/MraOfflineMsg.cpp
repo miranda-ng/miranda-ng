@@ -107,7 +107,7 @@ DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MR
 
 						i = 0;
 						lpszCurMIMEPos = lpszBody;
-						while(MraOfflineMessageGetNextMIMEPart(lpszBody, dwBodySize, lpszBoundary, dwBoundarySize, &lpszCurMIMEPos, &lpszMIMEPart, &dwMIMEPartSize) == NO_ERROR)
+						while (MraOfflineMessageGetNextMIMEPart(lpszBody, dwBodySize, lpszBoundary, dwBoundarySize, &lpszCurMIMEPos, &lpszMIMEPart, &dwMIMEPartSize) == NO_ERROR)
 						{
 							if (MraOfflineMessageGetMIMEHeadAndBody(lpszMIMEPart, dwMIMEPartSize, &lpszMIMEHeader, &dwMIMEHeaderSize, &lpszMIMEBody, &dwMIMEBodySize) == NO_ERROR)
 							{

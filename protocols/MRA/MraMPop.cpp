@@ -43,7 +43,7 @@ void MraMPopSessionQueueClear(HANDLE hMPopSessionQueue)
 		pmpsqMPopSessionQueue->dwMPOPKeySize = 0;
 
 		MRA_MPOP_SESSION_QUEUE_ITEM *pmpsqi;
-		while( !FifoMTItemPop(pmpsqMPopSessionQueue, NULL, (LPVOID*)&pmpsqi))
+		while ( !FifoMTItemPop(pmpsqMPopSessionQueue, NULL, (LPVOID*)&pmpsqi))
 			mir_free(pmpsqi);
 	}
 }
@@ -52,7 +52,7 @@ void CMraProto::MraMPopSessionQueueFlush(HANDLE hMPopSessionQueue)
 {
 	if (hMPopSessionQueue) {
 		MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
-		while( FifoMTGetCount(pmpsqMPopSessionQueue)) {
+		while ( FifoMTGetCount(pmpsqMPopSessionQueue)) {
 			MraMPopSessionQueueSetNewMPopKey(hMPopSessionQueue, NULL, 0);
 			MraMPopSessionQueueStart(hMPopSessionQueue);
 		}

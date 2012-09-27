@@ -141,7 +141,7 @@ DWORD MraAddrListGetFromBuff(LPSTR lpszAddreses, size_t dwAddresesSize, MRA_ADDR
 	pmalAddrList->pmaliAddress = (MRA_ADDR_LIST_ITEM*)mir_calloc(sizeof(MRA_ADDR_LIST_ITEM)*dwAllocatedCount);
 	lpszCurrentItem = lpszAddreses;
 
-	while(TRUE) {
+	while (TRUE) {
 		lpszEndItem = (LPSTR)MemoryFindByte((lpszCurrentItem-lpszAddreses), lpszAddreses, dwAddresesSize, ';');
 		if (lpszEndItem == NULL) lpszEndItem = (lpszAddreses+dwAddresesSize);
 		if (!lpszEndItem)
@@ -532,7 +532,7 @@ DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWO
 			i = 0;
 			lpszCurPhone = lpszPhones;
 			lpszPhoneNext = lpszPhones;
-			while(lpszPhoneNext) {
+			while (lpszPhoneNext) {
 				lpszPhoneNext = (LPSTR)MemoryFindByte((lpszCurPhone-lpszPhones), lpszPhones, dwPhonesSize, ',');
 				if (lpszPhoneNext)
 					dwCurPhoneSize = lpszPhoneNext - lpszCurPhone;
@@ -1097,7 +1097,7 @@ void MraAPCQueueProcess(PFIFO_MT pffmtAPCQueue)
 	LPVOID lpData;
 	MRA_APC_QUEUE_ITEM *pqiApcQueueItem;
 
-	while(FifoMTItemPop(pffmtAPCQueue, (PFIFO_MT_ITEM*)&pqiApcQueueItem, &lpData) == NO_ERROR) {
+	while (FifoMTItemPop(pffmtAPCQueue, (PFIFO_MT_ITEM*)&pqiApcQueueItem, &lpData) == NO_ERROR) {
 		SleepEx(10, FALSE);
 		pqiApcQueueItem->pfnAPC((ULONG_PTR)lpData);
 		mir_free(pqiApcQueueItem);
@@ -1113,7 +1113,7 @@ void CMraProto::MraAPCQueueDestroy(PFIFO_MT pffmtAPCQueue)
 
 		FifoMTLock(pffmtAPCQueue);
 
-		while( FifoMTItemPop(pffmtAPCQueue, &pffmtiFifoItem, &lpData) == NO_ERROR) {
+		while ( FifoMTItemPop(pffmtAPCQueue, &pffmtiFifoItem, &lpData) == NO_ERROR) {
 			mir_free(lpData);
 			mir_free(pffmtiFifoItem);
 		}
@@ -1190,7 +1190,7 @@ void CMraProto::MraUserAPCThreadProc(LPVOID lpParameter)
 	dwNextCheckTime = 0;
 	dwFailCounter = 0;
 
-	while( InterlockedExchangeAdd((volatile LONG*)&dwAPCThreadRunning, 0)) {
+	while ( InterlockedExchangeAdd((volatile LONG*)&dwAPCThreadRunning, 0)) {
 		MraAPCQueueProcess(&ffmtAPCQueue);
 
 		if (hThreadWorker)
@@ -1661,7 +1661,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 				do {
 					dwPathLen-=prdsiItems[dwRecDeepCurPos].dwFileNameLen;
 
-					while(dwRetErrorCode == ERROR_FILE_NOT_FOUND && FindNextFile(prdsiItems[dwRecDeepCurPos].hFind, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData)) {
+					while (dwRetErrorCode == ERROR_FILE_NOT_FOUND && FindNextFile(prdsiItems[dwRecDeepCurPos].hFind, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData)) {
 						if (prdsiItems[dwRecDeepCurPos].w32fdFindFileData.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) {// folder
 							if (CompareString( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, L".", 1) != CSTR_EQUAL)
 							if (CompareString( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, L"..", 2) != CSTR_EQUAL) {
@@ -1703,7 +1703,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 					if (prdsiItems) FindClose(prdsiItems[dwRecDeepCurPos].hFind);
 					dwRecDeepCurPos--;
 				}
-					while(dwRecDeepCurPos != -1);
+					while (dwRecDeepCurPos != -1);
 			}
 			mir_free(prdsiItems);
 		}
@@ -1897,7 +1897,7 @@ DWORD ReplaceInBuff(LPVOID lpInBuff, size_t dwInBuffSize, size_t dwReplaceItemsC
 				dwFoundCount++;
 		}
 
-		while(dwFoundCount) {
+		while (dwFoundCount) {
 			for (i = 0; i < dwReplaceItemsCount; i++)
 				if (plpbtFounded[i] && (plpbtFounded[i] < plpbtFounded[dwFirstFoundIndex] || plpbtFounded[dwFirstFoundIndex] == NULL))
 					dwFirstFoundIndex = i;

@@ -70,7 +70,7 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 			InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
 			hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc);
 		}
-			while(--dwCurConnectReTryCount && hConnection == NULL);
+			while (--dwCurConnectReTryCount && hConnection == NULL);
 
 		if (hConnection)
 			bConnected = TRUE;
@@ -93,7 +93,7 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 				InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
 				hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc);
 			}
-				while(--dwCurConnectReTryCount && hConnection == NULL);
+				while (--dwCurConnectReTryCount && hConnection == NULL);
 
 			if (hConnection) {
 				bConnected = TRUE;
@@ -163,7 +163,7 @@ DWORD CMraProto::MraGetNLBData(LPSTR lpszHost, size_t dwHostBuffSize, WORD *pwPo
 		InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
 		nls.hReadConns[0] = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc);
 	}
-		while(--dwCurConnectReTryCount && nls.hReadConns[0] == NULL);
+		while (--dwCurConnectReTryCount && nls.hReadConns[0] == NULL);
 
 	if (nls.hReadConns[0]) {
 		nls.cbSize = sizeof(nls);
@@ -236,7 +236,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 	dwCMDNum = 0;
 	MraSendCMD(MRIM_CS_HELLO, NULL, 0);
 	InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
-	while(m_iStatus != ID_STATUS_OFFLINE && bContinue)
+	while (m_iStatus != ID_STATUS_OFFLINE && bContinue)
 	{
 		dwSelectRet = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls);
 		switch (dwSelectRet) {
@@ -299,7 +299,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 			if (dwBytesReceived && dwBytesReceived != SOCKET_ERROR) {
 				dwRcvBuffSizeUsed += dwBytesReceived;
 
-				while(TRUE) {
+				while (TRUE) {
 					dwDataCurrentBuffSize = (dwRcvBuffSize-dwDataCurrentBuffOffset);
 					dwDataCurrentBuffSizeUsed = (dwRcvBuffSizeUsed-dwDataCurrentBuffOffset);
 					pmaHeader = (mrim_packet_header_t*)(lpbBufferRcv+dwDataCurrentBuffOffset);
@@ -2039,7 +2039,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 							pre.lParam = WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszMessage, dwMessageSize, (LPSTR)lpbBuffer, (dwMessageSize+MAX_PATH), NULL, NULL);
 							
 							lpbBufferCurPos = lpbBuffer;
-							while(TRUE) { // цикл замены ; на 0
+							while (TRUE) { // цикл замены ; на 0
 								lpbBufferCurPos = (LPBYTE)MemoryFindByte((lpbBufferCurPos-lpbBuffer), lpbBuffer, pre.lParam, ';');
 								if (!lpbBufferCurPos)
 									break;

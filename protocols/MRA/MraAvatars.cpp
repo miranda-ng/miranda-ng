@@ -123,85 +123,67 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 
 void CMraProto::MraAvatarsQueueClear(HANDLE hAvatarsQueueHandle)
 {
-	if (hAvatarsQueueHandle)
-	{
-		MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
-		MRA_AVATARS_QUEUE_ITEM *pmraaqiAvatarsQueueItem;
-		PROTO_AVATAR_INFORMATIONT pai = {0};
+	if ( !hAvatarsQueueHandle)
+		return;
 
-		pai.cbSize = sizeof(pai);
-		//pai.hContact = pmraaqiAvatarsQueueItem->hContact;
-		pai.format = PA_FORMAT_UNKNOWN;
-		//pai.filename[0] = 0;
+	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
+	MRA_AVATARS_QUEUE_ITEM *pmraaqiAvatarsQueueItem;
 
-		while(FifoMTItemPop(pmraaqAvatarsQueue, NULL, (LPVOID*)&pmraaqiAvatarsQueueItem) == NO_ERROR)
-		{
-			pai.hContact = pmraaqiAvatarsQueueItem->hContact;
-			ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, 0);
-			mir_free(pmraaqiAvatarsQueueItem);
-		}
+	PROTO_AVATAR_INFORMATIONT pai = {0};
+	pai.cbSize = sizeof(pai);
+	pai.format = PA_FORMAT_UNKNOWN;
+
+	while (FifoMTItemPop(pmraaqAvatarsQueue, NULL, (LPVOID*)&pmraaqiAvatarsQueueItem) == NO_ERROR) {
+		pai.hContact = pmraaqiAvatarsQueueItem->hContact;
+		ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, 0);
+		mir_free(pmraaqiAvatarsQueueItem);
 	}
 }
 
 void CMraProto::MraAvatarsQueueDestroy(HANDLE hAvatarsQueueHandle)
 {
-	if (hAvatarsQueueHandle)
-	{
-		MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
+	if ( !hAvatarsQueueHandle)
+		return;
 
-		InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, FALSE);
-		SetEvent(pmraaqAvatarsQueue->hThreadEvent);
+	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
 
-		WaitForMultipleObjects(pmraaqAvatarsQueue->dwThreadsCount, (HANDLE*)&pmraaqAvatarsQueue->hThread[0], TRUE, (WAIT_FOR_THREAD_TIMEOUT*1000));
+	InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, FALSE);
+	SetEvent(pmraaqAvatarsQueue->hThreadEvent);
 
-		if (InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount, 0))
-		{// Иногда они не завершаются, хотя уведомление говорит об обратном %)
-			while(InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount, 0))
-			{// ждём пока точно все завершатся
-				SleepEx(100, TRUE);
-			}
-		}
+	WaitForMultipleObjects(pmraaqAvatarsQueue->dwThreadsCount, (HANDLE*)&pmraaqAvatarsQueue->hThread[0], TRUE, (WAIT_FOR_THREAD_TIMEOUT*1000));
 
-		CloseHandle(pmraaqAvatarsQueue->hThreadEvent);
+	if (InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount, 0))
+		while (InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount, 0))
+			SleepEx(100, TRUE);
 
-		MraAvatarsQueueClear(hAvatarsQueueHandle);
+	CloseHandle(pmraaqAvatarsQueue->hThreadEvent);
 
-		FifoMTDestroy(pmraaqAvatarsQueue);
-		Netlib_CloseHandle(pmraaqAvatarsQueue->hNetlibUser);
-		mir_free(pmraaqAvatarsQueue);
-	}
+	MraAvatarsQueueClear(hAvatarsQueueHandle);
+
+	FifoMTDestroy(pmraaqAvatarsQueue);
+	Netlib_CloseHandle(pmraaqAvatarsQueue->hNetlibUser);
+	mir_free(pmraaqAvatarsQueue);
 }
 
 DWORD CMraProto::MraAvatarsQueueAdd(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD *pdwAvatarsQueueID)
 {
-	DWORD dwRetErrorCode;
+	if ( !hAvatarsQueueHandle)
+		return ERROR_INVALID_HANDLE;
 
-	if (hAvatarsQueueHandle)
-	{
-		MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
-		MRA_AVATARS_QUEUE_ITEM *pmraaqiAvatarsQueueItem;
+	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
+	MRA_AVATARS_QUEUE_ITEM *pmraaqiAvatarsQueueItem = (MRA_AVATARS_QUEUE_ITEM*)mir_calloc(sizeof(MRA_AVATARS_QUEUE_ITEM));
+	if ( !pmraaqiAvatarsQueueItem)
+		return GetLastError();
 
-		pmraaqiAvatarsQueueItem = (MRA_AVATARS_QUEUE_ITEM*)mir_calloc(sizeof(MRA_AVATARS_QUEUE_ITEM));
-		if (pmraaqiAvatarsQueueItem)
-		{
-			//pmraaqiAvatarsQueueItem->ffmtiFifoItem;
-			pmraaqiAvatarsQueueItem->dwAvatarsQueueID = GetTickCount();
-			pmraaqiAvatarsQueueItem->dwFlags = dwFlags;
-			pmraaqiAvatarsQueueItem->hContact = hContact;
+	pmraaqiAvatarsQueueItem->dwAvatarsQueueID = GetTickCount();
+	pmraaqiAvatarsQueueItem->dwFlags = dwFlags;
+	pmraaqiAvatarsQueueItem->hContact = hContact;
 
-			FifoMTItemPush(pmraaqAvatarsQueue, pmraaqiAvatarsQueueItem, (LPVOID)pmraaqiAvatarsQueueItem);
-			if (pdwAvatarsQueueID) (*pdwAvatarsQueueID) = pmraaqiAvatarsQueueItem->dwAvatarsQueueID;
-			SetEvent(pmraaqAvatarsQueue->hThreadEvent);
-
-			dwRetErrorCode = NO_ERROR;
-		}else {
-			dwRetErrorCode = GetLastError();
-			ShowFormattedErrorMessage(L"Avatars: can't add request to queue, error", dwRetErrorCode);
-		}
-	}else {
-		dwRetErrorCode = ERROR_INVALID_HANDLE;
-	}
-	return dwRetErrorCode;
+	FifoMTItemPush(pmraaqAvatarsQueue, pmraaqiAvatarsQueueItem, (LPVOID)pmraaqiAvatarsQueueItem);
+	if (pdwAvatarsQueueID)
+		*pdwAvatarsQueueID = pmraaqiAvatarsQueueItem->dwAvatarsQueueID;
+	SetEvent(pmraaqAvatarsQueue->hThreadEvent);
+	return NO_ERROR;
 }
 
 void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
@@ -213,12 +195,12 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 	WCHAR wszFileName[MAX_FILEPATH], szErrorText[2048];
 	BOOL bContinue, bKeepAlive, bUseKeepAliveConn, bFailed, bDownloadNew, bDefaultAvt;
 	BYTE btBuff[BUFF_SIZE_RCV];
-	DWORD dwResultCode, dwAvatarFormat, dwReceived, dwWritten, dwServerPort, dwErrorCode;
+	DWORD dwResultCode, dwAvatarFormat, dwReceived, dwServerPort, dwErrorCode;
 	LPSTR lpszUser, lpszDomain;
 	size_t dwEMailSize, dwAvatarSizeServer, dwFileNameSize;
 	FILETIME ftLastModifiedTimeServer, ftLastModifiedTimeLocal;
 	SYSTEMTIME stAvatarLastModifiedTimeLocal;
-	HANDLE hConnection = NULL, hFile;
+	HANDLE hConnection = NULL;
 	NETLIBSELECT nls = {0};
 	INTERNET_TIME itAvatarLastModifiedTimeServer;
 	PROTO_AVATAR_INFORMATIONT pai;
@@ -228,10 +210,8 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 
 	InterlockedIncrement((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount);
 
-	while(InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, 0))
-	{
-		if (FifoMTItemPop(pmraaqAvatarsQueue, NULL, (LPVOID*)&pmraaqiAvatarsQueueItem) == NO_ERROR)
-		{
+	while ( InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, 0)) {
+		if ( FifoMTItemPop(pmraaqAvatarsQueue, NULL, (LPVOID*)&pmraaqiAvatarsQueueItem) == NO_ERROR) {
 			bFailed = TRUE;
 			bDownloadNew = FALSE;
 			bDefaultAvt = FALSE;
@@ -240,133 +220,133 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 			dwServerPort = DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "ServerPort", MRA_AVT_DEFAULT_SERVER_PORT);
 			bUseKeepAliveConn = db_get_b(NULL, MRA_AVT_SECT_NAME, "UseKeepAliveConn", MRA_AVT_DEFAULT_USE_KEEPALIVE_CONN);
 
-			if (mraGetStaticStringA(pmraaqiAvatarsQueueItem->hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
+			if ( mraGetStaticStringA(pmraaqiAvatarsQueueItem->hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
 				BuffToLowerCase(szEMail, szEMail, dwEMailSize);
-				if (lpszDomain = (LPSTR)MemoryFindByte(0, szEMail, dwEMailSize, '@'))
-					if (lpszUser = (LPSTR)MemoryFindByte((lpszDomain-szEMail), szEMail, dwEMailSize, '.')) {
-						*lpszUser = 0;
-						lpszUser = szEMail;
-						*lpszDomain = 0;
-						lpszDomain++;
+				lpszDomain = (LPSTR)MemoryFindByte(0, szEMail, dwEMailSize, '@');
+				lpszUser = (LPSTR)MemoryFindByte((lpszDomain-szEMail), szEMail, dwEMailSize, '.');
+				if (lpszDomain && lpszUser) {
+					*lpszUser = 0;
+					lpszUser = szEMail;
+					*lpszDomain = 0;
+					lpszDomain++;
 
-						ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTING, NULL, 0);
-						if (hConnection == NULL) hConnection = MraAvatarsHttpConnect(pmraaqAvatarsQueue->hNetlibUser, szServer, dwServerPort);
-						if (hConnection) {
-							ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTED, NULL, 0);
-							ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_SENTREQUEST, NULL, 0);
-							if (MraAvatarsHttpTransaction(hConnection, REQUEST_HEAD, lpszUser, lpszDomain, szServer, MAHTRO_AVTMRIM, bUseKeepAliveConn, &dwResultCode, &bKeepAlive, &dwAvatarFormat, &dwAvatarSizeServer, &itAvatarLastModifiedTimeServer) == NO_ERROR)
-							{
-								switch (dwResultCode) {
-								case 200:
-									if (MraAvatarsGetContactTime(pmraaqiAvatarsQueueItem->hContact, "AvatarLastModifiedTime", &stAvatarLastModifiedTimeLocal)) {
-										SystemTimeToFileTime(&itAvatarLastModifiedTimeServer.stTime, &ftLastModifiedTimeServer);
-										SystemTimeToFileTime(&stAvatarLastModifiedTimeLocal, &ftLastModifiedTimeLocal);
+					ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTING, NULL, 0);
+					if (hConnection == NULL)
+						hConnection = MraAvatarsHttpConnect(pmraaqAvatarsQueue->hNetlibUser, szServer, dwServerPort);
+					if (hConnection) {
+						ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTED, NULL, 0);
+						ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_SENTREQUEST, NULL, 0);
+						if ( !MraAvatarsHttpTransaction(hConnection, REQUEST_HEAD, lpszUser, lpszDomain, szServer, MAHTRO_AVTMRIM, bUseKeepAliveConn, &dwResultCode, &bKeepAlive, &dwAvatarFormat, &dwAvatarSizeServer, &itAvatarLastModifiedTimeServer)) {
+							switch (dwResultCode) {
+							case 200:
+								if (MraAvatarsGetContactTime(pmraaqiAvatarsQueueItem->hContact, "AvatarLastModifiedTime", &stAvatarLastModifiedTimeLocal)) {
+									SystemTimeToFileTime(&itAvatarLastModifiedTimeServer.stTime, &ftLastModifiedTimeServer);
+									SystemTimeToFileTime(&stAvatarLastModifiedTimeLocal, &ftLastModifiedTimeLocal);
 
-										if ((*((DWORDLONG*)&ftLastModifiedTimeServer)) != (*((DWORDLONG*)&ftLastModifiedTimeLocal)))
-										{// need check for update
-											bDownloadNew = TRUE;
-											//ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
-										}
-										else {// avatar is valid
-											if (MraAvatarsGetFileName(pmraaqAvatarsQueue, pmraaqiAvatarsQueueItem->hContact, dwAvatarFormat, wszFileName, SIZEOF(wszFileName), NULL) == NO_ERROR) {
-												if ( IsFileExist( wszFileName ))
-													bFailed = FALSE;
-												else
-													bDownloadNew = TRUE;
-											}
+									if ((*((DWORDLONG*)&ftLastModifiedTimeServer)) != (*((DWORDLONG*)&ftLastModifiedTimeLocal)))
+									{// need check for update
+										bDownloadNew = TRUE;
+										//ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
+									}
+									else {// avatar is valid
+										if (MraAvatarsGetFileName(pmraaqAvatarsQueue, pmraaqiAvatarsQueueItem->hContact, dwAvatarFormat, wszFileName, SIZEOF(wszFileName), NULL) == NO_ERROR) {
+											if ( IsFileExist( wszFileName ))
+												bFailed = FALSE;
+											else
+												bDownloadNew = TRUE;
 										}
 									}
-									else // need update
+								}
+								else // need update
+									bDownloadNew = TRUE;
+
+								break;
+							case 404:// return def avatar
+								if (MraAvatarsGetFileName((HANDLE)pmraaqAvatarsQueue, NULL, PA_FORMAT_DEFAULT, wszFileName, SIZEOF(wszFileName), &dwFileNameSize) == NO_ERROR) {
+									if ( IsFileExist( wszFileName )) {
+										dwAvatarFormat = MraAvatarsGetFileFormat(wszFileName, dwFileNameSize);
+										bFailed = FALSE;
+									}
+									else//loading default avatar
 										bDownloadNew = TRUE;
 
-									break;
-								case 404:// return def avatar
-									if (MraAvatarsGetFileName((HANDLE)pmraaqAvatarsQueue, NULL, PA_FORMAT_DEFAULT, wszFileName, SIZEOF(wszFileName), &dwFileNameSize) == NO_ERROR) {
-										if ( IsFileExist( wszFileName )) {
-											dwAvatarFormat = MraAvatarsGetFileFormat(wszFileName, dwFileNameSize);
-											bFailed = FALSE;
-										}
-										else//loading default avatar
-											bDownloadNew = TRUE;
-
-										bDefaultAvt = TRUE;
-									}
-									break;
-
-								default:
-									mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateW(L"Avatars: server return HTTP code: %lu"), dwResultCode);
-									ShowFormattedErrorMessage(szErrorText, NO_ERROR);
-									break;
+									bDefaultAvt = TRUE;
 								}
+								break;
+
+							default:
+								mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateW(L"Avatars: server return HTTP code: %lu"), dwResultCode);
+								ShowFormattedErrorMessage(szErrorText, NO_ERROR);
+								break;
 							}
-							if (bUseKeepAliveConn == FALSE || bKeepAlive == FALSE) NETLIB_CLOSEHANDLE(hConnection);
 						}
+						if (bUseKeepAliveConn == FALSE || bKeepAlive == FALSE) NETLIB_CLOSEHANDLE(hConnection);
+					}
 
+					if (bDownloadNew) {
+						if (hConnection == NULL)
+							hConnection = MraAvatarsHttpConnect(pmraaqAvatarsQueue->hNetlibUser, szServer, dwServerPort);
 
-						if (bDownloadNew)
-						{
-							if (hConnection == NULL) hConnection = MraAvatarsHttpConnect(pmraaqAvatarsQueue->hNetlibUser, szServer, dwServerPort);
-							if (hConnection)
-							{
-								ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_DATA, NULL, 0);
-								if (MraAvatarsHttpTransaction(hConnection, REQUEST_GET, lpszUser, lpszDomain, szServer, MAHTRO_AVT, bUseKeepAliveConn, &dwResultCode, &bKeepAlive, &dwAvatarFormat, &dwAvatarSizeServer, &itAvatarLastModifiedTimeServer) == NO_ERROR && dwResultCode == 200)
-								{
-									if (bDefaultAvt) dwAvatarFormat = PA_FORMAT_DEFAULT;
-									if (MraAvatarsGetFileName(pmraaqAvatarsQueue, pmraaqiAvatarsQueueItem->hContact, dwAvatarFormat, wszFileName, SIZEOF(wszFileName), NULL) == NO_ERROR)
-									{
-										hFile = CreateFile(wszFileName, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-										if (hFile != INVALID_HANDLE_VALUE) {
-											dwWritten = 0;
-											bContinue = TRUE;
-											nls.dwTimeout = (1000*DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "TimeOutReceive", MRA_AVT_DEFAULT_TIMEOUT_RECV));
-											nls.hReadConns[0] = hConnection;
+						if (hConnection) {
+							ProtoBroadcastAck(m_szModuleName, pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_DATA, NULL, 0);
+							if (MraAvatarsHttpTransaction(hConnection, REQUEST_GET, lpszUser, lpszDomain, szServer, MAHTRO_AVT, bUseKeepAliveConn, &dwResultCode, &bKeepAlive, &dwAvatarFormat, &dwAvatarSizeServer, &itAvatarLastModifiedTimeServer) == NO_ERROR && dwResultCode == 200) {
+								if (bDefaultAvt)
+									dwAvatarFormat = PA_FORMAT_DEFAULT;
 
-											while ( bContinue ) {
-												switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
-												case SOCKET_ERROR:
-												case 0:// Time out
+								if ( !MraAvatarsGetFileName(pmraaqAvatarsQueue, pmraaqiAvatarsQueueItem->hContact, dwAvatarFormat, wszFileName, SIZEOF(wszFileName), NULL)) {
+									HANDLE hFile = CreateFile(wszFileName, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+									if (hFile != INVALID_HANDLE_VALUE) {
+										DWORD dwWritten = 0;
+										bContinue = TRUE;
+										nls.dwTimeout = (1000*DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "TimeOutReceive", MRA_AVT_DEFAULT_TIMEOUT_RECV));
+										nls.hReadConns[0] = hConnection;
+
+										while ( bContinue ) {
+											switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
+											case SOCKET_ERROR:
+											case 0:// Time out
+												dwErrorCode = GetLastError();
+												ShowFormattedErrorMessage(L"Avatars: error on receive file data", dwErrorCode);
+												bContinue = FALSE;
+												break;
+											case 1:
+												dwReceived = Netlib_Recv(hConnection, (LPSTR)&btBuff, SIZEOF(btBuff), 0);
+												if (dwReceived == 0 || dwReceived == SOCKET_ERROR) {
 													dwErrorCode = GetLastError();
 													ShowFormattedErrorMessage(L"Avatars: error on receive file data", dwErrorCode);
 													bContinue = FALSE;
-													break;
-												case 1:
-													dwReceived = Netlib_Recv(hConnection, (LPSTR)&btBuff, SIZEOF(btBuff), 0);
-													if (dwReceived == 0 || dwReceived == SOCKET_ERROR) {
-														dwErrorCode = GetLastError();
-														ShowFormattedErrorMessage(L"Avatars: error on receive file data", dwErrorCode);
-														bContinue = FALSE;
+												}
+												else {
+													if ( WriteFile( hFile, (LPVOID)&btBuff, dwReceived, &dwReceived, NULL)) {
+														dwWritten += dwReceived;
+														if (dwWritten >= dwAvatarSizeServer)
+															bContinue = FALSE;
 													}
 													else {
-														if ( WriteFile( hFile, (LPVOID)&btBuff, dwReceived, &dwReceived, NULL)) {
-															dwWritten += dwReceived;
-															if (dwWritten >= dwAvatarSizeServer)
-																bContinue = FALSE;
-														}
-														else {
-															dwErrorCode = GetLastError();
-															ShowFormattedErrorMessage(L"Avatars: cant write file data, error", dwErrorCode);
-															bContinue = FALSE;
-														}
+														dwErrorCode = GetLastError();
+														ShowFormattedErrorMessage(L"Avatars: cant write file data, error", dwErrorCode);
+														bContinue = FALSE;
 													}
-													break;
 												}
+												break;
 											}
-											CloseHandle(hFile);
-											bFailed = FALSE;
 										}
-										else {
-											dwErrorCode = GetLastError();
-											mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateW(L"Avatars: cant open file %s, error"), wszFileName);
-											ShowFormattedErrorMessage(szErrorText, dwErrorCode);
-										}
+										CloseHandle(hFile);
+										bFailed = FALSE;
+									}
+									else {
+										dwErrorCode = GetLastError();
+										mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateW(L"Avatars: cant open file %s, error"), wszFileName);
+										ShowFormattedErrorMessage(szErrorText, dwErrorCode);
 									}
 								}
-								else DebugBreak();
-
-								if (bUseKeepAliveConn == FALSE || bKeepAlive == FALSE) NETLIB_CLOSEHANDLE(hConnection);
 							}
+							else DebugBreak();
+
+							if (bUseKeepAliveConn == FALSE || bKeepAlive == FALSE) NETLIB_CLOSEHANDLE(hConnection);
 						}
 					}
+				}
 			}
 
 			if (bFailed) {
@@ -404,15 +384,9 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 	InterlockedDecrement((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount);
 }
 
-
 HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser, LPSTR lpszHost, DWORD dwPort)
 {
-	HANDLE hConnection;
-	DWORD dwConnectReTryCount, dwCurConnectReTryCount;
 	NETLIBOPENCONNECTION nloc = {0};
-
-	dwConnectReTryCount = DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "ConnectReTryCount", MRA_AVT_DEFAULT_CONN_RETRY_COUNT);
-
 	nloc.cbSize = sizeof(nloc);
 	nloc.flags = (NLOCF_HTTP|NLOCF_V2);
 	nloc.szHost = lpszHost;
@@ -421,16 +395,16 @@ HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser, LPSTR lpszHost, DWORD dwPort)
 	if (nloc.timeout<MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
 	if (nloc.timeout>MRA_TIMEOUT_CONN_МАХ) nloc.timeout = MRA_TIMEOUT_CONN_МАХ;
 
-
-	dwCurConnectReTryCount = dwConnectReTryCount;
+	DWORD dwConnectReTryCount = DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "ConnectReTryCount", MRA_AVT_DEFAULT_CONN_RETRY_COUNT);
+	DWORD dwCurConnectReTryCount = dwConnectReTryCount;
+	HANDLE hConnection;
 	do {
 		hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc);
 	}
-	while(--dwCurConnectReTryCount && hConnection == NULL);
+	while (--dwCurConnectReTryCount && hConnection == NULL);
 
-	return(hConnection);
+	return hConnection;
 }
-
 
 DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPSTR lpszUser, LPSTR lpszDomain, LPSTR lpszHost, DWORD dwReqObj, BOOL bUseKeepAliveConn, DWORD *pdwResultCode, BOOL *pbKeepAlive, DWORD *pdwFormat, size_t *pdwAvatarSize, INTERNET_TIME *pitLastModifiedTime)
 {
@@ -511,65 +485,53 @@ DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPSTR l
 
 BOOL CMraProto::MraAvatarsGetContactTime(HANDLE hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime)
 {
-	BOOL bRet = FALSE;
-
-	if (lpszValueName && pstTime)
-	{
+	if (lpszValueName && pstTime) {
 		char szBuff[MAX_PATH];
 		size_t dwBuffSize;
 		INTERNET_TIME itAvatarLastModifiedTimeLocal;
 
 		if (mraGetStaticStringA(hContact, lpszValueName, (LPSTR)szBuff, SIZEOF(szBuff), &dwBuffSize))
-		if (InternetTimeGetTime(szBuff, dwBuffSize, &itAvatarLastModifiedTimeLocal) == NO_ERROR)
-		{
+		if (InternetTimeGetTime(szBuff, dwBuffSize, &itAvatarLastModifiedTimeLocal) == NO_ERROR) {
 			memmove(pstTime, &itAvatarLastModifiedTimeLocal.stTime, sizeof(SYSTEMTIME));
-			bRet = TRUE;
+			return TRUE;
 		}
 	}
-return(bRet);
+	return FALSE;
 }
 
 
 void CMraProto::MraAvatarsSetContactTime(HANDLE hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime)
 {
-	if (lpszValueName)
-	{
-		char szBuff[MAX_PATH];
-		size_t dwBuffUsedSize;
-		INTERNET_TIME itTime;
+	if (!lpszValueName)
+		return;
 
-		if (pstTime)
-		{
-			itTime.lTimeZone = 0;
-			memmove(&itTime.stTime, pstTime, sizeof(SYSTEMTIME));
-		}else {
-			InternetTimeGetCurrentTime(&itTime);
-		}
+	char szBuff[MAX_PATH];
+	size_t dwBuffUsedSize;
+	INTERNET_TIME itTime;
 
-		if (itTime.stTime.wYear)
-		{
-			InternetTimeGetString(&itTime, (LPSTR)szBuff, SIZEOF(szBuff), &dwBuffUsedSize);
-			mraSetStringExA(hContact, lpszValueName, (LPSTR)szBuff, dwBuffUsedSize);
-		}else {
-			mraDelValue(hContact, lpszValueName);
-		}
+	if (pstTime) {
+		itTime.lTimeZone = 0;
+		memmove(&itTime.stTime, pstTime, sizeof(SYSTEMTIME));
 	}
-}
+	else InternetTimeGetCurrentTime(&itTime);
 
+	if (itTime.stTime.wYear) {
+		InternetTimeGetString(&itTime, (LPSTR)szBuff, SIZEOF(szBuff), &dwBuffUsedSize);
+		mraSetStringExA(hContact, lpszValueName, (LPSTR)szBuff, dwBuffUsedSize);
+	}
+	else mraDelValue(hContact, lpszValueName);
+}
 
 DWORD MraAvatarsGetFileFormat(LPTSTR lpszPath, size_t dwPathSize)
 {
-	DWORD dwRet = -1;
 	TCHAR dwExt[ 5 ];
-
 	BuffToLowerCase(&dwExt, lpszPath+(dwPathSize-4), 4);
-	for ( DWORD i = 0; i < PA_FORMAT_MAX; i++ ) {
-		if ( !_tcscmp( dwExt, lpcszExtensions[i])) {
-			dwRet = i;
-			break;
-		}
-	}
-	return dwRet;
+
+	for ( DWORD i = 0; i < PA_FORMAT_MAX; i++ )
+		if ( !_tcscmp( dwExt, lpcszExtensions[i]))
+			return i;
+
+	return -1;
 }
 
 
@@ -585,16 +547,16 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 	size_t dwEMailSize;
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
 
-	DWORD dwRetErrorCode = ERROR_INSUFFICIENT_BUFFER;
-	if ( !bFoldersPresent )  {
+	if ( !bFoldersPresent ) {
 		// default path
-		LPTSTR lpszPathToAvatarsCache = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
-		dwEMailSize = mir_sntprintf(lpszPath, dwPathSize, _T("%s\\%s\\"), lpszPathToAvatarsCache, m_tszUserName);
-		mir_free(lpszPathToAvatarsCache); 
+		mir_ptr<TCHAR> lpszPathToAvatarsCache( Utils_ReplaceVarsT( _T("%miranda_avatarcache%")));
+		dwEMailSize = mir_sntprintf(lpszPath, dwPathSize, _T("%s\\%s\\"), (TCHAR*)lpszPathToAvatarsCache, m_tszUserName);
 	} 
 	else {
 		FoldersGetCustomPathT( pmraaqAvatarsQueue->hAvatarsPath, lpszCurPath, int(dwPathSize), _T(""));
 		dwEMailSize = lstrlen( lpszCurPath );
+		_tcscpy( lpszCurPath + dwEMailSize, _T("\\"));
+		dwEMailSize++;
 	}
 
 	dwPathSize -= dwEMailSize;
@@ -605,7 +567,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)lpszPath);
 
 		if (dwFormat != PA_FORMAT_DEFAULT) {
-			if ( mraGetStaticStringW(hContact, "e-mail", lpszCurPath, (dwPathSize-5), &dwEMailSize)) {
+			if ( mraGetStaticStringW(hContact, "e-mail", lpszCurPath, dwPathSize-5, &dwEMailSize)) {
 				BuffToLowerCase(lpszCurPath, lpszCurPath, dwEMailSize);
 				lpszCurPath += dwEMailSize;
 				_tcscpy( lpszCurPath, lpcszExtensions[dwFormat] );
@@ -614,7 +576,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 
 				if ( pdwPathSizeRet )
 					*pdwPathSizeRet = lpszCurPath - lpszPath;
-				dwRetErrorCode = NO_ERROR;
+				return NO_ERROR;
 			}						 
 		}
 		else {
@@ -624,12 +586,12 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 
 				if (pdwPathSizeRet)
 					*pdwPathSizeRet = lpszCurPath - lpszPath;
-				dwRetErrorCode = NO_ERROR;
+				return NO_ERROR;
 			}
 		}
 	}
 
-	return dwRetErrorCode;
+	return ERROR_INSUFFICIENT_BUFFER;
 }
 
 DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD *pdwAvatarsQueueID, DWORD *pdwFormat, LPTSTR lpszPath)
@@ -638,15 +600,14 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFl
 
 	if (hAvatarsQueueHandle)
 	if (db_get_b(NULL, MRA_AVT_SECT_NAME, "Enable", MRA_AVT_DEFAULT_ENABLE))
-	if (IsContactChatAgent(hContact) == FALSE)
-	{// not @chat.agent conference
+	if (IsContactChatAgent(hContact) == FALSE) {
+		// not @chat.agent conference
 		BOOL bQueueAdd = TRUE;// check for updates
 		MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
 		SYSTEMTIME stAvatarLastCheckTime;
 
-		if ((dwFlags&GAIF_FORCE) == 0)// если флаг принудит. обновления, то даже не проверяем времени последнего обновления
-		if (MraAvatarsGetContactTime(hContact, "AvatarLastCheckTime", &stAvatarLastCheckTime))
-		{
+		if ((dwFlags & GAIF_FORCE) == 0)// если флаг принудит. обновления, то даже не проверяем времени последнего обновления
+		if (MraAvatarsGetContactTime(hContact, "AvatarLastCheckTime", &stAvatarLastCheckTime)) {
 			TCHAR wszFileName[MAX_FILEPATH];
 			size_t dwPathSize;
 			FILETIME ftCurrentTime, ftExpireTime;
@@ -665,25 +626,24 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFl
 					else
 						CallService( MS_UTILS_PATHTORELATIVET, (WPARAM)wszFileName, (LPARAM)lpszPath );
 				}
-				if (pdwFormat) (*pdwFormat) = GetContactAvatarFormat(hContact, PA_FORMAT_DEFAULT);
+				if (pdwFormat)
+					*pdwFormat = GetContactAvatarFormat(hContact, PA_FORMAT_DEFAULT);
 				dwRetCode = GAIR_SUCCESS;
 				bQueueAdd = FALSE;
 			}
 		}
 
-		if (bQueueAdd || (dwFlags&GAIF_FORCE))
-		if (MraAvatarsQueueAdd(hAvatarsQueueHandle, dwFlags, hContact, pdwAvatarsQueueID) == NO_ERROR)
-		{
+		if (bQueueAdd || (dwFlags & GAIF_FORCE))
+		if ( !MraAvatarsQueueAdd(hAvatarsQueueHandle, dwFlags, hContact, pdwAvatarsQueueID)) {
 			MraAvatarsSetContactTime(hContact, "AvatarLastCheckTime", NULL);
 			dwRetCode = GAIR_WAITFOR;
 		}
 	}
-return(dwRetCode);
+	return dwRetCode;
 }
 
-
 DWORD CMraProto::MraAvatarsQueueGetAvatarSimple(HANDLE hAvatarsQueueHandle, DWORD dwFlags, HANDLE hContact, DWORD dwSourceID)
-{//***deb dwSourceID - for filtering cals from different places
+{
 	DWORD dwRetCode = GAIR_NOAVATAR;
 
 	PROTO_AVATAR_INFORMATIONT pai = {0};
@@ -696,17 +656,20 @@ DWORD CMraProto::MraAvatarsQueueGetAvatarSimple(HANDLE hAvatarsQueueHandle, DWOR
 
 		ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 	}
-	return(dwRetCode);
+	return dwRetCode;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Avatars options
+
 WORD wMraAvatarsControlsList[] = {
-						IDC_SERVER, 
-						IDC_SERVERPORT, 
-						IDC_BUTTON_DEFAULT, 
-						IDC_USE_KEEPALIVE_CONN, 
-						IDC_UPD_CHECK_INTERVAL, 
-						IDC_RETURN_ABC_PATH, 
-						IDC_DELETE_AVT_ON_CONTACT_DELETE
+	IDC_SERVER, 
+	IDC_SERVERPORT, 
+	IDC_BUTTON_DEFAULT, 
+	IDC_USE_KEEPALIVE_CONN, 
+	IDC_UPD_CHECK_INTERVAL, 
+	IDC_RETURN_ABC_PATH, 
+	IDC_DELETE_AVT_ON_CONTACT_DELETE
 };
 
 INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -790,5 +753,3 @@ DWORD CMraProto::MraAvatarsDeleteContactAvatarFile(HANDLE hAvatarsQueueHandle, H
 	}
 	return NO_ERROR;
 }
-
-

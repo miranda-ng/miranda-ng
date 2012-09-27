@@ -132,7 +132,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 					do {
 						pmmpd->hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc);
 					}
-						while(--dwCurConnectReTryCount && pmmpd->hConnection == NULL);
+						while (--dwCurConnectReTryCount && pmmpd->hConnection == NULL);
 
 					if (pmmpd->hConnection) {
 						nls.cbSize = sizeof(nls);
@@ -145,7 +145,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 							ProtoBroadcastAck(m_szModuleName, MraHContactFromEmail(pmmpd->lpszEMail, pmmpd->dwEMailSize, FALSE, TRUE, NULL), ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)pmmpd->dwIDRequest, 0);
 						MraSendPacket(nls.hReadConns[0], 0, MRIM_CS_PROXY_HELLO, &pmmpd->mguidSessionID, sizeof(MRA_GUID));
 						
-						while(bContinue) {
+						while (bContinue) {
 							switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
 							case SOCKET_ERROR:
 							case 0:// Time out

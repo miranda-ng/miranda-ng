@@ -67,7 +67,7 @@ void MraSendQueueDestroy(HANDLE hSendQueueHandle)
 		MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
 
 		ListMTLock(&pmrasqSendQueue->lmtListMT);
-		while(ListMTItemGetFirst(&pmrasqSendQueue->lmtListMT, NULL, (LPVOID*)&pmrasqiSendQueueItem) == NO_ERROR)
+		while (ListMTItemGetFirst(&pmrasqSendQueue->lmtListMT, NULL, (LPVOID*)&pmrasqiSendQueueItem) == NO_ERROR)
 		{
 			ListMTItemDelete(&pmrasqSendQueue->lmtListMT, &pmrasqiSendQueueItem->lmtListMTItem);
 			//mir_free(pmrasqiSendQueueItem->lpbData);
@@ -140,7 +140,7 @@ DWORD MraSendQueueFree(HANDLE hSendQueueHandle, DWORD dwCMDNum)
 				dwRetErrorCode = NO_ERROR;
 				break;
 			}
-		}while(ListMTIteratorMoveNext(&lmtiIterator));
+		}while (ListMTIteratorMoveNext(&lmtiIterator));
 		ListMTUnLock(&pmrasqSendQueue->lmtListMT);
 	}else {
 		dwRetErrorCode = ERROR_INVALID_HANDLE;
@@ -175,7 +175,7 @@ DWORD MraSendQueueFind(HANDLE hSendQueueHandle, DWORD dwCMDNum, DWORD *pdwFlags,
 				dwRetErrorCode = NO_ERROR;
 				break;
 			}
-		}while(ListMTIteratorMoveNext(&lmtiIterator));
+		}while (ListMTIteratorMoveNext(&lmtiIterator));
 		ListMTUnLock(&pmrasqSendQueue->lmtListMT);
 	}else {
 		dwRetErrorCode = ERROR_INVALID_HANDLE;
@@ -214,7 +214,7 @@ DWORD MraSendQueueFindOlderThan(HANDLE hSendQueueHandle, DWORD dwTime, DWORD *pd
 				dwRetErrorCode = NO_ERROR;
 				break;
 			}
-		}while(ListMTIteratorMoveNext(&lmtiIterator));
+		}while (ListMTIteratorMoveNext(&lmtiIterator));
 		ListMTUnLock(&pmrasqSendQueue->lmtListMT);
 	}else {
 		dwRetErrorCode = ERROR_INVALID_HANDLE;

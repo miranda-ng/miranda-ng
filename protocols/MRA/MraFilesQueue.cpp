@@ -166,7 +166,7 @@ void MraFilesQueueDestroy(HANDLE hFilesQueueHandle)
 	MRA_FILES_QUEUE_ITEM *dat;
 
 	ListMTLock(pmrafqFilesQueue);
-	while( ListMTItemGetFirst(pmrafqFilesQueue, NULL, (LPVOID*)&dat) == NO_ERROR)
+	while ( ListMTItemGetFirst(pmrafqFilesQueue, NULL, (LPVOID*)&dat) == NO_ERROR)
 		MraFilesQueueItemFree(dat);
 
 	ListMTUnLock(pmrafqFilesQueue);
@@ -197,7 +197,7 @@ DWORD MraFilesQueueItemFindByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest, MRA
 			break;
 		}
 	}
-		while(ListMTIteratorMoveNext(&lmtiIterator));
+		while (ListMTIteratorMoveNext(&lmtiIterator));
 	ListMTUnLock(pmrafqFilesQueue);
 	return dwRetErrorCode;
 }
@@ -256,7 +256,7 @@ size_t CMraProto::MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBu
 
 		if (gethostname(szHostName, SIZEOF(szHostName)) == 0)
 		if ((sh = gethostbyname((LPSTR)&szHostName))) {
-			while(sh->h_addr_list[dwAdapter]) {
+			while (sh->h_addr_list[dwAdapter]) {
 				lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize-((size_t)lpszCurPos-(size_t)lpszBuff)), "%s:%lu;", inet_ntoa(*((struct in_addr*)sh->h_addr_list[dwAdapter])), dwPort);
 				dwAdapter++;
 			}
@@ -389,7 +389,7 @@ DWORD MraFilesQueueFree(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
 			break;
 		}
 	}
-		while(ListMTIteratorMoveNext(&lmtiIterator));
+		while (ListMTIteratorMoveNext(&lmtiIterator));
 	ListMTUnLock(pmrafqFilesQueue);
 	return dwRetErrorCode;
 }
@@ -513,7 +513,7 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 					do {
 						dat->hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc);
 					}
-						while(--dwCurConnectReTryCount && dat->hConnection == NULL);
+						while (--dwCurConnectReTryCount && dat->hConnection == NULL);
 
 					if (dat->hConnection) {
 						ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
@@ -694,7 +694,7 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags
 	dat->dwFilesTotalSize = 0;
 	dat->pmfqfFiles = (MRA_FILES_QUEUE_FILE*)mir_calloc((sizeof(MRA_FILES_QUEUE_FILE)*dwAllocatedCount));
 	lpwszCurrentItem = lpwszFiles;
-	while(TRUE) {
+	while (TRUE) {
 		lpwszDelimiter = (LPWSTR)MemoryFind(((size_t)lpwszCurrentItem-(size_t)lpwszFiles), lpwszFiles, (dwFilesSize*sizeof(WCHAR)), ";", 2);
 		if (!lpwszDelimiter)
 			break;
@@ -887,7 +887,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 							nls.hReadConns[0] = dat->hConnection;
 							ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
-							while(bContinue)
+							while (bContinue)
 							{
 								switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
 								case SOCKET_ERROR:
@@ -1094,7 +1094,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 			ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)dat->dwIDRequest, 0);
 
 			dwBuffSizeUsed = 0;
-			while(TRUE) {
+			while (TRUE) {
 				dwReceived = Netlib_Recv(dat->hConnection, ((LPSTR)btBuff+dwBuffSizeUsed), (SIZEOF(btBuff)-dwBuffSizeUsed), 0);
 				if (dwReceived == 0 || dwReceived == SOCKET_ERROR) { // err on receive file name to send
 					dwRetErrorCode = GetLastError();
@@ -1141,7 +1141,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 							WideCharToMultiByte(MRA_CODE_PAGE, 0, dat->pmfqfFiles[j].lpwszName, dat->pmfqfFiles[j].dwNameLen, szFileName, SIZEOF(szFileName), NULL, NULL);
 							ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
-							while(TRUE) { // read and sending
+							while (TRUE) { // read and sending
 								if (ReadFile(hFile, btBuff, dwSendBlockSize, (DWORD*)&dwBuffSizeUsed, NULL)) {
 									dwReceived = Netlib_Send(dat->hConnection, (LPSTR)btBuff, dwBuffSizeUsed, 0);
 									if (dwBuffSizeUsed == dwReceived) {
