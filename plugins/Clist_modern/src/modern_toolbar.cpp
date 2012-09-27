@@ -100,11 +100,6 @@ struct ModernToolbarCtrl : public TTBCtrl
 	XPTHANDLE mtbXPTheme;
 };
 
-struct MTB_BUTTONINFO
-{
-	HWND hWindow;
-};
-
 struct
 {
 	HBITMAP  mtb_hBmpBackground;
@@ -304,6 +299,7 @@ void CustomizeToolbar(HWND hwnd)
 	CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)hwnd,(LPARAM)ToolBar_LayeredPaintProc);
 
 	pMTBInfo->mtbXPTheme = xpt_AddThemeHandle(hwnd, L"TOOLBAR");
+	pMTBInfo->bHardUpdate = TRUE;
 }
 
 #define TTB_OPTDIR "TopToolBar"

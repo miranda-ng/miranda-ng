@@ -131,8 +131,11 @@ static void RecreateWindows()
 		for (int i = 0; i < Buttons.getCount(); i++) {
 			TopButtonInt *b = Buttons[i];
 			if (b->hwnd) {
-				DestroyWindow(b->hwnd);
-				b->CreateWnd();
+				if (g_ctrl->bHardUpdate) {
+					DestroyWindow(b->hwnd);
+					b->CreateWnd();
+				}
+				else b->SetBitmap();
 			}
 		}
 	}

@@ -165,6 +165,7 @@ struct TTBCtrl
 	int    nLastHeight;    // fix against recursion in WM_SIZE
 	BOOL   bOrderChanged;  // set by buttons' arrange procedure if the buttons' order was changed
 	BOOL   bFlatButtons, bAutoSize, bSingleLine;
+	BOOL   bHardUpdate;    // clist modern requires to delete buttons to update them
 
 	SortedList* pButtonList;
 

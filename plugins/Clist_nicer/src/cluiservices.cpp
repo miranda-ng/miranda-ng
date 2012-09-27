@@ -240,26 +240,28 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 	* status mode button
 	*/
 
-	if (szStatus) {
-		if (pcli->hwndContactList && IsWindow(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS))) {
-			HWND hwndTtbStatus = ClcGetButtonWindow(IDC_TBTOPSTATUS);
+	if (szStatus && pcli->hwndContactList) {
+		HWND hwndClistBtn = GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS);
+		if ( IsWindow(hwndClistBtn)) {
+			SendMessage(hwndClistBtn, WM_SETTEXT, 0, (LPARAM) szStatus);
+			if (!hIcon)
+				SendMessage(hwndClistBtn, BUTTONSETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);
+			else
+				SendMessage(hwndClistBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);
+			InvalidateRect(hwndClistBtn, NULL, TRUE);
+		}
 
-			SendMessage(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS), WM_SETTEXT, 0, (LPARAM) szStatus);
-			if (!hIcon) {
-				SendMessage(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS), BUTTONSETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);
-				if (g_ButtonItems == NULL && hwndTtbStatus)
-					SendMessage( hwndTtbStatus, BUTTONSETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);
-			}
-			else {
-				SendMessage(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS), BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);
-				if (g_ButtonItems == NULL && hwndTtbStatus)
+		HWND hwndTtbStatus = ClcGetButtonWindow(IDC_TBTOPSTATUS);
+		if ( IsWindow(hwndTtbStatus)) {
+			if (g_ButtonItems == NULL) {
+				if (!hIcon)
+					SendMessage(hwndTtbStatus, BUTTONSETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);
+				else
 					SendMessage(hwndTtbStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);
 			}
-			InvalidateRect(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS), NULL, TRUE);
-			if (hwndTtbStatus)
-				InvalidateRect(hwndTtbStatus, NULL, TRUE);
-			SFL_Update(hIcon, iIcon, hCListImages, szStatus, TRUE);
+			InvalidateRect(hwndTtbStatus, NULL, TRUE);
 		}
+		SFL_Update(hIcon, iIcon, hCListImages, szStatus, TRUE);
 	}
 	return;
 }
