@@ -47,19 +47,6 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	if ( ServiceExists(MS_NUDGE_SEND))
 		heNudgeReceived = CreateHookableEvent(MS_NUDGE);
 
-	FifoMTInitialize(&ffmtAPCQueue, 0);
-	hWaitEventThreadAPCHandle = CreateEvent(NULL, FALSE, FALSE, NULL);
-	InterlockedExchange((volatile LONG*)&dwAPCThreadRunning, TRUE);
-	hThreadAPC = ForkThreadEx(&CMraProto::MraUserAPCThreadProc, NULL);
-	if (hThreadAPC == NULL) {
-		MraAPCQueueDestroy(&ffmtAPCQueue);
-		CloseHandle(hWaitEventThreadAPCHandle);
-		hWaitEventThreadAPCHandle = NULL;
-		DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hThreadAPC, THREAD_SET_CONTEXT, FALSE, 0);
-		DebugPrintCRLFW(L"Fail on create event APC thread, using miranda main thread");
-		MessageBox(NULL, L"Fail on create event APC thread, using miranda main thread", m_tszUserName, MB_OK | MB_ICONINFORMATION);
-	}
-
 	TCHAR name[128];
 	mir_sntprintf( name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
 
@@ -167,16 +154,6 @@ int CMraProto::OnPreShutdown(WPARAM, LPARAM)
 		if (IsThreadAlive(hThreadWorker))
 			WaitForSingleObjectEx(hThreadWorker, (WAIT_FOR_THREAD_TIMEOUT*1000), FALSE);
 		hThreadWorker = NULL;
-	}
-
-	InterlockedExchange((volatile LONG*)&dwAPCThreadRunning, FALSE);
-	if (hWaitEventThreadAPCHandle)
-	if (IsThreadAlive(hThreadAPC))
-		SetEvent(hWaitEventThreadAPCHandle);
-	else {
-		CloseHandle(hWaitEventThreadAPCHandle);
-		hWaitEventThreadAPCHandle = NULL;
-		hThreadAPC = NULL;
 	}
 
 	return 0;
@@ -522,12 +499,12 @@ int CMraProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* h
 				bSlowSend = mraGetByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
 				iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_CONTACTS, MESSAGE_FLAG_CONTACT, szEMail, dwEMailSize, lpwszData, (lpwszDataCurrent-lpwszData), NULL, 0);
 				if (bSlowSend == FALSE)
-					ProtoBroadcastAckAsynchEx(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)NULL, 0);
+					ProtoBroadcastAckEx(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
 			}
 			mir_free(lpwszData);
 		}
 	}
-	else ProtoBroadcastAckAsynchEx(hContact, ACKTYPE_CONTACTS, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.", -1);
+	else ProtoBroadcastAckEx(hContact, ACKTYPE_CONTACTS, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
 
 	return iRet;
 }
@@ -547,7 +524,7 @@ HANDLE CMraProto::SendFile(HANDLE hContact, const TCHAR* szDescription, TCHAR** 
 int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 {
 	if (!m_bLoggedIn) {
-		ProtoBroadcastAckAsynchEx(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.", -1);
+		ProtoBroadcastAckEx(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
 		return 0;
 	}
 
@@ -564,7 +541,7 @@ int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 		lpwszMessage = mir_a2t(lpszMessage);
 
 	if ( !lpwszMessage) {
-		ProtoBroadcastAckAsynchEx(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"Cant allocate buffer for convert to unicode.", -1);
+		ProtoBroadcastAckEx(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"Cant allocate buffer for convert to unicode.");
 		return 0;
 	}
 
@@ -576,7 +553,7 @@ int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 
 		iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEMail, dwEMailSize, lpwszMessage, lstrlen(lpwszMessage), NULL, 0);
 		if (bSlowSend == FALSE)
-			ProtoBroadcastAckAsynchEx(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)NULL, 0);
+			ProtoBroadcastAckEx(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
 	}
 
 	mir_free(lpwszMessage);
@@ -658,7 +635,7 @@ int CMraProto::SetStatus(int iNewStatus)
 
 	// nothing to change
 	if (InterlockedExchangeAdd((volatile LONG*)&m_iStatus, 0) == iNewStatus && iNewStatus != m_iDesiredStatus)
-		ProtoBroadcastAckAsynchEx(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iNewStatus, iNewStatus, 0);
+		ProtoBroadcastAckEx(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iNewStatus, iNewStatus);
 	else {
 		DWORD dwOldStatusMode;
 
@@ -704,7 +681,7 @@ int CMraProto::SetStatus(int iNewStatus)
 			}
 		}
 		MraSetContactStatus(NULL, m_iStatus);
-		ProtoBroadcastAckAsynchEx(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)dwOldStatusMode, m_iStatus, 0);
+		ProtoBroadcastAckEx(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)dwOldStatusMode, m_iStatus);
 	}
 
 	return 0;
@@ -730,7 +707,7 @@ HANDLE CMraProto::GetAwayMsg(HANDLE hContact)
 
 		dwStatusDescSize = mir_sntprintf(szStatusDesc, SIZEOF(szStatusDesc), _T("%s%s"), szTime, szBlogStatus);
 		iRet = GetTickCount();
-		ProtoBroadcastAckAsynchEx(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)szStatusDesc, dwStatusDescSize);
+		ProtoBroadcastAckEx(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)szStatusDesc);
 	}
 	return (HANDLE)iRet;
 }

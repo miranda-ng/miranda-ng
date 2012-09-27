@@ -24,14 +24,6 @@ struct RECURSION_DATA_STACK_ITEM
 	WIN32_FIND_DATA w32fdFindFileData;
 };
 
-struct MRA_APC_QUEUE_ITEM
-{
-	FIFO_MT_ITEM ffmtItem;
-	PAPCFUNC pfnAPC;
-};
-
-void             MraAPCQueueProcess(PFIFO_MT pffmtAPCQueue);
-void CALLBACK    ThreadMarandaCallbackAck(ULONG_PTR dwParam);
 LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 DWORD MraGetSelfVersionString(LPSTR lpszSelfVersion, size_t dwSelfVersionSize, size_t *pdwSelfVersionSizeRet)
@@ -1073,56 +1065,6 @@ BOOL CMraProto::GetContactFirstEMail(HANDLE hContact, BOOL bMRAOnly, LPSTR lpszR
 /////////////////////////////////////////////////////////////////////////////////////////
 //
 
-DWORD CMraProto::MraAPCQueueAdd(PAPCFUNC pfnAPC, PFIFO_MT pffmtAPCQueue, ULONG_PTR dwData)
-{
-	if (hThreadAPC && pffmtAPCQueue && pfnAPC) {
-		MRA_APC_QUEUE_ITEM *pqiApcQueueItem;
-
-		pqiApcQueueItem = (MRA_APC_QUEUE_ITEM*)mir_calloc(sizeof(MRA_APC_QUEUE_ITEM));
-		if (pqiApcQueueItem) {
-			pqiApcQueueItem->pfnAPC = pfnAPC;
-			FifoMTItemPush(pffmtAPCQueue, (PCFIFO_MT_ITEM)pqiApcQueueItem, (LPVOID)dwData);
-			SetEvent(hWaitEventThreadAPCHandle);
-			return NO_ERROR;
-		}
-		
-		return GetLastError();
-	}
-	
-	return ERROR_INVALID_HANDLE;
-}
-
-void MraAPCQueueProcess(PFIFO_MT pffmtAPCQueue)
-{
-	LPVOID lpData;
-	MRA_APC_QUEUE_ITEM *pqiApcQueueItem;
-
-	while (FifoMTItemPop(pffmtAPCQueue, (PFIFO_MT_ITEM*)&pqiApcQueueItem, &lpData) == NO_ERROR) {
-		SleepEx(10, FALSE);
-		pqiApcQueueItem->pfnAPC((ULONG_PTR)lpData);
-		mir_free(pqiApcQueueItem);
-	}
-}
-
-
-void CMraProto::MraAPCQueueDestroy(PFIFO_MT pffmtAPCQueue)
-{
-	if (hThreadAPC) {
-		LPVOID lpData;
-		PFIFO_MT_ITEM pffmtiFifoItem;
-
-		FifoMTLock(pffmtAPCQueue);
-
-		while ( FifoMTItemPop(pffmtAPCQueue, &pffmtiFifoItem, &lpData) == NO_ERROR) {
-			mir_free(lpData);
-			mir_free(pffmtiFifoItem);
-		}
-
-		FifoMTUnLock(pffmtAPCQueue);
-		FifoMTDestroy(pffmtAPCQueue);
-	}
-}
-
 void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode)
 {
 	WCHAR szErrorText[2048], szErrDescription[1024];
@@ -1138,98 +1080,10 @@ void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode
 	MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, 0, szErrorText);
 }
 
-DWORD CMraProto::ProtoBroadcastAckAsynchEx(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam, size_t dwLparamSize)
+DWORD CMraProto::ProtoBroadcastAckEx(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
 {
-	size_t dwModuleSize;
-
-	dwModuleSize = lstrlenA(m_szModuleName);
-	if (dwLparamSize == -1)
-		dwLparamSize = lstrlenA((LPSTR)lParam);
-	
-	ACKDATA *lpAck = (ACKDATA*)mir_calloc((sizeof(ACKDATA)+dwModuleSize+dwLparamSize+sizeof(DWORD)));
-	if (!lpAck)
-		return GetLastError();
-
-	lpAck->cbSize = sizeof(ACKDATA);
-	lpAck->szModule = (((char*)lpAck)+sizeof(ACKDATA));
-	lpAck->hContact = hContact;
-	lpAck->type = type;
-	lpAck->result = hResult;
-	lpAck->hProcess = hProcess;
-	if (dwLparamSize)
-	{
-		lpAck->lParam = (LPARAM)(lpAck->szModule+dwModuleSize);
-		memmove((LPVOID)lpAck->lParam, (LPVOID)lParam, dwLparamSize);
-	}else {
-		lpAck->lParam = lParam;
-	}
-	memmove((LPVOID)lpAck->szModule, (LPVOID)m_szModuleName, dwModuleSize);
-
-	DWORD dwRetErrorCode = MraAPCQueueAdd(ThreadMarandaCallbackAck, &ffmtAPCQueue, (ULONG_PTR)lpAck);
-	if (dwRetErrorCode != NO_ERROR) {
-		CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)lpAck);
-		mir_free(lpAck);
-		return dwRetErrorCode;
-	}
-
+	ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam);
 	return 0;
-}
-
-void CALLBACK ThreadMarandaCallbackAck(ULONG_PTR dwParam)
-{
-	if (dwParam) {
-		CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)dwParam);
-		mir_free(( void* )dwParam);
-	}
-}
-
-void CMraProto::MraUserAPCThreadProc(LPVOID lpParameter)
-{
-	DWORD dwWaitRetCode = WAIT_TIMEOUT, dwCurTickTime, dwNextCheckTime, dwLastPingTime, dwFailCounter;
-
-	dwNextCheckTime = 0;
-	dwFailCounter = 0;
-
-	while ( InterlockedExchangeAdd((volatile LONG*)&dwAPCThreadRunning, 0)) {
-		MraAPCQueueProcess(&ffmtAPCQueue);
-
-		if (hThreadWorker)
-		if ( IsThreadAlive(hThreadWorker)) {// check man thread last answer time
-			dwCurTickTime = GetTickCount();
-
-			if (dwCurTickTime > dwNextCheckTime) {
-				dwLastPingTime = InterlockedExchangeAdd((volatile LONG*)&dwThreadWorkerLastPingTime, 0);
-				// ping failure, thread not answer
-				if (dwCurTickTime > dwLastPingTime && dwCurTickTime - dwLastPingTime > THREAD_MAX_PING_TIME*1000) {
-					dwFailCounter++;
-					DebugPrintCRLFW(L"Watchdog: mra worker thread not answering");
-					if (dwFailCounter > THREAD_MAX_PING_FAIL_COUNT) {
-						DebugPrintCRLFW(L"Watchdog: TERMINATING mra worker thread");
-						TerminateThread(hThreadWorker, WAIT_TIMEOUT);
-						MraThreadClean();
-						dwFailCounter = 0;
-					}
-				}
-				else dwFailCounter = 0;
-				dwNextCheckTime = (dwCurTickTime+(THREAD_MAX_PING_TIME*1000));
-			}
-		}
-		else { // main thread is die, clean up
-			DebugPrintCRLFW(L"Watchdog: mra worker thread is down!!!!");
-			MraThreadClean();
-		}
-		dwWaitRetCode = WaitForSingleObjectEx(hWaitEventThreadAPCHandle, THREAD_SLEEP_TIME, FALSE);
-	}
-
-	if (hWaitEventThreadAPCHandle) {
-		CloseHandle(hWaitEventThreadAPCHandle);
-		hWaitEventThreadAPCHandle = NULL;
-	}
-	MraAPCQueueDestroy(&ffmtAPCQueue);
-	hThreadAPC = NULL;
-	InterlockedExchange((volatile LONG*)&dwAPCThreadRunning, FALSE);
-
-	DebugPrintCRLFW(L"Watchdog: APC thread ended, no watching.");
 }
 
 DWORD CMraProto::CreateBlobFromContact(HANDLE hContact, LPWSTR lpwszRequestReason, size_t dwRequestReasonSize, LPBYTE lpbBuff, size_t dwBuffSize, size_t *pdwBuffSizeRet)

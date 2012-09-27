@@ -247,7 +247,6 @@ BOOL   IsHTTPSProxyUsed                (HANDLE hNetlibUser);
 BOOL   IsContactMraProto               (HANDLE hContact);
 BOOL   IsEMailMR                       (LPSTR lpszEMail, size_t dwEMailSize);
 BOOL   GetEMailFromString              (LPSTR lpszBuff, size_t dwBuffSize, LPSTR *plpszEMail, size_t *pdwEMailSize);
-DWORD  ProtoBroadcastAckAsynchEx       (const char *szModule, HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam, size_t dwLparamSize);
 
 DWORD  CreateBlobFromContact           (HANDLE hContact, LPWSTR lpwszRequestReason, size_t dwRequestReasonSize, LPBYTE lpbBuff, size_t dwBuffSize, size_t *pdwBuffSizeRet);
 int    ExtraSetIcon                    (HANDLE hExtraIcon, HANDLE hContact, HANDLE hImage, int iColumnType);

@@ -1,225 +1,168 @@
 #include "Mra.h"
 #include "MraSendQueue.h"
 
-
-
-
-typedef struct
+struct MRA_SEND_QUEUE : public LIST_MT
 {
-	LIST_MT			lmtListMT;
-	DWORD			dwSendTimeOutInterval;
-} MRA_SEND_QUEUE;
+	DWORD dwSendTimeOutInterval;
+};
 
-
-typedef struct
+struct MRA_SEND_QUEUE_ITEM : public LIST_MT_ITEM
 {
 	// internal
-	LIST_MT_ITEM	lmtListMTItem;
-	FILETIME		ftSendTime;
+	FILETIME ftSendTime;
+
 	// external
-	DWORD			dwCMDNum;
-	DWORD			dwFlags;
-	HANDLE			hContact;
-	DWORD			dwAckType;
-	LPBYTE			lpbData;
-	size_t			dwDataSize;
-} MRA_SEND_QUEUE_ITEM;
-
-
+	DWORD    dwCMDNum;
+	DWORD    dwFlags;
+	HANDLE   hContact;
+	DWORD    dwAckType;
+	LPBYTE   lpbData;
+	size_t   dwDataSize;
+};
 
 #define FILETIME_SECOND			((DWORDLONG)10000000)
 
-
-
-
 DWORD MraSendQueueInitialize(DWORD dwSendTimeOutInterval, HANDLE *phSendQueueHandle)
 {
-	DWORD dwRetErrorCode;
+	if (!phSendQueueHandle)
+		return ERROR_INVALID_HANDLE;
 
-	if (phSendQueueHandle)
-	{
-		MRA_SEND_QUEUE *pmrasqSendQueue;
-
-		pmrasqSendQueue = (MRA_SEND_QUEUE*)mir_calloc(sizeof(MRA_SEND_QUEUE));
-		if (pmrasqSendQueue)
-		{
-			dwRetErrorCode = ListMTInitialize(&pmrasqSendQueue->lmtListMT, 0);
-			if (dwRetErrorCode == NO_ERROR)
-			{
-				pmrasqSendQueue->dwSendTimeOutInterval = dwSendTimeOutInterval;
-				(*phSendQueueHandle) = (HANDLE)pmrasqSendQueue;
-			}
-		}else {
-			dwRetErrorCode = GetLastError();
-		}
-	}else {
-		dwRetErrorCode = ERROR_INVALID_HANDLE;
+	MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)mir_calloc(sizeof(MRA_SEND_QUEUE));
+	if (!pmrasqSendQueue)
+		return GetLastError();
+	
+	DWORD dwRetErrorCode = ListMTInitialize(pmrasqSendQueue, 0);
+	if (dwRetErrorCode == NO_ERROR) {
+		pmrasqSendQueue->dwSendTimeOutInterval = dwSendTimeOutInterval;
+		*phSendQueueHandle = (HANDLE)pmrasqSendQueue;
 	}
-return(dwRetErrorCode);
+	return dwRetErrorCode;
 }
-
 
 void MraSendQueueDestroy(HANDLE hSendQueueHandle)
 {
-	if (hSendQueueHandle)
-	{
-		MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
-		MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
+	if (!hSendQueueHandle)
+		return;
 
-		ListMTLock(&pmrasqSendQueue->lmtListMT);
-		while (ListMTItemGetFirst(&pmrasqSendQueue->lmtListMT, NULL, (LPVOID*)&pmrasqiSendQueueItem) == NO_ERROR)
-		{
-			ListMTItemDelete(&pmrasqSendQueue->lmtListMT, &pmrasqiSendQueueItem->lmtListMTItem);
-			//mir_free(pmrasqiSendQueueItem->lpbData);
+	MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
+	MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
+	{
+		mt_lock l(pmrasqSendQueue);
+		while ( !ListMTItemGetFirst(pmrasqSendQueue, NULL, (LPVOID*)&pmrasqiSendQueueItem)) {
+			ListMTItemDelete(pmrasqSendQueue, pmrasqiSendQueueItem);
 			mir_free(pmrasqiSendQueueItem);
 		}
-		ListMTUnLock(&pmrasqSendQueue->lmtListMT);
-
-		ListMTDestroy(&pmrasqSendQueue->lmtListMT);
-		mir_free(pmrasqSendQueue);
 	}
+
+	ListMTDestroy(pmrasqSendQueue);
+	mir_free(pmrasqSendQueue);
 }
 
 
 DWORD MraSendQueueAdd(HANDLE hSendQueueHandle, DWORD dwCMDNum, DWORD dwFlags, HANDLE hContact, DWORD dwAckType, LPBYTE lpbData, size_t dwDataSize)
 {
-	DWORD dwRetErrorCode;
+	if (!hSendQueueHandle || !dwCMDNum)
+		return ERROR_INVALID_HANDLE;
 
-	if (hSendQueueHandle && dwCMDNum)
-	{
-		MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
-		MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
+	MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
+	MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
 
-		pmrasqiSendQueueItem = (MRA_SEND_QUEUE_ITEM*)mir_calloc(sizeof(MRA_SEND_QUEUE_ITEM));
-		if (pmrasqiSendQueueItem)
-		{
-			//pmrasqiSendQueueItem->lmtListMTItem;
-			GetSystemTimeAsFileTime(&pmrasqiSendQueueItem->ftSendTime);
-			pmrasqiSendQueueItem->dwCMDNum = dwCMDNum;
-			pmrasqiSendQueueItem->dwFlags = dwFlags;
-			pmrasqiSendQueueItem->hContact = hContact;
-			pmrasqiSendQueueItem->dwAckType = dwAckType;
-			pmrasqiSendQueueItem->lpbData = lpbData;
-			pmrasqiSendQueueItem->dwDataSize = dwDataSize;
+	pmrasqiSendQueueItem = (MRA_SEND_QUEUE_ITEM*)mir_calloc(sizeof(MRA_SEND_QUEUE_ITEM));
+	if (!pmrasqiSendQueueItem)
+		return GetLastError();
 
-			ListMTLock(&pmrasqSendQueue->lmtListMT);
-			ListMTItemAdd(&pmrasqSendQueue->lmtListMT, &pmrasqiSendQueueItem->lmtListMTItem, pmrasqiSendQueueItem);
-			ListMTUnLock(&pmrasqSendQueue->lmtListMT);
-			dwRetErrorCode = NO_ERROR;
-		}else {
-			dwRetErrorCode = GetLastError();
-		}
-	}else {
-		dwRetErrorCode = ERROR_INVALID_HANDLE;
-	}
-return(dwRetErrorCode);
+	GetSystemTimeAsFileTime(&pmrasqiSendQueueItem->ftSendTime);
+	pmrasqiSendQueueItem->dwCMDNum = dwCMDNum;
+	pmrasqiSendQueueItem->dwFlags = dwFlags;
+	pmrasqiSendQueueItem->hContact = hContact;
+	pmrasqiSendQueueItem->dwAckType = dwAckType;
+	pmrasqiSendQueueItem->lpbData = lpbData;
+	pmrasqiSendQueueItem->dwDataSize = dwDataSize;
+
+	mt_lock l(pmrasqSendQueue);
+	ListMTItemAdd(pmrasqSendQueue, pmrasqiSendQueueItem, pmrasqiSendQueueItem);
+	return 0;
 }
-
 
 DWORD MraSendQueueFree(HANDLE hSendQueueHandle, DWORD dwCMDNum)
 {
-	DWORD dwRetErrorCode;
+	if (!hSendQueueHandle)
+		return ERROR_INVALID_HANDLE;
 
-	if (hSendQueueHandle)
-	{
-		MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
-		MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
-		LIST_MT_ITERATOR lmtiIterator;
+	MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
+	MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
+	LIST_MT_ITERATOR lmtiIterator;
 
-		dwRetErrorCode = ERROR_NOT_FOUND;
-		ListMTLock(&pmrasqSendQueue->lmtListMT);
-		ListMTIteratorMoveFirst(&pmrasqSendQueue->lmtListMT, &lmtiIterator);
-		do
-		{// цикл
-			if (ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&pmrasqiSendQueueItem) == NO_ERROR)
-			if (pmrasqiSendQueueItem->dwCMDNum == dwCMDNum)
-			{
-				ListMTItemDelete(&pmrasqSendQueue->lmtListMT, &pmrasqiSendQueueItem->lmtListMTItem);
-				//mir_free(pmrasqiSendQueueItem->lpbData);
-				mir_free(pmrasqiSendQueueItem);
-				dwRetErrorCode = NO_ERROR;
-				break;
-			}
-		}while (ListMTIteratorMoveNext(&lmtiIterator));
-		ListMTUnLock(&pmrasqSendQueue->lmtListMT);
-	}else {
-		dwRetErrorCode = ERROR_INVALID_HANDLE;
+	mt_lock l(pmrasqSendQueue);
+	ListMTIteratorMoveFirst(pmrasqSendQueue, &lmtiIterator);
+	do {
+		if ( !ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&pmrasqiSendQueueItem))
+		if (pmrasqiSendQueueItem->dwCMDNum == dwCMDNum) {
+			ListMTItemDelete(pmrasqSendQueue, pmrasqiSendQueueItem);
+			mir_free(pmrasqiSendQueueItem);
+			return 0;
+		}
 	}
-return(dwRetErrorCode);
-}
+		while (ListMTIteratorMoveNext(&lmtiIterator));
 
+	return ERROR_NOT_FOUND;
+}
 
 DWORD MraSendQueueFind(HANDLE hSendQueueHandle, DWORD dwCMDNum, DWORD *pdwFlags, HANDLE *phContact, DWORD *pdwAckType, LPBYTE *plpbData, size_t *pdwDataSize)
 {
-	DWORD dwRetErrorCode;
+	if (!hSendQueueHandle)
+		return ERROR_INVALID_HANDLE;
 
-	if (hSendQueueHandle)
-	{
-		MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
-		MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
-		LIST_MT_ITERATOR lmtiIterator;
+	MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
+	MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
+	LIST_MT_ITERATOR lmtiIterator;
 
-		dwRetErrorCode = ERROR_NOT_FOUND;
-		ListMTLock(&pmrasqSendQueue->lmtListMT);
-		ListMTIteratorMoveFirst(&pmrasqSendQueue->lmtListMT, &lmtiIterator);
-		do
-		{// цикл
-			if (ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&pmrasqiSendQueueItem) == NO_ERROR)
-			if (pmrasqiSendQueueItem->dwCMDNum == dwCMDNum)
-			{
-				if (pdwFlags)		(*pdwFlags) = pmrasqiSendQueueItem->dwFlags;
-				if (phContact)		(*phContact) = pmrasqiSendQueueItem->hContact;
-				if (pdwAckType)		(*pdwAckType) = pmrasqiSendQueueItem->dwAckType;
-				if (plpbData)		(*plpbData) = pmrasqiSendQueueItem->lpbData;
-				if (pdwDataSize)	(*pdwDataSize) = pmrasqiSendQueueItem->dwDataSize;
-				dwRetErrorCode = NO_ERROR;
-				break;
-			}
-		}while (ListMTIteratorMoveNext(&lmtiIterator));
-		ListMTUnLock(&pmrasqSendQueue->lmtListMT);
-	}else {
-		dwRetErrorCode = ERROR_INVALID_HANDLE;
+	mt_lock l(pmrasqSendQueue);
+	ListMTIteratorMoveFirst(pmrasqSendQueue, &lmtiIterator);
+	do {
+		if ( !ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&pmrasqiSendQueueItem))
+		if (pmrasqiSendQueueItem->dwCMDNum == dwCMDNum) {
+			if (pdwFlags)		(*pdwFlags) = pmrasqiSendQueueItem->dwFlags;
+			if (phContact)		(*phContact) = pmrasqiSendQueueItem->hContact;
+			if (pdwAckType)		(*pdwAckType) = pmrasqiSendQueueItem->dwAckType;
+			if (plpbData)		(*plpbData) = pmrasqiSendQueueItem->lpbData;
+			if (pdwDataSize)	(*pdwDataSize) = pmrasqiSendQueueItem->dwDataSize;
+			return 0;
+		}
 	}
-return(dwRetErrorCode);
-}
+		while (ListMTIteratorMoveNext(&lmtiIterator));
 
+	return ERROR_NOT_FOUND;
+}
 
 DWORD MraSendQueueFindOlderThan(HANDLE hSendQueueHandle, DWORD dwTime, DWORD *pdwCMDNum, DWORD *pdwFlags, HANDLE *phContact, DWORD *pdwAckType, LPBYTE *plpbData, size_t *pdwDataSize)
 {
-	DWORD dwRetErrorCode;
+	if (!hSendQueueHandle)
+		return ERROR_INVALID_HANDLE;
 
-	if (hSendQueueHandle)
-	{
-		FILETIME ftExpireTime;
-		MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
+	FILETIME ftExpireTime;
+	GetSystemTimeAsFileTime(&ftExpireTime);
+	(*((DWORDLONG*)&ftExpireTime))-=((DWORDLONG)dwTime*FILETIME_SECOND);
+	
+	MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
+	mt_lock l(pmrasqSendQueue);
+
+	LIST_MT_ITERATOR lmtiIterator;
+	ListMTIteratorMoveFirst(pmrasqSendQueue, &lmtiIterator);
+	do {
 		MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
-		LIST_MT_ITERATOR lmtiIterator;
-
-		GetSystemTimeAsFileTime(&ftExpireTime);
-		(*((DWORDLONG*)&ftExpireTime))-=((DWORDLONG)dwTime*FILETIME_SECOND);
-		dwRetErrorCode = ERROR_NOT_FOUND;
-		ListMTLock(&pmrasqSendQueue->lmtListMT);
-		ListMTIteratorMoveFirst(&pmrasqSendQueue->lmtListMT, &lmtiIterator);
-		do
-		{// цикл
-			if (ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&pmrasqiSendQueueItem) == NO_ERROR)
-			if ((*((DWORDLONG*)&ftExpireTime))>(*((DWORDLONG*)&pmrasqiSendQueueItem->ftSendTime)))
-			{
-				if (pdwCMDNum)		(*pdwCMDNum) = pmrasqiSendQueueItem->dwCMDNum;
-				if (pdwFlags)		(*pdwFlags) = pmrasqiSendQueueItem->dwFlags;
-				if (phContact)		(*phContact) = pmrasqiSendQueueItem->hContact;
-				if (pdwAckType)		(*pdwAckType) = pmrasqiSendQueueItem->dwAckType;
-				if (plpbData)		(*plpbData) = pmrasqiSendQueueItem->lpbData;
-				if (pdwDataSize)	(*pdwDataSize) = pmrasqiSendQueueItem->dwDataSize;
-				dwRetErrorCode = NO_ERROR;
-				break;
-			}
-		}while (ListMTIteratorMoveNext(&lmtiIterator));
-		ListMTUnLock(&pmrasqSendQueue->lmtListMT);
-	}else {
-		dwRetErrorCode = ERROR_INVALID_HANDLE;
+		if ( !ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&pmrasqiSendQueueItem))
+		if ((*((DWORDLONG*)&ftExpireTime))>(*((DWORDLONG*)&pmrasqiSendQueueItem->ftSendTime))) {
+			if (pdwCMDNum)   *pdwCMDNum = pmrasqiSendQueueItem->dwCMDNum;
+			if (pdwFlags)    *pdwFlags = pmrasqiSendQueueItem->dwFlags;
+			if (phContact)   *phContact = pmrasqiSendQueueItem->hContact;
+			if (pdwAckType)  *pdwAckType = pmrasqiSendQueueItem->dwAckType;
+			if (plpbData)    *plpbData = pmrasqiSendQueueItem->lpbData;
+			if (pdwDataSize) *pdwDataSize = pmrasqiSendQueueItem->dwDataSize;
+			return 0;
+		}
 	}
-return(dwRetErrorCode);
+		while (ListMTIteratorMoveNext(&lmtiIterator));
+
+	return ERROR_NOT_FOUND;
 }
-
-

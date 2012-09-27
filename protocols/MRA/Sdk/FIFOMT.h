@@ -62,13 +62,8 @@ typedef PCLIST_MT_ITERATOR	PCFIFO_MT_ITERATOR, LPCFIFO_MT_ITERATOR;
 
 __inline size_t FifoMTItemPush(PCFIFO_MT pcpmtFifoMT,PCFIFO_MT_ITEM pcffmtiFifoItem,LPVOID lpData)
 {
-	size_t dwRet;
-
-	ListMTLock(pcpmtFifoMT);
-	dwRet=ListMTItemAdd(pcpmtFifoMT,pcffmtiFifoItem,lpData);
-	ListMTUnLock(pcpmtFifoMT);
-
-return(dwRet);
+	mt_lock l(pcpmtFifoMT);
+	return ListMTItemAdd(pcpmtFifoMT,pcffmtiFifoItem,lpData);
 }
 
 
@@ -77,39 +72,28 @@ __inline DWORD FifoMTItemPop(PCFIFO_MT pcpmtFifoMT,PFIFO_MT_ITEM *ppffmtiFifoIte
 	DWORD dwRetErrorCode;
 	PLIST_MT_ITEM plmtiItem;
 
-	ListMTLock(pcpmtFifoMT);
+	mt_lock l(pcpmtFifoMT);
 	if ((dwRetErrorCode=ListMTItemGetFirst(pcpmtFifoMT,&plmtiItem,plpData))==NO_ERROR)
 	{
 		if (ppffmtiFifoItem) (*ppffmtiFifoItem)=plmtiItem;
-		dwRetErrorCode=ListMTItemDelete(pcpmtFifoMT,plmtiItem);
+		return ListMTItemDelete(pcpmtFifoMT,plmtiItem);
 	}
-	ListMTUnLock(pcpmtFifoMT);
 
-return(dwRetErrorCode);
+	return dwRetErrorCode;
 }
 
 
 __inline DWORD FifoMTItemGetFirst(PCFIFO_MT pcpmtFifoMT,PFIFO_MT_ITEM *ppffmtiFifoItem,LPVOID *plpData)
 {
-	DWORD dwRetErrorCode;
-
-	ListMTLock(pcpmtFifoMT);
-	dwRetErrorCode=ListMTItemGetFirst(pcpmtFifoMT,ppffmtiFifoItem,plpData);
-	ListMTUnLock(pcpmtFifoMT);
-
-return(dwRetErrorCode);
+	mt_lock l(pcpmtFifoMT);
+	return ListMTItemGetFirst(pcpmtFifoMT,ppffmtiFifoItem,plpData);
 }
 
 
 __inline DWORD FifoMTItemGetLast(PCFIFO_MT pcpmtFifoMT,PFIFO_MT_ITEM *ppffmtiFifoItem,LPVOID *plpData)
 {
-	DWORD dwRetErrorCode;
-
-	ListMTLock(pcpmtFifoMT);
-	dwRetErrorCode=ListMTItemGetLast(pcpmtFifoMT,ppffmtiFifoItem,plpData);
-	ListMTUnLock(pcpmtFifoMT);
-
-return(dwRetErrorCode);
+	mt_lock l(pcpmtFifoMT);
+	return ListMTItemGetLast(pcpmtFifoMT,ppffmtiFifoItem,plpData);
 }
 
 

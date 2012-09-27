@@ -241,7 +241,7 @@ int CMraProto::MraChatGcEventHook(WPARAM, LPARAM lParam)
 
 					INT_PTR iSendRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEMail, dwEMailSize, gch->ptszText, dwMessageSize, NULL, 0);
 					if (bSlowSend == FALSE)
-						ProtoBroadcastAckAsynchEx(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)iSendRet, (LPARAM)NULL, 0);
+						ProtoBroadcastAckEx(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)iSendRet, 0);
 
 					MraChatSessionEventSendByHandle(hContact, GC_EVENT_MESSAGE, GCEF_ADDTOLOG, NULL, 0, NULL, gch->ptszText, 0, (DWORD)_time32(NULL));
 				}

@@ -205,7 +205,6 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	bool   m_bLoggedIn;
 
 	HANDLE  hSendQueueHandle, hFilesQueueHandle, hMPopSessionQueue;
-	FIFO_MT ffmtAPCQueue;
 
 	HANDLE  hNetlibUser, heNudgeReceived, hHookExtraIconsApply;
 	HANDLE  hThreadWorker;
@@ -214,9 +213,6 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	DWORD   dwThreadWorkerRunning;
 	DWORD   dwCMDNum;
 
-	HANDLE  hThreadAPC;                // APC thread, for queue tasks
-	HANDLE  hWaitEventThreadAPCHandle;
-	DWORD   dwAPCThreadRunning;
 	HANDLE  hAvatarsQueueHandle;
 
 	HANDLE  hMainMenuItems[MAIN_MENU_ITEMS_COUNT+4];
@@ -311,16 +307,12 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	DWORD  MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize, DWORD dwMessageFlags, LPWSTR lpwszMessage, size_t dwMessageSize);
 	BOOL   MraAntiSpamHasMessageBadWordsW(LPWSTR lpwszMessage, size_t dwMessageSize);
 
-	DWORD  MraAPCQueueAdd(PAPCFUNC pfnAPC, PFIFO_MT pffmtAPCQueue, ULONG_PTR dwData);
-	void   MraAPCQueueDestroy(PFIFO_MT pffmtAPCQueue);
-	void   __cdecl MraUserAPCThreadProc(LPVOID lpParameter);
-
 	void   InitMainMenu();
 	void   InitContactMenu();
 	void   CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMainIcon, LPSTR pszContactOwner, BOOL bIsStatus, const struct GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount, HANDLE *hResult);
 	void   CListShowMenuItem(HANDLE hMenuItem, BOOL bShow);
 
-	DWORD  ProtoBroadcastAckAsynchEx(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam, size_t dwLparamSize);
+	DWORD  ProtoBroadcastAckEx(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam);
 	DWORD  CreateBlobFromContact(HANDLE hContact, LPWSTR lpwszRequestReason, size_t dwRequestReasonSize, LPBYTE lpbBuff, size_t dwBuffSize, size_t *pdwBuffSizeRet);
 
 	BOOL   SetPassDB(LPSTR lpszBuff, size_t dwBuffSize);

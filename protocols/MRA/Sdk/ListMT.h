@@ -126,18 +126,20 @@ __inline BOOL ListMTTryLock(PCLIST_MT pclmtListMT)
 #endif
 }
 
-
-__inline void ListMTLock(PCLIST_MT pclmtListMT)
+class mt_lock
 {
-	EnterCriticalSection(&pclmtListMT->cs);
-}
+	PCLIST_MT m_list;
 
+public:
+	__forceinline mt_lock(PCLIST_MT _pList) :
+		m_list( _pList )
+	{	EnterCriticalSection(&_pList->cs);
+	}
 
-__inline void ListMTUnLock(PCLIST_MT pclmtListMT)
-{
-	LeaveCriticalSection(&pclmtListMT->cs);
-}
-
+	__forceinline ~mt_lock()
+	{	LeaveCriticalSection(&m_list->cs);
+	}
+};
 
 __inline size_t ListMTGetCount(PCLIST_MT pclmtListMT)
 {

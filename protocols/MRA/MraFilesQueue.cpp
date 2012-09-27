@@ -164,13 +164,11 @@ void MraFilesQueueDestroy(HANDLE hFilesQueueHandle)
 
 	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
 	MRA_FILES_QUEUE_ITEM *dat;
-
-	ListMTLock(pmrafqFilesQueue);
-	while ( ListMTItemGetFirst(pmrafqFilesQueue, NULL, (LPVOID*)&dat) == NO_ERROR)
-		MraFilesQueueItemFree(dat);
-
-	ListMTUnLock(pmrafqFilesQueue);
-
+	{
+		mt_lock l(pmrafqFilesQueue);
+		while ( ListMTItemGetFirst(pmrafqFilesQueue, NULL, (LPVOID*)&dat) == NO_ERROR)
+			MraFilesQueueItemFree(dat);
+	}
 	ListMTDestroy(pmrafqFilesQueue);
 	mir_free(pmrafqFilesQueue);
 }
@@ -184,22 +182,19 @@ DWORD MraFilesQueueItemFindByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest, MRA
 	MRA_FILES_QUEUE_ITEM *dat;
 	LIST_MT_ITERATOR lmtiIterator;
 
-	DWORD dwRetErrorCode = ERROR_NOT_FOUND;
-	ListMTLock(pmrafqFilesQueue);
+	mt_lock l(pmrafqFilesQueue);
 	ListMTIteratorMoveFirst(pmrafqFilesQueue, &lmtiIterator);
-	do
-	{// цикл
+	do {
 		if (ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&dat) == NO_ERROR)
-		if (dat->dwIDRequest == dwIDRequest)
-		{
-			if (ppmrafqFilesQueueItem) (*ppmrafqFilesQueueItem) = dat;
-			dwRetErrorCode = NO_ERROR;
-			break;
+		if (dat->dwIDRequest == dwIDRequest) {
+			if (ppmrafqFilesQueueItem)
+				*ppmrafqFilesQueueItem = dat;
+			return 0;
 		}
 	}
 		while (ListMTIteratorMoveNext(&lmtiIterator));
-	ListMTUnLock(pmrafqFilesQueue);
-	return dwRetErrorCode;
+
+	return ERROR_NOT_FOUND;
 }
 
 HANDLE MraFilesQueueItemProxyByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
@@ -224,9 +219,10 @@ void MraFilesQueueItemFree(MRA_FILES_QUEUE_ITEM *dat)
 	MraAddrListFree(&dat->malAddrList);
 	MraMrimProxyFree(dat->hMraMrimProxyData);
 	mir_free(dat->lpwszPath);
-	ListMTLock(plmtListMT);
-	ListMTItemDelete(plmtListMT, dat);
-	ListMTUnLock(plmtListMT);
+	{
+		mt_lock l(plmtListMT);
+		ListMTItemDelete(plmtListMT, dat);
+	}
 	mir_free(dat);
 }
 
@@ -278,7 +274,7 @@ DWORD CMraProto::MraFilesQueueAccept(HANDLE hFilesQueueHandle, DWORD dwIDRequest
 	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
 	MRA_FILES_QUEUE_ITEM *dat;
 
-	ListMTLock(pmrafqFilesQueue);
+	mt_lock l(pmrafqFilesQueue);
 	DWORD dwRetErrorCode = MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat);
 	if (dwRetErrorCode == NO_ERROR) {
 		MRA_FILES_THREADPROC_PARAMS *pmftpp = (MRA_FILES_THREADPROC_PARAMS*)mir_calloc(sizeof(MRA_FILES_THREADPROC_PARAMS));
@@ -298,7 +294,6 @@ DWORD CMraProto::MraFilesQueueAccept(HANDLE hFilesQueueHandle, DWORD dwIDRequest
 
 		dat->hThread = ForkThreadEx(&CMraProto::MraFilesQueueRecvThreadProc, pmftpp);
 	}
-	ListMTUnLock(pmrafqFilesQueue);
 	return dwRetErrorCode;
 }
 
@@ -310,7 +305,7 @@ DWORD CMraProto::MraFilesQueueCancel(HANDLE hFilesQueueHandle, DWORD dwIDRequest
 	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
 	MRA_FILES_QUEUE_ITEM *dat;
 
-	ListMTLock(pmrafqFilesQueue);
+	mt_lock l(pmrafqFilesQueue);
 	DWORD dwRetErrorCode = MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat);
 	if (dwRetErrorCode == NO_ERROR) { //***deb closesocket, send message to thread
 		InterlockedExchange((volatile LONG*)&dat->bIsWorking, FALSE);
@@ -336,41 +331,27 @@ DWORD CMraProto::MraFilesQueueCancel(HANDLE hFilesQueueHandle, DWORD dwIDRequest
 		if (dat->hThread == NULL)
 			MraFilesQueueItemFree(dat);
 	}
-	ListMTUnLock(pmrafqFilesQueue);
 	return dwRetErrorCode;
 }
 
 DWORD CMraProto::MraFilesQueueStartMrimProxy(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
 {
-	DWORD dwRetErrorCode;
+	if (!hFilesQueueHandle || !mraGetByte(NULL, "FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS))
+		return ERROR_INVALID_HANDLE;
 
-	if (hFilesQueueHandle && mraGetByte(NULL, "FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS))
-	{
-		MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
-		MRA_FILES_QUEUE_ITEM *dat;
+	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
+	MRA_FILES_QUEUE_ITEM *dat;
 
-		ListMTLock(pmrafqFilesQueue);
-		if ((dwRetErrorCode = MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat)) == NO_ERROR)
-		{//***deb
-			if (dat->bSending == FALSE)
-			{// receiving
-				SetEvent(dat->hWaitHandle);// cancel wait incomming connection
-			}else {// sending
+	mt_lock l(pmrafqFilesQueue);
+	if ( !MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat))
+		if (dat->bSending == FALSE)
+			SetEvent(dat->hWaitHandle);// cancel wait incomming connection
 
-			}
-		}
-		ListMTUnLock(pmrafqFilesQueue);
-	}else {
-		dwRetErrorCode = ERROR_INVALID_HANDLE;
-	}
-return(dwRetErrorCode);
+	return 0;
 }
-
 
 DWORD MraFilesQueueFree(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
 {
-	DWORD dwRetErrorCode;
-
 	if (!hFilesQueueHandle)
 		return ERROR_INVALID_HANDLE;
 
@@ -378,20 +359,18 @@ DWORD MraFilesQueueFree(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
 	MRA_FILES_QUEUE_ITEM *dat;
 	LIST_MT_ITERATOR lmtiIterator;
 
-	dwRetErrorCode = ERROR_NOT_FOUND;
-	ListMTLock(pmrafqFilesQueue);
+	mt_lock l(pmrafqFilesQueue);
 	ListMTIteratorMoveFirst(pmrafqFilesQueue, &lmtiIterator);
-	do { // цикл
+	do {
 		if (ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&dat) == NO_ERROR)
 		if (dat->dwIDRequest == dwIDRequest) {
 			MraFilesQueueItemFree(dat);
-			dwRetErrorCode = NO_ERROR;
-			break;
+			return 0;
 		}
 	}
 		while (ListMTIteratorMoveNext(&lmtiIterator));
-	ListMTUnLock(pmrafqFilesQueue);
-	return dwRetErrorCode;
+
+	return ERROR_NOT_FOUND;
 }
 
 DWORD CMraProto::MraFilesQueueSendMirror(HANDLE hFilesQueueHandle, DWORD dwIDRequest, LPSTR lpszAddreses, size_t dwAddresesSize)
@@ -402,7 +381,7 @@ DWORD CMraProto::MraFilesQueueSendMirror(HANDLE hFilesQueueHandle, DWORD dwIDReq
 	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
 	MRA_FILES_QUEUE_ITEM *dat;
 
-	ListMTLock(pmrafqFilesQueue);
+	mt_lock l(pmrafqFilesQueue);
 	DWORD dwRetErrorCode = MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat);
 	if (dwRetErrorCode == NO_ERROR) {
 		MraAddrListGetFromBuff(lpszAddreses, dwAddresesSize, &dat->malAddrList);
@@ -411,7 +390,6 @@ DWORD CMraProto::MraFilesQueueSendMirror(HANDLE hFilesQueueHandle, DWORD dwIDReq
 		dat->hConnection = NULL;
 		SetEvent(dat->hWaitHandle);
 	}
-	ListMTUnLock(pmrafqFilesQueue);
 	return dwRetErrorCode;
 }
 
@@ -742,10 +720,10 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags
 
 	MraAddrListGetFromBuff(lpszAddreses, dwAddresesSize, &dat->malAddrList);
 	MraAddrListStoreToContact(dat->hContact, &dat->malAddrList);
-
-	ListMTLock(pmrafqFilesQueue);
-	ListMTItemAdd(pmrafqFilesQueue, dat, dat);
-	ListMTUnLock(pmrafqFilesQueue);
+	{
+		mt_lock l(pmrafqFilesQueue);
+		ListMTItemAdd(pmrafqFilesQueue, dat, dat);
+	}
 
 	// Send chain event
 	PROTORECVFILET prf;
@@ -975,9 +953,8 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 		}
 		else ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)dat->dwIDRequest, 0);
 
-		ListMTLock(pmrafqFilesQueue);
+		mt_lock l(pmrafqFilesQueue);
 		MraFilesQueueItemFree(dat);
-		ListMTUnLock(pmrafqFilesQueue);
 	}
 }
 
@@ -1023,13 +1000,12 @@ DWORD CMraProto::MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, H
 	}
 
 	dat->bSending = TRUE;
-	if (pdwIDRequest)
-		*pdwIDRequest = dat->dwIDRequest;
+	if (pdwIDRequest) *pdwIDRequest = dat->dwIDRequest;
 
-	ListMTLock(pmrafqFilesQueue);
-	ListMTItemAdd(pmrafqFilesQueue, dat, dat);
-	ListMTUnLock(pmrafqFilesQueue);
-
+	{
+		mt_lock l(pmrafqFilesQueue);
+		ListMTItemAdd(pmrafqFilesQueue, dat, dat);
+	}
 	MRA_FILES_THREADPROC_PARAMS *pmftpp = (MRA_FILES_THREADPROC_PARAMS*)mir_calloc(sizeof(MRA_FILES_THREADPROC_PARAMS));
 	pmftpp->hFilesQueueHandle = hFilesQueueHandle;
 	pmftpp->dat = dat;
@@ -1223,7 +1199,6 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 	}
 	else ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)dat->dwIDRequest, 0);
 
-	ListMTLock(pmrafqFilesQueue);
+	mt_lock l(pmrafqFilesQueue);
 	MraFilesQueueItemFree(dat);
-	ListMTUnLock(pmrafqFilesQueue);
 }

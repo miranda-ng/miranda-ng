@@ -28,7 +28,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID Reserved)
 	case DLL_PROCESS_ATTACH:
 		bzero(&masMraSettings, sizeof(masMraSettings));
 		masMraSettings.hInstance = hInstance;
-		masMraSettings.hHeap = HeapCreate(0, 0, 0);//GetProcessHeap();
+		masMraSettings.hHeap = HeapCreate(0, 0, 0);
 		DisableThreadLibraryCalls(hInstance);
 		break;
 
