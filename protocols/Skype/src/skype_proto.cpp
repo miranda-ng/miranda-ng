@@ -74,7 +74,16 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 	}
 }
 
-HICON  __cdecl CSkypeProto::GetIcon( int iconIndex ) { return 0; }
+HICON  __cdecl CSkypeProto::GetIcon( int iconIndex )
+{
+	if (LOWORD(iconIndex) == PLI_PROTOCOL)
+	{
+		HICON ico = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"Skype_main");
+		return CopyIcon(ico);
+	} else
+		return 0;
+}
+
 int    __cdecl CSkypeProto::GetInfo( HANDLE hContact, int infoType ) { return 0; }
 
 HANDLE __cdecl CSkypeProto::SearchBasic( const TCHAR* id ) { return 0; }

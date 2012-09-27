@@ -27,12 +27,12 @@
 #include <m_protomod.h>
 #include <m_protosvc.h>
 #include <m_protoint.h>
-//#include <m_skin.h>
+#include <m_skin.h>
 //#include <statusmodes.h>
 //#include <m_system.h>
 //#include <m_userinfo.h>
 //#include <m_addcontact.h>
-//#include <m_icolib.h>
+#include <m_icolib.h>
 #include <m_utils.h>
 #include <m_system_cpp.h>
 //#include <m_hotkeys.h>
@@ -62,6 +62,8 @@ extern HINSTANCE g_hInstance;
 #undef OCSP_RESPONSE
 
 #include "skype_subclassing.h"
+
+void IconsLoad();
 
 static const char* g_keyFileName = "..\\..\\..\\SkypeKit\\keypair.crt";
 

@@ -103,6 +103,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnUninit = (pfnUninitProto)SkypeProtoUninit;
 	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&pd));
 
+	IconsLoad();
+
 	return 0;
 }
 
