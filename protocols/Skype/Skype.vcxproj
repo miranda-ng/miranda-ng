@@ -45,14 +45,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SKYPE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\api;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\ipc;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\types;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading\win;..\..\..\SkypeKit\SDK\ipc\cpp;..\..\..\SkypeKit\SDK\ipc\cpp\VideoBuffers;..\..\..\SkypeKit\SDK\ipc\cpp\platform\se;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include\openssl;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\ctaocrypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <StringPooling>false</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeaderFile>skype.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
@@ -64,6 +62,8 @@
       <AdditionalDependencies>Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib.lib;skypekit-cppwrapper_2_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <AdditionalOptions>/PDBALTPATH:%_PDB% %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -73,13 +73,11 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SKYPE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\api;..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\ipc;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\types;..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading;..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading\win;..\..\SkypeKit\SDK\ipc\cpp;..\..\SkypeKit\SDK\ipc\cpp\VideoBuffers;..\..\SkypeKit\SDK\ipc\cpp\platform\se;..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include;..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include\openssl;..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\ctaocrypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderFile>skype.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\api;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\ipc;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\types;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading;..\..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\src\platform\threading\win;..\..\..\SkypeKit\SDK\ipc\cpp;..\..\..\SkypeKit\SDK\ipc\cpp\VideoBuffers;..\..\..\SkypeKit\SDK\ipc\cpp\platform\se;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\include\openssl;..\..\..\SkypeKit\SDK\ipc\cpp\ssl\cyassl\ctaocrypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -89,7 +87,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
-      <AdditionalDependencies>$(SolutionDir)..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\build\skypekit-cyassl_lib.lib;$(SolutionDir)..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\build\skypekit-cppwrapper_2_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib.lib;skypekit-cppwrapper_2_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\lib;$(SolutionDir)..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\build</AdditionalLibraryDirectories>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -104,10 +104,7 @@
     <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\skype.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="src\skype.cpp" />
     <ClCompile Include="src\skype_dialogs.cpp" />
     <ClCompile Include="src\skype_events.cpp" />
     <ClCompile Include="src\skype_proto.cpp" />
