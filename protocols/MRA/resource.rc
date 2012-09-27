@@ -78,33 +78,33 @@ BEGIN
     EDITTEXT        IDC_SERVERPORT, 72, 33, 33, 12, ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "(2042, 443, 110, 25)", IDC_STATIC, 110, 35, 167, 10
     PUSHBUTTON      "Default", IDC_BUTTON_DEFAULT, 217, 17, 60, 13
-    CONTROL         "Automatic request authorization on logon", IDC_AUTO_AUTH_REQ_ON_LOGON, 
+    CONTROL         "Automatically request authorization on logon", IDC_AUTO_AUTH_REQ_ON_LOGON,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 50, 263, 8
-    CONTROL         "Automatic add contacts to server list on logon", IDC_AUTO_ADD_CONTACTS_TO_SERVER, 
+    CONTROL         "Automatically add contacts to server list on logon", IDC_AUTO_ADD_CONTACTS_TO_SERVER,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 61, 263, 8
-    CONTROL         "Notify me when a message delivery has failed", IDC_SLOWSEND, 
+    CONTROL         "Automatically grant authorization to users in contact list", IDC_AUTO_AUTH_GRAND_IN_CLIST,
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 72, 263, 8
+    CONTROL         "Automatically grant authorization to new users", IDC_AUTO_AUTH_GRAND_NEW_USERS,
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 83, 263, 8
+    CONTROL         "Disable spam check", IDC_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK,
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 24, 94, 253, 8
+    CONTROL         "Notify me when a message delivery has failed", IDC_SLOWSEND,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 107, 263, 8
-    CONTROL         "Notify about new mail if increment", IDC_INCREMENTAL_NEW_MAIL_NOTIFY, 
+    CONTROL         "Notify about new mail if increment", IDC_INCREMENTAL_NEW_MAIL_NOTIFY,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 118, 263, 8
-    CONTROL         "Notify about new mail tray icon", IDC_TRAYICON_NEW_MAIL_NOTIFY, 
+    CONTROL         "Notify about new mail tray icon", IDC_TRAYICON_NEW_MAIL_NOTIFY,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 129, 263, 8
-    CONTROL         "Hide menu items for non MRA contacts", IDC_HIDE_MENU_ITEMS_FOR_NON_MRA, 
+    CONTROL         "Click to Inbox", IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX,
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 24, 140, 253, 8
+    CONTROL         "Hide menu items for non-MRA contacts", IDC_HIDE_MENU_ITEMS_FOR_NON_MRA,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 151, 263, 8
-    CONTROL         "Show received Formated text (RTF receive)", IDC_RTF_RECEIVE_ENABLE, 
+    CONTROL         "Show received formatted text (receive RTF)", IDC_RTF_RECEIVE_ENABLE,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 162, 263, 8
-    CONTROL         "Send Formated text (send RTF)", IDC_RTF_SEND_ENABLE, 
+    CONTROL         "Send formatted text (send RTF)", IDC_RTF_SEND_ENABLE,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 173, 263, 8
     PUSHBUTTON      "Font", IDC_BUTTON_FONT, 23, 185, 42, 12
     CONTROL         "", IDC_RTF_BGCOLOUR, "ColourPicker", WS_TABSTOP, 70, 186, 38, 11
     LTEXT           "Background colour", IDC_STATIC, 112, 188, 157, 8
-    CONTROL         "Click to Inbox", IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX, 
-                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 24, 140, 253, 8
-    CONTROL         "Automatic grand authorization to users in contact list", IDC_AUTO_AUTH_GRAND_IN_CLIST, 
-                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 72, 263, 8
-    CONTROL         "Automatic grand authorization to new users", IDC_AUTO_AUTH_GRAND_NEW_USERS, 
-                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 83, 263, 8
-    CONTROL         "Disable spam check", IDC_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK, 
-                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 24, 94, 253, 8
 END
 
 IDD_MRAADVANCEDSEARCH DIALOGEX 0, 0, 220, 235
@@ -163,9 +163,9 @@ BEGIN
     EDITTEXT        IDC_UPD_CHECK_INTERVAL, 14, 71, 34, 12, ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Updates check interval, min", IDC_STATIC, 51, 72, 222, 8
     CONTROL         "Return absolute path", IDC_RETURN_ABC_PATH, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 13, 89, 259, 9
-    CONTROL         "Delete avatar file with contact", IDC_DELETE_AVT_ON_CONTACT_DELETE, 
+    CONTROL         "Delete avatar file with contact", IDC_DELETE_AVT_ON_CONTACT_DELETE,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 13, 100, 259, 9
-    CONTROL         "Use keep-alive connections", IDC_USE_KEEPALIVE_CONN, 
+    CONTROL         "Use keep-alive connections", IDC_USE_KEEPALIVE_CONN,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 72, 59, 201, 9
 END
 
@@ -175,24 +175,24 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Files exchange", IDC_GROUPCONFIG2, 8, 7, 277, 143
-    CONTROL         "No out connection on send", IDC_FILE_SEND_NOOUTCONNECTIONONSEND, 
+    CONTROL         "No out connection on send", IDC_FILE_SEND_NOOUTCONNECTIONONSEND,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 28, 244, 8
-    CONTROL         "No out connection on receive", IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE, 
+    CONTROL         "No out connection on receive", IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 39, 244, 8
-    CONTROL         "Out connections: ignory additional ports (443, 2041)", IDC_FILE_SEND_IGNORYADDITIONALPORTS, 
+    CONTROL         "Out connections: ignory additional ports (443, 2041)", IDC_FILE_SEND_IGNORYADDITIONALPORTS,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 50, 244, 8
-    CONTROL         "Hide my IP addresses", IDC_FILE_SEND_HIDE_MY_ADDRESSES, 
+    CONTROL         "Hide my IP addresses", IDC_FILE_SEND_HIDE_MY_ADDRESSES,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 61, 244, 8
-    CONTROL         "Add extra address", IDC_FILE_SEND_ADD_EXTRA_ADDRESS, 
+    CONTROL         "Add extra address", IDC_FILE_SEND_ADD_EXTRA_ADDRESS,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 72, 244, 8
     RTEXT           "Your host (or router):", IDC_STATIC, 13, 84, 92, 8
     EDITTEXT        IDC_FILE_SEND_EXTRA_ADDRESS, 108, 83, 170, 12, ES_AUTOHSCROLL
     LTEXT           "File send block size:", IDC_STATIC, 14, 112, 263, 8
     EDITTEXT        IDC_FILE_SEND_BLOCK_SIZE, 26, 123, 52, 12, ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "512 - 65536 bytes", IDC_STATIC, 82, 125, 97, 10
-    CONTROL         "Enable direct connections", IDC_FILE_SEND_ENABLE_DIRECT_CONN, 
+    CONTROL         "Enable direct connections", IDC_FILE_SEND_ENABLE_DIRECT_CONN,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 18, 263, 8
-    CONTROL         "Enable MRIM proxy connections", IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS, 
+    CONTROL         "Enable MRIM proxy connections", IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 98, 263, 8
 END
 
@@ -207,7 +207,7 @@ BEGIN
     LTEXT           "Example: Petrov_Ivan@mail.ru", IDC_STATIC, 175, 19, 104, 10
     RTEXT           "Password:", IDC_STATIC, 14, 37, 52, 8
     EDITTEXT        IDC_PASSWORD, 72, 33, 100, 12, ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Create a new Mail.ru account using the Mail.ru website", IDC_NEW_ACCOUNT_LINK, 
+    CONTROL         "Create a new Mail.ru account using the Mail.ru website", IDC_NEW_ACCOUNT_LINK,
                     "Hyperlink", WS_TABSTOP, 18, 72, 258, 9
     CONTROL         "Retrieve a lost password", IDC_LOOKUPLINK, "Hyperlink", WS_TABSTOP, 18, 85, 258, 9
     LTEXT           "Leave empty if you dont want change password", IDC_STATIC, 72, 48, 212, 8
@@ -300,14 +300,14 @@ BEGIN
     GROUPBOX        "Configuration", IDC_GROUPCONFIG, 8, 6, 277, 197
     CONTROL         "Enable Anti Spam", IDC_ENABLE, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 13, 18, 259, 9
     CONTROL         "Check temp contacts", IDC_CHK_TEMP_CONTACTS, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 24, 29, 248, 9
-    CONTROL         "Delete spam bot contacts", IDC_DELETE_SPAMBOT_CONTACT, 
+    CONTROL         "Delete spam bot contacts", IDC_DELETE_SPAMBOT_CONTACT,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 34, 40, 238, 9
     EDITTEXT        IDC_MAX_LANG_CHANGES, 23, 67, 33, 12, ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Max. language changes in message (0 - disabled)", IDC_STATIC, 59, 69, 220, 11
     CONTROL         "Show pop up", IDC_SHOWPOPUP, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 24, 82, 248, 9
-    CONTROL         "Write to system history", IDC_WRITETOSYSTEMHISTORY, 
+    CONTROL         "Write to system history", IDC_WRITETOSYSTEMHISTORY,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 24, 92, 248, 9
-    CONTROL         "Send spam report to server", IDC_SEND_SPAM_REPORT_TO_SERVER, 
+    CONTROL         "Send spam report to server", IDC_SEND_SPAM_REPORT_TO_SERVER,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 24, 102, 248, 9
     LTEXT           "Bad words list", IDC_STATIC, 25, 115, 96, 11
     LISTBOX         IDC_BAD_WORDS_LIST, 25, 127, 121, 71, LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
@@ -315,7 +315,7 @@ BEGIN
     PUSHBUTTON      "Add", IDC_BUTTON_ADD, 152, 186, 42, 14
     PUSHBUTTON      "Remove", IDC_BUTTONREMOVE, 198, 186, 40, 14, BS_CENTER
     PUSHBUTTON      "Default", IDC_BUTTON_DEFAULT, 242, 186, 40, 14, BS_CENTER
-    CONTROL         "Ignory non AlphaNumeric characters", IDC_CLN_NON_ALPHNUM, 
+    CONTROL         "Ignory non AlphaNumeric characters", IDC_CLN_NON_ALPHNUM,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 24, 56, 248, 9
 END
 
