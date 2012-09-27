@@ -159,8 +159,8 @@ void CIcqProto::handleFileRequest(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCoo
 	// Initialize a filetransfer struct
 	filetransfer *ft = CreateFileTransfer(hContact, dwUin, nVersion);
 	ft->dwCookie = dwCookie;
-	ft->szFilename = ansi_to_utf8(pszFileName);
-	ft->szDescription = ansi_to_utf8(pszDescription);
+	ft->szFilename = mir_strdup(pszFileName);
+	ft->szDescription = 0;
 	ft->fileId = -1;
 	ft->dwTotalSize = dwFileSize;
 	ft->pMessage.dwMsgID1 = dwID1;
@@ -169,13 +169,13 @@ void CIcqProto::handleFileRequest(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCoo
 	ft->bEmptyDesc = bEmptyDesc;
 
 	// Send chain event
-	TCHAR* ptszFileName = mir_a2t(pszFileName);
+	TCHAR* ptszFileName = mir_utf8decodeT(pszFileName);
 
 	PROTORECVFILET pre = {0};
 	pre.flags = PREF_TCHAR;
 	pre.fileCount = 1;
 	pre.timestamp = time(NULL);
-	pre.tszDescription = mir_a2t(pszDescription);
+	pre.tszDescription = mir_utf8decodeT(pszDescription);
 	pre.ptszFiles = &ptszFileName;
 	pre.lParam = (LPARAM)ft;
 

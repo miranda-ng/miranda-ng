@@ -557,7 +557,6 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 				HANDLE hContact = HContactFromUID(dwUin, szUID, &bAdded);
 
 				ft->hContact = hContact;
-				ft->szDescription = pszDescription;
 				ft->fileId = -1;
 
 				// Send chain event
@@ -566,13 +565,13 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 				strcpy(szBlob + sizeof(DWORD), pszFileName);
 				strcpy(szBlob + sizeof(DWORD) + strlennull(pszFileName) + 1, pszDescription);
 
-				TCHAR* ptszFileName = mir_a2t(pszFileName);
+				TCHAR* ptszFileName = mir_utf8decodeT(pszFileName);
 
 				PROTORECVFILET pre = {0};
 				pre.flags = PREF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.tszDescription = mir_a2t(pszDescription);
+				pre.tszDescription = mir_utf8decodeT(pszDescription);
 				pre.ptszFiles = &ptszFileName;
 				pre.lParam = (LPARAM)ft;
 
