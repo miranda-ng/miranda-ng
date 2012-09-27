@@ -4,7 +4,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 {
 	CSkypeProto *proto;
 
-	switch ( message )
+	switch (message)
 	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
@@ -80,11 +80,11 @@ INT_PTR __cdecl CSkypeProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 		&CSkypeProto::SkypeAccountProc, (LPARAM)this);
 }
 
-INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
+INT_PTR CALLBACK SkypeOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	CSkypeProto *proto;
 
-	switch ( message )
+	switch (message)
 	{
 
 	case WM_INITDIALOG:
