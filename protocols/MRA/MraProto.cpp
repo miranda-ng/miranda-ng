@@ -715,20 +715,20 @@ HANDLE CMraProto::GetAwayMsg(HANDLE hContact)
 	if (!m_bLoggedIn || ! hContact)
 		return 0;
 
-	CHAR szStatusDesc[MICBLOG_STATUS_MAX+MICBLOG_STATUS_MAX+MAX_PATH], szBlogStatus[MICBLOG_STATUS_MAX+4], szTime[64];
+	TCHAR szStatusDesc[MICBLOG_STATUS_MAX+MICBLOG_STATUS_MAX+MAX_PATH], szBlogStatus[MICBLOG_STATUS_MAX+4], szTime[64];
 	DWORD dwTime;
 	size_t dwStatusDescSize;
 	int iRet = 0;
-	SYSTEMTIME stBlogStatusTime = {0};
 
-	if ( mraGetStaticStringA(hContact, DBSETTING_BLOGSTATUS, szBlogStatus, SIZEOF(szBlogStatus), NULL)) {
+	if ( mraGetStaticStringW(hContact, DBSETTING_BLOGSTATUS, szBlogStatus, SIZEOF(szBlogStatus), NULL)) {
+		SYSTEMTIME tt = {0};
 		dwTime = mraGetDword(hContact, DBSETTING_BLOGSTATUSTIME, 0);
-		if (dwTime && MakeLocalSystemTimeFromTime32(dwTime, &stBlogStatusTime))
-			mir_snprintf(szTime, SIZEOF(szTime), "%04ld.%02ld.%02ld %02ld:%02ld: ", stBlogStatusTime.wYear, stBlogStatusTime.wMonth, stBlogStatusTime.wDay, stBlogStatusTime.wHour, stBlogStatusTime.wMinute);
+		if (dwTime && MakeLocalSystemTimeFromTime32(dwTime, &tt))
+			mir_sntprintf(szTime, SIZEOF(szTime), _T("%04ld.%02ld.%02ld %02ld:%02ld: "), tt.wYear, tt.wMonth, tt.wDay, tt.wHour, tt.wMinute);
 		else
 			szTime[0] = 0;
 
-		dwStatusDescSize = mir_snprintf(szStatusDesc, SIZEOF(szStatusDesc), "%s%s", szTime, szBlogStatus);
+		dwStatusDescSize = mir_sntprintf(szStatusDesc, SIZEOF(szStatusDesc), _T("%s%s"), szTime, szBlogStatus);
 		iRet = GetTickCount();
 		ProtoBroadcastAckAsynchEx(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)szStatusDesc, dwStatusDescSize);
 	}
