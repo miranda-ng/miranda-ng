@@ -101,42 +101,36 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 	}
 	// messages with Flash
 	else if (dwFlags & MESSAGE_FLAG_FLASH) {
-		if (masMraSettings.lpfnCompress2) { // only if func exist
-			size_t dwRFTBuffSize = (((dwMessageSize*sizeof(WCHAR))*4)+8192), dwRTFDataSize;
-			LPBYTE lpbRTFData;
+		size_t dwRFTBuffSize = (((dwMessageSize*sizeof(WCHAR))*4)+8192), dwRTFDataSize;
 
-			dwFlags |= MESSAGE_FLAG_RTF;
-			lpszMessageRTF = (LPSTR)mir_calloc(dwRFTBuffSize);
-			lpbRTFData = (LPBYTE)mir_calloc(dwRFTBuffSize);
-			if (lpszMessageRTF && lpbRTFData) {
-				DWORD dwBackColour = mraGetDword(NULL, "RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
-				lpbDataCurrent = (LPBYTE)lpszMessageRTF;
+		dwFlags |= MESSAGE_FLAG_RTF;
+		lpszMessageRTF = (LPSTR)mir_calloc(dwRFTBuffSize);
+		mir_ptr<char> lpbRTFData((char*)mir_calloc(dwRFTBuffSize));
+		if (lpszMessageRTF && lpbRTFData) {
+			DWORD dwBackColour = mraGetDword(NULL, "RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
+			lpbDataCurrent = (LPBYTE)lpszMessageRTF;
 
-				WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszMessage, dwMessageSize, (LPSTR)lpbRTFData, dwRFTBuffSize, NULL, NULL);
+			WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszMessage, dwMessageSize, (LPSTR)lpbRTFData, dwRFTBuffSize, NULL, NULL);
 
-				SetUL(&lpbDataCurrent, 4);
-				SetLPS(&lpbDataCurrent, (LPSTR)lpbRTFData, dwMessageSize);// сообщение что у собеседника плохая версия :)
-				SetLPS(&lpbDataCurrent, (LPSTR)&dwBackColour, sizeof(DWORD));// цвет фона
-				SetLPS(&lpbDataCurrent, (LPSTR)lpbRTFData, dwMessageSize);// сам мульт ANSI
-				SetLPSW(&lpbDataCurrent, lpwszMessage, dwMessageSize);// сам мульт UNICODE
+			SetUL(&lpbDataCurrent, 4);
+			SetLPS(&lpbDataCurrent, (LPSTR)lpbRTFData, dwMessageSize);// сообщение что у собеседника плохая версия :)
+			SetLPS(&lpbDataCurrent, (LPSTR)&dwBackColour, sizeof(DWORD));// цвет фона
+			SetLPS(&lpbDataCurrent, (LPSTR)lpbRTFData, dwMessageSize);// сам мульт ANSI
+			SetLPSW(&lpbDataCurrent, lpwszMessage, dwMessageSize);// сам мульт UNICODE
 
-				dwRTFDataSize = dwRFTBuffSize;
-				if ((PCOMPRESS2(masMraSettings.lpfnCompress2))(lpbRTFData, (DWORD*)&dwRTFDataSize, (LPBYTE)lpszMessageRTF, (lpbDataCurrent-(LPBYTE)lpszMessageRTF), Z_BEST_COMPRESSION) == Z_OK)
-					BASE64EncodeUnSafe(lpbRTFData, dwRTFDataSize, lpszMessageRTF, dwRFTBuffSize, &dwMessageRTFSize);
-			}
-			mir_free(lpbRTFData);
+			dwRTFDataSize = dwRFTBuffSize;
+			if ( compress2((LPBYTE)(LPSTR)lpbRTFData, (DWORD*)&dwRTFDataSize, (LPBYTE)lpszMessageRTF, (lpbDataCurrent-(LPBYTE)lpszMessageRTF), Z_BEST_COMPRESSION) == Z_OK)
+				BASE64EncodeUnSafe(lpbRTFData, dwRTFDataSize, lpszMessageRTF, dwRFTBuffSize, &dwMessageRTFSize);
 		}
 	}
 	// standart message
 	else if ((dwFlags & (MESSAGE_FLAG_CONTACT | MESSAGE_FLAG_NOTIFY | MESSAGE_FLAG_SMS)) == 0) {
 		// Only if message is simple text message or RTF or ALARM
-		if (dwFlags & MESSAGE_FLAG_RTF)// add RFT part
-		if (masMraSettings.lpfnCompress2) { // обычный ртф
+		if (dwFlags & MESSAGE_FLAG_RTF) { // add RFT part
 			size_t dwRFTBuffSize = (((dwMessageSize*sizeof(WCHAR))*16)+8192), dwRTFDataSize;
-			LPBYTE lpbRTFData;
 
 			lpszMessageRTF = (LPSTR)mir_calloc(dwRFTBuffSize);
-			lpbRTFData = (LPBYTE)mir_calloc(dwRFTBuffSize);
+			mir_ptr<char> lpbRTFData((char*)mir_calloc(dwRFTBuffSize));
 			if (lpszMessageRTF && lpbRTFData) {
 				if ( !MraConvertToRTFW(lpwszMessage, dwMessageSize, (LPSTR)lpbRTFData, dwRFTBuffSize, &dwRTFDataSize)) {
 					DWORD dwBackColour = mraGetDword(NULL, "RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
@@ -147,11 +141,10 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 					SetLPS(&lpbDataCurrent, (LPSTR)&dwBackColour, sizeof(DWORD));
 
 					dwRTFDataSize = dwRFTBuffSize;
-					if ((PCOMPRESS2(masMraSettings.lpfnCompress2))(lpbRTFData, (DWORD*)&dwRTFDataSize, (LPBYTE)lpszMessageRTF, (lpbDataCurrent-(LPBYTE)lpszMessageRTF), Z_BEST_COMPRESSION) == Z_OK)
+					if ( compress2((LPBYTE)(LPSTR)lpbRTFData, (DWORD*)&dwRTFDataSize, (LPBYTE)lpszMessageRTF, (lpbDataCurrent-(LPBYTE)lpszMessageRTF), Z_BEST_COMPRESSION) == Z_OK)
 						BASE64EncodeUnSafe(lpbRTFData, dwRTFDataSize, lpszMessageRTF, dwRFTBuffSize, &dwMessageRTFSize);
 				}
 			}
-			mir_free(lpbRTFData);
 		}
 	}
 	

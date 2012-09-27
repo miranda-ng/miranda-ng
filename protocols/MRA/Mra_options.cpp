@@ -137,13 +137,11 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 		CHECK_DLG_BUTTON(hWndDlg, IDC_HIDE_MENU_ITEMS_FOR_NON_MRA, ppro->mraGetByte(NULL, "HideMenuItemsForNonMRAContacts", MRA_DEFAULT_HIDE_MENU_ITEMS_FOR_NON_MRA));
 
 		CHECK_DLG_BUTTON(hWndDlg, IDC_RTF_RECEIVE_ENABLE, ppro->mraGetByte(NULL, "RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE));
-		EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_RECEIVE_ENABLE), (BOOL)(masMraSettings.lpfnUncompress != NULL));
 
 		CHECK_DLG_BUTTON(hWndDlg, IDC_RTF_SEND_ENABLE, ppro->mraGetByte(NULL, "RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));
-		EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_SEND_ENABLE), (BOOL)(masMraSettings.lpfnCompress2 != NULL));
-		EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_SEND_SMART), ppro->mraGetByte(NULL, "RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && masMraSettings.lpfnCompress2);
-		EnableWindow(GetDlgItem(hWndDlg, IDC_BUTTON_FONT), ppro->mraGetByte(NULL, "RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && masMraSettings.lpfnCompress2);
-		EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_BGCOLOUR), ppro->mraGetByte(NULL, "RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && masMraSettings.lpfnCompress2);
+		EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_SEND_SMART), ppro->mraGetByte(NULL, "RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));
+		EnableWindow(GetDlgItem(hWndDlg, IDC_BUTTON_FONT), ppro->mraGetByte(NULL, "RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));
+		EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_BGCOLOUR), ppro->mraGetByte(NULL, "RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));
 		SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_RTF_BGCOLOUR, CPM_SETCOLOUR, 0, ppro->mraGetDword(NULL, "RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR));
 		return TRUE;
 

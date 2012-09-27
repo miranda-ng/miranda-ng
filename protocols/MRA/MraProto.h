@@ -312,7 +312,7 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	void   CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMainIcon, LPSTR pszContactOwner, BOOL bIsStatus, const struct GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount, HANDLE *hResult);
 	void   CListShowMenuItem(HANDLE hMenuItem, BOOL bShow);
 
-	DWORD  ProtoBroadcastAckEx(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam);
+	DWORD  ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam);
 	DWORD  CreateBlobFromContact(HANDLE hContact, LPWSTR lpwszRequestReason, size_t dwRequestReasonSize, LPBYTE lpbBuff, size_t dwBuffSize, size_t *pdwBuffSizeRet);
 
 	BOOL   SetPassDB(LPSTR lpszBuff, size_t dwBuffSize);

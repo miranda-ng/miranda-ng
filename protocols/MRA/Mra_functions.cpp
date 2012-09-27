@@ -1063,7 +1063,6 @@ BOOL CMraProto::GetContactFirstEMail(HANDLE hContact, BOOL bMRAOnly, LPSTR lpszR
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//
 
 void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode)
 {
@@ -1080,9 +1079,23 @@ void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode
 	MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, 0, szErrorText);
 }
 
-DWORD CMraProto::ProtoBroadcastAckEx(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void FakeThread(void* param)
 {
-	ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam);
+	Sleep(100);
+	CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)param);
+	mir_free(param);
+}
+
+DWORD CMraProto::ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
+{
+	ACKDATA* ack = (ACKDATA*)mir_calloc(sizeof(ACKDATA));
+	ack->cbSize = sizeof(ACKDATA);
+	ack->szModule = m_szModuleName; ack->hContact = hContact;
+	ack->type = type; ack->result = hResult;
+	ack->hProcess = hProcess; ack->lParam = lParam;
+	mir_forkthread(FakeThread, ack);
 	return 0;
 }
 

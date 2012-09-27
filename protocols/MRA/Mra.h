@@ -8,6 +8,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+#pragma warning(disable:4267)
 
 //#define CRTDLL
 
@@ -29,11 +30,6 @@
 #include <timefuncs.h>
 
 #include "../../plugins/zlib/zlib.h"
-
-//int ZEXPORT uncompress(unsigned char*dest, uLongf *destLen, const Bytef *source, uLong sourceLen);
-typedef int (*PUNCOMPRESS)(unsigned char*, DWORD*, unsigned char*, DWORD);
-//int ZEXPORT compress2(Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen, int level);
-typedef int (*PCOMPRESS2)(unsigned char*, DWORD*, unsigned char*, DWORD, int);
 
 #define MIRANDA_VER 0x0A00
 
@@ -174,9 +170,6 @@ typedef struct
 {
 	HANDLE                hHeap;
 	HINSTANCE             hInstance;
-	HMODULE               hDLLZLib;
-	HANDLE                lpfnCompress2;
-	HANDLE                lpfnUncompress;
 	HMODULE               hDLLXStatusIcons;
 
 	DWORD                 dwGlobalPluginRunning;

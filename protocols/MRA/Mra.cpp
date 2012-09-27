@@ -102,16 +102,6 @@ extern "C" MRA_API int Load(void)
 					}
 				}
 			}
-
-			// load zlib
-			dwErrorCode = FindFile(masMraSettings.szMirWorkDirPath, (DWORD)masMraSettings.dwMirWorkDirPathLen, L"zlib.dll", -1, szBuff, SIZEOF(szBuff), (DWORD*)&dwBuffLen);
-			if (dwErrorCode == NO_ERROR) {
-				masMraSettings.hDLLZLib = LoadLibraryEx(szBuff, NULL, 0);
-				if (masMraSettings.hDLLZLib) {
-					masMraSettings.lpfnCompress2 = (HANDLE)GetProcAddress(masMraSettings.hDLLZLib, "compress2");
-					masMraSettings.lpfnUncompress = (HANDLE)GetProcAddress(masMraSettings.hDLLZLib, "uncompress");
-				}
-			}
 		}
 	}
 
@@ -135,13 +125,6 @@ extern "C" MRA_API int Unload(void)
 	if (masMraSettings.hDLLXStatusIcons) {
 		FreeLibrary(masMraSettings.hDLLXStatusIcons);
 		masMraSettings.hDLLXStatusIcons = NULL;
-	}
-
-	if (masMraSettings.hDLLZLib) {
-		FreeLibrary(masMraSettings.hDLLZLib);
-		masMraSettings.hDLLZLib = NULL;
-		masMraSettings.lpfnCompress2 = NULL;
-		masMraSettings.lpfnUncompress = NULL;
 	}
 
 	DebugPrintCRLFW(L"Unload - DONE");

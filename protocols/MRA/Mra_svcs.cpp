@@ -289,7 +289,7 @@ INT_PTR CMraProto::MraRequestAuthorization(WPARAM wParam, LPARAM lParam)
 				BOOL bSlowSend = mraGetByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
 				int iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEMail, dwEMailSize, wszAuthMessage, dwMessageSize, NULL, 0);
 				if (bSlowSend == FALSE)
-					ProtoBroadcastAckEx(hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)NULL);
+					ProtoBroadcastAckAsync(hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)NULL);
 	
 				return 0;
 			}

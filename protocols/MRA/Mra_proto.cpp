@@ -107,7 +107,7 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 	else {
 		if (bConnected == FALSE) {
 			ShowFormattedErrorMessage(L"Can't connect to MRIM server, error", GetLastError());
-			ProtoBroadcastAckEx(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+			ProtoBroadcastAckAsync(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
 		}
 	}
 
@@ -270,13 +270,13 @@ DWORD CMraProto::MraNetworkDispatcher()
 						//nothing to do
 						break;
 					case ACKTYPE_MESSAGE:
-						ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)dwCMDNum, (LPARAM)"Undefined message deliver error, time out");
+						ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)dwCMDNum, (LPARAM)"Undefined message deliver error, time out");
 						break;
 					case ACKTYPE_GETINFO:
-						ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)NULL);
+						ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)NULL);
 						break;
 					case ACKTYPE_SEARCH:
-						ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)dwCMDNum, (LPARAM)NULL);
+						ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)dwCMDNum, (LPARAM)NULL);
 						break;
 					case ICQACKTYPE_SMS:
 						mir_free(lpbData);
@@ -454,7 +454,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 		break;
 
 	case MRIM_CS_LOGIN_REJ: // Unsuccessful authorization //LPS ## reason ## причина отказа
-		ProtoBroadcastAckEx(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+		ProtoBroadcastAckAsync(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 
 		GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
 		dwStringSize = MultiByteToWideChar(MRA_CODE_PAGE, 0, lpsString.lpszData, lpsString.dwSize, szBuff, SIZEOF(szBuff));
@@ -487,29 +487,29 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 			dwTemp = GetUL(&lpbDataCurrent);
 			switch (dwTemp) {
 			case MESSAGE_DELIVERED:// Message delivered directly to user
-				ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, (LPARAM)NULL);
+				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, (LPARAM)NULL);
 				break;//***deb возможны сбои из-за асинхронности тк там передаётся указатель
 			case MESSAGE_REJECTED_NOUSER:// Message rejected - no such user
-				ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Message rejected - no such user");
+				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Message rejected - no such user");
 				break;
 			case MESSAGE_REJECTED_INTERR:// Internal server error
-				ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Internal server error");
+				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Internal server error");
 				break;
 			case MESSAGE_REJECTED_LIMIT_EXCEEDED:// Offline messages limit exceeded
-				ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Offline messages limit exceeded");
+				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Offline messages limit exceeded");
 				break;
 			case MESSAGE_REJECTED_TOO_LARGE:// Message is too large
-				ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Message is too large");
+				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Message is too large");
 				break;
 			case MESSAGE_REJECTED_DENY_OFFMSG:// User does not accept offline messages
-				ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"User does not accept offline messages");
+				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"User does not accept offline messages");
 				break;
 			case MESSAGE_REJECTED_DENY_OFFFLSH:// User does not accept offline flash animation
-				ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"User does not accept offline flash animation");
+				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"User does not accept offline flash animation");
 				break;
 			default:
 				dwTemp = mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "Undefined message deliver error, code: %lu", dwTemp);
-				ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)szBuff);
+				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)szBuff);
 				break;
 			}
 			MraSendQueueFree(hSendQueueHandle, pmaHeader->seq);
@@ -1116,11 +1116,11 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 
 				switch (dwAckType) {
 				case ACKTYPE_GETINFO:
-					ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)NULL);
+					ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)NULL);
 					break;
 				case ACKTYPE_SEARCH:
 				default:
-					ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, (LPARAM)NULL);
+					ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, (LPARAM)NULL);
 					break;
 				}
 				break;
@@ -1131,10 +1131,10 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 			case MRIM_ANKETA_INFO_STATUS_RATELIMERR:// слишком много запросов, поиск временно запрещен
 				switch (dwAckType) {
 				case ACKTYPE_GETINFO:
-					ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)NULL);
+					ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)NULL);
 					break;
 				case ACKTYPE_SEARCH:
-					ProtoBroadcastAckEx(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, (LPARAM)NULL);
+					ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, (LPARAM)NULL);
 					break;
 				default:
 					DebugBreak();
@@ -1576,7 +1576,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 				lpwszMessage = (LPWSTR)(lpszPhone+dwPhoneSize+1);
 
 				dwTemp = mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "<sms_response><source>Mail.ru</source><deliverable>Yes</deliverable><network>Mail.ru, Russia</network><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><messages_left>0</messages_left></sms_response>\r\n", szEMail, lpszPhone, lpszPhone);
-				ProtoBroadcastAckEx(NULL, dwAckType, ACKRESULT_SENTREQUEST, (HANDLE)pmaHeader->seq, (LPARAM)szBuff);
+				ProtoBroadcastAckAsync(NULL, dwAckType, ACKRESULT_SENTREQUEST, (HANDLE)pmaHeader->seq, (LPARAM)szBuff);
 			}
 
 			mir_free(lpsString.lpszData);
@@ -1810,7 +1810,6 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 			; // do nothing; there's no extra part in a message
 		else {
 			if ((dwFlags & MESSAGE_FLAG_RTF) && plpsRFTText) //MESSAGE_FLAG_FLASH there
-			if (masMraSettings.lpfnUncompress)// only if uncompress function exist
 			if (plpsRFTText->lpszData && plpsRFTText->dwSize) { // decode RTF
 				size_t dwRTFPartsCount, dwCompressedSize, dwRFTBuffSize = ((plpsRFTText->dwSize*16)+8192), dwRTFDataSize;
 				LPBYTE lpbRTFData, lpbCompressed, lpbDataCurrent;
@@ -1821,7 +1820,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 				if (lpbRTFData && lpbCompressed) {
 					BASE64DecodeFormated(plpsRFTText->lpszData, plpsRFTText->dwSize, lpbCompressed, (plpsRFTText->dwSize+32), &dwCompressedSize);
 					dwRTFDataSize = dwRFTBuffSize;
-					if ((PUNCOMPRESS(masMraSettings.lpfnUncompress))(lpbRTFData, (DWORD*)&dwRTFDataSize, lpbCompressed, dwCompressedSize) == Z_OK) {
+					if ( uncompress(lpbRTFData, (DWORD*)&dwRTFDataSize, lpbCompressed, dwCompressedSize) == Z_OK) {
 						lpbDataCurrent = lpbRTFData;
 						dwRTFPartsCount = GetUL(&lpbDataCurrent);// колличество частей в некоторых случаях больше 2, тогда нужно игнорировать первый текст, тк там сообщения об ущербности
 						if (GetLPS(lpbRTFData, dwRTFDataSize, &lpbDataCurrent, &lpsRTFString) == NO_ERROR)
@@ -1903,11 +1902,11 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 
 				if (dwFlags & MESSAGE_SMS_DELIVERY_REPORT) {
 					dwBuffLen = mir_snprintf(lpszBuff, (dwBuffLen*sizeof(WCHAR)), "<sms_delivery_receipt><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><delivered>No</delivered><submition_time>%s</submition_time><error_code>0</error_code><error><id>15</id><params><param>%s</param></params></error></sms_delivery_receipt>", szEMail, szPhone, szPhone, szTime, lpszMessageUTF);
-					ProtoBroadcastAckEx(NULL, ICQACKTYPE_SMS, ACKRESULT_FAILED, (HANDLE)0, (LPARAM)lpszBuff);
+					ProtoBroadcastAckAsync(NULL, ICQACKTYPE_SMS, ACKRESULT_FAILED, (HANDLE)0, (LPARAM)lpszBuff);
 				}
 				else { // new sms
 					dwBuffLen = mir_snprintf(lpszBuff, (dwBuffLen*sizeof(WCHAR)), "<sms_message><source>Mail.ru</source><destination_UIN>%s</destination_UIN><sender>%s</sender><senders_network>Mail.ru</senders_network><text>%s</text><time>%s</time></sms_message>", szEMail, szPhone, lpszMessageUTF, szTime);
-					ProtoBroadcastAckEx(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, (HANDLE)0, (LPARAM)lpszBuff);
+					ProtoBroadcastAckAsync(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, (HANDLE)0, (LPARAM)lpszBuff);
 				}
 			}
 			else dwRetErrorCode = GetLastError();
