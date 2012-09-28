@@ -71,7 +71,7 @@ BEGIN
     CONTROL         "Use only alphanumeric encoding on transfer",
                     IDC_ALPHANUM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,57,
                     217,10
-    LTEXT           "Extra options: Events » File Transfers, ""Receiving files"" group",
+    LTEXT           "Extra options: Events > File Transfers, ""Receiving files"" group",
                     IDC_STATIC,10,160,220,8
 END
 
