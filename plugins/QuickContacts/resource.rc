@@ -1,0 +1,179 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "resource.h"
+#include "winresrc.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT DIALOGEX 0, 0, 257, 237
+STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Last Sent",IDC_STATIC,0,0,257,58
+    CONTROL         "Enable last-sent-to",IDC_LASTSENTTO,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,18,14,221,10
+    CONTROL         "recognize all messages sent",IDC_GLOBAL,"Button",
+                    BS_AUTORADIOBUTTON | WS_DISABLED,30,27,209,10
+    CONTROL         "recognize messages sent with hotkey only",IDC_LOCAL,
+                    "Button",BS_AUTORADIOBUTTON | WS_DISABLED,30,39,209,10
+    GROUPBOX        "Contacts",IDC_STATIC,0,59,257,177
+    LTEXT           "Show offline contacts on these protocols:",IDC_STATIC,
+                    16,72,236,9
+    CONTROL         "List1",IDC_PROTOCOLS,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SORTASCENDING | LVS_NOCOLUMNHEADER | 
+                    LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,28,83,140,71
+    CONTROL         "But hide them if protocol is offline",IDC_HIDE_OFFLINE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,159,214,8
+    CONTROL         "Append group name to contact name",IDC_APPEND_GROUP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,171,225,8
+    CONTROL         "But show it as a column ...",IDC_GROUP_COLUMN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,27,183,214,8
+    CONTROL         "... on left side of name",IDC_GROUP_LEFT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,27,195,214,8
+    CONTROL         "Hide subcontacts",IDC_SUBCONTACTS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,207,225,8
+    CONTROL         "But keep subcontacts of protocols in above list if meta is hidden",
+                    IDC_KEEP_OFFLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    28,219,217,9
+END
+
+IDD_MAIN DIALOGEX 13, 55, 193, 54
+STYLE DS_FIXEDSYS | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Enter username:"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_USERNAME,20,6,164,130,CBS_DROPDOWN | 
+                    CBS_OWNERDRAWFIXED | CBS_HASSTRINGS | 
+                    CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Show all contacts (Ctrl+A)",IDC_SHOW_ALL_CONTACTS,
+                    "Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,8,23,
+                    176,11
+    CONTROL         "",IDC_MESSAGE,"MButtonClass",0x0,41,36,17,15,
+                    0x18000000L
+    CONTROL         "",IDC_VOICE,"MButtonClass",0x0,62,36,17,15,0x18000000L
+    CONTROL         "",IDC_FILE,"MButtonClass",0x0,83,36,17,15,0x18000000L
+    CONTROL         "",IDC_URL,"MButtonClass",0x0,104,36,17,15,0x18000000L
+    CONTROL         "",IDC_USERINFO,"MButtonClass",0x0,125,36,17,15,
+                    0x18000000L
+    CONTROL         "",IDC_HISTORY,"MButtonClass",0x0,146,36,17,15,
+                    0x18000000L
+    CONTROL         "",IDC_MENU,"MButtonClass",0x0,167,36,17,15,0x18000000L
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_OPT, DIALOG
+    BEGIN
+        TOPMARGIN, 3
+    END
+
+    IDD_MAIN, DIALOG
+    BEGIN
+        RIGHTMARGIN, 184
+        BOTTOMMARGIN, 51
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+ACCEL_TABLE ACCELERATORS DISCARDABLE 
+BEGIN
+    "A",            HOTKEY_ALL_CONTACTS,    VIRTKEY, CONTROL, NOINVERT
+    "F",            HOTKEY_FILE,            VIRTKEY, CONTROL, NOINVERT
+    "H",            HOTKEY_HISTORY,         VIRTKEY, CONTROL, NOINVERT
+    "I",            HOTKEY_INFO,            VIRTKEY, CONTROL, NOINVERT
+    "M",            HOTKEY_MENU,            VIRTKEY, CONTROL, NOINVERT
+    "U",            HOTKEY_URL,             VIRTKEY, CONTROL, NOINVERT
+    "V",            HOTKEY_VOICE,           VIRTKEY, CONTROL, NOINVERT
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Canada) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENC)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""resource.h""\r\n"
+    "#include ""winresrc.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (Canada) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

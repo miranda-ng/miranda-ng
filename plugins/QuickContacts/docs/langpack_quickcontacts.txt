@@ -1,0 +1,40 @@
+; Quick Contacts
+; Author: micron-x, Pescuma
+; http://pescuma.org/miranda/quickcontacts
+
+[Quick Contacts]
+
+; Hotkey description
+[Open dialog]
+[Open Quick Contacts dialog]
+
+; Menu item
+[Quick Contacts...]
+
+; Main dialog
+[Enter Username:]
+[Show all contacts]
+
+; Tooltips
+[Send message]
+[Make a voice call]
+[Send file]
+[Send URL]
+[Open userinfo]
+[Open history]
+[Open contact menu]
+
+; Options
+[Last Sent]
+[Enable last-sent-to]
+[recognize all messages sent]
+[recognize messages sent with hotkey only]
+
+[Contacts]
+[Show offline contacts on these protocols:]
+[But hide them if protocol is offline]
+[Append group name to contact name]
+[But show it as a column ...]
+[... on left side of name]
+[Hide subcontacts]
+[But keep subcontacts of protocols in above list if meta is hidden]
