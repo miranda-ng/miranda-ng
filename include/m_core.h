@@ -137,6 +137,7 @@ MIR_CORE_DLL(int)    DestroyHookableEvent(HANDLE hEvent);
 MIR_CORE_DLL(int)    SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnHook);
 MIR_CORE_DLL(int)    CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam);
 MIR_CORE_DLL(int)    NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam);
+MIR_CORE_DLL(int)    NotifyFastHook(HANDLE hEvent, WPARAM wParam, LPARAM lParam);
 
 MIR_CORE_DLL(HANDLE) HookEvent(const char* name, MIRANDAHOOK hookProc);
 MIR_CORE_DLL(HANDLE) HookEventParam(const char* name, MIRANDAHOOKPARAM hookProc, LPARAM lParam);

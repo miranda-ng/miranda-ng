@@ -275,6 +275,16 @@ MIR_CORE_DLL(int) NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 	return item->result;
 }
 
+MIR_CORE_DLL(int) NotifyFastHook(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
+{
+	switch ( checkHook((THook*)hEvent)) {
+		case hookInvalid: return -1;
+		case hookEmpty: return 0;
+	}
+
+	return CallHookSubscribers((THook*)hEvent, wParam, lParam);
+}
+
 extern "C" MIR_CORE_DLL(int) GetSubscribersCount(THook* pHook)
 {
 	switch ( checkHook(pHook)) {
