@@ -208,9 +208,9 @@ MraFilesQueueConnectionReceived: входящее подключение при�
 Возвращать абсолютный путь
 [Delete avatar file with contact]
 Удалять файл образа вместе с контактом
-[Automatic request authorization on logon]
+[Automatically request authorization on logon]
 Автоматически запрашивать авторизацию при подключении
-[Automatic add contacts to server list on logon]
+[Automatically add contacts to server list on logon]
 Автоматически добавлять контакты на сервер при подключении
 [Automatic grand authorization to users in contact list]
 Автоматически авторизовывать пользователей из списка
@@ -226,9 +226,9 @@ MraFilesQueueConnectionReceived: входящее подключение при�
 Показывать значок в трее при приходе почты
 [Click to Inbox]
 Проверить почту щелчком
-[Show received Formated text (RTF receive)]
+[Show received formatted text (receive RTF)]
 Показывать принятый форматированный текст
-[Send Formated text (send RTF)]
+[Send formatted text (send RTF)]
 Отправлять Форматированный текст
 [Anti spam]
 Антиспам
