@@ -29,7 +29,7 @@
 //WORD g_wRefCount = 0; // reference count. when this is 0 on init, the hook is created. when this is 0 on destruction, the hook is destroyed.
 //#pragma data_seg() // end of shared data segment
 
-// unique to this DLL, not to be shared 
+// unique to this DLL, not to be shared
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 HANDLE g_hmGenMenuInit, g_hIcon, g_hMenuItem, g_hHideService, g_hIsHiddenService;
@@ -747,8 +747,9 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 	g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW, 
 		NULL, WinEventProc, GetCurrentProcessId(), 0, 0);
 
-	HookEvent(ME_OPT_INITIALISE,OptsDlgInit);
-	HookEvent(ME_MSG_WINDOWEVENT,MsgWinOpening);
+	HookEvent(ME_TTB_MODULELOADED, ModernToolbarInit);
+	HookEvent(ME_OPT_INITIALISE, OptsDlgInit);
+	HookEvent(ME_MSG_WINDOWEVENT, MsgWinOpening);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtos);
 	HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
 	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
@@ -863,7 +864,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	g_hHideService = CreateServiceFunction(MS_BOSSKEY_HIDE,BossKeyHideMiranda); // Create service
 
 	HookEvent(ME_SYSTEM_MODULESLOADED,MirandaLoaded);
-	HookEvent(ME_TTB_MODULELOADED, ModernToolbarInit);
 	return 0;
 }
 
