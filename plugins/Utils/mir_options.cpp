@@ -241,7 +241,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 						int count;
 						PROTOACCOUNT **protos;
-						CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&protos);
+						ProtoEnumAccounts(&count,&protos);
 
 						for (int i = 0; i < count; i++) {
 							PROTOACCOUNT *p = protos[i];
@@ -260,7 +260,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 							BOOL show = (BOOL)db_get_b(NULL, module, setting, ctrl->dwDefValue);
 
 							lvi.lParam = (LPARAM)setting;
-							lvi.pszText = TranslateTS(p->tszAccountName);
+							lvi.pszText = p->tszAccountName;
 							lvi.iItem = ListView_InsertItem(hwndProtocols, &lvi);
 							ListView_SetItemState(hwndProtocols, lvi.iItem, INDEXTOSTATEIMAGEMASK(show?2:1), LVIS_STATEIMAGEMASK);
 						}
