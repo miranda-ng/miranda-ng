@@ -1,0 +1,13 @@
+﻿#muuid {f3ca0e5e-249a-40f0-8d74-80a80ef0c83d}
+;============================================================
+;  File: dbx_dbrw.dll
+;  Module: Miranda IM database driver engine powered by SQLite
+;  Versions: 1.4.0.0
+;  URL: http://code.google.com/p/miranda/downloads/list
+;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/dbrw/
+;  Authors: Robert Rainwater
+;============================================================
+[Miranda IM database driver engine powered by SQLite v3.3.10 [Alpha #4]]
+Драйвер базы Miranda IM, основан на движке SQLite v3.3.10 (Альфа версия #4)
+[Your Miranda IM profile is being compacted.  Please wait...]
+Файл профиля в процессе сжатия. Пожалуйста, подождите...

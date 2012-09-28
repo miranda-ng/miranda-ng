@@ -1,0 +1,105 @@
+﻿#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+;============================================================
+;  File: HTTPServer.dll
+;  Module: HTTP Web Server plugin for Miranda
+;  Versions: 0.1.2.2
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2304
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/HTTPServer/
+;  Authors: Kennet Nielsen, modified by Vampik, Houdini
+;============================================================
+[%ExternalIP% variable]
+%ExternalIP% переменная
+[&Edit share]
+Изм. общее
+[&New share]
+Новое общее
+[&Remove share]
+Удалить общее
+[Agent]
+Агент
+[Allowed IP]
+Разрешенные IP
+[Allowed Mask]
+Разрешенная маска
+[Completed]
+Завершено
+[Disable HTTP server]
+Отключить HTTP сервер
+[Enable / Disable HTTP server]
+Вкл/Выкл HTTP Сервер
+[Enable HTTP server]
+Вкл. HTTP Сервер
+[External server name]
+Внешнее имя сервера
+[HTTP Server statistics view]
+Статистика просмотров HTTP сервера
+[HTTP Server]
+HTTP Сервер
+[HTTP Share new file]
+HTTP Новый общий файл
+[IPAddress1]
+IP адрес 1
+[IPAddress2]
+IP адрес 2
+[Main menu items]
+Элементы главного меню
+[Max ( bytes / sec )]
+Макс (байт/сек)
+[Max downloads]
+Макс. закачки
+[Max Downloads]
+Макс. закачки
+[No control when Away/NA]
+Откл. если недоступен/занят
+[No share selected]
+Папка не выбрана
+[Open log]
+Открыть лог
+[Page keyword]
+Ключевые слова
+[Real path]
+Реальный путь
+[Set to default]
+По умолчанию
+[Share name]
+Имя шары
+[Share removed]
+Общее удалено
+[Show HTTP server statistics]
+Статистика НТТР сервера
+[Specify a file to share]
+Файл для доступа
+[Speed control]
+Контроль скорости
+[Speed]
+Скорость
+[This is the link pasted to the message window]
+Это ссылка, вставленная в окно сообщений
+[URL address]
+Адрес URL
+[Write log file]
+Записывать логфайл
+[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+Ваш внешний ip определен как %d.%d.%d.%d\r\nс: %s
+[You need to restart miranda to change the main menu]
+Изменения в меню вступят в силу после перезапуска программы.
+[&Open in Browser]
+Открыть в браузере
+[Connection control]
+Контроль соединений
+[Default download limit]
+Лимит загрузок по умолч.
+[Transfer limit (kb/sec)]
+Лимит скорости (kb/sec)
+[Total connection limit]
+Максимально соединений
+[Connections per user limit]
+Лимит на пользователя
+[Index creation]
+Создание индекса
+[Create HTML (compatibility)]
+Создать HTML (совместимо)
+[Create XML]
+Создать XML
+[HTTPServer]
+HTTP Сервер

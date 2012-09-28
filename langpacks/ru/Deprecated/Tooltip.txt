@@ -1,0 +1,50 @@
+﻿;============================================================
+;  File: tooltip.dll
+;  Module: Tooltip Plus
+;  Versions: 0.0.0.1
+;  URL: http://nullbie.miranda.im/
+;============================================================
+[Truncate long lines to:]
+Обрезать строки до:
+[characters.]
+символов.
+[Show tooltips after:]
+Подсказка после:
+[milliseconds.]
+миллисекунд.
+[Enable advanced formatting]
+Расширенное форматирование
+[Use system tooltips]
+Системные подсказки
+[Use Popup Plus based tooltips (requires Popup Plus 2.1.0.7 or newer)]
+Подсказки на базе Popup Plus (требуется Popup Plus 2.1.0.7 или новее)
+[Tooltip content]
+Содержимое подсказки
+[Available information]
+Доступная информация
+[Account: Software]
+Учётная запись: Клиент
+[Account: Status]
+Учётная запись: Статус
+[Contact: E-mail]
+Контакт: E-mail
+[Contact: Phone]
+Контакт: Телефон
+[Location: City]
+Происхождение: Город
+[Location: Country]
+Происхождение: Страна
+[Location: Languages]
+Происхождение: Языки
+[Personal: Age]
+Личное: Возраст
+[Personal: Birthday]
+Личное: День рождения
+[Personal: First Name]
+Личное: Имя
+[Personal: Full Name]
+Личное: Ф.И.О.
+[Personal: Last Name]
+Личное: Фамилия
+[Help on variables...]
+Помощь по переменным

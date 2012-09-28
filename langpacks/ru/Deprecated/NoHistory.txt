@@ -1,0 +1,21 @@
+﻿;============================================================
+;  File: NoHistory.dll
+;  Module: No history
+;  Versions: 0.0.3.4
+;============================================================
+[Prevent miranda from storing any history]
+Запрещает сохранять историю переписки Miranda IM.
+[Disable History]
+Отключить историю
+[Disable history for this contact]
+Не сохранять историю контакта
+[Keep history for this contact]
+Сохранять историю контакта
+[Enable History]
+Включить историю
+[Clear History]
+Очистить историю
+[History Enabled]
+История включена
+[NoHistory]
+Без истории

@@ -1,0 +1,143 @@
+﻿;============================================================
+;  Module: Acrypter.dll
+;  Plugin: Acrypter
+;  Versions:  0.6.5.0 - 0.6.9.7
+;============================================================
+[''%s'' is not a valid component name]
+''%s'' неверное имя компонента
+['%s' is not a valid integer value]
+'%s' не целое значение
+[ - Dock zone has no control]
+- Зона стыковки без управления
+[ - Dock zone not found]
+- Зона стыковки не найдена
+[   Create the key      ]
+   Создать ключ    
+[%d is an invalid PageIndex value.  PageIndex must be between 0 and %d]
+%d неверное значение PageIndex. Оно должно быть между 0 и %d
+[%s (%s, line %d)]
+%s (%s, строка %d)
+[%s property out of range]
+%s вне диапазона
+[&Abort]
+Отмена
+[[  Generate password  ]]
+(  Генерировать пароль  )
+[3D Dark Shadow]
+3D тёмная тень
+[3D Light]
+3D лёгкая
+[A class named %s already exists]
+Класс с именем %s уже есть
+[A component named %s already exists]
+Компонент с именем %s уже есть
+[A control cannot have itself as its parent]
+Невозможно быть отцом самого себя
+[Abstract Error]
+Абстрактная ошибка
+[Access violation at address %p in module '%s'. %s of address %p]
+Нарушение доступа по адресу %p в модуле '%s'. %s адреса %p
+[Access violation at address %p. %s of address %p]
+Нарушение доступа по адресу %p. %s адреса %p
+[Acrypter Key|*.ack]
+Ключ Acrypter|*.ack
+[ACrypter key|*.ack]
+Ключ Acrypter|*.ack
+[Add line : Ctrl-Insert]
+Добавить линию: Ctrl-Insert
+[Ancestor for '%s' not found]
+Предок '%s' не найден
+[Application Error]
+Ошибка приложения
+[Assertion failed]
+Утверждение неверно
+[Bitmap image is not valid]
+Изображение не подходит
+[Bitmaps]
+Изображения
+[Bits index out of range]
+Индексы вне диапазона
+[Can't write to a read-only resource stream]
+Невозможно записать поток только для чтения
+[Cannot assign a %s to a %s]
+Невозможно назначить %s для %s
+[Cannot change the size of an icon]
+Невозможно изменить размер значка
+[Cannot change Visible in OnShow or OnHide]
+Невозможно изменить видимое в OnShow или в OnHide
+[Cannot create form. No MDI forms are currently active]
+Невозможно создать форму. Нет активных MDI форм.
+[Cannot drag a form]
+Нельзя перетаскивать
+[Cannot focus a disabled or invisible window]
+Нет фокуса у выключенных и невидимых окон
+[Cannot hide an MDI Child Form]
+Невозможно скрыть MDI Child форму
+[Cannot make a visible window modal]
+Невозможно сделать видимое окно
+[Canvas does not allow drawing]
+Холст не позволяет рисование
+[Class %s not found]
+Класс %s не найден
+[Clipboard does not support Icons]
+Буфер не поддерживает значки
+[Disk full]
+Диск полон
+[Division by zero]
+Деление на нуль
+[Docked control must have a name]
+Стыковка должна быть с именем
+[Enhanced Metafiles]
+Расширенные Метафайлы
+[Error creating window class]
+Ошибка создания окна
+[Error creating window device context]
+Ошибка создания контекста окна
+[Error reading %s%s%s: %s]
+Ошибка чтения %s%s%s: %s
+[Error removing control from dock tree]
+Ошибка удаление контроля из дерева
+[External exception %x]
+Внешнее исключение %x
+[Feb]
+Фев
+[File access denied]
+Доступ запрещён
+[Icon image is not valid]
+Значок не подходит
+[Invalid filename]
+Неверное имя
+[Invalid image size]
+Размер неверен
+[Menu '%s' is already being used by another form]
+Меню '%s' уже используется другой формой
+[Menu index out of range]
+Индекс меню вне предела
+[Menu inserted twice]
+Меню вставлено дважды
+[Metafile is not valid]
+Неверный метафайл
+[Metafiles]
+Метафайлы
+[No argument for format '%s']
+Нет аргументов для формата  '%s'
+[Property is read-only]
+Только для чтения
+[Range check error]
+Ошибка проверки
+[Read beyond end of file]
+Чтение за концом файла
+[Stack overflow]
+Переполнение стека
+[Sub-menu is not in menu]
+Подменю это не меню
+[Text exceeds memo capacity]
+Текст превышает доступный размер
+[Too many open files]
+Слишком много открытых
+[Unable to insert a line]
+Невозможно вставить линию
+[Unable to Replace Image]
+Невозможно заменить изображение
+[Unsupported clipboard format]
+Неподдерживаемый формат

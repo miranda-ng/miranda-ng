@@ -1,0 +1,37 @@
+﻿#muuid {3005c2b1-4278-470c-9498-05953dfa4d88}
+;============================================================
+;  File: imoproxy.dll
+;  Module: Tunnelling Skype traffic via imo.im Web service
+;  Versions: 1.0.0.14
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4146
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/imo2sproxy/
+;  Authors: leecher
+;============================================================
+[Tunnelling Skype traffic via imo.im Web service]
+Перенаправление трафика Skype через веб-службы imo.im
+[Account information]
+Учетная запись
+[Support for Voicecalls via imo.im Flash in Internet Explorer]
+Поддержка голосовых вызовов через imo.im Flash в Internet Explorer
+[Use Netlib instead of WinInet (Experimental)]
+Использовать Netlib вместо WinInet (Экспериментально)
+[Ignore server timestamp and use current time for messages]
+Игнорировать время сервера, использовать текущее время для сообщений
+[Log traffic to file:]
+Писать лог в файл:
+[Bind to address:]
+Привязка к адресу:
+[Use Socket Proxy]
+Использовать Proxy
+[Skype compatible communication API]
+Коммуникационный API совместимый со Skype
+[Caution: Don't use this if you have the Skype application running!]
+Внимание: Не использовать, если у вас запущено приложение Skype!
+[Use compatible comm API]
+Использовать API
+[Skype Plugin 0.0.0.46+ internal communication link]
+Внутренняя коммуникация с плагином Skype 0.0.0.46+
+[Use plugin link]
+Коммуникация с плагином
+[Running]
+Запущено

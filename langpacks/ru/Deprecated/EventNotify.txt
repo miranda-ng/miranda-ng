@@ -1,0 +1,114 @@
+﻿;============================================================
+;  File: eventnotify.dll
+;  Module: Event Notify (ENotify)
+;  Versions: 0.1.4.0
+;============================================================
+[Flat]
+Плоский
+[Beveled]
+Выпуклый
+[Upper left corner]
+Верхний левый угол
+[Upper right corner]
+Верхний правый угол
+[Lower left corner]
+Нижний левый угол
+[Lower right corner]
+Нижний правый угол
+[Centered]
+По центру
+[Vertical]
+Вертикально
+[Horizontal]
+Горизонтально
+[Solid]
+Сплошной
+[Popup appearance]
+Вид инф. окна
+[Notifying]
+Предупреждения
+[Here will be the preview of the message/URL/file event.]
+Здесь будет тест событий сообщение/URL/файл.
+[Style:]
+Стиль:
+[Placement:]
+Положение
+[Spreading:]
+Появление:
+[Color:]
+Цвет:
+[Font:]
+Шрифт:
+[seconds visible (0 to disable)]
+секунд видимо (0 - выкл.)
+[Transparency (Windows 2000 && XP only)]
+Прозрачность (только в Windows 2000/XP)
+[Even when message window is opened]
+Даже когда открыто окно сообщения
+[Dismiss events when]
+Пропускать события, если
+[New URL]
+Новый URL
+[New file]
+Новый файл
+[Synchronize with Miranda]
+Так же, как и в Miranda IM
+[Pops up a window when you receive a message]
+Всплывающее окно при получении сообщения, URL или файла
+[Miranda IM rocks!]
+Miranda IM - лучший клиент!
+[Extended away]
+Недоступен
+[Do not disturb]
+Не беспокоить
+[file]
+файл
+[Popup ...]
+Окно ...
+[Text ...]
+Текст ...
+[... font:]
+... шрифт:
+[... color:]
+... цвет:
+[Background ...]
+Фон ...
+[... style:]
+... стиль:
+[... position:]
+... положение:
+[... spreading:]
+... появление:
+[seconds visible]
+секунд видимо
+[Notify ...]
+Предупреждать ...
+[... on message event]
+... о сообщениях
+[... on URL event]
+... о входящих URL
+[... on file event]
+... о входящих файлах
+[... always]
+... всегда
+[Dismiss events in ...]
+Пропускать события, если я ...
+[... online ...]
+... 'В сети'
+[... away ...]
+... 'Отсутствую'
+[... extended away ...]
+... 'Недоступен'
+[... occupied ...]
+... 'Занят'
+[... do not disturb ...]
+... 'Не беспокоить'
+[... free for chat ...]
+... 'Готов чатиться!'
+[... invisible ...]
+... 'Невидим'
+[... out to lunch ...]
+... 'Вышел на обед'
+[... on the phone ...]
+... 'Разговариваю по телефону'
+[... mode]

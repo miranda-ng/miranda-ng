@@ -1,0 +1,55 @@
+﻿#muuid {ddd4b8f3-d74b-4a5f-a112-0b1a3e1ca54b}
+;============================================================
+;  File: MathModulePP.dll
+;  Module: MathModulePP
+;  Versions: 0.1.1.1
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3413
+;  Source: 
+;  Authors: Protogenes
+;============================================================
+[Displays mathematical formulae, enhanced]
+Модуль поддержки отображения математических формул
+[MathModule++]
+МатМодуль++
+[MimeTeX location:]
+Расположение MimeTeX:
+[Adjust formula size: %.1f%%]
+Размер формул: %.1f%%
+[ForeColor:]
+Цвет текста:
+[BackColor:]
+Цвет фона:
+[create images with alpha channel]
+создание изображений с альфа-каналом
+[Buffering]
+Кэширование
+[Buffer images in memory]
+Размер кэша изображений в ОЗУ
+[%d images]
+%d изображений
+[Buffer images on HDD in]
+Размер кэша изображений на HDD
+[Clear Buffer]
+Отчистить кэш
+[New profile]
+Новый профиль
+[Add formula]
+Добавить формулу
+[Add profile]
+Добавить профиль
+[Add default profile]
+Добавить стандартный профиль
+[Add default profiles]
+Добавить стандартный профиль
+[Import profile]
+Импортировать профиль
+[Export profile]
+Экспортировать профиль
+[Rebuild Menu]
+Восстановить меню
+[Reset Menu]
+Перезагрузить меню
+[Refresh Preview]
+Обновить вид
+[Save Preview As...]
+Сохранить вид

@@ -1,0 +1,248 @@
+﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Module: Scriver messaging
+;  Versions: 2.10.0.1 & higher
+;============================================================
+
+;  Описание на странице модулей
+[Scriver - send and receive instant messages]
+Scriver - отправка и получение мгновенных сообщений
+
+;  Беседы — общее
+[Automatically pop up the window when]
+Автоматически показывать окно когда 
+[and stay minimized]
+и оставаться свёрнутым
+[Save size and location for each contact]
+Сохранять размер и положение для каждого контакта
+[Hide windows on close]
+Прятать окна при закрытии
+[Auto resize input area]
+Авт. изменять размер поля ввода
+[Remember unsent messages]
+Помнить неотправленные сообщения
+[Delete temporary contacts on closing]
+При включении удалять временные контакты
+
+; Беседы — Вкладки
+[Enable tabs]
+Включить вкладки
+[Always show tab bar]
+Всегда показывать панель вкладок
+[Limit names on tabs to]
+Ограничить имена на вкладках
+[Show close button on each tab ]
+Кнопка закрытия на вкладках
+[Switch to active tab]
+Переключаться на активную вкладку
+[Limit number of tabs per window to]
+Ограничить число вкладок на окно
+[Use separate windows for group chats]
+Отдельные окна для чата
+[Limit number of group chats tabs per window to]
+Ограничить число вкладок на окна чата
+
+; Беседы — Размещение
+[Show titlebar]
+Показать название
+[Show toolbar]
+Показывать панель кнопок
+[Show infobar]
+Показывать панель информации
+[Show progress indicator]
+Показывать индикатор прогресса
+
+; Беседы — Журнал событий
+[Event Log]
+Журнал событий
+[Enable IEView]
+Включить IEView
+[Long date format]
+Буквенный формат даты
+[Relative date]
+Относительная дата
+[Customize fonts and colors]
+Настроить шрифты и цвета
+[Enable message grouping]
+Группировать сообщения
+[Mark follow-up msgs with timestamp]
+Отмечать датой
+[Start message text on a new line]
+Текст сообщения с новой строки
+[Show lines between messages]
+Линии между сообщениями
+[Indent text]
+Отступ текста
+[Preload]
+Подгружать историю
+[Unread events only]
+Только непрочитанные события
+[Events in the last]
+События полученные позже, чем
+
+;  Беседы — чат-комната
+[Appearance and functionality of chat windows]
+Интерфейс и функциональность окон чата
+[Flash when someone speaks]
+Мигать, когда кто-то говорит
+[Flash when a word is highlighted]
+Мигать окном, если есть подсвеченные сообщения
+[Show chat user list]
+Показывать пользователей в списке
+[Enable button context menus]
+Включить кнопки в контекстном меню
+[Show topic on your contact list (if supported)]
+Показывать тему в списке контактов (если поддерживается)
+[Do not play sounds when focused]
+Не играть звук, когда комната на переднем плане
+[Do not pop up when joining]
+Не показывать всплывающие окна, когда кто-то заходит
+[Show and hide by double clicking in the contact list]
+Показывать и скрывать список контактов по двойному щелчку
+[Show contact statuses (if supported)]
+Показывать статусы (если поддерживается)
+[Display contact status icon before role icon]
+Показывать значок статуса, после значка ролей
+[Add ':' to auto-completed names]
+Добавлять ":" к именам пользователей
+[User list row height]
+Высота списка пользователей
+
+; Беседы — Лог чата
+[Group Chat Log]
+Лог чата
+[Timestamp has same colour as event]
+Время того же цвета, как и событие
+[Limit user names to 20 characters]
+Ограничить имена в журнале 20-ю символами
+[Strip colors from messages]
+Запретить цвета сообщений
+[Enable 'event filter' for new rooms]
+Включать "фильтр событий" для новых комнат
+[Save logs]
+Сохранять журнал
+[Trim to]
+Лимит
+
+;  Беседы — набирает текст
+[Show typing notification switch in the status bar]
+Переключатель "Уведомление о наборе" в панели статуса
+[Update message window icons when a user is typing]
+Обновить значок окна при наборе сообщения Вам
+
+; Всплывающие окна — Сообщения
+[(0 means default setting, -1 means indefinite time)]
+0 = стандартные значения, -1 = бесконечное время
+
+;  Контейнер — Панель кнопок, подсказки и действия
+[Quote Text]
+Цитата
+[User Menu - %s]
+Меню пользователя - %s
+[Close Other Tabs]
+Закрыть остальные вкладки
+[Always On Top]
+Поверх всех окон
+[Quote]
+Цитата
+[Smiley]
+Смайлик
+[Manager]
+Настройки комнаты
+
+; Контейнер - отправка сообщений и файлов
+[while sending the following message:]
+при посылке следующего сообщения:
+[Sending in progress: %d message(s) left...]
+Отправка сообщения: %d осталось...
+[File sent]
+Посылка файла
+[File received]
+Файл получен
+[Paste && Send]
+Вставить и отправить
+[Send To All Tabs]
+Отправить всем вкладкам
+[You are about to send a message to all open tabs.\nAre you sure ?]
+Вы собираетесь отправить сообщение всем открытым вкладкам. Вы уверены?
+[Remember my choice for this container]
+Запомнить выбор для этого контейнера
+
+; Тонкая настройка — Шрифты и значки
+[Infobar contact name]
+Инфо-Панель: имя контакта
+[Infobar status message]
+Инфо-Панель: cтатусное сообщение
+[User list members (online)]
+Члены списка (в сети)
+[User list background (selected)]
+Фон списка (выбрано)
+[User list lines]
+Линии списка
+[Group Chats Log]
+Групповые чаты
+[User's details]
+Инфо контакта
+[User's history]
+История контакта
+[User is typing]
+Пишет сообщение
+[Typing notification off]
+"Уведомление о наборе" выкл.
+[Unicode is on]
+Юникод включён
+[Unicode is off]
+Юникод выключен
+[Sending]
+Отправка сообщения
+[Quote button]
+Цитата
+
+; Тонкая настройки — Горячие клавиши
+[Action: Paste & Send]
+Действие: Вставить и отправить
+[Action: Quote]
+Действие: Цитировать
+[Action: Send to All]
+Действие: Послать всем
+[Navigate: Next Tab]
+Навигация: Следующая вкладка
+[Navigate: Previous Tab]
+Навигация: Предыдущая вкладка
+[Navigate: Tab 1]
+Навигация: Вкладка 1
+[Navigate: Tab 2]
+Навигация: Вкладка 2
+[Navigate: Tab 3]
+Навигация: Вкладка 3
+[Navigate: Tab 4]
+Навигация: Вкладка 4
+[Navigate: Tab 5]
+Навигация: Вкладка 5
+[Navigate: Tab 6]
+Навигация: Вкладка 6
+[Navigate: Tab 7]
+Навигация: Вкладка 7
+[Navigate: Tab 8]
+Навигация: Вкладка 8
+[Navigate: Tab 9]
+Навигация: Вкладка 9
+[Window: Clear Log]
+Окно: Очистить лог
+[Window: Close Tab]
+Окно: Закрыть вкладку
+[Window: Minimize]
+Окно: Свернуть
+[Window: Toggle Infobar]
+Окно: вкл./выкл. панели информации
+[Window: Toggle Statusbar]
+Окно: вкл./выкл. панели статуса
+[Window: Toggle Titlebar]
+Окно: вкл./выкл. панели заголовка
+[Window: Toggle Toolbar]
+Окно: вкл./выкл. панели кнопок
+[Min input area size]
+Мин. размер поля ввода
+[lines]
+линий

@@ -1,0 +1,50 @@
+﻿;============================================================
+;  File: mIpper.dll
+;  Module: Ipper Maniac 
+;  Versions: 0.0.1.19
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=993
+;============================================================
+[Send &IP-addresses]
+Отправить &IP-адреса
+[Sends your IP-addresses to selected user]
+Посылает ваши IP-адреса выбранному пользователю
+[Message template:]
+Шаблон сообщения:
+[Insert addresses in message (without sending)]
+Вставлять адреса в сообщение (без отправки)
+[Send each address in new message]
+Посылать каждый адрес в новом сообщении
+[Add message to history]
+Добавлять сообщение в историю
+[Show IP selection window]
+Показывать окно выбора адреса
+[Use DNS name if exists]
+Использовать имя DNS (если есть)
+[Hot key:]
+Горячая клавиша:
+[Try to get external addresses]
+Пытаться получить внешний адрес
+[Use addresses of PPP connections only]
+Использовать только адреса PPP соединений
+[Remote support]
+Удалённая поддержка
+[Command:]
+Команда:
+[Enable remote support]
+Включить удалённую поддержку
+[Remote command:]
+Удалённая команда:
+[Use custom lists]
+Использовать собственные списки
+[Custom lists]
+Собственные списки
+[Include addresses:]
+Включить адреса:
+[Exclude addresses:]
+Исключить адреса:
+[Macros for message templates:\n\n%ip = IP\n%dns = DNS\n%nl = new line\n%me = your nick\n%rcp = recip. nick]
+Макросы для шаблона сообщения:\n\n%ip = IP\n%dns = DNS\n%nl = перевод строки\n%me = Ваш ник\n%rcp = Ник адресата
+[Warning! Experimental!\nMakes connection to checkip.dyndns.org. May not work properly because of firewall restrictions or transparent proxy.]
+Внимание! Экспериментально!\nУстанавливается соединение с checkip.dyndns.org. Может не работать из-за ограничений брандмауэра или прозрачного прокси.
+[Choose IP-addresses]
+Выберите адреса

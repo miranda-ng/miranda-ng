@@ -1,0 +1,19 @@
+﻿#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+;============================================================
+;  File: addcontactplus.dll
+;  Plugin: AddContact+
+;  Versions: 0.9.9.0
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3842
+;  Source: http://dezeath.googlecode.com/svn/trunk/AddContactPlus/
+;  Authors: Dezeath
+;============================================================
+[Add Contact\nAdd a contact to your contact list]
+Добавить контакт\nДобавить контакт в контактный лист
+[&Add Contact...]
+&Добавить контакт...
+[Provides the ability to quickly add new contacts]
+Предоставляет возможность быстро добавить контакт
+[The contact cannot be added to your contact list. If you are not connected to that network, try to connect. Also, make sure the User ID is entered properly.]
+Контакт не может быть добавлен в ваш контакт лист. Если вы не подключены к этой сети, попробуйте подключиться. Также, убедитесь, что вы вписали правильный ID пользователя.
+[Add temporarily]
+Добавить временно

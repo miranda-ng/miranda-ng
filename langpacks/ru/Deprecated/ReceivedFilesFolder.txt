@@ -1,0 +1,22 @@
+﻿;============================================================
+;  File: ReceivedFilesFolders.dll
+;  Module: Received Files Folders Plugin
+;  Versions: 0.1.1.0a
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1304
+;============================================================
+[Adds a menuitem which opens the Miranda IM folder.]
+Пункт в меню, открывающий папку Miranda IM.
+[Received Files Folders]
+Папка полученных файлов
+[Open received files folders]
+Открыть папку полученных файлов
+[Received Files Folder Options]
+Настройки меню
+[Show 'Open received files folder' on contacts menu]
+Показывать "Открыть папку полученных файлов" в контекстном меню
+[Show 'Open received files folder' on main menu]
+Показывать "Открыть папку полученных файлов" в главном меню
+[The folder don't exist]
+Папка не существует
+[Integrate in TobToolBar]
+Интегрировать в Панель кнопок

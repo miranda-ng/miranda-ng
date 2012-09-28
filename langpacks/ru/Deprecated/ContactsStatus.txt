@@ -1,0 +1,116 @@
+﻿;============================================================
+;  File: statuschange.dll
+;  Module: Contacts Status Notification
+;  Versions: 0.1.2.2
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1702
+;============================================================
+[Contacts Status]
+Статус контактов
+[Icon blinking]
+Мигание значка
+[Individual sounds]
+Индивидуальные звуки
+[Don't notify after protocol connection]
+Не уведомлять после подключения
+[Watch selected protocols]
+Наблюдать за протоколами:
+[Use Events/Ignore/Online settings]
+Исп. настр. События/Игнор/В сети
+[Notify if protocol disconnected]
+Уведомлять при разъединении
+[Contacts notification]
+Уведомление контактов
+[Any changes]
+Любые изменения
+[Become from Offline]
+Вернулся в сеть
+[Go to && become from Offline]
+Вернулся/вышел из сети
+[Selected statuses]
+Выбранные статусы
+[Everyone becomes from Offline]
+Все вошли в сеть
+[Use color:]
+Использовать цвет:
+[Popup actions]
+Кнопки мыши
+[Message box]
+Окно беседы
+[Contact info]
+Данные контакта
+[Disable popup]
+Выключить окна
+[Custom popup delay]
+Длительность
+[Show contact's gender (if available)]
+Показывать пол (если возможно)
+[Show previous status of contact]
+Показывать предыдущий статус
+[Show away message (if available)]
+Показывать статусное сообщение
+[Status: From Offline]
+Статус: вернулся в сеть
+[Status: Offline]
+Статус: не в сети
+[Status: Online]
+Статус: в сети
+[Status: Away]
+Статус: отсутствую
+[Status: DND]
+Статус: не беспокоить
+[Status: NA]
+Статус: не доступен
+[Status: Occupied]
+Статус: занят
+[Status: Free for chat]
+Статус: готов болтать
+[Status: Invisible]
+Статус: невидимый
+[Status: On the phone]
+Статус: на телефоне
+[Status: Out to lunch]
+Статус: обедаю
+[User is %s]
+Пользователь %s
+[User going to %s]
+Пользователь %s
+[%s\nUser has been %s]
+%s\nПредыдущий статус: %s
+[%s\nMessage: %s]
+%s\nСообщение: %s
+[Nobody]
+Никто
+[Some reason]
+Другая причина
+[Enable &status change notification]
+Включить уведомление о смене статуса
+[Disable &status change notification]
+Выключить уведомление о смене статуса
+[Some protocol]
+Другой протокол
+[Color schema]
+Цветовая схема
+[Simple]
+Простая
+[Online colors:]
+Цвет "в сети":
+[Away colors:]
+Цвет "отсутствую":
+[Offline colors:]
+Цвет "не в сети"
+[Custom color schema]
+Своя цветовая схема
+[User status:]
+Статус:
+[User status]
+Статус
+[Use colors:]
+Использовать цвета:
+[Custom colors:]
+Свои цвета:
+[From Offline]
+Вернулся в сеть
+[&Play]
+Играть
+[&Set...]
+Установить...

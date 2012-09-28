@@ -1,0 +1,26 @@
+﻿;============================================================
+;  File: welcomescr.dll
+;  Module: This plugin writes unread events counts ofor each protocol to Welcome screen in Windows XP.
+;  Versions: 1.1.1.1 - 1.1.3.1
+;  URL: http://addons.miranda-im.org/details.php?action=viewlog&id=1467
+;============================================================
+[Welcome screen]
+Страница приветствия
+[Update on timer]
+Обновлять по таймеру
+[Update counters every]
+Обновлять счётчики через
+[Update on events]
+Обновлять по событиям
+[(not recommended)]
+(не рекомендуется)
+[Update only when workstation is locked]
+Обновлять только если компьютер заблокирован
+[Add summary]
+Добавить итоги
+[Resolve protocol names]
+Показывать имена протоколов
+[Remove Miranda IM records]
+Удалить записи Miranda IM
+[Update counters immediately when workstation is locked]
+Обновлять счётчики при блокировке компьютера

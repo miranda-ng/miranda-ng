@@ -1,0 +1,121 @@
+﻿;============================================================
+;  File: xStatus Notify.dll
+;  Module: XStatus Notify
+;  Versions: 0.3.1.7
+;============================================================
+[changes XStatus ]
+меняет xСтатус
+[to ]
+на
+[(was]
+(был
+[) changed XStatus ]
+) изменил(а) xСтатус
+[message (]
+сообщение (
+[XStatus Notify: XStatus changed]
+xСтатус изменился
+[Can't open the log file]
+Не могу открыть файл
+[Notify only when icon changes]
+Только если сменился значок
+[Show new status message]
+Показывать новый xСтатус
+[XStatus name]
+xСтатус
+[Warning=]
+Предупреждение=
+[music]
+музыка
+[track]
+дорожка
+[<no recent events>]
+<нет недавних событий>
+[Aggressive filtering level. Filters more, sacrificing some of the most suspicious usual notifications that may turn out to be not a flood.]
+Агрессивный уровень фильтра. Фильтрует больше, несмотря на некоторые обычные уведомления, которые могут быть не флудом.
+[Normal filtering level. It's the recommended setting. It tries to leave most of usual xstatus notifications and at the same time it offers reasonable level of flood filtering, leaving only first \"Listening to\" notification for a contact and filtering any subsequent ones.]
+Нормальный уровень фильтрации. Рекомендованная настройка. Попытка уведомлять об обычных сменах хСтатусов, и в то же время предлагая достаточный уровень фильтрации флуда, оставляя только первые \"Сейчас играет\" уведомления для контакта, и фильтруя все последующие.
+[Technical info (log of filtered notifications)]
+Техническая информация (журнал отфильтрованных уведомлений)
+[This log shows results of heuristic analysis of recent xstatus change events. Notifications\r\nare filtered out if their Warning value is more than filtering threshold. Using this info, you\r\ncan tune filtering threshold to suit your preferences.]
+Этот журнал отображает результаты эвристического анализа недавних событий изменения хСтатусов. Уведомления фильтруются, если уровень предупреждения более, чем заданный порог. Используя эту информацию, вы можете подстроить порог фильтра для Ваших условий.
+[Very aggressive filtering level. You won't ever see \"Listening to\" popups (perhaps with very rare exceptions), but the plugin will also filter a lot of usual xstatus notifications.]
+Очень агрессивный уровень фильтрации. Вы даже не увидите \"Сейчас играет\" уведомлений (может быть с редкими исключениями), но модуль будет также фильтровать много обычных уведомлений хСтатуса.
+[Very weak filtering level. Usually still sufficient to filter a lot of flooding notifications, but fails to filter them if their \"flood\" features are indistinct.]
+Очень слабый уровень фильтрации. Обычно его достаточно чтобы отфильтровать множественные уведомления, но он не может отфильтровать \"не ясный\" флуд уведомления.
+[Weak filtering level. Leaves more notifications, so it may accidentally skip some flood. Advantage of this setting is that the plugin will be more tolerant to cases when contact changes his xstatus message several times but leaves the same icon.]
+Слабый уровень фильтрации. Оставляет большинство уведомлений, и может пропустить немного флуда. Преимущество данной настройке в том, что модуль будет более терпимым в случае определения когда контакт меняет сообщение хСтатуса несколько раз, но оставляет тот же самый значок.
+[You have to enable heuristic filtering for popups and/or for message log to see results here.]
+Вы должны включить эвристический фильтр для всплывающих окон и/или журнала, чтобы увидеть результаты здесь.
+[Don't filter notifications]
+Не фильтровать уведомления
+[Don't notify for contacts with disabled online notification]
+Не уведомлять для контактов, с отключённым уведомлением 'В сети'
+[Don't notify on connect]
+Не уведомлять при подключении
+[Don't take any special measures to filter notifications]
+Не брать специальные пробы для фильтра уведомлений
+[Enable logging to message window]
+Включить журналирование в окно беседы
+[Enable popup notification]
+Включить уведомление во вспл. окне
+[Filter settings for message log]
+Настройки фильтра для окна беседы
+[Filter settings for popups]
+Настройки фильтра для вспл. окна
+[Filtering threshold:]
+Порог фильтрации:
+[Heuristic algorithm settings]
+Настройки эвристического алгоритма
+[Log new status message]
+Сохранять новое сообщение
+[Log on opening message window]
+Записывать при открытии окна беседы
+[Log only when icon changes]
+Сохранять только при смене значка
+[Log previous status too]
+Сохранять предыдущий статус
+[Logging to message window]
+Журналирование в окно беседы
+[Use heuristic algorithms to filter out flood]
+Эвристические алгоритмы для фильтрации флуда
+[XStatusNotify info]
+Уведомление хСтатусов
+[Always except when XStatus notifications are disabled globally]
+Всегда, кроме того, когда уведомления хСтатусов отключены глобально
+[Always, even when XStatus notifications are disabled globally]
+Всегда, даже когда уведомления хСтатусов отключены глобально
+[Never, ignore XStatus changes for this contact]
+Никогда, игнорировать смену хСтатусов для этого контакта
+[Use global filtering settings (default)]
+Использовать глобальные настройки (по умолчанию)
+[XStatus Notify plugin requires Miranda version 0.6.0.3 or later]
+Модуль уведомления хСтатусов требует Miranda IM версии 0.6.0.3 или выше
+[XStatus Notify requires riched20.dll to work correctly. If you are using Windows 95 or WINE please make sure you have riched20.dll installed.]
+Модулю уведомления хСтатусов нужна библиотека riched20.dll для нормальной работы. Если вы используете Windows 95 или WINE, убедитесь, что эта библиотека установлена.
+[XStatus change notifications:]
+Уведомления смены хСтатусов:
+[XStatusNotify]
+Уведомление хСтатусов
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed XStatus %extratext%\r\n\r\n]
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) сменил хСтатус %extratext%\r\n\r\n
+[changed XStatus message]
+сменил сообщение хСтатуса
+[changed XStatus to %s]
+сменил хСтатус на %s
+[changed XStatus to %s (was %s)]
+сменил хСтатус на %s (был %s)
+[has XStatus %s]
+текущий хСтатус %s
+[removed XStatus (was %s)]
+удалил хСтатус (был %s)
+[ (was ]
+ (был
+[Logging to message log]
+Запись сообщений в файл
+[Use NSN per contact popup setting]
+Исп. NSN в настройках окон контакта
+['( Unknown Contact )']
+'( Неизвестный контакт )'
+[Disable &XStatus notification]
+Выключить уведомление о смене хСтатусов

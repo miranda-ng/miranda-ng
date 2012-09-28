@@ -1,0 +1,415 @@
+﻿#muuid {9c23a24b-e6aa-43c6-b0b8d6c36d2f7b57}
+;============================================================
+;  File: userinfoex.dll
+;  Module: UserInfoEx
+;  Versions: 0.8.4.2
+;  URL: http://www.miranda-im.org/download/details.php?action=viewfile&id=1971
+;============================================================
+
+;  настройки - модули - описание
+[UserInfoEx]
+Личные данные
+[Gives extended ability to edit information about your contacts locally. It does not matter what information your contact gives about himself. If you know more you can add more.]
+Расширенное отображение информации пользователя. Заменяет отображение личной информации как для вас, так и для ваших контактов.
+
+;  настройки - модули - личные данные - общие
+[AccountMenu]
+Меню уч. записей
+[Cascade:]
+Каскадный:
+[Ex-/Import items]
+Экспорт/Импорт
+[This options require a contact list which supports extra icons.]
+Нужен модуль контакт-листа с поддержкой дополнительных значков.
+[Replace the following default icons:]
+Заменить следующие значки:
+
+;  настройки - модули - личные данные - дополнительно
+[Check file version of default IconPack to prevent wrong icon display]
+Проверять версию файла значков для правильного отображения
+[Display icons on each dialog button]
+Показывать значки на каждой кнопке
+[Scan SubContacts for missing information]
+Поиск отсутствующей информации в субконтактах
+[Enable extended 'GetContactInfo' module (*)]
+Включить расширенный 'GetContactInfo' модуль (*)
+[Enable extended 'send/receive email' service (*)]
+Включить расширенный модуль электронной почты (*)
+[Use Windows Timezone]
+Часовой пояс Windows
+[(*) Requires Miranda to be restarted.]
+(*) Требуется перезапуск Miranda NG.
+[Reset factory defaults]
+Настройки по умолчанию
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+Эта функция удалит все настройки, которые вы сделали \nВсе настройки дерева, позиций окна, и др.!\n\nВы действительно хотите продолжить?
+[All settings are reset to default values now!]
+Все установки сейчас будут сброшены!
+
+;  настройки - модули - личные данные - диалоги
+[Details Dialog]
+Диалоги
+[Enable colours to give information about information's status.]
+Включить цвета для показа статуса информации
+[Protocol's information]
+Данные протокола
+[Custom information]
+Локальные данные
+[Overwritten information]
+Перезаписанная информация
+[Changed information]
+Изменённые данные
+[Info of a MetaContact's SubContact]
+Информация субконтакта МетаКонтакта
+[Adapt propertysheet pages to aero mode.]
+Адаптировать Настройки к стилю Aero.
+[Make protocol based contact information readonly.]
+Запретить изменение информации, базирующейся на протоколе
+[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+Изменять мои личные данные через UserInfoEx (недоступно, если ICQ не поддерживает)
+[TreeView]
+Дерево
+[Enable groups in details dialog's treeview.]
+Вложенные пункты меню
+[Sort all tree items alphabetically.]
+Отсортировать все пункты в алфавитном порядке
+
+;  настройки - модули - личные данные - напоминание
+[Reminder disabled]
+Напоминания отключены
+[Anniversaries only]
+Только праздники
+[Bithdays only]
+Только дни рождения
+[everything]
+Все напоминания
+[Time of last check:]
+Посл. проверка:
+[Icon flashing on event]
+Мигание значка при событии
+[Show menu items]
+Показать пункты меню
+[Use ignore list]
+Использовать список игнорирования
+[Perform check on each startup]
+Проверять при запуске
+[Automatically backup and keep protocol based birthdays up to date]
+Автоматически сохранять и резервировать дни рождения из протокола
+[Remind me]
+Напомнить
+[Birthday compatibility mode:]
+Режим совместимости:
+[UserInfo (default)]
+Личные данные (по умолчанию)
+[CList extra icon:]
+Значок списка:
+[days before.]
+дней.
+
+;  настройки - всплывающие окна - личные данные
+[Replace message boxes with popups]
+Заменить диалоги всплывающими окнами
+[Replace progress dialogs with popups]
+Заменить диалоги прогресса всплывающими окнами
+[Show reminder messages as popups (if reminder is enabled)]
+Напоминания во всплывающих окнах (если разрешены)
+[Birthday popup colours]
+Настройка дней рождения
+[Anniversary popup colours]
+Настройка праздников
+[This is the reminder message]
+Сообщение напоминания
+
+;  настройки - тонкая настройка
+[Check anniversaries]
+Проверить праздники
+[Popup Anniversary list]
+Показать список праздников
+[Refresh Contact Details]
+Обновить данные контактов
+[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[b]%s (%S)...[/b]\n%d контактов осталось
+[Anniversary Reminder]
+Напоминание о празднике
+
+;  настройки - тонкая настройка - значки
+[IM Naming]
+Имя в IM
+[Marital status]
+Семейное положение
+[Aries]
+Овен
+[Taurus]
+Телец
+[Gemini]
+Близнецы
+[Cancer]
+Рак
+[Leo]
+Лев
+[Virgo]
+Дева
+[Libra]
+Весы
+[Scorpio]
+Скорпион
+[Sagittarius]
+Стрелец
+[Capricorn]
+Козерог
+[Aquarius]
+Водолей
+[Pisces]
+Рыбы
+[Export: Modules]
+Экспорт: Модули
+[Export: Folder]
+Экспорт: Папка
+[Contact (private)]
+Контакт (личный)
+[Origin]
+Происхождение
+[Anniversaries]
+Праздники
+[Contact (Work)]
+Контакт (рабочий)
+[Details Infobar]
+Детали
+[Phone Infobar]
+Телефон
+[E-Mail Infobar]
+Почта
+[Export VCard]
+Экспорт VCard
+[Import VCard]
+Импорт VCard
+[Anniversary Infobar]
+Юбилей
+[Goto]
+Зайти на сайт
+[Custom Phone]
+Выбранный телефон
+[Down arrow]
+Стрелка вниз
+[Ex-/Import]
+Экспорт/Импорт
+[Backup Birthday]
+Резервировать Д.Р.
+[Birthday tomorrow]
+День рождения завтра
+[Birthday in 2 days]
+День рождения через 2 дня
+[Birthday in 3 days]
+День рождения через 3 дня
+[Birthday in 4 days]
+День рождения через 4 дня
+[Birthday in 5 days]
+День рождения через 5 дней
+[Birthday in 6 days]
+День рождения через 6 дней
+[Birthday in 7 days]
+День рождения через 7 дней
+[Birthday in 8 days]
+День рождения через 8 дней
+[Birthday in 9 days]
+День рождения через 9 дней
+[Birthday later]
+День рождения позже
+[Anniversary today]
+Праздник сегодня
+[Anniversary tomorrow]
+Праздник завтра
+[Anniversary in 2 days]
+Праздник через 2 дня
+[Anniversary in 3 days]
+Праздник через 3 дня
+[Anniversary in 4 days]
+Праздник через 4 дня
+[Anniversary in 5 days]
+Праздник через 5 дней
+[Anniversary in 6 days]
+Праздник через 6 дней
+[Anniversary in 7 days]
+Праздник через 7 дней
+[Anniversary in 8 days]
+Праздник через 8 дней
+[Anniversary in 9 days]
+Праздник через 9 дней
+[Anniversary later]
+Праздник позже
+[Extended UserInfo]
+Личные данные
+[Export all contacts]
+Экспортировать все контакты
+[Import all contacts]
+Импортировать все контакты
+[Backup birthdays]
+Резервировать дни рождения
+[Update custom birthday]
+Обновление настроенных дней рождений
+[Backing up and syncing all birthdays complete!]
+Резервирование и синхронизация всех Дней рождений завершены!
+[Anniversary list]
+Список праздников
+[Ex-/Import contact]
+Экспорт/Импорт контакта
+[&Homepage]
+Сайт
+[CheckAnniv]
+Проверить праздники
+[AnnivList]
+Список праздников
+
+;  меню контакта - информация о контакте + личные данные
+[Edit Contact Information]
+Редактировать данные контакта
+[Second name:]
+Отчество:
+[jun.]
+мл.
+[sen.]
+сен.
+[Partner:]
+Партнер:
+[Language skills]
+Владение языками
+[County/State:]
+Округ/Штат:
+[Edit the currently displayed item.]
+Изменить существующую запись.
+[Choose the item to display.]
+Выбрать запись.
+[Add a new custom item.]
+Добавить новую запись.
+[Delete the selected item.]
+Удалить данную запись.
+[Enter your phone number\nand don't worry about formating.]
+Введите номер телефона\nв любом формате.
+[Enter a category for this number:]
+Введите категорию для номера:
+[Add E-Mail]
+Добавить E-mail
+[Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
+Введите e-mail адрес.\n(например: john.doe@provider.com)
+[Enter a representitive name for the e-mail address here.]
+Введите имя для электронного адреса
+[Enter the e-mail address here.]
+Введите электронный адрес.
+[Open in Browser]
+Открыть в браузере
+[Contact added to ContactList:]
+Добавлен(а) в контакт-лист:
+[Just from the beginning.]
+С самого начала.
+[Your contact's local time is:]
+Локальное время контакта:
+[Anniversary Editor\nAdd/Edit your anniversary here.]
+Редактор праздника\nДобавьте/Редактируйте праздник здесь.
+[Enter a name for the anniversary here please:]
+Введите наименование праздника:
+[Anniversary Editor]
+Редактор праздника
+[Add a new anniversary]
+Добавить новый праздник
+[Delete an existing anniversary]
+Удалить существующий праздник
+[Do you really want to delete the %s?]
+Вы действительно хотите удалить %s?
+[Use global reminder settings.]
+Глобальные настройки напоминаний.
+[Don't remind me of this anniversary.]
+Не напоминать мне об этом празднике.
+[Zodiac:]
+Зодиак:
+[Office:]
+Офис:
+[Superior:]
+Начальник:
+[Assistant:]
+Ассистент:
+[Add Affiliation]
+Принадлежность
+[Add Past]
+Прошлое
+[Add Interest]
+Интересы
+[Interest]
+Интересы
+[Do you really want to delete this entry?]
+Вы действительно хотите удалить это?
+
+;  импорт/экспорт
+[Import User Details from vCard]
+Импорт деталей пользователя из vCard
+[Import complete]
+Импорт завершен
+[added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
+Добавлено контактов: %u / %u\nДобавлено настроек: %u / %u\nДобавлено событий: %u / %u\nДублирующих событий: %u
+[Select a destination file...]
+Выберите имя файла для экспорта
+[What do you want to export?]
+Что вы хотите экспортировать?
+[Contact History]
+История контакта
+[Select Modules]
+Выберите модули
+[Check all]
+Выбрать все
+[Uncheck all]
+Очистить все
+[Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
+Отметьте в списке те модули, которые вы хотите экспортировать для контактов. Для добавления контакта из файла в виде новой записи, необходимо экспортировать хотя бы модуль протокола.
+[Required modules]
+Обязательные модули
+[Optional modules]
+Дополнительные модули
+[&Export Group]
+Экспортировать группу
+[&Import Group]
+Импортировать группу
+
+;  список праздников и дней рождения
+[No anniversaries to remind of]
+Нет праздников, о которых надо уведомлять
+[\n%s becomes %d years old.]
+\n%s исполнится %d.
+[Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
+Предстоящие праздники\nСписок содержит все праздники Ваших контактов.
+[Statistics:]
+Статистика:
+[number of contacts:]
+число контактов:
+[with birthday:]
+с днем рождения:
+[female:]
+женщин:
+[male:]
+мужчин:
+[average age:]
+средний возраст:
+[Proto]
+Протокол
+[Age/Nr.]
+Возраст
+[Birthdays only]
+Только дни рождения
+[Disabled reminder]
+Откл. напоминания
+[Popup this dialog on a contact's anniversary]
+Показывать этот диалог, когда праздник
+[Keeps your custom birthday up to date.]
+Резервирует настроенные дни рождения.
+[%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
+%s указывает новый день рождения по протоколу.\nНовая дата %s. Старая %s.\n\nВы хотите использовать новую дату рождения для этого контакта?
+
+; Экстра значки
+[Gender (uinfoex)]
+Пол (uinfoex)
+[Homepage (uinfoex)]
+Сайт (uinfoex)
+[Reminder (uinfoex)]
+Напоминание (uinfoex)
+[Flags (uinfoex)]
+Флаги (uinfoex)
+
+

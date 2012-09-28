@@ -1,0 +1,37 @@
+﻿#muuid {f6914126-843d-40b2-9263-4c3f95fe4a15}
+;============================================================
+;  File: extendedidle.dll
+;  Module: Extended Idle System
+;  Versions: 0.0.5.0
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1688
+;============================================================
+[Extended Idle System, an Auto Away & Idle module with some more options than the original.]
+Расширенная система отсутствия - модуль отсутствия и ожидания с расширенным набором функций.
+[Extended Idle]
+Расширенное отсутствие
+[Set Away mode when screen saver engages]
+"Отсутствую", если запущена заставка
+[Set Away mode when the computer is locked (2000/XP+ only)]
+"Отсутствую", если компьютер заблокирован (2000/ХР+)
+[Set Away mode when a terminal session is disconnected]
+"Отсутствую", если удалённая сессия завершена
+[Set Away mode after]
+"Отсутствую" после
+[minutes without mouse movement]
+минут без движений мыши
+[Keep it]
+Сохранять
+[Set N/A mode after]
+"Недоступен" после
+[Go to Idle after]
+Ожидание после
+[Go to Idle when in Away or N/A mode.]
+Ожидание, если "Отсутствую" или "Недоступен"
+[Keep Idle as private, i.e. do not let protocols report it.]
+Не позволять протоколам сообщать о режиме ожидания
+[Idle-Status Messages]
+Сообщения статусов
+[Use the same message as Away message]
+Использовать сообщение по умолчанию
+[Extended Idle System]
+Расширенное отсутствие

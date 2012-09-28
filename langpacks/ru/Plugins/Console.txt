@@ -1,0 +1,79 @@
+﻿#muuid {23d4f302-d513-45b7-9027-445f29557311}
+;============================================================
+;  File: Console.dll
+;  Module: Console log window for Miranda
+;  Versions: 0.0.7.2
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2325
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/console/
+;  Authors: Bio
+;============================================================
+[Console log window for Miranda.]
+Модуль окна консоли журнала Miranda NG.
+[Scrolling (Ctrl+Q)]
+Прокручивать (Ctrl+Q)
+[Pause logging(Ctrl+P)]
+Пауза (Ctrl+P)
+[Save log to file (Ctrl+S)]
+Сохранить журнал в файл (Ctrl+S)
+[Copy selected log (Ctrl+C)]
+Копировать выделенную часть (Ctrl+C)
+[Delete selected (Del)]
+Удалить выделенное (Del)
+[Log options (Ctrl+O)]
+Настройки журналирования (Ctrl+O)
+[Start logging in all tabs]
+Включить журналирование во всех вкладках
+[Pause logging in all tabs]
+Пауза журналирования во всех вкладках
+[Close tab (Ctrl+W)]
+Закрыть вкладку (Ctrl+W)
+[Single window mode (Restart needed)]
+Простой режим окна (необходим рестарт)
+[Text wrap length (25-255)]
+Длина переносимого текста (25-255)
+[Show Hide Console]
+Скрыть/Показать консоль
+[Clear console]
+Очистить консоль
+[Console]
+Консоль
+[Hide console]
+Скрыть консоль
+[Hide Console]
+Скрыть консоль
+[Remember last state]
+Запоминать состояние
+[Show console on load]
+Открыть консоль при запуске
+[Show console]
+Показать консоль
+[Show Console]
+Показать консоль
+[Console                                    ]
+Консоль                                    
+[Miranda Netlib Log]
+Журнал Miranda Netlib
+[Save log to file]
+Сохранить журнал в файл
+[Save selection to file]
+Сохранить выбранное
+[Show/Hide Console]
+Показать/скрыть консоль
+[Open outgoing connections with delay (can be useful on XP SP2)]
+Открывать исходящие соединения с задержкой (может помочь в XP SP2)
+[* Restart needed]
+* Требуется перезапуск
+[Show icons in log*]
+Показывать значки в журнале*
+[Single window mode*]
+Простой режим окна*
+[Lines wrap length [25-255]]
+Длина переносимой строки [25-255]
+[Log size limit [1 000 - 1 000 000 lines]]
+Ограничение журнала по количеству строк [1 000 - 1 000 000]
+[New lines between events*]
+Новые строки между событиями*
+[Always show at start]
+Всегда показывать при запуске
+[Save settings and restart console]
+Сохранить настройки и перезапустить консоль

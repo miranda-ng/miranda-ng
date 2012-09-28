@@ -1,0 +1,13 @@
+﻿;============================================================
+;  File: NotifyAnything.dll 
+;  Module: NotifyAnything
+;  Versions:  0.0.2.7
+;============================================================
+[Allow actions to execute programs]
+Разрешить выполнение программ
+[Message debugging]
+Отладка сообщений
+[Only listen to localhost]
+Только от этого компьютера
+[Use internal speaker]
+Использовать динамик

@@ -1,0 +1,58 @@
+﻿;============================================================
+;  File: HistoryEditor.dll 
+;  Module: History Editor
+;  Versions: 0.1
+;  URL: http://miranda-im.org/download/feed.php?dlfile=1614
+;============================================================ 
+[History Editor]
+Редактор истории
+[Mark as Read]
+Прочитанное
+[Erase All Contacts History]
+Очистить ВСЮ историю контакта
+[Export History to XML File]
+Экспорт истории в XML файл
+[Export History to Text File]
+Экспорт истории в текстовый файл
+[(UNLOADED) %s (%s)      <- contacts name then protocol]
+(НЕ ЗАГРУЖЕН) %s (%s)      <- имя, потом протокол
+[%s (UNKNOWN)]
+%s (НЕИЗВЕСТНЫЙ)
+[Are you sure you want to remove all history from this contact?]
+Вы действительно хотите удалить всю историю этого контакта?
+[Cannot mark a outgoing event as Unread!]
+Нельзя помечать исходящие сообщения непрочитанными!
+[In/Out]
+Входящее/Исходящее
+[(Unknown) requests authorization]
+(Неизвестный) запрашивает авторизацию
+[%u Added You]
+%u добавил вас
+[%s Added You]
+%s добавил вас
+[(Unknown) Added You]
+(Неизвестный) добавил вас
+[In]
+Входящее
+[Out]
+Исходящее
+[Remember to run DBTool to shrink your profile as it will have wasted space now!]
+Не забывайте запускать DBTool для оптимизации профиля, т.к. он будет содержать мусор!
+[Current User]
+Текущий пользователь
+[Message: %s\r\n\r\n]
+Сообщение: %s\r\n\r\n
+[URL: %s\r\n\r\n]
+URL: %s\r\n\r\n
+[Logged Status Change: %s\r\n\r\n]
+Запись о смене статуса: %s\r\n\r\n
+[Auth Request: %s\r\n\r\n]
+Запрос авторизации: %s\r\n\r\n
+[Contact Added: %s\r\n\r\n]
+Контакт добавлен: %s\r\n\r\n
+[File Transfer: %s\r\n\r\n]
+Передача файла: %s\r\n\r\n
+[Unknown Event: %s\r\n\r\n]
+Неизвестное событие: %s\r\n\r\n
+[View History with History Editor]
+Показать историю в редакторе

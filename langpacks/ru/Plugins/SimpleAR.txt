@@ -1,0 +1,44 @@
+﻿#muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
+;============================================================
+;  File: simplear.dll
+;  Module: Simple Auto Replier
+;  Versions: 1.0.0.2
+;  URL: http://code.google.com/p/alfamar/
+;============================================================
+
+[Simple Auto Replier.]
+Простой автоответчик.
+[Simple Auto Replier]
+Автоответчик
+[Disable Auto&reply]
+Отключить автоответ
+[Enable Auto&reply]
+Включить автоответ
+[Enable Auto Replier]
+Автоответ включен
+[No-repeat Interval:]
+Не повторять:
+[Reply Message Heading:]
+Заголовок автоответа:
+[Dear %user%, the owner left the following message:]
+Приветствую %user%, %username% оставил Вам сообщение:
+[Reply Message when]
+Автоответ когда
+[I am currently away. I will reply to you when I am back.]
+Сейчас меня нет на месте, отвечу как только вернусь.
+[I am currently very busy and can't spare any time to talk with you. Sorry...]
+Прошу не беспокоить.
+[I am not available right now.]
+Меня нет.
+[I am now doing something, I will talk to you later.]
+Сейчас я чем-то занят, поговорим позже.
+[I am on the phone right now. I will get back to you very soon.]
+Извините, сейчас я говорю по телефону.
+[I am having meal right now. I will get back to you very soon.]
+Я обедаю, поговорим позже.
+[Turn on Autoanswer]
+Включить автоответ
+[Turn off Autoanswer]
+Отключить автоответ
+[mins]
+мин.

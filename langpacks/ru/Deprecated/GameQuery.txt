@@ -1,0 +1,55 @@
+﻿;============================================================
+;  File: gameQuery.dll
+;  Module: Game Query Protocol
+;  Versions: 0.1.0.1
+;============================================================
+[Map:]
+Карта:
+[Game:]
+Игра:
+[Name Info]
+Информация о названии
+[Address Info]
+Информация об адресе
+[Server Details]
+Детали сервера
+[Players:]
+Игроки:
+[On joining a server change all protocols status to AWAY]
+При заходе на сервер все протоколы - Отсутствую
+[IP Address:]
+IP Адрес:
+[Set Game Query to INVISIBLE to stop it scanning while you are playing.]
+Уст. Game Query в Невидимый чтобы прекратить обнаружение пока вы играете.
+[Set Game]
+Уст. игру
+[Reset Game]
+Сбр. игру
+[Mod Description:]
+Описание мода:
+[Useable Replacements: %servername    %map   %pcount   %pmax   %game   %mod   %ip    %port]
+Полезные переменные: %servername    %map   %pcount   %pmax   %game   %mod   %ip    %port
+[Query Server]
+Опросить сервер
+[Domain Name:]
+Имя домена:
+[Game exe:]
+exe игры:
+[Away Messages]
+Авт. сообщения
+[Minimise Miranda Main Window]
+Скрывать список контактов
+[Join Server]
+Войти на сервер
+[&Add Server]
+Доб. сервер
+[Game Settings]
+Настройка игры
+[Current Info]
+Текущая информация
+[Display Tooltips]
+Показывать подсказки
+[Add New Game Server]
+Новый игровой сервер
+[Server Name:]
+Имя сервера:

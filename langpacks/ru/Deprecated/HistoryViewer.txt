@@ -1,0 +1,54 @@
+﻿;============================================================
+;  File: historyviewer.dll
+;  Module: History viewer (History#)
+;  Versions: 0.1.3.0
+;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=529
+;============================================================
+[Message history [%s]]
+История (%s)
+[&Search... ]
+&Искать... 
+[Show:]
+Показ:
+[last 100]
+100
+[last 200]
+200
+[last 500]
+500
+[Copy to msg]
+К&опировать в сообщение
+[Find what:]
+&Текст:
+[Whole word]
+&Целые слова
+[Backward]
+&Назад
+[Forward]
+&Вперед
+[Display items]
+Показывать
+[Show date/time]
+Показывать дату/время
+[Scale:]
+Масштаб:
+[Display messages]
+Показ сообщений
+[Reverse order (last event on top)]
+В обратном порядке
+[Limit number of messages at startup]
+Ограничить при запуске
+[Use plain fonts and colors]
+Обычные цвета и шрифты
+[Remember window position and size for each contact]
+Запоминать положение окна для каждого контакта
+[Show loading progress indicator]
+Использовать инд. загрузки
+[Left align message 'body']
+Выравнивание по левому краю
+[Use SmileyAdd to replace smileys]
+Добавить смайлики (SmileyAdd)
+[Use Textformat to add formatting]
+Форматировать (Textformat)
+[Replaces the standard history viewer]
+Заменяет стандартный просмотрщик истории

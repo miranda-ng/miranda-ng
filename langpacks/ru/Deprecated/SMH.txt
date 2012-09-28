@@ -1,0 +1,16 @@
+﻿;============================================================
+;  File: smhW.dll
+;  Module: Status Message History (Unicode)
+;  Versions: 0.1.0.0 [22 Aug 2006]
+;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=3063
+;============================================================
+[Track when contacts change their status messages]
+Уведомлять, когда контакт меняет статусное сообщение
+[Track when contacts remove their status messages]
+Уведомлять, когда контакт удаляет статусное сообщение
+[Status Msg Change]
+Смена статусного сообщения
+[changed his/her status message to %s]
+сменил(а) статусное сообщение на %s
+[removed his/her status message]
+удалил(а) статусное сообщение

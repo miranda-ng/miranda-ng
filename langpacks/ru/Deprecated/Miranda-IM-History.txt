@@ -1,0 +1,30 @@
+﻿;============================================================
+;  File: miranda-im-history.dll
+;  Module: IM-History Miranda plugin
+;  Versions: 1.2.0.1
+;  URL: http://www.im-history.com/gallery
+;============================================================
+[Saves your messages and contacts online]
+Онлайн сохранение вашей истории и контактов
+[Sync]
+Синх.
+[View IM-History]
+Посмотреть IM-историю
+[Property Page]
+Страница свойств
+[Connection:]
+Связь:
+[Integrate with IM-History all-in-one suite]
+Интегрировать с All-in-one Client Suite
+[IM-History Options]
+Настройки IM-истории
+[New to IM-History?]
+Регистрация:
+[Create an account!]
+Зарегистрироваться
+[Invalid e-mail or password]
+Не верное имя или пароль
+[IM-History Miranda plugin]
+Модуль IM-истории
+[IM-History]
+IM-история

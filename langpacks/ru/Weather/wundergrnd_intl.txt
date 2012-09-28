@@ -1,0 +1,476 @@
+﻿;============================================================
+;  File: wundergrnd_intl.ini
+;  Module: weather
+;============================================================
+[Light Rain Showers]
+Идет слабый дождь
+[Thunderstorms And Rain]
+Дождь с грозой
+[Light Thunderstorm]
+Небольшая гроза
+[Light Drizzle Mist]
+Легкая дымка, морось
+[Light Showers Rain Mist]
+Слабые дожди, дымка
+[Mostly Sunny]
+Преимущественно солнечно
+[Light Thunderstorm Rain]
+Небольшая гроза с дождём
+[Thunderstorm Rain]
+Дождь с грозой
+[N/a]
+Н/д
+[Thunderstorm]
+Гроза
+[Overcast]
+Сплошная облачность
+[Fog]
+Туман
+[Patches Fog]
+Туман клочьями
+[Mist]
+Дымка
+[Light Rain]
+Слабый дождь
+[Light Showers Rain]
+Слабые дожди
+[Light Showers Snow]
+Легкий снегопад
+[Showers Rain]
+Ливневые дожди
+[Shallow Fog]
+Низкий туман
+[Snow]
+Снег
+[Partly Sunny]
+Местами солнечно
+[Partly Cloudy]
+Местами облачно
+[Mostly Cloudy]
+Преимущественно облачно
+[Mostly Clear]
+Преимущественно ясно
+[Rising]
+Растет
+[Steady]
+Не изм.
+[Stable]
+Не изм.
+[Falling]
+Падает
+[Var]
+Переменный
+[N]
+С
+[W]
+З
+[S]
+Ю
+[E]
+В
+[NW]
+СЗ
+[NE]
+СВ
+[SW]
+ЮЗ
+[SE]
+ЮВ
+[NNW]
+ССЗ
+[NNE]
+ССВ
+[SSW]
+ЮЮЗ
+[SSE]
+ЮЮВ
+[ENE]
+ВСВ
+[WSW]
+ЗЮЗ
+[WNW]
+ЗСЗ
+[ESE]
+ВЮВ
+[New Moon]
+Новолуние
+[Last Quarter]
+последняя четверть Луны
+[First Quarter]
+Первая четверть Луны
+[Full Moon]
+Полнолуние
+[Waning Crescent]
+Убывающая Луна
+[Waning Gibbous]
+Убывающая Луна
+[Waxing Crescent]
+Растущая Луна
+[Waxing Gibbous]
+Растущая Луна
+[of the Moon is Illuminated]
+освещено
+[Latitude]
+Широта
+[Longitude]
+Долгота
+[Day Length]
+Продолжительность дня
+[Chance Of Rain 20% Chance Of Precipitation]
+Возможен дождь, 20% вероятность осадков
+[Chance Of Rain 30% Chance Of Precipitation]
+Возможен дождь, 30% вероятность осадков
+[Chance Of Rain 40% Chance Of Precipitation]
+Возможен дождь, 40% вероятность осадков
+[Chance Of Rain 50% Chance Of Precipitation]
+Возможен дождь, 50% вероятность осадков
+[Rain 50% Chance Of Precipitation]
+Дождь, 50% вероятность осадков
+[Rain 60% Chance Of Precipitation]
+Дождь, 60% вероятность осадков
+[Rain 70% Chance Of Precipitation]
+Дождь, 70% вероятность осадков
+[Rain 80% Chance Of Precipitation]
+Дождь, 80% вероятность осадков
+[Rain 90% Chance Of Precipitation]
+Дождь, 90% вероятность осадков
+[Rain 100% Chance Of Precipitation]
+Дождь, 100% вероятность осадков
+[T-Storms 100% Chance Of Precipitation]
+Гроза, 100% вероятность осадков
+[T-Storms 90% Chance Of Precipitation]
+Гроза, 90% вероятность осадков
+[T-Storms 80% Chance Of Precipitation]
+Гроза, 80% вероятность осадков
+[T-Storms 70% Chance Of Precipitation]
+Гроза, 70% вероятность осадков
+[T-Storms 60% Chance Of Precipitation]
+Гроза, 60% вероятность осадков
+[T-Storms 40% Chance Of Precipitation]
+Гроза, 40% вероятность осадков
+[Chance Of T-Storms 60% Chance Of Precipitation]
+Возможны грозы, 60% вероятность осадков
+[Chance Of T-Storms 50% Chance Of Precipitation]
+Возможны грозы, 50% вероятность осадков
+[Chance Of T-Storms 40% Chance Of Precipitation]
+Возможны грозы, 40% вероятность осадков
+[Chance Of T-Storms 30% Chance Of Precipitation]
+Возможны грозы, 30% вероятность осадков
+[Chance Of T-Storms 20% Chance Of Precipitation]
+Возможны грозы, 20% вероятность осадков
+[Chance Of Snow 20% Chance Of Precipitation]
+Возможен снег, 20% вероятность осадков
+[Chance Of Snow 30% Chance Of Precipitation]
+Возможен снег, 30% вероятность осадков
+[Chance Of Snow 40% Chance Of Precipitation]
+Возможен снег, 40% вероятность осадков
+[Chance Of Snow 50% Chance Of Precipitation]
+Возможен снег, 50% вероятность осадков
+[Forecast Day 1 Condition]
+Прогноз: День 1 Условия
+[Forecast Day 1 Day]
+Прогноз: День 1 день
+[Forecast Day 1 High]
+Прогноз: День 1 Макс
+[Forecast Day 1 Low]
+Прогноз: День 1 Мин
+[Forecast Day 1 Night Text]
+Прогноз: День 1 ночью
+[Forecast Day 1 Text]
+Прогноз: День 1 текст
+[Forecast Day 1]
+Прогноз: День 1
+[Forecast Day 2 Condition]
+Прогноз: День 2 Условия
+[Forecast Day 2 Day]
+Прогноз: День 2 день
+[Forecast Day 2 High]
+Прогноз: День 2 Макс
+[Forecast Day 2 Low]
+Прогноз: День 2 Мин
+[Forecast Day 2 Night Text]
+Прогноз: День 2 ночью
+[Forecast Day 2 Text]
+Прогноз: День 2 текст
+[Forecast Day 2]
+Прогноз: День 2
+[Forecast Day 3 Condition]
+Прогноз: День 3 Условия
+[Forecast Day 3 Day]
+Прогноз: День 3 день
+[Forecast Day 3 High]
+Прогноз: День 3 Макс
+[Forecast Day 3 Low]
+Прогноз: День 3 Мин
+[Forecast Day 3 Night Text]
+Прогноз: День 3 ночью
+[Forecast Day 3 Text]
+Прогноз: День 3 текст
+[Forecast Day 3]
+Прогноз: День 3
+[Forecast Day 4 Condition]
+Прогноз: День 4 Условия
+[Forecast Day 4 Day]
+Прогноз: День 4 день
+[Forecast Day 4 High]
+Прогноз: День 4 Макс
+[Forecast Day 4 Low]
+Прогноз: День 4 Мин
+[Forecast Day 4 Night Text]
+Прогноз: День 4 ночью
+[Forecast Day 4 Text]
+Прогноз: День 4 текст
+[Forecast Day 4]
+Прогноз: День 4
+[Forecast Day 5 Condition]
+Прогноз: День 5 Условия
+[Forecast Day 5 Day]
+Прогноз: День 5 день
+[Forecast Day 5 High]
+Прогноз: День 5 Макс
+[Forecast Day 5 Low]
+Прогноз: День 5 Мин
+[Forecast Day 5 Night Text]
+Прогноз: День 5 ночью
+[Forecast Day 5 Text]
+Прогноз: День 5 текст
+[Forecast Day 5]
+Прогноз: День 5
+[Wind Direction]
+Ветер: направление
+[Wind Speed]
+Ветер: скорость
+[Wind Direction DEG]
+Ветер: направление (град)
+[Max]
+День
+[Min]
+Ночь
+[Moon]
+Луна
+[UV Index]
+Индекс УФ
+[Scattered Clouds]
+Переменная облачность
+[North]
+Север
+[East]
+Восток
+[South]
+Юг
+[West]
+Запад
+[Northwest]
+Северо-запад
+[Northeast]
+Северо-восток
+[Southwest]
+Юго-запад
+[Southeast]
+Юго-восток
+[Monday]
+Понедельник
+[Tuesday]
+Вторник
+[Wednesday]
+Среда
+[Thursday]
+Четверг
+[Friday]
+Пятница
+[Saturday]
+Суббота
+[Sunday]
+Воскресенье
+[Rain]
+Дождь
+[Light Drizzle]
+Лёгкая дымка
+[Light Rain Mist]
+Слабые дожди, дымка
+[Light Snow]
+Слабый снег
+[Light Showers Snow Rain]
+Дождь со снегом
+[Light Snow Showers]
+Дождь со снегом
+[Light Freezing Drizzle Mist]
+Слабая изморось, дымка
+[Freezing Drizzle]
+Изморось
+[Freezing Rain]
+Дождь с образованием гололёда
+[Light Snow Mist]
+Слабый снег с дымкой
+[Snow Rain]
+Снег с дождём
+[Light Ice Pellets]
+Небольшой ледяной дождь
+[Drizzle Mist]
+Морось, дымка
+[Light Fog]
+Слабый туман
+[Showers Snow]
+Дождь со снегом
+[Heavy Showers Snow]
+Сильный дождь со снегом
+[Light Snow Grains Mist]
+Слабый снег хлопьями, дымка
+[Light Showers Snow Mist]
+Слабый снег с дождём, дымка
+[Heavy Showers Snow Heavy Blowing Snow]
+Сильный снегопад, метель
+[Light Showers Snow Low Drifting Snow]
+Слабый снег, позёмка
+[Snow Blowing Snow]
+Снег, метель
+[Snow Freezing Rain]
+Снег с дождём
+[Showers Snow Rain]
+Снег с дождём
+[Heavy Snow]
+Сильный снегопад
+[Light Snow Shallow Fog]
+Слабый снег, низкий туман
+[Showers Snow Blowing Snow]
+Сильный снег, метель
+[Blowing Snow]
+Метель
+[Ice Crystals Mist]
+Иней, дымка
+[Light Freezing Drizzle Snow]
+Слабая морось, снег
+[Light Snow Low Drifting Snow]
+Небольшой снег, снежная позёмка
+[Low Drifting Snow]
+Снежная позёмка
+[Light Freezing Rain Mist]
+Слабый ледяной дождь, дымка
+[Light Freezing Rain]
+Слабый ледяной дождь
+[Light Showers Snow Light Blowing Snow]
+Сильный снег с дождём
+[Showers Snow Heavy Blowing Snow]
+Метель с дождём
+[Light Snow Blowing Snow]
+Метель
+[Light Snow Light Blowing Snow]
+Слабый снег, метель
+[Light Snow Low Drifting Snow Mist]
+Слабый снег, снежная позёмка, дымка
+[Freezing Fog]
+Туман
+[Light Showers Snow Blowing Snow]
+Снег, метель
+[Freezing Drizzle Mist]
+Изморось, дымка
+[Light Freezing Drizzle]
+Слабая изморось
+[Freezing Rain Mist]
+Дождь с образованием наледи, дымка
+[Showers Snow Mist]
+Снегопад, дымка
+[Heavy Showers Snow Blowing Snow]
+Сильный дождь со снегом, метель
+[Light Freezing Rain Light Showers Snow]
+Слабый ледяной дождь, слабый снег
+[Light Freezing Drizzle Light Snow]
+Слабая изморось, слабый снег
+[Heavy Fog]
+Густой туман
+[Rain Mist]
+Дождь, дымка
+[Light Showers Showers Rain]
+Сильный дождь
+[Showers Showers Rain]
+Сильный дождь
+[Heavy Thunderstorm Rain]
+Сильные грозы, дождь
+[Smoke]
+Дым
+[Haze]
+Дымка
+[Light Snow Grains]
+Небольшой снег
+[Light Rain Snow]
+Слабый дождь со снегом
+[Snow Mist]
+Снег с дымкой
+[Light Rain Snow Mist]
+Слабый дождь со снегом, дымка
+[Light Showers Snow Rain Mist]
+Снег с дождём, дымка
+[Heavy Blowing Snow]
+Метель
+[Snow 50% Chance Of Precipitation]
+Снег, 50% вероятность осадков
+[Drizzle Fog]
+Дождь, туман
+[Local Time]
+Местное время
+[Moonrise]
+Луна: восход
+[Moonset]
+Луна: заход
+[Pressure Change]
+Давление: изменение
+[Heavy Showers Snow Mist]
+Сильный снег, дымка
+[Light Freezing Rain Light Showers Snow Mist]
+Слабый ледяной дождь, снег, дымка
+[Light Drizzle Fog]
+Слабая изморось, туман
+[Snow Rain Mist]
+Снег с дождем, дымка
+[Snow Heavy Blowing Snow]
+Сильный снег, метель
+[Low Drifting Snow Mist]
+Слабая метель, дымка
+[Light Freezing Drizzle Light Snow Grains Mist]
+Слабая изморозь, небольшой снег, дымка
+[Light Ice Pellets Mist]
+Снег с образованием льда, дымка
+[Ice Pellets]
+Снег с образованием льда
+[Rain Fog]
+Дождь, туман
+[Showers Snow Low Drifting Snow]
+Сильный снегопад, снежная позёмка
+[Light Freezing Rain Light Snow]
+Слабый ледяной дождь, снег
+[Day Length Diff]
+Измененние продолжительности дня
+[Elevation]
+Высота над уровнем моря
+[Feel]
+Температура с учётом ветра
+[Alert]
+Предупреждения
+[longer]
+длиннее
+[Heat Index]
+Индекс жары
+[Visible Light Length]
+Длительность светлого времени
+[Wind Gust]
+Ветер: порывы
+[Showers Rain Snow]
+Сильный дождь, снег
+[Clear]
+Ясно
+[shorter]
+короче
+[T-Storms 50% Chance Of Precipitation]
+Гроза, 50% вероятность осадков
+[Light Showers Rain Snow]
+Дождь со снегом
+[Light Showers Rain Snow Mist]
+Дождь со снегом, дымка
+[Snow Grains]
+Снег
+[Heavy Snow Showers]
+Сильный снегопад
+[Chance Of A Thunderstorm 20% Chance Of Precipitation]
+Возможна гроза, 20% вероятность осадков
+[Chance Of Rain 60% Chance Of Precipitation]
+Возможен дождь, 60% вероятность осадков

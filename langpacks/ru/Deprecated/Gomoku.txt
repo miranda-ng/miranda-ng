@@ -1,0 +1,92 @@
+﻿;============================================================
+;  File: gomoku.dll
+;  Module: GoMoku Game
+;  Versions: 0.0.2.2
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=958
+;  Source: 
+;  Authors: Denis Stanishevskiy // StDenis
+;============================================================
+[GoMoku]
+Крестики-нолики
+[New game]
+Новая игра
+[Miranda's GoMoku]
+Крестики-нолики для Miranda IM
+[Do you want to restart?]
+Сыграем заново?
+[Hey! Your opponent is trying to make a move out of turn!]
+Эй! Ваш соперник пытается сделать ход вне очереди!
+[Images have different dimensions! May cause a problem.]
+Изображения имеют разные размеры! Могут быть сбои
+[GoMoku: "My turn" sound]
+Крестики-нолики: Мой ход
+[GoMoku: "Opponent's turn" sound]
+Крестики-нолики: Ход соперника
+[GoMoku: Defeat]
+Крестики-нолики: Проигрыш
+[GoMoku: Victory]
+Крестики-нолики: Выигрыш
+[GoMoku: "New game" request]
+Крестики-нолики: Запрос новой игры
+[GoMoku: Starting new game]
+Крестики-нолики: Старт новой игры
+[GoMoku: Request was denied]
+Крестики-нолики: Запрос отклонен
+[GoMoku: Not your turn]
+Крестики-нолики: Не ваш ход
+[GoMoku: Game's over already]
+Крестики-нолики: Игра уже закончилась
+[Wait for your opponent]
+Ждем соперника
+[Click to move]
+Щелкните, чтобы походить
+[You have won]
+Вы выиграли
+[Sorry, You lose]
+Увы, вы проиграли
+[Your request was denied by opponent]
+Ваш запрос отклонен соперником
+[Try to press the button :)]
+Попробуйте нажать кнопку :)
+[*GoMoku* There's someone who wants to play the game with you!]
+*Крестики-нолики* Тут кто-то хочет сыграть с вами!
+[A fatal error has been detected. Try to restart Miranda.]
+Фатальная ошибка. Попробуйте перезапустить программу.
+[Play &GoMoku]
+Играть в &Крестики-нолики
+[GoMoku - Error]
+Ошибка игры "Крестики-нолики"
+[Empty place]
+Пустая клетка
+[Normal: My chip]
+Норма: моя фишка
+[Normal: Opponent's chip]
+Норма: фишка соперника
+[Highlighted: My chip]
+Подсветка: моя фишка
+[Highlighted: Opponent's chip]
+Подсветка: фишка соперника
+[Do you really want to reset the game statistics?]
+Серьезно хотите сбросить текущий счёт?
+[Battle-field size]
+Размеры поля
+[Reopen game window to apply the changes.]
+Переоткройте окно игры чтоб применить изменения.
+[Have fun online!]
+Развлекайтесь в сети!
+[Opponent's move is out of a board]
+Ход соперника вне вашей доски
+[Probably the size of opponent's board is not same as yours. Check the game settings]
+Возможно, размер доски у соперника не такой, как у вас. Проверьте настройки.
+[Opponent is thinking]
+Соперник думает
+[Send a notification, when you are thinking more than]
+Послать извещение, когда думаете более
+[Resend your move until the reply coming, every]
+Повторять последний ход до ответа, каждые
+[Query for continuation of the saved game]
+Запрос продолжения сохранённой игры
+[There is an unfinished game. Do you want to continue this set?]
+Есть сохранённая игра. Хотите продолжить её?
+[&GoMoku]
+Крестики-нолики

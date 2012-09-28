@@ -1,0 +1,34 @@
+﻿;============================================================
+;  File: Ghostify.dll
+;  Module: Ghostify
+;  Versions: 1.2.1.0
+;  Template: http://addons.miranda-im.org/feed.php?dlfile=1557
+;============================================================
+[Ghostify]
+Призрачность
+[Note: You must have contact list transparency enabled to use this plugin]
+Примечание: Вы должны включить прозрачность в настройках списка контактов, чтобы использовать этот модуль
+[&Enable Ghostify]
+Включить призрачность
+[&Unghostify on mouse hover]
+Выключить по наведению мыши
+[Track mouse &actions]
+Действия мышкой
+[Pass &right mouse button to Miranda]
+Обрабатывать правую кнопку
+[Testfield]
+Тестполе
+[&Ghost delay]
+Задержка
+[&Hover delay]
+Задержка наведения
+[&Sensitivity]
+Чувствительность
+[low]
+низко
+[high]
+высоко
+[Ghostify Window]
+Прозрачное окно
+[Unghostify Window]
+Непрозрачное окно

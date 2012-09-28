@@ -1,0 +1,115 @@
+﻿;============================================================
+;  File: Logstat.dll
+;  Module: Log Statistics
+;  Versions: 0.1.1.0-0.1.1.2
+;============================================================
+[Log Statistics]
+Статистика
+[LogStatistics]
+Статистика
+[Put together fun statistics.]
+Добавляет возможность вести забавную статистику общения в сети. Перевод Homeric
+[How many "most common words" should be printed]
+Количество "частых" слов
+[Time between two chat sessions (seconds)]
+Время между двумя разговорами (с)
+[Your nickname (in the exported history)]
+Ваше имя (в экспортированной истории)
+[Time format (in the\nexported history)]
+Формат даты в экспорте
+[Columns]
+Колонки
+[LETTERS]
+БУКВЫ
+[letters]
+буквы
+[E&xplanation]
+&Объяснение
+[Ignore these words in the wordlist]
+Игнорировать данные слова
+[A&dd]
+Добавить
+[Ignore words with this lenght\nor less (0 to disable)]
+Без учёта слов короче указ. числа знаков (0 - выкл.)
+[Ignore messages older than n days (0 to disable)]
+Игнорировать сообщения старше (0 - выкл.)
+[Run Log Statistics on startup]
+Собрать статистику при запуске
+[Have Log Statistics in the Main Menu (Must restart Miranda to delete menus)]
+Показывать в главном меню (Требуется перезагрузка программы для удаления)
+[Open output after run]
+Открыть результат после запуска
+[Read history from database (recomnended)]
+Читать историю из базы (рекомендуется)
+[Read exported history]
+Читать экспорт. историю
+[&Run Log Statistics]
+Собрать статистику
+[StyleSheet]
+Таблица стилей
+[%Y: year (4 digits)\n%y: year (2 digits)\n%m: month\n%d: day\n%H: hours (24h)\n%M: minutes\n%S: seconds\n%p: AM/PM]
+%Y: год (4 знака)\n%y: год (2 знака)\n%m: месяц\n%d: день\n%H: часы (24h)\n%M: минуты\n%S: секунды\n%p: AM/PM
+[Time Variables]
+Переменные времени
+[0 Nick\n1 # Bytes\n2 % Bytes sent\n3 % Bytes recieved\n4 # Chats\n5 % Chats started\n6 % Chats not started\n7 Most common words\n8 When]
+0 псевдоним\n1 кол-во байт\n2 % отправлено байт\n3 % получено байт\n4 # беседы\n5 % начатые беседы\n6 % не начатые беседы\n7 частые слова\n8 когда
+[Column Variables]
+Переменные колонок
+[All letters not in these two lines are considered as whitespaces.\nWrite uppercase letters in the LETTER-line and lowercase in the letter-line.\nIf the first character in the LETTER-line is A, then the first in the letter-line must be a, B->b, ...\nIf you type a number or any other character which doesn't exist as both upper- and lowercase type the same in both lines.]
+С русским переводом идет файл autoexec_Logstat_Ru.ini, который настраивает буквы для русского, украинского и других языков на основе кириллицы. Чтобы добавить буквы, закройте Miranda IM и скопируйте ini-файл в каталог, где установлен клиент. При следующем запуске файл будет импортирован, потом удален.\n\nДля тех кто желает настроить буквы вручную:\n\nВсе символы отсутствующие в строках "БУКВЫ" и "буквы" считаются разделителями слов.\nНапишите заглавные буквы в строке "БУКВЫ" и строчные буквы в строке "буквы".\nЕсли первая буква в строке БУКВЫ - "А", то первой буквой в строке "буквы" должна быть "а", Б->б, В->в, ...\nЕсли вы ввели цифру или другой символ, который не существует в виде заглавного и строчного, повторите его в обеих строках.
+[Letters]
+Буквы
+[Log Statistics is already running]
+Статистика уже запущена
+[You have unsaved settings\nDo you want to save before running Log Statistics?]
+Вы не сохранили настройки.\nСохранить настройки перед запуском?
+[The timeformat can't end with a %-character]
+Формат времени не должен завершаться знаком %
+[&Log Statistics]
+Ст&атистика
+[&Create Statistics]
+&Собрать статистику
+[&Show Statistics]
+&Показать статистику
+[Log Statistics - Working...]
+Статистика - работает...
+[Creating %s]
+Создаю %s
+[Error in %s on line %d.\nCould not separate nickname and time.\nSkipping this file...]
+Ошибка в %s на строке %d.\nНе могу разделить псевдоним и время.\nПропускаю файл...
+[Error in %s on line %d.\nFound a message thas sent at this hour: %d\nMaybe you have wrong time format.\nSkipping this file...]
+Ошибка в %s на строке %d.\nНайдено сообщение, которое было отправлено в %d часов.\nВозможно вы неверно настроили формат времени.\nЭтот файл пропущен...
+[Could not find MsgExportDir in database.]
+Не могу найти MsgExportDir в базе.
+[Could not find %s]
+Не могу найти %s
+[big bug error :-(]
+большая ошибка :-(
+[<html><head><title>Log Statistics for %s</title><style>%s</style></head><body><h1>Log Statistics for %s's %d friends</h1><hr>]
+<html><head><title>Статистика для %s</title><style>%s</style></head><body><h1>Статистика для %s (%d контактов)</h1><hr>
+[<th>Nick</th>]
+<th>Псевдоним</th>
+[<th width=65># Bytes</th>]
+<th width=65>Всего байт</th>
+[<th width=55>Sent</th>]
+<th width=55>Отправлено</th>
+[<th width=55>Received</th>]
+<th width=55>Получено</th>
+[<th width=65># Chats</th>]
+<th width=65>Беседы</th>
+[<th width=55>Me started</th>]
+<th width=55>Начато мной</th>
+[<th width=55>Not me</th>]
+<th width=55>Начато не мной</th>
+[<th>Most common words</th>]
+<th>Наиболее часто встречающиеся слова</th>
+[<th>When</th>]
+<th>Когда</th>
+[<td><span title='First message: %sLast message: %s'>%s</span></td>]
+<td><span title='Первое сообщение: %sПоследнее сообщение: %s'>%s</span></td>
+[<th><span title='First message: %s (%s)\nLast message: %s (%s)'>Total</span></th>]
+<th><span title='Первое сообщение: %s (%s)\nПоследнее сообщение: %s (%s)'>Всего</span></th>
+[</table><br>Created %s</body></html>]
+</table><br>Создано %s</body></html>
+[<!This file was generated in %d seconds>]
+<!--Этот файл создан за %d секунд-->

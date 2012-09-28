@@ -1,0 +1,193 @@
+﻿============================================================
+;  File: MirandaComm.dll
+;  Module: MirandaComm
+;  Versions: 0.2.0.0-3.2.0.0
+;============================================================
+[Decline]
+Отказать
+[Accept]
+Принять
+[%s wants to talk with you.]
+%s хочет поговорить с Вами.
+[Waiting for %s to accept your request.]
+Ждет %s чтобы принять Ваш вызов.
+[%s canceled his request to talk with you.]
+%s отменил его запрос на сессию с Вами.
+[%s declined the request.]
+%s запретил вызов.
+[Auto-Accept contact]
+Авто-прием контакт
+[Could not establish a connection: Timeout during Instant Message negotiation. Make sure the contact is online and has MirandaComm. Please try again.]
+Невозможно установить соединение: Вышло время ответа IM. Убедитесь пожалуйста, что контакт в сети и у него установлен модуль MirandaComm. Попытайтесь снова.
+[Could not establish a connection. Are both you and your peer firewalled or behind a NAT? See MirandaComm's FAQ for solutions.]
+Невозможно установить соединение. Вы и ваш собеседник используете Firewall или за NAT? Посмотрите MirandaComm FAQ для информации.
+[The connection with %s timed out.]
+Вышло время соединения с %s.
+[Timeout for %s. Check connection.]
+Вышло время для %s. Проверьте соединение.
+[Could not bind to port %i. MirandaComm disabled for this session. Change the port in the options and restart miranda.]
+Невозможно назначить порт %i. MirandaComm отключён для данной сессии. Измените порт в настройках и перезапустите Miranda.
+[MirandaComm -- Error]
+MirandaComm -- Ошибка
+[&Audio Session]
+Аудио Сессия
+[MirandaComm VoIp]
+MirandaComm VoIp
+[You need a sound card which supports recording for MirandaComm.]
+Вам нужна звуковая карта, поддерживающая запись для использования MirandaComm.
+[Can not open the sound device for playback. With certain drivers only one instance can be opened. This is especially with NT 4.0 the case.]
+Невозможно открыть звуковое устройство для воспроизведения. С некоторыми драйверами, только один сеанс может быть открыть. Особенно это касается WinNT 4.0.
+[Length of Recording Buffers]
+Длина буфера записи
+[Audio Format...]
+Формат Аудио...
+[Playback Buffers]
+Буфера воспр.
+[64 bytes]
+64 байта
+[256 bytes]
+256 байт
+[Suggested Audio Format: GSM 6.10, 8-12 KHz. The Audio Format must support recording. The called party needs the Codec too. Buffer Length and Audio Format will be used for this client only. For playing back other clients, their audio settings will be used.]
+Рекомендуемые форматы аудио: GSM 6.10, 8-12 KHz. Аудио формат должен поддерживать запись. Длина буфера и аудио формат используется только для клиента. Для воспроизведения у других пользователей, их настройки аудио будут использованы.
+[Push-to-Talk Key]
+Push-to-Talk клавиша
+[Ctrl]
+Ctrl
+[Alt]
+Alt
+[Shift]
+Shift
+[IP Override]
+Заменить IP
+[Note: Your own IP]
+Прим.: Ваш IP
+[will be overridden.]
+будет неучтен.
+[You can not override the IPs of other clients. Use with caution!]
+Вы не можете переопределить IP других клиентов!
+[Default Port: 20909]
+Стандартный порт: 20909
+[Auto-Accept]
+Авто прием
+[Waiting for]
+Ожидание
+[to accept request...]
+для принятия вызова...
+[Received request for Audio Session from]
+Получен запрос на Аудио Сессию от
+[Could not get the IP-Address of the person you are trying to connect to. Please ask if he/she could configure his/her ICQ client to let other users view the IP.]
+Невозможно определить адрес IP для человека, с кем Вы пытаетесь связаться. Пожалуйста, спросите его, может ли он настроить свой клиент ICQ так, чтобы другие пользователь могли видеть его IP адрес.
+[Remote user has terminated the connection.]
+Удалённый пользователь оборвал соединение.
+[A fatal error has been detected. Try to restart Miranda.\nIf the problem persists, enable debug mode to get detailed error information.]
+Фатальная ошибка. Пожалуйста перезапустите программу.\nЕсли ошибка сохранится, включите отладочный режим, чтобы получить детальную информацию.
+[Length of Recording Buffer]
+Длина буфера записи
+[Requesting Audio Session...]
+Запрос Аудио Сессии...
+[Suggested Audio Format: GSM 6.10, 8-12 kHz. Be sure to select an Audio Compression which supports recording! Also consider that the other side needs the Codec too!]
+Рекомендуемые форматы аудио: GSM 6.10, 8-12 KHz. Аудио формат должен поддерживать запись. Также удалённой стороне необходим соответствующий кодек!
+[You must restart Miranda for the changes to take effect!]
+Чтобы изменения вступили в силу вы должны перезапустить программу!
+[Could not create Main Thread]
+Невозможно создать Main Thread
+[2048 bytes]
+2048 байт
+[UDP Port To Listen on]
+Порт UDP для слушания
+[MirandaComm - Error]
+MirandaComm - Ошибка
+[Could not connect to Socket.]
+Невозможно подключится к сокету.
+[Could not create ListenSocket.]
+Невозможно создать ListenSocket.
+[Establishing UDP-Connection...]
+Установление UDP соединения...
+[Could not send jaja.]
+Невозможно послать jaja.
+[Could not send data.]
+Невозможно послать данные.
+[Could not receive on Socket.]
+Невозможно получить из сокета.
+[Could not initialize WinSock.]
+Невозможно инициализировать WinSock.
+[UDP Port To Send to]
+Порт UDP для отправки
+[Compression Format...]
+Формат сжатия...
+[Remote user has cancelled/denied.]
+Удалённый пользователь отменил/запретил.
+[Could not bind to Socket.]
+Невозможно определить сокет.
+[Could not create SendSocket.]
+Невозможно создать SendSocket.
+[No recording devices present.]
+Нет устройства записи.
+[The person you are trying to establish an Audio Session with is not using the same audio format. Make sure that both of you have installed and selected the same audio format in the options dialog!]
+Человек, с кем Вы пытаетесь установить Аудио сессию не использует тот же аудио формат. Убедитесь, что Вы вдвоем имеете установленный одинаковый аудио формат в настройках!
+[The person you are trying to establish an Audio Session with is not using the same audio format. Make sure that both of you have installed and selected the same audio format in the options dialog.]
+Человек, с кем Вы пытаетесь установить Аудио сессию не использует тот же аудио формат. Убедитесь, что Вы вдвоем имеете установленный одинаковый аудио формат в настройках.
+[Site]
+Сайт
+[Force]
+Выбор
+[WebCam&Voice-Over-Ip for Miranda.]
+Web камера&Voice-Over-Ip для Miranda IM
+[&Video Session]
+Видео Сессия
+[Unless you are using MC in a LAN network, do not set the frame rate limit too high, as bandwith problems will occur, even with the lowest quality.]
+Пока вы пользуетесь MC в локальной сети, не устанавливайте число кадров в сек. слишком большим, т.к. могут появится проблемы.
+[Note: The first connected camera will be used. Windows does not support choosing the camera by software.]
+Примечание: Первая подключённая камера будет использована. Windows не поддерживает программный выбор камеры.
+[Disable logfile]
+Отключить лог
+[Look after]
+Смотреть за
+[Unless you select "Force", Get IP From Site will only be used if the IP address cannot be retrieved with the standard method.]
+Если не включено "Заменить IP", получение адреса с сайта будет использовано, только если невозможно получить его обычным способом.
+[Limit frames per second to]
+Ограничить кадры в сек
+[Do not hide the session dialog together with the contact list]
+Не прятать диалог сессии с контакт листом
+[Video Driver]
+Видео драйвер
+[Disable playback]
+Откл. воспроизв.
+[Get IP From Site]
+Получить IP с сайта
+[Timeout (default 4000 ms). Change only if you know what you are doing.]
+Время ожидания (по умолчанию 4000 мс). Изменяйте на свой страх и риск.
+[Disable recording]
+Откл. запись
+[Playback device]
+Уст-во воспр.
+[Quality]
+Качество
+[Disable Video Chat completely]
+Откл. Видео Чат полностью
+[Audio Source]
+Источник Аудио
+[Disable "Stream Desktop"]
+Отключить "Stream Desktop"
+[Do not blink icon on request (immediately show request dialog)]
+Не мигать значком при запросе (сразу показывать диалог)
+[Complexity]
+Сложность
+[Bandwidth]
+Пропускная способность
+[Recording Device]
+Устройство записи
+[For most users, the standard settings will do. Read the manual!]
+Для многих стандартные настройки подойдут.
+[Auto-select device]
+Авто выбор устройства
+[kb]
+кб
+[Show &Video Preview]
+Предпросмотр Видео
+[Could not connect to video capture driver. Is your webcam connected?]
+Невозможно открыть драйвер захвата видео. Ваша веб камера подключена?
+[Codec:]
+Кодек:
+[Miranda Multimedia Communication]
+Мультимедиа

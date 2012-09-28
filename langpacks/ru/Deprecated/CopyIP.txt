@@ -1,0 +1,11 @@
+﻿;============================================================
+;  File: CopyIP.dll
+;  Module: CopyIP
+;  Versions: 0.0.0.2-0.0.0.4
+;  Template: http://miranda-im.org/download/feed.php?dlfile=181
+;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=181
+;============================================================
+[Copy &IP]
+Копировать &IP
+[This plugin allows you to copy a user's IP to the clipboard.]
+Этот модуль копирует внешний IP пользователя в буфер обмена.

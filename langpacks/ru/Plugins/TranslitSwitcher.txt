@@ -1,0 +1,28 @@
+﻿#muuid {0286947d-3140-4222-b5ad2c92315e1c1e}
+;============================================================
+;  File: TranslitSwitcher.dll
+;  Module: TranslitSwitcher
+;  Versions: 	0.0.9
+;============================================================
+[TranslitSwitcher]
+Транслитерация и смена раскладки
+[Convert All / Selected]
+Сменить раскладку всего текста / Выделенного
+[Convert Last / Selected]
+Сменить раскладку последнего слова / Выделенного
+[Translit All / Selected]
+Транслитерация всего текста / Выделенного
+[Translit Last / Selected]
+Транслитерация последнего слова / Выделенного
+[Invert Case All / Selected]
+Инвертировать регистр всего текста / Выделенного
+[Invert Case Last / Selected]
+Инвертировать регистр последнего слова / Выделенного
+[Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
+Позволяет сменить раскладку или транлитерировать или изменить регистр введённого текста в окне сообщений с поддержкой SmileyAdd.
+[SwitchLayout and Send]
+Сменить раскладку и отправить снова
+[Translit and Send]
+Транслитерировать и отправить снова
+[Invert Case and Send]
+Инвертировать регистр и отправить снова

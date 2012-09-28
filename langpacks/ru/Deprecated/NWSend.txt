@@ -1,0 +1,19 @@
+﻿;============================================================
+;  File: nwsend.dll
+;  Module: Miranda plugin that supports Novell Netware NCP messaging.
+;  Versions: 0.1.0.9
+;  URL: http://www.lenik.ru/netwarends/nwsend/index.html
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1356
+;============================================================
+[NWSend]
+NetWare NCP
+[Send NCP Message Across All User Connections]
+Посылать NCP сообщения на все соединения пользователя
+[Transcode Outgoing Messages]
+Перекодировать исходящие сообщения
+[Transcode Incoming Messages]
+Перекодировать входящие сообщения
+[Message Poll Interval (Sec):]
+Опрос сообщений (сек.)
+[On-Line Poll Interval (Sec):]
+Опрос состояния (сек.)

@@ -1,0 +1,35 @@
+﻿#muuid {240a91dc-9464-457a-9787-ff1ea88e77e3}
+;============================================================
+;  File: clist_classic.dll
+;  Module: Classic contact list
+;  Versions: 0.10.0.2
+;  URL: http://code.google.com/p/miranda/downloads/list
+;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/clist/
+;  Authors: Miranda IM project
+;============================================================
+[ms delay]
+Задержка (мс)
+[Global Status Icons]
+Общие значки статуса
+[Contact Display]
+Контакты
+[HotKey1]
+Горячие клавиши 1
+[HotKey2]
+Горячие клавиши 2
+[Web Search:]
+Поиск в web:
+[Classic contact list]
+Список контактов (классик)
+[Row height:]
+Высота строки:
+[Selection colour]
+Цвет выделения
+[Sort contacts by name]
+Сортировка по имени
+[Sort contacts by protocol]
+Сортировка по протоколу
+[Sort contacts by status]
+Сортировка по статусу
+[Enable docking]
+Парковать

@@ -1,0 +1,12 @@
+﻿;============================================================
+;  File: optionfont.dll
+;  Module: OptionFont
+;  Versions: 0.0.0.2
+;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=334
+;============================================================
+[Option Font]
+Шрифт окон
+[&Change Option Window's Font]
+&Изменить шрифт окна настроек
+[Changes the font used by other windows\n(Require restart Miranda)]
+Изменить шрифт других окон \n(требуется перезапуск)

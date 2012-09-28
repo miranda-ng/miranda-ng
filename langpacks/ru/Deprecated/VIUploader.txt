@@ -1,0 +1,32 @@
+﻿;============================================================
+;  File: VIUploader.dll
+;  Module: This plugin lets you upload your Version Info report to miranda-vi.org
+;  Versions: 0.0.1.5
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3675
+;============================================================
+[%d newer plugins]
+%d обновлённых модулей
+[VersionInfo Uploader]
+Загрузчик VI
+[VersionInfo Uploader - newer plugins available]
+Доступны обновлённые модули!
+[There are %d newer plugins available]
+Доступно %d обновлённых модулей
+[This plugin requires Version Info plugin to be present.\nIt cannot work without it.]
+Этому модулю необходим модуль Version Info.\nДальнейшая работа без него невозможна.
+[Uploading Version Info report to server]
+Выгружаю отчёт о версиях на сервер...
+[Successfully uploaded version info report]
+Информация о версиях была успешно выгружена на сервер
+[Failed to upload version info report]
+Не удалось выгрузить информацию о версиях на сервер
+[Please provide a user and a password before]
+Необходимо вписать имя пользователя и пароль в настройках
+[Successfully registered user]
+Пользователь зарегистрирован успешно
+[Upload Version Info report]
+Выгрузить информацию о версиях
+[Upload report on Miranda startup]
+Загружать отчёт при запуске программы
+[Check for updated plugins on a successful upload]
+Проверять наличие новых модулей после успешной загрузки

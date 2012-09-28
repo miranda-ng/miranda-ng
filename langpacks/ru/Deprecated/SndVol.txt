@@ -1,0 +1,33 @@
+﻿;============================================================
+;  File: sndVol.dll
+;  Module: Volume control 4 Miranda's events sound
+;  Versions: 0.0.1.1-0.0.3.0
+;============================================================
+[Volume control for Mirandas event sounds and mRadio (UNICODE)]
+Регулятор громкости для звуков в Miranda IM и mRadio
+[Auto-preview]
+Авто-просмотр
+[Mute button]
+Громкость
+[Sound Volume]
+Громкость звука
+[Sounds Volume]
+Громкость звуков
+[Set mRadio volume]
+Установить громкость mRadio
+[Mute mRadio ]
+Выкл. mRadio
+[Use windows default colour]
+Цвета Windows
+[SoundVolume]
+Громкость звуков
+[Click to toggle all sounds]
+Вкл/Выкл звук
+[mRadio on]
+mRadio вкл.
+[mRadio off]
+mRadio выкл.
+[sndVol (UNICODE)]
+Громкость звуков
+[Click to mute mRadio only, right click for mRadio settings]
+Левый клик, чтобы выкл/вкл только mRadio, правый клик - открывает настройки mRadio

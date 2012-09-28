@@ -1,0 +1,127 @@
+﻿#muuid {5e14f4bf-3f01-4546-9b28-0575284f3192}
+;============================================================
+;  File: HddInfo.dll
+;  Module: Hard Disk Drive data
+;  Versions: 0.1.1.0,  0.1.5.0, ;1.0.0.0
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2570
+;  Source: 
+;  Authors: Lite
+;============================================================
+[Create debug log]
+Создать debug лог
+[Print temperature data to log-file]
+Лог температуры в файл
+[Show item in the Main menu]
+Пункт в главном меню
+[Show warning popup if temperature is higher than]
+Предупреждать, если температура превышает
+[or]
+или
+[only]
+только
+[only for]
+только для
+[Key Combination]
+Комбинация клавиш
+[Enter custom value in seconds]
+Введите значение в секундах
+[Current temperature is %d °C]
+Текущая температура %d °C
+[Disable popups, use MsgBox]
+Окно вместо вспл. окон
+[Show standard popup]
+Стандартное вспл. окно
+[New line]
+Новая строка
+[sec(s)]
+сек.
+[min(s)]
+мин.
+[Show popup with various HDD info]
+Всплывающее окно с информацией о HDD
+[Popup should not be closed automatically]
+Не закрывать вспл. окна
+[Show Miranda About Box]
+"О программе"
+[Track drives]
+Следить за устройствами
+[Debugging]
+Отладка
+[HDD Tracking]
+HDD Слежение
+[Default || Warning || Custom]
+Умолч.|| Предуп. || Настр.
+[HDD &Temperature]
+HDD Температура
+[Time-out]
+Таймаут
+[Now plug-in is only for support of "HDD Info".]
+Сейчас модуль поддерживает только "HDD Info".
+[Restore]
+Восстановить
+[hour(s)]
+ч.
+[Add hot key ('Hotkeys+' plugin)]
+Добавить сочетание клавиш (Hotkeys+)
+[Show popup with HDD temperature]
+Вспл. окно с температурой HDD
+[for all drives]
+для всех устройств
+[Time-out (in seconds)]
+Таймаут (в секундах)
+[Enter 0 for default popup time-outs]
+Введите 0 для установок PopUp
+[Default text]
+Текст по умолч.
+[HDD Temperature Tracking]
+HDD Слежение за температурой
+[Popup border]
+Граница окна
+[Add new]
+Добавить новый
+[Formatted popup variables]
+Стандартные переменные
+[Popup view]
+PopUp модуль
+[Restore custom]
+Сбросить изменения
+[Show custom formatted popup]
+Формат пользователя
+[Show default formatted  popup]
+Формат по умолчанию
+[Show for all drives]
+Для всех дисков
+[Show only for these drives]
+Только для дисков
+[Time-out to inquire device(s)]
+Время автом. показа окна
+[Disk Drives]
+Диски
+[Disk Mounting Notification]
+Уведомлять о подключаемых дисках
+[Notify about current temperature]
+Уведомляться о температуре
+[Hard disk drive info]
+Информация о жёстких дисках
+[HDD Info]
+Информация о дисках
+[Print data to log]
+Записывать изменения в лог
+[Put data to Contact List caption]
+Поместить данные в клист
+[Data window]
+Данные в окнах
+[Popup customizable by variables]
+Настройка всплывающий окон
+[Add to variable postfix of unit]
+Добавить изменённые переменные для устройств
+[&HDD Temperature]
+Температура диска
+[H&DD Information]
+Информация о дисках
+[Warn if device's temperature exceeds...\n(in degree centigrade)]
+Предупреждать если температура выше...\n(в градусах Цельсия)
+[Time-out\n(in seconds)]
+Таймаут\n(в секундах)
+[You have to install plugin "Hotkeys+" for this feature!]
+Для использования этой возможности необходим модуль "Hotkeys+"

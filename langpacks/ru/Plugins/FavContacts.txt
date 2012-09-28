@@ -1,0 +1,45 @@
+﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+;============================================================
+;  File: favcontacts.dll
+;  Module: Favourite Contacts
+;  Versions: v.0.0.0.6
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4191
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FavContacts/
+;  Authors: nullbie
+;============================================================
+[Favourite contacts menu]
+Меню избранных контактов
+[px.]
+пикс.
+[Hotkey shows menu centered on screen]
+Меню по горячей кл. в центре экрана 
+[Hide for transparent avatars]
+Скрыть для прозрачных аватар
+[Favourite Contacts]
+Избранные контакты
+[Draw avatar border]
+Граница на аватарах
+[Use system colors and fonts]
+Системные цвета и шрифты
+[Menu item preview:]
+Предпросмотр меню:
+[Multicolumn menu]
+Несколько столбцов
+[Set up menu hotkey...]
+Настроить гор. клавиши...
+[Enable groups]
+Включить группы
+[Configure fonts and colors...]
+Настроить шрифты и цвета...
+[Selected contact name (color)]
+Имя контакта под курсором
+[Selected second line (color)]
+Отображение второй строки под курсором
+[Align to the right]
+Выравнивание по правому краю
+[recent contacts]
+недавних контактов
+[Regular Contact]
+Обычный контакт
+[Dim idle contact icons]
+Затемнить контакты в ожидании

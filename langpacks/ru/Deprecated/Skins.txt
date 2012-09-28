@@ -1,0 +1,35 @@
+﻿;============================================================
+;  File: skins.dll, skinsW.dll
+;  Module: skins
+;  Versions: 0.0.0.2
+;  Description: Дополнительный сервисный модуль скинов (в данный момент используется модулем MyDetails.dll)
+;  URL: http://www.pescuma.org/miranda/skins/lang/en/
+;============================================================
+[Skin:]
+Скин:
+[Skin options:]
+Настройки скина:
+[Show avatar]
+Показывать аватар
+[Allow avatar to grow (be bigger than original image)]
+Увеличивать размер аватара (делать больше, чем оригинальный)
+[Use fixed size avatar]
+Использовать фиксированный размер аватара
+[Avatar fixed size (pixels):]
+Размер (пиксели)
+[Show status]
+Показывать статус
+[Show listening to]
+Показывать "Слушаю"
+[Show protocol cycle buttons]
+Показывать кнопки переключения протокола
+[Left border:]
+Граница слева:
+[Top border:]
+Граница сверху:
+[Right border:]
+Граница справа:
+[Bottom border:]
+Граница снизу:
+[Show unread mail count]
+Показывать счётчик непрочитанной почты

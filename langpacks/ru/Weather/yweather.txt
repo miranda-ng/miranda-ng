@@ -1,0 +1,102 @@
+﻿;============================================================
+;  Ашle: yweather.ini
+;  Module: weather
+;============================================================
+[Feel]
+Ощущение
+[Forecast Day 1]
+Прогноз: День 1
+[Forecast Day 1 Condition]
+Прогноз: День 1 Условия
+[Forecast Day 1 Date]
+Прогноз: День 1 дата
+[Forecast Day 1 Day]
+Прогноз: День 1 день
+[Forecast Day 1 High]
+Прогноз: День 1 Макс
+[Forecast Day 1 Low]
+Прогноз: День 1 Мин
+[Heat Index]
+Индекс жары
+[Wind Direction]
+Ветер: направление
+[Wind Speed]
+Ветер: скорость
+[Wind Direction Degrees]
+Ветер: направление (град)
+[Mon]
+ПН
+[Tue]
+ВТ
+[Wed]
+СР
+[Thu]
+ЧТ
+[Fri]
+ПТ
+[Sat]
+СБ
+[Sun]
+ВС
+[Sunny]
+Солнечно
+[Partly Sunny]
+Местами солнечно
+[Mostly Sunny]
+Преимущественно солнечно
+[Partly Cloudy]
+Местами облачно
+[Mostly Cloudy]
+Преимущественно облачно
+[Mostly Clear]
+Преимущественно ясно
+[N]
+С
+[W]
+З
+[S]
+Ю
+[E]
+В
+[NW]
+СЗ
+[NE]
+СВ
+[SW]
+ЮЗ
+[SE]
+ЮВ
+[NNW]
+ССЗ
+[NNE]
+ССВ
+[SSW]
+ЮЮЗ
+[SSE]
+ЮЮВ
+[ENE]
+ВСВ
+[WSW]
+ЗЮЗ
+[WNW]
+ЗСЗ
+[ESE]
+ВЮВ
+[Scattered Clouds]
+Переменная облачность
+[North]
+Север
+[East]
+Восток
+[South]
+Юг
+[West]
+Запад
+[Northwest]
+Северо-запад
+[Northeast]
+Северо-восток
+[Southwest]
+Юго-запад
+[Southeast]
+Юго-восток

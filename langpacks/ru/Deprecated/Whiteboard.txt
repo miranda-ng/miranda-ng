@@ -1,0 +1,32 @@
+﻿;============================================================
+;  File: Whiteboard.dll
+;  Module: Whiteboard plugin for Miranda IM.
+;  Versions: 0.1.0.2
+;  URL: http://deathdemon.int.ru/projects.php
+;============================================================
+[Whiteboard]
+Белая доска
+[%s - Whiteboard]
+%s - Белая доска
+[Drag tool]
+Рука
+[Brush]
+Кисть
+[Eraser]
+Ластик
+[Pick color]
+Выбрать цвет
+[&Save As...]
+Сохранить как...
+[You will lose all unsaved changes. Do you really want to close the window?]
+Вы потеряете все несохранённые изменения. Вы действительно хотите закрыть окно?
+[Whiteboard: Start of the session]
+Белая доска: Начало сессии
+[Whiteboard error]
+Ошибка Белой доски
+[Whiteboard plugin requires DataAsMessage v0.1.0.2 or above to work properly.]
+Для нормальной работы Белой доски требуется DataAsMessage v0.1.0.2 или выше.
+[You will lose all unsaved changes. Do you really want to load another drawing?]
+Вы потеряете все несохранённые изменения. Вы действительно хотите загрузить другой рисунок?
+[File was loaded successfully]
+Файл успешно загружен

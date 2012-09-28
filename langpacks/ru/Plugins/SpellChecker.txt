@@ -1,0 +1,119 @@
+﻿#muuid {36753ae3-840b-4797-94a5fd9f5852b942}
+;============================================================
+;  File: spellchecker.dll, spellcheckerW.dll
+;  Module: Spell Checker
+;  Versions: 0.2.4.0
+;  URL: http://eth0.dk/files/pescuma/spellchecker.zip
+;============================================================
+[Unknown Flag]
+Неизвестный флаг
+[Spell Checker/Flags]
+Орфография/Флаги
+[Corrections]
+Исправления
+[Spell Checker]
+Орфография
+[Default language:]
+Язык по умолчанию:
+[Auto-correct words]
+Автоисправление слов
+[Underline type:]
+Тип подчеркивания:
+[Download more dictionaries]
+Загрузить другие словари
+[Show corrections in submenu]
+Группировать исправления в подменю
+[Show all corrections]
+Все исправления
+[Use flags]
+Отображать флаги
+[Dotted]
+Точками
+[Dash]
+Тире
+[Dash dot]
+Точка тире
+[Dash dot dot]
+Две точки тире
+[Wave]
+Волна
+[Enable spell checking]
+Включить проверку орфографии
+[Ignore words in UPPER CASE]
+Игнорировать слова ЗАГЛАВНЫМИ БУКВАМИ
+[Show all corrections in context menu (takes more time to show)]
+Показывать все исправления в меню (требует больше времени)
+[Show wrong word]
+Показывать слово с ошибкой
+[Dictionaries]
+Словари
+[Custom Dictionaries]
+Личные словари
+[Flag icons]
+Значок с флагом (ICO)
+[Flags DLL]
+Библиотека с флагами (DLL)
+[ Spell Checker ]
+Проверка орфографии
+[ Advanced ]
+Дополнительно
+[Always replace with]
+Всегда заменять на
+[Add to dictionary]
+Добавить в словарь
+[Wrong word: %s]
+Неверное слово: %s
+[Auto-replace words with dictionary suggestions]
+Автоматическая замена словами из словаря
+[Auto-replace words with user defined replacements]
+Автоматическая замена из пользовательского словаря
+[Use input language to select dictionary]
+Использовать язык ввода для выбора словаря
+[Correction:]
+Исправление:
+[Add auto-replace word]
+Добавка автозамены слова
+[OLD WORD]
+Старое слово
+[Wrong word:]
+Слово с ошибкой:
+[The correction can't be an empty word!]
+Исправление не может быть пустым!
+[The correction can't be the equal to the wrong word!]
+Исправление не может быть таким же, как слово с ошибкой!
+[Wrong Correction]
+Неверное исправление
+[Could not find the message dialog. This usually means one of two things:\n- In tabSRMM the checkbox 'Enable event API' is disabled or\n- You are using SRMM (which don't support Spell Checker)]
+Окно сообщений не найдено. Обычно это происходит в двух случаях:\n- В TabSRMM отключена опция "Включить API"\n- вы используете модуль, который не поддерживает проверку орфографии.
+[Languages]
+Языки
+[Languages/Flags]
+Языки/Флаги
+[Wrong words]
+Неправильные слова
+[Use dictionaries from other programs]
+Использовать словари из других программ
+[Auto-replacements]
+Автозамена
+[Wrong word]
+Неправильное слово
+[Correction]
+Исправление
+[No separators and all lowercase chars]
+Не учитывать разделители и регистр
+[Use variables in correction]
+Использовать переменные для замены
+[Spell checker for the message windows. Uses Hunspell to do the checking.]
+Проверка орфографии в окне сообщений. Использует Hunspell для проверки.
+[Replacements]
+Замены
+[Ignore words with numbers]
+Игнорировать слова с числами
+[Ask before sending a message with spelling errors]
+Спрашивать перед отсылкой сообщения с ошибками
+[Enable auto-replacements]
+Включить автозамену
+[Avoid removing underscores (slows down checking of long texts)]
+Не удалять подчеркивания (замедляет проверку больших текстов)
+[Enable/disable spell checker]
+Включить/выключить проверку орфографии

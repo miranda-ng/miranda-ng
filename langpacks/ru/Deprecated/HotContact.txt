@@ -1,0 +1,16 @@
+﻿;============================================================
+;  File: hotcontact.dll
+;  Module: Быстрый Доступ (Orig.: HotKey Control)
+;  Versions: 0.0.0.4
+;  URL: http://www.nystrom.info/HotContact/
+;============================================================
+[HotContact plugin]
+Вызов контактов
+[With this plugin you can assign individual hotkeys to your favourite contacts. In this way you have easy access to their chat windows.]
+Позволяет назначать горячие клавиши для доступа к контактам из списка контактов.
+[HotContact global settings]
+Глобальные настройки
+[Simulate double-click instead of launching the message window]
+Имитировать двойной щелчок вместо показа окна
+[HotContact]
+Быстрый доступ на контакт

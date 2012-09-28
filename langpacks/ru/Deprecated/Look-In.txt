@@ -1,0 +1,14 @@
+﻿;============================================================
+;  File: look-in.dll
+;  Module: Look-in
+;  Versions: 0.4.0.0
+;  URL: http://www.miranda-im.org/
+;============================================================
+[look-in]
+В одной вкладке
+[Hide other user info tabs from dialog]
+Убрать остальные вкладки
+[Plugin/protocol/template corresponding]
+Назначение шаблона для протокола
+[Hide other user info tabs from dialog (works, if other language in Miranda is not used)]
+Убрать остальные вкладки (работает только если Miranda использует английский язык)

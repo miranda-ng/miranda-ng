@@ -1,0 +1,67 @@
+﻿;============================================================
+;  File: NewStatusNotify.dlll
+;  Plugin: NewStatusNotify
+;  Versions: 1.1.2.0-1.1.2.8
+;  URL: http://www.miranda-im.org/download/details.php?action=viewfile&id=207
+;  URL: http://www.miranda-im.org/download/feed.php?dlfile=207
+;============================================================
+[Notifies you when a contact changes his/hers status.]
+Уведомляет вас об изменениях статуса контактов
+[&When people go offline too]
+&И когда собеседники уходят
+[Put an item in the main menu to easily enable/disable the plugin (note: requires a restart of Miranda)]
+Поместить в главное меню пункт включения/выключения модуля (необходим рестарт Miranda)
+[Individual Sounds]
+Индивид. звуки
+[Instructions]
+Инструкции
+[Double click on a nickname to configure his/hers sounds for each status. Note that you can use the same sound for more than one status or more than one contact if you wish.]
+Дважды щелкните на псевдониме для смены звука контакта отдельно для каждого статуса. Один и тот же звук можно использовать для нескольких контактов и/или состояний.
+[When the Individual Sounds page gets opened, you can:]
+На странице индивидуальных звуков можно:
+[- configure a sound either by selecting a status and then clicking on "Change", or by double clicking on the status itself.]
+- изменить звук, выбрав статус и щелкнув на "Изменить" или просто двойным щелчком по полю статуса.
+[- delete a sound either by selecting a status and then clicking on "Delete" or by pressing the DEL key. When you delete a sound, the default one will be used.]
+- удалить звук, выбрав статус и щелкнув на "Удалить" или нажав клавишу DEL. После удаления звука будет использоваться стандартный звук.
+[Use standard status &descriptions]
+Стандартные описания &статуса
+[Hey, it's you!]
+А вот и ты!
+[Hey, it *was* you!]
+Ты куда ушел?!
+[Enable/Disable status &notification]
+Включить/выключить ин&формацию о статусе
+[Sounds (Individual Statuses)]
+Личные звуки
+[Use "Individual sounds"]
+Индивидуальные звуки
+[To select the sounds to play, click on "Sounds" in the menu on the left.]
+Звуки можно настроить в разделе "Звуки" в меню слева.
+[Use OSD instead of popups]
+Исп. OSD вместо вспл. окон
+[%s is Away]
+%s отсутствует
+[%s is Free for chat]
+%s готов чатиться 
+[%s is in DND]
+%s "не беспокоить"
+[%s is Invisible]
+%s невидим
+[%s is N/A]
+%s недоступен
+[%s is Occupied]
+%s занят
+[%s is On the phone]
+%s на телефоне
+[%s is Out to lunch]
+%s обедает
+[NewStatusNotify - General Options]
+NewStatusNotify - общие параметры
+[NewStatusNotify - Individual Sound Options]
+NewStatusNotify - индивидуальные звуки
+[NewStatusNotify - PopUp Options]
+NewStatusNotify - параметры окна
+[Notifies you when a contact changes his/hers status]
+Сообщает изменения статуса контактов.
+[Notifies you when a contact changes his/her status.]
+Уведомляет вас, когда контакт меняет свой статус.

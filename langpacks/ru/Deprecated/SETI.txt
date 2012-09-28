@@ -1,0 +1,87 @@
+﻿;============================================================
+;  File: seti.dll
+;  Module: SETI@home
+;  Versions: 1.4.3.0
+;============================================================
+[View statistics web page]
+Просмотр статистики
+[Server is down or lagging]
+Сервер не работает или тормозит
+[Server error code]
+Ошибка сервера
+[Cannot write to file]
+Невозможно записать в файл
+[Last updated on]
+[Reg. Date]
+Рег. дата
+[Total Credit]
+Общий кредит
+[Recent Av. Credit]
+Недавний Av. Кредит
+[Archived Classic SETI WU]
+Накопленное Classic SETI UP
+[Archived Classic SETI CPU Time]
+Накопленное Classic SETI Время ЦП
+[Team]
+Команда
+[Members]
+[Group Total Credit]
+Все кредит группы
+[Group Recent Av. Credit]
+Недавний av. кредит группы
+[The server replied with a failure code.]
+Сервер ответил ошибочным кодом.
+[The server is down or lagging.]
+Сервер упал или лагает.
+[Disable Stick to the front]
+Выключить поверх окон
+[Stick to the front]
+Поверх окон
+[No. Of Members]
+Число членов
+[Update statistics every]
+Обновлять стат. каждые
+[Suppress error messages]
+Подавлять сообщения об ошибках
+[Disable main menu items]
+Откл. пункты главного меню
+[Use MultiWindow]
+Исп. Фреймы
+[Reset crash detection]
+Сбросить опред. ошибки
+[Update data on start-up]
+Обновить при запуске
+[Text Color:]
+Цвет текста:
+[Use Miranda colors]
+Исп. цвета Miranda
+[Show/Hide statistics window:]
+Показ/Спрятать окно статистики:
+[Save SETI@Home statistics to file:]
+Сохранить статистику SETI@Home в файл:
+[Group Total Credit ]
+Общий кредит группы
+[SETI]
+[&Open statistics]
+Открыть статистику
+[Show statistics window]
+Окно статистики
+[Hide statistics window]
+Скрыть окно статистики
+[Update Statistics]
+Обновить статистику
+[Total Credit:]
+[Recent Av. Credit:]
+[Archived Classic SETI WU:]
+[&Open statistics web page]
+Открыть страницу статистики
+[&Hide Window]
+Скрыть окно
+[&Unstick/Stick to front]
+Отлипнуть/Прилипнуть
+[Show statistics windows]
+Показать окно статистики
+[Hide statistics windows]
+Спрятать окно статистики
+[SETI Enable Statistics]
+SETI Управление статистикой

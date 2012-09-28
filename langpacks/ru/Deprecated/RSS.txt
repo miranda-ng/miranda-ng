@@ -1,0 +1,176 @@
+﻿#muuid {a13ead3f-0e8d-452f-90561829fae6d902}
+;============================================================
+;  File: rss.dll, RSSNews.dll
+;  Module: RSSNews plugin
+;  Versions: 0.0.3.5 - 0.0.3.23
+; URL: http://miranda-im.org/download/details.php?action=viewfile&id=409
+; URL: http://miranda-im.org/download/feed.php?dlfile=409
+;============================================================
+[Adding new feed]
+Добавить канал
+[Manage feed]
+Редактировать канал
+[Auto &discovery]
+&Проверить
+[Use &authentication]
+Использовать аутентификацию
+[Maximum displayed items]
+Максимум новостей
+[Visualization]
+Отображение
+[Display news using the following format:]
+Отображать новости, используя формат:
+[All item's tags are valid. Put them between #. Example: #<author>#]
+Все теги новостей действительны. Поместите их между #, например: #<author>#
+[Feed]
+Канал
+[Retrieve news at &startup]
+&Принимать новости при старте
+[E&xport...]
+&Экспорт
+[RSSNews - Import]
+RSSNews - Импорт
+[Import from:]
+Импорт из:
+[&Go]
+&Старт
+[Available feeds:]
+Имеющиеся каналы:
+[Feeds to be imported:]
+Каналы для импорта:
+[RSSNews - Export]
+RSSNews - Экспорт
+[Feeds to be exported:]
+Каналы для экспорта:
+[Export to file:]
+Экспорт в файл:
+[Enter a value in URL field.]
+Заполните поле "Адрес"
+[Enter a value greater than zero in Minutes field.]
+Введите значение большее нуля в поле "Минуты"
+[Enter a value in Username field.]
+Заполните поле "Имя"
+[Enter a value in Password field.]
+Заполните поле "Пароль"
+[Enter a value equal or greater than zero in Maximum items displayed field.]
+Введите значение равное или большее нуля в поле "Максимальное количество полей"
+[Select a feed to manage.]
+Выберите канал для редактирования.
+[Select a feed to delete.]
+Выберите канал для удаления.
+[Invalid path and/or filename.]
+Неправильный путь и/или имя.
+[Exporting sucessfully completed.]
+Экспорт выполнен успешно.
+[There are no items to be exported.]
+Нет новостей для экспорта.
+[RSSNews plugin did not find any feed.]
+Модуль RSSNews не нашел каналов.
+[Importing sucessfully completed.]
+Импорт выполнен успешно.
+[There are no items to be imported.]
+Нет новостей для импорта.
+[Wait...]
+Ждите...
+[%s\nis a valid feed's address.]
+%s\nдействительно существует.
+[RSSNews found a new feed's address]
+RSSNews нашел новый адрес канала
+[Do you want to use it?]
+Хотите использовать его?
+[is no longer available at the server and no forwarding address is known.]
+более не доступен на сервере и адрес переадресации не известен.
+[This condition is expected to be considered permanent.]
+Это состояние ожидалось как постоянное......
+[Would you like to delete this feed?]
+Вы хотите удалить этот источник?
+[Forbidden address]
+Запрещённый адрес
+[Authorization will not help and the request should not be repeated.]
+Авторизация не поможет и запрос не будет повторен.
+[RSSNews plugin requires Miranda IM 0.4.0.0 or above. This plugin will be disabled.]
+Модуль RSSnews требует Miranda IM 0.4.0.0 или выше. Этот модуль будет отключён.
+[Feed sucessfully added.]
+Канал успешно добавлен.
+[RSSNews]
+Новости RSS
+[Retrieve &news]
+Принять &новости
+[&Check all feeds]
+&Проверить все
+[&Add new feed...]
+&Добавить...
+[&Export...]
+&Экспорт
+[MyFeeds]
+МоиКаналы
+[OPML File]
+Файл OPML
+[Feed ID]
+ID канала
+[Avaliable feeds:]
+Имеющиеся каналы:
+[Check &all feeds]
+Проверить &все каналы
+[There are no new items for this feed for a long period of time.]
+Этот канал не обновляется длительный период времени.
+[What do you want to do?]
+Что вы хотите сделать?
+[&Continue checking this feed for new items]
+Продолжить проверку этого канала
+[&Delete this feed]
+Удалить этот канал
+[RSSNews - Idle feed]
+RSSNews - Канал не обновляется
+[RSS/Atom reader.]
+Модуль для чтения RSS/Atom.
+[&Do not ask again for this feed]
+Не спрашивать снова для этого канала
+[Authentication]
+Аутентификация
+[Feed options]
+Настройки канала
+[Maximum news displayed]
+Максимум новостей
+[&Store only unread news]
+Сохранять только непрочитанные новости
+[Real URL :]
+URL :
+[goes to]
+Записывается как
+[&Manage feed...]
+&Редактировать
+[&Delete feed]
+&Удалить канал
+[Feed enabled]
+Канал включён
+[Feed disabled]
+Канал выключен
+[Do not show warning, help and &error messages]
+Не показывать предупреждения и ошибки
+[Enter a value in Title field.]
+Заполните поле "Название"
+[Enter a value in Server field.]
+Заполните поле "Сервер"
+[Enter a value in Location field.]
+Заполните поле "Путь"
+[RSS plugin can't connect to the server %s, it may be temporarily down. Please try again later.]
+Модуль RSS не может соединиться с сервером %s, возможно, он отключён. Попробуйте позже.
+[RSS plugin is unable to resolve the name of the server %s.]
+RSS не смог найти IP-адрес, соответствующий имени сервера %s.
+[All item's tags are valid. Put them between #.]
+Все значения верны. Разделение через #
+[Do not show warning and &error messages]
+Не показывать предупреждения и ошибки
+[Example: #<author>#, #<pubDate>#, etc.]
+Пример: #<автор>#, #<Дата>#, и т.д.
+[Examples: #<author>#, #<pubDate>#, etc.]
+Примеры: #<автор>#, #<Дата>#, и т.д.
+[Maximum items displayed]
+Максимум новостей:
+[Store news using the following format:]
+Сохранять новости в формате:
+[RSSNews connection]
+Подключение RSSNews
+[Do not &warn me again for this feed]
+Не &предупреждать меня больше для этого канала

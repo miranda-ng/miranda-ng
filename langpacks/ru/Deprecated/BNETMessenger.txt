@@ -1,0 +1,188 @@
+﻿;============================================================
+;  File: bnetmessenger.dll
+;  Module: battle.net messenger
+;  Versions: 0.1.0.6-0.1.1.4
+;============================================================
+[%s added you to his/her contact list.]
+%s добавил(а) вас в свой список.
+[%s has send you a list of contacts.]
+%s отправил вам список контактов.
+[%s is now %s.]
+%s сейчас %s.
+[%s requests for an authorization.]
+%s запрашивает авторизацию.
+[%s wants to send you a file.]
+%s хочет отправить вам файл.
+[&Account description:]
+Описание учётной записи
+[&Add a new account]
+Добавить новый
+[&Connect]
+Подключение
+[&Delete selected account]
+Удалить выбранную запись
+[&Disconnect]
+Отключение
+[&Enable melting of messages in send queue]
+Таянье сообщений в очереди
+[&Messages per]
+Сообщений
+[&Reenable all message boxes]
+Переключить все сообщения
+[&Seconds]
+Секунды
+[&Time between friends list updates (in seconds)]
+Время обновления списка друзей в секундах
+[<empty slot>]
+<пустой слот>
+[0,e,E - Offline,  1,o,O - Online,   2,a,A - Away,      3,d,D - DND,   4,n,N - N/A]
+0,e,E - Отключён,  1,o,O - В сети,   2,a,A - Отсутствую,      3,d,D - Недоступен,   4,n,N - Занят
+[5,c,C - Occupied, 6,f,F - FreeChat, 7,i,I - Invisible, 8,p,P - Phone, 9,l,L - Lunch]
+5,c,C - Не беспокоить, 6,f,F - Готов чатиться, 7,i,I - Невидимый, 8,p,P - На телефоне, 9,l,L - Обед
+[Account properties]
+Свойства контакта
+[Added]
+Добавлен
+[AuthRequest]
+ЗапросАвторизации
+[Available accounts (double click to edit):]
+Доступные аккаунты (двойно клик - изменить):
+[Battle.net connection]
+Battle.net соединение
+[Battle.net Messenger : Current friend list]
+Battle.net: Список друзей
+[Battle.net Messenger : Expert tweaking]
+Battle.net: Эксперт
+[Battle.net Messenger : Filter  Configuration]
+Battle.net: Фильтр
+[Battle.net Messenger : Message Bot Configuration]
+Battle.net: Бот
+[Battle.net Messenger]
+Battle.net пейджер
+[BNET Friends]
+BNET Друзья
+[BNET Messenger quick help. You can use the following commands:]
+BNET быстрая помощь. вы можете использовать эти команды:
+[BNET Tweak]
+BNET Настройка
+[Bot's &gateway:]
+Шлюз бота:
+[Bot's &home channel:]
+Домашний канал бота:
+[Bot's &password:]
+Пароль бота:
+[Bot's &username:]
+Имя бота:
+[Bot information]
+Инфо бота
+[Bot is connected.]
+Бот подключён.
+[Changing the status to '%s'.]
+Меняет статус на '%s'.
+[Channel:]
+Канал:
+[Contact information]
+Информация контакта
+[Current time is]
+Время
+[Do not disturb him/her. (%s)\n]
+[Do you have nothing to say to me?]
+Нечего сказать мне?
+[Don't &show this message box again.]
+Не показывать снова.
+[E&nable UTF-8 encoding for SC/BW/WC clients]
+Включить кодировку UTF-8 для SC/BW/WC клиентов
+[Error while sending message to %s.]
+Ошибка отправки сообщения в %s.
+[Failed to send message to %s.]
+Невозможно отправить сообщение для %s.
+[Failed to send message.]
+Ошибка отправки
+[He/she is away. (%s)\n]
+Он/она отошла. (%s)\n
+[I want to receive the following events:]
+Я хочу получать события:
+[I want to receive the following status changes:]
+Я хочу получать смены статусов:
+[in   : %s]
+в   : %s
+[is offline.]
+отключён.
+[is playing %s in the game %s.\n]
+играет %s в игру %s.\n
+[m - send a message, s - change status, t - get local time]
+m - послать сообщение, s - поменять статус, t - время
+[Message succesfully sent to %s.]
+Сообщение для %s отправлено.
+[No information about %s.]
+Нет информации о %s.
+[P&ort  (def. 6112):]
+Порт (обычно 6112):
+[Quick help for set status: Send s followed by ... to go ...:]
+Помощь настройки статуса: Шлите s за ...:
+[Restrict sending speed to:]
+Ограничить скорость:
+[Send me events only if my status is:]
+Посылать мне события, если мой статус:
+[Send to all]
+Послать всем
+[T&ime between getting status of friends (in seconds)]
+Время между загрузкой статусов пользователей (сек)
+[The bot could not connect to Battle.net.\n\nVerify your gateway setting and check your internet connection.]
+Бот не может подключиться к Battle.net.\n\nПроверьте настройки шлюза и подключение к интернету.
+[The bot could not login to Battle.net.\n\nCheck bot name and bot password and verify you have registered the bot name and password on the given Battle.net gateway.]
+Бот не может подключиться к Battle.net.\n\nПровертье имя и пароль бота. Они должны быть зарегистрированы на выбранном шлюзе Battle.net
+[The bot got banned for flooding.\n\nThat is really sad... If youґre an expert try tweaking the settings. If youґve already done that, you did it not so well...]
+Бот будет забанен из-за флуда.\n\nЕсли вы эксперт, попробуйте изменить настройки. Если вы уже пробовали, значит не получилось :(
+[The bot got no answer from Battle.net.\n\nYou possibly get this message if you your IP was banned by Battle.net for different reasons. Maybe the bot sent its messages too fast or youґve reconnected too often in a short time.\n\nYou could change your IP, try another gateway or simply wait some time.]
+Бот не получил ответа от Battle.net.\n\nВозможно ваш IP адрес забанен. Скорее всего бот отправлял сообщения слишком быстро, либо вы часто переподключались.\n\nСмените IP, попробуйте другой шлюз или просто подождите.
+[The bot is connected.]
+Бот подключён.
+[The bot is connecting ...]
+Бот подключается...
+[The bot is not connected.]
+Бот не подключён.
+[The contact %s does not exist.]
+Контакт %s не существует.
+[Timeout while sending message to %s.]
+Таймаут отправки сообщения для %s.
+[To send a message whisper me 'm target message'.]
+Для посылки сообщения намекните мне 'm target message'.
+[Unknown command. Whisper me a 'h' for quick help.]
+Неизвестная команда. Шепните мне "h" для подсказки.
+[Unknown mode chosen. Send me 's ?' for some quick help.]
+Выбран неизвестный режим. Отправьте мне "s ?" для подсказки
+[Use Miranda IM while playing on Battle.net and talk to the people on your friends list.]
+Поддержка протокола для сети Battle.net
+[uses %s and is chatting in %s.\n]
+пользует %s и болтает в %s.\n
+[using: %s]
+пользует: %s
+[What do you wanted to say?]
+Что вы хотели сказать?
+[Where is %s?]
+Где %s?
+[Where is contact?]
+Где контакт?
+[You are currently '%s'.]
+Сейчас вы '%s'.
+[You are on his/her friends list]
+Вы в его/её списке друзей
+[You are using the default bot.\n\nSince this one is shared with all other users, you should not add friends\nin your contact list until you get your own bot.\n\n]
+Вы используете бот по умолчанию.\n\nТак как он доступен для всех, вы не должны добавлять друзей\nв ваш список пока не заведете своего бота.\n\n
+[You received an URL from %s.]
+От %s получена ссылка.
+[Your BNET &name:]
+Ваше имя BNET:
+[Messenger configuration]
+Настройка
+; not translated lines from sources version 0.1.0.6
+;[Bot configuration]
+;[Bot gateway:]
+;[Bot name:]
+;[Bot password:]
+;[Connect at startup]
+;[Friends on BNET - Debug dialog]
+;[Show me messages when I am :]
+;[Show me when friends become :]
+;[Your name:]

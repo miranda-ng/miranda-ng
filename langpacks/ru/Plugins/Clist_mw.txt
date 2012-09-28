@@ -1,0 +1,39 @@
+﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+;============================================================
+;  File: clist_mw.dll
+;  Module:  MultiWindow Contact List
+;  Versions: 0.9.0.0
+;  URL: http://code.google.com/p/miranda/downloads/list
+;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/mwclist/
+;  Authors: Bethoven
+;============================================================
+[Backgrounds]
+Фоны
+[TitleBarFont]
+Название окна
+[Group Closed]
+Закрытая группа
+[Hover Contacts]
+Контакты под указателем
+[List MetaContacts]
+Список метаконтактов
+[Status messages]
+Статусные сообщения
+[_NoProtocol_]
+_БезПротокола_
+[!!! Note: all client icons are made by Angeli-ka, and I have her permission to use them in clist_mw plugin.]
+!!! Все значки клиентов сделаны Angeli-ka, и у меня есть её разрешение на их использование.
+[MetaContacts supporting]
+Поддержка метаконтактов
+[Show bevel effect on panels]
+Эффект бордюра на панелях
+[Use New Drawer for StatusBar]
+Новый стиль панели статуса
+[Group Menu]
+Меню групп
+[MenuOrder]
+Порядок меню
+[SubGroup Menu]
+Меню подгрупп
+[Tray Menu]
+Меню в трее

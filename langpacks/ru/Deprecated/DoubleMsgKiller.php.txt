@@ -1,0 +1,10 @@
+﻿;============================================================
+;  File: DoubleMsgKiller.php
+;  Module: Double Message Killer [Script for mBot]
+;  Versions: 0.0.0.3
+;  URL: http://www.miranda-im.org/download/details.php?action=viewfile&id=1637
+;============================================================
+[Sent you the same message once more !]
+Прислала сообщение, дублирующее предыдущее!
+[Sent you the same message once more!]
+Прислал сообщение, дублирующее предыдущее!

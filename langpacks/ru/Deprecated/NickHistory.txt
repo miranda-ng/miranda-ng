@@ -1,0 +1,50 @@
+﻿;============================================================
+;  File: nickhistory.dll
+;  Module: Nick History
+;  Versions: 0.1.0.0
+;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=3065
+;============================================================
+[ History ]
+История
+[Log changes to history]
+Сохранять историю
+[Don't save Unicode parts for 7bit ANSI history (saves db space)]
+Не сохранять юникод-части для 7битных сообщений (уменьшает размер базы)
+[Track when contacts change their nicknames]
+Уведомлять, когда контакт меняет псевдоним
+[Track when contacts remove their nicknames]
+Уведомлять, когда контакт удаляет псевдоним
+[Only when the contact is not offline]
+Только если контакт подключён
+[Log Nickname changes]
+Сохранять изменения псевдонима
+[changed his/her nickname to %s]
+сменил(а) псевдоним на %s
+[removed his/her nickname]
+удалил(а) псевдоним
+[<no nickname>]
+<нет псевдонима>
+[Nick History]
+История ников
+[Don't save UNICODE parts for 7bit ANSI history (saves db space)]
+Не сохранять юникод-части для 7битных сообщений (уменьшает размер базы)
+[ Templates ]
+Шаблоны
+[Changed:]
+Смена:
+[Removed:]
+Удаление:
+[Enable nickname tracking for theese protocols:]
+Включить слежение смены ника для этих протоколов:
+[Nick Change]
+Смена ника
+[Show popups on changes]
+Показывать вспл.окна при смене
+[On Right Click:]
+Правая кнопка:
+[On Left Click:]
+Левая кнопка:
+[Do Nothing]
+Ничего
+[Close Popup]
+Закрыть окно

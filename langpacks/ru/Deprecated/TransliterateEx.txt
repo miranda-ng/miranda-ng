@@ -1,0 +1,19 @@
+﻿;============================================================
+; File: TransliterateEx.dll
+; Module: Transliterate
+; Versions: 0.0.0.1
+;============================================================
+[Transliterate]
+Транслитерация
+[The following events are being transliterated:]
+Следующие события транслитерируются:
+[Outgoing Messages]
+Исходящие сообщения
+[Incoming Messages]
+Входящие сообщения
+[Transliterate all]
+Всё в транслит
+[Transliterate none]
+Без транслита
+[Auto detect \"Input Language\"]
+Автораспознавание языка

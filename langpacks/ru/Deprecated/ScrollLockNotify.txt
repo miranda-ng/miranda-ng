@@ -1,0 +1,32 @@
+﻿;============================================================
+;  File: ScrollLockNotify.dll
+;  Module: ScrollLockNotify
+;  Versions: 1.0.1.3
+;  URL: http://miranda-im.org/download/feed.php?dlfile=1203
+;============================================================
+[Flash duration]
+Время мигания
+[Flash until Miranda gets focused]
+Мигать пока Miranda IM не получит фокуса
+[Flash for max]
+Не дольше
+[Additional LEDs]
+Мигать также
+[Flash when my status is]
+Мигать когда мой статус
+[Flash on]
+Мигать при событиях
+[Auth requests]
+Авторизация
+[Added notifications]
+Добавление
+[Flash interval (speed)]
+Скорость мигания
+[Troubleshooting]
+Разрешение проблем
+[Force newer Windows version (only try if flashing doesn't work)]
+Определять как новую версию Windows (если не мигает)
+[Flashes the scroll lock keyboard LED upon arrival of a new event.]
+Мигает индикатором Scroll Lock при новом события.
+[ScrollLockNotify]
+Уведомление Scroll Lock'ом

@@ -1,0 +1,146 @@
+﻿;============================================================
+;  File: msg_export.dll
+;  Module: Message Export
+;  Versions: 1.7.0-2.09.00, 3.00.00, 3.1.0.2
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=254
+;============================================================
+[Open E&xported History]
+Экспортированная история
+[Message export]
+Экспорт сообщений
+[Export directory]
+Каталог экспорта
+[Default file]
+Имя файла
+[Export format]
+Формат экспорта
+[Max column width]
+Макс. ширина строки
+[Time format]
+Формат времени
+[Auto filename]
+Авт. имена
+[Export all history]
+Экспорт истории
+[You have unapplyed changes do you wish to apply these first ?]
+Есть несохранённые изменения, применить?
+[No contacts found to export]
+Нет контактов для экспорта
+[Failed to export at least one contact]
+Не удалось экспортировать как минимум 1 контакт
+[Max line width must be at least %d]
+Макс ширина строки должна быть не менее %d
+[Exporting old messages]
+Экспорт старых сообщений
+[Reading database information ( Phase 1 of 2 )]
+Шаг 1: Чтение базы данных
+[Sorting and writing database information ( Phase 2 of 2 )]
+Шаг 2: Сортировка и запись информации
+[Select Destination Directory]
+Выбрать папку для записи
+[The following user added you to their contact list:]
+Пользователь добавил вас в свой список контактов:
+[The following user made an authorization request:]
+Следующий пользователь запросил авторизацию:
+[Message has not been saved !]
+Сообщение не было сохранено !
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+Не удалось получить путь к Msg_Export.dll\nПожалуйста найдите Msg_Export.txt самостоятельно
+[Failed to move to the end of the file :\n]
+Не удалось перейти к концу файла:\n
+[Failed to open or create file :\n]
+Не удалось открыть или создать файл :\n
+[Nick      :]
+Псевдоним :
+[FirstName :]
+Имя       :
+[LastName  :]
+Фамилия   :
+[e-mail    :]
+e-mail    :
+[Reason    :]
+Причина   :
+[Failed to write message to the file :\n]
+Не удалось записать сообщение в файл:\n
+[Failed to write URL/File to the file :\n]
+Не удалось записать передачу файла или URL в файл:\n
+[URL: ]
+URL: 
+[File: ]
+Файл: 
+[Description: ]
+Описание :
+[EmailExpress from:]
+EmailExpress от:
+[No from address]
+без адреса
+[Failed to write EmailExpress to the file :\n]
+Не удалось записать EmailExpress в файл:\n
+[Failed to write SMS to the file :\n]
+Не удалось записать SMS в файл:\n
+[Replace miranda history]
+Заменить историю
+[Use internal viewer]
+Внутр. просмотр
+[You need to restart miranda to change the history function]
+Изменения функции истории вступят в силу после перезапуска Miranda
+[History file for %s (%s)]
+Файл истории для %s (%s)
+[Find...]
+Найти...
+[External]
+Внешний
+[Search string was not found !]
+Строка не найдена!
+[File name for the user "%s" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file ?]
+Имя файла для пользователя "%s" изменилось !\n\nстарое имя:\t%s\nновое имя:\t%s\n\nПереименовать файл?
+[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
+Не удалось переименовать файл\n\nстарое имя:\t%s\nновое имя:\t%s\n\nОшибка: %s
+[No to A&ll]
+Нет для вс&ех
+[Color...]
+Цвет...
+[Font...]
+Шрифт
+[Failed to delete the file]
+Не удалось удалить файл
+[Prompt to delete file]
+Запрос на удаление
+[Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
+Не удалось заменить историю в Miranda.\r\nСкорее всего, это вызвано изменениями в Miranda.
+[User has been deleted do you want to delete the file ?]
+Пользователь был удален. Удалить его файл?
+[Syntax highlight]
+Подсветка синтаксиса
+[File viewer]
+Просмотр файлов
+[Append extra new line]
+Доп. перевод строки
+[WebPager from:]
+WebPager от:
+[Export selected]
+Экспорт выбранного
+[Set to default filename]
+Имя файла по умолчанию
+[Use << and >>]
+Знаки << и >>
+[When filename changes]
+При переименовании файла
+[When user is deleted]
+При удалении пользователя
+[Prompt for action]
+Спросить
+[Rename file]
+Переименовать файл
+[Delete file]
+Удалить файл
+[Export Protocols]
+Экспорт протоколов
+[Use UTF8 in new files]
+UTF8 в новых файлах
+[&External]
+Внешнее
+[Message export2]
+Экспорт сообщений2
+[Message export (mod by ring0)]
+Экспорт сообщений (мод от ring0)

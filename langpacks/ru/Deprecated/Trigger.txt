@@ -1,0 +1,374 @@
+﻿;============================================================
+;  File: trigger.dll
+;  Module: Trigger
+;  Versions: 0.2.0.35
+;  URL: http://www.pboon.nl/projects.htm
+;============================================================
+[Exporting failed (2)]
+Экспорт неудался (2)
+[Exporting failed (3)]
+Экспорт неудался (3)
+[Exporting failed (4)]
+Экспорт неудался (4)
+[Exporting failed (5)]
+Экспорт неудался (5)
+[Conditions]
+Условия
+[Chain]
+Цепочка
+[Insert in Chain]
+Вставить в цепочку
+[Insert Condition (AND)]
+Вставить условие (И)
+[Assign to Action]
+Назначить к действию
+[Insert Condition (OR)]
+Вставить условие (ИЛИ)
+[Assign to Condition]
+Назначить к условию
+[Insert in Group]
+Вставить в группу
+[Add Condition]
+Добавить условие
+[Add Group to Chain]
+Добавить группу в цепочку
+[Add Group]
+Добавить группу
+[Add Condition (AND)]
+Добавить условие (И)
+[Add Condition (OR)]
+Добавить условие (ИЛИ)
+[Add Group (AND)]
+Добавить группу (И)
+[Add Group (OR)]
+Добавить группу (ИЛИ)
+[Add Action]
+Добавить действие
+[Add Trigger]
+Добавить задание
+[Importing failed (2)]
+Импорт неудался (2)
+[Importing failed (3)]
+Импорт неудался (3)
+[Importing failed (4)]
+Импорт неудался (4)
+[** Contact from trigger **]
+** Контакты из триггера **
+[Mark the message as read]
+Пометить сообщ. как прочитанное
+[Delete the message]
+Удалить сообщение
+[Trigger when a message is sent]
+Срабатывать, когда сообщение послано
+[Trigger when a message is received]
+Срабатывать, когда сообщение получено
+[Add to history]
+Добавить в историю
+[Automatically split message that are too long]
+Разбивать длинные сообщения
+[Store at NULL Contact]
+Сохранять в NULL контакте
+[Store at the following contact]
+Сохранять в следующем контакте
+[NULL (none)]
+NULL (пусто)
+[One of the following]
+Один из следующих
+[Be equal to the following text]
+Должен равняться следующему тексту
+[Start with the following text]
+Начинается со следующего текста
+[Contain the following text]
+Содержит следующий текст
+[Check case insensitive]
+Не использовать проверку регистра
+[Simulate a mouse click to immediately start sending the file]
+Эмулировать щелчок мыши, чтобы начинать передачу файла
+[Append text to file]
+Добавить текст в файл
+[Write unicode text]
+Сохранять юникод текст
+[char String]
+char Строка
+[TCHAR String]
+TCHAR Строка
+[Use this parameter as TriggerData]
+Использовать этот параметр, как TriggerData
+[Parameter is a contact]
+Параметр - контакт
+[Parameter is a status code]
+Параметр - код статуса
+[Parameter is a protocol]
+Параметр - протокол
+[Parameter is a string]
+Параметр - строка
+[TriggerData: Contact]
+TriggerData: Контакт
+[TriggerData: Status]
+TriggerData: Статус
+[TriggerData: Protocol]
+TriggerData: Протокол
+[TriggerData: String]
+TriggerData: Строка
+[TriggerData: Text]
+TriggerData: Текст
+[Use TriggerData for this parameter]
+TriggerData для этого параметра
+[Use the following]
+Исп. следующее
+[Toggle]
+Перекл.
+[Triggers can only be edited when the module is disabled. Changes made cannot be undone or canceled.]
+Триггеры можно редактировать, только тогда, когда модуль выключен. Изменения нельзя откатить или отменить.
+[Trigger when a protocol changes from]
+Срабатывать, когда протокол меняется с
+[And changes status to]
+И меняет статус на
+[Status: The status the protocol changes to\r\nProtocol: The protocol changing status]
+Status: На что изменяется статус протокола\r\nProtocol: Протокол меняющий статус
+[Trigger when a contact changes from]
+Срабатывать, когда контакт меняется с
+[Contact: The contact changing status\r\nStatus: The status the contact changes to\r\nProtocol: The contact's protocol]
+Contact: Контакт меняющий статус\r\nStatus: На какой статус меняет контакт\r\nProtocol: Протокол контакта
+[Program to execute]
+Программа для запуска
+[The above string is parsed by the Variables plugin, if available]
+Строки вверху анализируются модулем Variables, если он есть
+[Change status of the following protocols]
+Смена статуса следующих протоколов
+[Set status to]
+Установить статус на
+[Contact: The contact associated to the message\r\nStatus: The contact's status\r\nProtocol: The contact's protocol\r\nText: The message text]
+Contact: Контакт, ассоциированный с сообщением\r\nStatus: Статус контакта\r\nProtocol: Протокол контакта\r\nText: Текст сообщения
+[Send a message to the following contacts]
+Посылать сообщение следующим контактам
+[Message to send]
+Сообщение для отправки
+[Only accept from host]
+Принимать только от адреса
+[On port]
+На порту
+[Bind to host]
+Привязать к адресу
+[Request status message of the following contacts]
+Запросить статусное сообщение от следующих контактов
+[Must be one of these:]
+Должен быть одним из:
+[The contact associated to the trigger must be:]
+Контакт, ассоциированный с триггером должен быть:
+[The text associated to the trigger must]
+Текст, ассоциированный с триггером должен
+[The protocol associated to this trigger must be one of the following]
+Протокол, ассоциированный с триггером должен быть одним из
+[The status associated to the trigger must be one of the following]
+Статус, ассоциированный с триггером должен быть одним из
+[Contact: The contact requesting the message\r\nStatus: The contact's status\r\nProtocol: The contact's protocol]
+Contact: Контакт, запрашивающий сообщение\r\nStatus: Статус контакта\r\nProtocol: Протокол контакта
+[Send a file to the following contacts]
+Посылать файл следующим контактам
+[File to send]
+Файл для отправки
+[Contact-specific settings are not exported.]
+Настройки контакта не экспортируются.
+[File to write to]
+Файл для записи
+[The above strings are parsed by the Variables plugin, if available]
+Строки вверху анализируются модулем Variables, если он установлен
+[Event name]
+Имя события
+[Process this parameter as]
+Исп. этот параметр как
+[Pre-conditions]
+Предварительные условия
+[Post-actions]
+Заключительные действия
+[Output file]
+Файл вывода
+[Edit Trigger]
+Редактировать триггер
+[Edit Action]
+Редактировать действие
+[Edit Condition]
+Редактировать условие
+[Miranda sound]
+Звук Miranda IM
+[Speaker]
+Спикер
+[Mark the event as read]
+Пометить событие как прочитанное
+[Delete the event]
+Удалить событие
+[Trigger when the event is sent]
+Срабатывать при отправке события
+[Trigger when the event is received]
+Срабатывать при получении события
+[Trigger when the event is a message]
+Срабатывать при событии - сообщение
+[Trigger when the event is a file]
+Срабатывать при событии - файл
+[Automatically split messages that are too long]
+Разбивать длинные сообщения
+[Ignore requests after a status change]
+Игнорировать запросы после смены статуса
+[Trigger when window is about to be opened]
+Срабатывать, когда окно собирается открываться
+[Trigger when window has been opened]
+Срабатывать, когда окно открыто
+[Trigger when window is about to be closed]
+Срабатывать, когда окно собирается закрыться
+[Trigger when window has been closed]
+Срабатывать, когда окно закрыто
+[The window must be visible]
+Окно должно быть видимо
+[The window must have focus]
+Окно должно быть в фокусе
+[The window must be minimized]
+Окно должно быть свернуто
+[The contact for which a setting changes must be]
+Контакт меняющий настройку должен быть:
+[Module name (parsed by the Variables plugin, if available)]
+Имя модуля (анализируется модулем Variables, если есть)
+[Contact: The contact associated to the window\r\nStatus: The contact's status\r\nProtocol: The contact's protocol]
+Contact: Контакт, ассоциированный с окном\r\nStatus: Статус контакта\r\nProtocol: Протокол контакта
+[A message window must exist for one of the following contacts]
+Окно сообщений должно быть открыто для следующих контактов
+[Unique name of the hotkey]
+Уникальное имя горячей клавише
+[Set the hotkey on the ]
+Установить гор.клавишу
+[Setting name]
+Имя настройки
+[Please do only use this trigger if you know what you are doing!]
+Используйте этот триггер, только если вы знаете, что делаете!
+[Miranda: DB contact setting change]
+Miranda: Изменение настройки контакта в базе
+[Auto-Away: State change]
+Отсутствие: Смена состояния
+[Hotkey Service]
+Служба горячих клавиш
+[Set the hotkey on the "Hotkey Service" options page]
+Гор.клавиша в настройках "Службы горячих клавиш"
+[KeepStatus: Connection state change]
+KeepStatus: Смена состояния подключения
+[Trigger when connection loss is detected]
+Срабатывать, когда обнаружена потеря связи
+[Trigger when a login error occurs]
+Срабатывать при ошибках входа
+[Trigger when reconnected from another location]
+Срабатывать, когда переподключён извне
+[Trigger when reconnection attempt is made]
+Срабатывать при попытке переподключения
+[Trigger when successfull reconnected]
+Срабатывать при успешном переподключении
+[Trigger when giving up reconnecting]
+Срабатывать при неудачном переподключении
+[Miranda: Message window]
+Miranda: Окно сообщений
+[Miranda: System event]
+Miranda: Системное событие
+[Miranda: Exit]
+Miranda: Выход
+[Miranda: Status message request]
+Miranda: Запрос статусного сообщения
+[Miranda: Startup]
+Miranda: Запуск
+[Miranda: Contact status change]
+Miranda: Изменение статуса контакта
+[Miranda: Protocol status change]
+Miranda: Изменение статуса протокола
+[Variables: String changed]
+Переменные: Строка изменилась
+[New Trigger]
+Создать задание
+[New Action]
+Новое действие
+[New Condition]
+Новое условие
+[Miranda: My Status]
+Miranda: Мой статус
+[Miranda: Message Window]
+Miranda: Окно сообщений
+[WARNING: Selecting a lot of contacts may be slow]
+ВНИМАНИЕ: Выбор множества контактов может замедлить работу
+[This condition cannot be used with the associated trigger]
+Это условие нельзя использовать с выбранным триггером
+[Variables: Condition]
+Переменные: Условие
+[The status of one of these protocols:]
+Статус одного из этих протоколов:
+[KeepStatus: Enable/disable checking]
+KeepStatus: Вкл/Выкл проверку
+[Enable checking]
+Вкл. проверку
+[Disable checking]
+Выкл. проверку
+[Miranda: Make a service call]
+Miranda: Вызвать службу
+[Miranda: Send file]
+Miranda: Послать файл
+[Miranda: Sounds]
+Miranda: Звуки
+[Miranda: Send message]
+Miranda: Отправить сообщение
+[Miranda: Change status]
+Miranda: Сменить статус
+[Miranda: Store DB Setting]
+Miranda: Сохранить БД настройки
+[Nudge : Send a nudge]
+Тряска: Отправить встряску
+[Nudge : Shake contact list/chat window]
+Тряска: Встряхнуть список контактов/окно сообщений
+[Shake the contact list]
+Встряхнуть список контактов
+[Variables: Parse string]
+Переменные: Анализировать строку
+[Write a file]
+Записать файл
+[Trigger at the following time]
+Срабатывать в данное время
+[Trigger when a message comes in from the following contacts]
+Срабатывать, когда сообщение пришло от данных контактов
+[Trigger when a status message is requested on the following protocols:]
+Срабатывать когда статусное сообщение протокола запрашивается:
+[Trigger when a UDP packet arrives]
+Срабатывать на входящий UPD пакет
+[Trigger when the following contacts change their status]
+Срабатывать, когда контакты изменяют их статус
+[Trigger when the status of one the following protocols change]
+Срабатывать, когда статус одного из протоколов изменяется
+[Trigger]
+Задание
+[Triggers]
+Задания
+[Add Group to Action]
+Добавить группу в действия
+[Add new trigger]
+Добавить новое задание
+[Disable all sounds]
+Выключить все звуки
+[Enable all sounds]
+Включить все звуки
+[Execute a program]
+Запустить программу
+[Miranda: Event]
+Miranda: Событие
+[Monthly on day]
+Ежемес. в день
+[Play a sound]
+Звук
+[Please do only use this action if you know what you are doing!]
+Используйте это действие, только если вы знаете, что делаете!
+[Set custom status message]
+Установить статусное сообщение
+[Show a PopUp]
+Показывать всплывающее окно
+[Store value as]
+Сохранить значение как
+[There are no options to configure]
+Нет настроек для изменений
+[Use default background colour]
+Цвет фона по умолчанию
+[Use default text colour]
+Цвет текста по умолчанию
+[Trigger if...]
+Срабатывать, если...

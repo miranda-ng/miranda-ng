@@ -1,0 +1,31 @@
+﻿#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
+;============================================================
+;  File: pmanager.dll
+;  Module: Miranda IM Profile Changer by Roman Gemini
+;  Versions: 0.0.0.2
+;  URL: http://woobind.org.ua/forum/index.php?board=13.0
+;============================================================
+[Closes Miranda NG and starts Profile Manager]
+Закрывает Miranda NG и запускает менеджер профилей
+[Adds a menu item to change or load a different profile of Miranda IM.]
+Добавляет пункт меню, для смены или загрузки другого профиля Miranda IM.
+[&Change Profile...]
+&Сменить профиль...
+[Are you sure want to change your profile? Miranda will be closed.]
+Вы уверены в том, что хотите сменить профиль? Программа будет закрыта.
+[&Show Profile Manager...]
+Показать менеджер профилей...
+[Starts Profile Manager]
+Запускать менеджер профилей
+[Profile manager]
+Менеджер профилей
+[Load profile]
+Загрузить профиль
+[Change profile]
+Сменить профиль
+[Check database]
+Проверить базу
+[Check Database]
+Проверить базу
+[Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
+Miranda NG будет закрыта.\n\nВы уверены, что хотите начать проверку базы?

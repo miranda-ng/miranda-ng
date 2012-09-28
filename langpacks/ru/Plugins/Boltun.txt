@@ -1,0 +1,58 @@
+﻿;============================================================
+;  Module: Boltun.dll
+;  Plugin: Boltun
+;  Versions: 0.0.3.0
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=470
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/Boltun/
+;  Authors: Alexander S. Kiselev A.K.A. KAS, Valentin Pavlyuchenko
+;============================================================
+[Boltun]
+Болтун
+[Boltun/Auto Chat]
+Болтун/Авто разговор
+[Boltun/Not to Chat]
+Болтун/Не разговаривать
+[Boltun Autochat everybody]
+Болтун говорит со всеми
+[Boltun Autochat anybody not in contact list]
+Болтун говорит со всеми, кто не в списке контактов
+[Boltun Autochat everybody while away]
+Болтун говорит со всеми, когда меня нет
+[Warn contacts Boltun is chatting]
+Предупреждать о разговоре с Болтуном
+[Time of pauses before answer]
+Пауза перед ответом
+[Warning text]
+Текст предупреждения
+[Base of remarks]
+База реплик
+[Boltun Error]
+Ошибка Болтуна
+[Can't load SmartBot.dll]
+Не могу загрузить SmartBot.dll
+[Failed to load base of remarks from %s]
+Ошибка при загрузке базы реплик %s
+[Boltun Autochat everybody not in contact list]
+Болтун говорит со всеми, кто не в списке контактов
+[Mark replied messages as read]
+Отмечать сообщения как прочитанные
+[Time before the answer]
+Время перед ответом
+[Typing time depends on message length (in chars)]
+Время печати зависит от длины сообщения (в буквах)
+[Typing and thinking time can be much longer]
+Время печати и обдумывания может увеличиваться
+[Typing time (for a message of 4 words):]
+Время набора (для 4-х слов):
+[Thinking time:]
+Время обдумывания ответа:
+[Stay silent, if have no good aswers]
+Молчать, если нет хороших ответов
+[Start answers with a lowercase letter]
+Начинать ответы с маленькой буквы.
+[Don't use "I don't understand"-like answers]
+Не использовать ответы типа "Не понял?"
+[Boltun, the chat bot in the russian language.]
+Болтун, чат-бот для русского языка.
+[Boltun, the chat bot in russian languages, Using SmartBot engine by ProVirus.]
+Болтун, чат-бот для русского языка, используется движок SmartBot от ProVirus.

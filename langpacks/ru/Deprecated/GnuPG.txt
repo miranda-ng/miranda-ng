@@ -1,0 +1,90 @@
+﻿;============================================================
+;  File: GnuPG.dll
+;  Module: OpenPGP/GnuPG Plugin
+;  Versions: 0.7.0.2
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3485
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/GnuPG/
+;  Authors: Harald Treder, Zakhar V. Bardymov
+;============================================================
+[Please verify your settings in M->Options->Plugins->GnuPG and GnuPG Advanced.]
+Проверьте настройки - Настройки/Модули/GnuPG и GnuP дополнительно.
+[The GnuPG Plugin requires the GnuPG executable "gpg.exe".]
+Модуль GnuPG требует файл "gpg.exe".
+[The export of your public key failed.]
+Экспорт открытых ключей не удался. 
+[The import of the key failed.]
+Импорт ключа не удался.
+[Could not generate a list of the secret GnuPG keys.]
+Не могу сгенерировать список секретных GnuPG ключей. 
+[Could not generate a list of the public GnuPG keys.]
+Не могу сгенерировать список открытых GnuPG ключей.
+[Could not obtain the GnuPG user id.]
+Не могу получить GnuPG id.
+[GnuPG Plugin]
+Модуль GnuPG
+[Select GnuPG Executable]
+Выбор GnuPG выполняемых
+[GnuPG Plugin - Warning]
+GnuPG предупреждение
+[GnuPG Plugin - Error]
+GnuPG ошибка
+[Use GnuPG Encryption]
+GnuPG шифрование
+[Send GnuPG Key]
+Посылка ключа GnuPG
+[You received a public key.]
+Вы получили открытый ключ.
+[You received a public key. It was added to your keyring.]
+Вы получили открытый ключ. Он был установлен.
+[You received an encrypted message. Could not detect the user id of the public key, used to encrypt it.]
+Вы получили зашифрованное сообщение. Невозможно определить id открытого ключа для расшифровки.
+[Unknown User ID]
+Неизвестный ID пользователя
+[Could not encrypt the message. It wasn't sent.]
+Не могу зашифровать сообщение. Не отправлено.
+[GnuPG Advanced]
+GnuPG Дополнительно
+[Key and User ID]
+Ключ и ID
+[Key received:]
+Ключ принят:
+[GnuPG Plugin - Passphrase]
+GnuPG Модуль - Пароль
+[Enter passphrase for the secret key of user:]
+Введите фразу для секретного ключа пользователя:
+[Your Key]
+Ваш ключ
+[Contact Key]
+Ключ
+[R&efresh]
+Обновить
+[Store Passphrases Temporary]
+Хранить фразы временно
+[Import Public Keys Automatically]
+Импортировать открытые ключи автоматически
+[Start Tag]
+Тэг старт
+[End Tag]
+Тэг конец
+[Commandline Arguments]
+Аргументы командной строки
+[List Public Keys:]
+Открытые ключи:
+[List Secret Keys:]
+Закрытые ключи:
+[Import Public Key:]
+Импорт открытого ключа:
+[Export Public Key:]
+Экспорт открытого ключа:
+[Detect User ID:]
+Определение ID:
+[Encrypt:]
+Шифровать:
+[Decrypt:]
+Дешифровка:
+[Generate and use random key]
+Сгенерировать и использовать случайный ключ
+[Turn on key autoexchange]
+Включить автообмен ключами
+[Automatic key exchange]
+Автоматический обмен ключами

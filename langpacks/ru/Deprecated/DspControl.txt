@@ -1,0 +1,25 @@
+﻿;============================================================
+;  File: DspControl.dll
+;  Module: Display Control
+;  Versions: 0.1.1.28
+;============================================================
+[Display Control enabled]
+Контроль экрана включён
+[Enable plugin:]
+Включить модуль:
+[Enter the range in time, when you want your screen turning on. Note that starting time can be higher then the ending time.]
+Введите интервал времени, когда вы хотите включать экрана, имейте ввиду, что стартовое время может быть выше конечного времени.
+[Protocol trigger]
+Протоколы запуска:
+[Time trigger]
+Время запуска
+[Event type trigger]
+События запуска
+[Status trigger]
+Статус запуска
+[Select when do you want the plugin to turn on your screen. Treat the following options as event triggers. Select only the options that you want to trigger the screen to turn on.]
+Выберите когда вы хотите, чтобы модуль включал ваш экран. Рассматривайте следующие опции как запуск событий. Выберите только те опции, которые потребуются для включения экрана.
+[Show hidden]
+Показать скрытых
+[To enable or disable the plugin for an individual contact, click on the icon to the right of it. Clicking on the group's icon, enables/disables the plugin for all the contacts in that group.]
+Включите или отключите модуль для каждого человека отдельно, для этого нажмите на значок. Нажимая на значок группы, вы вкл/откл модуль для всех контактов в группе.

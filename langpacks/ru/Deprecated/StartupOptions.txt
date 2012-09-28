@@ -1,0 +1,25 @@
+﻿;============================================================
+;  File: startupoptions.dll
+;  Module: Startup Options
+;  Versions: 0.6.3
+;============================================================
+[Adds command line options and user configurable startup options to Miranda IM.]
+Добавляет поддержку командной строки и конфигурацию действий, выполняемых при запуске программы.
+[Startup Options]
+Действия при запуске
+[Startup Options Plugin Settings]
+Настройки действий при запуске
+[Disable Command Line Support]
+Выкл. поддержку командной строки
+[Disable Startup Options]
+Запретить параметры запуска
+[Set Status To]
+Установить статус в:
+[Set Window State]
+Окно при запуске:
+[Purge History]
+Очистить историю
+[Disable Exit Options]
+Запретить параметры выхода
+[Exit Options]
+Параметры выхода

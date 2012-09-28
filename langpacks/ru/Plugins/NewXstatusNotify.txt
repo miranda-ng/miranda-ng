@@ -1,0 +1,127 @@
+﻿#muuid {ebf19652-e434-4d79-989791a0ff226f51}
+;============================================================
+;  File: NewXstatusNotifyW.dll
+;  Module: NewXstatusNotify YM
+;  Versions: 1.4.0.0
+;  URL: http://miranda-easy.net/mods.php
+;============================================================
+[Notifies you when a contact changes his/her (X)status or status message.]
+Уведомляет вас об изменениях статусов, xСтатусов или статусных сообщений контактов.
+[Notifies you when a contact changes his/her (X)status.]
+Уведомляет вас об изменениях статусов и xСтатусов контактов.
+[<error>]
+<ошибка>
+[%s is now %s]
+%s сейчас %s
+[%s, %s. %s changed to: %s (was: %s).\r\n]
+%s, %s. %s изменил(а): %s (был(а): %s).\r\n
+[Disable globally]
+Отключить полностью
+[Can't open the log file!]
+Не могу открыть файл журнала!
+[Remove:]
+Удаление:
+[On opening ML:]
+Открытие окна:
+[Disable all]
+Отключить все
+[Enable all]
+Включить все
+[NewXstatusNotify]
+Уведомление о смене статусов
+[Reset templates]
+Сбросить шаблоны
+[Do you want to reset all templates to default?]
+Вы хотите сбросить все шаблоны на стандартные?
+[Disable for extra status 'Music']
+Отключить для доп. статуса "Музыка"
+[New status:]
+Новый статус:
+[New message:]
+Новое сообщение:
+[Title - text delimiter:]
+Заголовок-текст разделитель:
+[changed %N to: %T%D%I]
+изменил(а) %N на: %T%D%I
+[changed %N message to:%D%I]
+изменил(а) сообщение %N на:%D%I
+[removed %N]
+удалил(а) %N
+[These variables are available:\r\n\r\n\%N\textra status name (Xstatus, Mood, Activity)\r\n\%T\textra status title\r\n\%I\textra status text\r\n\%D\tdelimiter\r\n\%B\tline break (can be used as delimiter)]
+Доступные переменные:\r\n\r\n\%N\tназвание доп. статуса (хСтатус, Настроение, Занятие)\r\n\%T\tзаголовок доп. статуса\r\n\%I\tтекст доп. статуса\r\n\%D\tразделитель\r\n\%B\tразрыв строки (может использоваться как разделитель)
+[Automatically turn off Popups and Sounds on status change]
+Выключать вспл. окна и звуки при изменении статуса
+[Notify me for people not in my Contact List]
+Уведомлять меня о контактах не из списка контактов
+[Go to Customize -> Sound to select the sounds]
+Настройка звуков: Тонкая настройка -> Звуки
+[Disable when my status is:]
+Отключать, когда мой статсус:
+[Disable only if I change global status]
+Отключать, только при изменении глобального статуса
+[Extra status notify]
+Доп. статусы
+[Extra status logging]
+Запись доп. статусов
+[Prevent identical logs]
+Предотвращать одинаковые записи
+[Keep events in history]
+Сохранять события в историю
+[changed %N @ %T%D%I]
+изменил(а) %N @ %T%D%I
+[changed %N message @ %I]
+изменил(а) сообщение %N @ %I
+[has %N @ %T%D%I]
+%N @ %T%D%I
+[Xstatus]
+хСтатус
+[Show available variables]
+Доступные переменные
+[Reset all templates to default]
+Сбросить все шаблоны на стандартные
+[Extra status changed]
+Доп. статус изменен
+[Extra status message changed]
+Изменено сообщение доп. статуса
+[Extra status removed]
+Доп. статус удален
+[Popup text]
+Текст всплывающих окон
+[Use Popup colours]
+Цвета всплывающих окон
+[Show contact group name]
+Показывать имя группы контакта
+[Show status description]
+Показывать описание статуса
+[Use alternative descriptions]
+Использовать альтернативное описание
+[Extra status log]
+Запись доп. статусов
+[Enable logging extra status to message window]
+Включить запись доп. статусов в окно сообщений
+[Toggle status notification]
+Вкл/Выкл уведомления о смене статуса
+[Status notification enabled]
+Уведомления о смене статуса включены
+[Status notification disabled]
+Уведомления о смене статуса выключены
+[NewStatusNotify]
+Уведомление о смене статусов
+[Notification enabled]
+Уведомление включено
+[Notification disabled]
+Уведомление выключено
+[Disable status notification]
+Выключить уведомления о смене статуса
+[Enable status notification]
+Включить уведомления о смене статуса
+[Wave Files]
+Wave файлы
+[changed his/her status message to %n]
+сменил(а) статусное сообщение на %n
+[Enable/Disable protocols which you don't wish to be notified for:]
+Включить/Выключить уведомления для протоколов:
+[These variables are available:\r\n\r\n\%n\tNew Status Message\r\n\%o\tOld Status Message\r\n\%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+Доступные переменные:\r\n\r\n\%n\tНовое сообщение статуса\r\n\%o\tСтарое сообщение статуса\r\n\%c\tНикнейм\r\n\\n\tРазрыв строки\r\n\\t\tТабуляция
+[This is status message]
+Это сообщение статуса

@@ -1,0 +1,67 @@
+﻿;============================================================
+;  File: VypressChat.dll
+;  Module: Vypress Chat/quickChat protocol
+;  Versions: 0.9.3.0
+;============================================================
+[ seconds]
+ секунд
+[Append user nickname when topic is set.]
+Добавлять имя пользователя, сменившего тему
+[Broadcast masks]
+Широковещательные маски:
+[Channel name:]
+Имя канала
+[Channel topic]
+Тема канала
+[Channels:]
+Каналы:
+[Connection Type]
+Тип соединения
+[Contact alert beep]
+Уведомление о контакте
+[Contact prefers:]
+Контакт предпочитает:
+[Current topic:]
+Текущая тема:
+[Do not let the nickname change when user renames.]
+Не менять ник, когда пользователь переименуется
+[Miscellaneous Options]
+Другие настройки
+[Multicast address:]
+Широковещательный адрес:
+[Multicast scope:]
+Широковещательный:
+[Network port:]
+Сетевой порт:
+[New contacts will prefer messages instead of private chats.]
+Окно сообщения вместо приватного чата для новых контактов.
+[Node address:]
+Адрес узла:
+[Platform:]
+Платформа:
+[Set nickname]
+Установить ник
+[This encoding will be used when communicating over channels and with clients that do not report the encoding they use.]
+Эта кодировка будет использоваться по умолчанию в каналах и с клиентами, которые не указывают свою кодировку.
+[Universally unique ID (UUID) number identifies you on the network. Keep this number intact.]
+UUID (Universally unique ID) - Универсальный уникальный ID - идентифицирует вас в сети. Не менять.
+[Use broadcast networking]
+Широковещательная сеть
+[Use IPX networking]
+IPX сеть
+[Use multicast networking]
+Multicast сеть
+[Use unicode (UTF-8) encoding per default]
+Юникод (UTF-8) по умолчанию
+[User list refresh period:]
+Период обновления списка пользователей:
+[User nickname:]
+Ник пользователя
+[Workgroup:]
+Рабочая группа:
+[Write message to contact history when alert beep is received.]
+Записывать в историю контакта входящие сигналы (события)
+[You can override nickname for the contact. This can be useful when user changes his nickname while you are offline and you want to retain contact's history.]
+Вы можете изменить ник контакта. Это полезно, когда контакт меняет имя во время вашего отсутствия, что позволяет сохранить историю сообщений.
+[Your nickname:]
+Ваш ник:

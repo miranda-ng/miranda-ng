@@ -1,0 +1,60 @@
+﻿#muuid {657fe89b-d121-40c2-8ac9-b9fa5755b30c}
+;============================================================
+;  File: srmm.dll
+;  Module: Send/Receive Messages
+;  Versions: 1.0.4.1 - 2.5.0.0
+;============================================================
+[Send and receive instant messages]
+Модуль приема/отправки сообщений
+[Show balloon popup (unsupported system)]
+Показывать подсказки (неподдерживаемая система)
+[Messaging Log]
+Журнал
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda не смогла загрузить встроенную систему сообщений, так как отсутствует riched20.dll. Если вы используете Windows 95 или WINE, проверьте наличие файла riched20.dll. Нажмите "Да" для продолжения загрузки Miranda IM.
+[An unknown error has occured.]
+Неизвестная ошибка.
+[Save the window size and location individually for each contact]
+Сохранять размер и положение окна для каждого контакта
+[Show 'Send' button]
+Показывать кнопку "отправить"
+[Show username on top row]
+Показывать имя в верхней строке
+[Show toolbar buttons on top row]
+Показывать кнопки в верхней строке
+[Show character count]
+Показывать счётчик символов
+[Support control up/down in message area to show previously sent messages]
+Показывать старые сообщения при нажатии Ctrl+ВВЕРХ/ВНИЗ
+[Delete temporary contacts when closing message window]
+Удалять временные контакты при закрытии окна сообщения
+[Enable avatar support in the message window]
+Поддержка аватаров в окне сообщения
+[Limit avatar height to ]
+Ограничить высоту аватара 
+[Show timestamp]
+Показывать время
+[Show dates]
+Показывать даты
+[Automatically popup window when:]
+Открывать окно, если:
+[Message Window Options]
+Настройки окна диалога
+[Send and receive instant messages using a split mode or single mode interface.]
+Отправляйте и принимайте мгновенные сообщения, используя диалог (ICQ2000+) или простое окно (ICQ99b) окно.
+[Send/Receive Messaging]
+Отправка/получение сообщений
+[%.200s: Message Received]
+%.200s: получено сообщение
+[%.200s: Send Message]
+%.200s: отправить сообщение
+[Display Time in Message Log]
+Показывать время в журнале
+[Read &Next (%u)]
+Следующее (%u)
+[Read &Next]
+&Следующее
+[Single Mode]
+Простой
+[Split Mode]
+Диалоговый

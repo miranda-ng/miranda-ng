@@ -1,0 +1,65 @@
+﻿;============================================================
+;  File: voiceservice.dll, voiceserviceW.dll
+;  Module: Provide services for protocols that support voice calls
+;  Versions: 0.0.0.8
+;  URL: http://www.pescuma.org/miranda/voiceservice.zip ANSI
+;  URL: http://www.pescuma.org/miranda/voiceserviceW.zip Unicode
+;============================================================
+[Provide services for protocols that support voice calls]
+Предоставляет сервис для протоколов которые поддерживают голосовые вызовы
+[Voice Calls]
+Голосовые вызовы
+[New Voice Call]
+Новый голосовой вызов
+[%s wants to start a voice call with you. What you want to do?]
+%s хочет начать голосовой вызов с вами. Что вы хотите сделать?
+[Drop]
+Сбросить
+[From now on, repeat this action for this contact]
+Повторять это действие для этого контакта
+[Auto actions]
+Автоматические действия
+[ Automatic Actions ]
+ Автоматические действия 
+[Auto accept this contact calls]
+Всегда принимать вызовы от этого контакта
+[Auto drop this contacts calls]
+Всегда сбрасывать вызовы от этого контакта
+[ Frame ]
+ Фрейм 
+[Auto-size frame]
+Авто-размер фрейма
+[Calling]
+Вызываю
+[Ended]
+Заканчиваю
+[On Hold]
+в ожидании
+[Ringing]
+Звоню
+[Voice Call]
+Голосовой вызов
+[Answer Voice Call]
+Ответ на голосовой вызов
+[Hold Voice Call]
+Ожидание голосового вызова
+[Drop Voice Call]
+Сброс голосового вызова
+[Calling %s]
+Звонит %s
+[Ringing call from %s]
+Вызываю %s
+[Voice call ended]
+Вызов закончен
+[Call from %s started]
+Звонок для %s начат
+[Voice call started]
+Голосовой вызов начался
+[Call from %s is on hold]
+Вызов %s в ожидании
+[Voice call on hold]
+Голосовой вызов в удержании
+[Answer call]
+Ответить на вызов
+[Drop call]
+Сбросить вызов

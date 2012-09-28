@@ -1,0 +1,31 @@
+﻿;============================================================
+;  File: proxySwitch.dll
+;  Module: proxySwith - Automatic proxy settings manager
+;  Versions: 1.0.0.1
+;============================================================
+[Current IP address]
+Текущий IP адрес
+[Direct]
+На прямую
+[Disable &IP change notification]
+Отключить уведомление о смене адреса
+[Disable Proxy]
+Отключить прокси
+[Enable &IP change notification]
+Включить уведомление о смене адреса
+[Enable Proxy]
+Включить прокси
+[IP Change Notification]
+Уведомление о смене адреса
+[Proxy Settings && Interfaces]
+Настройки прокси и интерфейсов
+[Proxy]
+Прокси
+[Show my &IP Addresses]
+Показать мои IP адреса
+[This plugin requires modified version of Miranda IM.\nIt is not able to change proxy settings now!\nRead proxySwitch_readme.txt for more information.]
+Этот модуль требует специальной версии Miranda IM.\nНевозможно изменить настройки прокси!\nЧитайте подробности в proxySwitch_readme.txt
+[disconnected]
+отключено
+[proxySwitch]
+Смена прокси

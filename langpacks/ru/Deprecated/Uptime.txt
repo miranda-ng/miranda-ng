@@ -1,0 +1,15 @@
+﻿;============================================================
+;  File: uptime.dll
+;  Module: Shows windows uptime
+;  Versions: 0.1.1.0
+;============================================================
+[Windows &Uptime]
+Время работы
+[Windows Uptime]
+Время работы
+[Windows has been running for %i day(s), %i hour(s), %i minute(s) and %i.%03i second(s).]
+Windows работает %y суток, %i ч., %i мин. и %i сек.
+[Shows your Windows' uptime, which is the time elapsed since your last reboot.]
+Отображает время работы Windows, прошедшее с последней перезагрузки
+[Shows Windows uptime]
+Время работы Windows

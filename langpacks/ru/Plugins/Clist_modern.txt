@@ -1,0 +1,608 @@
+﻿#muuid {043909b6-aad8-4d82-8eb59f64cfe867cd}
+;============================================================
+;  File: clist_modern.dll
+;  Module: Modern Contact List
+;  Versions: 0.10.0.2
+;  URL: http://code.google.com/p/miranda/downloads/list
+;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/modernb/
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+
+;  Описание модуля
+[Display contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
+Показывает контакты, события, статусы протоколов с расширенными функциями оформления (скины). Мультиоконная модификация, расширенная поддержка метаконтактов.
+
+;СПИСОК КОНТАКТОВ
+
+;Общее
+
+[Selection Mode]
+Тип выделения
+[Full selection]
+Полное выделение
+[Less selection]
+Только над текстом
+[No selection]
+Не выделять
+[1st:]
+1-й:
+[2nd:]
+2-й:
+[3rd:]
+3-й:
+[Name (use locale settings)]
+Имя (включая локализацию)
+[Last message time]
+Последнее сообщение
+[Account Name]
+Имя учётной записи
+[-Nothing-]
+-Ничего-
+[Place offline users out of groups]
+Отключённых показывать вне групп
+[Dont move offline user to bottom]
+Не перемещать отключённых вниз
+
+;Трей
+
+[System tray icon mode]
+Поведение значка в системном трее
+[ms, delay between icon blinking]
+мс, между миганиями значка
+[Use xStatus icon]
+Значок xСтатуса
+[Show normal status as overlay]
+Обычный статус поверх
+[Status overlay opacity is 75% ]
+Непрозрачность 75%
+[only when statuses differ]
+при разных статусах
+[TrayMenu]
+Меню в трее
+
+;Список
+
+[Hide vertical scrollbar]
+Скрыть полосу прокрутки
+[Fade out entire list when:]
+Затемнить весь лист когда:
+
+;Окно
+
+[Non-layered mode]
+Режим без скинов
+[Disable Skin Engine]
+Выключить скины
+[Use Non-Layered mode]
+Режим без скина
+[Borderless main window]
+Главное окно без границ
+[Thin border main window]
+Тонкая граница списка
+[Gaps]
+Интервалы
+[Between frames:]
+Между фреймами
+[After captions:]
+После заголовка
+[Client area margins]
+Границы списка контактов
+[Enable drop shadow (restart required)]
+Включить тень (нужен перезапуск)
+[Enable Aero Glass (Vista)]
+Стиль Аэро (Vista/Seven)
+
+
+;Поведение
+
+[Bring to front if covered]
+Перемещать на передний план
+[Hide contact list after ]
+Скрывать список после
+[Hide method]
+Метод скрытия
+[Hide to tray]
+В системный лоток
+[Behind left edge]
+За левый край
+[Behind right edge]
+За правый край
+[show delay]
+задержка
+[hide delay]
+скрывать через
+[keep on screen]
+оставлять видимым
+[x100 msec]
+х100 мсек
+[Lock manual resize]
+Запретить изменение размера
+[and minimum]
+и минимум
+[Drag to ]
+Перетаскивание
+[Easy Scroll]
+Простая прокрутка
+[Snap to edges]
+Липнуть к краям
+[Dock to sides]
+Парковать
+[Event notify area]
+Зона событий
+[Show automaticaly]
+Автоматически
+[Always Visible]
+Всегда видим
+[Never Visible]
+Никогда не видим
+[Chat Activity]
+Активность чата
+
+;Панель статуса
+
+[Space between ]
+Расстояние между
+[Borders]
+Границы
+[Horizontal Align]
+По горизонтали
+[Vertical Align]
+По вертикали
+[Center]
+В центре
+[Multiline status bar:]
+Многострочная панель статуса:
+[Accounts per line]
+Аккаунтов в строке
+[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
+* Изменение высоты строки статуса: "Главное меню->Фреймы->Панель статуса->Плавающий режим" и растяните панель.
+[Hold [Shift] to inverse [Right Click] behaviour]
+[Shift]+[Правый клик] - Главное меню
+[[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
+[Ctrl]+[Левый клик] вкл. фильтр по протоколу, клик по пустому месту откл.
+[Set options per account]
+Поаккаунтная настройка
+[<<Global>>]
+<<Общее>>
+[Enable custom account settings]
+Настроить учётную запись
+[Hide account completely]
+Скрыть аккаунт
+[Show xStatus icon]
+Значок xСтатуса
+[Show xStatus Name]
+Имя xСтатуса
+[Use connecting Icon]
+Значок соединения
+[Show both icons]
+Оба значка
+[Show unread emails (if supported)]
+Непрочитанная почта (если поддерживается)
+[Right click opens Miranda menu]
+Правый щелчок - главное меню
+[Space on right]
+Отступ справа
+[Space on Left]
+Отступ слева
+
+;Дополнительно
+
+[Additional stuff]
+Дополнительно
+[Ignore Empty Extra icons places (arrange to right).]
+Игнорировать пустые дополнительные значки (справа)
+[Allow internal requesting of away message text]
+Разрешить внутренние запросы статусных сообщений
+[Remove away message if contact became offline]
+Удалить статусное сообщение, если контакт оффлайн
+[Use improved search method in contactlist]
+Поиск по списку с фильтрацией результатов
+[For other stuff MetaContacts plugin should be loaded.\n\nhttp://nightly.miranda.im]
+Для дополнительных возможностей загрузите модуль MetaContacts.\nhttp://nightly.miranda.im
+[MetaContacts stuff]
+Метаконтакты
+[Use 'Meta' protocol icons for Metacontacts]
+'Мета' значки для метаконтактов
+[Expand metacontacts]
+Разворачивать метаконтакты
+[Avoid doubleclick expand]
+Не разворачивать по двойному клику
+[Hide all 'Extra icons' for subcontacts]
+Скрыть дополнительные значки для субконтактов
+[Hide offline subcontacts.]
+Прятать субконтакты не в сети
+[Subcontacts indent:]
+Отступ субконтактов:
+
+;-ЭЛЕМНТЫ СТРОК-
+
+;Строка
+
+[Row items]
+Элементы строк
+[Row]
+Строка
+[Order of items:]
+Порядок элементов:
+[Icon]
+Значок
+[Contact time]
+Время контакта
+[Min row height:]
+Мин. высота линии:
+[Row border:]
+Граница линии:
+[Right margin:]
+Правое поле:
+[Variable row height]
+Переменная высота строки
+[Align left items to left]
+Выравнивать значки слева
+[Align right items to right]
+Выравнивать значки справа
+[Compact mode\n(Show avatars and additional text\non selected contacts only)]
+Компактный режим\n(Показывать аватары и дополнительный текст только на выбранных контактах)
+
+;Аватар
+
+[Animate Avatars]
+Анимация аватаров
+[Use old render method (Fast, but has artefacts)]
+Старый метод отрисовки (Быстрее, но могут быть "артефакты")
+[Draw border on avatar]
+Рамки на аватарах
+[Border Color:]
+Цвет рамки:
+[Round corners of avatars]
+Закруглённые аватары
+[Custom corner size:]
+Размер угла:
+[Max width]
+Ширина
+[height]
+высота
+[Draw overlay icons]
+Значки на аватарах
+[Normal overlay icon]
+Обычный значок
+[Protocol status icon]
+Значок протокола
+[Contact icon]
+Значок контакта
+
+;Значок
+
+[Hide icon when showing avatar]
+Прятать значок протокола
+[Draw icon in avatar space]
+Значки на месте аватара
+[Ignore size for row height calcs]
+Игнорировать высоту строки
+[Hide groups icon]
+Скрыть значок групп
+[Always show "Always visibile" icon]
+Значок видимости всегда
+[Use extra status icon instead protocol]
+Значок хСтатуса вместо протокола
+[Draw normal status as overlay]
+Обычный статус оверлеем
+
+;Время контакта
+
+[Show contact time as row item]
+Время как элемент строки
+[Show time only if it is different from current time]
+Показывать время, только если оно отличается
+
+;Текст
+
+[Left align group names]
+Имена групп слева
+[Center group names]
+Имена групп по центру
+[Right align group names]
+Имена групп справа
+[Right-To-Left reading mode (mirror template)]
+Режим справа налево (зеркальный шаблон)
+[Align to right]
+Выровнять справа
+[Replace smileys in clist]
+Заменять смайлики в списке
+[Resize smileys and 'Listining to' icon]
+Изменить размеры смайликов и значка 'Сейчас слушаю'
+[Draw smileys on first line]
+Смайлики в первой строке
+[Append nick if different from custom name]
+Добавлять ник, если он отличен от имени в списке
+[Trim long text with ellipsis]
+Обрезать длинный текст многоточием
+
+;Вторая строка
+
+[Top space:]
+Положение:
+[Draw smileys on second line]
+Смайлики на второй строке
+[Away Message]
+Статусное сообщение
+[Show status if there isn't away message]
+Статус, если нет статусного сообщения
+[Show listening to if there isn't away message]
+"Слушаю", если нет статусного сообщения
+[XStatus has priority]
+Приоритет xСтатуса
+[Use 'XStatus: XMessage']
+'xСтатус: хСообщение'
+[(Variables will be replaced)]
+(Переменные заменяются)
+
+;Третья строка
+
+[Third Line]
+Третья строка
+[Show third line]
+Показывать третью строку
+[Draw smileys on third line]
+Смайлики на третьей строке
+
+;Эктра значки
+
+[Extra Icons]
+Экстра значки
+[Contact List Extra Icons]
+Значки в списке контактов
+[Client (fingerprint.dll is required)]
+Клиент (необходим fingerprint.dll)
+
+;-ГОРЯЧИЕ КЛАВИШИ
+[Restore last status]
+Восстановить последнее состояние статуса
+
+;-ЗНАЧКИ-
+
+[FrameMenu]
+Меню окон
+[&Expanded]
+&Расширенный
+[&Show title]
+&Показывать название
+[Contact rate None]
+Рейтинг контакта Нет
+[Contact rate Low]
+Рейтинг контакта Низкий
+[Contact rate Medium]
+Рейтинг контакта Средний
+[Contact rate High]
+Рейтинг контакта Высокий
+[Status Overlay]
+Оверлей статуса
+
+;-ПАНЕЛЬ КНОПОК-
+
+[ToolBar]
+Панель кнопок
+[Toolbar settings]
+Настройка панели кнопок
+[Show Toolbar with next buttons:]
+Показывать панель со следующими кнопками:
+[Show/Hide offline contacts]
+Показать/скрыть отключённых
+[Enable/Disable sounds]
+Вкл/Выкл звуки
+[Use/Disable groups]
+Вкл/Выкл группы
+[Minimize]
+Свернуть
+[Status Menu]
+Меню статуса
+[Multiline toolbar]
+Многострочная панель
+[Autosize toolbar]
+Авторазмер панели
+[Button width]
+Ширина кнопки
+[Hints:\n* Use Drag&&Drop feature to change buttons order.\n* You can change button icons at Customize->Icons Toolbar section]
+Подсказка:\n* Порядок кнопок можно изменить перетаскиванием\n* Значки можно поменять в "Тонкая настройка>Значки"
+[Space between]
+Промежуток
+[DBEditor++]
+Редактор базы
+[Database Editor]
+Редактор базы
+
+;Всплывающие подсказки в Панели Кнопок
+
+[Main menu]
+Главное меню
+[Accounts...]
+Учётные записи...
+[Disable Groups]
+Выключить сортировку по группам
+[Use groups]
+Включить сортировку по группам
+[Show offline contacts]
+Показать отключённых
+
+;Предупреждение обновления панели кнопок на модуль TopToolBar
+
+[Toolbar upgrade]
+Обновление панели кнопок
+[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+Для отображения панели кнопок в Clist Modern необходим модуль TopToolBar. Нажмите "Да", чтобы скачать модуль или "Нет", чтобы продолжить не скачивая
+
+;-СКИН СПИСКА-
+
+[Available skins]
+Доступные скины
+[Default Skin]
+Стандартный скин
+[Skin Preview]
+Просмотр скина
+[Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
+Предпросмотр не доступен\n\n%s\n----------------------\n\n%s\n\nАвтор(ы):\n%s\n\nКонтакт:\n%s\n\nWeb:\n%s
+[This is second default Modern Contact list skin in Vista Aero style]
+Это второй стандартный скин списка контактов в стиле Vista Aero
+[Info]
+Инфо
+[WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
+ВНИМАНИЕ: \tСкины могут изменять Ваш профиль. Откат невозможен. \n\t\tПожалуйста, сделайте РЕЗЕРВНУЮ КОПИЮ профиля.
+[* Restart may be required for all changes to take effect]
+* Необходим рестарт для вступления изменений в силу
+[%Default Skin%]
+%Стандартный Скин%
+[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
+%s\n\n%s\n\nАВТОРЫ:\n%s\n\nКОНТАКТ:\n%s\n\nWEB:\n%s\n\n\n
+[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\nАвтор(ы): %s\nКонтакт:\t %s\nВеб:\t %s\n\nФайл:\t %s
+[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\nАвтор(ы):\t %s\nКонтакт:\t %s\nWeb:\t %s\n\nФайл:\t %s
+[\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
+\n\n\nВыберите скин. \n\nНажмите "Обзор" для поиска других.
+[Miranda skin file]
+Файл скина Miranda
+
+;-ШРИФТЫ И ЦВЕТА-
+
+;Контакты
+
+[Contact names]
+Контакты
+[Away contacts]
+Контакт "отошел"
+[DND contacts]
+Контакт "не беспокоить"
+[NA contacts]
+Контакт "недоступен"
+[Occupied contacts]
+Контакт "занят"
+[Free for chat contacts]
+Контакт "готов поболтать"
+[Invisible contacts]
+Контакт "невидимый"
+[On the phone contacts]
+Контакт "на телефоне"
+[Out to lunch contacts]
+Контакт "на обеде"
+[Contacts who are 'not on list']
+Контакты "не в списке"
+[Open group member counts]
+Открытые группы (количество)
+[Open groups]
+Открытые группы
+[Closed group member counts]
+Закрытые группы (количество)
+[Closed groups]
+Закрытые группы
+
+;Специальные цвета
+
+[Special colours]
+Специальные цвета
+[Hot text]
+Текст под курсором
+[Quick search text]
+Текст быстрого поиска
+[Menu text]
+Текст меню
+[Frame title text]
+Текст заголовка фрейма
+[Selected menu text]
+Текст выделенного меню
+[Statusbar text]
+Текст панели статуса
+[3rd party frames transparent back colour]
+Фон прозрачности сторонних фреймов
+
+;Текст фрейма
+
+[Frame texts]
+Текст фрейма
+[Status bar text]
+Строка статуса
+[Event area text]
+Текст области событий
+[Current view mode text]
+Текст режима просмотра
+
+;Элементы строк
+
+[Row Items]
+Элементы строк
+[Third line]
+Третья строка
+
+;-МЕНЮ-
+
+;Меню подгрупп
+
+[&Show Offline Users in here]
+Показать отключённых в группе
+
+;Меню контакта
+
+[&Contact rate]
+Рейтинг контакта
+[&Contact rate (Low)]
+Рейтинг контакта (Низкий)
+[&Contact rate (Medium)]
+Рейтинг контакта (Средний)
+[&Contact rate (High)]
+Рейтинг контакта (Высокий)
+[Show Contact &Avatar]
+Показать аватар
+[Hide Contact &Avatar]
+Скрыть аватар
+[Show even if offline]
+Показывать, даже если не в сети
+[Low]
+Низкий
+[High]
+Высокий
+
+;Уведомления
+[Adding contact to MetaContact]
+Добавление к метаконтакту
+[Changing MetaContacts (Moving)]
+Изменение метаконтакта (перемещение)
+[Converting to MetaContact]
+Конвертация в метаконтакт
+[Converting to MetaContact (Moving)]
+Конвертирование в метаконтакт (перемещение)
+[Do You want contact '%s' to be removed from MetaContact '%s' to group '%s'?]
+Хотите удалить '%s' из метаконтакта '%s' и переместить в группу '%s'?
+[Do You want contact '%s' to be removed from MetaContact '%s'?]
+Хотите удалить контакт '%s' из метаконтакта '%s'?
+[Do You want contact '%s' to be added to MetaContact '%s'?]
+Хотите добавить контакт '%s' в метаконтакт '%s'?
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+Хотите конвертировать '%s' в метаконтакт и добавить '%s' в него (удалить его из '%s')?
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+Хотите конвертировать '%s' в метаконтакт и добавить '%s' в него?
+[Do You want contact '%s' to be default ?]
+Хотите сделать '%s' контактом по умолчанию?
+[Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+Хотите удалить '%s' из метаконтакта '%s' и добавить в '%s'?
+[Do you want to contact '%s' be added to metacontact '%s'?]
+Хотите добавить '%s' в метаконтакт '%s'?
+[Do you want to contact '%s' be converted to MetaContact and contact '%s' be added?]
+Конвертировать '%s' в метаконтакт и добавить к нему '%s'?
+[No Events]
+Событий нет
+
+;Режим выключенных скинов
+[Tile vertically according to Row Height]
+Растягивать вертикально по высоте
+[Use Windows Colors]
+Цвета Windows
+[Selection colour:]
+Цвет выделения:
+[Event Area Background]
+Фон области событий
+[View Mode Background]
+Фон режимов вида
+[Menu Background]
+Фон меню
+[ToolBar Background]
+Фон панели кнопок
+[Frames TitleBar BackGround]
+Фон заголовка фреймов

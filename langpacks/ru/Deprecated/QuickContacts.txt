@@ -1,0 +1,41 @@
+﻿;============================================================
+;  File: quickcontacts.dll
+;============================================================
+[Quick Contacts]
+Быстрые контакты
+[Open dialog]
+Открыть диалог
+[Open Quick Contacts dialog]
+Открыть диалог быстрых контактов
+[Quick Contacts...]
+Быстрые контакты...
+[Enter Username:]
+Введите имя пользователя:
+[Show all contacts (Ctrl+A)]
+Показать все контакты (Ctrl+A)
+[Send file (Ctrl+F)]
+Послать файл (Ctrl+F)
+[Send URL (Ctrl+U)]
+Послать URL (Ctrl+U)
+[Open userinfo (Ctrl+I)]
+Открыть данные пользователя (Ctrl+I)
+[Open history (Ctrl+H)]
+Открыть историю (Ctrl+H)
+[Open contact menu (Ctrl+M)]
+Открыть меню контакта (Ctrl+M)
+[ Last Sent ]
+Последнее отправленное событие
+[Show offline contacts on these protocols:]
+Показывать откл.контакты для этих протоколов:
+[But hide them if protocol is offline]
+Но прятать их, если протокол отключён
+[Append group name to contact name]
+Добавлять группу для имени контакта
+[But show it as a column ...]
+Но показывать её, как колонку...
+[... on left side of name]
+... слева от имени
+[Hide subcontacts]
+Прятать суб-контакты
+[But keep subcontacts of protocols in above list if meta is hidden]
+Но показывать, если метаконтакт спрятан

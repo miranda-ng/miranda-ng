@@ -1,0 +1,71 @@
+﻿#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
+;============================================================
+;  File: AdvancedAutoAway.dll
+;  Plugin: Advanced Auto Away
+;  Versions: 0.8.0.42
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4254
+;  Source: http://pboonplugins.googlecode.com/svn/trunk/StatusPlugins/AdvancedAutoAway/
+;  Authors: P Boon
+;============================================================
+[Auto Away General]
+AAA: настройки
+[Ignore caps-lock, num-lock and scroll-lock keys]
+Игнорировать caps-lock, num-lock и scroll-lock клавиши
+[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+Игнорировать клавиши Ctrl, Alt, Shift, Tab, Esc, Win
+[Ignore any key combination with above keys]
+Игнор. комбинации с упомянутыми клавишами
+[Monitor keyboard activity]
+Следить за активностью клавиатуры
+[Monitor mouse activity]
+Следить за активностью мыши
+[Auto Away Messages]
+AAA: сообщения
+[Auto Away Rules]
+AAA: правила
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+Вы включили функцию смены статуса в разделе настроек "Режим ожидания", настройки ААА будут игнорироваться.
+[when workstation is locked]
+при блокировке компьютера
+[only set when inactive]
+только при неактивности
+[Reset status on return]
+Восстановить статус при возвращении
+[Only set if current status is]
+Только если статус:
+[AdvancedAutoAway, an Auto Away module with some more options than the original.]
+AdvancedAutoAway - модуль с расширенным набором функций
+[Auto Away]
+Отсутствие
+[minutes of %s mode]
+минут режима "%s"
+[Auto Away Status Messages]
+AAA: статусные сообщения
+[Monitor Miranda's activity only]
+Следить только за Miranda
+[when screen saver engages]
+при запуске заставки
+[Confirm resetting status]
+Подтвердить сброс статуса
+[minutes of level 1 mode]
+минут режима 1
+[Only set if status is]
+Только, если статус
+[Check interval (secs)]
+Интервал проверки (сек):
+[Confirm dialog timeout (secs)]
+Интервал подтверждения (сек)
+[Advanced Auto Away]
+Расширенное отсутствие
+[Set if status is]
+Менять, если
+[only when inactive]
+только при неактивности
+[Reset status]
+Сброс статуса
+[Specify settings for each protocol]
+Настройки для каждого протокола
+[Use same settings for all protocols]
+Общие настройки для всех протоколов
+[after]
+через

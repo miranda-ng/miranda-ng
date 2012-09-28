@@ -1,0 +1,74 @@
+﻿;============================================================
+;  File: smcn.dll, smcnotify.dll (???)
+;  Module: StatusMessageChangeNotify
+;  Versions: 0.0.1.6-0.0.3.19
+;  URL: http://www.torun.mm.pl/~slotwin/smcn/smcnotifytest.zip
+;============================================================
+[Status Message Change Notify]
+Уведомление о смене статусного сообщения
+[Enable &status message change notification]
+Вкл. уведомление о смене статусного сообщения
+[Disable &status message change notification]
+Выкл. уведомление о смене статусного сообщения
+[View Status Message History]
+История статусных сообщений
+[List Contacts with Status Message]
+Статус.сообщения контактов
+[Disable SMCN PopUps]
+Выкл. вспл. окна о смене статуса
+[Enable SMCN PopUps]
+Вкл. вспл. окна о смене статуса
+[Status Message Changed]
+Статусное сообщение изменилось
+[changes his/her status message to:]
+поменял(а) статусное сообщение на:
+[cleares his/her status message]
+удалил(а) статусное сообщение
+[changes his/her status message:]
+поменял(а) статусное сообщение:
+[<empty status message>]
+<пустое статусное сообщение>
+[Old status message]
+Старое статусное сообщение
+[New status message]
+Новое статусное сообщение
+[List Status Messages]
+Показать статусные сообщения
+[Go To URL in Status Message]
+URL в статусном сообщении
+[Status Message History]
+История статусных сообщений
+[Use OSD]
+Использовать OSD
+[Do not notify and log when status message is empty]
+Не уведомлять и не записывать пустые сообщения
+[Show status message changes in message window]
+Показывать изменения статусов в окне сообщений
+[Message cleared]
+Сообщение удалено
+[Message changed]
+Сообщение изменилось
+[%n New Status Message]
+%n Новое статусное сообщение
+[%o Old Status Message]
+%o Старое статусное сообщение
+[%D/%M/%Y day/month/year]
+%D/%M/%Y  день/месяц/год
+[%c Custom nickname]
+%c Свой ник
+[%H:%m Time (in 24h format)]
+%H:%m Время (формат 24ч)
+[%h:%m %a (in 12h format)]
+%h:%m %a (формат 12ч)
+[\\n line break]
+\\n новая линия
+[\\t tab stop]
+\\t табулятор
+[View status message history]
+История статусных сообщений
+[Clear history]
+Очистить
+[Do not log empty status messages]
+Не записывать пустые статусные сообщения
+[Only if status message has changed]
+Только если статусное сообщение изменилось

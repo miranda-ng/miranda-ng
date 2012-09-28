@@ -1,0 +1,29 @@
+﻿#muuid {420ccb93-589f-40e5-80a1-91db18f1c5bd}
+;============================================================
+;  File: dos.dll
+;  Module: ddos plugin for stopspam mod by sss
+;  Versions: 0.0.0.6
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4310
+;  Source: git://sss.chaoslab.ru/mim_plugs.git
+;  Authors: sss
+;============================================================
+[Send some flood to very importunate spammer]
+Посылает бессмысленный набор символов особо настойчивым спамерам
+[Start DOS...]
+Начать DOS...
+[Stop DOS...]
+Остановить DOS...
+[Number of messgaes (0 for infinite):]
+Количество сообщений (0 - бесконечное):
+[Send custom message:]
+Посылать заданное сообщение:
+[Message rate (ms):]
+Частота сообщений (мс):
+[Message size (byte):]
+Размер сообщения (в байтах):
+[Random characters count:]
+Разброс случайных символов:
+[Send only to online contacts]
+Посылать только контактам в сети
+[Client based method]
+Метод на базе клиента

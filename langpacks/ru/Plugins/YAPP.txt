@@ -1,0 +1,58 @@
+﻿#muuid {563780ef-ac7e-40ba-a80a-0dcd4fd20f09}
+;============================================================
+;  File: yapp.dll
+;  Module: Yet Another Popup Plugin
+;  Versions: 0.5.0.10
+;============================================================
+[Yet Another Popup Plugin - Provides popup notification window services (unicode and ansi) to other plugins]
+Yet Another Popup Plugin - Предоставляет службу всплывающих сообщений (unicode и ansi) другим модулям
+;  Настройки - Всплывающие окна
+[Set timeout:]
+Длительность:
+[Never timeout]
+Постоянно
+[Disable when]
+Выключить когда
+[Full-screen app running]
+Полноэкранное приложение
+[Global hover]
+Общее наведение
+[No time]
+Без времени
+[Time on left]
+Время слева
+[Time on right]
+Время справа
+[Time above avatar]
+Время над аватаром
+[Width:]
+Ширина:
+[Maximum height:]
+Макс. высота:
+[Padding:]
+Промежуток:
+[Set timeout]
+Установить таймаут
+[Timeout value (0 = default):]
+Таймаут (0 = по умолчанию):
+[Vertical indent:]
+Отступ по верт.:
+;  Тестовые сообщения
+[The quick brown fox jumped over the lazy dog.]
+Съешь же ещё этих мягких французских булок да выпей йаду!
+[Example With a Long Title]
+Пример с длинным заголовком
+[Thequickbrownfoxjumpedoverthelazydog.]
+Съешьжеещёэтихмягкихфранцузскихбулокдавыпеййаду!
+[An avatar.]
+С аватаром
+;  Тонкая настройка — Шрифты и цвета
+[First line]
+Первая строка
+[Title underline]
+Подчеркивание заголовка
+;  Главное меню
+[Popup history]
+История всплывающих окон
+[Enable Popups]
+Включить всплывающие окна

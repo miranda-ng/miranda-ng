@@ -1,0 +1,12 @@
+﻿;============================================================
+;  File: FDDNotify.dll
+;  Module: FDD Notify
+;============================================================
+[Floppy Flash]
+Мигание диска 3,5"
+[Could not open PortTalk device. Check installation of the driver.]
+Невозможно открыть устройство PortTalk. Проверьте установку драйвера.
+[Message Received]
+Получено сообщение
+[Message Session is typing...]
+Набирает текст...

@@ -1,0 +1,196 @@
+﻿;============================================================
+;  File: hotkeysplus.dll
+;  Module: HotKeys	Plus
+;  Versions: 0.1.5.0
+;============================================================
+[Runs Miranda service functions on pressing hot keys]
+Запуск служб Miranda при помощи горячих клавиш
+[1st argument]
+1-ый аргумент
+[Hotkey item #%d]
+Пункт #%d
+[For Win9x use other plugin version.]
+Для Win9x используйте другую версию модуля.
+[Win9x plugin version can work incorrect on newer Windows versions!\nUse Win2k/XP version instead.]
+Версия модуля для Win9x может работать некорректно на более новых версиях Windows!\nВместо этого используйте версию модуля для Win2k/XP.
+[2nd argument]
+2-ой аргумент
+[You should select any item!]
+Вы должны выбрать какой-либо пункт!
+[goes]
+переходит в
+[Starts]
+Запускает
+Проверить
+[Use "Add hotkey" item in Contact Menu]
+Используйте пункт меню контакта "Назначить горячую клавишу"
+[Do something]
+Делать что-то
+[Service with such name is not registered within Miranda IM workspace!]
+Службы с таким именем не существует в программном пространстве Miranda IM!
+[Show window 'About Miranda IM']
+Показать окно 'О Miranda IM'
+[Show Miranda Support page]
+Показать страницу поддержки Miranda IM
+[Go to Miranda web-site]
+Открыть сайт Miranda IM
+[Report a bug]
+Сообщить об ошибке
+[Show last closed conversation window]
+Показать последние закрытые окна
+[Paste text]
+Вставить текст
+[Open site]
+Открыть сайт
+[Show or hide Contact List]
+Показать/скрыть контакт-лист
+[Activate Contact List]
+Сделать список контактов активным
+[Open Options]
+Открыть настройки
+[Open 'Find User' dialog]
+Открыть диалог "Найти пользователей"
+[Show user info window]
+Показать информацию о пользователе
+[Open Global Search in History]
+Открыть общий поиск в истории
+[Show System History]
+Показать системную историю
+[Open DB Editor]
+Открыть редактор БД
+[Show info about current music]
+Показать информацию о текущей музыке
+[Create report from log and run it]
+Создать отчёт из журнала и запустить его
+[Show Miranda About Window]
+Показать окно "О программе"
+[Key pressing]
+Нажатие клавиши
+[Add hotkey]
+Назначить клавишу
+[Single hotkey can be associated with more than one function.\nPrevious hotkey for this item - [%s] - was bound with %d items except this.\n\nPress \"Yes\" to change hotkeys also for other items that have [%s] as hotkey.\nPress \"No\" to change hotkey only for current item.]
+Одна горячая клавиша может быть связана более чем с одной функцией.\nПредыдущая горячая клавиша для этого объекта - [%s] - была связана с  %d объектами, кроме данного.\n\nНажмите \"Да\", чтобы изменить горячие клавиши также для других объектов, у которых горячая клавиша [%s].\nНажмите \"Нет\", чтобы  горячую клавишу только для текущего объекта.
+[This hotkey already in use!\nChoose any other one.]
+Эта горячая клавиша уже используется!\nВыберите другую.
+[Fill the service line!]
+Заполните строку службы!
+[The service line is empty!]
+Строка службы пуста!
+[Start the service '%s']
+Запустить службу '%s'
+[You're trying to add the item equal to already existed!]
+Вы пытаетесь добавить объект, идентичный уже существующему!
+[You have added the hotkey to the hotkey group]
+Вы добавили горячую клавишу в группу.
+[You have not closed any conversation window\nafter Miranda was started.]
+Вы не закрыли еще ни одного окна диалога\n после запуска программы.
+[Show menu\nto select item from the list\nof predefined services\nor to enter custom data\nShortcut: [Menu], [Right Click]]
+Отобразить меню\nдля выбора пункта из списка\nзаранее заданных служб\nили для ручного заполнения\nсвойств горячей клавиши.
+[Add new hotkey]
+Добавить новую горячую клавишу
+[Invoke dialog with possibility to change\nservice name, hotkey description,\nkeys' combination and other data\nShortcut: [Double Click]]
+Отобразить диалог, в котором можно изменить\nимя службы, описание горячей клавиши,\nкомбинацию клавиш и другие данные\nБыстрый вызов: (Двойной щелчок)
+[Edit selected item in the list]
+Редактировать выбранный пункт списка
+[After the pressing \'Apply\' button,\nthe hotkey will be removed\nfrom the processing procedure\nShortcut: [Del]]
+После нажатия кнопки 'Применить'\nгорячая клавиша  будет удалена\nиз процедуры обработки\nБыстрый вызов: [Del]
+[Delete selected item in the list]
+Удалить выделенный пункт списка
+[So you can see what do the service\nShortcut: [Backspace]]
+Так вы можете посмотреть,\nчто делает данная служба\nБыстрый вызов: [Backspace]
+[Run selected item in the list]
+Запустить выделенный пункт списка
+[For functions having character string as second argument:\nstatus message, URL, words to paste.\nIf function does not support text parameters,\nthe text just will be not saved.]
+Для функций, у которых второй аргумент - строка:\nстатусные сообщения, ссылки, слова, предназначеныне для вставки.\nЕсли функция не поддерживает текстовые параметры,\n то этот текст просто не будет сохранён.
+[You can input text here...]
+Здесь вы можете ввести текст...
+[Hotkeys+]
+Горячие клавиши+
+[Fill]
+Заполнить
+[&Clear]
+Очистить
+[Associated key]
+Связанная клавиша
+[Remove items with unexisting services]
+Удалить пункты с несуществующими службами
+[Set hot key]
+Настроить горячую клавишу
+[Allow multiple services on single hotkey]
+Разрешить несколько служб на одну горячую клавишу
+[Remove same items]
+Удалить одинаковые пункты
+[Disable items]
+Отключить пункты
+[Drop repeated hotkeys]
+Сбросить повторяющиеся горячие клавиши
+[In private chat only]
+Только в личных диалогах
+[Enable Contact Menu item]
+Включить пункт в меню контакта
+[<< List]
+<< Список
+[Add custom...]
+Добавить вручную...
+[Variable name for selected text]
+Имя переменной для выделенного текста
+[Scope]
+Область
+[Checking]
+Проверка
+[Items associated with the same hotkey]
+Пункты, связанные с одной и той же горячей клавишей
+[Sounds of Typing]
+Звуки нажатий клавиш
+[Consistency Checking]
+Проверка последовательности
+[Core]
+Ядро
+[Enable/disable all popups]
+Вкл./выкл. вспл. окна
+[Backspace key]
+Клав. Backspace
+[Clist]
+Контакт-лист
+[Show Main menu]
+Показать главное меню
+[Show or hide offline contacts]
+Показать или спрятать контакты не в сети
+[Show last closed conversation]
+Показать последнюю закрытую беседу
+[Open Database Editor]
+Открыть редактор базы
+[Numeric key]
+Числовая клавиша
+[Description according to status ID]
+Описание согласно ID статуса
+[Change common status]
+Изменить глобальный статус
+[Show service name in List]
+Показать имя сервиса в списке
+[Reset coloumns]
+Сбросить колонки
+[Show Main Status menu]
+Показать глобальное статусное меню
+[Space key]
+Клавиша пробел
+[For Status and X-Status functions.]
+Для функций статуса и х-статуса
+[Management]
+Управление
+[&Custom...]
+Задать...
+[Run [Backspace]]
+Выполнить (Backspace)
+[You can input digits here...]
+Здесь вы можете ввести цифры...
+[<<-- Pass to List]
+Перейти к списку
+[Delete [Del]]
+Удалить [Del]
+[Alphabetic key]
+Клавиша алфавита
+[Rebuild the base]
+Пересоздать базу
+[Edit [Double Click]]
+Редактировать (двойной клик)

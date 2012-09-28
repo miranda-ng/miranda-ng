@@ -1,0 +1,46 @@
+﻿#muuid {c58dc8cc-a572-4a76-aaea-344baee6d889}
+;============================================================
+;  File: messagestotalnotify.dll
+;  Module: Messages Total Notify (Unicode)
+;  Versions: 0.0.5.4
+;============================================================
+[Messages Total Notify]
+Уведомление о всех сообщениях
+[Show/send the count of all messages from the history to a contact]
+Показывает/посылает количество всех сообщений в истории контакта
+[Message was sent to]
+Сообщение было отправлено
+[total messages]
+всего сообщений
+[Show popup notify every]
+Всплывающее окно каждые
+[Send messages]
+Посылать сообщения
+[Send messages total every]
+Посылать каждые
+[Show notify too]
+Показывать уведомление
+[Show information after send]
+Показывать информацию
+[Send immediately]
+Посылать немедленно
+[Play sound at popup notify]
+Звук при вспл. окне
+[Play sound at send messages action]
+Звук при отправке сообщений
+[Contact details window]
+Окно деталей контакта
+[Send messages total to contact]
+Послать количество контакту
+[Send messages total history]
+История всех сообщений
+[Popup colours]
+Цвета всплывающих окон
+[Auto send]
+Отправка
+[Defaults]
+Стандартн.
+[%n - messages total]
+%n - всего сообщений
+[%c - contact name]
+%c - имя контакта

@@ -1,0 +1,138 @@
+﻿#muuid {2d506d46-c94e-4ef8-8537f11233a80381}
+;============================================================
+;  File: seenplugin.dll
+;  Module: Last Seen Plugin (NSN Compatible)
+;  Versions: 4.1.4.0-5.0.4.7
+;============================================================
+[Last seen plugin]
+Последнее появление
+[Last seen options]
+Параметры последнего появления
+[Last seen menuitem]
+Пункт меню последнего появления
+[Userinfo tab]
+Закладка в информации о контакте
+[year (4 digits)]
+год (4 цифры)
+[year (2 digits)]
+год (2 цифры)
+[month]
+месяц
+[username]
+пользователь
+[UIN/handle]
+номер/обработчик
+[external IP]
+внешний IP
+[internal IP]
+внутренний IP
+[tabulator]
+табуляция
+[Ignore contacts going offline]
+Игнорировать уходящих из сети
+[Enable 'Missed Ones' feature]
+Разрешить функцию 'Пропущенные'
+[You missed following contacts:]
+Пропущены следующие контакты:
+[hours (24)]
+часы (24)
+[hours (12)]
+часы (12)
+[weekday (full)]
+день недели (полн.)
+[weekday (abbreviated)]
+день недели (сокр.)
+[Mon.]
+Пн.
+[Tue.]
+Вт.
+[Wed.]
+Ср.
+[Thu.]
+Чт.
+[Fri.]
+Пт.
+[Sat.]
+Сб.
+[Sun.]
+Вс.
+[name of month]
+название месяца
+[short name of month]
+назв. месяца (сокр.)
+[Count times]
+Количество входов в сеть
+[last seen history]
+история последней встречи
+[Log to history]
+Записывать историю
+[Maximum size]
+Максимальный размер
+[Variable list]
+Переменные
+[Protocols to watch:]
+Протоколы для наблюдения:
+[Alert when user status changes]
+Предупреждать при изменении статуса
+[Log when a user was last seen online and which users were online while you were away]
+Запоминает, когда пользователь последний раз появлялся в сети и кто был в сети, пока вы отсутствовали.
+[User Logged In]
+Пользователь Подключён
+[User Logged Off]
+Пользователь Отключён
+[User status change]
+Смена статуса пользователя
+[Changed to Online]
+Смена: В сети
+[Changed to Offline]
+Смена: Отключён
+[For non-watched protocols]
+Для непросм. протоколов
+[Enable Idle support]
+Вкл. режим ожидания
+[Disable CList Notifications]
+Выкл. уведомления списка контактов
+[For watched protocols]
+Для просм. протоколов
+[Popup interoperability missing or disabled. You need Popups plugin]
+Всплывающие окна отсутствуют или отключены. Необходим модуль всплывающих окон
+[LastSeen]
+Последнее появление
+[Reset colors]
+Сброс цветов
+[PopUp Colors]
+Цвета окон
+[Use popups]
+Вспл. окна
+[-- Date --]
+-- Дата --
+[-- Time --]
+-- Время --
+[-- User --]
+-- Пользователь --
+[-- Format --]
+-- Формат --
+[Old status]
+Старый статус
+[Client info]
+Клиент
+[for empty string]
+для пустой строки
+[instead of]
+вместо
+[Note:]
+Примечание:
+[LastSeen: User status change]
+LastSeen: Изменение статуса пользователя
+[<never seen>]
+<никогда не появлялся>
+[Last seen plugin mod (NSNCompat)]
+Последнее появление (mod NSNCompat)
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
+Имя:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bВремя:%t%H:%M:%S%bПредыдущий статус:%t%o%b%b%P ID:%t%u%bВнешний IP:%t%i%bВнутренний IP:%t%r%bКлиент: %t%C%b%bСообщение статуса:%t%T
+[Last Seen Variables]
+Переменные
+[%i(%r)%bWas %o]
+%i(%r)%bбыл %o
+[%n is %s (%u)]
+%n %s (%u)

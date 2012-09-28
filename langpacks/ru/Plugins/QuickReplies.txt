@@ -1,0 +1,26 @@
+﻿#muuid {a6a031b6-d32f-4842-98c6ec716c576b77}
+;============================================================
+;  File: quickreplies.dll
+;  Module: Quick Replies
+;  Versions: 0.8.1.0
+;============================================================
+[Quick Replies]
+Быстрые ответы
+[Plugin for quick insert (or sending) pre-defined messages in message input area.]
+Модуль для быстрой вставки (или отправки) определённых сообщений в окно отправки.
+[Hints:]
+Подсказки:
+[- Add your replies, one per line.]
+- Добавляйте Ваши ответы по одному в каждой строке.
+[- Add "---" for separator.]
+- Добавьте "---" для разделителя.
+[- Press [v] button for variable's help.]
+- Нажмите [v] для помощи по переменным.
+[Send replies immediately]
+Отправлять ответы немедленно
+[Button %x]
+Кнопка %x
+[Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
+Быстрые ответы\r\nЛевая кнопка - меню\r\nПравая кнопка - настройки
+[Button]
+Кнопка

@@ -1,0 +1,17 @@
+﻿;============================================================
+;  File: CallNetmeeting.dll
+;  Module: Call Netmeeting
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=683
+;============================================================
+[&Netmeeting call]
+Набрать номер в &Netmeeting
+[Call NetMeeting Plugin]
+Модуль "Набрать номер в NetMeeting"
+[Error canґt get protocol!]
+Ошибка! Невозможно определить протокол 
+[Error canґt get user email!]
+Ошибка! Невозможно определить E-mail пользователя
+[Error canґt get user address!]
+Ошибка! Невозможно определить адрес пользователя
+[Use external IP?]
+Использовать внешний IP адрес?

@@ -1,0 +1,147 @@
+﻿#muuid {b16df0b2-a08f-4bc6-8fa2-3d5fffa2708d}
+;============================================================
+;  File: help.dll
+;  Module: Help Plugin  for Miranda IM
+;  Versions: 0.2.1.2
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3475
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/Help/
+;  Authors: HeikoH
+;============================================================
+[Provides context sensitive help in the Miranda IM dialog boxes.]
+Поддержка вызова контекстной помощи в диалогах Miranda IM.
+[Provides context sensitive help in the Miranda dialog boxes.]
+Предоставляет контекстную помощь в диалоговых окнах Miranda IM.
+[Help Plugin]
+Справка
+[The Help Plugin can not be loaded. It requires Miranda IM %s or later.]
+Модуль справки не может быть загружен. Для его работы нужна Miranda IM %s или старше.
+[This version of the Help Plugin is incompatible with your Miranda IM version. Install the ANSI version of the plugin instead.]
+Эта версия модуля справки несовместима с вашей версией Miranda IM. Установите ANSI вариант этого модуля.
+[&What's This Dialog?]
+Что это за диалог?
+[&What's This?]
+Что это?
+[Error: No readable Help Pack installed!]
+Ошибка: Нет ни одного установленного файла помощи
+[No help available for this item.]
+Для этого элемента нет справки.
+[Context Help]
+Контекстная справка
+[Cache Expiry:]
+Валидность кэша:
+[Number of seconds the help texts for a dialog will be kept around in memory.]
+Число секунд, сколько будет хранится текст справки в памяти.
+[Help Editor]
+Редактор справки
+[Control ID: %d]
+Control ID: %d
+[Dialog ID: %hs]
+Dialog-ID: %hs
+[Type: %s]
+Тип: %s
+[Dialog Box]
+Диалог
+[Check Box]
+Галочка
+[Radio Button]
+Кнопка
+[Edit Box]
+Редактирование
+[Group Box]
+Группа
+[Combo Box]
+Комбинация
+[List Box]
+Список
+[Spin Edit Box]
+Спин
+[Progress Bar]
+Полоса прогресса
+[List View]
+Список
+[Tree View]
+Дерево
+[Date/Time Picker]
+Дата/Время
+[IP Address]
+IP адрес
+[Scroll Bar]
+Прокрутка
+[Hot Key]
+Горячая клавиша
+[Colour Picker]
+Цвет
+[Module: %hs]
+Модуль: %hs
+[Help saving complete.]
+Сохранено.
+[Help saving failed!]
+Не сохранено!
+[The help pack "%s" could not be downloaded or extracted.]
+Справка "%s" не может быть загружена или извлечена.
+[ScrollBar]
+Полоса прокрутки
+[Help Pack Update HTTP connection]
+Подключения модуля справки (HTTP)
+[&Automatically show help when hovered]
+Автоматически показывать справку при наведении
+[Help Pack Update succeeded]
+Обновление справки завершено
+[The Help Plugin can not be loaded. It requires Miranda IM %hs or later.]
+Модуль справки не может быть загружен. Для его работы необходима Miranda IM %hs или выше.
+[&What's this?]
+Справка
+[Note: This will download and install the newest help pack available for the selected language. There might be help packs from other authors available on the file listing.]
+Примечание: С помощью этого окна, Вы загрузите и установите новейшую справку для выбранного языка. Другие справки могут быть доступны на сайте дополнений Miranda IM.
+[Help Pack Update Now Available]
+Новая версия справки теперь доступна!
+[A new version of a Help Pack is now available. Click the install button to download and install this new update.]
+Новая версия справки теперь доступна. Нажмите Установить чтобы загрузить и установить это обновление.
+[No Help Pack installed!]
+Файл справки не установлен!
+[The help pack "%s" has been sucessfully downloaded and installed.]
+Справка "%s" загружена и установлена успешно.
+[&Delay:]
+Задержка:
+[Download more Help Packs]
+Загрузить дополнительные тексты справки
+[Help is available in different languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
+Справка доступна на многих языках.\nЗдесь Вы видеть список доступных справок на сайте Miranda IM, пожалуйста выберите ваш основной язык:
+[Select your help language]
+Выберите Ваш язык справки
+[Help Pack Update failed]
+Ошибка обновления справки
+[Check for new &versions of Help Packs periodically]
+Периодически проверять новые версии справки
+[&What's this Dialog?]
+Справка о диалоге
+[The download succeeded!]
+Загрузка успешна!
+[The download failed!\n\nThe help pack could not be downloaded or extracted.]
+Ошибка загрузки!\n\nСправка не может быть загружена или извлечена.
+[Help Pack Download finished]
+Загрузка справки завершена
+[&Miranda IM Website]
+О&фициальный сайт
+[Choose...]
+Выбор...
+[Downloading language list\n\nPlease wait...]
+Загрузка списка языков\n\nПожалуйста, подождите...
+[Help can't connect to the server, it may be temporarily down. Please try again later.]
+Не могу соединиться с сервером, возможно он временно не доступен. Попробуйте позже.
+[Help Language Picker]
+Выбор языка помощи
+[Help plugin HTTP connections]
+Help - HTTP соединение
+[No help available]
+Помощь недоступна
+[Download failed\n\nPlease check your Internet connection and try again.]
+Ошибка загрузки\n\nПроверьте Ваше подключение к Интернету, и попытайтесь снова.
+[The help server replied with a failure code.]
+[Help Upload failed]
+[Help Upload]
+[Ctl ID: %d]
+[Dialog ID: <not in dialog>]
+[Dialog ID: %s]
+[Module: %s]
+[Auth:]

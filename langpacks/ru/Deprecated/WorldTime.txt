@@ -1,0 +1,51 @@
+﻿;============================================================
+;  File: WorldTime.dll
+;  Module: WorldTime 
+;  Versions: 0.1.2.0
+;============================================================
+[World Time]
+Мировое время
+[Display world times.]
+Показывает время выбранных часовых поясов. Желателен модуль Multiwindow или clist_mw.
+[Interface]
+Вид окна
+[Show/hide with contact list (*if set, show/hide menu item has no effect)]
+Пок./скр. со списком контактов (*не работает при включ. ниже опции)
+[Hide main menu item (requires restart)]
+Скрыть пункт главного меню (требует перезапуск)
+[Show Window]
+Показывать окно
+[Format Date]
+Формат даты
+[and Time]
+и времени
+[Times]
+Время
+[Night]
+Ночь
+[Font size:]
+Размер:
+[Use the Customize/Fonts options to change text size and colour]
+Используйте Ручная настройка-->Шрифты для смены размера и цвета текста.
+[Time Details]
+Конфигурация времени
+[Alphabetical]
+По алфавиту
+[Geographical]
+Географич.
+[Sort Order:]
+Сорт. по:
+[*Hide/Show &World Time Window]
+*Скрыть/Показать окно мирового времени
+[Contact List:]
+Список контактов:
+[%o = offset]
+%o = смещение
+[%d = date]
+%d = дата
+[Hide in status bar and status menu (requires restart - uncheck to set icons)]
+Скрыть в статусах (требуется рестарт  - снимите для установки значков)
+[%n = label]
+%n = метка
+[%t = time]
+%t = время

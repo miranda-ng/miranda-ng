@@ -1,0 +1,174 @@
+﻿;============================================================
+;  File: AwaySys.dll, AwaySysMod.dll
+;  Module: Away System
+;  Versions: 0.2.7.0-0.3.4.3
+;  Template: http://miranda-im.org/download/feed.php?dlfile=215
+;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=215
+;============================================================
+[When I'm]
+Когда я
+[don't send the status message]
+не отправлять статусное сообщение
+[Status Message Dialog]
+Диалог статусного сообщения
+[For:]
+Для:
+[don't pop the status message dialog]
+не показывать диалог статусного сообщения
+[Show 5 more recent messages in the list]
+Показывать больше 5 сообщений в логе
+[Current time]
+Текущее время
+[Current date]
+Текущая дата
+[Present day]
+День недели
+[Status type]
+Тип статуса
+[Contact's nickname]
+Псевдоним контакта
+[Contact's custom name]
+Псевдоним из списка
+[Contact's first name]
+Имя контакта
+[Time of request]
+Время запроса
+[Number of messages from contact]
+Кол-во сообщений от контакта
+[Time that has passed until request]
+Время, прошедшее до запроса
+[A random line from filename]
+Случайная строка из файла
+[Returns line num from filename]
+Строка с номером из файла
+[Current song playing in Winamp]
+Песня в Winamp
+[%randomline(filename)%]
+%randomline(имя файла)%
+[%singleline(filename,num)%]
+%singleline(имя файла, номер строки)%
+[Remember last message used for a contact when changing status message]
+Запомнить последнее сообщение для контакта при изменении статуса
+[Send status message on event]
+Отправить сообщение при событии
+[Only send status message to non-ICQ contacts]
+Отправлять сообщение только не-ICQ контактам
+[Every time]
+каждый раз
+[Log when i send the status message]
+Записывать мои статусные сообщения
+[Send...]
+Отправить:
+[Change %s Message for %s]
+"%s" для "%s"
+[Don't send this contact my status message]
+Не отправлять статусное сообщение
+[Send this contact the status message on event]
+Отправить этому контакту статусное сообщение при
+[Contacts >>]
+Контакты >>
+[Chars]
+Знаков
+[(Ungrouped)]
+(Без групп)
+[(group)]
+(группа)
+[Set %s message for %s]
+Изменить сообщение "%s" для %s
+[Variables List]
+Переменные
+[More Options]
+дополнительно
+[Default Message]
+По умолчанию
+[Delete Settings]
+Удалить настр.
+[Use the message from last time]
+Исп. последнее сообщение
+[Never close the status message dialog]
+Никогда не закрывать автоматически диалог статуса
+[second(s) before closing the status message dialog]
+секунд(ы) перед закрытием диалога статуса
+[Remember last message for each status separately]
+Помнить последнее сообщение для каждого статуса отдельно
+[Remember the status message dialog's position]
+Помнить позицию диалога статуса
+[An error has occured while trying to acquire messages]
+Ошибка при попытке получения сообщения
+[-> Last%sMessage]
+-> Посл.%sсообщение
+[Are you sure you would like to delete settings? If you continue, all of your settings will be deleted!]
+Вы уверены, что хотите удалить настройки? Если да, то ВСЕ настройки будут удалены!
+[All settings will be erased after you close the options window!]
+Все установки будут стёрты после закрытия окна выбора настройки!
+[Please enter a title for the message before saving.]
+Пожалуйста, введите название для сообщения перед сохранением.
+[Please enter a message before saving.]
+Пожалуйста, введите сообщение перед сохранением.
+[Your master, %mynick% is %statdesc% since the day that is only known as %day%... When he gets back, I'll tell him you dropped by...]
+%mynick% %statdesc% с %time%. Когда он(а) вернется, я скажу, что вы были. Miranda IM.
+[Been fragging since %time%, I'll msg you later when the adrenaline wears off.]
+Занят важными делами с %time%. Я напишу Вам, когда освобожусь...
+[Not here]
+Нет меня
+[Gone since %time%, will be back later.]
+Ушел с %time%, вернусь позже.
+[I'm on the phone since %time%, give me a sec!]
+Я разговариваю по телефону с %time%; пожалуйста, подождите...
+[Could not get Miranda's window, Aborting...]
+Не могу получить окно Miranda, отмена...
+[Do not pop up dialog asking for status message]
+Не надо диалогов для смены статуса
+[Away System - More Options]
+Система сообщений - дополнительно
+[Disable Miranda's Away Dialog]
+Отключить диалог недоступности
+[A new Away System for Miranda]
+Новая система статусных сообщений для Miranda IM.
+[Expand >>]
+Развернуть >>
+[Prefix]
+Префикс
+[Reduce <<]
+Уменьшить <<
+[You can use variables from "variable" plugin (look miranda-im.org in Files/Services).]
+Вы можете использовать переменные из модуля "variables" (ищите на miranda-im.org)
+[-- Recent --]
+--Последнее--
+[Show 5 more recent message in the list]
+Показывать последние 5 сообщений
+[Don't Send Away Msg on event]
+Не посылать сообщения по событию
+[Send Away Msg on event]
+Посылать сообщение по событию
+[Send Away Msg on/off]
+Посылка недоступности вкл/выкл
+;AwaySystemEx YM 0.0.1.0
+[Apply to all]
+Для всех
+[Always set the same message]
+Всегда установив это сообщение
+[Show status profiles in status list]
+Показывать профили в статус листе
+[recent messages (0 = disable)]
+прошлые сообщения (0 = выкл.)
+[Leave last played track's title after exiting the player]
+Оставлять последний трек, после выключения плеера
+[Set random status message every]
+Произвольный статус каждые
+[Remember last dialog window position]
+Помнить последнюю позицию окна
+[Show 'Copy Away Message' item in contact menu]
+Показывать 'Копировать статусное сообщение' в контекстном меню
+[Show 'Status Message...' item in status menu]
+Показывать 'Статус сообщение' в контекстном меню
+[Disable auto status change]
+Выключить смену автостатуса
+[Status Message...]
+Сообщение статуса
+[Disable Auto Status Change]
+Выключить смену автостатуса
+[Enable auto status change]
+Включить смену автостатуса
+[AwaySystemEx YM]
+Отсутствие

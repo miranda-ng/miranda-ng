@@ -1,0 +1,66 @@
+﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+;============================================================
+;  File: ttnotify.dll
+;  Module: Tooltip notify plugin for Miranda NG
+;  Versions: 0.0.6.0
+;============================================================
+[Tooltip Notify]
+Уведомления
+[Shows a small tooltip above system tray area when a contact status is changed.]
+Уведомления в трее при смене статуса контакта.
+[Notify upon the following contact status changes]
+Уведомлять о смене статусов следующих контактов
+[All other]
+Другое
+[Duration]
+Длительность
+[Show tooltip for]
+Показывать:
+[Duration x2 upon online event]
+В 2 раза дольше для "В сети"
+[Work in conjunction with 'Suppress online notification']
+Работать вместе с "Запретом уведомлений о выходе в сеть"
+[Default positioning]
+Позиция по умолчанию
+[[Hint: right-click on the tooltip to move it when in custom placement mode]]
+Совет: Окно уведомления можно перетаскивать правой кнопкой мыши
+[Transparent tooltip]
+Прозрачность
+[%s is %s]
+%s сейчас %s
+[Notify upon the following events]
+Уведомлять о следующих событиях
+[Auto positioning]
+Автопозиция
+[Prefix proto name]
+Имя аккаунта
+[Transparent input]
+Прозрачный вход
+[Double click on tooltip]
+Двойной клик:
+[Shows/Hides CList]
+Список контактов
+[Opens message dialog]
+Окно сообщений
+[Behavior]
+Поведение
+[Suppress notifications upon connection for]
+Не уведомлять при подключении
+[Obey 'Suppress online notification' settings]
+Включить временный запрет уведомлений
+[Tooltip Notify: Offline]
+Уведомления: Оффлайн
+[Tooltip Notify: Online]
+Уведомления: Онлайн
+[Tooltip Notify: Other]
+Уведомления: Другое
+[Tooltip Notify: Typing]
+Уведомления: Печатает
+[Other Status]
+Другой статус
+[is]
+теперь
+[Choose contacts...]
+Выберите контакты
+[Allow tooltip notifications for the following users:]
+Включить уведомления для отмеченных контактов:

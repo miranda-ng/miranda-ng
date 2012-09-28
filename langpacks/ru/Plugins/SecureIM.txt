@@ -1,0 +1,417 @@
+﻿#muuid {1b2a39e5-e2f6-494d-958d-1808fd110dd5}
+;============================================================
+;  File: secureim.dll
+;  Module: SecureIM
+;  Versions: 1.0.1.4-1.0.12.3
+;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=411
+;============================================================
+[GPG Key]
+GPG ключ
+[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?]
+Пользователь не ответил на обмен ключами!\n\Ваше сообщение находится в очереди SecureIM, хотите отправить его не зашифрованным?
+[Always secured if possible]
+По возможности включать шифрование
+[Connection Disabled]
+Нет соединения
+[Connection Established (new)]
+Новое соединение
+[Establishe Secure Connection]
+Инициировать защищённое соединение
+[Key Exchange]
+Обмен ключами
+[Connection Established (old)]
+Соединение (старое)
+[Connection Established]
+Соединено
+[PGP Key]
+PGP ключ
+[Always Try]
+Всегда пытаться
+[Recv Secured MSG]
+Получение сообщения
+[Send Secured MSG]
+Отправка сообщения
+[Recv Key]
+Получение ключа
+[Send Key]
+Отправка ключа
+[SecureIM established...]
+Безопасное соединение установлено...
+[Key exchange failed...]
+Обмен ключами не состоялся
+[Key from disabled...]
+Ключ был отвергнут
+[Sended back message received...]
+Обратное сообщение отправлено...
+[Sending back secure message...]
+Отправка обратного сообщения...
+[SecureIM disabled...]
+SecureIM выключен...
+[SecureIM is disabled...]
+SecureIM отключён...
+[Message Received...]
+Сообщение принято...
+[Sending Message...]
+Отправка сообщения...
+[Decrypting File...]
+Дешифрация файла...
+[Encrypting File...]
+Шифрование файла...
+[Due to encryption by block and hexadecimal conversion you are limited to 3700 characters.\r\n Message is canceled !]
+Из-за блокового шифрования в шестнадцатеричном формате сообщение ограничено 3700 знаками.\r\n Сообщение отменено!
+[Your message is too long !]
+Ваше сообщение слишком длинное !
+[User is now Offline, Do you want to send your message ?\r\nIt will be unencrypted !]
+Сейчас пользователь не в сети. Отправить незашифрованное сообщение?
+[Can't Send Encrypted Message !]
+Не могу отослать зашифрованное сообщение
+[You Must Enable SecureIm with this user...]
+Вы должны включить SecureIm для данного пользователя...
+[SecureIM not enabled !]
+SecureIM недоступен!
+[SecureIM not enabled! You Must Enable SecureIM with this user...]
+SecureIM выключен! Вы должны включить его для этого пользователя...
+[Could not established SecureIM !]
+Не могу установить SecureIM соединение !
+[Error while decrypting the message.]
+Произошли ошибки во время дешифрации файла.
+[User has not answered to key exchange !\r\nYour messages are still in SecureIm queue, do you want to send them Unencrypted now ?]
+Пользователь не ответил на обмен ключами!\r\nВаше сообщение по-прежнему находится в очереди на отправку, желаете послать сообщение незашифрованным?
+[UIN/Email/Jid/Computer Name]
+UIN/E-mail/JID/Компьютер
+[Show a popup on each secure receive]
+Прием зашифрованного сообщения
+[Show a popup on each secure send]
+Отправка зашифрованного сообщения
+[Show a popup on key send]
+Отправка ключа
+[Show a popup on key received]
+Получение ключа
+[Show Indicator in Nick]
+Индикатор в имени
+[Indicator :]
+Индикатор :
+[SecureIM PopUp Colors]
+Цвета всплывающих сообщений SecureIM
+[Key agreement colors]
+Обмен ключами
+[Secure connection colors]
+Безопасное соединение
+[Send/Receive encrypted colors]
+Цвета шифрованных сообщений
+[Key Popup]
+Всплывающее окно ключа
+[Secure Popup]
+Всплывающее окно безопасности
+[Message Popup]
+Всплывающее окно сообщения
+[Reset All SecureIM Settings]
+Сброс SecureIM установок
+[Enable Secure Offline messages]
+Включить оффлайн сообщения
+[Always try]
+Всегда пытаться
+[Key Exchange Timeout :]
+Время обмена ключами :
+[PopUp Timeout]
+Длительность
+[Time in Seconds]
+Время (с)
+[You should select the value that identify each user of the protocol you choose as unique.\nFor exemple ICQ unique value is UIN and MSN unique value is e-mail ...\n\nYou  must restart miranda to apply the changes.]
+Вы должны выбрать поле, которое идентифицирует пользователя для данного протокола.\nНапример, в ICQ уникальным полем является UIN, а в MSN это e-mail ...\n\nДля вступления изменений в силу вы должны перезапустить Miranda.
+[Add Protocol/Value]
+Добавить протокол
+[Delete enabled Protocol]
+Удалить протокол
+[Enabled Protocols]
+Включённые протоколы
+[Protocols Names]
+Названия протоколов
+[Protocols Values]
+Значения протоколов
+[Disable SecureIM connection]
+Отменить SecureIM соединение
+[Create SecureIM connection]
+Создать SecureIM соединение
+[Enable Secure File Transfer]
+Включить шифровку файлов
+[0 = Default PopUp Timeout Value]
+0 = По умолчанию 
+[SecureIM 1.0.4.4]
+Шифрование сообщений
+[Sending Key...]
+Отправка ключа...
+[SecureIM plugin]
+Добавляет возможность отправки зашифрованных сообщений между пользователями Miranda.
+[SecureIM: Error while decrypting the message.]
+SecureIM: Ошибка расшифровки сообщения.
+[Bad key received...]
+Принят плохой ключ...
+[Connection Established (valid prime)]
+Соединение установлено
+[Connection Established (ver <= 1.0.4.4c)]
+Соединение установлено (версия <= 1.0.4.4c)
+[Connection Established (ver >= 1.0.5.0)]
+Соединение установлено (версия <= 1.0.5.0)
+[Recv Secured MSG (popup)]
+Получено зашифрованное сообщение (вспл. окно)
+[Send Secured MSG (popup)]
+Отправлено зашифрованное сообщение (вспл. окно)
+[Recv Key (popup)]
+Получен ключ (вспл. окно)
+[Send Key (popup)]
+Отправлен ключ (вспл. окно)
+[Connection Established (popup)]
+Соединение установлено (вспл. окно)
+[Connection Disabled (popup)]
+Соединение отключено (вспл. окно)
+[SecureIM status (disabled)]
+SecureIM (выключен)
+[Show a popup on established connection]
+Установление соединения
+[Show a popup on disabled connection]
+Обрыв соединения
+[User List]
+Список
+[Always show status icons in contact list]
+Показывать значок в списке контактов
+[Miranda Client Detection]
+Определение клиента
+[Status in Context Menu]
+Статус в контекст. меню
+[Disable encryption for game plugins]
+Откл. шифрование для game модулей
+[Contact List Icon]
+Значки списка контактов
+[Offline Key Timeout :]
+Хранить ключ :
+[Key Received...]
+Ключ принят...
+[SecureIM]
+Шифрование
+[SecureIM plugin for Miranda NG.]
+Модуль шифрования SecureIM для Miranda NG.
+[Incoming Secure Message]
+Входящее шифрованное сообщение
+[Outgoing Secure Message]
+Исходящее шифрованное сообщение
+[SecureIM Disabled...]
+SecureIM Выключен...
+[SecureIM status (enabled)]
+SecureIM (включён)
+[SecureIM status (always try)]
+SecureIM (всегда пытаться)
+[SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+SecureIM: Извините, невозможно расшифровать сообщение, потому что PGP/GPG не установлен. Посетите www.pgp.com или www.gnupg.org для получения подробных сведений.
+[Keyrings disabled!]
+Keyrings отключены!
+[The new settings will become valid when you restart MirandaIM!]
+Изменения вступят в силу после перезагрузки Miranda IM!
+[Private key not loaded!]
+Секретный ключ не загружен!
+[Private key loaded.]
+Секретный ключ загружен.
+[This version not supported!]
+Эта версия не поддерживается!
+[PGP SDK not found!]
+PGP SDK не найден!
+[PGP SDK v%i.%i.%i found.]
+PGP SDK v%i.%i.%i найден.
+[Keyrings not loaded!]
+Keyrings не загружены!
+[Keyrings loaded.]
+Keyrings загружены.
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version !]
+Модуль SecureIM не может быть загружен, потому что библиотека cryptopp.dll не найдена или неправильной версии!
+[Can't Send Encrypted Message !\nDo you want to send your message ?\nIt will be unencrypted !]
+Невозможно отправить шифрованное сообщение!\nВы хотите отправить его?\nОно будет отправлено незашифрованным!
+[Can't Send Encrypted Message !\nUser is offline now and his secure key has been expired, Do you want to send your message ?\nIt will be unencrypted !]
+Невозможно отправить шифрованное сообщение !\nПользователь сейчас не в сети, и его ключ шифрования устарел, вы хотите отправить сообщение?\nОно будет отправлено незашифрованным!
+[SecureIM: Error while decrypting the message, bad message CRC.]
+SecureIM: Ошибка при расшифровки сообщения, неправильная контрольная сумма сообщения.
+[SecureIM: Error while decrypting the message, bad message length.]
+SecureIM: Ошибка при расшифровки сообщения, неправильная длина сообщения.
+[SecureIM: Sorry, unable to decrypt this message due you have no PGP installed. Visit www.pgp.com for more info.]
+SecureIM: Извините, невозможно расшифровать это сообщение, потому что у вас не установлен PGP. Посетите
+[Decrypting File:]
+Расшифровка файла:
+[Encrypting File:]
+Шифрование файла:
+[Disable keyrings use]
+Отключить keyrings
+[Load &Private key]
+Загрузить закрытый ключ
+[Save Pass]
+Сохранить
+[Set &keyrings...]
+Установить keyring
+[Always Try to Establish Secure IM]
+Пытаться подключать Secure IM
+[Public key]
+Открытый ключ
+[Export key]
+Экспортировать ключ
+[Import key]
+Импортировать ключ
+[Delete key]
+Удалить ключ
+[Executable:]
+Исполняемые:
+[Home Directory:]
+Домашний каталог:
+[Key Assignment]
+Назначение ключей
+[Secure IM Disabled]
+Secure IM Выключен
+[Secure IM Enabled]
+Secure IM Включён
+[Set key]
+Установить ключ
+[Native]
+Встроенный
+[Native SecureIM]
+Встроенный в SecureIM
+[PGP SecureIM]
+PGP в SecureIM
+[GPG SecureIM]
+GPG в SecureIM
+[Please type in your password]
+Введите ваш пароль
+[Pre-shared key]
+Настроить ключ
+[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
+SecureIM не может отправить шифрованное сообщение! Проверьте доверие к PGP/GPG ключу!
+[SecureIM not enabled !\nYou Must Enable SecureIM with this user...]
+Модуль SecureIM выключен !\nВы должны включить этот модуль для этого пользователя...
+[flag Enabled]
+флаг "Включено"
+[flag Disabled]
+флаг "Выключено"
+[flag Always Try]
+флаг "Всегда пытаться"
+[flag PGP Key]
+флаг "PGP ключ"
+[flag GPG Key]
+флаг "GPG ключ"
+[Contact List Icon slot]
+Слот значка в списке контактов
+[Disable PGP]
+Выкл. PGP
+[Split Messages]
+Разделять сообщения
+[Online:]
+В сети:
+[Offline:]
+Не в сети:
+[RSA Key]
+Ключ RSA
+[SecureIM (2in1)]
+Служба шифрования
+[Not secured for NotOnList]
+Не защищать контакты из "Not-In-List"
+[Auto accept RSA key (NOT SECURED)]
+Авт. одобрение RSA (не защищен)
+[Overlays]
+Оверлеи
+[Native mode]
+По умолчанию
+[PGP mode]
+Режим PGP
+[GPG mode]
+Режим GPG
+[RSA/AES mode]
+Режим RSA/AES
+[Disable Secure Connection]
+Выключить защищённое соединение
+[Secure Connection Disabled]
+Защищённое соединение выключено
+[Secure Connection Established]
+Защищённое соединение установлено
+[Secure Connection In Process]
+Защищённое соединение устанавливается
+[Sent Secured Message]
+Отправленное защищённое сообщение
+[Recv Secured Message]
+Принятое защищённое сообщение
+[Menu State]
+Статус в меню
+[SecureIM [Native]]
+Шифрование (по умолчанию)
+[SecureIM [PGP]]
+Шифрование (PGP)
+[SecureIM [GPG]]
+Шифрование (GPG)
+[SecureIM [RSA/AES]]
+Шифрование (RSA/AES)
+[SecureIM status]
+Статус шифрования
+[Mode in Context Menu]
+Режим через контекстное меню
+[SecureIM mode (Native)]
+Шифрование (по умолчанию)
+[SecureIM mode (RSA/AES)]
+Шифрование (RSA/AES)
+[SecureIM mode (RSA)]
+Шифрование (RSA)
+[SecureIM mode (PGP)]
+Шифрование (PGP)
+[SecureIM mode (GPG)]
+Шифрование (GPG)
+[SecureIM received RSA Public Key from \"%s\"\n\nSHA1: %s\n\nDo you Accept this Key ?]
+Получен публичный ключ RSA от \"%s\"\n\nSHA1: %s\n\nПринять?
+[SecureIM auto accepted RSA Public key from: %s uin: %s]
+Автоматически принят публичный ключ RSA от: %s UID: %s
+[Can't change mode! Secure connection established!]
+Не могу изменить режим! Защищённое соединение установлено!
+[Session closed by other side when status \"disabled\"]
+Сессия закрыта другой стороной, статус "отключён"
+[Session closed by receiving incorrect message type]
+Сессия закрыта, получен неправильный тип сообщения
+[Session closed by other side on error]
+Сессия закрыта с той стороны с ошибкой
+[Error while decoding AES message]
+Ошибка при расшифровке AES сообщения
+[Error while decoding RSA message]
+Ошибка при расшифровке RSA сообщения
+[Session closed on timeout (10 seconds)]
+Сессия закрыта по таймауту (10 секунд)
+[Session closed on error: %02x]
+Сессия закрыта с ошибкой: %02x
+[Delete RSA Key]
+Удалить ключ RSA
+[icons]
+Значки
+[Session closed on timeout]
+Сессия закрыта по таймауту
+[SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
+Автоматически принят публичный ключ RSA от: %s UID: %s SHA1: %s
+[Context Menu only for "Miranda" clients]
+Пункт в меню только для Miranda
+[SecureIM received NEW RSA Public Key from \"%s\"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
+Получен публичный ключ RSA от \"%s\"\n\nНовый SHA1: %s\n\Старый SHA1: %s\n\nЗаменить ключ?
+[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
+Автоматически принят публичный ключ RSA от: %s uin: %s Новый SHA1: %s Старый SHA1: %s
+[Can't export RSA private key!]
+Невозможно экспортировать частный ключ RSA!
+[Can't import RSA private key!]
+Невозможно импортировать частный ключ RSA!
+[Can't export RSA public key!]
+Невозможно экспортировать публичный ключ RSA!
+[Can't import RSA public key!]
+Невозможно импортировать публичный ключ RSA!
+[Public]
+Публичный
+[&Copy SHA1]
+&Копия SHA1
+[E&xport]
+Э&кспорт
+[Save Public Key File]
+Сохранение публичного ключа
+[Save Private Key File]
+Сохранение приватного ключа
+[SecureIM plugin Passphrase of private key]
+Модуль SecureIM. Фраза-пароль для приватного ключа 
+[Enter passphrase for the secret key:]
+Введите фразу-пароль для секретного ключа:
+[Load Private Key File]
+Загрузка приватного ключа

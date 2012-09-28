@@ -1,0 +1,155 @@
+﻿;============================================================
+;  File: speak.dll
+;  Module: Speak
+;  Versions: 0.0.0.5-0.9.5.0
+;============================================================
+[Read message if less characters than]
+Читать сообщение, если меньше, чем
+[Ignore event if message dialog is open]
+Игнорировать событие, если открыто окно
+[Ignore event if message dialog is focused]
+Игнорировать событие, если активно окно
+[Announce status changes on connect]
+Объявлять изменения статуса при соединении
+[%u is now offline]
+%u сейчас вне сети.
+[%u is now online]
+%u сейчас в сети.
+[%u is away]
+%u отсутствует.
+[%u is invisible]
+%u в режиме "Невидимость".
+[%u is not available]
+%u вне доступности.
+[%u does not want to be disturbed]
+%u не хочет, чтобы беспокоили.
+[%u is occupied]
+%u в режиме "Занято".
+[%u is free for chat]
+%u не прочь поболтать.
+[incoming message from %u]
+Сообщение от пользователя %u.
+[incoming U R L from %s]
+URL от %s.
+[incoming U R L from %u]
+URL от %u.
+[you have been added to %u's contact list]
+Вы добавлены к списку контактов пользователя %u.
+[there is an incoming file from %u]
+Есть файл от пользователя %u.
+[%u says]
+%u пишет:
+[Engine/Voice]
+Движок/Голос
+[Engine Settings]
+Установки движка
+[Engine]
+Движок
+[Pitch]
+Высота
+[testing testing 1 2 3]
+Проверка, проверка: 1 2 3
+[Active Modes]
+Активные режимы
+[Do not Disturb]
+Не беспокоить
+[Not Available]
+Недоступно
+[Active Users]
+Активные пользователи
+[Status Changes]
+Изменения статуса
+[Occuring Events]
+Случившиеся события
+[Added to Contact List]
+В список контактов
+[Message Events]
+Сообщения
+[incoming message from %s]
+Сообщение от %s.
+[incoming U R L  from %s]
+URL от %s.
+[you have been added to %s's contact list]
+Вы добавлены к списку контактов %s.
+[%s requests your authorization]
+%s запрашивает вашу авторизацию.
+[there is an incoming file from %s]
+Есть файл от %s.
+[%s has gone offline]
+%s вышел из сети
+[%s is now online]
+%s в сети.
+[%s is now invisible]
+%s невидим.
+[%s is now in N A mode]
+%s в режиме отсутствия.
+[%s is now in D N D mode]
+%s в режиме "не беспокоить".
+[%s is now in %s mode]
+%s в режиме %s.
+[this is a test]
+Это тест.
+[sez]
+пишет:
+[%s has sent you a very long message]
+%s прислал очень длинное сообщение.
+[please select the modes I should be silent in]
+Выберите режимы, в которых я буду молчать.
+[please select the status modes I should announce]
+Выберите режимы статуса, о которых я буду сообщать.
+[Speak - Active]
+Речь включена
+[Speak - Inactive]
+Речь выключена
+[Announce status changes]
+Уведомлять об изменениях статуса
+[Read messages]
+Зачитывать сообщения
+[Dont read long messages]
+Не зачитывать длинные сообщения
+[Describe options aloud]
+Описывать опции вслух
+[Dont talk in silent modes]
+Молчать в выбранных режимах
+[Welcome Message]
+Приветствие:
+[Voice Parameters]
+Параметры голоса
+[Status Announce Modes]
+Режимы с объявлением статуса
+[Reset Settings]
+Сбросить настройки
+[Announce Modes]
+Объявлять режимы
+[Silent Modes]
+Молчаливые режимы
+[Say]
+Произнести
+[Lexicon]
+Лексикон
+[Load Sapi4]
+Загрузить Sapi4
+[Load Sapi5]
+Загрузить Sapi5
+[I will notify you of contacts status changes]
+Я буду уведомлять об изменения статуса в списке контактов.
+[I will not notify you of contacts status changes]
+Я не буду уведомлять об изменения статуса в списке контактов.
+[I will not speak in the selected modes]
+Я не буду говорить в выбранных режимах.
+[I will speak, no-matter what mode you are in]
+Я буду говорить независимо от вашего режима.
+[I will read your messages]
+Я буду зачитывать сообщения для вас.
+[I will not read your messages]
+Я не буду зачитывать сообщения для вас.
+[I will not read messages longer then 60 words]
+Я не буду зачитывать сообщения длиннее 60 слов.
+[I will read messages, no matter how long they are]
+Я буду зачитывать сообщения независимо от их длины.
+[I will describe all options aloud]
+Я буду описывать все опции вслух.
+[I will not describe all options aloud]
+Я не буду описывать все опции вслух.
+[%u requests your authorization]
+%u запрашивает у вас авторизацию

@@ -1,0 +1,331 @@
+﻿#muuid {b047a7e5-027a-4cfc-8b18eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Module: Yet Another Mail Notifier
+;  Versions: 0.1.0.1 - 0.2.1.5
+;  URL: http://www.majvan.host.sk/Projekty/YAMN/?fm=russianlpack
+;============================================================
+[Check &mail (This Account)]
+Проверить почту
+[Auto retrieve body]
+Загружать тело
+[Disable Events]
+Выключить события
+[YAMN General Options]
+Основные настройки
+[Enable YAMN Main Menu (Require Restart)]
+Пункт YAMN в главном меню (нужен перезапуск)
+[MailBrowser Options]
+Настройки просмотра писем
+[Enable Close on Delete Button]
+Закрывать по нажатию "Удалить"
+[Show long localised date]
+Показывать полную дату
+[Don't show today's date]
+Не показывать сегодняшнюю дату
+[Date/Time Representation]
+Дата/время
+[Don't show seconds]
+Не показывать секунды
+[Check &mail (All Account)]
+Проверить почту
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+Уведомление и просмотр новой почты для Miranda NG. Встроен протокол POP3.
+[Launch Application]
+Запустить приложение
+[YAMN: new mail]
+YAMN: новая почта
+[YAMN: connect failed]
+YAMN: сбой подключения
+[Check &mail (YAMN)]
+Проверить &почту (YAMN)
+[Hotkey for mail check:]
+Горячая клавиша для проверки:
+[TopToolBar button "Chack mail"]
+Показывать кнопку "Проверить почту"
+[Installed plugins]
+Установленные дополнительные модули
+[Use subject to detect spam]
+Использовать для определения спама
+[%s - %d new mails, %d total]
+%s - новых %d, всего %d
+[ - new mail(s)]
+ - новое письмо
+[Subject]
+Тема
+[Run application]
+Запустить приложение
+[Delete selected]
+Удалить выбранное
+[Delete confirmation]
+Подтверждение удаления
+[Do you really want to delete %d selected mails?]
+Удалить %d писем?
+[ - connection error]
+ - ошибка подключения
+[Cannot allocate memory for received data]
+Не могу выделить память под принятые данные
+[Bad user name or error while logging]
+Неправильное имя пользователя или ошибка при подключении
+[Bad user or password or error while logging]
+Неправильное имя или пароль пользователя или ошибка при подключении
+[Cannot get number of messages]
+Не могу получить число сообщений
+[Cannot resolve message signatures]
+Не могу определить подписи сообщений
+[Cannot get sizes of messages]
+Не могу получить размеры сообщений
+[Cannot find server]
+Не могу найти сервер
+[Cannot connect to server]
+Не могу подключиться к серверу
+[System error occured]
+Произошла системная ошибка
+[Cannot send data]
+Не могу отправить данные
+[Cannot receive data]
+Не могу получить данные
+[No new mail]
+Нет новых писем
+[Performs easy filtering. YAMN required (http://www.majvan.host.sk/Projekty/YAMN).]
+Дополнительный фильтр почты для модуля YAMN.
+[Connect Fail]
+Обрыв соединения
+[TopToolBar UP]
+Верх панели кнопок
+[TopToolBar Down]
+Низ панели кнопок
+[No account selected]
+Не выбран аккаунт
+[Check this account]
+Проверять эту учётную запись
+[Check interval [min]:]
+Интервал проверки (мин):
+[New mail notifications]
+Если есть новая почта
+[Sound notification]
+Звуковое уведомление
+[Message notification]
+Окно с сообщением
+[Tray icon notification]
+Уведомление в трее
+[Application execution:]
+Выполнение приложения:
+[Single popup]
+Одно окно
+[Multi popup]
+Много окон
+[Use contact notification for this account]
+Нотификация контактом
+[Replace nick name]
+Заменить ник
+[No new mail notifications]
+При отсутствии новой почты
+[Popup if no mail]
+Всплывающее окно
+[Persistant message]
+Длительность
+[Default codepage:]
+Кодовая страница:
+[APOP auth]
+APOP
+[Disable STLS]
+Выключить STLS
+[Startup check]
+При запуске IM
+[Check from menu]
+Из меню IM
+[Check while...]
+Проверять, если...
+[Connection failure notifications]
+При ошибках подключения
+[Sound notification if failed]
+Звуковое уведомление при ошибке
+[Message notification if failed]
+Окно с сообщением при ошибке
+[Tray icon notification if failed]
+Уведомление в трее при ошибке
+[Popup notification if failed]
+Всплывать при ошибке
+[Reset counter]
+Сброс счётчика
+[TopToolBar button "Check mail"]
+Кнопка "Проверить почту" в Панели кнопок
+[Contact:]
+Контакт:
+[Invalid]
+Неверно
+[Show YAMN as a Protocol  (Require Restart)]
+Показывать YAMN как протокол (нужен перезапуск)
+[Only check when ...]
+Проверять, если...
+[Codepage:]
+Кодировка:
+[New Account]
+Новая Запись
+[Execute Application]
+Запуск приложения
+[Please select application to run]
+Выберите приложение для запуска
+[Mail Notifications]
+Уведомления о почте
+[..s Popup duration]
+сек (длительность)
+[Use custom colour]
+Свои цвета
+[Account Test]
+Проверка
+[Account Test (failed)]
+Проверка (ошибка)
+[You have N new mail messages]
+У вас Х новых сообщений
+[Connection failed message]
+Сообщение о неудачном подключении
+[No new mail message]
+Нет новых писем
+[%d new mail message(s), %d total]
+%d новых писем (%d всего)
+[%s - %d new mail messages, %d total]
+%s - %d новых писем (%d всего)
+[- new mail message(s)]
+- новых писем
+[YAMN: new mail message]
+YAMN: новое письмо
+[Please wait while no account is in use.]
+Пожалуйста, подождите, пока ни одна учётная запись не используется.
+[YAMN Account Folder]
+Папка учётных записей YAMN
+[Launch application]
+Запустить приложение
+[Searching for new mail message]
+Поиск новой почты
+[Time left to next check [s]: %d]
+Время до следующей проверки: %d с.
+[YAMN tweety]
+Проверка почты (YAMN)
+[YAMN uninstalling]
+Удаление YAMN
+[- new mail(s)]
+- новая почта
+[%d new mail(s), %d total]
+%d новых, %d всего
+[%s : %d new mail(s), %d total]
+%s : %d новых, %d всего
+[Check mail]
+Проверить почту
+[Check while ...]
+Проверять, если...
+[Delete account confirmation]
+Подтверждение удаления аккаунта
+[Do you also want to remove native YAMN plugins settings?]
+Удалить настройки YAMN модулей?
+[Do you really want to delete this account?]
+Вы действительно хотите удалить этот аккаунт?
+[Error %d-%d-%d-%d:]
+Ошибка %d-%d-%d-%d:
+[No new mail, %d spam(s)]
+Нет почты, %d спама
+[Reading new mails (%d%% done)]
+Чтение новой почты (%d%% готово)
+[Select executable used for notification]
+Выбор программы для уведомления
+[YAMN]
+Почта
+[Cannot allocate memory space for new account]
+Невозможно выделить память для новой записи
+[Memory error]
+Ошибка памяти
+[Found new version of account book, not compatible with this version of YAMN.]
+Найдена новая версия файла с учётными записями - она несовместима с текущей версией YAMN.
+[Error reading account file. Account file corrupted.]
+Ошибка при чтении файла с учётными записями. Файл с учётными записями испорчен.
+[Memory allocation error while data reading]
+Ошибка распределения памяти при чтении данных.
+[Reading file error. File already in use?]
+Ошибка чтения файла. Файл уже используется?
+[Error while copying data to disk occured. File in use?]
+Ошибка копирования данных на диске. Файл уже используется?
+[YAMN (internal POP3) read error]
+YAMN (внутренний POP3) ошибка чтения
+[POP3 plugin- write file error]
+POP3 модуль - ошибка при записи в файл
+[Error %d-%d-%d:]
+Ошибка %d-%d-%d:
+[Cannot connect to POP3 server.]
+Не могу соединиться с почтовым сервером
+[Cannot allocate memory for received data.]
+Не могу выделить память для получения данных
+[Cannot login to POP3 server.]
+Не могу авторизоваться на POP3 сервере
+[Bad user or password.]
+Неправильное имя пользователя или пароль
+[Error while executing POP3 command.]
+Ошибка исполнения POP3 команды
+[Cannot connect to server.]
+Не могу соединиться с сервером
+[Cannot send data.]
+Не могу отправить данные
+[Cannot receive data.]
+Не могу получить данные
+[Please wait while account is in use.]
+Пожалуйста, подождите, пока учётная запись используется.
+[This is not a valid number value]
+Неправильное числовое значение
+[At least one mail notification event must be checked]
+По крайней мере одно событие для уведомления должно быть отмечено
+[Check while:]
+Проверять когда:
+[You have N new mails]
+У вас N новых писем
+[Connecting to server]
+Соединяюсь с сервером
+[Entering POP3 account]
+Авторизация...
+[Searching for new mail]
+Поиск новой почты...
+[Deleting requested mails]
+Удаление запрошенных писем
+[Deleting spam]
+Удаление спама
+[APOP Auth]
+Аутентификация APOP
+[- connection error]
+- ошибка соединения
+[Account is about to be stopped.]
+Учётная запись скоро будет остановлена.
+[Cannot connect to server with NetLib.]
+Не могу подключиться к серверу с NetLib.
+[Cannot read SSL data.]
+Не могу прочитать SSL данные.
+[Cannot write SSL data.]
+Не могу записать SSL данные.
+[DNS lookup error.]
+Ошибка DNS
+[Error connecting socket with SSL.]
+Ошибка соединения сокета с SSL.
+[Error connecting to server with socket.]
+Ошибка соединения с сервером через сокет.
+[Error while creating base socket.]
+Ошибка создания основного сокета.
+[Error while creating SSL structure.]
+Ошибка создания структуры SSL.
+[Memory allocation error.]
+Ошибка памяти.
+[OpenSSL not loaded.]
+OpenSSL не загружен
+[Server does not support APOP authorization.]
+Сервер не поддерживает APOP аутентификацию
+[Server rejected connection with SSL.]
+Сервер отказал в SSL-соединении
+[Windows socket 2.0 init failed.]
+Инициализация Windows socket 2.0 не удалась.
+[YAMN tweety 2in1]
+Проверка почты YAMN 2в1
+[%s : %d new mail message(s), %d total]
+%s : %d новых писем, %d всего
+[POP3 protocol (internal)]
+Протокол POP3 (встроен)
+[Copy Selected]
+Копировать выделенное
+[Executables]
+Запускаемые

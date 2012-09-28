@@ -1,0 +1,25 @@
+﻿;============================================================
+;  File: ExtApp.dll
+;  Module: external applications
+;  Versions: 0.0.0.4
+;============================================================
+[(&& for mnemonic)]
+(&& для мнемоники)
+[Application]
+Приложение
+[Caption:]
+Заголовок:
+[Contact Menu Item]
+Элемент меню контакта
+[E&xternal App.]
+Внешнее
+[External Apps.]
+Приложения
+[Icon:]
+Значок:
+[IP]
+IP
+[Select external application file]
+Выбор внешнего приложения
+[This plugin allows you to call external applications from the contact list.]
+Модуль позволяет вызывать внешние приложения из списка контактов.

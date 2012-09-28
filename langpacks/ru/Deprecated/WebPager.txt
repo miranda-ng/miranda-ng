@@ -1,0 +1,11 @@
+﻿;============================================================
+;  File: webpager.dll
+;============================================================
+[Frontend for ICQ web pager messages.]
+Поддержка приема сообщений из ICQ web pager
+[Incoming WebPager]
+Входящий WebPager
+[ICQ WebPager message received]
+Получено сообщение ICQ WebPager
+[Error creating WebPager window]
+Ошибка создания окна WebPager

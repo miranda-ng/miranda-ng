@@ -1,0 +1,75 @@
+﻿#muuid {4fac353d-0a36-44a4-90646759c53ae782}
+;============================================================
+;  File: bosskey.dll
+;  Module: Boss Key
+;  Versions: 0.5.0.3
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3694
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/BossKeyPlus/
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
+[Hide/Show Miranda]
+Скрыть/Показать Miranda NG
+[Hide Miranda when:]
+Спрятать программу когда:
+[Workstation is Locked (2000/XP+)]
+Компьютер заблокирован (2000/XP+)
+[Windows is inactive]
+Windows не активен
+[Miranda is inactive]
+Программа неактивна
+[Anti-Boss plugin]
+Позволяет по нажатию "горячей клавиши" прятать Miranda NG от посторонних глаз
+[BossKey]
+АнтиБосс
+[(Previous Status)]
+(Предыдущий)
+[...set the status message to:]
+...изменить статусное сообщение на:
+[and...]
+и...
+[When I return, change my status to...]
+При возвращении изменить статус на:
+[I'm back!]
+Я вернулся!
+[When I press the hotkey, change status to:]
+При нажатии клавиши сменить статус на:
+[(Current Status)]
+(Текущий)
+[Be back soon!]
+Скоро вернусь!
+[Go to Customize -> Hotkeys to change the hotkey]
+Настройка в Тонкая настройка -> Горячие клавиши
+[Use built in to Miranda hotkey module]
+Использовать встроенный модуль горячих клавиш
+[Use built in to Miranda hotkey module (restart required)]
+Использовать встроенный модуль горячих клавиш (требуется перезапуск)
+[Hide Miranda if the computer is locked]
+Блокировать программу, если компьютер заблокирован
+[When I press the hotkey:]
+Когда я нажму горячую кнопку...
+[Change status to]
+Изменить статус на
+[When I return:]
+При возвращении...
+[Request password:]
+Спросить пароль:
+[Change status back]
+Вернуть предыдущий статус
+[Miranda NG is locked. Enter password to unlock it.]
+Miranda NG заблокирована!\nВведите пароль для разблокировки.
+[Use default status message]
+Статусное сообщение по умолчанию
+[The BossKey+ cannot be loaded. It requires Miranda IM 0.7.0.0 or later.]
+Невозможно загрузить Антибосс. Необходима Miranda IM версии 0.7.0.0 и выше.
+[Hide Miranda NG]
+Спрятать Miranda NG
+[get the BossKey name]
+Получить клавишу блокировки из АнтиБосс+
+[Miranda NG is locked.\nEnter password to unlock it.]
+Miranda NG заблокирована.\nВведите ваш пароль для разблокировки.
+[Password is not correct!\nPlease, enter correct password.]
+Неправильный пароль!\nВведите правильный пароль.
+[Miranda is started]
+Программа запускается
+[Restore hiding on startup after failure]
+Восстанавливать скрытие при запуске после "падения"

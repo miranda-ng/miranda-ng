@@ -1,0 +1,25 @@
+﻿#muuid {9c00ab77-41ce-4e93-9a83-f9a8205ca91b}
+;============================================================
+;  File: FortuneAwayMsg.dll
+;  Module: Fortune Messages for the AwayMessages
+;  Versions: 0.0.0.10
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1933
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FortuneAwayMsg/
+;  Authors: TioDuke
+;============================================================
+[Fortune Messages]
+Сообщения Фортуны
+[Fortune Folder]
+Папка фортунок
+[(Used for the %fortunemsg%-type variables)]
+(Использовать для - %fortunemsg%) 
+[Maximum fortune length:]
+Максимальная длина фортунки
+[(Used for the %protofortunemsg%-type variables)]
+(Использовать для - %protofortunemsg%) 
+[(Used for the %statusfortunemsg%-type variables)]
+(Использовать для - %statusfortunemsg%) 
+[Remove CR characters ('\\r')]
+Удалять символы CR("\\r")
+[One line fortunes (remove LFs '\\n', CRs '\\r', tabs '\\t' and cosecutive spaces)]
+Однострочные фортунки (удалять LF '\\n', CR '\\r', TAB '\\t' и лишние пробелы)

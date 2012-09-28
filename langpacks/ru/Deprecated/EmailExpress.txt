@@ -1,0 +1,8 @@
+﻿;  File: EmailExpress.dll
+;  Module: EmailExpress plugin
+;  Versions: 0.0.1.8
+;============================================================
+[EmailExpress received]
+Получен EmailExpress
+[Incoming EmailExpress]
+Входящий EmailExpress

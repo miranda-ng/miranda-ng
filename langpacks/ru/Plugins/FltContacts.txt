@@ -1,0 +1,69 @@
+﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
+;============================================================
+;  File: fltcontacts.dll
+;  Module: Floating Сontacts
+;  Versions: 1.0.2.2
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4400
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/floatingcontacts/
+;  Authors: iavorv
+;============================================================
+[Floating Contacts plugin for Miranda NG]
+Плагин плавающих контактов для Miranda NG
+[Floating Contacts]
+Плавающие контакты
+[Remove thumb]
+Убрать плавающий контакт
+[Hide all thumbs]
+Скрыть плавающие контакты
+[Show all thumbs]
+Показать плавающие контакты
+[Show/Hide all thumbs]
+Показать/Скрыть все контакты
+[Hiding contacts]
+Скрытие контактов
+[Hide all contacts]
+Прятать все контакты
+[Hide when a fulscreen app is active]
+Прятать когда приложение развернуто
+[Hide when contact list is shown]
+Прятать когда список контактов виден
+[Stick together]
+Склеивать контакты
+[Use fixed width]
+Ширина
+[requires mToolTip or Tipper plugin]
+требуется модуль mToolTip или Tipper
+[Bring to front]
+На передний план
+[Bring to front every]
+Перемещать на вверх каждые
+[<Contact List Text>]
+Шрифт в списке контактов
+[Opacity:]
+Непрозрачность:
+[Floating Contacts Background]
+Плавающие контакты: фон
+[Draw border]
+Показывать рамку
+[Left-top edges color:]
+Цвет слева-сверху:
+[Right-bottom eges color:]
+Цвет справа-снизу:
+[Hide if offline]
+Прятать, если отключён
+[Show thumbs]
+Показать плавающие контакты
+[Hide thumbs/Remove thumb]
+Скрыть/Убрать плавающие контакты
+[Show offline]
+Показывать отключённых
+[Hide when a fullscreen app is active]
+Прятать в полноэкранном режиме
+[Floating Contacts plugin for Miranda]
+Модуль плавающих контактов для Miranda NG
+[same]
+те же
+[as:]
+как:
+[Typeface]
+Гарнитура

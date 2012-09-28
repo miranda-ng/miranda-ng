@@ -1,0 +1,105 @@
+﻿;============================================================
+;  File: NewNR.dll
+;  Module: Notes and Reminders
+;  Versions: 0.0.2.4-0.0.4.2
+;============================================================
+[Sticky Notes]
+Заметки
+[Notes & Reminders]
+Заметки и напоминания
+[Notes && Reminders]
+Заметки и напоминания
+[&New Note]
+&Создать заметку
+[&Show / Hide Notes]
+&Показать/скрыть заметки
+[&Delete All Notes]
+&Удалить все заметки
+[&New Reminder]
+&Новое напоминание
+[&View Reminders]
+&Просмотр напоминаний
+[&Delete All Reminders]
+&Удалить все напоминания
+[Remove Note]
+Удалить заметку
+[Hide Note]
+Скрыть заметку
+[Togle On Top]
+Всегда сверху
+[C&ut]
+В&ырезать
+[&Add Reminder]
+&Добавить напоминание
+[Add Reminder]
+Добавить напоминание
+[Trigger On Time && Date:]
+Срабатывать в:
+[Reminder Note:]
+Текст напоминания:
+[Reoccurence]
+Повторять
+[Reminders List]
+Список напоминаний
+[Date of activation]
+Дата активизации
+[Reminder text]
+Текст напоминания
+[Add New]
+Новое
+[Add New Reminder]
+Добавить новое напоминание
+[Delete Reminder]
+Удалить напоминание
+[Delete All Reminders]
+Удалить все напоминания
+[&Dismiss]
+&Завершить
+[Notify me Again in]
+Напомнить через
+[After :]
+После:
+[Note Colors]
+Цвет заметки
+[Note Caption Color]
+Цвет заголовка заметки:
+[Note Body Color]
+Цвет тела заметки:
+[Note Fonts]
+Шрифт заметки
+[Sample Text Caption]
+Текст заголовка:
+[Sample Text Body]
+Текста тела:
+[Pick Font for Caption]
+Шрифт заголовка
+[Pick Font for Body]
+Шрифт тела
+[New note Hot Key]
+Новая заметка:
+[Show/Hide Notes Hot Key]
+Показать/скрыть заметки:
+[New Reminder Hot Key]
+Новое напоминание:
+[Note Transparency (Windows 2K && XP)]
+Прозрачность заметок (2000 && XP):
+[Default Note Size]
+Размер заметки
+[Width (Pixels)]
+Ширина (пикселей):
+[Height (Pixels)]
+Высота (пикселей):
+[Startup options]
+При запуске
+[Show notes at startup]
+Показать заметки
+[Add Contact list menu items]
+Добавить пункты в меню контакта
+[Use this sound for reminders :]
+Звук для напоминаний:
+[Sound...]
+Звук...
+[Send Reminders through E-mail / SMS :]
+Отправить напомин. по E-mail/SMS
+[Show Scrollbars]
+Показать прокрутку

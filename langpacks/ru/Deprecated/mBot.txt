@@ -1,0 +1,64 @@
+﻿;============================================================
+;  File: mBot.dll
+;  Module: Miranda Scripting Plugin
+;  Versions: 0.0.3.5
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1584
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/mBot/
+;  Authors: Piotr Pawluczuk
+;============================================================
+[Disable all events]
+Отключить все события
+[Disable file caching (overwrites script settings)]
+Отключить кеширование файлов (не смотря на настройки в скриптах)
+[Enable MBot]
+Включить Mbot
+[Show MBot console on startup]
+Показывать консоль при старте
+[Show MBot console on error]
+Показывать консоль при ошибке
+[Wrap console output]
+Переносить строки в консоли
+[Disable scheduler]
+Отключить планировщик
+[Script tag (default: \"?>\")]
+Тег скрипта (стандартно: \"?>\")
+[Command tag (default: \"m>\")]
+Тег команды (стандартно: \"m>\")
+[Enable WWW Server]
+Включить WWW сервер
+[Registered Handlers]
+Зарегистрированные модули
+[Enable WWW Log]
+Включить журнал WWW сервера
+[MBot Console]
+MBot - Консоль
+[Cache]
+Кешировать
+[Uncache]
+Убрать из кеша
+[Deactivate]
+Выключить
+[Uninstall]
+Удалить
+[Install Script]
+Установить скрипт
+[Install Extension]
+Установить расширение
+[&Show MBot Console]
+Показать консоль mBot'a
+[Access Denied]
+Доступ запрещен
+[Could not allocate memory!]
+Невозможно распределить память!
+[Script tag (default: "?>")]
+Тег (по умолчанию: "?>")
+[Command Tags]
+Теги команд
+[Installed scripts (double click to configure)]
+Установленные скрипты (двойной клик для настройки)
+[Show advanced script configuration (requires options restart);]
+Показывать расширенные настройки (нужен рестарт)
+[MSP - Miranda Scripting Plugin]
+Скрипты mBot
+[MBot]
+Скрипты mBot

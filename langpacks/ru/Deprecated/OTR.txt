@@ -1,0 +1,71 @@
+﻿;============================================================
+;  File: otr.dll
+;  Module: Off-the-Record
+;  Versions: 0.4.3.0
+;============================================================
+[OTR]
+Шифрование
+[New Private Key]
+Новый личный ключ
+[OTR encrypted session with '%s' is being continued]
+Продолжена шифрованная сессия OTR с '%s'
+[A new fingerprint has been recieved from '%s'\n\n%s\n\nDo you trust it?]
+Новый отпечаток получен от '%s'\n\n%s\n\nВы доверяете ему?
+[OTR Log Message]
+OTR Журнал
+[OTR Warning]
+OTR Предупреждение
+[User ended encrypted session]
+Пользователь закончил шифрованную сессию
+[Insecure]
+Небезопасно
+[OTR Encryption Status]
+OTR Статус шифрования
+[Start OTR]
+Начать OTR
+[OTR Generating Private Key]
+OTR Создание личного ключа
+[Stop OTR]
+Закончить OTR
+[The receiver has not yet accepted or rejected your fingerprint.\nSend the message unencrypted?]
+Получатель еще не принял или отклонил Ваш отпечаток.\nПослать сообщение незашифрованным?
+[Would you like to save the current fingerprint list?]
+Вы хотите сохранить текущий список отпечатков?
+[Opportunistic]
+Авантюристический
+[Generating new key...please wait]
+Создание нового ключа...Подождите
+[OTR New Fingerprint]
+OTR Новый отпечаток
+[Generating new private key.]
+Создание закрытого ключа.
+[Beggining OTR encrypted session with '%s']
+Запущена шифрованная сессия OTR с '%s'
+[Secure]
+Безопасно
+[Would you like to generate a new private key for this protocol?]
+Вы хотите создать новый закрытый ключ для этого протокола?
+[Default Policy]
+По умолчанию
+[Please wait.]
+Подождите.
+[Popups Icon]
+Значок окна
+[OTR encrypted session with '%s' has ended]
+Закончена шифрованная сессия OTR с '%s'
+[OTR Information]
+Информация OTR
+[Policy]
+Правила
+[User '%s' ended encrypted session]
+Пользователь '%s' закончил шифрованную сессию
+[Could not create temporary folder.]
+Не могу создать временную папку.
+[End sessions when contacts go offline]
+Закрывать сессию, когда контакты не в сети
+[End Sessions on window close]
+Закрывать сессию при закрытии окна
+[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
+По таймауту завершается сессия, возвращаясь к чистому тексту (будьте внимательны)
+[Show OTR messages inline]
+OTR сообщения в линию

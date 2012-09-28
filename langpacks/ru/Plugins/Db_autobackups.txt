@@ -1,0 +1,35 @@
+﻿#muuid {81c220a6-0226-4ad6-bfca217b17a16053}
+;============================================================
+;  File: db_autobackups.dll
+;  Module: DB AutoBackups
+;  Versions: 0.0.0.8
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3667
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/db_autobackups/
+;  Authors: chaos.persei, sje, Kildor, Billy_Bons, Vasilich
+;============================================================
+[DB Autobackuper plugin.]
+Модуль авторезервирования профиля.
+[Save Profile As...]
+Сохранить профиль как...
+[Database AutoBackups]
+Авторезервирование профиля
+[Database backuped]
+Профиль зарезервирован
+[Backup Folder]
+Папка резервирования
+[Go to the "Customize -> Folders" to change settings]
+Откройте "Тонкая настройка -> Папки" для изменения настроек
+[path to root miranda folder]
+путь к папке программы
+[path to current miranda profile]
+путь к папке текущего профиля
+[name of current miranda profile (filename, without extension)]
+имя текущего профиля (только имя, без расширения)
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+возвратит строку вида %miranda_profile%\\Profiles\\%miranda_profilename%
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+аналог переменной среды %APPDATA% для текущего пользователя системы
+[username for currently logged-on Windows user]
+имя текущего пользователя системы
+[Miranda Databases]
+Базы данных Miranda NG

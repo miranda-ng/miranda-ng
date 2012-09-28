@@ -1,0 +1,34 @@
+﻿;============================================================
+;  File: net_send_protocol.dll
+;  Module: net_send_protocol
+;  Versions: 0.0.3.6
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=364
+;============================================================
+[Can't register netbios names.\nPlease stop the messenger service and try again.]
+Невозможно зарегистрировать NetBios-имена.\nОстановите сервис сообщений и попробуйте снова.
+[Can't register netbios names.\n Please exit winpopup and try again.]
+Невозможно зарегистрировать NetBios-имена.\n Выключите WinPopup и попробуйте снова.
+[User/Computer/IP]
+Пользователь/Комп./IP
+[Net send protocol]
+Net send протокол
+[On sending msg identify with:]
+При посылке сообщений идентифицировать как:
+[Min status check interval:]
+Мин. интервал для проверки статуса
+[Use name lookup on msg receiving]
+Использовать поиск имен при получении сообщения
+[Turn off when offline]
+Выключать, когда не в сети
+[Security:]
+Настройки защиты:
+[Don't trust on names in message]
+Не доверять именам в сообщении
+[Don't listen on mailslot (needs restart)]
+Не использ. MailSlot (треб. рестарт)
+[Use name cache when:]
+Использовать кеш имен при:
+[adding contacts]
+добавлении контактов
+[receive message]
+приеме сообщений

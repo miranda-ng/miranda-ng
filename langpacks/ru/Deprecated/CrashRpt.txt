@@ -1,0 +1,7 @@
+﻿;============================================================
+;  File: crashrpt.dll
+;  Module: Generates crashreport.txt about Miranda IM crashes
+;  Versions: 0.0.0.1
+;============================================================
+[In case of Miranda crash caused by core or plugin, reports invalid plugin, call stack with source filenames and line numbers]
+В случае "падения" программы, вызванного ядром или модулем, генерируется отчёт с проблемным модулем, очередью вызовов с именами исходных файлов и номерами строк.

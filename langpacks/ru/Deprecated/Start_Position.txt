@@ -1,0 +1,21 @@
+﻿;============================================================
+;  File: start_position.dll
+;  Module: Window Start Position	
+;  Versions: 0.2.0.0
+;============================================================
+[Always start...]
+При запуске...
+[Contact List Window Start Position]
+Начальная позиция списка контактов
+[Minimized to System Tray]
+Скрытой в трей
+[Opened]
+Открытая
+[Pixels from Bottom]
+Точек снизу
+[Pixels from Side]
+Точек сбоку
+[Pixels from Top]
+Точек сверху
+[Window Start Position]
+Начальная позиция

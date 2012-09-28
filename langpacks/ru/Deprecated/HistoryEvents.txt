@@ -1,0 +1,43 @@
+﻿#muuid {25b9a055-1e7f-4505-99ef-9bc76e3f1bd0}
+;============================================================
+;  File: historyevents.dll
+;  Module: History Events
+;  Versions: 0.0.0.8
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3685
+;  Source: http://pescuma.googlecode.com/svn/trunk/Miranda/Plugins/historyevents/
+;  Authors: Pescuma
+;============================================================
+[Event types:]
+Типы событий:
+[Show in message window]
+Показывать в окне сообщений
+[Respect text format]
+Не изменять формат текста
+[Respect text font]
+Не изменять шрифт текста
+[Only add if message window is open]
+Добавлять, только если открыто окно
+[Removal]
+Удаление
+[Keep in database:]
+Хранить в базе:
+[Forever]
+Всегда
+[For 1 year]
+В течение 1 года
+[For 6 months]
+В течение 6 месяцев
+[For 1 month]
+В течение 1 месяца
+[For 1 week]
+В течение 1 недели
+[For 1 day]
+В течение 1 дня
+[Only to view in message window]
+Только для просмотра в окне беседы
+[Max 10 events]
+Максимально 10 событий
+[Max 100 events]
+Максимально 100 событий
+[Don't store]
+Не хранить

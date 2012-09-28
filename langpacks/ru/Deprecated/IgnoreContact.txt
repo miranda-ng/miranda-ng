@@ -1,0 +1,21 @@
+﻿;============================================================
+;  File: IgnoreContact.dll
+;  Module: Ignore Contact
+;  Versions: 1.0.2.3
+;============================================================
+[Do you want to move %s to ignore list?]
+Хотите переместить контакт %s в игнор-лист?
+[Do you want to restore %s from ignore list?]
+Хотите вернуть контакт %s из игнор-листа?
+[Ignore Contact]
+Игнорировать контакт
+[Unignore Contact]
+Вернуть контакт
+[Ignore Contact options]
+Настройка модуля
+[Mark contact as ignored]
+Поместить контакт в игнор-лист
+[Deny existing authorization request]
+Отклонять все запросы авторизации
+[Close existing message window]
+Закрывать все окна контакта

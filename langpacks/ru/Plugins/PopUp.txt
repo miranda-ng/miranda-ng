@@ -1,0 +1,618 @@
+﻿#muuid {26a9125d-7863-4e01-af0ed14ef95c5054}
+;============================================================
+;  File: popup.dll
+;  Module: Popup Interoperability, PopUp Plus
+;  Versions: 1.0.2.1-2.1.1.6
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3400
+;============================================================
+[Popup Mode: Auto]
+Режим всплывающих окон: по умолчанию
+[Popup Mode: Favourtite]
+Режим всплывающих окон: избранное
+[Popup Mode: Ignore fullscreen]
+Режим всплывающих окон: игнорировать полноэкранные приложения
+[Popup Mode: Block contact]
+Режим всплывающих окон: блокировать
+[Favourite]
+Избранное
+[Block]
+Заблокировать
+[Popup Placement]
+Положение
+[Layout:]
+Порядок:
+[vertical]
+вертикаль
+[Popup Area]
+Зона
+[Spacing:]
+Место:
+[Pixel(s)]
+пикс.
+[pixel(s)]
+пикс.
+[Whole Screen]
+Весь экран
+[Configure popup area]
+Зона всплывающих окон
+[Always (has priority)]
+Всегда (имеет приоритет)
+[Refresh skin list]
+Обновить список
+[Clock]
+Время
+[Popup Plus]
+Всплывающие окна
+[Content && Style]
+Стиль окон
+[Dynamically resize the popups]
+Динамическая ширина
+[Minimum width]
+Минимум
+[Maximum width]
+Максимум
+[Use transparency (Windows 2000+)]
+Прозрачность (Windows 2000+)
+[Default color]
+Цвет по умолчанию
+[Default text color]
+Цвет текста по умолчанию
+[Disable popups in fullscreen mode]
+Выкл. в полноэкранном режиме
+[Size && Position]
+Место и размер
+[Live Preview]
+Предпросмотр
+[You may set up custom fonts and colors in Customize > Fonts section in Miranda IM options.]
+Настройка шрифтов и цветов производится по адресу: "Тонкая настройка" > "Шрифты и цвета"
+[Window sliding]
+Скольжение
+[Window fading (Windows 2000+)]
+Затухание (Windows 2000+)
+[Vanish time:]
+Время исчезания:
+[upper left corner]
+слева сверху
+[lower left corner]
+слева снизу
+[lower right corner]
+справа снизу
+[upper right corner]
+справа сверху
+[The Jabberwocky :)]
+БАРМАГЛОТ :)
+[`Twas brillig, and the slithy toves\nDid gyre and gimble in the wabe:\nAll mimsy were the borogoves,\nAnd the mome raths outgrabe.\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+Варкалось. Хливкие шорьки\nПырялись по наве,\nИ хрюкотали зелюки,\nКак мюмзики в мове.\n[b][i]Льюис Кэрролл,1855[/i][/b]
+
+[Drop shadow effect]
+Эффект тени
+[* - built-in skins]
+* - встроенные
+[Refresh List]
+Обновить список
+[Draw gradient background]
+Фон с градиентом
+[Flat borders]
+Плоские границы
+[Performance]
+Поведение
+[Use advanced text render (mtextcontrol.dll)]
+Расширенная обработка (mtextcontrol.dll)
+[Enable popup history]
+История всплывающих окон
+[Do not show more than]
+Не показывать более
+[items]
+штук
+[popup windows]
+окон
+[Store last]
+Хранить
+[Use History++ to render log]
+History++ для истории окон
+[Sample text]
+Пример текста
+[Set &Font]
+&Шрифт
+[Contents]
+Содержимое
+[Use &bold font for nick]
+Имена &жирным шрифтом
+[Display &Time]
+Отображать в&ремя
+[Show s&econd line]
+Показывать в&торую строку
+[En&large PopUps by]
+&Увеличивать окна на
+[&Dynamically resize the popups]
+Точно &подбирать размер окон
+[A&nimate PopUps (98/ME/2000/XP)]
+А&нимация окон (98/ME/2000/XP)
+[Fade &in/out (2000/XP)]
+Плавный показ (2000/XP)
+[Use Tr&ansparency]
+&Прозрачность
+[Transparency options (2000/XP)]
+Прозрачность (2000/XP)
+[Opaque]
+Непрозрачно
+[Start windows in the...]
+Открывать окно в...
+[... upper left corner]
+...верхнем левом углу
+[... lower left corner]
+...нижнем левом углу
+[... lower right corner]
+...нижнем правом углу
+[... upper right corner]
+...верхнем правом углу
+[... center]
+...центре
+[Spread...]
+Расположение...
+[... horizontally]
+... горизонтальное
+[... vertically]
+... вертикальное
+[Use a...]
+Использовать ...
+[... beveled style]
+... объемный стиль
+[... flat style]
+... плоский стиль
+[Miscellanea]
+Прочее
+[PopUp Delay (seconds)]
+Окно видимо (секунд)
+[Hey, this is a status message!]
+Привет, это сообщение о смене статуса!
+[Hey, this is a... real message!]
+Привет, это настоящее сообщение!
+[Enable this notification]
+Включить это уведомление
+[Left click action:]
+Левая кнопка:
+[Right click action:]
+Правая кнопка:
+[Disable when global status is...]
+Отключить, когда глобальный статус...
+[Disable when relevant protocol's status is...]
+Отключить, когда статус соотв. протокола...
+[Colors can be configured in Customize > Fonts section.]
+Цвета настраиваются в Тонкая настройка > Шрифты и цвета.
+[1 second]
+1 секунда
+[2 seconds]
+2 секунды
+[3 seconds]
+3 секунды
+[5 seconds]
+5 секунд
+[7 seconds]
+7 секунд
+[10 seconds]
+10 секунд
+[15 seconds]
+15 секунд
+[Infinite]
+Бесконечно
+[Per-contact settings]
+Настройки для каждого контакта
+[Show default]
+По умолчанию
+[Show always]
+Всегда
+[Ignore fullscreen]
+Игнор. полноэкр.
+[Never show]
+Никогда
+[Reorder PopUps]
+Перемещать окна
+[&Minimum width]
+&Минимальная ширина
+[This is a notifying message (for developers)]
+Это уведомление (для разработчиков)
+[This is a warning message (for developers)]
+Это предупреждение (для разработчиков)
+[Ok, something went wrong in the "%s" setting. Report back this error value: %d]
+Что-то произошло с настройкой "%s". Сообщите разработчикам ошибку: %d
+[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+Что-то произошло с настройкой "%s". Сообщите автору следующие значения:\nFacility: %X\nКод ошибки: %X\nНомер строки: %d
+[Ma&ximum width]
+Ма&ксимальная ширина
+[Multimonitor (98/ME/2000/XP)]
+Мультимонитор (98/ME/2000/XP)
+[Start the popups in the monitor that contains]
+Показывать окна на экране, содержащем
+[Miranda's window]
+Окно Miranda NG
+[the active window]
+Активное окно
+[Disable &popup module]
+Выключить всплывающие окна
+[Enable &popup module]
+Включить всплывающие окна
+[Concurrent PopUps]
+Несколько окон
+[Use multiple threads]
+Несколько потоков
+[Note: this option may (and may not) cause some unexpected crashes, be sure to disable it before reporting a bug.]
+Важно: при включении этой опции возможны ошибки.
+[Multiline &popups]
+Многострочные окна
+[Hey, this is a two lined message!\nCool, isn't it?]
+Это многострочное сообщение!\nКруто, не так ли? :)
+[opacity: %d%%]
+непрозрачность: %d%%
+[Use Tr&ansparency (2000/XP)]
+&Прозрачность (2000/XP)
+[Default colour]
+Цвет фона
+[Default text colour]
+Цвет текста
+[In (ms)]
+Откр. (мс)
+[Out (ms)]
+Закр. (мс)
+[A&nimate PopUps]
+А&нимация окон
+[Slide popups while rordering]
+Сдвигать при пересортировке
+[Infinite popup delay]
+Не закрывать окна
+[Disable PopUps when fullscreen]
+Выкл. в полноэкранном режиме
+[Do not close hovered popups]
+Не закрывать окна под курсором
+[Some plus features:]
+Новые возможности:
+[Hey, this is a multilined message!\nCool, isn't it? Also you can use:\n- BBCodes for [b]bold[/b], [i]italic[/i] & [u]underlined[/u] text;\n- emoticons from SmileyAdd or nConvers :-)\n- MathModule formulas like this: [Math]e^i\pi=-1[Math]]
+Привет, это многострочное сообщение!\nПрикольно, не так ли? Также можно использовать:\n- BBCode для [b]жирного шрифта[/b], [i]курсива[/i] & [u]подчеркнутого[/u] текста;\n- смайлики из SmileyAdd или nConvers :-)\n- Формулы MathModule: [Math]e^i\pi=-1[Math]
+[Plus]
+Скины
+[Emoticons]
+Смайлики
+[Select emoticon package type:]
+Тип смайликов:
+[Disable emoticons]
+Отключить смайлики
+[Use SmileyAdd settings]
+Использовать настройки SmileyAdd
+[nConvers emoticon file (*.xep)]
+Файл смайликов nConvers (*.xep)
+[Select emoticon package file:]
+Файл смайликов:
+[SmileyAdd 0.1.3.2 workaround]
+Поддержка SmileyAdd 0.1.3.2
+[Advanced Look]
+Расширенный просмотр
+[MathModule support]
+Поддержка MathModule
+[BBCodes (like [b]..[/b] for bold)]
+BBCode ([b]..[/b] - жирный)
+[Truncate very long lines]
+Обрезать длинные строки
+[PopUps drop shadow (WinXP+)]
+Тень от окон (WinXP)
+[Skin preferences]
+Настройки скина
+[Choose preferred skin:]
+Выбор скина:
+[Display sidebar]
+С контуром
+[Beveled windows (3d-look)]
+Выпуклые окна (3D)
+[Skin preview]
+Просмотр скина
+[Just take a look at this skin... ;)]
+Взгляните на этот скин... ;)
+[Popups are enabled]
+Окна включены
+[Popups are disabled]
+Окна выключены
+[Image not available (bbCode)]
+Изображение недоступно (BBCode)
+[Timestamp digit '0']
+Время цифра "0"
+[Timestamp digit '1']
+Время цифра "1"
+[Timestamp digit '2']
+Время цифра "2"
+[Timestamp digit '3']
+Время цифра "3"
+[Timestamp digit '4']
+Время цифра "4"
+[Timestamp digit '5']
+Время цифра "5"
+[Timestamp digit '6']
+Время цифра "6"
+[Timestamp digit '7']
+Время цифра "7"
+[Timestamp digit '8']
+Время цифра "8"
+[Timestamp digit '9']
+Время цифра "9"
+[Left edge of timestamp]
+Левая сторона времени
+[Right edge of timestamp]
+Правая сторона времени
+[Timestamp digit separator]
+Разделитель цифр времени
+[AM/PM]
+ДП/ПП
+[opacity: 75%]
+непрозрачность 75%
+[Slide popups while reordering]
+Скользить окнами
+[Single window mode]
+Режим одного окна
+[Show newer messages first]
+Показывать новые первыми
+[Ignore Subcontact Notifications]
+Игнорировать субконтакты
+[Disable when:]
+Выключить, когда
+[Draw avatar borders]
+Рисовать рамки аватаров
+[Round avatar corners by]
+Закруглить углы аватаров
+[Draw borders for semitransparent avatars too]
+Также для полупрозрачных аватаров
+[Show colours]
+Показывать цвета
+[Show shadow]
+Тень
+[Add Contact Permanently]
+Добавить контакт постоянно
+[Pin Popup]
+Закрепить
+[* Popup Classic]
+* Классический
+[Pinned Popup]
+Закреплённое
+[Enable Aero Glass (Vista+)]
+Эффект Aero Glass (Vista+)
+[Test action]
+Пробное действие
+[Common Actions]
+Общие действия
+[Popup Actions are those tiny buttons below notification text.]
+Действия - это маленькие кнопки под текстом окна.
+[Add info && menu for IM contacts only]
+Меню и инфо только у контактов
+[Opaque popups under cursor]
+Непрозрачно под курсором
+[* Effect:]
+* Эффект:
+[Fading]
+Затухание
+[Test effect]
+Тестовый эффект
+[Use advanced text render]
+Расширенная обработка текста
+[Start the popups in the monitor with]
+Всплыв. окна на мониторе, где
+[Popup delay:]
+Задержка:
+[Limit window amount to:]
+Ограничить количество до:
+[Protocol Status]
+Статус протокола
+[Reorder Popups]
+Упорядочивать (сдвигать) окна
+[Options marked with asterisk will be applied after restart]
+Опции, отмеченные *, применятся после перезапуска
+[Enable avatar updates]
+Обновления аватаров
+[Use large icons]
+Большие значки
+[Add default actions for contacts only]
+Общ. действия только у контактов
+[Go to Customize > Fonts section for fonts and colors options]
+Настройки шрифтов и цвета: Тонкая настройка>Шрифты и цвета
+[Make action icons customizable*]
+Настраиваемые значки действий*
+[Enable freeform shadows (XP+)]
+Свободные тени (XP+)
+[Icons aligned to the right]
+Значки справа
+[Icons on the left]
+Значки слева
+[Enable popup actions]
+Включить действия
+[Second test action]
+Второе пробное действие
+[Enable Win 9x/Me transparency]
+Прозрачность в Win9x/ME
+[Global Status]
+Общий статус
+[Don't close popups on default actions]
+Не закрывать окна общих действий
+[Performance && Tweaks]
+Быстродействие
+[Please choose in what cases default actions should be added:]
+Выберите, в каких случаях добавлять общие действия:
+[Show Actions: (requires apply)]
+Действия: (требует "Применить")
+[Drop shadow effect (Windows XP+)]
+Тень (Windows XP+)
+[Popup actions will be displayed as:]
+Отображение действий:
+[Make OK/Cancel icons customizable*]
+Настраиваемые ОК/Отмена*
+[Icons and labels below text]
+Значки и подписи снизу
+[One more action]
+Еще действие
+[Provides popup notification services for different plugins.]
+Предоставляет сервис всплывающих окон для различных модулей.
+[Pin popup]
+Закрепить
+[This is an error message]
+Это сообщение об ошибке
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+Тестовый предпросмотр для настроек модуля всплывающих окон. Заголовок достаточно длинный...
+[This is a notification message]
+Это уведомление
+[The Jabberwocky]
+Пустословие
+[This is a warning message]
+Это предупреждение
+[Check0]
+Проверка0
+[Check1]
+Проверка1
+[Check2]
+Проверка2
+[Check4]
+Проверка4
+[Check5]
+Проверка5
+[Check6]
+Проверка6
+[Check7]
+Проверка7
+[Check8]
+Проверка8
+[Check9]
+Проверка9
+[This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
+Это специальный предпросмотр для настроек модуля всплывающих окон. Текст и заголовок достаточно длинны для того чтобы вы смогли настроить скин и модуль, так как вам нравится ;)
+[Hovered Action]
+Наведённое действие
+[Error (colors only)]
+Ошибка (только цвета)
+[Notification (colors only)]
+Уведомление (только цвета)
+[Warning (colors only)]
+Предупреждение (только цвета)
+[With "favourite" overlay]
+С наложением "Избранный"
+[With "fullscreen" overlay]
+С наложением "Полный экран"
+[Popup Group]
+Группа окон
+[Quick Reply]
+Быстрый ответ
+[Show Default]
+Показывать по умолчанию
+[Favourite Contact]
+Избранный контакт
+[Show in Fullscreen]
+Показать в полный экран
+[Blocked Contact]
+Заблокированный контакт
+[...skin for popup windows]
+...скины всплывающих окон
+[Avatars to right]
+Аватары справа
+[Fast halftones]
+Быстрые полутона
+[Line under title]
+Линия под заголовком
+[Use different colors]
+Разные цвета для окон
+[Use only one (but large) window]
+Использовать одно (но большое) окно
+[Favorite Contact]
+Избранный контакт
+[Avatars on right]
+Аватары справа
+[Customizable text color]
+Настраиваемый цвет текста
+[Display icon]
+Показывать значок
+[Show headerbar]
+Панель заголовка
+[...skin for old plugins]
+...скины для старых версий PopUp
+[PopUp class:]
+Классы PopUp:
+[PopUp Interoperability]
+Совместимые всплывающие окна
+[Provides a common PopUp interface for different plugins. Development of famous PopUp seems to be stopped so this is an update for  Luca Santarelli`s PopUp. Now it supports wrapping and emoticons ;). But this is just alpha-version and so contains lots of bugs :(]
+Дополняет всплывающий интерфейс для различных модулей к программе. Развитие известного всплывающего модуля будет остановлено. Это обновление от Luca Santarelli . Теперь оно поддерживает перенос и дополнительные значки. Это альфа версия и поэтому содержит в себе много ошибок. Перевод Homeric, Radion
+[Reload skins]
+Обновить список
+[Using SmileyAdd's settings is preferred due to bugs in internal MSL loading code. Also it allows you to select the same emoticons both for PopUp and message dialog.]
+SmileyAdd предпочтительней из-за дефектов во внутреннем MSL коде. Это позволяет вам выбирать те же значки для всплывающих окон и диалога в сообщениях.
+[Show colours in text bloc]
+Показывать цвета в текстовом блоке
+[Show avatar border]
+Показывать границы аватара
+[Black text bg.]
+Черный текст фона
+[Align avatar to right]
+Выравнивать аватар справа
+[Black background]
+Чёрный фон
+[Here you are! :-)  ;-)  :-(]
+Вот они! :-) ;-) :-(
+[Quick reply]
+Быстрый ответ
+[Process Miranda IM tray notifications]
+Обрабатывать уведомления в трее
+[Show clock]
+Показывать часы
+[Clock Button]
+Часы-кнопка
+[Icon Button]
+Значок-кнопка
+[Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
+В своём доме в Р’льехе мёртвый Ктулху спит, ожидая своего часа
+[Go to Customize > Fonts && Colors for fonts and colors options]
+Настройки шрифтов и цвета: Тонкая настройка>Шрифты и цвета
+[Square fading]
+Шахматика
+[Mouse Actions Overwrite]
+Действия по нажатию мышки
+[LeftButton]
+Левая кнопка
+[MiddleButton]
+Средняя кнопка
+[RightButton]
+Правая кнопка
+[no overwrite]
+нет действия
+[Colors can be configured in\r\nCustomize > Fonts && Colors]
+Цвета настраиваются в\r\nТонкая настройка > Шрифты и цвета
+[Popups On/Off]
+Вспл. окна вкл/выкл
+[Toggle Popups]
+Вкл/Выкл вспл. окна
+[non rectangular]
+не прямоугольные
+[Slide Popup]
+Скольжение
+[Fade in/out]
+Плавный показ
+[Time (in):]
+Время (появление):
+[Time (out):]
+Время (исчезание):
+[Desktop]
+Рабочий стол
+[Distance between popups]
+Расстояние между вспл. окнами
+[Process Clist events]
+Обрабатывать события КЛ
+[Avatar Border]
+Граница аватара
+[Popup History message]
+История всплывающих окон
+[Popup History is disabled]
+История всплывающих окон отключена
+['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+Настройка 'Упорядочивать (сдвигать) окна' отключена.\r\nЭто может привести к перекосу при использовании с\r\nаватарами и заменой текста (с плагином NewStatusNotify).\r\n\r\nВключить упорядочивание (сдвигание) окон?\r\n
+[Popup Plus Warning]
+Предупреждение Popup Plus
+[Download more skins]
+Скачать скины
+[CLASS Plugins]
+Группы модулей
+[Position:]
+Позиция:
+[Disable popups]
+Выключить вспл. окна
+[Enable popups]
+Включить вспл. окна

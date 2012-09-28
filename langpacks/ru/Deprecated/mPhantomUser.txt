@@ -1,0 +1,42 @@
+﻿;============================================================
+;  File: mPhantomUser.dll
+;  Module: Allow to add, edit and delete on phantom users (member on Phantom Protocol) in contact list.
+;  Versions: 0.3.7.0
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=468
+;============================================================
+[Allow to add, edit and delete on phantom users (member on Phantom Protocol) in contact list.]
+Позволяет добавлять, редактировать и удалять фантомов (члены в протоколе Phantom) в списке пользователей.
+[&Phantom Users]
+Пользователи Phantom
+[&Add Phantom User]
+Добавить Phantom контакт
+[&Edit Phantom User]
+Редактировать Phantom контакт
+[&Export Phantom Users]
+Экспорт Phantom контакты
+[&Import Phantom Users]
+Импорт Phantom пользователей
+[&Full Name]
+Полное имя
+[&Nick Name]
+Ник
+[Contact &Type]
+Тип контакта
+[Cellular &Phone]
+Сотовый
+[&Home Page]
+Домашняя страница
+[Invalid or empty full user name.]
+Неправильное или пустое имя пользователя.
+[Comma Separated Values (*.csv)]
+Значения разделённые запятой (*.csv)
+[Import process has not completed]
+Процесс импорта не закончен
+[Import process has completed.]
+Процесс импорта окончен.
+[Export process has completed.]
+Процесс экспорта окончен.
+[Family]
+Семья
+[This is not phantom user.]
+Это не фантом.

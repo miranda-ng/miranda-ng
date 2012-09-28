@@ -1,0 +1,50 @@
+﻿;============================================================
+;  File: InterfaceLock.dll
+;  Module: MIMLocker - Miranda IM interface lock plugin
+;  Versions: 0.0.4.1
+;============================================================
+[When locked]
+При блокировке
+[Change it back on unlock]
+Сменить обратно при разблокировке
+[Failed to find any CList plugin]
+Невозможно найти любой модуль списка контактов
+[This will reset your password. Continue?]
+Операция удалит ваш пароль. Продолжить?
+[Miranda IM is locked. Please enter password to unlock it.]
+Miranda IM заблокирована. Введите пароль для доступа.
+[Failed to hook API. Some features shall be disabled.]
+Невозможно перехватить API. Некоторые функции будут отключены
+[New password and its confirmation are different.\nTry once more.]
+Новый пароль, и его подтверждение различны.\nПопытайтесь еще раз.
+[Old password:]
+Старый пароль:
+[Invalid password]
+Неправильный пароль
+[Your password has been changed]
+Ваш пароль изменен
+[Disable popups]
+Выкл. вспл.окна
+[Lock tray icons]
+Блокировать значки в трее
+[Failed to set hook]
+Невозможно назначить перехват
+[Lock Miranda when system is locked (Win+L)]
+Блокировать программу при блокировании системы (Win-L)
+[Password is incorrect.]
+Пароль неверный.
+[Unlock]
+Разблокировать
+[Set password...]
+Установить пароль...
+[You must enter your old password]
+Вы должны ввести старый пароль
+[Password was not set]
+Пароль не установлен
+[Do not distirb]
+Не беспокоить
+[GetVersionEx failed!]
+[status changed]
+статус изменился
+[Temporary back-door]
+Временный бекдор

@@ -1,0 +1,303 @@
+﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;============================================================
+;  File: gg.dll
+;  Module: Gadu-Gadu protocol
+;  Versions: 0.10.0.2
+;  URL: http://code.google.com/p/miranda/downloads/list
+;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/Gadu-Gadu/
+;  Authors: dezred
+;============================================================
+[Provides support for Gadu-Gadu protocol]
+Модуль протокола Gadu-Gadu
+[Public Info]
+Общий каталог
+[Family name:]
+Фамилия:
+[Origin city:]
+Место жительства:
+[Birth year:]
+Год рождения:
+[Ex.]
+Экс.
+[Friends only]
+Только друзья
+[Show offline users with status message as invisible in contact list]
+Отключённые со статусным сообщением = невидимые
+[Ignore incoming conference messages]
+Игнорировать входящие конференц-сообщения
+[Automatically pop up the window when a image is received]
+Показать окно при получении изображения
+[Show contacts not on my list having me on their list]
+Показывать контакты, у которых я в списке
+[Gadu-Gadu Number:]
+Номер Gadu-Gadu:
+[Gadu-Gadu Number]
+Номер Gadu-Gadu
+[Gadu-Gadu User Details]
+Информация о пользователе Gadu-Gadu
+[Retrieve password]
+Восстановить пароль
+[Change e-mail]
+Изменить е-mail
+[Change status safely]
+Безопасное изменение статуса
+[Show connection errors]
+Показывать ошибки соединения
+[After disconnection leave away message of status:]
+После разъединения оставить статусное сообщение:
+[Manually specify connection servers' hosts]
+Указать серверы вручную
+[Use SSL secure connection]
+Безопасное подключение (SSL)
+[* new line is separator\n** hostname:port format]
+* перевод строки разделитель\n** хост:порт
+[Use direct connections]
+Использовать прямое соединение
+[Use forwarding]
+Использовать перенаправление
+[Import List From &Server]
+Импорт списка с &Сервера
+[Import List From &Text File...]
+Импорт списка из &Файла...
+[&Remove List From Server]
+&Удалить список с сервера
+[Export List To &Server]
+Экспортировать список на &Сервер
+[Export List To &Text File...]
+Экспортировать список в &Файл...
+[Text files]
+Текстовый файл
+[Connection cannot be established because of error:\n\t%s]
+Невозможно соединиться из-за ошибки:\n\t%s
+[Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
+Miranda не может распознать имя сервера Gadu-Gadu по IP-адресу.
+[Received invalid server response.]
+Получен неверный ответ сервера.
+[Cannot establish secure connection.]
+Невозможно установить SSL соединение.
+[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
+Ваш логин или пароль не принят сервером Gadu-Gadu. Пожалуйста, проверьте их правильность Меню->Настройки->Сеть->Gadu-Gadu и попробуйте ещё раз.
+[Connecting to Gadu-Gadu hub failed.]
+Соединение с Gadu-Gadu разорвано.
+[Token retrieval failed because of error:\n\t%s]
+Маркер не получен из-за ошибки\n\t%s
+[Enter token to continue]
+Введите маркер для продолжения
+[You have to be connected before you can import/export contacts from/to server.]
+Установите соединение перед импортом/экспортом контактов с/на сервер.
+[List cannot be exported because of error:\n\t%s]
+Экспорт невозможен из-за ошибки:\n\t%s
+[List cannot be exported to file "%s" because of error:\n\t%s]
+Экспорт в файл "%s" невозможен из-за ошибки:\n\t%s
+[List cannot be imported because of error:\n\t%s]
+Импорт невозможен из-за ошибки:\n\t%s
+[List cannot be imported from file "%s" because of error:\n\t%s]
+Импорт в файл "%s" невозможен из-за ошибки:\n\t%s
+[List remove successful.]
+Список удалён.
+[List export successful.]
+Список экспортирован.
+[List import successful.]
+Список импортирован.
+[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+Ваш пароль будет выслан на регистрационный e-mail .\nПродолжить ?
+[Password could not be reminded because of error:\n\t%s]
+Не возможно получить пароль из-за ошибки:\n\t%s
+[Password was sent to your e-mail.]
+Пароль выслан на ваш e-mail.
+[Your info cannot be uploaded because of error:\n\t%s]
+Ваша информация не выгружена на сервер из-за ошибки:\n\t%s
+[Your info has been uploaded to public catalog.]
+Ваша информация выгружена в общий каталог.
+[Your password cannot be changed because of error:\n\t%s]
+Невозможно изменить пароль из-за ошибки:\n\t%s
+[Your password has been changed.]
+Ваш пароль изменён.
+[Your e-mail cannot be changed because of error:\n\t%s]
+Невозможно изменить e-mail из-за ошибки:\n\t%s
+[Your e-mail has been changed.]
+Ваш e-mail изменён.
+[Cannot register new account because of error:\n\t%s]
+Невозможно зарегистрировать пользователя из-за ошибки:\n\t%s
+[You have registered new account.\nPlease fill up your personal details in "M->Change my details..."]
+Вы зарегистрированы.\nВведите свои данные в "Меню->Изменить мои данные..."
+[Your account cannot be removed because of error:\n\t%s]
+Невозможно удалить пользователя из-за ошибки:\n\t%s
+[Bad number or password]
+Неверный номер или пароль
+[Bad old e-mail or password]
+Неверный старый e-mail или пароль
+[Bad e-mail or password]
+Неверный e-mail или пароль
+[Invalid data entered]
+Неверные данные
+[Your account has been removed.]
+Пользователь удалён.
+[Password too short.]
+Слишком короткий пароль.
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+Вы должны отключиться перед изменением параметров пользователя.\nПроизвести отключение?
+[Server hostname %s is invalid. Using default hostname provided by the network.]
+Имя сервера %s неверно. Использую сервер сети по умолчанию.
+[External direct connections hostname %s is invalid. Disabling external host forwarding.]
+Внешний хост для прямых подключений %s неверен. Перенаправление на внешний хост выключено.
+[Change Gadu-Gadu password]
+Изменить пароль Gadu-Gadu
+[Changes current Gadu-Gadu user password.]
+Изменение пароля текущего пользователя Gadu-Gadu.
+[Change Gadu-Gadu e-mail]
+Изменить e-mail Gadu-Gadu
+[Changes current Gadu-Gadu user e-mail.]
+Изменение e-mail текущего пользователя Gadu-Gadu.
+[New password:]
+Новый пароль:
+[Confirm password:]
+Подтвердить пароль:
+[New e-mail:]
+Новый e-mail:
+[Yes, I want to remove my account]
+Да, удалите мою учётную запись
+[Remove Gadu-Gadu account]
+Удалить номер Gadu-Gadu
+[This will remove your Gadu-Gadu account.]
+Номер Gadu-Gadu удалён.
+[Create Gadu-Gadu account]
+Создать номер Gadu-Gadu
+[This will create new Gadu-Gadu account.]
+Новый номер Gadu-Gadu создан.
+[Age from:]
+Возраст:
+[to:]
+до:
+[&Image]
+Изображение
+[Image saved.]
+Изображение сохранено.
+[Image cannot be written to disk.]
+Изображение не может быть записано на диск.
+[Image from %s]
+Изображение от %s
+[Image for %s]
+Изображение для %s
+[Image files (*.bmp,*.jpg,*.gif)]
+Изображения (*.bmp,*.jpg,*.gif)
+[Select picture to send]
+Выберите изображение для отправки
+[Could not load image. Image might have unsupported file format.]
+Невозможно загрузить изображение (формат не поддерживается?)
+[Open new conference]
+Начать конференцию
+[Select conference participants.]
+Выбрать участников конференции
+[Open &conference...]
+Открыть конференцию...
+[&Clear ignored conferences]
+Очистить игнорируемые конференции
+[%s initiated the conference.]
+%s начал(а) конференцию.
+[This is my own conference.]
+Это моя конференция.
+[You have to be connected to open new conference.]
+Вы должны быть подключены чтобы начинать конференции.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Список игнорируемых конференций очищен и применяется общая политика конференций.
+[There are no ignored conferences.]
+Игнорируемых конференций нет.
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+%s начал(а) конференцию с %d участниками (%d неизвестно).\nПринять участие?
+[Conference policy]
+Политика конференций
+[if total participant count greater than:]
+если общее число участников больше:
+[if unknown participant count greater than:]
+если число неизвестных участников больше:
+[in other case]
+в других случаях
+[Image received]
+Получена картинка
+[You need to specify your registration e-mail first.]
+Необходимо указать ваш e-mail.
+[HTTP failed connecting]
+HTTP ошибка подключения
+[HTTP failed reading]
+HTTP ошибка чтения
+[HTTP failed resolving]
+HTTP ошибка определения адреса
+[HTTP failed writing]
+HTTP ошибка записи
+[Unknown HTTP error]
+HTTP неизвестная ошибка
+['Unknown']
+'Неизвестно'
+[Account settings]
+Настройки
+[Blocked to this contact]
+Заблокировано
+[Delete image]
+Удалить картинку
+[Export list to server]
+Экспорт на сервер
+[Export list to text file]
+Экспорт в файл
+[Import list from server]
+Импорт с сервера
+[Import list from text file]
+Импорт из файла
+[Next image]
+Следующая картинка
+[Previous image]
+Предыдущая картинка
+[Remove list from server]
+Удалить с сервера
+[Save image]
+Сохранить
+[Send image]
+Отправить
+[Image exceeds maximum allowed size of 255 KB.]
+Допустимый размер в 255Кб превышен
+[Image files (*.bmp,*.jpg,*.gif,*.png)]
+Изображения (*.bmp,*.jpg,*.gif,*.png)
+[List cannot be exported to file \"%s\" because of error:\n\t%s]
+Нельзя экспортировать список в файл \"%s\" из-за ошибки:\n\t%s
+[List cannot be removeed because of error:\n\t%s]
+Нельзя удалить список из-за ошибки:\n\t%s
+[Advanced Configuration]
+Дополнительная настройка
+[Receive image and after image is received use:]
+После получения изображения:
+[GG: PS_AWAYMSG was called without previous PS_SETSTATUS for status %d, desired %d, current %d.]
+GG: PS_AWAYMSG вызван без PS_SETSTATUS для статуса %d, выбран %d, текущий %d
+[Could not load token image.]
+Не могу загрузить маркер.
+[Use secure SSL connection]
+Использовать SSL соединение
+[Gadu-Gadu Protocol]
+Протокол Gadu-Gadu
+[Show links from unknown contacts]
+Показывать ссылки от неизвестных контактов
+[Message with [img] BBCode]
+Сообщение с [img] BB-кодом
+[Concurrent Sessions]
+Одновременные сессии
+[Concurrent &sessions]
+Одновременные сессии
+[Concurrent %s Login Sessions\nView information on active concurrent sessions]
+Одновременные сессии %s\nИнформация об активных одновременных сессиях
+[There are no active concurrent sessions for this account.]
+Нет активных одновременных сессий для этой учетной записи.
+[You have to be logged in to view concurrent sessions.]
+Вы должны быть подключены для просмотра одновременных сессий.
+[Client Name]
+Имя клиента
+[Login Time]
+Время входа
+[sign out]
+выйти
+[Sign out all sessions]
+Выйти из всех сессий
+[Copy Text]
+Копировать
+[Whois]
+Информация
+[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
+Учётная запись Gadu-Gadu\nСоздание новой учётной записи Gadu-Gadu

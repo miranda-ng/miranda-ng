@@ -1,0 +1,57 @@
+﻿;============================================================
+;  File: findamsg.dll
+;  Module: Find a message
+;  Versions: 0.2.1.0
+;============================================================
+[Find a message in your history...]
+Ищет сообщения во всей истории...
+[&Advanced]
+Дополнительно
+[&Copy this message to Clipboard]
+Скопировать сообщение в буфер обмена
+[&Find a Message]
+Поиск сообщения
+[After]
+После
+[Before]
+До
+[Contacts to search]
+Контакты для поиска
+[Export results to a &TXT file]
+Экспортировать результаты в TXT файл
+[Find A Message......]
+Найти сообщение......
+[Finished... %d Contacts Searched. %d Messages Found]
+Закончено... %d Контактов найдено. %d Сообщений найдено
+[I/O]
+Ввод/Вывод
+[Only show messages ]
+Только сообщения
+[Progress: %d/%d Contacts Searched. %d/%d Messages Searched]
+Просмотрено контактов: %d/%d, сообщений: %d/%d.
+[results. (0 for unlimited)]
+результатов. (0 не ограничено)
+[Search Canceled]
+Поиск отменен
+[Search Progress]
+Процесс поиска
+[Search with case sensitivity]
+Искать с учётом регистра
+[Show a maximum of]
+Показывать максимально
+[Sort by]
+Сортировать по
+[Time/Date]
+Время/Дата
+[with ALL of these words]
+Поиск ВСЕХ этих слов:
+[With AT LEAST ONE of these]
+Поиск ЛЮБОГО из этих слов:
+[with NONE of these words]
+Поиск БЕЗ этих слов:
+[with the EXACT PHRASE]
+ИМЕННО С ЭТИМ
+[with EXACT PHRASE]
+Поиск ТОЧНО ЭТОГО:
+[Finished... %d Contacts Searched. %d/%d Messages Found]
+Просмотрено контактов: %d. Найдено: %d/%d.

@@ -1,0 +1,246 @@
+﻿#muuid {37f59333-8c51-4886-96db-b9d9e37cad38}
+;============================================================
+;  File: updater.dll
+;  Module: Updater
+;  Versions: 0.1.10.1-0.5.4.1
+;  URL: http://addons.miranda-im.org/feed.php?dlfile=2596
+;============================================================
+[Updates Found]
+Найдены обновления
+[Updater has detected updated versions\nof the following Miranda components:]
+Были найдены обновлённые версии следующих модулей:
+[Automatic Updater for Miranda]
+Автоматическое обновление модулей Miranda IM
+[Temporary Files]
+Временные файлы
+[Saved Archives]
+Скачанные архивы
+[Update and Exit]
+Обновить и выйти
+[Updater]
+Обновления
+[Check for updates on startup]
+Проверять при запуске IM
+[(But only once per day)]
+(Но только раз в день)
+[Check daily]
+Проверять ежедневно
+[Install without confirmation if idle]
+Установка без подтверждения
+[Backup updated files]
+Сохранять старые файлы
+[Global Status Control]
+Управление глобальным статусом
+[Start offline, restore after update check]
+Старт оффлайн, восстановить после проверки
+[Use popups for progress info]
+Информация во вспл. окнах
+[Show 'Update and Exit' menu item]
+Пункт меню "Обновить и выйти"
+[Keep downloaded archives]
+Сохранять скаченные архивы
+[Only install DLLs automatically]
+Устанавливать только DLL
+[Don't unzip]
+Не распаковывать
+[Update on build number change.]
+Обновлять при смене сборки
+[Use Beta?]
+Ставить беты?
+[Progress - Checking for updates...]
+Проверка обновлений...
+[Downloading XML data]
+Загрузка данных XML
+[Progress - %d%%]
+Прогресс - %d%%
+[Scanning plugins folder]
+Проверка модулей
+[Scanning language packs]
+Проверка локализаций
+[Updating component file listing ids]
+Обновление списка компонентов
+[Checking for updates]
+Проверка обновлений
+[Checking plugin: %s]
+Проверка модуля: %s
+[Changelog]
+Изменения
+[Confirm Files]
+Подтверждение установки
+[Confirm install for individual files]
+Подтверждать установку файлов
+[Confirm Updates]
+Обновления
+[Download but do not install]
+Закачать, но не устанавливать
+[Invert Selection]
+Обратить выбор
+[Progress - Downloading updates...]
+Прогресс - Загрузка обновлений...
+[Select DLLs]
+Выбрать DLL
+[Uncheck the files that you do not want installed:]
+Отметьте устанавливаемые файлы:
+[Updates are available for the following components:]
+Доступны обновления следующих компонентов:
+[Downloading plugin: %s]
+Загрузка модуля: %s
+[Downloading]
+Загрузка
+[Update on major version change.]
+Обновлять при значительной смене версии 
+[Update on minor version change.]
+Обновлять при не значительной смене версии
+[Update on release number change.]
+Обновлять при смене номера релиза
+[FORCED]
+УСИЛЕННО
+[FALSE]
+Нет
+[Failed to download XML data: ]
+Невозможно загрузить XML данные:
+[Failed to download "%s": ]
+Не могу загрузить "%s": 
+[TRUE]
+Да
+[Russian Language Pack (Homeric)]
+Русский интерфейс (Homeric)
+[Progress]
+Прогресс
+[Updater connection]
+Подключения модуля обновлений
+[Check for updates]
+Проверить обновления
+[Data:]
+Данные:
+[Backups:]
+Резервные копии:
+[Saved archives:]
+Сохранённые архивы:
+[%s Error]
+Ошибка %s
+[Checking for Updates]
+Проверка обновлений
+[Click here to install]
+Нажмите для установки
+[Could not create backup folder]
+Не могу создать папку
+[Could not create data file for restart.]
+Не могу создать файл для рестарта.
+[Could not create data file for restart]
+Не могу создать файл для рестарта
+[Downloading Updates]
+Загрузка обновлений
+[Failed to decompress XML data]
+Невозможно распаковать XML данные
+[Failed to download XML data - Invalid response, code %d]
+Невозможно загрузить XML данные - Код ответа %d
+[Failed to download XML data - Response is NULL]
+Невозможно загрузить XML данные - Нет ответа
+[Miranda's not 'OK TO EXIT'.]
+Miranda не готова к закрытию!
+[Select Updates Folder]
+Выбор папки обновлений
+[Skipping plugin: %s]
+Пропускаю модуль: %s
+[The folder you have chosen for temporary files is not empty.\nALL FILES in this folder will be REMOVED during the update process.]
+Папка для временных файлов, выбранная Вами, не пустая.\nВСЕ ФАЙЛЫ в этой папке будут УДАЛЕНЫ во время процесса обновления.
+[Updater Error]
+Ошибка обновлений
+[Updater Warning]
+Предупреждение
+[Updater: Error Downloading XML Data]
+Обновления: Ошибка загрузки XML данных
+[Updates Available]
+Доступны обновления
+[Updates:]
+Обновления:
+[Zipfile is corrupt or not a zipfile]
+Архив поврежден или не является правильным
+[Failed to restart Miranda]
+Невозможно перезапустить Miranda
+[Success]
+Успешно
+[Still more data to unzip]
+Больше данных для распаковки
+[or press Cancel to abort.]
+или нажмите Отмена для отмены.
+[Library does not contain Miranda PluginInfo function]
+Библиотека не содержит функции Miranda IM информация о плагине
+[File not loadable as library]
+Файл не загружается как библиотека
+[BZ2 Decompression, configuration error]
+Ошибка BZ2 конфигурации декомпрессии
+[Failed to allocate memory]
+Невозможно выделить память
+[Miranda did not exit - cannot install or restart.\n]
+Miranda не закрылась - невозможно установить или перезапустить.\n
+[unknown zip result code]
+Неизвестный код ошибки zip
+[%s Warning]
+%s Предупреждение
+[Error writing to file]
+Ошибка записи в файл
+[DB2 Decompression, memory error]
+DB2 Распаковка, ошибка памяти
+[Your 'temporary files' folder is set to NULL. Install aborted.]
+Временная папка не настроена. Установка отменена.
+[Error reading file]
+Ошибка чтения файла
+[File not found in the zipfile]
+Файл не найден в архиве
+[Couldn't create/open file]
+Невозможно создать/открыть файл
+[Press OK to kill the process, ]
+Нажмите OK, чтобы убить процесс,
+[It seems Miranda is still running. Aborting update.]
+Miranda до сих пор запущена. Отменяем обновление.
+[BZ2 Decompression, parameter error]
+BZ2 Распаковка, ошибка аргумента
+[No network - aborting update check]
+Нет сети - отмена обновления
+[Failed to download "%s" - Invalid response, code %d]
+Невозможно скачать "%s" - Неправильный ответ, код %d
+[Correct password required]
+Необходим правильный пароль
+[WARNING: Updater will move or delete everything in the 'Updates' folder when installing - so do not point it at anything important (e.g. your plugins folder) or put anything other than updates in there!]
+ВНИМАНИЕ: Модуль переместит или удалит всё в папке "Обновления", не указывайте важную папку (например, папку plugins) и не используйте её для хранения чего-либо!
+
+;UNtranslated strings
+[Caller: additions to the zip have already been ended]
+[Caller: can only get memory of a memory zipfile]
+[Caller: faulty arguments]
+[Caller: mixing creation and opening of zip]
+[Caller: not enough space allocated for memory zipfile]
+[Caller: the file had already been partially unzipped]
+[Caller: there was a previous error]
+[Culdn't duplicate handle]
+[Read Unicode text line]
+[no backups]
+[Zip-bug: an internal error during flation]
+[Zip-bug: internal initialisation not completed]
+[Zip-bug: the anticipated size turned out wrong]
+[Zip-bug: tried to change mind, but not allowed]
+[Zip-bug: trying to seek the unseekable]
+[Updater: Error getting data - too many redirects]
+
+[(Double-click to toggle)]
+(Переключить - двойной клик)
+[Check for updates now]
+Проверить сейчас
+[Could not create backup folder.]
+Невозможно создать папку
+[Could not open zip file.]
+Не могу открыть zip архив
+[Enable 'Restart' menu item]
+Пункт меню "Рестарт"
+[Error downloading XML data...\nResponse is NULL]
+Ошибка загрузки XML данных...\nНет ответа
+[Update, then shutdown]
+Обновить и закрыть
+[Updates are available for the following plugins:]
+Доступны обновления следующих модулей:
+[Updates: [ **do NOT set this to be your plugins folder!]]
+Обновления: (**НЕ ставьте путь к папке с модулями!!!)
+[Check for Plugin Updates]
+Проверить обновления модулей

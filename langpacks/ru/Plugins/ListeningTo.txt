@@ -1,0 +1,91 @@
+﻿#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+;============================================================
+;  File: ListeningTo
+;  Module: listeningtoW.dll
+;  Versions: 0.3.0.0
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3693
+;  Source: http://pescuma.googlecode.com/svn/trunk/Miranda/Plugins/listeningto/
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Handle listening information to/for contacts]
+Отправляет информацию о прослушиваемой музыке Вашим контактам.
+[Send to all protocols]
+Отправлять всем протоколам
+[Send to %s]
+Отправлять в %s
+[ListeningTo]
+Музыка в статусе
+[Enable/Disable sending Listening To info (to all protocols)]
+Вкл/Выкл отправку информации о музыке (все протоколы)
+[Listening info]
+Музыка в статусе
+[ Listening to information ]
+ Прослушиваемая музыка 
+[Enable sending listening information to contacts:]
+Включить отправку информации контактам
+[You also have to enable it per protocol in the main menu]
+Попротокольная настройка находится в главном меню
+[ XStatus ]
+ хСтатус 
+[For protocols that don't support listening to but support XStatus:]
+При отсутствии прямой поддержки протоколом, но поддержке хСтатусов:
+[Set XStatus to Music and show listening info]
+Установить хСтатус "Музыка" и показывать информацию о музыке
+[If other XStatus is not set, set XStatus to Music and show listening info]
+Если есть хСтатус, но он не "Музыка", то выполнить предыдущий пункт
+[If XStatus is Music, show listening info]
+Если хСтатус "Музыка", то показывать информацию о музыке
+[Apply template for info from contacts (overrides contacts template)]
+Применить шаблон для информации от контактов
+[Show advanced icon in slot]
+Доп. значок в слоте
+[ Listening to ]
+ Прослушиваемая музыка 
+[Variables:]
+Переменные:
+[%artist% - Artist name]
+%artist% - имя артиста
+[%album% - Album name]
+%album% - имя альбома
+[%title% - Song title]
+%title% - название песни
+[%track% - Track number]
+%track% - № трека
+[%year% - Song year]
+%year% - год выпуска
+[%genre% - Song genre]
+%genre% - жанр песни
+[%length% - Song length]
+%length% - длина песни
+[%player% - Player name]
+%player% - название плеера
+[%type% - Media type (Music, Radio, Video, etc)]
+%type% - тип воспроизводимого (музыка, видео, радио и т.д.)
+[When variable not found, use:]
+Если переменная неизвестна, отсылать:
+[Other Variables:]
+Остальные переменные:
+[%listening% - Listening to info (as set above)]
+%listening% -  преднастроенная выше информация
+[When nothing is playing, replace %listening% with:]
+Когда ничего не играет, писать:
+[Players]
+Плееры
+[Get info from WATrack plugin]
+Получить информацию из модуля WATrack
+[Get info from these players:]
+Получать информацию из плееров:
+[Windows Media Player]
+Проигрыватель Windows Media
+[foobar2000 (need to install the plugin manually)]
+foobar2000 (установите модуль вручную)
+[Other players]
+Остальные плееры
+[Ask for new info every]
+Обновление раз в
+[Allow auto-loading plugins into players (affect players with *)]
+Автозагружать модули в плееры (только для помеченных *)
+[Toggle send to all protocols]
+Вкл./выкл. отправлять всем протоколам
+[Don't send to any protocols]
+Не отправлять всем протоколам

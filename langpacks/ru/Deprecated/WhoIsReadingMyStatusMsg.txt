@@ -1,0 +1,76 @@
+﻿;============================================================
+;  File: WhoIsReadingMyStatusMsgNotify.dll
+;  Module: WhoIsReadingMyStatusMsgNotify
+;  Versions: 0.0.1.0 - 0.0.1.2, 0.0.1.4
+;============================================================
+[Notifies you when someone is reading your ICQ status message.]
+Уведомляет вас, когда кто-то читает Ваше статусное сообщение (ICQ)
+[\[%day/%month/%year - %hour:%minute\] %clname read your %status message]
+%day/%month/%year - %hour:%minute - %clname прочел ваше сообщение: "%status"
+; Default popup text
+[%clname\r\nis reading your %status message]
+%clname\r\nчитает ваше сообщение: "%status"
+[WhoIsReadingMyStatusMsg]
+Читали статус
+[&Log to a file]
+&Писать в файл
+[Path :]
+Путь:
+[&Append UIN to file name]
+Добавить UIN в имя
+[Text to log:]
+Формат:
+[Also notify if who read is]
+Сообщать, даже если читавший
+[Not on contact list]
+Не в списке
+[&Enable notification via popup]
+&Уведомлять через всплывающее окно
+[Use default &background colour]
+Цвет &фона по умолчанию
+[Use default &text colour]
+Цвет &текста по умолчанию
+[Click]
+Щелчок
+[&Configure]
+&Настроить
+[PopUp click]
+Щелчок по окну
+[Open user details window]
+Инфо о контакте
+[Status text]
+Текст статуса
+[Name like in contact list]
+Имя из списка
+[Day (dd)]
+День (ДД)
+[Month (mm)]
+Месяц (ММ)
+[Year (yyyy)]
+Год (ГГГГ)
+[Hour (hh)]
+Часы (ЧЧ)
+[Minutes (mm)]
+Минуты (ММ)
+[Internal IP]
+Внутр. IP
+[External IP]
+Внешний IP
+[Incoming status message request]
+Запрос статуса
+[Log File]
+Файл журнала
+[&Disable WhoIsReading popups]
+Выключить уведомления о чтении статуса
+[&Enable WhoIsReading popups]
+Включить уведомления о чтении статуса
+[read your status message]
+прочитал(а) ваше статусное сообщение
+[Notifies you when someone is reading your status message.]
+Сообщает о том что кто-то прочел ваше статусное сообщение.
+[[%day/%month/%year - %hour:%minute] %clname read your %status message]
+%day/%month/%year - %hour:%minute - %clname прочел Ваше сообщение: "%status"
+[Do not notify through &popup]
+Не уведомлять через &popup
+[WhoIsReadingMyStatusMsgNotify]
+Читали статус

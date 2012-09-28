@@ -1,0 +1,191 @@
+﻿#muuid {ca52cf41-12c2-411b-b800-d2bd959be099}
+;============================================================
+;  File: historykeeper.dll
+;  Module: History Keeper
+;  Versions: 0.2.1.0
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3687
+;  Source: http://pescuma.googlecode.com/svn/trunk/Miranda/Plugins/historykeeper/
+;  Authors: Pescuma
+;============================================================
+[Listening]
+Сейчас играет
+[X-Status]
+хСтатус
+[Client Change]
+Смена клиента
+[Listening Change]
+Смена сообщения "Сейчас слушает"
+[Status Change]
+Смена статуса
+[Status Message Change]
+Смена статусного сообщения
+[X-Status Change]
+Смена хСтатуса
+[X-Status Message Change]
+Смена хСтатусного сообщения
+[Show when contacts change their client]
+Показывать, когда контакты меняют клиент
+[Show when contacts change their listening]
+Показывать, когда контакты меняют сообщение "Сейчас слушает"
+[Show when contacts change their nickname]
+Показывать, когда контакты меняют псевдоним
+[Show when contacts change their status]
+Показывать, когда контакты меняют статус
+[Show when contacts change their status message]
+Показывать, когда контакты меняют статусное сообщение
+[Show when contacts change their x-status]
+Показывать, когда контакты меняют хСтатус
+[Show when contacts change their x-status message]
+Показывать, когда контакты меняют хСтатусное сообщение
+[Show when contacts remove their listening]
+Показывать, когда контакты удаляют сообщение "Сейчас слушает"
+[Show when contacts remove their status message]
+Показывать, когда контакты удаляют статусное сообщение
+[Show when contacts remove their x-status]
+Показывать, когда контакты удаляют хСтатус
+[Show when contacts remove their x-status message]
+Показывать, когда контакты удаляют хСтатусное сообщение
+[Announce when contacts change their client]
+Уведомлять, когда контакты меняют клиент
+[Announce when contacts change their listening]
+Уведомлять, когда контакты меняют сообщение "Сейчас слушает"
+[Announce when contacts change their nickname]
+Уведомлять, когда контакты меняют псевдоним
+[Announce when contacts change their status]
+Уведомлять, когда контакты меняют статус
+[Announce when contacts change their status message]
+Уведомлять, когда контакты меняют статусное сообщение
+[Announce when contacts change their x-status]
+Уведомлять, когда контакты меняют хСтатус
+[Announce when contacts change their x-status message]
+Уведомлять, когда контакты меняют хСтатусное сообщение
+[Announce when contacts remove their listening]
+Уведомлять, когда контакты удаляют сообщение "Сейчас слушает"
+[Announce when contacts remove their status message]
+Уведомлять, когда контакты удаляют статусное сообщение
+[Announce when contacts remove their x-status]
+Уведомлять, когда контакты удаляют хСтатус
+[Announce when contacts remove their x-status message]
+Уведомлять, когда контакты удаляют хСтатусное сообщение
+[s before notifying (to avoid duplications)]
+с перед уведомлением (чтобы избежать дубликатов)
+[Don't notify on protocol connection]
+Не уведомлять при подключении протокола
+[ Log to file ]
+ Сохранять в файл 
+[Log when contacts change their client]
+Сохранять, когда контакты меняют клиент
+[Log when contacts change their listening]
+Сохранять, когда контакты меняют сообщение "Сейчас слушает"
+[Log when contacts change their nickname]
+Сохранять, когда контакты меняют псевдоним
+[Log when contacts change their status]
+Сохранять, когда контакты меняют статус
+[Log when contacts change their status message]
+Сохранять, когда контакты меняют статусное сообщение
+[Log when contacts change their x-status]
+Сохранять, когда контакты меняют хСтатус
+[Log when contacts change their x-status message]
+Сохранять, когда контакты меняют хСтатусное сообщение
+[Log when contacts remove their listening]
+Сохранять, когда контакты удаляют сообщение "Сейчас слушает"
+[Log when contacts remove their status message]
+Сохранять, когда контакты удаляют статусное сообщение
+[Log when contacts remove their x-status]
+Сохранять, когда контакты удаляют хСтатус
+[Log when contacts remove their x-status message]
+Сохранять, когда контакты удаляют хСтатусное сообщение
+[Log to History]
+Сохранять в историю
+[Log to File]
+Сохранять в файл
+[Notify using Popups]
+Уведомлять вспл. окнами
+[Notify using Sounds]
+Уведомлять звуками
+[Notify using Speak plugin]
+Уведомлять модулем "Речь"
+[History Keeper]
+История событий
+[Ignore Client changes]
+Игнорировать смены клиента
+[Ignore Listening changes]
+Игнорировать смены сообщения "Сейчас слушаю"
+[Ignore Nickname changes]
+Игнорировать смены псевдонима
+[Ignore Status changes]
+Игнорировать смены статуса
+[Ignore Status message changes]
+Игнорировать смены статусного сообщения
+[Ignore X-Status changes]
+Игнорировать смены хСтатуса
+[Ignore X-Status Message changes]
+Игнорировать смены хСтатусного сообщения
+[Log Client changes]
+Сохранять смены клиента
+[Log Listening changes]
+Сохранять смены сообщения "Сейчас слушаю"
+[Log Status changes]
+Сохранять смены статуса
+[Log X-Status changes]
+Сохранять смены хСтатуса
+[Log X-Status Message changes]
+Сохранять смены хСтатусного сообщения
+[Don't log Client changes]
+Не сохранять смены клиента
+[Don't log Listening changes]
+Не сохранять смены сообщения "Сейчас слушаю"
+[Don't log Status changes]
+Не сохранять смены статуса
+[Don't log X-Status changes]
+Не сохранять смены хСтатуса
+[Don't log X-Status Message changes]
+Не сохранять смены хСтатусного сообщения
+[Notify Client changes]
+Уведомлять о сменах клиента
+[Notify Listening changes]
+Уведомлять о сменах сообщения "Сейчас слушаю"
+[Notify Nickname changes]
+Уведомлять о сменах псевдонима
+[Notify Status changes]
+Уведомлять о сменах статуса
+[Notify Status Message changes]
+Уведомлять о сменах статусного сообщения
+[Notify X-Status changes]
+Уведомлять о сменах хСтатуса
+[Notify X-Status Message changes]
+Уведомлять о сменах хСтатусного сообщения
+[Don't notify Client changes]
+Не уведомлять о сменах клиента
+[Don't notify Listening changes]
+Не уведомлять о сменах сообщения "Сейчас слушаю"
+[Don't notify Nickname changes]
+Не уведомлять о сменах псевдонима
+[Don't notify Status changes]
+Не уведомлять о сменах статуса
+[Don't notify Status Message changes]
+Не уведомлять о сменах статусного сообщения
+[Don't notify X-Status changes]
+Не уведомлять о сменах хСтатуса
+[Don't notify X-Status Message changes]
+Не уведомлять о сменах хСтатусного сообщения
+[Client change]
+Смена клиента
+[Listening change]
+Смена сообщения "Сейчас слушает"
+[Nickname change]
+Смена ника
+[Status Message change]
+Смена статусного сообщения
+[X-Status change]
+Смена хСтатуса
+[X-Status Message change]
+Смена хСтатусного сообщения
+[Listening removal]
+Удаление сообщения "Сейчас слушает"
+[Nickname removal]
+Удаление статусного сообщения
+[X-Status removal]
+Удаление хСтатуса
+[X-Status Message removal]
+Удаление хСтатусного сообщения

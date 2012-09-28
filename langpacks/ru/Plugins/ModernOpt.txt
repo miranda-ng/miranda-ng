@@ -1,0 +1,85 @@
+﻿;============================================================
+;  File: modernopt.dll
+;  Module Support for new options design
+;  Versions: 0.1.0.0
+;============================================================
+[Support for new options design.]
+Поддержка нового дизайна окна настроек Miranda NG
+[Visit official Miranda NG website]
+Официальный сайт Miranda NG
+[Switch to classic options]
+Классический вид настроек
+[View help online]
+Онлайн-справка
+[Setup your account information to start messaging.]
+Настройте учётные записи для начала общения.
+[Change the look of Miranda NG according to your taste.]
+Изменяйте внешний вид программы на свой вкус.
+[Configure behaviour of your contact list.]
+Настройте поведение вашего списка контактов.
+[Customize look&&feel of your chat windows here.]
+Настройте внешний вид вашего окна беседы.
+[Ban those users and events, you are annoyed with.]
+Заблокируйте пользователей и события, которые вам не нравятся.
+[Set your status messages and idle reporting.]
+Установите статусные сообщения и сообщения отсутствия.
+[Miranda NG is all about plugins. Manage all the plugins you have here.]
+Управление вашими дополнительными модулями.
+[You have some unsaved changes here.\n Do you wish to apply settings before switching?]
+У вас есть не сохранённые изменения.\n Хотите ли вы их применить перед переключением?
+[Addons]
+Модули
+[Window behaviour:]
+Поведение списка:
+[Status bar:]
+Панель статуса:
+[List content:]
+Содержание списка:
+[Compact mode]
+Компактный режим
+[Show contact time in list]
+Показывать время контакта
+[List sorting:]
+Сортировка списка:
+[Window:]
+Окно сообщений:
+[Esc closes sessions (minimizes window, if disabled)]
+Esc закрывает сессию (иначе - сворачивает)
+[Always pop up and activate new windows]
+Всегда открывать новое окно сообщений
+[Create new windows in minimized state]
+Создавать новые окна свёрнутыми
+[Message sending:]
+Отправка сообщений:
+[Send message on Ctrl+Enter (always enabled)]
+Посылать по Ctrl+Enter (всегда включено)
+[Send on Shift+Enter]
+Посылать по Shift+Enter
+[Tabs:]
+Вкладки:
+[Use tabbed interface]
+Использовать вкладки
+[Create new tabs without activating them]
+Создавать новые вкладки без активации
+[Pop up minimized window when a new tab is created]
+Открыть свёрнутое окно при создании вкладки
+[Automatically switch tabs in minimized windows]
+Автопереключение вкладок в свёрнутом окне
+[Don't announce when dialog is open]
+Не уведомлять при открытом окне
+[Message events]
+Сообщения
+[File events]
+Файлы
+[Contact list background:]
+Фон списка контактов:
+[Contact list:]
+Список контактов:
+[Ordering:]
+Сортировка:
+[If window is partially covered, bring iy to front]
+Если окно частично закрыто, вывести вперёд
+[Sample Text]
+Пример текста
+[History:]
+История:

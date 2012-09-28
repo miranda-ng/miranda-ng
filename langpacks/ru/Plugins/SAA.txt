@@ -1,0 +1,110 @@
+﻿;============================================================
+;  File: saa.dll
+;  Module: Smart Auto Away
+;  Versions: 0.0.3.0
+;  URL: http://saaplugin.no-ip.info/
+;============================================================
+[Smart Auto Away]
+Расширенное ожидание
+[&Idle]
+&Простой
+[Apply to all protocols]
+Применить ко всем
+[Requested Status:]
+Запрошенный статус:
+[Current Status:]
+Текущий статус:
+[Not Idle]
+Нет простоя
+[Short Idle]
+Короткий простой
+[Long Idle]
+Длинный простой
+[Only if my requested status is:]
+Только если мой статус
+[If Windows is inactive]
+Если Windows неактивна
+[Use GetLastInputInfo()]
+Исп. GetLastInputInfo()
+[If Miranda is inactive]
+Если Miranda неактивна
+[Force short idle if:]
+Короткий простой, если:
+[Workstation is Locked (2K/XP)]
+Cистема блокирована (2K/XP)
+[Inactivity times:]
+Неактивно после:
+[Short idle after]
+Кор. простой
+[Long idle after]
+Длин. простой
+[Do not share my idle info.]
+Не совмещать информацию о простое
+[Do not set "Not Idle" automaticaly]
+Не устанавливать "Нет простоя" автомат.
+[Set "Not Idle" on manual status change]
+"Нет простоя" при ручном изменении
+[Simulate Idle]
+Симуляция простоя
+[Be Not Idle]
+Нет простоя
+[Be Short Idle]
+Кор. простой
+[Be Long Idle]
+Длин. простой
+[Disable Idle menu. (restart is required)]
+Выключить меню (нужен рестарт)
+[Use:]
+Исп.:
+[Too Fast!]
+Слишком быстро!
+[If my current status is:]
+Если мой текущий статус:
+[Do not reconnect after fatal error]
+Не переподключать после ошибки
+[Keep main status offline*]
+Хранить главный статус не в сети*
+[* Setting this option may confuse other plugins]
+* Может конфликтовать с другими модулями
+[-- Time Zone --]
+-- Часовой пояс --
+[total bias]
+абсолютное смещение
+[time zone name]
+часовой пояс
+[reconnect after]
+переподключиться через
+[Smart Auto Away Module]
+Модуль Расширенного ожидания
+[%s cannot set status messages]
+%s не использует статусных сообщений
+[I am here]
+Я здесь
+[I am back]
+Я вернулся
+[I am distracted]
+Я отвлечен
+[I am sleeping]
+Я сплю
+[I came back on %H:%M:%S%b%Z (%z)]
+Я вернулся с %H:%M:%S%b%Z (%z)
+[I am distracted since %H:%M:%S%b%Z (%z)]
+Я отвлечен с %H:%M:%S%b%Z (%z)
+[I fell asleep on %H:%M:%S %d %E %Y (%W)%b%Z (%z)]
+Я сплю с %H:%M:%S %d %E %Y (%W)%b%Z (%z)
+[Set the default status message after ]
+Установить стандартное статусное сообщение после:
+[Variables to use]
+Используемые переменные
+[Time Zone]
+Часовой пояс
+[Reconnect after]
+Переподключиться после
+[Localized Date (Long)]
+Локальная дата (расширенно)
+[Localized Date (Short)]
+Локальная дата (сокращенно)
+[Localized Time (Long)]
+Локальное время (расширенно)
+[Localized Time (no Seconds)]
+Локальное время (сокращенно)

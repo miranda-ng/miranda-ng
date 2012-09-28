@@ -1,0 +1,101 @@
+﻿;============================================================
+;  File: nimcontact.dll
+;  Module: Non-IM Contact
+;  Versions: 0.5.0.1
+;============================================================
+[&String Maker]
+Созд. строку
+[Contact is always visible]
+Контакт всегда видим
+[Returns....]
+Возврат...
+[Away as another status]
+Отсутствую, как другой статус
+[Contacts Tooltip]
+Подсказки контактов
+[E&dit Contact Settings]
+Изменить настройки контакта
+[Co&py Non-IM Contact]
+Копировать не-IM контакт
+[View/Edit Files]
+Просм./Изм. файлы
+[Remove Selected File]
+Удалить выбранный файл
+[Timer Options]
+Опции таймера
+[Program parameters:]
+Аргументы программы:
+[New Non-IM Contact]
+Новый не-IM контакт
+[Disable timer]
+Откл. таймер
+[Use Timer]
+Исп. таймер
+[Update URL every]
+Обновлять URL каждые
+[Group\\Sub-Group]
+Группа\\Подгруппа
+[Timer Settings]
+Настройки таймера
+[CList Settings]
+Настройки списка
+[O&pen File]
+Открыть файл
+[String to test]
+Строка для просмотра
+[Type one replace string per line in the format "origional text,new text"]
+Введите одну строку замены на каждую строчку в формате "оригинал,новый"
+[Ignore global status change]
+Игнорировать глобальную смену статуса
+[String Maker]
+Созд. строку
+[Contacts display name]
+Отобр. имя контактов
+[EXAMPLE: %fn1,%fn2]
+ПРИМЕР: %fn1,%fn2
+[O&pen Folder]
+Открыть папку
+[&Add Non-IM Contact]
+Добавить не-IM контакт
+[&Export all Non-IM Contacts]
+Экспорт всех не-IM контактов
+[&Export Non-IM Contact]
+Экспорт не-IM контакта
+[&Import Non-IM Contacts]
+Импорт не-IM контактов
+[&Non-IM Contact]
+Не-IM контакт
+[&Test String]
+Тестовая строка
+[&View/Edit Files]
+Просмотр/изменение
+[Add File]
+Добавить файл
+[Add URL]
+Добавить URL
+[Non-IM Contacts]
+Не-IM контакты
+[Non-IM Contact]
+Не-IM контакт
+[Timer interval (in seconds)]
+Интервал (в секундах)
+[This will take affect after Non-IM Contacts' status is changed]
+Изменения вступят после смены статуса.
+[Link and CList Settings]
+Ссылки и настройки списка
+[Status Icon]
+Значок статуса
+[Unless Non-IM Contacts protocol is OFFLINE]
+Если протокол не-IM контактов не в сети
+[Non-IM Contact protocol timer is Disabled]
+Выключать протокол по таймеру
+[&Files]
+Файлы
+[file(#)]
+файл
+[Intervals]
+период
+[If the protocol timer is disabled web pages wont be updated]
+С выключенным таймером, ссылки не обновляются
+[NIM_Contact]
+Не-IM контакт

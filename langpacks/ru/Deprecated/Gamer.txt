@@ -1,0 +1,72 @@
+﻿;============================================================
+;  File: gamer.dll,
+;  Module: Gamer Plugin
+;  Versions: 0.0.3.1
+;  URL: http://miranda-im.de/mediawiki/index.php?title=Plugin:Gamer
+;============================================================
+[Network interface used by games:]
+Подключение используемое для игр:
+[Check running processes every]
+Проверять запущенные процессы всегда
+[       Enable process checking]
+        Включить проверку процессов
+[Copy this profile]
+Копировать профиль
+[Add empty profile]
+Добавить профиль
+[Profile Name:]
+Имя профиля:
+[Change Status]
+Менять статус
+[       Use per-protocol settings]
+        Использовать настройки протокола
+[Use per-protocol settings?]
+Использовать настройки протокола?
+[You can use different settings for every protocol.]
+Вы можете использовать различные настройки для разных протоколов.
+[The status of \"pushed-down\" protocols won't be changed]
+Зажатый статус запрещает изменения протокола
+[Popups should ... while process is running]
+Параметры вспл. окон когда запущен процесс
+[be enabled]
+включены
+[be disabled]
+отключены
+[stay as they are]
+оставить как есть
+[Sounds should ... while process is running]
+Параметры звуков когда запущен процесс
+[Change status mode to:]
+Сменить статус на:
+[Dont change status, only set new message]
+Не менять статус,менять только сообщение
+[Restore old status and message when application is closed]
+Восстанавливать статус и сообщение при закрытии приложения
+[Dont change when]
+Никогда не изменять
+[.exe name/path]
+имя/путь к .exe
+[Application name]
+Имя приложения
+[Add new process to list]
+Добавить новый процесс в список
+[Hint: Enter complete path to make sure the correct process is recognized.]
+Подсказка: Введите полный путь, чтобы удостовериться в корректности инициализации процесса.
+[Process List]
+Список процессов
+[Change status?]
+Менять статус?
+[Process count]
+Кол-во процессов
+[Gamer Plugin]
+Модуль геймеров
+[Only message?]
+Только сообщения?
+[Don't change when]
+Не менять, когда
+[Set status back?]
+Вернуть статус?
+[Edit process]
+Редактировать процесс
+[Provides some Variables especially for gamers and an automatic status chage feature.]
+Поддержка переменных специально для геймеров и поддержка автоматической смены статуса.

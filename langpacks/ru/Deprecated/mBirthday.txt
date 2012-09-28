@@ -1,0 +1,49 @@
+﻿;============================================================
+;  File: mBirthday.dll
+;  Module: mBirthday
+;  Versions: 0.0.0.3-0.0.0.6
+;============================================================
+[Add a mark to contact with birthday near]
+Добавить отметку о дне рождения возле
+[Mark with]
+Помечать
+[Mark contacts with birthday near]
+Указывать дни рождения контактов
+[Use a char mark]
+Использовать знак
+[Add char mark before contact name]
+Помечать знаком перед именем
+[Use MultiWindow icon]
+Значок MultiWindow
+[Use PopUp]
+Использовать вспл. окна
+[day(s) before birthday.]
+суток до дня рождения.
+[Set contact status to Invisible if birthday near]
+Установить статус на невидимый, если день рождения скоро
+[Set birthday date:]
+Установка даты рождения
+[Use found birthday date]
+Использовать дату
+[Use mBirthday date]
+Использовать свою дату
+[Do not use any birthday date]
+Не извещать о дне рождения
+[day to]
+день до
+[days to]
+дней до
+[birthday...]
+дня рождения
+[year(s) old]
+лет
+[Has birthday]
+День рожденья
+[Notify about contact birthday near]
+Уведомление о скором дне рождения
+[mBirthday]
+Дни рождения
+[&Birthday list]
+Дни рождения
+[&User birthday]
+День рождения

@@ -1,0 +1,13 @@
+﻿Miranda Language Pack Version 1
+Locale: 0419
+Last-Modified-Using: 0.10.0 alpha build #2
+Authors: Homeric (founder), BasiL (maintainer), 
+Authors: `arag0rn`, +eRRikon, Abyss, al.dexter, Alexander, Alexander Logvinov, Alexander S. Kiselev, 
+Authors: ALeXey, Alexey Yakovlev, Andrey A. Chernov, Bergelmir, Bravo123, Buser!, CriS, 
+Authors: Daniil, Dar_veter, Denis Stanishevskiy, Denn, Dth, Erast Petrovich, Evgeny Ardarov aka spleenJack, 
+Authors: Evgeny Morozov, Gh0St, Grave aka Nikitin Evgeny, holod, Igor A. Melekhine,
+Authors: Vasilich, Kirhe, Kirill Mahnev, Kreol, LEM, Leonid Belousov, LonelyWolf, Mantis,
+Authors: Mataes, Mikel-Ard-Ri, mitrich, Navy, NightFox, Oleg Makovski, PoWeR, Radion, Raproid, Roman Korepanov, SAOPP,
+Authors: Sergey Morozov, SergoZD, Sledge, theMIROn, thundred, Valery Bragin,
+Authors: Viktor Shanin, Vjacheslav Ogrenich, Vladimir Rozhkovskiy aka Voron, 
+Authors: Yevgeny, YurasiK, Yury A. Marcinchick

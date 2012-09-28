@@ -1,0 +1,19 @@
+﻿;============================================================
+;  File: IM2SMS.dll
+;  Module: forward IM messages to your mobile phone as an SMS.
+;  Versions: 0.1.0.0
+;============================================================
+[Target cellphone number:]
+Номер сотового телефона:
+[Only from the main menu]
+Только из главного меню
+[When I'm...]
+Когда я...
+[How do you want to activate IM2SMS?]
+Как Вы хотите активировать IM2SMS?
+[Deactivate IM2S&MS]
+Деактивировать IM2S&MS
+[Activate IM2S&MS]
+Активировать IM2S&MS
+[(e.g. +97254XXXXXXX)]
+(напр. +97254XXXXXXX)

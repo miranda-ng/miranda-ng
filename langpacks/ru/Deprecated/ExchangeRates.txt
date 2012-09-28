@@ -1,0 +1,69 @@
+﻿;============================================================
+;  File: exchangerate.dll
+;  Module: Exchange Rates protocol
+;  Versions: 0.3.0.2
+;============================================================
+[Contact caption]
+Имя контакта
+[Refresh Interval]
+Интервал обновления
+[Example:]
+Пример:
+[Unavailable data replacement]
+Изменение курса недоступно
+[Rates]
+Курсы
+[From currency:]
+Из валюты:
+[into:]
+в:
+[Amount:]
+Количество:
+[New rate]
+Новый курс
+[Delete rate]
+Удалить курс
+[ExchangeRates]
+Курсы валют
+[&Update exchanges...]
+&Обновить курсы валют...
+[This plugin shows exchange rates for chosen currencies in the contact list.]
+Плагин показывает курс выбранных валют в контакт листе
+[ExchangeRates data connection]
+Подключение ExchangeRates
+[&Update rate]
+Обновить курс
+[Amount of currency]
+Сумма
+[Source currency]
+Валюта источник
+[Destination currency]
+Валюта назначение
+[Current rate between source and destination currency, 1/1]
+Текущий курс между валютами, 1/1
+[Current rate between source and destination currency, by amount]
+Текущий курс между валютами, по сумме
+[Previous rate between source and destination currency, 1/1]
+Предыдущий курс между валютами, 1/1
+[Previous rate between source and destination currency, by amount]
+Предыдущий курс между валютами, по сумме
+[Upcoming rate between source and destination currency, 1/1 (where applicable)]
+Ожидаемый курс между валютами, по 1/1 (если доступно)
+[Upcoming rate between source and destination currency, by amount (where applicable)]
+Ожидаемый курс между валютами, по сумме (если доступно)
+[Rate source]
+Источник курса
+[Date and time of last update]
+Дата и время последнего обновления
+[Delete on Apply]
+Удалить после применения
+[Are you sure to delete this %s/%s (from %s) rate?]
+Вы уверены, что хотите удалить %s/%s (из %s)?
+[No conversion to the same currency!]
+Нельзя переводить в ту же валюту!
+[&Update exchanges]
+&Обновить курсы валют
+[Stop exchange update]
+Остановить обновление курсов валют
+[Change rate]
+Изменить курс

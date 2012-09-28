@@ -1,0 +1,256 @@
+﻿#muuid {9584da04-fb4f-40c1-9325e4f9caafcb5d}
+;============================================================
+;  File: actman.dll
+;  Plugin: Action Manager
+;  Versions: 0.2.0.1
+;  URL: 
+;  Source: http://delphi-miranda-plugins.googlecode.com/svn/trunk/actman/
+;  Authors: Awkward
+;============================================================
+
+[Contact window]
+Окно контакта
+[Text insert]
+Вставка текста
+[vars]
+пер.
+[DWord]
+Дв.слово
+[Result action]
+Результат действия
+[Window option]
+Настройки окна
+[Show in popup]
+Показывать во всплывающем окне
+[Start hidden]
+Запуск скрытым
+[Show in messagebox]
+Показывать в обычном окне
+[Start maximized]
+Запуск развёрнутым
+[Continued]
+Продолженный
+[Parallel]
+Параллельный
+[Condition]
+Условия
+[Insert into message]
+Вставить в сообщение
+[parameter]
+параметр
+[Process time, ms]
+Время процесса, мсек
+[No Description]
+Нет описания
+[Process options]
+Настройки процесса
+[Do not show]
+Не показывать
+[Current path]
+Текущий путь
+[Start normal]
+Обычный запуск
+[last result]
+последний результат
+[structure]
+структура
+[Structure]
+Структура
+[Link to action]
+Ссылка на действие
+[Plugin for manage hotkeys to open contact window, insert text, run program and call services]
+Модуль для управления "горячими" клавишами и действиями, такими как открытие окна контакта, вставка текста, запуск сторонних программ и вызов сервисов.
+[Action manager]
+Менеджер действий
+[Copy to]
+Копировать в
+[Paste from as]
+Вставить из как
+[Math]
+Матем.
+[Variables (below)]
+Переменные (ниже)
+[Variables script]
+Скрипт переменных
+[Other Action groups]
+Другие группы действий
+[Operation]
+Операция
+[Last result]
+Последний результат
+[Own settings]
+Свои настройки
+[Array]
+Массив
+[Message title]
+Заголовок окна
+[OK, Cancel]
+ОК, Отмена
+[Abort, Retry, Ignore]
+Прервать, Повтор, Пропустить
+[Yes, No, Cancel]
+Да, Нет, Отмена
+[Yes, No]
+Да, Нет
+[Retry, Cancel]
+Повтор, Отмена
+[not defined]
+не определена
+[Result as integer]
+Результат как целое
+[Keep Last Result]
+Сохранять последний результат
+[Keep handle only]
+Сохранять handle, не открывая окна
+[Variables mark]
+Переменные
+[C&ancel]
+О&тмена
+[Structure Editor]
+Редактор структур
+[Result as structure]
+Результат как структура
+[Byte Array]
+Массив байт
+[Word Array]
+Массив слов
+[Pointer to bytes]
+Указатель на байты
+[Pointer to words]
+Указатель на слова
+[Data length]
+длина
+['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
+'<proto>' в названии службы будет заменяться именем протокола из параметров контакта
+[Paste from]
+Вставить из
+[Service result]
+Результат вызова службы
+[Free memory]
+очищать память
+[Integer]
+Целое
+[Append]
+Добавление
+[Append data to file]
+Добавить содержимое в файл
+[Choose action]
+Выберите операцию
+[A&ppend]
+Д&обавить
+[Action "$" exists, do you want to rewrite it?]
+Действие "$" уже существует, хотите ли вы переписать его?
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
+Текст <last> заменяется\r\nпоследним результатом\r\n\r\nТекст <param> заменяется\r\nпараметром
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - выделяемая (и заменяемая) часть\r\n^e - заменяется пустой строкой\r\n^v - вставка текста из буфера обмена\r\n^t - заменяется на табуляцию\r\n^l - заменяется последним результатом в Юникоде\r\n^h - заменяется последним результатом в hex\r\n^a - в конце: автоотправка\r\n^f(name\[,str\])\r\n     вставка строки из текстового файла.\r\n     содержание скобок должно быть без пробелов
+[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
+Текст <last> заменяется\r\nпоследним результатом\r\n\r\nВозвращаемое:\r\n--------\r\nOK\t\t= 1\r\nОтмена\t\t= 2\r\nПрервать\t= 3\r\nПовтор\t\t= 4\r\nПропустить\t= 5\r\nДа\t\t= 6\r\nНет\t\t= 7\r\nЗакрыть\t\t= 8
+[Don't use Variables]
+Выключить переменные
+[Contact list format]
+Формат списка контактов
+[Active accounts only]
+Только действующие учётные записи
+[Dropdown list format]
+Вид выпадающего списка
+[Apply format]
+Применить формат
+[You can use %name%, %uid%, %account% and %group% macros]
+Вы можете использовать переменные %name%, %uid%, %account% и %group%
+[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
+Использовать массив байт/указатель на байты для строк в ANSI\nИспользовать массив слов/указатель на слова для строк в Unicode\n$## заменяется байтом с шестнадцатеричным значением ##\n$#### заменяется словом с шестнадцатеричным значением #### (только для строк в Unicode)\nВся длина данных вычисляется в байтах
+[New]
+Новый
+[Hooks]
+Хуки
+[Event]
+Событие
+[hook sample]
+пример хука
+[QWord]
+Четв.слово
+[Packed structure]
+Упакованная структура
+[NativeInt]
+Системное целое
+[Starting from]
+Начать с
+[Starting after]
+Начать после
+[Start immediately]
+Начать немедленно
+[Since/after]
+с/после
+[Repeat, times]
+Кол-во повторов
+[Interval]
+Интервал
+[Break on non-zero result]
+Остановить при ненулевом результате
+[Task sample]
+Пример задания
+[Send event on start time]
+Отсылать событие при старте задания
+[Send event just once]
+Отсылать только при первом запуске
+[Use Actions]
+Использование действий
+[Action list]
+Список действий
+[Where to use]
+Место использования
+[CList Modern toolbar]
+Панель кнопок списка контактов Modern
+[TabSRMM toolbar]
+Панель кнопок окна сообщений TabSRMM
+[Core Hotkey]
+Горячая клавиша
+[Tray menu]
+Меню трея
+[2 state button/item]
+2 положения кнопки/пункта
+[Save button/item state]
+Сохранять положение кнопки/пункта
+[Normal button tooltip]
+Подсказка к кнопке в обычном положении
+[Pressed button tooltip]
+Подсказка к кнопке в нажатом положении
+[Separated]
+Разделитель
+[Root popup:]
+Корень подменю:
+[Menu item name:]
+Название пункта меню:
+[Show only if variables return 1]
+Показывать только при возвращении 1
+[Contact related]
+Поконтактно
+[Registered actions]
+Зарегистрированные действия
+[Menu icons]
+Иконки меню
+[Data align]
+Выравнивание данных
+[Native]
+По умолчанию
+[Packed]
+Упакованные
+[2 bytes]
+2 байта
+[4 bytes]
+4 байта
+[8 bytes]
+8 байт
+[alias]
+имя
+[type]
+тип
+[length]
+длина
+[data]
+данные
+[Structure help]
+Помощь по структуре
+[Descr]
+Описание

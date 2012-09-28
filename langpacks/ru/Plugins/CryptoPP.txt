@@ -1,0 +1,12 @@
+﻿;============================================================
+;  File: cryptopp.dll
+;  Module: Crypto++ implementation for SecureIM
+;  Versions: 1.0.4.4
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2669
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/cryptopp/
+;  Authors: Baloo
+;============================================================
+[Crypto++ library for SecureIM plugin.]
+Служба шифрования для модуля SecureIM.
+[Crypto++]
+Криптование++

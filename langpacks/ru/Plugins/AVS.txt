@@ -1,0 +1,103 @@
+﻿#muuid {e00f1643-263c-4599-b84b053e5c511d29}
+;============================================================
+;  File: avs.dll
+;  Plugin: Avatar service
+;  Versions: 0.10.0.2
+;  URL: http://code.google.com/p/miranda/downloads/list`
+;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/avs/
+;  Authors: Nightwish, Pescuma
+;============================================================
+
+;============================================================
+;Страницы опций
+;============================================================
+
+;  Описание на странице модулей
+[Load and manage contact pictures for other plugins.]
+Загружает и управляет аватарами для других модулей.
+
+;-АВАТАРЫ-
+
+;Протоколы
+
+[The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
+Установленные здесь изображения являются аватарами для контактов, у которых нет своего аватара. Галочка включает/выключает отображение стандартного аватара для протоколов.
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+ПРЕДУПРЕЖДЕНИЕ: Эти изображения НЕ ВАШИ аватары. Установить свой аватар Вы можете через "Главное меню -> Личные данные -> Аватары".
+[Set default picture]
+Установить стандартное
+[Delete default picture]
+Удалить стандартное
+[Set avatar options for %s]
+Настройки аватара для %s
+
+;Аватары контактов
+
+[Contact Avatars]
+Аватары контактов
+[Try to draw avatar background transparent (for images without transparency)]
+Выводить фон аватара прозрачным (для аватаров без прозрачности)
+[Draw avatars grayscale]
+Рисовать аватары чёрно-белыми
+
+;Свои аватары
+
+[Own Avatars]
+Свои аватары
+[When setting avatars, always make them square]
+Делать аватары квадратными при установке
+[Try to draw own avatar background transparent (for images without transparency)]
+Выводить фон своего аватара прозрачным (для аватаров без прозрачности)
+[This uses the same additional options as in "Contact Avatars" tab]
+Дополнительные настройки во вкладке "Аватары контактов"
+
+;Главное меню->Мои детали
+
+[Grow avatar to fit max allowed protocol size]
+Увеличивать аватар до максимального размера
+[Use per protocol avatars]
+Разные аватары протоколов
+[Flash Animations]
+Flash анимация
+[XML Files]
+XML файлы
+[Are you sure you want to remove your avatar?]
+Вы хотите удалить ваш аватар?
+[Global avatar]
+Глобальный аватар
+[Global avatar for %s accounts]
+Аватар для всех аккаунтов %s
+[Make the avatar square]
+Сделать аватар квадратным
+[Resize the avatar to fit max allowed protocol size]
+Изменить размер аватара до максимально возможного размера
+
+;Информация о контакте->Аватар
+[ Background ]
+Фон
+[Transparent]
+Прозрачно
+
+;============================================================
+;Поддержка модуля Folder
+;============================================================
+
+[My Global Avatar Cache]
+Мой глобальный кэш аватаров
+[My Avatars]
+Мои аватары
+
+;============================================================
+;Ошибки/всплывающие окна и др.
+;============================================================
+
+[Fatal error, image services not found. Avatar services will be disabled.]
+Фатальная ошибка, служба изображений не найдена. Служба аватаров будет отключена.
+[Avatar Service]
+Служба аватар
+[Set My Avatar]
+Установить мой аватар
+[Set My Avatar for %s]
+Сменить мой аватар для %s
+[Protocols have different avatars]
+У всех протоколов разные аватары

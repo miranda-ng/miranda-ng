@@ -1,0 +1,21 @@
+﻿#muuid {02b563f1-8719-47b6-b619-d8a765c5f89e}
+;============================================================
+;  File: msg2speech.dll
+;  Module: msg2speech. Speaks incoming text messages using Acapela Group Speech API
+;  Versions: 0.9.3.23
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3996
+;============================================================
+[Select voice]
+Выбор голоса
+[Voice of contact]
+Голос абонента
+[Present as]
+Представлять как
+[Speak contact info]
+Произносить информацию о контакте
+[Speak when you are]
+Произносить когда вы
+[Any status]
+В любом статусе
+[Can not load AcaTts.dll]
+Не удалось загрузить AcaTts.dll 

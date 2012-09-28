@@ -1,0 +1,97 @@
+﻿;============================================================
+;  File: Translator.dll
+;  Module: Translator helps to translate modules
+;  Versions: 0.1.2.0-0.1.2.2
+;============================================================
+[Ignore untranslated strings when building language pack]
+Игнорировать непереведённые строки
+[Tries to retrieve all translatable strings in Miranda.]
+Этот модуль пытается получить все строки, которые можно локализовать (перевести)
+[Export language pack]
+Экспортировать перевод
+[Flush to disk now]
+Сохранить сейчас
+[Flush on exit]
+Сохранять при выходе
+[Please select an output file.]
+Пожалуйста, укажите файл для сохранения.
+[Output location:]
+Файл сохранения:
+[Email(s):]
+Email
+[Plugins included:]
+Модули:
+[Updater FLID:]
+Поле FLID:
+[Aditional comments]
+Комментарии
+[Save language pack as]
+Сохранить как
+[Custom code page]
+Кодовая страница
+[Enable translation mode]
+Включить режим переводчика
+[Warning: This mode will increase memory requirements even further.\nYou should only enable this mode if you plan to write Miranda translations.\nYou need to restart Miranda for the setting to take effect.]
+Внимание: этот режим увеличит занимаемую память.\nИспользуйте этот режим, только если хотите сделать перевод.\nВы должны перезапустить Miranda для вступления изменений в силу.
+[Translations window]
+Окно перевода
+[Manage translations]
+Управление переводами
+[English text:]
+Английский:
+[Autosave translation]
+Автосохранение перевода
+[Create language pack]
+Создать файл перевода
+[Translator]
+Переводчик
+[All strings]
+Все строки
+[Only untranslated strings]
+Только непереведённые строки
+[Only translated strings]
+Только переведённые строки
+[Strings in memory: %d / %d]
+Строк в памяти: %d / %d
+[Translator options]
+Настройки переводчика
+[Number of strings to keep in memory]
+Количество строк хранимых в памяти
+[Log the following strings:]
+Записывать:
+[This value is used as a minimum, the actual number might be bigger.\nWarning: setting a big number will increase memory requirements considerably.]
+Это значение используется как минимальное, возможны бОльшие\nзначения. Внимание: установка большого значения может увеличить занимаемый объем оперативной памяти.
+[before writing to disk.]
+перед записью на диск.
+[Flush to disk]
+Записать на диск
+[Number of strings to keep in memory before writing to disk:]
+Количество строк, хранимых в памяти перед записью на диск:
+[Translation mode]
+Режим переводчика
+[Warning: Translation mode will increase memory requirements further.\nYou should only enable this mode if you plan to write Miranda translations.\nYou need to restart Miranda for the setting to take effect.]
+Внимание! Режим переводчика сильно увеличивает занимаемую память\nИспользуйте его, только если планируете переводить Miranda.\nНеобходим перезапуск Miranda.
+[Normal mode]
+Обычный режим
+[Enable dynamic translation]
+Динамический перевод
+[Ignore double translations]
+Игнорировать дубли
+[Filter entries automatically after]
+Фильтровать автоматически после
+[Translations folder]
+Папка переводов
+[Filter translations:]
+Фильтр перевода:
+[Translations manager]
+Менеджер перевода
+[Finished reading language pack file and previous translations.]
+Конец чтения языкового файла и предыдущих переводов.
+[Starting to read language pack file and previous translations.]
+Начало чтения языкового файла и предыдущих переводов.
+[The clipboard is not available, retry.]
+Буфер обмена недоступен, повтор.
+[Additional comments]
+Комментарии
+[Not enough memory to create export buffers.]
+Недостаточно памяти для создания буферов экспорта.

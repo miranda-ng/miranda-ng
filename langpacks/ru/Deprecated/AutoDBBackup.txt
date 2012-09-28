@@ -1,0 +1,11 @@
+﻿;============================================================
+;  Module: autodbbackup.dll
+;============================================================
+[Auto Backups]
+Резерв профиля
+[Wait this long for Miranda to exit (secs):]
+Ожидать после закрытия программы (сек):
+[Backup folder name:]
+Имя папки резервных копий:
+[Additional command (will be executed after the backup is made):]
+Команда (будет выполнена после создания резервной копии):

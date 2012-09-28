@@ -1,0 +1,90 @@
+﻿;============================================================
+;  File: mContacts.dll
+;  Module: independent contact list/history import/export
+;  Versions: 0.0.1.1
+;  URL: http://miranda-planet.com/forum/index.php/topic/261-mcontacts/
+;  Source: 
+;  Authors: bankrut (Krzysztof Przybyіa)
+;============================================================
+[&Export contact list]
+Экспорт списка контактов
+[&Import contact list]
+Импорт списка контактов
+[Export contact list]
+Экспорт списка контактов
+[While exporting MIM will be completely blocked until finished.]
+Во время экспорта программа будет полностью блокирована!
+[Select export file name]
+Выберите имя файла для экспорта
+[Export history (if available)?]
+Экспортировать историю (если есть)?
+[Contact list is empty.\nNothing to export.]
+Список контактов пуст.\nНечего экспортировать
+[Nothing was exported.]
+Ничего не было экспортировано
+[Exported:]
+Экспортировано:
+[contact(s).]
+контакт(ы)
+['Export contact list' is busy.]
+'Экспорт списка контактов' занят
+[Import contact list]
+Импортировать список контактов
+[While importing MIM will be completely blocked until finished.]
+Во время импорта программа будет полностью блокирована!
+[Select import file name]
+Выберите имя файла для импорта
+[Import history (if available, can take a while)?]
+Импортировать историю (если есть, займет много времени)?
+[To import:]
+Импортировать:
+[Nothing was imported.]
+Ничего не было импортировано
+[Imported:]
+Импортировано:
+['Import contact list' is busy.]
+'Импорт списка контактов' занят
+[DAT Files]
+Файлы DAT
+[&Export contact history]
+Экспорт истории
+[There was an error during contact history export.]
+Ошибка экспортирования истории контактов
+[history event(s).]
+История событий
+['Export contact history' is busy.]
+'Экспорт истории контакта' занят
+[&Import contact history]
+Импорт истории
+[There was an error during contact history import.]
+Ошибка импортирования истории контактов
+[Delete whole history from selected contact, are you realy sure?]
+Удалить всю историю выбранного контакта, вы уверены?
+[&Delete contact history]
+Удалить историю контакта
+[Whole history from selected contact has been deleted.]
+Вся история выбранного контакта была удалена
+[Protocol independent contact list/history import/export.]
+Независимый от протокола импорт/экспорт списка контактов/истории.
+[&Delete whole history from all contacts]
+Удалить всю историю всех контактов
+[Delete whole history from all contacts (including system history), are you realy sure?]
+Удаление всей истории всех контактов (включая историю системных событий), ВЫ ТОЧНО УВЕРЕНЫ???
+[Delete whole history]
+Удаление всей истории
+[Whole history from all contacts has been deleted.]
+Вся история всех контактов была удалена
+[Only merge history (don't add new contacts)?]
+Только объединить историю (не добавлять новые контакты)?
+[Merge history if contact already on list?]
+Объединить историю, если контакт уже есть?
+[mContacts]
+Экспорт/импорт контактов
+[Check for history events duplicates?]
+Проверять дубликаты событий?
+[Import contact history]
+Импорт истории
+[Export contact history]
+Экспорт истории контакта
+[Delete contact history]
+Удалить историю контакта

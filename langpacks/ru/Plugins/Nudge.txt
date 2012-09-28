@@ -1,0 +1,100 @@
+﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;============================================================
+;  File: nudge.dll
+;  Module: nudge
+;  Versions: 0.0.1.14
+;============================================================
+[Nudge for MetaContacts]
+Встряхнуть (метаконтакты)
+[Plugin to shake the clist and chat window]
+Модуль тряски контакт листа и окна сообщений
+[Send &Nudge]
+Встряхнуть
+[Nudge]
+Тряска
+[Nudge for MSN]
+Встряхнуть (MSN)
+[Nudge as Default]
+Встряхнуть (по умолчанию)
+[Check status for which nudge are allowed]
+Статусы с разрешённым уведомлением
+[Protocol options]
+Настройки протокола
+[Specify options for each protocol]
+Индивидуальные настройки протоколов
+[Enable contact list shaking]
+Трясти список контактов
+[Enable message window shaking]
+Трясти окно сообщений
+[Treat nudge as a message]
+Трактовать как сообщение
+[Sending text]
+Текст отправки
+[Receiving text]
+Текст приема
+[Allow sending one nudge to the same contact every :]
+Отправка тряски одному и тому же контакту каждые:
+[Allow receiving one nudge from the same contact every :]
+Прием тряски от одного контакта каждые:
+[Show as status change]
+Показывать как смену статуса
+[Auto resend nudge]
+Автомат. повторять
+[Shaking Clist Options]
+Тряска списка контактов
+[Shaking Message Window Options]
+Тряска окна сообщений
+[Number of move]
+Количество движений
+[Width of move]
+Ширина движений
+[Window Shaking]
+Тряска окна
+[You received a nudge]
+Вас встряхнули
+[You sent a nudge]
+Вы встряхнули
+[Nudge for MRA]
+Встряска для Mail.ru агента
+[Allow sending* one nudge to the same contact every :]
+Трясти тот же контакт один раз каждые:
+[Auto resend nudge after]
+Повторять тряску каждые
+[* Nudge sending delay is hardcoded and cannot be changed.]
+* Это число нельзя изменять, оно забито в коде модуля.
+[Number of moves]
+Кол-во движений
+[Shake the chat window]
+Встряхнуть окно сообщения
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Нельзя посылать много встрясок (только 1 каждые %d сек, %d сек осталось)
+[received a nudge]
+получил встряску
+[sent a nudge]
+послал встряску
+[Allow nudges when you're:]
+Разрешать тряску когда Вы:
+[Nudge : Default]
+Тряска
+[Nudge for IRC]
+Встряхнуть (IRC)
+[Nudge for YAHOO]
+Встряхнуть (YAHOO)
+[Nudge for JABBER]
+Встряхнуть (JABBER)
+[Enable Nudge support]
+Включить поддержку тряски
+[Enable nudge]
+Включить тряску
+[Allow nudges when you're]
+Разрешать тряску когда Вы:
+[Nudge for]
+Тряска для
+[Open contact list]
+Открыть список контактов
+[Enable popup notification]
+Включить всплывающие окна
+[Respect ignore settings (status changes)]
+Учесть настройки игнора (смены статусов)
+[Show Nudge]
+Тряска

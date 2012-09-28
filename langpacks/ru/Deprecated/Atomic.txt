@@ -1,0 +1,75 @@
+﻿;============================================================
+;  Module: atomic.dll
+;  Plugin: atomic
+;  Versions: 0.1.0.0-0.6.0.0
+;============================================================
+[Atomic]
+Атомные часы
+[Atomic ]
+Атомные часы
+[&Atomic]
+Атомные часы
+[Could not initiate Winsock]
+Невозможно проинициализировать WinSock
+[Could not create socket]
+Невозможно создать канал
+[Could not set new date and time]
+Невозможно установить новые дату и время
+[Could not retrive date/time from any server]
+Невозможно получить дату и время ни с одного сервера (нет активного соединения с Internet?)
+[This plugin retrieves the exact time from a timeserver and sets the clock on your system]
+Этот модуль получает точное время с сервера времени и устанавливает часы Вашей системы
+[The addressfield is empty!]
+Поле адреса пусто!
+[Failed to load Winsock!]
+Невозможно загрузить WinSock!
+[Atomic requires another version of Winsock!]
+Для работы Atomic необходима другая версия WinSock!
+[Time was successfully synchronised!]
+Время успешно синхронизировано!
+[Failed to set the local time!]
+Невозможно установить время локально!
+[Time difference was greater was 1 hour, not synchronizing clock!]
+Отличие во времени более одного часа - время не синхронизируется!
+[Could not connect to any of the servers in the database!]
+Невозможно соединиться ни с одним из серверов, указанных в конфигурации!
+[Could not find any address in the database!]
+Невозможно найти ни один из адресов, указанных в конфигурации!
+[Synchronization statistics]
+Статистика синхронизации
+[Client originate date and time:]
+Исходное дата и время клиента:
+[Server receive date and time:]
+Дата и время приема сервера:
+[Server transmit date and time:]
+Дата и время передачи сервера:
+[Client destination date and time:]
+Целевые дата и время клиента:
+[Round trip delay:]
+Время задержки:
+[Local clock offset was:]
+Разница времени была:
+[Servers]
+Серверы
+[Server A:]
+Сервер1
+[Server B:]
+Сервер2
+[Server C:]
+Сервер3
+[Server D:]
+Сервер4
+[Server E:]
+Сервер5
+[Options for automatic retrievel]
+Параметры автоматического получения
+[Retrive time automatically at startup]
+Получать время при запуске Miranda
+[Wait 25 seconds before connecting]
+Задержка в 25 сек. перед соединением
+[Show a message when time has been set]
+Сообщение после установки времени
+[Play a soundfile when time has been set]
+Звук после установки времени
+[Update frequency (hours)]
+Частота обновления (часы)

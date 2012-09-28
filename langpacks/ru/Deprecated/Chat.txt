@@ -1,0 +1,178 @@
+﻿#muuid {9d6c3213-02b4-4fe1-92e6-526de24f8d65}
+;============================================================
+;  File: chat.dll
+;  Module: Chat module
+;  Versions: 0.2.0.0 - 0.5.0.1
+;  URL: http://code.google.com/p/miranda/downloads/list
+;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/chat/
+;  Authors: Miranda team
+;============================================================
+[Miranda could not load the Chat plugin because Microsoft Rich Edit v 3 is missing.\nIf you are using Windows 95/98/NT or WINE please upgrade your Rich Edit control.\n\nDo you want to download an update now?.]
+Miranda не может загрузить модуль Chat, потому что отсутствует Microsoft Rich Edit версии 3.\nЕсли вы используете Windows 95/98/NT или WINE, обновите Rich Edit control.\n\nЗагрузить обновление?
+[Options for using a tabbed interface]
+Настройки вкладок
+[Use a tabbed interface]
+Использовать вкладки
+[Close tab on doubleclick]
+Закрывать по двойному щелчку
+[Restore previously open tabs when showing the window]
+Восстанавливать открытые вкладки при показе окна
+[Show tabs at the bottom]
+Вкладки внизу
+[Chat Log]
+Журнал чата
+[Users status was changed]
+Пользователь сменил статус
+[Chat windows]
+Окна чата
+[Toggle userlist]
+Перекл. список
+[Make the text bold (CTRL+B)]
+Сделать текст жирным (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Сделать текст курсивом (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Подчеркнуть текст (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Выбрать фон текста (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Выбрать цвет текста (CTRL+K)
+[%s wants your attention in room %s]
+%s просит вашего внимания в комнате %s
+[Close current tab (CTRL+F4)]
+Закрыть текущую вкладку (CTRL+F4)
+[Userlist user indent (pixels):]
+Отступ в списке (пиксели):
+[Userlist row distance (pixels):]
+Расстояние между строками (пикс.):
+[Userlist lines]
+Цвета линий в списке
+[C&lose other tabs]
+Закрыть остальные вкладки
+[User list members (Away)]
+Пользователи (отсутствуют)
+;;;
+[User list members]
+Пользователи
+[Message Background]
+Фон сообщения
+[Userlist Background]
+Фон списка
+[Userlist Lines]
+Цвет линий списка
+[Chat Module]
+Модуль чата
+[Chat log]
+Журнал чата
+;;;
+[User list statuses]
+Статусы пользователей
+[Send message by pressing the Enter key]
+ВВОД отправляет сообщение
+[Send message by pressing the Enter key twice]
+Двойной ВВОД отправляет сообщение
+[Show button for sending messages]
+Показывать кнопку отправки сообщения
+[Show name of the chat room in the top left of the window]
+Показывать название комнаты в левом верхнем углу
+[Show buttons for controlling the chat room]
+Показывать кнопки управления комнатой
+[Show buttons for formatting the text you are typing]
+Показывать кнопки форматирования текста
+[Show lines in the userlist]
+Показывать линии в списке
+[Show new windows cascaded]
+Уложить каскадом
+[Save the size and position of chat rooms]
+Сохранять размер и позицию окон комнат
+;;;
+[Custom2]
+Набор 2
+[Unique id]
+Уник. ID
+[Word lookup]
+Найти слово
+[Userlist Background (selected)]
+Заливка списка (выбрано)
+[Make the text bold]
+Полужирный
+[Make the text italicized]
+Наклонный
+[Make the text underlined]
+Подчеркнутый
+[Select a background color for the text]
+Цвет фона
+[Select a foreground color for the text]
+Цвет текста
+[Show the history]
+История
+[Show/hide the nicklist]
+Вкл/откл список ников
+[Control this room]
+Управление каналом
+[Enable/disable the event filter]
+Вкл/выкл фильтр
+[Save the size and position of chat rooms individually]
+Сохранять размер и позицию каждого окна
+[Chat: Incoming message]
+Чат: Входящее
+[Chat: Message is highlighted]
+Чат: Внимание!
+[Chat: The topic has been changed]
+Чат: Смена темы
+[Chat: User has changed name]
+Чат: Смена ника
+[Chat: User has disconnected]
+Чат: Выход из сети
+[Chat: User has joined]
+Чат: Вход на канал
+[Chat: User has kicked some other user]
+Чат: Кик с канала
+[Chat: User has left]
+Чат: Выход с канала
+[Chat: User has performed an action]
+Чат: Было выполнено действие
+[Chat: User has sent a notice]
+Чат: Уведомление!
+[Chat: Userґs status was changed]
+Чат: Смена статуса
+[Check temporary also]
+Проверять периодически
+[Event: Available]
+Событие: Доступен
+[Event: Away]
+Событие: Отошел
+[Event: Disconnect]
+Событие: Отключён
+[Event: DND]
+Событие: Не беспокоить
+[Event: Free for chat]
+Событие: Готов болтать
+[Event: N/A]
+Событие: Недоступен
+[Event: Occupied]
+Событие: Занят
+[Event: On the phone]
+Событие: На телефоне
+[Event: Out for lunch]
+Событие: Ушел обедать
+[Online notification of contacts]
+Проверка статуса контактов
+[Outgoing commands are not shown in the server window]
+Исходящие команды не будут показаны в серверном окне
+[Outgoing commands are shown in the server window]
+Исходящие команды будут показаны в серверном окне
+[The following is known about this user on the network. The information is not necessarily accurate]
+Об этом пользователе известно следующее (не обязательно достоверно)
+[timer (s): ]
+Таймер (с)
+[%s : Channel (%u Users)]
+%s : Канал (%u участников)
+[%s wants your attention in room %u]
+%s требует вашего внимания в комнате %u
+[Record all events in the room to a log file]
+Сохранять все события в журнале
+[Show icon in tray for notices]
+Показывать значок уведомления в трее
+[Show pop-up for notices]
+Всплывающие окна уведомлений

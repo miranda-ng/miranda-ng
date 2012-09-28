@@ -1,0 +1,110 @@
+﻿#muuid {ad39ba63-e9af-4115-aed5-29633359948d}
+;============================================================
+;  File: AutoReplacer.dll
+;  Plugin: AutoReplacer
+;  Versions: 0.0.1.7
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=593
+;  Source: 
+;  Authors: Corsario
+;============================================================
+[AutoCorrection]
+АвтоЗамена
+[AutoText]
+АвтоЗаполнение
+[&Enable AutoCorrection]
+&Включить автозамену
+[&Enable AutoText]
+&Включить автозаполнение
+[Correct TWo INitial &CApitals]
+Исправлять ДВе ЗАглавные &БУквы
+[Capitalize first letter of &sentences]
+Сделать первую букву предложения большой
+[Capitalize &names of days]
+Сделать большими первые буквы дней &недели
+[AutoText entries]
+Слова:
+[Replace]
+Менять
+[With]
+На
+[E&xceptions...]
+Исклю&чения...
+[Exceptions]
+Исключения
+[&Capitalize]
+Предложения
+[&TWo INitial CApitals]
+ДВе ЗАглавные БУквы
+[Do not capitalize sentences beginning with]
+Не исправлять предложения, начинающиеся на
+[Do not correct words beginning with]
+Не исправлять слова, начинающиеся на
+[Correct accidental usage of cAPS &LOCK Key]
+Исправлять ошибочное нажатие кнопки cAPS &LOCK
+[monday]
+понедельник
+[tuesday]
+вторник
+[wednesday]
+среда
+[thursday]
+четверг
+[friday]
+пятница
+[saturday]
+суббота
+[sunday]
+воскресенье
+[Adds AutoCorrection and AutoText features to message window.]
+Дает возможности автоматической замены и дополнения слов во время диалога.
+[AutoReplacer]
+АвтоЗамена
+[AutoReplacer import]
+Импорт автозамены
+[I want to...]
+Я хочу...
+[import AutoText entries]
+импортировать автозаполнение
+[import AutoCorrection entries]
+импортировать автозамену
+[import capitalize exception entries]
+импортировать исключения для предложений
+[import two initial capitals exception entries]
+импортировать исключения для ДВух ЗАглавных
+[export AutoText entries]
+экспортировать автозаполнение
+[export AutoCorrection entries]
+экспортировать автозамену
+[export capitalize exception entries]
+экспортировать исключения для предложений
+[export two initial capitals exception entries]
+экспортировать исключения для ДВух ЗАглавных
+[&Make it!]
+&Сделать!
+[Export sucessfully done.]
+Успешно экспортировано.
+[Import sucessfully done. You need restart Miranda NOW for changes to take effect.]
+Успешно импортировано. Изменения вступят в силу после перезапуска программы.
+[Error importing exception entries.]
+Ошибка импортирования исключений.
+[Error exporting exception entries.]
+Ошибка экспортирования исключений.
+[Close the Miranda's options window before doing any import operation.]
+Перед импортированием обязательно закройте окно настроек.
+[Adds import/export features to AutoReplacer plugin.]
+Модуль-спутник. Добавляет функции импорта/экспорта к модулю AutoReplacer.
+;добавил из сырцов
+[Error exporting AutoCorrection entries.]
+Ошибка экспорта автокоррекции.
+[Error exporting AutoText entries.]
+Ошибка экспорта автотекста.
+[Error importing AutoCorrection entries.]
+Ошибка импорта автокоррекции.
+[Error importing AutoText etries.]
+Ошибка импорта автотекста.
+[Error importing exceptions entries.]
+Ошибка импорта исключений.
+[Txt File]
+Файл txt
+[Import/Export...]
+Импорт/Экспорт...

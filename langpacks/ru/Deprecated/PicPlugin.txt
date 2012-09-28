@@ -1,0 +1,16 @@
+﻿;============================================================
+;  File: PicPlugin.dll
+;  Module: PicPlugin
+;  Versions: 0.0.0.3
+;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=265
+;============================================================
+[Picture Plugin]
+Фотография
+[Adds the option to set and view a picture for each contact]
+Добавляет возможность назначать и просматривать фотографию для любого контакта.
+[Set/Change &Picture]
+Задать/сменить фотографию
+[Show P&icture]
+Показать фотографию
+[Picture]
+Фотография

@@ -1,0 +1,68 @@
+﻿;============================================================
+;  File: importTrillian.dll
+;  Module: Trillian message history and contacts importer	
+;  Versions: 0.2.0.0
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1929
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/ImportTrillian/
+;  Authors: Spin
+;============================================================
+[Replace duplicate messages]
+Заменять дубликаты сообщений
+[Trillian logs directory]
+Папка журналов Trillian
+[Delete entries before]
+Удалять события до
+[Fast mode (backup your db!)]
+Быстрый режим (сделайте копию БД!)
+[WARNING: If you cancel now and continue later you might\nget duplicate entries. Cancel anyways?]
+ВНИМАНИЕ: Если Вы отмените процесс сейчас и продолжите\nпозже, могут появится дубликаты. Отменить?
+[Import settings]
+Импорт настроек
+[Import ICQ history]
+Импорт истории ICQ
+[Import MSN history]
+Импорт истории MSN
+[Import AIM history]
+Импорт истории AIM
+[Import IRC history]
+Импорт истории IRC
+[No logs found for this protocol.]
+Не найдено журналов для этого протокола.
+[There's nothing to import, please\nselect a protocol.]
+Нечего импортировать,\nвыберите протокол...
+[Import Yahoo! history]
+Импорт истории Yahoo!
+[Invalid settings]
+Неправильные настройки
+[Import IRC channel history]
+Импорт истории каналов IRC
+[Import Trillian history/contacts...]
+Импорт истории/контактов Trillian...
+[Import in progress...]
+Импорт запущен...
+[Interpret logs as UTF8 files]
+Журнал как UTF8 файлы
+[Importing History]
+Импортирование истории
+[Import messages]
+Импорт сообщений
+[Skip duplicate messages]
+Пропускать дубликаты
+[Done importing %d contact history files!]
+Завершено импортирование %d файлов истории контактов!
+[Try to auto-detect UTF8 strings (is slow, detects цдьЯйаиз)]
+Пытаться автом. определить UTF8 строке (медленнее)
+[Import status reports (filetransfers, away msg, etc.)]
+Импорт запросов статуса (передачи файлов, сообщения статуса, др)
+[Overall (current protocol)]
+Всего (текущий протокол)
+[Import history of existing contacts]
+Импорт истории существующих контактов
+[(Must match this format exactly: MMM DD HH:mm:ss YYYY)]
+(Должно совпадать с форматом: МММ ДД ЧЧ:мм:сс ГГГГ)
+[\nCheck your UIN and path settings. Path musst end with \\logs]
+\nПроверьте ваш UIN и настройки пути - он должен оканчиваться на \\logs
+[Add new contacts if a contact from the history is not on the list]
+Добавить новые контакты, если контакт из истории не в списке
+[Please select the 'logs' folder in your Trillian directory]
+Выберите папку 'logs' Trillian

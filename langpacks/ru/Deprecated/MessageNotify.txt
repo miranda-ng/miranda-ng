@@ -1,0 +1,34 @@
+﻿;============================================================
+;  File: messagenotify.dll
+;  Module: Message Notify
+;  Versions: 0.0.6.2
+;  URL: http://www.scottellis.com.au/
+;============================================================
+[MessageNotify]
+Вам сообщение
+[Notification Options]
+Параметры извещений
+[Notify if window not open]
+Извещать, если окно не открыто
+[Notify if window isn't 'foreground']
+Извещать, если окно не на переднем плане
+[Consider tabs]
+Учитывать вкладки
+[Close window on right click]
+Закрыть окно правой кнопкой
+[Set timeout (otherwise, infinite)]
+Длительность (нет == постоянно)
+[Timeout (seconds, 0 == default):]
+Таймаут (сек, 0 == умолчание)
+[Set popup colours]
+Цвета вспл. окон
+[Background:]
+Фон
+[%s Message]
+%s сообщение
+[Speech]
+Речь
+[Notification Types]
+Типы уведомлений
+[Include message text]
+Уведомлять о текстовых сообщениях

@@ -1,0 +1,9 @@
+﻿#muuid {d38eeb0b-b8ee-4177-b9e5-91ebe101e054}
+;============================================================
+;  File: W7UI.dll
+;  Module: W7UI
+;  Versions: 0.0.0.1
+;============================================================
+
+[Provides support for Windows 7 Taskbar feautures such as Aero Peek, Overlay icons, Jump Lists, Progress Bar]
+Обеспечивает поддержку панели задач Windows 7, таких как Aero Peek, наложение значков, джамп листы, прогресс бар

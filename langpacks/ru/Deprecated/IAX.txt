@@ -1,0 +1,54 @@
+﻿;============================================================
+;  File: iax.dll
+;  Module: IAX telephony client
+;  Versions: 0.2.0.1
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3198
+;  Source: https://github.com/sje397/sje-miranda-plugins/tree/master/iax
+;  Authors: Scott Ellis
+;============================================================
+[Call]
+Вызов
+[Devices]
+Устройства
+[Ring (Outbound)]
+Звонок (Исходящий)
+[Popup on incoming call]
+Вспл.окно при вход. вызове
+[Preferred]
+Предпочт.
+[Ring (Inbound)]
+Звонок (Входящий)
+[Output:]
+Выход:
+[Input:]
+Вход:
+[Key Press]
+Нажатие кл.
+[Hang Up]
+Повесить
+[Allowed]
+Разрешено
+[Keypad]
+Клавиши
+[Changes will take effect after restart]
+Изменения вступят в силу после перезапуска
+[Dial Number]
+Набрать номер
+[Codecs]
+Кодеки
+[Caller ID]
+ID абонента
+[Answer Call]
+Ответить на вызов
+[Call Window]
+Вызвать окно
+[Popup on outgoing call]
+Вспл. окно при исход. вызове
+[(*Changes will take effect after restart)]
+(*Изменения вступят после перезапуска)
+[Mic boost]
+Усилить микрофон
+[Failed to register hotkey]
+Ошибка при регистрации горячей клавиши
+[IAX]
+Протокол IAX

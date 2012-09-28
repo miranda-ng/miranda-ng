@@ -1,0 +1,55 @@
+﻿;============================================================
+;  Module: aur.dll
+;  Plugin: Autoreplier
+;============================================================
+[&Autoreply to this user]
+Автоответ этому контакту
+[\r\n to developer.]
+\r\n для разработчика.
+[Auto replier settings]
+Настройки автоответчика
+[AutoReplier crush. Support: ICQ# 161762046]
+Ошибка автоответчика. Поддержка ICQ# 161762046
+[Disable Auto replier]
+Отключить автоответчик
+[Disable when status becomes]
+Отключить, если статус
+[DND/NA/Away/Occupied modes]
+Не беспокоить/не доступен/отошел/занят
+[Enable Auto replier]
+Включить автоответчик
+[Enable when status becomes]
+Включить, если статус
+[Exception has occured please, analize or just send log file\n\r ]
+Произошла ошибка. Просмотрите лог файл\n\r
+[Extended action handler:]
+[General options, provides basic functionality.]
+Основные настройки
+[Generated autoreply:\r\n]
+Автоответ:\r\n
+[header is too big]
+большой заголовок
+[Header text:]
+Текст заголовка:
+[Header:]
+Заголовок:
+[message is too big]
+большое сообщение
+[Message text:]
+Текст сообщения:
+[Online/Free for chat modes]
+В сети/Готов чатится
+[Options are changed in another dialog]
+Настройки изменяются в другом диалоге
+[Please, specify longer contact name]
+Укажите точное имя контакта
+[Reply text:]
+Текст:
+[Rule with the same contact name already exists]
+Правило с тем же именем уже существует
+[too big size]
+слишком большое
+[Well, I would talk to you if Miranda IM supported chat]
+Я б не прочь поговорить... если бы у меня был установлен модуль чата.
+[Zero is not acceptable value]
+Нуль не поддерживается

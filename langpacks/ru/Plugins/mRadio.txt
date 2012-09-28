@@ -1,0 +1,179 @@
+﻿#muuid {eebc474c-b0ad-470f-99a89dd9210ce233}
+;============================================================
+;  File: mradio.dll
+;  Module: mRadio, mRadio Mod
+;  Versions: 0.0.2.1
+;  URL:http://awkward.mirandaim.ru
+;============================================================
+[This plugin plays and records Internet radio streams. Also local media files can be played.]
+Этот модуль позволяет прослушивать и записывать интернет радио. Так же может воспроизводить локальные файлы.
+[mRadio Mod]
+Протокол mRadio
+[REC]
+Зап.
+[Cave]
+Пещера
+[Arena]
+Арена
+[Genre]
+Жанр
+[Plain]
+Равнина
+[Alley]
+Аллея
+[Dizzy]
+Головокружение
+[Generic]
+Общий
+[Bathroom]
+Ванная
+[Parking Lot]
+Стоянка
+[Stone Corridor]
+Каменный коридор
+[Sewer Pipe]
+Водосточная труба
+[Auditorium]
+Аудитория
+[Carpeted Hallway]
+Покрытый коридор
+[Play from first]
+Играть сначала
+[Shuffle playlist]
+Перемешать плейлист
+[Loop single media]
+Зацикливание
+[Station Name]
+Имя станции
+[Timeout, ms (5000)]
+Таймаут, мс (5000)
+[PreBuf, % (75%)]
+Пребуф. % (75%)
+[Hallway]
+Прихожая
+[Mountains]
+Горы
+[Use EAX]
+Использовать EAX
+[Under Water]
+Под водой
+[Station URL (required)]
+Ссылка на станцию (требуется)
+[To INI]
+В файл
+[Buffer, ms (5000)]
+Буфер, мс (5000)
+[Add station]
+Добавить станцию
+[Add Station]
+Добавить станцию
+[Bitrate]
+Битрейт
+[Stone Room]
+Комната из камня
+[Living Room]
+Гостиная
+[Drugged]
+Заторможенность
+[Record path]
+Путь к записи
+[Padded Cell]
+Обитая камера
+[Autoconnect last station]
+Подключаться к последней станции
+[Concert Hall]
+Концертный холл
+[Psychotic]
+Психотический
+[Forrest]
+Лес
+[To list]
+В список
+[Hangar]
+Ангар
+[Offline station as Offline]
+Станция "не в сети" как "не в сети"
+[Protocol depending status]
+Статус, зависимый от протокола
+[Continuous record]
+Непрерывная запись
+[Quarry]
+Карьер
+[Sorry!]
+Извините!
+[BASS.DLL not found!]
+BASS.DLL не найден!
+[Station]
+Станция
+[Custom INI file]
+Выбранный INI файл
+[Radio station URL]
+URL радиостанции
+[Start record]
+Начать запись
+[Stop record]
+Остановить запись
+[Currently played URL]
+Проигрываемый URL
+[Current stream title]
+Текущий заголовок
+[Station/playlist URL]
+URL станции/плейлиста
+[Currently used decoder]
+Текущий декодер
+[connecting]
+подключается
+[aborting]
+отключается
+[Can't initialize device]
+Не могу инициализировать устройство
+[Can't connect to net. Please, clear 'Work offline' option in Internet settings]
+Не удается подключиться к сети. Пожалуйста, уберите галку 'Работать автономно' в настройках Internet Explorer
+[Start broadcasting]
+Начало вещания
+[Stop broadcasting]
+Остановка вещания
+[Start/Stop broadcasting]
+Начало/Остановка вещания
+[Start/Stop Record]
+Начать/Остановить запись
+[Record]
+Запись
+[Status message template]
+Шаблон сообщения статуса
+[Equalizer presets]
+Предустановки эквалайзера
+[Export All]
+Экспортировать все
+[Current status]
+Текущий статус
+[Broadcast ON]
+Вещание вкл.
+[Broadcast OFF]
+Вещание выкл.
+[Add EQ preset]
+Добавить настройку эквалайзера
+[Delete EQ preset]
+Удалить настройку эквалайзера
+[BASS library path (empty for default)]
+Путь к библиотеке BASS (по умолчанию пусто)
+[Tries to connect]
+Попыток подключений
+[Mute]
+Вкл/выкл звук
+[mRadio volume control]
+Уровень громкости mRadio
+[Import File]
+Импортировать файл
+[Play Station]
+Станции
+[Forced Mono]
+Принудительно Mono
+[Play/Pause]
+Воспроизведение/Пауза
+[Oops! BASS error]
+Ошибка библиотеки BASS
+[Mute with Miranda]
+Отключать с другими звуками Miranda NG
+[Advanced]
+Дополнительно

@@ -1,0 +1,162 @@
+﻿;============================================================
+;  File: battleship.dll
+;  Plugin: Battleship Game
+;  Versions: 0.0.1.2-0.0.1.3
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1100
+;  Source: 
+;  Authors: Std
+;============================================================
+["Battleship" game]
+Игра "Морской бой"
+[Play "Battleship" game]
+Играть в "Морской бой"
+[&New game]
+&Новая игра
+[&Ready!]
+&Готов!
+[Just start a new game...]
+Просто начните новую игру...
+[Arrange your ships]
+Расставляйте свои корабли
+[Your opponent is tired of playing]
+Ваш соперник устал играть
+[You win!]
+Вы выиграли!
+[Sorry, You lose...]
+Жаль, но вы проиграли...
+[Your move!]
+Ваш ход!
+[Opponent's move...]
+Ход соперника
+[Wait for answer...]
+Ждем ответа....
+[Opponent is not ready. Waiting...]
+Соперник не готов. Ждем...
+[Hurry up! Opponent is ready to fight.]
+Поспешите! Соперник уже готов к бою.
+[Game in progress. Do you really want to terminate?]
+Игра ж идет! Серьезно хотите закрыть?
+[Your opponent want to restart. Do you agree?]
+Соперник хочет перезапустить. Согласны?
+[Empty]
+Пусто
+[Injured]
+Раненый
+[Sunk]
+Потоплен
+[Miss]
+Мимо
+[Horiz. ship: Beginning]
+Гориз. корабль: Начало
+[Horiz. ship: Middle]
+Гориз. корабль: Середина
+[Horiz. ship: Ending]
+Гориз. корабль: Хвост
+[Horiz. ship: Alone]
+Гориз. корабль: Одиночка
+[Vert. ship: Beginning]
+Вертик. корабль: Начало
+[Vert. ship: Middle]
+Вертик. корабль: Середина
+[Vert. ship: Ending]
+Вертик. корабль: Хвост
+[Vert. ship: Alone]
+Вертик. корабль: Одиночка
+[Unknown command for "Battleship" game received]
+Принята неизвестная команда для игры "Морской бой"
+[*Battleship game* There's someone who wants to play the game with you!]
+*Морской бой* Тут кто-то хочет сыграть с вами!
+[The cool game from my childhood]
+Отличная игра моего детства
+[Battleship: New game]
+Морской бой: Новая игра
+[Battleship: Defeat]
+Морской бой: Поражение
+[Battleship: Victory]
+Морской бой: Победа
+[Battleship: Game is started]
+Морской бой: Игра началась
+[Battleship: Your move]
+Морской бой: Ваш ход
+[Battleship: You miss]
+Морской бой: Вы промазали
+[Battleship: You hit]
+Морской бой: Вы попали
+[Battleship: You destroyed enemy's ship]
+Морской бой: Вы уничтожили корабль врага
+[Battleship: Opp. move]
+Морской бой: Ход соперника
+[Battleship: Opp. miss]
+Морской бой: Соперник промазал
+[Battleship: Opp. hit]
+Морской бой: Соперник попал
+[Battleship: Opp. destroyed your ship]
+Морской бой: Соперник уничтожил ваш корабль
+[Battleship: Take the ship]
+Морской бой: Взять корабль
+[Battleship: Drop the ship]
+Морской бой: Отпустить корабль
+[Select a skin file]
+Выберите файл скина
+[Timeout, ms]
+Таймаут, мс
+[Show buttons in the top]
+Кнопки сверху
+[Shot speed, ms]
+Скорость выстрела, мс
+[Response delay, ms]
+Задержка ответа, мс
+[Here's a next sequence to play:]
+Вот последовательность действий:
+[1. You have to make the handshake. For this you have to press "New game" button. This one sends a request to your opponent. When you got his answer the game will start.\n2. The game will start with ship arrangement. You must move all available ships from a right side into a left. Use a left-click to take/drop a ship. A right mouse button is toggle a direction of a ship.\n3. When you will finish your arrangement you have to press the "Ready!" button. If your opponent isn't ready the appropriate message will shown in the status bar.\n4. Current state of the game is reflected in the status bar.\nGood luck and have fun!]
+1. Сначала вы должны установить соединение, для этого нажмите кнопку "Новая игра" - отправится запрос сопернику. Игра начнется, когда получите ответ.\n2. Игра начинается с расстановки кораблей. Переносите все корабли с правой панели на левую. Левая кнопка берет/ставит корабль, правая кнопка крутит его вокруг оси.\n3. Когда закончите расстановку, нажмите кнопку "Готов!". Если соперник еще не готов, это указано сообщением в строке статуса.\n4. Текущее состояние игры отображается в строке статуса, смотрите туда.\nУдачи!
+[Score %d:%d]
+Счёт %d:%d
+[Legend:]
+Легенда:
+[Alive ship]
+Живой корабль
+[Quick Help]
+Подсказка
+[Clear Score]
+Сбросить счёт
+[An offer of new game]
+Предложение новой игры
+[Arrangement is finished]
+Расстановка завершена
+[User Status Icon]
+Значок статуса пользователя
+[Your pal must have a same version of the game as you. Check it up!]
+Версии игры у вас и вашего соперника должны совпадать, проверьте!
+["Battleship" game: Defeat]
+"Морской бой": Проигрыш
+["Battleship" game: Drop the ship]
+"Морской бой": Сбросить корабль
+["Battleship" game: Game is started]
+"Морской бой": Игра началась
+["Battleship" game: New game]
+"Морской бой": Новая ирга
+["Battleship" game: Opp. destroyed your ship]
+"Морской бой": Ваш корабль уничтожен
+["Battleship" game: Opp. hit]
+"Морской бой": Противник попал
+["Battleship" game: Opp. miss]
+"Морской бой": Противник промазал
+["Battleship" game: Opp. move]
+"Морской бой": Ход противника
+["Battleship" game: Take the ship]
+"Морской бой": Взять корабль
+["Battleship" game: Victory]
+"Морской бой": Победа!
+["Battleship" game: You destroyed enemy's ship]
+"Морской бой": Вы уничтожили корабль
+["Battleship" game: You hit]
+"Морской бой": Вы попали
+["Battleship" game: You miss]
+"Морской бой": Вы промазали
+["Battleship" game: Your move]
+"Морской бой": Ваш ход
+[*Battleship* There's someone who wants to play the game with you!]
+*Морской бой* Кто-то хочет поиграть с тобой!
+[*"Battleship" game* There's someone who wants to play the game with you!]
+*"Морской бой"* Кто-то хочет с вами поиграть!

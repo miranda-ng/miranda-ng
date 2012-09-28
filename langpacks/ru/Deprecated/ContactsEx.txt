@@ -1,0 +1,67 @@
+﻿;============================================================
+;  File: ContactsEx.dll
+;  Module: ContactsEx
+;  Versions: 1.1.2.0
+;============================================================
+[Browse Files]
+Файлы
+[ContactsEx]
+Контекстные меню
+[Folder View]
+Папка
+[Explorer View]
+Проводник
+[Hide Menu Item]
+Скрыть пункт меню
+[Disable Menu Item]
+Отключить пункт меню
+[Last Online Options]
+Настройки "Последний раз в сети"
+[Adds a context menu item to your contacts showing the time the contact was last online.]
+Добавляет пункт меню, показывающий время, когда контакт был последний раз в сети.
+[Enable Last Online]
+Включить "Последний раз"
+[Menu item text:]
+Текст меню
+[If last online is unknown:]
+Если время неизвестно:
+[If contact is currently online:]
+Если контакт сейчас в сети:
+[Last Online Variables]
+Переменные "Последний раз в сети"
+[Browse Files Options]
+Настройки "Просмотра файлов"
+[Adds a "Browse Files" context menu item to your contacts.]
+Добавляет пункт меню "Полученные файлы"
+[Enable Browse Files]
+Включить "Полученные файлы"
+[Folder view type:]
+Метод просмотра каталогов:
+[If contacts directory is empty:]
+Если каталог пустой:
+[If contacts directory does not exist:]
+Если каталог не существует:
+[View Homepage Options]
+Настройки "Сайта"
+[Adds a "View Homepage" context menu item to your contacts.]
+Добавляет пункт меню "Сайт" для контактов.
+[Enable View Homepage]
+Включить "Сайт"
+[If contact is missing a homepage:]
+Если адреса сайта нет:
+[Icon in menu item:]
+Значок на пункте меню
+[Show Icon]
+Показать значок
+[Hide Icon]
+Скрыть значок
+[Copy IP Address]
+Копировать IP-адрес
+[Copy IP Address Options]
+Настройки копирования IP
+[Adds a "Copy IP Adress" context menu item to your contacts.]
+Добавляет пункт меню "Копировать IP" для контактов.
+[Enable Copy IP Address]
+Включить "Копировать IP"
+[If contact's IP address is unknown:]
+Если IP-адрес неизвестен:

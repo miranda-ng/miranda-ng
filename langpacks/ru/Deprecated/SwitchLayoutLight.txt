@@ -1,0 +1,16 @@
+﻿;============================================================
+;  File: switchlayoutlight.dll
+;  Module: Switch Layout Light (Unicode)
+;  Versions: 0.0.0.6
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4316
+;============================================================
+[Allows to switch a layout of the entered text in the message window if the text is written in a wrong layout. Unicode version with SmileyAdd support.]
+Позволяет переключать регистр введённого текста и в окне сообщений, если текст был записан в неправильном формате. Unicode версия с поддержкой SmileyAdd.
+[Convert All / Selected]
+Сменить раскладку всего текста / Выделенного
+[Convert All / Selected (rev)]
+Сменить раскладку всего текста / Выделенного (обратно)
+[Convert Last / Selected]
+Сменить раскладку последнего слова / Выделенного
+[Convert Last / Selected (rev)]
+Сменить раскладку последнего слова / Выделенного (обратно)

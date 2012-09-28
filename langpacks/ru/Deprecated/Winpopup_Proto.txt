@@ -1,0 +1,131 @@
+﻿;============================================================
+;  File: winpopup_proto.dll
+;  Module:  Net send (winpopup) protocol
+;  Versions: 0.0.0.10 - 0.0.0.17
+;============================================================
+[Add contact...]
+Добавить...
+[Always Online]
+Всегда видим
+[Auto-reply]
+Автоответ
+[Auto-reply to users with your status message while away]
+Отвечать статусным сообщением, пока недоступен
+[Cannot create receiving mailslot]
+Не могу создать mailslot получателя]
+[Cannot operate Messenger service]
+Не могу управлять службой Messenger
+[Cannot register NetBIOS name]
+Не могу зарегистрировать имя NetBIOS]
+[Cannot resolve contacts IP-address. Add it anyway?]
+Не могу определить IP адрес контакта. Добавить всё равно?
+[Cannot start Messenger service]
+Не могу запустить службу Messenger
+[Cannot stop Messenger service]
+Не могу остановить службу Messenger
+[Computer,User,Group]
+Компьютер,пользователь,группа
+[Comment:]
+Комментарий:
+[Explore]
+Обзор
+[Failed names]
+Ошибочные имена
+[LAN adapter]
+LAN адаптер
+[Legacy online status detection]
+Устаревшее определение статуса подключения
+[NetBIOS names:]
+Имена NetBIOS:
+[NetBIOS names registration]
+Регистрация NetBIOS имён
+[No progress]
+Нет прогресса
+[Other names]
+Другие имена
+[Please shutdown any other IM applications and/or Messenger service]
+Закройте, пожалуйста, все другие IM приложения и/или службу Messenger
+[Successful names]
+Успешные имена
+[Unexpected service status change]
+Неожиданное изменение состояния службы
+[Use Mailslot when sending (RECOMMENDED)]
+Использовать Mailslot при отправке (РЕКОМЕНДУЕТСЯ)
+[Use NetBIOS when sending]
+Использовать NetBIOS при отправке
+[Use Messenger service when sending and receiving]
+Использовать службу Messenger при отправке и получении
+[Workgroup]
+Рабочая группа
+[%s\n%s\nAccess denied]
+%s\n%s\nДоступ запрещен
+[%s\n%s\nError 0x%08x]
+%s\n%s\nОшибка 0x%08x
+[%s\n%s\nNo progress]
+%s\n%s\nНет прогресса
+[%s\n%s\nQuery service status error 0x%08x]
+%s\n%s\nОшибка запроса статуса службы 0x%08x
+[%s\n%s\nUnexpected service status change]
+%s\n%s\nНеожиданное изменение статуса службы
+[%s\nCannot get Service Manager interface]
+%s\nИнтерфейс диспетчера служб недоступен
+[%s\nError 0x%08x]
+%s\nОшибка 0x%08x
+[%s\nPlease shutdown any other IM applications]
+%s\nЗакройте все остальные IM приложения
+[Cannot connect to Service Manager]
+Не могу подключиться к диспетчеру служб
+[Cannot create sending mailslot]
+Не могу создать слот отправки
+[Cannot open Messenger service in Service Manager]
+Не могу открыть службу Messenger через диспетчер служб
+[Cannot start previously stopped Messenger service]
+Не могу запустить остановленную службу Messenger
+[I am]
+Я
+;untranslated strings
+[A duplicate name existed in the local name table.]
+[A name conflict was detected.]
+[A system error occurred.]
+[An asynchronous operation is not yet finished.]
+[An error occurred during an open operation being performed by the device driver.]
+[An illegal buffer length was supplied.]
+[An illegal command was supplied.]
+[An illegal name number was specified.]
+[Cannot enable Messenger service]
+[ERROR: cannot load library (%s)\n]
+[ERROR: cannot locate function name (%s) from dll\n]
+[Messenger]
+[NetBIOS %s: %u]
+[No resource was available.]
+[No service access points (SAPs) were available for NetBIOS.]
+[Operating system resources were exhausted. The application can retry the command later.]
+[The attempt to lock the user area failed.]
+[The buffer address was illegal.]
+[The command finished while a cancel operation was occurring.]
+[The command finished; the name has active sessions and is no longer registered.]
+[The command was canceled.]
+[The command was timed out.]
+[The environment was not defined.]
+[The interface was busy.]
+[The local session table was full.]
+[The maximum number of applications was exceeded.]
+[The message was incomplete. The application is to issue another command.]
+[The name table was full.]
+[The name was already in use on the remote adapter.]
+[The name was defined by another local process.]
+[The name was deleted.]
+[The NCB address was not valid.]
+[The NCB DDID was invalid.]
+[The ncb_lana_num member did not specify a valid network number.]
+[The NCBCANCEL command was not valid; the command was not canceled.]
+[The operation succeeded.]
+[The remote session table was full. The request to open a session was rejected.]
+[The requested resources were not available.]
+[The session ended abnormally.]
+[The session number was out of range.]
+[The session was closed.]
+[The system did not find the name that was called.]
+[Too many commands were outstanding; the application can retry the command later.]
+[Trying LoadLibrary (%s)\n]
+[Wildcards are not permitted in the ncb_name member.]

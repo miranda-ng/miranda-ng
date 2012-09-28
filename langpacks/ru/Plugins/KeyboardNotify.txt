@@ -1,0 +1,101 @@
+﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+;============================================================
+;  File: KeyboardNotify.dll
+;  Module: Keyboard Notify
+;  Versions: 1.5.7.7
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2071
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/KeyboardNotify/
+;  Authors: TioDuke
+;============================================================
+[Flashes your keyboard LEDs when a message has arrived]
+Добавляет мигание светодиодов клавиатуры при прибывших сообщениях.
+[Keyboard Notify]
+Уведомление клавиатуры
+[Incomming messages]
+Входящие сообщения
+[Keys to flash]
+Чем моргать
+[Seconds to wait before starting flash]
+Ожидать перед миганием (секунд)
+[Incoming files]
+Входящие файлы
+[Incoming URLs]
+Входящие URL
+[xStatuses]
+хСтатусы
+[Flashing effects]
+Мигать
+[All at the same time]
+Всё одновременно
+[In turn]
+По очереди
+[In sequence]
+По порядку
+[left->right]
+лево->право
+[right->left]
+право->лево
+[left<->right]
+лево<->право
+[Custom theme]
+Своя тема
+[Accordingly to events' count]
+По количеству событий
+[Emulate keypresses (Use this option if you are using an USB keyboard)]
+Эмулировать нажатия клавиш (Только для USB клавиатур)
+[Create/Edit Themes]
+Создать/Редактировать тему
+[Theme]
+Тема
+[Import/Export]
+Импорт/Экспорт
+[Import...]
+Импорт...
+[Override existing]
+Заменить сущ.
+[Set xStatus list]
+Список хСтатусов
+[Set program list]
+Список программ
+[Consider event opened after]
+Действовать через
+[Set LEDs for events]
+Установить по событию
+[Use custom theme]
+Исп. свою тему
+[Hz]
+Гц
+[Beep]
+Сигнал
+[Workstation is locked ]
+Компьютер заблокирован
+[Beep the PC Speaker]
+Сигнал в PC Speaker
+[sequence]
+последовательность
+[Turn on without blinking]
+Вкл. без мигания
+[Flashing time]
+Время мигания
+[LEDs to flash]
+Мигать светодиодами
+[reversed]
+обратный
+[Screensaver is running]
+Запущена заставка
+[seconds (0 = unlimited)]
+секунд (0 = бесконечно)
+[ Notify when]
+ Уведомлять когда
+[simple]
+простой
+[Ignore others]
+Остальные события
+[Keyboard Notify Ext.]
+Уведомление клавиатуры
+[Ignore messages]
+Сообщения
+[Ignore URLs]
+Адреса (URL)
+[Ignore files]
+Передачи файлов

@@ -1,0 +1,33 @@
+﻿#muuid {80ad2967-2f29-4550-8719-232641d4c883}
+;============================================================
+;  File: emoticons.dll, emoticonsW.dll
+;  Module: Emoticons
+;  Versions: 0.3.0.1
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3683
+;  Source: http://pescuma.googlecode.com/svn/trunk/Miranda/Plugins/emoticons/
+;  Authors: Pescuma
+;============================================================
+[Enable custom smileys]
+Включить свои смайлы
+[Replace emoticons in text input area too]
+Смайлики в поле ввода диалогового окна
+[Use default emoticon pack for unknown protocols]
+Набор смайлов по умолчанию для неизвестных протоколов
+[Only replace emoticons surrounded by spaces]
+Заменять только окружённые пробелами смайлы
+[Download more emoticon packs]
+Загрузить дополнительные наборы смайлов
+[by %s]
+Автор %s
+[Emoticon downloads]
+Загрузка смайликов
+[Emoticon Packs]
+Наборы смайликов
+[Emoticons Background]
+Фон смайликов
+[Emoticons Text]
+Текст смайликов
+[ Emoticons ]
+ Смайлики 
+[Protocols Configuration]
+Конфигурация протоколов

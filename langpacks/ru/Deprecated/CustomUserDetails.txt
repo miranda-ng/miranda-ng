@@ -1,0 +1,86 @@
+﻿;============================================================
+;  File: customuserdetails.dll
+;  Module: Custom User Details
+;  Versions: 0.6.2.0
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=976
+;============================================================
+[Export vCard file]
+Экспорт в vCard-файл
+[Import vCard file]
+Импорт из vCard-файла
+[Open Vcard file for: ]
+Открыть Vcard-файл для: 
+[Export CSV file]
+Экспорт в CSV-файл
+[Import CSV file]
+Импорт из CSV-файла
+[Export vCard]
+Экспорт vCard
+[Import vCard]
+Импорт vCard
+[Summary of Updates]
+Сводка об обновлениях
+[Timezone not set]
+Часовой пояс не задан
+[Protocol Email:]
+E-mail:
+[Custom Email1:]
+e-mail #1:
+[Custom Email2:]
+e-mail #2:
+[Copy from existing]
+Из существующих
+[Phone numbers]
+Номера телефонов
+[Fax:]
+Факс:
+[Mobile:]
+Мобильный:
+[Postal Code:]
+Почтовый индекс:
+[Local Time:]
+Время:
+[First Name:]
+Имя:
+[Middle name:]
+Отчество:
+[Last Name:]
+Фамилия:
+[Date Of Birth:]
+Дата рождения:
+[DD-MM-YYYY]
+ДД-ММ-ГГГГ
+[Web Page]
+Web-страница
+[Personal:]
+Личная:
+[Go!]
+->
+[M]
+М
+[View/Change My &Details]
+Просмотр/Изменение моих &данных
+[From Update:]
+Из базы:
+[Current Info:]
+Текущее:
+[Mass &Import]
+Общий &импорт
+[Mass &Export]
+Общий &экспорт
+[&Contact Info]
+&Информация о контакте
+[Mass &Update]
+Общее обновление
+[There was nothing to export]
+Ничего не было экспортировано
+[Custom User Details]
+Личные данные пользователя
+[Update all Contacts]
+Обновить все контакты
+[Adds a tab to the user details dialog that will let you store users details locally in the database and import/export to vCard files that are compatible with Outlook and others.]
+Добавляет дополнительную вкладку в данные пользователя, позволяя хранить личные данные пользователя в локальной базе данных и импортировать/экспортировать в vCard-файлы, совместимые с Outlook и пр.
+[Choose CSV Import Values]
+Выбор значений CSV импорта
+[Contacts.csv]
+Контакты.csv

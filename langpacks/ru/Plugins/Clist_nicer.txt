@@ -1,0 +1,529 @@
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Module: Contact list
+;  Versions: 0.9.2.1
+;  URL: http://code.google.com/p/miranda/downloads/list
+;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/clist_nicer/
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+[&Skinned frame]
+Скин фрейма
+[Skinned frame]
+Применять скин к фрейму
+[&About the contact list...]
+О списке контактов...
+[Clist docking]
+Парковка
+[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+Невозможно парковать список контактов при использовании границы и заголовка по умолчанию. Используйте стиль "Без границ" или "Панель"
+[Add New...]
+Добавить...
+[Always Left]
+Всегда слева
+[Always Right]
+Всегда справа
+[Apply this profile]
+Применить профиль
+[Automatic (RTL)]
+Автоматически (RTL)
+[Display Profiles]
+Профили Вида
+[Far left]
+По левому краю
+[Far right]
+По правому краю
+[Floating contacts]
+Плавающие контакты
+[For RTL only]
+Только для RTL
+[Groups and layout]
+Группы и расположение
+[Last Message]
+По последнему сообщению
+[List layout]
+Расположение списка
+[Message Frequency]
+По частоте сообщений
+[RTL TEXT only]
+Для RTL текста
+[Rename...]
+Сменить имя...
+[When needed]
+Когда необходимо
+[When space allows it]
+Когда позволяет размер
+[With Nickname - left]
+Слева от ника
+[With Nickname - right]
+Справа от ника
+[&Contact list settings...]
+Настройки контакт-листа...
+[Contact list display and ignore options for %s]
+Настройки отображения и игнорирования для %s
+[Default (global setting)]
+По умолчанию (глобально)
+[Hide always]
+Всегда прятать
+[Revert to default]
+Вернуть по умолчанию
+[Show always when available]
+Всегда когда доступно
+[When needed by status message]
+Когда нужно статус сообщению
+[When space is available]
+Когда позволяет место
+[Clear view mode]
+Очистить режим вида
+[Contact list local time]
+Локальное время контакта
+[Find and add contacts]
+Найти и добавить контакты
+[Find contacts]
+Найти контакты
+[Frame titles]
+Заголовки фреймов
+[Minimize contact list]
+Скрыть список контактов
+[Open main menu]
+Главное меню
+[Open preferences]
+Открыть настройки
+[Select view mode]
+Выбрать режим вида
+[Set status modes]
+Установить режимы статуса
+[Show / hide offline contacts]
+Показать/скрыть оффлайн контакты
+[Show menu]
+Меню
+[Show tabSRMM menu]
+Меню TabSRMM
+[Show tabSRMM session list]
+Список сессий TabSRMM
+[Toggle group mode]
+Показать/скрыть группы
+[Toggle groups]
+Вкл/Выкл группы
+[Toggle show online/offline]
+Вкл/Выкл пользователей не в сети
+[Toggle sounds]
+Вкл/выкл звуки
+[Thin border]
+Тонкая рамка
+[Tool Window]
+Окно инструмента
+[< Reload]
+< Перезагрузить
+[About CList Nicer+]
+О модуле Nicer+
+[Always align icons and text for missing avatars]
+Всегда выравнивать значки и текст, если аватар отсутствует
+[Appear always offline (block contact)]
+Всегда невидим (блокировать контакт)
+[Appear always online]
+Всегда видим для контакта
+[Apply group indent values to background drawing]
+Применить настройки отступа для группы к фону
+[Apply last active view mode ]
+Применить последний активный режим
+[Auto mode]
+Режим авто
+[Auto-Hide Status Floater]
+Автоматически скрывать Status Floater
+[Automatically fill background with wallpaper (tiled wallpaper only)]
+Автоматически заполнять фон обоями (для замощённых обоев)
+[Avatar alignment]
+Выравнивание аватара
+[Blend selection with background]
+Смешивать выделение с фоном
+[Buttonbar]
+Панель
+[Center groupnames horizontally]
+Выравнивать названия групп по центру
+[Centered when possible]
+Центрировать(если возм.)
+[Client margins]
+Поля списка
+[Clip border by]
+Закруглить на
+[Contact list layout]
+Отображение списка контактов
+[Corner radius]
+Радиус углов
+[Decrease Button Size]
+Уменьшить размер кнопок
+[Disable Visual Styles]
+Отключить стили
+[Display status message when available]
+Показать сообщение статуса когда возможно
+[Do not separate offline contacts]
+Не отделять отключённые контакты
+[Do not show system tray icon tooltips on mouse over]
+Не показывать всплывающие подсказки при наведении на значок в трее
+[Don't request avatars for offline contacts]
+Не запрашивать аватары для отключённых контактов
+[Double click on avatar opens userinfo]
+Двойной клик по аватару открывает информацию о контакте
+[Draw a border around avatars]
+Рамка вокруг аватаров
+[Draw background skin]
+Использовать скин для фона
+[Draw overlay icon on avatar]
+Значок поверх аватара
+[Draw sunken Frame]
+Утопленный фрейм
+[Draw sunken edge]
+Утопленный край
+[Embedded frames border]
+Граница фреймов
+[Extra icon size]
+Размер экстра значков
+[Extra icons (drag items to reorder them)]
+Доп. значки (перетащите для изменения порядка)
+[Finally by]
+последнее
+[First by]
+Сначала
+[Flat Toolbar Buttons]
+Плоские кнопки
+[Floating contacts appearance]
+Отображение плавающих контактов
+[Frame titlebar height]
+Высота названия фрейма
+[Fully transparent (like TweakUI)]
+Полностью прозрачное (как TweakUI)
+[Gap between frames]
+Промежуток фреймов
+[Group row height]
+Мин. высота группы
+[Group top padding]
+Верх. отступ групп
+[CList - Nicer]
+Список контактов
+[Hide as offline]
+Прят. как не в сети
+[Hide numbers when all offline]
+Прятать счётчик когда все отключены
+[Hide this contact from the list]
+Спрятать контакт из списка
+[If you enable this, the background settings will affect the entire contact list frame.]
+При включении настройки фона будут использованы для всего фрейма списка контактов
+[Ignore selection for groups]
+Игнорировать выделение для групп
+[Ignore these events]
+Игнорировать события
+[Increase Button Size]
+Увеличить размер кнопок
+[Inner Row vertical padding]
+Вертикальный отступ между рядами
+[Make selection shape equal to selected item]
+Выделяемая область равна выбранному эл-ту
+[Margins (left/right)]
+Поля (справа/слева)
+[Margins and spacing]
+Поля и отступы
+[Mark protocols locked from global status changes]
+Помечать протоколы, для которых не применяется смена статуса
+[Minimum row height:]
+Мин. высота строки
+[Move events to the top of list\nor group]
+Перемещать события наверх списка или группы 
+[Move marked Contacts to this Group]
+Переместить отмеченные контакты в эту группу
+[NOTE: This is work in progress. Most options here do NOT yet work as they should, because the code is not yet implemented. Please don't report these issues as bugs, because they aren't bugs, just unfinished stuff.]
+ПРИМЕЧАНИЕ: Работа еще не закончены. Многие опции здесь не работают, так как нужно, потому что код еще не написан.
+[No expand/collapse icon]
+Не показывать значок сворачивания/разворачивания
+[Only show contact floaters when contact list is hidden or minimized]
+Показывать, только если список контактов скрыт или минимизирован
+[Only when timezone differs]
+Только когда часовой пояс отличается
+[Padding]
+Отступ
+[Per contact skins:]
+Скины контактов
+[Protocol skins override status text colors]
+Исп. цвета скина для текста статуса
+[Radius]
+Радиус
+[Replace status icons with xStatus]
+Заменить значки статуса хСтатусом
+[Reserved]
+Запасное
+[Reserved2]
+Запасное2
+[Reserved3]
+Запасное3
+[Reserved4]
+Запасное4
+[Reserved5]
+Запасное5
+[Right align contacts]
+Выравнивать по правому краю
+[Rounded avatars]
+Закруглённые аватары
+[Row gap]
+Промежуток между строками
+[Second text line]
+Вторая строка текста
+[Set all buttons to skinned mode]
+Использовать скин для кнопок
+[Set base visiblity on the frames menu]
+Установить базовую видимость меню фреймов
+[Show 2nd line:]
+Вторая строка:
+[Show Avatar:]
+Аватар:
+[Show Event Area in Floater]
+Показывать панель событий в Status Floater
+[Show ICQ extended status icons]
+Показывать значки xСтатуса
+[Show Metacontact proto Icons]
+Показывать значки метаконтактов
+[Show Status Icons]
+Значки статуса
+[Show Visibility Icons]
+Значки видимости
+[Show additional Buttons]
+Показывать дополнительные кнопки
+[Show button bar]
+Показывать панель кнопок
+[Show contact with priority]
+Контакт с приоритетом
+[Show contacts local time]
+Показывать местное время контакта
+[Show extra icons]
+Экстра значки
+[Show local time]
+Локальное время
+[Show menu and status buttons]
+Показывать кнопки меню и статуса
+[Show number of contacts in a group]
+Показать число контактов в группе
+[Show second text line]
+Показывать вторую строку текста
+[Show second text line:]
+Показывать вторую строку:
+[Show status icons]
+Значки статуса
+[Show visibility icon]
+Значок видимости
+[Show visibility icons]
+Значки видимости
+[Simple layout]
+Простой формат
+[Skinned Tool Bar]
+Применить скин
+[Suppress added notifications]
+Запрет "Вас добавили"
+[Suppress auth requests]
+Запрет "Запрос авторизации"
+[Suppress online notifications]
+Запрет "В сети"
+[Synchronzie floater visibility with contact list]
+Синхронизировать видимость со списком контактов
+[Then by]
+потом
+[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
+Чтобы показать ранее спрятанный контакт, откройте Опции->События->Игнорировать, найдите контакт, и поставьте галочку перед его именем.
+[Use Overlay icons on avatars]
+Использовать наложение значков на аватары
+[Use Status Floater]
+Использовать Status Floater
+[Use fast gradient drawing]
+Быстрая отрисовка градиента
+[Use full row for selection and hottracking]
+Использовать выделение всей строки
+[Use metacontact protocol icons instead of subcontacts]
+Значок протокола метаконтакта вместо субконтакта
+[Use per protocol/contact skinning]
+Исп. скины для протоколов/контактов
+[Use these settings to skin the entire background]
+Использовать данные настройки для всего фона
+[When possible, draw status icons in avatar space]
+Когда возможно, рисовать значки статуса в аватаре
+[xStatus]
+xСтатус
+[Current view mode: %s]
+Текущий режим вида: %s
+[Advanced #1 (ICQ X-Status)]
+Доп. слот (ICQ хСтатус)
+[Alpha (percent)]
+Альфа (процент)
+[Copy from]
+Копировать из
+[Enable floating contacts (required restart)]
+Включить плавающие контакты (перезагрузка)
+[Fill with contact list background color]
+Заполнить цветом фона списка
+[First color]
+Первый цвет
+[Hottracked contact]
+Контакт под указателем
+[Hover time]
+Время перекрытия
+[Image items]
+Элементы изображений
+[Item borders]
+Границы 
+[Item colors]
+Цвета
+[Item ignored]
+Пункт игнорируется
+[Item margins]
+Поля
+[No events...]
+Событий нет...
+[Not yet supported]
+Не поддерживается
+[Offline contact]
+Контакт не в сети
+[Reserved, unused]
+Доп. слот, не используется
+[Rounded corners]
+Скруглённые углы
+[Second color]
+Второй цвет
+[Selected contact]
+Выбранный контакт
+[Snap to edges (hold CTRL for snap between floaters)]
+Липнуть к краям (держите CTRL для прилипания между плавающими)
+[Telephone]
+Телефон
+[View modes]
+Режимы вида
+[3D border (bright / dark)]
+3D рамка
+[Border style]
+Стиль рамки
+[Bottom-Left]
+Левый нижний
+[Bottom-Right]
+Правый нижний
+[Bottom to top]
+Снизу вверх
+[Bumped]
+Выпуклый
+[Gradient]
+Градиент
+[Left to right]
+Слева направо
+[Right to left]
+Справа налево
+[Textcolor]
+Текст(цвет)
+[Top-Left]
+Левый верхний
+[Top-Right]
+Правый верхний
+[Top to bottom]
+Сверху вниз
+[Etched]
+Вытравленный
+[EventArea]
+Область событий
+[Setup accounts]
+Учётные записи
+[% Alpha]
+%Альфа
+[Auto - hide]
+Скрывать автоматически
+[Autohide]
+Скрывать автоматически
+[Availability of a status message will be used for row height calculations]
+Высота строки будет вычисляться с учётом доступности сообщения статуса
+[Color 1]
+Цвет 1
+[Color 2]
+Цвет 2
+[Consider status message]
+Учитывать статусные сообщения
+[Contact display]
+Контакты
+[Contact list avatars require the avatar service plugins to be installed.]
+Сервисный модуль аватар позволит отображать их в списке контактов
+[Contact list avatars]
+Аватары в списке контактов
+[Contact list fonts]
+Шрифты списка контактов
+[Contactlist Items]
+Элементы списка контактов
+[Enable avatar display on the contact list]
+Показывать аватары в списке контактов
+[Frames_Menu]
+Меню фреймов
+[Ignore all subcontact states]
+Игнорировать состояния субконтактов
+[Ignore for groups]
+Игнорировать для групп
+[ignore this item completely]
+игнорировать полностью
+[Inherit transparency from background items]
+Настройки прозрачности как у фона
+[Inner Row padding]
+Расстояние между внутренними рядами
+[Margins (px)]
+Поля (пикс)
+[Max. Height]
+Макс. высота
+[Multiple Rows mode]
+Многострочный режим
+[Render with GDI+]
+Прорисовывать, используя GDI+
+[Selective status icons]
+Показывать значки статуса выборочно
+[Set Name]
+Сохранить имя
+[Show client icons]
+Показывать значки клиентов
+[Show extended status icons]
+Показывать значки хСтатуса
+[Show MetaContact protocol icons]
+Значки метаконтактов
+[Show multiple rows:]
+Показывать несколько строк
+[Some text colors may be overriden by the contact list skin configuration.]
+Некоторые настройки цвета могут перекрываться настройками скина.
+[Sunken frame]
+Утопленный фрейм
+[Use Overlay icons]
+Показывать значки на аватарах
+[Use contact groups]
+Группы контактов
+[Show only online contacts]
+Только контакты в сети
+[Auto expand groups]
+Автоматически раскрывать группы
+[And finally by]
+И наконец по
+[First, sort by]
+Вначале сортировать по
+[Right align]
+Выравнивать по правому краю
+[Use per protocol/contact skinning ]
+Использовать скины для отдельных протоколов/контактов
+[Connecting Icons]
+Значки соединения
+[Overlay Icons]
+Оверлеи
+[Contact on visible list]
+Контакт в списке видимости
+[Contact on invisible list or blocked]
+Контакт в списке невидимости или заблокирован
+[Chat room/IRC channel activity]
+Чат/Активность в чате
+[Open Miranda folder]
+Открыть папку Miranda NG
+[Open database editor]
+Открыть редактор базы данных
+[Toogle popups]
+Отображать всплывающие окна
+[Open Jabber bookmarks]
+Открыть закладки Jabber
+[Show TV overview]
+Показать предпросмотр ТВ
+[Display Listening to when available (has priority)]
+Показывать "слушаю" когда доступно (имеет приоритет)
+[Contact rows]
+Строки контактов

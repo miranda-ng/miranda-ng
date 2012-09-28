@@ -1,0 +1,116 @@
+﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: mydetails.dll
+;  Module: My Details 
+;  Versions: 0.0.0.40-0.0.1.10
+;============================================================;
+[<no status name>]
+<нет имени статуса>
+[Hide My Details]
+Скрыть мои детали
+[Main Window/Backgrnd]
+Главное окно/Фон
+;[MyDetails/Backgrnd]
+[Set My Avatar for %s...]
+Сменить мой аватар для %s...
+[Set My Nickname for %s...]
+Сменить мой ник для %s...
+[Set My Status Message for %s...]
+Изменить статусное сообщение для %s...
+[Show My Details]
+Показать мои детали
+[Set My Nickname for %s]
+Сменить мой ник для %s
+[Set My Status Message for %s]
+Установить статус для %s
+[ Avatar ]
+Аватар
+[ Frame Options ]
+Опции окна
+[ General ]
+Общие
+[ Protocol ]
+Протокол
+[&Offline]
+Отключён
+[Align text to right]
+Выровнять справа
+[Allow it to grow]
+Растянуть аватар
+[Auto-resize frame]
+Выравнивать фрейм
+[Avatar popup]
+Аватар
+[Background Color:]
+Цвет заливки:
+[Bottom:]
+Низ:
+[Context popup]
+Контекст
+[Custom size:]
+Размер аватара:
+[Cycle through protocols]
+Смена протоколов
+[Cycle through protocols every:]
+Менять протоколы каждые:
+[Don't cycle through protocols]
+Не менять протоколы
+[Global on avatar]
+Глобальный аватар
+[Global on nickname]
+Глобальный ник
+[Global on status]
+Глобальный статус
+[Global on status message]
+Глобальное статусное сообщение
+[Left:]
+Лево:
+[Nick popup]
+Ник
+[Replace Smileys]
+Заменять смайлы
+[Right:]
+Право:
+[Set My Nickname]
+Мой ник
+[Set My Status Message for All Status]
+Статусное сообщение для всех статусов
+[Show previous protocol]
+Показать предыдущий протокол
+[Status message popup]
+Статусное сообщение
+[Status popup]
+Статус
+[Top:]
+Верх:
+[Use contact list smileys]
+Смайлики спиcка контактов
+[Use free space (under avatar) to other texts]
+Исп. свободное место (под аватарами) для текста
+[Set My Avatar...]
+Сменить мой аватар...
+[Set My Nickname...]
+Сменить мой ник...
+[Set My Status Message...]
+Изменить статусное сообщение...
+[Show next protocol]
+Показать следующий протокол
+[Enable Listening To]
+Включить Сейчас слушаю
+[Enable Listening To for %s]
+Включить Сейчас слушаю для %s
+[Show and allows you to edit your details for all protocols.]
+Модуль позволяет показывать и редактировать ваши детали для всех протоколов.
+;0.0.1.10
+[Show protocol cycle button]
+Кнопка переключения протокола
+[Previous protocol]
+Предыдущий протокол
+[Next protocol]
+Следующий протокол
+[Unread Email Count]
+Счётчик непрочитанной почты
+[MyDetails]
+Мои детали
+[My Details]
+Мои детали

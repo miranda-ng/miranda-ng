@@ -1,0 +1,27 @@
+﻿#muuid {fb1c17e0-77fc-45a7-9c8b-e2bef4f56b28}
+;============================================================
+;  File: gender.dll
+;  Module: Show Contact Gender
+;  Versions: 0.0.2.1
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3463
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/gender/
+;  Authors: Thief
+;============================================================
+[Set Gender]
+Установить пол
+[Set Male]
+Установить мужской
+[Set Female]
+Установить женский
+[Set Undefined]
+Установить неопределённый
+[Enable menu items]
+Включить пункты меню
+[No info]
+Нет информации
+[Draw an icon when gender info not found]
+Значок, когда нет информации о поле
+[Show Contact Gender]
+Пол контакта
+[Shows contacts gender as an icon in contact list]
+Показывает значок пола контактов

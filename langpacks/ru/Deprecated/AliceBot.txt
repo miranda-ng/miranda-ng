@@ -1,0 +1,16 @@
+﻿;============================================================
+;  File: alicebot.dll
+;  Plugin: Anna the Alicebot
+;============================================================
+[Anna the Alicebot]
+Анна - Alicebot
+[Autochat anybody not in contact list]
+Авточат со всеми не из списка
+[Autochat everybody while away]
+Авточат со всеми, если отсутствую]
+[Autochat everybody]
+Авточат со всеми
+[Hi, I'm Anna the robot and I'll be chatting with you while my user is away.]
+Привет! Я - робот Анна и я поговорю с тобой, пока мой друг отошел.
+[Warn contacts Anna is chatting:]
+Уведомление - Анна болтает

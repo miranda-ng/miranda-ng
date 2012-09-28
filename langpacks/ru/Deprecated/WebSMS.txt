@@ -1,0 +1,65 @@
+﻿;============================================================
+;  File: sms_library.dll
+;  Module: Support for sending SMS-Messages via HTTP SMS-Providers
+;  Versions: 0.0.0.5 - 0.0.0.9
+;============================================================
+[%d = Token, insert number of minutes left, until user can send the next SMS-message]
+%d = Маркер, вставить количество оставшихся минут, когда можно будет слать следующий SMS
+[%d Gateways found.]
+%d Шлюзов найдено.
+[&Rotate]
+Обмен
+[&WebSMS Message]
+SMS через Web
+[Activate forwarding on changing global status to N/A]
+Активная переадресация по глобальному статусу "Недоступен"
+[Address book]
+Адресная книга
+[Also log HTML output]
+Также записывать лог в HTML
+[Also use Windows address book]
+Также исп.адресную книгу Windows
+[Current status:]
+Текущий статус:
+[Cut it]
+Обрезать
+[Huston, we got a problem.. The specified gateway-path was not found. Please give me the correct path in the options dialog]
+Не найден путь с файлами шлюзов. Настройте правильный путь в настройках.
+[If it was not successful, reply:]
+Если неудачно, отвечать:
+[If message is too long]
+Если сообщение слишком длинное
+[If sending was successful, reply contact with:]
+Если отсылка удалась, отвечать контакту:
+[If user "floods" us with SMS reply with:]
+Если пользователь "флудит" SMSками, отвечать:
+[Keys: [ - ]  Up     [ + ] Down     [ R ] Rotate\nIf you do not Save, the order is only active for the current Miranda-session.]
+Кнопки: [ - ]  Вверх [ + ] Вниз     [ R ] Повернуть\nЕсли Вы не Сохраните, порядок соблюдается только для текущего сеанса Miranda.
+[Message-forwarding]
+Переадресация сообщений
+[Messages containing this trigger\nin the beginning of the message will be forwarded:]
+Сообщения с этим триггером\nв начале сообщения будет переадресовано:
+[No Gateway Configfiles found in specified path. Check options]
+Файлы шлюзов не найдены. Проверьте настройки.
+[Number split msgs with n/m]
+Количество совмещённых с n/m
+[One contact is allowed to send you a message once every]
+Одному контакту разрешено слать вам сообщение каждые
+[Path to gateway configuration files:]
+Путь к конфигурационным файлам шлюзов
+[send SMS message]
+послать SMS
+[Split it, up to]
+Разбить, до
+[Turn logging on]
+Включить протоколирование
+[Warning: The specified Gateway %s has no correct versioning info. It is ignored. Please fix the RequiresVersion entry in the .ini file.]
+Внимание: Указанный шлюз %s не имеет верной версии и будет проигнорирован. Пожалуйста, исправьте вхождение RequiresVersion в .ini файле.
+[Warning: The specified Gateway %s is designed for a newer version of the plugin. It is ignored. Please download the newest plugin version from www.miranda-im.org ]
+Внимание: Указанный шлюз %s создан для новой версии модуля и будет проигнорирован. Пожалуйста, обновите версию модуля.
+[Write log to this file:]
+Писать в файл:
+[Your mobile cellphone number\nhas to be in the following format:\n(i.e.: 43650 1234567) (Space!)]
+Ваш номер мобильного телефона\nдолжен быть в следующем формате:\n(напр.: 43650 1234567) (Пробел!)
+[Aborting... (This may take some time)]
+Отмена... (это займет некоторое время)

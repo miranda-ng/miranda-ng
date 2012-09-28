@@ -1,0 +1,231 @@
+﻿;============================================================
+;  File: MirandaG15.dll
+;  Module: Use Miranda with your Logitech G15
+;  Versions: 1.1.14
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2610
+;============================================================
+[Timeout: No response from contact/server]
+Таймаут: Нет ответа от контакта/сервера
+[New message from %s]
+Новое сообщение от %s
+[Incoming URL from %s]
+Новая ссылка от %s
+[Incoming contacts from %s]
+Новый контакт от %s
+[You were added by %s]
+%s добавил вас!
+[Authrequest from %s]
+Запрос авторизации от %s
+[Incoming file from %s]
+Входящий файл от %s
+[%s has joined the channel]
+%s Присоединился к каналу.
+[%s has left: %s]
+%s вышел: %s
+[%s has disconnected: %s]
+%s отсоединился: %s
+[%s has kicked %s: %s]
+%s выбросил %s: %s
+[Topic is now '%s' (set by %s)]
+Тема: "%s" (установил %s)
+[%s enables '%s' for %s]
+%s включает "%s" для %s
+[%s disables '%s' for %s]
+%s отключает "%s" для %s
+[Joined %s]
+Присоединились к %s
+[%s signed on (%s)]
+%s приходит (%s)
+[Left %s]
+Покинули %s
+[%s signed off]
+%s уходит
+[Contactlist event]
+Событие списка контактов
+[You are now %s]
+Вы теперь %s
+[Protocol status change]
+Изменение статуса протокола
+[%s was deleted from contactlist!]
+%s был удален из списка контактов!
+
+; /CChatScreen.cpp
+[typing..]
+набирает текст..
+[IRC-Chatroom support is disabled!\nYou need to install the patched IRC.dll (see the readme) to use IRC-Chatrooms on the LCD]
+Поддержка чатов IRC отключена!\nВам нужно установить IRC.dll (смотрите Readme) для активации этой функции!
+[Sending message...]
+Отправка сообщения...
+[Could not send the message!]
+Ошибка отправки сообщения!
+
+; /MirandaG15.rc:IDD_FONTS
+[Device:]
+Клавиатура:
+[No device attached]
+Не присоединено
+[Show softkey labels]
+Показывать подписи кнопок
+[Event log:]
+Журнал событий:
+[Message log:]
+Журнал сообщений
+[Contactlist:]
+Список контактов
+[Titles:]
+Заголовки
+[If the screensaver is active:]
+Если активна заставка:
+[Turn off backlights]
+Выключить подсветку
+[Lock the Screen]
+Заблокировать экран
+[If the applet is active:]
+Если апплет активен:
+[Use the VolumeWheel to scroll up and down (might affect system performance)]
+Использовать колесо регулировки громкости для прокрутки списков
+
+[Use transition effects when changing screens]
+Использовать эффекты при смене экранов
+[For updates and news check the thread on http://www.g15forums.com]
+Обновления и новости ищите в теме на http://www.g15forums.com
+[Or visit http://www.mkleinhans.de]
+Или посетите http://www.mkleinhans.de
+
+; /MirandaG15.rc:IDD_NOTIFICATIONS
+[Chatsessions]
+Беседы
+[Exceptions:]
+Исключения:
+[Don't skip when repyling]
+Не пропускать во время ответа
+[Notification screen title]
+Заголовок окна уведомления
+[Hide it]
+Без заголовка
+[Show the plugin name]
+Показывать имя модуля
+[Show a short event summary]
+Краткое содержание события
+[Size of the log]
+Размер журнала
+[Notification duration]
+Длительн. уведомления
+[Notification types]
+Типы уведомлений
+[Contact signs off]
+Контакт выходит из сети
+[Contact changes status]
+Контакт изменяет статус
+[Contactlist events]
+События сп. контактов
+[Protocol disconnected]
+Протокол отсоединен
+[Protocol connected]
+Протокол соединен
+[Protocol status changes]
+Изменен статус протокола
+[Show only events from the following protocols:]
+Показывать события только следующих протоколов:
+[Contact signs on]
+Контакт входит в сеть
+[When a chatsession is active, skip the following notifications for that contact:]
+Пропускать следующие уведомления для контакта, с которым активен разговор:
+[Chatsession specific]
+Только для сессии
+[User events]
+События польз.
+[Emotes]
+Эмоции
+[Special IRC events:]
+Только для IRC
+[Channel events]
+События канала
+[Cutoff nicknames after]
+Ограничить имена до
+[Cutoff channelnames after]
+Ограничить каналы до
+[chars]
+символов
+[Show protocol labels]
+Показывать протоколы
+
+; /MirandaG15.rc:IDD_CLIST
+[Contactlist]
+Список контактов
+[Show the contacts protocols]
+Показывать протоколы контактов
+[Use ignore settings]
+Учитывать игнорирование контактов
+[Use groups/subgroups]
+Учитывать игнорирование групп
+[Grouped mode]
+Режим групп
+[Draw tree lines]
+Рисовать линии дерева
+[Show counters behind group names]
+Показывать счётчики после названий групп
+[Reset selection]
+Сбросить выделение
+[When opening the contactlist screen:]
+При открытии экрана списка контактов:
+[Don't change group states]
+Не изменять состояния групп
+[Collapse all groups]
+Свернуть все группы
+[Show only contacts from the following protocols:]
+Показывать только контакты следующих протоколов:
+[Protocol filter]
+Фильтр протоколов
+[Expand all groups]
+Раскрыть все группы
+[Use two columns]
+Использовать две колонки
+[Fade out selection rectangle]
+Постепенно затемнять выделение
+
+; /MirandaG15.rc:IDD_CHAT
+[Typing notifications]
+Уведомления о наборе текста
+[Show typing notifications]
+Отображать
+[Send typing notifications]
+Отсылать
+[When in background]
+Когда в фоне
+[Close chat after]
+Закрывать чат после
+[Maximizing]
+Полный экран
+[When maximized:]
+При макс. размере:
+[Hide title]
+Скрывать заголовок
+[Hide labels]
+Скрывать метки
+[Load only unread messages]
+Загружать только непрочитанные сообщения
+[Show only new messages]
+Показывать только новые сообщения
+[Mark incoming messages as read]
+Отмечать входящие как прочитанные
+[Maximized scrolling]
+Прокрутка в режиме полного экрана
+[Size of the log:]
+Размер журнала:
+[On incoming messages:]
+При входящих сообщениях:
+[Scroll to the first line]
+К первой строке
+[Scroll to the last line]
+К последней строке
+[Replying]
+Ответ
+[Show linebreak indicators]
+Показывать символы переноса строки
+[Send messages with return, insert linebreaks with ctrl+return]
+Отправка сообщений по Enter, перевод строки по CTRL+Enter)
+[Maximized replying]
+Ответ в режиме полного экрана
+[Provides an interface to use Miranda from the G15's LCD]
+Модуль добавляет возможность использования Miranda IM на ЖК-экране клавиатуры Logitech G15

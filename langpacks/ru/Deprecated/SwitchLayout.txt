@@ -1,0 +1,16 @@
+﻿;============================================================
+;  File: SwitchLayout.dll
+;  Module: Allows to switch a layout of the entered text in the message window if the text is written in a wrong layout.
+;  Versions: 0.1.5.2
+;  URL: http://ilyaor.googlepages.com/switchlayout.dll
+;============================================================
+[Allows to switch a layout of the entered text in the message window if the text is written in a wrong layout.]
+Позволяет переключать регистр введённого текста и в окне сообщений, если текст был записан в неправильном формате
+[Use Ctrl+WinKey]
+Использовать Ctrl+WinKey
+[Switch Layout:]
+Переключение:
+[If no text is selected, convert the last word]
+Если не выделено, конверт. последнее слово
+[Switch Layout]
+Быстрое переключение:

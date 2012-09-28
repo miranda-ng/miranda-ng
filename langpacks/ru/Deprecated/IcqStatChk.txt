@@ -1,0 +1,25 @@
+﻿;============================================================
+;  File: icqstatchk.dll
+;  Module: ICQ Status Checker
+;  Versions: 1.2.0
+;============================================================
+[ICQ [Check status]]
+ICQ [Проверить статус]
+[Invisible method check]
+Способ проверки на невидимость
+[Anonymous, but only for ICQ 5, Miranda IM and Trillian]
+Анонимный, только для ICQ 5, Miranda IM и Trillian
+[Not anonymous, but for all clients]
+Не анонимный, но для всех клиентов
+[Display status messages]
+Показывать сообщения статуса
+[ICQ Status Checker]
+Проверка статуса ICQ
+[Check status ICQ users and detect invisible user for all IM clients. Used http://kanicq.ru/invisible/en.]
+Проверяет статус контактов ICQ и определяет невидимые контакты для всех мессенджеров. Использован http://kanicq.ru/invisible/en.
+[An error occured while checking status (commucation with server), please try it again later...]
+Во время проверки статуса возникла ошибка соединения с сервером. Пожалуйста, повторите попытку...
+[An error occured while checking status (service error), please try it again later...]
+Во время проверки статуса возникла ошибка службы. Пожалуйста, повторите попытку...
+[Sorry, this is not ICQ user. I can check status only ICQ users :(]
+Извините, но это не контакт ICQ. Я проверяю статус только для контактов ICQ :(

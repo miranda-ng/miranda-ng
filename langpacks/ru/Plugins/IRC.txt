@@ -1,0 +1,719 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: irc.dll
+;  Module: IRC Protocol
+;  Versions: 0.10.0.2
+;  URL: http://code.google.com/p/miranda/downloads/list
+;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IRCG/
+;  Authors: Miranda team
+;============================================================
+[IRC protocol for Miranda NG.]
+Поддержка протокола IRC для Miranda NG.
+[CTCP chat request from %s]
+Запрос СТСР-чата от %s
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+ОШИБКА CTCP: Недопустимая команда CTCP получена от %s!%s@%s. Возможная попытка получить контроль над вашим клиентом IRC.
+[CTCP FINGER requested by %s]
+Запрос CTCP FINGER от %s
+[CTCP VERSION requested by %s]
+Запрос CTCP VERSION от %s
+[CTCP SOURCE requested by %s]
+Запрос CTCP SOURCE от %s
+[CTCP USERINFO requested by %s]
+Запрос CTCP USERINFO от %s
+[CTCP PING requested by %s]
+Запрос CTCP PING от %s
+[CTCP TIME requested by %s]
+Запрос CTCP TIME от %s
+[DCC: Chat request from %s denied]
+DCC: Запрос чата от %s отклонен
+[DCC: File transfer request from %s denied]
+DCC: Запрос передачи файла от %s отклонен
+[DCC: Reverse file transfer request from %s denied [No local IP]]
+DCC: Запрос на реверсную передачу файла от %s отклонен. (Не найден локальный IP)
+[DCC ERROR: Malformed CTCP request from %s [%s]]
+Ошибка DCC: Неверный СТСР-запрос от %s [%s]
+[DCC: File transfer resume request from %s denied]
+DCC: Запрос на продолжение закачки файла от %s отклонен
+[CTCP %s requested by %s]
+СТСР %s запрос от %s
+[CTCP PING reply from %s: %u sec(s)]
+СТСP PING ответ от %s: %u сек (с)
+[CTCP %s reply from %s: %s]
+СТСР %s ответ от %s: %s
+[Downloading list (%u%%) - %u channels]
+Загружается список (%u%%) - %u% чат-комнат
+[Downloading list - %u channels]
+Загружается список - %u чат-комнат
+[%s sets mode %s]
+%s ставит режим %s
+[Done: %u channels]
+Готово: %u чат-комнат
+[(probably truncated by server)]
+(возможно ограничено сервером)
+[User information]
+Информация
+[Change nickname]
+Сменить ник
+[IRC error]
+Ошибка IRC
+[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
+Введите маску (nick!user@host) \nВнимание! Пользователи из списка контакта не будут игнорироваться!
+[Please enter the reason]
+Укажите причину
+[Ban'n Kick]
+Выгнать и забанить
+[Jerk]
+Jerk
+[*Disconnected*]
+*Отключён*
+[The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
+Использование /AWAY в буфере выполнения ограничено\n так как IRC автоматически посылает эту команду.
+[Ignore system is enabled]
+Система игнорирования вкл
+[Ignore system is disabled]
+Система игнорирования выкл
+[%s on %s is now ignored (+%s)]
+%s на %s игнорируется (+%s)
+[%s is not ignored now]
+%s больше не игнорируется
+[%s was not ignored]
+%s не игнорируется
+[Outgoing commands are shown]
+Исходящие команды показаны
+[Outgoing commands are not shown]
+Исходящие команды не показаны
+[The buddy check function is enabled]
+Функция проверки приятелей включена
+[The buddy check function is disabled]
+Функция проверки приятелей выключена
+[The time interval for the buddy check function is now at default setting]
+Интервал проверки приятелей установлен по умолчанию
+[The time interval for the buddy check function is now %u seconds]
+Интервал проверки приятелей равен %u секунд(ам)
+[Channel Manager]
+Управление чат-комнатой
+[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
+Эта команда не рекомендована для сети такого размера!\r\nЭто может занять ресурсы системы примерно от %u до %u минут.\r\nХотите продолжить?
+[IRC warning]
+Предупреждение IRC
+[Aborted]
+Отменено
+[CTCP %s request sent to %s]
+СТСР %s запрос послан для %s
+[DCC ERROR: Unable to automatically resolve external IP]
+Ошибка DCC: Невозможно автоматически определить внешний IP
+[DCC CHAT request sent to %s]
+Запрос на DCC-чат отправлен для %s
+[DCC ERROR: Unable to bind port]
+Ошибка DCC: Невозможно определить порт
+[Input command]
+Ввод команды
+[Please enter the reply]
+Введите ответ
+[The IRC protocol could not be loaded as it is dependant on Miranda IM version %s or later.\n\nDo you want to download an update from the Miranda website now?]
+IRC протокол не загружен, т.к. требуется Miranda IM версии %s или позднее.\n\nЗагрузить обновление с сайта программы?
+[Please complete all fields]
+Заполните все поля
+[<Resolved IP: ]
+<Определённые IP>
+[<Automatic>]
+<Автоматически>
+[<Local IP: ]
+<Локальный IP:>
+[Click to set commands that will be performed for this event]
+Кликните для установки команд обработки этого события
+[Click to delete the commands for this event]
+Кликните для удаления команд этого события
+[Add a new network]
+Добавить сеть
+[Edit this network]
+Изменить настройки сети
+[Delete this network]
+Удалить эту сеть
+[Do you want to delete\r\n%s]
+Удалить?\r\n%s
+[Delete server]
+Удалить сервер
+[Edit server]
+Изменить настройки
+[%s DCC 'n CTCP]
+DCC & CTCP %s
+[%s Advanced]
+Дополнительно %s
+[Show channel]
+Показать чат-комнату
+[Join channel]
+Зайти в чат-комнату
+[Leave Channel]
+Покинуть чат-комнату
+[Incoming DCC Chat]
+Входящий DCC-чат
+[Logo (48x48)]
+Лого (48x48)
+[WallOps from %s: ]
+WallOps от %s:
+[%s is away]
+%s отсутствует...
+[%s invites you to %s]
+%s приглашает вас на %s
+[These are online: ]
+В сети:
+[CTCP %s reply sent to %s]
+СТСР %s ответ послан для %s
+[CTCP %s reply sent to %s: %s]
+СТСР %s ответ послан для %s: %s
+[Notice to %s: ]
+Уведомление для %s:
+[&Quick connect]
+&Быстрый коннект
+[&Join a channel]
+&Зайти в чат-комнату
+[&Change your nickname]
+&Сменить ник
+[Show the &list of available channels]
+&Список чат-комнат
+[&Show the server window]
+&Окно сервера
+[&Leave the channel]
+&Покинуть чат-комнату
+[&Ignore]
+&Игнорировать
+[DCC ERROR: No valid files specified]
+Ошибка DCC: Нет доступных файлов
+[DCC reversed file transfer request sent to %s [%s]]
+DCC-запрос на реверсивную передачу послан %s [%s]
+[DCC file transfer request sent to %s [%s]]
+DCC-запрос на передачу файла послан %s [%s]
+[DCC ERROR: Unable to bind local port]
+Ошибка DCC: Невозможно получить порт
+[%s (%s) is requesting a client-to-client chat connection.]
+%s [%s] запрашивает соединение на СТСР-чат
+[Please enter a channel to join]
+Введите название чат-комнаты
+[Quick connect]
+Быстрое соединение
+[Please select IRC network and enter the password if needed]
+Выберите IRC сеть и введите пароль, если необходимо
+[Change nick name]
+Изменить ник
+[Please enter a unique nickname]
+Введите уникальный ник
+[Channel &settings]
+&Настройки чат-комнаты
+[Show the server &window]
+Показать окно сервера
+[&WhoIs info]
+&Информация
+[&Control]
+Управление ->
+[&Op]
+Дать оператора
+[&Deop]
+&Снять оператора
+[&Voice]
+Дать голос
+[D&evoice]
+Снять голос
+[Ki&ck (reason)]
+Выгнать (с причиной)
+[&Ban]
+Бан
+[Ban'&n kick]
+Выгнать и забанить
+[Ban'n kick (&reason)]
+Выгнать и забанить (с &причиной)
+[&On]
+Вкл
+[O&ff]
+Выкл
+[&Direct Connection]
+Прямое соединение ->
+[Request &Chat]
+Запрос чата
+[Send &File]
+Передача файла
+[&Add User]
+Добавить в контакты
+[&Leave channel]
+Покинуть чат-комнату
+[&Show channel]
+Показать чат-комнату
+[&Show server]
+Показать сервер
+[Di&sconnect]
+Отключиться
+[&Unignore user]
+Не игнорировать
+[Ignore user]
+Игнорировать ->
+[Connecting to]
+Соединение с
+[This protocol is dependent on another plugin named 'Chat'\nPlease download it from the Miranda IM website!]
+Этот протокол требует наличия модуля chat.\nПожалуйста, загрузите его с сайта Miranda IM.
+[Please choose an IRC-network to go online. This network will be the default.]
+Выберите IRC сеть. Эта сеть будет выбрана по умолчанию.
+[Default network]
+Сеть по умолчанию
+[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and Name).]
+Соединение не установлено. Вы не заполнили необходимые поля (Ник, ID и Имя)
+[The protocol is not online]
+Протокол не в сети
+[The dcc chat connection is not active]
+Соединение DCC-чата неактивно
+[IRC Error]
+Ошибка IRC
+[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
+Этот протокол требует наличия модуля chat.\n\nЗагрузить его с сайта Miranda NG?
+[Reconnecting to]
+Подключаюсь к
+[&Add to ignore list]
+Добавить в черный список
+[Give &Op]
+Режим +o
+[Take O&p]
+Режим -o
+[Give &Halfop]
+Режим +h
+[Take H&alfop]
+Режим -h
+[Give &Voice]
+Режим +v
+[Take V&oice]
+Режим -v
+[Channel]
+Чат-комната
+[Topic]
+Тема
+[The \"Nick\" field must contain at least four characters, and also match the default nickname (incl. wildcards) for this contact.\n\nThe \"Nick\" field is not case-sensitive but \"User\" and \"Address\" are.\r\n\r\nThe default nickname for this contact is]
+Чтобы соответствовать правилам, поле \"Псевдоним\" должно содержать как минимум четыре знака, и совпадать с псевдонимом по умолчанию (включая маски) для этого контакта. \n\nПоле \"Псевдоним\" не чувствительно к регистру, а "Пользователь" и "Адрес" чувствительны.\r\n\r\nПсевдонимом по умолчанию, для этого контакта, является
+[Settings could not be saved!\n\nThe \"Nick\" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
+Настройки не сохранены.\n\nПоле \"Псевдоним\" должно содержать как минимум четыре знака (включая маски), и совпадать с псевдонимом по умолчанию для этого контакта.
+[Add ban/invite/exception]
+Добавить бан/приглашение/исключение
+[Edit selected ban/invite/exception]
+Править выбранный бан/приглашение/исключение
+[Delete selected ban/invite/exception]
+Удалить выбранный бан/приглашение/исключение
+[Set this topic for the channel]
+Установить тему для чат-комнаты
+[Set these modes for the channel]
+Установить режимы для чат-комнаты
+[Remove ban?]
+Снять бан?
+[Remove invite?]
+Снять приглашение?
+[Remove exception?]
+Снять исключение?
+[Edit ban]
+Править бан?
+[Edit invite?]
+Править приглашение?
+[Edit exception?]
+Править исключение?
+[Please enter the hostmask (nick!user@host)]
+Введите маску (nick!user@host)
+[Add ban]
+Добавить бан
+[Add invite]
+Добавить приглашение
+[Add exception]
+Добавить исключение
+[You have not applied all changes!\n\nApply before exiting?]
+Вы не применили изменения!\n\nПрименить перед выходом?
+[&Del]
+Удалить
+[only while connecting]
+Только на время соединения
+[Update online statuses for users]
+Обновлять статусы для польз.
+[Update statuses in channel nicklist]
+Обнов. статусы в списке чат-комнаты
+[Don't check if more than (users):]
+Не проверять, если больше (польз):
+[Force visible (-i)]
+Включить видимость (-i)
+[Rejoin channel if kicked]
+Перезайти при переподключении
+[Disable tray balloon on error]
+Отключить сообщения в трее
+[Rejoin channels on reconnect]
+Зайти в чат-комнаты при подключении
+[Internet address]
+Сетевой адрес
+[Use server window]
+Использовать окно сервера
+[Show server window on startup]
+Окно сервера при запуске
+[Automatically join on invite]
+Заходить по приглашению
+['Old style' mode changes]
+"Старый" стиль режимов
+[Show addresses]
+Показывать адреса
+[&Set]
+Установить
+[Bans]
+Баны
+[Invites]
+Приглашения
+[Excepts]
+Исключения
+[(*) blank to set this mask for all networks]
+(*) Оставьте пустым чтобы применить маску для всех сетей
+[Perform on event:]
+Выполнить при событии:
+[Only Ops set topic]
+Смена темы ОПами
+[No external messages]
+Сообщ. извне выкл
+[Invite only]
+По приглашениям
+[Moderated]
+Модерируемый
+[Key:]
+Ключ:
+[User limit:]
+Лимит:
+[Secret]
+Секретный
+[Enable incoming requests]
+Входящие запросы вкл
+[Send-ahead]
+Упреждающий
+[Attempt reverse DCC (good if firewalled)]
+Реверсивное DCC (для брандмауэров)
+[everyone on the contact list]
+все в списке
+[everyone]
+все
+[everyone not on the contact list]
+все не из списка
+[Disconnect DCC chats when disconnecting from server]
+Отключать DCC-чаты при выходе с сервера
+[Manually set external IP:]
+Ручная настройка внешнего IP:
+[Get IP address from server]
+Получить IP у сервера
+[C&onnect]
+Соединение
+[Ping]
+Пинг
+[Userinfo]
+Инфо
+[&Query]
+Запрос
+[&Clear all]
+Очистить все
+[Port range]
+Диапазон портов
+[User ID (Ident)]
+ID пользователя
+[Full name (e-mail)]
+Полное имя
+[Alternative nick]
+Альтерн. ник
+[Wait (s)]
+Ждать (с)
+[Retry count]
+Количество попыток
+[Fear the monkeys!!!]
+Бойся обезьян!!!
+[Check every (s):]
+Проверять каждые (с):
+[Channels]
+Чат-комнаты
+[Away Info]
+Информация об отсутствии
+[The server returned the following information. Please note that this information might be misleading and/or falsified]
+Сервер возвратил следующую информацию. Внимание, информация может быть неточной!
+[Quit message]
+Сообщение выхода
+[Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
+Опции настройки чат-комнаты. Для настройки чат-комнаты нужны права администратора.
+[for choosing the IRC protocol for Miranda IM. Please enter your nickname and real name]
+за выбор IRC протокола для Miranda IM. Введите ваш ник и настоящее имя
+[Thank You...]
+Спасибо
+[Full name]
+Полное имя
+[Send mode:]
+Режим отправки:
+[Packet size (b):]
+Размер пакета (б):
+[Ident]
+Идентификация
+[User info - Required]
+Инфо пользователя - Необходимо
+[CTCP information]
+Информация СТСР
+[Alias]
+Алиас
+[Hostmask]
+Маска
+[User modes]
+Режимы пользователя
+[Channel modes]
+Режимы чат-комнаты
+[Client-to-Client File Transfers]
+Передача файлов по СТСР
+[Auto-accept from:]
+Автоприем от:
+[Ignore chat requests from...]
+Игнорировать запросы на чат от...
+[Client-to-Client Protocol]
+Протокол СТСР
+[Client-to-Client Chats]
+Чаты СТСР
+[Add server]
+Добавить сервер
+[Channels on server]
+Чат-комнаты сервера
+[CTCP Chat Request]
+Запрос на СТСР-чат
+[&Whois]
+Инфо
+[Ki&ck (Reason)]
+Выгнать (с причиной)
+[Ban'&n Kick]
+Выгнать и забанить
+[Ban'n Kick (&Reason)]
+Выгнать и забанить (с &причиной)
+[&Add contact]
+&Добавить контакт
+[Leave channel]
+Покинуть чат-комнату
+[Clear log]
+Очистить историю
+[Show/Hide server]
+Окно сервера
+[Scripting support]
+Поддержка скриптов
+[Go to the IRC protocol website for help and information]
+Для помощи и доп. информации посетите сайт протокола IRC
+[Enable UTF8 autodetection]
+Включить автоопределение UTF8
+[Quit message:]
+Сообщение выхода:
+[Server code page:]
+Кодовая страница сервера:
+[Strip colors]
+Цвета полос
+[DCC ERROR: Unable to bind local port for passive filetransfer]
+Ошибка DCC: Невозможно открыть локальный порт для пассивной передачи файлов
+[IRC Protocol Plugin]
+Модуль протокола IRC
+[The IRC protocol plugin cannot be loaded. It requires Miranda IM 0.7.0.0 or later.]
+Невозможно загрузить IRC протокол. Требуется Miranda IM версии 0.7.0.0 и выше.
+[Cyrillic (KOI8R)]
+Кириллица KOI8-R
+[Cyrillic (Windows)]
+Кириллица Windows
+[Default ANSI codepage]
+Страница ANSI по умолчанию
+[&Invite to channel]
+Пригласить
+[Give Admin]
+Режим +a
+[Give Owner]
+Режим +q
+[Please enter the channel name to invite to]
+Введите имя чат-комнаты для приглашения
+[Please enter the notice text]
+Пожалуйста введите текст уведомления
+[Take Admin]
+Режим -a
+[%s sets mode %s%s]
+%s установил режим %s%s
+[(*) Queries from users on your contactlist are never ignored]
+(*) Не игнорировать запросы от пользователей из списка
+[Add new ignore]
+Добавить новое правило
+[Add to &ignore list]
+Добавить в игнор
+[Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
+Введите маску узла (псевдоним!пользователь@узел)\nВНИМАНИЕ! Контакты в вашем списке никогда не игнорируются
+[Ignore mask ( nick!user@host )]
+Маска игнорирования( nick!user@host )
+[Network (*)]
+Сеть (*)
+[Delete this ignore]
+Удалить правило
+[Ignore DCC Chat requests]
+Игнорировать запросы DCC чатов
+[Ignore DCC Chat requests from unknown contacts]
+Игнорировать запросы DCC чатов от неизвестных контактов
+[Send &notice]
+Посылать уведомление
+[Send notice]
+Посылать уведомление
+[Ignore mask]
+Маска
+[Ignore users]
+Игнорировать пользователей
+[Ignore filetransfer requests]
+Игнорировать передачи файлов
+[Ignore events]
+События
+[Ignore channel messages by default]
+Игнорировать сообщения чат-комнаты по умолчанию
+[Edit Ignore]
+Изменить игнор
+[Edit ignore]
+Изменить игнор
+[Edit this ignore]
+Изменить правило
+[Enable (*)]
+Активировать (*)
+[Invite to channel]
+Пригласить в чат-комнату
+[Online detection mode]
+Режим определения в сети
+[Wildcard enabled network search]
+Wildcard поиск по сети
+[menu1]
+меню1
+[on]
+вкл
+[---- Not listed server ----]
+----Сервер вне списка---
+[&Join channel]
+Войти в чат-комнату
+[Are you sure you want to unregister your current nick?]
+Вы уверены, что хотите удалить ваш ник?
+[Auth nick]
+Авторизовать
+[Authentificate nick]
+Аутентифицировать
+[Delete nick]
+Удалить ник
+[Identify nick]
+Идентифицировать
+[Halfop]
+Полуоп
+[Hide e-mail from info]
+Скрыть e-mail из информации
+[Hide nick from list]
+Скрыть ник в списке
+[Kill unauthorized: off]
+Убить запрещённых: выкл
+[Kill unauthorized: on]
+Убить запрещённых: вкл
+[Kill unauthorized: quick]
+Убить запрещённых: быстро
+[Link another nick to current nick]
+Закрепить другой ник к этому нику
+[Link nick to current]
+Закрепить ник к текущему
+[List all your nicks]
+Список ваших ников
+[List your channels]
+Список ваших чат-комнат
+[Nickserv info]
+Nickserv инфо
+[Nickserv kill ghost]
+Nickserv убить фантома
+[Change language of NickServ messages]
+Сменить язык сообщений Nickserv
+[is a registered nick]
+зарегистрированный ник
+[is an identified user]
+идентифицированный пользователь
+[Please enter desired languageID (numeric value, depends on server)]
+Введите выбранный languageID (цифровое значение, зависит от сервера)
+[Please enter nick you want to link to your current nick]
+Введите ник, который нужно закрепить за текущим ником
+[Please enter nick you want to set as your main nick]
+Введите ник, который будет основным ником
+[Please enter nick you want to unlink from your current nick]
+Введите ник, который нужно отцепить от текущего
+[Please enter some information about your nick]
+Введите информацию о вашем нике
+[Please enter URL that will be linked to your nick]
+Введите ссылку на ваш ник
+[Please enter your authentification code]
+Введите код аутентификации
+[Please enter your e-mail, that will be linked to your nick]
+Введите e-mail вашего ника
+[Please enter your password]
+Введите пароль
+[Register nick]
+Зарегистрировать ник
+[Remind password ]
+Напомнить пароль
+[Remove security for nick]
+Удалить защиту ника
+[Set e-mail, linked to nick]
+Установить e-mail, ссылающийся на ник
+[Set e-mail]
+Установить e-mail
+[Set homepage]
+Установить ссылку
+[Set info]
+Установить инфо
+[Set information for nick]
+Установить инфо о нике
+[Set language]
+Установить язык
+[Set main nick]
+Установить главный ник
+[Set new password]
+Установить новый пароль
+[Set security for nick]
+Установить защиту на ник
+[Set URL, linked to nick]
+Ссылка на ник
+[Sho&w channel]
+Показать чат-комнату
+[Show e-mail in info]
+Показать e-mail
+[Show nick to list]
+Показать в списке
+[Take Owner]
+Режим -q
+[Unlink another nick from current nick]
+Отцепить другой ник от текущего
+[Unlink nick from current]
+Отцепить ник от текущего
+[Type new server address here]
+Новый адрес сервера
+[The IRC protocol plugin cannot be loaded. It requires Miranda IM 0.8.0.9 or later.]
+Невозможно загрузить модуль протокола IRC. Требуется Miranda IM версии 0.8.0.9 или выше.
+[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+Невозможно установить подключение. Вы не ввели все необходимые данные (ник, User ID и имя)
+[Alternate nick]
+Альтернативный ник
+[Add ignore]
+Добавление правила
+[%s is already being ignored]
+%s уже игнорируется
+[%s is already not ignored]
+%s уже не игнорируется
+[%s is now ignored]
+%s игнорируется.
+[Automatically accept chat requests from... ]
+Автоматически принимать запросы на чат от...
+[%s Ignore]
+%s Игнор
+[Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
+Настройки не сохранены.\n\nПоле "Псевдоним" должно содержать как минимум четыре знака (включая маски), и совпадать с псевдонимом по умолчанию для этого контакта.
+[Automatically accept chat requsts from...]
+Автоматически принимать входящие запросы от...
+[The IRC protocol can not connect as this version requires features in newer versions of Miranda IM.\nPlease download an upgradeded version from the Miranda IM website!]
+Протокол IRC не может подключиться, потому что эта версия использует возможности из новых версий Miranda IM.\n\nПожалуйста, обновите программу с сайта.
+[The IRC protocol could not be loaded as it is dependant on features in newer versions of Miranda IM.\n\nDo you want to download an update of Miranda IM now?.]
+Протокол IRC не может быть загружен, потому что он зависит от возможностей новых версий Miranda IM.\n\nЗагрузить новую версию Miranda IM?
+[The IRC protocol requires features found in newer versions of Miranda IM.\n\nDo you want to download it from the Miranda IM web site now?]
+Протокол IRC нуждается в функциях новых версий Miranda IM.\n\nЗагрузить новую версию с сайта программы?
+[IRC protocol]
+Протокол IRC
+[Failed to connect to]
+Не удалось подключиться к
+[Filter by]
+Фильтр по
+[online since %s, idle %s]
+в сети с %s, простаивает %s
+[Try server %99[^ ,], port %19s]
+Попробуйте сервер %99[^ ,], порт %19s
+[Your host is %99[^ \x5b,], running version %99s]
+Ваш хост %99[^ \x5b,], версия %99s

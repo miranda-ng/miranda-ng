@@ -1,0 +1,157 @@
+﻿;============================================================
+;  File: InetAccess.dll
+;  Module: InetAccess plugin ( Stargazer auth protocol )
+;  Versions: 1.2.0.0
+;============================================================
+[The InetAccess plugin cannot be loaded. It requires Miranda IM 0.4.0.1 or later.]
+Модуль InetAccess не может быть загружен. Необходимая версия Miranda IM 0.4.0.1 или выше.
+[Cash]
+Деньги
+[Free internet]
+Бесплатный интернет
+[Free megabytes]
+Бесплатные мегабайты
+[Switch to mini-stat]
+Переключиться в мини-cтат
+[Switch to full stat]
+Переключиться в полную статистику
+[Hide stat]
+Скрыть статистику
+[Show stat]
+Показать статистику
+[Connect]
+Подключить
+[Disconnect]
+Отключить
+[Switch stat]
+Переключить статистику
+[Profile %s will be disconnected!]
+Профиль %s будет отключён!
+[Profile name can not be empty!]
+Название профиля не может быть пустым!
+[No servers found in LAN]
+Серверы не найдены
+[InetAccess plugin]
+InetAccess
+[Network error]
+Ошибка сети
+[Another copy of InetAccess is running!]
+Другая копия InetAccess уже запущена!
+[Another copy of InetAccess is running or configured wrong local IP address!]
+Другая копия InetAccess уже запущена или указан неверный локальный ИП адрес!
+[You must configure at least one profile first!]
+Вы должны настроить хотя бы один профиль!
+[Can not resolve server name!]
+Невозможно обнаружить сервер!
+[Free inet]
+Беспл. ин-ет
+[Free MBs]
+Беспл. МБ
+[Mb]
+Мб
+[Gb]
+Гб
+[Cash limit reached!]
+Достигнут предел счёта!
+[Enter password for "%s"]
+Введите пароль для "%s"
+[Enter new profile name]
+Введите название профиля
+[Create]
+Создать
+[                Life is a Dream...\nOne day we must all wakeup... [WoT]]
+                 Жизнь - это сон...\nОднажды мы все проснемся... [WoT]
+[Import settings from ini file...]
+Импортировать настройки из ini файла
+[Export settings to ini file...]
+Экспортировать настройки в ini файл
+[Ed]
+Ред.
+[Ask password on connect]
+Спрашивать пароль\n при подключении
+[Server IP/DNS name:]
+ИП/имя сервера
+[Find in LAN]
+Найти в LAN
+[Login:]
+Логин:
+[Make this profile default]
+Сделать профилем по умолчанию
+[Bind password to HDD]
+Привязать пароль к HDD
+[Full statistics]
+Полная статистика
+[Mini-stat]
+Мини-стат
+[Show full statistic]
+Показывать полную статистику
+[Show mini-stat]
+Показывать мини-стат
+[Show stat for direction:]
+Показывать стат направления:
+[Show cash]
+Показывать счёт
+[Show traffic count]
+Показывать трафик
+[Show free megabytes]
+Показывать бесплатный трафик
+[NOTE: mini-stat settings also affects\nstatus message of the profile contact!]
+ПРИМ.: настройки мини-стата влияют на\nстатусное сообщение контакта!
+[Show statistics on Miranda`s start]
+Показывать статистику при запуске
+[Traffic display:]
+Отображение трафика:
+[Float]
+Плавающая
+[Download ]
+Входящий
+[Upload ]
+Исходящий
+[Upload + Download]
+Входящий + исходящий
+[Upload and Download]
+Входящий и исходящий
+[Use all network interfaces]
+Использовать все сетевые интерфейсы
+[Bind specific IP:]
+Использовать ИП:
+[Protocol version:]
+Версия протокола:
+[Use any free local port]
+Использовать любой свободный порт
+[Manually specify local port:]
+Указать порт вручную:
+[Status for offline profiles:]
+Статус отключённых профилей:
+[Mini-stat display]
+Отображение мини-стата
+[Text color:]
+Цвет текста:
+[Background color (Offline):]
+Цвет фона (Отключён)
+[Background color (Online):]
+Цвет фона (Включён)
+[Background color (Blink):]
+Цвет фона (Мигание)
+[Blink interval:]
+Частота мигания:
+[Cash limit]
+Лимит счёта
+[Use limit:]
+Использовать лимит:
+[When limit reached:]
+При достижении лимита:
+[Notify ]
+Уведомить
+[Blink mini-stat]
+Мигать мини-статистикой
+[Session ]
+За сессию
+[Month ]
+За месяц
+[Safe disconnect (*)]
+Безопасное отключение (*)
+[(*) Turning this option off will lead to fast disconnect/exit from Miranda, but doesn't give a guaranties that you are logout from server immediately.]
+(*) Выключение этой опции приведет к быстрому отключению от сервера/выходу из программы, но не гарантирует мгновенный выход с сервера.
+[Probably, settings of the previous version of InetAccess plugin which you used, are incompatible with the current version. OK to clear settings?]
+Возможно, настройки предыдущей версии модуля InetAccess несовместимы с текущей версией. OK для очистки настроек?

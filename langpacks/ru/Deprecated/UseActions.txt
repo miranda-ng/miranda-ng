@@ -1,0 +1,35 @@
+﻿#muuid {a63473f7-f8bf-46e7-9df0042dbe4cf579}
+;============================================================
+;  File: useactions.dll
+;  Versions: 0.0.0.3
+;============================================================
+[UseActions]
+Действия пользователя
+[The way actions could be called]
+Пути к вызываемым действиям
+[CList_Modern]
+Модерн
+[TabButtonBar]
+Панель TabSRMM
+[Name through vars:]
+Имя через перем.:
+[show only if variables return 1]
+показать при возврате значения 1
+[Tray menu item]
+Пункт в меню трея
+[Core Hotkey]
+"Горячая клавиша" ядра
+[Registered actions]
+Зарегистрированные действия
+[This plugin makes use of actions, serviced by Actions Manager plugin (ActMan, by Awkward)]
+Модуль позволяет использовать действия, создаваемые в сервисном модуле Менеджер действий (Actman от Awkward'a)
+[separated]
+разделитель
+[Root popup:]
+Корень подменю:
+[Menu icons]
+Корень подменю
+[No actions manager (ActMan) plugin found.\n\rYou can't use UseActions plugin without ActMan.\n\rUseActions will not be loaded.]
+Модуль менеджера действий (ActMan) не найден.\n\rВы не можете использовать плагин UseActions без ActMan.\n\rUseActions не будет загружен.
+[Error loading actions]
+Ошибка загрузки действий

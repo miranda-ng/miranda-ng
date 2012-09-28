@@ -1,0 +1,146 @@
+﻿;============================================================
+;  File: Intellicast.ini
+;  Module: weather
+;============================================================
+[Ceiling]
+Высота облаков
+[Mon]
+ПН
+[Tue]
+ВТ
+[Wed]
+СР
+[Thu]
+ЧТ
+[Fri]
+ПТ
+[Sat]
+СБ
+[Sun]
+ВС
+[Full]
+Полнолуние
+[Sunny]
+Солнечно
+[Waning Crescent]
+Убывающая Луна
+[Waning Gibbous]
+Убывающая Луна
+[Waxing Crescent]
+Растущая Луна
+[Waxing Gibbous]
+Растущая Луна
+[Last Quarter]
+последняя четверть Луны
+[First Quarter]
+Первая четверть Луны
+[Partly Sunny]
+Местами солнечно
+[Mostly Sunny]
+Преимущественно солнечно
+[Partly Cloudy]
+Местами облачно
+[Mostly Cloudy]
+Преимущественно облачно
+[Mostly Clear]
+Преимущественно ясно
+[Scattered Thunderstorms]
+Редкие грозы
+[Feel]
+Ощущение
+[Forecast Day 1]
+Прогноз: День 1
+[Forecast Day 2]
+Прогноз: День 2
+[Forecast Day 3]
+Прогноз: День 3
+[Forecast Day 4]
+Прогноз: День 4
+[Forecast Day 5]
+Прогноз: День 5
+[Forecast Day 6]
+Прогноз: День 6
+[Forecast Day 7]
+Прогноз: День 7
+[Forecast Day 8]
+Прогноз: День 8
+[Forecast Day 9]
+Прогноз: День 9
+[Forecast Day 10]
+Прогноз: День 10
+[Forecast today]
+Прогноз: сегодня
+[Heat Index]
+Индекс жары
+[Moon]
+Луна
+[MoonRise]
+Луна: восход
+[MoonSet]
+Луна: закат
+[Update1]
+Обновить 1
+[Update2]
+Обновить 2
+[Wind Chill]
+С учётом ветра
+[Wind Direction]
+Ветер: направление
+[Wind Speed]
+Ветер: скорость
+[N]
+С
+[W]
+З
+[S]
+Ю
+[E]
+В
+[NW]
+СЗ
+[NE]
+СВ
+[SW]
+ЮЗ
+[SE]
+ЮВ
+[NNW]
+ССЗ
+[NNE]
+ССВ
+[SSW]
+ЮЮЗ
+[SSE]
+ЮЮВ
+[ENE]
+ВСВ
+[WSW]
+ЗЮЗ
+[WNW]
+ЗСЗ
+[ESE]
+ВЮВ
+[WindDir1]
+Ветер: направление 1
+[WindDir2]
+Ветер: направление 2
+[Broken Clouds]
+Малооблачно
+[Scattered Clouds]
+Переменная облачность
+[North]
+Север
+[East]
+Восток
+[South]
+Юг
+[West]
+Запад
+[Northwest]
+Северо-запад
+[Northeast]
+Северо-восток
+[Southwest]
+Юго-запад
+[Southeast]
+Юго-восток

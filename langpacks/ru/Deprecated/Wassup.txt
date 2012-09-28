@@ -1,0 +1,415 @@
+﻿;============================================================
+;  File: Wassup.dll
+;  Module: Wassup
+;  Versions: 0.1.2.0-0.3.1.6
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=358
+;============================================================
+[Plugins Updates]
+Обновление модулей
+[All Selections]
+Все категории
+[Some of your tracked plugins have updates]
+Модули, которые вы искали, обновились
+[Looking up installed plugins...]
+Поиск установленных модулей...
+[Latest version]
+Последняя версия
+[Last checked version]
+Последняя проверенная версия
+[Installed version]
+Установленная версия
+[Highlight updates...]
+Выбрать...
+[Since last time I checked]
+С последней проверки
+[Current build date:]
+Дата текущей сборки:
+[Get List from Server]
+Получить список с сервера
+[Plugins Selection]
+Секция модулей
+[Only select active plugins]
+Только активные модули
+[Select installed plugins]
+Установленные модули
+[Select Updated]
+Выбрать новые
+[Updates since:]
+Обновление с:
+[Error!]
+Ошибка!
+[Skip file]
+Пропустить
+[Abort]
+Отмена
+[Nightly updates]
+Сборки
+[Querying...]
+Запрос...
+[Changelogs...]
+Изменения...
+[Downloads]
+Загрузки
+[Select file:]
+Выберите файл:
+[Install]
+Установка
+[Customisation files]
+Скины и значки
+[Localisation files]
+Файлы локализации
+[Updated tools]
+Инструменты
+[Updated docs]
+Документация
+[Updated devel files]
+Разработчикам
+[Open file/directory when download finishes]
+Открыть файл/папку после закачки
+[Remember dialog size and position]
+Запомнить размер и позицию окна
+[Add a TopToolBar button]
+Добавить кнопку Панель кнопок
+[Always show complete changelog]
+Всегда показывать изменения
+[Miranda Installer path:]
+Miranda Installer:
+[Wassup Updates]
+Wassup Обновления
+[There are some updates you should check out]
+Необходимо проверить некоторые обновления
+[Select Miranda Installer's path]
+Выбрать путь для Miranda Installer
+[Executables (*.exe)]
+Исполняемые (*.exe)
+[Protocols' changelog]
+Изменения протоколов
+[Plugins' changelog]
+Изменения модулей
+[Latest nightly build]
+Последняя сборка
+[Latest nightly build (Debug)]
+Последняя сборка (Дебаг)
+[Latest nightly build (Source)]
+Последняя сборка (Исходник)
+[The latest Miranda IM build, should be used with caution.]
+Последняя сборка Miranda IM, использовать с осторожностью.
+[The latest Miranda IM build, built with debugging information. Mostly useful for developers.]
+Последняя сборка Miranda IM, с информацией для отладки. В основном, используется разработчиками.
+[The latest Miranda IM build's source code]
+Исходный код последней сборки Miranda IM.
+[>> Resolving...]
+>> Поиск...
+[<< Connecting...]
+<< Соединяемся...
+[>> Connected!]
+>> Соединился!
+[<< Waiting for reply...]
+<< Ждем ответа...
+[>> Received %lu/%lu bytes (%d%%)]
+>> Получено %lu/%lu байт (%d%%)
+[Source Code]
+Исходники
+[More]
+Еще
+[Nightly]
+Сборка
+[Development files]
+Разработчикам
+[Show me]
+Покажи
+[A new nightly version of Miranda IM]
+Новая сборка Miranda IM
+[Some plugins were updated]
+Модули обновились
+[Updated customisation files]
+Скины и значки обновились
+[Updated localisation files]
+Локализации обновились
+[Updated documentation]
+Новая документация
+[Updated development files]
+Новые файлы разработчикам
+[Using Cache...]
+Использую кеш...
+[Resolving %s...]
+Поиск %s...
+[Connecting to %s...]
+Соединяемся с %s...
+[Connected!]
+Связь установлена!
+[Waiting for reply]
+Жду ответа
+[Receiving file...]
+Загрузка файла...
+[/ %lu files]
+/ %lu файлов
+[%lu MB/sec]
+%lu Mб/с
+[%lu KB/seс]
+%lu Кб/с
+[%lu bytes/sec]
+%lu байт/с
+[Stopped by user]
+Остановлено
+[Error has occured during transfer!]
+Ошибка во время загрузки!
+[Press OK to continue]
+ОК для продолжения
+[Are you sure you would like to abort?]
+Вы уверены, что хотите отменить?
+; this is the plugin description shown in the plugins options page
+[Nightlies]
+Сборки
+[Components]
+Компоненты
+[Subcategory]
+Категория
+[Customise]
+Скины и значки
+[Localisation]
+Локализации
+[Development]
+Разработчикам
+[Could not resolve host. Try again later.]
+Не могу найти адрес хоста. Попытайтесь позже.
+[Remember dialogs size and position]
+Запоминать конфигурацию окон
+[Remind me later...]
+Напомнить позже...
+[A new nightly is not available]
+Новая сборка недоступна
+[You have chosen to install one or more plugins, are you sure you would like to continue?]
+Вы точно уверены в том, что хотите установить выбранные вами модули?
+[You have chosen to install the latest nightly, are you sure you would like to continue?]
+Вы точно уверены в том, что хотите установить самую последнюю сборку Miranda?
+[Documentation]
+Документация
+[Downloading selected]
+Выбор и загрузка
+[Select directory to save to:]
+Выберите каталог для сохранения:
+[Previous version]
+Предыдущая версия
+[The transfer was unsuccessful (%d error code)]
+Передача не завершена. Код ошибки: %d
+[Required data was not received, aborting...]
+Данные не получены, действие отменяется...
+[List of]
+Список
+[A new nightly is available]
+Новая сборка доступна для загрузки!
+[One or more of your plugins was updated]
+Один или несколько модулей обновлены
+[Download file]
+Загрузка файла
+[Auto-Checkups]
+Автоматическое обновление
+[Check for....]
+Обновлять
+[A new nightly]
+Сборку
+[Updated plugins]
+Модули
+[Every]
+Через
+[hour/s]
+час(ов)
+[Check for updates at startup]
+Проверять при запуске
+[Enable caching]
+Включить кеширование
+[Multi-Selection]
+Выбор и загрузка
+[Select highlighted]
+Выбрать отмеченные
+[&Wassup]
+Обновления
+[Check for &Nightly Updates]
+Проверить обновление сборки
+[Check for &Components Updates]
+Проверить обновления компонентов
+[Check for &Plugins Updates]
+Проверить обновления модулей
+[Fetching Data...]
+Получение данных...
+[Before you can check for plugin updates, you will need to select what plugins you would like to track. Go to Options->Wassup->Plugins Updates.]
+Сначала выберите модули, обновление которых вы хотите отслеживать: Настройки->Обновления->Модули
+[Web Info]
+Информация
+[Source Type (*.%s)]
+Архив (*.%s)
+[Save download to...]
+Сохранить в...
+[Retrieving Plugins list]
+Запрос списка модулей
+[List of Plugins]
+Список модулей
+[Last Update]
+Последнее обновление
+[Before selecting installed plugins, the current list of plugins will be retrieved from the server.]
+Перед выбором установленных модулей список всех модулей будет загружен с сервера
+[Network settings]
+Настройки сети
+[Sending packets]
+Посылка запроса
+[Receiving packets]
+Получение данных
+[Getting the latest Nightly version]
+Получение последней сборки
+[Latest nightly version]
+Последняя сборка
+[Getting the changelog]
+Получение списка изменений
+[Miranda's ChangeLog]
+Изменения Miranda
+[Miranda's changelog]
+Изменения Miranda
+[Retrieving list]
+Получение списка
+[Wassup Error]
+Ошибка обновления
+[Connection to the server has failed. Try again later.]
+Соединение с сервером разорвано.
+[Cannot send packet to server, aborting...]
+Не могу послать запрос на сервер...
+[Error has occured while trying to receive packet from server, aborting...]
+Не могу получить ответ от сервера...
+[Could not create a new socket for the connection]
+Не могу создать новый канал для соединения
+[Could not save the downloaded file, please make sure that the save path is not being used]
+Не могу сохранить принятый файл, укажите другой путь для сохранения
+[Some error has occured while trying to create a new thread]
+Произошла ошибка при попытке создания нити процесса
+[Could not initialize WinSock! Try restarting Miranda]
+Не могу включить WinSock! Перезапустите Miranda
+[Are you sure you would like to abort? A transfer is in progress!]
+Идет получение данных! Всё равно отменить?
+[Stop now!]
+Прекратить
+[Transfer Status (In bytes)]
+Состояние передачи (в байтах)
+[Nightly Builds]
+Сборки
+[Current nightly build:]
+Текущая сборка:
+[Latest nightly build:]
+Последняя сборка:
+[Get Changelog]
+Изменения
+[ChangeLog]
+Изменения
+[Thread started]
+Поток запущен
+[Execution has stopped]
+Выполнение остановлено
+[Analyzing data...]
+Анализ данных...
+[Error has occured]
+Произошла ошибка
+[Connected to server!]
+Соединение с сервером
+[Download Options]
+Опции закачки
+[Do not save files to disk]
+Не сохранять файлы на диск
+[Wassup - Network Settings]
+Обновления - Настройки сети
+[Use HTTP Proxy Server]
+Использовать HTTP прокси-сервер
+[Wassup - Plugins Updates]
+Обновления - Обновления модулей
+[Clear All]
+Очистить все
+[Components Updates - Wassup]
+Обновление компонентов
+[Hightlight updates...]
+Подсветка обновлений
+[Since:]
+после:
+[Tools]
+Инструменты
+[Plugins Updates - Wassup]
+Обновления модулей
+[Check for Miranda IM updates]
+Модуль обновлений позволяет скачивать и устанавливать новые и обновлённые модули, значки, локализации и прочие компоненты Miranda IM.
+[&Download]
+Загрузить
+[&Install]
+Установить
+[&Copy URL to clipboard]
+Копировать URL
+[Skip File]
+Пропустить
+[Miranda Installer (MirInst.exe)]
+Установщик Miranda (MirInst.exe)
+[%lu KB/sec]
+%lu Кб/сек
+[Could not initialize WinSock Try restarting Miranda]
+Невозможно инициализировать сокет. Попробуйте перезапустить Miranda.
+[Wassup updates]
+Обновления
+[... roza mishlocha?]
+... роза мишлоча?
+[/ 0 files]
+/ 0 файлов
+[/ 0 KB]
+/ 0 Кб
+[>> Received %lu bytes]
+>> Получено %lu байт
+[56 KB/s]
+56 Кб/с
+[Latest AIM plugin]
+Последний AIM модуль 
+[Latest ICQ plugin]
+Последний ICQ модуль
+[Latest Jabber plugin]
+Последний Jabber модуль
+[Latest Miranda build]
+Последняя сборка Miranda
+[Latest MSN plugin]
+Последний MSN модуль
+[Latest SRMM plugin]
+Последний SRMM модуль
+[Latest Yahoo plugin]
+Последний Yahoo модуль
+[Latest Classic Contact List]
+Последний Classic Contact модуль
+[Latest MultiWindow Contact List]
+Последний MultiWindow Contact  модуль
+[Latest]
+Последний
+[Install All...]
+Установить все...
+[Clear List]
+Очистить список
+[Download All...]
+Скачать все...
+[Could not find components in the downloaded file, please check your proxy settings]
+В загруженом файле не найдены компоненты, проверьте настройки прокси
+[Background Images]
+Фоновые изображения
+[Connectivity]
+Подключения
+[Development Kits]
+Наборы для разработки
+[Messaging/Chat Bots]
+Сообщения/Чат боты
+[Messaging/Enhancements]
+Сообщения/Расширения
+[Messaging/Message Dialogs]
+Сообщения/Диалоги
+[Protocols/IM Protocols]
+Протоколы/IM протоколы
+[Protocols/LAN Protocols]
+Протоколы/LAN протоколы
+[Protocols/Other Protocols]
+Протоколы/Другие
+[Protocols/Protocol Extension]
+Протоколы/Расширения
+[Security and Privacy]
+Безопасность и конфиденциальность
+[Status and Events]
+Статусы и события
+[Wassup]
+Файловый архив

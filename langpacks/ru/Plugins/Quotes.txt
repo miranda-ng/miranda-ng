@@ -1,0 +1,168 @@
+﻿#muuid {e882056d-0d1d-4131-9a98404cbaea6a9c}
+;============================================================
+;  File: quotes.dll
+;  Module: Quotes
+;  Versions: 0.0.11.0
+;============================================================
+[Show currency rates and economic quotes.]
+Позволяет наблюдать за изменениями курсов валют и биржевых котировок.
+[&Choose Quotes to watch in contact list:]
+&Выберите котировки для наблюдения в списке контактов:
+[&Refresh Quotes Every:]
+&Обновлять котировки каждые:
+[&Refresh Rates Every:]
+&Обновлять курсы каждые:
+[&Display in Contact List as:]
+&Показывать в списке как:
+[&Status Message:]
+&Сообщение статуса:
+[&Variables...]
+&Переменные...
+[V&ariables...]
+П&еременные...
+[&Convert:]
+Из:
+[&into:]
+в:
+[&Watched currency rates:]
+&Отслеживаемые курсы валют:
+[Open Log File...]
+Открыть файл истории...
+[Use &Internal History]
+Использовать внутреннюю историю
+[&Format:]
+&Формат:
+[&Add to History only if Value Changed]
+Добавлять в историю, только если изменилось значение
+[Use &External File]
+Использовать &внешний файл
+[&Select File:]
+&Путь к файлу:
+[F&ormat:]
+Ф&ормат:
+[&Browse...]
+&Обзор...
+[Add to &Log only if Value Changed]
+Добавлять в файл, только если изменилось значение
+[Source of Information]
+Источник информации
+[Rate Value]
+Текущее значение котировки/курса
+[Previous Rate Value]
+Предыдущее значение котировки/курса
+[Fetch Time]
+Время обновления
+[Fetch Date]
+Дата обновления
+[Fetch Time and Date]
+Дата и время обновления
+[Percentage Character (%)]
+Символ %
+[Tabulation]
+Табуляция
+[Left slash (\\)]
+Символ \\
+[From Currency Full Name]
+Полное название исходной валюты
+[From Currency Short Name]
+Короткое название исходной валюты
+[Into Currency Full Name]
+Полное название целевой валюты
+[Into Currency Short Name]
+Короткое название целевой валюты
+[Short notation for "%f/%i"]
+Короткое обозначение "%f/%i"
+[Quote Symbol]
+Символ котировки
+[Quote Name]
+Название котировки
+[Show currency rates and economic quotes]
+Позволяет наблюдать за изменениями курсов валют и биржевых котировок
+[Quote/Rate up]
+Значение выросло
+[Quote/Rate down]
+Значение упало
+[Quote/Rate not changed]
+Значение не изменилось
+[Quote Section]
+Раздел котировок
+[Quotes HTTP connections]
+HTTP подключение Quotes
+[&to:]
+в:
+[Currency Converter...]
+Конвертер валют...
+[Currency Converter]
+Конвертер валют
+[Chart...]
+Диаграмма...
+[There is no possibility to build chart for this quote.]
+Нет возможности построить диаграмму для этой котировки/курса валют.
+[Refresh All Quotes\\Rates]
+Обновить все котировки\\курсы валют
+[Info provided by]
+Информация предоставлена
+[Rate Fetch Time:]
+Время обновления:
+[Current Rate:]
+Текущее значение:
+[Previous Rate:]
+Предыдущее значение:
+[Quote\\Rate Info]
+Информация о котировке\\курсе валют
+[&Watched Quotes:]
+&Отслеживаемые котировки:
+[Export All Quotes]
+Экспорт всех котировок
+[Import All Quotes]
+Импорт всех котировок
+[Swap button]
+Поменять местами
+[&Advanced Settings...]
+Дополнительные настройки...
+[Variables Allowed: %miranda_userdata%,%quotename%]
+Поддерживаемые переменные: %miranda_userdata%,%quotename%
+[Use contact specific settings]
+Собственные настройки у контакта
+[Show &Popup Window]
+Показывать всплывающее окно
+[Show Popup Window Only if Value &Changed]
+Показывать всплывающее окно только, если изменилось значение
+[Popup settings...]
+Настройки вспл. окон...
+[Edit Settings...]
+Настройки...
+[Quotes]
+Котировки
+[Quote]
+Котировка
+[Popup Window Settings]
+Настройки всплывающих окон
+[Use user-defined colours]
+Настроить цвета
+[Open Price]
+Цена на открытие
+[Percent Change to After Hours]
+Процент изменений за последний час
+[Percent Change to Yesterday Close]
+Процент изменений со вчерашнего закрытия
+[Current = %r\\nPrevious = %p]
+Текущий = %r\\nПредыдущий = %p
+[&Tendency:]
+&Тенденция:
+[Type &Stock Name or Symbol:]
+Название котировки:
+[Day's High]
+Максимальное значение за день
+[Day's Low]
+Минимальное значение за день
+[Previous Close]
+Значение на предыдущее закрытие
+[Change]
+Изменение
+[Status &Message:]
+Сообщение &статуса:
+[Enter positive number.]
+Введите положительное число.
+[Error occurred during site access.]
+Ошибка при доступе к сайту.

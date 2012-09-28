@@ -1,0 +1,47 @@
+﻿;============================================================
+;  File: smr.dll
+;  Module: Status Message Retriever 
+;  Versions: 1.0.0.0
+;============================================================
+[Enable Status Message Check]
+Вкл. запрос статусных сообщений
+[Disable Status Message Check]
+Выкл. запрос статусных сообщений
+[Status Msg Retrieve]
+Запрос статусных сообщений
+[ Retrieve ]
+ Получить 
+[Retrieve status messages every]
+Получать каждые
+[Retrieve on status change]
+Получать после смены статуса
+[Also retrieve after]
+Также получать после
+[seconds after status change]
+секунд после смены статуса
+[ Clear ]
+ Удалить 
+[Clear message on status change]
+Удалять сообщения при смене статуса
+[Always clear message if status does not support messages]
+Всегда удалять сообщения, если статус не поддерживает сообщения
+[(even for contacts with msg check disabled)]
+(даже для контактов с выключенной проверкой)
+[If contact has XStatus set:]
+Если установлен xСтатус:
+[Retrieve as usual]
+Получать как обычно
+[Clear only if XStatus message is set]
+Удалять, только если хСтатус установлен
+[Set to XStatus Message]
+Установить хСообщение
+[Set to XStatus Name: XStatus Message]
+Установить xСтатус:хСообщение
+[Get status messages for these protocols:]
+Получать статусные сообщения для протоколов:
+[This feature is mainly for use with protocols that store status messages on server rather then in database (like ICQ). Uncheck any other protocol - status messages will be read in a standard way then.]
+Эта возможность предназначена для протоколов, которые хранят статусные сообщения на сервере, а не локально (как ICQ). Снимите отметку с протокола для запроса статусного сообщения обычным способом.
+[Set to XStatus Name]
+Установить хСтатус
+[This feature is mainly for use with protocols that store status messages on server rather then in database (like ICQ). Don't enable it for MSN or Jabber - they already save the status message in database and won't work correctly if you enable this.]
+Эта функция обычно используется для протоколов, которые хранят статус сообщения не в базе данных (как ICQ). Не включайте её для MSN, Jabber - они и так сохраняют сообщения в базе данных, и не будут работать правильно, если вы включите их здесь.

@@ -1,0 +1,80 @@
+﻿;============================================================
+;  File: simpleaway.dll
+;  Module: SimpleAway plugin for Miranda-IM
+;  Versions: 1.6.1.1
+;  URL: http://developer.berlios.de/projects/mgoodies/
+;============================================================
+[Protocols *]
+Протоколы *
+[Flat, next to cancel button]
+Гладко, за кнопкой Отмена
+[Store up to]
+Хранить
+[Use last message]
+Исп. последнее сообщение
+[Use default message]
+Исп. стандартное сообщение
+[Always set this message:]
+Всегда уст. это сообщение:
+[Buttons:]
+Кнопки:
+[Show status list]
+Пок. список статусов
+[Check for winamp song change every]
+Проверять песню в Winamp каждые
+[Show icons in message list]
+Пок. значки в списке сообщений
+[Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
+Удалять символы возврата каретки (CR = '\\r' = #0D) из сообщений статуса
+[Copy Away Message]
+Скопировать сообщение статуса
+[Set the following message:]
+Уст. следующее сообщение:
+[Max length:]
+Макс. длина:
+[Automatically close dialog window after]
+Автоматически закрывать окно после
+[Put default message in message list]
+Стандартное сообщение в список
+[Co&py to Clipboard]
+Скопировать в буфер
+[Use last message set for this status]
+Исп последнее сообщение для этого статуса
+[Add to Predefined]
+В Предустановленные
+[Show 'Copy Away Message' item in contact menu.]
+'Скопировать сообщение статуса' в меню контакта.
+[Pop up dialog box]
+Вспл. окном
+[seconds. (restart required)]
+секунд. (нужен перезапуск)
+[recent messages.]
+последних сообщений.
+[Show next to cancel button]
+Показать за кнопкой Отмена
+[Show in message list]
+Показать в списке сообщений
+[Do not set status message]
+Не уст. сообщение статуса
+[Change Status Message]
+Изменить сообщение статуса
+[* These setting may not work with some plugins.]
+* Эти настройки могут не работать с другими модулями.
+[Clear Predefined]
+Очистить предуст.
+[Show icons in status list]
+Пок. значки в списке статусов
+[Retrieving status message for %s...]
+Получение сообщения статуса для %s...
+[Pop up dialog asking for new message]
+Диалог для новых сообщений
+[Set an empty message]
+Уст. пустое сообщение
+[Copy %s Message]
+Копировать сообщение %s
+[Recent Message]
+Последнее
+[Predefined Message]
+Предустановленное
+[%s Status Message: %s]
+%s Статусное сообщение: %s

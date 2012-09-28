@@ -1,0 +1,169 @@
+﻿#muuid {687364af-58b0-4af2-a4ee20f40a8d9afb}
+;============================================================
+;  File: fingerprint.dll
+;  Module: Display client icons, Fingerprint, Fingerprint Plus, Fingerprint Mod+
+;  Versions: 0.2.2.4
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4412
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FingerPrintModPlus/
+;  Authors: Artem Shpynov aka FYR, Bio, Faith Healer, HierOS
+;============================================================
+[Icon packages]
+Пакеты значков
+[Client Icons/Mail.ru Agent]
+Клиенты/Mail.ru агент
+[Fingerprint (client version) icons module set extra icon of your buddies according to their client version]
+Fingerprint отображает значки клиентов, используемых Вашими собеседниками.
+[Client Icons/C6]
+Клиенты/C6
+[Client Icons/AIM]
+Клиенты/AIM
+[Client Icons/ICQ]
+Клиенты/ICQ
+[Client Icons/IRC]
+Клиенты/IRC
+[Client Icons/JABBER]
+Клиенты/Jabber
+[Client Icons/Miranda]
+Клиенты/Miranda
+[Client Icons/Mobile]
+Клиенты/Мобильные
+[Client Icons/MSN]
+Клиенты/MSN
+[Client Icons/Other]
+Клиенты/Другие
+[Client Icons/SKYPE]
+Клиенты/Skype
+[Client Icons/Yahoo]
+Клиенты/Yahoo
+[Client Icons/QQ]
+Клиенты/QQ
+[Client Icons/Weather]
+Клиенты/Погода
+[Unknown for protocol]
+Неизвестно протоколу
+[Unknown for fingerprint]
+Неизвестно модулю fingerprint
+[on Java]
+на Java
+[on Flash]
+на Flash
+[on Windows]
+на Windows
+[on MacOS]
+на MacOS
+[on Linux]
+на Linux
+[Client Icons/Gadu-Gadu]
+Клиенты/Gadu-Gadu
+[Client Icons/Multi-Protocol]
+Клиенты/Мульти-протокол
+[Client Icons/Miranda/overlays#1]
+Клиенты/Miranda/оверлей#1
+[Client Icons/Miranda/overlays#2]
+Клиенты/Miranda/оверлей#2
+[Web-based]
+на Web основе
+[Show pack icon (if available)]
+Значок сборки (если есть)
+[Base Icon]
+Базовый значок
+[Show in options icon group:]
+Группы в настройках:
+[Show Miranda version]
+Показывать версию Miranda
+[Show unicode flag]
+Юникод
+[Show unknown]
+Показывать неизвестных
+[Fingerprint icons]
+Значки клиентов
+[Show one icon]
+Один значок
+[Client (default)]
+Клиент (по умолчанию)
+[Show protocol]
+Протокол
+[Show version]
+Версия
+[Multi-Protocol]
+Мульти-протокол
+[Show +secure]
+Показывать шифрование
+[Overlay Icon #3]
+Оверлей #3
+[Overlay Icon #2]
+Оверлей #2
+[Overlay Icon #1]
+Оверлей #1
+[Extra icon slot (restart required):]
+Слот (требуется перезапуск):
+[Gadu-Gadu]
+Gadu-Gadu
+[Show Jabber resource]
+Jabber ресурс
+[Client Icons/Web-based]
+Клиенты/Web
+[Client Icons/Miranda/pack overlays]
+Клиенты/Miranda/оверлеи сборок
+[Client Icons/Multi-Protocol/overlays]
+Клиенты/Мульти-протокол/оверлеи
+[Fingerprint Plus (client version) icons module set extra icon of your buddies according to their client version]
+Значки клиентов+ отображает дополнительный значок для Ваших контактов в соответствии с их версией клиента
+[Show jabber transport]
+Транспорт Jabber
+[Never show news]
+Не показывать новости
+[Client Icons/JABBER/bots]
+Клиенты/Jabber/боты
+[Client Icons/JABBER/services]
+Клиенты/Jabber/службы
+[bots]
+боты
+[services]
+службы
+[Pack overlays]
+Оверлеи сборок
+[Icon group options will be fully applied after restart]
+Группы значков появятся после перезапуска программы
+[Fingerprint]
+Значки клиентов
+[Fingerprint Plus]
+Значки клиентов (плюс)
+[Fingerprint Mod]
+Значки клиентов (мод)
+[Fingerprint Mod+]
+Значки клиентов (мод +)
+[Showing groups]
+Показывать группы
+[Overlay#1]
+Оверлей #1
+[Overlay#2]
+Оверлей #2
+[Overlay#3]
+Оверлей #3
+[Show Version as Overlay#2]
+Значок версии как оверлей #2
+[icon slot]
+слот
+[Fingerprint Mod+ (client version) icons module set extra icon of your buddies according to their client version.]
+Fingerprint Mod+ отображает значки клиентов, используемых вашими собеседниками.
+[Undetected client]
+Ненайденный клиент
+[on Vista]
+на Vista
+[Unknown client]
+Неизвестный клиент
+[on Symbian]
+на Symbian
+[Platform]
+Операционная система
+[Official]
+Официальные
+[Unofficial]
+Неофициальные
+[Overlays#1]
+Оверлеи#1
+[Overlays#2]
+Оверлеи#2
+[Not founded icon]
+Иконка не найдена

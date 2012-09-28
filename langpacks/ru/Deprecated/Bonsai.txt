@@ -1,0 +1,31 @@
+﻿#muuid {2fe47261-7f38-45f4-8fac-b87e974a1350}
+;============================================================
+;  File: Bonsai.dll
+;  Module: Bonsai
+;  Versions: 0.0.2.5
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3218
+;  Source: https://svn.asylum-studios.org/loki/trunk/plugins/Bonsai/ Login: guest Pass: guestpas
+;  Authors: Cristian Libotean
+;============================================================
+[This plugin lets you rearrange the options tree by changing the options groups and titles that plugin options are displayed under.]
+Этот плагин позволяет реорганизовать дерево настроек посредством изменения названий групп и заголовков.
+[Arrange Options]
+Дерево опций
+[Current group]
+Текущая группа
+[Current title]
+Текущий заголовок
+[Initial group]
+Начальная группа
+[Initial title]
+Начальный заголовок
+[Options group and title]
+Опции группы и заголовка
+[Do you want to save the changes now ?]
+Сохранить изменения?
+[Proceed ?]
+Продолжить?
+[This will reset all plugins to their default group and title.\nDo you wish to reset all plugins to their default group and title ?]
+Сброс всех групп и названий.\nВы действительно хотите сбросить все настройки по умолчанию?
+[Bonsai]
+Дерево опций

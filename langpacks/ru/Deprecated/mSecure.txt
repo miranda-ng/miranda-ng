@@ -1,0 +1,25 @@
+﻿;============================================================
+;  File: msecure.dll
+;  Module: mSecure Plugin
+;  Versions: 1.0.2.0
+;============================================================
+[Miranda mSecure Protection]
+Защита mSecure
+[Enter password to load Miranda]
+Для загрузки Miranda IM введите пароль
+[Wrong password. Try again.]
+Пароль неверный. Попробуйте снова.
+[Protection]
+Защита
+[Enter password to enable profile protection]
+Введите пароль для активации защиты профиля
+[To disable profile protection leave password field blank]
+Для отключения защиты профиля оставьте поле пароля пустым
+[Currently protected:]
+Сейчас защищены:
+[Miranda startup]
+Запуск программы
+[Protects your miranda profile]
+Защищает ваш профиль в Miranda от несанкционированного доступа.
+[mSecure]
+Защита профиля

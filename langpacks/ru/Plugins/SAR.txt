@@ -1,0 +1,32 @@
+﻿;============================================================
+;  File: sar.dll
+;  Module: Smart Auto Replier
+;  Versions: 1.0.0.1
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1609
+;============================================================
+[Advanced autoreplier plugin which is capable to execute custom actions depending on incoming messages.]
+Передовой модуль автоответчик, способный выполнять различные действия в зависимости от входящих сообщений
+[Smart Auto Replier]
+Умный автоответчик
+[Enable Smart Auto Replier]
+Включить автоответчик
+[Disable Smart Auto Replier]
+Выключить автоответчик
+[Reply action:]
+Задержка ответа:
+[Do not execute actions if conversation window with user is opened]
+Не выполнять действия, если окно контакта открыто
+[Smart Auto Replier settings]
+Настройки автоответчика
+[Rule action]
+Правила
+[Use only custom rules]
+Использовать только выбранное правило
+[Please, choose contact to apply rule to]
+Пожалуйста, выберите контакт которому применяется правило
+[Generated autoreply by SAR plugin:\n]
+Сгенерированный автоответ от SAR модуля:\n
+[Smart Auto Replier script]
+Скрип автоответчика
+[Internal error]
+Внутренняя ошибка

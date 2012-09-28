@@ -1,0 +1,171 @@
+﻿;============================================================
+;  File: sendss.dll
+;  Module: Send ScreenShot
+;  Versions: 0.2.2.3, 0.2.9.5, 0.2.6.3 - 0.2.6.5
+;============================================================
+[SendSS]
+Отправить скриншот
+[Send using:]
+Способ отправки:
+[Miranda's File Transfer.]
+Передача файлов Miranda NG
+[Send to default email client.]
+Отправить через e-mail клиент
+[Method for capturing the screenshot:]
+Метод получения скриншота:
+[Internal function.]
+Внутренняя функция
+[PrintScreen Emulation. (waste clipboard content)]
+Эмуляция PrintScreen (содержимое буфера обмена)
+[Take a screenshot]
+Сделать скриншот
+[Send Screenshot]
+Отправить скриншот
+[Send desktop screenshot]
+Отправить скриншот экрана
+[Open again]
+Откр. снова
+[&Emulate Send button click.]
+Посылать автоматически
+[Send B&y :]
+Через:
+[Single &Window]
+Одно окно
+[Time (secs) :]
+Секунд :
+[&Desktop]
+Рабочий стол
+[Size (HxW) :]
+Размер (ВxШ) :
+[Caption :]
+Заголовок :
+[E&xplore]
+Обзор
+[&Capture]
+Захват
+[<Unknown Contact>]
+<Неизвестный контакт>
+[Drag&&Drop the target on the desired window.]
+Перетащите прицел на нужное окно.
+[Use Edit&or]
+Редактор
+[&Fill description textbox.]
+Заполнить строки описания.
+[&Format :]
+Формат :
+[Delete &after send]
+Удалить после отправки
+[Send screenshot to <Unknow Contact> - Capture Options]
+Отправить скриншот: <Неизвестный контакт> - Настройки захвата
+[Ti&med capture]
+Задержка захвата
+[JPG &Quality :]
+Качество JPG :
+[C&lient Area]
+Содержимое
+[&Just save it]
+Только сохр.
+[Area]
+Область
+[Could not start the HTTP Server plugin.]
+Не могу запустить модуль HTTP Сервер.
+[FTP File is not loaded!]
+FTP File не загружен!
+[HTTP Server is not loaded!]
+HTTP Server не загружен!
+[New width?]
+Новая ширина?
+[Select a target window.]
+Выберите окно для отправки.
+[Send the screenshot?]
+Послать скриншот?
+[Set &Width]
+Ширина
+[Set C&olor]
+Цвет
+[Set Width]
+Ширина
+[Type the text to be draw:]
+Наберите текст:
+[Upload completed!]
+Загрузка завершена!
+[&Crop tool]
+Обрезать
+[&Ellipse tool]
+Эллипс
+[&Line tool]
+Линия
+[&Pen tool]
+Ручка
+[&Rectangle tool]
+Прямоугольник
+[&Set Width]
+Ширина
+[&Text tool]
+Текст
+[&Tools]
+Инструменты
+[A&bout]
+О программе
+[C&hoose]
+Выбор
+[Clo&se]
+Закрыть
+[Close&&S&end]
+Закрыть&&Послать
+[Close&&Sa&ve]
+Закрыть&&Сохранить
+[Des&tination Folder :]
+Папка назначения:
+[Destination for the image file(s):]
+Назначение изображений:
+[Fille&d]
+Заполнять
+[Transparent &Background]
+Прозрачный фон
+[Miranda is exiting]
+Miranda NG выходит
+[Could not create main dialog.]
+Невозможно создать главный диалог.
+[Close all capture dialogs and edit windows now, after that press OK.]
+Закрыть все диалоги захвата и окна редактора, после нажатия OK.
+[Not a supported file type.]
+Тип файла не поддерживается.
+[Could not register miranda service MS_SENDSS_SENDDESKTOP.]
+Невозможно связать службу Miranda NG MS_SENDSS_SENDDESKTOP.
+[Starting upload!]
+Начало закачки!
+[Send screenshot to <unknown> - Capture Options]
+Послать снимок <unknown> - Настройки захвата
+[Could not add a share to the FTP File plugin.]
+Невозможно добавить ресурс в модуль FTP File.
+[Could not add a share to the HTTP Server plugin.]
+Невозможно добавить ресурс в модуль HTTP Server.
+[C&olor]
+Цвет
+[Selection Tool]
+Выделение
+[Tool &Options]
+Опции
+[&Capture Again]
+Захватить снова
+[&Crop]
+Обрезать
+[&Ellipse]
+Овал
+[&Line]
+Строка
+[&Pen]
+Ручка
+[&Text]
+Текст
+[<unknow>]
+<неизвестно>
+[JPG Quality]
+JPG качество
+[Print&Screen Emulation]
+Эмуляция скриншота
+[(Unknow Contact)]
+(Неизвестный контакт)
+[<Unknow Contact>]
+(Неизвестный контакт)

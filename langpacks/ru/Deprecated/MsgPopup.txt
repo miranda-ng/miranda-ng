@@ -1,0 +1,30 @@
+﻿;============================================================
+;  File: MsgPopup.dll, messagepopup.dll
+;  Module: Message Popup. Replace a mesaage boxes to PopUps
+;  Versions: 0.0.0.1
+;  URL: http://miranda-im.org/download/feed.php?dlfile=1228
+;============================================================
+[ASTERISK style]
+Звездочка
+[Foreground]
+Текст
+[ERROR style]
+Ошибка
+[QUESTION style]
+Вопрос
+[EXCLAMATION style]
+Восклицание
+[Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
+Специальные значения "таймаута":\n -1 - постоянно, 0 - значение по умолчанию
+[Emit a sound]
+Играть звук
+[MessagePopup - demo]
+MessagePopup - Демо
+[This stuff will replace MessageBox'es [whose have only OK button] into Popups]
+Заменяет диалоговые окна с предупреждениями на всплывающие окна. Работает совместно с PopUp. Перевод: Wattman.
+[Message with error]
+Предупреждение об ошибке
+[Message with exclamation]
+Восклицание
+[Message with asterisk]
+Сообщение *со звёздочкой*

@@ -1,0 +1,28 @@
+﻿;============================================================
+;  File: MyrPy.dll
+;  Module: MirPy Scripting Plugin
+;  Versions: 0.1.3.5
+;============================================================
+;больше половины не переведено
+[Adding script folders to load path:]
+[Autoloaded scripts]
+[Error while adding module path and autoload path variables to module MirPy.]
+Ошибка при добавлении переменных пути модуля и пути автозагрузки к модулю MirPy.
+[Error while adding script and module folders to python's search path.]
+Ошибка при добавлении папки скриптов и модулей в путь поиска python'а
+[Error while trying to import module PyMir.]
+[Error while trying to load modules in autoload folder.]
+[Errors encountered while trying to load MirPy. Make sure all the files are in the correct folders and that the files are using the correct case (MirPy.dll, not mirpy.dll).]
+[Extra modules]
+[Importing module '%s' (redirecting output buffers to console).]
+Импорт модуля '%s' (перевод вывода буферов на консоль).
+[Loading MirPy ...]
+[Loading modules found in autoload folder '%s'.]
+Загрузка модулей в папке автозагрузки '%s'
+[MirPy console]
+[MirPy version %d.%d.%d.%d loaded.]
+MirPy версии %d.%d.%d.%d загружен.
+[MirPy]
+[Scripts]
+[Stopping python ... calling stop function StopMirPy() in module PyMir.StopMirPy]
+Остановка python ... вызываем функцию останова StopMirPy() в модуле PyMir.StopMirPy

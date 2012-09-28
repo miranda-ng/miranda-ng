@@ -1,0 +1,22 @@
+﻿#muuid {977be6af-cd5f-4fe1-af2f-535b8aaeb749}
+;============================================================
+;  File: cmiex.dll
+;  Module: ContactsMenuItemEx
+;  Versions: 1.3.0.3
+;============================================================
+[ContactsMenuItemEx]
+Контекстное меню
+[Place and Ignoration]
+Расположение и игнорирование
+[Copy Info]
+Копирование данных
+[Note: plugin retrieving status message is needed]
+Нужен модуль поддержки статусных сообщений
+[Useful stuff]
+Разное
+[Show Last Online Time]
+Последний раз в сети
+[Last Online Format]
+Формат подсказки
+[Extended Contacts Menu]
+Расширенное меню контакта

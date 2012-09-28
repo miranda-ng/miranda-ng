@@ -1,0 +1,99 @@
+﻿#muuid {6f376b33-d3f4-4c4f-a96b77da08043b06}
+;============================================================
+;  File: importtxt.dll
+;  Module: Imports history saved in TXT files from other clients
+;  Versions: 0.0.1.10
+;  URL: 
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/importtxt/
+;  Authors: Abyss
+;============================================================
+[Imports history saved in TXT files from other clients]
+Импортирует историю из текстовых файлов
+[Import history to ]
+Импортировать историю в
+[Import history]
+Импорт истории
+[Choose a file...]
+Выберите файл...
+[Choose a pattern...]
+Выберите шаблон...
+[Choose a file for import...]
+Выберите файл для импорта...
+[Text files (*.txt)]
+Текстовые файлы (*.txt)
+[All files (*.*)]
+Все файлы (*.*)
+[Error in cfg file: ]
+Ошибка в cfg файле:
+[No Files Patterns Found]
+Не найдены файлы шаблонов
+[No messages in this file]
+В этом файле нет сообщений
+[Import started...]
+Импорт запущен...
+[Added: %d messages]
+Добавлено: %d сообщений
+[Duplicates: %d messages]
+Дубликатов: %d сообщений
+[In: %d:%d:%d]
+За: %d:%d:%d
+[Import not finished. Do you realy want close?]
+Импорт не закончен. Вы действительно хотите закрыть?
+[Error adding message to DB]
+Ошибка добавления сообщения в Базу
+[Error opening file]
+Ошибка открытия файла
+[Error mapping file]
+Ошибка отображения файла
+[Error mapping]
+Ошибка отображения
+[Header not found]
+Заголовок не найден
+[Import Text Files Wizard]
+Мастер Импорта Текстовых Файлов
+[This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
+Этот мастер поможет вам импортировать сообщения из некоторых других клиентов и модулей Miranda IM, хранящих их в текстовых файлах.
+[Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
+Нажмите "Далее" чтобы выбрать информацию для импортирования, или "Отмена" чтобы выйти из этого мастера.
+[Choose type of imported files:]
+Выберите тип импортируемых файлов:
+[Select files or the whole directory for import:]
+Выберите файлы или целую директорию для импорта:
+[Files...]
+Файлы...
+[Directory...]
+Директория...
+[All previous chosen files will try to import to this protocol.]
+Все ранее выбранные файлы будут импортированы в этот протокол.
+[Select protocol or account:]
+Выберите протокол или аккаунт:
+[Click "Next" to start Import or "Cancel" to Abort.]
+Нажмите "Далее" для начала Импорта или "Отмена" для выхода.
+[Select folder for import...]
+Выберите папку для импорта...
+[File: %s]
+Файл: %s
+[To: %s]
+В: %s
+[Can''t determine destination contact]
+Не могу определить контакт назначения
+[Default extension]
+Расширение по умолчанию
+[Its not %s file]
+Это не файл %s
+[Duplicate:]
+Дубликат:
+[Your version of Miranda don't support XML parsing]
+Ваша версия Miranda NG не поддерживает работу с XML
+[Check for duplicates]
+Проверять дубликаты
+[Check messages for duplicates]
+Проверять сообщения на дубликаты
+[Show duplicates]
+Выводить дубликаты
+[Error at initialization XML parser]
+Ошибка инициализации XML-модуля
+[Import history to %s (%s)]
+Импортировать историю в %s (%s)
+[Can't determine destination contact]
+Не удается определить контакт для импорта

@@ -1,0 +1,12 @@
+﻿;============================================================
+;  File: mebeam.dll
+;  Module: Support for www.mebeam.com online video & audio
+;  Versions: 0.2.0.0
+;  URL: http://postman.ru/~ghazan/files/mebeamW.zip
+;============================================================
+[Allows people to support video & audio chats.]
+Позволяет использовать видео и аудио чаты.
+[Start MeBeam video chat]
+Начать MeBeam видео чат
+[You are invited to video chat at http://www.mebeam.com/miranda.php?mir_%s]
+Вы приглашены для видеочата на http://www.mebeam.com/miranda.php?mir_%s

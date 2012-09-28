@@ -1,0 +1,548 @@
+﻿;============================================================
+;  File: spamfilter.dll
+;  Module: Spam Filter 1.0.4.0 for Miranda IM 0.2.1+
+;  Versions: 0.3.3.0, 2.5.2.4 beta
+;  URL:  http://addons.miranda-im.org/details.php?action=viewfile&id=2188
+;============================================================
+[Spam Filter]
+Спам-фильтр
+[Filters spam messages from contacts that are not on your contact list.]
+Фильтрует спам от пользователей, не находящихся в вашем списке контактов. Перевод Kirhe (kirhe@hotmail.ru)
+[No spam filter]
+Отключить спам-фильтр
+[Filter out spam messages from users that are not on the contact list (recommended)]
+Фильтровать спам от пользователей, не находящихся в вашем списке контактов
+[Bad Words]
+Спам ("плохие" слова)
+[Look for standard bad words in received messages]
+Просматривать сообщения на наличие спама
+[Also watch for following customized bad words:]
+Также искать следующие "плохие" слова
+[Add bad word]
+Добавить "плохое" слово
+[The entered bad word \"%s\" already exists in the list.\n\nThe filter doesn't differentiate between lower and upper case.\nTwo entries with the same word are not neccessary\nand would decrease the filter quality.]
+Слово \"%s\" уже есть в списке. \n\nФильтр не различает регистр букв (большие или маленькие).\nНеобходимости в двух записях с одним словом нет.
+[The entered bad word \"%s\" already exists in the default bad words list.\n\nAllowing the same bad words in the customized bad words list would\npull down the filter quality.\n\nShould the bad word be added anyway?]
+Слово \"%s\" уже есть в предопределённом списке "плохих слов". \n\nФильтр не различает регистр букв (большие или маленькие).\nНеобходимости в двух записях с одним словом нет. Всё равно добавить слово?
+[Delete bad word]
+Удалить "плохое" слово
+[You haven't selected a bad word to delete.\nPlease select one first.]
+Вы не выбрали "плохое" слово для удаления!.\nСначала выберите слово.
+[Allowed bad words until spam:]
+"Плохих" слов в спаме:
+[Spammer Remembering]
+Запоминать спамеров
+[Filter out all messages from users who once sent spam]
+Фильтр сообщений от уже известных спамеров
+[Notify users that they are blocked]
+Сообщать, что они блокированы
+[Bad Contents]
+Содержимое спама
+[Website addresses are bad]
+Веб-адреса это спам
+[One word messages are bad]
+Сообщение из одного слова - спам
+[What to do]
+Что предпринять
+[Mark spam messages as read]
+Пометить сообщение как прочитанное
+[Delete spam messages]
+Удалить сообщение
+[Delete spamming contacts]
+Удалить спамера из списка
+[Show popup when a spam message is received]
+Всплывающее сообщение при получении спама
+[Spam Logging]
+Протоколировать спам
+[Log spam messages to file:]
+Записывать спам в файл:
+[Select Log File]
+Выбор файла журнала
+[Log Files]
+Файлы логов
+[Adult,Anal,Animal,Ass,Balls,Buy,Call,Cam,Chat,Check,Click,Crack,Cum,Cute,Date,Dating,Dollar,Download,Dialer,Earn,Enter Now,Erotic,Free,Frenulum,Fuck,Gang bang,Gay,Girl,Guarantee,G0 t0,Hardcore,Hentai,Hot,Huge selection,Join,Lesbian,Login,Lolita,Lowest Price,Money back,No cost,Offer,Oral,Order,Orgasm,Over 18,Over 21,Password,Penetration,Penis,Pic,Porn,Promotion,Prostate,Pussy,Rape,Register,R3gist3r,Sell,Sex,Site,Slut,Stimulation,Subscribe,Talk to me,Teen,Tits,Toy,Try it now,Use Our Service,Viagra,Vibro,Video,Visit,Warez,XXX,100% free,$$$]
+реклама,рекламы,рекламу,рекламой,рекламе,зайдите,бесплатно,бесплатный,бесплатные,бесплатному,бесплатное,бесплатная,халява,халявный,халявное,халявные,халявная,схалявить,сайт,недорого,посетитель,посетителей,поситителем,поситителю,почта,почтой,почтовый,почте,почту,голосуйте,голосование,голосовании,опрос,опроса,опросу,опросом,опросами,опросе,опросник,чат,портал,американского,американский,рассылка,рассылкой,рассылками,взлом,баг,чит,кряк,инет,пароль,новинка,купить,подпишись,подписаться,подписка,предлагаем,предложение,предложить,логин,видео,фото,картинки,онлайн,порно,секс,сиськи,хуйня,хуево,хуесос,хуёво,хуем,пизда,пиздой,пиздобол,пиздец,пиздато,блядь,бляди,блядью,аналом,анальный,хером,херовый,херня,дерьмо,дерьмовый,дерьмовее,дерьмецо,трахнутый,трахать,трахаться,трахнемся,гей,геи,геев,геями,геем,лесбиянка,лесбиянки,лесбийский,сука,сученок,уродец,уродство,пидор,пидрюга,пидр,пидорас,заебал,заебало,заебали,заебся,Adult,Anal,Animal,Ass,Balls,Buy,Call,Cam,Chat,Check,Click,Crack,Cum,Cute,Date,Dating,Dollar,Download,Dialer,Earn,Enter Now,Erotic,Free,Frenulum,Fuck,Gang bang,Gay,Girl,Guarantee,G0 t0,Hardcore,Hentai,Hot,Huge selection,Join,Lesbian,Login,Lolita,Lowest Price,Money back,No cost,Offer,Oral,Order,Orgasm,Over 18,Over 21,Password,Penetration,Penis,Pic,Porn,Promotion,Prostate,Pussy,Rape,Register,R3gist3r,Sell,Sex,Site,Slut,Stimulation,Subscribe,Talk to me,Teen,Tits,Toy,Try it now,Use Our Service,Viagra,Vibro,Video,Visit,Warez,XXX,100% free,$$
+[Add contact to spammer list...]
+Добавить контакт в спамер-лист...
+[Hey %s, I don't like spam!\nYou are now put onto the spammers list to stop you from sending me such things.\n\nHere is your message back:\n%s\n\n\n(Automated message)]
+We don't need your stuff, %s.\n\nAdded to spam list.\n\n%s\n\n\n(Automated message)
+[Spam.log]
+Spam.log
+[Recognition:]
+Распознавание:
+[Contains only one word]
+Содержит только слово
+[Contains URL]
+Содержит веб-адрес
+[Contains %u bad words]
+Содержит %u "плохих" слов
+[User is known as spammer]
+Контакт известен как спамер
+[Result:]
+Результат:
+[Message deleted]
+Сообщение удалено
+[Message marked read]
+Сообщение помечено как прочитанное
+[Contact deleted]
+Контакт удален
+[Enable &spam popups]
+Включить всплывающие окна для спама
+[Disable &spam popups]
+Отключить всплывающие окна для спама
+[Spam message alert!]
+Уведомление о спаме
+[Spam Alert]
+Спам
+["Date";"Time";"User";"Type";"Recognition";"Result";"Message"\r\n]
+"Дата";"Время";"Контакт";"Тип";"Опознавание";"Результат";"Сообщение"\r\n
+[&Advertisment Filter (recommended)]
+Фильтровать рекламу (рекомендуется)
+[&Confirmation:]
+Подтверждение:
+[&Disliked Messages Filter]
+Фильтр сообщений
+[&Hide spammers from contact list]
+Спрятать спамеров из списка контактов
+[&Hide users until they identified themselves]
+Прятать пользователей, пока они не идентифицируют себя
+[&How to use Regular Expressions]
+Как использовать регулярные выражения
+[&Instruction:]
+Инструкция:
+[&Log spam messages to file:]
+Записывать спам в файл:
+[&Mark as spammer]
+Пометить как спамера
+[&Multiple messages with same content]
+Несколько одинаковых сообщений
+[&New phrase/pattern:]
+Новая фраза/комбинация:
+[&Phone numbers]
+Телефоны
+[&Random]
+Случайно
+[&Robot Filter]
+Робот фильтр
+[&Show]
+Показать
+[&Teaser messages]
+Трудные сообщения
+[&Unmark spammer]
+Снять пометку спаммера
+[&URL addresses]
+URL'ы
+[(Regular Expressions disabled)]
+(Регулярные выражения отключены)
+[(sens|respons)e and \\1ibility matches "sense and sensibility" and "response and responsibility", but not "sense and responsibility"]
+(sens|respons)e и \\1ibility соответствует "sense and sensibility" и "response and responsibility", но не "sense and responsibility"
+[(You can use readable words, too.)]
+(Так же читаемые слова)
+[(You can use the substitute symbols %sender% and %message% for the appropriate contents.)]
+(Вы можете использовать подстановки %sender% и %message% для соответствующего текста.)
+[(You can use the substitute symbols %sender%, %message%, %securitycode% and %triesleft% for the appropriate contents.)]
+(Вы можете использовать переменные %sender%, %message%, %securitycode% and %triesleft% для подстановки.)
+[[%log_date% %log_time%, User: %log_user%, Type: %log_type%]\r\nRecognition: %log_recognition%\t\r\nResult: %log_result%\r\n%log_message%\r\n\r\n]
+(%log_date% %log_time%, Пользователь: %log_user%, Тип: %log_type%)\r\nОпознан: %log_recognition%\t\r\nРезультат: %log_result%\r\n%log_message%\r\n\r\n
+[\\d represents any decimal digit\r\n\\D represents any character that is not a decimal digit]
+\\d любое десятичное число\r\n\\D любой символ, который не является десятичным числом
+[A very critical internal error was detected!\r\nProbably the filter will not work at all.\r\n\r\nPlease update to the most current version if this problem persists.]
+Произошла фатальная ошибка спам-фильтра!\r\nВозможно фильтр не работает вообще.\r\n\r\nПожалуйста обновите спам-фильтр, если проблема сохраняется.
+[Add bad phrase/pattern]
+Добавить плохую фразу/комбинацию
+[Add good phrase/pattern]
+Добавить хорошую фразу/комбинацию
+[Add indicating phrase/pattern]
+Добавить фразу/комбинацию
+[Add the message texts to contact &history]
+Добавить текст в историю
+[Add the reply to contact &history]
+Добавить ответ в историю
+[Advertisment Alert!]
+Реклама!
+[Advertisment Alert]
+Реклама
+[Advertisment Filter]
+Фильтр рекламы
+[All Logging Files (*.log; *.txt; *.csv; *.xml)]
+Все файлы журнала (*.log; *.txt; *.csv; *.xml)
+[All syntax elements can be combined or nested using subpatterns.]
+Все элементы синтаксиса могут быть сгруппированы или разбиты используя подкомбинации.
+[All&owed bad phrases until spam:]
+Количество плохих фраз:
+[Allo&wed phrases until no spam:]
+Разрешено фраз:
+[Allowed &formated bad phrases:]
+Допустимые плохие фразы:
+[Allowed spam per &user:]
+Допустимо спама контакту:
+[Also watch for following &customized bad phrases:]
+Также искать следующие плохие фразы:
+[Alternatives:]
+Альтернативы:
+[Are you sure that the Auto Ignore counters shall really be reset?\r\n\r\nSpammers that are not already ignored will then not be remembered any longer.]
+Вы действительно уверены, что нужно сбросить счётчик авто-игнорирования?\r\n\r\nДанные о спамерах, которые еще не игнорируются, будут утеряны.
+[Assertions:]
+Утверждения:
+[Auto &reply to disliked messages using the following text:]
+Отвечать на плохие сообщения таким текстом:
+[Auto Ignore]
+Автоигнор
+[Automated message]
+Авто сообщение
+[Automatically &ignore spamming users]
+Автоматически игнорировать спаммеров
+[Back References:]
+Ссылки назад:
+[Bad Phrases/Patterns]
+Запрещённые фразы/комбинации
+[C&apitalized messages]
+Сообщения в ВЕРХНЕМ регистре
+[C&onfigure...]
+Настройка...
+[cat(aract|erpillar) finds "cataract" or "caterpillar"]
+cat(aract|erpillar) ищет "cataract" или "caterpillar"
+[Co&nfigure...]
+Настройка...
+[Comma Separated Values Files (*.csv)]
+Файлы CSV журнала (*.csv)
+[Con&figure...]
+Настройка...
+[Configure Advertisment Filter]
+Настройка фильтра рекламы
+[Configure Disliked Messages Filter]
+Настройка плохих сообщений
+[Configure Robot Filter]
+Настройка робота
+[Contact set as spammer]
+Контакт помечен, как спамер
+[Contains %u bad phrase(s)/pattern(s)]
+Содержит %u запрещённых фраз/комбинаций
+[Contains %u differently formated bad phrase(s)/pattern(s)]
+Содержит %u по разному форматированных запрещённых фраз/комбинаций
+[Contains %u disliked indicating phrase(s)/pattern(s)]
+Содержит %u плохих фраз/комбинаций
+[Contains %u good phrase(s)/pattern(s)]
+Содержит %u разрешённых фраз/комбинаций
+[Contains phone number]
+Содержит номер телефона
+[Contains URL address]
+Содержит адрес URL
+[Customized Words]
+Слова пользователя
+[D&elete spam messages]
+Удалить спам
+[Default Bad Words]
+Стандартные плохие слова
+[Different Format Recognition: Numbers]
+Определение различного форматирования: Номера
+[Different Format Recognition: Separators]
+Определение различного форматирования: Разделители
+[Different Format Recognition: Text]
+Определение различного форматирования: Текст
+[Disliked Contents]
+Плохое содержание
+[Disliked Message Alert!]
+Плохое сообщение!
+[Disliked Message Alert]
+Плохое сообщение
+[Disliked Messages Filter]
+Фильтр сообщений
+[Download more Spam Definitions]
+Загрузить из сети
+[Filter out messages from standard &known spammers]
+Фильтровать сообщения от известных спамеров
+[Filters out advertisments from unknown users that are not on the contact list.]
+Фильтрует рекламу от неизвестных пользователей не из списка контактов.
+[Filters out all automated messages from unknown contacts via requesting a correct answer from the sender.]
+Фильтрует все сообщения от неизвестных контактов через запрос верного ответа от отправителя.
+[Filters out disliked messages such as hoax messages from known contacts that are on your contact list.]
+Фильтрует плохие сообщения от контактов из списка.
+[Filters out advertisment messages, messages sent by robots and other disliked messages such as hoax messages.]
+Фильтрует рекламу, сообщения от роботов и другие плохие сообщения.
+[Generic Types:]
+Стандартные типы:
+[gilbert|sullivan finds "gilbert" or "sullivan"]
+gilbert|sullivan ищет "gilbert" или "sullivan"
+[Good Phrases/Patterns]
+Разрешённые фразы/комбинации
+[Hello %sender%,\r\nI don't like such messages. Please don't send them to me anymore.\r\nThanks.\r\n\r\n(Automated message)]
+Здравстуйте %sender%,\r\nЯ не люблю сообщения подобного рода. Пожалуйста, не отсылайте их больше.\r\nСпасибо.\r\n\r\n(Автоматическое сообщение)
+[Ignored Spammers]
+Список игнорируемых спамеров
+[Indicating Phrases/Patterns]
+Фразы/Комбинации
+[Installed Spam Definitions for filter:]
+Установленные базы для фильтра:
+[Is capitalized]
+Все буквы в верхнем регистре
+[Is empty]
+Пусто
+[Is hoax text]
+Обманное сообщение
+[Is multiple]
+Множественно
+[Is teaser]
+Обманное сообщение
+[Known Hoax Texts]
+Известные обманные тексты
+[Known Spammers]
+Известные спамеры
+[Known Teaser Texts]
+Известные обманные сообщения
+[Log Files (*.log)]
+Файлы журнала (*.log)
+[Logged since]
+Записывается с
+[Look for standard &bad phrases in received messages]
+Поиск стандартных плохих фраз в полученных сообщениях
+[Look for the following indicating &phrases:]
+Искать следующие фразы:
+[Mar&k spam messages as read]
+Помечать спам как прочитанное
+[Message Texts]
+Текст сообщения
+[Message Types]
+Типы сообщений
+[Messages are &no spam when containing some of the following phrases:]
+Сообщения не спам, если содержат следующие фразы:
+[Messages containing &known hoax message texts]
+Сообщения, содержащие известные обманные тексты
+[Messages containing &spaces only]
+Сообщения, содержащие одни пробелы
+[Packet]
+Пакет
+[Phone Number Recognition]
+Определение номеров
+[Please forward]
+Пожалуйста перешли
+[popup]
+вспл. окно
+[Quick Quide to Regular Expressions:]
+Введение в регулярные выражения:
+[Received Spam]
+Получен спам
+[Recogni&ze different formating]
+Понимать различное форматирование
+[Remove bad phrase/pattern]
+Удалить плохую фразу/комбинацию
+[Remove good phrase/pattern]
+Удалить хорошую фразу/комбинацию
+[Remove indicating phrase]
+Удалить фразу
+[Rese&t...]
+Сброс...
+[Reset Auto Ignore]
+Сброс счётчика авто-игнорирования
+[Robot Alert!]
+Обнаружен робот!
+[Robot Alert]
+Обнаружен робот
+[Robot message]
+Сообщение робота
+[Security Code]
+Секретный код
+[Show &popup on spam message]
+Вспл.окно когда обнаружен спам
+[Spa&mmers]
+Спаммеры
+[Spam &Definitions]
+Базы спам-фильтра
+[Spam Definitions: Advertisment Filter]
+Базы спам-фильтра: фильтр рекламы
+[Spam Definitions: Disliked Messages Filter]
+Базы спам-фильтра: фильтр сообщений
+[Spam Definitions]
+Базы спам-фильтра
+[Spam Filter Critical Error]
+Критическая ошибка спам-фильтра
+[Spam Filter Error]
+Ошибка спам-фильтра
+[The log file "%s"\r\ncan not be written.\r\n\r\nProblem:\r\n%s\r\nPlease check the settings.]
+Файл журнала "%s"\r\nне может быть записан.\r\n\r\nПроблема:\r\n%s\r\nПожалуйста, проверьте настройки.
+[Spam Filter Warning]
+Предупреждение спам-фильтра
+[Spam Filter was not able to send an automated message to the user "%s".]
+Спам-фильтру не удалось послать сообщение контакту "%s".
+[Spam Message Overlay]
+Значок спам сообщения
+[Spam Notification]
+Уведомление о спаме
+[Spammer Indicator]
+Значок спаммера
+[Spammer]
+Спамер
+[Store spammers in special &group:]
+Перемещать спамеров в группу:
+[Syntax Error in Regular Expression]
+Ошибка синтаксиса в регулярных выражениях
+[Text Files (*.txt)]
+Текстовые файлы (*.txt)
+[Thank you for your help!\r\nAll your previous messages were delivered. New messages do now reach me directly without an additional spam check.\r\n\r\n(Automated message)]
+Спасибо за вашу помощь!\r\nВсе предыдущие сообщения доставлены. Новые сообщения не будут проходить проверку на спам.\r\n\r\n(Автоматическое сообщение)
+[The entered bad phrase "%s" already exists in the default bad phrases lists.\r\n\r\nAllowing the same bad phrase in the customized bad phrases lists will\npull down the filter quality.\r\n\r\nShall the bad phrase be added anyway?]
+Введённая плохая фраза "%s" уже существует в стандартном списке плохих фраз.\r\n\r\nОдинаковая фраза из списка и из стандартных плохих фраз\nможет понизить качество фильтра.\r\n\r\nВы желаете всё равно добавить плохую фразу?
+[The entered bad phrase "%s" already exists in the list.\r\n\r\nThe filter doesn't differentiate between lower and upper case.\nTwo entries with the same phrase are not neccessary\nand will decrease the filter quality.\r\n\r\nShall the bad phrase be added anyway?]
+Введённая плохая фраза "%s" уже существует в списке.\r\n\r\nФильтр не различает регистр букв.\nДве одинаковых фразы ненужны.\nЭто ухудшит качество фильтра.\r\n\r\nДобавить всё равно?
+[The entered bad phrase "%s" already exists in the list.\r\n\r\nThe filter doesn't differentiate between lower and upper case.\r\nTwo entries with the same phrase are not neccessary\nand will decrease the filter quality.\r\n\r\nShall the bad phrase be added anyway?]
+Введённая плохая фраза "%s" уже существует в списке.\r\n\r\nФильтр игнорирует регистр введённых выражений.\r\nДве записи одной фразы не обязательны\nи могут понизить качество фильтра.\r\n\r\nВы желаете всё равно добавить плохую фразу?
+[The entered good phrase "%s" already exists in the list.\r\n\r\nThe filter doesn't differentiate between lower and upper case.\nTwo entries with the same phrase are not neccessary\nand will decrease the filter quality.\r\n\r\nShall the good phrase be added anyway?]
+Введённая хорошая фраза "%s" уже существует в списке.\r\n\r\nФильтр не различает регистр букв.\nДве одинаковых фразы ненужны.\nЭто ухудшит качество фильтра.\r\n\r\nДобавить всё равно?
+[The entered good phrase "%s" already exists in the list.\r\n\r\nThe filter doesn't differentiate between lower and upper case.\r\nTwo entries with the same phrase are not neccessary\nand will decrease the filter quality.\r\n\r\nShall the good phrase be added anyway?]
+Введённая хорошая фраза "%s" уже существует в списке.\r\n\r\nФильтр игнорирует регистр введённых выражений.\r\nДве записи одной фразы не обязательны\nи могут понизить качество фильтра.\r\n\r\nВы желаете всё равно добавить хорошую фразу?
+[The entered indicating phrase "%s" already exists in the list.\r\n\r\nThe filter doesn't differentiate between lower and upper case.\nTwo entries with the same phrase are not neccessary\nand will decrease the filter quality.\r\n\r\nShall the chain indicating phrase be added anyway?]
+Введённая фраза "%s" уже существует в списке.\r\n\r\nФильтр не различает регистр букв.\nДве одинаковых фразы ненужны.\nЭто ухудшит качество фильтра.\r\n\r\nДобавить всё равно?
+[The entered indicating phrase "%s" already exists in the list.\r\n\r\nThe filter doesn't differentiate between lower and upper case.\r\nTwo entries with the same phrase are not neccessary\nand will decrease the filter quality.\r\n\r\nShall the chain indicating phrase be added anyway?]
+Введённая фраза "%s" уже существует в списке.\r\n\r\nФильтр игнорирует регистр введённых выражений.\r\nДве записи одной фразы не обязательны\nи могут понизить качество фильтра.\r\n\r\nВы желаете всё равно добавить эту фразу?
+[The entered phrase "%s" consists of a Regular Expression containing a syntax error!\r\n\r\nAdding an malformed Regular Expression will cause the filter\r\nto treat the expression as a normal phrase.\r\n\r\nShall the malformed Regular Expression be added anyway?]
+Введённая фраза "%s" состоит из ошибочных регулярных выражений!\r\n\r\nОшибочное регулярное выражение\r\nфильтр будет воспринимать, как нормальную фразу.\r\n\r\nСледует ли добавить ошибочное регулярное выражение?
+[The following contacts were recognized as spammers:]
+Контакты, помеченные, как спамеры:
+[The following text needs to be replied by the contact to confirm that the message was not sent automatically:]
+Следующий текст должен быть переслан вам для подтверждения, что это не рассылка:
+[Types of incoming e&vents which shall be checked for spam:]
+Тип входящих событий для проверки на спам:
+[URL Recognition]
+Определение URL
+[Use variables in the message text]
+Использовать переменные в окне текста
+[User ignored]
+Игнорируется
+[XML Files (*.xml; *.xsl)]
+Файлы XML журнала (*.xml; *.xsl)
+[You chose to ignore all kind of messages from contacts that are not on your contact list although the spam filter is activated.\r\n\r\nShall the spam filter be deactivated?]
+Вы выбрали игнорировать всё сообщения от контактов не в вашем листе, хотя спам фильтр активен.\r\n\r\nСледует ли выключить спам-фильтр?
+[You did not install any Spam Definition files! Spam Filter can not work as powerful as it could.\r\n\r\nPlease install at least one language of the Spam Definitions.]
+Вы не установили файлов определения спама! Спам фильтр не сможет работать в полную силу.\r\n\r\nПожалуйста, установите как минимум один язык определения спама.
+[&New indicating phrase/pattern:]
+Новая фраза/комбинация:
+[(You can use normal words and Regular Expressions)]
+(Вы можете использовать слова и регулярные выражения)
+[Contains only spaces]
+Содержит только пробелы
+[Note: This filter gets invoked after the Advertisment Filter.\r\nThus, no instruction message will be sent in reply to advertisment messages.]
+Примечание: Фильтр будет работать после фильтра рекламы.\r\nСекретный код безопасности не будет послан в ответ на сообщения рекламы.
+[Number of users currently being in danger of being ignored.]
+Число контактов, которые могут попасть в список игнорируемых.
+[Remove indicating phrase/pattern]
+Удалить фразу/комбинацию
+[Repetitions]
+Повторения:
+[Show &popup when a spam message is received]
+Вспл. окно при получении спама
+[Spam Definitions: Chinese]
+Спам база: Китайский
+[Spam Definitions: English]
+Спам база: Английский
+[Spam Definitions: French]
+Спам база: Французский
+[Spam Definitions: Portuguese]
+Спам база: Португальский
+[Spam Definitions: Russian]
+Спам база: Русский
+[Spam Filter: Incoming Spam]
+Спам-фильтр: Обнаружен спам
+[Subpatterns]
+Под-комбинации
+[The filter has detected %u incorrect Regular Expression(s) in the default bad words!\r\n\r\nPlease update your installed Spam Definitions to the latest versions to resolve this problem.\r\nThis problem might also be caused by Spam Definitions that are not compatible with your system codepage.]
+Фильтр обнаружил %u неправильных выражений в стандартных определений плохих слов!\r\n\r\nПожалуйста, обновите спам-базы, чтобы решить эту проблему.\r\nЭта проблема также может быть вызвана, если кодовая страница спам-баз отличается от системной.
+[Warning: Not all Spam Definitions are available!\r\nSome features are disabled.]
+Внимание: Установлены не все базы фильтров!\r\nНекоторые функции недоступны.
+[Hello %sender%,\r\nPlease reply "%securitycode%" if you want to contact me. If you don't reply correctly your messages will be ignored. Sorry for the inconvenience.\r\nThis spam check quarantees that you are a real person.\r\nYou have %triesleft% tries left.\r\nThanks in advance!\r\n\r\n(Automated message)]
+Здравстуйте %sender%,\r\nПожалуйста ответьте кодом безопасности "%securitycode%", если вы хотите связаться со мной. Если вы не ответите, это сообщение будет игнорировано. Приносим свои извинения за доставленные неудобства.\r\nЭта проверка на спам гарантирует, что вы не спам-бот.\r\nУ вас осталось %triesleft% попыток.\r\nСпасибо за помощь!\r\n\r\n(Автоматическое сообщение)
+[Logs]
+Журналы
+[Popup Background]
+Фон окон
+[Warning: Not all Spam Definitions are available! Some features are disabled.]
+Внимание: Не установлены все определения спама! Некоторые возможности отключены.
+[(You can use normal words or Regular Expressions)]
+(Вы можете использовать обычные слова или регулярные выражения
+[z{2,4} matches "zz", "zzz" or "zzzz"\r\n* is equivalent to {0,}\r\n+ is equivalent to {1,}\r\n? is equivalent to {0,1}]
+z{2,4} равно "zz", "zzz" или "zzzz"\n\n* эквивалентно {0,}\n\n+ эквивалентно {1,}\n\n? эквивалентно {0,1}
+[ (Spammer)]
+ (Спаммер)
+[Spam.xml]
+Спам.xml
+[(?<!foo)bar finds an occurrence of "bar" that is not preceded by "foo"\r\n(?<= for positive lookahead assertions\r\n(?<! for negative lookahead assertions\r\n(?= for positive lookbehind assertions\r\n(?! for negative lookbehind assertions]
+(?<!foo)bar ищет совпадения "bar" которые не упреждаются "foo"\n\n(?<= для ищущих впереди положительных утверждений\n\n(?<! для отрицательных утверждений\n\n(?= для положительных утверждений идущих позади\n\n(?! для отрицательных утверждений, идущих позади
+[Note: The filter gets invoked after the Advertisment Filter.\r\nThus, no instruction message will be sent in reply to advertisment messages.]
+Примечание: Фильтр вызывается после фильтра рекламы.\r\nВ любом случае, на рекламное сообщение не будет послан ответ.
+[Mark Contact as Spammer]
+Пометить контакт как спамера
+[Are you sure that the contact "%s" shall be marked as spammer?\r\n\r\nMarking a contact as spammer means that all associated messages will be recognized as spam and the contact will be completely ignored in the future.\r\n\r\nA contact that was marked as spammer can be restored using the options dialog.]
+Вы уверены, что хотите обозначить контакт "%s" как спамер?\r\n\r\nВ будущем все сообщения от этого контакта будут проигнорированы и помечены как спам.\r\n\r\nСпамер может быть восстановлен через диалог настройки
+[&Rese&t...]
+Сброс
+[Spammers]
+Спамеры
+[Hi %sender%,\r\nI don't like such messages. Please don't send them to me anymore.\r\nThanks.\r\n\r\n(Automated message)]
+Привет, %sender%.\r\nМне не нравятся такие сообщения. Пожалуйста, не посылайте мне их.\r\nСпасибо.\r\n\r\n(автоответ)
+[Are you sure that the Auto Ignore counters shall really be reset?\r\nSpammer that are not already ignored will then not be remembered any longer.]
+Вы уверены, что хотите сбросить счётчики автоигнора?\r\nСпамер, который еще не игнорируется, больше никогда не попадет в игнор.
+[Reset Automatic Ignore]
+Сбросить автоигнор
+[Add bad phrase]
+Добавить плохую фразу
+[Remove bad phrase]
+Удалить плохую фразу
+[Remove good phrase]
+Удалить хорошую фразу
+[Add good phrase]
+Добавить хорошую фразу
+[Add indicating phrase]
+Добавить фразу
+[Mark contact as spammer]
+Пометить как спаммера
+[Are you sure that the contact "%s" shall be marked as spammer?\r\n\r\nMarking a contact as spammer means that all associated messages will be recognized as spam and the contact will be completely ignored in the future.\r\nA contact that was marked as spammer can be unignored using the options dialog.]
+Вы уверены, что хотите пометить контакт "%s" как спамера?\r\n\r\nОтмечая контакт как спамера, вы не будете получать от него никаких сообщений.\r\nОтменить отметку спамера можно в настройках.
+[Manually set as spam]
+Вручную пометить спамом
+[&Empty messages]
+Пустые сообщения
+[&Mark spam messages as read]
+Отмечать спам как прочитанное
+[&New phrase:]
+Новая фраза:
+[&Scramble]
+Свалка
+[&Types of incoming events which shall be checked for spam:]
+Типы входящих событий, которые должны отмечаться как спам:
+[(You can use Regular Expressions, too.)]
+(Можно использовать регулярные выражения.)
+[(You can use the substitute symbols %s and %s for the appropriate contents.)]
+(Можно использовать символы подстановки %s и %s)
+[(You can use the substitute symbols %sender%, %message% and %securitycode% for the appropriate contents.)]
+(Можно использовать символы подстановки %sender%, %message% и %securitycode%)
+[Allowed &bad phrases until spam:]
+Допустимые плохие фразы до спама:
+[Allowed &phrases until no spam:]
+Допустимые фразы до не-спама:
+[Bad Phrases]
+Плохие фразы
+[Date;Time;User;Type;Recognition;Result;Message\r\n]
+Дата;Время;Пользователь;Тип;Опознание;Результат;Сообщение\r\n
+[Good Phrases]
+Хорошие фразы
+[Hoax Messages]
+Розыгрыши
+[Indicating Phrases]
+Фразы
+[Look for &known hoax message texts]
+Поиск известных обманных сообщений
+[Recognize &different formating]
+Определять разное форматирование
+[Thank you for your patience. All your messages are now no longer queued and go through directly\r\n\r\n(Automated message)]
+Спасибо. Теперь все ваши сообщения проходят напрямую.\r\n\r\n(Автоматическое сообщение)
+[XML Files (*.xml)]
+XML файлы (*.xml)
+[Please reply "%securitycode%" without quotes if you want to contact me. If you don't reply correctly your messages will be ignored. Sorry for the inconvenience.\r\n\r\n(Automated message)"]
+Отправьте мне "%securitycode%" без кавычек, если хотите поговорить. Если вы этого не сделаете, сообщения будут игнорироваться. \r\n\r\n(Автоматическое сообщение)
+[The log file "%s"\r\ncan not be written. Please check the settings.]
+Лог файл "%s"\r\nне может быть записан. Проверьте настройки.
+[ (spammer)]
+ (спамер)
+[&New indicating phrase:]
+Новая фраза:
+[&Sapmmers]
+Спамеры

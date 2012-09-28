@@ -1,0 +1,210 @@
+﻿;============================================================
+;  File: NetAccessNotify.dll
+;  Module: NetAccessNotify
+;  Versions: 2.5.0.1-2.6.0.0
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1490
+;============================================================
+[Show notifications]
+Показывать уведомления
+[Terminate connection]
+Разорвать соединение
+[Add shared resource...]
+Добавить общий ресурс...
+[Remove shared resource]
+Удалить ресурс
+[Disconnect all resource users]
+Отсоединить всех от ресурса
+[Properties...]
+Свойства
+[NetAccessNotify]
+Сетевой доступ
+[Shares]
+Ресурсы
+[Network connections]
+Сетевые подключения
+[Current network connections]
+Установленные сетевые подключения
+[Established network sessions]
+Активные сеансы подключений
+[Logging options]
+Настройки журнала
+[Log network activity to file:]
+Вести файл журнала сетевой активности:
+[Log when network connections are established]
+Фиксировать факты установления сетевых подключений
+[Log when shared files are accessed]
+Фиксировать сетевой доступ к файлам
+[Log when shared folders are accessed]
+Фиксировать сетевой доступ к папкам
+[Log file format]
+Формат файла журнала
+[Title format:]
+Формат заголовка журнала:
+[Line format:]
+Формат строк журнала:
+[Available variables]
+Доступные тэги
+[Defaults for HTML format]
+По умолчанию для HTML
+[Defaults for CSV format]
+По умолчанию для CSV
+[Popup notifications]
+Всплывающие уведомления
+[Notify when network connections are established]
+Уведомлять об установлении сетевых подключений
+[Notify of shared file access]
+Уведомлять о доступе к файлам
+[Notify of shared folder access]
+Уведомлять о доступе к папкам
+[Use default popup colors]
+Цвета по умолчанию
+[Choose colors:]
+Выбрать цвета:
+[Popup display and click options]
+Поведение всплывающих окон
+[Separate popups for all events]
+Отдельные окна для каждого события
+[One permanent popup per connection]
+По одному окну на сеанс (постоянному)
+[One popup per connection on user activity]
+По одному окну на сеанс (при активности)
+[Popups stay shown for:]
+Уведомления видны:
+[Left-click:]
+Левая:
+[Right-click:]
+Правая:
+[Break the connection]
+Разорвать соединение
+[Disable all popups]
+Отключить все уведомления
+[No popups for this connection]
+Отключить для данного сеанса
+[Network session info]
+Формат уведомлений и данных в окне сетевых подключений
+[In popup titles:]
+Заголовки:
+[In popup contents:]
+Текст увед.:
+[In network window:]
+В сетевых подкл.:
+[Popup preview]
+Посмотреть
+[Show network activity icon in system tray]
+Показывать значок сетевой активности в лотке
+[Active network connections]
+Активные сетевые подключения
+[Add "Network connections" item to main menu]
+Добавить пункт "Сетевые подключения" в главное меню
+[Use hot key to bring up network connections:]
+Клавиша вызова окна сетевых подключений:
+["Network connections" window is always on top]
+"Сетевые подключения" поверх других окон
+[Show network connections]
+Сетевые подключения
+[Update frequency]
+Частота обновления данных
+[Query network state every]
+Проверять сеть каждые
+[Boost query interval on active connections:]
+Усилить проверку при активных сеансах:
+[These values define the frequency of queries to the File Sharing service. The use of boost frequency is recommended. Otherwise, access to small files will not be detected.]
+Эти значения определяют частоту обращений к службе общего доступа. Рекомендуется усиление проверки при активных сеансах.
+[Specifying small intervals (50 ms or less) can be CPU-intensive on slow computers.\nOn a typical system, default values will do fine (they are 300 ms and 10 ms for boost).]
+Маленькие значения интервалов (менее 50 мс) увеличивают нагрузку на слабые компьютеры. На типичной системе хорошо работают значения 300 и 10 мс.
+[Startup]
+Настройки запуска
+[ms  (this allows the Popups plugin to initialize)]
+мс  (позволяет инициализировать модуль вспл. окон)
+[Startup delay:]
+Задержка:
+[The following defines the delay before displaying popups. Default is 1000 ms.]
+Задержка перед тем, как начать выводить уведомления. По умолчанию 1000 мс.
+[Shared resources]
+Ресурсы с общим доступом
+[Resource name]
+Имя ресурса
+[Local path]
+Локальная папка
+[Uses]
+Сеансов
+[Comment]
+Комментарий
+[Show administrative shares]
+Административные ресурсы
+[Popup notification filters]
+Фильтрация всплывающих уведомлений
+[Computer]
+Компьютер
+[Shared resource]
+Общий ресурс
+[Add filter...]
+Добавить
+[Filter settings]
+Настройки фильтра
+[Computer name:]
+Компьютер:
+[User name:]
+Пользователь:
+[Shared resource:]
+Общий ресурс:
+[If values match:]
+При совпадении:
+[Always notify with popups]
+Всегда уведомлять
+[Disable popup notifications]
+Отключить уведомление
+[Note: Use * and ? wildcard characters to specify multiple values]
+Подсказка: используйте символы * и ? для указания масок
+[All popups are now disabled.\nEnable popups in the Popups section of the main menu]
+Все уведомления отключены.\nРазрешите уведомления в главном меню
+[All popups are now disabled.\nEnable popups on the NetAccessNotify/Popups page]
+Все уведомления отключены.\nРазрешите уведомления в настройках NetAccessNotify
+[Are you sure you wish to remove\nthe shared resource '%s'?]
+Вы действительно хотите отключить\nобщий доступ к ресурсу '%s'?
+[Disable network access notifications]
+Отключить уведомления о сетевой активности
+[Enable network access notifications]
+Включить уведомления о сетевой активности
+[Error creating/opening specified log file]
+Ошибка при создании/открытии указанного файла журнала
+[Popup plugin not found.\nPlease install and enable this plugin]
+Не найден модуль всплывающих окон.\nУстановите и включите этот модуль
+[Select a folder for sharing]
+Выберите папку для открытия общего доступа
+[Shared resource '%s' could not be removed\nNetwork error code: %d]
+Невозможно отключить общий доступ к ресурсу '%s'\nСетевой код ошибки: %d
+[This file has already been closed]
+Этот файл уже закрыт
+[This session has already terminated]
+Этот сеанс уже завершен
+[Sorry, not supported in this version]
+Извините, функция не поддерживается в этой версии
+[Remove filter]
+Удалить фильтр
+[Move this entry up]
+Вверх
+[Move this entry down]
+Вниз
+[Popup display options]
+Параметры отображения уведомлений
+[One popup per connection,\nappearing only on user activity]
+Одно окно на соединение,\nпри наличии активности
+[Disable popups for\nthis connection only]
+Отключить уведомление \nдля этого соединения
+[Add \"Network connections\" icon to system tray]
+Добавить в трей значок \"Сетевые соединения\"
+[Add \"Network connections\" item to main menu]
+Добавить пункт \"Сетевые соединения\" в главное меню
+[\"Network connections\" window is always on top]
+Окно \"Сетевые соединения\" поверх всех окон
+[ms  (Warning: this can be CPU-intensive)]
+милисек (Грузит процессор!)
+[Use NTFS auditing capabilities (should be configured for all shared files && folders)]
+Использовать настройки NTFS (должны быть заданы для всех ресурсов!)
+[ms  (Very CPU-intensive)]
+милисек (Грузит процессор!)
+[Log file line format:]
+Формат журнала:
+[Always notify whith popups]
+Всегда уведомлять

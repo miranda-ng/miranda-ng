@@ -1,0 +1,53 @@
+﻿#muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
+;============================================================
+;  File: GTalkExt.dll
+;  Module: GTalk extensions for Jabber protocol
+;  Versions: 0.0.0.18
+;  URL: http://miranda-planet.com/forum/index.php?autocom=downloads&showfile=1400
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/gtalkext/
+;  Authors: bems
+;============================================================
+[subject\n    %s\nfrom\n%s\n%s\n]
+тема\n    %s\nот\n%s\n%s\n
+[subject\n    %s\nfrom\n%s]
+тема\n    %s\nот\n%s
+[You've received an e-mail\n%s unread threads]
+Вам пришла почта\nНепрочитанных цепочек: %s
+[Unread threads:]
+Непрочитанных цепочек:
+[GMail notifications]
+Уведомления о почте GMail
+[Popup notifications (needs popup plugin)]
+Всплывающие уведомления (требуется плагин всплывающих окон)
+[Notify in contact list]
+Уведомлять в списке контактов
+[Clear pseudocontact history before adding new events]
+Очищать историю псевдоконтакта перед добавлением новых событий
+[Notify in fullscreen mode too]
+Также уведомлять и в полноэкранном режиме
+[NOTE\n\nThis will work only if this Jabber account is actually GTalk]
+Хозяйке на заметку\nЭто будет работать, только если этот Jabber-аккаунт это на самом деле GTalk
+[Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
+Используйте это если ваш плагин всплывающих окон неверно определяет полноэкранный режим. Оно отберет у вас фокус ввода
+[Supress foreign popups for pseudocontact]
+Скрывать посторонние всплывающие окна для псевдоконтакта
+[0 means default timeout]
+0 - длительность по умолчанию
+[If both colors set to the same value, default colors will be used]
+Если оба цвета одинаковы, будут использованы цвета по умолчанию
+[Mark history event read when popup closed]
+При закрытии всплывающего окна помечать событие прочитанным
+[Try to login before open mailbox]
+Пытаться залогиниться перед переходом в почтовый ящик
+[This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
+Это работает только если пароль сохранён в БД. Не влияет на ссылки в журнале сообщений псевдоконтакта
+[Open mailbox]
+Открыть почтовый ящик
+[Add message snip to notification]
+Добавить в уведомление фрагмент письма
+[Choose GMail view you use in web interface]
+Выберите вид GMail, используемый в веб-интерфейсе
+[I don't know]
+Я не знаю
+[Standard view]
+Стандартный

@@ -1,0 +1,127 @@
+﻿;============================================================
+;  File: mNetSend.dll
+;  Module: WinPopup Protocol via NetBIOS with Extended Features
+;  Versions: 0.0.1.10
+;============================================================
+[You need to be online for this operation]
+Для этой операции необходимо быть online
+[You need to be online for this function]
+Для этой возможности вам нужно быть в сети
+[Send message over mail-slot]
+Отправить через mail-slot
+[Extra features of mNetSend are enabled]
+Включены дополнительные возможности mNetSend
+[Can't create a mail-slot for listening]
+Не могу создать mail-slot для приема сообщений
+[Please enter the name you want to add]
+Пожалуйста укажите имя которое вы хотите добавить
+[Can't stop messenger service]
+Не могу остановить Службу Сообщений
+[The message is successfully delivered]
+Сообщение доставлено
+[You need at least one name in order to use mNetSend plug-in!]
+Вам необходимо покрайней мере одно имя для того что бы использовать mNetSend
+[A&dd contact]
+Добавить контакт
+[NetBIOS name to add to the contacts list]
+NetBIOS имя для добавления в контакт лист
+[Too many names. Delete some and try again!]
+Слишком много имен. Удалите некоторые и попробуйте снова!
+[Sending the message...]
+Отправка сообщения...
+[Use safe mail-slots (administrator mode only)]
+Использовать проверяемые mail-slots (необходимы права администратора)
+[Enable extra features (requires Miranda restart)]
+Использовать дополнительные возможности (необходим перезапуск Miranda)
+[Send message over NetBIOS]
+Отправить через NetBIOS
+[NetBIOS Interface]
+NetBIOS интерфейс
+[mNetSend first run]
+mNetSend первый запуск
+[Send from]
+Отправить от
+[Names of the computer and the logged on user will be used for Winpopup. The name of the computer will be default]
+Для протокола winpopup будут использованы имя компьютера и имя пользователя. Имя компьютера будет именем по умолчанию
+[The name is too long. It should have no more than 15 symbols]
+Имя слишком длинное. Имя должно быть короче 15 символов
+[&Send quick message...]
+Отправить быстрое сообщение...
+[If you enter one of your NetBIOS names, it will be used for this message session]
+Если Вы укажете одно из своих имен, оно будет использовано для открытия сессии сообщения
+[Quick Message Send]
+Быстрое сообщение
+[You can use\n %USER% to add username\n %COMPUTER% to add computer name]
+Вы можете указать\n %USER% что бы добавить имя пользователя\n%COMPUTER% что бы добавить имя компьютера
+[Default name is needed.]
+Необходимо имя по умолчанию
+[Enter the message to send]
+Введите сообщение, которое необходимо отправить
+[Do not use mail-slots]
+Не использовать mail-slots
+[Please define the settings before using mNetSend]
+Укажите настройки перед использованием
+[No active NetBIOS interface]
+Нет активных NetBIOS интерфейсов
+[Status check interval]
+Интервал проверки статуса
+[Can't register the name for extra features]
+Не могу зарегистрировать имя для дополнительных возможностей
+[Delete selected name]
+Удалить выбранное
+[Use unsafe mail-slots]
+Использовать не проверяемые mail-slots
+[Nobody to check]
+Некого проверять
+[Please define a sender for this message]
+Укажите отправителя этого сообщения
+[I want to use default settings]
+Я хочу использовать установки по умолчанию
+[Settings take effect after reconnecting]
+настройки вступят в силу только после переподключения
+[Can't create RAW socket for safe mail-slot.]
+Не могу создать RAW socket для проверяемого mail-slot.
+[Make selected name default]
+Сделать выбранное именем по умолчанию
+[No NetBIOS interface]
+Нет NetBIOS интерфейса
+[Please define a receiver for this message]
+Укажите пожалуйста получателя сообщения
+[MAC Address]
+MAC Адрес
+[Message delivery failure]
+Ошибка доставки сообщения
+[Custom name]
+Указать имя
+[Define a NetBIOS name to add]
+Укажите NetBIOS имя для того что бы добавить его в список
+[I want to use custom settings]
+Я хочу использовать особые настройки
+[NetBIOS name can't be longer than 15 symbols]
+NetBIOS имя не может быть длиннее 15 символов
+[This name already exists. Please try a different one]
+Такое имя уже есть. Укажите другое имя
+[Can't register NetBIOS name ]
+Не могу зарегистрировать NetBIOS имя 
+[Default name]
+Имени по умолчанию
+[Target name]
+Получатель
+[Quick Contact Add]
+Быстрый контакт
+[Use computer and user standard names also]
+Также использовать имя компьютера и пользователя
+[NetBIOS names]
+NetBIOS имена
+[Mailslots]
+Мейлслоты
+[mNetSend First Run]
+Первый запуск mNetSend
+[No host. It’s possibly shut down.]
+Нет хоста. Возможно, он выключен
+[Quick Send]
+Быстрая отправка
+[The interval should be more than 20, but less than 2000 milliseconds]
+Интервал в пределах от 20 до 2000 миллисекунд
+[Use target’s computer name or its IP address when sending over the mail-slot  ]
+Использовать имя целевого компьютера или его IP адрес при отправке

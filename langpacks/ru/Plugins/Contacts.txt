@@ -1,0 +1,53 @@
+﻿#muuid {0324785e-74ce-4600-b781-851773b3efc5}
+;============================================================
+;  File: contacts.dll
+;  Module: Contacts
+;  Versions: 1.5.2.0
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1253
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/ContactsPlus/
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[&Details]
+Детали
+[Incoming Contacts]
+Входящие контакты
+[Outgoing Contacts]
+Исходящие контакты
+[Contacts received from %s]
+Контакты получены от %s
+[Send contacts to %s]
+Отправить контакты к %s
+[Send contacts...]
+Отправить контакты...
+[Mailformed Receive Contacts Packet.]
+Некорректный пакет получения контактов.
+[Add to &group:]
+Добавить в группу:
+[&Add selected]
+&Добавить
+[Choose contacts to be send:]
+Выбрать контакты для отправки:
+[Allows you to send and receive contacts]
+Позволяет вам посылать и получать контакты
+[Send Contacts to]
+Отправить контакты
+[Contacts from]
+Контакты от
+[Add to List]
+Добавить
+[The contacts send timed out.]
+Тайм-аут отправки.
+[Contacts received from]
+Получены контакты от
+[Contacts transfer failed!]
+Ошибка передачи контактов
+[The selected contact does not support receiving contacts.]
+Выбранный контакт не поддерживает прием контактов.
+[Contacts send error]
+Ошибка отправки контактов
+[Received contacts]
+Принятые контакты
+[Send contacts]
+Послать контакты
+[Send/Receive Contacts+]
+Отправка/Прием контактов+

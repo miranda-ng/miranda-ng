@@ -1,0 +1,30 @@
+﻿;============================================================
+;  File: dbx_3xSA.dll
+;  Module: SecureDB + Autobackup
+;  Versions: 0.7.0.11
+;  Template: http://addons.miranda-im.org/details.php?action=viewfile&id=2749
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2749
+;  Source: http://addons.miranda-im.org/feed.php?dlsource=2749
+;============================================================
+[SecureDB+AutoBackup]
+Профиль
+[SecureDB+Autobackup]
+База данных
+[del contact]
+Удалить
+[%s (Contact Chain is corrupted)]
+%s (повреждена цепочка контакта)
+[%s (Invalid module to add)]
+%s (неправильный модуль)
+[%s (Module chain is corrupted)]
+%s (повреждена цепочка модуля)
+[%s (Settings chain is corrupted)]
+%s (повреждена цепочка настроек)
+[Start Watchdog]
+Запуск
+[db3xSA]
+Модуль db3xSA
+[Advanced database support]
+Расширенная поддержка БД
+[add contact]
+Добавить контакт

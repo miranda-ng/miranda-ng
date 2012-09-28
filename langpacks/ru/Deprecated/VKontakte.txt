@@ -1,0 +1,379 @@
+﻿;============================================================
+;  File: vkontakte.dll
+;  Module: VKontakte
+;  Versions: 0.3.0.9
+;============================================================
+[VKontakte Protocol]
+Протокол ВКонтакте
+[VKontakte]
+ВКонтакте
+[New note]
+Новая заметка
+[&Open my VKontakte web page]
+&Моя страница ВКонтакте
+[&Open contact web page]
+&Страница друга ВКонтакте
+[Create a new VKontakte account using the VKontakte website]
+Регистрация на сайте ВКонтакте
+[Retrieve a lost password or VKontakte number]
+Восстановить забытый пароль
+[E-mail or login:]
+E-mail или логин:
+[Other settings]
+Дополнительные настройки
+[Send 'Keep-online' message each]
+Поддерживать статус онлайн на сайте каждые
+[Check for new messages each]
+Проверять наличие новых сообщений каждые
+[Update friends' status each]
+Обновлять статус друзей каждые
+[second(s), 0 to disable]
+секунд, 0 - отключить
+[Please enter your VKontakte account details to continue:]
+Пожалуйста, введите данные ниже для продолжения
+[VKontakte Protocol for Miranda IM]
+Протокол ВКонтакте для Miranda IM
+[VKontakte HTTP connections]
+Подключения модуля ВКонтакте
+[&Main page VKontakte...]
+&Страница ВКонтакте...
+[&Photos VKontakte...]
+&Фотографии ВКонтакте...
+[&Friends VKontakte...]
+&Друзья ВКонтакте...    
+[The &wall VKontakte...]
+&Стена ВКонтакте...
+[&Groups VKontakte...]
+&Группы ВКонтакте...
+[&Audio VKontakte...]
+&Аудиозаписи ВКонтакте...
+[&Notes VKontakte...]
+&Заметки ВКонтакте...
+[&Questions VKontakte...]
+&Вопросы ВКонтакте...
+[Remove subject of incoming message, if empty]
+Убирать тему входящего сообщения, если она пуста
+[Get only minimal contact details (name, date of birth, phones)]
+Получать минимум информации о контакте (имя, дату рождения, телефоны)
+[At home]
+Дома
+[At university]
+В университете
+[At work]
+На работе
+[At grass]
+На отдыхе
+[At party]
+На вечеринке
+[Having dinner]
+За трапезой
+[My &main page...]
+Моя &страница...
+[My &photos...]
+Мои &фотографии...
+[My &friends...]
+Мои &друзья...
+[My &wall...]
+Моя &стена...
+[My &groups...]
+Мои &группы...
+[My &audio...]
+Мои &аудиозаписи...
+[My &notes...]
+Мои &заметки...
+[My &questions...]
+Мои &вопросы...
+[Read XStatus]
+Прочитать xСтатус
+[Enable contacts XStatus support]
+Включить поддержку xСтатусов контактов
+[Update contacts avatars each]
+Обновлять аватары контактов каждые
+[Update avatars, when getting contacts details]
+Обновлять аватары при получении деталей контактов
+[News]
+Новости
+[News support settings]
+Настройки новостей
+[Receive news]
+Получать новости
+[Check for news each]
+Проверять наличие новостей каждые
+[Receive minimal news (for today only, not all types)]
+Получать краткие новости (только за сегодня, новости не всех типов)
+[Display news of the following types only (not applicable for minimal news)]
+Отображать новости только следующих типов (фильтр не применим для кратких новостей)
+[Meetings]
+Встречи
+[Personal data]
+Личные данные
+[Gifts]
+Подарки
+[Display news in the separate contact]
+Отображать новости в отдельном контакте
+[Display links in the news]
+Отображать ссылки в новостях
+[Groups news support settings]
+Настройки новостей групп
+[Receive groups news]
+Получать новости групп
+[Check for groups news each]
+Проверять наличие новостей групп каждые
+[Display groups news of the following types only]
+Отображать новости групп только следующих типов
+[Display links in the groups news]
+Отображать ссылки в новостях групп
+[Comments news support settings]
+Настройки новостей комментариев
+[Receive comments news]
+Получать новости комментариев
+[Check for comments news each]
+Проверять наличие новостей комментариев каждые
+[Display comments news of the following types only]
+Отображать новости комментариев только следующих типов
+[Display links in the comments news]
+Отображать ссылки в новостях комментариев
+[Error: Your e-mail or password was rejected]
+Ошибка: Ваш e-mail или пароль не приняты сервером
+[Error: Unknown error during sign on]
+Ошибка: Неизвестная ошибка при входе
+[Updating of user details requires status change to Online. Would you like to change status and update details now?]
+Для обновления данных контакта необходимо перейти в режим В сети. Перейти в режим В сети и обновить данные сейчас?
+[Use VKontakte's page URL instead of contact's homepage]
+Использовать ссылку на страницу ВКонтакте вместо страницы контакта
+[Display XStatus for offline contacts]
+Отображать xСтатус для контактов Не в сети
+[Use the following group by default for new contacts]
+Помещать новые контакты в группу
+[Advanced (continued)]
+Дополнительно (продолжение)
+[Create new VKontakte account]
+Регистрация на сайте ВКонтакте
+[Custom...]
+Произвольный...
+[Please input new custom status message]
+Введите новое статусное сообщение
+[In a relationship]
+Есть друг/подруга
+[It's complicated]
+Все сложно
+[Actively searching]
+В активном поиске
+[Political views:]
+Пол.взгляды:
+[College:]
+ВУЗ:
+[Faculty:]
+Факультет:
+[Graduation year:]
+Год окончания:
+[Educational status:]
+Форма обучения:
+[Apathetic]
+Индифферентные
+[Communist]
+Коммунистические
+[Socialist]
+Социалистичеcкие
+[Moderate]
+Умеренные
+[Liberal]
+Либеральные
+[Conservative]
+Консервативные
+[Monarchist]
+Монархические
+[Ultraconservative]
+Ультраконсервативные
+[Moldova]
+Молдова
+[Full-time]
+Дневная
+[Part-time]
+Вечерняя
+[Correspondence]
+Заочная
+[Graduated]
+Выпуск
+[Faculty]
+Факультет
+[&Update Details for all users]
+&Обновить данные всех контактов
+[Details update completed for all contacts.]
+Обновление данных всех пользователей завершено.
+[Use local time for incoming messages]
+Использовать локальное время для входящих сообшений 
+[Test informational popup]
+Проверочное информационное сообщение
+[Test error popup]
+Проверочное сообщение об ошибке
+[Use protocol icon]
+Иконка протокола
+[Click here to choose the picture]
+Нажмите здесь для выбора изображения
+[write on the wall]
+написать на стене
+[W&rite on the wall...]
+&Написать на стене...
+[Posting of the message started...]
+Отправка начата...
+[Getting contact's hash...]
+Получение хеша контакта...
+[Message posting failed. Unable to get the hash]
+Сообщение не было опубликовано. Невозможно получить хеш контакта 
+[Posting of the message...]
+Отправка...
+[Invisible mode: looks like the message has been posted successfully]
+Невидимый режим: сообщение, видимо, опубликовано
+[Invisible mode: looks like the message posting has failed]
+Невидимый режим: сообщение, видимо, НЕ опубликовано
+[The message has been posted successfully]
+Сообщение успешно опубликовано
+[Security code (captcha) input is required for further processing...]
+Необходим ввод защитного кода для продолжения
+[Please input the captcha in the separate window]
+Пожалуйста, введите защитный код в отдельном окне
+[Message posting failed (incorrect code?)]
+Сообщение не было опубликовано (неверный код?)
+[Message posting failed. Unable to get the captcha]
+Сообщение не было опубликовано. Невозможно загрузить защитный код
+[Captcha]
+Код
+[Contact's &wall on site...]
+Стена контакта на сайте...
+[wall:]
+стена:
+[Uploading of the picture started...]
+Загрузка изображения начата...
+[Uploading of the picture failed. Details are incorrect]
+Загрузка завершилась с ошибкой. Некорректные детали
+[Uploading failed. Original picture file not found]
+Загрузка завершилась с ошибкой. Не найден файл изображения
+[Reading of the original picture file...]
+Чтение файла изображения
+[Uploading failed. Unable to read the original file]
+Загрузка завершилась с ошибкой. Невозможно прочитать файл
+[Generating hash...]
+Создание хеша...
+[Uploading failed. Unable to generate hash]
+Загрузка завершилась с ошибкой. Невозможно создать хеш
+[Generating signature...]
+Создание подписи...
+[Uploading failed. Unable to generate signature]
+Загрузка завершилась с ошибкой. Невозможно создать подпись
+[Uploading picture on the server...]
+Загрузка изображения на сервер...
+[Uploading failed due to unknown reason]
+Загрузка завершилась с ошибкой
+[Uploading failed due to security violation]
+Загрузка завершилась с ошибкой. Нарушение безопасности
+[Picture uploaded]
+Изображение загружено
+[Posting failed. Unable to get picture id]
+Изображение не было опубликовано. Не удалось получить id
+[Posting of the picture...]
+Публикация изображения...
+[Posting failed due to unknown reason]
+Изображение не было опубликовано
+[File size is too large! Reduce it or try another picture.]
+Размер файла слишком большой! Уменьшите его или попробуйте другое изображение.
+[Kb is maximum.]
+Кб - максимум.
+[The picture has been posted successfully]
+Изображение было успешно опубликовано
+[Thank you for usage of VKontakte plugin!\r\n\r\nWould you like to join VKontakte group about the plugin (http://vkontakte.ru/club6929403)?\r\nIf you press Cancel now, the same question will be asked again during next Miranda start.]
+Спасибо за использование плагина ВКонтакте!\r\n\r\nХотите ли Вы вступить в группу ВКонтакте, посвященную плагину (http://vkontakte.ru/club6929403)?\r\nВы можете выбрать Отмена сейчас - тогда этот вопрос будет задан еще раз при следующем запуске Миранды.
+[You have launched VKontakte plugin first time.\r\n\r\nIn order to properly run it, additional rights should be given to the plugin on the site.\r\n\r\nWould you like to give them now?]
+Вы запустили плагин ВКонтакте первый раз.\r\n\r\nЧтобы плагин правильно работал, необходимо дать ему соответствующие права на сайте ВКонтакте.\r\n\r\nВы хотите сделать это сейчас? Соответствующая страница сайта будет открыта в Вашем браузере.
+[You have 2 options now.\r\n\r\nFirst option is to go online immediately. You will be asked to input your login details.\r\nPlease note: if you input them there, you will be asked to input them each time you login.\r\n\r\nSecond option is to go to Miranda settings (Network - VKontakte) and to input login details there (so they will saved and will not be asked with each run). Then you may go online by choosing according status from the menu or by pressing Ctrl+1.\r\n\r\nWould you like to go online now (first option)?\r\nIf you choose No, then according Settings page will be opened.]
+Вам необходимо указать Ваши e-mail и пароль для работы с сайтом ВКонтакте. У Вас есть 2 варианта.\r\n\r\nПервый вариант - подключиться к сайту сейчас. E-mail и пароль будут запрошены при подключении, но не будут сохранены. Потому они будут запрашиваться каждый раз при запуске плагина.\r\n\r\nВторой вариант - указать Ваши e-mail и пароль в настройках Миранды (в этом случае они будут сохранены и не будут запрашиваться при каждом запуске плагина). Затем, чтобы подключиться к сайту, выберите статус 'В сети' в меню Миранды или нажмите Ctrl+1.\r\n\r\nВы хотите подключиться к сайту сейчас (первый вариант)?\r\n\Если Вы нажмете Нет, то будет открыто окно настроек Миранды.
+[The wall]
+Стена
+[Read messages from the wall]
+Считывать новые сообщения со стены
+[Read messages each]
+Считывать сообщение каждые
+[Graffiti]
+Граффити
+[Don't delete contacts from the server]
+Не удалять контакты с сервера при удалении из списка
+[Update status for non-friend contacts]
+Обновлять статус контактов не-друзей
+[Use local time for messages from the wall]
+Использовать локальное время для сообшений со стены
+[Display wall messages in the separate contact]
+Отображать сообщения со стены в отдельном контакте
+[Occupation]
+Деятельность
+[Hobby]
+Интересы
+[Movies]
+Любимые фильмы
+[Shows]
+Любимые телешоу
+[Books]
+Любимые книги
+[Quotes]
+Любимые цитаты
+[Department]
+Кафедра
+[School]
+Школа
+[W&rite on the wall VKontakte...]
+&Написать на стене ВКонтакте...
+[Unknown error occured.]
+Произошла неизвестная ошибка.
+[Application is disabled. Enable your application or use test mode.]
+Приложение ВКонтакте, необходимое для работы плагина, выключено разработчиком.
+[Incorrect signature.]
+Неправильная подпись сообщения. Обратитесь к разработчикам плагина.
+[User authorization failed.]
+Пользователь не авторизован. Обратитесь к разработчикам плагина.
+[Too many requests per second.]
+Вы не можете отправлять более одного запроса в секунду. Попробуйте позднее.
+[Permission to perform this action is denied by user.]
+Получатель сообщения запретил Вам отправлять ему сообщения.
+[Flood control enabled for this action.]
+Вы не можете отправлять более одного запроса в секунду. Попробуйте позднее.
+[No session details are received. Some functions will not work properly.]
+Не получены детали сессии. Некоторые функции плагина будут работать неправильно.
+[One of the parameters specified was missing or invalid.]
+Пропущен один из параметров в запросе. Обратитесь к разработчикам плагина.
+[audio]
+аудио
+[photo]
+фото
+[video]
+видео
+[graffiti]
+граффити
+[No UserAPI session details are received. Some functions will not work properly.]
+Не получены детали сессии UserAPI. Некоторые функции плагина будут работать неправильно.
+[No UserAPI session details are received. Sending of authorization request failed.]
+Не получены детали сессии UserAPI. Отправка запроса на добавление в друзья невозможна.
+[Sending of authorization request failed.]
+Отправка запроса на добавление в друзья не удалась.
+[Authorization request has been sent.]
+Запрос на добавление в друзья отправлен.
+[No UserAPI session details are received. Getting of status of contact non-friend %d failed.]
+Не получены детали сессии UserAPI. Получение статуса контакта не-друга %d невозможно.
+[No session details are received. Search by id failed.]
+Не получены детали сессии. Поиск контакта по id невозможен.
+[No enough rights are given to the application on the site. Some functions will not work properly.]
+Не все действия разрешены приложению на сайте ВКонтакте. Некоторые функции плагина будут работать неправильно.
+[added]
+добавил(а)
+[photo(s):]
+фото:
+[was tagged in]
+был(а) отмечен(а) на
+[friend:]
+друга:
+[friends:]
+друзей:
+[note:]
+заметку:
+[notes:]
+заметки:
+[notes: ]
+заметок: 

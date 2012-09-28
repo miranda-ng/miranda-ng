@@ -1,0 +1,37 @@
+﻿;============================================================
+;  File: FastMsg.dll
+;  Module: Fast Messages
+;  Versions: 0.0.0.4
+;============================================================
+[Fast Messages]
+Шаблоны сообщений
+[Fast Messages...]
+Шаблоны сообщений
+[Message Text]
+Текст шаблона
+[Message List]
+Список шаблонов
+[* Double click to edit message text]
+* Двойной щелчок для редактирования шаблона
+[Send messages automatically]
+Сразу отправлять сообщение
+[Add message to list]
+Добавить шаблон в список
+[Delete message from list]
+Удалить шаблон из списка
+[Up message]
+Поднять шаблон вверх
+[Down message]
+Опустить шаблон вниз
+[Edit message]
+Редактировать шаблон
+[Group Name]
+Имя группы
+[* Double click to edit group name]
+* Двойной клик для редактирования имени группы
+[Move]
+Переместить
+[Old button position (Scriver)]
+Старое положение кнопки (Scriver)
+[Groups down]
+Группы внизу

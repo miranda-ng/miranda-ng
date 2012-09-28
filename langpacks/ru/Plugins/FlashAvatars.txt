@@ -1,0 +1,15 @@
+﻿#muuid {72765A6F-B017-42f1-B30F-5E0941273A3F}
+;============================================================
+;  File: FlashAvatars.dll
+;  Module: Flash avatars service
+;  Versions: 0.0.1.14
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2743
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FlashAvatars/
+;  Authors: Joe Kucera, BigMuscle
+;============================================================
+[Load and manage flash avatars]
+Загружает и показывает Flash аватары
+[Load and display flash avatars]
+Загружает и показывает Flash аватары
+[Flash Avatars]
+Подключение Flash Avatars

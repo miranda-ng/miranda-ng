@@ -1,0 +1,100 @@
+﻿;============================================================
+;  File: iceim.dll
+;  Module: Vkontakte.ru Messaging Protocol
+;  Versions: 0.8.5.3
+;  URL: http://downloads.lavente.ru/IceIm_mplugin.zip
+;============================================================
+[Vkontakte.ru Messaging Protocol]
+Протокол сообщений Vkontakte.ru
+[Vkontakte]
+Вконтакте
+[My Bookmarks]
+Мои закладки
+[My Messages]
+Мои сообщения
+[My Events]
+Мои встречи
+[My Profile]
+Моя страница
+[My Videos]
+Мои видеозаписи
+[My Updates]
+Мои новости
+[My Audios]
+Мои аудиозаписи
+[My Friends]
+Мои друзья
+[My Groups]
+Мои группы
+[My Notes]
+Мои заметки
+[My Photos]
+Мои фотографии
+[My Settings]
+Мои настройки
+[Vkontakte Login]
+Аккаунт ВКонтакте
+[Create a new account using the Vkontakte website]
+Создать новый аккаунт используя сайт ВКонтакте
+[Hint: You can use fastest servers of vokontakte and http tunnels for this site. Also you can use IP adress without DNS balancing.]
+Подсказка: вы можете использовать более быстрые сервера и http туннели для этого сайта. Так можно использовать IP адрес для отключения DNS балансировок.
+[Timeout (sec):]
+Таймаут (сек):
+[Hint: If you frequently get disconnected, you can increase this parameter. Also, you can increase this parameter if you use proxy.]
+Подсказка: Если вы часто получаете сообщения об разрыве связи, то можете увеличить этот параметр.
+[Please enter your vkontakte account details to continue:]
+Пожалуйста, введите следующие данные своего аккаунта для продолжения:
+[General Information]
+Общая информация
+[Relationship Status:]
+Семейное положение:
+[Political Views:]
+Политические взгляды:
+[Religious Views:]
+Религиозные взгляды:
+[Mobile Phone:]
+Мобильный тел.:
+[Land Phone:]
+Домашний тел.:
+[Custom Status Details]
+Просмотр статуса
+[Status details for]
+Текущий статус для
+[Vkontakte Profile Page]
+Страница ВКонтакте
+[Read Status Message]
+Запрос текущего статуса
+[User has no Status]
+Статус пользователя не задан
+[Error during receiving of status]
+Ошибка при получении статуса
+[Error during synchronize process]
+Ошибка при синхронизации
+[Incorrect login data]
+Неверные параметры логина
+[Can't parse]
+Ошибка парсинга
+[Security code]
+Код безопасности
+[Please, enter security code:]
+Пожалуйста, введите код:
+[You have new Friends]
+У вас новые друзья
+[You have new Events]
+У вас новые встречи
+[You have new Groups]
+У вас новые группы
+[You have new Photos]
+Вас отметили на фотографиях
+[You have new Videos]
+Вас отметили на видео
+[You have new Notes]
+Комментарии к вашим заметкам
+[You have new Opinions]
+Новые мнения о вас
+[You have new Offers]
+На ваше предложение дали согласие
+[You have new Questions]
+Новые ответы на ваши вопросы
+[Link:]
+Ссылка:

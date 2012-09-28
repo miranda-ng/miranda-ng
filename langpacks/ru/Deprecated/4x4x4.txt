@@ -1,0 +1,129 @@
+﻿;============================================================
+;  File: 4x4x4.dll
+;  Module: play 4x4x4 with other miranda users
+;  Versions: 0.1.3.0
+;============================================================
+[play 4x4x4 with other miranda users]
+Играть 4х4х4 с другими пользователями программы
+[4x4x4 for miranda]
+4х4х4 для Miranda IM
+[play 4x4x4]
+Играть 4х4х4
+[waiting for move...]
+Ожидание хода...
+[waiting for answer...]
+Ожидание ответа...
+[%s wants undo last move]
+%s хочет отменить последний ход
+[undo last move?]
+Отменить последний ход?
+[not allowed :(]
+Не разрешено :(
+[allowed :)]
+Разрешено ;)
+[send new game request?]
+Новая игра?
+[send restart round request?]
+Начать раунд заново?
+[new game]
+Новая игра
+[game restarted]
+Игра идёт сначала
+[%s doesn't want to restart]
+%s не хочет начать сначала
+[%s doesn't want to play again]
+%s не хочет играть снова
+[you are the winner!]
+Вы победили!
+[you have lost :|]
+Вы проиграли!
+[connection closed]
+Соединение закрыто
+[%s requests a round of 4x4x4]
+%s хочет поиграть в 4х4х4
+[%s: play again?]
+%s: играть снова?
+[%s: restart round?]
+%s: начать снова?
+[your move]
+Ваш ход
+[timeout - sending again...]
+Лимит времени - отправляем снова...
+[4x4x4 request from %s]
+4х4х4 запрос от %s
+[send a 4x4x4 request to %s]
+Отправить запрос 4х4х4 для %s
+[sending request...]
+Отправка запроса...
+[canceled :(]
+Отменено
+[ERROR: required gameversion]
+ОШИБКА: конфликт версий
+[you are Offline]
+Вы отключены
+[connecting...]
+Соединение...
+[4x4x4: Connection closed]
+4х4х4: Соединение закрыто
+[4x4x4: Game Started]
+4х4х4: Игра начата
+[4x4x4: Incoming Move]
+4х4х4: Входящее движение
+[4x4x4: Incoming Request]
+4х4х4: Входящий запрос
+[4x4x4: Incoming Restart]
+4х4х4: Входящий Рестарт
+[4x4x4: Incoming Undo]
+4х4х4: Входящая Отмена
+[4x4x4: Loser]
+4х4х4: Проигрыш
+[4x4x4: Reply: no]
+4х4х4: Ответ: нет
+[4x4x4: Reply: yes]
+4х4х4: Ответ: да
+[4x4x4: Timeout]
+4х4х4: Таймаут
+[4x4x4: Winner]
+4х4х4: Победа
+[send]
+отправить
+[Stats]
+Статистика
+[won]
+Выиграно
+[lost]
+Проиграно
+[moves]
+Ходы
+[time per move]
+Время на ход
+[my time]
+Моё время
+[opponent time]
+Время соперника
+[play time]
+Время игры
+[last move]
+Последний ход
+[winner]
+Победитель
+[current move]
+Текущий ход
+[Opponent]
+Соперник
+[game version]
+Версия игры
+[restart]
+Заново
+[undo]
+Назад
+[exit]
+Выход
+[clear stats]
+Очистить стат.
+[clear history]
+Очистить историю
+[my moves]
+мои ходы
+[average time per move]
+среднее время хода

@@ -1,0 +1,117 @@
+﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;============================================================
+;  File: simplestatusmsg.dll
+;  Module: Provides a simple way to set status and away messages
+;  Versions: 1.9.0.4
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4321
+;  Source: http://dezeath.googlecode.com/svn/trunk/AddContactPlus/
+;  Authors: Dezeath
+;============================================================
+[Provides a simple way to set status and away messages]
+Быстрая смена статусов и предустановленных сообщений статуса
+[Behaviour on status change]
+Поведение при изменении статуса
+[Global status change]
+Глобальный статус
+[Do not change status message]
+Не менять сообщение статуса
+[Do not set status message]
+Не устанавливать сообщение статуса
+[Update variables in status messages every]
+Обновлять переменные в сообщениях каждые
+[Do not update variables during idle]
+Не обновлять переменные в режиме ожидания
+[Do not update variables on ICQ status message requests]
+Не обновлять переменные при смене сообщений статуса ICQ
+[Enable status messages parsing by Variables plugin]
+Разрешить обработку статусного сообщения модулем Variables
+[Exclude %date% token from parsing (restart required)]
+Исключить маркер %date% из обработки (требуется перезапуск)
+[Show 'Go to URL in Away Message' item in contact menu]
+Показывать 'Открыть ссылку' в меню контакта
+[&Go to URL in Away Message]
+&Открыть ссылку
+[Max length:]
+Макс. длина:
+[Pop up dialog box]
+Показать диалоговое окно
+[Always set the same message]
+Всегда устанавливать это сообщение
+[Pop up dialog asking for new message]
+Диалог для новых сообщений
+[Set an empty message]
+Уст. пустое сообщение
+[Use default message]
+Исп. стандартное сообщение
+[Use last message]
+Исп. последнее сообщение
+[Use last message set for this status]
+Исп. последнее сообщение для этого статуса
+[Set the following message:]
+Уст. следующее сообщение:
+[Apply to all]
+Для всех
+[Put default message in message list]
+Стандартное сообщение в список
+[%s Status Message: %s]
+%s Статусное сообщение: %s
+[Co&py to Clipboard]
+Скопировать в буфер
+[Retrieving status message for %s...]
+Получение сообщения статуса для %s...
+[Show status list]
+Пок. список статусов
+[Show status profiles in status list]
+Показывать профили в статус листе
+[Show icons in status list]
+Пок. значки в списке статусов
+[Show icons in message list]
+Пок. значки в списке сообщений
+[Show next to cancel button]
+Показать за кнопкой Отмена
+[Flat, next to cancel button]
+Гладко, за кнопкой Отмена
+[Show in message list]
+Показать в списке сообщений
+[Clear History]
+Очистить
+[Store up to]
+Хранить
+[recent messages (0 = disable)]
+последних сообщений (0=отключить)
+[Automatically close dialog window after]
+Автоматически закрывать окно после
+[Leave last played track's title after exiting the player]
+Оставлять последний трек, после выключения плеера
+[Remember last dialog window position]
+Помнить последнюю позицию окна
+[Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
+Удалять символы возврата каретки (CR = '\\r' = #0D) из сообщений статуса
+[Show 'Copy Away Message' item in contact menu]
+'Скопировать сообщение статуса' в меню контакта
+[Copy Away Message]
+Скопировать сообщение статуса
+[Show 'Status Message...' item in status menu]
+Показывать 'Сообщение статуса' в контекстном меню
+[Clear Predefined]
+Очистить
+[Add to Predefined]
+В Предустановленные
+[Status Message...]
+Сообщение статуса...
+[* This feature is available only when using StartupStatus plugin.]
+* Эта возможность доступна только при использовании плагина StartupStatus
+[Buttons:]
+Кнопки:
+[Status on Startup]
+Начальный статус
+[Set status after]
+Установить через
+[miliseconds]
+мс
+[Independent setting for each protocol]
+Независимая настройка для каждого протокола
+[Pop up dialog asking for status message]
+Показывать диалог запроса смены статуса
+[<Last status>]
+<Последний>

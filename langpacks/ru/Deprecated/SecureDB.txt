@@ -1,0 +1,7 @@
+﻿;============================================================
+;  Module: SecureDB
+;============================================================
+[Use folders plug-in to handle backup path (requires restart)]
+Использовать настройки модуля folders (нужен перезапуск)
+[SecureDB: Create Database Backup]
+База данных: резервирование

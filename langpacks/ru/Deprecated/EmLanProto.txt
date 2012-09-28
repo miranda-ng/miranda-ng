@@ -1,0 +1,17 @@
+﻿;============================================================
+; File: EmLanProto.dll
+; Module: E-mage LAN protocol
+; Versions: 0.0.1.1
+;============================================================
+[E-mage LAN Protocol]
+Протокол E-mage LAN
+[E-mage LAN protocol]
+Протокол E-mage LAN 
+[LAN Settings]
+Настройки сети
+[Select your IP address]
+Выберите ваш IP адрес
+[Select your name]
+Выберите ваше имя
+[Use computer name]
+Имя компьютера

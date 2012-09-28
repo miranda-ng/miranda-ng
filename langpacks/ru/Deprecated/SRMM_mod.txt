@@ -1,0 +1,97 @@
+﻿;============================================================
+;  File: srmm_mod.dll
+;  Module: SRMM Mod
+;  Versions: 0.5.8.0
+;============================================================
+[Messaging Modifications]
+Модификации сообщений
+[Modifications]
+Модификации
+[Split mode MOD]
+Совмещённый МОД
+[Single mode MOD]
+Простой МОД
+[Show typed characters count on 'Send' button label]
+Количество символов в кнопке "Послать"
+[Align 'Send' && 'Close' buttons to the right]
+Поместить кнопки 'Отправить' и 'Закрыть' справа
+[Hide 'Send' && 'Close' buttons]
+Скрыть кнопки "Послать" и "Закрыть"
+[Show status as icon]
+Показывать статус значком
+[Show short caption (only nickname)]
+Короткий заголовок (только ник)
+[Enable contacts contextmenu anywhere in message dialog]
+Контекстное меню контакта доступно везде в окне диалога
+[Minimize inactive message dialog automatically after]
+Сворачивать неактивные окна сообщений после
+[Close inactive message dialog automatically after]
+Закрывать неактивные окна сообщений через
+[Show time then name]
+Сначала время, потом имя
+[Show event in a new line]
+События с новой строки
+[Activate RTL support]
+Включить поддержку RTL
+[Show contact's localtime in history log]
+Показывать локальное время собеседника в истории
+[Typing Sound]
+Звуки набора текста
+[Typing Bell]
+Нажатие Enter
+[Typing Backspace]
+Нажатие Backspace
+[Typing Typing]
+Набор букв
+[Autosave notsent message]
+Сохранять неотправленные сообщения
+[Insert paragraph feed in every event]
+Каждое событие с новой строки
+[Hide temporary contacts from CList when message dialog is closed]
+Скрывать временные контакты из списка по закрытию окна сообщения
+[@My messages]
+Мои сообщения
+[@My URLs]
+Мои URL'ы
+[@My files]
+Мои файлы
+[@Your messages]
+Ваши сообщения
+[@Your URLs]
+Ваши URL'ы
+[@Your files]
+Ваши файлы
+[@My name]
+Мое имя
+[@My time]
+Мое время
+[@My colon]
+Моя колонка
+[@Your name]
+Ваше имя
+[@Your time]
+Ваше время
+[@Your colon]
+Ваша колонка
+[\n\r\n\rhas either a wrong size (max. 150x150) or is not a recognized image file.]
+\n\r\n\rимеет неверный размер (макс. 150x150) или неизвестный формат.
+[Show Contact's Picture]
+Показать фото контакта
+[Contact's Picture]
+Фото контакта
+[You can't use this Unicode version of SRMM Mod under Win9x.\n\rSorry. Go and get the nonUnicode version of SRMM Mod.]
+Простите, но вы не можете использовать юникод версию SRMM Mod на Winows9x.\n\rИспользуйте НЕ юникод версию
+[A newer version of SRMM Mod is out there.\n\rDo you want to visit the homepage?]
+Доступна новая версия SRMM Mod\n\rХотите посетить домашнюю страничку?
+[This is a beta version of SRMM Mod.\n\rPlease report bugs at me.]
+Это бета-версия модуля SRMM mod.\nПожалуйста, сообщайте мне об ошибках.
+[Popup minimized and don't steal focus]
+Окно минимизировано и не перехватывает фокус
+[Send Message Typing Notification]
+Отправлять уведомления о наборе
+[Show Message Typing Notification in caption]
+Показывать уведомления о наборе в заголовке
+[Show Message Typing Notification as status icon]
+Уведомление о наборе как значок статуса
+[ ...is typing]
+... набирает текст

@@ -1,0 +1,145 @@
+﻿;============================================================
+;  File: mTV.dll
+;  Module: mTV - simple pseudo protocol with TV listing
+;  Versions: 0.1.0.0
+;============================================================
+[Anything = channel list]
+Любое = список каналов
+[TV review]
+ТВ просмотр
+[mTV protocol is disabled]
+mTV протокол выключен
+[Can't find any active mTV contact]
+Не могу найти активный mTV контакт
+[TV program for]
+Программа ТВ для
+[No program available for selected contact]
+Нет программы для выбранного контакта
+[There was an error reading progID value!]
+Ошибка чтения progID значения!
+[Show TV guide]
+ТВ программа
+[Re-download guide for all days]
+Перезагружать за все дни
+[Re-download guide for current day]
+Перезагружать за текущий день 
+[Program not available!]
+Программа недоступна!
+[Nothing scheduled!]
+Ничего не запланировано!
+[program info]
+инфо программы
+[Program length]
+Продолжительность
+[Time left]
+Осталось времени
+[End of program]
+Конец программы
+[Now in TV]
+Сейчас по ТВ
+[Scheduled shows]
+Расписание
+[Proxy server]
+Прокси сервер
+[Pass:]
+Пароль:
+[Download program for newly added channels from:]
+Загружать программу для недавно добавленных каналов из:
+[Update check every:]
+Проверять каждые:
+[Download timeout:]
+Таймаут загрузки:
+[Download data for:]
+Скачать для:
+[day(s) ahead]
+дней вперед
+[Use one mouse click in TV Review to change channel]
+Использовать один щелчок мышкой для смены канала
+[Keywords (words separated with '|' char)]
+Ключевые слова (разделение через "|")
+[Mark favorites with different color]
+Отмечать избранное разными цветами
+[Auto add favorites to schedule (works only for newly downloaded)]
+Автоматически добавлять избранное в расписание (только для новых)
+[Show current TV program as status msg]
+TV программа как сообщение статуса
+[Show mTV icon in status bar]
+Значок в панели статуса
+[TV Review hotkey]
+Гор.клавиша TV Обзора
+[Scheduled list sorting]
+Сортировка
+[by channel name]
+по имени канала
+[by time]
+по времени
+[Rules: word=word, *word=xxxword, word*=wordxxx, *word*=xxxwordxxx]
+Правила: слово=слово, *слово=хххслово, слово*=словоххх, *слово*=хххсловоххх
+[Show additional program info in TV review]
+Дополнительная информация о программе
+[&Select all]
+Выбрать все
+[&Add to favorites]
+Добавить в избранное
+[Added to favorites:]
+Добавить в избранное:
+[Can't add to favorites]
+Невозможно добавить в избранное
+[There is nothing to add]
+Нечего добавлять
+[Look && feel]
+Настройки
+[TV Program list]
+Список ТВ программ
+[Light Gray]
+Светло-серый
+[Dark Blue]
+Темно-синий
+[Dark Gray]
+Темно-серый
+[Light Blue]
+Светло-голубой
+[Fav mark color]
+Цвет пометки
+[List sel. color]
+Цвет выбора
+[Time left green]
+Осталось зеленый
+[Time left red]
+Осталось красный
+[Colorize titles]
+Цветные заголовки
+[Tooltip]
+Подсказка
+[Tooltip timeout:]
+Задержка подсказки
+[Show popup/Launch event]
+Вспл.окно/Запуск
+[min. before program start (0 = disable)]
+мин. перед стартом (0 = выкл)
+[sek. (0 = stay forever)]
+сек. (0=навсегда)
+[mTV popup test]
+мТВ тест окна
+[Short info]
+Коротко
+[Extended info]
+Расширенно
+[Show info]
+Информация
+[Launch list]
+Лист запуска
+[Command line]
+Командная строка
+[Parameters]
+Параметры
+[Use events]
+Использовать
+[Download program for newly added stations from:]
+Загружать программу для новых станций из:
+[Show popup/Launch events]
+Вспл окно/Запуск событий
+[Stat. name color]
+цвет имени
+[Use one mouse click in TV Review to change station]
+Один клик для смены канала в ТВ просмотре

@@ -1,0 +1,117 @@
+﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: facebook.dll
+;  Module: Facebook
+;  Versions: 0.0.5.5
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4406
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FacebookRM/
+;  Authors: Robyer
+;============================================================
+[Provides basic support for Facebook Chat protocol.]
+Поддержка чата Facebook в Miranda NG.
+[Default group for newly added contacts:]
+Добавлять контакты в группу:
+[User-Agent:]
+Клиент:
+[Set Facebook status through Miranda status]
+Устанавливать статус Facebook через Miranda
+[Create a new Facebook account]
+Создать новую учётную запись Facebook
+[What's on your mind?]
+О чём вы думаете?
+[Mind...]
+Думаю...
+[Set Facebook status through Miranda status (TBD)]
+Устанавливать статус Facebook через Miranda (TBD)
+[Show cookies]
+Показывать cookies
+[No cookies available.]
+Нет cookies.
+[Facebook Protocol]
+Протокол Facebook
+[Enable loggin for debugging purposes]
+Включить отображение ошибок
+[Info Dialog]
+Информация
+[Probably wrong password entered, please try again.]
+Неправильный пароль, попробуйте снова.
+[Enable popup notifications for others minds]
+Включить popup уведомления
+[Force secure (HTTPS) connection]
+Безопасное соединение (HTTPS)
+[Automatically close chat windows on website]
+Автоматически закрывать чат в браузере
+[Post Miranda statuses to Wall]
+Публиковать статусы Miranda на стену
+[Enable logging for debugging purposes]
+Логгирование для отладки
+[News feeds]
+Новости
+[Client notifications]
+Уведомления клиента
+[Timeout (sec.)]
+Длительность (сек.)
+[(0 = default, -1 = infinite)]
+(0 = умолчание, -1 = бесконечно)
+[Request following types of News Feed items]
+Запрашивать виды новостей:
+[Use balloon notifications in system tray instead of popups]
+Уведомлять подсказкой в трее вместо всплывающих окон
+[Most Recent]
+Недавние обновления
+[Status Updates]
+Обновления статуса
+[Top News]
+Популярные новости
+[Sample event]
+Пример события
+[Sample newsfeed]
+Пример новости
+[Sample notification]
+Пример уведомления
+[Please enter a username.]
+Пожалуйста, введите имя пользователя.
+[Please enter a password.]
+Пожалуйста, введите пароль.
+[Sample request]
+Пример запроса
+[Visit Profile]
+Мой профиль
+[News Feed]
+Новости
+[News Feed types to notify:]
+Уведомлять о типах новостей:
+[Contacts Settings]
+Настройки контактов
+[Default group:]
+Группа:
+[Automatically set 'Ignore status change' flag]
+Автоматически включать игнорирование смены статусов
+[Use bigger avatars]
+Большие аватары
+[Load contacts with 'On the Mobile' status]
+Загружать контакты "с мобильного"
+[Use secure connection also for channel requests]
+Безопасное соединение также для запросов канала
+[Also disconnect chat when going to offline]
+Отключать чат на сайте при уходе в оффлайн
+[Automatically close chat windows (on website)]
+Автоматически закрывать окно чата (на сайте)
+[Map non-standard statuses to Invisible (instead of Online)]
+Нестандартные статусы, как Невидимый (вместо 'В сети')
+[Get unread messages on login (EXPERIMENTAL)]
+Непрочтённые сообщения при входе (Экспериментально)
+[Enable groupchats support (EXPERIMENTAL)]
+Поддержка конференций (Экспериментально)
+[Automatically close chat windows (on website) (NOT WORKING)]
+Автоматически закрывать окна чата (на сайте) (НЕ РАБОТАЕТ)
+[Photos]
+Фотографии
+[Links]
+Ссылки
+[Approve friendship]
+Подтвердить добавление в друзья
+[Cancel friendship]
+Удалить из друзей
+[Cancel friendship request]
+Отозвать запрос дружбы
