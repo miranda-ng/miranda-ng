@@ -1,0 +1,2 @@
+1. add second variant of update - external app.
+2. add updater support (maybe).
