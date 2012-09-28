@@ -53,7 +53,7 @@ static int makeDatabase(const TCHAR *profile)
 {
 	std::auto_ptr<CDdxMmapSA> db( new CDdxMmapSA(profile));
 	if (db->Create() == ERROR_SUCCESS) {
-		db->CreateDbHeaders();
+		db->CreateDbHeaders(dbSignatureNonSecured);
 		return 0;
 	}
 

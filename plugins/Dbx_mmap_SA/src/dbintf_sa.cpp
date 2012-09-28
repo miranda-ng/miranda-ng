@@ -32,6 +32,7 @@ extern CDdxMmapSA* g_Db;
 int  InitDialogs(void);
 
 DBSignature dbSignatureSecured = {"Miranda ICQ SD",0x1A};
+DBSignature dbSignatureNonSecured = {"Miranda ICQ SA",0x1A};
 
 CDdxMmapSA::CDdxMmapSA(const TCHAR* tszFileName) :
 	CDb3Mmap(tszFileName)
@@ -65,6 +66,8 @@ int CDdxMmapSA::CheckDbHeaders()
 {
 	if ( memcmp(m_dbHeader.signature, &dbSignatureSecured, sizeof(m_dbHeader.signature)) == 0)
 		m_bEncoding = true;
+	else if ( memcmp(m_dbHeader.signature, &dbSignatureNonSecured, sizeof(m_dbHeader.signature)) == 0)
+		m_bEncoding = false;
 	else {
 		m_bEncoding = false;
 		if ( memcmp(m_dbHeader.signature,&dbSignature,sizeof(m_dbHeader.signature)))

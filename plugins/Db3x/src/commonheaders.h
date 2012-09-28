@@ -64,3 +64,4 @@ void Encrypt(char*msg,BOOL up);
 #endif
 
 extern LIST<CDb3x> g_Dbs;
+extern DBSignature dbSignature;

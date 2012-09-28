@@ -233,7 +233,7 @@ void CDdxMmapSA::WritePlainHeader()
 {
 	DWORD bytesWritten;
 
-	memcpy(m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature));
+	memcpy(m_dbHeader.signature, &dbSignatureNonSecured, sizeof(m_dbHeader.signature));
 	SetFilePointer(m_hDbFile,0,NULL,FILE_BEGIN);
 	WriteFile(m_hDbFile,m_dbHeader.signature,sizeof(m_dbHeader.signature),&bytesWritten,NULL);
 

@@ -166,7 +166,7 @@ struct CDb3Base : public MIDatabase, public MIDatabaseChecker, public MZeroedObj
 
 	int Load(bool bSkipInit);
 	int Create(void);
-	int CreateDbHeaders();
+	int CreateDbHeaders(const DBSignature&);
 	int CheckDbHeaders();
 	void DatabaseCorruption(TCHAR *text);
 
