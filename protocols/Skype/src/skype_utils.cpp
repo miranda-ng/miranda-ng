@@ -28,7 +28,7 @@ void CSkypeProto::CreateServiceParam(const char* szService, SkypeServiceFunc ser
 	CreateServiceFunctionObjParam(moduleName, (MIRANDASERVICEOBJPARAM)*(void**)&serviceProc, this, lParam);
 }
 
-HANDLE CSkypeProto::CreateHookableEvent(const char* szService)
+HANDLE CSkypeProto::CreateEvent(const char* szService)
 {
 	char moduleName[MAXMODULELABELLENGTH];
 

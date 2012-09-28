@@ -2,12 +2,29 @@
 
 #include <skype-embedded_2.h>
 
-class CAccount;
-
-class CSkype : public Skype
+class CContact : public Contact
 {
 public:
-	Account* newAccount(int oid);
+	typedef DRef<CContact, Contact> Ref;
+	typedef DRefs<CContact, Contact> Refs;
+
+	CContact(unsigned int oid, SERootObject* root);
+
+protected:
+	void OnChange(int prop);
+};
+
+class CContactGroup : public ContactGroup
+{
+public:
+	typedef DRef<CContactGroup, ContactGroup> Ref;
+	typedef DRefs<CContactGroup, ContactGroup> Refs;
+	CContactGroup(unsigned int oid, SERootObject* root);
+
+	CContact::Refs ContactList;
+
+protected:
+	void OnChange(const ContactRef& contact);
 };
 
 class CAccount : public Account
@@ -19,13 +36,16 @@ public:
 	bool isLoggedOut;
 	
 	CAccount(unsigned int oid, SERootObject* root);
-	void OnChange(int prop);
 	
 	void BlockWhileLoggingIn();
 	void BlockWhileLoggingOut();
+
+protected:
+	void OnChange(int prop);
 };
 
-class CContact : public Contact
+class CSkype : public Skype
 {
+public:
+	CAccount* newAccount(int oid);
 };
-

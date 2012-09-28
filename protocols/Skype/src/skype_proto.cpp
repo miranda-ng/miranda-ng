@@ -39,7 +39,14 @@ CSkypeProto::~CSkypeProto()
 	mir_free(this->m_tszUserName);
 }
 
-HANDLE __cdecl CSkypeProto::AddToList( int flags, PROTOSEARCHRESULT* psr ) { return 0; }
+HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr) 
+{
+	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
+		return 0;
+
+	return this->AddToListBySkypeLogin(psr->id, psr->nick, psr->firstName, psr->lastName, flags);
+}
+
 HANDLE __cdecl CSkypeProto::AddToListByEvent( int flags, int iContact, HANDLE hDbEvent ) { return 0; }
 int    __cdecl CSkypeProto::Authorize( HANDLE hDbEvent ) { return 0; }
 int    __cdecl CSkypeProto::AuthDeny( HANDLE hDbEvent, const TCHAR* szReason ) { return 0; }
@@ -203,6 +210,53 @@ void __cdecl CSkypeProto::SignIn(void*)
 	this->account->LoginWithPassword(mir_u2a(this->password), false, false);
 	this->account->BlockWhileLoggingIn();
 	this->SetStatus(this->m_iDesiredStatus);
+	this->ForkThread(&CSkypeProto::LoadContactList, this);
 
 	ReleaseMutex(this->signin_lock);
+}
+
+void __cdecl CSkypeProto::LoadContactList(void*)
+{
+	CContactGroup::Ref contacts;
+	g_skype->GetHardwiredContactGroup(CContactGroup::ALL_KNOWN_CONTACTS, contacts);
+
+    contacts->GetContacts(contacts->ContactList);
+    fetch(contacts->ContactList);
+
+    for (unsigned int i = 0; i < contacts->ContactList.size(); i++)
+    {
+		SEString contactName;
+        contacts->ContactList[i]->GetPropDisplayname(contactName);
+        printf("%3d. %s\n", i+1, (const char*)contactName);
+
+		//HANDLE hContact = AddToContactList(fbu, FACEBOOK_CONTACT_APPROVE, false, fbu->real_name.c_str());
+		//DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_APPROVE);
+	}
+}
+
+HANDLE CSkypeProto::AddToListBySkypeLogin(TCHAR* skypeName, TCHAR* nickName, TCHAR* firstName, TCHAR* lastName, DWORD flags)
+{
+	//if (!skypeName)
+		return NULL;
+
+	/*BOOL bAdded;
+	HANDLE hContact = MraHContactFromEmail( _T2A(plpsEMail), lstrlen(plpsEMail), TRUE, TRUE, &bAdded);
+	if (hContact) {
+		if (nickName)
+			mraSetStringW(hContact, "Nick", nickName);
+		if (firstName)
+			mraSetStringW(hContact, "FirstName", firstName);
+		if (lastName)
+			mraSetStringW(hContact, "LastName", lastName);
+
+		if (flags & PALF_TEMPORARY)
+			DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
+		else
+			DBDeleteContactSetting(hContact, "CList", "NotOnList");
+
+		if (bAdded)
+			MraUpdateContactInfo(hContact);
+	}
+
+	return hContact;*/
 }

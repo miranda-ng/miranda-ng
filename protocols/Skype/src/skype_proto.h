@@ -85,12 +85,15 @@ protected:
 
 	HANDLE	signin_lock;
 	void __cdecl SignIn(void*);
+	void __cdecl LoadContactList(void*);
+
+	HANDLE AddToListBySkypeLogin(TCHAR* skypeName, TCHAR* nickName, TCHAR* firstName, TCHAR* lastName, DWORD flags);
 
 	
 	void	CreateService(const char* szService, SkypeServiceFunc serviceProc);
 	void	CreateServiceParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
 	
-	HANDLE	CreateHookableEvent(const char* szService);
+	HANDLE	CreateEvent(const char* szService);
 	void	HookEvent(const char*, SkypeEventFunc);
 
 	int		SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam);

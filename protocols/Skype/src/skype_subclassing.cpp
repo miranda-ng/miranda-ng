@@ -1,6 +1,6 @@
 #include "skype_subclassing.h"
 
-Account* CSkype::newAccount(int oid) 
+CAccount* CSkype::newAccount(int oid) 
 { 
 	return new CAccount(oid, this); 
 }
@@ -30,7 +30,7 @@ void CAccount::OnChange(int prop)
 			}
 		}
 	}
-};
+}
 
 void CAccount::BlockWhileLoggingIn()
 {
@@ -42,4 +42,21 @@ void CAccount::BlockWhileLoggingOut()
 {
   while ( !this->isLoggedOut) 
 	  Sleep(1);
-};
+}
+
+CContactGroup::CContactGroup(unsigned int oid, SERootObject* root) : ContactGroup(oid, root) 
+{
+}
+
+void CContactGroup::OnChange(const ContactRef& contact)
+{
+}
+
+
+CContact::CContact(unsigned int oid, SERootObject* root) : Contact(oid, root) 
+{
+}
+
+void CContact::OnChange(int prop)
+{
+}
