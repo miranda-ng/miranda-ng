@@ -262,7 +262,7 @@
             this.SVNURLEditBox.Name = "SVNURLEditBox";
             this.SVNURLEditBox.Size = new System.Drawing.Size(315, 20);
             this.SVNURLEditBox.TabIndex = 5;
-            this.SVNURLEditBox.Text = "http://mir-rl.googlecode.com/svn/trunk";
+            this.SVNURLEditBox.Text = "https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru";
             // 
             // InfMessageLinkBox
             // 
