@@ -391,7 +391,7 @@ int makeDatabase(TCHAR *profile, DATABASELINK * link, HWND hwndDlg)
 // enumerate all plugins that had valid DatabasePluginInfo()
 int tryOpenDatabase(const TCHAR* tszProfile)
 {
-	for (int i=0; i < arDbPlugins.getCount(); i++) {
+	for (int i=arDbPlugins.getCount()-1; i >= 0; i--) {
 		DATABASELINK* p = arDbPlugins[i];
 
 		// liked the profile?
