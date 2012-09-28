@@ -104,7 +104,7 @@ PLUGININFOEX pluginInfoEx =
 	"Adding traffic and time counters",
 	"Ghost, Mironych",
 	"",
-	"© 2002-2006 Ghost, © 2007-2012 Mironych ["__DATE__" "__TIME__"]",
+	"© 2002-2006 Ghost, © 2007-2012 Mironych",
 	"",
 	UNICODE_AWARE,
 	MIID_TRAFFICCOUNTER
