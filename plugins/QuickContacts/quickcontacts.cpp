@@ -300,7 +300,6 @@ TCHAR *GetListName(c_struct *cs)
 
 int lstreq(TCHAR *a, TCHAR *b, size_t len = -1)
 {
-#ifdef UNICODE
 	a = CharLower(_tcsdup(a));
 	b = CharLower(_tcsdup(b));
 	int ret;
@@ -311,12 +310,6 @@ int lstreq(TCHAR *a, TCHAR *b, size_t len = -1)
 	free(a);
 	free(b);
 	return ret;
-#else
-	if (len > 0)
-		return _tcsnicmp(a, b, len);
-	else
-		return _tcsicmp(a, b);
-#endif
 }
 
 
@@ -378,7 +371,6 @@ void FreeContacts()
 
 void LoadContacts(HWND hwndDlg, BOOL show_all)
 {
-	BOOL hasAccounts = ServiceExists(MS_PROTO_GETACCOUNT);
 	BOOL metacontactsEnabled = (metacontacts_proto != NULL
 				 && DBGetContactSettingByte(0, metacontacts_proto, "Enabled", 1));
 
@@ -470,16 +462,10 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 			TCHAR *tmp = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR);
 			lstrcpyn(contact->szname, tmp, MAX_REGS(contact->szname));
 
-			PROTOACCOUNT *acc = (hasAccounts ? ProtoGetAccount(pszProto) : NULL);
+			PROTOACCOUNT *acc = ProtoGetAccount(pszProto);
 			if (acc != NULL)
 			{
 				lstrcpyn(contact->proto, acc->tszAccountName, MAX_REGS(contact->proto));
-			}
-			else
-			{
-				char szName[128];
-				CallProtoService(pszProto, PS_GETNAME, sizeof(szName), (LPARAM) szName);
-				lstrcpyn(contact->proto, CharToTchar(szName), MAX_REGS(contact->proto));
 			}
 
 			contact->hcontact = hContact;
@@ -527,7 +513,7 @@ void EnableButtons(HWND hwndDlg, HANDLE hContact)
 		}
 
 		// Get caps
-		int caps = 0;
+		INT_PTR caps = 0;
 
 		char *pszProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (pszProto != NULL)
@@ -717,13 +703,10 @@ HHOOK hHook;
 // the keyboard accelerators
 LRESULT CALLBACK HookProc(int code, WPARAM wparam, LPARAM lparam)
 {
-	MSG *msg;
-	HWND htemp;
-
 	if (code!=MSGF_DIALOGBOX) 
 		return 0;
 
-	msg = (MSG*)lparam;
+	MSG *msg = (MSG*)lparam;
 
 
 	if (hasNewHotkeyModule)
@@ -737,7 +720,7 @@ LRESULT CALLBACK HookProc(int code, WPARAM wparam, LPARAM lparam)
 	}
 	else
 	{
-		htemp = msg->hwnd;
+		HWND htemp = msg->hwnd;
 		msg->hwnd = hwndMain;
 
 		if (TranslateAccelerator(msg->hwnd, hAcct, msg))
@@ -798,31 +781,31 @@ BOOL MoveWindow(HWND hWnd, const RECT &rect, BOOL bRepaint)
 }
 
 
-static void FillButton(HWND hwndDlg, int dlgItem, char *name, char *key, HICON icon)
+static void FillButton(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key, HICON icon)
 {
-	char tmp[256];
-	char *full;
+	TCHAR tmp[256];
+	TCHAR *full;
 	if (key == NULL)
-		full = Translate(name);
+		full = TranslateTS(name);
 	else
-		mir_snprintf(full = tmp, MAX_REGS(tmp), "%s (%s)", Translate(name), key);
+		mir_sntprintf(full = tmp, MAX_REGS(tmp), _T("%s (%s)"), TranslateTS(name), key);
 
 	SendMessage(GetDlgItem(hwndDlg, dlgItem), BUTTONSETASFLATBTN, 0, 0);
-	SendMessageA(GetDlgItem(hwndDlg, dlgItem), BUTTONADDTOOLTIP, (LPARAM) full, 0);
+	SendMessage(GetDlgItem(hwndDlg, dlgItem), BUTTONADDTOOLTIP, (LPARAM) full, BATF_TCHAR);
 	SendDlgItemMessage(hwndDlg, dlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM) icon);
 }
 
 
-static void FillCheckbox(HWND hwndDlg, int dlgItem, char *name, char *key)
+static void FillCheckbox(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key)
 {
-	char tmp[256];
-	char *full;
+	TCHAR tmp[256];
+	TCHAR *full;
 	if (key == NULL)
-		full = Translate(name);
+		full = TranslateTS(name);
 	else
-		mir_snprintf(full = tmp, MAX_REGS(tmp), "%s (%s)", Translate(name), key);
+		mir_sntprintf(full = tmp, MAX_REGS(tmp), _T("%s (%s)"), TranslateTS(name), key);
 
-	SendMessageA(GetDlgItem(hwndDlg, dlgItem), WM_SETTEXT, 0, (LPARAM) full);
+	SendMessage(GetDlgItem(hwndDlg, dlgItem), WM_SETTEXT, 0, (LPARAM) full);
 }
 
 
@@ -852,12 +835,12 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			wpEditMainProc = (WNDPROC) SetWindowLongPtr(GetWindow(GetDlgItem(hwndDlg, IDC_USERNAME),GW_CHILD), GWLP_WNDPROC, (LONG)EditProc);
 
 			// Buttons
-			FillCheckbox(hwndDlg, IDC_SHOW_ALL_CONTACTS, "Show all contacts", hasNewHotkeyModule ? NULL : "Ctrl+A");
-			FillButton(hwndDlg, IDC_MESSAGE, "Send message", NULL, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
+			FillCheckbox(hwndDlg, IDC_SHOW_ALL_CONTACTS, LPGENT("Show all contacts"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+A"));
+			FillButton(hwndDlg, IDC_MESSAGE, LPGENT("Send message"), NULL, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
 
 			if (ServiceExists(MS_VOICESERVICE_CAN_CALL))
 			{
-				FillButton(hwndDlg, IDC_VOICE, "Make a voice call", hasNewHotkeyModule ? NULL : "Ctrl+V", (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) "vca_call"));
+				FillButton(hwndDlg, IDC_VOICE, LPGENT("Make a voice call"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+V"), (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) "vca_call"));
 			}
 			else
 			{
@@ -867,11 +850,11 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ShowWindow(GetDlgItem(hwndDlg, IDC_VOICE), SW_HIDE);
 			}
 
-			FillButton(hwndDlg, IDC_FILE, "Send file", hasNewHotkeyModule ? NULL : "Ctrl+F", LoadSkinnedIcon(SKINICON_EVENT_FILE));
-			FillButton(hwndDlg, IDC_URL, "Send URL", hasNewHotkeyModule ? NULL : "Ctrl+U", LoadSkinnedIcon(SKINICON_EVENT_URL));
-			FillButton(hwndDlg, IDC_USERINFO, "Open userinfo", hasNewHotkeyModule ? NULL : "Ctrl+I", (HICON) LoadImage(GetModuleHandle(NULL),MAKEINTRESOURCE(160),IMAGE_ICON,16,16,LR_DEFAULTCOLOR));
-			FillButton(hwndDlg, IDC_HISTORY, "Open history", hasNewHotkeyModule ? NULL : "Ctrl+H", (HICON) LoadImage(GetModuleHandle(NULL),MAKEINTRESOURCE(174),IMAGE_ICON,16,16,LR_DEFAULTCOLOR));
-			FillButton(hwndDlg, IDC_MENU, "Open contact menu", hasNewHotkeyModule ? NULL : "Ctrl+M", (HICON) LoadImage(GetModuleHandle(NULL),MAKEINTRESOURCE(264),IMAGE_ICON,16,16,LR_DEFAULTCOLOR));
+			FillButton(hwndDlg, IDC_FILE, LPGENT("Send file"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+F"), LoadSkinnedIcon(SKINICON_EVENT_FILE));
+			FillButton(hwndDlg, IDC_URL, LPGENT("Send URL"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+U"), LoadSkinnedIcon(SKINICON_EVENT_URL));
+			FillButton(hwndDlg, IDC_USERINFO, LPGENT("Open userinfo"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+I"), LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
+			FillButton(hwndDlg, IDC_HISTORY, LPGENT("Open history"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+H"), LoadSkinnedIcon(SKINICON_OTHER_HISTORY));
+			FillButton(hwndDlg, IDC_MENU, LPGENT("Open contact menu"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+M"), LoadSkinnedIcon(SKINICON_OTHER_DOWNARROW));
 
 			SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_SETEXTENDEDUI, (WPARAM)TRUE, 0);
 
