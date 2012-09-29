@@ -19,11 +19,18 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-HINSTANCE hInst = NULL;
+#define MIID_UPDATER	{0x4a47b19b, 0xde5a, 0x4436, { 0xab, 0x4b, 0xe1, 0xf3, 0xa0, 0x22, 0x5d, 0xe7}}
 
-HANDLE hPluginUpdaterFolder = NULL, hCheckUpdates = NULL;
+HINSTANCE hInst = NULL;
+MM_INTERFACE mmi;
+LIST_INTERFACE li;
+MD5_INTERFACE md5i;
+UTF8_INTERFACE utfi;
+
+HANDLE hPluginUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL;
 TCHAR tszRoot[MAX_PATH] = {0};
 int hLangpack;
+PLUGINLINK* pluginLink;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -46,14 +53,25 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
+static const MUUID interfaces[] = {MIID_UPDATER, MIID_LAST};
+
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+{
+	return interfaces;
+}
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
 }
 
-extern "C" __declspec(dllexport) int Load(void)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK* link)
 {
-	mir_getLP(&pluginInfoEx);
+	pluginLink = link;
+	mir_getMMI(&mmi);
+	mir_getLI(&li);
+	mir_getMD5I(&md5i);
+	mir_getUTFI(&utfi);
 
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 		hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, "Plugin Updater", MIRANDA_USERDATAT _T("\\")DEFAULT_UPDATES_FOLDER);
@@ -85,10 +103,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	// Add hotkey
 	HOTKEYDESC hkd = {0};
 	hkd.cbSize = sizeof(hkd);
-	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "Check for plugin updates";
-	hkd.ptszDescription = _T("Check for plugin updates");
-	hkd.ptszSection = _T("Plugin Updater");
+	hkd.pszDescription = "Check for plugin updates";
+	hkd.pszSection = "Plugin Updater";
 	hkd.pszService = MODNAME"/CheckUpdates";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;

@@ -128,7 +128,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	DWORD dwBytes;
 
 	NETLIBHTTPREQUEST nlhr = {0};
-	nlhr.cbSize = sizeof(nlhr);
+	nlhr.cbSize = NETLIBHTTPREQUEST_V1_SIZE;
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	char* szUrl = mir_t2a(tszURL);
@@ -164,13 +164,9 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	return ret;
 }
 
-void __stdcall ExitMe(void*)
-{
-	CallService("CloseAction", 0, 0);
-}
-
 void __stdcall RestartMe(void*)
 {
+	CallService("CloseAction", 0, 0);
 	CallService(MS_SYSTEM_RESTART, 0, 0);
 }
 
@@ -226,4 +222,32 @@ void InitTimer()
 
 		SetWaitableTimer(Timer, &li, interval, TimerAPCProc, NULL, 0);
 	}
+}
+
+char* rtrim(char* str)
+{
+	if (str == NULL)
+		return NULL;
+
+	char* p = strchr(str, 0);
+	while (--p >= str) {
+		switch (*p) {
+		case ' ': case '\t': case '\n': case '\r':
+			*p = 0; break;
+		default:
+			return str;
+		}
+	}
+	return str;
+}
+
+void CreatePathToFileT(TCHAR* szFilePath)
+{
+	TCHAR* pszLastBackslash = _tcsrchr(szFilePath, '\\');
+	if (pszLastBackslash == NULL)
+		return;
+
+	*pszLastBackslash = '\0';
+	CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)szFilePath);
+	*pszLastBackslash = '\\';
 }
