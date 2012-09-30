@@ -538,74 +538,74 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	KbdState(mwdat, isShift, isCtrl, isAlt);
 
 	switch (msg) {
-		case WM_KILLFOCUS: {
-			if (wParam != (WPARAM)hwnd && 0 != wParam) {
-				CHARRANGE cr;
-				SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&cr);
-				if (cr.cpMax != cr.cpMin) {
-					cr.cpMin = cr.cpMax;
-					SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&cr);
-				}
+	case WM_KILLFOCUS:
+		if (wParam != (WPARAM)hwnd && 0 != wParam) {
+			CHARRANGE cr;
+			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&cr);
+			if (cr.cpMax != cr.cpMin) {
+				cr.cpMin = cr.cpMax;
+				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&cr);
 			}
-			break;
 		}
-	   //MAD
-		case WM_CHAR:
-			if (wParam == 0x03 &&isCtrl)
-				return SendMessage(hwnd, WM_COPY, 0, 0);
-			if (wParam == 0x11 && isCtrl)
-				SendMessage(mwdat->hwnd,WM_COMMAND, IDC_QUOTE, 0);
-			break;
+		break;
+	
+	//MAD
+	case WM_CHAR:
+		if (wParam == 0x03 &&isCtrl)
+			return SendMessage(hwnd, WM_COPY, 0, 0);
+		if (wParam == 0x11 && isCtrl)
+			SendMessage(mwdat->hwnd,WM_COMMAND, IDC_QUOTE, 0);
+		break;
 
+	case WM_SYSKEYUP:
+		if (wParam == VK_MENU) {
+			ProcessHotkeysByMsgFilter(hwnd, msg, wParam, lParam, IDC_LOG);
+			return 0;
+		}
+		break;
 
-		case WM_SYSKEYUP:
-			if (wParam == VK_MENU) {
-				ProcessHotkeysByMsgFilter(hwnd, msg, wParam, lParam, IDC_LOG);
-				return 0;
-			}
-			break;
+	case WM_SYSKEYDOWN:
+		mwdat->fkeyProcessed = false;
+		if (ProcessHotkeysByMsgFilter(hwnd, msg, wParam, lParam, IDC_LOG)) {
+			mwdat->fkeyProcessed = true;
+			return 0;
+		}
+		break;
 
-		case WM_SYSKEYDOWN:
+	case WM_SYSCHAR:
+		if (mwdat->fkeyProcessed) {
 			mwdat->fkeyProcessed = false;
-			if (ProcessHotkeysByMsgFilter(hwnd, msg, wParam, lParam, IDC_LOG)) {
-				mwdat->fkeyProcessed = true;
-				return 0;
-			}
-			break;
-
-		case WM_SYSCHAR: {
-			if (mwdat->fkeyProcessed) {
-				mwdat->fkeyProcessed = false;
-				return 0;
-			}
-			break;
+			return 0;
 		}
-		case WM_KEYDOWN:
-			if (!isCtrl && !isAlt&&!isShift)
-			{
-				if (/*wParam != VK_ESCAPE&&*/wParam != VK_PRIOR&&wParam != VK_NEXT&&
-					wParam != VK_DELETE&&wParam != VK_MENU&&wParam != VK_END&&
-					wParam != VK_HOME&&wParam != VK_UP&&wParam != VK_DOWN&&
-					wParam != VK_LEFT&&wParam != VK_RIGHT &&
-					wParam != VK_SPACE)
-				{
+		break;
+
+	case WM_KEYDOWN:
+		if (!isCtrl && !isAlt&&!isShift) {
+			if (/*wParam != VK_ESCAPE&&*/wParam != VK_PRIOR&&wParam != VK_NEXT&&
+				wParam != VK_DELETE&&wParam != VK_MENU&&wParam != VK_END&&
+				wParam != VK_HOME&&wParam != VK_UP&&wParam != VK_DOWN&&
+				wParam != VK_LEFT&&wParam != VK_RIGHT &&
+				wParam != VK_SPACE) {
 					// TODO causes issues when pressing keys in the log
 					//SetFocus(GetDlgItem(mwdat->hwnd,IDC_MESSAGE));
 					//keybd_event((BYTE)wParam, (BYTE)MapVirtualKey(wParam,0), KEYEVENTF_EXTENDEDKEY | 0, 0);
 
 					//return 0;
-				}
 			}
-			break;
-			//MAD_
-		case WM_COPY: {
-			return(DM_WMCopyHandler(hwnd, OldMessageLogProc, wParam, lParam));
 		}
-		case WM_NCCALCSIZE:
-			return(CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, OldMessageLogProc));
-		case WM_NCPAINT:
-			return(CSkin::DrawRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, OldMessageLogProc));
-		case WM_CONTEXTMENU: {
+		break;
+		//MAD_
+	case WM_COPY:
+		return(DM_WMCopyHandler(hwnd, OldMessageLogProc, wParam, lParam));
+
+	case WM_NCCALCSIZE:
+		return(CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, OldMessageLogProc));
+
+	case WM_NCPAINT:
+		return(CSkin::DrawRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, OldMessageLogProc));
+
+	case WM_CONTEXTMENU:
+		{
 			POINT pt;
 
 			if (lParam == 0xFFFFFFFF) {
@@ -613,20 +613,22 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM) & sel);
 				SendMessage(hwnd, EM_POSFROMCHAR, (WPARAM) & pt, (LPARAM) sel.cpMax);
 				ClientToScreen(hwnd, &pt);
-			} else {
+			}
+			else {
 				pt.x = (short) LOWORD(lParam);
 				pt.y = (short) HIWORD(lParam);
 			}
 
 			ShowPopupMenu(mwdat, IDC_LOG, hwnd, pt);
-			return TRUE;
 		}
-		case WM_NCDESTROY:
-         if (OldMessageLogProc)
-				SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) OldMessageLogProc);
-			break;
+		return TRUE;
 
-		}
+	case WM_NCDESTROY:
+		if (OldMessageLogProc)
+			SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) OldMessageLogProc);
+		break;
+
+	}
 	return CallWindowProc(OldMessageLogProc, hwnd, msg, wParam, lParam);
 }
 
@@ -650,20 +652,21 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		}
 	}
 	switch (msg) {
-		case WM_NCCALCSIZE:
-			return(CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKINPUTAREA, msg, wParam, lParam, OldMessageEditProc));
-		case WM_NCPAINT:
-			return(CSkin::DrawRichEditFrame(hwnd, mwdat, ID_EXTBKINPUTAREA, msg, wParam, lParam, OldMessageEditProc));
-		case WM_DROPFILES:
-			SendMessage(hwndParent, WM_DROPFILES, (WPARAM)wParam, (LPARAM)lParam);
-			break;
-		case WM_CHAR: {
+	case WM_NCCALCSIZE:
+		return(CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKINPUTAREA, msg, wParam, lParam, OldMessageEditProc));
+	case WM_NCPAINT:
+		return(CSkin::DrawRichEditFrame(hwnd, mwdat, ID_EXTBKINPUTAREA, msg, wParam, lParam, OldMessageEditProc));
+	case WM_DROPFILES:
+		SendMessage(hwndParent, WM_DROPFILES, (WPARAM)wParam, (LPARAM)lParam);
+		break;
+	case WM_CHAR:
+		{
 			BOOL isCtrl, isShift, isAlt;
 			KbdState(mwdat, isShift, isCtrl, isAlt);
 			//MAD: sound on typing..
 			if (PluginConfig.g_bSoundOnTyping&&!isAlt&&!isCtrl&&!(mwdat->pContainer->dwFlags&CNT_NOSOUND)&&wParam!=VK_ESCAPE&&!(wParam==VK_TAB&&PluginConfig.m_AllowTab))
-		  		SkinPlaySound("SoundOnTyping");
-			 //MAD
+				SkinPlaySound("SoundOnTyping");
+			//MAD
 			if (wParam == 0x0d && isCtrl && PluginConfig.m_MathModAvail) {
 				TCHAR toInsert[100];
 				BYTE keyState[256];
@@ -680,65 +683,62 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			}
 			if (isCtrl && !isAlt) {
 				switch (wParam) {
-					case 0x02:               // bold
-						if (mwdat->SendFormat) {
-							SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTBOLD, IDC_MESSAGE), 0);
-						}
-						return 0;
-					case 0x09:
-						if (mwdat->SendFormat) {
-							SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTITALIC, IDC_MESSAGE), 0);
-						}
-						return 0;
-					case 21:
-						if (mwdat->SendFormat) {
-							SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTUNDERLINE, IDC_MESSAGE), 0);
-						}
-						return 0;
-					case 0x0b:
-						SetWindowText(hwnd, _T(""));
-						return 0;
+				case 0x02:               // bold
+					if (mwdat->SendFormat)
+						SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTBOLD, IDC_MESSAGE), 0);
+					return 0;
+				case 0x09:
+					if (mwdat->SendFormat)
+						SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTITALIC, IDC_MESSAGE), 0);
+					return 0;
+				case 21:
+					if (mwdat->SendFormat)
+						SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTUNDERLINE, IDC_MESSAGE), 0);
+					return 0;
+				case 0x0b:
+					SetWindowText(hwnd, _T(""));
+					return 0;
 				}
 				break;
 			}
-			break;
 		}
-		case WM_MOUSEWHEEL: {
-			LRESULT result = DM_MouseWheelHandler(hwnd, hwndParent, mwdat, wParam, lParam);
+		break;
 
-			if (result == 0)
-				return 0;
-			break;
-		}
-		case WM_PASTE:
-		case EM_PASTESPECIAL: {
-			if (OpenClipboard(hwnd)) {
-				HANDLE hClip;
-				if (hClip = GetClipboardData(CF_TEXT)) {
-					if (lstrlenA((char *)hClip) > mwdat->nMax) {
-						TCHAR szBuffer[512];
-						if (M->GetByte("autosplit", 0))
-							_sntprintf(szBuffer, 512, TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), mwdat->nMax - 10);
-						else
-							_sntprintf(szBuffer, 512, TranslateT("The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent."), mwdat->nMax);
-						SendMessage(hwndParent, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)szBuffer);
-					}
+	case WM_MOUSEWHEEL:
+		if (DM_MouseWheelHandler(hwnd, hwndParent, mwdat, wParam, lParam) == 0)
+			return 0;
+		break;
+
+	case WM_PASTE:
+	case EM_PASTESPECIAL:
+		if (OpenClipboard(hwnd)) {
+			HANDLE hClip;
+			if (hClip = GetClipboardData(CF_TEXT)) {
+				if (lstrlenA((char *)hClip) > mwdat->nMax) {
+					TCHAR szBuffer[512];
+					if (M->GetByte("autosplit", 0))
+						_sntprintf(szBuffer, 512, TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), mwdat->nMax - 10);
+					else
+						_sntprintf(szBuffer, 512, TranslateT("The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent."), mwdat->nMax);
+					SendMessage(hwndParent, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)szBuffer);
 				}
-				else if (hClip = GetClipboardData(CF_BITMAP))
-					SendHBitmapAsFile(mwdat, (HBITMAP)hClip);
-
-				CloseClipboard();
 			}
-			return CallWindowProc(OldMessageEditProc, hwnd, msg, wParam, lParam);
+			else if (hClip = GetClipboardData(CF_BITMAP))
+				SendHBitmapAsFile(mwdat, (HBITMAP)hClip);
+
+			CloseClipboard();
 		}
-		case WM_KEYDOWN: {
+		return CallWindowProc(OldMessageEditProc, hwnd, msg, wParam, lParam);
+
+	case WM_KEYDOWN:
+		{
 			BOOL isCtrl, isShift, isAlt;
 			KbdState(mwdat, isShift, isCtrl, isAlt);
 
 			//MAD: sound on typing..
-  			if (PluginConfig.g_bSoundOnTyping&&!isAlt&&!(mwdat->pContainer->dwFlags&CNT_NOSOUND)&&wParam == VK_DELETE)
-  				SkinPlaySound("SoundOnTyping");
- 			//
+			if (PluginConfig.g_bSoundOnTyping&&!isAlt&&!(mwdat->pContainer->dwFlags&CNT_NOSOUND)&&wParam == VK_DELETE)
+				SkinPlaySound("SoundOnTyping");
+			//
 
 			if (wParam == VK_INSERT && !isShift && !isCtrl && !isAlt) {
 				mwdat->fInsertMode = !mwdat->fInsertMode;
@@ -755,8 +755,8 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 					if (PluginConfig.m_SendOnShiftEnter) {
 						PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
 						return 0;
-					} else
-						break;
+					}
+					else break;
 				}
 				if ((isCtrl && !isShift) ^(0 != PluginConfig.m_SendOnEnter)) {
 					PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
@@ -765,26 +765,25 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 				if (PluginConfig.m_SendOnEnter || PluginConfig.m_SendOnDblEnter) {
 					if (isCtrl)
 						break;
-					else {
-						if (PluginConfig.m_SendOnDblEnter) {
-							if (lastEnterTime + 2 < time(NULL)) {
-								lastEnterTime = time(NULL);
-								SetWindowLongPtr(hwnd, GWLP_USERDATA, lastEnterTime);
-								break;
-							} else {
-								SendMessage(hwnd, WM_KEYDOWN, VK_BACK, 0);
-								SendMessage(hwnd, WM_KEYUP, VK_BACK, 0);
-								PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
-								return 0;
-							}
+
+					if (PluginConfig.m_SendOnDblEnter) {
+						if (lastEnterTime + 2 < time(NULL)) {
+							lastEnterTime = time(NULL);
+							SetWindowLongPtr(hwnd, GWLP_USERDATA, lastEnterTime);
+							break;
+						} else {
+							SendMessage(hwnd, WM_KEYDOWN, VK_BACK, 0);
+							SendMessage(hwnd, WM_KEYUP, VK_BACK, 0);
+							PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
+							return 0;
 						}
-						PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
-						return 0;
 					}
-				} else
-					break;
-			} else
-				SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+					PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
+					return 0;
+				}
+				else break;
+			}
+			else SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 
 			if (isCtrl && !isAlt && !isShift) {
 				if (!isShift && (wParam == VK_UP || wParam == VK_DOWN)) {          // input history scrolling (ctrl-up / down)
@@ -796,12 +795,13 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			}
 			if (isCtrl && isAlt && !isShift) {
 				switch (wParam) {
-					case VK_UP:
-					case VK_DOWN:
-					case VK_PRIOR:
-					case VK_NEXT:
-					case VK_HOME:
-					case VK_END: {
+				case VK_UP:
+				case VK_DOWN:
+				case VK_PRIOR:
+				case VK_NEXT:
+				case VK_HOME:
+				case VK_END:
+					{
 						WPARAM wp = 0;
 
 						SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
@@ -830,26 +830,28 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			if (wParam == VK_RETURN)
 				break;
 		}
-		case WM_SYSKEYDOWN:
+
+	case WM_SYSKEYDOWN:
+		mwdat->fkeyProcessed = false;
+		if (ProcessHotkeysByMsgFilter(hwnd, msg, wParam, lParam, IDC_MESSAGE)) {
+			mwdat->fkeyProcessed = true;
+			return 0;
+		}
+		break;
+
+	case WM_SYSKEYUP:
+		if (wParam == VK_MENU) {
+			ProcessHotkeysByMsgFilter(hwnd, msg, wParam, lParam, IDC_MESSAGE);
+			return 0;
+		}
+		break;
+
+	case WM_SYSCHAR:
+		if (mwdat->fkeyProcessed) {
 			mwdat->fkeyProcessed = false;
-			if (ProcessHotkeysByMsgFilter(hwnd, msg, wParam, lParam, IDC_MESSAGE)) {
-				mwdat->fkeyProcessed = true;
-				return 0;
-			}
-			break;
-
-		case WM_SYSKEYUP:
-			if (wParam == VK_MENU) {
-				ProcessHotkeysByMsgFilter(hwnd, msg, wParam, lParam, IDC_MESSAGE);
-				return 0;
-			}
-			break;
-
-		case WM_SYSCHAR: {
-			if (mwdat->fkeyProcessed) {
-				mwdat->fkeyProcessed = false;
-				return 0;
-			}
+			return 0;
+		}
+		{
 			HWND hwndDlg = hwndParent;
 			BOOL isCtrl, isShift, isAlt;
 
@@ -865,57 +867,47 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 				SendMessage(mwdat->pContainer->hwnd, DM_SELECTTAB, DM_SELECT_BY_INDEX, (LPARAM)iIndex);
 				return 0;
 			}
-			break;
 		}
-		case WM_LBUTTONDOWN:
-		case WM_RBUTTONDOWN:
-		case WM_MBUTTONDOWN:
-			break;
-		case WM_SETFOCUS:
-		case WM_KILLFOCUS:
-			break;
-		case WM_INPUTLANGCHANGEREQUEST:
-			return CallWindowProc(OldMessageEditProc, hwnd, WM_INPUTLANGCHANGEREQUEST, wParam, lParam);
-		case WM_INPUTLANGCHANGE:
-			if (PluginConfig.m_AutoLocaleSupport && GetFocus() == hwnd && mwdat->pContainer->hwndActive == hwndParent && GetForegroundWindow() == mwdat->pContainer->hwnd && GetActiveWindow() == mwdat->pContainer->hwnd) {
-				DM_SaveLocale(mwdat, wParam, lParam);
-				SendMessage(hwnd, EM_SETLANGOPTIONS, 0, (LPARAM) SendMessage(hwnd, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
-				return 1;
-			}
-			break;
+		break;
 
-		case WM_ERASEBKGND:
-			return(CSkin::m_skinEnabled ? 0 : 1);
+	case WM_INPUTLANGCHANGE:
+		if (PluginConfig.m_AutoLocaleSupport && GetFocus() == hwnd && mwdat->pContainer->hwndActive == hwndParent && GetForegroundWindow() == mwdat->pContainer->hwnd && GetActiveWindow() == mwdat->pContainer->hwnd) {
+			DM_SaveLocale(mwdat, wParam, lParam);
+			SendMessage(hwnd, EM_SETLANGOPTIONS, 0, (LPARAM) SendMessage(hwnd, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+			return 1;
+		}
+		break;
+
+	case WM_ERASEBKGND:
+		return(CSkin::m_skinEnabled ? 0 : 1);
 
 		/*
-		 * sent by smileyadd when the smiley selection window dies
-		 * just grab the focus :)
-		 */
-		case WM_USER + 100:
-			SetFocus(hwnd);
-			break;
-		case WM_CONTEXTMENU: {
-			POINT pt;
+		* sent by smileyadd when the smiley selection window dies
+		* just grab the focus :)
+		*/
+	case WM_USER + 100:
+		SetFocus(hwnd);
+		break;
+	case WM_CONTEXTMENU: {
+		POINT pt;
 
-			if (lParam == 0xFFFFFFFF) {
-				CHARRANGE sel;
-				SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM) & sel);
-				SendMessage(hwnd, EM_POSFROMCHAR, (WPARAM) & pt, (LPARAM) sel.cpMax);
-				ClientToScreen(hwnd, &pt);
-			} else {
-				pt.x = (short) LOWORD(lParam);
-				pt.y = (short) HIWORD(lParam);
-			}
-
-			ShowPopupMenu(mwdat, IDC_MESSAGE, hwnd, pt);
-			return TRUE;
+		if (lParam == 0xFFFFFFFF) {
+			CHARRANGE sel;
+			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM) & sel);
+			SendMessage(hwnd, EM_POSFROMCHAR, (WPARAM) & pt, (LPARAM) sel.cpMax);
+			ClientToScreen(hwnd, &pt);
+		} else {
+			pt.x = (short) LOWORD(lParam);
+			pt.y = (short) HIWORD(lParam);
 		}
-		case WM_NCDESTROY:
-			if (OldMessageEditProc)
-				SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) OldMessageEditProc);
-			break;
 
-
+		ShowPopupMenu(mwdat, IDC_MESSAGE, hwnd, pt);
+		return TRUE;
+								}
+	case WM_NCDESTROY:
+		if (OldMessageEditProc)
+			SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) OldMessageEditProc);
+		break;
 	}
 	return CallWindowProc(OldMessageEditProc, hwnd, msg, wParam, lParam);
 }
