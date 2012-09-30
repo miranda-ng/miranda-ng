@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2012 George Hazan
 
 This is free software; you can redistribute it and/or
@@ -23,10 +23,19 @@ extern "C"
 {
 	#include "Minizip\unzip.h"
 
-	void fill_fopen64_filefunc(zlib_filefunc64_def* pzlib_filefunc_def);
+	void fill_fopen64_filefunc(zlib_filefunc64_def *pzlib_filefunc_def);
 }
 
-bool extractCurrentFile(unzFile uf, TCHAR* ptszDestPath, TCHAR* ptszBackPath)
+static void PrepareFileName(TCHAR *dest, size_t destSize, const TCHAR *ptszPath, const TCHAR *ptszFileName)
+{
+	mir_sntprintf(dest, destSize, _T("%s\\%s"), ptszPath, ptszFileName);
+	for (TCHAR *p = dest; *p; ++p)
+		if (*p == '/')
+			*p = '\\'; 
+	CreatePathToFileT(dest);
+}
+
+bool extractCurrentFile(unzFile uf, const TCHAR *ptszOldFileName, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
 {
 	int err = UNZ_OK;
 	unz_file_info64 file_info;
@@ -41,27 +50,30 @@ bool extractCurrentFile(unzFile uf, TCHAR* ptszDestPath, TCHAR* ptszBackPath)
 		return true;
 
 	TCHAR tszDestFile[MAX_PATH], tszBackFile[MAX_PATH];
-	TCHAR* p = mir_utf8decodeT(filename);
-	if (p == NULL)
-		p = mir_a2t(filename);
-	mir_sntprintf(tszDestFile, SIZEOF(tszDestFile), _T("%s\\%s"), ptszDestPath, p);
-	mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), ptszBackPath, p);
-	mir_free(p);
-
-	for (p = tszDestFile; *p; ++p) if (*p == '/') *p = '\\'; 
-	for (p = tszBackFile; *p; ++p) if (*p == '/') *p = '\\'; 
-
-	CreatePathToFileT(tszDestFile);
-	CreatePathToFileT(tszBackFile);
+	TCHAR *ptszNewName = mir_utf8decodeT(filename);
+	if (ptszNewName == NULL)
+		ptszNewName = mir_a2t(filename);
 
 	if ( !(file_info.external_fa & FILE_ATTRIBUTE_DIRECTORY)) {
 		err = unzOpenCurrentFile(uf);
 		if (err != UNZ_OK)
 			return false;
 
+		TCHAR tszOldName[MAX_PATH], *p = _tcschr(ptszNewName, '/');
+		if (p != NULL) {
+			*p = 0;
+			mir_sntprintf(tszOldName, SIZEOF(tszOldName), _T("%s\\%s"), ptszNewName, ptszOldFileName);
+			*p = '\\';
+		}
+		else _tcscpy(tszOldName, ptszOldFileName);
+
+		PrepareFileName(tszDestFile, SIZEOF(tszDestFile), ptszDestPath, tszOldName);
+		PrepareFileName(tszBackFile, SIZEOF(tszBackFile), ptszBackPath, tszOldName);
+
 		DeleteFile(tszBackFile);
 		MoveFile(tszDestFile, tszBackFile);
 
+		PrepareFileName(tszDestFile, SIZEOF(tszDestFile), ptszDestPath, ptszNewName);
 		HANDLE hFile = CreateFile(tszDestFile, GENERIC_WRITE, FILE_SHARE_WRITE, 0, 
 			CREATE_ALWAYS, file_info.external_fa, 0);
 
@@ -88,10 +100,11 @@ bool extractCurrentFile(unzFile uf, TCHAR* ptszDestPath, TCHAR* ptszBackPath)
 			unzCloseCurrentFile(uf); /* don't lose the error */
 		}
 	}
+	mir_free(ptszNewName);
 	return true;
 }
 
-bool unzip(const TCHAR* ptszZipFile, TCHAR* ptszDestPath, TCHAR* ptszBackPath)
+bool unzip(const TCHAR *ptszOldFileName, const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
 {
 	bool bResult = true;
 
@@ -101,7 +114,7 @@ bool unzip(const TCHAR* ptszZipFile, TCHAR* ptszDestPath, TCHAR* ptszBackPath)
 	unzFile uf = unzOpen2_64(ptszZipFile, &ffunc);
 	if (uf) {
 		do {
-			if ( !extractCurrentFile(uf, ptszDestPath, ptszBackPath))
+			if ( !extractCurrentFile(uf, ptszOldFileName, ptszDestPath, ptszBackPath))
 				bResult = false;
 		}
 			while (unzGoToNextFile(uf) == UNZ_OK);

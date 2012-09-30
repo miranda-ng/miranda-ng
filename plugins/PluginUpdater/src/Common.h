@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2010 Mataes
 
 This is free software; you can redistribute it and/or
@@ -65,9 +65,7 @@ struct FILEURL
 
 struct FILEINFO
 {
-	char  curhash[32+1];
-	char  newhash[32+1];
-	TCHAR tszDescr[256];
+	TCHAR tszOldName[MAX_PATH], tszNewName[MAX_PATH];
 	FILEURL File;
 	BOOL enabled;
 	BYTE FileType;
@@ -79,8 +77,8 @@ typedef OBJLIST<FILEINFO> FILELIST;
 
 struct PopupDataText
 {
-	TCHAR*  Title;
-	TCHAR*  Text;
+	TCHAR *Title;
+	TCHAR *Text;
 };
 
 struct PlugOptions
@@ -114,7 +112,7 @@ using namespace std;
 extern HINSTANCE hInst;
 
 extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048];
-extern FILEINFO* pFileInfo;
+extern FILEINFO *pFileInfo;
 extern HANDLE CheckThread, hPluginUpdaterFolder;
 extern PlugOptions opts;
 extern POPUP_OPTIONS PopupOptions;
@@ -146,31 +144,31 @@ INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-bool unzip(const TCHAR* ptszZipFile, TCHAR* ptszDestPath, TCHAR* ptszBackPath);
+bool unzip(const TCHAR *ptszOldFileName, const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath);
 
 #if MIRANDA_VER < 0x0A00
 
 template<class T> class mir_ptr
 {
-	T* data;
+	T *data;
 
 public:
 	__inline mir_ptr() : data((T*)mir_calloc(sizeof(T))) {}
-	__inline mir_ptr(T* _p) : data(_p) {}
+	__inline mir_ptr(T *_p) : data(_p) {}
 	__inline ~mir_ptr() { mir_free(data); }
-	__inline T* operator = (T* _p) { if (data) mir_free(data); data = _p; return data; }
-	__inline T* operator->() const { return data; }
+	__inline T *operator = (T *_p) { if (data) mir_free(data); data = _p; return data; }
+	__inline T *operator->() const { return data; }
 	__inline operator T*() const { return data; }
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
 };
 
 class _A2T
 {
-	TCHAR* buf;
+	TCHAR *buf;
 
 public:
-	__forceinline _A2T(const char* s) : buf(mir_a2t(s)) {}
-	__forceinline _A2T(const char* s, int cp) : buf(mir_a2t_cp(s, cp)) {}
+	__forceinline _A2T(const char *s) : buf(mir_a2t(s)) {}
+	__forceinline _A2T(const char *s, int cp) : buf(mir_a2t_cp(s, cp)) {}
 	~_A2T() { mir_free(buf); }
 
 	__forceinline operator TCHAR*() const
@@ -180,11 +178,11 @@ public:
 
 class _T2A
 {
-	char* buf;
+	char *buf;
 
 public:
-	__forceinline _T2A(const TCHAR* s) : buf(mir_t2a(s)) {}
-	__forceinline _T2A(const TCHAR* s, int cp) : buf(mir_t2a_cp(s, cp)) {}
+	__forceinline _T2A(const TCHAR *s) : buf(mir_t2a(s)) {}
+	__forceinline _T2A(const TCHAR *s, int cp) : buf(mir_t2a_cp(s, cp)) {}
 	__forceinline ~_T2A() { mir_free(buf); }
 
 	__forceinline operator char*() const
@@ -197,21 +195,21 @@ __forceinline INT_PTR Options_Open(OPENOPTIONSDIALOG *ood)
 	return CallService("Opt/OpenOptions", 0, (LPARAM)ood);
 }
 
-__forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
+__forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
 {
 	return CallService("Opt/AddPage", wParam, (LPARAM)odp);
 }
 
-char* rtrim(char* str);
-void CreatePathToFileT(TCHAR* szFilePath);
+char *rtrim(char *str);
+void CreatePathToFileT(TCHAR *szFilePath);
 
-#define NEWTSTR_ALLOCA(A) (A == NULL)?NULL:_tcscpy((TCHAR*)alloca((_tcslen(A)+1)* sizeof(TCHAR)), A)
+#define NEWTSTR_ALLOCA(A) (A == NULL)?NULL:_tcscpy((TCHAR*)alloca((_tcslen(A)+1) *sizeof(TCHAR)), A)
 
-__forceinline HANDLE Skin_GetIconHandle(const char* szIconName)
+__forceinline HANDLE Skin_GetIconHandle(const char *szIconName)
 {	return (HANDLE)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)szIconName);
 }
 
-__forceinline HICON Skin_GetIcon(const char* szIconName, int size=0)
+__forceinline HICON Skin_GetIcon(const char *szIconName, int size=0)
 {	return (HICON)CallService(MS_SKIN2_GETICON, size, (LPARAM)szIconName);
 }
 
@@ -223,11 +221,11 @@ __forceinline INT_PTR Hotkey_Register(HOTKEYDESC *hk)
 {	return CallService("CoreHotkeys/Register", 0, (LPARAM)hk);
 }
 
-__forceinline INT_PTR CreateDirectoryTreeT(const TCHAR* ptszPath)
+__forceinline INT_PTR CreateDirectoryTreeT(const TCHAR *ptszPath)
 {	return CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)ptszPath);
 }
 
-__forceinline HANDLE Skin_AddIcon(SKINICONDESC* si)
+__forceinline HANDLE Skin_AddIcon(SKINICONDESC *si)
 {	return (HANDLE)CallService("Skin2/Icons/AddIcon", 0, (LPARAM)si);
 }
 

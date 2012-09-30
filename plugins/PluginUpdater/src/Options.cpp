@@ -130,7 +130,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			}
 			break;
 		}
-	}//end* switch (msg)
+	}
 	return FALSE;
 }
 
@@ -310,8 +310,8 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
 					SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 				break;
-			}//end* switch(idCtrl)
-		}//end* case WM_COMMAND:
+			}
+		}
 		break;
 
 	case WM_NOTIFY:

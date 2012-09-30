@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "Common.h"
 
-int CalculateModuleHash(const TCHAR* tszFileName, char* dest);
+int CalculateModuleHash(const TCHAR *tszFileName, char *dest);
 
 static BYTE IsPluginDisabled(const char *filename)
 {
@@ -43,14 +43,42 @@ struct ServListEntry
 	char   m_szHash[32+1];
 };
 
-static int CompareHashes(const ServListEntry* p1, const ServListEntry* p2)
+static int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 {
 	return _tcscmp(p1->m_searchName, p2->m_searchName);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct
+{
+	TCHAR *oldName, *newName;
+}
+static renameTable[] =
+{
+	{ _T("svc_dbepp.dll"), _T("dbeditorpp.dll") },
+	{ _T("svc_crsh.dll"),  _T("crashdumper.dll") },
+	{ _T("svc_vi.dll"),    _T("versioninfo.dll") },
+
+	{ _T("clist_classic.dll"), _T("") },
+	{ _T("chat.dll"),          _T("") },
+	{ _T("srmm.dll"),          _T("") },
+};
+
+static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
+{
+	for (int i=0; i < SIZEOF(renameTable); i++)
+		if ( !_tcsicmp(ptszOldName, renameTable[i].oldName)) {
+			_tcscpy(pNewName, renameTable[i].newName);
+			return true;
+		}
+
+	return false;
+}
+
 typedef OBJLIST<ServListEntry> SERVLIST;
 
-static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO>* UpdateFiles)
+static void ScanFolder(const TCHAR *tszFolder, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
 {
 	// skip updater's own folder
 	if ( !_tcsicmp(tszFolder, tszRoot))
@@ -80,39 +108,65 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, SERVLIST
 		if (pExt == NULL) continue;
 		if ( _tcsicmp(pExt, _T(".dll")) && _tcsicmp(pExt, _T(".exe")))
 			continue;
-		
-		// Read version info
-		TCHAR key[MAX_PATH];
-		_tcscpy(key, ffd.cFileName);
-		_tcslwr(key);
-		ServListEntry tmp = {NULL, key};
-		ServListEntry* item = hashes.find(&tmp);
-		if (item == NULL)
-			continue;
 
-		size_t cbLenOrig = _tcslen(item->m_name);
-		size_t cbLen = (size_t)mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, ffd.cFileName);
-		if (cbLenOrig > cbLen)  // wtf?
-			continue;
-		for (TCHAR *p = _tcschr(tszMask, '\\'); p != NULL; p = _tcschr(p+1, '\\'))
-			*p = '/';
-		if ( _tcsicmp(tszMask + cbLen - cbLenOrig, item->m_name)) // now verify the rest
-			continue;
+		TCHAR tszNewName[MAX_PATH];
+		if ( !CheckFileRename(ffd.cFileName, tszNewName))
+			_tcscpy(tszNewName, ffd.cFileName);
 
-		char szMyHash[33];
+		char szMyHash[33], *szSiteHash;
+		TCHAR *ptszUrl;
+		if (tszNewName[0]) { // this file is not marked for deletion
+			// Read version info
+			TCHAR key[MAX_PATH];
+			_tcscpy(key, tszNewName);
+			_tcslwr(key);
+			ServListEntry tmp = {NULL, key};
+			ServListEntry *item = hashes.find(&tmp);
+			if (item == NULL) {
+				size_t cbKeyLen = _tcslen(key)-1;
+				if (key[cbKeyLen] != 'w')
+					continue;
+	
+				key[cbKeyLen] = 0;
+				if ((item = hashes.find(&tmp)) == NULL)
+					continue;
+
+				ffd.cFileName[cbKeyLen] = 0;
+			}
+
+			size_t cbLenOrig = _tcslen(item->m_name);
+			size_t cbLen = (size_t)mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, tszNewName);
+			if (cbLenOrig > cbLen)  // wtf?
+				continue;
+			for (TCHAR *p = _tcschr(tszMask, '\\'); p != NULL; p = _tcschr(p+1, '\\'))
+				*p = '/';
+			if ( _tcsicmp(tszMask + cbLen - cbLenOrig, item->m_name)) // now verify the rest
+				continue;
+
+			szSiteHash = item->m_szHash;
+			ptszUrl = item->m_name;
+		}
+		else {
+			szSiteHash = "boo"; // never matches
+			ptszUrl = _T("");
+		}
+
+		mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, ffd.cFileName);
 		CalculateModuleHash(tszMask, szMyHash);
 
 		// Compare versions
-		if ( strcmp(szMyHash, item->m_szHash)) { // Yeah, we've got new version.
-			FILEINFO* FileInfo = new FILEINFO;
-			strncpy(FileInfo->newhash, item->m_szHash, SIZEOF(FileInfo->newhash));
-			strncpy(FileInfo->curhash, szMyHash, SIZEOF(FileInfo->newhash));
-			_tcscpy(FileInfo->tszDescr, ffd.cFileName);
+		if ( strcmp(szMyHash, szSiteHash)) { // Yeah, we've got new version.
+			FILEINFO *FileInfo = new FILEINFO;
+			_tcscpy(FileInfo->tszNewName, tszNewName);
+			if (tszNewName[0])
+				_tcscpy(FileInfo->tszOldName, ffd.cFileName);
+			else
+				_tcscpy(FileInfo->tszOldName, tszMask); //
 
 			*pExt = 0;
-			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, ffd.cFileName);
+			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, tszNewName);
 
-			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s"), tszBaseUrl, item->m_name);
+			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s"), tszBaseUrl, ptszUrl);
 			if ((pExt = _tcsrchr(FileInfo->File.tszDownloadURL, '.')) != NULL)
 				_tcscpy(pExt, _T(".zip"));
 
@@ -124,7 +178,7 @@ static void ScanFolder(const TCHAR* tszFolder, const TCHAR* tszBaseUrl, SERVLIST
 	FindClose(hFind);
 }
 
-static void __stdcall LaunchDialog(void* param)
+static void __stdcall LaunchDialog(void *param)
 {
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)param);
 }
@@ -150,7 +204,7 @@ static void CheckUpdates(void *)
 			}
 		#endif
 	}
-	TCHAR* tszBaseUrl = NEWTSTR_ALLOCA(dbVar.ptszVal);
+	TCHAR *tszBaseUrl = NEWTSTR_ALLOCA(dbVar.ptszVal);
 	DBFreeVariant(&dbVar);
 
 	// Download version info
@@ -165,12 +219,12 @@ static void CheckUpdates(void *)
 		return;
 	}
 
-	unzip(pFileUrl.tszDiskPath, tszRoot, tszRoot);
+	unzip(_T("hashes.txt"), pFileUrl.tszDiskPath, tszRoot, tszRoot);
 	DeleteFile(pFileUrl.tszDiskPath);
 
 	TCHAR tszTmpIni[MAX_PATH] = {0};
 	mir_sntprintf(tszTmpIni, SIZEOF(tszTmpIni), _T("%s\\hashes.txt"), tszRoot);
-	FILE* fp = _tfopen(tszTmpIni, _T("r"));
+	FILE *fp = _tfopen(tszTmpIni, _T("r"));
 	if (!fp)
 		return;
 
@@ -178,7 +232,7 @@ static void CheckUpdates(void *)
 	char str[200];
 	while(fgets(str, SIZEOF(str), fp) != NULL) {
 		rtrim(str);
-		char* p = strchr(str, ' ');
+		char *p = strchr(str, ' ');
 		if (p == NULL)
 			continue;
 
@@ -186,7 +240,7 @@ static void CheckUpdates(void *)
 		if ( !opts.bUpdateIcons && !_strnicmp(str, "icons\\", 6))
 			continue;
 
-		ServListEntry* newItem = new ServListEntry;
+		ServListEntry *newItem = new ServListEntry;
 		_strlwr(p);
 		strncpy(newItem->m_szHash, p, sizeof(newItem->m_szHash));
 
@@ -195,7 +249,7 @@ static void CheckUpdates(void *)
 
 		newItem->m_name = mir_a2t(str);
 
-		TCHAR* szName = _tcsrchr(newItem->m_name, '/');
+		TCHAR *szName = _tcsrchr(newItem->m_name, '/');
 		newItem->m_searchName = (szName == NULL) ? newItem->m_name : szName+1;
 		_tcslwr(newItem->m_searchName);
 		hashes.insert(newItem);

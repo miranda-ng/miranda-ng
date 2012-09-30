@@ -22,16 +22,16 @@ Boston, MA 02111-1307, USA.
 BOOL DlgDld;
 int  Number = 0;
 TCHAR tszDialogMsg[2048] = {0};
-FILEINFO* pFileInfo = NULL;
+FILEINFO *pFileInfo = NULL;
 HANDLE CheckThread = NULL, hNetlibUser = NULL;
 POPUP_OPTIONS PopupOptions = {0};
 aPopups PopupsList[POPUPS];
 
 struct
 {
-	char*  szIconName;
-	char*  szDescr;
-	int    IconID;
+	char *szIconName;
+	char *szDescr;
+	int   IconID;
 }
 static iconList[] =
 {
@@ -133,7 +133,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	#endif
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
-	char* szUrl = mir_t2a(tszURL);
+	char *szUrl = mir_t2a(tszURL);
 	nlhr.szUrl = szUrl;
 	nlhr.headersCount = 4;
 	nlhr.headers=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
@@ -147,7 +147,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	nlhr.headers[3].szValue = "no-cache";
 
 	bool ret = false;
-	NETLIBHTTPREQUEST* pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
 	if (pReply) {
 		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
 			hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -227,12 +227,12 @@ void InitTimer()
 }
 
 #if MIRANDA_VER < 0x0A00
-char* rtrim(char* str)
+char* rtrim(char *str)
 {
 	if (str == NULL)
 		return NULL;
 
-	char* p = strchr(str, 0);
+	char *p = strchr(str, 0);
 	while (--p >= str) {
 		switch (*p) {
 		case ' ': case '\t': case '\n': case '\r':
@@ -244,9 +244,9 @@ char* rtrim(char* str)
 	return str;
 }
 
-void CreatePathToFileT(TCHAR* szFilePath)
+void CreatePathToFileT(TCHAR *szFilePath)
 {
-	TCHAR* pszLastBackslash = _tcsrchr(szFilePath, '\\');
+	TCHAR *pszLastBackslash = _tcsrchr(szFilePath, '\\');
 	if (pszLastBackslash == NULL)
 		return;
 

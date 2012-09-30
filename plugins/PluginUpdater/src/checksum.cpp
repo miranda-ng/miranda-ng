@@ -19,9 +19,9 @@
 
 int debug = 0;
 
-static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, BYTE* pBase);
+static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, BYTE *pBase);
 
-static void PatchResourceEntry(PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE, BYTE* pBase)
+static void PatchResourceEntry(PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE, BYTE *pBase)
 {
 	if ( pIRDE->DataIsDirectory )
 		PatchResourcesDirectory( PIMAGE_RESOURCE_DIRECTORY(pBase + pIRDE->OffsetToDirectory), pBase);
@@ -40,7 +40,7 @@ static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase)
 		PatchResourceEntry(pIRDE, pBase);
 }
 
-int CalculateModuleHash(const TCHAR *filename, char* szDest)
+int CalculateModuleHash(const TCHAR *filename, char *szDest)
 {
 	HANDLE hFile = INVALID_HANDLE_VALUE;
 	HANDLE hMap;
@@ -220,7 +220,7 @@ int CalculateModuleHash(const TCHAR *filename, char* szDest)
 						if ( resSize > 0 && resAddr >= pISH->VirtualAddress && resAddr + resSize <= pISH->VirtualAddress + pISH->SizeOfRawData )
 						{
 							DWORD shift = resAddr - pISH->VirtualAddress + pISH->PointerToRawData;
-							IMAGE_RESOURCE_DIRECTORY* pIRD = (IMAGE_RESOURCE_DIRECTORY*)( ptr + shift );
+							IMAGE_RESOURCE_DIRECTORY *pIRD = (IMAGE_RESOURCE_DIRECTORY*)( ptr + shift );
 							PatchResourcesDirectory(pIRD, ptr + shift);
 						}
 

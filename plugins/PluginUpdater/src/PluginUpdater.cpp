@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2010 Mataes
 
 This is free software; you can redistribute it and/or
@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 #if MIRANDA_VER < 0x0A00
 	#define MIID_UPDATER	{0x4a47b19b, 0xde5a, 0x4436, { 0xab, 0x4b, 0xe1, 0xf3, 0xa0, 0x22, 0x5d, 0xe7}}
 
-	PLUGINLINK* pluginLink;
+	PLUGINLINK *pluginLink;
 	MM_INTERFACE mmi;
 	LIST_INTERFACE li;
 	MD5_INTERFACE md5i;
@@ -73,7 +73,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 
 #if MIRANDA_VER < 0x0A00
-extern "C" __declspec(dllexport) int Load(PLUGINLINK* link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 	mir_getMMI(&mmi);

@@ -30,7 +30,7 @@ void PopupAction(HWND hWnd, BYTE action)
 			break;
 		case PCA_DONOTHING:
 			return;
-	}//end* switch
+	}
 	PUDeletePopUp(hWnd);
 }
 
@@ -220,12 +220,12 @@ void SelectAll(HWND hDlg, bool bEnable)
 	}
 }
 
-static void SetStringText(HWND hWnd, size_t i, TCHAR* ptszText)
+static void SetStringText(HWND hWnd, size_t i, TCHAR *ptszText)
 {
 	ListView_SetItemText(hWnd, i, 1, ptszText);
 }
 
-static void ApplyUpdates(void* param)
+static void ApplyUpdates(void *param)
 {
 	HWND hDlg = (HWND)param;
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
@@ -272,14 +272,21 @@ static void ApplyUpdates(void* param)
 		return;
 	}
 
-	TCHAR* tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
+	TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
 
 	for (int i = 0; i < todo.getCount(); i++) {
 		if ( !todo[i].enabled)
 			continue;
 
 		FILEINFO& p = todo[i];
-		if ( unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack))
+		if (p.tszNewName[0] == 0) { // delete only
+			TCHAR *ptszRelPath = p.tszOldName + _tcslen(tszMirandaPath) + 1;
+			TCHAR tszBackFile[MAX_PATH];
+			mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
+			DeleteFile(tszBackFile);
+			MoveFile(p.tszOldName, tszBackFile);
+		}
+		else if ( unzip(p.tszOldName, p.File.tszDiskPath, tszMirandaPath, tszFileBack))
 			DeleteFile(p.File.tszDiskPath);
 	}
 
@@ -341,7 +348,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 				lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_IMAGE;
 				lvI.iSubItem = 0;
 				lvI.lParam = (LPARAM)&todo[i];
-				lvI.pszText = todo[i].tszDescr;
+				lvI.pszText = todo[i].tszOldName;
 				lvI.iItem = i;
 				ListView_InsertItem(hwndList, &lvI);
 
