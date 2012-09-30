@@ -316,8 +316,10 @@ LBL_Ok:
 void Plugin_Uninit(pluginEntry* p)
 {
 	// if the basic API check had passed, call Unload if Load(void) was ever called
-	if (p->pclass & PCLASS_LOADED)
+	if (p->pclass & PCLASS_LOADED) {
 		p->bpi.Unload();
+		p->pclass &= ~PCLASS_LOADED;
+	}
 
 	// release the library
 	HINSTANCE hInst = p->bpi.hInst;
