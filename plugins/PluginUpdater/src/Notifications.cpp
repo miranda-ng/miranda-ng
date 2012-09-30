@@ -279,12 +279,12 @@ static void ApplyUpdates(void *param)
 			continue;
 
 		FILEINFO& p = todo[i];
-		if (p.tszNewName[0] == 0) { // delete only
-			TCHAR *ptszRelPath = p.tszOldName + _tcslen(tszMirandaPath) + 1;
+		if (p.bDeleteOnly) { // delete only
+			TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1;
 			TCHAR tszBackFile[MAX_PATH];
 			mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
 			DeleteFile(tszBackFile);
-			MoveFile(p.tszOldName, tszBackFile);
+			MoveFile(p.tszNewName, tszBackFile);
 		}
 		else if ( unzip(p.tszOldName, p.File.tszDiskPath, tszMirandaPath, tszFileBack))
 			DeleteFile(p.File.tszDiskPath);

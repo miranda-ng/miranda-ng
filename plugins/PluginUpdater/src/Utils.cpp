@@ -226,6 +226,15 @@ void InitTimer()
 	}
 }
 
+void strdel(TCHAR *parBuffer, int len )
+{
+	TCHAR* p;
+	for (p = parBuffer+len; *p != 0; p++)
+		p[ -len ] = *p;
+
+	p[ -len ] = '\0';
+}
+
 #if MIRANDA_VER < 0x0A00
 char* rtrim(char *str)
 {

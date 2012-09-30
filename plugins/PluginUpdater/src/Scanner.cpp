@@ -123,15 +123,16 @@ static void ScanFolder(const TCHAR *tszFolder, const TCHAR *tszBaseUrl, SERVLIST
 			ServListEntry tmp = {NULL, key};
 			ServListEntry *item = hashes.find(&tmp);
 			if (item == NULL) {
-				size_t cbKeyLen = _tcslen(key)-1;
-				if (key[cbKeyLen] != 'w')
+				TCHAR *p = _tcschr(key, '.');
+				if (p[-1] != 'w')
 					continue;
 	
-				key[cbKeyLen] = 0;
+				int iPos = int(p - key)-1;
+				strdel(p-1, 1);
 				if ((item = hashes.find(&tmp)) == NULL)
 					continue;
 
-				ffd.cFileName[cbKeyLen] = 0;
+				strdel(tszNewName+iPos, 1);
 			}
 
 			size_t cbLenOrig = _tcslen(item->m_name);
@@ -157,11 +158,15 @@ static void ScanFolder(const TCHAR *tszFolder, const TCHAR *tszBaseUrl, SERVLIST
 		// Compare versions
 		if ( strcmp(szMyHash, szSiteHash)) { // Yeah, we've got new version.
 			FILEINFO *FileInfo = new FILEINFO;
-			_tcscpy(FileInfo->tszNewName, tszNewName);
-			if (tszNewName[0])
-				_tcscpy(FileInfo->tszOldName, ffd.cFileName);
-			else
-				_tcscpy(FileInfo->tszOldName, tszMask); //
+			_tcscpy(FileInfo->tszOldName, ffd.cFileName);
+			if (tszNewName[0] == 0) {
+				FileInfo->bDeleteOnly = TRUE;
+				_tcscpy(FileInfo->tszNewName, tszMask);
+			}
+			else {
+				FileInfo->bDeleteOnly = FALSE;
+				_tcscpy(FileInfo->tszNewName, tszNewName);
+			}
 
 			*pExt = 0;
 			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, tszNewName);

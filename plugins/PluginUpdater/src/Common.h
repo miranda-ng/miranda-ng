@@ -67,7 +67,7 @@ struct FILEINFO
 {
 	TCHAR tszOldName[MAX_PATH], tszNewName[MAX_PATH];
 	FILEURL File;
-	BOOL enabled;
+	BOOL enabled, bDeleteOnly;
 	BYTE FileType;
 	int  FileNum;
 	BYTE Force;
@@ -145,6 +145,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 bool unzip(const TCHAR *ptszOldFileName, const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath);
+void strdel(TCHAR *parBuffer, int len);
 
 #if MIRANDA_VER < 0x0A00
 
