@@ -5,6 +5,16 @@ CAccount* CSkype::newAccount(int oid)
 	return new CAccount(oid, this); 
 }
 
+CContactGroup* CSkype::newContactGroup(int oid)
+{ 
+	return new CContactGroup(oid, this); 
+}
+
+CContact* CSkype::newContact(int oid) 
+{ 
+	return new CContact(oid, this); 
+}
+
 CAccount::CAccount(unsigned int oid, SERootObject* root) : Account(oid, root) 
 {
 	this->isLoggedOut = true;

@@ -91,6 +91,32 @@ int LoadKeyPair()
 
 extern "C" int __declspec(dllexport) Load(void)
 {
+	// loading skype SDK
+	// shitcode
+	char* bsp;
+	STARTUPINFOA cif;
+	PROCESS_INFORMATION pi;
+	char runtimePath[MAX_PATH];
+
+	GetModuleFileNameA(g_hInstance, runtimePath, MAX_PATH);
+	bsp = strrchr(runtimePath, '\\' );
+	runtimePath[strlen(runtimePath) - strlen(bsp)] = '\0';
+	strcat(runtimePath, "\\..\\..\\..\\..\\SkypeKit\\SDK\\bin\\windows-x86\\windows-x86-skypekit.exe");
+	
+	ZeroMemory(&cif,sizeof(STARTUPINFOA));	
+
+	CreateProcessA(
+		runtimePath,
+		NULL,
+		NULL,
+		NULL,
+		TRUE,
+		CREATE_NEW_CONSOLE,
+		NULL,
+		NULL,
+		&cif, 
+		&pi);
+
 	g_skype = new CSkype();
 	LoadKeyPair();
 	g_skype->init(keyBuf, "127.0.0.1", 8963, "streamlog.txt");

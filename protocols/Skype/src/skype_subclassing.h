@@ -47,5 +47,7 @@ protected:
 class CSkype : public Skype
 {
 public:
-	CAccount* newAccount(int oid);
+	CAccount*		newAccount(int oid);
+	CContactGroup*	newContactGroup(int oid);
+	CContact*		newContact(int oid);
 };
