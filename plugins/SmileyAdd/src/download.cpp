@@ -49,12 +49,9 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
-	nlhr.flags =  NLHRF_NODUMP;
+	nlhr.flags =  NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
 	nlhr.szUrl = (char*)szUrl;
 	nlhr.nlc = hHttpDwnl;
-
-	if (CallService(MS_SYSTEM_GETVERSION, 0, 0) >= PLUGIN_MAKE_VERSION(0,9,0,5))
-		nlhr.flags |= NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
 
 	// change the header so the plugin is pretended to be IE 6 + WinXP
 	nlhr.headersCount = 2;
@@ -230,29 +227,27 @@ int FolderChanged(WPARAM, LPARAM)
 
 void GetSmileyCacheFolder(void)
 {
-	TCHAR defaultPath[MAX_PATH];
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 	{
 		hFolder = FoldersRegisterCustomPathT("SmileyAdd", "Smiley Cache", MIRANDA_USERDATAT _T("\\SmileyCache"));
-		FoldersGetCustomPathT(hFolder, defaultPath, MAX_PATH, _T(""));
+		FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, _T(""));
+		hFolderHook = HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
 	}
 	else
 	{
 		TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\SmileyCache"));
-		lstrcpyn(defaultPath, tszFolder, SIZEOF(defaultPath));
+		lstrcpyn(cachepath, tszFolder, MAX_PATH);
 		mir_free(tszFolder);
 	}
-
-	hFolderHook = HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
 }
 
 void DownloadInit(void) 
 {
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_NOHTTPSOPTION;
+	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_NOHTTPSOPTION|NUF_TCHAR;
 	nlu.szSettingsModule = "SmileyAdd";
-	nlu.szDescriptiveName = Translate("SmileyAdd HTTP connections");
+	nlu.ptszDescriptiveName = TranslateT("SmileyAdd HTTP connections");
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	GetSmileyCacheFolder();
