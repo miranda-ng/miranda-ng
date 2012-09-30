@@ -19,9 +19,18 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-HINSTANCE hInst = NULL;
+#if MIRANDA_VER < 0x0A00
+	#define MIID_UPDATER	{0x4a47b19b, 0xde5a, 0x4436, { 0xab, 0x4b, 0xe1, 0xf3, 0xa0, 0x22, 0x5d, 0xe7}}
 
-HANDLE hPluginUpdaterFolder = NULL, hCheckUpdates = NULL;
+	PLUGINLINK* pluginLink;
+	MM_INTERFACE mmi;
+	LIST_INTERFACE li;
+	MD5_INTERFACE md5i;
+	UTF8_INTERFACE utfi;
+#endif
+
+HANDLE hPluginUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL;
+HINSTANCE hInst = NULL;
 TCHAR tszRoot[MAX_PATH] = {0};
 int hLangpack;
 
@@ -35,6 +44,9 @@ PLUGININFOEX pluginInfoEx = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
+#if MIRANDA_VER < 0x0A00
+	0,
+#endif
 	//{29517BE5-779A-48e5-8950-CB4DE1D43172}
 	{0x29517be5, 0x779a, 0x48e5, {0x89, 0x50, 0xcb, 0x4d, 0xe1, 0xd4, 0x31, 0x72}} 
 };
@@ -45,15 +57,34 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
+#if MIRANDA_VER < 0x0A00
+static const MUUID interfaces[] = {MIID_UPDATER, MIID_LAST};
+
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+{
+	return interfaces;
+}
+#endif
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
 }
 
+
+#if MIRANDA_VER < 0x0A00
+extern "C" __declspec(dllexport) int Load(PLUGINLINK* link)
+{
+	pluginLink = link;
+	mir_getMMI(&mmi);
+	mir_getLI(&li);
+	mir_getMD5I(&md5i);
+	mir_getUTFI(&utfi);
+#else
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-
+#endif
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 		hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, "Plugin Updater", MIRANDA_USERDATAT _T("\\")DEFAULT_UPDATES_FOLDER);
 
@@ -84,10 +115,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	// Add hotkey
 	HOTKEYDESC hkd = {0};
 	hkd.cbSize = sizeof(hkd);
-	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "Check for plugin updates";
-	hkd.ptszDescription = _T("Check for plugin updates");
-	hkd.ptszSection = _T("Plugin Updater");
+	hkd.pszDescription = "Check for plugin updates";
+	hkd.pszSection = "Plugin Updater";
 	hkd.pszService = MODNAME"/CheckUpdates";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;
