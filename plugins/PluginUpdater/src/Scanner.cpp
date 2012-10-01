@@ -61,7 +61,7 @@ static renameTable[] =
 	{ _T("svc_vi.dll"),      _T("versioninfo.dll") },
 	{ _T("import_sa.dll"),   _T("import.dll") },
 	{ _T("dbtool.exe"),      _T("dbchecker.dll") },
-	{ _T("dbtool_sa.dll"),   _T("dbchecker.dll") },
+	{ _T("dbtool_sa.exe"),   _T("dbchecker.dll") },
 
 	{ _T("clist_classic.dll"), _T("") },
 	{ _T("chat.dll"),          _T("") },
