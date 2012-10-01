@@ -45,8 +45,8 @@ Boston, MA 02111-1307, USA.
 #include <m_folders.h>
 #include "m_popup2.h"
 
-#include "..\version.h"
-#include "..\resource.h"
+#include "version.h"
+#include "resource.h"
 #include "Notifications.h"
 
 #define MODNAME					"PackUpdater"

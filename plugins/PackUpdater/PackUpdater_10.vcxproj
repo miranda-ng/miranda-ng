@@ -169,14 +169,10 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
-    <ResourceCompile Include="Version.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Resource.h" />
     <ClInclude Include="Src\Common.h" />
     <ClInclude Include="Src\Notifications.h" />
-    <ClInclude Include="Version.h" />
+    <ClInclude Include="Src\resource.h" />
+    <ClInclude Include="Src\Version.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Events.cpp" />
@@ -192,6 +188,10 @@
     <None Include="res\btnOk.ico" />
     <None Include="res\delete.ico" />
     <None Include="res\menu.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Res\Resource.rc" />
+    <ResourceCompile Include="Res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
