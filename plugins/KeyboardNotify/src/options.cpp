@@ -144,7 +144,7 @@ int InitializeOptions(WPARAM wParam,LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = LPGEN("Keyboard Flash");
-	odp.pszGroup = LPGEN("Plugins");
+	odp.pszGroup = LPGEN("Events");
 	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
