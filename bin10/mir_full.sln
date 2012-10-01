@@ -345,6 +345,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Restart", "..\plugins\Resta
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TrafficCounter", "..\plugins\TrafficCounter\TrafficCounter_10.vcxproj", "{885010EA-D008-4E38-85D4-487693F0BA00}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PackUpdater", "..\plugins\PackUpdater\PackUpdater_10.vcxproj", "{20413125-4D68-4751-8062-DDA026DDABF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1521,6 +1523,14 @@ Global
 		{885010EA-D008-4E38-85D4-487693F0BA00}.Release|Win32.Build.0 = Release|Win32
 		{885010EA-D008-4E38-85D4-487693F0BA00}.Release|x64.ActiveCfg = Release|x64
 		{885010EA-D008-4E38-85D4-487693F0BA00}.Release|x64.Build.0 = Release|x64
+		{20413125-4D68-4751-8062-DDA026DDABF1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{20413125-4D68-4751-8062-DDA026DDABF1}.Debug|Win32.Build.0 = Debug|Win32
+		{20413125-4D68-4751-8062-DDA026DDABF1}.Debug|x64.ActiveCfg = Debug|x64
+		{20413125-4D68-4751-8062-DDA026DDABF1}.Debug|x64.Build.0 = Debug|x64
+		{20413125-4D68-4751-8062-DDA026DDABF1}.Release|Win32.ActiveCfg = Release|Win32
+		{20413125-4D68-4751-8062-DDA026DDABF1}.Release|Win32.Build.0 = Release|Win32
+		{20413125-4D68-4751-8062-DDA026DDABF1}.Release|x64.ActiveCfg = Release|x64
+		{20413125-4D68-4751-8062-DDA026DDABF1}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
