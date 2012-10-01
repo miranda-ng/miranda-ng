@@ -527,7 +527,7 @@ void TwitterProto::LOG(TCHAR *fmt,...)
 // be in MessageLoop
 void TwitterProto::SendTweetWorker(void *p)
 {
-	if(p == 0)
+	if (p == 0)
 		return;
 
 	char *text = static_cast<char*>(p);

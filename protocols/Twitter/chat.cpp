@@ -62,32 +62,28 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 int TwitterProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
-	char *text;
-
-	if(strcmp(hook->pDest->pszModule,m_szModuleName))
+	if ( strcmp(hook->pDest->pszModule, m_szModuleName))
 		return 0;
 
-	switch(hook->pDest->iType)
-	{
-	case GC_USER_MESSAGE: {
-		text = mir_t2a_cp(hook->ptszText,CP_UTF8);
-		LOG (_T("**Chat - Outgoing message: %s"), hook->ptszText);
+	switch(hook->pDest->iType) {
+	case GC_USER_MESSAGE:
+		LOG ( _T("**Chat - Outgoing message: %s"), hook->ptszText);
+		{
+			mir_ptr<char> text( mir_utf8encodeT(hook->ptszText));
 
-		std::string tweet(text);
-		replaceAll(tweet, "%%", "%"); // the chat plugin will turn "%" into "%%", so we have to change it back :/
+			std::string tweet(text);
+			replaceAll(tweet, "%%", "%"); // the chat plugin will turn "%" into "%%", so we have to change it back :/
 
-		char *varTweet;
-		varTweet = mir_utf8encode(tweet.c_str());
-		//strncpy(varTweet, tweet.c_str(), tweet.length()+1);
-
-		ForkThread(&TwitterProto::SendTweetWorker, this,varTweet);
+			char *varTweet = mir_strdup( tweet.c_str());
+			ForkThread(&TwitterProto::SendTweetWorker, this, varTweet);
+		}
 		break;
-	}
+
 	case GC_USER_PRIVMESS:
-		text = mir_t2a(hook->ptszUID);
-		CallService(MS_MSG_SENDMESSAGE,reinterpret_cast<WPARAM>(
-			UsernameToHContact(text)),0);
-		mir_free(text);
+		{
+			mir_ptr<char> text( mir_t2a(hook->ptszUID));
+			CallService(MS_MSG_SENDMESSAGE, WPARAM(UsernameToHContact(text)), 0);
+		}
 		break;
 	}
 
