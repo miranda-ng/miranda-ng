@@ -114,7 +114,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				ood.cbSize = sizeof(ood);
 				ood.pszGroup = "Customize";
 				ood.pszPage = "Hotkeys";
-				CallService( MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood );
+				Options_Open(&ood);
 				return (true);
 			} 
 		case IDC_MSG_BOXES2:
