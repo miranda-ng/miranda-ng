@@ -90,3 +90,11 @@ HTTP подключение Plugin Updater
 Пропущено.
 [State]
 Состояние
+[Files source]
+Источник обновления
+[Stable version]
+Стабильная версия
+[Development version (less stable)]
+Версия в разработке (менее стабильна)
+[Custom version]
+Заданная пользователем версия
