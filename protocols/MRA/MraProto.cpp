@@ -604,86 +604,65 @@ int CMraProto::SetStatus(int iNewStatus)
 {
 	// remap global statuses to local supported
 	switch (iNewStatus) {
-	case ID_STATUS_OFFLINE:
-		iNewStatus = ID_STATUS_OFFLINE;
-		break;
-	case ID_STATUS_ONLINE:
-		iNewStatus = ID_STATUS_ONLINE;
-		break;
-	case ID_STATUS_AWAY:
-		iNewStatus = ID_STATUS_AWAY;
-		break;
-	case ID_STATUS_DND:
 	case ID_STATUS_OCCUPIED:
 		iNewStatus = ID_STATUS_DND;
-		break;
-	case ID_STATUS_FREECHAT:
-		iNewStatus = ID_STATUS_FREECHAT;
-		break;
-	case ID_STATUS_INVISIBLE:
-		iNewStatus = ID_STATUS_INVISIBLE;
 		break;
 	case ID_STATUS_NA:
 	case ID_STATUS_ONTHEPHONE:
 	case ID_STATUS_OUTTOLUNCH:
 		iNewStatus = ID_STATUS_AWAY;
 		break;
-	default:
-		iNewStatus = ID_STATUS_OFFLINE;
-		break;
 	}
 
 	// nothing to change
 	if (InterlockedExchangeAdd((volatile LONG*)&m_iStatus, 0) == iNewStatus && iNewStatus != m_iDesiredStatus)
-		ProtoBroadcastAckAsync(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iNewStatus, iNewStatus);
-	else {
-		DWORD dwOldStatusMode;
+		return 0;
 
-		//set all contacts to offline
-		if ((m_iDesiredStatus = iNewStatus) == ID_STATUS_OFFLINE) {
-			m_bLoggedIn = FALSE;
-			dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iStatus, m_iDesiredStatus);
+	DWORD dwOldStatusMode;
 
-			// всех в offline, только если мы бывали подключены
-			if (dwOldStatusMode > ID_STATUS_OFFLINE) {
-				// функция сама проверяет принадлежность контакта к MRA
-				for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);hContact != NULL;hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
-					SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, NULL, 0, NULL, 0, NULL, 0);
-			}
-			Netlib_CloseHandle(hConnection);
+	//set all contacts to offline
+	if ((m_iDesiredStatus = iNewStatus) == ID_STATUS_OFFLINE) {
+		m_bLoggedIn = FALSE;
+		dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iStatus, m_iDesiredStatus);
+
+		// всех в offline, только если мы бывали подключены
+		if (dwOldStatusMode > ID_STATUS_OFFLINE) {
+			// функция сама проверяет принадлежность контакта к MRA
+			for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);hContact != NULL;hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, NULL, 0, NULL, 0, NULL, 0);
 		}
-		else {
-			// если offline то сразу ставим connecting, но обработка как offline
-			dwOldStatusMode = InterlockedCompareExchange((volatile LONG*)&m_iStatus, ID_STATUS_CONNECTING, ID_STATUS_OFFLINE);
-
-			switch (dwOldStatusMode) {
-			case ID_STATUS_OFFLINE: // offline, connecting
-				if (StartConnect() != NO_ERROR) {
-					m_bLoggedIn = FALSE;
-					m_iDesiredStatus = ID_STATUS_OFFLINE;
-					dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iStatus, m_iDesiredStatus);
-				}
-				break;
-			case ID_STATUS_ONLINE:// connected, change status
-			case ID_STATUS_AWAY:
-			case ID_STATUS_DND:
-			case ID_STATUS_FREECHAT:
-			case ID_STATUS_INVISIBLE:
-				MraSendNewStatus(m_iDesiredStatus, m_iXStatus, NULL, 0, NULL, 0);
-			case ID_STATUS_CONNECTING:
-				// предотвращаем переход в любой статус (кроме offline) из статуса connecting, если он не вызван самим плагином
-				if (dwOldStatusMode == ID_STATUS_CONNECTING && iNewStatus != m_iDesiredStatus)
-					break;
-
-			default:
-				dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iStatus, m_iDesiredStatus);
-				break;
-			}
-		}
-		MraSetContactStatus(NULL, m_iStatus);
-		ProtoBroadcastAckAsync(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)dwOldStatusMode, m_iStatus);
+		Netlib_CloseHandle(hConnection);
 	}
+	else {
+		// если offline то сразу ставим connecting, но обработка как offline
+		dwOldStatusMode = InterlockedCompareExchange((volatile LONG*)&m_iStatus, ID_STATUS_CONNECTING, ID_STATUS_OFFLINE);
 
+		switch (dwOldStatusMode) {
+		case ID_STATUS_OFFLINE: // offline, connecting
+			if (StartConnect() != NO_ERROR) {
+				m_bLoggedIn = FALSE;
+				m_iDesiredStatus = ID_STATUS_OFFLINE;
+				dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iStatus, m_iDesiredStatus);
+			}
+			break;
+		case ID_STATUS_ONLINE:// connected, change status
+		case ID_STATUS_AWAY:
+		case ID_STATUS_DND:
+		case ID_STATUS_FREECHAT:
+		case ID_STATUS_INVISIBLE:
+			MraSendNewStatus(m_iDesiredStatus, m_iXStatus, NULL, 0, NULL, 0);
+		case ID_STATUS_CONNECTING:
+			// предотвращаем переход в любой статус (кроме offline) из статуса connecting, если он не вызван самим плагином
+			if (dwOldStatusMode == ID_STATUS_CONNECTING && iNewStatus != m_iDesiredStatus)
+				break;
+
+		default:
+			dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iStatus, m_iDesiredStatus);
+			break;
+		}
+	}
+	MraSetContactStatus(NULL, m_iStatus);
+	ProtoBroadcastAckAsync(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)dwOldStatusMode, m_iStatus);
 	return 0;
 }
 
