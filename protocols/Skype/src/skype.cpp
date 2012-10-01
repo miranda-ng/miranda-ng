@@ -57,6 +57,7 @@ static int SkypeProtoUninit(CSkypeProto* ppro)
 }
 
 char* keyBuf = 0;
+int port = 8963;
 
 int LoadKeyPair()
 {
@@ -87,39 +88,66 @@ int LoadKeyPair()
 	printf("Error opening app token file: %s\n", g_keyFileName);
 
 	return 0;
-};
+}
 
-extern "C" int __declspec(dllexport) Load(void)
+void StartSkypeRuntime()
 {
-	// loading skype SDK
+	// loading skype runtime
 	// shitcode
-	char* bsp;
-	STARTUPINFOA cif;
+	int port = 8963;
+	wchar_t* bsp;
+	STARTUPINFO cif;
 	PROCESS_INFORMATION pi;
-	char runtimePath[MAX_PATH];
+	wchar_t runtimePath[MAX_PATH];
+	TCHAR param[128];
 
-	GetModuleFileNameA(g_hInstance, runtimePath, MAX_PATH);
-	bsp = strrchr(runtimePath, '\\' );
-	runtimePath[strlen(runtimePath) - strlen(bsp)] = '\0';
-	strcat(runtimePath, "\\..\\..\\..\\..\\SkypeKit\\SDK\\bin\\windows-x86\\windows-x86-skypekit.exe");
+	GetModuleFileName(g_hInstance, runtimePath, MAX_PATH);
+	bsp = wcsrchr(runtimePath, '\\' );
+	runtimePath[wcslen(runtimePath) - wcslen(bsp)] = '\0';
+	bsp = wcsrchr(runtimePath, '\\' );
+	runtimePath[wcslen(runtimePath) - wcslen(bsp)] = '\0';
+	bsp = wcsrchr(runtimePath, '\\' );
+	runtimePath[wcslen(runtimePath) - wcslen(bsp)] = '\0';
+	bsp = wcsrchr(runtimePath, '\\' );
+	runtimePath[wcslen(runtimePath) - wcslen(bsp)] = '\0';
+	bsp = wcsrchr(runtimePath, '\\' );
+	runtimePath[wcslen(runtimePath) - wcslen(bsp)] = '\0';
+	//\\..\\..\\..\\..
+	wcscat(runtimePath, L"\\SkypeKit\\SDK\\bin\\windows-x86\\windows-x86-skypekit.exe");
 	
 	ZeroMemory(&cif,sizeof(STARTUPINFOA));	
+	cif.cb = sizeof(STARTUPINFO);
+	cif.dwFlags = STARTF_USESHOWWINDOW;
+	cif.wShowWindow = SW_HIDE;
 
-	CreateProcessA(
+	
+	if ( FindWindow(NULL, runtimePath))
+	{
+			port += rand() % 100;
+	}
+	
+	mir_sntprintf(param, SIZEOF(param), L"-p -p %d", port);
+
+	CreateProcess(
 		runtimePath,
+		param,
 		NULL,
 		NULL,
-		NULL,
-		TRUE,
+		FALSE,
 		CREATE_NEW_CONSOLE,
 		NULL,
 		NULL,
 		&cif, 
 		&pi);
+}
+
+extern "C" int __declspec(dllexport) Load(void)
+{
+	StartSkypeRuntime();
+	LoadKeyPair();
 
 	g_skype = new CSkype();
-	LoadKeyPair();
-	g_skype->init(keyBuf, "127.0.0.1", 8963, "streamlog.txt");
+	g_skype->init(keyBuf, "127.0.0.1", port, "streamlog.txt");
 	g_skype->start();	
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
