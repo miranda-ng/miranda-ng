@@ -1,5 +1,10 @@
 #include "skype_proto.h"
 
+
+void CSkypeProto::OnContactChanged(CContact* contact, int prop)
+{
+}
+
 HANDLE CSkypeProto::GetContactBySkypeLogin(const char* skypeLogin)
 {
 	for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
@@ -27,13 +32,12 @@ HANDLE CSkypeProto::GetContactBySkypeLogin(const char* skypeLogin)
 
 void __cdecl CSkypeProto::LoadContactList(void*)
 {
-	CContactGroup::Ref contacts;
-	g_skype->GetHardwiredContactGroup(CContactGroup::SKYPE_BUDDIES, contacts);
+	g_skype->GetHardwiredContactGroup(CContactGroup::ALL_KNOWN_CONTACTS, this->contactGroup);
 
-    contacts->GetContacts(contacts->ContactList);
-    fetch(contacts->ContactList);
+    this->contactGroup->GetContacts(this->contactGroup->ContactList);
+    fetch(this->contactGroup->ContactList);
 
-    for (unsigned int i = 0; i < contacts->ContactList.size(); i++)
+    for (unsigned int i = 0; i < this->contactGroup->ContactList.size(); i++)
     {
 		SEString name;
 		SEString skypeLogin;
@@ -41,7 +45,7 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 		int status = ID_STATUS_OFFLINE;
 		CContact::AVAILABILITY availability = CContact::OFFLINE;
 
-        contacts->ContactList[i]->GetPropSkypename(skypeLogin);
+        this->contactGroup->ContactList[i]->GetPropSkypename(skypeLogin);
         printf("%3d. %s\n", i+1, (const char*)skypeLogin);
 
 		HANDLE hContact = this->GetContactBySkypeLogin(skypeLogin);
@@ -54,8 +58,8 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 		if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName) == 0 )
 		{
 
-			contacts->ContactList[i]->GetPropDisplayname(name);
-			contacts->ContactList[i]->GetPropAvailability(availability);
+			this->contactGroup->ContactList[i]->GetPropDisplayname(name);
+			this->contactGroup->ContactList[i]->GetPropAvailability(availability);
 
 			switch (availability)
 			{

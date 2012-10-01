@@ -122,9 +122,7 @@ void StartSkypeRuntime()
 
 	
 	if ( FindWindow(NULL, runtimePath))
-	{
-			port += rand() % 100;
-	}
+		port += rand() % 100;
 	
 	mir_sntprintf(param, SIZEOF(param), L"-p -p %d", port);
 
@@ -143,11 +141,11 @@ void StartSkypeRuntime()
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	StartSkypeRuntime();
 	LoadKeyPair();
+	StartSkypeRuntime();
 
 	g_skype = new CSkype();
-	g_skype->init(keyBuf, "127.0.0.1", port, "streamlog.txt");
+	g_skype->init(keyBuf, "127.0.0.1", port);
 	g_skype->start();	
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };

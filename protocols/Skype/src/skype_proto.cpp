@@ -13,25 +13,17 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	this->signin_lock = CreateMutex(0, false, 0);
 	this->SetAllContactStatuses(ID_STATUS_OFFLINE);
 
-	TCHAR name[128];
-	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), this->m_tszUserName);
+	this->InitNetLib();
 
-	NETLIBUSER nlu = {0};
-	nlu.cbSize = sizeof( nlu );
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;	// | NUF_HTTPGATEWAY;
-	nlu.ptszDescriptiveName = name;
-	nlu.szSettingsModule = m_szModuleName;
-	this->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
-
-	this->Log("Setting protocol/module name to '%s/%s'", m_szProtoName, m_szModuleName);
+	//->SetOnChangeCallback((OnContactChangeFunc)&CSkypeProto::OnContactChanged, this);
+	//.SetOnChangeCallback((OnContactChangeFunc)&CSkypeProto::OnContactChanged, this);
 
 	this->CreateService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 }
 
 CSkypeProto::~CSkypeProto()
 {
-	Netlib_CloseHandle(this->hNetlibUser);
-	this->hNetlibUser = NULL;
+	this->UninitNetLib();
 
 	CloseHandle(this->signin_lock);
 
@@ -42,7 +34,7 @@ CSkypeProto::~CSkypeProto()
 
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr) 
 {
-	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
+	//if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return 0;
 
 	//return this->AddToListBySkypeLogin(psr->id, psr->nick, psr->firstName, psr->lastName, flags);
@@ -212,6 +204,9 @@ void __cdecl CSkypeProto::SignIn(void*)
 
 	this->account->LoginWithPassword(mir_u2a(this->password), false, false);
 	this->account->BlockWhileLoggingIn();
+
+	//CContact::Ref()->SetOnChangeCallback((OnContactChangeFunc)&CSkypeProto::OnContactChanged, this);
+
 	this->SetStatus(this->m_iDesiredStatus);
 	this->ForkThread(&CSkypeProto::LoadContactList, this);
 	//this->LoadContactList(this);

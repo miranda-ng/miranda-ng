@@ -42,34 +42,17 @@
 #include "resource.h"
 #include "version.h"
 
-#define MODULE "Skype"
-
 extern HINSTANCE g_hInstance;
-
-// skype
-
-//#define SSL_LIB_CYASSL 
-//#define NO_FILESYSTEM
-
-// Enable desktop video
-//#define SKYPEKIT_SURFACE_RENDERING
-
-// Additional flags for desktop video for non-Windows targets
-//#define VIDEO_TRANSPORT_SYSV
-//#define VIDEO_TRANSPORT_POSIX
-
-#undef OCSP_REQUEST
-#undef OCSP_RESPONSE
-
-#include "skype_subclassing.h"
 
 void IconsLoad();
 
-static const char* g_keyFileName = "..\\..\\..\\SkypeKit\\keypair.crt";
-
-extern CSkype* g_skype;
-
+#define MODULE "Skype"
 #define SKYPE_SETTINGS_NAME "Name"
 #define SKYPE_SETTINGS_STATUS "Status"
 #define SKYPE_SETTINGS_LOGIN "SkypeLogin"
 #define SKYPE_SETTINGS_PASSWORD "Password"
+
+#include "skype_subclassing.h"
+
+extern CSkype* g_skype;
+static const char* g_keyFileName = "..\\..\\..\\SkypeKit\\keypair.crt";

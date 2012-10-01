@@ -1,44 +1,32 @@
 #include "skype_proto.h"
 
-void CSkypeProto::Log(const char* fmt, ...)
-{
-	va_list va;
-	char msg[1024];
-
-	va_start(va, fmt);
-	mir_vsnprintf(msg, sizeof(msg), fmt, va);
-	va_end(va);
-
-	CallService(MS_NETLIB_LOG, (WPARAM)this->hNetlibUser, (LPARAM)msg);
-}
-
 void CSkypeProto::CreateService(const char* szService, SkypeServiceFunc serviceProc)
 {
 	char moduleName[MAXMODULELABELLENGTH];
 
-	mir_snprintf(moduleName, sizeof(moduleName), "%s%s", this->m_szModuleName, szService);
-	CreateServiceFunctionObj(moduleName, (MIRANDASERVICEOBJ)*(void**)&serviceProc, this);
+	::mir_snprintf(moduleName, sizeof(moduleName), "%s%s", this->m_szModuleName, szService);
+	::CreateServiceFunctionObj(moduleName, (MIRANDASERVICEOBJ)*(void**)&serviceProc, this);
 }
 
 void CSkypeProto::CreateServiceParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam)
 {
 	char moduleName[MAXMODULELABELLENGTH];
 
-	mir_snprintf(moduleName, sizeof(moduleName), "%s%s", this->m_szModuleName, szService);
-	CreateServiceFunctionObjParam(moduleName, (MIRANDASERVICEOBJPARAM)*(void**)&serviceProc, this, lParam);
+	::mir_snprintf(moduleName, sizeof(moduleName), "%s%s", this->m_szModuleName, szService);
+	::CreateServiceFunctionObjParam(moduleName, (MIRANDASERVICEOBJPARAM)*(void**)&serviceProc, this, lParam);
 }
 
 HANDLE CSkypeProto::CreateEvent(const char* szService)
 {
 	char moduleName[MAXMODULELABELLENGTH];
 
-	mir_snprintf(moduleName, sizeof(moduleName), "%s%s", this->m_szModuleName, szService);
-	return CreateHookableEvent(moduleName);
+	::mir_snprintf(moduleName, sizeof(moduleName), "%s%s", this->m_szModuleName, szService);
+	return ::CreateHookableEvent(moduleName);
 }
 
 void CSkypeProto::HookEvent(const char* szEvent, SkypeEventFunc handler)
 {
-	HookEventObj(szEvent, (MIRANDAHOOKOBJ)*( void**)&handler, this);
+	::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*( void**)&handler, this);
 }
 
 int CSkypeProto::SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam)
@@ -56,13 +44,14 @@ int CSkypeProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hPr
 	ack.result = result;
 	ack.hProcess = hProcess;
 	ack.lParam = lParam;
-	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
+
+	return ::CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
 }
 
 void CSkypeProto::ForkThread(SkypeThreadFunc pFunc, void *param)
 {
 	UINT threadID;
-	CloseHandle((HANDLE)mir_forkthreadowner(
+	::CloseHandle((HANDLE)::mir_forkthreadowner(
 		(pThreadFuncOwner)*(void**)&pFunc, 
 		this, 
 		param, 
@@ -72,7 +61,7 @@ void CSkypeProto::ForkThread(SkypeThreadFunc pFunc, void *param)
 HANDLE CSkypeProto::ForkThreadEx(SkypeThreadFunc pFunc, void *param, UINT* threadID)
 {
 	UINT lthreadID;
-	return (HANDLE)mir_forkthreadowner(
+	return (HANDLE)::mir_forkthreadowner(
 		(pThreadFuncOwner)*(void**)&pFunc, 
 		this,
 		param, 

@@ -1,6 +1,14 @@
 #pragma once
 
+#undef OCSP_REQUEST
+#undef OCSP_RESPONSE
+
 #include <skype-embedded_2.h>
+
+class CContact;
+struct CSkypeProto;
+
+typedef void (__cdecl CSkypeProto::* OnContactChangeFunc)(CContact*, int);
 
 class CContact : public Contact
 {
@@ -10,7 +18,7 @@ public:
 
 	CContact(unsigned int oid, SERootObject* root);
 
-protected:
+private:
 	void OnChange(int prop);
 };
 
@@ -23,7 +31,7 @@ public:
 
 	CContact::Refs ContactList;
 
-protected:
+private:
 	void OnChange(const ContactRef& contact);
 };
 
@@ -40,7 +48,13 @@ public:
 	void BlockWhileLoggingIn();
 	void BlockWhileLoggingOut();
 
-protected:
+	
+	void SetOnChangeCallback(OnContactChangeFunc callback, CSkypeProto* proto);
+	
+private:
+	CSkypeProto* proto;
+	OnContactChangeFunc callback;
+
 	void OnChange(int prop);
 };
 

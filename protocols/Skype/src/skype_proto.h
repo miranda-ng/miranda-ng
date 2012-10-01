@@ -1,14 +1,13 @@
 #pragma once
 
 #include "skype.h"
-#include "skype_subclassing.h"
 
 struct CSkypeProto;
 
-typedef void    (__cdecl CSkypeProto::*SkypeThreadFunc) (void*);
-typedef INT_PTR (__cdecl CSkypeProto::*SkypeServiceFunc)(WPARAM, LPARAM);
-typedef int     (__cdecl CSkypeProto::*SkypeEventFunc)(WPARAM, LPARAM);
-typedef INT_PTR (__cdecl CSkypeProto::*SkypeServiceFuncParam)(WPARAM, LPARAM, LPARAM);
+typedef void    (__cdecl CSkypeProto::* SkypeThreadFunc) (void*);
+typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFunc)(WPARAM, LPARAM);
+typedef int     (__cdecl CSkypeProto::* SkypeEventFunc)(WPARAM, LPARAM);
+typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFuncParam)(WPARAM, LPARAM, LPARAM);
 
 
 struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
@@ -75,22 +74,21 @@ public:
 
 protected:
 	CAccount::Ref account;
-
+	CContactGroup::Ref contactGroup;
 
 	TCHAR*	login;
 	TCHAR*	password;
 
-	HANDLE	hNetlibUser;
-	void	Log(const char* fmt, ...);
 
 	HANDLE	signin_lock;
 	void __cdecl SignIn(void*);
 	void __cdecl LoadContactList(void*);
 
+	void  OnContactChanged(CContact* contact, int prop);
 	HANDLE	GetContactBySkypeLogin(const char* skypeLogin);
 	void	SetAllContactStatuses(int status);
 
-	
+	// utils
 	void	CreateService(const char* szService, SkypeServiceFunc serviceProc);
 	void	CreateServiceParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
 	
@@ -102,6 +100,12 @@ protected:
 
 	void	ForkThread(SkypeThreadFunc, void*);
 	HANDLE	ForkThreadEx(SkypeThreadFunc, void*, UINT* threadID = NULL);
+
+	// netlib
+	HANDLE	hNetlibUser;
+	void	InitNetLib();
+	void	UninitNetLib();
+	void	Log(const char* fmt, ...);
 
 	// database settings
 	BYTE	GetSettingByte(const char *setting, BYTE errorValue = 0);
@@ -126,7 +130,7 @@ protected:
 	bool	SetDecodeSettingString(const char *setting, TCHAR* value = NULL);
 	bool	SetDecodeSettingString(HANDLE hContact, const char *setting, TCHAR* value = NULL);
 
-
+	// dialog procs
 	static INT_PTR CALLBACK SkypeAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 	static INT_PTR CALLBACK SkypeOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 };
