@@ -204,22 +204,27 @@ static void CheckUpdates(void *)
 		DBWriteContactSettingTString(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
 		DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar);
 	}
-	else {
-		#ifdef WIN64
-			if (_tcsstr(dbVar.ptszVal, _T("x32"))) {
-				DBWriteContactSettingTString(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
-				DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar);
-			}
-		#endif
-	}
-	TCHAR *tszBaseUrl = NEWTSTR_ALLOCA(dbVar.ptszVal);
+
+	REPLACEVARSARRAY vars[2];
+	vars[0].lptzKey = _T("platform");
+	#ifdef WIN64
+		vars[0].lptzValue = _T("64");
+	#else
+		vars[0].lptzValue = _T("32");
+	#endif
+	vars[1].lptzKey = vars[1].lptzValue = 0;
+
+	REPLACEVARSDATA dat = { sizeof(REPLACEVARSDATA) };
+	dat.dwFlags = RVF_TCHAR;
+	dat.variables = vars;
+	mir_ptr<TCHAR> tszBaseUrl((TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)dbVar.ptszVal, (LPARAM)&dat));
 	DBFreeVariant(&dbVar);
 
 	// Download version info
 	ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Downloading version info..."), 4, 0);
 
 	FILEURL pFileUrl;
-	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), tszBaseUrl);
+	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), (TCHAR*)tszBaseUrl);
 	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszRoot);
 	if (!DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath)) {
 		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);

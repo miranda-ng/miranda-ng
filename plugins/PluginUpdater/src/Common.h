@@ -97,11 +97,7 @@ struct PlugOptions
 #define DEFAULT_PERIOD            1
 #define DEFAULT_PERIODMEASURE     1
 
-#ifdef WIN64
-	#define DEFAULT_UPDATE_URL					"http://miranda-ng.org/distr/stable/x64"
-#else
-	#define DEFAULT_UPDATE_URL					"http://miranda-ng.org/distr/stable/x32"
-#endif
+#define DEFAULT_UPDATE_URL					"http://miranda-ng.org/distr/stable/x%platform%"
 
 #define IDINFO				3
 #define IDDOWNLOAD			4
