@@ -729,7 +729,7 @@ int CMraProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 	switch ( eventType ) {
 	case EV_PROTO_ONLOAD:    return OnModulesLoaded( 0, 0 );
 	case EV_PROTO_ONEXIT:    return OnPreShutdown( 0, 0 );
-//	case EV_PROTO_ONOPTIONS: return OnOptionsInit( wParam, lParam );
+	case EV_PROTO_ONOPTIONS: return OnOptionsInit( wParam, lParam );
 
 	case EV_PROTO_ONMENU:
 		InitMainMenu();
