@@ -56,9 +56,9 @@ struct
 }
 static renameTable[] =
 {
-	{ _T("svc_dbepp.dll"), _T("dbeditorpp.dll") },
-	{ _T("svc_crsh.dll"),  _T("crashdumper.dll") },
-	{ _T("svc_vi.dll"),    _T("versioninfo.dll") },
+	{ _T("svc_dbepp.dll"),   _T("dbeditorpp.dll") },
+	{ _T("svc_crshdmp.dll"), _T("crashdumper.dll") },
+	{ _T("svc_vi.dll"),      _T("versioninfo.dll") },
 
 	{ _T("clist_classic.dll"), _T("") },
 	{ _T("chat.dll"),          _T("") },
