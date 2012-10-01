@@ -26,7 +26,7 @@ static int compare_protos(const CSkypeProto *p1, const CSkypeProto *p2)
 	return _tcscmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
-OBJLIST<CSkypeProto> g_Instances(1, compare_protos);
+LIST<CSkypeProto> g_Instances(1, compare_protos);
 
 DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 {

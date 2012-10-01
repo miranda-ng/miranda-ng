@@ -30,7 +30,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 
 CSkypeProto::~CSkypeProto()
 {
-	//Netlib_CloseHandle(this->hNetlibUser);
+	Netlib_CloseHandle(this->hNetlibUser);
 	this->hNetlibUser = NULL;
 
 	CloseHandle(this->signin_lock);
