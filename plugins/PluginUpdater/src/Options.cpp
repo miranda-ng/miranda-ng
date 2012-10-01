@@ -34,6 +34,8 @@ LRESULT CALLBACK MyEditProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPara
 
 INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	DBVARIANT dbv;
+
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -56,6 +58,24 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), opts.bPeriodMeasure);
 
 		CheckDlgButton(hwndDlg, IDC_UPDATEICONS, opts.bUpdateIcons);
+
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), FALSE);
+		if ( DBGetContactSettingString(NULL, MODNAME, "UpdateURL", &dbv)) {
+			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL));
+			CheckDlgButton(hwndDlg, IDC_STABLE, TRUE);
+		}
+		else {
+			SetDlgItemTextA(hwndDlg, IDC_CUSTOMURL, dbv.pszVal);
+			if ( !strcmp(dbv.pszVal, DEFAULT_UPDATE_URL))
+				CheckDlgButton(hwndDlg, IDC_STABLE, TRUE);
+			else if ( !strcmp(dbv.pszVal, DEFAULT_UPDATE_URL_TRUNK))
+				CheckDlgButton(hwndDlg, IDC_TRUNK, TRUE);
+			else {
+				CheckDlgButton(hwndDlg, IDC_CUSTOM, TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
+			}
+			db_free(&dbv);
+		}
 		return TRUE;
 
 	case WM_COMMAND:
@@ -77,6 +97,13 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), value);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
+			break;
+
+		case IDC_TRUNK:
+		case IDC_STABLE:
+		case IDC_CUSTOM:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), IsDlgButtonChecked(hwndDlg, IDC_CUSTOM));
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
 		case IDC_PERIODMEASURE:
@@ -127,6 +154,16 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				DBWriteContactSettingDword(NULL, MODNAME, "Period", opts.Period);
 				opts.bUpdateIcons = IsDlgButtonChecked(hwndDlg, IDC_UPDATEICONS);
 				DBWriteContactSettingByte(NULL, MODNAME, "UpdateIcons", opts.bUpdateIcons);
+
+				if ( IsDlgButtonChecked(hwndDlg, IDC_STABLE))
+					db_set_s(NULL, MODNAME, "UpdateURL", DEFAULT_UPDATE_URL);
+				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK))
+					db_set_s(NULL, MODNAME, "UpdateURL", DEFAULT_UPDATE_URL_TRUNK);
+				else {
+					char szUrl[100];
+					GetDlgItemTextA(hwndDlg, IDC_CUSTOMURL, szUrl, SIZEOF(szUrl));
+					db_set_s(NULL, MODNAME, "UpdateURL", szUrl);
+				}
 			}
 			break;
 		}
