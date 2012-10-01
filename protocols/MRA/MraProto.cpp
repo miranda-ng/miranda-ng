@@ -615,7 +615,7 @@ int CMraProto::SetStatus(int iNewStatus)
 	}
 
 	// nothing to change
-	if (InterlockedExchangeAdd((volatile LONG*)&m_iStatus, 0) == iNewStatus && iNewStatus != m_iDesiredStatus)
+	if (m_iStatus == iNewStatus)
 		return 0;
 
 	DWORD dwOldStatusMode;

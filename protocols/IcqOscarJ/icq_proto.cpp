@@ -1962,124 +1962,124 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 	if (m_bTempVisListEnabled && icqOnline()) // remove temporary visible users
 		sendEntireListServ(ICQ_BOS_FAMILY, ICQ_CLI_REMOVETEMPVISIBLE, BUL_TEMPVISIBLE);
 
-	if (nNewStatus != m_iStatus)
-	{
-		// clear custom status on status change
-		if (getSettingByte(NULL, "XStatusReset", DEFAULT_XSTATUS_RESET))
-			setXStatusEx(0, 0);
+	if (nNewStatus == m_iStatus)
+		return 0;
 
-		// New status is OFFLINE
-		if (nNewStatus == ID_STATUS_OFFLINE)
-		{ // for quick logoff
-			if (icqOnline())
-			{ // set offline status note (otherwise the old will remain)
-				char *szOfflineNote = PrepareStatusNote(nNewStatus);
+	// clear custom status on status change
+	if (getSettingByte(NULL, "XStatusReset", DEFAULT_XSTATUS_RESET))
+		setXStatusEx(0, 0);
 
-				// Create unnamed event to wait until the status note change process is completed
-				m_hNotifyNameInfoEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	// New status is OFFLINE
+	if (nNewStatus == ID_STATUS_OFFLINE)
+	{ // for quick logoff
+		if (icqOnline())
+		{ // set offline status note (otherwise the old will remain)
+			char *szOfflineNote = PrepareStatusNote(nNewStatus);
 
-				int bNoteChanged = SetStatusNote(szOfflineNote, 0, FALSE);
+			// Create unnamed event to wait until the status note change process is completed
+			m_hNotifyNameInfoEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
-				SAFE_FREE(&szOfflineNote);
+			int bNoteChanged = SetStatusNote(szOfflineNote, 0, FALSE);
 
-				// Note was changed, wait until the process is over
-				if (bNoteChanged)
-					ICQWaitForSingleObject(m_hNotifyNameInfoEvent, 4000, TRUE);
+			SAFE_FREE(&szOfflineNote);
 
-				// Release the event
-				CloseHandle(m_hNotifyNameInfoEvent);
-				m_hNotifyNameInfoEvent = NULL;
-			}
+			// Note was changed, wait until the process is over
+			if (bNoteChanged)
+				ICQWaitForSingleObject(m_hNotifyNameInfoEvent, 4000, TRUE);
 
-			m_iDesiredStatus = nNewStatus;
-
-			if (hServerConn)
-			{ // Connected, Send disconnect packet
-				icq_sendCloseConnection();
-
-				icq_serverDisconnect(FALSE);
-
-				SetCurrentStatus(ID_STATUS_OFFLINE);
-
-				NetLog_Server("Logged off.");
-			}
+			// Release the event
+			CloseHandle(m_hNotifyNameInfoEvent);
+			m_hNotifyNameInfoEvent = NULL;
 		}
-		else
-		{
-			switch (m_iStatus) {
 
-			// We are offline and need to connect
-			case ID_STATUS_OFFLINE:
+		m_iDesiredStatus = nNewStatus;
+
+		if (hServerConn)
+		{ // Connected, Send disconnect packet
+			icq_sendCloseConnection();
+
+			icq_serverDisconnect(FALSE);
+
+			SetCurrentStatus(ID_STATUS_OFFLINE);
+
+			NetLog_Server("Logged off.");
+		}
+	}
+	else
+	{
+		switch (m_iStatus) {
+
+		// We are offline and need to connect
+		case ID_STATUS_OFFLINE:
+			{
+				// Update user connection settings
+				UpdateGlobalSettings();
+
+				// Read UIN from database
+				m_dwLocalUIN = getContactUin(NULL);
+				if (m_dwLocalUIN == 0)
 				{
-					// Update user connection settings
-					UpdateGlobalSettings();
-
-					// Read UIN from database
-					m_dwLocalUIN = getContactUin(NULL);
-					if (m_dwLocalUIN == 0)
-					{
-						SetCurrentStatus(ID_STATUS_OFFLINE);
-						BroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
-						icq_LogMessage(LOG_FATAL, LPGEN("You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again."));
-						return 0;
-					}
-
-					// Set status to 'Connecting'
-					m_iDesiredStatus = nNewStatus;
-					SetCurrentStatus(ID_STATUS_CONNECTING);
-
-					// Read password from database
-					char *pszPwd = GetUserPassword(FALSE);
-
-					if (pszPwd)
-						icq_login(pszPwd);
-					else
-						RequestPassword();
-
-					break;
+					SetCurrentStatus(ID_STATUS_OFFLINE);
+					BroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
+					icq_LogMessage(LOG_FATAL, LPGEN("You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again."));
+					return 0;
 				}
 
-				// We are connecting... We only need to change the going online status
-			case ID_STATUS_CONNECTING:
+				// Set status to 'Connecting'
 				m_iDesiredStatus = nNewStatus;
-				break;
+				SetCurrentStatus(ID_STATUS_CONNECTING);
 
-				// We are already connected so we should just change status
-			default:
-				SetCurrentStatus(nNewStatus);
+				// Read password from database
+				char *pszPwd = GetUserPassword(FALSE);
 
-				char *szStatusNote = PrepareStatusNote(nNewStatus);
-
-				//! This is a bit tricky, we do trigger status note change thread and then
-				// change the status note right away (this spares one packet) - so SetStatusNote()
-				// will only change User Details Directory
-				SetStatusNote(szStatusNote, 6000, FALSE);
-
-				if (m_iStatus == ID_STATUS_INVISIBLE)
-				{
-					if (m_bSsiEnabled)
-						updateServVisibilityCode(3);
-					icq_setstatus(MirandaStatusToIcq(m_iStatus), szStatusNote);
-				}
+				if (pszPwd)
+					icq_login(pszPwd);
 				else
-				{
-					icq_setstatus(MirandaStatusToIcq(m_iStatus), szStatusNote);
-					if (m_bSsiEnabled)
-						updateServVisibilityCode(4);
-				}
-				SAFE_FREE(&szStatusNote);
+					RequestPassword();
 
-				if (m_bAimEnabled)
-				{
-					icq_lock l(m_modeMsgsMutex);
+				break;
+			}
 
-					char ** pszStatusNote = MirandaStatusToAwayMsg(m_iStatus);
+			// We are connecting... We only need to change the going online status
+		case ID_STATUS_CONNECTING:
+			m_iDesiredStatus = nNewStatus;
+			break;
 
-					if (pszStatusNote)
-						icq_sendSetAimAwayMsgServ(*pszStatusNote);
-					else // clear the away message
-						icq_sendSetAimAwayMsgServ(NULL);
-				}
+			// We are already connected so we should just change status
+		default:
+			SetCurrentStatus(nNewStatus);
+
+			char *szStatusNote = PrepareStatusNote(nNewStatus);
+
+			//! This is a bit tricky, we do trigger status note change thread and then
+			// change the status note right away (this spares one packet) - so SetStatusNote()
+			// will only change User Details Directory
+			SetStatusNote(szStatusNote, 6000, FALSE);
+
+			if (m_iStatus == ID_STATUS_INVISIBLE)
+			{
+				if (m_bSsiEnabled)
+					updateServVisibilityCode(3);
+				icq_setstatus(MirandaStatusToIcq(m_iStatus), szStatusNote);
+			}
+			else
+			{
+				icq_setstatus(MirandaStatusToIcq(m_iStatus), szStatusNote);
+				if (m_bSsiEnabled)
+					updateServVisibilityCode(4);
+			}
+			SAFE_FREE(&szStatusNote);
+
+			if (m_bAimEnabled)
+			{
+				icq_lock l(m_modeMsgsMutex);
+
+				char ** pszStatusNote = MirandaStatusToAwayMsg(m_iStatus);
+
+				if (pszStatusNote)
+					icq_sendSetAimAwayMsgServ(*pszStatusNote);
+				else // clear the away message
+					icq_sendSetAimAwayMsgServ(NULL);
 			}
 		}
 	}
