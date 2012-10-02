@@ -145,7 +145,7 @@ VOID GetNewsData(TCHAR *tszUrl, char** szData, HANDLE hContact, HWND hwndDlg)
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
-	nlhr.flags = NLHRF_NODUMP | NLHRF_HTTP11;
+	nlhr.flags = NLHRF_HTTP11;
 	char *szUrl = mir_t2a(tszUrl);
 	nlhr.szUrl = szUrl;
 	nlhr.nlc = hNetlibHttp;
@@ -161,7 +161,7 @@ VOID GetNewsData(TCHAR *tszUrl, char** szData, HANDLE hContact, HWND hwndDlg)
 	nlhr.headers[3].szName  = "Connection";
 	nlhr.headers[3].szValue = "close";
 	nlhr.headers[4].szName  = "Accept";
-	nlhr.headers[4].szValue = "ext/html, application/xml";
+	nlhr.headers[4].szValue = "*/*";
 	if (DBGetContactSettingByte(hContact, MODULE, "UseAuth", 0) || IsDlgButtonChecked(hwndDlg, IDC_USEAUTH))
 	{
 		nlhr.headersCount = 6;
