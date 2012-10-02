@@ -138,7 +138,7 @@ int CSkypeProto::SetStatus(int new_status)
 	{
 		this->m_iStatus = new_status;
 		//todo: set all status to offline
-		this->account->Logout();
+		this->account->Logout(true);
 		this->account->BlockWhileLoggingOut();
 		this->account->SetAvailability(CContact::OFFLINE);
 		this->SetAllContactStatuses(ID_STATUS_OFFLINE);
@@ -154,8 +154,8 @@ int CSkypeProto::SetStatus(int new_status)
 				this->m_iStatus = ID_STATUS_CONNECTING;
 				this->password = this->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD);
 			
-				//this->ForkThread(&CSkypeProto::SignIn, this);
-				this->SignIn(this);
+				this->ForkThread(&CSkypeProto::SignIn, this);
+				//this->SignIn(this);
 			}
 		}
 
@@ -203,16 +203,14 @@ bool CSkypeProto::IsOffline()
 
 void __cdecl CSkypeProto::SignIn(void*)
 {
-	//WaitForSingleObject(&this->signin_lock, INFINITE);
+	WaitForSingleObject(&this->signin_lock, INFINITE);
 
-	this->account->LoginWithPassword(::mir_u2a(this->password));
+	this->account->LoginWithPassword(::mir_u2a(this->password), false, false);
 	this->account->BlockWhileLoggingIn();
 
-	//CContact::Ref()->SetOnChangeCallback((OnContactChangeFunc)&CSkypeProto::OnContactChanged, this);
-
 	this->SetStatus(this->m_iDesiredStatus);
-	//this->ForkThread(&CSkypeProto::LoadContactList, this);
-	this->LoadContactList(this);
+	this->ForkThread(&CSkypeProto::LoadContactList, this);
+	//this->LoadContactList(this);
 
-	//ReleaseMutex(this->signin_lock);
+	ReleaseMutex(this->signin_lock);
 }

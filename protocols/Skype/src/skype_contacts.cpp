@@ -3,11 +3,27 @@
 
 void CSkypeProto::OnContactChanged(CContact* contact, int prop)
 {
+	if (prop == CContact::P_AVAILABILITY)
+	{
+		SEString data;
+
+		contact->GetPropSkypename(data);
+		wchar_t* skypeName = ::mir_a2u((const char*)data);
+
+		contact->GetPropDisplayname(data);
+		wchar_t* displayName = ::mir_a2u((const char*)data);
+
+		HANDLE hContact = this->AddContactBySkypeName(skypeName, displayName, 0);
+
+		CContact::AVAILABILITY availability;
+		contact->GetPropAvailability(availability);
+		this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
+	}
 }
 
 bool CSkypeProto::IsSkypeContact(HANDLE hContact)
 {
-	return ::CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName) > 0;
+	return (::CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName));
 }
 
 HANDLE CSkypeProto::GetContactBySkypeName(wchar_t* skypeName)
@@ -37,7 +53,7 @@ HANDLE CSkypeProto::AddContactBySkypeName(wchar_t* skypeName, wchar_t* displayNa
 
 		this->SetSettingString(hContact, "SkypeName", skypeName);
 		this->SetSettingString(hContact, "DisplayName", displayName);
-		//::DBWriteContactSettingWString(hContact, "CList", "MyHandle", displayName);
+		::DBWriteContactSettingWString(hContact, "CList", "MyHandle", displayName);
 
 		if (flags & PALF_TEMPORARY)
 		{
@@ -110,26 +126,26 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 	g_skype->GetHardwiredContactGroup(CContactGroup::ALL_KNOWN_CONTACTS, this->contactGroup);
 
     this->contactGroup->GetContacts(this->contactGroup->ContactList);
-    fetch(this->contactGroup->ContactList);
+    Sid::fetch(this->contactGroup->ContactList);
 
     for (unsigned int i = 0; i < this->contactGroup->ContactList.size(); i++)
     {
-		//this->contactGroup->ContactList[i]->SetOnContactChangeCallback((OnContactChangeFunc)&CSkypeProto::OnContactChanged, this);
+		CContact::Ref contact = this->contactGroup->ContactList[i];
 
-		//SEString sn;
-		//this->contactGroup->ContactList[i]->GetPropSkypename(sn);
-		wchar_t* skypeName = L"1";//::mir_a2u((const char*)sn);
+		contact->SetOnContactChangeCallback((OnContactChangeFunc)&CSkypeProto::OnContactChanged, this);
 
-		//SEString dn;
-		//this->contactGroup->ContactList[i]->GetPropDisplayname(dn);
-		wchar_t* displayName = L"1";//::mir_a2u((const char*)dn);
+		SEString data;
 
-		//HANDLE hContact = this->GetContactBySkypeName(L"321");
-		//if (!hContact)
+		contact->GetPropSkypename(data);
+		wchar_t* skypeName = ::mir_a2u((const char*)data);
+
+		contact->GetPropDisplayname(data);
+		wchar_t* displayName = ::mir_a2u((const char*)data);
+
 		HANDLE hContact = this->AddContactBySkypeName(skypeName, displayName, 0);
 		
 		CContact::AVAILABILITY availability;
-		this->contactGroup->ContactList[i]->GetPropAvailability(availability);
+		contact->GetPropAvailability(availability);
 		this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
 	}
 }
