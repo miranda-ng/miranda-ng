@@ -146,6 +146,9 @@ void strdel(TCHAR *parBuffer, int len);
 
 #if MIRANDA_VER < 0x0A00
 
+#define db_free(A) DBFreeVariant(A)
+#define db_set_s(A,B,C,D) DBWriteContactSettingString(A,B,C,D)
+
 template<class T> class mir_ptr
 {
 	T *data;
