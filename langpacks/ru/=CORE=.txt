@@ -2030,7 +2030,7 @@ Cвернуть
 [Non-loadable plugin]
 Незагружаемый модуль
 [Check database]
-Проверить БД
+Проверить базу
 [Fatal error]
 Фатальная ошибка
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
