@@ -474,3 +474,5 @@
 Возможна гроза, 20% вероятность осадков
 [Chance Of Rain 60% Chance Of Precipitation]
 Возможен дождь, 60% вероятность осадков
+[Chance Of Rain 70% Chance Of Precipitation]
+Возможен дождь, 70% вероятность осадков
