@@ -35,12 +35,34 @@ CSkypeProto::~CSkypeProto()
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr) 
 {
 	//if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
-		return 0;
-
-	//return this->AddToListBySkypeLogin(psr->id, psr->nick, psr->firstName, psr->lastName, flags);
+	//	return 0;
+	//
+	//return this->AddContactBySkypeName(psr->id, psr->nick, flags);
+	return 0;
 }
 
-HANDLE __cdecl CSkypeProto::AddToListByEvent( int flags, int iContact, HANDLE hDbEvent ) { return 0; }
+HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) 
+{
+	//DBEVENTINFO dbei = {0};
+	//dbei.cbSize = sizeof(dbei);
+
+	//if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) != -1) 
+	//{
+	//	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
+	//	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei) == 0 &&
+	//			!strcmp(dbei.szModule, m_szModuleName) &&
+	//			(dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_CONTACTS)) 
+	//	{
+	//		char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
+	//		char *firstName = nick + strlen(nick) + 1;
+	//		char *lastName = firstName + strlen(firstName) + 1;
+	//		char *skypeName = lastName + strlen(lastName) + 1;
+	//		return AddContactBySkypeName(::mir_a2u(skypeName), ::mir_a2u(nick), 0);
+	//	}
+	//}
+	return 0;
+}
+
 int    __cdecl CSkypeProto::Authorize( HANDLE hDbEvent ) { return 0; }
 int    __cdecl CSkypeProto::AuthDeny( HANDLE hDbEvent, const TCHAR* szReason ) { return 0; }
 int    __cdecl CSkypeProto::AuthRecv( HANDLE hContact, PROTORECVEVENT* ) { return 0; }
@@ -66,9 +88,9 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS | 
 			PF4_OFFLINEFILES | PF4_IMSENDUTF | PF4_IMSENDOFFLINE;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("Skype login");
+		return (INT_PTR)Translate("Skype Name");
 	case PFLAG_UNIQUEIDSETTING:
-		return (INT_PTR) "SL";
+		return (INT_PTR) L"SkypeName";
 	default:
 		return 0;
 	}
@@ -116,7 +138,7 @@ int CSkypeProto::SetStatus(int new_status)
 	{
 		this->m_iStatus = new_status;
 		//todo: set all status to offline
-		this->account->Logout(true);
+		this->account->Logout();
 		this->account->BlockWhileLoggingOut();
 		this->account->SetAvailability(CContact::OFFLINE);
 		this->SetAllContactStatuses(ID_STATUS_OFFLINE);
@@ -132,31 +154,12 @@ int CSkypeProto::SetStatus(int new_status)
 				this->m_iStatus = ID_STATUS_CONNECTING;
 				this->password = this->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD);
 			
-				this->ForkThread(&CSkypeProto::SignIn, this);
-				//this->SignIn(this);
+				//this->ForkThread(&CSkypeProto::SignIn, this);
+				this->SignIn(this);
 			}
 		}
 
-		CContact::AVAILABILITY availability = CContact::UNKNOWN;
-		switch(this->m_iStatus)
-		{
-		case ID_STATUS_ONLINE:
-			availability = CContact::ONLINE;
-			break;
-
-		case ID_STATUS_AWAY:
-			availability = CContact::AWAY;
-			break;
-
-		case ID_STATUS_DND:
-			availability = CContact::DO_NOT_DISTURB;
-			break;
-
-		case ID_STATUS_INVISIBLE:
-			availability = CContact::INVISIBLE;
-			break;
-		}
-
+		CContact::AVAILABILITY availability = this->MirandaToSkypeStatus(this->m_iStatus);
 		if(availability != CContact::UNKNOWN)
 			this->account->SetAvailability(availability);	
 	}
@@ -200,16 +203,16 @@ bool CSkypeProto::IsOffline()
 
 void __cdecl CSkypeProto::SignIn(void*)
 {
-	WaitForSingleObject(&this->signin_lock, INFINITE);
+	//WaitForSingleObject(&this->signin_lock, INFINITE);
 
-	this->account->LoginWithPassword(mir_u2a(this->password), false, false);
+	this->account->LoginWithPassword(::mir_u2a(this->password));
 	this->account->BlockWhileLoggingIn();
 
 	//CContact::Ref()->SetOnChangeCallback((OnContactChangeFunc)&CSkypeProto::OnContactChanged, this);
 
 	this->SetStatus(this->m_iDesiredStatus);
-	this->ForkThread(&CSkypeProto::LoadContactList, this);
-	//this->LoadContactList(this);
+	//this->ForkThread(&CSkypeProto::LoadContactList, this);
+	this->LoadContactList(this);
 
-	ReleaseMutex(this->signin_lock);
+	//ReleaseMutex(this->signin_lock);
 }

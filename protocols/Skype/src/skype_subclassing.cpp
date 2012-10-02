@@ -40,7 +40,13 @@ void CAccount::OnChange(int prop)
 			}
 		}
 	}
-  //(proto->*callback)(this, prop);
+
+}
+
+void CContact::SetOnContactChangeCallback(OnContactChangeFunc callback, CSkypeProto* proto)
+{
+	this->proto = proto;
+	this->callback = callback;
 }
 
 void CAccount::BlockWhileLoggingIn()
@@ -68,13 +74,15 @@ CContact::CContact(unsigned int oid, SERootObject* root) : Contact(oid, root)
 {
 }
 
-void CAccount::SetOnChangeCallback(OnContactChangeFunc callback, CSkypeProto* proto)
-{
-	this->proto  = proto;
-	this->callback = callback;
-}
+//void CAccount::SetOnChangeCallback(OnContactChangeFunc callback, CSkypeProto* proto)
+//{
+//	this->proto  = proto;
+//	this->callback = callback;
+//}
 
 void CContact::OnChange(int prop)
 {
-	//(proto->*callback)(this, prop);
+	//SEString identity;
+	//this->GetIdentity(identity);
+	(proto->*callback)(this, prop);
 }

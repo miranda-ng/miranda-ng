@@ -84,8 +84,14 @@ protected:
 	void __cdecl SignIn(void*);
 	void __cdecl LoadContactList(void*);
 
+	// contacts
 	void  OnContactChanged(CContact* contact, int prop);
-	HANDLE	GetContactBySkypeLogin(const char* skypeLogin);
+	
+	bool	IsSkypeContact(HANDLE hContact);
+	HANDLE	AddContactBySkypeName(wchar_t* skypeName, wchar_t* displayName, DWORD flags);
+	HANDLE	GetContactBySkypeName(wchar_t* skypeName);
+	int		SkypeToMirandaStatus(CContact::AVAILABILITY availability);
+	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
 	void	SetAllContactStatuses(int status);
 
 	// utils
@@ -114,10 +120,10 @@ protected:
 	WORD	GetSettingWord(HANDLE hContact, const char *setting, WORD errorValue = 0);
 	DWORD	GetSettingDword(const char *setting, DWORD defVal = 0);
 	DWORD	GetSettingDword(HANDLE hContact, const char *setting, DWORD errorValue = 0);
-	TCHAR*	GetSettingString(const char *setting, TCHAR* errorValue = NULL);
-	TCHAR*	GetSettingString(HANDLE hContact, const char *setting, TCHAR* errorValue = NULL);
-	TCHAR*	GetDecodeSettingString(const char *setting, TCHAR* errorValue = NULL);
-	TCHAR*	GetDecodeSettingString(HANDLE hContact, const char *setting, TCHAR* errorValue = NULL);
+	wchar_t*	GetSettingString(const char *setting, wchar_t* errorValue = NULL);
+	wchar_t*	GetSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue = NULL);
+	wchar_t*	GetDecodeSettingString(const char *setting, wchar_t* errorValue = NULL);
+	wchar_t*	GetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue = NULL);
 
 	bool	SetSettingByte(const char *setting, BYTE value = 0);
 	bool	SetSettingByte(HANDLE hContact, const char *setting, BYTE value = 0);
@@ -125,10 +131,10 @@ protected:
 	bool	SetSettingWord(HANDLE hContact, const char *setting, WORD value = 0);
 	bool	SetSettingDword(const char *setting, DWORD value = 0);
 	bool	SetSettingDword(HANDLE hContact, const char *setting, DWORD value = 0);
-	bool	SetSettingString(const char *setting, TCHAR* value = NULL);
-	bool	SetSettingString(HANDLE hContact, const char *setting, TCHAR* value = NULL);
-	bool	SetDecodeSettingString(const char *setting, TCHAR* value = NULL);
-	bool	SetDecodeSettingString(HANDLE hContact, const char *setting, TCHAR* value = NULL);
+	bool	SetSettingString(const char *setting, wchar_t* value = NULL);
+	bool	SetSettingString(HANDLE hContact, const char *setting, wchar_t* value = NULL);
+	bool	SetDecodeSettingString(const char *setting, wchar_t* value = NULL);
+	bool	SetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* value = NULL);
 
 	// dialog procs
 	static INT_PTR CALLBACK SkypeAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);

@@ -8,7 +8,7 @@
 class CContact;
 struct CSkypeProto;
 
-typedef void (__cdecl CSkypeProto::* OnContactChangeFunc)(CContact*, int);
+typedef void (CSkypeProto::* OnContactChangeFunc)(CContact* contact, int);
 
 class CContact : public Contact
 {
@@ -17,8 +17,14 @@ public:
 	typedef DRefs<CContact, Contact> Refs;
 
 	CContact(unsigned int oid, SERootObject* root);
+	
+	void SetOnContactChangeCallback(OnContactChangeFunc callback, CSkypeProto* proto);
 
 private:
+	CSkypeProto*	proto;
+	
+	OnContactChangeFunc callback;
+
 	void OnChange(int prop);
 };
 
@@ -48,13 +54,7 @@ public:
 	void BlockWhileLoggingIn();
 	void BlockWhileLoggingOut();
 
-	
-	void SetOnChangeCallback(OnContactChangeFunc callback, CSkypeProto* proto);
-	
 private:
-	CSkypeProto* proto;
-	OnContactChangeFunc callback;
-
 	void OnChange(int prop);
 };
 

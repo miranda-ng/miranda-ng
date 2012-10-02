@@ -3,6 +3,7 @@
 #define MIRANDA_VER 0x0A00
 
 #include <windows.h>
+#include <malloc.h>
 
 //#pragma warning(push)
 //#	pragma warning(disable:4312)
