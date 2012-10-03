@@ -192,9 +192,9 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 		if (!hContact && DBPreset_QuerySetting(dbcgs->szModule, dbcgs->szSetting, dbcgs->pValue, isStatic)) {
 			/**** add to cache **********************/
 			if ( dbcgs->pValue->type != DBVT_BLOB ) {
-				DBVARIANT* pCachedValue = GetCachedValuePtr( hContact, szCachedSettingName, 1 );
+				DBVARIANT* pCachedValue = m_cache->GetCachedValuePtr( hContact, szCachedSettingName, 1 );
 				if ( pCachedValue != NULL )
-					SetCachedVariant(dbcgs->pValue,pCachedValue);
+					m_cache->SetCachedVariant(dbcgs->pValue,pCachedValue);
 			}
 			return 0;
 		}
