@@ -109,8 +109,10 @@
     <ClCompile Include="src\skype_dialogs.cpp" />
     <ClCompile Include="src\skype_events.cpp" />
     <ClCompile Include="src\skype_icons.cpp" />
+    <ClCompile Include="src\skype_menus.cpp" />
     <ClCompile Include="src\skype_netlib.cpp" />
     <ClCompile Include="src\skype_proto.cpp" />
+    <ClCompile Include="src\skype_services.cpp" />
     <ClCompile Include="src\skype_settings.cpp" />
     <ClCompile Include="src\skype_subclassing.cpp" />
     <ClCompile Include="src\skype_utils.cpp" />

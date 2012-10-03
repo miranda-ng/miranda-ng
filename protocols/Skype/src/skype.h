@@ -43,9 +43,7 @@
 #include "resource.h"
 #include "version.h"
 
-extern HINSTANCE g_hInstance;
-
-void IconsLoad();
+#include "skype_subclassing.h"
 
 #define MODULE "Skype"
 #define SKYPE_SETTINGS_NAME "Name"
@@ -53,7 +51,7 @@ void IconsLoad();
 #define SKYPE_SETTINGS_LOGIN "SkypeLogin"
 #define SKYPE_SETTINGS_PASSWORD "Password"
 
-#include "skype_subclassing.h"
-
 extern CSkype* g_skype;
+extern HINSTANCE g_hInstance;
+
 static const char* g_keyFileName = "..\\..\\..\\SkypeKit\\keypair.crt";

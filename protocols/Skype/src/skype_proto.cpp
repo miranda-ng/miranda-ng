@@ -11,12 +11,9 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	//this->m_szProtoName[0] = toupper(m_szProtoName[0]);
 
 	this->signin_lock = CreateMutex(0, false, 0);
-	this->SetAllContactStatuses(ID_STATUS_OFFLINE);
+	this->SetAllContactStatus(ID_STATUS_OFFLINE);
 
 	this->InitNetLib();
-
-	//->SetOnChangeCallback((OnContactChangeFunc)&CSkypeProto::OnContactChanged, this);
-	//.SetOnChangeCallback((OnContactChangeFunc)&CSkypeProto::OnContactChanged, this);
 
 	this->CreateService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 }
@@ -34,32 +31,31 @@ CSkypeProto::~CSkypeProto()
 
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr) 
 {
-	//if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
-	//	return 0;
-	//
-	//return this->AddContactBySkypeName(psr->id, psr->nick, flags);
-	return 0;
+	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
+		return 0;
+	
+	return this->AddContactBySkypeName(psr->id, psr->nick, flags);
 }
 
 HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) 
 {
-	//DBEVENTINFO dbei = {0};
-	//dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = {0};
+	dbei.cbSize = sizeof(dbei);
 
-	//if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) != -1) 
-	//{
-	//	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-	//	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei) == 0 &&
-	//			!strcmp(dbei.szModule, m_szModuleName) &&
-	//			(dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_CONTACTS)) 
-	//	{
-	//		char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
-	//		char *firstName = nick + strlen(nick) + 1;
-	//		char *lastName = firstName + strlen(firstName) + 1;
-	//		char *skypeName = lastName + strlen(lastName) + 1;
-	//		return AddContactBySkypeName(::mir_a2u(skypeName), ::mir_a2u(nick), 0);
-	//	}
-	//}
+	if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) != -1) 
+	{
+		dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
+		if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei) == 0 &&
+				!strcmp(dbei.szModule, m_szModuleName) &&
+				(dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_CONTACTS)) 
+		{
+			char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
+			char *firstName = nick + strlen(nick) + 1;
+			char *lastName = firstName + strlen(firstName) + 1;
+			char *skypeName = lastName + strlen(lastName) + 1;
+			return AddContactBySkypeName(::mir_a2u(skypeName), ::mir_a2u(nick), 0);
+		}
+	}
 	return 0;
 }
 
@@ -141,7 +137,7 @@ int CSkypeProto::SetStatus(int new_status)
 		this->account->Logout(true);
 		this->account->BlockWhileLoggingOut();
 		this->account->SetAvailability(CContact::OFFLINE);
-		this->SetAllContactStatuses(ID_STATUS_OFFLINE);
+		this->SetAllContactStatus(ID_STATUS_OFFLINE);
 	}
 	else 
 	{
@@ -188,17 +184,6 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 	}
 
 	return 1;
-}
-
-
-char* CSkypeProto::ModuleName()
-{
-	return this->m_szModuleName;
-}
-
-bool CSkypeProto::IsOffline()
-{
-	return this->m_iStatus == ID_STATUS_OFFLINE;
 }
 
 void __cdecl CSkypeProto::SignIn(void*)

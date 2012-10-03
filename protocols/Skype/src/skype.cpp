@@ -94,7 +94,6 @@ void StartSkypeRuntime()
 {
 	// loading skype runtime
 	// shitcode
-	int port = 8963;
 	wchar_t* bsp;
 	STARTUPINFO cif;
 	PROCESS_INFORMATION pi;
@@ -155,13 +154,17 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnUninit = (pfnUninitProto)SkypeProtoUninit;
 	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&pd));
 
-	IconsLoad();
+	CSkypeProto::InitIcons();
+	CSkypeProto::InitMenus();
 
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	CSkypeProto::UninitMenus();
+	CSkypeProto::UninitIcons();
+
 	g_skype->stop();
 	delete g_skype;
 

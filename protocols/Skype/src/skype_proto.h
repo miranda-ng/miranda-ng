@@ -4,6 +4,8 @@
 
 struct CSkypeProto;
 
+extern LIST<CSkypeProto> g_Instances;
+
 typedef void    (__cdecl CSkypeProto::* SkypeThreadFunc) (void*);
 typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFunc)(WPARAM, LPARAM);
 typedef int     (__cdecl CSkypeProto::* SkypeEventFunc)(WPARAM, LPARAM);
@@ -69,8 +71,20 @@ public:
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 
-	char* ModuleName();
-	bool IsOffline();
+	// services
+	static void InitServiceList();
+	static void UninitServiceList();
+
+	// icons
+	static void InitIcons();
+	static void UninitIcons();
+
+	// menus
+	static void InitMenus();
+	static void UninitMenus();
+
+	static CSkypeProto* GetInstanceByHContact(HANDLE hContact);
+	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 
 protected:
 	CAccount::Ref account;
@@ -87,12 +101,12 @@ protected:
 	// contacts
 	void  OnContactChanged(CContact* contact, int prop);
 	
-	bool	IsSkypeContact(HANDLE hContact);
+	bool	IsProtoContact(HANDLE hContact);
 	HANDLE	AddContactBySkypeName(wchar_t* skypeName, wchar_t* displayName, DWORD flags);
 	HANDLE	GetContactBySkypeName(wchar_t* skypeName);
 	int		SkypeToMirandaStatus(CContact::AVAILABILITY availability);
 	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
-	void	SetAllContactStatuses(int status);
+	void	SetAllContactStatus(int status);
 
 	// utils
 	void	CreateService(const char* szService, SkypeServiceFunc serviceProc);
@@ -112,6 +126,14 @@ protected:
 	void	InitNetLib();
 	void	UninitNetLib();
 	void	Log(const char* fmt, ...);
+
+	// services
+	//static LIST<HANDLE> serviceList;
+
+	// menu
+	static HANDLE hPrebuildMenuHook;
+
+	int		OnPrebuildContactMenu(WPARAM wParam, LPARAM);
 
 	// database settings
 	BYTE	GetSettingByte(const char *setting, BYTE errorValue = 0);

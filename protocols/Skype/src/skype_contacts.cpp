@@ -10,18 +10,22 @@ void CSkypeProto::OnContactChanged(CContact* contact, int prop)
 		contact->GetPropSkypename(data);
 		wchar_t* skypeName = ::mir_a2u((const char*)data);
 
-		contact->GetPropDisplayname(data);
-		wchar_t* displayName = ::mir_a2u((const char*)data);
+		HANDLE hContact = this->GetContactBySkypeName(skypeName);
+		if (hContact)
+		{
+			CContact::AVAILABILITY availability;
+			contact->GetPropAvailability(availability);
+			this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
 
-		HANDLE hContact = this->AddContactBySkypeName(skypeName, displayName, 0);
-
-		CContact::AVAILABILITY availability;
-		contact->GetPropAvailability(availability);
-		this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
+			if (availability == CContact::PENDINGAUTH)
+				this->SetSettingWord(hContact, "Auth", 1);
+			else
+				DBDeleteContactSetting(hContact, this->m_szModuleName, "Auth");
+		}
 	}
 }
 
-bool CSkypeProto::IsSkypeContact(HANDLE hContact)
+bool CSkypeProto::IsProtoContact(HANDLE hContact)
 {
 	return (::CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName));
 }
@@ -31,7 +35,7 @@ HANDLE CSkypeProto::GetContactBySkypeName(wchar_t* skypeName)
 	HANDLE hContact = (HANDLE)::CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact)
 	{
-		if  (this->IsSkypeContact(hContact))
+		if  (this->IsProtoContact(hContact))
 		{
 			if (::wcscmp(skypeName, this->GetSettingString(hContact, "SkypeName", L"")) == 0)
 				return hContact;
@@ -52,8 +56,8 @@ HANDLE CSkypeProto::AddContactBySkypeName(wchar_t* skypeName, wchar_t* displayNa
 		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
 
 		this->SetSettingString(hContact, "SkypeName", skypeName);
-		this->SetSettingString(hContact, "DisplayName", displayName);
-		::DBWriteContactSettingWString(hContact, "CList", "MyHandle", displayName);
+		this->SetSettingString(hContact, "Nick", displayName);
+		//::DBWriteContactSettingWString(hContact, "CList", "MyHandle", displayName);
 
 		if (flags & PALF_TEMPORARY)
 		{
@@ -131,7 +135,6 @@ void __cdecl CSkypeProto::LoadContactList(void*)
     for (unsigned int i = 0; i < this->contactGroup->ContactList.size(); i++)
     {
 		CContact::Ref contact = this->contactGroup->ContactList[i];
-
 		contact->SetOnContactChangeCallback((OnContactChangeFunc)&CSkypeProto::OnContactChanged, this);
 
 		SEString data;
@@ -140,25 +143,30 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 		wchar_t* skypeName = ::mir_a2u((const char*)data);
 
 		contact->GetPropDisplayname(data);
-		wchar_t* displayName = ::mir_a2u((const char*)data);
+		wchar_t* displayName = :: mir_utf8decodeW((const char*)data);
 
 		HANDLE hContact = this->AddContactBySkypeName(skypeName, displayName, 0);
-		
+
 		CContact::AVAILABILITY availability;
 		contact->GetPropAvailability(availability);
 		this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
+
+		if (availability == CContact::PENDINGAUTH)
+			this->SetSettingWord(hContact, "Auth", 1);
+		else
+			DBDeleteContactSetting(hContact, this->m_szModuleName, "Auth");
 	}
 }
 
-void CSkypeProto::SetAllContactStatuses(int status)
+void CSkypeProto::SetAllContactStatus(int status)
 {
-	for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	    hContact;
-	    hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+	HANDLE hContact = (HANDLE)::CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	while (hContact)
 	{
-		if (this->GetSettingWord(hContact, SKYPE_SETTINGS_STATUS, ID_STATUS_OFFLINE) == status)
-			continue;
+		if  (this->IsProtoContact(hContact))
+			if ( !this->GetSettingWord(hContact, SKYPE_SETTINGS_STATUS, ID_STATUS_OFFLINE) == status)
+				this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, status);
 
-		this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, status);
+		hContact = (HANDLE)::CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 	}
 }

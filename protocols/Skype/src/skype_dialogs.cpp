@@ -7,37 +7,25 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 	switch (message)
 	{
 	case WM_INITDIALOG:
+	{
 		TranslateDialogDefault(hwnd);
 
 		proto = reinterpret_cast<CSkypeProto*>(lparam);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
-		DBVARIANT dbv;
-		if ( !DBGetContactSettingWString(0, proto->ModuleName(), SKYPE_SETTINGS_LOGIN, &dbv))
-		{
-			SetDlgItemText(hwnd, IDC_SL, dbv.ptszVal);
-			DBFreeVariant(&dbv);
-		}
+		SetDlgItemText(hwnd, IDC_SL, proto->GetSettingString(SKYPE_SETTINGS_LOGIN, L""));
+		SetDlgItemText(hwnd, IDC_SL, proto->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, L""));
 
-		if ( !DBGetContactSettingWString(0, proto->ModuleName(), SKYPE_SETTINGS_PASSWORD, &dbv))
-		{
-			CallService(
-				MS_DB_CRYPT_DECODESTRING,
-				wcslen(dbv.ptszVal) + 1,
-				reinterpret_cast<LPARAM>(dbv.ptszVal));
-			SetDlgItemText(hwnd, IDC_PW, dbv.ptszVal);
-			DBFreeVariant(&dbv);
-		}
-
-		if ( !proto->IsOffline()) 
+		if ( proto->m_iStatus != ID_STATUS_OFFLINE)
 		{
 			SendMessage(GetDlgItem(hwnd, IDC_SL), EM_SETREADONLY, 1, 0);
 			SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0); 
 		}
-
-		return TRUE;
+	}
+	return TRUE;
 
 	case WM_COMMAND:
+	{
 		if (HIWORD(wparam) == EN_CHANGE && reinterpret_cast<HWND>(lparam) == GetFocus())
 		{
 			switch(LOWORD(wparam))
@@ -47,24 +35,26 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			}
 		}
-		break;
+	}
+	break;
 
 	case WM_NOTIFY:
+	{
 		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
 		{
-			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-			TCHAR str[128];
+			TCHAR data[128];
+			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));			
 
-			GetDlgItemText(hwnd, IDC_SL, str, sizeof(str));
-			DBWriteContactSettingWString(0, proto->ModuleName(), SKYPE_SETTINGS_LOGIN, str);
+			GetDlgItemText(hwnd, IDC_SL, data, sizeof(data));
+			proto->SetSettingString(SKYPE_SETTINGS_LOGIN, data);
 
-			GetDlgItemText(hwnd, IDC_PW, str, sizeof(str));
-			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), reinterpret_cast<LPARAM>(str));
-			DBWriteContactSettingWString(0, proto->ModuleName(), SKYPE_SETTINGS_PASSWORD, str);
+			GetDlgItemText(hwnd, IDC_PW, data, sizeof(data));
+			proto->SetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, data);
 
 			return TRUE;
 		}
-		break;
+	}
+	break;
 
 	}
 
@@ -84,24 +74,10 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 		proto = reinterpret_cast<CSkypeProto*>(lparam);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
-		DBVARIANT dbv;
-		if ( !DBGetContactSettingString(0, proto->ModuleName(), SKYPE_SETTINGS_LOGIN, &dbv))
-		{
-			SetDlgItemText(hwnd, IDC_SL, dbv.ptszVal);
-			DBFreeVariant(&dbv);
-		}
+		SetDlgItemText(hwnd, IDC_SL, proto->GetSettingString(SKYPE_SETTINGS_LOGIN, L""));
+		SetDlgItemText(hwnd, IDC_PW, proto->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, L""));
 
-		if ( !DBGetContactSettingString(0, proto->ModuleName(), SKYPE_SETTINGS_PASSWORD, &dbv))
-		{
-			CallService(
-				MS_DB_CRYPT_DECODESTRING,
-				wcslen(dbv.ptszVal) + 1,
-				reinterpret_cast<LPARAM>(dbv.ptszVal));
-			SetDlgItemText(hwnd, IDC_PW, dbv.ptszVal);
-			DBFreeVariant(&dbv);
-		}
-
-		if ( !proto->IsOffline()) 
+		if (proto->m_iStatus != ID_STATUS_OFFLINE) 
 		{
 			SendMessage(GetDlgItem(hwnd, IDC_SL), EM_SETREADONLY, 1, 0);
 			SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0); 
@@ -120,20 +96,21 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			}
 		}
-		break;
+	}
+	break;
 
 	case WM_NOTIFY:
+	{
 		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
 		{
+			wchar_t data[128];
 			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-			TCHAR str[128];
 
-			GetDlgItemText(hwnd, IDC_SL, str, sizeof(str));
-			DBWriteContactSettingTString(0, proto->ModuleName(), SKYPE_SETTINGS_LOGIN, str);
+			GetDlgItemText(hwnd, IDC_SL, data, sizeof(data));
+			proto->SetSettingString(SKYPE_SETTINGS_LOGIN, data);
 
-			GetDlgItemText(hwnd, IDC_PW, str, sizeof(str));
-			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), reinterpret_cast<LPARAM>(str));
-			DBWriteContactSettingTString(0, proto->ModuleName(), SKYPE_SETTINGS_PASSWORD, str);
+			GetDlgItemText(hwnd, IDC_PW, data, sizeof(data));
+			proto->SetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, data);
 
 			return TRUE;
 		}
