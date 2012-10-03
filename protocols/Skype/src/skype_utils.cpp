@@ -1,5 +1,10 @@
 #include "skype_proto.h"
 
+int CSkypeProto::CompareProtos(const CSkypeProto *p1, const CSkypeProto *p2)
+{
+	return wcscmp(p1->m_tszUserName, p2->m_tszUserName);
+}
+
 void CSkypeProto::CreateService(const char* szService, SkypeServiceFunc serviceProc)
 {
 	char moduleName[MAXMODULELABELLENGTH];
@@ -27,11 +32,6 @@ HANDLE CSkypeProto::CreateEvent(const char* szService)
 void CSkypeProto::HookEvent(const char* szEvent, SkypeEventFunc handler)
 {
 	::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*( void**)&handler, this);
-}
-
-int CSkypeProto::SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam)
-{
-	return this->SendBroadcast(NULL, type, result, hProcess, lParam);
 }
 
 int CSkypeProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)

@@ -4,13 +4,18 @@
 
 struct CSkypeProto;
 
-extern LIST<CSkypeProto> g_Instances;
-
 typedef void    (__cdecl CSkypeProto::* SkypeThreadFunc) (void*);
 typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFunc)(WPARAM, LPARAM);
 typedef int     (__cdecl CSkypeProto::* SkypeEventFunc)(WPARAM, LPARAM);
 typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFuncParam)(WPARAM, LPARAM, LPARAM);
 
+struct _tag_iconList
+{
+	wchar_t*	Description;
+	char*		Name;
+	int			IconId;
+	HANDLE		Handle;
+};
 
 struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
 {
@@ -66,10 +71,15 @@ public:
 
 	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
 
+	// events
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
+
+	// instances
+	static CSkypeProto* InitSkypeProto(const char* protoName, const wchar_t* userName);
+	static int UninitSkypeProto(CSkypeProto* ppro);
 
 	// services
 	static void InitServiceList();
@@ -93,7 +103,6 @@ protected:
 	TCHAR*	login;
 	TCHAR*	password;
 
-
 	HANDLE	signin_lock;
 	void __cdecl SignIn(void*);
 	void __cdecl LoadContactList(void*);
@@ -108,7 +117,10 @@ protected:
 	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
 	void	SetAllContactStatus(int status);
 
-	// utils
+	// instances
+	static LIST<CSkypeProto> instanceList;
+	static int CompareProtos(const CSkypeProto *p1, const CSkypeProto *p2);
+
 	void	CreateService(const char* szService, SkypeServiceFunc serviceProc);
 	void	CreateServiceParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
 	
@@ -128,7 +140,10 @@ protected:
 	void	Log(const char* fmt, ...);
 
 	// services
-	//static LIST<HANDLE> serviceList;
+	static LIST<HANDLE> serviceList;
+
+	// icons
+	static _tag_iconList iconList[];
 
 	// menu
 	static HANDLE hPrebuildMenuHook;

@@ -18,9 +18,9 @@ CSkypeProto* CSkypeProto::GetInstanceByHContact(HANDLE hContact)
 	if (proto == NULL)
 		return NULL;
 
-	for (int i = 0; i < g_Instances.getCount(); i++)
-		if (!strcmp(proto, g_Instances[i]->m_szModuleName))
-			return g_Instances[i];
+	for (int i = 0; i < CSkypeProto::instanceList.getCount(); i++)
+		if (!strcmp(proto, CSkypeProto::instanceList[i]->m_szModuleName))
+			return CSkypeProto::instanceList[i];
 
 	return NULL;
 }

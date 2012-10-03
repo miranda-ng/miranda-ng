@@ -14,7 +14,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
 		SetDlgItemText(hwnd, IDC_SL, proto->GetSettingString(SKYPE_SETTINGS_LOGIN, L""));
-		SetDlgItemText(hwnd, IDC_SL, proto->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, L""));
+		SetDlgItemText(hwnd, IDC_PW, proto->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, L""));
 
 		if ( proto->m_iStatus != ID_STATUS_OFFLINE)
 		{

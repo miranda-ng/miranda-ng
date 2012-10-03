@@ -1,13 +1,6 @@
 #include "skype_proto.h"
 
-// todo: need to move in CSkypeProto struct
-struct _tag_iconList
-{
-	wchar_t*	Description;
-	char*		Name;
-	int			IconId;
-	HANDLE		Handle;
-} static iconList[] =
+_tag_iconList CSkypeProto::iconList[] =
 {
 	{ LPGENT("Protocol icon"),	"main",			IDI_ICON },
 };
