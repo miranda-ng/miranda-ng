@@ -238,17 +238,6 @@ type
     lParam       : LPARAM;
   end;
 
-  //File(s) have been received (0.9.x)
-  PPROTORECVFILET = ^TPROTORECVFILET;
-  TPROTORECVFILET = record
-    flags        : DWORD;
-    timestamp    : DWORD;   // unix time
-    szDescription: TChar;
-    FileCount    : int;
-    pFiles       : ^TChar;     // pointer to an array of PAnsiChar's
-    lParam       : LPARAM;
-  end;
-
   PPROTOFILERESUME = ^TPROTOFILERESUME;
   TPROTOFILERESUME = record
     action    : int;        // FILERESUME_* flag
@@ -908,10 +897,47 @@ const
              stored as DB event EVENTTYPE_MESSAGE, blob contains message
              string without null termination.
   }
+
+{ Proto/RecvMessage
+Copies a message from a PROTORECVEVENT event into the database
+  wParam = 0 (unused)
+  lParam = CCSDATA*
+Returns the result of MS_DB_EVENT_ADD
+}
   PSR_MESSAGE  = '/RecvMessage';
 //  PSR_MESSAGEW = '/RecvMessageW';
 
   MS_PROTO_RECVMSG = 'Proto/RecvMessage';
+
+
+{ Proto/AuthRecv
+Copies the EVENTTYPE_AUTHREQUEST event from PROTORECVEVENT into DBEVENTINFO and adds it
+  wParam = char* : protocol name
+  lParam = PROTORECVEVENT*
+Returns the result of MS_DB_EVENT_ADD
+}
+  PSR_AUTH = '/RecvAuth';
+  MS_PROTO_AUTHRECV = 'Proto/AuthRecv';
+
+//File(s) have been received
+//wParam = 0
+//lParam = (LPARAM)(PROTORECVFILET*)&prf
+
+type
+  PROTORECVFILET = record
+    flags:dword;
+    timestamp:dword;    // unix time
+    szDescription:TChar;
+    fileCount:int;
+    ptszFiles:^TChar;
+    lParam:LPARAM;     // extra space for the network level protocol module
+  end;
+
+const
+  PSR_FILE = '/RecvFile';
+
+  MS_PROTO_RECVFILET = 'Proto/RecvFileT';
+
   {
     CCSDATA: Yes
     wParam : 0
@@ -952,30 +978,11 @@ const
 
   {
     CCSDATA: Yes
-    wParam : 0
-    lParam : Pointer to a TPROTORECVFILE
-    Affect : File(s) have been received
-  }
-  PSR_FILE = '/RecvFile';
-
-  MS_PROTO_RECVFILE :pAnsiChar = 'Proto/RecvFile';
-  MS_PROTO_RECVFILET:pAnsiChar = 'Proto/RecvFileT';
-
-  {
-    CCSDATA: Yes
     wParam : status_mode
     lParam : Pointer to a TPROTORECVEVENT structure
     Affect : An away message reply has been received
   }
   PSR_AWAYMSG = '/RecvAwayMsg';
 
-  {
-    An authorization request has been received
-    wParam=0
-    lParam=(LPARAM)(PROTORECVEVENT*)&pre
-    pre.szMessage is same format as blob
-    pre.lParam is the size of the blob
-  }
-  PSR_AUTH = '/RecvAuth';
 
 {$ENDIF}

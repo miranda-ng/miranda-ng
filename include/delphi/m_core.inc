@@ -181,6 +181,8 @@ function CallPluginEventHook(hInst:HINST; hEvent:THANDLE; wParam:WPARAM; lParam:
                              external CoreDLL name 'CallPluginEventHook';
 function NotifyEventHooks(hEvent:THANDLE; wParam:WPARAM; lParam:LPARAM): int; stdcall;
                           external CoreDLL name 'NotifyEventHooks';
+function NotifyFastHook(hEvent:THANDLE; wParam:WPARAM; lParam:LPARAM): int; stdcall;
+                          external CoreDLL name 'NotifyFastHook';
 
 function HookEvent(const name:PAnsiChar; hookProc: TMIRANDAHOOK): THANDLE; stdcall;
                    external CoreDLL name 'HookEvent';

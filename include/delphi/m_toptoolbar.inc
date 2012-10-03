@@ -163,6 +163,7 @@ type
     bFlatButtons,
     bAutoSize,
     bSingleLine  :boolean;
+    bHardUpdate  :boolean;    // clist modern requires to delete buttons to update them
 
     pButtonList  :PSortedList;
 

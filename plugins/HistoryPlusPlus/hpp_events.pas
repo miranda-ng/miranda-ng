@@ -671,7 +671,7 @@ var
 begin
   // blob is: uin(DWORD), hContact(THANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
   uin := PDWord(EventInfo.pBlob)^;
-  hContact := PDWord(PDWord(Pointer(EventInfo.pBlob)) + SizeOf(dword))^;
+  hContact := PDWord(uint_ptr(Pointer(EventInfo.pBlob)) + SizeOf(dword))^;
   BytePos := SizeOf(dword)*2;
   // read nick
   ReadStringTillZeroA(Pointer(EventInfo.pBlob), EventInfo.cbBlob, Nick, BytePos);
@@ -714,7 +714,7 @@ var
 begin
   // blob is: uin(DWORD), hContact(THANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
   uin := PDWord(EventInfo.pBlob)^;
-  hContact := PDWord(PDWord(Pointer(EventInfo.pBlob)) + SizeOf(dword))^;
+  hContact := PDWord(uint_ptr(Pointer(EventInfo.pBlob)) + SizeOf(dword))^;
   BytePos := SizeOf(dword)*2;
   // read nick
   ReadStringTillZeroA(Pointer(EventInfo.pBlob), EventInfo.cbBlob, Nick, BytePos);
