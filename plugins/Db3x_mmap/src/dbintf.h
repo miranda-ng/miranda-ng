@@ -136,27 +136,6 @@ struct DBEvent
 
 #include <poppack.h>
 
-struct DBCachedGlobalValue
-{
-	char* name;
-	DBVARIANT value;
-};
-
-struct DBCachedContactValue
-{
-	char* name;
-	DBVARIANT value;
-	DBCachedContactValue* next;
-};
-
-struct DBCachedContactValueList
-{
-	HANDLE hContact;
-	HANDLE hNext;
-	DBCachedContactValue* first;
-	DBCachedContactValue* last;
-};
-
 #define MAXCACHEDREADSIZE     65536
 
 struct CDb3Base : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
@@ -255,6 +234,7 @@ public:
 
 protected:
 	DWORD    m_dwFileSize;
+	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent;
 
 	CRITICAL_SECTION m_csDbAccess;
 
@@ -272,34 +252,14 @@ protected:
 
 	int m_codePage;
 
-	HANDLE m_hCacheHeap;
-	HANDLE m_hLastCachedContact;
-	char* m_lastSetting;
-	DBCachedContactValueList *m_lastVL;
-
-	LIST<DBCachedContactValueList> m_lContacts;
-	LIST<DBCachedGlobalValue> m_lGlobalSettings;
-	LIST<char> m_lSettings, m_lResidentSettings;
-	HANDLE hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent;
-
-	char* InsertCachedSetting(const char* szName, size_t cbNameLen);
-	char* GetCachedSetting(const char *szModuleName,const char *szSettingName, int moduleNameLen, int settingNameLen);
-	void SetCachedVariant(DBVARIANT* s, DBVARIANT* d);
-	void FreeCachedVariant(DBVARIANT* V);
-	DBVARIANT* GetCachedValuePtr(HANDLE hContact, char* szSetting, int bAllocate);
-	int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs,int isStatic);
-
-	////////////////////////////////////////////////////////////////////////////
-	// contacts
-
-	DBCachedContactValueList* AddToCachedContactList(HANDLE hContact, int index);
-
 	////////////////////////////////////////////////////////////////////////////
 	// modules
 
 	HANDLE m_hModHeap;
 	LIST<ModuleName> m_lMods, m_lOfs;
+	LIST<char> m_lResidentSettings;
 	HANDLE hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
+	HANDLE m_hLastCachedContact;
 	ModuleName *m_lastmn;
 
 	void  AddToList(char *name, DWORD len, DWORD ofs);
@@ -320,6 +280,7 @@ protected:
 	DWORD ConvertModuleNameOfs(DWORD ofsOld);
 	void ConvertOldEvent(DBEvent*& dbei);
 
+	int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs,int isStatic);
 	int WorkSettingsChain(DWORD ofsContact, DBContact *dbc, int firstTime);
 	int WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime);
 

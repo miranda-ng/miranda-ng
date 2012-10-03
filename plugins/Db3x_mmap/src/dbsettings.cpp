@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 DWORD GetModuleNameOfs(const char *szName);
-DBCachedContactValueList* AddToCachedContactList(HANDLE hContact, int index);
+DBCachedContact* AddToCachedContactList(HANDLE hContact, int index);
 
 int DBPreset_QuerySetting(const char *szModule, const char *szSetting, DBVARIANT *dbv, BOOL isStatic);
 
@@ -34,154 +34,6 @@ DWORD __forceinline GetSettingValueLength(PBYTE pSetting)
 		return 2+*(PWORD)(pSetting+1);
 	return pSetting[0];
 }
-
-char* CDb3Base::InsertCachedSetting(const char* szName, size_t cbNameLen)
-{
-	char* newValue = (char*)HeapAlloc(m_hCacheHeap, 0, cbNameLen);
-	*newValue = 0;
-	strcpy(newValue+1, szName+1);
-	m_lSettings.insert(newValue);
-	return newValue;
-}
-
-char* CDb3Base::GetCachedSetting(const char *szModuleName,const char *szSettingName, int moduleNameLen, int settingNameLen)
-{
-	char szFullName[512];
-	strcpy(szFullName+1,szModuleName);
-	szFullName[moduleNameLen+1] = '/';
-	strcpy(szFullName+moduleNameLen+2,szSettingName);
-
-	if (m_lastSetting && strcmp(szFullName+1, m_lastSetting) == 0)
-		return m_lastSetting;
-
-	int index = m_lSettings.getIndex(szFullName);
-	if (index != -1)
-		m_lastSetting = m_lSettings[index]+1;
-	else
-		m_lastSetting = InsertCachedSetting( szFullName, settingNameLen+moduleNameLen+3)+1;
-
-	return m_lastSetting;
-}
-
-void CDb3Base::SetCachedVariant( DBVARIANT* s /* new */, DBVARIANT* d /* cached */ )
-{
-	char* szSave = ( d->type == DBVT_UTF8 || d->type == DBVT_ASCIIZ ) ? d->pszVal : NULL;
-
-	memcpy( d, s, sizeof( DBVARIANT ));
-	if (( s->type == DBVT_UTF8 || s->type == DBVT_ASCIIZ ) && s->pszVal != NULL ) {
-		if ( szSave != NULL )
-			d->pszVal = (char*)HeapReAlloc(m_hCacheHeap,0,szSave,strlen(s->pszVal)+1);
-		else
-			d->pszVal = (char*)HeapAlloc(m_hCacheHeap,0,strlen(s->pszVal)+1);
-		strcpy(d->pszVal,s->pszVal);
-	}
-	else if ( szSave != NULL )
-		HeapFree(m_hCacheHeap,0,szSave);
-
-#ifdef DBLOGGING
-	switch( d->type ) {
-		case DBVT_BYTE:	log1( "set cached byte: %d", d->bVal ); break;
-		case DBVT_WORD:	log1( "set cached word: %d", d->wVal ); break;
-		case DBVT_DWORD:	log1( "set cached dword: %d", d->dVal ); break;
-		case DBVT_UTF8:
-		case DBVT_ASCIIZ: log1( "set cached string: '%s'", d->pszVal ); break;
-		default:				log1( "set cached crap: %d", d->type ); break;
-	}
-#endif
-}
-
-void CDb3Base::FreeCachedVariant( DBVARIANT* V )
-{
-	if (( V->type == DBVT_ASCIIZ || V->type == DBVT_UTF8 ) && V->pszVal != NULL )
-		HeapFree(m_hCacheHeap,0,V->pszVal);
-}
-
-DBVARIANT* CDb3Base::GetCachedValuePtr( HANDLE hContact, char* szSetting, int bAllocate )
-{
-	if ( hContact == 0 ) {
-		DBCachedGlobalValue Vtemp, *V;
-		Vtemp.name = szSetting;
-		int index = m_lGlobalSettings.getIndex(&Vtemp);
-		if (index != -1) {
-			V = m_lGlobalSettings[index];
-			if ( bAllocate == -1 ) {
-				FreeCachedVariant( &V->value );
-				m_lGlobalSettings.remove(index);
-				HeapFree(m_hCacheHeap,0,V);
-				return NULL;
-			}
-		}
-		else {
-			if ( bAllocate != 1 )
-				return NULL;
-
-			V = (DBCachedGlobalValue*)HeapAlloc(m_hCacheHeap,HEAP_ZERO_MEMORY,sizeof(DBCachedGlobalValue));
-			V->name = szSetting;
-			m_lGlobalSettings.insert(V);
-		}
-
-		return &V->value;
-	}
-	else {
-		DBCachedContactValue *V, *V1;
-		DBCachedContactValueList VLtemp,*VL;
-
-		if (m_hLastCachedContact == hContact && m_lastVL)
-			VL = m_lastVL;
-		else {
-			VLtemp.hContact = hContact;
-
-			int index = m_lContacts.getIndex(&VLtemp);
-			if (index == -1) {
-				if ( bAllocate != 1 )
-					return NULL;
-
-				VL = AddToCachedContactList(hContact, index);
-			}
-			else VL = m_lContacts[index];
-
-			m_lastVL = VL;
-			m_hLastCachedContact = hContact;
-		}
-
-		for ( V = VL->first; V != NULL; V = V->next)
-			if (V->name == szSetting)
-				break;
-
-		if ( V == NULL ) {
-			if ( bAllocate != 1 )
-				return NULL;
-
-			V = (DBCachedContactValue *)HeapAlloc(m_hCacheHeap, HEAP_ZERO_MEMORY, sizeof(DBCachedContactValue));
-			if (VL->last)
-				VL->last->next = V;
-			else
-				VL->first = V;
-			VL->last = V;
-			V->name = szSetting;
-		}
-		else if ( bAllocate == -1 ) {
-		   m_lastVL = NULL;
-			FreeCachedVariant(&V->value);
-			if ( VL->first == V ) {
-				VL->first = V->next;
-				if (VL->last == V)
-					VL->last = V->next; // NULL
-			}
-			else
-				for ( V1 = VL->first; V1 != NULL; V1 = V1->next )
-					if ( V1->next == V ) {
-						V1->next = V->next;
-						if (VL->last == V)
-							VL->last = V1;
-						break;
-					}
-			HeapFree(m_hCacheHeap,0,V);
-			return NULL;
-		}
-
-		return &V->value;
-}	}
 
 #define NeedBytes(n)   if (bytesRemaining<(n)) pBlob = (PBYTE)DBRead(ofsBlobPtr,(n),&bytesRemaining)
 #define MoveAlong(n)   {int x = n; pBlob += (x); ofsBlobPtr += (x); bytesRemaining -= (x);}
@@ -219,9 +71,9 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 
 	log3("get [%08p] %s/%s",hContact,dbcgs->szModule,dbcgs->szSetting);
 
-	szCachedSettingName = GetCachedSetting(dbcgs->szModule,dbcgs->szSetting,moduleNameLen,settingNameLen);
+	szCachedSettingName = m_cache->GetCachedSetting(dbcgs->szModule,dbcgs->szSetting,moduleNameLen,settingNameLen);
 	{
-		DBVARIANT* pCachedValue = GetCachedValuePtr( hContact, szCachedSettingName, 0 );
+		DBVARIANT* pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 0);
 		if ( pCachedValue != NULL ) {
 			if ( pCachedValue->type == DBVT_ASCIIZ || pCachedValue->type == DBVT_UTF8 ) {
 				int   cbOrigLen = dbcgs->pValue->cchVal;
@@ -320,9 +172,9 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 
 				/**** add to cache **********************/
 				if ( dbcgs->pValue->type != DBVT_BLOB ) {
-					DBVARIANT* pCachedValue = GetCachedValuePtr( hContact, szCachedSettingName, 1 );
+					DBVARIANT* pCachedValue = m_cache->GetCachedValuePtr( hContact, szCachedSettingName, 1 );
 					if ( pCachedValue != NULL )
-						SetCachedVariant(dbcgs->pValue,pCachedValue);
+						m_cache->SetCachedVariant(dbcgs->pValue, pCachedValue);
 				}
 
 				logg();
@@ -351,7 +203,7 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 	/**** add missing setting to cache **********************/
 	if ( dbcgs->pValue->type != DBVT_BLOB )
 	{
-		DBVARIANT* pCachedValue = GetCachedValuePtr( hContact, szCachedSettingName, 1 );
+		DBVARIANT* pCachedValue = m_cache->GetCachedValuePtr( hContact, szCachedSettingName, 1 );
 		if ( pCachedValue != NULL )
 			pCachedValue->type = DBVT_DELETED;
 	}
@@ -479,22 +331,13 @@ STDMETHODIMP_(BOOL) CDb3Base::FreeVariant(DBVARIANT *dbv)
 
 STDMETHODIMP_(BOOL) CDb3Base::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
 {
-	size_t cbSettingNameLen = strlen(pszSettingName) + 2;
+	int cbSettingNameLen = (int)strlen(pszSettingName) + 2;
 	if (cbSettingNameLen < 512) {
-		char*  szSetting;
-		char  szTemp[512];
-		strcpy( szTemp+1, pszSettingName);
-
-		mir_cslock lck(m_csDbAccess);
-		int idx = m_lSettings.getIndex(szTemp);
-		if (idx == -1)
-			szSetting = InsertCachedSetting( szTemp, cbSettingNameLen);
-		else
-			szSetting = m_lSettings[idx];
-
+		char *szSetting = m_cache->InsertCachedSetting(pszSettingName, cbSettingNameLen);
 		*szSetting = (char)bIsResident;
 
-		idx = m_lResidentSettings.getIndex(szSetting+1);
+		mir_cslock lck(m_csDbAccess);
+		int idx = m_lResidentSettings.getIndex(szSetting+1);
 		if (idx == -1) {
 			if (bIsResident)
 				m_lResidentSettings.insert(szSetting+1);
@@ -574,9 +417,9 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 
 	mir_cslockfull lck(m_csDbAccess);
 
-	char* szCachedSettingName = GetCachedSetting(tmp.szModule, tmp.szSetting, moduleNameLen, settingNameLen);
+	char* szCachedSettingName = m_cache->GetCachedSetting(tmp.szModule, tmp.szSetting, moduleNameLen, settingNameLen);
 	if ( tmp.value.type != DBVT_BLOB ) {
-		DBVARIANT* pCachedValue = GetCachedValuePtr(hContact, szCachedSettingName, 1);
+		DBVARIANT* pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 1);
 		if ( pCachedValue != NULL ) {
 			BOOL bIsIdentical = FALSE;
 			if ( pCachedValue->type == tmp.value.type ) {
@@ -590,7 +433,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 				if ( bIsIdentical )
 					return 0;
 			}
-			SetCachedVariant(&tmp.value, pCachedValue);
+			m_cache->SetCachedVariant(&tmp.value, pCachedValue);
 		}
 		if ( szCachedSettingName[-1] != 0 ) {
 			lck.unlock();
@@ -598,7 +441,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 			return 0;
 		}
 	}
-	else GetCachedValuePtr(hContact, szCachedSettingName, -1);
+	else m_cache->GetCachedValuePtr(hContact, szCachedSettingName, -1);
 
 	ofsModuleName = GetModuleNameOfs(tmp.szModule);
  	if (hContact == 0) ofsContact = m_dbHeader.ofsUser;
@@ -851,8 +694,8 @@ STDMETHODIMP_(BOOL) CDb3Base::DeleteContactSetting(HANDLE hContact, DBCONTACTGET
 	}
 	DBMoveChunk(ofsSettingToCut,ofsSettingToCut+nameLen+valLen,ofsBlobPtr+1-ofsSettingToCut);
 
-	szCachedSettingName = GetCachedSetting(dbcgs->szModule,dbcgs->szSetting,moduleNameLen,settingNameLen);
-	GetCachedValuePtr((HANDLE)saveWparam, szCachedSettingName, -1 );
+	szCachedSettingName = m_cache->GetCachedSetting(dbcgs->szModule,dbcgs->szSetting,moduleNameLen,settingNameLen);
+	m_cache->GetCachedValuePtr((HANDLE)saveWparam, szCachedSettingName, -1 );
 
 	//quit
 	DBFlush(1);

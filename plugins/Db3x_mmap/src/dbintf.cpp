@@ -25,21 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 DBSignature dbSignature = {"Miranda ICQ DB",0x1A};
 
-static int stringCompare(const char* p1, const char* p2)
-{
-	return strcmp(p1+1, p2+1);
-}
-
-static int stringCompare2(const char* p1, const char* p2)
-{
-	return strcmp(p1, p2);
-}
-
-static int compareGlobals(const DBCachedGlobalValue* p1, const DBCachedGlobalValue* p2)
-{
-	return strcmp(p1->name, p2->name);
-}
-
 static int ModCompare(const ModuleName *mn1, const ModuleName *mn2 )
 {
 	return strcmp( mn1->name, mn2->name );
@@ -50,18 +35,20 @@ static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2 )
 	return ( mn1->ofs - mn2->ofs );
 }
 
+static int stringCompare2(const char* p1, const char* p2)
+{	return strcmp(p1, p2);
+}
+
 CDb3Base::CDb3Base(const TCHAR* tszFileName) :
 	m_hDbFile(INVALID_HANDLE_VALUE),
 	m_safetyMode(true),
 	m_bReadOnly(true),
-	m_lSettings(100, stringCompare),
-	m_lContacts(50, LIST<DBCachedContactValueList>::FTSortFunc(HandleKeySort)),
-	m_lGlobalSettings(50, compareGlobals),
-	m_lResidentSettings(50, stringCompare2),
 	m_lMods(50, ModCompare),
-	m_lOfs(50, OfsCompare)
+	m_lOfs(50, OfsCompare),
+	m_lResidentSettings(50, stringCompare2)
 {
 	m_tszProfileName = mir_tstrdup(tszFileName);
+	InitDbInstance(this);
 
 	InitializeCriticalSection(&m_csDbAccess);
 
@@ -70,17 +57,11 @@ CDb3Base::CDb3Base(const TCHAR* tszFileName) :
 	m_ChunkSize = sinf.dwAllocationGranularity;
 
 	m_codePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
-	m_hCacheHeap = HeapCreate(0, 0, 0);
 	m_hModHeap = HeapCreate(0,0,0);
 }
 
 CDb3Base::~CDb3Base()
 {
-	// destroy settings
-	HeapDestroy(m_hCacheHeap);
-	m_lContacts.destroy();
-	m_lSettings.destroy();
-	m_lGlobalSettings.destroy();
 	m_lResidentSettings.destroy();
 
 	// destroy modules
@@ -108,6 +89,7 @@ CDb3Base::~CDb3Base()
 
 	DeleteCriticalSection(&m_csDbAccess);
 
+	DestroyDbInstance(this);
 	mir_free(m_tszProfileName);
 }
 

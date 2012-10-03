@@ -31,11 +31,12 @@ CDataBase *gDataBase = NULL;
 
 CDataBase::CDataBase(const TCHAR *FileName)
 {
-	int len = _tcslen(FileName);
+	InitDbInstance(this);
+
+	size_t len = _tcslen(FileName);
 	m_FileName[0] = new TCHAR[len + 1];
 	_tcsncpy_s(m_FileName[0], len + 1, FileName, len);
 	m_FileName[0][len] = 0;
-
 
 	TCHAR * tmp = _tcsrchr(m_FileName[0], '.');
 	if (tmp)
@@ -62,6 +63,7 @@ CDataBase::CDataBase(const TCHAR *FileName)
 	m_Entities = NULL;
 	m_Settings = NULL;
 	m_Events   = NULL;
+
 }
 CDataBase::~CDataBase()
 {
@@ -85,8 +87,9 @@ CDataBase::~CDataBase()
 
 		delete [] (m_FileName[i]);
 	}
-
+	DestroyDbInstance(this);
 }
+
 int CDataBase::CreateDB()
 {
 	/// TODO: create and show wizard

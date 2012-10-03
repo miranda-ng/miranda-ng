@@ -270,6 +270,9 @@
     <ClInclude Include="..\include\m_db_int.h">
       <Filter>Modules\database</Filter>
     </ClInclude>
+    <ClInclude Include="modules\database\database.h">
+      <Filter>Modules\database</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\commonheaders.cpp">
@@ -571,6 +574,9 @@
     </ClCompile>
     <ClCompile Include="modules\clist\contacts.cpp">
       <Filter>Modules\clist</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\database\mdatabasecache.cpp">
+      <Filter>Modules\database</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

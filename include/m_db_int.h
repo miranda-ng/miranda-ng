@@ -31,8 +31,43 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ///////////////////////////////////////////////////////////////////////////////
 // basic database interface
 
+struct DBCachedGlobalValue
+{
+	char* name;
+	DBVARIANT value;
+};
+
+struct DBCachedContactValue
+{
+	char* name;
+	DBVARIANT value;
+	DBCachedContactValue* next;
+};
+
+struct DBCachedContact
+{
+	HANDLE hContact;
+	HANDLE hNext;
+	DBCachedContactValue* first;
+	DBCachedContactValue* last;
+};
+
+interface MIDatabaseCache
+{
+	STDMETHOD_(DBCachedContact*,AddContactToCache)(HANDLE hContact) PURE;
+	STDMETHOD_(DBCachedContact*,GetCachedContact)(HANDLE hContact) PURE;
+	STDMETHOD_(void,FreeCachedContact)(HANDLE hContact) PURE;
+
+	STDMETHOD_(char*,InsertCachedSetting)(const char *szName, int) PURE;
+	STDMETHOD_(char*,GetCachedSetting)(const char *szModuleName, const char *szSettingName, int, int) PURE;
+	STDMETHOD_(void,SetCachedVariant)(DBVARIANT *s, DBVARIANT *d) PURE;
+	STDMETHOD_(DBVARIANT*,GetCachedValuePtr)(HANDLE hContact, char *szSetting, int bAllocate) PURE;
+};
+
 interface MIDatabase
 {
+	MIDatabaseCache* m_cache;
+
 	STDMETHOD_(void,SetCacheSafetyMode)(BOOL) PURE;
 
 	STDMETHOD_(LONG,GetContactCount)(void) PURE;
@@ -192,6 +227,28 @@ __forceinline DATABASELINK* FindDatabasePlugin(const TCHAR* ptszFileName)
 
 __forceinline MIDatabase* GetCurrentDatabase(void)
 {	return (MIDatabase*)CallService(MS_DB_GET_CURRENT, 0, 0);
+}
+
+// MS_DB_INIT_INSTANCE : initializes a database instance
+// wParam : 0 (unused)
+// lParam : MIDatabase* = pointer to a database instance
+// returns 0
+
+#define MS_DB_INIT_INSTANCE "DB/InitDbInstance"
+
+__forceinline void InitDbInstance(MIDatabase* pDatabase)
+{	CallService(MS_DB_INIT_INSTANCE, 0, (LPARAM)pDatabase);
+}
+
+// MS_DB_DESTROY_INSTANCE : destroys a database instance
+// wParam : 0 (unused)
+// lParam : MIDatabase* = pointer to a database instance
+// returns 0
+
+#define MS_DB_DESTROY_INSTANCE "DB/DestroyDbInstance"
+
+__forceinline void DestroyDbInstance(MIDatabase* pDatabase)
+{	CallService(MS_DB_DESTROY_INSTANCE, 0, (LPARAM)pDatabase);
 }
 
 #endif // M_DB_INT_H__

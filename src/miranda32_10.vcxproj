@@ -244,6 +244,7 @@
     <ClInclude Include="core\commonheaders.h" />
     <ClInclude Include="core\miranda.h" />
     <ClInclude Include="core\stdplug.h" />
+    <ClInclude Include="modules\database\database.h" />
     <ClInclude Include="modules\database\profilemanager.h" />
     <ClInclude Include="modules\findadd\findadd.h" />
     <ClInclude Include="modules\json\internalJSONNode.h" />
@@ -297,6 +298,9 @@
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\database\dbutils.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\database\mdatabasecache.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\database\profilemanager.cpp">

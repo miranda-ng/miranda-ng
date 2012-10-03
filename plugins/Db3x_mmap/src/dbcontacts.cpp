@@ -23,34 +23,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-DBCachedContactValueList* CDb3Base::AddToCachedContactList(HANDLE hContact, int index)
-{
-	DBCachedContactValueList* VL = (DBCachedContactValueList*)HeapAlloc(m_hCacheHeap,HEAP_ZERO_MEMORY,sizeof(DBCachedContactValueList));
-	VL->hContact = hContact;
-	if (index == -1)
-		m_lContacts.insert(VL);
-	else
-		m_lContacts.insert(VL,index);
-	return VL;
-}
-
-#define proto_module  "Protocol"
-#define proto_setting "p"
-
 int CDb3Base::CheckProto(HANDLE hContact, const char *proto)
 {
 	char protobuf[MAX_PATH] = {0};
 	DBVARIANT dbv;
-	DBCONTACTGETSETTING sVal = {proto_module,proto_setting,&dbv};
+	DBCONTACTGETSETTING sVal = { "Protocol", "p", &dbv };
 
  	dbv.type = DBVT_ASCIIZ;
 	dbv.pszVal = protobuf;
 	dbv.cchVal = sizeof(protobuf);
 
-	if (GetContactSettingStatic(hContact, &sVal) != 0 || (dbv.type != DBVT_ASCIIZ))
+	if ( GetContactSettingStatic(hContact, &sVal) != 0 || (dbv.type != DBVT_ASCIIZ))
 		return 0;
 
-	return !strcmp(protobuf,proto);
+	return !strcmp(protobuf, proto);
 }
 
 STDMETHODIMP_(LONG) CDb3Base::GetContactCount(void)
@@ -70,34 +56,30 @@ STDMETHODIMP_(HANDLE) CDb3Base::FindFirstContact(const char *szProto)
 
 STDMETHODIMP_(HANDLE) CDb3Base::FindNextContact(HANDLE hContact, const char *szProto)
 {
-	DBCachedContactValueList VLtemp, *VL = NULL;
-	VLtemp.hContact = hContact;
-
 	mir_cslock lck(m_csDbAccess);
-	while (VLtemp.hContact) {
-		int index;
-		if (( index = m_lContacts.getIndex(&VLtemp)) != -1) {
-			VL = m_lContacts[index];
+	while (hContact) {
+		DBCachedContact *VL = m_cache->GetCachedContact(hContact);
+		if (VL != NULL) {
 			if (VL->hNext != NULL) {
 				if (!szProto || CheckProto(VL->hNext, szProto))
 					return VL->hNext;
 
-				VLtemp.hContact = VL->hNext;
+				hContact = VL->hNext;
 				continue;
 		}	}
 
-		DBContact *dbc = (DBContact*)DBRead(VLtemp.hContact,sizeof(DBContact),NULL);
+		DBContact *dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
 		if (dbc->signature != DBCONTACT_SIGNATURE)
 			break;
 
-		if ( VL == NULL )
-			VL = AddToCachedContactList(VLtemp.hContact,index);
+		if (VL == NULL)
+			VL = m_cache->AddContactToCache(hContact);
 
 		VL->hNext = (HANDLE)dbc->ofsNext;
 		if (VL->hNext != NULL && (!szProto || CheckProto(VL->hNext, szProto)))
 			return VL->hNext;
 
-		VLtemp.hContact = VL->hNext;
+		hContact = VL->hNext;
 	}
 
 	return NULL;
@@ -127,24 +109,9 @@ STDMETHODIMP_(LONG) CDb3Base::DeleteContact(HANDLE hContact)
 	// get back in
 	lck.lock();
 
-	DBCachedContactValueList VLtemp;
-	VLtemp.hContact = hContact;
-	int index;
-	if ((index = m_lContacts.getIndex(&VLtemp)) != -1) {
-		DBCachedContactValueList *VL = m_lContacts[index];
-		DBCachedContactValue* V = VL->first;
-		while ( V != NULL ) {
-			DBCachedContactValue* V1 = V->next;
-			FreeCachedVariant(&V->value);
-			HeapFree( m_hCacheHeap, 0, V );
-			V = V1;
-		}
-		HeapFree( m_hCacheHeap, 0, VL );
-
-		if (VLtemp.hContact == m_hLastCachedContact)
-			m_hLastCachedContact = NULL;
-		m_lContacts.remove(index);
-	}
+	m_cache->FreeCachedContact(hContact);
+	if (hContact == m_hLastCachedContact)
+		m_hLastCachedContact = NULL;
 
 	dbc = (DBContact*)DBRead(hContact, sizeof(DBContact), NULL);
 	//delete settings chain
@@ -182,12 +149,9 @@ STDMETHODIMP_(LONG) CDb3Base::DeleteContact(HANDLE hContact)
 		dbcPrev->ofsNext = ofsNext;
 		DBWrite(ofsThis,dbcPrev,sizeof(DBContact));
 
-		DBCachedContactValueList VLtemp;
-		VLtemp.hContact = (HANDLE)ofsThis;
-		if ((index = m_lContacts.getIndex(&VLtemp)) != -1) {
-			DBCachedContactValueList *VL = m_lContacts[index];
+		DBCachedContact *VL = m_cache->GetCachedContact((HANDLE)ofsThis);
+		if (VL)
 			VL->hNext = (HANDLE)ofsNext;
-		}
 	}
 
 	//delete contact
@@ -215,9 +179,8 @@ STDMETHODIMP_(HANDLE) CDb3Base::AddContact()
 		DBWrite(ofsNew,&dbc,sizeof(DBContact));
 		DBWrite(0,&m_dbHeader,sizeof(m_dbHeader));
 		DBFlush(0);
-
-		AddToCachedContactList((HANDLE)ofsNew, -1);
 	}
+	m_cache->AddContactToCache((HANDLE)ofsNew);
 
 	NotifyEventHooks(hContactAddedEvent,(WPARAM)ofsNew,0);
 	return (HANDLE)ofsNew;
@@ -225,17 +188,13 @@ STDMETHODIMP_(HANDLE) CDb3Base::AddContact()
 
 STDMETHODIMP_(BOOL) CDb3Base::IsDbContact(HANDLE hContact)
 {
-	mir_cslock lck(m_csDbAccess);
-
-	DBCachedContactValueList VLtemp;
-	VLtemp.hContact = hContact;
-	int index = m_lContacts.getIndex(&VLtemp);
-	if (index != -1)
+	if (m_cache->GetCachedContact(hContact))
 		return TRUE;
 
+	mir_cslock lck(m_csDbAccess);
 	DBContact *dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
 	if (dbc->signature == DBCONTACT_SIGNATURE) {
-		AddToCachedContactList(hContact, index);
+		m_cache->AddContactToCache(hContact);
 		return TRUE;
 	}
 

@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "..\..\core\commonheaders.h"
+#include "database.h"
 
 MIDatabase *currDb = NULL;
 DATABASELINK *currDblink = NULL;
@@ -191,6 +192,24 @@ static INT_PTR srvGetCurrentDb(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)currDb;
 }
 
+static INT_PTR srvInitInstance(WPARAM wParam,LPARAM lParam)
+{
+	MIDatabase* pDb = (MIDatabase*)lParam;
+	if (pDb != NULL)
+		pDb->m_cache = new MDatabaseCache();
+	return 0;
+}
+
+static INT_PTR srvDestroyInstance(WPARAM wParam,LPARAM lParam)
+{
+	MIDatabase* pDb = (MIDatabase*)lParam;
+	if (pDb != NULL) {
+		delete pDb->m_cache;
+		pDb->m_cache = NULL;
+	}
+	return 0;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 int LoadDbintfModule()
@@ -232,5 +251,8 @@ int LoadDbintfModule()
 	CreateServiceFunction(MS_DB_REGISTER_PLUGIN, srvRegisterPlugin);
 	CreateServiceFunction(MS_DB_FIND_PLUGIN, srvFindPlugin);
 	CreateServiceFunction(MS_DB_GET_CURRENT, srvGetCurrentDb);
+
+	CreateServiceFunction(MS_DB_INIT_INSTANCE, srvInitInstance);
+	CreateServiceFunction(MS_DB_DESTROY_INSTANCE, srvDestroyInstance);
 	return 0;
 }
