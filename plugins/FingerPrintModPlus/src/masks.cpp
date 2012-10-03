@@ -382,6 +382,7 @@ KN_FP_MASK def_kn_fp_mask[] =
    { "client_LeechCraft",      _T("|http://leechcraft.org*|LeechCraft*"), _T("LeechCraft"),            _T("ClientIcons_Jabber"),   IDI_LEECHCRAFT, JABBER_CASE },
    { "client_Emas",            _T("*.el*"),                               _T("Emacs"),                 _T("ClientIcons_Jabber"),   IDI_EMACS, JABBER_CASE },
    { "client_jTalk",           _T("|http://jtalk*|jTalk*"),               _T("jTalk"),                 _T("ClientIcons_Jabber"),   IDI_JTALK, JABBER_CASE },
+   { "client_Thunderbird",     _T("Thunderbir*"),	                  _T("Thunderbird"),           _T("ClientIcons_Jabber"),   IDI_THUNDERBIRD, JABBER_CASE },
 
 //#########################################################################################################################################
 //############################################################### VoIP ####################################################################

@@ -278,25 +278,26 @@
 #define IDI_TAPIOCA				342
 #define IDI_TEABOT				343
 #define IDI_TELEPATHY			344
-#define IDI_TIPICIM				345
-#define IDI_TKABBER				346
-#define IDI_TRANSACTIM			347
-#define IDI_TRIPLE_SOFTWARE		348
-#define IDI_TWITTER				349
-#define IDI_VACUUM				350
-#define IDI_VAYUSPHERE			351
-#define IDI_WANNACHAT			352
-#define IDI_WEBEX				353
-#define IDI_WHISPERIM			354
-#define IDI_WHOISBOT			355
-#define IDI_WIJA				356
-#define IDI_WILDFIRE			357
-#define IDI_WINJAB				358
-#define IDI_WTW					359
-#define IDI_XEUS				360
-#define IDI_XIFFIAN				361
-#define IDI_YAMBI				362
-#define IDI_YAONLINE			363
+#define IDI_THUNDERBIRD                         345
+#define IDI_TIPICIM				346
+#define IDI_TKABBER				347
+#define IDI_TRANSACTIM			348
+#define IDI_TRIPLE_SOFTWARE		349
+#define IDI_TWITTER				350
+#define IDI_VACUUM				351
+#define IDI_VAYUSPHERE			352
+#define IDI_WANNACHAT			353
+#define IDI_WEBEX				354
+#define IDI_WHISPERIM			355
+#define IDI_WHOISBOT			356
+#define IDI_WIJA				357
+#define IDI_WILDFIRE			358
+#define IDI_WINJAB				359
+#define IDI_WTW					360
+#define IDI_XEUS				361
+#define IDI_XIFFIAN				362
+#define IDI_YAMBI				363
+#define IDI_YAONLINE			364
 
 //##############################################################################################################
 //VoIP clients
