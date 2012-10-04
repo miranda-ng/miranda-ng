@@ -359,14 +359,15 @@ int Plugin_UnloadDyn(pluginEntry* p)
 		KillModuleHotkeys(hLangpack);
 		KillModuleSounds(hLangpack);
 	}
-			
-	// release default plugin
+
+	Plugin_Uninit(p);
+
+	// load default plugins instead of the unloaded one
 	if ( !(p->pclass & PCLASS_CORE))
 		for (int i=0; i < SIZEOF(pluginDefault); i++)
 			if (pluginDefault[i].pImpl == p)
 				LoadCorePlugin( pluginDefault[i] );
 
-	Plugin_Uninit(p);
 	return TRUE;
 }
 
