@@ -85,7 +85,7 @@ void ShowPopup(HANDLE hContact, const TCHAR *msg) {
 		ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 
 		TCHAR *lpzContactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
-	
+
 		lstrcpy(ppd.lptzContactName, lpzContactName);
 		lstrcpy(ppd.lptzText, msg);
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -111,7 +111,7 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 	TCHAR *savedMsg;
 	HWND hWnd;
 	TCHAR response[256];
-	
+
 	TCHAR msg[1024], buff[1024];
 
 	if (_tcsncmp(ppre->tszMessage, szGamePrefix, _tcslen(szGamePrefix)))
@@ -120,16 +120,16 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 	_tcscpy(msg, ppre->tszMessage + _tcslen(szGamePrefix));
 
 	savedMsg = ppre->tszMessage;
-	
+
 	if (!_tcscmp(msg, _T(" ffw"))) {
 		mir_sntprintf(buff, SIZEOF(buff), _T("%s"), _T("Fast forward!"));
-		
+
 		hWnd = FindWindow(0, _T("Windows Media Player"));
 		PostMessage(hWnd, WM_COMMAND, WMP_NEXT, 0);
 	} else {
 		mir_sntprintf(buff, SIZEOF(buff), _T("Unknown command issued: \"%s\""), msg);
 	}
-	
+
 	/*
 	ppre->szMessage = (char *)Translate(buff);
 	retval = CallService( MS_PROTO_CHAINRECV, wParam, lParam );
@@ -163,7 +163,7 @@ HBITMAP LoadBmpFromIcon(int IdRes)
     bih.biPlanes = 1;
     bih.biCompression = BI_RGB;
     bih.biHeight = 16;
-    bih.biWidth = 20; 
+    bih.biWidth = 20;
     widthBytes = ((bih.biWidth*bih.biBitCount + 31) >> 5) * 4;
     rc.top = rc.left = 0;
     rc.right = bih.biWidth;
@@ -195,7 +195,7 @@ static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam)
 	ttb.pszService = MODULE "/NewAlarm";
 	ttb.dwFlags = TTBBF_VISIBLE;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Set Alarm");
-	
+
 	hTopToolbarButton = TopToolbar_AddButton(&ttb);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTopToolbarButton, (LPARAM)TTBST_RELEASED);
 	return 0;
@@ -203,30 +203,6 @@ static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam)
 
 static int MainInit(WPARAM wparam,LPARAM lparam)
 {
-	/*
-	PROTOCOLDESCRIPTOR pd;
-	HANDLE hContact;
-
-	memset( &pd, 0, sizeof( PROTOCOLDESCRIPTOR ));
-	pd.cbSize = sizeof( PROTOCOLDESCRIPTOR );
-	pd.szName = SERVICENAME;
-	//pd.type = PROTOTYPE_ENCRYPTION - 9;
-	pd.type = PROTOTYPE_FILTER;
-	CallService( MS_PROTO_REGISTERMODULE, 0, ( LPARAM ) &pd );
-
-	CreateServiceFunction( SERVICENAME PSR_MESSAGE, PluginMessageReceived );
-
-	hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
-
-	while( hContact )
-	{
-		if ( !CallService( MS_PROTO_ISPROTOONCONTACT, ( WPARAM )hContact, ( LPARAM )SERVICENAME ))
-			CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM )hContact, ( LPARAM )SERVICENAME );
-
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 );
-	}
-	*/
-
 	// initialize icons
 	InitIcons();
 
@@ -285,4 +261,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
-

@@ -37,13 +37,13 @@ void XfireclientConnecting(HANDLE hConnection, DWORD, void* extra )
 	ncon.wPort = (WORD)atol("25999");
 	ncon.timeout=5;
 	netlibcon = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) hNetlib, (LPARAM) & ncon);
-	
+
 	if(!netlibcon) {
 		Netlib_CloseHandle(hConnection);
 	}
 
 	mir_forkthread(FromServerToClient,(LPVOID)hConnection);
-	
+
 	//schleife behandelt empfangende daten
 	do {
 		int cbRead = Netlib_Recv(hConnection, buf, sizeof(buf), 0);
@@ -67,7 +67,7 @@ void XfireclientConnecting(HANDLE hConnection, DWORD, void* extra )
 }
 
 //inits nachdem alle module geladen wurden
-int AfterSystemModulesLoaded(WPARAM wParam,LPARAM lParam) 
+int AfterSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	//init netlib handle
 	NETLIBUSER nlu = {0};
@@ -92,12 +92,5 @@ int AfterSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 int initXfireProxy() {
 	//inits nach dem alle module geladen wurden
 	HookEvent(ME_SYSTEM_MODULESLOADED, AfterSystemModulesLoaded);
-
-/*	PROTOCOLDESCRIPTOR pd;
-	ZeroMemory(&pd,sizeof(pd));
-	pd.cbSize=sizeof(pd);
-	pd.szName=protocolname;
-	pd.type=PROTOTYPE_FILTER;
-	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);*/
 	return 0;
 }
