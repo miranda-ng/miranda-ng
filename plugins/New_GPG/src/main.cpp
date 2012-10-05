@@ -163,7 +163,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				acc += "(";
 				acc += accounts[i]->szModuleName;
 				acc += ")";
-				acc += "_KeyID";
+				//acc += "_KeyID";
 				SendMessageA(GetDlgItem(hwndDlg, IDC_ACCOUNT), CB_ADDSTRING, 0, (LPARAM)acc.c_str());
 			}
 			SendMessageA(GetDlgItem(hwndDlg, IDC_ACCOUNT), CB_SELECTSTRING, 0, (LPARAM)Translate("Default"));
