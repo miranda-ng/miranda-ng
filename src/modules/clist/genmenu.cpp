@@ -1047,43 +1047,40 @@ int OnIconLibChanges(WPARAM, LPARAM)
 
 static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 {
-	char *uname, *descr;
-	uname = pmi->UniqName;
-	if (uname == NULL)
-		uname = mir_u2a(pmi->CustomName);
-		descr = mir_u2a(pmi->mi.ptszName);
+	TCHAR *uname = (pmi->UniqName) ? mir_a2t(pmi->UniqName) : mir_tstrdup(pmi->CustomName),
+		   *descr = GetMenuItemText(pmi);
 		
 	if ( !uname && !descr)
 		return FALSE;
 
 	if ( !pmi->hIcolibItem) {
 		HICON hIcon = ImageList_GetIcon(pmi->parent->m_hMenuIcons, pmi->iconId, 0);
-		char* buf = NEWSTR_ALLOCA(descr);
 
-		char sectionName[256], iconame[256];
-		mir_snprintf(sectionName, sizeof(sectionName), "Menu Icons/%s", pmi->parent->Name);
+		TCHAR sectionName[256];
+		mir_sntprintf(sectionName, SIZEOF(sectionName), _T("Menu Icons/%s"), (TCHAR*)_A2T(pmi->parent->Name));
 
-		// remove '&'
-		char* start = buf;
-		while (start) {
-			if ((start = strchr(start, '&')) == NULL)
-				break;
-
-			memmove(start, start+1, strlen(start+1)+1);
-			if (*start != '\0') start++;
-			else break;
-		}
-
+		char iconame[256];
 		mir_snprintf(iconame, sizeof(iconame), "genmenu_%s_%s", pmi->parent->Name, uname && *uname ? uname : descr);
 
-		SKINICONDESC sid = { 0 };
-		sid.cbSize = sizeof(sid);
-		sid.cx = 16;
-		sid.cy = 16;
-		sid.pszSection = sectionName;
+		// remove '&'
+		if (descr) {
+			descr = NEWTSTR_ALLOCA(descr);
+		
+			for (TCHAR *p = descr; *p; p++) {
+				if ((p = _tcschr(p, '&')) == NULL)
+					break;
+
+				memmove(p, p+1, sizeof(TCHAR)*(_tcslen(p+1)+1));
+				if (*p == '\0')
+					p++;
+			}
+		}
+
+		SKINICONDESC sid = { sizeof(sid) };
+		sid.flags = SIDF_TCHAR;
+		sid.ptszSection = sectionName;
 		sid.pszName = iconame;
-		sid.pszDefaultFile = NULL;
-		sid.pszDescription = buf;
+		sid.ptszDescription = descr;
 		sid.hDefaultIcon = hIcon;
 		pmi->hIcolibItem = IcoLib_AddNewIcon(0, &sid);
 
@@ -1094,9 +1091,7 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 		}
 	}
 
-	if ( !pmi->UniqName)
-		mir_free(uname);
-	mir_free(descr);
+	mir_free(uname);
 	return FALSE;
 }
 
