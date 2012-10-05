@@ -240,13 +240,14 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  {
 					  char setting[64];
 					  std::string acc_str = buf;
-						  acc_str += "_GPGPubKey";
-						  DBWriteContactSettingString(NULL, szGPGModuleName, acc_str.c_str(), out.c_str());
-						  acc_str += "_KeyMainName";
-						  DBWriteContactSettingTString(NULL, szGPGModuleName, acc_str.c_str(), name);
-						  acc_str = buf;
-						  acc_str += "_KeyID";
-						  DBWriteContactSettingTString(NULL, szGPGModuleName, acc_str.c_str(), fp);
+					  acc_str += "_GPGPubKey";
+					  DBWriteContactSettingString(NULL, szGPGModuleName, acc_str.c_str(), out.c_str());
+					  acc_str = buf;
+					  acc_str += "_KeyMainName";
+					  DBWriteContactSettingTString(NULL, szGPGModuleName, acc_str.c_str(), name);
+					  acc_str = buf;
+					  acc_str += "_KeyID";
+					  DBWriteContactSettingTString(NULL, szGPGModuleName, acc_str.c_str(), fp);
 				  }
 			  }
 			  TCHAR passwd[64];
@@ -431,47 +432,24 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			  else
 			  {
 				  char setting[64];
-				  PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETCONTACTBASEPROTO, 0, (LPARAM)buf);
-				  std::string acc_str;
-				  if(acc)
-				  {
-					  acc_str = toUTF8(acc->tszAccountName);
-					  acc_str += "(";
-					  acc_str += acc->szModuleName;
-					  acc_str += ")" ;
-					  acc_str += "_GPGPubKey";
-					  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
-					  acc_str = toUTF8(acc->tszAccountName);
-					  acc_str += "(";
-					  acc_str += acc->szModuleName;
-					  acc_str += ")" ;
-					  acc_str += "_KeyMainName";
-					  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
-					  acc_str = toUTF8(acc->tszAccountName);
-					  acc_str += "(";
-					  acc_str += acc->szModuleName;
-					  acc_str += ")" ;
-					  acc_str += "_KeyID";
-					  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
-					  acc_str = toUTF8(acc->tszAccountName);
-					  acc_str += "(";
-					  acc_str += acc->szModuleName;
-					  acc_str += ")" ;
-					  acc_str += "_KeyComment";
-					  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
-					  acc_str = toUTF8(acc->tszAccountName);
-					  acc_str += "(";
-					  acc_str += acc->szModuleName;
-					  acc_str += ")" ;
-					  acc_str += "_KeyMainEmail";
-					  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
-					  acc_str = toUTF8(acc->tszAccountName);
-					  acc_str += "(";
-					  acc_str += acc->szModuleName;
-					  acc_str += ")" ;
-					  acc_str += "_KeyType";
-					  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
-				  }
+				  std::string acc_str = buf;
+				  acc_str += "_GPGPubKey";
+				  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
+				  acc_str = buf;
+				  acc_str += "_KeyMainName";
+				  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
+				  acc_str = buf;
+				  acc_str += "_KeyID";
+				  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
+				  acc_str = buf;
+				  acc_str += "_KeyComment";
+				  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
+				  acc_str = buf;
+				  acc_str += "_KeyMainEmail";
+				  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
+				  acc_str = buf;
+				  acc_str += "_KeyType";
+				  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
 			  }
 		  }
 		  ListView_DeleteItem(hwndList, itemnum);
@@ -587,23 +565,12 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					  else
 					  {
 						  char setting[64];
-						  PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETCONTACTBASEPROTO, 0, (LPARAM)buf);
-						  std::string acc_str;
-						  if(acc)
-						  {
-							  acc_str = toUTF8(acc->tszAccountName);
-							  acc_str += "(";
-							  acc_str += acc->szModuleName;
-							  acc_str += ")" ;
-							  acc_str += "_GPGPubKey";
-							  DBWriteContactSettingString(NULL, szGPGModuleName, acc_str.c_str(), out.c_str());
-							  acc_str = toUTF8(acc->tszAccountName);
-							  acc_str += "(";
-							  acc_str += acc->szModuleName;
-							  acc_str += ")" ;
-							  acc_str += "_KeyID";
-							  DBWriteContactSettingTString(NULL, szGPGModuleName, acc_str.c_str(), fp);
-						  }
+						  std::string acc_str = buf;
+						  acc_str += "_GPGPubKey";
+						  DBWriteContactSettingString(NULL, szGPGModuleName, acc_str.c_str(), out.c_str());
+						  acc_str = buf;
+						  acc_str += "_KeyID";
+						  DBWriteContactSettingTString(NULL, szGPGModuleName, acc_str.c_str(), fp);
 					  }
 				  }
 				  extern HWND hwndCurKey_p;
