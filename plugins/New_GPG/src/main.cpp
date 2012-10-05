@@ -249,6 +249,14 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					  acc_str += "_KeyID";
 					  DBWriteContactSettingTString(NULL, szGPGModuleName, acc_str.c_str(), fp);
 				  }
+				  if(!strcmp(buf, Translate("Default")))
+				  {
+					  wstring keyinfo = TranslateT("Default private key id");
+					  keyinfo += _T(": ");
+					  keyinfo += (fp[0])?fp:_T("not set");
+					  extern HWND hwndCurKey_p;
+					  SetWindowText(hwndCurKey_p, keyinfo.c_str());
+				  }
 			  }
 			  TCHAR passwd[64];
 			  GetDlgItemText(hwndDlg, IDC_KEY_PASSWORD, passwd, 64);
@@ -260,13 +268,6 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  mir_free(keyid);
 				  dbsetting += "_Password";
 				  DBWriteContactSettingTString(NULL, szGPGModuleName, dbsetting.c_str(), passwd);
-			  }
-			  {
-				  wstring keyinfo = TranslateT("Default private key id");
-				  keyinfo += _T(": ");
-				  keyinfo += (fp[0])?fp:_T("not set");
-				  extern HWND hwndCurKey_p;
-				  SetWindowText(hwndCurKey_p, keyinfo.c_str());
 			  }
 			  delete [] name;
 		  }
