@@ -556,7 +556,7 @@ void LoadPopupClass()
 		POPUPCLASS ppc = {0};
 		ppc.cbSize = sizeof(ppc);
 		ppc.flags = PCF_TCHAR;
-		ppc.pszName = "nudge";
+		ppc.pszName = "Nudge";
 		ppc.ptszDescription = LPGENT("Show Nudge");
 		ppc.hIcon = (HICON) CallService(MS_SKIN2_GETICONBYHANDLE,0,(LPARAM)g_hIcon);
 		ppc.colorBack = NULL;
