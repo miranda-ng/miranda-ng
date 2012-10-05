@@ -239,29 +239,14 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  else
 				  {
 					  char setting[64];
-					  PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETCONTACTBASEPROTO, 0, (LPARAM)buf);
-					  std::string acc_str;
-					  if(acc)
-					  {
-						  acc_str = toUTF8(acc->tszAccountName);
-						  acc_str += "(";
-						  acc_str += acc->szModuleName;
-						  acc_str += ")" ;
+					  std::string acc_str = buf;
 						  acc_str += "_GPGPubKey";
 						  DBWriteContactSettingString(NULL, szGPGModuleName, acc_str.c_str(), out.c_str());
-						  acc_str = toUTF8(acc->tszAccountName);
-						  acc_str += "(";
-						  acc_str += acc->szModuleName;
-						  acc_str += ")" ;
 						  acc_str += "_KeyMainName";
 						  DBWriteContactSettingTString(NULL, szGPGModuleName, acc_str.c_str(), name);
-						  acc_str = toUTF8(acc->tszAccountName);
-						  acc_str += "(";
-						  acc_str += acc->szModuleName;
-						  acc_str += ")" ;
+						  acc_str = buf;
 						  acc_str += "_KeyID";
 						  DBWriteContactSettingTString(NULL, szGPGModuleName, acc_str.c_str(), fp);
-					  }
 				  }
 			  }
 			  TCHAR passwd[64];
@@ -645,21 +630,12 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					string keyinfo = Translate("key id");
 					keyinfo += ": ";
 					char setting[64];
-					PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETCONTACTBASEPROTO, 0, (LPARAM)buf);
-					std::string acc_str;
-					if(acc)
-					{
-						acc_str = toUTF8(acc->tszAccountName);
-						acc_str += "(";
-						acc_str += acc->szModuleName;
-						acc_str += ")" ;
-						acc_str += "_KeyID";
-						char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, acc_str.c_str(), "");
-						keyinfo += (strlen(keyid) > 0)?keyid:Translate("not set");
-						mir_free(keyid);
-						SetDlgItemTextA(hwndDlg, IDC_KEY_ID, keyinfo.c_str());
-					}
-
+					std::string acc_str= buf;
+					acc_str += "_KeyID";
+					char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, acc_str.c_str(), "");
+					keyinfo += (strlen(keyid) > 0)?keyid:Translate("not set");
+					mir_free(keyid);
+					SetDlgItemTextA(hwndDlg, IDC_KEY_ID, keyinfo.c_str());
 				}
 			}
 			break;
