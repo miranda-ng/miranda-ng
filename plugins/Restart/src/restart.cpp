@@ -20,7 +20,7 @@ PLUGININFOEX pluginInfo={
 	"(..нужное вписать..)",
 	"ep@eugn.me",
 	"© 2008 - 2012 -=J-Scar=-",
-	"http://miranda.im",
+	"http://miranda-ng.org",
 	UNICODE_AWARE,	 
 	0x61bedf3a, 0xcc2, 0x41a3, { 0xb9, 0x80, 0xbb, 0x93, 0x93, 0x36, 0x89, 0x35 } // {61BEDF3A-0CC2-41a3-B980-BB9393368935}
 };
@@ -29,12 +29,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
-}
-
-static INT_PTR RestartMenuCommand(WPARAM wParam, LPARAM lParam)
-{
-	CallService("Miranda/System/Restart", 0, 0);
-	return 0;
 }
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -60,14 +54,12 @@ extern "C" __declspec(dllexport) int Load(void)
 	sid.iDefaultIndex = -IDI_RESTARTICON;
 	hIconHandle = Skin_AddIcon(&sid);
 	
-	CreateServiceFunction("RestartPlug/MenuCommand", RestartMenuCommand);
-
 	mi.cbSize = sizeof(mi);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = hIconHandle;
 	mi.ptszName = _T("Restart");
-	mi.pszService = "RestartPlug/MenuCommand";
+	mi.pszService = "Miranda/System/Restart";
 	Menu_AddMainMenuItem(&mi);
 	Menu_AddTrayMenuItem(&mi);
 	return 0;
