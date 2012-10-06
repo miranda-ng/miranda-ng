@@ -1,6 +1,5 @@
 #include "skype_proto.h"
 
-
 void CSkypeProto::OnContactChanged(CContact* contact, int prop)
 {
 	if (prop == CContact::P_AVAILABILITY)
@@ -20,7 +19,7 @@ void CSkypeProto::OnContactChanged(CContact* contact, int prop)
 			if (availability == CContact::PENDINGAUTH)
 				this->SetSettingWord(hContact, "Auth", 1);
 			else
-				DBDeleteContactSetting(hContact, this->m_szModuleName, "Auth");
+				this->DeleteSetting(hContact, "Auth");
 		}
 	}
 }
@@ -137,7 +136,7 @@ void CSkypeProto::LoadContactInfo(HANDLE hContact, CContact::Ref contact)
 	if (availability == CContact::PENDINGAUTH)
 		this->SetSettingWord(hContact, "Auth", 1);
 	else
-		DBDeleteContactSetting(hContact, this->m_szModuleName, "Auth");
+		this->DeleteSetting(hContact, "Auth");
 
 	uint newTS = 0;
 	DWORD oldTS = 0;
@@ -145,17 +144,30 @@ void CSkypeProto::LoadContactInfo(HANDLE hContact, CContact::Ref contact)
 	// profile info
 	contact->GetPropProfileTimestamp(newTS);
 	oldTS = this->GetSettingDword(hContact, "ProfileUpdateTS");
-	if (newTS > oldTS)
+	//if (newTS > oldTS)
 	{
 		uint uData;
 		SEString sData;
 		// birth date
 		contact->GetPropBirthday(uData);
+		if (uData > 0)
+		{
+			struct tm* ptm;
+			time_t timeGMT = (time_t)uData;
+			ptm = gmtime(&timeGMT);
+			this->SetSettingByte(hContact, "BirthDay", ptm->tm_mday);
+			this->SetSettingByte(hContact, "BirthMonth", ptm->tm_mon);
+			this->SetSettingWord(hContact, "BirthYear", ptm->tm_year + 1917);
+		}
 		// gender
 		contact->GetPropGender(uData);
 		this->SetSettingByte(hContact, "Gender", (BYTE)(uData ? 'M' : 'F'));
 		// timezone
 		contact->GetPropTimezone(uData);
+		if (uData > 0)
+			this->SetSettingByte(hContact, "TimeZone", uData);
+		else
+			this->DeleteSetting(hContact, "TimeZone");
 		// language
         contact->GetPropLanguages(sData);
 		// country (en, ru, etc)
@@ -186,7 +198,6 @@ void CSkypeProto::LoadContactInfo(HANDLE hContact, CContact::Ref contact)
 		// about
 		contact->GetPropAbout(sData);
 		this->SetSettingString(hContact, "About", ::mir_a2u((const char*)sData));
-
 		// profile update ts
 		this->SetSettingDword(hContact, "ProfileUpdateTS", newTS);
 	}
@@ -204,7 +215,38 @@ void CSkypeProto::LoadContactInfo(HANDLE hContact, CContact::Ref contact)
 	}
 
 	// avatar
-	// todo: add avatar loading
+	contact->GetPropProfileTimestamp(newTS);
+	oldTS = this->GetSettingDword(hContact, "AvatarTS");
+	if (newTS > oldTS)
+	{
+		SEBinary avatar;
+		contact->GetPropAvatarImage(avatar);
+		
+		if (avatar.size() > 0)
+		{
+			FILE* fp = _wfopen(this->GetAvatarFilePath(this->GetSettingString(hContact, "SkypeName")), L"w");
+			for (int i = 0; i < avatar.size(); i++)
+			{
+				if (i)
+					fputc(',', fp);
+				fputc('\'', fp);
+				switch(avatar[i])
+				{
+				case '\n':
+					fputc('\\', fp);
+					fputc('n', fp);
+					break;
+
+				default:
+					fputc(avatar[i], fp);
+				}
+			}
+			CloseHandle(fp);
+		}
+		// todo: need to register avatar to contact
+		//avatar update ts
+		this->SetSettingDword(hContact, "AvatarTS", newTS);
+	}
 }
 
 void __cdecl CSkypeProto::LoadContactList(void*)

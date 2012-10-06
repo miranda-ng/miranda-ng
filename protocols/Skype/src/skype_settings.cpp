@@ -66,6 +66,7 @@ wchar_t* CSkypeProto::GetDecodeSettingString(const char *setting, wchar_t* error
 	return this->GetDecodeSettingString(NULL, setting, errorValue);
 }
 
+//
 
 bool CSkypeProto::SetSettingByte(HANDLE hContact, const char *setting, BYTE value)
 {
@@ -118,4 +119,16 @@ bool CSkypeProto::SetDecodeSettingString(HANDLE hContact, const char *setting, w
 bool CSkypeProto::SetDecodeSettingString(const char *setting, wchar_t* value)
 {
 	return this->SetDecodeSettingString(NULL, setting, value);
+}
+
+//
+
+void CSkypeProto::DeleteSetting(const char *setting)
+{
+	this->DeleteSetting(NULL, setting);
+}
+
+void CSkypeProto::DeleteSetting(HANDLE hContact, const char *setting)
+{
+	::DBDeleteContactSetting(hContact, this->m_szModuleName, setting);
 }

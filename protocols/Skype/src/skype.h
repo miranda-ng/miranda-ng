@@ -8,7 +8,7 @@
 //#pragma warning(push)
 //#	pragma warning(disable:4312)
 #include <newpluginapi.h>
-//#include <m_avatars.h>
+#include <m_avatars.h>
 //#include <m_button.h>
 //#include <m_chat.h>
 //#include <m_clc.h>
@@ -35,6 +35,7 @@
 //#include <m_addcontact.h>
 #include <m_icolib.h>
 #include <m_utils.h>
+#include <m_folders.h>
 #include <m_system_cpp.h>
 //#include <m_hotkeys.h>
 //#pragma warning(pop)

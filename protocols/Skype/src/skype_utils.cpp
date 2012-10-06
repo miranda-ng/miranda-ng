@@ -20,6 +20,47 @@ char* CSkypeProto::GetCountryNameById(int countryId)
 	return (char*)::CallService(MS_UTILS_GETCOUNTRYBYNUMBER, (WPARAM)countryId, NULL);
 }
 
+wchar_t* CSkypeProto::GetAvatarFilePath(wchar_t* skypeName)
+{
+	wchar_t* path = new wchar_t[MAX_PATH * 2];
+	
+	FOLDERSGETDATA fgd = {0};
+	fgd.cbSize = sizeof(FOLDERSGETDATA);
+	fgd.nMaxPathSize = MAX_PATH * 2;
+	fgd.szPathT = path;
+	fgd.flags = FF_UNICODE;
+
+	HANDLE hAvatarsFolder;
+	if (::ServiceExists(MS_FOLDERS_REGISTER_PATH))
+	{
+		wchar_t tszPath[MAX_PATH * 2];
+		::mir_sntprintf(
+			tszPath, 
+			MAX_PATH * 2, 
+			_T("%%miranda_avatarcache%%\\") _T(TCHAR_STR_PARAM) _T("\\"), 
+			this->m_szModuleName);
+
+			hAvatarsFolder = ::FoldersRegisterCustomPathT(this->m_szModuleName, "Avatars Cache", tszPath);
+		}
+	
+	if (::CallService(MS_FOLDERS_GET_PATH, (WPARAM)hAvatarsFolder, (LPARAM)&fgd))
+	{
+		wchar_t *tmpPath = ::Utils_ReplaceVarsT(L"%miranda_avatarcache%");
+		::mir_sntprintf(path, MAX_PATH * 2, _T("%s\\") _T(TCHAR_STR_PARAM) _T("\\"), tmpPath, this->m_szModuleName);
+		mir_free(tmpPath);
+	}
+	else
+		wcscat(path, L"\\");
+
+	wcscat(path, skypeName);
+	wcscat(path, L".jpg");
+
+	// make sure the avatar cache directory exists
+	::CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
+
+	return path;
+}
+
 int CSkypeProto::CompareProtos(const CSkypeProto *p1, const CSkypeProto *p2)
 {
 	return wcscmp(p1->m_tszUserName, p2->m_tszUserName);

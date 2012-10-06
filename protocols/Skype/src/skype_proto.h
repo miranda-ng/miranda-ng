@@ -1,6 +1,7 @@
 #pragma once
 
 #include "skype.h"
+#include <time.h>
 
 struct CSkypeProto;
 
@@ -126,6 +127,8 @@ protected:
 	// utils
 	static char* GetCountryNameById(int countryId);
 	static int GetCountryIdByName(const char* countryName);
+	
+	wchar_t* GetAvatarFilePath(wchar_t* skypeName);
 
 	// instances
 	static LIST<CSkypeProto> instanceList;
@@ -171,7 +174,7 @@ protected:
 	wchar_t*	GetSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue = NULL);
 	wchar_t*	GetDecodeSettingString(const char *setting, wchar_t* errorValue = NULL);
 	wchar_t*	GetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue = NULL);
-
+	//
 	bool	SetSettingByte(const char *setting, BYTE value);
 	bool	SetSettingByte(HANDLE hContact, const char *setting, BYTE value);
 	bool	SetSettingWord(const char *setting, WORD value);
@@ -182,6 +185,9 @@ protected:
 	bool	SetSettingString(HANDLE hContact, const char *setting, wchar_t* value);
 	bool	SetDecodeSettingString(const char *setting, wchar_t* value);
 	bool	SetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* value);
+	//
+	void	DeleteSetting(const char *setting);
+	void	DeleteSetting(HANDLE hContact, const char *setting);
 
 	// dialog procs
 	static INT_PTR CALLBACK SkypeAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
