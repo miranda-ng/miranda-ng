@@ -24,6 +24,9 @@ CSkypeProto::~CSkypeProto()
 
 	CloseHandle(this->signin_lock);
 
+	mir_free(this->login);
+	mir_free(this->password);
+
 	mir_free(this->m_szProtoName);
 	mir_free(this->m_szModuleName);
 	mir_free(this->m_tszUserName);

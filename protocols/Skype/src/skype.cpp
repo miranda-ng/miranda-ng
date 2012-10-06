@@ -133,6 +133,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnUninit = (pfnUninitProto)CSkypeProto::UninitSkypeProto;
 	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&pd));
 
+	CallService(
+		MS_UTILS_GETCOUNTRYLIST, 
+		(WPARAM)&CSkypeProto::countriesCount, 
+		(LPARAM)&CSkypeProto::countryList);
+
 	CSkypeProto::InitIcons();
 	CSkypeProto::InitMenus();
 

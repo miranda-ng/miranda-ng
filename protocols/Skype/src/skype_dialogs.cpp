@@ -13,8 +13,13 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 		proto = reinterpret_cast<CSkypeProto*>(lparam);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
-		SetDlgItemText(hwnd, IDC_SL, proto->GetSettingString(SKYPE_SETTINGS_LOGIN, L""));
-		SetDlgItemText(hwnd, IDC_PW, proto->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, L""));
+		wchar_t* data = proto->GetSettingString(SKYPE_SETTINGS_LOGIN, L"");
+		SetDlgItemText(hwnd, IDC_SL, data);
+		::mir_free(data);
+
+		data = proto->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, L"");
+		SetDlgItemText(hwnd, IDC_PW, data);
+		::mir_free(data);
 
 		if ( proto->m_iStatus != ID_STATUS_OFFLINE)
 		{
@@ -74,8 +79,13 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 		proto = reinterpret_cast<CSkypeProto*>(lparam);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
-		SetDlgItemText(hwnd, IDC_SL, proto->GetSettingString(SKYPE_SETTINGS_LOGIN, L""));
-		SetDlgItemText(hwnd, IDC_PW, proto->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, L""));
+		wchar_t* data = proto->GetSettingString(SKYPE_SETTINGS_LOGIN, L"");
+		SetDlgItemText(hwnd, IDC_SL, data);
+		::mir_free(data);
+
+		data = proto->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, L"");
+		SetDlgItemText(hwnd, IDC_PW, data);
+		::mir_free(data);
 
 		if (proto->m_iStatus != ID_STATUS_OFFLINE) 
 		{

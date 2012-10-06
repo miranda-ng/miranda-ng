@@ -27,7 +27,7 @@ void CSkypeProto::OnContactChanged(CContact* contact, int prop)
 
 bool CSkypeProto::IsProtoContact(HANDLE hContact)
 {
-	return (::CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName));
+	return ::CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName) < 0;
 }
 
 HANDLE CSkypeProto::GetContactBySkypeName(wchar_t* skypeName)
@@ -37,7 +37,10 @@ HANDLE CSkypeProto::GetContactBySkypeName(wchar_t* skypeName)
 	{
 		if  (this->IsProtoContact(hContact))
 		{
-			if (::wcscmp(skypeName, this->GetSettingString(hContact, "SkypeName", L"")) == 0)
+			wchar_t* data = this->GetSettingString(hContact, "SkypeName", L"");
+			bool result = ::wcscmp(skypeName, data) == 0;
+			mir_free(data);
+			if (result)
 				return hContact;
 		}
 
@@ -125,6 +128,85 @@ CContact::AVAILABILITY CSkypeProto::MirandaToSkypeStatus(int status)
 	return availability;
 }
 
+void CSkypeProto::LoadContactInfo(HANDLE hContact, CContact::Ref contact)
+{
+	CContact::AVAILABILITY availability;
+	contact->GetPropAvailability(availability);
+	this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
+
+	if (availability == CContact::PENDINGAUTH)
+		this->SetSettingWord(hContact, "Auth", 1);
+	else
+		DBDeleteContactSetting(hContact, this->m_szModuleName, "Auth");
+
+	uint newTS = 0;
+	DWORD oldTS = 0;
+
+	// profile info
+	contact->GetPropProfileTimestamp(newTS);
+	oldTS = this->GetSettingDword(hContact, "ProfileUpdateTS");
+	if (newTS > oldTS)
+	{
+		uint uData;
+		SEString sData;
+		// birth date
+		contact->GetPropBirthday(uData);
+		// gender
+		contact->GetPropGender(uData);
+		this->SetSettingByte(hContact, "Gender", (BYTE)(uData ? 'M' : 'F'));
+		// timezone
+		contact->GetPropTimezone(uData);
+		// language
+        contact->GetPropLanguages(sData);
+		// country (en, ru, etc)
+		contact->GetPropCountry(sData);
+		BYTE countryId = this->GetCountryIdByName((const char*)sData);
+		this->SetSettingByte(hContact, "Country", countryId);
+		// state
+		contact->GetPropProvince(sData);
+		this->SetSettingString(hContact, "State", ::mir_a2u((const char*)sData));
+		// city
+		contact->GetPropCity(sData);
+		this->SetSettingString(hContact, "City", ::mir_a2u((const char*)sData));
+		// home phone
+		contact->GetPropPhoneHome(sData);
+		this->SetSettingString(hContact, "Phone", ::mir_a2u((const char*)sData));
+        // office phone
+		contact->GetPropPhoneOffice(sData);
+		this->SetSettingString(hContact, "CompanyPhone", ::mir_a2u((const char*)sData));
+        // mobile phone
+		contact->GetPropPhoneMobile(sData);
+		this->SetSettingString(hContact, "Cellular", ::mir_a2u((const char*)sData));
+		// e-mail
+		contact->GetPropEmails(sData);
+		this->SetSettingString(hContact, "e-mail", ::mir_a2u((const char*)sData));
+		// homepage
+		contact->GetPropHomepage(sData);
+		this->SetSettingString(hContact, "Homepage", ::mir_a2u((const char*)sData));
+		// about
+		contact->GetPropAbout(sData);
+		this->SetSettingString(hContact, "About", ::mir_a2u((const char*)sData));
+
+		// profile update ts
+		this->SetSettingDword(hContact, "ProfileUpdateTS", newTS);
+	}
+
+	// mood text
+	contact->GetPropProfileTimestamp(newTS);
+	oldTS = this->GetSettingDword(hContact, "XStatusTS");
+	if (newTS > oldTS)
+	{
+		SEString status;
+		contact->GetPropAbout(status);
+		this->SetSettingString(hContact, "XStatusMsg", ::mir_a2u((const char*)status));
+		// mood text update ts
+		this->SetSettingDword(hContact, "XStatusTS", newTS);
+	}
+
+	// avatar
+	// todo: add avatar loading
+}
+
 void __cdecl CSkypeProto::LoadContactList(void*)
 {
 	g_skype->GetHardwiredContactGroup(CContactGroup::ALL_KNOWN_CONTACTS, this->contactGroup);
@@ -147,14 +229,7 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 
 		HANDLE hContact = this->AddContactBySkypeName(skypeName, displayName, 0);
 
-		CContact::AVAILABILITY availability;
-		contact->GetPropAvailability(availability);
-		this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
-
-		if (availability == CContact::PENDINGAUTH)
-			this->SetSettingWord(hContact, "Auth", 1);
-		else
-			DBDeleteContactSetting(hContact, this->m_szModuleName, "Auth");
+		this->LoadContactInfo(hContact, contact);
 	}
 }
 

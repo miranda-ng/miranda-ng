@@ -1,5 +1,25 @@
 #include "skype_proto.h"
 
+int  CSkypeProto::countriesCount;
+CountryListEntry*  CSkypeProto::countryList;
+
+int CSkypeProto::GetCountryIdByName(const char* countryName)
+{
+	for (int i = 0; i < CSkypeProto::countriesCount; i++)
+	{
+		const char* country = CSkypeProto::countryList[i].szName;
+		if (strcmp(CSkypeProto::countryList[i].szName, countryName) == 0)
+			return CSkypeProto::countryList[i].id;
+	}
+
+	return 0;
+}
+
+char* CSkypeProto::GetCountryNameById(int countryId)
+{
+	return (char*)::CallService(MS_UTILS_GETCOUNTRYBYNUMBER, (WPARAM)countryId, NULL);
+}
+
 int CSkypeProto::CompareProtos(const CSkypeProto *p1, const CSkypeProto *p2)
 {
 	return wcscmp(p1->m_tszUserName, p2->m_tszUserName);

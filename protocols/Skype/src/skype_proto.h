@@ -71,6 +71,10 @@ public:
 
 	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
 
+	// utils
+	static int countriesCount;
+	static CountryListEntry* countryList;
+
 	// events
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
@@ -105,6 +109,8 @@ protected:
 
 	HANDLE	signin_lock;
 	void __cdecl SignIn(void*);
+
+	void	LoadContactInfo(HANDLE hContact, CContact::Ref contact);
 	void __cdecl LoadContactList(void*);
 
 	// contacts
@@ -116,6 +122,10 @@ protected:
 	int		SkypeToMirandaStatus(CContact::AVAILABILITY availability);
 	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
 	void	SetAllContactStatus(int status);
+
+	// utils
+	static char* GetCountryNameById(int countryId);
+	static int GetCountryIdByName(const char* countryName);
 
 	// instances
 	static LIST<CSkypeProto> instanceList;
@@ -162,16 +172,16 @@ protected:
 	wchar_t*	GetDecodeSettingString(const char *setting, wchar_t* errorValue = NULL);
 	wchar_t*	GetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue = NULL);
 
-	bool	SetSettingByte(const char *setting, BYTE value = 0);
-	bool	SetSettingByte(HANDLE hContact, const char *setting, BYTE value = 0);
-	bool	SetSettingWord(const char *setting, WORD value = 0);
-	bool	SetSettingWord(HANDLE hContact, const char *setting, WORD value = 0);
-	bool	SetSettingDword(const char *setting, DWORD value = 0);
-	bool	SetSettingDword(HANDLE hContact, const char *setting, DWORD value = 0);
-	bool	SetSettingString(const char *setting, wchar_t* value = NULL);
-	bool	SetSettingString(HANDLE hContact, const char *setting, wchar_t* value = NULL);
-	bool	SetDecodeSettingString(const char *setting, wchar_t* value = NULL);
-	bool	SetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* value = NULL);
+	bool	SetSettingByte(const char *setting, BYTE value);
+	bool	SetSettingByte(HANDLE hContact, const char *setting, BYTE value);
+	bool	SetSettingWord(const char *setting, WORD value);
+	bool	SetSettingWord(HANDLE hContact, const char *setting, WORD value);
+	bool	SetSettingDword(const char *setting, DWORD value);
+	bool	SetSettingDword(HANDLE hContact, const char *setting, DWORD value);
+	bool	SetSettingString(const char *setting, wchar_t* value);
+	bool	SetSettingString(HANDLE hContact, const char *setting, wchar_t* value);
+	bool	SetDecodeSettingString(const char *setting, wchar_t* value);
+	bool	SetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* value);
 
 	// dialog procs
 	static INT_PTR CALLBACK SkypeAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
