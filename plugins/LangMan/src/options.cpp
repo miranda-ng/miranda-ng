@@ -40,11 +40,10 @@ static HIMAGELIST CreateRadioImages(COLORREF clrBk, COLORREF clrText)
 	HIMAGELIST himl = NULL;
 
 	/* the WinXP+ themed way */
-	HMODULE hUxThemeDLL;
 	HTHEME  (WINAPI *pfnOpenThemeData)(HWND, const WCHAR*);
 	HTHEME  (WINAPI *pfnCloseThemeData)(HTHEME);
 	HRESULT (WINAPI *pfnDrawThemeBackground)(HTHEME, HDC, int, int, const RECT*, const RECT*);
-	hUxThemeDLL = LoadLibraryA("UXTHEME"); /* all ascii */
+	HMODULE hUxThemeDLL = LoadLibrary(_T("UXTHEME")); /* all ascii */
 
 	/* draw bitmap */
 	hdcScreen = GetDC(NULL);
@@ -648,9 +647,10 @@ static int LangOptInit(WPARAM wParam, LPARAM lParam)
 	UNREFERENCED_PARAMETER(lParam);
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.position = 1200000090;
-	odp.pszTitle = LPGEN("Appearance");  /* autotranslated */
+	odp.ptszTitle = LPGENT("Languages");
+	odp.ptszGroup = LPGENT("Customize");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LANG);
 	odp.pfnDlgProc = LangOptDlgProc;
 	Options_AddPage(wParam, &odp);
