@@ -61,7 +61,7 @@ int InitSkinHotKeys(void)
 	Hotkey_Register(&shk);	
 	
 	shk.ptszDescription = LPGENT("Show/Hide Ofline Users");
-	shk.pszName = "SjowHideOfflineUsers";
+	shk.pszName = "ShowHideOfflineUsers";
 	shk.ptszSection = LPGENT("Main");
 	shk.pszService = MS_CLIST_TOGGLEHIDEOFFLINE;
 	Hotkey_Register(&shk);	
