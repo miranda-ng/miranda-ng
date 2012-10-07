@@ -135,7 +135,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	opts.num_protos = 0;
 	for (int loop=0;loop<pcount;loop++)
 	{
-		if (pdesc[loop]->type==PROTOTYPE_PROTOCOL)
+//		if (pdesc[loop]->type==PROTOTYPE_PROTOCOL)
 			opts.num_protos++;
 	}
 
