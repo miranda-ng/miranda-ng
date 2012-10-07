@@ -662,7 +662,6 @@ int LoadProtocolsModule(void)
 	InsertServiceListItem(35, PS_GETNAME);
 	InsertServiceListItem(36, PS_GETSTATUS);
 
-
 	InsertServiceListItem(100, PS_SETAWAYMSGW);
 	InsertServiceListItem(102, PSS_FILEW);
 	InsertServiceListItem(103, PSS_FILEALLOWW);

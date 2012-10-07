@@ -224,6 +224,11 @@ static INT_PTR Proto_RemoveFromContact(WPARAM wParam, LPARAM lParam)
 
 int LoadProtoChains(void)
 {
+	if ( !db_get_b(NULL, "Compatibility", "Filters", 0)) {
+		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"_Filters");
+		db_set_b(NULL, "Compatibility", "Filters", 1);
+	}
+
 	CreateServiceFunction(MS_PROTO_CALLCONTACTSERVICE, Proto_CallContactService);
 	CreateServiceFunction(MS_PROTO_CHAINSEND, Proto_CallContactService);
 	CreateServiceFunction(MS_PROTO_CHAINRECV, Proto_ChainRecv);
