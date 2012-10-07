@@ -1349,8 +1349,6 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 
 				for( int i=0 ; i < nCount ; i++) 
 				{
-					if( proto[i]->type==PROTOTYPE_IGNORE) //PROTOTYPE_PROTOCOL 
-						continue;
 					_snprintf(szTemp , sizeof( szTemp ) , "DisableProt_%s" , proto[i]->szModuleName);
 					sItem.pszText = proto[i]->szModuleName;
 					sItem.iImage = DBGetContactSettingByte(NULL,MODULE,szTemp,1);
