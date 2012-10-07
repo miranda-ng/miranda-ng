@@ -34,10 +34,10 @@ CSkypeProto::~CSkypeProto()
 
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr) 
 {
-	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
+	//if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return 0;
 	
-	return this->AddContactBySkypeName(psr->id, psr->nick, flags);
+	//return this->AddContactBySkypeName(psr->id, psr->nick, flags);
 }
 
 HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) 
@@ -45,7 +45,7 @@ HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDb
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
 
-	if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) != -1) 
+	/*if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) != -1) 
 	{
 		dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 		if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei) == 0 &&
@@ -58,14 +58,85 @@ HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDb
 			char *skypeName = lastName + strlen(lastName) + 1;
 			return AddContactBySkypeName(::mir_a2u(skypeName), ::mir_a2u(nick), 0);
 		}
-	}
+	}*/
 	return 0;
 }
 
-int    __cdecl CSkypeProto::Authorize( HANDLE hDbEvent ) { return 0; }
-int    __cdecl CSkypeProto::AuthDeny( HANDLE hDbEvent, const TCHAR* szReason ) { return 0; }
-int    __cdecl CSkypeProto::AuthRecv( HANDLE hContact, PROTORECVEVENT* ) { return 0; }
-int    __cdecl CSkypeProto::AuthRequest( HANDLE hContact, const TCHAR* szMessage ) { return 0; }
+int __cdecl CSkypeProto::Authorize(HANDLE hDbEvent) 
+{ 
+	if (this->IsOnline() && hDbEvent)
+	{
+		HANDLE hContact = this->GetContactFromAuthEvent(hDbEvent);
+		if (hContact == INVALID_HANDLE_VALUE)
+			return 1;
+
+		CContact::Ref contact;
+		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
+		g_skype->GetContact(sid, contact);
+		contact->SetBuddyStatus(true/*Contact::AUTHORIZED_BY_ME*/);
+
+		return 0;
+	}
+
+	return 1;
+}
+
+int __cdecl CSkypeProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason) 
+{ 
+	if (this->IsOnline())
+	{
+		HANDLE hContact = this->GetContactFromAuthEvent(hDbEvent);
+		if (hContact == INVALID_HANDLE_VALUE)
+			return 1;
+
+		CContact::Ref contact;
+		SEString sid(::mir_u2a(this->GetSettingString(hContact, "SkypeName")));
+		g_skype->GetContact(sid, contact);
+		contact->SetBuddyStatus(false/*CContact::BLOCKED_BY_ME*/);
+
+		return 0;
+	}
+
+	return 1; 
+}
+
+int __cdecl CSkypeProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre) 
+{
+	DWORD flags = 0;
+
+	if (pre->flags & PREF_CREATEREAD) 
+		flags |= DBEF_READ;
+
+	if (pre->flags & PREF_UTF) 
+		flags |= DBEF_UTF;
+
+	this->AddDataBaseEvent(
+		hContact, 
+		EVENTTYPE_AUTHREQUEST, 
+		pre->timestamp, 
+		flags, 
+		pre->lParam, 
+		(PBYTE)pre->szMessage);
+
+	return 0;
+}
+
+int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage) 
+{ 
+	if (this->IsOnline() && hContact)
+	{
+		CContact::Ref contact;
+		SEString sid(::mir_u2a(this->GetSettingString(hContact, "SkypeName")));
+		g_skype->GetContact(sid, contact);
+
+		contact->SendAuthRequest(::mir_u2a(szMessage));
+		this->DeleteSetting(hContact, "Grant");
+		
+		return 0;
+	}
+
+	return 1;
+}
 
 HANDLE __cdecl CSkypeProto::ChangeInfo( int iInfoType, void* pInfoData ) { return 0; }
 
@@ -153,8 +224,8 @@ int CSkypeProto::SetStatus(int new_status)
 				this->m_iStatus = ID_STATUS_CONNECTING;
 				this->password = this->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD);
 			
-				this->ForkThread(&CSkypeProto::SignIn, this);
-				//this->SignIn(this);
+				//this->ForkThread(&CSkypeProto::SignIn, this);
+				this->SignIn(this);
 			}
 		}
 
@@ -180,10 +251,13 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 	switch (eventType) 
 	{
 	case EV_PROTO_ONLOAD:
-		return this->OnModulesLoaded(0, 0);
+		return this->OnModulesLoaded(wParam, lParam);
 	
 	case EV_PROTO_ONEXIT: 
-		return this->OnPreShutdown(0, 0);
+		return this->OnPreShutdown(wParam, lParam);
+
+	case EV_PROTO_ONCONTACTDELETED:
+		return this->OnContactDeleted(wParam, lParam);
 	}
 
 	return 1;
@@ -201,4 +275,9 @@ void __cdecl CSkypeProto::SignIn(void*)
 	//this->LoadContactList(this);
 
 	ReleaseMutex(this->signin_lock);
+}
+
+bool  CSkypeProto::IsOnline()
+{
+	return this->m_iStatus != ID_STATUS_OFFLINE;
 }

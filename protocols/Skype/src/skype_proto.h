@@ -79,6 +79,7 @@ public:
 	// events
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
+	int __cdecl OnContactDeleted(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 
@@ -103,7 +104,7 @@ public:
 
 protected:
 	CAccount::Ref account;
-	CContactGroup::Ref contactGroup;
+	CContactGroup::Ref contactList;
 
 	TCHAR*	login;
 	TCHAR*	password;
@@ -111,18 +112,41 @@ protected:
 	HANDLE	signin_lock;
 	void __cdecl SignIn(void*);
 
-	void	LoadContactInfo(HANDLE hContact, CContact::Ref contact);
-	void __cdecl LoadContactList(void*);
+	bool	IsOnline();
 
 	// contacts
-	void  OnContactChanged(CContact* contact, int prop);
+	void	UpdateContactAboutText(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactAuthState(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactAvatar(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactBirthday(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactCity(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactCountry(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactEmails(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactGender(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactHomepage(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactLanguages(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactMobilePhone(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactPhone(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactOfficePhone(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactState(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactStatus(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactStatusMessage(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactTimezone(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactProfile(HANDLE hContact, CContact::Ref contact);
+
+	void	OnContactChanged(CContact::Ref contact, int prop);
+	void	OnContactListChanged(const ContactRef& contact);
 	
 	bool	IsProtoContact(HANDLE hContact);
-	HANDLE	AddContactBySkypeName(wchar_t* skypeName, wchar_t* displayName, DWORD flags);
-	HANDLE	GetContactBySkypeName(wchar_t* skypeName);
+	HANDLE	GetContactBySid(const wchar_t* sid);
+	HANDLE	GetContactFromAuthEvent(HANDLE hEvent);
+	HANDLE	AddContactBySid(const wchar_t* skypeName, const wchar_t* nick, DWORD flags = 0);
+	void	RemoveContact(HANDLE hContact);
 	int		SkypeToMirandaStatus(CContact::AVAILABILITY availability);
 	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
 	void	SetAllContactStatus(int status);
+
+	void __cdecl LoadContactList(void*);
 
 	// utils
 	static char* GetCountryNameById(int countryId);
@@ -163,6 +187,16 @@ protected:
 
 	int		OnPrebuildContactMenu(WPARAM wParam, LPARAM);
 
+	// database
+	HANDLE AddDataBaseEvent(HANDLE hContact, WORD type, DWORD time, DWORD flags, DWORD cbBlob, PBYTE pBlob);
+	void RaiseAuthRequestEvent(
+		DWORD timestamp, 
+		const char* sid, 
+		const char* nick, 
+		const char* firstName = "",
+		const char* lastName = "",
+		const char* reason = "");
+
 	// database settings
 	BYTE	GetSettingByte(const char *setting, BYTE errorValue = 0);
 	BYTE	GetSettingByte(HANDLE hContact, const char *setting, BYTE errorValue = 0);
@@ -181,10 +215,10 @@ protected:
 	bool	SetSettingWord(HANDLE hContact, const char *setting, WORD value);
 	bool	SetSettingDword(const char *setting, DWORD value);
 	bool	SetSettingDword(HANDLE hContact, const char *setting, DWORD value);
-	bool	SetSettingString(const char *setting, wchar_t* value);
-	bool	SetSettingString(HANDLE hContact, const char *setting, wchar_t* value);
-	bool	SetDecodeSettingString(const char *setting, wchar_t* value);
-	bool	SetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* value);
+	bool	SetSettingString(const char *setting, const wchar_t* value);
+	bool	SetSettingString(HANDLE hContact, const char *setting, const wchar_t* value);
+	bool	SetDecodeSettingString(const char *setting, const wchar_t* value);
+	bool	SetDecodeSettingString(HANDLE hContact, const char *setting, const wchar_t* value);
 	//
 	void	DeleteSetting(const char *setting);
 	void	DeleteSetting(HANDLE hContact, const char *setting);

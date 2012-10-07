@@ -33,7 +33,7 @@ DWORD CSkypeProto::GetSettingDword(const char *setting, DWORD errorValue)
 wchar_t* CSkypeProto::GetSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue)
 {
 	DBVARIANT dbv;
-	TCHAR* result = NULL;
+	wchar_t* result = NULL;
 
 	if ( !::DBGetContactSettingWString(hContact, this->m_szModuleName, setting, &dbv))
 	{
@@ -98,17 +98,17 @@ bool CSkypeProto::SetSettingDword(const char *setting, DWORD value)
 	return this->SetSettingDword(NULL, setting, value);
 }
 
-bool CSkypeProto::SetSettingString(HANDLE hContact, const char *szSetting, wchar_t* value)
+bool CSkypeProto::SetSettingString(HANDLE hContact, const char *szSetting, const wchar_t* value)
 {
 	return !::DBWriteContactSettingWString(hContact, this->m_szModuleName, szSetting, value);
 }
 
-bool CSkypeProto::SetSettingString(const char *szSetting, wchar_t* value)
+bool CSkypeProto::SetSettingString(const char *szSetting, const wchar_t* value)
 {
 	return this->SetSettingString(NULL, szSetting, value);
 }
 
-bool CSkypeProto::SetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* value)
+bool CSkypeProto::SetDecodeSettingString(HANDLE hContact, const char *setting, const wchar_t* value)
 {
 	TCHAR* result = mir_wstrdup(value);
 	CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(result), reinterpret_cast<LPARAM>(result));
@@ -116,7 +116,7 @@ bool CSkypeProto::SetDecodeSettingString(HANDLE hContact, const char *setting, w
 	return !this->SetSettingString(hContact, setting, result);
 }
 
-bool CSkypeProto::SetDecodeSettingString(const char *setting, wchar_t* value)
+bool CSkypeProto::SetDecodeSettingString(const char *setting, const wchar_t* value)
 {
 	return this->SetDecodeSettingString(NULL, setting, value);
 }

@@ -13,3 +13,10 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 
 	return 0;
 }
+
+int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM)
+{
+	this->RemoveContact((HANDLE)wParam);
+
+	return 0;
+}
