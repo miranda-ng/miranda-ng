@@ -20,104 +20,129 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include <m_protomod.h>
 
-//Protocol chain is list of integers "0".."n", with network protocol named "p"
+extern LIST<PROTOCOLDESCRIPTOR> filters;
+
+static int GetProtocolP(HANDLE hContact, char *szBuf, int cbLen)
+{
+	DBVARIANT dbv;
+	dbv.type = DBVT_ASCIIZ;
+	dbv.pszVal = szBuf;
+	dbv.cchVal = cbLen;
+
+	DBCONTACTGETSETTING dbcgs;
+	dbcgs.pValue = &dbv;
+	dbcgs.szModule = "Protocol";
+	dbcgs.szSetting = "p";
+	return (int)CallService(MS_DB_CONTACT_GETSETTINGSTATIC, (WPARAM)hContact, (LPARAM)&dbcgs);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+INT_PTR CallContactService(HANDLE hContact, const char *szProtoService, WPARAM wParam, LPARAM lParam)
+{
+	INT_PTR ret;
+	CCSDATA ccs = { hContact, szProtoService, wParam, lParam };
+
+	for (int i=0; i < filters.getCount(); i++) {
+		if ((ret = CallProtoServiceInt(hContact, filters[i]->szName, szProtoService, i+1, (LPARAM)&ccs)) != CALLSERVICE_NOTFOUND) {
+			//chain was started, exit
+			return ret;
+		}
+	}
+
+	char szProto[40];
+	if ( GetProtocolP(hContact, szProto, sizeof(szProto)))
+		return 1;
+
+	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
+	if (pa == NULL || pa->ppro == NULL)
+		return 1;
+
+	if (pa->bOldProto)
+		ret = CallProtoServiceInt(hContact, szProto, szProtoService, (WPARAM)(-1), (LPARAM)&ccs);
+	else
+		ret = CallProtoServiceInt(hContact, szProto, szProtoService, wParam, lParam);
+	if (ret == CALLSERVICE_NOTFOUND)
+		ret = 1;
+
+	return ret;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR Proto_CallContactService(WPARAM wParam, LPARAM lParam)
-//note that this is ChainSend() too, due to a quirk of function definitions
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	int i;
-	char str[10];
-	DBVARIANT dbv;
 	INT_PTR ret;
-	PROTOACCOUNT* pa;
 
 	if (wParam == (WPARAM)(-1))
 		return 1;
 
-	for (i = wParam;; i++) {
-		_itoa(i, str, 10);
-		if (DBGetContactSettingString(ccs->hContact, "_Filter", str, &dbv))
-			break;
-
-		if ((ret = CallProtoServiceInt(NULL,dbv.pszVal, ccs->szProtoService, i+1, lParam)) != CALLSERVICE_NOTFOUND) {
+	for (int i = wParam; i < filters.getCount(); i++) {
+		if ((ret = CallProtoServiceInt(NULL, filters[i]->szName, ccs->szProtoService, i+1, lParam)) != CALLSERVICE_NOTFOUND) {
 			//chain was started, exit
-			mir_free(dbv.pszVal);
 			return ret;
 		}
-		mir_free(dbv.pszVal);
 	}
-	if (DBGetContactSettingString(ccs->hContact, "Protocol", "p", &dbv))
+
+	char szProto[40];
+	if ( GetProtocolP(ccs->hContact, szProto, sizeof(szProto)))
 		return 1;
 
-	pa = Proto_GetAccount(dbv.pszVal);
+	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 	if (pa == NULL || pa->ppro == NULL)
-		ret = 1;
-	else {
-		if (pa->bOldProto)
-			ret = CallProtoServiceInt(ccs->hContact, dbv.pszVal, ccs->szProtoService, (WPARAM)(-1), (LPARAM)ccs);
-		else
-			ret = CallProtoServiceInt(ccs->hContact, dbv.pszVal, ccs->szProtoService, ccs->wParam, ccs->lParam);
-		if (ret == CALLSERVICE_NOTFOUND)
-			ret = 1;
-	}
+		return 1;
 
-	mir_free(dbv.pszVal);
+	if (pa->bOldProto)
+		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, (WPARAM)(-1), (LPARAM)ccs);
+	else
+		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, ccs->wParam, ccs->lParam);
+	if (ret == CALLSERVICE_NOTFOUND)
+		ret = 1;
+
 	return ret;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR CallRecvChain(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	int i;
 	INT_PTR ret;
-	char str[10];
-	DBVARIANT dbv;
-	PROTOACCOUNT* pa;
 
 	if (wParam == (WPARAM)(-1)) return 1;   //shouldn't happen - sanity check
-	if (wParam == 0) {	   //begin processing by finding end of chain
-		for (;;wParam++) {
-			_itoa(wParam, str, 10);
-			if (DBGetContactSettingString(ccs->hContact, "_Filter", str, &dbv))
-				break;
-			mir_free(dbv.pszVal);
-		}
-	}
-	else wParam--;
+	if (wParam == 0)   //begin processing by finding end of chain
+		wParam = filters.getCount();
+	else
+		wParam--;
 
-	for (i = wParam-1; i >= 0; i--) {
-		_itoa(i, str, 10);
-		if (DBGetContactSettingString(ccs->hContact, "_Filter", str, &dbv))  //never happens
-			return 1;
-
-		if ((ret = CallProtoServiceInt(NULL,dbv.pszVal, ccs->szProtoService, i+1, lParam)) != CALLSERVICE_NOTFOUND) {
+	for (int i = wParam-1; i >= 0; i--) {
+		if ((ret = CallProtoServiceInt(NULL, filters[i]->szName, ccs->szProtoService, i+1, lParam)) != CALLSERVICE_NOTFOUND) {
 			//chain was started, exit
-			mir_free(dbv.pszVal);
 			return ret;
 		}
-		mir_free(dbv.pszVal);
 	}
 
 	//end of chain, call network protocol again
-	if (DBGetContactSettingString(ccs->hContact, "Protocol", "p", &dbv))
+	char szProto[40];
+	if ( GetProtocolP(ccs->hContact, szProto, sizeof(szProto)))
 		return 1;
 
-	pa = Proto_GetAccount(dbv.pszVal);
+	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 	if (pa == NULL || pa->ppro == NULL)
-		ret = 1;
-	else {
-		if (pa->bOldProto)
-			ret = CallProtoServiceInt(ccs->hContact, dbv.pszVal, ccs->szProtoService, (WPARAM)(-1), (LPARAM)ccs);
-		else
-			ret = CallProtoServiceInt(ccs->hContact, dbv.pszVal, ccs->szProtoService, ccs->wParam, ccs->lParam);
-		if (ret == CALLSERVICE_NOTFOUND)
-			ret = 1;
-	}
+		return 1;
 
-	mir_free(dbv.pszVal);
+	if (pa->bOldProto)
+		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, (WPARAM)(-1), (LPARAM)ccs);
+	else
+		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, ccs->wParam, ccs->lParam);
+	if (ret == CALLSERVICE_NOTFOUND)
+		ret = 1;
+
 	return ret;
 }
 
@@ -129,133 +154,71 @@ static INT_PTR Proto_ChainRecv(WPARAM wParam, LPARAM lParam)
 
 PROTOACCOUNT* __fastcall Proto_GetAccount(HANDLE hContact)
 {
-	DBVARIANT dbv;
-	DBCONTACTGETSETTING dbcgs;
-	char name[32];
-
-	dbv.type = DBVT_ASCIIZ;
-	dbv.pszVal = name;
-	dbv.cchVal = SIZEOF(name);
-	dbcgs.pValue = &dbv;
-	dbcgs.szModule = "Protocol";
-	dbcgs.szSetting = "p";
-	if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC, (WPARAM)hContact, (LPARAM)&dbcgs))
+	char szProto[40];
+	if ( GetProtocolP(hContact, szProto, sizeof(szProto)))
 		return 0;
 
-	return Proto_GetAccount((char*)dbv.pszVal);
+	return Proto_GetAccount(szProto);
 }
 
 static INT_PTR Proto_GetContactBaseProto(WPARAM wParam, LPARAM)
 {
-	PROTOACCOUNT* pa = Proto_GetAccount((HANDLE)wParam);
+	PROTOACCOUNT *pa = Proto_GetAccount((HANDLE)wParam);
 	return (INT_PTR)(Proto_IsAccountEnabled(pa) ? pa->szModuleName : NULL);
 }
 
 static INT_PTR Proto_GetContactBaseAccount(WPARAM wParam, LPARAM)
 {
-	PROTOACCOUNT* pa = Proto_GetAccount((HANDLE)wParam);
-    return (INT_PTR)(pa ? pa->szModuleName : NULL);
+	PROTOACCOUNT *pa = Proto_GetAccount((HANDLE)wParam);
+	return (INT_PTR)(pa ? pa->szModuleName : NULL);
 }
 
 static INT_PTR Proto_IsProtoOnContact(WPARAM wParam, LPARAM lParam)
 {
-	int i;
-	char str[10];
-	DBVARIANT dbv;
+	char *szProto = (char*)lParam;
+	if (szProto == NULL)
+		return 0;
 
-    if ( !lParam) return 0;
-
-	if ( !DBGetContactSettingString((HANDLE)wParam, "Protocol", "p", &dbv)) {
-		if ( !_stricmp((char*)lParam, dbv.pszVal)) {
-			mir_free(dbv.pszVal);
+	char szContactProto[40];
+	if ( !GetProtocolP((HANDLE)wParam, szContactProto, sizeof(szContactProto)))
+		if ( !_stricmp(szProto, szContactProto))
 			return -1;
-		}
-		mir_free(dbv.pszVal);
-	}
-	for (i=0;;i++) {
-		_itoa(i, str, 10);
-		if (DBGetContactSettingString((HANDLE)wParam, "_Filter", str, &dbv)) break;
-		if ( !strcmp((char*)lParam, dbv.pszVal)) {
-			mir_free(dbv.pszVal);
+
+	for (int i=0; i < filters.getCount(); i++)
+		if ( !strcmp(szProto, filters[i]->szName))
 			return i+1;
-		}
-		mir_free(dbv.pszVal);
-	}
+
 	return 0;
 }
 
 static INT_PTR Proto_AddToContact(WPARAM wParam, LPARAM lParam)
 {
-	PROTOCOLDESCRIPTOR *pd, *pdCompare;
-
-	pd = Proto_IsProtocolLoaded((char*)lParam);
+	char *szProto = (char*)lParam;
+	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(szProto);
 	if (pd == NULL) {
-		PROTOACCOUNT* pa = Proto_GetAccount((char*)lParam);
+		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa) {
-			DBWriteContactSettingString((HANDLE)wParam, "Protocol", "p", (char*)lParam);
+			db_set_s((HANDLE)wParam, "Protocol", "p", szProto);
 			return 0;
 		}
 		return 1;
 	}
 
-	if (pd->type == PROTOTYPE_PROTOCOL) {
-		DBWriteContactSettingString((HANDLE)wParam, "Protocol", "p", (char*)lParam);
-		return 0;
-	}
-	if (Proto_IsProtoOnContact(wParam, lParam)) return 1;
-	{ /* v:0.3.3 + PROTO FILTERS ARE NOW KEPT IN THEIR OWN DB MODULE! */
-		int i;
-		char str[10], *lastProto;
-		DBVARIANT dbv;
+	if (pd->type == PROTOTYPE_PROTOCOL)
+		db_set_s((HANDLE)wParam, "Protocol", "p", szProto);
 
-		for (i=0;;i++) {
-			_itoa(i, str, 10);
-			if (DBGetContactSettingString((HANDLE)wParam, "_Filter", str, &dbv)) break;
-			pdCompare = Proto_IsProtocolLoaded((char*)dbv.pszVal);
-			mir_free(dbv.pszVal);
-			if (pdCompare == NULL) continue;
-			if (pd->type > pdCompare->type) break;
-		}
-		//put the new module at position i
-		lastProto = mir_strdup((char*)lParam);
-		for (;;i++) {
-			_itoa(i, str, 10);
-			if (DBGetContactSettingString((HANDLE)wParam, "_Filter", str, &dbv)) {
-				DBWriteContactSettingString((HANDLE)wParam, "_Filter", str, lastProto);
-				mir_free(lastProto);
-				break;
-			}
-			DBWriteContactSettingString((HANDLE)wParam, "_Filter", str, lastProto);
-			mir_free(lastProto);
-			lastProto = dbv.pszVal;
-		}
-	}
 	return 0;
 }
 
 static INT_PTR Proto_RemoveFromContact(WPARAM wParam, LPARAM lParam)
 {
-	int i;
-	DBVARIANT dbv;
-	char str[10];
-
-	i = Proto_IsProtoOnContact(wParam, lParam);
-	if ( !i) return 1;
-	if (i == -1)
-		DBDeleteContactSetting((HANDLE)wParam, "Protocol", "p");
-	else {
-		for (i--;;i++) {			//we have to decrease i, as Proto_IsOnContact returns +1 more number than read from database
-			_itoa(i+1, str, 10);
-			if (0 != DBGetContactSettingString((HANDLE)wParam, "_Filter", str, &dbv)) {
-				_itoa(i, str, 10);
-				DBDeleteContactSetting((HANDLE)wParam, "_Filter", str);
-				break;
-			}
-			_itoa(i, str, 10);
-			DBWriteContactSettingString((HANDLE)wParam, "_Filter", str, dbv.pszVal);
-			mir_free(dbv.pszVal);
-		}
+	switch ( Proto_IsProtoOnContact(wParam, lParam)) {
+	case 0:
+		return 1;
+	case -1:
+		db_unset((HANDLE)wParam, "Protocol", "p");
 	}
+
 	return 0;
 }
 

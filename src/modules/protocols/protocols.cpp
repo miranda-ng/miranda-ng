@@ -50,9 +50,20 @@ static int CompareProtos(const PROTOCOLDESCRIPTOR* p1, const PROTOCOLDESCRIPTOR*
 
 static LIST<PROTOCOLDESCRIPTOR> protos(10, CompareProtos);
 
+static int CompareProtos2(const PROTOCOLDESCRIPTOR* p1, const PROTOCOLDESCRIPTOR* p2)
+{
+	if (p1->type != p2->type)
+		return p1->type - p2->type;
+
+	return strcmp(p1->szName, p2->szName);
+}
+
+LIST<PROTOCOLDESCRIPTOR> filters(10, CompareProtos2);
+
+//------------------------------------------------------------------------------------
+
 static INT_PTR Proto_BroadcastAck(WPARAM wParam, LPARAM lParam)
 {
-
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack && ack->type == ACKTYPE_AVATAR && ack->hProcess) {
 		PROTO_AVATAR_INFORMATION* ai = (PROTO_AVATAR_INFORMATION*)ack->hProcess;
@@ -63,7 +74,6 @@ static INT_PTR Proto_BroadcastAck(WPARAM wParam, LPARAM lParam)
 			ack->hProcess = &aiw;
 		}
 	}
-
 
 	return NotifyEventHooks(hAckEvent, wParam, lParam);
 }
@@ -138,6 +148,8 @@ static INT_PTR Proto_RegisterModule(WPARAM, LPARAM lParam)
 	else *p = *pd;
 	p->szName = mir_strdup(pd->szName);
 	protos.insert(p);
+	if (p->type != PROTOTYPE_PROTOCOL)
+		filters.insert(p);
 	return 0;
 }
 
@@ -326,7 +338,7 @@ static INT_PTR srvProto_IsAccountEnabled(WPARAM, LPARAM lParam)
 
 bool __fastcall Proto_IsAccountLocked(PROTOACCOUNT* pa)
 {
-	return pa && DBGetContactSettingByte(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
+	return pa && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
 }
 
 static INT_PTR srvProto_IsAccountLocked(WPARAM, LPARAM lParam)
@@ -594,48 +606,6 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 
 
 	return res;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-INT_PTR CallContactService(HANDLE hContact, const char *szProtoService, WPARAM wParam, LPARAM lParam)
-{
-	int i;
-	DBVARIANT dbv;
-	INT_PTR ret;
-	PROTOACCOUNT* pa;
-	CCSDATA ccs = { hContact, szProtoService, wParam, lParam };
-
-	for (i=0;; i++) {
-		char str[10];
-		_itoa(i, str, 10);
-		if (DBGetContactSettingString(hContact, "_Filter", str, &dbv))
-			break;
-
-		if ((ret = CallProtoServiceInt(hContact, dbv.pszVal, szProtoService, i+1, (LPARAM)&ccs)) != CALLSERVICE_NOTFOUND) {
-			//chain was started, exit
-			mir_free(dbv.pszVal);
-			return ret;
-		}
-		mir_free(dbv.pszVal);
-	}
-	if (DBGetContactSettingString(hContact, "Protocol", "p", &dbv))
-		return 1;
-
-	pa = Proto_GetAccount(dbv.pszVal);
-	if (pa == NULL || pa->ppro == NULL)
-		ret = 1;
-	else {
-		if (pa->bOldProto)
-			ret = CallProtoServiceInt(hContact, dbv.pszVal, szProtoService, (WPARAM)(-1), (LPARAM)&ccs);
-		else
-			ret = CallProtoServiceInt(hContact, dbv.pszVal, szProtoService, wParam, lParam);
-		if (ret == CALLSERVICE_NOTFOUND)
-			ret = 1;
-	}
-
-	mir_free(dbv.pszVal);
-	return ret;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
