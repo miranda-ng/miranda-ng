@@ -179,14 +179,15 @@ protected:
 	void	Log(const char* fmt, ...);
 
 	// services
-	static LIST<HANDLE> serviceList;
+	static LIST<void> serviceList;
 
 	// icons
 	static _tag_iconList iconList[];
 
 	// menu
+	static HANDLE hChooserMenu;
 	static HANDLE hPrebuildMenuHook;
-
+	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
 	int		OnPrebuildContactMenu(WPARAM wParam, LPARAM);
 
 	// database

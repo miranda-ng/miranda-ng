@@ -139,14 +139,16 @@ extern "C" int __declspec(dllexport) Load(void)
 	//	(LPARAM)&CSkypeProto::countryList);
 
 	CSkypeProto::InitIcons();
-	/*CSkypeProto::InitMenus();
-*/
+	CSkypeProto::InitServiceList();
+	CSkypeProto::InitMenus();
+
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	//CSkypeProto::UninitMenus();
+	CSkypeProto::UninitMenus();
+	CSkypeProto::UninitServiceList();
 	CSkypeProto::UninitIcons();
 
 	g_skype->stop();

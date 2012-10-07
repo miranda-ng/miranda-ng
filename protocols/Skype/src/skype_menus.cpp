@@ -1,6 +1,15 @@
 #include "skype_proto.h"
 
+HANDLE CSkypeProto::hChooserMenu;
 HANDLE CSkypeProto::hPrebuildMenuHook;
+
+INT_PTR CSkypeProto::MenuChooseService(WPARAM wParam, LPARAM lParam)
+{
+	if (lParam)
+		*(void**)lParam = (void*)wParam;
+
+	return 0;
+}
 
 int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
@@ -46,23 +55,15 @@ int CSkypeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 void  CSkypeProto::InitMenus()
 {
-	CSkypeProto::hPrebuildMenuHook = ::HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CSkypeProto::PrebuildContactMenu);
+	CSkypeProto::hPrebuildMenuHook = ::HookEvent(
+		ME_CLIST_PREBUILDCONTACTMENU, 
+		CSkypeProto::PrebuildContactMenu);
 
-	//List_InsertPtr( &arServices, CreateServiceFunction( "Jabber/MenuChoose", JabberMenuChooseService ));
-
-	/*TMenuParam mnu = {0};
+	TMenuParam mnu = {0};
 	mnu.cbSize = sizeof(mnu);
-	mnu.name = "JabberAccountChooser";
-	mnu.ExecService = "Jabber/MenuChoose";
-	hChooserMenu = (HANDLE)CallService( MO_CREATENEWMENUOBJECT, 0, (LPARAM)&mnu );
-
-	TMO_MenuItem tmi = { 0 };
-	tmi.cbSize = sizeof( tmi );
-	tmi.flags = CMIF_ICONFROMICOLIB;
-	tmi.pszName = "Cancel";
-	tmi.position = 9999999;
-	tmi.hIcolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
-	CallService( MO_ADDNEWMENUITEM, (WPARAM)hChooserMenu, ( LPARAM )&tmi );*/
+	mnu.name = "SkypeAccountChooser";
+	mnu.ExecService = "Skype/MenuChoose";
+	hChooserMenu = (HANDLE)::CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&mnu);
 }
 
 void  CSkypeProto::UninitMenus()

@@ -24,8 +24,8 @@ CSkypeProto::~CSkypeProto()
 
 	CloseHandle(this->signin_lock);
 
-	mir_free(this->login);
-	mir_free(this->password);
+	/*mir_free(this->login);
+	mir_free(this->password);*/
 
 	mir_free(this->m_szProtoName);
 	mir_free(this->m_szModuleName);
@@ -224,8 +224,8 @@ int CSkypeProto::SetStatus(int new_status)
 				this->m_iStatus = ID_STATUS_CONNECTING;
 				this->password = this->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD);
 			
-				//this->ForkThread(&CSkypeProto::SignIn, this);
-				this->SignIn(this);
+				this->ForkThread(&CSkypeProto::SignIn, this);
+				//this->SignIn(this);
 			}
 		}
 
@@ -271,8 +271,8 @@ void __cdecl CSkypeProto::SignIn(void*)
 	this->account->BlockWhileLoggingIn();
 
 	this->SetStatus(this->m_iDesiredStatus);
-	//this->ForkThread(&CSkypeProto::LoadContactList, this);
-	this->LoadContactList(this);
+	this->ForkThread(&CSkypeProto::LoadContactList, this);
+	//this->LoadContactList(this);
 
 	ReleaseMutex(this->signin_lock);
 }
