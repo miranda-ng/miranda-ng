@@ -21,7 +21,7 @@ PLUGININFOEX pluginInfo={
 	"ep@eugn.me",
 	"© 2008 - 2012 -=J-Scar=-",
 	"http://miranda-ng.org",
-	UNICODE_AWARE,	 
+	UNICODE_AWARE,
 	0x61bedf3a, 0xcc2, 0x41a3, { 0xb9, 0x80, 0xbb, 0x93, 0x93, 0x36, 0x89, 0x35 } // {61BEDF3A-0CC2-41a3-B980-BB9393368935}
 };
 
@@ -37,24 +37,23 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 }
 
 extern "C" __declspec(dllexport) int Load(void)
-{	
-	SKINICONDESC sid = {0};
-	CLISTMENUITEM mi = {0};
-	TCHAR szFile[MAX_PATH];
-	
-	// IcoLib support
-	GetModuleFileName(hInst, szFile, MAX_PATH);
-	sid.ptszDefaultFile = szFile;
-	sid.cbSize = sizeof(sid);
-	sid.flags = SIDF_ALL_TCHAR;
+{
+	mir_getLP( &pluginInfo );
 
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(hInst, szFile, MAX_PATH);
+
+	// IcoLib support
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.ptszDefaultFile = szFile;
+	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszSection = _T("Restart Plugin");
 	sid.ptszDescription = _T("Restart");
 	sid.pszName = "rst_restart_icon";
 	sid.iDefaultIndex = -IDI_RESTARTICON;
 	hIconHandle = Skin_AddIcon(&sid);
-	
-	mi.cbSize = sizeof(mi);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = hIconHandle;
