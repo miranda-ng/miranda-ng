@@ -149,7 +149,7 @@ type
   program's lifetime. Do not use this list in the global context, copy protocols
   names otherwise.
   IMPORTANT NOTE #2: in version 0.8 this service is mapped to the MS_PROTO_ENUMACCOUNTS
-  service to provide the compatibility with old plugins (first three members of 
+  service to provide the compatibility with old plugins (first three members of
   PROTOACCOUNT are equal to the old PROTOCOLDESCRIPTOR format). If you declare the
   MIRANDA_VER macro with value greater or equal to 0x800, use MS_PROTO_ENUMPROTOS
   service instead to obtain the list of running protocols instead of accounts.
@@ -252,14 +252,13 @@ const
   lParam=(LPARAM)(int)typing state }
   ME_PROTO_CONTACTISTYPING:PAnsiChar = 'Proto/ContactIsTypingEvent';
 
-// -------------- accounts support --------------------- 0.8.0+ 
+// -------------- accounts support --------------------- 0.8.0+
 
 type
   PPROTOACCOUNT = ^TPROTOACCOUNT;
   TPROTOACCOUNT = record
     cbSize          :int;              // sizeof this structure
     szModuleName    :PAnsiChar;        // unique physical account name (matches database module name)
-    _type           :int;              // always equal to PROTOTYPE_PROTOCOL
     tszAccountName  :TChar;            // user-defined account name
     szProtoName     :PAnsiChar;        // physical protocol name
     bIsEnabled      :int;              // is account enabled?
