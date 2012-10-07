@@ -994,50 +994,11 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 	if (lpcp == CALLSERVICE_NOTFOUND) lpcp = CP_ACP;
 
 
-	PROTOCOLDESCRIPTOR **protoList;
 	PROTOACCOUNT **accList;
 	int protoCount;
-
-	if (ProtoEnumAccounts(&protoCount, &accList) == CALLSERVICE_NOTFOUND || (protoCount > 0 && accList[0]->cbSize == 0))
-	{
-		CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&protoCount, (LPARAM)&protoList);
-		for (int i = 0; i < protoCount; i++) 
-		{
-			if (protoList[i]->type != PROTOTYPE_PROTOCOL) continue;
-
-			if (IsSmileyProto(protoList[i]->szName))
-			{
-				const char* packnam = protoList[i]->szName;
-				if (strcmp(packnam, "JABBER") == 0)
-					packnam = "JGMail";
-				else if (strstr(packnam, "SIP") != NULL)
-					packnam = "MSN";
-
-				char path[MAX_PATH];
-				mir_snprintf(path, sizeof(path), "Smileys\\nova\\%s.msl", packnam);
-
-				bkstring paths = A2T_SM(path), patha; 
-				pathToAbsolute(paths, patha);
-
-				if (_taccess(patha.c_str(), 0) != 0) 
-					paths = defaultFile;
-
-				char protoName[128];
-				CallProtoService(protoList[i]->szName, PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
-
-
-				displayName = A2W_SM(protoName, lpcp);
-
-				tname = A2T_SM(protoList[i]->szName);
-				AddCategory(tname, displayName, smcProto, paths); 
-			}
-		}
-	}
-	else
-	{
-		for (int i = 0; i < protoCount; i++) 
-			AddAccountAsCategory(accList[i], defaultFile);
-	}
+	ProtoEnumAccounts(&protoCount, &accList);
+	for (int i = 0; i < protoCount; i++) 
+		AddAccountAsCategory(accList[i], defaultFile);
 
 	HANDLE hContact = (HANDLE)CallService( MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact != NULL) 

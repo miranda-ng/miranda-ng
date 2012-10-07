@@ -361,7 +361,7 @@ void CSList::ForAllProtocols( pForAllProtosFunc pFunc, void* arg )
 {
 	int protoCount;
 	PROTOACCOUNT** pdesc;
-	CallService( MS_PSEUDO_PROTO_PROTOACCSENUM, ( WPARAM )&protoCount, ( LPARAM )&pdesc );
+	ProtoEnumAccounts(&protoCount, &pdesc);
 
 	for ( int i = 0; i < protoCount; i++ )
 	{

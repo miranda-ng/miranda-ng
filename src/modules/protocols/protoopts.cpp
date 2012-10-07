@@ -155,7 +155,6 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
                     pa->bIsVisible = TRUE;
                     
 					pa->iOrder = accounts.getCount();
-					pa->type = PROTOTYPE_PROTOCOL;
 					break;
 				}
 				{
@@ -195,7 +194,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 						if ( !db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
 							pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
 					}
-					else pa->type = PROTOTYPE_DISPROTO;
+					else pa->bDynDisabled = TRUE;
 				}
 
 				WriteDbAccounts();
@@ -779,7 +778,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 									if ( !db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
 										pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
 								}
-								else pa->type = PROTOTYPE_DISPROTO;							}
+								else pa->bDynDisabled = TRUE;
+							}
 							else {
 								DWORD dwStatus = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0);
 								if (dwStatus >= ID_STATUS_ONLINE) {

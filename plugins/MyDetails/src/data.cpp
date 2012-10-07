@@ -35,9 +35,6 @@ void InitProtocolData()
 
 	for (int i = 0; i < count; i++) {
 		PROTOACCOUNT* acc = protos[i];
-		if (acc->type != PROTOTYPE_PROTOCOL)
-			continue;
-
 		if (acc->szModuleName == NULL || acc->szModuleName[0] == '\0')
 			continue;
 
@@ -195,9 +192,9 @@ void Protocol::SetStatus(int aStatus)
 		PROTOACCOUNT **accs;
 
 		pCount = 0;
-		CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&count,(LPARAM)&accs);
+		ProtoEnumAccounts(&count, &accs);
 		for (i=0; i < count; i++) {
-			if (accs[i]->type != PROTOTYPE_PROTOCOL || CallProtoService(accs[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0)==0)
+			if ( CallProtoService(accs[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0)==0)
 				continue;
 			pCount++;
 		}

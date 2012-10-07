@@ -1339,20 +1339,20 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 			} 
 			
 			{	
-				PROTOCOLDESCRIPTOR **proto;
+				PROTOACCOUNT **proto;
 				int nCount;
 				LVITEMA sItem = { 0 };
 				sItem.mask = LVIF_TEXT | LVIF_IMAGE;
 				char szTemp[ 500 ];
 
-				CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&nCount,(LPARAM)&proto);
+				ProtoEnumAccounts(&nCount, &proto);
 
 				for( int i=0 ; i < nCount ; i++) 
 				{
 					if( proto[i]->type==PROTOTYPE_IGNORE) //PROTOTYPE_PROTOCOL 
 						continue;
-					_snprintf( szTemp , sizeof( szTemp ) , "DisableProt_%s" , proto[i]->szName );
-					sItem.pszText = proto[i]->szName;
+					_snprintf(szTemp , sizeof( szTemp ) , "DisableProt_%s" , proto[i]->szModuleName);
+					sItem.pszText = proto[i]->szModuleName;
 					sItem.iImage = DBGetContactSettingByte(NULL,MODULE,szTemp,1);
 					::SendMessage( hMapUser , LVM_INSERTITEMA , 0 ,(LPARAM)&sItem );
 					sItem.iItem++;

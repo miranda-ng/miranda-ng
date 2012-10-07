@@ -420,10 +420,10 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	DetectPopupModule();
 
 	int count;
-	PROTOCOLDESCRIPTOR **protos;
-	CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&count, (LPARAM)&protos);
+	PROTOACCOUNT **protos;
+	ProtoEnumAccounts(&count, &protos);
 	for (int i = 0; i < count; i++) {
-		IJabberInterface *japi = getJabberApi(protos[i]->szName);
+		IJabberInterface *japi = getJabberApi(protos[i]->szModuleName);
 		if (japi) japi->Net()->AddSendHandler(SendHandler);
 	}
 

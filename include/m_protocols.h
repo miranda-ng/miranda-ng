@@ -209,10 +209,8 @@ typedef struct {
 #define PROTOTYPE_FILTER      3000
 #define PROTOTYPE_TRANSLATION 4000
 #define PROTOTYPE_OTHER       10000   //avoid using this if at all possible
-#define PROTOTYPE_DISPROTO    20000
 
 #define MS_PROTO_ENUMPROTOS        "Proto/EnumProtos"
-#define MS_PROTO_ENUMPROTOCOLS     "Proto/EnumAccounts"
 
 //determines if a protocol module is loaded or not
 //wParam = 0
@@ -273,7 +271,6 @@ typedef struct tagACCOUNT
 {
 	int    cbSize;          // sizeof this structure
 	char*  szModuleName;    // unique physical account name (matches database module name)
-	int    type;            // always equal to PROTOTYPE_PROTOCOL
 	TCHAR* tszAccountName;  // user-defined account name
 	char*  szProtoName;     // physical protocol name
 	int    bIsEnabled;      // is account enabled?

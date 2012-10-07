@@ -265,7 +265,6 @@ INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			// proto list
 			{	
-				unsigned int i;
 				LVCOLUMN lvCol;
 				LVITEM lvItem;
 				HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
@@ -283,7 +282,7 @@ INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				lvItem.cchTextMax = 256;
 				lvItem.iItem = 0;
 				lvItem.iSubItem = 0;
-				for(i=0; i < ProtoList.protoCount; i++) {
+				for(int i=0; i < ProtoList.protoCount; i++) {
 					int count; PROTOACCOUNT** protos;
 					ProtoEnumAccounts( &count, &protos );
 					if(ProtoList.protoInfo[i].visible) {
@@ -352,7 +351,7 @@ INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	unsigned int i;
+	int i;
 	static BOOL initDlg=FALSE;
 
 	switch (msg) {
@@ -513,7 +512,7 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case WM_NOTIFY:
 			{
-				unsigned int j;
+				int j;
 				BYTE untilMap = 0;
 				WORD statusMap = 0;
 				//Here we have pressed either the OK or the APPLY button.

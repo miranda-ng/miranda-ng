@@ -217,13 +217,11 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			{
 			int protocolCount = 0;
 			int i;
-			PROTOCOLDESCRIPTOR **protocols;
-			CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&protocolCount, (LPARAM)&protocols);
+			PROTOACCOUNT **protocols;
+			ProtoEnumAccounts(&protocolCount, &protocols);
 			DWORD globalFlags = 0;
 			for (i = 0; i < protocolCount; ++i) {
-				if (protocols[i]->type != PROTOTYPE_PROTOCOL)
-					continue;
-				DWORD protoFlags = CallProtoService(protocols[i]->szName, PS_GETCAPS, PFLAGNUM_2, 0);
+				DWORD protoFlags = CallProtoService(protocols[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 				globalFlags |= protoFlags;
 				statusOptionsCount += CountStatusModes(protoFlags);
 			}
@@ -234,13 +232,11 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int pos = 0;
 			pos = AddStatusModes(statusOptions, pos, _T("Global Status"), globalFlags);
 			for (i = 0; i < protocolCount; ++i) {
-				if (protocols[i]->type != PROTOTYPE_PROTOCOL)
-					continue;
-				DWORD protoFlags = CallProtoService(protocols[i]->szName, PS_GETCAPS, PFLAGNUM_2, 0);
+				DWORD protoFlags = CallProtoService(protocols[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 				if (!CountStatusModes(protoFlags))
 					continue;
 				TCHAR prefix[128];
-				wsprintf(prefix, _T("Protocol Status/%hs"), protocols[i]->szName);
+				wsprintf(prefix, _T("Protocol Status/%hs"), protocols[i]->szModuleName);
 				pos = AddStatusModes(statusOptions, pos, prefix, protoFlags);
 			}
 
@@ -250,13 +246,11 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			char prefix[128];
 			LPTSTR pszSettingName = NULL;
 			for (i = 0; i < protocolCount; ++i) {
-				if (protocols[i]->type != PROTOTYPE_PROTOCOL)
-					continue;
-				DWORD protoFlags = CallProtoService(protocols[i]->szName, PS_GETCAPS, PFLAGNUM_2, 0);
+				DWORD protoFlags = CallProtoService(protocols[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 				if (!CountStatusModes(protoFlags))
 					continue;
 
-				mir_snprintf(prefix, sizeof(prefix), "Protocol Status/%s", protocols[i]->szName);
+				mir_snprintf(prefix, sizeof(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
 				pszSettingName = mir_a2t(prefix);
 				OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount,
 					DBGetContactSettingDword(NULL, MODULNAME, prefix, 0),
@@ -560,17 +554,14 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							//new status options
 							{
 								int protocolCount;
-								PROTOCOLDESCRIPTOR **protocols;
-								CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&protocolCount, (LPARAM)&protocols);
+								PROTOACCOUNT **protocols;
+								ProtoEnumAccounts(&protocolCount, &protocols);
 
 								char prefix[128];
 								LPTSTR pszSettingName = NULL;
 								for (int i = 0; i < protocolCount; ++i)
 								{
-									if (protocols[i]->type != PROTOTYPE_PROTOCOL)
-										continue;
-
-									mir_snprintf(prefix, sizeof(prefix), "Protocol Status/%s", protocols[i]->szName);
+									mir_snprintf(prefix, sizeof(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
 									pszSettingName = mir_a2t(prefix);
 									DBWriteContactSettingDword(NULL, MODULNAME, prefix,
 										OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, pszSettingName));

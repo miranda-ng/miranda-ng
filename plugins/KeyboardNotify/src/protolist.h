@@ -29,6 +29,6 @@ typedef struct {
 } PROTOCOL_INFO;
 
 typedef struct {
-	unsigned int protoCount;
+	int protoCount;
 	PROTOCOL_INFO *protoInfo;
 } PROTOCOL_LIST;

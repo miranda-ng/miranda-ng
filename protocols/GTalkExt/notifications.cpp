@@ -75,15 +75,15 @@ LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 LPCSTR GetJidAcc(LPCTSTR jid)
 {
 	int count = 0;
-	PROTOCOLDESCRIPTOR **protos;
-	CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&count, (LPARAM)&protos);
+	PROTOACCOUNT **protos;
+	ProtoEnumAccounts(&count, &protos);
 
 	DBVARIANT dbv;
 	for (int i = 0; i < count; i++)
-		if (getJabberApi(protos[i]->szName))
-			if (!DBGetContactSettingTString(0, protos[i]->szName, "jid", &dbv))
+		if (getJabberApi(protos[i]->szModuleName))
+			if (!DBGetContactSettingTString(0, protos[i]->szModuleName, "jid", &dbv))
 				__try {
-					if (!lstrcmpi(jid, dbv.ptszVal)) return protos[i]->szName;
+					if (!lstrcmpi(jid, dbv.ptszVal)) return protos[i]->szModuleName;
 				}
 				__finally {
 					DBFreeVariant(&dbv);

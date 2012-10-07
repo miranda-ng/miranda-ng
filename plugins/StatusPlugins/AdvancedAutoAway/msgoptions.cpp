@@ -39,7 +39,6 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			PROTOACCOUNT** proto;
 			int protoCount;
 			ProtoEnumAccounts(&protoCount, &proto);
-			CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&protoCount,(LPARAM)&proto);
 
 			DWORD protoModeMsgFlags = 0;
 			for ( i=0; i < protoCount; i++ ) {

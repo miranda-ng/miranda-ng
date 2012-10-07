@@ -130,7 +130,6 @@ static INT_PTR Proto_RegisterModule(WPARAM, LPARAM lParam)
 				if (pa == NULL) {
 					pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 					pa->cbSize = sizeof(PROTOACCOUNT);
-					pa->type = PROTOTYPE_PROTOCOL;
 					pa->szModuleName = mir_strdup(pd->szName);
 					pa->szProtoName = mir_strdup(pd->szName);
 					pa->tszAccountName = mir_a2t(pd->szName);

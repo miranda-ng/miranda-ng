@@ -231,9 +231,7 @@ BOOL WINAPI Enum16(DWORD dwThreadId, WORD hMod16, WORD hTask16, TCHAR *szModName
 
 BOOL findFilename(TCHAR *fileName)
 {
-	unsigned int i;
-
-	for (i=0; i < ProcessList.count; i++)
+	for (int i=0; i < ProcessList.count; i++)
 		if (ProcessList.szFileName[i] && !_wcsicmp(ProcessList.szFileName[i], fileName))
 			return TRUE;
 

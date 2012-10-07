@@ -132,21 +132,18 @@ static int SetNotify(const long status){
 static int ProtoAck(WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack=(ACKDATA*)lParam;
-	PROTOCOLDESCRIPTOR **protos;
+	PROTOACCOUNT **protos;
 
 	//quit if not status event
 	if ( ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS ) {
 		long status = 0;
-		int i, count;
-		CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM) & count, (LPARAM) & protos);
+		int count;
+		ProtoEnumAccounts(&count, &protos);
 
-		for (i = 0; i < count; i++) {
-			status = status | Proto_Status2Flag(CallProtoService(protos[i]->szName, PS_GETSTATUS, 0, 0));
-		}
+		for (int i=0; i < count; i++)
+			status = status | Proto_Status2Flag(CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0));
 
 		SetNotify(status);
-
-		return 0;
 	}
 
 	return 0;

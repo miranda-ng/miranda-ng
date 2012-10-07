@@ -452,7 +452,7 @@ BOOL checkGlobalStatus()
 BOOL checkGlobalXstatus()
 {
 	ICQ_CUSTOM_STATUS xstatus={0};
-	unsigned int i, protosSupporting; int status=0;
+	int i, protosSupporting, status=0;
 
 	for(i=0, protosSupporting=0; i < ProtoList.protoCount; i++) {
 		if (!ProtoList.protoInfo[i].enabled || !ProtoList.protoInfo[i].xstatus.count) continue;
@@ -510,12 +510,10 @@ BOOL checkIgnore(HANDLE hContact, WORD eventType)
 
 BOOL checkProtocol(char *szProto)
 {
-	unsigned int i;
-
 	if (!szProto)
 		return FALSE;
 
-	for(i=0; i < ProtoList.protoCount; i++)
+	for(int i=0; i < ProtoList.protoCount; i++)
 		if (ProtoList.protoInfo[i].szProto && !strcmp(ProtoList.protoInfo[i].szProto, szProto))
 			return ProtoList.protoInfo[i].enabled;
 
@@ -677,13 +675,13 @@ BOOL checkStatus(char *szProto)
 
 BOOL checkXstatus(char *szProto)
 {
-	unsigned int i; int status=0;
+	int status=0;
 	ICQ_CUSTOM_STATUS xstatus={0};
 
 	if (!szProto)
 		return checkGlobalXstatus();
 
-	for(i=0; i < ProtoList.protoCount; i++)
+	for(int i=0; i < ProtoList.protoCount; i++)
 		if (ProtoList.protoInfo[i].szProto && !strcmp(ProtoList.protoInfo[i].szProto, szProto)) {
 			if (!ProtoList.protoInfo[i].xstatus.count) return TRUE;
 
@@ -879,8 +877,6 @@ void destroyProcessList(void)
 
 void LoadSettings(void)
 {
-	unsigned int i;
-
 	bFlashOnMsg = DBGetContactSettingByte(NULL, KEYBDMODULE, "onmsg", DEF_SETTING_ONMSG);
 	bFlashOnURL = DBGetContactSettingByte(NULL, KEYBDMODULE, "onurl", DEF_SETTING_ONURL);
 	bFlashOnFile = DBGetContactSettingByte(NULL, KEYBDMODULE, "onfile", DEF_SETTING_ONFILE);
@@ -927,7 +923,7 @@ void LoadSettings(void)
 		DBWriteContactSettingByte(NULL, KEYBDMODULE, "testnum", DEF_SETTING_TESTNUM);
 	if (DBGetContactSettingByte(NULL, KEYBDMODULE, "testsecs", -1) == -1)
 		DBWriteContactSettingByte(NULL, KEYBDMODULE, "testsecs", DEF_SETTING_TESTSECS);
-	for(i=0; i < ProtoList.protoCount; i++)
+	for(int i=0; i < ProtoList.protoCount; i++)
 		if (ProtoList.protoInfo[i].visible) {
 			unsigned int j;
 			ProtoList.protoInfo[i].enabled = DBGetContactSettingByte(NULL, KEYBDMODULE, ProtoList.protoInfo[i].szProto, DEF_SETTING_PROTOCOL);
@@ -991,39 +987,37 @@ void updateXstatusProto(PROTOCOL_INFO *protoInfo)
 
 void createProtocolList(void)
 {
-	unsigned int i;
-	PROTOCOLDESCRIPTOR **proto;
+	PROTOACCOUNT **proto;
 
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
 		szMetaProto = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
-	CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&ProtoList.protoCount, (LPARAM)&proto);
+	ProtoEnumAccounts(&ProtoList.protoCount, &proto);
 	ProtoList.protoInfo = (PROTOCOL_INFO *)malloc(ProtoList.protoCount * sizeof(PROTOCOL_INFO));
-	if (!ProtoList.protoInfo)
+	if (!ProtoList.protoInfo) {
 		ProtoList.protoCount = 0;
-	else
-		for(i=0; i < ProtoList.protoCount; i++) {
-			ProtoList.protoInfo[i].xstatus.count = 0;
-			ProtoList.protoInfo[i].xstatus.enabled = NULL;
-			ProtoList.protoInfo[i].szProto = (char *)malloc(strlen(proto[i]->szName) + 1);
-			if (!ProtoList.protoInfo[i].szProto) {
-				ProtoList.protoInfo[i].enabled = FALSE;
+		return;
+	}
+
+	for(int i=0; i < ProtoList.protoCount; i++) {
+		ProtoList.protoInfo[i].xstatus.count = 0;
+		ProtoList.protoInfo[i].xstatus.enabled = NULL;
+		ProtoList.protoInfo[i].szProto = (char *)malloc(strlen(proto[i]->szModuleName) + 1);
+		if (!ProtoList.protoInfo[i].szProto) {
+			ProtoList.protoInfo[i].enabled = FALSE;
+			ProtoList.protoInfo[i].visible = FALSE;
+		}
+		else {
+			strcpy(ProtoList.protoInfo[i].szProto, proto[i]->szModuleName);
+			ProtoList.protoInfo[i].enabled = FALSE;
+			if (szMetaProto && !strcmp(proto[i]->szModuleName, szMetaProto))
 				ProtoList.protoInfo[i].visible = FALSE;
-			} else {
-				strcpy(ProtoList.protoInfo[i].szProto, proto[i]->szName);
-				ProtoList.protoInfo[i].enabled = FALSE;
-				if (proto[i]->type != PROTOTYPE_PROTOCOL)
-					ProtoList.protoInfo[i].visible = FALSE;
-				else
-					if (szMetaProto && !strcmp(proto[i]->szName, szMetaProto))
-						ProtoList.protoInfo[i].visible = FALSE;
-					else {
-						ProtoList.protoInfo[i].visible = TRUE;
-						updateXstatusProto(&(ProtoList.protoInfo[i]));
-					}
+			else {
+				ProtoList.protoInfo[i].visible = TRUE;
+				updateXstatusProto(&(ProtoList.protoInfo[i]));
 			}
 		}
-
+	}
 }
 
 
@@ -1123,9 +1117,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 void destroyProtocolList(void)
 {
-	unsigned int i;
-
-	for(i=0; i < ProtoList.protoCount; i++) {
+	for(int i=0; i < ProtoList.protoCount; i++) {
 		if (ProtoList.protoInfo[i].szProto)
 			free(ProtoList.protoInfo[i].szProto);
 		if (ProtoList.protoInfo[i].xstatus.enabled)

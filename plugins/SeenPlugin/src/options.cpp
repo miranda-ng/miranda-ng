@@ -223,7 +223,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 			{	
 				TVINSERTSTRUCT tvis;
 				int numberOfProtocols,i;
-				PROTOCOLDESCRIPTOR** protos;
+				PROTOACCOUNT **protos;
 				char *protoName;
 				char *protoLabel;
 
@@ -232,11 +232,12 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 				tvis.item.mask=TVIF_TEXT | TVIF_HANDLE | TVIF_STATE | TVIF_PARAM;
 				tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 
-				CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&numberOfProtocols,(LPARAM)&protos);
+				ProtoEnumAccounts(&numberOfProtocols, &protos);
 				for (i=0; i<numberOfProtocols; i++) {
-					if(protos[i]->type!=PROTOTYPE_PROTOCOL || CallProtoService(protos[i]->szName,PS_GETCAPS,PFLAGNUM_2,0)==0) continue;
-					protoName = (char *)malloc(strlen(protos[i]->szName)+1);
-					strcpy(protoName,protos[i]->szName);
+					if(CallProtoService(protos[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0)==0)
+						continue;
+					protoName = (char *)malloc(strlen(protos[i]->szModuleName)+1);
+					strcpy(protoName,protos[i]->szModuleName);
 //debug(protoName);
 					protoLabel = (char *)malloc(MAXMODULELABELLENGTH+1);
 					CallProtoService(protoName,PS_GETNAME,MAXMODULELABELLENGTH,(LPARAM)protoLabel);

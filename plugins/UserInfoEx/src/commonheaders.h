@@ -224,7 +224,7 @@ static FORCEINLINE BOOL IsProtoLoaded(LPSTR pszProto)
 }
 static FORCEINLINE BOOL IsProtoAccountEnabled(PROTOACCOUNT *pAcc)
 {
-	return ((pAcc->type == PROTOTYPE_PROTOCOL) && pAcc->bIsEnabled && IsProtoLoaded(pAcc->szModuleName));
+	return (pAcc->bIsEnabled && IsProtoLoaded(pAcc->szModuleName));
 }
 
 typedef HRESULT (STDAPICALLTYPE *pfnDwmIsCompositionEnabled)(BOOL *);

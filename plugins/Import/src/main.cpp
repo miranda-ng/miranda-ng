@@ -91,14 +91,12 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	// Only autorun import wizard if at least one protocol is installed
 	int nProtocols = 0;
-	PROTOCOLDESCRIPTOR **ppProtos = NULL;
-	CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&nProtocols, (LPARAM)&ppProtos);
-	for (int n=0; n < nProtocols; n++) {
-		if (ppProtos[n]->type == PROTOTYPE_PROTOCOL) {
-			CallService(IMPORT_SERVICE, 0, 0);
-			DBWriteContactSettingByte(NULL, IMPORT_MODULE, IMP_KEY_FR, 1);
-			break;
-	}	}
+	PROTOACCOUNT **ppProtos = NULL;
+	ProtoEnumAccounts(&nProtocols, &ppProtos);
+	if (nProtocols > 0) {
+		CallService(IMPORT_SERVICE, 0, 0);
+		DBWriteContactSettingByte(NULL, IMPORT_MODULE, IMP_KEY_FR, 1);
+	}
 	return 0;
 }
 

@@ -556,11 +556,6 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 	}
 }
 
-void GetProtocols(int *count, PROTOCOLDESCRIPTOR ***protocols)
-{
-	CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM) count, (LPARAM) protocols);
-}
-
 void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply reply)
 {
 	switch (argc)

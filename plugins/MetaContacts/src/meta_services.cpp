@@ -1086,93 +1086,9 @@ int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam) {
 
 	return 0;
 }
-/*
-int Meta_LoadIcons(WPARAM wParam, LPARAM lParam) {
-	PROTOCOLDESCRIPTOR **protos;
 
-	//MessageBox(0, "LoadIcons", "Event", MB_OK);	
-
-	if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) {
-		int index = 0, i;
-
-		CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&proto_count,(LPARAM)&protos);
-		for (i = 0; i < proto_count && i < MAX_PROTOCOLS; i++) {
-			if (protos[i]->type!=PROTOTYPE_PROTOCOL || CallProtoService(protos[i]->szName,PS_GETCAPS,PFLAGNUM_2,0)==0) 
-				continue;
-
-			strncpy(proto_names + (index * 128), protos[i]->szName, 128);
-			hProtoIcons[index * 2] = LoadSkinnedProtoIcon(protos[i]->szName,ID_STATUS_ONLINE);
-			hProtoIcons[index * 2 + 1] = LoadSkinnedProtoIcon(protos[i]->szName,ID_STATUS_OFFLINE);
-			hExtraImage[index * 2] = 0; 
-			hExtraImage[index * 2 + 1] = 0; 
-			
-			//sprintf(buff, "Added icon (hIcon = %d, hImage = %d) for protocol %s.", hProtoIcons[index], hExtraImage[index], protos[i]->szName);
-			//MessageBox(0, buff, "Added Extra Icon", MB_OK);
-
-			index++;
-		}
-		proto_count = index;
-
-		//Meta_CListMW_ExtraIconsRebuild(0, 0);
-
-	}
-
-
-	return 0;
-}
-
-int Meta_CListMW_ExtraIconsRebuild(WPARAM wParam, LPARAM lParam) {
-	int i;
-
-	//MessageBox(0, "IconsRebuild", "Event", MB_OK);
-	Meta_LoadIcons(0, 0);
-
-	if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) {
-		for (i = 0; i < proto_count; i++) {
-			hExtraImage[i * 2] = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hProtoIcons[i * 2], 0);		
-			hExtraImage[i * 2 + 1] = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hProtoIcons[i * 2 + 1], 0);		
-		}
-	}
-
-	return 0;
-}
-
-int Meta_CListMW_ExtraIconsApply(WPARAM wParam, LPARAM lParam) {
-
-	//MessageBox(0, "IconsApply", "Event", MB_OK);
-
-	if (DBGetContactSettingDword((HANDLE)wParam, META_PROTO, META_ID, (DWORD)-1) != (DWORD)-1) {
-		if (ServiceExists(MS_CLIST_EXTRA_SET_ICON)) {
-			IconExtraColumn iec;
-			HANDLE most_online_im = Meta_GetMostOnline((HANDLE)wParam);
-			int i;
-
-			if (most_online_im) {
-				char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online_im, 0);	
-				if (proto) {
-					WORD status = DBGetContactSettingWord(most_online_im, proto, "Status", ID_STATUS_OFFLINE);
-					iec.cbSize = sizeof(iec);
-					for (i = 0; i < proto_count; i++) {
-						if (!strcmp((proto_names + i * 128), proto)) {
-							if (hExtraImage[i * 2 + (status == ID_STATUS_OFFLINE ? 1 : 0)]) {
-								iec.hImage = hExtraImage[i * 2 + (status == ID_STATUS_OFFLINE ? 1 : 0)];
-								iec.ColumnType = EXTRA_ICON_ADV2;
-								CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)wParam, (LPARAM)&iec);
-								iec.ColumnType = EXTRA_ICON_PROTO;
-								CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)wParam, (LPARAM)&iec);
-							}
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
-	return 0;
-}
-*/
-int Meta_ClistDoubleClicked(WPARAM wParam, LPARAM lParam) {
-
+int Meta_ClistDoubleClicked(WPARAM wParam, LPARAM lParam)
+{
 	if (DBGetContactSettingDword((HANDLE)wParam,META_PROTO,"Default",(WORD)-1) == (WORD)-1)
 	{
 		// This is a simple contact
@@ -1377,23 +1293,20 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		int i, numberOfProtocols,ret;
 		char str[MAXMODULELABELLENGTH + 10];
 		HANDLE hNudgeEvent = NULL;
-		PROTOCOLDESCRIPTOR ** ppProtocolDescriptors;
-		ret = CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM) &numberOfProtocols,(LPARAM)&ppProtocolDescriptors);
+		PROTOACCOUNT ** ppProtocolDescriptors;
+		ret = ProtoEnumAccounts(&numberOfProtocols, &ppProtocolDescriptors);
 		if (ret == 0)
 		{
 			for (i = 0; i < numberOfProtocols ; i++)
 			{
-				if (ppProtocolDescriptors[i]->type == PROTOTYPE_PROTOCOL)
-				{	
-					if (strcmp(ppProtocolDescriptors[i]->szName, META_PROTO)) {
-						sprintf(str,"%s/Nudge",ppProtocolDescriptors[i]->szName);
-						hNudgeEvent = HookEvent(str, NudgeRecieved);
-						if (hNudgeEvent != NULL) {
-							++iNudgeProtos;
-							hNudgeEvents = (HANDLE *)realloc(hNudgeEvents, sizeof(HANDLE) * iNudgeProtos);
-							hNudgeEvents[iNudgeProtos - 1] = hNudgeEvent;
-						}						
-					}
+				if (strcmp(ppProtocolDescriptors[i]->szModuleName, META_PROTO)) {
+					sprintf(str,"%s/Nudge",ppProtocolDescriptors[i]->szModuleName);
+					hNudgeEvent = HookEvent(str, NudgeRecieved);
+					if (hNudgeEvent != NULL) {
+						++iNudgeProtos;
+						hNudgeEvents = (HANDLE *)realloc(hNudgeEvents, sizeof(HANDLE) * iNudgeProtos);
+						hNudgeEvents[iNudgeProtos - 1] = hNudgeEvent;
+					}						
 				}
 			}
 			

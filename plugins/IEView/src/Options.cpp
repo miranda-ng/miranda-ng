@@ -648,10 +648,10 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 	case UM_CHECKSTATECHANGE:
 		{
 			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM) lParam);
-			if (proto != NULL) {
+			if (proto != NULL)
 				if (strcmpi(proto->getProtocolName(), "_default_"))
 					proto->setSRMMEnableTemp( TreeView_GetCheckState((HWND)wParam, (HTREEITEM) lParam));
-			}
+
 			if ((HTREEITEM) lParam != TreeView_GetSelection((HWND)wParam)) {
 				TreeView_SelectItem((HWND)wParam, (HTREEITEM) lParam);
 			} else {
@@ -791,11 +791,11 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 				if (strcmpi(proto->getProtocolName(), "_default_"))
 					proto->setHistoryEnableTemp(TreeView_GetCheckState((HWND)wParam, (HTREEITEM) lParam));
 
-			if ((HTREEITEM) lParam != TreeView_GetSelection((HWND)wParam)) {
+			if ((HTREEITEM) lParam != TreeView_GetSelection((HWND)wParam))
 				TreeView_SelectItem((HWND)wParam, (HTREEITEM) lParam);
-			} else {
+			else
 				UpdateHistoryProtoInfo(hwndDlg, proto);
-			}
+
 			MarkChanges(4, hwndDlg);
 		}
 		break;
@@ -1516,9 +1516,9 @@ void Options::init() {
 
 	/* TODO: move to buildProtocolList method */
 	int protoCount;
-	PROTOCOLDESCRIPTOR **pProtos;
+	PROTOACCOUNT **pProtos;
 	ProtocolSettings *lastProto = NULL;
-	CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&protoCount, (LPARAM)&pProtos);
+	ProtoEnumAccounts(&protoCount, &pProtos);
 	for (int i = 0; i < protoCount+1; i++) {
 		ProtocolSettings *proto;
 		char tmpPath[MAX_PATH];
@@ -1526,11 +1526,11 @@ void Options::init() {
 		if (i==0) {
 			proto = new ProtocolSettings("_default_");
 			proto->setSRMMEnable(true);
-		} else if ((pProtos[i-1]->type == PROTOTYPE_PROTOCOL) && strcmp(pProtos[i-1]->szName,"MetaContacts")) {
-			if ((CallProtoService(pProtos[i-1]->szName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == 0) {
+		} else if (strcmp(pProtos[i-1]->szModuleName,"MetaContacts")) {
+			if ((CallProtoService(pProtos[i-1]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == 0) {
 				continue;
 			}
-			proto = new ProtocolSettings(pProtos[i-1]->szName);
+			proto = new ProtocolSettings(pProtos[i-1]->szModuleName);
 		} else {
 			continue;
 		}

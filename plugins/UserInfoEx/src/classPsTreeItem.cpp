@@ -322,24 +322,17 @@ HICON CPsTreeItem::ProtoIcon()
 		{
 			for (i = 0; i < ProtoCount; i++) 
 			{
-				if (pa[i]->type == PROTOTYPE_PROTOCOL)
+				if (!mir_tcsnicmp(pa[i]->tszAccountName, _A2T(_pszName), mir_tcslen(pa[i]->tszAccountName))) 
 				{
-					TCHAR *ptszName = mir_a2t(_pszName);
-					if (!mir_tcsnicmp(pa[i]->tszAccountName, ptszName, mir_tcslen(pa[i]->tszAccountName))) 
-					{
-						HICON hIco;
-						CHAR szIconID[MAX_PATH];
+					HICON hIco;
+					CHAR szIconID[MAX_PATH];
 
-						mir_snprintf(szIconID, SIZEOF(szIconID), "core_status_%s1", pa[i]->szModuleName);
-						hIco = IcoLib_GetIcon(szIconID);
-						if (!hIco)
-						{
-							hIco = (HICON)CallProtoService(pa[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL, NULL);
-						}
-						MIR_FREE (ptszName);
-						return hIco;
-					}
-					MIR_FREE (ptszName);
+					mir_snprintf(szIconID, SIZEOF(szIconID), "core_status_%s1", pa[i]->szModuleName);
+					hIco = IcoLib_GetIcon(szIconID);
+					if (!hIco)
+						hIco = (HICON)CallProtoService(pa[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL, NULL);
+
+					return hIco;
 				}
 			}
 		}

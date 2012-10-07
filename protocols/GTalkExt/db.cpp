@@ -82,11 +82,11 @@ void WriteJidSetting(LPCSTR name, LPCTSTR jid, LPCTSTR setting)
 void RenewPseudocontactHandles()
 {
 	int count = 0;
-	PROTOCOLDESCRIPTOR **protos;
-	CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&count, (LPARAM)&protos);
+	PROTOACCOUNT **protos;
+	ProtoEnumAccounts(&count, &protos);
 	for (int i = 0; i < count; i++) {
-		DBDeleteContactSetting(0, protos[i]->szName, PSEUDOCONTACT_LINK);
-		DBDeleteContactSetting(0, protos[i]->szName, "GMailExtNotifyContact");	// remove this
+		DBDeleteContactSetting(0, protos[i]->szModuleName, PSEUDOCONTACT_LINK);
+		DBDeleteContactSetting(0, protos[i]->szModuleName, "GMailExtNotifyContact");	// remove this
 	}
 
 	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);

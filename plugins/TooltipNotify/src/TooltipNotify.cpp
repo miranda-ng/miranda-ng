@@ -709,39 +709,31 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 			
 				// enum protocols currently running						
 				int iProtoCount = 0;
-				PROTOCOLDESCRIPTOR **ppProtos = 0;
-				::CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&iProtoCount, (LPARAM)&ppProtos);
+				PROTOACCOUNT **ppProtos = 0;
+				ProtoEnumAccounts(&iProtoCount, &ppProtos);
 
 				// and fill in the list
-				int iNonProtoCount = 0;
 				for (int i=0; i < iProtoCount; i++)
 				{
-					if (ppProtos[i]->type == PROTOTYPE_PROTOCOL)
-					{
-						LV_ITEM lvi;
+					LV_ITEM lvi;
 
-						lvi.mask = LVIF_TEXT;
-						lvi.iSubItem = 0;
-						lvi.iItem = i; 
-						lvi.lParam = i;
+					lvi.mask = LVIF_TEXT;
+					lvi.iSubItem = 0;
+					lvi.iItem = i; 
+					lvi.lParam = i;
 
-						WCHAR wszProto[128];
-						long lLen = MultiByteToWideChar(CP_ACP, 0, ppProtos[i]->szName,
-							(int)strlen(ppProtos[i]->szName), wszProto, ARRAY_SIZE(wszProto));
-						wszProto[lLen] = L'\0';
+					WCHAR wszProto[128];
+					long lLen = MultiByteToWideChar(CP_ACP, 0, ppProtos[i]->szModuleName,
+						(int)strlen(ppProtos[i]->szModuleName), wszProto, ARRAY_SIZE(wszProto));
+					wszProto[lLen] = L'\0';
 
-						lvi.pszText = wszProto;
+					lvi.pszText = wszProto;
 
-						int new_item = ListView_InsertItem(GetDlgItem(hDlg,IDC_PROTOS),&lvi);
+					int new_item = ListView_InsertItem(GetDlgItem(hDlg,IDC_PROTOS),&lvi);
 
-						BYTE bProtoState = ReadSettingByte(ppProtos[i]->szName, ProtoUserBit|ProtoIntBit);
-						BOOL bProtoEnabled = (bProtoState & ProtoUserBit) != 0;
-						ListView_SetCheckState(GetDlgItem(hDlg,IDC_PROTOS), i-iNonProtoCount, bProtoEnabled);
-					}
-					else
-					{
-						iNonProtoCount++;
-					}
+					BYTE bProtoState = ReadSettingByte(ppProtos[i]->szModuleName, ProtoUserBit|ProtoIntBit);
+					BOOL bProtoEnabled = (bProtoState & ProtoUserBit) != 0;
+					ListView_SetCheckState(GetDlgItem(hDlg,IDC_PROTOS), i, bProtoEnabled);
 				}
 
 				return TRUE;

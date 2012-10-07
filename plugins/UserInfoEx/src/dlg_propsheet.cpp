@@ -120,7 +120,7 @@ public:
 	};
 
 private:
-	PROTOCOLDESCRIPTOR **_pPd;
+	PROTOACCOUNT **_pPd;
 	INT			_numProto;
 	BOOLEAN	_bExitAfterUploading;
 	HANDLE	_hUploading;
@@ -139,11 +139,11 @@ private:
 		CPsTreeItem *pti;
 
 		// check if icq is online
-		if (!IsProtoOnline((*_pPd)->szName)) {
+		if (!IsProtoOnline((*_pPd)->szModuleName)) {
 			TCHAR		szMsg[MAX_PATH];
 			LPTSTR	ptszProto;
 
-			ptszProto = mir_a2t((*_pPd)->szName);
+			ptszProto = mir_a2t((*_pPd)->szModuleName);
 			mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("Protocol '%s' is offline"), ptszProto);
 			mir_free(ptszProto);
 
@@ -152,7 +152,7 @@ private:
 		}
 		// start uploading process
 		else {
-			_hUploading = (HANDLE)CallProtoService((*_pPd)->szName, PS_CHANGEINFOEX, CIXT_FULL, NULL);
+			_hUploading = (HANDLE)CallProtoService((*_pPd)->szModuleName, PS_CHANGEINFOEX, CIXT_FULL, NULL);
 			if (_hUploading && _hUploading != (HANDLE)CALLSERVICE_NOTFOUND) {
 				EnableWindow(_pPs->pTree->Window(), FALSE);
 				if (pti = _pPs->pTree->CurrentItem()) {
@@ -160,7 +160,7 @@ private:
 				}
 				EnableWindow(GetDlgItem(_pPs->hDlg, IDOK), FALSE);
 				EnableWindow(GetDlgItem(_pPs->hDlg, IDAPPLY), FALSE);
-				mir_snprintf(_pPs->szUpdating, SIZEOF(_pPs->szUpdating), "%s (%s)", Translate("Uploading"), (*_pPd)->szName);
+				mir_snprintf(_pPs->szUpdating, SIZEOF(_pPs->szUpdating), "%s (%s)", Translate("Uploading"), (*_pPd)->szModuleName);
 				ShowWindow(GetDlgItem(_pPs->hDlg, TXT_UPDATING), SW_SHOW);
 				SetTimer(_pPs->hDlg, TIMERID_UPDATING, 100, NULL);
 				return 0;
@@ -189,9 +189,9 @@ public:
 
 	INT UploadFirst() {
 		// create a list of all protocols which support uploading contact information
-		if (CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&_numProto, (LPARAM)&_pPd)) {
+		if ( ProtoEnumAccounts(&_numProto, &_pPd))
 			return _bExitAfterUploading ? UPLOAD_FINISH_CLOSE : UPLOAD_FINISH;
-		}
+
 		return UploadNext();
 	}
 
@@ -227,13 +227,11 @@ public:
 	{
 		CHAR str[MAXMODULELABELLENGTH];
 		while (_pPd && *_pPd && _numProto-- > 0) {
-			if ((*_pPd)->type == PROTOTYPE_PROTOCOL) {
-				mir_strncpy(str, (*_pPd)->szName, MAXMODULELABELLENGTH);
-				mir_strncat(str, PS_CHANGEINFOEX, MAXMODULELABELLENGTH);
-				if (ServiceExists(str) && !Upload()) {
-					_pPd++;
-					return UPLOAD_CONTINUE;
-				}
+			mir_strncpy(str, (*_pPd)->szModuleName, MAXMODULELABELLENGTH);
+			mir_strncat(str, PS_CHANGEINFOEX, MAXMODULELABELLENGTH);
+			if (ServiceExists(str) && !Upload()) {
+				_pPd++;
+				return UPLOAD_CONTINUE;
 			}
 			_pPd++;
 		}
@@ -575,28 +573,6 @@ static INT InitDetails(WPARAM wParam, LPARAM lParam)
 				odp.hIcon = (HICON)ICONINDEX(IDI_TREE_NOTES);
 				AddPage(wParam, (LPARAM)&odp);
 			}
-			/* Editing owner details no longer supported due to leak of common interface for all protocols.
-			else 
-			if (!(pPsh->_dwFlags & PSTVF_INITICONS))
-			{
-				PROTOCOLDESCRIPTOR **pd;
-				INT ProtoCount, i;
-				CHAR str[MAXMODULELABELLENGTH];
-
-				odp.flags |= PSPF_PROTOPREPENDED;
-
-				// create a list of all protocols which support uploading contact information
-				if (!CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&ProtoCount, (LPARAM)&pd)) {
-					for (i = 0; i < ProtoCount; i++) {
-						if (pd[i]->type == PROTOTYPE_PROTOCOL) {
-							pPsh->_pszProto = pd[i]->szName;
-							mir_snprintf(str, MAXMODULELABELLENGTH, "%s"PS_CHANGEINFOEX, pd[i]->szName);
-							if (ServiceExists(str)) AddProtocolPages(odp, wParam, pd[i]->szName);
-						}
-					}
-				}
-			}
-			*/
 		}
 	}
 	return 0;
@@ -634,31 +610,29 @@ VOID DlgContactInfoInitTreeIcons()
 		// avoid pages from loading doubled
 		if (!(bInitIcons & INIT_ICONS_CONTACT)) {
 			LPCSTR pszContactProto = NULL;
-			PROTOCOLDESCRIPTOR **pd;
+			PROTOACCOUNT **pd;
 			INT ProtoCount = 0;
 
 			psh._dwFlags |= PSF_PROTOPAGESONLY_INIT;
 			
 			// enumerate all protocols
-			if (!CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&ProtoCount, (LPARAM)&pd)) {
+			if ( !ProtoEnumAccounts(&ProtoCount, &pd)) {
 				for (i = 0; i < ProtoCount; i++) {
-					if (pd[i]->type == PROTOTYPE_PROTOCOL) {
-						// enumerate all contacts
-						for (psh._hContact = DB::Contact::FindFirst();
-							psh._hContact != NULL;
-							psh._hContact = DB::Contact::FindNext(psh._hContact))
-						{
-							// compare contact's protocol to the current one, to add
-							pszContactProto = DB::Contact::Proto(psh._hContact);
-							if ((INT_PTR)pszContactProto != CALLSERVICE_NOTFOUND && !mir_strcmp(pd[i]->szName, pszContactProto)) {
-								// call a notification for the contact to retrieve all protocol specific tree items
-								NotifyEventHooks(ghDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
-								if (psh._pPages) {
-									psh.Free_pPages();
-									psh._dwFlags = PSTVF_INITICONS|PSF_PROTOPAGESONLY;
-								}
-								break;
+					// enumerate all contacts
+					for (psh._hContact = DB::Contact::FindFirst();
+						psh._hContact != NULL;
+						psh._hContact = DB::Contact::FindNext(psh._hContact))
+					{
+						// compare contact's protocol to the current one, to add
+						pszContactProto = DB::Contact::Proto(psh._hContact);
+						if ((INT_PTR)pszContactProto != CALLSERVICE_NOTFOUND && !mir_strcmp(pd[i]->szModuleName, pszContactProto)) {
+							// call a notification for the contact to retrieve all protocol specific tree items
+							NotifyEventHooks(ghDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
+							if (psh._pPages) {
+								psh.Free_pPages();
+								psh._dwFlags = PSTVF_INITICONS|PSF_PROTOPAGESONLY;
 							}
+							break;
 						}
 					}
 				}

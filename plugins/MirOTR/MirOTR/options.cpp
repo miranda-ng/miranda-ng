@@ -384,28 +384,28 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 			lv = GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS);
 			ListView_DeleteAllItems(lv);
 			int num_protocols;
-			PROTOCOLDESCRIPTOR **pppDesc;
+			PROTOACCOUNT **pppDesc;
 			int ilvItem;
 			LV_ITEM item = {0};
 			char fprint[45];
 			TCHAR* temp;
 			//BOOL unicode = ListView_GetUnicodeFormat(lv);
 
-			CallService(MS_PROTO_ENUMPROTOCOLS, (LPARAM)&num_protocols, (WPARAM)&pppDesc);
+			ProtoEnumAccounts(&num_protocols, &pppDesc);
 			for(int i = 0; i < num_protocols; i++) {
-				if(pppDesc[i]->type == PROTOTYPE_PROTOCOL && (!g_metaproto || strcmp(pppDesc[i]->szName, g_metaproto) != 0)
-					&& (CallProtoService(pppDesc[i]->szName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == PF1_IM)
+				if((!g_metaproto || strcmp(pppDesc[i]->szModuleName, g_metaproto) != 0)
+					&& (CallProtoService(pppDesc[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == PF1_IM)
 				{
 					//if (unicode) {
 						item.mask = LVIF_TEXT;
-						temp = mir_a2t(pppDesc[i]->szName);
+						temp = mir_a2t(pppDesc[i]->szModuleName);
 						item.pszText = temp;
 						ilvItem = ListView_InsertItem(lv, &item);
 						mir_free(temp);
 
 
-						ListView_SetItemText(lv, ilvItem, 1, (TCHAR*)policy_to_string(db_get_dw(0,MODULENAME"_ProtoPol", pppDesc[i]->szName, CONTACT_DEFAULT_POLICY)) );
-						if(otrl_privkey_fingerprint(otr_user_state, fprint, pppDesc[i]->szName, pppDesc[i]->szName)) {
+						ListView_SetItemText(lv, ilvItem, 1, (TCHAR*)policy_to_string(db_get_dw(0,MODULENAME"_ProtoPol", pppDesc[i]->szModuleName, CONTACT_DEFAULT_POLICY)) );
+						if(otrl_privkey_fingerprint(otr_user_state, fprint, pppDesc[i]->szModuleName, pppDesc[i]->szModuleName)) {
 							temp = mir_a2t(fprint);
 							ListView_SetItemText(lv, ilvItem, 2, temp);
 							mir_free(temp);

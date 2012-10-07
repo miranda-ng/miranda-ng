@@ -9,7 +9,7 @@ int clist_inc = 100;
 
 void loadSupportedProtocols() {
     int numberOfProtocols;
-    PROTOCOLDESCRIPTOR **protos;
+    PROTOACCOUNT **protos;
     LPSTR szNames = myDBGetString(0,szModuleName,"protos");
     if ( szNames && strchr(szNames,':') == NULL ) {
 	LPSTR tmp = (LPSTR) mir_alloc(2048); int j=0;
@@ -24,15 +24,14 @@ void loadSupportedProtocols() {
 	DBWriteContactSettingString(0,szModuleName,"protos",szNames);
     }
 
-    CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&numberOfProtocols, (LPARAM)&protos);
+    ProtoEnumAccounts(&numberOfProtocols, &protos);
 
 	for (int i=0;i<numberOfProtocols;i++) {
-//		if (protos[i]->type == PROTOTYPE_PROTOCOL && protos[i]->szName && (CallProtoService(protos[i]->szName,PS_GETCAPS,PFLAGNUM_2,0)||strcmp(protos[i]->szName,"MetaContacts")==0)) {
-		if (protos[i]->type == PROTOTYPE_PROTOCOL && protos[i]->szName && CallProtoService(protos[i]->szName,PS_GETCAPS,PFLAGNUM_2,0)) {
+		if (protos[i]->szModuleName && CallProtoService(protos[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0)) {
 		    int j = proto_cnt; proto_cnt++;
 		    proto = (pSupPro) mir_realloc(proto,sizeof(SupPro)*proto_cnt);
 		    memset(&proto[j],0,sizeof(SupPro));
-		    proto[j].name = mir_strdup(protos[i]->szName);
+		    proto[j].name = mir_strdup(protos[i]->szModuleName);
 		    if ( szNames ) {
        			if ( proto[j].name ) {
 			    char tmp[128]; strcpy(tmp,proto[j].name); strcat(tmp,":");

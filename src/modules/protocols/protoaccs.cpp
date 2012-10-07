@@ -46,7 +46,6 @@ static int EnumDbModules(const char *szModuleName, DWORD ofsModuleName, LPARAM l
 		if ( !Proto_GetAccount(szModuleName)) {
 			PROTOACCOUNT* pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 			pa->cbSize = sizeof(*pa);
-			pa->type = PROTOTYPE_PROTOCOL;
 			pa->szModuleName = mir_strdup(szModuleName);
 			pa->szProtoName = mir_strdup(dbv.pszVal);
 			pa->tszAccountName = mir_a2t(szModuleName);
@@ -78,7 +77,6 @@ void LoadDbAccounts(void)
 			continue;
 		}
 		pa->cbSize = sizeof(*pa);
-		pa->type = PROTOTYPE_PROTOCOL;
 		pa->szModuleName = mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
 
@@ -271,14 +269,13 @@ int LoadAccountsModule(void)
 			continue;
 
 		if ( !Proto_IsAccountEnabled(pa)) {
-			pa->type = PROTOTYPE_DISPROTO;
+			pa->bDynDisabled = TRUE;
 			continue;
 		}
 
-		if ( !ActivateAccount(pa)) {
+		if ( !ActivateAccount(pa))
 			pa->bDynDisabled = TRUE;
-			pa->type = PROTOTYPE_DISPROTO;
-	}	}
+	}
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, InitializeStaticAccounts);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
@@ -430,7 +427,6 @@ BOOL ActivateAccount(PROTOACCOUNT* pa)
 	if (ppi == NULL)
 		return FALSE;
 
-	pa->type = PROTOTYPE_PROTOCOL;
 	pa->ppro = ppi;
 	ppi->m_iDesiredStatus = ppi->m_iStatus = ID_STATUS_OFFLINE;
 	CreateProtoServiceEx(pa->szModuleName, PS_ADDTOLIST, (MIRANDASERVICEOBJ)stub1, pa->ppro);
@@ -539,7 +535,7 @@ void DeactivateAccount(PROTOACCOUNT* pa, bool bIsDynamic, bool bErase)
 	param->bIsDynamic = bIsDynamic;
 	param->bErase = bErase;
 	pa->ppro = NULL;
-	pa->type = PROTOTYPE_DISPROTO;
+	pa->bDynDisabled = TRUE;
 	if (bIsDynamic)
 		mir_forkthread((pThreadFunc)DeactivationThread, param);
 	else 

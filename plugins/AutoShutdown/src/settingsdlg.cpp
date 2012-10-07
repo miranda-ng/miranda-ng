@@ -52,12 +52,11 @@ static BOOL CALLBACK DisplayCpuUsageProc(BYTE nCpuUsage,LPARAM lParam)
 static BOOL AnyProtoHasCaps(DWORD caps1)
 {
 	int nProtoCount,i;
-	PROTOCOLDESCRIPTOR **protos;
-	if(!CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&nProtoCount,(LPARAM)&protos))
+	PROTOACCOUNT **protos;
+	if(!ProtoEnumAccounts(&nProtoCount, &protos))
 		for(i=0;i<nProtoCount;++i)
-			if(protos[i]->type==PROTOTYPE_PROTOCOL)
-				if(CallProtoService(protos[i]->szName,PS_GETCAPS,(WPARAM)PFLAGNUM_1,0)&caps1)
-					return TRUE; /* CALLSERVICE_NOTFOUND also handled gracefully */
+			if(CallProtoService(protos[i]->szModuleName,PS_GETCAPS,(WPARAM)PFLAGNUM_1,0)&caps1)
+				return TRUE; /* CALLSERVICE_NOTFOUND also handled gracefully */
 	return FALSE;
 }
 

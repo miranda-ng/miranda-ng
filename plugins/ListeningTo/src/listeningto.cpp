@@ -251,7 +251,7 @@ void RegisterProtocol(char *proto, TCHAR *account)
 int AccListChanged(WPARAM wParam, LPARAM lParam)
 {
 	PROTOACCOUNT *proto = (PROTOACCOUNT *) lParam;
-	if (proto == NULL || proto->type != PROTOTYPE_PROTOCOL)
+	if (proto == NULL)
 		return 0;
 
 	ProtocolInfo *info = GetProtoInfo(proto->szModuleName);
@@ -382,8 +382,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		for (int i = 0; i < count; i++)
 		{
-			if (protos[i]->type != PROTOTYPE_PROTOCOL)
-				continue;
 			if (!protos[i]->bIsEnabled)
 				continue;
 

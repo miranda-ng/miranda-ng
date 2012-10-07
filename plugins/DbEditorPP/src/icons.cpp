@@ -86,7 +86,7 @@ int AddIconToList(HIMAGELIST hil, HICON hIcon)
 	return 1;
 }
 
-static PROTOCOLDESCRIPTOR **protocols = NULL;
+static PROTOACCOUNT **protocols = NULL;
 static int protoCount = 0;
 static int shift = 0;
 
@@ -94,14 +94,11 @@ void AddProtoIconsToList(HIMAGELIST hil, int newshift)
 {
 	shift = newshift;
 
-	CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&protoCount,(LPARAM)&protocols);
+	ProtoEnumAccounts(&protoCount, &protocols);
 
 	for (int i = 0; i < protoCount; i++) {
-		if (protocols[i]->type != PROTOTYPE_PROTOCOL)
-			continue;
-
 		HICON hIcon;
-		if (hIcon=LoadSkinnedProtoIcon(protocols[i]->szName, ID_STATUS_ONLINE))
+		if (hIcon=LoadSkinnedProtoIcon(protocols[i]->szModuleName, ID_STATUS_ONLINE))
 			AddIconToList(hil, hIcon);
 		else
 			AddIconToList(himl, LoadSkinnedDBEIcon(ICO_ONLINE));
@@ -116,10 +113,7 @@ int GetProtoIcon(char *szProto)
 	int n = 0;
 
 	for (int i = 0; i < protoCount; i++) {
-		if (protocols[i]->type != PROTOTYPE_PROTOCOL)
-			continue;
-
-		if (!mir_strcmp(protocols[i]->szName, szProto))
+		if (!mir_strcmp(protocols[i]->szModuleName, szProto))
 			return n + shift;
 
 		n++;
@@ -131,13 +125,9 @@ int GetProtoIcon(char *szProto)
 BOOL IsProtocolLoaded(char* pszProtocolName)
 {
 	if (protoCount)
-		for(int i = 0; i < protoCount; i++) {
-			if (protocols[i]->type != PROTOTYPE_PROTOCOL)
-				continue;
-
-			if (!mir_strcmp(protocols[i]->szName, pszProtocolName))
+		for(int i = 0; i < protoCount; i++)
+			if (!mir_strcmp(protocols[i]->szModuleName, pszProtocolName))
 				return TRUE;
-		}
 
 	return FALSE;
 }

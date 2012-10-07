@@ -245,9 +245,6 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 						for (int i = 0; i < count; i++) {
 							PROTOACCOUNT *p = protos[i];
-							if (p->type != PROTOTYPE_PROTOCOL)
-								continue;
-
 							if (p->szModuleName == NULL || p->szModuleName[0] == '\0')
 								continue;
 

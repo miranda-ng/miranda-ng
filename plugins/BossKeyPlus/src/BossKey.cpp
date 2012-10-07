@@ -43,7 +43,7 @@ bool g_bWindowHidden, g_fKeyPressed, g_fPassRequested, g_TrayIcon;
 char g_password[MAXPASSLEN + 1];
 HKL oldLangID, oldLayout;
 int protoCount;
-PROTOCOLDESCRIPTOR **proto;
+PROTOACCOUNT **proto;
 unsigned *oldStatus;
 TCHAR **oldStatusMsg;
 BYTE g_bOldSetting;
@@ -257,10 +257,8 @@ static int ChangeAllProtoStatuses(unsigned statusMode, TCHAR *msg)
 {
 	for (int i=0; i < protoCount; i++)
 	{
-		unsigned status = CallProtoService(proto[i]->szName,PS_GETSTATUS,0,0);
+		unsigned status = CallProtoService(proto[i]->szModuleName,PS_GETSTATUS,0,0);
 		if (
-			(proto[i]->type == PROTOTYPE_PROTOCOL)
-			&&
 			(g_wMask & OPT_ONLINEONLY) ? // check "Change only if current status is Online" option 
 			((status == ID_STATUS_ONLINE) || (status == ID_STATUS_FREECHAT)) // process only "online" and "free for chat"
 			: 
@@ -271,7 +269,7 @@ static int ChangeAllProtoStatuses(unsigned statusMode, TCHAR *msg)
 				oldStatus[i] = status;
 
 				char svc[256];
-				mir_snprintf(svc, 256, "%s%s", proto[i]->szName, PS_GETMYAWAYMSG);
+				mir_snprintf(svc, 256, "%s%s", proto[i]->szModuleName, PS_GETMYAWAYMSG);
 				if (ServiceExists (svc))
 				{
 					if (ServiceExists (MS_AWAYMSG_GETSTATUSMSGT)) // if core can support unicode status message
@@ -284,9 +282,9 @@ static int ChangeAllProtoStatuses(unsigned statusMode, TCHAR *msg)
 					}
 				}
 				else
-					oldStatusMsg[i] = GetDefStatusMsg(status, proto[i]->szName);
+					oldStatusMsg[i] = GetDefStatusMsg(status, proto[i]->szModuleName);
 			}
-			SetStatus(proto[i]->szName, statusMode, msg);
+			SetStatus(proto[i]->szModuleName, statusMode, msg);
 		}
 	}
 	return 0;
@@ -298,7 +296,7 @@ static int BackAllProtoStatuses(void)
 	{
 		if ( oldStatus[i] )
 		{
-			SetStatus(proto[i]->szName, oldStatus[i], oldStatusMsg[i]); 
+			SetStatus(proto[i]->szModuleName, oldStatus[i], oldStatusMsg[i]); 
 			if (oldStatusMsg[i])
 			{
 				mir_free(oldStatusMsg[i]);
@@ -723,7 +721,7 @@ static TCHAR *VariablesBossKey(ARGUMENTSINFO *ai) {
 
 static int EnumProtos(WPARAM wParam, LPARAM lParam)
 {
-	CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&protoCount,(LPARAM)&proto);
+	ProtoEnumAccounts(&protoCount, &proto);
 
 	delete[] oldStatus;
 	delete[] oldStatusMsg;

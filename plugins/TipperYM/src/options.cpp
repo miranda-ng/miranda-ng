@@ -2211,7 +2211,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			for (i = 0; i < count; i++) 
 			{
-				if (accs[i]->type == PROTOTYPE_PROTOCOL && CallProtoService(accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) != 0) 
+				if (CallProtoService(accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) != 0) 
 				{
 					tvi.item.pszText = accs[i]->tszAccountName;
 					tvi.item.stateMask = TVIS_STATEIMAGEMASK;

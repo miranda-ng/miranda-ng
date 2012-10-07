@@ -93,10 +93,6 @@
 #define XSTATUS_COUNT_EXTENDED			37
 #define MOODS_COUNT						84
 
-// ====[ SERVICES ]===========================================================
-
-#define MS_PSEUDO_PROTO_PROTOACCSENUM         ( CSList::bAccountsSupported ? MS_PROTO_ENUMACCOUNTS : MS_PROTO_ENUMPROTOCOLS )
-
 // ====[ DEFAULT DB VALUES ]==================================================
 
 #define DEFAULT_ICQ_XSTATUS_ENABLED                 1

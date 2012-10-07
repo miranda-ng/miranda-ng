@@ -322,24 +322,23 @@ struct ProtoCount
 static void GetProtocolStrings(bkstring& buffer)
 {
 	PROTOACCOUNT **accList;
-	int accCount, protoCount;
+	int accCount;
 	int i, j;
 
-	PROTOCOLDESCRIPTOR **protoList;
-	if (ProtoEnumAccounts(&accCount, &accList) == CALLSERVICE_NOTFOUND || (accCount > 0 && accList[0]->cbSize == 0))
+	ProtoEnumAccounts(&accCount, &accList);
+	if (accCount > 0)
 	{
-		CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&protoCount, (LPARAM)&protoList);
-		for (i = 0; i < protoCount; i++) 
+		for (i = 0; i < accCount; i++) 
 		{
-			if (protoList[i]->type != PROTOTYPE_PROTOCOL) continue;
-
 			TCHAR* nm;
-			crsi_a2t(nm, protoList[i]->szName);
+			crsi_a2t(nm, accList[i]->szModuleName);
 			buffer.appendfmt(TEXT(" 1  -  %s\r\n"), nm);
 		}
 	}
 	else
 	{
+		int protoCount;
+		PROTOCOLDESCRIPTOR **protoList;
 		CallService(MS_PROTO_ENUMPROTOS, (WPARAM)&protoCount, (LPARAM)&protoList);
 
 		int protoCountMy = 0;

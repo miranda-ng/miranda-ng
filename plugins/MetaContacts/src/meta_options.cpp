@@ -358,12 +358,12 @@ int GetRealPriority(char *proto, int status) {
 
 void ReadPriorities() {
 	int num_protocols;
-	PROTOCOLDESCRIPTOR **pppDesc;
+	PROTOACCOUNT **pppDesc;
 	char szSetting[256];
 	ProtoStatusPrio * current;
 	int i, j;
 
-	CallService(MS_PROTO_ENUMPROTOCOLS, (LPARAM)&num_protocols, (WPARAM)&pppDesc);
+	ProtoEnumAccounts(&num_protocols, &pppDesc);
 
 	current = priorities = (ProtoStatusPrio *)malloc((num_protocols + 1) * sizeof(ProtoStatusPrio));
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
@@ -374,7 +374,7 @@ void ReadPriorities() {
 	for (i = 0; i < num_protocols; i++) {
 		current = priorities + (i + 1);
 		for (j = ID_STATUS_OFFLINE; j <= ID_STATUS_OUTTOLUNCH; j++) {
-			mir_snprintf(szSetting, 256, "ProtoPrio_%s%d", pppDesc[i]->szName, j);
+			mir_snprintf(szSetting, 256, "ProtoPrio_%s%d", pppDesc[i]->szModuleName, j);
 			current->prio[j - ID_STATUS_OFFLINE] = DBGetContactSettingWord(0, META_PROTO, szSetting, 0xFFFF);
 			current->def[j - ID_STATUS_OFFLINE] = (current->prio[j - ID_STATUS_OFFLINE] == 0xFFFF);
 		}
@@ -383,12 +383,12 @@ void ReadPriorities() {
 
 void WritePriorities() {
 	int num_protocols;
-	PROTOCOLDESCRIPTOR **pppDesc;
+	PROTOACCOUNT **pppDesc;
 	char szSetting[256];
 	ProtoStatusPrio * current = priorities;
 	int i, j;
 
-	CallService(MS_PROTO_ENUMPROTOCOLS, (LPARAM)&num_protocols, (WPARAM)&pppDesc);
+	ProtoEnumAccounts(&num_protocols, &pppDesc);
 
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 		mir_snprintf(szSetting, 256, "DefaultPrio_%d", i);
@@ -400,7 +400,7 @@ void WritePriorities() {
 	for (i = 0; i < num_protocols; i++) {
 		current = priorities + (i + 1);
 		for (j = ID_STATUS_OFFLINE; j <= ID_STATUS_OUTTOLUNCH; j++) {
-			mir_snprintf(szSetting, 256, "ProtoPrio_%s%d", pppDesc[i]->szName, j);
+			mir_snprintf(szSetting, 256, "ProtoPrio_%s%d", pppDesc[i]->szModuleName, j);
 			if (!current->def[j - ID_STATUS_OFFLINE])
 				DBWriteContactSettingWord(0, META_PROTO, szSetting, (WORD)current->prio[j - ID_STATUS_OFFLINE]);
 			else
@@ -446,11 +446,11 @@ void SetPriority(int proto_index, int status, BOOL def, int prio) {
 
 void ResetPriorities() {
 	int num_protocols;
-	PROTOCOLDESCRIPTOR **pppDesc;
+	PROTOACCOUNT **pppDesc;
 	ProtoStatusPrio * current;
 	int i, j;
 
-	CallService(MS_PROTO_ENUMPROTOCOLS, (LPARAM)&num_protocols, (WPARAM)&pppDesc);
+	ProtoEnumAccounts(&num_protocols, &pppDesc);
 
 	current = priorities;
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
@@ -479,19 +479,17 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		ReadPriorities();
 		{
 			int num_protocols;
-			PROTOCOLDESCRIPTOR **pppDesc;
+			PROTOACCOUNT **pppDesc;
 			int i, index;
 
-			CallService(MS_PROTO_ENUMPROTOCOLS, (LPARAM)&num_protocols, (WPARAM)&pppDesc);
+			ProtoEnumAccounts(&num_protocols, &pppDesc);
 			hw = GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL);
 			index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)Translate("<default>"));
 			SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, -1);
 			for (i = 0; i < num_protocols; i++) {
-				if (pppDesc[i]->type == PROTOTYPE_PROTOCOL) {
-					if (strcmp(pppDesc[i]->szName, META_PROTO) != 0) {
-						index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)pppDesc[i]->szName);
-						SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, i);
-					}
+				if (strcmp(pppDesc[i]->szModuleName, META_PROTO) != 0) {
+					index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)pppDesc[i]->szModuleName);
+					SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, i);
 				}
 			}
 
@@ -546,10 +544,10 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 				} else {
 					int num_protocols, caps, i;
-					PROTOCOLDESCRIPTOR **pppDesc;
-					CallService(MS_PROTO_ENUMPROTOCOLS, (LPARAM)&num_protocols, (WPARAM)&pppDesc);
+					PROTOACCOUNT **pppDesc;
+					ProtoEnumAccounts(&num_protocols, &pppDesc);
 
-					caps = CallProtoService(pppDesc[index]->szName, PS_GETCAPS, PFLAGNUM_2, 0);
+					caps = CallProtoService(pppDesc[index]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 
 					for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 						if (caps & Proto_Status2Flag(i)) {
