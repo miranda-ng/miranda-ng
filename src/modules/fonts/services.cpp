@@ -152,22 +152,22 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 
 	if (colour) {
 		mir_snprintf(idstr, SIZEOF(idstr), "%sCol", prefix);
-		*colour = DBGetContactSettingDword(NULL, settings_group, idstr, *colour);
+		*colour = db_get_dw(NULL, settings_group, idstr, *colour);
 	}
 
 	mir_snprintf(idstr, SIZEOF(idstr), "%sSize", prefix);
-	lf->lfHeight = (char)DBGetContactSettingByte(NULL, settings_group, idstr, lf->lfHeight);
+	lf->lfHeight = (char)db_get_b(NULL, settings_group, idstr, lf->lfHeight);
 
 
 	//wsprintf(idstr, "%sFlags", prefix);
-	//if (DBGetContactSettingDword(NULL, settings_group, idstr, 0) & FIDF_SAVEACTUALHEIGHT) {
+	//if (db_get_dw(NULL, settings_group, idstr, 0) & FIDF_SAVEACTUALHEIGHT) {
 	//	HDC hdc = GetDC(0);
 	//	lf->lfHeight = -lf->lfHeight;
 	//	ReleaseDC(0, hdc);
 	//}
 
 	mir_snprintf(idstr, SIZEOF(idstr), "%sSty", prefix);
-	style = (BYTE) DBGetContactSettingByte(NULL, settings_group, idstr,
+	style = (BYTE) db_get_b(NULL, settings_group, idstr,
 		(lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0) | lf->lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
@@ -177,7 +177,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 	lf->lfStrikeOut = (style & DBFONTF_STRIKEOUT) != 0;
 
 	mir_snprintf(idstr, SIZEOF(idstr), "%sSet", prefix);
-	lf->lfCharSet = DBGetContactSettingByte(NULL, settings_group, idstr, lf->lfCharSet);
+	lf->lfCharSet = db_get_b(NULL, settings_group, idstr, lf->lfCharSet);
 
 	lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 	lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
@@ -296,7 +296,7 @@ static int sttRegisterFontWorker(FontIDW* font_id, int hLangpack)
 
 	char idstr[256];
 	mir_snprintf(idstr, SIZEOF(idstr), "%sFlags", font_id->prefix);
-	DBWriteContactSettingDword(0, font_id->dbSettingsGroup, idstr, font_id->flags);
+	db_set_dw(0, font_id->dbSettingsGroup, idstr, font_id->flags);
 	
 	FontInternal* newItem = new FontInternal;
 	memset(newItem, 0, sizeof(FontInternal));
@@ -382,7 +382,7 @@ void KillModuleFonts(int hLangpack)
 
 void UpdateColourSettings(ColourIDW* colour_id, COLORREF *colour)
 {
-	*colour = (COLORREF)DBGetContactSettingDword(NULL, colour_id->dbSettingsGroup, colour_id->setting, GetColorFromDefault(colour_id->defcolour));
+	*colour = (COLORREF)db_get_dw(NULL, colour_id->dbSettingsGroup, colour_id->setting, GetColorFromDefault(colour_id->defcolour));
 }
 
 static INT_PTR sttRegisterColourWorker(ColourIDW* colour_id, int hLangpack)
@@ -425,7 +425,7 @@ static INT_PTR sttGetColourWorker(ColourIDW* colour_id)
 	for (int i=0; i < colour_id_list.getCount(); i++) {
 		ColourInternal& C = colour_id_list[i];
 		if ( !_tcscmp(C.group, colour_id->group) && !_tcscmp(C.name, colour_id->name))
-			return DBGetContactSettingDword(NULL, C.dbSettingsGroup, C.setting, GetColorFromDefault(C.defcolour));
+			return db_get_dw(NULL, C.dbSettingsGroup, C.setting, GetColorFromDefault(C.defcolour));
 	}
 
 	return -1;
@@ -459,13 +459,13 @@ void UpdateEffectSettings(EffectIDW* effect_id, FONTEFFECT* effectsettings)
 {
 	char str[256];
 	mir_snprintf(str, SIZEOF(str), "%sEffect", effect_id->setting);
-	effectsettings->effectIndex = DBGetContactSettingByte(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.effectIndex);
+	effectsettings->effectIndex = db_get_b(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.effectIndex);
 
 	mir_snprintf(str, SIZEOF(str), "%sEffectCol1", effect_id->setting);
-	effectsettings->baseColour = DBGetContactSettingDword(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.baseColour);
+	effectsettings->baseColour = db_get_dw(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.baseColour);
 
 	mir_snprintf(str, SIZEOF(str), "%sEffectCol2", effect_id->setting);
-	effectsettings->secondaryColour = DBGetContactSettingDword(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.secondaryColour);
+	effectsettings->secondaryColour = db_get_dw(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.secondaryColour);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

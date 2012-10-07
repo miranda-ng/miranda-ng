@@ -404,7 +404,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 						mir_free(temp);
 
 
-						ListView_SetItemText(lv, ilvItem, 1, (TCHAR*)policy_to_string(db_dword_get(0,MODULENAME"_ProtoPol", pppDesc[i]->szName, CONTACT_DEFAULT_POLICY)) );
+						ListView_SetItemText(lv, ilvItem, 1, (TCHAR*)policy_to_string(db_get_dw(0,MODULENAME"_ProtoPol", pppDesc[i]->szName, CONTACT_DEFAULT_POLICY)) );
 						if(otrl_privkey_fingerprint(otr_user_state, fprint, pppDesc[i]->szName, pppDesc[i]->szName)) {
 							temp = mir_a2t(fprint);
 							ListView_SetItemText(lv, ilvItem, 2, temp);
@@ -498,7 +498,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 				ListView_GetItemText(lv, i, 0, proto_t, 128);
 				ListView_GetItemText(lv, i, 1, policy, 64);
 				proto = mir_t2a(proto_t);
-				db_dword_set(0, MODULENAME"_ProtoPol", proto, policy_from_string(policy));
+				db_set_dw(0, MODULENAME"_ProtoPol", proto, policy_from_string(policy));
 				mir_free(proto);
 			}
 			// handle apply
@@ -582,7 +582,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			while ( hContact != NULL )
 			{
 				proto = contact_get_proto(hContact);
-				if(proto && db_byte_get(hContact, proto, "ChatRoom", 0) == 0 && CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME) // ignore chatrooms
+				if(proto && db_get_b(hContact, proto, "ChatRoom", 0) == 0 && CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME) // ignore chatrooms
 					&& (g_metaproto  == 0 || strcmp(proto, g_metaproto) != 0)) // and MetaContacts
 				{
 					lvI.iItem = 0;
@@ -595,8 +595,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 					ListView_SetItemText(lv, lvI.iItem, 1, proto_t);
 					mir_free(proto_t);
 
-					ListView_SetItemText(lv, lvI.iItem, 2, (TCHAR*)policy_to_string((OtrlPolicy)db_dword_get(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY)) );
-					ListView_SetItemText(lv, lvI.iItem, 3, (db_byte_get(hContact, MODULENAME, "HTMLConv", 0))?TranslateT(LANG_YES):TranslateT(LANG_NO) );
+					ListView_SetItemText(lv, lvI.iItem, 2, (TCHAR*)policy_to_string((OtrlPolicy)db_get_dw(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY)) );
+					ListView_SetItemText(lv, lvI.iItem, 3, (db_get_b(hContact, MODULENAME, "HTMLConv", 0))?TranslateT(LANG_YES):TranslateT(LANG_NO) );
 				}
 
 
@@ -651,7 +651,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			{
 				if (!it->first) continue;
 				if (it->second.policy) DBWriteContactSettingDword(it->first, MODULENAME, "Policy", (DWORD)it->second.policy);
-				if (it->second.htmlconv) db_byte_set(it->first, MODULENAME, "HTMLConv", it->second.htmlconv-1);
+				if (it->second.htmlconv) db_set_b(it->first, MODULENAME, "HTMLConv", it->second.htmlconv-1);
 			}
 			return TRUE;
 		} else if (((LPNMHDR) lParam)->hwndFrom == GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS)) {

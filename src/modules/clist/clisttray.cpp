@@ -108,7 +108,7 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 
 		if (szPrefix && szPrefix[0]) {
 			lstrcpyn(cli.szTip, szPrefix, MAX_TIP_SIZE);
-			if ( !DBGetContactSettingByte(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT))
+			if ( !db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT))
 			{ ulock; return cli.szTip; }
 		}
 		else cli.szTip[0] = '\0';
@@ -158,7 +158,7 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 			ProtoXStatus = sttGetXStatus(szProto);
 			szStatus = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0), 0);
 			if (szPrefix && szPrefix[0]) {
-				if (DBGetContactSettingByte(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
+				if (db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
 					if (mToolTipTrayTips) {
 						if (ProtoXStatus)
 							mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("%s%s<b>%-12.12s</b>\t%s%s%-24.24s"), szPrefix, szSeparator, pa->tszAccountName, szStatus, szSeparator, ProtoXStatus);
@@ -269,14 +269,14 @@ int fnTrayIconInit(HWND hwnd)
     {
 	    cli.trayIcon = (trayIconInfo_t *) mir_calloc(sizeof(trayIconInfo_t) * accounts.getCount());
 
-        int trayIconSetting = DBGetContactSettingByte(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT);
+        int trayIconSetting = db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT);
 
 	    if (trayIconSetting == SETTING_TRAYICON_SINGLE) 
         {
 		    DBVARIANT dbv = { DBVT_DELETED };
 		    char *szProto;
 		    if ( !DBGetContactSettingString(NULL, "CList", "PrimaryStatus", &dbv)
-			     && (averageMode < 0 || DBGetContactSettingByte(NULL, "CList", "AlwaysPrimary", 0)))
+			     && (averageMode < 0 || db_get_b(NULL, "CList", "AlwaysPrimary", 0)))
 			    szProto = dbv.pszVal;
 		    else
 			    szProto = NULL;
@@ -285,7 +285,7 @@ int fnTrayIconInit(HWND hwnd)
 		    DBFreeVariant(&dbv);
 	    }
 	    else if (trayIconSetting == SETTING_TRAYICON_MULTI &&
-	         (averageMode < 0 || DBGetContactSettingByte(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
+	         (averageMode < 0 || db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
         {
 			cli.trayIconCount = netProtoCount;
 		    for (int i=0; i < accounts.getCount(); ++i) 
@@ -422,7 +422,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 				SetTaskBarIcon(NULL, NULL);
 
 			cli.trayIcon[i].isBase = isBase;
-			if (DBGetContactSettingByte(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI)
+			if (db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI)
 			{
 				DWORD time1 = DBGetContactSettingWord(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT)*200;
 				DWORD time2 = DBGetContactSettingWord(NULL, "CList", "IconFlashTime", 550)+1000;
@@ -455,8 +455,8 @@ int fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto)
 		}
 		if ((cli.pfnGetProtocolVisibility(szPreferredProto))
 			 && (GetAverageMode() == -1) 
-          && (DBGetContactSettingByte(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) 
-          && !(DBGetContactSettingByte(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
+          && (db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) 
+          && !(db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
 			goto LBL_Error;
 	}
 
@@ -528,11 +528,11 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
     
 	if (netProtoCount > 0) 
     {
-        int trayIconSetting = DBGetContactSettingByte(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT);
+        int trayIconSetting = db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT);
 
 		if (averageMode > 0) {
 			if (trayIconSetting == SETTING_TRAYICON_MULTI) {
-				if (DBGetContactSettingByte(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
+				if (db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
 					//changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode((char*)szChangedProto, NULL, averageMode), (char*)szChangedProto);
 					changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0)), (char*)szChangedProto);
 				else if (cli.trayIcon && cli.trayIcon[0].szProto != NULL) {
@@ -571,7 +571,7 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 				if ( !cli.trayIcon) {
 					cli.pfnTrayIconRemove(NULL, NULL);
 				}
-				else if ((cli.trayIconCount > 1 || netProtoCount == 1) || DBGetContactSettingByte(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
+				else if ((cli.trayIconCount > 1 || netProtoCount == 1) || db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
 					changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0)), (char*)szChangedProto);
 				else {
 					cli.pfnTrayIconDestroy(hwnd);
@@ -643,7 +643,7 @@ int fnTrayIconPauseAutoHide(WPARAM, LPARAM)
 {
 	initcheck 0;
 	lock;
-	if (DBGetContactSettingByte(NULL, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
+	if (db_get_b(NULL, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
 		if (GetActiveWindow() != cli.hwndContactList) {
 			KillTimer(NULL, autoHideTimerId);
 			autoHideTimerId = SetTimer(NULL, 0, 1000 * DBGetContactSettingWord(NULL, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
@@ -721,7 +721,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_ACTIVATE:
-		if (DBGetContactSettingByte(NULL, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
+		if (db_get_b(NULL, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
 			if (LOWORD(msg->wParam) == WA_INACTIVE)
 				autoHideTimerId = SetTimer(NULL, 0, 1000 * DBGetContactSettingWord(NULL, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
 			else
@@ -742,7 +742,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 
 		if (msg->lParam == WM_MBUTTONUP)
 			cli.pfnShowHide(0, 0);
-		else if (msg->lParam == (DBGetContactSettingByte(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT) ? WM_LBUTTONUP : WM_LBUTTONDBLCLK)) {
+		else if (msg->lParam == (db_get_b(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT) ? WM_LBUTTONUP : WM_LBUTTONDBLCLK)) {
 			if ((GetAsyncKeyState(VK_CONTROL) & 0x8000))
 			{
 				POINT pt;

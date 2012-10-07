@@ -397,8 +397,8 @@ int InitCListEvents(void)
 	memset(&cli.events, 0, sizeof(cli.events));	
 	cli.events.increment = 10;
 	
-	disableTrayFlash = DBGetContactSettingByte(NULL, "CList", "DisableTrayFlash", 0);
-	disableIconFlash = DBGetContactSettingByte(NULL, "CList", "NoIconBlink", 0);
+	disableTrayFlash = db_get_b(NULL, "CList", "DisableTrayFlash", 0);
+	disableIconFlash = db_get_b(NULL, "CList", "NoIconBlink", 0);
 	CreateServiceFunction(MS_CLIST_ADDEVENT, AddEventSyncStub); //need to be called through sync to keep flash timer workable
 	CreateServiceFunction(MS_CLIST_ADDEVENT"_SYNC", AddEventStub);
 	CreateServiceFunction(MS_CLIST_REMOVEEVENT, RemoveEventStub);

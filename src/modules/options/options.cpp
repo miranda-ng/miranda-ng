@@ -694,7 +694,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 			Utils_RestoreWindowPositionNoSize(hdlg, NULL, "Options", "");
 			Window_SetIcon_IcoLib(hdlg, SKINICON_OTHER_OPTIONS);
-			CheckDlgButton(hdlg, IDC_EXPERT, DBGetContactSettingByte(NULL, "Options", "Expert", SETTING_SHOWEXPERT_DEFAULT)?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_EXPERT, db_get_b(NULL, "Options", "Expert", SETTING_SHOWEXPERT_DEFAULT)?BST_CHECKED:BST_UNCHECKED);
 			EnableWindow( GetDlgItem(hdlg, IDC_APPLY), FALSE);
 			dat = new OptionsDlgData;
 			SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)dat);
@@ -918,7 +918,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					if (SendMessageA(hwndTree, TVM_GETITEMA, 0, (LPARAM)&tvi)) {
 						char buf[130];
 						mir_snprintf(buf, SIZEOF(buf), "%s%s", OPTSTATE_PREFIX, str);
-						if ( !DBGetContactSettingByte(NULL, "Options", buf, 1))
+						if ( !db_get_b(NULL, "Options", buf, 1))
 							TreeView_Expand(hwndTree, tvi.hItem, TVE_COLLAPSE);
 					}
 					tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);

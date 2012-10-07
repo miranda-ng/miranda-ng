@@ -698,18 +698,18 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 		mir_free(dbv.pszVal);
 	}
 	mir_snprintf(idstr, SIZEOF(idstr), "Font%dCol", i);
-	*colour = DBGetContactSettingDword(NULL, "CLC", idstr, *colour);
+	*colour = db_get_dw(NULL, "CLC", idstr, *colour);
 	mir_snprintf(idstr, SIZEOF(idstr), "Font%dSize", i);
-	lf->lfHeight = (char) DBGetContactSettingByte(NULL, "CLC", idstr, lf->lfHeight);
+	lf->lfHeight = (char) db_get_b(NULL, "CLC", idstr, lf->lfHeight);
 	mir_snprintf(idstr, SIZEOF(idstr), "Font%dSty", i);
-	style = (BYTE) DBGetContactSettingByte(NULL, "CLC", idstr, (lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0));
+	style = (BYTE) db_get_b(NULL, "CLC", idstr, (lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0));
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
 	lf->lfWeight = style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
 	lf->lfItalic = (style & DBFONTF_ITALIC) != 0;
 	lf->lfUnderline = (style & DBFONTF_UNDERLINE) != 0;
 	lf->lfStrikeOut = 0;
 	mir_snprintf(idstr, SIZEOF(idstr), "Font%dSet", i);
-	lf->lfCharSet = DBGetContactSettingByte(NULL, "CLC", idstr, lf->lfCharSet);
+	lf->lfCharSet = db_get_b(NULL, "CLC", idstr, lf->lfCharSet);
 	lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 	lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 	lf->lfQuality = DEFAULT_QUALITY;
@@ -718,7 +718,7 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 
 void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 {
-	dat->rowHeight = DBGetContactSettingByte(NULL, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
+	dat->rowHeight = db_get_b(NULL, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
 	
 	LOGFONT lf;
 	SIZE fontSize;
@@ -742,23 +742,23 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 	}
 	ReleaseDC(hwnd, hdc);
 
-	dat->leftMargin = DBGetContactSettingByte(NULL, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN);
-	dat->exStyle = DBGetContactSettingDword(NULL, "CLC", "ExStyle", cli.pfnGetDefaultExStyle());
+	dat->leftMargin = db_get_b(NULL, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN);
+	dat->exStyle = db_get_dw(NULL, "CLC", "ExStyle", cli.pfnGetDefaultExStyle());
 	dat->scrollTime = DBGetContactSettingWord(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME);
-	dat->groupIndent = DBGetContactSettingByte(NULL, "CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT);
-	dat->gammaCorrection = DBGetContactSettingByte(NULL, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT);
-	dat->showIdle = DBGetContactSettingByte(NULL, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE);
-	dat->noVScrollbar = DBGetContactSettingByte(NULL, "CLC", "NoVScrollBar", 0);
-	dat->filterSearch = DBGetContactSettingByte(NULL, "CLC", "FilterSearch", 1);
+	dat->groupIndent = db_get_b(NULL, "CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT);
+	dat->gammaCorrection = db_get_b(NULL, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT);
+	dat->showIdle = db_get_b(NULL, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE);
+	dat->noVScrollbar = db_get_b(NULL, "CLC", "NoVScrollBar", 0);
+	dat->filterSearch = db_get_b(NULL, "CLC", "FilterSearch", 1);
 	SendMessage(hwnd, INTM_SCROLLBARCHANGED, 0, 0);
 	if ( !dat->bkChanged) {
 		DBVARIANT dbv;
-		dat->bkColour = DBGetContactSettingDword(NULL, "CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
+		dat->bkColour = db_get_dw(NULL, "CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (dat->hBmpBackground) {
 			DeleteObject(dat->hBmpBackground);
 			dat->hBmpBackground = NULL;
 		}
-		if (DBGetContactSettingByte(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
+		if (db_get_b(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
 			if ( !DBGetContactSettingString(NULL, "CLC", "BkBitmap", &dbv)) {
 				dat->hBmpBackground = (HBITMAP) CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM) dbv.pszVal);
 				mir_free(dbv.pszVal);
@@ -766,13 +766,13 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 		}
 		dat->backgroundBmpUse = DBGetContactSettingWord(NULL, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
-	dat->greyoutFlags = DBGetContactSettingDword(NULL, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS);
-	dat->offlineModes = DBGetContactSettingDword(NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES);
-	dat->selBkColour = DBGetContactSettingDword(NULL, "CLC", "SelBkColour", CLCDEFAULT_SELBKCOLOUR);
-	dat->selTextColour = DBGetContactSettingDword(NULL, "CLC", "SelTextColour", CLCDEFAULT_SELTEXTCOLOUR);
-	dat->hotTextColour = DBGetContactSettingDword(NULL, "CLC", "HotTextColour", CLCDEFAULT_HOTTEXTCOLOUR);
-	dat->quickSearchColour = DBGetContactSettingDword(NULL, "CLC", "QuickSearchColour", CLCDEFAULT_QUICKSEARCHCOLOUR);
-	dat->useWindowsColours = DBGetContactSettingByte(NULL, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
+	dat->greyoutFlags = db_get_dw(NULL, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS);
+	dat->offlineModes = db_get_dw(NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES);
+	dat->selBkColour = db_get_dw(NULL, "CLC", "SelBkColour", CLCDEFAULT_SELBKCOLOUR);
+	dat->selTextColour = db_get_dw(NULL, "CLC", "SelTextColour", CLCDEFAULT_SELTEXTCOLOUR);
+	dat->hotTextColour = db_get_dw(NULL, "CLC", "HotTextColour", CLCDEFAULT_HOTTEXTCOLOUR);
+	dat->quickSearchColour = db_get_dw(NULL, "CLC", "QuickSearchColour", CLCDEFAULT_QUICKSEARCHCOLOUR);
+	dat->useWindowsColours = db_get_b(NULL, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 	
 	NMHDR hdr;
 	hdr.code = CLN_OPTIONSCHANGED;

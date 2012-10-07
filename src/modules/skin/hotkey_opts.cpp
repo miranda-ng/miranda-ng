@@ -346,7 +346,7 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 	}	}
 
 	mir_snprintf(buf, SIZEOF(buf), "%s$count", item->pszName);
-	DBWriteContactSettingDword(NULL, DBMODULENAME, buf, item->nSubHotkeys);
+	db_set_dw(NULL, DBMODULENAME, buf, item->nSubHotkeys);
 }
 
 static void sttBuildHotkeyList(HWND hwndList)
@@ -506,7 +506,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				szSetting = mir_t2a(lvi.pszText);
 
 				ListView_SetCheckState(hwndHotkey, lvi.iItem,
-					DBGetContactSettingByte(NULL, DBMODULENAME "UI", szSetting, TRUE));
+					db_get_b(NULL, DBMODULENAME "UI", szSetting, TRUE));
 
 				mir_free(szSetting);
 			}

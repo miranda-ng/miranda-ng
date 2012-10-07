@@ -238,7 +238,6 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  }
 				  else
 				  {
-					  char setting[64];
 					  std::string acc_str = buf;
 					  acc_str += "_GPGPubKey";
 					  DBWriteContactSettingString(NULL, szGPGModuleName, acc_str.c_str(), out.c_str());
@@ -432,7 +431,6 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			  }
 			  else
 			  {
-				  char setting[64];
 				  std::string acc_str = buf;
 				  acc_str += "_GPGPubKey";
 				  DBDeleteContactSetting(NULL, szGPGModuleName, acc_str.c_str());
@@ -565,7 +563,6 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					  }
 					  else
 					  {
-						  char setting[64];
 						  std::string acc_str = buf;
 						  acc_str += "_GPGPubKey";
 						  DBWriteContactSettingString(NULL, szGPGModuleName, acc_str.c_str(), out.c_str());
@@ -597,7 +594,6 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				{
 					string keyinfo = Translate("key id");
 					keyinfo += ": ";
-					char setting[64];
 					std::string acc_str= buf;
 					acc_str += "_KeyID";
 					char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, acc_str.c_str(), "");

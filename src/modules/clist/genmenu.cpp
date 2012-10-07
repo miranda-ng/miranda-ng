@@ -236,7 +236,7 @@ INT_PTR MO_GetProtoRootMenu(WPARAM wParam, LPARAM lParam)
 	if (szProto == NULL)
 		return 0;
 
-	if (DBGetContactSettingByte(NULL, "CList", "MoveProtoMenus", TRUE))
+	if (db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
 		return (INT_PTR)cli.pfnGetProtocolMenu(szProto);
 
 	int objidx = GetMenuObjbyId((int)hMainMenuObject);
@@ -912,11 +912,11 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 
 			// check if it visible
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_visible", menuItemName);
-			if (DBGetContactSettingByte(NULL, MenuNameItems, DBString, -1) == -1)
+			if (db_get_b(NULL, MenuNameItems, DBString, -1) == -1)
 				DBWriteContactSettingByte(NULL, MenuNameItems, DBString, 1);
 
 			pmi->OverrideShow = TRUE;
-			if ( !DBGetContactSettingByte(NULL, MenuNameItems, DBString, 1)) {
+			if ( !db_get_b(NULL, MenuNameItems, DBString, 1)) {
 				pmi->OverrideShow = FALSE;
 				continue;  // find out what value to return if not getting added
 			}
@@ -930,8 +930,8 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			}
 
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_pos", menuItemName);
-			if ((pos = DBGetContactSettingDword(NULL, MenuNameItems, DBString, -1)) == -1) {
-				DBWriteContactSettingDword(NULL, MenuNameItems, DBString, mi->position);
+			if ((pos = db_get_dw(NULL, MenuNameItems, DBString, -1)) == -1) {
+				db_set_dw(NULL, MenuNameItems, DBString, mi->position);
 				if (pmi->submenu.first)
 					mi->position = 0;
 			}
@@ -1180,7 +1180,7 @@ int InitGenMenu()
 	CreateServiceFunction(MO_SETOPTIONSMENUOBJECT, SRVMO_SetOptionsMenuObject);
 	CreateServiceFunction(MO_SETOPTIONSMENUITEM, SRVMO_SetOptionsMenuItem);
 
-	bIconsDisabled = DBGetContactSettingByte(NULL, "CList", "DisableMenuIcons", 0) != 0;
+	bIconsDisabled = db_get_b(NULL, "CList", "DisableMenuIcons", 0) != 0;
 
 	bIsGenMenuInited = true;
 

@@ -173,7 +173,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		return (LRESULT) dat->fontInfo[wParam].hFont;
 
 	case CLM_GETHIDEOFFLINEROOT:
-		return DBGetContactSettingByte(NULL, "CLC", "HideOfflineRoot", 0);
+		return db_get_b(NULL, "CLC", "HideOfflineRoot", 0);
 
 	case CLM_GETINDENT:
 		return dat->groupIndent;

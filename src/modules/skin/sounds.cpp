@@ -106,7 +106,7 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM wParam, LPARAM lParam)
 static int SkinPlaySoundDefault(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR* pszFile = (TCHAR*) lParam;
-	if (pszFile && (DBGetContactSettingByte(NULL, "Skin", "UseSound", 0) || (int)wParam == 1))
+	if (pszFile && (db_get_b(NULL, "Skin", "UseSound", 0) || (int)wParam == 1))
 		PlaySound(pszFile, NULL, SND_ASYNC | SND_FILENAME | SND_NOSTOP);
 
 	return 0;
@@ -123,7 +123,7 @@ static INT_PTR ServiceSkinPlaySound(WPARAM, LPARAM lParam)
 	if (idx == -1)
 		return 1;
 
-	if ( DBGetContactSettingByte(NULL, "SkinSoundsOff", pszSoundName, 0) == 0) {
+	if ( db_get_b(NULL, "SkinSoundsOff", pszSoundName, 0) == 0) {
 		DBVARIANT dbv;
 		if ( DBGetContactSettingTString(NULL, "SkinSounds", pszSoundName, &dbv) == 0) {
 			TCHAR szFull[MAX_PATH];
@@ -151,7 +151,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 		SendMessage(hwndDlg, DM_REBUILD_STREE, 0, 0);
 		TreeView_SetItemState(hwndTree, 0, TVIS_SELECTED, TVIS_SELECTED);
-		CheckDlgButton(hwndDlg, IDC_ENABLESOUNDS, DBGetContactSettingByte(NULL, "Skin", "UseSound", 0));
+		CheckDlgButton(hwndDlg, IDC_ENABLESOUNDS, db_get_b(NULL, "Skin", "UseSound", 0));
 		SendMessage(hwndDlg, DM_CHECKENABLED, 0, 0);
 		return TRUE;
 
@@ -178,7 +178,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					TreeView_SetItem(hwndTree, &tvis.item);
 				}
 				tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-				tvis.item.state = INDEXTOSTATEIMAGEMASK( !DBGetContactSettingByte(NULL, "SkinSoundsOff", arSounds[i].name, 0)?2:1);
+				tvis.item.state = INDEXTOSTATEIMAGEMASK( !db_get_b(NULL, "SkinSoundsOff", arSounds[i].name, 0)?2:1);
 				tvis.item.lParam = i;
 				tvis.item.pszText = arSounds[i].getDescr();
 				TreeView_InsertItem(hwndTree, &tvis);
@@ -278,7 +278,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			if (snd.ptszTempFile)
 				_tcsncpy(strFull, snd.ptszTempFile, SIZEOF(strFull));
 			else {
-				if (DBGetContactSettingByte(NULL, "SkinSoundsOff", snd.name, 0) == 0) {
+				if (db_get_b(NULL, "SkinSoundsOff", snd.name, 0) == 0) {
 					DBVARIANT dbv;
 					if (DBGetContactSettingTString(NULL, "SkinSounds", snd.name, &dbv) == 0) {
 						PathToAbsoluteT(dbv.ptszVal, strdir, NULL);

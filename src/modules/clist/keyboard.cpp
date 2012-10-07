@@ -34,7 +34,7 @@ INT_PTR hkSearch(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv = {0};
 	if ( !DBGetContactSettingString(NULL, "CList", "SearchUrl", &dbv)) {
-		CallService(MS_UTILS_OPENURL, DBGetContactSettingByte(NULL, "CList", "HKSearchNewWnd", 0), (LPARAM)dbv.pszVal);
+		CallService(MS_UTILS_OPENURL, db_get_b(NULL, "CList", "HKSearchNewWnd", 0), (LPARAM)dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
 	return 0;

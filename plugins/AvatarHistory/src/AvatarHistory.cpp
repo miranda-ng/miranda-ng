@@ -258,8 +258,8 @@ BOOL ContactEnabled(HANDLE hContact, char *setting, int def)
 	if (!ProtocolEnabled(proto))
 		return FALSE;
 
-	BYTE globpref = db_byte_get(NULL, MODULE_NAME, setting, def);
-	BYTE userpref = db_byte_get(hContact, MODULE_NAME, setting, BST_INDETERMINATE);
+	BYTE globpref = db_get_b(NULL, MODULE_NAME, setting, def);
+	BYTE userpref = db_get_b(hContact, MODULE_NAME, setting, BST_INDETERMINATE);
 
 	return (globpref && userpref == BST_INDETERMINATE) || userpref == BST_CHECKED;
 }

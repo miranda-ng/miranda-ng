@@ -107,7 +107,7 @@ static int SaveTree(HWND hwndDlg)
 			DBWriteContactSettingByte(NULL, MenuNameItems, DBString, iod->show);
 
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_pos", menuItemName);
-			DBWriteContactSettingDword(NULL, MenuNameItems, DBString, runtimepos);
+			db_set_dw(NULL, MenuNameItems, DBString, runtimepos);
 
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_name", menuItemName);
 			if (lstrcmp(iod->name, iod->defname) != 0)
@@ -272,11 +272,11 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 			PD->defname = mir_tstrdup(GetMenuItemText(p));
 
 			mir_snprintf(buf, SIZEOF(buf), "%s_visible", menuItemName);
-			PD->show = DBGetContactSettingByte(NULL, MenuNameItems, buf, 1);
+			PD->show = db_get_b(NULL, MenuNameItems, buf, 1);
 
 			if (bReread) {
 				mir_snprintf(buf, SIZEOF(buf), "%s_pos", menuItemName);
-				PD->pos = DBGetContactSettingDword(NULL, MenuNameItems, buf, 1);
+				PD->pos = db_get_dw(NULL, MenuNameItems, buf, 1);
 			}
 			else PD->pos = (PD->pimi) ? PD->pimi->originalPosition : 0;
 
@@ -432,7 +432,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		dat = (struct OrderData*)mir_alloc(sizeof(struct OrderData));
 		SetWindowLongPtr( GetDlgItem(hwndDlg, IDC_MENUITEMS), GWLP_USERDATA, (LONG_PTR)dat);
 		dat->dragging = 0;
-		dat->iInitMenuValue = DBGetContactSettingByte(NULL, "CList", "MoveProtoMenus", TRUE);
+		dat->iInitMenuValue = db_get_b(NULL, "CList", "MoveProtoMenus", TRUE);
 		MyOldWindowProc = (WNDPROC)GetWindowLongPtr( GetDlgItem(hwndDlg, IDC_MENUITEMS), GWLP_WNDPROC);
 		SetWindowLongPtr( GetDlgItem(hwndDlg, IDC_MENUITEMS), GWLP_WNDPROC, (LONG_PTR)&LBTNDOWNProc);
 		{

@@ -392,7 +392,7 @@ static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const TCHAR *groupName,
 				ZeroMemory(&tvis.item, sizeof(tvis.item));
 				tvis.item.hItem = hItem;
 				tvis.item.mask = TVIF_HANDLE|TVIF_STATE;
-				tvis.item.state = tvis.item.stateMask = DBGetContactSettingByte(NULL, "FontServiceUI", treeItem->paramName, TVIS_EXPANDED);
+				tvis.item.state = tvis.item.stateMask = db_get_b(NULL, "FontServiceUI", treeItem->paramName, TVIS_EXPANDED);
 				TreeView_SetItem(hwndTree, &tvis.item);
 		}	}
 
@@ -570,7 +570,7 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 	mir_snprintf(str, SIZEOF(str), "%sSet", F.prefix);
 	DBWriteContactSettingByte(NULL, F.dbSettingsGroup, str, F.value.charset);
 	mir_snprintf(str, SIZEOF(str), "%sCol", F.prefix);
-	DBWriteContactSettingDword(NULL, F.dbSettingsGroup, str, F.value.colour);
+	db_set_dw(NULL, F.dbSettingsGroup, str, F.value.colour);
 	if (F.flags & FIDF_NOAS) {
 		mir_snprintf(str, SIZEOF(str), "%sAs", F.prefix);
 		DBWriteContactSettingWord(NULL, F.dbSettingsGroup, str, (WORD)0x00FF);
@@ -1197,7 +1197,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				ColourInternal& C = colour_id_list_w2[i];
 
 				mir_snprintf(str, SIZEOF(str), "%s", C.setting);
-				DBWriteContactSettingDword(NULL, C.dbSettingsGroup, str, C.value);
+				db_set_dw(NULL, C.dbSettingsGroup, str, C.value);
 			}
 
 			for (i=0; i < effect_id_list_w2.getCount(); i++) {
@@ -1207,10 +1207,10 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				DBWriteContactSettingByte(NULL, E.dbSettingsGroup, str, E.value.effectIndex);
 
 				mir_snprintf(str, SIZEOF(str), "%sEffectCol1", E.setting);
-				DBWriteContactSettingDword(NULL, E.dbSettingsGroup, str, E.value.baseColour);
+				db_set_dw(NULL, E.dbSettingsGroup, str, E.value.baseColour);
 
 				mir_snprintf(str, SIZEOF(str), "%sEffectCol2", E.setting);
-				DBWriteContactSettingDword(NULL, E.dbSettingsGroup, str, E.value.secondaryColour);
+				db_set_dw(NULL, E.dbSettingsGroup, str, E.value.secondaryColour);
 			}
 
 			OptionsChanged();

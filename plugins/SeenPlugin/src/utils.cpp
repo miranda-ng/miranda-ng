@@ -763,7 +763,7 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 	if (isetting<ID_STATUS_OFFLINE) isetting = ID_STATUS_OFFLINE;
 	if ((isetting>ID_STATUS_OFFLINE)&&((WORD)ack->hProcess<=ID_STATUS_OFFLINE)) {
 		//we have just loged-in
-		db_dword_set(NULL, "UserOnline", ack->szModule, GetTickCount());
+		db_set_dw(NULL, "UserOnline", ack->szModule, GetTickCount());
 		if (IsWatchedProtocol(ack->szModule)) {
 			logthread_info *info;
 			info = (logthread_info *)malloc(sizeof(logthread_info));

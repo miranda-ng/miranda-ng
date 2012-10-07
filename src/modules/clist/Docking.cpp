@@ -150,8 +150,8 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		if (docked)
 		{
 			DBWriteContactSettingByte(NULL, "CList", "Docked", (BYTE) docked);
-			DBWriteContactSettingDword(NULL, "CList", "DockX", (DWORD) dockPos.x);
-			DBWriteContactSettingDword(NULL, "CList", "DockY", (DWORD) dockPos.y);
+			db_set_dw(NULL, "CList", "DockX", (DWORD) dockPos.x);
+			db_set_dw(NULL, "CList", "DockY", (DWORD) dockPos.y);
 		}
 		else
 		{
@@ -168,10 +168,10 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE:
 		draggingTitle = 0;
-		docked = DBGetContactSettingByte(NULL, "CLUI", "DockToSides", 1) ? 
-			(char) DBGetContactSettingByte(NULL, "CList", "Docked", 0) : 0;
-		dockPos.x = (int) DBGetContactSettingDword(NULL, "CList", "DockX", 0);
-		dockPos.y = (int) DBGetContactSettingDword(NULL, "CList", "DockY", 0);
+		docked = db_get_b(NULL, "CLUI", "DockToSides", 1) ? 
+			(char) db_get_b(NULL, "CList", "Docked", 0) : 0;
+		dockPos.x = (int) db_get_dw(NULL, "CList", "DockX", 0);
+		dockPos.y = (int) db_get_dw(NULL, "CList", "DockY", 0);
 		break;
 
 	case WM_ACTIVATE:
@@ -284,7 +284,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
 			if (((ptCursor.x < rcMonitor.left + EDGESENSITIVITY) || 
 				(ptCursor.x >= rcMonitor.right - EDGESENSITIVITY)) &&
-				DBGetContactSettingByte(NULL, "CLUI", "DockToSides", 1)) 
+				db_get_b(NULL, "CLUI", "DockToSides", 1)) 
 			{
 				docked = (ptCursor.x < rcMonitor.left + EDGESENSITIVITY) ? DOCKED_LEFT : DOCKED_RIGHT;
 				PostMessage(msg->hwnd, WM_LBUTTONUP, 0, MAKELPARAM(ptCursor.x, ptCursor.y));
@@ -350,8 +350,8 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 				PostMessage(msg->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(pt.x, pt.y));
 				SetWindowPos(msg->hwnd, 0, pt.x - rc.right / 2, 
 					pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2, 
-					DBGetContactSettingDword(NULL, "CList", "Width", 0), 
-					DBGetContactSettingDword(NULL, "CList", "Height", 0), 
+					db_get_dw(NULL, "CList", "Width", 0), 
+					db_get_dw(NULL, "CList", "Height", 0), 
 					SWP_NOZORDER);
 				Docking_Command(msg->hwnd, ABM_REMOVE);
 			}

@@ -335,7 +335,7 @@ static INT_PTR BuildContactMenu(WPARAM wParam, LPARAM)
 
 	BuildContactParam bcp;
 	bcp.szProto = szProto;
-	bcp.isOnList = (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) == 0);
+	bcp.isOnList = (db_get_b(hContact, "CList", "NotOnList", 0) == 0);
 	bcp.isOnline = (szProto != NULL && ID_STATUS_OFFLINE != DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE));
 
 	ListParam param = { 0 };
@@ -571,7 +571,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 				char *prot = smep->proto;
 				char szHumanName[64] = {0};
 				PROTOACCOUNT * acc = Proto_GetAccount(smep->proto);
-				int i = (DBGetContactSettingByte(NULL, prot, "LockMainStatus", 0)?0:1);
+				int i = (db_get_b(NULL, prot, "LockMainStatus", 0)?0:1);
 				DBWriteContactSettingByte(NULL, prot, "LockMainStatus", (BYTE)i);
 
 				CallProtoServiceInt(NULL,smep->proto, PS_GETNAME, (WPARAM)SIZEOF(szHumanName), (LPARAM)szHumanName);
@@ -824,7 +824,7 @@ void RebuildMenuOrder(void)
 	int i, j, s;
 	DWORD flags;
 	
-	BYTE bHideStatusMenu = DBGetContactSettingByte(NULL, "CLUI", "DontHideStatusMenu", 0); // cool perversion, though
+	BYTE bHideStatusMenu = db_get_b(NULL, "CLUI", "DontHideStatusMenu", 0); // cool perversion, though
 
 	//clear statusmenu
 	RecursiveDeleteMenu(hStatusMenu);
@@ -1253,7 +1253,7 @@ static INT_PTR HotkeySetStatus(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR AddProtoMenuItem(WPARAM wParam, LPARAM lParam)
 {
-	if (DBGetContactSettingByte(NULL, "CList", "MoveProtoMenus", TRUE))
+	if (db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
 		return AddStatusMenuItem(wParam, lParam);
 
 	return AddMainMenuItem(wParam, lParam);

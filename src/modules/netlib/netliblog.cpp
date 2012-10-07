@@ -87,7 +87,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		CheckDlgButton(hwndDlg, IDC_TOFILE, logOptions.toFile?BST_CHECKED:BST_UNCHECKED);
 		SetDlgItemText(hwndDlg, IDC_FILENAME, logOptions.szUserFile);
 		SetDlgItemText(hwndDlg, IDC_PATH, logOptions.szFile);
-		CheckDlgButton(hwndDlg, IDC_SHOWTHISDLGATSTART, DBGetContactSettingByte(NULL, "Netlib", "ShowLogOptsAtStart", 0)?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWTHISDLGATSTART, db_get_b(NULL, "Netlib", "ShowLogOptsAtStart", 0)?BST_CHECKED:BST_UNCHECKED);
 		{	DBVARIANT dbv;
 			if ( !DBGetContactSettingString(NULL, "Netlib", "RunAtStart", &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_RUNATSTART, dbv.pszVal);
@@ -247,13 +247,13 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 					if (tvi.lParam == -1) {
 						logOptions.toLog = checked;
 					if (logOptions.save)
-						DBWriteContactSettingDword(NULL, "Netlib", "NLlog", checked);
+						db_set_dw(NULL, "Netlib", "NLlog", checked);
 					}
 					else
 					if (tvi.lParam < netlibUser.getCount()) {
 						netlibUser[tvi.lParam]->toLog = checked;
 						if (logOptions.save)
-							DBWriteContactSettingDword(NULL, netlibUser[tvi.lParam]->user.szSettingsModule, "NLlog", checked);
+							db_set_dw(NULL, netlibUser[tvi.lParam]->user.szSettingsModule, "NLlog", checked);
 					}
 
 					tvi.hItem = TreeView_GetNextSibling(hwndFilter, tvi.hItem);
@@ -552,17 +552,17 @@ void NetlibLogInit(void)
 	hLogEvent = CreateHookableEvent(ME_NETLIB_FASTDUMP);
 
 	InitializeCriticalSection(&logOptions.cs);
-	logOptions.dumpRecv = DBGetContactSettingByte(NULL, "Netlib", "DumpRecv", 1);
-	logOptions.dumpSent = DBGetContactSettingByte(NULL, "Netlib", "DumpSent", 1);
-	logOptions.dumpProxy = DBGetContactSettingByte(NULL, "Netlib", "DumpProxy", 1);
-	logOptions.dumpSsl = DBGetContactSettingByte(NULL, "Netlib", "DumpSsl", 0);
-	logOptions.textDumps = DBGetContactSettingByte(NULL, "Netlib", "TextDumps", 1);
-	logOptions.autoDetectText = DBGetContactSettingByte(NULL, "Netlib", "AutoDetectText", 1);
-	logOptions.timeFormat = DBGetContactSettingByte(NULL, "Netlib", "TimeFormat", TIMEFORMAT_HHMMSS);
-	logOptions.showUser = DBGetContactSettingByte(NULL, "Netlib", "ShowUser", 1);
-	logOptions.toOutputDebugString = DBGetContactSettingByte(NULL, "Netlib", "ToOutputDebugString", 0);
-	logOptions.toFile = DBGetContactSettingByte(NULL, "Netlib", "ToFile", 0);
-	logOptions.toLog = DBGetContactSettingDword(NULL, "Netlib", "NLlog", 1);
+	logOptions.dumpRecv = db_get_b(NULL, "Netlib", "DumpRecv", 1);
+	logOptions.dumpSent = db_get_b(NULL, "Netlib", "DumpSent", 1);
+	logOptions.dumpProxy = db_get_b(NULL, "Netlib", "DumpProxy", 1);
+	logOptions.dumpSsl = db_get_b(NULL, "Netlib", "DumpSsl", 0);
+	logOptions.textDumps = db_get_b(NULL, "Netlib", "TextDumps", 1);
+	logOptions.autoDetectText = db_get_b(NULL, "Netlib", "AutoDetectText", 1);
+	logOptions.timeFormat = db_get_b(NULL, "Netlib", "TimeFormat", TIMEFORMAT_HHMMSS);
+	logOptions.showUser = db_get_b(NULL, "Netlib", "ShowUser", 1);
+	logOptions.toOutputDebugString = db_get_b(NULL, "Netlib", "ToOutputDebugString", 0);
+	logOptions.toFile = db_get_b(NULL, "Netlib", "ToFile", 0);
+	logOptions.toLog = db_get_dw(NULL, "Netlib", "NLlog", 1);
 
 	if ( !DBGetContactSettingTString(NULL, "Netlib", "File", &dbv)) {
 		logOptions.szUserFile = mir_tstrdup(dbv.ptszVal);
@@ -587,7 +587,7 @@ void NetlibLogInit(void)
 			fclose(fp);
 	}
 
-	if (DBGetContactSettingByte(NULL, "Netlib", "ShowLogOptsAtStart", 0))
+	if (db_get_b(NULL, "Netlib", "ShowLogOptsAtStart", 0))
 		NetlibLogShowOptions();
 
 	if ( !DBGetContactSettingTString(NULL, "Netlib", "RunAtStart", &dbv)) {

@@ -164,7 +164,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 		return 1;
 	lstrcpyn(name, dbv.ptszVal + 1, SIZEOF(name));
 	DBFreeVariant(&dbv);
-	if (DBGetContactSettingByte(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT))
+	if (db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT))
 	{
 		TCHAR szQuestion[256+100];
 		mir_sntprintf(szQuestion, SIZEOF(szQuestion), TranslateT("Are you sure you want to delete group '%s'?  This operation can not be undone."), name);

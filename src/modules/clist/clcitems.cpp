@@ -200,9 +200,9 @@ int fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 		group->cl.items[i]->flags |= CONTACTF_VISTO;
 	else if (apparentMode)
 		group->cl.items[i]->flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
-	if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+	if (db_get_b(hContact, "CList", "NotOnList", 0))
 		group->cl.items[i]->flags |= CONTACTF_NOTONLIST;
-	idleMode = szProto != NULL ? DBGetContactSettingDword(hContact, szProto, "IdleTS", 0) : 0;
+	idleMode = szProto != NULL ? db_get_dw(hContact, szProto, "IdleTS", 0) : 0;
 	if (idleMode)
 		group->cl.items[i]->flags |= CONTACTF_IDLE;
 	lstrcpyn(group->cl.items[i]->szText, cli.pfnGetContactDisplayName(hContact, 0), SIZEOF(group->cl.items[i]->szText));
@@ -365,7 +365,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 	DBVARIANT dbv;
 
 	dat->list.expanded = 1;
-	dat->list.hideOffline = DBGetContactSettingByte(NULL, "CLC", "HideOfflineRoot", 0) && style&CLS_USEGROUPS;
+	dat->list.hideOffline = db_get_b(NULL, "CLC", "HideOfflineRoot", 0) && style&CLS_USEGROUPS;
 	dat->list.cl.count = dat->list.cl.limit = 0;
 	dat->selection = -1;
 	{
@@ -383,7 +383,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 
 	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact) {
-		if (style & CLS_SHOWHIDDEN || !DBGetContactSettingByte(hContact, "CList", "Hidden", 0)) {
+		if (style & CLS_SHOWHIDDEN || !db_get_b(hContact, "CList", "Hidden", 0)) {
 			if (DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
 				group = &dat->list;
 			else {

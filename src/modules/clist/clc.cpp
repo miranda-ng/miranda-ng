@@ -482,7 +482,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			flags = contact->flags;
 		}
 		cli.pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
-		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !DBGetContactSettingByte((HANDLE) wParam, "CList", "Hidden", 0)) {
+		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b((HANDLE) wParam, "CList", "Hidden", 0)) {
 			NMCLISTCONTROL nm;
 			cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
 			if (cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
@@ -519,7 +519,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 		// this means an offline msg is flashing, so the contact should be shown
 		DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-		shouldShow = (style & CLS_SHOWHIDDEN || !DBGetContactSettingByte((HANDLE) wParam, "CList", "Hidden", 0))
+		shouldShow = (style & CLS_SHOWHIDDEN || !db_get_b((HANDLE) wParam, "CList", "Hidden", 0))
 			&& ( !cli.pfnIsHiddenMode(dat, status) || CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam); 
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL)) {
 			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
@@ -638,7 +638,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		if (szProto == NULL)
 			break;
 		contact->flags &= ~CONTACTF_IDLE;
-		if (DBGetContactSettingDword((HANDLE) wParam, szProto, "IdleTS", 0)) {
+		if (db_get_dw((HANDLE) wParam, szProto, "IdleTS", 0)) {
 			contact->flags |= CONTACTF_IDLE;
 		}
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);

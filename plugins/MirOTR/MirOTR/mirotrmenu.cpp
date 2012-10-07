@@ -127,7 +127,7 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam,LPARAM)
 			}
 			CallService(MO_MODIFYMENUITEM, (WPARAM)hStatusInfoItem, (LPARAM)&mi);
 		} else if (pcpp->MenuItemHandle == hHTMLConvMenuItem) {
-			if (db_byte_get(hContact, MODULENAME, "HTMLConv", 0) )
+			if (db_get_b(hContact, MODULENAME, "HTMLConv", 0) )
 				mi.flags |= CMIM_FLAGS|CMIF_CHECKED;
 			else
 				mi.flags = CMIM_FLAGS|(mi.flags &~CMIF_CHECKED);

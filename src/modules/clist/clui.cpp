@@ -48,10 +48,10 @@ static CluiOpts cluiopt = {0};
 
 void fnLoadCluiGlobalOpts()
 {
-	cluiopt.showsbar = DBGetContactSettingByte(NULL, "CLUI", "ShowSBar", 1);
-	cluiopt.showgrip = DBGetContactSettingByte(NULL, "CLUI", "ShowGrip", 1);
-	cluiopt.transparent = DBGetContactSettingByte(NULL, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT);
-	cluiopt.alpha = DBGetContactSettingByte(NULL, "CList", "Alpha", SETTING_ALPHA_DEFAULT);
+	cluiopt.showsbar = db_get_b(NULL, "CLUI", "ShowSBar", 1);
+	cluiopt.showgrip = db_get_b(NULL, "CLUI", "ShowGrip", 1);
+	cluiopt.transparent = db_get_b(NULL, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT);
+	cluiopt.alpha = db_get_b(NULL, "CList", "Alpha", SETTING_ALPHA_DEFAULT);
 }
 
 static int CluiModulesLoaded(WPARAM, LPARAM)
@@ -178,7 +178,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 	//see notes about deleting contacts on PF1_SERVERCLIST servers in m_protosvc.h
 	UINT_PTR action;
 
-	if (DBGetContactSettingByte(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT) &&
+	if (db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT) &&
 		!(GetKeyState(VK_SHIFT)&0x8000))
 		// Ask user for confirmation, and if the contact should be archived (hidden, not deleted)
 		action = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), (HWND) lParam, AskForConfirmationDlgProc, wParam);
@@ -290,7 +290,7 @@ int LoadCLUIModule(void)
 	RegisterClassEx(&wndclass);
 
 	wndclass.style = CS_HREDRAW | CS_VREDRAW | ((IsWinVerXPPlus() &&
-		DBGetContactSettingByte(NULL, "CList", "WindowShadow", 0) == 1) ? CS_DROPSHADOW : 0);
+		db_get_b(NULL, "CList", "WindowShadow", 0) == 1) ? CS_DROPSHADOW : 0);
 	wndclass.lpfnWndProc = ContactListWndProc;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
@@ -311,24 +311,24 @@ int LoadCLUIModule(void)
 	}
 
 	RECT pos;
-	pos.left = (int) DBGetContactSettingDword(NULL, "CList", "x", 700);
-	pos.top = (int) DBGetContactSettingDword(NULL, "CList", "y", 221);
-	pos.right = pos.left + (int) DBGetContactSettingDword(NULL, "CList", "Width", 108);
-	pos.bottom = pos.top + (int) DBGetContactSettingDword(NULL, "CList", "Height", 310);
+	pos.left = (int) db_get_dw(NULL, "CList", "x", 700);
+	pos.top = (int) db_get_dw(NULL, "CList", "y", 221);
+	pos.right = pos.left + (int) db_get_dw(NULL, "CList", "Width", 108);
+	pos.bottom = pos.top + (int) db_get_dw(NULL, "CList", "Height", 310);
 
 	Utils_AssertInsideScreen(&pos);
 
 	cli.hwndContactList = CreateWindowEx(
-		(DBGetContactSettingByte(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ? WS_EX_TOOLWINDOW : WS_EX_APPWINDOW),
+		(db_get_b(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ? WS_EX_TOOLWINDOW : WS_EX_APPWINDOW),
 		_T(MIRANDACLASS),
 		titleText,
 		WS_POPUPWINDOW | WS_THICKFRAME | WS_CLIPCHILDREN |
-		(DBGetContactSettingByte(NULL, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT) ?  WS_CAPTION | WS_SYSMENU |
-			(DBGetContactSettingByte(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT) ? 0 : WS_MINIMIZEBOX) : 0),
+		(db_get_b(NULL, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT) ?  WS_CAPTION | WS_SYSMENU |
+			(db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT) ? 0 : WS_MINIMIZEBOX) : 0),
 		pos.left, pos.top, pos.right - pos.left, pos.bottom - pos.top,
 		NULL, NULL, cli.hInst, NULL);
 
-	if (DBGetContactSettingByte(NULL, "CList", "OnDesktop", 0)) {
+	if (db_get_b(NULL, "CList", "OnDesktop", 0)) {
 		HWND hProgMan = FindWindow(_T("Progman"), NULL);
 		if (IsWindow(hProgMan))
 			SetParent(cli.hwndContactList, hProgMan);
@@ -339,16 +339,16 @@ int LoadCLUIModule(void)
 	PostMessage(cli.hwndContactList, M_RESTORESTATUS, 0, 0);
 
 	{
-		int state = DBGetContactSettingByte(NULL, "CList", "State", SETTING_STATE_NORMAL);
+		int state = db_get_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
 		cli.hMenuMain = GetMenu(cli.hwndContactList);
-		if ( !DBGetContactSettingByte(NULL, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
+		if ( !db_get_b(NULL, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
 			SetMenu(cli.hwndContactList, NULL);
 		if (state == SETTING_STATE_NORMAL)
 			ShowWindow(cli.hwndContactList, SW_SHOW);
 		else if (state == SETTING_STATE_MINIMIZED)
 			ShowWindow(cli.hwndContactList, SW_SHOWMINIMIZED);
 		SetWindowPos(cli.hwndContactList,
-			DBGetContactSettingByte(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST,
+			db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST,
 			0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 	}
 	{
@@ -527,9 +527,9 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		cli.hwndContactTree = CreateWindow(CLISTCONTROL_CLASS, _T(""),
 			WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN
 			| CLS_CONTACTLIST
-			| (DBGetContactSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
-			| (DBGetContactSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
-			| (DBGetContactSettingByte(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ?
+			| (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
+			| (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
+			| (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ?
 					CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 		SendMessage(hwnd, WM_SIZE, 0, 0);
 		break;
@@ -584,7 +584,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		if (wParam == SIZE_MINIMIZED)
 		{
 			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)  || 
-				DBGetContactSettingByte(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT))
+				db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT))
 			{
 				ShowWindow(hwnd, SW_HIDE);
 				DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_HIDDEN);
@@ -592,7 +592,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			else
 				DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
 
-			if (MySetProcessWorkingSetSize != NULL && DBGetContactSettingByte(NULL, "CList", "DisableWorkingSet", 1))
+			if (MySetProcessWorkingSetSize != NULL && db_get_b(NULL, "CList", "DisableWorkingSet", 1))
 				MySetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 		}
 		// drop thru
@@ -602,11 +602,11 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			GetWindowRect(hwnd, &rc);
 
 			if ( !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {     //if docked, dont remember pos (except for width)
-				DBWriteContactSettingDword(NULL, "CList", "Height", (DWORD) (rc.bottom - rc.top));
-				DBWriteContactSettingDword(NULL, "CList", "x", (DWORD) rc.left);
-				DBWriteContactSettingDword(NULL, "CList", "y", (DWORD) rc.top);
+				db_set_dw(NULL, "CList", "Height", (DWORD) (rc.bottom - rc.top));
+				db_set_dw(NULL, "CList", "x", (DWORD) rc.left);
+				db_set_dw(NULL, "CList", "y", (DWORD) rc.top);
 			}
-			DBWriteContactSettingDword(NULL, "CList", "Width", (DWORD) (rc.right - rc.left));
+			db_set_dw(NULL, "CList", "Width", (DWORD) (rc.right - rc.left));
 		}
 		return FALSE;
 
@@ -647,7 +647,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		result = DefWindowProc(hwnd, WM_NCHITTEST, wParam, lParam);
 		if (result == HTSIZE || result == HTTOP || result == HTTOPLEFT || result == HTTOPRIGHT  || 
 			result == HTBOTTOM || result == HTBOTTOMRIGHT || result == HTBOTTOMLEFT)
-			if (DBGetContactSettingByte(NULL, "CLUI", "AutoSize", 0))
+			if (db_get_b(NULL, "CLUI", "AutoSize", 0))
 				return HTCLIENT;
 		return result;
 	}
@@ -673,7 +673,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (transparentFocus)
 					setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) cluiopt.alpha, LWA_ALPHA);
 				else
-					setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) DBGetContactSettingByte(NULL, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
+					setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) db_get_b(NULL, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
 			}
 			if ( !transparentFocus)
 				KillTimer(hwnd, TM_AUTOALPHA);
@@ -687,7 +687,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			break;
 		if (noRecurse)
 			break;
-		if ( !DBGetContactSettingByte(NULL, "CLUI", "FadeInOut", 0) || !IsWinVer2000Plus())
+		if ( !db_get_b(NULL, "CLUI", "FadeInOut", 0) || !IsWinVer2000Plus())
 			break;
 		if (GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_LAYERED) {
 			DWORD thisTick, startTick;
@@ -739,12 +739,12 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		case SC_MINIMIZE:
 		case SC_CLOSE:
 			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)  || 
-				DBGetContactSettingByte(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT))
+				db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT))
 			{
 				ShowWindow(hwnd, SW_HIDE);
 				DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 
-				if (MySetProcessWorkingSetSize != NULL && DBGetContactSettingByte(NULL, "CList", "DisableWorkingSet", 1))
+				if (MySetProcessWorkingSetSize != NULL && db_get_b(NULL, "CList", "DisableWorkingSet", 1))
 					MySetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 
 				return 0;
@@ -872,11 +872,11 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					RECT rcWindow, rcTree, rcWorkArea;
 					int maxHeight, newHeight;
 
-					if ( !DBGetContactSettingByte(NULL, "CLUI", "AutoSize", 0))
+					if ( !db_get_b(NULL, "CLUI", "AutoSize", 0))
 						break;
 					if (CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0))
 						break;
-					maxHeight = DBGetContactSettingByte(NULL, "CLUI", "MaxSizeHeight", 75);
+					maxHeight = db_get_b(NULL, "CLUI", "MaxSizeHeight", 75);
 					GetWindowRect(hwnd, &rcWindow);
 					GetWindowRect(cli.hwndContactTree, &rcTree);
 
@@ -893,7 +893,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					newHeight = max(nmc->pt.y, 9) + 1 + (rcWindow.bottom - rcWindow.top) - (rcTree.bottom - rcTree.top);
 					if (newHeight > (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100)
 						newHeight = (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100;
-					if (DBGetContactSettingByte(NULL, "CLUI", "AutoSizeUpward", 0)) {
+					if (db_get_b(NULL, "CLUI", "AutoSizeUpward", 0)) {
 						rcWindow.top = rcWindow.bottom - newHeight;
 						if (rcWindow.top < rcWorkArea.top)
 							rcWindow.top = rcWorkArea.top;
@@ -916,7 +916,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 						break;
 					if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
 						break;
-					if (DBGetContactSettingByte(NULL, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+					if (db_get_b(NULL, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
 						POINT pt;
 						pt = nm->pt;
 						ClientToScreen(cli.hwndContactTree, &pt);
@@ -1002,7 +1002,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				hMenu = GetSubMenu(LoadMenu(cli.hInst, MAKEINTRESOURCE(IDR_CONTEXT)), 1);
 				TranslateMenu(hMenu);
 				CheckMenuItem(hMenu, POPUP_HIDEOFFLINE,
-					DBGetContactSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? MF_CHECKED : MF_UNCHECKED);
+					db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? MF_CHECKED : MF_UNCHECKED);
 				CheckMenuItem(hMenu, POPUP_HIDEOFFLINEROOT, SendMessage(cli.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0) ? MF_CHECKED : MF_UNCHECKED);
 				CheckMenuItem(hMenu, POPUP_HIDEEMPTYGROUPS,
 					GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS ? MF_CHECKED : MF_UNCHECKED);
@@ -1014,7 +1014,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			GetWindowRect(cli.hwndStatus, &rc);
 			if (PtInRect(&rc, pt)) {
 				HMENU hMenu;
-				if (DBGetContactSettingByte(NULL, "CLUI", "SBarRightClk", 0))
+				if (db_get_b(NULL, "CLUI", "SBarRightClk", 0))
 					hMenu = (HMENU) CallService(MS_CLIST_MENUGETMAIN, 0, 0);
 				else
 					hMenu = (HMENU) CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
@@ -1038,7 +1038,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (szProto == NULL) return 0;
 				int status, x;
 				SIZE textSize;
-				BYTE showOpts = DBGetContactSettingByte(NULL, "CLUI", "SBarShow", 1);
+				BYTE showOpts = db_get_b(NULL, "CLUI", "SBarShow", 1);
 				status = CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0);
 				SetBkMode(dis->hDC, TRANSPARENT);
 				x = dis->rcItem.left;
@@ -1102,11 +1102,11 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			GetWindowRect(hwnd, &rc);
 
 			if ( !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {     //if docked, dont remember pos (except for width)
-				DBWriteContactSettingDword(NULL, "CList", "Height", (DWORD) (rc.bottom - rc.top));
-				DBWriteContactSettingDword(NULL, "CList", "x", (DWORD) rc.left);
-				DBWriteContactSettingDword(NULL, "CList", "y", (DWORD) rc.top);
+				db_set_dw(NULL, "CList", "Height", (DWORD) (rc.bottom - rc.top));
+				db_set_dw(NULL, "CList", "x", (DWORD) rc.left);
+				db_set_dw(NULL, "CList", "y", (DWORD) rc.top);
 			}
-			DBWriteContactSettingDword(NULL, "CList", "Width", (DWORD) (rc.right - rc.left));
+			db_set_dw(NULL, "CList", "Width", (DWORD) (rc.right - rc.left));
 		}
 
 		RemoveMenu(cli.hMenuMain, 0, MF_BYPOSITION);

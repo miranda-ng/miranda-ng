@@ -101,16 +101,16 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 					mir_free(lvc.pszText);
 		}
 		mir_snprintf(szSetting, SIZEOF(szSetting), "ColOrder%d", i);
-		columnOrder[i] = DBGetContactSettingByte(NULL, "FindAdd", szSetting, -1);
+		columnOrder[i] = db_get_b(NULL, "FindAdd", szSetting, -1);
 		if (columnOrder[i] == -1 || columnOrder[i] >= NUM_COLUMNID) colOrdersValid = false;
 	}
 
 	if (colOrdersValid)
 		ListView_SetColumnOrderArray(hwndResults, columnCount, columnOrder);
 
-	dat->iLastColumnSortIndex = DBGetContactSettingByte(NULL, "FindAdd", "SortColumn", COLUMNID_NICK);
+	dat->iLastColumnSortIndex = db_get_b(NULL, "FindAdd", "SortColumn", COLUMNID_NICK);
 	if (dat->iLastColumnSortIndex >= columnCount) dat->iLastColumnSortIndex = COLUMNID_NICK;
-	dat->bSortAscending = DBGetContactSettingByte(NULL, "FindAdd", "SortAscending", TRUE);
+	dat->bSortAscending = db_get_b(NULL, "FindAdd", "SortAscending", TRUE);
 
 	hdi.mask = HDI_BITMAP | HDI_FORMAT;
 	hdi.fmt = HDF_LEFT | HDF_BITMAP | HDF_STRING | HDF_BITMAP_ON_RIGHT;

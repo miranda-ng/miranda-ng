@@ -46,7 +46,7 @@ int SVC_IconPressed(WPARAM wParam, LPARAM lParam) {
 		/*
 		HMENU hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 		CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hMenu, 0);
-		TrustLevel level = (TrustLevel) db_dword_get(hContact, MODULENAME, "TrustLevel", TRUST_NOT_PRIVATE);
+		TrustLevel level = (TrustLevel) db_get_dw(hContact, MODULENAME, "TrustLevel", TRUST_NOT_PRIVATE);
 		MENUITEMINFO minfo = {0};
 		minfo.cbSize = sizeof(MENUITEMINFO);
 		minfo.fMask = MIIM_STRING|MIIM_STATE|MIIM_BITMAP;
@@ -195,7 +195,7 @@ void SetEncryptionStatus(HANDLE hContact, TrustLevel level) {
 			CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid2);
 		}
 		if (options.bHaveButtonsBar) CallService(MS_BB_SETBUTTONSTATE, (WPARAM)hContact, (LPARAM)&button);
-		db_dword_set(hContact, MODULENAME, "TrustLevel", level);
+		db_set_dw(hContact, MODULENAME, "TrustLevel", level);
 
 		if (!chat_room && options.bHaveMetaContacts) {
 			HANDLE hMeta = (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);

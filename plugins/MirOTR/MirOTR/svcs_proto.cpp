@@ -51,7 +51,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 
 	char *tmpencode = NULL;
 	ConnContext *context = otrl_context_find_miranda(otr_user_state, (void*)ccs->hContact);
-	if (db_byte_get(ccs->hContact, MODULENAME, "HTMLConv", 0) && otr_context_get_trust(context) >= TRUST_UNVERIFIED) {
+	if (db_get_b(ccs->hContact, MODULENAME, "HTMLConv", 0) && otr_context_get_trust(context) >= TRUST_UNVERIFIED) {
 		char *tmpencode = encode_html_entities_utf8(oldmessage_utf);
 		if (tmpencode != NULL) {
 			if (!(ccs->wParam & PREF_UTF)) mir_free(oldmessage_utf);
@@ -344,7 +344,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam){
 						TrustLevel level = otr_context_get_trust(context);
 						if (level >= TRUST_UNVERIFIED) {
 							char* premsg;
-							if (db_byte_get(ccs->hContact, MODULENAME, "HTMLConv", 0)) {
+							if (db_get_b(ccs->hContact, MODULENAME, "HTMLConv", 0)) {
 								premsg = striphtml(newmessage);
 								otrl_message_free(newmessage);
 								newmessage = premsg;

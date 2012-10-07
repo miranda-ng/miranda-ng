@@ -240,7 +240,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			else strtimformat = dbLastUC_DateTimeFormatDefault;
 
 			for(curContact = DlgDat->Contacts->begin(); curContact != DlgDat->Contacts->end(); curContact++) {
-				if (curContact->second != NULL && db_byte_get(curContact->second, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0 ) {
+				if (curContact->second != NULL && db_get_b(curContact->second, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0 ) {
 					TCHAR *cname = ( TCHAR* )CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)curContact->second, GCDNF_TCHAR);
 					if ( cname == NULL )
 						continue;
@@ -389,10 +389,10 @@ INT_PTR OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
 	{
 //		if (IsMessageAPI)
 		{
-			curTime = ((__time64_t)db_dword_get(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeLo, -1)) |
-				(((__time64_t)db_dword_get(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeHi, -1)) << 32);
+			curTime = ((__time64_t)db_get_dw(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeLo, -1)) |
+				(((__time64_t)db_get_dw(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeHi, -1)) << 32);
 			//use TabSRMM last used time.  ! NOT used, because bug: TabSRMM reset last used time to time when miranda started at miranda start!
-			//t = ((DWORD)db_dword_get(curContact, "Tab_SRMsg", "isRecent", -1));
+			//t = ((DWORD)db_get_dw(curContact, "Tab_SRMsg", "isRecent", -1));
 			//if (t != -1)
 			//{
 			//	if (curTime == -1 || (__time64_t)t > curTime)
@@ -481,8 +481,8 @@ int Create_MenuitemShowList(void)
 BOOL SaveLastUsedTimeStamp(HANDLE hContact)
 {
 	__time64_t ct = _time64(NULL);
-	db_dword_set(hContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeLo, (DWORD)ct);
-	db_dword_set(hContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeHi, (DWORD)(ct >> 32));
+	db_set_dw(hContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeLo, (DWORD)ct);
+	db_set_dw(hContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeHi, (DWORD)(ct >> 32));
 	return TRUE;
 }
 

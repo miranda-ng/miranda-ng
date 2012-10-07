@@ -850,15 +850,6 @@ Disables a setting saving to the database.
 
 #ifndef DB_NOHELPERFUNCTIONS
 
-#define db_byte_get(a, b, c, d)                   db_get_b(a, b, c, d)
-#define db_word_get(a, b, c, d)                   db_get_w(a, b, c, d)
-#define db_dword_get(a, b, c, d)                  db_get_dw(a, b, c, d)
-
-#define db_byte_set(a, b, c, d)                   db_set_b(a, b, c, d)
-#define db_word_set(a, b, c, d)                   db_set_w(a, b, c, d)
-#define db_dword_set(a, b, c, d)                  db_set_dw(a, b, c, d)
-#define db_string_set(a, b, c, d)                 db_set_s(a, b, c, d)
-
 /* Deprecated & bizarre aliases */
 #define DBGetContactSettingByte                   db_get_b
 #define DBGetContactSettingWord                   db_get_w

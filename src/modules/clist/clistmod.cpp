@@ -150,7 +150,7 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 			while (hContact) {
 				char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 				if (szProto != NULL && !strcmp(szProto, ack->szModule))
-					if (DBGetContactSettingByte(hContact, "CList", "Delete", 0))
+					if (db_get_b(hContact, "CList", "Delete", 0))
 						CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
 				hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
 			}
@@ -379,7 +379,7 @@ int fnShowHide(WPARAM, LPARAM)
 	switch (iVisibleState) {
 	case GWVS_PARTIALLY_COVERED:
 		//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
-		if ( !DBGetContactSettingByte(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
+		if ( !db_get_b(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
 			break;
 	case GWVS_COVERED:     //Fall through (and we're already falling)
 	case GWVS_HIDDEN:
@@ -396,7 +396,7 @@ int fnShowHide(WPARAM, LPARAM)
 		RECT rcWindow;
 
 		ShowWindow(cli.hwndContactList, SW_RESTORE);
-		if ( !DBGetContactSettingByte(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
+		if ( !db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
 			SetWindowPos(cli.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 		else
 			SetWindowPos(cli.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -412,8 +412,8 @@ int fnShowHide(WPARAM, LPARAM)
 		}
 	}
 	else {                      //It needs to be hidden
-		if (DBGetContactSettingByte(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) || 
-			DBGetContactSettingByte(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
+		if (db_get_b(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) || 
+			db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
 			ShowWindow(cli.hwndContactList, SW_HIDE);
 			DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 		}
@@ -422,7 +422,7 @@ int fnShowHide(WPARAM, LPARAM)
 			DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
 		}
 
-		if (MySetProcessWorkingSetSize != NULL && DBGetContactSettingByte(NULL, "CList", "DisableWorkingSet", 1))
+		if (MySetProcessWorkingSetSize != NULL && db_get_b(NULL, "CList", "DisableWorkingSet", 1))
 			MySetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
 	return 0;
@@ -555,7 +555,7 @@ void UnloadContactListModule()
 	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact != NULL) {
 		HANDLE hNext = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
-		if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+		if (db_get_b(hContact, "CList", "NotOnList", 0))
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
 		hContact = hNext;
 	}

@@ -547,7 +547,7 @@ void TwitterProto::SendTweetWorker(void *p)
 
 void TwitterProto::UpdateSettings()
 {
-	if(db_byte_get(0,m_szModuleName,TWITTER_KEY_CHATFEED,0))
+	if(db_get_b(0,m_szModuleName,TWITTER_KEY_CHATFEED,0))
 	{
 		if(!in_chat_)
 			OnJoinChat(0,0);
@@ -564,7 +564,7 @@ void TwitterProto::UpdateSettings()
 			if(!IsMyContact(hContact,true))
 				continue;
 
-			if(db_byte_get(hContact,m_szModuleName,"ChatRoom",0))
+			if(db_get_b(hContact,m_szModuleName,"ChatRoom",0))
 				CallService(MS_DB_CONTACT_DELETE,reinterpret_cast<WPARAM>(hContact),0);
 		}
 	}

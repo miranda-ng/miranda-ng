@@ -194,7 +194,7 @@ static HANDLE timeapiGetInfoByContact(HANDLE hContact, DWORD dwFlags)
 		if (res) return res;
 	}
 
-	signed char timezone = (signed char)DBGetContactSettingByte(hContact, "UserInfo", "Timezone", -1);
+	signed char timezone = (signed char)db_get_b(hContact, "UserInfo", "Timezone", -1);
 	if (timezone == -1)
 	{
 		char* szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
@@ -204,7 +204,7 @@ static HANDLE timeapiGetInfoByContact(HANDLE hContact, DWORD dwFlags)
 			DBFreeVariant(&dbv);
 			if (res) return res;
 		}
-		timezone = (signed char)DBGetContactSettingByte(hContact, szProto, "Timezone", -1);
+		timezone = (signed char)db_get_b(hContact, szProto, "Timezone", -1);
 	}
 
 	if (timezone != -1)

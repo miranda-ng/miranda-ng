@@ -726,7 +726,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 							tvis.item.pszText = pItemName;
 							tvis.item.lParam = (LPARAM) treeItem;
 
-							tvis.item.state = tvis.item.stateMask = DBGetContactSettingByte(NULL, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
+							tvis.item.state = tvis.item.stateMask = db_get_b(NULL, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
 							hItem = TreeView_InsertItem(hwndTree, &tvis);
 						}
 						else {

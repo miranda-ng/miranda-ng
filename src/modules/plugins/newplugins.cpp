@@ -480,7 +480,7 @@ void SetPluginOnWhiteList(const TCHAR* pluginname, int allow)
 int isPluginOnWhiteList(const TCHAR* pluginname)
 {
 	char* pluginnameA = _strlwr(mir_t2a(pluginname));
-	int rc = DBGetContactSettingByte(NULL, PLUGINDISABLELIST, pluginnameA, 0);
+	int rc = db_get_b(NULL, PLUGINDISABLELIST, pluginnameA, 0);
 	mir_free(pluginnameA);
 	if (rc != 0 && askAboutIgnoredPlugins) {
 		TCHAR buf[256];

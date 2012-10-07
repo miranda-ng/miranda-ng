@@ -74,7 +74,7 @@ void fnCheckCacheItem(ClcCacheEntryBase* p)
 	}
 
 	if (p->bIsHidden == -1)
-		p->bIsHidden = DBGetContactSettingByte(p->hContact, "CList", "Hidden", 0);
+		p->bIsHidden = db_get_b(p->hContact, "CList", "Hidden", 0);
 }
 
 void fnFreeCacheItem(ClcCacheEntryBase* p)
@@ -241,8 +241,8 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 					CallService(MS_CLUI_CONTACTRENAMED, wParam, 0);
 				}
 			else if ( !strcmp(cws->szSetting, "Status")) {
-				if ( !DBGetContactSettingByte(hContact, "CList", "Hidden", 0)) {
-					if (DBGetContactSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)) {
+				if ( !db_get_b(hContact, "CList", "Hidden", 0)) {
+					if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)) {
 						// User's state is changing, and we are hideOffline-ing
 						if (cws->value.wVal == ID_STATUS_OFFLINE) {
 							cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0);

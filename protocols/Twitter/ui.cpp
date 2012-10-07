@@ -440,14 +440,14 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 		proto = reinterpret_cast<TwitterProto*>(lParam);
 
 		CheckAndUpdateDlgButton(hwndDlg,IDC_SHOWPOPUPS,
-			db_byte_get(0,proto->ModuleName(),TWITTER_KEY_POPUP_SHOW,0));
+			db_get_b(0,proto->ModuleName(),TWITTER_KEY_POPUP_SHOW,0));
 		CheckDlgButton(hwndDlg,IDC_NOSIGNONPOPUPS,
-			!db_byte_get(0,proto->ModuleName(),TWITTER_KEY_POPUP_SIGNON,0));
+			!db_get_b(0,proto->ModuleName(),TWITTER_KEY_POPUP_SIGNON,0));
 
 
 		// ***** Get color information
-		back_color = db_dword_get(0,proto->ModuleName(),TWITTER_KEY_POPUP_COLBACK,0);
-		text_color = db_dword_get(0,proto->ModuleName(),TWITTER_KEY_POPUP_COLTEXT,0);
+		back_color = db_get_dw(0,proto->ModuleName(),TWITTER_KEY_POPUP_COLBACK,0);
+		text_color = db_get_dw(0,proto->ModuleName(),TWITTER_KEY_POPUP_COLTEXT,0);
 
 		SendDlgItemMessage(hwndDlg,IDC_COLBACK,CPM_SETCOLOUR,0,RGB(255,255,255));
 		SendDlgItemMessage(hwndDlg,IDC_COLTEXT,CPM_SETCOLOUR,0,RGB(  0,  0,  0));
@@ -464,7 +464,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 		}
 
 		// ***** Get timeout information
-		timeout = db_dword_get(0,proto->ModuleName(),TWITTER_KEY_POPUP_TIMEOUT,0);
+		timeout = db_get_dw(0,proto->ModuleName(),TWITTER_KEY_POPUP_TIMEOUT,0);
 		SetDlgItemTextA(hwndDlg,IDC_TIMEOUT,"5");
 		
 		if(timeout == 0)

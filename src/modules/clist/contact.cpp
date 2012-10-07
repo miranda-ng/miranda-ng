@@ -78,16 +78,16 @@ void fnLoadContactTree(void)
 		CallService(MS_CLUI_GROUPADDED, i, 0);
 	}
 
-	hideOffline = DBGetContactSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	hideOffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact != NULL) {
 		status = GetContactStatus(hContact);
-		if (( !hideOffline || status != ID_STATUS_OFFLINE) && !DBGetContactSettingByte(hContact, "CList", "Hidden", 0))
+		if (( !hideOffline || status != ID_STATUS_OFFLINE) && !db_get_b(hContact, "CList", "Hidden", 0))
 			cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode((char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0), status, hContact), 1);
 		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
 	}
-	sortByStatus = DBGetContactSettingByte(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
-	sortByProto = DBGetContactSettingByte(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
+	sortByStatus = db_get_b(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
+	sortByProto = db_get_b(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
 	CallService(MS_CLUI_SORTLIST, 0, 0);
 	CallService(MS_CLUI_LISTENDREBUILD, 0, 0);
 }
@@ -148,8 +148,8 @@ static VOID CALLBACK SortContactsTimer(HWND, UINT, UINT_PTR, DWORD)
 void fnSortContacts(void)
 {
 	//avoid doing lots of resorts in quick succession
-	sortByStatus = DBGetContactSettingByte(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
-	sortByProto = DBGetContactSettingByte(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
+	sortByStatus = db_get_b(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
+	sortByProto = db_get_b(NULL, "CList", "SortByProto", SETTING_SORTBYPROTO_DEFAULT);
 	if (resortTimerId)
 		KillTimer(NULL, resortTimerId);
 	// setting this to a higher delay causes shutdown waits.
@@ -185,7 +185,7 @@ int fnSetHideOffline(WPARAM wParam, LPARAM)
 		break;
 	case -1:
 		DBWriteContactSettingByte(NULL, "CList", "HideOffline", 
-			(BYTE) ! DBGetContactSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
+			(BYTE) ! db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
 		break;
 	}
 	cli.pfnLoadContactTree();

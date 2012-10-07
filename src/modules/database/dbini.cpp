@@ -317,7 +317,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 			break;
 		case 'd':
 		case 'D':
-			DBWriteContactSettingDword(NULL, szSection, szName, (DWORD)strtoul(szValue+1, NULL, 0));
+			db_set_dw(NULL, szSection, szName, (DWORD)strtoul(szValue+1, NULL, 0));
 			break;
 		case 'l':
 		case 'L':

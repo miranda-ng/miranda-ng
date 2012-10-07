@@ -795,7 +795,7 @@ void NetlibUPnPDeletePortMapping(WORD extport, char* proto)
 
 void NetlibUPnPCleanup(void*)
 {
-	if (DBGetContactSettingByte(NULL, "Netlib", "NLEnableUPnP", 1) == 0)
+	if (db_get_b(NULL, "Netlib", "NLEnableUPnP", 1) == 0)
 		// upnp is disabled globally, no need for a cleanup
 		return;
 

@@ -67,7 +67,7 @@ TCHAR *GetContactID(HANDLE hContact)
 {
 	TCHAR *theValue = {0};
 	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	if (DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0) == 1) {
+	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1) {
 		DBVARIANT dbv;
 		if ( !DBGetContactSettingTString(hContact, szProto, "ChatRoomID", &dbv)) {
 			theValue = (TCHAR *)mir_tstrdup(dbv.ptszVal);

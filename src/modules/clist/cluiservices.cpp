@@ -91,22 +91,22 @@ static INT_PTR ListEndRebuild(WPARAM, LPARAM)
 {
 	int rebuild = 0;
 	//CLC does this automatically, but we need to force it if hideoffline or hideempty has changed
-	if ((DBGetContactSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEOFFLINE) == 0)) {
-		if (DBGetContactSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
+	if ((db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEOFFLINE) == 0)) {
+		if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
 			SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) | CLS_HIDEOFFLINE);
 		else
 			SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & ~CLS_HIDEOFFLINE);
 		rebuild = 1;
 	}
-	if ((DBGetContactSettingByte(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) == 0)) {
-		if (DBGetContactSettingByte(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT))
+	if ((db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) == 0)) {
+		if (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT))
 			SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
 		else
 			SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
 		rebuild = 1;
 	}
-	if ((DBGetContactSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_USEGROUPS) == 0)) {
-		if (DBGetContactSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
+	if ((db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_USEGROUPS) == 0)) {
+		if (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
 			SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) | CLS_USEGROUPS);
 		else
 			SetWindowLongPtr(cli.hwndContactTree, GWL_STYLE, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & ~CLS_USEGROUPS);
@@ -166,17 +166,17 @@ void fnCluiProtocolStatusChanged(int, const char*)
 	SendMessage(cli.hwndStatus, SB_GETBORDERS, 0, (LPARAM)&borders);
 
 	partWidths = (int*)alloca(cli.menuProtoCount * sizeof(int));
-	if (DBGetContactSettingByte(NULL, "CLUI", "EqualSections", 0)) {
+	if (db_get_b(NULL, "CLUI", "EqualSections", 0)) {
 		RECT rc;
 		GetClientRect(cli.hwndStatus, &rc);
-		rc.right -= borders[0] * 2 + (DBGetContactSettingByte(NULL, "CLUI", "ShowGrip", 1) ? GetSystemMetrics(SM_CXVSCROLL) : 0);
+		rc.right -= borders[0] * 2 + (db_get_b(NULL, "CLUI", "ShowGrip", 1) ? GetSystemMetrics(SM_CXVSCROLL) : 0);
 		for (i=0; i < cli.menuProtoCount; i++)
 			partWidths[ i ] = (i+1) * rc.right / cli.menuProtoCount - (borders[2] >> 1);
 	}
 	else {
 		HDC hdc;
 		SIZE textSize;
-		BYTE showOpts = DBGetContactSettingByte(NULL, "CLUI", "SBarShow", 1);
+		BYTE showOpts = db_get_b(NULL, "CLUI", "SBarShow", 1);
 
 		hdc = GetDC(NULL);
 		SelectObject(hdc, (HFONT) SendMessage(cli.hwndStatus, WM_GETFONT, 0, 0));
@@ -213,7 +213,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 	SendMessage(cli.hwndStatus, SB_SETMINHEIGHT, g_IconHeight, 0);
 	SendMessage(cli.hwndStatus, SB_SETPARTS, cli.menuProtoCount, (LPARAM)partWidths);
 	flags = SBT_OWNERDRAW;
-	if (DBGetContactSettingByte(NULL, "CLUI", "SBarBevel", 1) == 0)
+	if (db_get_b(NULL, "CLUI", "SBarBevel", 1) == 0)
 		flags |= SBT_NOBORDERS;
 	for (i=0; i < cli.menuProtoCount; i++) {
 		SendMessage(cli.hwndStatus, SB_SETTEXT, i | flags, (LPARAM)cli.menuProtos[i].szProto);

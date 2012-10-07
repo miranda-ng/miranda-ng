@@ -63,8 +63,8 @@ static int EnumDbModules(const char *szModuleName, DWORD ofsModuleName, LPARAM l
 void LoadDbAccounts(void)
 {
 	DBVARIANT dbv;
-	int ver = DBGetContactSettingDword(NULL, "Protocols", "PrVer", -1);
-	int count = DBGetContactSettingDword(NULL, "Protocols", "ProtoCount", 0), i;
+	int ver = db_get_dw(NULL, "Protocols", "PrVer", -1);
+	int count = db_get_dw(NULL, "Protocols", "ProtoCount", 0), i;
 
 	for (i=0; i < count; i++) {
 		char buf[10];
@@ -83,10 +83,10 @@ void LoadDbAccounts(void)
 		DBFreeVariant(&dbv);
 
 		_itoa(OFFSET_VISIBLE+i, buf, 10);
-		pa->bIsVisible = DBGetContactSettingDword(NULL, "Protocols", buf, 1);
+		pa->bIsVisible = db_get_dw(NULL, "Protocols", buf, 1);
 
 		_itoa(OFFSET_PROTOPOS+i, buf, 10);
-		pa->iOrder = DBGetContactSettingDword(NULL, "Protocols", buf, 1);
+		pa->iOrder = db_get_dw(NULL, "Protocols", buf, 1);
 
 		if (ver >= 4) {
 			DBFreeVariant(&dbv);
@@ -97,7 +97,7 @@ void LoadDbAccounts(void)
 			}
 
 			_itoa(OFFSET_ENABLED+i, buf, 10);
-			pa->bIsEnabled = DBGetContactSettingDword(NULL, "Protocols", buf, 1);
+			pa->bIsEnabled = db_get_dw(NULL, "Protocols", buf, 1);
 
 			if ( !DBGetContactSettingString(NULL, pa->szModuleName, "AM_BaseProto", &dbv)) {
 				pa->szProtoName = mir_strdup(dbv.pszVal);
@@ -178,21 +178,21 @@ void WriteDbAccounts()
 		DBWriteContactSettingString(NULL, "Protocols", buf, pa->szModuleName);
 
 		_itoa(OFFSET_PROTOPOS+i, buf, 10);
-		DBWriteContactSettingDword(NULL, "Protocols", buf, pa->iOrder);
+		db_set_dw(NULL, "Protocols", buf, pa->iOrder);
 
 		_itoa(OFFSET_VISIBLE+i, buf, 10);
-		DBWriteContactSettingDword(NULL, "Protocols", buf, pa->bIsVisible);
+		db_set_dw(NULL, "Protocols", buf, pa->bIsVisible);
 
 		_itoa(OFFSET_ENABLED+i, buf, 10);
-		DBWriteContactSettingDword(NULL, "Protocols", buf, pa->bIsEnabled);
+		db_set_dw(NULL, "Protocols", buf, pa->bIsEnabled);
 
 		_itoa(OFFSET_NAME+i, buf, 10);
 		DBWriteContactSettingTString(NULL, "Protocols", buf, pa->tszAccountName);
 	}
 
 	DBDeleteContactSetting(0, "Protocols", "ProtoCount");
-	DBWriteContactSettingDword(0, "Protocols", "ProtoCount", accounts.getCount());
-	DBWriteContactSettingDword(0, "Protocols", "PrVer", 4);
+	db_set_dw(0, "Protocols", "ProtoCount", accounts.getCount());
+	db_set_dw(0, "Protocols", "PrVer", 4);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -238,7 +238,7 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 
 	BuildProtoMenus();
 
-	if (count == 0 && !DBGetContactSettingByte(NULL, "FirstRun", "AccManager", 0)) {
+	if (count == 0 && !db_get_b(NULL, "FirstRun", "AccManager", 0)) {
 		DBWriteContactSettingByte(NULL, "FirstRun", "AccManager", 1);
 		CallService(MS_PROTO_SHOWACCMGR, 0, 0);
 	}

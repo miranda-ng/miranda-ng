@@ -114,10 +114,10 @@ INT_PTR SVC_VerifyOTR(WPARAM wParam, LPARAM lParam) {
 
 INT_PTR SVC_ToggleHTMLOTR(WPARAM wParam, LPARAM lParam) {
 	HANDLE hContact = (HANDLE)wParam;
-	if (db_byte_get(hContact, MODULENAME, "HTMLConv", 0))
-		db_byte_set(hContact, MODULENAME, "HTMLConv", 0);
+	if (db_get_b(hContact, MODULENAME, "HTMLConv", 0))
+		db_set_b(hContact, MODULENAME, "HTMLConv", 0);
 	else
-		db_byte_set(hContact, MODULENAME, "HTMLConv", 1);
+		db_set_b(hContact, MODULENAME, "HTMLConv", 1);
 
 	return 0;
 }

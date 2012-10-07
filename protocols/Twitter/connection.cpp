@@ -78,7 +78,7 @@ void TwitterProto::SignOn(void*)
 	}
 	if(NegotiateConnection()) // Could this be? The legendary Go Time??
 	{
-		if(!in_chat_ && db_byte_get(0,m_szModuleName,TWITTER_KEY_CHATFEED,0))
+		if(!in_chat_ && db_get_b(0,m_szModuleName,TWITTER_KEY_CHATFEED,0))
 			OnJoinChat(0,true);
 		
 		SetAllContactStatuses(ID_STATUS_ONLINE);
@@ -364,13 +364,13 @@ void TwitterProto::MessageLoop(void*)
 	since_id_    = db_pod_get<twitter_id>(0,m_szModuleName,TWITTER_KEY_SINCEID,0);
 	dm_since_id_ = db_pod_get<twitter_id>(0,m_szModuleName,TWITTER_KEY_DMSINCEID,0);
 
-	bool new_account = db_byte_get(0,m_szModuleName,TWITTER_KEY_NEW,1) != 0;
-	bool popups      = db_byte_get(0,m_szModuleName,TWITTER_KEY_POPUP_SIGNON,1) != 0;
+	bool new_account = db_get_b(0,m_szModuleName,TWITTER_KEY_NEW,1) != 0;
+	bool popups      = db_get_b(0,m_szModuleName,TWITTER_KEY_POPUP_SIGNON,1) != 0;
 
 	// if this isn't set, it will automatically not turn a tweet into a msg. probably should make the default that it does turn a tweet into a message
-	bool tweetToMsg  = db_byte_get(0,m_szModuleName,TWITTER_KEY_TWEET_TO_MSG,0) != 0;
+	bool tweetToMsg  = db_get_b(0,m_szModuleName,TWITTER_KEY_TWEET_TO_MSG,0) != 0;
 
-	int poll_rate = db_dword_get(0,m_szModuleName,TWITTER_KEY_POLLRATE,80);
+	int poll_rate = db_get_dw(0,m_szModuleName,TWITTER_KEY_POLLRATE,80);
 
 	for(unsigned int i=0;;i++)
 	{
@@ -483,7 +483,7 @@ void TwitterProto::UpdateAvatar(HANDLE hContact,const std::string &url,bool forc
 		{
 			PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai),hContact};
 			
-			db_string_set(hContact,m_szModuleName,TWITTER_KEY_AV_URL,url.c_str());
+			db_set_s(hContact,m_szModuleName,TWITTER_KEY_AV_URL,url.c_str());
 			ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AVATAR,
 				ACKRESULT_SUCCESS,&ai,0);
 		}
@@ -543,12 +543,12 @@ void TwitterProto::ShowContactPopup(HANDLE hContact,const std::string &text)
 
 	POPUPDATAT popup = {};
 	popup.lchContact = hContact;
-	popup.iSeconds = db_dword_get(0,m_szModuleName,TWITTER_KEY_POPUP_TIMEOUT,0);
+	popup.iSeconds = db_get_dw(0,m_szModuleName,TWITTER_KEY_POPUP_TIMEOUT,0);
 	
-	popup.colorBack = db_dword_get(0,m_szModuleName,TWITTER_KEY_POPUP_COLBACK,0);
+	popup.colorBack = db_get_dw(0,m_szModuleName,TWITTER_KEY_POPUP_COLBACK,0);
 	if(popup.colorBack == 0xFFFFFFFF)
 		popup.colorBack = GetSysColor(COLOR_WINDOW);
-	popup.colorText = db_dword_get(0,m_szModuleName,TWITTER_KEY_POPUP_COLTEXT,0);
+	popup.colorText = db_get_dw(0,m_szModuleName,TWITTER_KEY_POPUP_COLTEXT,0);
 	if(popup.colorBack == 0xFFFFFFFF)
 		popup.colorBack = GetSysColor(COLOR_WINDOWTEXT);
 

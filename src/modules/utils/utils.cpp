@@ -326,13 +326,13 @@ static INT_PTR SaveWindowPosition(WPARAM, LPARAM lParam)
 	wp.length = sizeof(wp);
 	GetWindowPlacement(swp->hwnd, &wp);
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", swp->szNamePrefix);
-	DBWriteContactSettingDword(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.left);
+	db_set_dw(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.left);
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", swp->szNamePrefix);
-	DBWriteContactSettingDword(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.top);
+	db_set_dw(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.top);
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", swp->szNamePrefix);
-	DBWriteContactSettingDword(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.right-wp.rcNormalPosition.left);
+	db_set_dw(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.right-wp.rcNormalPosition.left);
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sheight", swp->szNamePrefix);
-	DBWriteContactSettingDword(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.bottom-wp.rcNormalPosition.top);
+	db_set_dw(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.bottom-wp.rcNormalPosition.top);
 	return 0;
 }
 
@@ -386,9 +386,9 @@ static INT_PTR RestoreWindowPosition(WPARAM wParam, LPARAM lParam)
 	wp.length = sizeof(wp);
 	GetWindowPlacement(swp->hwnd, &wp);
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", swp->szNamePrefix);
-	x = DBGetContactSettingDword(swp->hContact, swp->szModule, szSettingName, -1);
+	x = db_get_dw(swp->hContact, swp->szModule, szSettingName, -1);
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", swp->szNamePrefix);
-	y = (int)DBGetContactSettingDword(swp->hContact, swp->szModule, szSettingName, -1);
+	y = (int)db_get_dw(swp->hContact, swp->szModule, szSettingName, -1);
 	if (x == -1) return 1;
 	if (wParam&RWPF_NOSIZE) {
 		OffsetRect(&wp.rcNormalPosition, x-wp.rcNormalPosition.left, y-wp.rcNormalPosition.top);
@@ -397,9 +397,9 @@ static INT_PTR RestoreWindowPosition(WPARAM wParam, LPARAM lParam)
 		wp.rcNormalPosition.left = x;
 		wp.rcNormalPosition.top = y;
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", swp->szNamePrefix);
-		wp.rcNormalPosition.right = wp.rcNormalPosition.left+DBGetContactSettingDword(swp->hContact, swp->szModule, szSettingName, -1);
+		wp.rcNormalPosition.right = wp.rcNormalPosition.left+db_get_dw(swp->hContact, swp->szModule, szSettingName, -1);
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sheight", swp->szNamePrefix);
-		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top+DBGetContactSettingDword(swp->hContact, swp->szModule, szSettingName, -1);
+		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top+db_get_dw(swp->hContact, swp->szModule, szSettingName, -1);
 	}
 	wp.flags = 0;
 	if (wParam & RWPF_HIDDEN)

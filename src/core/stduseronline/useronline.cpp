@@ -52,7 +52,7 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 	if ((newStatus == ID_STATUS_ONLINE || newStatus == ID_STATUS_FREECHAT) &&
 	   oldStatus != ID_STATUS_ONLINE && oldStatus != ID_STATUS_FREECHAT) {
 		{
-			DWORD ticked = db_dword_get(NULL, "UserOnline", cws->szModule, GetTickCount());
+			DWORD ticked = db_get_dw(NULL, "UserOnline", cws->szModule, GetTickCount());
 			// only play the sound (or show event) if this event happens at least 10 secs after the proto went from offline
 			if (GetTickCount() - ticked > (1000*10)) { 
 				CLISTEVENT cle;
@@ -82,7 +82,7 @@ static int UserOnlineAck(WPARAM, LPARAM lParam)
 	ACKDATA * ack = (ACKDATA*) lParam;
 	if (ack != 0 && ack->szModule && ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS && ack->hProcess == (HANDLE)ID_STATUS_OFFLINE) {
 		// if going from offline to any other mode, remember when it happened.
-		db_dword_set(NULL, "UserOnline", ack->szModule, GetTickCount());
+		db_set_dw(NULL, "UserOnline", ack->szModule, GetTickCount());
 	}
 	return 0;
 }
@@ -96,7 +96,7 @@ static int UserOnlineModulesLoaded(WPARAM, LPARAM)
 	// reset the counter
 	for (int i = 0; i < numAccounts; i++)
 		if (Proto_IsAccountEnabled(accounts[i]))
-			db_dword_set(NULL, "UserOnline", accounts[i]->szModuleName, GetTickCount());
+			db_set_dw(NULL, "UserOnline", accounts[i]->szModuleName, GetTickCount());
 
 	return 0;
 }
@@ -110,7 +110,7 @@ static int UserOnlineAccountsChanged(WPARAM eventCode, LPARAM lParam)
 	case PRAC_CHECKED:
 		// reset the counter
 		if (Proto_IsAccountEnabled(pa))
-			db_dword_set(NULL, "UserOnline", pa->szModuleName, GetTickCount());
+			db_set_dw(NULL, "UserOnline", pa->szModuleName, GetTickCount());
 		break;
 	}
 	return 0;
