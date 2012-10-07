@@ -104,7 +104,9 @@ public:
 
 protected:
 	CAccount::Ref account;
-	CContactGroup::Ref contactList;
+	CContact::Refs contactList;
+	CContactGroup::Ref commonList;
+	CContactGroup::Ref authWaitList;
 
 	TCHAR*	login;
 	TCHAR*	password;

@@ -78,10 +78,10 @@ void CContactGroup::SetOnContactListChangedCallback(OnContactListChanged callbac
 	this->callback = callback;
 }
 
-bool CContactGroup::Contains(const ContactRef& contact)
-{
-	return this->ContactList.contains(contact);
-}
+//bool CContactGroup::Contains(const ContactRef& contact)
+//{
+//	return this->ContactList.contains(contact);
+//}
 
 void CContactGroup::OnChange(const ContactRef& contact)
 {

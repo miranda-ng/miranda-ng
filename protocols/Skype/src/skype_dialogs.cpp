@@ -13,13 +13,13 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 		proto = reinterpret_cast<CSkypeProto*>(lparam);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
-		wchar_t* data = proto->GetSettingString(SKYPE_SETTINGS_LOGIN, L"");
-		SetDlgItemText(hwnd, IDC_SL, data);
-		::mir_free(data);
+		wchar_t* sid = proto->GetSettingString(SKYPE_SETTINGS_LOGIN);
+		SetDlgItemText(hwnd, IDC_SL, sid);
+		::mir_free(sid);
 
-		data = proto->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, L"");
-		SetDlgItemText(hwnd, IDC_PW, data);
-		::mir_free(data);
+		wchar_t* pwd = proto->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD);
+		SetDlgItemText(hwnd, IDC_PW, pwd);
+		::mir_free(pwd);
 
 		if ( proto->m_iStatus != ID_STATUS_OFFLINE)
 		{

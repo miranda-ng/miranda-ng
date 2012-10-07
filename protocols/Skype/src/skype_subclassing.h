@@ -47,10 +47,10 @@ public:
 	typedef DRefs<CContactGroup, ContactGroup> Refs;
 	CContactGroup(unsigned int oid, SERootObject* root);
 
-	CContact::Refs ContactList;
+	//CContact::Refs ContactList;
 	void SetOnContactListChangedCallback(OnContactListChanged callback, CSkypeProto* proto);
 
-	bool Contains(const ContactRef& contact);
+	//bool Contains(const ContactRef& contact);
 
 private:
 	CSkypeProto* proto;

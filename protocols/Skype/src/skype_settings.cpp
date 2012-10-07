@@ -33,15 +33,15 @@ DWORD CSkypeProto::GetSettingDword(const char *setting, DWORD errorValue)
 wchar_t* CSkypeProto::GetSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue)
 {
 	DBVARIANT dbv;
-	wchar_t* result = NULL;
+	wchar_t* result = errorValue;
 
 	if ( !::DBGetContactSettingWString(hContact, this->m_szModuleName, setting, &dbv))
 	{
-		result = mir_wstrdup(dbv.pwszVal);
+		result = ::mir_wstrdup(dbv.pwszVal);
 		DBFreeVariant(&dbv);
 	}
 
-	return result != NULL ? result : errorValue;
+	return result;
 }
 
 wchar_t* CSkypeProto::GetSettingString(const char *setting, wchar_t* errorValue)
@@ -51,12 +51,19 @@ wchar_t* CSkypeProto::GetSettingString(const char *setting, wchar_t* errorValue)
 
 wchar_t* CSkypeProto::GetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue)
 {
-	TCHAR* result = this->GetSettingString(hContact, setting, errorValue);
+	DBVARIANT dbv;
+	wchar_t* result = errorValue;
 
-	CallService(
-		MS_DB_CRYPT_DECODESTRING,
-		wcslen(result) + 1,
-		reinterpret_cast<LPARAM>(result));
+	if ( !::DBGetContactSettingWString(hContact, this->m_szModuleName, setting, &dbv))
+	{
+		result = ::mir_wstrdup(dbv.pwszVal);
+		DBFreeVariant(&dbv);
+
+		CallService(
+			MS_DB_CRYPT_DECODESTRING,
+			wcslen(result) + 1,
+			reinterpret_cast<LPARAM>(result));
+	}
 
 	return result;
 }

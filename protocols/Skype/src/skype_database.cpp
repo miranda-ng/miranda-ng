@@ -27,7 +27,7 @@ void CSkypeProto::RaiseAuthRequestEvent(
 
 	CCSDATA ccs = {0};
 	ccs.szProtoService = PSR_AUTH;
-	ccs.hContact = this->GetContactBySid(::mir_a2u(sid));
+	ccs.hContact = this->AddContactBySid(::mir_a2u(sid), ::mir_a2u(nick));
 	ccs.wParam = 0;
 	ccs.lParam = (LPARAM)&pre;
 	pre.timestamp = timestamp;
@@ -46,8 +46,8 @@ void CSkypeProto::RaiseAuthRequestEvent(
 	*((PDWORD)pCurBlob) = 0; pCurBlob += sizeof(DWORD);
 	*((PDWORD)pCurBlob) = (DWORD)ccs.hContact; pCurBlob += sizeof(DWORD);
 	::strcpy((char*)pCurBlob, nick); pCurBlob += ::strlen(nick) + 1;
-	::strcpy((char*)pCurBlob, firstName); pCurBlob += ::strlen(sid) + 1;
-	::strcpy((char*)pCurBlob, lastName); pCurBlob += ::strlen(sid) + 1;
+	::strcpy((char*)pCurBlob, firstName); pCurBlob += ::strlen(firstName) + 1;
+	::strcpy((char*)pCurBlob, lastName); pCurBlob += ::strlen(lastName) + 1;
 	::strcpy((char*)pCurBlob, sid); pCurBlob += ::strlen(sid) + 1;
 	::strcpy((char*)pCurBlob, reason);
 	

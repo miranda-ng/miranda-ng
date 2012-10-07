@@ -90,7 +90,7 @@ int __cdecl CSkypeProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 			return 1;
 
 		CContact::Ref contact;
-		SEString sid(::mir_u2a(this->GetSettingString(hContact, "SkypeName")));
+		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
 		g_skype->GetContact(sid, contact);
 		contact->SetBuddyStatus(false/*CContact::BLOCKED_BY_ME*/);
 
@@ -126,7 +126,7 @@ int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 	if (this->IsOnline() && hContact)
 	{
 		CContact::Ref contact;
-		SEString sid(::mir_u2a(this->GetSettingString(hContact, "SkypeName")));
+		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
 		g_skype->GetContact(sid, contact);
 
 		contact->SendAuthRequest(::mir_u2a(szMessage));
@@ -160,7 +160,7 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)Translate("Skype Name");
 	case PFLAG_UNIQUEIDSETTING:
-		return (INT_PTR) L"SkypeName";
+		return (INT_PTR) L"sid";
 	default:
 		return 0;
 	}
@@ -271,8 +271,8 @@ void __cdecl CSkypeProto::SignIn(void*)
 	this->account->BlockWhileLoggingIn();
 
 	this->SetStatus(this->m_iDesiredStatus);
-	this->ForkThread(&CSkypeProto::LoadContactList, this);
-	//this->LoadContactList(this);
+	//this->ForkThread(&CSkypeProto::LoadContactList, this);
+	this->LoadContactList(this);
 
 	ReleaseMutex(this->signin_lock);
 }
