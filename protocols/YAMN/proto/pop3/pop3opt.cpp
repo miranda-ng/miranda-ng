@@ -1343,12 +1343,12 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 					TesterF.lchIcon=g_LoadIconEx(3);
 					TesterN.lchIcon=g_LoadIconEx(1);
 
-					lstrcpy(Tester.lptzContactName,TranslateT("Account Test"));
-					lstrcpy(TesterF.lptzContactName,TranslateT("Account Test (failed)"));
-					lstrcpy(TesterN.lptzContactName,TranslateT("Account Test"));
-					lstrcpy(Tester.lptzText,TranslateT("You have N new mail messages"));
-					lstrcpy(TesterF.lptzText,TranslateT("Connection failed message"));
-					lstrcpy(TesterN.lptzText,TranslateT("No new mail message"));
+					lstrcpyn(Tester.lptzContactName,TranslateT("Account Test"),MAX_CONTACTNAME);
+					lstrcpyn(TesterF.lptzContactName,TranslateT("Account Test (failed)"),MAX_CONTACTNAME);
+					lstrcpyn(TesterN.lptzContactName,TranslateT("Account Test"),MAX_CONTACTNAME);
+					lstrcpyn(Tester.lptzText,TranslateT("You have N new mail messages"),MAX_SECONDLINE);
+					lstrcpyn(TesterF.lptzText,TranslateT("Connection failed message"),MAX_SECONDLINE);
+					lstrcpyn(TesterN.lptzText,TranslateT("No new mail message"),MAX_SECONDLINE);
 					if (TesterC)
 					{
 						Tester.colorBack=SendDlgItemMessage(hDlg,IDC_CPB,CPM_GETCOLOUR,0,0);
@@ -1387,11 +1387,11 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 					TesterN.PluginData=NULL;
 
 					if (IsDlgButtonChecked(hDlg,IDC_CHECKPOP)==BST_CHECKED)
-						CallService(MS_POPUP_ADDPOPUP,(WPARAM)&Tester,0);
+						PUAddPopUpT(&Tester);
 					if (IsDlgButtonChecked(hDlg,IDC_CHECKFPOP)==BST_CHECKED)
-						CallService(MS_POPUP_ADDPOPUP,(WPARAM)&TesterF,0);
+						PUAddPopUpT(&TesterF);
 					if (IsDlgButtonChecked(hDlg,IDC_CHECKNPOP)==BST_CHECKED)
-						CallService(MS_POPUP_ADDPOPUP,(WPARAM)&TesterN,0);
+						PUAddPopUpT(&TesterN);
 					Changed=TRUE;
 				}
 					break;
