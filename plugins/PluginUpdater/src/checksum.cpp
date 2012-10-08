@@ -13,7 +13,6 @@
 #define RESULT_INVALID		50
 #define RESULT_NONE			100
 
-
 #define DEBUG_SECTIONS		1
 #define DEBUG_REALLOCS		1
 
