@@ -1,3 +1,4 @@
+rem @echo off
 set OUTDIR="..\..\bin10\Release\Plugins" 
 if not exist %OUTDIR% mkdir %OUTDIR%
 
@@ -10,3 +11,5 @@ brcc32 -foImpTxtDlg.res ImpTxtDlg.rc
 brcc32 -foImpTxtWiz.res ImpTxtWiz.rc
 dcc32 -B -CG -U%INCDIR% -R%INCDIR% -I%INCDIR% -E%OUTDIR% -LE%DCUDIR% -LN%DCUDIR% -N%DCUDIR% %COMPDIR% importtxt.dpr
 rd /q /s %DCUDIR%
+
+move /y ..\..\bin10\Release\Plugins\importtxt.dll ..\..\bin10\Release\Plugins\ImportTXT.dll

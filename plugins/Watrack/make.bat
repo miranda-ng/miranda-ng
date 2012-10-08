@@ -1,4 +1,6 @@
 rem @echo off
+set OUTDIR="..\..\bin10\Release\Plugins" 
+if not exist %OUTDIR% mkdir %OUTDIR%
 md tmp
 set myopts=-O3 -Xs -Sd -dMiranda -FEtmp -Fi..\Utils.pas -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\..\include\delphi\reserve
 set dprname=watrack.dpr
@@ -23,3 +25,4 @@ if /i '%1' == 'fpc' (
 move tmp\watrack.dll .
 del /Q tmp\*
 rd tmp
+move /y watrack.dll ..\..\bin10\Release\Plugins\Watrack.dll
