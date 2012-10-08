@@ -165,13 +165,6 @@ extern "C" int __declspec(dllexport) Load()
 	return 0;
 }
 
-int AddContact(WPARAM w, LPARAM l)
-{
-	CallService(MS_PROTO_ADDTOCONTACT,w,(LPARAM)szGPGModuleName);
-	return 0;
-}
-
-
 static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 
@@ -253,14 +246,6 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	CreateProtoServiceFunction(szGPGModuleName, PSS_FILE, (MIRANDASERVICE)onSendFile);
 	CreateProtoServiceFunction(szGPGModuleName, PSS_FILE"W", (MIRANDASERVICE)onSendFile);
-
-	for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
-		if (!CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)szGPGModuleName))
-			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)szGPGModuleName);
-
-	HookEvent(ME_DB_CONTACT_ADDED,AddContact);
-
-
 	return 0;
 }
 

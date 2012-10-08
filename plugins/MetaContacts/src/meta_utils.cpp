@@ -371,11 +371,6 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 		return FALSE;
 	}
 
-	// Add the MetaContactFilter module to the old contact to intercept messages and forward to the new
-	// metacontact
-	if ( !CallService( MS_PROTO_ISPROTOONCONTACT, (WPARAM)src, ( LPARAM )META_FILTER ))
-		CallService( MS_PROTO_ADDTOCONTACT, (WPARAM)src, ( LPARAM )META_FILTER );
-
 	// Write the link in the contact
 	if (DBWriteContactSettingDword(src,META_PROTO,META_LINK,metaID)) {
 		MessageBox(0, Translate("Could not write MetaContact id to contact"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);

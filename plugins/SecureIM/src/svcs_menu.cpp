@@ -8,26 +8,12 @@ INT_PTR __cdecl Service_IsContactSecured(WPARAM wParam, LPARAM lParam) {
 
 
 INT_PTR __cdecl Service_CreateIM(WPARAM wParam,LPARAM lParam){
-	if (!CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)wParam, (LPARAM)szModuleName))
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)wParam, (LPARAM)szModuleName);
-//	WPARAM flags = 0;
-//	HANDLE hMetaContact = getMetaContact((HANDLE)wParam);
-//	if ( hMetaContact ) {
-//		wParam = (WPARAM)hMetaContact;
-//		flags = PREF_METANODB;
-//	}
 	CallContactService((HANDLE)wParam,PSS_MESSAGE,(WPARAM)PREF_METANODB,(LPARAM)SIG_INIT);
 	return 1;
 }
 
 
 INT_PTR __cdecl Service_DisableIM(WPARAM wParam,LPARAM lParam) {
-//	WPARAM flags = 0;
-//	HANDLE hMetaContact = getMetaContact((HANDLE)wParam);
-//	if ( hMetaContact ) {
-//		wParam = (WPARAM)hMetaContact;
-//		flags = PREF_METANODB;
-//	}
 	CallContactService((HANDLE)wParam,PSS_MESSAGE,(WPARAM)PREF_METANODB,(LPARAM)SIG_DEIN);
 	return 1;
 }

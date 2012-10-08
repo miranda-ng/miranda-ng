@@ -90,14 +90,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-int NewContact(WPARAM wParam, LPARAM lParam) {
-	// add filter
-	HANDLE hContact = (HANDLE)wParam;
-	CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM )hContact, ( LPARAM )MODULENAME );
-
-	return 0;
-}
-
 DLLFUNC int Load(void)
 {
 	DEBUGOUT_T("LOAD MIROTR")
@@ -125,20 +117,6 @@ DLLFUNC int Load(void)
 		}
 		DBWriteContactSettingByte(0, MODULENAME, "FilterOrderFix", 2);
 	}
-
-	// add us as a filter to all contacts
-	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
-	char *proto;
-	while ( hContact != NULL ) {
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-
-		// do not add filter to a chatoom
-		if ( !(proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0)) )
-			CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM )hContact, ( LPARAM )MODULENAME );
-
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
-	}
-	HookEvent(ME_DB_CONTACT_ADDED, NewContact);
 
 	// create our services
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, SVC_OTRSendMessage);

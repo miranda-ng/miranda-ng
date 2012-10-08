@@ -485,13 +485,12 @@ void RefreshContact(void)
 			else
 				DBWriteContactSettingByte(Finder->hContact, "CList", "Hidden", 1);
 		}
-		else {
-			if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
-				Finder->hContact  = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
-				CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)Finder->hContact, (LPARAM)YAMN_DBMODULE);
-				DBWriteContactSettingString(Finder->hContact, YAMN_DBMODULE, "Id", Finder->Name);
-				DBWriteContactSettingString(Finder->hContact, YAMN_DBMODULE, "Nick", Finder->Name);
-				DBWriteContactSettingString(Finder->hContact, "Protocol", "p", YAMN_DBMODULE);
-				DBWriteContactSettingWord(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
-				DBWriteContactSettingString(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
-}	}	}	}
+		else if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
+			Finder->hContact  = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
+			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)Finder->hContact, (LPARAM)YAMN_DBMODULE);
+			DBWriteContactSettingString(Finder->hContact, YAMN_DBMODULE, "Id", Finder->Name);
+			DBWriteContactSettingString(Finder->hContact, YAMN_DBMODULE, "Nick", Finder->Name);
+			DBWriteContactSettingString(Finder->hContact, "Protocol", "p", YAMN_DBMODULE);
+			DBWriteContactSettingWord(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
+			DBWriteContactSettingString(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
+}	}	}

@@ -95,12 +95,6 @@ int OnSettingChanged(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int OnContactAdded(WPARAM wParam,LPARAM lParam)
-{
-	CallService(MS_PROTO_ADDTOCONTACT, wParam, (LPARAM)SERVICE_NAME);
-	return 0;
-}
-
 INT_PTR OnRecvFile(WPARAM wParam, LPARAM lParam)
 {
 	CLISTEVENT *clev = (CLISTEVENT*)lParam;
@@ -243,25 +237,16 @@ int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
 		hIcons[indx] = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szIconId[indx]);
 
 	hHookSkinIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnSkinIconsChanged);
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	while(hContact)
-	{
-		if(!CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)SERVICE_NAME))
-			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)SERVICE_NAME);
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
-	}
 
-	CLISTMENUITEM mi;
-	ZeroMemory(&mi, sizeof(mi));
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.cbSize = sizeof(CLISTMENUITEM);
 	mi.position = 200011;
 	mi.hIcon = hIcons[ICON_MAIN];
-	mi.pszName = Translate("File As Message...");
+	mi.pszName = LPGEN("File As Message...");
 	mi.pszService = SERVICE_NAME "/FESendFile";
 	mi.pszContactOwner = NULL;
 	mi.flags = CMIF_NOTOFFLINE;
 	Menu_AddContactMenuItem(&mi);
-
 	return 0;
 }
 
@@ -294,7 +279,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	hHookDbSettingChange = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanged);
-	hHookContactAdded = HookEvent(ME_DB_CONTACT_ADDED, OnContactAdded);
 	hHookSkinIconsChanged = NULL;
 
 	return 0;
