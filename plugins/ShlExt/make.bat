@@ -8,5 +8,6 @@ REM -Rintel (intel style asm)
 REM -WB (relocatable) -WR (relocate)
 md out
 fpc shlext.dpr -FEout -Fi..\..\include;..\..\include\delphi -Fu..\..\include;..\..\include\delphi -Mdelphi -WG -O2 -Os -Rintel -WR -WB49ac0000 -v0
+move out\shlext.dll .
 del /Q out\*
 rd /Q out
