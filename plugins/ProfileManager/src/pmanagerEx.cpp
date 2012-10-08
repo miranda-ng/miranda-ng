@@ -15,6 +15,7 @@ There is no warranty.
 #include <m_clist.h>
 #include <m_skin.h>
 #include <m_langpack.h>
+#include <m_system.h>
 #include <win2k.h>
 
 #include "resource.h"
@@ -93,8 +94,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.position = -500200000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LoadPM));
-	mi.ptszPopupName = _T("Database");
-	mi.ptszName = _T("Load profile");
+	mi.ptszPopupName = LPGENT("Database");
+	mi.ptszName = LPGENT("Load profile");
 	mi.pszService = "Database/LoadPM";
 	Menu_AddMainMenuItem(&mi);
 
@@ -104,8 +105,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.position = -500200000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ChangePM));
-	mi.ptszPopupName = _T("Database");
-	mi.ptszName = _T("Change profile");
+	mi.ptszPopupName = LPGENT("Database");
+	mi.ptszName = LPGENT("Change profile");
 	mi.pszService = "Database/ChangePM";
 	Menu_AddMainMenuItem(&mi);
 
@@ -127,7 +128,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_Restart));
 	mi.ptszPopupName = NULL;
 	mi.ptszName = _T("Restart");
-	mi.pszService = "Miranda/System/Restart";
+	mi.pszService = MS_SYSTEM_RESTART;
 	Menu_AddMainMenuItem(&mi);
 
 	return 0;

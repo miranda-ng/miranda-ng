@@ -58,7 +58,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = hIconHandle;
 	mi.ptszName = _T("Restart");
-	mi.pszService = "Miranda/System/Restart";
+	mi.pszService = MS_SYSTEM_RESTART;
 	Menu_AddMainMenuItem(&mi);
 	Menu_AddTrayMenuItem(&mi);
 	return 0;
