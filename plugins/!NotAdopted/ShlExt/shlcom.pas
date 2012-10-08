@@ -1868,27 +1868,24 @@ begin
     spi.pid := GetCurrentProcessId();
     while protoCount > 0 do
     begin
-      if (pp^._type = PROTOTYPE_PROTOCOL) then
+      lstrcpya(szTmp, pp^.szName);
+      lstrcata(szTmp, PS_GETCAPS);
+      dwCaps := CallService(szTmp, PFLAGNUM_1, 0);
+      if (dwCaps and PF1_FILESEND) <> 0 then
       begin
-        lstrcpya(szTmp, pp^.szName);
-        lstrcata(szTmp, PS_GETCAPS);
-        dwCaps := CallService(szTmp, PFLAGNUM_1, 0);
-        if (dwCaps and PF1_FILESEND) <> 0 then
+        pct := ipcAlloc(ipch, sizeof(TSlotProtoIcons));
+        if pct <> nil then
         begin
-          pct := ipcAlloc(ipch, sizeof(TSlotProtoIcons));
-          if pct <> nil then
+          // capture all the icons!
+          spi.hProto := StrHash(pp^.szName);
+          for j := 0 to 9 do
           begin
-            // capture all the icons!
-            spi.hProto := StrHash(pp^.szName);
-            for j := 0 to 9 do
-            begin
-              spi.hIcons[j] := LoadSkinnedProtoIcon(pp^.szName, ID_STATUS_OFFLINE + j);
-            end; // for
-            pct^.fType := REQUEST_NEWICONS;
-            CopyMemory(Pointer(uint_ptr(pct) + sizeof(TSlotIPC)), @spi, sizeof(TSlotProtoIcons));
-            if ipch^.NewIconsBegin = nil then
-              ipch^.NewIconsBegin := pct;
-          end; // if
+            spi.hIcons[j] := LoadSkinnedProtoIcon(pp^.szName, ID_STATUS_OFFLINE + j);
+          end; // for
+          pct^.fType := REQUEST_NEWICONS;
+          CopyMemory(Pointer(uint_ptr(pct) + sizeof(TSlotIPC)), @spi, sizeof(TSlotProtoIcons));
+          if ipch^.NewIconsBegin = nil then
+            ipch^.NewIconsBegin := pct;
         end; // if
       end; // if
       inc(pp);
