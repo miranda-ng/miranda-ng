@@ -1,6 +1,6 @@
 rem @echo off
 md tmp
-set myopts=-Sd -dMiranda -FEtmp -Fi..\Utils.pas -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\..\include\delphi\reserve
+set myopts=-O3 -Xs -Sd -dMiranda -FEtmp -Fi..\Utils.pas -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\..\include\delphi\reserve
 set dprname=watrack.dpr
 
 rem brcc32.exe res\watrack.rc         -fores\watrack.res
