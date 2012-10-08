@@ -73,10 +73,10 @@ BEGIN
     COMBOBOX        IDC_PERIODMEASURE,114,56,58,30,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Update icons",IDC_UPDATEICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,72,198,10
     GROUPBOX        "Files source",IDC_STATIC,1,93,253,82
-    CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON,11,106,236,10
-    CONTROL         "Development version (less stable)",IDC_TRUNK,"Button",BS_AUTORADIOBUTTON,11,121,236,10
-    CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON,11,136,236,10
-    EDITTEXT        IDC_CUSTOMURL,11,150,234,16,ES_AUTOHSCROLL
+    CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,106,236,10
+    CONTROL         "Development version (less stable)",IDC_TRUNK,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,121,236,10
+    CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,136,236,10
+    EDITTEXT        IDC_CUSTOMURL,11,150,234,16,ES_AUTOHSCROLL | WS_TABSTOP
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 182
@@ -132,18 +132,18 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -194,4 +194,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
