@@ -5,9 +5,14 @@
 #define IDD_SKYPEACCOUNT                9
 #define IDD_OPTIONS                     10
 #define IDI_ICON                        101
+#define IDD_PASSWORDREQUEST             105
 #define IDC_SN                          1001
 #define IDC_PW                          1002
 #define IDC_SL                          1003
+#define IDC_SAVEPASS                    1004
+#define IDC_SAVEPASSWORD                1004
+#define IDC_PASSWORD                    1018
+#define IDC_INSTRUCTION                 1019
 
 // Next default values for new objects
 // 

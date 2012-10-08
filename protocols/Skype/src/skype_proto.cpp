@@ -217,17 +217,7 @@ int CSkypeProto::SetStatus(int new_status)
 	{
 		this->m_iStatus = new_status;
 		if (old_status == ID_STATUS_OFFLINE)
-		{
-			this->login = this->GetSettingString(SKYPE_SETTINGS_LOGIN);
-			if (g_skype->GetAccount(mir_u2a(login), this->account))
-			{
-				this->m_iStatus = ID_STATUS_CONNECTING;
-				this->password = this->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD);
-			
-				this->ForkThread(&CSkypeProto::SignIn, this);
-				//this->SignIn(this);
-			}
-		}
+			this->SignIn();
 
 		CContact::AVAILABILITY availability = this->MirandaToSkypeStatus(this->m_iStatus);
 		if(availability != CContact::UNKNOWN)
@@ -263,7 +253,7 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 	return 1;
 }
 
-void __cdecl CSkypeProto::SignIn(void*)
+void __cdecl CSkypeProto::SignInThread(void*)
 {
 	WaitForSingleObject(&this->signin_lock, INFINITE);
 
@@ -277,7 +267,43 @@ void __cdecl CSkypeProto::SignIn(void*)
 	ReleaseMutex(this->signin_lock);
 }
 
+void CSkypeProto::SignIn()
+{
+	this->login = this->GetSettingString(SKYPE_SETTINGS_LOGIN);
+	if (login == NULL)
+	{
+		this->SetStatus(ID_STATUS_OFFLINE);
+		this->SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
+		::MessageBox(
+			NULL, 
+			TranslateT("You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again."),
+			_T("Skype"),
+			MB_OK);
+		return;
+	}
+	if (g_skype->GetAccount(::mir_u2a(login), this->account))
+	{
+		this->m_iStatus = ID_STATUS_CONNECTING;
+		this->password = this->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD);
+		if (this->password)
+			this->ForkThread(&CSkypeProto::SignInThread, this);
+			//this->SignIn(this);
+		else
+			this->RequestPassword();
+	}
+}
+
 bool  CSkypeProto::IsOnline()
 {
 	return this->m_iStatus != ID_STATUS_OFFLINE;
+}
+
+void CSkypeProto::RequestPassword()
+{
+	::DialogBoxParam(
+		g_hInstance, 
+		MAKEINTRESOURCE(IDD_PASSWORDREQUEST), 
+		NULL, 
+		CSkypeProto::SkypePasswordProc, 
+		LPARAM(this));
 }

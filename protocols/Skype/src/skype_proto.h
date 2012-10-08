@@ -110,9 +110,12 @@ protected:
 
 	TCHAR*	login;
 	TCHAR*	password;
+	bool	rememberPassword;
+	void	RequestPassword();
 
 	HANDLE	signin_lock;
-	void __cdecl SignIn(void*);
+	void	SignIn();
+	void __cdecl SignInThread(void*);
 
 	bool	IsOnline();
 
@@ -229,4 +232,5 @@ protected:
 	// dialog procs
 	static INT_PTR CALLBACK SkypeAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 	static INT_PTR CALLBACK SkypeOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
+	static INT_PTR CALLBACK SkypePasswordProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 };

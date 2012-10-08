@@ -131,6 +131,69 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 	return FALSE;
 }
 
+INT_PTR CALLBACK CSkypeProto::SkypePasswordProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CSkypeProto* ppro = (CSkypeProto*)::GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		::TranslateDialogDefault(hwndDlg);
+
+		ppro = (CSkypeProto*)lParam;
+		::SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
+		{
+			::SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)CSkypeProto::iconList[0].Handle);
+			::SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)CSkypeProto::iconList[0].Handle);
+
+			wchar_t skypeName[MAX_PATH];
+			::mir_sntprintf(
+				skypeName, 
+				MAX_PATH, 
+				TranslateT("Enter a password for Skype Name %s:"), 
+				ppro->login);
+			::SetDlgItemText(hwndDlg, IDC_INSTRUCTION, skypeName);
+
+			::SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, 128 - 1, 0);
+
+			::CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, ppro->GetSettingByte(NULL, "RememberPassword", 0));
+		}
+		break;
+
+	//case WM_DESTROY:
+		//ppro->m_hIconProtocol->ReleaseIcon(true);
+		//ppro->m_hIconProtocol->ReleaseIcon();
+		//break;
+
+	case WM_CLOSE:
+		EndDialog(hwndDlg, 0);
+		break;
+
+	case WM_COMMAND:
+		{
+			switch (LOWORD(wParam)) {
+			case IDOK:
+				ppro->rememberPassword = ::IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD) > 0;
+				ppro->SetSettingByte(NULL, "RememberPassword", ppro->rememberPassword);
+
+				::GetDlgItemText(hwndDlg, IDC_PASSWORD, ppro->password, sizeof(ppro->password));
+
+				ppro->SignIn();
+
+				::EndDialog(hwndDlg, IDOK);
+				break;
+
+			case IDCANCEL:
+				ppro->SetStatus(ID_STATUS_OFFLINE);
+				::EndDialog(hwndDlg, IDCANCEL);
+				break;
+			}
+		}
+		break;
+	}
+
+	return FALSE;
+}
+
 int __cdecl CSkypeProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
 {
 	return (int)CreateDialogParam(
