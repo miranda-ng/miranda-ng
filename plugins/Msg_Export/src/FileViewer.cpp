@@ -156,7 +156,7 @@ class CLHistoryDlg
 		}
 };
 
-// List of all open history windows 
+// List of all open history windows
 list< CLHistoryDlg* > clHistoryDlgList;
 // CRITICAL_SECTION used to access the window list
 // this is nesery because UpdateFileViews is called from callback thread.
@@ -175,7 +175,7 @@ class CLStreamRTFInfo
 		bool bLastColorMyNick;
 
 		// buffer size supplyed on win XP 4092 byte when streamin in
-		// optimal size it to fully use this buffer but we can guess 
+		// optimal size it to fully use this buffer but we can guess
 		// how may bytes need converting in the file we are reading.
 		BYTE abBuf[3300];
 		char szMyNick[100];
@@ -205,12 +205,12 @@ int CLStreamRTFInfo::nOptimalReadLen = 3300;
 // Parameters      : pszTarget - ?
 //                   nLen      - ?
 // Returns         : int
-// Description     : 
-//                   
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 030204 , 04 February 2003
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 int CLStreamRTFInfo::nWriteHeader( char * pszTarget , int nLen )
@@ -252,12 +252,12 @@ const char szRtfEnd[] = "\r\n\\par }\r\n\0";
 // Parameters      : pbBuff - ?
 //                   cb     - ?
 // Returns         : int
-// Description     : 
-//                   
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 030204 , 04 February 2003
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
@@ -288,7 +288,7 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 				n = 3;
 		}
 		dwCurrent += nWriteHeader( (char*)pbBuff , cb );
-		
+
 		tstring sMyNick = NickFromHandle(0);
 
 		nNickLen = WideCharToMultiByte(bUtf8File ? CP_UTF8 : CP_ACP , 0, sMyNick.c_str(), (int)sMyNick.length() , szMyNick , sizeof( szMyNick ), NULL , NULL );
@@ -297,14 +297,14 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 	{
 		if( bCheckFirstForNick )
 		{
-			// Test against "<<" also 
-			if( ( (memcmp( abBuf , szMyNick , nNickLen ) == 0) || 
+			// Test against "<<" also
+			if( ( (memcmp( abBuf , szMyNick , nNickLen ) == 0) ||
 				   (abBuf[0] == '<' && abBuf[1] == '<')
 				 ) != bLastColorMyNick )
 			{
 				// we shut only get here if we need to change color !!
 				bLastColorMyNick = !bLastColorMyNick;
-				// change color 
+				// change color
 				memcpy( &pbBuff[dwCurrent] , bLastColorMyNick ? "\\cf1 " : "\\cf2 ", 5 );
 			}
 			bCheckFirstForNick = false;
@@ -315,14 +315,14 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 
 	for( ; n < dwRead ; n++ )
 	{
-		// worst case is a file ending with \n or a unicode letter. resulting in a big unicode string 
+		// worst case is a file ending with \n or a unicode letter. resulting in a big unicode string
 		// here we need szNewLine and szRtfEnd. the 10 is a small safty margin.
 		if( dwCurrent + (sizeof( szNewLine ) + sizeof( szRtfEnd ) + 10 ) > (DWORD)cb )
 		{
-			// oh no !!! we have almost reached the end of the windows supplyed buffer 
+			// oh no !!! we have almost reached the end of the windows supplyed buffer
 			// we are writing to. we need to abort mision *S*!!
 			// and rewinde file
-			// we will adjust the optima buffer size 
+			// we will adjust the optima buffer size
 			nOptimalReadLen -= 50;
 			SetFilePointer( hFile , n - dwRead , NULL , FILE_CURRENT );
 			return dwCurrent;
@@ -336,11 +336,11 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 			if( n + 1 >= dwRead )
 			{
 				// this is an anoing case because here we have read \n as the last char in the file
-				// this means that the if the next data read from file begins with <UserNick> it has 
+				// this means that the if the next data read from file begins with <UserNick> it has
 				// to be highlighted
 				if( !bIsFileEnd )
 					bCheckFirstForNick = true;
-				break; 
+				break;
 			}
 
 			if( abBuf[n+1] == ' ' || abBuf[n+1] == '\t' || abBuf[n+1] == '\r' )
@@ -350,11 +350,11 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 			{
 				if( !bIsFileEnd )
 				{
-					// here we have a problem we haven't read this data yet 
+					// here we have a problem we haven't read this data yet
 					// the data we need to compare to is still in the file.
-					// we can't read more data from the file because the we 
-					// might just move the problem. if file contains \n\n\n\n\n ... 
-					
+					// we can't read more data from the file because the we
+					// might just move the problem. if file contains \n\n\n\n\n ...
+
 					LONG lExtraRead = (n+1) - dwRead;
 					if( lExtraRead >= 0 )
 						MessageBox( NULL , LPGENT("Internal error !! (lExtraRead >= 0)"),MSG_BOX_TITEL,MB_OK );
@@ -365,12 +365,12 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 
 				if( ! bLastColorMyNick )
 					continue;
-				// else the last color user was my nick 
+				// else the last color user was my nick
 				// we needd to change color to the other user color.
-				
-				
+
+
 				/* old code !!
-				DWORD dwAddedToBuf; 
+				DWORD dwAddedToBuf;
 				if( ! ReadFile(hFile , &abBuf[dwRead], dwNeeded , &dwAddedToBuf, (LPOVERLAPPED)NULL) )
 					return 0;
 				dwToRead += dwNeeded;
@@ -378,16 +378,16 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 			}
 			else
 			{
-				// the data we need is here just compare 
+				// the data we need is here just compare
 				if( ( ( memcmp( &abBuf[n+1] , szMyNick , nNickLen ) == 0) ||
-					   ( abBuf[n+1] == '<' && abBuf[n+2] == '<') 
+					   ( abBuf[n+1] == '<' && abBuf[n+2] == '<')
 					 ) == bLastColorMyNick )
 					continue;
 			}
 			// we shut only get here if we need to change color !!
 			bLastColorMyNick = !bLastColorMyNick;
 
-			// change color 
+			// change color
 			memcpy( &pbBuff[dwCurrent] , bLastColorMyNick ? "\\cf1 " : "\\cf2 ", 5 );
 			dwCurrent += 5;
 			continue;
@@ -406,10 +406,10 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 			}
 			dwCurrent += sprintf( (char*)&pbBuff[dwCurrent] , "\\u%d?" , nValue );
 			//continue;
-/*			// Then we have an extended char in the UTF8 file. 
+/*			// Then we have an extended char in the UTF8 file.
 			// we need to convert this to UCS-2 and then to \uN in the RTF
 			int nUtf8Len = 1;
-			while( ( (n + nUtf8Len) < dwRead ) && ((abBuf[ n + nUtf8Len ] & 0xC0) == 0x80) ) 
+			while( ( (n + nUtf8Len) < dwRead ) && ((abBuf[ n + nUtf8Len ] & 0xC0) == 0x80) )
 				nUtf8Len++;
 			wchar_t szWstr[2];
 			if( MultiByteToWideChar( CP_UTF8 , 0 , (char*)&abBuf[n] , nUtf8Len , szWstr , 2 ) == 1 )
@@ -428,7 +428,7 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 	}
 
 	if( bIsFileEnd )
-	{// write end 
+	{// write end
 		memcpy( &pbBuff[dwCurrent] , szRtfEnd , sizeof( szRtfEnd )-1 );
 		dwCurrent += sizeof( szRtfEnd )-1;
 		bTailWriten = true;
@@ -443,12 +443,12 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 // Type            : Global
 // Parameters      : None
 // Returns         : void
-// Description     : 
-//                   
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 021213 , 13 December 2002
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 void Initilize()
@@ -461,12 +461,12 @@ void Initilize()
 // Type            : Global
 // Parameters      : None
 // Returns         : void
-// Description     : 
-//                   
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 021213 , 13 December 2002
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 void Uninitilize()
@@ -480,11 +480,11 @@ void Uninitilize()
 // Parameters      : pszFile - File which has been updated
 // Returns         : void
 // Description     : Send a message to alle to windows that need updating
-//                   
+//
 // References      : -
 // Remarks         : -
 // Created         : 021213 , 13 December 2002
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 void UpdateFileViews( const _TCHAR * pszFile )
@@ -507,13 +507,13 @@ void UpdateFileViews( const _TCHAR * pszFile )
 // Member Function : bOpenExternaly
 // Type            : Global
 // Parameters      : hContact - ?
-// Returns         : Returns true if 
-// Description     : 
-//                   
+// Returns         : Returns true if
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 021010 , 10 October 2002
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 bool bOpenExternaly( HANDLE hContact )
@@ -535,16 +535,16 @@ bool bOpenExternaly( HANDLE hContact )
 	sTmp += _T(" ");
 	sTmp += sPath;
 	//sTmp += '\"';
-	
+
 	STARTUPINFO sStartupInfo = { 0 };
-	GetStartupInfo(&sStartupInfo); // we parse oure owne info on 
+	GetStartupInfo(&sStartupInfo); // we parse oure owne info on
 	sStartupInfo.lpTitle = (_TCHAR*)sFileViewerPrg.c_str();
 	PROCESS_INFORMATION stProcesses = {0};
 
 	if( ! CreateProcess( NULL,
-				(_TCHAR*)sTmp.c_str(), 
-				NULL, 
-				NULL, 
+				(_TCHAR*)sTmp.c_str(),
+				NULL,
+				NULL,
 				FALSE,
 				CREATE_DEFAULT_ERROR_MODE | CREATE_NEW_CONSOLE | CREATE_NEW_PROCESS_GROUP ,
 				NULL,
@@ -562,13 +562,13 @@ bool bOpenExternaly( HANDLE hContact )
 // Member Function : bGetInternalViewer
 // Type            : Global
 // Parameters      : None
-// Returns         : Returns true if 
-// Description     : 
-//                   
+// Returns         : Returns true if
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 021016 , 16 October 2002
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 bool bUseInternalViewer()
@@ -580,13 +580,13 @@ bool bUseInternalViewer()
 // Member Function : bUseInternalViewer
 // Type            : Global
 // Parameters      : bNew - ?
-// Returns         : Returns true if 
-// Description     : 
-//                   
+// Returns         : Returns true if
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 021016 , 16 October 2002
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 bool bUseInternalViewer( bool bNew )
@@ -601,16 +601,6 @@ bool bUseInternalViewer( bool bNew )
 			return false;
 		}
    }
-   else if( !bUseIntViewer && hRichEditDll )
-   {
-      if( ::FreeLibrary(hRichEditDll) == 0 )
-		{
-			DisplayLastError( LPGENT("Failed to unload Rich Edit ( RICHED32.DLL )") );
-			hRichEditDll = NULL;
-			return false;
-		}
-      hRichEditDll = NULL;
-   }
 	return true;
 }
 
@@ -623,12 +613,12 @@ bool bUseInternalViewer( bool bNew )
 //                   cb       - ?
 //                   pcb      - ?
 // Returns         : DWORD CALLBACK
-// Description     : 
-//                   
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 021010 , 10 October 2002
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 DWORD CALLBACK RichEditStreamLoadFile(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
@@ -673,13 +663,13 @@ DWORD CALLBACK RichEditStreamLoadFile(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb
 // Type            : Global
 // Parameters      : hwndDlg  - ?
 //                   hContact - ?
-// Returns         : Returns true if 
-// Description     : 
-//                   
+// Returns         : Returns true if
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 021010 , 10 October 2002
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
@@ -712,7 +702,7 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 		{
 			mir_sntprintf( szTmp , 1499, LPGENT("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events") , pclDlg->sPath.c_str() , nDBCount );
 		}
-		
+
 		SETTEXTEX stText = {0};
 		stText.codepage =	CP_ACP;
 		SendMessage( hRichEdit , EM_SETTEXTEX, (WPARAM) &stText, (LPARAM) szTmp	);
@@ -744,7 +734,7 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 	pabFileData = new BYTE[ dwSize ];
 	ReadFile( hFile , pabFileData, dwSize  , &dwDataRead, 	(LPOVERLAPPED)NULL);
 */
-	
+
 
 	// SendMessage( hRichEdit , EM_SETBKGNDCOLOR, 0 , RGB( 0 , 0 , 128 ) );
 	// SendMessage( hRichEdit , EM_SETTEXTMODE, TM_RICHTEXT ,0);
@@ -756,10 +746,10 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 
 	if( bUseSyntaxHL )
 	{
-		SendMessage( hRichEdit ,        // handle to destination window 
+		SendMessage( hRichEdit ,        // handle to destination window
 					EM_EXLIMITTEXT,       // message to send
 					0,    // not used; must be zero
-					0x7FFFFFFF );   
+					0x7FFFFFFF );
 
 		CLStreamRTFInfo clInfo( hFile );
 		eds.dwCookie = (DWORD)&clInfo;
@@ -775,7 +765,7 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 
 		SendMessage(hRichEdit, EM_STREAMIN, (WPARAM)SF_TEXT , (LPARAM)&eds);
 	}
-   
+
 	CloseHandle( hFile );
 	//delete [] pabFileData;
 
@@ -805,12 +795,12 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 // Type            : Global
 // Parameters      : hwnd - handle to RichEdit control
 // Returns         : Returns true if text was copied to the clipboard
-// Description     : 
-//                   
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 030730 , 30 juli 2003
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 bool bAdvancedCopy(HWND hwnd)
@@ -866,12 +856,12 @@ bool bAdvancedCopy(HWND hwnd)
 //                   wParam - ?
 //                   lParam - ?
 // Returns         : LRESULT CALLBACK
-// Description     : 
-//                   
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 021013 , 13 October 2002
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -905,7 +895,7 @@ LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			return DLGC_WANTARROWS;
 		}
 		case WM_COPY:
-		{ // not working for "CTRL + C" 
+		{ // not working for "CTRL + C"
 			if( bAdvancedCopy( hwnd ) )
 				return TRUE;
 			break;
@@ -942,7 +932,7 @@ LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 		FINDTEXT ft = { 0 };
 
-		if( fr->Flags & FR_FINDNEXT) 
+		if( fr->Flags & FR_FINDNEXT)
 		{
 			ft.lpstrText = fr->lpstrFindWhat;
 
@@ -953,20 +943,20 @@ LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			if(res == -1) {
 				ft.chrg.cpMin = 0;
 				res = (int)SendMessage(hwnd, EM_FINDTEXT, (WPARAM)fr->Flags,(LPARAM)&ft);
-				if(res == -1) 
+				if(res == -1)
 				{
 					MessageBox( hwnd , LPGENT("Search string was not found !"),MSG_BOX_TITEL,MB_OK );
 					return 0;
 				}
-			}			
+			}
 			ft.chrg.cpMin = LONG(res);
 			ft.chrg.cpMax = LONG(res + _tcslen(fr->lpstrFindWhat));
 			SendMessage(hwnd , EM_EXSETSEL, 0, (LPARAM)&ft.chrg);
 			return 0;
 		}
-		
+
 	}
-	return CallWindowProc(pclDlg->wpOrigEditProc, hwnd, msg, wParam, lParam); 
+	return CallWindowProc(pclDlg->wpOrigEditProc, hwnd, msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -974,12 +964,12 @@ LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 // Type            : Global
 // Parameters      : hwndDlg - ?
 // Returns         : void
-// Description     : 
-//                   
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 021001 , 01 October 2002
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 void SetWindowsCtrls( HWND hwndDlg )
@@ -990,16 +980,16 @@ void SetWindowsCtrls( HWND hwndDlg )
 	RECT rCurSize;
 
 	const int nSpacing = 12;
-	
+
 
 	HWND hButton = GetDlgItem( hwndDlg , IDOK );
 	GetWindowRect( hButton , &rCurSize );
 	int nButtonHeight = rCurSize.bottom - rCurSize.top;
 
-	SetWindowPos( GetDlgItem( hwndDlg , IDC_RICHEDIT ) , 0 , 
-		nSpacing , nSpacing , 
+	SetWindowPos( GetDlgItem( hwndDlg , IDC_RICHEDIT ) , 0 ,
+		nSpacing , nSpacing ,
 		rNewSize.right - (nSpacing * 2) ,
-		rNewSize.bottom - ( nSpacing * 3 + nButtonHeight ), 
+		rNewSize.bottom - ( nSpacing * 3 + nButtonHeight ),
 		SWP_NOZORDER );
 
 
@@ -1008,17 +998,17 @@ void SetWindowsCtrls( HWND hwndDlg )
 	int nButtonTop = rNewSize.bottom - ( nSpacing + nButtonHeight );
 	int nCurLeft = nButtonSpace;
 
-	SetWindowPos( GetDlgItem( hwndDlg , IDC_FV_FIND ) , 0 , 
-		nCurLeft , nButtonTop , 0 , 0 , SWP_NOZORDER | SWP_NOSIZE );
-	
-	nCurLeft += nButtonSpace + nButtonWidth;
-
-	SetWindowPos( GetDlgItem( hwndDlg , IDC_FV_EXTERNAL ) , 0 , 
+	SetWindowPos( GetDlgItem( hwndDlg , IDC_FV_FIND ) , 0 ,
 		nCurLeft , nButtonTop , 0 , 0 , SWP_NOZORDER | SWP_NOSIZE );
 
 	nCurLeft += nButtonSpace + nButtonWidth;
-	
-	SetWindowPos( hButton , 0 , 
+
+	SetWindowPos( GetDlgItem( hwndDlg , IDC_FV_EXTERNAL ) , 0 ,
+		nCurLeft , nButtonTop , 0 , 0 , SWP_NOZORDER | SWP_NOSIZE );
+
+	nCurLeft += nButtonSpace + nButtonWidth;
+
+	SetWindowPos( hButton , 0 ,
 		nCurLeft , nButtonTop , 0 , 0 , SWP_NOZORDER | SWP_NOSIZE );
 
 }
@@ -1027,15 +1017,15 @@ void SetWindowsCtrls( HWND hwndDlg )
 // Member Function : SetRichEditFont
 // Type            : Global
 // Parameters      : hRichEdit    - RichEdit to set the font in
-//                   bUseSyntaxHL - Is Syntax hilighting is used the color 
-//												will not be set							
+//                   bUseSyntaxHL - Is Syntax hilighting is used the color
+//												will not be set
 // Returns         : void
-// Description     : 
-//                   
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 030205 , 05 February 2003
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 void SetRichEditFont(HWND hRichEdit, bool bUseSyntaxHL )
@@ -1064,12 +1054,12 @@ void SetRichEditFont(HWND hRichEdit, bool bUseSyntaxHL )
 //                   wParam  - ?
 //                   lParam  - ?
 // Returns         : static BOOL CALLBACK
-// Description     : 
-//                   
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 020929 , 29 September 2002
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1085,17 +1075,17 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 #ifdef _UNICODE
 			EnableWindow( GetDlgItem( hwndDlg , IDC_FV_FIND ) , FALSE );
 #endif
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 
+			SendMessage(hwndDlg, WM_SETICON, ICON_BIG,
 				(LPARAM)LoadIcon( hInstance, MAKEINTRESOURCE(IDI_EXPORT_MESSAGE)));
 
 			HWND hRichEdit = GetDlgItem( hwndDlg , IDC_RICHEDIT );
-			pclDlg->wpOrigEditProc = (WNDPROC) SetWindowLongPtr( hRichEdit, GWLP_WNDPROC, (LONG) EditSubclassProc); 
-			
-			SetWindowLongPtr( hRichEdit, GWLP_USERDATA, (LONG) pclDlg ); 
-			
+			pclDlg->wpOrigEditProc = (WNDPROC) SetWindowLongPtr( hRichEdit, GWLP_WNDPROC, (LONG) EditSubclassProc);
+
+			SetWindowLongPtr( hRichEdit, GWLP_USERDATA, (LONG) pclDlg );
+
 			SendMessage( hRichEdit , EM_SETEVENTMASK  , 0    , ENM_LINK);
 			SendMessage( hRichEdit , EM_AUTOURLDETECT , TRUE , 0 );
-			
+
 			HMENU hSysMenu = GetSystemMenu( hwndDlg , FALSE );
 
 			InsertMenu( hSysMenu , 0 , MF_SEPARATOR | MF_BYPOSITION , 0 , 0 );
@@ -1108,7 +1098,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			if( bUseCC )
 			{
-				SendMessage( hRichEdit , EM_SETBKGNDCOLOR, 0 , 
+				SendMessage( hRichEdit , EM_SETBKGNDCOLOR, 0 ,
 					DBGetContactSettingDword( NULL , MODULE , szFileViewDB "CustomC" , RGB(255,255,255) )
 				);
 			}
@@ -1141,7 +1131,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			bLoadFile(hwndDlg , pclDlg );
 
-			{ // set Title 
+			{ // set Title
 				_TCHAR szFormat[200];
 				_TCHAR szTitle[200];
 				if( GetWindowText( hwndDlg , szFormat , sizeof( szFormat ) ) )
@@ -1159,7 +1149,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				}
 			}
 
-			return TRUE; 
+			return TRUE;
 		}
 		case WM_RELOAD_FILE:
 		{
@@ -1210,7 +1200,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			{
 				LOGFONT lf = { 0 };
 				lf.lfHeight = 14L;
-				
+
 				{	DWORD dwEffects = DBGetContactSettingDword( NULL , MODULE , szFileViewDB "TEffects" , 0 );
 					lf.lfWeight = (dwEffects & CFE_BOLD) ? FW_BOLD : 0;
 					lf.lfUnderline = (dwEffects & CFE_UNDERLINE) != 0;
@@ -1349,7 +1339,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 		}
 		case WM_NOTIFY:
 		{
-			if( ((NMHDR*)lParam)->idFrom == IDC_RICHEDIT ) 
+			if( ((NMHDR*)lParam)->idFrom == IDC_RICHEDIT )
 			{
 				if( ((NMHDR*)lParam)->code == EN_LINK )
 				{
@@ -1390,13 +1380,13 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 // Member Function : bShowFileViewer
 // Type            : Global
 // Parameters      : hContact - ?
-// Returns         : Returns true if 
-// Description     : 
-//                   
+// Returns         : Returns true if
+// Description     :
+//
 // References      : -
 // Remarks         : -
 // Created         : 020929 , 29 September 2002
-// Developer       : KN   
+// Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
 bool bShowFileViewer( HANDLE hContact )
