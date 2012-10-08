@@ -336,16 +336,13 @@ begin
   CallService(MS_PROTO_ENUMACCOUNTS, int(@iProtoCount), int(@ppAccounts));
   for i := 1 to iProtoCount do
   begin
-    if (ppAccounts^^._type = PROTOTYPE_PROTOCOL) then
+    temps := GetContactID(0, ppAccounts^^.szModuleName, false);
+    if temps <> '' then
     begin
-      temps := GetContactID(0, ppAccounts^^.szModuleName, false);
-      if temps <> '' then
-      begin
-        Protocols[ProtoCount].ProtoName := ppAccounts^^.szModuleName;
-        Protocols[ProtoCount].ProtoUID := temps;
-        Protocols[ProtoCount].ProtoNick := GetContactNick(0, ppAccounts^^.szModuleName, false);
-        inc(ProtoCount);
-      end;
+      Protocols[ProtoCount].ProtoName := ppAccounts^^.szModuleName;
+      Protocols[ProtoCount].ProtoUID := temps;
+      Protocols[ProtoCount].ProtoNick := GetContactNick(0, ppAccounts^^.szModuleName, false);
+      inc(ProtoCount);
     end;
     inc(ppAccounts);
   end;
