@@ -1,0 +1,58 @@
+#include "waticons.h"
+LANGUAGE 0,0
+
+IDI_PREV_NORMAL    ICON "previous.ico"
+IDI_PLAY_NORMAL    ICON "play.ico"
+IDI_PAUSE_NORMAL   ICON "pause.ico"
+IDI_STOP_NORMAL    ICON "stop.ico"
+IDI_NEXT_NORMAL    ICON "next.ico"
+
+IDI_PREV_HOVERED   ICON "previous_hovered.ico"
+IDI_PLAY_HOVERED   ICON "play_hovered.ico"
+IDI_PAUSE_HOVERED  ICON "pause_hovered.ico"
+IDI_STOP_HOVERED   ICON "stop_hovered.ico"
+IDI_NEXT_HOVERED   ICON "next_hovered.ico"
+
+IDI_PREV_PRESSED   ICON "previous_pressed.ico"
+IDI_PLAY_PRESSED   ICON "play_pressed.ico"
+IDI_PAUSE_PRESSED  ICON "pause_pressed.ico"
+IDI_STOP_PRESSED   ICON "stop_pressed.ico"
+IDI_NEXT_PRESSED   ICON "next_pressed.ico"
+
+IDI_VOLDN_NORMAL   ICON "volume_down.ico"
+IDI_VOLUP_NORMAL   ICON "volume_up.ico"
+IDI_VOLDN_HOVERED  ICON "volume_down_hovered.ico"
+IDI_VOLUP_HOVERED  ICON "volume_up_hovered.ico"
+IDI_VOLDN_PRESSED  ICON "volume_down_pressed.ico"
+IDI_VOLUP_PRESSED  ICON "volume_up_pressed.ico"
+
+IDI_SLIDER_NORMAL  ICON "slider.ico"
+IDI_SLIDER_HOVERED ICON "slider_hovered.ico"
+IDI_SLIDER_PRESSED ICON "slider_pressed.ico"
+
+IDI_PLUGIN_ENABLE  ICON "enable.ico"
+IDI_PLUGIN_DISABLE ICON "disable.ico"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,0,2
+ PRODUCTVERSION 0,0,0,2
+ FILEFLAGSMASK 0x3F
+ FILEOS 4
+ FILETYPE 2
+ FILESUBTYPE 0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "000004b0"
+    BEGIN
+      VALUE "FileDescription", "Solid indexed and truecolor"
+      VALUE "FileVersion", "0.0.0.2"
+      VALUE "OriginalFilename", "watrack_buttons.dll"
+      VALUE "ProductName", "WATrack buttons icons"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+      VALUE "Translation",0,1200 
+  END
+END

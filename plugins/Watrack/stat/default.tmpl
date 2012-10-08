@@ -1,0 +1,89 @@
+const
+  IntTmpl:PAnsiChar=
+'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'#13#10+
+'<HTML>'#13#10+
+'<HEAD>'#13#10+
+'<TITLE>Report on %currenttime%</TITLE>'#13#10+
+'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'#13#10+
+'<style>'#13#10+
+'table {background:#E0E0E0;padding:4}'#13#10+
+'* {padding:2; margin:0;font-family: arial}'#13#10+
+'td, div  {font-size:10pt;border:1 solid black}'#13#10+
+'h2 {padding: 26 0 10}'#13#10+
+'.label, .num, .time {background:#C0C0C0;padding-left:4}'#13#10+
+'.tdbar {width:50%;padding:0 4 0 0;border-width:0}'#13#10+
+'.bar {background:#9BA298;padding-left:4;margin:0 4 0 0}'#13#10+
+'.num {padding:0 10; width:20px}'#13#10+
+'.time {text-align:center;width:20%}'#13#10+
+'</style>'#13#10+
+'</HEAD>'#13#10+
+'<BODY>'#13#10+
+'<center><h1>Report</h1><br/><h3>created %currenttime%</h3>'#13#10+
+'%block_freqartist%'#13#10+
+'<h2>Most popular artists:</h2><table style="width:90%">'#13#10+
+'%start%'#13#10+
+'<tr><td class="num">%num%.</td>'#13#10+
+'<td class="label">%artist%</td>'#13#10+
+'<td class="tdbar"><div class="bar" style="width:%percent%%;">%count%</div></td>'#13#10+
+'</tr>'#13#10+
+'%end%'#13#10+
+'</table>'#13#10+
+'%block_end%'#13#10+
+'%block_freqsongs%'#13#10+
+'<h2>Most frequently played songs:</h2><table style="width:90%">'#13#10+
+'%start%'#13#10+
+'<tr><td class="num">%num%.</td>'#13#10+
+'<td class="label">%artist% - %title% (%album%)</td>'#13#10+
+'<td class="tdbar"><div class="bar" style="width:%percent%%;">%count%</div></td>'#13#10+
+'</tr>'#13#10+
+'%end%'#13#10+
+'</table>'#13#10+
+'%block_end%'#13#10+
+'%block_freqalbum%'#13#10+
+'<h2>Most frequently played albums:</h2><table style="width:90%">'#13#10+
+'%start%'#13#10+
+'<tr><td class="num">%num%.</td>'#13#10+
+'<td class="label">%album%</td>'#13#10+
+'<td class="tdbar"><div class="bar" style="width:%percent%%;">%count%</div></td>'#13#10+
+'</tr>'#13#10+
+'%end%'#13#10+
+'</table>'#13#10+
+'%block_end%'#13#10+
+'%block_lastsongs%'#13#10+
+'<h2>Last played songs:</h2><table style="width:90%">'#13#10+
+'%start%'#13#10+
+'<tr><td class="num">%num%.</td>'#13#10+
+'<td class="time">[%date%]</td>'#13#10+
+'<td class="label">%artist% - %title%</td>'#13#10+
+'</tr>'#13#10+
+'%end%'#13#10+
+'</table>'#13#10+
+'%block_end%'#13#10+
+'%block_songtime%'#13#10+
+'<h2>Longest songs:</h2><table style="width:90%">'#13#10+
+'%start%'#13#10+
+'<tr><td class="num">%num%.</td>'#13#10+
+'<td class="label">%artist% - %title%</td>'#13#10+
+'<td class="tdbar"><div class="bar" style="width:%percent%%;">%length%</div></td>'#13#10+
+'</tr>'#13#10+
+'%end%'#13#10+
+'</table>'#13#10+
+'%block_end%'#13#10+
+'%block_freqpath%'#13#10+
+'<h2>Most frequently used paths:</h2><table style="width:90%">'#13#10+
+'%start%'#13#10+
+'<tr><td class="num">%num%.</td>'#13#10+
+'<td class="label">%path%</td>'#13#10+
+'<td class="tdbar"><div class="bar" style="width:%percent%%;">%count%</div></td>'#13#10+
+'</tr>'#13#10+
+'%end%'#13#10+
+'</table>'#13#10+
+'%block_end%'#13#10+
+'<h2>Total played time is:</h2><table style="width:90%">'#13#10+
+'<tr><td class="label">Total logged music time - %totaltime%</td>'#13#10+
+'<td class="label">Total logged music files - %totalfiles%</td>'#13#10+
+'</tr></table>'#13#10+
+''#13#10+
+'</center>'#13#10+
+'</BODY>'#13#10+
+'</HTML>'#13#10;

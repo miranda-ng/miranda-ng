@@ -1,0 +1,519 @@
+0.0.6.12 (17 nov 2009)
+  Added Last.FM scrobbling support
+0.0.6.11 (14 sep 2009)
+  Added watrack parts admin page
+  Fixed cover reading from OGG files
+  Fixed mRadio work when no avatar plugin presents
+  Fixed wrong LastFM recognition
+0.0.6.10 (28 aug 2008)
+  Added basic LastFM support
+  Added hidden option 'xstatpause',ms (word type) to make pause between XStatus changing
+  Added option to emulate multimedia keys
+  Added avatar as cover for mRadio contacts support
+0.0.6.9 (28 jan 2008)
+  Fixes for FLV format
+  Added option to assign 'music' and 'video' xstatuses
+  Changed Handle checking (to avoid Thread handle leak)
+  First tab setting notes shows on mouse hover (not click)
+0.0.6.8 (29 oct 2007)
+  Added two options to alter filename search method
+  Fixed: mRadio track changing not catched
+0.0.6.7 (26 aug 2007)
+  Added lyric support for APev2 tags, WMA
+  Added cover support for APev2 tags, WMA, OGG, SPX and fLaC
+  Optimized APEv2, OGG, fLaC and WMA reading code
+  Fixed ID3v2.4 tag reading code
+  Optimized mediafile handle checking
+0.0.6.6 (9 aug 2007)
+  AIMP player support code changed
+  Fixed some memoryleaks
+0.0.6.5 (20 jun 2007)
+  'Use existing XStatus' options changes only message text, not title
+  Optimized FLV reading code
+  Fixed and optimized MPG reading code
+0.0.6.4 (13 jun 2007)
+  Added AIMP control
+0.0.6.3 (10 jun 2007)
+  Added: mRadio %version% macro support
+  Fixed: in rare case covers can be renamed and deleted
+  Fixed: %cover% value can be wrong if cover not present
+  Fixed: %volume% value for mRadio not obtaining
+0.0.6.2 (9 jun 2007)
+  Small players code fixes
+  Commented some thread code (due to AIMP 1.77 changes)
+  Fixed version number
+  Added seek ability for local mediafiles
+0.0.6.1 (7 jun 2007)
+  Added extended control for mRadio Mod
+  Added compatibility with AIMP 1.77
+  Added service to obtain not only played file info
+  Fixed: frame not change cover picture obtained from mediafile tags
+(01 jun 2007)
+  Added %nstatus% macro (like %status% but w/o translation)
+(29 may 2007)
+  Very small fixes (for mRadio too)
+(25 may 2007)
+  Added ability to show popups only by request, not new track
+(20 may 2007)
+  Changed: added threads for popups and statistic
+  Changed: Music/player Info obtaining code
+  Fixed: QCD player recognizing and processing
+(16 may 2007)
+  Added actions support for Popup Plus 2.1.0.5
+(15 may 2007)
+  Added %playerhome% (Player homepage url) macro
+(11 may 2007)
+  Small fixes
+  Statistic code optimized for speed
+(09 may 2007)
+  Added two buttons to check player/format list
+  AIMP player now processed separately
+  Changed code for played filename obtaining
+0.0.6.0 (05 may 2007)
+  Many small codechanges and fixes
+  Music info request can be send by ASKWAT text sending (received as message)
+  Settings saved only in profile db now
+0.0.5.0 (18 feb 2007)
+  Fixed: cover is showed only when backround picture name is not empty
+  Cover files deleted at exit now
+  Added volume field (see readme) to SongInfo structure.
+  Fixed: Cover from ID3v2 tag saved incorrectly
+  Fixed: Miranda crashed when shutdowned
+  Code cleaning and optimization
+0.0.4.30 (24 dec.2006)
+  Changed internal code library
+  Fixed comment reading from ID3v2 tag
+0.0.4.29 (29 nov 2006)
+  Small Fixes
+  Changes for external icon support for player.ini file
+  Fixed: ini file modified constantly if player not found
+0.0.4.28 (16 nov 2006)
+  Other bugfixes
+  Fixed: Contact menu handler chain was broken
+0.0.4.27 (15 nov 2006)
+  Small player handles fixes
+  Fixed: crash with WAV file samplesize<8 bit
+  Added options to choose Music info sharing ability
+  Added context menu music info request
+  Fixed bug with Frame redraw/resizing
+  Added external player definition
+0.0.4.26 (7 nov 2006)
+  Added album sort mode to report
+  Fixed some report errors
+  Changes for old miranda versions (before 0.6) compatibility
+0.0.4.25 (31 oct 2006)
+  INI file (not database) used by default
+  Winamp video width and height recognizing returned (for test)
+  Fixed: log file rewrited always
+  Fixed: Report creating from Options tab was wrong
+  Fixed: "Export default" button on options tab not work
+0.0.4.24 (29 oct 2006)
+  Report code was rewritten to template support
+  Current settings saved when saving place changed (switch at last!)
+  Loading settings from profile database works now normally
+  Fixed: Player name case conversion was after WAT_EVENT_NEWTRACK sending
+  Width and Height recognition through Winamp API disables due to wrong return values
+0.0.4.23 (15 oct 2006)
+  Save in INI/profile base file option returned
+  API changes
+  ID3v2 tag reading code was changed
+  Rewritten and reorganized internal structure
+  mBot script sample added
+0.0.4.22 (17 sep 2006)
+  INI-file structure changes (frame, report and popup options is separated)
+  CyberLink PowerDVD recognizing added
+  ALSong player recognizing added
+  MediaInfo obtained at plugin start now (if refresh time is not 0)
+  First version of new Player API is finished
+  Underscore replaces by spaces only in text macros (not media filename)
+  Fixed: wrong action on "Use Frame" checkbox
+0.0.4.21 (28 aug 2006) (test)
+  Miranda memory manager used now
+  Fixed: ID3v2 tags cannot process Unicode strings with reverse byte order
+  Media format API rewrited, new service added
+  Added event notifier for plugin loading
+  Added event notifier for plugin/player status changing
+0.0.4.20 (20 aug 2006)
+  Only songs with known length are addings to log
+  Added frame text centering
+  Small bugfixes
+  Fixed: Mirada crashes while report creating changed from menu
+  Added mRadio plugin support (test)
+  Fixed: sometimes trackbar is hidden
+  Added SongBird player support
+0.0.4.19 (11 aug 2006)
+  XStatus 'Watching pro7 on TV' works like 'Listening to music' XStatus but for video
+  Show/hide trakbar option is separated now
+  Sources changed for delphi7_up compatibility
+  Fixed: Sometimes plugin show hotkey registration error
+  Fixed: Timer stopped when Options page is open
+  Added some additional settings for frame text scrolling
+  Fixed: iTunes volume control does not work
+  Added menu item and toolbar button to disable plugin
+  Fixed error with unknown format tag in the frame template
+  Added WiFiRadio player support
+  Added option to hide frame when player not found
+0.0.4.18 (14 jul 2006)
+  Added GOM player detection
+  {cf#nnnnnn} and {bg#nnnnnn} is define color with hex trucolor value 'nnnnnn'
+  Added frame text format support
+  Added pushed/hovered button status support if watrack_buttons.dll is used
+0.0.4.17 (10 jul 2006)
+  Fixed: frame button not unpress when pressed button mouse moves out of frame
+  Added option to use or not gap between frame buttons
+  Option tabs changed back to theme ability
+  Added "skin" trackbar ability
+0.0.4.16 (9 jul 2006)
+  Small interface changes
+  Volume buttons on the frame changed and can be hided now
+  '\t' combination (Tabulation) changed to '{tab}' tag format
+  Fixed avoid '\n' combination conflict in templates
+  Holding mouse button on volume control make continuous decremet/increment
+  Fixed some bugs
+  Added frame transparency
+0.0.4.15 (5 jul 2006)
+  Added right align frame picture option
+  Fixed: text insertion hotkey do not always register
+  Service for player control is created
+  Added "Next track" to popup click options
+  If timer value greater than 499, time signify as milliseconds
+0.0.4.14 (3 jul 2006)
+  Added bottom align frame picture option
+  Fixed: Miranda freezes on W2K when some radiobuttons clicked
+  Returned modified old code for Foobar recognize
+0.0.4.13 (29 jun 2006)
+  Updater data changed for new hosting compatibility
+  Added support \t in templates (expanded when used)
+  Frame text now can be edited
+  Frame background can be picture (with effects: center, tile, stretch)
+  Options saves in profile directory as default (if old settings not found)
+  Foobar2000 recognizing code changed
+  Jabber chat recognized now
+  Fixed: 'Try to use OLE interface' option not changed
+  Added frame bitmap background support
+  Fixed: control icons in IcoLib not shows then watrack_icons.dll is not found
+  Volume control added
+  New Frame options added
+0.0.4.12 (18 jun 2006)
+  Fixed (i hope) bug with info refresh while MediaMonkey finished
+  Added frame support with IcoLib support
+  Added control procedures for some players
+  Small speed optimization
+  Introduced option to enable/disable players OLE interface
+0.0.4.11 (14 jun 2006)
+  Fixed FLV bug
+  Added MPEG file support (only MPEG audio stream)
+0.0.4.10 test (11 jun 2006)
+  New macro %txtver% (text version number representation) was introduced
+  Small fixes
+  Imroved Foobar2000 support if foo_comserver2 plugin is present
+0.0.4.9 (06 jun 2006)
+  Added partial support for MOV and 3GP file formats
+  Added support for ID3v2 tag v.2
+  Added option to skip some plugin error messages (mainly for hotkeys)
+  INI file is not rewritten now if default player was not changed
+  Added QuickTime player support
+0.0.4.8 (31 may 2006)
+  Added New options to insert text in text field of other apps
+  Code compiled with KOL (smaller size)
+0.0.4.7
+  Version numeration changed for more Updater compatibility. Last number is for betas.
+  Trying to use XP theming in TABs
+  Changed XStatus recovery code
+0.0.4.6 (23 may 2006)
+  Variables and NewAwaySys works now with Unicode
+  Small interface changes
+  Added FLVPlayer support
+  Added option to check file date/time changes while playing
+  Added option to set XStatus regardless of ICQ status
+  Added option to replace underline with spaces
+  Fixed NAS service call
+  Added partial FLV format support
+  Fixed: some unicode named files can't be processed
+  Macro help removed from resource
+0.0.4.5 (11 may 2006)
+  Changed Macro help window - with localisation support now
+  Added NewAwaySys (unicode) support for status text changings
+  Added MPlayer support
+  Fixed MusikCube player code
+  Fixed template formatting in IRC channel
+  Added partial MKV, WMV and ASF formats support
+  Changed RM reading code to video info compatibility
+  Added AVI file support (test version)
+  Added OGM file support
+  %fps%, %width%, %height% and %codec% macro added
+  OGG file info reading changes
+  Fixes for large files
+  Finally fixed bug with Popup templates
+  Options dialog changed again (Templates and Protocols tabs is merged)
+0.0.4.4 (24 apr 2006)
+  Fixed: Template macro help not work
+  Changed WavPack reading code for v.4* compatibility
+  Fixed bug with INI file name processing
+  Status message now uses 'Status Text' template (was 'Status Title')
+  MediaMonkey player class now partially uses OLE interface
+  Music XStatus can be cleared when miranda starts without music
+  Watrack.ini used if private INI file is absent
+  Notes in first option tab is Unicode now
+  Changed work with statuses (normal and extended)
+  Changed plugin behaviour when Miranda started without played song
+  Default template texts changed
+  Fixed: unused strings was keeped in INI file.
+  Fixed: can crash when Variables plugin not exists
+  Fixed: protocols enabling-disabling not works properly
+  Fixed: Crashes when music played and templates changed
+  MediaMonkey recognized as separate player now, not Winamp clone
+  All settings now saved in INI-file
+  Template option dialog was totally rewrited
+0.0.4.3 (26 mar 2006)
+  Added option to return Variables value in ANSI
+  Small save-related changes
+  Added 'AudioPlayer' support
+  Player icons moved to separate file (must be in icons or plugins directory)
+  Added player window handle to SongInfo structure
+  Added popup option to activate player window
+  Fixed: wrong 'Total logged music time' value
+  Added Core Media Player support
+0.0.4.2 (03 mar 2006)
+  Fixed RM file reading
+  Fixed ID3v2 tag reading (UTF8 encoding)
+  Small option dialog interface changes
+  Localisation sample file included (russian)
+  psapi.dll included (needed when plugin can't get song filename)
+  Fixed WMA tag reading
+  Fixed LA player recognition (wrong player status was returned)
+  Old XStatus restored now if player not found
+  Changed: if XStatus title is empty, it is cleared now
+  Changed %music% command translation code
+0.0.4.1 (26 feb 2006)
+  Deleted ICQ XStatus old API code
+  Added Creative Media Source support
+  Added 'version' resource
+  Status and popup templates are separated now
+  Added Media Commander Express player support
+  Added IcoLib support
+  Added VLC player support
+  Added Helium Music Manager support
+  Added Musicmatch Jukebox player support
+  Added %music% command with BB-code formatting in message dialog
+  Added option for player title formatting
+  Fixed error with filename in File info called from popup
+  Added support for J.River Media Center
+  Fixed situation when player is stopped
+  Fixed: 511 byte per string only saved in INI-file
+  Fixed player status for unknown filetypes
+  Small fix for MP4/M4A reading
+  Added partial M4A file format tag support
+  Added option to get unknown music format info from player
+  Changed WMA tag reading code to obtain number-type values
+  All resource language is Neutral now
+  Changed MusicCubeOne and SAPS players recognition
+  When 'no-music text' is empty and player stopped status message cleared
+  When 'Keep Status' is 'on' status text cleared
+  Song time can show more than 99 hours now
+  Changed recognizing song filename when Apollo is 'stopped'
+  Added Pluton player support
+  Fixed: Clearing 'Music' XStatus doesn't work with new ICQ API
+0.0.4.0 (29 jan 2006)
+  Added option to disable log
+  Changed XStatus setting code to compatibles with new ICQ API
+  Fixed: Popup service function works only with TopToolBar
+  Vorbis comment tag names now case insensitive
+  Changed FLAC reading code. Now with Vorbis comments
+  Current music format saves and checks firstly
+  Fixed: 'Save settings in INI-file' option cleared if Options dialog opens
+  Nearby twin record in statistic file is ignored now
+  Relative report or statistic file path calculated now from Miranda directory
+  Corrected status changing when player stopped
+  Added %status% macro (works with not all players!!!)
+  Added option to save CSS file separately
+  Added automatic report file extension adding/changing
+  Added VBR/CBR text to File Info from pupup
+  Added %year% macro help (i just forgot)
+  Empty report file not created if log file is invalid
+  Added menu item and service function for report creating
+  Added support for SAPS player
+  Added support for Zoom player
+  Changed QCDPlayer code to support new QMPlayer
+0.0.3.8 (19 jan 2006)
+  Fixed MP3 VBR reading bug
+  Added simple statistic (UTF8 enc.) (just for fun)
+  Added %vbr% macro and option for it
+  Added template when player not found
+  Changed Options interface
+  Changed Service function interface (please, see comments!)
+  Fixed wrong %total% value when 'Variables' plugin used
+  Added MusicCube One player support
+  OGG tags now translated as UTF8
+  Fixed some ID3v2 tag reading issues and errors
+  Fixed track number recognize in APEv2 tag
+  Active Player places on first place (save in settings - AI! :) )
+  Now MP3 files checked firstly
+  Changed Foobar2000 main window search procedure
+  Deep code changes (translating to Unicode strings and other)
+0.0.3.7 (26 dec 2005)
+  Added file size text formatting
+  Corrected formatted text output
+  Fixed WMA reading code (again)
+  Fixed internal ANSI to Unicode transformation
+  Changed Options dialog
+0.0.3.6 (21 dec 2005)
+  Added Unicode support
+  Fixed wrong WMA tag reading
+  Advances PopUp settings
+  Toolbar button for popup window added
+  Small code optimisation
+  Fixed chat or message window recognition
+  Partially avoiding WMP10 playlist bug
+  Added XMPlayer support
+  Added macros %size% (file size) and %type% (file ext.)
+0.0.3.5 (05 dec 2005)
+  Now Status not processes and Popup not shows when player is stopped
+  Popup settings dialog created
+  Added BSPlayer support
+0.0.3.4 (28 nov 2005)
+  Some changes for Service function (mainly description, see header)
+  Fixed (i hope): Miranda crushes sometimes by pressing hotkey
+  'No-music text' can processed by Variables plugin
+  Now Status changing works in separated protocols
+  Fixed: Popup shows not always
+  Status template now multiline
+  Added player icon in Popup window
+0.0.3.3 (24 nov 2005)
+  Changed Foobar2000 recognition for new versions
+  Remove elapsed time recongition within Foobar2000 (sorry!)
+  Now with player shutdown XStatus changes to 'none' and no sets anymore
+  Added simply PopUp support (Status Template value)
+  Added option to change XStatus only for existing Music xstatus
+  Added option to keep or not Music XStatus on player exit
+  Fixed: Miranda can crush while use Variables plugin
+0.0.3.2 (19 nov 2005)
+  File renamed for avoiding Updater plugin crash
+  Fixed: format tag at the end of template not translated
+  Fixed variables help
+  Added support for ViPlay3 player
+  Data for 'Variables' plugin updated by timer
+  Added ability to switch off some players
+  Added ability to change processed status mode
+  Added ability to save settings in INI-file
+  Settings saved only from Options dialog, not on exit
+  Some code changes
+0.0.3.0 (29 oct 2005)
+  Genre name table moved to resource
+  ICQ XStatus changes only for non-offline user mode
+  Fixed: 'new line' code inserted at the end
+0.0.2.9 (27 oct 2005)
+  Fixed: Stupid bug - text not inserted into CHAT window
+  Temporary: text formatting used in ordinal message window too (only for testing)
+0.0.2.8 (27 oct 2005)
+  Added support for RA/RM format (experimental)
+  Changed text formatting algorithm (test for Asian text, please!)
+  Created version archive on http://awkward.front.ru/archive/
+  Try to use simple Updater plugin compatibility
+0.0.2.7 (25 oct 2005)
+  Fixed: Status message not changed by timer
+  Added: experimental Chat window text formatting (see readme)
+0.0.2.6 (23 oct 2005)
+  Fixed some bugs.
+  Other small changes.
+0.0.2.5 (23 oct 2005)
+  Modified Option Dialog and added translation ability
+  Added partial support for AAC file format
+  Added support for MP4 with MP3-coding format
+  Added support for MusikCube player
+  Added alternative ID3v2 tag frames
+0.0.2.4 (19 oct 2005)
+  Changed hotkey processing (not global hook now)
+  Changed some players recognition
+  Changed Music info interface (see include file)
+  Added support for 'Variables' plugin (not fully tested)
+  Added support for MediaMonkey Player
+  Added support for RealPlayer
+  Added support for MPC file format (only 'MPC' extension)
+  Added partial support for SPX file format (not tested)
+  Added partial support for OFR file format (not tested)
+  Now Status sets only if changed
+0.0.2.2 (10 oct 2005)
+  (Not fully tested, save previous version!)
+  Now HotKey work only with own Miranda copy
+  New tag processing algorithm
+  Added WAV format support
+  Added experimental APE,TTA and FLAC formats support (not tested)
+  Added iTunes and PlayNow! players recognize
+  Some internal changes
+  Macro %samplerate% and %bitrate% (%khz% and %kbps% synonims) added
+  Fixed: unwanted XStatus changing to 'Music'
+0.0.1.8 (05 oct 2005)
+  Fixed: Sometime Foobar2000 main window not recognized properly
+  Small speed optimisation
+  Added LightAlloy recognize
+  Empty "No-Music text" keep original Miranda status messages now
+  Fixed: in Apollo and OGG-file Bitrate was Bps, not KBps,
+         Samplerate was Hz, not KHz
+0.0.1.7 (04 oct 2005)
+  Added automatic Music info refresh by timer
+  Added option to NOT insert music info into message window
+  Fixed: crash on some comments in ID3v2
+0.0.1.6 (03 oct 2005)
+  Changed Options dialog
+  Added simple Away-message support (only by Hotkey pressing)
+  Macro %year% now work
+0.0.1.5 (02 oct 2005)
+  Support for Unicode value in ID3v2
+  Add WMA tag support
+  Fixed: macro %genre% not translated
+  Fixed: Winamp window title processing
+0.0.1.4 (29 sep 2005)
+  Added JetAudio support
+  Fixed: VBR MP3 length not propely calculated
+  Fixed music file name recognition
+  Added APEv2+ID3v1 at one time tag support
+0.0.1.3 (28 sep 2005)
+  Now get music info from file on local network
+0.0.1.2 (27 sep 2005)
+  Changed 'year' field type in music info
+  Added APEv2 tag support for MP3
+  Remove Win98-code part
+  Other small changes
+0.0.1.1 (25 sep 2005)
+  Test version.
+  win2KXP-only compatible.
+  Service function added.
+  MP3 IDv2 tag data read fixed
+  Some other bugs fixed (sorry, not all!).
+0.0.1.0 (25 sep 2005)
+  Test version: new music file search algorithm (MP3 OGG WMA only)
+  Windows media player wrapper not needed now
+0.0.0.9 (24 sep 2005)
+  correct MP3 file processing with padding at start
+  cutting template strings tail fixed again :(
+  add %percent% macro
+  Modified source code uploaded
+0.0.0.8 (22 sep 2005)
+  cutting template strings tail (sometime) fixed
+  %wndtext% macro turn "on" again :)
+0.0.0.7 (19 sep 2005)
+  MP3 tag support extended
+  OGG file info (not length, sorry!) added
+  music info readed at one time now (for Winamp-like API - at request too)
+  Apollo samplerate show changed
+  %comment% macro added
+0.0.0.6 (18 sep 2005)
+  Macro %track% value changed
+  audio MPEG 2 & 2,5 and layer 1 & 2 file support added
+  Some code cleaning
+  Correct data view from MP3 Tag
+  Changed Artist-Title determination algorithm
+  Changed Winamp search algorithm
+0.0.0.5 (14 sep 2005)
+  Work improved, more players added
+  Default macro processing added
+  Fix some bugs
+  FooBar without Winamp wrapper supported (not full)
+  MP3 tag v1 partial support added
+0.0.0.3 (12 sep 2005)
+  New option interface
+  New engine for many player support
+  Macro support added
+0.0.0.1 (07 sep 2005)
+  First release

@@ -1,0 +1,50 @@
+#include "stat_rc.inc"
+
+LANGUAGE 0,0
+
+STATS DIALOGEX 0, 0, 304, 226, 0
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0
+{
+ PUSHBUTTON   "Delete", IDC_CLEAR , 242, 11, 56, 14
+ LTEXT        "Statistic log file", -1       ,  16,  17, 148, 12
+ EDITTEXT     IDC_STATNAME                   ,   6,  29, 214, 14
+ PUSHBUTTON   "...", IDC_SNBUTTON            , 222,  29,  16, 14
+ PUSHBUTTON   "Sort", IDC_SORTFILE           , 242,  29,  56, 14
+ RTEXT        "Autosort period, days",-1     , 124,  45, 142, 12, SS_CENTERIMAGE
+ EDITTEXT     IDC_AUTOSORT                   , 270,  45,  28, 12, ES_RIGHT | ES_NUMBER
+ LTEXT        "Report file", -1              ,  16,  47, 148, 12
+ EDITTEXT     IDC_REPNAME                    ,   6,  59, 214, 14
+ PUSHBUTTON   "...", IDC_RNBUTTON            , 222,  59,  16, 14
+ PUSHBUTTON   "Report", IDC_REPORT           , 242,  59,  56, 14
+ LTEXT        "Template file", -1            ,  16,  77, 148, 12
+ EDITTEXT     IDC_TMPLNAME                   ,   6,  89, 214, 14
+ PUSHBUTTON   "...", IDC_TNBUTTON            , 222,  89,  16, 14
+ PUSHBUTTON   "Export default", IDC_EXPORTDEF, 242,  89,  56, 14
+
+ CONTROL "", -1, "STATIC", SS_ETCHEDHORZ, 4, 107, 296, 2
+
+ GROUPBOX     "Show in report", -1, 6, 111, 144, 84
+ AUTOCHECKBOX "Freq. songs"      , IDC_FREQART  , 12, 121, 136, 12, BS_VCENTER
+ AUTOCHECKBOX "Freq. artists"    , IDC_FREQSONG , 12, 133, 136, 12, BS_VCENTER
+ AUTOCHECKBOX "Freq. album"      , IDC_FREQALBUM, 12, 145, 136, 12, BS_VCENTER
+ AUTOCHECKBOX "Freq. paths"      , IDC_FREQPATH , 12, 157, 136, 12, BS_VCENTER
+ AUTOCHECKBOX "Last played songs", IDC_LASTSONG , 12, 169, 136, 12, BS_VCENTER
+ AUTOCHECKBOX "Song time"        , IDC_SONGTIME , 12, 181, 136, 12, BS_VCENTER
+
+ GROUPBOX        "Sort log file", -1, 154, 111, 144, 84
+ AUTORADIOBUTTON "by Title"     , IDC_BYTITLE  , 158, 121, 136, 12, NOT WS_TABSTOP
+ AUTORADIOBUTTON "by Date"      , IDC_BYDATE   , 158, 133, 136, 12, NOT WS_TABSTOP
+ AUTORADIOBUTTON "by Count"     , IDC_BYCOUNT  , 158, 145, 136, 12, NOT WS_TABSTOP
+ AUTORADIOBUTTON "by Path"      , IDC_BYPATH   , 158, 157, 136, 12, NOT WS_TABSTOP
+ AUTORADIOBUTTON "by Length"    , IDC_BYLENGTH , 158, 169, 136, 12, NOT WS_TABSTOP
+ AUTOCHECKBOX    "Reverse order", IDC_DIRECTION, 158, 181, 136, 12, BS_VCENTER | BS_MULTILINE
+
+ LTEXT        "Report Items", -1, 38, 208, 112, 12, SS_CENTERIMAGE
+ EDITTEXT     IDC_ITEMS, 6, 208, 28, 12, ES_RIGHT | ES_NUMBER
+ AUTOCHECKBOX "Open report"         , IDC_RUNREPORT, 154, 196, 146, 12, BS_VCENTER
+ AUTOCHECKBOX "Add report file ext.", IDC_ADDEXT   , 154, 208, 146, 12, BS_VCENTER | BS_MULTILINE
+}
+
+BTN_REPORT  ICON "wat_report.ico"

@@ -1,0 +1,104 @@
+#include "i_const.inc"
+
+LANGUAGE 0,0
+
+BASIC DIALOGEX 0, 0, 304, 226, 0
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0
+{
+ CTEXT        "Unicode to Ansi translation codepage:", -1, 192, 2, 108, 20
+ COMBOBOX     IDC_CODEPAGE, 192, 22, 108, 56, CBS_DROPDOWNLIST | WS_VSCROLL | NOT WS_TABSTOP
+ CTEXT        "Refresh time, sec", IDC_STAT_TIMER, 226, 36, 76, 16, SS_CENTERIMAGE
+ EDITTEXT     IDC_TIMER, 192, 38, 32, 12, ES_RIGHT | ES_NUMBER
+ AUTOCHECKBOX "Check file time"           , IDC_CHECKTIME , 192,  52, 108, 16, BS_VCENTER | BS_MULTILINE | BS_NOTIFY
+ AUTOCHECKBOX "Keep old file"             , IDC_KEEPOLD   , 192,  68, 108, 16, BS_VCENTER | BS_MULTILINE | BS_NOTIFY
+ AUTOCHECKBOX "Emulate Multimedia keys"   , IDC_APPCOMMAND, 192,  84, 108, 16, BS_VCENTER | BS_MULTILINE | BS_NOTIFY
+ AUTOCHECKBOX "Use process implantation"  , IDC_IMPLANTANT, 192, 100, 108, 16, BS_VCENTER | BS_MULTILINE | BS_NOTIFY
+ AUTOCHECKBOX "Check all players"         , IDC_CHECKALL  , 192, 116, 108, 16, BS_VCENTER | BS_MULTILINE | BS_NOTIFY
+ AUTOCHECKBOX "Other thread handle check" , IDC_MTHCHECK  , 192, 132, 108, 16, BS_VCENTER | BS_MULTILINE | BS_NOTIFY
+
+ EDITTEXT     IDC_TIMEOUT      , 192, 149, 20, 12, ES_RIGHT | ES_NUMBER
+ LTEXT        "Timeout, ms", -1, 214, 148, 86, 14, SS_CENTERIMAGE
+
+ CONTROL         "", IDC_PLAYERLIST, "SysListView32",
+                 WS_BORDER | WS_TABSTOP | LVS_NOCOLUMNHEADER | LVS_SHOWSELALWAYS | LVS_SINGLESEL | LVS_REPORT,
+                 2, 18, 120, 190, WS_EX_CONTROLPARENT
+ CONTROL         "", IDC_FORMATLIST, "SysListView32",
+                 WS_BORDER | WS_TABSTOP | LVS_NOCOLUMNHEADER | LVS_SHOWSELALWAYS | LVS_SINGLESEL | LVS_REPORT,
+                 125, 18,  60, 190, WS_EX_CONTROLPARENT
+ CTEXT           "Formats", -1, 125, 4, 64, 12
+ CTEXT           "Players list\n(F1 for note)", -1, 2, 0, 120, 18
+ CTEXT           "Check", -1, 2, 210, 72, 12, SS_CENTERIMAGE
+ PUSHBUTTON      "None", IDC_CHK_PLAYER,  74, 210, 48, 12
+ PUSHBUTTON      "None", IDC_CHK_FORMAT, 125, 210, 60, 12
+
+ CTEXT    "Cover filenames", -1, 192, 164, 108, 10
+ EDITTEXT IDC_COVERFN, 192, 174, 108, 48, ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
+}
+
+COLOR DIALOGEX 0, 0, 96, 116, 0
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Color codes"
+FONT 8, "MS Shell Dlg", 0, 0
+{
+ DEFPUSHBUTTON "OK", IDOK, 35, 98, 26, 16, NOT WS_TABSTOP
+ RTEXT "1", -1, 4, 6, 10, 10
+ RTEXT "2", -1, 4, 17, 10, 10
+ RTEXT "3", -1, 4, 28, 10, 10
+ RTEXT "4", -1, 4, 39, 10, 10
+ RTEXT "5", -1, 4, 50, 10, 10
+ RTEXT "6", -1, 4, 61, 10, 10
+ RTEXT "7", -1, 4, 72, 10, 10
+ RTEXT "8", -1, 4, 83, 10, 10
+ RTEXT "9", -1, 46, 6, 10, 10
+ RTEXT "10", -1, 46, 17, 10, 10
+ RTEXT "11", -1, 46, 28, 10, 10
+ RTEXT "12", -1, 46, 39, 10, 10
+ RTEXT "13", -1, 46, 50, 10, 10
+ RTEXT "14", -1, 46, 61, 10, 10
+ RTEXT "15", -1, 46, 72, 10, 10
+ RTEXT "16", -1, 46, 83, 10, 10
+}
+
+IDI_PLUGIN_ENABLE  ICON "wat_enable.ico"
+IDI_PLUGIN_DISABLE ICON "wat_disable.ico"
+
+PARTS DIALOGEX 0, 0, 304, 226, 0
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0
+{
+ GROUPBOX "Switch ON these modules", IDC_MODULEGROUP, 2, 2, 188, 218, WS_TABSTOP
+}
+
+LANGUAGE 0,0 
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,6,12 
+ PRODUCTVERSION 0,0,6,12 
+ FILEFLAGSMASK $3F
+ FILEOS 4 
+ FILETYPE 2 
+ FILESUBTYPE 0 
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "000004b0"
+    BEGIN
+      VALUE "CompanyName",""
+      VALUE "Comments", "Plugin to get, insert to messages and show currently played song info"
+      VALUE "FileDescription", "WATrack plugin for Miranda NG"
+      VALUE "FileVersion", "0, 0, 6, 12 "0 
+      VALUE "InternalName", "WATrack"
+      VALUE "OriginalFilename", "watrack.dll"
+      VALUE "ProductName", " WATrack Dynamic Link Library (DLL)"
+      VALUE "ProductVersion", "0, 0, 6, 12 "0 
+      VALUE "SpecialBuild", "17.11.2009 "0 
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+      VALUE "Translation",0,1200 
+  END
+END

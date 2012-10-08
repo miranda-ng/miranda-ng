@@ -1,0 +1,36 @@
+#include "i_proto_rc.inc"
+
+LANGUAGE 0,0
+
+MISC DIALOGEX 0, 0, 304, 226, 0
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0
+{
+ CONTROL "",IDC_SHARE, "CListControl", WS_TABSTOP | 0x3CA, 4, 4, 144, 180, WS_EX_CLIENTEDGE
+
+ CTEXT        "Save events in database",-1, 154,  4, 144, 12, SS_CENTERIMAGE
+ LTEXT        "Input"                  ,-1, 154, 16,  70, 12, SS_CENTERIMAGE
+ RTEXT        "Output"                 ,-1, 226, 16,  70, 12, SS_CENTERIMAGE
+
+ CTEXT        "Music Info Request",-1, 170, 30, 112, 14, SS_CENTERIMAGE
+ AUTOCHECKBOX "", IDC_IN_REQUEST     , 154, 30,  14, 14, BS_VCENTER | BS_NOTIFY
+ AUTOCHECKBOX "", IDC_OUT_REQUEST    , 284, 30,  14, 14, BS_VCENTER | BS_NOTIFY | BS_RIGHT | BS_LEFTTEXT
+
+ CTEXT        "Music Info"        ,-1, 170, 44, 112, 14, SS_CENTERIMAGE
+ AUTOCHECKBOX "", IDC_IN_INFO        , 154, 44,  14, 14, BS_VCENTER | BS_NOTIFY
+ AUTOCHECKBOX "", IDC_OUT_INFO       , 284, 44,  14, 14, BS_VCENTER | BS_NOTIFY | BS_RIGHT | BS_LEFTTEXT
+
+ CTEXT        "Request Error"     ,-1, 170, 58, 112, 14, SS_CENTERIMAGE
+ AUTOCHECKBOX "", IDC_IN_ERROR       , 154, 58,  14, 14, BS_VCENTER | BS_NOTIFY
+ AUTOCHECKBOX "", IDC_OUT_ERROR      , 284, 58,  14, 14, BS_VCENTER | BS_NOTIFY | BS_RIGHT | BS_LEFTTEXT
+
+ AUTOCHECKBOX "Save ignored requests"     , IDC_IREQUEST, 154, 76, 144, 14, BS_VCENTER | BS_MULTILINE | BS_NOTIFY
+ AUTOCHECKBOX "Answer to ignored requests", IDC_ISEND   , 154, 90, 144, 14, BS_VCENTER | BS_MULTILINE | BS_NOTIFY
+
+ RTEXT        "User music info text", -1, 154, 154, 142, 10
+ RTEXT        "(%artist%, %title%, %album% and %year% macros can be used only)", -1, 154, 164, 142, 22
+ EDITTEXT     IDC_PROTO_TEXT, 4, 186, 296, 36, ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
+}
+
+BTN_CONTEXT ICON "wat_context.ico"

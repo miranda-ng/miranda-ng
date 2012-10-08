@@ -1,0 +1,83 @@
+LANGUAGE 0,0
+// Winamp clone
+WANY     ICON "wany.ico"
+// 1BY1
+1BY1     ICON "1by1.ico"
+// ALShow
+ALSHOW   ICON "alshow.ico"
+// ALSong
+ALSONG   ICON "alsong.ico"
+// Apollo
+APOLLO   ICON "apollo.ico"
+// AudioPlayer
+AUDIO    ICON "audio.ico"
+// BSPlayer
+BS       ICON "bs.ico"
+// Core Media Player
+CMP      ICON "cmp.ico"
+// Creative Music Source
+CMS      ICON "cms.ico"
+// Cowon JetAudio
+COWON    ICON "cowon.ico"
+// FLVPlayer
+FLV      ICON "flv.ico"
+// Foobar
+FOOBAR   ICON "foobar.ico"
+//GOMPlayer
+GOM      ICON "gom.ico"
+// Helium
+HELIUM   ICON "helium.ico"
+// iTunes
+ITUNES   ICON "itunes.ico"
+// JRiver Media Center
+JRMC     ICON "jrmc.ico"
+// LightAlloy
+LA       ICON "la.ico"
+// Last.fm Player
+LFM      ICON "lfm.ico"
+// MusicCube One
+MCONE    ICON "mcone.ico"
+// MusikCube
+MCUBE    ICON "mcube.ico"
+// Media Commander Express
+MCX      ICON "mcx.ico"
+// Music Match Jukebox
+MMATCH   ICON "mmatch.ico"
+// Media Monkey
+MMONKEY  ICON "mmonkey.ico"
+// Media Player Classic
+MPC      ICON "mpc.ico"
+// MPlayer
+MPLAYER  ICON "mplayer.ico"
+// MRadio
+MRADIO   ICON "mradio.ico"
+// PlayNow
+PLAY     ICON "play.ico"
+// Pluton
+PLUTON   ICON "pluton.ico"
+// CyberLink PowerDVD
+POWERDVD ICON "powerdvd.ico"
+// Quintessential Player
+QCD      ICON "qcd.ico"
+// Quicktime Player
+QT       ICON "qt.ico"
+// Real Player Gold
+REAL     ICON "real.ico"
+// SAPS
+SAPS     ICON "saps.ico"
+// SongBird
+SONGBIRD ICON "songbird.ico"
+// VideoLAN media player
+VLC      ICON "vlc.ico"
+// ViPlay
+VP3      ICON "vp3.ico"
+// WiFiRadio
+WIFI     ICON "wifi.ico"
+// Winamp
+WINAMP   ICON "winamp.ico"
+// Windows Media Player
+WMP      ICON "wmp.ico"
+// XM Player
+XM       ICON "xm.ico"
+// Zoom Player
+ZOOM     ICON "zoom.ico"
