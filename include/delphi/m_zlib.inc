@@ -96,7 +96,7 @@ type
   end;
 
 function deflateInit(var strm: z_stream; level: Integer): Integer; cdecl;
-                 external ZlibDLL name 'deflateInit';
+                 external ZlibDLL name 'deflateInit_';
 
 function deflate(var strm: z_stream; flush: Integer): Integer; cdecl;
                  external ZlibDLL name 'deflate';
@@ -105,7 +105,7 @@ function deflateEnd(var strm: z_stream): Integer; cdecl;
                  external ZlibDLL name 'deflateEnd';
 
 function inflateInit(var strm: z_stream): Integer; cdecl;
-                 external ZlibDLL name 'inflateInit';
+                 external ZlibDLL name 'inflateInit_';
 
 function inflate(var strm: z_stream; flush: Integer): Integer; cdecl;
                  external ZlibDLL name 'inflate';

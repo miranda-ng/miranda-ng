@@ -88,7 +88,7 @@
   //test
 {$ENDIF LIN}
 
-unit KOL; 
+unit KOL;
 {*
    Please note, that KOL does not use keyword 'class'. Instead,
    poor Pascal 'object' is the base of our objects. So, remember,
@@ -380,7 +380,7 @@ unit KOL;
                           style of the window (this cause incorrect form view in
                           Vista Aero theme (due a bug in Vista?)).
   ANCHORS_WM_SIZE       - to check WM_SIZE message in Anchor handling window
-                          procedure. By default, now used WM_WINDOWPOSCHANGED.   
+                          procedure. By default, now used WM_WINDOWPOSCHANGED.
   USE_PROP              - to use GetProp / SetProp (old style) in place of
                           Get / SetWindowLong( wnd, GWL_USERDATA... ) (slower?)
 
@@ -766,7 +766,7 @@ type
      fTag: DWORD;
      {* Custom data. }
    public
-     destructor Destroy; virtual; 
+     destructor Destroy; virtual;
      {* Disposes memory, allocated to an object. Does not release huge strings,
         dynamic arrays and so on. Such memory should be freeing in overriden
         destructor. }
@@ -3634,7 +3634,7 @@ const
   MK_CONTROL = 8;
   MK_MBUTTON = $10;
   MK_ALT = $20;  // MK_ALT DEFINED
-  MK_LOCK = $40; // CAPS LOCK or SHIFT LOCK 
+  MK_LOCK = $40; // CAPS LOCK or SHIFT LOCK
 {$IFDEF WIN_GDI}
 
 {$IFNDEF NOT_USE_RICHEDIT}
@@ -5037,7 +5037,7 @@ type
   protected
     procedure SetConstraint(const Index: Integer; Value: SmallInt);
     function GetOnMinMaxRestore(const Index: Integer): TOnEvent;
-    function GetConstraint(const Index: Integer): Integer;
+    function GetConstraint(const Index: Integer): SmallInt;
     function GetLVColalign(Idx: Integer): TTextAlign;
     procedure SetLVColalign(Idx: Integer; const Value: TTextAlign);
 
@@ -5343,7 +5343,7 @@ type
     procedure SetClientMargin(const Index: Integer; Value: ShortInt);
   protected
     {$IFDEF F_P}
-    function GetClientMargin(const Index: Integer): Integer;
+    function GetClientMargin(const Index: Integer): ShortInt;
     {$ENDIF F_P}
     {$ENDIF GDI}
   protected
@@ -6720,7 +6720,7 @@ type
        in such case it is no more necessary to call also this method, but
        calling it therefore is not an error. }
 
-    property OnMessage: TOnMessage  
+    property OnMessage: TOnMessage
              read {$IFDEF EVENTS_DYNAMIC} Get_OnMessage {$ELSE} EV.fOnMessage {$ENDIF}
              write {$IFDEF EVENTS_DYNAMIC} Set_OnMessage {$ELSE} EV.fOnMessage {$ENDIF};
     {* |<#appbutton>
@@ -10221,7 +10221,7 @@ type
   PHHNTrack = ^THHNTrack;
   tagHHNTRACK = packed record                  //tagHHNTRACK, HHNTRACK;
     hdr:               TNMHdr;
-    pszCurUrl:         PAnsiChar;                  // Multi-byte, null-terminated string  
+    pszCurUrl:         PAnsiChar;                  // Multi-byte, null-terminated string
     idAction:          Integer;                // HHACT_ value
     phhWinType:        PHHWinType;             // Current window type structure
   end;
@@ -11753,7 +11753,7 @@ const KOI8_Rus: array[ #$C0..#$FF ] of AnsiChar = (
        'ß', 'Ð', 'Ñ', 'Ò', 'Ó', 'Æ', 'Â', 'Ü', 'Û', 'Ç', 'Ø', 'Ý', 'Ù', '×', 'Ú'}
        #$FE,
        #$E0, #$E1, #$F6, #$E4, #$E5, #$F4, #$E3, #$F5, #$E8, #$E9, #$EA, #$EB, #$EC, #$ED, #$EE, #$EF,
-       #$FF, #$F0, #$F1, #$F2, #$F3, #$E6, #$E2, #$FC, #$FB, #$E7, #$F8, #$FD, #$F9, #$F7, #$FA, 
+       #$FF, #$F0, #$F1, #$F2, #$F3, #$E6, #$E2, #$FC, #$FB, #$E7, #$F8, #$FD, #$F9, #$F7, #$FA,
        #$DE,
        #$C0, #$C1, #$D6, #$C4, #$C5, #$D4, #$C3, #$D5, #$C8, #$C9, #$CA, #$CB, #$CC, #$CD, #$CE, #$CF,
        #$DF, #$D0, #$D1, #$D2, #$D3, #$C6, #$C2, #$DC, #$DB, #$C7, #$D8, #$DD, #$D9, #$D7, #$DA
@@ -12674,7 +12674,7 @@ type
        a separate Applet object is used. }
     property OpenReadOnly: Boolean read fOpenReadOnly;
     {* TRUE after Execute, if Read Only check box was checked by the user.
-       Options are not affected anyway. } 
+       Options are not affected anyway. }
   end;
 
 const DefOpenSaveDlgOptions: TOpenSaveOptions = [ OSHideReadonly,
@@ -17586,7 +17586,7 @@ begin
       {$ENDIF}
     end;
     Result := Sender.fTmpBrush;
-    {$ELSE} Result := 0; 
+    {$ELSE} Result := 0;
     {$ENDIF GDI}
   end;
 end;
@@ -18211,7 +18211,7 @@ asm
          XCHG   EDX, EAX
          MOV    EAX, [EDX].TGraphicTool.fHandle
          TEST   EAX, EAX
-         JNZ    @@exit 
+         JNZ    @@exit
          PUSH   EDX
          LEA    ECX, [EDX].TGraphicTool.fData.Font
          PUSH   ECX
@@ -22907,7 +22907,7 @@ begin
   Size := GetFileSize( Handle, nil );
   SetString( Result, nil, (Size - Pos + 1) div Sizeof( WideChar ) + 1 ); // fixed by zhoudi
   FileRead( Handle, Result[ 1 ], Size - Pos );
-  Result[ Length(Result) ] := #0; // fixed by zhoudi 
+  Result[ Length(Result) ] := #0; // fixed by zhoudi
 end;
 {$ENDIF _D2}
 
@@ -23156,7 +23156,7 @@ var BytesToSave: Integer;
 begin
   BytesToSave := Length( Str ) * Sizeof(WideChar);
   Result := Mem2File( PKOLChar( Filename ), PWideChar( Str ), BytesToSave )
-            = BytesToSave; // fixed by zhoudi 
+            = BytesToSave; // fixed by zhoudi
 end;
 {$ENDIF _D2}
 
@@ -23561,7 +23561,7 @@ asm
 @@ret_0:
         POP      EAX
         {$IFDEF _D2009orHigher}
-        PUSH     0 
+        PUSH     0
         {$ENDIF}
         CALL     System.@LStrFromPCharLen
 end;
@@ -27763,7 +27763,7 @@ asm
         POP      EBX
 end;
 {$ELSE PAS_VERSION}
-function WriteExMemoryStream( Strm: PStream; var Buffer; {$IFNDEF STREAM_COMPAT} const {$ENDIF} Count: TStrmSize ): TStrmSize; 
+function WriteExMemoryStream( Strm: PStream; var Buffer; {$IFNDEF STREAM_COMPAT} const {$ENDIF} Count: TStrmSize ): TStrmSize;
 var S: PStream;
     C: TStrmSize;
 begin
@@ -28288,7 +28288,7 @@ function WndProcMenu( Sender: PControl; var Msg: TMsg; var Rslt: Integer): Boole
       begin
           {$IFDEF USE_MENU_CURCTL}
               M.fCurCtl := Sender;   // fixed
-          {$ENDIF}                 
+          {$ENDIF}
           M1.FOnMenuItem( M, Idx )
       end else if Assigned( M.FOnMenuItem ) then
           M.FOnMenuItem( M, Idx );
@@ -30860,7 +30860,7 @@ asm
         JMP      @@1
 @@fixed_in_options:
         {$IFDEF  USE_FLAGS}
-        TEST     [EDI].TControl.fFlagsG4, 1 shl G4_Checked 
+        TEST     [EDI].TControl.fFlagsG4, 1 shl G4_Checked
         {$ELSE}
         TEST     byte ptr [EDI].TControl.fChecked, 1
         {$ENDIF}
@@ -32231,7 +32231,7 @@ begin
          {!ecm}
          SB_THUMBPOSITION,SB_THUMBTRACK: NewPos := SI.nTrackPos;
          SB_ENDSCROLL: NewPos := SI.nPos;
-         {/!ecm}         
+         {/!ecm}
          else Exit; {>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>}
        end;
 
@@ -35620,7 +35620,7 @@ asm
         AND      [EBX].TControl.fFlagsG2, not (1 shl G2_DoubleBuffered)
         {$ELSE}
         INC      [EBX].TControl.fCannotDoubleBuf
-        MOV      [EBX].TControl.fDoubleBuffered, 0 
+        MOV      [EBX].TControl.fDoubleBuffered, 0
         {$ENDIF  USE_FLAGS}
         ADD      [EBX].TControl.fBoundsRect.Right, 100-64
         ADD      [EBX].TControl.fBoundsRect.Bottom, 200-64
@@ -35820,7 +35820,7 @@ begin
     Log( '//// OleInit OK: call NewRichEdit1' );
     {$ENDIF INPACKAGE}
     {$IFDEF UNICODE_CTRLS}
-    RichEditIdx := 0; 
+    RichEditIdx := 0;
     {$ELSE}
     RichEditIdx := 0; // Richedit20A / RichEdit
     {$ENDIF}
@@ -36310,7 +36310,7 @@ begin
    Params.WindowClass.hInstance := hInstance;
    Params.WindowClass.lpfnWndProc := fDefWndProc;
    Params.WindowClass.style := fClsStyle;
-   {$IFDEF _FPC}          
+   {$IFDEF _FPC}
    SClassName := SubClassName;
    StrCopy( Params.WinClsNamBuf, @ SClassName[ 1 ] );
    {$ELSE}
@@ -37095,7 +37095,7 @@ begin
                              end;
                    else  begin
                            {$IFDEF DEBUG_MCK} mck_Log( 'else' ); {$ENDIF}
-                           Default; 
+                           Default;
                            {$IFDEF INPACKAGE}
                            LogOK;
                            {$ENDIF INPACKAGE}
@@ -38283,7 +38283,7 @@ var Evt: POnEvent;
 {$ENDIF F_P/DELPHI}
 begin
   {$IFDEF F_P}
-  Ptr1 := Self;
+  Ptr1 := @Self;
   asm
     MOV  EAX, [Ptr1]
     LEA  EAX, [EAX].TControl.fOnMinimize
@@ -38612,7 +38612,7 @@ begin
   end;
 end;
 
-function TControl.GetConstraint(const Index: Integer): Integer;
+function TControl.GetConstraint(const Index: Integer): SmallInt;
 begin
   CASE Index OF
   0:   Result := FMinWidth;
@@ -41444,7 +41444,7 @@ asm
 
 @@call_recur:
           //OR       EBP, 1 // Result := TRUE;
-          INC      EBP  
+          INC      EBP
           POP      EAX
           {$IFDEF USE_FLAGS}
           TEST    [EAX].TControl.fStyle.f3_Style, (1 shl F3_Disabled)
@@ -44741,7 +44741,7 @@ begin
      end;
    end;
 end;
- 
+
 procedure TWStrList.SetValue(const AName, Value: KOLWideString);
 var
  I: Integer;
@@ -47045,7 +47045,7 @@ const
 var Self_ : POpenDirDialog;
     {$IFDEF NEW_OPEN_DIR_STYLE_EX}
     WList: HWnd;
-    ClassBuf: array[ 0..127 ] of KOLChar; 
+    ClassBuf: array[ 0..127 ] of KOLChar;
     {$ENDIF}
 begin
   Self_ := Pointer( lpData );
@@ -52263,7 +52263,7 @@ function TIcon.GetEmpty: Boolean;
 begin
   Result := (fHandle = 0)
   {$IFDEF ICONLOAD_PRESERVEBMPS}
-          and ((ImgBmp = nil) or ImgBmp.Empty) 
+          and ((ImgBmp = nil) or ImgBmp.Empty)
   {$ENDIF ICONLOAD_PRESERVEBMPS}
   ;
 end;
@@ -55423,7 +55423,7 @@ begin
               if  Assigned( Self_.EV.fOnMouseLeave ) then
               {$ENDIF}
                   Self_.EV.fOnMouseLeave( Self_ );
-              Self_.Invalidate; 
+              Self_.Invalidate;
           end;
       end;
   end;
@@ -58858,7 +58858,7 @@ begin                                                                           
   if  eoMultiline in AOptions then                                               //
       fLookTabKeys := [ tkTab ];                                                 //
   if  eoWantTab in AOptions then                                                 //
-      exclude( fLookTabKeys, tkTab );                                  
+      exclude( fLookTabKeys, tkTab );
 end;                                                                            //
                                                                                 //
 constructor TControl.CreatePanel(AParent: PControl; AStyle: TEdgeStyle);        //
@@ -59091,7 +59091,7 @@ begin                                                                           
   ImageListNormal := AImgListNormal;                                            //
   ImageListState := AImgListState;                                              //
   fLookTabKeys := [ tkTab ];                                                    //
-end; ///////////////////////////////////////////////////////////////////////////                                                                            
+end; ///////////////////////////////////////////////////////////////////////////
 constructor TControl.CreateTabControl(AParent: PControl; ATabs: array of String;//
          AOptions: TTabControlOptions;                                          //
          AImgList: PImageList; AImgList1stIdx: Integer);                        //
@@ -59163,7 +59163,7 @@ begin                                                                           
     TBAddBitmap( ABitmap );                                                     //
   TBAddButtons( AButtons, ABtnImgIdxArray );                                    //
   Perform( WM_SIZE, 0, 0 );                                                     //
-end; ///////////////////////////////////////////////////////////////////////////                                                                            
+end; ///////////////////////////////////////////////////////////////////////////
 constructor TImageList.CreateImageList(POwner: Pointer);                        //
 var AOwner: PControl;                                                           //
 begin {*************} DoInitCommonControls( ICC_WIN95_CLASSES );                    //
@@ -59237,7 +59237,7 @@ begin
   Global_Align( @Self );
 end;
 {$IFDEF F_P}
-function TControl.GetClientMargin(const Index: Integer): Integer;
+function TControl.GetClientMargin(const Index: Integer): ShortInt;
 begin
   CASE Index OF
   1: Result := fClientTop;
@@ -61618,7 +61618,7 @@ asm      PUSH  ESI
 
          MOV   EAX, Size_TEvents
          CALL  System.@GetMem
-         MOV   [ESI].TControl.EV, EAX 
+         MOV   [ESI].TControl.EV, EAX
          PUSH  EAX
          XCHG  EDX, EAX
          MOV   EAX, offset[EmptyEvents]
@@ -61863,11 +61863,3 @@ finalization //.................................................................
 {$ENDIF INIT_FINIT}//-----------------------------------------------------------
 
 end.
-
-
-
-
-
-
-
-
