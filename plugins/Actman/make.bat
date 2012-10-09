@@ -1,8 +1,8 @@
 rem @echo off
-set OUTDIR="..\..\bin10\Release\Plugins" 
+set OUTDIR="..\..\bin10\Release\Plugins"
 if not exist %OUTDIR% mkdir %OUTDIR%
 md tmp
-set myopts=-O3 -Xs -Sd -dMiranda -FEtmp -Fi..\Utils.pas -Fi..\ExternalAPI\delphi -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\ExternalAPI\delphi
+set myopts=-O3 -Xs -Sd -dMiranda -FE.\tmp -Fi..\Utils.pas -Fi..\ExternalAPI\delphi -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\ExternalAPI\delphi
 set dprname=actman.dpr
 
 rem brcc32.exe %myopts% options.rc     -fooptions.res
@@ -16,7 +16,6 @@ if /i '%1' == 'fpc' (
   ppcrossx64.exe %myopts% %dprname% %2 %3 %4 %5 %6 %7 %8 %9
 )
 
-move tmp\actman.dll .
+move /y tmp\actman.dll %OUTDIR%\Actman.dll
 del /Q tmp\*
 rd tmp
-move /y actman.dll ..\..\bin10\Release\Plugins\Actman.dll
