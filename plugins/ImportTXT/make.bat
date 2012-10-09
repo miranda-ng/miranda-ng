@@ -9,7 +9,5 @@ md %DCUDIR% 2>nul
 brcc32 -foImpTxt_Ver.res ImpTxt_Ver.rc
 brcc32 -foImpTxtDlg.res ImpTxtDlg.rc
 brcc32 -foImpTxtWiz.res ImpTxtWiz.rc
-dcc32 -B -CG -U%INCDIR% -R%INCDIR% -I%INCDIR% -E%OUTDIR% -LE%DCUDIR% -LN%DCUDIR% -N%DCUDIR% %COMPDIR% importtxt.dpr
+dcc32 -B -CG -U%INCDIR% -R%INCDIR% -I%INCDIR% -E%OUTDIR% -LE%DCUDIR% -LN%DCUDIR% -N%DCUDIR% %COMPDIR% ImportTXT.dpr
 rd /q /s %DCUDIR%
-
-move /y %OUTDIR%\importtxt.dll %OUTDIR%\ImportTXT.dll
