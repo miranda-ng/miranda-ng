@@ -137,7 +137,7 @@ begin
     UTFToWide(dst^.mfile,si.mfile)
   else
     si.mfile:=dst^.mfile;
-}  
+}
   f:=Reset(dst^.mfile);
   if dword(f)<>INVALID_HANDLE_VALUE then
     GetFileTime(f,nil,nil,@dst^.date);

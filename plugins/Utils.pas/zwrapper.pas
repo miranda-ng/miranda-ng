@@ -6,14 +6,14 @@ function ZDecompressBuf(const inBuffer: Pointer; inSize: Integer; out outBuffer:
 
 implementation
 
-uses zlib;
+uses m_api;
 
 function ZDecompressBuf(const inBuffer: Pointer; inSize: Integer; out outBuffer: Pointer; out outSize: Integer; outEstimate: Integer): Integer;
 var
-  zstream           : TZStreamRec;
+  zstream           : z_stream;
   delta             : Integer;
 begin
-  FillChar(zstream, SizeOf(TZStreamRec), 0);
+  FillChar(zstream, SizeOf(z_stream), 0);
 
   delta := (inSize + 255) and not 255;
 
@@ -38,7 +38,7 @@ begin
         Inc(outSize, delta);
         ReallocMem(outBuffer, outSize);
 
-        zstream.next_out := {$IFDEF FPC}PBytef{$ENDIF}(pByte(outBuffer) + zstream.total_out);
+        zstream.next_out := PChar(pByte(outBuffer) + zstream.total_out);
         zstream.avail_out := delta;
         Result := inflate(zstream, Z_NO_FLUSH);
         if Result < 0 then Exit;
