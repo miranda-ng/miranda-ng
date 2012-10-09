@@ -1,15 +1,20 @@
 rem @echo off
-REM -Fi/u are for include/unit dirs
-REM -Mdelphi is delphi mode
-REM -WG - graphical app
-REM -v0 turn off warnings
-REM -O2 -Os // optimise
-REM -Rintel (intel style asm)
-REM -WB (relocatable) -WR (relocate)
-set OUTDIR="..\..\bin10\Release\Plugins"
+if /i '%1' == 'fpc' (
+  set OUTDIR="..\..\bin10\Release\Plugins"
+) else if /i '%1' == 'fpc64' (
+  set OUTDIR="..\..\bin10\Release64\Plugins"
+)
 if not exist %OUTDIR% mkdir %OUTDIR%
 md tmp
-fpc ShlExt.dpr -FE.\tmp -FU.\tmp -FE%OUTDIR% -Fi..\..\include;..\..\include\delphi -Fi..\ExternalAPI\delphi -Fu..\..\include;..\..\include\delphi -Mdelphi -WG -O2 -Os -Rintel -WR -WB49ac0000 -v0
+set myopts=-O3 -Xs -Sd -dMiranda -FE.\tmp -FU.\tmp -FE%OUTDIR% -Fi..\Utils.pas -Fi..\ExternalAPI\delphi -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\ExternalAPI\delphi
+set dprname=ShlExt.dpr
+md tmp
+
+if /i '%1' == 'fpc' (
+  fpc.exe %myopts% %dprname% %2 %3 %4 %5 %6 %7 %8 %9
+) else if /i '%1' == 'fpc64' (
+  ppcrossx64.exe %myopts% %dprname% %2 %3 %4 %5 %6 %7 %8 %9
+)
 
 del /Q tmp\*
 rd tmp

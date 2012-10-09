@@ -1,5 +1,9 @@
 rem @echo off
-set OUTDIR="..\..\bin10\Release\Plugins"
+if /i '%1' == 'fpc' (
+  set OUTDIR="..\..\bin10\Release\Plugins"
+) else if /i '%1' == 'fpc64' (
+  set OUTDIR="..\..\bin10\Release64\Plugins"
+)
 if not exist %OUTDIR% mkdir %OUTDIR%
 md tmp
 set myopts=-O3 -Xs -Sd -dMiranda -FE.\tmp -FU.\tmp -FE%OUTDIR% -Fi..\Utils.pas -Fi..\ExternalAPI\delphi -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\ExternalAPI\delphi -Fu..\Libs
