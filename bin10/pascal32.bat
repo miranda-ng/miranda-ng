@@ -7,7 +7,7 @@ call make.bat fpc
 popd
 
 pushd ImportTXT
-call make.bat
+call make.bat fpc
 popd
 
 pushd mRadio
