@@ -22,4 +22,8 @@ pushd Watrack
 call make.bat fpc64
 popd
 
+pushd Dbx_mmap_SA\Cryptors\Athena
+call make.bat fpc64
+popd
+
 popd
