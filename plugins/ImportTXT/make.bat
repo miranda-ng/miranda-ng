@@ -1,13 +1,22 @@
-rem @echo off
-set OUTDIR="..\..\bin10\Release\Plugins"
-if not exist %OUTDIR% mkdir %OUTDIR%
+@echo off
+if /i '%1' == 'fpc' (
+  set OUTDIR="..\..\bin10\Release\Plugins"
+  set FPCBIN=fpc.exe
+) else if /i '%1' == 'fpc64' (
+  set OUTDIR="..\..\bin10\Release64\Plugins"
+  set FPCBIN=ppcrossx64.exe
+)
+set PROJECT=ImportTXT
 
-set COMPDIR=-$A8 -$D- -$J+ -$L- -$O+ -$Q- -$R- -$Y- -$C-
-set INCDIR=".\kol;..\..\include\delphi;..\ExternalAPI\delphi"
-set DCUDIR="tmp"
-md %DCUDIR% 2>nul
-brcc32 -foImpTxt_Ver.res ImpTxt_Ver.rc
-brcc32 -foImpTxtDlg.res ImpTxtDlg.rc
-brcc32 -foImpTxtWiz.res ImpTxtWiz.rc
-dcc32 -B -CG -U%INCDIR% -R%INCDIR% -I%INCDIR% -E%OUTDIR% -LE%DCUDIR% -LN%DCUDIR% -N%DCUDIR% %COMPDIR% ImportTXT.dpr
-rd /q /s %DCUDIR%
+if not exist %OUTDIR% mkdir %OUTDIR%
+md tmp
+
+rem brcc32 -foImpTxt_Ver.res ImpTxt_Ver.rc
+rem brcc32 -foImpTxtDlg.res ImpTxtDlg.rc
+rem brcc32 -foImpTxtWiz.res ImpTxtWiz.rc
+
+%FPCBIN% @..\Utils.pas\fpc.cfg %PROJECT%.dpr %2 %3 %4 %5 %6 %7 %8 %9
+
+move .\tmp\%PROJECT%.dll %OUTDIR%
+del /Q tmp\*
+rd tmp
