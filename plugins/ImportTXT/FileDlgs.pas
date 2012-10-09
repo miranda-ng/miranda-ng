@@ -13,7 +13,7 @@ uses shlobj, activex, SysUtils, CommDlg;
 
 function OpenDialogExecute(hDlg:hWnd; flg:cardinal; var nFO:integer; const DefExt:string):WideString;  //Диалог открытия файла
 var
-  OpenFilename:TOpenFilenameW;
+  OpenFilename:OpenFilenameW;
   TempFilename:WideString;
   Temp1,Temp2:WideString;
   res:bool;
@@ -36,7 +36,7 @@ begin
    lpstrTitle:=PWideChar(Temp2);
    Flags:=flg or OFN_EXPLORER or OFN_ENABLESIZING or OFN_PATHMUSTEXIST or OFN_FILEMUSTEXIST or OFN_NOCHANGEDIR;
   end;
-  res:=GetOpenFileNameW(OpenFileName);
+  res:=GetOpenFileNameW(@OpenFileName);
   if res then
   begin
     Result:=TempFilename;
@@ -65,7 +65,7 @@ end;
 function SelectDirectory(Caption:PWideChar;var Directory:PWideChar;
          Parent:HWND=0;newstyle:bool=false):Boolean;
 var
-  BrowseInfo:TBrowseInfoW;
+  BrowseInfo:BrowseInfoW;
   Buffer:array [0..MAX_PATH-1] of WideChar;
   ItemIDList:PItemIDList;
   ShellMalloc:IMalloc;
@@ -85,7 +85,7 @@ begin
       if CoInitializeEx(nil,COINIT_APARTMENTTHREADED)<>RPC_E_CHANGED_MODE then
         BrowseInfo.ulFlags:=BrowseInfo.ulFlags or BIF_NEWDIALOGSTYLE;
     try
-      ItemIDList:=ShBrowseForFolderW(BrowseInfo);
+      ItemIDList:=ShBrowseForFolderW(@BrowseInfo);
       Result:=ItemIDList<>nil;
       if Result then
       begin

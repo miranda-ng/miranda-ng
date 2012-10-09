@@ -11,7 +11,7 @@ unit KOLEdb;
 
 interface
 
-uses Windows, ActiveX, KOL, err;
+uses Windows, ActiveX, KOL;
 
 type
   INT64 = I64;
@@ -33,7 +33,7 @@ type
     //7: ( cyVal      : CY );
     //8: ( date       : Date );
     9: ( bstrVal    : Pointer ); // BSTR => [ Len: Integer; array[ 1..Len ] of WideChar ]
-    10:( pdecVal    : ^Decimal );
+    //10:( pdecVal    : ^Decimal );
     end;
 
 (*
@@ -95,7 +95,7 @@ type
   PIUnknown = ^IUnknown;
   PUintArray = ^TUintArray;
   TUintArray = array[0..MAXBOUND] of UINT;
-  
+
   HROW = UINT;
   PHROW = ^HROW;
   PPHROW = ^PHROW;
@@ -141,7 +141,7 @@ const
   DBGUID_DBSQL        : TGUID = '{C8B521FB-5CF3-11CE-ADE5-00AA0044773D}';
   DBGUID_DEFAULT      : TGUID = '{C8B521FB-5CF3-11CE-ADE5-00AA0044773D}';
   DBGUID_SQL          : TGUID = '{C8B522D7-5CF3-11CE-ADE5-00AA0044773D}';
-  
+
   DBPROPSET_ROWSET    : TGUID = '{C8B522BE-5CF3-11CE-ADE5-00AA0044773D}';
 
   DB_S_ENDOFROWSET    = $00040EC6;
@@ -680,7 +680,7 @@ type
     function StartTransaction(isoLevel: Integer; isoFlags: UINT;
       const pOtherOptions: ITransactionOptions; pulTransactionLevel: PUINT): HResult; stdcall;
   end;
-  
+
 const
   XACTTC_SYNC_PHASEONE = $00000001;
   XACTTC_SYNC_PHASETWO = $00000002;
@@ -1067,7 +1067,9 @@ end; *)
 
 procedure DummyOleError( Result: HResult );
 begin
+  {$IFNDEF FPC}
   raise Exception.Create( e_Custom, 'OLE DB error ' + Int2Hex( Result, 8 ) );
+  {$ENDIF}
 end;
 
 function CheckOLE( Rslt: HResult ): Boolean;
@@ -1160,7 +1162,7 @@ begin
     if Assigned(Unk) then begin
       CheckOLE(Unk.QueryInterface(IID_ITransaction,Result.fTransaction));
       CheckOLE(Unk.QueryInterface(IID_ITransactionLocal,Result.fTransactionLocal));
-    end;  
+    end;
   end;
   // =================================================================================================
 end;
@@ -1350,7 +1352,7 @@ begin
   if fRowBuffers.Items[ fCurIndex ] = nil then
   begin
     GetMem( Buffer, fRowSize );
-    FillChar( Buffer^, fRowSize, 0 ); //fixup the varnumberic random bytes by azsd   
+    FillChar( Buffer^, fRowSize, 0 ); //fixup the varnumberic random bytes by azsd
     fRowBuffers.Items[ fCurIndex ] := Buffer;
     CheckOLE( fRowSet.GetData( fRowHandle, fAccessor, fRowBuffers.Items[ fCurIndex ] ) );
   end;
