@@ -9,7 +9,7 @@ REM -WB (relocatable) -WR (relocate)
 set OUTDIR="..\..\bin10\Release\Plugins" 
 if not exist %OUTDIR% mkdir %OUTDIR%
 md out
-fpc shlext.dpr -FEout -Fi..\..\include;..\..\include\delphi -Fu..\..\include;..\..\include\delphi -Mdelphi -WG -O2 -Os -Rintel -WR -WB49ac0000 -v0
+fpc shlext.dpr -FEout -Fi..\..\include;..\..\include\delphi -Fi..\ExternalAPI\delphi -Fu..\..\include;..\..\include\delphi -Mdelphi -WG -O2 -Os -Rintel -WR -WB49ac0000 -v0
 
 move out\shlext.dll .
 del /Q out\*

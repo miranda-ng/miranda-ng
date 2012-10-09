@@ -2,7 +2,7 @@ rem @echo off
 set OUTDIR="..\..\bin10\Release\Plugins" 
 if not exist %OUTDIR% mkdir %OUTDIR%
 md tmp
-set myopts=-O3 -Xs -Sd -dMiranda -FEtmp -Fi..\Utils.pas -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\ExternalAPI\delphi -Fu..\Libs
+set myopts=-O3 -Xs -Sd -dMiranda -FEtmp -Fi..\Utils.pas -Fi..\ExternalAPI\delphi -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\ExternalAPI\delphi -Fu..\Libs
 set dprname=mradio.dpr
 
 rem brcc32.exe mradio.rc -fomradio.res
