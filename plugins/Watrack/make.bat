@@ -22,6 +22,6 @@ if /i '%1' == 'fpc' (
   ppcrossx64.exe %myopts% %dprname% %2 %3 %4 %5 %6 %7 %8 %9
 )
 
-move /y tmp\watrack.dll ..\..\bin10\Release\Plugins\Watrack.dll
+move /y tmp\watrack.dll %OUTDIR%\Watrack.dll
 del /Q tmp\*
 rd tmp
