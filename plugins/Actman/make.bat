@@ -2,7 +2,7 @@ rem @echo off
 set OUTDIR="..\..\bin10\Release\Plugins" 
 if not exist %OUTDIR% mkdir %OUTDIR%
 md tmp
-set myopts=-O3 -Xs -Sd -dMiranda -FEtmp -Fi..\Utils.pas -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\ExternalAPI
+set myopts=-O3 -Xs -Sd -dMiranda -FEtmp -Fi..\Utils.pas -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\ExternalAPI\delphi
 set dprname=actman.dpr
 
 rem brcc32.exe %myopts% options.rc     -fooptions.res
