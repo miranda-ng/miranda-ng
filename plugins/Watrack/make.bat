@@ -2,7 +2,7 @@ rem @echo off
 set OUTDIR="..\..\bin10\Release\Plugins" 
 if not exist %OUTDIR% mkdir %OUTDIR%
 md tmp
-set myopts=-O3 -Xs -Sd -dMiranda -FEtmp -Fi..\Utils.pas -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\..\include\delphi\reserve
+set myopts=-O3 -Xs -Sd -dMiranda -FEtmp -Fi..\Utils.pas -Fu..\Utils.pas -Fu..\..\include\delphi -Fu..\ExternalAPI\delphi
 set dprname=watrack.dpr
 
 rem brcc32.exe res\watrack.rc         -fores\watrack.res
