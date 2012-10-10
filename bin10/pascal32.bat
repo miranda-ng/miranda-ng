@@ -20,6 +20,8 @@ popd
 
 pushd Watrack
 call make.bat fpc
+cd icons
+call makeicons.bat fpc
 popd
 
 pushd Dbx_mmap_SA\Cryptors\Athena

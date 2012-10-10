@@ -1,4 +1,4 @@
-@echo off
+rem @echo off
 if /i '%1' == 'fpc' (
   set OUTDIR="..\..\..\..\bin10\Release\Plugins\Cryptors"
   set FPCBIN=fpc.exe
