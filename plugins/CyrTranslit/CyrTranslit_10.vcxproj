@@ -173,10 +173,10 @@
     <ClInclude Include="src\TransliterationProtocol.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\CyrTranslit.rc" />
+    <None Include="docs\gpl.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="docs\gpl.txt" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

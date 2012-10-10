@@ -37,7 +37,7 @@ TransliterationMap::Guard::~Guard()
 
 const TransliterationMap& TransliterationMap::getInstance()
 {
-    if(!pInstance)
+    if (!pInstance)
     {
         pInstance = new TransliterationMap();
     }
@@ -195,7 +195,7 @@ std::string TransliterationMap::cyrillicToLatin(char c) const
     std::string ret(1, c);
 
     CharMap::const_iterator it = theMap.find(c);
-    if(it != theMap.end())
+    if (it != theMap.end())
     {
         ret = (*it).second;
     }
@@ -209,7 +209,7 @@ std::wstring TransliterationMap::cyrillicToLatin(wchar_t c) const
     std::wstring ret(1, c);
 
     WCharMap::const_iterator it = theMapW.find(c);
-    if(it != theMapW.end())
+    if (it != theMapW.end())
     {
         ret = (*it).second;
     }

@@ -46,11 +46,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\CyrTranslit.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    <None Include="docs\gpl.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="docs\gpl.txt" />
+    <ResourceCompile Include="res\version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -51,9 +51,6 @@ public:
 	static void TranslateMessageW(WPARAM wParam, LPARAM lParam);
 	static void TranslateMessageUTF(WPARAM wParam, LPARAM lParam);
 
-	static void activateForContact(HANDLE hContact);
-	static void deactivateForContact(HANDLE hContact);
-
 private:
 	static char *MODULE_NAME;
 

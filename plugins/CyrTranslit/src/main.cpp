@@ -25,15 +25,15 @@ int hLangpack = 0;
 
 PLUGININFOEX pluginInfoEx={
 	sizeof(PLUGININFOEX),
-	PLG_SHORTNAME,
-	PLG_VERSION,
-	PLG_DESCRIPTION,
-	PLG_AUTHOR,
-	PLG_AUTHOREMAIL,
-	PLG_COPYRIGHT,
-	PLG_HOMEPAGE,
-	PLG_FLAGS,
-	MIID_V_CYRTRANSLIT
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	{0xbcec0bd7, 0xca59, 0x44b2, {0x9a, 0x14, 0x3a, 0x14, 0x98, 0x0f, 0x52, 0x4a}}
 };
 
 //------------------------------------------------------------------------------

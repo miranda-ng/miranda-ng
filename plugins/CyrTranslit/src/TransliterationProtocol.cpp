@@ -30,81 +30,77 @@ char *TransliterationProtocol::MODULE_NAME = "ProtoCyrTranslitByIKR";
 
 void TransliterationProtocol::initialize()
 {
-    PROTOCOLDESCRIPTOR desc;
-    desc.cbSize = sizeof(desc);
-    desc.szName = MODULE_NAME;
-    desc.type = PROTOTYPE_TRANSLATION;
-    
-    CallService(
-        MS_PROTO_REGISTERMODULE,
-        0,
-        reinterpret_cast<LPARAM>(&desc));
-        
-    CreateProtoServiceFunction(MODULE_NAME, PSS_MESSAGE,    sendMessageA);
-    CreateProtoServiceFunction(MODULE_NAME, PSS_MESSAGE"W", sendMessageW);
+	PROTOCOLDESCRIPTOR desc;
+	desc.cbSize = sizeof(desc);
+	desc.szName = MODULE_NAME;
+	desc.type = PROTOTYPE_TRANSLATION;
+	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&desc));
+
+	CreateProtoServiceFunction(MODULE_NAME, PSS_MESSAGE,    sendMessageA);
+	CreateProtoServiceFunction(MODULE_NAME, PSS_MESSAGE"W", sendMessageW);
 }
 
 //------------------------------------------------------------------------------
 void TransliterationProtocol::TranslateMessageUTF(WPARAM wParam, LPARAM lParam)
 {
-    CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
+	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
 
 	wchar_t* txtWdecoded = mir_utf8decodeW(reinterpret_cast<const char*>(ccs->lParam));
 	std::wstring txtW = txtWdecoded;
 	mir_free(txtWdecoded);
 
-    txtW = TransliterationMap::getInstance().cyrillicToLatin(txtW);
+	txtW = TransliterationMap::getInstance().cyrillicToLatin(txtW);
 
 	char* txtUTFencoded = mir_utf8encodeW(txtW.c_str());
 	std::string txtUTF = txtUTFencoded;
 	mir_free(txtUTFencoded);
-    
+
 	ccs->lParam = reinterpret_cast<LPARAM>(mir_alloc(txtUTF.length()));
-    strcpy(reinterpret_cast<char*>(ccs->lParam), txtUTF.c_str());
+	strcpy(reinterpret_cast<char*>(ccs->lParam), txtUTF.c_str());
 }
 
 void TransliterationProtocol::TranslateMessageW(WPARAM wParam, LPARAM lParam)
 {
-    CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
+	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
 
-    std::string txtA = reinterpret_cast<const char*>(ccs->lParam);
+	std::string txtA = reinterpret_cast<const char*>(ccs->lParam);
 	int txtAlen = (int)(sizeof(txtA[0]) * (txtA.length() + 1));
-    txtA = TransliterationMap::getInstance().cyrillicToLatin(txtA);
+	txtA = TransliterationMap::getInstance().cyrillicToLatin(txtA);
 
-    std::wstring txtW = reinterpret_cast<const wchar_t*>(ccs->lParam + txtAlen);
-    txtW = TransliterationMap::getInstance().cyrillicToLatin(txtW);
+	std::wstring txtW = reinterpret_cast<const wchar_t*>(ccs->lParam + txtAlen);
+	txtW = TransliterationMap::getInstance().cyrillicToLatin(txtW);
 
 	txtAlen = (int)(sizeof(txtA[0]) * (txtA.length() + 1));
-    const DWORD newSize = static_cast<DWORD>(txtAlen + (sizeof(txtW[0]) * (txtW.length() + 1)));
-    
-    ccs->lParam = reinterpret_cast<LPARAM>(mir_alloc(newSize));
-        
-    strcpy(reinterpret_cast<char*>(ccs->lParam), txtA.c_str());
-    wcscpy(reinterpret_cast<wchar_t*>(ccs->lParam + txtAlen), txtW.c_str());
+	const DWORD newSize = static_cast<DWORD>(txtAlen + (sizeof(txtW[0]) * (txtW.length() + 1)));
+
+	ccs->lParam = reinterpret_cast<LPARAM>(mir_alloc(newSize));
+
+	strcpy(reinterpret_cast<char*>(ccs->lParam), txtA.c_str());
+	wcscpy(reinterpret_cast<wchar_t*>(ccs->lParam + txtAlen), txtW.c_str());
 }
 
 void TransliterationProtocol::TranslateMessageA(WPARAM wParam, LPARAM lParam)
 {
-    CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
+	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
 
 	std::string txt = reinterpret_cast<const char*>(ccs->lParam);
 	txt = TransliterationMap::getInstance().cyrillicToLatin(txt);
-	
+
 	const DWORD newSize = static_cast<DWORD>(txt.length() + 1);
-	
+
 	ccs->lParam = reinterpret_cast<LPARAM>(mir_alloc(newSize));
-	    
+
 	strcpy(reinterpret_cast<char*>(ccs->lParam), txt.c_str());
 }
 
 INT_PTR TransliterationProtocol::sendMessageW(WPARAM wParam, LPARAM lParam)
 {
-    CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
+	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
 	LPARAM oldlParam = ccs->lParam;
 
 	TranslateMessageW(wParam, lParam);
 
-    int ret = CallService(MS_PROTO_CHAINSEND /* "W" */, wParam, lParam);
+	int ret = CallService(MS_PROTO_CHAINSEND /* "W" */, wParam, lParam);
 
 	mir_free(reinterpret_cast<void*>(ccs->lParam));
 	ccs->lParam = oldlParam;
@@ -119,48 +115,21 @@ INT_PTR TransliterationProtocol::sendMessageA(WPARAM wParam, LPARAM lParam)
 	LPARAM oldlParam = ccs->lParam;
 	bool msgProcessed = true;
 
-	if(ccs->wParam & PREF_UTF)
-	{
+	if (ccs->wParam & PREF_UTF)
 		TranslateMessageUTF(wParam, lParam);
-	}
-	else if(ccs->wParam & PREF_UNICODE)
-	{
+	else if (ccs->wParam & PREF_UNICODE)
 		TranslateMessageW(wParam, lParam);
-	}
 	else
-	{
 		TranslateMessageA(wParam, lParam);
-	}
 
 	int ret = CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
-	if(msgProcessed)
-	{
+	if (msgProcessed) {
 		mir_free(reinterpret_cast<void*>(ccs->lParam));
 		ccs->lParam = oldlParam;
 	}
 
 	return ret;
-}
-
-//------------------------------------------------------------------------------
-
-void TransliterationProtocol::activateForContact(HANDLE hContact)
-{
-    CallService(
-        MS_PROTO_ADDTOCONTACT,
-        reinterpret_cast<WPARAM>(hContact),
-        reinterpret_cast<LPARAM>(MODULE_NAME));
-}
-
-//------------------------------------------------------------------------------
-
-void TransliterationProtocol::deactivateForContact(HANDLE hContact)
-{
-    CallService(
-        MS_PROTO_REMOVEFROMCONTACT,
-        reinterpret_cast<WPARAM>(hContact),
-        reinterpret_cast<LPARAM>(MODULE_NAME));
 }
 
 }

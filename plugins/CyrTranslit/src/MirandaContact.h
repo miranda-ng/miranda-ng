@@ -25,99 +25,97 @@ namespace CyrTranslit
 {
 
 /**
- * The Miranda IM contact abstraction in respect to the transliteration process.
- */
+* The Miranda IM contact abstraction in respect to the transliteration process.
+*/
 class MirandaContact
 {
 public:
-    /**
-     * This message must be sent on Miranda startup.
-     */
-    static void initialize();
+	/**
+	* This message must be sent on Miranda startup.
+	*/
+	static void initialize();
 
-    /**
-     * A factory method which instantiates new MirandaContact objects, loading
-     * its data from the Miranda database.
-     *
-     * @param hContact The handle of the contact object to be instantiated.
-     * @return The Miranda IM contact having the passed handle.
-     */
-    static MirandaContact getContact(HANDLE hContact);
-    
-    /**
-     * Saves this object's data to the persistent storage -- the Miranda
-     * database. This information may be retreived later on by means of
-     * getContact() factory method invocation.
-     */
-    void save() const;
-    
-    /**
-     * @return True only if the Cyrillic transliteration is on for this contact.
-     */
-    bool shouldTransliterateOutgoingMessages() const;
-    
-    ~MirandaContact();
+	/**
+	* A factory method which instantiates new MirandaContact objects, loading
+	* its data from the Miranda database.
+	*
+	* @param hContact The handle of the contact object to be instantiated.
+	* @return The Miranda IM contact having the passed handle.
+	*/
+	static MirandaContact getContact(HANDLE hContact);
+
+	/**
+	* Saves this object's data to the persistent storage -- the Miranda
+	* database. This information may be retreived later on by means of
+	* getContact() factory method invocation.
+	*/
+	void save() const;
+
+	/**
+	* @return True only if the Cyrillic transliteration is on for this contact.
+	*/
+	bool shouldTransliterateOutgoingMessages() const;
+
+	~MirandaContact();
 
 private:
-    static const std::string SETTINGS_MODULE;
-    static const std::string SETTING_SHOULD_TRANSLITERATE;
+	static const char* SETTINGS_MODULE;
+	static const char* SETTING_SHOULD_TRANSLITERATE;
 
-    static char *MENU_ITEM_TEXT;
+	static char *MENU_ITEM_TEXT;
 
-    MirandaContact();
-    
-    /**
-     * Must be called on Miranda start-up to generate the transliteration
-     * command menu items for all the contacts (a contact-specific menu).
-     */
-    static void generateMenuItemsForAllContacts();
-    
-    static void activateTransliterationProtocolForSubscribedContacts();
-    
-    /**
-     * This is a callback function for the transliteration command menu item.
-     * This menu item is contact-specific.
-     *
-     * @param wParam The HANDLE of the contact that owns the activated menu
-     * item.
-     * @param lParam hwndContactList
-     * @return Always returns 0.
-     */
-    static INT_PTR onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam);
-    
-    /**
-     * This is a service name to bind the onMenuCommandTransliterate() method to
-     * within the Miranda IM framework.
-     */
-    static char *MENU_COMMAND_CALLBACK_SERVICE;
-    
-    /**
-     * Stores the handle to a single user menu item shared by all the contacts.
-     * This menu item has a contact-specific state -- checked or unchecked, as
-     * far as for some contacts transliteration may be on, and for others it may
-     * be off.
-     *
-     * MirandaContact class makes the necessary update just before a menu is
-     * shown for a contact: it checks or unchecks the transliteration menu item.
-     *
-     * When the transliteration menu item is activated by a user, the
-     * transliteration setting (on or off) is inverted for the contact owing the
-     * menu.
-     */
-    static HANDLE hTransliterateCmdMenuItem;
-    
-    /**
-     * @param wParam The HANDLE of the contact that owns the menu item being
-     * built.
-     * @param lParam = 0.
-     * @return Always returns 0.
-     */
-    static int onPreBuildContactMenu(WPARAM wParam, LPARAM lParam);
-    
-    static void fillInMenuItem(CLISTMENUITEM &mi);
-    
-    HANDLE handle;
-    bool transliterateOutgoingMessages;
+	MirandaContact();
+
+	/**
+	* Must be called on Miranda start-up to generate the transliteration
+	* command menu items for all the contacts (a contact-specific menu).
+	*/
+	static void generateMenuItemsForAllContacts();
+
+	static void activateTransliterationProtocolForSubscribedContacts();
+
+	/**
+	* This is a callback function for the transliteration command menu item.
+	* This menu item is contact-specific.
+	*
+	* @param wParam The HANDLE of the contact that owns the activated menu
+	* item.
+	* @param lParam hwndContactList
+	* @return Always returns 0.
+	*/
+	static INT_PTR onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam);
+
+	/**
+	* This is a service name to bind the onMenuCommandTransliterate() method to
+	* within the Miranda IM framework.
+	*/
+	static char *MENU_COMMAND_CALLBACK_SERVICE;
+
+	/**
+	* Stores the handle to a single user menu item shared by all the contacts.
+	* This menu item has a contact-specific state -- checked or unchecked, as
+	* far as for some contacts transliteration may be on, and for others it may
+	* be off.
+	*
+	* MirandaContact class makes the necessary update just before a menu is
+	* shown for a contact: it checks or unchecks the transliteration menu item.
+	*
+	* When the transliteration menu item is activated by a user, the
+	* transliteration setting (on or off) is inverted for the contact owing the
+	* menu.
+	*/
+	static HANDLE hTransliterateCmdMenuItem;
+
+	/**
+	* @param wParam The HANDLE of the contact that owns the menu item being
+	* built.
+	* @param lParam = 0.
+	* @return Always returns 0.
+	*/
+	static int onPreBuildContactMenu(WPARAM wParam, LPARAM lParam);
+
+	HANDLE handle;
+	bool transliterateOutgoingMessages;
 };
 
 }
