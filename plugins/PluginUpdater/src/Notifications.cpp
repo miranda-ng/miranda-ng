@@ -278,16 +278,26 @@ static void ApplyUpdates(void *param)
 		if ( !todo[i].enabled)
 			continue;
 
+		TCHAR tszBackFile[MAX_PATH];
 		FILEINFO& p = todo[i];
-		if (p.bDeleteOnly) { // delete only
+		if (p.bDeleteOnly) { // we need only to backup the old file
 			TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1;
-			TCHAR tszBackFile[MAX_PATH];
 			mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
-			DeleteFile(tszBackFile);
-			MoveFile(p.tszNewName, tszBackFile);
+			BackupFile(p.tszNewName, tszBackFile);
+			continue;
 		}
-		else if ( unzip(p.tszOldName, p.File.tszDiskPath, tszMirandaPath, tszFileBack))
-			DeleteFile(p.File.tszDiskPath);
+		
+		// if file name differs, we also need to backup the old file here
+		// otherwise it would be replaced by unzip
+		if ( _tcsicmp(p.tszOldName, p.tszNewName)) {
+			TCHAR tszSrcPath[MAX_PATH];
+			mir_sntprintf(tszSrcPath, SIZEOF(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
+			mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
+			BackupFile(tszSrcPath, tszBackFile);
+		}
+
+		if ( unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack))
+			DeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
 	}
 
 	DBWriteContactSettingByte(NULL, MODNAME, "RestartCount", 2);

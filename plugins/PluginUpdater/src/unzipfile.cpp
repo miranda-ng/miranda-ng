@@ -26,16 +26,26 @@ extern "C"
 	void fill_fopen64_filefunc(zlib_filefunc64_def *pzlib_filefunc_def);
 }
 
-static void PrepareFileName(TCHAR *dest, size_t destSize, const TCHAR *ptszPath, const TCHAR *ptszFileName)
+void PrepareFileName(TCHAR *dest, size_t destSize, const TCHAR *ptszPath, const TCHAR *ptszFileName)
 {
-	mir_sntprintf(dest, destSize, _T("%s\\%s"), ptszPath, ptszFileName);
+	if (ptszPath)
+		mir_sntprintf(dest, destSize, _T("%s\\%s"), ptszPath, ptszFileName);
+	else
+		mir_sntprintf(dest, destSize, _T("%s"), ptszFileName);
+
 	for (TCHAR *p = dest; *p; ++p)
 		if (*p == '/')
 			*p = '\\'; 
-	CreatePathToFileT(dest);
 }
 
-bool extractCurrentFile(unzFile uf, const TCHAR *ptszOldFileName, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
+void BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName)
+{
+	CreatePathToFileT(ptszBackFileName);
+	DeleteFile(ptszBackFileName);
+	MoveFile(ptszSrcFileName, ptszBackFileName);
+}
+
+bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
 {
 	int err = UNZ_OK;
 	unz_file_info64 file_info;
@@ -59,24 +69,13 @@ bool extractCurrentFile(unzFile uf, const TCHAR *ptszOldFileName, TCHAR *ptszDes
 		if (err != UNZ_OK)
 			return false;
 
-		TCHAR tszOldName[MAX_PATH], *p = _tcschr(ptszNewName, '/');
-		if (p != NULL) {
-			*p = 0;
-			mir_sntprintf(tszOldName, SIZEOF(tszOldName), _T("%s\\%s"), ptszNewName, ptszOldFileName);
-			*p = '\\';
-		}
-		else _tcscpy(tszOldName, ptszOldFileName);
-
-		if (0 != _tcsicmp(tszOldName, ptszNewName))
-			_tcscpy(tszOldName, ptszNewName);
-
-		PrepareFileName(tszDestFile, SIZEOF(tszDestFile), ptszDestPath, tszOldName);
-		PrepareFileName(tszBackFile, SIZEOF(tszBackFile), ptszBackPath, tszOldName);
-
-		DeleteFile(tszBackFile);
-		MoveFile(tszDestFile, tszBackFile);
+		PrepareFileName(tszDestFile, SIZEOF(tszDestFile), ptszDestPath, ptszNewName);
+		PrepareFileName(tszBackFile, SIZEOF(tszBackFile), ptszBackPath, ptszNewName);
+		BackupFile(tszDestFile, tszBackFile);
 
 		PrepareFileName(tszDestFile, SIZEOF(tszDestFile), ptszDestPath, ptszNewName);
+		CreatePathToFileT(tszDestFile);
+		
 		HANDLE hFile = CreateFile(tszDestFile, GENERIC_WRITE, FILE_SHARE_WRITE, 0, 
 			CREATE_ALWAYS, file_info.external_fa, 0);
 
@@ -107,7 +106,7 @@ bool extractCurrentFile(unzFile uf, const TCHAR *ptszOldFileName, TCHAR *ptszDes
 	return true;
 }
 
-bool unzip(const TCHAR *ptszOldFileName, const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
+bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
 {
 	bool bResult = true;
 
@@ -117,7 +116,7 @@ bool unzip(const TCHAR *ptszOldFileName, const TCHAR *ptszZipFile, TCHAR *ptszDe
 	unzFile uf = unzOpen2_64(ptszZipFile, &ffunc);
 	if (uf) {
 		do {
-			if ( !extractCurrentFile(uf, ptszOldFileName, ptszDestPath, ptszBackPath))
+			if ( !extractCurrentFile(uf, ptszDestPath, ptszBackPath))
 				bResult = false;
 		}
 			while (unzGoToNextFile(uf) == UNZ_OK);

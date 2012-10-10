@@ -81,7 +81,7 @@ static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
 
 typedef OBJLIST<ServListEntry> SERVLIST;
 
-static void ScanFolder(const TCHAR *tszFolder, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
+static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
 {
 	// skip updater's own folder
 	if ( !_tcsicmp(tszFolder, tszRoot))
@@ -103,7 +103,7 @@ static void ScanFolder(const TCHAR *tszFolder, const TCHAR *tszBaseUrl, SERVLIST
 				continue;
 
 			mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, ffd.cFileName);
-			ScanFolder(tszMask, tszBaseUrl, hashes, UpdateFiles);
+			ScanFolder(tszMask, cbBaseLen, tszBaseUrl, hashes, UpdateFiles);
 			continue;
 		}
 
@@ -138,13 +138,10 @@ static void ScanFolder(const TCHAR *tszFolder, const TCHAR *tszBaseUrl, SERVLIST
 				strdel(tszNewName+iPos, 1);
 			}
 
-			size_t cbLenOrig = _tcslen(item->m_name);
-			size_t cbLen = (size_t)mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, tszNewName);
-			if (cbLenOrig > cbLen)  // wtf?
-				continue;
-			for (TCHAR *p = _tcschr(tszMask, '\\'); p != NULL; p = _tcschr(p+1, '\\'))
-				*p = '/';
-			if ( _tcsicmp(tszMask + cbLen - cbLenOrig, item->m_name)) // now verify the rest
+			PrepareFileName(key, SIZEOF(key), NULL, item->m_name);
+
+			mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, tszNewName);
+			if ( _tcsicmp(tszMask + cbBaseLen, key)) // the relative name should match
 				continue;
 
 			szSiteHash = item->m_szHash;
@@ -161,14 +158,14 @@ static void ScanFolder(const TCHAR *tszFolder, const TCHAR *tszBaseUrl, SERVLIST
 		// Compare versions
 		if ( strcmp(szMyHash, szSiteHash)) { // Yeah, we've got new version.
 			FILEINFO *FileInfo = new FILEINFO;
-			_tcscpy(FileInfo->tszOldName, ffd.cFileName);
+			_tcscpy(FileInfo->tszOldName, tszMask+cbBaseLen); // copy the relative old name
 			if (tszNewName[0] == 0) {
 				FileInfo->bDeleteOnly = TRUE;
-				_tcscpy(FileInfo->tszNewName, tszMask);
+				_tcscpy(FileInfo->tszNewName, tszMask);  // save the full old name for deletion
 			}
 			else {
 				FileInfo->bDeleteOnly = FALSE;
-				_tcscpy(FileInfo->tszNewName, tszNewName);
+				PrepareFileName(FileInfo->tszNewName, SIZEOF(FileInfo->tszNewName), NULL, ptszUrl);
 			}
 
 			*pExt = 0;
@@ -232,7 +229,7 @@ static void CheckUpdates(void *)
 		return;
 	}
 
-	unzip(_T("hashes.txt"), pFileUrl.tszDiskPath, tszRoot, tszRoot);
+	unzip(pFileUrl.tszDiskPath, tszRoot, tszRoot);
 	DeleteFile(pFileUrl.tszDiskPath);
 
 	TCHAR tszTmpIni[MAX_PATH] = {0};
@@ -272,7 +269,7 @@ static void CheckUpdates(void *)
 
 	FILELIST *UpdateFiles = new FILELIST(20);
 	TCHAR *dirname = Utils_ReplaceVarsT(_T("%miranda_path%"));
-	ScanFolder(dirname, tszBaseUrl, hashes, UpdateFiles);
+	ScanFolder(dirname, lstrlen(dirname)+1, tszBaseUrl, hashes, UpdateFiles);
 	mir_free(dirname);
 
 	// Show dialog

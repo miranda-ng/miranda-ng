@@ -128,6 +128,9 @@ int  OnFoldersChanged(WPARAM, LPARAM);
 int  OnPreShutdown(WPARAM, LPARAM);
 int  OptInit(WPARAM, LPARAM);
 
+void PrepareFileName(TCHAR *dest, size_t destSize, const TCHAR *ptszPath, const TCHAR *ptszFileName);
+void BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName);
+
 void DoCheck(int iFlag);
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
 void ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType);
@@ -141,7 +144,7 @@ INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-bool unzip(const TCHAR *ptszOldFileName, const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath);
+bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath);
 void strdel(TCHAR *parBuffer, int len);
 
 #if MIRANDA_VER < 0x0A00
