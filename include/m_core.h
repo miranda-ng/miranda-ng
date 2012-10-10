@@ -87,8 +87,13 @@ typedef struct {
 MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv);
 MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, const char *szModule, const char *szSetting);
 
+#if defined(__cplusplus)
 MIR_CORE_DLL(HANDLE)  db_find_first(const char *szProto = NULL);
 MIR_CORE_DLL(HANDLE)  db_find_next(HANDLE hContact, const char *szProto = NULL);
+#else
+MIR_CORE_DLL(HANDLE)  db_find_first(const char *szProto);
+MIR_CORE_DLL(HANDLE)  db_find_next(HANDLE hContact, const char *szProto);
+#endif
 
 MIR_CORE_DLL(int)     db_get_b(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue);
 MIR_CORE_DLL(int)     db_get_w(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue);
