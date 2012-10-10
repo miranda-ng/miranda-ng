@@ -312,9 +312,9 @@ void CustomizeToolbar(HWND hwnd)
 
 static TCHAR szWarning[] = LPGENT("To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue");
 
-static void CopySettings(const char* to, const char* from)
+static void CopySettings(const char* to, const char* from, int defValue)
 {
-	db_set_b(NULL, TTB_OPTDIR, to, db_get_b(NULL,"ModernToolBar",from, 0));
+	db_set_b(NULL, TTB_OPTDIR, to, db_get_b(NULL,"ModernToolBar",from, defValue));
 }
 
 static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
@@ -323,18 +323,21 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ehhToolBarSettingsChanged);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, ehhToolBarBackgroundSettingsChanged);
 	HookEvent(ME_TTB_INITBUTTONS, Modern_InitButtons);
-	
-	BYTE bOldSetting = db_get_b(NULL, "CLUI", "ShowButtonBar", 255);
-	if (bOldSetting != 255) {
-		CopySettings("BUTTWIDTH",    "option_Bar0_BtnWidth");
-		CopySettings("BUTTHEIGHT",   "option_Bar0_BtnHeight");
-		CopySettings("BUTTGAP",      "option_Bar0_BtnSpace");
-		CopySettings("BUTTAUTOSIZE", "option_Bar0_Autosize");
-		CopySettings("BUTTMULTI",    "option_Bar0_Multiline");
 
-		db_unset(NULL, "CLUI", "ShowButtonBar");
+	BYTE bOldSetting = 0;
+	if ( !db_get_b(NULL, "Compatibility", "TTB_Upgrade", 0)) {
+		if (bOldSetting = db_get_b(NULL, "CLUI", "ShowButtonBar", 1)) {
+			CopySettings("BUTTWIDTH",    "option_Bar0_BtnWidth",  20);
+			CopySettings("BUTTHEIGHT",   "option_Bar0_BtnHeight", 20);
+			CopySettings("BUTTGAP",      "option_Bar0_BtnSpace",   1);
+			CopySettings("BUTTAUTOSIZE", "option_Bar0_Autosize",   1);
+			CopySettings("BUTTMULTI",    "option_Bar0_Multiline",  1);
 
-		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"ModernToolBar");
+			db_unset(NULL, "CLUI", "ShowButtonBar");
+
+			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"ModernToolBar");
+		}
+		db_set_b(NULL, "Compatibility", "TTB_Upgrade", 1);
 	}
 	if ( !ServiceExists( MS_TTB_REMOVEBUTTON)) {
 			if (bOldSetting == 1)
