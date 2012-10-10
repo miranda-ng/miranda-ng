@@ -56,12 +56,12 @@ struct
 }
 static renameTable[] =
 {
-	{ _T("svc_dbepp.dll"),   _T("dbeditorpp.dll") },
-	{ _T("svc_crshdmp.dll"), _T("crashdumper.dll") },
-	{ _T("svc_vi.dll"),      _T("versioninfo.dll") },
-	{ _T("import_sa.dll"),   _T("import.dll") },
-	{ _T("dbtool.exe"),      _T("dbchecker.dll") },
-	{ _T("dbtool_sa.exe"),   _T("dbchecker.dll") },
+	{ _T("svc_dbepp.dll"),   _T("Plugins\\dbeditorpp.dll") },
+	{ _T("svc_crshdmp.dll"), _T("Plugins\\crashdumper.dll") },
+	{ _T("svc_vi.dll"),      _T("Plugins\\versioninfo.dll") },
+	{ _T("import_sa.dll"),   _T("Plugins\\import.dll") },
+	{ _T("dbtool.exe"),      _T("Plugins\\dbchecker.dll") },
+	{ _T("dbtool_sa.exe"),   _T("Plugins\\dbchecker.dll") },
 
 	{ _T("clist_classic.dll"), _T("") },
 	{ _T("chat.dll"),          _T("") },
@@ -81,17 +81,17 @@ static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
 
 typedef OBJLIST<ServListEntry> SERVLIST;
 
-static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
+static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
 {
 	// skip updater's own folder
 	if ( !_tcsicmp(tszFolder, tszRoot))
 		return;
 
-	TCHAR tszMask[MAX_PATH];
-	mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\*"), tszFolder);
+	TCHAR tszBuf[MAX_PATH];
+	mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\*"), tszFolder);
 
 	WIN32_FIND_DATA ffd;
-	HANDLE hFind = FindFirstFile(tszMask, &ffd);
+	HANDLE hFind = FindFirstFile(tszBuf, &ffd);
 	if (hFind == INVALID_HANDLE_VALUE)
 		return;
 
@@ -102,8 +102,8 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *ts
 			if ( !_tcsicmp(ffd.cFileName, _T("Profiles")))
 				continue;
 
-			mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, ffd.cFileName);
-			ScanFolder(tszMask, cbBaseLen, tszBaseUrl, hashes, UpdateFiles);
+			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
+			ScanFolder(tszBuf, cbBaseLen, level+1, tszBaseUrl, hashes, UpdateFiles);
 			continue;
 		}
 
@@ -112,16 +112,24 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *ts
 		if ( _tcsicmp(pExt, _T(".dll")) && _tcsicmp(pExt, _T(".exe")))
 			continue;
 
-		TCHAR tszNewName[MAX_PATH];
-		if ( !CheckFileRename(ffd.cFileName, tszNewName))
-			_tcscpy(tszNewName, ffd.cFileName);
+		// calculate the current file's relative name and store it into tszNewName
+		TCHAR tszNewName[MAX_PATH], key[MAX_PATH];
+		if ( !CheckFileRename(ffd.cFileName, tszNewName)) {
+			if (level == 0)
+				_tcscpy(tszNewName, ffd.cFileName);
+			else
+				mir_sntprintf(tszNewName, SIZEOF(tszNewName), _T("%s\\%s"), tszFolder+cbBaseLen, ffd.cFileName);
+		}
 
-		char szMyHash[33], *szSiteHash;
+		bool bHasNewVersion = false;
 		TCHAR *ptszUrl;
-		if (tszNewName[0]) { // this file is not marked for deletion
-			// Read version info
-			TCHAR key[MAX_PATH];
-			_tcscpy(key, tszNewName);
+		mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
+
+		// this file is not marked for deletion
+		if (tszNewName[0]) { 
+			// parse a relative name and extract a key for hashtable lookup
+			TCHAR *p = _tcschr(tszNewName, '\\');
+			_tcscpy(key, (p != NULL) ? p+1 : tszNewName);
 			_tcslwr(key);
 			ServListEntry tmp = {NULL, key};
 			ServListEntry *item = hashes.find(&tmp);
@@ -139,38 +147,40 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *ts
 			}
 
 			PrepareFileName(key, SIZEOF(key), NULL, item->m_name);
-
-			mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, tszNewName);
-			if ( _tcsicmp(tszMask + cbBaseLen, key)) // the relative name should match
+			if ( _tcsicmp(tszNewName, key)) // skip files with the same names from another folders
 				continue;
 
-			szSiteHash = item->m_szHash;
 			ptszUrl = item->m_name;
+
+			char szMyHash[33];
+			CalculateModuleHash(tszBuf, szMyHash);
+
+			bHasNewVersion = strcmp(szMyHash, item->m_szHash) != 0;
 		}
-		else {
-			szSiteHash = "boo"; // never matches
+		else { // file was marked for deletion, add it to the list anyway
+			bHasNewVersion = true;
 			ptszUrl = _T("");
 		}
 
-		mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s\\%s"), tszFolder, ffd.cFileName);
-		CalculateModuleHash(tszMask, szMyHash);
-
 		// Compare versions
-		if ( strcmp(szMyHash, szSiteHash)) { // Yeah, we've got new version.
+		if (bHasNewVersion) { // Yeah, we've got new version.
 			FILEINFO *FileInfo = new FILEINFO;
-			_tcscpy(FileInfo->tszOldName, tszMask+cbBaseLen); // copy the relative old name
+			_tcscpy(FileInfo->tszOldName, tszBuf+cbBaseLen); // copy the relative old name
 			if (tszNewName[0] == 0) {
 				FileInfo->bDeleteOnly = TRUE;
-				_tcscpy(FileInfo->tszNewName, tszMask);  // save the full old name for deletion
+				_tcscpy(FileInfo->tszNewName, tszBuf);  // save the full old name for deletion
 			}
 			else {
 				FileInfo->bDeleteOnly = FALSE;
 				PrepareFileName(FileInfo->tszNewName, SIZEOF(FileInfo->tszNewName), NULL, ptszUrl);
 			}
 
-			*pExt = 0;
-			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, tszNewName);
+			_tcscpy(tszBuf, ptszUrl);
+			TCHAR *p = _tcsrchr(tszBuf, '.');
+			if (p) *p = 0;
+			p = _tcsrchr(tszBuf, '/');
 
+			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, (p) ? p+1 : tszBuf);
 			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s"), tszBaseUrl, ptszUrl);
 			if ((pExt = _tcsrchr(FileInfo->File.tszDownloadURL, '.')) != NULL)
 				_tcscpy(pExt, _T(".zip"));
@@ -269,7 +279,7 @@ static void CheckUpdates(void *)
 
 	FILELIST *UpdateFiles = new FILELIST(20);
 	TCHAR *dirname = Utils_ReplaceVarsT(_T("%miranda_path%"));
-	ScanFolder(dirname, lstrlen(dirname)+1, tszBaseUrl, hashes, UpdateFiles);
+	ScanFolder(dirname, lstrlen(dirname)+1, 0, tszBaseUrl, hashes, UpdateFiles);
 	mir_free(dirname);
 
 	// Show dialog
