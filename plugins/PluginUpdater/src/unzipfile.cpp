@@ -67,6 +67,9 @@ bool extractCurrentFile(unzFile uf, const TCHAR *ptszOldFileName, TCHAR *ptszDes
 		}
 		else _tcscpy(tszOldName, ptszOldFileName);
 
+		if (0 != _tcsicmp(tszOldName, ptszNewName))
+			_tcscpy(tszOldName, ptszNewName);
+
 		PrepareFileName(tszDestFile, SIZEOF(tszDestFile), ptszDestPath, tszOldName);
 		PrepareFileName(tszBackFile, SIZEOF(tszBackFile), ptszBackPath, tszOldName);
 
