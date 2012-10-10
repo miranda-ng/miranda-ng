@@ -80,6 +80,11 @@ function db_free(dbv:PDBVARIANT):int_ptr; stdcall;
 function db_unset(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):int_ptr; stdcall;
                   external CoreDLL name 'db_unset';
 
+function db_find_first(const szModule:pAnsiChar=nil):THANDLE; stdcall;
+                 external CoreDLL name 'db_find_first';
+function db_find_next(hContact:THANDLE; const szModule:pAnsiChar=nil):THANDLE; stdcall;
+                  external CoreDLL name 'db_find_next';
+
 function db_get_b(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:int):int; stdcall;
                   external CoreDLL name 'db_get_b';
 function db_get_w(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:int):int; stdcall;
@@ -286,9 +291,9 @@ function mir_hash(const key:pointer; len:uint):uint; stdcall;
 type
   TFSortFunc = function (para1:pointer; para2:pointer):int;cdecl;
 {
-// Assumes first 32 bit value of the data is the numeric key 
+// Assumes first 32 bit value of the data is the numeric key
 // and uses it to perform sort/search operations, this results
-// in much better performance as no compare function calls needed 
+// in much better performance as no compare function calls needed
 // Incredibly useful for Hash Tables
 }
 const

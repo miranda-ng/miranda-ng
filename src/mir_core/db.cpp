@@ -25,6 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static MIDatabase* currDb = NULL;
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// getting data
+
 MIR_CORE_DLL(int) db_get_b(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue)
 {
 	if (currDb != NULL) {
@@ -76,7 +79,7 @@ MIR_CORE_DLL(DWORD) db_get_dw(HANDLE hContact, const char *szModule, const char 
 				case DBVT_DWORD:	return dbv.dVal;
 			}
 	}
-		
+
 	return errorValue;
 }
 
@@ -125,22 +128,8 @@ MIR_CORE_DLL(wchar_t*) db_get_wsa(HANDLE hContact, const char *szModule, const c
 	return str;
 }
 
-MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv)
-{
-	if (currDb == NULL) return 1;
-
-	return currDb->FreeVariant(dbv);
-}
-
-MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, const char *szModule, const char *szSetting)
-{
-	if (currDb == NULL) return 1;
-
-	DBCONTACTGETSETTING cgs;
-	cgs.szModule = szModule;
-	cgs.szSetting = szSetting;
-	return currDb->DeleteContactSetting(hContact, &cgs);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// setting data
 
 MIR_CORE_DLL(INT_PTR) db_set_b(HANDLE hContact, const char *szModule, const char *szSetting, BYTE val)
 {
@@ -225,6 +214,34 @@ MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const c
 	cws.value.cpbVal = (WORD)len;
 	cws.value.pbVal = (unsigned char*)val;
 	return currDb->WriteContactSetting(hContact, &cws);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// misc functions
+
+MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv)
+{
+	return (currDb == NULL) ? 1 : currDb->FreeVariant(dbv);
+}
+
+MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, const char *szModule, const char *szSetting)
+{
+	if (currDb == NULL) return 1;
+
+	DBCONTACTGETSETTING cgs;
+	cgs.szModule = szModule;
+	cgs.szSetting = szSetting;
+	return currDb->DeleteContactSetting(hContact, &cgs);
+}
+
+MIR_CORE_DLL(HANDLE) db_find_first(const char *szProto)
+{
+	return (currDb == NULL) ? NULL : currDb->FindFirstContact(szProto);
+}
+
+MIR_CORE_DLL(HANDLE) db_find_next(HANDLE hContact, const char *szProto)
+{
+	return (currDb == NULL) ? NULL : currDb->FindNextContact(hContact, szProto);
 }
 
 extern "C" MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db)

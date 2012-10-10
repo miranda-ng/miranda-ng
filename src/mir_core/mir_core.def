@@ -132,4 +132,5 @@ CmdLine_Parse                 @129
 Utf8CheckString               @130
 GetSubscribersCount           @131
 NotifyFastHook                @132
-
+db_find_first                 @133
+db_find_next                  @134
