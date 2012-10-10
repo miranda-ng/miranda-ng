@@ -46,7 +46,7 @@ void InitDisplayNameCache(SortedList *list)
 	list->sortFunc = (FSortFunc)handleCompare;
 	list->increment = CallService(MS_DB_CONTACT_GETCOUNT,0,0)+1;
 
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	hContact = db_find_first();
 	i = 0;
 	while (hContact != 0)
 	{
@@ -55,7 +55,7 @@ void InitDisplayNameCache(SortedList *list)
 		InvalidateDisplayNameCacheEntryByPDNE(hContact,pdnce,0);
 		List_GetIndex(list,pdnce,&idx);
 		List_Insert(list,pdnce,idx);
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
+		hContact = db_find_next(hContact);
 		i++;
 }	}
 

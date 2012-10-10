@@ -283,7 +283,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					char *szProto = NULL;
 					int i, notyping;
 
-					HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					HANDLE hContact = db_find_first();
 
 					if (!PopupService)
 						break;
@@ -292,7 +292,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 						if (szProto != NULL)
 							break;
-						hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+						hContact = db_find_next(hContact);
 					}
 
 					for (i=0; i < 2; i++) {

@@ -84,7 +84,7 @@ void CContactCache::Rebuild()
 	unsigned long timestamp = time(NULL);
 	m_lastUpdate = time(NULL);
 
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
 		TContactInfo *info = new TContactInfo;
@@ -111,7 +111,7 @@ void CContactCache::Rebuild()
 		}
 
 		m_cache.insert(info);
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 

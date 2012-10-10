@@ -313,7 +313,7 @@ INT_PTR Quotes_Export(WPARAM wp,LPARAM lp)
 	}
 	else
 	{
-		for(hContact = reinterpret_cast<HANDLE>(CallService(MS_DB_CONTACT_FINDFIRST,0,0));hContact;hContact = reinterpret_cast<HANDLE>(CallService(MS_DB_CONTACT_FINDNEXT,reinterpret_cast<WPARAM>(hContact),0)))
+		for(hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		{
 			CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
 			if(pProvider)

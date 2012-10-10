@@ -733,7 +733,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			{		
 				tstring sTmp;
 				LVITEM sItem = { 0 };
-				HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+				HANDLE hContact = db_find_first();
 				for( int nUser = 0; /*hContact*/ ; nUser++ )
 				{
 					sItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
@@ -771,7 +771,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					if( ! hContact ) // written like this to add the current user ( handle = 0 )
 						break; 
 
-					hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+					hContact = db_find_next(hContact);
 				}
 				ListView_SortItems( hMapUser , CompareFunc , 1 );
 

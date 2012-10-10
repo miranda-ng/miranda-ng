@@ -526,7 +526,7 @@ void CJabberProto::OnIqResultGetRoster( HXML iqNode, CJabberIqInfo* pInfo )
 	if ( m_options.RosterSync == TRUE ) {
 		int listSize = 0, listAllocSize = 0;
 		HANDLE* list = NULL;
-		HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+		HANDLE hContact = ( HANDLE ) db_find_first();
 		while ( hContact != NULL ) {
 			char* str = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 			if ( str != NULL && !strcmp( str, m_szModuleName )) {
@@ -546,7 +546,7 @@ void CJabberProto::OnIqResultGetRoster( HXML iqNode, CJabberIqInfo* pInfo )
 					JFreeVariant( &dbv );
 			}	}
 
-			hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+			hContact = db_find_next(hContact);
 		}
 
 		for ( i=0; i < listSize; i++ ) {

@@ -141,11 +141,11 @@ void RefreshContactListIcons()
 {
 	extern HANDLE g_hCLIcon;
 	CallService(MS_CLUI_LISTBEGINREBUILD,0,0);
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact) 
 	{
 		setClistIcon(hContact);
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	CallService(MS_CLUI_LISTENDREBUILD,0,0);
 }

@@ -292,7 +292,7 @@ static void RemoveUnreadFileEvents(void)
 	HANDLE hDbEvent, hContact;
 
 	dbei.cbSize = sizeof(dbei);
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	while (hContact) {
 		hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0);
 		while (hDbEvent) {
@@ -302,7 +302,7 @@ static void RemoveUnreadFileEvents(void)
 				CallService(MS_DB_EVENT_MARKREAD, (WPARAM)hContact, (LPARAM)hDbEvent);
 			hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 

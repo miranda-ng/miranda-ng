@@ -49,7 +49,7 @@ static int stopStatusUpdater = 0;
 void StatusUpdaterThread(void*)
 {
 	int i,curdelay,lastcheck = 0;
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 
 	SetThreadPriority(GetCurrentThread(),THREAD_PRIORITY_LOWEST);
 
@@ -67,10 +67,10 @@ void StatusUpdaterThread(void*)
 						if (pdnce && !pdnce->protoNotExists && pdnce->szProto)
 							CallContactService(hContact, PSS_GETAWAYMSG, 0, 0);
 
-						hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+						hContact = db_find_next(hContact);
 					}
 					if (hContact == NULL) {
-						hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+						hContact = db_find_first();
 						if (hContact == NULL)
 							break;
 					}

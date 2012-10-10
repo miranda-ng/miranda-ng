@@ -555,10 +555,10 @@ void EraseAccount(const char* pszModuleName)
 	dbcgs.szSetting = "p";
 
 	// remove protocol contacts first
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
 		HANDLE h1 = hContact;
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)h1, 0);
+		hContact = db_find_next(h1);
 
 		dbv.type = DBVT_ASCIIZ;
 		dbv.pszVal = szProtoName;

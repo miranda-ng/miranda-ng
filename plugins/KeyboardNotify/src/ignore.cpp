@@ -192,7 +192,7 @@ static void SetAllContactIcons(HWND hwndList)
 	DWORD protoCaps;
 	char *szProto;
 
-	hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact=db_find_first();
 	do {
 		hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if(hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 0)) == 0xFF) {
@@ -203,7 +203,7 @@ static void SetAllContactIcons(HWND hwndList)
 				protoCaps = CallProtoService(szProto, PS_GETCAPS,PFLAGNUM_1, 0);
 			InitialiseItem(hwndList, hContact, hItem, protoCaps);
 		}
-	} while(hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
+	} while(hContact = db_find_next(hContact));
 }
 
 INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -318,12 +318,12 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						case PSN_APPLY:
 						{	HANDLE hContact, hItem;
 
-							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+							hContact = db_find_first();
 							do {
 								hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 								if(hItem)
 									SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), hContact, hItem, "Mask1");
-							} while(hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
+							} while(hContact = db_find_next(hContact));
 							SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemAll, "Default1");
 							SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemUnknown, "Mask1");
 							return TRUE;

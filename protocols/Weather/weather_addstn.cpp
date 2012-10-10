@@ -37,7 +37,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 	WIDATA *sData;
 
 	// search for existing contact
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
 		// check if it is a weather contact
 		if ( IsMyContact(hContact)) {
@@ -58,7 +58,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 				DBFreeVariant(&dbv);
 			}
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	// if contact with the same ID was not found, add it

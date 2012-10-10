@@ -162,7 +162,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, EM_LIMITTEXT, 3, 0);
 			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);	
 
-			HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+			HANDLE hContact = db_find_first();
 			while (hContact != NULL) 
 			{
 				if (IsMyContact(hContact)) 
@@ -214,7 +214,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 					DBFreeVariant(&dbNick);
 				}
-				hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+				hContact = db_find_next(hContact);
 			}
 			WindowList_Add(hChangeFeedDlgList,hwndDlg,hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg,hContact,MODULE,"ChangeDlg");
@@ -547,7 +547,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						ListView_GetItemText(hwndList, sel, 0, nick, MAX_PATH);								
 						ListView_GetItemText(hwndList, sel, 1, url, MAX_PATH);								
 
-						HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+						HANDLE hContact = db_find_first();
 						while (hContact != NULL) 
 						{
 							if(IsMyContact(hContact)) 
@@ -572,7 +572,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 								}
 								DBFreeVariant(&dbNick);
 							}
-							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+							hContact = db_find_next(hContact);
 						}
 					}
 					return FALSE;
@@ -587,7 +587,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			{
 				case PSN_APPLY:
 					{
-						HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+						HANDLE hContact = db_find_first();
 						int i = 0;
 						while (hContact != NULL) 
 						{
@@ -600,7 +600,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 									DBDeleteContactSetting(hContact,"CList","Hidden");
 								i += 1;
 							}
-							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+							hContact = db_find_next(hContact);
 						}
 						break;
 					}

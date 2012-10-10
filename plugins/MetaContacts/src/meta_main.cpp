@@ -168,7 +168,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	//set all contacts to 'offline', and initialize subcontact counter for db consistency check
 	{
-		HANDLE hContact = (HANDLE)CallService( MS_DB_CONTACT_FINDFIRST, 0, 0);
+		HANDLE hContact = db_find_first();
 		char *proto;
 		while(hContact != NULL) {
 			//proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
@@ -189,7 +189,7 @@ extern "C" __declspec(dllexport) int Load(void)
 				DBFreeVariant(&dbv);
 			}
 
-			hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+			hContact = db_find_next(hContact);
 		}	
 	}
 

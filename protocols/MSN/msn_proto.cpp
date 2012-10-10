@@ -94,7 +94,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	LoadOptions();
 
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL)
 	{
 		if (MSN_IsMyContact(hContact))
@@ -104,7 +104,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 			deleteSetting(hContact, "p2pMsgId");
 			deleteSetting(hContact, "AccList");
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	deleteSetting(NULL, "MobileEnabled");
 	deleteSetting(NULL, "MobileAllowed");

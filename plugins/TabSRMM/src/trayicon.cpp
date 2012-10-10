@@ -339,7 +339,7 @@ void TSAPI LoadFavoritesAndRecent()
 	RCENTRY	*recentEntries, rceTemp;
 	DWORD	dwRecent;
 	int		iIndex = 0, i, j;
-	HANDLE	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE	hContact = db_find_first();
 	recentEntries = new RCENTRY[nen_options.wMaxRecent + 1];
 	if (recentEntries != NULL) {
 		while (hContact != 0) {
@@ -349,7 +349,7 @@ void TSAPI LoadFavoritesAndRecent()
 				recentEntries[iIndex].dwTimestamp = dwRecent;
 				recentEntries[iIndex++].hContact = hContact;
 			}
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 		if (iIndex == 0) {
 			free(recentEntries);

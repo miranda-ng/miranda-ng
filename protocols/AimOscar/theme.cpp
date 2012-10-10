@@ -283,13 +283,13 @@ void remove_AT_icons(CAimProto* ppro)
 {
 	if (!ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) return;
 	
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
 		if (ppro->is_my_contact(hContact) && !ppro->getByte(hContact, "ChatRoom", 0)) 
 			clear_AT_icon(hContact);
 
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 
@@ -297,36 +297,36 @@ void remove_ES_icons(CAimProto* ppro)
 {
 	if (!ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) return;
 
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
 		if (ppro->is_my_contact(hContact) && !ppro->getByte(hContact, "ChatRoom", 0)) 
 			clear_ES_icon(hContact);
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 
 void add_AT_icons(CAimProto* ppro)
 {
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
 		if (ppro->is_my_contact(hContact)) 
 			set_AT_icon(ppro, hContact);
 
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 
 void add_ES_icons(CAimProto* ppro)
 {
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
 		if (ppro->is_my_contact(hContact)) 
 			set_ES_icon(ppro, hContact);
 
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 

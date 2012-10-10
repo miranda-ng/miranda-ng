@@ -598,12 +598,12 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 		sprintf_s(buf, "Task_zipPassword_%d", i);
 		DBWriteContactSettingString(0, MODULE, buf, it->zipPassword.c_str());
 
-		HANDLE _hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		HANDLE _hContact = db_find_first();
 		sprintf_s(buf, "IsInTask_%d", i);
 		while(_hContact)
 		{
 			DBDeleteContactSetting(_hContact, MODULE, buf);
-			_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)_hContact, 0);
+			_hContact = db_find_next(_hContact);
 		}
 
 		for(size_t j = 0; j < it->contacts.size(); ++j)
@@ -660,12 +660,12 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 		sprintf_s(buf, "Task_taskName_%d", i);
 		DBDeleteContactSetting(NULL, MODULE, buf);
 
-		HANDLE _hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		HANDLE _hContact = db_find_first();
 		sprintf_s(buf, "IsInTask_%d", i);
 		while(_hContact)
 		{
 			DBDeleteContactSetting(_hContact, MODULE, buf);
-			_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)_hContact, 0);
+			_hContact = db_find_next(_hContact);
 		}
 	}
 
@@ -758,7 +758,7 @@ void Options::LoadTasks()
 			DBFreeVariant(&var);
 		}
 
-		HANDLE _hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		HANDLE _hContact = db_find_first();
 		sprintf_s(buf, "IsInTask_%d", i);
 		while(_hContact)
 		{
@@ -767,7 +767,7 @@ void Options::LoadTasks()
 				to.contacts.push_back(_hContact);
 			}
 
-			_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)_hContact, 0);
+			_hContact = db_find_next(_hContact);
 		}
 
 		to.orderNr = i;
@@ -1770,14 +1770,14 @@ void SaveList(HWND hwnd, HANDLE hSystem, TaskOptions* to)
 	to->contacts.clear();
 	if (hSystem)
 		to->isSystem = SendMessage(hwnd, CLM_GETCHECKMARK, (WPARAM) hSystem, 0) != 0;
-	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	do 
 	{
 		hItem = (HANDLE) SendMessage(hwnd, CLM_FINDCONTACT, (WPARAM) hContact, 0);
 		if (hItem && SendMessage(hwnd, CLM_GETCHECKMARK, (WPARAM) hItem, 0))
 			to->contacts.push_back(hContact);
 	} 
-	while (hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0));
+	while (hContact = db_find_next(hContact));
 }
 
 bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = NULL, std::wstring* err = NULL, std::wstring* errDescr = NULL);

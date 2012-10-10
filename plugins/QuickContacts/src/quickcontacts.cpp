@@ -376,9 +376,9 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 	// enumerate all contacts and write them to the array
 	// item data of listbox-strings is the array position
 	FreeContacts();
-	for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0); 
+	for(HANDLE hContact = db_find_first(); 
 		hContact != NULL; 
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
+		hContact = db_find_next(hContact))
 	{
 		char *pszProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if(pszProto != NULL)

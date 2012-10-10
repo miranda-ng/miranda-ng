@@ -114,7 +114,7 @@ HANDLE Meta_GetHandle(const char *protocol, DBVARIANT *id)
 		return NULL;
 	
 	field = (char *)CallProtoService(protocol,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
-	hUser = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	hUser = db_find_first();
 	while(hUser)
 	{	// Scan the database and retrieve the field for each contact
 		if (!DBGetContactSetting(hUser,protocol,field,&dbv))
@@ -179,7 +179,7 @@ HANDLE Meta_GetHandle(const char *protocol, DBVARIANT *id)
 				DBFreeVariant(&dbv);
 		} // end if (!DBGetContactSetting(hUser,protocol,field,&dbv))
 		// This contact wasn't the good one, go to the next.
-		hUser = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hUser,0);
+		hUser = db_find_next(hUser);
 	} // end while
 	return NULL;
 }
@@ -762,7 +762,7 @@ HANDLE Meta_GetContactHandle(HANDLE hMeta, int contact_number) {
 
 int Meta_SetHandles(void) {
 	DWORD meta_id, num_contacts, contact_number;
-	HANDLE hContact2, hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 ), hNextContact;
+	HANDLE hContact2, hContact = db_find_first(), hNextContact;
 	char buffer[512], buffer2[512];
 	char nick_buffer[128];
 	BOOL found;
@@ -783,7 +783,7 @@ int Meta_SetHandles(void) {
 				// problem!
 				MessageBox(0, Translate("Subcontact contact number < 0 - deleting MetaContact"), nick_buffer, MB_OK | MB_ICONERROR);
 				//CallService(MS_DB_CONTACT_DELETE, (WPARMA)hContact, 0);
-				hNextContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+				hNextContact = db_find_next(hContact);
 				Meta_Delete((WPARAM)hContact, (LPARAM)1);
 				hContact = hNextContact;
 				continue;		
@@ -796,7 +796,7 @@ int Meta_SetHandles(void) {
 
 			// find metacontact
 			found = FALSE;
-			hContact2 = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+			hContact2 = db_find_first();
 
 			while ( hContact2 != NULL ) {
 				if (DBGetContactSettingDword(hContact2,META_PROTO,META_ID,(DWORD)-1) == meta_id) {
@@ -821,7 +821,7 @@ int Meta_SetHandles(void) {
 						sprintf(buff, Translate("Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact"), (int)contact_number, (int)num_contacts);
 						MessageBox(0, buff, nick_buffer, MB_OK | MB_ICONERROR);
 						//CallService(MS_DB_CONTACT_DELETE, (WPARMA)hContact, 0);
-						hNextContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+						hNextContact = db_find_next(hContact);
 						Meta_Delete((WPARAM)hContact, (LPARAM)1);
 						hContact = hNextContact;
 						continue;		
@@ -829,7 +829,7 @@ int Meta_SetHandles(void) {
 					}
 				}
 
-				hContact2 = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact2, 0 );
+				hContact2 = db_find_next(hContact2);
 			}
 
 			if (!found) {
@@ -875,7 +875,7 @@ int Meta_SetHandles(void) {
 				// problem
 				MessageBox(0, Translate("MetaContact number of contacts < 0 - deleting MetaContact"), nick_buffer, MB_OK | MB_ICONERROR);
 				//CallService(MS_DB_CONTACT_DELETE, (WPARMA)hContact, 0);
-				hNextContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+				hNextContact = db_find_next(hContact);
 				Meta_Delete((WPARAM)hContact, (LPARAM)1);
 				hContact = hNextContact;
 				continue;		
@@ -885,7 +885,7 @@ int Meta_SetHandles(void) {
 			if (contact_number < 0 || contact_number >= num_contacts) {
 				// problem
 				MessageBox(0, Translate("MetaContact default contact number out of range - deleting MetaContact"), nick_buffer, MB_OK | MB_ICONERROR);
-				hNextContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+				hNextContact = db_find_next(hContact);
 				Meta_Delete((WPARAM)hContact, (LPARAM)1);
 				hContact = hNextContact;
 				//CallService(MS_DB_CONTACT_DELETE, (WPARMA)hContact, 0);
@@ -894,11 +894,11 @@ int Meta_SetHandles(void) {
 			}
 		}
 
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+		hContact = db_find_next(hContact);
 	}
 	
 	// loop through one more time - check contact counts match
-	hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	hContact = db_find_first();
 	while ( hContact != NULL ) {
 		if ((meta_id = DBGetContactSettingDword(hContact,META_PROTO,META_ID,(DWORD)-1))!=(DWORD)-1) {
 			// get nick for debug messages
@@ -912,14 +912,14 @@ int Meta_SetHandles(void) {
 				//	Meta_Delete((WPARAM)hContact, (LPARAM)1); // second param prevents confirm dialog
 				//} else
 				//	return 1;
-				hNextContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+				hNextContact = db_find_next(hContact);
 				MessageBox(0, Translate("MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact."), nick_buffer, MB_OK | MB_ICONERROR);
 				Meta_Delete((WPARAM)hContact, (LPARAM)1);
 				hContact = hNextContact;
 				continue;		
 			}
 		}
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+		hContact = db_find_next(hContact);
 	}
 
 	return 0;
@@ -939,7 +939,7 @@ int Meta_HideLinkedContacts(void) {
 	char *proto, *group_name;
 	int hGroup = 1;
 
-	HANDLE hContact2, hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact2, hContact = db_find_first();
 
 	// ensure the hidden group does not exist (how this occurs i wonder but there have been reports!)
 	// (sometimes protocol server side groups are to blame - msn and icq)
@@ -980,7 +980,7 @@ int Meta_HideLinkedContacts(void) {
 			Meta_SetGroup(hContact);
 
 			// find metacontact
-			hContact2 = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+			hContact2 = db_find_first();
 
 			while ( hContact2 != NULL ) {
 				if (DBGetContactSettingDword(hContact2,META_PROTO,META_ID,(DWORD)-1) == meta_id) {
@@ -1024,18 +1024,18 @@ int Meta_HideLinkedContacts(void) {
 					}
 				}
 
-				hContact2 = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact2, 0 );
+				hContact2 = db_find_next(hContact2);
 			}
 
 			if (options.suppress_status)
 				CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 		}
 
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+		hContact = db_find_next(hContact);
 	}	
 
 	// do metacontacts after handles set properly above
-	hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	hContact = db_find_first();
 	while ( hContact != NULL ) {
 		if (DBGetContactSettingDword(hContact,META_PROTO,META_ID,(DWORD)-1)!=(DWORD)-1) {
 			// is a meta contact
@@ -1046,7 +1046,7 @@ int Meta_HideLinkedContacts(void) {
 
 		}
 
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+		hContact = db_find_next(hContact);
 	}	
 
 	CallService(MS_CLUI_SORTLIST, 0, 0);
@@ -1057,7 +1057,7 @@ int Meta_HideLinkedContacts(void) {
 *
 */
 int Meta_UnhideLinkedContacts(void) {
-	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = db_find_first();
 
 	while ( hContact != NULL ) {
 		if (DBGetContactSettingDword(hContact,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1) {
@@ -1066,7 +1066,7 @@ int Meta_UnhideLinkedContacts(void) {
 			Meta_RestoreGroup(hContact);			
 		}
 
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+		hContact = db_find_next(hContact);
 	}	
 
 	if (!CallService(MS_SYSTEM_TERMINATED, 0, 0))
@@ -1075,7 +1075,7 @@ int Meta_UnhideLinkedContacts(void) {
 }
 
 int Meta_HideMetaContacts(int hide) {
-	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = db_find_first();
 
 	// set status suppression
 	if (hide) Meta_SuppressStatus(FALSE);
@@ -1099,7 +1099,7 @@ int Meta_HideMetaContacts(int hide) {
 			}
 		}
 
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+		hContact = db_find_next(hContact);
 	}	
 
 	if (!CallService(MS_SYSTEM_TERMINATED, 0, 0))
@@ -1253,7 +1253,7 @@ void Meta_GetStatusString(int status, char *buf, size_t size) {
 }
 
 int Meta_SuppressStatus(BOOL suppress) {
-	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = db_find_first();
 
 	while ( hContact != NULL ) {
 		if (DBGetContactSettingDword(hContact,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1) {
@@ -1264,7 +1264,7 @@ int Meta_SuppressStatus(BOOL suppress) {
 				CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 		}
 
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+		hContact = db_find_next(hContact);
 	}	
 
 	return 0;
@@ -1319,7 +1319,7 @@ int Meta_CopyContactNick(HANDLE hMeta, HANDLE hContact) {
 }
 
 int Meta_SetAllNicks() {
-	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 ), most_online;
+	HANDLE hContact = db_find_first(), most_online;
 
 	while ( hContact != NULL ) {
 		if (DBGetContactSettingDword(hContact,META_PROTO,META_ID,(DWORD)-1)!=(DWORD)-1) {
@@ -1329,7 +1329,7 @@ int Meta_SetAllNicks() {
 			Meta_CopyData(hContact);
 		}
 		
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+		hContact = db_find_next(hContact);
 	}
 	return 0;
 }

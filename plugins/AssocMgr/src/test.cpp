@@ -74,7 +74,7 @@ static int __inline AssocMgr_AddNewUrlType(const char *prefix,const char *desc,H
 #define AIM_KEY_NL  "NotOnList"
 struct oscar_data {	HINSTANCE hInstance; } static conn;
 static __inline HANDLE find_contact(const char *nick) { nick; return NULL; }
-static __inline HANDLE add_contact(const char *nick) { nick; return (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0); }
+static __inline HANDLE add_contact(const char *nick) { nick; return db_find_first(); }
 static __inline void aim_gchat_joinrequest(const char *room, int exchange) { room; exchange; MessageBoxA(NULL,"Join group chat!",room,MB_OK); return; }
 #include <m_protosvc.h>
 #include <m_addcontact.h>
@@ -205,7 +205,7 @@ void aim_links_destroy()
 #define gpszICQProtoName  "ICQ"
 #define IDI_ICQ  101
 #define hInst  GetModuleHandleA("ICQ")
-static __inline HANDLE HContactFromUIN(DWORD dwUIN,int *Added) { dwUIN; Added; return (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0); }
+static __inline HANDLE HContactFromUIN(DWORD dwUIN,int *Added) { dwUIN; Added; return db_find_first(); }
 static __inline HANDLE ICQFindFirstContact(void) { return NULL; }
 static __inline HANDLE ICQFindNextContact(HANDLE hContact) { hContact; return NULL; }
 static __inline void AddToCache(HANDLE hContact,DWORD dwUin) { hContact; dwUin; }
@@ -402,7 +402,7 @@ void UninitIcqFiles(void)
 #define IDI_YAHOO  10101
 #define hinstance  GetModuleHandleA("YAHOO")
 static __inline HANDLE getbuddyH(const char *yahoo_id) { yahoo_id; return NULL; }
-static __inline HANDLE add_buddy(const char *yahoo_id,const char *yahoo_name,DWORD flags) { yahoo_id; yahoo_name; flags; return (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0); }
+static __inline HANDLE add_buddy(const char *yahoo_id,const char *yahoo_name,DWORD flags) { yahoo_id; yahoo_name; flags; return db_find_first(); }
 #include <m_protosvc.h>
 #include <m_addcontact.h>
 #include <m_message.h>
@@ -513,7 +513,7 @@ void YmsgrLinksUninit(void)
 #define IDI_MSN  101
 #define hInst  GetModuleHandleA("MSN")
 static __inline HANDLE MSN_HContactFromEmailT(const char *msnEmail) { msnEmail; return NULL; }
-static __inline HANDLE MSN_HContactFromEmail(const char *msnEmail,const char *msnNick,int addIfNeeded,int temporary) { msnEmail; msnNick; addIfNeeded; temporary; return (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0); }
+static __inline HANDLE MSN_HContactFromEmail(const char *msnEmail,const char *msnNick,int addIfNeeded,int temporary) { msnEmail; msnNick; addIfNeeded; temporary; return db_find_first(); }
 #include <m_protosvc.h>
 #include <m_addcontact.h>
 #include <m_message.h>
@@ -622,7 +622,7 @@ void UnloadMsnLinks(void)
 #define IDI_GG  251
 #define hInstance  GetModuleHandleA("GG")
 typedef DWORD uin_t;
-static __inline HANDLE gg_getcontact(uin_t uin,int create,int inlist,char *szNick) { uin; create; inlist; szNick; return (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0); }
+static __inline HANDLE gg_getcontact(uin_t uin,int create,int inlist,char *szNick) { uin; create; inlist; szNick; return db_find_first(); }
 #include <m_protosvc.h>
 #include <m_addcontact.h>
 #include <m_message.h>
@@ -687,7 +687,7 @@ void gg_unregisterlinks(void)
 #define IDI_JABBER  102
 #define hInst  GetModuleHandleA("JABBER")
 static __inline HANDLE JabberHContactFromJID(const char *jid) { jid; return NULL; }
-static __inline HANDLE JabberDBCreateContact(char *jid,char *nick,BOOL temporary,BOOL stripResource) { jid; nick; temporary; stripResource; return (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0); }
+static __inline HANDLE JabberDBCreateContact(char *jid,char *nick,BOOL temporary,BOOL stripResource) { jid; nick; temporary; stripResource; return db_find_first(); }
 #include <m_protosvc.h>
 #include <m_addcontact.h>
 #include <m_message.h>

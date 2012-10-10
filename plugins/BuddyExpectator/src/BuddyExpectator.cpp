@@ -672,7 +672,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {	
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	char *proto;
 	while (hContact != 0)
 	{
@@ -704,7 +704,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 			GoneNotify(hContact, message);
 		}
 
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 /**
@@ -873,7 +873,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// ensure all contacts are timestamped
 	DBVARIANT dbv;
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	DWORD current_time = (DWORD)time(0);
 	while (hContact != 0) {
 		if ( !DBGetContactSetting(hContact, MODULE_NAME, "CreationTime", &dbv))
@@ -881,7 +881,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		else
 			DBWriteContactSettingDword(hContact, MODULE_NAME, "CreationTime", current_time);
 
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	return 0;

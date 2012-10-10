@@ -106,13 +106,13 @@ struct ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName,
 			group->totalMembers = 0;
 			if (flags != (DWORD) - 1 && pNextField == NULL && calcTotalMembers) {
 				DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-				HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+				HANDLE hContact = db_find_first();
 				while (hContact) {
 					ClcCacheEntryBase* cache = cli.pfnGetCacheEntry(hContact);
 					if ( !lstrcmp(cache->tszGroup, szName) && (style & CLS_SHOWHIDDEN || !cache->bIsHidden))
 						group->totalMembers++;
 
-					hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+					hContact = db_find_next(hContact);
 				}
 			}
 		}
@@ -381,7 +381,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 		}
 	}
 
-	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	while (hContact) {
 		if (style & CLS_SHOWHIDDEN || !db_get_b(hContact, "CList", "Hidden", 0)) {
 			if (DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
@@ -414,7 +414,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 				else cli.pfnAddContactToGroup(dat, group, hContact);
 			}
 		}
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	if (style & CLS_HIDEEMPTYGROUPS) {

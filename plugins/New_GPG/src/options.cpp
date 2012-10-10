@@ -145,7 +145,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT);
 		int i = 1, iRow = 0;
 		bool isContactHaveKey(HANDLE);
-		for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact != NULL; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+		for(HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 		{
 			if(isContactHaveKey(hContact))
 			{
@@ -241,7 +241,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  ismetacontact = true;
 			  }
 			  tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
-			  for(HANDLE hcnttmp = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hcnttmp != NULL; hcnttmp = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hcnttmp, 0))
+			  for(HANDLE hcnttmp = db_find_first(); hcnttmp != NULL; hcnttmp = db_find_next(hcnttmp))
 			  {
 				  if(hcnttmp != hContact)
 				  {

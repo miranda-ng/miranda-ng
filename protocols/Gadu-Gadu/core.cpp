@@ -1354,7 +1354,7 @@ void GGPROTO::setalloffline()
 {
 	netlog("gg_setalloffline(): Setting buddies offline");
 	db_set_w(NULL, m_szModuleName, GG_KEY_STATUS, ID_STATUS_OFFLINE);
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
 		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
@@ -1367,7 +1367,7 @@ void GGPROTO::setalloffline()
 			// Delete status descr
 			db_unset(hContact, "CList", GG_KEY_STATUSDESCR);
 		}
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 #ifdef DEBUGMODE
 	netlog("gg_setalloffline(): End");
@@ -1424,12 +1424,12 @@ void GGPROTO::notifyall()
 
 	netlog("gg_notifyall(): Subscribing notification to all users");
 	// Readup count
-	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	while (hContact)
 	{
 		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) count ++;
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	// Readup list
@@ -1447,7 +1447,7 @@ void GGPROTO::notifyall()
 	uins = (uin_t*)calloc(sizeof(uin_t), count);
 	types = (char*)calloc(sizeof(char), count);
 
-	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	while (hContact && cc < count)
 	{
 		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
@@ -1462,7 +1462,7 @@ void GGPROTO::notifyall()
 				types[cc] = GG_USER_NORMAL;
 			cc ++;
 		}
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	if (cc < count) count = cc;
 
@@ -1484,7 +1484,7 @@ void GGPROTO::notifyall()
 HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 {
 	// Look for contact in DB
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact) {
 		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
@@ -1498,7 +1498,7 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 				return hContact;
 			}
 		}
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	if (!create) return NULL;
 

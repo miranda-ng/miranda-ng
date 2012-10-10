@@ -128,21 +128,21 @@ void RefreshContactListIcons(void) {
 	HANDLE hContact;
 //	CallService(MS_CLUI_LISTBEGINREBUILD,0,0);
 	if ( !g_hCLIcon ) {
-	    hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	    hContact = db_find_first();
 	    while (hContact) { // сначала все выключаем
 		ShowStatusIcon(hContact,-1);
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	    }
 	    // менем местоположение иконки
 	    for(int i=0;i<1+MODE_CNT*IEC_CNT;i++) {
 		g_IEC[i].ColumnType = bADV;
 	    }
 	}
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	while (hContact) { // и снова зажигаем иконку
 		if ( isSecureProtocol(hContact))
 			ShowStatusIcon(hContact);
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 //	CallService(MS_CLUI_LISTENDREBUILD,0,0);
 }

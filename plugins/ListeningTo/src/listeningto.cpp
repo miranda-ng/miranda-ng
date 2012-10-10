@@ -317,7 +317,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hExtraIcon = ExtraIcon_Register(MODULE_NAME, "Listening to music", "listening_to_icon");
 	if (hExtraIcon != NULL)
 	{
-		HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		HANDLE hContact = db_find_first();
 		while (hContact != NULL)
 		{
 			char *proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
@@ -333,7 +333,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 				}
 			}
 
-			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 	}
 	else if (hExtraIcon == NULL && ServiceExists(MS_CLIST_EXTRA_ADD_ICON))

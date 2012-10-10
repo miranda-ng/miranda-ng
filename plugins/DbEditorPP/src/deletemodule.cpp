@@ -53,7 +53,7 @@ void __cdecl PopulateModuleDropListThreadFunc(LPVOID di)
 			module = (struct ModSetLinkLinkItem *)module->next;
 			continue;
 		}
-		for (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);moduleEmpty && hContact;hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+		for (hContact = db_find_first();moduleEmpty && hContact;hContact = db_find_next(hContact))
 		{
 			if (!IsModuleEmpty(hContact,module->name))
 			{
@@ -103,13 +103,13 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				case IDOK:
 				{
 					char text[128];
-					HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					HANDLE hContact = db_find_first();
 					GetDlgItemText(hwnd,IDC_CONTACTS,text,128);
 					SetCursor(LoadCursor(NULL,IDC_WAIT));
 					while (hContact)
 					{
 						deleteModule(text,hContact,1);
-						hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+						hContact = db_find_next(hContact);
 					}
 					// do the null
 					deleteModule(text,NULL,1);

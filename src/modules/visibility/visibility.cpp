@@ -104,7 +104,7 @@ static void SetAllContactIcons(HWND hwndList)
 	DWORD flags;
 	WORD status;
 
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	do {
 		hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem) {
@@ -123,7 +123,7 @@ static void SetAllContactIcons(HWND hwndList)
 					SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, status == ID_STATUS_OFFLINE?2:0));
 			}
 		}
-	} while (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
+	} while (hContact = db_find_next(hContact));
 }
 
 static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
@@ -242,7 +242,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 						{	HANDLE hContact, hItem;
 							int set, i, iImage;
 
-							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+							hContact = db_find_first();
 							do {
 								hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 								if (hItem) {
@@ -257,7 +257,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 									}
 									if ( !set) CallContactService(hContact, PSS_SETAPPARENTMODE, 0, 0);
 								}
-							} while (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
+							} while (hContact = db_find_next(hContact));
 							return TRUE;
 						}
 					}

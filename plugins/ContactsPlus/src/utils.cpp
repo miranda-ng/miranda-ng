@@ -125,12 +125,12 @@ TCHAR* MirandaStatusToStringT(int mirandaStatus)
 
 HANDLE __fastcall SRCFindFirstContact()
 {
-  return (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+  return db_find_first();
 }
 
 HANDLE __fastcall SRCFindNextContact(HANDLE hContact)
 {
-  return (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+  return db_find_next(hContact);
 }
 
 int DBGetContactSettingT(HANDLE hContact, const char *szModule, const char* szSetting, DBVARIANT *dbv)

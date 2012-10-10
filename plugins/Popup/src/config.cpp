@@ -122,8 +122,8 @@ void PopUpPreview()
 
 #if defined(_DEBUG)
 	// test per-contact popups
-	for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact;
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+	for (HANDLE hContact = db_find_first(); hContact;
+			hContact = db_find_next(hContact))
 	{
 		if (DBGetContactSettingDword(hContact, "ICQ", "UIN", 0) == 256771455)
 		{

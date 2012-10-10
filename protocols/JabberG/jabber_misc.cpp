@@ -175,7 +175,7 @@ HANDLE CJabberProto::DBCreateContact( const TCHAR* jid, const TCHAR* nick, BOOL 
 	len = _tcslen( s );
 
 	// We can't use JabberHContactFromJID() here because of the stripResource option
-	HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = ( HANDLE ) db_find_first();
 	while ( hContact != NULL ) {
 		szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( szProto!=NULL && !strcmp( m_szModuleName, szProto )) {
@@ -188,7 +188,7 @@ HANDLE CJabberProto::DBCreateContact( const TCHAR* jid, const TCHAR* nick, BOOL 
 				}
 				JFreeVariant( &dbv );
 		}	}
-		hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+		hContact = db_find_next(hContact);
 	}
 
 	if ( hContact == NULL ) {
@@ -327,9 +327,9 @@ void CJabberProto::ResolveTransportNicks( const TCHAR* jid )
 	// Set all contacts to offline
 	HANDLE hContact = m_ThreadInfo->resolveContact;
 	if ( hContact == NULL )
-		hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+		hContact = ( HANDLE ) db_find_first();
 
-	for ( ; hContact != NULL; hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 )) {
+	for ( ; hContact != NULL; hContact = db_find_next(hContact)) {
 		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( lstrcmpA( szProto, m_szModuleName ))
 			continue;

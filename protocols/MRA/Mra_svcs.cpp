@@ -225,9 +225,9 @@ INT_PTR CMraProto::MraWebSearch(WPARAM wParam, LPARAM lParam)
 INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 {
 	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES ) {
-		for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); 
+		for (HANDLE hContact = db_find_first(); 
 			  hContact != NULL; 
-			  hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0)) {
+			  hContact = db_find_next(hContact)) {
 			size_t dwEMailSize;
 			CHAR szEMail[MAX_EMAIL_LEN];
 			if ( IsContactMra(hContact))
@@ -241,9 +241,9 @@ INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
 {
 	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-		for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); 
+		for (HANDLE hContact = db_find_first(); 
 			  hContact != NULL; 
-			  hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0)) {
+			  hContact = db_find_next(hContact)) {
 			size_t dwEMailSize;
 			CHAR szEMail[MAX_EMAIL_LEN];
 
@@ -259,9 +259,9 @@ INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
 INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 {
 	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_REQ_AUTH_FOR_ALL_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-		for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); 
+		for (HANDLE hContact = db_find_first(); 
 			  hContact != NULL; 
-			  hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0)) {
+			  hContact = db_find_next(hContact)) {
 			DWORD dwContactSeverFlags;
 			if (GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL) == NO_ERROR)
 			if (dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED && dwContactSeverFlags != -1)

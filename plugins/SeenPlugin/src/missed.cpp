@@ -67,11 +67,11 @@ int ResetMissed(void)
 {
 	HANDLE hcontact=NULL;
 
-	hcontact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	hcontact=db_find_first();
 	while(hcontact!=NULL)
 	{
 		DBWriteContactSettingByte(hcontact,S_MOD,"Missed",0);
-		hcontact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hcontact,0);
+		hcontact = db_find_next(hcontact);
 	}
 
 	ZeroMemory(&mcs,sizeof(mcs));
@@ -86,7 +86,7 @@ int CheckIfOnline(void)
 //	char *szProto;
 //	WORD status;
 
-	hcontact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	hcontact=db_find_first();
 	while(hcontact!=NULL)
 	{
 /*		szProto=(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hcontact,0);
@@ -96,7 +96,7 @@ int CheckIfOnline(void)
 		if(CallService(MS_CLIST_GETCONTACTICON,(WPARAM)hcontact,0)!=ICON_OFFLINE)
 			DBWriteContactSettingByte(hcontact,S_MOD,"Missed",2);
 
-		hcontact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hcontact,0);
+		hcontact = db_find_next(hcontact);
 	}
 
 	return 0;

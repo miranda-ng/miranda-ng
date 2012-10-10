@@ -123,13 +123,13 @@ DWORD WINAPI MF_UpdateThread(LPVOID p)
     ResetEvent(hEvent);
 
     while(mf_updatethread_running) {
-        hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+        hContact = db_find_first();
         while (hContact != NULL && mf_updatethread_running) {
             MF_CalcFrequency(hContact, 50, 1);
             if (mf_updatethread_running)
                 WaitForSingleObject(hEvent, 5000);
             ResetEvent(hEvent);
-            hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+            hContact = db_find_next(hContact);
         }
         if (mf_updatethread_running)
             WaitForSingleObject(hEvent, 1000000);
@@ -157,7 +157,7 @@ void LoadContactTree(void)
     }
 
     hideOffline = cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
-    hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+    hContact = db_find_first();
     while (hContact != NULL) {
         status = GetContactStatus(hContact);
         if ((!hideOffline || status != ID_STATUS_OFFLINE) && !CLVM_GetContactHiddenStatus(hContact, NULL, NULL))
@@ -175,7 +175,7 @@ void LoadContactTree(void)
         if (!bMsgFrequency)
             MF_CalcFrequency(hContact, 100, 0);
 
-        hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+        hContact = db_find_next(hContact);
     }
     cfg::writeByte("CList", "fhistdata", 1);
     mc_hgh_removed = TRUE;

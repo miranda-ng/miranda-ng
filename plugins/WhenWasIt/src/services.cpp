@@ -221,12 +221,12 @@ DWORD WINAPI RefreshUserDetailsWorkerThread(LPVOID param)
 	//PUAddPopUp(&pd);
 	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Starting to refresh user details"), hiRefreshUserDetails);
 	int delay = DBGetContactSettingWord(NULL, ModuleName, "UpdateDelay", REFRESH_DETAILS_DELAY);
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	int res;
 	while (hContact != NULL)
 		{
 			res = CallContactService(hContact, PSS_GETINFO, 0, 0);
-			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+			hContact = db_find_next(hContact);
 			if (hContact)
 				{
 					Sleep(delay); //sleep for a few seconds between requests
@@ -391,7 +391,7 @@ int DoExport(TCHAR *fileName)
 
 	_ftprintf(fout, _T("%c%s"), _T(COMMENT_CHAR), _T("This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n"));
 	
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	int year, month, day;
 	TCHAR *szHandle;
 	char szProto[256];
@@ -413,7 +413,7 @@ int DoExport(TCHAR *fileName)
 					if (szHandle) free(szHandle);
 				}
 		
-			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 	
 	fclose(fout);

@@ -1148,7 +1148,7 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit) {
 	LVITEM lvi; memset(&lvi,0,sizeof(lvi));
 	lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	char tmp[NAMSIZE];
 
 	while (hContact) {
@@ -1178,7 +1178,7 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit) {
 			else				setListViewPUB(hLV, itemNum, hasKey(ptr));
 			setListViewIcon(hLV, itemNum, ptr);
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	ListView_Sort(hLV,(LPARAM)0);
 }
@@ -1252,7 +1252,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit) {
 	LVITEM lvi; memset(&lvi,0,sizeof(lvi));
 	lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	char tmp[NAMSIZE];
 
 	while (hContact) {
@@ -1276,7 +1276,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit) {
 			LV_SetItemTextA(hLV, itemNum, 2, (szKeyID)?szKeyID:Translate(sim221));
 			SAFE_FREE(szKeyID);
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	ListView_Sort(hLV,(LPARAM)0x10);
 }
@@ -1322,7 +1322,7 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit) {
 	LVITEM lvi; memset(&lvi,0,sizeof(lvi));
 	lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	char tmp[NAMSIZE];
 
 	while (hContact) {
@@ -1351,7 +1351,7 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit) {
 			LV_SetItemTextA(hLV, itemNum, 3, (ptr->tgpgMode)?Translate(sim228):Translate(sim229));
 			SAFE_FREE(szKeyID);
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	ListView_Sort(hLV,(LPARAM)0x20);
 }
@@ -1387,7 +1387,7 @@ void ResetGeneralDlg(HWND hDlg) {
 	LVITEM lvi; memset(&lvi,0,sizeof(lvi));
 	lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	char tmp[NAMSIZE];
 
 	while (hContact) {
@@ -1417,7 +1417,7 @@ void ResetGeneralDlg(HWND hDlg) {
 			else				setListViewPUB(hLV, itemNum, 0);
 			setListViewIcon(hLV, itemNum, ptr);
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 

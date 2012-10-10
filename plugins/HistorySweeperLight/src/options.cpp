@@ -133,8 +133,8 @@ static void ShowAllContactIcons(HWND hwndList)
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hSystemHistory, 
 											MAKELPARAM(0, DBGetContactSettingByte(NULL, ModuleName, "SweepSHistory", 0)));
 	
-	for (hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0); hContact;
-											hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
+	for (hContact=db_find_first(); hContact;
+											hContact=db_find_next(hContact))
 	{
 		hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, 
@@ -201,8 +201,8 @@ void SaveSettings(HWND hwndDlg)
 	DBWriteContactSettingByte(NULL, ModuleName, "SweepSHistory", 
 											(BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hSystemHistory, 0));
 	
-	for (hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0); hContact;
-											hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
+	for (hContact=db_find_first(); hContact;
+											hContact=db_find_next(hContact))
 	{
 		hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 

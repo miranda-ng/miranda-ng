@@ -257,8 +257,8 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Hotkey_Register(&hotkey);
 
 	if (ServiceExists(MS_AV_GETAVATARBITMAP)) {
-		HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-		for ( ; hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+		HANDLE hContact = db_find_first();
+		for ( ; hContact; hContact = db_find_next(hContact))
 			if (DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0))
 				CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
 	}
@@ -1211,10 +1211,10 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			SendMessage(GetDlgItem(hwnd, IDC_CLIST), CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP|CLS_EX_TRACKSELECT, 0);
 			sttResetListOptions(GetDlgItem(hwnd, IDC_CLIST));
 
-			hSelectedContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+			hSelectedContact = db_find_first();
 
-			HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-			for ( ; hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+			HANDLE hContact = db_find_first();
+			for ( ; hContact; hContact = db_find_next(hContact))
 			{
 				SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK,
 					SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0),
@@ -1343,8 +1343,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 				sttSaveOptions();
 
-				HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-				for ( ; hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+				HANDLE hContact = db_find_first();
+				for ( ; hContact; hContact = db_find_next(hContact))
 				{
 					BYTE fav = SendDlgItemMessage(hwnd, IDC_CLIST, CLM_GETCHECKMARK,
 						SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
@@ -1366,8 +1366,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					case CLN_NEWCONTACT:
 					{
 						int iSelection = (int)((NMCLISTCONTROL *)lParam)->hItem;
-						HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-						for ( ; hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+						HANDLE hContact = db_find_first();
+						for ( ; hContact; hContact = db_find_next(hContact))
 							if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0) == iSelection)
 							{
 								SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK, iSelection,
@@ -1380,8 +1380,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					case CLN_CHECKCHANGED:
 					{
 						int iSelection = (int)((NMCLISTCONTROL *)lParam)->hItem;
-						HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-						for ( ; hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+						HANDLE hContact = db_find_first();
+						for ( ; hContact; hContact = db_find_next(hContact))
 							if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0) == iSelection)
 								break;
 						if (hContact)

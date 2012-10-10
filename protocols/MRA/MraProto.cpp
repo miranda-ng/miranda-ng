@@ -119,7 +119,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_WAT_NEWSTATUS, &CMraProto::MraMusicChanged);
 
 	// всех в offline // тк unsaved values сохран€ютс€ их нужно инициализировать
-	for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact != NULL; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, NULL, 0, NULL, 0, NULL, 0);
 
 	// unsaved values
@@ -628,7 +628,7 @@ int CMraProto::SetStatus(int iNewStatus)
 		// всех в offline, только если мы бывали подключены
 		if (dwOldStatusMode > ID_STATUS_OFFLINE) {
 			// функци€ сама провер€ет принадлежность контакта к MRA
-			for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);hContact != NULL;hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+			for (HANDLE hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact))
 				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, NULL, 0, NULL, 0, NULL, 0);
 		}
 		Netlib_CloseHandle(hConnection);

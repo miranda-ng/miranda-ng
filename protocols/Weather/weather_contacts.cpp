@@ -447,7 +447,7 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 	// now the default station is deleted, try to get a new one
 
 	// start looking for other weather stations
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while(hContact) {
 		if (IsMyContact(hContact)) {
 			if (!DBGetContactSettingTString(hContact, WEATHERPROTONAME, "ID", &dbv)) {
@@ -469,7 +469,7 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 				DBFreeVariant(&dbv);
 			}
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	// got here if no more weather station left
 	opt.Default[0] = 0;	// no default station

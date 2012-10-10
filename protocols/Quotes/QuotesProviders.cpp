@@ -68,7 +68,7 @@ void CQuotesProviders::InitProviders()
 	const WORD nCurrentVersion = 17;
 	WORD nVersion = DBGetContactSettingWord(NULL,QUOTES_MODULE_NAME,LAST_RUN_VERSION,1);
 
-	for(HANDLE hContact = reinterpret_cast<HANDLE>(CallService(MS_DB_CONTACT_FINDFIRST,0,0));hContact;hContact = reinterpret_cast<HANDLE>(CallService(MS_DB_CONTACT_FINDNEXT,reinterpret_cast<WPARAM>(hContact),0)))
+	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 	{
 		TQuotesProviderPtr pProvider = GetContactProviderPtr(hContact);
 		if(pProvider)

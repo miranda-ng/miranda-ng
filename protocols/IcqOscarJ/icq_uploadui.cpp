@@ -115,7 +115,7 @@ static void DeleteOtherContactsFromControl(HWND hCtrl, CIcqProto* ppro)
 	HANDLE hContact;
 	HANDLE hItem;
 
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	while (hContact)
 	{
 		hItem = (HANDLE)SendMessage(hCtrl, CLM_FINDCONTACT, (WPARAM)hContact, 0);
@@ -124,7 +124,7 @@ static void DeleteOtherContactsFromControl(HWND hCtrl, CIcqProto* ppro)
 			if (!ppro->IsICQContact(hContact))
 				SendMessage(hCtrl, CLM_DELETEITEM, (WPARAM)hItem, 0);
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 
@@ -709,7 +709,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg,UINT message,WPARAM wPara
 							SAFE_FREE((void**)&pszGroup);
 						}
 					}
-					hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+					hContact = db_find_next(hContact);
 				}
 				if (!hContact) 
 				{
@@ -785,7 +785,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg,UINT message,WPARAM wPara
 							break;
 						}
 					}
-					hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+					hContact = db_find_next(hContact);
 				}
 				if (!hContact) 
 				{

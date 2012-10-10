@@ -129,10 +129,10 @@ static int ContactListShutdownProc(WPARAM wParam,LPARAM lParam)
 
 int LoadContactListModule(void)
 {
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
 		DBWriteContactSettingString(hContact, "CList", "StatusMsg", "");
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	hCListImages = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);

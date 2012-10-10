@@ -1769,7 +1769,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (dwItems & TRAYTIP_NUMCONTACTS)
 				{
 					int iCount = 0, iCountOnline = 0;
-					HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					HANDLE hContact = db_find_first();
 					while (hContact)
 					{
 						char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
@@ -1779,7 +1779,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								iCountOnline++;
 							iCount++;
 						}
-						hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+						hContact = db_find_next(hContact);
 					}
 					mir_sntprintf(buff, 64, _T("(%d/%d)"), iCountOnline, iCount);
 				} 
@@ -1927,7 +1927,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					bool bTitlePainted = false;
 					int iCount = 0, iCountOnline = 0;
 
-					HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					HANDLE hContact = db_find_first();
 					while (hContact)
 					{
 						if (DBGetContactSettingByte(hContact, MODULE, "FavouriteContact", 0))
@@ -1968,7 +1968,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								}
 							}
 						}
-						hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+						hContact = db_find_next(hContact);
 					}
 
 					int index = pwd->iRowCount - 1;

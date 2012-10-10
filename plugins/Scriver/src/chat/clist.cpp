@@ -102,7 +102,7 @@ BOOL CList_SetOffline(HANDLE hContact, BOOL bHide)
 
 BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
 {
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while ( hContact ) {
 		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 		if ( MM_FindModule( szProto )) {
@@ -114,7 +114,7 @@ BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
 				}
 			}
 		}
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	return TRUE;
 }
@@ -294,7 +294,7 @@ BOOL CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, TCHAR* 
 
 HANDLE CList_FindRoom ( const char* pszModule, const TCHAR* pszRoom)
 {
-	HANDLE hContact = ( HANDLE )CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact) {
 		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0 );
 		if ( szProto && !lstrcmpiA( szProto, pszModule )) {
@@ -308,7 +308,7 @@ HANDLE CList_FindRoom ( const char* pszModule, const TCHAR* pszRoom)
 					DBFreeVariant(&dbv);
 		}	}	}
 
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	return 0;
 }

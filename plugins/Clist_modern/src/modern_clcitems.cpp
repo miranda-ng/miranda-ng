@@ -392,7 +392,7 @@ void cliRebuildEntireList(HWND hwnd,struct ClcData *dat)
 		}
 	}
 
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	hContact = db_find_first();
 	while(hContact) 
     {
 		pdisplayNameCacheEntry cacheEntry = NULL;
@@ -436,7 +436,7 @@ void cliRebuildEntireList(HWND hwnd,struct ClcData *dat)
 			if (cont->proto && g_szMetaModuleName && dat->IsMetaContactsEnabled  && strcmp(cont->proto,g_szMetaModuleName) == 0)
 				AddSubcontacts(dat,cont,CLCItems_IsShowOfflineGroup(group));
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
+		hContact = db_find_next(hContact);
 	}
 
 	if (style&CLS_HIDEEMPTYGROUPS) {

@@ -51,8 +51,8 @@ int OpLoadSessionContacts(WPARAM wparam,LPARAM lparam)
 	int i=0;
 	ZeroMemory(session_list_t,SIZEOF(session_list_t));
 
-	for (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact;
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+	for (hContact = db_find_first(); hContact;
+		hContact = db_find_next(hContact))
 	{	
 		if(LoadContactsFromMask(hContact,1,lparam))
 		{
@@ -300,8 +300,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					if (((LPNMHDR)lparam)->idFrom ==IDC_EMCLIST)
 					{
 						int iSelection = (int)((NMCLISTCONTROL *)lparam)->hItem;
-						HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-						for ( ; hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+						HANDLE hContact = db_find_first();
+						for ( ; hContact; hContact = db_find_next(hContact))
 						if (SendDlgItemMessage(hdlg, IDC_EMCLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0) == iSelection)
 							break;
 						if (hContact)
@@ -350,9 +350,9 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 								else
 								{
 									int i;
-									HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+									HANDLE hContact = db_find_first();
 
-									for ( ; hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+									for ( ; hContact; hContact = db_find_next(hContact))
 										SendMessage(hOpClistControl, CLM_SETCHECKMARK, (WPARAM)hContact,0);
 									for (i=0 ; session_list_t[i]>0; i++)
 									{
@@ -407,8 +407,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			case IDC_SAVE:
 			{
 				int i;
-				HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-				for (i=0 ; hContact;hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+				HANDLE hContact = db_find_first();
+				for (i=0 ; hContact;hContact = db_find_next(hContact))
 				{
 					BYTE res =(BYTE)SendMessage(GetDlgItem(hdlg,IDC_EMCLIST), CLM_GETCHECKMARK, 
 						SendMessage(GetDlgItem(hdlg,IDC_EMCLIST), CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);

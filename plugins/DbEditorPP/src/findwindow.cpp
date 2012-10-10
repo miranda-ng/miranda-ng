@@ -563,10 +563,10 @@ void __cdecl FindSettings(LPVOID di)
 			else
 			{
 				NULLContactDone = 1;
-				hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+				hContact = db_find_first();
 			}
 		}
-		else hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		else hContact = db_find_next(hContact);
 
 		module = ModuleList.first;
 		while (module)

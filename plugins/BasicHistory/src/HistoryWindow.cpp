@@ -1799,7 +1799,7 @@ void HistoryWindow::ReloadContacts()
 		}
 	}
 
-	HANDLE _hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE _hContact = db_find_first();
 	while(_hContact)
 	{
 		if(EventList::GetContactMessageNumber(_hContact) && (metaContactProto == NULL || DBGetContactSettingByte(_hContact, metaContactProto, "IsSubcontact", 0) == 0))
@@ -1819,7 +1819,7 @@ void HistoryWindow::ReloadContacts()
 			}
 		}
 
-		_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)_hContact, 0);
+		_hContact = db_find_next(_hContact);
 	}
 
 	if(hContact != NULL)
@@ -1970,7 +1970,7 @@ void HistoryWindow::SavePos(bool all)
 	HANDLE contactToSave = hContact;
 	if(all)
 	{
-		HANDLE _hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		HANDLE _hContact = db_find_first();
 		while(_hContact)
 		{
 			DBDeleteContactSetting(_hContact, MODULE, "history_x");
@@ -1980,7 +1980,7 @@ void HistoryWindow::SavePos(bool all)
 			DBDeleteContactSetting(_hContact, MODULE, "history_ismax");
 			DBDeleteContactSetting(_hContact, MODULE, "history_splitterv");
 			DBDeleteContactSetting(_hContact, MODULE, "history_splitter");
-			_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)_hContact, 0);
+			_hContact = db_find_next(_hContact);
 		}
 
 		contactToSave = NULL;
@@ -2460,7 +2460,7 @@ HANDLE HistoryWindow::GetNextContact(HANDLE hContact, int adder)
 	{
 		if(hContact != NULL)
 		{
-			_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+			_hContact = db_find_next(hContact);
 			while(_hContact)
 			{
 				HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
@@ -2470,7 +2470,7 @@ HANDLE HistoryWindow::GetNextContact(HANDLE hContact, int adder)
 					break;
 				}
 			
-				_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)_hContact, 0);
+				_hContact = db_find_next(_hContact);
 			}
 		
 			if(!find && EventList::GetContactMessageNumber(NULL))
@@ -2482,7 +2482,7 @@ HANDLE HistoryWindow::GetNextContact(HANDLE hContact, int adder)
 
 		if(!find)
 		{
-			_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+			_hContact = db_find_first();
 			while(_hContact && _hContact != hContact)
 			{
 				HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
@@ -2492,14 +2492,14 @@ HANDLE HistoryWindow::GetNextContact(HANDLE hContact, int adder)
 					break;
 				}
 			
-				_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)_hContact, 0);
+				_hContact = db_find_next(_hContact);
 			}
 		}
 	}
 	else
 	{
 		HANDLE lastContact = NULL;
-		_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		_hContact = db_find_first();
 		while(_hContact && _hContact != hContact)
 		{
 			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
@@ -2508,14 +2508,14 @@ HANDLE HistoryWindow::GetNextContact(HANDLE hContact, int adder)
 				lastContact = _hContact;
 			}
 			
-			_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)_hContact, 0);
+			_hContact = db_find_next(_hContact);
 		}
 		
 		if(hContact != NULL)
 		{
 			if(lastContact == NULL && !EventList::GetContactMessageNumber(NULL))
 			{
-				_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+				_hContact = db_find_next(hContact);
 				while(_hContact)
 				{
 					HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
@@ -2524,7 +2524,7 @@ HANDLE HistoryWindow::GetNextContact(HANDLE hContact, int adder)
 						lastContact = _hContact;
 					}
 			
-					_hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)_hContact, 0);
+					_hContact = db_find_next(_hContact);
 				}
 			}
 

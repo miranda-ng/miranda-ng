@@ -97,11 +97,11 @@ static void RemoveExtraImages(void)
 	iec.ColumnType=idExtraColumn;
 	iec.hImage=INVALID_HANDLE_VALUE;
 	/* enum all contacts */
-	hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	hContact=db_find_first();
 	while(hContact!=NULL) {
 		/* invalidate icon */
 		CallService(MS_CLIST_EXTRA_SET_ICON,(WPARAM)hContact,(LPARAM)&iec);
-		hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
+		hContact=db_find_next(hContact);
 	}
 }
 
@@ -119,10 +119,10 @@ static void EnsureExtraImages(void)
 	if(idExtraColumnNew!=idExtraColumn) RemoveExtraImages();
 	idExtraColumn=idExtraColumnNew;
 	/* enum all contacts */
-	hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	hContact=db_find_first();
 	while(hContact!=NULL) {
 		CallFunctionBuffered(SetExtraImage,(LPARAM)hContact,TRUE,EXTRAIMAGE_REFRESHDELAY);
-		hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
+		hContact=db_find_next(hContact);
 	}
 }
 
@@ -250,7 +250,7 @@ static void CALLBACK UpdateStatusIcons(LPARAM lParam)
 	msgwi.uFlags=MSG_WINDOW_UFLAG_MSG_BOTH;
 	/* enum all opened message windows */
 	fShow=DBGetContactSettingByte(NULL,"Flags","ShowStatusIconFlag",SETTING_SHOWSTATUSICONFLAG_DEFAULT);
-	msgwi.hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	msgwi.hContact=db_find_first();
 	while(msgwi.hContact!=NULL) {
 		/* is a message window opened for this contact? */
 		if (!CallService(MS_MSG_GETWINDOWDATA,(WPARAM)&msgwi,(LPARAM)&msgw) && msgw.uState&MSG_WINDOW_STATE_EXISTS) {
@@ -258,7 +258,7 @@ static void CALLBACK UpdateStatusIcons(LPARAM lParam)
 			if(fShow) SetStatusIcon(msgwi.hContact,countryNumber);
 			else UnsetStatusIcon(msgwi.hContact,countryNumber);
 		}
-		msgwi.hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)msgw.hContact,0);
+		msgwi.hContact = db_find_next(msgw.hContact);
 	}
 }
 

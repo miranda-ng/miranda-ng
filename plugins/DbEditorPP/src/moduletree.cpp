@@ -24,7 +24,7 @@ int doContacts(HWND hwnd2Tree,HTREEITEM contactsRoot,ModuleSettingLL *modlist, H
 //	mir_snprintf(title, sizeof(title),Translate("Loading contacts..."));
 	SetWindowText(hwnd2mainWindow, Translate("Loading contacts..."));
 
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 
 	tvi.hInsertAfter = TVI_SORT;
 	tvi.item.cChildren = 1;
@@ -48,7 +48,7 @@ int doContacts(HWND hwnd2Tree,HTREEITEM contactsRoot,ModuleSettingLL *modlist, H
 		// filter
 		if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED))
 		{
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+			hContact = db_find_next(hContact);
 			continue;
 		}
 
@@ -177,7 +177,7 @@ int doContacts(HWND hwnd2Tree,HTREEITEM contactsRoot,ModuleSettingLL *modlist, H
 
 		}
 
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 
@@ -795,7 +795,7 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 					if (mtis->type == CONTACT_ROOT_ITEM && !hContact)
 					{
 						multi = 1;
-						hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+						hContact = db_find_first();
 					}
 
 					while(hContact && hwnd2mainWindow)
@@ -810,7 +810,7 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 
 							if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED))
 							{
-								hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+								hContact = db_find_next(hContact);
 								continue;
 							}
 						}
@@ -831,7 +831,7 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 
 						if (!multi) break;
 
-						hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+						hContact = db_find_next(hContact);
 					}
 
 				}

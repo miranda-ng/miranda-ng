@@ -1062,7 +1062,7 @@ void CJabberProto::_RosterHandleGetRequest( HXML node )
 		}
 		// now it is require to process whole contact list to add not in roster contacts
 		{
-			HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+			HANDLE hContact = ( HANDLE ) db_find_first();
 			while ( hContact != NULL )
 			{
 				char* str = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
@@ -1100,7 +1100,7 @@ void CJabberProto::_RosterHandleGetRequest( HXML node )
 						DBFreeVariant( &dbv );
 					}
 				}
-				hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+				hContact = db_find_next(hContact);
 			}
 		}
 		rrud.bReadyToDownload = FALSE;

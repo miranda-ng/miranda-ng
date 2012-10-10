@@ -227,9 +227,9 @@ bool TwitterProto::IsMyContact(HANDLE hContact,bool include_chat)
 
 HANDLE TwitterProto::UsernameToHContact(const char *name)
 {
-	for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	for(HANDLE hContact = db_find_first();
 		hContact;
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
+		hContact = db_find_next(hContact))
 	{
 		if(!IsMyContact(hContact))
 			continue;
@@ -292,9 +292,9 @@ HANDLE TwitterProto::AddToClientList(const char *name,const char *status)
 
 void TwitterProto::SetAllContactStatuses(int status)
 {
-	for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	for(HANDLE hContact = db_find_first();
 		hContact;
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
+		hContact = db_find_next(hContact))
 	{
 		if(!IsMyContact(hContact))
 			continue;

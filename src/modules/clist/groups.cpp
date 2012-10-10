@@ -183,9 +183,9 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 
 	CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, NULL };
 
-	for (hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); 
+	for (hContact = db_find_first(); 
 		 hContact; 
-		 hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0))
+		 hContact = db_find_next(hContact))
 	{
 		if (DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
 			continue;
@@ -273,7 +273,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	DBWriteContactSettingTString(NULL, "CListGroups", idstr, str);
 
 	//must rename setting in all child contacts too
-	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	do {
 		ClcCacheEntryBase* cache = cli.pfnGetCacheEntry(hContact);
 		if ( !lstrcmp(cache->tszGroup, oldName)) {
@@ -283,7 +283,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
             cli.pfnCheckCacheItem(cache);
         }
 	}
-	while ((hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0)) != NULL);
+	while ((hContact = db_find_next(hContact)) != NULL);
 
 	//rename subgroups
 	{

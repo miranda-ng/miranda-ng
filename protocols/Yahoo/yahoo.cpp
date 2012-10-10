@@ -286,9 +286,9 @@ HANDLE CYahooProto::getbuddyH(const char *yahoo_id)
 {
 	HANDLE hContact;
 
-	for ( hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	for ( hContact = db_find_first();
 		hContact != NULL;
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 ))
+		hContact = db_find_next(hContact))
 	{
 		if (IsMyContact(hContact))
 		{
@@ -621,9 +621,9 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 	if (stealthlist)
 		stealth = y_strsplit(stealthlist, ",", -1);
 
-	for ( hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	for ( hContact = db_find_first();
 		   hContact != NULL;
-			hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 ))
+			hContact = db_find_next(hContact))
 	{
 		if (IsMyContact(hContact)) {
 			DBVARIANT dbv;

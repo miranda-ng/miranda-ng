@@ -902,7 +902,7 @@ void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 {
 	bkstring tname(A2T_SM(acc->szModuleName));
 
-	HANDLE hContact = (HANDLE)CallService( MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL) 
 	{
 		char* proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
@@ -916,7 +916,7 @@ void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 				if (found) return;
 			}
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	for (int i = 0; i < m_SmileyCategories.getCount(); i++)
@@ -1000,11 +1000,11 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 	for (int i = 0; i < protoCount; i++) 
 		AddAccountAsCategory(accList[i], defaultFile);
 
-	HANDLE hContact = (HANDLE)CallService( MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL) 
 	{
 		AddContactTransportAsCategory(hContact, defaultFile);
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	bkstring cats;

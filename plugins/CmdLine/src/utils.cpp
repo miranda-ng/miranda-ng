@@ -337,7 +337,7 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 #pragma warning (disable: 4312)
 HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 {
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	TCHAR *szHandle;
 	TCHAR dispName[1024];
 	char cProtocol[256];
@@ -359,7 +359,7 @@ HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 		if (szHandle) { free(szHandle); }
 	
 		if (found) { break; }
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	
 	return hContact;

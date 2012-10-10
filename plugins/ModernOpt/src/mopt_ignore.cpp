@@ -49,7 +49,7 @@ static void ResetListOptions(HWND hwndList)
 
 static void SetAllContactIcons(HWND hwndList, int count)
 {
-	HANDLE hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	HANDLE hContact=db_find_first();
 	do {
 		DWORD hItem = SendMessage(hwndList,CLM_FINDCONTACT,(WPARAM)hContact,0);
 		for (int i = 0; i < count; ++i)
@@ -57,5 +57,5 @@ static void SetAllContactIcons(HWND hwndList, int count)
 		if (!DBGetContactSettingByte(hContact,"CList","Hidden",0))
 			SendMessage(hwndList,CLM_SETCHECKMARK,hItem,1);
 	}
-		while(hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0));
+		while(hContact=db_find_next(hContact));
 }

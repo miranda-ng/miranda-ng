@@ -910,7 +910,7 @@ void UpdateFileToColWidth()
 {
 	clFileTo1ColWidth.clear();
 
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	for(;;)
 	{
 		tstring sNick = NickFromHandle( hContact );
@@ -921,7 +921,7 @@ void UpdateFileToColWidth()
 		if( ! hContact )
 			break;
 
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 
@@ -1626,7 +1626,7 @@ int nContactDeleted(WPARAM wparam,LPARAM /*lparam*/)
 	tstring sFilePath = GetFilePathFromUser( hContact );
 
 	{ // Test if there is another user using this file 
-		HANDLE hOtherContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		HANDLE hOtherContact = db_find_first();
 		for(;;)
 		{
 			if( hContact != hOtherContact && sFilePath == GetFilePathFromUser( hOtherContact ) )
@@ -1636,7 +1636,7 @@ int nContactDeleted(WPARAM wparam,LPARAM /*lparam*/)
 
 			if( ! hOtherContact )
 				break;
-			hOtherContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hOtherContact, 0);
+			hOtherContact = db_find_next(hOtherContact);
 		}
 	}
 

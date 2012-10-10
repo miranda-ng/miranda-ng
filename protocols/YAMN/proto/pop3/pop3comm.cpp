@@ -284,7 +284,7 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 	for (Finder=POP3Plugin->FirstAccount;Finder!=NULL;Finder=Finder->Next)
 	{
 		Finder->hContact = NULL;
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		hContact = db_find_first();
 		while(hContact) 
 		{
 			szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
@@ -304,7 +304,7 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 					DBFreeVariant(&dbv);
 				}
 			}
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 
 		if (Finder->hContact == NULL && (Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {

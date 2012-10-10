@@ -103,8 +103,8 @@ public:
 		
 		nGroups = 1;
 
-		HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-		for ( ; hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+		HANDLE hContact = db_find_first();
+		for ( ; hContact; hContact = db_find_next(hContact))
 			if (DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0))
 			{
 				TCHAR *group = addContact(hContact, true)->getGroup();

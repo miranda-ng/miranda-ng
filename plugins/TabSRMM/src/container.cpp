@@ -2476,7 +2476,7 @@ void TSAPI DeleteContainer(int iIndex) {
 			TCHAR *wszContainerName = dbv.ptszVal;
 			M->WriteTString(NULL, szKey, szIndex, _T("**free**"));
 
-			hhContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+			hhContact = db_find_first();
 			while (hhContact) {
 				DBVARIANT dbv_c;
 				if (!M->GetTString(hhContact, SRMSGMOD_T, szSubKey, &dbv_c)) {
@@ -2485,7 +2485,7 @@ void TSAPI DeleteContainer(int iIndex) {
 						DBDeleteContactSetting(hhContact, SRMSGMOD_T, "containerW");
 					DBFreeVariant(&dbv_c);
 				}
-				hhContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hhContact, 0);
+				hhContact = db_find_next(hhContact);
 			}
 			_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%d_Flags", szSettingP, iIndex);
 			DBDeleteContactSetting(NULL, SRMSGMOD_T, szSetting);
@@ -2518,7 +2518,7 @@ void TSAPI RenameContainer(int iIndex, const TCHAR *szNew) {
 			if (lstrlen(szNew) != 0)
 				M->WriteTString(NULL, szKey, szIndex, szNew);
 		}
-		hhContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		hhContact = db_find_first();
 		while (hhContact) {
 			DBVARIANT dbv_c;
 			if (!M->GetTString(hhContact, SRMSGMOD_T, szSubKey, &dbv_c)) {
@@ -2530,7 +2530,7 @@ void TSAPI RenameContainer(int iIndex, const TCHAR *szNew) {
 				}
 				DBFreeVariant(&dbv_c);
 			}
-			hhContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hhContact, 0);
+			hhContact = db_find_next(hhContact);
 		}
 		DBFreeVariant(&dbv);
 	}

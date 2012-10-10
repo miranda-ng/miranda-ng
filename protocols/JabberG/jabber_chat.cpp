@@ -707,9 +707,9 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 
 	void FilterList(CCtrlClc *)
 	{
-		for	(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		for	(HANDLE hContact = db_find_first();
 				hContact;
-				hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+				hContact = db_find_next(hContact))
 		{
 			char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 			if (lstrcmpA(proto, m_proto->m_szModuleName) || DBGetContactSettingByte(hContact, proto, "ChatRoom", 0))
@@ -825,9 +825,9 @@ public:
 		HWND hwndList = GetDlgItem(m_hwnd, IDC_CLIST);
 
 		// invite users from roster
-		for	(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		for	(HANDLE hContact = db_find_first();
 				hContact;
-				hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+				hContact = db_find_next(hContact))
 		{
 			char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 			if (!lstrcmpA(proto, m_proto->m_szModuleName) && !DBGetContactSettingByte(hContact, proto, "ChatRoom", 0))

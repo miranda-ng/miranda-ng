@@ -144,7 +144,7 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 
 	DisconnectAllDCCSessions(false);
 
-	HANDLE hContact = (HANDLE) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = db_find_first();
 	while ( hContact ) {
 		char* szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0 );
 		if ( szProto != NULL && !lstrcmpiA( szProto, m_szModuleName )) {
@@ -163,7 +163,7 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 				setString( hContact, "Host", "" );
 		}	}
 
-		hContact = (HANDLE) CallService( MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	return true;
 }
@@ -182,7 +182,7 @@ HANDLE CIrcProto::CList_FindContact (CONTACT* user)
 	DBVARIANT dbv3;	
 	DBVARIANT dbv4;	
 	DBVARIANT dbv5;	
-	HANDLE hContact = (HANDLE) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact) {
 		szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 		if ( szProto != NULL && !lstrcmpiA( szProto, m_szModuleName )) {
@@ -240,7 +240,7 @@ HANDLE CIrcProto::CList_FindContact (CONTACT* user)
 					return 0;
 		}	}	}
 		
-		hContact = (HANDLE) CallService( MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	mir_free(lowercasename);
 	return 0;

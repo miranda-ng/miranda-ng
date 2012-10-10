@@ -236,10 +236,10 @@ void  CMsnProto::Lists_Remove(int list, const char* email)
 
 void  CMsnProto::Lists_Populate(void)
 {
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL)
 	{
-		HANDLE hContactN = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		HANDLE hContactN = db_find_next(hContact);
 		if (MSN_IsMyContact(hContact)) 
 		{
 			char szEmail[MSN_MAX_EMAIL_LEN] = "";;

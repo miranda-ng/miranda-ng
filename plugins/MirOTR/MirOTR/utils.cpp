@@ -19,7 +19,7 @@ void lib_cs_unlock() {
 }
 
 HANDLE find_contact(const char* userid, const char* protocol) {
-	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = db_find_first();
 	while ( hContact != NULL )
 	{
 		const char *proto = contact_get_proto(hContact);
@@ -31,7 +31,7 @@ HANDLE find_contact(const char* userid, const char* protocol) {
 			}
 			mir_free(name);
 		}
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+		hContact = db_find_next(hContact);
 	}
 	
 	return 0;

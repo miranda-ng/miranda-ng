@@ -145,7 +145,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		free(chat->recipients);
 		list_remove(&chats, chat, 1);
 		// Remove contact from contact list (duh!) should be done by chat.dll !!
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		hContact = db_find_first();
 		while (hContact)
 		{
 			DBVARIANT dbv;
@@ -155,7 +155,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 				DBFreeVariant(&dbv);
 			}
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 		return 1;
 	}
@@ -422,13 +422,13 @@ static void gg_gc_resetclistopts(HWND hwndList)
 static int gg_gc_countcheckmarks(HWND hwndList)
 {
 	int count = 0;
-	HANDLE hItem, hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hItem, hContact = db_find_first();
 	while (hContact)
 	{
 		hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem && SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
 			count++;
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	return count;
 }
@@ -476,7 +476,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 						// Create new participiants table
 						char* chat;
 						uin_t* participants = (uin_t*)calloc(count, sizeof(uin_t));
-						HANDLE hItem, hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+						HANDLE hItem, hContact = db_find_first();
 						gg->netlog("gg_gc_getchat(): Opening new conference for %d contacts.", count);
 						while (hContact && i < count)
 						{
@@ -486,7 +486,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 								HANDLE hMetaContact = gg_getsubcontact(gg, hContact); // MetaContacts support
 								participants[i++] = db_get_dw(hMetaContact ? hMetaContact : hContact, gg->m_szModuleName, GG_KEY_UIN, 0);
 							}
-							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+							hContact = db_find_next(hContact);
 						}
 						if (count > i) i = count;
 						chat = gg->gc_getchat(0, participants, count);
@@ -532,7 +532,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 							if (!gg) break;
 
 							// Delete non-gg contacts
-							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+							hContact = db_find_first();
 							while (hContact)
 							{
 								hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
@@ -553,7 +553,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 									if (szProto == NULL || lstrcmpA(szProto, gg->m_szModuleName) || !uin || uin == db_get_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
 										SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_DELETEITEM, (WPARAM)hItem, 0);
 								}
-								hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+								hContact = db_find_next(hContact);
 							}
 						}
 						break;

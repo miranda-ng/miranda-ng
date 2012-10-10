@@ -2104,14 +2104,14 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN, 2, 0);
 
 			HANDLE hContact, hItem;
-			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+			hContact = db_find_first();
 			while (hContact) 
 			{
 				hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 				if (hItem && DBGetContactSettingByte(hContact, MODULE, "FavouriteContact", 0))
 					SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 
-				hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+				hContact = db_find_next(hContact);
 			}
 
 			CheckDlgButton(hwndDlg, IDC_CHK_HIDEOFFLINE, opt.iFavoriteContFlags & FAVCONT_HIDE_OFFLINE);
@@ -2129,7 +2129,7 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					BYTE isChecked;
 					int count = 0;
 
-					hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					hContact = db_find_first();
 					while (hContact) 
 					{
 						hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
@@ -2140,7 +2140,7 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 							if (isChecked) count++;
 						}
 
-						hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+						hContact = db_find_next(hContact);
 					}
 					DBWriteContactSettingDword(0, MODULE, "FavouriteContactsCount", count);
 

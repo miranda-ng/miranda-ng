@@ -42,27 +42,27 @@ static void __cdecl WorkingThread(void* param)
 {
 	int nStatus = (int)param;
 //	UpdateAll(FALSE, FALSE);
-	HANDLE hContact= (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact= db_find_first();
 	while (hContact != NULL) 
 	{
 		if(IsMyContact(hContact)) 
 		{
 			SetContactStatus(hContact, nStatus);
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 
 int NewsAggrInit(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact= (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact= db_find_first();
 	while (hContact != NULL) 
 	{
 		if(IsMyContact(hContact)) 
 		{
 			SetContactStatus(hContact, ID_STATUS_OFFLINE);
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	NetlibInit();
 	InitIcons();
@@ -169,14 +169,14 @@ INT_PTR NewsAggrGetInfo(WPARAM wParam,LPARAM lParam)
 
 INT_PTR CheckAllFeeds(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL) 
 	{
 		if (IsMyContact(hContact) && lParam && DBGetContactSettingDword(hContact, MODULE, "UpdateTime", 60)) 
 			UpdateListAdd(hContact);
 		else if (IsMyContact(hContact) && !lParam)
 			UpdateListAdd(hContact);
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	if (!ThreadRunning)
 		mir_forkthread(UpdateThreadProc, NULL);

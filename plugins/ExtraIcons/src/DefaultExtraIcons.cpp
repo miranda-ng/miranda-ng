@@ -298,14 +298,14 @@ static void DBExtraIconsInit()
 			info.hExtraIcon = ExtraIcon_Register(info.name, info.desc, info.icon);
 	}
 
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL)
 	{
 		SetExtraIcons(hContact);
 		SetVisibility(hContact, -1, FALSE);
 		SetGender(hContact, -1, FALSE);
 
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);

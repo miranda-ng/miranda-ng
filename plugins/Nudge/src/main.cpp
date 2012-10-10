@@ -569,7 +569,7 @@ void LoadPopupClass()
 
 int Preview()
 {
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	HANDLE hContact = db_find_first();
 	if ( GlobalNudge.useByProtocol )
 	{
 		for(NudgeElementList *n = NudgeList;n != NULL; n = n->next)

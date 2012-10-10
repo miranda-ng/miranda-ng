@@ -585,7 +585,7 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR* jid, HANDLE hContact
 
 void CJabberProto::CheckAllContactsAreTransported()
 {
-	HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = ( HANDLE ) db_find_first();
 	while ( hContact != NULL ) {
 		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( !lstrcmpA( m_szModuleName, szProto )) {
@@ -595,7 +595,7 @@ void CJabberProto::CheckAllContactsAreTransported()
 				JFreeVariant( &dbv );
 		}	}
 
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 );
+		hContact = db_find_next(hContact);
 }	}
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -267,13 +267,13 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 					SaveOptions();
 
 					// clear all notified settings
-					HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					HANDLE hContact = db_find_first();
 					while (hContact != 0)
 					{
 						if(DBGetContactSettingByte(hContact, MODULE_NAME, "StillAbsentNotified", 0))
 							DBWriteContactSettingByte(hContact, MODULE_NAME, "StillAbsentNotified", 0);
 
-						hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+						hContact = db_find_next(hContact);
 					}
 
 					// restart timer & run check

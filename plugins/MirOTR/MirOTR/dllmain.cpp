@@ -110,10 +110,10 @@ DLLFUNC int Load(void)
 
 	// remove us as a filter to all contacts - fix filter type problem
 	if(DBGetContactSettingByte(0, MODULENAME, "FilterOrderFix", 0) != 2) {
-		HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+		HANDLE hContact = db_find_first();
 		while ( hContact != NULL ) {
 			CallService( MS_PROTO_REMOVEFROMCONTACT, ( WPARAM )hContact, ( LPARAM )MODULENAME );
-			hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+			hContact = db_find_next(hContact);
 		}
 		DBWriteContactSettingByte(0, MODULENAME, "FilterOrderFix", 2);
 	}

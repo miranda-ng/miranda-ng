@@ -276,14 +276,14 @@ int getContactFromString( CONTACTSINFO* ci )
 
 	LeaveCriticalSection(&csContactCache);
 	/* contact was not in cache, do a search */
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	while (hContact != NULL) {
 		szFind = NULL;
 		bMatch = FALSE;
 		ZeroMemory(&dbv, sizeof(DBVARIANT));
 		szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (szProto == NULL) {
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact, 0);
+			hContact = db_find_next(hContact);
 			continue;
 		}
 		// <proto:id> (exact)
@@ -406,7 +406,7 @@ int getContactFromString( CONTACTSINFO* ci )
 			ci->hContacts[count] = hContact;
 			count += 1;
 		}
-		hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
+		hContact=db_find_next(hContact);
 	}
 
 	if (count == 1) { /* cache the found result */

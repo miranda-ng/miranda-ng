@@ -131,7 +131,7 @@ void EraseAllInfo(DWORD lastver)
 	HANDLE hContact, LastContact = NULL;
 	DBVARIANT dbv;
 	// loop through all contacts
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	while(hContact) 
 	{
 		// see if the contact is a weather contact
@@ -183,7 +183,7 @@ void EraseAllInfo(DWORD lastver)
 			ContactCount++;		// increment counter
 			LastContact = hContact;
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	// if weather contact exists, set the status to online so it is ready for update
 	// if (ContactCount != 0) status = ONLINE;

@@ -358,7 +358,7 @@ void AddEventsCustomControl(HWND hWnd, int renderer, TCHAR *filter, SIG_MATCHESF
 		ieEvent.hwnd = pwData->hIEView;
 		ieEvent.codepage = CP_ACP;
 		ieEvent.iType = IEE_LOG_MEM_EVENTS;
-		ieEvent.hContact = NULL;//(HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); IEVIEW needs a contact handle !!
+		ieEvent.hContact = NULL;//db_find_first(); IEVIEW needs a contact handle !!
 		
 		IEVIEWEVENTDATA *eventData = NULL;
 		IEVIEWEVENTDATA *cED = NULL;

@@ -329,7 +329,7 @@ int RefreshContactListIcons(HANDLE hContact)
 //called with oldClistIcon != -1 from dlg_handlers whtn the extra icon slot changes.
 int RefreshAllContactListIcons(int oldClistIcon)
 {
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL)
 		{
 			if (oldClistIcon != -1)
@@ -337,7 +337,7 @@ int RefreshAllContactListIcons(int oldClistIcon)
 					ClearClistIcon(hContact, oldClistIcon);
 				}
 			RefreshContactListIcons(hContact); //will change bBirthdayFound if needed
-			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 	return 0;
 }

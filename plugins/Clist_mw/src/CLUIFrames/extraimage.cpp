@@ -247,7 +247,7 @@ void ClearExtraIcons()
 	//SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNS,EnabledColumnCount,0);
 	SetNewExtraColumnCount();
 
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	hContact = db_find_first();
 	do {
 
 		hItem = (HANDLE)SendMessage(pcli->hwndContactTree,CLM_FINDCONTACT,(WPARAM)hContact,0);
@@ -257,7 +257,7 @@ void ClearExtraIcons()
 			SendMessage(pcli->hwndContactTree,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(i,0xFF));	
 		};
 
-	} while(hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0));
+	} while(hContact = db_find_next(hContact));
 };
 
 void SetAllExtraIcons(HWND hwndList,HANDLE hContact)
@@ -304,7 +304,7 @@ void SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 	}
 
 	if ( hContact == NULL )
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+		hContact = db_find_first();
 
 	do {
 		szProto = NULL;
@@ -385,7 +385,7 @@ void SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 		if (hcontgiven) break;
 		Sleep(0);
 	}
-		while(hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0));
+		while(hContact = db_find_next(hContact));
 
 	tick = GetTickCount()-tick;
 	InvalidateRect(hwndList,NULL,FALSE);

@@ -243,7 +243,7 @@ void ClearExtraIcons()
 {
 	SetNewExtraColumnCount();
 
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	HANDLE hContact = db_find_first();
 	do {
 		HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree,CLM_FINDCONTACT,(WPARAM)hContact,0);
 		if (hItem == 0)
@@ -252,7 +252,7 @@ void ClearExtraIcons()
 		for (int i=0;i < EnabledColumnCount;i++)
 			SendMessage(pcli->hwndContactTree,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(i,0xFF));	
 	}
-		while(hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0));
+		while(hContact = db_find_next(hContact));
 };
 
 void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
@@ -301,7 +301,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 
 	if (hContact == NULL)
 	{
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+		hContact = db_find_first();
 	}	
 
 	do {
@@ -416,7 +416,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 		NotifyEventHooks(g_CluiData.hEventExtraImageApplying,(WPARAM)hContact,0);
 		if (hcontgiven) break;
 		Sleep(0);
-	} while(hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0));
+	} while(hContact = db_find_next(hContact));
 
 	tick = GetTickCount()-tick;
 	g_mutex_bSetAllExtraIconsCycle = 0;

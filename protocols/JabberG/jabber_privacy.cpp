@@ -432,7 +432,7 @@ public:
 
 				SendDlgItemMessage( m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0 );
 
-				HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+				HANDLE hContact = ( HANDLE ) db_find_first();
 				while ( hContact != NULL )
 				{
 					char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
@@ -445,7 +445,7 @@ public:
 							JFreeVariant( &dbv );
 						}
 					}
-					hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+					hContact = db_find_next(hContact);
 				}
 
 				// append known chatroom jids from bookmarks
@@ -1368,9 +1368,9 @@ void CJabberDlgPrivacyLists::CListResetOptions(HWND)
 
 void CJabberDlgPrivacyLists::CListFilter(HWND)
 {
-	for	(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	for	(HANDLE hContact = db_find_first();
 			hContact;
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+			hContact = db_find_next(hContact))
 	{
 		char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (!proto || lstrcmpA(proto, m_proto->m_szModuleName))
@@ -1471,8 +1471,8 @@ void CJabberDlgPrivacyLists::CListApplyList(HWND hwndList, CPrivacyList *pList)
 		CListResetIcons(hwndList, hItem, bHideIcons);
 	}
 
-	for (HANDLE hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0); hContact;
-			hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
+	for (HANDLE hContact=db_find_first(); hContact;
+			hContact=db_find_next(hContact))
 	{
 		HANDLE hItem = m_clcClist.FindContact(hContact);
 		if (!hItem) continue;
@@ -1583,8 +1583,8 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 			pList->AddRule(Jid, szJid, FALSE, dwOrder++, dwPackets);
 	}
 
-	for (HANDLE hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0); hContact;
-			hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
+	for (HANDLE hContact=db_find_first(); hContact;
+			hContact=db_find_next(hContact))
 	{
 		hItem = m_clcClist.FindContact(hContact);
 

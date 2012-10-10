@@ -22,9 +22,9 @@ INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/)
 
 INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = db_find_first();
 	while ( hContact ) {
-		HANDLE hNext = (HANDLE)CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 );
+		HANDLE hNext = db_find_next(hContact);
 
 		DBVARIANT dbv = { 0 };
 		if ( DBGetContactSettingTString( hContact, "CList", "Group", &dbv ))

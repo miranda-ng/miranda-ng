@@ -267,7 +267,7 @@ VOID UpdateList(HWND hwndList)
 	// Some code to create the list-view control.
 	// Initialize LVITEM members that are common to all
 	// items.
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	int i = 0;
 	while (hContact != NULL) 
 	{
@@ -295,7 +295,7 @@ VOID UpdateList(HWND hwndList)
 				DBFreeVariant(&dbNick);
 			}
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	UpdateListFlag = FALSE;
 }

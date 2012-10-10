@@ -141,7 +141,7 @@ VOID CALLBACK OnlineNotifTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 		DBVARIANT dbv;
 		char* szProto;
 
-		HANDLE hContact = (HANDLE) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0);
+		HANDLE hContact = db_find_first();
 		while ( hContact ) {
 		   szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 		   if ( szProto != NULL && !lstrcmpiA( szProto, ppro->m_szModuleName )) {
@@ -179,7 +179,7 @@ VOID CALLBACK OnlineNotifTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
                         if ( DBWildcard ) DBFreeVariant(&dbv2);
 			}	}	}	}	}
 
-			hContact = (HANDLE) CallService( MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+			hContact = db_find_next(hContact);
 	}	}
 
 	if ( ppro->m_namesToWho.IsEmpty() && ppro->m_namesToUserhost.IsEmpty()) {

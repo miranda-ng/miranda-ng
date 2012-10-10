@@ -89,7 +89,7 @@ void LoadContactTree(void)
 	}
 
 	hideOffline = DBGetContactSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	hContact = db_find_first();
 
 	while(hContact != NULL) {
 		cacheEntry = GetContactFullCacheEntry(hContact);
@@ -101,7 +101,7 @@ void LoadContactTree(void)
 		status = cacheEntry->status;
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !cacheEntry->bIsHidden)
 			ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact,(char*)cacheEntry->szProto,status),1);
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
+		hContact = db_find_next(hContact);
 	}
 	sortByStatus = DBGetContactSettingByte(NULL,"CList","SortByStatus",SETTING_SORTBYSTATUS_DEFAULT);
 	sortByProto = DBGetContactSettingByte(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT);

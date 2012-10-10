@@ -260,7 +260,7 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam)
 			}
 		}
 
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+		hContact = db_find_first();
 		while(hContact)
 		{	// Scans the database to get all the contacts that have been previously linked to this MetaContact
 			if (DBGetContactSettingDword(hContact,META_PROTO,META_LINK,(DWORD)-1)==metaID)
@@ -278,7 +278,7 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam)
 				if (options.suppress_status)
 					CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 			}
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
+			hContact = db_find_next(hContact);
 		}
 		//DBDeleteContactSetting((HANDLE)wParam, META_PROTO, META_ID);
 		//DBDeleteContactSetting((HANDLE)wParam, META_PROTO, "NumContacts");

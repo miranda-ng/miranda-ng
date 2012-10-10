@@ -163,10 +163,10 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
 			SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_EXLIMITTEXT, 0, 0x80000000);
 
-			dat->hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+			dat->hContact = db_find_first();
 			dat->szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
 			while(dat->szProto == 0 && dat->hContact != 0) {
-				dat->hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)dat->hContact, 0);
+				dat->hContact = db_find_next(dat->hContact);
 				dat->szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
 			}
 			dat->dwFlags = dat->pContainer->theme.dwFlags;

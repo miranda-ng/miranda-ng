@@ -318,7 +318,7 @@ static void RestoreUnreadMessageAlerts(void)
    cle.flags = CLEF_TCHAR;
    cle.ptszTooltip = toolTip;
 
-   hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+   hContact = db_find_first();
    while (hContact) {
       hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM) hContact, 0);
       while (hDbEvent) {
@@ -347,7 +347,7 @@ static void RestoreUnreadMessageAlerts(void)
          }
          hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) hDbEvent, 0);
       }
-      hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+      hContact = db_find_next(hContact);
    }
 }
 

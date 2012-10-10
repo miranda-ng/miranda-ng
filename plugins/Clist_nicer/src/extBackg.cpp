@@ -1324,7 +1324,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 	}
 
 	if (items) {
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		hContact = db_find_first();
 		while(hContact) {
 			char UIN[40];
 			int j;
@@ -1380,7 +1380,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 					}
 				}
 			}
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 	}
 	free(szSections);

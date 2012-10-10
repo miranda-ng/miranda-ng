@@ -101,7 +101,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 	char *contacts;
 
 	// Readup contacts
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
 		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
@@ -175,7 +175,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 			else
 				string_append(s, ";0;;0;\n");
 		}
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	contacts = string_free(s, 0);

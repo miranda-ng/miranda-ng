@@ -150,7 +150,7 @@ static DWORD GetMaskForItem(HANDLE hItem)
 
 static void UpdateStickies()
 {
-    HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+    HANDLE hContact = db_find_first();
     HANDLE hItem;
     DWORD localMask;
     int i;
@@ -161,7 +161,7 @@ static void UpdateStickies()
             SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, cfg::getByte(hContact, "CLVM", g_szModename, 0) ? 1 : 0);
         localMask = HIWORD(cfg::getDword(hContact, "CLVM", g_szModename, 0));
         UpdateClistItem(hItem, (localMask == 0 || localMask == stickyStatusMask) ? stickyStatusMask : localMask);
-        hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+        hContact = db_find_next(hContact);
     }
 
     {
@@ -424,7 +424,7 @@ void SaveState()
             //    GetDlgItemTextA(clvmHwnd, IDC_VARIABLES, vastring, len);
             SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szModeName);
             dwGlobalMask = GetMaskForItem(hInfoItem);
-            hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+            hContact = db_find_first();
             while(hContact) {
                 hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
                 if (hItem) {
@@ -438,7 +438,7 @@ void SaveState()
                         	cfg::writeDword(hContact, "CLVM", szModeName, 0);
                     }
                 }
-                hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+                hContact = db_find_next(hContact);
             }
             operators |= ((SendDlgItemMessage(clvmHwnd, IDC_PROTOGROUPOP, CB_GETCURSEL, 0, 0) == 1 ? CLVM_PROTOGROUP_OP : 0) |
                         (SendDlgItemMessage(clvmHwnd, IDC_GROUPSTATUSOP, CB_GETCURSEL, 0, 0) == 1 ? CLVM_GROUPSTATUS_OP : 0) |
@@ -708,11 +708,11 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
                                     pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
                                     SetWindowTextA(hwndSelector, Translate("No view mode"));
                                 }
-                                hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+                                hContact = db_find_first();
                                 while(hContact) {
                                     if (cfg::getDword(hContact, "CLVM", szBuf, -1) != -1)
                                     	cfg::writeDword(hContact, "CLVM", szBuf, 0);
-                                    hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+                                    hContact = db_find_next(hContact);
                                 }
                                 SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_DELETESTRING, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), 0);
                                 if (SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, 0, 0) != LB_ERR) {
@@ -757,13 +757,13 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
                 case IDC_CLEARALL:
                 {
                     HANDLE hItem;
-                    HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+                    HANDLE hContact = db_find_first();
 
                     while(hContact) {
                         hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
                         if (hItem)
                             SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 0);
-                        hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+                        hContact = db_find_next(hContact);
                     }
                 }
                 case IDOK:
@@ -1147,7 +1147,7 @@ void ApplyViewMode(const char *name)
             g_CluiData.bFilterEffective |= CLVM_FILTER_VARIABLES;
         mir_free(dbv.ptszVal);
         if (g_CluiData.bFilterEffective & CLVM_FILTER_VARIABLES) {
-            HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+            HANDLE hContact = db_find_first();
             char UIN[256];
             char *id, *szProto;
             const char *varstring;
@@ -1180,7 +1180,7 @@ void ApplyViewMode(const char *name)
                         }
                     }
                 }
-                hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+                hContact = db_find_next(hContact);
             }
         }
     }*/

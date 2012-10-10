@@ -476,7 +476,7 @@ int CJabberProto::AdhocOptionsHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocS
 int CJabberProto::RcGetUnreadEventsCount()
 {
 	int nEventsSent = 0;
-	HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = ( HANDLE ) db_find_first();
 	while ( hContact != NULL ) {
 		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( szProto != NULL && !strcmp( szProto, m_szModuleName )) {
@@ -504,7 +504,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 				JFreeVariant( &dbv );
 			}
 		}
-		hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+		hContact = db_find_next(hContact);
 	}
 	return nEventsSent;
 }
@@ -573,7 +573,7 @@ int CJabberProto::AdhocForwardHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocS
 		m_options.RcMarkMessagesAsRead = bRemoveCListEvents ? 1 : 0;
 
 		int nEventsSent = 0;
-		HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+		HANDLE hContact = ( HANDLE ) db_find_first();
 		while ( hContact != NULL ) {
 			char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 			if ( szProto != NULL && !strcmp( szProto, m_szModuleName )) {
@@ -632,7 +632,7 @@ int CJabberProto::AdhocForwardHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocS
 					JFreeVariant( &dbv );
 				}
 			}
-			hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+			hContact = db_find_next(hContact);
 		}
 
 		mir_sntprintf( szMsg, SIZEOF(szMsg), TranslateT("%d message(s) forwarded"), nEventsSent );

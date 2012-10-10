@@ -78,7 +78,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	StatusIconData sid = {0};
 	int i, sweep = DBGetContactSettingByte(NULL, ModuleName, "SweepHistory", 0);
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 
 	sid.cbSize = sizeof(sid);
 	sid.szModule = ModuleName;
@@ -136,7 +136,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 			CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
 		}
 
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	hHooks[2] = HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);

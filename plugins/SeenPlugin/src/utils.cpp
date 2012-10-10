@@ -713,7 +713,7 @@ static DWORD __stdcall cleanThread(logthread_info* infoParam)
 {
 	Sleep(10000); // I hope in 10 secons all logged-in contacts will be listed
 
-	HANDLE hcontact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	HANDLE hcontact = db_find_first();
 	while(hcontact != NULL) {
 		char *contactProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hcontact,0);
 		if (contactProto) {
@@ -728,7 +728,7 @@ static DWORD __stdcall cleanThread(logthread_info* infoParam)
 				}
 			}
 		}
-		hcontact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hcontact,0);
+		hcontact = db_find_next(hcontact);
 	}
 
 	char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
@@ -825,6 +825,7 @@ WCHAR *any_to_IdleNotidleUnknown(HANDLE hContact, const char *module_name, const
 	buff[bufflen - 1] = 0;
 	return buff;
 }
+
 WCHAR *any_to_Idle(HANDLE hContact, const char *module_name, const char *setting_name, WCHAR *buff, int bufflen) {
 	if(isDbZero(hContact, module_name, setting_name)==0) { //DB setting is NOT zero and exists
 		buff[0] = L'/';
@@ -833,46 +834,3 @@ WCHAR *any_to_Idle(HANDLE hContact, const char *module_name, const char *setting
 	buff[bufflen - 1] = 0;
 	return buff;
 }
-
-
-/*int GetInfoAck(WPARAM wparam,LPARAM lparam)
-{
-	ACKDATA *ack;
-	DWORD dwsetting=0;
-
-	ack=(ACKDATA *)lparam;
-
-	if(ack->type!=ACKTYPE_GETINFO || ack->hContact==NULL) return 0;
-	if (((int)ack->hProcess-1)!=(int)ack->lParam) return 0;
-	
-	dwsetting=DBGetContactSettingDword(ack->hContact,ack->szModule,"IP",0);
-	if(dwsetting)
-		DBWriteContactSettingDword(ack->hContact,S_MOD,"IP",dwsetting);
-
-	dwsetting=DBGetContactSettingDword(ack->hContact,ack->szModule,"RealIP",0);
-	if(dwsetting)
-		DBWriteContactSettingDword(ack->hContact,S_MOD,"RealIP",dwsetting);
-
-	return 0;
-}*/
-
-
-
-/*void SetOffline(void)
-{
-	HANDLE hcontact=NULL;
-	char * szProto;
-
-	hcontact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
-	while(hcontact!=NULL)
-	{
-		szProto=(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hcontact,0);
-		if (szProto != NULL && IsWatchedProtocol(szProto)) {	
-			DBWriteContactSettingByte(hcontact,S_MOD,"Offline",1);
-		}
-		hcontact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hcontact,0);
-	}
-}*/
-
-
-

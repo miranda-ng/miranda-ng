@@ -89,12 +89,12 @@ void RenewPseudocontactHandles()
 		DBDeleteContactSetting(0, protos[i]->szModuleName, "GMailExtNotifyContact");	// remove this
 	}
 
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact) {
 		if (DBGetContactSettingByte(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
 			LPCSTR proto = (LPCSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 			DBWriteContactSettingDword(0, proto, PSEUDOCONTACT_LINK, (DWORD)hContact);
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	};
 }

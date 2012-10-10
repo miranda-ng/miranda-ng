@@ -215,7 +215,7 @@ void SweepHistoryFromContact(HANDLE hContact, CriteriaStruct Criteria, BOOL keep
 void ShutdownAction(void)
 { 
 	CriteriaStruct Criteria;
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 
 	Criteria.keep = KeepCriteria(DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownKeep", 0));
 	Criteria.time = BuildCriteria(DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownOlder", 0));
@@ -226,7 +226,7 @@ void ShutdownAction(void)
 	{
 		SweepHistoryFromContact(hContact, Criteria, TRUE);		// sweep contact history, keepunread==1
 
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);	// go to next contact
+		hContact = db_find_next(hContact);	// go to next contact
 	}
 }
 

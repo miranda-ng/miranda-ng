@@ -180,7 +180,7 @@ static BOOL CheckAllContactsOffline(void)
 	HANDLE hContact;
 	char *pszProto;
 	fSmartCheck=DBGetContactSettingByte(NULL,"AutoShutdown","SmartOfflineCheck",SETTING_SMARTOFFLINECHECK_DEFAULT);
-	hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	hContact=db_find_first();
 	while(hContact!=NULL) {
 		pszProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
 		if(pszProto!=NULL && CallProtoService(pszProto,PS_GETSTATUS,0,0)!=ID_STATUS_OFFLINE)
@@ -193,7 +193,7 @@ static BOOL CheckAllContactsOffline(void)
 				fAllOffline=FALSE;
 				break;
 			}
-		hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
+		hContact=db_find_next(hContact);
 	}
 	return fAllOffline;
 }

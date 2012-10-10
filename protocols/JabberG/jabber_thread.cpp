@@ -583,7 +583,7 @@ recvRest:
 			JSendBroadcast( NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, ( HANDLE ) oldStatus, m_iStatus );
 
 			// Set all contacts to offline
-			HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+			HANDLE hContact = ( HANDLE ) db_find_first();
 			while ( hContact != NULL ) {
 				if ( !lstrcmpA(( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 ), m_szModuleName ))
 				{
@@ -591,7 +591,7 @@ recvRest:
 					MenuHideSrmmIcon( hContact );
 				}
 
-				hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+				hContact = db_find_next(hContact);
 			}
 
 			mir_free( m_szJabberJID );

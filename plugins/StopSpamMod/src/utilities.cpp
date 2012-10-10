@@ -113,7 +113,7 @@ void RemoveExcludedUsers()
 {
 	HANDLE hContact;
 	hContact_entry *first, *plist, *tmp;
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	first = new hContact_entry;
 	plist = first;
 	plist->hContact = INVALID_HANDLE_VALUE;
@@ -127,7 +127,7 @@ void RemoveExcludedUsers()
 				plist = plist->next;
 				plist->hContact = INVALID_HANDLE_VALUE;
 			}
-		}while(hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact, 0));
+		}while(hContact = db_find_next(hContact));
 		
 		plist = first;
 		while(plist->hContact != INVALID_HANDLE_VALUE)
@@ -154,7 +154,7 @@ void RemoveTemporaryUsers()
 {
 	HANDLE hContact;
 	hContact_entry *first, *plist, *tmp;
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	first = new hContact_entry;
 	plist = first;
 	plist->hContact = INVALID_HANDLE_VALUE;
@@ -170,7 +170,7 @@ void RemoveTemporaryUsers()
 				plist = plist->next;
 				plist->hContact = INVALID_HANDLE_VALUE;
 			}
-		}while(hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact, 0));
+		}while(hContact = db_find_next(hContact));
 
 		plist = first;
 		while(plist->hContact != INVALID_HANDLE_VALUE)
@@ -407,7 +407,7 @@ void CleanProtocolTmpThread(std::string proto)
 		boost::this_thread::sleep(boost::posix_time::seconds(2));
 	}
 	std::list<HANDLE> contacts;
-	for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 	{
 		char *proto_tmp = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if(proto_tmp)
@@ -437,7 +437,7 @@ void CleanProtocolExclThread(std::string proto)
 		boost::this_thread::sleep(boost::posix_time::seconds(2));
 	}
 	std::list<HANDLE> contacts;
-	for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 	{
 		char *proto_tmp = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if(proto_tmp)

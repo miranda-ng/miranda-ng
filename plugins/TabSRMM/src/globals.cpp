@@ -612,10 +612,10 @@ int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 			::SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
 		}
 
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		hContact = db_find_first();
 		while (hContact) {
 			M->WriteDword(hContact, SRMSGMOD_T, "messagecount", 0);
-			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 
 		for (i=0; i < SERVICE_LAST; i++) {
@@ -722,7 +722,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 	cle.pszService = "SRMsg/ReadMessage";
 	cle.flags = CLEF_TCHAR;
 
-	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	while (hContact) {
 
 		if (M->GetDword(hContact, "SendLater", "count", 0))
@@ -746,7 +746,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 			}
 			hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) hDbEvent, 0);
 		}
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 

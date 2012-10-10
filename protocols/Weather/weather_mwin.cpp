@@ -386,7 +386,7 @@ void InitMwin(void)
 		FontRegisterT(&fontid);
 	}
 
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while(hContact) 
 	{
 		// see if the contact is a weather contact
@@ -395,14 +395,14 @@ void InitMwin(void)
 			if (DBGetContactSettingDword(hContact, WEATHERPROTONAME, "mwin", 0))
 				addWindow(hContact);
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	hFontHook = HookEvent(ME_FONT_RELOAD, RedrawFrame);
 }
 
 void DestroyMwin(void)
 {
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while(hContact) 
 	{
 		// see if the contact is a weather contact
@@ -412,7 +412,7 @@ void DestroyMwin(void)
 			if (frameId)
 				CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	UnregisterClass( _T("WeatherFrame"), hInst);
 	UnhookEvent(hFontHook);

@@ -325,7 +325,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 							
 							case IDC_PREVIEW:
 								{
-									HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+									HANDLE hContact = db_find_first();
 									int dtb, age;
 									dtb = rand() % 11; //0..10
 									age = rand() % 50 + 1; //1..50
@@ -902,7 +902,7 @@ void SetBirthdaysCount(HWND hWnd)
 
 int LoadBirthdays(HWND hWnd, int bShowAll)
 {
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	HWND hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
 	//int bShowCurrentAge = DBGetContactSettingByte(NULL, ModuleName, "ShowCurrentAge", 0);
 	
@@ -913,7 +913,7 @@ int LoadBirthdays(HWND hWnd, int bShowAll)
 		{
 			count = UpdateBirthdayEntry(hList, hContact, count, bShowAll, commonData.cShowAgeMode, 1); 
 			
-			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 	SetBirthdaysCount(hWnd);
 	

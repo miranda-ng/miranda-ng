@@ -243,7 +243,7 @@ void exportDB(HANDLE hContact, char* module) // hContact == -1 export entire db.
 				if (module == "") module = NULL; // reset module for all contacts export
 			}
 
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+			hContact = db_find_first();
 
 			while (hContact)
 			{
@@ -260,7 +260,7 @@ void exportDB(HANDLE hContact, char* module) // hContact == -1 export entire db.
 
 					if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED))
 					{
-						hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+						hContact = db_find_next(hContact);
 						continue;
 					}
 				}
@@ -287,7 +287,7 @@ void exportDB(HANDLE hContact, char* module) // hContact == -1 export entire db.
 				{
 					exportModule(hContact, module, file);
 				}
-				hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)(HANDLE)hContact, 0);
+				hContact = db_find_next(hContact);
 			}
 		}
 		// exporting a contact
@@ -337,7 +337,7 @@ HANDLE CheckNewContact(char *myProto, char *uid, char *myName)
 {
 	char szProto[256], szName[256];
 	HANDLE resultHandle = INVALID_HANDLE_VALUE;
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 
 	while (hContact)
 	{
@@ -358,7 +358,7 @@ HANDLE CheckNewContact(char *myProto, char *uid, char *myName)
 			}
 		}
 
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	return resultHandle;

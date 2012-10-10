@@ -434,14 +434,14 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 						if (oldVal && !newVal)
 						{
-							HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+							HANDLE hContact = db_find_first();
 							while (hContact != NULL) 
 							{
 								char* szContactProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 								if (szContactProto != NULL && !strcmp(szContactProto, szProto)) 
 									DeleteAvatarFromCache(hContact, TRUE);
 
-								hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+								hContact = db_find_next(hContact);
 							}
 						}
 

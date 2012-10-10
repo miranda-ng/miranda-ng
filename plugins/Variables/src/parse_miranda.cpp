@@ -554,7 +554,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 			hMatchEvent = hSearchEvent = hSearchContact = NULL;
 			matchTimestamp = priorTimestamp = 0;
 			if (flags & DBE_FIRST) {
-				hSearchContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+				hSearchContact = db_find_first();
 				do {
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
 					dbe.cbBlob = 0;
@@ -564,12 +564,12 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 							matchTimestamp = dbe.timestamp;
 						}
 					}
-					hSearchContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hSearchContact, 0);
+					hSearchContact = db_find_next(hSearchContact);
 				} while (hSearchContact);
 				hDbEvent = hMatchEvent;
 			}
 			else if (flags&DBE_LAST) {
-				hSearchContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+				hSearchContact = db_find_first();
 				do {
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
 					dbe.cbBlob = 0;
@@ -579,7 +579,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 							matchTimestamp = dbe.timestamp;
 						}
 					}
-					hSearchContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hSearchContact, 0);
+					hSearchContact = db_find_next(hSearchContact);
 				} while (hSearchContact);
 				hDbEvent = hMatchEvent;
 			}
@@ -587,7 +587,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 				dbe.cbBlob = 0;
 				if (!CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbe)) {
 					priorTimestamp = dbe.timestamp;
-					hSearchContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					hSearchContact = db_find_first();
 					do {
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
@@ -597,7 +597,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 								matchTimestamp = dbe.timestamp;
 							}
 						}
-						hSearchContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hSearchContact, 0);
+						hSearchContact = db_find_next(hSearchContact);
 					} while (hSearchContact);
 					hDbEvent = hMatchEvent;
 				}
@@ -605,7 +605,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 			else if (flags&DBE_PREV) {
 				if (!CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbe)) {
 					priorTimestamp = dbe.timestamp;
-					hSearchContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					hSearchContact = db_find_first();
 					do {
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
@@ -615,7 +615,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 								matchTimestamp = dbe.timestamp;
 							}
 						}
-						hSearchContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hSearchContact, 0);
+						hSearchContact = db_find_next(hSearchContact);
 					} while (hSearchContact);
 					hDbEvent = hMatchEvent;
 				}

@@ -384,8 +384,8 @@ INT_PTR OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
 	BYTE buf[1];
 	dbe.pBlob = buf;
 	HANDLE curEvent;
-	HANDLE curContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	for (; curContact != NULL; curContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)curContact, 0))
+	HANDLE curContact = db_find_first();
+	for (; curContact != NULL; curContact = db_find_next(curContact))
 	{
 //		if (IsMessageAPI)
 		{

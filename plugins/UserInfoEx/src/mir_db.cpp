@@ -150,7 +150,7 @@ INT_PTR	GetCount()
  **/
 HANDLE	FindFirst()
 {
-	return (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	return db_find_first();
 }
 
 /**
@@ -161,7 +161,7 @@ HANDLE	FindFirst()
  **/
 HANDLE	FindNext(HANDLE hContact)
 {
-	return (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+	return db_find_next(hContact);
 }
 
 /**

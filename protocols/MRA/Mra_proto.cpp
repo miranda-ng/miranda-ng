@@ -1516,7 +1516,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 					dwAuthMessageSize = lstrlenW(wszAuthMessage);
 				}
 
-				for (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);hContact != NULL;hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0)) {
+				for (hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact)) {
 					if (GetContactBasicInfoW(hContact, &dwID, NULL, NULL, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, NULL, 0, NULL, NULL, 0, NULL) == NO_ERROR)
 					if (dwID == -1) {
 						if (IsEMailChatAgent(szEMail, dwEMailSize)) {// чат: ещё раз запросим авторизацию, пометим как видимый в списке, постоянный
@@ -1544,7 +1544,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 		}
 		else { // контакт лист почемуто не получили
 			// всех в offline и id в нестандарт
-			for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);hContact != NULL;hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0)) {
+			for (HANDLE hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact)) {
 				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -2, 0, 0, ID_STATUS_OFFLINE, NULL, 0, NULL, 0, NULL, 0);
 				// request user info from server
 				MraUpdateContactInfo(hContact);

@@ -578,7 +578,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 
 			const char *proto;
 			TCHAR *proto_t;
-			HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+			HANDLE hContact = db_find_first();
 			while ( hContact != NULL )
 			{
 				proto = contact_get_proto(hContact);
@@ -600,7 +600,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 				}
 
 
-				hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+				hContact = db_find_next(hContact);
 			}
 		}
 		return TRUE;

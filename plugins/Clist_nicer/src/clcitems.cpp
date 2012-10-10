@@ -201,7 +201,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 		}
 	}
 
-	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	while (hContact) {
 		if (style & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(hContact, NULL, dat)) {
 			ZeroMemory((void *)&dbv, sizeof(dbv));
@@ -225,7 +225,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 					AddContactToGroup(dat, group, hContact);
 			}
 		}
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	if (style & CLS_HIDEEMPTYGROUPS) {

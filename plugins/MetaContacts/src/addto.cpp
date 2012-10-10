@@ -54,7 +54,7 @@ typedef struct {
 int FillList(HWND list, BOOL sort)
 {
 	DWORD metaID;
-	HANDLE hMetaUser = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	HANDLE hMetaUser = db_find_first();
 	int i=0;
 	int index;
 	//BOOL mbs = FALSE;
@@ -64,10 +64,9 @@ int FillList(HWND list, BOOL sort)
 		if ((metaID=DBGetContactSettingDword(hMetaUser,META_PROTO,META_ID,(DWORD)-1))==(DWORD)-1)
 		{
 			// This isn't a MetaContact, go to the next
-			hMetaUser = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hMetaUser,0);
+			hMetaUser = db_find_next(hMetaUser);
 			continue;
 		}
-
 
 		{
 			// get contact display name from clist
@@ -128,7 +127,7 @@ int FillList(HWND list, BOOL sort)
 
 		i++;
 
-		hMetaUser = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hMetaUser,0);
+		hMetaUser = db_find_next(hMetaUser);
 	}
 	return i;
 }

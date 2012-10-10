@@ -248,10 +248,10 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hExtraIcon = ExtraIcon_Register("authstate", "Auth State", "authgrant_icon");
 	if (hExtraIcon != NULL) {
 		// Set initial value for all contacts
-		HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		HANDLE hContact = db_find_first();
 		while (hContact != NULL) {
 			onExtraImageApplying((WPARAM)hContact, 1);
-			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 	}
 	else {

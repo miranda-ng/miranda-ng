@@ -63,7 +63,7 @@ void ExtraIcon::applyIcons()
 	if (!isEnabled())
 		return;
 
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL)
 	{
 		// Clear to assert that it will be cleared
@@ -71,7 +71,7 @@ void ExtraIcon::applyIcons()
 
 		applyIcon(hContact);
 
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 

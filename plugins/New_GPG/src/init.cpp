@@ -252,7 +252,7 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 extern list<wstring> transfers;
 extern "C" int __declspec(dllexport) Unload(void)
 {
-//	for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+//	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 //		DBDeleteContactSetting(hContact, szGPGModuleName, "KeyID_Prescense");
 	if(!transfers.empty())
 	{

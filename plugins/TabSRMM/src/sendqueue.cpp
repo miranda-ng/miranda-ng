@@ -385,7 +385,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		int				iMinLength = 0;
 		CContactCache*	c = 0;
 
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		hContact = db_find_first();
 
 		m_jobs[iEntry].hOwner = dat->hContact;
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
@@ -400,7 +400,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 				if (c)
 					iMinLength = (iMinLength == 0 ? c->getMaxMessageLength() : min(c->getMaxMessageLength(), iMinLength));
 			}
-		} while (hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0));
+		} while (hContact = db_find_next(hContact));
 
 		if (iSendLength >= iMinLength) {
 			TCHAR	tszError[256];
@@ -411,14 +411,14 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 			return 0;
 		}
 
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		hContact = db_find_first();
 		do {
 			hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM) hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItem, 0)) {
 				doSendLater(iEntry, 0, hContact, false);
 				iJobs++;
 			}
-		} while (hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0));
+		} while (hContact = db_find_next(hContact));
 
 		sendQueue->clearJob(iEntry);
 		if (iJobs)

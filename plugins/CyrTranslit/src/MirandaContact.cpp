@@ -127,8 +127,9 @@ void MirandaContact::generateMenuItemsForAllContacts()
 
 void MirandaContact::activateTransliterationProtocolForSubscribedContacts()
 {
-    int hContact = CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-    if(!hContact) return;
+    HANDLE hContact = db_find_first();
+    if(!hContact)
+		 return;
 
     do
     {
@@ -138,7 +139,7 @@ void MirandaContact::activateTransliterationProtocolForSubscribedContacts()
         {
             TransliterationProtocol::activateForContact(mc.handle);
         }
-    } while(hContact = CallService(MS_DB_CONTACT_FINDNEXT, hContact, 0));
+    } while(hContact = db_find_next(hContact));
 }
 
 //------------------------------------------------------------------------------

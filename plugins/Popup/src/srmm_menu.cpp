@@ -77,11 +77,11 @@ void SrmmMenu_Load()
 		hIconPressed = HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);
 		hWindowEvent = HookEvent(ME_MSG_WINDOWEVENT, SrmmMenu_ProcessEvent);
 /*
-		HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		HANDLE hContact = db_find_first();
 		while (hContact)
 		{
 			SrmmMenu_UpdateIcon(hContact);
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 */
 	}

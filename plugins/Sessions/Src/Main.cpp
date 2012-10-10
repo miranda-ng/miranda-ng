@@ -226,8 +226,8 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 						szUserSessionName[lenght+1]='\0';
 						if(IsDlgButtonChecked(hdlg,IDC_SELCONTACTS)&&bSC)
 						{
-							HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-							for (i=0; hContact; hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+							HANDLE hContact = db_find_first();
+							for (i=0; hContact; hContact = db_find_next(hContact))
 							{
 								BYTE res =(BYTE)SendMessage(hClistControl, CLM_GETCHECKMARK, SendMessage(hClistControl, CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
 								if (res)
@@ -471,8 +471,8 @@ int SaveSessionHandles(WPARAM wparam,LPARAM lparam)
 
 	if(session_list[0]!=0)
 	{
-		for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact;
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+		for (HANDLE hContact = db_find_first(); hContact;
+			hContact = db_find_next(hContact))
 		{
 			if ((k=CheckForDuplicate(session_list,(DWORD)hContact))!=-1
 				&&!(g_bExclHidden&&!CheckContactVisibility(hContact)))
@@ -621,8 +621,8 @@ int LoadSession(WPARAM wparam,LPARAM lparam)
 	if(session_list_recovered[0]&&lparam==256&&mode==0)
 		 memcpy(session_list_t,session_list_recovered,SIZEOF(session_list_t));
 	else
-		for (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact;
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+		for (hContact = db_find_first(); hContact;
+			hContact = db_find_next(hContact))
 		{
 			if(LoadContactsFromMask(hContact,mode,lparam))
 			{
@@ -691,8 +691,8 @@ int DelUserDefSession(int ses_count)
 	char szSessionName[256]={0};
 	TCHAR *szSessionNameBuf=NULL;
 
-	for (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact;
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+	for (hContact = db_find_first(); hContact;
+		hContact = db_find_next(hContact))
 	{
 		RemoveSessionMark(hContact,1,ses_count);
 		SetInSessionOrder(hContact,1,ses_count,0);
@@ -738,8 +738,8 @@ int DeleteAutoSession(int ses_count)
 
 	TCHAR *szSessionNameBuf=NULL;
 
-	for (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact;
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+	for (hContact = db_find_first(); hContact;
+		hContact = db_find_next(hContact))
 	{
 		RemoveSessionMark(hContact,0,ses_count);
 		SetInSessionOrder(hContact,0,ses_count,0);
@@ -913,8 +913,8 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 		HANDLE hContact;
 		ZeroMemory(session_list_recovered,255);
 
-		for (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact;
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+		for (hContact = db_find_first(); hContact;
+			hContact = db_find_next(hContact))
 		{
 			if(DBGetContactSettingByte(hContact, __INTERNAL_NAME, "wasInLastSession", 0))
 				session_list_recovered[i++]=(DWORD)hContact;

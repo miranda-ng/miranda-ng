@@ -102,7 +102,7 @@ void ShowExamplePopups() {
 	pd.ptzText = TranslateT("Thequickbrownfoxjumpedoverthelazydog.");
 	ShowPopup(pd);
 
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while(hContact) {
 		if (options.av_layout != PAV_NONE && ServiceExists(MS_AV_DRAWAVATAR)) {
 			AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
@@ -114,7 +114,7 @@ void ShowExamplePopups() {
 			}
 		}
 
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 

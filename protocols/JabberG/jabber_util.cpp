@@ -74,7 +74,7 @@ HANDLE CJabberProto::ChatRoomHContactFromJID( const TCHAR* jid )
 		return ( HANDLE )NULL;
 	
 	HANDLE hContactMatched = NULL;
-	HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = ( HANDLE ) db_find_first();
 	while ( hContact != NULL ) {
 		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( szProto != NULL && !strcmp( m_szModuleName, szProto )) {
@@ -92,7 +92,7 @@ HANDLE CJabberProto::ChatRoomHContactFromJID( const TCHAR* jid )
 					break;
 		}	}	}
 
-		hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+		hContact = db_find_next(hContact);
 	}
 
 	return hContactMatched;
@@ -109,7 +109,7 @@ HANDLE CJabberProto::HContactFromJID( const TCHAR* jid , BOOL bStripResource )
 	JABBER_LIST_ITEM* item = ListGetItemPtr( LIST_CHATROOM, jid );
 
 	HANDLE hContactMatched = NULL;
-	HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = ( HANDLE ) db_find_first();
 	while ( hContact != NULL ) {
 		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( szProto != NULL && !strcmp( m_szModuleName, szProto )) {
@@ -145,7 +145,7 @@ HANDLE CJabberProto::HContactFromJID( const TCHAR* jid , BOOL bStripResource )
 					break;
 		}	}	}
 
-		hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+		hContact = db_find_next(hContact);
 	}
 
 	return hContactMatched;

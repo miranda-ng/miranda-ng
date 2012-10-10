@@ -48,7 +48,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	{
 		int index, loaded;
 		char szProto[256];
-		HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		HANDLE hContact = db_find_first();
 
 		while (hContact)
 		{
@@ -60,7 +60,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			// filter
 			if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED))
 			{
-				hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+				hContact = db_find_next(hContact);
 				continue;
 			}
 
@@ -127,7 +127,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETITEMDATA, index, (LPARAM)hContact);
 			}
 
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)(HANDLE)hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 
 		index = (int)SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_INSERTSTRING, 0, (LPARAM)(char*)Translate("Settings"));
@@ -157,12 +157,12 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				else
 				{
 					SetCursor(LoadCursor(NULL,IDC_WAIT));
-					hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					hContact = db_find_first();
 
 					while (hContact)
 					{
 						copyModule(mac->module, mac->hContact, hContact);
-						hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)(HANDLE)hContact, 0);
+						hContact = db_find_next(hContact);
 					}
 
 					SetCursor(LoadCursor(NULL,IDC_ARROW));

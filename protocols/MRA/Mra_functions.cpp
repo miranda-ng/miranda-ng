@@ -571,7 +571,7 @@ HANDLE CMraProto::MraHContactFromEmail(LPSTR lpszEMail, size_t dwEMailSize, BOOL
 
 		if (dwEMailSize == -1) dwEMailSize = lstrlenA(lpszEMail);
 		//check not already on list
-		for (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);hContact != NULL;hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+		for (hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact))
 		{
 			if (IsContactMra(hContact))
 			if (mraGetStaticStringA(hContact, "e-mail", szEMailLocal, SIZEOF(szEMailLocal), &dwEMailLocalSize))
@@ -601,7 +601,7 @@ HANDLE CMraProto::MraHContactFromEmail(LPSTR lpszEMail, size_t dwEMailSize, BOOL
 				if (CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw) == 0)
 				{
 					BOOL bChatAdded = FALSE;
-					for (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);hContact != NULL;hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+					for (hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact))
 					{
 						if (IsContactMra(hContact))
 						if (mraGetStaticStringA(hContact, "ChatRoomID", szEMailLocal, SIZEOF(szEMailLocal), &dwEMailLocalSize))

@@ -364,7 +364,7 @@ HANDLE CIcqProto::AddEvent(HANDLE hContact, WORD wType, DWORD dwTime, DWORD flag
 
 HANDLE CIcqProto::FindFirstContact()
 {
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, (LPARAM)m_szModuleName);
+	HANDLE hContact = db_find_first(m_szModuleName);
 
 	if (IsICQContact(hContact))
 		return hContact;
@@ -375,15 +375,12 @@ HANDLE CIcqProto::FindFirstContact()
 
 HANDLE CIcqProto::FindNextContact(HANDLE hContact)
 {
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,(LPARAM)m_szModuleName);
-
+	hContact = db_find_next(hContact, m_szModuleName);
 	while (hContact != NULL)
 	{
 		if (IsICQContact(hContact))
-		{
 			return hContact;
-		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,(LPARAM)m_szModuleName);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 	return hContact;
 }

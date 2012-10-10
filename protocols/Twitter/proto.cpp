@@ -557,9 +557,9 @@ void TwitterProto::UpdateSettings()
 		if(in_chat_)
 			OnLeaveChat(0,0);
 
-		for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+		for(HANDLE hContact = db_find_first();
 			hContact;
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
+			hContact = db_find_next(hContact))
 		{
 			if(!IsMyContact(hContact,true))
 				continue;

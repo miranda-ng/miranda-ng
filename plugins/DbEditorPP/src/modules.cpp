@@ -63,13 +63,13 @@ INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 					GetDlgItemText(hwnd, IDC_MODNAME, modulename, 256);
 					if (IsDlgButtonChecked(hwnd,CHK_ADD2ALL))
 					{
-						HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+						HANDLE hContact = db_find_first();
 						// null contact
 						DBWriteContactSettingByte(NULL, modulename, "(Default)", 0);
 						while (hContact)
 						{
 							DBWriteContactSettingByte(hContact, modulename, "(Default)", 0);
-							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)(HANDLE)hContact, 0);
+							hContact = db_find_next(hContact);
 						}
 					}
 					else

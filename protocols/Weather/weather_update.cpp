@@ -284,7 +284,7 @@ void DestroyUpdateList(void)
 void UpdateAll(BOOL AutoUpdate, BOOL RemoveData) 
 {
 	// add all weather contact to the update queue list
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL) 
 	{
 		if (IsMyContact(hContact)) 
@@ -295,7 +295,7 @@ void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 				UpdateListAdd(hContact);
 			}
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 
 	// if it is not updating, then start the update thread process

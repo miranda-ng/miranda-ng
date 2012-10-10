@@ -320,12 +320,12 @@ int CJabberProto::OnModulesLoadedEx( WPARAM, LPARAM )
 		JHookEvent( ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick );
 		JHookEvent( ME_MSG_WINDOWEVENT, &CJabberProto::OnProcessSrmmEvent );
 
-		HANDLE hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+		HANDLE hContact = ( HANDLE ) db_find_first();
 		while ( hContact != NULL ) {
 			char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 			if ( szProto != NULL && !strcmp( szProto, m_szModuleName ))
 				MenuHideSrmmIcon(hContact);
-			hContact = ( HANDLE ) CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+			hContact = db_find_next(hContact);
 	}	}
 
 	DBEVENTTYPEDESCR dbEventType = {0};
@@ -345,7 +345,7 @@ int CJabberProto::OnModulesLoadedEx( WPARAM, LPARAM )
 	CheckAllContactsAreTransported();
 
 	// Set all contacts to offline
-	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+	HANDLE hContact = db_find_first();
 	while ( hContact != NULL ) {
 		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
 		if ( szProto != NULL && !strcmp( szProto, m_szModuleName )) {
@@ -362,7 +362,7 @@ int CJabberProto::OnModulesLoadedEx( WPARAM, LPARAM )
 					JFreeVariant( &dbv );
 		}	}	}
 
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM ) hContact, 0 );
+		hContact = db_find_next(hContact);
 	}
 
 	CleanLastResourceMap();

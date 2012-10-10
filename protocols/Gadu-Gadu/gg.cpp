@@ -157,7 +157,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 		netlog("gg_cleanuplastplugin(%d): Cleaning junk Phone settings from < 0.0.1.4 ...", version);
 #endif
 		// Look for contact in DB
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		hContact = db_find_first();
 		while (hContact)
 		{
 			szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
@@ -167,7 +167,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 				db_unset(hContact, m_szModuleName, GG_KEY_EMAIL);
 				db_unset(hContact, m_szModuleName, "Phone");
 			}
-			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 	}
 
@@ -178,7 +178,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 		netlog("gg_cleanuplastplugin(%d): Cleaning junk Nick settings from < 0.0.3.5 ...", version);
 #endif
 		// Look for contact in DB
-		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		hContact = db_find_first();
 		while (hContact)
 		{
 			szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
@@ -187,7 +187,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 				// Do nick entry cleanup
 				db_unset(hContact, m_szModuleName, GG_KEY_NICK);
 			}
-			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+			hContact = db_find_next(hContact);
 		}
 	}
 

@@ -100,21 +100,21 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						clistIcon = SendMessage(GetDlgItem(hwndDlg, IDC_ADVICON), CB_GETCURSEL, 0, 0);
 						clistIcon++;
 
-						HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+						HANDLE hContact = db_find_first();
 						while (hContact)
 						{
 							CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&g_IECClear);
-							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+							hContact = db_find_next(hContact);
 						}
 
 						g_IECClear.ColumnType = clistIcon;
 						onExtraImageListRebuild(0,0);
 
-						hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+						hContact = db_find_first();
 						while (hContact)
 						{
 							onExtraImageApplying((WPARAM)hContact,0);
-							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+							hContact = db_find_next(hContact);
 						}
 
 						//Store options values to DB

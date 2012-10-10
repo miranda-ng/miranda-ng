@@ -711,13 +711,13 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 		// import process has just been run...call startup routines...
 		Meta_SetHandles();
 		{
-			HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+			HANDLE hContact = db_find_first();
 			int meta_id;
 			while ( hContact != NULL ) {
 				if ((meta_id = DBGetContactSettingDword(hContact,META_PROTO,META_ID,(DWORD)-1))!=(DWORD)-1) {
 					Meta_CopyData(hContact);
 				}
-				hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+				hContact = db_find_next(hContact);
 			}
 		}
 
@@ -1257,13 +1257,13 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	// loop and copy data from subcontacts
 	if (options.copydata) {
-		HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
+		HANDLE hContact = db_find_first();
 		int meta_id;
 		while ( hContact != NULL ) {
 			if ((meta_id = DBGetContactSettingDword(hContact,META_PROTO,META_ID,(DWORD)-1))!=(DWORD)-1) {
 				Meta_CopyData(hContact);
 			}
-			hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
+			hContact = db_find_next(hContact);
 		}
 	}
 

@@ -1841,7 +1841,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 			char buffer[1024];
 			char protocol[128];
 			
-			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+			hContact = db_find_first();
 			int count = 0;
 			
 			reply->code = MIMRES_SUCCESS;
@@ -1878,7 +1878,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 				free(contact);
 				free(id);
 				
-				hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+				hContact = db_find_next(hContact);
 			}
 		}
 		else{
@@ -1888,7 +1888,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 				{
 					HANDLE hContact = NULL;
 					char protocol[128];
-					hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					hContact = db_find_first();
 					
 					reply->code = MIMRES_SUCCESS;
 					*reply->message = 0;
@@ -1907,14 +1907,14 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 						free(contact);
 						free(id);
 						
-						hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+						hContact = db_find_next(hContact);
 					}
 				}
 				else{
 					if (argc == 3)
 					{
 						HANDLE hContact = NULL;
-						hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+						hContact = db_find_first();
 
 						reply->code = MIMRES_SUCCESS;
 						*reply->message = 0;
@@ -1928,7 +1928,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 								HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, hContact, NULL, &threadID);
 							}
 
-							hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+							hContact = db_find_next(hContact);
 						}
 					}
 					else {
@@ -1998,7 +1998,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 			{
 				if (_stricmp(cmd, "unread") == 0)
 				{
-					HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					HANDLE hContact = db_find_first();
 					char buffer[4096];
 					int count;
 					int contacts = 0;
@@ -2047,7 +2047,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 							free(contact);
 						}
 					
-						hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+						hContact = db_find_next(hContact);
 					}
 				}
 				else{

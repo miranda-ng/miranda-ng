@@ -201,7 +201,7 @@ void CDdxMmapSA::EncodeAll()
 {
 	HANDLE hContact;
 
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	if (hContact){
 		do {
 			EncodeContactEvents(hContact);
@@ -218,12 +218,12 @@ void CDdxMmapSA::DecodeAll()
 {
 	HANDLE hContact;	
 	
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	hContact = db_find_first();
 	if (hContact){
 		do{
 			DecodeContactEvents(hContact);
 			DecodeContactSettings(hContact);
-		}while(hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
+		}while(hContact = db_find_next(hContact));
 	}
 	DecodeContactEvents(NULL);
 	DecodeContactSettings(NULL);
