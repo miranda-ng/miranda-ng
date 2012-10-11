@@ -147,7 +147,7 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 	char *szMessage;
 	{
 		LPSTR proto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETCONTACTBASEPROTO, 0, (LPARAM)proto);
+		PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)proto);
 		std::string acc_str;
 		if(acc)
 		{
@@ -157,7 +157,12 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 			acc_str += ")" ;
 			acc_str += "_GPGPubKey";
 		}
-		szMessage = UniGetContactSettingUtf(hContact, szGPGModuleName, acc_str.empty()?"GPGPubKey":acc_str.c_str(), "");
+		szMessage = UniGetContactSettingUtf(NULL, szGPGModuleName, acc_str.empty()?"GPGPubKey":acc_str.c_str(), "");
+		if(!szMessage[0])
+		{
+			mir_free(szMessage);
+			szMessage = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", ""); //try to get default key as fallback in any way
+		}
 	}
 	if(szMessage[0])
 	{
