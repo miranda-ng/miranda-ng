@@ -59,7 +59,6 @@ void MirandaContact::initialize()
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPreBuildContactMenu);
 
 	TransliterationProtocol::initialize();
-	activateTransliterationProtocolForSubscribedContacts();
 }
 
 //------------------------------------------------------------------------------
@@ -105,22 +104,6 @@ void MirandaContact::generateMenuItemsForAllContacts()
 	mi.hotKey = 0;
 	mi.pszContactOwner = NULL;
 	hTransliterateCmdMenuItem = Menu_AddContactMenuItem(&mi);
-}
-
-//------------------------------------------------------------------------------
-
-void MirandaContact::activateTransliterationProtocolForSubscribedContacts()
-{
-	HANDLE hContact = db_find_first();
-	if (!hContact)
-		return;
-
-	do {
-		MirandaContact mc = getContact(reinterpret_cast<HANDLE>(hContact));
-		if (mc.shouldTransliterateOutgoingMessages())
-			mc.save();
-	}
-		while(hContact = db_find_next(hContact));
 }
 
 //------------------------------------------------------------------------------
