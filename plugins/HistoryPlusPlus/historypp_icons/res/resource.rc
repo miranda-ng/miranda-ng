@@ -1,0 +1,81 @@
+//Microsoft Developer Studio generated resource script.
+//
+
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON2                     ICON    "Icon_2.ico"
+IDI_ICON3                     ICON    "Icon_3.ico"
+IDI_ICON1                     ICON    "Icon_1.ico"
+IDI_ICON4                     ICON    "Icon_4.ico"
+IDI_ICON5                     ICON    "Icon_5.ico"
+IDI_ICON6                     ICON    "Icon_6.ico"
+IDI_ICON7                     ICON    "Icon_7.ico"
+IDI_ICON8                     ICON    "Icon_8.ico"
+IDI_ICON9                     ICON    "Icon_9.ico"
+IDI_ICON10                    ICON    "Icon_10.ico"
+IDI_ICON11                    ICON    "Icon_11.ico"
+IDI_ICON12                    ICON    "Icon_12.ico"
+IDI_ICON13                    ICON    "Icon_13.ico"
+IDI_ICON14                    ICON    "Icon_14.ico"
+IDI_ICON15                    ICON    "Icon_15.ico"
+IDI_ICON16                    ICON    "Icon_16.ico"
+IDI_ICON17                    ICON    "Icon_17.ico"
+IDI_ICON18                    ICON    "Icon_18.ico"
+IDI_ICON19                    ICON    "Icon_19.ico"
+IDI_ICON20                    ICON    "Icon_20.ico"
+IDI_ICON21                    ICON    "Icon_21.ico"
+IDI_ICON22                    ICON    "Icon_22.ico"
+IDI_ICON23                    ICON    "Icon_23.ico"
+IDI_ICON24                    ICON    "Icon_24.ico"
+IDI_ICON25                    ICON    "Icon_25.ico"
+IDI_ICON26                    ICON    "Icon_26.ico"
+IDI_ICON27                    ICON    "Icon_27.ico"
+IDI_ICON28                    ICON    "Icon_28.ico"
+IDI_ICON29                    ICON    "Icon_29.ico"
+IDI_ICON30                    ICON    "Icon_30.ico"
+IDI_ICON31                    ICON    "Icon_31.ico"
+IDI_ICON32                    ICON    "Icon_32.ico"
+IDI_ICON33                    ICON    "Icon_33.ico"
+IDI_ICON34                    ICON    "Icon_34.ico"
+IDI_ICON35                    ICON    "Icon_35.ico"
+IDI_ICON36                    ICON    "Icon_36.ico"
+IDI_ICON37                    ICON    "Icon_37.ico"
+IDI_ICON38                    ICON    "Icon_38.ico"
+IDI_ICON39                    ICON    "Icon_39.ico"
+IDI_ICON40                    ICON    "Icon_40.ico"
+IDI_ICON41                    ICON    "Icon_41.ico"
+IDI_ICON42                    ICON    "Icon_42.ico"
+IDI_ICON43                    ICON    "Icon_43.ico"
+IDI_ICON44                    ICON    "Icon_44.ico"
+IDI_ICON45                    ICON    "Icon_45.ico"
+IDI_ICON46                    ICON    "Icon_46.ico"
+IDI_ICON47                    ICON    "Icon_47.ico"
+IDI_ICON48                    ICON    "Icon_48.ico"
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
