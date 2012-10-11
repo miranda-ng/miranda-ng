@@ -37,24 +37,10 @@ HANDLE MirandaContact::hTransliterateCmdMenuItem = 0;
 
 //------------------------------------------------------------------------------
 
-MirandaContact::MirandaContact()
-	:   handle(0),
-	transliterateOutgoingMessages(false)
-{
-}
-
-//------------------------------------------------------------------------------
-
-MirandaContact::~MirandaContact()
-{
-}
-
-//------------------------------------------------------------------------------
-
 void MirandaContact::initialize()
 {
 	CreateServiceFunction(MENU_COMMAND_CALLBACK_SERVICE,onMenuCommandTransliterate);
-	generateMenuItemsForAllContacts();
+	addMenuItem();
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPreBuildContactMenu);
 
@@ -63,34 +49,21 @@ void MirandaContact::initialize()
 
 //------------------------------------------------------------------------------
 
-MirandaContact MirandaContact::getContact(HANDLE hContact)
+bool MirandaContact::bIsActive(HANDLE hContact)
 {
-	int b = db_get_b(hContact, SETTINGS_MODULE, SETTING_SHOULD_TRANSLITERATE, 0);
-
-	MirandaContact ret;
-	ret.handle = hContact;
-	ret.transliterateOutgoingMessages = (b != 0);
-
-	return ret;
+	return db_get_b(hContact, SETTINGS_MODULE, SETTING_SHOULD_TRANSLITERATE, 0) != 0;
 }
 
 //------------------------------------------------------------------------------
 
-void MirandaContact::save() const
+void MirandaContact::save(HANDLE hContact, bool bValue)
 {
-	db_set_b(handle, SETTINGS_MODULE, SETTING_SHOULD_TRANSLITERATE, transliterateOutgoingMessages);
+	db_set_b(hContact, SETTINGS_MODULE, SETTING_SHOULD_TRANSLITERATE, bValue);
 }
 
 //------------------------------------------------------------------------------
 
-bool MirandaContact::shouldTransliterateOutgoingMessages() const
-{
-	return transliterateOutgoingMessages;
-}
-
-//------------------------------------------------------------------------------
-
-void MirandaContact::generateMenuItemsForAllContacts()
+void MirandaContact::addMenuItem()
 {
 	CLISTMENUITEM mi;
 	mi.cbSize = sizeof(CLISTMENUITEM);
@@ -114,9 +87,7 @@ INT_PTR MirandaContact::onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam)
 	if (!CallService(MS_DB_CONTACT_IS, wParam, 0))
 		return 0;
 
-	MirandaContact mc = getContact(hContact);
-	mc.transliterateOutgoingMessages = !mc.transliterateOutgoingMessages;
-	mc.save();
+	save(hContact, !bIsActive(hContact));
 	return 0;
 }
 
@@ -128,11 +99,9 @@ int MirandaContact::onPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 	if (!CallService(MS_DB_CONTACT_IS, wParam, 0)) return 0;
 
-	MirandaContact mc = getContact(hContact);
-
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
-	if (mc.shouldTransliterateOutgoingMessages())
+	if ( bIsActive(hContact))
 		mi.flags |= CMIF_CHECKED;
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hTransliterateCmdMenuItem, (LPARAM)&mi);

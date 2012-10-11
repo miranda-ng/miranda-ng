@@ -42,21 +42,14 @@ public:
 	* @param hContact The handle of the contact object to be instantiated.
 	* @return The Miranda IM contact having the passed handle.
 	*/
-	static MirandaContact getContact(HANDLE hContact);
+	static bool bIsActive(HANDLE hContact);
 
 	/**
 	* Saves this object's data to the persistent storage -- the Miranda
 	* database. This information may be retreived later on by means of
 	* getContact() factory method invocation.
 	*/
-	void save() const;
-
-	/**
-	* @return True only if the Cyrillic transliteration is on for this contact.
-	*/
-	bool shouldTransliterateOutgoingMessages() const;
-
-	~MirandaContact();
+	static void save(HANDLE hContact, bool bValue);
 
 private:
 	static const char* SETTINGS_MODULE;
@@ -64,13 +57,11 @@ private:
 
 	static char *MENU_ITEM_TEXT;
 
-	MirandaContact();
-
 	/**
 	* Must be called on Miranda start-up to generate the transliteration
 	* command menu items for all the contacts (a contact-specific menu).
 	*/
-	static void generateMenuItemsForAllContacts();
+	static void addMenuItem();
 
 	/**
 	* This is a callback function for the transliteration command menu item.
@@ -111,9 +102,6 @@ private:
 	* @return Always returns 0.
 	*/
 	static int onPreBuildContactMenu(WPARAM wParam, LPARAM lParam);
-
-	HANDLE handle;
-	bool transliterateOutgoingMessages;
 };
 
 }

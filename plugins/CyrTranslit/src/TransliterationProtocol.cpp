@@ -18,6 +18,7 @@
  */
 
 #include "plugin.h"
+#include "MirandaContact.h"
 #include "TransliterationProtocol.h"
 #include "TransliterationMap.h"
 
@@ -96,6 +97,9 @@ void TransliterationProtocol::TranslateMessageA(WPARAM wParam, LPARAM lParam)
 INT_PTR TransliterationProtocol::sendMessageW(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
+	if ( !MirandaContact::bIsActive(ccs->hContact))
+		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+
 	LPARAM oldlParam = ccs->lParam;
 
 	TranslateMessageW(wParam, lParam);
@@ -112,6 +116,9 @@ INT_PTR TransliterationProtocol::sendMessageW(WPARAM wParam, LPARAM lParam)
 INT_PTR TransliterationProtocol::sendMessageA(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
+	if ( !MirandaContact::bIsActive(ccs->hContact))
+		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+
 	LPARAM oldlParam = ccs->lParam;
 	bool msgProcessed = true;
 
