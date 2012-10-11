@@ -40,7 +40,7 @@ END
 
 3 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
-    "#include ""version.rc""\r\n"
+    "\r\n"
     "\0"
 END
 
@@ -231,9 +231,9 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ACTIVE              ICON    DISCARDABLE     "active.ico"
-IDI_HEADER              ICON    DISCARDABLE     "header.ico"
-IDI_INACTIVE            ICON    DISCARDABLE     "inactive.ico"
+IDI_ACTIVE              ICON         "active.ico"
+IDI_HEADER              ICON         "header.ico"
+IDI_INACTIVE            ICON         "inactive.ico"
 #endif    // Englisch (GB) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -244,7 +244,6 @@ IDI_INACTIVE            ICON    DISCARDABLE     "inactive.ico"
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-#include "version.rc"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED

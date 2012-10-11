@@ -2,6 +2,7 @@
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
+#include "afxres.h"
 #include "..\src\version.h"
 
 ///////////////////////////////////////////////////////////////////////////// 
@@ -10,30 +11,27 @@
 //                                                                            
                                                                               
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION FILE_VERSION
- PRODUCTVERSION FILE_VERSION
- FILEFLAGSMASK 0x0L
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
+ FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
 #else
  FILEFLAGS 0x0L
 #endif
- FILEOS 0x40004L
- FILETYPE 0x2L
+ FILEOS 0x4L
+ FILETYPE 0x0L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "Licensed under the terms of the GNU General Public License"
-            VALUE "FileDescription", "AutoShutdown Plugin for Miranda NG"
-            VALUE "FileVersion", FILE_VERSION_STR
-            VALUE "InternalName", "AutoShutdown"
-            VALUE "LegalCopyright", "Copyright © 2004-2007 H. Herkenrath"
-            VALUE "OriginalFilename", "shutdown.dll"
-            VALUE "ProductName", "Automatic Shutdown"
-            VALUE "ProductVersion", FILE_VERSION_STR
+            VALUE "FileDescription", __DESCRIPTION
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"
@@ -41,7 +39,3 @@ BEGIN
         VALUE "Translation", 0x0, 1200
     END
 END
-                                   
-                                                                        
-                               
-                                                                              

@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "common.h"
-#include "version.h"
 
 HINSTANCE hInst;
 static HANDLE hHookModulesLoaded;
@@ -28,13 +27,13 @@ int hLangpack;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"AutoShutdown",
-	PLUGIN_VERSION,
-	"Adds the possibility to shutdown the computer when a specified event occurs.", /* autotranslated */
-	"H. Herkenrath",
-	"hrathh@users.sourceforge.net",  /* @ will be set later */
-	"© 2004-2007 H. Herkenrath",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {9DE24579-5C5C-49aa-80E8-4D38E4344E63}
 	{0x9de24579,0x5c5c,0x49aa,{0x80,0xe8,0x4d,0x38,0xe4,0x34,0x4e,0x63}},
