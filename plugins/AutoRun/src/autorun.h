@@ -10,6 +10,7 @@
 #include <win2k.h>
 
 #include "resource.h"
+#include "Version.h"
 
 #define SUB_KEY _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
 #define ModuleName "Autorun"

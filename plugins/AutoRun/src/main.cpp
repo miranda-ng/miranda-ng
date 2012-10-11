@@ -6,13 +6,13 @@ int hLangpack;
 PLUGININFOEX pluginInfoEx=
 { 	// about plugin
 	sizeof(PLUGININFOEX),
-	"Autorun",
-	PLUGIN_MAKE_VERSION(0,1,0,1),
-	"This plugin is a simple way to enable/disable to launch Miranda NG with system startup.",
-	"Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)",
-	"",
-	"Copyright © 2002-2007 Sergey V. Gershovich a.k.a. Jazzy$",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	MIID_AUTORUN
 };
