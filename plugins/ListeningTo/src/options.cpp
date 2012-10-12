@@ -57,11 +57,11 @@ static UINT optionsExpertControls[] = {
 };
 
 static OptPageControl formatControls[] = { 
-	{ &opts.templ,					CONTROL_TEXT,		IDC_TEMPLATE,			"Template", (DWORD) _T("%title% - %artist%") },
+	{ &opts.templ,					CONTROL_TEXT,		IDC_TEMPLATE,			"Template", (DWORD) _T("%artist% - %title%") },
 	{ &opts.unknown,				CONTROL_TEXT,		IDC_UNKNOWN,			"Unknown", (DWORD) _T("<Unknown>"), 0, 0, 128 },
 	{ &opts.xstatus_name,			CONTROL_TEXT,		IDC_XSTATUS_NAME,		"XStatusName", (DWORD) _T("Listening to") },
 	{ &opts.xstatus_message,		CONTROL_TEXT,		IDC_XSTATUS_MESSAGE,	"XStatusMessage", (DWORD) _T("%listening%") },
-	{ &opts.nothing,				CONTROL_TEXT,		IDC_NOTHING,			"Nothing", (DWORD) _T("<Nothing>"), 0, 0, 128 }
+	{ &opts.nothing,				CONTROL_TEXT,		IDC_NOTHING,			"Nothing", (DWORD) _T("<Nothing is playing now>"), 0, 0, 128 }
 };
 
 static OptPageControl playersControls[] = { 
