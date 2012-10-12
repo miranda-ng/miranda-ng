@@ -4,11 +4,11 @@
 
 #include "..\src\version.h"
 
-///////////////////////////////////////////////////////////////////////////// 
-//                                                                            
-// Version                                                                    
-//                                                                            
-                                                                              
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION __FILEVERSION_STRING
  PRODUCTVERSION __FILEVERSION_STRING
