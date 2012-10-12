@@ -23,21 +23,22 @@ Last change on : $Date: 2007-12-30 04:55:51 +0300 (Вс, 30 дек 2007) $
 Last change by : $Author: y_b $
 */
 #include "seen.h"
+#include "version.h"
 
 HINSTANCE hInstance;
 HANDLE ehdb = NULL, ehproto = NULL, ehmissed = NULL, ehuserinfo = NULL, ehmissed_proto = NULL, hOptInit = NULL, hMainInit = NULL;
 
 int hLangpack;
 
-PLUGININFOEX pluginInfo = {
+PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"Last seen",
-	PLUGIN_MAKE_VERSION(5,1,0,0),
-	"Log when a user was last seen online and which users were online while you were away.",
-	"Heiko Schillinger, YB",
-	"y_b@saaplugin.no-ip.info",
-	"� 2001-2002 Heiko Schillinger, 2003 modified by Bruno Rino, 2005-7 Modified by YB",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	{ 0x2d506d46,0xc94e,0x4ef8,{0x85, 0x37, 0xf1, 0x12, 0x33, 0xa8, 0x03, 0x81}}/* 2d506d46-c94e-4ef8-8537-f11233a80381 */
 };
