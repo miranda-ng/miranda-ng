@@ -62,9 +62,8 @@ int MainInit(WPARAM wparam,LPARAM lparam)
 	includeIdle = (BOOL )db_get_b(NULL,S_MOD,"IdleSupport",1);
 	hOptInit = HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	
-	if ( db_get_b(NULL,S_MOD,"MenuItem",1)) {
+	if ( db_get_b(NULL,S_MOD,"MenuItem",1))
 		InitMenuitem();
-	}
 	
 	if ( db_get_b(NULL,S_MOD,"UserinfoTab",1))
 		ehuserinfo = HookEvent(ME_USERINFO_INITIALISE,UserinfoInit);

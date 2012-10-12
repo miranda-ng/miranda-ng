@@ -162,7 +162,7 @@ void MyResizeGetOffset (HWND hwndDlg, HWND hwndControl, int nWidth, int nHeight,
 INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARAM lparam)
 {
 	HANDLE hContact;
-	char sztemp[1024]="";
+	TCHAR sztemp[1024];
 	static HIMAGELIST hIml=NULL;
 
 	switch(Message) {
@@ -170,26 +170,23 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		TranslateDialogDefault(hwndDlg);
 		hContact = (HANDLE)lparam;
 		SetWindowLongPtr(hwndDlg,GWLP_USERDATA,lparam);
-		strcpy(sztemp,(char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0));
-		strcat(sztemp, ": ");
-		strcat(sztemp, Translate("last seen history"));
+		mir_sntprintf(sztemp, SIZEOF(sztemp), _T("%s: %s"),
+			CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR),
+			TranslateT("last seen history"));
 		SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)sztemp);
 		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_BIG, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
 		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_SMALL, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
 
-		//			LoadHistoryList(hContact, hwndDlg, IDC_HISTORYLIST);
-
 		if ( db_get_b(hContact,S_MOD,"OnlineAlert",0))
 			SendDlgItemMessage(hwndDlg, IDC_STATUSCHANGE, BM_SETCHECK, (WPARAM)BST_CHECKED, 0);
-		{
-			hIml=ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,3,3);
-			ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_USERDETAILS)));
-			ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_DOWNARROW)));
-			ImageList_AddIcon(hIml,LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
-			SendDlgItemMessage(hwndDlg,IDC_DETAILS,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,0,ILD_NORMAL));
-			SendDlgItemMessage(hwndDlg,IDC_USERMENU,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,1,ILD_NORMAL));
-			SendDlgItemMessage(hwndDlg,IDC_SENDMSG,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,2,ILD_NORMAL));
-		}
+		
+		hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,3,3);
+		ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_USERDETAILS)));
+		ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_DOWNARROW)));
+		ImageList_AddIcon(hIml,LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
+		SendDlgItemMessage(hwndDlg,IDC_DETAILS,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,0,ILD_NORMAL));
+		SendDlgItemMessage(hwndDlg,IDC_USERMENU,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,1,ILD_NORMAL));
+		SendDlgItemMessage(hwndDlg,IDC_SENDMSG,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,2,ILD_NORMAL));
 
 		//set-up tooltips
 		{
