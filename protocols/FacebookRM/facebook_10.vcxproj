@@ -174,58 +174,53 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="avatars.cpp" />
-    <ClCompile Include="chat.cpp" />
-    <ClCompile Include="communication.cpp" />
-    <ClCompile Include="connection.cpp" />
-    <ClCompile Include="contacts.cpp" />
-    <ClCompile Include="dialogs.cpp" />
-    <ClCompile Include="events.cpp" />
-    <ClCompile Include="http.cpp" />
-    <ClCompile Include="json.cpp" />
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\avatars.cpp" />
+    <ClCompile Include="src\chat.cpp" />
+    <ClCompile Include="src\communication.cpp" />
+    <ClCompile Include="src\connection.cpp" />
+    <ClCompile Include="src\contacts.cpp" />
+    <ClCompile Include="src\dialogs.cpp" />
+    <ClCompile Include="src\events.cpp" />
+    <ClCompile Include="src\http.cpp" />
+    <ClCompile Include="src\json.cpp" />
+    <ClCompile Include="src\main.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="messages.cpp" />
-    <ClCompile Include="process.cpp" />
-    <ClCompile Include="proto.cpp" />
-    <ClCompile Include="stubs.cpp" />
-    <ClCompile Include="theme.cpp" />
-    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="src\messages.cpp" />
+    <ClCompile Include="src\process.cpp" />
+    <ClCompile Include="src\proto.cpp" />
+    <ClCompile Include="src\stubs.cpp" />
+    <ClCompile Include="src\theme.cpp" />
+    <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="JSON_CAJUN\elements.h" />
-    <ClInclude Include="JSON_CAJUN\reader.h" />
-    <ClInclude Include="JSON_CAJUN\visitor.h" />
-    <ClInclude Include="JSON_CAJUN\writer.h" />
-    <ClInclude Include="avatars.h" />
-    <ClInclude Include="client.h" />
-    <ClInclude Include="common.h" />
-    <ClInclude Include="constants.h" />
-    <ClInclude Include="db.h" />
-    <ClInclude Include="definitions.h" />
-    <ClInclude Include="dialogs.h" />
-    <ClInclude Include="entities.h" />
-    <ClInclude Include="http.h" />
-    <ClInclude Include="json.h" />
-    <ClInclude Include="list.hpp" />
-    <ClInclude Include="proto.h" />
-    <ClInclude Include="theme.h" />
-    <ClInclude Include="utils.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\JSON_CAJUN\elements.h" />
+    <ClInclude Include="src\JSON_CAJUN\reader.h" />
+    <ClInclude Include="src\JSON_CAJUN\visitor.h" />
+    <ClInclude Include="src\JSON_CAJUN\writer.h" />
+    <ClInclude Include="src\avatars.h" />
+    <ClInclude Include="src\client.h" />
+    <ClInclude Include="src\common.h" />
+    <ClInclude Include="src\constants.h" />
+    <ClInclude Include="src\db.h" />
+    <ClInclude Include="src\definitions.h" />
+    <ClInclude Include="src\dialogs.h" />
+    <ClInclude Include="src\entities.h" />
+    <ClInclude Include="src\http.h" />
+    <ClInclude Include="src\json.h" />
+    <ClInclude Include="src\list.hpp" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\theme.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\auth_ask.ico" />
-    <None Include="icons\auth_grant.ico" />
-    <None Include="icons\auth_revoke.ico" />
-    <None Include="JSON_CAJUN\elements.inl" />
-    <None Include="JSON_CAJUN\reader.inl" />
-    <None Include="JSON_CAJUN\writer.inl" />
-    <None Include="icons\facebook.ico" />
-    <None Include="icons\mind.ico" />
+    <None Include="src\JSON_CAJUN\elements.inl" />
+    <None Include="src\JSON_CAJUN\reader.inl" />
+    <None Include="src\JSON_CAJUN\writer.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="facebook.rc" />
+    <ResourceCompile Include="res\facebook.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
