@@ -32,58 +32,29 @@ Prepares the log file:
 */
 int InitFileOutput(void)
 {
-	char szfpath[256]="",szmpath[256]="",*str;
+	TCHAR szfpath[256], szmpath[256];
+	GetModuleFileName(NULL, szmpath, MAX_PATH);
+
 	DBVARIANT dbv;
+	_tcscpy(szfpath, !DBGetContactSettingTString(NULL, S_MOD, "FileName", &dbv) ? dbv.ptszVal : _T(DEFAULT_FILENAME));
+	db_free(&dbv);
 
-	GetModuleFileName(NULL,szmpath,MAX_PATH);
-	strcpy(szfpath,!DBGetContactSetting(NULL,S_MOD,"FileName",&dbv)?dbv.pszVal:DEFAULT_FILENAME);
+	if (szfpath[0] == '\\')
+		_tcscpy(szfpath, szfpath+1);
 
-	DBFreeVariant(&dbv);
-
-	if(szfpath[0]=='\\')
-		strcpy(szfpath,szfpath+1);
-
-	str=strrchr(szmpath,'\\');
-	if(str!=NULL)
+	TCHAR *str = _tcsrchr(szmpath, '\\');
+	if (str != NULL)
 		*++str=0;
 
-	strcat(szmpath,szfpath);
-	
-	strcpy(szfpath,szmpath);
+	_tcscat(szmpath, szfpath);
+	_tcscpy(szfpath, szmpath);
 
-	str=strrchr(szmpath,'\\');
-	if(str!=NULL)
+	str = _tcsrchr(szmpath, '\\');
+	if (str != NULL)
 		*++str=0;
-/*
-//we dont need this anylonger. the directory is created in filewrite 
-	if (!CreateDirectory(szmpath,NULL))
-	{
-		if (!(GetFileAttributes(szmpath) & FILE_ATTRIBUTE_DIRECTORY))
-		{		
-			MessageBox(NULL,"Directory could not be created\nPlease choose another!","Last seen plugin",MB_OK|MB_ICONERROR);
-			DBWriteContactSettingByte(NULL,S_MOD,"FileOutput",0);
-			return 0;
-		}
-	}
-*/
-	DBWriteContactSettingString(NULL,S_MOD,"PathToFile",szfpath);
 
+	db_set_ts(NULL, S_MOD, "PathToFile", szfpath);
 	return 0;
-}
-
-//borrowed from netliblog.c
-static void CreateDirectoryTree(char *szDir)
-{
-	DWORD dwAttributes;
-	char *pszLastBackslash,szTestDir[MAX_PATH];
-
-	lstrcpynA(szTestDir,szDir,sizeof(szTestDir));
-	if ((dwAttributes=GetFileAttributesA(szTestDir))!=0xffffffff && dwAttributes&FILE_ATTRIBUTE_DIRECTORY) return;
-	pszLastBackslash=strrchr(szTestDir,'\\');
-	if(pszLastBackslash==NULL) return;
-	*pszLastBackslash='\0';
-	CreateDirectoryTree(szTestDir);
-	CreateDirectoryA(szTestDir,NULL);
 }
 
 /*
@@ -91,29 +62,31 @@ Writes a line into the log.
 */
 void FileWrite(HANDLE hcontact)
 {
-	HANDLE fhout;
-	DWORD byteswritten;
-	char szout[1024],sznl[3]="\r\n";
-	DBVARIANT dbv;
+	TCHAR szout[1024];
 
-	DBGetContactSetting(NULL,S_MOD,"PathToFile",&dbv);
-	strcpy(szout,ParseString(dbv.pszVal,hcontact,1));
-	fhout=CreateFile(szout,GENERIC_WRITE,0,NULL,OPEN_ALWAYS,0,NULL);
-	if (fhout==INVALID_HANDLE_VALUE){
-		CreateDirectoryTree(szout);
-		fhout=CreateFile(szout,GENERIC_WRITE,0,NULL,OPEN_ALWAYS,0,NULL);
-		if (fhout==INVALID_HANDLE_VALUE) return;
+	DBVARIANT dbv;
+	DBGetContactSettingTString(NULL, S_MOD, "PathToFile", &dbv);
+	_tcscpy(szout, ParseString(dbv.ptszVal, hcontact, 1));
+
+	HANDLE fhout = CreateFile(szout, GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, 0, NULL);
+	if (fhout == INVALID_HANDLE_VALUE){
+		CreateDirectoryTreeT(szout);
+		fhout = CreateFile(szout, GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, 0, NULL);
+		if (fhout == INVALID_HANDLE_VALUE)
+			return;
 	}
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	SetFilePointer(fhout,0,0,FILE_END);
 
-	strcpy(szout,ParseString(!DBGetContactSetting(NULL,S_MOD,"FileStamp",&dbv)?dbv.pszVal:DEFAULT_FILESTAMP,hcontact,1));
-	DBFreeVariant(&dbv);
+	if ( !DBGetContactSettingTString(NULL, S_MOD," FileStamp", &dbv)) {
+		_tcscpy(szout, ParseString(dbv.ptszVal, hcontact, 1));
+		db_free(&dbv);
+	}
+	else _tcscpy(szout, ParseString( _T(DEFAULT_FILESTAMP), hcontact, 1));
 	
-	WriteFile(fhout,szout, (DWORD)_tcslen(szout),&byteswritten,NULL);
-	WriteFile(fhout,sznl, (DWORD)_tcslen(sznl),&byteswritten,NULL);
+	DWORD byteswritten;
+	WriteFile(fhout, _T2A(szout), (DWORD)_tcslen(szout), &byteswritten, NULL);
+	WriteFile(fhout, "\r\n", 2, &byteswritten, NULL);
 
 	CloseHandle(fhout);
-
-	
 }

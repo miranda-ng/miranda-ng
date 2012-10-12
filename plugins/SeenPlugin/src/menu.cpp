@@ -40,58 +40,45 @@ INT_PTR MenuitemClicked(WPARAM wparam,LPARAM lparam)
 
 int BuildContactMenu(WPARAM wparam,LPARAM lparam)
 {
-	CLISTMENUITEM cmi;
-	DBVARIANT dbv;
-	int id=-1,isetting;
-	HANDLE hContact;
-	char *szProto;
+	int id = -1, isetting;
+	HANDLE hContact = (HANDLE)wparam;
+	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 
-	hContact = (HANDLE)wparam;
-	szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
+	CLISTMENUITEM cmi = { sizeof(cmi) };
+	if (!IsWatchedProtocol(szProto) || !db_get_b(NULL,S_MOD,"MenuItem",1))
+		cmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
+	else {
+		cmi.flags = CMIM_NAME | CMIM_FLAGS | CMIM_ICON | CMIF_TCHAR;
+		cmi.hIcon = NULL;
 
-	ZeroMemory(&cmi,sizeof(cmi));
-	cmi.cbSize=sizeof(cmi);
-	if (!IsWatchedProtocol(szProto) || !DBGetContactSettingByte(NULL,S_MOD,"MenuItem",1))
-	{
-		cmi.flags=CMIM_FLAGS|CMIF_HIDDEN;
-	}
-	else
-	{
-		cmi.flags=CMIM_NAME|CMIM_FLAGS|CMIM_ICON;
-		cmi.hIcon=NULL;
-		cmi.pszName=ParseString(!DBGetContactSetting(NULL,S_MOD,"MenuStamp",&dbv)?dbv.pszVal:DEFAULT_MENUSTAMP,(HANDLE)wparam,0);
+		DBVARIANT dbv;
+		if ( !DBGetContactSettingTString(NULL, S_MOD, "MenuStamp", &dbv)) {
+			cmi.ptszName = ParseString(dbv.ptszVal, (HANDLE)wparam, 0);
+			db_free(&dbv);
+		}
+		else cmi.ptszName = ParseString( _T(DEFAULT_MENUSTAMP), (HANDLE)wparam, 0);
 		
-		if (!strcmp(cmi.pszName,Translate("<unknown>")))
-		{	
-			if (IsWatchedProtocol(szProto))
-				cmi.flags|=CMIF_GRAYED;
+		if ( !_tcscmp(cmi.ptszName, TranslateT("<unknown>"))) {	
+			if ( IsWatchedProtocol(szProto))
+				cmi.flags |= CMIF_GRAYED;
 			else
-				cmi.flags|=CMIF_HIDDEN;	
-		} 
-		else if(DBGetContactSettingByte(NULL,S_MOD,"ShowIcon",1))
-		{
-			isetting=DBGetContactSettingWord((HANDLE)hContact,S_MOD,"StatusTriger",-1);
-			cmi.hIcon=LoadSkinnedProtoIcon(szProto,isetting|0x8000);
-			
+				cmi.flags |= CMIF_HIDDEN;	
+		}
+		else if ( db_get_b(NULL, S_MOD, "ShowIcon",1)) {
+			isetting = db_get_w(hContact, S_MOD, "StatusTriger", -1);
+			cmi.hIcon = LoadSkinnedProtoIcon(szProto, isetting|0x8000);
 		}
 	}
 
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hmenuitem,(LPARAM)&cmi);
-	DBFreeVariant(&dbv);
-
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hmenuitem, (LPARAM)&cmi);
 	return 0;
 }
 
-
-
 void InitMenuitem()
 {
-	CLISTMENUITEM cmi;
-
 	hLSUserDet = CreateServiceFunction("LastSeenUserDetails", MenuitemClicked);
 
-	ZeroMemory(&cmi,sizeof(cmi));
-	cmi.cbSize=sizeof(cmi);
+	CLISTMENUITEM cmi = { sizeof(cmi) };
 	cmi.flags=0;
 	cmi.hIcon=NULL;
 	cmi.hotKey=0;

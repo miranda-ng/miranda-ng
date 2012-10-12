@@ -1,0 +1,41 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 5,0,4,7
+ PRODUCTVERSION 5,0,4,7
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "Last Seen Mod Plugin for Miranda NG\0"
+            VALUE "CompanyName", "Heiko Schillinger, YB\0"
+			VALUE "FileDescription", "Last Seen Plugin (NSN Compatible)\0"
+			VALUE "FileVersion", "5.0.4.7\0"
+            VALUE "InternalName", "Last Seen\0"
+            VALUE "LegalCopyright", "© 2001-2002 by Heiko Schillinger, 2003 by Bruno Rino, 2006 by YB\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "seenplugin.dll\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", " Last Seen Plugin Mod\0"
+            VALUE "ProductVersion", "5.0.4.7\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END

@@ -38,57 +38,52 @@ extern DWORD dwmirver;
 BOOL CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 {
 	switch(msg){
-		case WM_SETCURSOR:
-			SetCursor(LoadCursor(NULL,IDC_ARROW));
-			return 1;
-
-		default:
-			break;
+	case WM_SETCURSOR:
+		SetCursor(LoadCursor(NULL,IDC_ARROW));
+		return 1;
 	}
 	return CallWindowProc(MainProc,hdlg,msg,wparam,lparam);
 }
 
-
-
 INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 {
-	char *szout;
 	DBVARIANT dbv;
 	
-	switch(msg){
+	switch(msg) {
+	case WM_INITDIALOG:
+		MainProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hdlg,IDC_INFOTEXT),GWLP_WNDPROC,(LONG)EditProc);
+		{
+			TCHAR *szout;
+			if ( !DBGetContactSettingTString(NULL, S_MOD, "UserStamp", &dbv)) {
+				szout = ParseString(dbv.ptszVal, (HANDLE)lparam, 0);
+				db_free(&dbv);
+			}
+			else szout = ParseString(DEFAULT_USERSTAMP, (HANDLE)lparam, 0);
 
-		case WM_INITDIALOG:
-			MainProc=(WNDPROC)SetWindowLongPtr(GetDlgItem(hdlg,IDC_INFOTEXT),GWLP_WNDPROC,(LONG)EditProc);
-			szout = _strdup(ParseString((!DBGetContactSetting(NULL,S_MOD,"UserStamp",&dbv)?dbv.pszVal:DEFAULT_USERSTAMP),(HANDLE)lparam,0));
-			SetDlgItemText(hdlg,IDC_INFOTEXT,szout);
-			if (!strcmp(szout,Translate("<unknown>")))
-			EnableWindow(GetDlgItem(hdlg,IDC_INFOTEXT),FALSE);
-			free(szout);
-			DBFreeVariant(&dbv);
-			break;
+			SetDlgItemText(hdlg, IDC_INFOTEXT, szout);
+			if ( !lstrcmp(szout, TranslateT("<unknown>")))
+				EnableWindow( GetDlgItem(hdlg,IDC_INFOTEXT), FALSE);
+		}
+		break;
 
-		case WM_COMMAND:
-			if(HIWORD(wparam)==EN_SETFOCUS)
-				SetFocus(GetParent(hdlg));
-			break;
+	case WM_COMMAND:
+		if (HIWORD(wparam) == EN_SETFOCUS)
+			SetFocus( GetParent(hdlg));
+		break;
 	}
 
 	return 0;
 }
 
-
-
 int UserinfoInit(WPARAM wparam,LPARAM lparam)
 {
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,lparam,0);
-	if (IsWatchedProtocol(proto)) {
-		OPTIONSDIALOGPAGE uip;
-		ZeroMemory(&uip,sizeof(uip));
-		uip.cbSize=sizeof(uip);
-		uip.hInstance=hInstance;
-		uip.pszTemplate=MAKEINTRESOURCE(IDD_USERINFO);
-		uip.pszTitle="Last seen";
-		uip.pfnDlgProc=UserinfoDlgProc;
+	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, lparam, 0);
+	if ( IsWatchedProtocol(proto)) {
+		OPTIONSDIALOGPAGE uip = { sizeof(uip) };
+		uip.hInstance = hInstance;
+		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
+		uip.pszTitle = "Last seen";
+		uip.pfnDlgProc = UserinfoDlgProc;
 		UserInfo_AddPage(wparam, &uip);
 	}
 	return 0;

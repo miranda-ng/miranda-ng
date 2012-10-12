@@ -27,12 +27,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MIRANDA_VER    0x0A00
 #define _CRT_SECURE_NO_WARNINGS
+#define _CRT_NON_CONFORMING_SWPRINTFS
 
 #include <windows.h>
 #include <win2k.h>
 #include <commctrl.h>
+#include <malloc.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #include "resource.h"
 
@@ -50,6 +53,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_protosvc.h>
 #include <m_protocols.h>
 #include <m_popup.h>
+#include <m_ignore.h>
 
 #include "m_tipper.h"
 
@@ -66,7 +70,7 @@ WCHAR *any_to_Idle(HANDLE hContact, const char *module_name, const char *setting
 
 //#define UM_CHECKHOOKS (WM_USER+1)
 
-#define debug(a) MessageBox(NULL,a,"Debug",MB_OK)
+#define debug(a) MessageBox(NULL,a,_T("Debug"),MB_OK)
 
 #define IDI_USERDETAILS                 160
 #define IDI_DOWNARROW                   264
@@ -82,9 +86,9 @@ WCHAR *any_to_Idle(HANDLE hContact, const char *module_name, const char *setting
 #define	ICON_INVIS			20
 
 #define DEFAULT_MENUSTAMP          "%d.%m.%Y - %H:%M [%s]"
-#define DEFAULT_POPUPSTAMP         Translate("%n is %s (%u)")
-#define DEFAULT_POPUPSTAMPTEXT     Translate("%i(%r)%bWas %o")
-#define DEFAULT_USERSTAMP          Translate("Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T")
+#define DEFAULT_POPUPSTAMP         TranslateT("%n is %s (%u)")
+#define DEFAULT_POPUPSTAMPTEXT     TranslateT("%i(%r)%bWas %o")
+#define DEFAULT_USERSTAMP          TranslateT("Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T")
 #define DEFAULT_FILESTAMP          "%d.%m.%Y %H:%M:%S%t%n%t%s%t%u%t%r | %i%t%N"
 #define DEFAULT_FILENAME           "logs\\%P.txt"
 #define DEFAULT_HISTORYSTAMP       "%d.%m.%Y - %H:%M [%s]"
@@ -103,7 +107,7 @@ typedef struct{
 } MISSEDCONTACTS;
 
 int IsWatchedProtocol(const char* szProto);
-char *ParseString(char *,HANDLE,BYTE);
+TCHAR *ParseString(TCHAR*, HANDLE, BYTE);
 extern DWORD StatusColors15bits[];
 void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, DWORD colDword);
 DWORD GetDWordFromColors(COLORREF First, COLORREF Second);

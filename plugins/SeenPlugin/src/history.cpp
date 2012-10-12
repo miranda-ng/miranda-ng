@@ -34,7 +34,7 @@ char* BuildSetting(int historyLast) {
 	static char sztemp[15];
 	*setting = '\0';
 	strcat(setting, "History_");
-	strcat(setting, _itot(historyLast, sztemp, 10));
+	strcat(setting, _itoa(historyLast, sztemp, 10));
 	return setting;
 }
 
@@ -43,49 +43,57 @@ void HistoryWrite(HANDLE hContact)
 	short historyFirst, historyLast, historyMax;
 	DBVARIANT dbv;
 
-	historyMax = DBGetContactSettingWord(NULL,S_MOD,"HistoryMax",10);
+	historyMax = db_get_w(NULL,S_MOD,"HistoryMax",10);
 	if (historyMax < 0) historyMax=0; else if (historyMax > 99) historyMax = 99;
-	if (historyMax == 0) return;
-	historyFirst = DBGetContactSettingWord(hContact,S_MOD,"HistoryFirst",0);
-	if (historyFirst >=  historyMax) historyFirst = 0;
-	historyLast = DBGetContactSettingWord(hContact,S_MOD,"HistoryLast",0);
-	if (historyLast >= historyMax) historyLast = historyMax-1;
+	if (historyMax == 0)
+		return;
 
-	DBWriteContactSettingString(hContact,S_MOD,BuildSetting(historyLast),
-			ParseString(!DBGetContactSetting(NULL,S_MOD,"HistoryStamp",&dbv)?dbv.pszVal:DEFAULT_HISTORYSTAMP,hContact,0));
-	DBFreeVariant(&dbv);
+	historyFirst = db_get_w(hContact, S_MOD, "HistoryFirst", 0);
+	if (historyFirst >=  historyMax)
+		historyFirst = 0;
+	historyLast = db_get_w(hContact, S_MOD, "HistoryLast", 0);
+	if (historyLast >= historyMax)
+		historyLast = historyMax-1;
+
+	TCHAR *ptszString;
+	if ( !DBGetContactSettingTString(NULL, S_MOD, "HistoryStamp", &dbv)) {
+		ptszString = ParseString(dbv.ptszVal, hContact, 0);
+		db_free(&dbv);
+	}
+	else ptszString = ParseString( _T(DEFAULT_HISTORYSTAMP), hContact, 0);
+	db_set_ts(hContact, S_MOD, BuildSetting(historyLast), ptszString);
 
 	historyLast = (historyLast+1) % historyMax;
-	DBWriteContactSettingWord(hContact,S_MOD,"HistoryLast",historyLast);
-	if (historyLast == historyFirst) {
-		DBWriteContactSettingWord(hContact,S_MOD,"HistoryFirst",(short) ((historyFirst+1) % historyMax));
-	}
-
+	db_set_w(hContact,S_MOD,"HistoryLast",historyLast);
+	if (historyLast == historyFirst)
+		db_set_w(hContact, S_MOD, "HistoryFirst", (historyFirst+1) % historyMax);
 }
 
-void LoadHistoryList(HANDLE hContact, HWND hwnd, int nList) {
+void LoadHistoryList(HANDLE hContact, HWND hwnd, int nList)
+{
 	short historyFirst, historyLast, historyMax;
 	short i;
 	DBVARIANT dbv;
 
-
 	SendDlgItemMessage(hwnd, nList, LB_RESETCONTENT, 0, 0);
-	historyMax = DBGetContactSettingWord(NULL,S_MOD,"HistoryMax",10);
+	historyMax = db_get_w(NULL,S_MOD,"HistoryMax",10);
 	if (historyMax < 0) historyMax = 0; else if (historyMax > 99) historyMax = 99;
 	if (historyMax == 0) return;
-	historyFirst = DBGetContactSettingWord(hContact,S_MOD,"HistoryFirst",0);
+	historyFirst = db_get_w(hContact,S_MOD,"HistoryFirst",0);
 	if (historyFirst >=  historyMax) historyFirst = 0;
-	historyLast = DBGetContactSettingWord(hContact,S_MOD,"HistoryLast",0);
+	historyLast = db_get_w(hContact,S_MOD,"HistoryLast",0);
 	if (historyLast >= historyMax) historyLast = historyMax-1;
 	
 	i = historyLast;
 	while (i != historyFirst) {
 		i = (i-1+historyMax) % historyMax;
-		SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, 
-				(LPARAM)(!DBGetContactSetting(hContact,S_MOD,BuildSetting(i),&dbv)?dbv.pszVal:""));
-		DBFreeVariant(&dbv);
+		
+		if ( !DBGetContactSettingTString(hContact, S_MOD, BuildSetting(i), &dbv)) {
+			SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
+			db_free(&dbv);
+		}
+		else SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, (LPARAM)_T(""));
 	}
-
 }
 
 
@@ -105,13 +113,6 @@ HDWP MyResizeWindow (HDWP hDwp, HWND hwndDlg, HWND hwndControl,
 	ScreenToClient(hwndDlg, &pt);
 
 	// resize control
-/*	MoveWindow(hwndControl, 
-			pt.x + nHorizontalOffset, 
-			pt.y + nVerticalOffset,
-			rcinit.right - rcinit.left + nWidthOffset, 
-			rcinit.bottom - rcinit.top + nHeightOffset,
-			FALSE);
-*/
 	return DeferWindowPos(hDwp, hwndControl, NULL,
 			pt.x + nHorizontalOffset, 
 			pt.y + nVerticalOffset,
@@ -138,13 +139,6 @@ HDWP MyHorizCenterWindow (HDWP hDwp, HWND hwndDlg, HWND hwndControl,
 	ScreenToClient(hwndDlg, &pt);
 
 	// resize control
-/*	MoveWindow(hwndControl, 
-			(int) ((nClientWidth - (rcinit.right - rcinit.left))/2), 
-			pt.y + nVerticalOffset,
-			rcinit.right - rcinit.left, 
-			rcinit.bottom - rcinit.top + nHeightOffset,
-			TRUE);
-*/
 	return DeferWindowPos(hDwp, hwndControl, NULL,
 			(int) ((nClientWidth - (rcinit.right - rcinit.left))/2), 
 			pt.y + nVerticalOffset,
@@ -153,9 +147,7 @@ HDWP MyHorizCenterWindow (HDWP hDwp, HWND hwndDlg, HWND hwndControl,
 			SWP_NOZORDER);
 
 }
-void MyResizeGetOffset (HWND hwndDlg, HWND hwndControl, 
-				 int nWidth, int nHeight,
-				 int* nDx, int* nDy)
+void MyResizeGetOffset (HWND hwndDlg, HWND hwndControl, int nWidth, int nHeight, int* nDx, int* nDy)
 {
 	RECT rcinit;
 
@@ -172,147 +164,147 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 	HANDLE hContact;
 	char sztemp[1024]="";
 	static HIMAGELIST hIml=NULL;
-	
-	switch(Message)
-    {
-		case WM_INITDIALOG:
-			TranslateDialogDefault(hwndDlg);
-			hContact = (HANDLE)lparam;
-			SetWindowLongPtr(hwndDlg,GWLP_USERDATA,lparam);
-			strcpy(sztemp,(char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0));
-			strcat(sztemp, ": ");
-			strcat(sztemp, Translate("last seen history"));
-			SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)sztemp);
-			SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_BIG, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
-			SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_SMALL, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
 
-//			LoadHistoryList(hContact, hwndDlg, IDC_HISTORYLIST);
+	switch(Message) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		hContact = (HANDLE)lparam;
+		SetWindowLongPtr(hwndDlg,GWLP_USERDATA,lparam);
+		strcpy(sztemp,(char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0));
+		strcat(sztemp, ": ");
+		strcat(sztemp, Translate("last seen history"));
+		SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)sztemp);
+		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_BIG, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
+		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_SMALL, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
 
-			if (DBGetContactSettingByte(hContact,S_MOD,"OnlineAlert",0))
-				SendDlgItemMessage(hwndDlg, IDC_STATUSCHANGE, BM_SETCHECK, (WPARAM)BST_CHECKED, 0);
-			{
-				hIml=ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,3,3);
-				ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_USERDETAILS)));
-				ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_DOWNARROW)));
-				ImageList_AddIcon(hIml,LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
-				SendDlgItemMessage(hwndDlg,IDC_DETAILS,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,0,ILD_NORMAL));
-				SendDlgItemMessage(hwndDlg,IDC_USERMENU,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,1,ILD_NORMAL));
-				SendDlgItemMessage(hwndDlg,IDC_SENDMSG,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,2,ILD_NORMAL));
-			}
+		//			LoadHistoryList(hContact, hwndDlg, IDC_HISTORYLIST);
 
-			//set-up tooltips
-			{
-				HWND hwndDlgToolTips;
-				TOOLINFO ti;
+		if ( db_get_b(hContact,S_MOD,"OnlineAlert",0))
+			SendDlgItemMessage(hwndDlg, IDC_STATUSCHANGE, BM_SETCHECK, (WPARAM)BST_CHECKED, 0);
+		{
+			hIml=ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,3,3);
+			ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_USERDETAILS)));
+			ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_DOWNARROW)));
+			ImageList_AddIcon(hIml,LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
+			SendDlgItemMessage(hwndDlg,IDC_DETAILS,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,0,ILD_NORMAL));
+			SendDlgItemMessage(hwndDlg,IDC_USERMENU,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,1,ILD_NORMAL));
+			SendDlgItemMessage(hwndDlg,IDC_SENDMSG,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,2,ILD_NORMAL));
+		}
 
-				hwndDlgToolTips = CreateWindowEx(WS_EX_TOPMOST,TOOLTIPS_CLASS,"",WS_POPUP,0,0,0,0,NULL,NULL,GetModuleHandle(NULL),NULL);
-				ZeroMemory(&ti,sizeof(ti));
-				ti.cbSize=sizeof(ti);
-				ti.uFlags=TTF_IDISHWND|TTF_SUBCLASS;
-				ti.uId=(UINT)GetDlgItem(hwndDlg,IDC_USERMENU);
-				ti.lpszText=Translate("User Menu");
-				SendMessage(hwndDlgToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
-				ti.uId=(UINT)GetDlgItem(hwndDlg,IDC_DETAILS);
-				ti.lpszText=Translate("View User's Details");
-				SendMessage(hwndDlgToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
-				ti.uId=(UINT)GetDlgItem(hwndDlg,IDC_SENDMSG);
-				ti.lpszText=Translate("Send Instant Message");
-				SendMessage(hwndDlgToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
-			}
+		//set-up tooltips
+		{
+			HWND hwndDlgToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
 
+			TOOLINFO ti = { sizeof(ti) };
+			ti.uFlags=TTF_IDISHWND|TTF_SUBCLASS;
+			ti.uId = (UINT)GetDlgItem(hwndDlg,IDC_USERMENU);
+			ti.lpszText = TranslateT("User Menu");
+			SendMessage(hwndDlgToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
+			ti.uId = (UINT)GetDlgItem(hwndDlg,IDC_DETAILS);
+			ti.lpszText = TranslateT("View User's Details");
+			SendMessage(hwndDlgToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
+			ti.uId = (UINT)GetDlgItem(hwndDlg,IDC_SENDMSG);
+			ti.lpszText = TranslateT("Send Instant Message");
+			SendMessage(hwndDlgToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
+		}
 
-			Utils_RestoreWindowPositionNoMove(hwndDlg,NULL,S_MOD,"History_");
-			ShowWindow(hwndDlg, SW_SHOW);
+		Utils_RestoreWindowPositionNoMove(hwndDlg,NULL,S_MOD,"History_");
+		ShowWindow(hwndDlg, SW_SHOW);
+		break;
+
+	case WM_MEASUREITEM:
+		return CallService(MS_CLIST_MENUMEASUREITEM,wparam,lparam);
+
+	case WM_DRAWITEM:
+		return CallService(MS_CLIST_MENUDRAWITEM,wparam,lparam);
+
+	case WM_COMMAND:
+		hContact=(HANDLE)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
+		if (CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wparam),MPCF_CONTACTMENU),(LPARAM)hContact))
 			break;
 
-		case WM_MEASUREITEM:
-			return CallService(MS_CLIST_MENUMEASUREITEM,wparam,lparam);
-		case WM_DRAWITEM:
-			return CallService(MS_CLIST_MENUDRAWITEM,wparam,lparam);
-        case WM_COMMAND:
-			hContact=(HANDLE)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-			if(CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wparam),MPCF_CONTACTMENU),(LPARAM)hContact))
-				break;
-            switch(LOWORD(wparam))
-            {
-				case IDCANCEL:
-					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-					break;
-				case IDOK:
-					if (SendDlgItemMessage(hwndDlg, IDC_STATUSCHANGE, BM_GETCHECK, 0, 0) == BST_CHECKED)
-						DBWriteContactSettingByte(hContact,S_MOD,"OnlineAlert",1);
-					else
-						DBWriteContactSettingByte(hContact,S_MOD,"OnlineAlert",0);
-					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-					break;
-				case IDC_USERMENU:
-					{	
-						RECT rc;
-						HMENU hMenu=(HMENU)CallService(MS_CLIST_MENUBUILDCONTACT,(WPARAM)hContact,0);
-						GetWindowRect(GetDlgItem(hwndDlg,IDC_USERMENU),&rc);
-						TrackPopupMenu(hMenu,0,rc.left,rc.bottom,0,hwndDlg,NULL);
-						DestroyMenu(hMenu);
-					}
-					break;
-				case IDC_DETAILS:
-					CallService(MS_USERINFO_SHOWDIALOG,(WPARAM)hContact,0);
-					break;
-				case IDC_SENDMSG:
-					CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
-					break;
-                case IDC_TEST:
-					debug(ParseString("Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r",hContact,0));
-					break;
-            }
+		switch(LOWORD(wparam)) {
+		case IDCANCEL:
+			SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 			break;
-		case WM_SIZE:
-			{
-				int dx, dy;
-				HDWP hDwp;
-
-				hDwp = BeginDeferWindowPos(6);
-				MyResizeGetOffset(hwndDlg, GetDlgItem(hwndDlg, IDC_HISTORYLIST), 
-						LOWORD(lparam)-15, HIWORD(lparam)-99, &dx, &dy);
-				hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_USERMENU), 
-						dx, 0, 0, 0);
-				hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_DETAILS), 
-						dx, 0, 0, 0);
-				hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_SENDMSG), 
-						dx, 0, 0, 0);
-				hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_HISTORYLIST), 
-						0, 0, dx, dy);
-				hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_STATUSCHANGE), 
-						0, dy, dx, 0);
-				hDwp = MyHorizCenterWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDOK), 
-						LOWORD(lparam), dy, 0);
-				EndDeferWindowPos(hDwp);
-			}				
+		case IDOK:
+			if (SendDlgItemMessage(hwndDlg, IDC_STATUSCHANGE, BM_GETCHECK, 0, 0) == BST_CHECKED)
+				db_set_b(hContact,S_MOD,"OnlineAlert",1);
+			else
+				db_set_b(hContact,S_MOD,"OnlineAlert",0);
+			SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 			break;
-		case WM_GETMINMAXINFO:
-			{
-				MINMAXINFO mmi;
-				CopyMemory (&mmi, (LPMINMAXINFO) lparam, sizeof (MINMAXINFO));
-
-				/* The minimum width in points*/
-				mmi.ptMinTrackSize.x = 200;
-				/* The minimum height in points*/
-				mmi.ptMinTrackSize.y = 190;
-
-				CopyMemory ((LPMINMAXINFO) lparam, &mmi, sizeof (MINMAXINFO));
+		case IDC_USERMENU:
+			{	
+				RECT rc;
+				HMENU hMenu=(HMENU)CallService(MS_CLIST_MENUBUILDCONTACT,(WPARAM)hContact,0);
+				GetWindowRect(GetDlgItem(hwndDlg,IDC_USERMENU),&rc);
+				TrackPopupMenu(hMenu,0,rc.left,rc.bottom,0,hwndDlg,NULL);
+				DestroyMenu(hMenu);
 			}
 			break;
+		case IDC_DETAILS:
+			CallService(MS_USERINFO_SHOWDIALOG,(WPARAM)hContact,0);
+			break;
+		case IDC_SENDMSG:
+			CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
+			break;
+		case IDC_TEST:
+			debug( ParseString( _T("Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r"), hContact, 0));
+			break;
+		}
+		break;
+	case WM_SIZE:
+		{
+			int dx, dy;
+			HDWP hDwp;
 
-        case WM_CLOSE:
-            DestroyWindow(hwndDlg);
-			WindowList_Remove(hWindowList,hwndDlg);
-			break;
-		case WM_DESTROY:
-			Utils_SaveWindowPosition(hwndDlg,NULL,S_MOD,"History_");
-			ImageList_Destroy(hIml);
-			break;
-        default:
-            return FALSE;
-    }
+			hDwp = BeginDeferWindowPos(6);
+			MyResizeGetOffset(hwndDlg, GetDlgItem(hwndDlg, IDC_HISTORYLIST), 
+				LOWORD(lparam)-15, HIWORD(lparam)-99, &dx, &dy);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_USERMENU), 
+				dx, 0, 0, 0);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_DETAILS), 
+				dx, 0, 0, 0);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_SENDMSG), 
+				dx, 0, 0, 0);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_HISTORYLIST), 
+				0, 0, dx, dy);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_STATUSCHANGE), 
+				0, dy, dx, 0);
+			hDwp = MyHorizCenterWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDOK), 
+				LOWORD(lparam), dy, 0);
+			EndDeferWindowPos(hDwp);
+		}				
+		break;
+
+	case WM_GETMINMAXINFO:
+		{
+			MINMAXINFO mmi;
+			CopyMemory (&mmi, (LPMINMAXINFO) lparam, sizeof (MINMAXINFO));
+
+			/* The minimum width in points*/
+			mmi.ptMinTrackSize.x = 200;
+			/* The minimum height in points*/
+			mmi.ptMinTrackSize.y = 190;
+
+			CopyMemory ((LPMINMAXINFO) lparam, &mmi, sizeof (MINMAXINFO));
+		}
+		break;
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		WindowList_Remove(hWindowList,hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		Utils_SaveWindowPosition(hwndDlg,NULL,S_MOD,"History_");
+		ImageList_Destroy(hIml);
+		break;
+
+	default:
+		return FALSE;
+	}
 	return TRUE;
 }
 

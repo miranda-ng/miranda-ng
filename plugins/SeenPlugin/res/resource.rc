@@ -26,17 +26,17 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE DISCARDABLE
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE DISCARDABLE
 BEGIN
     "#include <windows.h>\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE DISCARDABLE
 BEGIN
     "\r\n"
     "\0"
@@ -58,17 +58,17 @@ BEGIN
     GROUPBOX        "Last seen options",IDC_MAINGROUP,0,0,299,226,WS_GROUP
     CONTROL         "Last seen menuitem",IDC_MENUITEM,"Button",
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,6,12,132,10
-    CONTROL         "Show icon",IDC_SHOWICON,"Button",BS_AUTOCHECKBOX | 
+    CONTROL         "Show icon",IDC_SHOWICON,"Button",BS_AUTOCHECKBOX |
                     WS_GROUP | WS_TABSTOP,141,12,69,10
     EDITTEXT        IDC_MENUSTAMP,18,23,120,12,ES_AUTOHSCROLL | WS_GROUP
-    CONTROL         "Userinfo tab",IDC_USERINFO,"Button",BS_AUTOCHECKBOX | 
+    CONTROL         "Userinfo tab",IDC_USERINFO,"Button",BS_AUTOCHECKBOX |
                     WS_GROUP | WS_TABSTOP,6,42,140,10
     EDITTEXT        IDC_USERSTAMP,18,52,275,12,ES_AUTOHSCROLL | WS_GROUP
-    CONTROL         "Log to file",IDC_FILE,"Button",BS_AUTOCHECKBOX | 
+    CONTROL         "Log to file",IDC_FILE,"Button",BS_AUTOCHECKBOX |
                     WS_GROUP | WS_TABSTOP,6,72,132,10
     EDITTEXT        IDC_FILENAME,149,69,144,12,ES_AUTOHSCROLL
     EDITTEXT        IDC_FILESTAMP,18,83,275,12,ES_AUTOHSCROLL | WS_GROUP
-    CONTROL         "Log to history",IDC_HISTORY,"Button",BS_AUTOCHECKBOX | 
+    CONTROL         "Log to history",IDC_HISTORY,"Button",BS_AUTOCHECKBOX |
                     WS_GROUP | WS_TABSTOP,7,104,131,10
     LTEXT           "Maximum size",IDC_STATIC,183,102,51,9
     EDITTEXT        IDC_HISTORYSIZE,149,100,30,12,ES_AUTOHSCROLL | ES_NUMBER
@@ -80,10 +80,10 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,7,174,135,10
     CONTROL         "Enable 'Missed Ones' feature",IDC_MISSEDONES,"Button",
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,7,190,135,10
-    CONTROL         "Count times",IDC_COUNT,"Button",BS_AUTOCHECKBOX | 
+    CONTROL         "Count times",IDC_COUNT,"Button",BS_AUTOCHECKBOX |
                     WS_GROUP | WS_TABSTOP,18,202,100,10
     LTEXT           "Protocols to watch:",IDC_MAINGROUP,149,130,114,9
-    CONTROL         "Tree1",IDC_PROTOCOLLIST,"SysTreeView32",TVS_NOTOOLTIPS | 
+    CONTROL         "Tree1",IDC_PROTOCOLLIST,"SysTreeView32",TVS_NOTOOLTIPS |
                     WS_BORDER | WS_TABSTOP,149,140,144,81
 END
 
@@ -99,7 +99,7 @@ BEGIN
     RTEXT           "Title",IDC_LABTEXT,57,11,40,10
     EDITTEXT        IDC_POPUPSTAMP,100,9,50,12,ES_AUTOHSCROLL | WS_GROUP
     RTEXT           "Text",IDC_LABTTITLE,155,11,25,10
-    EDITTEXT        IDC_POPUPSTAMPTEXT,185,9,88,12,ES_AUTOHSCROLL | 
+    EDITTEXT        IDC_POPUPSTAMPTEXT,185,9,88,12,ES_AUTOHSCROLL |
                     WS_GROUP
     GROUPBOX        "PopUp Colors",IDC_STATIC,0,30,280,136,WS_GROUP
     RTEXT           "Online",IDC_STATIC,10,43,60,10
@@ -141,12 +141,12 @@ STYLE DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    EDITTEXT        IDC_INFOTEXT,6,6,210,122,ES_MULTILINE | ES_NOHIDESEL | 
+    EDITTEXT        IDC_INFOTEXT,6,6,210,122,ES_MULTILINE | ES_NOHIDESEL |
                     ES_READONLY | NOT WS_BORDER
 END
 
 IDD_MISSED DIALOGEX 0, 0, 160, 71
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP |
     WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Last seen plugin"
@@ -158,7 +158,7 @@ BEGIN
 END
 
 IDD_HISTORY DIALOGEX 0, 0, 200, 120
-STYLE DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
+STYLE DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP |
     WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -168,7 +168,7 @@ BEGIN
     PUSHBUTTON      "",IDC_USERMENU,146,5,15,13,BS_ICON | WS_TABSTOP
     PUSHBUTTON      "",IDC_DETAILS,163,5,15,13,BS_ICON  | WS_TABSTOP
     PUSHBUTTON      "",IDC_SENDMSG,180,5,15,13,BS_ICON  | WS_TABSTOP
-    LISTBOX         IDC_HISTORYLIST,5,20,190,59,LBS_NOINTEGRALHEIGHT | 
+    LISTBOX         IDC_HISTORYLIST,5,20,190,59,LBS_NOINTEGRALHEIGHT |
                     WS_VSCROLL | WS_TABSTOP
     CONTROL         "Alert when user status changes",IDC_STATUSCHANGE,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,5,86,190,8
@@ -181,7 +181,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO DISCARDABLE
 BEGIN
     IDD_OPTIONS, DIALOG
     BEGIN
@@ -221,48 +221,6 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,0,4,7
- PRODUCTVERSION 5,0,4,7
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004b0"
-        BEGIN
-            VALUE "Comments", "Last Seen Mod Plugin for Miranda NG\0"
-            VALUE "CompanyName", "Heiko Schillinger, YB\0"
-			VALUE "FileDescription", "Last Seen Plugin (NSN Compatible)\0"
-			VALUE "FileVersion", "5.0.4.7\0"
-            VALUE "InternalName", "Last Seen\0"
-            VALUE "LegalCopyright", "© 2001-2002 by Heiko Schillinger, 2003 by Bruno Rino, 2006 by YB\0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "seenplugin.dll\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", " Last Seen Plugin Mod\0"
-            VALUE "ProductVersion", "5.0.4.7\0"
-            VALUE "SpecialBuild", "\0"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1200
-    END
-END
-
 #endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -277,4 +235,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
