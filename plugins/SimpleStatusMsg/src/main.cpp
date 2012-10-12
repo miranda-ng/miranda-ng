@@ -1595,7 +1595,7 @@ static int AddTopToolbarButton(WPARAM wParam, LPARAM lParam)
 {
 	TTBButton ttbb = {0};
 	ttbb.cbSize = sizeof(ttbb);
-	ttbb.hIconHandleUp = GetIconHandle(IDI_CSMSG);
+	ttbb.hIconHandleUp = ttbb.hIconHandleDn = GetIconHandle(IDI_CSMSG);
 	ttbb.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttbb.name = ttbb.pszTooltipUp = LPGEN("Change Status Message");
