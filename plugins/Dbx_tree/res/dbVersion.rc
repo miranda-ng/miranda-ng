@@ -1,8 +1,8 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "dbVersion_rc.h"
+#include "..\src\dbVersion_rc.h"
 #define INTERFACE_VERSION_ONLY
-#include "Interface.h"
+#include "..\src\Interface.h"
 #undef INTERFACE_VERSION_ONLY
 
 #define APSTUDIO_READONLY_SYMBOLS
@@ -32,7 +32,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 
 1 TEXTINCLUDE 
 BEGIN
-    "dbVersion_rc.h\0"
+    "..\\src\\dbVersion_rc.h\0"
 END
 
 2 TEXTINCLUDE 

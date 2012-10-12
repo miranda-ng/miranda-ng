@@ -176,69 +176,64 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="dbConfig.rc" />
-    <ResourceCompile Include="dbVersion.rc" />
+    <ResourceCompile Include="res\dbConfig.rc" />
+    <ResourceCompile Include="res\dbVersion.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dbConfig_rc.h" />
-    <ClInclude Include="dbVersion_rc.h" />
-    <ClInclude Include="BTree.h" />
-    <ClInclude Include="DataBase.h" />
-    <ClInclude Include="Entities.h" />
-    <ClInclude Include="Events.h" />
-    <ClInclude Include="FileBTree.h" />
-    <ClInclude Include="intrinsics.h" />
-    <ClInclude Include="Settings.h" />
-    <ClInclude Include="encryption\Cipher.h" />
-    <ClInclude Include="EncryptionManager.h" />
-    <ClInclude Include="SHA256.h" />
-    <ClInclude Include="BlockManager.h" />
-    <ClInclude Include="DirectAccess.h" />
-    <ClInclude Include="FileAccess.h" />
-    <ClInclude Include="MappedMemory.h" />
-    <ClInclude Include="Compatibility.h" />
-    <ClInclude Include="DatabaseLink.h" />
-    <ClInclude Include="Interface.h" />
-    <ClInclude Include="Services.h" />
-    <ClInclude Include="Hash.h" />
-    <ClInclude Include="inttypes.h" />
-    <ClInclude Include="IterationHeap.h" />
-    <ClInclude Include="lockfree_hashmap.h" />
-    <ClInclude Include="lockfree_hashmultimap.h" />
-    <ClInclude Include="Logger.h" />
-    <ClInclude Include="MREWSync.h" />
-    <ClInclude Include="savestrings_gcc.h" />
-    <ClInclude Include="sigslot.h" />
-    <ClInclude Include="stdint.h" />
-    <ClInclude Include="Thread.h" />
-    <ClInclude Include="TLS.h" />
+    <ClInclude Include="src\dbConfig_rc.h" />
+    <ClInclude Include="src\dbVersion_rc.h" />
+    <ClInclude Include="src\BTree.h" />
+    <ClInclude Include="src\DataBase.h" />
+    <ClInclude Include="src\Entities.h" />
+    <ClInclude Include="src\Events.h" />
+    <ClInclude Include="src\FileBTree.h" />
+    <ClInclude Include="src\intrinsics.h" />
+    <ClInclude Include="src\Settings.h" />
+    <ClInclude Include="src\encryption\Cipher.h" />
+    <ClInclude Include="src\EncryptionManager.h" />
+    <ClInclude Include="src\SHA256.h" />
+    <ClInclude Include="src\BlockManager.h" />
+    <ClInclude Include="src\DirectAccess.h" />
+    <ClInclude Include="src\FileAccess.h" />
+    <ClInclude Include="src\MappedMemory.h" />
+    <ClInclude Include="src\Compatibility.h" />
+    <ClInclude Include="src\DatabaseLink.h" />
+    <ClInclude Include="src\Interface.h" />
+    <ClInclude Include="src\Services.h" />
+    <ClInclude Include="src\Hash.h" />
+    <ClInclude Include="src\inttypes.h" />
+    <ClInclude Include="src\IterationHeap.h" />
+    <ClInclude Include="src\lockfree_hashmap.h" />
+    <ClInclude Include="src\lockfree_hashmultimap.h" />
+    <ClInclude Include="src\Logger.h" />
+    <ClInclude Include="src\MREWSync.h" />
+    <ClInclude Include="src\savestrings_gcc.h" />
+    <ClInclude Include="src\sigslot.h" />
+    <ClInclude Include="src\stdint.h" />
+    <ClInclude Include="src\Thread.h" />
+    <ClInclude Include="src\TLS.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DataBase.cpp" />
-    <ClCompile Include="Entities.cpp" />
-    <ClCompile Include="Events.cpp" />
-    <ClCompile Include="Settings.cpp" />
-    <ClCompile Include="BlockManager.cpp" />
-    <ClCompile Include="DirectAccess.cpp" />
-    <ClCompile Include="FileAccess.cpp" />
-    <ClCompile Include="MappedMemory.cpp" />
-    <ClCompile Include="EncryptionManager.cpp" />
-    <ClCompile Include="SHA256.cpp" />
-    <ClCompile Include="Compatibility.cpp" />
-    <ClCompile Include="DatabaseLink.cpp" />
-    <ClCompile Include="init.cpp" />
-    <ClCompile Include="Services.cpp" />
-    <ClCompile Include="Hash.cpp" />
-    <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="MREWSync.cpp" />
-    <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="src\DataBase.cpp" />
+    <ClCompile Include="src\Entities.cpp" />
+    <ClCompile Include="src\Events.cpp" />
+    <ClCompile Include="src\Settings.cpp" />
+    <ClCompile Include="src\BlockManager.cpp" />
+    <ClCompile Include="src\DirectAccess.cpp" />
+    <ClCompile Include="src\FileAccess.cpp" />
+    <ClCompile Include="src\MappedMemory.cpp" />
+    <ClCompile Include="src\EncryptionManager.cpp" />
+    <ClCompile Include="src\SHA256.cpp" />
+    <ClCompile Include="src\Compatibility.cpp" />
+    <ClCompile Include="src\DatabaseLink.cpp" />
+    <ClCompile Include="src\init.cpp" />
+    <ClCompile Include="src\Services.cpp" />
+    <ClCompile Include="src\Hash.cpp" />
+    <ClCompile Include="src\Logger.cpp" />
+    <ClCompile Include="src\MREWSync.cpp" />
+    <ClCompile Include="src\Thread.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties RESOURCE_FILE="dbx_tree.rc" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

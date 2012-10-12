@@ -15,16 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Cipher.h">
+    <ClCompile Include="src\CAST128.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\CAST128.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HC256.h">
+    <ClInclude Include="..\Common\Cipher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HC256.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <None Include="src\CAST128.inc">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

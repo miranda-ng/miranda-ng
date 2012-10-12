@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ARC4.h">
+    <ClInclude Include="src\ARC4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Cipher.h">
+    <ClInclude Include="..\Common\Cipher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ARC4.cpp">
+    <ClCompile Include="src\ARC4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
