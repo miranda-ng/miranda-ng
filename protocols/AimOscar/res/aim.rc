@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -297,34 +297,34 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_AIM                 ICON                    "icons/oscar.ico"
-IDI_ADD                 ICON                    "icons/add.ico"
-IDI_ICQ                 ICON                    "icons/icq.ico"
-IDI_AOL                 ICON                    "icons/aol.ico"
-IDI_HIPTOP              ICON                    "icons/hiptop.ico"
-IDI_BOT                 ICON                    "icons/bot.ico"
-IDI_ADMIN               ICON                    "icons/admin.ico"
-IDI_CONFIRMED           ICON                    "icons/confirmed.ico"
-IDI_UNCONFIRMED         ICON                    "icons/unconfirmed.ico"
-IDI_AWAY                ICON                    "icons/away.ico"
-IDI_IDLE                ICON                    "icons/idle.ico"
-IDI_PROFILE             ICON                    "icons/profile.ico"
-IDI_MAIL                ICON                    "icons/inbox.ico"
-IDI_BOLD                ICON                    "icons/bold.ico"
-IDI_NBOLD               ICON                    "icons/nbold.ico"
-IDI_NITALIC             ICON                    "icons/nitalic.ico"
-IDI_ITALIC              ICON                    "icons/italic.ico"
-IDI_NUNDERLINE          ICON                    "icons/nunderline.ico"
-IDI_UNDERLINE           ICON                    "icons/underline.ico"
-IDI_NSUPERSCRIPT        ICON                    "icons/nsuperscript.ico"
-IDI_NSUBSCRIPT          ICON                    "icons/nsubscript.ico"
-IDI_FOREGROUNDCOLOR     ICON                    "icons/foregroundcolor.ico"
-IDI_BACKGROUNDCOLOR     ICON                    "icons/backgroundcolor.ico"
-IDI_NNORMALSCRIPT       ICON                    "icons/nnormalscript.ico"
-IDI_NORMALSCRIPT        ICON                    "icons/normalscript.ico"
-IDI_SUBSCRIPT           ICON                    "icons/subscript.ico"
-IDI_SUPERSCRIPT         ICON                    "icons/superscript.ico"
-IDI_BLOCK               ICON                    "icons/block.ico"
+IDI_AIM                 ICON                    "oscar.ico"
+IDI_ADD                 ICON                    "add.ico"
+IDI_ICQ                 ICON                    "icq.ico"
+IDI_AOL                 ICON                    "aol.ico"
+IDI_HIPTOP              ICON                    "hiptop.ico"
+IDI_BOT                 ICON                    "bot.ico"
+IDI_ADMIN               ICON                    "admin.ico"
+IDI_CONFIRMED           ICON                    "confirmed.ico"
+IDI_UNCONFIRMED         ICON                    "unconfirmed.ico"
+IDI_AWAY                ICON                    "away.ico"
+IDI_IDLE                ICON                    "idle.ico"
+IDI_PROFILE             ICON                    "profile.ico"
+IDI_MAIL                ICON                    "inbox.ico"
+IDI_BOLD                ICON                    "bold.ico"
+IDI_NBOLD               ICON                    "nbold.ico"
+IDI_NITALIC             ICON                    "nitalic.ico"
+IDI_ITALIC              ICON                    "italic.ico"
+IDI_NUNDERLINE          ICON                    "nunderline.ico"
+IDI_UNDERLINE           ICON                    "underline.ico"
+IDI_NSUPERSCRIPT        ICON                    "nsuperscript.ico"
+IDI_NSUBSCRIPT          ICON                    "nsubscript.ico"
+IDI_FOREGROUNDCOLOR     ICON                    "foregroundcolor.ico"
+IDI_BACKGROUNDCOLOR     ICON                    "backgroundcolor.ico"
+IDI_NNORMALSCRIPT       ICON                    "nnormalscript.ico"
+IDI_NORMALSCRIPT        ICON                    "normalscript.ico"
+IDI_SUBSCRIPT           ICON                    "subscript.ico"
+IDI_SUPERSCRIPT         ICON                    "superscript.ico"
+IDI_BLOCK               ICON                    "block.ico"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

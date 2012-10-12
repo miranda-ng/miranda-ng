@@ -15,223 +15,137 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="aim.cpp">
+    <ClCompile Include="src\aim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="avatars.cpp">
+    <ClCompile Include="src\avatars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="away.cpp">
+    <ClCompile Include="src\away.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chat.cpp">
+    <ClCompile Include="src\chat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="client.cpp">
+    <ClCompile Include="src\client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="connection.cpp">
+    <ClCompile Include="src\connection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="conv.cpp">
+    <ClCompile Include="src\conv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="direct_connect.cpp">
+    <ClCompile Include="src\direct_connect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="error.cpp">
+    <ClCompile Include="src\error.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="file.cpp">
+    <ClCompile Include="src\file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="flap.cpp">
+    <ClCompile Include="src\flap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="links.cpp">
+    <ClCompile Include="src\links.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="packets.cpp">
+    <ClCompile Include="src\packets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="popup.cpp">
+    <ClCompile Include="src\popup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="proto.cpp">
+    <ClCompile Include="src\proto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="proxy.cpp">
+    <ClCompile Include="src\proxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="server.cpp">
+    <ClCompile Include="src\server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="services.cpp">
+    <ClCompile Include="src\services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="snac.cpp">
+    <ClCompile Include="src\snac.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="theme.cpp">
+    <ClCompile Include="src\theme.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="thread.cpp">
+    <ClCompile Include="src\thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tlv.cpp">
+    <ClCompile Include="src\tlv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ui.cpp">
+    <ClCompile Include="src\ui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utility.cpp">
+    <ClCompile Include="src\utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\add.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\admin.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\aol.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\away.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\backgroundcolor.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\block.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\bold.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\bot.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\confirmed.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\foregroundcolor.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\hiptop.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\icq.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\idle.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\inbox.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\italic.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\nbold.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\nitalic.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\nnormalscript.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\normalscript.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\nsubscript.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\nsuperscript.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\nunderline.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\oscar.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\profile.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\subscript.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\superscript.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\unconfirmed.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\underline.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="aim.rc">
+    <ResourceCompile Include="res\aim.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="aim.h">
+    <ClInclude Include="src\aim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="avatars.h">
+    <ClInclude Include="src\avatars.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="conv.h">
+    <ClInclude Include="src\conv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="direct_connect.h">
+    <ClInclude Include="src\direct_connect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="file.h">
+    <ClInclude Include="src\file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="flap.h">
+    <ClInclude Include="src\flap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="links.h">
+    <ClInclude Include="src\links.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="packets.h">
+    <ClInclude Include="src\packets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="proto.h">
+    <ClInclude Include="src\proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="proxy.h">
+    <ClInclude Include="src\proxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="snac.h">
+    <ClInclude Include="src\snac.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="theme.h">
+    <ClInclude Include="src\theme.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tlv.h">
+    <ClInclude Include="src\tlv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ui.h">
+    <ClInclude Include="src\ui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="utility.h">
+    <ClInclude Include="src\utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
