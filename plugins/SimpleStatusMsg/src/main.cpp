@@ -353,7 +353,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 			DBVARIANT dbv;
 			BOOL rmark[25];
 
-			for (k = 0; k < 26; k++) rmark[k] = FALSE;
+			for (k = 0; k < SIZEOF(rmark); k++) rmark[k] = FALSE;
 			maxk = DBGetContactSettingByte(NULL, "SimpleStatusMsg", "MaxHist", 10);
 			if (maxk == 0) rmark[0] = TRUE;
 
@@ -401,7 +401,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 			DBVARIANT dbv;
 			BOOL rmark[25];
 
-			for (k = 0; k < 26; k++) rmark[k] = FALSE;
+			for (k = 0; k < SIZEOF(rmark); k++) rmark[k] = FALSE;
 			maxk = DBGetContactSettingWord(NULL, "SimpleStatusMsg", "DefMsgCount", 0);
 			if (maxk == 0) rmark[0] = TRUE;
 

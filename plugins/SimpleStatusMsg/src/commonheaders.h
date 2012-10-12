@@ -54,7 +54,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <m_icq.h>
 #include <win2k.h>
 
-#include "../../protocols/IcqOscarJ/icq_constants.h"
+#include "../../protocols/IcqOscarJ/src/icq_constants.h"
 #include "m_fortunemsg.h"
 #include "m_statusplugins.h"
 #include "m_toptoolbar.h"
