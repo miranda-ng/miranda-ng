@@ -128,8 +128,9 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 		// this file is not marked for deletion
 		if (tszNewName[0]) { 
 			// parse a relative name and extract a key for hashtable lookup
-			TCHAR *p = _tcschr(tszNewName, '\\');
-			_tcscpy(key, (p != NULL) ? p+1 : tszNewName);
+			TCHAR *ptszName = _tcschr(tszNewName, '\\');
+			ptszName = (ptszName != NULL) ? ptszName+1 : tszNewName;
+			_tcscpy(key, ptszName);
 			_tcslwr(key);
 			ServListEntry tmp = {NULL, key};
 			ServListEntry *item = hashes.find(&tmp);
@@ -143,7 +144,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 				if ((item = hashes.find(&tmp)) == NULL)
 					continue;
 
-				strdel(tszNewName+iPos, 1);
+				strdel(ptszName+iPos, 1);
 			}
 
 			PrepareFileName(key, SIZEOF(key), NULL, item->m_name);
