@@ -72,7 +72,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;libgadu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;src\libgadu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;GG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -101,7 +101,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;libgadu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;src\libgadu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;GG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -131,7 +131,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;libgadu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;src\libgadu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;GG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -164,7 +164,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;libgadu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;src\libgadu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;GG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -193,104 +193,82 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="avatar.cpp" />
-    <ClCompile Include="core.cpp" />
-    <ClCompile Include="dialogs.cpp" />
-    <ClCompile Include="dynstuff.cpp" />
-    <ClCompile Include="filetransfer.cpp" />
-    <ClCompile Include="gg.cpp">
+    <ClCompile Include="src\avatar.cpp" />
+    <ClCompile Include="src\core.cpp" />
+    <ClCompile Include="src\dialogs.cpp" />
+    <ClCompile Include="src\dynstuff.cpp" />
+    <ClCompile Include="src\filetransfer.cpp" />
+    <ClCompile Include="src\gg.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="gg_proto.cpp" />
-    <ClCompile Include="groupchat.cpp" />
-    <ClCompile Include="icolib.cpp" />
-    <ClCompile Include="image.cpp" />
-    <ClCompile Include="import.cpp" />
-    <ClCompile Include="keepalive.cpp" />
-    <ClCompile Include="links.cpp" />
-    <ClCompile Include="oauth.cpp" />
-    <ClCompile Include="ownerinfo.cpp" />
-    <ClCompile Include="popups.cpp" />
-    <ClCompile Include="services.cpp" />
-    <ClCompile Include="sessions.cpp" />
-    <ClCompile Include="token.cpp" />
-    <ClCompile Include="userutils.cpp" />
-    <ClCompile Include="libgadu\common.c">
+    <ClCompile Include="src\gg_proto.cpp" />
+    <ClCompile Include="src\groupchat.cpp" />
+    <ClCompile Include="src\icolib.cpp" />
+    <ClCompile Include="src\image.cpp" />
+    <ClCompile Include="src\import.cpp" />
+    <ClCompile Include="src\keepalive.cpp" />
+    <ClCompile Include="src\links.cpp" />
+    <ClCompile Include="src\oauth.cpp" />
+    <ClCompile Include="src\ownerinfo.cpp" />
+    <ClCompile Include="src\popups.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\sessions.cpp" />
+    <ClCompile Include="src\token.cpp" />
+    <ClCompile Include="src\userutils.cpp" />
+    <ClCompile Include="src\libgadu\common.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libgadu\dcc.c">
+    <ClCompile Include="src\libgadu\dcc.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libgadu\dcc7.c">
+    <ClCompile Include="src\libgadu\dcc7.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libgadu\events.c">
+    <ClCompile Include="src\libgadu\events.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libgadu\http.c">
+    <ClCompile Include="src\libgadu\http.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libgadu\libgadu.c">
+    <ClCompile Include="src\libgadu\libgadu.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libgadu\pthread.c">
+    <ClCompile Include="src\libgadu\pthread.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libgadu\pubdir.c">
+    <ClCompile Include="src\libgadu\pubdir.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libgadu\pubdir50.c">
+    <ClCompile Include="src\libgadu\pubdir50.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libgadu\resolver.c">
+    <ClCompile Include="src\libgadu\resolver.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libgadu\sha1.c">
+    <ClCompile Include="src\libgadu\sha1.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libgadu\win32.c">
+    <ClCompile Include="src\libgadu\win32.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gg_proto.h" />
-    <ClInclude Include="libgadu\compat.h" />
-    <ClInclude Include="libgadu\internal.h" />
-    <ClInclude Include="libgadu\libgadu.h" />
-    <ClInclude Include="libgadu\protocol.h" />
-    <ClInclude Include="libgadu\pthread.h" />
-    <ClInclude Include="libgadu\resolver.h" />
-    <ClInclude Include="libgadu\win32.h" />
-    <ClInclude Include="dynstuff.h" />
-    <ClInclude Include="gg.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="version.h" />
+    <ClInclude Include="src\gg_proto.h" />
+    <ClInclude Include="src\libgadu\compat.h" />
+    <ClInclude Include="src\libgadu\internal.h" />
+    <ClInclude Include="src\libgadu\libgadu.h" />
+    <ClInclude Include="src\libgadu\protocol.h" />
+    <ClInclude Include="src\libgadu\pthread.h" />
+    <ClInclude Include="src\libgadu\resolver.h" />
+    <ClInclude Include="src\libgadu\win32.h" />
+    <ClInclude Include="src\dynstuff.h" />
+    <ClInclude Include="src\gg.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\block.ico" />
-    <None Include="icons\clear_ignored_conference.ico" />
-    <None Include="icons\conference.ico" />
-    <None Include="icons\delete.ico" />
-    <None Include="icons\export_list_to_server.ico" />
-    <None Include="icons\export_list_to_txt_file.ico" />
-    <None Include="icons\gg.ico" />
-    <None Include="icons\image.ico" />
-    <None Include="icons\import_list_from_server.ico" />
-    <None Include="icons\import_list_from_txt_file.ico" />
-    <None Include="icons\list.ico" />
-    <None Include="icons\next.ico" />
-    <None Include="icons\previous.ico" />
-    <None Include="icons\remove_list_from_server.ico" />
-    <None Include="icons\save.ico" />
-    <None Include="icons\sessions.ico" />
-    <None Include="icons\settings.ico" />
-    <None Include="docs\build-howto.txt" />
-    <None Include="docs\gg-license.txt" />
-    <None Include="docs\gg-readme.txt" />
-    <None Include="docs\gg-translation-sample.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
