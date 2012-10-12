@@ -43,12 +43,12 @@ Last change by : $Author: rainwater $
 #include "newpluginapi.h"
 #include "version.h"
 
-#include "../Source/libpng/png.h"
+#include "libpng/png.h"
 
 static const PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
-	__VERSION_DWORD,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
 	__AUTHOR,
 	__AUTHOREMAIL,
@@ -479,11 +479,6 @@ long __stdcall fiio_mem_TellProc(fi_handle handle) {
 }
 
 */
-
-extern "C" DWORD __declspec(dllexport) getver( void )
-{
-	return __VERSION_DWORD;
-}
 
 // PNG image handler functions
 

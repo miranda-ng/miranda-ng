@@ -74,7 +74,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -102,7 +102,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -128,7 +128,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -154,7 +154,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -185,170 +185,171 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\FreeImage\BitmapAccess.cpp" />
-    <ClCompile Include="Source\FreeImage\ColorLookup.cpp" />
-    <ClCompile Include="Source\FreeImage\ConversionFloat.cpp" />
-    <ClCompile Include="Source\FreeImage\ConversionRGB16.cpp" />
-    <ClCompile Include="Source\FreeImage\ConversionUINT16.cpp" />
-    <ClCompile Include="Source\FreeImage\FreeImage.cpp" />
-    <ClCompile Include="Source\FreeImage\FreeImageC.c" />
-    <ClCompile Include="Source\FreeImage\FreeImageIO.cpp" />
-    <ClCompile Include="Source\FreeImage\GetType.cpp" />
-    <ClCompile Include="Source\FreeImage\MemoryIO.cpp" />
-    <ClCompile Include="Source\FreeImage\PixelAccess.cpp" />
-    <ClCompile Include="Source\FreeImage\Plugin.cpp" />
-    <ClCompile Include="Source\FreeImage\PluginBMP.cpp" />
-    <ClCompile Include="Source\FreeImage\PluginCUT.cpp" />
-    <ClCompile Include="Source\FreeImage\PluginGIF.cpp" />
-    <ClCompile Include="Source\FreeImage\PluginICO.cpp" />
-    <ClCompile Include="Source\FreeImage\PluginJPEG.cpp" />
-    <ClCompile Include="Source\FreeImage\PluginPNG.cpp" />
-    <ClCompile Include="Source\FreeImage\Conversion.cpp" />
-    <ClCompile Include="Source\FreeImage\Conversion16_555.cpp" />
-    <ClCompile Include="Source\FreeImage\Conversion16_565.cpp" />
-    <ClCompile Include="Source\FreeImage\Conversion24.cpp" />
-    <ClCompile Include="Source\FreeImage\Conversion32.cpp" />
-    <ClCompile Include="Source\FreeImage\Conversion4.cpp" />
-    <ClCompile Include="Source\FreeImage\Conversion8.cpp" />
-    <ClCompile Include="Source\FreeImage\ConversionRGBF.cpp" />
-    <ClCompile Include="Source\FreeImage\ConversionType.cpp" />
-    <ClCompile Include="Source\FreeImage\Halftoning.cpp" />
-    <ClCompile Include="Source\FreeImageToolkit\MultigridPoissonSolver.cpp" />
-    <ClCompile Include="Source\FreeImage\tmoColorConvert.cpp" />
-    <ClCompile Include="Source\FreeImage\tmoDrago03.cpp" />
-    <ClCompile Include="Source\FreeImage\tmoFattal02.cpp" />
-    <ClCompile Include="Source\FreeImage\tmoReinhard05.cpp" />
-    <ClCompile Include="Source\FreeImage\ToneMapping.cpp" />
-    <ClCompile Include="Source\FreeImage\NNQuantizer.cpp" />
-    <ClCompile Include="Source\FreeImage\WuQuantizer.cpp" />
-    <ClCompile Include="Source\FreeImage\CacheFile.cpp" />
-    <ClCompile Include="Source\FreeImage\MultiPage.cpp" />
-    <ClCompile Include="Source\FreeImage\ZLibInterface.cpp" />
-    <ClCompile Include="Source\LibJPEG\jaricom.c" />
-    <ClCompile Include="Source\LibJPEG\jcarith.c" />
-    <ClCompile Include="Source\LibJPEG\jdarith.c" />
-    <ClCompile Include="Source\LibJPEG\jdhuff.c" />
-    <ClCompile Include="Source\Metadata\Exif.cpp" />
-    <ClCompile Include="Source\Metadata\FIRational.cpp" />
-    <ClCompile Include="Source\Metadata\FreeImageTag.cpp" />
-    <ClCompile Include="Source\Metadata\IPTC.cpp" />
-    <ClCompile Include="Source\Metadata\TagConversion.cpp" />
-    <ClCompile Include="Source\Metadata\TagLib.cpp" />
-    <ClCompile Include="Miranda\main.cpp" />
-    <ClCompile Include="Source\LibJPEG\jcapimin.c" />
-    <ClCompile Include="Source\LibJPEG\jcapistd.c" />
-    <ClCompile Include="Source\LibJPEG\jccoefct.c" />
-    <ClCompile Include="Source\LibJPEG\jccolor.c" />
-    <ClCompile Include="Source\LibJPEG\jcdctmgr.c" />
-    <ClCompile Include="Source\LibJPEG\jchuff.c" />
-    <ClCompile Include="Source\LibJPEG\jcinit.c" />
-    <ClCompile Include="Source\LibJPEG\jcmainct.c" />
-    <ClCompile Include="Source\LibJPEG\jcmarker.c" />
-    <ClCompile Include="Source\LibJPEG\jcmaster.c" />
-    <ClCompile Include="Source\LibJPEG\jcomapi.c" />
-    <ClCompile Include="Source\LibJPEG\jcparam.c" />
-    <ClCompile Include="Source\LibJPEG\jcprepct.c" />
-    <ClCompile Include="Source\LibJPEG\jcsample.c" />
-    <ClCompile Include="Source\LibJPEG\jctrans.c" />
-    <ClCompile Include="Source\LibJPEG\jdapimin.c" />
-    <ClCompile Include="Source\LibJPEG\jdapistd.c" />
-    <ClCompile Include="Source\LibJPEG\jdatadst.c" />
-    <ClCompile Include="Source\LibJPEG\jdatasrc.c" />
-    <ClCompile Include="Source\LibJPEG\jdcoefct.c" />
-    <ClCompile Include="Source\LibJPEG\jdcolor.c" />
-    <ClCompile Include="Source\LibJPEG\jddctmgr.c" />
-    <ClCompile Include="Source\LibJPEG\jdinput.c" />
-    <ClCompile Include="Source\LibJPEG\jdmainct.c" />
-    <ClCompile Include="Source\LibJPEG\jdmarker.c" />
-    <ClCompile Include="Source\LibJPEG\jdmaster.c" />
-    <ClCompile Include="Source\LibJPEG\jdmerge.c" />
-    <ClCompile Include="Source\LibJPEG\jdpostct.c" />
-    <ClCompile Include="Source\LibJPEG\jdsample.c" />
-    <ClCompile Include="Source\LibJPEG\jdtrans.c" />
-    <ClCompile Include="Source\LibJPEG\jerror.c" />
-    <ClCompile Include="Source\LibJPEG\jfdctflt.c" />
-    <ClCompile Include="Source\LibJPEG\jfdctfst.c" />
-    <ClCompile Include="Source\LibJPEG\jfdctint.c" />
-    <ClCompile Include="Source\LibJPEG\jidctflt.c" />
-    <ClCompile Include="Source\LibJPEG\jidctfst.c" />
-    <ClCompile Include="Source\LibJPEG\jidctint.c" />
-    <ClCompile Include="Source\LibJPEG\jmemmgr.c" />
-    <ClCompile Include="Source\LibJPEG\jmemnobs.c" />
-    <ClCompile Include="Source\LibJPEG\jquant1.c" />
-    <ClCompile Include="Source\LibJPEG\jquant2.c" />
-    <ClCompile Include="Source\LibJPEG\jutils.c" />
-    <ClCompile Include="Source\LibJPEG\rdbmp.c" />
-    <ClCompile Include="Source\LibJPEG\rdcolmap.c" />
-    <ClCompile Include="Source\LibJPEG\rdgif.c" />
-    <ClCompile Include="Source\LibJPEG\rdppm.c" />
-    <ClCompile Include="Source\LibJPEG\rdrle.c" />
-    <ClCompile Include="Source\LibJPEG\rdswitch.c" />
-    <ClCompile Include="Source\LibJPEG\rdtarga.c" />
-    <ClCompile Include="Source\LibJPEG\transupp.c" />
-    <ClCompile Include="Source\LibJPEG\wrbmp.c" />
-    <ClCompile Include="Source\LibJPEG\wrgif.c" />
-    <ClCompile Include="Source\LibJPEG\wrppm.c" />
-    <ClCompile Include="Source\LibJPEG\wrrle.c" />
-    <ClCompile Include="Source\LibJPEG\wrtarga.c" />
-    <ClCompile Include="Source\LibPNG\png.c" />
-    <ClCompile Include="Source\LibPNG\pngerror.c" />
-    <ClCompile Include="Source\LibPNG\pngget.c" />
-    <ClCompile Include="Source\LibPNG\pngmem.c" />
-    <ClCompile Include="Source\LibPNG\pngpread.c" />
-    <ClCompile Include="Source\LibPNG\pngread.c" />
-    <ClCompile Include="Source\LibPNG\pngrio.c" />
-    <ClCompile Include="Source\LibPNG\pngrtran.c" />
-    <ClCompile Include="Source\LibPNG\pngrutil.c" />
-    <ClCompile Include="Source\LibPNG\pngset.c" />
-    <ClCompile Include="Source\LibPNG\pngtrans.c" />
-    <ClCompile Include="Source\LibPNG\pngwio.c" />
-    <ClCompile Include="Source\LibPNG\pngwrite.c" />
-    <ClCompile Include="Source\LibPNG\pngwtran.c" />
-    <ClCompile Include="Source\LibPNG\pngwutil.c" />
-    <ClCompile Include="Source\FreeImageToolkit\BSplineRotate.cpp" />
-    <ClCompile Include="Source\FreeImageToolkit\Channels.cpp" />
-    <ClCompile Include="Source\FreeImageToolkit\ClassicRotate.cpp" />
-    <ClCompile Include="Source\FreeImageToolkit\Colors.cpp" />
-    <ClCompile Include="Source\FreeImageToolkit\CopyPaste.cpp" />
-    <ClCompile Include="Source\FreeImageToolkit\Display.cpp" />
-    <ClCompile Include="Source\FreeImageToolkit\Flip.cpp" />
-    <ClCompile Include="Source\FreeImageToolkit\JPEGTransform.cpp" />
-    <ClCompile Include="Source\FreeImageToolkit\Rescale.cpp" />
-    <ClCompile Include="Source\FreeImageToolkit\Resize.cpp" />
+    <ClCompile Include="src\FreeImage\BitmapAccess.cpp" />
+    <ClCompile Include="src\FreeImage\ColorLookup.cpp" />
+    <ClCompile Include="src\FreeImage\ConversionFloat.cpp" />
+    <ClCompile Include="src\FreeImage\ConversionRGB16.cpp" />
+    <ClCompile Include="src\FreeImage\ConversionUINT16.cpp" />
+    <ClCompile Include="src\FreeImage\FreeImage.cpp" />
+    <ClCompile Include="src\FreeImage\FreeImageC.c" />
+    <ClCompile Include="src\FreeImage\FreeImageIO.cpp" />
+    <ClCompile Include="src\FreeImage\GetType.cpp" />
+    <ClCompile Include="src\FreeImage\MemoryIO.cpp" />
+    <ClCompile Include="src\FreeImage\PixelAccess.cpp" />
+    <ClCompile Include="src\FreeImage\Plugin.cpp" />
+    <ClCompile Include="src\FreeImage\PluginBMP.cpp" />
+    <ClCompile Include="src\FreeImage\PluginCUT.cpp" />
+    <ClCompile Include="src\FreeImage\PluginGIF.cpp" />
+    <ClCompile Include="src\FreeImage\PluginICO.cpp" />
+    <ClCompile Include="src\FreeImage\PluginJPEG.cpp" />
+    <ClCompile Include="src\FreeImage\PluginPNG.cpp" />
+    <ClCompile Include="src\FreeImage\Conversion.cpp" />
+    <ClCompile Include="src\FreeImage\Conversion16_555.cpp" />
+    <ClCompile Include="src\FreeImage\Conversion16_565.cpp" />
+    <ClCompile Include="src\FreeImage\Conversion24.cpp" />
+    <ClCompile Include="src\FreeImage\Conversion32.cpp" />
+    <ClCompile Include="src\FreeImage\Conversion4.cpp" />
+    <ClCompile Include="src\FreeImage\Conversion8.cpp" />
+    <ClCompile Include="src\FreeImage\ConversionRGBF.cpp" />
+    <ClCompile Include="src\FreeImage\ConversionType.cpp" />
+    <ClCompile Include="src\FreeImage\Halftoning.cpp" />
+    <ClCompile Include="src\FreeImageToolkit\MultigridPoissonSolver.cpp" />
+    <ClCompile Include="src\FreeImage\tmoColorConvert.cpp" />
+    <ClCompile Include="src\FreeImage\tmoDrago03.cpp" />
+    <ClCompile Include="src\FreeImage\tmoFattal02.cpp" />
+    <ClCompile Include="src\FreeImage\tmoReinhard05.cpp" />
+    <ClCompile Include="src\FreeImage\ToneMapping.cpp" />
+    <ClCompile Include="src\FreeImage\NNQuantizer.cpp" />
+    <ClCompile Include="src\FreeImage\WuQuantizer.cpp" />
+    <ClCompile Include="src\FreeImage\CacheFile.cpp" />
+    <ClCompile Include="src\FreeImage\MultiPage.cpp" />
+    <ClCompile Include="src\FreeImage\ZLibInterface.cpp" />
+    <ClCompile Include="src\LibJPEG\jaricom.c" />
+    <ClCompile Include="src\LibJPEG\jcarith.c" />
+    <ClCompile Include="src\LibJPEG\jdarith.c" />
+    <ClCompile Include="src\LibJPEG\jdhuff.c" />
+    <ClCompile Include="src\Metadata\Exif.cpp" />
+    <ClCompile Include="src\Metadata\FIRational.cpp" />
+    <ClCompile Include="src\Metadata\FreeImageTag.cpp" />
+    <ClCompile Include="src\Metadata\IPTC.cpp" />
+    <ClCompile Include="src\Metadata\TagConversion.cpp" />
+    <ClCompile Include="src\Metadata\TagLib.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\LibJPEG\jcapimin.c" />
+    <ClCompile Include="src\LibJPEG\jcapistd.c" />
+    <ClCompile Include="src\LibJPEG\jccoefct.c" />
+    <ClCompile Include="src\LibJPEG\jccolor.c" />
+    <ClCompile Include="src\LibJPEG\jcdctmgr.c" />
+    <ClCompile Include="src\LibJPEG\jchuff.c" />
+    <ClCompile Include="src\LibJPEG\jcinit.c" />
+    <ClCompile Include="src\LibJPEG\jcmainct.c" />
+    <ClCompile Include="src\LibJPEG\jcmarker.c" />
+    <ClCompile Include="src\LibJPEG\jcmaster.c" />
+    <ClCompile Include="src\LibJPEG\jcomapi.c" />
+    <ClCompile Include="src\LibJPEG\jcparam.c" />
+    <ClCompile Include="src\LibJPEG\jcprepct.c" />
+    <ClCompile Include="src\LibJPEG\jcsample.c" />
+    <ClCompile Include="src\LibJPEG\jctrans.c" />
+    <ClCompile Include="src\LibJPEG\jdapimin.c" />
+    <ClCompile Include="src\LibJPEG\jdapistd.c" />
+    <ClCompile Include="src\LibJPEG\jdatadst.c" />
+    <ClCompile Include="src\LibJPEG\jdatasrc.c" />
+    <ClCompile Include="src\LibJPEG\jdcoefct.c" />
+    <ClCompile Include="src\LibJPEG\jdcolor.c" />
+    <ClCompile Include="src\LibJPEG\jddctmgr.c" />
+    <ClCompile Include="src\LibJPEG\jdinput.c" />
+    <ClCompile Include="src\LibJPEG\jdmainct.c" />
+    <ClCompile Include="src\LibJPEG\jdmarker.c" />
+    <ClCompile Include="src\LibJPEG\jdmaster.c" />
+    <ClCompile Include="src\LibJPEG\jdmerge.c" />
+    <ClCompile Include="src\LibJPEG\jdpostct.c" />
+    <ClCompile Include="src\LibJPEG\jdsample.c" />
+    <ClCompile Include="src\LibJPEG\jdtrans.c" />
+    <ClCompile Include="src\LibJPEG\jerror.c" />
+    <ClCompile Include="src\LibJPEG\jfdctflt.c" />
+    <ClCompile Include="src\LibJPEG\jfdctfst.c" />
+    <ClCompile Include="src\LibJPEG\jfdctint.c" />
+    <ClCompile Include="src\LibJPEG\jidctflt.c" />
+    <ClCompile Include="src\LibJPEG\jidctfst.c" />
+    <ClCompile Include="src\LibJPEG\jidctint.c" />
+    <ClCompile Include="src\LibJPEG\jmemmgr.c" />
+    <ClCompile Include="src\LibJPEG\jmemnobs.c" />
+    <ClCompile Include="src\LibJPEG\jquant1.c" />
+    <ClCompile Include="src\LibJPEG\jquant2.c" />
+    <ClCompile Include="src\LibJPEG\jutils.c" />
+    <ClCompile Include="src\LibJPEG\rdbmp.c" />
+    <ClCompile Include="src\LibJPEG\rdcolmap.c" />
+    <ClCompile Include="src\LibJPEG\rdgif.c" />
+    <ClCompile Include="src\LibJPEG\rdppm.c" />
+    <ClCompile Include="src\LibJPEG\rdrle.c" />
+    <ClCompile Include="src\LibJPEG\rdswitch.c" />
+    <ClCompile Include="src\LibJPEG\rdtarga.c" />
+    <ClCompile Include="src\LibJPEG\transupp.c" />
+    <ClCompile Include="src\LibJPEG\wrbmp.c" />
+    <ClCompile Include="src\LibJPEG\wrgif.c" />
+    <ClCompile Include="src\LibJPEG\wrppm.c" />
+    <ClCompile Include="src\LibJPEG\wrrle.c" />
+    <ClCompile Include="src\LibJPEG\wrtarga.c" />
+    <ClCompile Include="src\LibPNG\png.c" />
+    <ClCompile Include="src\LibPNG\pngerror.c" />
+    <ClCompile Include="src\LibPNG\pngget.c" />
+    <ClCompile Include="src\LibPNG\pngmem.c" />
+    <ClCompile Include="src\LibPNG\pngpread.c" />
+    <ClCompile Include="src\LibPNG\pngread.c" />
+    <ClCompile Include="src\LibPNG\pngrio.c" />
+    <ClCompile Include="src\LibPNG\pngrtran.c" />
+    <ClCompile Include="src\LibPNG\pngrutil.c" />
+    <ClCompile Include="src\LibPNG\pngset.c" />
+    <ClCompile Include="src\LibPNG\pngtrans.c" />
+    <ClCompile Include="src\LibPNG\pngwio.c" />
+    <ClCompile Include="src\LibPNG\pngwrite.c" />
+    <ClCompile Include="src\LibPNG\pngwtran.c" />
+    <ClCompile Include="src\LibPNG\pngwutil.c" />
+    <ClCompile Include="src\FreeImageToolkit\BSplineRotate.cpp" />
+    <ClCompile Include="src\FreeImageToolkit\Channels.cpp" />
+    <ClCompile Include="src\FreeImageToolkit\ClassicRotate.cpp" />
+    <ClCompile Include="src\FreeImageToolkit\Colors.cpp" />
+    <ClCompile Include="src\FreeImageToolkit\CopyPaste.cpp" />
+    <ClCompile Include="src\FreeImageToolkit\Display.cpp" />
+    <ClCompile Include="src\FreeImageToolkit\Flip.cpp" />
+    <ClCompile Include="src\FreeImageToolkit\JPEGTransform.cpp" />
+    <ClCompile Include="src\FreeImageToolkit\Rescale.cpp" />
+    <ClCompile Include="src\FreeImageToolkit\Resize.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="FreeImage.rc" />
+    <ResourceCompile Include="res\FreeImage.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\LibJPEG\cderror.h" />
-    <ClInclude Include="Source\LibJPEG\cdjpeg.h" />
-    <ClInclude Include="Source\LibJPEG\jconfig.h" />
-    <ClInclude Include="Source\LibJPEG\jdct.h" />
-    <ClInclude Include="Source\LibJPEG\jerror.h" />
-    <ClInclude Include="Source\LibJPEG\jinclude.h" />
-    <ClInclude Include="Source\LibJPEG\jmemsys.h" />
-    <ClInclude Include="Source\LibJPEG\jmorecfg.h" />
-    <ClInclude Include="Source\LibJPEG\jpegint.h" />
-    <ClInclude Include="Source\LibJPEG\jpeglib.h" />
-    <ClInclude Include="Source\LibJPEG\jversion.h" />
-    <ClInclude Include="Source\LibJPEG\transupp.h" />
-    <ClInclude Include="Source\LibPNG\png.h" />
-    <ClInclude Include="Source\LibPNG\pngconf.h" />
-    <ClInclude Include="Source\CacheFile.h" />
-    <ClInclude Include="Source\LibPNG\pngdebug.h" />
-    <ClInclude Include="Source\LibPNG\pnginfo.h" />
-    <ClInclude Include="Source\LibPNG\pnglibconf.h" />
-    <ClInclude Include="Source\LibPNG\pngpriv.h" />
-    <ClInclude Include="Source\Metadata\FIRational.h" />
-    <ClInclude Include="SOURCE\FreeImage.h" />
-    <ClInclude Include="Source\FreeImageIO.h" />
-    <ClInclude Include="Source\Metadata\FreeImageTag.h" />
-    <ClInclude Include="Source\Plugin.h" />
-    <ClInclude Include="Source\Quantizers.h" />
-    <ClInclude Include="Source\ToneMapping.h" />
-    <ClInclude Include="Source\Utilities.h" />
-    <ClInclude Include="Source\FreeImageToolkit\Resize.h" />
-    <ClInclude Include="Miranda\version.h" />
+    <ClInclude Include="src\LibJPEG\cderror.h" />
+    <ClInclude Include="src\LibJPEG\cdjpeg.h" />
+    <ClInclude Include="src\LibJPEG\jconfig.h" />
+    <ClInclude Include="src\LibJPEG\jdct.h" />
+    <ClInclude Include="src\LibJPEG\jerror.h" />
+    <ClInclude Include="src\LibJPEG\jinclude.h" />
+    <ClInclude Include="src\LibJPEG\jmemsys.h" />
+    <ClInclude Include="src\LibJPEG\jmorecfg.h" />
+    <ClInclude Include="src\LibJPEG\jpegint.h" />
+    <ClInclude Include="src\LibJPEG\jpeglib.h" />
+    <ClInclude Include="src\LibJPEG\jversion.h" />
+    <ClInclude Include="src\LibJPEG\transupp.h" />
+    <ClInclude Include="src\LibPNG\png.h" />
+    <ClInclude Include="src\LibPNG\pngconf.h" />
+    <ClInclude Include="src\CacheFile.h" />
+    <ClInclude Include="src\LibPNG\pngdebug.h" />
+    <ClInclude Include="src\LibPNG\pnginfo.h" />
+    <ClInclude Include="src\LibPNG\pnglibconf.h" />
+    <ClInclude Include="src\LibPNG\pngpriv.h" />
+    <ClInclude Include="src\Metadata\FIRational.h" />
+    <ClInclude Include="src\FreeImage.h" />
+    <ClInclude Include="src\FreeImageIO.h" />
+    <ClInclude Include="src\Metadata\FreeImageTag.h" />
+    <ClInclude Include="src\Plugin.h" />
+    <ClInclude Include="src\Quantizers.h" />
+    <ClInclude Include="src\ToneMapping.h" />
+    <ClInclude Include="src\Utilities.h" />
+    <ClInclude Include="src\FreeImageToolkit\Resize.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

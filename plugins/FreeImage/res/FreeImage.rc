@@ -22,16 +22,6 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Dialog
-//
-
-#ifndef APSTUDIO_INVOKED
-  #include "version.rc"
-#endif
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // DESIGNINFO
 //
 
@@ -81,7 +71,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "\r\n"
 END
 
 2 TEXTINCLUDE 
