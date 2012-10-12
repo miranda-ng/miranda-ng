@@ -96,13 +96,13 @@ FI_INTERFACE *fei = 0;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	"Avatar service",
-	__VERSION_DWORD,
-	"Load and manage contact pictures for other plugins.",
-	"Nightwish, Pescuma",
-	"",
-	"Copyright 2000-2012 Miranda-IM project",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 // {E00F1643-263C-4599-B84B-053E5C511D29}
 	{ 0xe00f1643, 0x263c, 0x4599, { 0xb8, 0x4b, 0x5, 0x3e, 0x5c, 0x51, 0x1d, 0x29 } }
