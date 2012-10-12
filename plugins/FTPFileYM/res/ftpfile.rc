@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -243,15 +243,17 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_PAUSE               ICON                    "icons\\pause.ico"
-IDI_FTP0                ICON                    "icons\\ftp0.ico"
-IDI_FTP1                ICON                    "icons\\ftp1.ico"
-IDI_FTP2                ICON                    "icons\\ftp2.ico"
-IDI_FTP3                ICON                    "icons\\ftp3.ico"
-IDI_FTP4                ICON                    "icons\\ftp4.ico"
-IDI_MENU                ICON                    "icons\\menu.ico"
-IDI_CLIPBOARD           ICON                    "icons\\clipboard.ico"
-IDI_RESUME              ICON                    "icons\\resume.ico"
+IDI_PAUSE               ICON                    "pause.ico"
+IDI_FTP0                ICON                    "ftp0.ico"
+IDI_FTP1                ICON                    "ftp1.ico"
+IDI_FTP2                ICON                    "ftp2.ico"
+IDI_FTP3                ICON                    "ftp3.ico"
+IDI_FTP4                ICON                    "ftp4.ico"
+IDI_MENU                ICON                    "menu.ico"
+IDI_CLIPBOARD           ICON                    "clipboard.ico"
+IDI_RESUME              ICON                    "resume.ico"
+IDI_CLEAR               ICON                    "clear.ico"
+IDI_DELETE              ICON                    "delete.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -265,16 +267,6 @@ LANGUAGE LANG_CZECH, SUBLANG_DEFAULT
 #pragma code_page(1250)
 #endif //_WIN32
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_CLEAR               ICON                    "icons\\clear.ico"
-IDI_DELETE              ICON                    "icons\\delete.ico"
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -283,7 +275,7 @@ IDI_DELETE              ICON                    "icons\\delete.ico"
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 

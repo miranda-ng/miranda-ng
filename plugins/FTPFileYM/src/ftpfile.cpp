@@ -42,13 +42,13 @@ int UploadFile(HANDLE hContact, int iFtpNum, UploadJob::EMode mode);
 static PLUGININFOEX pluginInfoEx = 
 {
 	sizeof(PLUGININFOEX), 
-	"FTP File YM",
-	__VERSION_DWORD,
-	"FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.",
-	"yaho",
-	"yaho@miranda-easy.net",
-	"Copyright © 2007-2010 Jan Holub",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,		
 	MIID_FTPFILE
 };
