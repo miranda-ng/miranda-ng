@@ -15,78 +15,78 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="avatar.cpp">
+    <ClCompile Include="src\avatar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="db.cpp">
+    <ClCompile Include="src\db.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="src\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GTalkExt.cpp">
+    <ClCompile Include="src\GTalkExt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="handlers.cpp">
+    <ClCompile Include="src\handlers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="inbox.cpp">
+    <ClCompile Include="src\inbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="menu.cpp">
+    <ClCompile Include="src\menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="notifications.cpp">
+    <ClCompile Include="src\notifications.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="popups.cpp">
+    <ClCompile Include="src\popups.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tipper_items.cpp">
+    <ClCompile Include="src\tipper_items.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="avatar.h">
+    <ClInclude Include="src\avatar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="db.h">
+    <ClInclude Include="src\db.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="handlers.h">
+    <ClInclude Include="src\handlers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inbox.h">
+    <ClInclude Include="src\inbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="menu.h">
+    <ClInclude Include="src\menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="notifications.h">
+    <ClInclude Include="src\notifications.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="options.h">
+    <ClInclude Include="src\options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="popups.h">
+    <ClInclude Include="src\popups.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resources.h">
+    <ClInclude Include="src\resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="src\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tipper_items.h">
+    <ClInclude Include="src\tipper_items.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

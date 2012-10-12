@@ -168,34 +168,34 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="avatar.cpp" />
-    <ClCompile Include="db.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="GTalkExt.cpp" />
-    <ClCompile Include="handlers.cpp" />
-    <ClCompile Include="inbox.cpp" />
-    <ClCompile Include="menu.cpp" />
-    <ClCompile Include="notifications.cpp" />
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="popups.cpp" />
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="src\avatar.cpp" />
+    <ClCompile Include="src\db.cpp" />
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\GTalkExt.cpp" />
+    <ClCompile Include="src\handlers.cpp" />
+    <ClCompile Include="src\inbox.cpp" />
+    <ClCompile Include="src\menu.cpp" />
+    <ClCompile Include="src\notifications.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\popups.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="tipper_items.cpp" />
+    <ClCompile Include="src\tipper_items.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="avatar.h" />
-    <ClInclude Include="db.h" />
-    <ClInclude Include="handlers.h" />
-    <ClInclude Include="inbox.h" />
-    <ClInclude Include="menu.h" />
-    <ClInclude Include="notifications.h" />
-    <ClInclude Include="options.h" />
-    <ClInclude Include="popups.h" />
-    <ClInclude Include="resources.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="tipper_items.h" />
+    <ClInclude Include="src\avatar.h" />
+    <ClInclude Include="src\db.h" />
+    <ClInclude Include="src\handlers.h" />
+    <ClInclude Include="src\inbox.h" />
+    <ClInclude Include="src\menu.h" />
+    <ClInclude Include="src\notifications.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\popups.h" />
+    <ClInclude Include="src\resources.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\targetver.h" />
+    <ClInclude Include="src\tipper_items.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\settings.rc" />

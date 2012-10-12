@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -780,6 +780,37 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,200,203,50,14
 END
 
+IDD_CONSOLE DIALOGEX 0, 0, 354, 240
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "XML Console"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_CONSOLE,RICHEDIT_CLASS,WS_BORDER | WS_VSCROLL | WS_TABSTOP | 0x804,5,5,343,137
+    CONTROL         "Custom1",IDC_BTN_MSG,"MButtonClass",WS_TABSTOP,5,147,16,14
+    CONTROL         "Custom1",IDC_BTN_PRESENCE,"MButtonClass",WS_TABSTOP,21,147,16,14
+    CONTROL         "Custom1",IDC_BTN_IQ,"MButtonClass",WS_TABSTOP,37,147,16,14
+    CONTROL         "Custom1",IDC_BTN_FILTER,"MButtonClass",WS_TABSTOP,68,147,16,14
+    COMBOBOX        IDC_CB_FILTER,86,147,245,91,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Custom1",IDC_BTN_FILTER_REFRESH,"MButtonClass",WS_TABSTOP,333,147,16,14
+    EDITTEXT        IDC_CONSOLEIN,5,166,343,38,ES_MULTILINE | WS_VSCROLL
+    PUSHBUTTON      "Reset log",IDC_RESET,244,209,50,14
+    DEFPUSHBUTTON   "Send",IDOK,299,209,50,14
+END
+
+IDD_GROUPCHAT_INPUT DIALOGEX 0, 0, 242, 42
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_TXT_MULTILINE,6,6,230,12,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | NOT WS_VISIBLE | WS_VSCROLL
+    EDITTEXT        IDC_TXT_PASSWORD,6,6,230,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | ES_PASSWORD
+    COMBOBOX        IDC_TXT_COMBO,6,6,230,92,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_TXT_RICHEDIT,RICHEDIT_CLASS,NOT WS_VISIBLE | WS_BORDER | WS_VSCROLL | WS_TABSTOP | 0x1004,6,6,230,12
+    DEFPUSHBUTTON   "OK",IDOK,131,23,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,186,23,50,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -845,60 +876,60 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_JABBER              ICON                    "icos/jabber.ico"
-IDI_ARROW_DOWN          ICON                    "icos/arrow_down.ico"
-IDI_ARROW_UP            ICON                    "icos/arrow_up.ico"
-IDI_DISCO_PROGRESS      ICON                    "icos/disco_in_progress.ico"
-IDI_NODE_RSS            ICON                    "icos/rss.ico"
-IDI_NODE_SERVER         ICON                    "icos/server.ico"
-IDI_NODE_STORE          ICON                    "icos/store.ico"
-IDI_NODE_WEATHER        ICON                    "icos/weather.ico"
-IDI_DISCO_OK            ICON                    "icos/disco_ok.ico"
-IDI_DISCO_FAIL          ICON                    "icos/disco_fail.ico"
-IDI_GROUP               ICON                    "icos/group.ico"
-IDI_KEYS                ICON                    "icos/key.ico"
-IDI_ADDCONTACT          ICON                    "icos/addcontact.ico"
-IDI_ADDROSTER           ICON                    "icos/add2roster.ico"
-IDI_AGENTS              ICON                    "icos/roster.ico"
-IDI_VCARD               ICON                    "icos/pages.ico"
-IDI_DELETE              ICON                    "icos/delete.ico"
-IDI_EDIT                ICON                    "icos/rename.ico"
-IDI_GRANT               ICON                    "icos/grant.ico"
-IDI_OPEN                ICON                    "icos/open.ico"
-IDI_REQUEST             ICON                    "icos/request.ico"
-IDI_USER2ROOM           ICON                    "icos/user2room.ico"
-IDI_SAVE                ICON                    "icos/save.ico"
-IDI_LOGIN               ICON                    "icos/login.ico"
-IDI_AUTHREVOKE          ICON                    "icos/auth_revoke.ico"
-IDI_REFRESH             ICON                    "icos/refresh.ico"
-IDI_COMMAND             ICON                    "icos/command.ico"
-IDI_BOOKMARKS           ICON                    "icos/bookmarks.ico"
-IDI_PRIVACY_LISTS       ICON                    "icos/privacy_lists.ico"
-IDI_SERVICE_DISCOVERY   ICON                    "icos/service_discovery.ico"
-IDI_VIEW_LIST           ICON                    "icos/view_as_list.ico"
-IDI_VIEW_TREE           ICON                    "icos/view_as_tree.ico"
-IDI_FILTER_APPLY        ICON                    "icos/filter.ico"
-IDI_BROWSE              ICON                    "icos/go.ico"
-IDI_NAV_HOME            ICON                    "icos/home.ico"
-IDI_NAV_REFRESH         ICON                    "icos/refresh_node.ico"
-IDI_FILTER_RESET        ICON                    "icos/reset_filter.ico"
-IDI_CONSOLE             ICON                    "icos/console.ico"
-IDI_PL_MSG_ALLOW        ICON                    "icos/message_allow.ico"
-IDI_PL_MSG_DENY         ICON                    "icos/message_deny.ico"
-IDI_PL_PRIN_ALLOW       ICON                    "icos/presence_in_allow.ico"
-IDI_PL_PRIN_DENY        ICON                    "icos/presence_in_deny.ico"
-IDI_PL_PROUT_ALLOW      ICON                    "icos/presence_out_allow.ico"
-IDI_PL_PROUT_DENY       ICON                    "icos/presence_out_deny.ico"
-IDI_PL_QUERY_ALLOW      ICON                    "icos/query_allow.ico"
-IDI_PL_QUERY_DENY       ICON                    "icos/query_deny.ico"
-IDI_PL_LIST_ACTIVE      ICON                    "icos/plist_active.ico"
-IDI_PL_LIST_ANY         ICON                    "icos/plist_any.ico"
-IDI_PL_LIST_DEFAULT     ICON                    "icos/plist_default.ico"
-IDI_TRANSPORT           ICON                    "icos/transport.ico"
-IDI_TRANSPORTL          ICON                    "icos/transport_local.ico"
-IDI_HTTP_AUTH           ICON                    "icos/openid.ico"
-IDI_NOTES               ICON                    "icos\\notes.ico"
-IDI_SEND_NOTE           ICON                    "icos\\send_note.ico"
+IDI_JABBER              ICON                    "jabber.ico"
+IDI_ARROW_DOWN          ICON                    "arrow_down.ico"
+IDI_ARROW_UP            ICON                    "arrow_up.ico"
+IDI_DISCO_PROGRESS      ICON                    "disco_in_progress.ico"
+IDI_NODE_RSS            ICON                    "rss.ico"
+IDI_NODE_SERVER         ICON                    "server.ico"
+IDI_NODE_STORE          ICON                    "store.ico"
+IDI_NODE_WEATHER        ICON                    "weather.ico"
+IDI_DISCO_OK            ICON                    "disco_ok.ico"
+IDI_DISCO_FAIL          ICON                    "disco_fail.ico"
+IDI_GROUP               ICON                    "group.ico"
+IDI_KEYS                ICON                    "key.ico"
+IDI_ADDCONTACT          ICON                    "addcontact.ico"
+IDI_ADDROSTER           ICON                    "add2roster.ico"
+IDI_AGENTS              ICON                    "roster.ico"
+IDI_VCARD               ICON                    "pages.ico"
+IDI_DELETE              ICON                    "delete.ico"
+IDI_EDIT                ICON                    "rename.ico"
+IDI_GRANT               ICON                    "grant.ico"
+IDI_OPEN                ICON                    "open.ico"
+IDI_REQUEST             ICON                    "request.ico"
+IDI_USER2ROOM           ICON                    "user2room.ico"
+IDI_SAVE                ICON                    "save.ico"
+IDI_LOGIN               ICON                    "login.ico"
+IDI_AUTHREVOKE          ICON                    "auth_revoke.ico"
+IDI_REFRESH             ICON                    "refresh.ico"
+IDI_COMMAND             ICON                    "command.ico"
+IDI_BOOKMARKS           ICON                    "bookmarks.ico"
+IDI_PRIVACY_LISTS       ICON                    "privacy_lists.ico"
+IDI_SERVICE_DISCOVERY   ICON                    "service_discovery.ico"
+IDI_VIEW_LIST           ICON                    "view_as_list.ico"
+IDI_VIEW_TREE           ICON                    "view_as_tree.ico"
+IDI_FILTER_APPLY        ICON                    "filter.ico"
+IDI_BROWSE              ICON                    "go.ico"
+IDI_NAV_HOME            ICON                    "home.ico"
+IDI_NAV_REFRESH         ICON                    "refresh_node.ico"
+IDI_FILTER_RESET        ICON                    "reset_filter.ico"
+IDI_CONSOLE             ICON                    "console.ico"
+IDI_PL_MSG_ALLOW        ICON                    "message_allow.ico"
+IDI_PL_MSG_DENY         ICON                    "message_deny.ico"
+IDI_PL_PRIN_ALLOW       ICON                    "presence_in_allow.ico"
+IDI_PL_PRIN_DENY        ICON                    "presence_in_deny.ico"
+IDI_PL_PROUT_ALLOW      ICON                    "presence_out_allow.ico"
+IDI_PL_PROUT_DENY       ICON                    "presence_out_deny.ico"
+IDI_PL_QUERY_ALLOW      ICON                    "query_allow.ico"
+IDI_PL_QUERY_DENY       ICON                    "query_deny.ico"
+IDI_PL_LIST_ACTIVE      ICON                    "plist_active.ico"
+IDI_PL_LIST_ANY         ICON                    "plist_any.ico"
+IDI_PL_LIST_DEFAULT     ICON                    "plist_default.ico"
+IDI_TRANSPORT           ICON                    "transport.ico"
+IDI_TRANSPORTL          ICON                    "transport_local.ico"
+IDI_HTTP_AUTH           ICON                    "openid.ico"
+IDI_NOTES               ICON                    "notes.ico"
+IDI_SEND_NOTE           ICON                    "send_note.ico"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -908,7 +939,7 @@ IDI_SEND_NOTE           ICON                    "icos\\send_note.ico"
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 

@@ -29,6 +29,7 @@
 // -----------------------------------------------------------------------------
 #include "icqoscar.h"
 #include "m_extraicons.h"
+#include "..\icons_pack\src\resource.h"
 
 
 extern HANDLE hExtraXStatus;

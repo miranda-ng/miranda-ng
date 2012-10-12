@@ -120,7 +120,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="JABBER_XSTATUS.rc" />
+    <ResourceCompile Include="res\JABBER_XSTATUS.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

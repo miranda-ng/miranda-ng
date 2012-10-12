@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -8,7 +8,7 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "winres.h"
-#include "version.h"
+#include "..\src\version.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -26,12 +26,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICQ                 ICON                    "icos/icq.ico"
-IDI_AUTH_ASK            ICON                    "icos/auth_ask.ico"
-IDI_AUTH_GRANT          ICON                    "icos/auth_grant.ico"
-IDI_AUTH_REVOKE         ICON                    "icos/auth_revoke.ico"
-IDI_SERVLIST_ADD        ICON                    "icos/srvlist_add.ico"
-IDI_EXPANDSTRINGEDIT    ICON                    "changeinfo/expandst.ico"
+IDI_ICQ                 ICON                    "icq.ico"
+IDI_AUTH_ASK            ICON                    "auth_ask.ico"
+IDI_AUTH_GRANT          ICON                    "auth_grant.ico"
+IDI_AUTH_REVOKE         ICON                    "auth_revoke.ico"
+IDI_SERVLIST_ADD        ICON                    "srvlist_add.ico"
+IDI_EXPANDSTRINGEDIT    ICON                    "expandst.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -522,13 +522,13 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
 BEGIN
     "#include ""winres.h""\0"
-    "#include ""version.h""\0"
+    "#include ""..\\src\\version.h""\0"
 END
 
 3 TEXTINCLUDE 

@@ -19,142 +19,85 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="clist.cpp">
+    <ClCompile Include="src\clist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="commandmonitor.cpp">
+    <ClCompile Include="src\commandmonitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="input.cpp">
+    <ClCompile Include="src\input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="irclib.cpp">
+    <ClCompile Include="src\irclib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ircproto.cpp">
+    <ClCompile Include="src\ircproto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MString.cpp">
+    <ClCompile Include="src\MString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="output.cpp">
+    <ClCompile Include="src\output.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scripting.cpp">
+    <ClCompile Include="src\scripting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="services.cpp">
+    <ClCompile Include="src\services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tools.cpp">
+    <ClCompile Include="src\tools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ui_utils.cpp">
+    <ClCompile Include="src\ui_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="userinfo.cpp">
+    <ClCompile Include="src\userinfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="windows.cpp">
+    <ClCompile Include="src\windows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commandmonitor.h">
+    <ClInclude Include="src\commandmonitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="irc.h">
+    <ClInclude Include="src\irc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="irc_dlg.h">
+    <ClInclude Include="src\irc_dlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="irclib.h">
+    <ClInclude Include="src\irclib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MString.h">
+    <ClInclude Include="src\MString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ui_utils.h">
+    <ClInclude Include="src\ui_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icons\add.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\apply.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\block.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\dcc.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\delete.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\edit.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\irc.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\list.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\manager.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\question.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\quick.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\rename.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\server.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\show.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\whois.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icons\world.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Docs\IRC_license.txt">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="Docs\IRC_Readme.txt">
-      <Filter>Documentation</Filter>
-    </None>
     <None Include="Docs\IRC_servers.ini">
       <Filter>Documentation</Filter>
     </None>
-    <None Include="Docs\IRC_Translate.txt">
-      <Filter>Documentation</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="IRC.rc">
+    <ResourceCompile Include="res\IRC.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

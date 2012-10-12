@@ -193,58 +193,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="clist.cpp" />
-    <ClCompile Include="commandmonitor.cpp" />
-    <ClCompile Include="input.cpp" />
-    <ClCompile Include="irclib.cpp" />
-    <ClCompile Include="ircproto.cpp" />
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\clist.cpp" />
+    <ClCompile Include="src\commandmonitor.cpp" />
+    <ClCompile Include="src\input.cpp" />
+    <ClCompile Include="src\irclib.cpp" />
+    <ClCompile Include="src\ircproto.cpp" />
+    <ClCompile Include="src\main.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="MString.cpp" />
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="output.cpp" />
-    <ClCompile Include="scripting.cpp" />
-    <ClCompile Include="services.cpp" />
-    <ClCompile Include="tools.cpp" />
-    <ClCompile Include="ui_utils.cpp" />
-    <ClCompile Include="userinfo.cpp" />
-    <ClCompile Include="windows.cpp" />
+    <ClCompile Include="src\MString.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\output.cpp" />
+    <ClCompile Include="src\scripting.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\tools.cpp" />
+    <ClCompile Include="src\ui_utils.cpp" />
+    <ClCompile Include="src\userinfo.cpp" />
+    <ClCompile Include="src\windows.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commandmonitor.h" />
-    <ClInclude Include="irc.h" />
-    <ClInclude Include="irc_dlg.h" />
-    <ClInclude Include="irclib.h" />
-    <ClInclude Include="MString.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="ui_utils.h" />
+    <ClInclude Include="src\commandmonitor.h" />
+    <ClInclude Include="src\irc.h" />
+    <ClInclude Include="src\irc_dlg.h" />
+    <ClInclude Include="src\irclib.h" />
+    <ClInclude Include="src\MString.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\ui_utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icons\add.ico" />
-    <None Include="Icons\apply.ico" />
-    <None Include="Icons\block.ico" />
-    <None Include="Icons\dcc.ico" />
-    <None Include="Icons\delete.ico" />
-    <None Include="Icons\edit.ico" />
-    <None Include="Icons\irc.ico" />
-    <None Include="Icons\list.ico" />
-    <None Include="Icons\manager.ico" />
-    <None Include="Icons\question.ico" />
-    <None Include="Icons\quick.ico" />
-    <None Include="Icons\rename.ico" />
-    <None Include="Icons\server.ico" />
-    <None Include="Icons\show.ico" />
-    <None Include="Icons\whois.ico" />
-    <None Include="Icons\world.ico" />
-    <None Include="Docs\IRC_license.txt" />
-    <None Include="Docs\IRC_Readme.txt" />
     <None Include="Docs\IRC_servers.ini" />
-    <None Include="Docs\IRC_Translate.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="IRC.rc" />
-    <ResourceCompile Include="version.rc" />
+    <ResourceCompile Include="res\IRC.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

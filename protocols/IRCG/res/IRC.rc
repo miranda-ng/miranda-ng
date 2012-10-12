@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -28,22 +28,22 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MAIN                ICON                    "Icons/irc.ico"
-IDI_ADD                 ICON                    "Icons/add.ico"
-IDI_BLOCK               ICON                    "Icons/block.ico"
-IDI_DELETE              ICON                    "Icons/delete.ico"
-IDI_APPLY               ICON                    "Icons/apply.ico"
-IDI_WHOIS               ICON                    "Icons/whois.ico"
-IDI_LIST                ICON                    "Icons/list.ico"
-IDI_MANAGER             ICON                    "Icons/manager.ico"
-IDI_QUICK               ICON                    "Icons/quick.ico"
-IDI_RENAME              ICON                    "Icons/rename.ico"
-IDI_SHOW                ICON                    "Icons/show.ico"
-IDI_LOGO                ICON                    "Icons/world.ico"
-IDI_DCC                 ICON                    "Icons/dcc.ico"
-IDI_SERVER              ICON                    "Icons/server.ico"
-IDI_EDIT                ICON                    "Icons/edit.ico"
-IDI_IRCQUESTION         ICON                    "Icons/question.ico"
+IDI_MAIN                ICON                    "irc.ico"
+IDI_ADD                 ICON                    "add.ico"
+IDI_BLOCK               ICON                    "block.ico"
+IDI_DELETE              ICON                    "delete.ico"
+IDI_APPLY               ICON                    "apply.ico"
+IDI_WHOIS               ICON                    "whois.ico"
+IDI_LIST                ICON                    "list.ico"
+IDI_MANAGER             ICON                    "manager.ico"
+IDI_QUICK               ICON                    "quick.ico"
+IDI_RENAME              ICON                    "rename.ico"
+IDI_SHOW                ICON                    "show.ico"
+IDI_LOGO                ICON                    "world.ico"
+IDI_DCC                 ICON                    "dcc.ico"
+IDI_SERVER              ICON                    "server.ico"
+IDI_EDIT                ICON                    "edit.ico"
+IDI_IRCQUESTION         ICON                    "question.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -688,7 +688,7 @@ END
 // TEXT
 //
 
-IDR_SERVERS             TEXT                    "Docs\\IRC_servers.ini"
+IDR_SERVERS             TEXT                    "..\\docs\\IRC_servers.ini"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -710,7 +710,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 

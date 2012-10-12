@@ -1,0 +1,132 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_XSTATUS1            ICON         "xstatus01.ico"
+IDI_XSTATUS2            ICON         "xstatus02.ico"
+IDI_XSTATUS3            ICON         "xstatus03.ico"
+IDI_XSTATUS4            ICON         "xstatus04.ico"
+IDI_XSTATUS5            ICON         "xstatus05.ico"
+IDI_XSTATUS6            ICON         "xstatus06.ico"
+IDI_XSTATUS7            ICON         "xstatus07.ico"
+IDI_XSTATUS8            ICON         "xstatus08.ico"
+IDI_XSTATUS9            ICON         "xstatus09.ico"
+IDI_XSTATUS10           ICON         "xstatus10.ico"
+IDI_XSTATUS11           ICON         "xstatus11.ico"
+IDI_XSTATUS12           ICON         "xstatus12.ico"
+IDI_XSTATUS13           ICON         "xstatus13.ico"
+IDI_XSTATUS14           ICON         "xstatus14.ico"
+IDI_XSTATUS15           ICON         "xstatus15.ico"
+IDI_XSTATUS16           ICON         "xstatus16.ico"
+IDI_XSTATUS17           ICON         "xstatus17.ico"
+IDI_XSTATUS18           ICON         "xstatus18.ico"
+IDI_XSTATUS19           ICON         "xstatus19.ico"
+IDI_XSTATUS20           ICON         "xstatus20.ico"
+IDI_XSTATUS21           ICON         "xstatus21.ico"
+IDI_XSTATUS22           ICON         "xstatus22.ico"
+IDI_XSTATUS23           ICON         "xstatus23.ico"
+IDI_XSTATUS24           ICON         "xstatus24.ico"
+IDI_XSTATUS25           ICON         "xstatus25.ico"
+IDI_XSTATUS26           ICON         "xstatus26.ico"
+IDI_XSTATUS27           ICON         "xstatus27.ico"
+IDI_XSTATUS28           ICON         "xstatus28.ico"
+IDI_XSTATUS29           ICON         "xstatus29.ico"
+IDI_XSTATUS30           ICON         "xstatus30.ico"
+IDI_XSTATUS31           ICON         "xstatus31.ico"
+IDI_XSTATUS32           ICON         "xstatus32.ico"
+IDI_XSTATUS33           ICON         "xstatus33.ico"
+IDI_XSTATUS34           ICON         "xstatus34.ico"
+IDI_XSTATUS35           ICON         "xstatus35.ico"
+IDI_XSTATUS36           ICON         "xstatus36.ico"
+IDI_XSTATUS37           ICON         "xstatus37.ico"
+IDI_XSTATUS38           ICON         "xstatus38.ico"
+IDI_XSTATUS39           ICON         "xstatus39.ico"
+IDI_XSTATUS40           ICON         "xstatus40.ico"
+IDI_XSTATUS41           ICON         "xstatus41.ico"
+IDI_XSTATUS42           ICON         "xstatus42.ico"
+IDI_XSTATUS43           ICON         "xstatus43.ico"
+IDI_XSTATUS44           ICON         "xstatus44.ico"
+IDI_XSTATUS45           ICON         "xstatus45.ico"
+IDI_XSTATUS46           ICON         "xstatus46.ico"
+IDI_XSTATUS47           ICON         "xstatus47.ico"
+IDI_XSTATUS48           ICON         "xstatus48.ico"
+IDI_XSTATUS49           ICON         "xstatus49.ico"
+IDI_XSTATUS50           ICON         "xstatus50.ico"
+IDI_XSTATUS51           ICON         "xstatus51.ico"
+IDI_XSTATUS52           ICON         "xstatus52.ico"
+IDI_XSTATUS53           ICON         "xstatus53.ico"
+IDI_XSTATUS54           ICON         "xstatus54.ico"
+IDI_XSTATUS55           ICON         "xstatus55.ico"
+IDI_XSTATUS56           ICON         "xstatus56.ico"
+IDI_XSTATUS57           ICON         "xstatus57.ico"
+IDI_XSTATUS58           ICON         "xstatus58.ico"
+IDI_XSTATUS59           ICON         "xstatus59.ico"
+IDI_XSTATUS60           ICON         "xstatus60.ico"
+IDI_XSTATUS61           ICON         "xstatus61.ico"
+IDI_XSTATUS62           ICON         "xstatus62.ico"
+IDI_XSTATUS63           ICON         "xstatus63.ico"
+IDI_XSTATUS64           ICON         "xstatus64.ico"
+IDI_XSTATUS65           ICON         "xstatus65.ico"
+IDI_XSTATUS66           ICON         "xstatus66.ico"
+IDI_XSTATUS67           ICON         "xstatus67.ico"
+IDI_XSTATUS68           ICON         "xstatus68.ico"
+IDI_XSTATUS69           ICON         "xstatus69.ico"
+IDI_XSTATUS70           ICON         "xstatus70.ico"
+IDI_XSTATUS71           ICON         "xstatus71.ico"
+IDI_XSTATUS72           ICON         "xstatus72.ico"
+IDI_XSTATUS73           ICON         "xstatus73.ico"
+IDI_XSTATUS74           ICON         "xstatus74.ico"
+IDI_XSTATUS75           ICON         "xstatus75.ico"
+IDI_XSTATUS76           ICON         "xstatus76.ico"
+IDI_XSTATUS77           ICON         "xstatus77.ico"
+IDI_XSTATUS78           ICON         "xstatus78.ico"
+IDI_XSTATUS79           ICON         "xstatus79.ico"
+IDI_XSTATUS80           ICON         "xstatus80.ico"
+IDI_XSTATUS81           ICON         "xstatus81.ico"
+IDI_XSTATUS82           ICON         "xstatus82.ico"
+IDI_XSTATUS83           ICON         "xstatus83.ico"
+IDI_XSTATUS84           ICON         "xstatus84.ico"
+IDI_XSTATUS85           ICON         "xstatus85.ico"
+IDI_XSTATUS86           ICON         "xstatus86.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+   IDS_IDENTIFY            "# Custom Status Icons #"
+END
+
+
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+

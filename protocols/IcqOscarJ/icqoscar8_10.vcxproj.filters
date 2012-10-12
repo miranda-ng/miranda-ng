@@ -33,248 +33,240 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="capabilities.h">
+    <ClInclude Include="src\capabilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="channels.h">
+    <ClInclude Include="src\channels.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cookies.h">
+    <ClInclude Include="src\cookies.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="families.h">
+    <ClInclude Include="src\families.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="guids.h">
+    <ClInclude Include="src\guids.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="i18n.h">
+    <ClInclude Include="src\i18n.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="iconlib.h">
+    <ClInclude Include="src\iconlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_advsearch.h">
+    <ClInclude Include="src\icq_advsearch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_avatar.h">
+    <ClInclude Include="src\icq_avatar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_constants.h">
+    <ClInclude Include="src\icq_constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_direct.h">
+    <ClInclude Include="src\icq_direct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_fieldnames.h">
+    <ClInclude Include="src\icq_fieldnames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_http.h">
+    <ClInclude Include="src\icq_http.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_packet.h">
+    <ClInclude Include="src\icq_packet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_proto.h">
+    <ClInclude Include="src\icq_proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_rates.h">
+    <ClInclude Include="src\icq_rates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_server.h">
+    <ClInclude Include="src\icq_server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icq_servlist.h">
+    <ClInclude Include="src\icq_servlist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icqosc_svcs.h">
+    <ClInclude Include="src\icqosc_svcs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="icqoscar.h">
+    <ClInclude Include="src\icqoscar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="init.h">
+    <ClInclude Include="src\init.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="log.h">
+    <ClInclude Include="src\log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="oscar_filetransfer.h">
+    <ClInclude Include="src\oscar_filetransfer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdpackets.h">
+    <ClInclude Include="src\stdpackets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tlv.h">
+    <ClInclude Include="src\tlv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="utilities.h">
+    <ClInclude Include="src\utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="changeinfo\changeinfo.h">
+    <ClInclude Include="src\changeinfo\changeinfo.h">
       <Filter>Changeinfo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="icos\icq.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="docs\icq-readme.txt">
-      <Filter>Documentation</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resources.rc">
+    <ResourceCompile Include="res\resources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="chan_01login.cpp">
+    <ClCompile Include="src\chan_01login.cpp">
       <Filter>FLAP Channels</Filter>
     </ClCompile>
-    <ClCompile Include="chan_02data.cpp">
+    <ClCompile Include="src\chan_02data.cpp">
       <Filter>FLAP Channels</Filter>
     </ClCompile>
-    <ClCompile Include="chan_03error.cpp">
+    <ClCompile Include="src\chan_03error.cpp">
       <Filter>FLAP Channels</Filter>
     </ClCompile>
-    <ClCompile Include="chan_04close.cpp">
+    <ClCompile Include="src\chan_04close.cpp">
       <Filter>FLAP Channels</Filter>
     </ClCompile>
-    <ClCompile Include="chan_05ping.cpp">
+    <ClCompile Include="src\chan_05ping.cpp">
       <Filter>FLAP Channels</Filter>
     </ClCompile>
-    <ClCompile Include="fam_01service.cpp">
+    <ClCompile Include="src\fam_01service.cpp">
       <Filter>SNAC Families</Filter>
     </ClCompile>
-    <ClCompile Include="fam_02location.cpp">
+    <ClCompile Include="src\fam_02location.cpp">
       <Filter>SNAC Families</Filter>
     </ClCompile>
-    <ClCompile Include="fam_03buddy.cpp">
+    <ClCompile Include="src\fam_03buddy.cpp">
       <Filter>SNAC Families</Filter>
     </ClCompile>
-    <ClCompile Include="fam_04message.cpp">
+    <ClCompile Include="src\fam_04message.cpp">
       <Filter>SNAC Families</Filter>
     </ClCompile>
-    <ClCompile Include="fam_09bos.cpp">
+    <ClCompile Include="src\fam_09bos.cpp">
       <Filter>SNAC Families</Filter>
     </ClCompile>
-    <ClCompile Include="fam_0alookup.cpp">
+    <ClCompile Include="src\fam_0alookup.cpp">
       <Filter>SNAC Families</Filter>
     </ClCompile>
-    <ClCompile Include="fam_0bstatus.cpp">
+    <ClCompile Include="src\fam_0bstatus.cpp">
       <Filter>SNAC Families</Filter>
     </ClCompile>
-    <ClCompile Include="fam_13servclist.cpp">
+    <ClCompile Include="src\fam_13servclist.cpp">
       <Filter>SNAC Families</Filter>
     </ClCompile>
-    <ClCompile Include="fam_15icqserver.cpp">
+    <ClCompile Include="src\fam_15icqserver.cpp">
       <Filter>SNAC Families</Filter>
     </ClCompile>
-    <ClCompile Include="fam_17signon.cpp">
+    <ClCompile Include="src\fam_17signon.cpp">
       <Filter>SNAC Families</Filter>
     </ClCompile>
-    <ClCompile Include="icq_direct.cpp">
+    <ClCompile Include="src\icq_direct.cpp">
       <Filter>Direct Connection</Filter>
     </ClCompile>
-    <ClCompile Include="icq_directmsg.cpp">
+    <ClCompile Include="src\icq_directmsg.cpp">
       <Filter>Direct Connection</Filter>
     </ClCompile>
-    <ClCompile Include="icq_filerequests.cpp">
+    <ClCompile Include="src\icq_filerequests.cpp">
       <Filter>Direct Connection</Filter>
     </ClCompile>
-    <ClCompile Include="icq_filetransfer.cpp">
+    <ClCompile Include="src\icq_filetransfer.cpp">
       <Filter>Direct Connection</Filter>
     </ClCompile>
-    <ClCompile Include="oscar_filetransfer.cpp">
+    <ClCompile Include="src\oscar_filetransfer.cpp">
       <Filter>Direct Connection</Filter>
     </ClCompile>
-    <ClCompile Include="icq_advsearch.cpp">
+    <ClCompile Include="src\icq_advsearch.cpp">
       <Filter>Miranda Bits</Filter>
     </ClCompile>
-    <ClCompile Include="icq_db.cpp">
+    <ClCompile Include="src\icq_db.cpp">
       <Filter>Miranda Bits</Filter>
     </ClCompile>
-    <ClCompile Include="icq_popups.cpp">
+    <ClCompile Include="src\icq_popups.cpp">
       <Filter>Miranda Bits</Filter>
     </ClCompile>
-    <ClCompile Include="icq_proto.cpp">
+    <ClCompile Include="src\icq_proto.cpp">
       <Filter>Miranda Bits</Filter>
     </ClCompile>
-    <ClCompile Include="icq_xstatus.cpp">
+    <ClCompile Include="src\icq_xstatus.cpp">
       <Filter>Miranda Bits</Filter>
     </ClCompile>
-    <ClCompile Include="icqosc_svcs.cpp">
+    <ClCompile Include="src\icqosc_svcs.cpp">
       <Filter>Miranda Bits</Filter>
     </ClCompile>
-    <ClCompile Include="init.cpp">
+    <ClCompile Include="src\init.cpp">
       <Filter>Miranda Bits</Filter>
     </ClCompile>
-    <ClCompile Include="log.cpp">
+    <ClCompile Include="src\log.cpp">
       <Filter>Miranda Bits</Filter>
     </ClCompile>
-    <ClCompile Include="UI\askauthentication.cpp">
+    <ClCompile Include="src\UI\askauthentication.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="icq_firstrun.cpp">
+    <ClCompile Include="src\icq_firstrun.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="icq_opts.cpp">
+    <ClCompile Include="src\icq_opts.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="icq_uploadui.cpp">
+    <ClCompile Include="src\icq_uploadui.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="UI\loginpassword.cpp">
+    <ClCompile Include="src\UI\loginpassword.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="UI\userinfotab.cpp">
+    <ClCompile Include="src\UI\userinfotab.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="changeinfo\constants.cpp">
+    <ClCompile Include="src\changeinfo\constants.cpp">
       <Filter>Changeinfo</Filter>
     </ClCompile>
-    <ClCompile Include="changeinfo\db.cpp">
+    <ClCompile Include="src\changeinfo\db.cpp">
       <Filter>Changeinfo</Filter>
     </ClCompile>
-    <ClCompile Include="changeinfo\dlgproc.cpp">
+    <ClCompile Include="src\changeinfo\dlgproc.cpp">
       <Filter>Changeinfo</Filter>
     </ClCompile>
-    <ClCompile Include="changeinfo\editlist.cpp">
+    <ClCompile Include="src\changeinfo\editlist.cpp">
       <Filter>Changeinfo</Filter>
     </ClCompile>
-    <ClCompile Include="changeinfo\editstring.cpp">
+    <ClCompile Include="src\changeinfo\editstring.cpp">
       <Filter>Changeinfo</Filter>
     </ClCompile>
-    <ClCompile Include="changeinfo\main.cpp">
+    <ClCompile Include="src\changeinfo\main.cpp">
       <Filter>Changeinfo</Filter>
     </ClCompile>
-    <ClCompile Include="changeinfo\upload.cpp">
+    <ClCompile Include="src\changeinfo\upload.cpp">
       <Filter>Changeinfo</Filter>
     </ClCompile>
-    <ClCompile Include="capabilities.cpp" />
-    <ClCompile Include="cookies.cpp" />
-    <ClCompile Include="directpackets.cpp" />
-    <ClCompile Include="i18n.cpp" />
-    <ClCompile Include="iconlib.cpp" />
-    <ClCompile Include="icq_avatar.cpp" />
-    <ClCompile Include="icq_clients.cpp" />
-    <ClCompile Include="icq_fieldnames.cpp" />
-    <ClCompile Include="icq_http.cpp" />
-    <ClCompile Include="icq_infoupdate.cpp" />
-    <ClCompile Include="icq_packet.cpp" />
-    <ClCompile Include="icq_rates.cpp" />
-    <ClCompile Include="icq_server.cpp" />
-    <ClCompile Include="icq_servlist.cpp" />
-    <ClCompile Include="icq_xtraz.cpp" />
-    <ClCompile Include="icqoscar.cpp" />
-    <ClCompile Include="stdpackets.cpp" />
-    <ClCompile Include="tlv.cpp" />
-    <ClCompile Include="utilities.cpp" />
-    <ClCompile Include="icq_menu.cpp">
+    <ClCompile Include="src\capabilities.cpp" />
+    <ClCompile Include="src\cookies.cpp" />
+    <ClCompile Include="src\directpackets.cpp" />
+    <ClCompile Include="src\i18n.cpp" />
+    <ClCompile Include="src\iconlib.cpp" />
+    <ClCompile Include="src\icq_avatar.cpp" />
+    <ClCompile Include="src\icq_clients.cpp" />
+    <ClCompile Include="src\icq_fieldnames.cpp" />
+    <ClCompile Include="src\icq_http.cpp" />
+    <ClCompile Include="src\icq_infoupdate.cpp" />
+    <ClCompile Include="src\icq_packet.cpp" />
+    <ClCompile Include="src\icq_rates.cpp" />
+    <ClCompile Include="src\icq_server.cpp" />
+    <ClCompile Include="src\icq_servlist.cpp" />
+    <ClCompile Include="src\icq_xtraz.cpp" />
+    <ClCompile Include="src\icqoscar.cpp" />
+    <ClCompile Include="src\stdpackets.cpp" />
+    <ClCompile Include="src\tlv.cpp" />
+    <ClCompile Include="src\utilities.cpp" />
+    <ClCompile Include="src\icq_menu.cpp">
       <Filter>Miranda Bits</Filter>
     </ClCompile>
   </ItemGroup>

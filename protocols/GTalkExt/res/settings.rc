@@ -1,4 +1,4 @@
-#include "resources.h"
+#include "..\src\resources.h"
 #include "winres.h"
 #include "m_utils.h"
 
@@ -80,5 +80,5 @@ VS_VERSION_INFO VERSIONINFO
 	}
 }
 
-IDI_POPUP ICON "res\\PopupIcon.ico"
-IDI_PSEUDOAVA PNG "res\\pseudoava.png"
+IDI_POPUP ICON "PopupIcon.ico"
+IDI_PSEUDOAVA PNG "pseudoava.png"

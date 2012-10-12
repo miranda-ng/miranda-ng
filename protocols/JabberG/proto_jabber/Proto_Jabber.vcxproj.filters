@@ -11,12 +11,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Proto_Jabber.rc">
+    <ResourceCompile Include="res\Proto_Jabber.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
