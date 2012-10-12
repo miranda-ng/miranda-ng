@@ -32,6 +32,7 @@
 #include "m_historyevents.h"
 
 #include "resource.h"
+#include "Version.h"
 #include "../utils/mir_buffer.h"
 
 // Globals
