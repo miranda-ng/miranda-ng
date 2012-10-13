@@ -413,8 +413,8 @@ LBL_charPtr:
 			goto LBL_charPtr;
 
 		default:
-			_tcsncpy(szdbsetting, p-1, 2);
-			goto LBL_charPtr;
+			*d++ = p[-1];
+			*d++ = *p;
 		}
 	}
 
