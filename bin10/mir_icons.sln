@@ -74,8 +74,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_GG", "..\protocols\Ga
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_NewsAggr", "..\protocols\NewsAggregator\proto_newsaggr\Proto_NewsAggr.vcxproj", "{B97882DC-7462-41DB-A390-BDFCE5295265}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Omegle", "..\protocols\Omegle\omegle_icons_10.vcxproj", "{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Quotes", "..\protocols\Quotes\proto_Quotes\proto_Quotes_10.vcxproj", "{5A0A9761-78E1-4E0F-AD8C-8931A667A5F2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Twitter", "..\protocols\Twitter\proto_twitter\Proto_Twitter.vcxproj", "{A82C682E-8596-4DCA-98A6-50436194714B}"
@@ -96,7 +94,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_mRadio", "..\protocol
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistoryPP_icons", "..\plugins\HistoryPlusPlus\historypp_icons\HistoryPP_icons.vcxproj", "{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Omegle", "..\protocols\Omegle\proto_omegle\omegle_icons_10.vcxproj", "{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}"
+EndProject
 Global
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
@@ -400,14 +403,6 @@ Global
 		{B97882DC-7462-41DB-A390-BDFCE5295265}.Release|Win32.Build.0 = Release|Win32
 		{B97882DC-7462-41DB-A390-BDFCE5295265}.Release|x64.ActiveCfg = Release|x64
 		{B97882DC-7462-41DB-A390-BDFCE5295265}.Release|x64.Build.0 = Release|x64
-		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Debug|Win32.Build.0 = Debug|Win32
-		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Debug|x64.ActiveCfg = Debug|x64
-		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Debug|x64.Build.0 = Debug|x64
-		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|Win32.ActiveCfg = Release|Win32
-		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|Win32.Build.0 = Release|Win32
-		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|x64.ActiveCfg = Release|x64
-		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|x64.Build.0 = Release|x64
 		{5A0A9761-78E1-4E0F-AD8C-8931A667A5F2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{5A0A9761-78E1-4E0F-AD8C-8931A667A5F2}.Debug|Win32.Build.0 = Debug|Win32
 		{5A0A9761-78E1-4E0F-AD8C-8931A667A5F2}.Debug|x64.ActiveCfg = Debug|x64
@@ -488,6 +483,14 @@ Global
 		{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}.Release|Win32.Build.0 = Release|Win32
 		{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}.Release|x64.ActiveCfg = Release|x64
 		{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}.Release|x64.Build.0 = Release|x64
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Debug|Win32.Build.0 = Debug|Win32
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Debug|x64.ActiveCfg = Debug|x64
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Debug|x64.Build.0 = Debug|x64
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|Win32.ActiveCfg = Release|Win32
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|Win32.Build.0 = Release|Win32
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|x64.ActiveCfg = Release|x64
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
