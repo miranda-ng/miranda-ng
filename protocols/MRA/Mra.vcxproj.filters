@@ -15,139 +15,134 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Mra.cpp">
+    <ClCompile Include="src\Mra.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mra_functions.cpp">
+    <ClCompile Include="src\Mra_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mra_options.cpp">
+    <ClCompile Include="src\Mra_options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mra_proto.cpp">
+    <ClCompile Include="src\Mra_proto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mra_svcs.cpp">
+    <ClCompile Include="src\Mra_svcs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraAdvancedSearch.cpp">
+    <ClCompile Include="src\MraAdvancedSearch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraAntiSpam.cpp">
+    <ClCompile Include="src\MraAntiSpam.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraAvatars.cpp">
+    <ClCompile Include="src\MraAvatars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraChat.cpp">
+    <ClCompile Include="src\MraChat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraFilesQueue.cpp">
+    <ClCompile Include="src\MraFilesQueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraIcons.cpp">
+    <ClCompile Include="src\MraIcons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraMPop.cpp">
+    <ClCompile Include="src\MraMPop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraMRIMProxy.cpp">
+    <ClCompile Include="src\MraMRIMProxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraOfflineMsg.cpp">
+    <ClCompile Include="src\MraOfflineMsg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraPopUp.cpp">
+    <ClCompile Include="src\MraPopUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraRTFMsg.cpp">
+    <ClCompile Include="src\MraRTFMsg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraSelectEMail.cpp">
+    <ClCompile Include="src\MraSelectEMail.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraSendCommand.cpp">
+    <ClCompile Include="src\MraSendCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraSendQueue.cpp">
+    <ClCompile Include="src\MraSendQueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MraProto.cpp">
+    <ClCompile Include="src\MraProto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="langpack_MRA_russian.txt" />
-    <None Include="Readme_MRA.txt" />
-    <None Include="TODO.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Mra.h">
+    <ClInclude Include="src\Mra.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraAntiSpam.h">
+    <ClInclude Include="src\MraAntiSpam.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraAvatars.h">
+    <ClInclude Include="src\MraAvatars.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraChat.h">
+    <ClInclude Include="src\MraChat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraConstans.h">
+    <ClInclude Include="src\MraConstans.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraFilesQueue.h">
+    <ClInclude Include="src\MraFilesQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraIcons.h">
+    <ClInclude Include="src\MraIcons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraMPop.h">
+    <ClInclude Include="src\MraMPop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraMRIMProxy.h">
+    <ClInclude Include="src\MraMRIMProxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraOfflineMsg.h">
+    <ClInclude Include="src\MraOfflineMsg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraPlaces.h">
+    <ClInclude Include="src\MraPlaces.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraPopUp.h">
+    <ClInclude Include="src\MraPopUp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraRTFMsg.h">
+    <ClInclude Include="src\MraRTFMsg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraSelectEMail.h">
+    <ClInclude Include="src\MraSelectEMail.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraSendCommand.h">
+    <ClInclude Include="src\MraSendCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraSendQueue.h">
+    <ClInclude Include="src\MraSendQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="proto.h">
+    <ClInclude Include="src\proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MraProto.h">
+    <ClInclude Include="src\MraProto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

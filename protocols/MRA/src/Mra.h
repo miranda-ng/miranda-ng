@@ -13,7 +13,7 @@
 //#define CRTDLL
 
 #include "resource.h"
-#include ".\xstatus_MRA\resource.h"
+#include "..\xstatus_MRA\src\resource.h"
 #include <SystemHeaders.h>
 #include <Wincrypt.h>
 #include <Ntsecapi.h>

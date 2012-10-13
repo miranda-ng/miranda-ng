@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -30,23 +30,23 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MRA                 ICON                    "Icons\\Magent.ico"
-IDI_INBOX               ICON                    "Icons\\Mail.ico"
-IDI_PROFILE             ICON                    "Icons\\Info.ico"
-IDI_AUTHRUGUEST         ICON                    "Icons\\AuthReguest.ico"
-IDI_AUTHGRANT           ICON                    "Icons\\AuthGrant.ico"
-IDI_MAIL_NOTIFY         ICON                    "Icons\\MailNotify.ico"
-IDI_MRA_WEB_SEARCH      ICON                    "Icons\\WebSearch.ico"
-IDI_MRA_BLOGS           ICON                    "Icons\\Blogs.ico"
-IDI_MRA_POSTCARD        ICON                    "Icons\\PostCards.ico"
-IDI_MRA_ZHUKI           ICON                    "Icons\\Bagz.ico"
-IDI_MRA_PHOTO           ICON                    "Icons\\Photo.ico"
-IDI_MRA_CHAT            ICON                    "Icons\\Chat.ico"
-IDI_MRA_PHONE           ICON                    "Icons\\Phone.ico"
-IDI_MRA_ALARM           ICON                    "Icons\\Alarm.ico"
-IDI_MRA_VIDEO           ICON                    "Icons\\video.ico"
-IDI_MRA_ANSWERS         ICON                    "Icons\\answers.ico"
-IDI_MRA_WORLD           ICON                    "Icons\\my world.ico"
+IDI_MRA                 ICON                    "Magent.ico"
+IDI_INBOX               ICON                    "Mail.ico"
+IDI_PROFILE             ICON                    "Info.ico"
+IDI_AUTHRUGUEST         ICON                    "AuthReguest.ico"
+IDI_AUTHGRANT           ICON                    "AuthGrant.ico"
+IDI_MAIL_NOTIFY         ICON                    "MailNotify.ico"
+IDI_MRA_WEB_SEARCH      ICON                    "WebSearch.ico"
+IDI_MRA_BLOGS           ICON                    "Blogs.ico"
+IDI_MRA_POSTCARD        ICON                    "PostCards.ico"
+IDI_MRA_ZHUKI           ICON                    "Bagz.ico"
+IDI_MRA_PHOTO           ICON                    "Photo.ico"
+IDI_MRA_CHAT            ICON                    "Chat.ico"
+IDI_MRA_PHONE           ICON                    "Phone.ico"
+IDI_MRA_ALARM           ICON                    "Alarm.ico"
+IDI_MRA_VIDEO           ICON                    "video.ico"
+IDI_MRA_ANSWERS         ICON                    "answers.ico"
+IDI_MRA_WORLD           ICON                    "my world.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -285,7 +285,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_BLOGSTATUS          ICON                    "Icons\\BlogStatus.ico"
+IDI_BLOGSTATUS          ICON                    "BlogStatus.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -360,7 +360,7 @@ END
 
 1 TEXTINCLUDE
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE
