@@ -185,49 +185,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="weather.cpp">
+    <ClCompile Include="src\weather.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="weather_addstn.cpp" />
-    <ClCompile Include="weather_contacts.cpp" />
-    <ClCompile Include="weather_conv.cpp" />
-    <ClCompile Include="weather_data.cpp" />
-    <ClCompile Include="weather_http.cpp" />
-    <ClCompile Include="weather_icons.cpp" />
-    <ClCompile Include="weather_info.cpp" />
-    <ClCompile Include="weather_ini.cpp" />
-    <ClCompile Include="weather_mwin.cpp" />
-    <ClCompile Include="weather_opt.cpp" />
-    <ClCompile Include="weather_popup.cpp" />
-    <ClCompile Include="weather_svcs.cpp" />
-    <ClCompile Include="weather_update.cpp" />
-    <ClCompile Include="weather_userinfo.cpp" />
+    <ClCompile Include="src\weather_addstn.cpp" />
+    <ClCompile Include="src\weather_contacts.cpp" />
+    <ClCompile Include="src\weather_conv.cpp" />
+    <ClCompile Include="src\weather_data.cpp" />
+    <ClCompile Include="src\weather_http.cpp" />
+    <ClCompile Include="src\weather_icons.cpp" />
+    <ClCompile Include="src\weather_info.cpp" />
+    <ClCompile Include="src\weather_ini.cpp" />
+    <ClCompile Include="src\weather_mwin.cpp" />
+    <ClCompile Include="src\weather_opt.cpp" />
+    <ClCompile Include="src\weather_popup.cpp" />
+    <ClCompile Include="src\weather_svcs.cpp" />
+    <ClCompile Include="src\weather_update.cpp" />
+    <ClCompile Include="src\weather_userinfo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="version.h" />
-    <ClInclude Include="weather.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\weather.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="langpack_defweather.txt" />
-    <None Include="sample_ini.ini" />
-    <None Include="weather-history.txt" />
-    <None Include="weather-readme.html" />
-    <None Include="weather-translation.txt" />
-    <None Include="res\brief.ico" />
-    <None Include="res\disabled.ico" />
-    <None Include="res\edit.ico" />
-    <None Include="res\icon.ico" />
-    <None Include="res\log.ico" />
-    <None Include="res\map.ico" />
-    <None Include="res\more.ico" />
-    <None Include="res\popup.ico" />
-    <None Include="res\popup_no.ico" />
-    <None Include="res\update.ico" />
-    <None Include="res\update2.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="res\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

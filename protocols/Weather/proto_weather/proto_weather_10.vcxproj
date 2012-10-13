@@ -120,22 +120,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="wicons\Cloud.ico" />
-    <None Include="wicons\FOG.ico" />
-    <None Include="wicons\LIGHT.ICO" />
-    <None Include="wicons\NA.ico" />
-    <None Include="wicons\PCLOUDY.ico" />
-    <None Include="wicons\RAIN.ico" />
-    <None Include="wicons\RSHOWER.ico" />
-    <None Include="wicons\SNOW.ICO" />
-    <None Include="wicons\SSHOWER.ico" />
-    <None Include="wicons\SUN.ICO" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="res\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

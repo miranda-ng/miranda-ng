@@ -86,14 +86,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) 
 {
-	switch(fdwReason)
-	{
-	case DLL_PROCESS_ATTACH:
-		hInst = hinstDLL;
-		DisableThreadLibraryCalls(hinstDLL);
-		break;
-	}
-
+	hInst = hinstDLL;
 	return TRUE;
 }
 

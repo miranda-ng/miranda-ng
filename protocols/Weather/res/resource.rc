@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -8,7 +8,7 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include <windows.h>
-#include "version.h"
+#include "..\src\version.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -31,7 +31,7 @@ EXSTYLE WS_EX_WINDOWEDGE | WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,245,25
-    CONTROL         "",IDC_MTEXT,"RichEdit20A",ES_MULTILINE | ES_READONLY | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP,0,25,244,180,WS_EX_STATICEDGE
+    CONTROL         "",IDC_MTEXT,"RichEdit20W",ES_MULTILINE | ES_READONLY | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP,0,25,244,180,WS_EX_STATICEDGE
     CONTROL         "List1",IDC_DATALIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | WS_TABSTOP,0,25,244,180,WS_EX_STATICEDGE
     PUSHBUTTON      "Update",IDC_MUPDATE,10,213,48,13
     PUSHBUTTON      "Brief Info",IDC_MTOGGLE,79,213,48,13
@@ -373,17 +373,17 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON                ICON                    "res\\icon.ico"
-IDI_UPDATE              ICON                    "res\\update.ico"
-IDI_READ                ICON                    "res\\more.ico"
-IDI_S                   ICON                    "res\\brief.ico"
-IDI_LOG                 ICON                    "res\\log.ico"
-IDI_EDIT                ICON                    "res\\edit.ico"
-IDI_MAP                 ICON                    "res\\map.ico"
-IDI_POPUP               ICON                    "res\\popup.ico"
-IDI_NOPOPUP             ICON                    "res\\popup_no.ico"
-IDI_UPDATE2             ICON                    "res\\update2.ico"
-IDI_DISABLED            ICON                    "res\\disabled.ico"
+IDI_ICON                ICON                    "icon.ico"
+IDI_UPDATE              ICON                    "update.ico"
+IDI_READ                ICON                    "more.ico"
+IDI_S                   ICON                    "brief.ico"
+IDI_LOG                 ICON                    "log.ico"
+IDI_EDIT                ICON                    "edit.ico"
+IDI_MAP                 ICON                    "map.ico"
+IDI_POPUP               ICON                    "popup.ico"
+IDI_NOPOPUP             ICON                    "popup_no.ico"
+IDI_UPDATE2             ICON                    "update2.ico"
+IDI_DISABLED            ICON                    "disabled.ico"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -393,13 +393,13 @@ IDI_DISABLED            ICON                    "res\\disabled.ico"
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
 BEGIN
     "#include <windows.h>\r\n"
-    "#include ""version.h""\r\n"
+    "#include ""..\\src\\version.h""\r\n"
     "\0"
 END
 

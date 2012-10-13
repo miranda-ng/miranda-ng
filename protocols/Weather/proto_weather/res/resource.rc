@@ -26,16 +26,16 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-104                     ICON    DISCARDABLE     "wicons\\SUN.ico"
-105                     ICON    DISCARDABLE     "wicons\\NA.ico"
-128                     ICON    DISCARDABLE     "wicons\\PCLOUDY.ico"
-129                     ICON    DISCARDABLE     "wicons\\RSHOWER.ico"
-130                     ICON    DISCARDABLE     "wicons\\LIGHT.ico"
-131                     ICON    DISCARDABLE     "wicons\\RAIN.ico"
-158                     ICON    DISCARDABLE     "wicons\\SNOW.ico"
-159                     ICON    DISCARDABLE     "wicons\\CLOUD.ico"
-1002                    ICON    DISCARDABLE     "wicons\\SSHOWER.ico"
-1003                    ICON    DISCARDABLE     "wicons\\FOG.ico"
+104                     ICON         "SUN.ico"
+105                     ICON         "NA.ico"
+128                     ICON         "PCLOUDY.ico"
+129                     ICON         "RSHOWER.ico"
+130                     ICON         "LIGHT.ico"
+131                     ICON         "RAIN.ico"
+158                     ICON         "SNOW.ico"
+159                     ICON         "CLOUD.ico"
+1002                    ICON         "SSHOWER.ico"
+1003                    ICON         "FOG.ico"
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////

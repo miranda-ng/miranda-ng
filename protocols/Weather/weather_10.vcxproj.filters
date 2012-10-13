@@ -18,115 +18,65 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="weather.cpp">
+    <ClCompile Include="src\weather.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_addstn.cpp">
+    <ClCompile Include="src\weather_addstn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_contacts.cpp">
+    <ClCompile Include="src\weather_contacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_conv.cpp">
+    <ClCompile Include="src\weather_conv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_data.cpp">
+    <ClCompile Include="src\weather_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_http.cpp">
+    <ClCompile Include="src\weather_http.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_icons.cpp">
+    <ClCompile Include="src\weather_icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_info.cpp">
+    <ClCompile Include="src\weather_info.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_ini.cpp">
+    <ClCompile Include="src\weather_ini.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_mwin.cpp">
+    <ClCompile Include="src\weather_mwin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_opt.cpp">
+    <ClCompile Include="src\weather_opt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_popup.cpp">
+    <ClCompile Include="src\weather_popup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_svcs.cpp">
+    <ClCompile Include="src\weather_svcs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_update.cpp">
+    <ClCompile Include="src\weather_update.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_userinfo.cpp">
+    <ClCompile Include="src\weather_userinfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="weather.h">
+    <ClInclude Include="src\weather.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="langpack_defweather.txt">
-      <Filter>Documentations</Filter>
-    </None>
-    <None Include="sample_ini.ini">
-      <Filter>Documentations</Filter>
-    </None>
-    <None Include="weather-history.txt">
-      <Filter>Documentations</Filter>
-    </None>
-    <None Include="weather-readme.html">
-      <Filter>Documentations</Filter>
-    </None>
-    <None Include="weather-translation.txt">
-      <Filter>Documentations</Filter>
-    </None>
-    <None Include="res\brief.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\disabled.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\edit.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\icon.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\log.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\map.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\more.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\popup.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\popup_no.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\update.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\update2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
