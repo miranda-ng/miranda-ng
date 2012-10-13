@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource_icons.h"
+#include "..\src\resource_icons.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ LANGUAGE LANG_CZECH, SUBLANG_DEFAULT
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource_icons.h\0"
+    "..\\src\\resource_icons.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -54,8 +54,8 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_OFFLINE             ICON                    "icons\\proto_offline.ico"
-IDI_ONLINE              ICON                    "icons\\proto_online.ico"
+IDI_OFFLINE             ICON                    "proto_offline.ico"
+IDI_ONLINE              ICON                    "proto_online.ico"
 #endif    // Czech resources
 /////////////////////////////////////////////////////////////////////////////
 

@@ -120,14 +120,10 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="omegle_icons.rc" />
+    <ResourceCompile Include="res\omegle_icons.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\proto_offline.ico" />
-    <None Include="icons\proto_online.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="resource_icons.h" />
+    <ClInclude Include="src\resource_icons.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

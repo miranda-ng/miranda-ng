@@ -7,20 +7,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="omegle_icons.rc">
+    <ResourceCompile Include="res\omegle_icons.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\proto_offline.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icons\proto_online.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="resource_icons.h">
+    <ClInclude Include="src\resource_icons.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
