@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -279,18 +279,18 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MSN                 ICON                    "Icos\\msn.ico"
-IDI_MSNBLOCK            ICON                    "Icos\\msnblock.ico"
-IDI_SERVICES            ICON                    "Icos\\services.ico"
-IDI_INBOX               ICON                    "Icos\\inbox.ico"
-IDI_INVITE              ICON                    "Icos\\invite.ico"
-IDI_NETMEETING          ICON                    "Icos\\netmeeting.ico"
-IDI_PROFILE             ICON                    "Icos\\profile.ico"
-IDI_LIST_FL             ICON                    "Icos\\list_fl.ico"
-IDI_LIST_AL             ICON                    "Icos\\list_al.ico"
-IDI_LIST_BL             ICON                    "Icos\\list_bl.ico"
-IDI_LIST_RL             ICON                    "Icos\\list_rl.ico"
-IDI_LIST_LC             ICON                    "Icos\\list_ph.ico"
+IDI_MSN                 ICON                    "msn.ico"
+IDI_MSNBLOCK            ICON                    "msnblock.ico"
+IDI_SERVICES            ICON                    "services.ico"
+IDI_INBOX               ICON                    "inbox.ico"
+IDI_INVITE              ICON                    "invite.ico"
+IDI_NETMEETING          ICON                    "netmeeting.ico"
+IDI_PROFILE             ICON                    "profile.ico"
+IDI_LIST_FL             ICON                    "list_fl.ico"
+IDI_LIST_AL             ICON                    "list_al.ico"
+IDI_LIST_BL             ICON                    "list_bl.ico"
+IDI_LIST_RL             ICON                    "list_rl.ico"
+IDI_LIST_LC             ICON                    "list_ph.ico"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -300,7 +300,7 @@ IDI_LIST_LC             ICON                    "Icos\\list_ph.ico"
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 

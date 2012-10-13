@@ -14,172 +14,134 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="des.c">
+    <ClCompile Include="src\des.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ezxml.c">
+    <ClCompile Include="src\ezxml.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn.cpp">
+    <ClCompile Include="src\msn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_auth.cpp">
+    <ClCompile Include="src\msn_auth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_chat.cpp">
+    <ClCompile Include="src\msn_chat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_commands.cpp">
+    <ClCompile Include="src\msn_commands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_contact.cpp">
+    <ClCompile Include="src\msn_contact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_errors.cpp">
+    <ClCompile Include="src\msn_errors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_ftold.cpp">
+    <ClCompile Include="src\msn_ftold.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_http.cpp">
+    <ClCompile Include="src\msn_http.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_libstr.cpp">
+    <ClCompile Include="src\msn_libstr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_links.cpp">
+    <ClCompile Include="src\msn_links.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_lists.cpp">
+    <ClCompile Include="src\msn_lists.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_mail.cpp">
+    <ClCompile Include="src\msn_mail.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_menu.cpp">
+    <ClCompile Include="src\msn_menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_mime.cpp">
+    <ClCompile Include="src\msn_mime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_misc.cpp">
+    <ClCompile Include="src\msn_misc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_msgqueue.cpp">
+    <ClCompile Include="src\msn_msgqueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_msgsplit.cpp">
+    <ClCompile Include="src\msn_msgsplit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_natdetect.cpp">
+    <ClCompile Include="src\msn_natdetect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_opts.cpp">
+    <ClCompile Include="src\msn_opts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_p2p.cpp">
+    <ClCompile Include="src\msn_p2p.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_p2ps.cpp">
+    <ClCompile Include="src\msn_p2ps.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_proto.cpp">
+    <ClCompile Include="src\msn_proto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_soapab.cpp">
+    <ClCompile Include="src\msn_soapab.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_soapstore.cpp">
+    <ClCompile Include="src\msn_soapstore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_srv.cpp">
+    <ClCompile Include="src\msn_srv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_ssl.cpp">
+    <ClCompile Include="src\msn_ssl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_std.cpp">
+    <ClCompile Include="src\msn_std.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_svcs.cpp">
+    <ClCompile Include="src\msn_svcs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_switchboard.cpp">
+    <ClCompile Include="src\msn_switchboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_threads.cpp">
+    <ClCompile Include="src\msn_threads.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_useropts.cpp">
+    <ClCompile Include="src\msn_useropts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msn_ws.cpp">
+    <ClCompile Include="src\msn_ws.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icos\inbox.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icos\invite.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icos\list_al.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icos\list_bl.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icos\list_fl.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icos\list_ph.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icos\list_rl.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icos\msn.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icos\msnblock.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icos\netmeeting.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icos\profile.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Icos\services.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="msn.rc">
+    <ResourceCompile Include="res\msn.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="des.h">
+    <ClInclude Include="src\des.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ezxml.h">
+    <ClInclude Include="src\ezxml.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="msn_global.h">
+    <ClInclude Include="src\msn_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="msn_proto.h">
+    <ClInclude Include="src\msn_proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

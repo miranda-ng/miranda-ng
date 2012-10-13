@@ -46,7 +46,7 @@ static const PLUGININFOEX pluginInfo =
 	sizeof(PLUGININFOEX),
 	"MSN Protocol",
 	__VERSION_DWORD,
-	"Adds support for communicating with users of the MSN Messenger network",
+	"Adds support for communicating with users of the MSN Messenger network.",
 	"Boris Krasnovskiy, George Hazan, Richard Hughes",
 	"borkra@miranda-im.org",
 	"© 2001-2012 Richard Hughes, George Hazan, Boris Krasnovskiy",

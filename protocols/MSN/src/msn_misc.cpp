@@ -143,12 +143,12 @@ void CMsnProto::InitCustomFolders(void)
 	if (InitCstFldRan) return; 
 
 	TCHAR folder[MAX_PATH];
-	TCHAR* tszModuleName = mir_a2t( m_szModuleName );
+	TCHAR *tszModuleName = mir_a2t(m_szModuleName);
 
-	mir_sntprintf(folder, SIZEOF(folder), _T("%%miranda_avatarcache%%\\%s"), tszModuleName);
+	mir_sntprintf(folder, SIZEOF(folder), _T("%%miranda_userdata%%\\Avatars\\%s"), tszModuleName);
 	hMSNAvatarsFolder = FoldersRegisterCustomPathT(m_szModuleName, "Avatars", folder);
 
-	mir_sntprintf(folder, SIZEOF(folder), _T("%%miranda_userdata%%\\%s\\CustomSmiley"), tszModuleName);
+	mir_sntprintf(folder, SIZEOF(folder), _T("%%miranda_userdata%%\\Avatars\\%s"), tszModuleName);
 	hCustomSmileyFolder = FoldersRegisterCustomPathT(m_szModuleName, "Custom Smiley", folder);
 
 	mir_free(tszModuleName);
@@ -191,9 +191,9 @@ void  CMsnProto::MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t c
 	TCHAR* path = (TCHAR*)alloca(cbLen * sizeof(TCHAR));
 	if (hMSNAvatarsFolder == NULL || FoldersGetCustomPathT(hMSNAvatarsFolder, path, (int)cbLen, _T("")))
 	{
-		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));
+		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 		TCHAR *sztModuleName = mir_a2t(m_szModuleName);
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%s"), tmpPath, sztModuleName);
+		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\Avatars\\%s"), tmpPath, sztModuleName);
 		mir_free(sztModuleName);
 		mir_free(tmpPath);
 	}
