@@ -3,10 +3,19 @@
   <title>Miranda Twitter Changelog!</title>
  </head>
  <body>
+ <h2>0.0.9.7</h2>
+  - Major options cleanup<br>
+  - Default group now has a GUI in the options/accounts<br>
+  - stopped twitter from going offline so much (needs 3 network fails in a row before it will go offline)<br>
+  - open source! code is super messy.  please feel free to post if you have any questions.  the open source code will not compile with the official OAUTH keys!<br>
+  - added code to stop tweets becoming messages.  you will need to add a "tweetToMsg" variable as type BYTE to the db, and set to 0 if you want tweets to NOT become messages.<br>
+  - fixed single % signs from disappearing in the group chat, and also stopped "%" becoming "%%" if you typed it into the group chat input area to tweet.<br>
+  - fixed long native retweets from being truncated<br>
+  - code cleanup, minor fixes<br>
  <h2>0.0.9.6</h2>
- - Updater now working
- - Basic "auto" group support.  If you want to have twitter contacts auto added to a group, before you connect to twitter (but after you create the account in miranda) create a "DefaultGroup" string key in the database and make the value the group you want twitter contacts to be automatically added to.  This won't copy existing contacts to the group, just newly added ones.
- - Other minor fixes
+ - Updater now working<br>
+ - Basic "auto" group support.  If you want to have twitter contacts auto added to a group, before you connect to twitter (but after you create the account in miranda) create a "DefaultGroup" string key in the database and make the value the group you want twitter contacts to be automatically added to.  This won't copy existing contacts to the group, just newly added ones.<br>
+ - Other minor fixes<br>
   <h2>0.0.9.5</h2>
 - Retweets will now appear in the timeline!<br>
 - Fixed group chat highlighting when YOU make a tweet<br>
