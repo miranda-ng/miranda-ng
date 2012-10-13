@@ -374,7 +374,7 @@ LBL_charPtr:
 			goto LBL_charPtr;
 
 		case 'b':
-			charPtr = _T("x0D\x0A");
+			charPtr = _T("\x0D\x0A");
 			goto LBL_charPtr;
 
 		case 'C': // Get Client Info
