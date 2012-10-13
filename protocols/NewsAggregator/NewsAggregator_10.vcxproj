@@ -173,13 +173,13 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
-    <ResourceCompile Include="Version.rc" />
+    <ResourceCompile Include="res\Resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\resource.h" />
     <ClInclude Include="Src\Common.h" />
-    <ClInclude Include="Version.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Icons.cpp" />
@@ -191,13 +191,6 @@
     <ClCompile Include="Src\Services.cpp" />
     <ClCompile Include="Src\Update.cpp" />
     <ClCompile Include="Src\Utils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\AddFeed.ico" />
-    <None Include="res\CheckAll.ico" />
-    <None Include="res\Export.ico" />
-    <None Include="res\Import.ico" />
-    <None Include="res\Main.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

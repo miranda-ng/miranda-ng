@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -26,11 +26,11 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON                ICON                    "res/Main.ico"
-IDI_CHECKALL            ICON                    "res/CheckAll.ico"
-IDI_ADDFEED             ICON                    "res/AddFeed.ico"
-IDI_IMPORTFEEDS         ICON                    "res/Import.ico"
-IDI_EXPORTFEEDS         ICON                    "res/Export.ico"
+IDI_ICON                ICON                    "Main.ico"
+IDI_CHECKALL            ICON                    "CheckAll.ico"
+IDI_ADDFEED             ICON                    "AddFeed.ico"
+IDI_IMPORTFEEDS         ICON                    "Import.ico"
+IDI_EXPORTFEEDS         ICON                    "Export.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -91,7 +91,7 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
