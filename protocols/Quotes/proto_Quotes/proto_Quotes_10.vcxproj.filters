@@ -7,21 +7,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\res\proto_na.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\proto_occupied.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\proto_offline.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\proto_online.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="proto_Quotes.rc">
+    <ResourceCompile Include="res\proto_Quotes.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

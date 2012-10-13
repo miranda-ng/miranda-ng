@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -26,16 +26,17 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON_MAIN           ICON                    "res\\main.ico"
-IDI_ICON_SECTION        ICON                    "res\\Section.ico"
-IDI_ICON_QUOTE          ICON                    "res\\quote.ico"
-IDI_ICON_UP             ICON                    "res\\up.ico"
-IDI_ICON_DOWN           ICON                    "res\\down.ico"
-IDI_ICON_CURRENCY_CONVERTER ICON                    "res\\CurrencyConverter.ico"
-IDI_ICON_REFRESH        ICON                    "res\\Refresh.ico"
-IDI_ICON_EXPORT         ICON                    "res\\Export quotes.ico"
-IDI_ICON_SWAP           ICON                    "res\\swap.ico"
-IDI_ICON_IMPORT         ICON                    "res\\Import quotes.ico"
+IDI_ICON_MAIN           ICON                    "main.ico"
+IDI_ICON_SECTION        ICON                    "Section.ico"
+IDI_ICON_QUOTE          ICON                    "quote.ico"
+IDI_ICON_UP             ICON                    "up.ico"
+IDI_ICON_DOWN           ICON                    "down.ico"
+IDI_ICON_CURRENCY_CONVERTER ICON                    "CurrencyConverter.ico"
+IDI_ICON_REFRESH        ICON                    "Refresh.ico"
+IDI_ICON_EXPORT         ICON                    "Export quotes.ico"
+IDI_ICON_SWAP           ICON                    "swap.ico"
+IDI_ICON_IMPORT         ICON                    "Import quotes.ico"
+IDI_ICON_NOTCHANGED     ICON                    "notchanged.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -55,7 +56,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -116,15 +117,6 @@ END
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_ICON_NOTCHANGED     ICON                    "res\\notchanged.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

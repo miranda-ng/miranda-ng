@@ -116,13 +116,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\res\proto_na.ico" />
-    <None Include="..\res\proto_occupied.ico" />
-    <None Include="..\res\proto_offline.ico" />
-    <None Include="..\res\proto_online.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="proto_Quotes.rc" />
+    <ResourceCompile Include="res\proto_Quotes.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

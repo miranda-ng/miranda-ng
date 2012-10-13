@@ -26,10 +26,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-104                     ICON    DISCARDABLE     "../res/proto_online.ico"
-105                     ICON    DISCARDABLE     "../res/proto_offline.ico"
-131                     ICON    DISCARDABLE     "../res/proto_na.ico"
-159                     ICON    DISCARDABLE     "../res/proto_occupied.ico"
+104                     ICON         "proto_online.ico"
+105                     ICON         "proto_offline.ico"
+131                     ICON         "proto_na.ico"
+159                     ICON         "proto_occupied.ico"
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "\r\n"
 END
 
 2 TEXTINCLUDE 

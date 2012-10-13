@@ -15,289 +15,254 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Base64.cpp">
+    <ClCompile Include="src\Base64.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ComHelper.cpp">
+    <ClCompile Include="src\ComHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CommonOptionDlg.cpp">
+    <ClCompile Include="src\CommonOptionDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CreateFilePath.cpp">
+    <ClCompile Include="src\CreateFilePath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CurrencyConverter.cpp">
+    <ClCompile Include="src\CurrencyConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DBUtils.cpp">
+    <ClCompile Include="src\DBUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExtraImages.cpp">
+    <ClCompile Include="src\ExtraImages.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Forex.cpp">
+    <ClCompile Include="src\Forex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HTMLParserMS.cpp">
+    <ClCompile Include="src\HTMLParserMS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HTTPSession.cpp">
+    <ClCompile Include="src\HTTPSession.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IconLib.cpp">
+    <ClCompile Include="src\IconLib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ImportExport.cpp">
+    <ClCompile Include="src\ImportExport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LightMutex.cpp">
+    <ClCompile Include="src\LightMutex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Locale.cpp">
+    <ClCompile Include="src\Locale.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Log.cpp">
+    <ClCompile Include="src\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleInfo.cpp">
+    <ClCompile Include="src\ModuleInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OptionDukasCopy.cpp">
+    <ClCompile Include="src\OptionDukasCopy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuoteChart.cpp">
+    <ClCompile Include="src\QuoteChart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuoteInfoDlg.cpp">
+    <ClCompile Include="src\QuoteInfoDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuotesProviderBase.cpp">
+    <ClCompile Include="src\QuotesProviderBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuotesProviderDukasCopy.cpp">
+    <ClCompile Include="src\QuotesProviderDukasCopy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuotesProviderGoogle.cpp">
+    <ClCompile Include="src\QuotesProviderGoogle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuotesProviderGoogleFinance.cpp">
+    <ClCompile Include="src\QuotesProviderGoogleFinance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuotesProviders.cpp">
+    <ClCompile Include="src\QuotesProviders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuotesProviderVisitorDbSettings.cpp">
+    <ClCompile Include="src\QuotesProviderVisitorDbSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuotesProviderVisitorFormater.cpp">
+    <ClCompile Include="src\QuotesProviderVisitorFormater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuotesProviderVisitorFormatSpecificator.cpp">
+    <ClCompile Include="src\QuotesProviderVisitorFormatSpecificator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WinCtrlHelper.cpp">
+    <ClCompile Include="src\WinCtrlHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WorkingThread.cpp">
+    <ClCompile Include="src\WorkingThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XMLEngineMI.cpp">
+    <ClCompile Include="src\XMLEngineMI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SettingsDlg.cpp">
+    <ClCompile Include="src\SettingsDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuotesProviderVisitorTendency.cpp">
+    <ClCompile Include="src\QuotesProviderVisitorTendency.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuotesProviderFinance.cpp">
+    <ClCompile Include="src\QuotesProviderFinance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuotesProviderYahoo.cpp">
+    <ClCompile Include="src\QuotesProviderYahoo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Base64.h">
+    <ClInclude Include="src\Base64.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ComHelper.h">
+    <ClInclude Include="src\ComHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CommonOptionDlg.h">
+    <ClInclude Include="src\CommonOptionDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CreateFilePath.h">
+    <ClInclude Include="src\CreateFilePath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CurrencyConverter.h">
+    <ClInclude Include="src\CurrencyConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DBUtils.h">
+    <ClInclude Include="src\DBUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EconomicRateInfo.h">
+    <ClInclude Include="src\EconomicRateInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExtraImages.h">
+    <ClInclude Include="src\ExtraImages.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HTMLParserMS.h">
+    <ClInclude Include="src\HTMLParserMS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HTTPSession.h">
+    <ClInclude Include="src\HTTPSession.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IconLib.h">
+    <ClInclude Include="src\IconLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IHTMLEngine.h">
+    <ClInclude Include="src\IHTMLEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IHTMLParser.h">
+    <ClInclude Include="src\IHTMLParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ImportExport.h">
+    <ClInclude Include="src\ImportExport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IQuotesProvider.h">
+    <ClInclude Include="src\IQuotesProvider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IsWithinAccuracy.h">
+    <ClInclude Include="src\IsWithinAccuracy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IXMLEngine.h">
+    <ClInclude Include="src\IXMLEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LightMutex.h">
+    <ClInclude Include="src\LightMutex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Locale.h">
+    <ClInclude Include="src\Locale.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Log.h">
+    <ClInclude Include="src\Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleInfo.h">
+    <ClInclude Include="src\ModuleInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OptionDukasCopy.h">
+    <ClInclude Include="src\OptionDukasCopy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuoteChart.h">
+    <ClInclude Include="src\QuoteChart.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuoteInfoDlg.h">
+    <ClInclude Include="src\QuoteInfoDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuotesProviderBase.h">
+    <ClInclude Include="src\QuotesProviderBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuotesProviderDukasCopy.h">
+    <ClInclude Include="src\QuotesProviderDukasCopy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuotesProviderGoogle.h">
+    <ClInclude Include="src\QuotesProviderGoogle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuotesProviderGoogleFinance.h">
+    <ClInclude Include="src\QuotesProviderGoogleFinance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuotesProviders.h">
+    <ClInclude Include="src\QuotesProviders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuotesProviderVisitor.h">
+    <ClInclude Include="src\QuotesProviderVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuotesProviderVisitorDbSettings.h">
+    <ClInclude Include="src\QuotesProviderVisitorDbSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuotesProviderVisitorFormater.h">
+    <ClInclude Include="src\QuotesProviderVisitorFormater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuotesProviderVisitorFormatSpecificator.h">
+    <ClInclude Include="src\QuotesProviderVisitorFormatSpecificator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="src\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WinCtrlHelper.h">
+    <ClInclude Include="src\WinCtrlHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WorkingThread.h">
+    <ClInclude Include="src\WorkingThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="XMLEngineMI.h">
+    <ClInclude Include="src\XMLEngineMI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SettingsDlg.h">
+    <ClInclude Include="src\SettingsDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Chart.h">
+    <ClInclude Include="src\Chart.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuotesProviderVisitorTendency.h">
+    <ClInclude Include="src\QuotesProviderVisitorTendency.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuotesProviderFinance.h">
+    <ClInclude Include="src\QuotesProviderFinance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuotesProviderYahoo.h">
+    <ClInclude Include="src\QuotesProviderYahoo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\CurrencyConverter.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\down.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Export quotes.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Import quotes.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\main.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\notchanged.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\quote.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Refresh.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Section.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\up.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\swap.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Forex.rc">
+    <ResourceCompile Include="res\Forex.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="Version.rc">
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
