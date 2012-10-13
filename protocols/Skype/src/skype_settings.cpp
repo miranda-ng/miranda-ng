@@ -32,13 +32,17 @@ DWORD CSkypeProto::GetSettingDword(const char *setting, DWORD errorValue)
 
 wchar_t* CSkypeProto::GetSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue)
 {
-	DBVARIANT dbv;
-	wchar_t* result = errorValue;
+	DBVARIANT dbv = {0};
+	wchar_t* result = NULL;
 
 	if ( !::DBGetContactSettingWString(hContact, this->m_szModuleName, setting, &dbv))
 	{
 		result = ::mir_wstrdup(dbv.pwszVal);
-		DBFreeVariant(&dbv);
+		::DBFreeVariant(&dbv);
+	}
+	else
+	{
+		result = ::mir_wstrdup(errorValue);
 	}
 
 	return result;
@@ -51,19 +55,21 @@ wchar_t* CSkypeProto::GetSettingString(const char *setting, wchar_t* errorValue)
 
 wchar_t* CSkypeProto::GetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue)
 {
-	DBVARIANT dbv;
-	wchar_t* result = errorValue;
+	DBVARIANT dbv = {0};
+	wchar_t* result = NULL;
 
 	if ( !::DBGetContactSettingWString(hContact, this->m_szModuleName, setting, &dbv))
 	{
 		result = ::mir_wstrdup(dbv.pwszVal);
-		DBFreeVariant(&dbv);
+		::DBFreeVariant(&dbv);
 
-		CallService(
+		::CallService(
 			MS_DB_CRYPT_DECODESTRING,
-			wcslen(result) + 1,
+			::wcslen(result) + 1,
 			reinterpret_cast<LPARAM>(result));
 	}
+	else
+		result = ::mir_wstrdup(errorValue);
 
 	return result;
 }
@@ -117,10 +123,15 @@ bool CSkypeProto::SetSettingString(const char *szSetting, const wchar_t* value)
 
 bool CSkypeProto::SetDecodeSettingString(HANDLE hContact, const char *setting, const wchar_t* value)
 {
-	TCHAR* result = mir_wstrdup(value);
-	CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(result), reinterpret_cast<LPARAM>(result));
+	if(::wcscmp(value, L"") != 0)
+	{
+		wchar_t* result = ::mir_wstrdup(value);
+		::CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(result), reinterpret_cast<LPARAM>(result));
+		
+		return !this->SetSettingString(hContact, setting, result);
+	}
 	
-	return !this->SetSettingString(hContact, setting, result);
+	return !this->SetSettingString(hContact, setting, value);
 }
 
 bool CSkypeProto::SetDecodeSettingString(const char *setting, const wchar_t* value)

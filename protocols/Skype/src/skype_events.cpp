@@ -4,6 +4,9 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	this->HookEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
 
+	this->login = this->GetSettingString(SKYPE_SETTINGS_LOGIN);
+	this->rememberPassword = this->GetSettingByte("RememberPassword");
+
 	return 0;
 }
 

@@ -26,7 +26,8 @@ CConversation* CSkype::newConversation(int oid)
 
 CAccount::CAccount(unsigned int oid, SERootObject* root) : Account(oid, root) 
 {
-	this->isLoggedOut = true;
+	this->isLoggedIn = false;
+	this->isLoggedOut = false;
 }
 
 void CAccount::OnChange(int prop)
@@ -36,32 +37,36 @@ void CAccount::OnChange(int prop)
 	  CAccount::STATUS loginStatus;
 	  this->GetPropStatus(loginStatus);
 	  if (loginStatus == CAccount::LOGGED_IN)  
-		  this->isLoggedOut = false;
+		  this->isLoggedIn = true;
 		
 		if (loginStatus == CAccount::LOGGED_OUT) 
 		{ 
-			this->isLoggedOut = true; 
 			CAccount::LOGOUTREASON whyLogout;
 			this->GetPropLogoutreason(whyLogout);
+			this->logoutReason = whyLogout;
 			if (whyLogout != Account::LOGOUT_CALLED)
 			{
-				printf("%s\n", (const char*)tostring(whyLogout));
+				// todo: rewrite!!
+				strcpy(this->logoutReasonString, (const char*)tostring(whyLogout));
 			}
+			this->isLoggedOut = true;
 		}
 	}
-
 }
 
 void CAccount::BlockWhileLoggingIn()
 {
-  while (this->isLoggedOut) 
-	  Sleep(1); 
+	this->isLoggedIn = false;
+	this->isLoggedOut = false;
+	while (!this->isLoggedIn && !this->isLoggedOut) 
+		Sleep(1); 
 }
 
 void CAccount::BlockWhileLoggingOut()
 {
-  while ( !this->isLoggedOut) 
-	  Sleep(1);
+	this->isLoggedOut = false;
+	while ( !this->isLoggedOut) 
+		Sleep(1);
 }
 
 // CContactGroup

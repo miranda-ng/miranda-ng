@@ -108,13 +108,13 @@ protected:
 	CContactGroup::Ref commonList;
 	CContactGroup::Ref authWaitList;
 
-	TCHAR*	login;
-	TCHAR*	password;
+	wchar_t	*login;
+	wchar_t *password;
 	bool	rememberPassword;
 	void	RequestPassword();
 
 	HANDLE	signin_lock;
-	void	SignIn();
+	bool	SignIn(bool isReadPassword = true);
 	void __cdecl SignInThread(void*);
 
 	bool	IsOnline();
@@ -158,6 +158,8 @@ protected:
 	static int GetCountryIdByName(const char* countryName);
 	
 	wchar_t* GetAvatarFilePath(wchar_t* skypeName);
+
+	int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);
 
 	// instances
 	static LIST<CSkypeProto> instanceList;

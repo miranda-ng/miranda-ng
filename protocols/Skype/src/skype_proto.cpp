@@ -10,6 +10,10 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	//_strlwr(m_szProtoName);
 	//this->m_szProtoName[0] = toupper(m_szProtoName[0]);
 
+	this->login = NULL;
+	this->password = NULL;
+	this->rememberPassword = false;
+
 	this->signin_lock = CreateMutex(0, false, 0);
 	this->SetAllContactStatus(ID_STATUS_OFFLINE);
 
@@ -24,12 +28,12 @@ CSkypeProto::~CSkypeProto()
 
 	CloseHandle(this->signin_lock);
 
-	/*mir_free(this->login);
-	mir_free(this->password);*/
+	::mir_free(this->login);
+	::mir_free(this->password);
 
-	mir_free(this->m_szProtoName);
-	mir_free(this->m_szModuleName);
-	mir_free(this->m_tszUserName);
+	::mir_free(this->m_szProtoName);
+	::mir_free(this->m_szModuleName);
+	::mir_free(this->m_tszUserName);
 }
 
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr) 
@@ -207,7 +211,7 @@ int CSkypeProto::SetStatus(int new_status)
 	if (new_status == ID_STATUS_OFFLINE && old_status != ID_STATUS_OFFLINE)
 	{
 		this->m_iStatus = new_status;
-		//todo: set all status to offline
+
 		this->account->Logout(true);
 		this->account->BlockWhileLoggingOut();
 		this->account->SetAvailability(CContact::OFFLINE);
@@ -215,9 +219,11 @@ int CSkypeProto::SetStatus(int new_status)
 	}
 	else 
 	{
-		this->m_iStatus = new_status;
 		if (old_status == ID_STATUS_OFFLINE)
-			this->SignIn();
+			if ( !this->SignIn())
+				return 0;
+		
+		this->m_iStatus = new_status;
 
 		CContact::AVAILABILITY availability = this->MirandaToSkypeStatus(this->m_iStatus);
 		if(availability != CContact::UNKNOWN)
@@ -259,38 +265,65 @@ void __cdecl CSkypeProto::SignInThread(void*)
 
 	this->account->LoginWithPassword(::mir_u2a(this->password), false, false);
 	this->account->BlockWhileLoggingIn();
+	if ( !this->rememberPassword)
+	{
+		for (int i = ::wcslen(this->password); i >= 0; i--)
+			this->password[i] = L'\0';
+	}
 
-	this->SetStatus(this->m_iDesiredStatus);
-	this->ForkThread(&CSkypeProto::LoadContactList, this);
-	//this->LoadContactList(this);
+	if (this->account->isLoggedOut)
+	{
+		this->m_iStatus = ID_STATUS_OFFLINE;
+		this->SendBroadcast(
+			ACKTYPE_LOGIN,
+			ACKRESULT_FAILED,
+			NULL, 
+			this->SkypeToMirandaLoginError(this->account->logoutReason));
+		::MessageBox(
+			NULL, 
+			::mir_a2u(this->account->logoutReasonString),
+			_T("Skype"),
+			MB_OK);
+	}
+	else
+	{
+		this->SetStatus(this->m_iDesiredStatus);
+		this->ForkThread(&CSkypeProto::LoadContactList, this);
+		//this->LoadContactList(this);
+	}
 
 	ReleaseMutex(this->signin_lock);
 }
 
-void CSkypeProto::SignIn()
+bool CSkypeProto::SignIn(bool isReadPassword)
 {
-	this->login = this->GetSettingString(SKYPE_SETTINGS_LOGIN);
-	if (login == NULL)
+	if (::wcscmp(this->login, L"") == 0)
 	{
-		this->SetStatus(ID_STATUS_OFFLINE);
-		this->SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
+		this->m_iStatus = ID_STATUS_OFFLINE;
+		this->SendBroadcast(ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 		::MessageBox(
 			NULL, 
 			TranslateT("You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again."),
 			_T("Skype"),
 			MB_OK);
-		return;
 	}
-	if (g_skype->GetAccount(::mir_u2a(login), this->account))
+	else if (g_skype->GetAccount(::mir_u2a(this->login), this->account))
 	{
 		this->m_iStatus = ID_STATUS_CONNECTING;
-		this->password = this->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD);
-		if (this->password)
-			this->ForkThread(&CSkypeProto::SignInThread, this);
-			//this->SignIn(this);
-		else
+		this->SendBroadcast(ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, this->m_iStatus); 
+		if (isReadPassword)
+			this->password = this->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD);				
+		if (::wcscmp(this->password, L"") == 0)
 			this->RequestPassword();
+		else
+		{
+			this->ForkThread(&CSkypeProto::SignInThread, this);
+			//this->SignInThread(this);
+			return true;
+		}
 	}
+
+	return false;
 }
 
 bool  CSkypeProto::IsOnline()

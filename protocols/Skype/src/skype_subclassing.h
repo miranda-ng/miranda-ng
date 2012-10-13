@@ -65,7 +65,10 @@ public:
 	typedef DRef<CAccount, Account> Ref;
 	typedef DRefs<CAccount, Account> Refs;
 	
+	bool isLoggedIn;
 	bool isLoggedOut;
+	LOGOUTREASON logoutReason;
+	char logoutReasonString[2048];
 	
 	CAccount(unsigned int oid, SERootObject* root);
 	

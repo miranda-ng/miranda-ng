@@ -47,6 +47,8 @@
 #include "skype_subclassing.h"
 
 #define MODULE "Skype"
+#define SKYPE_LOGIN_LIMIT 128
+#define SKYPE_PASSWORD_LIMIT 128
 #define SKYPE_SETTINGS_NAME "Name"
 #define SKYPE_SETTINGS_STATUS "Status"
 #define SKYPE_SETTINGS_LOGIN "SkypeLogin"

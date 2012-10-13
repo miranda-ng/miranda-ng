@@ -50,11 +50,15 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 			TCHAR data[128];
 			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));			
 
+			::mir_free(proto->login);
 			GetDlgItemText(hwnd, IDC_SL, data, sizeof(data));
 			proto->SetSettingString(SKYPE_SETTINGS_LOGIN, data);
+			proto->login = ::mir_wstrdup(data);
 
 			GetDlgItemText(hwnd, IDC_PW, data, sizeof(data));
 			proto->SetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, data);
+
+			proto->SetSettingByte("RememberPassword", true);
 
 			return TRUE;
 		}
@@ -116,11 +120,15 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 			wchar_t data[128];
 			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
+			::mir_free(proto->login);
 			GetDlgItemText(hwnd, IDC_SL, data, sizeof(data));
 			proto->SetSettingString(SKYPE_SETTINGS_LOGIN, data);
+			proto->login = ::mir_wstrdup(data);
 
 			GetDlgItemText(hwnd, IDC_PW, data, sizeof(data));
 			proto->SetDecodeSettingString(SKYPE_SETTINGS_PASSWORD, data);
+
+			proto->SetSettingByte("RememberPassword", true);
 
 			return TRUE;
 		}
@@ -173,11 +181,14 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordProc(HWND hwndDlg, UINT msg, WPARAM w
 			switch (LOWORD(wParam)) {
 			case IDOK:
 				ppro->rememberPassword = ::IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD) > 0;
-				ppro->SetSettingByte(NULL, "RememberPassword", ppro->rememberPassword);
+				ppro->SetSettingByte("RememberPassword", ppro->rememberPassword);
 
-				::GetDlgItemText(hwndDlg, IDC_PASSWORD, ppro->password, sizeof(ppro->password));
+				::mir_free(ppro->password);
+				wchar_t password[SKYPE_PASSWORD_LIMIT];
+				::GetDlgItemText(hwndDlg, IDC_PASSWORD, password, sizeof(password));
+				ppro->password = ::mir_wstrdup(password);
 
-				ppro->SignIn();
+				ppro->SignIn(false);
 
 				::EndDialog(hwndDlg, IDOK);
 				break;

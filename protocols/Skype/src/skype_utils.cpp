@@ -128,3 +128,31 @@ HANDLE CSkypeProto::ForkThreadEx(SkypeThreadFunc pFunc, void *param, UINT* threa
 		param, 
 		threadID ? threadID : &lthreadID);
 }
+
+//
+
+int CSkypeProto::SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason)
+{
+	int loginError = 0;
+
+	// todo: rewrite!!
+
+	switch (logoutReason)
+	{
+	case CAccount::SERVER_OVERLOADED:
+	case CAccount::P2P_CONNECT_FAILED:
+	case CAccount::SERVER_CONNECT_FAILED:
+		loginError = LOGINERR_NOSERVER;
+		break;
+	case CAccount::HTTPS_PROXY_AUTH_FAILED:
+	case CAccount::SOCKS_PROXY_AUTH_FAILED:
+		loginError = LOGINERR_PROXYFAILURE;
+		break;
+	case CAccount::INCORRECT_PASSWORD:
+	case CAccount::UNACCEPTABLE_PASSWORD:
+		loginError = LOGINERR_WRONGPASSWORD;
+		break;
+	}
+
+	return loginError;
+}
