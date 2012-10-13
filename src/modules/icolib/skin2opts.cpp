@@ -931,7 +931,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 							}
 						}
 						else if (item->temp_file) {
-							DBWriteContactSettingTString(NULL, "SkinIcons", item->name, item->temp_file);
+							db_set_ts(NULL, "SkinIcons", item->name, item->temp_file);
 							IconSourceItem_Release(&item->source_small);
 							SafeDestroyIcon(&item->temp_icon);
 						}

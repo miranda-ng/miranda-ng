@@ -372,7 +372,7 @@ static void convertOneProtocol(char* moduleName, char* iconName)
 		if ( !DBGetContactSettingTString(NULL, "Icons", moduleName, &dbv)) {
 			_itoa(i, pi, 10);
 
-			DBWriteContactSettingTString(NULL, "SkinIcons", iconName, dbv.ptszVal);
+			db_set_ts(NULL, "SkinIcons", iconName, dbv.ptszVal);
 			DBFreeVariant(&dbv);
 
 			DBDeleteContactSetting(NULL, "Icons", moduleName);
@@ -423,7 +423,7 @@ int LoadSkinIcons(void)
 
 		mir_snprintf(iconName, SIZEOF(iconName), "%s%d", mainIconsFmt, i);
 
-		DBWriteContactSettingTString(NULL, "SkinIcons", iconName, dbv.ptszVal);
+		db_set_ts(NULL, "SkinIcons", iconName, dbv.ptszVal);
 		DBFreeVariant(&dbv);
 
 		DBDeleteContactSetting(NULL, "Icons", moduleName);

@@ -207,7 +207,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				TCHAR str[MAX_PATH];
 
 				GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, MAX_PATH);
-				DBWriteContactSettingTString(NULL, "Netlib", "RunAtStart", str);
+				db_set_ts(NULL, "Netlib", "RunAtStart", str);
 				DBWriteContactSettingByte(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
 
 				mir_cslock lck(logOptions.cs);
@@ -271,7 +271,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				DBWriteContactSettingByte(NULL, "Netlib", "ShowUser", (BYTE)logOptions.showUser);
 				DBWriteContactSettingByte(NULL, "Netlib", "ToOutputDebugString", (BYTE)logOptions.toOutputDebugString);
 				DBWriteContactSettingByte(NULL, "Netlib", "ToFile", (BYTE)logOptions.toFile);
-				DBWriteContactSettingTString(NULL, "Netlib", "File", logOptions.szFile ? logOptions.szUserFile: _T(""));
+				db_set_ts(NULL, "Netlib", "File", logOptions.szFile ? logOptions.szUserFile: _T(""));
 				logOptions.save = 0;
 			}
 			else

@@ -932,7 +932,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				szProto = (TCHAR*)alloca(sizeof(TCHAR)*(len+1));
 				*szProto = '\0';
 				SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETLBTEXT, SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCURSEL, 0, 0), (LPARAM)szProto);
-				DBWriteContactSettingTString(NULL, "FindAdd", "LastSearched", szProto?szProto:_T(""));
+				db_set_ts(NULL, "FindAdd", "LastSearched", szProto?szProto:_T(""));
 			}
 			SaveColumnSizes(hwndList);
 			if (dat->hResultHook != NULL) UnhookEvent(dat->hResultHook);

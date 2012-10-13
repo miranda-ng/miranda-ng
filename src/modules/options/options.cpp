@@ -1357,14 +1357,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		opd = dat->getCurrent();
 		if (opd) {
 			if (opd->ptszTab)
-				DBWriteContactSettingTString(NULL, "Options", "LastTab", opd->ptszTab);
+				db_set_ts(NULL, "Options", "LastTab", opd->ptszTab);
 			else
 				DBDeleteContactSetting(NULL, "Options", "LastTab");
 			if (opd->ptszGroup)
-				DBWriteContactSettingTString(NULL, "Options", "LastGroup", opd->ptszGroup);
+				db_set_ts(NULL, "Options", "LastGroup", opd->ptszGroup);
 			else
 				DBDeleteContactSetting(NULL, "Options", "LastGroup");
-			DBWriteContactSettingTString(NULL, "Options", "LastPage", opd->ptszTitle);
+			db_set_ts(NULL, "Options", "LastPage", opd->ptszTitle);
 		}
 		else {
 			DBDeleteContactSetting(NULL, "Options", "LastTab");

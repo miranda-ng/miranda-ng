@@ -111,7 +111,7 @@ static int SaveTree(HWND hwndDlg)
 
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_name", menuItemName);
 			if (lstrcmp(iod->name, iod->defname) != 0)
-				DBWriteContactSettingTString(NULL, MenuNameItems, DBString, iod->name);
+				db_set_ts(NULL, MenuNameItems, DBString, iod->name);
 			else
 				DBDeleteContactSetting(NULL, MenuNameItems, DBString);
 

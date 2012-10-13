@@ -94,7 +94,7 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM wParam, LPARAM lParam)
 	if (ptszDefaultFile) {
 		DBVARIANT dbv;
 		if (DBGetContactSettingString(NULL, "SkinSounds", item->name, &dbv))
-			DBWriteContactSettingTString(NULL, "SkinSounds", item->name, ptszDefaultFile);
+			db_set_ts(NULL, "SkinSounds", item->name, ptszDefaultFile);
 		else
 			DBFreeVariant(&dbv);
 		mir_free(ptszDefaultFile);
@@ -333,7 +333,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 				for (int i=0; i < arSounds.getCount(); i++)
 					if (arSounds[i].ptszTempFile)
-						DBWriteContactSettingTString(NULL, "SkinSounds", arSounds[i].name, arSounds[i].ptszTempFile);
+						db_set_ts(NULL, "SkinSounds", arSounds[i].name, arSounds[i].ptszTempFile);
 
 				TVITEM tvi, tvic;
 				tvi.hItem = TreeView_GetRoot(hwndTree);

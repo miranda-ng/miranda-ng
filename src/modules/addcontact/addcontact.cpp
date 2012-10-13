@@ -172,7 +172,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 				TCHAR szHandle[256];
 				if ( GetDlgItemText(hdlg, IDC_MYHANDLE, szHandle, SIZEOF(szHandle)))
-					DBWriteContactSettingTString(hContact, "CList", "MyHandle", szHandle);
+					db_set_ts(hContact, "CList", "MyHandle", szHandle);
 
 				int item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETCURSEL, 0, 0);
 				if (item > 0) 

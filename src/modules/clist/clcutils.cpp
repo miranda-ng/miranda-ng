@@ -427,7 +427,7 @@ void fnEndRename(HWND, struct ClcData *dat, int save)
 					if ( !text[0] || !lstrcmp(otherName, text))
 						DBDeleteContactSetting(contact->hContact, "CList", "MyHandle");
 					else
-						DBWriteContactSettingTString(contact->hContact, "CList", "MyHandle", text);
+						db_set_ts(contact->hContact, "CList", "MyHandle", text);
 					mir_free(otherName);
 				}
 			}

@@ -99,7 +99,7 @@ static INT_PTR CreateGroup(WPARAM wParam, LPARAM lParam)
 		const CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, newName };
 
 		newName[0] = 1 | GROUPF_EXPANDED;   //1 is required so we never get '\0'
-		DBWriteContactSettingTString(NULL, "CListGroups", str, newName);
+		db_set_ts(NULL, "CListGroups", str, newName);
 		CallService(MS_CLUI_GROUPADDED, newId + 1, 1);
 
 		NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
@@ -199,7 +199,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 
 		if (szNewParent[0])
 		{
-			DBWriteContactSettingTString(hContact, "CList", "Group", szNewParent);
+			db_set_ts(hContact, "CList", "Group", szNewParent);
 			grpChg.pszNewName = szNewParent;
 		}
 		else
@@ -270,14 +270,14 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	lstrcpyn(oldName, dbv.ptszVal + 1, SIZEOF(oldName));
 	DBFreeVariant(&dbv);
 	lstrcpyn(str + 1, szName, SIZEOF(str) - 1);
-	DBWriteContactSettingTString(NULL, "CListGroups", idstr, str);
+	db_set_ts(NULL, "CListGroups", idstr, str);
 
 	//must rename setting in all child contacts too
 	hContact = db_find_first();
 	do {
 		ClcCacheEntryBase* cache = cli.pfnGetCacheEntry(hContact);
 		if ( !lstrcmp(cache->tszGroup, oldName)) {
-            DBWriteContactSettingTString(hContact, "CList", "Group", szName);
+            db_set_ts(hContact, "CList", "Group", szName);
             mir_free(cache->tszGroup);
             cache->tszGroup = 0;
             cli.pfnCheckCacheItem(cache);
@@ -440,7 +440,7 @@ static INT_PTR MoveGroupBefore(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	_itoa(shuffleTo, str, 10);
-	DBWriteContactSettingTString(NULL, "CListGroups", str, szMoveName);
+	db_set_ts(NULL, "CListGroups", str, szMoveName);
 	mir_free(szMoveName);
 	return shuffleTo + 1;
 }
