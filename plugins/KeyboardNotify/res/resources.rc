@@ -31,7 +31,7 @@ STYLE DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Tab1",IDC_TABS,"SysTabControl32",TCS_FIXEDWIDTH | 0x8,0,
+    CONTROL         "Tab1",IDC_TABS,"SysTabControl32",TCS_SINGLELINE | 0x8,0,
                     0,317,245
 END
 

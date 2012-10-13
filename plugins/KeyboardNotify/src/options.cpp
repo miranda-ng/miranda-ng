@@ -351,7 +351,6 @@ INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	int i;
 	static BOOL initDlg=FALSE;
 
 	switch (msg) {
@@ -398,7 +397,7 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BLINKSPIN), FALSE);
 			}
 			CheckDlgButton(hwndDlg, IDC_UNTILATTENDED, bFlashUntil&UNTIL_REATTENDED ? BST_CHECKED:BST_UNCHECKED);
-			for (i=0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				int index = SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)AttendedName[i]);
 				if (index != CB_ERR && index != CB_ERRSPACE)
 					SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
@@ -512,7 +511,6 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case WM_NOTIFY:
 			{
-				int j;
 				BYTE untilMap = 0;
 				WORD statusMap = 0;
 				//Here we have pressed either the OK or the APPLY button.
@@ -572,15 +570,16 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 						DBWriteContactSettingWord(NULL, KEYBDMODULE, "remcheck", (WORD)SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_GETPOS, 0, 0));
 
-						for (i=0, j=0; j < ProcessListAux.count; j++)
+						int i = 0;
+						for (int j = 0; j < ProcessListAux.count; j++)
 							if (ProcessListAux.szFileName[j])
 								DBWriteContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
 						DBWriteContactSettingWord(NULL, KEYBDMODULE, "processcount", (WORD)i);
 						while (!DBDeleteContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++)));
 
 						if (XstatusListAux)
-							for (i=0; i < ProtoList.protoCount; i++)
-								for(j=0; j < XstatusListAux[i].count; j++)
+							for (int i = 0; i < ProtoList.protoCount; i++)
+								for(int j = 0; j < (int)XstatusListAux[i].count; j++)
 									DBWriteContactSettingByte(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (BYTE)XstatusListAux[i].enabled[j]);
 
 						LoadSettings();
@@ -1149,8 +1148,6 @@ void writeThemeToCombo(const TCHAR *theme, const TCHAR *custom, BOOL overrideExi
 
 INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	unsigned int i;
-
 	switch (msg) {
 
 		case WM_INITDIALOG:
@@ -1158,7 +1155,7 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, EM_LIMITTEXT, MAX_PATH, 0);
 
-			for (i=0; i < ProcessListAux.count; i++)
+			for (int i = 0; i < ProcessListAux.count; i++)
 				if (ProcessListAux.szFileName[i]) {
 					int index = SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)ProcessListAux.szFileName[i]);
 					if (index != CB_ERR && index != CB_ERRSPACE)
@@ -1233,7 +1230,7 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				if (!ProcessListAux.szFileName)
 					ProcessListAux.count = 0;
 				else
-					for (i=0; i < ProcessListAux.count; i++) {
+					for (int i = 0; i < ProcessListAux.count; i++) {
 						TCHAR szFileNameAux[MAX_PATH+1];
 
 						SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETLBTEXT, (WPARAM)i, (LPARAM)szFileNameAux);
@@ -1255,14 +1252,12 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 void createProcessListAux(void)
 {
-	unsigned int i;
-
 	ProcessListAux.count = ProcessList.count;
 	ProcessListAux.szFileName = (TCHAR **)malloc(ProcessListAux.count * sizeof(char *));
 	if (!ProcessListAux.szFileName)
 		ProcessListAux.count = 0;
 	else
-		for (i=0; i < ProcessListAux.count; i++)
+		for (int i = 0; i < ProcessListAux.count; i++)
 			if (!ProcessList.szFileName[i])
 				ProcessListAux.szFileName[i] = NULL;
 			else {
@@ -1276,9 +1271,7 @@ void createProcessListAux(void)
 
 void destroyProcessListAux(void)
 {
-	unsigned int i;
-
-	for(i=0; i < ProcessListAux.count; i++)
+	for(int i = 0; i < ProcessListAux.count; i++)
 		if (ProcessListAux.szFileName[i])
 			free(ProcessListAux.szFileName[i]);
 
@@ -1363,11 +1356,9 @@ INT_PTR CALLBACK DlgProcEventLeds(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 void createXstatusListAux(void)
 {
-	unsigned int i, j;
-
 	XstatusListAux = (XSTATUS_INFO *)malloc(ProtoList.protoCount * sizeof(XSTATUS_INFO));
 	if (XstatusListAux)
-		for (i=0; i < ProtoList.protoCount; i++) {
+		for (int i = 0; i < ProtoList.protoCount; i++) {
 			XstatusListAux[i].count = ProtoList.protoInfo[i].xstatus.count;
 			if (!XstatusListAux[i].count)
 				XstatusListAux[i].enabled = NULL;
@@ -1376,7 +1367,7 @@ void createXstatusListAux(void)
 				if (!XstatusListAux[i].enabled)
 					XstatusListAux[i].count = 0;
 				else
-					for(j=0; j < XstatusListAux[i].count; j++)
+					for(int j = 0; j < (int)XstatusListAux[i].count; j++)
 						XstatusListAux[i].enabled[j] = ProtoList.protoInfo[i].xstatus.enabled[j];
 			}
 		}
@@ -1386,13 +1377,10 @@ void createXstatusListAux(void)
 
 void destroyXstatusListAux(void)
 {
-	unsigned int i;
-
 	if (XstatusListAux) {
-		for(i=0; i < ProtoList.protoCount; i++)
+		for(int i = 0; i < ProtoList.protoCount; i++)
 			if (XstatusListAux[i].enabled)
 				free(XstatusListAux[i].enabled);
-
 		free(XstatusListAux);
 		XstatusListAux = NULL;
 	}
@@ -1407,7 +1395,6 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case WM_INITDIALOG:
 
 		{
-			unsigned int i;
 			WPARAM j;
 			int imageCount;
 			HICON hIconAux;
@@ -1423,7 +1410,8 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			if (!XstatusListAux) return TRUE;
 
 			// Calculate hImageList size
-			for (i=0, imageCount=1; i < ProtoList.protoCount; i++)
+			imageCount=1;
+			for (int i = 0; i < ProtoList.protoCount; i++)
 				if (ProtoList.protoInfo[i].enabled && XstatusListAux[i].count)
 					imageCount += XstatusListAux[i].count;
 	
@@ -1437,7 +1425,7 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			ShowWindow(hwndTree, SW_HIDE);
 			TreeView_DeleteAllItems(hwndTree);
 
-			for (i=0; i < ProtoList.protoCount; i++)
+			for (int i = 0; i < ProtoList.protoCount; i++)
 				if (ProtoList.protoInfo[i].enabled && XstatusListAux[i].count) {
 					HTREEITEM hParent;
 
@@ -1454,7 +1442,7 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					tvis.item.iImage = tvis.item.iSelectedImage = ImageList_AddIcon(hImageList, hIconAux=(HICON)CallProtoService(ProtoList.protoInfo[i].szProto, PS_LOADICON, PLI_PROTOCOL, 0));
 					if (hIconAux) DestroyIcon(hIconAux);
 					hParent = TreeView_InsertItem(hwndTree, &tvis);
-					for(j=0; j < XstatusListAux[i].count; j++) {
+					for(j = 0; j < XstatusListAux[i].count; j++) {
 						TCHAR szDefaultName[1024];
 						ICQ_CUSTOM_STATUS xstatus={0};
 
@@ -1481,7 +1469,7 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			for (hSectionItem=TreeView_GetRoot(hwndTree); hSectionItem; hSectionItem=TreeView_GetNextSibling(hwndTree, hSectionItem)) {
 				tvi.hItem = hSectionItem;
 				TreeView_GetItem(hwndTree, &tvi);
-				i = (unsigned int)tvi.lParam;
+				unsigned int i = (unsigned int)tvi.lParam;
 				TreeView_SetItemState(hwndTree, hSectionItem, INDEXTOSTATEIMAGEMASK(0), TVIS_STATEIMAGEMASK);
 				for (hItem=TreeView_GetChild(hwndTree, hSectionItem); hItem; hItem=TreeView_GetNextSibling(hwndTree, hItem)) {
 					tvi.hItem = hItem;
