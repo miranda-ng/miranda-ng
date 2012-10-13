@@ -89,6 +89,8 @@
 #define IDI_XSTATUS85                   285
 #define IDI_XSTATUS86                   286
 
+#define IDS_IDENTIFY                    102
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
