@@ -185,7 +185,7 @@ void WriteDbAccounts()
 		db_set_dw(NULL, "Protocols", buf, pa->bIsEnabled);
 
 		_itoa(OFFSET_NAME+i, buf, 10);
-		DBWriteContactSettingTString(NULL, "Protocols", buf, pa->tszAccountName);
+		db_set_ts(NULL, "Protocols", buf, pa->tszAccountName);
 	}
 
 	DBDeleteContactSetting(0, "Protocols", "ProtoCount");
@@ -268,10 +268,8 @@ int LoadAccountsModule(void)
 		if (pa->ppro)
 			continue;
 
-		if ( !Proto_IsAccountEnabled(pa)) {
-			pa->bDynDisabled = TRUE;
+		if ( !Proto_IsAccountEnabled(pa))
 			continue;
-		}
 
 		if ( !ActivateAccount(pa))
 			pa->bDynDisabled = TRUE;
@@ -535,7 +533,6 @@ void DeactivateAccount(PROTOACCOUNT* pa, bool bIsDynamic, bool bErase)
 	param->bIsDynamic = bIsDynamic;
 	param->bErase = bErase;
 	pa->ppro = NULL;
-	pa->bDynDisabled = TRUE;
 	if (bIsDynamic)
 		mir_forkthread((pThreadFunc)DeactivationThread, param);
 	else 

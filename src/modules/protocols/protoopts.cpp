@@ -139,8 +139,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 						idx = accounts.getIndex(pa);
 						UnloadAccount(pa, false, false);
 						accounts.remove(idx);
-						if (oldProto && UnloadPlugin(szPlugin, SIZEOF(szPlugin))) 
-						{
+						if (oldProto && UnloadPlugin(szPlugin, SIZEOF(szPlugin))) {
 							TCHAR szNewName[MAX_PATH];
 							mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s~"), szPlugin);
 							MoveFile(szPlugin, szNewName);
@@ -152,8 +151,8 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 					pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 					pa->cbSize = sizeof(PROTOACCOUNT);
 					pa->bIsEnabled = TRUE;
-                    pa->bIsVisible = TRUE;
-                    
+					pa->bIsVisible = TRUE;
+
 					pa->iOrder = accounts.getCount();
 					break;
 				}
@@ -163,8 +162,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 					mir_free(pa->tszAccountName);
 					pa->tszAccountName = mir_tstrdup(buf);
 				}
-				if (param->action == PRAC_ADDED || param->action == PRAC_UPGRADED) 
-                {
+				if (param->action == PRAC_ADDED || param->action == PRAC_UPGRADED) {
 					char buf[200];
 					GetDlgItemTextA(hwndDlg, IDC_PROTOTYPECOMBO, buf, SIZEOF(buf));
 					pa->szProtoName = mir_strdup(buf);
@@ -178,7 +176,8 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 							if (DBGetContactSettingString(NULL, buf, "AM_BaseProto", &dbv))
 								break;
 							DBFreeVariant(&dbv);
-					}	}
+						}	
+					}
 					pa->szModuleName = mir_strdup(buf);
 
 					if ( !pa->tszAccountName[0]) {
@@ -189,12 +188,11 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 					DBWriteContactSettingString(NULL, pa->szModuleName, "AM_BaseProto", pa->szProtoName);
 					accounts.insert(pa);
 
-					if (ActivateAccount(pa)) {
+					if ( ActivateAccount(pa)) {
 						pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
 						if ( !db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
 							pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
 					}
-					else pa->bDynDisabled = TRUE;
 				}
 
 				WriteDbAccounts();
@@ -778,7 +776,6 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 									if ( !db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
 										pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
 								}
-								else pa->bDynDisabled = TRUE;
 							}
 							else {
 								DWORD dwStatus = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0);
