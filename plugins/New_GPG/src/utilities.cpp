@@ -659,6 +659,14 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 	{
 		LPCTSTR str = xi.getText(local_node); 
 		LPCTSTR nodename = xi.getName(local_node);
+		LPCTSTR attr = xi.getAttrValue(local_node, _T("to"));
+		if(attr)
+		{
+			HANDLE hContact = ji->Sys()->ContactFromJID(attr);
+			if(hContact)
+				if(!isContactSecured(hContact))
+					return FALSE;
+		}
 		if(str)
 		{
 			if(_tcsstr(str, _T("-----BEGIN PGP MESSAGE-----")) && _tcsstr(str, _T("-----END PGP MESSAGE-----")))

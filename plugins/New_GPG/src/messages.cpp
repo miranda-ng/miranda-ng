@@ -381,10 +381,17 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 	char *msg = pre->szMessage;
 	if (!msg)
 		return CallService(MS_PROTO_CHAINRECV, w, l);
+	DWORD dbflags = DBEF_UTF;
+	if(metaIsProtoMetaContacts(ccs->hContact))
+	{
+		if(!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
+			return CallService(MS_PROTO_CHAINRECV, w, l);
+		else
+			return 0;
+	}
 	wstring str = toUTF16(msg);
 	wstring::size_type s1 = wstring::npos, s2 = wstring::npos;
-	DWORD dbflags = DBEF_UTF;
-	if(bAutoExchange && (str.find(_T("-----PGP KEY RESPONSE-----")) != wstring::npos) && !metaIsProtoMetaContacts(ccs->hContact))
+	if(bAutoExchange && (str.find(_T("-----PGP KEY RESPONSE-----")) != wstring::npos))
 	{
 		s2 = str.find(_T("-----END PGP PUBLIC KEY BLOCK-----"));
 		s1 = str.find(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----"));
@@ -518,17 +525,10 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 		}
 		if((s2 != wstring::npos) && (s1 != wstring::npos))
 		{  //this is public key
-			if(metaIsProtoMetaContacts(ccs->hContact))
-			{
-				HistoryLog(ccs->hContact, db_event(msg, 0, 0, dbflags));
-				return 0;
-			}
 			debuglog<<time_str()<<": info: "<<"received key from: "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)<<"\n";
 			s1 = 0;
 			while((s1 = str.find(_T("\r"), s1)) != wstring::npos)
-			{
 				str.erase(s1, 1);
-			}
 			void ShowNewKeyDialog();
 			if((str.find(_T("-----END PGP PUBLIC KEY BLOCK-----")) != wstring::npos) && (str.find(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----")) != wstring::npos))
 			{
@@ -564,7 +564,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 					DBWriteContactSettingByte(ccs->hContact, szGPGModuleName, "GPGEncryption", 1);
 			}
 			mir_free(tmp);
-			return returnNoError(ccs->hContact);
+			return 0;
 		}
 		else if(!isContactHaveKey(ccs->hContact) && bAutoExchange && gpg_valid && gpg_keyexist)
 		{
@@ -583,7 +583,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 					if(CallService(svc, (WPARAM)ccs->hContact, (LPARAM)&cap))
 					{
 						CallContactService(ccs->hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)"-----PGP KEY REQUEST-----");
-						return returnNoError(ccs->hContact);
+						return 0;
 					}
 				}
 			}
@@ -611,17 +611,17 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 							if(str.find(_T("GPG_Key_Auto_Exchange:0")) != string::npos)
 							{
 								CallContactService(ccs->hContact, PSS_MESSAGE, (WPARAM)0, (LPARAM)"-----PGP KEY REQUEST-----");
-								return returnNoError(ccs->hContact);
+								return 0;
 							}
 						}
 					}
 				}
 			}
 		}
-		if(!(strstr(msg, "-----BEGIN PGP MESSAGE-----") && strstr(msg, "-----END PGP MESSAGE-----")))
+		if(!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
 			return CallService(MS_PROTO_CHAINRECV, w, l);
 		boost::thread *thr = new boost::thread(boost::bind(RecvMsgSvc_func, ccs->hContact, str, msg, ccs->wParam, pre->timestamp));
-		return returnNoError(ccs->hContact);
+		return 0;
 }
 
 void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
