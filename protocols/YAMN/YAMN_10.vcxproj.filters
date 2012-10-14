@@ -23,108 +23,90 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="account.cpp">
+    <ClCompile Include="src\account.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="debug.cpp">
+    <ClCompile Include="src\debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="filterplugin.cpp">
+    <ClCompile Include="src\filterplugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="protoplugin.cpp">
+    <ClCompile Include="src\protoplugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="services.cpp">
+    <ClCompile Include="src\services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="synchro.cpp">
+    <ClCompile Include="src\synchro.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="yamn.cpp">
+    <ClCompile Include="src\yamn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="browser\badconnect.cpp">
+    <ClCompile Include="src\browser\badconnect.cpp">
       <Filter>Source Files\Mail browser, dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="browser\mailbrowser.cpp">
+    <ClCompile Include="src\browser\mailbrowser.cpp">
       <Filter>Source Files\Mail browser, dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="mails\decode.cpp">
+    <ClCompile Include="src\mails\decode.cpp">
       <Filter>Source Files\Mails</Filter>
     </ClCompile>
-    <ClCompile Include="mails\mails.cpp">
+    <ClCompile Include="src\mails\mails.cpp">
       <Filter>Source Files\Mails</Filter>
     </ClCompile>
-    <ClCompile Include="mails\mime.cpp">
+    <ClCompile Include="src\mails\mime.cpp">
       <Filter>Source Files\Mails</Filter>
     </ClCompile>
-    <ClCompile Include="proto\md5.c">
+    <ClCompile Include="src\proto\md5.c">
       <Filter>Source Files\POP3 plugin</Filter>
     </ClCompile>
-    <ClCompile Include="proto\netlib.cpp">
+    <ClCompile Include="src\proto\netlib.cpp">
       <Filter>Source Files\POP3 plugin</Filter>
     </ClCompile>
-    <ClCompile Include="proto\pop3\pop3.cpp">
+    <ClCompile Include="src\proto\pop3\pop3.cpp">
       <Filter>Source Files\POP3 plugin</Filter>
     </ClCompile>
-    <ClCompile Include="proto\pop3\pop3comm.cpp">
+    <ClCompile Include="src\proto\pop3\pop3comm.cpp">
       <Filter>Source Files\POP3 plugin</Filter>
     </ClCompile>
-    <ClCompile Include="proto\pop3\pop3opt.cpp">
+    <ClCompile Include="src\proto\pop3\pop3opt.cpp">
       <Filter>Source Files\POP3 plugin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\iconeutral.ico">
+    <ClInclude Include="src\resource.h">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="resources\iconttbdown.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="resources\icooffline.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="resources\icoyamn3.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="resources\yamn.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="ChangeLog.txt" />
+    </ClInclude>
+    <ClInclude Include="src\debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\proto\pop3\pop3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\proto\pop3\pop3comm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\proto\pop3\pop3opt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\yamn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resources\resource.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="proto\pop3\pop3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="proto\pop3\pop3comm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="proto\pop3\pop3opt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="yamn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="version.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resources\YAMN.rc">
+    <ResourceCompile Include="res\YAMN.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="resources\yamn_ver.rc">
+    <ResourceCompile Include="res\yamn_ver.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
