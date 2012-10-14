@@ -181,17 +181,13 @@ char *NickFromHContact(HANDLE hContact)
 		}
 		else
 		{
-			char *uid;
-			char szUID[256];
-
-			uid = (char*)CallProtoService(szProto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
-			if ((int)uid!=CALLSERVICE_NOTFOUND && uid)
-			{
+			char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
+				char szUID[256];
 				GetValue(hContact, szProto, uid, szUID, SIZEOF(szUID));
 				mir_snprintf(nick, SIZEOF(nick), "%s *(%s)*<%s>*{%s}*", (char*)GetContactName(hContact,szProto,0), szProto, uid, szUID);
 			}
-			else
-				mir_snprintf(nick, SIZEOF(nick), "%s (%s)", (char*)GetContactName(hContact,szProto,0), szProto);
+			else mir_snprintf(nick, SIZEOF(nick), "%s (%s)", (char*)GetContactName(hContact,szProto,0), szProto);
 		}
 	}
 
