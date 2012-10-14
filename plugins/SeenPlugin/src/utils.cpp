@@ -519,18 +519,13 @@ void ShowPopup(HANDLE hcontact, const char * lpzProto, int newStatus)
 void myPlaySound(HANDLE hcontact, WORD newStatus, WORD oldStatus){
 	if (CallService(MS_IGNORE_ISIGNORED,(WPARAM)hcontact,IGNOREEVENT_USERONLINE)) return;
 	//oldStatus and hcontact are not used yet
-	if ( db_get_b(NULL,"Skin","UseSound",1)) {
-		char * soundname=0;
-		if ((newStatus==ID_STATUS_ONLINE) || (newStatus==ID_STATUS_FREECHAT)) soundname = "LastSeenTrackedStatusOnline";
-		else if (newStatus==ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusOffline";
-		else if (oldStatus==ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusFromOffline";
-		else soundname = "LastSeenTrackedStatusChange";
-		if (!db_get_b(NULL,"SkinSoundsOff",soundname,0)) {
-			DBVARIANT dbv;
-			if ( !DBGetContactSettingTString(NULL, "SkinSounds", soundname, &dbv)) {
-				PlaySound(dbv.ptszVal, NULL, SND_ASYNC | SND_FILENAME | SND_NOWAIT);
-				db_free(&dbv);
-}	}	}	}
+	char * soundname=0;
+	if ((newStatus==ID_STATUS_ONLINE) || (newStatus==ID_STATUS_FREECHAT)) soundname = "LastSeenTrackedStatusOnline";
+	else if (newStatus==ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusOffline";
+	else if (oldStatus==ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusFromOffline";
+	else soundname = "LastSeenTrackedStatusChange";
+	if (soundname!=0) SkinPlaySound(soundname);
+}
 
 //will give hContact position or zero
 int isContactQueueActive(HANDLE hContact){
@@ -598,13 +593,11 @@ static DWORD __stdcall waitThread(logthread_info* infoParam)
 
 int UpdateValues(WPARAM wparam,LPARAM lparam)
 {
-	DBCONTACTWRITESETTING *cws;
-	BOOL isIdleEvent;
 	// to make this code faster
 	if (!wparam) return 0;
-	cws=(DBCONTACTWRITESETTING *)lparam;
+	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING *)lparam;
 	//if (CallService(MS_IGNORE_ISIGNORED,(WPARAM)hContact,IGNOREEVENT_USERONLINE)) return 0;
-	isIdleEvent = includeIdle?(strcmp(cws->szSetting,"IdleTS")==0):0;
+	BOOL isIdleEvent = includeIdle?(strcmp(cws->szSetting,"IdleTS")==0):0;
 	if (strcmp(cws->szSetting,"Status") && strcmp(cws->szSetting,"StatusTriger") && (isIdleEvent==0)) return 0;
 	if (!strcmp(cws->szModule,S_MOD)) {
 		//here we will come when Settings/SeenModule/StatusTriger is changed
