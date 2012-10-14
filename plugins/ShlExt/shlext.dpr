@@ -351,8 +351,7 @@ begin
   PluginInfo.version := PLUGIN_MAKE_VERSION(2, 0, 1, 2);
 {$IFDEF FPC}
   PluginInfo.description :=
-    'Click ''n'' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to. Built on ' +
-  {$I %DATE%} +' at ' + {$I %TIME%} +' with FPC ' + {$I %FPCVERSION%};
+    'Click ''n'' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.';
 {$ELSE}
   PluginInfo.description := '';
 {$ENDIF}
