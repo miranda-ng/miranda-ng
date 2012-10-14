@@ -216,16 +216,16 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\TxtExport.cpp" />
-    <ClCompile Include="zip\ioapi.c">
+    <ClCompile Include="src\zip\ioapi.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="zip\iowin32.c">
+    <ClCompile Include="src\zip\iowin32.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="zip\unzip.c">
+    <ClCompile Include="src\zip\unzip.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="zip\zip.c">
+    <ClCompile Include="src\zip\zip.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
