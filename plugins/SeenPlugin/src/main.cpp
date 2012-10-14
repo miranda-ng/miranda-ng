@@ -45,8 +45,8 @@ PLUGININFOEX pluginInfo={
 
 #define TRANSNUMBER 2
 DBVTranslation idleTr[TRANSNUMBER]={
-	{(TranslateFunc*)any_to_IdleNotidleUnknown, _T("Any to Idle/Not Idle/Unknown"),0},
-	{(TranslateFunc*)any_to_Idle, _T("Any to /Idle or empty"),0}
+	{any_to_IdleNotidleUnknown, _T("Any to Idle/Not Idle/Unknown"),0},
+	{any_to_Idle, _T("Any to /Idle or empty"),0}
 };
 
 BOOL includeIdle;
@@ -77,10 +77,10 @@ int MainInit(WPARAM wparam,LPARAM lparam)
 	ehdb = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UpdateValues);
 	ehproto = HookEvent(ME_PROTO_ACK,ModeChange);
 
-	SkinAddNewSoundEx("LastSeenTrackedStatusChange", LPGEN("LastSeen"), LPGEN("User status change"));
-	SkinAddNewSoundEx("LastSeenTrackedStatusOnline", LPGEN("LastSeen"), LPGEN("Changed to Online"));
-	SkinAddNewSoundEx("LastSeenTrackedStatusOffline", LPGEN("LastSeen"), LPGEN("User Logged Off"));
-	SkinAddNewSoundEx("LastSeenTrackedStatusFromOffline", LPGEN("LastSeen"), LPGEN("User Logged In"));
+	SkinAddNewSoundExT("LastSeenTrackedStatusChange", LPGENT("LastSeen"), LPGENT("User status change"));
+	SkinAddNewSoundExT("LastSeenTrackedStatusOnline", LPGENT("LastSeen"), LPGENT("Changed to Online"));
+	SkinAddNewSoundExT("LastSeenTrackedStatusOffline", LPGENT("LastSeen"), LPGENT("User Logged Off"));
+	SkinAddNewSoundExT("LastSeenTrackedStatusFromOffline", LPGENT("LastSeen"), LPGENT("User Logged In"));
 	
 	// known modules list
 	if (ServiceExists("DBEditorpp/RegisterSingleModule"))

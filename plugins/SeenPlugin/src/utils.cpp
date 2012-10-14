@@ -370,7 +370,7 @@ LBL_charPtr:
 			goto LBL_charPtr;
 
 		case 'P':
-			_tcscpy(szdbsetting, _A2T(ci.szProto ? ci.szProto : (wantempty ? "" : "ProtoUnknown")));
+			_tcscpy(szdbsetting, ci.szProto ? _A2T(ci.szProto) : (wantempty ? _T("") : _T("ProtoUnknown")));
 			goto LBL_charPtr;
 
 		case 'b':
@@ -378,33 +378,11 @@ LBL_charPtr:
 			goto LBL_charPtr;
 
 		case 'C': // Get Client Info
-			if (isMSN(ci.szProto)) {
-				if (hcontact) {
-					dwsetting = (int)db_get_dw(hcontact,ci.szProto,"FlagBits",0);
-					wsprintf(szdbsetting, _T("MSNC%i"), (dwsetting&0x70000000)>>28);
-					if (dwsetting & 0x00000001) _tcscat(szdbsetting, _T(" MobD")); //Mobile Device
-					if (dwsetting & 0x00000004) _tcscat(szdbsetting, _T(" InkG")); //GIF Ink Send/Receive
-					if (dwsetting & 0x00000008) _tcscat(szdbsetting, _T(" InkI")); //ISF Ink Send/Receive
-					if (dwsetting & 0x00000010) _tcscat(szdbsetting, _T(" WCam")); //Webcam
-					if (dwsetting & 0x00000020) _tcscat(szdbsetting, _T(" MPkt")); //Multi packet messages
-					if (dwsetting & 0x00000040) _tcscat(szdbsetting, _T(" SMSr")); //Paging
-					if (dwsetting & 0x00000080) _tcscat(szdbsetting, _T(" DSMS")); //Using MSN Direct
-					if (dwsetting & 0x00000200) _tcscat(szdbsetting, _T(" WebM")); //WebMessenger
-					if (dwsetting & 0x00001000) _tcscat(szdbsetting, _T(" MS7+")); //Unknown (Msgr 7 always[?] sets it)
-					if (dwsetting & 0x00004000) _tcscat(szdbsetting, _T(" DirM")); //DirectIM
-					if (dwsetting & 0x00008000) _tcscat(szdbsetting, _T(" Wink")); //Send/Receive Winks
-					if (dwsetting & 0x00010000) _tcscat(szdbsetting, _T(" MSrc")); //MSN Search ??
-					if (dwsetting & 0x00040000) _tcscat(szdbsetting, _T(" VoiC")); //Voice Clips
-				}
-				else _tcscpy(szdbsetting, _T("Miranda"));
+			if ( !DBGetContactSettingTString(hcontact, ci.szProto, "MirVer", &dbv)) {
+				_tcscpy(szdbsetting, dbv.ptszVal);
+				db_free(&dbv);
 			}
-			else {
-				if ( !DBGetContactSettingTString(hcontact, ci.szProto, "MirVer", &dbv)) {
-					_tcscpy(szdbsetting, dbv.ptszVal);
-					db_free(&dbv);
-				}
-				else goto LBL_noData;
-			}
+			else goto LBL_noData;
 			charPtr = szdbsetting;
 			goto LBL_charPtr;
 
@@ -534,8 +512,8 @@ void ShowPopup(HANDLE hcontact, const char * lpzProto, int newStatus)
 		db_free(&dbv);
 	}
 	else _tcsncpy(ppd.lptzText, ParseString(DEFAULT_POPUPSTAMPTEXT, hcontact, 0), MAX_SECONDLINE);
-	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
-	CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
+	ppd.PluginWindowProc = PopupDlgProc;
+	PUAddPopUpT(&ppd);
 }
 
 void myPlaySound(HANDLE hcontact, WORD newStatus, WORD oldStatus){
@@ -744,10 +722,7 @@ static DWORD __stdcall cleanThread(logthread_info* infoParam)
 
 int ModeChange(WPARAM wparam,LPARAM lparam)
 {
-	ACKDATA *ack;
-	WORD isetting=0;
-
-	ack=(ACKDATA *)lparam;
+	ACKDATA *ack=(ACKDATA *)lparam;
 
 	if (ack->type!=ACKTYPE_STATUS || ack->result!=ACKRESULT_SUCCESS || ack->hContact!=NULL) return 0;
 	courProtoName = (char *)ack->szModule;
@@ -760,14 +735,13 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 	DBWriteTimeTS(time(NULL),NULL);
 
 //	isetting=CallProtoService(ack->szModule,PS_GETSTATUS,0,0);
-	isetting=(WORD)ack->lParam;
+	WORD isetting=(WORD)ack->lParam;
 	if (isetting<ID_STATUS_OFFLINE) isetting = ID_STATUS_OFFLINE;
 	if ((isetting>ID_STATUS_OFFLINE)&&((WORD)ack->hProcess<=ID_STATUS_OFFLINE)) {
 		//we have just loged-in
 		db_set_dw(NULL, "UserOnline", ack->szModule, GetTickCount());
 		if (IsWatchedProtocol(ack->szModule)) {
-			logthread_info *info;
-			info = (logthread_info *)malloc(sizeof(logthread_info));
+			logthread_info *info = (logthread_info *)malloc(sizeof(logthread_info));
 			strncpy(info->sProtoName,courProtoName,MAXMODULELABELLENGTH);
 			info->hContact = 0;
 			info->courStatus = 0;
@@ -818,21 +792,21 @@ short int isDbZero(HANDLE hContact, const char *module_name, const char *setting
 	return -1;
 }
 
-WCHAR *any_to_IdleNotidleUnknown(HANDLE hContact, const char *module_name, const char *setting_name, WCHAR *buff, int bufflen) {
+TCHAR *any_to_IdleNotidleUnknown(HANDLE hContact, const char *module_name, const char *setting_name, TCHAR *buff, int bufflen) {
 	short int r = isDbZero(hContact, module_name, setting_name);
 	if (r==-1){
-		wcsncpy(buff, TranslateW(L"Unknown"), bufflen);
+		_tcsncpy(buff, TranslateT("Unknown"), bufflen);
 	} else {
-		wcsncpy(buff, TranslateW(r?L"Not Idle":L"Idle"), bufflen);
+		_tcsncpy(buff, r ? TranslateT("Not Idle") : TranslateT("Idle"), bufflen);
 	};
 	buff[bufflen - 1] = 0;
 	return buff;
 }
 
-WCHAR *any_to_Idle(HANDLE hContact, const char *module_name, const char *setting_name, WCHAR *buff, int bufflen) {
+TCHAR *any_to_Idle(HANDLE hContact, const char *module_name, const char *setting_name, TCHAR *buff, int bufflen) {
 	if (isDbZero(hContact, module_name, setting_name)==0) { //DB setting is NOT zero and exists
 		buff[0] = L'/';
-		wcsncpy((WCHAR *)&buff[1], TranslateW(L"Idle"), bufflen-1);
+		_tcsncpy(&buff[1], TranslateT("Idle"), bufflen-1);
 	} else buff[0] = 0;
 	buff[bufflen - 1] = 0;
 	return buff;

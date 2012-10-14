@@ -78,7 +78,7 @@ void FileWrite(HANDLE hcontact)
 	db_free(&dbv);
 	SetFilePointer(fhout,0,0,FILE_END);
 
-	if ( !DBGetContactSettingTString(NULL, S_MOD," FileStamp", &dbv)) {
+	if ( !DBGetContactSettingTString(NULL, S_MOD,"FileStamp", &dbv)) {
 		_tcscpy(szout, ParseString(dbv.ptszVal, hcontact, 1));
 		db_free(&dbv);
 	}

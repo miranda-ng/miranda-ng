@@ -465,17 +465,17 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);
-	odp.pszGroup = LPGEN("Services");
-	odp.pszTitle = LPGEN("Last seen");
+	odp.ptszGroup = LPGENT("Services");
+	odp.ptszTitle = LPGENT("Last seen");
 	odp.pfnDlgProc = OptsSettingsDlgProc;
 	Options_AddPage(wparam,&odp);
 
-	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
-		odp.pszGroup = LPGEN("PopUps");
-		odp.pszTitle = LPGEN("Last seen");
+		odp.ptszGroup = LPGENT("PopUps");
+		odp.ptszTitle = LPGENT("Last seen");
 		odp.pfnDlgProc = OptsPopUpsDlgProc;
 		Options_AddPage(wparam,&odp);
 	}

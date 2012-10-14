@@ -80,7 +80,8 @@ void InitMenuitem()
 
 	CLISTMENUITEM cmi = { sizeof(cmi) };
 	cmi.position = -0x7FFFFFFF;
-	cmi.pszName = "<none>";
+	cmi.flags = CMIF_TCHAR;
+	cmi.ptszName = LPGENT("<none>");
 	cmi.pszService = "LastSeenUserDetails";
 	hmenuitem = Menu_AddContactMenuItem(&cmi);
 	

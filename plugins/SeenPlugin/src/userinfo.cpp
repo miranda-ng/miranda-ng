@@ -82,7 +82,8 @@ int UserinfoInit(WPARAM wparam,LPARAM lparam)
 		OPTIONSDIALOGPAGE uip = { sizeof(uip) };
 		uip.hInstance = hInstance;
 		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
-		uip.pszTitle = "Last seen";
+		uip.flags = ODPF_TCHAR;
+		uip.ptszTitle = LPGENT("Last seen");
 		uip.pfnDlgProc = UserinfoDlgProc;
 		UserInfo_AddPage(wparam, &uip);
 	}
