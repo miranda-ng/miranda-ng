@@ -88,13 +88,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_MRA", "..\protocols
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Yahoo", "..\protocols\Yahoo\proto_yahoo\Proto_Yahoo.vcxproj", "{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_YAMN", "..\protocols\YAMN\icons\proto_YAMN_10.vcxproj", "{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_mRadio", "..\protocols\mRadio\proto_mradio\Proto_mRadio.vcxproj", "{2BCC460C-E7C0-4AA8-B680-B9DE561A8408}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistoryPP_icons", "..\plugins\HistoryPlusPlus\historypp_icons\HistoryPP_icons.vcxproj", "{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Omegle", "..\protocols\Omegle\proto_omegle\omegle_icons_10.vcxproj", "{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_YAMN", "..\protocols\YAMN\proto_yamn\proto_YAMN_10.vcxproj", "{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}"
 EndProject
 Global
 	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
@@ -459,14 +459,6 @@ Global
 		{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}.Release|Win32.Build.0 = Release|Win32
 		{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}.Release|x64.ActiveCfg = Release|x64
 		{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}.Release|x64.Build.0 = Release|x64
-		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Debug|Win32.Build.0 = Debug|Win32
-		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Debug|x64.ActiveCfg = Debug|x64
-		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Debug|x64.Build.0 = Debug|x64
-		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Release|Win32.ActiveCfg = Release|Win32
-		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Release|Win32.Build.0 = Release|Win32
-		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Release|x64.ActiveCfg = Release|x64
-		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Release|x64.Build.0 = Release|x64
 		{2BCC460C-E7C0-4AA8-B680-B9DE561A8408}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2BCC460C-E7C0-4AA8-B680-B9DE561A8408}.Debug|Win32.Build.0 = Debug|Win32
 		{2BCC460C-E7C0-4AA8-B680-B9DE561A8408}.Debug|x64.ActiveCfg = Debug|x64
@@ -491,6 +483,14 @@ Global
 		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|Win32.Build.0 = Release|Win32
 		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|x64.ActiveCfg = Release|x64
 		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|x64.Build.0 = Release|x64
+		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Debug|Win32.Build.0 = Debug|Win32
+		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Debug|x64.ActiveCfg = Debug|x64
+		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Debug|x64.Build.0 = Debug|x64
+		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Release|Win32.ActiveCfg = Release|Win32
+		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Release|Win32.Build.0 = Release|Win32
+		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Release|x64.ActiveCfg = Release|x64
+		{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
