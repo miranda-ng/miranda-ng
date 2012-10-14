@@ -428,7 +428,7 @@ bool bCreatePathToFile( tstring sFilePath )
 bool bWriteToFile( HANDLE hFile , const char * pszSrc , int nLen = -1 )
 {
 	if( nLen < 0 )
-		nLen = strlen( pszSrc );
+		nLen = (int)strlen( pszSrc );
 	DWORD dwBytesWritten;
 	return WriteFile( hFile , pszSrc , nLen , &dwBytesWritten , NULL ) && (dwBytesWritten == (DWORD)nLen);
 }
@@ -452,7 +452,7 @@ bool bWriteToFile( HANDLE hFile , const char * pszSrc , int nLen = -1 )
 bool bWriteTextToFile( HANDLE hFile , const _TCHAR * pszSrc , bool bUtf8File ,int nLen = -1 )
 {
 	if( nLen < 0 )
-		nLen = _tcslen( pszSrc );
+		nLen = (int)_tcslen( pszSrc );
 	if( ! bUtf8File )
 	{
 // We need to downgrade text to ansi
@@ -473,7 +473,7 @@ bool bWriteTextToFile( HANDLE hFile , const _TCHAR * pszSrc , bool bUtf8File ,in
 bool bWriteTextToFile( HANDLE hFile , const char * pszSrc , bool bUtf8File ,int nLen = -1 )
 {
 	if( nLen == -1 )
-		nLen = strlen( pszSrc );
+		nLen = (int)strlen( pszSrc );
 	wchar_t * pszWstr = new wchar_t[nLen];
 	bool bRet = false;
 	if( MultiByteToWideChar(CP_ACP, 0, pszSrc, nLen, pszWstr, nLen ) == nLen )
@@ -1138,7 +1138,7 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 			szTemp[1] = 0;
 			ReplaceAll( output , _T("%Gender%") , szTemp );
 
-			if( ! bWriteTextToFile( hFile , output.data(), bWriteUTF8Format, output.size() ) )
+			if( ! bWriteTextToFile( hFile , output.data(), bWriteUTF8Format, (int)output.size() ) )
 			{
 				DisplayErrorDialog( LPGENT("Failed to write user details to file :\n") , sFilePath , NULL );
 				CloseHandle( hFile );
@@ -1161,7 +1161,7 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 
 		CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT,dbei.timestamp,(LPARAM)&dbtts);
 
-		nIndent = _tcslen( szTemp );
+		nIndent = (int)_tcslen( szTemp );
 		szTemp[nIndent++] = ' ';
 		
 		// Write first part of line with name and timestamp
@@ -1230,7 +1230,7 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 
 				bool bWriteOk = false;
 
-				int nLen = strlen( pszData );
+				int nLen = (int)strlen( pszData );
 				if( (pszData - (char *)dbei.pBlob) + nLen < (int)dbei.cbBlob )
 				{
 					if( bWriteTextToFile( hFile , pszType , bWriteUTF8Format ) && 
@@ -1243,7 +1243,7 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 						}
 						else
 						{
-							nLen = strlen( pszData );
+							nLen = (int)strlen( pszData );
 							if( (pszData - (char *)dbei.pBlob) + nLen < (int)dbei.cbBlob )
 							{
 								if( bWriteNewLine( hFile , nIndent ) &&  
@@ -1360,13 +1360,13 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 				if( nMsgLenght < dbei.cbBlob )
 				{
 					size_t nFriendlyLen = strlen( &pszStr[nMsgLenght] );
-					bWriteTextToFile(  hFile , &pszStr[nMsgLenght] , bWriteUTF8Format , nFriendlyLen );
+					bWriteTextToFile(  hFile , &pszStr[nMsgLenght] , bWriteUTF8Format , (int)nFriendlyLen );
 					size_t nEmailOffset = nMsgLenght + nFriendlyLen + 1;
 					if( nEmailOffset < dbei.cbBlob )
 					{
 						bWriteTextToFile(  hFile , _T("<") , bWriteUTF8Format );
 						size_t nEmailLen = strlen( &pszStr[nEmailOffset] );
-						bWriteTextToFile(  hFile , &pszStr[nEmailOffset] , bWriteUTF8Format , nEmailLen );
+						bWriteTextToFile(  hFile , &pszStr[nEmailOffset] , bWriteUTF8Format , (int)nEmailLen );
 						bWriteTextToFile(  hFile , _T(">") , bWriteUTF8Format );
 					}
 				}
@@ -1441,7 +1441,7 @@ int nExportEvent(WPARAM wparam,LPARAM lparam)
 
 	{ // Get Blob data size
 		
-		int nSize = CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)lparam,0);
+		int nSize = (int)CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)lparam,0);
 		if( nSize > 0 )
 		{
 			dbei.cbBlob = nSize;
@@ -1473,7 +1473,7 @@ int nExportEvent(WPARAM wparam,LPARAM lparam)
 #ifdef _UNICODE
 bool bWriteIndentedToFile( HANDLE hFile , int nIndent , const char * pszSrc , bool bUtf8File )
 {
-	int nLen = strlen( pszSrc );
+	int nLen = (int)strlen( pszSrc );
 	wchar_t * pszWstr = new wchar_t[nLen+1];
 	bool bRet = false;
 	if( MultiByteToWideChar(CP_ACP, 0, pszSrc, nLen, pszWstr, nLen ) == nLen )

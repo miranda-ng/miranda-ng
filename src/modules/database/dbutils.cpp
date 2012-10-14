@@ -123,13 +123,13 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 	if (egt->datatype == DBVT_WCHAR)
 	{
 		WCHAR* msg = NULL;
-        if (dbei->flags & DBEF_UTF) {
-            char* str = (char*)alloca(dbei->cbBlob + 1);
-            if (str == NULL) return NULL;
-            memcpy(str, dbei->pBlob, dbei->cbBlob);
-            str[dbei->cbBlob] = 0;
+		if (dbei->flags & DBEF_UTF) {
+			char* str = (char*)alloca(dbei->cbBlob + 1);
+			if (str == NULL) return NULL;
+			memcpy(str, dbei->pBlob, dbei->cbBlob);
+			str[dbei->cbBlob] = 0;
 			Utf8DecodeCP(str, egt->codepage, &msg);
-        }
+		}
 		else {
 			size_t msglen = strlen((char*)dbei->pBlob) + 1, msglenW = 0;
 			if (msglen != dbei->cbBlob) {
@@ -154,7 +154,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		if (dbei->flags & DBEF_UTF)
 			Utf8DecodeCP(msg, egt->codepage, NULL);
 
-      return (INT_PTR)msg;
+		return (INT_PTR)msg;
 	}
 	return 0;
 }
@@ -195,10 +195,7 @@ static INT_PTR DbEventGetIcon(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-  if (wParam & LR_SHARED)
-    return (INT_PTR)icon;
-  else
-    return (INT_PTR)CopyIcon(icon);
+	return (INT_PTR)((wParam & LR_SHARED) ? icon : CopyIcon(icon));
 }
 
 static INT_PTR DbEventGetStringT(WPARAM wParam, LPARAM lParam)
