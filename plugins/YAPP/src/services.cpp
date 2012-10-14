@@ -163,21 +163,18 @@ INT_PTR ChangeTextW(WPARAM wParam, LPARAM lParam)
 
 	if (IsWindow(hwndPop))
 		SendMessage(hwndPop, PUM_SETTEXT, 0, (LPARAM)newText);
-	else
-		mir_free(newText);
 	return 0;
 }
 
-INT_PTR ChangeTextA(WPARAM wParam, LPARAM lParam) {
+INT_PTR ChangeTextA(WPARAM wParam, LPARAM lParam)
+{
 	HWND hwndPop = (HWND)wParam;
 	char *newText = (char *)lParam;
-	wchar_t* buff = mir_a2u(newText);
+	mir_ptr<wchar_t> buff( mir_a2u(newText));
 	StripBBCodesInPlace(buff);
 
 	if (IsWindow(hwndPop))
 		SendMessage(hwndPop, PUM_SETTEXT, 0, (LPARAM)buff);
-
-	mir_free(buff);
 	return 0;
 }
 
