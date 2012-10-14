@@ -1,7 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "winres.h"
-#include "resource.h"
+#include "..\src\resource.h"
 /////////////////////////////////////////////////////////////////////////////
 // English (United States) resources
 
@@ -157,13 +157,13 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_YAHOO               ICON                    "icos/yahoo.ico"
-IDI_INBOX               ICON                    "icos/inbox.ico"
-IDI_PROFILE             ICON                    "icos/profile.ico"
-IDI_REFRESH             ICON                    "icos/refresh.ico"
-IDI_YAB                 ICON                    "icos/address_book.ico"
-IDI_SET_STATUS          ICON                    "icos/set_status.ico"
-IDI_CALENDAR            ICON                    "icos/calendar.ico"
+IDI_YAHOO               ICON                    "yahoo.ico"
+IDI_INBOX               ICON                    "inbox.ico"
+IDI_PROFILE             ICON                    "profile.ico"
+IDI_REFRESH             ICON                    "refresh.ico"
+IDI_YAB                 ICON                    "address_book.ico"
+IDI_SET_STATUS          ICON                    "set_status.ico"
+IDI_CALENDAR            ICON                    "calendar.ico"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -173,7 +173,7 @@ IDI_CALENDAR            ICON                    "icos/calendar.ico"
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 

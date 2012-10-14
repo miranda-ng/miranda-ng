@@ -191,59 +191,60 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="avatar.cpp" />
-    <ClCompile Include="chat.cpp" />
-    <ClCompile Include="file_transfer.cpp" />
-    <ClCompile Include="http_gateway.cpp" />
-    <ClCompile Include="icolib.cpp" />
-    <ClCompile Include="ignore.cpp" />
-    <ClCompile Include="im.cpp" />
-    <ClCompile Include="links.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="proto.cpp" />
-    <ClCompile Include="search.cpp" />
-    <ClCompile Include="server.cpp" />
-    <ClCompile Include="services.cpp" />
-    <ClCompile Include="user_info.cpp" />
-    <ClCompile Include="util.cpp" />
-    <ClCompile Include="webcam.cpp" />
-    <ClCompile Include="yahoo.cpp">
+    <ClCompile Include="src\avatar.cpp" />
+    <ClCompile Include="src\chat.cpp" />
+    <ClCompile Include="src\file_transfer.cpp" />
+    <ClCompile Include="src\http_gateway.cpp" />
+    <ClCompile Include="src\icolib.cpp" />
+    <ClCompile Include="src\ignore.cpp" />
+    <ClCompile Include="src\im.cpp" />
+    <ClCompile Include="src\links.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\proto.cpp" />
+    <ClCompile Include="src\search.cpp" />
+    <ClCompile Include="src\server.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\user_info.cpp" />
+    <ClCompile Include="src\util.cpp" />
+    <ClCompile Include="src\webcam.cpp" />
+    <ClCompile Include="src\yahoo.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libyahoo2\crypt.c">
+    <ClCompile Include="src\libyahoo2\crypt.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libyahoo2\libyahoo2.c">
+    <ClCompile Include="src\libyahoo2\libyahoo2.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libyahoo2\yahoo_httplib.c">
+    <ClCompile Include="src\libyahoo2\yahoo_httplib.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libyahoo2\yahoo_list.c">
+    <ClCompile Include="src\libyahoo2\yahoo_list.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="libyahoo2\yahoo_util.c">
+    <ClCompile Include="src\libyahoo2\yahoo_util.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="libyahoo2\config.h" />
-    <ClInclude Include="libyahoo2\yahoo2.h" />
-    <ClInclude Include="libyahoo2\yahoo2_callbacks.h" />
-    <ClInclude Include="libyahoo2\yahoo2_types.h" />
-    <ClInclude Include="libyahoo2\yahoo_debug.h" />
-    <ClInclude Include="libyahoo2\yahoo_httplib.h" />
-    <ClInclude Include="libyahoo2\yahoo_list.h" />
-    <ClInclude Include="libyahoo2\yahoo_util.h" />
-    <ClInclude Include="http_gateway.h" />
-    <ClInclude Include="ignore.h" />
-    <ClInclude Include="proto.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="yahoo.h" />
+    <ClInclude Include="src\libyahoo2\config.h" />
+    <ClInclude Include="src\libyahoo2\yahoo2.h" />
+    <ClInclude Include="src\libyahoo2\yahoo2_callbacks.h" />
+    <ClInclude Include="src\libyahoo2\yahoo2_types.h" />
+    <ClInclude Include="src\libyahoo2\yahoo_debug.h" />
+    <ClInclude Include="src\libyahoo2\yahoo_httplib.h" />
+    <ClInclude Include="src\libyahoo2\yahoo_list.h" />
+    <ClInclude Include="src\libyahoo2\yahoo_util.h" />
+    <ClInclude Include="src\http_gateway.h" />
+    <ClInclude Include="src\ignore.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\yahoo.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Yahoo.rc" />
+    <ResourceCompile Include="res\Yahoo.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
