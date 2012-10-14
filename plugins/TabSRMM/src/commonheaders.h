@@ -174,7 +174,7 @@
 #include <vector>
 #include <assert.h>
 
-#include "../include/resource.h"
+#include "include/resource.h"
 
 /* State of icon with such flag will not be saved, and you must set it manually */
 #define MBF_OWNERSTATE        0x04
@@ -211,7 +211,7 @@
 
 #define safe_sizeof(a) (unsigned int)((sizeof((a)) / sizeof((a)[0])))
 
-#include "../include/version.h"
+#include "include/version.h"
 #include "m_ieview.h"
 #include "m_popup2.h"
 #include "m_metacontacts.h"
@@ -225,31 +225,31 @@
 #include "m_historyevents.h"
 #include "m_smileyadd.h"
 
-#include "../include/m_cln_skinedit.h"
-#include "../include/buttonbar.h"
-#include "../include/msgs.h"
-#include "../include/msgdlgutils.h"
-#include "../include/typingnotify.h"
-#include "../include/generic_msghandlers.h"
-#include "../include/nen.h"
+#include "include/m_cln_skinedit.h"
+#include "include/buttonbar.h"
+#include "include/msgs.h"
+#include "include/msgdlgutils.h"
+#include "include/typingnotify.h"
+#include "include/generic_msghandlers.h"
+#include "include/nen.h"
 extern 	NEN_OPTIONS	nen_options;
-#include "../include/functions.h"
-#include "../chat/chat.h"
+#include "include/functions.h"
+#include "chat/chat.h"
 
-#include "../include/contactcache.h"
-#include "../include/translator.h"
-#include "../include/themes.h"
-#include "../include/globals.h"
-#include "../include/mim.h"
-#include "../include/sendqueue.h"
-#include "../include/taskbar.h"
-#include "../include/controls.h"
-#include "../include/infopanel.h"
-#include "../include/sidebar.h"
-#include "../include/utils.h"
-#include "../include/sendlater.h"
+#include "include/contactcache.h"
+#include "include/translator.h"
+#include "include/themes.h"
+#include "include/globals.h"
+#include "include/mim.h"
+#include "include/sendqueue.h"
+#include "include/taskbar.h"
+#include "include/controls.h"
+#include "include/infopanel.h"
+#include "include/sidebar.h"
+#include "include/utils.h"
+#include "include/sendlater.h"
 
-#include "../chat/muchighlight.h"
+#include "chat/muchighlight.h"
 
 #if !defined(_WIN64) && !defined(_USE_32BIT_TIME_T)
 	#define _USE_32BIT_TIME_T

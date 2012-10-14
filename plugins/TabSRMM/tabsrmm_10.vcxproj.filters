@@ -63,7 +63,7 @@
     <ClCompile Include="src\mim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tabmodplus\modplus.cpp">
+    <ClCompile Include="src\modplus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\msgdialog.cpp">
@@ -78,7 +78,7 @@
     <ClCompile Include="src\msgoptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tabmodplus\msgoptions_plus.cpp">
+    <ClCompile Include="src\msgoptions_plus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\msgs.cpp">
@@ -129,37 +129,37 @@
     <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chat\clist.cpp">
+    <ClCompile Include="src\chat\clist.cpp">
       <Filter>Source Files\Chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\colorchooser.cpp">
+    <ClCompile Include="src\chat\colorchooser.cpp">
       <Filter>Source Files\Chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\log.cpp">
+    <ClCompile Include="src\chat\log.cpp">
       <Filter>Source Files\Chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\main.cpp">
+    <ClCompile Include="src\chat\main.cpp">
       <Filter>Source Files\Chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\manager.cpp">
+    <ClCompile Include="src\chat\manager.cpp">
       <Filter>Source Files\Chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\message.cpp">
+    <ClCompile Include="src\chat\message.cpp">
       <Filter>Source Files\Chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\muchighlight.cpp">
+    <ClCompile Include="src\chat\muchighlight.cpp">
       <Filter>Source Files\Chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\options.cpp">
+    <ClCompile Include="src\chat\options.cpp">
       <Filter>Source Files\Chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\services.cpp">
+    <ClCompile Include="src\chat\services.cpp">
       <Filter>Source Files\Chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\tools.cpp">
+    <ClCompile Include="src\chat\tools.cpp">
       <Filter>Source Files\Chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\window.cpp">
+    <ClCompile Include="src\chat\window.cpp">
       <Filter>Source Files\Chat</Filter>
     </ClCompile>
     <ClCompile Include="src\sendlater.cpp">
@@ -167,237 +167,97 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="chat\chat.h">
+    <ClInclude Include="src\chat\chat.h">
       <Filter>Source Files\Chat</Filter>
     </ClInclude>
-    <ClInclude Include="chat\chat_resource.h">
+    <ClInclude Include="src\chat\chat_resource.h">
       <Filter>Source Files\Chat</Filter>
     </ClInclude>
-    <ClInclude Include="chat\chatprototypes.h">
+    <ClInclude Include="src\chat\chatprototypes.h">
       <Filter>Source Files\Chat</Filter>
     </ClInclude>
-    <ClInclude Include="chat\muchighlight.h">
+    <ClInclude Include="src\chat\muchighlight.h">
       <Filter>Source Files\Chat</Filter>
     </ClInclude>
     <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\contactcache.h">
+    <ClInclude Include="src\include\contactcache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\controls.h">
+    <ClInclude Include="src\include\controls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\functions.h">
+    <ClInclude Include="src\include\functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\generic_msghandlers.h">
+    <ClInclude Include="src\include\generic_msghandlers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\globals.h">
+    <ClInclude Include="src\include\globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ImageDataObject.h">
+    <ClInclude Include="src\include\ImageDataObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\infopanel.h">
+    <ClInclude Include="src\include\infopanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\mim.h">
+    <ClInclude Include="src\include\mim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\msgdlgutils.h">
+    <ClInclude Include="src\include\msgdlgutils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\msgs.h">
+    <ClInclude Include="src\include\msgs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\nen.h">
+    <ClInclude Include="src\include\nen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\sendqueue.h">
+    <ClInclude Include="src\include\sendqueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\sidebar.h">
+    <ClInclude Include="src\include\sidebar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\taskbar.h">
+    <ClInclude Include="src\include\taskbar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\templates.h">
+    <ClInclude Include="src\include\templates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\themes.h">
+    <ClInclude Include="src\include\themes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\translator.h">
+    <ClInclude Include="src\include\translator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\typingnotify.h">
+    <ClInclude Include="src\include\typingnotify.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\utils.h">
+    <ClInclude Include="src\include\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\version.h">
+    <ClInclude Include="src\include\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\sendlater.h">
+    <ClInclude Include="src\include\sendlater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\resource.h">
+    <ClInclude Include="src\include\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="chat\chat.rc">
+    <ResourceCompile Include="res\chat.rc">
       <Filter>Source Files\Chat</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="msgwindow.rc">
+    <ResourceCompile Include="res\msgwindow.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="docs\changelog.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="docs\INSTALL">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="docs\Popups.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="docs\readme.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="skin\tabsrmm.tsk">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="res\SKIN\tabskin_aero.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\SKIN\tabskin_aero_button.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\SKIN\tabskin_aero_glow.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="chat\Icons\1.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\6.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\2.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\3.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\4.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\5.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\action.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\addmode.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\bkgcolor.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\blank.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\filter.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\filter2.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\highlight.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\leftarrow.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="tabmodplus\icons\imgclose.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="tabmodplus\icons\imgopen.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\info.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\join.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\kick.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\message.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\messageout.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\nick.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\notice.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\res_TN\popup.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\overlay.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\overlay_disabled.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\overlay_enabled.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\part.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\res_TN\popup_no.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\pulldown.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\pullup.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\quit.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\removestatus.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\rightarrow.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\topic.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\topicbut.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\window.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\SKIN\unknown.png">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

@@ -206,16 +206,12 @@
     <ClCompile Include="src\infopanel.cpp" />
     <ClCompile Include="src\mim.cpp" />
     <ClCompile Include="src\sendlater.cpp" />
-    <ClCompile Include="tabmodplus\modplus.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
+    <ClCompile Include="src\modplus.cpp" />
     <ClCompile Include="src\msgdialog.cpp" />
     <ClCompile Include="src\msgdlgutils.cpp" />
     <ClCompile Include="src\msglog.cpp" />
     <ClCompile Include="src\msgoptions.cpp" />
-    <ClCompile Include="tabmodplus\msgoptions_plus.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
+    <ClCompile Include="src\msgoptions_plus.cpp" />
     <ClCompile Include="src\msgs.cpp" />
     <ClCompile Include="src\selectcontainer.cpp" />
     <ClCompile Include="src\sendqueue.cpp" />
@@ -234,128 +230,75 @@
     <ClCompile Include="src\typingnotify.cpp" />
     <ClCompile Include="src\userprefs.cpp" />
     <ClCompile Include="src\utils.cpp" />
-    <ClCompile Include="chat\clist.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\chat\clist.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\colorchooser.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\chat\colorchooser.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\log.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\chat\log.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\main.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\chat\main.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\manager.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\chat\manager.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\message.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\chat\message.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\muchighlight.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\chat\muchighlight.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\options.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\chat\options.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\services.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\chat\services.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\tools.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\chat\tools.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="chat\window.cpp">
-      <PrecompiledHeaderFile>../src/commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\chat\window.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="chat\chat.h" />
-    <ClInclude Include="chat\chat_resource.h" />
-    <ClInclude Include="chat\chatprototypes.h" />
-    <ClInclude Include="chat\muchighlight.h" />
-    <ClInclude Include="include\resource.h" />
-    <ClInclude Include="include\sendlater.h" />
+    <ClInclude Include="src\chat\chat.h" />
+    <ClInclude Include="src\chat\chat_resource.h" />
+    <ClInclude Include="src\chat\chatprototypes.h" />
+    <ClInclude Include="src\chat\muchighlight.h" />
+    <ClInclude Include="src\include\resource.h" />
+    <ClInclude Include="src\include\sendlater.h" />
     <ClInclude Include="src\commonheaders.h" />
-    <ClInclude Include="include\contactcache.h" />
-    <ClInclude Include="include\controls.h" />
-    <ClInclude Include="include\functions.h" />
-    <ClInclude Include="include\generic_msghandlers.h" />
-    <ClInclude Include="include\globals.h" />
-    <ClInclude Include="include\ImageDataObject.h" />
-    <ClInclude Include="include\infopanel.h" />
-    <ClInclude Include="include\mim.h" />
-    <ClInclude Include="include\msgdlgutils.h" />
-    <ClInclude Include="include\msgs.h" />
-    <ClInclude Include="include\nen.h" />
-    <ClInclude Include="include\sendqueue.h" />
-    <ClInclude Include="include\sidebar.h" />
-    <ClInclude Include="include\taskbar.h" />
-    <ClInclude Include="include\templates.h" />
-    <ClInclude Include="include\themes.h" />
-    <ClInclude Include="include\translator.h" />
-    <ClInclude Include="include\typingnotify.h" />
-    <ClInclude Include="include\utils.h" />
-    <ClInclude Include="include\version.h" />
+    <ClInclude Include="src\include\contactcache.h" />
+    <ClInclude Include="src\include\controls.h" />
+    <ClInclude Include="src\include\functions.h" />
+    <ClInclude Include="src\include\generic_msghandlers.h" />
+    <ClInclude Include="src\include\globals.h" />
+    <ClInclude Include="src\include\ImageDataObject.h" />
+    <ClInclude Include="src\include\infopanel.h" />
+    <ClInclude Include="src\include\mim.h" />
+    <ClInclude Include="src\include\msgdlgutils.h" />
+    <ClInclude Include="src\include\msgs.h" />
+    <ClInclude Include="src\include\nen.h" />
+    <ClInclude Include="src\include\sendqueue.h" />
+    <ClInclude Include="src\include\sidebar.h" />
+    <ClInclude Include="src\include\taskbar.h" />
+    <ClInclude Include="src\include\templates.h" />
+    <ClInclude Include="src\include\themes.h" />
+    <ClInclude Include="src\include\translator.h" />
+    <ClInclude Include="src\include\typingnotify.h" />
+    <ClInclude Include="src\include\utils.h" />
+    <ClInclude Include="src\include\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="chat\chat.rc" />
-    <ResourceCompile Include="msgwindow.rc" />
-    <ResourceCompile Include="resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="chat\Icons\1.ico" />
-    <None Include="chat\Icons\2.ico" />
-    <None Include="chat\Icons\3.ico" />
-    <None Include="chat\Icons\4.ico" />
-    <None Include="chat\Icons\5.ico" />
-    <None Include="chat\Icons\6.ico" />
-    <None Include="chat\Icons\action.ico" />
-    <None Include="chat\Icons\addmode.ico" />
-    <None Include="chat\Icons\bkgcolor.ico" />
-    <None Include="chat\Icons\blank.ico" />
-    <None Include="chat\Icons\filter.ico" />
-    <None Include="chat\Icons\filter2.ico" />
-    <None Include="chat\Icons\highlight.ico" />
-    <None Include="res\overlay_disabled.ico" />
-    <None Include="res\overlay_enabled.ico" />
-    <None Include="res\SKIN\tabskin_aero.png" />
-    <None Include="res\SKIN\tabskin_aero_button.png" />
-    <None Include="res\SKIN\tabskin_aero_glow.png" />
-    <None Include="res\SKIN\unknown.png" />
-    <None Include="tabmodplus\icons\imgclose.ico" />
-    <None Include="tabmodplus\icons\imgopen.ico" />
-    <None Include="chat\Icons\info.ico" />
-    <None Include="chat\Icons\join.ico" />
-    <None Include="chat\Icons\kick.ico" />
-    <None Include="res\leftarrow.ico" />
-    <None Include="chat\Icons\message.ico" />
-    <None Include="chat\Icons\messageout.ico" />
-    <None Include="chat\Icons\nick.ico" />
-    <None Include="chat\Icons\notice.ico" />
-    <None Include="chat\Icons\overlay.ico" />
-    <None Include="chat\Icons\part.ico" />
-    <None Include="res\res_TN\popup.ico" />
-    <None Include="res\res_TN\popup_no.ico" />
-    <None Include="res\pulldown.ico" />
-    <None Include="res\pullup.ico" />
-    <None Include="chat\Icons\quit.ico" />
-    <None Include="chat\Icons\removestatus.ico" />
-    <None Include="res\rightarrow.ico" />
-    <None Include="chat\Icons\topic.ico" />
-    <None Include="chat\Icons\topicbut.ico" />
-    <None Include="chat\Icons\window.ico" />
-    <None Include="docs\changelog.txt" />
-    <None Include="docs\INSTALL" />
-    <None Include="docs\Popups.txt" />
-    <None Include="docs\readme.txt" />
-    <None Include="skin\tabsrmm.tsk" />
+    <ResourceCompile Include="res\chat.rc" />
+    <ResourceCompile Include="res\msgwindow.rc" />
+    <ResourceCompile Include="res\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties RESOURCE_FILE="resource.rc" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>
