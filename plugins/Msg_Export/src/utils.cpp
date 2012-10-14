@@ -1502,6 +1502,9 @@ bool bWriteIndentedToFile( HANDLE hFile , int nIndent , const char * pszSrc , bo
 
 bool bWriteIndentedToFile( HANDLE hFile , int nIndent , const _TCHAR * pszSrc , bool bUtf8File )
 {
+	if (pszSrc == NULL)
+		return true;
+
 	bool bOk = true;
 	bool bFirstLine = true;
 	
@@ -1510,13 +1513,8 @@ bool bWriteIndentedToFile( HANDLE hFile , int nIndent , const _TCHAR * pszSrc , 
 		int nLineLen = 0;
 		do
 		{
-/*			if( bUtf8Src )
-			{ // need to do some stuff here
-			}*/
 			if( pszSrc[nLineLen] == _T('\n') || pszSrc[nLineLen] == _T('\r'))
-			{  // the line naturly broken here stop scan 
 				break;
-			}
 
 			if( nLineLen >= nMaxLineWidth )
 			{	// ok the line was not broken. we need to force a break
