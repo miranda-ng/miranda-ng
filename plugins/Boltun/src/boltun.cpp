@@ -20,7 +20,7 @@
 
 #define MIRANDA_VER 0x0A00
 
-#include "../Engine/TalkEngine.h"
+#include "Engine/TalkEngine.h"
 
 #include <windows.h>
 #include <time.h>

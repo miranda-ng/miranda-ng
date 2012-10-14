@@ -167,31 +167,31 @@
     <ClCompile Include="src\actionQueue.cpp" />
     <ClCompile Include="src\boltun.cpp" />
     <ClCompile Include="src\config.cpp" />
-    <ClCompile Include="Engine\Mind.cpp" />
-    <ClCompile Include="Engine\MyCodeCvt.cpp" />
-    <ClCompile Include="Engine\TalkEngine.cpp" />
-    <ClCompile Include="Engine\UnrecentChooser.cpp" />
-    <ClCompile Include="Engine\WordsList.cpp" />
+    <ClCompile Include="src\Engine\Mind.cpp" />
+    <ClCompile Include="src\Engine\MyCodeCvt.cpp" />
+    <ClCompile Include="src\Engine\TalkEngine.cpp" />
+    <ClCompile Include="src\Engine\UnrecentChooser.cpp" />
+    <ClCompile Include="src\Engine\WordsList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\actionQueue.h" />
     <ClInclude Include="src\boltun.h" />
     <ClInclude Include="src\config.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="Engine\CriticalSection.h" />
-    <ClInclude Include="Engine\Mind.h" />
-    <ClInclude Include="Engine\MyCodeCvt.h" />
-    <ClInclude Include="Engine\PerContactData.h" />
-    <ClInclude Include="Engine\TalkEngine.h" />
-    <ClInclude Include="Engine\tstring.h" />
-    <ClInclude Include="Engine\UnrecentChooser.h" />
-    <ClInclude Include="Engine\ValueChooser.h" />
-    <ClInclude Include="Engine\WordsList.h" />
+    <ClInclude Include="src\Engine\CriticalSection.h" />
+    <ClInclude Include="src\Engine\Mind.h" />
+    <ClInclude Include="src\Engine\MyCodeCvt.h" />
+    <ClInclude Include="src\Engine\PerContactData.h" />
+    <ClInclude Include="src\Engine\TalkEngine.h" />
+    <ClInclude Include="src\Engine\tstring.h" />
+    <ClInclude Include="src\Engine\UnrecentChooser.h" />
+    <ClInclude Include="src\Engine\ValueChooser.h" />
+    <ClInclude Include="src\Engine\WordsList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\boltun.ico" />
     <None Include="res\smiles.dat" />
-    <None Include="Engine\boltun.mindw" />
+    <None Include="src\Engine\boltun.mindw" />
     <None Include="docs\lang_pack.txt" />
     <None Include="docs\mind.txt" />
     <None Include="docs\readme.txt" />

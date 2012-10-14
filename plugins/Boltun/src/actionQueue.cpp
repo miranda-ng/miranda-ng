@@ -21,13 +21,13 @@
 #include "actionQueue.h"
 #include "config.h"
 #include "boltun.h"
-#include "../Engine/tstring.h"
-#include "../Engine/TalkEngine.h"
+#include "Engine/tstring.h"
+#include "Engine/TalkEngine.h"
 
 #include <list>
 #include <set>
 #include <time.h>
-#include "../Engine/CriticalSection.h"
+#include "Engine/CriticalSection.h"
 #ifdef _DEBUG
 #include <assert.h>
 #endif

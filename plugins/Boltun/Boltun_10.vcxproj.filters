@@ -30,19 +30,19 @@
     <ClCompile Include="src\config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Mind.cpp">
+    <ClCompile Include="src\Engine\Mind.cpp">
       <Filter>Source Files\Enigne</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\MyCodeCvt.cpp">
+    <ClCompile Include="src\Engine\MyCodeCvt.cpp">
       <Filter>Source Files\Enigne</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\TalkEngine.cpp">
+    <ClCompile Include="src\Engine\TalkEngine.cpp">
       <Filter>Source Files\Enigne</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\UnrecentChooser.cpp">
+    <ClCompile Include="src\Engine\UnrecentChooser.cpp">
       <Filter>Source Files\Enigne</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\WordsList.cpp">
+    <ClCompile Include="src\Engine\WordsList.cpp">
       <Filter>Source Files\Enigne</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,31 +59,31 @@
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\CriticalSection.h">
+    <ClInclude Include="src\Engine\CriticalSection.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Mind.h">
+    <ClInclude Include="src\Engine\Mind.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\MyCodeCvt.h">
+    <ClInclude Include="src\Engine\MyCodeCvt.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\PerContactData.h">
+    <ClInclude Include="src\Engine\PerContactData.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\TalkEngine.h">
+    <ClInclude Include="src\Engine\TalkEngine.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\tstring.h">
+    <ClInclude Include="src\Engine\tstring.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\UnrecentChooser.h">
+    <ClInclude Include="src\Engine\UnrecentChooser.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ValueChooser.h">
+    <ClInclude Include="src\Engine\ValueChooser.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\WordsList.h">
+    <ClInclude Include="src\Engine\WordsList.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -98,7 +98,7 @@
     <None Include="docs\mind.txt" />
     <None Include="docs\readme.txt" />
     <None Include="docs\TODO.txt" />
-    <None Include="Engine\boltun.mindw">
+    <None Include="src\Engine\boltun.mindw">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
