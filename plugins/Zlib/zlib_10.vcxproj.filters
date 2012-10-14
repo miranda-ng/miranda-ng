@@ -10,88 +10,88 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="adler32.c">
+    <ClCompile Include="src\adler32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="compress.c">
+    <ClCompile Include="src\compress.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="crc32.c">
+    <ClCompile Include="src\crc32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="deflate.c">
+    <ClCompile Include="src\deflate.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="infback.c">
+    <ClCompile Include="src\infback.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="inffast.c">
+    <ClCompile Include="src\inffast.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="inflate.c">
+    <ClCompile Include="src\inflate.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="inftrees.c">
+    <ClCompile Include="src\inftrees.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="trees.c">
+    <ClCompile Include="src\trees.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="uncompr.c">
+    <ClCompile Include="src\uncompr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="zutil.c">
+    <ClCompile Include="src\zutil.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gzclose.c">
+    <ClCompile Include="src\gzclose.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gzread.c">
+    <ClCompile Include="src\gzread.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gzwrite.c">
+    <ClCompile Include="src\gzwrite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gzlib.c">
+    <ClCompile Include="src\gzlib.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="crc32.h">
+    <ClInclude Include="src\crc32.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="deflate.h">
+    <ClInclude Include="src\deflate.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="inffast.h">
+    <ClInclude Include="src\inffast.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="inflate.h">
+    <ClInclude Include="src\inflate.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="inftrees.h">
+    <ClInclude Include="src\inftrees.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="trees.h">
+    <ClInclude Include="src\trees.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="zconf.h">
+    <ClInclude Include="src\zconf.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="zlib.h">
+    <ClInclude Include="src\zlib.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="zutil.h">
+    <ClInclude Include="src\zutil.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="zlib.def">
+    <None Include="src\zlib.def">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="zlib.rc">
+    <ResourceCompile Include="res\zlib.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

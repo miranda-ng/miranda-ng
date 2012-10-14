@@ -85,7 +85,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <ModuleDefinitionFile>zlib.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>src\zlib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
@@ -109,7 +109,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <ModuleDefinitionFile>zlib.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>src\zlib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
@@ -135,7 +135,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <ModuleDefinitionFile>zlib.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>src\zlib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -164,7 +164,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <ModuleDefinitionFile>zlib.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>src\zlib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -176,38 +176,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="adler32.c" />
-    <ClCompile Include="compress.c" />
-    <ClCompile Include="crc32.c" />
-    <ClCompile Include="deflate.c" />
-    <ClCompile Include="gzclose.c" />
-    <ClCompile Include="gzlib.c" />
-    <ClCompile Include="gzread.c" />
-    <ClCompile Include="gzwrite.c" />
-    <ClCompile Include="infback.c" />
-    <ClCompile Include="inffast.c" />
-    <ClCompile Include="inflate.c" />
-    <ClCompile Include="inftrees.c" />
-    <ClCompile Include="trees.c" />
-    <ClCompile Include="uncompr.c" />
-    <ClCompile Include="zutil.c" />
+    <ClCompile Include="src\adler32.c" />
+    <ClCompile Include="src\compress.c" />
+    <ClCompile Include="src\crc32.c" />
+    <ClCompile Include="src\deflate.c" />
+    <ClCompile Include="src\gzclose.c" />
+    <ClCompile Include="src\gzlib.c" />
+    <ClCompile Include="src\gzread.c" />
+    <ClCompile Include="src\gzwrite.c" />
+    <ClCompile Include="src\infback.c" />
+    <ClCompile Include="src\inffast.c" />
+    <ClCompile Include="src\inflate.c" />
+    <ClCompile Include="src\inftrees.c" />
+    <ClCompile Include="src\trees.c" />
+    <ClCompile Include="src\uncompr.c" />
+    <ClCompile Include="src\zutil.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="crc32.h" />
-    <ClInclude Include="deflate.h" />
-    <ClInclude Include="inffast.h" />
-    <ClInclude Include="inflate.h" />
-    <ClInclude Include="inftrees.h" />
-    <ClInclude Include="trees.h" />
-    <ClInclude Include="zconf.h" />
-    <ClInclude Include="zlib.h" />
-    <ClInclude Include="zutil.h" />
+    <ClInclude Include="src\crc32.h" />
+    <ClInclude Include="src\deflate.h" />
+    <ClInclude Include="src\inffast.h" />
+    <ClInclude Include="src\inflate.h" />
+    <ClInclude Include="src\inftrees.h" />
+    <ClInclude Include="src\trees.h" />
+    <ClInclude Include="src\zconf.h" />
+    <ClInclude Include="src\zlib.h" />
+    <ClInclude Include="src\zutil.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="zlib.def" />
+    <None Include="src\zlib.def" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="zlib.rc" />
+    <ResourceCompile Include="res\zlib.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
