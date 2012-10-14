@@ -50,7 +50,7 @@ INT_PTR CALLBACK FileAccessDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 
 		case IDOK:
 			if (opts.bCheckOnly)
-				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
+				OpenDatabase(hdlg, IDD_PROGRESS);
 			else
 				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
 			break;
