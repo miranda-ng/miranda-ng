@@ -6,7 +6,7 @@
 #endif
 
 #include "windows.h"
-#include "../resource.h"
+#include "..\src\resource.h"
 
 LANGUAGE 9,0
 

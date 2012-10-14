@@ -194,46 +194,46 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dbfilter.cpp" />
-    <ClCompile Include="dialogs.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="entities.cpp" />
-    <ClCompile Include="icons.cpp" />
-    <ClCompile Include="mirotrmenu.cpp" />
-    <ClCompile Include="options.cpp" />
-    <ClCompile Include="otr.cpp" />
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="src\dbfilter.cpp" />
+    <ClCompile Include="src\dialogs.cpp" />
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\entities.cpp" />
+    <ClCompile Include="src\icons.cpp" />
+    <ClCompile Include="src\mirotrmenu.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\otr.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="striphtml.cpp" />
-    <ClCompile Include="svcs_menu.cpp" />
-    <ClCompile Include="svcs_proto.cpp" />
-    <ClCompile Include="svcs_srmm.cpp" />
-    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="src\striphtml.cpp" />
+    <ClCompile Include="src\svcs_menu.cpp" />
+    <ClCompile Include="src\svcs_proto.cpp" />
+    <ClCompile Include="src\svcs_srmm.cpp" />
+    <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dbfilter.h" />
-    <ClInclude Include="dialogs.h" />
-    <ClInclude Include="dllmain.h" />
-    <ClInclude Include="entities.h" />
-    <ClInclude Include="icons.h" />
-    <ClInclude Include="language.h" />
-    <ClInclude Include="mirotrmenu.h" />
-    <ClInclude Include="options.h" />
-    <ClInclude Include="otr.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="striphtml.h" />
-    <ClInclude Include="svcs_menu.h" />
-    <ClInclude Include="svcs_proto.h" />
-    <ClInclude Include="svcs_srmm.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="utils.h" />
-    <ClInclude Include="version.h" />
+    <ClInclude Include="src\dbfilter.h" />
+    <ClInclude Include="src\dialogs.h" />
+    <ClInclude Include="src\dllmain.h" />
+    <ClInclude Include="src\entities.h" />
+    <ClInclude Include="src\icons.h" />
+    <ClInclude Include="src\language.h" />
+    <ClInclude Include="src\mirotrmenu.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\otr.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\striphtml.h" />
+    <ClInclude Include="src\svcs_menu.h" />
+    <ClInclude Include="src\svcs_proto.h" />
+    <ClInclude Include="src\svcs_srmm.h" />
+    <ClInclude Include="src\targetver.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resources\resource.rc" />
-    <ResourceCompile Include="resources\version.rc" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
