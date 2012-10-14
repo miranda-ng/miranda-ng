@@ -29,7 +29,7 @@
 #define bzero(pvDst, count) memset(pvDst, 0, count)
 #include <timefuncs.h>
 
-#include "../../plugins/zlib/zlib.h"
+#include "../../plugins/zlib/src/zlib.h"
 
 #define MIRANDA_VER 0x0A00
 
