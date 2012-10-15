@@ -79,14 +79,14 @@ static HANDLE HContactFromNumericID(char* szProto, char* pszSetting, DWORD dwID)
 	return INVALID_HANDLE_VALUE;
 }
 
-static HANDLE HContactFromID(char* szProto, char* pszSetting, char* pszID)
+static HANDLE HContactFromID(char* szProto, char* pszSetting, TCHAR* pwszID)
 {
 	HANDLE hContact = dstDb->FindFirstContact();
 	while (hContact != NULL) {
 		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if ( !lstrcmpA(szProto, szProto)) {
-			mir_ptr<char> id( db_get_sa(hContact, szProto, pszSetting));
-			if ( !lstrcmpA(pszID, id))
+			mir_ptr<WCHAR> id( db_get_tsa(hContact, szProto, pszSetting));
+			if ( !lstrcmp(pwszID, id))
 				return hContact;
 		}
 
@@ -176,8 +176,8 @@ static int ImportGroups()
 static HANDLE ImportContact(HANDLE hSrc)
 {
 	HANDLE hDst;
-	char* pszUserName;
-	char id[ 40 ], szProto[100];
+	TCHAR id[ 40 ], *pszUserName;
+	char  szProto[100];
 
 	// Check what protocol this contact belongs to
 	if ( myGetS(hSrc, "Protocol", "p", szProto)) {
@@ -204,17 +204,25 @@ static HANDLE ImportContact(HANDLE hSrc)
 	}
 
 	// Does the contact already exist?
-	if ( dbv.type == DBVT_DWORD ) {
-		pszUserName = _ltoa(dbv.dVal, id, 10);
+	switch (dbv.type) {
+	case DBVT_DWORD:
+		pszUserName = _ltot(dbv.dVal, id, 10);
 		hDst = HContactFromNumericID( szProto, pszUniqueSetting, dbv.dVal );
-	}
-	else {
-		pszUserName = NEWSTR_ALLOCA(dbv.pszVal);
-		hDst = HContactFromID( szProto, pszUniqueSetting, dbv.pszVal );
+		break;
+
+	case DBVT_ASCIIZ:
+		pszUserName = NEWTSTR_ALLOCA( _A2T(dbv.pszVal));
+		hDst = HContactFromID(szProto, pszUniqueSetting, pszUserName);
+		break;
+
+	case DBVT_WCHAR:
+		pszUserName = NEWTSTR_ALLOCA(dbv.ptszVal);
+		hDst = HContactFromID(szProto, pszUniqueSetting, pszUserName);
+		break;
 	}
 
 	if (hDst != INVALID_HANDLE_VALUE) {
-		AddMessage( LPGEN("Skipping duplicate %s contact %s"), szProto, pszUserName );
+		AddMessage( LPGEN("Skipping duplicate %s contact %S"), szProto, pszUserName );
 		srcDb->FreeVariant( &dbv );
 		return NULL;
 	}
@@ -275,7 +283,7 @@ static HANDLE ImportContact(HANDLE hSrc)
 			srcDb->FreeVariant(&dbv);
 		}
 	}
-	else AddMessage( LPGEN("Unknown error while adding %s contact %s"), szProto, pszUserName );
+	else AddMessage( LPGEN("Unknown error while adding %s contact %S"), szProto, pszUserName );
 
 	return hDst;
 }
@@ -304,10 +312,19 @@ static HANDLE convertContact(HANDLE hContact)
 	if ( pszUniqueSetting && ( INT_PTR )pszUniqueSetting != CALLSERVICE_NOTFOUND ) {
 		DBVARIANT dbv;
 		if ( !myGet(hContact, szProto, pszUniqueSetting, &dbv)) {
-			if ( dbv.type == DBVT_DWORD )
-				hDst = HContactFromNumericID(szProto, pszUniqueSetting, dbv.dVal);
-			else
-				hDst = HContactFromID(szProto, pszUniqueSetting, dbv.pszVal);
+			switch (dbv.type) {
+			case DBVT_DWORD:
+				hDst = HContactFromNumericID( szProto, pszUniqueSetting, dbv.dVal );
+				break;
+
+			case DBVT_ASCIIZ:
+				hDst = HContactFromID(szProto, pszUniqueSetting, _A2T(dbv.pszVal));
+				break;
+
+			case DBVT_WCHAR:
+				hDst = HContactFromID(szProto, pszUniqueSetting, dbv.ptszVal);
+				break;
+			}
 			srcDb->FreeVariant( &dbv );
 		}
 	}
