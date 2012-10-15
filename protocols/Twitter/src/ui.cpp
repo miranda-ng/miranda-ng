@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "twitter.h"
 
 static const TCHAR *sites[] = {
-	_T("https://twitter.com/"),
+	_T("https://api.twitter.com/1/"),
 	_T("https://identi.ca/api/")
 };
 
