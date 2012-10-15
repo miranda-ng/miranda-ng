@@ -224,9 +224,7 @@ MIR_CORE_DLL(int) mir_vsnprintf(char *buffer, size_t count, const char* fmt, va_
 
 MIR_CORE_DLL(int) mir_vsntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va)
 {
-	int len;
-
-	len = _vsntprintf(buffer, count-1, fmt, va);
+	int len = _vsntprintf(buffer, count-1, fmt, va);
 	buffer[count-1] = 0;
 	return len;
 }

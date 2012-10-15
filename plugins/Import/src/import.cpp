@@ -99,7 +99,7 @@ static HANDLE HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, DW
 {
 	HANDLE hContact = HContactFromNumericID(szModuleName, "UIN", uin);
 	if (hContact == NULL) {
-		AddMessage( LPGEN("Ignored event from/to self"));
+		AddMessage( LPGENT("Ignored event from/to self"));
 		return INVALID_HANDLE_VALUE;
 	}
 
@@ -112,23 +112,18 @@ static HANDLE HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, DW
 	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)szModuleName);
 	DBWriteContactSettingDword(hContact, szModuleName, "UIN", uin);
-	AddMessage( LPGEN("Added contact %u (found in history)"), uin );
+	AddMessage( LPGENT("Added contact %u (found in history)"), uin );
 	return hContact;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static HANDLE AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSetting, DBVARIANT* id, TCHAR *nick, TCHAR *group)
+static HANDLE AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSetting, DBVARIANT* id, const TCHAR* pszUserID, TCHAR *nick, TCHAR *group)
 {
-	HANDLE hContact;
-	char szid[ 40 ];
-	char* pszUserID = ( id->type == DBVT_DWORD ) ? _ltoa( id->dVal, szid, 10 ) : id->pszVal;
-
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if ( CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)szProto) != 0) {
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
-		AddMessage( LPGEN("Failed to add %s contact %s"), szProto, pszUserID );
-		srcDb->FreeVariant( id );
+		AddMessage( LPGENT("Failed to add %S contact %s"), szProto, pszUserID );
 		return INVALID_HANDLE_VALUE;
 	}
 
@@ -138,9 +133,9 @@ static HANDLE AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSettin
 
 	if (nick && *nick) {
 		db_set_ws(hContact, "CList", "MyHandle", nick );
-		AddMessage( LPGEN("Added %s contact %s, '%S'"), szProto, pszUserID, nick);
+		AddMessage( LPGENT("Added %S contact %s, '%s'"), szProto, pszUserID, nick);
 	}
-	else AddMessage( LPGEN("Added %s contact %s"), szProto, pszUserID);
+	else AddMessage( LPGENT("Added %S contact %s"), szProto, pszUserID);
 
 	srcDb->FreeVariant( id );
 	return hContact;
@@ -176,53 +171,53 @@ static int ImportGroups()
 static HANDLE ImportContact(HANDLE hSrc)
 {
 	HANDLE hDst;
-	TCHAR id[ 40 ], *pszUserName;
+	TCHAR id[ 40 ], *pszUniqueID;
 	char  szProto[100];
 
 	// Check what protocol this contact belongs to
 	if ( myGetS(hSrc, "Protocol", "p", szProto)) {
-		AddMessage( LPGEN("Skipping contact with no protocol"));
+		AddMessage( LPGENT("Skipping contact with no protocol"));
 		return NULL;
 	}
 
 	if ( !IsProtocolLoaded(szProto)) {
-		AddMessage( LPGEN("Skipping contact, %s not installed."), szProto);
+		AddMessage( LPGENT("Skipping contact, %S not installed."), szProto);
 		return NULL;
 	}
 
 	// Skip protocols with no unique id setting (some non IM protocols return NULL)
 	char* pszUniqueSetting = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 	if ( !pszUniqueSetting || (INT_PTR)pszUniqueSetting == CALLSERVICE_NOTFOUND ) {
-		AddMessage( LPGEN("Skipping non-IM contact (%s)"), szProto );
+		AddMessage( LPGENT("Skipping non-IM contact (%S)"), szProto );
 		return NULL;
 	}
 
 	DBVARIANT dbv;
 	if ( myGet(hSrc, szProto, pszUniqueSetting, &dbv)) {
-		AddMessage( LPGEN("Skipping %s contact, ID not found"), szProto);
+		AddMessage( LPGENT("Skipping %S contact, ID not found"), szProto);
 		return NULL;
 	}
 
 	// Does the contact already exist?
 	switch (dbv.type) {
 	case DBVT_DWORD:
-		pszUserName = _ltot(dbv.dVal, id, 10);
+		pszUniqueID = _ltot(dbv.dVal, id, 10);
 		hDst = HContactFromNumericID( szProto, pszUniqueSetting, dbv.dVal );
 		break;
 
 	case DBVT_ASCIIZ:
-		pszUserName = NEWTSTR_ALLOCA( _A2T(dbv.pszVal));
-		hDst = HContactFromID(szProto, pszUniqueSetting, pszUserName);
+		pszUniqueID = NEWTSTR_ALLOCA( _A2T(dbv.pszVal));
+		hDst = HContactFromID(szProto, pszUniqueSetting, pszUniqueID);
 		break;
 
 	case DBVT_WCHAR:
-		pszUserName = NEWTSTR_ALLOCA(dbv.ptszVal);
-		hDst = HContactFromID(szProto, pszUniqueSetting, pszUserName);
+		pszUniqueID = NEWTSTR_ALLOCA(dbv.ptszVal);
+		hDst = HContactFromID(szProto, pszUniqueSetting, pszUniqueID);
 		break;
 	}
 
 	if (hDst != INVALID_HANDLE_VALUE) {
-		AddMessage( LPGEN("Skipping duplicate %s contact %S"), szProto, pszUserName );
+		AddMessage( LPGENT("Skipping duplicate %S contact %s"), szProto, pszUniqueID );
 		srcDb->FreeVariant( &dbv );
 		return NULL;
 	}
@@ -231,7 +226,7 @@ static HANDLE ImportContact(HANDLE hSrc)
 	if (tszNick == NULL)
 		tszNick = myGetWs(hSrc, szProto, "Nick");
 
-	hDst = AddContact(hdlgProgress, szProto, pszUniqueSetting, &dbv, tszNick, tszGroup);
+	hDst = AddContact(hdlgProgress, szProto, pszUniqueSetting, &dbv, pszUniqueID, tszNick, tszGroup);
 	mir_free(tszGroup), mir_free(tszNick);
 
 	if ( hDst != INVALID_HANDLE_VALUE) {
@@ -283,7 +278,7 @@ static HANDLE ImportContact(HANDLE hSrc)
 			srcDb->FreeVariant(&dbv);
 		}
 	}
-	else AddMessage( LPGEN("Unknown error while adding %s contact %S"), szProto, pszUserName );
+	else AddMessage( LPGENT("Unknown error while adding %S contact %s"), szProto, pszUniqueID );
 
 	return hDst;
 }
@@ -420,7 +415,7 @@ static void ImportHistory(HANDLE hContact, PROTOACCOUNT **protocol, int protoCou
 					if (dstDb->AddEvent(hDst, &dbei) != NULL)
 						nMessagesCount++;
 					else
-						AddMessage( LPGEN("Failed to add message"));
+						AddMessage( LPGENT("Failed to add message"));
 				}
 				else
 					nDupes++;
@@ -455,18 +450,18 @@ void MirandaImport(HWND hdlg)
 	// Just to keep the macros happy
 	hdlgProgress = hdlg;
 	if ((dstDb = GetCurrentDatabase()) == NULL) {
-		AddMessage( LPGEN("Error retrieving current profile, exiting."));
+		AddMessage( LPGENT("Error retrieving current profile, exiting."));
 		return;
 	}
 
 	DATABASELINK* dblink = FindDatabasePlugin(importFile);
 	if (dblink == NULL) {
-		AddMessage( LPGEN("There's no database driver to open the input file, exiting."));
+		AddMessage( LPGENT("There's no database driver to open the input file, exiting."));
 		return;
 	}
 
 	if ((srcDb = dblink->Load(importFile)) == NULL) {
-		AddMessage( LPGEN("Error loading source file, exiting."));
+		AddMessage( LPGENT("Error loading source file, exiting."));
 		return;
 	}	
 
@@ -481,8 +476,8 @@ void MirandaImport(HWND hdlg)
 
 	// Get number of contacts
 	int nNumberOfContacts = srcDb->GetContactCount();
-	AddMessage( LPGEN("Number of contacts in database: %d"), nNumberOfContacts );
-	AddMessage( "" );
+	AddMessage( LPGENT("Number of contacts in database: %d"), nNumberOfContacts );
+	AddMessage( _T(""));
 
 	// Configure database for fast writing
 	dstDb->SetCacheSafetyMode(FALSE);
@@ -492,18 +487,18 @@ void MirandaImport(HWND hdlg)
 
 	// Import Groups
 	if (nImportOption == IMPORT_ALL || (nCustomOptions & IOPT_GROUPS)) {
-		AddMessage( LPGEN("Importing groups."));
+		AddMessage( LPGENT("Importing groups."));
 		nGroupsCount = ImportGroups();
 		if (nGroupsCount == -1)
-			AddMessage( LPGEN("Group import failed."));
+			AddMessage( LPGENT("Group import failed."));
 
-		AddMessage( "" );
+		AddMessage( _T(""));
 	}
 	// End of Import Groups
 
 	// Import Contacts
 	if (nImportOption != IMPORT_CUSTOM || (nCustomOptions & IOPT_CONTACTS)) {
-		AddMessage( LPGEN("Importing contacts."));
+		AddMessage( LPGENT("Importing contacts."));
 		int i = 1;
 		HANDLE hContact = srcDb->FindFirstContact();
 		while (hContact != NULL) {
@@ -524,15 +519,15 @@ void MirandaImport(HWND hdlg)
 			hContact = srcDb->FindNextContact(hContact);
 		}
 	}
-	else AddMessage( LPGEN("Skipping new contacts import."));
-	AddMessage( "" );
+	else AddMessage( LPGENT("Skipping new contacts import."));
+	AddMessage( _T(""));
 	// End of Import Contacts
 
 	// Import history
 	if (nImportOption != IMPORT_CONTACTS) {
 		// Import NULL contact message chain
 		if (nImportOption == IMPORT_ALL || (nCustomOptions & IOPT_SYSTEM)) {
-			AddMessage( LPGEN("Importing system history."));
+			AddMessage( LPGENT("Importing system history."));
 
 			int protoCount;
 			PROTOACCOUNT **accs;
@@ -541,13 +536,13 @@ void MirandaImport(HWND hdlg)
 			if (protoCount > 0)
 				ImportHistory(NULL, accs, protoCount);
 		}
-		else AddMessage( LPGEN("Skipping system history import."));
+		else AddMessage( LPGENT("Skipping system history import."));
 
-		AddMessage( "" );
+		AddMessage( _T(""));
 
 		// Import other contact messages
 		if (nImportOption == IMPORT_ALL || (nCustomOptions & 2046)) { // 2 - 1024 types
-			AddMessage( LPGEN("Importing history."));
+			AddMessage( LPGENT("Importing history."));
 			HANDLE hContact = srcDb->FindFirstContact();
 			for(int i=1; hContact != NULL; i++) {
 				ImportHistory(hContact, NULL, NULL);
@@ -556,9 +551,9 @@ void MirandaImport(HWND hdlg)
 				hContact = srcDb->FindNextContact(hContact);
 			}
 		}
-		else AddMessage( LPGEN("Skipping history import."));
+		else AddMessage( LPGENT("Skipping history import."));
 
-		AddMessage( "" );
+		AddMessage( _T(""));
 	}
 	// End of Import History
 
@@ -572,18 +567,18 @@ void MirandaImport(HWND hdlg)
 	dwTimer = time(NULL) - dwTimer;
 
 	// Print statistics
-	AddMessage( LPGEN("Import completed in %d seconds."), dwTimer );
+	AddMessage( LPGENT("Import completed in %d seconds."), dwTimer );
 	SetProgress(100);
 	AddMessage((nImportOption == IMPORT_CONTACTS) ?
-		LPGEN("Added %d contacts and %d groups.") : LPGEN("Added %d contacts, %d groups and %d events."),
+		LPGENT("Added %d contacts and %d groups.") : LPGENT("Added %d contacts, %d groups and %d events."),
 		nContactsCount, nGroupsCount, nMessagesCount);
 
 	if ( nImportOption != IMPORT_CONTACTS ) {
 		if (nSkippedContacts)
-			AddMessage( LPGEN("Skipped %d contacts."), nSkippedContacts );
+			AddMessage( LPGENT("Skipped %d contacts."), nSkippedContacts );
 
 		AddMessage((nImportOption == IMPORT_CUSTOM) ?
-			LPGEN("Skipped %d duplicates and %d filtered events.") : LPGEN("Skipped %d duplicates."),
+			LPGENT("Skipped %d duplicates and %d filtered events.") : LPGENT("Skipped %d duplicates."),
 			nDupes, nSkippedEvents);
 	}
 }

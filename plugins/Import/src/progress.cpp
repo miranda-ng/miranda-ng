@@ -76,25 +76,22 @@ INT_PTR CALLBACK ProgressPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lP
 	return FALSE;
 }
 
-void AddMessage( const char* fmt, ... )
+void AddMessage( const TCHAR* fmt, ... )
 {
 	va_list args;
-	char msgBuf[ 4096 ];
+	TCHAR msgBuf[ 4096 ];
 	va_start( args, fmt );
 
-	mir_vsnprintf( msgBuf, sizeof(msgBuf), Translate(fmt), args );
+	mir_vsntprintf( msgBuf, SIZEOF(msgBuf), TranslateTS(fmt), args );
 
 	#ifdef _LOGGING
 	{
 		FILE *stream;
 		stream = fopen("Import Debug.log", "a");
-		fprintf(stream, "%s\n", msgBuf);
+		fprintf(stream, "%S\n", msgBuf);
 		fclose(stream);
 	}
 	#endif
 
-	{	TCHAR* str = mir_a2t( msgBuf );
-		SendMessage( hdlgProgress, PROGM_ADDMESSAGE, 0, ( LPARAM )str );
-		mir_free( str );
-	}
+	SendMessage(hdlgProgress, PROGM_ADDMESSAGE, 0, (LPARAM)msgBuf);
 }

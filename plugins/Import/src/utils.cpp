@@ -57,12 +57,9 @@ int CreateGroup(const TCHAR* group, HANDLE hContact)
 
 		if ( !lstrcmp(dbv.ptszVal + 1, tszGrpName + 1 )) {
 			if (hContact)
-		        DBWriteContactSettingTString( hContact, "CList", "Group", tszGrpName+1 );
-			else {
-				char *str = mir_t2a(tszGrpName + 1);
-				AddMessage( LPGEN("Skipping duplicate group %s."), str);
-				mir_free(str);
-			}
+				DBWriteContactSettingTString( hContact, "CList", "Group", tszGrpName+1 );
+			else
+				AddMessage( LPGENT("Skipping duplicate group %s."), tszGrpName + 1);
 
 			DBFreeVariant(&dbv);
 			return 0;
@@ -100,22 +97,20 @@ BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei)
 	dwEventTimeStamp = dbeiExisting.timestamp;
 
 	// compare with last timestamp
-	if (dbei.timestamp > dwEventTimeStamp)
-	{
+	if (dbei.timestamp > dwEventTimeStamp) {
 		// remember event
 		hPreviousDbEvent = hExistingDbEvent;
 		dwPreviousTimeStamp = dwEventTimeStamp;
 		return FALSE;
 	}
 
-	if (hContact != hPreviousContact)
-	{
+	if (hContact != hPreviousContact) {
 		hPreviousContact = hContact;
 		// remember event
 		hPreviousDbEvent = hExistingDbEvent;
 		dwPreviousTimeStamp = dwEventTimeStamp;
 
-   		// get first event
+		// get first event
 		if (!(hExistingDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0)))
 			return FALSE;
 
@@ -125,20 +120,18 @@ BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei)
 		dwEventTimeStamp = dbeiExisting.timestamp;
 
 		// compare with first timestamp
-		if (dbei.timestamp <= dwEventTimeStamp)
-		{
-		    // remember event
+		if (dbei.timestamp <= dwEventTimeStamp) {
+			// remember event
 			dwPreviousTimeStamp = dwEventTimeStamp;
 			hPreviousDbEvent = hExistingDbEvent;
 
 			if ( dbei.timestamp != dwEventTimeStamp )
 				return FALSE;
 		}
-
 	}
+
 	// check for equal timestamps
-	if (dbei.timestamp == dwPreviousTimeStamp)
-	{
+	if (dbei.timestamp == dwPreviousTimeStamp) {
 		ZeroMemory(&dbeiExisting, sizeof(dbeiExisting));
 		dbeiExisting.cbSize = sizeof(dbeiExisting);
 		CallService(MS_DB_EVENT_GET, (WPARAM)hPreviousDbEvent, (LPARAM)&dbeiExisting);
@@ -147,18 +140,16 @@ BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei)
 			(dbei.eventType == dbeiExisting.eventType) &&
 			(dbei.cbBlob == dbeiExisting.cbBlob) &&
 			((dbei.flags&DBEF_SENT) == (dbeiExisting.flags&DBEF_SENT)))
-    		return TRUE;
+			return TRUE;
 
 		// find event with another timestamp
 		hExistingDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hPreviousDbEvent, 0);
-		while (hExistingDbEvent != NULL)
-		{
+		while (hExistingDbEvent != NULL) {
 			ZeroMemory(&dbeiExisting, sizeof(dbeiExisting));
 			dbeiExisting.cbSize = sizeof(dbeiExisting);
 			CallService(MS_DB_EVENT_GET, (WPARAM)hExistingDbEvent, (LPARAM)&dbeiExisting);
 
-			if (dbeiExisting.timestamp != dwPreviousTimeStamp)
-			{
+			if (dbeiExisting.timestamp != dwPreviousTimeStamp) {
 				// use found event
 				hPreviousDbEvent = hExistingDbEvent;
 				dwPreviousTimeStamp = dbeiExisting.timestamp;
@@ -172,18 +163,15 @@ BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei)
 
 	hExistingDbEvent = hPreviousDbEvent;
 
-	if (dbei.timestamp <= dwPreviousTimeStamp)
-	{
+	if (dbei.timestamp <= dwPreviousTimeStamp) {
 		// look back
-		while (hExistingDbEvent != NULL)
-		{
+		while (hExistingDbEvent != NULL) {
 			ZeroMemory(&dbeiExisting, sizeof(dbeiExisting));
 			dbeiExisting.cbSize = sizeof(dbeiExisting);
 			CallService(MS_DB_EVENT_GET, (WPARAM)hExistingDbEvent, (LPARAM)&dbeiExisting);
 
-			if (dbei.timestamp > dbeiExisting.timestamp)
-			{
-			    // remember event
+			if (dbei.timestamp > dbeiExisting.timestamp) {
+				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
 				dwPreviousTimeStamp = dbeiExisting.timestamp;
 				return FALSE;
@@ -193,7 +181,7 @@ BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei)
 			if ((dbei.timestamp == dbeiExisting.timestamp) &&
 				(dbei.eventType == dbeiExisting.eventType) &&
 				(dbei.cbBlob == dbeiExisting.cbBlob) &&
-				((dbei.flags&DBEF_SENT) == (dbeiExisting.flags&DBEF_SENT)))
+				((dbei.flags & DBEF_SENT) == (dbeiExisting.flags & DBEF_SENT)))
 			{
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
@@ -204,20 +192,16 @@ BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei)
 			// Get previous event in chain
 			hExistingDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hExistingDbEvent, 0);
 		}
-
-    }
-    else
-    {
+	}
+	else {
 		// look forward
-		while (hExistingDbEvent != NULL)
-		{
+		while (hExistingDbEvent != NULL) {
 			ZeroMemory(&dbeiExisting, sizeof(dbeiExisting));
 			dbeiExisting.cbSize = sizeof(dbeiExisting);
 			CallService(MS_DB_EVENT_GET, (WPARAM)hExistingDbEvent, (LPARAM)&dbeiExisting);
 
-			if (dbei.timestamp < dbeiExisting.timestamp)
-			{
-			    // remember event
+			if (dbei.timestamp < dbeiExisting.timestamp) {
+				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
 				dwPreviousTimeStamp = dbeiExisting.timestamp;
 				return FALSE;
@@ -238,7 +222,6 @@ BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei)
 			// Get next event in chain
 			hExistingDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hExistingDbEvent, 0);
 		}
-
 	}
 	// reset last event
 	hPreviousContact = INVALID_HANDLE_VALUE;

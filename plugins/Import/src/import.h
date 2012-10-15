@@ -101,7 +101,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IOPT_CONTACTS   4096
 #define IOPT_GROUPS     8192
 
-void AddMessage( const char* fmt, ... );
+void AddMessage( const TCHAR* fmt, ... );
 
 void mySet( HANDLE hContact, const char* module, const char* var, DBVARIANT* dbv );
 
