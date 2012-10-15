@@ -56,7 +56,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&gPluginInfoEx);
 
 	RegisterDatabasePlugin(&gDBLink);
-	RegisterServices();
 	CompatibilityRegister();
 	return 0;
 }

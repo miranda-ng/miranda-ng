@@ -32,6 +32,7 @@ CDataBase *gDataBase = NULL;
 CDataBase::CDataBase(const TCHAR *FileName)
 {
 	InitDbInstance(this);
+	//RegisterServices();
 
 	size_t len = _tcslen(FileName);
 	m_FileName[0] = new TCHAR[len + 1];

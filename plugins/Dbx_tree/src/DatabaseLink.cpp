@@ -65,9 +65,9 @@ Returns: 0 on success, nonzero on failure
 
 static MIDatabase* LoadDatabase(const TCHAR *profile)
 {
-	gDataBase = new CDataBase(profile);
-	gDataBase->OpenDB();
-	return gDataBase;
+	CDataBase* pDb = new CDataBase(profile);
+	pDb->OpenDB();
+	return pDb;
 }
 
 /*
@@ -78,8 +78,6 @@ Note: Unload() might be called even if Load(void) was never called, wasLoaded is
 
 static int UnloadDatabase(MIDatabase* db)
 {
-	if (gDataBase == db)
-		gDataBase = NULL;
 	delete (CDataBase*)db;
 	return 0;
 }

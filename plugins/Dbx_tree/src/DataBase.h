@@ -150,6 +150,52 @@ public:
 	int getProfileName(int BufferSize, char * Buffer);
 	int getProfilePath(int BufferSize, char * Buffer);
 
+public:     // services 
+	INT_PTR __cdecl  DBEntityGetRoot(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl  DBEntityChildCount(WPARAM hEntity, LPARAM lParam);
+	INT_PTR __cdecl  DBEntityGetParent(WPARAM hEntity, LPARAM lParam);
+	INT_PTR __cdecl  DBEntityMove(WPARAM hEntity, LPARAM hParent);
+	INT_PTR __cdecl  DBEntityGetFlags(WPARAM hEntity, LPARAM lParam);
+	INT_PTR __cdecl  DBEntityIterInit(WPARAM pFilter, LPARAM hParent);
+	INT_PTR __cdecl  DBEntityIterNext(WPARAM hIteration, LPARAM lParam);
+	INT_PTR __cdecl  DBEntityIterClose(WPARAM hIteration, LPARAM lParam);
+	INT_PTR __cdecl  DBEntityDelete(WPARAM hEntity, LPARAM lParam);
+	INT_PTR __cdecl  DBEntityCreate(WPARAM pEntity, LPARAM lParam);
+	INT_PTR __cdecl  DBEntityGetAccount(WPARAM hEntity, LPARAM lParam);
+
+	INT_PTR __cdecl  DBVirtualEntityCreate(WPARAM hEntity, LPARAM hParent);
+	INT_PTR __cdecl  DBVirtualEntityGetParent(WPARAM hVirtualEntity, LPARAM lParam);
+	INT_PTR __cdecl  DBVirtualEntityGetFirst(WPARAM hEntity, LPARAM lParam);
+	INT_PTR __cdecl  DBVirtualEntityGetNext(WPARAM hVirtualEntity, LPARAM lParam);
+
+	INT_PTR __cdecl  DBSettingFind(WPARAM pSettingDescriptor, LPARAM lParam);
+	INT_PTR __cdecl  DBSettingDelete(WPARAM pSettingDescriptor, LPARAM lParam);
+	INT_PTR __cdecl  DBSettingDeleteHandle(WPARAM hSetting, LPARAM lParam);
+	INT_PTR __cdecl  DBSettingWrite(WPARAM pSetting, LPARAM lParam);
+	INT_PTR __cdecl  DBSettingWriteHandle(WPARAM pSetting, LPARAM hSetting);
+	INT_PTR __cdecl  DBSettingRead(WPARAM pSetting, LPARAM lParam);
+	INT_PTR __cdecl  DBSettingReadHandle(WPARAM pSetting, LPARAM hSetting);
+	INT_PTR __cdecl  DBSettingIterInit(WPARAM pFilter, LPARAM lParam);
+	INT_PTR __cdecl  DBSettingIterNext(WPARAM hIteration, LPARAM lParam);
+	INT_PTR __cdecl  DBSettingIterClose(WPARAM hIteration, LPARAM lParam);
+
+	INT_PTR __cdecl  DBEventGetBlobSize(WPARAM hEvent, LPARAM lParam);
+	INT_PTR __cdecl  DBEventGet(WPARAM hEvent, LPARAM pEvent);
+	INT_PTR __cdecl  DBEventGetCount(WPARAM hEntity, LPARAM lParam);
+	INT_PTR __cdecl  DBEventDelete(WPARAM hEvent, LPARAM lParam);
+	INT_PTR __cdecl  DBEventAdd(WPARAM hEntity, LPARAM pEvent);
+	INT_PTR __cdecl  DBEventMarkRead(WPARAM hEvent, LPARAM lParam);
+	INT_PTR __cdecl  DBEventWriteToDisk(WPARAM hEvent, LPARAM lParam);
+	INT_PTR __cdecl  DBEventGetEntity(WPARAM hEvent, LPARAM lParam);
+	INT_PTR __cdecl  DBEventIterInit(WPARAM pFilter, LPARAM lParam);
+	INT_PTR __cdecl  DBEventIterNext(WPARAM hIteration, LPARAM lParam);
+	INT_PTR __cdecl  DBEventIterClose(WPARAM hIteration, LPARAM lParam);
+
+	bool RegisterServices();
+
+	typedef INT_PTR ( __cdecl CDataBase::*DbServiceFunc )( WPARAM, LPARAM );
+	void CreateDbService(const char *szServiceName, DbServiceFunc pFunc);
+
 protected:  // to be compatible with the standard Miranda databases
 	STDMETHODIMP_(void)   SetCacheSafetyMode(BOOL);
 
@@ -185,5 +231,3 @@ protected:  // to be compatible with the standard Miranda databases
 	STDMETHODIMP_(BOOL)   SetSettingResident(BOOL bIsResident, const char *pszSettingName);
 	STDMETHODIMP_(BOOL)   EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
 };
-
-extern CDataBase *gDataBase;

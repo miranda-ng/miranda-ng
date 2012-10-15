@@ -22,44 +22,47 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Services.h"
 
-HANDLE gServices[40] = {0};
-
-INT_PTR DBEntityGetRoot(WPARAM wParam, LPARAM lParam)
+INT_PTR CDataBase::DBEntityGetRoot(WPARAM wParam, LPARAM lParam)
 {
-	return gDataBase->getEntities().getRootEntity();
+	return getEntities().getRootEntity();
 }
-INT_PTR DBEntityChildCount(WPARAM hEntity, LPARAM lParam)
+
+INT_PTR CDataBase::DBEntityChildCount(WPARAM hEntity, LPARAM lParam)
 {
 	if (hEntity == 0)
-		hEntity = gDataBase->getEntities().getRootEntity();
+		hEntity = getEntities().getRootEntity();
 
-	return gDataBase->getEntities().getChildCount(hEntity);
+	return getEntities().getChildCount(hEntity);
 }
-INT_PTR DBEntityGetParent(WPARAM hEntity, LPARAM lParam)
+
+INT_PTR CDataBase::DBEntityGetParent(WPARAM hEntity, LPARAM lParam)
 {
 	if (hEntity == 0)
-		hEntity = gDataBase->getEntities().getRootEntity();
+		hEntity = getEntities().getRootEntity();
 
-	return gDataBase->getEntities().getParent(hEntity);
+	return getEntities().getParent(hEntity);
 }
-INT_PTR DBEntityMove(WPARAM hEntity, LPARAM hParent)
+
+INT_PTR CDataBase::DBEntityMove(WPARAM hEntity, LPARAM hParent)
 {
-	if ((hEntity == 0) || (hEntity == gDataBase->getEntities().getRootEntity()))
+	if ((hEntity == 0) || (hEntity == getEntities().getRootEntity()))
 		return DBT_INVALIDPARAM;
 
 	if (hParent == 0)
-		hParent = gDataBase->getEntities().getRootEntity();
+		hParent = getEntities().getRootEntity();
 
-	return gDataBase->getEntities().setParent(hEntity, hParent);
+	return getEntities().setParent(hEntity, hParent);
 }
-INT_PTR DBEntityGetFlags(WPARAM hEntity, LPARAM lParam)
+
+INT_PTR CDataBase::DBEntityGetFlags(WPARAM hEntity, LPARAM lParam)
 {
 	if (hEntity == 0)
-		hEntity = gDataBase->getEntities().getRootEntity();
+		hEntity = getEntities().getRootEntity();
 
-	return gDataBase->getEntities().getFlags(hEntity);
+	return getEntities().getFlags(hEntity);
 }
-INT_PTR DBEntityIterInit(WPARAM pFilter, LPARAM hParent)
+
+INT_PTR CDataBase::DBEntityIterInit(WPARAM pFilter, LPARAM hParent)
 {
 	TDBTEntityIterFilter fil = {0,0,0,0};
 	if (pFilter == NULL)
@@ -75,95 +78,86 @@ INT_PTR DBEntityIterInit(WPARAM pFilter, LPARAM hParent)
 		return DBT_INVALIDPARAM;
 
 	if (hParent == 0)
-		hParent = gDataBase->getEntities().getRootEntity();
+		hParent = getEntities().getRootEntity();
 
-	return gDataBase->getEntities().IterationInit(*reinterpret_cast<PDBTEntityIterFilter>(pFilter), hParent);
+	return getEntities().IterationInit(*reinterpret_cast<PDBTEntityIterFilter>(pFilter), hParent);
 }
-INT_PTR DBEntityIterNext(WPARAM hIteration, LPARAM lParam)
+
+INT_PTR CDataBase::DBEntityIterNext(WPARAM hIteration, LPARAM lParam)
 {
 	if ((hIteration == 0) || (hIteration == DBT_INVALIDPARAM))
 		return hIteration;
 
-	return gDataBase->getEntities().IterationNext(hIteration);
+	return getEntities().IterationNext(hIteration);
 }
-INT_PTR DBEntityIterClose(WPARAM hIteration, LPARAM lParam)
+
+INT_PTR CDataBase::DBEntityIterClose(WPARAM hIteration, LPARAM lParam)
 {
 	if ((hIteration == 0) || (hIteration == DBT_INVALIDPARAM))
 		return hIteration;
 
-	return gDataBase->getEntities().IterationClose(hIteration);
+	return getEntities().IterationClose(hIteration);
 }
-INT_PTR DBEntityDelete(WPARAM hEntity, LPARAM lParam)
+
+INT_PTR CDataBase::DBEntityDelete(WPARAM hEntity, LPARAM lParam)
 {
-	if ((hEntity == 0) || (hEntity == gDataBase->getEntities().getRootEntity()))
+	if ((hEntity == 0) || (hEntity == getEntities().getRootEntity()))
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getEntities().DeleteEntity(hEntity);
+	return getEntities().DeleteEntity(hEntity);
 }
-INT_PTR DBEntityCreate(WPARAM pEntity, LPARAM lParam)
+
+INT_PTR CDataBase::DBEntityCreate(WPARAM pEntity, LPARAM lParam)
 {
 	if (reinterpret_cast<PDBTEntity>(pEntity)->bcSize != sizeof(TDBTEntity))
 		return DBT_INVALIDPARAM;
 
 	if (reinterpret_cast<PDBTEntity>(pEntity)->hParentEntity == 0)
-		reinterpret_cast<PDBTEntity>(pEntity)->hParentEntity = gDataBase->getEntities().getRootEntity();
+		reinterpret_cast<PDBTEntity>(pEntity)->hParentEntity = getEntities().getRootEntity();
 
 	reinterpret_cast<PDBTEntity>(pEntity)->fFlags = reinterpret_cast<PDBTEntity>(pEntity)->fFlags & ~(DBT_NF_IsRoot | DBT_NF_HasChildren | DBT_NF_IsVirtual | DBT_NF_HasVirtuals); // forbidden flags...
-	return gDataBase->getEntities().CreateEntity(*reinterpret_cast<PDBTEntity>(pEntity));
+	return getEntities().CreateEntity(*reinterpret_cast<PDBTEntity>(pEntity));
 }
 
-INT_PTR DBEntityGetAccount(WPARAM hEntity, LPARAM lParam)
+INT_PTR CDataBase::DBEntityGetAccount(WPARAM hEntity, LPARAM lParam)
 {
-	return gDataBase->getEntities().getAccount(hEntity);
+	return getEntities().getAccount(hEntity);
 }
 
-INT_PTR DBVirtualEntityCreate(WPARAM hEntity, LPARAM hParent)
+INT_PTR CDataBase::DBVirtualEntityCreate(WPARAM hEntity, LPARAM hParent)
 {
-	if ((hEntity == 0) || (hEntity == gDataBase->getEntities().getRootEntity()))
+	if ((hEntity == 0) || (hEntity == getEntities().getRootEntity()))
 		return DBT_INVALIDPARAM;
 
 	if (hParent == 0)
-		hParent = gDataBase->getEntities().getRootEntity();
+		hParent = getEntities().getRootEntity();
 
-	return gDataBase->getEntities().VirtualCreate(hEntity, hParent);
+	return getEntities().VirtualCreate(hEntity, hParent);
 }
-INT_PTR DBVirtualEntityGetParent(WPARAM hVirtualEntity, LPARAM lParam)
+INT_PTR CDataBase::DBVirtualEntityGetParent(WPARAM hVirtualEntity, LPARAM lParam)
 {
-	if ((hVirtualEntity == 0) || (hVirtualEntity == gDataBase->getEntities().getRootEntity()))
+	if ((hVirtualEntity == 0) || (hVirtualEntity == getEntities().getRootEntity()))
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getEntities().VirtualGetParent(hVirtualEntity);
+	return getEntities().VirtualGetParent(hVirtualEntity);
 }
-INT_PTR DBVirtualEntityGetFirst(WPARAM hEntity, LPARAM lParam)
+INT_PTR CDataBase::DBVirtualEntityGetFirst(WPARAM hEntity, LPARAM lParam)
 {
-	if ((hEntity == 0) || (hEntity == gDataBase->getEntities().getRootEntity()))
+	if ((hEntity == 0) || (hEntity == getEntities().getRootEntity()))
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getEntities().VirtualGetFirst(hEntity);
+	return getEntities().VirtualGetFirst(hEntity);
 }
-INT_PTR DBVirtualEntityGetNext(WPARAM hVirtualEntity, LPARAM lParam)
+INT_PTR CDataBase::DBVirtualEntityGetNext(WPARAM hVirtualEntity, LPARAM lParam)
 {
-	if ((hVirtualEntity == 0) || (hVirtualEntity == gDataBase->getEntities().getRootEntity()))
+	if ((hVirtualEntity == 0) || (hVirtualEntity == getEntities().getRootEntity()))
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getEntities().VirtualGetNext(hVirtualEntity);
+	return getEntities().VirtualGetNext(hVirtualEntity);
 }
 
 
-INT_PTR DBSettingFind(WPARAM pSettingDescriptor, LPARAM lParam)
-{
-	if (pSettingDescriptor == NULL)
-		return DBT_INVALIDPARAM;
-
-	if (reinterpret_cast<PDBTSettingDescriptor>(pSettingDescriptor)->cbSize != sizeof(TDBTSettingDescriptor))
-		return DBT_INVALIDPARAM;
-
-	if (reinterpret_cast<PDBTSettingDescriptor>(pSettingDescriptor)->pszSettingName == NULL)
-		return DBT_INVALIDPARAM;
-
-	return gDataBase->getSettings().FindSetting(*reinterpret_cast<PDBTSettingDescriptor>(pSettingDescriptor));
-}
-INT_PTR DBSettingDelete(WPARAM pSettingDescriptor, LPARAM lParam)
+INT_PTR CDataBase::DBSettingFind(WPARAM pSettingDescriptor, LPARAM lParam)
 {
 	if (pSettingDescriptor == NULL)
 		return DBT_INVALIDPARAM;
@@ -174,16 +168,29 @@ INT_PTR DBSettingDelete(WPARAM pSettingDescriptor, LPARAM lParam)
 	if (reinterpret_cast<PDBTSettingDescriptor>(pSettingDescriptor)->pszSettingName == NULL)
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getSettings().DeleteSetting(*reinterpret_cast<PDBTSettingDescriptor>(pSettingDescriptor));
+	return getSettings().FindSetting(*reinterpret_cast<PDBTSettingDescriptor>(pSettingDescriptor));
 }
-INT_PTR DBSettingDeleteHandle(WPARAM hSetting, LPARAM lParam)
+INT_PTR CDataBase::DBSettingDelete(WPARAM pSettingDescriptor, LPARAM lParam)
+{
+	if (pSettingDescriptor == NULL)
+		return DBT_INVALIDPARAM;
+
+	if (reinterpret_cast<PDBTSettingDescriptor>(pSettingDescriptor)->cbSize != sizeof(TDBTSettingDescriptor))
+		return DBT_INVALIDPARAM;
+
+	if (reinterpret_cast<PDBTSettingDescriptor>(pSettingDescriptor)->pszSettingName == NULL)
+		return DBT_INVALIDPARAM;
+
+	return getSettings().DeleteSetting(*reinterpret_cast<PDBTSettingDescriptor>(pSettingDescriptor));
+}
+INT_PTR CDataBase::DBSettingDeleteHandle(WPARAM hSetting, LPARAM lParam)
 {
 	if (hSetting == 0)
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getSettings().DeleteSetting(hSetting);
+	return getSettings().DeleteSetting(hSetting);
 }
-INT_PTR DBSettingWrite(WPARAM pSetting, LPARAM lParam)
+INT_PTR CDataBase::DBSettingWrite(WPARAM pSetting, LPARAM lParam)
 {
 	if (pSetting == NULL)
 		return DBT_INVALIDPARAM;
@@ -203,9 +210,9 @@ INT_PTR DBSettingWrite(WPARAM pSetting, LPARAM lParam)
 	if ((reinterpret_cast<PDBTSetting>(pSetting)->Type & DBT_STF_VariableLength) && (reinterpret_cast<PDBTSetting>(pSetting)->Value.pBlob == NULL))
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getSettings().WriteSetting(*reinterpret_cast<PDBTSetting>(pSetting));
+	return getSettings().WriteSetting(*reinterpret_cast<PDBTSetting>(pSetting));
 }
-INT_PTR DBSettingWriteHandle(WPARAM pSetting, LPARAM hSetting)
+INT_PTR CDataBase::DBSettingWriteHandle(WPARAM pSetting, LPARAM hSetting)
 {
 	if (pSetting == NULL)
 		return DBT_INVALIDPARAM;
@@ -213,9 +220,9 @@ INT_PTR DBSettingWriteHandle(WPARAM pSetting, LPARAM hSetting)
 	if (reinterpret_cast<PDBTSetting>(pSetting)->cbSize != sizeof(TDBTSetting))
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getSettings().WriteSetting(*reinterpret_cast<PDBTSetting>(pSetting), hSetting);
+	return getSettings().WriteSetting(*reinterpret_cast<PDBTSetting>(pSetting), hSetting);
 }
-INT_PTR DBSettingRead(WPARAM pSetting, LPARAM lParam)
+INT_PTR CDataBase::DBSettingRead(WPARAM pSetting, LPARAM lParam)
 {
 	if (pSetting == NULL)
 		return DBT_INVALIDPARAM;
@@ -232,9 +239,9 @@ INT_PTR DBSettingRead(WPARAM pSetting, LPARAM lParam)
 	if (reinterpret_cast<PDBTSetting>(pSetting)->Descriptor->pszSettingName == NULL)
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getSettings().ReadSetting(*reinterpret_cast<PDBTSetting>(pSetting));
+	return getSettings().ReadSetting(*reinterpret_cast<PDBTSetting>(pSetting));
 }
-INT_PTR DBSettingReadHandle(WPARAM pSetting, LPARAM hSetting)
+INT_PTR CDataBase::DBSettingReadHandle(WPARAM pSetting, LPARAM hSetting)
 {
 	if ((pSetting == NULL) || (hSetting == 0))
 		return DBT_INVALIDPARAM;
@@ -245,9 +252,9 @@ INT_PTR DBSettingReadHandle(WPARAM pSetting, LPARAM hSetting)
 	if ((reinterpret_cast<PDBTSetting>(pSetting)->Descriptor != NULL) && (reinterpret_cast<PDBTSetting>(pSetting)->Descriptor->cbSize != sizeof(TDBTSettingDescriptor)))
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getSettings().ReadSetting(*((PDBTSetting)pSetting), hSetting);
+	return getSettings().ReadSetting(*((PDBTSetting)pSetting), hSetting);
 }
-INT_PTR DBSettingIterInit(WPARAM pFilter, LPARAM lParam)
+INT_PTR CDataBase::DBSettingIterInit(WPARAM pFilter, LPARAM lParam)
 {
 	if (pFilter == NULL)
 		return DBT_INVALIDPARAM;
@@ -264,70 +271,70 @@ INT_PTR DBSettingIterInit(WPARAM pFilter, LPARAM lParam)
 	if ((reinterpret_cast<PDBTSettingIterFilter>(pFilter)->Setting != NULL) && (reinterpret_cast<PDBTSettingIterFilter>(pFilter)->Setting->Descriptor != NULL) && (reinterpret_cast<PDBTSettingIterFilter>(pFilter)->Setting->Descriptor->cbSize != sizeof(TDBTSettingIterFilter)))
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getSettings().IterationInit(*reinterpret_cast<PDBTSettingIterFilter>(pFilter));
+	return getSettings().IterationInit(*reinterpret_cast<PDBTSettingIterFilter>(pFilter));
 }
-INT_PTR DBSettingIterNext(WPARAM hIteration, LPARAM lParam)
+INT_PTR CDataBase::DBSettingIterNext(WPARAM hIteration, LPARAM lParam)
 {
 	if ((hIteration == 0) || (hIteration == DBT_INVALIDPARAM))
 		return hIteration;
 
-	return gDataBase->getSettings().IterationNext(hIteration);
+	return getSettings().IterationNext(hIteration);
 }
-INT_PTR DBSettingIterClose(WPARAM hIteration, LPARAM lParam)
+INT_PTR CDataBase::DBSettingIterClose(WPARAM hIteration, LPARAM lParam)
 {
 	if ((hIteration == 0) || (hIteration == DBT_INVALIDPARAM))
 		return hIteration;
 
-	return gDataBase->getSettings().IterationClose(hIteration);
+	return getSettings().IterationClose(hIteration);
 }
 
-INT_PTR DBEventGetBlobSize(WPARAM hEvent, LPARAM lParam)
+INT_PTR CDataBase::DBEventGetBlobSize(WPARAM hEvent, LPARAM lParam)
 {
-	return gDataBase->getEvents().GetBlobSize(hEvent);
+	return getEvents().GetBlobSize(hEvent);
 }
 
-INT_PTR DBEventGet(WPARAM hEvent, LPARAM pEvent)
+INT_PTR CDataBase::DBEventGet(WPARAM hEvent, LPARAM pEvent)
 {
 	if ((pEvent == NULL) || (reinterpret_cast<PDBTEvent>(pEvent)->cbSize != sizeof(TDBTEvent)))
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getEvents().Get(hEvent, *reinterpret_cast<PDBTEvent>(pEvent));
+	return getEvents().Get(hEvent, *reinterpret_cast<PDBTEvent>(pEvent));
 }
 
-INT_PTR DBEventGetCount(WPARAM hEntity, LPARAM lParam)
+INT_PTR CDataBase::DBEventGetCount(WPARAM hEntity, LPARAM lParam)
 {
-	return gDataBase->getEvents().GetCount(hEntity);
+	return getEvents().GetCount(hEntity);
 }
 
-INT_PTR DBEventDelete(WPARAM hEvent, LPARAM lParam)
+INT_PTR CDataBase::DBEventDelete(WPARAM hEvent, LPARAM lParam)
 {
-	return gDataBase->getEvents().Delete(hEvent);
+	return getEvents().Delete(hEvent);
 }
 
-INT_PTR DBEventAdd(WPARAM hEntity, LPARAM pEvent)
+INT_PTR CDataBase::DBEventAdd(WPARAM hEntity, LPARAM pEvent)
 {
 	if ((pEvent == NULL) || (reinterpret_cast<PDBTEvent>(pEvent)->cbSize != sizeof(TDBTEvent)) || (reinterpret_cast<PDBTEvent>(pEvent)->pBlob == NULL) || (reinterpret_cast<PDBTEvent>(pEvent)->cbBlob == 0))
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getEvents().Add(hEntity, *((PDBTEvent)pEvent));
+	return getEvents().Add(hEntity, *((PDBTEvent)pEvent));
 }
 
-INT_PTR DBEventMarkRead(WPARAM hEvent, LPARAM lParam)
+INT_PTR CDataBase::DBEventMarkRead(WPARAM hEvent, LPARAM lParam)
 {
-	return gDataBase->getEvents().MarkRead(hEvent);
+	return getEvents().MarkRead(hEvent);
 }
 
-INT_PTR DBEventWriteToDisk(WPARAM hEvent, LPARAM lParam)
+INT_PTR CDataBase::DBEventWriteToDisk(WPARAM hEvent, LPARAM lParam)
 {
-	return gDataBase->getEvents().WriteToDisk(hEvent);
+	return getEvents().WriteToDisk(hEvent);
 }
 
-INT_PTR DBEventGetEntity(WPARAM hEvent, LPARAM lParam)
+INT_PTR CDataBase::DBEventGetEntity(WPARAM hEvent, LPARAM lParam)
 {
-	return gDataBase->getEvents().getEntity(hEvent);
+	return getEvents().getEntity(hEvent);
 }
 
-INT_PTR DBEventIterInit(WPARAM pFilter, LPARAM lParam)
+INT_PTR CDataBase::DBEventIterInit(WPARAM pFilter, LPARAM lParam)
 {
 	if ((pFilter == NULL) || (reinterpret_cast<PDBTEventIterFilter>(pFilter)->cbSize != sizeof(TDBTEventIterFilter)))
 		return DBT_INVALIDPARAM;
@@ -335,68 +342,70 @@ INT_PTR DBEventIterInit(WPARAM pFilter, LPARAM lParam)
 	if ((reinterpret_cast<PDBTEventIterFilter>(pFilter)->Event != NULL) && (reinterpret_cast<PDBTEventIterFilter>(pFilter)->Event->cbSize != sizeof(TDBTEvent)))
 		return DBT_INVALIDPARAM;
 
-	return gDataBase->getEvents().IterationInit(*reinterpret_cast<PDBTEventIterFilter>(pFilter));
+	return getEvents().IterationInit(*reinterpret_cast<PDBTEventIterFilter>(pFilter));
 }
 
-INT_PTR DBEventIterNext(WPARAM hIteration, LPARAM lParam)
+INT_PTR CDataBase::DBEventIterNext(WPARAM hIteration, LPARAM lParam)
 {
 	if ((hIteration == 0) || (hIteration == DBT_INVALIDPARAM))
 		return hIteration;
 
-	return gDataBase->getEvents().IterationNext(hIteration);
+	return getEvents().IterationNext(hIteration);
 }
 
-INT_PTR DBEventIterClose(WPARAM hIteration, LPARAM lParam)
+INT_PTR CDataBase::DBEventIterClose(WPARAM hIteration, LPARAM lParam)
 {
 	if ((hIteration == 0) || (hIteration == DBT_INVALIDPARAM))
 		return hIteration;
 
-	return gDataBase->getEvents().IterationClose(hIteration);
+	return getEvents().IterationClose(hIteration);
 }
 
-
-bool RegisterServices()
+void CDataBase::CreateDbService(const char* szService, DbServiceFunc serviceProc)
 {
-	gServices[ 0] = CreateServiceFunction(MS_DBT_ENTITY_GETROOT,          DBEntityGetRoot);
-	gServices[ 1] = CreateServiceFunction(MS_DBT_ENTITY_CHILDCOUNT,       DBEntityChildCount);
-	gServices[ 2] = CreateServiceFunction(MS_DBT_ENTITY_GETPARENT,        DBEntityGetParent);
-	gServices[ 3] = CreateServiceFunction(MS_DBT_ENTITY_MOVE,             DBEntityMove);
-	gServices[ 8] = CreateServiceFunction(MS_DBT_ENTITY_GETFLAGS,         DBEntityGetFlags);
-	gServices[ 9] = CreateServiceFunction(MS_DBT_ENTITY_ITER_INIT,        DBEntityIterInit);
-	gServices[10] = CreateServiceFunction(MS_DBT_ENTITY_ITER_NEXT,        DBEntityIterNext);
-	gServices[11] = CreateServiceFunction(MS_DBT_ENTITY_ITER_CLOSE,       DBEntityIterClose);
-	gServices[12] = CreateServiceFunction(MS_DBT_ENTITY_DELETE,           DBEntityDelete);
-	gServices[13] = CreateServiceFunction(MS_DBT_ENTITY_CREATE,           DBEntityCreate);
-	gServices[13] = CreateServiceFunction(MS_DBT_ENTITY_GETACCOUNT,       DBEntityGetAccount);
+	::CreateServiceFunctionObj(szService, ( MIRANDASERVICEOBJ )*( void** )&serviceProc, this );
+}
 
-	gServices[14] = CreateServiceFunction(MS_DBT_VIRTUALENTITY_CREATE,    DBVirtualEntityCreate);
-	gServices[15] = CreateServiceFunction(MS_DBT_VIRTUALENTITY_GETPARENT, DBVirtualEntityGetParent);
-	gServices[16] = CreateServiceFunction(MS_DBT_VIRTUALENTITY_GETFIRST,  DBVirtualEntityGetFirst);
-	gServices[17] = CreateServiceFunction(MS_DBT_VIRTUALENTITY_GETNEXT,   DBVirtualEntityGetNext);
+bool CDataBase::RegisterServices()
+{
+	CreateDbService(MS_DBT_ENTITY_GETROOT,          &CDataBase::DBEntityGetRoot);
+	CreateDbService(MS_DBT_ENTITY_CHILDCOUNT,       &CDataBase::DBEntityChildCount);
+	CreateDbService(MS_DBT_ENTITY_GETPARENT,        &CDataBase::DBEntityGetParent);
+	CreateDbService(MS_DBT_ENTITY_MOVE,             &CDataBase::DBEntityMove);
+	CreateDbService(MS_DBT_ENTITY_GETFLAGS,         &CDataBase::DBEntityGetFlags);
+	CreateDbService(MS_DBT_ENTITY_ITER_INIT,        &CDataBase::DBEntityIterInit);
+	CreateDbService(MS_DBT_ENTITY_ITER_NEXT,        &CDataBase::DBEntityIterNext);
+	CreateDbService(MS_DBT_ENTITY_ITER_CLOSE,       &CDataBase::DBEntityIterClose);
+	CreateDbService(MS_DBT_ENTITY_DELETE,           &CDataBase::DBEntityDelete);
+	CreateDbService(MS_DBT_ENTITY_CREATE,           &CDataBase::DBEntityCreate);
+	CreateDbService(MS_DBT_ENTITY_GETACCOUNT,       &CDataBase::DBEntityGetAccount);
 
-	gServices[18] = CreateServiceFunction(MS_DBT_SETTING_FIND,             DBSettingFind);
-	gServices[19] = CreateServiceFunction(MS_DBT_SETTING_DELETE,           DBSettingDelete);
-	gServices[20] = CreateServiceFunction(MS_DBT_SETTING_DELETEHANDLE,     DBSettingDeleteHandle);
-	gServices[21] = CreateServiceFunction(MS_DBT_SETTING_WRITE,            DBSettingWrite);
-	gServices[22] = CreateServiceFunction(MS_DBT_SETTING_WRITEHANDLE,      DBSettingWriteHandle);
-	gServices[23] = CreateServiceFunction(MS_DBT_SETTING_READ,             DBSettingRead);
-	gServices[24] = CreateServiceFunction(MS_DBT_SETTING_READHANDLE,       DBSettingReadHandle);
-	gServices[25] = CreateServiceFunction(MS_DBT_SETTING_ITER_INIT,        DBSettingIterInit);
-	gServices[26] = CreateServiceFunction(MS_DBT_SETTING_ITER_NEXT,        DBSettingIterNext);
-	gServices[27] = CreateServiceFunction(MS_DBT_SETTING_ITER_CLOSE,       DBSettingIterClose);
+	CreateDbService(MS_DBT_VIRTUALENTITY_CREATE,    &CDataBase::DBVirtualEntityCreate);
+	CreateDbService(MS_DBT_VIRTUALENTITY_GETPARENT, &CDataBase::DBVirtualEntityGetParent);
+	CreateDbService(MS_DBT_VIRTUALENTITY_GETFIRST,  &CDataBase::DBVirtualEntityGetFirst);
+	CreateDbService(MS_DBT_VIRTUALENTITY_GETNEXT,   &CDataBase::DBVirtualEntityGetNext);
 
-	gServices[28] = CreateServiceFunction(MS_DBT_EVENT_GETBLOBSIZE,        DBEventGetBlobSize);
-	gServices[29] = CreateServiceFunction(MS_DBT_EVENT_GET,                DBEventGet);
-	gServices[30] = CreateServiceFunction(MS_DBT_EVENT_GETCOUNT,           DBEventGetCount);
-	gServices[31] = CreateServiceFunction(MS_DBT_EVENT_DELETE,             DBEventDelete);
-	gServices[32] = CreateServiceFunction(MS_DBT_EVENT_ADD,                DBEventAdd);
-	gServices[33] = CreateServiceFunction(MS_DBT_EVENT_MARKREAD,           DBEventMarkRead);
-	gServices[34] = CreateServiceFunction(MS_DBT_EVENT_WRITETODISK,        DBEventWriteToDisk);
-	gServices[35] = CreateServiceFunction(MS_DBT_EVENT_GETENTITY,          DBEventGetEntity);
-	gServices[36] = CreateServiceFunction(MS_DBT_EVENT_ITER_INIT,          DBEventIterInit);
-	gServices[37] = CreateServiceFunction(MS_DBT_EVENT_ITER_NEXT,          DBEventIterNext);
-	gServices[38] = CreateServiceFunction(MS_DBT_EVENT_ITER_CLOSE,         DBEventIterClose);
+	CreateDbService(MS_DBT_SETTING_FIND,            &CDataBase::DBSettingFind);
+	CreateDbService(MS_DBT_SETTING_DELETE,          &CDataBase::DBSettingDelete);
+	CreateDbService(MS_DBT_SETTING_DELETEHANDLE,    &CDataBase::DBSettingDeleteHandle);
+	CreateDbService(MS_DBT_SETTING_WRITE,           &CDataBase::DBSettingWrite);
+	CreateDbService(MS_DBT_SETTING_WRITEHANDLE,     &CDataBase::DBSettingWriteHandle);
+	CreateDbService(MS_DBT_SETTING_READ,            &CDataBase::DBSettingRead);
+	CreateDbService(MS_DBT_SETTING_READHANDLE,      &CDataBase::DBSettingReadHandle);
+	CreateDbService(MS_DBT_SETTING_ITER_INIT,       &CDataBase::DBSettingIterInit);
+	CreateDbService(MS_DBT_SETTING_ITER_NEXT,       &CDataBase::DBSettingIterNext);
+	CreateDbService(MS_DBT_SETTING_ITER_CLOSE,      &CDataBase::DBSettingIterClose);
 
-
+	CreateDbService(MS_DBT_EVENT_GETBLOBSIZE,       &CDataBase::DBEventGetBlobSize);
+	CreateDbService(MS_DBT_EVENT_GET,               &CDataBase::DBEventGet);
+	CreateDbService(MS_DBT_EVENT_GETCOUNT,          &CDataBase::DBEventGetCount);
+	CreateDbService(MS_DBT_EVENT_DELETE,            &CDataBase::DBEventDelete);
+	CreateDbService(MS_DBT_EVENT_ADD,               &CDataBase::DBEventAdd);
+	CreateDbService(MS_DBT_EVENT_MARKREAD,          &CDataBase::DBEventMarkRead);
+	CreateDbService(MS_DBT_EVENT_WRITETODISK,       &CDataBase::DBEventWriteToDisk);
+	CreateDbService(MS_DBT_EVENT_GETENTITY,         &CDataBase::DBEventGetEntity);
+	CreateDbService(MS_DBT_EVENT_ITER_INIT,         &CDataBase::DBEventIterInit);
+	CreateDbService(MS_DBT_EVENT_ITER_NEXT,         &CDataBase::DBEventIterNext);
+	CreateDbService(MS_DBT_EVENT_ITER_CLOSE,        &CDataBase::DBEventIterClose);
 	return true;
 }

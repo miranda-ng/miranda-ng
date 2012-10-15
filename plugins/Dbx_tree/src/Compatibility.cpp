@@ -45,7 +45,7 @@ STDMETHODIMP_(HANDLE) CDataBase::AddContact(void)
 	entity.hParentEntity = DBEntityGetRoot(0, 0);
 	entity.hAccountEntity = entity.hParentEntity;
 
-	TDBTEntityHandle res = gDataBase->getEntities().CreateEntity(entity);
+	TDBTEntityHandle res = getEntities().CreateEntity(entity);
 	if (res == DBT_INVALIDPARAM)
 		return (HANDLE)1;
 
@@ -78,7 +78,7 @@ STDMETHODIMP_(LONG) CDataBase::GetContactCount(void)
 	f.fDontHasFlags = DBT_NF_IsGroup | DBT_NF_IsVirtual | DBT_NF_IsAccount | DBT_NF_IsRoot;
 	f.Options = DBT_NIFO_OSC_AC | DBT_NIFO_OC_AC;
 
-	TDBTEntityIterationHandle hiter = DBEntityIterInit((WPARAM)&f, gDataBase->getEntities().getRootEntity());
+	TDBTEntityIterationHandle hiter = DBEntityIterInit((WPARAM)&f, getEntities().getRootEntity());
 	int c = 0;
 	if ((hiter != 0) && (hiter != DBT_INVALIDPARAM))
 	{
@@ -99,13 +99,13 @@ STDMETHODIMP_(LONG) CDataBase::GetContactCount(void)
 //!!!!!!!!!!!!!!!!!!!! szProto ignored
 STDMETHODIMP_(HANDLE) CDataBase::FindFirstContact(const char* szProto)
 {
-	return (HANDLE)gDataBase->getEntities().compFirstContact();
+	return (HANDLE)getEntities().compFirstContact();
 }
 
 //!!!!!!!!!!!!!!!!!!!! szProto ignored
 STDMETHODIMP_(HANDLE) CDataBase::FindNextContact(HANDLE hContact, const char* szProto)
 {
-	return (HANDLE)gDataBase->getEntities().compNextContact((WPARAM)hContact);
+	return (HANDLE)getEntities().compNextContact((WPARAM)hContact);
 }
 
 STDMETHODIMP_(BOOL) CDataBase::GetContactSetting(HANDLE hContact, DBCONTACTGETSETTING *dbcgs)
@@ -623,7 +623,7 @@ STDMETHODIMP_(BOOL) CDataBase::EnumContactSettings(HANDLE hContact, DBCONTACTENU
 STDMETHODIMP_(LONG) CDataBase::GetEventCount(HANDLE hContact)
 {
 	if (hContact == 0)
-		hContact = (HANDLE)gDataBase->getEntities().getRootEntity();
+		hContact = (HANDLE)getEntities().getRootEntity();
 
 	return DBEventGetCount((WPARAM)hContact, 0);
 }
@@ -638,7 +638,7 @@ STDMETHODIMP_(HANDLE) CDataBase::AddEvent(HANDLE hContact, DBEVENTINFO *dbei)
 		return (HANDLE)tmp;
 
 	if (hContact == 0)
-		hContact = (HANDLE)gDataBase->getEntities().getRootEntity();
+		hContact = (HANDLE)getEntities().getRootEntity();
 
 
 	TDBTEvent ev = {0,0,0,0,0,0,0};
@@ -666,7 +666,7 @@ STDMETHODIMP_(BOOL) CDataBase::DeleteEvent(HANDLE hContact, HANDLE hDbEvent)
 	int res = NotifyEventHooks(hEventDeletedEvent, (WPARAM)hContact, (WPARAM)hDbEvent);
 
 	if (hContact == 0)
-		hContact = (HANDLE)gDataBase->getEntities().getRootEntity();
+		hContact = (HANDLE)getEntities().getRootEntity();
 
 	if (res == 0)
 		return DBEventDelete((WPARAM)hDbEvent, 0);
@@ -729,7 +729,7 @@ STDMETHODIMP_(BOOL) CDataBase::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 STDMETHODIMP_(HANDLE) CDataBase::GetEventContact(HANDLE hDbEvent)
 {
 	TDBTEntityHandle res = DBEventGetEntity((WPARAM)hDbEvent, 0);
-	if (res == gDataBase->getEntities().getRootEntity())
+	if (res == getEntities().getRootEntity())
 		res = 0;
 
 	return (HANDLE)res;
@@ -738,33 +738,33 @@ STDMETHODIMP_(HANDLE) CDataBase::GetEventContact(HANDLE hDbEvent)
 STDMETHODIMP_(HANDLE) CDataBase::FindFirstEvent(HANDLE hContact)
 {
 	if (hContact == 0)
-		hContact = (HANDLE)gDataBase->getEntities().getRootEntity();
+		hContact = (HANDLE)getEntities().getRootEntity();
 
-	return (HANDLE)gDataBase->getEvents().compFirstEvent((WPARAM)hContact);
+	return (HANDLE)getEvents().compFirstEvent((WPARAM)hContact);
 }
 
 STDMETHODIMP_(HANDLE) CDataBase::FindFirstUnreadEvent(HANDLE hContact)
 {
 	if (hContact == 0)
-		hContact = (HANDLE)gDataBase->getEntities().getRootEntity();
-	return (HANDLE)gDataBase->getEvents().compFirstUnreadEvent((WPARAM)hContact);
+		hContact = (HANDLE)getEntities().getRootEntity();
+	return (HANDLE)getEvents().compFirstUnreadEvent((WPARAM)hContact);
 }
 
 STDMETHODIMP_(HANDLE) CDataBase::FindLastEvent(HANDLE hContact)
 {
 	if (hContact == 0)
-		hContact = (HANDLE)gDataBase->getEntities().getRootEntity();
-	return (HANDLE)gDataBase->getEvents().compLastEvent((WPARAM)hContact);
+		hContact = (HANDLE)getEntities().getRootEntity();
+	return (HANDLE)getEvents().compLastEvent((WPARAM)hContact);
 }
 
 STDMETHODIMP_(HANDLE) CDataBase::FindNextEvent(HANDLE hDbEvent)
 {
-	return (HANDLE)gDataBase->getEvents().compNextEvent((WPARAM)hDbEvent);
+	return (HANDLE)getEvents().compNextEvent((WPARAM)hDbEvent);
 }
 
 STDMETHODIMP_(HANDLE) CDataBase::FindPrevEvent(HANDLE hDbEvent)
 {
-	return (HANDLE)gDataBase->getEvents().compPrevEvent((WPARAM)hDbEvent);
+	return (HANDLE)getEvents().compPrevEvent((WPARAM)hDbEvent);
 }
 
 STDMETHODIMP_(BOOL) CDataBase::EnumModuleNames(DBMODULEENUMPROC pCallback, void *pParam)
@@ -772,7 +772,7 @@ STDMETHODIMP_(BOOL) CDataBase::EnumModuleNames(DBMODULEENUMPROC pCallback, void 
 	if (!pCallback)
 		return -1;
 	
-	return gDataBase->getSettings().CompEnumModules(pCallback, (WPARAM)pParam);
+	return getSettings().CompEnumModules(pCallback, (WPARAM)pParam);
 }
 
 STDMETHODIMP_(BOOL) CDataBase::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
