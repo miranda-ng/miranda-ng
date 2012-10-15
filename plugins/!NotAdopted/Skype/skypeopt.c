@@ -31,7 +31,7 @@
 
 
 extern HINSTANCE hInst;
-extern PLUGININFO pluginInfo;
+extern PLUGININFOEX pluginInfo;
 extern char protocol, g_szProtoName[];
 extern BOOL SkypeInitialized, bProtocolSet, bIsImoproxy;
 extern DWORD mirandaVersion;
@@ -62,14 +62,14 @@ int RegisterOptions(WPARAM wParam, LPARAM lParam) {
    odp.pszTitle = SKYPE_PROTONAME;
    odp.pfnDlgProc = OptionsDlgProc;
    odp.flags = ODPF_BOLDGROUPS;
-   CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+   Options_AddPage(wParam, &odp);
 
    if(PopupServiceExists)
    {
 	   odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 	   odp.pszGroup = "Popups";
 	   odp.pfnDlgProc = OptPopupDlgProc;
-	   CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	   Options_AddPage(wParam, &odp);
    }
 
    return 0;
@@ -472,7 +472,7 @@ INT_PTR CALLBACK OptionsAdvancedDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			for(i=0;i<sizeof(statusModes)/sizeof(statusModes[0]);i++) {
 				int k;
 
-				k=SendDlgItemMessage(hwndDlg,IDC_SKYPEOUTSTAT,CB_ADDSTRING,0,(LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,statusModes[i],GCMDF_TCHAR));
+				k=SendDlgItemMessage(hwndDlg,IDC_SKYPEOUTSTAT,CB_ADDSTRING,0,(LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,statusModes[i],0));
 				SendDlgItemMessage(hwndDlg,IDC_SKYPEOUTSTAT,CB_SETITEMDATA,k,statusModes[i]);
 				if (statusModes[i]==j) SendDlgItemMessage(hwndDlg,IDC_SKYPEOUTSTAT,CB_SETCURSEL,i,0);
 			}
@@ -505,7 +505,7 @@ INT_PTR CALLBACK OptionsAdvancedDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 		case WM_COMMAND: {
 			switch (LOWORD(wParam)) {
 				case IDC_CLEANUP:
-					pthread_create(( pThreadFunc )CleanupNicknames, NULL);
+					forkthread(( pThreadFunc )CleanupNicknames, 0, NULL);
 					break;
 			}
 			if (!initDlg) SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -669,7 +669,7 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DATAPATH), startSkype && SendMessage(GetDlgItem(hwndDlg, IDC_DATAPATHO), BM_GETCHECK,0,0));
 					break;
 				case IDC_CLEANUP:
-					pthread_create(( pThreadFunc )CleanupNicknames, NULL);
+					forkthread(( pThreadFunc )CleanupNicknames, 0, NULL);
 					break;
 				case IDC_DATAPATHO:
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DATAPATH), SendMessage(GetDlgItem(hwndDlg, IDC_DATAPATHO), BM_GETCHECK,0,0));
@@ -769,7 +769,7 @@ int OnDetailsInit( WPARAM wParam, LPARAM lParam )
 			odp.position = 1900000000;
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETAVATAR);
 			odp.pszTitle = szTitle;
-			CallService(MS_USERINFO_ADDPAGE, wParam, (LPARAM)&odp);
+			UserInfo_AddPage(wParam, &odp);
 		}
 
 		mir_snprintf( szTitle, sizeof( szTitle ), "%s %s", SKYPE_PROTONAME, Translate( "Details" ));
@@ -778,7 +778,7 @@ int OnDetailsInit( WPARAM wParam, LPARAM lParam )
 		odp.position = 1900000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETDETAILS);
 		odp.pszTitle = szTitle;
-		CallService(MS_USERINFO_ADDPAGE, wParam, (LPARAM)&odp);
+		UserInfo_AddPage(wParam, &odp);
 	}
 
 	return 0;

@@ -16,7 +16,6 @@
 #ifndef PTHREAD_H
 #define PTHREAD_H
 
-unsigned long pthread_create(void (*threadcode) (void *), void *arg);
 typedef CRITICAL_SECTION pthread_mutex_t;
 #define pthread_mutex_init(pmutex)           InitializeCriticalSection(pmutex)
 #define pthread_mutex_destroy(pmutex)        DeleteCriticalSection(pmutex)

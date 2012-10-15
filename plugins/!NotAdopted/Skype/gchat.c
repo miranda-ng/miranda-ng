@@ -151,7 +151,7 @@ static int AddChatContact(gchat_contacts *gc, char *who, TCHAR *pszRole) {
 			gc->mJoinedCount++;
 		}
 	}
-    if (ci.pszVal) miranda_sys_free (ci.pszVal);
+    if (ci.pszVal) mir_free (ci.pszVal);
 	free_nonutf_tchar_string (twho);
 	return i;
 }
@@ -306,7 +306,7 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 				gce.ptszUID = gc->mJoinedContacts[i].who;
 				CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
 				if (ci.pszVal) {
-					miranda_sys_free (ci.pszVal);
+					mir_free (ci.pszVal);
 					ci.pszVal=NULL;
 				}
 			}
@@ -585,7 +585,7 @@ static void KickUser (HANDLE hContact, GCHOOK *gch)
 					RemChatContact (GetChat(gcd.ptszID), gch->ptszUID);
 					DBFreeVariant(&dbv);
 				}
-				if (ci.pszVal) miranda_sys_free (ci.pszVal);
+				if (ci.pszVal) mir_free (ci.pszVal);
 			}
 			free (ptr);
 		}

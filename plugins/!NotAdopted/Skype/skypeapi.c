@@ -29,7 +29,7 @@ extern HANDLE SkypeReady, SkypeMsgReceived, httbButton;
 extern UINT ControlAPIAttach, ControlAPIDiscover;
 extern LONG AttachStatus;
 extern HINSTANCE hInst;
-extern PLUGININFO pluginInfo;
+extern PLUGININFOEX pluginInfo;
 extern HANDLE hProtocolAvatarsFolder, hHookSkypeApiRcv;
 extern char DefaultAvatarsFolder[MAX_PATH+1], *pszProxyCallout, protocol, g_szProtoName[];
 
@@ -176,7 +176,7 @@ void sendThread(char *dummy) {
 			}
 			// Reconnect to Skype
 			ResetEvent(SkypeReady);
-			pthread_create(LaunchSkypeAndSetStatusThread, (void *)ID_STATUS_ONLINE);
+			forkthread(LaunchSkypeAndSetStatusThread, 0, (void *)ID_STATUS_ONLINE);
 			WaitForSingleObject (SkypeReady, 10000);
 			//	  SendMessageTimeout(HWND_BROADCAST, ControlAPIDiscover, (WPARAM)g_hWnd, 0, SMTO_ABORTIFHUNG, 3000, NULL);
 		}
@@ -927,7 +927,7 @@ INT_PTR SkypeOutCall(WPARAM wParam, LPARAM lParam) {
 
 	if (wParam && !DBGetContactSettingString((HANDLE)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
 		res=SkypeSend("SET %s STATUS FINISHED", dbv.pszVal);
-		pthread_create(( pThreadFunc )SkypeOutCallErrorCheck, _strdup(dbv.pszVal));
+		forkthread(( pThreadFunc )SkypeOutCallErrorCheck, 0, _strdup(dbv.pszVal));
 		DBFreeVariant(&dbv);
 	} else if (!CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DIAL), NULL, DialDlgProc, (LPARAM)wParam)) return -1;
 	return res;

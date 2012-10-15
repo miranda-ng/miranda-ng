@@ -2,11 +2,11 @@
 #include "skypeapi.h"
 #include "skypesvc.h"
 #include "voiceservice.h"
-#include "sdk/m_voiceservice.h"
+#include <m_voiceservice.h>
 
 #pragma warning (push)
 #pragma warning (disable: 4100) // unreferenced formal parameter
-#include "../../include/m_utils.h"
+#include <m_utils.h>
 #pragma warning (pop)
 
 HANDLE hVoiceNotify = NULL;

@@ -158,26 +158,27 @@ HANDLE add_contextmenu(HANDLE hContact) {
 
 	if (!HasVoiceService()) {
 		mi=CallItem();
-		hMenuCallItem=(HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0,(LPARAM)&mi);
+		hMenuCallItem=Menu_AddContactMenuItem(&mi);
+		
 		mi=HupItem();
-		hMenuCallHangup=(HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+		hMenuCallHangup=Menu_AddContactMenuItem(&mi);
 	}
 	
 	mi=SkypeOutCallItem();
-	hMenuSkypeOutCallItem=(HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0,(LPARAM)&mi);
+	hMenuSkypeOutCallItem=Menu_AddContactMenuItem(&mi);
 
 	if (!HasVoiceService()) {
 		mi=HoldCallItem();
-		hMenuHoldCallItem=(HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0,(LPARAM)&mi);
+		hMenuHoldCallItem=Menu_AddContactMenuItem(&mi);
 	}
 
     // We cannot use flag PF1_FILESEND for sending files, as Skype opens its own
 	// sendfile-Dialog.
 	mi=FileTransferItem();
-	hMenuFileTransferItem=(HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0,(LPARAM)&mi);
+	hMenuFileTransferItem=Menu_AddContactMenuItem(&mi);
     
    	mi=ChatInitItem();
-	hMenuChatInitItem=(HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0,(LPARAM)&mi);
+	hMenuChatInitItem=Menu_AddContactMenuItem(&mi);
 
 
 	ZeroMemory(&mi,sizeof(mi));
@@ -188,7 +189,7 @@ HANDLE add_contextmenu(HANDLE hContact) {
 	mi.pszContactOwner=SKYPE_PROTONAME;
 	mi.ptszName=LPGENT("Import Skype history");
 	mi.pszService=SKYPE_IMPORTHISTORY;
-	return (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0,(LPARAM)&mi);
+	return Menu_AddContactMenuItem(&mi);
 }
 
 HANDLE add_mainmenu(void) {
@@ -201,8 +202,7 @@ HANDLE add_mainmenu(void) {
 	mi.pszContactOwner=SKYPE_PROTONAME;
 	mi.ptszName=LPGENT("Add Skype contact");
 	mi.pszService=SKYPE_ADDUSER;
-	return (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, (WPARAM)NULL,(LPARAM)&mi);
-
+	return Menu_AddMainMenuItem(&mi);
 }
 
 int __cdecl  PrebuildContactMenu(WPARAM wParam, LPARAM lParam) {

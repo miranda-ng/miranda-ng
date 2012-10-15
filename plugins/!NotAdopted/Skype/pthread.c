@@ -14,22 +14,22 @@
  * and for answering some of my questions during development of this plugin.
  */
 
-#include "skype.h"
+//#include "skype.h"
 
 /* Gena01 - added some defined to fix compilation with mingw gcc */
 /* __try/__finally taken from abiword patch found on the web */
-#if 0
- #include <crtdbg.h>
-#else
-#define __try
-#define __except(x) if (0) /* don't execute handler */
-#define __finally
+//#if 0
+// #include <crtdbg.h>
+///#else
+//#define __try
+//#define __except(x) if (0) /* don't execute handler */
+//#define __finally
 
-#define _try __try
-#define _except __except
-#define _finally __finally
-#endif
-
+//#define _try __try
+//#define _except __except
+//#define _finally __finally
+//#endif
+/*
 #include <excpt.h> 
 
 struct pthread_arg
@@ -44,6 +44,7 @@ void pthread_r(struct pthread_arg *fa)
     void (*callercode) (void *) = fa->threadcode;
     void *arg = fa->arg;
     CallService(MS_SYSTEM_THREAD_PUSH, 0, 0);
+	Miranda_Terminated
     SetEvent(fa->hEvent);
     __try {
         callercode(arg);
@@ -67,4 +68,4 @@ unsigned long pthread_create(pThreadFunc parFunc, void *arg)
     CloseHandle(fa.hEvent);
     return rc;
 }
-
+*/

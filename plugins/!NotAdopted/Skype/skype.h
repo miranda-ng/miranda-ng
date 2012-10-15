@@ -25,23 +25,22 @@
 #pragma warning (disable: 4100) // unreferenced formal parameter
 
 // Miranda Includes
-#include "../../include/newpluginapi.h"
-#include "../../include/m_utils.h"
-#include "../../include/m_protosvc.h"
-#include "../../include/m_protomod.h"
-#include "../../include/m_skin.h"
-#include "../../include/m_message.h"
-#include "../../include/m_database.h"
-#include "../../include/m_clist.h"
-#include "../../include/m_system.h"
-#include "sdk/m_updater.h"
-#include "sdk/m_folders.h"
-#include "../../include/m_options.h"
-#include "../../include/m_langpack.h"
-#include "../../include/m_userinfo.h"
-#include "../../include/m_avatars.h"
-#include "../../include/m_contacts.h"
-#include "../../include/m_popup.h"
+#include <newpluginapi.h>
+#include <m_utils.h>
+#include <m_protosvc.h>
+#include <m_protomod.h>
+#include <m_skin.h>
+#include <m_message.h>
+#include <m_database.h>
+#include <m_clist.h>
+#include <m_system.h>
+#include <m_folders.h>
+#include <m_options.h>
+#include <m_langpack.h>
+#include <m_userinfo.h>
+#include <m_avatars.h>
+#include <m_contacts.h>
+#include <m_popup.h>
 
 #pragma warning (pop)
 
