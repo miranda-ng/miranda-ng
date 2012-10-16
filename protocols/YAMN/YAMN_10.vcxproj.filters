@@ -79,9 +79,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\resource.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -100,7 +97,12 @@
     <ClInclude Include="src\yamn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\YAMN.rc">

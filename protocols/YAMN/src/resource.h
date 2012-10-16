@@ -2,8 +2,8 @@
 // Microsoft Developer Studio generated include file.
 // Used by YAMN.rc
 //
-#define IDI_ONLINE                      104
-#define IDI_OFFLINE                     105
+#define IDI_CHECKMAIL                   104
+#define IDI_LAUNCHAPP                   105
 #define IDD_DLGVIEWMESSAGES             107
 #define IDD_DLGSHOWMESSAGE              108
 #define IDI_ICOYAMN2                    112
@@ -11,10 +11,10 @@
 #define IDD_DLGBADCONNECT               115
 #define IDD_POP3ACCOUNTOPT              121
 #define IDD_YAMNOPT                     126
-#define IDI_NA                          131
+#define IDI_BADCONNECT                  131
 #define IDI_ICOTTBUP                    138
 #define IDD_PLUGINOPT                   141
-#define IDI_OCCUPIED                    159
+#define IDI_NEWMAIL                    159
 #define IDD_CHOOSESTATUSMODES           310
 #define IDD_OPTIONS                     311
 #define IDD_POP3ACCOUNTPOPUP            312

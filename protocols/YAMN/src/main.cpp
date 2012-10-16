@@ -213,7 +213,7 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 	mi.cbSize = sizeof(mi);
 	mi.position = 0xb0000000;
 	mi.flags = CMIF_ICONFROMICOLIB;
-	mi.icolibItem = g_GetIconHandle(5);
+	mi.icolibItem = g_GetIconHandle(0);
 	mi.pszName = "Check &mail (All Account)";
 	mi.pszPopupName = NULL;//YAMN_DBMODULE;
 	mi.pszService = MS_YAMN_FORCECHECK;
@@ -224,7 +224,7 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_YAMN_CLISTCONTEXT;
 	hMenuItemCont = Menu_AddContactMenuItem(&mi);
 
-	mi.icolibItem = g_GetIconHandle(4);
+	mi.icolibItem = g_GetIconHandle(1);
 	mi.pszName = "Launch application";
 	mi.pszContactOwner = YAMN_DBMODULE;
 	mi.pszService = MS_YAMN_CLISTCONTEXTAPP;
@@ -253,14 +253,11 @@ struct TIconListItem
 
 static TIconListItem iconList[] = 
 {
-	{ LPGENT("Neutral"),            "YAMN_Neutral",        IDI_ONLINE,   0 },
-	{ LPGENT("YAMN"),               "YAMN",                IDI_ICOYAMN1, 0 },
-	{ LPGENT("New Mail"),           "YAMN_NewMail",        IDI_ICOYAMN2, 0 },
-	{ LPGENT("Connect Fail"),       "YAMN_ConnectFail",    IDI_NA,       0 },
-	{ LPGENT("Launch Application"), "YAMN_ApplExec",       IDI_OCCUPIED, 0 },
-	{ LPGENT("TopToolBar UP"),      "YAMN_TopToolBarUp",   IDI_ICOTTBUP, 0 },
-	{ LPGENT("TopToolBar Down"),    "YAMN_TopToolBarDown", IDI_OCCUPIED, 0 },
-	{ LPGENT("Offline"),            "YAMN_Offline",        IDI_OFFLINE,  0 }
+
+	{LPGENT("Check mail"),			"YAMN_Check",		IDI_CHECKMAIL,	0},
+	{LPGENT("Launch application"),	"YAMN_Launch",		IDI_LAUNCHAPP,	0},
+	{LPGENT("New Mail"),			"YAMN_NewMail",		IDI_NEWMAIL,	0},
+	{LPGENT("Connect Fail"),		"YAMN_ConnectFail",	IDI_BADCONNECT,	0},
 };
 
 static void LoadIcons()
@@ -277,7 +274,7 @@ static void LoadIcons()
 	for (int i = 0, k = 0; i < SIZEOF(iconList); i++)
 	{
 		sid.pszName = iconList[i].szName;
-		sid.pszDescription = iconList[i].szDescr;
+		sid.ptszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		iconList[i].hIcon = Skin_AddIcon(&sid);
 	}

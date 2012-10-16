@@ -317,10 +317,11 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ONLINE              ICON                    "iconeutral.ico"
-IDI_OFFLINE             ICON                    "icooffline.ico"
-IDI_NA                  ICON                    "icoyamn3.ico"
-IDI_OCCUPIED            ICON                    "iconttbdown.ico"
+IDI_CHECKMAIL              ICON                    "checkmail.ico"
+IDI_LAUNCHAPP              ICON                    "launchapp.ico"
+IDI_BADCONNECT             ICON                    "badconnect.ico"
+IDI_NEWMAIL                ICON                    "newmail.ico"
+
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
