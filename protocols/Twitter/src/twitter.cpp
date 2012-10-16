@@ -78,7 +78,7 @@ static T retrieve(const js::object &o,const std::string &key,bool allow_null = f
 
 
 
-twitter::twitter() : base_url_("https://twitter.com/")
+twitter::twitter() : base_url_("https://api.twitter.com/1.1/")
 {}
 
 bool twitter::set_credentials(const std::string &username, const std::wstring &consumerKey, const std::wstring &consumerSecret, 
@@ -120,8 +120,53 @@ const std::string & twitter::get_base_url() const
 	return base_url_;
 }
 
+// this whole function is wrong i think.  should be calling friends/ids, not followers
+/*js::array twitter::buildFriendList() {
+
+	INT_PTR friendCursor = -1;
+	js::array IDs; // an array for the userIDs.  i dunno if js::array is the right thing to use..?
+	js::array masterIDs; // the list that contains all the users that the user follows
+
+	std::vector<twitter_user> friends;
+   
+	while (friendCursor != 0) {
+		http::response resp = slurp(base_url_ + "/1.1/followers/ids.json?cursor=" + friendCursor + "&screen_name=" + username_,http::get);
+		if(resp.code != 200)
+			throw bad_response();
+
+		const js::variant var = json::parse( resp.data.begin(),resp.data.end() ); // pull the data out of the http response
+		if(var->type() == typeid(js::object)) // make sure the parsed data is of type js::object (??)
+		{
+			const js::object &friendIDs = boost::any_cast<js::object>(*var); // cast the object into the type we can use
+			if(friendIDs.find("error") != friendIDs.end()) // don't really know why error should be at the end here?
+				throw std::exception("error while parsing friendIDs object from ids.json");
+
+			// ok need to find out how to convert all the IDs into an array. dunno if i can magically make it happen, or
+			// if i will have to parse it myself and add them one by one :(
+			IDs = retrieve<js::array>(friendIDs,"ids");
+			for(js::array::const_iterator i=IDs.begin(); i!=IDs.end(); ++i) {
+				//LOG("friends ID: " + i);
+				// add array to master array
+				js::object one = boost::any_cast<js::object>(**i);
+				masterIDs.push_back(one); // i don't understand this. how do we push into the array? should i just use C++ arrays (list?) and bail on boost?
+			}
+
+			// now we need to pick out the cursor stuff, and keep punching IDs into the array
+		}
+		else {
+			throw std::exception("in buildFriendList(), return type is not js::object");
+		}
+	}
+
+
+}*/
+
+
 std::vector<twitter_user> twitter::get_friends()
 {
+	// maybe once i have the buildFriendLIst() func working.. but for now let's just get twitter working.
+	//js::array friendArray = buildFriendList();
+
 	std::vector<twitter_user> friends;
 	http::response resp = slurp(base_url_+"statuses/friends.json",http::get);
 
@@ -304,23 +349,45 @@ std::vector<twitter_user> twitter::get_statuses(int count,twitter_id id)
 		{
 			const js::object &one  = boost::any_cast<js::object>(**i);
 			const js::object &user = retrieve<js::object>(one,"user");
+			//size_t RTcount = retrieve<size_t>(one,"retweet_count", true); // why doesn't this work?? it can't cast the output into an int even though twitter api says it's an int
 
 			twitter_user u;
 			u.username = retrieve<std::string>(user,"screen_name");
-			bool isTruncated = retrieve<bool>(one,"truncated");
 
-			if (isTruncated) { // the tweet will be truncated unless we take action.  i hate you twitter API
+			std::string rawText = retrieve<std::string>(one,"text");
+			if (rawText.length() == 140) { // might be a truncated tweet
+				if (rawText.substr(0, 4) == "RT @") { // starting to look like a RT...
+					if (rawText.substr(136, 4) == " ...") { // ok this is the best I can do.  it starts with "RT @", ends with " ...", and is the full 140 chars
 
-				// here we grab the "retweeted_status" um.. section?  it's in here that all the info we need is
-				const js::object &Retweet = retrieve<js::object>(one,"retweeted_status");
-				const js::object &RTUser = retrieve<js::object>(Retweet,"user");
 
-				std::string retweeteesName = retrieve<std::string>(RTUser,"screen_name"); // the user that is being retweeted
-				std::string retweetText = retrieve<std::string>(Retweet,"text"); // their tweet in all it's untruncated glory
-				u.status.text = "RT @" + retweeteesName + " " + retweetText; // mash it together in some format people will understand
+			//if (RTcount > 0) { // the tweet will be truncated unless we take action.  i hate you twitter API
+						//MessageBox(NULL, L"retweeted: TRUE", L"long tweets", MB_OK);
+						// here we grab the "retweeted_status" um.. section?  it's in here that all the info we need is
+						// at this point the user will get no tweets and an error popup if the tweet happens to be exactly 140 chars, start with
+						// "RT @", end in " ...", and notactually be a real retweet.  it's possible but unlikely, wish i knew how to get
+						// the retweet_count variable to work :(
+						const js::object &Retweet = retrieve<js::object>(one,"retweeted_status");
+						const js::object &RTUser = retrieve<js::object>(Retweet,"user");
+
+						std::string retweeteesName = retrieve<std::string>(RTUser,"screen_name"); // the user that is being retweeted
+						std::string retweetText = retrieve<std::string>(Retweet,"text"); // their tweet in all it's untruncated glory
+						u.status.text = "RT @" + retweeteesName + " " + retweetText; // mash it together in some format people will understand
+					}
+				}
 			}
 			else { // if it's not truncated, then the twitter API returns the native RT correctly anyway,
-				u.status.text = retrieve<std::string>(one,"text"); // so we can just pretend it doesn't happen
+
+				//std::string twt = retrieve<std::string>(one,"text"); // no need to do this anymore, we already grabbed it above in rawText
+
+				// ok here i'm trying some way to fix all the "&amp;" things that are showing up
+				// i dunno why it's happening, so i'll just find and replace each occurance :/
+				size_t pos = 0;
+				while((pos = rawText.find("&amp;", pos)) != std::string::npos) {
+					rawText.replace(pos, 5, "&");
+					pos += 1;
+				}
+
+				u.status.text = rawText; // so we can just pretend it doesn't happen
 			}
 
 			u.status.id         = retrieve<long long>(one,"id");

@@ -85,6 +85,8 @@ public:
 	bool get_info(const std::string &name,twitter_user *);
 	bool get_info_by_email(const std::string &email,twitter_user *);
 	std::vector<twitter_user> get_friends();
+	
+	//js::array buildFriendList();
 
 	twitter_user add_friend(const std::string &name);
 	void remove_friend(const std::string &name);

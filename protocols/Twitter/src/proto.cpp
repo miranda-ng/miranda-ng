@@ -83,10 +83,10 @@ TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username)
 	//wstring ConsumerKey = L"T6XLGzrkfsJAgU59dbIjSA";
 	//wstring ConsumerSecret = L"xsvm2NAksjsJGw63RMWAtec3Lz5uiBusfVt48gbdKLg";
 
-	AccessUrl = L"http://twitter.com/oauth/access_token";
-	AuthorizeUrl = L"http://twitter.com/oauth/authorize?oauth_token=%s";
-	RequestUrl = L"http://twitter.com/oauth/request_token?some_other_parameter=hello&another_one=goodbye#meep"; // threw in some parameters for fun, and to test UrlGetQuery
-	UserTimelineUrl = L"http://twitter.com/statuses/user_timeline.json";
+	AccessUrl = _T("http://api.twitter.com/oauth/access_token");
+	AuthorizeUrl = _T("http://api.twitter.com/oauth/authorize?oauth_token=%s");
+	RequestUrl = _T("http://api.twitter.com/oauth/request_token?some_other_parameter=hello&another_one=goodbye#meep"); // threw in some parameters for fun, and to test UrlGetQuery
+	UserTimelineUrl = _T("http://twitter.com/statuses/user_timeline.json");
 }
 
 TwitterProto::~TwitterProto()

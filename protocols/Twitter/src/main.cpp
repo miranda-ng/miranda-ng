@@ -34,7 +34,7 @@ PLUGININFOEX pluginInfo={
 	"Provides basic support for Twitter protocol.",
 	"dentist, omniwolf, Thief",
 	"",
-	"© 2009-2010 dentist, 2010-2011 omniwolf and Thief",
+	"© 2009-2010 dentist, 2010-2012 omniwolf and Thief",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	//{BC09A71B-B86E-4d33-B18D-82D30451DD3C}

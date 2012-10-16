@@ -134,6 +134,10 @@ bool TwitterProto::NegotiateConnection()
 		DBFreeVariant(&dbv);
 	}
 
+ 	// twitter changed the base URL in v1.1 of the API, I don't think users will need to modify it, so
+	// i'll be forcing it to the new API URL here. After a while I can get rid of this as users will
+	// have either had this run at least once, or have reset their miranda profile. 14/10/2012
+	DBWriteContactSettingString(0,m_szModuleName,TWITTER_KEY_BASEURL,"https://api.twitter.com/1.1/");
 
 	if((oauthToken.size() <= 1) || (oauthTokenSecret.size() <= 1)) {
 		// first, reset all the keys so we can start fresh
@@ -419,6 +423,7 @@ struct update_avatar
 	std::string url;
 };
 
+/* void *p should always be a struct of type update_avatar */
 void TwitterProto::UpdateAvatarWorker(void *p)
 {
 	if(p == 0)
@@ -426,11 +431,14 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 	std::auto_ptr<update_avatar> data( static_cast<update_avatar*>(p));
 	DBVARIANT dbv;
 
+	// DBGetContactSettingString returns 0 when it suceeds, so if this suceeds it will return 0, or false.
+	// therefore if it returns 1, or true, we want to return as there is no such user.
+	// as a side effect, dbv now has the username in it i think
 	if(DBGetContactSettingTString(data->hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 		return;
 
-	std::string ext = data->url.substr(data->url.rfind('.'));
-	std::tstring filename = GetAvatarFolder() + _T('\\') + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str());
+	std::string ext = data->url.substr(data->url.rfind('.')); // finds the filetype of the avatar
+	std::tstring filename = GetAvatarFolder() + _T('\\') + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str()); // local filename and path
 	DBFreeVariant(&dbv);
 
 	PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai)};
@@ -442,11 +450,11 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 		return; // lets just ignore unknown formats... if not it crashes miranda. should probably speak to borkra about this.
 	}
 	
-	_tcsncpy(ai.filename,filename.c_str(),MAX_PATH);
+	_tcsncpy(ai.filename,filename.c_str(),MAX_PATH); // puts the local file name in the avatar struct, to a max of 260 chars (as of now)
 
 	LOG( _T("***** Updating avatar: %s"), data->url.c_str());
 	WaitForSingleObjectEx(avatar_lock_,INFINITE,true);
-	if(CallService(MS_SYSTEM_TERMINATED,0,0))
+	if(CallService(MS_SYSTEM_TERMINATED,0,0)) // if miranda is shutting down...
 	{
 		LOG( _T("***** Terminating avatar update early: %s"),data->url.c_str());
 		return;
