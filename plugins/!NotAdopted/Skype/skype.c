@@ -33,9 +33,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef INVALID_FILE_ATTRIBUTES
 #define INVALID_FILE_ATTRIBUTES 0xFFFFFFFF
 #endif
-#ifdef _WIN64
+/*#ifdef _WIN64
 #pragma comment (lib, "bufferoverflowU.lib")
-#endif
+#endif*/
 
 #pragma warning (disable: 4706) // assignment within conditional expression
 
@@ -3285,7 +3285,7 @@ int PreShutdown(WPARAM wParam, LPARAM lParam) {
 
 int __declspec(dllexport) Load()
 {
-	PROTOCOLDESCRIPTOR pd;
+	PROTOCOLDESCRIPTOR pd = {0};
 	DWORD Buffsize;
 	HKEY MyKey;
 	BOOL SkypeInstalled;
@@ -3387,7 +3387,7 @@ int __declspec(dllexport) Load()
 
 	/* Register the module */
 	ZeroMemory(&pd, sizeof(pd));
-	pd.cbSize = sizeof(pd);
+	pd.cbSize = PROTOCOLDESCRIPTOR_V3_SIZE;
 	pd.szName = SKYPE_PROTONAME;
 	pd.type   = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
