@@ -34,7 +34,7 @@ void PopupAction(HWND hWnd, BYTE action)
 	PUDeletePopUp(hWnd);
 }
 
-static INT_PTR CALLBACK PopupDlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case UM_POPUPACTION:
@@ -71,7 +71,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM
 	return DefWindowProc(hDlg, uMsg, wParam, lParam);
 }
 
-static INT_PTR CALLBACK PopupDlgProc2(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc2(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_COMMAND:
@@ -104,12 +104,12 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 	switch (id) {
 	case IDYES:
 		pa.lchIcon = Skin_GetIcon("btn_ok");
-		strncpy_s(pa.lpzTitle, MODNAME"/Yes", SIZEOF(pa.lpzTitle));
+		strncpy_s(pa.lpzTitle, MODNAME"/Yes", MAX_ACTIONTITLE);
 		break;
 
 	case IDNO:
 		pa.lchIcon = Skin_GetIcon("btn_cancel");
-		strncpy_s(pa.lpzTitle, MODNAME"/No", SIZEOF(pa.lpzTitle));
+		strncpy_s(pa.lpzTitle, MODNAME"/No", MAX_ACTIONTITLE);
 		break;
 	}
 }
@@ -141,8 +141,8 @@ void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int A
 	pd.cbSize = sizeof(POPUPDATAT_V2);
 	pd.lchContact = NULL; //(HANDLE)wParam;
 	pd.lchIcon = LoadSkinnedIcon(PopupsList[Number].Icon);
-	lstrcpyn(pd.lptzText, TranslateTS(ptszText), SIZEOF(pd.lptzText));
-	lstrcpyn(pd.lptzContactName, TranslateTS(ptszTitle), SIZEOF(pd.lptzContactName));
+	lstrcpyn(pd.lptzText, TranslateTS(ptszText), MAX_SECONDLINE);
+	lstrcpyn(pd.lptzContactName, TranslateTS(ptszTitle), MAX_CONTACTNAME);
 	switch (PopupOptions.DefColors) {
 	case byCOLOR_WINDOWS:
 		pd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -157,9 +157,9 @@ void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int A
 		break;
 	}
 	if (Number == 0 && ActType != 0)
-		pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+		pd.PluginWindowProc = PopupDlgProc;
 	else
-		pd.PluginWindowProc = (WNDPROC)PopupDlgProc2;
+		pd.PluginWindowProc = PopupDlgProc2;
 	pd.PluginData = pmpd;
 	if (Number == 0)
 		pd.iSeconds = -1;
