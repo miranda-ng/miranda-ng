@@ -555,18 +555,17 @@ static char *CreateRTFTail(struct TWindowData *dat)
 
 int TSAPI DbEventIsShown(struct TWindowData *dat, DBEVENTINFO * dbei)
 {
-	int heFlags;
-
 	switch (dbei->eventType) {
-		case EVENTTYPE_MESSAGE:
-			return 1;
-		case EVENTTYPE_FILE:
-			return(dat->dwFlagsEx & MWF_SHOW_FILEEVENTS);
+	case EVENTTYPE_MESSAGE:
+		return 1;
+	case EVENTTYPE_FILE:
+		return(dat->dwFlagsEx & MWF_SHOW_FILEEVENTS);
 	}
+
 	if (IsStatusEvent(dbei->eventType))
 		return 1;
 
-	heFlags = HistoryEvents_GetFlags(dbei->eventType);
+	int heFlags = HistoryEvents_GetFlags(dbei->eventType);
 	if (heFlags != -1)
 		return (heFlags & HISTORYEVENTS_FLAG_SHOW_IM_SRMM) == HISTORYEVENTS_FLAG_SHOW_IM_SRMM;
 

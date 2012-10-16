@@ -222,30 +222,27 @@ INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 	else
 		hwnd = NULL;
 
-	if (hwnd) {
-		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-		if (pContainer) {
-			if (pContainer->dwFlags & CNT_DONTREPORT) {
-				if (IsIconic(pContainer->hwnd))
-					return 0;
-			}
-			if (pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED) {
-				if (!IsIconic(pContainer->hwnd) && GetForegroundWindow() != pContainer->hwnd && GetActiveWindow() != pContainer->hwnd)
-					return 0;
-			}
-			if (pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE) {
-				if (pContainer->dwFlags & CNT_DONTREPORTFOCUSED)
-					return 0;
-
-				if (pContainer->hwndActive == hwnd)
-					return 1;
-				else
-					return 0;
-			}
-		}
-		return 1;
-	} else
+	if (!hwnd)
 		return 0;
+
+	SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
+	if (pContainer) {
+		if (pContainer->dwFlags & CNT_DONTREPORT) {
+			if (IsIconic(pContainer->hwnd))
+				return 0;
+		}
+		if (pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED) {
+			if (!IsIconic(pContainer->hwnd) && GetForegroundWindow() != pContainer->hwnd && GetActiveWindow() != pContainer->hwnd)
+				return 0;
+		}
+		if (pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE) {
+			if (pContainer->dwFlags & CNT_DONTREPORTFOCUSED)
+				return 0;
+
+			return pContainer->hwndActive == hwnd;
+		}
+	}
+	return 1;
 }
 
 /*
@@ -256,12 +253,10 @@ INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ReadMessageCommand(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwndExisting;
 	HANDLE hContact = ((CLISTEVENT *) lParam)->hContact;
 	struct TContainerData *pContainer = 0;
 
-	hwndExisting = M->FindWindow(hContact);
-
+	HWND hwndExisting = M->FindWindow(hContact);
 	if (hwndExisting != 0)
 		SendMessage(hwndExisting, DM_ACTIVATEME, 0, 0);
 	else {
@@ -546,11 +541,9 @@ static struct _svcdef {
 
 static void TSAPI InitAPI()
 {
-	int	i;
-
 	ZeroMemory(PluginConfig.hSvc, sizeof(HANDLE) * CGlobals::SERVICE_LAST);
 
-	for (i=0; i < safe_sizeof(SERVICES); i++)
+	for (int i=0; i < safe_sizeof(SERVICES); i++)
 		*(SERVICES[i].h) = CreateServiceFunction(SERVICES[i].szName, SERVICES[i].pfnService);
 
 	*(SERVICES[CGlobals::H_MS_MSG_SENDMESSAGEW].h) = CreateServiceFunction(MS_MSG_SENDMESSAGE "W", SendMessageCommand_W);
@@ -576,6 +569,8 @@ int LoadSendRecvMessageModule(void)
 	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
 	icex.dwICC  = ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_LISTVIEW_CLASSES;;
 	InitCommonControlsEx(&icex);
+
+	Utils::loadSystemLibrary(L"\\riched20.dll");
 
 	OleInitialize(NULL);
 	mREOLECallback = new REOLECallback;

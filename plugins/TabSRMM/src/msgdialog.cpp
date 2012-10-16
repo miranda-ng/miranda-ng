@@ -1277,13 +1277,9 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 
 INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct TWindowData *dat = 0;
-	HWND   hwndTab, hwndContainer;
-	struct TContainerData *m_pContainer = 0;
-
-	dat = (struct TWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-	hwndTab = GetParent(hwndDlg);
+	TContainerData *m_pContainer = 0;
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	HWND hwndTab = GetParent(hwndDlg), hwndContainer;
 
 	if (dat == 0) {
 		if (msg == WM_ACTIVATE || msg == WM_SETFOCUS)
@@ -1404,10 +1400,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			* consider per-contact message setting overrides
 			*/
 
-			if (M->GetDword(dat->hContact, "mwmask", 0)) {
+			if (M->GetDword(dat->hContact, "mwmask", 0))
 				if (dat->hContact)
 					LoadLocalFlags(hwndDlg, dat);
-			}
 
 			/*
 			* allow disabling emoticons per contact (note: currently unused feature)
@@ -1451,9 +1446,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendMessage(hwndDlg, DM_LOADBUTTONBARICONS, 0, 0);
 
 			if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKBUTTONSNPRESSED].IGNORED &&
-				!SkinItems[ID_EXTBKBUTTONSPRESSED].IGNORED && !SkinItems[ID_EXTBKBUTTONSMOUSEOVER].IGNORED) {
-					isThemed = FALSE;
-			}
+				 !SkinItems[ID_EXTBKBUTTONSPRESSED].IGNORED && !SkinItems[ID_EXTBKBUTTONSMOUSEOVER].IGNORED)
+				isThemed = FALSE;
 
 			SendMessage(GetDlgItem(hwndDlg, IDC_ADD), BUTTONSETASFLATBTN, TRUE, 0);
 			SendMessage(GetDlgItem(hwndDlg, IDC_CANCELADD), BUTTONSETASFLATBTN, TRUE, 0);
@@ -1476,13 +1470,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			SetWindowText(GetDlgItem(hwndDlg, IDC_RETRY), TranslateT("Retry"));
 
-			{
-				UINT _ctrls[] = {IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER};
-				for (i=0; i < 3; i++) {
-					SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASPUSHBTN, TRUE, 0);
-					SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASFLATBTN, FALSE, 0);
-					SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASTHEMEDBTN, TRUE, 0);
-				}
+			UINT _ctrls[] = {IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER};
+			for (i=0; i < 3; i++) {
+				SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASPUSHBTN, TRUE, 0);
+				SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASFLATBTN, FALSE, 0);
+				SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASTHEMEDBTN, TRUE, 0);
 			}
 
 			SetWindowText(GetDlgItem(hwndDlg, IDC_CANCELSEND), TranslateT("Cancel"));
@@ -1563,24 +1555,19 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			//dat->dwFlags &= ~MWF_INITMODE;
 			{
-				DBEVENTINFO dbei = { 0};
-				HANDLE hdbEvent;
-
-				dbei.cbSize = sizeof(dbei);
-				hdbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDLAST, (WPARAM) dat->hContact, 0);
+				HANDLE hdbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDLAST, (WPARAM) dat->hContact, 0);
 				if (hdbEvent) {
 					do {
-						ZeroMemory(&dbei, sizeof(dbei));
-						dbei.cbSize = sizeof(dbei);
+						DBEVENTINFO dbei = { sizeof(dbei) };
 						CallService(MS_DB_EVENT_GET, (WPARAM) hdbEvent, (LPARAM) & dbei);
 						if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
 							dat->lastMessage = dbei.timestamp;
 							DM_UpdateLastMessage(dat);
 							break;
 						}
-					} while (hdbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDPREV, (WPARAM) hdbEvent, 0));
+					}
+						while (hdbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDPREV, (WPARAM) hdbEvent, 0));
 				}
-
 			}
 			SendMessage(hwndContainer, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 
@@ -3670,9 +3657,11 @@ quote_from_last:
 		break;
 
 	case WM_DESTROY:
+		if (!dat)
+			break;
+
 		if (PluginConfig.g_FlashAvatarAvail) {
 			FLASHAVATAR fa = {0};
-
 			fa.hContact = dat->hContact;
 			fa.id = 25367;
 			fa.cProto = dat->szProto;
