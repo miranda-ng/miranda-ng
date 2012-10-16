@@ -69,7 +69,7 @@ int LoadKeyPair()
 	return 0;
 }
 
-void StartSkypeRuntime()
+int StartSkypeRuntime()
 {
 	// loading skype runtime
 	// shitcode
@@ -104,7 +104,7 @@ void StartSkypeRuntime()
 	
 	mir_sntprintf(param, SIZEOF(param), L"-p -p %d", port);
 
-	CreateProcess(
+	int startingrt = CreateProcess(
 		runtimePath,
 		param,
 		NULL,
@@ -115,12 +115,19 @@ void StartSkypeRuntime()
 		NULL,
 		&cif, 
 		&pi);
+	return startingrt;
+
+	/*HRSRC hrsrc = FindResource(g_hInstance, MAKEINTRESOURCE(IDR_RUNTIME), _T("BIN"));
+	DWORD cb = SizeofResource(g_hInstance, hrsrc);
+	*/
+
 }
 
 extern "C" int __declspec(dllexport) Load(void)
 {
 	LoadKeyPair();
-	StartSkypeRuntime();
+	if (!StartSkypeRuntime())
+		return 1;
 
 	g_skype = new CSkype();
 	g_skype->init(keyBuf, "127.0.0.1", port);
