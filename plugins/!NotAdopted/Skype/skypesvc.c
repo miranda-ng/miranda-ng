@@ -173,9 +173,9 @@ INT_PTR SkypeLoadIcon(WPARAM wParam,LPARAM lParam)
 
 	switch(wParam&0xFFFF) {
 		case PLI_PROTOCOL: id=IDI_SKYPE; break; // IDI_MAIN is the main icon for the protocol
-		default: return (int)(HICON)NULL;	
+		default: return NULL;	
 	}
-	return (int)LoadImage(hInst,MAKEINTRESOURCE(id),IMAGE_ICON,GetSystemMetrics(wParam&PLIF_SMALL?SM_CXSMICON:SM_CXICON),GetSystemMetrics(wParam&PLIF_SMALL?SM_CYSMICON:SM_CYICON),0);
+	return (INT_PTR)LoadImage(hInst,MAKEINTRESOURCE(id),IMAGE_ICON,GetSystemMetrics(wParam&PLIF_SMALL?SM_CXSMICON:SM_CXICON),GetSystemMetrics(wParam&PLIF_SMALL?SM_CYSMICON:SM_CYICON),0);
 }
 
 INT_PTR SkypeGetAvatar(WPARAM wParam,LPARAM lParam)

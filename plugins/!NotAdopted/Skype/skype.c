@@ -2464,7 +2464,7 @@ INT_PTR SkypeSetStatus(WPARAM wParam, LPARAM lParam)
    return iRet;
 }
 
-int __stdcall SendBroadcast( HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam )
+INT64 __stdcall SendBroadcast( HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam )
 {
 	ACKDATA ack = {0};
 	ack.cbSize = sizeof( ACKDATA );

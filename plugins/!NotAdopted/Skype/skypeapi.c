@@ -413,7 +413,7 @@ char *SkypeRcv(char *what, DWORD maxwait) {
 char *SkypeRcvMsg(char *what, time_t st, HANDLE hContact, DWORD maxwait) {
     char *msg, msgid[32]={0}, *pMsg, *pCurMsg;
 	struct MsgQueue *ptr;
-	int iLenWhat = strlen(what);
+	INT64 iLenWhat = strlen(what);
 	DWORD dwWaitStat;
 	BOOL bIsError, bProcess;
 
@@ -929,7 +929,7 @@ INT_PTR SkypeOutCall(WPARAM wParam, LPARAM lParam) {
 		res=SkypeSend("SET %s STATUS FINISHED", dbv.pszVal);
 		forkthread(( pThreadFunc )SkypeOutCallErrorCheck, 0, _strdup(dbv.pszVal));
 		DBFreeVariant(&dbv);
-	} else if (!CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DIAL), NULL, DialDlgProc, (LPARAM)wParam)) return -1;
+	} else if (!CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DIAL), NULL, (DLGPROC)DialDlgProc, (LPARAM)wParam)) return -1;
 	return res;
 }
 
@@ -965,7 +965,7 @@ INT_PTR SkypeHoldCall(WPARAM wParam, LPARAM lParam) {
 INT_PTR SkypeAnswerCall(WPARAM wParam, LPARAM lParam) {
 
 	LOG(("SkypeAnswerCall started"));
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CALLSTAT), NULL, CallstatDlgProc, (LPARAM)((CLISTEVENT*)lParam)->hContact);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CALLSTAT), NULL, (DLGPROC)CallstatDlgProc, (LPARAM)((CLISTEVENT*)lParam)->hContact);
 	return 0;
 }
 /* SkypeSetNick
@@ -1337,9 +1337,9 @@ void TranslateMirandaRelativePathToAbsolute(LPCSTR cszPath, LPSTR szAbsolutePath
 	TRACEA(szAbsolutePath);
 }
 
-static int my_spawnv(const char *cmdname, const char *const *argv, PROCESS_INFORMATION *pi)
+static INT64 my_spawnv(const char *cmdname, const char *const *argv, PROCESS_INFORMATION *pi)
 {
-	int i, iLen=0;
+	INT64 i, iLen=0;
 	char *CommandLine;
 	STARTUPINFOA si={0};
 	BOOL bRet;
@@ -1356,7 +1356,7 @@ static int my_spawnv(const char *cmdname, const char *const *argv, PROCESS_INFOR
 	bRet = CreateProcessA( cmdname,CommandLine,NULL,NULL,FALSE,0,NULL,NULL,&si,pi);
 	free(CommandLine);
 	if (!bRet) return -1;
-	return (DWORD)pi->hProcess;
+	return (INT64)pi->hProcess;
 }
 
 static int _ConnectToSkypeAPI(char *path, int iStart) {
@@ -1529,7 +1529,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 							case 4:
 								if(!DBGetContactSettingString(NULL,SKYPE_PROTONAME,"datapath",&dbv)) 
 								{
-									int paramSize;
+									INT64 paramSize;
 									TranslateMirandaRelativePathToAbsolute(dbv.pszVal, szAbsolutePath, TRUE);
 									paramSize = strlen(SkypeOptions[i]) + strlen(szAbsolutePath);
 									pFree = args[j] = malloc(paramSize + 1);

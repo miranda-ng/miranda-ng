@@ -131,7 +131,7 @@ wchar_t *make_unicode_string(const unsigned char *utf8)
 int utf8_encode(const char *from, char **to)
 {
    wchar_t *unicode;
-   int wchars, err;
+   INT64 wchars, err;
 
    wchars = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, from, strlen(from), NULL, 0);
 

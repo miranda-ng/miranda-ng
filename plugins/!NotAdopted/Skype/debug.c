@@ -45,7 +45,7 @@ void do_log(const char *pszFormat, ...) {
 	char *ct, *pNewBuf;
 	va_list ap;
 	time_t lt;
-	int iLen;
+	INT64 iLen;
 
 	if (!m_szLogBuf || !m_fpLogFile) return;
 	EnterCriticalSection(&m_WriteFileMutex);
