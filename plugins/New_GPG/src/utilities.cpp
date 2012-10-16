@@ -691,7 +691,12 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 				}
 				p1+=2;
 				wstring::size_type p2 = data.find(_T("-----END PGP MESSAGE-----"));
-				HXML encrypted_data = xi.addChild(node, _T("x"), data.substr(p1, p2-p1).c_str());
+				wstring data2 = data.substr(p1, p2-p1);
+				for(std::wstring::size_type i = data2.find(_T("\r")); i != std::wstring::npos; i = data2.find(_T("\r"), i+1))
+					data2.erase(i, 1);
+				for(std::wstring::size_type i = data2.find(_T("\n")); i != std::wstring::npos; i = data2.find(_T("\n"), i+1))
+					data2.erase(i, 1);
+				HXML encrypted_data = xi.addChild(node, _T("x"), data2.c_str());
 				xi.addAttr(encrypted_data, _T("xmlns"), _T("jabber:x:encrypted"));
 				return FALSE;
 			}
