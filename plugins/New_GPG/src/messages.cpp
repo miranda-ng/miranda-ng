@@ -668,8 +668,8 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	if(!tmp[0])
 	{
 		mir_free(tmp);
-		HistoryLog(hContact, db_event("Failed to encrypt message with GPG", 0,0, DBEF_SENT));
-		hcontact_data[hContact].msgs_to_pass.push_back("Failed to encrypt message with GPG");
+		HistoryLog(hContact, db_event("Failed to encrypt message with GPG (not found key for encryption in db)", 0,0, DBEF_SENT));
+		hcontact_data[hContact].msgs_to_pass.push_back("Failed to encrypt message with GPG (not found key for encryption in db)");
 		mir_free(msg);
 		CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
 		return;
@@ -694,13 +694,11 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	path += file;
 	cmd += _T("\"");
 	{
-		char *tmp;
-		tmp = mir_strdup(toUTF8(str).c_str());
 		fstream f(path.c_str(), std::ios::out);
 		while(!f.is_open())
 			f.open(path.c_str(), std::ios::out);
-		f<<tmp;
-		mir_free(tmp);
+		std::string tmp = toUTF8(str);
+		f.write(tmp.c_str(), tmp.size());
 		f.close();
 	}
 	gpg_execution_params params;
