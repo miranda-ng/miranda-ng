@@ -36,7 +36,7 @@ public:
 	{
 		username_ = password_ = \
 		post_form_id_ = dtsg_ = \
-		chat_sequence_num_ = chat_channel_host_ = chat_channel_partition_ = chat_channel_jslogger_ = \
+		chat_sequence_num_ = chat_channel_host_ = chat_channel_partition_ = \
 		logout_hash_ = "";
 
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = 0;
@@ -67,8 +67,8 @@ public:
 	std::string post_form_id_;
 	std::string dtsg_;
 	std::string logout_hash_;
+	std::string chat_channel_;
 	std::string chat_channel_host_;
-	std::string chat_channel_jslogger_;
 	std::string chat_channel_partition_;
 	std::string chat_sequence_num_;
 	std::string chat_reconnect_reason_;
