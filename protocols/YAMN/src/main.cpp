@@ -245,7 +245,7 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 
 struct TIconListItem
 {
-	char*  szDescr;
+	TCHAR*  szDescr;
 	char*  szName;
 	int    defIconID;
 	HANDLE hIcon;
@@ -253,14 +253,14 @@ struct TIconListItem
 
 static TIconListItem iconList[] = 
 {
-	{ LPGEN("Neutral"),            "YAMN_Neutral",        IDI_ONLINE,   0 },
-	{ LPGEN("YAMN"),               "YAMN",                IDI_ICOYAMN1, 0 },
-	{ LPGEN("New Mail"),           "YAMN_NewMail",        IDI_ICOYAMN2, 0 },
-	{ LPGEN("Connect Fail"),       "YAMN_ConnectFail",    IDI_NA,       0 },
-	{ LPGEN("Launch Application"), "YAMN_ApplExec",       IDI_OCCUPIED, 0 },
-	{ LPGEN("TopToolBar UP"),      "YAMN_TopToolBarUp",   IDI_ICOTTBUP, 0 },
-	{ LPGEN("TopToolBar Down"),    "YAMN_TopToolBarDown", IDI_OCCUPIED, 0 },
-	{ LPGEN("Offline"),            "YAMN_Offline",        IDI_OFFLINE,  0 }
+	{ LPGENT("Neutral"),            "YAMN_Neutral",        IDI_ONLINE,   0 },
+	{ LPGENT("YAMN"),               "YAMN",                IDI_ICOYAMN1, 0 },
+	{ LPGENT("New Mail"),           "YAMN_NewMail",        IDI_ICOYAMN2, 0 },
+	{ LPGENT("Connect Fail"),       "YAMN_ConnectFail",    IDI_NA,       0 },
+	{ LPGENT("Launch Application"), "YAMN_ApplExec",       IDI_OCCUPIED, 0 },
+	{ LPGENT("TopToolBar UP"),      "YAMN_TopToolBarUp",   IDI_ICOTTBUP, 0 },
+	{ LPGENT("TopToolBar Down"),    "YAMN_TopToolBarDown", IDI_OCCUPIED, 0 },
+	{ LPGENT("Offline"),            "YAMN_Offline",        IDI_OFFLINE,  0 }
 };
 
 static void LoadIcons()
