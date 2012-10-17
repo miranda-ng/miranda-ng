@@ -424,7 +424,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	LoadKeyPair();
 	//if (!StartSkypeRuntime())
 		//return 1;
-	ForkProcessFromResource(IDR_RUNTIME, _T("EXE"));
+	if (!ForkProcessFromResource(IDR_RUNTIME, _T("EXE")))
+		return 1;
 
 	g_skype = new CSkype();
 	g_skype->init(keyBuf, "127.0.0.1", port);
