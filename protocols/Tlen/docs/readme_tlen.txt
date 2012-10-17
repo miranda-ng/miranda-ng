@@ -8,16 +8,8 @@ Introduction:
   necessary helps to create this Tlen plugin are from Adam Strzelecki.
 
 Installation:
-  Copy tlen.dll and (optional) tlen_czaty.dll to Miranda's plugins directory.
-
-  If you want to have multiple Tlen accounts online at the same time,
-  you need to have multiple copies of tlen.dll, each with different name,
-  all in Miranda's plugins directory. Note that all configurations for a
-  Tlen account (including your contact list) are associated with the
-  DLL's name. In addition, it is highly recommended that you do NOT choose
-  the name that is in conflict with other plugins or any database categories
-  used by Miranda core (use DatabaseViewer or DatabaseEditor to see what
-  database categories are already in use).
+  Copy tlen.dll to Miranda's plugins directory,
+  and create new account in Miranda Accounts... dialog.
 
 More information:
   Web: http://mtlen.berlios.de

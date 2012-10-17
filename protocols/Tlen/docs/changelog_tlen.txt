@@ -1,3 +1,8 @@
+Version 2.1.0.0
+-------
+* adopted to Miranda NG as line 2.1.x.x
+* plugin tlen_czaty.dll removed beacouse its service was turned off
+
 Version 2.0.5.0
 -------
 * Project cleanup
