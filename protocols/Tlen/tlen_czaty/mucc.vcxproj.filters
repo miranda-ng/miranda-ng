@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\AdminWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mucc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ChatContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ChatEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ChatGroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ChatRoom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ChatUser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ChatWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FontList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HelperDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ManagerWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mucc_services.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\AdminWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ChatContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ChatEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ChatGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ChatRoom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ChatUser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ChatWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FontList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HelperDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ManagerWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mucc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mucc_services.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\admin.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\administration.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\chat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\blank.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\bold.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\invite.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\glowner.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\italic.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\message.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\moderator.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\next.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\options.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\owner.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\prev.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\r_anon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\r_memb.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\r_mod.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\registered.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\search.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\smile.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\tlensmall.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\underline.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{acd9ca44-7d7e-4add-a4c6-16614bbf78b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{b4f7b43d-0f34-4a03-ba3f-90d6ff3b78c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{170ec188-279a-4f4d-8cf7-5deaccc50346}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\mucc.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
