@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <malloc.h>
+#include <shlwapi.h>
 
 //#pragma warning(push)
 //#	pragma warning(disable:4312)

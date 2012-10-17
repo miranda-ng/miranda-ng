@@ -69,339 +69,55 @@ int LoadKeyPair()
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////
-// NtUnmapViewOfSection (ZwUnmapViewOfSection)
-// Used to unmap a section from a process.
-typedef long int (__stdcall* NtUnmapViewOfSectionF)(HANDLE,PVOID);
-NtUnmapViewOfSectionF NtUnmapViewOfSection = (NtUnmapViewOfSectionF)GetProcAddress(LoadLibrary(_T("ntdll.dll")),"NtUnmapViewOfSection");
-
-/////////////////////////////////////////////////////////////
-// Fork Process
-// Dynamically create a process based on the parameter 'lpImage'. The parameter should have the entire
-// image of a portable executable file from address 0 to the end.
-bool ForkProcess(LPVOID lpImage)
-{
-    // Variables for Process Forking
-    long int                lWritten;
-    long int                lHeaderSize;
-    long int                lImageSize;
-    long int                lSectionCount;
-    long int                lSectionSize;
-    long int                lFirstSection;
-    long int                lPreviousProtection;
-    long int                lJumpSize;
-
-    bool                    bReturnValue;
-
-    LPVOID                    lpImageMemory;
-    LPVOID                    lpImageMemoryDummy;
-
-    IMAGE_DOS_HEADER        dsDosHeader;
-    IMAGE_NT_HEADERS        ntNtHeader;
-    IMAGE_SECTION_HEADER    shSections[512 * 2];
-
-    PROCESS_INFORMATION        piProcessInformation;
-    STARTUPINFO                suStartUpInformation;
-
-    CONTEXT                    cContext;
-
-    // Variables for Local Process
-    FILE*                    fFile;
-    TCHAR*                    pProcessName;
-    
-    long int                lFileSize;
-    long int                lLocalImageBase;
-    long int                lLocalImageSize;
-
-    LPVOID                    lpLocalFile;
-
-    IMAGE_DOS_HEADER        dsLocalDosHeader;
-    IMAGE_NT_HEADERS        ntLocalNtHeader;
-
-    /////////////////////////////////////////////////////////////////
-    // End Variable Definition
-
-    bReturnValue = false;
-
-    pProcessName = new TCHAR[MAX_PATH];
-    ZeroMemory(pProcessName,MAX_PATH);
-
-    // Get the file name for the dummy process
-    if(GetModuleFileName(NULL,pProcessName,MAX_PATH) == 0)
-    {
-        delete [] pProcessName;
-        return bReturnValue;
-    }
-
-    // Open the dummy process in binary mode
-    fFile = _tfopen(pProcessName, _T("rb"));
-    if(!fFile)
-    {
-        delete [] pProcessName;
-        return bReturnValue;
-    }
-
-    fseek(fFile,0,SEEK_END);
-
-    // Get file size
-    lFileSize = ftell(fFile);
-
-    rewind(fFile);
-
-    // Allocate memory for dummy file
-    lpLocalFile = new LPVOID[lFileSize];
-    ZeroMemory(lpLocalFile,lFileSize);
-
-    // Read memory of file
-    fread(lpLocalFile,lFileSize,1,fFile);
-
-    // Close file
-    fclose(fFile);
-
-    // Grab the DOS Headers
-    memcpy(&dsLocalDosHeader,lpLocalFile,sizeof(dsLocalDosHeader));
-
-    if(dsLocalDosHeader.e_magic != IMAGE_DOS_SIGNATURE)
-    {
-        delete [] pProcessName;
-        delete [] lpLocalFile;
-        return bReturnValue;
-    }
-
-    // Grab NT Headers
-    memcpy(&ntLocalNtHeader,(LPVOID)((long int)lpLocalFile+dsLocalDosHeader.e_lfanew),sizeof(dsLocalDosHeader));
-
-    if(ntLocalNtHeader.Signature != IMAGE_NT_SIGNATURE)
-    {
-        delete [] pProcessName;
-        delete [] lpLocalFile;
-        return bReturnValue;
-    }
-
-    // Get Size and Image Base
-    lLocalImageBase = ntLocalNtHeader.OptionalHeader.ImageBase;
-    lLocalImageSize = ntLocalNtHeader.OptionalHeader.SizeOfImage;
-
-    // Deallocate
-    delete [] lpLocalFile;
-
-    // Grab DOS Header for Forking Process
-    memcpy(&dsDosHeader,lpImage,sizeof(dsDosHeader));
-
-    if(dsDosHeader.e_magic != IMAGE_DOS_SIGNATURE)
-    {
-        delete [] pProcessName;
-        return bReturnValue;
-    }
-
-    // Grab NT Header for Forking Process
-    memcpy(&ntNtHeader,(LPVOID)((long int)lpImage+dsDosHeader.e_lfanew),sizeof(ntNtHeader));
-
-    if(ntNtHeader.Signature != IMAGE_NT_SIGNATURE)
-    {
-        delete [] pProcessName;
-        return bReturnValue;
-    }
-
-    // Get proper sizes
-    lImageSize = ntNtHeader.OptionalHeader.SizeOfImage;
-    lHeaderSize = ntNtHeader.OptionalHeader.SizeOfHeaders;
-
-    // Allocate memory for image
-    lpImageMemory = new LPVOID[lImageSize];
-    ZeroMemory(lpImageMemory,lImageSize);
-
-    lpImageMemoryDummy = lpImageMemory;
-
-    lFirstSection = (long int)(((long int)lpImage+dsDosHeader.e_lfanew) + sizeof(IMAGE_NT_HEADERS));
-    
-    memcpy(shSections,(LPVOID)(lFirstSection),sizeof(IMAGE_SECTION_HEADER)*ntNtHeader.FileHeader.NumberOfSections);
-    memcpy(lpImageMemoryDummy,lpImage,lHeaderSize);
-
-    // Get Section Alignment
-    if((ntNtHeader.OptionalHeader.SizeOfHeaders % ntNtHeader.OptionalHeader.SectionAlignment) == 0)
-    {
-        lJumpSize = ntNtHeader.OptionalHeader.SizeOfHeaders;
-    }
-    else
-    {
-        lJumpSize  = (ntNtHeader.OptionalHeader.SizeOfHeaders/ntNtHeader.OptionalHeader.SectionAlignment);
-        lJumpSize += 1;
-        lJumpSize *= (ntNtHeader.OptionalHeader.SectionAlignment);
-    }
-
-    lpImageMemoryDummy = (LPVOID)((long int)lpImageMemoryDummy + lJumpSize);
-
-    // Copy Sections To Buffer
-    for(lSectionCount = 0; lSectionCount < ntNtHeader.FileHeader.NumberOfSections; lSectionCount++)
-    {
-        lJumpSize = 0;
-        lSectionSize = shSections[lSectionCount].SizeOfRawData;
-        
-        memcpy(lpImageMemoryDummy,(LPVOID)((long int)lpImage + shSections[lSectionCount].PointerToRawData),lSectionSize);
-
-        if((shSections[lSectionCount].Misc.VirtualSize % ntNtHeader.OptionalHeader.SectionAlignment)==0)
-        {
-            lJumpSize = shSections[lSectionCount].Misc.VirtualSize;
-        }
-        else
-        {
-            lJumpSize  = (shSections[lSectionCount].Misc.VirtualSize/ntNtHeader.OptionalHeader.SectionAlignment);
-            lJumpSize += 1;
-            lJumpSize *= (ntNtHeader.OptionalHeader.SectionAlignment);
-        }
-
-        lpImageMemoryDummy = (LPVOID)((long int)lpImageMemoryDummy + lJumpSize);
-    }
-
-    ZeroMemory(&suStartUpInformation,sizeof(STARTUPINFO));
-    ZeroMemory(&piProcessInformation,sizeof(PROCESS_INFORMATION));
-    ZeroMemory(&cContext,sizeof(CONTEXT));
-
-    suStartUpInformation.cb = sizeof(suStartUpInformation);
-
-    // Create Process
-    if(CreateProcess(NULL,pProcessName,NULL,NULL,false,CREATE_SUSPENDED,NULL,NULL,&suStartUpInformation,&piProcessInformation))
-    {
-        cContext.ContextFlags = CONTEXT_FULL;
-        GetThreadContext(piProcessInformation.hThread,&cContext);
-
-        // Check image base and image size
-        if(lLocalImageBase == (long int)ntNtHeader.OptionalHeader.ImageBase && lImageSize <= lLocalImageSize)
-        {
-            VirtualProtectEx(piProcessInformation.hProcess,(LPVOID)((long int)ntNtHeader.OptionalHeader.ImageBase),lImageSize,PAGE_EXECUTE_READWRITE,(unsigned long*)&lPreviousProtection);
-        }
-        else
-        {
-            if(!NtUnmapViewOfSection(piProcessInformation.hProcess,(LPVOID)((DWORD)lLocalImageBase)))
-                VirtualAllocEx(piProcessInformation.hProcess,(LPVOID)((long int)ntNtHeader.OptionalHeader.ImageBase),lImageSize,MEM_COMMIT | MEM_RESERVE,PAGE_EXECUTE_READWRITE);
-        }
-
-        // Write Image to Process
-        if(WriteProcessMemory(piProcessInformation.hProcess,(LPVOID)((long int)ntNtHeader.OptionalHeader.ImageBase),lpImageMemory,lImageSize,(unsigned long*)&lWritten))
-        {
-            bReturnValue = true;
-        }
-
-        // Set Image Base
-        if(WriteProcessMemory(piProcessInformation.hProcess,(LPVOID)((long int)cContext.Ebx + 8),&ntNtHeader.OptionalHeader.ImageBase,4,(unsigned long*)&lWritten))
-        {
-            if(bReturnValue == true)
-                bReturnValue = true;
-        }
-
-        if(bReturnValue == false)
-        {
-            delete [] pProcessName;
-            delete [] lpImageMemory;
-            return bReturnValue;
-        }
-
-        // Set the new entry point
-        cContext.Eax = ntNtHeader.OptionalHeader.ImageBase + ntNtHeader.OptionalHeader.AddressOfEntryPoint;
-        
-        SetThreadContext(piProcessInformation.hThread,&cContext);
-
-        if(lLocalImageBase == (long int)ntNtHeader.OptionalHeader.ImageBase && lImageSize <= lLocalImageSize)
-            VirtualProtectEx(piProcessInformation.hProcess,(LPVOID)((long int)ntNtHeader.OptionalHeader.ImageBase),lImageSize,lPreviousProtection,0);
-
-        // Resume the process
-        ResumeThread(piProcessInformation.hThread);
-    }
-
-    delete [] pProcessName;
-    delete [] lpImageMemory;
-
-    return bReturnValue;    
-}
-
-/////////////////////////////////////////////////////////////
-// Fork Process From Resource
-// Dynamically create a process from a resource file.
-bool ForkProcessFromResource(int iResource, TCHAR* pResourceSection)
-{
-    HGLOBAL        hResData;
-    HRSRC        hResInfo;
-
-    LPVOID        lpRes;
-    LPVOID        lpMemory;
-    DWORD    lSize;
-
-
-    bool bReturn = false;
-
-    hResInfo = FindResource(g_hInstance, MAKEINTRESOURCE(iResource), pResourceSection);
-    if(!hResInfo)
-    {
-        return bReturn;
-    }
-
-	hResData = LoadResource(g_hInstance, hResInfo);
-    if(!hResData)
-    {
-        return bReturn;
-    }
-
-    lpRes = LockResource(hResData);
-    if(!lpRes)
-    {
-        FreeResource(hResData);
-        return bReturn;
-    }
-
-
-    lSize = SizeofResource(g_hInstance, hResInfo);
-
-    lpMemory = new LPVOID[lSize];
-    ZeroMemory(lpMemory,lSize);
-
-    memcpy (lpMemory, lpRes, lSize);
-        
-    bReturn = ForkProcess(lpMemory);
-    
-    FreeResource(hResData);
-    delete [] lpMemory;
-
-    return bReturn;
-}
-
 int StartSkypeRuntime()
 {
 	// loading skype runtime
 	// shitcode
-	wchar_t* bsp;
 	STARTUPINFO cif;
 	PROCESS_INFORMATION pi;
-	wchar_t runtimePath[MAX_PATH];
 	TCHAR param[128];
 
-	GetModuleFileName(g_hInstance, runtimePath, MAX_PATH);
-	bsp = wcsrchr(runtimePath, '\\' );
-	runtimePath[wcslen(runtimePath) - wcslen(bsp)] = '\0';
-	bsp = wcsrchr(runtimePath, '\\' );
-	runtimePath[wcslen(runtimePath) - wcslen(bsp)] = '\0';
-	bsp = wcsrchr(runtimePath, '\\' );
-	runtimePath[wcslen(runtimePath) - wcslen(bsp)] = '\0';
-	bsp = wcsrchr(runtimePath, '\\' );
-	runtimePath[wcslen(runtimePath) - wcslen(bsp)] = '\0';
-	bsp = wcsrchr(runtimePath, '\\' );
-	runtimePath[wcslen(runtimePath) - wcslen(bsp)] = '\0';
-	//\\..\\..\\..\\..
-	wcscat(runtimePath, L"\\SkypeKit\\SDK\\bin\\windows-x86\\windows-x86-skypekit.exe");
-	
-	ZeroMemory(&cif,sizeof(STARTUPINFOA));	
+	ZeroMemory(&cif,sizeof(STARTUPINFO));	
 	cif.cb = sizeof(STARTUPINFO);
 	cif.dwFlags = STARTF_USESHOWWINDOW;
 	cif.wShowWindow = SW_HIDE;
 
-	
-	if ( FindWindow(NULL, runtimePath))
+	HRSRC 	hRes;
+	HGLOBAL	hResource;
+	TCHAR	szFilename[MAX_PATH];
+
+	hRes = FindResource(g_hInstance, MAKEINTRESOURCE(IDR_RUNTIME), _T("EXE"));
+
+	if (hRes) {
+		hResource = LoadResource(g_hInstance, hRes);
+		if (hResource) {
+			HANDLE  hFile;
+			char 	*pData = (char *)LockResource(hResource);
+			DWORD	dwSize = SizeofResource(g_hInstance, hRes), written = 0;
+			GetModuleFileName(g_hInstance, szFilename, MAX_PATH);
+			TCHAR *SkypeKitPath = _tcsrchr(szFilename, '\\');
+			if (SkypeKitPath != NULL)
+				*SkypeKitPath = '\0';
+			mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s\\%s"), szFilename, _T("SkypeKit.exe"));
+			if (!PathFileExists(szFilename))
+			{
+				if ((hFile = CreateFile(szFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0)) != INVALID_HANDLE_VALUE) {
+					WriteFile(hFile, (void *)pData, dwSize, &written, NULL);
+					CloseHandle(hFile);
+				}
+				else
+					return 0;
+			}
+		}
+	}
+
+	if (FindWindow(NULL, szFilename))
 		port += rand() % 100;
 	
 	mir_sntprintf(param, SIZEOF(param), L"-p -p %d", port);
 
 	int startingrt = CreateProcess(
-		runtimePath,
+		szFilename,
 		param,
 		NULL,
 		NULL,
@@ -412,19 +128,12 @@ int StartSkypeRuntime()
 		&cif, 
 		&pi);
 	return startingrt;
-
-	/*HRSRC hrsrc = FindResource(g_hInstance, MAKEINTRESOURCE(IDR_RUNTIME), _T("BIN"));
-	DWORD cb = SizeofResource(g_hInstance, hrsrc);
-	*/
-
 }
 
 extern "C" int __declspec(dllexport) Load(void)
 {
 	LoadKeyPair();
-	//if (!StartSkypeRuntime())
-		//return 1;
-	if (!ForkProcessFromResource(IDR_RUNTIME, _T("EXE")))
+	if (!StartSkypeRuntime())
 		return 1;
 
 	g_skype = new CSkype();
