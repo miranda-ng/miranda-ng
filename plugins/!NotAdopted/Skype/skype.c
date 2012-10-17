@@ -3290,7 +3290,7 @@ int __declspec(dllexport) Load()
 	HKEY MyKey;
 	BOOL SkypeInstalled;
 	BOOL UseCustomCommand;
-	WSADATA wsaData;
+	WSADATA wsaData = {0};
 	char path[MAX_PATH];
 
 	mir_getLP(&pluginInfo);
@@ -3345,24 +3345,35 @@ int __declspec(dllexport) Load()
 
 	if (!UseSockets && !UseCustomCommand)
 	{
+		BOOL is_key_opened = FALSE;
 		if (RegOpenKeyEx(HKEY_CURRENT_USER, _T("Software\\Skype\\Phone"), 0, KEY_READ, &MyKey)!=ERROR_SUCCESS)
 		{
 			if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("Software\\Skype\\Phone"), 0, KEY_READ, &MyKey)!=ERROR_SUCCESS)
 			{
 				SkypeInstalled=FALSE;
 			}
+			else
+				is_key_opened = TRUE;
 		}
+		else
+			is_key_opened = TRUE;
 
 		Buffsize=sizeof(skype_path);
 
-		if (SkypeInstalled==FALSE || RegQueryValueExA(MyKey, "SkypePath", NULL, NULL, (unsigned char *)skype_path,  &Buffsize)!=ERROR_SUCCESS)
+		if(is_key_opened)
 		{
-			    //OUTPUT("Skype was not found installed :( \nMaybe you are using portable skype.");
+			if (SkypeInstalled==FALSE)
+				skype_path[0]=0;
+			else if (RegQueryValueExA(MyKey, "SkypePath", NULL, NULL, (unsigned char *)skype_path,  &Buffsize)!=ERROR_SUCCESS)
+			{
+				//OUTPUT("Skype was not found installed :( \nMaybe you are using portable skype.");
 				RegCloseKey(MyKey);
 				skype_path[0]=0;
 				//return 0;
+			}
+			else
+				RegCloseKey(MyKey);
 		}
-		RegCloseKey(MyKey);
 	}
 	WSAStartup(MAKEWORD(2,2), &wsaData);
 
