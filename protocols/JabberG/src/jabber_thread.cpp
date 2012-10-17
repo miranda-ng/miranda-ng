@@ -1663,13 +1663,20 @@ void CJabberProto::OnProcessPresence( HXML node, ThreadData* info )
 		}
 		DBCheckIsTransportedContact( from, hContact );
 		int status = ID_STATUS_ONLINE;
-		if (( showNode = xmlGetChild( node , "show" )) != NULL ) {
-			if (( show = xmlGetText( showNode )) != NULL ) {
-				if ( !_tcscmp( show, _T("away"))) status = ID_STATUS_AWAY;
-				else if ( !_tcscmp( show, _T("xa"))) status = ID_STATUS_NA;
-				else if ( !_tcscmp( show, _T("dnd"))) status = ID_STATUS_DND;
-				else if ( !_tcscmp( show, _T("chat"))) status = ID_STATUS_FREECHAT;
-		}	}
+        /* GTalk android user set status as on the phone */
+        if (_tcsstr(from, _T("android_talk")))
+                status = ID_STATUS_ONTHEPHONE;
+        else {
+            if (( showNode = xmlGetChild( node , "show" )) != NULL ) {
+                if (( show = xmlGetText( showNode ) ) != NULL ) {
+                    if ( !_tcscmp( show, _T("away"))) status = ID_STATUS_AWAY;
+                    else if ( !_tcscmp( show, _T("xa"))) status = ID_STATUS_NA;
+                    else if ( !_tcscmp( show, _T("dnd"))) status = ID_STATUS_DND;
+                    else if ( !_tcscmp( show, _T("chat"))) status = ID_STATUS_FREECHAT;
+                }
+            }      
+        }
+
 
 		char priority = 0;
 		if (( priorityNode = xmlGetChild( node , "priority" )) != NULL && xmlGetText( priorityNode ) != NULL )

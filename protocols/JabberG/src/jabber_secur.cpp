@@ -66,8 +66,14 @@ TNtlmAuth::~TNtlmAuth()
 
 bool TNtlmAuth::getSpn( TCHAR* szSpn, size_t dwSpnLen )
 {
+	HMODULE hDll = GetModuleHandle(_T("secur32.dll"));
+	if (!hDll)
+		hDll = LoadLibrary(_T("secur32.dll"));
+	if (!hDll)
+		return false;
+
 	GetUserNameExType myGetUserNameEx = 
-		( GetUserNameExType )GetProcAddress( GetModuleHandleA( "secur32.dll" ), "GetUserNameExW" );
+		( GetUserNameExType )GetProcAddress(hDll, "GetUserNameExW" );
 
 	if ( !myGetUserNameEx ) return false;
 
