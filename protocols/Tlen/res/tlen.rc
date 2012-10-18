@@ -1,9 +1,5 @@
 #include "..\src\resource.h"
 #include "..\src\commons.h"
-#ifdef __MINGW32__
-	#define WINVER 0x500
-	#define _WIN32_IE 0x500
-#endif
 #include <windows.h>
 #ifndef IDC_STATIC
 #define IDC_STATIC (-1)
@@ -15,18 +11,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #endif
 #ifdef APSTUDIO_INVOKED
 
-1 TEXTINCLUDE DISCARDABLE
+1 TEXTINCLUDE
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE
+2 TEXTINCLUDE
 BEGIN
     "#include ""winres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -370,7 +366,6 @@ BEGIN
 END
 
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
@@ -413,8 +408,6 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -423,16 +416,16 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_TLEN               ICON    DISCARDABLE     "res\\tlen.ico"
-IDI_MAIL               ICON    DISCARDABLE     "res\\mail.ico"
-IDI_MUC                ICON    DISCARDABLE     "res\\groupchats.ico"
-IDI_CHATS              ICON    DISCARDABLE     "res\\tlenchats.ico"
-IDI_GRANT              ICON    DISCARDABLE     "res\\auth_grant.ico"
-IDI_REQUEST            ICON    DISCARDABLE     "res\\auth_request.ico"
-IDI_VOICE              ICON    DISCARDABLE     "res\\voicechat.ico"
-IDI_MICROPHONE         ICON    DISCARDABLE     "res\\microphone.ico"
-IDI_SPEAKER            ICON    DISCARDABLE     "res\\speaker.ico"
-IDI_IMAGE              ICON    DISCARDABLE     "res\\image.ico"
+IDI_TLEN               ICON         "tlen.ico"
+IDI_MAIL               ICON         "mail.ico"
+IDI_MUC                ICON         "groupchats.ico"
+IDI_CHATS              ICON         "tlenchats.ico"
+IDI_GRANT              ICON         "auth_grant.ico"
+IDI_REQUEST            ICON         "auth_request.ico"
+IDI_VOICE              ICON         "voicechat.ico"
+IDI_MICROPHONE         ICON         "microphone.ico"
+IDI_SPEAKER            ICON         "speaker.ico"
+IDI_IMAGE              ICON         "image.ico"
 #endif    // English (U.S.) resources
 
 
