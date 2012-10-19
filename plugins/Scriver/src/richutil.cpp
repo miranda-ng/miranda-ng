@@ -248,7 +248,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			return ret;
 		}
 	}
-	return CallWindowProc(ru->origProc, hwnd, msg, wParam, lParam);
+	return (ru == NULL) ? 0 : CallWindowProc(ru->origProc, hwnd, msg, wParam, lParam);
 }
 
 static void RichUtil_ClearUglyBorder(TRichUtil *ru)
