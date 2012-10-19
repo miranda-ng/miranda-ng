@@ -857,6 +857,8 @@ XML Консоль
 [Agents list]
 Список агентов
 [Downloading...]
+Получение...
+[Uploading...]
 Загрузка...
 [XML for MS Excel (UTF-8 encoded)]
 XML для MS Excel (кодировка UTF-8)
