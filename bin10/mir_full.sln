@@ -349,6 +349,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_tree_Cast128", "..\plug
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_tree_HC256", "..\plugins\Dbx_tree\encryption\HC256\HC256.vcxproj", "{541BE2B3-4320-47B8-AB64-C7F7ED0EFABA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tlen", "..\protocols\Tlen\tlen_10.vcxproj", "{F3208C96-3C21-46AA-8695-C794E28CDC34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1541,6 +1543,14 @@ Global
 		{541BE2B3-4320-47B8-AB64-C7F7ED0EFABA}.Release|Win32.Build.0 = Release|Win32
 		{541BE2B3-4320-47B8-AB64-C7F7ED0EFABA}.Release|x64.ActiveCfg = Release|x64
 		{541BE2B3-4320-47B8-AB64-C7F7ED0EFABA}.Release|x64.Build.0 = Release|x64
+		{F3208C96-3C21-46AA-8695-C794E28CDC34}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F3208C96-3C21-46AA-8695-C794E28CDC34}.Debug|Win32.Build.0 = Debug|Win32
+		{F3208C96-3C21-46AA-8695-C794E28CDC34}.Debug|x64.ActiveCfg = Debug|x64
+		{F3208C96-3C21-46AA-8695-C794E28CDC34}.Debug|x64.Build.0 = Debug|x64
+		{F3208C96-3C21-46AA-8695-C794E28CDC34}.Release|Win32.ActiveCfg = Release|Win32
+		{F3208C96-3C21-46AA-8695-C794E28CDC34}.Release|Win32.Build.0 = Release|Win32
+		{F3208C96-3C21-46AA-8695-C794E28CDC34}.Release|x64.ActiveCfg = Release|x64
+		{F3208C96-3C21-46AA-8695-C794E28CDC34}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
