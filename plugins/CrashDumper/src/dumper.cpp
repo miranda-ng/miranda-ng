@@ -326,67 +326,47 @@ static void GetProtocolStrings(bkstring& buffer)
 	int i, j;
 
 	ProtoEnumAccounts(&accCount, &accList);
-	if (accCount > 0)
-	{
-		for (i = 0; i < accCount; i++) 
-		{
-			TCHAR* nm;
-			crsi_a2t(nm, accList[i]->szModuleName);
-			buffer.appendfmt(TEXT(" 1  -  %s\r\n"), nm);
-		}
+
+	int protoCount;
+	PROTOCOLDESCRIPTOR **protoList;
+	CallService(MS_PROTO_ENUMPROTOS, (WPARAM)&protoCount, (LPARAM)&protoList);
+
+	int protoCountMy = 0;
+	char** protoListMy = (char**)alloca((protoCount + accCount) * sizeof(char*));
+
+	for (i = 0; i < protoCount; i++) {
+		if (protoList[i]->type != PROTOTYPE_PROTOCOL)
+			continue;
+		protoListMy[protoCountMy++] = protoList[i]->szName;
 	}
-	else
-	{
-		int protoCount;
-		PROTOCOLDESCRIPTOR **protoList;
-		CallService(MS_PROTO_ENUMPROTOS, (WPARAM)&protoCount, (LPARAM)&protoList);
 
-		int protoCountMy = 0;
-		char** protoListMy = (char**)alloca((protoCount + accCount) * sizeof(char*));
-
-		for (i = 0; i < protoCount; i++) 
-		{
-			if (protoList[i]->type != PROTOTYPE_PROTOCOL) continue;
-			protoListMy[protoCountMy++] = protoList[i]->szName;
-		}
-
-		for (j = 0; j < accCount; j++) 
-		{
-			for (i = 0; i < protoCountMy; i++) 
-			{
-				if (strcmp(protoListMy[i], accList[j]->szProtoName) == 0)
-					break;
-			}
-			if (i == protoCountMy)
-				protoListMy[protoCountMy++] = accList[j]->szProtoName;
-		}
-
-		ProtoCount *protos = (ProtoCount*)alloca(sizeof(ProtoCount) * protoCountMy);
-		memset(protos, 0, sizeof(ProtoCount) * protoCountMy);
-
-		for (j = 0; j < accCount; j++) 
-		{
-			for (i = 0; i < protoCountMy; i++) 
-			{
-				if (strcmp(protoListMy[i], accList[j]->szProtoName) == 0)
-				{
-					protos[i].nloaded = accList[j]->bDynDisabled != 0;
-					if (IsAccountEnabled(accList[j]))
-						++protos[i].countse;
-					else
-						++protos[i].countsd;
-					break;
-				}
-			}
-		}
+	for (j = 0; j < accCount; j++) {
 		for (i = 0; i < protoCountMy; i++) 
-		{
-			TCHAR* nm; 
-			crsi_a2t(nm, protoListMy[i]);
-			buffer.appendfmt(TEXT("%-24s %d - Enabled %d - Disabled  %sLoaded\r\n"), nm, protos[i].countse, 
-				protos[i].countsd, protos[i].nloaded ? _T("Not ") : _T(""));
-		}
+			if ( !strcmp(protoListMy[i], accList[j]->szProtoName))
+				break;
+
+		if (i == protoCountMy)
+			protoListMy[protoCountMy++] = accList[j]->szProtoName;
 	}
+
+	ProtoCount *protos = (ProtoCount*)alloca(sizeof(ProtoCount) * protoCountMy);
+	memset(protos, 0, sizeof(ProtoCount) * protoCountMy);
+
+	for (j = 0; j < accCount; j++) 
+		for (i = 0; i < protoCountMy; i++)
+			if ( !strcmp(protoListMy[i], accList[j]->szProtoName)) {
+				protos[i].nloaded = accList[j]->bDynDisabled != 0;
+				if ( IsAccountEnabled(accList[j]))
+					++protos[i].countse;
+				else
+					++protos[i].countsd;
+				break;
+			}
+
+	for (i = 0; i < protoCountMy; i++)
+		buffer.appendfmt(TEXT("%-24s %d - Enabled %d - Disabled  %sLoaded\r\n"), 
+			(TCHAR*)_A2T(protoListMy[i]), protos[i].countse, 
+			protos[i].countsd, protos[i].nloaded ? _T("Not ") : _T(""));
 }
 
 
