@@ -245,6 +245,16 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 			}
 			break;
 
+		case IDC_BTN_CLASSICOPT:
+			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
+			// TODO: Set advanced options as default (add db key + check that for opening new options)
+			{
+				OPENOPTIONSDIALOG ood = {0};
+				ood.cbSize = sizeof(ood);
+				Options_Open(&ood);
+			}
+			break;
+
 		case IDC_BTN_HELP:
 			{
 				struct ModernOptionsObject *obj = (struct ModernOptionsObject *)dat->pObjectList[dat->iPage];
@@ -610,7 +620,7 @@ static int hookModernOpt_Initialize(WPARAM wParam, LPARAM lParam)
 	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_HOME);
 	obj.pfnDlgProc = ModernOptHome_DlgProc;
-	obj.lpzHelpUrl = "http://wiki.miranda-im.org/";
+	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
 	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 
 	#if defined(_DEBUG) && defined(MOPT_SAMPLE_PAGES)

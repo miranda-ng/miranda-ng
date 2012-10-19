@@ -52,15 +52,6 @@ INT_PTR CALLBACK ModernOptHome_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 
 	case WM_COMMAND:
 		switch ( LOWORD(wParam)) {
-		case IDC_BTN_CLASSICOPT:
-			PostMessage(GetParent(hwndDlg), WM_CLOSE, 0, 0);
-			{
-				OPENOPTIONSDIALOG ood = {0};
-				ood.cbSize = sizeof(ood);
-				Options_Open(&ood);
-			}
-			break;
-
 		case IDC_BTN_HELP:
 			ShellExecuteA(hwndDlg, "open", "http://miranda-ng.org/", "", "", SW_SHOW);
 			break;
