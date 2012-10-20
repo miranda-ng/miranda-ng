@@ -14,16 +14,16 @@ HANDLE hIcoLibIconsChanged;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	"Change Keyboard Layout",
-	VERSION,
-	"Plugin for change keyboard layout of text (multilayout).",
-	"Yasnovidyashii",
-	"Yasnovidyashii@gmail.com",
-	"© 2006-2009 Mikhail Yur'ev",
-	"http://miranda-ng.org/",
-	UNICODE_AWARE,		//doesn't replace anything built-in
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
 	// {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
-	{0xc5ef53a8, 0x80d4, 0x4ce9, { 0xb3, 0x41, 0xec, 0x90, 0xd3, 0xec, 0x91, 0x56 }}
+	{0xc5ef53a8, 0x80d4, 0x4ce9, {0xb3, 0x41, 0xec, 0x90, 0xd3, 0xec, 0x91, 0x56}}
 };
 
 LPCTSTR ptszKeybEng = _T("`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?");
@@ -34,7 +34,7 @@ LPCTSTR ptszSeparators = _T(" \t\n\r");
 HANDLE hOptionsInitialize;
 HANDLE hModulesLoaded;
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;

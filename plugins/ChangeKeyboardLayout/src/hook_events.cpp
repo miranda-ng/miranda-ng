@@ -1,4 +1,4 @@
-#include "hook_events.h"
+#include "commonheaders.h"
 
 INT_PTR APIChangeLayout(WPARAM wParam, LPARAM lParam)
 {
@@ -177,7 +177,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	OnIconsChanged(0, 0);
 	RegPopupActions();
 	
-	DBWriteContactSettingDword(NULL, ModuleName, "CurrentVer", VERSION);
+	DBWriteContactSettingDword(NULL, ModuleName, "CurrentVer", PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
 	return 0;
 }
 

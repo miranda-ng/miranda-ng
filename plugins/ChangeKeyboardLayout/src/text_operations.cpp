@@ -1,4 +1,4 @@
-#include "text_operations.h"
+#include "commonheaders.h"
 
 struct EditStreamData {
 	PBYTE pbBuff;

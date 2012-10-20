@@ -44,30 +44,16 @@
     <ClInclude Include="src\text_operations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\ChangeKeyboardLayout.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="res\Alt.bmp">
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="res\CopyToClipboard.ico">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="res\Ctrl.bmp">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="res\Popup.ico">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="res\Shift.bmp">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="res\Win.bmp">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

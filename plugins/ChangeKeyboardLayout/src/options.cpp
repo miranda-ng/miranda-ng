@@ -1,5 +1,4 @@
-#include "options.h"
-
+#include "commonheaders.h"
 
 INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam)
 {

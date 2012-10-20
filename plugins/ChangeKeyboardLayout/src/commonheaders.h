@@ -27,12 +27,10 @@
 #include "options.h"
 #include "hook_events.h"
 #include "text_operations.h"
+#include "version.h"
 
-
-#define VERSION PLUGIN_MAKE_VERSION(0,0,1,5)
 #define MaxTextSize 64000
 #define ModuleName "ChangeKeyboardLayout"
-
 
 // History++ API
 #define MS_HPP_EG_WINDOW			"History++/ExtGrid/NewWindow"
