@@ -13,9 +13,6 @@
       <UniqueIdentifier>{3887cace-f8eb-45a3-854b-f32b02819763}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Documentation">
-      <UniqueIdentifier>{b95423d3-105d-4742-a96e-d7c2d0ecc514}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ClientChangeNotify.cpp">
@@ -59,7 +56,7 @@
     <ClInclude Include="..\CommonLibs\TMyArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\VersionNo.h">
+    <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,18 +65,7 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ResourceCompile Include="res\version.rc">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="docs\ccn_readme.txt">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="docs\ccn_translation.txt">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="docs\copying.txt">
-      <Filter>Documentation</Filter>
-    </None>
   </ItemGroup>
 </Project>

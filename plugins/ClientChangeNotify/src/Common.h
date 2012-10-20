@@ -31,7 +31,6 @@
 #include <shellapi.h>
 #include <commdlg.h>
 
-#include "resource.h"
 #include "newpluginapi.h"
 #include "statusmodes.h"
 #include "m_popup.h"
@@ -41,17 +40,27 @@
 #include "m_clist.h"
 #include "m_LogService.h"
 #include "m_system.h"
+#include "m_message.h"
+#include "m_userinfo.h"
+#include "m_history.h"
+#include "m_protocols.h"
+#include "m_protosvc.h"
+#include "m_icolib.h"
+#include "m_genmenu.h"
+#include "win2k.h"
+
 #include "m_fingerprint.h"
+#include "m_metacontacts.h"
+#include "m_ContactSettings.h"
+
 #include "..\CommonLibs\TMyArray.h"
 #include "..\CommonLibs\Options.h"
 #include "..\CommonLibs\CString.h"
 #include "..\CommonLibs\pcre.h"
 
-#pragma comment(lib,"comctl32.lib")
-
-#ifndef lengthof
-#define lengthof(s) (sizeof(s) / sizeof((s)[0]))
-#endif
+#include "resource.h"
+#include "Misc.h"
+#include "Version.h"
 
 // Actions on popup click
 #define PCA_OPENMESSAGEWND	0	// open message window

@@ -18,17 +18,6 @@
 */
 
 #include "Common.h"
-#include "Misc.h"
-#include "VersionNo.h"
-#include "m_message.h"
-#include "m_userinfo.h"
-#include "m_history.h"
-#include "m_protocols.h"
-#include "m_protosvc.h"
-#include "m_metacontacts.h"
-#include "m_icolib.h"
-#include "m_genmenu.h"
-#include "m_ContactSettings.h"
 
 HINSTANCE g_hInstance;
 HANDLE g_hMainThread;
@@ -39,13 +28,13 @@ COptPage *g_PreviewOptPage; // we need to show popup even for the NULL contact i
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"ClientChangeNotify",
+	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	"ClientChangeNotify plugin for Miranda IM.",
-	"Deathdemon",
-	"dchervov@yahoo.com",
-	"© 2006-2008 Chervov Dmitry",
-	"http://miranda-ng.org/",
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {B68A8906-748B-435d-930E-21CC6E8F3B3F}
 	{0xb68a8906, 0x748b, 0x435d, {0x93, 0xe, 0x21, 0xcc, 0x6e, 0x8f, 0x3b, 0x3f}}
@@ -56,11 +45,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	g_hInstance = hinstDLL;
 	return TRUE;
 }
-
-#define MIID_CLIENTCHANGENOTIFY {0xe9d1f0d4, 0xd65d, 0x4840, {0x87, 0xbd, 0x59, 0xd7, 0xb4, 0x70, 0x2c, 0x47}}
-// {E9D1F0D4-D65D-4840-87BD-59D7B4702C47}
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CLIENTCHANGENOTIFY, MIID_LAST};
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
