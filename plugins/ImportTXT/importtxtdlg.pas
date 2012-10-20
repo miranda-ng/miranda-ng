@@ -93,9 +93,7 @@ begin
     WM_INITDIALOG:
       begin
         TranslateDialogDefault(Dialog);
-        tempwstr := ANSIToWide(
-           PAnsiChar(CallService(MS_CLIST_GETCONTACTDISPLAYNAME,lParam,0)),
-           tempwstr, cp);
+        tempwstr := PWideChar(CallService(MS_CLIST_GETCONTACTDISPLAYNAME,lParam,GCDNF_UNICODE));
         s := WideFormat(TranslateWideString('Import history to %s (%s)'), [tempwstr, GetContactID(lParam)]);
         SetWindowTextW(Dialog, PWideChar(s));
         SendMessage(Dialog, WM_SETICON, ICON_SMALL, LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DEFAULT)));
