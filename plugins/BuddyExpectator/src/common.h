@@ -35,7 +35,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <locale.h>
-#include "resource.h"
+
 #include <newpluginapi.h>
 #include <m_skin.h>
 #include <m_clist.h>
@@ -50,9 +50,14 @@
 #include <m_message.h>
 #include <m_userinfo.h>
 #include <m_icolib.h>
-#include "m_popup.h"
+#include <m_popup.h>
+#include <m_cluiframes.h>
+
 #include "m_popup2.h"
-#include "m_cluiframes.h"
+
+#include "resource.h"
+#include "options.h"
+#include "version.h"
 
 #define MODULE_NAME     "BuddyExpectator"
 

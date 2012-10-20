@@ -25,7 +25,6 @@
 */
 
 #include "common.h"
-#include "options.h"
 
 HINSTANCE hInst;
 int hLangpack;
@@ -62,23 +61,19 @@ extern int UserinfoInit(WPARAM wparam, LPARAM lparam);
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Buddy Expectator+",
-	PLUGIN_MAKE_VERSION(0,1,2,3),
-	"Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions",
-	"Anar Ibragimoff, sje, Thief",
-	"thief@miranda.im",
-	"© 2005 Anar Ibragimoff, © 2006 Scott Ellis, © 2007-2009 Alexander Turyak",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{0xddf8aec9, 0x7d37, 0x49af, {0x9d, 0x22, 0xbb, 0xbc, 0x92, 0x0e, 0x6f, 0x05}} //{DDF8AEC9-7D37-49AF-9D22-BBBC920E6F05}
+	//{DDF8AEC9-7D37-49AF-9D22-BBBC920E6F05}
+	{0xddf8aec9, 0x7d37, 0x49af, {0x9d, 0x22, 0xbb, 0xbc, 0x92, 0x0e, 0x6f, 0x05}}
 };
 
-/* 2D84F403-91F3-4E60-BF02-16C2F1716D86 */
-#define MIID_BUDDYEXPECTATOR {0x2d84f403, 0x91f3, 0x4e60, {0xbf, 0x02, 0x16, 0xc2, 0xf1, 0x71, 0x6d, 0x86}}
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_BUDDYEXPECTATOR, MIID_LAST};
-
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
