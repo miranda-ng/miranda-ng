@@ -162,6 +162,8 @@ protected:
 
 	int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);
 
+	void ShowNotification(const wchar_t *sid, const wchar_t *message, int flags = 0);
+
 	// instances
 	static LIST<CSkypeProto> instanceList;
 	static int CompareProtos(const CSkypeProto *p1, const CSkypeProto *p2);

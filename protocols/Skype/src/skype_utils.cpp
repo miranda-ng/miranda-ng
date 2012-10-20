@@ -156,3 +156,25 @@ int CSkypeProto::SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason)
 
 	return loginError;
 }
+
+void CSkypeProto::ShowNotification(const wchar_t *sid, const wchar_t *message, int flags)
+{
+	if (::Miranda_Terminated()) return;
+
+	if (!::ServiceExists(MS_POPUP_ADDPOPUPCLASS))
+	{
+		MessageBoxW(
+			NULL, 
+			message, 
+			TranslateT("Skype Protocol"), 
+			MB_OK);
+	}
+	else
+	{
+		POPUPDATACLASS ppd = { sizeof(ppd) };
+		ppd.ptszTitle = sid;
+		ppd.ptszText = message;
+
+		::CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
+	}
+}
