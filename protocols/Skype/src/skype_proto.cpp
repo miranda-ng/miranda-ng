@@ -154,7 +154,7 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 	switch(type)
 	{        
 	case PFLAGNUM_1:
-		return PF1_IM  | PF1_BASICSEARCH | PF1_ADDSEARCHRES/* | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME*/;
+		return PF1_IM  | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_SEARCHBYEMAIL/* | PF1_SEARCHBYNAME*/;
 	case PFLAGNUM_2:
 	case PFLAGNUM_3:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_INVISIBLE;
@@ -187,19 +187,34 @@ HANDLE __cdecl CSkypeProto::SearchBasic(const TCHAR* id)
 	if ( !this->IsOnline())
 		return 0;
 
-	wchar_t *sid = ::mir_tstrdup(id);
-	this->ForkThread(&CSkypeProto::SearchContactBySidAsync, sid);
+	wchar_t *data = ::mir_tstrdup(id);
+	this->ForkThread(&CSkypeProto::SearchBySidAsync, data);
 
-	return sid;
+	return (HANDLE)SKYPE_SEARCH_BYSID;
 }
 
-HANDLE __cdecl CSkypeProto::SearchByEmail( const TCHAR* email ) 
+HANDLE __cdecl CSkypeProto::SearchByEmail(const TCHAR* email) 
 { 
-	return 0; 
+	if ( !this->IsOnline())
+		return 0;
+
+	wchar_t *data = ::mir_tstrdup(email);
+	this->ForkThread(&CSkypeProto::SearchByEmailAsync, data);
+
+	return (HANDLE)SKYPE_SEARCH_BYEMAIL;
 }
-HANDLE __cdecl CSkypeProto::SearchByName( const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName ) 
+HANDLE __cdecl CSkypeProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName) 
 { 
-	return 0; 
+	PROTOSEARCHRESULT isr = {0};
+	isr.cbSize = sizeof(isr);
+	isr.flags = PSR_TCHAR;
+	isr.nick = ::mir_wstrdup(nick);
+	isr.firstName = ::mir_wstrdup(firstName);
+	isr.lastName = ::mir_wstrdup(lastName);
+
+	this->ForkThread(&CSkypeProto::SearchByNamesAsync, &isr);
+
+	return (HANDLE)SKYPE_SEARCH_BYNAMES;
 }
 HWND   __cdecl CSkypeProto::SearchAdvanced( HWND owner ) { return 0; }
 

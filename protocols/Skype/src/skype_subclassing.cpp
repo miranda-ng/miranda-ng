@@ -22,6 +22,11 @@ CConversation* CSkype::newConversation(int oid)
 	return new CConversation(oid, this); 
 }
 
+CContactSearch*	CSkype::newContactSearch(int oid)
+{
+	return new CContactSearch(oid, this);
+}
+
 // CAccount
 
 CAccount::CAccount(unsigned int oid, SERootObject* root) : Account(oid, root) 
@@ -96,10 +101,11 @@ void CContactGroup::OnChange(const ContactRef& contact)
 
 // CContactSearch
 
-CContactSearch::CContactSearch(unsigned int oid, SERootObject* root) : ContactSearch(oid, root) 
-{ 
-	this->isSeachFailed = false;
-	this->isSeachFinished = false;
+CContactSearch::CContactSearch(unsigned int oid, SERootObject* root) : ContactSearch(oid, root)
+{
+	this->proto = NULL;
+	this->SearchCompletedCallback == NULL;
+	this->ContactFindedCallback == NULL;
 }
 
 void CContactSearch::OnChange(int prop)
@@ -108,10 +114,12 @@ void CContactSearch::OnChange(int prop)
 	{
 		CContactSearch::STATUS status;
 		this->GetPropContactSearchStatus(status);
-		if (status == FINISHED)
+		if (status == FINISHED || status == FAILED)
+		{
 			this->isSeachFinished = true;
-		if (status == FAILED)
-			this->isSeachFailed = true;
+			if (this->proto)
+				(proto->*SearchCompletedCallback)(this->hSearch);
+		}
 	}
 
 	//SEString value = GetProp(prop);
@@ -121,16 +129,32 @@ void CContactSearch::OnChange(int prop)
 
 void CContactSearch::OnNewResult(const ContactRef& contact, const uint& rankValue)
 {
-	Sid::String identity;
-	contact->GetIdentity(identity);
+	if (this->proto)
+		(proto->*ContactFindedCallback)(this->hSearch, contact->ref());
 }
 
-void CContactSearch::BlockWhileSearching()
+void CContactSearch::BlockWhileSearch()
 {
-	this->isSeachFailed = false;
 	this->isSeachFinished = false;
-	while ( !this->isSeachFailed && !this->isSeachFinished) 
+	this->isSeachFailed = false;
+	while (!this->isSeachFinished && !this->isSeachFailed) 
 		Sleep(1); 
+}
+
+void CContactSearch::SetProtoInfo(CSkypeProto* proto, HANDLE hSearch)
+{
+	this->proto = proto;
+	this->hSearch = hSearch;
+}
+
+void CContactSearch::SetOnSearchCompleatedCallback(OnSearchCompleted callback)
+{
+	this->SearchCompletedCallback = callback;
+}
+
+void CContactSearch::SetOnContactFindedCallback(OnContactFinded callback)
+{
+	this->ContactFindedCallback = callback;
 }
 
 // CContact

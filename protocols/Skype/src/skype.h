@@ -55,6 +55,10 @@
 #define SKYPE_SETTINGS_LOGIN "SkypeLogin"
 #define SKYPE_SETTINGS_PASSWORD "Password"
 
+#define SKYPE_SEARCH_BYSID 1001
+#define SKYPE_SEARCH_BYEMAIL 1002
+#define SKYPE_SEARCH_BYNAMES 1003
+
 extern CSkype* g_skype;
 extern HINSTANCE g_hInstance;
 

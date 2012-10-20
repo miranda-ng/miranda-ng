@@ -708,7 +708,49 @@ void CSkypeProto::SetAllContactStatus(int status)
 	}
 }
 
-void __cdecl CSkypeProto::SearchContactBySidAsync(void* arg)
+void CSkypeProto::OnSearchCompleted(HANDLE hSearch)
+{
+	this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch, 0);
+}
+
+void CSkypeProto::OnContactFinded(HANDLE hSearch, CContact::Ref contact)
+{
+	PROTOSEARCHRESULT isr = {0};
+	isr.cbSize = sizeof(isr);
+	isr.flags = PSR_TCHAR;
+		
+	SEString data;
+	contact->GetPropSkypename(data);
+	isr.id = ::mir_utf8decodeW((const char *)data);
+	contact->GetPropDisplayname(data);
+	isr.nick  = ::mir_utf8decodeW((const char *)data);
+	{
+		contact->GetPropFullname(data);
+		wchar_t *fullname = ::mir_utf8decodeW((const char*)data);
+
+		wchar_t *first = wcstok(fullname, L" ");
+		wchar_t *last = wcstok(NULL, L" ");
+		if (last != NULL)
+		{
+			last = L"";
+		}
+		isr.firstName = first;
+		isr.lastName = last;
+	}
+	{
+		contact->GetPropEmails(data);
+		wchar_t *emails = ::mir_utf8decodeW((const char*)data);
+
+		wchar_t* main = wcstok(emails, L" ");
+		if (main != NULL)
+		{
+			isr.email = main;
+		}
+	}
+	this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_DATA, hSearch, (LPARAM)&isr);
+}
+
+void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 {
 	const wchar_t *sid = (wchar_t *)arg;
 
@@ -716,58 +758,50 @@ void __cdecl CSkypeProto::SearchContactBySidAsync(void* arg)
 	if (hContact)
 	{
 		this->ShowNotification(sid, _T("Contact already in your contact list"), 0);
-		this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sid, 0);
+		this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)SKYPE_SEARCH_BYSID, 0);
 		return;
 	}
 
 	CContactSearch::Ref search;
 	g_skype->CreateIdentitySearch(::mir_u2a(sid), search);
-	
+	search.fetch();
+	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYSID);
+	search->SetOnContactFindedCallback(
+		(CContactSearch::OnContactFinded)&CSkypeProto::OnContactFinded);
+	search->SetOnSearchCompleatedCallback(
+		(CContactSearch::OnSearchCompleted)&CSkypeProto::OnSearchCompleted);
+
 	bool valid;
 	if (!search->IsValid(valid) || !valid || !search->Submit())
 	{
 		return; 
 	}
+	search->BlockWhileSearch();
+	search->Release();
+}
 
-	CContact::Refs contacts;
-	search->GetResults(contacts);
-	for (int i = 0 ; i < contacts.size(); i++)
+void __cdecl CSkypeProto::SearchByEmailAsync(void* arg)
+{
+	const wchar_t *email = (wchar_t *)arg;
+
+	CContactSearch::Ref search;
+	g_skype->CreateContactSearch(search);
+	search.fetch();
+	search->SetProtoInfo(this, (HANDLE)SKYPE_SEARCH_BYEMAIL);
+	search->SetOnContactFindedCallback(
+		(CContactSearch::OnContactFinded)&CSkypeProto::OnContactFinded);
+	search->SetOnSearchCompleatedCallback(
+		(CContactSearch::OnSearchCompleted)&CSkypeProto::OnSearchCompleted);
+
+	bool valid;
+	if (!search->AddEmailTerm(::mir_u2a(email), valid) || !valid || !search->Submit())
 	{
-		PROTOSEARCHRESULT isr = {0};
-		isr.cbSize = sizeof(isr);
-		isr.flags = PSR_TCHAR;
-		
-		SEString data;
-		contacts[i]->GetPropSkypename(data);
-		isr.id = ::mir_utf8decodeW((const char *)data);
-		contacts[i]->GetPropDisplayname(data);
-		isr.nick  = ::mir_utf8decodeW((const char *)data);
-		{
-			contacts[i]->GetPropFullname(data);
-			wchar_t *fullname = ::mir_utf8decodeW((const char*)data);
-
-			wchar_t *first = wcstok(fullname, L" ");
-			wchar_t *last = wcstok(NULL, L" ");
-			if (last == NULL)
-			{
-				last = L"";
-			}
-			isr.firstName = first;
-			isr.lastName = last;
-		}
-		{
-			contacts[i]->GetPropEmails(data);
-			wchar_t *emails = ::mir_utf8decodeW((const char*)data);
-
-			wchar_t* main = wcstok(emails, L" ");
-			if (main == NULL)
-			{
-				isr.email = main;
-			}
-		}
-
-		this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)sid, (LPARAM)&isr);
+		return; 
 	}
+	search->BlockWhileSearch();
+	search->Release();
+}
 
-	this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sid, 0);
+void __cdecl CSkypeProto::SearchByNamesAsync(void* arg)
+{
 }

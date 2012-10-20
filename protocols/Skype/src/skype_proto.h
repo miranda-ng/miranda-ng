@@ -139,6 +139,9 @@ protected:
 	void	UpdateContactTimezone(HANDLE hContact, CContact::Ref contact);
 	void	UpdateContactProfile(HANDLE hContact, CContact::Ref contact);
 
+	void	OnSearchCompleted(HANDLE hSearch);
+	void	OnContactFinded(HANDLE hSearch, CContact::Ref contact);
+
 	void	OnContactChanged(CContact::Ref contact, int prop);
 	void	OnContactListChanged(const ContactRef& contact);
 	
@@ -152,7 +155,9 @@ protected:
 	void	SetAllContactStatus(int status);
 
 	void __cdecl LoadContactList(void*);
-	void __cdecl SearchContactBySidAsync(void*);
+	void __cdecl SearchBySidAsync(void*);
+	void __cdecl SearchByNamesAsync(void*);
+	void __cdecl SearchByEmailAsync(void*);
 
 	// utils
 	static char* GetCountryNameById(int countryId);
