@@ -57,20 +57,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_addcontact.h>
 #include <m_png.h>
 #include <m_userinfo.h>
-#include "m_folders.h"
-
+#include <m_acc.h>
 #include <m_avatars.h>
 #include <m_popup.h>
 #include <m_imgsrvc.h>
+
+#include "m_folders.h"
 #include "m_metacontacts.h"
 #include "m_avatarhistory.h"
+#include "m_flash.h"
 
 #include "resource.h"
-#include "m_flash.h"
+#include "version.h"
 #include "image_utils.h"
 #include "mir_thread.h"
 #include "poll.h"
-#include "m_acc.h"
 #include "acc.h"
 
 

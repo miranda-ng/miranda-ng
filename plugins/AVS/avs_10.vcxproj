@@ -222,9 +222,6 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\avatar.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\avs.rc" />
   </ItemGroup>
   <ItemGroup>

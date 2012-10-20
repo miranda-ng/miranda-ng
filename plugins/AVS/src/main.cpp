@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "version.h"
 
 HINSTANCE g_hInst = 0;
 int hLangpack;
@@ -104,8 +103,8 @@ PLUGININFOEX pluginInfoEx = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-// {E00F1643-263C-4599-B84B-053E5C511D29}
-	{ 0xe00f1643, 0x263c, 0x4599, { 0xb8, 0x4b, 0x5, 0x3e, 0x5c, 0x51, 0x1d, 0x29 } }
+	// {E00F1643-263C-4599-B84B-053E5C511D29}
+	{0xe00f1643, 0x263c, 0x4599, {0xb8, 0x4b, 0x5, 0x3e, 0x5c, 0x51, 0x1d, 0x29}}
 };
 
 extern INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
