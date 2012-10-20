@@ -152,6 +152,7 @@ protected:
 	void	SetAllContactStatus(int status);
 
 	void __cdecl LoadContactList(void*);
+	void __cdecl SearchContactBySidAsync(void*);
 
 	// utils
 	static char* GetCountryNameById(int countryId);

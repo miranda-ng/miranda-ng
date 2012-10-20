@@ -94,6 +94,45 @@ void CContactGroup::OnChange(const ContactRef& contact)
 		(proto->*callback)(contact);
 }
 
+// CContactSearch
+
+CContactSearch::CContactSearch(unsigned int oid, SERootObject* root) : ContactSearch(oid, root) 
+{ 
+	this->isSeachFailed = false;
+	this->isSeachFinished = false;
+}
+
+void CContactSearch::OnChange(int prop)
+{
+	if (prop == P_CONTACT_SEARCH_STATUS)
+	{
+		CContactSearch::STATUS status;
+		this->GetPropContactSearchStatus(status);
+		if (status == FINISHED)
+			this->isSeachFinished = true;
+		if (status == FAILED)
+			this->isSeachFailed = true;
+	}
+
+	//SEString value = GetProp(prop);
+	//List_String dbg = getPropDebug(prop, value);
+	//fprintf(stdout,"CONTACTSEARCH.%d:%s = %s\n", getOID(), (const char*)dbg[1], (const char*)dbg[2]);
+}
+
+void CContactSearch::OnNewResult(const ContactRef& contact, const uint& rankValue)
+{
+	Sid::String identity;
+	contact->GetIdentity(identity);
+}
+
+void CContactSearch::BlockWhileSearching()
+{
+	this->isSeachFailed = false;
+	this->isSeachFinished = false;
+	while ( !this->isSeachFailed && !this->isSeachFinished) 
+		Sleep(1); 
+}
+
 // CContact
 
 CContact::CContact(unsigned int oid, SERootObject* root) : Contact(oid, root) 

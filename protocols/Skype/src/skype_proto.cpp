@@ -154,7 +154,7 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 	switch(type)
 	{        
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_PEER2PEER;
+		return PF1_IM  | PF1_BASICSEARCH | PF1_ADDSEARCHRES/* | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME*/;
 	case PFLAGNUM_2:
 	case PFLAGNUM_3:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_INVISIBLE;
@@ -182,11 +182,28 @@ HICON  __cdecl CSkypeProto::GetIcon( int iconIndex )
 
 int    __cdecl CSkypeProto::GetInfo( HANDLE hContact, int infoType ) { return 0; }
 
-HANDLE __cdecl CSkypeProto::SearchBasic( const TCHAR* id ) { return 0; }
-HANDLE __cdecl CSkypeProto::SearchByEmail( const TCHAR* email ) { return 0; }
-HANDLE __cdecl CSkypeProto::SearchByName( const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName ) { return 0; }
+HANDLE __cdecl CSkypeProto::SearchBasic(const TCHAR* id) 
+{ 
+	if ( !this->IsOnline())
+		return 0;
+
+	wchar_t *sid = ::mir_tstrdup(id);
+	this->ForkThread(&CSkypeProto::SearchContactBySidAsync, sid);
+
+	return sid;
+}
+
+HANDLE __cdecl CSkypeProto::SearchByEmail( const TCHAR* email ) 
+{ 
+	return 0; 
+}
+HANDLE __cdecl CSkypeProto::SearchByName( const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName ) 
+{ 
+	return 0; 
+}
 HWND   __cdecl CSkypeProto::SearchAdvanced( HWND owner ) { return 0; }
-HWND   __cdecl CSkypeProto::CreateExtendedSearchUI( HWND owner ) { return 0; }
+
+HWND   __cdecl CSkypeProto::CreateExtendedSearchUI( HWND owner ){ return 0; }
 
 int    __cdecl CSkypeProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* ) { return 0; }
 int    __cdecl CSkypeProto::RecvFile( HANDLE hContact, PROTORECVFILET* ) { return 0; }

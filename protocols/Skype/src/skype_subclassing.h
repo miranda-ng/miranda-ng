@@ -38,6 +38,27 @@ private:
 	void OnChange(int prop);
 };
 
+class CContactSearch : public ContactSearch
+{
+public:
+	typedef DRef<CContactSearch, ContactSearch> Ref;
+	typedef DRefs<CContactSearch, ContactSearch> Refs;
+
+	bool isSeachFailed;
+	bool isSeachFinished;
+
+	CContactSearch(unsigned int oid, SERootObject* root);
+
+	//void set_controller(CommandContactSearch* controller) { m_controller = controller; }
+
+	void OnChange(int prop);
+	void OnNewResult(const ContactRef& contact, const uint& rankValue);
+
+	void BlockWhileSearching();
+
+	//CommandContactSearch* m_controller;
+};
+
 class CContactGroup : public ContactGroup
 {
 public:

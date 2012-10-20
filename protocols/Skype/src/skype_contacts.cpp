@@ -707,3 +707,67 @@ void CSkypeProto::SetAllContactStatus(int status)
 		hContact = (HANDLE)::CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
 	}
 }
+
+void __cdecl CSkypeProto::SearchContactBySidAsync(void* arg)
+{
+	const wchar_t *sid = (wchar_t *)arg;
+
+	HANDLE hContact = this->GetContactBySid(sid);
+	if (hContact)
+	{
+		//ShowPopup(is, _T("Contact already in your contact list"), ALLOW_MSGBOX, NULL);
+		this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sid, 0);
+		return;
+	}
+
+	CContactSearch::Ref search;
+	g_skype->CreateIdentitySearch(::mir_u2a(sid), search);
+	
+	bool valid;
+	if (!search->IsValid(valid) || !valid || !search->Submit())
+	{
+		return; 
+	}
+
+	CContact::Refs contacts;
+	search->GetResults(contacts);
+	for (int i = 0 ; i < contacts.size(); i++)
+	{
+		PROTOSEARCHRESULT isr = {0};
+		isr.cbSize = sizeof(isr);
+		isr.flags = PSR_TCHAR;
+		
+		SEString data;
+		contacts[i]->GetPropSkypename(data);
+		isr.id = ::mir_utf8decodeW((const char *)data);
+		contacts[i]->GetPropDisplayname(data);
+		isr.nick  = ::mir_utf8decodeW((const char *)data);
+		{
+			contacts[i]->GetPropFullname(data);
+			wchar_t *fullname = ::mir_utf8decodeW((const char*)data);
+
+			wchar_t *first = wcstok(fullname, L" ");
+			wchar_t *last = wcstok(NULL, L" ");
+			if (last == NULL)
+			{
+				last = L"";
+			}
+			isr.firstName = first;
+			isr.lastName = last;
+		}
+		{
+			contacts[i]->GetPropEmails(data);
+			wchar_t *emails = ::mir_utf8decodeW((const char*)data);
+
+			wchar_t* main = wcstok(emails, L" ");
+			if (main == NULL)
+			{
+				isr.email = main;
+			}
+		}
+
+		this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)sid, (LPARAM)&isr);
+	}
+
+	this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sid, 0);
+}
