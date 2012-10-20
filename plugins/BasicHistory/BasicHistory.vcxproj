@@ -167,10 +167,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="docs\BasicHistory_langpack_polish.txt" />
-    <None Include="docs\BasicHistory_licence.txt" />
-    <None Include="docs\BasicHistory_readme.txt" />
-    <None Include="docs\BasicHistory_translate.txt" />
     <None Include="res\history.css" />
     <None Include="res\history.js" />
     <None Include="docs\ReadMe.txt" />
@@ -193,7 +189,6 @@
     <ClInclude Include="src\SearchContext.h" />
     <ClInclude Include="src\Searcher.h" />
     <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\targetver.h" />
     <ClInclude Include="src\TxtExport.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
@@ -201,7 +196,6 @@
     <ClCompile Include="src\BasicHistory.cpp" />
     <ClCompile Include="src\BinaryExport.cpp" />
     <ClCompile Include="src\DatExport.cpp" />
-    <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\EventList.cpp" />
     <ClCompile Include="src\ExportManager.cpp" />
     <ClCompile Include="src\HistoryWindow.cpp" />

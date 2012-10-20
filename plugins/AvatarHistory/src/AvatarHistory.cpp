@@ -72,7 +72,7 @@ PLUGININFOEX pluginInfo = {
 	{0xdbe8c990, 0x7aa0, 0x458d, {0xba, 0xb7, 0x33, 0xeb, 0x7, 0x23, 0x8e, 0x71}}
 };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -82,8 +82,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfo;
 }
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_AVATAR_CHANGE_LOGGER, MIID_AVATAR_CHANGE_NOTIFIER, MIID_LAST };
 
 static INT_PTR CALLBACK FirstRunDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 {

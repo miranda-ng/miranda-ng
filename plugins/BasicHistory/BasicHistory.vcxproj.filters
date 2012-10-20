@@ -13,27 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\Docs">
-      <UniqueIdentifier>{21b9175b-8a7e-4272-8524-2aa48728760e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\zip">
       <UniqueIdentifier>{c8854079-e3d6-4f7c-82fc-bd494a11567f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="docs\ReadMe.txt" />
-    <None Include="docs\BasicHistory_licence.txt">
-      <Filter>Resource Files\Docs</Filter>
-    </None>
-    <None Include="docs\BasicHistory_readme.txt">
-      <Filter>Resource Files\Docs</Filter>
-    </None>
-    <None Include="docs\BasicHistory_langpack_polish.txt">
-      <Filter>Resource Files\Docs</Filter>
-    </None>
-    <None Include="docs\BasicHistory_translate.txt">
-      <Filter>Resource Files\Docs</Filter>
-    </None>
     <None Include="res\history.css">
       <Filter>Resource Files</Filter>
     </None>
@@ -43,9 +28,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">
@@ -108,9 +90,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\BasicHistory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\HistoryWindow.cpp">

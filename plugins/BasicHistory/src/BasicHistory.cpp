@@ -17,13 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
-#include "version.h"
-#include "HistoryWindow.h"
-#include "resource.h"
-#include "Options.h"
 
-// {E25367A2-51AE-4044-BE28-131BC18B71A4}
-#define	MIID_BASICHISTORY { 0xe25367a2, 0x51ae, 0x4044, { 0xbe, 0x28, 0x13, 0x1b, 0xc1, 0x8b, 0x71, 0xa4 } }
+HINSTANCE hInst;
 
 #define MS_HISTORY_DELETEALLCONTACTHISTORY       "BasicHistory/DeleteAllContactHistory"
 #define MS_HISTORY_EXECUTE_TASK       "BasicHistory/ExecuteTask"
@@ -48,8 +43,7 @@ const IID IID_ITextDocument={0x8CC497C0, 0xA1DF, 0x11ce, {0x80, 0x98, 0x00, 0xAA
 
 #define MODULE "BasicHistory"
 
-PLUGININFOEX pluginInfo = 
-{
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -59,8 +53,15 @@ PLUGININFOEX pluginInfo =
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	MIID_BASICHISTORY
+	// {E25367A2-51AE-4044-BE28-131BC18B71A4}
+	{0xe25367a2, 0x51ae, 0x4044, {0xbe, 0x28, 0x13, 0x1b, 0xc1, 0x8b, 0x71, 0xa4}}
 };
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+	hInst = hinstDLL;
+	return TRUE;
+}
 
 TIME_API tmi = {0};
 int hLangpack = 0;

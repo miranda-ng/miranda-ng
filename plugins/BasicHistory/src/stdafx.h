@@ -5,8 +5,6 @@
 
 #pragma once
 
-#include "targetver.h"
-
 #ifndef _WIN64
 #define _USE_32BIT_TIME_T
 #endif
@@ -33,8 +31,7 @@
 #include <string>
 #include <fstream>
 
-#define MIRANDA_VER		0x0900
-#define MIRANDA_CUSTOM_LP
+#define MIRANDA_VER		0x0A00
 
 #include <newpluginapi.h>
 #include <m_langpack.h>
@@ -63,6 +60,11 @@
 #include "m_toptoolbar.h"
 #include "m_smileyadd.h"
 #include "m_metacontacts.h"
+
+#include "version.h"
+#include "HistoryWindow.h"
+#include "resource.h"
+#include "Options.h"
 
 #define HISTORY_HK_FIND 100
 #define HISTORY_HK_FINDNEXT 101

@@ -61,15 +61,11 @@ PLUGININFOEX pluginInfo = {
 	{0xdace7d41, 0xdfa9, 0x4772, {0x89, 0xae, 0xa5, 0x9a, 0x61, 0x53, 0xe6, 0xb2}}
 };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	g_hInst = hinstDLL;
 	return TRUE;
 }
-
-/* 236CBB9A-57D2-419D-B5CB-0DF5926E921C */
-#define MIID_AUTHSTATE {0x236cbb9a, 0x57d2, 0x419d, {0xb5, 0xcb, 0x0d, 0xf5, 0x92, 0x6e, 0x92, 0x1c}}
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_AUTHSTATE, MIID_LAST};
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
