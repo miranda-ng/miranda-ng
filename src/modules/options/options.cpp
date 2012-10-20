@@ -849,9 +849,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					continue;
 
 				opd = dat->arOpd[i];
-				TCHAR* ptszGroup = opd->getString(opd->ptszGroup);
+				TCHAR* ptszGroup = TranslateTH(opd->hLangpack, opd->ptszGroup);
 				TCHAR* ptszTitle = opd->getString(opd->ptszTitle);
-				TCHAR* ptszTab = opd->getString(opd->ptszTab);
+				TCHAR* ptszTab = TranslateTH(opd->hLangpack, opd->ptszTab);
 
 				tvis.hParent = NULL;
 				if (FilterInst != NULL) {
@@ -1111,7 +1111,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 								if ( lstrcmp(opd->ptszTitle, p->ptszTitle) || lstrcmpnull(opd->ptszGroup, p->ptszGroup))
 									continue;
 
-								tie.pszText = opd->getString(opd->ptszTab);
+								tie.pszText = TranslateTH(opd->hLangpack, opd->ptszTab);
 								tie.lParam = i;
 								TabCtrl_InsertItem(hwndTab, pages, &tie);
 								if ( !lstrcmp(opd->ptszTab, p->ptszTab))
