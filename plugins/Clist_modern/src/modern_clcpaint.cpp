@@ -1711,11 +1711,11 @@ void CLCPaint::_DrawStatusIcon( struct ClcContact * Drawing, struct ClcData *dat
 		int status = GetContactCachedStatus( Drawing->hContact );
 		if ( status < ID_STATUS_OFFLINE ) status = ID_STATUS_OFFLINE;
 		else if ( status>ID_STATUS_OUTTOLUNCH ) status = ID_STATUS_ONLINE;
-		ske_ImageList_DrawEx( g_himlCListClc, HIWORD( iImage ), hdcMem, 
-			x, y, cx, cy, colorbg, colorfg, mode );
-		if ( dat->drawOverlayedStatus&2 ) //draw overlay
+		ske_ImageList_DrawEx(g_himlCListClc, HIWORD( iImage ), hdcMem, 
+			x, y, cx, cy, colorbg, colorfg, mode);
+		if (dat->drawOverlayedStatus & 2) //draw overlay
 			ske_ImageList_DrawEx( hAvatarOverlays, g_pStatusOverlayIcons[status-ID_STATUS_OFFLINE].listID, hdcMem, 
-			x, y, cx, cy, colorbg, colorfg, mode );
+				x, y, cx, cy, colorbg, colorfg, mode );
 	}
 	else
 	{

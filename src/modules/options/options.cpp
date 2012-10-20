@@ -81,6 +81,12 @@ struct OptionsPageData
 
 	int offsetX;
 	int offsetY;
+
+	__forceinline TCHAR* getString(TCHAR *ptszStr)
+	{	if (flags & ODPF_DONTTRANSLATE)
+			return ptszStr;
+		return TranslateTH(hLangpack, ptszStr);
+	}
 };
 
 struct OptionsDlgData
@@ -843,9 +849,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					continue;
 
 				opd = dat->arOpd[i];
-				TCHAR* ptszGroup = TranslateTH(opd->hLangpack, opd->ptszGroup);
-				TCHAR* ptszTitle = TranslateTH(opd->hLangpack, opd->ptszTitle);
-				TCHAR* ptszTab = TranslateTH(opd->hLangpack, opd->ptszTab);
+				TCHAR* ptszGroup = opd->getString(opd->ptszGroup);
+				TCHAR* ptszTitle = opd->getString(opd->ptszTitle);
+				TCHAR* ptszTab = opd->getString(opd->ptszTab);
 
 				tvis.hParent = NULL;
 				if (FilterInst != NULL) {
@@ -1105,7 +1111,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 								if ( lstrcmp(opd->ptszTitle, p->ptszTitle) || lstrcmpnull(opd->ptszGroup, p->ptszGroup))
 									continue;
 
-								tie.pszText = TranslateTH(opd->hLangpack, opd->ptszTab);
+								tie.pszText = opd->getString(opd->ptszTab);
 								tie.lParam = i;
 								TabCtrl_InsertItem(hwndTab, pages, &tie);
 								if ( !lstrcmp(opd->ptszTab, p->ptszTab))
