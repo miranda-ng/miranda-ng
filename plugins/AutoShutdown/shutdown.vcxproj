@@ -212,17 +212,6 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="res\active.ico" />
-    <CustomBuild Include="res\header.ico" />
-    <CustomBuild Include="res\inactive.ico" />
-    <CustomBuild Include="docs\Shutdown-Developer.txt" />
-    <CustomBuild Include="docs\Shutdown-License.txt" />
-    <CustomBuild Include="docs\Shutdown-Readme.txt" />
-    <CustomBuild Include="docs\Shutdown-Translation.txt" />
-    <CustomBuild Include="docs\Info_Src.txt" />
-    <CustomBuild Include="docs\License_Appendix.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>

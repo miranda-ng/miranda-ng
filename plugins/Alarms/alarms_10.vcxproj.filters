@@ -76,23 +76,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\clock.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\green.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\iconttbdown.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\iconttbup.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\yellow.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>

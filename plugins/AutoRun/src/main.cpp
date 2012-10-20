@@ -3,8 +3,7 @@
 HINSTANCE hInst;
 int hLangpack;
 
-PLUGININFOEX pluginInfoEx=
-{ 	// about plugin
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -14,7 +13,8 @@ PLUGININFOEX pluginInfoEx=
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	MIID_AUTORUN
+	// {EB0465E2-CEEE-11DB-83EF-C1BF55D89593}
+	{0xeb0465e2, 0xceee, 0x11db, {0x83, 0xef, 0xc1, 0xbf, 0x55, 0xd8, 0x95, 0x93}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)

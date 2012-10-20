@@ -195,9 +195,6 @@
     <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\contact_add.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>

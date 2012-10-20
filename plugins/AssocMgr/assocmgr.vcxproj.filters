@@ -13,10 +13,6 @@
       <UniqueIdentifier>{db2d32fd-f303-490e-bc40-ca67fd6fee73}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Documentation">
-      <UniqueIdentifier>{6f8e30e0-bc03-46e7-b039-e0fbd019afb2}</UniqueIdentifier>
-      <Extensions>txt</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\assoclist.cpp">
@@ -58,41 +54,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">
-      <Filter>Resource Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">
-      <Filter>Resource Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="res\miranda.ico">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="res\mirandafile.ico">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\AssocMgr-Developer.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\AssocMgr-License.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\AssocMgr-Readme.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\AssocMgr-Translation.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\Info_Src.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\License_Appendix.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

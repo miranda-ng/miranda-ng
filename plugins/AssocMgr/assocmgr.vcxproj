@@ -209,17 +209,8 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="res\miranda.ico" />
-    <CustomBuild Include="res\mirandafile.ico" />
-    <CustomBuild Include="docs\AssocMgr-Developer.txt" />
-    <CustomBuild Include="docs\AssocMgr-License.txt" />
-    <CustomBuild Include="docs\AssocMgr-Readme.txt" />
-    <CustomBuild Include="docs\AssocMgr-Translation.txt" />
-    <CustomBuild Include="docs\Info_Src.txt" />
-    <CustomBuild Include="docs\License_Appendix.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -47,7 +47,7 @@ icon_grant,
 icon_both
 };
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
     sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -56,9 +56,9 @@ PLUGININFOEX pluginInfo={
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	UNICODE_AWARE, //doesn't replace anything built-in
+	UNICODE_AWARE,
+	// {DACE7D41-DFA9-4772-89AE-A59A6153E6B2}
 	{0xdace7d41, 0xdfa9, 0x4772, {0x89, 0xae, 0xa5, 0x9a, 0x61, 0x53, 0xe6, 0xb2}}
-/* DACE7D41-DFA9-4772-89AE-A59A6153E6B2 */
 };
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)

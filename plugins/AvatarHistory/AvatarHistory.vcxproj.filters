@@ -13,9 +13,6 @@
       <UniqueIdentifier>{6ad471fb-470c-4466-b817-ec90cb51260c}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{72021e6b-0e9b-4cf3-b35f-db87ed4f6541}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AvatarDlg.cpp">
@@ -67,19 +64,5 @@
     <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="docs\avatarhist_changelog.txt">
-      <Filter>Docs</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\avatarhist_readme.txt">
-      <Filter>Docs</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\avatarhist_version.txt">
-      <Filter>Docs</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\langpack_avatarhist.txt">
-      <Filter>Docs</Filter>
-    </CustomBuild>
   </ItemGroup>
 </Project>

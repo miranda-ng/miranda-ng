@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
     </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{e3d2bfb3-bac6-4574-951a-0d849c44446e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -35,23 +32,6 @@
     <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\auth.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\authgrant.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\grant.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="docs\authstate-readme.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="docs\authstate-translation.txt">
-      <Filter>Docs</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\authstate.rc">

@@ -186,13 +186,6 @@
     <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\auth.ico" />
-    <None Include="res\authgrant.ico" />
-    <None Include="res\grant.ico" />
-    <None Include="docs\authstate-readme.txt" />
-    <None Include="docs\authstate-translation.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\authstate.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>

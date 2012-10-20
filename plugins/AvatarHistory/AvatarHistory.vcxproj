@@ -208,12 +208,6 @@
     <ResourceCompile Include="res\AvatarHistory.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="docs\avatarhist_changelog.txt" />
-    <CustomBuild Include="docs\avatarhist_readme.txt" />
-    <CustomBuild Include="docs\avatarhist_version.txt" />
-    <CustomBuild Include="docs\langpack_avatarhist.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

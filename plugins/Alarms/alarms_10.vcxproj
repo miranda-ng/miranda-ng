@@ -203,13 +203,6 @@
     <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\clock.ico" />
-    <None Include="res\green.ico" />
-    <None Include="res\iconttbdown.ico" />
-    <None Include="res\iconttbup.ico" />
-    <None Include="res\yellow.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
