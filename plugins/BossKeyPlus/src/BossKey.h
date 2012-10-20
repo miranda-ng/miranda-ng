@@ -57,9 +57,8 @@
 
 #define MOD_NAME "BossKey"
 #define KEY_DOWN(key) ((GetAsyncKeyState(key) & 0x8000) ? (true) : (false))
-#define MIID_BOSSKEY  { 0xb0f05b6a, 0x8167, 0x4dc3, { 0xa1, 0x8a, 0xaf, 0xba, 0x4c, 0x77, 0xc4, 0x1d } }
 #define MAXPASSLEN 16
-#define	DEFAULTSETTING	( OPT_SETONLINEBACK | OPT_DISABLESNDS | OPT_ONLINEONLY | OPT_USEDEFMSG )
+#define	DEFAULTSETTING	(OPT_SETONLINEBACK | OPT_DISABLESNDS | OPT_ONLINEONLY | OPT_USEDEFMSG)
 
 #define OLD_SOUND			1
 #define OLD_POPUP			2

@@ -76,7 +76,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 				SetDlgItemTextA(hwndDlg,IDC_MAINOPT_PASS,dbVar.pszVal);
 				DBFreeVariant(&dbVar);
 			}
-			
+
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_SETONLINEBACK,(g_wMask & OPT_SETONLINEBACK) ? (BST_CHECKED) : (BST_UNCHECKED));
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_CHANGESTATUSBOX,(g_wMask & OPT_CHANGESTATUS) ? (BST_CHECKED) : (BST_UNCHECKED));
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_DISABLESNDS,(g_wMask & OPT_DISABLESNDS) ? (BST_CHECKED) : (BST_UNCHECKED));
@@ -90,7 +90,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			for (BYTE i = 0;i < 8; i++)
 				SendDlgItemMessage(hwndDlg,IDC_MAINOPT_CHGSTS,CB_INSERTSTRING,-1,(LPARAM)TranslateTS(STATUS_ARR_TO_NAME[i]));
 
-			SendDlgItemMessage(hwndDlg,IDC_MAINOPT_CHGSTS,CB_SETCURSEL,DBGetContactSettingByte(NULL,MOD_NAME,"stattype",2),0);
+			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_SETCURSEL, DBGetContactSettingByte(NULL, MOD_NAME, "stattype", 2), 0);
 
 			SendMessage(hwndDlg,WM_USER + 60,0,0);
 			SendMessage(hwndDlg,WM_USER + 50,0,0);

@@ -58,29 +58,27 @@ void LanguageChanged(HWND hDlg);
 static PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
-	__VERSION_DWORD,
-	__DESC,
-	__AUTHORS,
-	__EMAIL,
-	__COPYRIGHTS,
-	__FL,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	//4fac353d-0a36-44a4-9064-6759c53ae782
-	{0x4fac353d, 0x0a36, 0x44a4, { 0x90, 0x64, 0x67, 0x59, 0xc5, 0x3a, 0xe7, 0x82 }}
+	{0x4fac353d, 0x0a36, 0x44a4, {0x90, 0x64, 0x67, 0x59, 0xc5, 0x3a, 0xe7, 0x82}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	g_hInstance = hinstDLL;
-	return(true);
+	return TRUE;
 }
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_BOSSKEY, MIID_LAST };
 
 static BOOL IsAeroMode()
 {
@@ -384,7 +382,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 			if (g_wMask & OPT_CHANGESTATUS) // is this even needed?
 			{
-				BYTE bReqMode = DBGetContactSettingByte(NULL,MOD_NAME,"stattype",2);
+				BYTE bReqMode = DBGetContactSettingByte(NULL, MOD_NAME, "stattype", 2);
 				unsigned uMode = (STATUS_ARR_TO_ID[bReqMode]);
 				DBVARIANT dbVar;
 				if (g_wMask & OPT_USEDEFMSG || DBGetContactSettingTString(NULL,MOD_NAME,"statmsg",&dbVar))
