@@ -313,6 +313,164 @@ static void ResizeVert(HWND hDlg, int yy)
 	SetWindowPos(hDlg, 0, 0, 0, r.right, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
 }
 
+//
+//   FUNCTION: IsRunAsAdmin()
+//
+//   PURPOSE: The function checks whether the current process is run as 
+//   administrator. In other words, it dictates whether the primary access 
+//   token of the process belongs to user account that is a member of the 
+//   local Administrators group and it is elevated.
+//
+//   RETURN VALUE: Returns TRUE if the primary access token of the process 
+//   belongs to user account that is a member of the local Administrators 
+//   group and it is elevated. Returns FALSE if the token does not.
+//
+//   EXCEPTION: If this function fails, it throws a C++ DWORD exception which 
+//   contains the Win32 error code of the failure.
+//
+//   EXAMPLE CALL:
+//     try 
+//     {
+//         if (IsRunAsAdmin())
+//             wprintf (L"Process is run as administrator\n");
+//         else
+//             wprintf (L"Process is not run as administrator\n");
+//     }
+//     catch (DWORD dwError)
+//     {
+//         wprintf(L"IsRunAsAdmin failed w/err %lu\n", dwError);
+//     }
+//
+BOOL IsRunAsAdmin()
+{
+	BOOL fIsRunAsAdmin = FALSE;
+	DWORD dwError = ERROR_SUCCESS;
+	PSID pAdministratorsGroup = NULL;
+
+	// Allocate and initialize a SID of the administrators group.
+	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
+	if (!AllocateAndInitializeSid(
+		&NtAuthority, 
+		2, 
+		SECURITY_BUILTIN_DOMAIN_RID, 
+		DOMAIN_ALIAS_RID_ADMINS, 
+		0, 0, 0, 0, 0, 0, 
+		&pAdministratorsGroup))
+	{
+		dwError = GetLastError();
+		goto Cleanup;
+	}
+
+	// Determine whether the SID of administrators group is enabled in 
+	// the primary access token of the process.
+	if (!CheckTokenMembership(NULL, pAdministratorsGroup, &fIsRunAsAdmin))
+	{
+		dwError = GetLastError();
+		goto Cleanup;
+	}
+
+Cleanup:
+	// Centralized cleanup for all allocated resources.
+	if (pAdministratorsGroup)
+	{
+		FreeSid(pAdministratorsGroup);
+		pAdministratorsGroup = NULL;
+	}
+
+	// Throw the error if something failed in the function.
+	if (ERROR_SUCCESS != dwError)
+	{
+		throw dwError;
+	}
+
+	return fIsRunAsAdmin;
+}
+
+//
+//   FUNCTION: IsProcessElevated()
+//
+//   PURPOSE: The function gets the elevation information of the current 
+//   process. It dictates whether the process is elevated or not. Token 
+//   elevation is only available on Windows Vista and newer operating 
+//   systems, thus IsProcessElevated throws a C++ exception if it is called 
+//   on systems prior to Windows Vista. It is not appropriate to use this 
+//   function to determine whether a process is run as administartor.
+//
+//   RETURN VALUE: Returns TRUE if the process is elevated. Returns FALSE if 
+//   it is not.
+//
+//   EXCEPTION: If this function fails, it throws a C++ DWORD exception 
+//   which contains the Win32 error code of the failure. For example, if 
+//   IsProcessElevated is called on systems prior to Windows Vista, the error 
+//   code will be ERROR_INVALID_PARAMETER.
+//
+//   NOTE: TOKEN_INFORMATION_CLASS provides TokenElevationType to check the 
+//   elevation type (TokenElevationTypeDefault / TokenElevationTypeLimited /
+//   TokenElevationTypeFull) of the process. It is different from 
+//   TokenElevation in that, when UAC is turned off, elevation type always 
+//   returns TokenElevationTypeDefault even though the process is elevated 
+//   (Integrity Level == High). In other words, it is not safe to say if the 
+//   process is elevated based on elevation type. Instead, we should use 
+//   TokenElevation.
+//
+//   EXAMPLE CALL:
+//     try 
+//     {
+//         if (IsProcessElevated())
+//             wprintf (L"Process is elevated\n");
+//         else
+//             wprintf (L"Process is not elevated\n");
+//     }
+//     catch (DWORD dwError)
+//     {
+//         wprintf(L"IsProcessElevated failed w/err %lu\n", dwError);
+//     }
+//
+BOOL IsProcessElevated()
+{
+	BOOL fIsElevated = FALSE;
+	DWORD dwError = ERROR_SUCCESS;
+	HANDLE hToken = NULL;
+
+	// Open the primary access token of the process with TOKEN_QUERY.
+	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken))
+	{
+		dwError = GetLastError();
+		goto Cleanup;
+	}
+
+	// Retrieve token elevation information.
+	TOKEN_ELEVATION elevation;
+	DWORD dwSize;
+	if (!GetTokenInformation(hToken, TokenElevation, &elevation, sizeof(elevation), &dwSize))
+	{
+		// When the process is run on operating systems prior to Windows 
+		// Vista, GetTokenInformation returns FALSE with the 
+		// ERROR_INVALID_PARAMETER error code because TokenElevation is 
+		// not supported on those operating systems.
+		dwError = GetLastError();
+		goto Cleanup;
+	}
+
+	fIsElevated = elevation.TokenIsElevated;
+
+Cleanup:
+	// Centralized cleanup for all allocated resources.
+	if (hToken)
+	{
+		CloseHandle(hToken);
+		hToken = NULL;
+	}
+
+	// Throw the error if something failed in the function.
+	if (ERROR_SUCCESS != dwError)
+	{
+		throw dwError;
+	}
+
+	return fIsElevated;
+}
+
 INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
@@ -323,6 +481,10 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 		TranslateDialogDefault( hDlg );
 		SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 		{
+			OSVERSIONINFO osver = { sizeof(osver) };
+			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6)
+				// Running Windows Vista or later (major version >= 6).
+				Button_SetElevationRequiredState(GetDlgItem(hDlg, IDOK), !IsProcessElevated());
 			RECT r;
 			GetClientRect(hwndList, &r);
 
@@ -418,6 +580,38 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 				EnableWindow( GetDlgItem(hDlg, IDOK), FALSE);
 				EnableWindow( GetDlgItem(hDlg, IDC_SELALL), FALSE);
 				EnableWindow( GetDlgItem(hDlg, IDC_SELNONE), FALSE);
+
+				// Check the current process's "run as administrator" status.
+				// Elevate the process if it is not run as administrator.
+				if (!IsRunAsAdmin())
+				{
+					wchar_t szPath[MAX_PATH], cmdLine[100];
+					GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
+					TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
+					mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T(" /restart:%d /profile=%s"), GetCurrentProcessId(), profilename);
+					// Launch itself as administrator.
+					SHELLEXECUTEINFO sei = { sizeof(sei) };
+					sei.lpVerb = L"runas";
+					sei.lpFile = szPath;
+					sei.lpParameters = cmdLine;
+					sei.hwnd = hDlg;
+					sei.nShow = SW_NORMAL;
+
+					if (!ShellExecuteEx(&sei))
+					{
+						DWORD dwError = GetLastError();
+						if (dwError == ERROR_CANCELLED)
+						{
+							// The user refused to allow privileges elevation.
+							// Do nothing ...
+						}
+					}
+					else
+					{
+						DestroyWindow(hDlg);  // Quit itself
+						CallService("CloseAction", 0, 0);
+					}
+				}
 				mir_forkthread(ApplyUpdates, hDlg);
 				return TRUE;
 
