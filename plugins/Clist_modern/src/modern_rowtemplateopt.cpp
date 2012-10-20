@@ -403,7 +403,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				for (i=0; i < SIZEOF(types); i++) 
 				{
 					item = SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_ADDSTRING,0,(LPARAM)TranslateTS(types[i]));
-					SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETITEMDATA,item,(LPARAM)0);
+					SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETITEMDATA,item,0);
 				}
 				SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETCURSEL,0,0);
 			}
@@ -414,7 +414,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				for (i=0; i < SIZEOF(alignment); i++) 
 				{
 					item = SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(alignment[i]));
-					SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETITEMDATA,item,(LPARAM)0);
+					SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETITEMDATA,item,0);
 				}
 				SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETCURSEL,0,0);
 			
@@ -426,7 +426,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				for (i=0; i < SIZEOF(alignment); i++) 
 				{
 					item = SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(alignment[i]));
-					SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETITEMDATA,item,(LPARAM)0);
+					SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETITEMDATA,item,0);
 				}
 				SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETCURSEL,0,0);
 			}

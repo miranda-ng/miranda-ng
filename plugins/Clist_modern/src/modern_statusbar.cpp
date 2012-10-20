@@ -989,7 +989,7 @@ HWND StatusBar_Create(HWND parent)
 	Frame.height = h;
 	Frame.tname = _T("Status Bar");
 	Frame.TBtname = TranslateT("Status Bar");
-	hFramehModernStatusBar = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,(LPARAM)0);
+	hFramehModernStatusBar = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);
 	CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)Frame.hWnd,(LPARAM)NewStatusPaintCallbackProc); //$$$$$ register sub for frame
 
 	LoadStatusBarData();

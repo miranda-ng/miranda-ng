@@ -435,7 +435,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam,LPARAM lParam)
 		if ((GetAsyncKeyState(VK_CONTROL)&0x8000) && msg->lParam == WM_LBUTTONDOWN && !db_get_b(NULL,"CList","Tray1Click",SETTING_TRAY1CLICK_DEFAULT)) {
 			POINT pt;
 			HMENU hMenu;
-			hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,(WPARAM)0,(LPARAM)0);
+			hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,(WPARAM)0,0);
 			g_mutex_bOnTrayRightClick = 1;
 			IS_WM_MOUSE_DOWN_IN_TRAY = 1;
 			SetForegroundWindow(msg->hwnd);
@@ -453,7 +453,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam,LPARAM lParam)
 		else if (msg->lParam == WM_RBUTTONUP) {
 			POINT pt;
 			HMENU hMenu;
-			hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDTRAY,(WPARAM)0,(LPARAM)0);
+			hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDTRAY,(WPARAM)0,0);
 			g_mutex_bOnTrayRightClick = 1;
 
 			SetForegroundWindow(msg->hwnd);

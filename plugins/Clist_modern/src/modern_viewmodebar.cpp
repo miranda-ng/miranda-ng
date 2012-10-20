@@ -1366,7 +1366,7 @@ void CreateViewModeFrame()
 	frame.align = alBottom;
 	frame.hWnd = CreateWindowEx(0, _T("CLVMFrameWindow"), _T(CLVM_MODULE), WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU) 0, g_hInst, NULL);
 	g_hwndViewModeFrame = frame.hWnd;
-	hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&frame,(LPARAM)0);	
+	hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&frame,0);	
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hCLVMFrame, FU_FMPOS);
 	CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)frame.hWnd,(LPARAM)ViewModePaintCallbackProc); //$$$$$ register sub for frame
 

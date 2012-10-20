@@ -763,11 +763,11 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			for (i=0; i < SIZEOF(sortby); i++)
 			{
 				item = SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_ADDSTRING,0,(LPARAM)TranslateTS(sortby[i]));
-				SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_SETITEMDATA,item,(LPARAM)0);
+				SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_SETITEMDATA,item,0);
 				item = SendDlgItemMessage(hwndDlg,IDC_CLSORT2,CB_ADDSTRING,0,(LPARAM)TranslateTS(sortby[i]));
-				SendDlgItemMessage(hwndDlg,IDC_CLSORT2,CB_SETITEMDATA,item,(LPARAM)0);
+				SendDlgItemMessage(hwndDlg,IDC_CLSORT2,CB_SETITEMDATA,item,0);
 				item = SendDlgItemMessage(hwndDlg,IDC_CLSORT3,CB_ADDSTRING,0,(LPARAM)TranslateTS(sortby[i]));
-				SendDlgItemMessage(hwndDlg,IDC_CLSORT3,CB_SETITEMDATA,item,(LPARAM)0);
+				SendDlgItemMessage(hwndDlg,IDC_CLSORT3,CB_SETITEMDATA,item,0);
 
 			}
 			s1 = db_get_b(NULL,"CList","SortBy1",SETTING_SORTBY1_DEFAULT);
@@ -889,7 +889,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				db_get(NULL,"CList","PrimaryStatus",&dbv);
 				ProtoEnumAccounts( &count, &accs );
 				item = SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_ADDSTRING,0,(LPARAM)TranslateT("Global"));
-				SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_SETITEMDATA,item,(LPARAM)0);
+				SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_SETITEMDATA,item,0);
 				for (i=0;i < count;i++) {
 					if ( !IsAccountEnabled( accs[i] ) || CallProtoService(accs[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0) == 0)
 						continue;
@@ -1029,7 +1029,7 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 			TCHAR *hidemode[] = {TranslateT("Hide to tray"), TranslateT("Behind left edge"), TranslateT("Behind right edge")};
 			for (i=0; i < SIZEOF(hidemode); i++) {
 				item = SendDlgItemMessage(hwndDlg,IDC_HIDEMETHOD,CB_ADDSTRING,0,(LPARAM)(hidemode[i]));
-				SendDlgItemMessage(hwndDlg,IDC_HIDEMETHOD,CB_SETITEMDATA,item,(LPARAM)0);
+				SendDlgItemMessage(hwndDlg,IDC_HIDEMETHOD,CB_SETITEMDATA,item,0);
 				SendDlgItemMessage(hwndDlg,IDC_HIDEMETHOD,CB_SETCURSEL,db_get_b(NULL,"ModernData","HideBehind",SETTING_HIDEBEHIND_DEFAULT),0);
 			}
 		}
@@ -1413,7 +1413,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 
 				db_set_dw(NULL,"CLUIFrames","GapBetweenFrames",(DWORD)i1);
 				db_set_dw(NULL,"CLUIFrames","GapBetweenTitleBar",(DWORD)i2);
-				Sync(CLUIFramesOnClistResize, (WPARAM)pcli->hwndContactList,(LPARAM)0);
+				Sync(CLUIFramesOnClistResize, (WPARAM)pcli->hwndContactList,0);
 			}
 			db_set_b(NULL,"CList","Transparent",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT));
 			db_set_b(NULL,"CList","Alpha",(BYTE)SendDlgItemMessage(hwndDlg,IDC_TRANSACTIVE,TBM_GETPOS,0,0));
@@ -1926,11 +1926,11 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			for (i=0; i < SIZEOF(sortby); i++)
 			{
 				item = SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_ADDSTRING,0,(LPARAM)TranslateTS(sortby[i]));
-				SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_SETITEMDATA,item,(LPARAM)0);
+				SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_SETITEMDATA,item,0);
 				item = SendDlgItemMessage(hwndDlg,IDC_CLSORT2,CB_ADDSTRING,0,(LPARAM)TranslateTS(sortby[i]));
-				SendDlgItemMessage(hwndDlg,IDC_CLSORT2,CB_SETITEMDATA,item,(LPARAM)0);
+				SendDlgItemMessage(hwndDlg,IDC_CLSORT2,CB_SETITEMDATA,item,0);
 				item = SendDlgItemMessage(hwndDlg,IDC_CLSORT3,CB_ADDSTRING,0,(LPARAM)TranslateTS(sortby[i]));
-				SendDlgItemMessage(hwndDlg,IDC_CLSORT3,CB_SETITEMDATA,item,(LPARAM)0);
+				SendDlgItemMessage(hwndDlg,IDC_CLSORT3,CB_SETITEMDATA,item,0);
 
 			}
 			s1 = db_get_b(NULL,"CList","SortBy1",SETTING_SORTBY1_DEFAULT);

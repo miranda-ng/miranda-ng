@@ -72,7 +72,7 @@ int CLUI::OnEvent_ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	setlocale(LC_ALL, "");  //fix for case insensitive comparing
 
 	if (ServiceExists(MS_MC_DISABLEHIDDENGROUP))
-		CallService(MS_MC_DISABLEHIDDENGROUP, (WPARAM)TRUE, (LPARAM)0);
+		CallService(MS_MC_DISABLEHIDDENGROUP, (WPARAM)TRUE, 0);
 
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
 		g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
@@ -425,7 +425,7 @@ HRESULT CLUI::CreateCLC()
 	Frame.Flags = F_VISIBLE|/*F_SHOWTB|*/F_SHOWTBTIP|F_NO_SUBCONTAINER|F_TCHAR;
 	Frame.tname = LPGENT("My Contacts");
 	Frame.TBtname = TranslateT("My Contacts");
-	hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,(LPARAM)0);
+	hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);
 
 	CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)Frame.hWnd,(LPARAM)CLCPaint::PaintCallbackProc);
 	CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBTIPNAME,hFrameContactTree),(LPARAM)Translate("My Contacts"));	
@@ -617,7 +617,7 @@ void CLUI_UpdateLayeredMode()
 			g_CluiData.fLayered = tLayeredFlag;
 			Sync(CLUIFrames_SetLayeredMode, tLayeredFlag,pcli->hwndContactList);			
 			CLUI_ChangeWindowMode();
-			Sync(CLUIFrames_OnClistResize_mod, (WPARAM)0, (LPARAM)0 );
+			Sync(CLUIFrames_OnClistResize_mod, (WPARAM)0, 0 );
 			if (fWasVisible) ShowWindow(pcli->hwndContactList,SW_SHOW);
 		}
 	}
@@ -3079,7 +3079,7 @@ LRESULT CLUI::OnDestroy( UINT msg, WPARAM wParam, LPARAM lParam )
 
 	pcli->pfnTrayIconDestroy(m_hWnd);	
 	mutex_bAnimationInProgress = 0;  		
-	CallService(MS_CLIST_FRAMES_REMOVEFRAME,(WPARAM)hFrameContactTree,(LPARAM)0);		
+	CallService(MS_CLIST_FRAMES_REMOVEFRAME,(WPARAM)hFrameContactTree,0);		
 	TRACE("CLUI.c: WM_DESTROY - hFrameContactTree removed\n");
 	pcli->hwndContactTree = NULL;
 	pcli->hwndStatus = NULL;

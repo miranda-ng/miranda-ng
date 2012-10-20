@@ -102,7 +102,7 @@ struct ClcContactBase
 	BYTE flags;
 	union {
 		struct {
-			WORD iImage;
+			int    iImage;
 			HANDLE hContact;
 		};
 		struct {

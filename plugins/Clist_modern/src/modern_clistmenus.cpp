@@ -36,7 +36,7 @@ INT_PTR CloseAction(WPARAM wParam,LPARAM lParam)
 	int k;
 	g_CluiData.bSTATE = STATE_PREPEARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
 	do
-	{	k = CallService(MS_SYSTEM_OKTOEXIT,(WPARAM)0,(LPARAM)0);
+	{	k = CallService(MS_SYSTEM_OKTOEXIT,(WPARAM)0,0);
 	}
 	while (!k);
 

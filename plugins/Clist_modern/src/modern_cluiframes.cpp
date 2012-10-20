@@ -1287,7 +1287,7 @@ static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 			SetWindowLongPtr(fw.TitleBar.hwnd,GWL_STYLE,(long)style& ~(WS_VSCROLL | WS_HSCROLL));
 		}
 
-		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 		SetWindowPos(fw.TitleBar.hwnd,0,0,0,0,0,SWP_NOZORDER|SWP_NOMOVE|SWP_NOSIZE|SWP_FRAMECHANGED|SWP_NOACTIVATE);
 		return 0;
 
@@ -1365,7 +1365,7 @@ static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 			if ( !CLUIFramesFitInSize()) fw.height = retval;
 			retval = fw.height;
 			if (fw.height != oldHeight && !fw.floating)
-				CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+				CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 		}
 		else
 		{
@@ -1405,7 +1405,7 @@ static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 		return(0);
 	}
 
-	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	return -1;
 }
 
@@ -1418,7 +1418,7 @@ static int _us_DoShowAllFrames(WPARAM wParam,LPARAM lParam)
 
 	for (i=0;i < g_nFramesCount;i++)
 		g_pfwFrames[i].visible = TRUE;
-	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	return 0;
 }
 
@@ -1431,7 +1431,7 @@ static int _us_DoShowTitles(WPARAM wParam,LPARAM lParam)
 
 	for (i=0;i < g_nFramesCount;i++)
 		g_pfwFrames[i].TitleBar.ShowTitleBar = TRUE;
-	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	return 0;
 }
 
@@ -1444,7 +1444,7 @@ static int _us_DoHideTitles(WPARAM wParam,LPARAM lParam)
 
 	for (i=0;i < g_nFramesCount;i++)
 		g_pfwFrames[i].TitleBar.ShowTitleBar = FALSE;
-	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	return 0;
 }
 
@@ -1476,7 +1476,7 @@ static int _us_DoShowHideFrame(WPARAM wParam,LPARAM lParam)
 		}
 		if (g_pfwFrames[pos].floating){CLUIFrameResizeFloatingFrame(pos);};
 
-		if ( !g_pfwFrames[pos].floating) CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+		if ( !g_pfwFrames[pos].floating) CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	}
 	return 0;
 }
@@ -1499,7 +1499,7 @@ static int _us_DoShowHideFrameTitle(WPARAM wParam,LPARAM lParam)
 
 
 
-	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 
 
 	return 0;
@@ -2469,7 +2469,7 @@ int CLUIFrames_ApplyNewSizes(int mode)
 static int _us_DoUpdateFrame(WPARAM wParam,LPARAM lParam)
 {
 	if (_fCluiFramesModuleNotStarted) return -1;
-	if (wParam == -1) { CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0); return 0;}
+	if (wParam == -1) { CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0); return 0;}
 	if (lParam&FU_FMPOS)	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,1);
 
 	int pos = id2pos( wParam );
@@ -3087,7 +3087,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 				CLUIFrames_SetFrameFloat(Frameid,0);
 				break;
 			}
-			CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+			CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 		}
 
 		break;
@@ -3220,7 +3220,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 						g_pfwFrames[pos].order
 						);
 
-					oldflags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS,MAKEWPARAM(FO_FLAGS,g_pfwFrames[pos].id),(LPARAM)0);
+					oldflags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS,MAKEWPARAM(FO_FLAGS,g_pfwFrames[pos].id),0);
 					if ( !(oldflags&F_SHOWTBTIP))
 					{
 						oldflags |= F_SHOWTBTIP;
@@ -3440,7 +3440,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 
 				if (newh>0)
 				{
-					CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+					CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 				};
 				break;
 			}
@@ -3969,7 +3969,7 @@ static int _us_DoSetFrameFloat(WPARAM wParam,LPARAM lParam)
 
 		hwndtmp = g_pfwFrames[pos].ContainerWnd;
 
-		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 		if (hwndtmp) SendMessage(hwndtmp,WM_SIZE,0,0);
 
 

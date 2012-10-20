@@ -244,7 +244,7 @@ void SetControls(HWND hwndDlg, char * str)
 	if (mir_bool_strcmpi(buf,"Solid")) Type=1;
 	else if (mir_bool_strcmpi(buf,"Image")) Type=2;
 	else if (mir_bool_strcmpi(buf,"Fragment")) Type=3;
-	SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_SETCURSEL,(WPARAM)Type,(LPARAM)0);
+	SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_SETCURSEL,(WPARAM)Type,0);
 	SetAppropriateGroups(hwndDlg,Type);
 	switch (Type)
 	{
@@ -290,7 +290,7 @@ void SetControls(HWND hwndDlg, char * str)
             else if (mir_bool_strcmpi(buf,"TileVert")) fitmode = FM_TILE_VERT;
             else if (mir_bool_strcmpi(buf,"TileHorz")) fitmode = FM_TILE_HORZ;
             else fitmode = 0;  
-			SendDlgItemMessage(hwndDlg,IDC_FIT,CB_SETCURSEL,(WPARAM)fitmode,(LPARAM)0);
+			SendDlgItemMessage(hwndDlg,IDC_FIT,CB_SETCURSEL,(WPARAM)fitmode,0);
 		}
 
 		break;
@@ -334,7 +334,7 @@ void SetControls(HWND hwndDlg, char * str)
             else if (mir_bool_strcmpi(buf,"TileVert")) fitmode = FM_TILE_VERT;
             else if (mir_bool_strcmpi(buf,"TileHorz")) fitmode = FM_TILE_HORZ;
             else fitmode = 0;  
-			SendDlgItemMessage(hwndDlg,IDC_FIT,CB_SETCURSEL,(WPARAM)fitmode,(LPARAM)0);
+			SendDlgItemMessage(hwndDlg,IDC_FIT,CB_SETCURSEL,(WPARAM)fitmode,0);
 		}
 
 		break;
@@ -370,7 +370,7 @@ int GetShortFileName(char * FullFile)
 char * MadeString(HWND hwndDlg)
 {
 	char buf[MAX_PATH*2] = {0};
-	int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL,(WPARAM)0,(LPARAM)0);
+	int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL,(WPARAM)0,0);
 	switch (i)
 	{
 	case 0:
@@ -381,7 +381,7 @@ char * MadeString(HWND hwndDlg)
 			BYTE a;
 			DWORD col;
 			a = (BYTE)SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_GETPOS,0,0);
-			col = (DWORD)SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_GETCOLOUR,(WPARAM)0,(LPARAM)0);
+			col = (DWORD)SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_GETCOLOUR,(WPARAM)0,0);
 			mir_snprintf(buf,SIZEOF(buf),"Glyph,Solid,%d,%d,%d,%d",GetRValue(col),GetGValue(col),GetBValue(col),a);
 		}
 		break;
@@ -592,7 +592,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				if (HIWORD(wParam) == CBN_SELCHANGE)
 				{
-					int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL,(WPARAM)0,(LPARAM)0);
+					int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL,(WPARAM)0,0);
 					//if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_TYPE)))
 					SetAppropriateGroups(hwndDlg,i);
 					if (GetFocus() == GetDlgItem(hwndDlg,IDC_TYPE))
@@ -786,7 +786,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					pcli->pfnClcBroadcast( INTM_RELOADOPTIONS,0,0);
 					Sync(CLUIFrames_OnClistResize_mod,0,0);
 					ske_RedrawCompleteWindow();        
-					Sync(CLUIFrames_OnClistResize_mod, (WPARAM)0, (LPARAM)0);
+					Sync(CLUIFrames_OnClistResize_mod, (WPARAM)0, 0);
 					{
 						HWND hwnd = pcli->hwndContactList;
 						RECT rc = {0};

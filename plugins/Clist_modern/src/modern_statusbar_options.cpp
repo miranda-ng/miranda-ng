@@ -180,7 +180,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_STATUSBAR_PROTO_LIST),GWLP_USERDATA,(LONG_PTR)dat);
 
 			SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT( " << Global>>" ));
-			SendMessage(hwndComboBox, CB_SETITEMDATA, 0, (LPARAM)0);
+			SendMessage(hwndComboBox, CB_SETITEMDATA, 0, 0);
 
 			for (int i=0; i < count; i++ ) {
 				szName = accs[i]->szModuleName;

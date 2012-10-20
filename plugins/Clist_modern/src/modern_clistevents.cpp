@@ -455,7 +455,7 @@ int EventArea_Create(HWND hCluiWnd)
     Frame.height = h;
     Frame.tname = _T("EventArea"); //do not translate
     Frame.TBtname = TranslateT("Event Area");
-    hNotifyFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,(LPARAM)0);
+    hNotifyFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);
     CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)Frame.hWnd,(LPARAM)EventArea_PaintCallbackProc); //$$$$$ register sub for frame
     CallService(MS_CLIST_FRAMES_UPDATEFRAME,-1,0);
     EventArea_HideShowNotifyFrame();
