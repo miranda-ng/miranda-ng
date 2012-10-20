@@ -10,7 +10,6 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-
 #define __PLUGIN_NAME				"BASS_interface"
 #define __INTERNAL_NAME				"BASS_interface"
 #define __FILENAME					"BASS_interface.dll"

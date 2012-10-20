@@ -86,25 +86,21 @@
     <ClInclude Include="src\Engine\WordsList.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\boltun.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\smiles.dat">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="docs\lang_pack.txt" />
-    <None Include="docs\mind.txt" />
-    <None Include="docs\readme.txt" />
-    <None Include="docs\TODO.txt" />
-    <None Include="src\Engine\boltun.mindw">
-      <Filter>Source Files</Filter>
-    </None>
+    <ClInclude Include="src\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\boltun.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="res\Version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Engine\boltun.mindw">
+      <Filter>Source Files\Enigne</Filter>
+    </None>
   </ItemGroup>
 </Project>

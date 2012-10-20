@@ -187,18 +187,14 @@
     <ClInclude Include="src\Engine\UnrecentChooser.h" />
     <ClInclude Include="src\Engine\ValueChooser.h" />
     <ClInclude Include="src\Engine\WordsList.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\boltun.ico" />
-    <None Include="res\smiles.dat" />
     <None Include="src\Engine\boltun.mindw" />
-    <None Include="docs\lang_pack.txt" />
-    <None Include="docs\mind.txt" />
-    <None Include="docs\readme.txt" />
-    <None Include="docs\TODO.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\boltun.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

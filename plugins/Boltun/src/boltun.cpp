@@ -37,6 +37,7 @@
 #include "resource.h"
 
 #include "resource.h"
+#include "version.h"
 
 #include "boltun.h"
 #include "config.h"
@@ -57,18 +58,18 @@ BOOL blInit = FALSE;
 UINT pTimer = 0;
 TCHAR *path;
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	BOLTUN_NAME,
-	PLUGIN_MAKE_VERSION(0,0,3,0),
-	PLUGIN_DESCRIPTION,
-	"Alexander S. Kiselev, Valentin Pavlyuchenko",
-	"Valentin.Pavlyuchenko@gmail.com",
-	"© 2003-2008 Alexander S. Kiselev A.K.A. KAS, Valentin Pavlyuchenko",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {488C5C84-56DA-434F-96F1-B18900DEF760}
-	{ 0x488c5c84, 0x56da, 0x434f, { 0x96, 0xf1, 0xb1, 0x89, 0x0, 0xde, 0xf7, 0x60 } }
+	{0x488c5c84, 0x56da, 0x434f, {0x96, 0xf1, 0xb1, 0x89, 0x0, 0xde, 0xf7, 0x60}}
 };
 
 static HANDLE hEventDbEventAdded;

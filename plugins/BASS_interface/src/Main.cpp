@@ -7,7 +7,7 @@ Copyright (C) 2010, 2011 tico-tico
 HINSTANCE hInst;
 int hLangpack;
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -17,16 +17,17 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	MIID_BASSINT
+	//2f07ea05-05b5-4ff0-875d-c590da2ddac1
+	{0x2f07ea05, 0x05b5, 0x4ff0, {0x87, 0x5d, 0xc5, 0x90, 0xda, 0x2d, 0xda, 0xc1}}
 };
 
 static HANDLE hService;
 static HANDLE hTBButton;
 static HINSTANCE hBass = NULL;
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 

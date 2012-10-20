@@ -50,8 +50,6 @@
 //Plugin name
 #define BOLTUN_NAME  "Boltun"
 
-#define PLUGIN_DESCRIPTION "Boltun, the chat bot in the russian language."
-
 #define MIND_FILE_DESC _T("Mind Files")
 #define ALL_FILES_DESC _T("All Files")
 
