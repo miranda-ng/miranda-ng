@@ -42,7 +42,6 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		{
 			LVCOLUMN lvCol;
 			LVITEM lvItem;
-			HWND hList;
 			int i;
 			DBVARIANT dbv;
 			
@@ -56,7 +55,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg,UINT msg,WPARAM wParam,L
 			if (!DBGetContactSetting(NULL, MODULENAME, SETTING_PINGHOST, &dbv))
 				SetDlgItemTextA(hwndDlg, IDC_PINGHOST, dbv.pszVal);
 			// proto list
-			hList = GetDlgItem(hwndDlg,IDC_PROTOCOLLIST);
+			HWND hList = GetDlgItem(hwndDlg,IDC_PROTOCOLLIST);
 			ListView_SetExtendedListViewStyleEx(hList, LVS_EX_FULLROWSELECT|LVS_EX_CHECKBOXES, LVS_EX_FULLROWSELECT|LVS_EX_CHECKBOXES);
 			memset(&lvCol,0,sizeof(lvCol));
 			lvCol.mask = LVCF_WIDTH|LVCF_TEXT;
@@ -132,7 +131,6 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			int i;
 			LVITEM lvItem;
-			HWND hList;
 
 			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_MAXRETRIES, (BYTE)GetDlgItemInt(hwndDlg,IDC_MAXRETRIES, NULL, FALSE));
 			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_CHECKCONNECTION, (BYTE)SendMessage(GetParent(hwndDlg), KS_ISENABLED, (WPARAM)IDC_CHECKCONNECTION, 0));
@@ -142,10 +140,9 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg,UINT msg,WPARAM wParam,L
 			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_CONTCHECK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CONTCHECK));
 			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_BYPING, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BYPING));
 			if (IsDlgButtonChecked(hwndDlg, IDC_BYPING)) {
-				int len;
 				char *host;
 
-				len = SendDlgItemMessage(hwndDlg, IDC_PINGHOST, WM_GETTEXTLENGTH, 0, 0);
+				int len = SendDlgItemMessage(hwndDlg, IDC_PINGHOST, WM_GETTEXTLENGTH, 0, 0);
 				if (len > 0) {
 					host = ( char* )malloc(len+1);
 					if (host != NULL) {
@@ -155,7 +152,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg,UINT msg,WPARAM wParam,L
 					}
 				}
 			}
-			hList = GetDlgItem(hwndDlg,IDC_PROTOCOLLIST);
+			HWND hList = GetDlgItem(hwndDlg,IDC_PROTOCOLLIST);
 			memset(&lvItem,0,sizeof(lvItem));
 			lvItem.mask=LVIF_PARAM;
 			for (i=0;i<ListView_GetItemCount(hList);i++) {
@@ -164,7 +161,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg,UINT msg,WPARAM wParam,L
 				ListView_GetItem(hList, &lvItem);
 
 				char dbSetting[128];
-				_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", (char *)lvItem.lParam);
+				mir_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", (char *)lvItem.lParam);
 				DBWriteContactSettingByte(NULL, MODULENAME, dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
 			}
 		}
@@ -277,21 +274,20 @@ static INT_PTR CALLBACK DlgProcKsTabs(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	switch(msg) {
 	case WM_INITDIALOG:
 		{
-			int tabCount;
-			HWND hTab, hShow, hPage;
-			TCITEM tci;
+			HWND hShow, hPage;
 			RECT rcTabs, rcOptions, rcPage;
 
 			TranslateDialogDefault(hwndDlg);
 
 			// set tabs
-			tabCount = 0;
-			hTab = GetDlgItem(hwndDlg, IDC_TABS);
+			int tabCount = 0;
+			HWND hTab = GetDlgItem(hwndDlg, IDC_TABS);
 			GetWindowRect(hTab, &rcTabs);
 			GetWindowRect(hwndDlg, &rcOptions);
-			ZeroMemory(&tci, sizeof(TCITEM));
 
 			// basic tab
+			TCITEM tci;
+			ZeroMemory(&tci, sizeof(TCITEM));
 			tci.mask = TCIF_TEXT|TCIF_PARAM;
 			tci.pszText = TranslateT("Basic");
 			hShow = hBasicTab = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_KS_BASIC), hwndDlg, DlgProcKSBasicOpts, (LPARAM)GetParent(hwndDlg));
@@ -491,37 +487,42 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			
 		case IDC_PREV:
 			{
-				POPUPDATAEX ppd = { NULL };
+				POPUPDATAT ppd = { NULL };
 				
 				ppd.lchContact = NULL;
-				ppd.lchIcon = (HICON)CallService(MS_SKIN_LOADICON, (WPARAM)SKINICON_STATUS_OFFLINE, 0);
-				strcpy( ppd.lpzContactName, Translate("KeepStatus"));
-				strcpy( ppd.lpzText, Translate("You broke the Internet!"));
+				ppd.lchIcon = LoadSkinnedIcon(SKINICON_STATUS_OFFLINE);
+				_tcsncpy( ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
+				_tcsncpy( ppd.lptzText, TranslateT("You broke the Internet!"),  MAX_SECONDLINE);
 				if (IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS))
+				{
 					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-				else if (IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS))
-					ppd.colorBack = (COLORREF)NULL;
-				else
-					ppd.colorBack = SendDlgItemMessage(hwndDlg,IDC_BGCOLOR,CPM_GETCOLOUR,0,0);
-				if (IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS))
 					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-				else if (IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS))
-					ppd.colorText = (COLORREF)NULL;
-				else
-					ppd.colorText = SendDlgItemMessage(hwndDlg,IDC_TEXTCOLOR,CPM_GETCOLOUR,0,0);
-				ppd.PluginWindowProc = ( WNDPROC )PopupDlgProc;
-				ppd.PluginData = NULL;
-				if (!ServiceExists(MS_POPUP_ADDPOPUPEX))
-					CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
-				else {
-					if (IsDlgButtonChecked(hwndDlg, IDC_DELAYFROMPU))
-						ppd.iSeconds = 0;
-					else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYCUSTOM))
-						ppd.iSeconds = GetDlgItemInt(hwndDlg, IDC_DELAY, NULL, FALSE);
-					else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYPERMANENT))
-						ppd.iSeconds = -1;
-					CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
 				}
+				else if (IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS))
+				{
+					ppd.colorBack = NULL;
+					ppd.colorText = NULL;
+				}
+				else
+				{
+					ppd.colorBack = SendDlgItemMessage(hwndDlg,IDC_BGCOLOR,CPM_GETCOLOUR,0,0);
+					ppd.colorText = SendDlgItemMessage(hwndDlg,IDC_TEXTCOLOR,CPM_GETCOLOUR,0,0);
+				}
+				ppd.PluginWindowProc = PopupDlgProc;
+				ppd.PluginData = NULL;
+				if (IsDlgButtonChecked(hwndDlg, IDC_DELAYFROMPU))
+				{
+					ppd.iSeconds = 0;
+				}
+				else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYCUSTOM))
+				{
+					ppd.iSeconds = GetDlgItemInt(hwndDlg, IDC_DELAY, NULL, FALSE);
+				}
+				else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYPERMANENT))
+				{
+					ppd.iSeconds = -1;
+				}
+				PUAddPopUpT(&ppd);
 			}
 			break;
 		}
@@ -584,25 +585,25 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize    = sizeof(odp);
 	odp.hInstance = hInst;
-	odp.pszGroup  = LPGEN("Status");
-	odp.pszTitle  = LPGEN("KeepStatus");
-	odp.flags     = ODPF_BOLDGROUPS;
+	odp.ptszGroup = LPGENT("Status");
+	odp.ptszTitle = LPGENT("KeepStatus");
+	odp.flags     = ODPF_BOLDGROUPS|ODPF_TCHAR;
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABS);
 	odp.pfnDlgProc  = DlgProcKsTabs;
 	Options_AddPage(wparam,&odp);
 
-	if ( ServiceExists( MS_POPUP_ADDPOPUP )) {
+	if ( ServiceExists( MS_POPUP_ADDPOPUPT )) {
 		ZeroMemory(&odp,sizeof(odp));
 		odp.cbSize = sizeof(odp);
 		odp.position = 150000000;
-		odp.pszGroup = LPGEN("PopUps");
+		odp.ptszGroup = LPGENT("PopUps");
 		odp.groupPosition = 910000000;
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PUOPT_KEEPSTATUS);
-		odp.pszTitle = LPGEN("KeepStatus");
+		odp.ptszTitle = LPGENT("KeepStatus");
 		odp.pfnDlgProc = PopupOptDlgProc;
-		odp.flags = ODPF_BOLDGROUPS;
+		odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 		Options_AddPage(wparam,&odp);
 	}
 
