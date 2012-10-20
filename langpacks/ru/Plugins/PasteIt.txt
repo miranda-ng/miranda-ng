@@ -1,4 +1,4 @@
-﻿#muuid {1AAC15E8-DCEC-4050-B66F2AA0E6120C22}
+﻿#muuid {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
 ;============================================================
 ;  File: PasteIt.dll
 ;  Module: Paste It

@@ -1,4 +1,4 @@
-﻿#muuid {112f7d30-cd19-4c74-a03bbfbb76b75bc4}
+﻿#muuid {112f7d30-cd19-4c74-a03b-bfbb76b75bc4}
 ;============================================================
 ;  File: extraicons.dll
 ;  Module: Extra Icons Service

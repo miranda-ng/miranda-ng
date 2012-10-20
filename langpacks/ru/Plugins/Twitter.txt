@@ -1,4 +1,5 @@
-﻿;============================================================
+﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+;============================================================
 ;  File: twitter.dll
 ;  Module: Provides basic support for Twitter protocol.
 ;  Versions: 0.0.7.0

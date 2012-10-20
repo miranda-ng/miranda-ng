@@ -1,4 +1,4 @@
-﻿#muuid {ebf19652-e434-4d79-989791a0ff226f51}
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotifyW.dll
 ;  Module: NewXstatusNotify YM

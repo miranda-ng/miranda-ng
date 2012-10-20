@@ -1,4 +1,4 @@
-﻿#muuid {29517BE5-779A-48E5-8950CB4DE1D43172}
+﻿#muuid {29517BE5-779A-48E5-8950-CB4DE1D43172}
 ;============================================================
 ;  File: PackUpdater.dll
 ;  Module: PackUpdater

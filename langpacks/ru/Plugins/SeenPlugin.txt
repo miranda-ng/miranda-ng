@@ -1,4 +1,4 @@
-﻿#muuid {2d506d46-c94e-4ef8-8537f11233a80381}
+﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;============================================================
 ;  File: seenplugin.dll
 ;  Module: Last Seen Plugin (NSN Compatible)

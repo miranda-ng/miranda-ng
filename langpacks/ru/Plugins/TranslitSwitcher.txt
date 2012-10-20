@@ -1,4 +1,4 @@
-﻿#muuid {0286947d-3140-4222-b5ad2c92315e1c1e}
+﻿#muuid {0286947d-3140-4222-b5ad-2c92315e1c1e}
 ;============================================================
 ;  File: TranslitSwitcher.dll
 ;  Module: TranslitSwitcher

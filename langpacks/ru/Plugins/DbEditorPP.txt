@@ -1,4 +1,4 @@
-﻿#muuid {a8a417ef-07aa-4f37-869f7bfd74886534}
+﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: dbeditorpp.dll, svc_dbepp.dll
 ;  Module: Database Editor++

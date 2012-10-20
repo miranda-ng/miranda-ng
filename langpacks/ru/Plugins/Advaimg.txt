@@ -1,4 +1,4 @@
-﻿#muuid {287f31d5-147c-48bb-b428d7c260272535}
+﻿#muuid {287f31d5-147c-48bb-b428-d7c260272535}
 ;============================================================
 ;  File: advaimg.dll
 ;  Plugin: Provides generic image services for Miranda NG

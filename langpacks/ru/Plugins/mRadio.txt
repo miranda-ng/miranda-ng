@@ -1,4 +1,4 @@
-﻿#muuid {eebc474c-b0ad-470f-99a89dd9210ce233}
+﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
 ;============================================================
 ;  File: mradio.dll
 ;  Module: mRadio, mRadio Mod

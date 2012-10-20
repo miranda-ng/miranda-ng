@@ -1,4 +1,4 @@
-﻿#muuid {2f07ea05-05b5-4ff0-875dc590da2ddac1}
+﻿#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
 ;============================================================
 ;  File: Bass_interface.dll
 ;  Plugin: Bass interface

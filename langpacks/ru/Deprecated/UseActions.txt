@@ -1,4 +1,4 @@
-﻿#muuid {a63473f7-f8bf-46e7-9df0042dbe4cf579}
+﻿#muuid {a63473f7-f8bf-46e7-9df0-042dbe4cf579}
 ;============================================================
 ;  File: useactions.dll
 ;  Versions: 0.0.0.3

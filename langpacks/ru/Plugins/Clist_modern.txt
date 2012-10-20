@@ -1,4 +1,4 @@
-﻿#muuid {043909b6-aad8-4d82-8eb59f64cfe867cd}
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: clist_modern.dll
 ;  Module: Modern Contact List

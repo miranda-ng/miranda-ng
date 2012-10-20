@@ -1,4 +1,4 @@
-﻿#muuid {a13ead3f-0e8d-452f-90561829fae6d902}
+﻿#muuid {a13ead3f-0e8d-452f-9056-1829fae6d902}
 ;============================================================
 ;  File: rss.dll, RSSNews.dll
 ;  Module: RSSNews plugin

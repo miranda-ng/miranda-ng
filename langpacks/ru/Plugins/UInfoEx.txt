@@ -1,4 +1,4 @@
-﻿#muuid {9c23a24b-e6aa-43c6-b0b8d6c36d2f7b57}
+﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
 ;============================================================
 ;  File: userinfoex.dll
 ;  Module: UserInfoEx

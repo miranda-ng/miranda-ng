@@ -1,4 +1,4 @@
-﻿#muuid {2d77a746-00a6-4343-bfc5f808cdd772ea}
+﻿#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
 ;============================================================
 ;  File: import.dll, import_sa.dll
 ;  Module: Import contacts and messages
