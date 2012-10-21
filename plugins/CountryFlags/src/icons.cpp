@@ -247,7 +247,7 @@ void InitIcons(void)
 		phIconHandles = (HANDLE*)mir_alloc(nCountriesCount*sizeof(HANDLE));
 		if (phIconHandles != NULL) {
 			for (int i=0; i < nCountriesCount; ++i) {
-				sid.pszDescription = countries[i].szName;
+				sid.pszDescription = (char*)countries[i].szName;
 
 				/* create identifier */
 				wsprintfA(szId,(countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i","flags_", countries[i].id); /* buffer safe */
