@@ -1,0 +1,5 @@
+Bugs:
+- avatar loading
+
+Features:
+- own info(profile)
