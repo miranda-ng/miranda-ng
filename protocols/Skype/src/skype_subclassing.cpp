@@ -40,6 +40,7 @@ void CSkype::OnConversationListChange(
 {
 	if ((type == Conversation::INBOX_CONVERSATIONS) && (added) && (!inbox.contains(conversation)))
 	{
+		conversation.fetch();
 		inbox.append(conversation);
 		if (this->proto)
 			(proto->*callback)(conversation->ref());
