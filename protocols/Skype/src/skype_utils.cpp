@@ -161,7 +161,7 @@ void CSkypeProto::ShowNotification(const wchar_t *sid, const wchar_t *message, i
 {
 	if (::Miranda_Terminated()) return;
 
-	if (!::ServiceExists(MS_POPUP_ADDPOPUPCLASS))
+	if ( !ServiceExists(MS_POPUP_ADDPOPUPEX) || !DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) )
 	{
 		MessageBoxW(
 			NULL, 
@@ -171,10 +171,15 @@ void CSkypeProto::ShowNotification(const wchar_t *sid, const wchar_t *message, i
 	}
 	else
 	{
-		POPUPDATACLASS ppd = { sizeof(ppd) };
-		ppd.ptszTitle = sid;
-		ppd.ptszText = message;
+		POPUPDATAT_V2 ppd = {0};
+		ppd.cbSize = sizeof(POPUPDATAT_V2);
+		ppd.lchContact = NULL;
+		lstrcpyn(ppd.lpwzContactName, sid, MAX_CONTACTNAME);
+		lstrcpyn(ppd.lpwzText, message, MAX_SECONDLINE);
+		ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"Skype_main");
+		ppd.colorBack = ppd.colorText = 0;
+		ppd.iSeconds = 0;
 
-		::CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
+		::CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
 	}
 }

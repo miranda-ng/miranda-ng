@@ -757,7 +757,7 @@ void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 	HANDLE hContact = this->GetContactBySid(sid);
 	if (hContact)
 	{
-		this->ShowNotification(sid, _T("Contact already in your contact list"), 0);
+		this->ShowNotification(sid, TranslateT("Contact already in your contact list"), 0);
 		this->SendBroadcast(ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)SKYPE_SEARCH_BYSID, 0);
 		return;
 	}

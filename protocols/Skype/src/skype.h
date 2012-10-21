@@ -42,6 +42,8 @@
 //#pragma warning(pop)
 #include <win2k.h>
 
+#include <m_popup2.h>
+
 #include "resource.h"
 #include "version.h"
 
