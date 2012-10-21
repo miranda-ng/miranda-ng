@@ -116,15 +116,13 @@ protected:
 
 	HANDLE	signin_lock;
 	bool	SignIn(bool isReadPassword = true);
-	void __cdecl SignInThread(void*);
+	void __cdecl SignInAsync(void*);
 
 	bool	IsOnline();
 
 	// messages
 	void	OnOnMessageReceived(const char *sid, const char *text);
 	void	OnConversationAdded(CConversation::Ref conversation);
-
-	void __cdecl SendMessageAsync(void*);
 
 	// contacts
 	void	UpdateContactAboutText(HANDLE hContact, CContact::Ref contact);

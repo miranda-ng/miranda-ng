@@ -1,6 +1,7 @@
 #include "skype_proto.h"
 
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
+	: login(L"")
 {
 	this->m_iVersion = 2;
 	this->m_iStatus = ID_STATUS_OFFLINE;
@@ -10,7 +11,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	//_strlwr(m_szProtoName);
 	//this->m_szProtoName[0] = toupper(m_szProtoName[0]);
 
-	this->login = NULL;
+	//this->login = NULL;
 	this->password = NULL;
 	this->rememberPassword = false;
 
@@ -267,29 +268,41 @@ int CSkypeProto::SetStatus(int new_status)
 	int old_status = this->m_iStatus;
 	this->m_iDesiredStatus = new_status;
 
-	if (new_status == ID_STATUS_OFFLINE && old_status != ID_STATUS_OFFLINE)
+	switch (new_status)
 	{
-		this->m_iStatus = new_status;
+	case ID_STATUS_OFFLINE:
+		if ( this->account->IsOnline())
+		{
+			this->account->SetAvailability(CContact::OFFLINE);
+			this->account->Logout(true);
+			this->account->BlockWhileLoggingOut();
 
-		this->account->Logout(true);
-		this->account->BlockWhileLoggingOut();
-		this->account->SetAvailability(CContact::OFFLINE);
-		this->SetAllContactStatus(ID_STATUS_OFFLINE);
-	}
-	else 
-	{
-		if (old_status == ID_STATUS_OFFLINE)
-			if ( !this->SignIn())
-				return 0;
+			this->m_iStatus = new_status;
+			this->SetAllContactStatus(ID_STATUS_OFFLINE);
+		}
+		break;
+
+	default:
+		if (old_status == ID_STATUS_OFFLINE && !this->IsOnline())
+		{
+			this->m_iStatus = ID_STATUS_CONNECTING;
+			if ( !this->SignIn()) return 0;
+
+		}
+		else
+		{
+			CContact::AVAILABILITY availability = this->MirandaToSkypeStatus(new_status);
+			if (availability != CContact::UNKNOWN)
+				this->account->SetAvailability(availability);
+
+			this->m_iStatus = new_status;
+		}
 		
-		this->m_iStatus = new_status;
-
-		CContact::AVAILABILITY availability = this->MirandaToSkypeStatus(this->m_iStatus);
-		if(availability != CContact::UNKNOWN)
-			this->account->SetAvailability(availability);	
+		break;
 	}
 
-	this->SendBroadcast(ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, this->m_iStatus); 
+	this->SetSettingWord("Status", this->m_iStatus);
+	this->SendBroadcastAsync(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, this->m_iStatus); 
 
 	return 0;
 }
@@ -301,6 +314,7 @@ int    __cdecl CSkypeProto::SetAwayMsg( int m_iStatus, const TCHAR* msg ) { retu
 
 int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type ) 
 { 
+	// todo: rewrite
 	CConversation::Ref conversation;
 	g_skype->GetConversationByIdentity(::mir_u2a(this->GetSettingString(hContact, "sid")), conversation);
 	if (conversation) 
@@ -328,7 +342,7 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 	return 1;
 }
 
-void __cdecl CSkypeProto::SignInThread(void*)
+void __cdecl CSkypeProto::SignInAsync(void*)
 {
 	WaitForSingleObject(&this->signin_lock, INFINITE);
 
@@ -348,11 +362,9 @@ void __cdecl CSkypeProto::SignInThread(void*)
 			ACKRESULT_FAILED,
 			NULL, 
 			this->SkypeToMirandaLoginError(this->account->logoutReason));
-		::MessageBox(
+		this->ShowNotification(
 			NULL, 
-			::mir_a2u(this->account->logoutReasonString),
-			_T("Skype"),
-			MB_OK);
+			::mir_a2u(this->account->logoutReasonString));
 	}
 	else
 	{
@@ -388,15 +400,15 @@ bool CSkypeProto::SignIn(bool isReadPassword)
 	}
 	else if (g_skype->GetAccount(::mir_u2a(this->login), this->account))
 	{
-		this->m_iStatus = ID_STATUS_CONNECTING;
-		this->SendBroadcast(ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, this->m_iStatus); 
+		/*this->m_iStatus = ID_STATUS_CONNECTING;
+		this->SendBroadcast(ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, this->m_iStatus); */
 		if (isReadPassword)
 			this->password = this->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD);				
 		if (::wcscmp(this->password, L"") == 0)
 			this->RequestPassword();
 		else
 		{
-			this->ForkThread(&CSkypeProto::SignInThread, this);
+			this->ForkThread(&CSkypeProto::SignInAsync, this);
 			//this->SignInThread(this);
 			return true;
 		}
@@ -407,7 +419,8 @@ bool CSkypeProto::SignIn(bool isReadPassword)
 
 bool  CSkypeProto::IsOnline()
 {
-	return this->m_iStatus != ID_STATUS_OFFLINE;
+	return this->account && this->account->IsOnline();
+	//return this->m_iStatus != ID_STATUS_OFFLINE;
 }
 
 void CSkypeProto::RequestPassword()
@@ -429,28 +442,4 @@ void CSkypeProto::OnConversationAdded(CConversation::Ref conversation)
 {
 	conversation->SetOnMessageReceivedCallback(
 		(CConversation::OnMessageReceived)&CSkypeProto::OnOnMessageReceived, this);
-}
-
-void __cdecl CSkypeProto::SendMessageAsync(void* arg)
-{
-	CCSDATA *ccs = static_cast<CCSDATA *>(arg);
-
-	if ( !this->IsOnline())
-	{
-		this->SendBroadcast(
-			ccs->hContact, 
-			ACKTYPE_MESSAGE, 
-			ACKRESULT_FAILED, 
-			(HANDLE)ccs->lParam, 
-			(LPARAM)"You cannot send when you are offline.");
-	}
-
-	CConversation::Ref conversation;
-	g_skype->GetConversationByIdentity(::mir_u2a(this->GetSettingString(ccs->hContact, "sid")), conversation);
-	if (conversation) 
-	{
-		Message::Ref message;
-		conversation->SetMyTextStatusTo(Participant::WRITING);
-		conversation->PostText((char *)ccs->wParam, message);
-	}
 }

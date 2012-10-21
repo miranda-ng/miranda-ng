@@ -100,6 +100,12 @@ void CAccount::BlockWhileLoggingOut()
 		Sleep(1);
 }
 
+bool CAccount::IsOnline()
+{
+	return this->isLoggedIn;
+		//(CAccount::STATUS)this->GetUintProp(CAccount::P_STATUS) == Account::LOGGED_IN;
+}
+
 // CContactGroup
 
 CContactGroup::CContactGroup(unsigned int oid, SERootObject* root) : ContactGroup(oid, root) 

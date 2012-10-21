@@ -110,6 +110,8 @@ public:
 	void BlockWhileLoggingIn();
 	void BlockWhileLoggingOut();
 
+	bool IsOnline();
+
 private:
 	void OnChange(int prop);
 };

@@ -617,7 +617,7 @@ CContact::AVAILABILITY CSkypeProto::MirandaToSkypeStatus(int status)
 {
 	CContact::AVAILABILITY availability = CContact::UNKNOWN;
 
-	switch(this->m_iStatus)
+	switch(status)
 	{
 	case ID_STATUS_ONLINE:
 		availability = CContact::ONLINE;
