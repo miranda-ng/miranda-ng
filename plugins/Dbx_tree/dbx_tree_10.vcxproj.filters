@@ -69,9 +69,6 @@
     <ClInclude Include="src\Settings.h">
       <Filter>Database\HeaderFiles</Filter>
     </ClInclude>
-    <ClInclude Include="src\encryption\Cipher.h">
-      <Filter>Database\FileAccess\Encryption</Filter>
-    </ClInclude>
     <ClInclude Include="src\EncryptionManager.h">
       <Filter>Database\FileAccess\Encryption</Filter>
     </ClInclude>

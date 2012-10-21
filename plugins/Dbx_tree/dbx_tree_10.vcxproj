@@ -189,7 +189,6 @@
     <ClInclude Include="src\FileBTree.h" />
     <ClInclude Include="src\intrinsics.h" />
     <ClInclude Include="src\Settings.h" />
-    <ClInclude Include="src\encryption\Cipher.h" />
     <ClInclude Include="src\EncryptionManager.h" />
     <ClInclude Include="src\SHA256.h" />
     <ClInclude Include="src\BlockManager.h" />
