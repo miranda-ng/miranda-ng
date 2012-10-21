@@ -610,7 +610,7 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 	if (!pdata)
 		return 1;
 
-	ZeroMemory((void *)&dbe, sizeof(dbe));
+	ZeroMemory((void*)&dbe, sizeof(dbe));
 
 	if (hEvent) {
 		if (pdata->pluginOptions->bShowHeaders) {
@@ -722,7 +722,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 		dbe.szModule = Translate("Unknown module or contact");
 
 	pdata = (PLUGIN_DATAT *)mir_alloc(sizeof(PLUGIN_DATAT));
-	ZeroMemory((void *)pdata, sizeof(PLUGIN_DATAT));
+	ZeroMemory((void*)pdata, sizeof(PLUGIN_DATAT));
 
 	pdata->eventType = eventType;
 	pdata->hContact = hContact;

@@ -728,7 +728,7 @@ int Utils::ReadContainerSettingsFromDB(const HANDLE hContact, TContainerSettings
 
 	if (0 == DBGetContactSetting(hContact, SRMSGMOD_T, szKey ? szKey : CNT_KEYNAME, &dbv)) {
 		if (dbv.type == DBVT_BLOB && dbv.cpbVal > 0 && dbv.cpbVal <= sizeof(TContainerSettings)) {
-			::CopyMemory((void *)cs, (void *)dbv.pbVal, dbv.cpbVal);
+			::CopyMemory((void*)cs, (void*)dbv.pbVal, dbv.cpbVal);
 			::DBFreeVariant(&dbv);
 			if (hContact == 0 && szKey == 0)
 				cs->fPrivate = false;
@@ -782,7 +782,7 @@ void Utils::ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce
 	if (csTemp.fPrivate || fForce) {
 		if (pContainer->settings == 0 || pContainer->settings == &PluginConfig.globalContainerSettings)
 			pContainer->settings = (TContainerSettings *)malloc(sizeof(TContainerSettings));
-		CopyMemory((void *)pContainer->settings, (void *)&csTemp, sizeof(TContainerSettings));
+		CopyMemory((void*)pContainer->settings, (void*)&csTemp, sizeof(TContainerSettings));
 		pContainer->settings->fPrivate = true;
 	}
 	else
@@ -1048,7 +1048,7 @@ void TSAPI Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *
 					return;
 			}
 			if ((hFile = CreateFile(szFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0)) != INVALID_HANDLE_VALUE) {
-				WriteFile(hFile, (void *)pData, dwSize, &written, NULL);
+				WriteFile(hFile, (void*)pData, dwSize, &written, NULL);
 				CloseHandle(hFile);
 			}
 			else

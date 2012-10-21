@@ -702,7 +702,7 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 		return;
 
 	if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == 1) {
-		ZeroMemory((void *)&ppd, sizeof(ppd));
+		ZeroMemory((void*)&ppd, sizeof(ppd));
 		ppd.lchContact = dat->hContact;
 		mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, _T("%s"), dat->cache->getNick());
 		mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, _T("%s"), TranslateT("A message delivery has failed.\nClick to open the message window."));
@@ -715,7 +715,7 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 			ppd.colorText = ppd.colorBack = 0;
 		ppd.PluginWindowProc = reinterpret_cast<WNDPROC>(Utils::PopupDlgProcError);
 		ppd.lchIcon = PluginConfig.g_iconErr;
-		ppd.PluginData = (void *)dat->hContact;
+		ppd.PluginData = (void*)dat->hContact;
 		ppd.iSeconds = (int)M->GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
 		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
 	}

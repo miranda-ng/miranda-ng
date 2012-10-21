@@ -931,7 +931,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			struct TWindowData *dat = (struct TWindowData *)lParam;
 			RECT rcs;
 			int statwidths[5];
-			struct TStatusBarIconNode *current = status_icon_list;
+			TStatusBarIconNode *current = status_icon_list;
 			int    list_icons = 0;
 			char   buff[100];
 			DWORD  flags;
@@ -939,7 +939,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			while (current && dat) {
 				flags=current->sid.flags;
 				if (current->sid.flags&MBF_OWNERSTATE){
-					struct TStatusBarIconNode *currentSIN = dat->pSINod;
+					TStatusBarIconNode *currentSIN = dat->pSINod;
 
 					while (currentSIN) {
 						if (strcmp(currentSIN->sid.szModule, current->sid.szModule) == 0 && currentSIN->sid.dwId == current->sid.dwId) {

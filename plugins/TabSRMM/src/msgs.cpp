@@ -452,7 +452,7 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 {
 	struct TContainerData *pContainer = pFirstContainer;
 
-	if (wParam == 0 || IsBadReadPtr((void *)wParam, 4))
+	if (wParam == 0 || IsBadReadPtr((void*)wParam, 4))
 		return 0;
 
 	while (pContainer) {
@@ -577,7 +577,7 @@ int LoadSendRecvMessageModule(void)
 	Win7Taskbar = new CTaskbarInteract;
 	Win7Taskbar->updateMetrics();
 
-	ZeroMemory((void *)&nen_options, sizeof(nen_options));
+	ZeroMemory((void*)&nen_options, sizeof(nen_options));
 	M->m_hMessageWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	PluginConfig.hUserPrefsWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	sendQueue = new SendQueue;
@@ -628,7 +628,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 
 	dat = (struct TWindowData *) GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
 	if (dat && pContainer) {
-		ZeroMemory((void *)&nmhdr, sizeof(nmhdr));
+		ZeroMemory((void*)&nmhdr, sizeof(nmhdr));
 		nmhdr.code = TCN_SELCHANGE;
 		if (TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS)) > 1 && !(pContainer->dwFlags & CNT_DEFERREDTABSELECT)) {
 			TabCtrl_SetCurSel(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), hwndChild));
@@ -705,7 +705,7 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 	newData.szInitialText = pszInitialText;
 	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) newData.hContact, 0);
 
-	ZeroMemory((void *)&newData.item, sizeof(newData.item));
+	ZeroMemory((void*)&newData.item, sizeof(newData.item));
 
 	// obtain various status information about the contact
 	contactName = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) newData.hContact, GCDNF_TCHAR);
@@ -906,17 +906,13 @@ void TSAPI CreateImageList(BOOL bInitial)
 
 int TABSRMM_FireEvent(HANDLE hContact, HWND hwnd, unsigned int type, unsigned int subType)
 {
-	MessageWindowEventData mwe = { 0 };
-	struct TABSRMM_SessionInfo se = { 0 };
+	if (hContact == NULL || hwnd == NULL || !M->GetByte("_eventapi", 1))
+		return 0;
+
 	struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	BYTE bType = dat ? dat->bType : SESSIONTYPE_IM;
 
-	if (hContact == NULL || hwnd == NULL)
-		return 0;
-
-	if (!M->GetByte("_eventapi", 1))
-		return 0;
-	mwe.cbSize = sizeof(mwe);
+	MessageWindowEventData mwe = { sizeof(mwe) };
 	mwe.hContact = hContact;
 	mwe.hwndWindow = hwnd;
 	mwe.szModule = "tabSRMsgW";
@@ -925,15 +921,15 @@ int TABSRMM_FireEvent(HANDLE hContact, HWND hwnd, unsigned int type, unsigned in
 	mwe.hwndLog = GetDlgItem(hwnd, bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG);
 
 	if (type == MSG_WINDOW_EVT_CUSTOM) {
-		se.cbSize = sizeof(se);
+		TABSRMM_SessionInfo se = { sizeof(se) };
 		se.evtCode = HIWORD(subType);
 		se.hwnd = hwnd;
 		se.extraFlags = (unsigned int)(LOWORD(subType));
-		se.local = (void *)dat->sendBuffer;
-		mwe.local = (void *) & se;
-	} else
-		mwe.local = NULL;
-	return(NotifyEventHooks(PluginConfig.m_event_MsgWin, 0, (LPARAM)&mwe));
+		se.local = (void*)dat->sendBuffer;
+		mwe.local = (void*) & se;
+	}
+
+	return NotifyEventHooks(PluginConfig.m_event_MsgWin, 0, (LPARAM)&mwe);
 }
 
 /*

@@ -452,7 +452,7 @@ static TCHAR * _tcsrplc(TCHAR **src, const TCHAR *ptrn, const TCHAR *rplc)
 	lRplc = lstrlen(rplc);
 	if (lPtrn && lSrc && lSrc >= lPtrn && (tszFound = _tcsstr(*src, ptrn)) != NULL) {
 		if (lRplc > lPtrn)
-			*src = (TCHAR *) realloc((void *) * src,
+			*src = (TCHAR *) realloc((void*) * src,
 									 sizeof(TCHAR) * (lSrc + lRplc - lPtrn + 1));
 		if (tszTail = (TCHAR *) malloc(sizeof(TCHAR) *
 									   (lSrc - (tszFound - *src) - lPtrn + 1))) {
@@ -462,7 +462,7 @@ static TCHAR * _tcsrplc(TCHAR **src, const TCHAR *ptrn, const TCHAR *rplc)
 			_tcscpy(tszFound, rplc);
 			/* write tail */
 			_tcscpy(tszFound + lRplc, tszTail);
-			free((void *) tszTail);
+			free((void*) tszTail);
 		}
 	}
 	return *src;
@@ -492,7 +492,7 @@ static TCHAR * _tcsnrplc(TCHAR *src, size_t n, const TCHAR *ptrn, const TCHAR *r
 		_tcscpy(tszFound, rplc);
 		/* write tail */
 		_tcscpy(tszFound + lRplc, tszTail);
-		free((void *) tszTail);
+		free((void*) tszTail);
 	}
 	return src;
 }

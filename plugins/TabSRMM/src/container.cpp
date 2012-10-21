@@ -146,7 +146,7 @@ struct TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDL
 
 	struct TContainerData *pContainer = (struct TContainerData *)malloc(sizeof(struct TContainerData));
 	if (pContainer) {
-		ZeroMemory((void *)pContainer, sizeof(struct TContainerData));
+		ZeroMemory((void*)pContainer, sizeof(struct TContainerData));
 		_tcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
 		AppendToContainerList(pContainer);
 
@@ -607,7 +607,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (pContainer->dwFlagsEx & TCF_FLAT)
 				ws |= TCS_BUTTONS;
 
-			memset((void *)&pContainer->mOld, -1000, sizeof(MARGINS));
+			memset((void*)&pContainer->mOld, -1000, sizeof(MARGINS));
 
 			if (pContainer->dwFlagsEx & TCF_SINGLEROWTABCONTROL) {
 				ws &= ~TCS_MULTILINE;
@@ -942,7 +942,7 @@ panel_found:
 			}
 			switch (pNMHDR->code) {
 				case TCN_SELCHANGE: {
-					ZeroMemory((void *)&item, sizeof(item));
+					ZeroMemory((void*)&item, sizeof(item));
 					iItem = TabCtrl_GetCurSel(hwndTab);
 					item.mask = TCIF_PARAM;
 					if (TabCtrl_GetItem(hwndTab, iItem, &item)) {
@@ -1036,7 +1036,7 @@ panel_found:
 						case ID_TABMENU_ATTACHTOCONTAINER:
 							if ((iItem = GetTabItemFromMouse(hwndTab, &pt1)) == -1)
 								break;
-							ZeroMemory((void *)&item, sizeof(item));
+							ZeroMemory((void*)&item, sizeof(item));
 							item.mask = TCIF_PARAM;
 							TabCtrl_GetItem(hwndTab, iItem, &item);
 							CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SELECTCONTAINER), hwndDlg, SelectContainerDlgProc, (LPARAM) item.lParam);
@@ -1380,7 +1380,7 @@ buttons_done:
 				szNewTitle = Utils::FormatTitleBar(dat, pContainer->settings->szTitleFormat);
 				if (szNewTitle) {
 					SetWindowText(hwndDlg, szNewTitle);
-					free((void *)szNewTitle);
+					free((void*)szNewTitle);
 				}
 			}
 			return 0;
@@ -1461,7 +1461,7 @@ buttons_done:
 					break;
 				case SC_RESTORE:
 					pContainer->oldSize.cx = pContainer->oldSize.cy = 0;
-					memset((void *)&pContainer->mOld, -1000, sizeof(MARGINS));
+					memset((void*)&pContainer->mOld, -1000, sizeof(MARGINS));
 					break;
 				case SC_MINIMIZE: {
 					TWindowData* dat = reinterpret_cast<TWindowData *>(GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA));
@@ -1504,7 +1504,7 @@ buttons_done:
 
 					if (iNewTab != iCurrent) {
 						struct TabControlData *tabdat = (struct TabControlData *)GetWindowLongPtr(hwndTab, GWLP_USERDATA);
-						ZeroMemory((void *)&item, sizeof(item));
+						ZeroMemory((void*)&item, sizeof(item));
 						item.mask = TCIF_PARAM;
 						if (TabCtrl_GetItem(hwndTab, iNewTab, &item)) {
 							TabCtrl_SetCurSel(hwndTab, iNewTab);
@@ -1579,7 +1579,7 @@ buttons_done:
 
 				pContainer->dwFlags &= ~CNT_DEFERREDTABSELECT;
 				SendMessage(hwndDlg, WM_SYSCOMMAND, SC_RESTORE, 0);
-				ZeroMemory((void *)&nmhdr, sizeof(nmhdr));
+				ZeroMemory((void*)&nmhdr, sizeof(nmhdr));
 				nmhdr.code = TCN_SELCHANGE;
 				nmhdr.hwndFrom = hwndTab;
 				nmhdr.idFrom = IDC_MSGTABS;
@@ -1603,7 +1603,7 @@ buttons_done:
 						SendMessage(hwndDlg, DM_UPDATETITLE, (WPARAM)hContact, 0);
 				}
 			}
-			ZeroMemory((void *)&item, sizeof(item));
+			ZeroMemory((void*)&item, sizeof(item));
 			item.mask = TCIF_PARAM;
 			if ((curItem = TabCtrl_GetCurSel(hwndTab)) >= 0)
 				TabCtrl_GetItem(hwndTab, curItem, &item);
@@ -1631,7 +1631,7 @@ buttons_done:
 			hwndCurrent = pContainer->hwndActive;
 			if ((iItem = GetTabItemFromMouse(hwndTab, pt)) == -1)
 				break;
-			ZeroMemory((void *)&item, sizeof(item));
+			ZeroMemory((void*)&item, sizeof(item));
 			item.mask = TCIF_PARAM;
 			TabCtrl_GetItem(hwndTab, iItem, &item);
 			if (item.lParam) {
@@ -1711,7 +1711,7 @@ buttons_done:
 				//if (pContainer->settings == 0)
 				//	pContainer->settings = (TContainerSettings *)malloc(sizeof(TContainerSettings));
 
-				//CopyMemory((void *)pContainer->settings, (void *)&PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
+				//CopyMemory((void*)pContainer->settings, (void*)&PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 				//Utils::ReadContainerSettingsFromDB(pContainer->hContactFrom, pContainer->settings);
 
 				pContainer->settings = &PluginConfig.globalContainerSettings;
@@ -2015,7 +2015,7 @@ buttons_done:
 				fa.cProto = dat ? dat->szProto : NULL;
 				CallService(MS_FAVATAR_DESTROY, (WPARAM)&fa, 0);
 			}
-			ZeroMemory((void *)&item, sizeof(item));
+			ZeroMemory((void*)&item, sizeof(item));
 			pContainer->hwnd = 0;
 			pContainer->hwndActive = 0;
 			pContainer->hMenuContext = 0;
@@ -2109,7 +2109,7 @@ buttons_done:
 					}
 				}
 
-				ZeroMemory((void *)&wp, sizeof(wp));
+				ZeroMemory((void*)&wp, sizeof(wp));
 				wp.length = sizeof(wp);
 				/*
 				* save geometry information to the database...
@@ -2213,7 +2213,7 @@ int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
 
 	iItems = TabCtrl_GetItemCount(hwndTab);
 
-	ZeroMemory((void *)&item, sizeof(item));
+	ZeroMemory((void*)&item, sizeof(item));
 	item.mask = TCIF_PARAM;
 
 	for (i=0; i < iItems; i++) {
@@ -2237,7 +2237,7 @@ int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 	int iItem = GetTabIndexFromHWND(hwndTab, hwnd);
 	if (iItem >= 0) {
 		TabCtrl_SetCurSel(hwndTab, iItem);
-		ZeroMemory((void *)&nmhdr, sizeof(nmhdr));
+		ZeroMemory((void*)&nmhdr, sizeof(nmhdr));
 		nmhdr.code = TCN_SELCHANGE;
 		SendMessage(GetParent(hwndTab), WM_NOTIFY, 0, (LPARAM) &nmhdr);     // do it via a WM_NOTIFY / TCN_SELCHANGE to simulate user-activation
 		return iItem;
@@ -2714,7 +2714,7 @@ void TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WP
 	TCITEM item;
 
 	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
-	ZeroMemory((void *)&item, sizeof(item));
+	ZeroMemory((void*)&item, sizeof(item));
 
 	item.mask = TCIF_PARAM;
 

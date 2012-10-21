@@ -1231,10 +1231,9 @@ void Chat_SetFilters(SESSION_INFO *si)
 	dwMask = M->GetDword(si->hContact, "Chat", "FilterMask", 0);
 
 	si->iLogFilterFlags = dwFlags_default;
-	for (i=0; i < 32; i++) {
+	for (int i=0; i < 32; i++)
 		if (dwMask & (1 << i))
 			si->iLogFilterFlags = (dwFlags_local & (1 << i) ? si->iLogFilterFlags | (1 << i) : si->iLogFilterFlags & ~(1 << i));
-	}
 
 	dwFlags_default = M->GetDword("Chat", "PopupFlags", 0x03E0);
 	dwFlags_local = M->GetDword(si->hContact, "Chat", "PopupFlags", 0x03E0);

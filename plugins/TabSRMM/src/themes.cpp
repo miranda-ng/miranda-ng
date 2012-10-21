@@ -1621,7 +1621,7 @@ create_it:
 		newItem->nextItem = 0;
 		curItem->nextItem = newItem;
 	}
-	mir_free((void *)szItemNameA);
+	mir_free((void*)szItemNameA);
 	return;
 }
 

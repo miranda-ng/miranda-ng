@@ -269,62 +269,61 @@ void CB_HardReInit()
 
 static INT_PTR CB_AddButton(WPARAM wParam, LPARAM lParam)
 {
-	BBButton * bbdi = (BBButton *)lParam;
+	BBButton *bbdi = (BBButton *)lParam;
 	bNeedResort = TRUE;
 	if (bbdi->cbSize != sizeof(BBButton))
 		return 1;
-	{
-		CustomButtonData *cbd = (CustomButtonData *)mir_alloc(sizeof(CustomButtonData));
-		memset(cbd, 0, sizeof(CustomButtonData));
 
+	CustomButtonData *cbd = (CustomButtonData *)mir_alloc(sizeof(CustomButtonData));
+	memset(cbd, 0, sizeof(CustomButtonData));
 
-		if (!bbdi->iButtonWidth && (bbdi->bbbFlags&BBBF_ISARROWBUTTON))
-			cbd->iButtonWidth = DPISCALEX_S(34);
-		else if (!bbdi->iButtonWidth)
-			cbd->iButtonWidth = DPISCALEX_S(22);
-		else cbd->iButtonWidth = DPISCALEX_S(bbdi->iButtonWidth);
+	if (!bbdi->iButtonWidth && (bbdi->bbbFlags & BBBF_ISARROWBUTTON))
+		cbd->iButtonWidth = DPISCALEX_S(34);
+	else if (!bbdi->iButtonWidth)
+		cbd->iButtonWidth = DPISCALEX_S(22);
+	else
+		cbd->iButtonWidth = DPISCALEX_S(bbdi->iButtonWidth);
 
-		cbd->pszModuleName = mir_strdup(bbdi->pszModuleName);
+	cbd->pszModuleName = mir_strdup(bbdi->pszModuleName);
 
-		if (bbdi->ptszTooltip) {
-			if (bbdi->bbbFlags&BBBF_ANSITOOLTIP)
-				cbd->ptszTooltip = mir_a2u(bbdi->pszTooltip);
-			else
-				cbd->ptszTooltip = mir_tstrdup(bbdi->ptszTooltip);
-		} else cbd->ptszTooltip = NULL;
-
-
-		cbd->dwButtonOrigID = bbdi->dwButtonID;
-		cbd->hIcon = bbdi->hIcon;
-		cbd->dwPosition = bbdi->dwDefPos;
-		cbd->dwButtonCID = (bbdi->bbbFlags & BBBF_CREATEBYID) ? bbdi->dwButtonID : LastCID;
-		//ugly workaround for smileys plugins
-		cbd->dwArrowCID = (bbdi->bbbFlags & BBBF_ISARROWBUTTON) ? (cbd->dwButtonCID == IDOK ? IDC_SENDMENU : (cbd->dwButtonCID + 1)) : 0 ;
-		cbd->bHidden = (bbdi->bbbFlags & BBBF_HIDDEN) ? 1 : 0;
-		cbd->bLSided = (bbdi->bbbFlags & BBBF_ISLSIDEBUTTON) ? 1 : 0;
-		cbd->bRSided = (bbdi->bbbFlags & BBBF_ISRSIDEBUTTON) ? 1 : 0;
-		cbd->bCanBeHidden = (bbdi->bbbFlags & BBBF_CANBEHIDDEN) ? 1 : 0;
-		cbd->bDummy = (bbdi->bbbFlags & BBBF_ISDUMMYBUTTON) ? 1 : 0;
-		cbd->bChatButton = (bbdi->bbbFlags & BBBF_ISCHATBUTTON) ? 1 : 0;
-		cbd->bIMButton = (bbdi->bbbFlags & BBBF_ISIMBUTTON) ? 1 : 0;
-		cbd->bDisabled = (bbdi->bbbFlags & BBBF_DISABLED) ? 1 : 0;
-		cbd->bPushButton = (bbdi->bbbFlags & BBBF_ISPUSHBUTTON) ? 1 : 0;
-
-		CB_GetButtonSettings(NULL, cbd);
-
-		if (cbd->bLSided)
-			List_InsertPtr(LButtonsList, cbd);
-		else if (cbd->bRSided)
-			List_InsertPtr(RButtonsList, cbd);
-		else return 1;
-
-		if (cbd->dwButtonCID != cbd->dwButtonOrigID)
-			LastCID++;
-		if (cbd->dwArrowCID == LastCID)
-			LastCID++;
-
-		M->BroadcastMessage(DM_BBNEEDUPDATE, 0, 0);
+	if (bbdi->ptszTooltip) {
+		if (bbdi->bbbFlags & BBBF_ANSITOOLTIP)
+			cbd->ptszTooltip = mir_a2u(bbdi->pszTooltip);
+		else
+			cbd->ptszTooltip = mir_tstrdup(bbdi->ptszTooltip);
 	}
+	else cbd->ptszTooltip = NULL;
+
+	cbd->dwButtonOrigID = bbdi->dwButtonID;
+	cbd->hIcon = bbdi->hIcon;
+	cbd->dwPosition = bbdi->dwDefPos;
+	cbd->dwButtonCID = (bbdi->bbbFlags & BBBF_CREATEBYID) ? bbdi->dwButtonID : LastCID;
+	//ugly workaround for smileys plugins
+	cbd->dwArrowCID = (bbdi->bbbFlags & BBBF_ISARROWBUTTON) ? (cbd->dwButtonCID == IDOK ? IDC_SENDMENU : (cbd->dwButtonCID + 1)) : 0 ;
+	cbd->bHidden = (bbdi->bbbFlags & BBBF_HIDDEN) ? 1 : 0;
+	cbd->bLSided = (bbdi->bbbFlags & BBBF_ISLSIDEBUTTON) ? 1 : 0;
+	cbd->bRSided = (bbdi->bbbFlags & BBBF_ISRSIDEBUTTON) ? 1 : 0;
+	cbd->bCanBeHidden = (bbdi->bbbFlags & BBBF_CANBEHIDDEN) ? 1 : 0;
+	cbd->bDummy = (bbdi->bbbFlags & BBBF_ISDUMMYBUTTON) ? 1 : 0;
+	cbd->bChatButton = (bbdi->bbbFlags & BBBF_ISCHATBUTTON) ? 1 : 0;
+	cbd->bIMButton = (bbdi->bbbFlags & BBBF_ISIMBUTTON) ? 1 : 0;
+	cbd->bDisabled = (bbdi->bbbFlags & BBBF_DISABLED) ? 1 : 0;
+	cbd->bPushButton = (bbdi->bbbFlags & BBBF_ISPUSHBUTTON) ? 1 : 0;
+
+	CB_GetButtonSettings(NULL, cbd);
+
+	if (cbd->bLSided)
+		List_InsertPtr(LButtonsList, cbd);
+	else if (cbd->bRSided)
+		List_InsertPtr(RButtonsList, cbd);
+	else return 1;
+
+	if (cbd->dwButtonCID != cbd->dwButtonOrigID)
+		LastCID++;
+	if (cbd->dwArrowCID == LastCID)
+		LastCID++;
+
+	M->BroadcastMessage(DM_BBNEEDUPDATE, 0, 0);
 	return 0;
 }
 

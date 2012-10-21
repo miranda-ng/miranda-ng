@@ -141,7 +141,7 @@ CSendLaterJob::~CSendLaterJob()
 			if (PluginConfig.g_PopupAvail && fShowPopup) {
 				TCHAR	*tszName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 
-				ZeroMemory((void *)&ppd, sizeof(ppd));
+				ZeroMemory((void*)&ppd, sizeof(ppd));
 				ppd.lchContact = hContact;
 				ppd.cbSize = sizeof(ppd);
 				mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, _T("%s"), tszName ? tszName : TranslateT("'(Unknown Contact)'"));
@@ -163,7 +163,7 @@ CSendLaterJob::~CSendLaterJob()
 				ppd.colorBack = fFailed ? RGB(191, 0, 0) : nen_options.colBackMsg;
 				ppd.PluginWindowProc = reinterpret_cast<WNDPROC>(Utils::PopupDlgProcError);
 				ppd.lchIcon = fFailed ? PluginConfig.g_iconErr : PluginConfig.g_IconMsgEvent;
-				ppd.PluginData = (void *)hContact;
+				ppd.PluginData = (void*)hContact;
 				ppd.iSeconds = fFailed ? -1 : nen_options.iDelayMsg;
 				CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, 0);
 			}

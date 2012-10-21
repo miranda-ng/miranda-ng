@@ -208,7 +208,7 @@ bool CContactCache::updateUIN()
 			switch (ci.type) {
 				case CNFT_ASCIIZ:
 					mir_sntprintf(m_szUIN, safe_sizeof(m_szUIN), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
-					mir_free((void *)ci.pszVal);
+					mir_free((void*)ci.pszVal);
 					break;
 				case CNFT_DWORD:
 					mir_sntprintf(m_szUIN, safe_sizeof(m_szUIN), _T("%u"), ci.dVal);
@@ -325,7 +325,7 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM lParam)
 		if ((m_iHistoryTop == m_iHistorySize) && oldTop == 0) {         // shift the stack down...
 			TInputHistory ihTemp = m_history[0];
 			m_iHistoryTop--;
-			::MoveMemory((void *)&m_history[0], (void *)&m_history[1], (m_iHistorySize - 1) * sizeof(TInputHistory));
+			::MoveMemory((void*)&m_history[0], (void*)&m_history[1], (m_iHistorySize - 1) * sizeof(TInputHistory));
 			m_history[m_iHistoryTop] = ihTemp;
 		}
 		if (iLength > m_history[m_iHistoryTop].lLen) {

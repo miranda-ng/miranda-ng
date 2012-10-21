@@ -253,38 +253,45 @@ struct TContainerData {
 	CSideBar*			SideBar;
 };
 
+struct TStatusBarIconNode {
+	TStatusBarIconNode*	next;
+	StatusIconData 		sid;
+};
+
 struct SESSIONINFO_TYPE;
 
-struct TWindowData {
-	UINT	cbSize;
-	BYTE    bType;
-	struct  TContainerData *pContainer;		// parent container description structure
-	HWND    hwnd;
-	DWORD   dwFlags;
-	DWORD   dwFlagsEx;
-	HANDLE  hContact;
-	char    *szProto;
-	TCHAR 	szMyNickname[130];
-	TCHAR	szStatusBar[100];
-	TCHAR   newtitle[130];        // tab title...
-	TCHAR	szStatus[50];
-	WORD    wStatus;
-	char    *sendBuffer;
-	int     iSendBufferSize;
-	int		iSendLength;				// message length in utf-8 octets
-	HICON   hTabIcon, hTabStatusIcon, hXStatusIcon, hClientIcon, hTaskbarIcon;
-	HICON   iFlashIcon;
-	BOOL    mayFlashTab;
-	BOOL    bTabFlash;
-	HWND    hwndIEView, hwndFlash, hwndIWebBrowserControl, hwndHPP;
-	HWND	hwndContactPic, hwndPanelPic, hwndPanelPicParent;
-	UINT	bbLSideWidth;  //MAD
-	UINT	bbRSideWidth;    //MAD
-	BYTE	kstate[256];
-	struct TStatusBarIconNode *pSINod;
+struct TWindowData
+{
+   UINT    cbSize;
+   BYTE    bType;
+   struct  TContainerData *pContainer;		// parent container description structure
+   HWND    hwnd;
+   DWORD   dwFlags;
+   DWORD   dwFlagsEx;
+   HANDLE  hContact;
+   char   *szProto;
+   TCHAR   szMyNickname[130];
+   TCHAR   szStatusBar[100];
+   TCHAR   newtitle[130];        // tab title...
+   TCHAR   szStatus[50];
+   WORD    wStatus;
+   char   *sendBuffer;
+   int     iSendBufferSize;
+   int     iSendLength;				// message length in utf-8 octets
+   HICON   hTabIcon, hTabStatusIcon, hXStatusIcon, hClientIcon, hTaskbarIcon;
+   HICON   iFlashIcon;
+   BOOL    mayFlashTab;
+   BOOL    bTabFlash;
+   HWND    hwndIEView, hwndFlash, hwndIWebBrowserControl, hwndHPP;
+   HWND    hwndContactPic, hwndPanelPic, hwndPanelPicParent;
+   UINT    bbLSideWidth;  //MAD
+   UINT    bbRSideWidth;    //MAD
+   BYTE    kstate[256];
+
+	TStatusBarIconNode *pSINod;
 	SESSIONINFO_TYPE* si;
 
-	RECT	rcNick, rcUIN, rcStatus, rcPic;
+	RECT     rcNick, rcUIN, rcStatus, rcPic;
 	HANDLE  hDbEventFirst, hDbEventLast;
 	int     sendMode;
 	int     splitterY, originalSplitterY, dynaSplitter, savedSplitter, savedSplitY, savedDynaSplit;
@@ -319,7 +326,7 @@ struct TWindowData {
 	TCHAR   myUin[80];
 	BOOL    bNotOnList;
 	int     SendFormat;
-	HANDLE  *hQueuedEvents;
+	HANDLE *hQueuedEvents;
 	int     iNextQueuedEvent;
 #define EVENT_QUEUE_SIZE 10
 	int     iEventQueueSize;
@@ -332,8 +339,8 @@ struct TWindowData {
 	HANDLE  hTimeZone;
 	DWORD   panelStatusCX;
 	COLORREF inputbg;
-	struct  avatarCacheEntry *ace, *ownAce;
-	HANDLE  *hHistoryEvents;
+	avatarCacheEntry *ace, *ownAce;
+	HANDLE *hHistoryEvents;
 	int     maxHistory, curHistory;
 	HANDLE  hTheme, hThemeIP, hThemeToolbar;
 	char    szMicroLf[128];
@@ -348,19 +355,20 @@ struct TWindowData {
 	LPARAM  lParam;
 	int     iHaveRTLLang;
 	BOOL    fInsertMode;
-	bool	fkeyProcessed;
-	bool	fEditNotesActive;
+	bool    fkeyProcessed;
+	bool    fEditNotesActive;
+
 	CInfoPanel *Panel;
 	CContactCache *cache;
 	CProxyWindow  *pWnd;	// proxy window object (win7+, for taskbar support).
 							// ALWAYS check this pointer before using it, it is not guaranteed to exist.
-	DWORD	iSplitterSaved;
+	DWORD   iSplitterSaved;
 	BYTE    bWasDeleted;
-	BOOL	bActualHistory;
-	POINT	ptTipActivation;
-	LONG	iInputAreaHeight;
-	bool	fIsAutosizingInput;
-	bool	fLimitedUpdate;
+	BOOL    bActualHistory;
+	POINT   ptTipActivation;
+	LONG    iInputAreaHeight;
+	bool    fIsAutosizingInput;
+	bool    fLimitedUpdate;
 };
 
 #define MESSAGE_WINDOW_DATA_SIZE offsetof(_MessageWindowData, hdbEventFirst);
@@ -903,11 +911,6 @@ struct SIDEBARITEM {
 #define IDC_TBFIRSTUID 10000            // first uId for custom buttons
 
 #include "templates.h"
-
-struct TStatusBarIconNode {
-	TStatusBarIconNode*	next;
-	StatusIconData 		sid;
-};
 
 struct TABSRMM_SessionInfo {
 	unsigned int cbSize;

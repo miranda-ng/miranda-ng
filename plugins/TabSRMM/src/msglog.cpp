@@ -144,7 +144,7 @@ void TSAPI CacheLogFonts()
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	ReleaseDC(NULL, hdc);
 
-	ZeroMemory((void *)logfonts, sizeof(LOGFONTA) * MSGDLGFONTCOUNT + 2);
+	ZeroMemory((void*)logfonts, sizeof(LOGFONTA) * MSGDLGFONTCOUNT + 2);
 	for (i=0; i < MSGDLGFONTCOUNT; i++) {
 		LoadLogfont(i, &logfonts[i], &fontcolors[i], FONTMODULE);
 		wsprintfA(rtfFontsGlobal[i], "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, logfonts[i].lfWeight >= FW_BOLD ? 1 : 0, logfonts[i].lfItalic,logfonts[i].lfUnderline, 2 * abs(logfonts[i].lfHeight) * 74 / logPixelSY);
@@ -1456,7 +1456,7 @@ static void ReplaceIcons(HWND hwndDlg, struct TWindowData *dat, LONG startAt, in
 		CHARRANGE cr;
 		fi.lpstrText = "##col##";
 		fi.chrg.cpMax = -1;
-		ZeroMemory((void *)&cf2, sizeof(cf2));
+		ZeroMemory((void*)&cf2, sizeof(cf2));
 		cf2.cbSize = sizeof(cf2);
 		cf2.dwMask = CFM_COLOR;
 		while (SendMessageA(hwndrtf, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
@@ -1487,7 +1487,7 @@ static void ReplaceIcons(HWND hwndDlg, struct TWindowData *dat, LONG startAt, in
 		CHARRANGE cr;
 		fi.lpstrText = "#~#";
 		fi.chrg.cpMax = -1;
-		ZeroMemory((void *)&cf2, sizeof(cf2));
+		ZeroMemory((void*)&cf2, sizeof(cf2));
 		cf2.cbSize = sizeof(cf2);
 		cf2.dwMask = CFM_BACKCOLOR;
 

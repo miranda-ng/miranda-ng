@@ -3045,8 +3045,8 @@ LABEL_SHOWWINDOW:
 												tszAppeal[st++] = _T('\0');
 											}
 											SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_REPLACESEL,  FALSE, (LPARAM)tszAppeal);
-											free((void *) tr2.lpstrText);
-											free((void *) tszAppeal);
+											free((void*) tr2.lpstrText);
+											free((void*) tszAppeal);
 									}
 								}
 								SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
@@ -3731,7 +3731,7 @@ LABEL_SHOWWINDOW:
 
 		case WM_DWMCOMPOSITIONCHANGED:
 			BB_RefreshTheme(dat);
-			memset((void *)&dat->pContainer->mOld, -1000, sizeof(MARGINS));
+			memset((void*)&dat->pContainer->mOld, -1000, sizeof(MARGINS));
 			CProxyWindow::verify(dat);
 			break;
 
@@ -3757,7 +3757,7 @@ LABEL_SHOWWINDOW:
 
 		case WM_NCDESTROY:
 			if (dat) {
-				memset((void *)&dat->pContainer->mOld, -1000, sizeof(MARGINS));
+				memset((void*)&dat->pContainer->mOld, -1000, sizeof(MARGINS));
 				PostMessage(dat->pContainer->hwnd, WM_SIZE, 0, 1);
 				delete dat->Panel;
 				if (dat->pContainer->dwFlags & CNT_SIDEBAR)

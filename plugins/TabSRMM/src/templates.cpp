@@ -144,11 +144,11 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			TranslateDialogDefault(hwndDlg);
 
-			ZeroMemory((void *) dat, sizeof(struct TWindowData));
+			ZeroMemory((void*) dat, sizeof(struct TWindowData));
 			dat->pContainer = (struct TContainerData *)malloc(sizeof(struct TContainerData));
-			ZeroMemory((void *)dat->pContainer, sizeof(struct TContainerData));
+			ZeroMemory((void*)dat->pContainer, sizeof(struct TContainerData));
 			teInfo = (TemplateEditorInfo *)dat->pContainer;
-			ZeroMemory((void *)teInfo, sizeof(TemplateEditorInfo));
+			ZeroMemory((void*)teInfo, sizeof(TemplateEditorInfo));
 			teInfo->hContact = teNew->hContact;
 			teInfo->rtl = teNew->rtl;
 			teInfo->hwndParent = teNew->hwndParent;

@@ -699,7 +699,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 			tabdat = (struct TabControlData *)mir_alloc(sizeof(struct TabControlData));
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)tabdat);
-			ZeroMemory((void *)tabdat, sizeof(struct TabControlData));
+			ZeroMemory((void*)tabdat, sizeof(struct TabControlData));
 			tabdat->hwnd = hwnd;
 			tabdat->cx = GetSystemMetrics(SM_CXSMICON);
 			tabdat->cy = GetSystemMetrics(SM_CYSMICON);

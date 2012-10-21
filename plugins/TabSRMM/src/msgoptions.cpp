@@ -228,9 +228,9 @@ static void TSAPI FreeComboData(HWND hwndCombobox)
 	LRESULT lr = SendMessage(hwndCombobox, CB_GETCOUNT, 0, 0);
 
 	for (int i = 1; i < lr; i++) {
-		void *idata = (void *)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
+		void *idata = (void*)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
 
-		if (idata && idata != (void *)CB_ERR)
+		if (idata && idata != (void*)CB_ERR)
 			free(idata);
 	}
 }

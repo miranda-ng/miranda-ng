@@ -129,7 +129,7 @@ public:
 		EmptyClipboard();
 		hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, i);
 
-		CopyMemory((void *)GlobalLock(hData), (void *)_t, i);
+		CopyMemory((void*)GlobalLock(hData), (void*)_t, i);
 		GlobalUnlock(hData);
 		SetClipboardData(_s == sizeof(char) ? CF_TEXT : CF_UNICODETEXT, hData);
 		CloseClipboard();

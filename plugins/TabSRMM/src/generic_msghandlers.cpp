@@ -144,7 +144,7 @@ void TSAPI DM_InitTip(TWindowData *dat)
 	dat->hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_NOPREFIX | TTS_BALLOON, CW_USEDEFAULT, CW_USEDEFAULT,
 								  CW_USEDEFAULT, CW_USEDEFAULT, dat->hwnd, NULL, g_hInst, (LPVOID) NULL);
 
-	ZeroMemory((void *)&dat->ti, sizeof(dat->ti));
+	ZeroMemory((void*)&dat->ti, sizeof(dat->ti));
 	dat->ti.cbSize = sizeof(dat->ti);
 	dat->ti.lpszText = PluginConfig.m_szNoStatus;
 	dat->ti.hinst = g_hInst;
@@ -1594,19 +1594,20 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 	if (dat == 0)
 		return;
 
-	HWND	hwndDlg = dat->hwnd;
-	HWND    hwndContainer = dat->pContainer->hwnd;
-	HWND	hwndStatus = dat->pContainer->hwndStatus;
+	HWND hwndDlg = dat->hwnd;
+	HWND hwndContainer = dat->pContainer->hwnd;
+	HWND hwndStatus = dat->pContainer->hwndStatus;
 
-	if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON && GetTickCount() - dat->nLastTyping > TIMEOUT_TYPEOFF) {
+	if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON && GetTickCount() - dat->nLastTyping > TIMEOUT_TYPEOFF)
 		DM_NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
-	}
+
 	if (dat->showTyping == 1) {
 		if (dat->nTypeSecs > 0) {
 			dat->nTypeSecs--;
 			if (GetForegroundWindow() == hwndContainer)
 				SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
-		} else {
+		}
+		else {
 			struct TWindowData *dat_active = NULL;
 
 			if (!fForceOff) {
@@ -1977,7 +1978,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	HWND					hwndContainer = dat->pContainer->hwnd;
 	TContainerData*	m_pContainer = dat->pContainer;
 
-	ZeroMemory((void *)newcontactname,  sizeof(newcontactname));
+	ZeroMemory((void*)newcontactname,  sizeof(newcontactname));
 	dat->szStatus[0] = 0;
 
 	pszNewTitleEnd = _T("Message Session");
@@ -1985,7 +1986,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	if (dat->iTabID == -1)
 		return;
 
-	ZeroMemory((void *)&item, sizeof(item));
+	ZeroMemory((void*)&item, sizeof(item));
 	if (dat->hContact) {
 		int 			iHasName;
 		TCHAR 			fulluin[256];
@@ -2098,13 +2099,13 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 */
 
 static HANDLE hHookIconPressedEvt;
-struct TStatusBarIconNode *status_icon_list = 0;
+TStatusBarIconNode *status_icon_list = 0;
 int status_icon_list_size = 0;
 
 static INT_PTR SI_AddStatusIcon(WPARAM wParam, LPARAM lParam)
 {
 	StatusIconData *sid = (StatusIconData *)lParam;
-	struct TStatusBarIconNode *siln = (struct TStatusBarIconNode *)mir_alloc(sizeof(struct TStatusBarIconNode));
+	TStatusBarIconNode *siln = (TStatusBarIconNode *)mir_alloc(sizeof(TStatusBarIconNode));
 
 	siln->sid.cbSize = sid->cbSize;
 	siln->sid.szModule = mir_strdup(sid->szModule);
@@ -2112,9 +2113,7 @@ static INT_PTR SI_AddStatusIcon(WPARAM wParam, LPARAM lParam)
 	siln->sid.hIcon = sid->hIcon;
 	siln->sid.hIconDisabled = sid->hIconDisabled;
 	siln->sid.flags = sid->flags;
-	if (sid->szTooltip) siln->sid.szTooltip = mir_strdup(sid->szTooltip);
-	else siln->sid.szTooltip = 0;
-
+	siln->sid.szTooltip = mir_strdup(sid->szTooltip);
 	siln->next = status_icon_list;
 	status_icon_list = siln;
 	status_icon_list_size++;
@@ -2126,7 +2125,7 @@ static INT_PTR SI_AddStatusIcon(WPARAM wParam, LPARAM lParam)
 static INT_PTR SI_RemoveStatusIcon(WPARAM wParam, LPARAM lParam)
 {
 	StatusIconData *sid = (StatusIconData *)lParam;
-	struct TStatusBarIconNode *current = status_icon_list, *prev = 0;
+	TStatusBarIconNode *current = status_icon_list, *prev = 0;
 
 	while (current) {
 		if (strcmp(current->sid.szModule, sid->szModule) == 0 && current->sid.dwId == sid->dwId) {
@@ -2137,8 +2136,9 @@ static INT_PTR SI_RemoveStatusIcon(WPARAM wParam, LPARAM lParam)
 
 			mir_free(current->sid.szModule);
 			DestroyIcon(current->sid.hIcon);
-			if (current->sid.hIconDisabled) DestroyIcon(current->sid.hIconDisabled);
-			if (current->sid.szTooltip) mir_free(current->sid.szTooltip);
+			if (current->sid.hIconDisabled)
+				DestroyIcon(current->sid.hIconDisabled);
+			mir_free(current->sid.szTooltip);
 			mir_free(current);
 			M->BroadcastMessage(DM_STATUSICONCHANGE, 0, 0);
 			return 0;
@@ -2152,7 +2152,7 @@ static INT_PTR SI_RemoveStatusIcon(WPARAM wParam, LPARAM lParam)
 
 static void SI_RemoveAllStatusIcons(void)
 {
-	struct TStatusBarIconNode *current;
+	TStatusBarIconNode *current;
 
 	while (status_icon_list) {
 		current = status_icon_list;
@@ -2170,17 +2170,15 @@ static void SI_RemoveAllStatusIcons(void)
 
 static INT_PTR SI_ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 {
+	StatusIconData *sid = (StatusIconData *)lParam;
+	if ( !sid || !sid->szModule)
+		return 1;
+
+	TStatusBarIconNode *current = status_icon_list;
 	HANDLE hContact = (HANDLE)wParam;
 
-	StatusIconData *sid = (StatusIconData *)lParam;
-
-	// return 0 on stupid calls :-P
-	if(!hContact || !sid || !sid->szModule) return 0;
-
-	struct TStatusBarIconNode *current = status_icon_list;
-
 	while (current) {
-		if (strcmp(current->sid.szModule, sid->szModule) == 0 && current->sid.dwId == sid->dwId) {
+		if ( strcmp(current->sid.szModule, sid->szModule) == 0 && current->sid.dwId == sid->dwId) {
 			if (!hContact) {
 				current->sid.flags = sid->flags;
 				if (sid->hIcon) {
@@ -2191,25 +2189,23 @@ static INT_PTR SI_ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 					DestroyIcon(current->sid.hIconDisabled);
 					current->sid.hIconDisabled = sid->hIconDisabled;
 				}
-				if (sid->szTooltip) {
-					if (current->sid.szTooltip) mir_free(current->sid.szTooltip);
-					current->sid.szTooltip = mir_strdup(sid->szTooltip);
-				}
+				if (sid->szTooltip)
+					replaceStr(current->sid.szTooltip, sid->szTooltip);
 
 				M->BroadcastMessage(DM_STATUSICONCHANGE, 0, 0);
-			} else {
+			}
+			else {
 				char buff[256];
 				HWND hwnd;
-				if (!(sid->flags&MBF_OWNERSTATE)) {
+				if ( !(sid->flags & MBF_OWNERSTATE)) {
 					sprintf(buff, "SRMMStatusIconFlags%d", (int)sid->dwId);
 					M->WriteByte(hContact, sid->szModule, buff, (BYTE)sid->flags);
 				}
 				if ((hwnd = M->FindWindow(hContact))) {
-					if (sid->flags&MBF_OWNERSTATE) {
-
-						struct TStatusBarIconNode *siln = NULL;
-						struct TWindowData *dat = (struct TWindowData *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
-						struct TStatusBarIconNode *psi = dat->pSINod;
+					if (sid->flags & MBF_OWNERSTATE) {
+						TStatusBarIconNode *siln = NULL;
+						TWindowData *dat = (TWindowData*) GetWindowLongPtr(hwnd, GWLP_USERDATA);
+						TStatusBarIconNode *psi = dat->pSINod;
 						while (psi) {
 							if (strcmp(psi->sid.szModule, sid->szModule) == 0 && psi->sid.dwId == sid->dwId) {
 								siln = psi;
@@ -2218,7 +2214,7 @@ static INT_PTR SI_ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 							psi = psi->next;
 						}
 						if (!siln) {
-							siln = (struct TStatusBarIconNode *)mir_alloc(sizeof(struct TStatusBarIconNode));
+							siln = (TStatusBarIconNode *)mir_alloc(sizeof(TStatusBarIconNode));
 							siln->sid.szModule = mir_strdup(sid->szModule);
 							siln->sid.dwId = sid->dwId;
 							siln->sid.hIcon = sid->hIcon;
@@ -2230,7 +2226,8 @@ static INT_PTR SI_ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 
 							siln->next = dat->pSINod;
 							dat->pSINod = siln;
-						} else {
+						}
+						else {
 							siln->sid.hIcon = sid->hIcon;
 							siln->sid.hIconDisabled = sid->hIconDisabled;
 							siln->sid.flags = sid->flags;
@@ -2240,11 +2237,8 @@ static INT_PTR SI_ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 							else siln->sid.szTooltip = 0;
 
 						}
-
-
-						PostMessage(hwnd, DM_STATUSICONCHANGE, 0, 0);
-					} else
-						PostMessage(hwnd, DM_STATUSICONCHANGE, 0, 0);
+					}
+					PostMessage(hwnd, DM_STATUSICONCHANGE, 0, 0);
 				}
 			}
 			return 0;
@@ -2268,7 +2262,7 @@ void DrawStatusIcons(struct TWindowData *dat, HDC hDC, RECT r, int gap)
 	SetBkMode(hDC, TRANSPARENT);
 	while (current) {
 		if (current->sid.flags&MBF_OWNERSTATE) {
-			struct TStatusBarIconNode *currentSIN = dat->pSINod;
+			TStatusBarIconNode *currentSIN = dat->pSINod;
 			flags = current->sid.flags;
 			hIcon = current->sid.hIcon;
 			while (currentSIN) {
@@ -2300,23 +2294,23 @@ void DrawStatusIcons(struct TWindowData *dat, HDC hDC, RECT r, int gap)
 		current = current->next;
 	}
 	DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS],
-			   cx_icon, cy_icon, 0, NULL, DI_NORMAL);
+			cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 
 	DrawIconEx(hDC, x, y, dat->pContainer->dwFlags & CNT_NOSOUND ?
-			   PluginConfig.g_iconOverlayDisabled : PluginConfig.g_iconOverlayEnabled,
-			   cx_icon, cy_icon, 0, NULL, DI_NORMAL);
+			PluginConfig.g_iconOverlayDisabled : PluginConfig.g_iconOverlayEnabled,
+			cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 
 	x += (cx_icon + gap);
 
 	if (dat->bType == SESSIONTYPE_IM) {
 		DrawIconEx(hDC, x, y,
-				   PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], cx_icon, cy_icon, 0, NULL, DI_NORMAL);
+				PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 		DrawIconEx(hDC, x, y, M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)) ?
-				   PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
+				PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 	}
 	else
 		CSkin::DrawDimmedIcon(hDC, x, y, cx_icon, cy_icon,
-					   PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], 50);
+					PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], 50);
 
 	x += (cx_icon + gap);
 	DrawIconEx(hDC, x, y, PluginConfig.g_sideBarIcons[0], cx_icon, cy_icon, 0, NULL, DI_NORMAL);
@@ -2325,13 +2319,13 @@ void DrawStatusIcons(struct TWindowData *dat, HDC hDC, RECT r, int gap)
 void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, RECT r, int gap, int code)
 {
 	StatusIconClickData sicd;
-	struct TStatusBarIconNode *current = status_icon_list;
-	struct TStatusBarIconNode *clicked = NULL;
+	TStatusBarIconNode *current = status_icon_list;
+	TStatusBarIconNode *clicked = NULL;
 
-	unsigned int iconNum = (pt.x - (r.left + 0)) / (PluginConfig.m_smcxicon + gap);
-	unsigned int list_icons = 0;
-	char         buff[100];
-	DWORD		 flags;
+	UINT  iconNum = (pt.x - (r.left + 0)) / (PluginConfig.m_smcxicon + gap);
+	UINT  list_icons = 0;
+	char  buff[100];
+	DWORD	flags;
 
 	if (dat && (code == NM_CLICK || code == NM_RCLICK)) {
 		POINT	ptScreen;
@@ -2340,9 +2334,10 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 		if (!PtInRect(&rcLastStatusBarClick, ptScreen))
 			return;
 	}
+
 	while (current && dat) {
-		if (current->sid.flags&MBF_OWNERSTATE) {
-			struct TStatusBarIconNode *currentSIN = dat->pSINod;
+		if (current->sid.flags & MBF_OWNERSTATE) {
+			TStatusBarIconNode *currentSIN = dat->pSINod;
 			flags = current->sid.flags;
 			while (currentSIN) {
 				if (strcmp(currentSIN->sid.szModule, current->sid.szModule) == 0 && currentSIN->sid.dwId == current->sid.dwId) {
@@ -2355,7 +2350,7 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 			sprintf(buff, "SRMMStatusIconFlags%d", (int)current->sid.dwId);
 			flags = M->GetByte(dat->hContact, current->sid.szModule, buff, current->sid.flags);
 		}
-		if (!(flags & MBF_HIDDEN)) {
+		if ( !(flags & MBF_HIDDEN)) {
 			if (list_icons++ == iconNum)
 				clicked = current;
 		}
@@ -2394,25 +2389,19 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 	}
 }
 
-static HANDLE SI_hServiceIcon[3];
-
 int SI_InitStatusIcons()
 {
-	SI_hServiceIcon[0] = CreateServiceFunction(MS_MSG_ADDICON, SI_AddStatusIcon);
-	SI_hServiceIcon[1] = CreateServiceFunction(MS_MSG_REMOVEICON, SI_RemoveStatusIcon);
-	SI_hServiceIcon[2] = CreateServiceFunction(MS_MSG_MODIFYICON, SI_ModifyStatusIcon);
+	CreateServiceFunction(MS_MSG_ADDICON, SI_AddStatusIcon);
+	CreateServiceFunction(MS_MSG_REMOVEICON, SI_RemoveStatusIcon);
+	CreateServiceFunction(MS_MSG_MODIFYICON, SI_ModifyStatusIcon);
 	hHookIconPressedEvt = CreateHookableEvent(ME_MSG_ICONPRESSED);
-
 	return 0;
 }
 
 
 int SI_DeinitStatusIcons()
 {
-	int i;
 	DestroyHookableEvent(hHookIconPressedEvt);
-	for (i=0; i < 3; i++)
-		DestroyServiceFunction(SI_hServiceIcon[i]);
 	SI_RemoveAllStatusIcons();
 	return 0;
 }

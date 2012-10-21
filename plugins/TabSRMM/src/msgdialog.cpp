@@ -1302,7 +1302,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			struct TNewWindowData *newData = (struct TNewWindowData *) lParam;
 
 			dat = (struct TWindowData *) malloc(sizeof(struct TWindowData));
-			ZeroMemory((void *) dat, sizeof(struct TWindowData));
+			ZeroMemory((void*) dat, sizeof(struct TWindowData));
 			if (newData->iTabID >= 0) {
 				dat->pContainer = newData->pContainer;
 				m_pContainer = dat->pContainer;
@@ -3068,7 +3068,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					char *szFromStream = NULL;
 
 					szFromStream = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_MESSAGE), dat, dat->SendFormat ? 0 : (CP_UTF8 << 16) | (SF_TEXT | SF_USECODEPAGE));
-					ZeroMemory((void *)&tci, sizeof(tci));
+					ZeroMemory((void*)&tci, sizeof(tci));
 					tci.mask = TCIF_PARAM;
 
 					for (i=0; i < tabCount; i++) {
@@ -3117,7 +3117,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (dat->hwndIEView || dat->hwndHPP) {                // IEView quoting support..
 					TCHAR *selected = 0, *szQuoted = 0;
 					IEVIEWEVENT event;
-					ZeroMemory((void *)&event, sizeof(event));
+					ZeroMemory((void*)&event, sizeof(event));
 					event.cbSize = sizeof(IEVIEWEVENT);
 					event.hContact = dat->hContact;
 					event.dwFlags = 0;
@@ -3773,7 +3773,7 @@ quote_from_last:
 			if (hFont != NULL && hFont != (HFONT) SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0))
 				DeleteObject(hFont);
 
-			ZeroMemory((void *)&item, sizeof(item));
+			ZeroMemory((void*)&item, sizeof(item));
 			item.mask = TCIF_PARAM;
 
 			i = GetTabIndexFromHWND(hwndTab, hwndDlg);
@@ -3819,7 +3819,7 @@ quote_from_last:
 		break;
 	case WM_DWMCOMPOSITIONCHANGED:
 		BB_RefreshTheme(dat);
-		memset((void *)&dat->pContainer->mOld, -1000, sizeof(MARGINS));
+		memset((void*)&dat->pContainer->mOld, -1000, sizeof(MARGINS));
 		CProxyWindow::verify(dat);
 		break;
 
@@ -3833,7 +3833,7 @@ quote_from_last:
 
 	case WM_NCDESTROY:
 		if (dat) {
-			memset((void *)&dat->pContainer->mOld, -1000, sizeof(MARGINS));
+			memset((void*)&dat->pContainer->mOld, -1000, sizeof(MARGINS));
 			PostMessage(dat->pContainer->hwnd, WM_SIZE, 0, 1);
 			if (m_pContainer->dwFlags & CNT_SIDEBAR)
 				m_pContainer->SideBar->removeSession(dat);

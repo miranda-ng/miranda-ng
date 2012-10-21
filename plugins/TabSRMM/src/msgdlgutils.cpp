@@ -224,7 +224,7 @@ void TSAPI FlashTab(struct TWindowData *dat, HWND hwndTab, int iTabindex, BOOL *
 {
 	TCITEM item;
 
-	ZeroMemory((void *)&item, sizeof(item));
+	ZeroMemory((void*)&item, sizeof(item));
 	item.mask = TCIF_IMAGE;
 
 	if (mode)
@@ -1257,7 +1257,7 @@ void TSAPI DoTrimMessage(TCHAR *msg)
 void TSAPI GetMYUIN(TWindowData *dat)
 {
 	CONTACTINFO ci;
-	ZeroMemory((void *)&ci, sizeof(ci));
+	ZeroMemory((void*)&ci, sizeof(ci));
 
 	/*
 	 * get my uin
@@ -1272,7 +1272,7 @@ void TSAPI GetMYUIN(TWindowData *dat)
 		switch (ci.type) {
 			case CNFT_ASCIIZ:
 				mir_sntprintf(dat->myUin, safe_sizeof(dat->myUin), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
-				mir_free((void *)ci.pszVal);
+				mir_free((void*)ci.pszVal);
 				break;
 			case CNFT_DWORD:
 				mir_sntprintf(dat->myUin, safe_sizeof(dat->myUin), _T("%u"), ci.dVal);
