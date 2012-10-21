@@ -57,9 +57,6 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			else
 				ShowWindow(GetDlgItem(hdlg, IDC_HINT1), SW_HIDE);
 
-			if (!bMir_08)
-				EnableWindow(GetDlgItem(hdlg,IDC_PROTOS), 0);
-
 			SendMessage(hdlg, WM_USER + 50, 0, 0);
 			return 0;
 

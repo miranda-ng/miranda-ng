@@ -69,6 +69,5 @@ int OptionsInit(WPARAM,LPARAM);
 #define CTRL_IS_PRESSED (GetAsyncKeyState(VK_CONTROL)&0x8000)
 
 extern const int vf_default;
-extern BOOL bMir_08;
 
 #endif

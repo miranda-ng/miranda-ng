@@ -23,7 +23,7 @@ HGENMENU hmenuVis,hmenuOff,hmenuHide,hmenuIgnore,hmenuProto,hmenuAdded,hmenuAuth
 HGENMENU hmenuCopyID,hmenuRecvFiles,hmenuStatusMsg,hmenuCopyIP,hmenuCopyMirVer;
 static HANDLE hIgnoreItem[9], hProtoItem[MAX_PROTOS], hHooks[8], hServices[12];
 HICON hIcon[5];
-BOOL bMetaContacts, bMir_08;
+BOOL bMetaContacts;
 PROTOACCOUNT **accs;
 OPENOPTIONSDIALOG ood;
 int protoCount;
@@ -741,7 +741,6 @@ INT_PTR onCopyID(WPARAM wparam,LPARAM lparam)
 	LPSTR szProto;
 	char szID[128] = {0}, buffer[256] = {0};
 	HANDLE hContact ,hC;
-	PROTOACCOUNT* pa;
 
 	hContact = (HANDLE)wparam;
 	if(isMetaContact(hContact)) {
@@ -755,10 +754,9 @@ INT_PTR onCopyID(WPARAM wparam,LPARAM lparam)
 	GetID(hContact,szProto,(LPSTR)&szID);
 
 	if(DBGetContactSettingDword(NULL,VISPLG,"flags",vf_default)&VF_CIDN) {
-		if (bMir_08)
-			pa = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProto);
+		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 		
-		if (bMir_08 && !pa->bOldProto) 
+		if (!pa->bOldProto) 
 			mir_snprintf(buffer, SIZEOF(buffer), "%s: %s", pa->szProtoName, szID);
 		else
 			mir_snprintf(buffer, SIZEOF(buffer), "%s: %s", szProto, szID);
@@ -948,11 +946,9 @@ int BuildMenu(WPARAM wparam,LPARAM lparam)
 	DWORD flags = DBGetContactSettingDword(NULL,VISPLG,"flags",vf_default);
 	int i = 0, j = 0, check = 0, all = 0, hide = 0;
 	BOOL bIsOnline = FALSE, bShowAll = CTRL_IS_PRESSED;
-	PROTOACCOUNT* pa;
 	char* pszProto;
 	pszProto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, wparam, 0);
-	if(bMir_08)
-		pa = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)pszProto);
+	PROTOACCOUNT *pa = ProtoGetAccount(pszProto);
 
 	bIsOnline = isProtoOnline(pszProto);
 
@@ -997,7 +993,7 @@ int BuildMenu(WPARAM wparam,LPARAM lparam)
 
 	else HideItem(&miIGN,hmenuIgnore);
 
-	if(bMir_08 && pa && (bShowAll || flags&VF_PROTO)) 
+	if(pa && (bShowAll || flags&VF_PROTO)) 
 	{
 		for (i = 0; i < protoCount; i++) 
 		{
@@ -1023,12 +1019,12 @@ int BuildMenu(WPARAM wparam,LPARAM lparam)
 	}
 	else HideItem(&miPROTO,hmenuProto);
 
-	if ((bShowAll || flags & VF_ADD) && bIsOnline && (bMir_08 ? IsAccountEnabled( pa ) : TRUE))
+	if ((bShowAll || flags & VF_ADD) && bIsOnline && IsAccountEnabled(pa))
 		ShowItem(&miADD,hmenuAdded);
 	else 
 		HideItem(&miADD,hmenuAdded);
 
-	if ((bShowAll || flags & VF_REQ) && bIsOnline && (bMir_08 ? IsAccountEnabled( pa ) : TRUE))
+	if ((bShowAll || flags & VF_REQ) && bIsOnline && IsAccountEnabled(pa))
 		ShowItem(&miREQ,hmenuAuthReq);
 	else 
 		HideItem(&miREQ,hmenuAuthReq);
@@ -1086,7 +1082,7 @@ int EnumProtoSubmenu(WPARAM wparam, LPARAM lparam)
 			}
 		}
 	}
-	CallService( MS_PROTO_ENUMACCOUNTS, (WPARAM)&protoCount, (LPARAM)&accs);
+	ProtoEnumAccounts(&protoCount,&accs);
 	if (protoCount > MAX_PROTOS)
 		protoCount = MAX_PROTOS;
 	for (i = 0; i < protoCount; i++) 
@@ -1227,14 +1223,12 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	IconsInit();
 
 	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT) != 0;
-	bMir_08 = ServiceExists(MS_PROTO_GETACCOUNT) != 0;
 
 	hServices[0] = CreateServiceFunction(MS_SETINVIS,onSetInvis);
 	hServices[1] = CreateServiceFunction(MS_SETVIS,onSetVis);
 	hServices[2] = CreateServiceFunction(MS_HIDE,onHide);
 	hServices[3] = CreateServiceFunction(MS_IGNORE,onIgnore);
-	if (bMir_08)
-		hServices[4] = CreateServiceFunction(MS_PROTO,onChangeProto);
+	hServices[4] = CreateServiceFunction(MS_PROTO,onChangeProto);
 	hServices[5] = CreateServiceFunction(MS_ADDED,onSendAdded);
 	hServices[6] = CreateServiceFunction(MS_AUTHREQ,onSendAuthRequest);
 	hServices[7] = CreateServiceFunction(MS_COPYID,onCopyID);
@@ -1283,15 +1277,13 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	AddSubmenuItem(hmenuIgnore, LPGENT("Open ignore settings"), (HICON)CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_ignore"), 0, "Opt/OpenOptions", pos, (int)&ood );
 
 	mi.pszPopupName = 0;
-	if (bMir_08) {
-		mi.position++;
-		mi.ptszName = LPGENT("Copy to Account");
-		mi.pszService = MS_PROTO;
-		mi.hIcon = ( HICON )CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_protocol");
-		hmenuProto = Menu_AddContactMenuItem(&mi);
+	mi.position++;
+	mi.ptszName = LPGENT("Copy to Account");
+	mi.pszService = MS_PROTO;
+	mi.hIcon = ( HICON )CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_protocol");
+	hmenuProto = Menu_AddContactMenuItem(&mi);
 
-		EnumProtoSubmenu(0, 0);
-	}
+	EnumProtoSubmenu(0, 0);
 
 	mi.flags = CMIF_TCHAR;
 
@@ -1343,8 +1335,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	hHooks[0] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,BuildMenu);
 	hHooks[1] = HookEvent(ME_OPT_INITIALISE,OptionsInit);
 	hHooks[2] = HookEvent(ME_DB_CONTACT_SETTINGCHANGED,ContactSettingChanged);
-	if (bMir_08)
-		hHooks[3] = HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtoSubmenu);
+	hHooks[3] = HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtoSubmenu);
 	hHooks[4] = HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
 	if (hHooks[4])
 	{
