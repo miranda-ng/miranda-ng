@@ -335,7 +335,7 @@ static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack, WPARAM wParam, LPARAM lP
 	CopyMemory(pack2, pack, sizeof(LANGPACK_INFO));
 	/* country flag icon */
 	lvi.mask = LVIF_TEXT|LVIF_PARAM|LVIF_STATE;
-	if ((HIMAGELIST)lParam!=NULL) {
+	if ((HIMAGELIST)lParam != NULL) {
 		HICON hIcon;
 		if (pack->flags&LPF_DEFAULT)
 			hIcon = (HICON)CallService(MS_FLAGS_CREATEMERGEDFLAGICON, CTRY_UNITED_STATES, CTRY_UNITED_KINGDOM);
@@ -354,9 +354,10 @@ static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack, WPARAM wParam, LPARAM lP
 	}
 	/* insert */
 	lvi.iItem = lvi.iSubItem = 0;
-	lvi.stateMask = LVIS_STATEIMAGEMASK|LVIS_SELECTED;
+	lvi.stateMask = LVIS_STATEIMAGEMASK | LVIS_SELECTED;
 	lvi.state = INDEXTOSTATEIMAGEMASK((pack->flags&LPF_ENABLED)?2:1);
-	if (pack->flags & LPF_ENABLED) lvi.state |= LVIS_SELECTED|LVIS_FOCUSED;
+	if (pack->flags & LPF_ENABLED)
+		lvi.state |= LVIS_SELECTED | LVIS_FOCUSED;
 	lvi.pszText = TranslateTS(pack->szLanguage);
 	lvi.lParam = (LPARAM)pack2;
 	ListView_InsertItem((HWND)wParam, &lvi);
@@ -378,250 +379,254 @@ static HWND hwndLangOpt;
 
 static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
-		case WM_INITDIALOG:
-		{	HWND hwndList;
-			LVCOLUMN lvc;
-			hwndList = GetDlgItem(hwndDlg, IDC_LANGLIST);
-			hwndLangOpt = hwndDlg;
-			TranslateDialogDefault(hwndDlg);
-			ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT|LVS_EX_LABELTIP);
-			ListView_SetImageList(hwndList, CreateRadioImages(ListView_GetBkColor(hwndList), ListView_GetTextColor(hwndList)), LVSIL_STATE); /* auto-destroyed */
+	HWND hwndList = GetDlgItem(hwndDlg, IDC_LANGLIST);
 
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		hwndLangOpt = hwndDlg;
+		ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT|LVS_EX_LABELTIP);
+		ListView_SetImageList(hwndList, CreateRadioImages(ListView_GetBkColor(hwndList), ListView_GetTextColor(hwndList)), LVSIL_STATE); /* auto-destroyed */
+		{	
+			LVCOLUMN lvc;
 			lvc.mask = LVCF_TEXT;
 			lvc.pszText = TranslateT("Installed Languages");
 			ListView_InsertColumn(hwndList, 0, &lvc);
-			if (ServiceExists(MS_FLAGS_LOADFLAGICON))
-				ListView_SetImageList(hwndList, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR24, 8, 8), LVSIL_SMALL); 
-			CorrectPacks(_T("langpack_*.txt"), FALSE);
-			CheckDlgButton(hwndDlg, IDC_ENABLEAUTOUPDATES, DBGetContactSettingByte(NULL, "LangMan", "EnableAutoUpdates", SETTING_ENABLEAUTOUPDATES_DEFAULT)!=0);
-			SendMessage(hwndDlg, M_RELOADLIST, 0, 0);
-			return TRUE;
 		}
-		case M_RELOADLIST:
-		{	HWND hwndList;
-			HIMAGELIST himl;
-			int iItem;
-			/* init list */
-			hwndList = GetDlgItem(hwndDlg, IDC_LANGLIST);
-			ListView_DeleteAllItems(hwndList);
-			ListView_DeleteColumn(hwndList, 1); /* if present */
-			himl = ListView_GetImageList(hwndList, LVSIL_SMALL);
+		if ( ServiceExists(MS_FLAGS_LOADFLAGICON))
+			ListView_SetImageList(hwndList, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR24, 8, 8), LVSIL_SMALL); 
+		CorrectPacks(_T("langpack_*.txt"), FALSE);
+		CheckDlgButton(hwndDlg, IDC_ENABLEAUTOUPDATES, db_get_b(NULL, "LangMan", "EnableAutoUpdates", SETTING_ENABLEAUTOUPDATES_DEFAULT)!=0);
+		SendMessage(hwndDlg, M_RELOADLIST, 0, 0);
+		SendMessage(hwndDlg, M_SHOWFILECOL, 0, 1);
+		return TRUE;
+
+	case M_RELOADLIST:
+		/* init list */
+		ListView_DeleteAllItems(hwndList);
+		ListView_DeleteColumn(hwndList, 1); /* if present */
+		{
+			HIMAGELIST himl = ListView_GetImageList(hwndList, LVSIL_SMALL);
 			ImageList_RemoveAll(himl);
 			/* enum all packs */
 			EnumPacks(InsertPackItemEnumProc, _T("langpack_*.txt"), "Miranda Language Pack Version 1", TRUE, (WPARAM)hwndList, (LPARAM)himl);
 			/* make it use current langpack locale for sort */
 			ListView_SortItems(hwndList, CompareListItem, CallService(MS_LANGPACK_GETLOCALE, 0, 0));
-			CheckDlgButton(hwndDlg, IDC_ENABLEAUTOUPDATES, DBGetContactSettingByte(NULL, "LangMan", "EnableAutoUpdates", SETTING_ENABLEAUTOUPDATES_DEFAULT)!=0);
+			CheckDlgButton(hwndDlg, IDC_ENABLEAUTOUPDATES, db_get_b(NULL, "LangMan", "EnableAutoUpdates", SETTING_ENABLEAUTOUPDATES_DEFAULT) != 0);
 			/* show selection */
-			iItem = ListView_GetNextItem(hwndList, -1, LVNI_SELECTED);
-			if (iItem!=-1) ListView_EnsureVisible(hwndList, iItem, FALSE);
-			return TRUE;
+			int iItem = ListView_GetNextItem(hwndList, -1, LVNI_SELECTED);
+			if (iItem != -1)
+				ListView_EnsureVisible(hwndList, iItem, FALSE);
 		}
-		case M_SHOWFILECOL:
-		{	HWND hwndList;
-			hwndList = GetDlgItem(hwndDlg, IDC_LANGLIST);
-			if ((BOOL)lParam && ListView_GetItemCount(hwndList)>1) {
-				LVCOLUMN lvc;
-				LVITEM lvi;
-				LANGPACK_INFO *pack;
-				/* add column */
-				ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE_USEHEADER);
-				lvc.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM;
-				lvc.pszText = TranslateT("File");
-				lvc.cx = 160;
-				ListView_InsertColumn(hwndList, lvc.iSubItem = 1, &lvc);
-				ListView_SetColumnWidth(hwndList, 0, ListView_GetColumnWidth(hwndList, 0)-lvc.cx);
-				/* add text */
-				lvi.mask = LVIF_PARAM;
-				lvi.iSubItem = 0;
-				for(lvi.iItem = 0;ListView_GetItem(hwndList, &lvi);++lvi.iItem) {
-					pack = (LANGPACK_INFO*)lvi.lParam;
-					ListView_SetItemText(hwndList, lvi.iItem, 1, (pack->flags&LPF_DEFAULT)?TranslateT("built-in"):pack->szFileName);
-				}
-			}
-			else {
-				ListView_DeleteColumn(hwndList, 1);
-				ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE_USEHEADER);
-			}
-			return TRUE;
-		}
-		case WM_DESTROY:
-			ListView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_LANGLIST));
-			return TRUE;
-		case WM_THEMECHANGED:
-		case WM_SETTINGCHANGE:
-		{	HIMAGELIST himl;
-			HWND hwndList;
-			hwndList = GetDlgItem(hwndDlg, IDC_LANGLIST);
-			himl = ListView_SetImageList(hwndList, CreateRadioImages(ListView_GetBkColor(hwndList), ListView_GetTextColor(hwndList)), LVSIL_STATE); /* auto-destroyed */
-			if (himl!=NULL) ImageList_Destroy(himl);
-			break;
-		}
-		case WM_CTLCOLORLISTBOX: /* mimic readonly edit */
-			return (BOOL)SendMessage(hwndDlg, WM_CTLCOLORSTATIC, wParam, lParam);
-		case WM_COMMAND:
-			switch(LOWORD(wParam)) {
-				case IDC_LANGEMAIL:
-				{	char buf[512];
-					lstrcpyA(buf, "mailto:");
-					if (GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), &buf[7], sizeof(buf)-7))
-						CallService(MS_UTILS_OPENURL, FALSE, (LPARAM)buf);
-					return TRUE;
-				}
-				case IDC_MORELANG:
-					CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)"http://miranda-ng.org/");
-					return TRUE;
-/*				case IDC_ENABLEAUTOUPDATES:
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0); /* enable apply */
-/*					return TRUE;
-				case IDC_DOWNLOADLANG:
-					ServiceShowLangDialog(0, 0);
-					return TRUE;*/
-			}
-			break;
-		case WM_CONTEXTMENU:
-			if (GetDlgCtrlID((HWND)wParam) == IDC_LANGLIST) {
-				LVHITTESTINFO hti;
-				HMENU hContextMenu;
-				RECT rc;
-				LVITEM lvi;
-				LANGPACK_INFO *pack;
-				/* get item */
-				POINTSTOPOINT(hti.pt, MAKEPOINTS(lParam));
-				if (hti.pt.x == -1 && hti.pt.y == -1) {
-					/* keyboard invoked */
-					hti.iItem = ListView_GetNextItem((HWND)wParam, -1, LVNI_SELECTED);
-					if (hti.iItem!=-1)
-						break;
-					if (!ListView_GetItemRect((HWND)wParam, hti.iItem, &rc, LVIR_SELECTBOUNDS))
-						break;
-					hti.pt.x = rc.left+(rc.right-rc.left)/2;
-					hti.pt.y = rc.top+(rc.bottom-rc.top)/2;
-					ClientToScreen((HWND)wParam, &hti.pt);
-				} else {
-					ScreenToClient((HWND)wParam, &hti.pt);
-					if (ListView_HitTest((HWND)wParam, &hti) == -1 || !(hti.flags&LVHT_ONITEM))
-						break;
-					POINTSTOPOINT(hti.pt, MAKEPOINTS(lParam));
-				}
-				/* param */
-				lvi.iItem = hti.iItem;
-				lvi.iSubItem = 0;
-				lvi.mask = LVIF_PARAM;
-				if (!ListView_GetItem((HWND)wParam, &lvi)) break;
+		return TRUE;
+
+	case M_SHOWFILECOL:
+		if ((BOOL)lParam && ListView_GetItemCount(hwndList)>1) {
+			LVCOLUMN lvc;
+			LVITEM lvi;
+			LANGPACK_INFO *pack;
+			/* add column */
+			ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE_USEHEADER);
+			lvc.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM;
+			lvc.pszText = TranslateT("File");
+			lvc.cx = 160;
+			ListView_InsertColumn(hwndList, lvc.iSubItem = 1, &lvc);
+			ListView_SetColumnWidth(hwndList, 0, ListView_GetColumnWidth(hwndList, 0)-lvc.cx);
+			/* add text */
+			lvi.mask = LVIF_PARAM;
+			lvi.iSubItem = 0;
+			for(lvi.iItem = 0;ListView_GetItem(hwndList, &lvi);++lvi.iItem) {
 				pack = (LANGPACK_INFO*)lvi.lParam;
-				/* context menu */
-				if (!(pack->flags&LPF_DEFAULT)) {
-					hContextMenu = CreatePopupMenu();
-					if (hContextMenu!=NULL) {
-						AppendMenu(hContextMenu, MF_STRING, 2, TranslateT("&Remove..."));
-						if (TrackPopupMenuEx(hContextMenu, TPM_RETURNCMD|TPM_NONOTIFY|TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON|TPM_HORPOSANIMATION|TPM_VERPOSANIMATION, hti.pt.x, hti.pt.y, (HWND)wParam, NULL))
-							DeletePackFile(hwndDlg, (HWND)wParam, hti.iItem, pack);
-						DestroyMenu(hContextMenu);
-					}
-				}
+				ListView_SetItemText(hwndList, lvi.iItem, 1, (pack->flags&LPF_DEFAULT)?TranslateT("built-in"):pack->szFileName);
+			}
+		}
+		else {
+			ListView_DeleteColumn(hwndList, 1);
+			ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE_USEHEADER);
+		}
+		return TRUE;
+
+	case WM_DESTROY:
+		ListView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_LANGLIST));
+		return TRUE;
+
+	case WM_THEMECHANGED:
+	case WM_SETTINGCHANGE:
+		{
+			HIMAGELIST himl = ListView_SetImageList(hwndList, CreateRadioImages(ListView_GetBkColor(hwndList), ListView_GetTextColor(hwndList)), LVSIL_STATE); /* auto-destroyed */
+			if (himl != NULL)
+				ImageList_Destroy(himl);
+		}
+		break;
+
+	case WM_CTLCOLORLISTBOX: /* mimic readonly edit */
+		return (BOOL)SendMessage(hwndDlg, WM_CTLCOLORSTATIC, wParam, lParam);
+
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDC_LANGEMAIL:
+			{
+				char buf[512];
+				lstrcpyA(buf, "mailto:");
+				if (GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), &buf[7], sizeof(buf)-7))
+					CallService(MS_UTILS_OPENURL, FALSE, (LPARAM)buf);
 				return TRUE;
 			}
-			break;
 
-		case WM_NOTIFYFORMAT:
-			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, NFR_UNICODE);
+		case IDC_MORELANG:
+			CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)"http://miranda-ng.org/");
 			return TRUE;
+		}
+		break;
 
-		case WM_NOTIFY:
-		{	NMHDR *nmhdr = (NMHDR*)lParam;
+	case WM_CONTEXTMENU:
+		if (GetDlgCtrlID((HWND)wParam) == IDC_LANGLIST) {
+			LVHITTESTINFO hti;
+			HMENU hContextMenu;
+			RECT rc;
+			LVITEM lvi;
+			LANGPACK_INFO *pack;
+			/* get item */
+			POINTSTOPOINT(hti.pt, MAKEPOINTS(lParam));
+			if (hti.pt.x == -1 && hti.pt.y == -1) {
+				/* keyboard invoked */
+				hti.iItem = ListView_GetNextItem((HWND)wParam, -1, LVNI_SELECTED);
+				if (hti.iItem!=-1)
+					break;
+				if (!ListView_GetItemRect((HWND)wParam, hti.iItem, &rc, LVIR_SELECTBOUNDS))
+					break;
+				hti.pt.x = rc.left+(rc.right-rc.left)/2;
+				hti.pt.y = rc.top+(rc.bottom-rc.top)/2;
+				ClientToScreen((HWND)wParam, &hti.pt);
+			} else {
+				ScreenToClient((HWND)wParam, &hti.pt);
+				if (ListView_HitTest((HWND)wParam, &hti) == -1 || !(hti.flags&LVHT_ONITEM))
+					break;
+				POINTSTOPOINT(hti.pt, MAKEPOINTS(lParam));
+			}
+			/* param */
+			lvi.iItem = hti.iItem;
+			lvi.iSubItem = 0;
+			lvi.mask = LVIF_PARAM;
+			if (!ListView_GetItem((HWND)wParam, &lvi)) break;
+			pack = (LANGPACK_INFO*)lvi.lParam;
+			/* context menu */
+			if (!(pack->flags&LPF_DEFAULT)) {
+				hContextMenu = CreatePopupMenu();
+				if (hContextMenu!=NULL) {
+					AppendMenu(hContextMenu, MF_STRING, 2, TranslateT("&Remove..."));
+					if (TrackPopupMenuEx(hContextMenu, TPM_RETURNCMD|TPM_NONOTIFY|TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON|TPM_HORPOSANIMATION|TPM_VERPOSANIMATION, hti.pt.x, hti.pt.y, (HWND)wParam, NULL))
+						DeletePackFile(hwndDlg, (HWND)wParam, hti.iItem, pack);
+					DestroyMenu(hContextMenu);
+				}
+			}
+			return TRUE;
+		}
+		break;
+
+	case WM_NOTIFYFORMAT:
+		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, NFR_UNICODE);
+		return TRUE;
+
+	case WM_NOTIFY:
+		{
+			NMHDR *nmhdr = (NMHDR*)lParam;
 			switch(nmhdr->idFrom) {
-				case IDC_LANGLIST:
-					switch(nmhdr->code) {
-						case LVN_DELETEITEM:
-						{	LVITEM lvi;
-							lvi.iItem = ((NMLISTVIEW*)lParam)->iItem; /* nmlv->lParam is invalid */
-							lvi.iSubItem = 0;
-							lvi.mask = LVIF_PARAM;
-							if (ListView_GetItem(nmhdr->hwndFrom, &lvi))
-								mir_free((LANGPACK_INFO*)lvi.lParam);
-							break;
+			case IDC_LANGLIST:
+				switch(nmhdr->code) {
+				case LVN_DELETEITEM:
+					{
+						LVITEM lvi;
+						lvi.iItem = ((NMLISTVIEW*)lParam)->iItem; /* nmlv->lParam is invalid */
+						lvi.iSubItem = 0;
+						lvi.mask = LVIF_PARAM;
+						if (ListView_GetItem(nmhdr->hwndFrom, &lvi))
+							mir_free((LANGPACK_INFO*)lvi.lParam);
+						break;
+					}
+				case LVN_ITEMCHANGED:
+					{
+						NMLISTVIEW *nmlv = (NMLISTVIEW*)lParam;
+						if (!(nmlv->uChanged&LVIF_STATE)) break;
+						/* display info and check radio item */
+						if (nmlv->uNewState&LVIS_SELECTED && !(nmlv->uOldState&LVIS_SELECTED)) {
+							ListView_SetItemState(nmhdr->hwndFrom, nmlv->iItem, INDEXTOSTATEIMAGEMASK(2), LVIS_STATEIMAGEMASK);
+							DisplayPackInfo(hwndDlg, (LANGPACK_INFO*)nmlv->lParam);
 						}
-						case LVN_ITEMCHANGED:
-						{	NMLISTVIEW *nmlv = (NMLISTVIEW*)lParam;
-							if (!(nmlv->uChanged&LVIF_STATE)) break;
-							/* display info and check radio item */
-							if (nmlv->uNewState&LVIS_SELECTED && !(nmlv->uOldState&LVIS_SELECTED)) {
-								ListView_SetItemState(nmhdr->hwndFrom, nmlv->iItem, INDEXTOSTATEIMAGEMASK(2), LVIS_STATEIMAGEMASK);
-								DisplayPackInfo(hwndDlg, (LANGPACK_INFO*)nmlv->lParam);
+						/* disable all other radio items */
+						else if (nmlv->uNewState&INDEXTOSTATEIMAGEMASK(2)) {
+							int iItem;
+							for(iItem = ListView_GetItemCount(nmhdr->hwndFrom)-1;iItem!=-1;--iItem)
+								if (iItem!=nmlv->iItem)
+									ListView_SetItemState(nmhdr->hwndFrom, iItem, INDEXTOSTATEIMAGEMASK(1), LVIS_STATEIMAGEMASK);
+							/* enable apply */
+							if (nmlv->uOldState) {
+								SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+								ShowWindow(GetDlgItem(hwndDlg, IDC_RESTART), SW_SHOW);
 							}
-							/* disable all other radio items */
-							else if (nmlv->uNewState&INDEXTOSTATEIMAGEMASK(2)) {
-								int iItem;
-								for(iItem = ListView_GetItemCount(nmhdr->hwndFrom)-1;iItem!=-1;--iItem)
-									if (iItem!=nmlv->iItem)
-										ListView_SetItemState(nmhdr->hwndFrom, iItem, INDEXTOSTATEIMAGEMASK(1), LVIS_STATEIMAGEMASK);
-								/* enable apply */
-								if (nmlv->uOldState) {
-									SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-									ShowWindow(GetDlgItem(hwndDlg, IDC_RESTART), SW_SHOW);
+						}
+						break;
+					}
+				case LVN_KEYDOWN:
+					{
+						int iItem = ListView_GetNextItem(nmhdr->hwndFrom, -1, LVNI_SELECTED);
+						switch(((NMLVKEYDOWN*)lParam)->wVKey) {
+						case VK_SPACE:
+							ListView_SetItemState(nmhdr->hwndFrom, iItem, INDEXTOSTATEIMAGEMASK(2), LVIS_STATEIMAGEMASK);
+							break;
+
+						case VK_DELETE:
+							{
+								LVITEM lvi;
+								LANGPACK_INFO *pack;
+								lvi.iItem = iItem;
+								lvi.iSubItem = 0;
+								lvi.mask = LVIF_PARAM;
+								if (ListView_GetItem(nmhdr->hwndFrom, &lvi)) {
+									pack = (LANGPACK_INFO*)lvi.lParam;
+									if (!(pack->flags&LPF_DEFAULT))
+										DeletePackFile(hwndDlg, nmhdr->hwndFrom, iItem, pack);
 								}
+								break;
 							}
-							break;
 						}
-						case LVN_KEYDOWN:
-						{	int iItem;
-							iItem = ListView_GetNextItem(nmhdr->hwndFrom, -1, LVNI_SELECTED);
-							switch(((NMLVKEYDOWN*)lParam)->wVKey) {
-								case VK_SPACE:
-									ListView_SetItemState(nmhdr->hwndFrom, iItem, INDEXTOSTATEIMAGEMASK(2), LVIS_STATEIMAGEMASK);
-									break;
-								case VK_DELETE:
-								{	LVITEM lvi;
-									LANGPACK_INFO *pack;
-									lvi.iItem = iItem;
-									lvi.iSubItem = 0;
-									lvi.mask = LVIF_PARAM;
-									if (ListView_GetItem(nmhdr->hwndFrom, &lvi)) {
-										pack = (LANGPACK_INFO*)lvi.lParam;
-										if (!(pack->flags&LPF_DEFAULT))
-											DeletePackFile(hwndDlg, nmhdr->hwndFrom, iItem, pack);
-									}
-									break;
-								}
+						break;
+					}
+				case NM_CLICK:
+					{
+						LVHITTESTINFO hti;
+						lParam = GetMessagePos();
+						POINTSTOPOINT(hti.pt, MAKEPOINTS(lParam));
+						ScreenToClient(nmhdr->hwndFrom, &hti.pt);
+						if (ListView_HitTest(nmhdr->hwndFrom, &hti)!=-1)
+							if (hti.flags&(LVHT_ONITEMSTATEICON|LVHT_ONITEMICON)) /* one of them */
+								ListView_SetItemState(nmhdr->hwndFrom, hti.iItem, LVIS_SELECTED, LVIS_SELECTED);
+						break;
+					}
+				} /* switch nmhdr->code */
+				break;
+
+			case 0:
+				switch(nmhdr->code) {
+				case PSN_APPLY:
+					{
+						LVITEM lvi;
+						lvi.mask = LVIF_STATE|LVIF_PARAM;
+						lvi.stateMask = LVIS_STATEIMAGEMASK;
+						lvi.iSubItem = 0;
+						for(lvi.iItem = 0;ListView_GetItem(hwndList, &lvi);++lvi.iItem) {
+							LANGPACK_INFO *pack = (LANGPACK_INFO*)lvi.lParam;
+							if (lvi.state&INDEXTOSTATEIMAGEMASK(2)) {
+								EnablePack(pack, _T("langpack_*.txt"));
+								pack->flags |= LPF_ENABLED;
 							}
-							break;
+							else pack->flags &= ~LPF_ENABLED;
 						}
-						case NM_CLICK:
-						{	LVHITTESTINFO hti;
-							lParam = GetMessagePos();
-							POINTSTOPOINT(hti.pt, MAKEPOINTS(lParam));
-							ScreenToClient(nmhdr->hwndFrom, &hti.pt);
-							if (ListView_HitTest(nmhdr->hwndFrom, &hti)!=-1)
-								if (hti.flags&(LVHT_ONITEMSTATEICON|LVHT_ONITEMICON)) /* one of them */
-									ListView_SetItemState(nmhdr->hwndFrom, hti.iItem, LVIS_SELECTED, LVIS_SELECTED);
-							break;
-						}
-					} /* switch nmhdr->code */
-					break;
-				case 0:
-					switch(nmhdr->code) {
-						case PSN_APPLY:
-						{	HWND hwndList;
-							LVITEM lvi;
-							LANGPACK_INFO *pack;
-							hwndList = GetDlgItem(hwndDlg, IDC_LANGLIST);
-							lvi.mask = LVIF_STATE|LVIF_PARAM;
-							lvi.stateMask = LVIS_STATEIMAGEMASK;
-							lvi.iSubItem = 0;
-							for(lvi.iItem = 0;ListView_GetItem(hwndList, &lvi);++lvi.iItem) {
-								pack = (LANGPACK_INFO*)lvi.lParam;
-								if (lvi.state&INDEXTOSTATEIMAGEMASK(2)) {
-									EnablePack(pack, _T("langpack_*.txt"));
-									pack->flags |= LPF_ENABLED;
-								} else pack->flags &= ~LPF_ENABLED;
-							}
-							DBWriteContactSettingByte(NULL, "LangMan", "EnableAutoUpdates", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ENABLEAUTOUPDATES)!=0));
-							return TRUE;
-						}
-					} /* switch nmhdr->code */
-					break;
+						db_set_b(NULL, "LangMan", "EnableAutoUpdates", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ENABLEAUTOUPDATES)!=0));
+						return TRUE;
+					}
+				} /* switch nmhdr->code */
+				break;
 			} /* switch nmhdr->idFrom */
 			break;
 		}
@@ -631,8 +636,9 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 void ReloadLangOptList(void)
 {
-	if (hwndLangOpt!=NULL) {
+	if (hwndLangOpt != NULL) {
 		SendMessage(hwndLangOpt, M_RELOADLIST, 0, 0);
+		SendMessage(hwndLangOpt, M_SHOWFILECOL, 0, 1);
 	}
 }
 
