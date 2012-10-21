@@ -70,15 +70,15 @@ void CSkypeProto::UpdateContactBirthday(HANDLE hContact, CContact::Ref contact)
 {
 	uint data;
 	contact->GetPropBirthday(data);
-	if (data > 0)
+	TCHAR date[9];
+	_itot_s(data, date, 10);
+	if (date > 0)
 	{
-		struct tm* ptm;
-		time_t timeGMT = (time_t)data;
-		ptm = gmtime(&timeGMT);
-		this->SetSettingByte(hContact, "BirthDay", ptm->tm_mday);
-		this->SetSettingByte(hContact, "BirthMonth", ptm->tm_mon);
-		// todo: fix stupid year constant
-		this->SetSettingWord(hContact, "BirthYear", ptm->tm_year + 1917);
+		INT day, month, year;
+		_stscanf(date, _T("%04d%02d%02d"), &year, &month, &day);
+		this->SetSettingByte(hContact, "BirthDay", day);
+		this->SetSettingByte(hContact, "BirthMonth", month);
+		this->SetSettingWord(hContact, "BirthYear", year);
 	}
 	else
 	{
