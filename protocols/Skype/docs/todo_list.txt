@@ -3,3 +3,6 @@ Bugs:
 
 Features:
 - own info(profile)
+- multiuser chat
+- voice
+- video
