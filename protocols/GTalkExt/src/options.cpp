@@ -255,16 +255,16 @@ void AddPopupsPage(WPARAM wParam)
 	Options_AddPage(wParam, &odp);
 }
 
-void AddAccPage(LPCTSTR acc, LPCSTR mod, WPARAM wParam)
+void AddAccPage(LPTSTR acc, LPCSTR mod, WPARAM wParam)
 {
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
-	odp.pszTitle = (LPSTR)acc;
+	odp.ptszTitle = acc;
 	odp.pfnDlgProc = AccOptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAILSETTINGS);
 	odp.hInstance = hInst;
 	odp.ptszGroup = NETWORK_OPTIONS_GROUP;
-	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB;
+	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
 	odp.ptszTab = MAIL_NOTIFICATIONS;
 	odp.dwInitParam = (LPARAM)mod;
 
