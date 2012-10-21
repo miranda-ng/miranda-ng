@@ -89,16 +89,16 @@ struct
 }
 static iconList[] =
 {
-	{ _T("Protocol icon"),          "PROTO",        IDI_TLEN		},
-	{ _T("Tlen inbox"),             "MAIL",         IDI_MAIL		},
-	{ _T("Group chats"),            "MUC",          IDI_MUC 		},
-	{ _T("Tlen chats"),             "CHATS",        IDI_CHATS		},
-	{ _T("Grant authorization"),	"GRANT",        IDI_GRANT		},
-	{ _T("Request authorization"),  "REQUEST",      IDI_REQUEST	    },
-	{ _T("Voice chat"),             "VOICE",        IDI_VOICE		},
-	{ _T("Microphone"),             "MICROPHONE",   IDI_MICROPHONE	},
-	{ _T("Speaker"),                "SPEAKER",      IDI_SPEAKER	    },
-	{ _T("Send image"),             "IMAGE",        IDI_IMAGE	    }
+	{ LPGENT("Protocol icon"),          "PROTO",        IDI_TLEN		},
+	{ LPGENT("Tlen inbox"),             "MAIL",         IDI_MAIL		},
+	{ LPGENT("Group chats"),            "MUC",          IDI_MUC 		},
+	{ LPGENT("Tlen chats"),             "CHATS",        IDI_CHATS		},
+	{ LPGENT("Grant authorization"),	"GRANT",        IDI_GRANT		},
+	{ LPGENT("Request authorization"),  "REQUEST",      IDI_REQUEST	    },
+	{ LPGENT("Voice chat"),             "VOICE",        IDI_VOICE		},
+	{ LPGENT("Microphone"),             "MICROPHONE",   IDI_MICROPHONE	},
+	{ LPGENT("Speaker"),                "SPEAKER",      IDI_SPEAKER	    },
+	{ LPGENT("Send image"),             "IMAGE",        IDI_IMAGE	    }
 };
 
 static HANDLE GetIconHandle(int iconId) {
@@ -131,19 +131,18 @@ static int TlenIconsChanged(void *ptr, WPARAM wParam, LPARAM lParam)
 static void TlenRegisterIcons()
 {
 	SKINICONDESC sid = { 0 };
-	char path[MAX_PATH];
+	TCHAR path[MAX_PATH];
 	TCHAR szSectionName[100];
-	int i;
 	mir_sntprintf(szSectionName, SIZEOF( szSectionName ), _T("%s/%s"), _T("Protocols"), _T("Tlen"));
 
-	GetModuleFileNameA(hInst, path, MAX_PATH);
+	GetModuleFileName(hInst, path, MAX_PATH);
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.cx = sid.cy = 16;
 	sid.ptszSection = szSectionName;
-	sid.pszDefaultFile = path;
-	sid.flags = SIDF_TCHAR;
+	sid.ptszDefaultFile = path;
+	sid.flags = SIDF_ALL_TCHAR;
 
-	for ( i = 0; i < SIZEOF(iconList); i++ ) {
+	for (int i = 0; i < SIZEOF(iconList); i++ ) {
 		char szSettingName[100];
 		mir_snprintf( szSettingName, sizeof( szSettingName ), "TLEN_%s", iconList[i].szName );
 		sid.pszName = szSettingName;
