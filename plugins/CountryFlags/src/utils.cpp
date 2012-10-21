@@ -38,7 +38,6 @@ static int nCallListCount;
 // always gets called in main message loop
 static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT_PTR idTimer,DWORD currentTick)
 {
-	int i;
 	struct BufferedCallData *buf;
 	UINT uElapsed,uElapseNext=USER_TIMER_MAXIMUM;
 	BUFFEREDPROC pfnBuffProc;
@@ -47,9 +46,8 @@ static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT_PTR idTimer,DWORD
 	char szDbgLine[256];
 	const char *pszProcName;
 	#endif
-	UNREFERENCED_PARAMETER(msg);
 
-	for(i=0;i<nCallListCount;++i) {
+	for(int i=0; i < nCallListCount; ++i) {
 		/* find elapsed procs */
 		uElapsed=currentTick-callList[i].startTick; /* wraparound works */
 		if ((uElapsed+USER_TIMER_MINIMUM)>=callList[i].uElapse) { 
@@ -64,9 +62,9 @@ static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT_PTR idTimer,DWORD
 				MoveMemory(&callList[i],&callList[i+1],((nCallListCount-i-1)*sizeof(struct BufferedCallData)));
 			--nCallListCount;
 			--i; /* reiterate current */
-			if(nCallListCount) {
+			if (nCallListCount) {
 				buf=(struct BufferedCallData*)mir_realloc(callList,nCallListCount*sizeof(struct BufferedCallData));
-				if(buf!=NULL) callList=buf;
+				if (buf != NULL) callList=buf;
 			} else {
 				mir_free(callList);
 				callList=NULL;
@@ -83,7 +81,7 @@ static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT_PTR idTimer,DWORD
 	}
 
 	/* set next timer */
-	if(nCallListCount) {
+	if (nCallListCount) {
 		#ifdef _DEBUG
 			mir_snprintf(szDbgLine,sizeof(szDbgLine),"next buffered timeout: %ums\n",uElapseNext); /* all ascii */
 			OutputDebugStringA(szDbgLine);
@@ -110,16 +108,16 @@ void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc,LPARAM lParam,BOOL fAccumula
 
 	/* find existing */
 	for(i=0;i<nCallListCount;++i)
-		if(callList[i].pfnBuffProc==pfnBuffProc)
-			if (!fAccumulateSameParam || callList[i].lParam==lParam) {
+		if (callList[i].pfnBuffProc == pfnBuffProc)
+			if (!fAccumulateSameParam || callList[i].lParam == lParam) {
 				data=&callList[i];
 				break;
 			}
 	/* append new */
-	if(data==NULL) {
+	if (data == NULL) {
 		/* resize storage array */
 		data=(struct BufferedCallData*)mir_realloc(callList,(nCallListCount+1)*sizeof(struct BufferedCallData));
-		if(data==NULL) return;
+		if (data == NULL) return;
 		callList=data;
 		data=&callList[nCallListCount];
 		++nCallListCount;
@@ -141,7 +139,7 @@ void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc,LPARAM lParam,BOOL fAccumula
 		}
 	#endif
 	/* set next timer */
-	if(idBufferedTimer) uElapse=USER_TIMER_MINIMUM; /* will get recalculated */
+	if (idBufferedTimer) uElapse=USER_TIMER_MINIMUM; /* will get recalculated */
 	idBufferedTimer=SetTimer(NULL,idBufferedTimer,uElapse,BufferedProcTimer);
 }
 
@@ -156,7 +154,7 @@ void PrepareBufferedFunctions(void)
 // assumes to be called in context of main thread
 void KillBufferedFunctions(void)
 {
-	if(idBufferedTimer) KillTimer(NULL,idBufferedTimer);
+	if (idBufferedTimer) KillTimer(NULL,idBufferedTimer);
 	nCallListCount=0;
 	mir_free(callList); /* does NULL check */
 }

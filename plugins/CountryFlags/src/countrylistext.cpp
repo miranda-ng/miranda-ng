@@ -275,17 +275,16 @@ static struct CountryListEntry countries[]={
 
 static INT_PTR ServiceGetCountryByNumber(WPARAM wParam,LPARAM lParam)
 {
-	int i;
-	UNREFERENCED_PARAMETER(lParam);
-	for(i=0; i<SIZEOF(countries); ++i)
-		if ((int)wParam==countries[i].id)
-			return (int)countries[i].szName;
-	return (int)(char*)NULL;
+	for (int i=0; i < SIZEOF(countries); ++i)
+		if ((int)wParam == countries[i].id)
+			return (INT_PTR)countries[i].szName;
+
+	return NULL;
 }
 
 static INT_PTR ServiceGetCountryList(WPARAM wParam,LPARAM lParam)
 {
-	if ((int*)wParam==NULL || (void*)lParam==NULL) return 1;
+	if ((int*)wParam == NULL || (void*)lParam == NULL) return 1;
 	*(int*)wParam=SIZEOF(countries);
 	*(struct CountryListEntry**)lParam=countries;
 	return 0;

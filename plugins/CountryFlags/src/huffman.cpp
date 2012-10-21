@@ -299,7 +299,7 @@ static void _Huffman_MakeTree( huff_sym_t *sym, huff_bitstream_t *stream )
   root = (huff_encodenode_t *) 0;
   nodes_left = num_symbols;
   next_idx = num_symbols;
-  while( nodes_left > 1 )
+  while ( nodes_left > 1 )
   {
     /* Find the two lightest nodes */
     node_1 = (huff_encodenode_t *) 0;
@@ -435,7 +435,7 @@ int Huffman_Compress( unsigned char *in, unsigned char *out,
       }
     }
   }
-  while( swaps );
+  while ( swaps );
 
   /* Encode input stream */
   for ( k = 0; k < insize; ++ k )
@@ -491,7 +491,7 @@ void Huffman_Uncompress( unsigned char *in, unsigned char *out,
   {
     /* Traverse tree until we find a matching leaf node */
     node = root;
-    while( node->Symbol < 0 )
+    while ( node->Symbol < 0 )
     {
       /* Get next node */
       if ( _Huffman_ReadBit( &stream ))

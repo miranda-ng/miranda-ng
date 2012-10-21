@@ -47,35 +47,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-static void InstallFile(const TCHAR *pszFileName,const TCHAR *pszDestSubDir)
-{
-	TCHAR szFileFrom[MAX_PATH+1],szFileTo[MAX_PATH+1],*p;
-	HANDLE hFile;
-
-	if (!GetModuleFileName(hInst,szFileFrom,SIZEOF(szFileFrom)-lstrlen(pszFileName)))
-		return;
-	p=_tcsrchr(szFileFrom,_T('\\'));
-	if(p!=NULL) *(++p)=0;
-	lstrcat(szFileFrom,pszFileName); /* buffer safe */
-
-	hFile=CreateFile(szFileFrom,0,FILE_SHARE_READ,0,OPEN_EXISTING,0,0);
-	if(hFile==INVALID_HANDLE_VALUE) return;
-	CloseHandle(hFile);
-
-	if (!GetModuleFileName(NULL,szFileTo,SIZEOF(szFileTo)-lstrlen(pszDestSubDir)-lstrlen(pszFileName)))
-		return;
-	p=_tcsrchr(szFileTo,_T('\\'));
-	if(p!=NULL) *(++p)=0;
-	lstrcat(szFileTo,pszDestSubDir); /* buffer safe */
-	CreateDirectory(szFileTo,NULL);
-	lstrcat(szFileTo,pszFileName);  /* buffer safe */
-
-	if (!MoveFile(szFileFrom,szFileTo) && GetLastError()==ERROR_ALREADY_EXISTS) {
-		DeleteFile(szFileTo);
-		MoveFile(szFileFrom,szFileTo);
-	}
-}
-
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
@@ -85,29 +56,13 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	/* existance of MS_SYSTEM_GETVERSION and MS_LANGPACK_TRANSLATESTRING
-	 * is checked in MirandaPluginInfo().
-	 * Not placed in MirandaPluginInfo() to avoid MessageBoxes on plugin options.
-	 * Using ANSI as LANG_UNICODE might not be supported. */
-	if(CallService(MS_SYSTEM_GETVERSION,0,0)<NEEDED_MIRANDA_VERSION) {
-		char szText[256];
-		mir_snprintf(szText,SIZEOF(szText),Translate("The Country Flags Plugin can not be loaded. It requires Miranda IM %hs or later."),NEEDED_MIRANDA_VERSION_STR);
-		MessageBoxA(NULL,szText,Translate("Country Flags Plugin"),MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL);
-		return 1;
-	}
-
 	PrepareBufferedFunctions();
 	InitCountryListExt();
-	if(CallService(MS_UTILS_GETCOUNTRYLIST,(WPARAM)&nCountriesCount,(LPARAM)&countries))
-		nCountriesCount=0;
+	if ( CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&nCountriesCount, (LPARAM)&countries))
+		nCountriesCount = 0;
 	InitIcons();
 	InitIpToCountry();
 	InitExtraImg();
-
-	/* installation */
-	InstallFile(_T("Flags-Readme.txt"),_T("Docs\\"));
-	InstallFile(_T("Flags-License.txt"),_T("Docs\\"));
-	InstallFile(_T("Flags-SDK.zip"),_T("Docs\\"));
 	return 0;
 }
 

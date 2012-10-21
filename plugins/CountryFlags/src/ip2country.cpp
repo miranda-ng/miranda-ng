@@ -35,7 +35,7 @@ static BYTE* GetDataHeader(BYTE *data,DWORD cbDataSize,DWORD *pnDataRecordCount)
 	/* uncompressed size stored in first DWORD */
 	*pnDataRecordCount=(*(DWORD*)data)/DATARECORD_SIZE;
 	recordData=(BYTE*)mir_alloc(*(DWORD*)data);
-	if(recordData!=NULL)
+	if (recordData != NULL)
 		Huffman_Uncompress(data+sizeof(DWORD),recordData,cbDataSize-sizeof(DWORD),*(DWORD*)data);
 	return recordData;
 }
@@ -45,7 +45,7 @@ static int GetDataRecord(BYTE *data,DWORD index,DWORD *pdwFrom,DWORD *pdwTo)
 	data+=index*DATARECORD_SIZE;
 	*pdwFrom=*(DWORD*)data;
 	data+=sizeof(DWORD);
-	if(pdwTo!=NULL) *pdwTo=*(DWORD*)data;
+	if (pdwTo != NULL) *pdwTo=*(DWORD*)data;
 	data+=sizeof(DWORD);
 	return (int)*(WORD*)data;
 }
@@ -60,7 +60,6 @@ static BYTE *dataRecords;       /* protected by csRecordCache */
 
 static void CALLBACK UnloadRecordCache(LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(lParam);
 	EnterCriticalSection(&csRecordCache);
 	mir_free(dataRecords);
 	dataRecords=NULL;
@@ -73,15 +72,15 @@ static BOOL EnsureRecordCacheLoaded(BYTE **pdata,DWORD *pcount)
 	HRSRC hrsrc;
 	DWORD cb;
 	EnterCriticalSection(&csRecordCache);
-	if(dataRecords==NULL) {
+	if (dataRecords == NULL) {
 		/* load record data list from resources */
 		hrsrc=FindResource(hInst,MAKEINTRESOURCE(IDR_IPTOCOUNTRY),_T("BIN"));
 		cb=SizeofResource(hInst,hrsrc);
 		dataRecords=(BYTE*)LockResource(LoadResource(hInst,hrsrc));
-		if(cb<=sizeof(DWORD) || dataRecords==NULL) { LeaveCriticalSection(&csRecordCache); return FALSE; }
+		if (cb<=sizeof(DWORD) || dataRecords == NULL) { LeaveCriticalSection(&csRecordCache); return FALSE; }
 		/* uncompress record data */
 		dataRecords=GetDataHeader(dataRecords,cb,&nDataRecordsCount);
-		if(dataRecords==NULL || !nDataRecordsCount) { LeaveCriticalSection(&csRecordCache); return FALSE; }
+		if (dataRecords == NULL || !nDataRecordsCount) { LeaveCriticalSection(&csRecordCache); return FALSE; }
 	}
 	*pdata=dataRecords;
 	*pcount=nDataRecordsCount;
@@ -104,20 +103,19 @@ INT_PTR ServiceIpToCountry(WPARAM wParam,LPARAM lParam)
 	DWORD dwFrom,dwTo;
 	DWORD low=0,i,high;
 	int id;
-	UNREFERENCED_PARAMETER(lParam);
-	if(EnsureRecordCacheLoaded(&data,&high)) {
+	if (EnsureRecordCacheLoaded(&data,&high)) {
 		/* binary search in record data */
 		GetDataRecord(data,low,&dwFrom,NULL);
 		--high;
-		if(wParam>=dwFrom) /* only search if wParam valid */
-			while(low<=high) {
+		if (wParam>=dwFrom) /* only search if wParam valid */
+			while (low<=high) {
 				i=low+((high-low)/2);
 				/* never happens */
-				if(i<0) DebugBreak();
+				if (i<0) DebugBreak();
 				/* analyze record */ 
 				id=GetDataRecord(data,i,&dwFrom,&dwTo);
-				if(dwFrom<=wParam && dwTo>=wParam) { LeaveRecordCache(); return id; }
-				if(wParam>dwTo) low=i+1;      
+				if (dwFrom<=wParam && dwTo>=wParam) { LeaveRecordCache(); return id; }
+				if (wParam>dwTo) low=i+1;      
 				else high=i-1;
 			}
 		LeaveRecordCache();
@@ -174,9 +172,9 @@ struct ResizableByteBuffer {
 
 static void AppendToByteBuffer(struct ResizableByteBuffer *buffer,const void *append,DWORD cbAppendSize)
 {
-	if(buffer->cbAlloced<=buffer->cbLength+cbAppendSize) {
+	if (buffer->cbAlloced<=buffer->cbLength+cbAppendSize) {
 		BYTE* buf=(BYTE*)mir_realloc(buffer->buf,buffer->cbAlloced+ALLOC_STEP+cbAppendSize);
-		if(buf==NULL) return;
+		if (buf == NULL) return;
 		buffer->buf=buf;
 		buffer->cbAlloced+=ALLOC_STEP+cbAppendSize;
 		OutputDebugStringA("reallocating memory...\n"); /* all ascii */
@@ -196,10 +194,10 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 
 	ZeroMemory(&buffer,sizeof(buffer));
 	fp=fopen(pszFileCSV,"rt");
-	if(fp!=NULL) {
+	if (fp != NULL) {
 		OutputDebugStringA("Running IP data convert...\n"); /* all ascii */
-		while(!feof(fp)) {
-			if(fgets(line,sizeof(line),fp)==NULL) break;
+		while (!feof(fp)) {
+			if (fgets(line,sizeof(line),fp) == NULL) break;
 			/* get line data */
 			pszFrom=line+1;
 			pszTo=strchr(pszFrom,',');
@@ -235,7 +233,7 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 						buf=(char*)differentCountryNames[j].szCSV;
 						break;
 					}
-				if(j==SIZEOF(differentCountryNames))
+				if (j == SIZEOF(differentCountryNames))
 					buf=(char*)countries[i].szName;
 				/* check country */
 				if (!lstrcmpiA(pszCountry,buf)) {
@@ -249,14 +247,14 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 				}
 			}
 			/* not in list */
-			if(i==nCountriesCount) {
+			if (i == nCountriesCount) {
 				wsprintfA(out,"Unknown: %s-%s [%s, %s]\n",pszFrom,pszTo,pszTwo,pszCountry);
 				OutputDebugStringA(out); /* all ascii */
 			}
 		}
 		fclose(fp);
 		OutputDebugStringA("Done!\n"); /* all ascii */
-		if(buffer.buf!=NULL) {
+		if (buffer.buf != NULL) {
 			HANDLE hFileOut;
 			DWORD cbWritten=0;
 			BYTE *compressed;
@@ -264,12 +262,12 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 			/* compress whole data */
 			OutputDebugStringA("Compressing...\n"); /* all ascii */
 			compressed=(BYTE*)mir_alloc(buffer.cbAlloced+384);
-			if(compressed!=NULL) {
+			if (compressed != NULL) {
 				cbCompressed=Huffman_Compress(buffer.buf,compressed,buffer.cbLength);
 				OutputDebugStringA("Done!\n"); /* all ascii */
 				OutputDebugStringA("Writing to file...\n"); /* all ascii */
 				hFileOut=CreateFile(pszFileOut,GENERIC_WRITE,FILE_SHARE_READ,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL);
-				if(hFileOut!=INVALID_HANDLE_VALUE) {
+				if (hFileOut != INVALID_HANDLE_VALUE) {
 					/* store data length count at beginning */
 					dwOut=buffer.cbLength;
 					WriteFile(hFileOut,&dwOut,sizeof(DWORD),&cbWritten,NULL);
@@ -289,12 +287,11 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 
 static void BinConvThread(void *unused)
 {
-	UNREFERENCED_PARAMETER(unused);
 	/* debug version only */
-	if(MessageBox(NULL,_T("Looking for 'ip-to-country.csv' in current directory.\n"
+	if (MessageBox(NULL,_T("Looking for 'ip-to-country.csv' in current directory.\n"
 		"It will be converted into 'ip-to-country.bin'.\n"
 		"See debug output for more details.\n"
-		"This process may take very long."),_T("Bin Converter"),MB_OKCANCEL|MB_ICONINFORMATION|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL)==IDOK) {
+		"This process may take very long."),_T("Bin Converter"),MB_OKCANCEL|MB_ICONINFORMATION|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL) == IDOK) {
 		EnumIpDataLines("ip-to-country.csv","ip-to-country.bin");
 		MessageBox(NULL,_T("Done!\n'ip-to-country.bin' has been created in current directory."),_T("Bin Converter"),MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL);
 	}
