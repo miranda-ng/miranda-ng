@@ -69,6 +69,79 @@ int LoadKeyPair()
 	return 0;
 }
 
+//
+//   FUNCTION: IsRunAsAdmin()
+//
+//   PURPOSE: The function checks whether the current process is run as 
+//   administrator. In other words, it dictates whether the primary access 
+//   token of the process belongs to user account that is a member of the 
+//   local Administrators group and it is elevated.
+//
+//   RETURN VALUE: Returns TRUE if the primary access token of the process 
+//   belongs to user account that is a member of the local Administrators 
+//   group and it is elevated. Returns FALSE if the token does not.
+//
+//   EXCEPTION: If this function fails, it throws a C++ DWORD exception which 
+//   contains the Win32 error code of the failure.
+//
+//   EXAMPLE CALL:
+//     try 
+//     {
+//         if (IsRunAsAdmin())
+//             wprintf (L"Process is run as administrator\n");
+//         else
+//             wprintf (L"Process is not run as administrator\n");
+//     }
+//     catch (DWORD dwError)
+//     {
+//         wprintf(L"IsRunAsAdmin failed w/err %lu\n", dwError);
+//     }
+//
+BOOL IsRunAsAdmin()
+{
+	BOOL fIsRunAsAdmin = FALSE;
+	DWORD dwError = ERROR_SUCCESS;
+	PSID pAdministratorsGroup = NULL;
+
+	// Allocate and initialize a SID of the administrators group.
+	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
+	if (!AllocateAndInitializeSid(
+		&NtAuthority, 
+		2, 
+		SECURITY_BUILTIN_DOMAIN_RID, 
+		DOMAIN_ALIAS_RID_ADMINS, 
+		0, 0, 0, 0, 0, 0, 
+		&pAdministratorsGroup))
+	{
+		dwError = GetLastError();
+		goto Cleanup;
+	}
+
+	// Determine whether the SID of administrators group is enabled in 
+	// the primary access token of the process.
+	if (!CheckTokenMembership(NULL, pAdministratorsGroup, &fIsRunAsAdmin))
+	{
+		dwError = GetLastError();
+		goto Cleanup;
+	}
+
+Cleanup:
+	// Centralized cleanup for all allocated resources.
+	if (pAdministratorsGroup)
+	{
+		FreeSid(pAdministratorsGroup);
+		pAdministratorsGroup = NULL;
+	}
+
+	// Throw the error if something failed in the function.
+	if (ERROR_SUCCESS != dwError)
+	{
+		throw dwError;
+	}
+
+	return fIsRunAsAdmin;
+}
+
 int StartSkypeRuntime()
 {
 	// loading skype runtime
@@ -101,6 +174,37 @@ int StartSkypeRuntime()
 			mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s\\%s"), szFilename, _T("SkypeKit.exe"));
 			if (!PathFileExists(szFilename))
 			{
+				// Check the current process's "run as administrator" status.
+				// Elevate the process if it is not run as administrator.
+				if (!IsRunAsAdmin())
+				{
+					wchar_t szPath[MAX_PATH], cmdLine[100];
+					GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
+					TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
+					mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T(" /restart:%d /profile=%s"), GetCurrentProcessId(), profilename);
+					// Launch itself as administrator.
+					SHELLEXECUTEINFO sei = { sizeof(sei) };
+					sei.lpVerb = L"runas";
+					sei.lpFile = szPath;
+					sei.lpParameters = cmdLine;
+					//sei.hwnd = hDlg;
+					sei.nShow = SW_NORMAL;
+
+					if (!ShellExecuteEx(&sei))
+					{
+						DWORD dwError = GetLastError();
+						if (dwError == ERROR_CANCELLED)
+						{
+							// The user refused to allow privileges elevation.
+							// Do nothing ...
+						}
+					}
+					else
+					{
+						//DestroyWindow(hDlg);  // Quit itself
+						CallService("CloseAction", 0, 0);
+					}
+				}
 				if ((hFile = CreateFile(szFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0)) != INVALID_HANDLE_VALUE) {
 					WriteFile(hFile, (void *)pData, dwSize, &written, NULL);
 					CloseHandle(hFile);
