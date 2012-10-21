@@ -98,7 +98,7 @@ void CSkypeProto::UpdateContactCity(HANDLE hContact, CContact::Ref contact)
 {
 	SEString data;
 	contact->GetPropCity(data);
-	wchar_t* city = ::mir_a2u((const char*)data);
+	wchar_t* city = ::mir_utf8decodeW((const char*)data);
 	if (wcscmp(city, L"") == 0)
 		this->DeleteSetting(hContact, "City");
 	else
@@ -120,7 +120,7 @@ void CSkypeProto::UpdateContactEmails(HANDLE hContact, CContact::Ref contact)
 {
 	SEString data;
 	contact->GetPropEmails(data);
-	wchar_t* emails = ::mir_a2u((const char*)data);
+	wchar_t* emails = ::mir_utf8decodeW((const char*)data);
 	if (wcscmp(emails, L"") == 0)
 	{
 		this->DeleteSetting(hContact, "e-mail0");
@@ -160,7 +160,7 @@ void CSkypeProto::UpdateContactHomepage(HANDLE hContact, CContact::Ref contact)
 {
 	SEString data;
 	contact->GetPropHomepage(data);
-	wchar_t* homepage = ::mir_a2u((const char*)data);
+	wchar_t* homepage = ::mir_utf8decodeW((const char*)data);
 	if (wcscmp(homepage, L"") == 0)
 		this->DeleteSetting(hContact, "Homepage");
 	else
@@ -180,7 +180,7 @@ void CSkypeProto::UpdateContactMobilePhone(HANDLE hContact, CContact::Ref contac
 {
 	SEString data;
 	contact->GetPropPhoneMobile(data);
-	wchar_t* phone = ::mir_a2u((const char*)data);
+	wchar_t* phone = ::mir_utf8decodeW((const char*)data);
 	if (wcscmp(phone, L"") == 0)
 		this->DeleteSetting(hContact, "Cellular");
 	else
@@ -192,7 +192,7 @@ void CSkypeProto::UpdateContactPhone(HANDLE hContact, CContact::Ref contact)
 {
 	SEString data;
 	contact->GetPropPhoneHome(data);
-	wchar_t* phone = ::mir_a2u((const char*)data);
+	wchar_t* phone = ::mir_utf8decodeW((const char*)data);
 	if (wcscmp(phone, L"") == 0)
 		this->DeleteSetting(hContact, "Phone");
 	else
@@ -204,7 +204,7 @@ void CSkypeProto::UpdateContactOfficePhone(HANDLE hContact, CContact::Ref contac
 {
 	SEString data;
 	contact->GetPropPhoneOffice(data);
-	wchar_t* phone = ::mir_a2u((const char*)data);
+	wchar_t* phone = ::mir_utf8decodeW((const char*)data);
 	if (wcscmp(phone, L"") == 0)
 		this->DeleteSetting(hContact, "CompanyPhone");
 	else
@@ -216,7 +216,7 @@ void CSkypeProto::UpdateContactState(HANDLE hContact, CContact::Ref contact)
 {
 	SEString data;
 	contact->GetPropProvince(data);
-	wchar_t* state = ::mir_a2u((const char*)data);
+	wchar_t* state = ::mir_utf8decodeW((const char*)data);
 	if (wcscmp(state, L"") == 0)
 		this->DeleteSetting(hContact, "State");
 	else
