@@ -261,6 +261,30 @@ void CSkypeProto::UpdateContactTimezone(HANDLE hContact, CContact::Ref contact)
 		this->DeleteSetting(hContact, "TimeZone");
 }
 
+void CSkypeProto::UpdateFullName(HANDLE hContact, CContact::Ref contact)
+{
+	SEString data;
+	contact->GetPropFullname(data);
+	wchar_t* fullname = ::mir_utf8decodeW((const char*)data);
+	if (wcscmp(fullname, L"") == 0)
+	{
+		this->DeleteSetting(hContact, "FirstName");
+		this->DeleteSetting(hContact, "LastName");
+	}
+	else
+	{
+		wchar_t* last = _tcstok(fullname, L" ");
+		wchar_t* first = _tcstok(NULL, L" ");
+		if (first == NULL)
+		{
+			first = L"";
+		}
+		this->SetSettingString(hContact, "LastName", last);
+		this->SetSettingString(hContact, "FirstName", first);
+	}
+	::mir_free(fullname);
+}
+
 void CSkypeProto::UpdateContactProfile(HANDLE hContact, CContact::Ref contact)
 {
 	uint newTS = 0;
@@ -281,6 +305,7 @@ void CSkypeProto::UpdateContactProfile(HANDLE hContact, CContact::Ref contact)
 		this->UpdateContactOfficePhone(hContact, contact);
 		this->UpdateContactState(hContact, contact);
 		this->UpdateContactTimezone(hContact, contact);
+		this->UpdateFullName(hContact, contact);
 
 		this->SetSettingDword(hContact, "ProfileTS", newTS);
 	}
@@ -382,6 +407,9 @@ void CSkypeProto::OnContactChanged(CContact::Ref contact, int prop)
 			break;
 		case CContact::P_TIMEZONE:
 			this->UpdateContactTimezone(hContact, contact);
+			break;
+		case CContact::P_FULLNAME:
+			this->UpdateFullName(hContact, contact);
 			break;
 		}
 	}
