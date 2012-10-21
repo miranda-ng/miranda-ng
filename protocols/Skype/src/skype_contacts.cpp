@@ -61,7 +61,7 @@ void CSkypeProto::UpdateContactAvatar(HANDLE hContact, CContact::Ref contact)
 		
 				this->SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 			}
-			::mir_free(path);
+			delete path;
 		}		
 	}
 }

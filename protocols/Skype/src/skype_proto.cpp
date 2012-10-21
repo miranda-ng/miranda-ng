@@ -1,7 +1,6 @@
 #include "skype_proto.h"
 
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
-	: login(L"")
 {
 	this->m_iVersion = 2;
 	this->m_iStatus = ID_STATUS_OFFLINE;
@@ -17,6 +16,8 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 
 	this->signin_lock = CreateMutex(0, false, 0);
 	this->SetAllContactStatus(ID_STATUS_OFFLINE);
+
+	this->CreateService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 
 	this->InitNetLib();
 }

@@ -1,7 +1,9 @@
 Bugs:
+- fix shutdown crash
 
 Features:
 - own info(profile)
 - multiuser chat
 - voice
 - video
+- run skype runtime from resources directly
