@@ -393,7 +393,7 @@ INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
 	{
 		TCHAR error[128];
 		LeaveCriticalSection(&sess_mutex);
-		mir_sntprintf(error, SIZEOF(error), TranslateT("List cannot be removeed because of error:\n\t%s"), strerror(errno));
+		mir_sntprintf(error, SIZEOF(error), TranslateT("List cannot be removeed because of error:\n\t%s"), _tcserror(errno));
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		netlog("gg_remove_server(): Cannot remove list because of \"%s\".", strerror(errno));
 	}

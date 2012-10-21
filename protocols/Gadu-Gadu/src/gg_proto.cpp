@@ -52,8 +52,8 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 	// Register services
 	createProtoService(PS_GETAVATARCAPS, &GGPROTO::getavatarcaps);
 	createProtoService(PS_GETAVATARINFOT, &GGPROTO::getavatarinfo);
-	createProtoService(PS_GETMYAVATAR, &GGPROTO::getmyavatar);
-	createProtoService(PS_SETMYAVATAR, &GGPROTO::setmyavatar);
+	createProtoService(PS_GETMYAVATART, &GGPROTO::getmyavatar);
+	createProtoService(PS_SETMYAVATART, &GGPROTO::setmyavatar);
 
 	createProtoService(PS_GETMYAWAYMSG, &GGPROTO::getmyawaymsg);
 	createProtoService(PS_CREATEACCMGRUI, &GGPROTO::get_acc_mgr_gui);
@@ -73,12 +73,12 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 
 	TCHAR szPath[MAX_PATH];
 	TCHAR *tmpPath = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
-	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s"), tmpPath, m_szModuleName);
+	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s"), tmpPath, m_tszUserName);
 	mir_free(tmpPath);
 	hAvatarsFolder = FoldersRegisterCustomPathT(m_szModuleName, "Avatars", szPath);
 
 	tmpPath = Utils_ReplaceVarsT( _T("%miranda_userdata%"));
-	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s\\ImageCache"), tmpPath, m_szModuleName);
+	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s\\ImageCache"), tmpPath, m_tszUserName);
 	mir_free(tmpPath);
 	hImagesFolder = FoldersRegisterCustomPathT(m_szModuleName, "Images", szPath);
 }

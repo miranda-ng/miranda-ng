@@ -307,7 +307,7 @@ extern PLUGININFOEX pluginInfo;
 // Methods
 
 /* Helper functions */
-const char *http_error_string(int h);
+const TCHAR *http_error_string(int h);
 unsigned long crc_get(char *mem);
 int gg_normalizestatus(int status);
 char *gg_status2db(int status, const char *suffix);

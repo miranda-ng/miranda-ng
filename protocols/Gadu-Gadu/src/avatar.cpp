@@ -41,7 +41,7 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 	}
 
 	if (_taccess(pszDest, 0))
-		CallService(MS_UTILS_CREATEDIRTREE, 0, (LPARAM)pszDest);
+		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
 
 	switch (db_get_b(hContact, m_szModuleName, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE)) {
 		case PA_FORMAT_JPEG: avatartype = _T("jpg"); break;
@@ -52,11 +52,14 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 	if (hContact != NULL) {
 		DBVARIANT dbv;
 		if (!db_get_s(hContact, m_szModuleName, GG_KEY_AVATARHASH, &dbv, DBVT_ASCIIZ)) {
-			mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s.%s"), dbv.pszVal, avatartype);
+            TCHAR* avatarHashT = mir_a2t(dbv.pszVal);
+			mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s.%s"), avatarHashT, avatartype);
+            mir_free(avatarHashT);
 			DBFreeVariant(&dbv);
 		}
-	}
-	else mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s avatar.%s"), m_szModuleName, avatartype);
+	} else {
+        mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s avatar.%s"), m_tszUserName, avatartype);
+    }
 }
 
 void GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, int *type)

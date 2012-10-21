@@ -43,7 +43,7 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 		TCHAR error[128];
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot register new account because of error:\n\t%S"),
 			(h && !s) ? http_error_string(h ? h->error : 0) :
-			(s ? Translate("Registration rejected") : strerror(errno)));
+			(s ? TranslateT("Registration rejected") : _tcserror(errno)));
 		MessageBox(
 			NULL,
 			error,
@@ -95,7 +95,7 @@ void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 		TCHAR error[128];
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Your account cannot be removed because of error:\n\t%S"),
 			(h && !s) ? http_error_string(h ? h->error : 0) :
-			(s ? Translate("Bad number or password") : strerror(errno)));
+			(s ? TranslateT("Bad number or password") : _tcserror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
 		gg->netlog("gg_dounregister(): Cannot remove account because of \"%s\".", strerror(errno));
 	}
@@ -147,7 +147,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 		TCHAR error[128];
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Your password cannot be changed because of error:\n\t%S"),
 			(h && !s) ? http_error_string(h ? h->error : 0) :
-			(s ? Translate("Invalid data entered") : strerror(errno)));
+			(s ? TranslateT("Invalid data entered") : _tcserror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
 		gg->netlog("gg_dochpass(): Cannot change password because of \"%s\".", strerror(errno));
 	}
@@ -189,7 +189,7 @@ void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *ne
 	{
 		TCHAR error[128];
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Your e-mail cannot be changed because of error:\n\t%s"),
-			(h && !s) ? http_error_string(h ? h->error : 0) : (s ? Translate("Bad old e-mail or password") : strerror(errno)));
+			(h && !s) ? http_error_string(h ? h->error : 0) : (s ? TranslateT("Bad old e-mail or password") : _tcserror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
 		gg->netlog("gg_dochpass(): Cannot change e-mail because of \"%s\".", strerror(errno));
 	}

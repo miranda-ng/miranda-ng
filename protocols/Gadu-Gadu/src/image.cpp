@@ -683,7 +683,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			TCHAR szFileName[MAX_PATH];
 			OPENFILENAME ofn = {0};
 
-			gg_img_getfilter(szFilter, sizeof(szFilter));
+			gg_img_getfilter(szFilter, SIZEOF(szFilter));
 			*szFileName = 0;
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = hwndDlg;
@@ -849,7 +849,9 @@ int GGPROTO::img_displayasmsg(HANDLE hContact, void *img)
 		ccs.szProtoService = PSR_MESSAGE;
 		ccs.hContact = hContact;
 		ccs.lParam = (LPARAM)&pre;
-		mir_snprintf(image_msg, SIZEOF(image_msg), "[img]%s[/img]", szPath);
+        char* szPathA = mir_t2a(szPath);
+		mir_snprintf(image_msg, SIZEOF(image_msg), "[img]%s[/img]", szPathA);
+        mir_free(szPathA);
 		pre.timestamp = time(NULL);
 		pre.szMessage = image_msg;
 		CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) &ccs);
@@ -1040,7 +1042,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 	}
 	// Load image from file
 	else
-		dat->hBitmap = (HBITMAP) CallService(MS_IMG_LOAD, (WPARAM) szFileName, 0);
+		dat->hBitmap = (HBITMAP) CallService(MS_IMG_LOAD, (WPARAM) szFileName, IMGL_TCHAR);
 
 	// If everything is fine return the handle
 	if (dat->hBitmap) return dat;
@@ -1147,9 +1149,11 @@ BOOL GGPROTO::img_sendonrequest(gg_event* e)
 	if (!this || !dat || !isonline())
 		return FALSE;
 
+    char* lpszFileNameA = mir_t2a(dat->lpImages->lpszFileName);
 	EnterCriticalSection(&sess_mutex);
-	gg_image_reply(sess, e->event.image_request.sender, dat->lpImages->lpszFileName, dat->lpImages->lpData, dat->lpImages->nSize);
+	gg_image_reply(sess, e->event.image_request.sender, lpszFileNameA, dat->lpImages->lpData, dat->lpImages->nSize);
 	LeaveCriticalSection(&sess_mutex);
+    mir_free(lpszFileNameA);
 
 	gg_img_remove(dat);
 

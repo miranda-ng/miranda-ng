@@ -113,23 +113,23 @@ unsigned long crc_get(char *mem)
 // http_error_string()
 //
 // returns http error text
-const char *http_error_string(int h)
+const TCHAR *http_error_string(int h)
 {
 	switch (h)
 	{
 		case 0:
-			return Translate((errno == ENOMEM) ? "HTTP failed memory" : "HTTP failed connecting");
+			return (errno == ENOMEM) ? TranslateT("HTTP failed memory") : TranslateT("HTTP failed connecting");
 		case GG_ERROR_RESOLVING:
-			return Translate("HTTP failed resolving");
+			return TranslateT("HTTP failed resolving");
 		case GG_ERROR_CONNECTING:
-			return Translate("HTTP failed connecting");
+			return TranslateT("HTTP failed connecting");
 		case GG_ERROR_READING:
-			return Translate("HTTP failed reading");
+			return TranslateT("HTTP failed reading");
 		case GG_ERROR_WRITING:
-			return Translate("HTTP failed writing");
+			return TranslateT("HTTP failed writing");
 	}
 
-	return Translate("Unknown HTTP error");
+	return TranslateT("Unknown HTTP error");
 }
 
 //////////////////////////////////////////////////////////

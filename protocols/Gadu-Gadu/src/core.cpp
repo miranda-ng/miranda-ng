@@ -359,7 +359,9 @@ void __cdecl GGPROTO::mainthread(void *)
 			if (!(p.external_addr = gg_dnslookup(this, dbv.pszVal)))
 			{
 				TCHAR error[128];
-				mir_sntprintf(error, SIZEOF(error), TranslateT("External direct connections hostname %S is invalid. Disabling external host forwarding."), dbv.pszVal);
+                TCHAR* forwardHostT = mir_a2t(dbv.pszVal);
+				mir_sntprintf(error, SIZEOF(error), TranslateT("External direct connections hostname %S is invalid. Disabling external host forwarding."), forwardHostT);
+                mir_free(forwardHostT);
 				showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
 			}
 			else
@@ -387,7 +389,9 @@ retry:
 		if (!(p.server_addr = gg_dnslookup(this, hosts[hostnum].hostname)))
 		{
 			TCHAR error[128];
-			mir_sntprintf(error, SIZEOF(error), TranslateT("Server hostname %S is invalid. Using default hostname provided by the network."), hosts[hostnum].hostname);
+            TCHAR* hostnameT = mir_a2t(hosts[hostnum].hostname);
+			mir_sntprintf(error, SIZEOF(error), TranslateT("Server hostname %S is invalid. Using default hostname provided by the network."), hostnameT);
+            mir_free(hostnameT);
 			showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
 		}
 		else
