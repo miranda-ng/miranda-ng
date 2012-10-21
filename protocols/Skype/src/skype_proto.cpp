@@ -164,7 +164,7 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)Translate("Skype Name");
 	case PFLAG_UNIQUEIDSETTING:
-		return (INT_PTR) L"sid";
+		return (INT_PTR) "sid";
 	default:
 		return 0;
 	}
