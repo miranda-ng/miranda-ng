@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -52,20 +52,20 @@ int InitSkinHotKeys(void)
 	shk.pszName = "CloseMiranda";
 	shk.ptszSection = LPGENT("Main");
 	shk.pszService = "CLIST/HK/CloseMiranda";
-	Hotkey_Register(&shk);	
+	Hotkey_Register(&shk);
 
 	shk.ptszDescription = LPGENT("Restore last status");
 	shk.pszName = "RestoreLastStatus";
 	shk.ptszSection = LPGENT("Status");
 	shk.pszService = "CLIST/HK/RestoreStatus";
-	Hotkey_Register(&shk);	
-	
-	shk.ptszDescription = LPGENT("Show/Hide Ofline Users");
+	Hotkey_Register(&shk);
+
+	shk.ptszDescription = LPGENT("Show/Hide Offline Users");
 	shk.pszName = "ShowHideOfflineUsers";
 	shk.ptszSection = LPGENT("Main");
 	shk.pszService = MS_CLIST_TOGGLEHIDEOFFLINE;
-	Hotkey_Register(&shk);	
-	
+	Hotkey_Register(&shk);
+
 
 	return 0;
 }
