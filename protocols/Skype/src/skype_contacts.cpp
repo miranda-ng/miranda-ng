@@ -44,31 +44,25 @@ void CSkypeProto::UpdateContactAvatar(HANDLE hContact, CContact::Ref contact)
 		
 		if (data.size() > 0)
 		{
-			wchar_t* path = this->GetAvatarFilePath(this->GetSettingString(hContact, "sid"));
-			FILE* fp = _wfopen(path, L"w");
+			wchar_t *path = this->GetAvatarFilePath(this->GetSettingString(hContact, "sid"));
+			FILE* fp = _wfopen(path, L"wb");
 			if (fp)
 			{
-				for (uint i = 0; i < data.size(); i++)
-				{
-					if (i)
-						fputc(',', fp);
-					fputc('\'', fp);
-					switch(data[i])
-					{
-					case '\n':
-						fputc('\\', fp);
-						fputc('n', fp);
-						break;
+				fwrite(data.data(), sizeof(char), data.size(), fp);
+				fclose(fp);
 
-					default:
-						fputc(data[i], fp);
-					}
-				}
-				CloseHandle(fp);
+				this->SetSettingDword(hContact, "AvatarTS", newTS);
+
+				PROTO_AVATAR_INFORMATIONW pai = {0};
+				pai.cbSize = sizeof(pai);
+				pai.format = PA_FORMAT_JPEG;
+				pai.hContact = hContact;
+				wcscpy(pai.filename, path);
+		
+				this->SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 			}
-		}
-		// todo: need to register avatar to contact
-		this->SetSettingDword(hContact, "AvatarTS", newTS);
+			::mir_free(path);
+		}		
 	}
 }
 

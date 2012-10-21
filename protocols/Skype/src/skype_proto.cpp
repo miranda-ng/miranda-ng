@@ -19,8 +19,6 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	this->SetAllContactStatus(ID_STATUS_OFFLINE);
 
 	this->InitNetLib();
-
-	this->CreateService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 }
 
 CSkypeProto::~CSkypeProto()
@@ -42,7 +40,7 @@ HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	//if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return 0;
 	
-	//return this->AddContactBySkypeName(psr->id, psr->nick, flags);
+	return this->AddContactBySid(psr->id, psr->nick, flags);
 }
 
 HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) 

@@ -80,6 +80,7 @@ void CAccount::OnChange(int prop)
 				// todo: rewrite!!
 				strcpy(this->logoutReasonString, (const char*)tostring(whyLogout));
 			}
+			this->isLoggedIn = false;
 			this->isLoggedOut = true;
 		}
 	}

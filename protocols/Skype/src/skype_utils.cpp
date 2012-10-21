@@ -59,11 +59,11 @@ wchar_t* CSkypeProto::GetAvatarFilePath(wchar_t* skypeName)
 	else
 		wcscat(path, L"\\");
 
-	wcscat(path, skypeName);
-	wcscat(path, L".jpg");
-
 	// make sure the avatar cache directory exists
 	::CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
+
+	wcscat(path, skypeName);
+	wcscat(path, L".jpg");
 
 	return path;
 }
