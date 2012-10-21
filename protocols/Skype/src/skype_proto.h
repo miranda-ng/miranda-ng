@@ -103,6 +103,7 @@ public:
 	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 
 protected:
+	DWORD   dwCMDNum;
 	CAccount::Ref account;
 	CContact::Refs contactList;
 	CContactGroup::Ref commonList;

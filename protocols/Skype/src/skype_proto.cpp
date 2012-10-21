@@ -235,16 +235,13 @@ HANDLE __cdecl CSkypeProto::SendFile( HANDLE hContact, const TCHAR* szDescriptio
 
 int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg) 
 { 
-	int ret = time(NULL); // rewrite
-	//CCSDATA ccs = { hContact, PSR_MESSAGE, time(NULL), (LPARAM)::mir_strdup(msg) };
-	//this->ForkThread(&CSkypeProto::SendMessageAsync, &ccs);
+	int result = ::InterlockedIncrement((LONG volatile*)&dwCMDNum);
 
 	CConversation::Ref conversation;
 	g_skype->GetConversationByIdentity(::mir_u2a(this->GetSettingString(hContact, "sid")), conversation);
 	if (conversation) 
 	{
 		Message::Ref message;
-		//conversation->SetMyTextStatusTo(Participant::WRITING);
 		conversation->PostText(msg, message);
 	}
 
@@ -252,10 +249,10 @@ int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg)
 		hContact,
 		ACKTYPE_MESSAGE,
 		ACKRESULT_SUCCESS,
-		(HANDLE)ret,
+		(HANDLE)result,
 		0);
 	
-	return ret; 
+	return result; 
 }
 
 int    __cdecl CSkypeProto::SendUrl( HANDLE hContact, int flags, const char* url ) { return 0; }
@@ -304,13 +301,13 @@ int    __cdecl CSkypeProto::SetAwayMsg( int m_iStatus, const TCHAR* msg ) { retu
 
 int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type ) 
 { 
-	//CConversation::Ref conversation;
-	//g_skype->GetConversationByIdentity(::mir_u2a(this->GetSettingString(hContact, "sid")), conversation);
-	//if (conversation) 
-	//{
-	//	Message::Ref message;
-	//	//conversation->SetMyTextStatusTo(Participant::WRITING);
-	//}
+	CConversation::Ref conversation;
+	g_skype->GetConversationByIdentity(::mir_u2a(this->GetSettingString(hContact, "sid")), conversation);
+	if (conversation) 
+	{
+		Message::Ref message;
+		conversation->SetMyTextStatusTo(Participant::WRITING);
+	}
 	return 0; 
 }
 
