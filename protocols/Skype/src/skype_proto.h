@@ -119,9 +119,11 @@ protected:
 
 	bool	IsOnline();
 
-	//
+	// messages
 	void	OnOnMessageReceived(const char *sid, const char *text);
 	void	OnConversationAdded(CConversation::Ref conversation);
+
+	void __cdecl SendMessageAsync(void*);
 
 	// contacts
 	void	UpdateContactAboutText(HANDLE hContact, CContact::Ref contact);
@@ -165,6 +167,7 @@ protected:
 	void __cdecl SearchByEmailAsync(void*);
 
 	// utils
+	static void FakeAsync(void*);
 	static char* GetCountryNameById(int countryId);
 	static int GetCountryIdByName(const char* countryName);
 	
@@ -186,6 +189,7 @@ protected:
 
 	int		SendBroadcast(int type, int result, HANDLE hProcess, LPARAM lParam);
 	int		SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
+	DWORD	SendBroadcastAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam, size_t paramSize = 0);
 
 	void	ForkThread(SkypeThreadFunc, void*);
 	HANDLE	ForkThreadEx(SkypeThreadFunc, void*, UINT* threadID = NULL);

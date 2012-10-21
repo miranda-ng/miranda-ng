@@ -216,7 +216,10 @@ void CConversation::OnMessage(const MessageRef & message)
 	Message::TYPE messageType;
 	message->GetPropType(messageType);
 
-	if (messageType == Message::POSTED_TEXT)
+	Message::SENDING_STATUS sendingStatus;
+	message->GetPropSendingStatus(sendingStatus);
+
+	if (messageType == Message::POSTED_TEXT && !sendingStatus)
 	{
 		SEIntList propIds;
 		SEIntDict propValues;

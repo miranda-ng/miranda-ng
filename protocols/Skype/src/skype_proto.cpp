@@ -232,7 +232,32 @@ int    __cdecl CSkypeProto::RecvUrl( HANDLE hContact, PROTORECVEVENT* ) { return
 
 int    __cdecl CSkypeProto::SendContacts( HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList ) { return 0; }
 HANDLE __cdecl CSkypeProto::SendFile( HANDLE hContact, const TCHAR* szDescription, TCHAR** ppszFiles ) { return 0; }
-int    __cdecl CSkypeProto::SendMsg( HANDLE hContact, int flags, const char* msg ) { return 0; }
+
+int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg) 
+{ 
+	int ret = time(NULL); // rewrite
+	//CCSDATA ccs = { hContact, PSR_MESSAGE, time(NULL), (LPARAM)::mir_strdup(msg) };
+	//this->ForkThread(&CSkypeProto::SendMessageAsync, &ccs);
+
+	CConversation::Ref conversation;
+	g_skype->GetConversationByIdentity(::mir_u2a(this->GetSettingString(hContact, "sid")), conversation);
+	if (conversation) 
+	{
+		Message::Ref message;
+		//conversation->SetMyTextStatusTo(Participant::WRITING);
+		conversation->PostText(msg, message);
+	}
+
+	this->SendBroadcastAsync(
+		hContact,
+		ACKTYPE_MESSAGE,
+		ACKRESULT_SUCCESS,
+		(HANDLE)ret,
+		0);
+	
+	return ret; 
+}
+
 int    __cdecl CSkypeProto::SendUrl( HANDLE hContact, int flags, const char* url ) { return 0; }
 
 int    __cdecl CSkypeProto::SetApparentMode( HANDLE hContact, int mode ) { return 0; }
@@ -277,7 +302,17 @@ int    __cdecl CSkypeProto::RecvAwayMsg( HANDLE hContact, int mode, PROTORECVEVE
 int    __cdecl CSkypeProto::SendAwayMsg( HANDLE hContact, HANDLE hProcess, const char* msg ) { return 0; }
 int    __cdecl CSkypeProto::SetAwayMsg( int m_iStatus, const TCHAR* msg ) { return 0; }
 
-int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type ) { return 0; }
+int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type ) 
+{ 
+	//CConversation::Ref conversation;
+	//g_skype->GetConversationByIdentity(::mir_u2a(this->GetSettingString(hContact, "sid")), conversation);
+	//if (conversation) 
+	//{
+	//	Message::Ref message;
+	//	//conversation->SetMyTextStatusTo(Participant::WRITING);
+	//}
+	return 0; 
+}
 
 int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
@@ -397,4 +432,28 @@ void CSkypeProto::OnConversationAdded(CConversation::Ref conversation)
 {
 	conversation->SetOnMessageReceivedCallback(
 		(CConversation::OnMessageReceived)&CSkypeProto::OnOnMessageReceived, this);
+}
+
+void __cdecl CSkypeProto::SendMessageAsync(void* arg)
+{
+	CCSDATA *ccs = static_cast<CCSDATA *>(arg);
+
+	if ( !this->IsOnline())
+	{
+		this->SendBroadcast(
+			ccs->hContact, 
+			ACKTYPE_MESSAGE, 
+			ACKRESULT_FAILED, 
+			(HANDLE)ccs->lParam, 
+			(LPARAM)"You cannot send when you are offline.");
+	}
+
+	CConversation::Ref conversation;
+	g_skype->GetConversationByIdentity(::mir_u2a(this->GetSettingString(ccs->hContact, "sid")), conversation);
+	if (conversation) 
+	{
+		Message::Ref message;
+		conversation->SetMyTextStatusTo(Participant::WRITING);
+		conversation->PostText((char *)ccs->wParam, message);
+	}
 }

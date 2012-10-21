@@ -3,6 +3,13 @@
 int  CSkypeProto::countriesCount;
 CountryListEntry*  CSkypeProto::countryList;
 
+void CSkypeProto::FakeAsync(void *param)
+{
+	::Sleep(100);
+	::CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)param);
+	::mir_free(param);
+}
+
 int CSkypeProto::GetCountryIdByName(const char* countryName)
 {
 	for (int i = 0; i < CSkypeProto::countriesCount; i++)
@@ -107,6 +114,22 @@ int CSkypeProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hPr
 	ack.lParam = lParam;
 
 	return ::CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
+}
+
+DWORD CSkypeProto::SendBroadcastAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam, size_t paramSize)
+{
+	ACKDATA *ack = (ACKDATA *)::mir_calloc(sizeof(ACKDATA) + paramSize);
+	ack->cbSize = sizeof(ACKDATA);
+	ack->szModule = this->m_szModuleName; 
+	ack->hContact = hContact;
+	ack->type = type; 
+	ack->result = hResult;
+	ack->hProcess = hProcess; 
+	ack->lParam = lParam;
+	if (paramSize)
+		::memcpy(ack+1, (void*)lParam, paramSize);
+	::mir_forkthread(&CSkypeProto::FakeAsync, ack);
+	return 0;
 }
 
 void CSkypeProto::ForkThread(SkypeThreadFunc pFunc, void *param)
