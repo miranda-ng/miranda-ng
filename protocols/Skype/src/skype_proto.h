@@ -119,6 +119,10 @@ protected:
 
 	bool	IsOnline();
 
+	//
+	void	OnOnMessageReceived(const char *sid, const char *text);
+	void	OnConversationAdded(CConversation::Ref conversation);
+
 	// contacts
 	void	UpdateContactAboutText(HANDLE hContact, CContact::Ref contact);
 	void	UpdateContactAuthState(HANDLE hContact, CContact::Ref contact);
@@ -205,6 +209,11 @@ protected:
 
 	// database
 	HANDLE AddDataBaseEvent(HANDLE hContact, WORD type, DWORD time, DWORD flags, DWORD cbBlob, PBYTE pBlob);
+	void RaiseMessageReceivedEvent(
+		DWORD timestamp, 
+		const char* sid, 
+		const char* nick, 
+		const char* message = "");
 	void RaiseAuthRequestEvent(
 		DWORD timestamp, 
 		const char* sid, 

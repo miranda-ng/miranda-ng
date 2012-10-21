@@ -2,6 +2,12 @@
 
 // CSkype
 
+CSkype::CSkype(int num_threads) : Skype(num_threads)
+{
+	this->proto = NULL;
+	this->callback == NULL;
+}
+
 CAccount* CSkype::newAccount(int oid) 
 { 
 	return new CAccount(oid, this); 
@@ -25,6 +31,25 @@ CConversation* CSkype::newConversation(int oid)
 CContactSearch*	CSkype::newContactSearch(int oid)
 {
 	return new CContactSearch(oid, this);
+}
+
+void CSkype::OnConversationListChange(
+	const ConversationRef &conversation, 
+	const Conversation::LIST_TYPE &type, 
+	const bool &added)
+{
+	if ((type == Conversation::INBOX_CONVERSATIONS) && (added) && (!inbox.contains(conversation)))
+	{
+		inbox.append(conversation);
+		if (this->proto)
+			(proto->*callback)(conversation->ref());
+	}
+}
+
+void CSkype::SetOnConversationAddedCallback(OnConversationAdded callback, CSkypeProto* proto)
+{
+	this->proto = proto;
+	this->callback = callback;
 }
 
 // CAccount
@@ -179,9 +204,35 @@ void CContact::OnChange(int prop)
 
 // Conversation
 
-CConversation::CConversation(unsigned int oid, SERootObject* root) : Conversation(oid, root) {}
+CConversation::CConversation(unsigned int oid, SERootObject* root) : Conversation(oid, root) 
+{
+	this->proto = NULL;
+	this->callback == NULL;
+}
 
 void CConversation::OnMessage(const MessageRef & message)
 {
-  // Message handling goes here
+	Message::TYPE messageType;
+	message->GetPropType(messageType);
+
+	if (messageType == Message::POSTED_TEXT)
+	{
+		SEIntList propIds;
+		SEIntDict propValues;
+		propIds.append(Message::P_AUTHOR);
+		propIds.append(Message::P_BODY_XML);
+		propValues = message->GetProps(propIds);
+	
+		//if (propValues[0] != myAccountName)
+		{
+			if (this->proto)
+				(proto->*callback)((const char*)propValues[0], (const char*)propValues[1]);
+		}
+	}
+}
+
+void CConversation::SetOnMessageReceivedCallback(OnMessageReceived callback, CSkypeProto* proto)
+{
+	this->proto = proto;
+	this->callback = callback;
 }

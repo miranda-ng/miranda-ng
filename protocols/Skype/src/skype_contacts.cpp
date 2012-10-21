@@ -540,7 +540,7 @@ HANDLE CSkypeProto::AddContactBySid(const wchar_t* sid, const wchar_t* nick, DWO
 	else
 	{
 		if ( !(flags & PALF_TEMPORARY))
-			::DBWriteContactSettingByte(hContact, "CList", "NotOnList", 1);
+			::DBDeleteContactSetting(hContact, "CList", "NotOnList");
 	}
 
 	return hContact;

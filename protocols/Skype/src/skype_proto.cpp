@@ -222,7 +222,12 @@ HWND   __cdecl CSkypeProto::CreateExtendedSearchUI( HWND owner ){ return 0; }
 
 int    __cdecl CSkypeProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* ) { return 0; }
 int    __cdecl CSkypeProto::RecvFile( HANDLE hContact, PROTORECVFILET* ) { return 0; }
-int    __cdecl CSkypeProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* ) { return 0; }
+
+int    __cdecl CSkypeProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre) 
+{ 
+	return ::Proto_RecvMessage(hContact, pre);
+}
+
 int    __cdecl CSkypeProto::RecvUrl( HANDLE hContact, PROTORECVEVENT* ) { return 0; }
 
 int    __cdecl CSkypeProto::SendContacts( HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList ) { return 0; }
@@ -319,6 +324,16 @@ void __cdecl CSkypeProto::SignInThread(void*)
 	}
 	else
 	{
+		g_skype->GetConversationList(g_skype->inbox, CConversation::INBOX_CONVERSATIONS);
+		fetch(g_skype->inbox);
+		g_skype->SetOnConversationAddedCallback(
+			(CSkype::OnConversationAdded)&CSkypeProto::OnConversationAdded, this);
+		for (int i = 0 ; i < g_skype->inbox.size(); i++)
+		{
+			g_skype->inbox[i]->SetOnMessageReceivedCallback(
+				(CConversation::OnMessageReceived)&CSkypeProto::OnOnMessageReceived, this);
+		}
+
 		this->SetStatus(this->m_iDesiredStatus);
 		this->ForkThread(&CSkypeProto::LoadContactList, this);
 		//this->LoadContactList(this);
@@ -371,4 +386,15 @@ void CSkypeProto::RequestPassword()
 		NULL, 
 		CSkypeProto::SkypePasswordProc, 
 		LPARAM(this));
+}
+
+void CSkypeProto::OnOnMessageReceived(const char *sid, const char *text)
+{
+	this->RaiseMessageReceivedEvent(time(NULL), sid, sid, text);
+}
+
+void CSkypeProto::OnConversationAdded(CConversation::Ref conversation)
+{
+	conversation->SetOnMessageReceivedCallback(
+		(CConversation::OnMessageReceived)&CSkypeProto::OnOnMessageReceived, this);
 }
