@@ -130,7 +130,7 @@ BEGIN_PROTECT_AND_LOG_CODE
 	optsDialog.pszGroup = lpszGroup;	
 #endif
 	optsDialog.pfnDlgProc = (DLGPROC)&CSettingsDlgHolder::FakeDlgProc;
-	optsDialog.flags = ODPF_BOLDGROUPS/*|ODPF_EXPERTONLY*/; /// some lames are scaring that option...
+	optsDialog.flags = ODPF_BOLDGROUPS;
 #ifdef _UNICODE
 	optsDialog.flags |= ODPF_UNICODE;
 #endif

@@ -26,7 +26,7 @@ begin
   odp.szTitle.a  :=PluginName;
   odp.szGroup.a  :='Plugins';
 
-  odp.flags      :=ODPF_BOLDGROUPS or ODPF_EXPERTONLY;
+  odp.flags      :=ODPF_BOLDGROUPS;
   odp.pszTemplate:='PARTS';
   odp.pfnDlgProc :=@DlgProcOptions0;
   odp.szTab.a    :='Modules';

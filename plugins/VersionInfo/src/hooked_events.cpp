@@ -57,8 +57,6 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static UINT uiExpertOnlyControls[] = { IDC_SHOWUUIDS, IDC_SHOWINSTALLEDLANGUAGES };
-
 int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
@@ -71,8 +69,6 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOpts;
-	odp.expertOnlyControls = uiExpertOnlyControls;
-	odp.nExpertOnlyControls = SIZEOF(uiExpertOnlyControls);
 	
 	Options_AddPage(wParam, &odp);
 

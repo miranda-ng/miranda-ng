@@ -232,8 +232,6 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 /****************************************************************************************/
 
-static UINT expertOnlyControls[] = { IDC_ALWAYSSTATUS };
-
 int CListOptInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
@@ -244,9 +242,6 @@ int CListOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTitle = LPGEN("Contact List");
 	odp.pfnDlgProc = DlgProcGenOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.nIDBottomSimpleControl = IDC_STCLISTGROUP;
-	odp.expertOnlyControls = expertOnlyControls;
-	odp.nExpertOnlyControls = SIZEOF(expertOnlyControls);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

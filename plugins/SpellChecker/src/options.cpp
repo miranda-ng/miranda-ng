@@ -72,9 +72,6 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.nIDBottomSimpleControl = IDC_SPELL_CHECKER;
-	odp.expertOnlyControls = optionsExpertControls;
-	odp.nExpertOnlyControls = SIZEOF(optionsExpertControls);
 	Options_AddPage(wParam, &odp);
 
 	ZeroMemory(&odp,sizeof(odp));

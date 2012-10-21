@@ -1133,6 +1133,7 @@ bool facebook_client::send_message( std::string message_recipient, std::string m
 	} break;
  
     default: // Other error
+		parent->Log(" !!!  Send message error #%d: %s", resp.error_number, resp.error_text);
 		return false;
  	}
 

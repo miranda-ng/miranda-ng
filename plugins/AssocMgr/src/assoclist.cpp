@@ -978,7 +978,7 @@ static int AssocListOptInit(WPARAM wParam, LPARAM lParam)
 	odp.position = 900000100; /* network opts  =  900000000 */
 	odp.pszGroup = LPGEN("Services"); /* autotranslated */
 	odp.pszTitle = LPGEN("Associations"); /* autotranslated */
-	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = AssocListOptDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

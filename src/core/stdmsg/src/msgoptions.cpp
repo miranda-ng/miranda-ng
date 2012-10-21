@@ -595,13 +595,11 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);
 	odp.pszTab = LPGEN("Messaging Log");
 	odp.pfnDlgProc = DlgProcLogOptions;
-	odp.nIDBottomSimpleControl = IDC_STMSGLOGGROUP;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
 	odp.pszTab = LPGEN("Typing Notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
-	odp.nIDBottomSimpleControl = 0;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

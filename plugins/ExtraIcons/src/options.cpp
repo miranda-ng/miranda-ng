@@ -848,7 +848,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM lParam)
 	odp.pszTab = LPGEN("General");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	return 0;

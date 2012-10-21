@@ -148,7 +148,6 @@ int GGPROTO::options_init(WPARAM wParam, LPARAM lParam)
 	odp.ptszTab = LPGENT("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_ADVANCED);
 	odp.pfnDlgProc = gg_advoptsdlgproc;
-	odp.flags |= ODPF_EXPERTONLY;
 	Options_AddPage(wParam, &odp);
 
 	return 0;

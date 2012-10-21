@@ -159,7 +159,6 @@ static int OptionsInitialize(WPARAM wParam,LPARAM lParam)
 	odp.pszTab     = LPGEN("Advanced");
 	odp.pfnDlgProc  = DlgProcPopUpAdvOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP_ADVANCED);
-	odp.flags       |= ODPF_EXPERTONLY;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszGroup    = LPGEN("Skins");

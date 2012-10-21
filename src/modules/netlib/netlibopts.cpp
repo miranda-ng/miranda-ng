@@ -498,7 +498,6 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	return FALSE;
 }
 
-static UINT expertOnlyControls[] = {IDC_LOGOPTIONS};
 int NetlibOptInitialise(WPARAM wParam, LPARAM)
 {
 	int optionsCount = 0;
@@ -521,8 +520,6 @@ int NetlibOptInitialise(WPARAM wParam, LPARAM)
 	odp.pszTitle = LPGEN("Network");
 	odp.pfnDlgProc = DlgProcNetlibOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.expertOnlyControls = expertOnlyControls;
-	odp.nExpertOnlyControls = SIZEOF(expertOnlyControls);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

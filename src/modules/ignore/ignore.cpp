@@ -221,11 +221,6 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 		SendDlgItemMessage(hwndDlg, IDC_ADDED, STM_SETICON, (WPARAM)hIcons[7], 0);
 		SendDlgItemMessage(hwndDlg, IDC_TYPINGICON, STM_SETICON, (WPARAM)hIcons[8], 0);
 
-		if ( !SendMessage(GetParent(hwndDlg), PSM_ISEXPERT, 0, 0)) {
-			SetWindowLongPtr( GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE, GetWindowLongPtr( GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE)&~(CLS_CHECKBOXES|CLS_GROUPCHECKBOXES|CLS_SHOWHIDDEN));
-			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_AUTOREBUILD, 0, 0);
-		}
-
 		ResetListOptions( GetDlgItem(hwndDlg, IDC_LIST));
 		SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRACOLUMNS, IGNOREEVENT_MAX+2, 0);
 		{
@@ -317,17 +312,6 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 				}
 				return TRUE;
 
-			case PSN_EXPERTCHANGED:
-				{
-					INT_PTR dwStyle = GetWindowLongPtr( GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE);
-					if (((PSHNOTIFY*)lParam)->lParam)
-						dwStyle |= CLS_CHECKBOXES | CLS_GROUPCHECKBOXES | CLS_SHOWHIDDEN;
-					else
-						dwStyle &= ~(CLS_CHECKBOXES|CLS_GROUPCHECKBOXES|CLS_SHOWHIDDEN);
-					SetWindowLongPtr( GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE, dwStyle);
-					SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_AUTOREBUILD, 0, 0);
-				}
-				break;
 			}
 			break;
 		}
@@ -345,7 +329,6 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 	return FALSE;
 }
 
-static UINT expertOnlyControls[] = {IDC_STCHECKMARKS};
 static int IgnoreOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
@@ -357,8 +340,6 @@ static int IgnoreOptInitialise(WPARAM wParam, LPARAM)
 	odp.pszGroup = LPGEN("Events");
 	odp.pfnDlgProc = DlgProcIgnoreOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.expertOnlyControls = expertOnlyControls;
-	odp.nExpertOnlyControls = SIZEOF(expertOnlyControls);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

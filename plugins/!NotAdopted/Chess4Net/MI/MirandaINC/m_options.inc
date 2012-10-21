@@ -64,10 +64,6 @@ const
     OPTIONSDIALOGPAGE_V0100_SIZE    = $18;
     OPTIONSDIALOGPAGE_V0120_SIZE    = $28;
 
-    { page is only shown when in 'simple' mode }
-    ODPF_SIMPLEONLY                 = 1;
-    { page is only shown when in 'expert' mode }
-    ODPF_EXPERTONLY                 = 2;
     { give group box titles a bold font }
     ODPF_BOLDGROUPS                 = 4;
 
@@ -86,24 +82,10 @@ type
         groupPosition: int;             // v0.1.0.1+
         hGroupIcon: THandle;            // v0.1.0.1+
         flags: DWORD;                   // v0.1.2.1+
-        { if in simple mode the dialog will be cut off AFTER this control ID, 0
-        for disable }
-        nIDBottomSimpleControl: int;    // v0.1.2.1+
-        { if in simple mode the dialog will cut off AFTER this control ID, 0 to disable }
-        nIDRightSimpleControl: int;     // v0.1.2.1+
-        { these controls will be hidden in simple mode, pointer to an array of ID's
-        must remain valid for the duration of the dialog }
-        expertOnlyControls: ^int;
-        nExpertOnlyControls: int;       // v0.1.2.1+
     end;
 
 const
 
-    { sent to pages via WM_NOTIFY when the expert checkbox is clicked, lParam = new state }
-    PSN_EXPERTCHANGED               = 2;
-    { returns true/false }
-    PSM_ISEXPERT                    = ($0400 + 101);
-    { returns HFONT used for group box titles }
     PSM_GETBOLDFONT                 = ($0400 + 102);
 
 {$ENDIF}

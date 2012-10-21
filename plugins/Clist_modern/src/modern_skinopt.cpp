@@ -68,7 +68,6 @@ int SkinOptInit( WPARAM wParam, LPARAM lParam )
 		Options_AddPage(wParam, &odp);
 
 		if ( db_get_b( NULL, "ModernData", "EnableSkinEditor", SETTING_ENABLESKINEDITOR_DEFAULT )) {
-			odp.flags |= ODPF_EXPERTONLY;
 			odp.pfnDlgProc = DlgSkinEditorOpts;
 			odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_SKINEDITOR );
 			odp.pszTab = LPGEN( "Object Editor" );

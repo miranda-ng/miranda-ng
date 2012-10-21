@@ -396,7 +396,6 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CorrectPacks(_T("langpack_*.txt"), FALSE);
 			CheckDlgButton(hwndDlg, IDC_ENABLEAUTOUPDATES, DBGetContactSettingByte(NULL, "LangMan", "EnableAutoUpdates", SETTING_ENABLEAUTOUPDATES_DEFAULT)!=0);
 			SendMessage(hwndDlg, M_RELOADLIST, 0, 0);
-			SendMessage(hwndDlg, M_SHOWFILECOL, 0, SendMessage(GetParent(hwndDlg), PSM_ISEXPERT, 0, 0));
 			return TRUE;
 		}
 		case M_RELOADLIST:
@@ -621,9 +620,6 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							DBWriteContactSettingByte(NULL, "LangMan", "EnableAutoUpdates", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ENABLEAUTOUPDATES)!=0));
 							return TRUE;
 						}
-						case PSN_EXPERTCHANGED:
-							SendMessage(hwndDlg, M_SHOWFILECOL, 0, ((PSHNOTIFY*)lParam)->lParam);
-							return TRUE;
 					} /* switch nmhdr->code */
 					break;
 			} /* switch nmhdr->idFrom */
@@ -637,7 +633,6 @@ void ReloadLangOptList(void)
 {
 	if (hwndLangOpt!=NULL) {
 		SendMessage(hwndLangOpt, M_RELOADLIST, 0, 0);
-		SendMessage(hwndLangOpt, M_SHOWFILECOL, 0, SendMessage(GetParent(hwndLangOpt), PSM_ISEXPERT, 0, 0));
 	}
 }
 

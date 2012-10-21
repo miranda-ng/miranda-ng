@@ -51,11 +51,6 @@ static OptPageControl optionsControls[] = {
 	{ &opts.adv_icon_slot,				CONTROL_COMBO,		IDC_ADV_ICON,					"AdvancedIconSlot", 1}
 };
 
-static UINT optionsExpertControls[] = { 
-	IDC_XSTATUS_G, IDC_XSTATUS_L, IDC_SET_XSTATUS, IDC_CHECK_XSTATUS, IDC_CHECK_XSTATUS_MUSIC, IDC_IGNORE_XSTATUS,
-	IDC_CONTACTS_G, IDC_SHOW_ADV_ICON, IDC_ADV_ICON
-};
-
 static OptPageControl formatControls[] = { 
 	{ &opts.templ,					CONTROL_TEXT,		IDC_TEMPLATE,			"Template", (DWORD) _T("%artist% - %title%") },
 	{ &opts.unknown,				CONTROL_TEXT,		IDC_UNKNOWN,			"Unknown", (DWORD) _T("<Unknown>"), 0, 0, 128 },
@@ -90,15 +85,12 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	odp.pszTab = LPGEN("General");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.expertOnlyControls = optionsExpertControls;
-	odp.nExpertOnlyControls = MAX_REGS(optionsExpertControls);
-	odp.nIDBottomSimpleControl = IDC_LISTENING_G;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTab = LPGEN("Format");
 	odp.pfnDlgProc = FormatDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_FORMAT);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTab = LPGEN("Players");

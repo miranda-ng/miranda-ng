@@ -1019,8 +1019,6 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	return FALSE;
 }
 
-static UINT iconsExpertOnlyControls[] = {IDC_IMPORT};
-
 int SkinOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {0};
@@ -1032,8 +1030,6 @@ int SkinOptionsInit(WPARAM wParam, LPARAM)
 	odp.pszTitle = LPGEN("Icons");
 	odp.pszGroup = LPGEN("Customize");
 	odp.pfnDlgProc = DlgProcIcoLibOpts;
-	odp.expertOnlyControls = iconsExpertOnlyControls;
-	odp.nExpertOnlyControls = SIZEOF(iconsExpertOnlyControls);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

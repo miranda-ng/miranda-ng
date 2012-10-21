@@ -184,8 +184,6 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-static UINT expertOnlyControls[] = { IDC_VARIABLES, IDC_VARIABLES_HINT };
-
 int OnOptInitialized(WPARAM wParam, LPARAM lParam)
 {
 	char tabName[32];
@@ -198,9 +196,6 @@ int OnOptInitialized(WPARAM wParam, LPARAM lParam)
 	odp.pszTab              = tabName;
 	odp.position            = iNumber;
 	odp.hInstance           = hInstance;
-
-	odp.expertOnlyControls  = expertOnlyControls;
-	odp.nExpertOnlyControls = SIZEOF(expertOnlyControls);
 
 	odp.pszTemplate         = MAKEINTRESOURCEA(IDD_OPTIONS_PAGE);
 	odp.pfnDlgProc          = DlgProcOptionsPage;

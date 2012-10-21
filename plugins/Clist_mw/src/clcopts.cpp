@@ -57,7 +57,7 @@ int ClcOptInit(WPARAM wParam,LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
 	odp.pszTitle = LPGEN("List");
 	odp.pfnDlgProc = DlgProcClcMainOpts;
-	odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	if (!ServiceExists(MS_BACKGROUNDCONFIG_REGISTER)) {

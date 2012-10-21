@@ -358,7 +358,6 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 	return FALSE;
 }
 
-static UINT expertOnlyControls[]={IDC_CHECK_USEIPTOCOUNTRY};
 static int ExtraImgOptInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
@@ -371,8 +370,6 @@ static int ExtraImgOptInit(WPARAM wParam,LPARAM lParam)
 	odp.pszTab = LPGEN("Country Flags");   /* autotranslated, can be made a tab */
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = ExtraImgOptDlgProc;
-	odp.expertOnlyControls = expertOnlyControls;
-	odp.nExpertOnlyControls = SIZEOF(expertOnlyControls);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

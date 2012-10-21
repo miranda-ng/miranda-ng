@@ -2,7 +2,7 @@
 UserinfoEx plugin for Miranda IM
 
 Copyright:
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+ï¿½ 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -99,12 +99,6 @@ static VOID ClearAllExtraIcons(INT ExtraIconColumnType)
 static VOID SendNotify_InfoChanged(HWND hDlg)
 {
 	PSHNOTIFY pshn;
-
-	// extended setting
-	pshn.hdr.idFrom = 0;
-	pshn.hdr.code = PSN_EXPERTCHANGED;
-	pshn.lParam = SendMessage(GetParent(GetParent(hDlg)), PSM_ISEXPERT, NULL, NULL) ? TRUE : FALSE;
-	SendMessage(hDlg, WM_NOTIFY, 0, (LPARAM)&pshn);
 
 	// send info changed message
 	pshn.hdr.code = PSN_INFOCHANGED;
@@ -1528,7 +1522,7 @@ static INT OnInitOptions(WPARAM wParam, LPARAM lParam)
 	odp.pszTab = LPGEN("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = DlgProc_AdvancedOpts;
-	odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	// Details Dialog page
@@ -1551,7 +1545,7 @@ static INT OnInitOptions(WPARAM wParam, LPARAM lParam)
 		odp.pszGroup = LPGEN("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 		odp.pfnDlgProc = DlgProc_Popups;
-		odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY;
+		odp.flags = ODPF_BOLDGROUPS;
 		Options_AddPage(wParam, &odp);
 	}
 	return MIR_OK;

@@ -308,7 +308,7 @@
 #define IDC_NEWNAME                     1341
 #define IDC_MOVE                        1342
 #define IDC_LEAVE                       1343
-#define IDC_EXPERT                      1346
+#define IDC_MODERN                      1346
 #define IDC_CATEGORYLIST                1366
 #define IDC_LOADICONS                   1369
 #define IDC_STICONSGROUP                1371

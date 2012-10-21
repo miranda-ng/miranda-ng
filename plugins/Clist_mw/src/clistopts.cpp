@@ -32,7 +32,6 @@ void SortContacts(void);
 
 static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-static UINT expertOnlyControls[] = {IDC_ALWAYSSTATUS};
 int CListOptInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp;
@@ -45,9 +44,6 @@ int CListOptInit(WPARAM wParam,LPARAM lParam)
 	odp.pszTitle = LPGEN("Contact List");
 	odp.pfnDlgProc = DlgProcGenOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.nIDBottomSimpleControl = IDC_STCLISTGROUP;
-	odp.expertOnlyControls = expertOnlyControls;
-	odp.nExpertOnlyControls = sizeof(expertOnlyControls)/sizeof(expertOnlyControls[0]);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

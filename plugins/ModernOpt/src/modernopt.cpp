@@ -247,7 +247,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 
 		case IDC_BTN_CLASSICOPT:
 			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
-			// TODO: Set advanced options as default (add db key + check that for opening new options)
+			DBWriteContactSettingByte(NULL, "Options", "Expert", 1);
 			{
 				OPENOPTIONSDIALOG ood = {0};
 				ood.cbSize = sizeof(ood);

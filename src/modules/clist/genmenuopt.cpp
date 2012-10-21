@@ -864,7 +864,7 @@ int GenMenuOptInit(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PROTOCOLORDER);
 	odp.pszTitle = LPGEN("Accounts");
 	odp.pfnDlgProc = ProtocolOrderOpts;
-	odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

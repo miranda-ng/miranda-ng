@@ -1171,7 +1171,6 @@ static int OptInit(WPARAM wParam,LPARAM lParam)
 	odp.pszTitle = LPGEN("Console");
 	odp.pfnDlgProc = OptDlgProc;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.expertOnlyControls = NULL;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

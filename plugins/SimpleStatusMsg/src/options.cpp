@@ -1743,7 +1743,6 @@ int InitOptions(WPARAM wParam, LPARAM lParam)
 	odp.pszTab = LPGEN("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = DlgAdvancedOptionsProc;
-	odp.flags |= ODPF_EXPERTONLY;
 	Options_AddPage(wParam, &odp);
 
 	return 0;

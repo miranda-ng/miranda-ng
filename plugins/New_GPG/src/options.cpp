@@ -1,4 +1,4 @@
-// Copyright © 2010-2012 sss
+// Copyright ï¿½ 2010-2012 sss
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -83,7 +83,7 @@ int GpgOptInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszTitle = _T(szGPGModuleName);
 	odp.ptszGroup = LPGENT("Services");
 	odp.ptszTab = LPGENT("Advanced");
-	odp.flags=ODPF_BOLDGROUPS | ODPF_EXPERTONLY | ODPF_TCHAR;
+	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcGpgAdvOpts;
 	Options_AddPage(wParam, &odp);
 

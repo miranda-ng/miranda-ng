@@ -63,16 +63,6 @@ type
     groupPosition         :int;     // v0.1.0.1+
     hGroupIcon            :HICON;   // v0.1.0.1+
     flags                 :dword;   // v0.1.2.1+
-    nIDBottomSimpleControl:int;     // v0.1.2.1+
-      // if in simple mode the dlg will be cut off after this control,
-      // 0 to disable
-    nIDRightSimpleControl :int;     // v0.1.2.1+
-      // if in simple mode the dlg will be cut off after this control,
-      // 0 to disable
-    expertOnlyControls    :^uint;
-    nExpertOnlyControls   :int;     // v0.1.2.1+
-      // these controls will be hidden in simple mode. Array must remain valid
-      // for duration of dlg.
     szTab                 :TChar;   // v0.6.0.0+ [TRANSLATED-BY-CORE]
     dwInitParam           :LPARAM;  // v0.8.0.0+ a value to pass to lParam of WM_INITDIALOG message
     hLangpack             :int;
@@ -90,17 +80,12 @@ const
   {$ENDIF}
 
 const
-  ODPF_SIMPLEONLY    =  1; // page is only shown when in simple mode
-  ODPF_EXPERTONLY    =  2; //          "                 expert mode
   ODPF_BOLDGROUPS    =  4; // give group box titles a bold font
   ODPF_UNICODE       =  8; // string fields in OPTIONSDIALOGPAGE are WCHAR*
   ODPF_USERINFOTAB   = 16; // options page is tabbed
   ODPF_DONTTRANSLATE = 32; // do not translate option page title
 
 const
-  PSN_EXPERTCHANGED = 2;    //sent to pages via WM_NOTIFY when the expert checkbox is clicked. lParam=new state
-
-  PSM_ISEXPERT      = WM_USER+101;   //returns true/false
   PSM_GETBOLDFONT   = WM_USER+102;   //returns HFONT used for group box titles
 
   MS_OPT_ADDPAGE:PAnsiChar = 'Opt/AddPage';
@@ -125,7 +110,5 @@ const
 
 //Opens the options dialog, with only specified page    v0.8.0.x+
   MS_OPT_OPENOPTIONSPAGE = 'Opt/OpenOptionsPage';
-
-  SETTING_SHOWEXPERT_DEFAULT = 1;
 
 {$ENDIF}

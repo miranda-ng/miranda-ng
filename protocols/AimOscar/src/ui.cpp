@@ -1158,13 +1158,11 @@ int CAimProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszTab   = LPGENT("Basic");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_AIM);
 	odp.pfnDlgProc = options_dialog;
-	odp.nIDBottomSimpleControl = IDC_OPTIONS;
 	Options_AddPage(wParam, &odp);
 	
 	odp.ptszTab     = LPGENT("Privacy");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PRIVACY);
 	odp.pfnDlgProc  = privacy_dialog;
-	odp.nIDBottomSimpleControl = 0;
 	Options_AddPage(wParam, &odp);
 
 	return 0;

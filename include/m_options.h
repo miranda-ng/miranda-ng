@@ -73,10 +73,6 @@ typedef struct {
 	int groupPosition;	 //v0.1.0.1+
 	HICON hGroupIcon;	 //v0.1.0.1+
 	DWORD flags;         //v0.1.2.1+
-	int nIDBottomSimpleControl;  //v0.1.2.1+  if in simple mode the dlg will be cut off after this control, 0 to disable
-	int nIDRightSimpleControl;  //v0.1.2.1+  if in simple mode the dlg will be cut off after this control, 0 to disable
-	UINT *expertOnlyControls;
-	int nExpertOnlyControls;    //v0.1.2.1+  these controls will be hidden in simple mode. Array must remain valid for duration of dlg.
 
 	union {
 		char* pszTab;		 //v0.6.0.0+ [TRANSLATED-BY-CORE]
@@ -88,8 +84,6 @@ typedef struct {
 }
 	OPTIONSDIALOGPAGE;
 
-#define ODPF_SIMPLEONLY     1   // page is only shown when in simple mode
-#define ODPF_EXPERTONLY     2   //         "                  expert mode
 #define ODPF_BOLDGROUPS     4   // give group box titles a bold font
 #define ODPF_UNICODE        8   // string fields in OPTIONSDIALOGPAGE are WCHAR*
 #define ODPF_USERINFOTAB    16  // options page is tabbed
@@ -101,8 +95,6 @@ typedef struct {
 	#define ODPF_TCHAR     0
 #endif
 
-#define PSN_EXPERTCHANGED 2    //sent to pages via WM_NOTIFY when the expert checkbox is clicked. lParam = new state
-#define PSM_ISEXPERT      (WM_USER+101)   //returns true/false
 #define PSM_GETBOLDFONT   (WM_USER+102)   //returns HFONT used for group box titles
 
 __forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
@@ -137,7 +129,5 @@ __forceinline HWND Options_OpenPage(OPENOPTIONSDIALOG *ood)
 {
 	return (HWND)CallService("Opt/OpenOptionsPage", hLangpack, (LPARAM)ood);
 }
-
-#define SETTING_SHOWEXPERT_DEFAULT  1
 
 #endif  //M_OPTIONS_H__

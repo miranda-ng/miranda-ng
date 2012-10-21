@@ -24,7 +24,6 @@ int NudgeOptInit(WPARAM wParam,LPARAM lParam)
 	odp.position = -790000001;
 	odp.pszTab = LPGEN("Window Shaking");
 	odp.pfnDlgProc = DlgProcShakeOpt;
-	odp.flags |= ODPF_EXPERTONLY;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SHAKE);
 	Options_AddPage(wParam, &odp);
 	return 0;

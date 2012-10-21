@@ -677,8 +677,6 @@ int TrafficCounterOptInitialise(WPARAM wParam,LPARAM lParam)
 	odp.pszTitle = LPGEN("Traffic counter");
 	odp.pfnDlgProc=DlgProcTCOptions;
 	odp.flags=ODPF_BOLDGROUPS;
-	odp.expertOnlyControls=0;
-	odp.nExpertOnlyControls=0;
 	Options_AddPage(wParam, &odp);
 
 	// Statistics options page

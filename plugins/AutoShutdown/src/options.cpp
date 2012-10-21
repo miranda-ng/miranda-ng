@@ -114,7 +114,7 @@ static int ShutdownOptInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszGroup=_T("Events"); /* autotranslated */
 	odp.ptszTitle=_T("Automatic Shutdown"); /* autotranslated */
 	odp.ptszTab=_T("Automatic Shutdown");  /* autotranslated, can be made a tab */
-	odp.flags=ODPF_BOLDGROUPS|ODPF_EXPERTONLY|ODPF_TCHAR;
+	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pfnDlgProc = ShutdownOptDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

@@ -2165,7 +2165,7 @@ static int OptInit(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInst;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszGroup = LPGEN("Customize");
 	odp.pszTitle = LPGEN("Avatars");
 

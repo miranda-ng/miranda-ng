@@ -1622,8 +1622,6 @@ int CJabberProto::OnOptionsInit( WPARAM wParam, LPARAM )
 	OptCreateGc.param = this;
 	Options_AddPage(wParam, &odp);
 
-	odp.flags |= ODPF_EXPERTONLY;
-
 	odp.ptszTab     = LPGENT("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_JABBER2 );
 	odp.pfnDlgProc  = CDlgBase::DynamicDlgProc;

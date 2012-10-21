@@ -68,11 +68,8 @@ struct OptionsPageData
 	HTREEITEM hTreeItem;
 	HWND hwnd;
 	int changed;
-	int simpleHeight, expertHeight;
-	int simpleWidth, expertWidth;
-	int simpleBottomControlId, simpleRightControlId;
-	int nExpertOnlyControls;
-	UINT *expertOnlyControls;
+	int height;
+	int width;
 	DWORD flags;
 	TCHAR *ptszTitle, *ptszGroup, *ptszTab;
 	int hLangpack;
@@ -359,8 +356,6 @@ static BOOL CheckPageShow(HWND hdlg, OptionsDlgData* dat, int i)
 	OptionsPageData* opd = dat->arOpd[i];
 
 	if (dat->szFilterString && dat->szFilterString[0] && !MatchesFilter(opd, dat->szFilterString)) return FALSE;
-	if ((opd->flags & ODPF_SIMPLEONLY) && IsDlgButtonChecked(hdlg, IDC_EXPERT)) return FALSE;
-	if ((opd->flags & ODPF_EXPERTONLY) && !IsDlgButtonChecked(hdlg, IDC_EXPERT)) return FALSE;
 	return TRUE;
 }
 
@@ -586,12 +581,8 @@ static bool LoadOptionsPage(OPTIONSDIALOGPAGE *src, OptionsPageData *dst)
 	dst->hInst = src->hInstance;
 	dst->hwnd = NULL;
 	dst->changed = 0;
-	dst->simpleHeight = dst->expertHeight = 0;
-	dst->simpleBottomControlId = src->nIDBottomSimpleControl;
-	dst->simpleWidth = dst->expertWidth = 0;
-	dst->simpleRightControlId = src->nIDRightSimpleControl;
-	dst->nExpertOnlyControls = src->nExpertOnlyControls;
-	dst->expertOnlyControls = src->expertOnlyControls;
+	dst->height = 0;
+	dst->width = 0;
 	dst->flags = src->flags;
 	dst->hLangpack = src->hLangpack;
 	dst->dwInitParam = src->dwInitParam;
@@ -700,14 +691,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 			Utils_RestoreWindowPositionNoSize(hdlg, NULL, "Options", "");
 			Window_SetIcon_IcoLib(hdlg, SKINICON_OTHER_OPTIONS);
-			CheckDlgButton(hdlg, IDC_EXPERT, db_get_b(NULL, "Options", "Expert", SETTING_SHOWEXPERT_DEFAULT)?BST_CHECKED:BST_UNCHECKED);
 			EnableWindow( GetDlgItem(hdlg, IDC_APPLY), FALSE);
 			dat = new OptionsDlgData;
 			SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)dat);
 			SetWindowText(hdlg, psh->pszCaption);
 			
 			LOGFONT lf;
-			dat->hBoldFont = (HFONT)SendDlgItemMessage(hdlg, IDC_EXPERT, WM_GETFONT, 0, 0);
+			dat->hBoldFont = (HFONT)SendDlgItemMessage(hdlg, IDC_APPLY, WM_GETFONT, 0, 0);
 			GetObject(dat->hBoldFont, sizeof(lf), &lf);
 			lf.lfWeight = FW_BOLD;
 			dat->hBoldFont = CreateFontIndirect(&lf);
@@ -974,10 +964,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		
 		return TRUE;
 
-	case PSM_ISEXPERT:
-		SetWindowLongPtr(hdlg, DWLP_MSGRESULT, IsDlgButtonChecked(hdlg, IDC_EXPERT));
-		return TRUE;
-
 	case PSM_GETBOLDFONT:
 		SetWindowLongPtr(hdlg, DWLP_MSGRESULT, (LONG_PTR)dat->hBoldFont);
 		return TRUE;
@@ -1052,32 +1038,15 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 						if (p->flags & ODPF_BOLDGROUPS)
 							EnumChildWindows(p->hwnd, BoldGroupTitlesEnumChildren, (LPARAM)dat->hBoldFont);
 						GetClientRect(p->hwnd, &rcPage);
-						p->expertWidth = rcPage.right;
-						p->expertHeight = rcPage.bottom;
+						p->width = rcPage.right;
+						p->height = rcPage.bottom;
 						GetWindowRect(p->hwnd, &rc);
 
-						if (p->simpleBottomControlId) {
-							GetWindowRect( GetDlgItem(p->hwnd, p->simpleBottomControlId), &rcControl);
-							p->simpleHeight = rcControl.bottom-rc.top;
-						}
-						else p->simpleHeight = p->expertHeight;
+						p->height = p->height;
+						p->width = p->width;
 
-						if (p->simpleRightControlId) {
-							GetWindowRect( GetDlgItem(p->hwnd, p->simpleRightControlId), &rcControl);
-							p->simpleWidth = rcControl.right-rc.left;
-						}
-						else p->simpleWidth = p->expertWidth;
-
-						if (IsDlgButtonChecked(hdlg, IDC_EXPERT)) {
-							w = p->expertWidth;
-							h = p->expertHeight;
-						}
-						else {
-							for (int i=0; i < p->nExpertOnlyControls; i++)
-								ShowWindow( GetDlgItem(p->hwnd, p->expertOnlyControls[i]), SW_HIDE);
-							w = p->simpleWidth;
-							h = p->simpleHeight;
-						}
+						w = p->width;
+						h = p->height;
 
 						p->offsetX = 0;
 						p->offsetY = 0;
@@ -1128,47 +1097,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 							ThemeDialogBackground(p->hwnd, FALSE);
 					}
 
-					// Resizing
-					if ( !p->simpleBottomControlId) {
-						int pageWidth, pageHeight;
-
-						if (IsDlgButtonChecked(hdlg, IDC_EXPERT)) {
-							pageWidth = p->expertWidth;
-							pageHeight = p->expertHeight;
-						}
-						else {
-							pageWidth = p->simpleWidth;
-							pageHeight = p->simpleHeight;
-						}
-
-						RECT* parentPageRect = &dat->rcDisplay;
-						if (p->insideTab)
-							parentPageRect = &dat->rcTab;
-
-						pageHeight = min(pageHeight, parentPageRect->bottom - parentPageRect->top);
-						pageWidth = min(pageWidth,  parentPageRect->right - parentPageRect->left);
-
-						int newOffsetX = (parentPageRect->right - parentPageRect->left - pageWidth) >> 1;
-						int newOffsetY = p->insideTab ? 0 : (parentPageRect->bottom - parentPageRect->top - pageHeight) >> 1;
-
-						struct MoveChildParam mcp;
-						mcp.hDlg = p->hwnd;
-						mcp.offset.x = newOffsetX - p->offsetX;
-						mcp.offset.y = newOffsetY - p->offsetY;
-													
-						if (mcp.offset.x || mcp.offset.y) {
-							EnumChildWindows(p->hwnd, MoveEnumChildren, (LPARAM)(&mcp));
-
-							SetWindowPos(p->hwnd, NULL, 
-								parentPageRect->left, parentPageRect->top, 
-								parentPageRect->right - parentPageRect->left, 
-								parentPageRect->bottom - parentPageRect->top, 
-								SWP_NOZORDER | SWP_NOACTIVATE);
-							p->offsetX = newOffsetX;
-							p->offsetY = newOffsetY;
-						}
-					}						
-
 					ShowWindow(p->hwnd, SW_SHOW);
 					if (((LPNMTREEVIEW)lParam)->action == TVC_BYMOUSE) PostMessage(hdlg, DM_FOCUSPAGE, 0, 0);
 					else SetFocus(hwndTree);
@@ -1201,91 +1129,12 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 			break;
 
-		case IDC_EXPERT:
+		case IDC_MODERN:
 			{
-				int expert = IsDlgButtonChecked(hdlg, IDC_EXPERT);
-				RECT rcPage;
-				int neww, newh;
-
-				DBWriteContactSettingByte(NULL, "Options", "Expert", (BYTE)expert);
-
-				PSHNOTIFY pshn;
-				pshn.hdr.idFrom = 0;
-				pshn.lParam = expert;
-				pshn.hdr.code = PSN_EXPERTCHANGED;
-
-				for (int i=0; i <dat->arOpd.getCount(); i++) {
-					opd = dat->arOpd[i];
-					if (opd->hwnd == NULL)
-						continue;
-					if ( !CheckPageShow(hdlg, dat, i))
-						continue;
-
-					pshn.hdr.hwndFrom = opd->hwnd;
-					SendMessage(opd->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
-
-					for (int j = 0; j < opd->nExpertOnlyControls; j++)
-						ShowWindow( GetDlgItem(opd->hwnd, opd->expertOnlyControls[j]), expert ? SW_SHOW : SW_HIDE);
-
-					opd->insideTab = IsInsideTab(hdlg, dat, i);
-
-					GetWindowRect(opd->hwnd, &rcPage);
-					if (opd->simpleBottomControlId)
-						newh = expert ? opd->expertHeight : opd->simpleHeight;
-					else 
-						newh = rcPage.bottom - rcPage.top;
-					if (opd->simpleRightControlId)
-						neww = expert ? opd->expertWidth : opd->simpleWidth;
-					else 
-						neww = rcPage.right - rcPage.left;
-					
-					if (i == dat->currentPage) {
-						POINT ptStart, ptEnd, ptNow;
-						DWORD thisTick, startTick;
-						RECT rc;
-
-						ptNow.x = ptNow.y = 0;
-						ClientToScreen(hdlg, &ptNow);
-						GetWindowRect(opd->hwnd, &rc);
-						ptStart.x = rc.left-ptNow.x;
-						ptStart.y = rc.top-ptNow.y;
-						if (opd->insideTab) {
-							ptEnd.x = (dat->rcTab.left+dat->rcTab.right-neww)>>1;
-							ptEnd.y = dat->rcTab.top;
-						}
-						else {
-							ptEnd.x = (dat->rcDisplay.left+dat->rcDisplay.right-neww)>>1;
-							ptEnd.y = (dat->rcDisplay.top+dat->rcDisplay.bottom-newh)>>1;
-						}
-						if (abs(ptEnd.x-ptStart.x)>5 || abs(ptEnd.y-ptStart.y)>5) {
-							startTick = GetTickCount();
-							SetWindowPos(opd->hwnd, HWND_TOP, 0, 0, min(neww, rcPage.right), min(newh, rcPage.bottom), SWP_NOMOVE);
-							UpdateWindow(opd->hwnd);
-							for (;;) {
-								thisTick = GetTickCount();
-								if (thisTick>startTick+100) break;
-								ptNow.x = ptStart.x+(ptEnd.x-ptStart.x)*(int)(thisTick-startTick)/100;
-								ptNow.y = ptStart.y+(ptEnd.y-ptStart.y)*(int)(thisTick-startTick)/100;
-								SetWindowPos(opd->hwnd, 0, ptNow.x, ptNow.y, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
-							}
-						}
-						if (opd->insideTab)
-							ShowWindow( GetDlgItem(hdlg, IDC_TAB), SW_SHOW);
-						else
-							ShowWindow( GetDlgItem(hdlg, IDC_TAB), SW_HIDE);
-					}
-
-					if (opd->insideTab) {
-						SetWindowPos(opd->hwnd, HWND_TOP, (dat->rcTab.left+dat->rcTab.right-neww)>>1, dat->rcTab.top, neww, newh, 0);
-						ThemeDialogBackground(opd->hwnd, TRUE);
-					} 
-					else {
-						SetWindowPos(opd->hwnd, HWND_TOP, (dat->rcDisplay.left+dat->rcDisplay.right-neww)>>1, (dat->rcDisplay.top+dat->rcDisplay.bottom-newh)>>1, neww, newh, 0);
-						ThemeDialogBackground(opd->hwnd, FALSE);
-					}
-				}
+				DBWriteContactSettingByte(NULL, "Options", "Expert", 0);
 				SaveOptionsTreeState(hdlg);
-				SendMessage(hdlg, DM_REBUILDPAGETREE, 0, 0);
+				PostMessage(hdlg, WM_CLOSE, 0, 0);
+				CallService(MS_MODERNOPT_SHOW, 0, 0);
 				break;
 			}
 		case IDCANCEL:
@@ -1388,7 +1237,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		delete dat;
 		hwndOptions = NULL;
 
-		CallService(MS_MODERNOPT_RESTORE, 0, 0);
+		CallService(MS_MODERNOPT_RESTORE, 0, 0);		
 		break;
 	}
 	return FALSE;

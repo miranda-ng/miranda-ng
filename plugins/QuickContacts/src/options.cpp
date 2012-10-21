@@ -62,7 +62,7 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	odp.ptszTitle = LPGENT("Quick Contacts");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-    odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY | ODPF_TCHAR;
+    odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	Options_AddPage(wParam,&odp);
 
 	return 0;

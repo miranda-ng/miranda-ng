@@ -1102,7 +1102,6 @@ int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = g_hInst;
 	odp.pszTitle = LPGEN("Message Sessions");
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.nIDBottomSimpleControl = 0;
 	for (i = 0; i < SIZEOF(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;

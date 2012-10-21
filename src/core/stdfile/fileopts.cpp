@@ -240,7 +240,6 @@ int FileOptInitialise(WPARAM wParam, LPARAM)
 	odp.pszGroup = LPGEN("Events");
 	odp.pfnDlgProc = DlgProcFileOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.nIDBottomSimpleControl = IDC_VIRUSSCANNERGROUP;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

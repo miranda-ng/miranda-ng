@@ -138,7 +138,6 @@ int CMraProto::OnPopupOptInit(WPARAM wParam, LPARAM lParam)
 		odp.pszGroup = LPGEN("Popups");
 		odp.groupPosition = 900000000;
 		odp.flags = ODPF_BOLDGROUPS;
-		odp.nIDBottomSimpleControl = IDC_GROUPMAIN;
 		odp.pfnDlgProc = MraPopupDlgProcOpts;
 		Options_AddPage(wParam, &odp);
 	}

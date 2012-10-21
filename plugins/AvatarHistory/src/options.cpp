@@ -55,13 +55,6 @@ static OptPageControl popupsControls[] = {
 	{ &opts.popup_removed,					CONTROL_TEXT,		IDC_REMOVED,		"PopupsTextRemoved", (ULONG_PTR) DEFAULT_TEMPLATE_REMOVED }
 };
 
-static UINT popupsExpertControls[] = { 
-	IDC_COLOURS_G, IDC_BGCOLOR, IDC_BGCOLOR_L, IDC_TEXTCOLOR, IDC_TEXTCOLOR_L, IDC_WINCOLORS, IDC_DEFAULTCOLORS, 
-	IDC_DELAY_G, IDC_DELAYFROMPU, IDC_DELAYCUSTOM, IDC_DELAYPERMANENT, IDC_DELAY, IDC_DELAY_SPIN,
-	IDC_ACTIONS_G, IDC_RIGHT_ACTION_L, IDC_RIGHT_ACTION, IDC_LEFT_ACTION_L, IDC_LEFT_ACTION,
-	IDC_PREV
-};
-
 
 // Functions //////////////////////////////////////////////////////////////////////////////////////
 
@@ -78,7 +71,7 @@ int OptInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszTitle = LPGENT("Avatar"); // name of the item
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-    odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_EXPERTONLY;
+    odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
     Options_AddPage(wParam, &odp);
 
 	if(ServiceExists(MS_POPUP_ADDPOPUPT))
@@ -92,10 +85,6 @@ int OptInit(WPARAM wParam,LPARAM lParam)
 		odp.pfnDlgProc = PopupsDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
 		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-		odp.expertOnlyControls = popupsExpertControls;
-		odp.nExpertOnlyControls = MAX_REGS(popupsExpertControls);
-		odp.nIDBottomSimpleControl = IDC_POPUPS;
-		odp.nIDRightSimpleControl = IDC_POPUPS;
 		Options_AddPage(wParam, &odp);
 	}
 

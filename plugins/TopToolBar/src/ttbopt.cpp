@@ -556,7 +556,7 @@ int TTBOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_BUTORDER);
 	odp.pszTitle = LPGEN("Toolbar");
 	odp.pfnDlgProc = ButOrderOpts;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

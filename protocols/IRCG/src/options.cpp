@@ -1725,7 +1725,6 @@ int CIrcProto::OnInitOptionsPages(WPARAM wParam, LPARAM)
 	OptCreateAccount.param = this;
 	Options_AddPage(wParam, &odp);
 
-	odp.flags |= ODPF_EXPERTONLY;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PREFS_CTCP);
 	odp.ptszTab = LPGENT("DCC'n CTCP");
 	odp.dwInitParam = (LPARAM)&OptCreateConn;

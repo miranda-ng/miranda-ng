@@ -407,7 +407,6 @@ int OptsDlgInit(WPARAM wParam,LPARAM lParam)
 
 	Options_AddPage(wParam, &optDi);
 
-	optDi.flags |= ODPF_EXPERTONLY;
 	optDi.pfnDlgProc = AdvOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGADV);
 	optDi.pszTab	= LPGEN("Advanced");

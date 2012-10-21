@@ -243,26 +243,22 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-static UINT StatusBarExpertControls[] = {IDC_STATUSBAR_PER_PROTO, IDC_STATUSBAR_PROTO_LIST, IDC_SBAR_USE_ACCOUNT_SETTINGS, IDC_SBAR_HIDE_ACCOUNT_COMPLETELY};
-
 struct
 {
 	char *name;			// Tab name
 	int id;					// Dialog id
 	DLGPROC wnd_proc;		// Dialog function
-	UINT* expertControls;	// Expert Controls
-	int nExpertControls;
 	DWORD flag;				// Expertonly
 }
 static clist_opt_items[]  = 
 {
-	{ LPGEN("General"), IDD_OPT_CLIST, DlgProcClistOpts, NULL, 0, 0},
-	{ LPGEN("Tray"), IDD_OPT_TRAY, DlgProcTrayOpts, NULL, 0, 0 },
-	{ LPGEN("List"), IDD_OPT_CLC, DlgProcClistListOpts, NULL, 0, 0 },
-	{ LPGEN("Window"), IDD_OPT_CLUI, DlgProcClistWindowOpts, NULL, 0, 0 },
-	{ LPGEN("Behaviour"), IDD_OPT_CLUI_2, DlgProcClistBehaviourOpts, NULL, 0, 0 },
-	{ LPGEN("Status Bar"), IDD_OPT_SBAR, DlgProcSBarOpts, StatusBarExpertControls, SIZEOF(StatusBarExpertControls), 0},
-	{ LPGEN("Additional stuff"), IDD_OPT_META_CLC, DlgProcClistAdditionalOpts, NULL, 0, 0 }
+	{ LPGEN("General"), IDD_OPT_CLIST, DlgProcClistOpts, 0},
+	{ LPGEN("Tray"), IDD_OPT_TRAY, DlgProcTrayOpts, 0 },
+	{ LPGEN("List"), IDD_OPT_CLC, DlgProcClistListOpts, 0 },
+	{ LPGEN("Window"), IDD_OPT_CLUI, DlgProcClistWindowOpts, 0 },
+	{ LPGEN("Behaviour"), IDD_OPT_CLUI_2, DlgProcClistBehaviourOpts, 0 },
+	{ LPGEN("Status Bar"), IDD_OPT_SBAR, DlgProcSBarOpts, 0},
+	{ LPGEN("Additional stuff"), IDD_OPT_META_CLC, DlgProcClistAdditionalOpts, 0 }
 };
 
 int ClcOptInit(WPARAM wParam,LPARAM lParam)
@@ -283,8 +279,6 @@ int ClcOptInit(WPARAM wParam,LPARAM lParam)
 		odp.pszTab = clist_opt_items[i].name;
 		odp.pfnDlgProc = clist_opt_items[i].wnd_proc;
 		odp.flags = ODPF_BOLDGROUPS | clist_opt_items[i].flag;
-		odp.expertOnlyControls = clist_opt_items[i].expertControls;
-		odp.nExpertOnlyControls = clist_opt_items[i].nExpertControls;
 		Options_AddPage(wParam, &odp);
 	}
 

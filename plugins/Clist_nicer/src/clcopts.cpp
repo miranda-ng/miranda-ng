@@ -1378,13 +1378,13 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPPROFILES);
 	odp.pszTitle = LPGEN("Contact rows");
 	odp.pfnDlgProc = DlgProcDspProfiles;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FLOATING);
 	odp.pszTitle = LPGEN("Floating contacts");
 	odp.pfnDlgProc = DlgProcFloatingContacts;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
@@ -1400,7 +1400,6 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTitle = LPGEN("Contact List");
 	odp.pfnDlgProc = TabOptionsDlgProc;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.nIDBottomSimpleControl = 0;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

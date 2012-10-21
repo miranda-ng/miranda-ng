@@ -467,7 +467,6 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 	odp.ptszTab = _T("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ADVANCED);
 	odp.pfnDlgProc = AdvancedDlgProc;
-	odp.flags = odp.flags|ODPF_EXPERTONLY;
 	Options_AddPage(w, &odp);
 
 	return 0;
