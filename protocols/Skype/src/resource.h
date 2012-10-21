@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by e:\Projects\C++\MirandaNG\protocols\Skype\res\Resource.rc
+// Used by protocols\Skype\res\Resource.rc
 //
 #define IDD_SKYPEACCOUNT                9
 #define IDD_OPTIONS                     10

@@ -68,16 +68,6 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_ICON                ICON                    "Main.ico"
-IDR_RUNTIME             EXE                     "..\\..\\..\\..\\SkypeKit\\SDK\\bin\\windows-x86\\windows-x86-skypekit.exe"
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Dialog
 //
 
@@ -87,9 +77,9 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "Skype login:",IDC_STATIC,7,7,53,12
-    EDITTEXT        IDC_SL,61,7,131,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SL,61,7,124,12,ES_AUTOHSCROLL
     LTEXT           "Password:",IDC_STATIC,7,23,53,12
-    EDITTEXT        IDC_PW,61,23,131,12,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_PW,61,23,124,12,ES_PASSWORD | ES_AUTOHSCROLL
 END
 
 IDD_OPTIONS DIALOGEX 0, 0, 305, 238
@@ -103,32 +93,6 @@ BEGIN
     LTEXT           "Password:",IDC_STATIC,17,35,61,8
     EDITTEXT        IDC_PW,84,33,123,13,ES_PASSWORD | ES_AUTOHSCROLL
 END
-
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "..\\src\\resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#include ""afxres.h""\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -162,7 +126,49 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Russian (Russia) resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON                ICON                    "Main.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// EXE
+//
+
+IDR_RUNTIME             EXE                     "..\\..\\..\\..\\SkypeKit\\SDK\\bin\\windows-x86\\windows-x86-skypekit.exe"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
