@@ -198,7 +198,6 @@
     <ClInclude Include="src\Compatibility.h" />
     <ClInclude Include="src\DatabaseLink.h" />
     <ClInclude Include="src\Interface.h" />
-    <ClInclude Include="src\Services.h" />
     <ClInclude Include="src\Hash.h" />
     <ClInclude Include="src\inttypes.h" />
     <ClInclude Include="src\IterationHeap.h" />

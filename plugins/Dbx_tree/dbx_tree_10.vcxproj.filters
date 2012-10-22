@@ -96,9 +96,6 @@
     <ClInclude Include="src\Interface.h">
       <Filter>Interface\HeaderFiles</Filter>
     </ClInclude>
-    <ClInclude Include="src\Services.h">
-      <Filter>Interface\HeaderFiles</Filter>
-    </ClInclude>
     <ClInclude Include="src\Hash.h">
       <Filter>Utils\HeaderFiles</Filter>
     </ClInclude>
