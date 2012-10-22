@@ -55,6 +55,7 @@ static int ToptoolBarHook(WPARAM wParam, LPARAM lParam)
 
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
+	HookEvent(ME_TTB_MODULELOADED,ToptoolBarHook);
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName( hInst, szFile, MAX_PATH );
 
@@ -65,20 +66,21 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	SKINICONDESC sid = { 0 };
 	sid.cbSize = sizeof( SKINICONDESC );
 	sid.ptszDefaultFile = szFile;
-	sid.flags = SIDF_PATH_TCHAR;
+	sid.flags = SIDF_ALL_TCHAR;
 	sid.cx = sid.cy = 16;
-	sid.pszSection = LPGEN("Open Folder");
+	sid.ptszSection = LPGENT("Open Folder");
 	sid.pszName = szSettingName;
-	sid.pszDescription = LPGEN("Open Folder");
+	sid.ptszDescription = LPGENT("Open Folder");
 	sid.iDefaultIndex = -IDI_FOLDER;
 	hIconOpenFolder = Skin_AddIcon(&sid);
 
 	// hotkeys service (0.8+)
 	HOTKEYDESC hotkey = { 0 };
 	hotkey.cbSize = sizeof( hotkey );
-	hotkey.pszName = LPGEN("Open Folder");
-	hotkey.pszDescription = LPGEN("Open Folder");
-	hotkey.pszSection = "Main";
+	hotkey.dwFlags = HKD_TCHAR;
+	hotkey.pszName = "Open Folder";
+	hotkey.ptszDescription = LPGENT("Open Folder");
+	hotkey.ptszSection = LPGENT("Main");
 	hotkey.pszService = MS_OPENFOLDER_OPEN;
 	hotkey.DefHotKey = MAKEWORD( 'O', HOTKEYF_SHIFT | HOTKEYF_ALT );
 	Hotkey_Register(&hotkey);
@@ -86,9 +88,9 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof( mi );
 	mi.position = 0x7FFFFFFF;
-	mi.flags = CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_ICONFROMICOLIB|CMIF_TCHAR;
 	mi.icolibItem = hIconOpenFolder;
-	mi.pszName = LPGEN("Open Folder");
+	mi.ptszName = LPGENT("Open Folder");
 	mi.pszService = MS_OPENFOLDER_OPEN;
 	Menu_AddMainMenuItem(&mi);
 	return 0;
