@@ -57,7 +57,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfo);
 
 	PrepareBufferedFunctions();
-	InitCountryListExt();
 	if ( CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&nCountriesCount, (LPARAM)&countries))
 		nCountriesCount = 0;
 	InitIcons();
@@ -72,6 +71,5 @@ extern "C" __declspec(dllexport) int Unload(void)
 	UninitExtraImg();
 	UninitIpToCountry();
 	UninitIcons();
-	UninitCountryListExt();
 	return 0;
 }

@@ -179,7 +179,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\countrylistext.cpp" />
     <ClCompile Include="src\extraimg.cpp" />
     <ClCompile Include="src\huffman.cpp" />
     <ClCompile Include="src\icons.cpp" />

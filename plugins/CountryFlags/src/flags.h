@@ -52,10 +52,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#define FASTCALL 
 #endif
 
-/* countrylistext.c */
-void InitCountryListExt(void);
-void UninitCountryListExt(void);
-
 /* huffman.c */
 #ifdef HUFFMAN_ENCODE
 	int Huffman_Compress(unsigned char *in,unsigned char *out,unsigned int insize );
