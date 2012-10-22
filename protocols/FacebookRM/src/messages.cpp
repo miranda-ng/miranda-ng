@@ -58,7 +58,7 @@ void FacebookProto::SendMsgWorker(void *p)
 		std::string error_text = "";
 		bool result = false;
 		while (!result && retries > 0) {
-			result = facy.send_message(dbv.pszVal, data->msg, &error_text, retries % 2 == 0 );
+			result = facy.send_message(dbv.pszVal, data->msg, &error_text, retries % 2 == 0 ? MESSAGE_INBOX : MESSAGE_MERCURY);
 			retries--;
 		}
 		if (result) {
@@ -104,7 +104,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 		}		
 		
 		if (!tid.empty())
-			facy.send_message(tid, data->msg, &err_message, false, true );
+			facy.send_message(tid, data->msg, &err_message, MESSAGE_TID);
 	}
 
 	delete data;
@@ -117,14 +117,14 @@ int FacebookProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 		msg = mir_utf8encode(msg);
   
 	facy.msgid_ = (facy.msgid_ % 1024)+1;
-	ForkThread( &FacebookProto::SendMsgWorker, this,new send_direct(hContact,msg,(HANDLE)facy.msgid_));
+	ForkThread( &FacebookProto::SendMsgWorker, this, new send_direct(hContact, msg, (HANDLE)facy.msgid_));
 	return facy.msgid_;
 }
 
 int FacebookProto::UserIsTyping(HANDLE hContact,int type)
 { 
 	if (hContact && isOnline())
-		ForkThread(&FacebookProto::SendTypingWorker, this,new send_typing(hContact,type));
+		ForkThread(&FacebookProto::SendTypingWorker, this, new send_typing(hContact, type));
 
 	return 0;
 }

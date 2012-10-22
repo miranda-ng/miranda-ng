@@ -240,6 +240,7 @@ DWORD facebook_client::choose_security_level( int request_type )
 //	case FACEBOOK_REQUEST_RECONNECT:
 //	case FACEBOOK_REQUEST_STATUS_SET:
 //	case FACEBOOK_REQUEST_MESSAGE_SEND:
+//	case FACEBOOK_REQUEST_MESSAGE_SEND2:
 //	case FACEBOOK_REQUEST_THREAD_INFO:
 //	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
 //	case FACEBOOK_REQUEST_VISIBILITY:
@@ -260,6 +261,7 @@ int facebook_client::choose_method( int request_type )
 	case FACEBOOK_REQUEST_BUDDY_LIST:
 	case FACEBOOK_REQUEST_STATUS_SET:
 	case FACEBOOK_REQUEST_MESSAGE_SEND:
+	case FACEBOOK_REQUEST_MESSAGE_SEND2:
 	case FACEBOOK_REQUEST_THREAD_INFO:
 	case FACEBOOK_REQUEST_VISIBILITY:
 	case FACEBOOK_REQUEST_TABS:
@@ -322,6 +324,7 @@ std::string facebook_client::choose_server( int request_type, std::string* data,
 //	case FACEBOOK_REQUEST_RECONNECT:
 //	case FACEBOOK_REQUEST_STATUS_SET:
 //	case FACEBOOK_REQUEST_MESSAGE_SEND:
+//	case FACEBOOK_REQUEST_MESSAGE_SEND2:
 //	case FACEBOOK_REQUEST_THREAD_INFO:
 //	case FACEBOOK_REQUEST_VISIBILITY:
 //	case FACEBOOK_REQUEST_TABS:
@@ -437,6 +440,9 @@ std::string facebook_client::choose_action( int request_type, std::string* data,
 
 	case FACEBOOK_REQUEST_MESSAGE_SEND:
 		return "/ajax/mercury/send_messages.php?__a=1";
+
+	case FACEBOOK_REQUEST_MESSAGE_SEND2:
+		return "/ajax/messaging/send.php";
 
 	case FACEBOOK_REQUEST_THREAD_INFO:
 		return "/ajax/mercury/thread_info.php?__a=1";
@@ -1057,44 +1063,98 @@ bool facebook_client::channel( )
 	}
 }
 
-bool facebook_client::send_message( std::string message_recipient, std::string message_text, std::string *error_text, bool use_inbox, bool is_tid )
+bool facebook_client::send_message( std::string message_recipient, std::string message_text, std::string *error_text, int method )
 {
 	handle_entry( "send_message" );
 
 	http::response resp;
 
-	if (is_tid)
-	{
-		std::string data = "message_batch[0][action_type]=ma-type:user-generated-message";
-		data += "&message_batch[0][thread_id]=" + message_recipient;
-		data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
-		data += "&message_batch[0][timestamp]=" + utils::time::mili_timestamp();
-		data += "&message_batch[0][timestamp_absolute]=";
-		data += "&message_batch[0][timestamp_relative]=";
-		data += "&message_batch[0][is_unread]=false";
-		data += "&message_batch[0][is_cleared]=false";
-		data += "&message_batch[0][is_forward]=false";
-		data += "&message_batch[0][source]=source:chat:web";
-		data += "&message_batch[0][body]=" + utils::url::encode(message_text);
-		data += "&message_batch[0][has_attachment]=false";
-		data += "&message_batch[0][is_html]=false";
-		data += "&message_batch[0][message_id]=";
-		data += "&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
-		data += "&__user=" + this->self_.user_id;
-		data += "&phstamp=0";
+	switch (method) {
+		case MESSAGE_INBOX:
+		{
+			parent->Log("    > Sending message through INBOX");
+			std::string data = "action=send";
+			data += "&body=" + utils::url::encode( message_text );
+			data += "&recipients[0]=" + message_recipient;
+			data += "&__user=" + this->self_.user_id;
+			data += "&__a=1";
+			data += "&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
+			data += "&phstamp=0";
 
-		resp = flap( FACEBOOK_REQUEST_MESSAGE_SEND, &data );
-	} else {
-		std::string data = "action=send&body=";
-		data += utils::url::encode( message_text );
-		data += "&recipients[0]=";
-		data += message_recipient;
-		data += "&lsd=&fb_dtsg=";
-		data += ( dtsg_.length( )) ? dtsg_ : "0";
-		data += "&post_form_id=";
-		data += ( post_form_id_.length( )) ? post_form_id_ : "0";
+			resp = flap( FACEBOOK_REQUEST_MESSAGE_SEND2, &data );
+			break;
+		}
+		case MESSAGE_MERCURY:
+		{
+			parent->Log("    > Sending message through CHAT");
+			std::string data = "message_batch[0][action_type]=ma-type:user-generated-message";
+			data += "&message_batch[0][thread_id]";
+			data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
+			data += "&message_batch[0][author_email]";
+			data += "&message_batch[0][coordinates]";
+			data += "&message_batch[0][timestamp]=" + utils::time::mili_timestamp();
+			data += "&message_batch[0][timestamp_absolute]";
+			data += "&message_batch[0][timestamp_relative]";
+			data += "&message_batch[0][is_unread]=false";
+			data += "&message_batch[0][is_cleared]=false";
+			data += "&message_batch[0][is_forward]=false";
+			data += "&message_batch[0][spoof_warning]=false";
+			data += "&message_batch[0][source]=source:chat:web";
+			data += "&message_batch[0][source_tags][0]=source:chat";
+			data += "&message_batch[0][body]=" + utils::url::encode(message_text);
+			data += "&message_batch[0][has_attachment]=false";
+			data += "&message_batch[0][html_body]=false";
+			data += "&message_batch[0][specific_to_list][0]=fbid:" + message_recipient;
+			data += "&message_batch[0][specific_to_list][1]=fbid:" + this->self_.user_id;
+			data += "&message_batch[0][status]=0";
+			data += "&message_batch[0][message_id]";
+			data += "&message_batch[0][client_thread_id]=user:" + message_recipient;
+			data += "&client=mercury";
+			data += "&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
+			data += "&__user=" + this->self_.user_id;
+			data += "&__a=1";
+			data += "&phstamp=0";
 
-		resp = flap( FACEBOOK_REQUEST_ASYNC, &data );	
+			resp = flap( FACEBOOK_REQUEST_MESSAGE_SEND, &data );
+			break;
+		}
+		case MESSAGE_TID:
+		{
+			parent->Log("    > Sending message through MERCURY (TID)");
+			std::string data = "message_batch[0][action_type]=ma-type:user-generated-message";
+			data += "&message_batch[0][thread_id]=" + message_recipient;
+			data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
+			data += "&message_batch[0][timestamp]=" + utils::time::mili_timestamp();
+			data += "&message_batch[0][timestamp_absolute]=";
+			data += "&message_batch[0][timestamp_relative]=";
+			data += "&message_batch[0][is_unread]=false";
+			data += "&message_batch[0][is_cleared]=false";
+			data += "&message_batch[0][is_forward]=false";
+			data += "&message_batch[0][source]=source:chat:web";
+			data += "&message_batch[0][body]=" + utils::url::encode(message_text);
+			data += "&message_batch[0][has_attachment]=false";
+			data += "&message_batch[0][is_html]=false";
+			data += "&message_batch[0][message_id]=";
+			data += "&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
+			data += "&__user=" + this->self_.user_id;
+			data += "&phstamp=0";
+
+			resp = flap( FACEBOOK_REQUEST_MESSAGE_SEND, &data );
+			break;
+		}
+		case MESSAGE_ASYNC:
+		{
+			parent->Log("    > Sending message through ASYNC");
+			std::string data = "action=send";
+			data += "&body=" + utils::url::encode( message_text );
+			data += "&recipients[0]=" + message_recipient;
+			data += "&lsd=";
+			data += "&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
+			data += "&post_form_id=" + (post_form_id_.length() ? post_form_id_ : "0");
+
+			resp = flap( FACEBOOK_REQUEST_ASYNC, &data );
+			break;
+		}
 	}
 	
 	validate_response(&resp);

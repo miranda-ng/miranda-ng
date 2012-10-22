@@ -23,8 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 // Version management
-#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0, 0, 9, 1)
-#define __VERSION_STRING            "0.0.9.1"
+#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0, 0, 9, 2)
+#define __VERSION_STRING            "0.0.9.2"
 
 // Product management
 #define FACEBOOK_NAME               "Facebook"
@@ -102,7 +102,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_REQUEST_RECONNECT              130 // getting __sequence_num__ and __channel_id__
 #define FACEBOOK_REQUEST_STATUS_SET             251 // setting my "What's on my mind?"
 #define FACEBOOK_REQUEST_MESSAGE_SEND           300 // sending message
-#define FACEBOOK_REQUEST_MESSAGES_RECEIVE       301 // receiving messages
+#define FACEBOOK_REQUEST_MESSAGE_SEND2			301	// sending message through inbox
+#define FACEBOOK_REQUEST_MESSAGES_RECEIVE       302 // receiving messages
 #define FACEBOOK_REQUEST_TYPING_SEND            304 // sending typing notification
 #define FACEBOOK_REQUEST_VISIBILITY             305 // setting chat visibility
 #define FACEBOOK_REQUEST_TABS					306 // closing message window
@@ -111,6 +112,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define FACEBOOK_RECV_MESSAGE	1
 #define FACEBOOK_SEND_MESSAGE	2
+
+// Send message types
+#define MESSAGE_INBOX	0
+#define MESSAGE_MERCURY	1
+#define MESSAGE_TID		2
+#define MESSAGE_ASYNC	3
 
 // Contact types
 #define FACEBOOK_CONTACT_FRIEND		1 // contact that IS on our server list

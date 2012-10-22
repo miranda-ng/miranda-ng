@@ -150,7 +150,7 @@ public:
 	// Messages handling
 
 	bool    channel( );
-	bool    send_message( std::string message_recipient, std::string message_text, std::string *error_text, bool use_inbox = false, bool is_tid = false );
+	bool    send_message( std::string message_recipient, std::string message_text, std::string *error_text, int method );
 	void    close_chat( std::string message_recipient );
 	void    chat_mark_read( std::string message_recipient );
 
