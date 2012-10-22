@@ -640,6 +640,7 @@ retry:
 							GGSEARCHRESULT sr;
 							memset(&sr, 0, sizeof(sr));
 							sr.cbSize = sizeof(sr);
+                            sr.flags = PSR_TCHAR;
 							sr.nick = mir_a2t(__nick);
 							sr.firstName = mir_a2t(__firstname);
 							sr.lastName = mir_a2t(__lastname);
