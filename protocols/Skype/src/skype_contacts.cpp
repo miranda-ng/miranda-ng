@@ -79,6 +79,14 @@ void CSkypeProto::UpdateContactBirthday(HANDLE hContact, CContact::Ref contact)
 		this->SetSettingByte(hContact, "BirthDay", day);
 		this->SetSettingByte(hContact, "BirthMonth", month);
 		this->SetSettingWord(hContact, "BirthYear", year);
+
+		SYSTEMTIME sToday = {0};
+		GetLocalTime(&sToday);
+		int nAge = sToday.wYear - year;
+		if (sToday.wMonth < month || (sToday.wMonth == month && sToday.wDay < day))
+			nAge--;
+		if (nAge)
+			this->SetSettingWord( hContact, "Age", ( WORD )nAge );
 	}
 	else
 	{
@@ -258,7 +266,7 @@ void CSkypeProto::UpdateContactTimezone(HANDLE hContact, CContact::Ref contact)
 {
 	uint data;
 	contact->GetPropTimezone(data);
-	// todo: check me
+	// todo: из числа вычесть 24*3600 и поделить на 60, получим зону в минутах, взять знак и поделить с остатком на 60. итог: строка формата "+4:00"
 	if (data > 0)
 		this->SetSettingByte(hContact, "TimeZone", (data - 24*3600) / 3600);
 	else
