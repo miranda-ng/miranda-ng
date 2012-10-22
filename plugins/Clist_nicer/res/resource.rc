@@ -9,7 +9,7 @@
 //
 #include <windows.h>
 #include <winres.h>
-#include <statusmodes.h>
+#include "..\..\include\statusmodes.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -28,7 +28,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 IDD_EXCEPTION DIALOGEX 0, 0, 370, 131
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "TabSRMM exception"
+CAPTION "CList Nicer exception"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EXCEPTION_DETAILS,7,18,356,60,ES_MULTILINE | ES_READONLY
