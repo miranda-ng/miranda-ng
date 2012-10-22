@@ -636,9 +636,7 @@ int CMraProto::MraRebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	CListShowMenuItem(hContactMenuItems[8], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
 
 	//"Send &Nudge"
-	if (heNudgeReceived == NULL)
-		CListShowMenuItem(hContactMenuItems[9], (m_bLoggedIn && bIsContactMRA));
-
+	CListShowMenuItem(hContactMenuItems[9], (!heNudgeReceived) ? (m_bLoggedIn && bIsContactMRA) : 0);
 	return 0;
 }
 
