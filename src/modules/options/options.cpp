@@ -667,6 +667,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
+
+		if ( !ServiceExists(MS_MODERNOPT_SHOW))
+			ShowWindow( GetDlgItem(hdlg, IDC_MODERN), FALSE);
 		{	
 			PROPSHEETHEADER *psh = (PROPSHEETHEADER*)lParam;
 			OPENOPTIONSDIALOG *ood = (OPENOPTIONSDIALOG*)psh->pStartPage;
@@ -1126,17 +1129,15 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			if ((HIWORD(wParam) == CBN_SELCHANGE) || (HIWORD(wParam) == CBN_EDITCHANGE))
 				if ( !SetTimer(hdlg, FILTER_TIMEOUT_TIMER, 400, NULL))
 					MessageBeep(MB_ICONSTOP);
-
 			break;
 
 		case IDC_MODERN:
-			{
-				DBWriteContactSettingByte(NULL, "Options", "Expert", 0);
-				SaveOptionsTreeState(hdlg);
-				PostMessage(hdlg, WM_CLOSE, 0, 0);
-				CallService(MS_MODERNOPT_SHOW, 0, 0);
-				break;
-			}
+			DBWriteContactSettingByte(NULL, "Options", "Expert", 0);
+			SaveOptionsTreeState(hdlg);
+			PostMessage(hdlg, WM_CLOSE, 0, 0);
+			CallService(MS_MODERNOPT_SHOW, 0, 0);
+			break;
+
 		case IDCANCEL:
 			{	
 				PSHNOTIFY pshn;
