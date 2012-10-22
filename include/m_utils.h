@@ -109,6 +109,14 @@ or NULL on failure
 */
 #define MS_UTILS_GETCOUNTRYBYNUMBER   "Utils/GetCountryByNumber"
 
+/* Gets the name of a country given its ISO code	v0.1.2.0+
+wParam = (char*)ISOcode
+lParam = 0
+Returns a pointer to the string containing the country name on success,
+or NULL on failure
+*/
+#define MS_UTILS_GETCOUNTRYBYISOCODE   "Utils/GetCountryByISOCode"
+
 /* Gets the full list of country IDs	 v0.1.2.0+
 wParam = (WPARAM)(int*)piCount
 lParam = (LPARAM)(struct CountryListEntry**)ppList
@@ -120,6 +128,7 @@ quicker to search numbers out of order than it is to search names out of order
 struct CountryListEntry {
 	int id;
 	const char *szName;
+	char ISOcode[3];
 };
 #define MS_UTILS_GETCOUNTRYLIST    "Utils/GetCountryList"
 

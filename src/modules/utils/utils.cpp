@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
@@ -40,278 +40,283 @@ int InitCrypt(void);
 
 static BOOL bModuleInitialized = FALSE;
 
-static struct CountryListEntry countries[] = {
-	{0   , "Unspecified"}, 
-	{9999, "Other"}, 
-	{0xFFFF, "Unknown"}, 
-	{93  , "Afghanistan"}, 
-	{355 , "Albania"}, 
-	{213 , "Algeria"}, 
-	{376 , "Andorra"}, 
-	{244 , "Angola"}, 
-	{1264, "Anguilla"}, 	/* change county code to NANP (from 101) */
-	{1268, "Antigua and Barbuda"}, 	/* change county code to NANP (from 1021) */
-//	{5902, "Antilles"}, 	/* removed: it is not a country, it's a group of islands from diffrent countries (all are included in the list)*/
-	{54  , "Argentina"}, 
-	{374 , "Armenia"}, 
-	{297 , "Aruba"}, 
-	{247 , "Ascension Island"}, 
-	{61   , "Australia"}, 
-	{6720 , "Australia, Antarctic Territory"}, 	/* added country code 672(0)*/
-	{614  , "Australia, Christmas Island"}, 	/* rename (from Christmas Island) and change to official county code 61(4) (from 672) */
-	{61891, "Australia, Cocos (Keeling) Islands"}, 	/* rename and change to official county code 61(891) (from 6102) */
-	{6723 , "Australia, Norfolk Island"}, 	/* rename (from Norfolk Island) and change to official county code 672(3) (from 6722) */
-	{43  , "Austria"}, 
-	{994 , "Azerbaijan"}, 
-	{1242, "Bahamas"}, 	/* change county code to NANP (from 103) */
-	{973 , "Bahrain"}, 
-	{880 , "Bangladesh"}, 
-	{1246, "Barbados"}, 	/* change county code to NANP (from 103) */
-//	{120 , "Barbuda"}, 	/* removed: it is not a country and no special island, see Antigua and Barbuda*/
-	{375 , "Belarus"}, 
-	{32  , "Belgium"}, 
-	{501 , "Belize"}, 
-	{229 , "Benin"}, 
-	{1441, "Bermuda"}, 	/* change county code to NANP (from 105) */
-	{975 , "Bhutan"}, 
-	{591 , "Bolivia"}, 
-	{387 , "Bosnia and Herzegovina"}, 
-	{267 , "Botswana"}, 
-	{55  , "Brazil"}, 
-	{673 , "Brunei"}, 
-	{359 , "Bulgaria"}, 
-	{226 , "Burkina Faso"}, 
-	{257 , "Burundi"}, 
-	{855 , "Cambodia"}, 
-	{237 , "Cameroon"}, 
-	{1002, "Canada"}, 	/* change county code to NANP (from 107 to virtual 1(002) -> reflect NANP*/
-	{238 , "Cape Verde Islands"}, 
-	{1345, "Cayman Islands"}, 	/* change county code to NANP (from 108) */
-	{236 , "Central African Republic"}, 
-	{235 , "Chad"}, 
-	{56  , "Chile, Republic of"}, 
-	{86  , "China"}, 
-//	{6101, "Cocos-Keeling Islands"}, 	/* removed (double): see Australia, Cocos (Keeling) Islands */
-	{57  , "Colombia"}, 
-	{269 , "Comoros"}, 	/* change county code (from 2691) */
-	{243 , "Congo, Democratic Republic of (Zaire)"}, 
-	{242 , "Congo, Republic of the"}, 
-	{682 , "Cook Islands"}, 
-	{506 , "Costa Rica"}, 
-	{225 , "Cote d'Ivoire (Ivory Coast)"}, 
-	{385 , "Croatia"}, 
-	{53  , "Cuba"}, 
-	{357 , "Greek, Republic of South Cyprus"}, 	/* rename coz Turkey, Republic of Northern Cyprus */
-	{420 , "Czech Republic"}, 
-	{45  , "Denmark"}, 
-	{246 , "Diego Garcia"}, 
-	{253 , "Djibouti"}, 
-	{1767, "Dominica"}, 	/* change county code to NANP (from 109) */
-	{1809, "Dominican Republic"}, 	/* change county code to NANP 809, 829, 849 (from 110) */
-	{593 , "Ecuador"}, 
-	{20  , "Egypt"}, 
-	{503 , "El Salvador"}, 
-	{240 , "Equatorial Guinea"}, 
-	{291 , "Eritrea"}, 
-	{372 , "Estonia"}, 
-	{251 , "Ethiopia"}, 
-	{3883, "Europe"}, 	/* add county code  +388 3 official European Telephony Numbering Space*/
-	{298 , "Faeroe Islands"}, 
-	{500 , "Falkland Islands"}, 
-	{679 , "Fiji"}, 
-	{358 , "Finland"}, 
-	{33  , "France"}, 
-	{5901, "French Antilles"}, 
-	{594 , "French Guiana"}, 
-	{689 , "French Polynesia"}, 
-	{241 , "Gabon"}, 
-	{220 , "Gambia"}, 
-	{995 , "Georgia"}, 
-	{49  , "Germany"}, 
-	{233 , "Ghana"}, 
-	{350 , "Gibraltar"}, 
-	{30  , "Greece"}, 
-	{299 , "Greenland"}, 
-	{1473, "Grenada"}, 	/* change county code to NANP (from 111) */
-	{590 , "Guadeloupe"}, 
-	{1671, "Guam, US Territory of"}, 	/* change county code to NANP (from 671) */
-	{502 , "Guatemala"}, 
-	{224 , "Guinea"}, 
-	{245 , "Guinea-Bissau"}, 
-	{592 , "Guyana"}, 
-	{509 , "Haiti"}, 
-	{504 , "Honduras"}, 
-	{852 , "Hong Kong"}, 
-	{36  , "Hungary"}, 
-	{354 , "Iceland"}, 
-	{91  , "India"}, 
-	{62  , "Indonesia"}, 
-	{98  , "Iran (Islamic Republic of)"}, 
-	{964 , "Iraq"}, 
-	{353 , "Ireland"}, 
-	{972 , "Israel"}, 
-	{39  , "Italy"}, 
-	{1876, "Jamaica"}, 	/* change county code to NANP (from 112) */
-	{81  , "Japan"}, 
-	{962 , "Jordan"}, 
-	{705 , "Kazakhstan"}, 
-	{254 , "Kenya"}, 
-	{686 , "Kiribati"}, 
-	{850 , "Korea, North"}, 
-	{82  , "Korea, South"}, 
-	{965 , "Kuwait"}, 
-	{996 , "Kyrgyzstan"}, 	/* change county code (from 706) */
-	{856 , "Laos"}, 
-	{371 , "Latvia"}, 
-	{961 , "Lebanon"}, 
-	{266 , "Lesotho"}, 
-	{231 , "Liberia"}, 
-	{218 , "Libyan Arab Jamahiriya"}, 
-	{423 , "Liechtenstein"}, 	/* change county code (from 4101) */
-	{370 , "Lithuania"}, 
-	{352 , "Luxembourg"}, 
-	{853 , "Macau"}, 
-	{389 , "Macedonia, Republic of"}, 	/* rename coz war */
-	{261 , "Madagascar"}, 
-	{265 , "Malawi"}, 
-	{60  , "Malaysia"}, 
-	{960 , "Maldives"}, 
-	{223 , "Mali"}, 
-	{356 , "Malta"}, 
-	{692 , "Marshall Islands"}, 
-	{596 , "Martinique"}, 
-	{222 , "Mauritania"}, 
-	{230 , "Mauritius"}, 
-	{262 , "Mayotte Island"}, 	/* change county code coz bug (from 269) */
-	{52  , "Mexico"}, 
-	{691 , "Micronesia, Federated States of"}, 
-	{373 , "Moldova, Republic of"}, 
-	{377 , "Monaco"}, 
-	{976 , "Mongolia"}, 
-	{1664, "Montserrat"}, 	/* change county code to NANP (from 113) */
-	{212 , "Morocco"}, 
-	{258 , "Mozambique"}, 
-	{95  , "Myanmar"}, 
-	{264 , "Namibia"}, 
-	{674 , "Nauru"}, 
-	{977 , "Nepal"}, 
-	{31  , "Netherlands"}, 
-	{599  , "Netherlands Antilles"}, 	/* dissolved 2010 */
-	{5995 , "St. Maarten"}, 	/* add new country in 2010 (from Netherlands Antilles) */
-	{5999 , "Curacao"}, 	/* add new country in 2010 (from Netherlands Antilles) */
-	{5997 , "Netherlands (Bonaire Island)"}, 	/* add new Part of Netherlands in 2010 (from Netherlands Antilles) */
-	{59946, "Netherlands (Saba Island)"}, 	/* add new Part of Netherlands in 2010 (from Netherlands Antilles) */
-	{59938, "Netherlands (St. Eustatius Island)"}, 	/* add new Part of Netherlands in 2010 (from Netherlands Antilles) */
-	//	{114 , "Nevis"}, 	/* removed: it is not a country, it's part of Saint Kitts and Nevis*/
-	{687 , "New Caledonia"}, 
-	{64  , "New Zealand"}, 
-	{505 , "Nicaragua"}, 
-	{227 , "Niger"}, 
-	{234 , "Nigeria"}, 
-	{683 , "Niue"}, 
-	{1670, "Northern Mariana Islands, US Territory of"}, 	/* added NANP */
-	{47  , "Norway"}, 
-	{968 , "Oman"}, 
-	{92  , "Pakistan"}, 
-	{680 , "Palau"}, 
-	{507 , "Panama"}, 
-	{675 , "Papua New Guinea"}, 
-	{595 , "Paraguay"}, 
-	{51  , "Peru"}, 
-	{63  , "Philippines"}, 
-	{48  , "Poland"}, 
-	{351 , "Portugal"}, 
-	{1939, "Puerto Rico"}, 	/* change county code to NANP 939, 787 (from 121) */
-	{974 , "Qatar"}, 
-	{262 , "Reunion Island"}, 
-	{40  , "Romania"}, 
-//	{6701, "Rota Island"}, 	/* removed: it is not a country it is part of Northern Mariana Islands, US Territory of */
-	{7   , "Russia"}, 
-	{250 , "Rwanda"}, 
-	{1684, "Samoa (USA)"}, 	/* rename (from American Samoa) change county code to NANP (from 684) */
-	{685 , "Samoa, Western"}, 	/* rename (from Western Samoa) */
-	{290 , "Saint Helena"}, 
-//	{115 , "Saint Kitts"}, 	/* removed: it is not a country it is part of Saint Kitts and Nevis*/
-	{1869, "Saint Kitts and Nevis"}, 	/* change county code to NANP (from 1141) */
-	{1758, "Saint Lucia"}, 	/* change county code to NANP (from 122) */
-	{508 , "Saint Pierre and Miquelon"}, 
-	{1784, "Saint Vincent and the Grenadines"}, 	/* change county code to NANP (from 116) */
-//	{670 , "Saipan Island"}, 	/* removed: it is not a country it is part of Northern Mariana Islands, US Territory of */
-	{378 , "San Marino"}, 
-	{239 , "Sao Tome and Principe"}, 
-	{966 , "Saudi Arabia"}, 
-	{442 , "Scotland"}, 
-	{221 , "Senegal"}, 
-	{248 , "Seychelles"}, 
-	{232 , "Sierra Leone"}, 
-	{65  , "Singapore"}, 
-	{421 , "Slovakia"}, 
-	{386 , "Slovenia"}, 
-	{677 , "Solomon Islands"}, 
-	{252 , "Somalia"}, 
-	{27  , "South Africa"}, 
-	{34  , "Spain"}, 
-	{3492, "Spain, Canary Islands"}, 	/*rename and change county code to 34(92) spain + canary code*/
-	{94  , "Sri Lanka"}, 
-	{249 , "Sudan"}, 
-	{597 , "Suriname"}, 
-	{268 , "Swaziland"}, 
-	{46  , "Sweden"}, 
-	{41  , "Switzerland"}, 
-	{963 , "Syrian Arab Republic"}, 
-	{886 , "Taiwan"}, 
-	{992 , "Tajikistan"}, 	/* change county code (from 708) */
-	{255 , "Tanzania"}, 
-	{66  , "Thailand"}, 
-//	{6702, "Tinian Island"}, 	/* removed: it is not a country it is part of Northern Mariana Islands, US Territory of */
-	{670 , "Timor, East"}, 	/* added (is part off Northern Mariana Islands but not US Territory*/
-	{228 , "Togo"}, 
-	{690 , "Tokelau"}, 
-	{676 , "Tonga"}, 
-	{1868, "Trinidad and Tobago"}, 	/* change county code to NANP (from 1141) */
-	{216 , "Tunisia"}, 
-	{90   , "Turkey"}, 
-	{90392, "Turkey, Republic of Northern Cyprus"}, 	/* added (is diffrent from Greek part)*/
-	{993 , "Turkmenistan"}, 	/* change county code (from 709) */
-	{1649, "Turks and Caicos Islands"}, 	/* change county code to NANP (from 118) */
-	{688 , "Tuvalu"}, 
-	{256 , "Uganda"}, 
-	{380 , "Ukraine"}, 
-	{971 , "United Arab Emirates"}, 
-	{44  , "United Kingdom"}, 
-	{598 , "Uruguay"}, 
-	{1   , "USA"}, 
-	{998 , "Uzbekistan"}, 	/* change county code (from 711) */
-	{678 , "Vanuatu"}, 
-	{379 , "Vatican City"}, 
-	{58  , "Venezuela"}, 
-	{84  , "Vietnam"}, 
-	{1284, "Virgin Islands (UK)"}, 	/* change county code to NANP (from 105) - rename coz Virgin Islands (USA) */
-	{1340, "Virgin Islands (USA)"}, 	/* change county code to NANP (from 123) */
-	{441 , "Wales"}, 
-	{681 , "Wallis and Futuna Islands"}, 
-	{967 , "Yemen"}, 
-	{38  , "Yugoslavia"}, 	/* added for old values like birth-country */
-	{381 , "Serbia, Republic of"}, 	/* rename need (from Yugoslavia)*/
-	{383 , "Kosovo, Republic of"}, 	/*change country code (from 3811),  rename need (from Yugoslavia - Serbia) */
-	{382 , "Montenegro, Republic of"}, 	/* rename need (from Yugoslavia - Montenegro) */
-	{260 , "Zambia"}, 
-	{263 , "Zimbabwe"}, 
+static CountryListEntry countries[] = {
+	{0, "Unspecified", ""}, 
+	{9999, "Other", ""}, 
+	{0xFFFF, "Unknown", ""}, 
+	{93, "Afghanistan", "AF"},
+	{358, "Aland Islands", "AX"},
+	{355, "Albania", "AL"},
+	{213, "Algeria", "DZ"},
+	{1684, "American Samoa", "AS"},
+	{376, "Andorra", "AD"},
+	{244, "Angola", "AO"},
+	{1264, "Anguilla", "AI"},
+	{0, "Antarctica", "AQ"},
+	{1268, "Antigua and Barbuda", "AG"},
+	{54, "Argentina", "AR"},
+	{374, "Armenia", "AM"},
+	{297, "Aruba", "AW"},
+	{61, "Australia", "AU"},
+	{43, "Austria", "AT"},
+	{994, "Azerbaijan", "AZ"},
+	{1242, "Bahamas", "BS"},
+	{973, "Bahrain", "BH"},
+	{880, "Bangladesh", "BD"},
+	{1246, "Barbados", "BB"},
+	{375, "Belarus", "BY"},
+	{32, "Belgium", "BE"},
+	{501, "Belize", "BZ"},
+	{229, "Benin", "BJ"},
+	{1441, "Bermuda", "BM"},
+	{975, "Bhutan", "BT"},
+	{591, "Bolivia, Plurinational State of", "BO"},
+	{5997, "Bonaire, Sint Eustatius and Saba", "BQ"},
+	{387, "Bosnia and Herzegovina", "BA"},
+	{267, "Botswana", "BW"},
+	{55, "Bouvet Island", "BV"},
+	{55, "Brazil", "BR"},
+	{246, "British Indian Ocean Territory", "IO"},
+	{673, "Brunei Darussalam", "BN"},
+	{359, "Bulgaria", "BG"},
+	{226, "Burkina Faso", "BF"},
+	{257, "Burundi", "BI"},
+	{855, "Cambodia", "KH"},
+	{237, "Cameroon", "CM"},
+	{1, "Canada", "CA"},
+	{238, "Cape Verde", "CV"},
+	{1345, "Cayman Islands", "KY"},
+	{236, "Central African Republic", "CF"},
+	{235, "Chad", "TD"},
+	{56, "Chile", "CL"},
+	{86, "China", "CN"},
+	{61, "Christmas Island", "CX"},
+	{61, "Cocos (Keeling) Islands", "CC"},
+	{57, "Colombia", "CO"},
+	{269, "Comoros", "KM"},
+	{242, "Congo", "CG"},
+	{243, "Congo, the Democratic Republic of the", "CD"},
+	{682, "Cook Islands", "CK"},
+	{506, "Costa Rica", "CR"},
+	{225, "Cote d'Ivoire", "CI"},
+	{385, "Croatia", "HR"},
+	{53, "Cuba", "CU"},
+	{5999, "Curacao", "CW"},
+	{357, "Cyprus", "CY"},
+	{420, "Czech Republic", "CZ"},
+	{45, "Denmark", "DK"},
+	{253, "Djibouti", "DJ"},
+	{1767, "Dominica", "DM"},
+	{1809, "Dominican Republic", "DO"},
+	{593, "Ecuador", "EC"},
+	{20, "Egypt", "EG"},
+	{503, "El Salvador", "SV"},
+	{240, "Equatorial Guinea", "GQ"},
+	{291, "Eritrea", "ER"},
+	{372, "Estonia", "EE"},
+	{251, "Ethiopia", "ET"},
+	{500, "Falkland Islands (Malvinas)", "FK"},
+	{298, "Faroe Islands", "FO"},
+	{679, "Fiji", "FJ"},
+	{358, "Finland", "FI"},
+	{33, "France", "FR"},
+	{594, "French Guiana", "GF"},
+	{689, "French Polynesia", "PF"},
+	{0, "French Southern Territories", "TF"},
+	{241, "Gabon", "GA"},
+	{220, "Gambia", "GM"},
+	{995, "Georgia", "GE"},
+	{49, "Germany", "DE"},
+	{233, "Ghana", "GH"},
+	{350, "Gibraltar", "GI"},
+	{30, "Greece", "GR"},
+	{299, "Greenland", "GL"},
+	{1473, "Grenada", "GD"},
+	{590, "Guadeloupe", "GP"},
+	{1671, "Guam", "GU"},
+	{502, "Guatemala", "GT"},
+	{44, "Guernsey", "GG"},
+	{224, "Guinea", "GN"},
+	{245, "Guinea-Bissau", "GW"},
+	{592, "Guyana", "GY"},
+	{509, "Haiti", "HT"},
+	{0, "Heard Island and McDonald Islands", "HM"},
+	{379, "Holy See (Vatican City State)", "VA"},
+	{504, "Honduras", "HN"},
+	{852, "Hong Kong", "HK"},
+	{36, "Hungary", "HU"},
+	{354, "Iceland", "IS"},
+	{91, "India", "IN"},
+	{62, "Indonesia", "ID"},
+	{98, "Iran, Islamic Republic of", "IR"},
+	{964, "Iraq", "IQ"},
+	{353, "Ireland", "IE"},
+	{44, "Isle of Man", "IM"},
+	{972, "Israel", "IL"},
+	{39, "Italy", "IT"},
+	{1876, "Jamaica", "JM"},
+	{81, "Japan", "JP"},
+	{44, "Jersey", "JE"},
+	{962, "Jordan", "JO"},
+	{76, "Kazakhstan", "KZ"},
+	{254, "Kenya", "KE"},
+	{686, "Kiribati", "KI"},
+	{850, "Korea, Democratic People's Republic of", "KP"},
+	{82, "Korea, Republic of", "KR"},
+	{965, "Kuwait", "KW"},
+	{996, "Kyrgyzstan", "KG"},
+	{856, "Lao People's Democratic Republic", "LA"},
+	{371, "Latvia", "LV"},
+	{961, "Lebanon", "LB"},
+	{266, "Lesotho", "LS"},
+	{231, "Liberia", "LR"},
+	{218, "Libya", "LY"},
+	{423, "Liechtenstein", "LI"},
+	{370, "Lithuania", "LT"},
+	{352, "Luxembourg", "LU"},
+	{853, "Macao", "MO"},
+	{389, "Macedonia, The Former Yugoslav Republic of", "MK"},
+	{261, "Madagascar", "MG"},
+	{265, "Malawi", "MW"},
+	{60, "Malaysia", "MY"},
+	{960, "Maldives", "MV"},
+	{223, "Mali", "ML"},
+	{356, "Malta", "MT"},
+	{692, "Marshall Islands", "MH"},
+	{596, "Martinique", "MQ"},
+	{222, "Mauritania", "MR"},
+	{230, "Mauritius", "MU"},
+	{262, "Mayotte", "YT"},
+	{52, "Mexico", "MX"},
+	{691, "Micronesia, Federated States of", "FM"},
+	{373, "Moldova, Republic of", "MD"},
+	{377, "Monaco", "MC"},
+	{976, "Mongolia", "MN"},
+	{382, "Montenegro", "ME"},
+	{1664, "Montserrat", "MS"},
+	{212, "Morocco", "MA"},
+	{258, "Mozambique", "MZ"},
+	{95, "Myanmar", "MM"},
+	{264, "Namibia", "NA"},
+	{674, "Nauru", "NR"},
+	{977, "Nepal", "NP"},
+	{31, "Netherlands", "NL"},
+	{687, "New Caledonia", "NC"},
+	{64, "New Zealand", "NZ"},
+	{505, "Nicaragua", "NI"},
+	{227, "Niger", "NE"},
+	{234, "Nigeria", "NG"},
+	{683, "Niue", "NU"},
+	{672, "Norfolk Island", "NF"},
+	{1670, "Northern Mariana Islands", "MP"},
+	{47, "Norway", "NO"},
+	{968, "Oman", "OM"},
+	{92, "Pakistan", "PK"},
+	{680, "Palau", "PW"},
+	{970, "Palestinian Territory, Occupied", "PS"},
+	{507, "Panama", "PA"},
+	{675, "Papua New Guinea", "PG"},
+	{595, "Paraguay", "PY"},
+	{51, "Peru", "PE"},
+	{63, "Philippines", "PH"},
+	{64, "Pitcairn", "PN"},
+	{48, "Poland", "PL"},
+	{351, "Portugal", "PT"},
+	{1787, "Puerto Rico", "PR"},
+	{974, "Qatar", "QA"},
+	{262, "Reunion", "RE"},
+	{40, "Romania", "RO"},
+	{7, "Russian Federation", "RU"},
+	{250, "Rwanda", "RW"},
+	{590, "Saint Barthelemy", "BL"},
+	{290, "Saint Helena, Ascension and Tristan da Cunha", "SH"},
+	{1869, "Saint Kitts and Nevis", "KN"},
+	{1758, "Saint Lucia", "LC"},
+	{590, "Saint Martin (French part)", "MF"},
+	{508, "Saint Pierre and Miquelon", "PM"},
+	{1784, "Saint Vincent and the Grenadines", "VC"},
+	{685, "Samoa", "WS"},
+	{378, "San Marino", "SM"},
+	{239, "Sao Tome and Principe", "ST"},
+	{966, "Saudi Arabia", "SA"},
+	{221, "Senegal", "SN"},
+	{381, "Serbia", "RS"},
+	{248, "Seychelles", "SC"},
+	{232, "Sierra Leone", "SL"},
+	{65, "Singapore", "SG"},
+	{1721, "Sint Maarten (Dutch part)", "SX"},
+	{421, "Slovakia", "SK"},
+	{386, "Slovenia", "SI"},
+	{677, "Solomon Islands", "SB"},
+	{252, "Somalia", "SO"},
+	{27, "South Africa", "ZA"},
+	{500, "South Georgia and the South Sandwich Islands", "GS"},
+	{211, "South Sudan", "SS"},
+	{34, "Spain", "ES"},
+	{94, "Sri Lanka", "LK"},
+	{249, "Sudan", "SD"},
+	{597, "Suriname", "SR"},
+	{4779, "Svalbard and Jan Mayen", "SJ"},
+	{268, "Swaziland", "SZ"},
+	{46, "Sweden", "SE"},
+	{41, "Switzerland", "CH"},
+	{963, "Syrian Arab Republic", "SY"},
+	{886, "Taiwan, Province of China", "TW"},
+	{992, "Tajikistan", "TJ"},
+	{255, "Tanzania, United Republic of", "TZ"},
+	{66, "Thailand", "TH"},
+	{670, "Timor-Leste", "TL"},
+	{228, "Togo", "TG"},
+	{690, "Tokelau", "TK"},
+	{676, "Tonga", "TO"},
+	{1868, "Trinidad and Tobago", "TT"},
+	{216, "Tunisia", "TN"},
+	{90, "Turkey", "TR"},
+	{993, "Turkmenistan", "TM"},
+	{1649, "Turks and Caicos Islands", "TC"},
+	{688, "Tuvalu", "TV"},
+	{256, "Uganda", "UG"},
+	{380, "Ukraine", "UA"},
+	{971, "United Arab Emirates", "AE"},
+	{44, "United Kingdom", "GB"},
+	{1, "United States", "US"},
+	{699, "United States Minor Outlying Islands", "UM"},
+	{598, "Uruguay", "UY"},
+	{998, "Uzbekistan", "UZ"},
+	{678, "Vanuatu", "VU"},
+	{58, "Venezuela, Bolivarian Republic of", "VE"},
+	{84, "Viet Nam", "VN"},
+	{1284, "Virgin Islands, British", "VG"},
+	{1340, "Virgin Islands, U.S.", "VI"},
+	{681, "Wallis and Futuna", "WF"},
+	{5289, "Western Sahara", "EH"},
+	{967, "Yemen", "YE"},
+	{260, "Zambia", "ZM"},
+	{263, "Zimbabwe", "ZW"}
 };
 
 static INT_PTR GetCountryByNumber(WPARAM wParam, LPARAM)
 {
-	int i;
+	for (int i = 0; i < SIZEOF(countries); i++)
+		if ((int)wParam == countries[i].id)
+			return (INT_PTR)countries[i].szName;
 
-	for (i=0; i < SIZEOF(countries); i++)
-		if ((int)wParam == countries[i].id) return (INT_PTR)countries[i].szName;
-	return (INT_PTR)NULL;
+	return NULL;
+}
+
+static INT_PTR GetCountryByISOCode(WPARAM wParam, LPARAM)
+{
+	for (int i = 0; i < SIZEOF(countries); i++)
+		if ( lstrcmpiA((char*)wParam, countries[i].ISOcode) == 0)
+			return (INT_PTR)countries[i].szName;
+
+	return NULL;
 }
 
 static INT_PTR GetCountryList(WPARAM wParam, LPARAM lParam)
 {
 	*(int*)wParam = SIZEOF(countries);
-	*(struct CountryListEntry**)lParam = countries;
+	*(CountryListEntry**)lParam = countries;
 	return 0;
 }
 
@@ -469,6 +474,7 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_UTILS_RESTOREWINDOWPOSITION, RestoreWindowPosition);
 	CreateServiceFunction(MS_UTILS_ASSERTINSIDESCREEN, AssertInsideScreen);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER, GetCountryByNumber);
+	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYISOCODE, GetCountryByISOCode);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYLIST, GetCountryList);
 	CreateServiceFunction(MS_UTILS_GETRANDOM, GenerateRandom);
 	CreateServiceFunction(MS_SYSTEM_RESTART, RestartMiranda);

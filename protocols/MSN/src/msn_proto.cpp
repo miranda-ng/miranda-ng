@@ -716,14 +716,12 @@ HANDLE __cdecl CMsnProto::GetAwayMsg(HANDLE hContact)
 
 DWORD_PTR __cdecl CMsnProto::GetCaps(int type, HANDLE hContact)
 {
-	switch(type)
-	{
+	switch(type) {
 	case PFLAGNUM_1:
-	{	int result = PF1_IM | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH |
+		return PF1_IM | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH |
 				 PF1_ADDSEARCHRES | PF1_CHAT |
 				 PF1_FILESEND | PF1_FILERECV | PF1_URLRECV | PF1_VISLIST | PF1_MODEMSG;
-		return result;
-	}
+
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE;
 

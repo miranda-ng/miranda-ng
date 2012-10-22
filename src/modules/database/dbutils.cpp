@@ -106,8 +106,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		char* str = (*descr == 0) ? filename : descr;
 		switch (egt->datatype) {
 		case DBVT_WCHAR:
-			return (INT_PTR)((dbei->flags & DBEF_UTF) ? 
-					Utf8DecodeT(str) : mir_a2t(str));
+			return (INT_PTR)((dbei->flags & DBEF_UTF) ? Utf8DecodeT(str) : mir_a2t(str));
 		case DBVT_ASCIIZ:
 			return (INT_PTR)((dbei->flags & DBEF_UTF) ? Utf8Decode(mir_strdup(str), NULL) : mir_strdup(str));
 		}
@@ -120,8 +119,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	egt->datatype &= ~DBVTF_DENYUNICODE;
-	if (egt->datatype == DBVT_WCHAR)
-	{
+	if (egt->datatype == DBVT_WCHAR) {
 		WCHAR* msg = NULL;
 		if (dbei->flags & DBEF_UTF) {
 			char* str = (char*)alloca(dbei->cbBlob + 1);
@@ -146,7 +144,8 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 			else {
 				msg = (WCHAR*)mir_alloc(sizeof(WCHAR) * msglen);
 				MultiByteToWideChar(egt->codepage, 0, (char *) dbei->pBlob, -1, msg, (int)msglen);
-		}	}
+			}
+		}
 		return (INT_PTR)msg;
 	}
 	else if (egt->datatype == DBVT_ASCIIZ) {
