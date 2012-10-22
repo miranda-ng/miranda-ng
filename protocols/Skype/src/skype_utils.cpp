@@ -1,30 +1,10 @@
 #include "skype_proto.h"
 
-int  CSkypeProto::countriesCount;
-CountryListEntry*  CSkypeProto::countryList;
-
 void CSkypeProto::FakeAsync(void *param)
 {
 	::Sleep(100);
 	::CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)param);
 	::mir_free(param);
-}
-
-int CSkypeProto::GetCountryIdByName(const char* countryName)
-{
-	for (int i = 0; i < CSkypeProto::countriesCount; i++)
-	{
-		const char* country = CSkypeProto::countryList[i].szName;
-		if (strcmp(CSkypeProto::countryList[i].szName, countryName) == 0)
-			return CSkypeProto::countryList[i].id;
-	}
-
-	return 0;
-}
-
-char* CSkypeProto::GetCountryNameById(int countryId)
-{
-	return (char*)::CallService(MS_UTILS_GETCOUNTRYBYNUMBER, (WPARAM)countryId, NULL);
 }
 
 wchar_t* CSkypeProto::GetAvatarFilePath(wchar_t* skypeName)

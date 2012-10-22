@@ -72,7 +72,7 @@ void CSkypeProto::UpdateContactBirthday(HANDLE hContact, CContact::Ref contact)
 	contact->GetPropBirthday(data);
 	TCHAR date[9];
 	_itot_s(data, date, 10);
-	if (date > 0)
+	if (data > 0)
 	{
 		INT day, month, year;
 		_stscanf(date, _T("%04d%02d%02d"), &year, &month, &day);
@@ -104,10 +104,20 @@ void CSkypeProto::UpdateContactCountry(HANDLE hContact, CContact::Ref contact)
 {
 	// country (en, ru, etc)
 	SEString data;
+	char* country;
 	contact->GetPropCountry(data);
-	// todo: write me
-	//BYTE countryId = this->GetCountryIdByName((const char*)sData);
-	//this->SetSettingByte(hContact, "Country", countryId);
+	char* isocode = ::mir_utf8decodeA((const char*)data);
+	if (strcmp(isocode, "") == 0)
+	{
+		country = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, 0xFFFF, 0);
+		this->SetSettingString(hContact, "Country", _A2T(country));
+	}
+	else
+	{
+		country = (char*)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode, 0);
+		this->SetSettingString(hContact, "Country", _A2T(country));
+	}
+	::mir_free(isocode);
 }
 
 void CSkypeProto::UpdateContactEmails(HANDLE hContact, CContact::Ref contact)

@@ -72,10 +72,6 @@ public:
 
 	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
 
-	// utils
-	static int countriesCount;
-	static CountryListEntry* countryList;
-
 	// events
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
