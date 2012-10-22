@@ -41,7 +41,6 @@
 #define IDC_SLOWSEND                    1003
 #define IDC_RETURN_ABC_PATH             1004
 #define IDC_FILE_SEND_HIDE_MY_ADDRESSES 1004
-#define IDC_HIDE_MENU_ITEMS_FOR_NON_MRA 1004
 #define IDC_RTF_SEND_ENABLE             1005
 #define IDC_RTF_BGCOLOUR                1006
 #define IDC_CVT_SMILES_ON_SEND_TEXT     1007

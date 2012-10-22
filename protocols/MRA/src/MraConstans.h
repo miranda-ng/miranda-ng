@@ -242,14 +242,14 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MS_ICQ_SENDSMS      "/SendSMS" 
 
 // Database setting names
-#define DBSETTING_CAPABILITIES		"caps"
-#define DBSETTING_XSTATUSID			"XStatusId"
-#define DBSETTING_XSTATUSNAME		"XStatusName"
-#define DBSETTING_XSTATUSMSG		"XStatusMsg"
-#define DBSETTING_BLOGSTATUSTIME	"BlogStatusTime"
-#define DBSETTING_BLOGSTATUSID		"BlogStatusID"
-#define DBSETTING_BLOGSTATUS		"BlogStatus"
-#define DBSETTING_BLOGSTATUSMUSIC	"ListeningTo"
+#define DBSETTING_CAPABILITIES    "caps"
+#define DBSETTING_XSTATUSID       "XStatusId"
+#define DBSETTING_XSTATUSNAME     "XStatusName"
+#define DBSETTING_XSTATUSMSG      "XStatusMsg"
+#define DBSETTING_BLOGSTATUSTIME  "BlogStatusTime"
+#define DBSETTING_BLOGSTATUSID    "BlogStatusID"
+#define DBSETTING_BLOGSTATUS      "BlogStatus"
+#define DBSETTING_BLOGSTATUSMUSIC "ListeningTo"
 
 #define CSSF_MASK_STATUS    0x0001  // status member valid for set/get
 #define CSSF_MASK_NAME      0x0002  // pszName member valid for set/get

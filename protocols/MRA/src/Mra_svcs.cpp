@@ -606,17 +606,7 @@ int CMraProto::MraRebuildContactMenu(WPARAM wParam, LPARAM lParam)
 		mraGetStaticStringW(hContact, DBSETTING_BLOGSTATUS, NULL, 0, &dwBlogStatusMsgSize);
 	}
 	// non proto contact
-	else {
-		bHasEMail = FALSE;
-		bHasEMailMR = FALSE;
-		bChatAgent = FALSE;
-		if (mraGetByte(NULL, "HideMenuItemsForNonMRAContacts", MRA_DEFAULT_HIDE_MENU_ITEMS_FOR_NON_MRA) == FALSE)
-		if (IsContactMraProto(hContact) == FALSE)// избегаем добавления менюшек в контакты других копий MRA
-		if (GetContactEMailCount(hContact, FALSE)) {
-			bHasEMail = TRUE;
-			if (GetContactEMailCount(hContact, TRUE)) bHasEMailMR = TRUE;
-		}
-	}
+	else bHasEMail = bHasEMailMR = bChatAgent = FALSE;
 
 	//"Request authorization"
 	CListShowMenuItem(hContactMenuItems[0], (m_bLoggedIn && bIsContactMRA));// && (dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED)
