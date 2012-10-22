@@ -2035,6 +2035,9 @@ Cвернуть
 Фатальная ошибка
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Модуль ядра '%s' не может быть загружен или отсутсвует. Программа вынуждена завершить работу
+[Switch to simple options]
+Упрощённый вид настроек
+
 
 ;МОДУЛЬ КЛИСТА
 [ms delay]
