@@ -93,7 +93,7 @@ typedef void (*ItemDestuctor)(void *);
 
 static void ModernOptionsObject_Dtor(void *ptr)
 {
-	struct ModernOptionsObject *obj = (struct ModernOptionsObject *)ptr;
+	ModernOptionsObject *obj = (struct ModernOptionsObject *)ptr;
 
 	mir_free(obj->optObject.lptzSubsection);
 	mir_free(obj->optObject.iBoldControls);
@@ -101,11 +101,10 @@ static void ModernOptionsObject_Dtor(void *ptr)
 	mir_free(obj->optObject.lpzClassicPage);
 	mir_free(obj->optObject.lpzClassicTab);
 	mir_free(obj->optObject.lpzHelpUrl);
-    mir_free(obj->optObject.lpzThemeExtension);
-    mir_free(obj->optObject.lpzThemeModuleName);
+	mir_free(obj->optObject.lpzThemeExtension);
+	mir_free(obj->optObject.lpzThemeModuleName);
 
-	switch (obj->optObject.iType)
-	{
+	switch (obj->optObject.iType) {
 		case MODERNOPT_TYPE_IGNOREOBJECT:
 			mir_free(obj->optObject.lpzIgnoreModule);
 			mir_free(obj->optObject.lpzIgnoreSetting);
@@ -113,7 +112,7 @@ static void ModernOptionsObject_Dtor(void *ptr)
 	}
 
 	if (obj->hwnd) DestroyWindow(obj->hwnd);
-    mir_free(obj);
+	mir_free(obj);
 }
 
 static int ModernOptionsObject_Comparator(const ModernOptionsObject *ptr1, const ModernOptionsObject *ptr2)
@@ -247,10 +246,9 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 
 		case IDC_BTN_CLASSICOPT:
 			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
-			DBWriteContactSettingByte(NULL, "Options", "Expert", 1);
+			db_set_b(NULL, "Options", "Expert", 1);
 			{
-				OPENOPTIONSDIALOG ood = {0};
-				ood.cbSize = sizeof(ood);
+				OPENOPTIONSDIALOG ood = { sizeof(ood) };
 				Options_Open(&ood);
 			}
 			break;
@@ -497,6 +495,11 @@ static INT_PTR svcModernOpt_Impl(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR svcModernOpt_Show(WPARAM wParam, LPARAM lParam)
 {
+	if ( db_get_b(NULL, "Options", "Expert", 0)) {
+		OPENOPTIONSDIALOG ood = { sizeof(ood) };
+		return Options_Open(&ood);
+	}
+
 	g_iSectionRestore = 0;
 	return svcModernOpt_Impl(wParam, lParam);
 }
