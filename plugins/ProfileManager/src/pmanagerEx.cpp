@@ -16,6 +16,7 @@ There is no warranty.
 #include <m_skin.h>
 #include <m_langpack.h>
 #include <m_system.h>
+#include <m_utils.h>
 #include <win2k.h>
 
 #include "resource.h"
@@ -26,7 +27,7 @@ TCHAR fn[MAX_PATH];
 TCHAR lmn[MAX_PATH];
 TCHAR* pathn;
 int hLangpack;
-HANDLE hLoadPM, hChangePM, hDbchecker;
+HANDLE hLoadPM, hChangePM, hDbchecker, hRestartMe;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -82,6 +83,21 @@ static INT_PTR CheckDb(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static INT_PTR RestartMe(WPARAM wParam, LPARAM lParam)
+{
+	TCHAR mirandaPath[MAX_PATH], cmdLine[100];
+	PROCESS_INFORMATION pi;
+	STARTUPINFO si = {0};
+	si.cb = sizeof(si);
+	GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
+	TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
+	mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), profilename);
+	CallService("CloseAction", 0, 0);
+	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+	mir_free(profilename);
+	return 0;
+}
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	CLISTMENUITEM mi;
@@ -121,6 +137,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.pszService = "Database/CheckDb";
 	Menu_AddMainMenuItem(&mi);
 
+	hRestartMe = CreateServiceFunction("System/RestartMe", RestartMe);
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = -500200000;
@@ -128,7 +145,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_Restart));
 	mi.ptszPopupName = NULL;
 	mi.ptszName = _T("Restart");
-	mi.pszService = MS_SYSTEM_RESTART;
+	mi.pszService = "System/RestartMe";
 	Menu_AddMainMenuItem(&mi);
 
 	return 0;

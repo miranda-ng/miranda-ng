@@ -6,11 +6,13 @@
 #include <m_langpack.h>
 #include <m_system.h>
 #include <m_genmenu.h>
+#include <m_utils.h>
+#include <win2k.h>
 #include "resource.h"
 
 HINSTANCE hInst;
-HANDLE hIconHandle;
 int hLangpack;
+HANDLE hIconHandle, hRestartMe;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -36,6 +38,21 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
+static INT_PTR RestartMe(WPARAM wParam, LPARAM lParam)
+{
+	TCHAR mirandaPath[MAX_PATH], cmdLine[100];
+	PROCESS_INFORMATION pi;
+	STARTUPINFO si = {0};
+	si.cb = sizeof(si);
+	GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
+	TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
+	mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), profilename);
+	CallService("CloseAction", 0, 0);
+	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+	mir_free(profilename);
+	return 0;
+}
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP( &pluginInfo );
@@ -53,12 +70,13 @@ extern "C" __declspec(dllexport) int Load(void)
 	sid.iDefaultIndex = -IDI_RESTARTICON;
 	hIconHandle = Skin_AddIcon(&sid);
 
+	hRestartMe = CreateServiceFunction("System/RestartMe", RestartMe);
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = hIconHandle;
 	mi.ptszName = _T("Restart");
-	mi.pszService = MS_SYSTEM_RESTART;
+	mi.pszService = "System/RestartMe";
 	Menu_AddMainMenuItem(&mi);
 	Menu_AddTrayMenuItem(&mi);
 	return 0;
