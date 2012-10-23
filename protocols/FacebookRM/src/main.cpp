@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "common.h"
+#include "version.h" 
 
 // TODO: Make following as "globals" structure?
 
@@ -33,13 +34,13 @@ DWORD g_mirandaVersion;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Facebook Protocol RM",
-	__VERSION_DWORD,
-	"Provides basic support for Facebook Chat protocol.",
-	"Michal Zelinka, Robert Posel",
-	"robyer@seznam.cz",
-	"(c) 2009-11 Michal Zelinka, 2011-12 Robert Posel",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {8432B009-FF32-4727-AAE6-A9035038FD58}
 	{ 0x8432b009, 0xff32, 0x4727, { 0xaa, 0xe6, 0xa9, 0x3, 0x50, 0x38, 0xfd, 0x58 } }

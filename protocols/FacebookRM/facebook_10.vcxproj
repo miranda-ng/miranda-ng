@@ -213,6 +213,7 @@
     <ClInclude Include="src\theme.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\JSON_CAJUN\elements.inl" />
@@ -221,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\facebook.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

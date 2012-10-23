@@ -125,6 +125,9 @@
     <ClInclude Include="src\theme.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\JSON_CAJUN\elements.inl">
@@ -139,6 +142,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\facebook.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
