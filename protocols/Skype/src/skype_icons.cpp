@@ -34,20 +34,20 @@ void CSkypeProto::InitIcons()
 	}	
 }
 
-HANDLE GetIconHandle(const char* name)
+HANDLE CSkypeProto::GetIconHandle(const char* name)
 {
-	for(size_t i=0; i<SIZEOF(iconList); i++)
+	for (size_t i = 0; i < SIZEOF(CSkypeProto::iconList); i++)
 	{
-		if(strcmp(iconList[i].Name, name) == 0)
-			return iconList[i].Handle;
+		if (::strcmp(CSkypeProto::iconList[i].Name, name) == 0)
+			return CSkypeProto::iconList[i].Handle;
 	}
 	return 0;
 }
 
 void CSkypeProto::UninitIcons()
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (size_t i = 0; i < SIZEOF(CSkypeProto::iconList); i++)
 	{
-		::Skin_RemoveIcon(iconList[i].Name);
+		::Skin_RemoveIcon(CSkypeProto::iconList[i].Name);
 	}
 }

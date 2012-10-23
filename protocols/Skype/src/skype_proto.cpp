@@ -225,6 +225,7 @@ int    __cdecl CSkypeProto::RecvFile( HANDLE hContact, PROTORECVFILET* ) { retur
 
 int    __cdecl CSkypeProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre) 
 { 
+	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
 	return ::Proto_RecvMessage(hContact, pre);
 }
 
@@ -313,15 +314,25 @@ int    __cdecl CSkypeProto::SetAwayMsg( int m_iStatus, const TCHAR* msg ) { retu
 
 int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type ) 
 { 
-	// todo: rewrite
-	CConversation::Ref conversation;
-	g_skype->GetConversationByIdentity(::mir_u2a(this->GetSettingString(hContact, "sid")), conversation);
-	if (conversation) 
+	if (hContact && this->IsOnline() && this->m_iStatus != ID_STATUS_INVISIBLE)
 	{
-		Message::Ref message;
-		conversation->SetMyTextStatusTo(Participant::WRITING);
+		CConversation::Ref conversation;
+		g_skype->GetConversationByIdentity(::mir_u2a(this->GetSettingString(hContact, "sid")), conversation);
+		if (conversation) 
+		{
+			switch (type) 
+			{
+				case PROTOTYPE_SELFTYPING_ON:
+					conversation->SetMyTextStatusTo(Participant::WRITING);
+					return 0;
+
+				case PROTOTYPE_SELFTYPING_OFF:
+					conversation->SetMyTextStatusTo(Participant::READING); // mb TEXT_UNKNOWN?
+					return 0;
+			}
+		}
 	}
-	return 0; 
+	return 1; 
 }
 
 int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)

@@ -417,7 +417,7 @@ void CSkypeProto::UpdateContactLanguages(HANDLE hContact, CContact::Ref contact)
 		for (int i = 0; i < SIZEOF(languages); i++)
 			if ( lstrcmpiA((char*)isocode, languages[i].ISOcode) == 0)
 			{
-				this->SetSettingString(hContact, "Language1", languages[i].szName);
+				this->SetSettingString(hContact, "Language1", ::mir_a2u(languages[i].szName));
 				break;
 			}
 	}
@@ -505,22 +505,22 @@ void CSkypeProto::UpdateContactTimezone(HANDLE hContact, CContact::Ref contact)
 	if (data > 0)
 	{
 		uint diffmin = (data - 24*3600) / 60;
-		TCHAR sign[2];
+		wchar_t sign[2];
 		if (diffmin < 0)
-			sign = _T("-");
+			::wcscpy(sign, L"-");
 		else
-			sign = _T("+");
-		uint hours = abs(diffmin / 60);
-		uint mins = abs(diffmin % 60);
-		TCHAR timeshift[7];
-		mir_sntprinf(timeshift, SIZEOF(timeshift), _T("%s%d:%02d"), sign, hours, mins);
+			::wcscpy(sign, L"+");
+		uint hours = ::abs((int)(diffmin / 60));
+		uint mins = ::abs((int)(diffmin % 60));
+		wchar_t timeshift[7];
+		::mir_sntprintf(timeshift, SIZEOF(timeshift), _T("%s%d:%02d"), sign, hours, mins);
 			
-		LPCTSTR szMin = _tcschr(timeshift, ':');
-		int nTz = _ttoi(timeshift) * -2;
+		wchar_t *szMin = wcschr(timeshift, ':');
+		int nTz = ::_wtoi(timeshift) * -2;
 		nTz += (nTz < 0 ? -1 : 1) * (szMin ? _ttoi( szMin + 1 ) / 30 : 0);
 
 		TIME_ZONE_INFORMATION tzinfo;
-		if (GetTimeZoneInformation(&tzinfo) == TIME_ZONE_ID_DAYLIGHT)
+		if (::GetTimeZoneInformation(&tzinfo) == TIME_ZONE_ID_DAYLIGHT)
 			nTz -= tzinfo.DaylightBias / 30;
 
 		this->SetSettingByte(hContact, "Timezone", (signed char)nTz);

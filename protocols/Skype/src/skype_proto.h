@@ -96,7 +96,7 @@ public:
 	// icons
 	static void InitIcons();
 	static void UninitIcons();
-	HANDLE GetIconHandle(const char *name);
+	static HANDLE GetIconHandle(const char *name);
 
 	// menus
 	static void InitMenus();

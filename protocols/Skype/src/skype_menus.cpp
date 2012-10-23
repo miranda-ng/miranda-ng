@@ -106,7 +106,7 @@ void  CSkypeProto::InitMenus()
 	mi.ptszName = LPGENT("Request authorization");
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.position = -2000001000;
-	mi.icolibItem = GetIconHandle("authReuest");
+	mi.icolibItem = CSkypeProto::GetIconHandle("authReuest");
 	mi.pszService = "Skype/ReqAuth";
 	g_hContactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[CMI_AUTH_REQUEST] = CreateServiceFunction(mi.pszService, SkypeMenuHandleRequestAuth);
@@ -115,7 +115,7 @@ void  CSkypeProto::InitMenus()
 	mi.pszService = "Skype/GrantAuth";
 	mi.ptszName = LPGENT("Grant authorization");
 	mi.position = -2000001001;
-	mi.icolibItem = GetIconHandle("authGrant");
+	mi.icolibItem = CSkypeProto::GetIconHandle("authGrant");
 	g_hContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[CMI_AUTH_GRANT] = CreateServiceFunction(mi.pszService, SkypeMenuHandleGrantAuth);
 
@@ -123,7 +123,7 @@ void  CSkypeProto::InitMenus()
 	mi.pszService = "Skype/RevokeAuth";
 	mi.ptszName = LPGENT("Revoke authorization");
 	mi.position = -2000001002;
-	mi.icolibItem = GetIconHandle("authRevoke");
+	mi.icolibItem = CSkypeProto::GetIconHandle("authRevoke");
 	g_hContactMenuItems[CMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[CMI_AUTH_REVOKE] = CreateServiceFunction(mi.pszService, SkypeMenuRevokeAuth);
 }
