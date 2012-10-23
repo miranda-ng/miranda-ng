@@ -96,6 +96,7 @@ public:
 	// icons
 	static void InitIcons();
 	static void UninitIcons();
+	HANDLE GetIconHandle(const char *name);
 
 	// menus
 	static void InitMenus();
@@ -210,8 +211,11 @@ protected:
 	// menu
 	static HANDLE hChooserMenu;
 	static HANDLE hPrebuildMenuHook;
+	static HANDLE g_hContactMenuItems[CMITEMS_COUNT];
+	static HANDLE g_hContactMenuSvc[CMITEMS_COUNT];
 	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
-	int		OnPrebuildContactMenu(WPARAM wParam, LPARAM);
+	int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
+	
 
 	// database
 	HANDLE AddDataBaseEvent(HANDLE hContact, WORD type, DWORD time, DWORD flags, DWORD cbBlob, PBYTE pBlob);

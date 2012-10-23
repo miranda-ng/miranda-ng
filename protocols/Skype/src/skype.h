@@ -61,6 +61,12 @@
 #define SKYPE_SEARCH_BYEMAIL 1002
 #define SKYPE_SEARCH_BYNAMES 1003
 
+#define CMI_AUTH_REVOKE 0
+#define CMI_AUTH_REQUEST 1
+#define CMI_AUTH_GRANT 2
+
+#define CMITEMS_COUNT 3
+
 extern CSkype* g_skype;
 extern HINSTANCE g_hInstance;
 

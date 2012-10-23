@@ -136,7 +136,7 @@ END
 // remains consistent on all systems.
 IDI_ICON                ICON                    "Main.ico"
 IDI_AUTH_GRANT          ICON                    "auth_grant.ico"
-IDI_AUTH_ASK            ICON                    "auth_ask.ico"
+IDI_AUTH_REQUEST        ICON                    "auth_request.ico"
 IDI_AUTH_REVOKE         ICON                    "auth_revoke.ico"
 
 /////////////////////////////////////////////////////////////////////////////

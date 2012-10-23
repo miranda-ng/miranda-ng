@@ -7,7 +7,7 @@
 #define IDI_ICON                        101
 #define IDR_RUNTIME                     102
 #define IDI_AUTH_GRANT                  103
-#define IDI_AUTH_ASK                    104
+#define IDI_AUTH_REQUEST                104
 #define IDI_AUTH_REVOKE                 105
 #define IDD_PASSWORDREQUEST             106
 #define IDC_SN                          1001

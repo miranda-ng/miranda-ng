@@ -4,7 +4,7 @@ _tag_iconList CSkypeProto::iconList[] =
 {
 	{ LPGENT("Protocol icon"),		"main",			IDI_ICON },
 	{ LPGENT("Revoke authorization"),	"authRevoke",		IDI_AUTH_REVOKE },
-	{ LPGENT("Request authorization"),	"authAsk",		IDI_AUTH_ASK },
+	{ LPGENT("Request authorization"),	"authRequest",		IDI_AUTH_REQUEST },
 	{ LPGENT("Grant authorization"),	"authGrant",		IDI_AUTH_GRANT },
 };
 
