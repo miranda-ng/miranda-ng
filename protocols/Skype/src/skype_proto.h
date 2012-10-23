@@ -19,6 +19,11 @@ struct _tag_iconList
 	HANDLE		Handle;
 };
 
+struct LanguagesListEntry {
+	const char *szName;
+	char ISOcode[3];
+};
+
 struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
 {
 public:
