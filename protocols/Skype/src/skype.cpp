@@ -242,6 +242,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	g_skype = new CSkype();
 	g_skype->init(keyBuf, "127.0.0.1", port);
+	delete[] keyBuf;
 	g_skype->start();	
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
