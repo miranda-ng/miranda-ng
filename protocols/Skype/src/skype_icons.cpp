@@ -2,7 +2,10 @@
 
 _tag_iconList CSkypeProto::iconList[] =
 {
-	{ LPGENT("Protocol icon"),	"main",			IDI_ICON },
+	{ LPGENT("Protocol icon"),		"main",			IDI_ICON },
+	{ LPGENT("Revoke authorization"),	"authRevoke",		IDI_AUTH_REVOKE },
+	{ LPGENT("Request authorization"),	"authAsk",		IDI_AUTH_ASK },
+	{ LPGENT("Grant authorization"),	"authGrant",		IDI_AUTH_GRANT },
 };
 
 void CSkypeProto::InitIcons()
@@ -29,6 +32,16 @@ void CSkypeProto::InitIcons()
 		sid.iDefaultIndex = -iconList[i].IconId;
 		iconList[i].Handle = ::Skin_AddIcon(&sid);
 	}	
+}
+
+HANDLE GetIconHandle(const char* name)
+{
+	for(size_t i=0; i<SIZEOF(iconList); i++)
+	{
+		if(strcmp(iconList[i].Name, name) == 0)
+			return iconList[i].Handle;
+	}
+	return 0;
 }
 
 void CSkypeProto::UninitIcons()

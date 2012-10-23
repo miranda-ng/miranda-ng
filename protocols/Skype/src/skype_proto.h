@@ -2,6 +2,7 @@
 
 #include "skype.h"
 #include <time.h>
+#include <stdlib.h>
 
 struct CSkypeProto;
 

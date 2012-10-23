@@ -93,6 +93,7 @@ void CSkypeProto::UpdateContactBirthday(HANDLE hContact, CContact::Ref contact)
 		this->DeleteSetting(hContact, "BirthDay");
 		this->DeleteSetting(hContact, "BirthMonth");
 		this->DeleteSetting(hContact, "BirthYear");
+		this->DeleteSetting(hContact, "Age");
 	}
 }
 
@@ -266,9 +267,29 @@ void CSkypeProto::UpdateContactTimezone(HANDLE hContact, CContact::Ref contact)
 {
 	uint data;
 	contact->GetPropTimezone(data);
-	// todo: из числа вычесть 24*3600 и поделить на 60, получим зону в минутах, взять знак и поделить с остатком на 60. итог: строка формата "+4:00"
 	if (data > 0)
-		this->SetSettingByte(hContact, "TimeZone", (data - 24*3600) / 3600);
+	{
+		uint diffmin = (data - 24*3600) / 60;
+		TCHAR sign[2];
+		if (diffmin < 0)
+			sign = _T("-");
+		else
+			sign = _T("+");
+		uint hours = abs(diffmin / 60);
+		uint mins = abs(diffmin % 60);
+		TCHAR timeshift[7];
+		mir_sntprinf(timeshift, SIZEOF(timeshift), _T("%s%d:%02d"), sign, hours, mins);
+			
+		LPCTSTR szMin = _tcschr(timeshift, ':');
+		int nTz = _ttoi(timeshift) * -2;
+		nTz += (nTz < 0 ? -1 : 1) * (szMin ? _ttoi( szMin + 1 ) / 30 : 0);
+
+		TIME_ZONE_INFORMATION tzinfo;
+		if (GetTimeZoneInformation(&tzinfo) == TIME_ZONE_ID_DAYLIGHT)
+			nTz -= tzinfo.DaylightBias / 30;
+
+		this->SetSettingByte(hContact, "Timezone", (signed char)nTz);
+	}
 	else
 		this->DeleteSetting(hContact, "TimeZone");
 }
