@@ -489,21 +489,9 @@ INT_PTR CALLBACK AuthReqWndProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		switch(LOWORD(wparam)) {
 	case IDOK:
 		{
-			char szReason[256] = {0};
-
-			WCHAR wszReason[256] = {0};
-
-			if (CallService(MS_SYSTEM_GETVERSION, 0, 0) < 0x00090007)
-			{
-				GetDlgItemTextA(hdlg,IDC_REASON,szReason,255);
-				CallContactService(hcontact,PSS_AUTHREQUEST,0,(LPARAM)szReason);	
-			}
-			else
-			{
-				GetDlgItemText(hdlg,IDC_REASON,wszReason,255);
-				CallContactService(hcontact,PSS_AUTHREQUESTW,0,(LPARAM)wszReason);
-			}
-
+			TCHAR tszReason[256] = {0};
+			GetDlgItemText(hdlg,IDC_REASON,tszReason,255);
+			CallContactService(hcontact,PSS_AUTHREQUESTT,0,(LPARAM)tszReason);
 		} // fall through
 	case IDCANCEL:
 		DestroyWindow(hdlg);
