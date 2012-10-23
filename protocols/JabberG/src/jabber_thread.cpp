@@ -1664,9 +1664,18 @@ void CJabberProto::OnProcessPresence( HXML node, ThreadData* info )
 		DBCheckIsTransportedContact( from, hContact );
 		int status = ID_STATUS_ONLINE;
 		/* GTalk android user set status as on the phone */
-		if (_tcsstr(from, _T("android_talk")))
-			status = ID_STATUS_ONTHEPHONE;
-		else {
+		LPCTSTR pEndOfJID = NULL;
+		pEndOfJID = _tcsrchr(from, '/');
+		if (pEndOfJID)
+		{
+			pEndOfJID++;
+			/*If the second half of JID (after /) starts with android, the contact is using android*/
+			if(_tcsstr(pEndOfJID, _T("android")) == pEndOfJID)
+			{
+				status = ID_STATUS_ONTHEPHONE;
+			}
+		}
+		if (status == ID_STATUS_ONLINE) {
 			if (( showNode = xmlGetChild( node , "show" )) != NULL ) {
 				if (( show = xmlGetText( showNode ) ) != NULL ) {
 					if ( !_tcscmp( show, _T("away"))) status = ID_STATUS_AWAY;
