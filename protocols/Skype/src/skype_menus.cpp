@@ -36,22 +36,52 @@ CSkypeProto* CSkypeProto::GetInstanceByHContact(HANDLE hContact)
 	return NULL;
 }
 
-INT_PTR SkypeMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
+template<int (__cdecl CSkypeProto::*Scn)(WPARAM, LPARAM)>
+INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
 {
-	CSkypeProto* ppro = CSkypeProto::GetInstanceByHContact((HANDLE)wParam);
-	return(ppro) ? ppro->OnMenuHandleRequestAuth(wParam, lParam) : 0;
+	CSkypeProto *ppro = CSkypeProto::GetInstanceByHContact((HANDLE)wParam);
+	return ppro ? (ppro->*Scn)(wParam, lParam) : 0;
 }
 
-INT_PTR SkypeMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam)
+int CSkypeProto::RequestAuth(WPARAM wParam, LPARAM lParam)
 {
-	CSkypeProto* ppro = CSkypeProto::GetInstanceByHContact((HANDLE)wParam);
-	return(ppro) ? ppro->OnMenuHandleGrantAuth(wParam, lParam) : 0;
+	if (this->IsOnline() && wParam)
+	{
+		HANDLE hContact = (HANDLE)wParam;
+		TCHAR* szMessage = (TCHAR*)lParam;
+		CContact::Ref contact;
+		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
+		g_skype->GetContact(sid, contact);
+
+		contact->SendAuthRequest(::mir_u2a(szMessage));
+		this->DeleteSetting(hContact, "Grant");
+		
+		return 0;
+	}
+
+	return 1;
 }
 
-INT_PTR SkypeMenuRevokeAuth(WPARAM wParam, LPARAM lParam)
+int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
 {
-	CSkypeProto* ppro = CSkypeProto::GetInstanceByHContact((HANDLE)wParam);
-	return(ppro) ? ppro->OnMenuRevokeAuth(wParam, lParam) : 0;
+	CContact::Ref contact;
+	HANDLE hContact = (HANDLE)wParam;
+	SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
+	g_skype->GetContact(sid, contact);
+	contact->SetBuddyStatus(true/*Contact::AUTHORIZED_BY_ME*/);
+
+	return 0;
+}
+
+int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
+{
+	CContact::Ref contact;
+	HANDLE hContact = (HANDLE)wParam;
+	SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
+	g_skype->GetContact(sid, contact);
+	contact->SetBuddyStatus(false/*CContact::BLOCKED_BY_ME*/);
+
+	return 0;
 }
 
 static void sttEnableMenuItem(HANDLE hMenuItem, BOOL bEnable)
@@ -109,7 +139,7 @@ void  CSkypeProto::InitMenus()
 	mi.icolibItem = CSkypeProto::GetIconHandle("authReuest");
 	mi.pszService = "Skype/ReqAuth";
 	g_hContactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
-	g_hContactMenuSvc[CMI_AUTH_REQUEST] = CreateServiceFunction(mi.pszService, SkypeMenuHandleRequestAuth);
+	g_hContactMenuSvc[CMI_AUTH_REQUEST] = CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::RequestAuth>);
 
 	// "Grant authorization"
 	mi.pszService = "Skype/GrantAuth";
@@ -117,7 +147,7 @@ void  CSkypeProto::InitMenus()
 	mi.position = -2000001001;
 	mi.icolibItem = CSkypeProto::GetIconHandle("authGrant");
 	g_hContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
-	g_hContactMenuSvc[CMI_AUTH_GRANT] = CreateServiceFunction(mi.pszService, SkypeMenuHandleGrantAuth);
+	g_hContactMenuSvc[CMI_AUTH_GRANT] = CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::GrantAuth>);
 
 	// Revoke auth
 	mi.pszService = "Skype/RevokeAuth";
@@ -125,7 +155,7 @@ void  CSkypeProto::InitMenus()
 	mi.position = -2000001002;
 	mi.icolibItem = CSkypeProto::GetIconHandle("authRevoke");
 	g_hContactMenuItems[CMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
-	g_hContactMenuSvc[CMI_AUTH_REVOKE] = CreateServiceFunction(mi.pszService, SkypeMenuRevokeAuth);
+	g_hContactMenuSvc[CMI_AUTH_REVOKE] = CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::RevokeAuth>);
 }
 
 void  CSkypeProto::UninitMenus()

@@ -67,38 +67,28 @@ HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDb
 }
 
 int __cdecl CSkypeProto::Authorize(HANDLE hDbEvent) 
-{ 
+{
 	if (this->IsOnline() && hDbEvent)
 	{
 		HANDLE hContact = this->GetContactFromAuthEvent(hDbEvent);
 		if (hContact == INVALID_HANDLE_VALUE)
 			return 1;
 
-		CContact::Ref contact;
-		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
-		g_skype->GetContact(sid, contact);
-		contact->SetBuddyStatus(true/*Contact::AUTHORIZED_BY_ME*/);
-
-		return 0;
+		return CSkypeProto::GrantAuth((WPARAM)hContact, NULL);
 	}
 
 	return 1;
 }
 
 int __cdecl CSkypeProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason) 
-{ 
+{
 	if (this->IsOnline())
 	{
 		HANDLE hContact = this->GetContactFromAuthEvent(hDbEvent);
 		if (hContact == INVALID_HANDLE_VALUE)
 			return 1;
 
-		CContact::Ref contact;
-		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
-		g_skype->GetContact(sid, contact);
-		contact->SetBuddyStatus(false/*CContact::BLOCKED_BY_ME*/);
-
-		return 0;
+		return CSkypeProto::RevokeAuth((WPARAM)hContact, NULL);
 	}
 
 	return 1; 
@@ -126,20 +116,8 @@ int __cdecl CSkypeProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 }
 
 int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage) 
-{ 
-	if (this->IsOnline() && hContact)
-	{
-		CContact::Ref contact;
-		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
-		g_skype->GetContact(sid, contact);
-
-		contact->SendAuthRequest(::mir_u2a(szMessage));
-		this->DeleteSetting(hContact, "Grant");
-		
-		return 0;
-	}
-
-	return 1;
+{
+	return CSkypeProto::RequestAuth((WPARAM)hContact, (LPARAM)szMessage);
 }
 
 HANDLE __cdecl CSkypeProto::ChangeInfo( int iInfoType, void* pInfoData ) { return 0; }

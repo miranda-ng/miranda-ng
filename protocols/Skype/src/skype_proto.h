@@ -78,6 +78,10 @@ public:
 
 	virtual	int    __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
 
+	virtual	int __cdecl RequestAuth(WPARAM, LPARAM);
+	virtual	int __cdecl GrantAuth(WPARAM, LPARAM);
+	virtual	int __cdecl RevokeAuth(WPARAM, LPARAM);
+
 	// events
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
