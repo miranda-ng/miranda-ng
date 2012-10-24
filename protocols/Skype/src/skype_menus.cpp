@@ -13,12 +13,34 @@ INT_PTR CSkypeProto::MenuChooseService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static void sttEnableMenuItem(HANDLE hMenuItem, BOOL bEnable)
+{
+	CLISTMENUITEM clmi = {0};
+	clmi.cbSize = sizeof(CLISTMENUITEM);
+	clmi.flags = CMIM_FLAGS;
+	if (!bEnable)
+		clmi.flags |= CMIF_HIDDEN;
+
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&clmi);
+}
+
 int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	
 	if (hContact == NULL)
 		return 0;
+
+	if (this->IsOnline() && !DBGetContactSettingByte(hContact, m_szModuleName, "ChatRoom", 0))
+	{
+		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+
+		//BYTE type = DBGetContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0);
+
+		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_REQUEST], ctrlPressed /*|| type == FACEBOOK_CONTACT_NONE || !type */);
+		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed /*|| type == FACEBOOK_CONTACT_APPROVE */);
+		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_REVOKE], ctrlPressed /*|| type == FACEBOOK_CONTACT_FRIEND */);
+	}
 
 	return 0;
 }
@@ -84,31 +106,12 @@ int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static void sttEnableMenuItem(HANDLE hMenuItem, BOOL bEnable)
-{
-	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof(CLISTMENUITEM);
-	clmi.flags = CMIM_FLAGS;
-	if (!bEnable)
-		clmi.flags |= CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&clmi);
-}
-
 int CSkypeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_REQUEST], FALSE );
-	sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_GRANT], FALSE );
-	sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_REVOKE], FALSE );
-	/*sttEnableMenuItem( g_hMenuCommands, FALSE );
-	sttEnableMenuItem( g_hMenuSendNote, FALSE );
-	sttEnableMenuItem( g_hMenuConvert, FALSE );
-	sttEnableMenuItem( g_hMenuRosterAdd, FALSE );
-	sttEnableMenuItem( g_hMenuLogin, FALSE );
-	sttEnableMenuItem( g_hMenuRefresh, FALSE );
-	sttEnableMenuItem( g_hMenuAddBookmark, FALSE );
-	sttEnableMenuItem( g_hMenuResourcesRoot, FALSE );
-	sttEnableMenuItem( g_hMenuDirectPresence[0], FALSE );*/
+	for (size_t i=0; i<SIZEOF(g_hContactMenuItems); i++)
+	{
+		sttEnableMenuItem(g_hContactMenuItems[i], false);
+	}
 
 	CSkypeProto* ppro = CSkypeProto::GetInstanceByHContact((HANDLE)wParam);
 	return (ppro) ? ppro->OnPrebuildContactMenu(wParam, lParam) : 0;
@@ -136,7 +139,7 @@ void  CSkypeProto::InitMenus()
 	mi.ptszName = LPGENT("Request authorization");
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.position = -2000001000;
-	mi.icolibItem = CSkypeProto::GetIconHandle("authReuest");
+	mi.icolibItem = CSkypeProto::GetIconHandle("authRequest");
 	mi.pszService = "Skype/ReqAuth";
 	g_hContactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[CMI_AUTH_REQUEST] = CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::RequestAuth>);
