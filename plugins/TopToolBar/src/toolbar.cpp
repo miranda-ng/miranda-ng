@@ -281,6 +281,9 @@ int ArrangeButtons()
 	}
 		while (iFirstButtonId < Buttons.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));		
 
+	for (i=iLastButtonId; i < Buttons.getCount(); i++)
+		hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
+
 	if (hdwp)
 		EndDeferWindowPos(hdwp);
 
