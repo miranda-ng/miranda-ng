@@ -241,12 +241,12 @@ INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
 	if (PopupThreadIsFull())
 		return -1;
 
-		#ifdef _DEBUG
+	#ifdef _DEBUG
 		char temp[128];
 			OutputDebugStringA("isWorkstationLocked: \t");
 			OutputDebugStringA(isWorkstationLocked() ? "true":"false");
 			OutputDebugStringA("\n");
-		#endif
+	#endif
 
 	if (isWorkstationLocked())
 		return -1;

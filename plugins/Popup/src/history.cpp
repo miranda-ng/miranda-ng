@@ -123,67 +123,50 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 		return;
 
 	POPUPDATA2 *ppd;
-	if (popupHistorySize < popupHistoryBuffer)
-	{
+	if (popupHistorySize < popupHistoryBuffer) {
 		++popupHistorySize;
 		ppd = &popupHistory[getHistoryIndex(popupHistorySize-1)];
-	} else
-	{
+	}
+	else {
 		popupHistoryStart = (popupHistoryStart+1)%popupHistoryBuffer;
 		ppd = &popupHistory[getHistoryIndex(popupHistorySize-1)];
-		if (ppd->flags & PU2_UNICODE)
-		{
-			mir_free(ppd->lpwzTitle);
-			mir_free(ppd->lpwzText);
-		} else
-		{
-			mir_free(ppd->lpzTitle);
-			mir_free(ppd->lpzText);
-		}
-		if (ppd->lpzSkin) mir_free(ppd->lpzSkin);
+		mir_free(ppd->lpzTitle);
+		mir_free(ppd->lpzText);
+		mir_free(ppd->lpzSkin);
 	}
 
 	*ppd = *ppdNew;
-	if (ppd->flags&PU2_UNICODE)
-	{
+	if (ppd->flags & PU2_UNICODE) {
 		ppd->lpwzTitle = mir_wstrdup(ppd->lpwzTitle);
 		ppd->lpwzText = mir_wstrdup(ppd->lpwzText);
-	} else
-	{
+	}
+	else {
 		ppd->lpzTitle = mir_strdup(ppd->lpzTitle);
 		ppd->lpzText = mir_strdup(ppd->lpzText);
 	}
-	if (ppd->lpzSkin)
-	{
-		ppd->lpzSkin = mir_strdup(ppd->lpzSkin);
-	} else
-	{
-		ppd->lpzSkin = NULL;
-	}
+	ppd->lpzSkin = mir_strdup(ppd->lpzSkin);
 	ppd->dwTimestamp = time(NULL);
-//	GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL,"HH':'mm", ppd->lpzTime, sizeof(ppd->lpzTime));
+
 	if (hwndHistory)
 		PostMessage(hwndHistory, UM_ADDITEM, 0, (LPARAM)ppd);
 }
 
 void PopupHistoryShow()
 {
-	if (!PopUpOptions.EnableHistory){
+	if (!PopUpOptions.EnableHistory) {
 		MessageBox(NULL, TranslateT("Popup History is disabled"), TranslateT("Popup History message"), MB_OK);
 		return;
 	}
 
-	if (hwndHistory)
-	{
+	if (hwndHistory) {
 		ShowWindow(hwndHistory, SW_SHOW);
 		SetForegroundWindow(hwndHistory);
 		SetFocus(hwndHistory);
 		SetActiveWindow(hwndHistory);
-	} else
-	{
+	}
+	else {
 		hwndHistory = CreateDialog(hInst, MAKEINTRESOURCE(IDD_HISTORY), NULL, HistoryDlgProc);
 		SetWindowText(hwndHistory, TranslateT("Popup History"));
-		//ShowWindow(hwndHistory, SW_SHOW);
 	}
 }
 

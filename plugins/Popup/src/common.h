@@ -55,31 +55,6 @@ inline void DebugMsg(LPTSTR msg){
 	}
 }
 
-/* not used
-inline void  GetDCBmpSize(HDC hdc, SIZE *sz)
-{
-	BITMAP bmp;
-	GetObject(GetCurrentObject(hdc, OBJ_BITMAP), sizeof(bmp), &bmp);
-	sz->cx = bmp.bmWidth;
-	sz->cy = bmp.bmHeight;
-}
-
-inline HBITMAP myLoadBitmap(LPCTSTR fn)
-{
-	HBITMAP res = (HBITMAP)LoadImage(NULL, fn, IMAGE_BITMAP, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
-	
-	BITMAPFILEHEADER bfh;
-	BITMAPINFOHEADER bih;
-	FILE *f = _tfopen (fn, _T("rb"));
-	fread(&bfh, sizeof(bfh), 1, f);
-	fread(&bih, sizeof(bih), 1, f);
-	fclose(f);
-	SetBitmapDimensionEx(res, bih.biWidth, bih.biHeight, NULL);
-
-	return res;
-}
-*/
-
 //===== Percentile to Byte and viceversa =====
 inline int Byte2Percentile(int vByte) { return (vByte*100)/255; }
 inline int Percentile2Byte(int vPerc) { return (vPerc*255)/100; }
@@ -142,66 +117,6 @@ inline INT_PTR DBGetContactSettingStringX(HANDLE hContact, const char *ModuleNam
 	return ret;
 }
 
-/* not used
-
-inline void SetWindowTextTraslated(HWND hwnd, const char *text)
-{
-	if (!(hwnd && text)) return;
-	if (g_popup.isOsUnicode && IsWindowUnicode(hwnd) && MySetWindowTextW)
-	{
-		UINT codepage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
-		int size = MultiByteToWideChar(codepage, 0, text, lstrlenA(text), 0, 0);
-		WCHAR *wtext = new WCHAR[size+1];
-		MultiByteToWideChar(codepage, 0, text, lstrlenA(text), wtext, size+1); wtext[size]=0;
-		MySetWindowTextW(hwnd, TranslateW(wtext));
-		delete [] wtext;
-	} else
-	{
-		SetWindowTextA(hwnd, Translate(text));
-	}
-}
-
-*/
-/*/dedrecatet (tricky thing to minimize memory fragmentation)
-inline wchar_t* a2u( char* src )
-{
-	int codepage = CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 );
-
-	int cbLen = MultiByteToWideChar( codepage, 0, src, -1, NULL, 0 );
-	wchar_t* result = ( wchar_t* )mir_alloc( sizeof( wchar_t )*(cbLen+1));
-	if ( result == NULL )
-		return NULL;
-
-	MultiByteToWideChar( codepage, 0, src, -1, result, cbLen );
-	result[ cbLen ] = 0;
-	return result;
-}
-
-#define nb_a2u_init()	\
-	int nb_a2u_codepage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);	\
-	int nb_a2u_len = 0;	\
-
-#define nb_a2u(dst, src)	\
-	bool dst##_free = false;	\
-	WCHAR *dst = NULL;	\
-	nb_a2u_len = MultiByteToWideChar(nb_a2u_codepage, 0, src, -1, NULL, 0);	\
-	__try	\
-	{	\
-		dst = (WCHAR *)_alloca(sizeof(WCHAR)*(nb_a2u_len+1));	\
-	}	\
-	__except( EXCEPTION_EXECUTE_HANDLER )	\
-	{	\
-		dst = (WCHAR *)mir_alloc(sizeof(WCHAR)*(nb_a2u_len+1));	\
-		dst##_free = true;	\
-	}	\
-	MultiByteToWideChar(nb_a2u_codepage, 0, src, -1, dst, nb_a2u_len);	\
-	dst[nb_a2u_len] = 0;
-
-#define nb_a2u_free(dst)	\
-	if (dst##_free)	\
-		mir_free(dst);
-*/
-
 inline void AddTooltipTranslated(HWND hwndToolTip, HWND hwnd, int id, RECT rc, char *text)
 {
 
@@ -225,33 +140,5 @@ inline void AddTooltipTranslated(HWND hwndToolTip, HWND hwnd, int id, RECT rc, c
 		mir_free(wtext);
 
 }
-
-/* not used
-inline UINT getCodepageFromCharset(BYTE charset)
-{
-	switch (charset)
-	{
-		case ANSI_CHARSET:			return 1252;
-		case BALTIC_CHARSET:		return 1257;
-		case CHINESEBIG5_CHARSET:	return 950;
-		case DEFAULT_CHARSET:		return CP_ACP;
-		case EASTEUROPE_CHARSET:	return 1250;
-		case GB2312_CHARSET:		return 936;
-		case GREEK_CHARSET:			return 1253;
-		case HANGUL_CHARSET:		return 949;
-		case MAC_CHARSET:			return CP_MACCP;
-		case OEM_CHARSET:			return CP_OEMCP;
-		case RUSSIAN_CHARSET:		return 1251;
-		case SHIFTJIS_CHARSET:		return 932;
-//		case SYMBOL_CHARSET:		return ;
-		case TURKISH_CHARSET:		return 1254;
-		case VIETNAMESE_CHARSET:	return 1258;
-		case JOHAB_CHARSET:			return 1361;
-		case ARABIC_CHARSET:		return 1256;
-		case HEBREW_CHARSET:		return 1255;
-		default:					return CP_ACP;
-	}
-}
-*/
 
 #endif //COMMON_H
