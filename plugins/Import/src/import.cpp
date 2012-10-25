@@ -278,7 +278,7 @@ static HANDLE ImportContact(HANDLE hSrc)
 			srcDb->FreeVariant(&dbv);
 		}
 	}
-	else AddMessage( LPGENT("Unknown error while adding %s contact %s"), szProto, pszUniqueID );
+	else AddMessage( LPGENT("Unknown error while adding %S contact %s"), szProto, pszUniqueID );
 
 	return hDst;
 }
