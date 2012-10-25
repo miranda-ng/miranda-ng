@@ -1,9 +1,8 @@
 Bugs:
-- fix shutdown crash
+- don't send auth request
 
 Features:
 - own info(profile)
-- add auth menu items
 - crypt cert and add it to resource
 - multiuser chat
 - voice
