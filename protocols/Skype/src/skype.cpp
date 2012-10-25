@@ -174,43 +174,45 @@ int StartSkypeRuntime()
 			mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s\\%s"), szFilename, _T("SkypeKit.exe"));
 			if (!PathFileExists(szFilename))
 			{
-				// Check the current process's "run as administrator" status.
-				// Elevate the process if it is not run as administrator.
-				if (!IsRunAsAdmin())
-				{
-					wchar_t szPath[MAX_PATH], cmdLine[100];
-					GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
-					TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
-					mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T(" /restart:%d /profile=%s"), GetCurrentProcessId(), profilename);
-					// Launch itself as administrator.
-					SHELLEXECUTEINFO sei = { sizeof(sei) };
-					sei.lpVerb = L"runas";
-					sei.lpFile = szPath;
-					sei.lpParameters = cmdLine;
-					//sei.hwnd = hDlg;
-					sei.nShow = SW_NORMAL;
-
-					if (!ShellExecuteEx(&sei))
-					{
-						DWORD dwError = GetLastError();
-						if (dwError == ERROR_CANCELLED)
-						{
-							// The user refused to allow privileges elevation.
-							// Do nothing ...
-						}
-					}
-					else
-					{
-						//DestroyWindow(hDlg);  // Quit itself
-						CallService("CloseAction", 0, 0);
-					}
-				}
 				if ((hFile = CreateFile(szFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0)) != INVALID_HANDLE_VALUE) {
 					WriteFile(hFile, (void *)pData, dwSize, &written, NULL);
 					CloseHandle(hFile);
 				}
 				else
+				{
+					// Check the current process's "run as administrator" status.
+					// Elevate the process if it is not run as administrator.
+					if (!IsRunAsAdmin())
+					{
+						wchar_t szPath[MAX_PATH], cmdLine[100];
+						GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
+						TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
+						mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T(" /restart:%d /profile=%s"), GetCurrentProcessId(), profilename);
+						// Launch itself as administrator.
+						SHELLEXECUTEINFO sei = { sizeof(sei) };
+						sei.lpVerb = L"runas";
+						sei.lpFile = szPath;
+						sei.lpParameters = cmdLine;
+						//sei.hwnd = hDlg;
+						sei.nShow = SW_NORMAL;
+
+						if (!ShellExecuteEx(&sei))
+						{
+							DWORD dwError = GetLastError();
+							if (dwError == ERROR_CANCELLED)
+							{
+								// The user refused to allow privileges elevation.
+								// Do nothing ...
+							}
+						}
+						else
+						{
+							//DestroyWindow(hDlg);  // Quit itself
+							CallService("CloseAction", 0, 0);
+						}
+					}
 					return 0;
+				}
 			}
 		}
 	}
