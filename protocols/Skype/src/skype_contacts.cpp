@@ -482,6 +482,11 @@ void CSkypeProto::UpdateContactStatus(HANDLE hContact, CContact::Ref contact)
 	CContact::AVAILABILITY availability;
 	contact->GetPropAvailability(availability);
 	this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
+
+	if (availability == CContact::PENDINGAUTH)
+		this->SetSettingWord(hContact, "Auth", 1);
+	else
+		this->DeleteSetting(hContact, "Auth");
 }
 
 void CSkypeProto::UpdateContactStatusMessage(HANDLE hContact, CContact::Ref contact)
