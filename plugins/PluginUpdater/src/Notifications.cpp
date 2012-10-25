@@ -483,8 +483,23 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 		{
 			OSVERSIONINFO osver = { sizeof(osver) };
 			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6)
-				// Running Windows Vista or later (major version >= 6).
-				Button_SetElevationRequiredState(GetDlgItem(hDlg, IDOK), !IsProcessElevated());
+			{
+				wchar_t szPath[MAX_PATH];
+				GetModuleFileName(NULL, szPath, SIZEOF(szPath));
+				TCHAR *ext = _tcsrchr(szPath, '.');
+				if (ext != NULL)
+					*ext = '\0';
+				_tcscat(szPath, _T(".test"));
+				HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+				if (hFile == INVALID_HANDLE_VALUE)
+					// Running Windows Vista or later (major version >= 6).
+					Button_SetElevationRequiredState(GetDlgItem(hDlg, IDOK), !IsProcessElevated());
+				else
+				{
+					CloseHandle(hFile);
+					DeleteFile(szPath);
+				}
+			}
 			RECT r;
 			GetClientRect(hwndList, &r);
 
@@ -537,7 +552,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 		// do this after filling list - enables 'ITEMCHANGED' below
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
-		Utils_RestoreWindowPositionNoSize(hDlg,0,MODNAME,"ConfirmWindow");
+		Utils_RestoreWindowPositionNoSize(hDlg, 0, MODNAME, "ConfirmWindow");
 		return TRUE;
 
 	case WM_NOTIFY:
@@ -577,43 +592,61 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 		if (HIWORD( wParam ) == BN_CLICKED) {
 			switch(LOWORD(wParam)) {
 			case IDOK:
+			{
 				EnableWindow( GetDlgItem(hDlg, IDOK), FALSE);
 				EnableWindow( GetDlgItem(hDlg, IDC_SELALL), FALSE);
 				EnableWindow( GetDlgItem(hDlg, IDC_SELNONE), FALSE);
 
-				// Check the current process's "run as administrator" status.
-				// Elevate the process if it is not run as administrator.
-				if (!IsRunAsAdmin())
+				wchar_t szPath[MAX_PATH];
+				GetModuleFileName(NULL, szPath, SIZEOF(szPath));
+				TCHAR *ext = _tcsrchr(szPath, '.');
+				if (ext != NULL)
+					*ext = '\0';
+				_tcscat(szPath, _T(".test"));
+				HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+				if (hFile == INVALID_HANDLE_VALUE)
 				{
-					wchar_t szPath[MAX_PATH], cmdLine[100];
-					GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
-					TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
-					mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T(" /restart:%d /profile=%s"), GetCurrentProcessId(), profilename);
-					// Launch itself as administrator.
-					SHELLEXECUTEINFO sei = { sizeof(sei) };
-					sei.lpVerb = L"runas";
-					sei.lpFile = szPath;
-					sei.lpParameters = cmdLine;
-					sei.hwnd = hDlg;
-					sei.nShow = SW_NORMAL;
-
-					if (!ShellExecuteEx(&sei))
+					// Check the current process's "run as administrator" status.
+					// Elevate the process if it is not run as administrator.
+					if (!IsRunAsAdmin())
 					{
-						DWORD dwError = GetLastError();
-						if (dwError == ERROR_CANCELLED)
+						wchar_t cmdLine[100];
+						GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
+						TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
+						mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T(" /restart:%d /profile=%s"), GetCurrentProcessId(), profilename);
+						// Launch itself as administrator.
+						SHELLEXECUTEINFO sei = { sizeof(sei) };
+						sei.lpVerb = L"runas";
+						sei.lpFile = szPath;
+						sei.lpParameters = cmdLine;
+						sei.hwnd = hDlg;
+						sei.nShow = SW_NORMAL;
+
+						if (!ShellExecuteEx(&sei))
 						{
-							// The user refused to allow privileges elevation.
-							// Do nothing ...
+							DWORD dwError = GetLastError();
+							if (dwError == ERROR_CANCELLED)
+							{
+								// The user refused to allow privileges elevation.
+								// Do nothing ...
+							}
+						}
+						else
+						{
+							DestroyWindow(hDlg);  // Quit itself
+							CallService("CloseAction", 0, 0);
+							break;
 						}
 					}
-					else
-					{
-						DestroyWindow(hDlg);  // Quit itself
-						CallService("CloseAction", 0, 0);
-					}
+				}
+				else
+				{
+					CloseHandle(hFile);
+					DeleteFile(szPath);
 				}
 				mir_forkthread(ApplyUpdates, hDlg);
 				return TRUE;
+			}
 
 			case IDC_DETAILS:
 				bShowDetails = !bShowDetails;
