@@ -19,14 +19,19 @@ void CSkypeProto::UpdateContactAuthState(HANDLE hContact, CContact::Ref contact)
 	DWORD oldTS = this->GetSettingDword(hContact, "AuthTS");
 	if (newTS > oldTS)
 	{
-		CContact::AVAILABILITY data;
-		contact->GetPropAvailability(data);
-		this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(data));
-
-		if (data == CContact::PENDINGAUTH)
-			this->SetSettingWord(hContact, "Auth", 1);
+		bool result;
+		if (contact->HasAuthorizedMe(result) && !result)
+		{
+			this->SetSettingByte(hContact, "Auth", !result);
+		}
 		else
+		{
 			this->DeleteSetting(hContact, "Auth");
+			if (contact->IsMemberOfHardwiredGroup(CContactGroup::ALL_BUDDIES, result) && !result)
+				this->SetSettingByte(hContact, "Grant", !result);
+			else
+				this->DeleteSetting(hContact, "Grant");
+		}
 
 		this->SetSettingDword(hContact, "AuthTS", newTS);
 	}
@@ -681,47 +686,6 @@ void CSkypeProto::OnContactChanged(CContact::Ref contact, int prop)
 			break;
 		}
 	}
-	else
-	{
-	}
-	//else
-	//{
-	//	switch(prop)
-	//	{
-	//	case CContact::P_RECEIVED_AUTHREQUEST:
-	//		contact->GetPropDisplayname(data);
-	//		wchar_t* displayName = ::mir_a2u((const char*)data);
-
-	//		CCSDATA ccs = {0};
-	//		ccs.szProtoService = PSR_AUTH;
-	//		ccs.hContact = this->AddContactBySkypeName(skypeName, displayName, PALF_TEMPORARY);
-	//		//pre.szMessage = (LPSTR)btBuff;
-	//		//CreateBlobFromContact(ccs.hContact, lpwszMessage, dwMessageSize, btBuff, SIZEOF(btBuff), (size_t*)&pre.lParam);
-	//		CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
-	//		break;
-	//	}
-	//}
-
-	//if (prop == CContact::P_AVAILABILITY)
-	//{
-	//	SEString data;
-
-	//	contact->GetPropSkypename(data);
-	//	wchar_t* skypeName = ::mir_a2u((const char*)data);
-
-	//	HANDLE hContact = this->GetContactBySkypeName(skypeName);
-	//	if (hContact)
-	//	{
-	//		CContact::AVAILABILITY availability;
-	//		contact->GetPropAvailability(availability);
-	//		this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
-
-	//		if (availability == CContact::PENDINGAUTH)
-	//			this->SetSettingWord(hContact, "Auth", 1);
-	//		else
-	//			this->DeleteSetting(hContact, "Auth");
-	//	}
-	//}
 }
 
 void CSkypeProto::OnContactListChanged(const ContactRef& contact)
@@ -865,20 +829,6 @@ int CSkypeProto::SkypeToMirandaStatus(CContact::AVAILABILITY availability)
 	}
 
 	return status;
-}
-
-void CSkypeProto::RemoveContact(HANDLE hContact)
-{
-	if (this->IsOnline() && hContact)
-	{
-		CContact::Ref contact;
-		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
-		if (g_skype->GetContact(sid, contact))
-		{
-			contact->SetBuddyStatus(false);
-			this->contactList.remove_val(contact);
-		}
-	}
 }
 
 CContact::AVAILABILITY CSkypeProto::MirandaToSkypeStatus(int status)

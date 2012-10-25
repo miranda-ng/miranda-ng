@@ -31,15 +31,16 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	if (hContact == NULL)
 		return 0;
 
-	if (this->IsOnline() && !DBGetContactSettingByte(hContact, m_szModuleName, "ChatRoom", 0))
+	if (this->IsOnline() && !::DBGetContactSettingByte(hContact, m_szModuleName, "ChatRoom", 0))
 	{
 		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 
-		//BYTE type = DBGetContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0);
+		bool authNeed = this->GetSettingByte(hContact, "Auth");
+		bool grantNeed = this->GetSettingByte(hContact, "Grant");
 
-		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_REQUEST], ctrlPressed /*|| type == FACEBOOK_CONTACT_NONE || !type */);
-		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed /*|| type == FACEBOOK_CONTACT_APPROVE */);
-		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_REVOKE], ctrlPressed /*|| type == FACEBOOK_CONTACT_FRIEND */);
+		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_REQUEST], ctrlPressed || authNeed);
+		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed || grantNeed);
+		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || (!grantNeed && !authNeed));
 	}
 
 	return 0;
@@ -67,21 +68,8 @@ INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
 
 int CSkypeProto::RequestAuth(WPARAM wParam, LPARAM lParam)
 {
-	if (this->IsOnline() && wParam)
-	{
-		HANDLE hContact = (HANDLE)wParam;
-		TCHAR* szMessage = (TCHAR*)lParam;
-		CContact::Ref contact;
-		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
-		g_skype->GetContact(sid, contact);
-
-		contact->SendAuthRequest(::mir_u2a(szMessage));
-		this->DeleteSetting(hContact, "Grant");
-		
-		return 0;
-	}
-
-	return 1;
+	// todo: set default auth request
+	this->AuthRequest((HANDLE)wParam, LPGENT(""));
 }
 
 int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
@@ -89,8 +77,11 @@ int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
 	CContact::Ref contact;
 	HANDLE hContact = (HANDLE)wParam;
 	SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
-	g_skype->GetContact(sid, contact);
-	contact->SetBuddyStatus(true/*Contact::AUTHORIZED_BY_ME*/);
+	if (g_skype->GetContact(sid, contact))
+	{
+		if (contact->SetBuddyStatus(true))
+			this->DeleteSetting(hContact, "Grant");
+	}
 
 	return 0;
 }
@@ -100,8 +91,15 @@ int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 	CContact::Ref contact;
 	HANDLE hContact = (HANDLE)wParam;
 	SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
-	g_skype->GetContact(sid, contact);
-	contact->SetBuddyStatus(false/*CContact::BLOCKED_BY_ME*/);
+	if (g_skype->GetContact(sid, contact))
+	{
+		if (contact->SetBuddyStatus(false))
+		{
+			//this->DeleteSetting(hContact, "Auth");
+			this->SetSettingByte(hContact, "Grant", 1);
+		}
+		this->contactList.remove_val(contact);
+	}
 
 	return 0;
 }
@@ -141,24 +139,24 @@ void  CSkypeProto::InitMenus()
 	mi.position = -2000001000;
 	mi.icolibItem = CSkypeProto::GetIconHandle("authRequest");
 	mi.pszService = "Skype/ReqAuth";
-	g_hContactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
-	g_hContactMenuSvc[CMI_AUTH_REQUEST] = CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::RequestAuth>);
+	g_hContactMenuItems[CMI_AUTH_REQUEST] = ::Menu_AddContactMenuItem(&mi);
+	g_hContactMenuSvc[CMI_AUTH_REQUEST] = ::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::RequestAuth>);
 
 	// "Grant authorization"
 	mi.pszService = "Skype/GrantAuth";
 	mi.ptszName = LPGENT("Grant authorization");
 	mi.position = -2000001001;
 	mi.icolibItem = CSkypeProto::GetIconHandle("authGrant");
-	g_hContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
-	g_hContactMenuSvc[CMI_AUTH_GRANT] = CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::GrantAuth>);
+	g_hContactMenuItems[CMI_AUTH_GRANT] = ::Menu_AddContactMenuItem(&mi);
+	g_hContactMenuSvc[CMI_AUTH_GRANT] = ::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::GrantAuth>);
 
 	// Revoke auth
 	mi.pszService = "Skype/RevokeAuth";
 	mi.ptszName = LPGENT("Revoke authorization");
 	mi.position = -2000001002;
 	mi.icolibItem = CSkypeProto::GetIconHandle("authRevoke");
-	g_hContactMenuItems[CMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
-	g_hContactMenuSvc[CMI_AUTH_REVOKE] = CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::RevokeAuth>);
+	g_hContactMenuItems[CMI_AUTH_REVOKE] = ::Menu_AddContactMenuItem(&mi);
+	g_hContactMenuSvc[CMI_AUTH_REVOKE] = ::CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::RevokeAuth>);
 }
 
 void  CSkypeProto::UninitMenus()

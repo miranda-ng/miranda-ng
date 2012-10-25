@@ -17,9 +17,9 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM)
+int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	this->RemoveContact((HANDLE)wParam);
+	this->RevokeAuth(wParam, lParam);
 
 	return 0;
 }

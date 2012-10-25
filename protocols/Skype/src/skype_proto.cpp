@@ -117,7 +117,18 @@ int __cdecl CSkypeProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 
 int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage) 
 {
-	return CSkypeProto::RequestAuth((WPARAM)hContact, (LPARAM)szMessage);
+	if (this->IsOnline() && hContact)
+	{
+		HANDLE hContact = (HANDLE)hContact;
+		CContact::Ref contact;
+		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
+		if (g_skype->GetContact(sid, contact))
+			contact->SendAuthRequest(::mir_u2a(szMessage));
+		
+		return 0;
+	}
+
+	return 1;
 }
 
 HANDLE __cdecl CSkypeProto::ChangeInfo( int iInfoType, void* pInfoData ) { return 0; }

@@ -162,7 +162,7 @@ protected:
 	HANDLE	GetContactBySid(const wchar_t* sid);
 	HANDLE	GetContactFromAuthEvent(HANDLE hEvent);
 	HANDLE	AddContactBySid(const wchar_t* skypeName, const wchar_t* nick, DWORD flags = 0);
-	void	RemoveContact(HANDLE hContact);
+
 	int		SkypeToMirandaStatus(CContact::AVAILABILITY availability);
 	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
 	void	SetAllContactStatus(int status);
