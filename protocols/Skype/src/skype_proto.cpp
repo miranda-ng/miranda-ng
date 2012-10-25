@@ -38,10 +38,7 @@ CSkypeProto::~CSkypeProto()
 
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr) 
 {
-	//if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
-		return 0;
-	
-	return this->AddContactBySid(psr->id, psr->nick, flags);
+	return this->AddContactBySid(psr->id, psr->nick, 0);
 }
 
 HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) 
@@ -370,7 +367,7 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 		fetch(g_skype->inbox);
 		g_skype->SetOnConversationAddedCallback(
 			(CSkype::OnConversationAdded)&CSkypeProto::OnConversationAdded, this);
-		for (int i = 0 ; i < g_skype->inbox.size(); i++)
+		for (uint i = 0 ; i < g_skype->inbox.size(); i++)
 		{
 			g_skype->inbox[i]->SetOnMessageReceivedCallback(
 				(CConversation::OnMessageReceived)&CSkypeProto::OnOnMessageReceived, this);

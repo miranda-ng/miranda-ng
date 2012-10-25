@@ -787,9 +787,26 @@ HANDLE CSkypeProto::AddContactBySid(const wchar_t* sid, const wchar_t* nick, DWO
 		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
 
 		this->SetSettingString(hContact, "sid", sid);
-
 		this->SetSettingString(hContact, "Nick", nick);
-		//::DBWriteContactSettingWString(hContact, "CList", "MyHandle", displayName);
+		this->SetSettingByte(hContact, "Auth", 1);
+
+		CContact::Ref contact;
+		if (g_skype->GetContact(::mir_u2a(sid), contact))
+		{
+			contact.fetch();
+			bool result;
+			if (contact->IsMemberOfHardwiredGroup(CContactGroup::ALL_KNOWN_CONTACTS, result) && result)
+			{
+				CContactGroup::Ref group;
+				if (g_skype->GetHardwiredContactGroup(CContactGroup::ALL_KNOWN_CONTACTS, group))
+				{
+					group.fetch();
+					group->AddContact(contact);
+				}
+			}
+		}
+
+		this->UpdateContactProfile(hContact, contact);
 
 		if (flags & PALF_TEMPORARY)
 		{

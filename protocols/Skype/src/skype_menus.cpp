@@ -35,8 +35,8 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	{
 		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 
-		bool authNeed = this->GetSettingByte(hContact, "Auth");
-		bool grantNeed = this->GetSettingByte(hContact, "Grant");
+		bool authNeed = this->GetSettingByte(hContact, "Auth") > 0;
+		bool grantNeed = this->GetSettingByte(hContact, "Grant") > 0;
 
 		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_REQUEST], ctrlPressed || authNeed);
 		sttEnableMenuItem( g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed || grantNeed);
@@ -80,7 +80,10 @@ int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
 	if (g_skype->GetContact(sid, contact))
 	{
 		if (contact->SetBuddyStatus(true))
+		{
+			this->DeleteSetting(hContact, "Auth");
 			this->DeleteSetting(hContact, "Grant");
+		}
 	}
 
 	return 0;
@@ -95,7 +98,6 @@ int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 	{
 		if (contact->SetBuddyStatus(false))
 		{
-			//this->DeleteSetting(hContact, "Auth");
 			this->SetSettingByte(hContact, "Grant", 1);
 		}
 		this->contactList.remove_val(contact);
