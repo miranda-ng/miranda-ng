@@ -31,7 +31,7 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	if (hContact == NULL)
 		return 0;
 
-	if (this->IsOnline() && !::DBGetContactSettingByte(hContact, m_szModuleName, "ChatRoom", 0))
+	if (this->IsOnline() && !this->GetSettingByte(hContact, "ChatRoom"))
 	{
 		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 
@@ -69,7 +69,7 @@ INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
 int CSkypeProto::RequestAuth(WPARAM wParam, LPARAM lParam)
 {
 	// todo: set default auth request
-	this->AuthRequest((HANDLE)wParam, LPGENT(""));
+	return this->AuthRequest((HANDLE)wParam, LPGENT(""));
 }
 
 int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
