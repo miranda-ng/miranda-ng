@@ -119,7 +119,6 @@ int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 {
 	if (this->IsOnline() && hContact)
 	{
-		HANDLE hContact = (HANDLE)hContact;
 		CContact::Ref contact;
 		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
 		if (g_skype->GetContact(sid, contact))
