@@ -95,7 +95,6 @@ public:
 
 	// services
 	static void InitServiceList();
-	static void UninitServiceList();
 
 	// icons
 	static void InitIcons();

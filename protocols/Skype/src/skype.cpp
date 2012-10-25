@@ -269,7 +269,6 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	CSkypeProto::UninitMenus();
-	CSkypeProto::UninitServiceList();
 	CSkypeProto::UninitIcons();
 
 	g_skype->stop();
