@@ -52,7 +52,6 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 {
 	TCHAR buf[MAX_PATH];
 	mir_sntprintf(buf, SIZEOF(buf), _T("%s\\Plugins\\%s"), path, fd->cFileName);
-	HINSTANCE hInst = GetModuleHandle(buf);
 
 	CharLower(fd->cFileName);
 
@@ -63,14 +62,14 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 	int isdb = hasMuuid(pi, miid_database);
 
 	PluginListItemData* dat = (PluginListItemData*)mir_alloc(sizeof(PluginListItemData));
-	dat->hInst = hInst;
 	_tcsncpy(dat->fileName, fd->cFileName, SIZEOF(dat->fileName));
+
+	HINSTANCE hInst = dat->hInst = GetModuleHandle(buf);
 	HWND hwndList = (HWND)lParam;
 
 	LVITEM it = { 0 };
 	it.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 	it.iImage = (pi.pluginInfo->flags & 1) ? 0 : 1;
-	it.iItem = 100000; // add to the end
 	it.lParam = (LPARAM)dat;
 	int iRow = ListView_InsertItem(hwndList, &it);
 	if (isPluginOnWhiteList(fd->cFileName))
@@ -229,6 +228,15 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	return CallWindowProc(wnProc, hwnd, msg, wParam, lParam);
 }
 
+static int CALLBACK SortPlugins(WPARAM i1, LPARAM i2, LPARAM lParamSort)
+{
+	HWND hwndList = (HWND)lParamSort;
+	TCHAR tszFile1[MAX_PATH], tszFile2[MAX_PATH]; 
+	ListView_GetItemText(hwndList, i1, 2, tszFile1, SIZEOF(tszFile1));
+	ListView_GetItemText(hwndList, i2, 2, tszFile2, SIZEOF(tszFile2));
+	return _tcscmp(tszFile1, tszFile2);  // always sorting backwards
+}
+
 INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -287,6 +295,8 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			w = ListView_GetColumnWidth(hwndList, 3);
 			if (w > max)
 				ListView_SetColumnWidth(hwndList, 3, max);
+
+			ListView_SortItems(hwndList, SortPlugins, (LPARAM)hwndDlg);
 		}
 		return TRUE;
 
