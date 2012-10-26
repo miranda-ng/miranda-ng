@@ -36,7 +36,7 @@ Last change by : $Author: Merlin_de $
 //---------------------------------------------------------------------------
 //Workaround for MS bug ComboBox_SelectItemData
 int ComboBox_SelectItem(HWND hwndCtl, int indexStart, char* data) {
-	int i = 0;
+	int i=0;
 	for ( i ; i < ComboBox_GetCount(hwndCtl); i++) {
 		if(strcmp(data, (char*)ComboBox_GetItemData(hwndCtl, i))==0) {
 			ComboBox_SetCurSel (hwndCtl,i);
@@ -339,7 +339,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		} //end if (tvi.lParam)
 		else {
 			//enable / disable controls
-			for (int i = 0; i < SIZEOF(ctrlsAll); ++i) {
+			for (int i=0; i < SIZEOF(ctrlsAll); ++i) {
 				ShowWindow(GetDlgItem(hwnd, ctrlsAll[i].idCtrl), ctrlsAll[i].onTyp0 ? SW_SHOW : SW_HIDE);
 				EnableWindow(GetDlgItem(hwnd, ctrlsAll[i].idCtrl), ctrlsAll[i].onTyp0);
 			}
@@ -489,7 +489,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				switch (((LPNMHDR)lParam)->code) {
 					case PSN_RESET:
 					{
-						for(int i = 0; i < gTreeData.getCount(); ++i) {
+						for(int i=0; i < gTreeData.getCount(); ++i) {
 							switch (gTreeData[i]->typ) {
 								case 1:
 									LoadNotificationSettings(gTreeData[i], "PopUpNotifications");
@@ -506,7 +506,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					}
 					case PSN_APPLY:
 					{
-						for(int i = 0; i < gTreeData.getCount(); ++i) {
+						for(int i=0; i < gTreeData.getCount(); ++i) {
 							switch (gTreeData[i]->typ) {
 								case 1:
 									gTreeData[i]->notification.iSeconds	= gTreeData[i]->timeoutValue;

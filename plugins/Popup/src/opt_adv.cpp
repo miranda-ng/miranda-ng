@@ -44,7 +44,7 @@ void OptAdv_RegisterVfx(char *name) {
 }
 
 void OptAdv_UnregisterVfx() {
-	for (int i = 0; i < g_lstPopupVfx.getCount(); ++i)
+	for (int i=0; i < g_lstPopupVfx.getCount(); ++i)
 		mir_free(g_lstPopupVfx[i]);
 	g_lstPopupVfx.destroy();
 }
@@ -217,7 +217,7 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("No effect"))	,-2);
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Fade in/out"))		,-1);
 				dwActiveItem = (DWORD)PopUpOptions.UseEffect;
-				for (int i = 0; i < g_lstPopupVfx.getCount(); ++i) {
+				for (int i=0; i < g_lstPopupVfx.getCount(); ++i) {
 					dwItem = ComboBox_AddString(hCtrl, TranslateTS(g_lstPopupVfx[i]));
 					ComboBox_SetItemData(hCtrl, dwItem, i);
 					if (PopUpOptions.UseEffect && !lstrcmp(g_lstPopupVfx[i], PopUpOptions.Effect))

@@ -62,13 +62,13 @@ void LoadActions()
 
 	};
 
-	for (int i = 0; i < SIZEOF(actions); ++i)
+	for (int i=0; i < SIZEOF(actions); ++i)
 		RegisterAction(&actions[i]);
 }
 
 void UnloadActions()
 {
-//	for (int i = 0; i < gActions.getCount(); ++i)
+//	for (int i=0; i < gActions.getCount(); ++i)
 //		delete gActions[i];
 	gActions.destroy();
 }
@@ -329,7 +329,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
 
 					BOOL enabled = (PopUpOptions.actions&ACT_ENABLE) ? TRUE : FALSE;
-					for (int i = 0; i < SIZEOF(controls); ++i)
+					for (int i=0; i < SIZEOF(controls); ++i)
 						EnableWindow(GetDlgItem(hwnd, controls[i]), enabled);
 					break;
 				}
@@ -402,7 +402,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						{
 							DBWriteContactSettingDword(NULL, MODULNAME, "Actions", PopUpOptions.actions);
 							HWND hwndList = GetDlgItem(hwnd, IDC_ACTIONS);
-							for (int i = 0; i < gActions.getCount(); ++i)
+							for (int i=0; i < gActions.getCount(); ++i)
 							{
 								gActions[i]->flags = (ListView_GetItemState(hwndList, i, LVIS_STATEIMAGEMASK) == 0x2000) ? PAF_ENABLED : 0;
 								DBWriteContactSettingByte(NULL, "PopUpActions", gActions[i]->lpzTitle, (gActions[i]->flags&PAF_ENABLED) ? 1 : 0);

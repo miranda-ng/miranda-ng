@@ -32,75 +32,45 @@ Last change by : $Author: MPK $
 
 #include "headers.h"
 
-static POPUPDATA2 *popupHistory;
-static int popupHistoryStart = 0;
-static int popupHistorySize = 0;
-static int popupHistoryBuffer = 100;
+static LIST<POPUPDATA2> arPopupHistory(SETTING_HISTORYSIZE_DEFAULT);
+static int popupHistoryBuffer = 0;
 
 #define UM_RESIZELIST	(WM_USER+100)
 #define UM_SELECTLAST	(WM_USER+101)
 #define UM_ADDITEM		(WM_USER+102)
 static HWND hwndHistory = NULL;
 
-static inline int getHistoryIndex(int idx)
-{
-	return (popupHistoryStart + idx) % popupHistoryBuffer;
-}
-
-static inline POPUPDATA2 *getHistoryItem(int idx)
-{
-	return popupHistory + (popupHistoryStart + idx) % popupHistoryBuffer;
-}
-
 static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+static void FreeHistoryItem(POPUPDATA2 *ppd)
+{
+	mir_free(ppd->lpzTitle);
+	mir_free(ppd->lpzText);
+	mir_free(ppd->lpzSkin);
+	mir_free(ppd);
+}
 
 void PopupHistoryLoad()
 {
 	popupHistoryBuffer = DBGetContactSettingWord(NULL, MODULNAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
-	popupHistory = new POPUPDATA2[popupHistoryBuffer];
 }
 
 void PopupHistoryResize()
 {
-	int i;
-	int toDelete = 0;
-	int toCopy = popupHistorySize;
-	if (popupHistoryBuffer == PopUpOptions.HistorySize) return;
-	if (hwndHistory) PostMessage(hwndHistory, WM_CLOSE, 0, 0);
-	POPUPDATA2 *oldPopupHistory = popupHistory;
-	int oldStart = popupHistoryStart;
-	int oldBuffer = popupHistoryBuffer;
-	popupHistory		= new POPUPDATA2[PopUpOptions.HistorySize];
-	popupHistoryStart	= 0;
-	popupHistoryBuffer	= PopUpOptions.HistorySize;
-	if(PopUpOptions.HistorySize < popupHistorySize){ //if old history bigger new one
-		toDelete	= popupHistorySize - PopUpOptions.HistorySize;
-		toCopy		= PopUpOptions.HistorySize;
-		popupHistorySize = PopUpOptions.HistorySize;
+	popupHistoryBuffer = PopUpOptions.HistorySize;
+
+	while (arPopupHistory.getCount() > popupHistoryBuffer) {
+		FreeHistoryItem(arPopupHistory[0]);
+		arPopupHistory.remove(0);
 	}
-	for(i = 0; i < toCopy; ++i){ //copy needed
-		popupHistory[i] = oldPopupHistory[(oldStart + toDelete + i)%oldBuffer];
-	}
-	for(i = 0; i < toDelete; ++i){//free too old ones
-		POPUPDATA2 *ppd = &oldPopupHistory[(oldStart + i)%oldBuffer];
-		mir_free(ppd->lpzTitle);
-		mir_free(ppd->lpzText);
-		mir_free(ppd->lpzSkin);
-	}
-	delete [] oldPopupHistory;
 }
 
 void PopupHistoryUnload()
 {
-	for (int i = 0; i < popupHistorySize; ++i)
-	{
-		POPUPDATA2 *ppd = &popupHistory[getHistoryIndex(i)];
-		mir_free(ppd->lpzTitle);
-		mir_free(ppd->lpzText);
-		mir_free(ppd->lpzSkin);
-	}
-	delete [] popupHistory;
-	popupHistory = NULL;
+	for (int i=0; i < arPopupHistory.getCount(); ++i)
+		FreeHistoryItem( arPopupHistory[i] );
+
+	arPopupHistory.destroy();
 }
 
 void PopupHistoryAdd(POPUPDATA2 *ppdNew)
@@ -108,19 +78,7 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 	if (!PopUpOptions.EnableHistory)
 		return;
 
-	POPUPDATA2 *ppd;
-	if (popupHistorySize < popupHistoryBuffer) {
-		++popupHistorySize;
-		ppd = &popupHistory[getHistoryIndex(popupHistorySize-1)];
-	}
-	else {
-		popupHistoryStart = (popupHistoryStart+1)%popupHistoryBuffer;
-		ppd = &popupHistory[getHistoryIndex(popupHistorySize-1)];
-		mir_free(ppd->lpzTitle);
-		mir_free(ppd->lpzText);
-		mir_free(ppd->lpzSkin);
-	}
-
+	POPUPDATA2 *ppd = (POPUPDATA2*)mir_alloc( sizeof(POPUPDATA2));
 	*ppd = *ppdNew;
 	if (ppd->flags & PU2_UNICODE) {
 		ppd->lpwzTitle = mir_wstrdup(ppd->lpwzTitle);
@@ -132,6 +90,12 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 	}
 	ppd->lpzSkin = mir_strdup(ppd->lpzSkin);
 	ppd->dwTimestamp = time(NULL);
+
+	if (arPopupHistory.getCount() >= popupHistoryBuffer) {
+		FreeHistoryItem(arPopupHistory[0]);
+		arPopupHistory.remove(0);
+	}
+	arPopupHistory.insert(ppd);
 
 	if (hwndHistory)
 		PostMessage(hwndHistory, UM_ADDITEM, 0, (LPARAM)ppd);
@@ -164,19 +128,17 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	static enum { LOG_NONE, LOG_DEFAULT, LOG_HPP } logType = LOG_NONE;
 	static HWND hwndLog = NULL;
 
-	switch (msg)
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
 		{
 			oldWidth = 0;
 			HWND hwndList = GetDlgItem(hwnd, IDC_POPUP_LIST);
-			for (int i = 0; i < popupHistorySize; ++i)
+			for (int i=0; i < arPopupHistory.getCount(); ++i)
 				ListBox_SetItemData(hwndList, ListBox_AddString(hwndList, _T("")), 0);
 			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(ICO_HISTORY,0));
 			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(ICO_HISTORY,1));
 
-			if (gbHppInstalled && PopUpOptions.UseHppHistoryLog)
-			{
+			if (gbHppInstalled && PopUpOptions.UseHppHistoryLog) {
 				logType = LOG_HPP;
 				ShowWindow(GetDlgItem(hwnd, IDC_POPUP_LIST), SW_HIDE);
 
@@ -185,7 +147,6 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				ieWindow.iType = IEW_CREATE;
 				ieWindow.dwFlags = 0;
 				ieWindow.dwMode = IEWM_MUCC;
-//				ieWindow.dwMode = IEWM_CHAT;
 				ieWindow.parent = hwnd;
 				ieWindow.x = 0;
 				ieWindow.y = 0;
@@ -223,33 +184,32 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				ieEvent.codepage = 0;
 				ieEvent.pszProto = NULL;
 
-				for (int i = 0; i < popupHistorySize; ++i)
-				{
+				for (int i=0; i < arPopupHistory.getCount(); ++i) {
+					POPUPDATA2* ppd = arPopupHistory[i];
 					ieData.cbSize = sizeof(ieData);
 					ieData.iType = IEED_EVENT_SYSTEM;
 					ieData.dwFlags =  0;
-					ieData.color = getHistoryItem(i)->colorText;
-					if (getHistoryItem(i)->flags & PU2_UNICODE)
-					{
+					ieData.color = ppd->colorText;
+					if (ppd->flags & PU2_UNICODE) {
 						ieData.dwFlags |= IEEDF_UNICODE_TEXT|IEEDF_UNICODE_NICK;
-						ieData.pszNickW = getHistoryItem(i)->lpwzTitle;
-						ieData.pszTextW = getHistoryItem(i)->lpwzText;
+						ieData.pszNickW = ppd->lpwzTitle;
+						ieData.pszTextW = ppd->lpwzText;
 						ieData.pszText2W = NULL;
-					} else
-					{
+					}
+					else {
 						ieData.dwFlags |= 0;
-						ieData.pszNick = getHistoryItem(i)->lpzTitle;
-						ieData.pszText = getHistoryItem(i)->lpzText;
+						ieData.pszNick = ppd->lpzTitle;
+						ieData.pszText = ppd->lpzText;
 						ieData.pszText2 = NULL;
 					}
 					ieData.bIsMe = FALSE;
-					ieData.time = getHistoryItem(i)->dwTimestamp;
+					ieData.time = ppd->dwTimestamp;
 					ieData.dwData = 0;
 					ieData.next = NULL;
 					CallService(MS_HPP_EG_EVENT, 0, (WPARAM)&ieEvent);
 				}
-			} else
-			{
+			}
+			else {
 				logType = LOG_DEFAULT;
 				hwndLog = hwndList;
 
@@ -258,31 +218,24 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			Utils_RestoreWindowPosition(hwnd, NULL, MODULNAME, "popupHistory_");
 
-			if (logType == LOG_DEFAULT)
-			{
+			if (logType == LOG_DEFAULT) {
 				SendMessage(hwnd, UM_RESIZELIST, 0, 0);
-				ListBox_SetTopIndex(hwndLog, popupHistorySize-1);
+				ListBox_SetTopIndex(hwndLog, arPopupHistory.getCount()-1);
 			}
-
-			return TRUE;
 		}
-		case WM_MEASUREITEM:
-		{
-			if (logType != LOG_DEFAULT)
-				return TRUE;
+		return TRUE;
 
-			LPMEASUREITEMSTRUCT lpmis;
-			lpmis = (LPMEASUREITEMSTRUCT) lParam;
+	case WM_MEASUREITEM:
+		if (logType == LOG_DEFAULT) {
+			LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT) lParam;
 			if (lpmis->itemID == -1)
 				return FALSE;
 			lpmis->itemHeight = 50;
-			return TRUE;
 		}
-		case WM_DRAWITEM:
-		{
-			if (logType != LOG_DEFAULT)
-				return TRUE;
+		return TRUE;
 
+	case WM_DRAWITEM:
+		if (logType == LOG_DEFAULT) {
 			LPDRAWITEMSTRUCT lpdis;
 			lpdis = (LPDRAWITEMSTRUCT) lParam;
 			if (lpdis->itemID == -1)
@@ -290,9 +243,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			HWND hwndList = GetDlgItem(hwnd, lpdis->CtlID);
 			PopupWnd2 *wndPreview = (PopupWnd2 *)ListBox_GetItemData(hwndList, lpdis->itemID);
-
-			if (!wndPreview)
-			{
+			if (!wndPreview) {
 				RECT rc; GetWindowRect(hwndLog, &rc);
 
 				if (rc.right-rc.left <= 30)
@@ -302,7 +253,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				customOptions.DynamicResize = FALSE;
 				customOptions.MinimumWidth = customOptions.MaximumWidth = rc.right-rc.left-30;
 
-				POPUPDATA2 *ppd = &popupHistory[getHistoryIndex(lpdis->itemID)];
+				POPUPDATA2 *ppd = arPopupHistory[lpdis->itemID];
 				wndPreview = new PopupWnd2(ppd, &customOptions, true);
 				wndPreview->buildMText();
 				wndPreview->update();
@@ -311,15 +262,13 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				ListBox_SetItemHeight(hwndLog, lpdis->itemID, wndPreview->getSize().cy+6);
 			}
 
-			if (wndPreview)
-			{
-				if (lpdis->itemState & ODS_SELECTED)
-				{
+			if (wndPreview) {
+				if (lpdis->itemState & ODS_SELECTED) {
 					HBRUSH hbr = CreateSolidBrush(GetSysColor(COLOR_HIGHLIGHT));
 					FillRect(lpdis->hDC, &lpdis->rcItem, hbr);
 					DeleteObject(hbr);
-				} else
-				{
+				} 
+				else {
 					HBRUSH hbr = CreateSolidBrush(GetSysColor(COLOR_WINDOW));
 					FillRect(lpdis->hDC, &lpdis->rcItem, hbr);
 					DeleteObject(hbr);
@@ -328,44 +277,35 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				int width = wndPreview->getContent()->getWidth();
 				int height = wndPreview->getContent()->getHeight();
 
-				{
-					BLENDFUNCTION bf;
-					bf.BlendOp = AC_SRC_OVER;
-					bf.BlendFlags = 0;
-					bf.SourceConstantAlpha = 255;
-					bf.AlphaFormat = AC_SRC_ALPHA;
-					AlphaBlend(lpdis->hDC, lpdis->rcItem.left+5, lpdis->rcItem.top+3, width, height,
-						wndPreview->getContent()->getDC(),
-						0, 0, width, height, bf);
-				}
-
+				BLENDFUNCTION bf;
+				bf.BlendOp = AC_SRC_OVER;
+				bf.BlendFlags = 0;
+				bf.SourceConstantAlpha = 255;
+				bf.AlphaFormat = AC_SRC_ALPHA;
+				AlphaBlend(lpdis->hDC, lpdis->rcItem.left+5, lpdis->rcItem.top+3, width, height,
+					wndPreview->getContent()->getDC(),
+					0, 0, width, height, bf);
 			}
-
-			return TRUE;
 		}
-		case WM_DELETEITEM:
-		{
-			if (logType != LOG_DEFAULT)
-				return TRUE;
+		return TRUE;
 
+	case WM_DELETEITEM:
+		if (logType != LOG_DEFAULT) {
 			DELETEITEMSTRUCT *lpdis = (DELETEITEMSTRUCT *)lParam;
 			PopupWnd2 *wnd = (PopupWnd2 *)ListBox_GetItemData(lpdis->hwndItem, lpdis->itemID);
-			if (wnd) delete wnd;
-			return TRUE;
+			if (wnd)
+				delete wnd;
 		}
-		case WM_SIZE:
+		return TRUE;
+
+	case WM_SIZE:
 		{
 			RECT rcLst; GetClientRect(hwnd, &rcLst);
 			rcLst.left += 10;
 			rcLst.top += 10;
 			rcLst.right -= 10;
 			rcLst.bottom -= 10;
-			if (logType == LOG_HPP)
-			{
-//				POINT pt;
-//				pt.x = rcLst.left;
-//				pt.y = rcLst.top;
-//				ScreenToClient(hwnd, &pt);
+			if (logType == LOG_HPP) {
 				SetWindowPos(hwndLog, NULL,
 					rcLst.left, rcLst.top, rcLst.right-rcLst.left, rcLst.bottom-rcLst.top,
 					SWP_NOZORDER|SWP_DEFERERASE|SWP_SHOWWINDOW);
@@ -380,121 +320,103 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				ieWindow.cx = rcLst.right-rcLst.left;
 				ieWindow.cy = rcLst.bottom-rcLst.top;
 				CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
-			} else
-			if (logType == LOG_DEFAULT)
-			{
+			}
+			else if (logType == LOG_DEFAULT) {
 				SetWindowPos(hwndLog, NULL,
 					rcLst.left, rcLst.top, rcLst.right-rcLst.left, rcLst.bottom-rcLst.top,
-					SWP_NOZORDER|SWP_DEFERERASE|SWP_SHOWWINDOW);
-				if (rcLst.right-rcLst.left != oldWidth)
-				{
+					SWP_NOZORDER | SWP_DEFERERASE | SWP_SHOWWINDOW);
+				if (rcLst.right-rcLst.left != oldWidth) {
 					oldWidth = rcLst.right-rcLst.left;
 					PostMessage(hwnd, UM_RESIZELIST, 0, 0);
 				}
 			}
-			return TRUE;
 		}
-		case UM_RESIZELIST:
-		{
-			if (logType != LOG_DEFAULT)
-				return TRUE;
+		return TRUE;
 
-			RECT rc; GetWindowRect(GetDlgItem(hwnd, IDC_POPUP_LIST), &rc);
-
+	case UM_RESIZELIST:
+		if (logType == LOG_DEFAULT) {
+			RECT rc; 
+			GetWindowRect(GetDlgItem(hwnd, IDC_POPUP_LIST), &rc);
 			if (rc.right-rc.left <= 30)
 				return FALSE;
 
-			for (int i = 0; i < popupHistorySize; ++i)
-			{
+			for (int i=0; i < arPopupHistory.getCount(); ++i) {
 				PopupWnd2 *wndPreview = (PopupWnd2 *)ListBox_GetItemData(hwndLog, i);
-				if (wndPreview) delete wndPreview;
+				if (wndPreview)
+					delete wndPreview;
 
 				ListBox_SetItemData(hwndLog, i, 0);
 				ListBox_SetItemHeight(hwndLog, i, 50);
 			}
 			ScrollWindow(hwndLog, 0, 100000, NULL, NULL);
 			InvalidateRect(hwndLog, NULL, TRUE);
-
-			return TRUE;
 		}
-		case UM_ADDITEM:
-		{
-			if (logType == LOG_HPP)
-			{
-				POPUPDATA2 *ppd = (POPUPDATA2 *)lParam;
+		return TRUE;
 
-				IEVIEWEVENTDATA ieData;
+	case UM_ADDITEM:
+		if (logType == LOG_HPP) {
+			POPUPDATA2 *ppd = (POPUPDATA2 *)lParam;
 
-				IEVIEWEVENT ieEvent;
-				ieEvent.cbSize = sizeof(ieEvent);
-				ieEvent.iType = IEE_LOG_MEM_EVENTS;
-				ieEvent.dwFlags = 0;
-				ieEvent.hwnd = hwndLog;
-				ieEvent.eventData = &ieData;
-				ieEvent.count = 1;
-				ieEvent.codepage = 0;
-				ieEvent.pszProto = NULL;
+			IEVIEWEVENTDATA ieData;
 
-				ieData.cbSize = sizeof(ieData);
-				ieData.dwFlags = 0;
-				ieData.iType = IEED_EVENT_SYSTEM;
-				ieData.color = ppd->colorText;
-				if (ppd->flags & PU2_UNICODE)
-				{
-					ieData.dwFlags |= IEEDF_UNICODE_TEXT|IEEDF_UNICODE_NICK;
-					ieData.pszNickW = ppd->lpwzTitle;
-					ieData.pszTextW = ppd->lpwzText;
-					ieData.pszText2W = NULL;
-				} else
-				{
-					ieData.dwFlags |= 0;
-					ieData.pszNick = ppd->lpzTitle;
-					ieData.pszText = ppd->lpzText;
-					ieData.pszText2 = NULL;
-				}
-				ieData.bIsMe = FALSE;
-				ieData.time = ppd->dwTimestamp;
-				ieData.dwData = 0;
-				ieData.next = NULL;
-				CallService(MS_HPP_EG_EVENT, 0, (WPARAM)&ieEvent);
-			} else
-			if(logType == LOG_DEFAULT)
-			{
-				if (popupHistorySize <= ListBox_GetCount(hwndLog))
-				{
-					loadItem = 0;
-					PostMessage(hwnd, UM_RESIZELIST, 0, 0);
-					return TRUE;
-				}
-				ListBox_SetItemData(hwndLog, ListBox_AddString(hwndLog, _T("")), 0);
-/*				if (loadItem < 0)
-				{
-					loadItem = ListBox_GetCount(hwndList)-1;
-					SendMessage(hwnd, UM_RESIZEITEM, 0, 0);
-				}*/
+			IEVIEWEVENT ieEvent;
+			ieEvent.cbSize = sizeof(ieEvent);
+			ieEvent.iType = IEE_LOG_MEM_EVENTS;
+			ieEvent.dwFlags = 0;
+			ieEvent.hwnd = hwndLog;
+			ieEvent.eventData = &ieData;
+			ieEvent.count = 1;
+			ieEvent.codepage = 0;
+			ieEvent.pszProto = NULL;
+
+			ieData.cbSize = sizeof(ieData);
+			ieData.dwFlags = 0;
+			ieData.iType = IEED_EVENT_SYSTEM;
+			ieData.color = ppd->colorText;
+			if (ppd->flags & PU2_UNICODE) {
+				ieData.dwFlags |= IEEDF_UNICODE_TEXT|IEEDF_UNICODE_NICK;
+				ieData.pszNickW = ppd->lpwzTitle;
+				ieData.pszTextW = ppd->lpwzText;
+				ieData.pszText2W = NULL;
 			}
-			return TRUE;
-		}
-		case WM_CLOSE:
-		{
-			Utils_SaveWindowPosition(hwnd, NULL, MODULNAME, "popupHistory_");
-			DestroyWindow(hwnd);
-			hwndHistory = NULL;
-			return TRUE;
-		}
-		case WM_DESTROY:
-		{
-			if (logType == LOG_HPP)
-			{
-				IEVIEWWINDOW ieWindow;
-				ieWindow.cbSize = sizeof(IEVIEWWINDOW);
-				ieWindow.iType = IEW_DESTROY;
-				ieWindow.dwFlags = 0;
-				ieWindow.dwMode = IEWM_TABSRMM;
-				ieWindow.parent = hwnd;
-				ieWindow.hwnd = hwndLog;
-				CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
+			else {
+				ieData.dwFlags |= 0;
+				ieData.pszNick = ppd->lpzTitle;
+				ieData.pszText = ppd->lpzText;
+				ieData.pszText2 = NULL;
 			}
+			ieData.bIsMe = FALSE;
+			ieData.time = ppd->dwTimestamp;
+			ieData.dwData = 0;
+			ieData.next = NULL;
+			CallService(MS_HPP_EG_EVENT, 0, (WPARAM)&ieEvent);
+		}
+		else if(logType == LOG_DEFAULT) {
+			if (arPopupHistory.getCount() <= ListBox_GetCount(hwndLog)) {
+				loadItem = 0;
+				PostMessage(hwnd, UM_RESIZELIST, 0, 0);
+				return TRUE;
+			}
+			ListBox_SetItemData(hwndLog, ListBox_AddString(hwndLog, _T("")), 0);
+		}
+		return TRUE;
+
+	case WM_CLOSE:
+		Utils_SaveWindowPosition(hwnd, NULL, MODULNAME, "popupHistory_");
+		DestroyWindow(hwnd);
+		hwndHistory = NULL;
+		return TRUE;
+
+	case WM_DESTROY:
+		if (logType == LOG_HPP) {
+			IEVIEWWINDOW ieWindow;
+			ieWindow.cbSize = sizeof(IEVIEWWINDOW);
+			ieWindow.iType = IEW_DESTROY;
+			ieWindow.dwFlags = 0;
+			ieWindow.dwMode = IEWM_TABSRMM;
+			ieWindow.parent = hwnd;
+			ieWindow.hwnd = hwndLog;
+			CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
 		}
 	}
 	return FALSE; //DefWindowProc(hwnd, msg, wParam, lParam);

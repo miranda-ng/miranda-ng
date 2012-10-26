@@ -86,7 +86,7 @@ void MyBitmap::makeOpaque()
 	if (!bits) return;
 
 	GdiFlush();
-	for (int i = 0; i < width*height; i++)
+	for (int i=0; i < width*height; i++)
 		bits[i] |= 0xff000000;
 }
 
@@ -120,7 +120,7 @@ void MyBitmap::saveAlpha(int x, int y, int w, int h)
 	bitsSave = new COLOR32[w*h];
 	COLOR32 *p1 = bitsSave;
 
-	for (int i = 0; i < h; i++)
+	for (int i=0; i < h; i++)
 	{
 		if (i+y < 0) continue;
 		if (i+y >= height) break;
@@ -146,7 +146,7 @@ void MyBitmap::restoreAlpha(int x, int y, int w, int h)
 
 	COLOR32 *p1 = bitsSave;
 
-	for (int i = 0; i < h; i++)
+	for (int i=0; i < h; i++)
 	{
 		if (i+y < 0) continue;
 		if (i+y >= height) break;
@@ -185,7 +185,7 @@ void MyBitmap::DrawBits(COLOR32 *inbits, int inw, int inh, int x, int y, int w, 
 	if (y+h >= this->getHeight())
 		h = this->getHeight() - y;
 
-	for (int i = 0; i < h; i++)
+	for (int i=0; i < h; i++)
 	{
 		if (i+y < 0) continue;
 		if (i+y >= height) break;
@@ -212,7 +212,7 @@ void MyBitmap::BlendBits(COLOR32 *inbits, int inw, int inh, int x, int y, int w,
 	if (y+h >= this->getHeight())
 		h = this->getHeight() - y;
 
-	for (int i = 0; i < h; i++)
+	for (int i=0; i < h; i++)
 	{
 		if (i+y < 0) continue;
 		if (i+y >= height) break;
@@ -249,7 +249,7 @@ void MyBitmap::Blend(MyBitmap *bmp, int x, int y, int w, int h)
 	if (y+h >= this->getHeight())
 		h = this->getHeight() - y;
 
-	for (int i = 0; i < h; i++)
+	for (int i=0; i < h; i++)
 	{
 		if (i+y < 0) continue;
 		if (i+y >= height) break;
@@ -294,7 +294,7 @@ void MyBitmap::Draw(MyBitmap *bmp, int x, int y, int w, int h)
 	if (y+h >= this->getHeight())
 		h = this->getHeight() - y;
 
-	for (int i = 0; i < h; i++)
+	for (int i=0; i < h; i++)
 	{
 		if (i+y < 0) continue;
 		if (i+y >= height) break;
@@ -331,7 +331,7 @@ void MyBitmap::BlendColorized(MyBitmap *bmp, int x, int y, int w, int h, COLOR32
 	float koef2g = (getg(color)) / 128.0;
 	float koef2b = (getr(color)) / 128.0;
 
-	for (int i = 0; i < h; i++)
+	for (int i=0; i < h; i++)
 	{
 		if (i+y < 0) continue;
 		if (i+y >= height) break;
@@ -403,7 +403,7 @@ void MyBitmap::DrawColorized(MyBitmap *bmp, int x, int y, int w, int h, COLOR32 
 	float koef2g = (getg(color)) / 128.0;
 	float koef2b = (getr(color)) / 128.0;
 
-	for (int i = 0; i < h; i++)
+	for (int i=0; i < h; i++)
 	{
 		if (i+y < 0) continue;
 		if (i+y >= height) break;
@@ -453,7 +453,7 @@ void MyBitmap::BlendPart(MyBitmap *bmp, int xin, int yin, int win, int hin, int 
 	if (y+h >= this->getHeight())
 		h = this->getHeight() - y;
 
-	for (int i = 0; i < h; i++)
+	for (int i=0; i < h; i++)
 	{
 		if (i+y < 0) continue;
 		if (i+y >= height) break;
@@ -505,7 +505,7 @@ void MyBitmap::BlendPartColorized(MyBitmap *bmp, int xin, int yin, int win, int 
 	float koef2g = (getg(color)) / 128.0;
 	float koef2b = (getr(color)) / 128.0;
 
-	for (int i = 0; i < h; i++)
+	for (int i=0; i < h; i++)
 	{
 		if (i+y < 0) continue;
 		if (i+y >= height) break;
@@ -575,7 +575,7 @@ void MyBitmap::DrawPart(MyBitmap *bmp, int xin, int yin, int win, int hin, int x
 	if (y+h >= this->getHeight())
 		h = this->getHeight() - y;
 
-	for (int i = 0; i < h; i++)
+	for (int i=0; i < h; i++)
 	{
 		if (i+y < 0) continue;
 		if (i+y >= height) break;
@@ -594,7 +594,7 @@ void MyBitmap::DrawNoAlpha(MyBitmap *bmp, int x, int y, int w, int h)
 
 	GdiFlush();
 
-	for (int i = 0; i < bmp->height; i++)
+	for (int i=0; i < bmp->height; i++)
 	{
 		if (i+y < 0) continue;
 		if (i+y >= height) break;
@@ -639,7 +639,7 @@ void MyBitmap::DrawIcon(HICON hic, int x, int y, int w, int h)
 		GetBitmapBits(info.hbmColor, bmpColor.bmWidthBytes*bmpColor.bmHeight, cbit);
 		GetBitmapBits(info.hbmMask, bmpMask.bmWidthBytes*bmpMask.bmHeight, mbit);
 
-		for (int i = 0; i < bmpColor.bmHeight; i++)
+		for (int i=0; i < bmpColor.bmHeight; i++)
 		{
 			for (int j = 0; j < bmpColor.bmWidth; j++)
 			{
@@ -714,7 +714,7 @@ HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 	int first = 0;
 	bool wasfirst = false;
 	bool ismask = false;
-	for (int i = 0; i < height; i++)
+	for (int i=0; i < height; i++)
 	{
 		int j; // we will need j after the loop!
 		for (j = 0; j < width; j++)
@@ -810,7 +810,7 @@ bool MyBitmap::loadFromFile_gradient(const char *fn, const char *fnAlpha)
 	b = (hex2dec(p[4]) << 4) + hex2dec(p[5]);
 	COLOR32 to = rgba(r,g,b,a);
 
-	for (int i = 0; i < 256; ++i)
+	for (int i=0; i < 256; ++i)
 	{
 		bits[i] = rgba(
 				((255-i) * getr(from) + i * getr(to)) / 255,
@@ -923,7 +923,7 @@ bool MyBitmap::loadFromFile_default(const char *fn, const char *fnAlpha)
 		(alpha.getWidth() == width) &&
 		(alpha.getHeight() == height))
 	{
-		for (int i = 0; i < width*height; i++)
+		for (int i=0; i < width*height; i++)
 			bits[i] = (bits[i] & 0x00ffffff) | ( (alpha.bits[i] & 0x000000ff) << 24 );
 		premultipleChannels();
 	} else
@@ -1004,6 +1004,6 @@ void MyBitmap::premultipleChannels()
 {
 	GdiFlush();
 
-	for (int i = 0; i < width*height; i++)
+	for (int i=0; i < width*height; i++)
 		bits[i] = rgba(getr(bits[i])*geta(bits[i])/255, getg(bits[i])*geta(bits[i])/255, getb(bits[i])*geta(bits[i])/255, geta(bits[i]));
 }

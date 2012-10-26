@@ -224,7 +224,7 @@ int  SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 		LPGENT("Enable Aero Glass (Vista+)"),
 		LPGENT("Use Windows colours"),
 		LPGENT("Use advanced text render")};
-	for (int i = 0; i < SIZEOF(mainOption); i++) {
+	for (int i=0; i < SIZEOF(mainOption); i++) {
 		bCheck = 0;
 		switch (i) {
 			case 0:
@@ -278,7 +278,7 @@ bool SkinOptionList_Update (OPTTREE_OPTION* &options, int *OptionsCount, HWND hw
 	if (options) {
 		int index = -1;
 		OptTree_ProcessMessage(hwndDlg, WM_DESTROY, 0, 0, &index, IDC_SKIN_LIST_OPT, options, *OptionsCount);
-		for (int i = 0; i < *OptionsCount; ++i) {
+		for (int i=0; i < *OptionsCount; ++i) {
 			mir_free(options[i].pszOptionName);
 			mir_free(options[i].pszSettingName);
 		}
@@ -547,7 +547,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				}
 				if (hhkFontsReload) UnhookEvent(hhkFontsReload);
 				if (skinOptions) {
-					for (int i = 0; i < skinOptionsCount; ++i) {
+					for (int i=0; i < skinOptionsCount; ++i) {
 						mir_free(skinOptions[i].pszOptionName);
 						mir_free(skinOptions[i].pszSettingName);
 					}

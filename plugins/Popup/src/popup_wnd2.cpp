@@ -369,7 +369,7 @@ void	PopupWnd2::animate()
 		}
 
 		// update tooltips
-		for (int i = 0; i < m_actionCount; ++i)
+		for (int i=0; i < m_actionCount; ++i)
 		{
 			char *title = strchr(m_actions[i].actionA.lpzTitle, '/');
 			if (title) title++;
@@ -1360,7 +1360,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		case UM_POPUPMODIFYACTIONICON:
 		{
 			LPPOPUPACTIONID actionId = (LPPOPUPACTIONID)wParam;
-			for (int i = 0; i < m_actionCount; ++i)
+			for (int i=0; i < m_actionCount; ++i)
 				if ((m_actions[i].actionA.wParam == actionId->wParam) &&
 					(m_actions[i].actionA.lParam == actionId->lParam))
 				{

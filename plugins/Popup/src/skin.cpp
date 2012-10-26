@@ -39,7 +39,7 @@ Last change by : $Author: Merlin_de $
 // PopupSkin
 PopupSkin::PopupSkin(LPCTSTR aName)
 {
-	for (int i = 0; i < 32; i++)
+	for (int i=0; i < 32; i++)
 		m_flag_names[i] = NULL;
 	m_elements = 0;
 	m_name = aName ? mir_tstrdup(aName) : NULL;
@@ -48,7 +48,7 @@ PopupSkin::PopupSkin(LPCTSTR aName)
 PopupSkin::~PopupSkin()
 {
 	if (m_name) mir_free(m_name);
-	for (int i = 0; i < 32; i++)
+	for (int i=0; i < 32; i++)
 		mir_free(m_flag_names[i]);
 	freeSkin(m_elements);
 }
@@ -99,7 +99,7 @@ SIZE PopupSkin::measureActionBar(HDC hdc, PopupWnd2 *wnd) const
 {
 	SIZE sz = {0};
 	HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.action);
-	for (int i = 0; i < wnd->getActionCount(); ++i)
+	for (int i=0; i < wnd->getActionCount(); ++i)
 	{
 		SIZE szAction = measureAction(hdc, &wnd->getActions()[i].actionA);
 
@@ -175,7 +175,7 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 
 void PopupSkin::drawActionBar(MyBitmap *bmp, PopupWnd2 *wnd, int x, int y) const
 {
-	for (int i = 0; i < wnd->getActionCount(); ++i)
+	for (int i=0; i < wnd->getActionCount(); ++i)
 	{
 		SIZE szAction = measureAction(bmp->getDC(), &wnd->getActions()[i].actionA);
 		drawAction(bmp, &wnd->getActions()[i].actionA, x, y, wnd->getActions()[i].hover);
@@ -240,7 +240,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 	wnd->getArgs()->add("window.width", maxw);
 	wnd->getArgs()->add("window.maxwidth", maxw);
 
-	for (int i = 0; i < 32; ++i)
+	for (int i=0; i < 32; ++i)
 	{
 		char buf[10];
 		wsprintfA(buf, "opt%d", i);
@@ -877,7 +877,7 @@ bool PopupSkin::onMouseMove(PopupWnd2 *wnd, int x, int y) const
 	bool res = false;
 	bool hovered = false;
 
-	for (int i = 0; i < wnd->getActionCount(); ++i)
+	for (int i=0; i < wnd->getActionCount(); ++i)
 	{
 		bool hover = PtInRect(&wnd->getActions()[i].rc, pt) ? true : false;
 		hovered |= hover;
@@ -897,7 +897,7 @@ bool PopupSkin::onMouseLeave(PopupWnd2 *wnd) const
 {
 	bool res = false;
 
-	for (int i = 0; i < wnd->getActionCount(); ++i)
+	for (int i=0; i < wnd->getActionCount(); ++i)
 	{
 		if (wnd->getActions()[i].hover)
 		{
@@ -952,7 +952,7 @@ void PopupSkin::loadOptions(std::istream &f)
 
 bool PopupSkin::load(LPCTSTR dir)
 {
-	for (int i = 0; i < 32; i++)
+	for (int i=0; i < 32; i++)
 	{
 		if (m_flag_names[i])
 		{

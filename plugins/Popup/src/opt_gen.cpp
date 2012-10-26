@@ -347,7 +347,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 								SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE)|WS_EX_LAYERED);
 								SetLayeredWindowAttributes(hwndBox, NULL, 0, LWA_ALPHA);
 								ShowWindow(hwndBox, SW_SHOW);
-								for (int i = 0; i <= 255; i += 15) {
+								for (int i=0; i <= 255; i += 15) {
 									SetLayeredWindowAttributes(hwndBox, NULL, i, LWA_ALPHA);
 									UpdateWindow(hwndBox);
 									Sleep(1);
@@ -559,7 +559,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 								char prefix[128];
 								LPTSTR pszSettingName = NULL;
-								for (int i = 0; i < protocolCount; ++i)
+								for (int i=0; i < protocolCount; ++i)
 								{
 									mir_snprintf(prefix, sizeof(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
 									pszSettingName = mir_a2t(prefix);
@@ -609,7 +609,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 		case WM_DESTROY: {
 			if (statusOptions) {
-				for (int i = 0; i < statusOptionsCount; ++i) {
+				for (int i=0; i < statusOptionsCount; ++i) {
 					mir_free(statusOptions[i].pszOptionName);
 					mir_free(statusOptions[i].pszSettingName);
 				}

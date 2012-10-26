@@ -220,7 +220,7 @@ void RepositionPopups()
 	PopupWnd2 *prev = 0;
 	if (PopUpOptions.ReorderPopUps)
 	{
-		for (int i = 0; i < popupList.getCount(); ++i)
+		for (int i=0; i < popupList.getCount(); ++i)
 		{
 			UpdatePopupPosition(prev, popupList[i]);
 			prev = popupList[i];
@@ -245,7 +245,7 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 		{
 			gTerminating = true;
 			if (DBGetContactSettingByte(NULL, MODULNAME, "FastExit", 0))
-				for (int i = 0; i < popupList.getCount(); ++i)
+				for (int i=0; i < popupList.getCount(); ++i)
 					PUDeletePopUp(popupList[i]->getHwnd());
 			PostQuitMessage(0);
 			break;
@@ -278,7 +278,7 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 		case UTM_REMOVE_WINDOW:
 		{
 			// popupList.remove(ptr) would be nicer, but it requires sortFunc :(
-			for (int i = 0; i < popupList.getCount(); ++i)
+			for (int i=0; i < popupList.getCount(); ++i)
 				if (popupList[i] == wnd)
 				{
 					popupList.remove(i);

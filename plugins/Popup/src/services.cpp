@@ -531,7 +531,7 @@ INT_PTR PopUp_Query(WPARAM wParam, LPARAM lParam)
 INT_PTR PopUp_RegisterActions(WPARAM wParam, LPARAM lParam)
 {
 	LPPOPUPACTION actions = (LPPOPUPACTION)wParam;
-	for (int i = 0; i < lParam; ++i)
+	for (int i=0; i < lParam; ++i)
 		RegisterAction(&actions[i]);
 	return 0;
 }

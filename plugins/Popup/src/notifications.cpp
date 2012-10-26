@@ -82,7 +82,7 @@ void LoadNotifications()
 
 void UnloadTreeData()
 {
-	for (int i = 0; i < gTreeData.getCount(); ++i) {
+	for (int i=0; i < gTreeData.getCount(); ++i) {
 		if(gTreeData[i]->typ == 2) {
 			mir_free(gTreeData[i]->pupClass.pszName);
 			mir_free(gTreeData[i]->pupClass.pszDescription);
@@ -128,7 +128,7 @@ void SaveNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 			ptd->notification.lpzName);
 		DBWriteContactSettingString(NULL, szModul, setting, ptd->rightAction);
 
-		for (int i = 0; i < ptd->notification.actionCount; ++i)
+		for (int i=0; i < ptd->notification.actionCount; ++i)
 		{
 			if (!lstrcmpA(ptd->leftAction, ptd->notification.lpActions[i].lpzTitle))
 			{
@@ -243,7 +243,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 
 HANDLE FindTreeData(LPTSTR group, LPTSTR name, BYTE typ)
 {
-	for(int i = 0; i < gTreeData.getCount(); i++) {
+	for(int i=0; i < gTreeData.getCount(); i++) {
 		if (	gTreeData[i]->typ == typ &&
 				(!group || (_tcscmp(gTreeData[i]->pszTreeRoot,   group) == 0)) &&
 				(!name  || (_tcscmp(gTreeData[i]->pszDescription, name) == 0)))
@@ -333,7 +333,7 @@ bool PerformAction(HANDLE hNotification, HWND hwnd, UINT message, WPARAM wparam,
 		return true;
 	}
 
-	for (int i = 0; i < ptd->notification.actionCount; ++i)
+	for (int i=0; i < ptd->notification.actionCount; ++i)
 	{
 		if (!(ptd->notification.lpActions[i].dwFlags&PNAF_CALLBACK))
 			continue;
