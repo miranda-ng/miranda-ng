@@ -161,7 +161,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Message typed / send only if online
-	if (isonline() && (gch->pDest->iType == GC_USER_MESSAGE) && gch->pszText)
+	if (isonline() && (gch->pDest->iType == GC_USER_MESSAGE) && gch->ptszText)
 	{
 		char id[32];
 		DBVARIANT dbv;
@@ -172,24 +172,33 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		UIN2ID(uin, id);
 
 		gcevent.pszUID = id;
-		gcevent.pszText = gch->pszText;
-		if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_ASCIIZ))
-			gcevent.pszNick = dbv.pszVal;
-		else
-			gcevent.pszNick = Translate("Me");
+		gcevent.ptszText = gch->ptszText;
+		TCHAR* pszValT;
+		if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_ASCIIZ)){
+			pszValT = mir_a2t(dbv.pszVal);
+			gcevent.ptszNick = pszValT;
+			DBFreeVariant(&dbv);
+		} else {
+			gcevent.ptszNick = TranslateT("Me");
+		}
 
 		// Get rid of CRLF at back
-		lc = (int)strlen(gch->pszText) - 1;
-		while(lc >= 0 && (gch->pszText[lc] == '\n' || gch->pszText[lc] == '\r')) gch->pszText[lc --] = 0;
+		lc = (int)_tcslen(gch->ptszText) - 1;
+		while(lc >= 0 && (gch->ptszText[lc] == '\n' || gch->ptszText[lc] == '\r')) gch->ptszText[lc --] = 0;
+		char* pszText = mir_t2a(gch->ptszText);
+
 		gcevent.time = time(NULL);
 		gcevent.bIsMe = 1;
-		gcevent.dwFlags = GCEF_ADDTOLOG;
-		netlog("gg_gc_event(): Sending conference message to room %s, \"%s\".", gch->pDest->pszID, gch->pszText);
+		gcevent.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
+		netlog("gg_gc_event(): Sending conference message to room %s, \"%s\".", gch->pDest->pszID, pszText);
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
-		if (gcevent.pszNick == dbv.pszVal) DBFreeVariant(&dbv);
+		if (pszValT != NULL) mir_free(pszValT);;
+		
 		EnterCriticalSection(&sess_mutex);
-		gg_send_message_confer(sess, GG_CLASS_CHAT, chat->recipients_count, chat->recipients, (BYTE*)gch->pszText);
+		gg_send_message_confer(sess, GG_CLASS_CHAT, chat->recipients_count, chat->recipients, (BYTE*)pszText);
 		LeaveCriticalSection(&sess_mutex);
+		mir_free(pszText);
+		
 		return 1;
 	}
 
@@ -200,7 +209,9 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		if ((uin = atoi(gch->pszUID)) && (hContact = getcontact(uin, 1, 0, NULL)))
 			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)0);
 	}
-	netlog("gg_gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->pDest->iType, chat, uin, gch->pszText);
+	char* pszText = mir_t2a(gch->ptszText);
+	netlog("gg_gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->pDest->iType, chat, uin, pszText);
+	mir_free(pszText);
 
 	return 0;
 }
@@ -346,8 +357,8 @@ char* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 	if (uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0))
 	{
 		UIN2ID(uin, id);
-		if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_TCHAR)) {
-			gcevent.ptszNick = NEWTSTR_ALLOCA(dbv.ptszVal);
+		if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_ASCIIZ)) {
+			gcevent.ptszNick = mir_a2t(dbv.pszVal);
 			db_free(&dbv);
 		}
 		else gcevent.ptszNick = TranslateT("Me");

@@ -41,7 +41,7 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 	if (!(h = gg_register3(newEmail, newPass, token.id, token.val, 0)) || !(s = (gg_pubdir*)h->data) || !s->success || !s->uin)
 	{
 		TCHAR error[128];
-		mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot register new account because of error:\n\t%S"),
+		mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot register new account because of error:\n\t%s"),
 			(h && !s) ? http_error_string(h ? h->error : 0) :
 			(s ? TranslateT("Registration rejected") : _tcserror(errno)));
 		MessageBox(
@@ -93,7 +93,7 @@ void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 	if (!(h = gg_unregister3(uin, password, token.id, token.val, 0)) || !(s = (gg_pubdir*)h->data) || !s->success || s->uin != uin)
 	{
 		TCHAR error[128];
-		mir_sntprintf(error, SIZEOF(error), TranslateT("Your account cannot be removed because of error:\n\t%S"),
+		mir_sntprintf(error, SIZEOF(error), TranslateT("Your account cannot be removed because of error:\n\t%s"),
 			(h && !s) ? http_error_string(h ? h->error : 0) :
 			(s ? TranslateT("Bad number or password") : _tcserror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
@@ -145,7 +145,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 	if (!(h = gg_change_passwd4(uin, email, password, newPass, token.id, token.val, 0)) || !(s = (gg_pubdir*)h->data) || !s->success)
 	{
 		TCHAR error[128];
-		mir_sntprintf(error, SIZEOF(error), TranslateT("Your password cannot be changed because of error:\n\t%S"),
+		mir_sntprintf(error, SIZEOF(error), TranslateT("Your password cannot be changed because of error:\n\t%s"),
 			(h && !s) ? http_error_string(h ? h->error : 0) :
 			(s ? TranslateT("Invalid data entered") : _tcserror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);

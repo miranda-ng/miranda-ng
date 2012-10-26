@@ -359,9 +359,9 @@ void __cdecl GGPROTO::mainthread(void *)
 			if (!(p.external_addr = gg_dnslookup(this, dbv.pszVal)))
 			{
 				TCHAR error[128];
-                TCHAR* forwardHostT = mir_a2t(dbv.pszVal);
-				mir_sntprintf(error, SIZEOF(error), TranslateT("External direct connections hostname %S is invalid. Disabling external host forwarding."), forwardHostT);
-                mir_free(forwardHostT);
+				TCHAR* forwardHostT = mir_a2t(dbv.pszVal);
+				mir_sntprintf(error, SIZEOF(error), TranslateT("External direct connections hostname %s is invalid. Disabling external host forwarding."), forwardHostT);
+				mir_free(forwardHostT);
 				showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
 			}
 			else
@@ -389,9 +389,9 @@ retry:
 		if (!(p.server_addr = gg_dnslookup(this, hosts[hostnum].hostname)))
 		{
 			TCHAR error[128];
-            TCHAR* hostnameT = mir_a2t(hosts[hostnum].hostname);
-			mir_sntprintf(error, SIZEOF(error), TranslateT("Server hostname %S is invalid. Using default hostname provided by the network."), hostnameT);
-            mir_free(hostnameT);
+			TCHAR* hostnameT = mir_a2t(hosts[hostnum].hostname);
+			mir_sntprintf(error, SIZEOF(error), TranslateT("Server hostname %s is invalid. Using default hostname provided by the network."), hostnameT);
+			mir_free(hostnameT);
 			showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
 		}
 		else
@@ -640,7 +640,7 @@ retry:
 							GGSEARCHRESULT sr;
 							memset(&sr, 0, sizeof(sr));
 							sr.cbSize = sizeof(sr);
-                            sr.flags = PSR_TCHAR;
+							sr.flags = PSR_TCHAR;
 							sr.nick = mir_a2t(__nick);
 							sr.firstName = mir_a2t(__firstname);
 							sr.lastName = mir_a2t(__lastname);
@@ -808,12 +808,14 @@ retry:
 							UIN2ID(e->event.msg.sender, id);
 
 							gcevent.pszUID = id;
-							gcevent.pszText = e->event.msg.message;
-							gcevent.pszNick = (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) getcontact(e->event.msg.sender, 1, 0, NULL), 0);
+							TCHAR* messageT = mir_a2t(e->event.msg.message);
+							gcevent.ptszText = messageT;
+							gcevent.ptszNick = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) getcontact(e->event.msg.sender, 1, 0, NULL), GCDNF_TCHAR);
 							gcevent.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
-							gcevent.dwFlags = GCEF_ADDTOLOG;
+							gcevent.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
 							netlog("gg_mainthread(%x): Conference message to room %s & id %s.", this, chat, id);
 							CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
+							mir_free(messageT);
 						}
 					}
 					// Check if not empty message ( who needs it? )
@@ -875,17 +877,23 @@ retry:
 						UIN2ID( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), id);
 
 						gcevent.pszUID = id;
-						gcevent.pszText = e->event.multilogon_msg.message;
-						if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_ASCIIZ))
-							gcevent.pszNick = dbv.pszVal;
-						else
-							gcevent.pszNick = Translate("Me");
+						TCHAR* messageT = mir_a2t(e->event.multilogon_msg.message);
+						gcevent.ptszText = messageT;
+						TCHAR* pszValT;
+						if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_ASCIIZ)){
+							pszValT = mir_a2t(dbv.pszVal);
+							gcevent.ptszNick = pszValT;
+							DBFreeVariant(&dbv);
+						} else {
+							gcevent.ptszNick = TranslateT("Me");
+						}
 						gcevent.time = e->event.multilogon_msg.time;
 						gcevent.bIsMe = 1;
 						gcevent.dwFlags = GCEF_ADDTOLOG;
 						netlog("gg_mainthread(%x): Sent conference message to room %s.", this, chat);
 						CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
-						if (gcevent.pszNick == dbv.pszVal) DBFreeVariant(&dbv);
+						mir_free(messageT);
+						if (pszValT != NULL) mir_free(pszValT);;
 					}
 				}
 				else if (!e->event.multilogon_msg.recipients_count && e->event.multilogon_msg.message && *e->event.multilogon_msg.message
@@ -1528,9 +1536,11 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 	db_set_w(hContact, m_szModuleName, GG_KEY_STATUS, ID_STATUS_OFFLINE);
 
 	// If nick specified use it
-	if (szNick)
-		db_set_ts(hContact, m_szModuleName, GG_KEY_NICK, szNick);
-	else if (isonline()) {
+	if (szNick) {
+		char* szNickA = mir_t2a(szNick);
+		db_set_s(hContact, m_szModuleName, GG_KEY_NICK, szNickA);
+		mir_free(szNickA);
+	} else if (isonline()) {
 		gg_pubdir50_t req;
 
 		// Search for that nick
