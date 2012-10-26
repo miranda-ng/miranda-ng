@@ -230,11 +230,8 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 static int CALLBACK SortPlugins(WPARAM i1, LPARAM i2, LPARAM lParamSort)
 {
-	HWND hwndList = (HWND)lParamSort;
-	TCHAR tszFile1[MAX_PATH], tszFile2[MAX_PATH]; 
-	ListView_GetItemText(hwndList, i1, 2, tszFile1, SIZEOF(tszFile1));
-	ListView_GetItemText(hwndList, i2, 2, tszFile2, SIZEOF(tszFile2));
-	return _tcscmp(tszFile1, tszFile2);  // always sorting backwards
+	PluginListItemData *p1 = (PluginListItemData*)i1, *p2 = (PluginListItemData*)i2; 
+	return _tcscmp(p1->fileName, p2->fileName);
 }
 
 INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
