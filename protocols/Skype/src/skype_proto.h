@@ -87,6 +87,7 @@ public:
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnContactDeleted(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int __cdecl OnUserInfoInit(WPARAM, LPARAM);
 	int __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 
 	// instances

@@ -232,3 +232,8 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	
 	return 0;
 }
+
+int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
+{
+	return 0;
+}
