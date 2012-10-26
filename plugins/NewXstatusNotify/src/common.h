@@ -4,19 +4,19 @@
 	Copyright (c) 2005-2007 Vasilich
 	Copyright (c) 2007-2011 yaho
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #ifndef COMMON_H
@@ -89,21 +89,21 @@
 #define GENDER_FEMALE			2
 
 #define ID_STATUS_FROMOFFLINE	1
-#define ID_STATUS_EXTRASTATUS   40081
-#define ID_STATUS_MIN			ID_STATUS_OFFLINE
-#define ID_STATUS_MAX			ID_STATUS_OUTTOLUNCH
-#define ID_STATUS_MAX2			ID_STATUS_EXTRASTATUS + 1
-#define STATUS_COUNT			ID_STATUS_MAX2 - ID_STATUS_MIN
-#define Index(ID_STATUS)		ID_STATUS - ID_STATUS_OFFLINE
+#define ID_STATUS_EXTRASTATUS 40081
+#define ID_STATUS_MIN         ID_STATUS_OFFLINE
+#define ID_STATUS_MAX         ID_STATUS_OUTTOLUNCH
+#define ID_STATUS_MAX2        ID_STATUS_EXTRASTATUS + 1
+#define STATUS_COUNT          ID_STATUS_MAX2 - ID_STATUS_MIN
+#define Index(ID_STATUS)      ID_STATUS - ID_STATUS_OFFLINE
 
 #define COLOR_BG_AVAILDEFAULT	RGB(173,206,247)
-#define COLOR_BG_NAVAILDEFAULT	RGB(255,189,189)
+#define COLOR_BG_NAVAILDEFAULT RGB(255,189,189)
 #define COLOR_TX_DEFAULT		RGB(0,0,0)
 
-#define ICO_NOTIFICATION_OFF	"notification_off"
-#define ICO_NOTIFICATION_ON		"notification_on"
+#define ICO_NOTIFICATION_OFF  "notification_off"
+#define ICO_NOTIFICATION_ON   "notification_on"
 
-#define JS_PARSE_XMPP_URI       "/ParseXmppURI"
+#define JS_PARSE_XMPP_URI      "/ParseXmppURI"
 
 typedef struct tagSTATUS
 {

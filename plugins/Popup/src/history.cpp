@@ -83,16 +83,9 @@ void PopupHistoryResize()
 	}
 	for(i = 0; i < toDelete; ++i){//free too old ones
 		POPUPDATA2 *ppd = &oldPopupHistory[(oldStart + i)%oldBuffer];
-		if (ppd->flags & PU2_UNICODE)
-		{
-			mir_free(ppd->lpwzTitle);
-			mir_free(ppd->lpwzText);
-		} else
-		{
-			mir_free(ppd->lpzTitle);
-			mir_free(ppd->lpzText);
-		}
-		if (ppd->lpzSkin) mir_free(ppd->lpzSkin);
+		mir_free(ppd->lpzTitle);
+		mir_free(ppd->lpzText);
+		mir_free(ppd->lpzSkin);
 	}
 	delete [] oldPopupHistory;
 }
@@ -102,16 +95,9 @@ void PopupHistoryUnload()
 	for (int i = 0; i < popupHistorySize; ++i)
 	{
 		POPUPDATA2 *ppd = &popupHistory[getHistoryIndex(i)];
-		if (ppd->flags & PU2_UNICODE)
-		{
-			mir_free(ppd->lpwzTitle);
-			mir_free(ppd->lpwzText);
-		} else
-		{
-			mir_free(ppd->lpzTitle);
-			mir_free(ppd->lpzText);
-		}
-		if (ppd->lpzSkin) mir_free(ppd->lpzSkin);
+		mir_free(ppd->lpzTitle);
+		mir_free(ppd->lpzText);
+		mir_free(ppd->lpzSkin);
 	}
 	delete [] popupHistory;
 	popupHistory = NULL;
@@ -286,11 +272,11 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				return TRUE;
 
 			LPMEASUREITEMSTRUCT lpmis;
-			lpmis = (LPMEASUREITEMSTRUCT) lParam; 
+			lpmis = (LPMEASUREITEMSTRUCT) lParam;
 			if (lpmis->itemID == -1)
 				return FALSE;
 			lpmis->itemHeight = 50;
-			return TRUE; 
+			return TRUE;
 		}
 		case WM_DRAWITEM:
 		{

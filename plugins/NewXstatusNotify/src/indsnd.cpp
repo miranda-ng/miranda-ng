@@ -4,19 +4,19 @@
 	Copyright (c) 2005-2007 Vasilich
 	Copyright (c) 2007-2011 yaho
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "common.h"
@@ -192,8 +192,8 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ListView_SetItemText(hList, lvi.iItem, 1, buff);
 			}
 
-			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYSOUNDS, DBGetContactSettingByte(hContact, MODULE, "EnableSounds", 1));
-			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYPOPUPS, DBGetContactSettingByte(hContact, MODULE, "EnablePopups", 1));			
+			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYSOUNDS, db_get_b(hContact, MODULE, "EnableSounds", 1));
+			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYPOPUPS, db_get_b(hContact, MODULE, "EnablePopups", 1));			
 			
 			ShowWindow(GetDlgItem(hwndDlg, IDC_INDSNDLIST), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_TEXT_ENABLE_IS), opt.UseIndSnd ? SW_HIDE : SW_SHOW);
@@ -283,9 +283,9 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						TCHAR stzSoundPath[MAX_PATH] = { 0 };
 						CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)buff, (LPARAM)stzSoundPath);
 						if (lvi.lParam == ID_STATUS_FROMOFFLINE)
-							DBWriteContactSettingTString(hContact, MODULE, "UserFromOffline", stzSoundPath);
+							db_set_ws(hContact, MODULE, "UserFromOffline", stzSoundPath);
 						else
-							DBWriteContactSettingTString(hContact, MODULE, StatusList[Index(lvi.lParam)].lpzSkinSoundName, stzSoundPath);
+							db_set_ws(hContact, MODULE, StatusList[Index(lvi.lParam)].lpzSkinSoundName, stzSoundPath);
 					}
 				}
 
@@ -380,10 +380,10 @@ void SetAllContactsIcons(HWND hwndList)
 			char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
 			if (szProto) 
 			{
-				EnableSounds = DBGetContactSettingByte(hContact, MODULE, "EnableSounds", 1);
-				EnablePopups = DBGetContactSettingByte(hContact, MODULE, "EnablePopups", 1);
-				EnableXStatus = DBGetContactSettingByte(hContact, MODULE, "EnableXStatusNotify", 1);
-				EnableLogging = DBGetContactSettingByte(hContact, MODULE, "EnableLogging", 1);
+				EnableSounds = db_get_b(hContact, MODULE, "EnableSounds", 1);
+				EnablePopups = db_get_b(hContact, MODULE, "EnablePopups", 1);
+				EnableXStatus = db_get_b(hContact, MODULE, "EnableXStatusNotify", 1);
+				EnableLogging = db_get_b(hContact, MODULE, "EnableLogging", 1);
 			}
 			else
 				EnableSounds = EnablePopups = EnableXStatus = EnableLogging = 0;
@@ -647,7 +647,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 								else 
 									DBWriteContactSettingByte(hContact, MODULE, "EnablePopups", 0);
 
-								if(GetExtraImage(hList, hItem, EXTRA_IMAGE_XSTATUS) == EXTRA_IMAGE_XSTATUS) 
+								if (GetExtraImage(hList, hItem, EXTRA_IMAGE_XSTATUS) == EXTRA_IMAGE_XSTATUS) 
 									DBDeleteContactSetting(hContact, MODULE, "EnableXStatusNotify");
 								else
 									DBWriteContactSettingByte(hContact, MODULE, "EnableXStatusNotify", 0);

@@ -4,19 +4,19 @@
 	Copyright (c) 2005-2007 Vasilich
 	Copyright (c) 2007-2011 yaho
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "common.h"
@@ -50,51 +50,51 @@ void LoadTemplates()
 	DBGetStringDefault(0, MODULE, "TLogChangeMsg", templates.LogNewMsg, SIZEOF(templates.LogNewMsg), DEFAULT_LOG_CHANGEMSG);
 	DBGetStringDefault(0, MODULE, "TLogRemoval", templates.LogRemove, SIZEOF(templates.LogRemove), DEFAULT_LOG_REMOVE);
 	DBGetStringDefault(0, MODULE, "TLogOpening", templates.LogOpening, SIZEOF(templates.LogOpening), DEFAULT_LOG_OPENING);
-	templates.PopupFlags = DBGetContactSettingByte(0, MODULE, "TPopupFlags", NOTIFY_NEW_XSTATUS | NOTIFY_NEW_MESSAGE);
-	templates.LogFlags = DBGetContactSettingByte(0, MODULE, "TLogFlags", NOTIFY_NEW_XSTATUS | NOTIFY_NEW_MESSAGE | NOTIFY_OPENING_ML);
+	templates.PopupFlags = db_get_b(0, MODULE, "TPopupFlags", NOTIFY_NEW_XSTATUS | NOTIFY_NEW_MESSAGE);
+	templates.LogFlags = db_get_b(0, MODULE, "TLogFlags", NOTIFY_NEW_XSTATUS | NOTIFY_NEW_MESSAGE | NOTIFY_OPENING_ML);
 }
 
 void LoadOptions() 
 {
 	// IDD_OPT_POPUP
-	opt.Colors = DBGetContactSettingByte(0,MODULE, "Colors", DEFAULT_COLORS);
-	opt.ShowGroup = DBGetContactSettingByte(0, MODULE, "ShowGroup", 0);
-	opt.ShowStatus = DBGetContactSettingByte(0, MODULE, "ShowStatus", 1);
-	opt.UseAlternativeText = DBGetContactSettingByte(0, MODULE, "UseAlternativeText", 0);
-	opt.ShowPreviousStatus = DBGetContactSettingByte(0, MODULE, "ShowPreviousStatus", 0);
-	opt.ReadAwayMsg = DBGetContactSettingByte(0, MODULE, "ReadAwayMsg", 0);
-	opt.PopupTimeout = DBGetContactSettingDword(0, MODULE, "PopupTimeout", 0);
-	opt.LeftClickAction= DBGetContactSettingByte(0, MODULE, "LeftClickAction", 5);
-	opt.RightClickAction = DBGetContactSettingByte(0, MODULE, "RightClickAction", 1);
+	opt.Colors = db_get_b(0,MODULE, "Colors", DEFAULT_COLORS);
+	opt.ShowGroup = db_get_b(0, MODULE, "ShowGroup", 0);
+	opt.ShowStatus = db_get_b(0, MODULE, "ShowStatus", 1);
+	opt.UseAlternativeText = db_get_b(0, MODULE, "UseAlternativeText", 0);
+	opt.ShowPreviousStatus = db_get_b(0, MODULE, "ShowPreviousStatus", 0);
+	opt.ReadAwayMsg = db_get_b(0, MODULE, "ReadAwayMsg", 0);
+	opt.PopupTimeout = db_get_dw(0, MODULE, "PopupTimeout", 0);
+	opt.LeftClickAction= db_get_b(0, MODULE, "LeftClickAction", 5);
+	opt.RightClickAction = db_get_b(0, MODULE, "RightClickAction", 1);
 	// IDD_OPT_XPOPUP
-	opt.PDisableForMusic = DBGetContactSettingByte(0, MODULE, "PDisableForMusic", 1);
-	opt.PTruncateMsg = DBGetContactSettingByte(0, MODULE, "PTruncateMsg", 0);
-	opt.PMsgLen = DBGetContactSettingDword(0, MODULE, "PMsgLen", 64);
+	opt.PDisableForMusic = db_get_b(0, MODULE, "PDisableForMusic", 1);
+	opt.PTruncateMsg = db_get_b(0, MODULE, "PTruncateMsg", 0);
+	opt.PMsgLen = db_get_dw(0, MODULE, "PMsgLen", 64);
 	// IDD_OPT_GENERAL
-	opt.FromOffline = DBGetContactSettingByte(0, MODULE, "FromOffline", 1);
-	opt.AutoDisable = DBGetContactSettingByte(0, MODULE, "AutoDisable", 1);
-	opt.HiddenContactsToo = DBGetContactSettingByte(0, MODULE, "HiddenContactsToo", 0);
-	opt.UseIndSnd = DBGetContactSettingByte(0, MODULE, "UseIndSounds", 1);
-	opt.BlinkIcon = DBGetContactSettingByte(0, MODULE, "BlinkIcon", 0);
-	opt.BlinkIcon_Status = DBGetContactSettingByte(0, MODULE, "BlinkIcon_Status", 0);
-	opt.Log = DBGetContactSettingByte(0, MODULE, "Log", 0);
+	opt.FromOffline = db_get_b(0, MODULE, "FromOffline", 1);
+	opt.AutoDisable = db_get_b(0, MODULE, "AutoDisable", 1);
+	opt.HiddenContactsToo = db_get_b(0, MODULE, "HiddenContactsToo", 0);
+	opt.UseIndSnd = db_get_b(0, MODULE, "UseIndSounds", 1);
+	opt.BlinkIcon = db_get_b(0, MODULE, "BlinkIcon", 0);
+	opt.BlinkIcon_Status = db_get_b(0, MODULE, "BlinkIcon_Status", 0);
+	opt.Log = db_get_b(0, MODULE, "Log", 0);
 	DBGetStringDefault(0, MODULE, "LogFilePath", opt.LogFilePath, MAX_PATH, _T(""));	
 	// IDD_AUTODISABLE
-	opt.OnlyGlobalChanges = DBGetContactSettingByte(0, MODULE, "OnlyGlobalChanges", 1);
-	opt.DisablePopupGlobally = DBGetContactSettingByte(0, MODULE, "DisablePopupGlobally", 1);
-	opt.DisableSoundGlobally = DBGetContactSettingByte(0, MODULE, "DisableSoundGlobally", 1);
+	opt.OnlyGlobalChanges = db_get_b(0, MODULE, "OnlyGlobalChanges", 1);
+	opt.DisablePopupGlobally = db_get_b(0, MODULE, "DisablePopupGlobally", 1);
+	opt.DisableSoundGlobally = db_get_b(0, MODULE, "DisableSoundGlobally", 1);
 	// IDD_OPT_XLOG
-	opt.EnableLogging = DBGetContactSettingByte(0, MODULE, "EnableLogging", 0);
-	opt.PreventIdentical = DBGetContactSettingByte(0, MODULE, "PreventIdentical", 1);
-	opt.KeepInHistory = DBGetContactSettingByte(0, MODULE, "KeepInHistory", 0);
-	opt.LDisableForMusic = DBGetContactSettingByte(0, MODULE, "LDisableForMusic", 1);
-	opt.LTruncateMsg = DBGetContactSettingByte(0, MODULE, "LTruncateMsg", 0);
-	opt.LMsgLen = DBGetContactSettingDword(0, MODULE, "LMsgLen", 128);
+	opt.EnableLogging = db_get_b(0, MODULE, "EnableLogging", 0);
+	opt.PreventIdentical = db_get_b(0, MODULE, "PreventIdentical", 1);
+	opt.KeepInHistory = db_get_b(0, MODULE, "KeepInHistory", 0);
+	opt.LDisableForMusic = db_get_b(0, MODULE, "LDisableForMusic", 1);
+	opt.LTruncateMsg = db_get_b(0, MODULE, "LTruncateMsg", 0);
+	opt.LMsgLen = db_get_dw(0, MODULE, "LMsgLen", 128);
 	//IDD_OPT_SMPOPUP
-	opt.IgnoreEmpty = DBGetContactSettingByte(0, MODULE, "IgnoreEmpty", 1);
-	opt.PopupOnConnect = DBGetContactSettingByte(0, MODULE, "PopupOnConnect", 0);
+	opt.IgnoreEmpty = db_get_b(0, MODULE, "IgnoreEmpty", 1);
+	opt.PopupOnConnect = db_get_b(0, MODULE, "PopupOnConnect", 0);
 	// OTHER
-	opt.TempDisabled = DBGetContactSettingByte(0, MODULE, "TempDisable", 0);
+	opt.TempDisabled = db_get_b(0, MODULE, "TempDisable", 0);
 
 	LoadTemplates();
 
@@ -103,15 +103,15 @@ void LoadOptions()
 
 void SaveTemplates()
 {
-	DBWriteContactSettingTString(0, MODULE, "TPopupDelimiter", templates.PopupDelimiter);
-	DBWriteContactSettingTString(0, MODULE, "TPopupChange", templates.PopupNewXstatus);
-	DBWriteContactSettingTString(0, MODULE, "TPopupChangeMsg", templates.PopupNewMsg);
-	DBWriteContactSettingTString(0, MODULE, "TPopupRemoval", templates.PopupRemove);
-	DBWriteContactSettingTString(0, MODULE, "TLogDelimiter", templates.LogDelimiter);
-	DBWriteContactSettingTString(0, MODULE, "TLogChange", templates.LogNewXstatus);
-	DBWriteContactSettingTString(0, MODULE, "TLogChangeMsg", templates.LogNewMsg);
-	DBWriteContactSettingTString(0, MODULE, "TLogRemoval", templates.LogRemove);
-	DBWriteContactSettingTString(0, MODULE, "TLogOpening", templates.LogOpening);
+	db_set_ws(0, MODULE, "TPopupDelimiter", templates.PopupDelimiter);
+	db_set_ws(0, MODULE, "TPopupChange", templates.PopupNewXstatus);
+	db_set_ws(0, MODULE, "TPopupChangeMsg", templates.PopupNewMsg);
+	db_set_ws(0, MODULE, "TPopupRemoval", templates.PopupRemove);
+	db_set_ws(0, MODULE, "TLogDelimiter", templates.LogDelimiter);
+	db_set_ws(0, MODULE, "TLogChange", templates.LogNewXstatus);
+	db_set_ws(0, MODULE, "TLogChangeMsg", templates.LogNewMsg);
+	db_set_ws(0, MODULE, "TLogRemoval", templates.LogRemove);
+	db_set_ws(0, MODULE, "TLogOpening", templates.LogOpening);
 	DBWriteContactSettingByte(0, MODULE, "TPopupFlags", templates.PopupFlags);
 	DBWriteContactSettingByte(0, MODULE, "TLogFlags", templates.LogFlags);
 
@@ -120,7 +120,7 @@ void SaveTemplates()
 		TCHAR str[MAX_PATH];
 		mir_sntprintf(str, SIZEOF(str), _T("%s_TSMChange"), prototemplate->ProtoName);
 		char *szstr = mir_t2a(str);
-		DBWriteContactSettingTString(0, MODULE, szstr, prototemplate->ProtoTemplate);
+		db_set_ws(0, MODULE, szstr, prototemplate->ProtoTemplate);
 	}
 }
 
@@ -148,7 +148,7 @@ void SaveOptions()
 	DBWriteContactSettingByte(0, MODULE, "BlinkIcon", opt.BlinkIcon);
 	DBWriteContactSettingByte(0, MODULE, "BlinkIcon_Status", opt.BlinkIcon_Status);
 	DBWriteContactSettingByte(0, MODULE, "Log", opt.Log);
-	DBWriteContactSettingTString(0, MODULE, "LogFilePath", opt.LogFilePath);
+	db_set_ws(0, MODULE, "LogFilePath", opt.LogFilePath);
 	// IDD_AUTODISABLE
 	DBWriteContactSettingByte(0, MODULE, "OnlyGlobalChanges", opt.OnlyGlobalChanges);
 	DBWriteContactSettingByte(0, MODULE, "DisablePopupGlobally", opt.DisablePopupGlobally);
@@ -193,7 +193,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) 
 			{
 				wsprintfA(status, "%d", i);
-				CheckDlgButton(hwndDlg, i, DBGetContactSettingByte(0, MODULE, status, 1));
+				CheckDlgButton(hwndDlg, i, db_get_b(0, MODULE, status, 1));
 			}
 			CheckDlgButton(hwndDlg, IDC_CHK_FROMOFFLINE, opt.FromOffline);
 
@@ -346,7 +346,7 @@ INT_PTR CALLBACK DlgProcPopUpOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			WORD idCtrl = LOWORD(wParam);
 			if (HIWORD(wParam) == CPN_COLOURCHANGED) 
 			{
-				if(idCtrl > 40070)
+				if (idCtrl > 40070)
 				{
 					COLORREF colour = SendDlgItemMessage(hwndDlg, idCtrl, CPM_GETCOLOUR, 0, 0);
 					if ((idCtrl > 41070) && (idCtrl < 42070)) //Text colour
@@ -502,13 +502,13 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) 
 			{
 				wsprintfA(str, "p%d", i);
-				CheckDlgButton(hwndDlg, i, DBGetContactSettingByte(0, MODULE, str, 0));
+				CheckDlgButton(hwndDlg, i, db_get_b(0, MODULE, str, 0));
 			}
 
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) 
 			{
 				wsprintfA(str, "s%d", i);
-				CheckDlgButton(hwndDlg, (i+2000),DBGetContactSettingByte(NULL, MODULE, str, 0));
+				CheckDlgButton(hwndDlg, (i+2000),db_get_b(NULL, MODULE, str, 0));
 			}
 
 			return TRUE;
@@ -771,7 +771,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				char dbSetting[128];
 				mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", protos[i]->szModuleName);
-				ListView_SetCheckState(hList, lvItem.iItem, DBGetContactSettingByte(NULL, MODULE, dbSetting, TRUE));
+				ListView_SetCheckState(hList, lvItem.iItem, db_get_b(NULL, MODULE, dbSetting, TRUE));
 				lvItem.iItem++;
 			}
 			if (lvItem.iItem)

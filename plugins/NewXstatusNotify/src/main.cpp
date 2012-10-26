@@ -4,19 +4,19 @@
 	Copyright (c) 2005-2007 Vasilich
 	Copyright (c) 2007-2011 yaho
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "common.h"
@@ -29,9 +29,7 @@
 
 HINSTANCE hInst;
 
-
 LIST<DBEVENT> eventList( 10 );
-LIST<XSTATUSCHANGE> xstatusList( 10 );
 
 HANDLE hStatusModeChange, hServiceMenu, hHookContactStatusChanged, hEnableDisableMenu;
 HANDLE hToolbarButton;
@@ -73,16 +71,14 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_USERONL
 BYTE GetGender(HANDLE hContact)
 {
 	char *szProto =(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	if (szProto)
-	{
-		switch (DBGetContactSettingByte(hContact, szProto, "Gender", 0))
-		{
-			case 'M': case 'm':
-				return GENDER_MALE;
-			case 'F': case 'f':
-				return GENDER_FEMALE;
-			default:
-				return GENDER_UNSPECIFIED;
+	if (szProto) {
+		switch (db_get_b(hContact, szProto, "Gender", 0)) {
+		case 'M': case 'm':
+			return GENDER_MALE;
+		case 'F': case 'f':
+			return GENDER_FEMALE;
+		default:
+			return GENDER_UNSPECIFIED;
 		}
 	}
 
@@ -96,43 +92,12 @@ HANDLE GetIconHandle(char *szIcon)
 	return (HANDLE)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)szSettingName);
 }
 
-__inline void AddXSC(XSTATUSCHANGE *xsc)
-{
-	xstatusList.insert(xsc);
-}
-
-__inline void RemoveXSC(XSTATUSCHANGE *xsc)
-{
-	int id = xstatusList.getIndex(xsc);
-	if (id != -1)
-		xstatusList.remove(id);
-}
-
-XSTATUSCHANGE *FindXSC(HANDLE hContact)
-{
-	for (int i = 0; i < xstatusList.getCount(); i++) {
-		XSTATUSCHANGE* xsc = xstatusList[i];
-		if (xsc->hContact == hContact)
-			return xsc;
-	}
-
-	return NULL;
-}
-
-XSTATUSCHANGE *FindAndRemoveXSC(HANDLE hContact)
-{
-	XSTATUSCHANGE *result = FindXSC(hContact);
-	if (result) RemoveXSC(result);
-	return result;
-}
-
 bool IsNewExtraStatus(HANDLE hContact, char *szSetting, TCHAR *newStatusTitle)
 {
 	DBVARIANT dbv;
 	bool result = true;
 
-	if (!DBGetContactSettingTString(hContact, MODULE, szSetting, &dbv))
-	{
+	if ( !DBGetContactSettingTString(hContact, MODULE, szSetting, &dbv)) {
 		result = _tcscmp(newStatusTitle, dbv.ptszVal) ? true : false;
 		DBFreeVariant(&dbv);
 	}
@@ -145,97 +110,62 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 	XSTATUSCHANGE *xsc;
 	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 
-	if (ProtoServiceExists(szProto, JS_PARSE_XMPP_URI))
-	{
+	if ( ProtoServiceExists(szProto, JS_PARSE_XMPP_URI)) {
 		if (cws->value.type == DBVT_DELETED)
 			return 0;
 
 		if (hContact == NULL)
 			return 0;
 
-		if (strstr(cws->szSetting, "/mood/") || strstr(cws->szSetting, "/activity/")) // Jabber mood or activity changed
-		{
+		if (strstr(cws->szSetting, "/mood/") || strstr(cws->szSetting, "/activity/")) { // Jabber mood or activity changed
 			char *szSetting;
 			int type;
 
-			if (strstr(cws->szSetting, "/mood/"))
-			{
+			if (strstr(cws->szSetting, "/mood/")) {
 				type = TYPE_JABBER_MOOD;
 				szSetting = "LastJabberMood";
 			}
-			else
-			{
+			else {
 				type = TYPE_JABBER_ACTIVITY;
 				szSetting = "LastJabberActivity";
 			}
 
-			if (strstr(cws->szSetting, "title"))
-			{
+			if (strstr(cws->szSetting, "title")) {
 				TCHAR *stzValue = db2t(&cws->value);
-				if (stzValue)
-				{
-					if (!IsNewExtraStatus(hContact, szSetting, stzValue))
-					{
+				if (stzValue) {
+					if ( !IsNewExtraStatus(hContact, szSetting, stzValue)) {
 						mir_free(stzValue);
 						return 0;
 					}
 
 					xsc = NewXSC(hContact, szProto, type, NOTIFY_NEW_XSTATUS, stzValue, NULL);
-					DBWriteContactSettingTString(hContact, MODULE, szSetting, stzValue);
+					db_set_ws(hContact, MODULE, szSetting, stzValue);
 				}
-				else
-				{
+				else {
 					xsc = NewXSC(hContact, szProto, type, NOTIFY_REMOVE, NULL, NULL);
-					DBWriteContactSettingTString(hContact, MODULE, szSetting, _T(""));
+					db_set_ws(hContact, MODULE, szSetting, _T(""));
 				}
 
-				AddXSC(xsc);
-				if (xsc != NULL)
-				{
-					ExtraStatusChanged(xsc);
-					FreeXSC(xsc);
-				}
+				ExtraStatusChanged(xsc);
 			}
-			else if (strstr(cws->szSetting, "text"))
-			{
-				xsc = FindAndRemoveXSC(hContact);
+			else if (strstr(cws->szSetting, "text")) {
 				TCHAR *stzValue = db2t(&cws->value);
-				if (stzValue)
-				{
-					if (xsc != NULL)
-						xsc->stzText = stzValue;
-					else
-						xsc = NewXSC(hContact, szProto, type, NOTIFY_NEW_MESSAGE, NULL, stzValue);
-				}
-
-				if (xsc != NULL)
-				{
-					ExtraStatusChanged(xsc);
-					FreeXSC(xsc);
-				}
+				xsc = NewXSC(hContact, szProto, type, NOTIFY_NEW_MESSAGE, NULL, stzValue);
+				ExtraStatusChanged(xsc);
 			}
 
 			return 1;
 		}
 	}
-	else if (strstr(cws->szSetting, "XStatus") || strcmp(cws->szSetting, "StatusNote") == 0)
-	{
-		if (strcmp(cws->szSetting, "XStatusName") == 0)
-		{
-			xsc = FindAndRemoveXSC(hContact);
-			if (xsc) FreeXSC(xsc);
-
+	else if (strstr(cws->szSetting, "XStatus") || strcmp(cws->szSetting, "StatusNote") == 0) {
+		if (strcmp(cws->szSetting, "XStatusName") == 0) {
 			if (cws->value.type == DBVT_DELETED)
-			{
 				xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, NOTIFY_REMOVE, NULL, NULL);
-			}
-			else
-			{
+			else {
 				TCHAR *stzValue = db2t(&cws->value);
-				if (!stzValue)
-				{
+				if ( !stzValue) {
 					TCHAR buff[64];
-					int statusID = DBGetContactSettingByte(hContact, szProto, "XStatusId", -1);
+					int statusID = db_get_b(hContact, szProto, "XStatusId", -1);
 					GetDefaultXstatusName(statusID, szProto, buff, SIZEOF(buff));
 					stzValue = mir_tstrdup(buff);
 				}
@@ -243,35 +173,15 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 				xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, NOTIFY_NEW_XSTATUS, stzValue, NULL);
 			}
 
-			AddXSC(xsc);
-			if (xsc != NULL)
-			{
-				ExtraStatusChanged(xsc);
-				FreeXSC(xsc);
-			}
+			ExtraStatusChanged(xsc);
 		}
-		else if (strstr(cws->szSetting, "XStatusMsg") || strcmp(cws->szSetting, "StatusNote") == 0)
-		{
+		else if (strstr(cws->szSetting, "XStatusMsg") || strcmp(cws->szSetting, "StatusNote") == 0) {
 			if (cws->value.type == DBVT_DELETED)
 				return 1;
 
 			TCHAR *stzValue = db2t(&cws->value);
-			xsc = FindXSC(hContact);
-			if (xsc)
-			{
-				if (xsc->action == NOTIFY_NEW_XSTATUS)
-					xsc->stzText = stzValue;
-			}
-			else
-			{
-				xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, NOTIFY_NEW_MESSAGE, NULL, stzValue);
-				AddXSC(xsc);
-			}
-			if (xsc != NULL)
-			{
-				ExtraStatusChanged(xsc);
-				FreeXSC(xsc);
-			}
+			xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, NOTIFY_NEW_MESSAGE, NULL, stzValue);
+			ExtraStatusChanged(xsc);
 		}
 
 		return 1;
@@ -312,64 +222,56 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new) 
 	DBVARIANT dbv_old;
 	int ret;
 
-	switch (cws_new->value.type)
-	{
-		case DBVT_DELETED:
-			smi->newstatusmsg = NULL;
-			break;
-		case DBVT_ASCIIZ:
+	switch (cws_new->value.type) {
+	case DBVT_DELETED:
+		smi->newstatusmsg = NULL;
+		break;
 
-			smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(cws_new->value.pszVal, CP_ACP));
-			break;
-		case DBVT_UTF8:
-			smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(cws_new->value.pszVal, CP_UTF8));
-			break;
-		case DBVT_WCHAR:
-			smi->newstatusmsg = (CheckStrW(cws_new->value.pwszVal, 0, 1) ? NULL : mir_wstrdup(cws_new->value.pwszVal));
+	case DBVT_ASCIIZ:
+		smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(cws_new->value.pszVal, CP_ACP));
+		break;
 
-			break;
-		default:
-			smi->newstatusmsg = NULL;
-			break;
+	case DBVT_UTF8:
+		smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(cws_new->value.pszVal, CP_UTF8));
+		break;
+
+	case DBVT_WCHAR:
+		smi->newstatusmsg = (CheckStrW(cws_new->value.pwszVal, 0, 1) ? NULL : mir_wstrdup(cws_new->value.pwszVal));
+		break;
+
+	default:
+		smi->newstatusmsg = NULL;
+		break;
 	}
 
-	if (!
+	if ( !DBGetContactSettingW(smi->hContact, "UserOnline", "OldStatusMsg", &dbv_old)) {
+		switch (dbv_old.type) {
+		case DBVT_ASCIIZ:
+			smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(dbv_old.pszVal, CP_ACP));
+			break;
 
-	DBGetContactSettingW(smi->hContact, "UserOnline", "OldStatusMsg", &dbv_old)
+		case DBVT_UTF8:
+			smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(dbv_old.pszVal, CP_UTF8));
+			break;
 
-	)
-	{
-		switch (dbv_old.type)
-		{
-			case DBVT_ASCIIZ:
+		case DBVT_WCHAR:
+			smi->oldstatusmsg = (CheckStrW(dbv_old.pwszVal, 0, 1) ? NULL : mir_wstrdup(dbv_old.pwszVal));
+			break;
 
-				smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(dbv_old.pszVal, CP_ACP));
-				break;
-			case DBVT_UTF8:
-				smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(dbv_old.pszVal, CP_UTF8));
-				break;
-			case DBVT_WCHAR:
-				smi->oldstatusmsg = (CheckStrW(dbv_old.pwszVal, 0, 1) ? NULL : mir_wstrdup(dbv_old.pwszVal));
-
-				break;
-			default:
-				smi->oldstatusmsg = NULL;
-				break;
+		default:
+			smi->oldstatusmsg = NULL;
+			break;
 		}
 
-		if (cws_new->value.type == DBVT_DELETED)
-			if (
-
-				dbv_old.type == DBVT_WCHAR)
+		if (cws_new->value.type == DBVT_DELETED) {
+			if (dbv_old.type == DBVT_WCHAR)
 				ret = CheckStrW(dbv_old.pwszVal, 2, 0);
-			else if (dbv_old.type == DBVT_UTF8 ||
-
-				dbv_old.type == DBVT_ASCIIZ)
+			else if (dbv_old.type == DBVT_UTF8 || dbv_old.type == DBVT_ASCIIZ)
 				ret = CheckStr(dbv_old.pszVal, 2, 0);
 			else
 				ret = 2;
+		}
 		else if (dbv_old.type != cws_new->value.type)
-
 			ret = (lstrcmpW(smi->newstatusmsg, smi->oldstatusmsg) ? CheckStrW(smi->newstatusmsg, 1, 2) : 0);
 
 		else if (dbv_old.type == DBVT_ASCIIZ)
@@ -377,21 +279,18 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new) 
 
 		else if (dbv_old.type == DBVT_UTF8)
 			ret = (lstrcmpA(cws_new->value.pszVal, dbv_old.pszVal) ? CheckStr(cws_new->value.pszVal, 1, 2) : 0);
+
 		else if (dbv_old.type == DBVT_WCHAR)
 			ret = (lstrcmpW(cws_new->value.pwszVal, dbv_old.pwszVal) ? CheckStrW(cws_new->value.pwszVal, 1, 2) : 0);
 
 		DBFreeVariant(&dbv_old);
 	}
-	else
-	{
+	else {
 		if (cws_new->value.type == DBVT_DELETED)
 			ret = 0;
-		else if (
-
-			cws_new->value.type == DBVT_WCHAR)
+		else if (cws_new->value.type == DBVT_WCHAR)
 			ret = CheckStrW(cws_new->value.pwszVal, 1, 0);
 		else if (cws_new->value.type == DBVT_UTF8 ||
-
 			cws_new->value.type == DBVT_ASCIIZ)
 			ret = CheckStr(cws_new->value.pszVal, 1, 0);
 		else
@@ -418,7 +317,8 @@ BOOL TimeoutCheck()
 	return FALSE;
 }
 
-TCHAR* AddCR(const TCHAR *statusmsg) {
+TCHAR* AddCR(const TCHAR *statusmsg)
+{
 	TCHAR *tmp;
 	const TCHAR *found;
 	int i = 0, len = lstrlen(statusmsg), j;
@@ -426,26 +326,25 @@ TCHAR* AddCR(const TCHAR *statusmsg) {
 	*tmp = _T('\0');
 	while((found = _tcsstr((statusmsg + i), _T("\n"))) != NULL && _tcslen(tmp) + 1 < 1024){
 		j = (int)(found - statusmsg);
-		if(lstrlen(tmp) + j - i + 2 < 1024){
+		if (lstrlen(tmp) + j - i + 2 < 1024)
 			tmp = _tcsncat(tmp, statusmsg + i, j - i);
-		}
-		else {
+		else
 			break;
-		}
-		if(j == 0 || *(statusmsg + j - 1) != _T('\r')) {
+
+		if (j == 0 || *(statusmsg + j - 1) != _T('\r'))
 			tmp = lstrcat(tmp, _T("\r"));
-		}
+
 		tmp = lstrcat(tmp, _T("\n"));
 		i = j + 1;
 	}
-	if(lstrlen(tmp) + len - i + 1 < 1024){
+	if (lstrlen(tmp) + len - i + 1 < 1024)
 		tmp = lstrcat(tmp, statusmsg + i);
-	}
 
 	return tmp;
 }
 
-TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt) {
+TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
+{
 	TCHAR tmp[1024];
 	TCHAR *str;
 	int i;
@@ -458,77 +357,68 @@ TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt) {
 	str[0] = _T('\0');
 	len = lstrlen(tmplt);
 
-	for (i = 0; i < len; i++)
-	{
+	for (i = 0; i < len; i++) {
 		tmp[0] = _T('\0');
 
-		if (tmplt[i] == _T('%'))
-		{
+		if (tmplt[i] == _T('%')) {
 			i++;
-			switch (tmplt[i])
-			{
-				case 'n':
-					if (n->compare == 2 || _tcscmp(n->newstatusmsg, TranslateT("<no status message>")) == 0)
-						lstrcpyn(tmp, TranslateT("<no status message>"), SIZEOF(tmp));
-					else {
-						TCHAR *_tmp = AddCR(n->newstatusmsg);
-						lstrcpyn(tmp, _tmp, SIZEOF(tmp));
-						mir_free(_tmp);
-					}
-					break;
-				case 'o':
-					if (n->oldstatusmsg == NULL || n->oldstatusmsg[0] == _T('\0') || _tcscmp(n->oldstatusmsg, TranslateT("<no status message>")) == 0)
-						lstrcpyn(tmp, TranslateT("<no status message>"), SIZEOF(tmp));
-					else {
-						TCHAR *_tmp = AddCR(n->oldstatusmsg);
-						lstrcpyn(tmp, _tmp, SIZEOF(tmp));
-						mir_free(_tmp);
-					}
-					break;
-				case 'c':
-					if (n->cust == NULL || n->cust[0] == _T('\0')) lstrcpyn(tmp, TranslateT("Contact"), SIZEOF(tmp));
-					else lstrcpyn(tmp, n->cust, SIZEOF(tmp));
-					break;
-				default:
-					//lstrcpyn(tmp, _T("%"), TMPMAX);
-					i--;
-					tmp[0] = tmplt[i]; tmp[1] = _T('\0');
-					break;
-			}
-		}
-		else if (tmplt[i] == _T('\\'))
-		{
-			i++;
-			switch (tmplt[i])
-			{
-				case 'n':
-					//_tcscat_s(tmp, TMPMAX, _T("\r\n"));
-					tmp[0] = _T('\r'); tmp[1] = _T('\n'); tmp[2] = _T('\0');
-					break;
-				case 't':
-					//_tcscat_s(tmp, TMPMAX, _T("\t"));
-					tmp[0] = _T('\t'); tmp[1] = _T('\0');
-					break;
-				default:
-					//lstrcpyn(tmp, _T("\\"), TMPMAX);
-					i--;
-					tmp[0] = tmplt[i]; tmp[1] = _T('\0');
-					break;
-			}
-		}
-		else
-		{
-			tmp[0] = tmplt[i]; tmp[1] = _T('\0');
-		}
+			switch (tmplt[i]) {
+			case 'n':
+				if (n->compare == 2 || _tcscmp(n->newstatusmsg, TranslateT("<no status message>")) == 0)
+					lstrcpyn(tmp, TranslateT("<no status message>"), SIZEOF(tmp));
+				else {
+					TCHAR *_tmp = AddCR(n->newstatusmsg);
+					lstrcpyn(tmp, _tmp, SIZEOF(tmp));
+					mir_free(_tmp);
+				}
+				break;
 
-		if (tmp[0] != _T('\0'))
-		{
-			if (lstrlen(tmp) + lstrlen(str) < 2044)
-			{
-				lstrcat(str, tmp);
+			case 'o':
+				if (n->oldstatusmsg == NULL || n->oldstatusmsg[0] == _T('\0') || _tcscmp(n->oldstatusmsg, TranslateT("<no status message>")) == 0)
+					lstrcpyn(tmp, TranslateT("<no status message>"), SIZEOF(tmp));
+				else {
+					TCHAR *_tmp = AddCR(n->oldstatusmsg);
+					lstrcpyn(tmp, _tmp, SIZEOF(tmp));
+					mir_free(_tmp);
+				}
+				break;
+
+			case 'c':
+				if (n->cust == NULL || n->cust[0] == _T('\0')) lstrcpyn(tmp, TranslateT("Contact"), SIZEOF(tmp));
+				else lstrcpyn(tmp, n->cust, SIZEOF(tmp));
+				break;
+
+			default:
+				//lstrcpyn(tmp, _T("%"), TMPMAX);
+				i--;
+				tmp[0] = tmplt[i], tmp[1] = _T('\0');
+				break;
 			}
-			else
-			{
+		}
+		else if (tmplt[i] == _T('\\')) {
+			i++;
+			switch (tmplt[i]) {
+			case 'n':
+				//_tcscat_s(tmp, TMPMAX, _T("\r\n"));
+				tmp[0] = _T('\r'), tmp[1] = _T('\n'), tmp[2] = _T('\0');
+				break;
+			case 't':
+				//_tcscat_s(tmp, TMPMAX, _T("\t"));
+				tmp[0] = _T('\t'), tmp[1] = _T('\0');
+				break;
+			default:
+				//lstrcpyn(tmp, _T("\\"), TMPMAX);
+				i--;
+				tmp[0] = tmplt[i], tmp[1] = _T('\0');
+				break;
+			}
+		}
+		else tmp[0] = tmplt[i], tmp[1] = _T('\0');
+
+		if (tmp[0] != _T('\0')) {
+			if (lstrlen(tmp) + lstrlen(str) < 2044)
+				lstrcat(str, tmp);
+			else {
 				lstrcat(str, _T("..."));
 				break;
 			}
@@ -540,18 +430,17 @@ TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt) {
 
 int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 {
-	if (strcmp(cws->szSetting, "Status") == 0)
-	{
+	if ( !strcmp(cws->szSetting, "Status")) {
 		WORD newStatus = cws->value.wVal;
 		if (newStatus < ID_STATUS_MIN || newStatus > ID_STATUS_MAX)
 			return 0;
 
 		DBVARIANT dbv;
-		if (!DBGetContactSettingString(hContact, "Protocol", "p", &dbv))
-		{
+		if ( !DBGetContactSettingString(hContact, "Protocol", "p", &dbv)) {
 			BOOL temp = strcmp(cws->szModule, dbv.pszVal) != 0;
 			DBFreeVariant(&dbv);
-			if (temp) return 0;
+			if (temp)
+				return 0;
 		}
 
 		WORD oldStatus = DBGetContactSettingRangedWord(hContact, "UserOnline", "OldStatus", ID_STATUS_OFFLINE, ID_STATUS_MIN, ID_STATUS_MAX);
@@ -570,8 +459,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 		return 1;
 	}
 
-	if (!lstrcmpA(cws->szModule, "CList") && !lstrcmpA(cws->szSetting, "StatusMsg"))
-	{
+	if ( !strcmp(cws->szModule, "CList") && !strcmp(cws->szSetting, "StatusMsg")) {
 		STATUSMSGINFO smi;
 		BOOL retem = TRUE, rettime = TRUE;
 
@@ -581,49 +469,33 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 			mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", dbv.pszVal);
 			db_free(&dbv);
 			
-			if (!DBGetContactSettingByte(NULL, MODULE, dbSetting, 1))
+			if (!db_get_b(NULL, MODULE, dbSetting, 1))
 				return 0;
 		}
 		smi.proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 
 		//don't show popup when mradio connecting and disconnecting
-		if (_stricmp(smi.proto, "mRadio") == 0 && !cws->value.type == DBVT_DELETED)
-		{
+		if (_stricmp(smi.proto, "mRadio") == 0 && !cws->value.type == DBVT_DELETED) {
 			TCHAR buf[MAX_PATH];
 			mir_sntprintf(buf, SIZEOF(buf), _T(" (%s)"), TranslateT("connecting"));
-			char* pszUtf = mir_utf8encodeT(buf);
+			mir_ptr<char> pszUtf( mir_utf8encodeT(buf));
 			mir_sntprintf(buf, SIZEOF(buf), _T(" (%s)"), TranslateT("aborting"));
-			char* pszUtf2 = mir_utf8encodeT(buf);
+			mir_ptr<char> pszUtf2( mir_utf8encodeT(buf));
 			mir_sntprintf(buf, SIZEOF(buf), _T(" (%s)"), TranslateT("playing"));
-			char* pszUtf3 = mir_utf8encodeT(buf);
+			mir_ptr<char> pszUtf3( mir_utf8encodeT(buf));
 			if (_stricmp(cws->value.pszVal, pszUtf) == 0 || _stricmp(cws->value.pszVal, pszUtf2) == 0 || _stricmp(cws->value.pszVal, pszUtf3) == 0)
-			{
-				mir_free(pszUtf);
-				mir_free(pszUtf2);
-				mir_free(pszUtf3);
 				return 0;
-			}
-			else
-			{
-				mir_free(pszUtf);
-				mir_free(pszUtf2);
-				mir_free(pszUtf3);
-			}
 		}
 
-		if (smi.proto != NULL && CallProtoService(smi.proto, PS_GETSTATUS, 0, 0) != ID_STATUS_OFFLINE)
-		{
+		if (smi.proto != NULL && CallProtoService(smi.proto, PS_GETSTATUS, 0, 0) != ID_STATUS_OFFLINE) {
 			smi.hContact = hContact;
 			smi.compare = CompareStatusMsg(&smi, cws);
 			if ((smi.compare == 0) || (opt.IgnoreEmpty && (smi.compare == 2)))
 				return FreeSmiStr(&smi);
 
 			if (cws->value.type == DBVT_DELETED)
-			{
 				DBDeleteContactSetting(smi.hContact, "UserOnline", "OldStatusMsg");
-			}
-			else
-			{
+			else {
 				DBCONTACTWRITESETTING cws_old;
 				cws_old.szModule = "UserOnline";
 				cws_old.szSetting = "OldStatusMsg";
@@ -639,8 +511,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 
 			char status[8];
 			mir_snprintf(status, SIZEOF(status), "%d", IDC_CHK_STATUS_MESSAGE);
-			if (DBGetContactSettingByte(hContact, MODULE, "EnablePopups", 1) && DBGetContactSettingByte(0, MODULE, status, 1) && retem && rettime)
-			{
+			if ( db_get_b(hContact, MODULE, "EnablePopups", 1) && db_get_b(0, MODULE, status, 1) && retem && rettime) {
 				POPUPDATAT ppd = {0};
 				char* protoname = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)smi.hContact, 0);
 				PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)protoname);
@@ -650,34 +521,29 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 				TCHAR *str;
 				DBVARIANT dbVar = {0};
 				DBGetContactSettingTString(NULL, MODULE, protoname, &dbVar);
-				if (lstrcmp(dbVar.ptszVal, NULL) == 0)
-				{
+				if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
 					DBFreeVariant(&dbVar);
 					str = GetStr(&smi, TranslateT(DEFAULT_POPUP_STATUSMESSAGE));
 				}
-				else
-				{
-					str = GetStr(&smi, dbVar.ptszVal);
-				}
+				else str = GetStr(&smi, dbVar.ptszVal);
 				mir_free(protoname);
 
 				ppd.lchContact = smi.hContact;
 				ppd.lchIcon = LoadSkinnedProtoIcon(smi.proto, DBGetContactSettingWord(smi.hContact, smi.proto, "Status", ID_STATUS_ONLINE));
 				lstrcpyn(ppd.lptzContactName, smi.cust, MAX_CONTACTNAME);
 				lstrcpyn(ppd.lptzText, str, MAX_SECONDLINE);
-				switch (opt.Colors)
-				{
-					case POPUP_COLOR_OWN:
-						ppd.colorBack = StatusList[Index(DBGetContactSettingWord(smi.hContact, smi.proto, "Status", ID_STATUS_ONLINE))].colorBack;
-						ppd.colorText = StatusList[Index(DBGetContactSettingWord(smi.hContact, smi.proto, "Status", ID_STATUS_ONLINE))].colorText;
-						break;
-					case POPUP_COLOR_WINDOWS:
-						ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-						ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-						break;
-					case POPUP_COLOR_POPUP:
-						ppd.colorBack = ppd.colorText = 0;
-						break;
+				switch (opt.Colors) {
+				case POPUP_COLOR_OWN:
+					ppd.colorBack = StatusList[Index(DBGetContactSettingWord(smi.hContact, smi.proto, "Status", ID_STATUS_ONLINE))].colorBack;
+					ppd.colorText = StatusList[Index(DBGetContactSettingWord(smi.hContact, smi.proto, "Status", ID_STATUS_ONLINE))].colorText;
+					break;
+				case POPUP_COLOR_WINDOWS:
+					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+					break;
+				case POPUP_COLOR_POPUP:
+					ppd.colorBack = ppd.colorText = 0;
+					break;
 				}
 				ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 				ppd.PluginData = NULL;
@@ -695,9 +561,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	HANDLE hContact = (HANDLE)wParam;
-
 	if (hContact == NULL)
 		return 0;
 
@@ -705,11 +569,10 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (szProto == NULL)
 		return 0;
 
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	if (DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-	{
 		if (ProcessExtraStatus(cws, hContact))
 			return 0;
-	}
 
 	ProcessStatus(cws, hContact);
 	return 0;
@@ -718,29 +581,23 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 {
 	char *szProto = (char *)lParam;
-	if (opt.AutoDisable && (!opt.OnlyGlobalChanges || szProto == NULL))
-	{
-		if (opt.DisablePopupGlobally && ServiceExists(MS_POPUP_QUERY))
-		{
+	if (opt.AutoDisable && (!opt.OnlyGlobalChanges || szProto == NULL)) {
+		if (opt.DisablePopupGlobally && ServiceExists(MS_POPUP_QUERY)) {
 			char szSetting[12];
 			wsprintfA(szSetting, "p%d", wParam);
-			BYTE hlpDisablePopup = DBGetContactSettingByte(0, MODULE, szSetting, 0);
+			BYTE hlpDisablePopup = db_get_b(0, MODULE, szSetting, 0);
 
-			if (hlpDisablePopup != opt.PopupAutoDisabled)
-			{
+			if (hlpDisablePopup != opt.PopupAutoDisabled) {
 				BYTE hlpPopupStatus = (BYTE)CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
 				opt.PopupAutoDisabled = hlpDisablePopup;
 
-				if (hlpDisablePopup)
-				{
+				if (hlpDisablePopup) {
 					DBWriteContactSettingByte(0, MODULE, "OldPopupStatus", hlpPopupStatus);
 					CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
 				}
-				else
-				{
-					if (hlpPopupStatus == FALSE)
-					{
-						if (DBGetContactSettingByte(0, MODULE, "OldPopupStatus", TRUE) == TRUE)
+				else {
+					if (hlpPopupStatus == FALSE) {
+						if (db_get_b(0, MODULE, "OldPopupStatus", TRUE) == TRUE)
 							CallService(MS_POPUP_QUERY, PUQS_ENABLEPOPUPS, 0);
 						else
 							CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
@@ -749,26 +606,22 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 			}
 		}
 
-		if (opt.DisableSoundGlobally)
-		{
+		if (opt.DisableSoundGlobally) {
 			char szSetting[12];
 			wsprintfA(szSetting, "s%d", wParam);
-			BYTE hlpDisableSound = DBGetContactSettingByte(0, MODULE, szSetting, 0);
+			BYTE hlpDisableSound = db_get_b(0, MODULE, szSetting, 0);
 
-			if (hlpDisableSound != opt.SoundAutoDisabled)
-			{
-				BYTE hlpUseSound = DBGetContactSettingByte(NULL, "Skin", "UseSound", 1);
+			if (hlpDisableSound != opt.SoundAutoDisabled) {
+				BYTE hlpUseSound = db_get_b(NULL, "Skin", "UseSound", 1);
 				opt.SoundAutoDisabled = hlpDisableSound;
 
-				if (hlpDisableSound)
-				{
+				if (hlpDisableSound) {
 					DBWriteContactSettingByte(0, MODULE, "OldUseSound", hlpUseSound);
 					DBWriteContactSettingByte(0, "Skin", "UseSound", FALSE);
 				}
-				else
-				{
+				else {
 					if (hlpUseSound == FALSE)
-						DBWriteContactSettingByte(0, "Skin", "UseSound", DBGetContactSettingByte(0, MODULE, "OldUseSound", 1));
+						DBWriteContactSettingByte(0, "Skin", "UseSound", db_get_b(0, MODULE, "OldUseSound", 1));
 				}
 			}
 		}
@@ -787,11 +640,9 @@ void ShowStatusChangePopup(HANDLE hContact, char *szProto, WORD oldStatus, WORD 
 	ppd.lchIcon = LoadSkinnedProtoIcon(szProto, newStatus);
 	_tcscpy(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GSMDF_TCHAR));
 
-	if (opt.ShowGroup) //add group name to popup title
-	{
+	if (opt.ShowGroup) { //add group name to popup title
 		DBVARIANT dbv;
-		if (!DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
-		{
+		if (!DBGetContactSettingTString(hContact, "CList", "Group", &dbv)) {
 			_tcscat(ppd.lptzContactName, _T(" ("));
 			_tcscat(ppd.lptzContactName, dbv.ptszVal);
 			_tcscat(ppd.lptzContactName, _T(")"));
@@ -799,58 +650,46 @@ void ShowStatusChangePopup(HANDLE hContact, char *szProto, WORD oldStatus, WORD 
 		}
 	}
 
-	if (opt.ShowStatus)
-	{
-		if (opt.UseAlternativeText)
-		{
-			switch (GetGender(hContact))
-			{
-				case GENDER_MALE:
-					_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzMStatusText, MAX_STATUSTEXT);
-					break;
-				case GENDER_FEMALE:
-					_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzFStatusText, MAX_STATUSTEXT);
-					break;
-				case GENDER_UNSPECIFIED:
-					_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzUStatusText, MAX_STATUSTEXT);
-					break;
+	if (opt.ShowStatus) {
+		if (opt.UseAlternativeText) {
+			switch (GetGender(hContact)) {
+			case GENDER_MALE:
+				_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzMStatusText, MAX_STATUSTEXT);
+				break;
+			case GENDER_FEMALE:
+				_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzFStatusText, MAX_STATUSTEXT);
+				break;
+			case GENDER_UNSPECIFIED:
+				_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzUStatusText, MAX_STATUSTEXT);
+				break;
 			}
 		}
-		else
-		{
-			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzStandardText, MAX_STATUSTEXT);
-		}
+		else _tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzStandardText, MAX_STATUSTEXT);
 
-		if (opt.ShowPreviousStatus)
-		{
+		if (opt.ShowPreviousStatus) {
 			TCHAR buff[MAX_STATUSTEXT];
 			wsprintf(buff, TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(oldStatus)].lpzStandardText);
 			_tcscat(_tcscat(stzStatusText, _T(" ")), buff);
 		}
 	}
 
-	if (opt.ReadAwayMsg &&
-		myStatus != ID_STATUS_INVISIBLE &&
-		StatusHasAwayMessage(szProto, newStatus))
-	{
-		DBWriteContactSettingTString(hContact, MODULE, "LastPopupText", stzStatusText);
-	}
+	if (opt.ReadAwayMsg && myStatus != ID_STATUS_INVISIBLE && StatusHasAwayMessage(szProto, newStatus))
+		db_set_ws(hContact, MODULE, "LastPopupText", stzStatusText);
 
 	_tcscpy(ppd.lptzText, stzStatusText);
 
-	switch (opt.Colors)
-	{
-		case POPUP_COLOR_OWN:
-			ppd.colorBack = StatusList[Index(newStatus)].colorBack;
-			ppd.colorText = StatusList[Index(newStatus)].colorText;
-			break;
-		case POPUP_COLOR_WINDOWS:
-			ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-			ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-			break;
-		case POPUP_COLOR_POPUP:
-			ppd.colorBack = ppd.colorText = 0;
-			break;
+	switch (opt.Colors) {
+	case POPUP_COLOR_OWN:
+		ppd.colorBack = StatusList[Index(newStatus)].colorBack;
+		ppd.colorText = StatusList[Index(newStatus)].colorText;
+		break;
+	case POPUP_COLOR_WINDOWS:
+		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+		break;
+	case POPUP_COLOR_POPUP:
+		ppd.colorBack = ppd.colorText = 0;
+		break;
 	}
 
 	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
@@ -889,23 +728,18 @@ void BlinkIcon(HANDLE hContact, char* szProto, WORD status)
 void PlayChangeSound(HANDLE hContact, WORD oldStatus, WORD newStatus)
 {
 	DBVARIANT dbv;
-	if (opt.UseIndSnd)
-	{
+	if (opt.UseIndSnd) {
 		TCHAR stzSoundFile[MAX_PATH] = {0};
-		if (!DBGetContactSettingTString(hContact, MODULE, "UserFromOffline", &dbv) &&
-			oldStatus == ID_STATUS_OFFLINE)
-		{
+		if (!DBGetContactSettingTString(hContact, MODULE, "UserFromOffline", &dbv) && oldStatus == ID_STATUS_OFFLINE) {
 			_tcscpy(stzSoundFile, dbv.ptszVal);
 			DBFreeVariant(&dbv);
 		}
-		else if (!DBGetContactSettingTString(hContact, MODULE, StatusList[Index(newStatus)].lpzSkinSoundName, &dbv))
-		{
+		else if (!DBGetContactSettingTString(hContact, MODULE, StatusList[Index(newStatus)].lpzSkinSoundName, &dbv)) {
 			lstrcpy(stzSoundFile, dbv.ptszVal);
 			DBFreeVariant(&dbv);
 		}
 
-		if (stzSoundFile[0])
-		{
+		if (stzSoundFile[0]) {
 			//Now make path to IndSound absolute, as it isn't registered
 			TCHAR stzSoundPath[MAX_PATH];
 			CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)stzSoundFile, (LPARAM)stzSoundPath);
@@ -916,14 +750,14 @@ void PlayChangeSound(HANDLE hContact, WORD oldStatus, WORD newStatus)
 
 	char szSoundFile[MAX_PATH] = {0};
 
-	if (!DBGetContactSettingByte(0, "SkinSoundsOff", "UserFromOffline", 0) &&
+	if (!db_get_b(0, "SkinSoundsOff", "UserFromOffline", 0) && 
 		!DBGetContactSettingString(0,"SkinSounds", "UserFromOffline", &dbv) &&
-		oldStatus == ID_STATUS_OFFLINE)
+		oldStatus == ID_STATUS_OFFLINE) 
 	{
 		strcpy(szSoundFile, "UserFromOffline");
 		DBFreeVariant(&dbv);
 	}
-	else if (!DBGetContactSettingByte(0, "SkinSoundsOff", StatusList[Index(newStatus)].lpzSkinSoundName, 0) &&
+	else if (!db_get_b(0, "SkinSoundsOff", StatusList[Index(newStatus)].lpzSkinSoundName, 0) &&
 		!DBGetContactSetting(0, "SkinSounds", StatusList[Index(newStatus)].lpzSkinSoundName, &dbv))
 	{
 		strcpy(szSoundFile, StatusList[Index(newStatus)].lpzSkinSoundName);
@@ -949,75 +783,63 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 	strcpy(szProto, hlpProto);
 	WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, (WPARAM)0, (LPARAM)0);
 
-	if (strcmp(szProto, szMetaModuleName) == 0) //this contact is Meta
-	{
+	if (strcmp(szProto, szMetaModuleName) == 0) { //this contact is Meta
 		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		strcpy(szSubProto, (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hSubContact,0));
 
-		if (newStatus == ID_STATUS_OFFLINE)
-		{
+		if (newStatus == ID_STATUS_OFFLINE) {
 			// read last online proto for metaconatct if exists,
 			// to avoid notifying when meta went offline but default contact's proto still online
 			DBVARIANT dbv;
-		    if (!DBGetContactSettingString(hContact, szProto, "LastOnline", &dbv))
-			{
-	            strcpy(szSubProto, dbv.pszVal);
+			if (!DBGetContactSettingString(hContact, szProto, "LastOnline", &dbv)) {
+				strcpy(szSubProto, dbv.pszVal);
 				DBFreeVariant(&dbv);
 			}
 		}
-		else
-			DBWriteContactSettingString(hContact, szProto, "LastOnline", szSubProto);
+		else DBWriteContactSettingString(hContact, szProto, "LastOnline", szSubProto);
 
-		if (!DBGetContactSettingByte(0, MODULE, szSubProto, 1))
+		if (!db_get_b(0, MODULE, szSubProto, 1))
 			return 0;
 
 		strcpy(szProto, szSubProto);
 	}
-	else
-	{
+	else {
 		if (myStatus == ID_STATUS_OFFLINE)
 			return 0;
 	}
 
-	if (!opt.FromOffline || oldStatus != ID_STATUS_OFFLINE) // Either it wasn't a change from Offline or we didn't enable that.
-	{
+	if (!opt.FromOffline || oldStatus != ID_STATUS_OFFLINE) { // Either it wasn't a change from Offline or we didn't enable that.
 		wsprintfA(buff, "%d", newStatus);
-		if (DBGetContactSettingByte(0, MODULE, buff, 1) == 0)
+		if (db_get_b(0, MODULE, buff, 1) == 0)
 			return 0; // "Notify when a contact changes to one of..." is unchecked
 	}
 
-	if (!opt.HiddenContactsToo && (DBGetContactSettingByte(hContact, "CList", "Hidden", 0) == 1))
+	if (!opt.HiddenContactsToo && (db_get_b(hContact, "CList", "Hidden", 0) == 1))
 		return 0;
 
 	// we don't want to be notified if new chatroom comes online
-	if (DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0) == 1)
+	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1)
 		return 0;
 
 	// check if that proto from which we received statuschange notification, isn't in autodisable list
 	char statusIDs[12], statusIDp[12];
-	if (opt.AutoDisable)
-	{
+	if (opt.AutoDisable) {
 		wsprintfA(statusIDs, "s%d", myStatus);
 		wsprintfA(statusIDp, "p%d", myStatus);
-		bEnableSound = DBGetContactSettingByte(0, MODULE, statusIDs, 1) ? FALSE : TRUE;
-		bEnablePopup = DBGetContactSettingByte(0, MODULE, statusIDp, 1) ? FALSE : TRUE;
+		bEnableSound = db_get_b(0, MODULE, statusIDs, 1) ? FALSE : TRUE;
+		bEnablePopup = db_get_b(0, MODULE, statusIDp, 1) ? FALSE : TRUE;
 	}
 
-	if (bEnablePopup && DBGetContactSettingByte(hContact, MODULE, "EnablePopups", 1) && TimeoutCheck())
+	if (bEnablePopup && db_get_b(hContact, MODULE, "EnablePopups", 1) && TimeoutCheck())
 		ShowStatusChangePopup(hContact, szProto, oldStatus, newStatus);
 
 	if (opt.BlinkIcon)
 		BlinkIcon(hContact, szProto, newStatus);
 
-	if (bEnableSound &&
-		DBGetContactSettingByte(0, "Skin", "UseSound", TRUE) &&
-		DBGetContactSettingByte(hContact, MODULE, "EnableSounds", 1))
-	{
+	if (bEnableSound && db_get_b(0, "Skin", "UseSound", TRUE) && db_get_b(hContact, MODULE, "EnableSounds", 1))
 		PlayChangeSound(hContact, oldStatus, newStatus);
-	}
 
-	if (opt.Log)
-	{
+	if (opt.Log) {
 		TCHAR stzName[64], stzStatus[MAX_STATUSTEXT], stzOldStatus[MAX_STATUSTEXT];
 		TCHAR stzDate[MAX_STATUSTEXT], stzTime[MAX_STATUSTEXT];
 		TCHAR stzText[1024];
@@ -1048,8 +870,8 @@ void InitStatusList()
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserOnline", MAX_SKINSOUNDNAME);
 	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Online"), MAX_SKINSOUNDDESC);
 	lstrcpynA(StatusList[index].lpzSkinSoundFile, "global.wav", MAX_PATH);
-	StatusList[index].colorBack = DBGetContactSettingDword(NULL, MODULE, "40072bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = DBGetContactSettingDword(NULL, MODULE, "40072tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40072bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40072tx", COLOR_TX_DEFAULT);
 
 	//Offline
 	index = Index(ID_STATUS_OFFLINE);
@@ -1062,8 +884,8 @@ void InitStatusList()
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserOffline", MAX_SKINSOUNDNAME);
 	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Offline"), MAX_SKINSOUNDDESC);
 	lstrcpynA(StatusList[index].lpzSkinSoundFile, "offline.wav", MAX_PATH);
-	StatusList[index].colorBack = DBGetContactSettingDword(NULL, MODULE, "40071bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = DBGetContactSettingDword(NULL, MODULE, "40071tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40071bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40071tx", COLOR_TX_DEFAULT);
 
 	//Invisible
 	index = Index(ID_STATUS_INVISIBLE);
@@ -1076,8 +898,8 @@ void InitStatusList()
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserInvisible", MAX_SKINSOUNDNAME);
 	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Invisible"), MAX_SKINSOUNDDESC);
 	lstrcpynA(StatusList[index].lpzSkinSoundFile, "invisible.wav", MAX_PATH);
-	StatusList[index].colorBack = DBGetContactSettingDword(NULL, MODULE, "40078bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = DBGetContactSettingDword(NULL, MODULE, "40078tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40078bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40078tx", COLOR_TX_DEFAULT);
 
 	//Free for chat
 	index = Index(ID_STATUS_FREECHAT);
@@ -1090,8 +912,8 @@ void InitStatusList()
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserFreeForChat", MAX_SKINSOUNDNAME);
 	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Free For Chat"), MAX_SKINSOUNDDESC);
 	lstrcpynA(StatusList[index].lpzSkinSoundFile, "free4chat.wav", MAX_PATH);
-	StatusList[index].colorBack = DBGetContactSettingDword(NULL, MODULE, "40077bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = DBGetContactSettingDword(NULL, MODULE, "40077tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40077bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40077tx", COLOR_TX_DEFAULT);
 
 	//Away
 	index = Index(ID_STATUS_AWAY);
@@ -1104,8 +926,8 @@ void InitStatusList()
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserAway", MAX_SKINSOUNDNAME);
 	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Away"), MAX_SKINSOUNDDESC);
 	lstrcpynA(StatusList[index].lpzSkinSoundFile, "away.wav", MAX_PATH);
-	StatusList[index].colorBack = DBGetContactSettingDword(NULL, MODULE, "40073bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = DBGetContactSettingDword(NULL, MODULE, "40073tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40073bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40073tx", COLOR_TX_DEFAULT);
 
 	//NA
 	index = Index(ID_STATUS_NA);
@@ -1118,8 +940,8 @@ void InitStatusList()
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserNA", MAX_SKINSOUNDNAME);
 	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Not Available"), MAX_SKINSOUNDDESC);
 	lstrcpynA(StatusList[index].lpzSkinSoundFile, "na.wav", MAX_PATH);
-	StatusList[index].colorBack = DBGetContactSettingDword(NULL, MODULE, "40075bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = DBGetContactSettingDword(NULL, MODULE, "40075tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40075bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40075tx", COLOR_TX_DEFAULT);
 
 	//Occupied
 	index = Index(ID_STATUS_OCCUPIED);
@@ -1132,8 +954,8 @@ void InitStatusList()
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserOccupied", MAX_SKINSOUNDNAME);
 	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Occupied"), MAX_SKINSOUNDDESC);
 	lstrcpynA(StatusList[index].lpzSkinSoundFile, "occupied.wav", MAX_PATH);
-	StatusList[index].colorBack = DBGetContactSettingDword(NULL, MODULE, "40076bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = DBGetContactSettingDword(NULL, MODULE, "40076tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40076bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40076tx", COLOR_TX_DEFAULT);
 
 	//DND
 	index = Index(ID_STATUS_DND);
@@ -1146,8 +968,8 @@ void InitStatusList()
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserDND", MAX_SKINSOUNDNAME);
 	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Do Not Disturb"), MAX_SKINSOUNDDESC);
 	lstrcpynA(StatusList[index].lpzSkinSoundFile, "dnd.wav", MAX_PATH);
-	StatusList[index].colorBack = DBGetContactSettingDword(NULL, MODULE, "40074bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = DBGetContactSettingDword(NULL, MODULE, "40074tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40074bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40074tx", COLOR_TX_DEFAULT);
 
 	//OutToLunch
 	index = Index(ID_STATUS_OUTTOLUNCH);
@@ -1160,8 +982,8 @@ void InitStatusList()
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserOutToLunch", MAX_SKINSOUNDNAME);
 	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Out To Lunch"), MAX_SKINSOUNDDESC);
 	lstrcpynA(StatusList[index].lpzSkinSoundFile, "lunch.wav", MAX_PATH);
-	StatusList[index].colorBack = DBGetContactSettingDword(NULL, MODULE, "40080bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = DBGetContactSettingDword(NULL, MODULE, "40080tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40080bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40080tx", COLOR_TX_DEFAULT);
 
 	//OnThePhone
 	index = Index(ID_STATUS_ONTHEPHONE);
@@ -1174,22 +996,21 @@ void InitStatusList()
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserOnThePhone", MAX_SKINSOUNDNAME);
 	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: On The Phone"), MAX_SKINSOUNDDESC);
 	lstrcpynA(StatusList[index].lpzSkinSoundFile, "phone.wav", MAX_PATH);
-	StatusList[index].colorBack = DBGetContactSettingDword(NULL, MODULE, "40079bg", COLOR_BG_NAVAILDEFAULT);
-	StatusList[index].colorText = DBGetContactSettingDword(NULL, MODULE, "40079tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40079bg", COLOR_BG_NAVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40079tx", COLOR_TX_DEFAULT);
 
 	//Extra status
 	index = Index(ID_STATUS_EXTRASTATUS);
 	StatusList[index].ID = ID_STATUS_EXTRASTATUS;
-	StatusList[index].colorBack = DBGetContactSettingDword(NULL, MODULE, "40081bg", COLOR_BG_AVAILDEFAULT);
-	StatusList[index].colorText = DBGetContactSettingDword(NULL, MODULE, "40081tx", COLOR_TX_DEFAULT);
+	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40081bg", COLOR_BG_AVAILDEFAULT);
+	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40081tx", COLOR_TX_DEFAULT);
 }
 
 int ProtoAck(WPARAM wParam,LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
 
-	if (ack->type == ACKTYPE_STATUS)
-	{
+	if (ack->type == ACKTYPE_STATUS) {
 		WORD newStatus = (WORD)ack->lParam;
 		WORD oldStatus = (WORD)ack->hProcess;
 		char *szProto = (char *)ack->szModule;
@@ -1197,13 +1018,11 @@ int ProtoAck(WPARAM wParam,LPARAM lParam)
 		if (oldStatus == newStatus)
 			return 0;
 
-		if (newStatus == ID_STATUS_OFFLINE)
-		{
+		if (newStatus == ID_STATUS_OFFLINE) {
 			//The protocol switched to offline. Disable the popups for this protocol
 			DBWriteContactSettingByte(NULL, MODULE, szProto, 0);
 		}
-		else if (oldStatus < ID_STATUS_ONLINE && newStatus >= ID_STATUS_ONLINE)
-		{
+		else if (oldStatus < ID_STATUS_ONLINE && newStatus >= ID_STATUS_ONLINE) {
 			//The protocol changed from a disconnected status to a connected status.
 			//Enable the popups for this protocol.
 			LoadTime = GetTickCount();
@@ -1221,13 +1040,11 @@ INT_PTR EnableDisableMenuCommand(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM mi = {0};
 	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
-	if (opt.TempDisabled)
-	{
+	if (opt.TempDisabled) {
 		mi.ptszName = _T("Enable status notification");
 		mi.icolibItem = GetIconHandle(ICO_NOTIFICATION_OFF);
 	}
-	else
-	{
+	else {
 		mi.ptszName = _T("Disable status notification");
 		mi.icolibItem = GetIconHandle(ICO_NOTIFICATION_ON);
 	}
@@ -1278,8 +1095,7 @@ void InitIcolib()
 
 	GetModuleFileNameA(hInst, szFile, MAX_PATH);
 
-	for (int i = 0; i < SIZEOF(iconList); i++)
-	{
+	for (int i = 0; i < SIZEOF(iconList); i++) {
 		mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", MODULE, iconList[i].szName);
 		sid.pszDescription = Translate(iconList[i].szDescr);
 		sid.iDefaultIndex = -iconList[i].iIconID;
@@ -1365,6 +1181,5 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	DestroyHookableEvent(hHookContactStatusChanged);
 	DestroyServiceFunction(hServiceMenu);
-	xstatusList.destroy();
 	return 0;
 }
