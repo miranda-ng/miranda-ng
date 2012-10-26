@@ -98,11 +98,11 @@ bool twitter::set_credentials(const std::string &username, const std::wstring &c
 }
 
 http::response twitter::request_token() {
-	return slurp(base_url_+"oauth/request_token",http::get);
+	return slurp("https://api.twitter.com/oauth/request_token",http::get);
 }
 
 http::response twitter::request_access_tokens() {
-	return slurp(base_url_+"oauth/access_token", http::get);
+	return slurp("https://api.twitter.com/oauth/access_token", http::get);
 }
 
 void twitter::set_base_url(const std::string &base_url)
