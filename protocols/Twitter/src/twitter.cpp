@@ -78,7 +78,7 @@ static T retrieve(const js::object &o,const std::string &key,bool allow_null = f
 
 
 
-twitter::twitter() : base_url_("https://api.twitter.com/1.1/")
+twitter::twitter() : base_url_("https://api.twitter.com/")
 {}
 
 bool twitter::set_credentials(const std::string &username, const std::wstring &consumerKey, const std::wstring &consumerSecret, 
@@ -92,7 +92,7 @@ bool twitter::set_credentials(const std::string &username, const std::wstring &c
 	pin_ = pin;
 
 	if(test)
-		return slurp(base_url_+"account/verify_credentials.json",http::get).code == 200;
+		return slurp(base_url_+"1.1/account/verify_credentials.json",http::get).code == 200;
 	else
 		return true;
 }
@@ -168,7 +168,7 @@ std::vector<twitter_user> twitter::get_friends()
 	//js::array friendArray = buildFriendList();
 
 	std::vector<twitter_user> friends;
-	http::response resp = slurp(base_url_+"statuses/friends.json",http::get);
+	http::response resp = slurp(base_url_+"1.1/statuses/friends.json",http::get);
 
 	if(resp.code != 200)
 		throw bad_response();
@@ -212,7 +212,7 @@ bool twitter::get_info(const std::string &name,twitter_user *info)
 	if(!info)
 		return false;
 
-	std::string url = base_url_+"users/show/"+http::url_encode(name)+".json";
+	std::string url = base_url_+"1.1/users/show/"+http::url_encode(name)+".json";
 
 	http::response resp = slurp(url,http::get);
 	if(resp.code != 200)
@@ -240,7 +240,7 @@ bool twitter::get_info_by_email(const std::string &email,twitter_user *info)
 	if(!info)
 		return false;
 
-	std::string url = base_url_+"users/show.json?email="+http::url_encode(email);
+	std::string url = base_url_+"1.1/users/show.json?email="+http::url_encode(email);
 
 	http::response resp = slurp(url,http::get);
 	if(resp.code != 200)
@@ -265,7 +265,7 @@ bool twitter::get_info_by_email(const std::string &email,twitter_user *info)
 
 twitter_user twitter::add_friend(const std::string &name)
 {
-	std::string url = base_url_+"friendships/create/"+http::url_encode(name)+".json";
+	std::string url = base_url_+"1.1/friendships/create/"+http::url_encode(name)+".json";
 
 	twitter_user ret;
 	http::response resp = slurp(url,http::post);
@@ -293,7 +293,7 @@ twitter_user twitter::add_friend(const std::string &name)
 
 void twitter::remove_friend(const std::string &name)
 {
-	std::string url = base_url_+"friendships/destroy/"+http::url_encode(name)+".json";
+	std::string url = base_url_+"1.1/friendships/destroy/"+http::url_encode(name)+".json";
 
 	slurp(url,http::post);
 }
@@ -311,7 +311,7 @@ void twitter::set_status(const std::string &text)
 		OAuthParameters postParams;
 		postParams[L"status"] = UrlEncode(wTweet);
 
-		slurp(base_url_+"statuses/update.json",http::post, postParams);
+		slurp(base_url_+"1.1/statuses/update.json",http::post, postParams);
 	}
 }
 
@@ -321,7 +321,7 @@ void twitter::send_direct(const std::string &name,const std::string &text)
 	OAuthParameters postParams;
 	postParams[L"text"] = UrlEncode(temp);
 	postParams[L"screen_name"] = UTF8ToWide(name);
-	slurp(base_url_+"direct_messages/new.json", http::post,  postParams);
+	slurp(base_url_+"1.1/direct_messages/new.json", http::post,  postParams);
 }
 
 std::vector<twitter_user> twitter::get_statuses(int count,twitter_id id)
@@ -329,7 +329,7 @@ std::vector<twitter_user> twitter::get_statuses(int count,twitter_id id)
 	using boost::lexical_cast;
 	std::vector<twitter_user> statuses;
 
-	std::string url = base_url_+"statuses/home_timeline.json?count="+
+	std::string url = base_url_+"1.1/statuses/home_timeline.json?count="+
 		lexical_cast<std::string>(count);
 	if(id != 0)
 		url += "&since_id="+boost::lexical_cast<std::string>(id);
@@ -355,6 +355,7 @@ std::vector<twitter_user> twitter::get_statuses(int count,twitter_id id)
 			u.username = retrieve<std::string>(user,"screen_name");
 
 			std::string rawText = retrieve<std::string>(one,"text");
+			bool foundTruncatedRT = false;
 			if (rawText.length() == 140) { // might be a truncated tweet
 				if (rawText.substr(0, 4) == "RT @") { // starting to look like a RT...
 					if (rawText.substr(136, 4) == " ...") { // ok this is the best I can do.  it starts with "RT @", ends with " ...", and is the full 140 chars
@@ -371,11 +372,21 @@ std::vector<twitter_user> twitter::get_statuses(int count,twitter_id id)
 
 						std::string retweeteesName = retrieve<std::string>(RTUser,"screen_name"); // the user that is being retweeted
 						std::string retweetText = retrieve<std::string>(Retweet,"text"); // their tweet in all it's untruncated glory
+						
+						// fix "&amp;" in the tweets :(
+						size_t pos = 0;
+						while((pos = retweetText.find("&amp;", pos)) != std::string::npos) {
+							retweetText.replace(pos, 5, "&");
+							pos += 1;
+						}
+						
 						u.status.text = "RT @" + retweeteesName + " " + retweetText; // mash it together in some format people will understand
+						foundTruncatedRT = true;
 					}
 				}
 			}
-			else { // if it's not truncated, then the twitter API returns the native RT correctly anyway,
+			
+			if (foundTruncatedRT == false) { // if it's not truncated, then the twitter API returns the native RT correctly anyway,
 
 				//std::string twt = retrieve<std::string>(one,"text"); // no need to do this anymore, we already grabbed it above in rawText
 
@@ -387,7 +398,7 @@ std::vector<twitter_user> twitter::get_statuses(int count,twitter_id id)
 					pos += 1;
 				}
 
-				u.status.text = rawText; // so we can just pretend it doesn't happen
+				u.status.text = rawText;
 			}
 
 			u.status.id         = retrieve<long long>(one,"id");
@@ -406,7 +417,7 @@ std::vector<twitter_user> twitter::get_direct(twitter_id id)
 {
 	std::vector<twitter_user> messages;
 
-	std::string url = base_url_+"direct_messages.json";
+	std::string url = base_url_+"1.1/direct_messages.json";
 	if(id != 0)
 		url += "?since_id="+boost::lexical_cast<std::string>(id);
 

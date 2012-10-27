@@ -1,20 +1,20 @@
-/*
-Copyright © 2009 Jim Porter
+#define __MAJOR_VERSION				1
+#define __MINOR_VERSION				0
+#define __RELEASE_NUM				0
+#define __BUILD_NUM					3
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or
-(at your option) any later version.
+#define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+#define __FILEVERSION_DOTS			__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+#define __STRINGIFY_IMPL(x)			#x
+#define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
+#define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-#pragma once
-
-#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(1, 0, 0, 2)
+#define __PLUGIN_NAME				"Twitter"
+#define __INTERNAL_NAME				"Twitter"
+#define __FILENAME					"Twitter.dll"
+#define __DESCRIPTION 				"Twitter protocol plugin for Miranda NG."
+#define __AUTHOR					"dentist, omniwolf, Thief"
+#define __AUTHOREMAIL				""
+#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __COPYRIGHT					"© 2009-2010 dentist, 2010-2012 omniwolf and Thief"

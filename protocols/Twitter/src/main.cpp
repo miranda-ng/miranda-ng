@@ -29,13 +29,13 @@ int hLangpack = 0;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"Twitter Plugin",
-	__VERSION_DWORD,
-	"Provides basic support for Twitter protocol.",
-	"dentist, omniwolf, Thief",
-	"",
-	"© 2009-2010 dentist, 2010-2012 omniwolf and Thief",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	//{BC09A71B-B86E-4d33-B18D-82D30451DD3C}
 	{ 0xbc09a71b, 0xb86e, 0x4d33, { 0xb1, 0x8d, 0x82, 0xd3, 0x4, 0x51, 0xdd, 0x3c } }

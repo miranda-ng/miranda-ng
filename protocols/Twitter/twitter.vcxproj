@@ -197,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\twitter.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

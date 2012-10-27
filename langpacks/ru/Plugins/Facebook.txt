@@ -7,8 +7,8 @@
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FacebookRM/
 ;  Authors: Robyer
 ;============================================================
-[Provides basic support for Facebook Chat protocol.]
-Поддержка чата Facebook в Miranda NG.
+[Facebook protocol plugin for Miranda NG.]
+Поддержка протокола Facebook в Miranda NG.
 [Default group for newly added contacts:]
 Добавлять контакты в группу:
 [User-Agent:]
