@@ -377,12 +377,12 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 		this->ForkThread(&CSkypeProto::LoadContactList, this);
 		//this->LoadContactList(this);
 		
-		this->account.fetch();
+		/*this->account.fetch();
 		this->account->SetOnAccountChangedCallback(
-			(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged, this);
+			(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged, this);*/
 
-		//this->ForkThread(&CSkypeProto::LoadOwnInfo, this);
-		this->LoadOwnInfo(this);
+		this->ForkThread(&CSkypeProto::LoadOwnInfo, this);
+		//this->LoadOwnInfo(this);
 	}
 
 	//ReleaseMutex(this->signin_lock);

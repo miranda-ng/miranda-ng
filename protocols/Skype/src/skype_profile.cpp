@@ -12,24 +12,7 @@ void CSkypeProto::UpdateOwnAvatar()
 		
 		if (data.size() > 0)
 		{
-			wchar_t *path = this->GetAvatarFilePath(this->GetSettingString("sid"));
-			FILE* fp = _wfopen(path, L"wb");
-			if (fp)
-			{
-				fwrite(data.data(), sizeof(char), data.size(), fp);
-				fclose(fp);
-
-				this->SetSettingDword("AvatarTS", newTS);
-
-				PROTO_AVATAR_INFORMATIONW pai = {0};
-				pai.cbSize = sizeof(pai);
-				pai.format = PA_FORMAT_JPEG;
-				pai.hContact = NULL; //???
-				wcscpy(pai.filename, path);
-		
-				this->SendBroadcast(ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
-			}
-			delete path;
+			// todo: add own avatar loading'n'registration
 		}		
 	}
 }
@@ -311,10 +294,10 @@ void CSkypeProto::OnAccountChanged(int prop)
 	{
 	case CAccount::P_AVATAR_IMAGE:
 	case CAccount::P_AVATAR_TIMESTAMP:
-		//this->UpdateOwnAvatar();
+		this->UpdateOwnAvatar();
 		break;
 	case CAccount::P_BIRTHDAY:
-		//this->UpdateOwnBirthday();
+		this->UpdateOwnBirthday();
 		break;
 	case CAccount::P_CITY:
 		this->UpdateOwnCity();
@@ -365,8 +348,4 @@ void CSkypeProto::OnAccountChanged(int prop)
 void __cdecl CSkypeProto::LoadOwnInfo(void*)
 {
 	this->UpdateOwnProfile();	
-
-	//this->account.fetch();
-	//this->account->SetOnAccountChangedCallback(
-		//(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged, this);
 }
