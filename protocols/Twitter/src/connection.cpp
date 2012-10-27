@@ -137,7 +137,7 @@ bool TwitterProto::NegotiateConnection()
  	// twitter changed the base URL in v1.1 of the API, I don't think users will need to modify it, so
 	// i'll be forcing it to the new API URL here. After a while I can get rid of this as users will
 	// have either had this run at least once, or have reset their miranda profile. 14/10/2012
-	//DBWriteContactSettingString(0,m_szModuleName,TWITTER_KEY_BASEURL,"https://api.twitter.com/1.1/");
+	DBWriteContactSettingString(0,m_szModuleName,TWITTER_KEY_BASEURL,"https://api.twitter.com/");
 
 	if((oauthToken.size() <= 1) || (oauthTokenSecret.size() <= 1)) {
 		// first, reset all the keys so we can start fresh
