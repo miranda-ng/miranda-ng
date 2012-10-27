@@ -59,6 +59,15 @@ CAccount::CAccount(unsigned int oid, SERootObject* root) : Account(oid, root)
 {
 	this->isLoggedIn = false;
 	this->isLoggedOut = false;
+
+	this->proto = NULL;
+	this->callback == NULL;
+}
+
+void CAccount::SetOnAccountChangedCallback(OnAccountChanged callback, CSkypeProto* proto)
+{
+	this->proto = proto;
+	this->callback = callback;
 }
 
 void CAccount::OnChange(int prop)
@@ -84,6 +93,11 @@ void CAccount::OnChange(int prop)
 			this->isLoggedOut = true;
 		}
 	}
+  else
+  {
+	  if (this->proto)
+		  (proto->*callback)(prop);
+  }
 }
 
 void CAccount::BlockWhileLoggingIn()

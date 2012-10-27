@@ -363,6 +363,10 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 	}
 	else
 	{
+		this->account.fetch();
+		this->account->SetOnAccountChangedCallback(
+			(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged, this);
+
 		g_skype->GetConversationList(g_skype->inbox, CConversation::INBOX_CONVERSATIONS);
 		fetch(g_skype->inbox);
 		g_skype->SetOnConversationAddedCallback(
@@ -374,6 +378,8 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 		}
 
 		this->SetStatus(this->m_iDesiredStatus);
+		this->ForkThread(&CSkypeProto::LoadOwnInfo, this);
+		//this->LoadOwnInfo(this);
 		this->ForkThread(&CSkypeProto::LoadContactList, this);
 		//this->LoadContactList(this);
 	}

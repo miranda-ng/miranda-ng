@@ -97,6 +97,8 @@ private:
 class CAccount : public Account
 {
 public:
+	typedef void (CSkypeProto::* OnAccountChanged)(int);
+
 	typedef DRef<CAccount, Account> Ref;
 	typedef DRefs<CAccount, Account> Refs;
 	
@@ -112,7 +114,11 @@ public:
 
 	bool IsOnline();
 
+	void SetOnAccountChangedCallback(OnAccountChanged callback, CSkypeProto* proto);
+
 private:
+	CSkypeProto* proto;
+	OnAccountChanged callback;
 	void OnChange(int prop);
 };
 

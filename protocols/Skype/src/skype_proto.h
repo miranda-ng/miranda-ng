@@ -127,6 +127,8 @@ protected:
 
 	bool	IsOnline();
 
+	static LanguagesListEntry languages[];
+
 	// messages
 	void	OnOnMessageReceived(const char *sid, const char *text);
 	void	OnConversationAdded(CConversation::Ref conversation);
@@ -172,11 +174,31 @@ protected:
 	void __cdecl SearchByNamesAsync(void*);
 	void __cdecl SearchByEmailAsync(void*);
 
+	// profile
+	void	UpdateOwnAvatar();
+	void	UpdateOwnBirthday();
+	void	UpdateOwnCity();
+	void	UpdateOwnCountry();
+	void	UpdateOwnEmails();
+	void	UpdateOwnGender();
+	void	UpdateOwnHomepage();
+	void	UpdateOwnLanguages();
+	void	UpdateOwnMobilePhone();
+	void	UpdateOwnNickName();
+	void	UpdateOwnPhone();
+	void	UpdateOwnOfficePhone();
+	void	UpdateOwnState();
+	void	UpdateOwnStatusMessage();
+	void	UpdateOwnTimezone();
+	void	UpdateOwnProfile();	
+
+	void	OnAccountChanged(int prop);
+
+	void __cdecl LoadOwnInfo(void*);
+
 	// utils
 	static void FakeAsync(void*);
-	static char* GetCountryNameById(int countryId);
-	static int GetCountryIdByName(const char* countryName);
-	
+
 	wchar_t* GetAvatarFilePath(wchar_t* skypeName);
 
 	int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);

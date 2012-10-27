@@ -113,6 +113,7 @@
     <ClCompile Include="src\skype_instances.cpp" />
     <ClCompile Include="src\skype_menus.cpp" />
     <ClCompile Include="src\skype_netlib.cpp" />
+    <ClCompile Include="src\skype_profile.cpp" />
     <ClCompile Include="src\skype_proto.cpp" />
     <ClCompile Include="src\skype_services.cpp" />
     <ClCompile Include="src\skype_settings.cpp" />
