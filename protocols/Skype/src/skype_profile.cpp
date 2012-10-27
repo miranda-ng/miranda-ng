@@ -311,10 +311,10 @@ void CSkypeProto::OnAccountChanged(int prop)
 	{
 	case CAccount::P_AVATAR_IMAGE:
 	case CAccount::P_AVATAR_TIMESTAMP:
-		this->UpdateOwnAvatar();
+		//this->UpdateOwnAvatar();
 		break;
 	case CAccount::P_BIRTHDAY:
-		this->UpdateOwnBirthday();
+		//this->UpdateOwnBirthday();
 		break;
 	case CAccount::P_CITY:
 		this->UpdateOwnCity();
@@ -365,4 +365,8 @@ void CSkypeProto::OnAccountChanged(int prop)
 void __cdecl CSkypeProto::LoadOwnInfo(void*)
 {
 	this->UpdateOwnProfile();	
+
+	//this->account.fetch();
+	//this->account->SetOnAccountChangedCallback(
+		//(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged, this);
 }

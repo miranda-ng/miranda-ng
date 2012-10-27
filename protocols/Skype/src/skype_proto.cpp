@@ -339,7 +339,7 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 
 void __cdecl CSkypeProto::SignInAsync(void*)
 {
-	WaitForSingleObject(&this->signin_lock, INFINITE);
+	//WaitForSingleObject(&this->signin_lock, INFINITE);
 
 	this->account->LoginWithPassword(::mir_u2a(this->password), false, false);
 	this->account->BlockWhileLoggingIn();
@@ -363,10 +363,6 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 	}
 	else
 	{
-		this->account.fetch();
-		this->account->SetOnAccountChangedCallback(
-			(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged, this);
-
 		g_skype->GetConversationList(g_skype->inbox, CConversation::INBOX_CONVERSATIONS);
 		fetch(g_skype->inbox);
 		g_skype->SetOnConversationAddedCallback(
@@ -378,13 +374,18 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 		}
 
 		this->SetStatus(this->m_iDesiredStatus);
-		this->ForkThread(&CSkypeProto::LoadOwnInfo, this);
-		//this->LoadOwnInfo(this);
 		this->ForkThread(&CSkypeProto::LoadContactList, this);
 		//this->LoadContactList(this);
+		
+		this->account.fetch();
+		this->account->SetOnAccountChangedCallback(
+			(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged, this);
+
+		//this->ForkThread(&CSkypeProto::LoadOwnInfo, this);
+		this->LoadOwnInfo(this);
 	}
 
-	ReleaseMutex(this->signin_lock);
+	//ReleaseMutex(this->signin_lock);
 }
 
 bool CSkypeProto::SignIn(bool isReadPassword)
@@ -410,7 +411,7 @@ bool CSkypeProto::SignIn(bool isReadPassword)
 		else
 		{
 			this->ForkThread(&CSkypeProto::SignInAsync, this);
-			//this->SignInThread(this);
+			//this->SignInAsync(this);
 			return true;
 		}
 	}
