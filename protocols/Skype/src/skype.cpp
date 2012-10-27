@@ -18,7 +18,7 @@ PLUGININFOEX pluginInfo =
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {9C448C61-FC3F-42F9-B9F0-4A30E1CF8671}
-	{ 0x9c448c61, 0xfc3f, 0x42f9, { 0xb9, 0xf0, 0x4a, 0x30, 0xe1, 0xcf, 0x86, 0x71 } }
+	{0x9c448c61, 0xfc3f, 0x42f9, {0xb9, 0xf0, 0x4a, 0x30, 0xe1, 0xcf, 0x86, 0x71}}
 };
 
 DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
@@ -35,38 +35,132 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
-char* keyBuf = 0;
 int port = 8963;
 
-int LoadKeyPair()
+void *buf;
+
+static const char base64Fillchar = '='; // used to mark partial words at the end
+
+const unsigned char base64DecodeTable[] = {
+	99, 98, 98, 98, 98, 98, 98, 98, 98, 97,  97, 98, 98, 97, 98, 98, 98, 98, 98, 98,  98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  //00 -29
+	98, 98, 97, 98, 98, 98, 98, 98, 98, 98,  98, 98, 98, 62, 98, 98, 98, 63, 52, 53,  54, 55, 56, 57, 58, 59, 60, 61, 98, 98,  //30 -59
+	98, 96, 98, 98, 98, 0, 1, 2, 3, 4,   5, 6, 7, 8, 9, 10, 11, 12, 13, 14,  15, 16, 17, 18, 19, 20, 21, 22, 23, 24,  //60 -89
+	25, 98, 98, 98, 98, 98, 98, 26, 27, 28,  29, 30, 31, 32, 33, 34, 35, 36, 37, 38,  39, 40, 41, 42, 43, 44, 45, 46, 47, 48,  //90 -119
+	49, 50, 51, 98, 98, 98, 98, 98, 98, 98,  98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  //120 -149
+	98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  //150 -179
+	98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  //180 -209
+	98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  //210 -239
+	98, 98, 98, 98, 98, 98, 98, 98, 98, 98,  98, 98, 98, 98, 98, 98                                               //240 -255
+};
+
+unsigned int decodeSize(char * data)
 {
-	FILE* f = 0;
-	size_t fsize = 0;
-	int keyLen = 0;
-
-	f = fopen(g_keyFileName, "r");
-
-	if (f != 0)
+	if ( !data) return 0;
+	int size = 0;
+	unsigned char c;
+	//skip any extra characters (e.g. newlines or spaces)
+	while (*data)
 	{
-		fseek(f, 0, SEEK_END);
-		fsize = ftell(f);
-		rewind(f);
-		keyLen = fsize + 1;
-		keyBuf = new char[keyLen];
-		size_t read = fread(keyBuf, 1, fsize, f);
-		if (read != fsize) 
-		{ 
-			printf("Error reading %s\n", g_keyFileName);
-			return 0;
-		};
-		keyBuf[fsize] = 0; //cert should be null terminated
-		fclose(f);
-		return keyLen;		
-	};
-	
-	printf("Error opening app token file: %s\n", g_keyFileName);
+		if (*data>255) { return 0; }
+		c = base64DecodeTable[(unsigned char)(*data)];
+		if (c<97) size++;
+		else if (c == 98) { return 0; }
+		data++;
+	}
+	if (size == 0) return 0;
+	do { data--; size--; } while (*data == base64Fillchar); size++;
+	return (unsigned int)((size*3)/4);
+}
 
-	return 0;
+unsigned char decode(char * data, unsigned char *buf, int len)
+{
+	if ( !data) return 0;
+	int i=0, p = 0;
+	unsigned char d, c;
+	for (;;)
+	{
+
+	#define BASE64DECODE_READ_NEXT_CHAR(c)                                              \
+	do {                                                                        \
+	if (data[i]>255) { c = 98; break; }                                        \
+	c = base64DecodeTable[(unsigned char)data[i++]];                       \
+	}while (c == 97);                                                             \
+	if(c == 98) { return 0; }
+
+		BASE64DECODE_READ_NEXT_CHAR(c)
+			if (c == 99) { return 2; }
+			if (c == 96)
+			{
+				if (p == (int)len) return 2;
+				return 1;
+			}
+
+			BASE64DECODE_READ_NEXT_CHAR(d)
+				if ((d == 99) || (d == 96)) { return 1; }
+				if (p == (int)len) { return 0; }
+				buf[p++] = (unsigned char)((c<<2)|((d>>4)&0x3));
+
+				BASE64DECODE_READ_NEXT_CHAR(c)
+					if (c == 99) { return 1; }
+					if (p == (int)len)
+					{
+						if (c == 96) return 2;
+						return 0;
+					}
+					if (c == 96) { return 1; }
+					buf[p++] = (unsigned char)(((d<<4)&0xf0)|((c>>2)&0xf));
+
+					BASE64DECODE_READ_NEXT_CHAR(d)
+						if (d == 99) { return 1; }
+						if (p == (int)len)
+						{
+							if (d == 96) return 2;
+							return 0;
+						}
+						if (d == 96) { return 1; }
+						buf[p++] = (unsigned char)(((c<<6)&0xc0)|d);
+	}
+}
+#undef BASE64DECODE_READ_NEXT_CHAR
+
+unsigned char *decode(char * data, int *outlen)
+{
+	if ( !data) { *outlen = 0; return (unsigned char*)""; }
+	unsigned int len = decodeSize(data);
+	if (outlen) *outlen = len;
+	if ( !len) return NULL;
+	malloc(len+1);
+	if( !decode(data, (unsigned char*)buf, len)) { return NULL; }
+	return (unsigned char*)buf;
+}
+
+char* LoadKeyPair()
+{
+	HRSRC hRes = FindResource(g_hInstance, MAKEINTRESOURCE(IDR_KEY), _T("BIN"));
+	if (hRes) {
+		HGLOBAL hResource = LoadResource(g_hInstance, hRes);
+		if (hResource) {
+			aes_context ctx;
+			aes_set_key( &ctx, (BYTE*)MY_KEY, 128);
+			int dwResSize = SizeofResource(g_hInstance, hRes);
+			char *pData = (char*)GlobalLock(hResource);
+			pData[dwResSize] = 0;
+			int basedecoded = decodeSize(pData);
+			GlobalUnlock(hResource);
+			GlobalFree(hResource);
+			unsigned char *bufD = (unsigned char*)mir_alloc(basedecoded + 1);
+			unsigned char *tmpD = (unsigned char*)mir_alloc(basedecoded + 1);
+			decode(pData, tmpD, basedecoded);
+			for (int i = 0; i <= basedecoded; i += 16) {
+				aes_decrypt(&ctx, tmpD+i, bufD+i);
+			}
+			mir_free(tmpD);
+			bufD[basedecoded-1] = 0; //cert should be null terminated
+			return (char*)bufD;
+		}
+		return NULL;
+	}
+	return NULL;
 }
 
 //
@@ -159,7 +253,7 @@ int StartSkypeRuntime()
 	HGLOBAL	hResource;
 	TCHAR	szFilename[MAX_PATH];
 
-	hRes = FindResource(g_hInstance, MAKEINTRESOURCE(IDR_RUNTIME), _T("EXE"));
+	hRes = FindResource(g_hInstance, MAKEINTRESOURCE(IDR_RUNTIME), _T("BIN"));
 
 	if (hRes) {
 		hResource = LoadResource(g_hInstance, hRes);
@@ -222,29 +316,21 @@ int StartSkypeRuntime()
 	
 	mir_sntprintf(param, SIZEOF(param), L"-p -p %d", port);
 
-	int startingrt = CreateProcess(
-		szFilename,
-		param,
-		NULL,
-		NULL,
-		FALSE,
-		CREATE_NEW_CONSOLE,
-		NULL,
-		NULL,
-		&cif, 
-		&pi);
+	int startingrt = CreateProcess(szFilename, param, NULL,
+					NULL, FALSE, CREATE_NEW_CONSOLE,
+					NULL, NULL, &cif, &pi);
 	return startingrt;
 }
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	LoadKeyPair();
 	if (!StartSkypeRuntime())
 		return 1;
 
 	g_skype = new CSkype();
+	char *keyBuf = LoadKeyPair();
 	g_skype->init(keyBuf, "127.0.0.1", port);
-	delete[] keyBuf;
+	mir_free(keyBuf);
 	g_skype->start();	
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
@@ -253,11 +339,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnInit = (pfnInitProto)CSkypeProto::InitSkypeProto;
 	pd.fnUninit = (pfnUninitProto)CSkypeProto::UninitSkypeProto;
 	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&pd));
-
-	//CallService(
-	//	MS_UTILS_GETCOUNTRYLIST, 
-	//	(WPARAM)&CSkypeProto::countriesCount, 
-	//	(LPARAM)&CSkypeProto::countryList);
 
 	CSkypeProto::InitIcons();
 	CSkypeProto::InitServiceList();

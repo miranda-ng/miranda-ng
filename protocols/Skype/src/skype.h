@@ -36,18 +36,22 @@
 //#include <m_addcontact.h>
 #include <m_icolib.h>
 #include <m_utils.h>
-#include <m_folders.h>
 #include <m_system_cpp.h>
 //#include <m_hotkeys.h>
 //#pragma warning(pop)
 #include <win2k.h>
 
 #include <m_popup2.h>
+#include <m_folders.h>
 
 #include "resource.h"
 #include "version.h"
-
 #include "skype_subclassing.h"
+extern "C"
+{
+#include "aes\aes.h"
+}
+#include "..\..\..\skypekit\key.h"
 
 #define MODULE "Skype"
 #define SKYPE_LOGIN_LIMIT 128
@@ -69,5 +73,3 @@
 
 extern CSkype* g_skype;
 extern HINSTANCE g_hInstance;
-
-static const char* g_keyFileName = "..\\..\\..\\SkypeKit\\keypair.crt";

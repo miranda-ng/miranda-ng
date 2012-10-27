@@ -141,10 +141,11 @@ IDI_AUTH_REVOKE         ICON                    "auth_revoke.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// EXE
+// BIN
 //
 
-IDR_RUNTIME             EXE                     "..\\..\\..\\..\\SkypeKit\\SDK\\bin\\windows-x86\\windows-x86-skypekit.exe"
+IDR_RUNTIME             BIN                     "..\\..\\..\\..\\SkypeKit\\SDK\\bin\\windows-x86\\windows-x86-skypekit.exe"
+IDR_KEY                 BIN                     "..\\..\\..\\..\\SkypeKit\\keypair.bin"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
