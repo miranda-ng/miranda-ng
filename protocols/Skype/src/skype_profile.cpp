@@ -8,9 +8,9 @@ void CSkypeProto::UpdateOwnAvatar()
 	if (newTS > oldTS)
 	{
 		SEBinary data;
-		this->account->GetPropAvatarImage(data);
+		//this->account->GetPropAvatarImage(data);
 		
-		if (data.size() > 0)
+		//if (data.size() > 0)
 		{
 			// todo: add own avatar loading'n'registration
 		}		

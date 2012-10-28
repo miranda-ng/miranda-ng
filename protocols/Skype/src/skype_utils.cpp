@@ -231,7 +231,22 @@ void CSkypeProto::FakeAsync(void *param)
 	::mir_free(param);
 }
 
-wchar_t* CSkypeProto::GetAvatarFilePath(wchar_t* skypeName)
+wchar_t* CSkypeProto::GetOwnAvatarFilePath()
+{
+	/*DBVARIANT dbvFile = {DBVT_DELETED};
+
+	if (!getSettingStringT(NULL, "AvatarFile", &dbvFile))
+	{
+		TCHAR tmp[MAX_PATH * 2];
+		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)dbvFile.ptszVal, (LPARAM)tmp);
+		ICQFreeVariant(&dbvFile);
+
+		return null_strdup(tmp);
+	}*/
+	return NULL;
+}
+
+wchar_t* CSkypeProto::GetContactAvatarFilePath(wchar_t* skypeName)
 {
 	wchar_t* path = new wchar_t[MAX_PATH * 2];
 	

@@ -49,7 +49,7 @@ void CSkypeProto::UpdateContactAvatar(HANDLE hContact, CContact::Ref contact)
 		
 		if (data.size() > 0)
 		{
-			wchar_t *path = this->GetAvatarFilePath(this->GetSettingString(hContact, "sid"));
+			wchar_t *path = this->GetContactAvatarFilePath(this->GetSettingString(hContact, "sid"));
 			FILE* fp = _wfopen(path, L"wb");
 			if (fp)
 			{

@@ -199,7 +199,8 @@ protected:
 	// utils
 	static void FakeAsync(void*);
 
-	wchar_t* GetAvatarFilePath(wchar_t* skypeName);
+	wchar_t* GetOwnAvatarFilePath();
+	wchar_t* GetContactAvatarFilePath(wchar_t* skypeName);
 
 	int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);
 
@@ -230,6 +231,11 @@ protected:
 
 	// services
 	static LIST<void> serviceList;
+
+	int GetAvatarInfo(WPARAM, LPARAM);
+	int GetAvatarCaps(WPARAM, LPARAM);
+	int GetMyAvatar(WPARAM, LPARAM);
+	int SetMyAvatar(WPARAM, LPARAM);
 
 	// icons
 	static _tag_iconList iconList[];
