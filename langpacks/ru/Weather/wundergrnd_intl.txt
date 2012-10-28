@@ -482,3 +482,7 @@
 ВОзможен снег, 70% вероятность осадков
 [Chance Of Snow 80% Chance Of Precipitation]
 ВОзможен снег, 80% вероятность осадков
+[Light Rain Fog]
+Слабый дождь, туман
+[Snow 90% Chance Of Precipitation]
+Снег, 90% вероятность осадков
