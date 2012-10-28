@@ -299,7 +299,7 @@ wchar_t* CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 	// make sure the avatar cache directory exists
 	::CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
 
-	wchar_t *sid = this->GetSettingString("sid");
+	wchar_t *sid = this->GetSettingString("sid", ::mir_wstrdup(L""));
 	::wcscat(path, sid);
 	::wcscat(path, L".jpg");
 	::mir_free(sid);
