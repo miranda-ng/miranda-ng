@@ -147,15 +147,14 @@ char* LoadKeyPair()
 			pData[dwResSize] = 0;
 			int basedecoded = decodeSize(pData);
 			GlobalUnlock(hResource);
-			GlobalFree(hResource);
 			unsigned char *bufD = (unsigned char*)mir_alloc(basedecoded + 1);
 			unsigned char *tmpD = (unsigned char*)mir_alloc(basedecoded + 1);
 			decode(pData, tmpD, basedecoded);
-			for (int i = 0; i <= basedecoded; i += 16) {
+			for (int i = 0; i < basedecoded; i += 16) {
 				aes_decrypt(&ctx, tmpD+i, bufD+i);
 			}
 			mir_free(tmpD);
-			bufD[basedecoded-1] = 0; //cert should be null terminated
+			bufD[basedecoded] = 0; //cert should be null terminated
 			return (char*)bufD;
 		}
 		return NULL;
