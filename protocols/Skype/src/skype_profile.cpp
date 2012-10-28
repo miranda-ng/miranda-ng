@@ -8,11 +8,28 @@ void CSkypeProto::UpdateOwnAvatar()
 	if (newTS > oldTS)
 	{
 		SEBinary data;
-		//this->account->GetPropAvatarImage(data);
+		this->account->GetPropAvatarImage(data);
 		
-		//if (data.size() > 0)
+		if (data.size() > 0)
 		{
-			// todo: add own avatar loading'n'registration
+			wchar_t *path = this->GetContactAvatarFilePath(this->GetSettingString("sid"));
+			FILE* fp = _wfopen(path, L"wb");
+			if (fp)
+			{
+				fwrite(data.data(), sizeof(char), data.size(), fp);
+				fclose(fp);
+
+				this->SetSettingDword("AvatarTS", newTS);
+
+				PROTO_AVATAR_INFORMATIONW pai = {0};
+				pai.cbSize = sizeof(pai);
+				pai.format = PA_FORMAT_JPEG;
+				pai.hContact = NULL;
+				wcscpy(pai.filename, path);
+		
+				this->SendBroadcast(ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+			}
+			delete path;
 		}		
 	}
 }
@@ -22,9 +39,9 @@ void CSkypeProto::UpdateOwnBirthday()
 	uint data;
 	this->account->GetPropBirthday(data);
 	TCHAR date[9];
-	_itot_s(data, date, 10);
 	if (data > 0)
 	{
+		_itot_s(data, date, 10);
 		INT day, month, year;
 		_stscanf(date, _T("%04d%02d%02d"), &year, &month, &day);
 		this->SetSettingByte("BirthDay", day);

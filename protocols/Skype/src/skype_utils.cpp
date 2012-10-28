@@ -231,22 +231,40 @@ void CSkypeProto::FakeAsync(void *param)
 	::mir_free(param);
 }
 
-wchar_t* CSkypeProto::GetOwnAvatarFilePath()
+int CSkypeProto::DetectAvatarFormatBuffer(const char *pBuffer)
 {
-	/*DBVARIANT dbvFile = {DBVT_DELETED};
+	if (!strncmp(pBuffer, "%PNG", 4))
+		return PA_FORMAT_PNG;
 
-	if (!getSettingStringT(NULL, "AvatarFile", &dbvFile))
-	{
-		TCHAR tmp[MAX_PATH * 2];
-		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)dbvFile.ptszVal, (LPARAM)tmp);
-		ICQFreeVariant(&dbvFile);
+	if (!strncmp(pBuffer, "GIF8", 4))
+		return PA_FORMAT_GIF;
 
-		return null_strdup(tmp);
-	}*/
-	return NULL;
+	if (!_strnicmp(pBuffer, "<?xml", 5))
+		return PA_FORMAT_XML;
+
+	if ((((DWORD*)pBuffer)[0] == 0xE0FFD8FFul) || (((DWORD*)pBuffer)[0] == 0xE1FFD8FFul))
+		return PA_FORMAT_JPEG;
+
+	if (!strncmp(pBuffer, "BM", 2))
+		return PA_FORMAT_BMP;
+
+	return PA_FORMAT_UNKNOWN;
 }
 
-wchar_t* CSkypeProto::GetContactAvatarFilePath(wchar_t* skypeName)
+int CSkypeProto::DetectAvatarFormat(const wchar_t *path)
+{
+	int src = _wopen(path, _O_BINARY | _O_RDONLY, 0);
+	if (src == -1)
+		return PA_FORMAT_UNKNOWN;
+
+	char pBuf[32];
+	_read(src, pBuf, 32);
+	_close(src);
+
+	return CSkypeProto::DetectAvatarFormatBuffer(pBuf);
+}
+
+wchar_t* CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 {
 	wchar_t* path = new wchar_t[MAX_PATH * 2];
 	
@@ -281,8 +299,10 @@ wchar_t* CSkypeProto::GetContactAvatarFilePath(wchar_t* skypeName)
 	// make sure the avatar cache directory exists
 	::CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
 
-	wcscat(path, skypeName);
-	wcscat(path, L".jpg");
+	wchar_t *sid = this->GetSettingString("sid");
+	::wcscat(path, sid);
+	::wcscat(path, L".jpg");
+	::mir_free(sid);
 
 	return path;
 }

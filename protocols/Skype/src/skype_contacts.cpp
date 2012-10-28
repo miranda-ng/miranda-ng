@@ -76,9 +76,9 @@ void CSkypeProto::UpdateContactBirthday(HANDLE hContact, CContact::Ref contact)
 	uint data;
 	contact->GetPropBirthday(data);
 	TCHAR date[9];
-	_itot_s(data, date, 10);
 	if (data > 0)
 	{
+		_itot_s(data, date, 10);
 		INT day, month, year;
 		_stscanf(date, _T("%04d%02d%02d"), &year, &month, &day);
 		this->SetSettingByte(hContact, "BirthDay", day);

@@ -2,7 +2,7 @@ Bugs:
 - don't send auth request
 
 Features:
-- own info(profile)
+- add avatar loading to skype server
 - multiuser chat
 - voice
 - video

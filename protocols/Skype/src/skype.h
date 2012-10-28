@@ -41,6 +41,9 @@
 //#pragma warning(pop)
 #include <win2k.h>
 
+#include <io.h>
+#include <fcntl.h>
+
 #include <m_popup2.h>
 #include <m_folders.h>
 
@@ -58,7 +61,7 @@ extern "C"
 #define SKYPE_PASSWORD_LIMIT 128
 #define SKYPE_SETTINGS_NAME "Name"
 #define SKYPE_SETTINGS_STATUS "Status"
-#define SKYPE_SETTINGS_LOGIN "SkypeLogin"
+#define SKYPE_SETTINGS_LOGIN "sid"
 #define SKYPE_SETTINGS_PASSWORD "Password"
 
 #define SKYPE_SEARCH_BYSID 1001

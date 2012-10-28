@@ -18,6 +18,11 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	this->SetAllContactStatus(ID_STATUS_OFFLINE);
 
 	this->CreateService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
+	// Avatar API
+	this->CreateService(PS_GETAVATARINFOT, &CSkypeProto::GetAvatarInfo);
+	this->CreateService(PS_GETAVATARCAPS, &CSkypeProto::GetAvatarCaps);
+	this->CreateService(PS_GETMYAVATART, &CSkypeProto::GetMyAvatar);
+	this->CreateService(PS_SETMYAVATART, &CSkypeProto::SetMyAvatar);
 
 	this->InitNetLib();
 }

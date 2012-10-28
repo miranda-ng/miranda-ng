@@ -8,7 +8,7 @@ void CSkypeProto::InitServiceList()
 		::CreateServiceFunction("Skype/MenuChoose", CSkypeProto::MenuChooseService));
 }
 
-int CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
+int __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONW *pai = (PROTO_AVATAR_INFORMATIONW*)lParam;
 
@@ -32,7 +32,7 @@ int CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 	return GAIR_NOAVATAR;
 }
 
-int CSkypeProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
+int __cdecl CSkypeProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam)
 	{
@@ -76,11 +76,11 @@ int CSkypeProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CSkypeProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
+int __cdecl CSkypeProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	if (!wParam) return -2;
 
-	wchar_t *path = this->GetOwnAvatarFilePath();
+	wchar_t *path = this->GetContactAvatarFilePath();
 	if (path && !_waccess(path, 0)) 
 	{
 		::wcsncpy((wchar_t *)wParam, path, (int)lParam);
@@ -92,64 +92,39 @@ int CSkypeProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return -1;
 }
 
-int CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
+int __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
 	wchar_t *path = (wchar_t *)lParam;
 	int iRet = -1;
 
-	//if (path)
-	//{ // set file for avatar
-	//	int dwPaFormat = DetectAvatarFormat(tszFile);
-	//	if (dwPaFormat != PA_FORMAT_XML)
-	//	{ 
-	//		// if it should be image, check if it is valid
-	//		HBITMAP avt = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (WPARAM)tszFile);
-	//		if (!avt) return iRet;
-	//		DeleteObject(avt);
-	//	}
+	if (path)
+	{
+		int dwPaFormat = CSkypeProto::DetectAvatarFormat(path);
+		if (dwPaFormat != PA_FORMAT_XML)
+		{ 
+			HBITMAP avt = (HBITMAP)::CallService(MS_UTILS_LOADBITMAPT, 0, (WPARAM)path);
+			if (!avt) return iRet;
+			::DeleteObject(avt);
+		}
 
-	//	TCHAR tszMyFile[MAX_PATH+1];
-	//	GetFullAvatarFileName(0, NULL, dwPaFormat, tszMyFile, MAX_PATH);
-	//	// if not in our storage, copy
-	//	if (lstrcmp(tszFile, tszMyFile) && !CopyFile(tszFile, tszMyFile, FALSE))
-	//	{
-	//		NetLog_Server("Failed to copy our avatar to local storage.");
-	//		return iRet;
-	//	}
+		wchar_t *avatarPath = this->GetContactAvatarFilePath();
+		if (::wcscmp(path, avatarPath) && !::CopyFile(path, avatarPath, FALSE))
+		{
+			this->Log("Failed to copy our avatar to local storage.");
+			return iRet;
+		}
 
-	//	BYTE *hash = calcMD5HashOfFile(tszMyFile);
-	//	if (hash)
-	//	{
-	//		BYTE* ihash = (BYTE*)_alloca(0x14);
-	//		// upload hash to server
-	//		ihash[0] = 0;    //unknown
-	//		ihash[1] = dwPaFormat == PA_FORMAT_XML ? AVATAR_HASH_FLASH : AVATAR_HASH_STATIC; //hash type
-	//		ihash[2] = 1;    //hash status
-	//		ihash[3] = 0x10; //hash len
-	//		memcpy(ihash+4, hash, 0x10);
-	//		updateServAvatarHash(ihash, 0x14);
+		// todo: add avatar loading to skype server
 
-	//		if (setSettingBlob(NULL, "AvatarHash", ihash, 0x14))
-	//		{
-	//			NetLog_Server("Failed to save avatar hash.");
-	//		}
-
-	//		TCHAR tmp[MAX_PATH];
-	//		CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)tszMyFile, (LPARAM)tmp);
-	//		setSettingStringT(NULL, "AvatarFile", tmp);
-
-	//		iRet = 0;
-
-	//		SAFE_FREE((void**)&hash);
-	//	}
-	//}
-	//else
-	//{ // delete user avatar
-	//	deleteSetting(NULL, "AvatarFile");
-	//	setSettingBlob(NULL, "AvatarHash", hashEmptyAvatar, 9);
-	//	updateServAvatarHash(hashEmptyAvatar, 9); // set blank avatar
-	//	iRet = 0;
-	//}
+		this->SetSettingDword("AvatarTS", time(NULL));
+		iRet = 0;
+	}
+	else
+	{
+		// todo: avatar deletig
+		this->DeleteSetting("AvatarTS");
+		iRet = 0;
+	}
 
 	return iRet;
 }
