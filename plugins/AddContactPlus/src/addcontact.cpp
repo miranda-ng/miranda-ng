@@ -115,7 +115,7 @@ void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALS
 	}
 }
 
-void AddContactDlgAccounts(HWND hdlg, ADDCONTACTSTRUCT* acs)
+bool AddContactDlgAccounts(HWND hdlg, ADDCONTACTSTRUCT* acs)
 {
 		PROTOACCOUNT** pAccounts;
 		int iRealAccCount, iAccCount = 0, i;
@@ -136,10 +136,9 @@ void AddContactDlgAccounts(HWND hdlg, ADDCONTACTSTRUCT* acs)
 				DestroyWindow(hdlg);
 			else
 				EndDialog(hdlg, 0);
-			return;
+			return false;
 		}
 
-		HICON hIcon;
 		SIZE textSize;
 		RECT rc;
 		int iIndex = 0, cbWidth = 0;
@@ -162,7 +161,7 @@ void AddContactDlgAccounts(HWND hdlg, ADDCONTACTSTRUCT* acs)
 			cbei.pszText = pAccounts[i]->tszAccountName;
 			GetTextExtentPoint32(hdc, cbei.pszText, lstrlen(cbei.pszText), &textSize);
 			if (textSize.cx > cbWidth) cbWidth = textSize.cx;
-			hIcon = (HICON)CallProtoService(pAccounts[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
+			HICON hIcon = (HICON)CallProtoService(pAccounts[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 			cbei.iImage = cbei.iSelectedImage = ImageList_AddIcon(hIml, hIcon);
 			DestroyIcon(hIcon);
 			cbei.lParam = (LPARAM)pAccounts[i]->szModuleName;
@@ -179,6 +178,8 @@ void AddContactDlgAccounts(HWND hdlg, ADDCONTACTSTRUCT* acs)
 		SendMessage(hdlg, WM_COMMAND, MAKEWPARAM(IDC_PROTO, CBN_SELCHANGE), (LPARAM)GetDlgItem(hdlg, IDC_PROTO));
 		if (iAccCount == 1)
 			SetFocus(GetDlgItem(hdlg, IDC_USERID));
+
+		return true;
 }
 
 #define DM_ADDCONTACT_CHANGEICONS WM_USER + 11
@@ -206,10 +207,9 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				{
 					DBVARIANT dbv;
 					char idstr[4];
-					int id;
 					_itoa(groupId, idstr, 10);
 					if (DBGetContactSettingTString(NULL, "CListGroups", idstr, &dbv)) break;
-					id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)(dbv.ptszVal + 1));
+					int id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)(dbv.ptszVal + 1));
 					SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA, (WPARAM)id, (LPARAM)groupId + 1);
 					DBFreeVariant(&dbv);
 				}
@@ -217,12 +217,22 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			SendDlgItemMessage(hdlg, IDC_GROUP, CB_INSERTSTRING, 0, (LPARAM)TranslateT("None"));
 			SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETCURSEL, 0, 0);
 
-			AddContactDlgAccounts(hdlg, acs);
-			// By default check these checkboxes
-			CheckDlgButton(hdlg, IDC_ADDED, BST_CHECKED);
-			CheckDlgButton(hdlg, IDC_AUTH, BST_CHECKED);
-			AddContactDlgOpts(hdlg, acs->szProto);
-			EnableWindow(GetDlgItem(hdlg, IDOK), FALSE);
+			{
+				DBVARIANT dbv = {0};
+				if(!DBGetContactSettingString(NULL,"AddContact","LastProto",&dbv))
+				{
+					acs->szProto = dbv.pszVal;
+					DBFreeVariant(&dbv);
+				}
+			}
+			if(AddContactDlgAccounts(hdlg, acs))
+			{
+				// By default check these checkboxes
+				CheckDlgButton(hdlg, IDC_ADDED, BST_CHECKED);
+				CheckDlgButton(hdlg, IDC_AUTH, BST_CHECKED);
+				AddContactDlgOpts(hdlg, acs->szProto);
+				EnableWindow(GetDlgItem(hdlg, IDOK), FALSE);
+			}
 			break;
 
 		case WM_COMMAND:
@@ -416,6 +426,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			acs = (ADDCONTACTSTRUCT*)GetWindowLongPtr(hdlg, GWLP_USERDATA);
 			if (acs)
 			{
+				if(acs->szProto)
+					DBWriteContactSettingString(NULL,"AddContact","LastProto",acs->szProto);
 				if (acs->psr)
 				{
 					mir_free(acs->psr->nick);
