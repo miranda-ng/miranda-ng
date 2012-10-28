@@ -2200,7 +2200,7 @@ void HistoryWindow::DoImport(IImport::ImportType type)
 	while(_hContact)
 	{
 		contacts.push_back(_hContact);
-		_hContact = db_find_next(hContact);
+		_hContact = db_find_next(_hContact);
 	}
 
 	bool changeContact = false;
