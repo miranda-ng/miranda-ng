@@ -3,7 +3,6 @@ Bugs:
 
 Features:
 - own info(profile)
-- crypt cert and add it to resource
 - multiuser chat
 - voice
 - video
