@@ -2195,23 +2195,61 @@ void HistoryWindow::DoImport(IImport::ImportType type)
 	ExportManager exp(hWnd, hContact, GetFilterNr());
 	std::vector<IImport::ExternalMessage> messages;
 	std::wstring err;
-	if(exp.Import(type, messages, &err))
+	std::vector<HANDLE> contacts;
+	HANDLE _hContact = db_find_first();
+	while(_hContact)
 	{
-		int act = MessageBox(hWnd, TranslateT("Do you want save imported messages to local profile?"), TranslateT("Import"), MB_ICONQUESTION | MB_YESNOCANCEL | MB_DEFBUTTON2);
-		if(act == IDYES)
+		contacts.push_back(_hContact);
+		_hContact = db_find_next(hContact);
+	}
+
+	bool changeContact = false;
+	HANDLE lastContact = hContact;
+	int i = 1;
+	do
+	{
+		bool differentContact = false;
+		if(exp.Import(type, messages, &err, &differentContact, &contacts))
 		{
-			MargeMessages(messages);
-			HistoryWindow::RebuildEvents(hContact);
+			int act = MessageBox(hWnd, TranslateT("Do you want save imported messages to local profile?"), TranslateT("Import"), MB_ICONQUESTION | MB_YESNOCANCEL | MB_DEFBUTTON2);
+			if(act == IDYES)
+			{
+				MargeMessages(messages);
+				if(!changeContact)
+				{
+					HistoryWindow::RebuildEvents(hContact);
+				}
+			}
+			else if(act == IDNO)
+			{
+				EventList::AddImporter(hContact, type, exp.GetFileName());
+				if(!changeContact)
+				{
+					HistoryWindow::RebuildEvents(hContact);
+				}
+			}
 		}
-		else if(act == IDNO)
+		else if(differentContact)
 		{
-			EventList::AddImporter(hContact, type, exp.GetFileName());
-			HistoryWindow::RebuildEvents(hContact);
+			int act = MessageBox(hWnd, TranslateT("File contain history for different contact. Do you want to change contact and import?"), TranslateT("Error"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2);
+			if(act == IDYES)
+			{
+				changeContact = true;
+				hContact = exp.hContact;
+			}
+		}
+		else if(!err.empty())
+		{
+			MessageBox(hWnd, err.c_str(), TranslateT("Error"), MB_ICONERROR);
 		}
 	}
-	else if(!err.empty())
+	while(changeContact && i--);
+	if(changeContact)
 	{
-		MessageBox(hWnd, err.c_str(), TranslateT("Error"), MB_ICONERROR);
+		hContact = lastContact;
+		ReloadContacts();
+		SelectContact(exp.hContact);
+		HistoryWindow::RebuildEvents(exp.hContact);
 	}
 }
 

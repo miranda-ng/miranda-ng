@@ -53,7 +53,7 @@ public:
 	void SetDeleteWithoutExportEvents(int _deltaTime, DWORD _now);
 	void DeleteExportedEvents();
 	int Import(IImport::ImportType type, const std::vector<HANDLE>& contacts);
-	bool Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err = NULL);
+	bool Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err = NULL, bool* differentContact = NULL, std::vector<HANDLE>* contacts = NULL);
 	static const TCHAR* GetExt(IImport::ImportType type);
 };
 

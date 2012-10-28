@@ -24,6 +24,9 @@ Microsoft Visual C++ 2008 Redistributable Package for x86 version (included in M
 Changelog
 =========
 
+--- 1.0.1.9 ---
+* now importing history for different contact than selected is possible
+
 --- 1.0.1.8 ---
 * scrollbar position on bottom when opening history
 

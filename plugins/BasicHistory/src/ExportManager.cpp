@@ -249,7 +249,7 @@ int ExportManager::Import(IImport::ImportType type, const std::vector<HANDLE>& c
 	return t;
 }
 
-bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err)
+bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err, bool* differentContact, std::vector<HANDLE>* contacts)
 {
 	IImport* imp = NULL;
 	switch(type)
@@ -281,16 +281,31 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 	v.push_back(hContact);
 	bool ret = true;
 	int contInFile = imp->IsContactInFile(v);
-	if(contInFile != 0 && contInFile != -3)
+	if(contInFile == -1)
 	{
 		ret = false;
 		if(err != NULL)
 			*err = TranslateT("File do not contain selected contact");
+		if(contacts != NULL && differentContact != NULL)
+		{
+			contInFile = imp->IsContactInFile(*contacts);
+			if(contInFile >= 0)
+			{
+				*differentContact = true;
+				hContact = (*contacts)[contInFile];
+			}
+		}
 	}
-	else
+	else if(contInFile == 0 || contInFile == -3)
 	{
 		ret = imp->GetEventList(eventList);
 		if(!ret && err != NULL)
+			*err = TranslateT("File is corrupted");
+	}
+	else
+	{
+		ret = false;
+		if(err != NULL)
 			*err = TranslateT("File is corrupted");
 	}
 	stream->close();
