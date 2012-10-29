@@ -604,7 +604,7 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 				dbei.cbBlob = (int)i->status.text.size()+1;
 				dbei.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
 				dbei.flags = DBEF_UTF;
-				dbei.flags = DBEF_READ; // i had commented this line out.. can't remember why :(  might need to do it again, uncommented for mrQQ for testing
+				//dbei.flags = DBEF_READ; // i had commented this line out.. can't remember why :(  might need to do it again, uncommented for mrQQ for testing
 				dbei.timestamp = static_cast<DWORD>(i->status.time);
 				dbei.szModule = m_szModuleName;
 				CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
