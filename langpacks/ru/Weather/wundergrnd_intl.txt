@@ -486,3 +486,5 @@
 Слабый дождь, туман
 [Snow 90% Chance Of Precipitation]
 Снег, 90% вероятность осадков
+[Snow 20% Chance Of Precipitation]
+Снег, 20% вероятность осадков
