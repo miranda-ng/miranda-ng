@@ -52,8 +52,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 {
 	TCHAR buf[MAX_PATH];
 	mir_sntprintf(buf, SIZEOF(buf), _T("%s\\Plugins\\%s"), path, fd->cFileName);
-
-	CharLower(fd->cFileName);
+	HINSTANCE hInst = GetModuleHandle(buf);
 
 	BASIC_PLUGIN_INFO pi;
 	if (checkAPI(buf, &pi, MIRANDA_VERSION_CORE, CHECKAPI_NONE) == 0)
@@ -62,9 +61,11 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 	int isdb = hasMuuid(pi, miid_database);
 
 	PluginListItemData* dat = (PluginListItemData*)mir_alloc(sizeof(PluginListItemData));
+	dat->hInst = hInst;
+
+	CharLower(fd->cFileName);
 	_tcsncpy(dat->fileName, fd->cFileName, SIZEOF(dat->fileName));
 
-	HINSTANCE hInst = dat->hInst = GetModuleHandle(buf);
 	HWND hwndList = (HWND)lParam;
 
 	LVITEM it = { 0 };
