@@ -54,7 +54,7 @@
 #define TIMERID_SORT           15
 #define TIMERID_REFRESH        18
 #define TIMERID_PAINT          19
-struct ClcGroup;
+ClcGroup;
 
 #define CONTACTF_ONLINE    1
 #define CONTACTF_INVISTO   2
@@ -421,7 +421,7 @@ typedef struct {
 } protoMenu;
 
 //clcidents.c
-int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **contact, struct ClcGroup **subgroup, int *isVisible);
+int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 HANDLE ContactToItemHandle(struct ClcContact *contact, DWORD *nmFlags);
 
 //clcitems.c
@@ -433,11 +433,11 @@ DWORD INTSORT_GetLastMsgTime(HANDLE hContact);
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //clcutils.c
-void 	SetGroupExpand(HWND hwnd, struct ClcData *dat, struct ClcGroup *group, int newState);
+void 	SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState);
 void 	DoSelectionDefaultAction(HWND hwnd, struct ClcData *dat);
 int 	FindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk);
 void 	BeginRenameSelection(HWND hwnd, struct ClcData *dat);
-int 	HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcContact **contact, struct ClcGroup **group, DWORD *flags);
+int 	HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcContact **contact, ClcGroup **group, DWORD *flags);
 void 	ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
 void 	RecalcScrollBar(HWND hwnd, struct ClcData *dat);
 size_t 	MY_pathToRelative(const TCHAR *pSrc, TCHAR *pOut);
@@ -452,7 +452,7 @@ size_t 	MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut);
 int GetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
 void LoadClcOptions(HWND hwnd, struct ClcData *dat);
 void RecalculateGroupCheckboxes(HWND hwnd, struct ClcData *dat);
-void SetGroupChildCheckboxes(struct ClcGroup *group, int checked);
+void SetGroupChildCheckboxes(ClcGroup *group, int checked);
 BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto);
 int __fastcall GetStatusOnlineness(int status);
 void GetExtendedInfo(struct ClcContact *contact, struct ClcData *dat);
@@ -492,7 +492,7 @@ HWND ClcGetButtonWindow(int ctrlid);
 
 //clcpaint.c
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint);
-void __inline PaintItem(HDC hdcMem, struct ClcGroup *group, struct ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, DWORD style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight);
+void __inline PaintItem(HDC hdcMem, ClcGroup *group, struct ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, DWORD style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight);
 void Reload3dBevelColors();
 void ReloadThemedOptions();
 void SetButtonToSkinned();

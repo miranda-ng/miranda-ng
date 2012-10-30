@@ -26,13 +26,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_commonprototypes.h"
 
 #define CacheArrSize 255
-struct ClcGroup *CacheIndex[CacheArrSize] = {NULL};
+ClcGroup *CacheIndex[CacheArrSize] = {NULL};
 bool CacheIndexClear = TRUE;
 
 /* the CLC uses 3 different ways to identify elements in its list, this file
 contains routines to convert between them.
 
-1) struct ClcContact/struct ClcGroup pair. Only ever used within the duration
+1) ClcContact/ClcGroup pair. Only ever used within the duration
 of a single operation, but used at some point in nearly everything
 2) index integer. The 0-based number of the item from the top. Only visible
 items are counted (ie not closed groups). Used for saving selection and drag
@@ -46,14 +46,14 @@ exclusively externally
 2->1: GetRowByIndex()
 */
 
-int GetContactIndex(struct ClcGroup *group,struct ClcContact *contact)
+int GetContactIndex(ClcGroup *group,ClcContact *contact)
 {
   for (int i=0; i < group->cl.count; i++)
     if (group->cl.items[i]->hContact == contact->hContact)  return i;
   return -1;
 }
 
-int cliGetRowsPriorTo(struct ClcGroup *group,struct ClcGroup *subgroup,int contactIndex)
+int cliGetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex)
 {
 	int count = 0;
 	BYTE k;
@@ -103,16 +103,16 @@ int cliGetRowsPriorTo(struct ClcGroup *group,struct ClcGroup *subgroup,int conta
 	return -1;
 }
 
-int cliFindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **contact,struct ClcGroup **subgroup,int *isVisible)
+int cliFindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible)
 {
   return FindItem(hwnd,dat, hItem,contact,subgroup,isVisible,FALSE);
 }
 
-int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **contact,struct ClcGroup **subgroup,int *isVisible, BOOL isIgnoreSubcontacts)
+int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible, BOOL isIgnoreSubcontacts)
 {
 	int index = 0, i;
 	int nowVisible = 1;
-	struct ClcGroup *group;
+	ClcGroup *group;
 	
 	group = &dat->list;
 
@@ -121,7 +121,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
-			struct ClcGroup *tgroup;
+			ClcGroup *tgroup;
 			group = group->parent;
 			if (group == NULL) break;
 			nowVisible = 1;
@@ -170,7 +170,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 				if (group->cl.items[group->scanIndex]->subcontacts[i].hContact == hItem)
 				{	
 #ifdef _DEBUG
-					if (IsBadWritePtr(&group->cl.items[group->scanIndex]->subcontacts[i], sizeof(struct ClcContact)))
+					if (IsBadWritePtr(&group->cl.items[group->scanIndex]->subcontacts[i], sizeof(ClcContact)))
 					{
 						log1("FindIltem->IsBadWritePtr | 2o  [%08x]", &group->cl.items[group->scanIndex]->subcontacts[i]);
 						PostMessage(hwnd,CLM_AUTOREBUILD,0,0);
@@ -206,10 +206,10 @@ void ClearRowByIndexCache()
 		CacheIndexClear = TRUE;
 	};
 }
-int cliGetRowByIndex(struct ClcData *dat,int testindex,struct ClcContact **contact,struct ClcGroup **subgroup)
+int cliGetRowByIndex(struct ClcData *dat,int testindex,ClcContact **contact,ClcGroup **subgroup)
 {
 	int index = 0,i;
-	struct ClcGroup *group = &dat->list;
+	ClcGroup *group = &dat->list;
 
 	if (testindex < 0) return (-1);
 	{
@@ -270,7 +270,7 @@ int cliGetRowByIndex(struct ClcData *dat,int testindex,struct ClcContact **conta
 	return -1;
 }
 
-HANDLE ContactToHItem(struct ClcContact *contact)
+HANDLE ContactToHItem(ClcContact *contact)
 {
 	switch(contact->type) {
 case CLCIT_CONTACT:
@@ -283,7 +283,7 @@ case CLCIT_INFO:
 	return NULL;
 }
 
-HANDLE ContactToItemHandle(struct ClcContact *contact,DWORD *nmFlags)
+HANDLE ContactToItemHandle(ClcContact *contact,DWORD *nmFlags)
 {
 	switch(contact->type) {
 case CLCIT_CONTACT:

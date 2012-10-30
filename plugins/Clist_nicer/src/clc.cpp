@@ -59,7 +59,7 @@ LONG g_cxsmIcon, g_cysmIcon;
 
 void  SetDBButtonStates(HANDLE hContact);
 
-HMENU BuildGroupPopupMenu(struct ClcGroup* group)
+HMENU BuildGroupPopupMenu(ClcGroup* group)
 {
 	return (HMENU)CallService(MS_CLIST_MENUBUILDSUBGROUP, (WPARAM)group, 0);
 }
@@ -355,7 +355,7 @@ LBL_Def:
 
 		case INTM_ICONCHANGED: {
 			struct ClcContact *contact = NULL;
-			struct ClcGroup *group = NULL;
+			ClcGroup *group = NULL;
 			int recalcScrollBar = 0, shouldShow;
 			WORD status = ID_STATUS_OFFLINE;
 			char *szProto;
@@ -402,7 +402,7 @@ LBL_Def:
 				}
 			}
 			if (hSelItem) {
-				struct ClcGroup *selgroup;
+				ClcGroup *selgroup;
 				if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
 					dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*) & selgroup->cl, selcontact));
 				else
@@ -564,7 +564,7 @@ LBL_Def:
 
 		case INTM_INVALIDATECONTACT: {
 			struct ClcContact *contact = 0;
-			struct ClcGroup *group = 0;
+			ClcGroup *group = 0;
 			int iItem;
 
 			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL))

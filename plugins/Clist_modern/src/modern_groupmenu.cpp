@@ -476,7 +476,7 @@ static int OnBuildSubGroupMenu(WPARAM wParam,LPARAM lParam)
   BOOL showOfflineinGroup = FALSE;
  
   
-	struct ClcGroup *group = (struct ClcGroup *)wParam;
+	ClcGroup *group = (ClcGroup *)wParam;
 	if (wParam == 0) return 0;
 
  if (MirandaExiting()) return 0;
@@ -518,7 +518,7 @@ INT_PTR BuildSubGroupMenu(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)hMenu;
 }
 
-HMENU cliBuildGroupPopupMenu(struct ClcGroup *group)
+HMENU cliBuildGroupPopupMenu(ClcGroup *group)
 {
 	//HWND wnd = GetForegroundWindow();
 	return (HMENU)CallService(MS_CLIST_MENUBUILDSUBGROUP,(WPARAM)group,0);

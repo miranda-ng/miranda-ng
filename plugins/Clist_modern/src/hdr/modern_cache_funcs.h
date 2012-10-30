@@ -31,11 +31,11 @@ Created by Pescuma
 #include "modern_clc.h"
 #include "modern_commonprototypes.h"
 
-void Cache_GetText(struct ClcData *dat, struct ClcContact *contact, BOOL forceRenew);
-void Cache_GetFirstLineText(struct ClcData *dat, struct ClcContact *contact);
+void Cache_GetText(struct ClcData *dat, ClcContact *contact, BOOL forceRenew);
+void Cache_GetFirstLineText(struct ClcData *dat, ClcContact *contact);
 void Cache_GetSecondLineText(struct SHORTDATA *dat, PDNCE pdnce);
 void Cache_GetThirdLineText(struct SHORTDATA *dat, PDNCE pdnce);
-void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact);
+void Cache_GetAvatar(struct ClcData *dat, ClcContact *contact);
 void Cache_GetTimezone(struct ClcData *dat, HANDLE hContact);
 int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *variable_text, BOOL xstatus_has_priority,
 					  BOOL show_status_if_no_away, BOOL show_listening_if_no_away, BOOL use_name_and_message_for_xstatus,

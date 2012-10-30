@@ -478,7 +478,7 @@ static INT_PTR RemoveSubGroupMenuItem(WPARAM wParam,LPARAM lParam)
 
 static int OnBuildSubGroupMenu(WPARAM wParam,LPARAM lParam)
 {
-	ClcGroup *group=(struct ClcGroup *)wParam;
+	ClcGroup *group=(ClcGroup *)wParam;
 	if (group == 0)
 		return 0;
 

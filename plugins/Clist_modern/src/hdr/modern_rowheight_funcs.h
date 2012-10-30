@@ -47,7 +47,7 @@ BOOL RowHeights_Alloc(struct ClcData *dat, int size);
 int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd);
 
 // Calc and store row height
-int RowHeights_GetRowHeight(struct ClcData *dat, HWND hwnd, struct ClcContact *contact, int item);
+int RowHeights_GetRowHeight(struct ClcData *dat, HWND hwnd, ClcContact *contact, int item);
 
 // Calc and store row height for all itens in the list
 void RowHeights_CalcRowHeights(struct ClcData *dat, HWND hwnd);

@@ -50,7 +50,7 @@ extern HIMAGELIST himlExtraImages;
 
 TIME_API tmi;
 
-HMENU  BuildGroupPopupMenu( struct ClcGroup* group );
+HMENU  BuildGroupPopupMenu( ClcGroup* group );
 struct ClcContact* CreateClcContact( void );
 struct CListEvent* fnCreateEvent( void );
 void   ReloadThemedOptions();
@@ -66,20 +66,20 @@ int  ClcShutdown(WPARAM wParam, LPARAM lParam);
 void ( *saveLoadClcOptions )(HWND hwnd,struct ClcData *dat);
 void LoadClcOptions(HWND hwnd,struct ClcData *dat);
 
-int ( *saveAddContactToGroup )(struct ClcData *dat, struct ClcGroup *group, HANDLE hContact);
-int AddContactToGroup(struct ClcData *dat, struct ClcGroup *group, HANDLE hContact);
+int ( *saveAddContactToGroup )(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
+int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
 
-struct ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd, struct ClcGroup *group, struct ClcContact *contact, int updateTotalCount);
-struct ClcGroup* RemoveItemFromGroup(HWND hwnd, struct ClcGroup *group, struct ClcContact *contact, int updateTotalCount);
+ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd, ClcGroup *group, struct ClcContact *contact, int updateTotalCount);
+ClcGroup* RemoveItemFromGroup(HWND hwnd, ClcGroup *group, struct ClcContact *contact, int updateTotalCount);
 
 struct CListEvent* ( *saveAddEvent )(CLISTEVENT *cle);
 struct CListEvent* AddEvent(CLISTEVENT *cle);
 
-int ( *saveAddInfoItemToGroup )(struct ClcGroup *group, int flags, const TCHAR *pszText);
-int AddInfoItemToGroup(struct ClcGroup *group, int flags, const TCHAR *pszText);
+int ( *saveAddInfoItemToGroup )(ClcGroup *group, int flags, const TCHAR *pszText);
+int AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
 
-struct ClcGroup* ( *saveAddGroup )(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
-struct ClcGroup* AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
+ClcGroup* ( *saveAddGroup )(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
+ClcGroup* AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
 
 LRESULT ( CALLBACK *saveContactListWndProc )(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);

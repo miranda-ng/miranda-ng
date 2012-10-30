@@ -26,10 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //loads of stuff that didn't really fit anywhere else
 
-int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact **contact,struct ClcGroup **group,DWORD *flags)
+int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact **contact,ClcGroup **group,DWORD *flags)
 {
 	struct ClcContact *hitcontact;
-	struct ClcGroup *hitgroup;
+	ClcGroup *hitgroup;
 	int hit,indent,width,i,cxSmIcon;
 	int checkboxWidth, subident,ic = 0;
 	SIZE textSize;
@@ -238,7 +238,7 @@ void RecalcScrollBar(HWND hwnd,struct ClcData *dat)
 	ScrollTo(hwnd,dat,dat->yScroll,1);
 }
 
-void CalcEipPosition( struct ClcData *dat, struct ClcContact *contact, struct ClcGroup *group, POINT *result)
+void CalcEipPosition( struct ClcData *dat, struct ClcContact *contact, ClcGroup *group, POINT *result)
 {
 	int indent;
 	for (indent = 0; group->parent; indent++, group = group->parent);

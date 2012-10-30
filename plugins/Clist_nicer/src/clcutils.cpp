@@ -188,10 +188,10 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct Clc
     return -1;
 }
 
-int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcContact **contact, struct ClcGroup **group, DWORD *flags)
+int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcContact **contact, ClcGroup **group, DWORD *flags)
 {
     struct ClcContact *hitcontact;
-    struct ClcGroup *hitgroup;
+    ClcGroup *hitgroup;
     int hit, indent, width, i, cxSmIcon;
     int checkboxWidth;
     SIZE textSize;
@@ -443,7 +443,7 @@ void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
 	//saveRecalcScrollBar(hwnd, dat);
 }
 
-void SetGroupExpand(HWND hwnd,struct ClcData *dat,struct ClcGroup *group,int newState)
+void SetGroupExpand(HWND hwnd,struct ClcData *dat,ClcGroup *group,int newState)
 {
 	int contentCount;
 	int groupy;
@@ -516,7 +516,7 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 {
     struct ClcContact *contact;
-    struct ClcGroup *group;
+    ClcGroup *group;
     int indent, x, y, h;
     RECT clRect;
 

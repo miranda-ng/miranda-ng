@@ -83,7 +83,7 @@ void StatusUpdaterThread(void*)
 	}
 }
 
-HMENU BuildGroupPopupMenu( struct ClcGroup* group )
+HMENU BuildGroupPopupMenu( ClcGroup* group )
 {
 	return (HMENU)CallService(MS_CLIST_MENUBUILDSUBGROUP,(WPARAM)group,0);
 }
@@ -143,7 +143,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 	case INTM_ICONCHANGED:
 	{	struct ClcContact *contact = NULL;
-		struct ClcGroup *group = NULL;
+		ClcGroup *group = NULL;
 		int recalcScrollBar = 0,shouldShow;
 		HANDLE hSelItem = NULL;
 		struct ClcContact *selcontact = NULL;
@@ -197,7 +197,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 					dat->needsResort = 1;
 		}	}
 		if (hSelItem) {
-			struct ClcGroup *selgroup;
+			ClcGroup *selgroup;
 			if (FindItem(hwnd,dat,hSelItem,&selcontact,&selgroup,NULL))
 				dat->selection = GetRowsPriorTo(&dat->list,selgroup,List_IndexOf((SortedList*)&selgroup->cl, selcontact));
 			else
@@ -210,7 +210,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	}
 	case INTM_STATUSMSGCHANGED:
 	{	struct ClcContact *contact = NULL;
-		struct ClcGroup *group = NULL;
+		ClcGroup *group = NULL;
 		DBVARIANT dbv;
 
 		if (!(dat->style&CLS_SHOWSTATUSMESSAGES)) break;

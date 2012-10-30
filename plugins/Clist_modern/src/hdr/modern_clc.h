@@ -128,7 +128,7 @@ void clcSetDelayTimer( UINT_PTR uIDEvent, HWND hwnd, int nDelay = -1);
 #define DROPTARGET_ONMETACONTACT  6
 #define DROPTARGET_ONSUBCONTACT  7
 
-struct ClcGroup;
+ClcGroup;
 
 #define CONTACTF_ONLINE    1
 #define CONTACTF_INVISTO   2
@@ -208,7 +208,7 @@ struct tContactItems
 
 struct ClcContact : public ClcContactBase
 {
-	struct ClcContact *subcontacts;
+	ClcContact *subcontacts;
 	BYTE SubAllocated;
 	BYTE SubExpanded;
 	BYTE isSubcontact;
@@ -403,22 +403,22 @@ typedef struct tagOVERLAYICONINFO
 void    ClcOptionsChanged(void);
 
 //clcidents.c
-int     cliGetRowsPriorTo(struct ClcGroup *group,struct ClcGroup *subgroup,int contactIndex);
-int     FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **contact,struct ClcGroup **subgroup,int *isVisible, BOOL isIgnoreSubcontacts );
-int     cliGetRowByIndex(struct ClcData *dat,int testindex,struct ClcContact **contact,struct ClcGroup **subgroup);
-HANDLE  ContactToHItem(struct ClcContact *contact);
-HANDLE  ContactToItemHandle(struct ClcContact *contact,DWORD *nmFlags);
+int     cliGetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex);
+int     FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible, BOOL isIgnoreSubcontacts );
+int     cliGetRowByIndex(struct ClcData *dat,int testindex,ClcContact **contact,ClcGroup **subgroup);
+HANDLE  ContactToHItem(ClcContact *contact);
+HANDLE  ContactToItemHandle(ClcContact *contact,DWORD *nmFlags);
 void    ClearRowByIndexCache();
 
 //clcitems.c
-struct ClcGroup *cli_AddGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers);
-void    cli_FreeGroup(struct ClcGroup *group);
-int     cli_AddInfoItemToGroup(struct ClcGroup *group,int flags,const TCHAR *pszText);
+ClcGroup *cli_AddGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers);
+void    cli_FreeGroup(ClcGroup *group);
+int     cli_AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText);
 void    cliRebuildEntireList(HWND hwnd,struct ClcData *dat);
 void    cli_DeleteItemFromTree(HWND hwnd,HANDLE hItem);
 void    cli_AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTotalCount,int checkHideOffline);
 void    cli_SortCLC(HWND hwnd,struct ClcData *dat,int useInsertionSort);
-int     GetNewSelection(struct ClcGroup *group,int selection, int direction);
+int     GetNewSelection(ClcGroup *group,int selection, int direction);
 
 //clcmsgs.c
 LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARAM wParam,LPARAM lParam);
@@ -426,7 +426,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARA
 //clcutils.c
 void    cliRecalcScrollBar(HWND hwnd,struct ClcData *dat);
 void    cliBeginRenameSelection(HWND hwnd,struct ClcData *dat);
-int     cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact **contact,struct ClcGroup **group,DWORD *flags);
+int     cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,ClcContact **contact,ClcGroup **group,DWORD *flags);
 void    cliScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth);
 int     GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt);
 void    LoadCLCOptions(HWND hwnd,struct ClcData *dat);

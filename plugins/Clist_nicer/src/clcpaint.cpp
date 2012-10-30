@@ -449,7 +449,7 @@ static BOOL mirror_rtl, mirror_always, mirror_rtltext;
 BYTE savedCORNER = -1;
 int  g_padding_y = 0;
 
-void __inline PaintItem(HDC hdcMem, struct ClcGroup *group, struct ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, DWORD style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight)
+void __inline PaintItem(HDC hdcMem, ClcGroup *group, struct ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, DWORD style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight)
 {
 	RECT rc;
 	int iImage = -1;
@@ -1372,7 +1372,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	HDC hdcMem;
 	RECT clRect;
 	int y,indent,index,fontHeight;
-	struct ClcGroup *group;
+	ClcGroup *group;
 	HBITMAP hBmpOsb, hOldBitmap;
 	HFONT hOldFont;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);

@@ -184,7 +184,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARA
 		return 0;
 	case CLM_SELECTITEM:
 		{
-			struct ClcGroup *tgroup;
+			ClcGroup *tgroup;
 			int index = -1;
 			int mainindex = -1;
 			if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL))
@@ -208,7 +208,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARA
 			if (k) {
 				for (int i=0; i < mainindex; i++)
 				{
-					struct ClcContact *tempCont = group->cl.items[i];
+					ClcContact *tempCont = group->cl.items[i];
 					if (tempCont->type == CLCIT_CONTACT && tempCont->SubAllocated && tempCont->SubExpanded)
 						index += tempCont->SubAllocated;				
 				}

@@ -35,10 +35,10 @@
 
 extern HANDLE hExtraImageListRebuilding, hExtraImageApplying;
 
-extern int ( *saveAddContactToGroup )(struct ClcData *dat, struct ClcGroup *group, HANDLE hContact);
-extern int ( *saveAddInfoItemToGroup )(struct ClcGroup *group, int flags, const TCHAR *pszText);
-extern struct ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd, struct ClcGroup *group, struct ClcContact *contact, int updateTotalCount);
-extern struct ClcGroup* ( *saveAddGroup )(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
+extern int ( *saveAddContactToGroup )(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
+extern int ( *saveAddInfoItemToGroup )(ClcGroup *group, int flags, const TCHAR *pszText);
+extern ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd, ClcGroup *group, struct ClcContact *contact, int updateTotalCount);
+extern ClcGroup* ( *saveAddGroup )(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
 
 static void TZ_LoadTimeZone(HANDLE hContact, struct TExtraCache *c, const char *szProto);
 
@@ -58,7 +58,7 @@ struct ClcContact* CreateClcContact( void )
 	return p;
 }
 
-int AddInfoItemToGroup(struct ClcGroup *group, int flags, const TCHAR *pszText)
+int AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 {
 	int i = saveAddInfoItemToGroup(group, flags, pszText);
 	struct ClcContact* p = group->cl.items[i];
@@ -72,9 +72,9 @@ int AddInfoItemToGroup(struct ClcGroup *group, int flags, const TCHAR *pszText)
 	return i;
 }
 
-struct ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
+ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
 {
-	struct ClcGroup *p = saveAddGroup( hwnd, dat, szName, flags, groupId, calcTotalMembers);
+	ClcGroup *p = saveAddGroup( hwnd, dat, szName, flags, groupId, calcTotalMembers);
 
 	
 		if ( p && p->parent )
@@ -83,7 +83,7 @@ struct ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, D
 	return p;
 }
 
-struct ClcGroup *RemoveItemFromGroup(HWND hwnd, struct ClcGroup *group, struct ClcContact *contact, int updateTotalCount)
+ClcGroup *RemoveItemFromGroup(HWND hwnd, ClcGroup *group, struct ClcContact *contact, int updateTotalCount)
 {
 	if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry) {
 		if (cfg::eCache[contact->extraCacheEntry].floater && cfg::eCache[contact->extraCacheEntry].floater->hwnd)
@@ -118,7 +118,7 @@ void LoadAvatarForContact(struct ClcContact *p)
         p->cFlags &= ~ECF_AVATAR;
 }
 
-int AddContactToGroup(struct ClcData *dat, struct ClcGroup *group, HANDLE hContact)
+int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 {
 	int i = saveAddContactToGroup( dat, group, hContact );
 	struct ClcContact* p = group->cl.items[i];
@@ -177,7 +177,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 	char *szProto;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	HANDLE hContact;
-	struct ClcGroup *group;
+	ClcGroup *group;
 	DBVARIANT dbv = {0};
 
 	RowHeight::Clear(dat);

@@ -151,7 +151,7 @@ HFONT CLCPaint::ChangeToFont( HDC hdc, struct ClcData *dat, int id, int *fontHei
 	return res;
 }
 
-int   CLCPaint::GetBasicFontID( struct ClcContact * contact )
+int   CLCPaint::GetBasicFontID( ClcContact * contact )
 {
 	PDNCE pdnce = NULL;
 	if ( contact->type == CLCIT_CONTACT )
@@ -388,7 +388,7 @@ int   CLCPaint::_GetGeneralisedStatus()
 	return status;
 }
 
-int   CLCPaint::_GetRealStatus( struct ClcContact * pContact, int nStatus )
+int   CLCPaint::_GetRealStatus( ClcContact * pContact, int nStatus )
 { 
 	if ( !pContact->proto ) 
 		return nStatus;
@@ -577,7 +577,7 @@ void  CLCPaint::_AddParamShort( MODERNMASK * mpModernMask, DWORD dwParamIndex, D
 }
 
 
-MODERNMASK * CLCPaint::_GetCLCContactRowBackModernMask( struct ClcGroup * group, struct ClcContact * Drawing, int indent, int index, BOOL selected, BOOL hottrack, struct ClcData * dat )
+MODERNMASK * CLCPaint::_GetCLCContactRowBackModernMask( ClcGroup * group, ClcContact * Drawing, int indent, int index, BOOL selected, BOOL hottrack, struct ClcData * dat )
 {
 	MODERNMASK * mpModernMask = NULL;
 	char buf[BUF2SIZE] = {0};
@@ -596,7 +596,7 @@ MODERNMASK * CLCPaint::_GetCLCContactRowBackModernMask( struct ClcGroup * group,
 		break;
 	case CLCIT_CONTACT:
 		{
-			struct ClcContact * mCont = Drawing;
+			ClcContact * mCont = Drawing;
 			if ( Drawing->isSubcontact )
 			{
 				_AddParamShort( mpModernMask, hi_Type, hi_SubContact );
@@ -710,7 +710,7 @@ void CLCPaint::_RTLRect( RECT *rect, int width, int offset )
 	return;
 }
 
-void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint )
+void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint )
 {
 	int i=0;
 	int dx = free_row_rc.left;
@@ -1694,7 +1694,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 
 
 
-void CLCPaint::_DrawStatusIcon( struct ClcContact * Drawing, struct ClcData *dat, int iImage, HDC hdcMem, int x, int y, int cx, int cy, DWORD colorbg, DWORD colorfg, int mode )
+void CLCPaint::_DrawStatusIcon( ClcContact * Drawing, struct ClcData *dat, int iImage, HDC hdcMem, int x, int y, int cx, int cy, DWORD colorbg, DWORD colorfg, int mode )
 {
 	if ( Drawing->type != CLCIT_CONTACT )
 	{
@@ -1919,8 +1919,8 @@ void CLCPaint::_DrawBackground( HWND hWnd, struct ClcData * dat, HDC hdc, int pa
 
 void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMode, RECT* rcPaint, RECT& clRect, _PaintContext& pc )
 {
-	struct ClcContact *Drawing;
-	struct ClcGroup *group = &dat->list;
+	ClcContact *Drawing;
+	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
 	int indent = 0;
 	int subident = 0;
@@ -2302,7 +2302,7 @@ void CLCPaint::_PaintClc( HWND hwnd, struct ClcData *dat, HDC hdc, RECT *_rcPain
 
 }
 
-void CLCPaint::_StoreItemPos( struct ClcContact *contact, int ItemType, RECT * rc )
+void CLCPaint::_StoreItemPos( ClcContact *contact, int ItemType, RECT * rc )
 {
 	contact->ext_mpItemsDesc[contact->ext_nItemsNum].itemType = ItemType;
 	contact->ext_mpItemsDesc[contact->ext_nItemsNum].itemRect = *rc;
@@ -2335,7 +2335,7 @@ void CLCPaint::_StoreItemPos( struct ClcContact *contact, int ItemType, RECT * r
 }
 
 
-void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, RECT *in_row_rc, RECT *in_free_row_rc, int left_pos, int right_pos, int selected, int hottrack )
+void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, RECT *in_row_rc, RECT *in_free_row_rc, int left_pos, int right_pos, int selected, int hottrack )
 {
 	int item_iterator, item, item_text, text_left_pos;
 	BOOL left = TRUE;               //TODO remove
@@ -2957,7 +2957,7 @@ BOOL CLCPaint::__IsVisible( RECT * firtRect, RECT * secondRect )
 }
 
 
-void CLCPaint::_GetBlendMode( IN struct ClcData *dat, IN struct ClcContact * Drawing, IN BOOL selected, IN BOOL hottrack, IN BOOL bFlag, OUT COLORREF * OutColourFg, OUT int * OutMode )
+void CLCPaint::_GetBlendMode( IN struct ClcData *dat, IN ClcContact * Drawing, IN BOOL selected, IN BOOL hottrack, IN BOOL bFlag, OUT COLORREF * OutColourFg, OUT int * OutMode )
 {
 	COLORREF colourFg;
 	int mode;
@@ -2999,7 +2999,7 @@ void CLCPaint::_GetBlendMode( IN struct ClcData *dat, IN struct ClcContact * Dra
 	}
 }
 
-void CLCPaint::_DrawContactAvatar( HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, RECT *row_rc, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem )
+void CLCPaint::_DrawContactAvatar( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, RECT *row_rc, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem )
 {
 	if ( Drawing->avatar_pos == AVATAR_POS_ANIMATED )
 	{
@@ -3122,7 +3122,7 @@ void CLCPaint::_DrawContactAvatar( HDC hdcMem, struct ClcData *dat, struct ClcCo
 	}
 }
 
-void CLCPaint::_DrawContactIcon( HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem )
+void CLCPaint::_DrawContactIcon( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem )
 {
 	//Draw   Icon
 	int iImage = -1;
@@ -3147,7 +3147,7 @@ void CLCPaint::_DrawContactIcon( HDC hdcMem, struct ClcData *dat, struct ClcCont
 	}
 }
 
-void CLCPaint::_DrawContactText( HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem, UINT uTextFormat )
+void CLCPaint::_DrawContactText( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem, UINT uTextFormat )
 {
 	ChangeToFont( hdcMem, dat, GetBasicFontID( Drawing ), NULL );
 	if ( selected )
@@ -3192,7 +3192,7 @@ void CLCPaint::_DrawContactText( HDC hdcMem, struct ClcData *dat, struct ClcCont
 	text_rc.right = max( text_rc.right, prcItem->right );
 	text_rc.left = min( text_rc.left, prcItem->left );
 }
-void CLCPaint::_DrawContactSubText( HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem, UINT uTextFormat, BYTE itemType )
+void CLCPaint::_DrawContactSubText( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem, UINT uTextFormat, BYTE itemType )
 {       
 	if ( Drawing->type == CLCIT_GROUP )
 	{
@@ -3232,7 +3232,7 @@ void CLCPaint::_DrawContactSubText( HDC hdcMem, struct ClcData *dat, struct ClcC
 	text_rc.right = max( text_rc.right, prcItem->right );
 	text_rc.left = min( text_rc.left, prcItem->left );
 }
-void CLCPaint::_DrawContactTime( HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem )
+void CLCPaint::_DrawContactTime( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem )
 {
 	TCHAR szResult[80];
 	PDNCE pdnce = ( PDNCE )(( Drawing->type == CLCIT_CONTACT )?pcli->pfnGetCacheEntry( Drawing->hContact ):NULL );
@@ -3247,7 +3247,7 @@ void CLCPaint::_DrawContactTime( HDC hdcMem, struct ClcData *dat, struct ClcCont
 	}
 }
 
-void CLCPaint::_DrawContactSelection( HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, int& selected, int& hottrack, RECT *rcPaint, RECT * prcItem )
+void CLCPaint::_DrawContactSelection( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT *rcPaint, RECT * prcItem )
 {
 	// Selection background
 	if (( selected || hottrack ) && dat->HiLightMode == 0) {
@@ -3258,7 +3258,7 @@ void CLCPaint::_DrawContactSelection( HDC hdcMem, struct ClcData *dat, struct Cl
 	}
 }
 
-void CLCPaint::_DrawContactExtraIcon( HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * rc, int iImage )
+void CLCPaint::_DrawContactExtraIcon( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * rc, int iImage )
 {
 	//Draw extra icon
 	COLORREF colourFg;
@@ -3275,7 +3275,7 @@ void CLCPaint::_DrawContactExtraIcon( HDC hdcMem, struct ClcData *dat, struct Cl
 	}
 }
 
-void CLCPaint::_DrawContactLine( HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, RECT *free_row_rc, RECT *rcPaint, RECT& text_rc )
+void CLCPaint::_DrawContactLine( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, RECT *free_row_rc, RECT *rcPaint, RECT& text_rc )
 {   //draw line
 	RECT rc1 = *free_row_rc;
 	RECT rc2 = *free_row_rc;
@@ -3314,7 +3314,7 @@ void CLCPaint::_DrawContactLine( HDC hdcMem, struct ClcData *dat, struct ClcCont
 	}
 }
 
-void CLCPaint::_DrawContactItems( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, RECT *row_rc, RECT *free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint )
+void CLCPaint::_DrawContactItems( HWND hwnd, HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, RECT *row_rc, RECT *free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint )
 {
 	int i;
 	RECT text_rc = {0};
@@ -3372,7 +3372,7 @@ void CLCPaint::_DrawContactItems( HWND hwnd, HDC hdcMem, struct ClcData *dat, st
 		|| ( Drawing->type == CLCIT_DIVIDER ))
 		_DrawContactLine( hdcMem, dat, Drawing, free_row_rc, rcPaint, text_rc );
 }
-void CLCPaint::_PaintRowItems ( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint )
+void CLCPaint::_PaintRowItems ( HWND hwnd, HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint )
 {
 	//Extended LAYOUT
 	if ( gl_RowRoot && ( dat->hWnd == pcli->hwndContactTree ))

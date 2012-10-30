@@ -94,7 +94,7 @@ int GetProtoIndex(char * szName)
     return -1;
 }
 
-int CompareContacts2(const struct ClcContact *contact1,const struct ClcContact *contact2, int by)
+int CompareContacts2(const ClcContact *contact1,const ClcContact *contact2, int by)
 {
 
 	HANDLE a;
@@ -159,7 +159,7 @@ int CompareContacts2(const struct ClcContact *contact1,const struct ClcContact *
 	return 0;
 }
 
-int cliCompareContacts(const struct ClcContact *contact1,const struct ClcContact *contact2)
+int cliCompareContacts(const ClcContact *contact1,const ClcContact *contact2)
 {
 	int i, r;
 	for (i=0; i < SIZEOF(g_CluiData.bSortByOrder); i++) 

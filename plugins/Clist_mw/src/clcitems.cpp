@@ -27,11 +27,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_metacontacts.h"
 
 
-extern int ( *saveAddItemToGroup )( struct ClcGroup *group, int iAboveItem );
-extern int ( *saveAddInfoItemToGroup )(struct ClcGroup *group,int flags,const TCHAR *pszText);
-extern struct ClcGroup* ( *saveAddGroup )(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers);
+extern int ( *saveAddItemToGroup )( ClcGroup *group, int iAboveItem );
+extern int ( *saveAddInfoItemToGroup )(ClcGroup *group,int flags,const TCHAR *pszText);
+extern ClcGroup* ( *saveAddGroup )(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers);
 extern void (*saveFreeContact)(struct ClcContact *p);
-extern void (*saveFreeGroup)(struct ClcGroup *p);
+extern void (*saveFreeGroup)(ClcGroup *p);
 
 //routines for managing adding/removal of items in the list, including sorting
 
@@ -80,16 +80,16 @@ void FreeContact(struct ClcContact *p)
 	saveFreeContact( p );
 }
 
-int AddItemToGroup(struct ClcGroup *group,int iAboveItem)
+int AddItemToGroup(ClcGroup *group,int iAboveItem)
 {
 	iAboveItem = saveAddItemToGroup( group, iAboveItem );
 	ClearRowByIndexCache();
 	return iAboveItem;
 }
 
-struct ClcGroup *AddGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers)
+ClcGroup *AddGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers)
 {
-	struct ClcGroup* result;
+	ClcGroup* result;
 
 	ClearRowByIndexCache();	
 	dat->needsResort = 1;
@@ -98,20 +98,20 @@ struct ClcGroup *AddGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWOR
 	return result;
 }
 
-void FreeGroup(struct ClcGroup *group)
+void FreeGroup(ClcGroup *group)
 {
 	saveFreeGroup( group );
 	ClearRowByIndexCache();
 }
 
-int AddInfoItemToGroup(struct ClcGroup *group,int flags,const TCHAR *pszText)
+int AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText)
 {
 	int i = saveAddInfoItemToGroup( group, flags, pszText );
 	ClearRowByIndexCache();
 	return i;
 }
 
-static struct ClcContact * AddContactToGroup(struct ClcData *dat,struct ClcGroup *group,pdisplayNameCacheEntry cacheEntry)
+static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group,pdisplayNameCacheEntry cacheEntry)
 {
 	char *szProto;
 	WORD apparentMode;
@@ -263,9 +263,9 @@ void AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTo
 	ClearRowByIndexCache();
 }
 
-extern struct ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd,struct ClcGroup *group,struct ClcContact *contact,int updateTotalCount);
+extern ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd,ClcGroup *group,struct ClcContact *contact,int updateTotalCount);
 
-struct ClcGroup *RemoveItemFromGroup(HWND hwnd,struct ClcGroup *group,struct ClcContact *contact,int updateTotalCount)
+ClcGroup *RemoveItemFromGroup(HWND hwnd,ClcGroup *group,struct ClcContact *contact,int updateTotalCount)
 {
 	ClearRowByIndexCache();
 	if (contact->type == CLCIT_CONTACT) {
@@ -282,7 +282,7 @@ struct ClcGroup *RemoveItemFromGroup(HWND hwnd,struct ClcGroup *group,struct Clc
 void DeleteItemFromTree(HWND hwnd,HANDLE hItem)
 {
 	struct ClcContact *contact;
-	struct ClcGroup *group;
+	ClcGroup *group;
 	struct ClcData *dat = (struct ClcData*)GetWindowLongPtr(hwnd,0);
 	
 	ClearRowByIndexCache();
@@ -327,7 +327,7 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 	DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);
 	HANDLE hContact;
 	struct ClcContact * cont;
-	struct ClcGroup *group;
+	ClcGroup *group;
 	//DBVARIANT dbv;
 	int tick = GetTickCount();
 
@@ -432,10 +432,10 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 }
 
 
-int GetNewSelection(struct ClcGroup *group, int selection, int direction)
+int GetNewSelection(ClcGroup *group, int selection, int direction)
 {
 	int lastcount = 0, count = 0;//group->cl.count;
-	struct ClcGroup *topgroup = group;
+	ClcGroup *topgroup = group;
 	if (selection<0) {
 		return 0;
 	}
@@ -468,10 +468,10 @@ int GetNewSelection(struct ClcGroup *group, int selection, int direction)
 	return lastcount;
  }
 
-int GetGroupContentsCount(struct ClcGroup *group,int visibleOnly)
+int GetGroupContentsCount(ClcGroup *group,int visibleOnly)
 {
 	int count = 0;//group->cl.count;
-	struct ClcGroup *topgroup = group;
+	ClcGroup *topgroup = group;
 
 	group->scanIndex = 0;
 	for (;;) {
@@ -550,7 +550,7 @@ void SaveStateAndRebuildList(HWND hwnd,struct ClcData *dat)
 	int savedContactCount = 0,savedContactAlloced = 0;
 	struct SavedInfoState_t *savedInfo = NULL;
 	int savedInfoCount = 0,savedInfoAlloced = 0;
-	struct ClcGroup *group;
+	ClcGroup *group;
 	struct ClcContact *contact;
 
 	int tick = GetTickCount();

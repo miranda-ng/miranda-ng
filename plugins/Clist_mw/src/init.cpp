@@ -29,9 +29,9 @@ int hLangpack;
 
 static HANDLE hCListShutdown = 0;
 
-HMENU BuildGroupPopupMenu( struct ClcGroup* group );
+HMENU BuildGroupPopupMenu( ClcGroup* group );
 
-void  CalcEipPosition( struct ClcData *dat, struct ClcContact *contact, struct ClcGroup *group, POINT *result);
+void  CalcEipPosition( struct ClcData *dat, struct ClcContact *contact, ClcGroup *group, POINT *result);
 void  CheckPDNCE(ClcCacheEntryBase*);
 void  CluiProtocolStatusChanged( int, const char* );
 int   CompareContacts( const struct ClcContact *contact1, const struct ClcContact *contact2 );
@@ -40,11 +40,11 @@ void  GetDefaultFontSetting(int i,LOGFONT *lf,COLORREF *colour);
 void  RebuildEntireList(HWND hwnd,struct ClcData *dat);
 void  RecalcScrollBar(HWND hwnd,struct ClcData *dat);
 
-struct ClcGroup* ( *saveAddGroup )(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers);
-struct ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd,struct ClcGroup *group,struct ClcContact *contact,int updateTotalCount);
+ClcGroup* ( *saveAddGroup )(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers);
+ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd,ClcGroup *group,struct ClcContact *contact,int updateTotalCount);
 
 void (*saveFreeContact)(struct ClcContact *p);
-void (*saveFreeGroup)(struct ClcGroup *p);
+void (*saveFreeGroup)(ClcGroup *p);
 
 LRESULT ( CALLBACK *saveContactListControlWndProc )( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
 LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -54,11 +54,11 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 void ( *saveLoadClcOptions )(HWND hwnd,struct ClcData *dat);
 
-int ( *saveAddItemToGroup )( struct ClcGroup *group, int iAboveItem );
-int AddItemToGroup(struct ClcGroup *group, int iAboveItem);
+int ( *saveAddItemToGroup )( ClcGroup *group, int iAboveItem );
+int AddItemToGroup(ClcGroup *group, int iAboveItem);
 
-int ( *saveAddInfoItemToGroup)(struct ClcGroup *group,int flags,const TCHAR *pszText);
-int AddInfoItemToGroup(struct ClcGroup *group,int flags,const TCHAR *pszText);
+int ( *saveAddInfoItemToGroup)(ClcGroup *group,int flags,const TCHAR *pszText);
+int AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText);
 
 void ( *saveSortCLC )(HWND hwnd,struct ClcData *dat,int useInsertionSort);
 void SortCLC(HWND hwnd,struct ClcData *dat,int useInsertionSort);

@@ -143,7 +143,7 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 {
 	int indent, subindex, line_num;
 	struct ClcContact *Drawing;
-	struct ClcGroup *group;
+	ClcGroup *group;
     DWORD dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	// Draw lines

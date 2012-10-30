@@ -151,7 +151,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 	RECT clRect;
 	int y,indent,index,fontHeight, subindex, subident;
 	struct ClcContact *Drawing;
-	struct ClcGroup *group;
+	ClcGroup *group;
 	HBITMAP hBmpOsb;
 	DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);
 	int status = GetGeneralisedStatus();
@@ -452,9 +452,9 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 			else if (Drawing->type == CLCIT_GROUP) {
 				RECT rc;
 				if (szCounts[0]) {
-					struct ClcGroup *clcg;
+					ClcGroup *clcg;
 
-					clcg = (struct ClcGroup *)Drawing;
+					clcg = (ClcGroup *)Drawing;
 
 					fontHeight = dat->fontInfo[FONTID_GROUPS].fontHeight;
 

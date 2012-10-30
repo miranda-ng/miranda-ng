@@ -972,7 +972,7 @@ void FLT_Create(int iEntry)
 
 	if (iEntry >= 0 && iEntry < cfg::nextCacheEntry) {
 		struct ClcContact *contact = NULL;
-		struct ClcGroup *group = NULL;
+		ClcGroup *group = NULL;
 
         centry = &cfg::eCache[iEntry];
 		if (centry->floater == 0 && API::pfnUpdateLayeredWindow != NULL) {
@@ -1018,7 +1018,7 @@ void FLT_Update(struct ClcData *dat, struct ClcContact *contact)
 	HWND hwnd;
 	HDC hdc;
 	BOOL firstDrawn = TRUE;
-	struct ClcGroup *group = NULL;
+	ClcGroup *group = NULL;
 	struct ClcContact *newContact = NULL;
 	HRGN rgn;
 	HBRUSH hbrBorder;

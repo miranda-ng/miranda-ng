@@ -152,7 +152,7 @@ BOOL gtaWakeThread()
 	return FALSE;
 }
 
-int gtaAddRequest(struct ClcData *dat,struct ClcContact *contact,HANDLE hContact)
+int gtaAddRequest(struct ClcData *dat,ClcContact *contact,HANDLE hContact)
 {
 	if (MirandaExiting()) return 0;
 	gtalock;    

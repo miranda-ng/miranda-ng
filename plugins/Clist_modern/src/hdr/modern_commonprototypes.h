@@ -89,7 +89,7 @@ typedef INT_PTR (*PSYNCCALLBACKPROC)(WPARAM,LPARAM);
 
 
 /* CLCItems */
-BOOL	CLCItems_IsShowOfflineGroup(struct ClcGroup* group);
+BOOL	CLCItems_IsShowOfflineGroup(ClcGroup* group);
 
 /* CListMod */
 int		CListMod_HideWindow(HWND hwndContactList, int mode);
@@ -137,7 +137,7 @@ int		ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT * r);
 int     ModernSkinButtonUnloadModule(WPARAM,LPARAM);
 
 /* RowHeight */
-int		RowHeight_CalcRowHeight(struct ClcData *dat, HWND hwnd, struct ClcContact *contact, int item);
+int		RowHeight_CalcRowHeight(struct ClcData *dat, HWND hwnd, ClcContact *contact, int item);
 
 /* SkinEngine */
 BOOL	ske_AlphaBlend(HDC hdcDest,int nXOriginDest,int nYOriginDest,int nWidthDest,int nHeightDest,HDC hdcSrc,int nXOriginSrc,int nYOriginSrc,int nWidthSrc,int nHeightSrc,BLENDFUNCTION blendFunction);
@@ -225,7 +225,7 @@ int		GetAverageMode( void );																	//clisttray.c
 int		GetContactCachedStatus(HANDLE hContact);											//clistsettings.c
 INT_PTR	GetContactIcon(WPARAM wParam,LPARAM lParam);										//clistmod.c
 int		GetContactIconC(pdisplayNameCacheEntry cacheEntry);									//clistmod.c
-int		GetContactIndex(struct ClcGroup *group,struct ClcContact *contact);					//clcidents.c
+int		GetContactIndex(ClcGroup *group,ClcContact *contact);					//clcidents.c
 int		GetStatusForContact(HANDLE hContact,char *szProto);									//clistsettings.c
 int		InitCustomMenus(void);																//clistmenus.c
 int		InitFramesMenus(void);																//framesmenus.c
@@ -288,18 +288,18 @@ void	cliFreeCacheItem( pdisplayNameCacheEntry p );
 void	cliRebuildEntireList(HWND hwnd,struct ClcData *dat);
 void	cliRecalcScrollBar(HWND hwnd,struct ClcData *dat);
 void	CLUI_cliOnCreateClc(void);
-int		cli_AddItemToGroup(struct ClcGroup *group, int iAboveItem);
-int		cli_AddInfoItemToGroup(struct ClcGroup *group,int flags,const TCHAR *pszText);
-int		cliGetGroupContentsCount(struct ClcGroup *group, int visibleOnly);
+int		cli_AddItemToGroup(ClcGroup *group, int iAboveItem);
+int		cli_AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText);
+int		cliGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 int		cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk);
-int		cliGetRowsPriorTo(struct ClcGroup *group,struct ClcGroup *subgroup,int contactIndex);
+int		cliGetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex);
 int		cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact);
 int		cli_RemoveEvent(HANDLE hContact, HANDLE hDbEvent);
 void	cli_AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTotalCount,int checkHideOffline);
 void	cli_DeleteItemFromTree(HWND hwnd, HANDLE hItem);
-void	cli_FreeContact( struct ClcContact* );
-void	cli_FreeGroup( struct ClcGroup* );
-char*	cli_GetGroupCountsText(struct ClcData *dat, struct ClcContact *contact);
+void	cli_FreeContact( ClcContact* );
+void	cli_FreeGroup( ClcGroup* );
+char*	cli_GetGroupCountsText(struct ClcData *dat, ClcContact *contact);
 void	cli_ChangeContactIcon(HANDLE hContact,int iIcon,int add);
 LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARAM wParam,LPARAM lParam);
 struct CListEvent* cliCreateEvent( void );
@@ -307,11 +307,11 @@ struct CListEvent* cli_AddEvent(CLISTEVENT *cle);
 LRESULT CALLBACK cli_ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 int		cliShowHide(WPARAM wParam,LPARAM lParam);
 BOOL   CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect,BOOL bErase );
-int    cliCompareContacts(const struct ClcContact *contact1,const struct ClcContact *contact2);
-int    cliFindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **contact,struct ClcGroup **subgroup,int *isVisible);
+int    cliCompareContacts(const ClcContact *contact1,const ClcContact *contact2);
+int    cliFindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible);
 void   cliTrayIconUpdateBase(const char *szChangedProto);
 void   cliCluiProtocolStatusChanged(int status,const char * proto);
-HMENU  cliBuildGroupPopupMenu(struct ClcGroup *group);
+HMENU  cliBuildGroupPopupMenu(ClcGroup *group);
 void   cliInvalidateDisplayNameCacheEntry(HANDLE hContact);
 void   cliCheckCacheItem(pdisplayNameCacheEntry pdnce);
 void   cli_SaveStateAndRebuildList(HWND hwnd, struct ClcData *dat);
@@ -319,7 +319,7 @@ void   CLUI_cli_LoadCluiGlobalOpts(void);
 INT_PTR cli_TrayIconProcessMessage(WPARAM wParam,LPARAM lParam);
 BOOL   CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect,BOOL bErase );
 
-struct ClcContact* cliCreateClcContact( void );
+ClcContact* cliCreateClcContact( void );
 ClcCacheEntryBase* cliCreateCacheItem(HANDLE hContact);
 ClcCacheEntryBase* cliGetCacheEntry(HANDLE hContact);
 

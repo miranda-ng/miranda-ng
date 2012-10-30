@@ -33,10 +33,10 @@ BOOL RectHitTest(RECT *rc, int testx, int testy)
 	return testx >= rc->left && testx < rc->right && testy >= rc->top && testy < rc->bottom;
 }
 
-int cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact **contact,struct ClcGroup **group,DWORD *flags)
+int cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,ClcContact **contact,ClcGroup **group,DWORD *flags)
 {
-	struct ClcContact *hitcontact = NULL;
-	struct ClcGroup *hitgroup = NULL;
+	ClcContact *hitcontact = NULL;
+	ClcGroup *hitgroup = NULL;
 	int hit = -1;
 	RECT clRect;
 	if (CLUI_TestCursorOnBorders() != 0)
@@ -268,8 +268,8 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 void cliBeginRenameSelection(HWND hwnd,struct ClcData *dat)
 {
-	struct ClcContact *contact;
-	struct ClcGroup *group;
+	ClcContact *contact;
+	ClcGroup *group;
 	int indent,x,y,subident, h,w;
 	RECT clRect;
 	RECT r;
@@ -358,8 +358,8 @@ int GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt)
 {
 	RECT clRect;
 	int hit;
-	struct ClcContact *contact = NULL,*movecontact = NULL;
-	struct ClcGroup *group,*movegroup;
+	ClcContact *contact = NULL,*movecontact = NULL;
+	ClcGroup *group,*movegroup;
 	DWORD hitFlags;
 	int nSetSelection = -1;
 
@@ -375,8 +375,8 @@ int GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt)
 	if (hit == -1 || hitFlags&CLCHT_ONITEMEXTRA || !movecontact) return DROPTARGET_ONNOTHING;
 
 	if (movecontact->type == CLCIT_GROUP) {
-		struct ClcContact *bottomcontact = NULL,*topcontact = NULL;
-		struct ClcGroup *topgroup = NULL, *bottomgroup = NULL;
+		ClcContact *bottomcontact = NULL,*topcontact = NULL;
+		ClcGroup *topgroup = NULL, *bottomgroup = NULL;
 		int topItem = -1,bottomItem = -1;
 		int ok = 0;
 		if (pt.y+dat->yScroll < cliGetRowTopY(dat,hit)+dat->insertionMarkHitHeight || contact->type != CLCIT_GROUP) {
@@ -413,7 +413,7 @@ int GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt)
 				}
 				if (bottomItem != -1 && bottomcontact->type != CLCIT_GROUP)
 				{
-					struct ClcGroup * gr = bottomgroup;
+					ClcGroup * gr = bottomgroup;
 					do 
 					{
 						bottomItem = cliGetRowByIndex(dat,bottomItem-1,&bottomcontact,&bottomgroup);}
@@ -790,9 +790,9 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 
 }
 
-int ExpandMetaContact(HWND hwnd, struct ClcContact * contact, struct ClcData * dat, BOOL bExpand)
+int ExpandMetaContact(HWND hwnd, ClcContact * contact, struct ClcData * dat, BOOL bExpand)
 {
-	struct ClcContact * ht = NULL;
+	ClcContact * ht = NULL;
 	KillTimer(hwnd,TIMERID_SUBEXPAND);
 	if (contact->type != CLCIT_CONTACT  || contact->SubAllocated == 0 || contact->SubExpanded == bExpand || !db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT)) return 0;
 	contact->SubExpanded = bExpand;
@@ -805,9 +805,9 @@ int ExpandMetaContact(HWND hwnd, struct ClcContact * contact, struct ClcData * d
 
 int cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk)
 {
-	struct ClcGroup *group = &dat->list;
+	ClcGroup *group = &dat->list;
 	int testlen = lstrlen(text);
-	struct ClcContact *contact = NULL;
+	ClcContact *contact = NULL;
 	int SubCount = 0;
 
 	group->scanIndex = 0;
@@ -831,7 +831,7 @@ int cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int pref
 				found = (prefixOk && !_tcsnicmp(text, contact->szText, testlen)) || (!prefixOk && !lstrcmpi(text, contact->szText));
 			}
 			if (found) {
-				struct ClcGroup *contactGroup = group;
+				ClcGroup *contactGroup = group;
 				int contactScanIndex = group->scanIndex;
 				for (; group; group = group->parent)
 					pcli->pfnSetGroupExpand(hwnd, dat, group, 1);
@@ -854,7 +854,7 @@ int cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int pref
 				int i=0;
 				for (i=0; i < contact->SubAllocated; i++)
 				{
-					struct ClcContact * subcontact = &(contact->subcontacts[i]);
+					ClcContact * subcontact = &(contact->subcontacts[i]);
 
 					bool found;
 					if (dat->filterSearch) {
@@ -865,7 +865,7 @@ int cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int pref
 						found = (prefixOk && !_tcsnicmp(text, subcontact->szText, testlen)) || (!prefixOk && !lstrcmpi(text, subcontact->szText));
 					}
 					if (found) {
-						struct ClcGroup *contactGroup = group;
+						ClcGroup *contactGroup = group;
 						int contactScanIndex = group->scanIndex;
 						for (; group; group = group->parent)
 							pcli->pfnSetGroupExpand(hwnd, dat, group, 1);

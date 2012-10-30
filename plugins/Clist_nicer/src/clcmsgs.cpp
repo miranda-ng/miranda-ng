@@ -42,7 +42,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
         case CLM_SETSTICKY:
             {
                 struct ClcContact *contact;
-				struct ClcGroup *group;
+				ClcGroup *group;
 
                 if (wParam == 0 || !FindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL))
                     return 0;

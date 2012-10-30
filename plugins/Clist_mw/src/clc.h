@@ -79,23 +79,23 @@ struct ClcData : public ClcDataBase
 };
 
 //clcidents.c
-int GetRowsPriorTo(struct ClcGroup *group,struct ClcGroup *subgroup,int contactIndex);
-int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **contact,struct ClcGroup **subgroup,int *isVisible);
-int GetRowByIndex(struct ClcData *dat,int testindex,struct ClcContact **contact,struct ClcGroup **subgroup);
+int GetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex);
+int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **contact,ClcGroup **subgroup,int *isVisible);
+int GetRowByIndex(struct ClcData *dat,int testindex,struct ClcContact **contact,ClcGroup **subgroup);
 void ClearRowByIndexCache();
 
 //clcitems.c
-struct ClcGroup *AddGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers);
-void FreeGroup(struct ClcGroup *group);
-int AddInfoItemToGroup(struct ClcGroup *group,int flags,const TCHAR *pszText);
+ClcGroup *AddGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers);
+void FreeGroup(ClcGroup *group);
+int AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText);
 void FreeContact(struct ClcContact *p);
 void RebuildEntireList(HWND hwnd,struct ClcData *dat);
-struct ClcGroup *RemoveItemFromGroup(HWND hwnd,struct ClcGroup *group,struct ClcContact *contact,int updateTotalCount);
+ClcGroup *RemoveItemFromGroup(HWND hwnd,ClcGroup *group,struct ClcContact *contact,int updateTotalCount);
 void DeleteItemFromTree(HWND hwnd,HANDLE hItem);
 void AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTotalCount,int checkHideOffline);
 void SortCLC(HWND hwnd,struct ClcData *dat,int useInsertionSort);
-int GetGroupContentsCount(struct ClcGroup *group,int visibleOnly);
-int GetNewSelection(struct ClcGroup *group,int selection, int direction);
+int GetGroupContentsCount(ClcGroup *group,int visibleOnly);
+int GetNewSelection(ClcGroup *group,int selection, int direction);
 void SaveStateAndRebuildList(HWND hwnd,struct ClcData *dat);
 
 //clcmsgs.c
@@ -104,7 +104,7 @@ LRESULT ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARAM wP
 //clcutils.c
 void RecalcScrollBar(HWND hwnd,struct ClcData *dat);
 void BeginRenameSelection(HWND hwnd,struct ClcData *dat);
-int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact **contact,struct ClcGroup **group,DWORD *flags);
+int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact **contact,ClcGroup **group,DWORD *flags);
 void ScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth);
 void LoadClcOptions(HWND hwnd,struct ClcData *dat);
 

@@ -54,7 +54,7 @@ HANDLE			hIconChangedHook = NULL;
 HANDLE			hAckHook = NULL;
 HANDLE			hAvatarChanged = NULL;
 static BOOL		g_bSortTimerIsSet = FALSE;
-static struct ClcContact * hitcontact = NULL;
+static ClcContact * hitcontact = NULL;
 
 
 static int clcHookSmileyAddOptionsChanged(WPARAM wParam,LPARAM lParam);
@@ -315,7 +315,7 @@ static int clcProceedDragToScroll(HWND hwnd, int Y)
 
 static int clcSearchNextContact(HWND hwnd, struct ClcData *dat, int index, const TCHAR *text, int prefixOk, BOOL fSearchUp)
 {
-	struct ClcGroup *group = &dat->list;
+	ClcGroup *group = &dat->list;
 	int testlen = lstrlen(text);
 	BOOL fReturnAsFound = FALSE;
 	int	 nLastFound = -1;
@@ -344,7 +344,7 @@ static int clcSearchNextContact(HWND hwnd, struct ClcData *dat, int index, const
 				found = ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, group->cl.items[group->scanIndex]->szText, testlen)) || (!prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText)));
 			}
 			if (found) {
-				struct ClcGroup *contactGroup = group;
+				ClcGroup *contactGroup = group;
 				int contactScanIndex = group->scanIndex;
 				int foundindex;
 				for (; group; group = group->parent)
@@ -376,7 +376,7 @@ static int clcSearchNextContact(HWND hwnd, struct ClcData *dat, int index, const
 	return -1;
 }
 
-static BOOL clcItemNotHiddenOffline(struct ClcData * dat, struct ClcGroup* group, struct ClcContact * contact)
+static BOOL clcItemNotHiddenOffline(struct ClcData * dat, ClcGroup* group, ClcContact * contact)
 {
 	PDNCE pdnce;
 
@@ -451,7 +451,7 @@ static LRESULT clcOnHitTest(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 }
 static LRESULT clcOnCommand(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct ClcContact *contact;
+	ClcContact *contact;
 	int hit = pcli->pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
 	if (hit == -1)	return 0;
 	if ( contact->type == CLCIT_CONTACT && CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) contact->hContact))	return 0;
@@ -672,8 +672,8 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	if (changeGroupExpand)
 	{
 		int hit;
-		struct ClcContact *contact;
-		struct ClcGroup *group;
+		ClcContact *contact;
+		ClcGroup *group;
 		//dat->szQuickSearch[0] = 0;
 		hit = cliGetRowByIndex(dat,dat->selection,&contact,&group);
 		if (hit != -1)
@@ -695,7 +695,7 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 					else if (changeGroupExpand == 1 && contact->SubExpanded)
 					{
 						//Contract
-						struct ClcContact * ht = NULL;
+						ClcContact * ht = NULL;
 						KillTimer(hwnd,TIMERID_SUBEXPAND);
 						contact->SubExpanded = 0;
 						db_set_b(contact->hContact,"CList","Expanded",0);
@@ -712,7 +712,7 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 					}
 					else if (changeGroupExpand == 2 && !contact->SubExpanded && dat->expandMeta)
 					{
-						struct ClcContact * ht = NULL;
+						ClcContact * ht = NULL;
 						KillTimer(hwnd,TIMERID_SUBEXPAND);
 						contact->SubExpanded = 1;
 						db_set_b(contact->hContact,"CList","Expanded",1);
@@ -723,8 +723,8 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 						if (ht)
 						{
 							int i=0;
-							struct ClcContact *contact2;
-							struct ClcGroup *group2;
+							ClcContact *contact2;
+							ClcGroup *group2;
 							if (FindItem(hwnd,dat,contact->hContact,&contact2,&group2,NULL,FALSE))
 							{
 								i = cliGetRowsPriorTo(&dat->list,group2,GetContactIndex(group2,contact2));
@@ -830,7 +830,7 @@ static LRESULT clcOnTimer(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPara
 		}
 	case TIMERID_SUBEXPAND:
 		{
-			struct ClcContact * ht = NULL;
+			ClcContact * ht = NULL;
 			KillTimer(hwnd,TIMERID_SUBEXPAND);
 			if (hitcontact && dat->expandMeta)
 			{
@@ -845,8 +845,8 @@ static LRESULT clcOnTimer(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPara
 			cliRecalcScrollBar(hwnd,dat);
 			if (ht) {
 				int i=0;
-				struct ClcContact *contact;
-				struct ClcGroup *group;
+				ClcContact *contact;
+				ClcGroup *group;
 				if (FindItem(hwnd,dat,hitcontact->hContact,&contact,&group,NULL,FALSE))
 				{
 					i = cliGetRowsPriorTo(&dat->list,group,GetContactIndex(group,contact));
@@ -928,8 +928,8 @@ static LRESULT clcOnLButtonDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM
 		}
 	}
 	{
-		struct ClcContact *contact;
-		struct ClcGroup *group;
+		ClcContact *contact;
+		ClcGroup *group;
 		int hit;
 		DWORD hitFlags;
 		fMouseUpped = FALSE;
@@ -987,8 +987,8 @@ static LRESULT clcOnLButtonDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM
 		if (hit != -1 && !(hitFlags&CLCHT_NOWHERE) && contact->type == CLCIT_GROUP)
 			if (hitFlags&CLCHT_ONITEMICON)
 			{
-				struct ClcGroup *selgroup;
-				struct ClcContact *selcontact;
+				ClcGroup *selgroup;
+				ClcContact *selcontact;
 				dat->selection = cliGetRowByIndex(dat,dat->selection,&selcontact,&selgroup);
 				pcli->pfnSetGroupExpand(hwnd,dat,contact->group,-1);
 				if (dat->selection != -1)
@@ -1185,7 +1185,7 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 		int target = GetDropTargetInformation(hwnd,dat,pt);
 		if (dat->dragStage&DRAGSTAGEF_OUTSIDE && target != DROPTARGET_OUTSIDE) {
 			NMCLISTCONTROL nm;
-			struct ClcContact *contact;
+			ClcContact *contact;
 			cliGetRowByIndex(dat,dat->iDragItem,&contact,NULL);
 			nm.hdr.code = CLN_DRAGSTOP;
 			nm.hdr.hwndFrom = hwnd;
@@ -1203,7 +1203,7 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 		case DROPTARGET_ONCONTACT:
 			if (ServiceExists(MS_MC_ADDTOMETA))
 			{
-				struct ClcContact *contSour;
+				ClcContact *contSour;
 				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
 				if (contSour->type == CLCIT_CONTACT && g_szMetaModuleName && mir_strcmp(contSour->proto,g_szMetaModuleName))
 				{
@@ -1219,7 +1219,7 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 		case DROPTARGET_ONMETACONTACT:
 			if (ServiceExists(MS_MC_ADDTOMETA))
 			{
-				struct ClcContact *contSour,*contDest;
+				ClcContact *contSour,*contDest;
 				cliGetRowByIndex(dat,dat->selection,&contDest,NULL);
 				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
 				if (contSour->type == CLCIT_CONTACT && g_szMetaModuleName && mir_strcmp(contSour->proto,g_szMetaModuleName))
@@ -1237,7 +1237,7 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 		case DROPTARGET_ONSUBCONTACT:
 			if (ServiceExists(MS_MC_ADDTOMETA))
 			{
-				struct ClcContact *contSour,*contDest;
+				ClcContact *contSour,*contDest;
 				cliGetRowByIndex(dat,dat->selection,&contDest,NULL);
 				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
 				if (contSour->type == CLCIT_CONTACT && g_szMetaModuleName && mir_strcmp(contSour->proto,g_szMetaModuleName))
@@ -1264,7 +1264,7 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 		case DROPTARGET_OUTSIDE:
 			{
 				NMCLISTCONTROL nm;
-				struct ClcContact *contact;
+				ClcContact *contact;
 
 				if (pt.x >= 0 && pt.x < clRect.right && ((pt.y < 0 && pt.y>-dat->dragAutoScrollHeight) || (pt.y >= clRect.bottom && pt.y < clRect.bottom+dat->dragAutoScrollHeight)))
 				{
@@ -1291,11 +1291,11 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 			}
 		default:
 			{
-				struct ClcGroup *group = NULL;
+				ClcGroup *group = NULL;
 				cliGetRowByIndex(dat,dat->iDragItem,NULL,&group);
 				if (group && group->parent)
 				{
-					struct ClcContact *contSour;
+					ClcContact *contSour;
 					cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
 					if ( !contSour->isSubcontact)
 						hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));
@@ -1350,7 +1350,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 		case DROPTARGET_ONCONTACT:
 			if (ServiceExists(MS_MC_ADDTOMETA))
 			{
-				struct ClcContact *contDest, *contSour;
+				ClcContact *contDest, *contSour;
 				int res;
 				HANDLE handle,hcontact;
 
@@ -1399,7 +1399,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 			break;
 		case DROPTARGET_ONMETACONTACT:
 			{
-				struct ClcContact *contDest, *contSour;
+				ClcContact *contDest, *contSour;
 				int res;
 				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
 				cliGetRowByIndex(dat,dat->selection,&contDest,NULL);
@@ -1460,7 +1460,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 			break;
 		case DROPTARGET_ONSUBCONTACT:
 			{
-				struct ClcContact *contDest, *contSour;
+				ClcContact *contDest, *contSour;
 				int res;
 				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
 				cliGetRowByIndex(dat,dat->selection,&contDest,NULL);
@@ -1511,8 +1511,8 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 			break;
 		case DROPTARGET_INSERTION:
 			{
-				struct ClcContact *contact, *destcontact;
-				struct ClcGroup *group, *destgroup;
+				ClcContact *contact, *destcontact;
+				ClcGroup *group, *destgroup;
 				BOOL NeedRename = FALSE;
 				TCHAR newName[128] = {0};
 				int newIndex,i;
@@ -1599,7 +1599,7 @@ static LRESULT clcOnDestroy(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 }
 static LRESULT clcOnIntmGroupChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct ClcContact *contact;
+	ClcContact *contact;
 	BYTE iExtraImage[MAXEXTRACOLUMNS];
 	WORD iWideExtraImage[MAXEXTRACOLUMNS];
 	BYTE flags = 0;
@@ -1637,15 +1637,15 @@ static LRESULT clcOnIntmGroupChanged(struct ClcData *dat, HWND hwnd, UINT msg, W
 
 static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct ClcContact *contact = NULL;
-	struct ClcGroup *group = NULL;
+	ClcContact *contact = NULL;
+	ClcGroup *group = NULL;
 	int recalcScrollBar = 0, shouldShow;
 	BOOL needRepaint = FALSE;
 	WORD status;
 	RECT iconRect = {0};
 	int contacticon = CallService(MS_CLIST_GETCONTACTICON, wParam, 1);
 	HANDLE hSelItem = NULL;
-	struct ClcContact *selcontact = NULL;
+	ClcContact *selcontact = NULL;
 
 	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 	if (szProto == NULL)
@@ -1714,7 +1714,7 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 	}
 
 	if (hSelItem) {
-		struct ClcGroup *selgroup;
+		ClcGroup *selgroup;
 		if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
 			dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf(( SortedList* )&selgroup->cl, selcontact));
 		else
@@ -1738,7 +1738,7 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 
 static LRESULT clcOnIntmAvatarChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct ClcContact *contact;
+	ClcContact *contact;
 	if (FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,FALSE))
 		Cache_GetAvatar(dat, contact);
 	else if (dat->use_avatar_service && !wParam)
@@ -1750,7 +1750,7 @@ static LRESULT clcOnIntmAvatarChanged(struct ClcData *dat, HWND hwnd, UINT msg, 
 
 static LRESULT clcOnIntmTimeZoneChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct ClcContact *contact;
+	ClcContact *contact;
 	if ( !FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,FALSE))
 		return corecli.pfnContactListControlWndProc(hwnd,msg,wParam,lParam);
 
@@ -1764,7 +1764,7 @@ static LRESULT clcOnIntmTimeZoneChanged(struct ClcData *dat, HWND hwnd, UINT msg
 
 static LRESULT clcOnIntmNameChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct ClcContact *contact;
+	ClcContact *contact;
 	int ret = corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	pcli->pfnInvalidateDisplayNameCacheEntry((HANDLE)wParam);
@@ -1792,13 +1792,13 @@ static LRESULT clcOnIntmApparentModeChanged(struct ClcData *dat, HWND hwnd, UINT
 
 static LRESULT clcOnIntmStatusMsgChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct ClcContact *contact;
+	ClcContact *contact;
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact == NULL || IsHContactInfo(hContact) || IsHContactGroup(hContact))
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	if ( !FindItem(hwnd,dat,hContact,&contact,NULL,NULL,FALSE))
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
-	if (contact)//!IsBadWritePtr(contact, sizeof(struct ClcContact)))
+	if (contact)//!IsBadWritePtr(contact, sizeof(ClcContact)))
 	{
 		Cache_GetText(dat,contact,1);
 		cliRecalcScrollBar(hwnd,dat);
@@ -1810,7 +1810,7 @@ static LRESULT clcOnIntmStatusMsgChanged(struct ClcData *dat, HWND hwnd, UINT ms
 static LRESULT clcOnIntmNotOnListChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
-	struct ClcContact *contact;
+	ClcContact *contact;
 
 	if ( !FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,TRUE))
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
@@ -1843,7 +1843,7 @@ static LRESULT clcOnIntmStatusChanged(struct ClcData *dat, HWND hwnd, UINT msg, 
 	if (wParam != 0) {
 		pdisplayNameCacheEntry pdnce = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry((HANDLE)wParam);
 		if (pdnce && pdnce->m_cache_cszProto) {
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 			pdnce___SetStatus( pdnce, GetStatusForContact(pdnce->hContact,pdnce->m_cache_cszProto));
 			if ( !dat->force_in_dialog && (dat->second_line_show || dat->third_line_show))
 				gtaRenewText(pdnce->hContact);

@@ -37,7 +37,7 @@ Modified by FYR
 #include "./hdr/modern_gettextasync.h"
 #include "hdr/modern_sync.h"
 
-typedef BOOL (* ExecuteOnAllContactsFuncPtr) (struct ClcContact *contact, BOOL subcontact, void *param);
+typedef BOOL (* ExecuteOnAllContactsFuncPtr) (ClcContact *contact, BOOL subcontact, void *param);
 
 
 /***********************************/
@@ -49,7 +49,7 @@ typedef BOOL (* ExecuteOnAllContactsFuncPtr) (struct ClcContact *contact, BOOL s
 static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size);
 
 static BOOL ExecuteOnAllContacts(struct ClcData *dat, ExecuteOnAllContactsFuncPtr func, void *param);
-static BOOL ExecuteOnAllContactsOfGroup(struct ClcGroup *group, ExecuteOnAllContactsFuncPtr func, void *param);
+static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFuncPtr func, void *param);
 int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam);
 void CListSettings_FreeCacheItemData(pdisplayNameCacheEntry pDst);
 void CListSettings_FreeCacheItemDataOption( pdisplayNameCacheEntry pDst, DWORD flag );
@@ -72,7 +72,7 @@ void Cache_GetTimezone(struct ClcData *dat, HANDLE hContact)
 *	Get all lines of text
 */ 
 
-void Cache_GetText(struct ClcData *dat, struct ClcContact *contact, BOOL forceRenew)
+void Cache_GetText(struct ClcData *dat, ClcContact *contact, BOOL forceRenew)
 {
 	Cache_GetFirstLineText(dat, contact);
 	if ( !dat->force_in_dialog) {
@@ -518,7 +518,7 @@ int Cache_GetLineText(PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *
 /*
 *	Get the text for First Line
 */
-void Cache_GetFirstLineText(struct ClcData *dat, struct ClcContact *contact)
+void Cache_GetFirstLineText(struct ClcData *dat, ClcContact *contact)
 {
 	if (GetCurrentThreadId() != g_dwMainThreadID)
 		return;
@@ -678,7 +678,7 @@ static BOOL ExecuteOnAllContacts(struct ClcData *dat, ExecuteOnAllContactsFuncPt
 	return res;
 }
 
-static BOOL ExecuteOnAllContactsOfGroup(struct ClcGroup *group, ExecuteOnAllContactsFuncPtr func, void *param)
+static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFuncPtr func, void *param)
 {
 	if ( !group)
 		return TRUE;
@@ -706,7 +706,7 @@ static BOOL ExecuteOnAllContactsOfGroup(struct ClcGroup *group, ExecuteOnAllCont
 /*
 *	Avatar working routines
 */
-BOOL UpdateAllAvatarsProxy(struct ClcContact *contact, BOOL subcontact, void *param)
+BOOL UpdateAllAvatarsProxy(ClcContact *contact, BOOL subcontact, void *param)
 {
 	Cache_GetAvatar((struct ClcData *)param, contact);
 	return TRUE;
@@ -717,7 +717,7 @@ void UpdateAllAvatars(struct ClcData *dat)
 	ExecuteOnAllContacts(dat,UpdateAllAvatarsProxy,dat);
 }
 
-BOOL ReduceAvatarPosition(struct ClcContact *contact, BOOL subcontact, void *param)
+BOOL ReduceAvatarPosition(ClcContact *contact, BOOL subcontact, void *param)
 {
 	if (contact->avatar_pos >= *((int *)param))
 		contact->avatar_pos--;
@@ -725,7 +725,7 @@ BOOL ReduceAvatarPosition(struct ClcContact *contact, BOOL subcontact, void *par
 	return TRUE;
 }
 
-void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
+void Cache_ProceedAvatarInList(struct ClcData *dat, ClcContact *contact)
 {
 	struct avatarCacheEntry * ace = contact->avatar_data;
 	int old_pos = contact->avatar_pos;
@@ -831,7 +831,7 @@ void Cache_ProceedAvatarInList(struct ClcData *dat, struct ClcContact *contact)
 	}
 }
 
-void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)
+void Cache_GetAvatar(struct ClcData *dat, ClcContact *contact)
 {
 	int old_pos = contact->avatar_pos;
 	// workaround for avatar service and other wich destroys service on OK_TOEXIT
