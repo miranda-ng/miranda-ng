@@ -152,6 +152,8 @@ protected:
 	void	UpdateContactStatusMessage(HANDLE hContact, CContact::Ref contact);
 	void	UpdateContactTimezone(HANDLE hContact, CContact::Ref contact);
 	void	UpdateContactProfile(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactOnlineSinceTime(HANDLE hContact, CContact::Ref contact);
+	void	UpdateContactLastEventDate(HANDLE hContact, CContact::Ref contact);
 	void	UpdateFullName(HANDLE hContact, CContact::Ref contact);
 
 	void	OnSearchCompleted(HANDLE hSearch);

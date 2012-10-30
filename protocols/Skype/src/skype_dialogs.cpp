@@ -233,7 +233,77 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static INT_PTR CALLBACK SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		break;
+
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_PARAMCHANGED:
+				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (( PSHNOTIFY* )lParam )->lParam );
+				break;
+
+			case PSN_INFOCHANGED:
+				{
+					CSkypeProto* ppro = (CSkypeProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+					if (!ppro)
+						break;
+
+					char* szProto;
+					HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
+
+					if (hContact == NULL)
+						szProto = ppro->m_szModuleName;
+					else
+						szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+
+					if (!szProto)
+						break;
+
+					//SetDlgItemText(GetDlgItem(hwndDlg, IDC_SID), IDC_SID, ppro->GetSettingString(hContact, "sid"));
+					//SetDlgItemText(GetDlgItem(hwndDlg, IDC_STATUSTEXT), IDC_STATUSTEXT, ppro->GetSettingString(hContact, "XStatusMsg") ? ppro->GetSettingString(hContact, "XStatusMsg") : TranslateT("<not specified>"));
+					//SetDlgItemText(GetDlgItem(hwndDlg, IDC_ONLINESINCE), IDC_ONLINESINCE, ppro->GetSettingDword(hContact, "OnlineSinceTS") ? ppro->GetSettingString(hContact, "OnlineSinceTS") : TranslateT("<not specified>"));
+					//SetDlgItemText(GetDlgItem(hwndDlg, IDC_LASTEVENTDATE), IDC_LASTEVENTDATE, ppro->GetSettingDword(hContact, "LastEventDateTS") ? ppro->GetSettingString(hContact, "LastEventDateTS") : TranslateT("<not specified>"));
+					//SetDlgItemText(GetDlgItem(hwndDlg, IDC_LASTPROFILECHANGE), IDC_LASTPROFILECHANGE, ppro->GetSettingDword(hContact, "ProfileTS") ? ppro->GetSettingDword(hContact, "ProfileTS") : TranslateT("<not specified>"));
+				}
+				break;
+			}
+			break;
+		}
+		break;
+
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDCANCEL:
+			SendMessage(GetParent(hwndDlg), msg, wParam, lParam);
+			break;
+		}
+		break;
+	}
+
+	return FALSE;  
+}
+
 int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 {
+	if ((!this->IsProtoContact((HANDLE)lParam)) && lParam)
+		return 0;
+
+	OPTIONSDIALOGPAGE odp = {0};
+	odp.cbSize = sizeof(odp);
+	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.hInstance = g_hInstance;
+	odp.dwInitParam = LPARAM(this);
+	odp.pfnDlgProc = SkypeDlgProc;
+	odp.position = -1900000000;
+	odp.ptszTitle = m_tszUserName;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SKYPE);
+	UserInfo_AddPage(wParam, &odp);
+
 	return 0;
 }

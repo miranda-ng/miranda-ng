@@ -317,6 +317,24 @@ void CSkypeProto::UpdateContactTimezone(HANDLE hContact, CContact::Ref contact)
 		this->DeleteSetting(hContact, "TimeZone");
 }
 
+void CSkypeProto::UpdateContactOnlineSinceTime(HANDLE hContact, CContact::Ref contact)
+{
+	uint data;
+	contact->GetPropLastonlineTimestamp(data);
+	if (data > 0)
+	{
+	}
+}
+
+void CSkypeProto::UpdateContactLastEventDate(HANDLE hContact, CContact::Ref contact)
+{
+	uint data;
+	contact->GetPropLastusedTimestamp(data);
+	if (data > 0)
+	{
+	}
+}
+
 void CSkypeProto::UpdateFullName(HANDLE hContact, CContact::Ref contact)
 {
 	SEString data;
@@ -361,6 +379,8 @@ void CSkypeProto::UpdateContactProfile(HANDLE hContact, CContact::Ref contact)
 		this->UpdateContactOfficePhone(hContact, contact);
 		this->UpdateContactState(hContact, contact);
 		this->UpdateContactTimezone(hContact, contact);
+		this->UpdateContactOnlineSinceTime(hContact, contact);
+		this->UpdateContactLastEventDate(hContact, contact);
 		this->UpdateFullName(hContact, contact);
 
 		this->SetSettingDword(hContact, "ProfileTS", newTS);
