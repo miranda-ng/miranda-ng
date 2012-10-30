@@ -165,8 +165,8 @@ static HRESULT SubclassClistInterface()
 
 	pcli->bDisplayLocked = TRUE;
 
-	pcli->pfnCheckCacheItem	 = (void (*)(ClcCacheEntryBase*)) cliCheckCacheItem;
-	pcli->pfnFreeCacheItem = (void(*)(ClcCacheEntryBase*)) cliFreeCacheItem;
+	pcli->pfnCheckCacheItem	= cliCheckCacheItem;
+	pcli->pfnFreeCacheItem = cliFreeCacheItem;
 	pcli->pfnInvalidateDisplayNameCacheEntry	 = cliInvalidateDisplayNameCacheEntry;
 
 	pcli->pfnTrayIconUpdateBase = cliTrayIconUpdateBase;

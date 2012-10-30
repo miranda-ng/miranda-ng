@@ -1450,13 +1450,13 @@ int CLUI_SizingGetWindowRect(HWND hwnd,RECT * rc)
 int CLUI_SyncGetPDNCE(WPARAM wParam, LPARAM lParam)
 {
 	//log0("CLUI_SyncGetPDNCE");
-	return CListSettings_GetCopyFromCache((pdisplayNameCacheEntry)lParam, wParam ? (DWORD) wParam : CCI_ALL );
+	return CListSettings_GetCopyFromCache((pClcCacheEntry)lParam, wParam ? (DWORD) wParam : CCI_ALL );
 }
 
 int CLUI_SyncSetPDNCE(WPARAM wParam, LPARAM lParam)
 {
 	//log0("CLUI_SyncSetPDNCE");
-	return CListSettings_SetToCache((pdisplayNameCacheEntry)lParam, wParam ?  (DWORD) wParam : CCI_ALL );
+	return CListSettings_SetToCache((pClcCacheEntry)lParam, wParam ?  (DWORD) wParam : CCI_ALL );
 }
 
 int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam)
@@ -2828,7 +2828,7 @@ LRESULT CLUI::OnClickNotify( NMCLISTCONTROL * pnmc )
 	{					
 		if ( !IsHContactGroup(hItem) && !IsHContactInfo(hItem))
 		{
-			pdisplayNameCacheEntry pdnce = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(pnmc->hItem);
+			pClcCacheEntry pdnce = (pClcCacheEntry)pcli->pfnGetCacheEntry(pnmc->hItem);
 			if (pdnce == NULL) return 0;
 
 			int extra = ExtraImage_ColumnNumToExtraID(pnmc->iColumn);

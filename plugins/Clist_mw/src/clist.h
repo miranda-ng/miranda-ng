@@ -31,7 +31,7 @@ void SortContacts(void);
 void ChangeContactIcon(HANDLE hContact,int iIcon,int add);
 int GetContactInfosForSort(HANDLE hContact,char **Proto,TCHAR **Name,int *Status);
 
-struct displayNameCacheEntry : public ClcCacheEntryBase
+struct ClcCacheEntry : public ClcCacheEntryBase
 {
 	int noHiddenOffline;
 
@@ -48,8 +48,8 @@ struct displayNameCacheEntry : public ClcCacheEntryBase
 	boolean isUnknown;
 };
 
-typedef displayNameCacheEntry *pdisplayNameCacheEntry;
+typedef ClcCacheEntry *pClcCacheEntry;
 
-pdisplayNameCacheEntry GetContactFullCacheEntry(HANDLE hContact);
+pClcCacheEntry GetContactFullCacheEntry(HANDLE hContact);
 
 #endif

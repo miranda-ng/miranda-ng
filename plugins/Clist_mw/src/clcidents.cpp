@@ -80,23 +80,23 @@ int GetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex)
 	return -1;
 }
 
-pdisplayNameCacheEntry GetCLCFullCacheEntry(struct ClcData *dat,HANDLE hContact)
+pClcCacheEntry GetCLCFullCacheEntry(struct ClcData *dat,HANDLE hContact)
 {
 	if (hContact == 0)
 		return NULL;
 
-	displayNameCacheEntry dnce;
+	ClcCacheEntry dnce;
 	dnce.hContact = hContact;
-	displayNameCacheEntry *pdnce = (displayNameCacheEntry*)List_Find(&dat->lCLCContactsCache,&dnce);
+	ClcCacheEntry *pdnce = (ClcCacheEntry*)List_Find(&dat->lCLCContactsCache,&dnce);
 	if (pdnce == NULL) {
-		pdnce = (displayNameCacheEntry*)mir_calloc(sizeof(displayNameCacheEntry));
+		pdnce = (ClcCacheEntry*)mir_calloc(sizeof(ClcCacheEntry));
 		pdnce->hContact = hContact;
 	
 		int idx;
 		List_GetIndex(&dat->lCLCContactsCache,pdnce,&idx);
 		List_Insert(&dat->lCLCContactsCache,pdnce,idx);
 
-		displayNameCacheEntry *pdnce2 = (displayNameCacheEntry*)List_Find(&dat->lCLCContactsCache,&dnce);//for check
+		ClcCacheEntry *pdnce2 = (ClcCacheEntry*)List_Find(&dat->lCLCContactsCache,&dnce);//for check
 		if (pdnce2->hContact != pdnce->hContact)
 			return NULL;
 
@@ -109,14 +109,14 @@ pdisplayNameCacheEntry GetCLCFullCacheEntry(struct ClcData *dat,HANDLE hContact)
 
 void ClearClcContactCache(struct ClcData *dat,HANDLE hContact)
 {
-	pdisplayNameCacheEntry cacheEntry;
+	pClcCacheEntry cacheEntry;
 
 	if (hContact == INVALID_HANDLE_VALUE) {
 		int i,tick;
 		tick = GetTickCount();
 
 		for (i = 0;i<(dat->lCLCContactsCache.realCount);i++) {
-			pdisplayNameCacheEntry pdnce = (pdisplayNameCacheEntry)dat->lCLCContactsCache.items[i];
+			pClcCacheEntry pdnce = (pClcCacheEntry)dat->lCLCContactsCache.items[i];
 			pdnce->ClcContact = NULL;
 		}		
 		tick = GetTickCount()-tick;
@@ -135,7 +135,7 @@ void ClearClcContactCache(struct ClcData *dat,HANDLE hContact)
 
 void SetClcContactCacheItem(struct ClcData *dat,HANDLE hContact,void *contact)
 {
-	pdisplayNameCacheEntry cacheEntry;
+	pClcCacheEntry cacheEntry;
 	if ( !IsHContactGroup(hContact) && !IsHContactInfo(hContact)) {
 		cacheEntry = GetCLCFullCacheEntry(dat,hContact);
 		if (cacheEntry != NULL)
@@ -153,7 +153,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 
 	if (isVisible == NULL && hItem != NULL && subgroup == NULL && !IsHContactGroup(hItem) && !IsHContactInfo(hItem)) {
 		//try use cache
-		pdisplayNameCacheEntry cacheEntry;
+		pClcCacheEntry cacheEntry;
 		cacheEntry = GetCLCFullCacheEntry(dat,hItem);
 		if (cacheEntry != NULL) {
 			if (cacheEntry->ClcContact == NULL) {

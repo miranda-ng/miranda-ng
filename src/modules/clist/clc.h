@@ -29,6 +29,10 @@ struct ClcData : public ClcDataBase
 {
 };
 
+struct ClcCacheEntry : public ClcCacheEntryBase
+{
+};
+
 /* clc.c */
 extern int g_IconWidth, g_IconHeight;
 
@@ -118,10 +122,10 @@ TCHAR* fnGetContactDisplayName(HANDLE hContact, int mode);
 void   fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF * colour);
 void   fnInvalidateDisplayNameCacheEntry(HANDLE hContact);
 
-ClcCacheEntryBase* fnGetCacheEntry(HANDLE hContact);
-ClcCacheEntryBase* fnCreateCacheItem (HANDLE hContact);
-void fnCheckCacheItem(ClcCacheEntryBase* p);
-void fnFreeCacheItem(ClcCacheEntryBase* p);
+ClcCacheEntry* fnGetCacheEntry(HANDLE hContact);
+ClcCacheEntry* fnCreateCacheItem (HANDLE hContact);
+void fnCheckCacheItem(ClcCacheEntry *p);
+void fnFreeCacheItem(ClcCacheEntry *p);
 
 /* clcfiledrop.c */
 void InitFileDropping(void);

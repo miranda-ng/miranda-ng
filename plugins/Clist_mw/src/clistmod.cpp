@@ -52,8 +52,8 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 			// substitute params by mostonline contact datas
 			HANDLE hMostOnlineContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hActContact,0);
 			if (hMostOnlineContact && hMostOnlineContact != (HANDLE)CALLSERVICE_NOTFOUND) {
-				pdisplayNameCacheEntry cacheEntry;
-				cacheEntry = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hMostOnlineContact);
+				pClcCacheEntry cacheEntry;
+				cacheEntry = (pClcCacheEntry)pcli->pfnGetCacheEntry(hMostOnlineContact);
 				if (cacheEntry && cacheEntry->szProto) {
 					szActProto = cacheEntry->szProto;
 					nActStatus = cacheEntry->status;

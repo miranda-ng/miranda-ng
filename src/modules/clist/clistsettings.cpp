@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 SortedList* clistCache = NULL;
 
-static int compareContacts(ClcCacheEntryBase* p1, ClcCacheEntryBase* p2)
+static int compareContacts(ClcCacheEntry *p1, ClcCacheEntry *p2)
 {
 	return (char*)p1->hContact - (char*)p2->hContact;
 }
@@ -41,7 +41,7 @@ void FreeDisplayNameCache(void)
 	if (clistCache != NULL) {
 		int i;
 		for (i=0; i < clistCache->realCount; i++) {
-			cli.pfnFreeCacheItem((ClcCacheEntryBase*)clistCache->items[i]);
+			cli.pfnFreeCacheItem((ClcCacheEntry*)clistCache->items[i]);
 			mir_free(clistCache->items[i]);
 		}
 
@@ -52,9 +52,9 @@ void FreeDisplayNameCache(void)
 
 // default handlers for the cache item creation and destruction
 
-ClcCacheEntryBase* fnCreateCacheItem(HANDLE hContact)
+ClcCacheEntry* fnCreateCacheItem(HANDLE hContact)
 {
-	ClcCacheEntryBase* p = (ClcCacheEntryBase*)mir_calloc(sizeof(ClcCacheEntryBase));
+	ClcCacheEntry* p = (ClcCacheEntry*)mir_calloc(sizeof(ClcCacheEntry));
 	if (p == NULL)
 		return NULL;
 
@@ -62,7 +62,7 @@ ClcCacheEntryBase* fnCreateCacheItem(HANDLE hContact)
 	return p;
 }
 
-void fnCheckCacheItem(ClcCacheEntryBase* p)
+void fnCheckCacheItem(ClcCacheEntry *p)
 {
 	DBVARIANT dbv;
 	if (p->tszGroup == NULL) {
@@ -77,16 +77,16 @@ void fnCheckCacheItem(ClcCacheEntryBase* p)
 		p->bIsHidden = db_get_b(p->hContact, "CList", "Hidden", 0);
 }
 
-void fnFreeCacheItem(ClcCacheEntryBase* p)
+void fnFreeCacheItem(ClcCacheEntry *p)
 {
 	if (p->tszName) { mir_free(p->tszName); p->tszName = NULL; }
 	if (p->tszGroup) { mir_free(p->tszGroup); p->tszGroup = NULL; }
 	p->bIsHidden = -1;
 }
 
-ClcCacheEntryBase* fnGetCacheEntry(HANDLE hContact)
+ClcCacheEntry* fnGetCacheEntry(HANDLE hContact)
 {
-	ClcCacheEntryBase* p;
+	ClcCacheEntry *p;
 	int idx;
 	if ( !List_GetIndex(clistCache, &hContact, &idx)) {	
 		if ((p = cli.pfnCreateCacheItem(hContact)) != NULL) {
@@ -94,7 +94,7 @@ ClcCacheEntryBase* fnGetCacheEntry(HANDLE hContact)
 			cli.pfnInvalidateDisplayNameCacheEntry(p);
 		}
 	}
-	else p = (ClcCacheEntryBase*)clistCache->items[idx];
+	else p = (ClcCacheEntry*)clistCache->items[idx];
 
 	cli.pfnCheckCacheItem(p);
 	return p;
@@ -110,12 +110,12 @@ void fnInvalidateDisplayNameCacheEntry(HANDLE hContact)
 	else {
 		int idx;
 		if (List_GetIndex(clistCache, &hContact, &idx))
-			cli.pfnFreeCacheItem((ClcCacheEntryBase*)clistCache->items[idx]);
+			cli.pfnFreeCacheItem((ClcCacheEntry*)clistCache->items[idx]);
 }	}
 
 TCHAR* fnGetContactDisplayName(HANDLE hContact, int mode)
 {
-	ClcCacheEntryBase* cacheEntry = NULL;
+	ClcCacheEntry *cacheEntry = NULL;
 
 	if (mode & GCDNF_NOCACHE)
 		mode &= ~GCDNF_NOCACHE;
@@ -155,7 +155,7 @@ TCHAR* fnGetContactDisplayName(HANDLE hContact, int mode)
 INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
 {
 	static char retVal[200];
-	ClcCacheEntryBase* cacheEntry = NULL;
+	ClcCacheEntry *cacheEntry = NULL;
 	HANDLE hContact = (HANDLE)wParam;
 
 	if (lParam & GCDNF_UNICODE)

@@ -65,8 +65,8 @@ int ClcEnterDragToScroll(HWND hwnd, int Y);
 int CListMod_ContactListShutdownProc(WPARAM wParam,LPARAM lParam);
 int CListMod_HideWindow(HWND hwndContactList, int mode);
 
-int CListSettings_GetCopyFromCache(pdisplayNameCacheEntry pDest, DWORD flag);
-int CListSettings_SetToCache(pdisplayNameCacheEntry pSrc, DWORD flag);
+int CListSettings_GetCopyFromCache(pClcCacheEntry pDest, DWORD flag);
+int CListSettings_SetToCache(pClcCacheEntry pSrc, DWORD flag);
 
 int CLUIServices_LoadModule(void);
 INT_PTR CLUIServices_SortList(WPARAM wParam,LPARAM lParam);

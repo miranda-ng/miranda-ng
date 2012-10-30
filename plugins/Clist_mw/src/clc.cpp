@@ -63,7 +63,7 @@ void StatusUpdaterThread(void*)
 			if (DBGetContactSettingByte(hContact,"CList","StatusMsgAuto",0)) {
 				for (i = 0; i<5; i++) {
 					if (hContact != NULL) {
-						pdisplayNameCacheEntry pdnce  = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry((HANDLE)hContact);
+						pClcCacheEntry pdnce  = (pClcCacheEntry)pcli->pfnGetCacheEntry((HANDLE)hContact);
 						if (pdnce && !pdnce->protoNotExists && pdnce->szProto)
 							CallContactService(hContact, PSS_GETAWAYMSG, 0, 0);
 
@@ -147,7 +147,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		int recalcScrollBar = 0,shouldShow;
 		HANDLE hSelItem = NULL;
 		struct ClcContact *selcontact = NULL;
-		pdisplayNameCacheEntry cacheEntry = GetContactFullCacheEntry((HANDLE)wParam);
+		pClcCacheEntry cacheEntry = GetContactFullCacheEntry((HANDLE)wParam);
 
 		WORD status;
 		int needsResort = 0;

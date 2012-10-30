@@ -41,7 +41,7 @@ void AddSubcontacts(struct ClcContact * cont)
 {
 	int subcount,i,j;
 	HANDLE hsub;
-	pdisplayNameCacheEntry cacheEntry;
+	pClcCacheEntry cacheEntry;
 	cacheEntry = GetContactFullCacheEntry(cont->hContact);
 	OutputDebugStringA("Proceed AddSubcontacts\r\n");
 	subcount = (int)CallService(MS_MC_GETNUMCONTACTS,(WPARAM)cont->hContact,0);
@@ -111,7 +111,7 @@ int AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText)
 	return i;
 }
 
-static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group,pdisplayNameCacheEntry cacheEntry)
+static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group,pClcCacheEntry cacheEntry)
 {
 	char *szProto;
 	WORD apparentMode;
@@ -192,7 +192,7 @@ void AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTo
 	if (FindItem(hwnd,dat,hContact,NULL,NULL,NULL) == 1)
 		return;
 
-	pdisplayNameCacheEntry cacheEntry = GetContactFullCacheEntry(hContact);
+	pClcCacheEntry cacheEntry = GetContactFullCacheEntry(hContact);
 	if (cacheEntry == NULL)
 		return;
 
@@ -357,7 +357,7 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 	hContact = db_find_first();
 	while(hContact) {
 		
-		pdisplayNameCacheEntry cacheEntry;
+		pClcCacheEntry cacheEntry;
 		cont = NULL;
 		cacheEntry = GetContactFullCacheEntry(hContact);
 		//cacheEntry->ClcContact = NULL;

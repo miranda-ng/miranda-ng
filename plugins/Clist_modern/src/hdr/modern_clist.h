@@ -68,19 +68,19 @@ public:
 		DestroySmileyList();
 	}
 
-	void ReplaceSmileys(struct SHORTDATA *dat, struct displayNameCacheEntry *pdnce, TCHAR *szText, BOOL replace_smileys);
+	void ReplaceSmileys(struct SHORTDATA *dat, struct ClcCacheEntry *pdnce, TCHAR *szText, BOOL replace_smileys);
 
 	/**	Destroy smiley list */ 
 	void DestroySmileyList();
 	/**  Copy Smiley List */
 	void _CopySmileyList( SortedList *plInput );
-	void AddListeningToIcon(struct SHORTDATA *dat, struct displayNameCacheEntry *pdnce, TCHAR *szText, BOOL replace_smileys);
+	void AddListeningToIcon(struct SHORTDATA *dat, struct ClcCacheEntry *pdnce, TCHAR *szText, BOOL replace_smileys);
 
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct displayNameCacheEntry : public ClcCacheEntryBase
+struct ClcCacheEntry : public ClcCacheEntryBase
 {
 	int      m_cache_nNoHiddenOffline;
 
@@ -110,7 +110,7 @@ struct displayNameCacheEntry : public ClcCacheEntryBase
 	void     freeName(void);
 };
 
-typedef displayNameCacheEntry *pdisplayNameCacheEntry, *PDNCE;
+typedef ClcCacheEntry *pClcCacheEntry, *PDNCE;
 
 ///////////////////////////////////////////////////////////////////////////////
 

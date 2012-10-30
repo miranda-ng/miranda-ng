@@ -108,7 +108,7 @@ ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD 
 				DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 				HANDLE hContact = db_find_first();
 				while (hContact) {
-					ClcCacheEntryBase* cache = cli.pfnGetCacheEntry(hContact);
+					ClcCacheEntry* cache = cli.pfnGetCacheEntry(hContact);
 					if ( !lstrcmp(cache->tszGroup, szName) && (style & CLS_SHOWHIDDEN || !cache->bIsHidden))
 						group->totalMembers++;
 
@@ -204,7 +204,7 @@ int fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 		group->cl.items[i]->flags |= CONTACTF_IDLE;
 	lstrcpyn(group->cl.items[i]->szText, cli.pfnGetContactDisplayName(hContact, 0), SIZEOF(group->cl.items[i]->szText));
 
-	ClcCacheEntryBase* p = cli.pfnGetCacheEntry(hContact);
+	ClcCacheEntry *p = cli.pfnGetCacheEntry(hContact);
 	if (p != NULL)
 		replaceStrT(p->tszGroup, NULL);
 
@@ -291,7 +291,7 @@ ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact,
 		if (updateTotalCount)
 			group->totalMembers--;
 
-		ClcCacheEntryBase* p = cli.pfnGetCacheEntry(contact->hContact);
+		ClcCacheEntry *p = cli.pfnGetCacheEntry(contact->hContact);
 		if (p != NULL) {
 			if (p->tszGroup) mir_free(p->tszGroup);
 			p->tszGroup = NULL;

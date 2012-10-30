@@ -51,8 +51,8 @@ static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size);
 static BOOL ExecuteOnAllContacts(struct ClcData *dat, ExecuteOnAllContactsFuncPtr func, void *param);
 static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFuncPtr func, void *param);
 int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam);
-void CListSettings_FreeCacheItemData(pdisplayNameCacheEntry pDst);
-void CListSettings_FreeCacheItemDataOption( pdisplayNameCacheEntry pDst, DWORD flag );
+void CListSettings_FreeCacheItemData(pClcCacheEntry pDst);
+void CListSettings_FreeCacheItemDataOption( pClcCacheEntry pDst, DWORD flag );
 /*
 *	Get time zone for contact
 */
@@ -83,7 +83,7 @@ void Cache_GetText(struct ClcData *dat, ClcContact *contact, BOOL forceRenew)
 	}
 }
 
-void CSmileyString::AddListeningToIcon(struct SHORTDATA *dat, pdisplayNameCacheEntry pdnce, TCHAR *szText, BOOL replace_smileys)
+void CSmileyString::AddListeningToIcon(struct SHORTDATA *dat, pClcCacheEntry pdnce, TCHAR *szText, BOOL replace_smileys)
 {
 	iMaxSmileyHeight = 0;
 	DestroySmileyList();

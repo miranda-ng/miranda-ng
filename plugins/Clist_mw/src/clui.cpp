@@ -708,9 +708,9 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						if (!IsHContactGroup(hItem)&&!IsHContactInfo(hItem))
 						{
 							int extra;
-							pdisplayNameCacheEntry pdnce; 
+							pClcCacheEntry pdnce; 
 
-							pdnce = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(nm->hItem);
+							pdnce = (pClcCacheEntry)pcli->pfnGetCacheEntry(nm->hItem);
 							if (pdnce == NULL) return 0;
 
 							extra = ColumnNumToExtra(nm->iColumn);

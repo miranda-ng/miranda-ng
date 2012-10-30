@@ -108,7 +108,7 @@ static int gtaThreadProc(void * lpParam)
 				}
 				if ( !MirandaExiting())
 				{
-					displayNameCacheEntry cacheEntry;
+					ClcCacheEntry cacheEntry;
 					memset( &cacheEntry, 0, sizeof(cacheEntry));
 					cacheEntry.hContact = mpChain.hContact;
 					if ( !Sync(CLUI_SyncGetPDNCE, (WPARAM) 0,(LPARAM)&cacheEntry))

@@ -275,15 +275,15 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	//must rename setting in all child contacts too
 	hContact = db_find_first();
 	do {
-		ClcCacheEntryBase* cache = cli.pfnGetCacheEntry(hContact);
+		ClcCacheEntry* cache = cli.pfnGetCacheEntry(hContact);
 		if ( !lstrcmp(cache->tszGroup, oldName)) {
-            db_set_ts(hContact, "CList", "Group", szName);
-            mir_free(cache->tszGroup);
-            cache->tszGroup = 0;
-            cli.pfnCheckCacheItem(cache);
-        }
+			db_set_ts(hContact, "CList", "Group", szName);
+			mir_free(cache->tszGroup);
+			cache->tszGroup = 0;
+			cli.pfnCheckCacheItem(cache);
+		}
 	}
-	while ((hContact = db_find_next(hContact)) != NULL);
+		while ((hContact = db_find_next(hContact)) != NULL);
 
 	//rename subgroups
 	{

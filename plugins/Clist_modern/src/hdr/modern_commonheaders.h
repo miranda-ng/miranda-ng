@@ -337,10 +337,10 @@ int AniAva_RenderAvatar( HANDLE hContact, HDC hdcMem, RECT * rc );
 #define CCI_OTHER			~( CCI_NAME|CCI_GROUP|CCI_PROTO|CCI_STATUS|CCI_LINES|CCI_TIME )
 #define CCI_ALL				(0xFFFFFFFF)
 
-void CListSettings_FreeCacheItemData(pdisplayNameCacheEntry pDst);
+void CListSettings_FreeCacheItemData(pClcCacheEntry pDst);
 int CLUI_SyncGetPDNCE(WPARAM wParam, LPARAM lParam);
-WORD pdnce___GetStatus(pdisplayNameCacheEntry pdnce);
-void pdnce___SetStatus( pdisplayNameCacheEntry pdnce, WORD wStatus );
+WORD pdnce___GetStatus(pClcCacheEntry pdnce);
+void pdnce___SetStatus( pClcCacheEntry pdnce, WORD wStatus );
 
 /* move to list module */
 typedef void (*ItemDestuctor)(void*);

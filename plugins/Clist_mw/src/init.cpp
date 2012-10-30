@@ -32,10 +32,10 @@ static HANDLE hCListShutdown = 0;
 HMENU BuildGroupPopupMenu( ClcGroup* group );
 
 void  CalcEipPosition( struct ClcData *dat, struct ClcContact *contact, ClcGroup *group, POINT *result);
-void  CheckPDNCE(ClcCacheEntryBase*);
+void  CheckPDNCE(ClcCacheEntry*);
 void  CluiProtocolStatusChanged( int, const char* );
 int   CompareContacts( const struct ClcContact *contact1, const struct ClcContact *contact2 );
-void  FreeDisplayNameCacheItem(ClcCacheEntryBase*);
+void  FreeDisplayNameCacheItem(ClcCacheEntry*);
 void  GetDefaultFontSetting(int i,LOGFONT *lf,COLORREF *colour);
 void  RebuildEntireList(HWND hwnd,struct ClcData *dat);
 void  RecalcScrollBar(HWND hwnd,struct ClcData *dat);
@@ -139,12 +139,12 @@ static struct ClcContact* fnCreateClcContact( void )
 	return (struct ClcContact*)mir_calloc( sizeof( struct ClcContact ));
 }
 
-static ClcCacheEntryBase* fnCreateCacheItem( HANDLE hContact )
+static pClcCacheEntry fnCreateCacheItem( HANDLE hContact )
 {
-	pdisplayNameCacheEntry p = (pdisplayNameCacheEntry)mir_calloc( sizeof( displayNameCacheEntry ));
+	pClcCacheEntry p = (pClcCacheEntry)mir_calloc( sizeof( ClcCacheEntry ));
 	if ( p )
 		p->hContact = hContact;
-	return (ClcCacheEntryBase*)p;
+	return p;
 }
 
 extern "C" int __declspec(dllexport) CListInitialise()

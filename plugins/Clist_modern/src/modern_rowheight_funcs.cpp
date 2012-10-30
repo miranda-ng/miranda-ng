@@ -82,11 +82,11 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, ClcContact *contact
 	BYTE i=0;
 	int res = 0;
 	int height = 0;
-	displayNameCacheEntry * pdnce; 
+	ClcCacheEntry * pdnce; 
 	BOOL hasAvatar = FALSE;
 	DWORD style;
 	style = GetWindowLongPtr(hwnd,GWL_STYLE);
-	pdnce = (displayNameCacheEntry*)pcli->pfnGetCacheEntry(contact->hContact);
+	pdnce = (ClcCacheEntry*)pcli->pfnGetCacheEntry(contact->hContact);
 	if ( !RowHeights_Alloc(dat, item + 1))
 		return -1;
 
@@ -560,7 +560,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, ClcContact *c
 		return -1;
 
 	int height = 0;
-	displayNameCacheEntry *pdnce = (contact->type == CLCIT_CONTACT) ? (displayNameCacheEntry*)pcli->pfnGetCacheEntry(contact->hContact) : NULL;
+	ClcCacheEntry *pdnce = (contact->type == CLCIT_CONTACT) ? (ClcCacheEntry*)pcli->pfnGetCacheEntry(contact->hContact) : NULL;
 
 	if (dat->row_variable_height) {
 		if ( !dat->text_ignore_size_for_row_height) {

@@ -121,7 +121,7 @@ static int amThreadProc(HWND hwnd)
 	DWORD time;
 	HANDLE hContact;
 	HANDLE ACK = 0;
-	displayNameCacheEntry dnce;
+	ClcCacheEntry dnce;
 	memset( &dnce, 0, sizeof(dnce));
 
 	while (!MirandaExiting())

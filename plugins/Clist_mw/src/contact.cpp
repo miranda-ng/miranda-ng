@@ -77,7 +77,7 @@ void LoadContactTree(void)
 {
 	HANDLE hContact;
 	int i,hideOffline,status,tick;
-	pdisplayNameCacheEntry cacheEntry;
+	pClcCacheEntry cacheEntry;
 		
 
 

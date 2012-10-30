@@ -1841,7 +1841,7 @@ static LRESULT clcOnIntmStatusChanged(struct ClcData *dat, HWND hwnd, UINT msg, 
 {
 	int ret = corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	if (wParam != 0) {
-		pdisplayNameCacheEntry pdnce = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry((HANDLE)wParam);
+		pClcCacheEntry pdnce = (pClcCacheEntry)pcli->pfnGetCacheEntry((HANDLE)wParam);
 		if (pdnce && pdnce->m_cache_cszProto) {
 			ClcContact *contact = NULL;
 			pdnce___SetStatus( pdnce, GetStatusForContact(pdnce->hContact,pdnce->m_cache_cszProto));

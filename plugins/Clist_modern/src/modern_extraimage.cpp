@@ -265,7 +265,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 	char *(ImgIndex[64]);
 	int maxpr,count,i;
 	PROTOACCOUNT **accs;
-	pdisplayNameCacheEntry pdnce;
+	pClcCacheEntry pdnce;
 	int em,pr,sms,a1,a2,w1,c1;
 	int tick = 0;
 	g_mutex_bSetAllExtraIconsCycle = 1;
@@ -309,7 +309,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 		szProto = NULL;
 		hItem = hContact;
 		if (hItem == 0){continue;};
-		pdnce = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hItem);
+		pdnce = (pClcCacheEntry)pcli->pfnGetCacheEntry(hItem);
 		if (pdnce == NULL) {continue;};
 
 		//		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);		

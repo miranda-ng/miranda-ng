@@ -161,6 +161,7 @@ struct ClcDataBase
 struct ClcContact;
 struct ClcData;
 struct CListEvent;
+struct ClcCacheEntry;
 
 struct trayIconInfo_t
 {
@@ -346,10 +347,10 @@ typedef struct
 	TCHAR* (*pfnGetStatusModeDescription)(int mode, int flags);
 
 	/* clistsettings.c */
-	ClcCacheEntryBase* (*pfnGetCacheEntry)(HANDLE hContact);
-	ClcCacheEntryBase* (*pfnCreateCacheItem)(HANDLE hContact);
-	void               (*pfnCheckCacheItem)(ClcCacheEntryBase*);
-	void               (*pfnFreeCacheItem)(ClcCacheEntryBase*);
+	ClcCacheEntry* (*pfnGetCacheEntry)(HANDLE hContact);
+	ClcCacheEntry* (*pfnCreateCacheItem)(HANDLE hContact);
+	void           (*pfnCheckCacheItem)(ClcCacheEntry*);
+	void           (*pfnFreeCacheItem)(ClcCacheEntry*);
 
 	TCHAR* (*pfnGetContactDisplayName)(HANDLE hContact, int mode);
 	void   (*pfnInvalidateDisplayNameCacheEntry)(HANDLE hContact);
