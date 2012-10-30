@@ -101,9 +101,9 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 	if ( !dbei->pBlob) return 0;
 
 	if (dbei->eventType == EVENTTYPE_FILE) {
-		char* filename = ((char *)dbei->pBlob) + sizeof(DWORD);
-		char* descr = filename + lstrlenA(filename) + 1;
-		char* str = (*descr == 0) ? filename : descr;
+		char *filename = ((char *)dbei->pBlob) + sizeof(DWORD);
+		char *descr = filename + lstrlenA(filename) + 1;
+		char *str = (*descr == 0) ? filename : descr;
 		switch (egt->datatype) {
 		case DBVT_WCHAR:
 			return (INT_PTR)((dbei->flags & DBEF_UTF) ? Utf8DecodeT(str) : mir_a2t(str));
@@ -120,9 +120,9 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 
 	egt->datatype &= ~DBVTF_DENYUNICODE;
 	if (egt->datatype == DBVT_WCHAR) {
-		WCHAR* msg = NULL;
+		WCHAR *msg = NULL;
 		if (dbei->flags & DBEF_UTF) {
-			char* str = (char*)alloca(dbei->cbBlob + 1);
+			char *str = (char*)alloca(dbei->cbBlob + 1);
 			if (str == NULL) return NULL;
 			memcpy(str, dbei->pBlob, dbei->cbBlob);
 			str[dbei->cbBlob] = 0;
@@ -132,7 +132,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 			size_t msglen = strlen((char*)dbei->pBlob) + 1, msglenW = 0;
 			if (msglen != dbei->cbBlob) {
 				size_t i, count = ((dbei->cbBlob - msglen) / sizeof(WCHAR));
-				WCHAR* p = (WCHAR*)&dbei->pBlob[ msglen ];
+				WCHAR *p = (WCHAR*)&dbei->pBlob[ msglen ];
 				for (i=0; i < count; i++) {
 					if (p[i] == 0) {
 						msglenW = i;
@@ -149,7 +149,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		return (INT_PTR)msg;
 	}
 	else if (egt->datatype == DBVT_ASCIIZ) {
-		char* msg = mir_strdup((char*)dbei->pBlob);
+		char *msg = mir_strdup((char*)dbei->pBlob);
 		if (dbei->flags & DBEF_UTF)
 			Utf8DecodeCP(msg, egt->codepage, NULL);
 
@@ -177,8 +177,7 @@ static INT_PTR DbEventGetIcon(WPARAM wParam, LPARAM lParam)
 		icon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szName);
 	}
 
-	if ( !icon)
-	{
+	if ( !icon) {
 		switch(dbei->eventType) {
 		case EVENTTYPE_URL:
 			icon = LoadSkinIcon(SKINICON_EVENT_URL);
@@ -200,7 +199,7 @@ static INT_PTR DbEventGetIcon(WPARAM wParam, LPARAM lParam)
 static INT_PTR DbEventGetStringT(WPARAM wParam, LPARAM lParam)
 {
 	DBEVENTINFO* dbei = (DBEVENTINFO*)wParam;
-	char* string = (char*)lParam;
+	char *string = (char*)lParam;
 
 	if (dbei->flags & DBEF_UTF)
 		return (INT_PTR)Utf8DecodeW(string);
@@ -210,7 +209,7 @@ static INT_PTR DbEventGetStringT(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int sttEnumVars(const char* szVarName, LPARAM lParam)
+static int sttEnumVars(const char *szVarName, LPARAM lParam)
 {
 	LIST<char>* vars = (LIST<char>*)lParam;
 	vars->insert(mir_strdup(szVarName));
@@ -240,17 +239,9 @@ static INT_PTR GetProfilePath(WPARAM wParam, LPARAM lParam)
 	if ( !wParam || !lParam)
 		return 1;
 
-	char* dst = (char*)lParam;
-
-	char* tmp = mir_t2a(g_profileDir);
-	strncpy(dst, tmp, wParam);
-	mir_free(tmp);
-	
-	if (wParam <= _tcslen(g_profileName))
-	{
-		dst[wParam - 1] = 0;
-		return 1;
-	}
+	char *dst = (char*)lParam;
+	strncpy(dst, _T2A(g_profileDir), wParam);
+	dst[wParam-1] = 0;
 	return 0;
 }
 
@@ -259,17 +250,13 @@ static INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	if ( !wParam || !lParam)
 		return 1;
 
-	char* dst = (char*)lParam;
+	char *dst = (char*)lParam;
 
-	char* tmp = makeFileName(g_profileName);
+	char *tmp = makeFileName(g_profileName);
 	strncpy(dst, tmp, wParam);
 	mir_free(tmp);
 	
-	if (wParam <= _tcslen(g_profileName))
-	{
-		dst[wParam - 1] = 0;
-		return 1;
-	}
+	dst[wParam-1] = 0;
 	return 0;
 }
 
@@ -278,25 +265,17 @@ static INT_PTR GetProfilePathW(WPARAM wParam, LPARAM lParam)
 	if ( !wParam || !lParam)
 		return 1;
 
-	wchar_t* dst = (wchar_t*)lParam;
+	wchar_t *dst = (wchar_t*)lParam;
 	wcsncpy(dst, g_profileDir, wParam);
-	if (wParam <= wcslen(g_profileDir))
-	{
-		dst[wParam - 1] = 0;
-		return 1;
-	}
+	dst[wParam-1] = 0;
 	return 0;
 }
 
 static INT_PTR GetProfileNameW(WPARAM wParam, LPARAM lParam)
 {
-	wchar_t* dst = (wchar_t*)lParam;
+	wchar_t *dst = (wchar_t*)lParam;
 	wcsncpy(dst, g_profileName, wParam);
-	if (wParam <= wcslen(g_profileName))
-	{
-		dst[wParam - 1] = 0;
-		return 1;
-	}
+	dst[wParam-1] = 0;
 	return 0;
 }
 

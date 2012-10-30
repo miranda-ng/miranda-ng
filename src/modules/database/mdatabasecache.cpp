@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "database.h"
 
 static int stringCompare(const char* p1, const char* p2)
-{	return strcmp(p1+1, p2+1);
+{	return strcmp(p1, p2);
 }
 
 static int compareGlobals(const DBCachedGlobalValue* p1, const DBCachedGlobalValue* p2)
@@ -90,8 +90,8 @@ void MDatabaseCache::FreeCachedContact(HANDLE hContact)
 char* MDatabaseCache::InsertCachedSetting(const char* szName, int cbLen)
 {
 	char* newValue = (char*)HeapAlloc(m_hCacheHeap, 0, cbLen);
-	*newValue = 0;
-	strcpy(newValue+1, szName+1);
+	*newValue++ = 0;
+	strcpy(newValue, szName);
 	m_lSettings.insert(newValue);
 	return newValue;
 }
@@ -99,18 +99,23 @@ char* MDatabaseCache::InsertCachedSetting(const char* szName, int cbLen)
 char* MDatabaseCache::GetCachedSetting(const char *szModuleName,const char *szSettingName, int moduleNameLen, int settingNameLen)
 {
 	char szFullName[512];
-	strcpy(szFullName+1,szModuleName);
-	szFullName[moduleNameLen+1] = '/';
-	strcpy(szFullName+moduleNameLen+2,szSettingName);
+	const char *szKey;
+	if (szModuleName != NULL) {
+		strcpy(szFullName, szModuleName);
+		szFullName[moduleNameLen] = '/';
+		strcpy(szFullName+moduleNameLen+1,szSettingName);
+		szKey = szFullName;
+	}
+	else szKey = szSettingName;
 
-	if (m_lastSetting && strcmp(szFullName+1, m_lastSetting) == 0)
+	if (m_lastSetting && !strcmp(szKey, m_lastSetting))
 		return m_lastSetting;
 
-	int index = m_lSettings.getIndex(szFullName);
+	int index = m_lSettings.getIndex((char*)szKey);
 	if (index != -1)
-		m_lastSetting = m_lSettings[index]+1;
+		m_lastSetting = m_lSettings[index];
 	else
-		m_lastSetting = InsertCachedSetting( szFullName, settingNameLen+moduleNameLen+3)+1;
+		m_lastSetting = InsertCachedSetting(szKey, settingNameLen+moduleNameLen+3);
 
 	return m_lastSetting;
 }

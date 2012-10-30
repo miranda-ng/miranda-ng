@@ -149,7 +149,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	HDC hdcMem;
 	RECT clRect;
 	int i, y, indent, index, fontHeight;
-	struct ClcGroup *group;
+	ClcGroup *group;
 	HBITMAP hBmpOsb, hOldBitmap;
 	HFONT hOldFont;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);

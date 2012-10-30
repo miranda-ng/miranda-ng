@@ -34,7 +34,7 @@ extern int g_IconWidth, g_IconHeight;
 
 void   fnClcOptionsChanged(void);
 void   fnClcBroadcast(int msg, WPARAM wParam, LPARAM lParam);
-HMENU  fnBuildGroupPopupMenu(struct ClcGroup* group);
+HMENU  fnBuildGroupPopupMenu(ClcGroup* group);
 
 LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -46,8 +46,8 @@ HANDLE fnContactToHItem(ClcContact* contact);
 HANDLE fnContactToItemHandle(ClcContact * contact, DWORD * nmFlags);
 
 /* clcitems.c */
-struct ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
-struct ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
+ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
+ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
 
 void fnFreeContact(ClcContact *p);
 void fnFreeGroup(ClcGroup *group);

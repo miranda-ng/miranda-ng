@@ -28,6 +28,18 @@ extern LIST<PROTOCOLDESCRIPTOR> filters;
 
 static int GetProtocolP(HANDLE hContact, char *szBuf, int cbLen)
 {
+	if (currDb == NULL)
+		return 1;
+
+	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+	if (cc == NULL)
+		cc = currDb->m_cache->AddContactToCache(hContact);
+	if (cc->szProto != NULL) {
+		strncpy(szBuf, cc->szProto, cbLen);
+		szBuf[cbLen-1] = 0;
+		return 0;
+	}
+
 	DBVARIANT dbv;
 	dbv.type = DBVT_ASCIIZ;
 	dbv.pszVal = szBuf;
@@ -37,7 +49,11 @@ static int GetProtocolP(HANDLE hContact, char *szBuf, int cbLen)
 	dbcgs.pValue = &dbv;
 	dbcgs.szModule = "Protocol";
 	dbcgs.szSetting = "p";
-	return (int)CallService(MS_DB_CONTACT_GETSETTINGSTATIC, (WPARAM)hContact, (LPARAM)&dbcgs);
+
+	int res = currDb->GetContactSettingStatic(hContact, &dbcgs);
+	if (res == 0 && !cc->szProto)
+		cc->szProto = currDb->m_cache->GetCachedSetting(NULL, szBuf, 0, strlen(szBuf));
+	return res;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -154,9 +170,12 @@ static INT_PTR Proto_ChainRecv(WPARAM wParam, LPARAM lParam)
 
 PROTOACCOUNT* __fastcall Proto_GetAccount(HANDLE hContact)
 {
+	if (hContact == NULL)
+		return NULL;
+
 	char szProto[40];
 	if ( GetProtocolP(hContact, szProto, sizeof(szProto)))
-		return 0;
+		return NULL;
 
 	return Proto_GetAccount(szProto);
 }

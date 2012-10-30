@@ -48,6 +48,7 @@ struct DBCachedContact
 {
 	HANDLE hContact;
 	HANDLE hNext;
+	char  *szProto;
 	DBCachedContactValue* first;
 	DBCachedContactValue* last;
 };

@@ -52,7 +52,7 @@ void fnClcOptionsChanged(void)
 	cli.pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
 }
 
-HMENU fnBuildGroupPopupMenu(struct ClcGroup* group)
+HMENU fnBuildGroupPopupMenu(ClcGroup* group)
 {
     HMENU hMenu = LoadMenu(cli.hInst, MAKEINTRESOURCE(IDR_CONTEXT));
     HMENU hGroupMenu = GetSubMenu(hMenu, 2);
@@ -69,8 +69,11 @@ HMENU fnBuildGroupPopupMenu(struct ClcGroup* group)
 
 static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 {
+	if ((HANDLE)wParam == NULL)
+		return 0;
+
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-	if ((HANDLE)wParam != NULL && !strcmp(cws->szModule, "CList")) {
+	if ( !strcmp(cws->szModule, "CList")) {
 		if ( !strcmp(cws->szSetting, "MyHandle")) {
 			cli.pfnInvalidateDisplayNameCacheEntry((HANDLE) wParam);
 			cli.pfnClcBroadcast(INTM_NAMECHANGED, wParam, lParam);
@@ -90,8 +93,8 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 		cli.pfnClcBroadcast(INTM_GROUPSCHANGED, wParam, lParam);
 	}
 	else {
-		char* szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
-		if (szProto != NULL && (HANDLE) wParam != NULL) {
+		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+		if (szProto != NULL) {
 			char *id = NULL;
 			if ( !strcmp(cws->szModule, "Protocol") && !strcmp(cws->szSetting, "p"))
 				cli.pfnClcBroadcast(INTM_PROTOCHANGED, wParam, lParam);
