@@ -54,13 +54,13 @@ void fnClcOptionsChanged(void)
 
 HMENU fnBuildGroupPopupMenu(ClcGroup* group)
 {
-    HMENU hMenu = LoadMenu(cli.hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-    HMENU hGroupMenu = GetSubMenu(hMenu, 2);
-    RemoveMenu(hMenu, 2, MF_BYPOSITION);
-    DestroyMenu(hMenu);
-    TranslateMenu(hGroupMenu);
+	HMENU hMenu = LoadMenu(cli.hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+	HMENU hGroupMenu = GetSubMenu(hMenu, 2);
+	RemoveMenu(hMenu, 2, MF_BYPOSITION);
+	DestroyMenu(hMenu);
+	TranslateMenu(hGroupMenu);
 
-    CheckMenuItem(hGroupMenu, POPUP_GROUPHIDEOFFLINE, group->hideOffline ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hGroupMenu, POPUP_GROUPHIDEOFFLINE, group->hideOffline ? MF_CHECKED : MF_UNCHECKED);
 	return hGroupMenu;
 }
 
@@ -69,10 +69,13 @@ HMENU fnBuildGroupPopupMenu(ClcGroup* group)
 
 static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	if ((HANDLE)wParam == NULL)
-		return 0;
-
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
+	if ((HANDLE)wParam == NULL) {
+		if ( !strcmp(cws->szModule, "CListGroups"))
+			cli.pfnClcBroadcast(INTM_GROUPSCHANGED, wParam, lParam);
+		return 0;
+	}
+
 	if ( !strcmp(cws->szModule, "CList")) {
 		if ( !strcmp(cws->szSetting, "MyHandle")) {
 			cli.pfnInvalidateDisplayNameCacheEntry((HANDLE) wParam);
@@ -88,9 +91,6 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 			cli.pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
 		else if ( !strcmp(cws->szSetting, "NameOrder"))
 			cli.pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
-	}
-	else if ( !strcmp(cws->szModule, "CListGroups")) {
-		cli.pfnClcBroadcast(INTM_GROUPSCHANGED, wParam, lParam);
 	}
 	else {
 		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
@@ -1279,10 +1279,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				hMenu = cli.pfnBuildGroupPopupMenu(contact->group);
 				ClientToScreen(hwnd, &pt);
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
-                DestroyMenu(hMenu);
+				DestroyMenu(hMenu);
 				return 0;
 			}
-			else if (contact->type == CLCIT_CONTACT)
+			if (contact->type == CLCIT_CONTACT)
 				hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) contact->hContact, 0);
 		}
 		else {
