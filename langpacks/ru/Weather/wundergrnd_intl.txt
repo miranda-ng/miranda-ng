@@ -487,4 +487,6 @@
 [Snow 90% Chance Of Precipitation]
 Снег, 90% вероятность осадков
 [Snow 20% Chance Of Precipitation]
-Снег, 20% вероятность осадков
+Снег, 20% вероятность 
+[Chance Rain 80% Chance Of Precipitation]
+Возможен дождь, 80% вероятность осадков
