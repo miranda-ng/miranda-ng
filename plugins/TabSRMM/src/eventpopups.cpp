@@ -664,7 +664,7 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 		pdata->nrMerged++;
 		if (pdata->nrMerged >= pdata->nrEventsAlloced) {
 			pdata->nrEventsAlloced += 5;
-			pdata->eventData = (EVENT_DATAT *)realloc(pdata->eventData, pdata->nrEventsAlloced * sizeof(EVENT_DATAT));
+			pdata->eventData = (EVENT_DATAT *)mir_realloc(pdata->eventData, pdata->nrEventsAlloced * sizeof(EVENT_DATAT));
 		}
 		if (dbe.pBlob)
 			free(dbe.pBlob);
@@ -721,8 +721,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	if (hEvent == 0 && hContact == 0)
 		dbe.szModule = Translate("Unknown module or contact");
 
-	pdata = (PLUGIN_DATAT *)mir_alloc(sizeof(PLUGIN_DATAT));
-	ZeroMemory((void*)pdata, sizeof(PLUGIN_DATAT));
+	pdata = (PLUGIN_DATAT *)mir_calloc(sizeof(PLUGIN_DATAT));
 
 	pdata->eventType = eventType;
 	pdata->hContact = hContact;
