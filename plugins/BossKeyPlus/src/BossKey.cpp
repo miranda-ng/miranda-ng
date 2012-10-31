@@ -676,7 +676,7 @@ static int ModernToolbarInit(WPARAM, LPARAM) // Modern toolbar support
 	button.cbSize = sizeof(button);
 	button.pszService = MS_BOSSKEY_HIDE;
 	button.pszTooltipUp = button.name = LPGEN("Hide Miranda NG");
-	button.dwFlags = TTBBF_DISABLED | TTBBF_SHOWTOOLTIP;
+	button.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	button.hIconHandleUp = g_hIcon;
 	TopToolbar_AddButton(&button);
 	return 0;
