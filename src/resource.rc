@@ -1093,8 +1093,14 @@ IDI_STATUS_LOCKED       ICON                    "res/status_locked.ico"
 IDI_SHOWHIDE            ICON                    "res/Icon_show_hide.ico"
 IDI_EXIT                ICON                    "res/Icon_exit.ico"
 IDI_MOVETOGROUP         ICON                    "res/contact_groups.ico"
-IDI_ON                  ICON                    "res\\On.ico"
-IDI_OFF                 ICON                    "res\\Off.ico"
+IDI_ON                  ICON                    "res/On.ico"
+IDI_OFF                 ICON                    "res/Off.ico"
+
+IDI_ALWAYSVIS           ICON                    "modules/extraicons/res/AlwaysVis.ico"
+IDI_NEVERVIS            ICON                    "modules/extraicons/res/NeverVis.ico"
+IDI_CHAT                ICON                    "modules/extraicons/res/Chatchannel.ico"
+IDI_MALE                ICON                    "modules/extraicons/res/male.ico"
+IDI_FEMALE              ICON                    "modules/extraicons/res/female.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

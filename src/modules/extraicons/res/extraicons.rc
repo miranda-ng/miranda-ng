@@ -63,19 +63,6 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_ALWAYSVIS           ICON     "AlwaysVis.ico"
-IDI_NEVERVIS            ICON     "NeverVis.ico"
-IDI_CHAT                ICON     "Chatchannel.ico"
-IDI_MALE                ICON     "male.ico"
-IDI_FEMALE              ICON     "female.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Menu
 //
 
