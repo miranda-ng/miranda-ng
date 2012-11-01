@@ -26,10 +26,6 @@
 
 #define ICON_SIZE 				16
 
-// Prototypes /////////////////////////////////////////////////////////////////////////////////////
-
-HANDLE hOptHook = NULL;
-
 // Functions //////////////////////////////////////////////////////////////////////////////////////
 
 BOOL ScreenToClient(HWND hWnd, LPRECT lpRect)
@@ -852,14 +848,4 @@ int InitOptionsCallback(WPARAM wParam, LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 
 	return 0;
-}
-
-void InitOptions()
-{
-	hOptHook = HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
-}
-
-void DeInitOptions()
-{
-	UnhookEvent(hOptHook);
 }

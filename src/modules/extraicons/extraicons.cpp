@@ -29,7 +29,6 @@
 #include "IcolibExtraIcon.h"
 
 #include "extraicons.h"
-#include "options.h"
 #include "usedIcons.h"
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
@@ -50,6 +49,7 @@ int IconsChanged(WPARAM wParam, LPARAM lParam);
 int ClistExtraListRebuild(WPARAM wParam, LPARAM lParam);
 int ClistExtraImageApply(WPARAM wParam, LPARAM lParam);
 int ClistExtraClick(WPARAM wParam, LPARAM lParam);
+int InitOptionsCallback(WPARAM wParam, LPARAM lParam);
 
 INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam);
 INT_PTR ExtraIcon_SetIcon(WPARAM wParam, LPARAM lParam);
@@ -125,8 +125,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME "Groups", 0);
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, &IconsChanged);
-
-	InitOptions();
+	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
 	return 0;
 }
 
@@ -138,7 +137,6 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 int PreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	DefaultExtraIcons_Unload();
-	DeInitOptions();
 	return 0;
 }
 
