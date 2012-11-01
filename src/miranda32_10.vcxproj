@@ -246,6 +246,15 @@
     <ClInclude Include="core\stdplug.h" />
     <ClInclude Include="modules\database\database.h" />
     <ClInclude Include="modules\database\profilemanager.h" />
+    <ClInclude Include="modules\extraicons\BaseExtraIcon.h" />
+    <ClInclude Include="modules\extraicons\CallbackExtraIcon.h" />
+    <ClInclude Include="modules\extraicons\commons.h" />
+    <ClInclude Include="modules\extraicons\DefaultExtraIcons.h" />
+    <ClInclude Include="modules\extraicons\ExtraIcon.h" />
+    <ClInclude Include="modules\extraicons\ExtraIconGroup.h" />
+    <ClInclude Include="modules\extraicons\IcolibExtraIcon.h" />
+    <ClInclude Include="modules\extraicons\options.h" />
+    <ClInclude Include="modules\extraicons\usedIcons.h" />
     <ClInclude Include="modules\findadd\findadd.h" />
     <ClInclude Include="modules\json\internalJSONNode.h" />
     <ClInclude Include="modules\json\JSONChildren.h" />
@@ -304,6 +313,33 @@
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\database\profilemanager.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\BaseExtraIcon.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\CallbackExtraIcon.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\DefaultExtraIcons.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\ExtraIcon.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\ExtraIconGroup.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\extraicons.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\IcolibExtraIcon.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\options_ei.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\usedIcons.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\findadd\findadd.cpp">
@@ -572,6 +608,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="modules\extraicons\res\extraicons.rc" />
     <ResourceCompile Include="resource.rc" />
     <ResourceCompile Include="version.rc" />
   </ItemGroup>

@@ -44,6 +44,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commctrl.h>
 #include <vssym32.h>
 
+#include <map>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
 #include <stdio.h>
 #include <time.h>
 #include <stddef.h>
@@ -91,6 +97,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_modernopt.h>
 #include <m_help.h>
 #include <m_timezones.h>
+#include <m_extraicons.h>
 
 #include "miranda.h"
 #include "stdplug.h"

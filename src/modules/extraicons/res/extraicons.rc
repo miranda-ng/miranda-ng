@@ -1,0 +1,147 @@
+//Microsoft Developer Studio generated resource script.
+//
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "..\..\..\resource.h"
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_EI_OPTIONS DIALOGEX 0, 0, 276, 229
+STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Select the extra icons to be shown in the contact list:",
+                    IDC_STATIC,1,9,274,13
+    CONTROL         "",IDC_EXTRAORDER,"SysTreeView32",TVS_NOTOOLTIPS |
+                    TVS_CHECKBOXES | TVS_FULLROWSELECT | WS_BORDER |
+                    WS_TABSTOP,1,24,274,160
+    LTEXT           "* only the first %d icons will be shown",
+                    IDC_MAX_ICONS_L,1,190,274,13,NOT WS_VISIBLE
+    LTEXT           "You can group/ungroup icons by selecting then (CTRL+left click) and using the popup menu (right click)",
+                    IDC_STATIC,1,208,274,20
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 1
+        RIGHTMARGIN, 275
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 228
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ALWAYSVIS           ICON     "AlwaysVis.ico"
+IDI_NEVERVIS            ICON     "NeverVis.ico"
+IDI_CHAT                ICON     "Chatchannel.ico"
+IDI_MALE                ICON     "male.ico"
+IDI_FEMALE              ICON     "female.ico"
+IDI_EMPTY               ICON     "empty.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_OPT_POPUP MENU DISCARDABLE
+BEGIN
+    POPUP "Group"
+    BEGIN
+        MENUITEM "Group",                       ID_GROUP
+    END
+    POPUP "Ungroup"
+    BEGIN
+        MENUITEM "Ungroup",                     ID_UNGROUP
+    END
+END
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Canada) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENC)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#include ""..\\..\\..\\resource.h""\r\n"
+    "#include ""winresrc.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (Canada) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

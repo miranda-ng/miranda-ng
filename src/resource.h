@@ -24,6 +24,14 @@
 #define IDD_URLSEND                     119
 #define IDD_URLRECV                     120
 #define IDD_AUTHREQ                     121
+#define IDI_ALWAYSVIS                   122
+#define IDD_EI_OPTIONS                  123
+#define IDI_NEVERVIS                    124
+#define IDI_CHAT                        126
+#define IDI_MALE                        144
+#define IDI_FEMALE                      145
+#define IDI_EMPTY                       146
+#define IDR_OPT_POPUP                   147
 #define IDD_DETAILS                     125
 #define IDD_HISTORY                     127
 #define IDI_AWAY                        128
@@ -206,6 +214,9 @@
 #define IDC_TIMEZONESELECT              1071
 #define IDC_MOREOPTIONS                 1071
 #define IDC_USERMENU                    1071
+#define IDC_SLOT_L                      1075
+#define IDC_SLOT                        1076
+#define IDC_MAX_ICONS_L                 1077
 #define IDC_EDIT                        1078
 #define IDC_LIST                        1079
 #define IDC_HISTORY                     1080
@@ -492,6 +503,7 @@
 #define IDC_DISABLEMENUICONS            1745
 #define IDC_EFFECT_COLOUR_TEXT1         1853
 #define IDC_EFFECT_COLOUR_SPIN1         1854
+#define IDC_EXTRAORDER                  1889
 #define IDC_EFFECT_COLOUR_TEXT2         11803
 #define IDC_EFFECT_COLOUR_SPIN2         11806
 #define IDI_SEARCHALL                   32548
@@ -518,6 +530,8 @@
 #define POPUP_NEWGROUP                  40050
 #define POPUP_RENAMEGROUP               40052
 #define POPUP_DELETEGROUP               40053
+#define ID_GROUP                        40066
+#define ID_UNGROUP                      40067
 
 // Next default values for new objects
 //

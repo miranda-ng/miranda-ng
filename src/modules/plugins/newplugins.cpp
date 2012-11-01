@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "plugins.h"
 #include "..\database\profilemanager.h"
 
+void LoadExtraIconsModule();
+
 extern bool bModulesLoadedFired;
 
 static int sttComparePluginsByName(const pluginEntry* p1, const pluginEntry* p2)
@@ -88,7 +90,8 @@ static const MUUID pluginBannedList[] =
 {
 	{0x9d6c3213, 0x02b4, 0x4fe1, { 0x92, 0xe6, 0x52, 0x6d, 0xe2, 0x4f, 0x8d, 0x65 }},  // old chat
 	{0x240a91dc, 0x9464, 0x457a, { 0x97, 0x87, 0xff, 0x1e, 0xa8, 0x8e, 0x77, 0xe3 }},  // old clist
-	{0x657fe89b, 0xd121, 0x40c2, { 0x8a, 0xc9, 0xb9, 0xfa, 0x57, 0x55, 0xb3, 0x0c }}   // old srmm
+	{0x657fe89b, 0xd121, 0x40c2, { 0x8a, 0xc9, 0xb9, 0xfa, 0x57, 0x55, 0xb3, 0x0c }},  // old srmm
+	{0x112f7d30, 0xcd19, 0x4c74, { 0xa0, 0x3b, 0xbf, 0xbb, 0x76, 0xb7, 0x5b, 0xc4 }}   // extraicons
 };
 
 static bool isPluginBanned(const MUUID& u1)
@@ -600,6 +603,8 @@ static bool loadClistModule(TCHAR* exe, pluginEntry *p)
 			p->bpi = bpi;
 			p->pclass |= PCLASS_LOADED;
 			pluginDefault[11].pImpl = p;
+
+			LoadExtraIconsModule();
 			return true;
 		}
 		Plugin_Uninit(p);

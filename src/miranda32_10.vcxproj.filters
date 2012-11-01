@@ -70,6 +70,9 @@
     <Filter Include="Modules\crypt">
       <UniqueIdentifier>{15d84b6a-4aa3-4cd5-93b3-2559709224ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\extraicons">
+      <UniqueIdentifier>{e125e36b-fc7d-4a78-8f13-67d3c9333621}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\m_addcontact.h">
@@ -272,6 +275,33 @@
     </ClInclude>
     <ClInclude Include="modules\database\database.h">
       <Filter>Modules\database</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\extraicons\BaseExtraIcon.h">
+      <Filter>Modules\extraicons</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\extraicons\CallbackExtraIcon.h">
+      <Filter>Modules\extraicons</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\extraicons\commons.h">
+      <Filter>Modules\extraicons</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\extraicons\DefaultExtraIcons.h">
+      <Filter>Modules\extraicons</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\extraicons\ExtraIcon.h">
+      <Filter>Modules\extraicons</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\extraicons\ExtraIconGroup.h">
+      <Filter>Modules\extraicons</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\extraicons\IcolibExtraIcon.h">
+      <Filter>Modules\extraicons</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\extraicons\options.h">
+      <Filter>Modules\extraicons</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\extraicons\usedIcons.h">
+      <Filter>Modules\extraicons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -578,12 +608,42 @@
     <ClCompile Include="modules\database\mdatabasecache.cpp">
       <Filter>Modules\database</Filter>
     </ClCompile>
+    <ClCompile Include="modules\extraicons\BaseExtraIcon.cpp">
+      <Filter>Modules\extraicons</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\CallbackExtraIcon.cpp">
+      <Filter>Modules\extraicons</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\DefaultExtraIcons.cpp">
+      <Filter>Modules\extraicons</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\ExtraIcon.cpp">
+      <Filter>Modules\extraicons</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\ExtraIconGroup.cpp">
+      <Filter>Modules\extraicons</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\extraicons.cpp">
+      <Filter>Modules\extraicons</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\IcolibExtraIcon.cpp">
+      <Filter>Modules\extraicons</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\usedIcons.cpp">
+      <Filter>Modules\extraicons</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\extraicons\options_ei.cpp">
+      <Filter>Modules\extraicons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
     <ResourceCompile Include="version.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="modules\extraicons\res\extraicons.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
   </ItemGroup>
