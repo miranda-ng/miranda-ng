@@ -58,10 +58,8 @@ BOOL ScreenToClient(HWND hWnd, LPRECT lpRect)
 static void RemoveExtraIcons(int slot)
 {
 	HANDLE hContact = db_find_first();
-	while (hContact != NULL)
-	{
+	while (hContact != NULL) {
 		Clist_SetExtraIcon(hContact, slot, INVALID_HANDLE_VALUE);
-
 		hContact = db_find_next(hContact);
 	}
 }
@@ -102,8 +100,7 @@ static void UnselectAll(HWND tree)
 	TreeView_SelectItem(tree, NULL);
 
 	HTREEITEM hItem = TreeView_GetRoot(tree);
-	while (hItem)
-	{
+	while (hItem) {
 		Tree_Unselect(tree, hItem);
 		hItem = TreeView_GetNextSibling(tree, hItem);
 	}
@@ -115,8 +112,7 @@ static void Tree_SelectRange(HWND tree, HTREEITEM hStart, HTREEITEM hEnd)
 	int end = 0;
 	int i = 0;
 	HTREEITEM hItem = TreeView_GetRoot(tree);
-	while (hItem)
-	{
+	while (hItem) {
 		if (hItem == hStart)
 			start = i;
 		if (hItem == hEnd)
@@ -126,8 +122,7 @@ static void Tree_SelectRange(HWND tree, HTREEITEM hStart, HTREEITEM hEnd)
 		hItem = TreeView_GetNextSibling(tree, hItem);
 	}
 
-	if (end < start)
-	{
+	if (end < start) {
 		int tmp = start;
 		start = end;
 		end = tmp;
@@ -135,8 +130,7 @@ static void Tree_SelectRange(HWND tree, HTREEITEM hStart, HTREEITEM hEnd)
 
 	i = 0;
 	hItem = TreeView_GetRoot(tree);
-	while (hItem)
-	{
+	while (hItem) {
 		if (i >= start)
 			Tree_Select(tree, hItem);
 		if (i == end)
@@ -151,8 +145,7 @@ static int GetNumSelected(HWND tree)
 {
 	int ret = 0;
 	HTREEITEM hItem = TreeView_GetRoot(tree);
-	while (hItem)
-	{
+	while (hItem) {
 		if (IsSelected(tree, hItem))
 			ret++;
 		hItem = TreeView_GetNextSibling(tree, hItem);
@@ -163,8 +156,7 @@ static int GetNumSelected(HWND tree)
 static void Tree_GetSelected(HWND tree, vector<HTREEITEM> &selected)
 {
 	HTREEITEM hItem = TreeView_GetRoot(tree);
-	while (hItem)
-	{
+	while (hItem) {
 		if (IsSelected(tree, hItem))
 			selected.push_back(hItem);
 		hItem = TreeView_GetNextSibling(tree, hItem);
@@ -188,31 +180,25 @@ LRESULT CALLBACK TreeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			TVHITTESTINFO hti;
 			hti.pt.x = (short) LOWORD(pos);
 			hti.pt.y = (short) HIWORD(pos);
-			if (!TreeView_HitTest(hwndDlg, &hti))
-			{
+			if (!TreeView_HitTest(hwndDlg, &hti)) {
 				UnselectAll(hwndDlg);
 				break;
 			}
 
-			if (!(wParam & (MK_CONTROL | MK_SHIFT)) || !(hti.flags & (TVHT_ONITEMICON | TVHT_ONITEMLABEL
-				| TVHT_ONITEMRIGHT)))
-			{
+			if (!(wParam & (MK_CONTROL | MK_SHIFT)) || !(hti.flags & (TVHT_ONITEMICON | TVHT_ONITEMLABEL | TVHT_ONITEMRIGHT))) {
 				UnselectAll(hwndDlg);
 				TreeView_SelectItem(hwndDlg, hti.hItem);
 				break;
 			}
 
-			if (wParam & MK_CONTROL)
-			{
+			if (wParam & MK_CONTROL) {
 				vector<HTREEITEM> selected;
 				Tree_GetSelected(hwndDlg, selected);
 
 
 				// Check if have to deselect it
-				for (unsigned int i = 0; i < selected.size(); i++)
-				{
-					if (selected[i] == hti.hItem)
-					{
+				for (unsigned int i = 0; i < selected.size(); i++) {
+					if (selected[i] == hti.hItem) {
 						// Deselect it
 						UnselectAll(hwndDlg);
 						selected[i] = NULL;
@@ -233,8 +219,7 @@ LRESULT CALLBACK TreeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				TreeView_SelectItem(hwndDlg, hti.hItem);
 				Tree_Select(hwndDlg, selected);
 			}
-			else if (wParam & MK_SHIFT)
-			{
+			else if (wParam & MK_SHIFT) {
 				HTREEITEM hItem = TreeView_GetSelection(hwndDlg);
 				if (hItem == NULL)
 					break;
@@ -286,8 +271,7 @@ static HTREEITEM Tree_AddExtraIconGroup(HWND tree, vector<int> &group, bool sele
 	vector<int> *ids = new vector<int> ;
 	tstring desc;
 	int img = 0;
-	for (unsigned int i = 0; i < group.size(); ++i)
-	{
+	for (unsigned int i = 0; i < group.size(); ++i) {
 		BaseExtraIcon *extra = registeredExtraIcons[group[i] - 1];
 		ids->push_back(extra->getID());
 
@@ -324,10 +308,8 @@ static void GroupSelectedItems(HWND tree)
 	HTREEITEM hItem = TreeView_GetRoot(tree);
 	TVITEM tvi = { 0 };
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
-	while (hItem)
-	{
-		if (IsSelected(tree, hItem))
-		{
+	while (hItem) {
+		if (IsSelected(tree, hItem)) {
 			if (hPlace == NULL)
 				hPlace = hItem;
 
@@ -356,8 +338,7 @@ static void GroupSelectedItems(HWND tree)
 
 
 	// Remove old
-	for (unsigned int i = 0; i < toRemove.size(); ++i)
-	{
+	for (unsigned int i = 0; i < toRemove.size(); ++i) {
 		delete Tree_GetIDs(tree, toRemove[i]);
 		TreeView_DeleteItem(tree, toRemove[i]);
 	}
@@ -372,14 +353,14 @@ static void UngroupSelectedItems(HWND tree)
 	HTREEITEM hItem = TreeView_GetSelection(tree);
 	if (hItem == NULL)
 		return;
+
 	vector<int> *ids = Tree_GetIDs(tree, hItem);
 	if (ids->size() < 2)
 		return;
 
 	bool selected = IsSelected(tree, hItem);
 
-	for (size_t i = ids->size(); i > 0; --i)
-	{
+	for (size_t i = ids->size(); i > 0; --i) {
 		BaseExtraIcon *extra = registeredExtraIcons[ids->at(i - 1) - 1];
 		Tree_AddExtraIcon(tree, extra, selected, hItem);
 	}
@@ -396,10 +377,10 @@ static int ShowPopup(HWND hwndDlg, int popup)
 	HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
 	HTREEITEM hSelected = (HTREEITEM) SendMessage(tree, TVM_GETNEXTITEM, TVGN_DROPHILITE, 0);
 	HTREEITEM hItem = TreeView_GetRoot(tree);
-	while (hItem)
-	{
+	while (hItem) {
 		if (hItem != hSelected && IsSelected(tree, hItem))
 			Tree_DropHilite(tree, hItem);
+		
 		hItem = TreeView_GetNextSibling(tree, hItem);
 	}
 	//	InvalidateRect(tree, NULL, FALSE);
@@ -414,11 +395,9 @@ static int ShowPopup(HWND hwndDlg, int popup)
 
 	DestroyMenu(menu);
 
-
 	// Revert selection
 	hItem = TreeView_GetRoot(tree);
-	while (hItem)
-	{
+	while (hItem) {
 		if (hItem != hSelected && IsSelected(tree, hItem))
 			Tree_DropUnhilite(tree, hItem);
 		hItem = TreeView_GetNextSibling(tree, hItem);
@@ -443,10 +422,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-
 			int numSlots = GetNumberOfSlots();
-			if (numSlots < (int) registeredExtraIcons.size())
-			{
+			if (numSlots < (int) registeredExtraIcons.size()) {
 				TCHAR txt[512];
 				mir_sntprintf(txt, SIZEOF(txt), TranslateT("* only the first %d icons will be shown"), numSlots);
 
@@ -461,48 +438,39 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			int cx = GetSystemMetrics(SM_CXSMICON);
 			HIMAGELIST hImageList = ImageList_Create(cx, cx, ILC_COLOR32 | ILC_MASK, 2, 2);
 
-			HICON hDefaultIcon = (HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx,
-				LR_DEFAULTCOLOR | LR_SHARED);
+			HICON hDefaultIcon = (HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx, LR_DEFAULTCOLOR | LR_SHARED);
 			ImageList_AddIcon(hImageList, hDefaultIcon);
 			DestroyIcon(hDefaultIcon);
 
 			unsigned int i;
-			for (i = 0; i < registeredExtraIcons.size(); ++i)
-			{
+			for (i = 0; i < registeredExtraIcons.size(); ++i) {
 				ExtraIcon *extra = registeredExtraIcons[i];
 
 				HICON hIcon = Skin_GetIcon(extra->getDescIcon());
-				if (hIcon == NULL)
-				{
+				if (hIcon == NULL) {
 					HICON hDefaultIcon = (HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx,
 						LR_DEFAULTCOLOR | LR_SHARED);
 					ImageList_AddIcon(hImageList, hDefaultIcon);
 					DestroyIcon(hDefaultIcon);
 				}
-				else
-				{
+				else {
 					ImageList_AddIcon(hImageList, hIcon);
 					Skin_ReleaseIcon(hIcon);
 				}
 			}
 			TreeView_SetImageList(tree, hImageList, TVSIL_NORMAL);
 
-			for (i = 0; i < extraIconsBySlot.size(); ++i)
-			{
+			for (i = 0; i < extraIconsBySlot.size(); ++i) {
 				ExtraIcon *extra = extraIconsBySlot[i];
 
-				if (extra->getType() == EXTRAICON_TYPE_GROUP)
-				{
+				if (extra->getType() == EXTRAICON_TYPE_GROUP) {
 					ExtraIconGroup *group = (ExtraIconGroup *) extra;
 					vector<int> ids;
 					for (unsigned int j = 0; j < group->items.size(); ++j)
 						ids.push_back(group->items[j]->getID());
 					Tree_AddExtraIconGroup(tree, ids, extra->isEnabled());
 				}
-				else
-				{
-					Tree_AddExtraIcon(tree, (BaseExtraIcon *) extra, extra->isEnabled());
-				}
+				else Tree_AddExtraIcon(tree, (BaseExtraIcon *) extra, extra->isEnabled());
 			}
 
 			TVSORTCB sort = { 0 };
@@ -518,10 +486,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_NOTIFY:
 		{
 			LPNMHDR lpnmhdr = (LPNMHDR) lParam;
-			if (lpnmhdr->idFrom == 0)
-			{
-				if (lpnmhdr->code == (UINT) PSN_APPLY)
-				{
+			if (lpnmhdr->idFrom == 0) {
+				if (lpnmhdr->code == (UINT) PSN_APPLY) {
 					unsigned int i;
 
 					HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
@@ -530,8 +496,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					// Store old slots
 					int *oldSlots = new int[registeredExtraIcons.size()];
 					int lastUsedSlot = -1;
-					for (i = 0; i < registeredExtraIcons.size(); ++i)
-					{
+					for (i = 0; i < registeredExtraIcons.size(); ++i) {
 						if (extraIconsByHandle[i] == registeredExtraIcons[i])
 							oldSlots[i] = registeredExtraIcons[i]->getSlot();
 						else
@@ -540,7 +505,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						lastUsedSlot = MAX(lastUsedSlot, registeredExtraIcons[i]->getSlot());
 					}
 					lastUsedSlot = MIN(lastUsedSlot, GetNumberOfSlots());
-
 
 					// Get user data and create new groups
 					vector<ExtraIconGroup *> groups;
@@ -551,8 +515,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					TVITEM tvi = { 0 };
 					tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
 					tvi.stateMask = TVIS_STATEIMAGEMASK;
-					while (ht)
-					{
+					while (ht) {
 						tvi.hItem = ht;
 						TreeView_GetItem(tree, &tvi);
 
@@ -565,21 +528,18 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						if (slot >= GetNumberOfSlots())
 							slot = -1;
 
-						if (ids->size() == 1)
-						{
+						if (ids->size() == 1) {
 							BaseExtraIcon *extra = registeredExtraIcons[ids->at(0) - 1];
 							extra->setPosition(pos++);
 							extra->setSlot(slot);
 						}
-						else
-						{
+						else {
 							char name[128];
 							mir_snprintf(name, SIZEOF(name), "__group_%d", groups.size());
 
 							ExtraIconGroup *group = new ExtraIconGroup(name);
 
-							for (i = 0; i < ids->size(); ++i)
-							{
+							for (i = 0; i < ids->size(); ++i) {
 								BaseExtraIcon *extra = registeredExtraIcons[ids->at(i) - 1];
 								extra->setPosition(pos++);
 
@@ -587,7 +547,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							}
 
 							group->setSlot(slot);
-
 							groups.push_back(group);
 						}
 
@@ -595,8 +554,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 					// Store data
-					for (i = 0; i < registeredExtraIcons.size(); ++i)
-					{
+					for (i = 0; i < registeredExtraIcons.size(); ++i) {
 						BaseExtraIcon *extra = registeredExtraIcons[i];
 
 						char setting[512];
@@ -609,16 +567,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					CallService(MS_DB_MODULE_DELETE, 0, (LPARAM) MODULE_NAME "Groups");
 					DBWriteContactSettingWord(NULL, MODULE_NAME "Groups", "Count", (WORD)groups.size());
-					for (i = 0; i < groups.size(); ++i)
-					{
+					for (i = 0; i < groups.size(); ++i) {
 						ExtraIconGroup *group = groups[i];
 
 						char setting[512];
 						mir_snprintf(setting, SIZEOF(setting), "%d_count", i);
 						DBWriteContactSettingWord(NULL, MODULE_NAME "Groups", setting, (WORD)group->items.size());
 
-						for (unsigned int j = 0; j < group->items.size(); ++j)
-						{
+						for (unsigned int j = 0; j < group->items.size(); ++j) {
 							BaseExtraIcon *extra = group->items[j];
 
 							mir_snprintf(setting, SIZEOF(setting), "%d_%d", i, j);
@@ -630,18 +586,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					for (int j = firstEmptySlot; j <= lastUsedSlot; ++j)
 						RemoveExtraIcons(j);
 
-
 					// Apply icons to new slots
 					RebuildListsBasedOnGroups(groups);
-					for (i = 0; i < extraIconsBySlot.size(); ++i)
-					{
+					for (i = 0; i < extraIconsBySlot.size(); ++i) {
 						ExtraIcon *extra = extraIconsBySlot[i];
 
 						if (extra->getType() != EXTRAICON_TYPE_GROUP)
-						{
 							if (oldSlots[((BaseExtraIcon *) extra)->getID() - 1] == extra->getSlot())
 								continue;
-						}
 
 						extra->applyIcons();
 					}
@@ -651,12 +603,12 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					return TRUE;
 				}
 			}
-			else if (lpnmhdr->idFrom == IDC_EXTRAORDER)
-			{
+			else if (lpnmhdr->idFrom == IDC_EXTRAORDER) {
 				HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
 
 				switch (lpnmhdr->code) {
-				case TVN_BEGINDRAG:
+				case TVN_BEGINDRAGW:
+				case TVN_BEGINDRAGA:
 					SetCapture(hwndDlg);
 					dragging = 1;
 					hDragItem = ((LPNMTREEVIEWA) lParam)->itemNew.hItem;
@@ -671,10 +623,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						hti.pt.x = (short) LOWORD(pos);
 						hti.pt.y = (short) HIWORD(pos);
 						ScreenToClient(lpnmhdr->hwndFrom, &hti.pt);
-						if (TreeView_HitTest(lpnmhdr->hwndFrom, &hti))
-						{
-							if (hti.flags & TVHT_ONITEMSTATEICON)
-							{
+						if (TreeView_HitTest(lpnmhdr->hwndFrom, &hti)) {
+							if (hti.flags & TVHT_ONITEMSTATEICON) {
 								TreeView_SelectItem(tree, hti.hItem);
 								SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM) hwndDlg, 0);
 							}
@@ -684,8 +634,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				case TVN_KEYDOWN:
 					{
 						TV_KEYDOWN *nmkd = (TV_KEYDOWN *) lpnmhdr;
-						if (nmkd->wVKey == VK_SPACE)
-						{
+						if (nmkd->wVKey == VK_SPACE) {
 							// Determine the selected tree item.
 							HTREEITEM hItem = TreeView_GetSelection(tree);
 							if (hItem != NULL)
@@ -696,29 +645,23 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				case NM_RCLICK:
 					{
 						HTREEITEM hSelected = (HTREEITEM) SendMessage(tree, TVM_GETNEXTITEM, TVGN_DROPHILITE, 0);
-						if (hSelected != NULL && !IsSelected(tree, hSelected))
-						{
+						if (hSelected != NULL && !IsSelected(tree, hSelected)) {
 							UnselectAll(tree);
 							TreeView_SelectItem(tree, hSelected);
 						}
 
 						int sels = GetNumSelected(tree);
-						if (sels > 1)
-						{
-							if (ShowPopup(hwndDlg, 0) == ID_GROUP)
-							{
+						if (sels > 1) {
+							if (ShowPopup(hwndDlg, 0) == ID_GROUP) {
 								GroupSelectedItems(tree);
 								SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM) hwndDlg, 0);
 							}
 						}
-						else if (sels == 1)
-						{
+						else if (sels == 1) {
 							HTREEITEM hItem = TreeView_GetSelection(tree);
 							vector<int> *ids = Tree_GetIDs(tree, hItem);
-							if (ids->size() > 1)
-							{
-								if (ShowPopup(hwndDlg, 1) == ID_UNGROUP)
-								{
+							if (ids->size() > 1) {
+								if (ShowPopup(hwndDlg, 1) == ID_UNGROUP) {
 									UngroupSelectedItems(tree);
 									SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM) hwndDlg, 0);
 								}
@@ -744,8 +687,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ClientToScreen(hwndDlg, &hti.pt);
 			ScreenToClient(tree, &hti.pt);
 			TreeView_HitTest(tree, &hti);
-			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT))
-			{
+			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
 				HTREEITEM it = hti.hItem;
 				hti.pt.y -= TreeView_GetItemHeight(tree) / 2;
 				TreeView_HitTest(tree, &hti);
@@ -754,8 +696,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else
 					TreeView_SetInsertMark(tree, it, 0);
 			}
-			else
-			{
+			else {
 				if (hti.flags & TVHT_ABOVE)
 					SendDlgItemMessage(hwndDlg, IDC_EXTRAORDER, WM_VSCROLL, MAKEWPARAM(SB_LINEUP,0), 0);
 				if (hti.flags & TVHT_BELOW)
@@ -809,15 +750,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			TreeView_SelectItem(tree, TreeView_InsertItem(tree, &tvis));
 
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM) hwndDlg, 0);
-
-			break;
 		}
+		break;
+
 	case WM_DESTROY:
 		{
 			HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
 			HTREEITEM hItem = TreeView_GetRoot(tree);
-			while (hItem)
-			{
+			while (hItem) {
 				delete Tree_GetIDs(tree, hItem);
 				hItem = TreeView_GetNextSibling(tree, hItem);
 			}
