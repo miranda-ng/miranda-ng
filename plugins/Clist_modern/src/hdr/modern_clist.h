@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -43,14 +43,14 @@ extern pfnMyGetMonitorInfo MyGetMonitorInfo;
 ///////////////////////////////////////////////////////////////////////////////
 
 class CSmileyString
-{	 
+{
 public:
 	SortedList*	plText;
 	int			iMaxSmileyHeight;
 
 	CSmileyString()   : plText( NULL ), iMaxSmileyHeight( 0 ) {};
 	CSmileyString( const CSmileyString& ssIn )
-	{	
+	{
 		_CopySmileyList( ssIn.plText );
 		iMaxSmileyHeight = ssIn.iMaxSmileyHeight;
 	}
@@ -70,7 +70,7 @@ public:
 
 	void ReplaceSmileys(struct SHORTDATA *dat, struct ClcCacheEntry *pdnce, TCHAR *szText, BOOL replace_smileys);
 
-	/**	Destroy smiley list */ 
+	/**	Destroy smiley list */
 	void DestroySmileyList();
 	/**  Copy Smiley List */
 	void _CopySmileyList( SortedList *plInput );
@@ -114,18 +114,6 @@ typedef ClcCacheEntry *pClcCacheEntry, *PDNCE;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-typedef struct tagEXTRASLOTINFO
-{
-    union
-    {
-        TCHAR * ptszSlotName;   // one of this string should be given
-        char  * pszSlotName;
-    };
-    char * pszSlotID;
-    BOOL fUnicode;
-    BYTE iSlot;               // the slot 10-16 are available, do not use
-} EXTRASLOTINFO;
-
 #define CLVM_FILTER_PROTOS			1
 #define CLVM_FILTER_GROUPS			2
 #define CLVM_FILTER_STATUS			4
@@ -160,6 +148,6 @@ typedef struct tagEXTRASLOTINFO
 #define CLVM_MODULE "CLVM"
 #endif
 
-#define GROUPF_SHOWOFFLINE 0x40   
+#define GROUPF_SHOWOFFLINE 0x40
 
 #endif

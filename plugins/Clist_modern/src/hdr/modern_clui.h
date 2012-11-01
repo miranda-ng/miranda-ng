@@ -52,7 +52,6 @@ public:
 
 	EVENTHOOK( OnEvent_ModulesLoaded );
 	EVENTHOOK( OnEvent_ContactMenuPreBuild );
-	EVENTHOOK( OnEvent_DBSettingChanging );
 	EVENTHOOK( OnEvent_FontReload );
 	
 	SERVICE( Service_ShowMainMenu );

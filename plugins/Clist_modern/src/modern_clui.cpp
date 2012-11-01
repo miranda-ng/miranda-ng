@@ -166,27 +166,7 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 
 	return 0;
 }
-int CLUI::OnEvent_DBSettingChanging(WPARAM wParam,LPARAM lParam)
-{
-	if (ServiceExists("ExtraIcon/Register"))
-		return 0;
 
-	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
-	if (wParam == 0) return 0;  
-	if (dbcws == NULL) return(0);
-	if (MirandaExiting()) return 0;
-
-	if (( dbcws->value.type == DBVT_WORD && !mir_strcmp(dbcws->szSetting,"ApparentMode"))  || 
-		( dbcws->value.type == DBVT_ASCIIZ && 
-		(( !mir_strcmp(dbcws->szSetting,"e-mail")  || 
-		!mir_strcmp(dbcws->szSetting,"Mye-mail0")  || 
-		!mir_strcmp(dbcws->szSetting,"Cellular"))   || 
-		( !mir_strcmp(dbcws->szModule,"UserInfo")  && 
-		( !mir_strcmp(dbcws->szSetting,"MyPhone0") || 
-		!mir_strcmp(dbcws->szSetting,"Mye-mail0"))))))
-		ExtraImage_SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
-	return(0);
-};
 INT_PTR CLUI::Service_ShowMainMenu(WPARAM wParam,LPARAM lParam)
 {
 	HMENU hMenu;
@@ -196,6 +176,7 @@ INT_PTR CLUI::Service_ShowMainMenu(WPARAM wParam,LPARAM lParam)
 	TrackPopupMenu(hMenu,TPM_TOPALIGN|TPM_LEFTALIGN|TPM_LEFTBUTTON,pt.x,pt.y,0,pcli->hwndContactList,NULL);				
 	return 0;
 }
+
 INT_PTR CLUI::Service_ShowStatusMenu(WPARAM wParam,LPARAM lParam)
 {
 	HMENU hMenu;
@@ -448,7 +429,6 @@ HRESULT CLUI::CreateCLC()
 	mutex_bDisableAutoUpdate = 0;
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED,CLUI::OnEvent_DBSettingChanging);
 	return S_OK;
 
 };
@@ -2824,55 +2804,20 @@ LRESULT CLUI::OnClickNotify( NMCLISTCONTROL * pnmc )
 	DWORD hitFlags;
 	HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree,CLM_HITTEST,(WPARAM)&hitFlags,MAKELPARAM(pnmc->pt.x,pnmc->pt.y));
 
-	if (hitFlags&CLCHT_ONITEMEXTRA)
-	{					
-		if ( !IsHContactGroup(hItem) && !IsHContactInfo(hItem))
-		{
+	if (hitFlags & CLCHT_ONITEMEXTRA) {
+		if ( !IsHContactGroup(hItem) && !IsHContactInfo(hItem)) {
 			pClcCacheEntry pdnce = (pClcCacheEntry)pcli->pfnGetCacheEntry(pnmc->hItem);
-			if (pdnce == NULL) return 0;
-
-			int extra = ExtraImage_ColumnNumToExtraID(pnmc->iColumn);
-			NotifyEventHooks(g_CluiData.hEventExtraClick, (WPARAM)pnmc->hItem, extra);
-
-			if ( !ServiceExists("ExtraIcon/Register"))
-			{
-				int v,e,w;
-				v = ExtraImage_ExtraIDToColumnNum(EXTRA_ICON_PROTO);
-				e = ExtraImage_ExtraIDToColumnNum(EXTRA_ICON_EMAIL);
-				w = ExtraImage_ExtraIDToColumnNum(EXTRA_ICON_WEB);
-
-				if (pnmc->iColumn == v) {
-					CallService(MS_USERINFO_SHOWDIALOG,(WPARAM)pnmc->hItem,0);
-				};
-				if (pnmc->iColumn == e) 
-				{
-					char *email = db_get_sa(pnmc->hItem,"UserInfo", "Mye-mail0");
-					if ( !email)
-						email = db_get_sa(pnmc->hItem, pdnce->m_cache_cszProto, "e-mail");																						
-					if (email) {
-						char buf[4096];
-						sprintf(buf,"mailto:%s",email);
-						mir_free(email);
-						ShellExecuteA(m_hWnd,"open",buf,NULL,NULL,SW_SHOW);
-					}											
-				};	
-				if (pnmc->iColumn == w) {
-					char *homepage = db_get_sa(pdnce->hContact,"UserInfo", "Homepage");
-					if ( !homepage)
-						homepage = db_get_sa(pdnce->hContact,pdnce->m_cache_cszProto, "Homepage");
-					if (homepage != NULL)
-					{
-						CallService(MS_UTILS_OPENURL, 1, (LPARAM)homepage);
-						mir_free(homepage);
-					}
-				}
-			}
+			if (pdnce)
+				NotifyEventHooks(g_CluiData.hEventExtraClick, (WPARAM)pnmc->hItem, pnmc->iColumn+1);
 		}
-	};	
-	if (hItem && !(hitFlags&CLCHT_NOWHERE))
+	}
+
+	if (hItem && !(hitFlags & CLCHT_NOWHERE))
 		return DefCluiWndProc( WM_NOTIFY, 0, (LPARAM)pnmc );
-	if ((hitFlags&(CLCHT_NOWHERE|CLCHT_INLEFTMARGIN|CLCHT_BELOWITEMS)) == 0) 
+
+	if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0) 
 		return DefCluiWndProc( WM_NOTIFY, 0, (LPARAM)pnmc );
+
 	if (db_get_b(NULL,"CLUI","ClientAreaDrag",SETTING_CLIENTDRAG_DEFAULT)) {
 		POINT pt;
 		int res;
@@ -2881,10 +2826,10 @@ LRESULT CLUI::OnClickNotify( NMCLISTCONTROL * pnmc )
 		res = PostMessage(m_hWnd, WM_SYSCOMMAND, SC_MOVE|HTCAPTION,MAKELPARAM(pt.x,pt.y));
 		return res;
 	}
-	/*== == == == == == == == ==  = */
+
 	if (db_get_b(NULL,"CLUI","DragToScroll",SETTING_DRAGTOSCROLL_DEFAULT) && !db_get_b(NULL,"CLUI","ClientAreaDrag",SETTING_CLIENTDRAG_DEFAULT))
 		return ClcEnterDragToScroll(pcli->hwndContactTree,pnmc->pt.y);
-	/*== == == == == == == == ==  = */
+
 	return 0;
 }	
 

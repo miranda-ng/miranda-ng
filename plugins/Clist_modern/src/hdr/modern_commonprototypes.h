@@ -230,7 +230,6 @@ int     GetStatusForContact(HANDLE hContact,char *szProto);                     
 int     InitCustomMenus(void);                                                //clistmenus.c
 int     InitFramesMenus(void);                                                //framesmenus.c
 int     LoadMoveToGroup();                                                   //movetogroup.c
-int     LoadPositionsFromDB(BYTE * OrderPos);                                    //clistopts.c
 int     LoadStatusBarData();                                                //modern_statusbar.c
 int     MenuModulesLoaded(WPARAM wParam,LPARAM lParam);                              //clistmenu.c
 int     MenuModulesShutdown(WPARAM wParam,LPARAM lParam);                           //clistmenu.c
@@ -258,7 +257,6 @@ void    FreeRowCell();                                                      //Ro
 void    InitGdiPlus();                                                      //gdiplus.cpp
 void    InitTray();                                                         //clisttray.c
 void    InvalidateDNCEbyPointer(HANDLE hContact,pClcCacheEntry pdnce,int SettingType);  //clistsettings.c
-void    ReAssignExtraIcons();                                                //extraimage.c
 void    ShutdownGdiPlus();                                                   //gdiplus.cpp
 void    TextOutWithGDIp(HDC hDestDC, int x, int y, LPCTSTR lpString, int nCount);         //gdiplus.cpp
 void    UninitCustomMenus();                                                //clistmenus.c
@@ -269,7 +267,6 @@ void    UpdateAllAvatars(struct ClcData *dat);                                  
 //cluiframes.c
 void    gtaRenewText(HANDLE hContact);
 int     ExtraImage_ExtraIDToColumnNum(int extra);
-int     ExtraImage_ColumnNumToExtraID(int column);
 
 int     LoadSkinButtonModule();
 void    UninitSkinHotKeys();

@@ -85,7 +85,6 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 	ptrE = path;	
 	do 
 	{
-		
 		while (*ptrE != '/' && *ptrE != '\0') ptrE++;
 		if (*ptrE == '/')
 		{
