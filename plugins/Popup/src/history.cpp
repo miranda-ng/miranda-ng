@@ -32,13 +32,15 @@ Last change by : $Author: MPK $
 
 #include "headers.h"
 
+static CRITICAL_SECTION csPopupHistory;
 static LIST<POPUPDATA2> arPopupHistory(SETTING_HISTORYSIZE_DEFAULT);
 static int popupHistoryBuffer = 0;
+
+static HWND hwndHistory = NULL;
 
 #define UM_RESIZELIST	(WM_USER+100)
 #define UM_SELECTLAST	(WM_USER+101)
 #define UM_ADDITEM		(WM_USER+102)
-static HWND hwndHistory = NULL;
 
 static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -50,27 +52,30 @@ static void FreeHistoryItem(POPUPDATA2 *ppd)
 	mir_free(ppd);
 }
 
-void PopupHistoryLoad()
-{
-	popupHistoryBuffer = DBGetContactSettingWord(NULL, MODULNAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
-}
-
 void PopupHistoryResize()
 {
 	popupHistoryBuffer = PopUpOptions.HistorySize;
 
+	mir_cslock lck(csPopupHistory);
 	while (arPopupHistory.getCount() > popupHistoryBuffer) {
 		FreeHistoryItem(arPopupHistory[0]);
 		arPopupHistory.remove(0);
 	}
 }
 
+void PopupHistoryLoad()
+{
+	InitializeCriticalSection(&csPopupHistory);
+	popupHistoryBuffer = DBGetContactSettingWord(NULL, MODULNAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
+}
+
 void PopupHistoryUnload()
 {
 	for (int i=0; i < arPopupHistory.getCount(); ++i)
 		FreeHistoryItem( arPopupHistory[i] );
-
 	arPopupHistory.destroy();
+
+	DeleteCriticalSection(&csPopupHistory);
 }
 
 void PopupHistoryAdd(POPUPDATA2 *ppdNew)
@@ -90,13 +95,14 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 	}
 	ppd->lpzSkin = mir_strdup(ppd->lpzSkin);
 	ppd->dwTimestamp = time(NULL);
-
-	if (arPopupHistory.getCount() >= popupHistoryBuffer) {
-		FreeHistoryItem(arPopupHistory[0]);
-		arPopupHistory.remove(0);
+	{
+		mir_cslock lck(csPopupHistory);
+		if (arPopupHistory.getCount() >= popupHistoryBuffer) {
+			FreeHistoryItem(arPopupHistory[0]);
+			arPopupHistory.remove(0);
+		}
+		arPopupHistory.insert(ppd);
 	}
-	arPopupHistory.insert(ppd);
-
 	if (hwndHistory)
 		PostMessage(hwndHistory, UM_ADDITEM, 0, (LPARAM)ppd);
 }
@@ -246,7 +252,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			if (!wndPreview) {
 				RECT rc; GetWindowRect(hwndLog, &rc);
 
-				if (rc.right-rc.left <= 30)
+				if (rc.right - rc.left <= 30)
 					return FALSE;
 
 				POPUPOPTIONS customOptions = PopUpOptions;
