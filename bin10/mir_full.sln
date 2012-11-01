@@ -70,8 +70,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Db_autobackups", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_tree", "..\plugins\Dbx_tree\dbx_tree_10.vcxproj", "{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExtraIcons", "..\plugins\ExtraIcons\extraicons.vcxproj", "{778D0DEB-C798-45D3-98E0-ABAB242573C8}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FavContacts", "..\plugins\FavContacts\favcontacts.vcxproj", "{2D0B4CB0-3ACA-4612-B745-FF3050E1500A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fingerprint", "..\plugins\FingerPrintModPlus\fingerprint_mod_vs2010.vcxproj", "{AF7D71D4-19B7-42B8-91DD-701F155AC4AE}"
@@ -615,14 +613,6 @@ Global
 		{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}.Release|Win32.Build.0 = Release|Win32
 		{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}.Release|x64.ActiveCfg = Release|x64
 		{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}.Release|x64.Build.0 = Release|x64
-		{778D0DEB-C798-45D3-98E0-ABAB242573C8}.Debug|Win32.ActiveCfg = Debug|Win32
-		{778D0DEB-C798-45D3-98E0-ABAB242573C8}.Debug|Win32.Build.0 = Debug|Win32
-		{778D0DEB-C798-45D3-98E0-ABAB242573C8}.Debug|x64.ActiveCfg = Debug|x64
-		{778D0DEB-C798-45D3-98E0-ABAB242573C8}.Debug|x64.Build.0 = Debug|x64
-		{778D0DEB-C798-45D3-98E0-ABAB242573C8}.Release|Win32.ActiveCfg = Release|Win32
-		{778D0DEB-C798-45D3-98E0-ABAB242573C8}.Release|Win32.Build.0 = Release|Win32
-		{778D0DEB-C798-45D3-98E0-ABAB242573C8}.Release|x64.ActiveCfg = Release|x64
-		{778D0DEB-C798-45D3-98E0-ABAB242573C8}.Release|x64.Build.0 = Release|x64
 		{2D0B4CB0-3ACA-4612-B745-FF3050E1500A}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2D0B4CB0-3ACA-4612-B745-FF3050E1500A}.Debug|Win32.Build.0 = Debug|Win32
 		{2D0B4CB0-3ACA-4612-B745-FF3050E1500A}.Debug|x64.ActiveCfg = Debug|x64
