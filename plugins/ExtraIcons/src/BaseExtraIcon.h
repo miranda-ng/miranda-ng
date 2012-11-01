@@ -25,13 +25,13 @@
 class BaseExtraIcon : public ExtraIcon
 {
 public:
-	BaseExtraIcon(int id, const char *name, const char *description, const char *descIcon, MIRANDAHOOKPARAM OnClick,
+	BaseExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick,
 			LPARAM param);
 	virtual ~BaseExtraIcon();
 
 	virtual int getID() const;
-	virtual const char *getDescription() const;
-	virtual void setDescription(const char *desc);
+	virtual const TCHAR *getDescription() const;
+	virtual void setDescription(const TCHAR *desc);
 	virtual const char *getDescIcon() const;
 	virtual void setDescIcon(const char *icon);
 	virtual int getType() const =0;
@@ -43,7 +43,7 @@ public:
 
 protected:
 	int id;
-	std::string description;
+	std::tstring description;
 	std::string descIcon;
 	MIRANDAHOOKPARAM OnClick;
 	LPARAM onClickParam;

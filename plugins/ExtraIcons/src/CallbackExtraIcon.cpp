@@ -19,7 +19,7 @@
 
 #include "commons.h"
 
-CallbackExtraIcon::CallbackExtraIcon(int id, const char *name, const char *description, const char *descIcon,
+CallbackExtraIcon::CallbackExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon,
 		MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon, MIRANDAHOOKPARAM OnClick, LPARAM param) :
 	BaseExtraIcon(id, name, description, descIcon, OnClick, param), RebuildIcons(RebuildIcons), ApplyIcon(ApplyIcon),
 			needToRebuild(true)

@@ -36,11 +36,11 @@ void ExtraIconGroup::addExtraIcon(BaseExtraIcon *extra)
 {
 	items.push_back(extra);
 
-	description = "";
+	description.clear();
 	for (unsigned int i = 0; i < items.size(); ++i)
 	{
 		if (i > 0)
-			description += " / ";
+			description += _T(" / ");
 		description += items[i]->getDescription();
 	}
 }
@@ -183,7 +183,7 @@ void ExtraIconGroup::storeIcon(HANDLE hContact, void *icon)
 {
 }
 
-const char *ExtraIconGroup::getDescription() const
+const TCHAR *ExtraIconGroup::getDescription() const
 {
 	return description.c_str();
 }

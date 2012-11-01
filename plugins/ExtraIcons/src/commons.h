@@ -22,10 +22,6 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#ifdef UNICODE
-#error "Unicode not needed by this plugin"
-#endif
-
 #define _WIN32_IE 0x500
 #include <windows.h>
 #include <tchar.h>
@@ -44,6 +40,7 @@ using namespace std;
 
 #include <newpluginapi.h>
 #include <m_system.h>
+#include <m_system_cpp.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_clui.h>

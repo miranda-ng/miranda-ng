@@ -39,7 +39,7 @@ public:
 	virtual void storeIcon(HANDLE hContact, void *icon) =0;
 
 	virtual const char *getName() const;
-	virtual const char *getDescription() const =0;
+	virtual const TCHAR *getDescription() const =0;
 	virtual const char *getDescIcon() const =0;
 	virtual int getType() const =0;
 

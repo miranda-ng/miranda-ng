@@ -40,7 +40,7 @@ public:
 	virtual int setIcon(int id, HANDLE hContact, void *icon);
 	virtual void storeIcon(HANDLE hContact, void *icon);
 
-	virtual const char *getDescription() const;
+	virtual const TCHAR *getDescription() const;
 	virtual const char *getDescIcon() const;
 	virtual int getType() const;
 
@@ -52,7 +52,7 @@ public:
 	virtual int ClistSetExtraIcon(HANDLE hContact, HANDLE hImage);
 
 protected:
-	std::string description;
+	std::tstring description;
 	bool setValidExtraIcon;
 	bool insideApply;
 

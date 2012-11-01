@@ -151,12 +151,12 @@ static void EmailOnClick(Info *info, const char *text)
 {
 	char cmd[1024];
 	mir_snprintf(cmd, MAX_REGS(cmd), "mailto:%s", text);
-	ShellExecute(NULL, "open", cmd, NULL, NULL, SW_SHOW);
+	ShellExecuteA(NULL, "open", cmd, NULL, NULL, SW_SHOW);
 }
 
 static void HomepageOnClick(Info *info, const char *text)
 {
-	ShellExecute(NULL, "open", text, NULL, NULL, SW_SHOW);
+	ShellExecuteA(NULL, "open", text, NULL, NULL, SW_SHOW);
 }
 
 static void DefaultSetIcon(HANDLE hContact, Info *info, const char *text)
@@ -271,9 +271,9 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 		DBVARIANT dbv = { 0 };
 		if (!DBGetContactSettingString(hContact, info->db[j] == NULL ? proto : info->db[j], info->db[j+1], &dbv))
 		{
-			if (!IsEmpty(dbv.ptszVal))
+			if (!IsEmpty(dbv.pszVal))
 			{
-				info->OnClick(info, dbv.ptszVal);
+				info->OnClick(info, dbv.pszVal);
 				found = true;
 			}
 

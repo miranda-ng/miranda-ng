@@ -19,7 +19,7 @@
 
 #include "commons.h"
 
-IcolibExtraIcon::IcolibExtraIcon(int id, const char *name, const char *description, const char *descIcon,
+IcolibExtraIcon::IcolibExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon,
 		MIRANDAHOOKPARAM OnClick, LPARAM param) :
 	BaseExtraIcon(id, name, description, descIcon, OnClick, param)
 {

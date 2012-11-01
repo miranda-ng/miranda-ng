@@ -19,7 +19,7 @@
 
 #include "commons.h"
 
-BaseExtraIcon::BaseExtraIcon(int id, const char *name, const char *description, const char *descIcon,
+BaseExtraIcon::BaseExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon,
 		MIRANDAHOOKPARAM OnClick, LPARAM param) :
 	ExtraIcon(name), id(id), description(description), descIcon(descIcon), OnClick(OnClick), onClickParam(param)
 {
@@ -40,12 +40,12 @@ int BaseExtraIcon::getID() const
 	return id;
 }
 
-const char *BaseExtraIcon::getDescription() const
+const TCHAR *BaseExtraIcon::getDescription() const
 {
 	return description.c_str();
 }
 
-void BaseExtraIcon::setDescription(const char *desc)
+void BaseExtraIcon::setDescription(const TCHAR *desc)
 {
 	description = desc;
 }

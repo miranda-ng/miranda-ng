@@ -313,7 +313,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 	if (ei->type == EXTRAICON_TYPE_CALLBACK && (ei->ApplyIcon == NULL || ei->RebuildIcons == NULL))
 		return 0;
 
-	const char *desc = Translate(ei->description);
+	TCHAR *desc = Langpack_PcharToTchar(ei->description);
 
 	BaseExtraIcon *extra = GetExtraIconByName(ei->name);
 	if (extra != NULL)
@@ -323,10 +323,10 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 
 		// Found one, now merge it
 
-		if (_stricmp(extra->getDescription(), desc))
+		if (_tcsicmp(extra->getDescription(), desc))
 		{
-			string newDesc = extra->getDescription();
-			newDesc += " / ";
+			tstring newDesc = extra->getDescription();
+			newDesc += _T(" / ");
 			newDesc += desc;
 			extra->setDescription(newDesc.c_str());
 		}
@@ -350,18 +350,17 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 
 	int id = (int)registeredExtraIcons.size() + 1;
 
-	switch (ei->type)
-	{
-		case EXTRAICON_TYPE_CALLBACK:
-			extra = new CallbackExtraIcon(id, ei->name, desc, ei->descIcon == NULL ? "" : ei->descIcon,
-					ei->RebuildIcons, ei->ApplyIcon, ei->OnClick, ei->onClickParam);
-			break;
-		case EXTRAICON_TYPE_ICOLIB:
-			extra = new IcolibExtraIcon(id, ei->name, desc, ei->descIcon == NULL ? "" : ei->descIcon, ei->OnClick,
-					ei->onClickParam);
-			break;
-		default:
-			return 0;
+	switch (ei->type) {
+	case EXTRAICON_TYPE_CALLBACK:
+		extra = new CallbackExtraIcon(id, ei->name, desc, ei->descIcon == NULL ? "" : ei->descIcon,
+			ei->RebuildIcons, ei->ApplyIcon, ei->OnClick, ei->onClickParam);
+		break;
+	case EXTRAICON_TYPE_ICOLIB:
+		extra = new IcolibExtraIcon(id, ei->name, desc, ei->descIcon == NULL ? "" : ei->descIcon, ei->OnClick,
+			ei->onClickParam);
+		break;
+	default:
+		return 0;
 	}
 
 	char setting[512];
