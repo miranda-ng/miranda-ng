@@ -66,6 +66,7 @@ static renameTable[] =
 	{ _T("clist_classic.dll"), _T("") },
 	{ _T("chat.dll"),          _T("") },
 	{ _T("srmm.dll"),          _T("") },
+	{ _T("extraicons.dll"),    _T("") },
 };
 
 static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
