@@ -461,7 +461,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			int cx = GetSystemMetrics(SM_CXSMICON);
 			HIMAGELIST hImageList = ImageList_Create(cx, cx, ILC_COLOR32 | ILC_MASK, 2, 2);
 
-			HICON hDefaultIcon = (HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_EMPTY), IMAGE_ICON, cx, cx,
+			HICON hDefaultIcon = (HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx,
 				LR_DEFAULTCOLOR | LR_SHARED);
 			ImageList_AddIcon(hImageList, hDefaultIcon);
 			DestroyIcon(hDefaultIcon);
@@ -474,7 +474,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				HICON hIcon = Skin_GetIcon(extra->getDescIcon());
 				if (hIcon == NULL)
 				{
-					HICON hDefaultIcon = (HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_EMPTY), IMAGE_ICON, cx, cx,
+					HICON hDefaultIcon = (HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx,
 						LR_DEFAULTCOLOR | LR_SHARED);
 					ImageList_AddIcon(hImageList, hDefaultIcon);
 					DestroyIcon(hDefaultIcon);

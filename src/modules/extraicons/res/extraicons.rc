@@ -73,7 +73,6 @@ IDI_NEVERVIS            ICON     "NeverVis.ico"
 IDI_CHAT                ICON     "Chatchannel.ico"
 IDI_MALE                ICON     "male.ico"
 IDI_FEMALE              ICON     "female.ico"
-IDI_EMPTY               ICON     "empty.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

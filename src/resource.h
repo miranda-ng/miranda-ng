@@ -58,7 +58,6 @@
 #define IDI_CHAT                        187
 #define IDI_MALE                        188
 #define IDI_FEMALE                      189
-#define IDI_EMPTY                       190
 #define IDR_OPT_POPUP                   191
 #define IDD_HISTORY_FIND                192
 #define IDI_SENDEMAIL                   193
