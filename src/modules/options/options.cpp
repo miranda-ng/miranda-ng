@@ -1034,7 +1034,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					}
 					if (p->hwnd == NULL) {
 						RECT rcPage;
-						RECT rcControl, rc;
+						RECT rc;
 						int w, h;
 
 						p->hwnd = CreateDialogIndirectParamA(p->hInst, p->pTemplate, hdlg, p->dlgProc, p->dwInitParam);
