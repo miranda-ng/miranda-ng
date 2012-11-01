@@ -303,6 +303,9 @@
     <ClInclude Include="modules\extraicons\usedIcons.h">
       <Filter>Modules\extraicons</Filter>
     </ClInclude>
+    <ClInclude Include="modules\extraicons\extraicons.h">
+      <Filter>Modules\extraicons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\commonheaders.cpp">

@@ -252,6 +252,7 @@
     <ClInclude Include="modules\extraicons\DefaultExtraIcons.h" />
     <ClInclude Include="modules\extraicons\ExtraIcon.h" />
     <ClInclude Include="modules\extraicons\ExtraIconGroup.h" />
+    <ClInclude Include="modules\extraicons\extraicons.h" />
     <ClInclude Include="modules\extraicons\IcolibExtraIcon.h" />
     <ClInclude Include="modules\extraicons\options.h" />
     <ClInclude Include="modules\extraicons\usedIcons.h" />
