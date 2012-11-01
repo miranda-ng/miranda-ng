@@ -292,27 +292,19 @@ ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact,
 			group->totalMembers--;
 
 		ClcCacheEntry *p = cli.pfnGetCacheEntry(contact->hContact);
-		if (p != NULL) {
-			if (p->tszGroup) mir_free(p->tszGroup);
-			p->tszGroup = NULL;
-		}
+		if (p != NULL)
+			replaceStrT(p->tszGroup, NULL);
 	}
 
 	cli.pfnFreeContact(group->cl.items[iContact]);
 	mir_free(group->cl.items[iContact]);
 	List_Remove((SortedList*)&group->cl, iContact);
 
-	if ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) && group->cl.count == 0) {
-		int i;
-		if (group->parent == NULL)
-			return group;
-		for (i=0; i < group->parent->cl.count; i++)
+	if ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) && group->cl.count == 0 && group->parent != NULL)
+		for (int i=0; i < group->parent->cl.count; i++)
 			if (group->parent->cl.items[i]->type == CLCIT_GROUP && group->parent->cl.items[i]->groupId == group->groupId)
-				break;
-		if (i == group->parent->cl.count)
-			return group;       //never happens
-		return cli.pfnRemoveItemFromGroup(hwnd, group->parent, group->parent->cl.items[i], 0);
-	}
+				return cli.pfnRemoveItemFromGroup(hwnd, group->parent, group->parent->cl.items[i], 0);
+
 	return group;
 }
 
