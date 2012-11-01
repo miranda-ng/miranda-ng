@@ -847,7 +847,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM lParam)
 	odp.pszTitle = LPGEN("Extra icons");
 	odp.pszTab = LPGEN("General");
 	odp.pfnDlgProc = OptionsDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_EI_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
