@@ -331,20 +331,18 @@ STDMETHODIMP_(BOOL) CDb3Base::FreeVariant(DBVARIANT *dbv)
 
 STDMETHODIMP_(BOOL) CDb3Base::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
 {
-	int cbSettingNameLen = (int)strlen(pszSettingName) + 2;
-	if (cbSettingNameLen < 512) {
-		char *szSetting = m_cache->InsertCachedSetting(pszSettingName, cbSettingNameLen);
-		*szSetting = (char)bIsResident;
+	char *szSetting = m_cache->GetCachedSetting(NULL, pszSettingName, 0, strlen(pszSettingName));
+	szSetting[-1] = (char)bIsResident;
 
-		mir_cslock lck(m_csDbAccess);
-		int idx = m_lResidentSettings.getIndex(szSetting+1);
-		if (idx == -1) {
-			if (bIsResident)
-				m_lResidentSettings.insert(szSetting+1);
-		}
-		else if (!bIsResident)
-			m_lResidentSettings.remove(idx);
+	mir_cslock lck(m_csDbAccess);
+	int idx = m_lResidentSettings.getIndex(szSetting);
+	if (idx == -1) {
+		if (bIsResident)
+			m_lResidentSettings.insert(szSetting);
 	}
+	else if (!bIsResident)
+		m_lResidentSettings.remove(idx);
+
 	return 0;
 }
 
