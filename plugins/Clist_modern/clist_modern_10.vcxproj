@@ -273,7 +273,6 @@
     <ClInclude Include="src\hdr\modern_statusmodes.h" />
     <ClInclude Include="src\hdr\modern_sync.h" />
     <ClInclude Include="src\hdr\modern_tstring.h" />
-    <ClInclude Include="src\hdr\MString.h" />
     <ClInclude Include="src\hdr\modern_awaymsg.h" />
     <ClInclude Include="src\hdr\modern_gettextasync.h" />
     <ClInclude Include="src\hdr\modern_global_structure.h" />
