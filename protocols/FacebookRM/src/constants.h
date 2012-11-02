@@ -22,10 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-// Version management
-#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0, 0, 9, 2)
-#define __VERSION_STRING            "0.0.9.2"
-
 // Product management
 #define FACEBOOK_NAME               "Facebook"
 #define FACEBOOK_URL_HOMEPAGE       "http://www.facebook.com"
