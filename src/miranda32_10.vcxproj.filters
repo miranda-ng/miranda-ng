@@ -282,9 +282,6 @@
     <ClInclude Include="modules\extraicons\CallbackExtraIcon.h">
       <Filter>Modules\extraicons</Filter>
     </ClInclude>
-    <ClInclude Include="modules\extraicons\commons.h">
-      <Filter>Modules\extraicons</Filter>
-    </ClInclude>
     <ClInclude Include="modules\extraicons\DefaultExtraIcons.h">
       <Filter>Modules\extraicons</Filter>
     </ClInclude>
@@ -295,9 +292,6 @@
       <Filter>Modules\extraicons</Filter>
     </ClInclude>
     <ClInclude Include="modules\extraicons\IcolibExtraIcon.h">
-      <Filter>Modules\extraicons</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\extraicons\options.h">
       <Filter>Modules\extraicons</Filter>
     </ClInclude>
     <ClInclude Include="modules\extraicons\usedIcons.h">
