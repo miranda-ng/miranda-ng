@@ -721,6 +721,22 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,168,78,45,14,WS_GROUP
 END
 
+IDD_EI_OPTIONS DIALOGEX 0, 0, 276, 229
+STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Select the extra icons to be shown in the contact list:",
+                    IDC_STATIC,1,9,274,13
+    CONTROL         "",IDC_EXTRAORDER,"SysTreeView32",TVS_NOTOOLTIPS |
+                    TVS_CHECKBOXES | TVS_FULLROWSELECT | WS_BORDER |
+                    WS_TABSTOP,1,24,274,160
+    LTEXT           "* only the first %d icons will be shown",
+                    IDC_MAX_ICONS_L,1,190,274,13,NOT WS_VISIBLE
+    LTEXT           "You can group/ungroup icons by selecting then (CTRL+left click) and using the popup menu (right click)",
+                    IDC_STATIC,1,208,274,20
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -999,6 +1015,14 @@ BEGIN
     BEGIN
         HORZGUIDE, 18
     END
+
+    IDD_EI_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 1
+        RIGHTMARGIN, 275
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 228
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -1180,6 +1204,18 @@ BEGIN
     BEGIN
         MENUITEM "Cancel Change",               ID_CANCELCHANGE
         MENUITEM "&Reset To Default",           ID_RESET
+    END
+END
+
+IDR_OPT_POPUP MENU
+BEGIN
+    POPUP "Group"
+    BEGIN
+        MENUITEM "Group",                       ID_GROUP
+    END
+    POPUP "Ungroup"
+    BEGIN
+        MENUITEM "Ungroup",                     ID_UNGROUP
     END
 END
 

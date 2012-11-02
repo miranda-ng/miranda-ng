@@ -646,8 +646,5 @@
     <ResourceCompile Include="version.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="modules\extraicons\res\extraicons.rc">
-      <Filter>Resources</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>

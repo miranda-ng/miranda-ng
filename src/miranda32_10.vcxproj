@@ -609,7 +609,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="modules\extraicons\res\extraicons.rc" />
     <ResourceCompile Include="resource.rc" />
     <ResourceCompile Include="version.rc" />
   </ItemGroup>
