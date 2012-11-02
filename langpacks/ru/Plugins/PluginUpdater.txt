@@ -86,8 +86,10 @@ HTTP подключение Plugin Updater
 Завершено.
 [Failed!]
 Ошибка!
-[Skipped]
+[Skipped.]
 Пропущено.
+[Will be deleted!]
+Удалено!
 [State]
 Состояние
 [Files source]

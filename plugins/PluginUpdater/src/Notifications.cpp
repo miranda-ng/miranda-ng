@@ -240,8 +240,12 @@ static void ApplyUpdates(void *param)
 
 	for (int i=0; i < todo.getCount(); ++i) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
-		if ( !todo[i].enabled || todo[i].bDeleteOnly) {
-			SetStringText(hwndList, i, TranslateT("Skipped"));
+		if ( !todo[i].enabled ) {
+			SetStringText(hwndList, i, TranslateT("Skipped."));
+			continue;
+		}
+		if ( todo[i].bDeleteOnly) {
+			SetStringText(hwndList, i, TranslateT("Will be deleted!"));
 			continue;
 		}
 
