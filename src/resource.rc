@@ -733,7 +733,7 @@ BEGIN
                     WS_TABSTOP,1,24,274,160
     LTEXT           "* only the first %d icons will be shown",
                     IDC_MAX_ICONS_L,1,190,274,13,NOT WS_VISIBLE
-    LTEXT           "You can group/ungroup icons by selecting then (CTRL+left click) and using the popup menu (right click)",
+    LTEXT           "You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)",
                     IDC_STATIC,1,208,274,20
 END
 
